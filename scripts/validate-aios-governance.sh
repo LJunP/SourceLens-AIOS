@@ -514,6 +514,23 @@ done
 if grep -Fq 'COMPLETE_FOUNDER_GATE_PASS_P1_NOT_AUTHORIZED' docs/aios/truth/project_state.yaml; then
   grep -Fq 'P0 Founder Gate is `PASS`' CHAIRMAN_BRIEFING.md \
     || fail "Founder briefing does not expose P0 PASS"
+  grep -Fq 'P1 and AIOS-P1-001' CHAIRMAN_BRIEFING.md \
+    || fail "Founder briefing does not expose the separate P1 authorization boundary"
+  grep -Fq 'remain separately `NOT AUTHORIZED`' CHAIRMAN_BRIEFING.md \
+    || fail "Founder briefing no longer records P1 as unauthorized"
+  grep -Fq 'The Human Founder has accepted the P0 checkpoint' CHAIRMAN_BRIEFING.md \
+    || fail "Founder briefing does not record the current P0 Gate result"
+  if grep -Fq 'P0 is complete only when:' CHAIRMAN_BRIEFING.md \
+    || grep -Fq 'The only current objective is to turn the inherited SourceLens worktree' CHAIRMAN_BRIEFING.md; then
+    fail "Founder briefing retains an unqualified pre-Gate current-state assertion"
+  fi
+  grep -Fq 'historical `NO-GO`' docs/aios/README.md \
+    || fail "Authority index does not classify the old NO-GO state as historical"
+  grep -Fq 'later Human Founder P0 Gate' docs/aios/README.md \
+    || fail "Authority index does not preserve Founder PASS precedence"
+  if grep -Fq 'final control-plane PASS does not change the P0 `NO-GO` gate' docs/aios/README.md; then
+    fail "Authority index retains the pre-Founder NO-GO state as current"
+  fi
   grep -Fq -- '- Status: `PASS`' docs/aios/P0_GATE.md \
     || fail "P0 gate artifact does not expose PASS"
   grep -Fq 'P1 remains unauthorized' docs/aios/CODEX_MASTER_PROMPT.md \

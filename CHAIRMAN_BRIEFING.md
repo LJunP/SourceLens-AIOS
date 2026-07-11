@@ -2,9 +2,14 @@
 
 ## Current decision
 
-SourceLens AIOS v2.3 is frozen. The project is in `P0 Strategic Foundation`, not feature development.
+SourceLens AIOS v2.3 is frozen. The P0 Founder Gate is `PASS`; the accepted
+checkpoint is the current technical and rollback baseline. P1 and AIOS-P1-001
+remain separately `NOT AUTHORIZED`.
 
-The only current objective is to turn the inherited SourceLens worktree into a truthful, reviewable and measurable baseline before P1 begins.
+The only current objective is to complete and independently verify the narrow
+post-Gate governance-only authority transition before any P1 authorization
+decision. This transition does not reopen P0, modify the accepted checkpoint or
+authorize feature development.
 
 ## What the project is
 
@@ -19,7 +24,9 @@ Repository Intelligence is the primary product moat. Evaluation and failure data
 ## What is true now
 
 - The inherited repository contains substantial analyzer, Java AST/graph, retrieval, Agent, execution, audit, sandbox, UI and release-gate assets.
-- The existing worktree is very large and dirty; it is not one reviewable baseline.
+- The inherited source worktree remains a large, dirty, read-only historical
+  source state; it is not itself the current baseline. The accepted P0-05
+  checkpoint is the reviewable and reproducible technical baseline.
 - The latest local release package passed its declared local gate with five skips, but it does not prove exact-source reproducibility or production readiness.
 - The existing 22-case retrieval corpus is regression evidence, not a benchmark.
 - The current Agent and AutoRepair paths do not yet prove the full issue-to-independent-verification loop.
@@ -58,19 +65,18 @@ You decide only:
 
 Routine implementation, test failures, task decomposition and specialist selection belong to the Agent organization.
 
-## Current P0 gate
+## Founder Gate result and next authorization boundary
 
-P0 is complete only when:
+The Human Founder has accepted the P0 checkpoint, migration dispositions,
+controlled P1 contract definitions and retained Trust-risk register. That
+decision completed the P0 Gate; it did not close the retained Trust risks or
+authorize P1.
 
-1. canonical truth and authority order are stable;
-2. every inherited asset has a reviewed migration disposition;
-3. TaskSpec, Baseline Suite and Evaluation Protocol are frozen;
-4. the dirty worktree is divided into reviewable checkpoints without losing user work;
-5. high-severity trust blockers are identified and assigned;
-6. independent migration review is complete;
-7. the Founder accepts the P0 gate packet and first P1 task.
-
-Until then, do not start new features, broad refactors, multi-Agent construction or production claims.
+Before P1 can start, the post-Gate authority transition must pass independent
+CTO, Security and Quality review, and the Founder must separately authorize both
+P1 and an execution-ready, hash-frozen AIOS-P1-001 Task Contract. Until those
+conditions are satisfied, do not start features, broad refactors, multi-Agent
+construction, P1 research execution or production claims.
 
 ## Founder red lines
 

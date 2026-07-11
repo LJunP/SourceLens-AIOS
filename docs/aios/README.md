@@ -44,7 +44,10 @@ No lower level implies a higher level.
 
 `P0_GATE.md` collects the P0 exit checklist and dirty-worktree recovery plan. It is derived from canonical truth and never overrides it.
 
-`P0_INDEPENDENT_REVIEW.md` records the read-only CTO, Quality & Evaluation and Security review cycle. Its final control-plane PASS does not change the P0 `NO-GO` gate.
+`P0_INDEPENDENT_REVIEW.md` records the read-only CTO, Quality & Evaluation and
+Security review cycle. Its pre-Founder recommendation and historical `NO-GO`
+state remain evidence, but they do not override the later Human Founder P0 Gate
+`PASS` decision recorded by the external hash-bound Decision Record.
 
 ## Codex operator entry
 

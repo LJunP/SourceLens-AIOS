@@ -1,0 +1,109 @@
+schema_version: 1
+record_type: sourcelens_aios_task_contract
+
+task_id: AIOS-P0-005
+phase: P0
+title: Partition the inherited dirty worktree into reviewable checkpoints
+objective: Establish one reviewable and reproducible SourceLens AIOS source baseline without losing, rewriting or silently accepting inherited work.
+why_now: P0 cannot pass and P1 cannot start while the inherited dirty worktree remains one unreviewable combined state. The pre-independent-review snapshot has 146 tracked modifications and 168 untracked files; the exact post-remediation snapshot has 146 tracked modifications and 170 untracked files.
+task_spec_ref: docs/aios/P0_GATE.md#3-dirty-worktree-recovery-plan
+owner_role: Engineering Manager Agent
+worker_role: Baseline and Migration Worker
+
+write_scope:
+  - external audit artifacts under /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p0-05-*
+  - Git index, migration branch and local checkpoint metadata inside the approved disposable reconstruction only
+  - docs/aios/truth/project_state.yaml evidence pointers after review
+  - docs/aios/P0_GATE.md gate evidence after review
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/MIGRATION_LEDGER.yaml
+  - docs/aios/P0_GATE.md
+  - /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p0-b-preservation-20260710T154704Z
+dependencies:
+  - The captured pre-independent-review starting-state manifest and reconstruction checks remain hash-valid.
+  - Before partition begins, the exact post-remediation worktree snapshot and its external truth-binding attestation pass verification.
+  - The P0-04C overlay binding, patch and ten-path candidate manifest pass hash and disposable-application verification.
+  - Migration-ledger path ownership remains non-overlapping.
+
+risk_level: critical
+baseline_ref: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p0-b-preservation-20260710T154704Z
+baseline_semantics: CAPTURED_PRE_INDEPENDENT_REVIEW_STARTING_STATE_NOT_EXACT_CURRENT_WORKTREE
+captured_starting_snapshot_counts:
+  tracked_changed: 146
+  untracked_files: 168
+final_exact_state_attestation_ref: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p0-truth-contained-final/truth-binding.json
+final_exact_state_attestation_sha256: 218814c4c90331f11e4e487cb40803b278ad38a5cd47bab90172ba8e7e9e8fbf
+authority_decontamination_overlay:
+  binding_ref: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p0-authority-decontamination-20260711T013048Z/p0-04c-overlay-binding.json
+  application_order: AFTER_EXACT_SNAPSHOT_RECONSTRUCTION_BEFORE_SLICING
+  verification_required: true
+  status: EXTERNAL_BINDING_REQUIRED_BEFORE_PARTITION
+exact_post_remediation_snapshot_counts:
+  tracked_changed: 146
+  untracked_files: 170
+  staged_changed: 0
+execution_workspace:
+  inherited_worktree: /Users/lijunpeng/Desktop/cc/project/SourceLens
+  inherited_worktree_policy: READ_ONLY
+  required_kind: DISPOSABLE_RECONSTRUCTION
+  required_root_pattern: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p0-05-*/migration-workspace
+  git_writes_allowed_only_inside_required_root: true
+
+acceptance_criteria:
+  - Every tracked modification and non-ignored untracked path is assigned exactly once to review slice A through G or explicitly marked unresolved.
+  - Each slice records exact paths, dependencies, migration disposition, targeted tests, known failures and an independent verdict.
+  - No user work is deleted, reverted, stashed, reformatted or overwritten to manufacture a clean status.
+  - The inherited worktree status, tracked patch hash, untracked-path hash and Git index remain byte-identical throughout the task.
+  - Every accepted checkpoint identifies its exact Git tree and can be reconciled against both the captured starting-state snapshot and the externally attested exact post-remediation snapshot.
+  - The P0-04C authority overlay is applied after exact-state reconstruction so authority decontamination cannot be lost during baseline slicing.
+  - The resulting P1 candidate baseline records migrations, lockfiles, tool versions, build and test commands, skips and residual risks.
+  - The Truth Registry changes only after evidence and independent review exist.
+required_evidence:
+  - binary-safe status and path inventory for the starting state
+  - hash-bound and apply-verified P0-04C authority overlay
+  - pre-task and post-task proof that the inherited worktree and Git index are unchanged
+  - slice ownership manifest with no overlapping path owners
+  - per-slice dependency and migration-disposition report
+  - exact targeted command output and independent verdict for each accepted slice
+  - checkpoint commit or tree identifiers and rollback instructions
+  - final candidate-baseline manifest with reproduction commands
+
+independent_reviewer: Quality and Evaluation Agent
+additional_reviewers:
+  - CTO Agent for all slices
+  - Security Agent for slices B, D and E
+  - Chief AI Research Agent for slices C and D
+  - Product Intelligence Agent for slices A, F and G
+
+stop_conditions:
+  - A preserved-snapshot hash or reconstruction check fails.
+  - The current working directory is the inherited SourceLens worktree rather than the approved disposable reconstruction.
+  - Any command would write to the inherited worktree or its Git index.
+  - A path has multiple owners or cannot be assigned without first understanding a dependency.
+  - Partitioning would require source-content changes, destructive Git operations or loss of user work.
+  - A slice fails its declared targeted gate and cannot be separated safely.
+  - The task expands into P1 implementation, feature development or broad refactoring.
+forbidden_actions:
+  - git reset --hard, git clean, destructive checkout, automatic stash or history rewrite
+  - staging, committing, branching or writing files in /Users/lijunpeng/Desktop/cc/project/SourceLens
+  - deleting, moving, reformatting or rewriting inherited source merely to simplify the baseline
+  - modifying business behavior while classifying or checkpointing a slice
+  - declaring a capability accepted from the aggregate inherited release package alone
+  - entering P1 or enabling model writes, shell execution, real-provider source egress, remote PR submission or autonomous merge
+
+classification_result: CLASSIFICATION_EVIDENCE_PASS
+acceptance_result: P0_05_ACCEPTANCE_FAIL_STOP_CONDITION
+checkpoint_result: NO_CHECKPOINT
+gate_result: P0_GATE_NO_GO_FOUNDER_DECISION_REQUIRED
+p1_authorized: false
+transition_evidence_policy: EXTERNAL_HASH_PINNED_RECEIPT_REQUIRED
+remaining_closure_results:
+  f_focused_gate: PASS_INDEPENDENT_REVIEW_ACCEPTED
+  f_isolation: NOT_PROVEN_SAFE_NOT_APPLIED_REPAIR_ROUTE_SELECTED
+  mysql_flyway_smoke: PASS_FOCUSED_DISPOSABLE_MYSQL_8_4
+  code_map_freshness: REGENERATED_PENDING_FINAL_REVIEW
+  offsite_current_readability: UNKNOWN_NOT_MOUNTED
+status: STOPPED_AFTER_CLASSIFICATION_AND_TARGETED_TESTS

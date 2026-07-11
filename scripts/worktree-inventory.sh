@@ -108,7 +108,7 @@ category_for() {
     .github/*|scripts/*|deploy/*|.dockerignore|.gitignore|Makefile|backend-spring/Dockerfile)
       echo "Operations, CI and release gates"
       ;;
-    docs/*|README.md)
+    docs/*|AGENTS.md|README.md|CHAIRMAN_BRIEFING.md|CHANGELOG.md|CODE_OF_CONDUCT.md|CONTRIBUTING.md|LICENSE|ROADMAP.md|SECURITY.md|SUPPORT.md)
       echo "Documentation and handoff"
       ;;
     analyzer-rust/*)
@@ -157,7 +157,9 @@ backend-spring/src/main/resources/db/migration/V010__*|\
 backend-spring/src/main/resources/db/migration/V011__*|\
 backend-spring/src/main/resources/db/migration/V013__*|\
 backend-spring/src/main/resources/db/migration/V023__*|\
+backend-spring/src/main/resources/db/migration/V029__*|\
 backend-spring/src/test/java/com/sourcelens/Analysis*|\
+backend-spring/src/test/java/com/sourcelens/AnalyzerRunnerTest.java|\
 backend-spring/src/test/java/com/sourcelens/ArchitectureRiskAnalyzerTest.java|\
 backend-spring/src/test/java/com/sourcelens/CodeChunk*|\
 backend-spring/src/test/java/com/sourcelens/CodeGraph*|\
@@ -216,6 +218,16 @@ backend-spring/src/test/java/com/sourcelens/Workspace*)
       echo "Other"
       ;;
   esac
+}
+
+record_inventory_path() {
+  local code="$1"
+  local path="$2"
+  local category
+  local rendered_path
+  category="$(category_for "$path")"
+  printf -v rendered_path '%q' "$path"
+  printf '`%s` `%s`\n' "$code" "$rendered_path" >> "$(category_file "$category")"
 }
 
 print_group() {
@@ -300,13 +312,21 @@ for category in "${categories[@]}"; do
   : > "$(category_file "$category")"
 done
 
-while IFS= read -r line; do
-  [[ -z "$line" ]] && continue
-  path="$(trim_status_path "$line")"
-  code="$(status_code "$line")"
-  category="$(category_for "$path")"
-  printf '`%s` `%s`\n' "$code" "$path" >> "$(category_file "$category")"
-done < <(git status --short --untracked-files=all)
+while IFS= read -r -d '' entry; do
+  [[ "${#entry}" -ge 4 ]] || fail "malformed NUL-delimited Git status entry"
+  code="${entry:0:2}"
+  [[ "${entry:2:1}" == " " ]] || fail "malformed NUL-delimited Git status separator"
+  path="${entry:3}"
+  record_inventory_path "$code" "$path"
+  if [[ "$code" == *R* || "$code" == *C* ]]; then
+    IFS= read -r -d '' source_path || fail "rename or copy status is missing its source path"
+    if [[ "$code" == *R* ]]; then
+      record_inventory_path 'R<' "$source_path"
+    else
+      record_inventory_path 'C<' "$source_path"
+    fi
+  fi
+done < <(git status --short --untracked-files=all -z)
 
 echo "# SourceLens Worktree Inventory"
 echo

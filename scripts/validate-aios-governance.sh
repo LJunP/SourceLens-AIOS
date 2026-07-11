@@ -1,0 +1,443 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "$ROOT_DIR"
+
+fail() {
+  echo "AIOS GOVERNANCE FAIL: $*" >&2
+  exit 1
+}
+
+command -v ruby >/dev/null 2>&1 || fail "ruby with the standard YAML library is required"
+command -v node >/dev/null 2>&1 || fail "node is required for full snapshot reconstruction"
+
+required_files=(
+  AGENTS.md
+  docs/aios/README.md
+  docs/aios/STRATEGIC_CONSTITUTION.md
+  docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  docs/aios/EVALUATION_PROTOCOL.md
+  docs/aios/MIGRATION_LEDGER.yaml
+  docs/aios/truth/project_state.yaml
+  docs/aios/P0_GATE.md
+  docs/aios/CODEX_MASTER_PROMPT.md
+  docs/aios/BASELINE_ADAPTER_CONTRACT.md
+  docs/aios/tasks/P0-04A_TRUTH_CONTAINMENT.yaml
+  docs/aios/tasks/P0-04B_SLICE_F_GATE_REPAIR.yaml
+  docs/aios/tasks/P0-04C_AUTHORITY_DECONTAMINATION.yaml
+  docs/aios/tasks/P0-05_BASELINE_SLICING.yaml
+  docs/aios/schemas/task-spec.schema.json
+  docs/aios/schemas/environment-snapshot.schema.json
+  docs/aios/schemas/system-configuration.schema.json
+  docs/aios/schemas/run-record.schema.json
+  docs/README.md
+  README.md
+  ROADMAP.md
+  CHAIRMAN_BRIEFING.md
+  CONTRIBUTING.md
+)
+
+for file in "${required_files[@]}"; do
+  [[ -s "$file" ]] || fail "required file is missing or empty: $file"
+done
+
+export AIOS_TRUTH_BINDING_PATH="${SOURCELENS_AIOS_TRUTH_BINDING:-/Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p0-truth-contained-final/truth-binding.json}"
+
+ruby -ryaml -rjson -rdigest -e '
+  state = YAML.load_file("docs/aios/truth/project_state.yaml")
+  ledger = YAML.load_file("docs/aios/MIGRATION_LEDGER.yaml")
+  truth_task = YAML.load_file("docs/aios/tasks/P0-04A_TRUTH_CONTAINMENT.yaml")
+  slice_f_task = YAML.load_file("docs/aios/tasks/P0-04B_SLICE_F_GATE_REPAIR.yaml")
+  authority_task = YAML.load_file("docs/aios/tasks/P0-04C_AUTHORITY_DECONTAMINATION.yaml")
+  baseline_task = YAML.load_file("docs/aios/tasks/P0-05_BASELINE_SLICING.yaml")
+
+  abort "project current_phase must be P0 during this migration" unless state.dig("project", "current_phase") == "P0"
+  abort "project phase_status must remain IN_PROGRESS" unless state.dig("project", "phase_status") == "IN_PROGRESS"
+  abort "strategy version must be 2.3" unless state.dig("authority", "strategy", "version") == "2.3"
+  abort "execution protocol version must be 1.0" unless state.dig("authority", "execution_protocol", "version") == "1.0"
+  abort "P0 gate recommendation must remain NO_GO" unless state.dig("p0_control_plane", "independent_review", "p0_gate_recommendation") == "NO_GO"
+  abort "legacy context filter must not be overstated as technical enforcement" unless state.dig("runtime_restrictions", "legacy_context_retrieval_filter") == "NOT_IMPLEMENTED_GOVERNANCE_ALLOWLIST_ONLY"
+
+  expected_tasks = {
+    "AIOS-P0-004A" => [truth_task, %w[accepted]],
+    "AIOS-P0-004B" => [slice_f_task, %w[accepted]],
+    "AIOS-P0-004C" => [authority_task, %w[review_pending accepted]],
+    "AIOS-P0-005" => [baseline_task, %w[STOPPED_AFTER_CLASSIFICATION_AND_TARGETED_TESTS]]
+  }
+  expected_tasks.each do |task_id, (task, expected_statuses)|
+    abort "task id drifted: #{task_id}" unless task["task_id"] == task_id
+    abort "task phase must remain P0: #{task_id}" unless task["phase"] == "P0"
+    abort "task status drifted: #{task_id}" unless expected_statuses.include?(task["status"])
+    %w[write_scope acceptance_criteria required_evidence stop_conditions forbidden_actions].each do |field|
+      value = task[field]
+      abort "task field must be a nonempty list: #{task_id}.#{field}" unless value.is_a?(Array) && !value.empty?
+    end
+  end
+  p0_05 = state.fetch("active_p0_work").find { |item| item["id"] == "P0-05" }
+  abort "P0-05 is missing from active_p0_work" unless p0_05
+  expected_contract = "docs/aios/tasks/P0-05_BASELINE_SLICING.yaml"
+  abort "P0-05 task contract reference drifted" unless p0_05["task_contract_ref"] == expected_contract
+  stopped = "STOPPED_AFTER_CLASSIFICATION_AND_TARGETED_TESTS"
+  acceptance_fail = "P0_05_ACCEPTANCE_FAIL_STOP_CONDITION"
+  no_checkpoint = "NO_CHECKPOINT"
+  gate_no_go = "P0_GATE_NO_GO_FOUNDER_DECISION_REQUIRED"
+  abort "P0-05 current state must record the truthful stopped state" unless p0_05["status"] == stopped
+  abort "P0-05 task and Truth Registry status disagree" unless baseline_task["status"] == stopped
+  [p0_05, baseline_task].each do |record|
+    abort "P0-05 classification result drifted" unless record["classification_result"] == "CLASSIFICATION_EVIDENCE_PASS"
+    abort "P0-05 acceptance failure must remain explicit" unless record["acceptance_result"] == acceptance_fail
+    abort "P0-05 must not claim a checkpoint" unless record["checkpoint_result"] == no_checkpoint
+    abort "P0 gate must remain Founder-decision NO-GO" unless record["gate_result"] == gate_no_go
+    abort "P1 must remain unauthorized" unless record["p1_authorized"] == false
+    abort "F focused gate independent-review result drifted" unless record.dig("remaining_closure_results", "f_focused_gate") == "PASS_INDEPENDENT_REVIEW_ACCEPTED"
+    abort "unsafe F isolation must not be represented as applied" unless record.dig("remaining_closure_results", "f_isolation") == "NOT_PROVEN_SAFE_NOT_APPLIED_REPAIR_ROUTE_SELECTED"
+  end
+  abort "P0-05 starting snapshot semantics are overstated" unless baseline_task["baseline_semantics"] == "CAPTURED_PRE_INDEPENDENT_REVIEW_STARTING_STATE_NOT_EXACT_CURRENT_WORKTREE"
+
+  p0_04c = state.fetch("active_p0_work").find { |item| item["id"] == "P0-04C" }
+  abort "P0-04C is missing from active_p0_work" unless p0_04c
+  expected_p0_04c_state = {
+    "review_pending" => "IMPLEMENTED_REVIEW_PENDING",
+    "accepted" => "COMPLETE_INDEPENDENT_REVIEW_PASS"
+  }.fetch(authority_task.fetch("status"))
+  abort "P0-04C contract and Truth Registry status disagree" unless p0_04c["status"] == expected_p0_04c_state
+
+  expected_completed = {
+    "P0-04A" => "COMPLETE_INDEPENDENT_REVIEW_PASS",
+    "P0-04B" => "COMPLETE_INDEPENDENT_REVIEW_PASS"
+  }
+  expected_completed.each do |task_id, expected_status|
+    item = state.fetch("active_p0_work").find { |candidate| candidate["id"] == task_id }
+    abort "active P0 task is missing: #{task_id}" unless item
+    abort "active P0 task review status drifted: #{task_id}" unless item["status"] == expected_status
+  end
+
+  preservation = state.fetch("current_worktree_preservation")
+  current_head = IO.popen(["git", "rev-parse", "HEAD"], &:read).strip
+  abort "candidate workspace HEAD drifted from the preserved baseline" unless current_head == preservation.fetch("expected_head")
+  declared_binding = preservation.fetch("truth_binding")
+  declared_binding_hash = preservation.fetch("truth_binding_sha256")
+  abort "P0-05 final exact-state attestation drifted" unless baseline_task["final_exact_state_attestation_ref"] == declared_binding
+  abort "P0-05 truth-binding hash drifted" unless baseline_task["final_exact_state_attestation_sha256"] == declared_binding_hash
+  abort "current-state exactness must resolve externally" unless preservation["current_state_exact"] == "RESOLVE_FROM_EXTERNAL_ATTESTATION"
+  abort "snapshot verification must be read-only after P0-04C" unless preservation["verification_behavior"] == "READ_ONLY_BY_DEFAULT_AFTER_P0_04C"
+
+  binding_path = File.expand_path(ENV.fetch("AIOS_TRUTH_BINDING_PATH"))
+  abort "truth binding is missing or not a regular file: #{binding_path}" unless File.file?(binding_path)
+  abort "truth binding must not be a symlink: #{binding_path}" if File.symlink?(binding_path)
+  actual_binding_hash = Digest::SHA256.file(binding_path).hexdigest
+  abort "truth binding hash mismatch: #{binding_path}" unless actual_binding_hash == declared_binding_hash
+
+  binding = JSON.parse(File.read(binding_path))
+  abort "truth binding schema drifted" unless binding["schema_version"] == 1
+  abort "truth binding record type drifted" unless binding["record_type"] == "sourcelens_aios_external_truth_binding"
+  abort "truth binding HEAD disagrees with canonical preservation" unless binding["head"] == preservation["expected_head"]
+  abort "truth binding phase must remain P0" unless binding["phase"] == "P0"
+  abort "truth binding P0 gate must remain NOT_READY" unless binding["p0_gate"] == "NOT_READY"
+  abort "truth binding must not authorize P1" unless binding["p1_authorized"] == false
+  abort "truth binding P0-05 status drifted" unless binding["p0_05_status"] == "CONTRACT_READY_PARTITION_NOT_STARTED"
+
+  snapshot = binding.fetch("snapshot")
+  abort "truth binding tracked count drifted" unless snapshot["tracked_changed_count"] == preservation["expected_tracked_changed_count"]
+  abort "truth binding untracked count drifted" unless snapshot["untracked_file_count"] == preservation["expected_untracked_file_count"]
+  abort "truth binding staged count drifted" unless snapshot["staged_changed_count"] == preservation["expected_staged_changed_count"]
+  %w[artifact_hashes_valid untracked_copy_hashes_valid tracked_patch_disposable_restore_valid].each do |field|
+    abort "truth binding no longer proves #{field}" unless snapshot[field] == true
+  end
+
+  exact = binding.fetch("exact_state_comparison")
+  %w[current_tracked_patch_matches_snapshot current_status_matches_snapshot current_untracked_paths_match_snapshot current_truth_registry_matches_snapshot current_p0_gate_matches_snapshot].each do |field|
+    abort "truth binding exact-state comparison failed: #{field}" unless exact[field] == true
+  end
+  abort "truth binding reports repository changes after capture" unless exact["repository_files_changed_after_capture"] == false
+
+  snapshot_root = File.dirname(binding_path)
+  bound_artifacts = {
+    "manifest.json" => snapshot.fetch("manifest_sha256"),
+    "verification.json" => snapshot.fetch("verification_sha256"),
+    "tracked.patch" => snapshot.fetch("tracked_patch_sha256"),
+    "status.porcelain-v1.z" => snapshot.fetch("status_porcelain_sha256"),
+    "untracked-paths.z" => snapshot.fetch("untracked_paths_sha256"),
+    "make-verify.log" => binding.fetch("full_verification").fetch("log_sha256")
+  }
+  bound_artifacts.each do |relative_path, expected_hash|
+    artifact_path = File.join(snapshot_root, relative_path)
+    abort "bound snapshot artifact is missing: #{artifact_path}" unless File.file?(artifact_path)
+    actual_hash = Digest::SHA256.file(artifact_path).hexdigest
+    abort "bound snapshot artifact hash mismatch: #{relative_path}" unless actual_hash == expected_hash
+  end
+
+  overlay_path = File.expand_path(baseline_task.dig("authority_decontamination_overlay", "binding_ref"))
+  abort "P0-04C overlay binding reference drifted" unless overlay_path == File.expand_path(authority_task.fetch("external_overlay_binding_ref"))
+  abort "Truth Registry overlay binding reference drifted" unless overlay_path == File.expand_path(state.dig("p0_04c_candidate_overlay", "binding"))
+  abort "P0-04C overlay binding is missing: #{overlay_path}" unless File.file?(overlay_path)
+  abort "P0-04C overlay binding must not be a symlink" if File.symlink?(overlay_path)
+  overlay = JSON.parse(File.read(overlay_path))
+  abort "P0-04C overlay binding schema drifted" unless overlay["schema_version"] == 1
+  abort "P0-04C overlay binding type drifted" unless overlay["record_type"] == "sourcelens_aios_p0_04c_overlay_binding"
+  abort "P0-04C overlay baseline truth hash drifted" unless overlay.dig("baseline", "truth_binding_sha256") == declared_binding_hash
+  abort "P0-04C overlay baseline HEAD drifted" unless overlay.dig("baseline", "head") == preservation["expected_head"]
+
+  patch_path = File.expand_path(overlay.dig("overlay", "patch_path"))
+  abort "P0-04C overlay patch is missing" unless File.file?(patch_path)
+  abort "P0-04C overlay patch must not be a symlink" if File.symlink?(patch_path)
+  abort "P0-04C overlay patch hash mismatch" unless Digest::SHA256.file(patch_path).hexdigest == overlay.dig("overlay", "patch_sha256")
+  human_diff_path = File.expand_path(overlay.dig("overlay", "human_diff_path"))
+  abort "P0-04C human diff is missing" unless File.file?(human_diff_path)
+  abort "P0-04C human diff hash mismatch" unless Digest::SHA256.file(human_diff_path).hexdigest == overlay.dig("overlay", "human_diff_sha256")
+
+  expected_overlay_paths = authority_task.fetch("changed_path_inventory").values.flatten.sort
+  abort "P0-04C changed-path inventory must contain ten unique paths" unless expected_overlay_paths.length == 10 && expected_overlay_paths.uniq.length == 10
+  bound_paths = overlay.fetch("changed_paths").map { |entry| entry.fetch("path") }.sort
+  abort "P0-04C overlay paths disagree with the Task Contract" unless bound_paths == expected_overlay_paths
+  # The immutable overlay binds capture/application-time evidence. Current-state
+  # governance deltas are instead bound by a separately hash-pinned transition receipt.
+  receipt_path_raw = ENV["AIOS_P0_TRANSITION_RECEIPT_PATH"]
+  receipt_sha = ENV["AIOS_P0_TRANSITION_RECEIPT_SHA256"]
+  abort "current stopped state requires a transition receipt path" if receipt_path_raw.to_s.empty?
+  abort "current stopped state requires a pinned transition receipt hash" unless receipt_sha.to_s.match?(/\A[0-9a-f]{64}\z/)
+  receipt_path = File.expand_path(receipt_path_raw)
+  abort "transition receipt is missing or not a regular file" unless File.file?(receipt_path)
+  abort "transition receipt must not be a symlink" if File.symlink?(receipt_path)
+  audit_root_real = File.realpath("/Users/lijunpeng/Desktop/cc/project/.sourcelens-audit")
+  abort "transition receipt real path escapes the trusted audit root" unless File.realpath(receipt_path).start_with?("#{audit_root_real}/")
+  abort "transition receipt hash mismatch" unless Digest::SHA256.file(receipt_path).hexdigest == receipt_sha
+  receipt = JSON.parse(File.read(receipt_path))
+  abort "transition receipt schema drifted" unless receipt["schema_version"] == 1
+  abort "transition receipt type drifted" unless receipt["record_type"] == "sourcelens_aios_p0_state_transition_receipt"
+  abort "transition receipt parent truth binding mismatch" unless receipt.dig("parents", "truth_binding_sha256") == declared_binding_hash
+  abort "transition receipt parent overlay binding mismatch" unless receipt.dig("parents", "overlay_binding_sha256") == Digest::SHA256.file(overlay_path).hexdigest
+  abort "transition receipt parent overlay patch mismatch" unless receipt.dig("parents", "overlay_patch_sha256") == overlay.dig("overlay", "patch_sha256")
+  previous_receipt_path = File.expand_path(receipt.fetch("previous_transition_receipt"))
+  abort "previous transition receipt is missing" unless File.file?(previous_receipt_path)
+  abort "previous transition receipt must not be a symlink" if File.symlink?(previous_receipt_path)
+  abort "previous transition receipt escapes trusted audit root" unless File.realpath(previous_receipt_path).start_with?("#{audit_root_real}/")
+  abort "previous transition receipt hash mismatch" unless Digest::SHA256.file(previous_receipt_path).hexdigest == receipt.fetch("previous_transition_receipt_sha256")
+  previous_receipt = JSON.parse(File.read(previous_receipt_path))
+  previous_manifest_path = File.expand_path(receipt.fetch("previous_repair_evidence_manifest"))
+  abort "previous repair evidence manifest is missing" unless File.file?(previous_manifest_path)
+  abort "previous repair evidence manifest must not be a symlink" if File.symlink?(previous_manifest_path)
+  abort "previous repair evidence manifest escapes trusted audit root" unless File.realpath(previous_manifest_path).start_with?("#{audit_root_real}/")
+  abort "previous repair evidence manifest hash mismatch" unless Digest::SHA256.file(previous_manifest_path).hexdigest == receipt.fetch("previous_repair_evidence_manifest_sha256")
+  sealed_manifest = File.expand_path(receipt.fetch("sealed_p0_05_evidence_manifest"))
+  abort "sealed P0-05 evidence manifest missing" unless File.file?(sealed_manifest)
+  abort "sealed P0-05 evidence manifest must not be a symlink" if File.symlink?(sealed_manifest)
+  abort "sealed P0-05 evidence manifest real path escapes the trusted audit root" unless File.realpath(sealed_manifest).start_with?("#{audit_root_real}/")
+  abort "sealed P0-05 evidence manifest hash mismatch" unless Digest::SHA256.file(sealed_manifest).hexdigest == receipt.fetch("sealed_p0_05_evidence_manifest_sha256")
+  sealed = JSON.parse(File.read(sealed_manifest))
+  ownership_artifact = sealed.fetch("artifacts").find { |item| item["path"] == "evidence/classification/path-ownership-manifest.json" }
+  abort "sealed P0-05 manifest does not bind the ownership manifest" unless ownership_artifact
+  ownership_path = File.expand_path(ownership_artifact.fetch("path"), File.dirname(sealed_manifest))
+  abort "ownership manifest missing" unless File.file?(ownership_path)
+  abort "ownership manifest must not be a symlink" if File.symlink?(ownership_path)
+  abort "ownership manifest escapes sealed evidence root" unless File.realpath(ownership_path).start_with?("#{File.realpath(File.dirname(sealed_manifest))}/")
+  abort "ownership manifest hash mismatch" unless Digest::SHA256.file(ownership_path).hexdigest == ownership_artifact.fetch("sha256")
+  ownership = JSON.parse(File.read(ownership_path))
+  allowed_transition_paths = %w[
+    scripts/validate-aios-governance.sh
+    docs/aios/tasks/P0-05_BASELINE_SLICING.yaml
+    docs/aios/truth/project_state.yaml
+    docs/aios/P0_GATE.md
+    docs/PROJECT_CODE_MAP.md
+    web-console/src/pages/AgentChat.tsx
+    web-console/tests/agent-chat-first-viewport-smoke.spec.ts
+  ].sort
+  workspace_real = File.realpath(Dir.pwd)
+  assert_workspace_file = lambda do |candidate_path, relative_path|
+    abort "candidate path is missing: #{relative_path}" unless File.file?(candidate_path)
+    abort "candidate path must not be a symlink: #{relative_path}" if File.symlink?(candidate_path)
+    candidate_real = File.realpath(candidate_path)
+    abort "candidate real path escapes workspace: #{relative_path}" unless candidate_real.start_with?("#{workspace_real}/")
+  end
+  overlay.fetch("changed_paths").each do |entry|
+    relative_path = entry.fetch("path")
+    next if allowed_transition_paths.include?(relative_path)
+    candidate_path = File.expand_path(relative_path, Dir.pwd)
+    abort "P0-04C overlay path escapes the candidate workspace: #{relative_path}" unless candidate_path.start_with?("#{Dir.pwd}/")
+    assert_workspace_file.call(candidate_path, relative_path)
+    abort "P0-04C non-transition candidate path hash mismatch: #{relative_path}" unless Digest::SHA256.file(candidate_path).hexdigest == entry.fetch("sha256")
+  end
+  changed = receipt.fetch("changed_paths")
+  abort "transition receipt allowlist mismatch" unless changed.map { |entry| entry.fetch("path") }.sort == allowed_transition_paths
+  changed.each do |entry|
+    relative_path = entry.fetch("path")
+    candidate_path = File.expand_path(relative_path, Dir.pwd)
+    abort "transition path escapes candidate workspace" unless candidate_path.start_with?("#{Dir.pwd}/")
+    assert_workspace_file.call(candidate_path, relative_path)
+    current = entry.fetch("current")
+    stat = File.lstat(candidate_path)
+    abort "transition current hash mismatch: #{relative_path}" unless Digest::SHA256.file(candidate_path).hexdigest == current.fetch("sha256")
+    abort "transition current byte count mismatch: #{relative_path}" unless stat.size == current.fetch("bytes")
+    abort "transition current mode mismatch: #{relative_path}" unless (stat.mode & 0777) == current.fetch("mode")
+    abort "transition current type mismatch: #{relative_path}" unless current.fetch("type") == "file"
+  end
+  ownership_entries = ownership.fetch("entries")
+  ownership_by_path = ownership_entries.map { |entry| [entry.fetch("path"), entry] }.to_h
+  tracked_paths = IO.popen(["git", "diff", "--name-only", "-z", "HEAD"], &:read).split("\0").reject(&:empty?)
+  untracked_paths = IO.popen(["git", "ls-files", "--others", "--exclude-standard", "-z"], &:read).split("\0").reject(&:empty?)
+  current_path_set = (tracked_paths + untracked_paths).sort
+  abort "current changed path set drifted from sealed 318-path ownership manifest" unless current_path_set == ownership_by_path.keys.sort
+  staged_paths = IO.popen(["git", "diff", "--cached", "--name-only", "-z"], &:read).split("\0").reject(&:empty?)
+  abort "staged changes are forbidden during this transition" unless staged_paths.empty?
+  abort "numbered duplicate paths detected" if untracked_paths.any? { |path| path.match?(/ [0-9]+(?:\.[^\/]*)?\z/) }
+  descriptor_deltas = []
+  ownership_entries.each do |before|
+    relative_path = before.fetch("path")
+    candidate_path = File.expand_path(relative_path, Dir.pwd)
+    assert_workspace_file.call(candidate_path, relative_path)
+    stat = File.lstat(candidate_path)
+    current_descriptor = {"type" => "file", "mode" => stat.mode & 0777, "bytes" => stat.size, "sha256" => Digest::SHA256.file(candidate_path).hexdigest}
+    before_descriptor = before.slice("type", "mode", "bytes", "sha256")
+    descriptor_deltas << relative_path unless current_descriptor == before_descriptor
+  end
+  abort "workspace descriptor delta is not exactly the authorized seven-path allowlist" unless descriptor_deltas.sort == allowed_transition_paths
+  previous_by_path = previous_receipt.fetch("changed_paths").map { |entry| [entry.fetch("path"), entry.fetch("current")] }.to_h
+  changed.each do |entry|
+    relative_path = entry.fetch("path")
+    expected_pre = previous_by_path.fetch(relative_path) { ownership_by_path.fetch(relative_path).slice("type", "mode", "bytes", "sha256") }
+    abort "transition pre descriptor mismatch" unless entry.fetch("pre") == expected_pre
+  end
+  expected_transition = {
+    "p0_05_status" => stopped,
+    "p0_05_acceptance" => acceptance_fail,
+    "checkpoint" => no_checkpoint,
+    "p0_gate" => gate_no_go,
+    "p1_authorized" => false
+  }
+  abort "transition receipt current-state claim mismatch" unless receipt["current_state"] == expected_transition
+  abort "transition receipt lacks Founder authorization binding" unless receipt["founder_authorization"] == "2026-07-11_P0_FOCUSED_GATE_FINAL_REPAIR_AUTHORIZED"
+  abort "transition receipt Founder authorization source drifted" unless receipt["founder_authorization_source"] == "current_codex_task_explicit_founder_approval_bound_to_P0_FOCUSED_GATE_FINAL_REPAIR_AUTHORIZATION_RECORD"
+  %w[baseline_reference_status_matches patch_apply_check_passed candidate_hashes_match_after_apply nonignored_workspace_difference_empty].each do |field|
+    abort "P0-04C overlay verification failed: #{field}" unless overlay.dig("verification", field) == true
+  end
+
+  [truth_task, slice_f_task].each do |task|
+    inventory = task.fetch("changed_path_inventory")
+    paths = inventory.values.flatten
+    abort "changed-path inventory must be nonempty: #{task.fetch("task_id")}" if paths.empty?
+    missing = paths.reject { |path| File.exist?(path) }
+    abort "changed-path inventory references missing paths: #{missing.inspect}" unless missing.empty?
+    abort "changed-path inventory contains duplicates: #{task.fetch("task_id")}" unless paths.uniq.length == paths.length
+  end
+
+  assets = ledger.fetch("assets")
+  ids = assets.map { |asset| asset.fetch("id") }
+  abort "migration asset ids must be unique" unless ids.uniq.length == ids.length
+
+  allowed = %w[KEEP REFACTOR QUARANTINE FREEZE BUILD_NEW CANDIDATE_ARCHIVE]
+  invalid = assets.reject { |asset| allowed.include?(asset.fetch("decision")) }
+  abort "invalid migration decision: #{invalid.inspect}" unless invalid.empty?
+
+  %w[STRATEGY_LEGACY HISTORICAL_LEDGERS DUPLICATE_STATUS_DOCS].each do |id|
+    asset = assets.find { |candidate| candidate.fetch("id") == id }
+    abort "missing legacy migration asset: #{id}" unless asset
+    abort "legacy asset must be excluded from default Agent context: #{id}" unless asset["default_agent_context"] == "EXCLUDED"
+  end
+
+  if assets.any? { |asset| asset.fetch("decision") == "CANDIDATE_REMOVE" }
+    abort "P0 must not classify an asset as CANDIDATE_REMOVE"
+  end
+
+  owned_paths = assets
+    .select { |asset| asset.fetch("scope_kind") == "paths" }
+    .flat_map { |asset| asset.fetch("scope").map { |path| [path, asset.fetch("id")] } }
+  duplicates = owned_paths.group_by(&:first).select { |_path, owners| owners.length > 1 }
+  abort "path ownership overlaps: #{duplicates.inspect}" unless duplicates.empty?
+'
+
+binding_root="$(cd "$(dirname "$AIOS_TRUTH_BINDING_PATH")" && pwd -P)"
+node scripts/preserve-worktree-snapshot.mjs --verify "$binding_root" >/dev/null \
+  || fail "bound snapshot failed full tracked and untracked reconstruction"
+
+grep -Fq 'docs/aios/truth/project_state.yaml' AGENTS.md || fail "root AGENTS.md no longer points to canonical truth"
+grep -Fq 'Do not load them into default context' AGENTS.md || fail "root AGENTS.md no longer excludes legacy context by default"
+grep -Fq 'SOURCELENS_SNAPSHOT_VERIFICATION_RECEIPT' scripts/preserve-worktree-snapshot.mjs || fail "snapshot verification no longer exposes an external receipt boundary"
+if grep -Fq 'fs.writeFileSync(path.join(absoluteSnapshot, "verification.json")' scripts/preserve-worktree-snapshot.mjs; then
+  fail "snapshot verification still mutates the immutable snapshot directory"
+fi
+
+if grep -Fq 'preserved current-combined-state' docs/aios/tasks/P0-05_BASELINE_SLICING.yaml; then
+  fail "P0-05 still overstates the pre-independent-review snapshot as current"
+fi
+
+grep -Fq 'exact post-remediation state is resolved only from the external attestation' docs/aios/P0_GATE.md \
+  || fail "P0 Gate no longer declares its in-tree snapshot evidence boundary"
+
+ruby -rjson -e '
+  JSON.parse(File.read("docs/aios/schemas/task-spec.schema.json"))
+  JSON.parse(File.read("docs/aios/schemas/environment-snapshot.schema.json"))
+  JSON.parse(File.read("docs/aios/schemas/system-configuration.schema.json"))
+  JSON.parse(File.read("docs/aios/schemas/run-record.schema.json"))
+'
+
+active_entries=(
+  README.md
+  ROADMAP.md
+  CHAIRMAN_BRIEFING.md
+  CONTRIBUTING.md
+  docs/README.md
+  docs/SOURCELENS_OPERATING_SYSTEM.md
+  docs/TEAM_OPERATING_MODEL.md
+  web-console/src/pages/Dashboard.tsx
+)
+
+legacy_current_pattern='Current phase.*P9|当前主线仍是 P6|SourceLens 采用 `11 个固定核心角色|release-current-schema-20260704-1618.*当前|P9 三平面|P6/P10/P11 按证据并行推进|Trusted Engineering Loop Completion Rate|completed P0 gate packet'
+if grep -En "$legacy_current_pattern" "${active_entries[@]}"; then
+  fail "an active entry still declares a legacy phase, team or release authority"
+fi
+
+legacy_files=(
+  docs/PROJECT_PLAN.md
+  docs/PHASE_REQUIREMENTS.md
+  docs/PRODUCT_POSITIONING_AND_ACCESS_MODEL.md
+  docs/TOP_LEVEL_PRODUCT_OPERATING_DEFINITIONS.md
+  docs/AGENT_STATUS_BOARD.md
+  docs/CODEX_HANDOFF.md
+  docs/WORK_INTAKE_AND_BACKLOG.md
+  docs/QUALITY_SCORECARD.md
+  docs/PRODUCT_PROGRESS_LOG.md
+  docs/REFACTOR_ROADMAP.md
+  docs/PRODUCT_METRICS_AND_FEEDBACK.md
+  docs/AGENT_ACTIVITY_LOG.md
+  docs/AGENT_DECISION_REGISTER.md
+)
+
+for file in "${legacy_files[@]}"; do
+  head -n 8 "$file" | grep -Eq 'AIOS v2\.3 状态' \
+    || fail "legacy document is missing its AIOS status banner: $file"
+  head -n 8 "$file" | grep -Fq 'DEFAULT AGENT CONTEXT: `EXCLUDED`' \
+    || fail "legacy document is not excluded from default Agent context: $file"
+done
+
+grep -Fq 'P0 Strategic Foundation' web-console/src/pages/Dashboard.tsx \
+  || fail "Dashboard does not expose the current P0 phase"
+grep -Fq 'Verified Task Success Rate' web-console/src/pages/Dashboard.tsx \
+  || fail "Dashboard does not expose the frozen north-star metric"
+grep -Fq 'P0-05 Baseline Slicing' web-console/src/pages/Dashboard.tsx \
+  || fail "Dashboard does not expose P0-05 as the current project task"
+grep -Fq '继承产品运行建议（非项目任务）' web-console/src/pages/Dashboard.tsx \
+  || fail "Dashboard does not separate inherited product operations from AIOS project work"
+grep -Fq 'P0 gate packet is `NOT_READY`' CHAIRMAN_BRIEFING.md \
+  || fail "Founder briefing does not expose the current P0 gate state"
+grep -Fq -- '- Status: `NOT_READY`' docs/aios/P0_GATE.md \
+  || fail "P0 gate artifact must remain NOT_READY"
+grep -Fq 'Do not load, index or summarize legacy documents into default planning context.' docs/aios/CODEX_MASTER_PROMPT.md \
+  || fail "Codex entry prompt is missing the legacy-context allowlist rule"
+grep -Fq 'Flyway (V001 ~ V032)' docs/DATABASE_DESIGN.md \
+  || fail "database migration range is stale"
+grep -Fq 'https://github.com/LJunP/SourceLens/security/policy' .github/ISSUE_TEMPLATE/config.yml \
+  || fail "security-policy link does not target SourceLens"
+grep -Fq '<description>SourceLens AIOS' backend-spring/pom.xml \
+  || fail "backend metadata still uses the legacy product description"
+
+grep -Fq 'B0 Direct Model' docs/aios/EVALUATION_PROTOCOL.md \
+  || fail "Baseline Suite B0 is missing"
+grep -Fq 'B2 Current SourceLens' docs/aios/EVALUATION_PROTOCOL.md \
+  || fail "Baseline Suite B2 is missing"
+grep -Fq 'Verified Task Success Rate' docs/aios/STRATEGIC_CONSTITUTION.md \
+  || fail "the north-star metric is missing"
+grep -Fq 'Patch Evidence Package' docs/aios/EVALUATION_PROTOCOL.md \
+  || fail "the Patch Evidence contract is missing"
+
+echo "AIOS_GOVERNANCE_OK"

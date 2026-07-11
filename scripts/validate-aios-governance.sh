@@ -52,6 +52,103 @@ ruby -ryaml -rjson -rdigest -e '
   authority_task = YAML.load_file("docs/aios/tasks/P0-04C_AUTHORITY_DECONTAMINATION.yaml")
   baseline_task = YAML.load_file("docs/aios/tasks/P0-05_BASELINE_SLICING.yaml")
 
+  if state.dig("project", "phase_status") == "COMPLETE_FOUNDER_GATE_PASS_P1_NOT_AUTHORIZED"
+    decision_path = File.expand_path(ENV.fetch("AIOS_FOUNDER_GATE_DECISION_PATH", "/Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p0-founder-gate-decision-20260711T125610Z/founder-gate-decision.json"))
+    goal_path = File.expand_path(ENV.fetch("AIOS_LONG_TERM_GOAL_OBJECTIVE_PATH", "/Users/lijunpeng/.codex/attachments/6b0b059a-415e-424c-a7f4-98d7c956c285/goal-objective.md"))
+    abort "Founder decision missing" unless File.file?(decision_path) && !File.symlink?(decision_path)
+    abort "Long-term Goal objective missing" unless File.file?(goal_path) && !File.symlink?(goal_path)
+    audit_root = File.realpath("/Users/lijunpeng/Desktop/cc/project/.sourcelens-audit")
+    attachments_root = File.realpath("/Users/lijunpeng/.codex/attachments")
+    abort "Founder decision escapes trusted audit root" unless File.realpath(decision_path).start_with?("#{audit_root}/")
+    abort "Goal objective escapes trusted attachments root" unless File.realpath(goal_path).start_with?("#{attachments_root}/")
+    abort "Founder decision hash drift" unless Digest::SHA256.file(decision_path).hexdigest == "16e35d4f39c333d038fa2337e40b1a91a8dc5d3227899baa1542ad80fec9b8ee"
+    decision = JSON.parse(File.read(decision_path))
+    abort "Founder Gate must be PASS" unless decision["decision"] == "PASS"
+    abort "Founder decision authorizes P1" unless decision["p1_authorized"] == false
+    abort "accepted checkpoint drift" unless decision.dig("accepted_checkpoint", "commit") == "ad6450e418d8f1b4fd5a789f913525a8dd8bdc10"
+    abort "Goal objective hash drift" unless Digest::SHA256.file(goal_path).hexdigest == "60e42edb7d422265325391014cd6e329fdf14861beedc682b6892fb3fc929eea"
+    goal_text = File.binread(goal_path)
+    abort "Goal does not preserve P1 block" unless goal_text.include?("P1".b) && goal_text.include?("AIOS-P1-001".b)
+    abort "Truth Founder decision mismatch" unless state.dig("founder_gate", "decision") == "PASS"
+    abort "current phase must remain P0 until P1 authorization" unless state.dig("project", "current_phase") == "P0"
+    abort "Truth authorizes P1" unless state.dig("founder_gate", "p1_authorized") == false
+    abort "Truth accepted checkpoint commit drift" unless state.dig("founder_gate", "accepted_checkpoint_commit") == "ad6450e418d8f1b4fd5a789f913525a8dd8bdc10"
+    abort "Truth accepted checkpoint tree drift" unless state.dig("founder_gate", "accepted_checkpoint_tree") == "2c0956ae8598547466f691ead21532a026006bf9"
+    abort "P0 control plane current status drift" unless state.dig("p0_control_plane", "status") == "COMPLETE_FOUNDER_GATE_PASS_WITH_RETAINED_TRUST_BLOCKERS"
+    abort "P0 contracts not recorded as Founder accepted" unless state.dig("p0_control_plane", "contract_drafts", "status") == "FOUNDER_ACCEPTED_AS_CONTROLLED_P1_IMPLEMENTATION_DEFINITIONS"
+    review = state.dig("p0_control_plane", "independent_review")
+    abort "unqualified pre-Founder NO-GO reintroduced" if review.key?("p0_gate_recommendation")
+    abort "historical reviewer recommendation lost" unless review["historical_pre_founder_gate_recommendation"] == "NO_GO"
+    abort "current Founder Gate decision drift" unless review["current_founder_gate_decision"] == "PASS"
+    p0_03 = state.fetch("active_p0_work").find { |item| item["id"] == "P0-03" }
+    abort "P0-03 contracts remain unaccepted" unless p0_03 && p0_03["status"] == "COMPLETE_FOUNDER_ACCEPTED"
+    p0_04c_current = state.fetch("active_p0_work").find { |item| item["id"] == "P0-04C" }
+    abort "P0-04C remains review-pending" unless p0_04c_current && p0_04c_current["status"] == "COMPLETE_FOUNDER_ACCEPTED"
+    risk_p0_004 = state.fetch("blocking_risks").find { |item| item["id"] == "RISK-P0-004" }
+    abort "P0 baseline-slicing risk remains pending" unless risk_p0_004 && risk_p0_004["status"] == "MITIGATED_BY_FOUNDER_ACCEPTED_CHECKPOINT_WITH_RETAINED_HISTORICAL_GAP"
+    abort "Goal status drift" unless state.dig("runtime_goal_transition", "long_term_goal_status") == "ACTIVE_FOUNDER_MANUALLY_CREATED"
+    abort "P0-05 task not accepted" unless baseline_task["status"] == "accepted"
+    abort "P0-05 Gate result drift" unless baseline_task["gate_result"] == "P0_GATE_PASS_BY_FOUNDER_DECISION"
+    gate_text = File.read("docs/aios/P0_GATE.md")
+    abort "P0 Gate artifact does not record PASS" unless gate_text.include?("P0_GATE_PASS_BY_FOUNDER_DECISION")
+    abort "P0 Gate artifact authorizes P1" unless gate_text.include?("p1_authorized: false")
+    %w[P0\ remains\ NO-GO Founder\ Gate\ remain\ open].each do |forbidden|
+      abort "P0 Gate retains contradictory current-state text: #{forbidden}" if gate_text.include?(forbidden)
+    end
+    abort "P0 Gate still says contract acceptance is open" if gate_text.include?("independent acceptance remains open")
+    abort "strategy version drift" unless state.dig("authority", "strategy", "version") == "2.3"
+    abort "strategy must remain frozen" unless state.dig("authority", "strategy", "status") == "FROZEN"
+    abort "execution protocol version drift" unless state.dig("authority", "execution_protocol", "version") == "1.0"
+    abort "legacy context filter overstated" unless state.dig("runtime_restrictions", "legacy_context_retrieval_filter") == "NOT_IMPLEMENTED_GOVERNANCE_ALLOWLIST_ONLY"
+    [truth_task, slice_f_task, authority_task, baseline_task].each do |task|
+      abort "task phase drift" unless task["phase"] == "P0"
+      %w[write_scope acceptance_criteria required_evidence stop_conditions forbidden_actions].each do |field|
+        abort "task field missing: #{task["task_id"]}.#{field}" unless task[field].is_a?(Array) && !task[field].empty?
+      end
+    end
+    %w[task-spec environment-snapshot system-configuration run-record].each do |name|
+      JSON.parse(File.read("docs/aios/schemas/#{name}.schema.json"))
+    end
+    binding_path = File.expand_path(state.dig("current_worktree_preservation", "truth_binding"))
+    abort "historical truth binding hash drift" unless Digest::SHA256.file(binding_path).hexdigest == state.dig("current_worktree_preservation", "truth_binding_sha256")
+    overlay_path = File.expand_path(state.dig("p0_04c_candidate_overlay", "binding"))
+    overlay = JSON.parse(File.read(overlay_path))
+    patch_path = File.expand_path(overlay.dig("overlay", "patch_path"))
+    abort "overlay patch hash drift" unless Digest::SHA256.file(patch_path).hexdigest == overlay.dig("overlay", "patch_sha256")
+    expected = %w[AGENTS.md CHAIRMAN_BRIEFING.md docs/PROJECT_CODE_MAP.md docs/aios/CODEX_MASTER_PROMPT.md docs/aios/P0_GATE.md docs/aios/README.md docs/aios/tasks/P0-05_BASELINE_SLICING.yaml docs/aios/truth/project_state.yaml scripts/validate-aios-governance.sh].sort
+    changed = IO.popen(["git", "diff", "--name-only", "ad6450e418d8f1b4fd5a789f913525a8dd8bdc10"], &:read).lines.map(&:strip).reject(&:empty?).sort
+    abort "post-Gate change set escaped allowlist: #{changed.inspect}" unless changed == expected
+    staged = IO.popen(["git", "diff", "--cached", "--name-only"], &:read).strip
+    abort "staged changes forbidden during validation" unless staged.empty?
+    receipt_path_raw = ENV["AIOS_POST_GATE_TRANSITION_RECEIPT_PATH"]
+    receipt_sha = ENV["AIOS_POST_GATE_TRANSITION_RECEIPT_SHA256"]
+    abort "hash-pinned post-Gate receipt path required" if receipt_path_raw.to_s.empty?
+    abort "valid post-Gate receipt SHA required" unless receipt_sha.to_s.match?(/\A[0-9a-f]{64}\z/)
+    receipt_path = File.expand_path(receipt_path_raw)
+    abort "post-Gate receipt missing or symlink" unless File.file?(receipt_path) && !File.symlink?(receipt_path)
+    abort "post-Gate receipt escapes audit root" unless File.realpath(receipt_path).start_with?("#{audit_root}/")
+    abort "post-Gate receipt hash mismatch" unless Digest::SHA256.file(receipt_path).hexdigest == receipt_sha
+    receipt = JSON.parse(File.read(receipt_path))
+    abort "post-Gate receipt type drift" unless receipt["record_type"] == "sourcelens_aios_post_gate_authority_transition_receipt"
+    head = IO.popen(["git", "rev-parse", "HEAD"], &:read).strip
+    tree = IO.popen(["git", "rev-parse", "HEAD^{tree}"], &:read).strip
+    abort "transition HEAD not bound by receipt" unless head == receipt.dig("transition", "commit")
+    abort "transition tree not bound by receipt" unless tree == receipt.dig("transition", "tree")
+    status = IO.popen(["git", "status", "--porcelain=v1", "-uall"], &:read)
+    abort "transition workspace must be clean" unless status.empty?
+    descriptors = receipt.fetch("changed_path_descriptors")
+    abort "receipt descriptor path set mismatch" unless descriptors.map { |d| d.fetch("path") }.sort == expected
+    descriptors.each do |descriptor|
+      path = descriptor.fetch("path")
+      stat = File.lstat(path)
+      abort "transition path symlink rejected: #{path}" if File.symlink?(path)
+      abort "transition path hash drift: #{path}" unless Digest::SHA256.file(path).hexdigest == descriptor.fetch("sha256")
+      abort "transition path size drift: #{path}" unless stat.size == descriptor.fetch("bytes")
+      abort "transition path mode drift: #{path}" unless (stat.mode & 0777) == descriptor.fetch("mode")
+    end
+    exit 0
+  end
+
   abort "project current_phase must be P0 during this migration" unless state.dig("project", "current_phase") == "P0"
   abort "project phase_status must remain IN_PROGRESS" unless state.dig("project", "phase_status") == "IN_PROGRESS"
   abort "strategy version must be 2.3" unless state.dig("authority", "strategy", "version") == "2.3"
@@ -414,6 +511,14 @@ for file in "${legacy_files[@]}"; do
     || fail "legacy document is not excluded from default Agent context: $file"
 done
 
+if grep -Fq 'COMPLETE_FOUNDER_GATE_PASS_P1_NOT_AUTHORIZED' docs/aios/truth/project_state.yaml; then
+  grep -Fq 'P0 Founder Gate is `PASS`' CHAIRMAN_BRIEFING.md \
+    || fail "Founder briefing does not expose P0 PASS"
+  grep -Fq -- '- Status: `PASS`' docs/aios/P0_GATE.md \
+    || fail "P0 gate artifact does not expose PASS"
+  grep -Fq 'P1 remains unauthorized' docs/aios/CODEX_MASTER_PROMPT.md \
+    || fail "Codex prompt does not preserve P1 block"
+else
 grep -Fq 'P0 Strategic Foundation' web-console/src/pages/Dashboard.tsx \
   || fail "Dashboard does not expose the current P0 phase"
 grep -Fq 'Verified Task Success Rate' web-console/src/pages/Dashboard.tsx \
@@ -426,6 +531,7 @@ grep -Fq 'P0 gate packet is `NOT_READY`' CHAIRMAN_BRIEFING.md \
   || fail "Founder briefing does not expose the current P0 gate state"
 grep -Fq -- '- Status: `NOT_READY`' docs/aios/P0_GATE.md \
   || fail "P0 gate artifact must remain NOT_READY"
+fi
 grep -Fq 'Do not load, index or summarize legacy documents into default planning context.' docs/aios/CODEX_MASTER_PROMPT.md \
   || fail "Codex entry prompt is missing the legacy-context allowlist rule"
 grep -Fq 'Flyway (V001 ~ V032)' docs/DATABASE_DESIGN.md \

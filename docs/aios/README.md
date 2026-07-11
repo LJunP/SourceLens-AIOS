@@ -13,6 +13,7 @@ This directory is the canonical control plane for the SourceLens AIOS migration.
 | inherited-asset disposition | `MIGRATION_LEDGER.yaml` |
 | accepted decision rationale | append-only ADRs |
 | bounded P0 task contracts | `tasks/P0-04A_TRUTH_CONTAINMENT.yaml`, `tasks/P0-04B_SLICE_F_GATE_REPAIR.yaml`, `tasks/P0-04C_AUTHORITY_DECONTAMINATION.yaml`, `tasks/P0-05_BASELINE_SLICING.yaml` |
+| P0 Founder Gate current decision | external hash-bound Decision Record referenced by `truth/project_state.yaml` |
 
 There is no global "earlier file wins" rule. Each document is authoritative only in its domain. The Truth Registry may mirror strategic values for machines but cannot change them. Historical status boards, progress logs, handoffs and pre-v2.3 roadmaps override none of these domains.
 
@@ -20,7 +21,10 @@ Legacy material is excluded from default Agent context. It may be opened only wh
 
 ## Current state
 
-SourceLens is in `P0 Strategic Foundation`. Existing product development is frozen except for urgent security or data-integrity containment. The current objective is to establish a reproducible baseline and a reviewable migration checkpoint before P1 development.
+`P0 Strategic Foundation` is complete by Founder Gate decision. The accepted
+checkpoint is immutable and the Long-term Goal is active. P1 and AIOS-P1-001 are
+not authorized. The only current critical path is the governance-only post-Gate
+authority transition and its independent verification.
 
 The external P0-A audit is stored outside the Git worktree at:
 
@@ -51,4 +55,7 @@ execution pointer to this authority index, not an additional authority.
 
 ## P0 contract drafts
 
-The TaskSpec, EnvironmentSnapshot, SystemConfiguration, RunRecord schemas and `BASELINE_ADAPTER_CONTRACT.md` are P0 review drafts. Their existence does not make the P1 research harness implemented or accepted.
+The Founder accepted the checkpoint versions of TaskSpec, EnvironmentSnapshot,
+SystemConfiguration, RunRecord and `BASELINE_ADAPTER_CONTRACT.md` as controlled P1
+implementation definitions. Their acceptance does not make the P1 research harness
+implemented, authorize P1, or establish a capability claim.

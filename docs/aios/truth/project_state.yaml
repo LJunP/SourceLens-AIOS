@@ -32,7 +32,7 @@ project:
   name: SourceLens AIOS
   current_phase: P0
   phase_name: Strategic Foundation
-  phase_status: IN_PROGRESS
+  phase_status: COMPLETE_FOUNDER_GATE_PASS_P1_NOT_AUTHORIZED
   strategy_ref: docs/aios/STRATEGIC_CONSTITUTION.md
   strategic_mirror_is_authoritative: false
   strategic_mirror:
@@ -42,6 +42,15 @@ project:
     primary_jtbd: Produce the smallest defensible independently verified and reversible patch when the maintainer does not fully understand the repository.
     north_star_metric: Verified Task Success Rate
 
+founder_gate:
+  decision: PASS
+  decision_id: SOURCE-LENS-AIOS-P0-FOUNDER-GATE-20260711T125610Z
+  decision_record: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p0-founder-gate-decision-20260711T125610Z/FOUNDER_GATE_DECISION_RECORD.md
+  decision_record_sha256: 300a282eb13684ad062efbf07a9b73c5240a5d974690ee1874dc229b07640d50
+  accepted_checkpoint_commit: ad6450e418d8f1b4fd5a789f913525a8dd8bdc10
+  accepted_checkpoint_tree: 2c0956ae8598547466f691ead21532a026006bf9
+  p1_authorized: false
+
 p0_audit:
   report: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p0-a-20260710-220800/p0_takeover_report.md
   evidence_manifest: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p0-a-20260710-220800/evidence_manifest.json
@@ -49,7 +58,8 @@ p0_audit:
   worktree_mutated_by_audit: false
 
 p0_control_plane:
-  status: IMPLEMENTED_REVIEWED_WITH_BLOCKERS
+  status: COMPLETE_FOUNDER_GATE_PASS_WITH_RETAINED_TRUST_BLOCKERS
+  historical_pre_founder_status: IMPLEMENTED_REVIEWED_WITH_BLOCKERS
   evidence_level: TESTED
   validation:
     - Ruby YAML parse and structural assertions passed for project_state.yaml, MIGRATION_LEDGER.yaml and the P0-05 Task Contract.
@@ -62,7 +72,8 @@ p0_control_plane:
     - Current make verify passed, including 934 backend tests, frontend build and UI regression, Rust checks and tests, artifact quality, LLM safety, security static and dependency regression gates.
   gate_artifact: docs/aios/P0_GATE.md
   contract_drafts:
-    status: INDEPENDENT_REVIEW_PASS_PENDING_ACCOUNTABLE_ACCEPTANCE
+    status: FOUNDER_ACCEPTED_AS_CONTROLLED_P1_IMPLEMENTATION_DEFINITIONS
+    historical_pre_founder_status: INDEPENDENT_REVIEW_PASS_PENDING_ACCOUNTABLE_ACCEPTANCE
     task_spec_schema: docs/aios/schemas/task-spec.schema.json
     environment_snapshot_schema: docs/aios/schemas/environment-snapshot.schema.json
     system_configuration_schema: docs/aios/schemas/system-configuration.schema.json
@@ -78,7 +89,8 @@ p0_control_plane:
       quality_and_evaluation: PASS
       security: PASS
       cto: PASS
-    p0_gate_recommendation: NO_GO
+    historical_pre_founder_gate_recommendation: NO_GO
+    current_founder_gate_decision: PASS
     accepted_findings:
       - P0 freezes TaskSpec, environment and adapter contracts; P1 implements the executable research harness.
       - VTSR requires a normative denominator, retry, timeout, invalid-run and exclusion policy.
@@ -175,8 +187,11 @@ runtime_goal_transition:
   historical_goal_sha256: cb6443895d05948e2586185e4f2b715d73178eae315abb84032c4b7c5800f8d1
   historical_goal_prior_status: blocked
   historical_goal_authority: RETIRED_HISTORY_ONLY
-  new_aios_goal_activation: BLOCKED_BY_CODEX_CONTROL_PLANE_UNFINISHED_GOAL
-  activation_limitation: The control plane rejected create_goal while the prior blocked goal remains unfinished; the old objective was not falsely marked complete.
+  p0_migration_goal_status: COMPLETE_AFTER_FOUNDER_GATE
+  long_term_goal_status: ACTIVE_FOUNDER_MANUALLY_CREATED
+  long_term_goal_objective: /Users/lijunpeng/.codex/attachments/6b0b059a-415e-424c-a7f4-98d7c956c285/goal-objective.md
+  long_term_goal_objective_sha256: 60e42edb7d422265325391014cd6e329fdf14861beedc682b6892fb3fc929eea
+  p1_authorized: false
 
 p0_04c_candidate_overlay:
   binding: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p0-authority-decontamination-20260711T013048Z/p0-04c-overlay-binding.json
@@ -268,7 +283,8 @@ active_p0_work:
     status: CONTROL_PLANE_REVIEW_PASS
   - id: P0-03
     title: Define Baseline Suite and Evaluation Protocol
-    status: INDEPENDENT_CONTRACT_REVIEW_PASS_PENDING_ACCEPTANCE
+    status: COMPLETE_FOUNDER_ACCEPTED
+    historical_pre_founder_status: INDEPENDENT_CONTRACT_REVIEW_PASS_PENDING_ACCEPTANCE
   - id: P0-04
     title: Converge legacy authority documents
     status: COMPLETE
@@ -283,15 +299,15 @@ active_p0_work:
   - id: P0-04C
     title: Decontaminate runtime authority and prepare read-only baseline migration
     task_contract_ref: docs/aios/tasks/P0-04C_AUTHORITY_DECONTAMINATION.yaml
-    status: IMPLEMENTED_REVIEW_PENDING
+    status: COMPLETE_FOUNDER_ACCEPTED
   - id: P0-05
     title: Partition dirty worktree into reviewable checkpoints
     task_contract_ref: docs/aios/tasks/P0-05_BASELINE_SLICING.yaml
-    status: CHECKPOINT_CREATED_PENDING_INDEPENDENT_REVIEW
+    status: ACCEPTED_BY_FOUNDER_GATE
     classification_result: CLASSIFICATION_EVIDENCE_PASS
-    acceptance_result: P0_05_CHECKPOINT_CREATED_PENDING_INDEPENDENT_REVIEW
-    checkpoint_result: CHECKPOINT_COMMIT_CREATED_PENDING_INDEPENDENT_REVIEW
-    gate_result: P0_GATE_NO_GO_FOUNDER_DECISION_REQUIRED
+    acceptance_result: P0_05_ACCEPTED_BY_FOUNDER_GATE
+    checkpoint_result: CHECKPOINT_COMMIT_ACCEPTED_IMMUTABLE
+    gate_result: P0_GATE_PASS_BY_FOUNDER_DECISION
     p1_authorized: false
     remaining_closure_results:
       f_focused_gate: PASS_INDEPENDENT_REVIEW_ACCEPTED
@@ -301,7 +317,7 @@ active_p0_work:
       offsite_current_readability: PASS_EXTERNAL_PHYSICAL_DEVICE_REVERIFIED
   - id: P0-06
     title: Independent migration review and Founder gate
-    status: CHECKPOINT_INDEPENDENT_REVIEW_PENDING_P0_GATE_NO_GO
+    status: COMPLETE_FOUNDER_GATE_PASS
 
 runtime_restrictions:
   enforcement_status: GOVERNANCE_ONLY_NOT_YET_TECHNICALLY_ENFORCED
@@ -325,7 +341,8 @@ blocking_risks:
   - id: RISK-P0-004
     severity: HIGH
     title: Legacy roadmaps and status ledgers conflict with the frozen AIOS route.
-    status: MITIGATED_INDEPENDENT_REVIEW_PASS_PENDING_BASELINE_SLICING
+    status: MITIGATED_BY_FOUNDER_ACCEPTED_CHECKPOINT_WITH_RETAINED_HISTORICAL_GAP
+    historical_pre_founder_status: MITIGATED_INDEPENDENT_REVIEW_PASS_PENDING_BASELINE_SLICING
   - id: RISK-P0-005
     severity: CRITICAL
     title: Raw artifact access and real-provider LLM or embedding egress are not fail-closed evidence boundaries.

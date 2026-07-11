@@ -1,19 +1,19 @@
 # SourceLens AIOS P0 Gate Packet
 
 - Gate: `P0 -> P1`
-- Status: `NOT_READY` (`P0_GATE_NO_GO_FOUNDER_DECISION_REQUIRED`)
+- Status: `PASS` (`P0_GATE_PASS_BY_FOUNDER_DECISION`)
 - Snapshot basis: P0-A audit plus a verified pre-independent-review preservation snapshot from 2026-07-10; exact post-remediation state is resolved only from the external attestation referenced below
 - Current facts: `truth/project_state.yaml`
 
 This is a gate artifact, not a second current-state authority. When facts differ, the Truth Registry wins.
 
-## Current remaining-closure evidence
+## Accepted closure evidence
 
 - The bounded F focused repair passes its original Playwright gate across five viewports and six states and is accepted by independent CTO, Security and Quality review. Whole-F isolation remains `NOT_PROVEN_SAFE` and was not executed; the repair route was selected instead.
 - The focused real MySQL Flyway smoke passed on a new disposable digest-pinned MySQL 8.4 instance: 32 migrations applied through V032, 1 test passed, 0 skipped. This is focused migration evidence, not production readiness.
 - `docs/PROJECT_CODE_MAP.md` was mechanically regenerated and verified by the canonical generator.
 - The external physical-device package was remounted read-only and independently reverified: package hashes, archive recovery, authoritative bindings and independent-device custody all passed.
-- A P0-05 checkpoint commit now exists in the approved disposable reconstruction and is pending independent CTO, Security and Quality review. This does not change P0 `NO-GO` or `p1_authorized=false`.
+- The P0-05 checkpoint passed CTO, Security and Quality review and was accepted by the Human Founder. P1 remains unauthorized.
 
 ## 1. Completed foundation
 
@@ -22,18 +22,18 @@ This is a gate artifact, not a second current-state authority. When facts differ
 - Master Execution Protocol v1.0 frozen.
 - Evaluation and Research Protocol v1.1 defined for P0.
 - Baseline Suite B0/B1/B2/A0 defined.
-- TaskSpec, EnvironmentSnapshot and Baseline Adapter contract drafts created; independent acceptance remains open.
+- TaskSpec, EnvironmentSnapshot and Baseline Adapter definitions were independently reviewed and accepted by the Founder as controlled P1 implementation definitions; implementation remains a P1 deliverable and P1 is not authorized.
 - Machine-readable Truth Registry established.
 - Inherited assets classified without deletion.
 - Legacy roadmaps, roles and status authorities downgraded to historical/supporting material.
-- Independent CTO, Quality & Evaluation and Security control-plane review passed after remediation; all reviewers still recommend P0 NO-GO.
+- Independent CTO, Quality & Evaluation and Security reviews preserved their historical pre-Founder recommendations; the later Human Founder decision is the current Gate authority and records P0 PASS.
 - A pre-independent-review combined source state is preserved outside the worktree and verified by artifact hashes, untracked-copy hashes and disposable-clone tracked-patch restoration. It is not the exact current post-remediation state.
 - Inherited `make verify` evidence captured the original AgentChat responsive UI failure. The worktree observed at `2026-07-10T23:46:39+08:00` then passed all declared local stages, and independent review accepted the bounded Slice F repair. Exact final-state verification is resolved from the external attestation named below rather than inferred from this recorded run.
-- Bounded remediation authority is recorded in `tasks/P0-04A_TRUTH_CONTAINMENT.yaml` and `tasks/P0-04B_SLICE_F_GATE_REPAIR.yaml`; neither task changes the P0 `NOT_READY` decision.
+- Bounded remediation authority is recorded in `tasks/P0-04A_TRUTH_CONTAINMENT.yaml` and `tasks/P0-04B_SLICE_F_GATE_REPAIR.yaml`; those task-local historical statements do not override the later Founder Gate PASS.
 
-## 2. Gate blockers
+## 2. P1 entry conditions and retained Trust blockers
 
-P1 remains blocked by:
+The Founder accepted the P0 definitions and migration dispositions. P1 still requires separate authorization and remains constrained by:
 
 1. independent review of migration dispositions and current capability levels;
 2. a reviewable source baseline from the inherited dirty worktree;
@@ -61,7 +61,7 @@ Exact post-remediation evidence is resolved from `/Users/lijunpeng/Desktop/cc/pr
 
 ### Step 2: Create review slices
 
-Execution contract: `tasks/P0-05_BASELINE_SLICING.yaml` (`CHECKPOINT_CREATED_PENDING_INDEPENDENT_REVIEW`). Classification and bounded closure evidence are complete, and a reversible checkpoint candidate has been authorized and created in the disposable reconstruction. Independent checkpoint review and the Founder Gate remain open; P0 remains NO-GO and P1 is not authorized.
+Execution contract: `tasks/P0-05_BASELINE_SLICING.yaml` (`accepted`). Classification, bounded closure, checkpoint reconstruction, independent review and the Founder Gate are complete. P0 is complete by Founder decision; P1 remains separately unauthorized.
 
 Review in this order:
 
@@ -131,16 +131,22 @@ The Founder approves P1 only after receiving direct answers to:
 ## 6. Gate decision record
 
 ```yaml
-decision: PENDING
-current_gate_result: P0_GATE_NO_GO_FOUNDER_DECISION_REQUIRED
-p0_05_acceptance: P0_05_CHECKPOINT_CREATED_PENDING_INDEPENDENT_REVIEW
-checkpoint: CHECKPOINT_COMMIT_CREATED_PENDING_INDEPENDENT_REVIEW
+decision: PASS
+decision_id: SOURCE-LENS-AIOS-P0-FOUNDER-GATE-20260711T125610Z
+current_gate_result: P0_GATE_PASS_BY_FOUNDER_DECISION
+p0_05_acceptance: P0_05_ACCEPTED_BY_FOUNDER_GATE
+checkpoint: CHECKPOINT_COMMIT_ACCEPTED_IMMUTABLE
 p1_authorized: false
 founder: Human Founder
-approved_source_ref: null
-approved_first_task: null
-approved_budget: null
-accepted_residual_risks: []
-conditions: []
-date: null
+approved_source_ref: ad6450e418d8f1b4fd5a789f913525a8dd8bdc10
+approved_first_task: AIOS-P1-001_PROPOSED_NOT_AUTHORIZED
+approved_budget: 24_ENGINEERING_HOURS_5_DAYS_3_ATTEMPTS_PROPOSED_NOT_EXECUTION_AUTHORITY
+accepted_residual_risks:
+  - runtime write, shell, source egress, sandbox, artifact custody and remote-side-effect controls are not all technically closed
+  - governance restrictions do not establish production readiness
+  - P1 requires separate Founder authorization
+conditions:
+  - complete and independently review the post-Gate governance-only authority transition
+  - keep P1 and AIOS-P1-001 unauthorized until a separate Founder decision
+date: 2026-07-11
 ```

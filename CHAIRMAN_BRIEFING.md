@@ -105,4 +105,7 @@ Do not add features, change strategy, delete assets or claim production readines
 
 ## Next Founder decision
 
-No new strategic decision is required now. The P0 gate packet is `NOT_READY`. The next Founder decision occurs only after P0-05 produces a reviewable source baseline, independent review is refreshed, and the packet identifies the exact first bounded P1 evaluation-infrastructure task and budget.
+The P0 Founder Gate is `PASS`; the accepted checkpoint and open Trust risks are
+recorded externally. P1 remains `NOT AUTHORIZED`. After the post-Gate authority
+transition passes independent review, the next Founder decision is whether to
+authorize P1 and the hash-frozen AIOS-P1-001 contract separately.

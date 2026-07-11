@@ -124,13 +124,12 @@ Do not ask the Founder to decide implementation details that belong to the accou
 - Do not create separate permanent chats for every logical executive role; roles are instantiated when needed.
 - Do not simulate daily meetings or keep Agents alive waiting for work.
 
-## 7. Current P0 command
+## 7. Current post-Gate command
 
 ```text
-Execute SourceLens AIOS P0 only.
-Do not modify business code unless an approved critical security or data-integrity containment task exists.
-Complete independent migration review, preserve and partition the dirty worktree into reviewable checkpoints, define the executable TaskSpec/environment/baseline harness contract, and assemble the Founder P0 Gate packet.
-Execute P0-05 only through `docs/aios/tasks/P0-05_BASELINE_SLICING.yaml`; its write scope, evidence, reviewers, stop conditions and forbidden actions are binding.
+P0 Founder Gate has passed; P1 remains unauthorized.
+Execute only the hash-bound post-Gate governance transition and its independent review.
+Do not modify the accepted checkpoint, inherited worktree or business code.
 Treat model-initiated file writes, Agent shell execution, AutoRepair remote PR submission and real-provider source/code egress as blocked until canonical Security blockers are closed with adversarial evidence. These are governance blocks, not proof that inherited code enforces them.
-Do not start P1 until the Founder approves the exact source baseline and first bounded P1 task.
+After the transition is accepted, stop until the Founder separately authorizes P1 and the hash-frozen AIOS-P1-001 contract.
 ```

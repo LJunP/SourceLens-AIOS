@@ -10,7 +10,7 @@ Before planning, reading broadly, or editing, read in this order:
 4. the active Task Contract and only the files it references
 5. `docs/aios/EVALUATION_PROTOCOL.md` for any capability claim
 6. `docs/aios/MIGRATION_LEDGER.yaml`
-7. `docs/aios/P0_GATE.md` while the current phase is P0
+7. `docs/aios/P0_GATE.md` for the accepted P0 decision and P1 entry boundary
 
 The pre-v2.3 Goal, P6/P9/P10/P11/P12-pre routes, 11-plus-5 roles, status boards,
 handoffs, progress logs, and old phase documents are historical migration evidence.
@@ -18,16 +18,16 @@ Do not load them into default context. Read an exact legacy file or section only
 when the active Task Contract cites it, and never promote legacy text into current
 truth, priority, authority, role ownership, or capability evidence.
 
-Current phase: P0 Strategic Foundation. P0 permits migration, evidence control,
-baseline preparation, independent review, and urgent bounded containment only.
-It prohibits product features, broad refactors, deletion, P1 implementation,
-model-initiated writes, shell execution, real-provider source egress, remote PR
-submission, and autonomous merge.
+Current state: P0 Strategic Foundation is complete by Founder Gate decision.
+P1 is not authorized. Only the bounded post-Gate authority transition and
+Founder-approved preparation may proceed; product development and P1 execution
+remain blocked, as do model-initiated writes, Agent shell execution, real-provider
+source egress, remote PR submission, and autonomous merge.
 
-During P0-05, the inherited SourceLens worktree is read-only. All partitioning,
-staging, checkpoint commits, and control-plane repairs must occur in a disposable
-reconstruction named by the Task Contract. Never stage, stash, clean, reset,
-checkout, reformat, or commit the inherited worktree.
+The inherited SourceLens worktree and accepted P0 checkpoint are immutable.
+Post-Gate authority synchronization must occur in the disposable descendant
+workspace named by its Task Contract. Never stage, stash, clean, reset, checkout,
+reformat, amend, or commit either immutable source.
 
 Use one critical path, one accountable role, one physical Agent role/context per
 task, and one implementation owner per file. The implementer cannot independently

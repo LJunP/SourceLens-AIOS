@@ -95,8 +95,8 @@ forbidden_actions:
   - entering P1 or enabling model writes, shell execution, real-provider source egress, remote PR submission or autonomous merge
 
 classification_result: CLASSIFICATION_EVIDENCE_PASS
-acceptance_result: P0_05_ACCEPTANCE_FAIL_STOP_CONDITION
-checkpoint_result: NO_CHECKPOINT
+acceptance_result: P0_05_CHECKPOINT_CREATED_PENDING_INDEPENDENT_REVIEW
+checkpoint_result: CHECKPOINT_COMMIT_CREATED_PENDING_INDEPENDENT_REVIEW
 gate_result: P0_GATE_NO_GO_FOUNDER_DECISION_REQUIRED
 p1_authorized: false
 transition_evidence_policy: EXTERNAL_HASH_PINNED_RECEIPT_REQUIRED
@@ -104,6 +104,6 @@ remaining_closure_results:
   f_focused_gate: PASS_INDEPENDENT_REVIEW_ACCEPTED
   f_isolation: NOT_PROVEN_SAFE_NOT_APPLIED_REPAIR_ROUTE_SELECTED
   mysql_flyway_smoke: PASS_FOCUSED_DISPOSABLE_MYSQL_8_4
-  code_map_freshness: REGENERATED_PENDING_FINAL_REVIEW
-  offsite_current_readability: UNKNOWN_NOT_MOUNTED
-status: STOPPED_AFTER_CLASSIFICATION_AND_TARGETED_TESTS
+  code_map_freshness: PASS_CANONICAL_GENERATOR_VERIFIED
+  offsite_current_readability: PASS_EXTERNAL_PHYSICAL_DEVICE_REVERIFIED
+status: CHECKPOINT_CREATED_PENDING_INDEPENDENT_REVIEW

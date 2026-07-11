@@ -63,7 +63,7 @@ ruby -ryaml -rjson -rdigest -e '
     "AIOS-P0-004A" => [truth_task, %w[accepted]],
     "AIOS-P0-004B" => [slice_f_task, %w[accepted]],
     "AIOS-P0-004C" => [authority_task, %w[review_pending accepted]],
-    "AIOS-P0-005" => [baseline_task, %w[STOPPED_AFTER_CLASSIFICATION_AND_TARGETED_TESTS]]
+    "AIOS-P0-005" => [baseline_task, %w[CHECKPOINT_CREATED_PENDING_INDEPENDENT_REVIEW]]
   }
   expected_tasks.each do |task_id, (task, expected_statuses)|
     abort "task id drifted: #{task_id}" unless task["task_id"] == task_id
@@ -78,20 +78,23 @@ ruby -ryaml -rjson -rdigest -e '
   abort "P0-05 is missing from active_p0_work" unless p0_05
   expected_contract = "docs/aios/tasks/P0-05_BASELINE_SLICING.yaml"
   abort "P0-05 task contract reference drifted" unless p0_05["task_contract_ref"] == expected_contract
-  stopped = "STOPPED_AFTER_CLASSIFICATION_AND_TARGETED_TESTS"
-  acceptance_fail = "P0_05_ACCEPTANCE_FAIL_STOP_CONDITION"
-  no_checkpoint = "NO_CHECKPOINT"
+  checkpoint_pending_review = "CHECKPOINT_CREATED_PENDING_INDEPENDENT_REVIEW"
+  acceptance_pending_review = "P0_05_CHECKPOINT_CREATED_PENDING_INDEPENDENT_REVIEW"
+  checkpoint_created = "CHECKPOINT_COMMIT_CREATED_PENDING_INDEPENDENT_REVIEW"
   gate_no_go = "P0_GATE_NO_GO_FOUNDER_DECISION_REQUIRED"
-  abort "P0-05 current state must record the truthful stopped state" unless p0_05["status"] == stopped
-  abort "P0-05 task and Truth Registry status disagree" unless baseline_task["status"] == stopped
+  abort "P0-05 current state must record checkpoint review pending" unless p0_05["status"] == checkpoint_pending_review
+  abort "P0-05 task and Truth Registry status disagree" unless baseline_task["status"] == checkpoint_pending_review
   [p0_05, baseline_task].each do |record|
     abort "P0-05 classification result drifted" unless record["classification_result"] == "CLASSIFICATION_EVIDENCE_PASS"
-    abort "P0-05 acceptance failure must remain explicit" unless record["acceptance_result"] == acceptance_fail
-    abort "P0-05 must not claim a checkpoint" unless record["checkpoint_result"] == no_checkpoint
+    abort "P0-05 acceptance must remain pending independent review" unless record["acceptance_result"] == acceptance_pending_review
+    abort "P0-05 checkpoint must remain pending independent review" unless record["checkpoint_result"] == checkpoint_created
     abort "P0 gate must remain Founder-decision NO-GO" unless record["gate_result"] == gate_no_go
     abort "P1 must remain unauthorized" unless record["p1_authorized"] == false
     abort "F focused gate independent-review result drifted" unless record.dig("remaining_closure_results", "f_focused_gate") == "PASS_INDEPENDENT_REVIEW_ACCEPTED"
     abort "unsafe F isolation must not be represented as applied" unless record.dig("remaining_closure_results", "f_isolation") == "NOT_PROVEN_SAFE_NOT_APPLIED_REPAIR_ROUTE_SELECTED"
+    abort "MySQL focused smoke result drifted" unless record.dig("remaining_closure_results", "mysql_flyway_smoke") == "PASS_FOCUSED_DISPOSABLE_MYSQL_8_4"
+    abort "code-map freshness result drifted" unless record.dig("remaining_closure_results", "code_map_freshness") == "PASS_CANONICAL_GENERATOR_VERIFIED"
+    abort "offsite media must remain independently reverified" unless record.dig("remaining_closure_results", "offsite_current_readability") == "PASS_EXTERNAL_PHYSICAL_DEVICE_REVERIFIED"
   end
   abort "P0-05 starting snapshot semantics are overstated" unless baseline_task["baseline_semantics"] == "CAPTURED_PRE_INDEPENDENT_REVIEW_STARTING_STATE_NOT_EXACT_CURRENT_WORKTREE"
 
@@ -115,7 +118,8 @@ ruby -ryaml -rjson -rdigest -e '
 
   preservation = state.fetch("current_worktree_preservation")
   current_head = IO.popen(["git", "rev-parse", "HEAD"], &:read).strip
-  abort "candidate workspace HEAD drifted from the preserved baseline" unless current_head == preservation.fetch("expected_head")
+  preserved_head = preservation.fetch("expected_head")
+  abort "checkpoint candidate must descend from the preserved baseline" unless system("git", "merge-base", "--is-ancestor", preserved_head, current_head)
   declared_binding = preservation.fetch("truth_binding")
   declared_binding_hash = preservation.fetch("truth_binding_sha256")
   abort "P0-05 final exact-state attestation drifted" unless baseline_task["final_exact_state_attestation_ref"] == declared_binding
@@ -274,7 +278,7 @@ ruby -ryaml -rjson -rdigest -e '
   end
   ownership_entries = ownership.fetch("entries")
   ownership_by_path = ownership_entries.map { |entry| [entry.fetch("path"), entry] }.to_h
-  tracked_paths = IO.popen(["git", "diff", "--name-only", "-z", "HEAD"], &:read).split("\0").reject(&:empty?)
+  tracked_paths = IO.popen(["git", "diff", "--name-only", "-z", preservation.fetch("expected_head"), "HEAD"], &:read).split("\0").reject(&:empty?)
   untracked_paths = IO.popen(["git", "ls-files", "--others", "--exclude-standard", "-z"], &:read).split("\0").reject(&:empty?)
   current_path_set = (tracked_paths + untracked_paths).sort
   abort "current changed path set drifted from sealed 318-path ownership manifest" unless current_path_set == ownership_by_path.keys.sort
@@ -299,15 +303,15 @@ ruby -ryaml -rjson -rdigest -e '
     abort "transition pre descriptor mismatch" unless entry.fetch("pre") == expected_pre
   end
   expected_transition = {
-    "p0_05_status" => stopped,
-    "p0_05_acceptance" => acceptance_fail,
-    "checkpoint" => no_checkpoint,
+    "p0_05_status" => checkpoint_pending_review,
+    "p0_05_acceptance" => acceptance_pending_review,
+    "checkpoint" => checkpoint_created,
     "p0_gate" => gate_no_go,
     "p1_authorized" => false
   }
   abort "transition receipt current-state claim mismatch" unless receipt["current_state"] == expected_transition
-  abort "transition receipt lacks Founder authorization binding" unless receipt["founder_authorization"] == "2026-07-11_P0_FOCUSED_GATE_FINAL_REPAIR_AUTHORIZED"
-  abort "transition receipt Founder authorization source drifted" unless receipt["founder_authorization_source"] == "current_codex_task_explicit_founder_approval_bound_to_P0_FOCUSED_GATE_FINAL_REPAIR_AUTHORIZATION_RECORD"
+  abort "transition receipt lacks Founder authorization binding" unless receipt["founder_authorization"] == "2026-07-11_P0_05_CHECKPOINT_CREATION_AUTHORIZED"
+  abort "transition receipt Founder authorization source drifted" unless receipt["founder_authorization_source"] == "current_codex_task_explicit_founder_approval_to_create_p0_05_checkpoint"
   %w[baseline_reference_status_matches patch_apply_check_passed candidate_hashes_match_after_apply nonignored_workspace_difference_empty].each do |field|
     abort "P0-04C overlay verification failed: #{field}" unless overlay.dig("verification", field) == true
   end

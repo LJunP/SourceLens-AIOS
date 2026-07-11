@@ -1,7 +1,7 @@
 schema_version: 2
 record_type: sourcelens_aios_project_truth
 last_verified_at: "2026-07-11T22:18:09+08:00"
-verification_scope: P1_ENTRY_AUTHORIZED_CONTRACT_REFROZEN_V7_PENDING_INDEPENDENT_REVIEW
+verification_scope: P1_ENTRY_AUTHORIZED_CONTRACT_REFROZEN_V8_PENDING_INDEPENDENT_REVIEW
 
 authority:
   strategy:
@@ -32,7 +32,7 @@ project:
   name: SourceLens AIOS
   current_phase: P1
   phase_name: Agent Evaluation and Research Foundation
-  phase_status: ENTRY_AUTHORIZED_CONTRACT_REFROZEN_V7_PENDING_INDEPENDENT_REVIEW
+  phase_status: ENTRY_AUTHORIZED_CONTRACT_REFROZEN_V8_PENDING_INDEPENDENT_REVIEW
   strategy_ref: docs/aios/STRATEGIC_CONSTITUTION.md
   strategic_mirror_is_authoritative: false
   strategic_mirror:
@@ -63,9 +63,9 @@ p1_entry_authorization:
   aios_p1_001_contract_preparation_authorized: true
   aios_p1_001_execution_authorized: false
   current_task_contract: docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
-  current_task_contract_sha256: 91320b78e3e176b14d736e48af7822f936a32f9a0f2ea4a96a0adc20dc680876
-  frozen_input_manifest: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-entry-and-p1-001-contract-20260711T141809Z/frozen-input-manifest-v7.json
-  frozen_input_manifest_sha256: b53e183db9d3f104f7cb11cc8b87b27c1a44147b8ff6aeab680e1f5c85743f44
+  current_task_contract_sha256: a84f93a30459cfdbd0c3c689fc87091c9959da9eb140454b39ae87e8c90065ae
+  frozen_input_manifest: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-entry-and-p1-001-contract-20260711T141809Z/frozen-input-manifest-v8.json
+  frozen_input_manifest_sha256: b5e58d48bfb7576ae6deef34ed2e03c92ff589e237babe955eac37f3137e43b5
   stop_boundary: STOP_AFTER_CONTRACT_FREEZE_AND_INDEPENDENT_REVIEW_BEFORE_EXECUTION
 
 p0_audit:
@@ -342,13 +342,13 @@ active_p1_work:
   - id: P1-001
     title: Prove the minimum reproducible evaluation-harness path with one immutable fixture task
     task_contract_ref: docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
-    task_contract_sha256: 91320b78e3e176b14d736e48af7822f936a32f9a0f2ea4a96a0adc20dc680876
-    status: REFROZEN_V7_PENDING_INDEPENDENT_PRE_EXECUTION_REVIEW
+    task_contract_sha256: a84f93a30459cfdbd0c3c689fc87091c9959da9eb140454b39ae87e8c90065ae
+    status: REFROZEN_V8_PENDING_INDEPENDENT_PRE_EXECUTION_REVIEW
     execution_permitted: false
     fixture_id: P1-001-DEV-FIXTURE-v1
     fixture_commit: e4c881945d60512341abf1128f39855540d23569
     fixture_tree: c826510e97113ae2a73efc4d9a2916d28d9a2c7f
-    frozen_input_manifest_sha256: b53e183db9d3f104f7cb11cc8b87b27c1a44147b8ff6aeab680e1f5c85743f44
+    frozen_input_manifest_sha256: b5e58d48bfb7576ae6deef34ed2e03c92ff589e237babe955eac37f3137e43b5
     next_decision: FOUNDER_ACCEPT_OR_REJECT_REVIEWED_CONTRACT_AND_SEPARATELY_START_EXECUTION
 
 runtime_restrictions:

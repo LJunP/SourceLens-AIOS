@@ -6702,6 +6702,11 @@ requirePattern(
   /type DashboardExecutiveBriefingProof[\s\S]*?assertDashboardExecutiveBriefing[\s\S]*?getByRole\('region', \{ name: '管理层决策简报' \}\)[\s\S]*?阶段进度[\s\S]*?继承链路状态[\s\S]*?风险阻塞[\s\S]*?当前项目任务[\s\S]*?P1 Evaluation Foundation[\s\S]*?AIOS-P1-001 Contract Freeze[\s\S]*?P0 Gate 已通过，但该简报不证明 P1-001 已执行[\s\S]*?expectedColumns = \(viewport\?\.width \|\| 0\) <= 720 \? 1 : \(viewport\?\.width \|\| 0\) <= 1200 \? 2 : 4[\s\S]*?DASHBOARD_EXECUTIVE_BRIEFING_DECISION_READABILITY/s,
   'Dashboard next action browser smoke must prove the executive briefing is visible, responsive and explicit about completion boundaries.'
 )
+requirePattern(
+  dashboardNextActionSmokeSpec,
+  /getByText\('P1-001 execution: NOT AUTHORIZED', \{ exact: true \}\)[\s\S]*?toBeVisible\(\)[\s\S]*?getByText\('P1-001 execution: AUTHORIZED', \{ exact: true \}\)[\s\S]*?toHaveCount\(0\)/,
+  'Dashboard browser oracle must assert the exact visible execution stop and reject the opposite authorization text anywhere in the region.'
+)
 rejectPattern(
   dashboardNextActionSmokeSpec,
   /P0-05 Baseline Slicing|P0 Gate: NOT_READY|继承产品三平面（P0冻结）|继承产品界面（P0冻结）/,

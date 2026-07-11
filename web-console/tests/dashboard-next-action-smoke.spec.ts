@@ -950,6 +950,8 @@ async function assertDashboardExecutiveBriefing(
   await expect(region).toContainText('P1 Evaluation Foundation')
   await expect(region).toContainText('AIOS-P1-001 Contract Freeze')
   await expect(region).toContainText('P0 Gate 已通过，但该简报不证明 P1-001 已执行')
+  await expect(region.getByText('P1-001 execution: NOT AUTHORIZED', { exact: true })).toBeVisible()
+  await expect(region.getByText('P1-001 execution: AUTHORIZED', { exact: true })).toHaveCount(0)
   await expect(region).toContainText('VTSR 已测量')
   await expect(region).toContainText('可信 Agent 闭环已实现')
   await expect(region).toContainText('系统达到生产可用')

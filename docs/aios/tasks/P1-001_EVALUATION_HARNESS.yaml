@@ -3,7 +3,7 @@ record_type: sourcelens_aios_task_contract
 task_id: AIOS-P1-001
 phase: P1
 title: Prove the minimum reproducible evaluation-harness path with one immutable fixture task
-status: REFROZEN_V3_PENDING_INDEPENDENT_PRE_EXECUTION_REVIEW
+status: REFROZEN_V4_PENDING_INDEPENDENT_PRE_EXECUTION_REVIEW
 p1_entry_authorized: true
 execution_start_authorized: false
 execution_permitted: false
@@ -68,9 +68,9 @@ source_baselines:
   rollback_anchor: b169905fd904137ac3ef9d16986d8f1f49194d63
 
 frozen_input_manifest:
-  path: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-entry-and-p1-001-contract-20260711T141809Z/frozen-input-manifest-v3.json
-  sha256: 7a3a6843443da71aba8ec80d66297480bda2e48b26a37c7adb84c97145fb283e
-  freeze_state: REFROZEN_V3_BEFORE_IMPLEMENTATION_OUTPUT_AFTER_V2_QUALITY_REVIEW_FAILURE
+  path: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-entry-and-p1-001-contract-20260711T141809Z/frozen-input-manifest-v4.json
+  sha256: 2a69df0996d2db80fdb888c133b998ef88eebcf5b28df41173ea3a7d1c2a6ad6
+  freeze_state: REFROZEN_V4_BEFORE_IMPLEMENTATION_OUTPUT_AFTER_V3_SECURITY_AND_QUALITY_FAILURE
 
 fixture:
   dataset_id: P1-001-DEV-FIXTURE-v1
@@ -124,20 +124,20 @@ frozen_contract_inputs:
     sha256: 984ab619482aaf48663e6f5d2444dfceec28cb5e43edba1e5df2018ab2d65912
     candidate_mutable: false
   evaluation_policy:
-    path: frozen-inputs/evaluation-policy-v3.json
-    sha256: eec1b45d1a83a33ddbe8e571a7bc794d113127c7f5b0c036e04bced637ffb429
+    path: frozen-inputs/evaluation-policy-v4.json
+    sha256: bfc8cb0e187400b92e2022397cc67896c6766e9228aab0874bb32b838fc5c78e
   run_record_semantic_validator:
-    path: frozen-inputs/validate-run-record-semantics-v3.rb
-    sha256: f5a1d1422d56b3a03b1e00025a7477c97be044dce6aefdd6e39a0102205016d9
+    path: frozen-inputs/validate-run-record-semantics-v4.rb
+    sha256: ab6a1db583f46af221a92e8a5d2d17f8a9c1062ad81cada52a4d239d0e5664d7
   write_scope:
-    path: frozen-inputs/write-scope-v3.yaml
-    sha256: 787a3056f7d6378b95fa1859b2487802f736e1c6a32c0904df835bc3b0cf7f16
+    path: frozen-inputs/write-scope-v4.json
+    sha256: c8233aebe48469f417f5e8d1557917b633c5747c63595ca25587b923b64c619b
   ownership:
-    path: frozen-inputs/file-ownership-v3.yaml
-    sha256: 13ad663507dab08b1068f2d5e849745f537a92f7bca4dbff9d0473238de2ed98
+    path: frozen-inputs/file-ownership-v4.json
+    sha256: 4da582bdcd1bd1f368985a450b13007f6a0a26ce8b7d61626f9810e5faf81e8b
   contract_validator:
-    path: frozen-inputs/validate-contract-freeze-v3.rb
-    sha256: fd79905dbd1306b5fa8e33c32942946ee6ee16a327f6417f9d8de0f0b9043e62
+    path: frozen-inputs/validate-contract-freeze-v4.rb
+    sha256: 01985286022b4dbb5c0535e8aa220ec6e34f5ff2b4eb7f023e46ff77d979f2ee
 
 environment:
   snapshot_id: P1-001-ENV-v1
@@ -204,8 +204,12 @@ review_history:
       - browser oracle asserted superseded P0 current state
       - governance negatives did not bind the exact final candidate
   v3_remediation:
+    status: REJECTED_BY_SECURITY_AND_QUALITY
+    security_review_sha256: ed2e1f384fede314fe3e0b431c58bbf185e178a4f45470eae100bb7138208961
+    quality_review_sha256: 0b1fc04443ab305ed833205c384b3826ede1ee68d2d385276be11fe656943ba3
+  v4_remediation:
     status: PENDING_FULL_INDEPENDENT_REVIEW
-    rule: no v1 or v2 PASS evidence transfers; every required reviewer must assess exact v3 hashes
+    rule: no earlier PASS evidence transfers
 
 exact_execution_write_scope:
   exact_changed_path_count: 25
@@ -229,8 +233,8 @@ exact_execution_write_scope:
     - research/fixtures/p1_001/p1-001-fixture-v1.bundle
     - research/fixtures/p1_001/evaluator-v2.rb
     - research/fixtures/p1_001/TagNormalizerOracle-v2.java
-    - research/fixtures/p1_001/evaluation-policy-v3.json
-    - research/fixtures/p1_001/validate-run-record-semantics-v3.rb
+    - research/fixtures/p1_001/evaluation-policy-v4.json
+    - research/fixtures/p1_001/validate-run-record-semantics-v4.rb
     - docs/aios/research/P1-001/CONFORMANCE_REPORT.md
     - docs/aios/research/P1-001/FAILURE_LEDGER.json
     - docs/aios/research/P1-001/EVIDENCE_MANIFEST.json
@@ -262,9 +266,9 @@ file_ownership:
     - research/fixtures/p1_001/p1-001-fixture-v1.bundle
     - research/fixtures/p1_001/evaluator-v2.rb
     - research/fixtures/p1_001/TagNormalizerOracle-v2.java
-    - research/fixtures/p1_001/evaluation-policy-v3.json
+    - research/fixtures/p1_001/evaluation-policy-v4.json
   Evaluation Policy Worker:
-    - research/fixtures/p1_001/validate-run-record-semantics-v3.rb
+    - research/fixtures/p1_001/validate-run-record-semantics-v4.rb
   Evidence Custodian Worker:
     - docs/aios/research/P1-001/CONFORMANCE_REPORT.md
     - docs/aios/research/P1-001/FAILURE_LEDGER.json
@@ -335,7 +339,7 @@ required_artifacts:
   - exact commands, exit codes, timings, tool calls, interventions and cost
   - immutable failure and invalid-run ledger with reason codes
   - successful RunRecord semantic-validation output and normalized replay identity
-  - explicit evidence-completeness validation against evaluation-policy-v3
+  - explicit evidence-completeness validation against evaluation-policy-v4
   - evidence manifest and reproduction receipt
   - independent Chief AI Research, CTO, Security, Quality and Product reviews
   - P1 Evaluation Foundation Conformance Report v0.1

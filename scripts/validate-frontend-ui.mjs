@@ -6694,13 +6694,18 @@ requirePattern(
 )
 requirePattern(
   dashboardNextActionSmokeSpec,
-  /type DashboardProductPlaneProof[\s\S]*?assertDashboardProductPlaneMap[\s\S]*?getByRole\('region', \{ name: '继承产品三平面（P0冻结）' \}\)[\s\S]*?front-office[\s\S]*?developer-console[\s\S]*?back-office[\s\S]*?expectedColumns = \(viewport\?\.width \|\| 0\) <= 720 \? 1 : \(viewport\?\.width \|\| 0\) <= 1200 \? 2 : 3[\s\S]*?DASHBOARD_THREE_PLANE_PRODUCT_STRUCTURE_READABILITY/,
+  /type DashboardProductPlaneProof[\s\S]*?assertDashboardProductPlaneMap[\s\S]*?getByRole\('region', \{ name: '继承产品三平面（AIOS研究范围外）' \}\)[\s\S]*?front-office[\s\S]*?developer-console[\s\S]*?back-office[\s\S]*?expectedColumns = \(viewport\?\.width \|\| 0\) <= 720 \? 1 : \(viewport\?\.width \|\| 0\) <= 1200 \? 2 : 3[\s\S]*?DASHBOARD_THREE_PLANE_PRODUCT_STRUCTURE_READABILITY/,
   'Dashboard next action browser smoke must prove the front office, developer console and back-office product plane map is visible and responsive.'
 )
 requirePattern(
   dashboardNextActionSmokeSpec,
-  /type DashboardExecutiveBriefingProof[\s\S]*?assertDashboardExecutiveBriefing[\s\S]*?getByRole\('region', \{ name: '管理层决策简报' \}\)[\s\S]*?阶段进度[\s\S]*?继承链路状态[\s\S]*?风险阻塞[\s\S]*?当前项目任务[\s\S]*?P0-05 Baseline Slicing[\s\S]*?P0 Gate: NOT_READY[\s\S]*?不证明 P0 Gate 已通过[\s\S]*?expectedColumns = \(viewport\?\.width \|\| 0\) <= 720 \? 1 : \(viewport\?\.width \|\| 0\) <= 1200 \? 2 : 4[\s\S]*?DASHBOARD_EXECUTIVE_BRIEFING_DECISION_READABILITY/s,
+  /type DashboardExecutiveBriefingProof[\s\S]*?assertDashboardExecutiveBriefing[\s\S]*?getByRole\('region', \{ name: '管理层决策简报' \}\)[\s\S]*?阶段进度[\s\S]*?继承链路状态[\s\S]*?风险阻塞[\s\S]*?当前项目任务[\s\S]*?P1 Evaluation Foundation[\s\S]*?AIOS-P1-001 Contract Freeze[\s\S]*?P0 Gate 已通过，但该简报不证明 P1-001 已执行[\s\S]*?expectedColumns = \(viewport\?\.width \|\| 0\) <= 720 \? 1 : \(viewport\?\.width \|\| 0\) <= 1200 \? 2 : 4[\s\S]*?DASHBOARD_EXECUTIVE_BRIEFING_DECISION_READABILITY/s,
   'Dashboard next action browser smoke must prove the executive briefing is visible, responsive and explicit about completion boundaries.'
+)
+rejectPattern(
+  dashboardNextActionSmokeSpec,
+  /P0-05 Baseline Slicing|P0 Gate: NOT_READY|继承产品三平面（P0冻结）|继承产品界面（P0冻结）/,
+  'Dashboard next action browser smoke must reject superseded P0 current-state assertions.'
 )
 requirePattern(
   dashboardNextActionSmokeSpec,
@@ -6714,7 +6719,7 @@ rejectPattern(
 )
 requirePattern(
   dashboardNextActionSmokeSpec,
-  /executiveBriefing:\s*\{[\s\S]*?scope:\s*'DASHBOARD_EXECUTIVE_BRIEFING_DECISION_READABILITY'[\s\S]*?signals:\s*\['阶段进度', '继承链路状态', '风险阻塞', '当前项目任务'\][\s\S]*?desktopColumns:[\s\S]*?tabletColumns:[\s\S]*?tabletPortraitColumns:[\s\S]*?mobileColumns:[\s\S]*?narrowColumns:[\s\S]*?copyReadable:[\s\S]*?projectActionAbsent:[\s\S]*?p0GatePassedClaim:[\s\S]*?vtsrMeasuredClaim:[\s\S]*?trustedAgentLoopCompleteClaim:[\s\S]*?productionReadyClaim:/,
+  /executiveBriefing:\s*\{[\s\S]*?scope:\s*'DASHBOARD_EXECUTIVE_BRIEFING_DECISION_READABILITY'[\s\S]*?signals:\s*\['阶段进度', '继承链路状态', '风险阻塞', '当前项目任务'\][\s\S]*?desktopColumns:[\s\S]*?tabletColumns:[\s\S]*?tabletPortraitColumns:[\s\S]*?mobileColumns:[\s\S]*?narrowColumns:[\s\S]*?copyReadable:[\s\S]*?projectActionAbsent:[\s\S]*?p1ExecutionAuthorizedClaim:[\s\S]*?vtsrMeasuredClaim:[\s\S]*?trustedAgentLoopCompleteClaim:[\s\S]*?productionReadyClaim:/,
   'Dashboard next action browser smoke marker must include executive briefing columns, readability and no completion overclaim evidence.'
 )
 requirePattern(

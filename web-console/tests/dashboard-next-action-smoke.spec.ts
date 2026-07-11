@@ -68,7 +68,7 @@ type DashboardExecutiveBriefingProof = {
   expectedColumnsHonored: boolean
   copyReadable: boolean
   projectActionAbsent: boolean
-  p0GatePassedClaim: boolean
+  p1ExecutionAuthorizedClaim: boolean
   vtsrMeasuredClaim: boolean
   trustedAgentLoopCompleteClaim: boolean
   productionReadyClaim: boolean
@@ -898,7 +898,7 @@ async function assertNextAction(page: Page, dashboardCase: DashboardCase, viewpo
   const commandPanel = page.locator('section[aria-label="继承产品操作面板（非项目任务）"]')
   await expect(commandPanel).toBeVisible()
   await expect(commandPanel).toContainText('不生成 AIOS 开发任务')
-  await expect(commandPanel).toContainText('不改变 P0-05 的唯一优先级')
+  await expect(commandPanel).toContainText('不改变 AIOS-P1-001 合同冻结的唯一优先级')
   const disabledReasonNotes = commandPanel.locator('.sl-dashboard-command-disabled-reason')
   if (dashboardCase.commandDisabledReasons?.length) {
     await expect(disabledReasonNotes).toHaveCount(dashboardCase.commandDisabledReasons.length)
@@ -947,9 +947,9 @@ async function assertDashboardExecutiveBriefing(
   await expect(region).toContainText('继承链路状态')
   await expect(region).toContainText('风险阻塞')
   await expect(region).toContainText('当前项目任务')
-  await expect(region).toContainText('P0-05 Baseline Slicing')
-  await expect(region).toContainText('P0 Gate: NOT_READY')
-  await expect(region).toContainText('不证明 P0 Gate 已通过')
+  await expect(region).toContainText('P1 Evaluation Foundation')
+  await expect(region).toContainText('AIOS-P1-001 Contract Freeze')
+  await expect(region).toContainText('P0 Gate 已通过，但该简报不证明 P1-001 已执行')
   await expect(region).toContainText('VTSR 已测量')
   await expect(region).toContainText('可信 Agent 闭环已实现')
   await expect(region).toContainText('系统达到生产可用')
@@ -980,11 +980,11 @@ async function assertDashboardExecutiveBriefing(
   const projectActionAbsent = await region.getByRole('button').count() === 0
 
   const text = await region.innerText()
-  const p0GatePassedClaim = /P0 Gate (?:状态[:：]\s*)?(?:PASS|READY)|P0 Gate 已正式通过/.test(text)
+  const p1ExecutionAuthorizedClaim = /P1-001 (?:执行[:：]\s*)?(?:PASS|READY|AUTHORIZED)|P1-001 已(?:获准|授权)(?:启动|执行)/.test(text)
   const vtsrMeasuredClaim = /VTSR[:：]\s*\d|Verified Task Success Rate[:：]\s*\d/.test(text)
   const trustedAgentLoopCompleteClaim = /可信 Agent 闭环已完成|可信软件工程 Agent 已实现/.test(text)
   const productionReadyClaim = /生产可用[:：]\s*(?:是|READY)|已达到生产可用/.test(text)
-  expect(p0GatePassedClaim, `${dashboardCase.key}:${viewportName}:must not claim the P0 gate passed`).toBe(false)
+  expect(p1ExecutionAuthorizedClaim, `${dashboardCase.key}:${viewportName}:must not claim P1-001 execution authorization`).toBe(false)
   expect(vtsrMeasuredClaim, `${dashboardCase.key}:${viewportName}:must not claim VTSR is measured`).toBe(false)
   expect(trustedAgentLoopCompleteClaim, `${dashboardCase.key}:${viewportName}:must not claim the trusted Agent loop is complete`).toBe(false)
   expect(productionReadyClaim, `${dashboardCase.key}:${viewportName}:must not claim production readiness`).toBe(false)
@@ -998,7 +998,7 @@ async function assertDashboardExecutiveBriefing(
     expectedColumnsHonored: actualColumns === expectedColumns,
     copyReadable,
     projectActionAbsent,
-    p0GatePassedClaim,
+    p1ExecutionAuthorizedClaim,
     vtsrMeasuredClaim,
     trustedAgentLoopCompleteClaim,
     productionReadyClaim,
@@ -1010,9 +1010,9 @@ async function assertDashboardProductPlaneMap(
   dashboardCase: DashboardCase,
   viewportName: string,
 ): Promise<DashboardProductPlaneProof> {
-  const region = page.getByRole('region', { name: '继承产品三平面（P0冻结）' })
+  const region = page.getByRole('region', { name: '继承产品三平面（AIOS研究范围外）' })
   await expect(region, `${dashboardCase.key}:${viewportName}:product-plane-map`).toBeVisible()
-  await expect(region).toContainText('继承产品界面（P0冻结）')
+  await expect(region).toContainText('继承产品界面（AIOS研究范围外）')
   await expect(region).toContainText('不定义 AIOS 当前产品路线、开发任务或阶段投入')
   await expect(region).toContainText('前台体验')
   await expect(region).toContainText('开发者控制台')
@@ -1266,7 +1266,7 @@ test('Dashboard next action panel maps pipeline states without backend dependenc
       narrowColumns: executiveBriefingProofs.some(proof => proof.viewport === '320x740' && proof.actualColumns === 1),
       copyReadable: executiveBriefingProofs.every(proof => proof.copyReadable),
       projectActionAbsent: executiveBriefingProofs.every(proof => proof.projectActionAbsent),
-      p0GatePassedClaim: executiveBriefingProofs.some(proof => proof.p0GatePassedClaim),
+      p1ExecutionAuthorizedClaim: executiveBriefingProofs.some(proof => proof.p1ExecutionAuthorizedClaim),
       vtsrMeasuredClaim: executiveBriefingProofs.some(proof => proof.vtsrMeasuredClaim),
       trustedAgentLoopCompleteClaim: executiveBriefingProofs.some(proof => proof.trustedAgentLoopCompleteClaim),
       productionReadyClaim: executiveBriefingProofs.some(proof => proof.productionReadyClaim),

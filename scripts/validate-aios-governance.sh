@@ -67,7 +67,7 @@ ruby -ryaml -rjson -rdigest -e '
     abort "P1 frozen manifest escapes audit root" unless File.realpath(frozen_manifest_path).start_with?("#{audit_root}/")
     abort "Goal objective escapes attachments root" unless File.realpath(goal_path).start_with?("#{attachments_root}/")
     abort "P1 Founder record hash drift" unless Digest::SHA256.file(founder_path).hexdigest == "10f60932d2da71d02434d3a34cf864be94fb3642fed5771bf59f90307342dc15"
-    abort "P1 frozen manifest hash drift" unless Digest::SHA256.file(frozen_manifest_path).hexdigest == "070f024d10cad3304f0bfe05d8e6a4969a92a36932414d4b735c1f898b3f2fc2"
+    abort "P1 frozen manifest hash drift" unless Digest::SHA256.file(frozen_manifest_path).hexdigest == "0c825922085bfe568fcace35aa56191650e9f1d86669304c449b7a0e078955ab"
     abort "Long-term Goal hash drift" unless Digest::SHA256.file(goal_path).hexdigest == "60e42edb7d422265325391014cd6e329fdf14861beedc682b6892fb3fc929eea"
 
     founder = JSON.parse(File.read(founder_path))
@@ -86,7 +86,7 @@ ruby -ryaml -rjson -rdigest -e '
 
     contract_path = "docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml"
     contract_sha = Digest::SHA256.file(contract_path).hexdigest
-    abort "P1-001 contract hash drift" unless contract_sha == "1e8619222cba7e2bef28007b0f443b0a734aef3797634cd34d0f500c1612c213"
+    abort "P1-001 contract hash drift" unless contract_sha == "9b56d3340df76a8468b86e126e3425d06b66913fa8946f71af2414937b4f8ac8"
     abort "Truth P1-001 contract hash drift" unless state.dig("p1_entry_authorization", "current_task_contract_sha256") == contract_sha
     abort "P1-001 task id drift" unless p1_task["task_id"] == "AIOS-P1-001"
     abort "P1-001 phase drift" unless p1_task["phase"] == "P1"

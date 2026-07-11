@@ -69,7 +69,7 @@ source_baselines:
 
 frozen_input_manifest:
   path: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-entry-and-p1-001-contract-20260711T141809Z/frozen-input-manifest-v9.json
-  sha256: 070f024d10cad3304f0bfe05d8e6a4969a92a36932414d4b735c1f898b3f2fc2
+  sha256: 0c825922085bfe568fcace35aa56191650e9f1d86669304c449b7a0e078955ab
   freeze_state: REFROZEN_V9_BEFORE_IMPLEMENTATION_OUTPUT_AFTER_V8_CTO_REVIEW_FAILURE
 
 fixture:
@@ -131,10 +131,10 @@ frozen_contract_inputs:
     sha256: f7ac182617e79c6e6665a5993396af8b4c1587dd797427489f389f112cf13c27
   actual_execution_policy:
     path: frozen-inputs/evaluation-policy-v9.json
-    sha256: 5646858d1b42da9475003f985cac18e08f49651a77309eb5c4b99f3e881e6324
+    sha256: 1e26d4269dff5f223892047cf65c38793455f5cada931d5ef1faf176e1f9cdab
   actual_run_registry_validator:
     path: frozen-inputs/validate-actual-run-registry-v9.rb
-    sha256: b32bb26d7ce4d045eec6fbaffadbebec043d94269996c8a6d551fadbfeb1145a
+    sha256: 6dccd3ed4f9c469e1a6df9a7e054c0bc71894ed5543cbfe7ebd756a9d6b4a5fb
   write_scope:
     path: frozen-inputs/write-scope-v9.json
     sha256: 20478aac23f30aee371c2f5e3f9ec1940e341cc34c0848d22570e1ce4081138d
@@ -143,7 +143,7 @@ frozen_contract_inputs:
     sha256: 2710d272ddb5cc5aac0a5f70d83dd2bfc7f6461997fa212b7bfdd2efcf5a0204
   contract_validator:
     path: frozen-inputs/validate-contract-freeze-v9.rb
-    sha256: e920e426ba5445e6bbbb6a4ed4498f827b7cb770a12b659f92cbae10ff3aaaf5
+    sha256: 963df23507916db34f27eb50174d3f350ed2c52f98cd83f4c9ddbe326e9b1f45
 
 environment:
   snapshot_id: P1-001-ENV-v1
@@ -277,6 +277,10 @@ evidence_class_and_actual_execution_registry:
     authorization, a closed four-entry execution registry, envelope and
     repository identity joins, run timestamps strictly after authorization,
     complete structural/evaluator validation, and zero post-hoc exclusion.
+    In actual mode, the authorization path and SHA-256 must be injected by the
+    protected launcher and cannot be selected by the run caller. This is a
+    declared technical trust boundary and execution must stop until launcher
+    isolation is independently verified.
     Calibration and validator test-vector identities are rejected from this
     path and can never be renamed or reclassified into the actual denominator.
 

@@ -1,7 +1,7 @@
 # SourceLens AIOS Evaluation and Research Protocol
 
 - Version: `1.1`
-- Status: `FROZEN_FOR_P0`
+- Status: `FOUNDER_ACCEPTED_FOR_CONTROLLED_P1_IMPLEMENTATION`
 - Effective date: 2026-07-10
 
 ## 1. Purpose
@@ -35,7 +35,9 @@ Every `TaskSpec` must include:
 
 Tasks that cannot be reproduced or legally redistributed must be isolated and labeled rather than mixed into a public benchmark.
 
-The P0 machine-contract draft is `schemas/task-spec.schema.json`. It remains `DRAFT_REVIEW_REQUIRED` until the P0 gate accepts it.
+The P0 Founder Gate accepted `schemas/task-spec.schema.json` as a controlled P1
+implementation definition. Acceptance does not prove its executable validator or
+authorize a task whose exact contract is not separately frozen.
 
 ## 3. Environment snapshot
 
@@ -52,7 +54,9 @@ Each run binds:
 
 A run without an identified source and environment can inform debugging but cannot support a benchmark claim.
 
-The P0 machine-contract draft is `schemas/environment-snapshot.schema.json`. Secret values are never part of the snapshot.
+The P0 Founder Gate accepted `schemas/environment-snapshot.schema.json` as a
+controlled P1 implementation definition. Secret values are never part of the
+snapshot.
 
 ## 4. Baseline Suite v1
 

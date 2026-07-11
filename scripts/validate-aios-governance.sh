@@ -27,6 +27,7 @@ required_files=(
   docs/aios/tasks/P0-04B_SLICE_F_GATE_REPAIR.yaml
   docs/aios/tasks/P0-04C_AUTHORITY_DECONTAMINATION.yaml
   docs/aios/tasks/P0-05_BASELINE_SLICING.yaml
+  docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
   docs/aios/schemas/task-spec.schema.json
   docs/aios/schemas/environment-snapshot.schema.json
   docs/aios/schemas/system-configuration.schema.json
@@ -51,6 +52,100 @@ ruby -ryaml -rjson -rdigest -e '
   slice_f_task = YAML.load_file("docs/aios/tasks/P0-04B_SLICE_F_GATE_REPAIR.yaml")
   authority_task = YAML.load_file("docs/aios/tasks/P0-04C_AUTHORITY_DECONTAMINATION.yaml")
   baseline_task = YAML.load_file("docs/aios/tasks/P0-05_BASELINE_SLICING.yaml")
+  p1_task = YAML.load_file("docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml")
+
+  if state.dig("project", "phase_status") == "ENTRY_AUTHORIZED_CONTRACT_FREEZE_PENDING_INDEPENDENT_REVIEW"
+    audit_root = File.realpath("/Users/lijunpeng/Desktop/cc/project/.sourcelens-audit")
+    attachments_root = File.realpath("/Users/lijunpeng/.codex/attachments")
+    founder_path = File.expand_path(state.dig("p1_entry_authorization", "machine_record"))
+    frozen_manifest_path = File.expand_path(state.dig("p1_entry_authorization", "frozen_input_manifest"))
+    goal_path = File.expand_path("/Users/lijunpeng/.codex/attachments/6b0b059a-415e-424c-a7f4-98d7c956c285/goal-objective.md")
+    [founder_path, frozen_manifest_path, goal_path].each do |path|
+      abort "P1 authority input missing or symlink: #{path}" unless File.file?(path) && !File.symlink?(path)
+    end
+    abort "P1 Founder record escapes audit root" unless File.realpath(founder_path).start_with?("#{audit_root}/")
+    abort "P1 frozen manifest escapes audit root" unless File.realpath(frozen_manifest_path).start_with?("#{audit_root}/")
+    abort "Goal objective escapes attachments root" unless File.realpath(goal_path).start_with?("#{attachments_root}/")
+    abort "P1 Founder record hash drift" unless Digest::SHA256.file(founder_path).hexdigest == "10f60932d2da71d02434d3a34cf864be94fb3642fed5771bf59f90307342dc15"
+    abort "P1 frozen manifest hash drift" unless Digest::SHA256.file(frozen_manifest_path).hexdigest == "3c7ac90bc776c5ca488ec051eda49bb561ebaf138a3c7a5622b0673cba7cb81e"
+    abort "Long-term Goal hash drift" unless Digest::SHA256.file(goal_path).hexdigest == "60e42edb7d422265325391014cd6e329fdf14861beedc682b6892fb3fc929eea"
+
+    founder = JSON.parse(File.read(founder_path))
+    abort "P1 entry not authorized" unless founder["decision"] == "P1_ENTRY_AUTHORIZED_CONTRACT_FREEZE_FIRST" && founder["p1_entry_authorized"] == true
+    abort "P1-001 execution improperly authorized" unless founder["aios_p1_001_execution_authorized"] == false
+    abort "current phase must be P1" unless state.dig("project", "current_phase") == "P1"
+    abort "P0 Founder Gate PASS lost" unless state.dig("founder_gate", "decision") == "PASS"
+    abort "accepted checkpoint commit drift" unless state.dig("founder_gate", "accepted_checkpoint_commit") == "ad6450e418d8f1b4fd5a789f913525a8dd8bdc10"
+    abort "accepted checkpoint tree drift" unless state.dig("founder_gate", "accepted_checkpoint_tree") == "2c0956ae8598547466f691ead21532a026006bf9"
+    abort "P0 decision history misrepresented" unless state.dig("founder_gate", "p1_authorized_by_this_p0_decision") == false
+    abort "Truth P1 entry authorization drift" unless state.dig("p1_entry_authorization", "p1_entry_authorized") == true
+    abort "Truth starts P1-001 execution" unless state.dig("p1_entry_authorization", "aios_p1_001_execution_authorized") == false
+    abort "runtime P1 state drift" unless state.dig("runtime_goal_transition", "p1_authorized") == true
+    abort "runtime starts P1-001" unless state.dig("runtime_goal_transition", "aios_p1_001_execution_authorized") == false
+    abort "Long-term Goal status drift" unless state.dig("runtime_goal_transition", "long_term_goal_status") == "ACTIVE_FOUNDER_MANUALLY_CREATED"
+
+    contract_path = "docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml"
+    contract_sha = Digest::SHA256.file(contract_path).hexdigest
+    abort "P1-001 contract hash drift" unless contract_sha == "d905917d9ead684da848a2b5422fda63cb6c6c4bb4c2189e709504679bb66b22"
+    abort "Truth P1-001 contract hash drift" unless state.dig("p1_entry_authorization", "current_task_contract_sha256") == contract_sha
+    abort "P1-001 task id drift" unless p1_task["task_id"] == "AIOS-P1-001"
+    abort "P1-001 phase drift" unless p1_task["phase"] == "P1"
+    abort "P1-001 contract not frozen for review" unless p1_task["status"] == "FROZEN_PENDING_INDEPENDENT_PRE_EXECUTION_REVIEW"
+    abort "P1-001 execution flag must be false" unless p1_task["execution_permitted"] == false && p1_task["execution_start_authorized"] == false
+    %w[task_objective research_hypothesis why_now source_baselines fixture frozen_contract_inputs environment baseline roles exact_execution_write_scope file_ownership execution_permissions metrics budget_boundary required_artifacts success_criteria failure_criteria stop_conditions acceptance_criteria required_pre_execution_reviews forbidden_actions founder_decision].each do |field|
+      value = p1_task[field]
+      abort "P1-001 required contract field missing: #{field}" if value.nil? || (value.respond_to?(:empty?) && value.empty?)
+    end
+    abort "P1-001 write scope path count drift" unless p1_task.dig("exact_execution_write_scope", "paths").length == 24
+    abort "P1-001 changed-path budget drift" unless p1_task.dig("budget_boundary", "maximum_changed_paths") == 25
+    abort "P1-001 network budget drift" unless p1_task.dig("budget_boundary", "maximum_external_network_requests") == 0
+    abort "P1-001 real-provider budget drift" unless p1_task.dig("budget_boundary", "maximum_real_provider_model_cost_usd") == 0
+    abort "P1-001 dependency budget drift" unless p1_task.dig("budget_boundary", "maximum_new_runtime_dependencies") == 0
+
+    frozen = JSON.parse(File.read(frozen_manifest_path))
+    abort "frozen input record type drift" unless frozen["record_type"] == "aios_p1_001_frozen_input_manifest"
+    abort "frozen inputs were not pre-output" unless frozen["freeze_state"] == "FROZEN_BEFORE_IMPLEMENTATION_OUTPUT"
+    abort "frozen manifest starts execution" unless frozen["execution_authorized"] == false
+    frozen.fetch("frozen_inputs").each do |entry|
+      path = File.expand_path(entry.fetch("path"), File.dirname(frozen_manifest_path))
+      abort "frozen input missing or symlink: #{path}" unless File.file?(path) && !File.symlink?(path)
+      abort "frozen input escapes audit root: #{path}" unless File.realpath(path).start_with?("#{audit_root}/")
+      abort "frozen input hash drift: #{path}" unless Digest::SHA256.file(path).hexdigest == entry.fetch("sha256")
+      abort "frozen input size drift: #{path}" unless File.size(path) == entry.fetch("bytes")
+    end
+
+    expected = %w[CHAIRMAN_BRIEFING.md docs/PROJECT_CODE_MAP.md docs/aios/BASELINE_ADAPTER_CONTRACT.md docs/aios/CODEX_MASTER_PROMPT.md docs/aios/EVALUATION_PROTOCOL.md docs/aios/README.md docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml docs/aios/truth/project_state.yaml scripts/validate-aios-governance.sh].sort
+    changed = IO.popen(["git", "diff", "--name-only", "14df7b8e94f7c1fc8305e71a794a0815ed45fa82"], &:read).lines.map(&:strip).reject(&:empty?).sort
+    abort "P1 entry change set escaped allowlist: #{changed.inspect}" unless changed == expected
+    abort "staged changes forbidden during validation" unless IO.popen(["git", "diff", "--cached", "--name-only"], &:read).strip.empty?
+
+    receipt_path_raw = ENV["AIOS_P1_ENTRY_RECEIPT_PATH"]
+    receipt_sha = ENV["AIOS_P1_ENTRY_RECEIPT_SHA256"]
+    abort "hash-pinned P1 entry receipt required" if receipt_path_raw.to_s.empty?
+    abort "valid P1 entry receipt SHA required" unless receipt_sha.to_s.match?(/\A[0-9a-f]{64}\z/)
+    receipt_path = File.expand_path(receipt_path_raw)
+    abort "P1 entry receipt missing or symlink" unless File.file?(receipt_path) && !File.symlink?(receipt_path)
+    abort "P1 entry receipt escapes audit root" unless File.realpath(receipt_path).start_with?("#{audit_root}/")
+    abort "P1 entry receipt hash mismatch" unless Digest::SHA256.file(receipt_path).hexdigest == receipt_sha
+    receipt = JSON.parse(File.read(receipt_path))
+    abort "P1 entry receipt type drift" unless receipt["record_type"] == "sourcelens_aios_p1_entry_contract_freeze_receipt"
+    head = IO.popen(["git", "rev-parse", "HEAD"], &:read).strip
+    tree = IO.popen(["git", "rev-parse", "HEAD^{tree}"], &:read).strip
+    abort "P1 entry HEAD not bound" unless head == receipt.dig("transition", "commit")
+    abort "P1 entry tree not bound" unless tree == receipt.dig("transition", "tree")
+    abort "P1 authority workspace must be clean" unless IO.popen(["git", "status", "--porcelain=v1", "-uall"], &:read).empty?
+    descriptors = receipt.fetch("changed_path_descriptors")
+    abort "P1 entry descriptor path set mismatch" unless descriptors.map { |d| d.fetch("path") }.sort == expected
+    descriptors.each do |descriptor|
+      path = descriptor.fetch("path")
+      stat = File.lstat(path)
+      abort "P1 entry path symlink rejected: #{path}" if File.symlink?(path)
+      abort "P1 entry path hash drift: #{path}" unless Digest::SHA256.file(path).hexdigest == descriptor.fetch("sha256")
+      abort "P1 entry path size drift: #{path}" unless stat.size == descriptor.fetch("bytes")
+      abort "P1 entry path mode drift: #{path}" unless (stat.mode & 0777) == descriptor.fetch("mode")
+    end
+    exit 0
+  end
 
   if state.dig("project", "phase_status") == "COMPLETE_FOUNDER_GATE_PASS_P1_NOT_AUTHORIZED"
     decision_path = File.expand_path(ENV.fetch("AIOS_FOUNDER_GATE_DECISION_PATH", "/Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p0-founder-gate-decision-20260711T125610Z/founder-gate-decision.json"))
@@ -511,7 +606,27 @@ for file in "${legacy_files[@]}"; do
     || fail "legacy document is not excluded from default Agent context: $file"
 done
 
-if grep -Fq 'COMPLETE_FOUNDER_GATE_PASS_P1_NOT_AUTHORIZED' docs/aios/truth/project_state.yaml; then
+if grep -Fq 'ENTRY_AUTHORIZED_CONTRACT_FREEZE_PENDING_INDEPENDENT_REVIEW' docs/aios/truth/project_state.yaml; then
+  grep -Fq 'authorized entry into P1 Agent Evaluation and Research Foundation' CHAIRMAN_BRIEFING.md \
+    || fail "Founder briefing does not expose current P1 entry authorization"
+  grep -Fq 'AIOS-P1-001 execution is not' docs/aios/README.md \
+    || fail "Authority index does not preserve the P1-001 execution stop"
+  grep -Fq 'P1 entry is authorized. AIOS-P1-001 execution is not.' CHAIRMAN_BRIEFING.md \
+    || fail "Founder briefing does not separate P1 entry from P1-001 execution"
+  grep -Fq 'FROZEN_PENDING_INDEPENDENT_PRE_EXECUTION_REVIEW' docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml \
+    || fail "P1-001 contract is not frozen for pre-execution review"
+  grep -Fq 'execution_start_authorized: false' docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml \
+    || fail "P1-001 contract improperly starts execution"
+  grep -Fq 'FOUNDER_ACCEPTED_FOR_CONTROLLED_P1_IMPLEMENTATION' docs/aios/EVALUATION_PROTOCOL.md \
+    || fail "Evaluation Protocol acceptance state is stale"
+  grep -Fq 'FOUNDER_ACCEPTED_CONTROLLED_P1_IMPLEMENTATION_DEFINITION' docs/aios/BASELINE_ADAPTER_CONTRACT.md \
+    || fail "Baseline Adapter Contract acceptance state is stale"
+  if grep -Fq 'P1 remains unauthorized' docs/aios/CODEX_MASTER_PROMPT.md \
+    || grep -Fq 'P1 and AIOS-P1-001 are not authorized' docs/aios/README.md \
+    || grep -Fq 'P1 remains `NOT AUTHORIZED`' CHAIRMAN_BRIEFING.md; then
+    fail "active authority entry retains the superseded P1-not-authorized state"
+  fi
+elif grep -Fq 'COMPLETE_FOUNDER_GATE_PASS_P1_NOT_AUTHORIZED' docs/aios/truth/project_state.yaml; then
   grep -Fq 'P0 Founder Gate is `PASS`' CHAIRMAN_BRIEFING.md \
     || fail "Founder briefing does not expose P0 PASS"
   grep -Fq 'P1 and AIOS-P1-001' CHAIRMAN_BRIEFING.md \

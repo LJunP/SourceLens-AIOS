@@ -3,13 +3,14 @@
 ## Current decision
 
 SourceLens AIOS v2.3 is frozen. The P0 Founder Gate is `PASS`; the accepted
-checkpoint is the current technical and rollback baseline. P1 and AIOS-P1-001
-remain separately `NOT AUTHORIZED`.
+checkpoint remains the technical and rollback baseline. The Human Founder has
+authorized entry into P1 Agent Evaluation and Research Foundation, subject to
+completing, freezing and independently reviewing AIOS-P1-001 before execution.
 
-The only current objective is to complete and independently verify the narrow
-post-Gate governance-only authority transition before any P1 authorization
-decision. This transition does not reopen P0, modify the accepted checkpoint or
-authorize feature development.
+The only current objective is to freeze and independently review the exact
+AIOS-P1-001 Task Contract and P1 authority entry. AIOS-P1-001 implementation and
+scheduled runs remain stopped until the Founder separately starts the exact
+reviewed contract. P1 entry does not authorize feature development.
 
 ## What the project is
 
@@ -65,18 +66,20 @@ You decide only:
 
 Routine implementation, test failures, task decomposition and specialist selection belong to the Agent organization.
 
-## Founder Gate result and next authorization boundary
+## Current P1 authorization boundary
 
 The Human Founder has accepted the P0 checkpoint, migration dispositions,
-controlled P1 contract definitions and retained Trust-risk register. That
-decision completed the P0 Gate; it did not close the retained Trust risks or
-authorize P1.
+controlled P1 contract definitions and retained Trust-risk register. A later
+append-only Founder decision authorizes P1 entry and contract preparation while
+preserving all retained Trust boundaries.
 
-Before P1 can start, the post-Gate authority transition must pass independent
-CTO, Security and Quality review, and the Founder must separately authorize both
-P1 and an execution-ready, hash-frozen AIOS-P1-001 Task Contract. Until those
-conditions are satisfied, do not start features, broad refactors, multi-Agent
-construction, P1 research execution or production claims.
+Before AIOS-P1-001 execution, its exact fixture, environment, evaluator,
+configurations, write scope, ownership, budget, evidence and Stop Conditions must
+be hash-frozen and accepted by Chief AI Research, CTO, Security, Quality and
+Product Intelligence review. The Founder must then separately start that exact
+reviewed contract. Until then, do not implement the harness, schedule adapter
+runs, start features, broaden runtime, construct multi-Agent systems or make
+production or capability claims.
 
 ## Founder red lines
 
@@ -87,7 +90,7 @@ construction, P1 research execution or production claims.
 - More Agents do not imply better performance.
 - Transcript replay is not a measured memory system.
 - Old P6/P9/P10/P11 plans cannot override v2.3.
-- No deletion occurs in P0; use `CANDIDATE_ARCHIVE` until dependency, regression and Founder review are complete.
+- No inherited asset is deleted without dependency evidence, regression review and explicit Founder authorization.
 
 ## What to read
 
@@ -111,7 +114,6 @@ Do not add features, change strategy, delete assets or claim production readines
 
 ## Next Founder decision
 
-The P0 Founder Gate is `PASS`; the accepted checkpoint and open Trust risks are
-recorded externally. P1 remains `NOT AUTHORIZED`. After the post-Gate authority
-transition passes independent review, the next Founder decision is whether to
-authorize P1 and the hash-frozen AIOS-P1-001 contract separately.
+P1 entry is authorized. AIOS-P1-001 execution is not. After the contract and P1
+authority entry pass all required independent reviews, the next Founder decision
+is whether to accept the exact frozen contract hash and start AIOS-P1-001.

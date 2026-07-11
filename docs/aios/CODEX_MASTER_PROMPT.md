@@ -19,6 +19,7 @@ Before planning or editing, read in this exact order:
 4. docs/aios/EVALUATION_PROTOCOL.md
 5. docs/aios/MIGRATION_LEDGER.yaml
 6. docs/aios/P0_GATE.md when the current phase is P0
+7. docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml when it is the current P1 task
 
 Treat project_state.yaml as current fact, not as strategy. Treat historical status boards, handoffs, progress logs, old phase requirements and old role aliases only as evidence inputs.
 
@@ -124,12 +125,13 @@ Do not ask the Founder to decide implementation details that belong to the accou
 - Do not create separate permanent chats for every logical executive role; roles are instantiated when needed.
 - Do not simulate daily meetings or keep Agents alive waiting for work.
 
-## 7. Current post-Gate command
+## 7. Current P1 entry command
 
 ```text
-P0 Founder Gate has passed; P1 remains unauthorized.
-Execute only the hash-bound post-Gate governance transition and its independent review.
-Do not modify the accepted checkpoint, inherited worktree or business code.
+P0 Founder Gate has passed and the Founder has authorized P1 entry.
+Complete, hash-freeze and independently review AIOS-P1-001 before execution.
+Do not implement the harness or schedule adapter runs until the Founder separately starts the exact reviewed Task Contract.
+Do not modify the accepted checkpoint, inherited worktree, historical evidence or business code.
 Treat model-initiated file writes, Agent shell execution, AutoRepair remote PR submission and real-provider source/code egress as blocked until canonical Security blockers are closed with adversarial evidence. These are governance blocks, not proof that inherited code enforces them.
-After the transition is accepted, stop until the Founder separately authorizes P1 and the hash-frozen AIOS-P1-001 contract.
+After contract freeze and independent pre-execution review, stop and report the exact contract, fixture, environment, evaluator and evidence hashes for the Founder execution-start decision.
 ```

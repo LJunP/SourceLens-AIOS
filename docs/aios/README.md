@@ -12,8 +12,10 @@ This directory is the canonical control plane for the SourceLens AIOS migration.
 | TaskSpec, baselines, datasets, metrics and research artifacts | `EVALUATION_PROTOCOL.md` |
 | inherited-asset disposition | `MIGRATION_LEDGER.yaml` |
 | accepted decision rationale | append-only ADRs |
-| bounded P0 task contracts | `tasks/P0-04A_TRUTH_CONTAINMENT.yaml`, `tasks/P0-04B_SLICE_F_GATE_REPAIR.yaml`, `tasks/P0-04C_AUTHORITY_DECONTAMINATION.yaml`, `tasks/P0-05_BASELINE_SLICING.yaml` |
+| historical bounded P0 task contracts | `tasks/P0-04A_TRUTH_CONTAINMENT.yaml`, `tasks/P0-04B_SLICE_F_GATE_REPAIR.yaml`, `tasks/P0-04C_AUTHORITY_DECONTAMINATION.yaml`, `tasks/P0-05_BASELINE_SLICING.yaml` |
+| current P1 task contract | `tasks/P1-001_EVALUATION_HARNESS.yaml` |
 | P0 Founder Gate current decision | external hash-bound Decision Record referenced by `truth/project_state.yaml` |
+| P1 entry authorization | external append-only Founder authorization referenced by `truth/project_state.yaml` |
 
 There is no global "earlier file wins" rule. Each document is authoritative only in its domain. The Truth Registry may mirror strategic values for machines but cannot change them. Historical status boards, progress logs, handoffs and pre-v2.3 roadmaps override none of these domains.
 
@@ -22,9 +24,11 @@ Legacy material is excluded from default Agent context. It may be opened only wh
 ## Current state
 
 `P0 Strategic Foundation` is complete by Founder Gate decision. The accepted
-checkpoint is immutable and the Long-term Goal is active. P1 and AIOS-P1-001 are
-not authorized. The only current critical path is the governance-only post-Gate
-authority transition and its independent verification.
+checkpoint is immutable and the Long-term Goal is active. The Founder has
+authorized entry into `P1 Agent Evaluation and Research Foundation` and
+pre-execution completion, freeze and review of AIOS-P1-001. AIOS-P1-001 execution
+is not started or authorized until the Founder separately accepts and starts the
+exact reviewed contract.
 
 The external P0-A audit is stored outside the Git worktree at:
 
@@ -56,9 +60,10 @@ state remain evidence, but they do not override the later Human Founder P0 Gate
 Repository-level Codex startup is enforced by the root `AGENTS.md`. It is an
 execution pointer to this authority index, not an additional authority.
 
-## P0 contract drafts
+## P1 controlled contract definitions
 
 The Founder accepted the checkpoint versions of TaskSpec, EnvironmentSnapshot,
 SystemConfiguration, RunRecord and `BASELINE_ADAPTER_CONTRACT.md` as controlled P1
-implementation definitions. Their acceptance does not make the P1 research harness
-implemented, authorize P1, or establish a capability claim.
+implementation definitions. P1 entry is now separately authorized, but those
+definitions do not make the research harness implemented, start AIOS-P1-001, or
+establish a capability claim.

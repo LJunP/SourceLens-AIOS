@@ -1,7 +1,7 @@
 # SourceLens AIOS Baseline Adapter Contract
 
 - Version: `0.2`
-- Status: `DRAFT_REVIEW_REQUIRED`
+- Status: `FOUNDER_ACCEPTED_CONTROLLED_P1_IMPLEMENTATION_DEFINITION`
 - Implementation phase: `P1`
 
 ## 1. Contract set
@@ -85,6 +85,11 @@ An adapter is accepted only when:
 7. negative tests prove forbidden tool, hidden-data and network access is blocked;
 8. malformed command argv, working directory, timeout and expected-exit contracts fail before execution.
 
-## 10. P0 acceptance required
+## 10. P1-001 execution prerequisites
 
-Before P1, Product, AI Research, CTO, Security and Quality & Evaluation must accept the four schemas, this adapter contract, the exact B2 snapshot, one fixture TaskSpec, P1 write scope, budget and stop condition.
+The P0 Founder Gate accepted the four schemas and this adapter contract only as
+controlled P1 implementation definitions. Before AIOS-P1-001 execution, Product,
+AI Research, CTO, Security and Quality & Evaluation must independently accept the
+exact B2 snapshot, frozen fixture TaskSpec, environment, configurations,
+evaluator, write scope, ownership, budget, evidence boundary and Stop Conditions;
+the Founder must then separately start the exact reviewed Task Contract.

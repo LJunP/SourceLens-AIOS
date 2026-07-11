@@ -1,7 +1,7 @@
 schema_version: 2
 record_type: sourcelens_aios_project_truth
-last_verified_at: "2026-07-11T00:09:05+08:00"
-verification_scope: P0_TRUTH_CONTAINMENT_ACCEPTED_WITH_EXTERNAL_EXACT_STATE_RESOLUTION
+last_verified_at: "2026-07-11T22:18:09+08:00"
+verification_scope: P1_ENTRY_AUTHORIZED_CONTRACT_FREEZE_PENDING_INDEPENDENT_REVIEW
 
 authority:
   strategy:
@@ -15,7 +15,7 @@ authority:
   evaluation_protocol:
     file: docs/aios/EVALUATION_PROTOCOL.md
     version: "1.1"
-    status: FROZEN_FOR_P0
+    status: FOUNDER_ACCEPTED_FOR_CONTROLLED_P1_IMPLEMENTATION
   migration_ledger:
     file: docs/aios/MIGRATION_LEDGER.yaml
     status: P0_REVIEW_REQUIRED
@@ -30,9 +30,9 @@ authority:
 
 project:
   name: SourceLens AIOS
-  current_phase: P0
-  phase_name: Strategic Foundation
-  phase_status: COMPLETE_FOUNDER_GATE_PASS_P1_NOT_AUTHORIZED
+  current_phase: P1
+  phase_name: Agent Evaluation and Research Foundation
+  phase_status: ENTRY_AUTHORIZED_CONTRACT_FREEZE_PENDING_INDEPENDENT_REVIEW
   strategy_ref: docs/aios/STRATEGIC_CONSTITUTION.md
   strategic_mirror_is_authoritative: false
   strategic_mirror:
@@ -49,7 +49,24 @@ founder_gate:
   decision_record_sha256: 300a282eb13684ad062efbf07a9b73c5240a5d974690ee1874dc229b07640d50
   accepted_checkpoint_commit: ad6450e418d8f1b4fd5a789f913525a8dd8bdc10
   accepted_checkpoint_tree: 2c0956ae8598547466f691ead21532a026006bf9
-  p1_authorized: false
+  p1_authorized_by_this_p0_decision: false
+  current_p1_authority_source: p1_entry_authorization
+
+p1_entry_authorization:
+  decision: P1_ENTRY_AUTHORIZED_CONTRACT_FREEZE_FIRST
+  recorded_at: "2026-07-11T14:18:09Z"
+  decision_record: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-entry-and-p1-001-contract-20260711T141809Z/FOUNDER_P1_ENTRY_AUTHORIZATION_RECORD.md
+  decision_record_sha256: 876845f670136064b9d7c633a251fc177fb26c5feccaba1362c58855530a5144
+  machine_record: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-entry-and-p1-001-contract-20260711T141809Z/founder-p1-entry-authorization.json
+  machine_record_sha256: 10f60932d2da71d02434d3a34cf864be94fb3642fed5771bf59f90307342dc15
+  p1_entry_authorized: true
+  aios_p1_001_contract_preparation_authorized: true
+  aios_p1_001_execution_authorized: false
+  current_task_contract: docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
+  current_task_contract_sha256: d905917d9ead684da848a2b5422fda63cb6c6c4bb4c2189e709504679bb66b22
+  frozen_input_manifest: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-entry-and-p1-001-contract-20260711T141809Z/frozen-input-manifest.json
+  frozen_input_manifest_sha256: 3c7ac90bc776c5ca488ec051eda49bb561ebaf138a3c7a5622b0673cba7cb81e
+  stop_boundary: STOP_AFTER_CONTRACT_FREEZE_AND_INDEPENDENT_REVIEW_BEFORE_EXECUTION
 
 p0_audit:
   report: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p0-a-20260710-220800/p0_takeover_report.md
@@ -191,7 +208,9 @@ runtime_goal_transition:
   long_term_goal_status: ACTIVE_FOUNDER_MANUALLY_CREATED
   long_term_goal_objective: /Users/lijunpeng/.codex/attachments/6b0b059a-415e-424c-a7f4-98d7c956c285/goal-objective.md
   long_term_goal_objective_sha256: 60e42edb7d422265325391014cd6e329fdf14861beedc682b6892fb3fc929eea
-  p1_authorized: false
+  p1_authorized: true
+  p1_authority_record: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-entry-and-p1-001-contract-20260711T141809Z/founder-p1-entry-authorization.json
+  aios_p1_001_execution_authorized: false
 
 p0_04c_candidate_overlay:
   binding: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p0-authority-decontamination-20260711T013048Z/p0-04c-overlay-binding.json
@@ -274,7 +293,7 @@ capabilities:
       - role documents and Codex reviews do not prove a product runtime
       - multi-Agent advantage has not been evaluated
 
-active_p0_work:
+p0_work_history:
   - id: P0-01
     title: Freeze strategic and execution baseline
     status: COMPLETE
@@ -308,7 +327,7 @@ active_p0_work:
     acceptance_result: P0_05_ACCEPTED_BY_FOUNDER_GATE
     checkpoint_result: CHECKPOINT_COMMIT_ACCEPTED_IMMUTABLE
     gate_result: P0_GATE_PASS_BY_FOUNDER_DECISION
-    p1_authorized: false
+    p1_authorized_by_p0_gate_decision: false
     remaining_closure_results:
       f_focused_gate: PASS_INDEPENDENT_REVIEW_ACCEPTED
       f_isolation: NOT_PROVEN_SAFE_NOT_APPLIED_REPAIR_ROUTE_SELECTED
@@ -318,6 +337,19 @@ active_p0_work:
   - id: P0-06
     title: Independent migration review and Founder gate
     status: COMPLETE_FOUNDER_GATE_PASS
+
+active_p1_work:
+  - id: P1-001
+    title: Prove the minimum reproducible evaluation-harness path with one immutable fixture task
+    task_contract_ref: docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
+    task_contract_sha256: d905917d9ead684da848a2b5422fda63cb6c6c4bb4c2189e709504679bb66b22
+    status: FROZEN_PENDING_INDEPENDENT_PRE_EXECUTION_REVIEW
+    execution_permitted: false
+    fixture_id: P1-001-DEV-FIXTURE-v1
+    fixture_commit: e4c881945d60512341abf1128f39855540d23569
+    fixture_tree: c826510e97113ae2a73efc4d9a2916d28d9a2c7f
+    frozen_input_manifest_sha256: 3c7ac90bc776c5ca488ec051eda49bb561ebaf138a3c7a5622b0673cba7cb81e
+    next_decision: FOUNDER_ACCEPT_OR_REJECT_REVIEWED_CONTRACT_AND_SEPARATELY_START_EXECUTION
 
 runtime_restrictions:
   enforcement_status: GOVERNANCE_ONLY_NOT_YET_TECHNICALLY_ENFORCED

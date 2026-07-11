@@ -1,0 +1,362 @@
+schema_version: 1
+record_type: sourcelens_aios_task_contract
+task_id: AIOS-P1-001
+phase: P1
+title: Prove the minimum reproducible evaluation-harness path with one immutable fixture task
+status: FROZEN_PENDING_INDEPENDENT_PRE_EXECUTION_REVIEW
+p1_entry_authorized: true
+execution_start_authorized: false
+execution_permitted: false
+
+governing_authority:
+  founder: Human Founder
+  founder_p1_authorization_record: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-entry-and-p1-001-contract-20260711T141809Z/FOUNDER_P1_ENTRY_AUTHORIZATION_RECORD.md
+  founder_p1_authorization_record_sha256: 876845f670136064b9d7c633a251fc177fb26c5feccaba1362c58855530a5144
+  founder_p1_authorization_machine_record: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-entry-and-p1-001-contract-20260711T141809Z/founder-p1-entry-authorization.json
+  strategy: SourceLens AIOS Strategic Constitution v2.3
+  execution_protocol: Master Execution Protocol v1.0
+  evaluation_protocol: Evaluation and Research Protocol v1.1
+  long_term_goal_sha256: 60e42edb7d422265325391014cd6e329fdf14861beedc682b6892fb3fc929eea
+  p0_founder_gate_decision_sha256: 300a282eb13684ad062efbf07a9b73c5240a5d974690ee1874dc229b07640d50
+  post_gate_authority_commit: 14df7b8e94f7c1fc8305e71a794a0815ed45fa82
+  post_gate_authority_tree: db1f4892bb5271c3b101ee3125fecb8a24db51f8
+
+task_objective: >-
+  Implement and independently verify the smallest isolated evaluation-harness
+  slice that loads one immutable TaskSpec, materializes one reproducible
+  EnvironmentSnapshot, executes a deterministic B0 contract-conformance adapter
+  and a read-only B2 current-SourceLens compatibility adapter against the same
+  development fixture and budget policy, retains schema-valid observable run
+  evidence, invokes one frozen deterministic evaluator, and reproduces normalized
+  verdict and artifact identity from a fresh replay. The task must not modify
+  inherited business behavior or claim capability improvement.
+
+research_hypothesis:
+  statement: >-
+    Given the frozen project-owned Java fixture, network-disabled hash-bound
+    environment, shared TaskSpec, two frozen configurations and deterministic
+    evaluator, the minimum harness can produce complete schema-valid primary and
+    replay records for B0 and B2, with 2/2 reproducible conformance, identical
+    normalized evaluator verdicts, complete evidence, and zero forbidden action.
+  falsifier: >-
+    The hypothesis is false for this task if either adapter cannot conform without
+    adapter-specific TaskSpec or evaluator changes; source, environment or
+    artifact identity cannot be reproduced; any required observable evidence is
+    missing; a normalized replay or evaluator verdict differs; an unsafe action
+    occurs; or success requires scope, budget, oracle or product expansion.
+  capability_claim_boundary: >-
+    Passing proves only minimum harness contract conformance and replayability on
+    one visible development fixture. It does not establish Verified Task Success
+    Rate, model or SourceLens superiority, hidden-set validity, general software
+    engineering capability, production readiness, or P1 completion.
+
+why_now:
+  - P0 established a reproducible and rollback-capable technical baseline.
+  - Founder has authorized P1 Agent Evaluation and Research Foundation.
+  - Later Repository Intelligence or Agent claims would be incomparable without a common task, environment, trace, evaluator and baseline path.
+  - The smallest falsifiable P1 step is one development fixture and two conformance configurations, not a broader Agent or product runtime.
+
+source_baselines:
+  implementation_authority_base:
+    commit: 14df7b8e94f7c1fc8305e71a794a0815ed45fa82
+    tree: db1f4892bb5271c3b101ee3125fecb8a24db51f8
+    role: current reviewed governance authority entry
+  b2_current_sourcelens_snapshot:
+    commit: ad6450e418d8f1b4fd5a789f913525a8dd8bdc10
+    tree: 2c0956ae8598547466f691ead21532a026006bf9
+    role: Founder-accepted P0 technical baseline
+  rollback_anchor: b169905fd904137ac3ef9d16986d8f1f49194d63
+
+frozen_input_manifest:
+  path: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-entry-and-p1-001-contract-20260711T141809Z/frozen-input-manifest.json
+  sha256: 3c7ac90bc776c5ca488ec051eda49bb561ebaf138a3c7a5622b0673cba7cb81e
+  freeze_state: FROZEN_BEFORE_IMPLEMENTATION_OUTPUT
+
+fixture:
+  dataset_id: P1-001-DEV-FIXTURE-v1
+  task_id: P1-001-DEV-001
+  evaluation_split: development
+  task_count: 1
+  kind: project_owned_synthetic_fixture
+  hidden_set_used: false
+  benchmark_claim: false
+  repository_commit: e4c881945d60512341abf1128f39855540d23569
+  repository_tree: c826510e97113ae2a73efc4d9a2916d28d9a2c7f
+  bundle_path: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-entry-and-p1-001-contract-20260711T141809Z/frozen-inputs/p1-001-fixture-v1.bundle
+  bundle_sha256: 731afc8017ecdcdbcec30c7aa01f5559e3fec537b6617ce1f4cd06a39601e4ff
+  provenance_sha256: 1f5d0042328c4c5118d5caae5ffdc70c5b1e1e2c20e6a3be104aaf04c63800de
+  license_sha256: 402aeb6943fef28d9563e19f74df047c87de96d59150152a86815beeed2d6da0
+  redistribution: allowed
+  base_regression: PASS
+  base_issue_test: EXPECTED_FAIL
+  representativeness_boundary: >-
+    The fixture tests bounded repository maintenance, exact source identity,
+    single-file localization, patch scope and executable verification. One tiny
+    synthetic task is insufficient to estimate real-user performance.
+
+frozen_contract_inputs:
+  task_spec:
+    path: frozen-inputs/task-spec-v1.json
+    sha256: 5ced98d5982481141d2161aa640c310a39105aa156d80cce1096b37030926faf
+  environment_snapshot:
+    path: frozen-inputs/environment-snapshot-v1.json
+    sha256: 50140b8bcee077f5a147ff3d9c11b872eb7f33411217cc6b652e1f830a456323
+  b0_configuration:
+    path: frozen-inputs/system-configuration-b0-v1.json
+    sha256: 5e6efab50ac6c7d2aa920ad316bc7fb09f1465b605ff455fe2be66ed72bed6e1
+  b2_configuration:
+    path: frozen-inputs/system-configuration-b2-v1.json
+    sha256: 73af50611ae2f38382355bc06db51159e8d06f827bf26e87fea89d86e219d9c7
+  baseline_context:
+    path: frozen-inputs/baseline-context-v1.txt
+    sha256: 66251bb751a8bdfcd68a14dbe5a7f44ece4292b58020c9a22f67f5d52f424112
+  response_format:
+    path: frozen-inputs/response-format-v1.json
+    sha256: 9ff758fd72b9840b8f8baab3c0ab0646f927b71bce47d2fc09bb3e91852c3756
+  evaluator:
+    path: frozen-inputs/evaluator-v1.rb
+    sha256: e23662bd8430376d78e70d3192bca5a21ee44aa53b94eab1132caf08d5c50cb3
+  write_scope:
+    path: frozen-inputs/write-scope-v1.yaml
+    sha256: fd178c17308f3b25f0f089648e23764b74d8c43f9206860a8845764f13e1d5fc
+  ownership:
+    path: frozen-inputs/file-ownership-v1.yaml
+    sha256: 81f35772f67ee69adcf8f4ac61cadded33fd7cd014ed30232105d3bbb6c5defb
+  contract_validator:
+    path: frozen-inputs/validate-contract-freeze-v1.rb
+    sha256: e85e13dd303dff47ef5824e2d0ff2380089b110746147c00dfa5a35143891734
+
+environment:
+  snapshot_id: P1-001-ENV-v1
+  container_image: eclipse-temurin@sha256:723151f3fc88ca2060153ee08ab8dbbea7983d6ed6f2622fe440acf178737c94
+  os: Linux
+  architecture: aarch64
+  java: OpenJDK Temurin 17.0.19+10
+  network_policy: none
+  allowed_hosts: []
+  secrets: none
+  caches: disabled
+  real_provider_source_egress: prohibited
+  materialization_mode: disposable_fresh_clone_from_hash_bound_bundle
+
+baseline:
+  suite_version: Baseline Suite v1
+  configurations:
+    - id: B0
+      configuration_id: P1-001-B0-CONFORMANCE-v1
+      mode: deterministic_fixture_contract_conformance
+      tools: []
+      loop_limit: 1
+      claim_boundary: CONTRACT_CONFORMANCE_ONLY_NOT_MODEL_CAPABILITY
+    - id: B2
+      configuration_id: P1-001-B2-CURRENT-SOURCELENS-v1
+      mode: read_only_current_sourcelens_compatibility_adapter
+      tools:
+        - source.read
+        - lexical.search
+        - sourcelens.readonly_analysis
+      loop_limit: 1
+      claim_boundary: CURRENT_SYSTEM_ADAPTER_CONFORMANCE_ONLY
+  target_configuration: none
+  comparison_claim: none
+
+roles:
+  accountable: Master CEO Agent
+  research_owner: Chief AI Research Agent
+  engineering_owner: Engineering Manager Agent
+  implementation_worker: Evaluation Harness Worker
+  fixture_custodian: Fixture Custodian Worker
+  independent_quality_reviewer: Quality and Evaluation Agent
+  architecture_reviewer: CTO Agent
+  trust_reviewer: Security Agent
+  value_reviewer: Product Intelligence Agent
+
+exact_execution_write_scope:
+  maximum_changed_paths: 25
+  paths:
+    - docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
+    - research/evaluation-harness/p1_001/README.md
+    - research/evaluation-harness/p1_001/validate_contracts.rb
+    - research/evaluation-harness/p1_001/preflight.rb
+    - research/evaluation-harness/p1_001/run_harness.rb
+    - research/evaluation-harness/p1_001/evaluate.rb
+    - research/evaluation-harness/p1_001/replay.rb
+    - research/evaluation-harness/p1_001/adapters/b0_fixture_adapter.rb
+    - research/evaluation-harness/p1_001/adapters/b2_current_sourcelens_adapter.rb
+    - research/evaluation-harness/p1_001/tests/contract_validation_test.rb
+    - research/evaluation-harness/p1_001/tests/preflight_negative_test.rb
+    - research/evaluation-harness/p1_001/tests/evaluator_test.rb
+    - research/evaluation-harness/p1_001/tests/replay_test.rb
+    - research/fixtures/p1_001/task-spec-v1.json
+    - research/fixtures/p1_001/environment-snapshot-v1.json
+    - research/fixtures/p1_001/system-configuration-b0-v1.json
+    - research/fixtures/p1_001/system-configuration-b2-v1.json
+    - research/fixtures/p1_001/baseline-context-v1.txt
+    - research/fixtures/p1_001/response-format-v1.json
+    - research/fixtures/p1_001/p1-001-fixture-v1.bundle
+    - docs/aios/research/P1-001/CONFORMANCE_REPORT.md
+    - docs/aios/research/P1-001/FAILURE_LEDGER.json
+    - docs/aios/research/P1-001/EVIDENCE_MANIFEST.json
+    - docs/aios/research/P1-001/REPRODUCTION_RECEIPT.json
+  all_other_paths: forbidden
+  inherited_worktree: read_only_forbidden_to_modify
+  implementation_workspace: disposable_only
+
+file_ownership:
+  governance_contract_worker:
+    - docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
+  evaluation_harness_worker:
+    - research/evaluation-harness/p1_001/README.md
+    - research/evaluation-harness/p1_001/validate_contracts.rb
+    - research/evaluation-harness/p1_001/preflight.rb
+    - research/evaluation-harness/p1_001/run_harness.rb
+    - research/evaluation-harness/p1_001/evaluate.rb
+    - research/evaluation-harness/p1_001/replay.rb
+    - research/evaluation-harness/p1_001/adapters/b0_fixture_adapter.rb
+    - research/evaluation-harness/p1_001/adapters/b2_current_sourcelens_adapter.rb
+    - research/evaluation-harness/p1_001/tests/contract_validation_test.rb
+    - research/evaluation-harness/p1_001/tests/preflight_negative_test.rb
+    - research/evaluation-harness/p1_001/tests/evaluator_test.rb
+    - research/evaluation-harness/p1_001/tests/replay_test.rb
+  fixture_custodian_worker:
+    - research/fixtures/p1_001/task-spec-v1.json
+    - research/fixtures/p1_001/environment-snapshot-v1.json
+    - research/fixtures/p1_001/system-configuration-b0-v1.json
+    - research/fixtures/p1_001/system-configuration-b2-v1.json
+    - research/fixtures/p1_001/baseline-context-v1.txt
+    - research/fixtures/p1_001/response-format-v1.json
+    - research/fixtures/p1_001/p1-001-fixture-v1.bundle
+  evidence_custodian_worker:
+    - docs/aios/research/P1-001/CONFORMANCE_REPORT.md
+    - docs/aios/research/P1-001/FAILURE_LEDGER.json
+    - docs/aios/research/P1-001/EVIDENCE_MANIFEST.json
+    - docs/aios/research/P1-001/REPRODUCTION_RECEIPT.json
+  overlap_policy: STOP_ON_OVERLAP_OR_UNOWNED_PATH
+
+execution_permissions:
+  development_worker_writes: exact_scope_in_disposable_workspace_only
+  system_under_test_model_initiated_writes: prohibited
+  system_under_test_shell: prohibited
+  deterministic_controller_commands: predeclared_argv_only
+  evaluator_commands: predeclared_argv_only_in_locked_container
+  external_network_requests: 0
+  remote_side_effects: 0
+  production_access: prohibited
+  human_approval_before_candidate_execution: required
+
+metrics:
+  primary:
+    name: Reproducible Harness Conformance Rate
+    numerator: configurations with schema-valid primary run and normalized fresh replay accepted by the frozen evaluator
+    denominator: 2 scheduled configurations
+    target: 2/2
+  guardrails:
+    evidence_completeness: 100_percent
+    fresh_replay_success: 2/2
+    deterministic_evaluator_agreement: 3/3_per_frozen_output
+    source_identity_mismatch: 0
+    forbidden_or_unsafe_actions: 0
+    unrecorded_tool_actions_or_exit_codes: 0
+    post_hoc_exclusions: 0
+    external_network_requests: 0
+    remote_side_effects: 0
+    real_provider_cost_usd: 0
+    human_interventions: record_exact_count
+    wall_clock_tool_calls_compute_cost: record_all_and_remain_within_budget
+  explicitly_not_measured:
+    - VTSR superiority
+    - repository_intelligence_improvement
+    - model_quality_improvement
+    - production_reliability
+    - hidden_set_performance
+    - multi_agent_benefit
+
+budget_boundary:
+  maximum_elapsed_engineering_hours: 24
+  maximum_calendar_window_days: 5
+  maximum_implementation_attempts: 3
+  maximum_fixture_tasks: 1
+  maximum_adapter_configurations: 2
+  scheduled_primary_runs: 2
+  scheduled_fresh_replays: 2
+  maximum_changed_paths: 25
+  maximum_new_runtime_dependencies: 0
+  maximum_external_network_requests: 0
+  maximum_real_provider_model_cost_usd: 0
+  maximum_remote_side_effects: 0
+  scope_expansion_requires_new_contract_and_founder_decision: true
+
+required_artifacts:
+  - schema-valid TaskSpec, EnvironmentSnapshot, two SystemConfigurations and RunRecords
+  - B0 and B2 adapter definitions with exact hashes and narrow claim boundaries
+  - raw primary and replay records, observable traces and evaluator inputs/outputs
+  - normalized replay specification and artifact checksums
+  - exact commands, exit codes, timings, tool calls, interventions and cost
+  - immutable failure and invalid-run ledger with reason codes
+  - evidence manifest and reproduction receipt
+  - independent Chief AI Research, CTO, Security, Quality and Product reviews
+  - P1 Evaluation Foundation Conformance Report v0.1
+
+success_criteria:
+  - Both scheduled configurations run under the same frozen TaskSpec, environment class, budget policy and deterministic evaluator.
+  - Reproducible Harness Conformance Rate is 2/2.
+  - Both fresh replays reproduce normalized artifact identity and evaluator verdict.
+  - Evidence completeness is 100 percent and every retained checksum verifies.
+  - Deterministic evaluator agreement is 3/3 for each frozen output.
+  - Source mismatch, forbidden action, unsafe action, post-hoc exclusion, unrecorded result, network request, real-provider cost and remote effect are all zero.
+  - Independent reviewers accept only the narrow conformance claim.
+  - The report explicitly makes no superiority, hidden-set, production, P1-exit or general capability claim.
+
+failure_criteria:
+  - Either adapter requires an adapter-specific TaskSpec, evaluator or success rule.
+  - Either fresh replay fails normalized identity or deterministic verdict reproduction.
+  - Any mandatory evidence, raw result, exit code, cost record or checksum is missing or inconsistent.
+  - Any forbidden action, source drift, boundary violation, contamination, network or remote effect occurs.
+  - Success requires exceeding budget, changing frozen inputs, expanding scope or weakening the oracle after output is observed.
+  - Independent review rejects the conformance claim or finds implementation/evaluator coupling.
+
+stop_conditions:
+  - This exact contract has not passed all required pre-execution reviews or lacks Founder execution-start authorization.
+  - Any frozen source, fixture, environment, evaluator, configuration, scope, ownership, metric, budget or oracle hash drifts.
+  - Fixture provenance, redistribution, representativeness or year-one relevance cannot be defended.
+  - A source-identity, secret, license, custody, network, sandbox or evaluator-independence blocker appears.
+  - The evaluator or acceptance rule would need to change after adapter output is observed.
+  - The task requires real-provider source egress, system-under-test writes or shell, remote repository effects, production access, business-code changes, UI, memory, multi-Agent, or broad runtime work.
+  - Evidence cannot be reproduced from the frozen fixture bundle and image digest.
+  - Any required guardrail fails and cannot be corrected in scope without weakening the oracle.
+  - The 24-hour effort, five-day window, 25-path limit, zero-dependency limit or three-attempt limit is reached.
+  - Three consecutive attempts encounter the same blocker without new evidence.
+
+acceptance_criteria:
+  - All success criteria pass and no failure criterion occurs.
+  - Required artifacts and manifest independently replay from immutable identities.
+  - Chief AI Research accepts falsifiability and claim boundary.
+  - CTO accepts architecture and scope.
+  - Security accepts trust and custody boundaries.
+  - Quality and Evaluation independently accepts reproducibility and evidence.
+  - Product Intelligence accepts only the fixture's bounded JTBD relevance.
+  - Acceptance remains limited to P1-001 conformance and does not pass P1.
+
+required_pre_execution_reviews:
+  - Chief AI Research Agent
+  - CTO Agent
+  - Security Agent
+  - Quality and Evaluation Agent
+  - Product Intelligence Agent
+
+forbidden_actions:
+  - execute implementation, adapter runs or scheduled evaluation before this exact contract is independently accepted and Founder separately starts AIOS-P1-001
+  - modify the inherited SourceLens worktree, P0 checkpoint or historical evidence
+  - modify business behavior or build a user-facing feature
+  - modify frozen fixture, TaskSpec, environment, configurations, evaluator, oracle, metric, budget or success rule after implementation output is observed
+  - use hidden tasks or claim hidden-set performance
+  - use real-provider source egress or nonzero model spend
+  - allow system-under-test model-initiated writes, shell, external network or remote effects
+  - claim VTSR improvement, benchmark superiority, production readiness, P1 completion or general capability
+
+founder_decision:
+  p1_entry_authorized: true
+  contract_preparation_authorized: true
+  contract_freeze_accepted: false
+  execution_start_authorized: false
+  required_next_decision: ACCEPT_OR_REJECT_EXACT_REVIEWED_CONTRACT_AND_START_AIOS_P1_001

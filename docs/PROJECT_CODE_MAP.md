@@ -4,9 +4,9 @@
 
 ## 1. 生成范围
 
-- 纳入逐文件用途索引的文件数：607。
+- 纳入逐文件用途索引的文件数：608。
 - 其中源码/脚本/配置/SQL/CSS 类文件数：502。
-- 纳入统计的文本总行数：326466。
+- 纳入统计的文本总行数：326994。
 - 排除逐文件展开的本地生成/证据目录：`.git/`、`bin/`、`web-console/node_modules/`、`backend-spring/target/`、`analyzer-rust/target/`、`.sourcelens-runtime/`、`release-evidence/`、前端构建和测试产物。
 - `release-evidence/`、`.sourcelens-runtime/` 等目录的治理边界见 `docs/PROJECT_STRUCTURE_AUDIT.md` 与 `docs/OPERATIONS_RUNBOOK.md`。
 
@@ -25,7 +25,7 @@
 | `CODE_OF_CONDUCT.md` | 1 | 项目根文件或辅助目录。 |
 | `CONTRIBUTING.md` | 1 | 项目根文件或辅助目录。 |
 | `deploy` | 2 | Docker Compose 和环境模板。 |
-| `docs` | 63 | 产品、架构、运维、安全、阶段、团队与交接文档。 |
+| `docs` | 64 | 产品、架构、运维、安全、阶段、团队与交接文档。 |
 | `LICENSE` | 1 | 项目根文件或辅助目录。 |
 | `Makefile` | 1 | 项目根文件或辅助目录。 |
 | `README.md` | 1 | 项目根文件或辅助目录。 |
@@ -169,10 +169,10 @@
 | `backend-spring/src/test/resources` | 5 | Spring Boot 后端服务。子目录。 |
 | `backend-spring/src/test/resources/mockito-extensions` | 1 | Spring Boot 后端服务。子目录。 |
 | `deploy` | 2 | 部署配置目录，包含 Docker Compose 和环境变量模板。 |
-| `docs` | 63 | 项目事实源文档目录，覆盖产品、架构、API、数据库、安全、运维、阶段需求、进度和交接。 |
-| `docs/aios` | 18 | 产品、架构、运维、安全、阶段、团队与交接文档。子目录。 |
+| `docs` | 64 | 项目事实源文档目录，覆盖产品、架构、API、数据库、安全、运维、阶段需求、进度和交接。 |
+| `docs/aios` | 19 | 产品、架构、运维、安全、阶段、团队与交接文档。子目录。 |
 | `docs/aios/schemas` | 4 | 产品、架构、运维、安全、阶段、团队与交接文档。子目录。 |
-| `docs/aios/tasks` | 4 | 产品、架构、运维、安全、阶段、团队与交接文档。子目录。 |
+| `docs/aios/tasks` | 5 | 产品、架构、运维、安全、阶段、团队与交接文档。子目录。 |
 | `docs/aios/truth` | 1 | 产品、架构、运维、安全、阶段、团队与交接文档。子目录。 |
 | `docs/llm-safety-evals` | 3 | LLM 安全评测用例目录，存放 prompt injection、输出质量和 provider run 模板。 |
 | `scripts` | 41 | 本地自动化脚本目录，封装启动、校验、smoke、preflight、release evidence、清理和演练。 |
@@ -848,6 +848,7 @@
 | `docs/aios/tasks/P0-04B_SLICE_F_GATE_REPAIR.yaml` | 项目文档。标题：P0-04B_SLICE_F_GATE_REPAIR.yaml。 |
 | `docs/aios/tasks/P0-04C_AUTHORITY_DECONTAMINATION.yaml` | 项目文档。标题：P0-04C_AUTHORITY_DECONTAMINATION.yaml。 |
 | `docs/aios/tasks/P0-05_BASELINE_SLICING.yaml` | 项目文档。标题：P0-05_BASELINE_SLICING.yaml。 |
+| `docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml` | 项目文档。标题：P1-001_EVALUATION_HARNESS.yaml。 |
 | `docs/aios/truth/project_state.yaml` | 项目文档。标题：project_state.yaml。 |
 | `docs/API_DESIGN.md` | API 设计文档，记录后端接口、请求响应、权限和当前 route inventory。标题：API 设计。 |
 | `docs/ARCHITECTURE.md` | 项目文档。标题：架构设计。 |

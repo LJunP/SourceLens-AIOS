@@ -609,7 +609,8 @@ done
 if grep -Fq 'ENTRY_AUTHORIZED_CONTRACT_FREEZE_PENDING_INDEPENDENT_REVIEW' docs/aios/truth/project_state.yaml; then
   grep -Fq 'authorized entry into P1 Agent Evaluation and Research Foundation' CHAIRMAN_BRIEFING.md \
     || fail "Founder briefing does not expose current P1 entry authorization"
-  grep -Fq 'AIOS-P1-001 execution is not' docs/aios/README.md \
+  grep -Fq 'AIOS-P1-001 execution' docs/aios/README.md \
+    && grep -Fq 'not started or authorized' docs/aios/README.md \
     || fail "Authority index does not preserve the P1-001 execution stop"
   grep -Fq 'P1 entry is authorized. AIOS-P1-001 execution is not.' CHAIRMAN_BRIEFING.md \
     || fail "Founder briefing does not separate P1 entry from P1-001 execution"

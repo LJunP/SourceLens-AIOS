@@ -3,7 +3,7 @@ record_type: sourcelens_aios_task_contract
 task_id: AIOS-P1-001
 phase: P1
 title: Prove the minimum reproducible evaluation-harness path with one immutable fixture task
-status: REFROZEN_V8_PENDING_INDEPENDENT_PRE_EXECUTION_REVIEW
+status: REFROZEN_V9_PENDING_INDEPENDENT_PRE_EXECUTION_REVIEW
 p1_entry_authorized: true
 execution_start_authorized: false
 execution_permitted: false
@@ -68,9 +68,9 @@ source_baselines:
   rollback_anchor: b169905fd904137ac3ef9d16986d8f1f49194d63
 
 frozen_input_manifest:
-  path: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-entry-and-p1-001-contract-20260711T141809Z/frozen-input-manifest-v8.json
-  sha256: b5e58d48bfb7576ae6deef34ed2e03c92ff589e237babe955eac37f3137e43b5
-  freeze_state: REFROZEN_V8_BEFORE_IMPLEMENTATION_OUTPUT_AFTER_V7_INDEPENDENT_REVIEW_FAILURE
+  path: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-entry-and-p1-001-contract-20260711T141809Z/frozen-input-manifest-v9.json
+  sha256: 070f024d10cad3304f0bfe05d8e6a4969a92a36932414d4b735c1f898b3f2fc2
+  freeze_state: REFROZEN_V9_BEFORE_IMPLEMENTATION_OUTPUT_AFTER_V8_CTO_REVIEW_FAILURE
 
 fixture:
   dataset_id: P1-001-DEV-FIXTURE-v1
@@ -123,21 +123,27 @@ frozen_contract_inputs:
     path: frozen-inputs/TagNormalizerOracle-v2.java
     sha256: 984ab619482aaf48663e6f5d2444dfceec28cb5e43edba1e5df2018ab2d65912
     candidate_mutable: false
-  evaluation_policy:
+  calibration_evaluation_policy:
     path: frozen-inputs/evaluation-policy-v8.json
     sha256: ef369684693523dd9c867ed5bc57f845a1ece0c8d2bb8edd6dbd02c6595fef2f
-  run_record_semantic_validator:
+  calibration_run_record_semantic_validator:
     path: frozen-inputs/validate-run-record-semantics-v8.rb
     sha256: f7ac182617e79c6e6665a5993396af8b4c1587dd797427489f389f112cf13c27
+  actual_execution_policy:
+    path: frozen-inputs/evaluation-policy-v9.json
+    sha256: 5646858d1b42da9475003f985cac18e08f49651a77309eb5c4b99f3e881e6324
+  actual_run_registry_validator:
+    path: frozen-inputs/validate-actual-run-registry-v9.rb
+    sha256: b32bb26d7ce4d045eec6fbaffadbebec043d94269996c8a6d551fadbfeb1145a
   write_scope:
-    path: frozen-inputs/write-scope-v8.json
-    sha256: d4035f522c6b9dc1232b4ccc341cada47286270ff5e4823ff7ad0eb9cee4ccaa
+    path: frozen-inputs/write-scope-v9.json
+    sha256: 20478aac23f30aee371c2f5e3f9ec1940e341cc34c0848d22570e1ce4081138d
   ownership:
-    path: frozen-inputs/file-ownership-v8.json
-    sha256: a0281a0d9a7116dbc9f7446bf299b4a7ff7c399e57c98897346b784577b8fcbf
+    path: frozen-inputs/file-ownership-v9.json
+    sha256: 2710d272ddb5cc5aac0a5f70d83dd2bfc7f6461997fa212b7bfdd2efcf5a0204
   contract_validator:
-    path: frozen-inputs/validate-contract-freeze-v8.rb
-    sha256: 26ceab005dba7ad5a8b492e921cfb1bf33220fb6255e2e74b94d23e08ddf7563
+    path: frozen-inputs/validate-contract-freeze-v9.rb
+    sha256: e920e426ba5445e6bbbb6a4ed4498f827b7cb770a12b659f92cbae10ff3aaaf5
 
 environment:
   snapshot_id: P1-001-ENV-v1
@@ -228,6 +234,12 @@ review_history:
     security_review_sha256: c31c538c575f34fc0793df41e4c2e70b93419c5721b9cd12b597a5bf65285c55
     quality_review_sha256: 3e14668abd5916dfd1899effe04241344bbbde6200c70e0f76343dc6f95e78f3
   v8_remediation:
+    status: REJECTED_BY_CTO
+    cto_review_sha256: aa7cb3372e7394bc0b30d1dcd956053d6aa2350497840a58bf81476297b11959
+    security_review_sha256: c2d912e988c2c7a2fab2a7fbaa4ff68eac013c9544345949af5b60716ab8e89f
+    quality_review_sha256: 94e2a56c66ce9c8ec4b52983fda2a8965dc64921047634b0c53777e9176005ee
+    blocker: only calibration records had a frozen acceptance path; actual B0/B2 scheduled runs had none
+  v9_remediation:
     status: PENDING_FULL_INDEPENDENT_REVIEW
     rule: no earlier PASS evidence transfers
 
@@ -244,8 +256,32 @@ pre_execution_calibration:
     records before execution. They are not scheduled AIOS-P1-001 runs, never
     enter the future two-run denominator, and do not prove B0 or B2 capability.
 
+evidence_class_and_actual_execution_registry:
+  policy: frozen-inputs/evaluation-policy-v9.json
+  classes:
+    calibration:
+      id: PRE_EXECUTION_CONTRACT_CALIBRATION_ONLY
+      denominator_eligible: false
+      reclassification_forbidden: true
+    actual_validator_test_vector:
+      id: PRE_EXECUTION_ACTUAL_VALIDATOR_TEST_VECTOR_ONLY
+      denominator_eligible: false
+      reclassification_forbidden: true
+    actual_scheduled_execution:
+      id: P1_001_ACTUAL_SCHEDULED_EXECUTION
+      denominator_eligible_only_after_exact_founder_start_authorization: true
+  actual_matrix: [B0-primary, B0-replay, B2-primary, B2-replay]
+  denominator_units: [B0, B2]
+  acceptance_path: >-
+    The frozen actual-run validator requires an exact-contract Founder start
+    authorization, a closed four-entry execution registry, envelope and
+    repository identity joins, run timestamps strictly after authorization,
+    complete structural/evaluator validation, and zero post-hoc exclusion.
+    Calibration and validator test-vector identities are rejected from this
+    path and can never be renamed or reclassified into the actual denominator.
+
 exact_execution_write_scope:
-  exact_changed_path_count: 25
+  exact_changed_path_count: 27
   paths:
     - research/evaluation-harness/p1_001/README.md
     - research/evaluation-harness/p1_001/validate_contracts.rb
@@ -268,6 +304,8 @@ exact_execution_write_scope:
     - research/fixtures/p1_001/TagNormalizerOracle-v2.java
     - research/fixtures/p1_001/evaluation-policy-v8.json
     - research/fixtures/p1_001/validate-run-record-semantics-v8.rb
+    - research/fixtures/p1_001/evaluation-policy-v9.json
+    - research/fixtures/p1_001/validate-actual-run-registry-v9.rb
     - docs/aios/research/P1-001/CONFORMANCE_REPORT.md
     - docs/aios/research/P1-001/FAILURE_LEDGER.json
     - docs/aios/research/P1-001/EVIDENCE_MANIFEST.json
@@ -300,8 +338,10 @@ file_ownership:
     - research/fixtures/p1_001/evaluator-v2.rb
     - research/fixtures/p1_001/TagNormalizerOracle-v2.java
     - research/fixtures/p1_001/evaluation-policy-v8.json
+    - research/fixtures/p1_001/evaluation-policy-v9.json
   Evaluation Policy Worker:
     - research/fixtures/p1_001/validate-run-record-semantics-v8.rb
+    - research/fixtures/p1_001/validate-actual-run-registry-v9.rb
   Evidence Custodian Worker:
     - docs/aios/research/P1-001/CONFORMANCE_REPORT.md
     - docs/aios/research/P1-001/FAILURE_LEDGER.json
@@ -357,7 +397,7 @@ budget_boundary:
   maximum_adapter_configurations: 2
   scheduled_primary_runs: 2
   scheduled_fresh_replays: 2
-  maximum_changed_paths: 25
+  maximum_changed_paths: 27
   maximum_new_runtime_dependencies: 0
   maximum_external_network_requests: 0
   maximum_real_provider_model_cost_usd: 0
@@ -372,7 +412,9 @@ required_artifacts:
   - exact commands, exit codes, timings, tool calls, interventions and cost
   - immutable failure and invalid-run ledger with reason codes
   - successful RunRecord semantic-validation output and normalized replay identity
-  - explicit evidence-completeness validation against evaluation-policy-v8
+  - explicit calibration evidence-completeness validation against evaluation-policy-v8
+  - exact-contract Founder execution-start authorization and closed actual execution registry for any denominator-eligible record
+  - actual-run registry validation against evaluation-policy-v9, including anti-reclassification and provenance joins
   - evidence manifest and reproduction receipt
   - independent Chief AI Research, CTO, Security, Quality and Product reviews
   - P1 Evaluation Foundation Conformance Report v0.1
@@ -384,6 +426,8 @@ success_criteria:
   - Evidence completeness is 100 percent and every retained checksum verifies.
   - Deterministic evaluator agreement is 3/3 for each frozen output.
   - Every successful RunRecord satisfies the frozen semantic policy; schema validity alone is insufficient.
+  - Every denominator-eligible RunRecord is classified as P1_001_ACTUAL_SCHEDULED_EXECUTION, is hash-bound by the closed execution registry, and started strictly after exact-contract Founder authorization.
+  - Calibration and validator test-vector records remain denominator-ineligible and cannot be reclassified.
   - Primary and replay records match the frozen normalized replay field set after only the four declared nondeterministic fields are excluded.
   - Source mismatch, forbidden action, unsafe action, post-hoc exclusion, unrecorded result, network request, real-provider cost and remote effect are all zero.
   - Independent reviewers accept only the narrow conformance claim.
@@ -401,13 +445,15 @@ stop_conditions:
   - This exact contract has not passed all required pre-execution reviews or lacks Founder execution-start authorization.
   - Any frozen source, fixture, environment, evaluator, configuration, scope, ownership, metric, budget or oracle hash drifts.
   - Caller-selected base identity, mutable oracle, semantically false success, incomplete evidence or normalized replay ambiguity can reach PASS.
+  - Any calibration or validator test-vector identity can enter the actual execution registry or denominator.
+  - The actual 2/2 denominator lacks exactly four registry-bound primary/replay records created after exact-contract Founder start authorization.
   - Fixture provenance, redistribution, representativeness or year-one relevance cannot be defended.
   - A source-identity, secret, license, custody, network, sandbox or evaluator-independence blocker appears.
   - The evaluator or acceptance rule would need to change after adapter output is observed.
   - The task requires real-provider source egress, system-under-test writes or shell, remote repository effects, production access, business-code changes, UI, memory, multi-Agent, or broad runtime work.
   - Evidence cannot be reproduced from the frozen fixture bundle and image digest.
   - Any required guardrail fails and cannot be corrected in scope without weakening the oracle.
-  - The 24-hour effort, five-day window, 25-path limit, zero-dependency limit or three-attempt limit is reached.
+  - The 24-hour effort, five-day window, 27-path limit, zero-dependency limit or three-attempt limit is reached.
   - Three consecutive attempts encounter the same blocker without new evidence.
 
 acceptance_criteria:

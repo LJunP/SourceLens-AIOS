@@ -153,7 +153,7 @@ ruby -ryaml -rjson -rdigest -e '
       ownership["owners"] = owners
     end
     contract_paths = p1_task.dig("exact_execution_write_scope", "paths")
-    abort "frozen scope and Task Contract disagree" unless scope["exact_allowed_paths"] == contract_paths
+    abort "frozen scope and Task Contract disagree" unless scope["exact_allowed_paths"].sort == contract_paths.sort
     frozen_owner_map = ownership.fetch("owners").to_h { |owner| [owner.fetch("owner_role"), owner.fetch("paths")] }
     contract_owner_map = p1_task.fetch("file_ownership").reject { |role, _| role == "overlap_policy" }
     abort "frozen ownership and Task Contract disagree" unless frozen_owner_map == contract_owner_map

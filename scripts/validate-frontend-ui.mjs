@@ -2520,7 +2520,7 @@ requirePattern(
 )
 requirePattern(
   dashboard,
-  /interface DashboardProductPlane[\s\S]*?key:\s*'front-office' \| 'developer-console' \| 'back-office'[\s\S]*?const productPlanes = useMemo<DashboardProductPlane\[\]>\(\(\) => \{[\s\S]*?label:\s*'前台体验'[\s\S]*?label:\s*'开发者控制台'[\s\S]*?label:\s*'后台治理'[\s\S]*?<DashboardProductPlaneMap planes=\{productPlanes\} \/>[\s\S]*?function DashboardProductPlaneMap[\s\S]*?aria-label="继承产品三平面（P0冻结）"[\s\S]*?不定义 AIOS 当前产品路线、开发任务或阶段投入[\s\S]*?data-sl-dashboard-plane=\{plane\.key\}/,
+  /interface DashboardProductPlane[\s\S]*?key:\s*'front-office' \| 'developer-console' \| 'back-office'[\s\S]*?const productPlanes = useMemo<DashboardProductPlane\[\]>\(\(\) => \{[\s\S]*?label:\s*'前台体验'[\s\S]*?label:\s*'开发者控制台'[\s\S]*?label:\s*'后台治理'[\s\S]*?<DashboardProductPlaneMap planes=\{productPlanes\} \/>[\s\S]*?function DashboardProductPlaneMap[\s\S]*?aria-label="继承产品三平面（AIOS研究范围外）"[\s\S]*?不定义 AIOS 当前产品路线、开发任务或阶段投入[\s\S]*?data-sl-dashboard-plane=\{plane\.key\}/,
   'Dashboard must render a page-level three-plane product structure map for front office, developer console and back-office governance.'
 )
 requirePattern(
@@ -2540,12 +2540,12 @@ requirePattern(
 )
 requirePattern(
   dashboard,
-  /interface DashboardExecutiveSignal[\s\S]*?label:\s*string[\s\S]*?const executiveSignals = useMemo<DashboardExecutiveSignal\[\]>\(\(\) => \[[\s\S]*?label:\s*'阶段进度'[\s\S]*?label:\s*'继承链路状态'[\s\S]*?label:\s*'风险阻塞'[\s\S]*?label:\s*'当前项目任务'[\s\S]*?value:\s*'P0-05 Baseline Slicing'[\s\S]*?<DashboardExecutiveBriefing signals=\{executiveSignals\} \/>[\s\S]*?function DashboardExecutiveBriefing[\s\S]*?aria-label="管理层决策简报"[\s\S]*?不证明 P0 Gate 已通过、VTSR 已测量、可信 Agent 闭环已实现或系统达到生产可用[\s\S]*?P0 Gate: NOT_READY[\s\S]*?data-sl-dashboard-executive-signal=\{signal\.key\}/,
+  /interface DashboardExecutiveSignal[\s\S]*?label:\s*string[\s\S]*?const executiveSignals = useMemo<DashboardExecutiveSignal\[\]>\(\(\) => \[[\s\S]*?label:\s*'阶段进度'[\s\S]*?label:\s*'继承链路状态'[\s\S]*?label:\s*'风险阻塞'[\s\S]*?label:\s*'当前项目任务'[\s\S]*?value:\s*'AIOS-P1-001 Contract Freeze'[\s\S]*?<DashboardExecutiveBriefing signals=\{executiveSignals\} \/>[\s\S]*?function DashboardExecutiveBriefing[\s\S]*?aria-label="管理层决策简报"[\s\S]*?不证明 P1-001 已执行、VTSR 已测量、可信 Agent 闭环已实现或系统达到生产可用[\s\S]*?P1-001 execution: NOT AUTHORIZED[\s\S]*?data-sl-dashboard-executive-signal=\{signal\.key\}/,
   'Dashboard must render an executive decision briefing with phase, quality, risk and investment signals plus explicit no-overclaim boundary copy.'
 )
 requirePattern(
   dashboard,
-  /function DashboardNextActionPanel\(\{ action \}:[\s\S]*?aria-label="继承产品运行建议（非项目任务）"[\s\S]*?不生成 AIOS 开发任务，也不改变 P0-05 的唯一优先级[\s\S]*?aria-label="主链路证据成熟度"[\s\S]*?aria-label="当前阻塞项"/,
+  /function DashboardNextActionPanel\(\{ action \}:[\s\S]*?aria-label="继承产品运行建议（非项目任务）"[\s\S]*?不生成 AIOS 开发任务，也不改变 AIOS-P1-001 合同冻结的唯一优先级[\s\S]*?aria-label="主链路证据成熟度"[\s\S]*?aria-label="当前阻塞项"/,
   'Dashboard next action panel must expose recommendation, evidence maturity and blocker semantics.'
 )
 requirePattern(
@@ -4268,8 +4268,8 @@ requirePattern(
 )
 requirePattern(
   dashboard,
-  /function DashboardCommandPanel[\s\S]*?aria-label="继承产品操作面板（非项目任务）"[\s\S]*?继承产品操作（P0冻结）[\s\S]*?不生成 AIOS 开发任务，不进入项目排期，也不改变 P0-05 的唯一优先级/,
-  'Dashboard command panel must classify all inherited product operations as non-project work during P0.'
+  /function DashboardCommandPanel[\s\S]*?aria-label="继承产品操作面板（非项目任务）"[\s\S]*?继承产品操作（AIOS研究范围外）[\s\S]*?不生成 AIOS 开发任务，不进入项目排期，也不改变 AIOS-P1-001 合同冻结的唯一优先级/,
+  'Dashboard command panel must classify all inherited product operations as non-project work during P1 contract freeze.'
 )
 
 requirePattern(

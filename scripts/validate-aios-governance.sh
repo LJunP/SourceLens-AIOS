@@ -132,7 +132,7 @@ ruby -ryaml -rjson -rdigest -e '
     abort "evaluator still accepts caller base" unless p1_task.dig("frozen_contract_inputs", "evaluator", "caller_supplied_base_identity") == false
     abort "oracle remains candidate mutable" unless p1_task.dig("frozen_contract_inputs", "immutable_oracle", "candidate_mutable") == false
 
-    expected = %w[AGENTS.md CHAIRMAN_BRIEFING.md CONTRIBUTING.md README.md ROADMAP.md docs/PROJECT_CODE_MAP.md docs/SOURCELENS_OPERATING_SYSTEM.md docs/TEAM_OPERATING_MODEL.md docs/aios/BASELINE_ADAPTER_CONTRACT.md docs/aios/CODEX_MASTER_PROMPT.md docs/aios/EVALUATION_PROTOCOL.md docs/aios/README.md docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml docs/aios/truth/project_state.yaml scripts/validate-aios-governance.sh web-console/src/pages/Dashboard.tsx].sort
+    expected = %w[AGENTS.md CHAIRMAN_BRIEFING.md CONTRIBUTING.md README.md ROADMAP.md docs/PROJECT_CODE_MAP.md docs/SOURCELENS_OPERATING_SYSTEM.md docs/TEAM_OPERATING_MODEL.md docs/aios/BASELINE_ADAPTER_CONTRACT.md docs/aios/CODEX_MASTER_PROMPT.md docs/aios/EVALUATION_PROTOCOL.md docs/aios/README.md docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml docs/aios/truth/project_state.yaml scripts/validate-aios-governance.sh scripts/validate-frontend-ui.mjs web-console/src/pages/Dashboard.tsx].sort
     changed = IO.popen(["git", "diff", "--name-only", "14df7b8e94f7c1fc8305e71a794a0815ed45fa82"], &:read).lines.map(&:strip).reject(&:empty?).sort
     abort "P1 entry change set escaped allowlist: #{changed.inspect}" unless changed == expected
     abort "staged changes forbidden during validation" unless IO.popen(["git", "diff", "--cached", "--name-only"], &:read).strip.empty?

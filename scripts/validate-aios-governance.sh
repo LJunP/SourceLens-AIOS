@@ -54,7 +54,7 @@ ruby -ryaml -rjson -rdigest -e '
   baseline_task = YAML.load_file("docs/aios/tasks/P0-05_BASELINE_SLICING.yaml")
   p1_task = YAML.load_file("docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml")
 
-  if state.dig("project", "phase_status") == "ENTRY_AUTHORIZED_CONTRACT_FREEZE_PENDING_INDEPENDENT_REVIEW"
+  if state.dig("project", "phase_status") == "ENTRY_AUTHORIZED_CONTRACT_REFROZEN_V2_PENDING_INDEPENDENT_REVIEW"
     audit_root = File.realpath("/Users/lijunpeng/Desktop/cc/project/.sourcelens-audit")
     attachments_root = File.realpath("/Users/lijunpeng/.codex/attachments")
     founder_path = File.expand_path(state.dig("p1_entry_authorization", "machine_record"))
@@ -67,7 +67,7 @@ ruby -ryaml -rjson -rdigest -e '
     abort "P1 frozen manifest escapes audit root" unless File.realpath(frozen_manifest_path).start_with?("#{audit_root}/")
     abort "Goal objective escapes attachments root" unless File.realpath(goal_path).start_with?("#{attachments_root}/")
     abort "P1 Founder record hash drift" unless Digest::SHA256.file(founder_path).hexdigest == "10f60932d2da71d02434d3a34cf864be94fb3642fed5771bf59f90307342dc15"
-    abort "P1 frozen manifest hash drift" unless Digest::SHA256.file(frozen_manifest_path).hexdigest == "3c7ac90bc776c5ca488ec051eda49bb561ebaf138a3c7a5622b0673cba7cb81e"
+    abort "P1 frozen manifest hash drift" unless Digest::SHA256.file(frozen_manifest_path).hexdigest == "0591da4a972953307b56d97af932411ff96114345eae8af1fce346ea087b77c7"
     abort "Long-term Goal hash drift" unless Digest::SHA256.file(goal_path).hexdigest == "60e42edb7d422265325391014cd6e329fdf14861beedc682b6892fb3fc929eea"
 
     founder = JSON.parse(File.read(founder_path))
@@ -86,25 +86,26 @@ ruby -ryaml -rjson -rdigest -e '
 
     contract_path = "docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml"
     contract_sha = Digest::SHA256.file(contract_path).hexdigest
-    abort "P1-001 contract hash drift" unless contract_sha == "d905917d9ead684da848a2b5422fda63cb6c6c4bb4c2189e709504679bb66b22"
+    abort "P1-001 contract hash drift" unless contract_sha == "9b845bbe3022ed6cedf300a971d3c2234f50cbb90f9c642cdb8f7d0aa3a9037e"
     abort "Truth P1-001 contract hash drift" unless state.dig("p1_entry_authorization", "current_task_contract_sha256") == contract_sha
     abort "P1-001 task id drift" unless p1_task["task_id"] == "AIOS-P1-001"
     abort "P1-001 phase drift" unless p1_task["phase"] == "P1"
-    abort "P1-001 contract not frozen for review" unless p1_task["status"] == "FROZEN_PENDING_INDEPENDENT_PRE_EXECUTION_REVIEW"
+    abort "P1-001 contract not refrozen for review" unless p1_task["status"] == "REFROZEN_V2_PENDING_INDEPENDENT_PRE_EXECUTION_REVIEW"
     abort "P1-001 execution flag must be false" unless p1_task["execution_permitted"] == false && p1_task["execution_start_authorized"] == false
     %w[task_objective research_hypothesis why_now source_baselines fixture frozen_contract_inputs environment baseline roles exact_execution_write_scope file_ownership execution_permissions metrics budget_boundary required_artifacts success_criteria failure_criteria stop_conditions acceptance_criteria required_pre_execution_reviews forbidden_actions founder_decision].each do |field|
       value = p1_task[field]
       abort "P1-001 required contract field missing: #{field}" if value.nil? || (value.respond_to?(:empty?) && value.empty?)
     end
-    abort "P1-001 write scope path count drift" unless p1_task.dig("exact_execution_write_scope", "paths").length == 24
+    abort "P1-001 exact write scope count drift" unless p1_task.dig("exact_execution_write_scope", "exact_changed_path_count") == 25 && p1_task.dig("exact_execution_write_scope", "paths").length == 25
     abort "P1-001 changed-path budget drift" unless p1_task.dig("budget_boundary", "maximum_changed_paths") == 25
+    abort "P1-001 contract must be immutable during execution" if p1_task.dig("exact_execution_write_scope", "paths").include?("docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml")
     abort "P1-001 network budget drift" unless p1_task.dig("budget_boundary", "maximum_external_network_requests") == 0
     abort "P1-001 real-provider budget drift" unless p1_task.dig("budget_boundary", "maximum_real_provider_model_cost_usd") == 0
     abort "P1-001 dependency budget drift" unless p1_task.dig("budget_boundary", "maximum_new_runtime_dependencies") == 0
 
     frozen = JSON.parse(File.read(frozen_manifest_path))
     abort "frozen input record type drift" unless frozen["record_type"] == "aios_p1_001_frozen_input_manifest"
-    abort "frozen inputs were not pre-output" unless frozen["freeze_state"] == "FROZEN_BEFORE_IMPLEMENTATION_OUTPUT"
+    abort "frozen inputs were not refrozen before implementation" unless frozen["freeze_state"] == "REFROZEN_V2_BEFORE_IMPLEMENTATION_OUTPUT_AFTER_V1_REVIEW_FAILURE"
     abort "frozen manifest starts execution" unless frozen["execution_authorized"] == false
     frozen.fetch("frozen_inputs").each do |entry|
       path = File.expand_path(entry.fetch("path"), File.dirname(frozen_manifest_path))
@@ -113,8 +114,25 @@ ruby -ryaml -rjson -rdigest -e '
       abort "frozen input hash drift: #{path}" unless Digest::SHA256.file(path).hexdigest == entry.fetch("sha256")
       abort "frozen input size drift: #{path}" unless File.size(path) == entry.fetch("bytes")
     end
+    frozen_root = File.dirname(frozen_manifest_path)
+    scope_path = File.join(frozen_root, p1_task.dig("frozen_contract_inputs", "write_scope", "path"))
+    ownership_path = File.join(frozen_root, p1_task.dig("frozen_contract_inputs", "ownership", "path"))
+    contract_validator_path = File.join(frozen_root, p1_task.dig("frozen_contract_inputs", "contract_validator", "path"))
+    scope = YAML.load_file(scope_path)
+    ownership = YAML.load_file(ownership_path)
+    contract_paths = p1_task.dig("exact_execution_write_scope", "paths")
+    abort "frozen scope and Task Contract disagree" unless scope["exact_allowed_paths"] == contract_paths
+    frozen_owner_map = ownership.fetch("owners").to_h { |owner| [owner.fetch("owner_role"), owner.fetch("paths")] }
+    contract_owner_map = p1_task.fetch("file_ownership").reject { |role, _| role == "overlap_policy" }
+    abort "frozen ownership and Task Contract disagree" unless frozen_owner_map == contract_owner_map
+    abort "owner coverage is not exact" unless frozen_owner_map.values.flatten.sort == contract_paths.sort
+    abort "owner overlap detected" unless frozen_owner_map.values.flatten.uniq.length == contract_paths.length
+    abort "contract validator hash drift" unless Digest::SHA256.file(contract_validator_path).hexdigest == p1_task.dig("frozen_contract_inputs", "contract_validator", "sha256")
+    abort "external frozen contract validator failed" unless system("ruby", contract_validator_path, out: File::NULL)
+    abort "evaluator still accepts caller base" unless p1_task.dig("frozen_contract_inputs", "evaluator", "caller_supplied_base_identity") == false
+    abort "oracle remains candidate mutable" unless p1_task.dig("frozen_contract_inputs", "immutable_oracle", "candidate_mutable") == false
 
-    expected = %w[CHAIRMAN_BRIEFING.md docs/PROJECT_CODE_MAP.md docs/aios/BASELINE_ADAPTER_CONTRACT.md docs/aios/CODEX_MASTER_PROMPT.md docs/aios/EVALUATION_PROTOCOL.md docs/aios/README.md docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml docs/aios/truth/project_state.yaml scripts/validate-aios-governance.sh].sort
+    expected = %w[AGENTS.md CHAIRMAN_BRIEFING.md CONTRIBUTING.md README.md ROADMAP.md docs/PROJECT_CODE_MAP.md docs/SOURCELENS_OPERATING_SYSTEM.md docs/TEAM_OPERATING_MODEL.md docs/aios/BASELINE_ADAPTER_CONTRACT.md docs/aios/CODEX_MASTER_PROMPT.md docs/aios/EVALUATION_PROTOCOL.md docs/aios/README.md docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml docs/aios/truth/project_state.yaml scripts/validate-aios-governance.sh web-console/src/pages/Dashboard.tsx].sort
     changed = IO.popen(["git", "diff", "--name-only", "14df7b8e94f7c1fc8305e71a794a0815ed45fa82"], &:read).lines.map(&:strip).reject(&:empty?).sort
     abort "P1 entry change set escaped allowlist: #{changed.inspect}" unless changed == expected
     abort "staged changes forbidden during validation" unless IO.popen(["git", "diff", "--cached", "--name-only"], &:read).strip.empty?
@@ -606,7 +624,7 @@ for file in "${legacy_files[@]}"; do
     || fail "legacy document is not excluded from default Agent context: $file"
 done
 
-if grep -Fq 'ENTRY_AUTHORIZED_CONTRACT_FREEZE_PENDING_INDEPENDENT_REVIEW' docs/aios/truth/project_state.yaml; then
+if grep -Fq 'ENTRY_AUTHORIZED_CONTRACT_REFROZEN_V2_PENDING_INDEPENDENT_REVIEW' docs/aios/truth/project_state.yaml; then
   grep -Fq 'authorized entry into P1 Agent Evaluation and Research Foundation' CHAIRMAN_BRIEFING.md \
     || fail "Founder briefing does not expose current P1 entry authorization"
   grep -Fq 'AIOS-P1-001 execution' docs/aios/README.md \
@@ -614,17 +632,35 @@ if grep -Fq 'ENTRY_AUTHORIZED_CONTRACT_FREEZE_PENDING_INDEPENDENT_REVIEW' docs/a
     || fail "Authority index does not preserve the P1-001 execution stop"
   grep -Fq 'P1 entry is authorized. AIOS-P1-001 execution is not.' CHAIRMAN_BRIEFING.md \
     || fail "Founder briefing does not separate P1 entry from P1-001 execution"
-  grep -Fq 'FROZEN_PENDING_INDEPENDENT_PRE_EXECUTION_REVIEW' docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml \
-    || fail "P1-001 contract is not frozen for pre-execution review"
+  grep -Fq 'REFROZEN_V2_PENDING_INDEPENDENT_PRE_EXECUTION_REVIEW' docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml \
+    || fail "P1-001 contract is not refrozen for pre-execution review"
   grep -Fq 'execution_start_authorized: false' docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml \
     || fail "P1-001 contract improperly starts execution"
   grep -Fq 'FOUNDER_ACCEPTED_FOR_CONTROLLED_P1_IMPLEMENTATION' docs/aios/EVALUATION_PROTOCOL.md \
     || fail "Evaluation Protocol acceptance state is stale"
   grep -Fq 'FOUNDER_ACCEPTED_CONTROLLED_P1_IMPLEMENTATION_DEFINITION' docs/aios/BASELINE_ADAPTER_CONTRACT.md \
     || fail "Baseline Adapter Contract acceptance state is stale"
+  grep -Fq 'Current state: P0 Strategic Foundation is complete and the Founder has authorized' AGENTS.md \
+    || fail "AGENTS entry does not expose current P1 authorization"
+  grep -Fq '当前阶段是 `P1 Agent Evaluation and Research Foundation`' README.md \
+    || fail "root README current phase is stale"
+  grep -Fq 'Current phase: `P1 Agent Evaluation and Research Foundation`' ROADMAP.md \
+    || fail "roadmap current phase is stale"
+  grep -Fq 'currently in `P1 Agent Evaluation and Research Foundation`' CONTRIBUTING.md \
+    || fail "contribution boundary current phase is stale"
+  grep -Fq 'Current phase: `P1 Agent Evaluation and Research Foundation`' docs/SOURCELENS_OPERATING_SYSTEM.md \
+    || fail "operating-system current phase is stale"
+  grep -Fq 'Current phase: `P1 Agent Evaluation and Research Foundation`' docs/TEAM_OPERATING_MODEL.md \
+    || fail "team-model current phase is stale"
+  grep -Fq "value: 'P1 Evaluation Foundation'" web-console/src/pages/Dashboard.tsx \
+    || fail "Dashboard current phase is stale"
+  grep -Fq 'P1-001 execution: NOT AUTHORIZED' web-console/src/pages/Dashboard.tsx \
+    || fail "Dashboard does not preserve P1-001 execution stop"
   if grep -Fq 'P1 remains unauthorized' docs/aios/CODEX_MASTER_PROMPT.md \
     || grep -Fq 'P1 and AIOS-P1-001 are not authorized' docs/aios/README.md \
-    || grep -Fq 'P1 remains `NOT AUTHORIZED`' CHAIRMAN_BRIEFING.md; then
+    || grep -Fq 'P1 remains `NOT AUTHORIZED`' CHAIRMAN_BRIEFING.md \
+    || grep -Fq 'Current phase: `P0 Strategic Foundation`' ROADMAP.md \
+    || grep -Fq 'currently in `P0 Strategic Foundation`' CONTRIBUTING.md; then
     fail "active authority entry retains the superseded P1-not-authorized state"
   fi
 elif grep -Fq 'COMPLETE_FOUNDER_GATE_PASS_P1_NOT_AUTHORIZED' docs/aios/truth/project_state.yaml; then

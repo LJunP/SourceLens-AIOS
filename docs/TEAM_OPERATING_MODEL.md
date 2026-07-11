@@ -2,7 +2,7 @@
 
 - Version: `2.0`
 - Strategy: `SourceLens AIOS v2.3`
-- Current phase: `P0 Strategic Foundation`
+- Current phase: `P1 Agent Evaluation and Research Foundation`
 
 The former 11 core roles plus 5 expert aliases are retired as current governance. Their historical decisions remain in Git history, activity logs and the takeover audit.
 
@@ -147,17 +147,18 @@ Codex does not simulate meetings by time of day. It uses event-driven checkpoint
 
 Status prose is generated from canonical truth; it is not another authority file.
 
-## 9. Current P0 staffing
+## 9. Current P1-001 contract-freeze staffing
 
-| P0 work | Active roles |
+| P1 entry work | Active roles |
 | --- | --- |
-| truth and authority convergence | Master, Documentation Worker, Quality & Evaluation |
-| migration ledger review | CTO, Product, AI Research, Security, Quality & Evaluation |
-| Baseline Suite and protocol | AI Research, Product, Quality & Evaluation |
-| dirty-worktree partition plan | Engineering Manager, CTO, Quality & Evaluation |
-| P0 gate packet | Master, all accountable roles, Founder |
+| phase-entry truth and authority synchronization | Master, Governance Contract Worker, Quality & Evaluation |
+| fixture, hypothesis and claim boundary | AI Research, Product Intelligence, Fixture Custodian |
+| exact architecture and ownership | Engineering Manager, CTO |
+| trust boundary and evaluator adversarial review | Security, Quality & Evaluation |
+| execution-start decision after reviewed freeze | Human Founder |
 
-No runtime product Agent, memory Agent team or AI-company department is created during P0.
+No runtime product Agent, memory Agent team or AI-company department is created
+by P1 entry or AIOS-P1-001 contract preparation.
 
 ## 10. Source of detailed rules
 

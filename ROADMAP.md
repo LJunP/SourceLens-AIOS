@@ -1,7 +1,7 @@
 # SourceLens AIOS Roadmap
 
 - Strategy: `SourceLens AIOS Strategic Constitution v2.3`
-- Current phase: `P0 Strategic Foundation`
+- Current phase: `P1 Agent Evaluation and Research Foundation`
 - Current facts: `docs/aios/truth/project_state.yaml`
 
 ## Year-one outcome
@@ -26,8 +26,8 @@ The first product is not an AI company, generic Agent framework or broad enginee
 
 | Phase | Indicative horizon | Objective | Exit evidence |
 | --- | --- | --- | --- |
-| P0 Strategic Foundation | now | Freeze truth, migration, evaluation and reviewable source baseline | Founder-reviewed P0 gate packet |
-| P1 Agent Evaluation and Research Foundation | weeks 2-8 | TaskSpec, snapshots, traces, evaluator and Baseline Suite | reproducible B0/B1/B2 report and hidden-set protocol |
+| P0 Strategic Foundation | complete | Freeze truth, migration, evaluation and reviewable source baseline | Founder-reviewed P0 gate packet |
+| P1 Agent Evaluation and Research Foundation | now | TaskSpec, snapshots, traces, evaluator and Baseline Suite | reproducible B0/B1/B2 report and hidden-set protocol |
 | P2 Repository Intelligence | months 2-4 | task-conditioned repository structure, symbol, relation and context understanding | context benchmark beats simple retrieval baselines |
 | P3 Single-Agent Runtime + Minimum Trust | months 3-6 | planner, executor, tools, state, checkpoint/resume, permission and trace | deterministic resume/isolation/action-control tests |
 | P4 Software Engineer Agent Alpha | months 5-8 | real issue to verified evidence package | verified patches on controlled real tasks |
@@ -42,7 +42,7 @@ The first product is not an AI company, generic Agent framework or broad enginee
 
 The dates are planning ranges, not promises. Evidence gates control phase entry.
 
-## Current P0 sequence
+## Historical P0 sequence
 
 1. Preserve the read-only takeover audit.
 2. Freeze Strategic Constitution v2.3 and Master Execution Protocol v1.0.
@@ -53,16 +53,17 @@ The dates are planning ranges, not promises. Evidence gates control phase entry.
 7. Complete independent migration review.
 8. Present the P0 gate packet to the Founder.
 
-## Frozen during P0
+## Current P1 boundary
 
-- new product features and broad P9 UI work;
+- AIOS-P1-001 implementation until its exact contract passes review and Founder start authorization;
+- new product features and broad UI work;
 - GitHub App, webhook, private-repository and enterprise expansion;
 - multi-tenant SaaS, organization RBAC and billing;
 - broad CI/PR-governance feature expansion;
 - memory, learning or multi-Agent product claims;
 - deletion of legacy code or governance history.
 
-Urgent security or data-integrity containment may interrupt this freeze only with evidence and an explicit bounded task.
+Only the exact current P1 Task Contract or urgent evidence-backed security/data-integrity containment may change this boundary.
 
 ## Required research artifacts
 
@@ -79,4 +80,3 @@ Every artifact must retain its hypothesis, dataset, source/environment snapshot,
 Stop rather than expand when a phase cannot beat its declared baseline within budget, cannot reproduce its evidence, violates a trust guardrail or adds complexity without practical benefit.
 
 Pre-v2.3 P6/P9/P10/P11/P12-pre labels are historical and are not part of this roadmap.
-

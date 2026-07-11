@@ -4,7 +4,7 @@ SourceLens AIOS 是一个以软件工程为首个验证环境的可信自主智�
 
 第一年只建设一个产品闭环：输入不可变的仓库版本和真实、边界明确的 Issue，输出经过独立验证、可追踪、可回滚的 Patch Evidence Package，交由人类批准。
 
-当前阶段是 `P0 Strategic Foundation`。正常功能开发已冻结，正在完成事实源、迁移台账、评估基线和可审查源码基线。当前权威状态只读 `docs/aios/truth/project_state.yaml`；旧 P6/P9/P10/P11/P12-pre 路线为历史记录。
+当前阶段是 `P1 Agent Evaluation and Research Foundation`。P0 Founder Gate 已通过；Founder 已授权进入 P1，但 AIOS-P1-001 仍须完成、冻结和独立审查后再由 Founder 单独启动。正常功能开发仍冻结。当前权威状态只读 `docs/aios/truth/project_state.yaml`；旧 P6/P9/P10/P11/P12-pre 路线为历史记录。
 
 现有 Rust analyzer、Java AST/关系图、code chunks、检索引用、执行/审计、沙箱和 release evidence 都是待复用或加固的继承资产，不等于新路线已经完成。任何能力声明必须区分 `DEFINED`、`IMPLEMENTED`、`TESTED`、`GATE_PASSED` 和 `PRODUCTION_PROVEN`。
 
@@ -12,7 +12,7 @@ SourceLens AIOS 是一个以软件工程为首个验证环境的可信自主智�
 
 如果你是项目 Owner / 董事长，先看根目录 [CHAIRMAN_BRIEFING.md](CHAIRMAN_BRIEFING.md)。
 
-它是 Founder 高层控制台：当前阶段、保留的事实、P0 门禁、红线和下一次需要人工批准的决策。
+它是 Founder 高层控制台：当前阶段、保留的事实、阶段门禁、红线和下一次需要人工批准的决策。该界面中的旧阶段文案不是权威事实，权威入口始终是 Truth Registry。
 
 ## 贡献入口
 

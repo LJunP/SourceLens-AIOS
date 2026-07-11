@@ -658,8 +658,8 @@ export default function Dashboard() {
     {
       key: 'phase-progress',
       label: '阶段进度',
-      value: 'P0 Strategic Foundation',
-      detail: '当前只建立可审查源码基线并执行 P0-05；P1 及正常功能开发仍被 Gate 阻断。',
+      value: 'P1 Evaluation Foundation',
+      detail: 'P0 Gate 已通过且 P1 已获准进入；AIOS-P1-001 仍处于合同冻结与独立审查，尚未授权执行。',
       tone: 'warning',
     },
     {
@@ -676,17 +676,17 @@ export default function Dashboard() {
       detail: loadError
         ? '继承产品运行信号：先恢复 Dashboard API 或网络；不生成 AIOS 项目任务。'
         : riskCount > 0
-          ? '继承产品运行信号：先复盘报告证据，再进入修复候选或审计；不改变 P0-05 优先级。'
+          ? '继承产品运行信号：先复盘报告证据，再进入修复候选或审计；不改变 AIOS-P1-001 合同冻结优先级。'
           : activeScans > 0
             ? '继承产品运行信号：等待扫描完成后再查看报告和 code_chunks。'
-            : '继承产品运行未发现显式阻断；项目开发仍只执行 P0-05。',
+            : '继承产品运行未发现显式阻断；AIOS 项目仍停止在 P1-001 执行前合同审查。',
       tone: loadError ? 'danger' : riskCount > 0 ? 'danger' : activeScans > 0 ? 'idle' : 'ready',
     },
     {
       key: 'current-project-task',
       label: '当前项目任务',
-      value: 'P0-05 Baseline Slicing',
-      detail: '这是当前唯一项目开发任务；下方产品操作只用于访问继承系统，不进入 AIOS 排期或阶段投入。',
+      value: 'AIOS-P1-001 Contract Freeze',
+      detail: '这是当前唯一项目任务；实现与评估运行尚未启动，下方产品操作不进入 AIOS 排期或阶段投入。',
       tone: 'warning',
     },
   ], [
@@ -703,10 +703,10 @@ export default function Dashboard() {
     <div>
       <div className="sl-dashboard-hero">
         <div className="sl-dashboard-hero-main">
-          <div className="sl-kicker">P0 Research Control Plane / Evidence Loop</div>
+          <div className="sl-kicker">P1 Evaluation Foundation / Evidence Loop</div>
           <h1 className="sl-dashboard-title">工程智能首页</h1>
           <p className="sl-dashboard-hero-lede">
-            当前处于 P0 Strategic Foundation。先建立可审查源码基线和研究证据合同，再进入可信软件工程 Agent 的能力开发。
+            当前处于 P1 Agent Evaluation and Research Foundation。先冻结并审查 AIOS-P1-001 研究合同，再由 Founder 单独决定是否启动执行。
           </p>
           <DashboardNextActionPanel action={nextAction} />
           <div className="sl-dashboard-status">
@@ -728,7 +728,7 @@ export default function Dashboard() {
           </div>
           <strong>Not measured</strong>
           <p>Verified Task Success Rate</p>
-          <small>P1 基线尚未建立；下方仅展示继承产品链路状态，不构成 VTSR 测量。</small>
+          <small>P1 基线尚未测量；下方仅展示继承产品链路状态，不构成 VTSR 测量。</small>
           <div className="sl-dashboard-north-star-steps">
             {trustedLoopStages.map(stage => (
               <div className={`sl-dashboard-north-star-step sl-dashboard-north-star-step-${stage.status}`} key={stage.key}>
@@ -959,9 +959,9 @@ function DashboardExecutiveBriefing({
           <h2>管理层决策简报</h2>
         </div>
         <p>
-          汇总当前 P0 阶段、继承链路状态、风险阻塞和唯一项目任务。该简报不证明 P0 Gate 已通过、VTSR 已测量、可信 Agent 闭环已实现或系统达到生产可用。
+          汇总当前 P1 合同冻结、继承链路状态、风险阻塞和唯一项目任务。P0 Gate 已通过，但该简报不证明 P1-001 已执行、VTSR 已测量、可信 Agent 闭环已实现或系统达到生产可用。
         </p>
-        <Tag color="warning">P0 Gate: NOT_READY</Tag>
+        <Tag color="warning">P1-001 execution: NOT AUTHORIZED</Tag>
       </div>
       <div className="sl-dashboard-executive-grid">
         {signals.map(signal => (
@@ -982,11 +982,11 @@ function DashboardExecutiveBriefing({
 
 function DashboardProductPlaneMap({ planes }: { planes: DashboardProductPlane[] }) {
   return (
-    <section className="sl-dashboard-product-plane" role="region" aria-label="继承产品三平面（P0冻结）">
+    <section className="sl-dashboard-product-plane" role="region" aria-label="继承产品三平面（AIOS研究范围外）">
       <div className="sl-dashboard-product-plane-head">
         <div>
           <span>Inherited product surfaces</span>
-          <h2>继承产品界面（P0冻结）</h2>
+          <h2>继承产品界面（AIOS研究范围外）</h2>
         </div>
         <p>这些入口只用于访问和核对继承能力，不定义 AIOS 当前产品路线、开发任务或阶段投入。</p>
       </div>
@@ -1032,7 +1032,7 @@ function DashboardNextActionPanel({ action }: { action: DashboardNextAction }) {
           <span className="sl-dashboard-next-label">{action.label}</span>
           <strong className="sl-dashboard-next-title">{action.title}</strong>
           <p>{action.description}</p>
-          <small>仅用于操作继承系统，不生成 AIOS 开发任务，也不改变 P0-05 的唯一优先级。</small>
+          <small>仅用于操作继承系统，不生成 AIOS 开发任务，也不改变 AIOS-P1-001 合同冻结的唯一优先级。</small>
         </div>
         <div className="sl-dashboard-next-actions">
           <ActionButton type="primary" icon={<ArrowRightOutlined />} onClick={action.onPrimary} label={action.primaryLabel} />
@@ -1066,9 +1066,9 @@ function DashboardCommandPanel({ items }: { items: DashboardCommandItem[] }) {
       <div className="sl-dashboard-command-head">
         <div>
           <span>Inherited runtime operations</span>
-          <strong>继承产品操作（P0冻结）</strong>
+          <strong>继承产品操作（AIOS研究范围外）</strong>
         </div>
-        <p>这些入口只用于操作继承系统，不生成 AIOS 开发任务，不进入项目排期，也不改变 P0-05 的唯一优先级。</p>
+        <p>这些入口只用于操作继承系统，不生成 AIOS 开发任务，不进入项目排期，也不改变 AIOS-P1-001 合同冻结的唯一优先级。</p>
       </div>
       <div className="sl-dashboard-command-grid">
         {items.map(item => (

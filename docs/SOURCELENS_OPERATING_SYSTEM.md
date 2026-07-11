@@ -29,9 +29,13 @@ Canonical truth
 
 ## Current mode
 
-Current phase: `P0 Strategic Foundation`.
+Current phase: `P1 Agent Evaluation and Research Foundation`.
 
-P0 is a migration and evidence-control phase. It does not permit normal feature development, deletion, broad refactoring or multi-Agent product construction. Existing operating, risk, security, testing and release documents remain useful supporting evidence where they do not conflict with the AIOS authority stack.
+P0 is complete by Founder Gate decision. P1 entry is authorized, but the current
+AIOS-P1-001 contract must be completed, hash-frozen, independently reviewed and
+separately started by the Founder before implementation or runs. P1 does not
+permit normal feature development, deletion, broad runtime expansion or
+multi-Agent product construction.
 
 ## Hard rules
 
@@ -46,4 +50,3 @@ P0 is a migration and evidence-control phase. It does not permit normal feature 
 - Failed experiments may stop; they do not trigger automatic feature expansion.
 
 Role definitions are in `TEAM_OPERATING_MODEL.md`. Detailed rules are in `aios/MASTER_EXECUTION_PROTOCOL.md`.
-

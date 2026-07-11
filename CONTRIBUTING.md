@@ -14,15 +14,17 @@ Read in this order:
 
 Do not recover current priorities from old status boards, handoffs or progress logs.
 
-## 2. P0 contribution boundary
+## 2. P1 contribution boundary
 
-The project is currently in `P0 Strategic Foundation`.
+The project is currently in `P1 Agent Evaluation and Research Foundation`.
+P1 entry is authorized; AIOS-P1-001 execution is not authorized until the exact
+frozen contract passes independent review and receives a separate Founder start.
 
 Allowed work:
 
-- truth, migration, evaluation and baseline consolidation;
-- read-only audits and independent reviews;
-- dirty-worktree partition planning;
+- exact Task Contract, fixture, environment, evaluator and evidence preparation;
+- read-only evaluation-foundation audits and independent reviews;
+- work explicitly listed by a Founder-started P1 Task Contract;
 - urgent evidence-backed security or data-integrity containment.
 
 Not allowed without a new approved task:
@@ -121,4 +123,4 @@ Next eligible action:
 - Do not commit secrets, local `.env`, tokens or private keys.
 - Do not silently modify hidden tests, evaluator or acceptance criteria.
 - Do not auto-merge, push remote changes or write to production.
-- Do not classify an inherited asset as removed during P0; use the migration ledger and Founder gate.
+- Do not remove an inherited asset without migration-ledger evidence, regression review and explicit Founder authorization.

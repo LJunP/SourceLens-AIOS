@@ -259,6 +259,27 @@ ruby -ryaml -rjson -rdigest -e '
     abort "P1 entry HEAD not bound" unless head == receipt.dig("transition", "commit")
     abort "P1 entry tree not bound" unless tree == receipt.dig("transition", "tree")
     abort "P1 authority workspace must be clean" unless IO.popen(["git", "status", "--porcelain=v1", "-uall"], &:read).empty?
+    if p1_phase_status == "ENTRY_AUTHORIZED_FEM_V5_BOUNDED_OBSERVATION_ACCEPTED_P1_001_EXECUTION_BLOCKED"
+      sync_base = "d94443cd0806bcb9742fa676d3ffaae33a22a9f5"
+      sync_base_tree = "ac83a2a70006bec1448dcc70c6371b87d2e9f6af"
+      sync_paths = %w[docs/PROJECT_CODE_MAP.md docs/aios/truth/project_state.yaml scripts/validate-aios-governance.sh].sort
+      abort "current-state sync authority base drift" unless receipt.dig("transition", "authority_base_commit") == sync_base
+      abort "current-state sync authority base tree drift" unless receipt.dig("transition", "authority_base_tree") == sync_base_tree
+      abort "current-state sync is not descended from authority base" unless system("git", "merge-base", "--is-ancestor", sync_base, head, out: File::NULL, err: File::NULL)
+      direct_changed = IO.popen(["git", "diff", "--name-only", "#{sync_base}..#{head}"], &:read).lines.map(&:strip).reject(&:empty?).sort
+      abort "current-state sync direct path scope drift: #{direct_changed.inspect}" unless direct_changed == sync_paths
+      abort "current-state sync receipt direct path drift" unless receipt.dig("transition", "direct_changed_paths").sort == sync_paths
+      abort "current-state sync direct path count drift" unless receipt.dig("transition", "direct_changed_path_count") == 3
+      abort "current-state sync business path count drift" unless receipt.dig("transition", "business_path_count") == 0
+      bindings = receipt.fetch("authority_bindings")
+      abort "receipt Founder acceptance binding drift" unless bindings["founder_acceptance_record_sha256"] == custody["founder_acceptance_record_sha256"]
+      abort "receipt FEM V5 binding drift" unless bindings["fem_v5_sha256"] == custody["fem_v5_sha256"]
+      receipt_state = receipt.fetch("current_state")
+      abort "receipt changes existing P1 entry authority" unless receipt_state["p1_entry_authorized"] == true && receipt_state["p1_entry_authority_effect_of_this_transition"] == "PRESERVED_NOT_CREATED_OR_REVOKED"
+      %w[root_custody_proven atomic_snapshot_proven writer_exclusion_proven phase_b_authorized production_ready aios_p1_001_execution_authorized].each do |field|
+        abort "receipt authority or claim widening: #{field}" unless receipt_state[field] == false
+      end
+    end
     descriptors = receipt.fetch("changed_path_descriptors")
     abort "P1 entry descriptor path set mismatch" unless descriptors.map { |d| d.fetch("path") }.sort == expected
     descriptors.each do |descriptor|

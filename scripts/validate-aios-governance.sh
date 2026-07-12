@@ -259,6 +259,7 @@ ruby -ryaml -rjson -rdigest -e '
       abort "current-state sync receipt top-level key set drift" unless receipt.keys.sort == expected_receipt_keys
       abort "current-state sync receipt schema drift" unless receipt["schema_version"] == 1
       abort "current-state sync receipt task drift" unless receipt["task_id"] == "AIOS-P1-001-GOV-SYNC-01"
+      abort "current-state sync receipt timestamp drift" unless receipt["created_at_utc"].is_a?(String) && receipt["created_at_utc"].match?(/\A\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z\z/)
       abort "current-state sync decision boundary drift" unless receipt["decision_boundary"] == "P1_ENTRY_AUTHORITY_PRESERVED_P1_001_EXECUTION_NOT_AUTHORIZED"
       abort "current-state sync receipt claims inherited mutation" unless receipt["inherited_worktree_mutated"] == false
       abort "current-state sync receipt starts P1-001" unless receipt["aios_p1_001_execution_authorized"] == false
@@ -315,6 +316,7 @@ ruby -ryaml -rjson -rdigest -e '
     descriptors = receipt.fetch("changed_path_descriptors")
     abort "P1 entry descriptor path set mismatch" unless descriptors.map { |d| d.fetch("path") }.sort == expected
     descriptors.each do |descriptor|
+      abort "P1 entry descriptor key set drift" unless descriptor.keys.sort == %w[bytes mode path sha256]
       path = descriptor.fetch("path")
       stat = File.lstat(path)
       abort "P1 entry path symlink rejected: #{path}" if File.symlink?(path)

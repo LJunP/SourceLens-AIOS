@@ -272,10 +272,28 @@ ruby -ryaml -rjson -rdigest -e '
       abort "current-state sync direct path count drift" unless receipt.dig("transition", "direct_changed_path_count") == 3
       abort "current-state sync business path count drift" unless receipt.dig("transition", "business_path_count") == 0
       bindings = receipt.fetch("authority_bindings")
-      abort "receipt Founder acceptance binding drift" unless bindings["founder_acceptance_record_sha256"] == custody["founder_acceptance_record_sha256"]
-      abort "receipt FEM V5 binding drift" unless bindings["fem_v5_sha256"] == custody["fem_v5_sha256"]
+      expected_bindings = {
+        "long_term_goal_sha256" => "60e42edb7d422265325391014cd6e329fdf14861beedc682b6892fb3fc929eea",
+        "existing_p1_entry_authorization_sha256" => "10f60932d2da71d02434d3a34cf864be94fb3642fed5771bf59f90307342dc15",
+        "founder_acceptance_record_sha256" => custody["founder_acceptance_record_sha256"],
+        "fem_v5_sha256" => custody["fem_v5_sha256"],
+        "osm_v3_sha256" => custody["operational_selection_manifest_v3_sha256"],
+        "verifier_result_sha256" => custody["verifier_result_sha256"],
+        "cto_fem_v5_review_sha256" => custody.dig("independent_reviews", "cto", "sha256"),
+        "security_fem_v5_review_sha256" => custody.dig("independent_reviews", "security", "sha256"),
+        "quality_fem_v5_review_sha256" => custody.dig("independent_reviews", "quality", "sha256")
+      }
+      abort "receipt authority binding key set drift" unless bindings.keys.sort == expected_bindings.keys.sort
+      expected_bindings.each do |field, expected_value|
+        abort "receipt authority binding drift: #{field}" unless bindings[field] == expected_value
+      end
+      abort "receipt descriptor scope drift" unless receipt["descriptor_scope"] == "CUMULATIVE_FROM_POST_GATE_AUTHORITY_BASE"
+      abort "receipt descriptor base drift" unless receipt["descriptor_base_commit"] == "14df7b8e94f7c1fc8305e71a794a0815ed45fa82"
       receipt_state = receipt.fetch("current_state")
+      expected_state_keys = %w[atomic_snapshot_proven fem_v5_acceptance phase_b_authorized p1_entry_authority_effect_of_this_transition p1_entry_authorized production_ready root_custody_proven writer_exclusion_proven aios_p1_001_execution_authorized].sort
+      abort "receipt current-state key set drift" unless receipt_state.keys.sort == expected_state_keys
       abort "receipt changes existing P1 entry authority" unless receipt_state["p1_entry_authorized"] == true && receipt_state["p1_entry_authority_effect_of_this_transition"] == "PRESERVED_NOT_CREATED_OR_REVOKED"
+      abort "receipt FEM V5 claim boundary drift" unless receipt_state["fem_v5_acceptance"] == "HASH_BOUND_BOUNDED_OBSERVATION_ONLY"
       %w[root_custody_proven atomic_snapshot_proven writer_exclusion_proven phase_b_authorized production_ready aios_p1_001_execution_authorized].each do |field|
         abort "receipt authority or claim widening: #{field}" unless receipt_state[field] == false
       end

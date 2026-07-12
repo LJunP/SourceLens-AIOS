@@ -32,7 +32,7 @@ project:
   name: SourceLens AIOS
   current_phase: P1
   phase_name: Agent Evaluation and Research Foundation
-  phase_status: ENTRY_AUTHORIZED_CONTRACT_REFROZEN_V10_PENDING_INDEPENDENT_REVIEW
+  phase_status: ENTRY_AUTHORIZED_FEM_V5_BOUNDED_OBSERVATION_ACCEPTED_P1_001_EXECUTION_BLOCKED
   strategy_ref: docs/aios/STRATEGIC_CONSTITUTION.md
   strategic_mirror_is_authoritative: false
   strategic_mirror:
@@ -67,6 +67,35 @@ p1_entry_authorization:
   frozen_input_manifest: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-entry-and-p1-001-contract-20260711T141809Z/frozen-input-manifest-v10.json
   frozen_input_manifest_sha256: 6fdf10d722ebe13e03c7d057e6b063591c982025b481de68456d6df0e2da6541
   stop_boundary: STOP_AFTER_CONTRACT_FREEZE_AND_INDEPENDENT_REVIEW_BEFORE_EXECUTION
+
+p1_preexecution_custody_evidence:
+  current_evidence_status: FEM_V5_FOUNDER_ACCEPTED_HASH_BOUND_BOUNDED_OBSERVATION_ONLY
+  founder_acceptance_record: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-entry-and-p1-001-contract-20260711T141809Z/root-supervisor-v11/ROOT_CUSTODY_V4_3_PHASE_A_GENERATION_2_V11_R2_FEM_V5_FOUNDER_ACCEPTANCE_RECORD_20260712T180738Z.md
+  founder_acceptance_record_sha256: 5673ab89d0a8681ee7e30876944dab640a40dfb91ddded82316b062bce5f0e50
+  fem_v5: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-entry-and-p1-001-contract-20260711T141809Z/root-supervisor-v11/privileged-integration-v1/ROOT_CUSTODY_V4_3_FINAL_EVIDENCE_MANIFEST_V5.json
+  fem_v5_sha256: ee84a70855d82019ea308de07a8eede2403686f7bb8bab6f2b5f61a7c73c32bd
+  operational_selection_manifest_v3_sha256: 62e61244a56e9361b8f10a592bc9a9687787563fe961c11ba5f745488a9327c3
+  verifier_result_sha256: 477486c69dee2d2c560d76a349675a270906c65dcf9cfc78e6e6206b70aaf294
+  independent_reviews:
+    cto:
+      verdict: PASS
+      sha256: efee9c07b57b75c4d450d1ae26a58d3e59bfc9378111bc3cd31f7d2a2798c158
+    security:
+      verdict: PASS
+      sha256: fa5cb611d730752836c4c9683d1fac2a159abfabe472e6b124ae8ea0b576ccc6
+    quality:
+      verdict: PASS
+      sha256: c876abfff671b9aff81b9e4685f7abb99a859872644971f979f160e8f1b0b9f0
+  accepted_claim_identifier: PHASE_A_HASH_BOUND_BOUNDED_OBSERVATION_V1
+  accepted_observation_scope: EXACT_OSM_OBJECTS_AND_BYTES_DURING_DECLARED_VERIFICATION_INTERVAL
+  accepted_observation_interval_end: FINAL_VERIFICATION_CHECKS_COMPLETED_BEFORE_RESULT_SERIALIZATION
+  existing_p1_entry_authority_effect: PRESERVED_NOT_CREATED_OR_REVOKED_BY_THIS_ACCEPTANCE
+  root_custody_proven: false
+  atomic_snapshot_proven: false
+  writer_exclusion_proven: false
+  phase_b_authorized: false
+  production_ready: false
+  aios_p1_001_execution_authorized: false
 
 p0_audit:
   report: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p0-a-20260710-220800/p0_takeover_report.md
@@ -343,13 +372,13 @@ active_p1_work:
     title: Prove the minimum reproducible evaluation-harness path with one immutable fixture task
     task_contract_ref: docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
     task_contract_sha256: 8cc4bfee6c5420256c2a413475e6ea5dff3fa653b3e2a6112b881d3361565a31
-    status: REFROZEN_V10_PENDING_INDEPENDENT_PRE_EXECUTION_REVIEW
+    status: PRE_EXECUTION_BLOCKED_ROOT_CUSTODY_NOT_PROVEN_FEM_V5_BOUNDED_OBSERVATION_ACCEPTED
     execution_permitted: false
     fixture_id: P1-001-DEV-FIXTURE-v1
     fixture_commit: e4c881945d60512341abf1128f39855540d23569
     fixture_tree: c826510e97113ae2a73efc4d9a2916d28d9a2c7f
     frozen_input_manifest_sha256: 6fdf10d722ebe13e03c7d057e6b063591c982025b481de68456d6df0e2da6541
-    next_decision: FOUNDER_ACCEPT_OR_REJECT_REVIEWED_CONTRACT_AND_SEPARATELY_START_EXECUTION
+    next_decision: COMPLETE_ROOT_CUSTODY_TRUST_BOUNDARY_AND_REPEAT_PRE_EXECUTION_REVIEW_BEFORE_ANY_FOUNDER_START_DECISION
 
 runtime_restrictions:
   enforcement_status: GOVERNANCE_ONLY_NOT_YET_TECHNICALLY_ENFORCED

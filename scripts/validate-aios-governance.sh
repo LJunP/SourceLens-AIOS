@@ -54,7 +54,12 @@ ruby -ryaml -rjson -rdigest -e '
   baseline_task = YAML.load_file("docs/aios/tasks/P0-05_BASELINE_SLICING.yaml")
   p1_task = YAML.load_file("docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml")
 
-  if state.dig("project", "phase_status") == "ENTRY_AUTHORIZED_CONTRACT_REFROZEN_V10_PENDING_INDEPENDENT_REVIEW"
+  p1_phase_status = state.dig("project", "phase_status")
+  p1_entry_statuses = [
+    "ENTRY_AUTHORIZED_CONTRACT_REFROZEN_V10_PENDING_INDEPENDENT_REVIEW",
+    "ENTRY_AUTHORIZED_FEM_V5_BOUNDED_OBSERVATION_ACCEPTED_P1_001_EXECUTION_BLOCKED"
+  ]
+  if p1_entry_statuses.include?(p1_phase_status)
     audit_root = File.realpath("/Users/lijunpeng/Desktop/cc/project/.sourcelens-audit")
     attachments_root = File.realpath("/Users/lijunpeng/.codex/attachments")
     founder_path = File.expand_path(state.dig("p1_entry_authorization", "machine_record"))
@@ -83,6 +88,71 @@ ruby -ryaml -rjson -rdigest -e '
     abort "runtime P1 state drift" unless state.dig("runtime_goal_transition", "p1_authorized") == true
     abort "runtime starts P1-001" unless state.dig("runtime_goal_transition", "aios_p1_001_execution_authorized") == false
     abort "Long-term Goal status drift" unless state.dig("runtime_goal_transition", "long_term_goal_status") == "ACTIVE_FOUNDER_MANUALLY_CREATED"
+
+    if p1_phase_status == "ENTRY_AUTHORIZED_FEM_V5_BOUNDED_OBSERVATION_ACCEPTED_P1_001_EXECUTION_BLOCKED"
+      custody = state.fetch("p1_preexecution_custody_evidence")
+      custody_paths = {
+        "founder_acceptance_record" => [
+          custody.fetch("founder_acceptance_record"),
+          "5673ab89d0a8681ee7e30876944dab640a40dfb91ddded82316b062bce5f0e50"
+        ],
+        "fem_v5" => [
+          custody.fetch("fem_v5"),
+          "ee84a70855d82019ea308de07a8eede2403686f7bb8bab6f2b5f61a7c73c32bd"
+        ],
+        "operational_selection_manifest_v3" => [
+          "/Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-entry-and-p1-001-contract-20260711T141809Z/root-supervisor-v11/privileged-integration-v1/ROOT_CUSTODY_V4_3_OPERATIONAL_SELECTION_MANIFEST_V3.json",
+          "62e61244a56e9361b8f10a592bc9a9687787563fe961c11ba5f745488a9327c3"
+        ],
+        "verifier_result" => [
+          "/Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-entry-and-p1-001-contract-20260711T141809Z/root-supervisor-v11/privileged-integration-v1/FINAL_EVIDENCE_MANIFEST_V5_VERIFICATION_RESULT.json",
+          "477486c69dee2d2c560d76a349675a270906c65dcf9cfc78e6e6206b70aaf294"
+        ],
+        "cto_review" => [
+          "/Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-entry-and-p1-001-contract-20260711T141809Z/root-supervisor-v11/ROOT_CUSTODY_V4_3_PHASE_A_GENERATION_2_V11_R2_FEM_V5_CTO_REVIEW.md",
+          "efee9c07b57b75c4d450d1ae26a58d3e59bfc9378111bc3cd31f7d2a2798c158"
+        ],
+        "security_review" => [
+          "/Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-entry-and-p1-001-contract-20260711T141809Z/root-supervisor-v11/ROOT_CUSTODY_V4_3_PHASE_A_GENERATION_2_V11_R2_FEM_V5_SECURITY_REVIEW.md",
+          "fa5cb611d730752836c4c9683d1fac2a159abfabe472e6b124ae8ea0b576ccc6"
+        ],
+        "quality_review" => [
+          "/Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-entry-and-p1-001-contract-20260711T141809Z/root-supervisor-v11/ROOT_CUSTODY_V4_3_PHASE_A_GENERATION_2_V11_R2_FEM_V5_QUALITY_REVIEW.md",
+          "c876abfff671b9aff81b9e4685f7abb99a859872644971f979f160e8f1b0b9f0"
+        ]
+      }
+      custody_paths.each do |label, (path, expected_sha)|
+        expanded = File.expand_path(path)
+        abort "#{label} missing or symlink" unless File.file?(expanded) && !File.symlink?(expanded)
+        abort "#{label} escapes audit root" unless File.realpath(expanded).start_with?("#{audit_root}/")
+        abort "#{label} hash drift" unless Digest::SHA256.file(expanded).hexdigest == expected_sha
+      end
+      abort "Founder acceptance Truth hash drift" unless custody.fetch("founder_acceptance_record_sha256") == custody_paths.fetch("founder_acceptance_record")[1]
+      abort "FEM V5 Truth hash drift" unless custody.fetch("fem_v5_sha256") == custody_paths.fetch("fem_v5")[1]
+      abort "OSM V3 Truth hash drift" unless custody.fetch("operational_selection_manifest_v3_sha256") == custody_paths.fetch("operational_selection_manifest_v3")[1]
+      abort "verifier result Truth hash drift" unless custody.fetch("verifier_result_sha256") == custody_paths.fetch("verifier_result")[1]
+      %w[cto security quality].each do |role|
+        review = custody.dig("independent_reviews", role)
+        abort "#{role} review verdict drift" unless review && review["verdict"] == "PASS"
+        abort "#{role} review Truth hash drift" unless review["sha256"] == custody_paths.fetch("#{role}_review")[1]
+      end
+      fem = JSON.parse(File.read(custody.fetch("fem_v5")))
+      abort "FEM V5 claim widened" unless fem["claim_identifier"] == "PHASE_A_HASH_BOUND_BOUNDED_OBSERVATION_V1"
+      abort "FEM V5 candidate state drift" unless fem["candidate_state"] == "HASH_BOUND_PHASE_A_CANDIDATE_FOR_INDEPENDENT_REVIEW"
+      abort "FEM V5 root custody falsely proven" unless fem["root_custody_proven"] == false
+      abort "FEM V5 atomic snapshot falsely proven" unless fem["atomic_snapshot_proven"] == false
+      abort "FEM V5 writer exclusion falsely proven" unless fem["writer_exclusion_proven"] == false
+      abort "FEM V5 starts execution" unless fem["execution_authorized"] == false && fem["p1_001_execution_authorized"] == false
+      abort "Truth bounded-observation status drift" unless custody["current_evidence_status"] == "FEM_V5_FOUNDER_ACCEPTED_HASH_BOUND_BOUNDED_OBSERVATION_ONLY"
+      abort "Truth claim identifier drift" unless custody["accepted_claim_identifier"] == "PHASE_A_HASH_BOUND_BOUNDED_OBSERVATION_V1"
+      abort "Truth creates or revokes P1 authority" unless custody["existing_p1_entry_authority_effect"] == "PRESERVED_NOT_CREATED_OR_REVOKED_BY_THIS_ACCEPTANCE"
+      %w[root_custody_proven atomic_snapshot_proven writer_exclusion_proven phase_b_authorized production_ready aios_p1_001_execution_authorized].each do |field|
+        abort "Truth authority or claim widening: #{field}" unless custody[field] == false
+      end
+      active = state.fetch("active_p1_work").find { |entry| entry["id"] == "P1-001" }
+      abort "active P1-001 status does not preserve root-custody block" unless active && active["status"] == "PRE_EXECUTION_BLOCKED_ROOT_CUSTODY_NOT_PROVEN_FEM_V5_BOUNDED_OBSERVATION_ACCEPTED"
+      abort "active P1-001 execution improperly permitted" unless active["execution_permitted"] == false
+    end
 
     contract_path = "docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml"
     contract_sha = Digest::SHA256.file(contract_path).hexdigest
@@ -656,7 +726,7 @@ for file in "${legacy_files[@]}"; do
     || fail "legacy document is not excluded from default Agent context: $file"
 done
 
-if grep -Fq 'ENTRY_AUTHORIZED_CONTRACT_REFROZEN_V10_PENDING_INDEPENDENT_REVIEW' docs/aios/truth/project_state.yaml; then
+if grep -Eq 'ENTRY_AUTHORIZED_(CONTRACT_REFROZEN_V10_PENDING_INDEPENDENT_REVIEW|FEM_V5_BOUNDED_OBSERVATION_ACCEPTED_P1_001_EXECUTION_BLOCKED)' docs/aios/truth/project_state.yaml; then
   grep -Fq 'authorized entry into P1 Agent Evaluation and Research Foundation' CHAIRMAN_BRIEFING.md \
     || fail "Founder briefing does not expose current P1 entry authorization"
   grep -Fq 'AIOS-P1-001 execution' docs/aios/README.md \

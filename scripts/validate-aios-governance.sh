@@ -254,10 +254,24 @@ ruby -ryaml -rjson -rdigest -e '
       "sourcelens_aios_p1_entry_contract_freeze_receipt"
     end
     abort "P1 entry receipt type drift" unless receipt["record_type"] == expected_receipt_type
+    if p1_phase_status == "ENTRY_AUTHORIZED_FEM_V5_BOUNDED_OBSERVATION_ACCEPTED_P1_001_EXECUTION_BLOCKED"
+      expected_receipt_keys = %w[aios_p1_001_execution_authorized authority_bindings changed_path_descriptors created_at_utc current_state decision_boundary descriptor_base_commit descriptor_scope inherited_worktree_mutated record_type result schema_version task_id transition].sort
+      abort "current-state sync receipt top-level key set drift" unless receipt.keys.sort == expected_receipt_keys
+      abort "current-state sync receipt schema drift" unless receipt["schema_version"] == 1
+      abort "current-state sync receipt task drift" unless receipt["task_id"] == "AIOS-P1-001-GOV-SYNC-01"
+      abort "current-state sync decision boundary drift" unless receipt["decision_boundary"] == "P1_ENTRY_AUTHORITY_PRESERVED_P1_001_EXECUTION_NOT_AUTHORIZED"
+      abort "current-state sync receipt claims inherited mutation" unless receipt["inherited_worktree_mutated"] == false
+      abort "current-state sync receipt starts P1-001" unless receipt["aios_p1_001_execution_authorized"] == false
+      abort "current-state sync pre-review result drift" unless receipt["result"] == "PENDING_INDEPENDENT_REVIEW"
+      expected_transition_keys = %w[authority_base_commit authority_base_tree business_path_count commit direct_changed_path_count direct_changed_paths immediate_parent tree].sort
+      abort "current-state sync transition key set drift" unless receipt.fetch("transition").keys.sort == expected_transition_keys
+    end
     head = IO.popen(["git", "rev-parse", "HEAD"], &:read).strip
     tree = IO.popen(["git", "rev-parse", "HEAD^{tree}"], &:read).strip
+    immediate_parent = IO.popen(["git", "rev-parse", "HEAD^"], &:read).strip
     abort "P1 entry HEAD not bound" unless head == receipt.dig("transition", "commit")
     abort "P1 entry tree not bound" unless tree == receipt.dig("transition", "tree")
+    abort "P1 entry immediate parent not bound" unless immediate_parent == receipt.dig("transition", "immediate_parent")
     abort "P1 authority workspace must be clean" unless IO.popen(["git", "status", "--porcelain=v1", "-uall"], &:read).empty?
     if p1_phase_status == "ENTRY_AUTHORIZED_FEM_V5_BOUNDED_OBSERVATION_ACCEPTED_P1_001_EXECUTION_BLOCKED"
       sync_base = "d94443cd0806bcb9742fa676d3ffaae33a22a9f5"

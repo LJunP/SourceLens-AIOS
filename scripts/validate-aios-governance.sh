@@ -248,7 +248,12 @@ ruby -ryaml -rjson -rdigest -e '
     abort "P1 entry receipt escapes audit root" unless File.realpath(receipt_path).start_with?("#{audit_root}/")
     abort "P1 entry receipt hash mismatch" unless Digest::SHA256.file(receipt_path).hexdigest == receipt_sha
     receipt = JSON.parse(File.read(receipt_path))
-    abort "P1 entry receipt type drift" unless receipt["record_type"] == "sourcelens_aios_p1_entry_contract_freeze_receipt"
+    expected_receipt_type = if p1_phase_status == "ENTRY_AUTHORIZED_FEM_V5_BOUNDED_OBSERVATION_ACCEPTED_P1_001_EXECUTION_BLOCKED"
+      "sourcelens_aios_p1_preexecution_current_state_sync_receipt"
+    else
+      "sourcelens_aios_p1_entry_contract_freeze_receipt"
+    end
+    abort "P1 entry receipt type drift" unless receipt["record_type"] == expected_receipt_type
     head = IO.popen(["git", "rev-parse", "HEAD"], &:read).strip
     tree = IO.popen(["git", "rev-parse", "HEAD^{tree}"], &:read).strip
     abort "P1 entry HEAD not bound" unless head == receipt.dig("transition", "commit")

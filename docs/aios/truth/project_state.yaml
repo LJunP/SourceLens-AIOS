@@ -63,9 +63,9 @@ p1_entry_authorization:
   aios_p1_001_contract_preparation_authorized: true
   aios_p1_001_execution_authorized: false
   current_task_contract: docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
-  current_task_contract_sha256: 0f1d9e32cd5aa12026e3029d148c077989de37501c344e35cfa3e96ff331b889
+  current_task_contract_sha256: 8cc4bfee6c5420256c2a413475e6ea5dff3fa653b3e2a6112b881d3361565a31
   frozen_input_manifest: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-entry-and-p1-001-contract-20260711T141809Z/frozen-input-manifest-v10.json
-  frozen_input_manifest_sha256: 447f3b17a63ca43e3fbc3144c1eaa84838f356805900ead0f4aab4ba46bc8e51
+  frozen_input_manifest_sha256: 6fdf10d722ebe13e03c7d057e6b063591c982025b481de68456d6df0e2da6541
   stop_boundary: STOP_AFTER_CONTRACT_FREEZE_AND_INDEPENDENT_REVIEW_BEFORE_EXECUTION
 
 p0_audit:
@@ -342,13 +342,13 @@ active_p1_work:
   - id: P1-001
     title: Prove the minimum reproducible evaluation-harness path with one immutable fixture task
     task_contract_ref: docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
-    task_contract_sha256: 0f1d9e32cd5aa12026e3029d148c077989de37501c344e35cfa3e96ff331b889
+    task_contract_sha256: 8cc4bfee6c5420256c2a413475e6ea5dff3fa653b3e2a6112b881d3361565a31
     status: REFROZEN_V10_PENDING_INDEPENDENT_PRE_EXECUTION_REVIEW
     execution_permitted: false
     fixture_id: P1-001-DEV-FIXTURE-v1
     fixture_commit: e4c881945d60512341abf1128f39855540d23569
     fixture_tree: c826510e97113ae2a73efc4d9a2916d28d9a2c7f
-    frozen_input_manifest_sha256: 447f3b17a63ca43e3fbc3144c1eaa84838f356805900ead0f4aab4ba46bc8e51
+    frozen_input_manifest_sha256: 6fdf10d722ebe13e03c7d057e6b063591c982025b481de68456d6df0e2da6541
     next_decision: FOUNDER_ACCEPT_OR_REJECT_REVIEWED_CONTRACT_AND_SEPARATELY_START_EXECUTION
 
 runtime_restrictions:

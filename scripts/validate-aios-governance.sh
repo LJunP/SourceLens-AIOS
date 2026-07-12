@@ -54,7 +54,7 @@ ruby -ryaml -rjson -rdigest -e '
   baseline_task = YAML.load_file("docs/aios/tasks/P0-05_BASELINE_SLICING.yaml")
   p1_task = YAML.load_file("docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml")
 
-  if state.dig("project", "phase_status") == "ENTRY_AUTHORIZED_CONTRACT_REFROZEN_V9_PENDING_INDEPENDENT_REVIEW"
+  if state.dig("project", "phase_status") == "ENTRY_AUTHORIZED_CONTRACT_REFROZEN_V10_PENDING_INDEPENDENT_REVIEW"
     audit_root = File.realpath("/Users/lijunpeng/Desktop/cc/project/.sourcelens-audit")
     attachments_root = File.realpath("/Users/lijunpeng/.codex/attachments")
     founder_path = File.expand_path(state.dig("p1_entry_authorization", "machine_record"))
@@ -67,7 +67,7 @@ ruby -ryaml -rjson -rdigest -e '
     abort "P1 frozen manifest escapes audit root" unless File.realpath(frozen_manifest_path).start_with?("#{audit_root}/")
     abort "Goal objective escapes attachments root" unless File.realpath(goal_path).start_with?("#{attachments_root}/")
     abort "P1 Founder record hash drift" unless Digest::SHA256.file(founder_path).hexdigest == "10f60932d2da71d02434d3a34cf864be94fb3642fed5771bf59f90307342dc15"
-    abort "P1 frozen manifest hash drift" unless Digest::SHA256.file(frozen_manifest_path).hexdigest == "0c825922085bfe568fcace35aa56191650e9f1d86669304c449b7a0e078955ab"
+    abort "P1 frozen manifest hash drift" unless Digest::SHA256.file(frozen_manifest_path).hexdigest == "447f3b17a63ca43e3fbc3144c1eaa84838f356805900ead0f4aab4ba46bc8e51"
     abort "Long-term Goal hash drift" unless Digest::SHA256.file(goal_path).hexdigest == "60e42edb7d422265325391014cd6e329fdf14861beedc682b6892fb3fc929eea"
 
     founder = JSON.parse(File.read(founder_path))
@@ -86,18 +86,18 @@ ruby -ryaml -rjson -rdigest -e '
 
     contract_path = "docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml"
     contract_sha = Digest::SHA256.file(contract_path).hexdigest
-    abort "P1-001 contract hash drift" unless contract_sha == "9b56d3340df76a8468b86e126e3425d06b66913fa8946f71af2414937b4f8ac8"
+    abort "P1-001 contract hash drift" unless contract_sha == "0f1d9e32cd5aa12026e3029d148c077989de37501c344e35cfa3e96ff331b889"
     abort "Truth P1-001 contract hash drift" unless state.dig("p1_entry_authorization", "current_task_contract_sha256") == contract_sha
     abort "P1-001 task id drift" unless p1_task["task_id"] == "AIOS-P1-001"
     abort "P1-001 phase drift" unless p1_task["phase"] == "P1"
-    abort "P1-001 contract not refrozen for review" unless p1_task["status"] == "REFROZEN_V9_PENDING_INDEPENDENT_PRE_EXECUTION_REVIEW"
+    abort "P1-001 contract not refrozen for review" unless p1_task["status"] == "REFROZEN_V10_PENDING_INDEPENDENT_PRE_EXECUTION_REVIEW"
     abort "P1-001 execution flag must be false" unless p1_task["execution_permitted"] == false && p1_task["execution_start_authorized"] == false
     %w[task_objective research_hypothesis why_now source_baselines fixture frozen_contract_inputs environment baseline roles exact_execution_write_scope file_ownership execution_permissions metrics budget_boundary required_artifacts success_criteria failure_criteria stop_conditions acceptance_criteria required_pre_execution_reviews forbidden_actions founder_decision].each do |field|
       value = p1_task[field]
       abort "P1-001 required contract field missing: #{field}" if value.nil? || (value.respond_to?(:empty?) && value.empty?)
     end
-    abort "P1-001 exact write scope count drift" unless p1_task.dig("exact_execution_write_scope", "exact_changed_path_count") == 27 && p1_task.dig("exact_execution_write_scope", "paths").length == 27
-    abort "P1-001 changed-path budget drift" unless p1_task.dig("budget_boundary", "maximum_changed_paths") == 27
+    abort "P1-001 exact write scope count drift" unless p1_task.dig("exact_execution_write_scope", "exact_changed_path_count") == 33 && p1_task.dig("exact_execution_write_scope", "paths").length == 33
+    abort "P1-001 changed-path budget drift" unless p1_task.dig("budget_boundary", "maximum_changed_paths") == 33
     abort "P1-001 contract must be immutable during execution" if p1_task.dig("exact_execution_write_scope", "paths").include?("docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml")
     abort "P1-001 network budget drift" unless p1_task.dig("budget_boundary", "maximum_external_network_requests") == 0
     abort "P1-001 real-provider budget drift" unless p1_task.dig("budget_boundary", "maximum_real_provider_model_cost_usd") == 0
@@ -105,7 +105,7 @@ ruby -ryaml -rjson -rdigest -e '
 
     frozen = JSON.parse(File.read(frozen_manifest_path))
     abort "frozen input record type drift" unless frozen["record_type"] == "aios_p1_001_frozen_input_manifest_delta"
-    abort "frozen inputs were not refrozen before implementation" unless frozen["freeze_state"] == "REFROZEN_V9_BEFORE_IMPLEMENTATION_OUTPUT_AFTER_V8_CTO_REVIEW_FAILURE"
+    abort "frozen inputs were not refrozen before implementation" unless frozen["freeze_state"] == "REFROZEN_V10_BEFORE_IMPLEMENTATION_OUTPUT_AFTER_V9_CTO_SECURITY_QUALITY_FAILURE"
     abort "frozen manifest starts execution" unless frozen["execution_authorized"] == false
     parent_manifest_path = File.join(File.dirname(frozen_manifest_path), frozen.dig("parent_manifest", "path"))
     abort "parent frozen manifest missing or symlink" unless File.file?(parent_manifest_path) && !File.symlink?(parent_manifest_path)
@@ -656,7 +656,7 @@ for file in "${legacy_files[@]}"; do
     || fail "legacy document is not excluded from default Agent context: $file"
 done
 
-if grep -Fq 'ENTRY_AUTHORIZED_CONTRACT_REFROZEN_V9_PENDING_INDEPENDENT_REVIEW' docs/aios/truth/project_state.yaml; then
+if grep -Fq 'ENTRY_AUTHORIZED_CONTRACT_REFROZEN_V10_PENDING_INDEPENDENT_REVIEW' docs/aios/truth/project_state.yaml; then
   grep -Fq 'authorized entry into P1 Agent Evaluation and Research Foundation' CHAIRMAN_BRIEFING.md \
     || fail "Founder briefing does not expose current P1 entry authorization"
   grep -Fq 'AIOS-P1-001 execution' docs/aios/README.md \
@@ -664,7 +664,7 @@ if grep -Fq 'ENTRY_AUTHORIZED_CONTRACT_REFROZEN_V9_PENDING_INDEPENDENT_REVIEW' d
     || fail "Authority index does not preserve the P1-001 execution stop"
   grep -Fq 'P1 entry is authorized. AIOS-P1-001 execution is not.' CHAIRMAN_BRIEFING.md \
     || fail "Founder briefing does not separate P1 entry from P1-001 execution"
-  grep -Fq 'REFROZEN_V9_PENDING_INDEPENDENT_PRE_EXECUTION_REVIEW' docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml \
+  grep -Fq 'REFROZEN_V10_PENDING_INDEPENDENT_PRE_EXECUTION_REVIEW' docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml \
     || fail "P1-001 contract is not refrozen for pre-execution review"
   grep -Fq 'execution_start_authorized: false' docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml \
     || fail "P1-001 contract improperly starts execution"

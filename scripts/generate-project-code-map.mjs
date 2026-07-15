@@ -71,6 +71,7 @@ function gitVisibleFiles() {
   const paths = [...new Set(output.split('\0').filter(Boolean))].sort()
   return paths
     .filter(rel => !isExcluded(rel))
+    .filter(rel => existsSync(path.join(rootDir, rel)))
     .map(rel => {
       const abs = path.join(rootDir, rel)
       return { abs, rel, stat: statSync(abs) }
@@ -154,7 +155,7 @@ function moduleDescription(module) {
 
 function directoryDescription(rel) {
   if (rel === '.github') return 'GitHub 平台配置目录，目前承载 CI 工作流。'
-  if (rel === '.github/workflows') return 'GitHub Actions 工作流目录，负责自动化构建、测试、安全检查和 release evidence。'
+  if (rel === '.github/workflows') return 'GitHub Actions 工作流目录，负责当前权威、构建、测试和静态边界检查。'
   if (rel === '.idea') return 'JetBrains IDE 本地配置目录，不是产品运行必需能力。'
   if (rel === '.vscode') return 'VS Code 工作区配置目录，用于本地编辑器体验。'
   if (rel === 'analyzer-rust') return 'Rust 逆向分析器工程，负责扫描外部仓库并输出结构化代码理解结果。'
@@ -182,7 +183,7 @@ function directoryDescription(rel) {
   if (rel === 'deploy') return '部署配置目录，包含 Docker Compose 和环境变量模板。'
   if (rel === 'docs') return '项目事实源文档目录，覆盖产品、架构、API、数据库、安全、运维、阶段需求、进度和交接。'
   if (rel === 'docs/llm-safety-evals') return 'LLM 安全评测用例目录，存放 prompt injection、输出质量和 provider run 模板。'
-  if (rel === 'scripts') return '本地自动化脚本目录，封装启动、校验、smoke、preflight、release evidence、清理和演练。'
+  if (rel === 'scripts') return '本地自动化脚本目录，封装启动、校验、代码地图和生成物清理。'
   if (rel === 'web-console') return 'React/Vite 前端控制台工程，承载 SourceLens 用户界面和 UI smoke。'
   if (rel === 'web-console/src') return '前端源码根目录。'
   if (rel === 'web-console/src/api') return '前端 API client 层，集中定义后端 HTTP 调用和 TypeScript 响应类型。'
@@ -192,7 +193,7 @@ function directoryDescription(rel) {
   if (rel === 'web-console/src/pages') return '前端页面目录，每个文件对应一个主要产品页面或页面兼容包装。'
   if (rel === 'web-console/src/styles') return '前端全局样式目录，定义产品视觉、布局、响应式和可读性规则。'
   if (rel === 'web-console/src/utils') return '前端工具函数目录，当前重点处理展示脱敏等安全展示逻辑。'
-  if (rel === 'web-console/tests') return 'Playwright UI smoke 测试目录，保护关键页面、状态和交互合同。'
+  if (rel === 'web-console/tests') return '前端测试目录。'
   return `${topLevelDescription(topGroup(rel))}子目录。`
 }
 
@@ -202,10 +203,10 @@ function describeFile(rel, text) {
   const mod = moduleName(rel)
 
   if (rel === 'README.md') return '项目入口说明，介绍 SourceLens 当前定位、技术栈、本地启动、验证命令、结构和清理策略。'
-  if (rel === 'Makefile') return '统一开发命令入口，封装本地启动、验证、smoke、release evidence、清理和专项门禁。'
-  if (rel === '.gitignore') return '定义 Git 忽略规则，排除本地依赖、构建产物、runtime、release evidence 和密钥文件。'
+  if (rel === 'Makefile') return '统一开发命令入口，封装本地启动、构建、验证和生成物清理。'
+  if (rel === '.gitignore') return '定义 Git 忽略规则，排除本地依赖、构建产物、runtime、历史证据和密钥文件。'
   if (rel === '.dockerignore') return '定义 Docker build context 忽略规则，避免把本地依赖、证据包、runtime 和密钥打进镜像。'
-  if (rel.startsWith('.github/workflows/')) return 'GitHub Actions CI 工作流，负责 PR/push 的安全、后端、前端、Rust、Docker 和 release evidence CI profile 验证。'
+  if (rel.startsWith('.github/workflows/')) return 'GitHub Actions CI 工作流，负责 PR/push 的权威、后端、前端、Rust 和静态合同验证。'
   if (rel.startsWith('.idea/') || rel.startsWith('.vscode/')) return '本地 IDE 配置文件，不属于产品能力；用于编辑器项目识别、代码风格或本机工作区状态。'
 
   if (rel.startsWith('analyzer-rust/')) {
@@ -245,10 +246,9 @@ function describeFile(rel, text) {
   }
 
   if (rel.startsWith('web-console/')) {
-    if (base === 'package.json') return '前端工程依赖和 npm 脚本定义，包含 Vite、React、Ant Design、Playwright smoke 命令。'
+    if (base === 'package.json') return '前端工程依赖和 npm 脚本定义，包含 Vite、React 与 Ant Design。'
     if (base === 'package-lock.json') return '前端依赖锁定文件，保证 npm 安装版本可复现。'
     if (base.startsWith('vite.config')) return 'Vite 构建配置，包含 dev server、proxy、manual chunks 和构建边界。'
-    if (base.startsWith('playwright.') && base.endsWith('.ts')) return 'Playwright smoke 配置文件，绑定某个专项 UI 验收 spec 和浏览器参数。'
     if (rel.endsWith('/App.tsx')) return 'React 路由入口，定义登录、注册、Dashboard、ProjectDetail、ScanTaskDetail、Agent、Audit、AutoRepair 等页面路由。'
     if (rel.endsWith('/main.tsx')) return '前端应用入口，挂载 React 根节点、全局 provider 和样式。'
     if (rel.includes('/src/api/')) return '前端 API client，封装对应后端接口调用、请求参数和响应类型。'
@@ -258,14 +258,12 @@ function describeFile(rel, text) {
     if (rel.includes('/src/contexts/')) return 'React context，全局管理认证、会话或跨页面状态。'
     if (rel.includes('/src/styles/')) return '全局产品样式表，定义布局、卡片、表格、移动端响应式和 SourceLens 视觉系统。'
     if (rel.includes('/src/utils/')) return '前端工具函数，当前重点用于显示层脱敏和安全展示。'
-    if (rel.includes('/tests/')) return 'Playwright UI smoke 测试，使用 mock 或真实后端证明页面状态、布局、可读性和 marker 合同。'
+    if (rel.includes('/tests/')) return '前端测试文件，用于验证页面行为或组件合同。'
     return '前端工程文件。'
   }
 
   if (rel.startsWith('scripts/')) {
     if (base.startsWith('run-backend')) return '本地后端启动脚本，处理 env、端口占用、健康复用和稳定 jar runtime。'
-    if (base.includes('release-evidence')) return 'release evidence 生成或复核脚本，记录发布验收命令、manifest、status、checksum 和防伪校验。'
-    if (base.includes('security-regression')) return '安全回归矩阵脚本，覆盖静态安全、LLM、release verifier、marker 防伪和集成演练。'
     if (base.includes('public-repo')) return '公开仓库主链路 smoke，验证 clone、scan、report、code_chunks、QA 和 live marker。'
     if (base.includes('validate')) return '静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。'
     if (base.includes('clean-local-generated')) return '本地生成物清理脚本，保留最新 runtime jar，并保护正在运行的 dev backend target/classes。'
@@ -300,7 +298,7 @@ function describeDoc(rel, text) {
   if (lower.includes('api_design')) return `API 设计文档，记录后端接口、请求响应、权限和当前 route inventory。标题：${title}。`
   if (lower.includes('database')) return `数据库设计文档，记录核心表、Flyway 迁移和数据边界。标题：${title}。`
   if (lower.includes('security')) return `安全边界文档，定义凭据、沙箱、LLM、GitHub、审计和危险能力红线。标题：${title}。`
-  if (lower.includes('operations')) return `运维运行手册，记录部署、preflight、release evidence、备份、回滚和本地清理 SOP。标题：${title}。`
+  if (lower.includes('operations')) return `运维运行手册。标题：${title}。`
   if (lower.includes('phase')) return `阶段需求或基线文档，定义 P 阶段目标、验收标准和非范围。标题：${title}。`
   if (lower.includes('progress')) return `产品进度日志，记录每轮实际开发、验证、风险和下一步。标题：${title}。`
   if (lower.includes('handoff')) return `上下文交接文档，用于新 Codex 会话接续当前 SourceLens 状态。标题：${title}。`
@@ -636,9 +634,9 @@ function topLevelDescription(group) {
     'analyzer-rust': 'Rust 代码逆向分析器。',
     'backend-spring': 'Spring Boot 后端服务。',
     deploy: 'Docker Compose 和环境模板。',
-    docs: '产品、架构、运维、安全、阶段、团队与交接文档。',
-    scripts: '本地启动、验证、release evidence、安全回归和 smoke 自动化。',
-    'web-console': 'React/Vite 前端控制台和 Playwright UI smoke。',
+    docs: '当前架构、接口、安全、研究与 AIOS 权威文档。',
+    scripts: '本地构建、验证、代码地图和最小安全检查。',
+    'web-console': 'React/Vite 前端控制台。',
   }[group] || '项目根文件或辅助目录。'
 }
 
@@ -651,7 +649,7 @@ function renderMarkdown(files, fileInfos, routes, frontendRoutes, apiClientCalls
 
   lines.push('# SourceLens 简洁代码地图')
   lines.push('')
-  lines.push('状态：由 `scripts/generate-project-code-map.mjs` 根据当前工作区生成。本文是简洁索引，用于快速判断目录、文件和接口入口“是做什么的”；详细接口语义见 `docs/API_DESIGN.md`，详细阶段记录见 `docs/PRODUCT_PROGRESS_LOG.md`。')
+  lines.push('状态：由 `scripts/generate-project-code-map.mjs` 根据当前工作区生成。本文只用于定位目录、文件和接口；详细接口语义见 `docs/API_DESIGN.md`，当前阶段事实只以 `docs/aios/truth/project_state.yaml` 为准。')
   lines.push('')
   lines.push('## 1. 生成范围')
   lines.push('')
@@ -659,7 +657,7 @@ function renderMarkdown(files, fileInfos, routes, frontendRoutes, apiClientCalls
   lines.push(`- 其中源码/脚本/配置/SQL/CSS 类文件数：${sourceCount}。`)
   lines.push(`- 纳入统计的文本总行数：${totalLines}。`)
   lines.push('- 排除逐文件展开的本地生成/证据目录：`.git/`、`bin/`、`web-console/node_modules/`、`backend-spring/target/`、`analyzer-rust/target/`、`.sourcelens-runtime/`、`release-evidence/`、前端构建和测试产物。')
-  lines.push('- `release-evidence/`、`.sourcelens-runtime/` 等目录的治理边界见 `docs/PROJECT_STRUCTURE_AUDIT.md` 与 `docs/OPERATIONS_RUNBOOK.md`。')
+  lines.push('- 本地生成物、依赖缓存和历史证据目录不是源码或当前权威；它们必须保持未跟踪并可重建或从封存恢复。')
   lines.push('')
 
   lines.push('## 2. 顶层目录总览')
@@ -731,9 +729,9 @@ function renderMarkdown(files, fileInfos, routes, frontendRoutes, apiClientCalls
 
   lines.push('## 8. 更新规则')
   lines.push('')
-  lines.push('- 本文不要求每个微小改动后立即刷新；按 `docs/PRODUCT_GOVERNANCE.md` 的文档维护分级执行。')
+  lines.push('- 仅在目录、接口或文件职责变化时刷新；`make verify` 会检查本文是否与当前树一致。')
   lines.push('- 涉及新增/删除/重命名文件、目录结构变化、Controller 路由变化、前端路由/API client 变化时，运行 `make code-map`。')
-  lines.push('- 阶段验收、release evidence、交接前运行 `make code-map-check`；该检查已接入 `make verify`。')
+  lines.push('- 结构变化、Task Gate 或交接前运行 `make code-map-check`；该检查已接入 `make verify`。')
   lines.push('- 如果某个文件说明不够准确，优先增强 `scripts/generate-project-code-map.mjs` 的分类规则，再重新生成本文；不要只手改本文。')
   lines.push('- `docs/API_DESIGN.md` 仍是 API 设计细节事实源；本文只提供定位和用途说明。')
   lines.push('')

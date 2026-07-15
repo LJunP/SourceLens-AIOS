@@ -1,37 +1,27 @@
-# SourceLens AIOS Repository Instructions
+# SourceLens AIOS 仓库执行规则
 
-This file is an execution pointer, not a new project authority.
+本文件只是执行入口，不是新的权威来源。
 
-Before planning, reading broadly, or editing, read in this order:
+开始工作前只按以下顺序读取：
 
 1. `docs/aios/truth/project_state.yaml`
 2. `docs/aios/STRATEGIC_CONSTITUTION.md`
 3. `docs/aios/MASTER_EXECUTION_PROTOCOL.md`
-4. the active Task Contract and only the files it references
-5. `docs/aios/EVALUATION_PROTOCOL.md` for any capability claim
-6. `docs/aios/MIGRATION_LEDGER.yaml`
-7. `docs/aios/P0_GATE.md` for the accepted P0 decision and P1 entry boundary
-8. `docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml` for the current frozen pre-execution task
+4. 当前唯一 Task Contract（Truth 中为 `NONE` 时不得自行发明任务）
+5. 能力或研究任务再读取 `docs/aios/EVALUATION_PROTOCOL.md`
 
-The pre-v2.3 Goal, P6/P9/P10/P11/P12-pre routes, 11-plus-5 roles, status boards,
-handoffs, progress logs, and old phase documents are historical migration evidence.
-Do not load them into default context. Read an exact legacy file or section only
-when the active Task Contract cites it, and never promote legacy text into current
-truth, priority, authority, role ownership, or capability evidence.
+默认禁止加载旧 SourceLens 计划、状态板、handoff、PRE、Discovery、BOUND、MCF、Carrier、Supervisor、Root Custody 或其他已终止治理材料。它们已从活跃树移除并封存为历史证据，不拥有当前调度权。
 
-Current state: P0 Strategic Foundation is complete and the Founder has authorized
-entry into P1 Agent Evaluation and Research Foundation. AIOS-P1-001 is being
-completed, hash-frozen and independently reviewed; its implementation and runs
-are not yet authorized. Product development remains blocked, as do
-system-under-test model-initiated writes or shell execution, real-provider source
-egress, remote PR submission, and autonomous merge.
+当前工程纪律：
 
-The inherited SourceLens worktree and accepted P0 checkpoint are immutable.
-P1 contract preparation and later authorized work must occur only in disposable
-descendant workspaces named by the current Task Contract. Never stage, stash,
-clean, reset, checkout, reformat, amend, or commit either immutable source.
+- 一个长期 Goal、一个当前 Phase、一条关键路径、一个当前 Task。
+- 使用正式 `main` 作为唯一 canonical source；普通任务使用一个短生命周期分支和 worktree。
+- Founder 负责战略、Phase、预算、高风险权限和 Gate；Task envelope 内的普通设计、编码、测试与修复由 Agent 自主完成。
+- 实现者不得独立验收自己的结果；审查要求与风险成比例。
+- 普通实现错误在原 Task 和预算内修复，不得自动创建 successor、replacement、normalization 或新阶段。
+- P1 不建设 Supervisor、Root Custody、完整 Trust Runtime、强隔离平台或 Multi-Agent Runtime。
+- 系统被测 Agent 在所属安全阶段和 Founder 授权前，不得写 canonical source、执行开放 shell、外发受限源码、写远端或产生生产副作用。
+- FACT、INFERENCE、UNKNOWN 必须分离；文档、实现、测试、Gate 和生产可用不得混同。
+- 触发范围、权限、预算、证据或 Stop Condition 时停止并保留真实结果。
 
-Use one critical path, one accountable role, one physical Agent role/context per
-task, and one implementation owner per file. The implementer cannot independently
-verify the same result. Stop when scope, evidence, source identity, safety, or
-reproducibility fails.
+继承的旧 SourceLens 工作区只读，不得修改、暂存、stash、reset、clean 或删除。

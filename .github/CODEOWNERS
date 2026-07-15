@@ -3,9 +3,8 @@
 
 * @LJunP
 
-# Product and governance
+# Product and current authority
 /README.md @LJunP
-/CHAIRMAN_BRIEFING.md @LJunP
 /CONTRIBUTING.md @LJunP
 /SECURITY.md @LJunP
 /ROADMAP.md @LJunP
@@ -18,9 +17,8 @@
 /analyzer-rust/ @LJunP
 /web-console/ @LJunP
 
-# Operations and release evidence
+# Build, CI and local tooling
 /.github/ @LJunP
 /deploy/ @LJunP
 /scripts/ @LJunP
 /Makefile @LJunP
-

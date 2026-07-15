@@ -1,14 +1,14 @@
 # SourceLens 简洁代码地图
 
-状态：由 `scripts/generate-project-code-map.mjs` 根据当前工作区生成。本文是简洁索引，用于快速判断目录、文件和接口入口“是做什么的”；详细接口语义见 `docs/API_DESIGN.md`，详细阶段记录见 `docs/PRODUCT_PROGRESS_LOG.md`。
+状态：由 `scripts/generate-project-code-map.mjs` 根据当前工作区生成。本文只用于定位目录、文件和接口；详细接口语义见 `docs/API_DESIGN.md`，当前阶段事实只以 `docs/aios/truth/project_state.yaml` 为准。
 
 ## 1. 生成范围
 
-- 纳入逐文件用途索引的文件数：608。
-- 其中源码/脚本/配置/SQL/CSS 类文件数：502。
-- 纳入统计的文本总行数：327425。
+- 纳入逐文件用途索引的文件数：485。
+- 其中源码/脚本/配置/SQL/CSS 类文件数：420。
+- 纳入统计的文本总行数：134965。
 - 排除逐文件展开的本地生成/证据目录：`.git/`、`bin/`、`web-console/node_modules/`、`backend-spring/target/`、`analyzer-rust/target/`、`.sourcelens-runtime/`、`release-evidence/`、前端构建和测试产物。
-- `release-evidence/`、`.sourcelens-runtime/` 等目录的治理边界见 `docs/PROJECT_STRUCTURE_AUDIT.md` 与 `docs/OPERATIONS_RUNBOOK.md`。
+- 本地生成物、依赖缓存和历史证据目录不是源码或当前权威；它们必须保持未跟踪并可重建或从封存恢复。
 
 ## 2. 顶层目录总览
 
@@ -20,20 +20,19 @@
 | `AGENTS.md` | 1 | 项目根文件或辅助目录。 |
 | `analyzer-rust` | 10 | Rust 代码逆向分析器。 |
 | `backend-spring` | 342 | Spring Boot 后端服务。 |
-| `CHAIRMAN_BRIEFING.md` | 1 | 项目根文件或辅助目录。 |
 | `CHANGELOG.md` | 1 | 项目根文件或辅助目录。 |
 | `CODE_OF_CONDUCT.md` | 1 | 项目根文件或辅助目录。 |
 | `CONTRIBUTING.md` | 1 | 项目根文件或辅助目录。 |
 | `deploy` | 2 | Docker Compose 和环境模板。 |
-| `docs` | 64 | 产品、架构、运维、安全、阶段、团队与交接文档。 |
+| `docs` | 24 | 当前架构、接口、安全、研究与 AIOS 权威文档。 |
 | `LICENSE` | 1 | 项目根文件或辅助目录。 |
 | `Makefile` | 1 | 项目根文件或辅助目录。 |
 | `README.md` | 1 | 项目根文件或辅助目录。 |
 | `ROADMAP.md` | 1 | 项目根文件或辅助目录。 |
-| `scripts` | 41 | 本地启动、验证、release evidence、安全回归和 smoke 自动化。 |
+| `scripts` | 14 | 本地构建、验证、代码地图和最小安全检查。 |
 | `SECURITY.md` | 1 | 项目根文件或辅助目录。 |
 | `SUPPORT.md` | 1 | 项目根文件或辅助目录。 |
-| `web-console` | 127 | React/Vite 前端控制台和 Playwright UI smoke。 |
+| `web-console` | 72 | React/Vite 前端控制台。 |
 
 ## 3. 目录层级职责地图
 
@@ -43,7 +42,7 @@
 | --- | ---: | --- |
 | `.github` | 9 | GitHub 平台配置目录，目前承载 CI 工作流。 |
 | `.github/ISSUE_TEMPLATE` | 6 | CI/CD 工作流。子目录。 |
-| `.github/workflows` | 1 | GitHub Actions 工作流目录，负责自动化构建、测试、安全检查和 release evidence。 |
+| `.github/workflows` | 1 | GitHub Actions 工作流目录，负责当前权威、构建、测试和静态边界检查。 |
 | `analyzer-rust` | 10 | Rust 逆向分析器工程，负责扫描外部仓库并输出结构化代码理解结果。 |
 | `analyzer-rust/.cargo` | 1 | Rust 代码逆向分析器。子目录。 |
 | `analyzer-rust/src` | 6 | Rust analyzer 核心源码目录，包含扫描、AST、框架识别、逆向分析和数据模型。 |
@@ -169,14 +168,14 @@
 | `backend-spring/src/test/resources` | 5 | Spring Boot 后端服务。子目录。 |
 | `backend-spring/src/test/resources/mockito-extensions` | 1 | Spring Boot 后端服务。子目录。 |
 | `deploy` | 2 | 部署配置目录，包含 Docker Compose 和环境变量模板。 |
-| `docs` | 64 | 项目事实源文档目录，覆盖产品、架构、API、数据库、安全、运维、阶段需求、进度和交接。 |
-| `docs/aios` | 19 | 产品、架构、运维、安全、阶段、团队与交接文档。子目录。 |
-| `docs/aios/schemas` | 4 | 产品、架构、运维、安全、阶段、团队与交接文档。子目录。 |
-| `docs/aios/tasks` | 5 | 产品、架构、运维、安全、阶段、团队与交接文档。子目录。 |
-| `docs/aios/truth` | 1 | 产品、架构、运维、安全、阶段、团队与交接文档。子目录。 |
-| `docs/llm-safety-evals` | 3 | LLM 安全评测用例目录，存放 prompt injection、输出质量和 provider run 模板。 |
-| `scripts` | 41 | 本地自动化脚本目录，封装启动、校验、smoke、preflight、release evidence、清理和演练。 |
-| `web-console` | 127 | React/Vite 前端控制台工程，承载 SourceLens 用户界面和 UI smoke。 |
+| `docs` | 24 | 项目事实源文档目录，覆盖产品、架构、API、数据库、安全、运维、阶段需求、进度和交接。 |
+| `docs/aios` | 12 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
+| `docs/aios/schemas` | 4 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
+| `docs/aios/tasks` | 1 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
+| `docs/aios/truth` | 1 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
+| `docs/llm-safety-evals` | 2 | LLM 安全评测用例目录，存放 prompt injection、输出质量和 provider run 模板。 |
+| `scripts` | 14 | 本地自动化脚本目录，封装启动、校验、代码地图和生成物清理。 |
+| `web-console` | 72 | React/Vite 前端控制台工程，承载 SourceLens 用户界面和 UI smoke。 |
 | `web-console/src` | 66 | 前端源码根目录。 |
 | `web-console/src/api` | 21 | 前端 API client 层，集中定义后端 HTTP 调用和 TypeScript 响应类型。 |
 | `web-console/src/components` | 13 | 前端共享组件目录，提供布局、产物预览、日志、Diff、任务时间线等复用能力。 |
@@ -185,7 +184,6 @@
 | `web-console/src/pages` | 25 | 前端页面目录，每个文件对应一个主要产品页面或页面兼容包装。 |
 | `web-console/src/styles` | 1 | 前端全局样式目录，定义产品视觉、布局、响应式和可读性规则。 |
 | `web-console/src/utils` | 1 | 前端工具函数目录，当前重点处理展示脱敏等安全展示逻辑。 |
-| `web-console/tests` | 26 | Playwright UI smoke 测试目录，保护关键页面、状态和交互合同。 |
 
 ## 4. 后端 REST 接口索引
 
@@ -417,13 +415,13 @@
 | `.github/ISSUE_TEMPLATE/security_boundary.md` | Markdown 文档。 |
 | `.github/ISSUE_TEMPLATE/ui_issue.md` | Markdown 文档。 |
 | `.github/PULL_REQUEST_TEMPLATE.md` | Markdown 文档。 |
-| `.github/workflows/ci.yml` | GitHub Actions CI 工作流，负责 PR/push 的安全、后端、前端、Rust、Docker 和 release evidence CI profile 验证。 |
+| `.github/workflows/ci.yml` | GitHub Actions CI 工作流，负责 PR/push 的权威、后端、前端、Rust 和静态合同验证。 |
 
 ### .gitignore
 
 | 文件 | 作用 |
 | --- | --- |
-| `.gitignore` | 定义 Git 忽略规则，排除本地依赖、构建产物、runtime、release evidence 和密钥文件。 |
+| `.gitignore` | 定义 Git 忽略规则，排除本地依赖、构建产物、runtime、历史证据和密钥文件。 |
 
 ### AGENTS.md
 
@@ -793,12 +791,6 @@
 | `backend-spring/src/test/resources/p6-code-qa-retrieval-eval-cases.json` | 后端测试文件 AuthController，覆盖对应 controller/service/security/sandbox/analysis 行为；检测到 0 个测试/断言方法。 |
 | `backend-spring/src/test/resources/schema-test.sql` | 后端测试文件 schema-test.sql，覆盖对应 controller/service/security/sandbox/analysis 行为；检测到 0 个测试/断言方法。 |
 
-### CHAIRMAN_BRIEFING.md
-
-| 文件 | 作用 |
-| --- | --- |
-| `CHAIRMAN_BRIEFING.md` | Markdown 文档。 |
-
 ### CHANGELOG.md
 
 | 文件 | 作用 |
@@ -828,70 +820,30 @@
 
 | 文件 | 作用 |
 | --- | --- |
-| `docs/AGENT_ACTIVITY_LOG.md` | 项目文档。标题：SourceLens Agent Activity Log。 |
-| `docs/AGENT_DECISION_REGISTER.md` | 项目文档。标题：SourceLens Agent Decision Register。 |
-| `docs/AGENT_STATUS_BOARD.md` | 项目文档。标题：SourceLens Agent Status Board。 |
 | `docs/aios/BASELINE_ADAPTER_CONTRACT.md` | 项目文档。标题：SourceLens AIOS Baseline Adapter Contract。 |
-| `docs/aios/CODEX_MASTER_PROMPT.md` | 项目文档。标题：SourceLens AIOS Codex Master Prompt。 |
 | `docs/aios/EVALUATION_PROTOCOL.md` | 项目文档。标题：SourceLens AIOS Evaluation and Research Protocol。 |
 | `docs/aios/MASTER_EXECUTION_PROTOCOL.md` | 项目文档。标题：SourceLens AIOS Master Execution Protocol。 |
 | `docs/aios/MIGRATION_LEDGER.yaml` | 项目文档。标题：MIGRATION_LEDGER.yaml。 |
-| `docs/aios/P0_GATE.md` | 项目文档。标题：SourceLens AIOS P0 Gate Packet。 |
-| `docs/aios/P0_INDEPENDENT_REVIEW.md` | 项目文档。标题：SourceLens AIOS P0 Independent Review。 |
-| `docs/aios/README.md` | 项目文档。标题：SourceLens AIOS Authority Index。 |
+| `docs/aios/README.md` | 项目文档。标题：SourceLens AIOS 当前控制面。 |
 | `docs/aios/schemas/environment-snapshot.schema.json` | 项目文档。标题：environment-snapshot.schema.json。 |
 | `docs/aios/schemas/run-record.schema.json` | 项目文档。标题：run-record.schema.json。 |
 | `docs/aios/schemas/system-configuration.schema.json` | 项目文档。标题：system-configuration.schema.json。 |
 | `docs/aios/schemas/task-spec.schema.json` | 项目文档。标题：task-spec.schema.json。 |
 | `docs/aios/STRATEGIC_CONSTITUTION.md` | 项目文档。标题：SourceLens AIOS Strategic Constitution。 |
-| `docs/aios/tasks/P0-04A_TRUTH_CONTAINMENT.yaml` | 项目文档。标题：P0-04A_TRUTH_CONTAINMENT.yaml。 |
-| `docs/aios/tasks/P0-04B_SLICE_F_GATE_REPAIR.yaml` | 项目文档。标题：P0-04B_SLICE_F_GATE_REPAIR.yaml。 |
-| `docs/aios/tasks/P0-04C_AUTHORITY_DECONTAMINATION.yaml` | 项目文档。标题：P0-04C_AUTHORITY_DECONTAMINATION.yaml。 |
-| `docs/aios/tasks/P0-05_BASELINE_SLICING.yaml` | 项目文档。标题：P0-05_BASELINE_SLICING.yaml。 |
 | `docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml` | 项目文档。标题：P1-001_EVALUATION_HARNESS.yaml。 |
 | `docs/aios/truth/project_state.yaml` | 项目文档。标题：project_state.yaml。 |
 | `docs/API_DESIGN.md` | API 设计文档，记录后端接口、请求响应、权限和当前 route inventory。标题：API 设计。 |
 | `docs/ARCHITECTURE.md` | 项目文档。标题：架构设计。 |
-| `docs/CODEX_HANDOFF.md` | 上下文交接文档，用于新 Codex 会话接续当前 SourceLens 状态。标题：SourceLens Codex Handoff。 |
-| `docs/COMPLIANCE_AND_PRIVACY.md` | 项目文档。标题：SourceLens Compliance and Privacy。 |
-| `docs/DAILY_GROWTH_PLAN_2026_EXPANDED.md` | 项目文档。标题：SourceLens 每日执行级成长计划：2026-06-15 至 2027-01 面试准备。 |
-| `docs/DAILY_GROWTH_PLAN_2026.md` | 项目文档。标题：SourceLens 后端与 Agent 工程每日成长计划。 |
-| `docs/DATA_GOVERNANCE.md` | 产品/工程治理文档，定义开发流程、事实源、验证和记录制度。标题：SourceLens Data Governance。 |
 | `docs/DATABASE_DESIGN.md` | 数据库设计文档，记录核心表、Flyway 迁移和数据边界。标题：数据库设计。 |
-| `docs/DEMO_SCRIPT.md` | 项目文档。标题：SourceLens 演示脚本。 |
-| `docs/DEPENDENCY_AND_LICENSE_POLICY.md` | 项目文档。标题：SourceLens Dependency and License Policy。 |
-| `docs/DISASTER_RECOVERY_AND_ROLLBACK_SIGNOFF.md` | 项目文档。标题：SourceLens Disaster Recovery and Rollback Signoff。 |
+| `docs/DEPENDENCY_AND_LICENSE_POLICY.md` | 项目文档。标题：SourceLens AIOS 依赖与许可策略。 |
 | `docs/ENGINEERING_STANDARDS.md` | 项目文档。标题：SourceLens Engineering Standards。 |
-| `docs/FRONTEND_DESIGN_SYSTEM.md` | 项目文档。标题：SourceLens Frontend Design System。 |
-| `docs/LLM_SAFETY_EVALS.md` | 项目文档。标题：SourceLens LLM Safety Evals。 |
+| `docs/LLM_SAFETY_EVALS.md` | 项目文档。标题：SourceLens AIOS LLM Safety 本地样例。 |
 | `docs/llm-safety-evals/output-quality-cases.json` | 项目文档。标题：output-quality-cases.json。 |
 | `docs/llm-safety-evals/prompt-injection-cases.json` | 项目文档。标题：prompt-injection-cases.json。 |
-| `docs/llm-safety-evals/provider-run-template.json` | 项目文档。标题：provider-run-template.json。 |
-| `docs/OBSERVABILITY_AND_INCIDENTS.md` | 项目文档。标题：SourceLens Observability and Incidents。 |
-| `docs/OPERATIONS_RUNBOOK.md` | 运维运行手册，记录部署、preflight、release evidence、备份、回滚和本地清理 SOP。标题：SourceLens Operations Runbook。 |
-| `docs/PERFORMANCE_BENCHMARK.md` | 项目文档。标题：SourceLens Performance Benchmark。 |
-| `docs/PHASE_REQUIREMENTS.md` | 阶段需求或基线文档，定义 P 阶段目标、验收标准和非范围。标题：SourceLens Phase Requirements。 |
-| `docs/PHASE12_BASELINE.md` | 阶段需求或基线文档，定义 P 阶段目标、验收标准和非范围。标题：SourceLens Phase 12 Baseline。 |
-| `docs/PRODUCT_GOVERNANCE.md` | 产品/工程治理文档，定义开发流程、事实源、验证和记录制度。标题：SourceLens Product Governance。 |
-| `docs/PRODUCT_METRICS_AND_FEEDBACK.md` | 项目文档。标题：SourceLens Product Metrics and Feedback。 |
-| `docs/PRODUCT_POSITIONING_AND_ACCESS_MODEL.md` | 项目文档。标题：SourceLens Product Positioning and Access Model。 |
-| `docs/PRODUCT_PROGRESS_LOG.md` | 产品进度日志，记录每轮实际开发、验证、风险和下一步。标题：SourceLens Product Progress Log。 |
-| `docs/PROJECT_PLAN.md` | 项目文档。标题：SourceLens 项目全程规划。 |
-| `docs/PROJECT_STRUCTURE_AUDIT.md` | 项目结构审计文档，记录目录职责、生成物边界和清理策略。标题：SourceLens Project Structure Audit。 |
-| `docs/QUALITY_SCORECARD.md` | 项目文档。标题：SourceLens Quality Scorecard。 |
-| `docs/RAW_ACCESS_AND_EVIDENCE_RETENTION_POLICY.md` | 项目文档。标题：SourceLens Raw Access and Evidence Retention Policy。 |
-| `docs/README.md` | 项目文档。标题：SourceLens Documentation Index。 |
-| `docs/REFACTOR_ROADMAP.md` | 项目文档。标题：SourceLens 重构路线图。 |
-| `docs/RELEASE_PROCESS.md` | 项目文档。标题：SourceLens Release Process。 |
-| `docs/RISK_REGISTER.md` | 项目文档。标题：SourceLens Risk Register。 |
-| `docs/SECURITY_BOUNDARY.md` | 安全边界文档，定义凭据、沙箱、LLM、GitHub、审计和危险能力红线。标题：SourceLens 安全边界。 |
-| `docs/SOURCELENS_OPERATING_SYSTEM.md` | 项目文档。标题：SourceLens AIOS Operating System。 |
-| `docs/TEAM_OPERATING_MODEL.md` | 多 agent 团队运行模型，定义固定岗位、专家池、触发条件和协作规则。标题：SourceLens AIOS Team Operating Model。 |
-| `docs/TEST_STRATEGY.md` | 项目文档。标题：SourceLens Test Strategy。 |
-| `docs/THREAT_MODEL.md` | 项目文档。标题：SourceLens Threat Model。 |
-| `docs/TOP_LEVEL_PRODUCT_OPERATING_DEFINITIONS.md` | 项目文档。标题：SourceLens Top-Level Product Operating Definitions。 |
-| `docs/WORK_INTAKE_AND_BACKLOG.md` | 项目文档。标题：SourceLens Work Intake and Backlog。 |
-| `docs/WORKTREE_HYGIENE.md` | 项目文档。标题：SourceLens 工作区整理说明。 |
+| `docs/README.md` | 项目文档。标题：SourceLens AIOS 文档入口。 |
+| `docs/SECURITY_BOUNDARY.md` | 安全边界文档，定义凭据、沙箱、LLM、GitHub、审计和危险能力红线。标题：SourceLens AIOS 当前安全边界。 |
+| `docs/TEST_STRATEGY.md` | 项目文档。标题：SourceLens AIOS 测试策略。 |
+| `docs/WORKTREE_HYGIENE.md` | 项目文档。标题：SourceLens AIOS 工作树卫生规则。 |
 
 ### LICENSE
 
@@ -903,7 +855,7 @@
 
 | 文件 | 作用 |
 | --- | --- |
-| `Makefile` | 统一开发命令入口，封装本地启动、验证、smoke、release evidence、清理和专项门禁。 |
+| `Makefile` | 统一开发命令入口，封装本地启动、构建、验证和生成物清理。 |
 
 ### README.md
 
@@ -921,47 +873,20 @@
 
 | 文件 | 作用 |
 | --- | --- |
-| `scripts/agent-chat-tool-audit-smoke.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
-| `scripts/artifact-quality-check.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
-| `scripts/audit-workbench-smoke.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
-| `scripts/autorepair-patch-smoke.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
-| `scripts/backup-restore-drill.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
-| `scripts/backup-restore-preflight.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
+| `scripts/check-p1-safety-boundary.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/clean-local-generated.sh` | 本地生成物清理脚本，保留最新 runtime jar，并保护正在运行的 dev backend target/classes。 |
-| `scripts/code-relation-quality-report.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/dependency-regression-check.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
-| `scripts/file-bound-repair-smoke.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/generate-project-code-map.mjs` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
-| `scripts/github-app-drill.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
-| `scripts/github-webhook-drill.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
-| `scripts/llm-provider-eval-mock-smoke.mjs` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/llm-safety-regression.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/mysql-flyway-migration-smoke.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
-| `scripts/p6-retrieval-quality-matrix.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
-| `scripts/phase12-baseline.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
-| `scripts/preserve-worktree-snapshot.mjs` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
-| `scripts/production-preflight.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
-| `scripts/public-repo-analysis-smoke.sh` | 公开仓库主链路 smoke，验证 clone、scan、report、code_chunks、QA 和 live marker。 |
-| `scripts/release-evidence-inventory-self-test.mjs` | release evidence 生成或复核脚本，记录发布验收命令、manifest、status、checksum 和防伪校验。 |
-| `scripts/release-evidence-inventory.mjs` | release evidence 生成或复核脚本，记录发布验收命令、manifest、status、checksum 和防伪校验。 |
-| `scripts/release-evidence.sh` | release evidence 生成或复核脚本，记录发布验收命令、manifest、status、checksum 和防伪校验。 |
-| `scripts/rollback-preflight.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/run-backend-dev.sh` | 本地后端启动脚本，处理 env、端口占用、健康复用和稳定 jar runtime。 |
 | `scripts/run-backend-jar-dev.sh` | 本地后端启动脚本，处理 env、端口占用、健康复用和稳定 jar runtime。 |
-| `scripts/run-llm-provider-eval.mjs` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
-| `scripts/sandbox-drill.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
-| `scripts/security-regression-check.sh` | 安全回归矩阵脚本，覆盖静态安全、LLM、release verifier、marker 防伪和集成演练。 |
-| `scripts/smoke-test.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/validate-aios-governance.sh` | 静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。 |
 | `scripts/validate-api-design.mjs` | 静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。 |
 | `scripts/validate-artifact-quality.mjs` | 静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。 |
 | `scripts/validate-db-schema-contract.mjs` | 静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。 |
-| `scripts/validate-frontend-ui.mjs` | 静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。 |
-| `scripts/validate-llm-provider-run.mjs` | 静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。 |
 | `scripts/validate-llm-safety-evals.mjs` | 静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。 |
 | `scripts/verify-all.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
-| `scripts/verify-release-evidence.sh` | release evidence 生成或复核脚本，记录发布验收命令、manifest、status、checksum 和防伪校验。 |
-| `scripts/worktree-inventory.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 
 ### SECURITY.md
 
@@ -981,34 +906,7 @@
 | --- | --- |
 | `web-console/index.html` | 前端工程文件。 |
 | `web-console/package-lock.json` | 前端依赖锁定文件，保证 npm 安装版本可复现。 |
-| `web-console/package.json` | 前端工程依赖和 npm 脚本定义，包含 Vite、React、Ant Design、Playwright smoke 命令。 |
-| `web-console/playwright.agent-chat-audit.config.ts` | Playwright smoke 配置文件，绑定某个专项 UI 验收 spec 和浏览器参数。 |
-| `web-console/playwright.agent-chat-closure-rail.config.ts` | Playwright smoke 配置文件，绑定某个专项 UI 验收 spec 和浏览器参数。 |
-| `web-console/playwright.agent-chat-first-viewport.config.ts` | Playwright smoke 配置文件，绑定某个专项 UI 验收 spec 和浏览器参数。 |
-| `web-console/playwright.agent-tasks-detail-selection.config.ts` | Playwright smoke 配置文件，绑定某个专项 UI 验收 spec 和浏览器参数。 |
-| `web-console/playwright.app-shell-ui.config.ts` | Playwright smoke 配置文件，绑定某个专项 UI 验收 spec 和浏览器参数。 |
-| `web-console/playwright.artifacts-detail-selection.config.ts` | Playwright smoke 配置文件，绑定某个专项 UI 验收 spec 和浏览器参数。 |
-| `web-console/playwright.audit-logs-detail-selection.config.ts` | Playwright smoke 配置文件，绑定某个专项 UI 验收 spec 和浏览器参数。 |
-| `web-console/playwright.ci-diagnostics-detail-selection.config.ts` | Playwright smoke 配置文件，绑定某个专项 UI 验收 spec 和浏览器参数。 |
-| `web-console/playwright.dashboard-next-action.config.ts` | Playwright smoke 配置文件，绑定某个专项 UI 验收 spec 和浏览器参数。 |
-| `web-console/playwright.execution-tasks-detail-selection.config.ts` | Playwright smoke 配置文件，绑定某个专项 UI 验收 spec 和浏览器参数。 |
-| `web-console/playwright.issue-decomposition-detail-selection.config.ts` | Playwright smoke 配置文件，绑定某个专项 UI 验收 spec 和浏览器参数。 |
-| `web-console/playwright.model-config-recoverable.config.ts` | Playwright smoke 配置文件，绑定某个专项 UI 验收 spec 和浏览器参数。 |
-| `web-console/playwright.p9-main-path-recoverable-error-states-batch3.config.ts` | Playwright smoke 配置文件，绑定某个专项 UI 验收 spec 和浏览器参数。 |
-| `web-console/playwright.p9-main-path-recoverable-error-states-batch4a.config.ts` | Playwright smoke 配置文件，绑定某个专项 UI 验收 spec 和浏览器参数。 |
-| `web-console/playwright.p9-main-path-recoverable-error-states-batch4b.config.ts` | Playwright smoke 配置文件，绑定某个专项 UI 验收 spec 和浏览器参数。 |
-| `web-console/playwright.patch-ready.config.ts` | Playwright smoke 配置文件，绑定某个专项 UI 验收 spec 和浏览器参数。 |
-| `web-console/playwright.pr-reviews-detail-selection.config.ts` | Playwright smoke 配置文件，绑定某个专项 UI 验收 spec 和浏览器参数。 |
-| `web-console/playwright.project-detail-first-viewport.config.ts` | Playwright smoke 配置文件，绑定某个专项 UI 验收 spec 和浏览器参数。 |
-| `web-console/playwright.project-qa-autorepair-candidate.config.ts` | Playwright smoke 配置文件，绑定某个专项 UI 验收 spec 和浏览器参数。 |
-| `web-console/playwright.project-qa-low-confidence.config.ts` | Playwright smoke 配置文件，绑定某个专项 UI 验收 spec 和浏览器参数。 |
-| `web-console/playwright.project-qa-recoverable.config.ts` | Playwright smoke 配置文件，绑定某个专项 UI 验收 spec 和浏览器参数。 |
-| `web-console/playwright.public-repo-ui.config.ts` | Playwright smoke 配置文件，绑定某个专项 UI 验收 spec 和浏览器参数。 |
-| `web-console/playwright.report-autorepair-candidate.config.ts` | Playwright smoke 配置文件，绑定某个专项 UI 验收 spec 和浏览器参数。 |
-| `web-console/playwright.report-evidence-drawer.config.ts` | Playwright smoke 配置文件，绑定某个专项 UI 验收 spec 和浏览器参数。 |
-| `web-console/playwright.report-evidence-qa-citation.config.ts` | Playwright smoke 配置文件，绑定某个专项 UI 验收 spec 和浏览器参数。 |
-| `web-console/playwright.scan-governance-timeline.config.ts` | Playwright smoke 配置文件，绑定某个专项 UI 验收 spec 和浏览器参数。 |
-| `web-console/playwright.scan-task-detail-first-viewport.config.ts` | Playwright smoke 配置文件，绑定某个专项 UI 验收 spec 和浏览器参数。 |
+| `web-console/package.json` | 前端工程依赖和 npm 脚本定义，包含 Vite、React 与 Ant Design。 |
 | `web-console/src/api/agentTask.ts` | 前端 API client，封装对应后端接口调用、请求参数和响应类型。 |
 | `web-console/src/api/agentToolCall.ts` | 前端 API client，封装对应后端接口调用、请求参数和响应类型。 |
 | `web-console/src/api/analysis.ts` | 前端 API client，封装对应后端接口调用、请求参数和响应类型。 |
@@ -1075,43 +973,15 @@
 | `web-console/src/styles/app.css` | 全局产品样式表，定义布局、卡片、表格、移动端响应式和 SourceLens 视觉系统。 |
 | `web-console/src/utils/displayRedaction.ts` | 前端工具函数，当前重点用于显示层脱敏和安全展示。 |
 | `web-console/src/vite-env.d.ts` | 前端工程文件。 |
-| `web-console/tests/agent-chat-audit-smoke.spec.ts` | Playwright UI smoke 测试，使用 mock 或真实后端证明页面状态、布局、可读性和 marker 合同。 |
-| `web-console/tests/agent-chat-closure-rail-smoke.spec.ts` | Playwright UI smoke 测试，使用 mock 或真实后端证明页面状态、布局、可读性和 marker 合同。 |
-| `web-console/tests/agent-chat-first-viewport-smoke.spec.ts` | Playwright UI smoke 测试，使用 mock 或真实后端证明页面状态、布局、可读性和 marker 合同。 |
-| `web-console/tests/agent-tasks-detail-selection-smoke.spec.ts` | Playwright UI smoke 测试，使用 mock 或真实后端证明页面状态、布局、可读性和 marker 合同。 |
-| `web-console/tests/app-shell-ui-smoke.spec.ts` | Playwright UI smoke 测试，使用 mock 或真实后端证明页面状态、布局、可读性和 marker 合同。 |
-| `web-console/tests/artifacts-detail-selection-smoke.spec.ts` | Playwright UI smoke 测试，使用 mock 或真实后端证明页面状态、布局、可读性和 marker 合同。 |
-| `web-console/tests/audit-logs-detail-selection-smoke.spec.ts` | Playwright UI smoke 测试，使用 mock 或真实后端证明页面状态、布局、可读性和 marker 合同。 |
-| `web-console/tests/ci-diagnostics-detail-selection-smoke.spec.ts` | Playwright UI smoke 测试，使用 mock 或真实后端证明页面状态、布局、可读性和 marker 合同。 |
-| `web-console/tests/dashboard-next-action-smoke.spec.ts` | Playwright UI smoke 测试，使用 mock 或真实后端证明页面状态、布局、可读性和 marker 合同。 |
-| `web-console/tests/execution-tasks-detail-selection-smoke.spec.ts` | Playwright UI smoke 测试，使用 mock 或真实后端证明页面状态、布局、可读性和 marker 合同。 |
-| `web-console/tests/issue-decomposition-detail-selection-smoke.spec.ts` | Playwright UI smoke 测试，使用 mock 或真实后端证明页面状态、布局、可读性和 marker 合同。 |
-| `web-console/tests/model-config-recoverable-smoke.spec.ts` | Playwright UI smoke 测试，使用 mock 或真实后端证明页面状态、布局、可读性和 marker 合同。 |
-| `web-console/tests/p9-main-path-recoverable-error-states-batch3.spec.ts` | Playwright UI smoke 测试，使用 mock 或真实后端证明页面状态、布局、可读性和 marker 合同。 |
-| `web-console/tests/p9-main-path-recoverable-error-states-batch4a.spec.ts` | Playwright UI smoke 测试，使用 mock 或真实后端证明页面状态、布局、可读性和 marker 合同。 |
-| `web-console/tests/p9-main-path-recoverable-error-states-batch4b.spec.ts` | Playwright UI smoke 测试，使用 mock 或真实后端证明页面状态、布局、可读性和 marker 合同。 |
-| `web-console/tests/patch-ready-smoke.spec.ts` | Playwright UI smoke 测试，使用 mock 或真实后端证明页面状态、布局、可读性和 marker 合同。 |
-| `web-console/tests/pr-reviews-detail-selection-smoke.spec.ts` | Playwright UI smoke 测试，使用 mock 或真实后端证明页面状态、布局、可读性和 marker 合同。 |
-| `web-console/tests/project-detail-first-viewport-smoke.spec.ts` | Playwright UI smoke 测试，使用 mock 或真实后端证明页面状态、布局、可读性和 marker 合同。 |
-| `web-console/tests/project-qa-autorepair-candidate-smoke.spec.ts` | Playwright UI smoke 测试，使用 mock 或真实后端证明页面状态、布局、可读性和 marker 合同。 |
-| `web-console/tests/project-qa-low-confidence-smoke.spec.ts` | Playwright UI smoke 测试，使用 mock 或真实后端证明页面状态、布局、可读性和 marker 合同。 |
-| `web-console/tests/project-qa-recoverable-smoke.spec.ts` | Playwright UI smoke 测试，使用 mock 或真实后端证明页面状态、布局、可读性和 marker 合同。 |
-| `web-console/tests/public-repo-ui-smoke.spec.ts` | Playwright UI smoke 测试，使用 mock 或真实后端证明页面状态、布局、可读性和 marker 合同。 |
-| `web-console/tests/report-autorepair-candidate-smoke.spec.ts` | Playwright UI smoke 测试，使用 mock 或真实后端证明页面状态、布局、可读性和 marker 合同。 |
-| `web-console/tests/report-evidence-drawer-smoke.spec.ts` | Playwright UI smoke 测试，使用 mock 或真实后端证明页面状态、布局、可读性和 marker 合同。 |
-| `web-console/tests/scan-governance-timeline-smoke.spec.ts` | Playwright UI smoke 测试，使用 mock 或真实后端证明页面状态、布局、可读性和 marker 合同。 |
-| `web-console/tests/scan-task-detail-first-viewport-smoke.spec.ts` | Playwright UI smoke 测试，使用 mock 或真实后端证明页面状态、布局、可读性和 marker 合同。 |
 | `web-console/tsconfig.json` | 前端工程文件。 |
 | `web-console/tsconfig.node.json` | 前端工程文件。 |
-| `web-console/vite.config.d.ts` | Vite 构建配置，包含 dev server、proxy、manual chunks 和构建边界。 |
-| `web-console/vite.config.js` | Vite 构建配置，包含 dev server、proxy、manual chunks 和构建边界。 |
 | `web-console/vite.config.ts` | Vite 构建配置，包含 dev server、proxy、manual chunks 和构建边界。 |
 
 ## 8. 更新规则
 
-- 本文不要求每个微小改动后立即刷新；按 `docs/PRODUCT_GOVERNANCE.md` 的文档维护分级执行。
+- 仅在目录、接口或文件职责变化时刷新；`make verify` 会检查本文是否与当前树一致。
 - 涉及新增/删除/重命名文件、目录结构变化、Controller 路由变化、前端路由/API client 变化时，运行 `make code-map`。
-- 阶段验收、release evidence、交接前运行 `make code-map-check`；该检查已接入 `make verify`。
+- 结构变化、Task Gate 或交接前运行 `make code-map-check`；该检查已接入 `make verify`。
 - 如果某个文件说明不够准确，优先增强 `scripts/generate-project-code-map.mjs` 的分类规则，再重新生成本文；不要只手改本文。
 - `docs/API_DESIGN.md` 仍是 API 设计细节事实源；本文只提供定位和用途说明。
 

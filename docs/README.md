@@ -1,62 +1,29 @@
-# SourceLens Documentation Index
+# SourceLens AIOS 文档入口
 
-This index prevents legacy documents from being mistaken for current AIOS authority.
+活跃文档只保留当前研发真正需要的内容。
 
-## Canonical AIOS control plane
+## 权威文档
 
-Start at `aios/README.md`. Authority is domain-scoped: strategy, mutable facts, execution, evaluation, migration and rationale each have one owner.
+- `aios/truth/project_state.yaml`：当前唯一事实来源。
+- `aios/STRATEGIC_CONSTITUTION.md`：使命、年度结果、非目标和阶段路线。
+- `aios/MASTER_EXECUTION_PROTOCOL.md`：角色、授权、Task、审查与 Stop Condition。
+- `aios/EVALUATION_PROTOCOL.md`：TaskSpec、baseline、evaluator、trace 和 Research Artifact。
+- `aios/tasks/P1-001_EVALUATION_HARNESS.yaml`：当前候选任务；未授权前不得执行。
+- `../ROADMAP.md`：人类可读路线摘要，不覆盖上述权威。
 
-| Document | Authority |
-| --- | --- |
-| `aios/truth/project_state.yaml` | current mutable facts, phase status, evidence and active work |
-| `aios/STRATEGIC_CONSTITUTION.md` | mission, ICP, year-one outcome, non-goals and phase route |
-| `aios/MASTER_EXECUTION_PROTOCOL.md` | roles, task lifecycle, Agent isolation and review |
-| `aios/EVALUATION_PROTOCOL.md` | research harness, baselines, metrics and Patch Evidence |
-| `aios/MIGRATION_LEDGER.yaml` | inherited-asset disposition |
-| `aios/P0_GATE.md` | derived P0 exit packet; never overrides truth |
-| `aios/P0_INDEPENDENT_REVIEW.md` | independent control-plane review and P0 NO-GO rationale |
-| `aios/CODEX_MASTER_PROMPT.md` | Codex startup and dispatch prompts; not a fact authority |
-| `aios/BASELINE_ADAPTER_CONTRACT.md` and `aios/schemas/` | P0 machine-contract drafts; review required |
-| `AGENT_DECISION_REGISTER.md` | append-only decision rationale |
+## 工程参考
 
-## Supporting engineering references
+- `ARCHITECTURE.md`
+- `API_DESIGN.md`
+- `DATABASE_DESIGN.md`
+- `ENGINEERING_STANDARDS.md`
+- `TEST_STRATEGY.md`
+- `SECURITY_BOUNDARY.md`
+- `DEPENDENCY_AND_LICENSE_POLICY.md`
+- `PROJECT_CODE_MAP.md`
+- `WORKTREE_HYGIENE.md`
+- `LLM_SAFETY_EVALS.md`
 
-These remain useful within their technical scope. Old phase, role, current-status or authority statements inside them are not current.
+旧计划、旧阶段、旧团队、状态板、handoff、进度日志、企业制度、PRE/Discovery/BOUND/MCF/Carrier 设计与失败根均已从活跃树移除。需要审计时从项目外历史归档恢复到一次性临时目录；禁止把它们重新放回默认上下文。
 
-| Area | Documents |
-| --- | --- |
-| architecture and code map | `ARCHITECTURE.md`, `PROJECT_CODE_MAP.md`, `API_DESIGN.md`, `DATABASE_DESIGN.md` |
-| engineering and worktree | `ENGINEERING_STANDARDS.md`, `WORKTREE_HYGIENE.md`, `PROJECT_STRUCTURE_AUDIT.md` |
-| security and trust | `SECURITY_BOUNDARY.md`, `THREAT_MODEL.md`, `LLM_SAFETY_EVALS.md`, `RAW_ACCESS_AND_EVIDENCE_RETENTION_POLICY.md` |
-| data and dependencies | `DATA_GOVERNANCE.md`, `DEPENDENCY_AND_LICENSE_POLICY.md`, `COMPLIANCE_AND_PRIVACY.md` |
-| tests and operations | `TEST_STRATEGY.md`, `OPERATIONS_RUNBOOK.md`, `OBSERVABILITY_AND_INCIDENTS.md`, `RELEASE_PROCESS.md`, `DISASTER_RECOVERY_AND_ROLLBACK_SIGNOFF.md` |
-| inherited product implementation | `FRONTEND_DESIGN_SYSTEM.md`, `PERFORMANCE_BENCHMARK.md`, `DEMO_SCRIPT.md` |
-
-Supporting documents constrain implementation only when consistent with the canonical control plane.
-
-## Historical or frozen inputs
-
-These preserve project history and migration evidence. They must not dispatch current work:
-
-- `PROJECT_PLAN.md`
-- `PHASE_REQUIREMENTS.md`
-- `REFACTOR_ROADMAP.md`
-- `PRODUCT_POSITIONING_AND_ACCESS_MODEL.md`
-- `TOP_LEVEL_PRODUCT_OPERATING_DEFINITIONS.md`
-- `PRODUCT_GOVERNANCE.md`
-- `PRODUCT_METRICS_AND_FEEDBACK.md`
-- `WORK_INTAKE_AND_BACKLOG.md`
-- `QUALITY_SCORECARD.md`
-- `AGENT_STATUS_BOARD.md`
-- `CODEX_HANDOFF.md`
-- `PRODUCT_PROGRESS_LOG.md`
-- `AGENT_ACTIVITY_LOG.md`
-- `DAILY_GROWTH_PLAN_2026.md`
-- `DAILY_GROWTH_PLAN_2026_EXPANDED.md`
-- `PHASE12_BASELINE.md`
-
-`RISK_REGISTER.md` is a supporting legacy risk input. Open blockers are promoted to canonical truth and reassigned through the Master task protocol.
-
-## Maintenance rule
-
-Do not create another roadmap, status board, handoff authority, scorecard or role registry. Add a fact to canonical truth, a rationale to an ADR, a reproducible result to a Research Artifact, or a bounded update to the relevant technical reference.
+维护规则：不再创建第二份路线、状态板、handoff 权威、团队名册或进度镜像。当前事实只更新 Truth；执行范围只更新当前 Task；研究结论进入 Research Artifact；长期决策进入 Founder Decision/ADR。

@@ -7,7 +7,7 @@
 - 响应格式: `Result<T>`
 - 分页: `?page=1&pageSize=20`
 - API 响应不得返回 GitHub token、GitHub App installation token、LLM API key 或 encrypted token 字段。
-- 本文记录当前核心 API 契约。若后端 controller、DTO 或安全边界变化，必须同步更新本文和对应 smoke / release evidence gate。
+- 本文记录当前核心 API 契约。若后端 controller、DTO 或安全边界变化，必须同步更新本文和对应测试与 Task evidence。
 - `make api-design-check` 会从 Spring controller 静态提取当前业务路由，并校验这些路由是否已记录在本文；文档中未对应 Controller 的业务路由默认失败。`GET /api-docs` 是 Springdoc 框架端点，作为显式 docs-only allowlist 处理。该门禁还会比对 `@RequestBody` DTO 顶层字段与本文 `Request` JSON 示例的顶层字段，并检查明确嵌套 DTO 的一层字段，例如 `CodeQaRequest.evidenceRef` 和 `AutoRepairRequest.provenance`；`Map`、raw `String`、webhook body 和 dev/test seed 等特殊体按显式规则跳过或后续专项处理。`make verify` 已包含该门禁。
 
 ### 统一响应结构
@@ -295,7 +295,7 @@
   - `failed_file_paths`
   - `status: OK|PARTIAL`
 
-公开仓库 smoke 和 release evidence 不允许 `java_ast_diagnostics.failed_java_files > 0` 仍声明 raw scan contract 通过。
+公开仓库验证不允许在 `java_ast_diagnostics.failed_java_files > 0` 时仍声明 raw scan contract 通过。
 
 ### GET /api/scan-tasks/{scanTaskId}/artifacts/{artifactType}
 
@@ -1016,7 +1016,7 @@
 
 删除指定配置。
 
-安全边界：`LlmConfigResponse.apiKey` 只能是 masked display value，不能返回原始 key；日志、异常、release evidence 和前端状态都不得保存或展示原始 key。生产环境 LLM base URL 必须防 SSRF，禁止 localhost、metadata IP、内网 IP 和非 HTTPS 目标；mock provider 只能用于 dev/test 或明确 mock profile。
+安全边界：`LlmConfigResponse.apiKey` 只能是 masked display value，不能返回原始 key；日志、异常、Task evidence 和前端状态都不得保存或展示原始 key。生产环境 LLM base URL 必须防 SSRF，禁止 localhost、metadata IP、内网 IP 和非 HTTPS 目标；mock provider 只能用于 dev/test 或明确 mock profile。
 
 ### POST /api/mock-llm/chat/completions
 
@@ -1087,7 +1087,7 @@ Delivery 查询接口只返回处理元数据和项目映射，不得返回 webh
 
 获取全局统计数据(项目数、扫描数、任务数等)。
 
-P9 Dashboard trusted loop 指标字段：
+继承 Dashboard trusted loop 指标字段（当前不作为 P1 能力或 Gate）：
 
 - `trustedLoopCompletionRate`：`0-100`，后端根据仓库接入、成功扫描、code_chunks 和下一步证据信号计算。
 - `trustedLoopStatus`：`ready | warning | idle`，用于 Dashboard North Star 状态。

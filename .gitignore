@@ -29,6 +29,8 @@ web-console/dist/
 web-console/.vite/
 web-console/test-results/
 web-console/tsconfig*.tsbuildinfo
+web-console/vite.config.js
+web-console/vite.config.d.ts
 
 .env
 .env.local

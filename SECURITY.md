@@ -1,67 +1,31 @@
-# Security Policy
+# SourceLens AIOS 安全边界
 
-状态：根目录安全入口。当前阻断风险见 `docs/aios/truth/project_state.yaml`；专项边界见 `docs/SECURITY_BOUNDARY.md`、`docs/THREAT_MODEL.md`、`docs/RAW_ACCESS_AND_EVIDENCE_RETENTION_POLICY.md`。
+当前安全事实以 `docs/aios/truth/project_state.yaml` 为准，详细工程边界见
+`docs/SECURITY_BOUNDARY.md`。本文件只保留当前阶段可执行的最低规则。
 
-## 1. Report Security Issues
+## 漏洞报告
 
-Do not open a public issue for security vulnerabilities.
+不要在公开 Issue 或 Pull Request 中披露安全漏洞、Secret、Token、私钥、
+原始提示词、模型响应、源码片段或可利用细节。先通过 Founder 指定的私密渠道报告。
 
-Report privately to the project owner first:
+## P1 基础边界
 
-```text
-GitHub owner: LJunP
-Project: SourceLens
-Security contact: private channel with the owner
-```
+- 不把文档声明当作技术强制或生产安全证明。
+- 未经单独授权，不允许网络、真实 Provider、Secret、远程写入或生产副作用。
+- 不允许 Agent 自主修改 canonical main，也不允许实现者独立验收自己的成果。
+- 所有 Task 必须声明允许路径、禁止行为、预算、停止条件、回滚点和证据要求。
+- 任何安全边界扩大、证据缺失、验证失败或独立 Reviewer 非 PASS 都必须停止并升级。
 
-Until a private contact channel is formally published, keep security findings out of public issues and pull requests.
+## 审查要求
 
-## 2. What Counts as Security
-
-Security issues include:
-
-- Secret, token, private key, `.env`, webhook secret, GitHub App credential exposure.
-- SSRF or unsafe repository clone URL handling.
-- Path traversal or artifact download outside allowed project boundaries.
-- Raw artifact, raw prompt, raw LLM response, Agent task input/output, or tool call result leakage.
-- Sandbox escape, unsafe shell/Docker command execution, or command injection.
-- GitHub App installation, webhook signature, PR permission, or token misuse.
-- Release evidence forgery, stale authority misuse, or verifier bypass.
-- Cross-project scan, artifact, code_chunk, audit log, or AutoRepair data contamination.
-
-## 3. Immediate Handling
-
-If a secret is exposed:
-
-1. Stop using the exposed credential.
-2. Rotate the credential.
-3. Remove it from tracked files and generated artifacts.
-4. Check `release-evidence/`, `.sourcelens-runtime/`, logs, screenshots, and copied reports.
-5. Record the incident in `docs/OBSERVABILITY_AND_INCIDENTS.md` if impact is material.
-
-## 4. Security Review Rules
-
-Security-impacting changes require the `Security Agent`, `CTO Agent` and an independent `Quality & Evaluation Agent` gate, following:
-
-- `docs/SECURITY_BOUNDARY.md`
-- `docs/THREAT_MODEL.md`
-- `docs/RAW_ACCESS_AND_EVIDENCE_RETENTION_POLICY.md`
-- `docs/DATA_GOVERNANCE.md`
-- `docs/COMPLIANCE_AND_PRIVACY.md`
-
-Required checks depend on the change, but security boundary changes normally require:
+安全相关变更至少需要 CTO、Security、Quality 三方中与风险相匹配的独立审查。
+当前基础检查入口为：
 
 ```bash
-make security-regression-check
-make api-design-check
-make code-map-check
+make aios-governance-check
+make p1-safety-check
+make verify
 ```
 
-## 5. Public Disclosure
-
-Do not disclose details publicly until:
-
-- The issue is reproduced.
-- The impact is understood.
-- A fix or mitigation exists.
-- The owner approves disclosure.
+P3 之前不声称已具备 Supervisor、Root Custody、强隔离、敌对主体抵抗、完整
+Capability System 或生产级 Trust Runtime。

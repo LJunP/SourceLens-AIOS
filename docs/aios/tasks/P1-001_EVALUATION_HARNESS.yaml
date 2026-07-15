@@ -1,545 +1,197 @@
-schema_version: 1
+schema_version: 2
 record_type: sourcelens_aios_task_contract
 task_id: AIOS-P1-001
 phase: P1
-title: Prove the minimum reproducible evaluation-harness path with one immutable fixture task
-status: REFROZEN_V10_PENDING_INDEPENDENT_PRE_EXECUTION_REVIEW
-p1_entry_authorized: true
-execution_start_authorized: false
-execution_permitted: false
+title: Implement the minimum reproducible Evaluation Harness
+status: DRAFT_READY_FOR_FOUNDER_TASK_AUTHORIZATION
+execution_authorized: false
 
-governing_authority:
-  founder: Human Founder
-  founder_p1_authorization_record: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-entry-and-p1-001-contract-20260711T141809Z/FOUNDER_P1_ENTRY_AUTHORIZATION_RECORD.md
-  founder_p1_authorization_record_sha256: 876845f670136064b9d7c633a251fc177fb26c5feccaba1362c58855530a5144
-  founder_p1_authorization_machine_record: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-entry-and-p1-001-contract-20260711T141809Z/founder-p1-entry-authorization.json
-  strategy: SourceLens AIOS Strategic Constitution v2.3
-  execution_protocol: Master Execution Protocol v1.0
-  evaluation_protocol: Evaluation and Research Protocol v1.1
-  long_term_goal_sha256: 60e42edb7d422265325391014cd6e329fdf14861beedc682b6892fb3fc929eea
-  p0_founder_gate_decision_sha256: 300a282eb13684ad062efbf07a9b73c5240a5d974690ee1874dc229b07640d50
-  post_gate_authority_commit: 14df7b8e94f7c1fc8305e71a794a0815ed45fa82
-  post_gate_authority_tree: db1f4892bb5271c3b101ee3125fecb8a24db51f8
-
-task_objective: >-
-  Implement and independently verify the smallest isolated evaluation-harness
-  slice that loads one immutable TaskSpec, materializes one reproducible
-  EnvironmentSnapshot, executes a deterministic B0 contract-conformance adapter
-  and a read-only B2 current-SourceLens compatibility adapter against the same
-  development fixture and budget policy, retains schema-valid observable run
-  evidence, invokes one frozen deterministic evaluator, and reproduces normalized
-  verdict and artifact identity from a fresh replay. The task must not modify
-  inherited business behavior or claim capability improvement.
-
-research_hypothesis:
-  statement: >-
-    Given the frozen project-owned Java fixture, network-disabled hash-bound
-    environment, shared TaskSpec, two frozen configurations and deterministic
-    evaluator, the minimum harness can produce complete schema-valid primary and
-    replay records for B0 and B2, with 2/2 reproducible conformance, identical
-    normalized evaluator verdicts, complete evidence, and zero forbidden action.
-  falsifier: >-
-    The hypothesis is false for this task if either adapter cannot conform without
-    adapter-specific TaskSpec or evaluator changes; source, environment or
-    artifact identity cannot be reproduced; any required observable evidence is
-    missing; a normalized replay or evaluator verdict differs; an unsafe action
-    occurs; or success requires scope, budget, oracle or product expansion.
-  capability_claim_boundary: >-
-    Passing proves only minimum harness contract conformance and replayability on
-    one visible development fixture. It does not establish Verified Task Success
-    Rate, model or SourceLens superiority, hidden-set validity, general software
-    engineering capability, production readiness, or P1 completion.
+objective: >-
+  Implement the smallest local Evaluation Harness that loads a versioned TaskSpec,
+  EnvironmentSnapshot and SystemConfiguration, invokes a deterministic adapter,
+  records observable execution evidence, evaluates the result with a separately
+  frozen evaluator, replays the same run, and produces a hash-bound Evidence
+  Manifest. This task proves harness conformance only; it does not prove Agent ability.
 
 why_now:
-  - P0 established a reproducible and rollback-capable technical baseline.
-  - Founder has authorized P1 Agent Evaluation and Research Foundation.
-  - Later Repository Intelligence or Agent claims would be incomparable without a common task, environment, trace, evaluator and baseline path.
-  - The smallest falsifiable P1 step is one development fixture and two conformance configurations, not a broader Agent or product runtime.
+  - P0 is complete and P1 entry is authorized.
+  - Repository Intelligence and Agent claims cannot be compared without one reproducible evaluator and evidence path.
+  - The previous governance and execution-carrier lineages are terminal and must not block ordinary local harness development.
 
-source_baselines:
-  implementation_authority_base:
-    commit: 14df7b8e94f7c1fc8305e71a794a0815ed45fa82
-    tree: db1f4892bb5271c3b101ee3125fecb8a24db51f8
-    role: current reviewed governance authority entry
-  b2_current_sourcelens_snapshot:
-    commit: ad6450e418d8f1b4fd5a789f913525a8dd8bdc10
-    tree: 2c0956ae8598547466f691ead21532a026006bf9
-    role: Founder-accepted P0 technical baseline
-  rollback_anchor: b169905fd904137ac3ef9d16986d8f1f49194d63
+research_hypothesis:
+  statement: A minimal local harness can reproduce one deterministic conformance task and its normalized evaluator verdict from frozen inputs.
+  falsifier: Any required input, action, result, evaluator verdict or artifact identity cannot be reproduced, or completion requires expanding into Agent Runtime or Trust Runtime.
 
-frozen_input_manifest:
-  path: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-entry-and-p1-001-contract-20260711T141809Z/frozen-input-manifest-v10.json
-  sha256: 6fdf10d722ebe13e03c7d057e6b063591c982025b481de68456d6df0e2da6541
-  freeze_state: REFROZEN_V10_BEFORE_IMPLEMENTATION_OUTPUT_AFTER_V9_CTO_SECURITY_QUALITY_FAILURE
+claim_boundary:
+  proves:
+    - one visible synthetic fixture conforms to the harness contract
+    - evidence and replay plumbing work for that fixture
+  does_not_prove:
+    - Direct Model baseline performance
+    - SourceLens or Repository Intelligence improvement
+    - Verified Task Success Rate
+    - real software-engineering Agent capability
+    - hidden-set validity
+    - production readiness or hostile-principal resistance
 
-fixture:
-  dataset_id: P1-001-DEV-FIXTURE-v1
-  task_id: P1-001-DEV-001
-  evaluation_split: development
-  task_count: 1
-  kind: project_owned_synthetic_fixture
-  hidden_set_used: false
-  benchmark_claim: false
-  repository_commit: e4c881945d60512341abf1128f39855540d23569
-  repository_tree: c826510e97113ae2a73efc4d9a2916d28d9a2c7f
-  bundle_path: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-entry-and-p1-001-contract-20260711T141809Z/frozen-inputs/p1-001-fixture-v1.bundle
-  bundle_sha256: 731afc8017ecdcdbcec30c7aa01f5559e3fec537b6617ce1f4cd06a39601e4ff
-  provenance_sha256: 1f5d0042328c4c5118d5caae5ffdc70c5b1e1e2c20e6a3be104aaf04c63800de
-  license_sha256: 402aeb6943fef28d9563e19f74df047c87de96d59150152a86815beeed2d6da0
-  redistribution: allowed
-  base_regression: PASS
-  base_issue_test: EXPECTED_FAIL
-  representativeness_boundary: >-
-    The fixture tests bounded repository maintenance, exact source identity,
-    single-file localization, patch scope and executable verification. One tiny
-    synthetic task is insufficient to estimate real-user performance.
+source:
+  canonical_repository: /Users/lijunpeng/Desktop/cc/project/SourceLens-AIOS
+  canonical_branch: main
+  task_branch: task/AIOS-P1-001-evaluation-harness
+  parent_rule: Create from the accepted post-realignment main commit.
+  inherited_source_worktree_write_allowed: false
 
-frozen_contract_inputs:
-  task_spec:
-    path: frozen-inputs/task-spec-v2.json
-    sha256: d332d6c1c3e02d92da676e8a64e77a145eeaf1dece9568ac5a7e383c0cbd44d2
-  environment_snapshot:
-    path: frozen-inputs/environment-snapshot-v1.json
-    sha256: 50140b8bcee077f5a147ff3d9c11b872eb7f33411217cc6b652e1f830a456323
-  b0_configuration:
-    path: frozen-inputs/system-configuration-b0-v1.json
-    sha256: 5e6efab50ac6c7d2aa920ad316bc7fb09f1465b605ff455fe2be66ed72bed6e1
-  b2_configuration:
-    path: frozen-inputs/system-configuration-b2-v1.json
-    sha256: 73af50611ae2f38382355bc06db51159e8d06f827bf26e87fea89d86e219d9c7
-  baseline_context:
-    path: frozen-inputs/baseline-context-v1.txt
-    sha256: 66251bb751a8bdfcd68a14dbe5a7f44ece4292b58020c9a22f67f5d52f424112
-  response_format:
-    path: frozen-inputs/response-format-v1.json
-    sha256: 9ff758fd72b9840b8f8baab3c0ab0646f927b71bce47d2fc09bb3e91852c3756
-  evaluator:
-    path: frozen-inputs/evaluator-v2.rb
-    sha256: 648258d9b843cc4aed2493c095b9e4519798018cda822a8a0c855b1bdc338b17
-    caller_supplied_base_identity: false
-    frozen_base_commit: e4c881945d60512341abf1128f39855540d23569
-    frozen_base_tree: c826510e97113ae2a73efc4d9a2916d28d9a2c7f
-  immutable_oracle:
-    path: frozen-inputs/TagNormalizerOracle-v2.java
-    sha256: 984ab619482aaf48663e6f5d2444dfceec28cb5e43edba1e5df2018ab2d65912
-    candidate_mutable: false
-  calibration_evaluation_policy:
-    path: frozen-inputs/evaluation-policy-v8.json
-    sha256: ef369684693523dd9c867ed5bc57f845a1ece0c8d2bb8edd6dbd02c6595fef2f
-  calibration_run_record_semantic_validator:
-    path: frozen-inputs/validate-run-record-semantics-v8.rb
-    sha256: f7ac182617e79c6e6665a5993396af8b4c1587dd797427489f389f112cf13c27
-  founder_public_key:
-    path: frozen-inputs/founder-authority-public-key-v1.pub
-    sha256: a8e3de14cfc6cc4cbc9e3263da4e7532986de6e7cdb83e569c7277e85eb0da9e
-    fingerprint: SHA256:oC4+LWXupYrBz0eUqdQRQLunlcGt1TviJr5GYNzkcXw
-    private_key_agent_access: forbidden
-  founder_allowed_signers:
-    path: frozen-inputs/founder-authority-allowed-signers-v1
-    sha256: 0261e12c1c775105df9b74efd67e30e91d2bc37c1f2c10216248bb713ba04ed7
-  founder_authorization_schema:
-    path: frozen-inputs/founder-authorization-schema-v10.json
-    sha256: d73911c35fff3c725ea04274a19388bf00a256ece5a43a4af35e64d7a3aa5d22
-  preflight_admission_registry_schema:
-    path: frozen-inputs/preflight-admission-registry-schema-v10.json
-    sha256: afd4ca04808288e9bdf3a8a2800bfc72cb2a6edb8180ebd92c0458f6ee1bc8b2
-  actual_execution_registry_schema:
-    path: frozen-inputs/actual-execution-registry-schema-v10.json
-    sha256: f03f6c6112ae9ddc1937d82b0a786d9536de7fb551f1dbabfb28510c90c4e628
-  protected_preflight_launcher:
-    path: frozen-inputs/preflight-launcher-v10.rb
-    sha256: 1fc3ada1eda47a6c2f0d37b4c9dda4893e15bd89a649855e3251bdae548211a2
-  actual_execution_policy:
-    path: frozen-inputs/evaluation-policy-v10.json
-    sha256: 4c511a24c7c6e7695b1401d9cf2a38fc0fc34b958eac41f467670be4cf17b244
-  actual_run_registry_validator:
-    path: frozen-inputs/validate-actual-run-registry-v10.rb
-    sha256: 541c9dcab1abd7be6aa77f9457e33f071e2fbb9213fc7e481d82998d5fe03bfd
-  write_scope:
-    path: frozen-inputs/write-scope-v10.json
-    sha256: f6f51b926e24b6f3e638a9373a4f119e647926885212ce32fc0bf737ac5124f4
-  ownership:
-    path: frozen-inputs/file-ownership-v10.json
-    sha256: 07cae73f66294471662352cc4fe552bcde949140308e9392aea0a54dac8127c7
-  contract_validator:
-    path: frozen-inputs/validate-contract-freeze-v10.rb
-    sha256: 16402ea189adb986cfecf7f2ac3dd9f7ec119357c52b598054f30651ff621341
+owner:
+  accountable_role: Chief AI Research Agent
+  integration_role: Engineering Manager Agent
+  worker_role: Evaluation Harness Engineer
+  evaluator_owner_role: Quality and Evaluation Agent
+  independent_reviewers:
+    - Quality and Evaluation Agent
+    - CTO Agent
+    - Security Agent for declared boundary only
+
+delegated_execution:
+  model: TASK_LEVEL_AUTHORIZATION
+  founder_approval_granularity: one task envelope, not individual files or commands
+  ordinary_implementation_fixes_inside_scope: allowed
+  worker_cannot_change:
+    - this Task Contract
+    - accepted schemas
+    - evaluator or oracle bytes
+    - acceptance criteria, metrics or permissions
+  automatic_successor_or_replacement: forbidden
+  escalation_conditions:
+    - scope, path, budget, metric or permission expansion
+    - use of network, provider, Secret, remote or production capability
+    - source identity or evaluator contamination
+    - independent review non-PASS after the task budget is exhausted
+    - any stop condition
+
+implementation_scope:
+  worker_writable_paths:
+    - evaluation-harness/harness/**
+    - evaluation-harness/adapters/harness_stub/**
+    - evaluation-harness/recording/**
+    - evaluation-harness/replay/**
+  integration_writable_paths:
+    - scripts/verify-p1-harness.sh
+    - Makefile
+  quality_owned_preimplementation_paths:
+    - evaluation-harness/evaluator/**
+    - evaluation-harness/fixtures/visible/**
+    - evaluation-harness/fixtures/oracle/**
+  immutable_inputs:
+    - docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
+    - docs/aios/schemas/task-spec.schema.json
+    - docs/aios/schemas/environment-snapshot.schema.json
+    - docs/aios/schemas/system-configuration.schema.json
+    - docs/aios/schemas/run-record.schema.json
+    - docs/aios/EVALUATION_PROTOCOL.md
+    - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+  forbidden_paths:
+    - /Users/lijunpeng/Desktop/cc/project/SourceLens/**
+    - docs/aios/STRATEGIC_CONSTITUTION.md
+    - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+    - historical archive and P0 evidence
+    - backend-spring/src/main/**
+    - analyzer-rust/src/**
+    - web-console/src/**
+
+separation_and_freeze_order:
+  - Quality and Evaluation Agent creates and freezes the evaluator and oracle fixture before Worker implementation starts.
+  - The freeze receipt binds evaluator, oracle, visible input, accepted schemas and Task Contract hashes.
+  - The implementation Worker receives those paths as read-only inputs and may write only worker_writable_paths.
+  - Engineering Manager owns only integration_writable_paths and cannot alter evaluator or oracle bytes.
+  - Any evaluator, oracle, schema or Task Contract change after Worker start stops this Task and requires a separately reviewed decision.
+
+minimum_components:
+  quality_owned:
+    - frozen deterministic evaluator
+    - frozen visible synthetic fixture
+    - frozen controlled-failure fixture
+    - frozen oracle for the visible conformance fixture
+  worker_owned:
+    - TaskSpec loader using the accepted read-only schema
+    - EnvironmentSnapshot and SystemConfiguration loaders using accepted read-only schemas
+    - deterministic HARNESS_STUB adapter
+    - bounded command/result recorder
+    - normalized RunRecord
+    - replay comparator
+    - Evidence Manifest generator and verifier
+    - controlled failure handling and recording
+
+baseline_plan:
+  harness_stub:
+    name: HARNESS_STUB
+    purpose: validate harness mechanics only
+    included_in_vtsr_denominator: false
+  future_true_baselines:
+    B0: Direct Model with issue text plus frozen bounded textual context; no repository or tool access.
+    B1: Model plus simple lexical/file search baseline.
+    B2: Model plus SourceLens Repository Intelligence adapter.
+  rule: B0, B1 and B2 runs begin only after this harness task passes its own gate and receive a separate experiment authorization.
 
 environment:
-  snapshot_id: P1-001-ENV-v1
-  container_image: eclipse-temurin@sha256:723151f3fc88ca2060153ee08ab8dbbea7983d6ed6f2622fe440acf178737c94
-  os: Linux
-  architecture: aarch64
-  java: OpenJDK Temurin 17.0.19+10
-  network_policy: none
-  allowed_hosts: []
+  network: disabled
+  provider: none
   secrets: none
-  caches: disabled
-  real_provider_source_egress: prohibited
-  materialization_mode: disposable_fresh_clone_from_hash_bound_bundle
+  input: standalone hash-bound synthetic fixture
+  task_worktree_write: exact_owned_paths_only
+  canonical_main_write: forbidden
+  system_under_test_checkout_write: forbidden
+  remote_effects: forbidden
+  production_effects: forbidden
+  identity_claim: cooperative local development observation, not platform identity or strong isolation
 
-baseline:
-  suite_version: Baseline Suite v1
-  configurations:
-    - id: B0
-      configuration_id: P1-001-B0-CONFORMANCE-v1
-      mode: deterministic_fixture_contract_conformance
-      tools: []
-      loop_limit: 1
-      claim_boundary: CONTRACT_CONFORMANCE_ONLY_NOT_MODEL_CAPABILITY
-    - id: B2
-      configuration_id: P1-001-B2-CURRENT-SOURCELENS-v1
-      mode: read_only_current_sourcelens_compatibility_adapter
-      tools:
-        - source.read
-        - lexical.search
-        - sourcelens.readonly_analysis
-      loop_limit: 1
-      claim_boundary: CURRENT_SYSTEM_ADAPTER_CONFORMANCE_ONLY
-  target_configuration: none
-  comparison_claim: none
+budget:
+  engineering_hours: 24
+  calendar_days: 5
+  implementation_iterations_inside_same_task: 3
+  measurement_retries: 0
+  new_runtime_services: 0
+  new_databases: 0
 
-roles:
-  accountable: Master CEO Agent
-  research_owner: Chief AI Research Agent
-  engineering_owner: Engineering Manager Agent
-  implementation_worker: Evaluation Harness Worker
-  fixture_custodian: Fixture Custodian Worker
-  independent_quality_reviewer: Quality and Evaluation Agent
-  architecture_reviewer: CTO Agent
-  trust_reviewer: Security Agent
-  value_reviewer: Product Intelligence Agent
-
-review_history:
-  v1_candidate:
-    verdict: REJECTED_PRE_EXECUTION
-    cto_review_sha256: 52e1de1a90f48fcb8500ed5e93ad38c7d84624e22d33d4d9090a0861d73f3cc7
-    security_review_sha256: 5657729d37a64f26d21f1e884943eb104e33c4ae881a17600efcb80c0cdd725c
-    quality_review_sha256: 07d172a291c17d55f8853f6beaccd7063b498da7882b062e0c52cc771575245b
-    retained_blockers:
-      - scope count, contract mutability and ownership disagreement
-      - caller-selected evaluator base identity
-      - mutable in-candidate oracle false success
-      - stale active authority entries
-      - undefined successful RunRecord semantics, evidence completeness and normalized replay
-  v2_remediation:
-    status: REJECTED_BY_QUALITY
-    quality_review_sha256: d52c668f80b7891f986cb6a495ef73e1ba9cc5ef4e42ba6dfa3813f2b01d0b9e
-    blockers:
-      - RunRecord schema and evidence completeness were fail-open
-      - browser oracle asserted superseded P0 current state
-      - governance negatives did not bind the exact final candidate
-  v3_remediation:
-    status: REJECTED_BY_SECURITY_AND_QUALITY
-    security_review_sha256: ed2e1f384fede314fe3e0b431c58bbf185e178a4f45470eae100bb7138208961
-    quality_review_sha256: 0b1fc04443ab305ed833205c384b3826ede1ee68d2d385276be11fe656943ba3
-  v4_remediation:
-    status: REJECTED_BY_CTO_SECURITY_AND_QUALITY
-    cto_review_sha256: f22dd1d3dde307938fcd7929dd50a97d114587756b6f110e4b6dc609ac8f5b24
-    security_review_sha256: 4da86095f30c6c70406dd42d5b0de55a46b7959f23d8ec4f3a51150a89152cc9
-    quality_review_sha256: fe694a8430dcb1ccfa081747fe46df68981da29580edcf66927c0985446ff198
-  v5_remediation:
-    status: REJECTED_BY_CTO_AND_QUALITY
-    cto_review_sha256: b03c0fd8cf1b9dc69b10acf15bc66bc8d0f71858d889476f89fc687874309d5c
-    security_review_sha256: eb32526b42ccc53f46d0423da3570c66d098fa580d4de8ff6d29a4e9b34953ca
-    quality_review_sha256: c8b2583f75bb56ba83191e81bae8f17bafefac0dc9df4a522419dbeaab60dada
-  v6_remediation:
-    status: REJECTED_BY_CTO_AND_SECURITY
-    cto_review_sha256: 41303f9a15af0a0dc24f76ef39bb3dc449196b9c5c79571da36215c014c1ae7b
-    security_review_sha256: f152f006a5ad650912fdf32155cc4f9b10f7d1cf4b6ddbca35727f6985d5964b
-    quality_review_status: REVIEW_TURN_FAILED_NO_PASS
-  v7_remediation:
-    status: REJECTED_BY_SECURITY_AND_QUALITY
-    cto_review_sha256: 76b4902b4e475593e717e944563424a947072d6e833845b339dc1100bdddc2c5
-    security_review_sha256: c31c538c575f34fc0793df41e4c2e70b93419c5721b9cd12b597a5bf65285c55
-    quality_review_sha256: 3e14668abd5916dfd1899effe04241344bbbde6200c70e0f76343dc6f95e78f3
-  v8_remediation:
-    status: REJECTED_BY_CTO
-    cto_review_sha256: aa7cb3372e7394bc0b30d1dcd956053d6aa2350497840a58bf81476297b11959
-    security_review_sha256: c2d912e988c2c7a2fab2a7fbaa4ff68eac013c9544345949af5b60716ab8e89f
-    quality_review_sha256: 94e2a56c66ce9c8ec4b52983fda2a8965dc64921047634b0c53777e9176005ee
-    blocker: only calibration records had a frozen acceptance path; actual B0/B2 scheduled runs had none
-  v9_remediation:
-    status: REJECTED_BY_CTO_SECURITY_AND_QUALITY
-    cto_review_sha256: 22f4e358939536e23d186224f07c6c3d6b5f2ff03dfd106af28bf71d4443185f
-    security_review_sha256: 4fb212ace27b2ef8738b17b4f149721456faa331c4d78b5468be438be9ba3451
-    quality_review_sha256: 3295e209698744ad8b21b1a6a454c4563d11667431f0d547da6455d8eac360fb
-    blockers:
-      - caller-forgeable authorization path and environment with no signed trust root or protected launcher
-      - commit/tree and post-freeze/review ordering not exact-bound
-      - legitimate actual mode unreachable due String and Pathname comparison
-      - registry could omit failures, invalid runs, extra attempts and exclusions
-  v10_remediation:
-    status: PENDING_FULL_INDEPENDENT_REVIEW
-    rule: no earlier PASS evidence transfers
-
-pre_execution_calibration:
-  evidence_class: PRE_EXECUTION_CONTRACT_CALIBRATION_ONLY
-  objects: 4
-  matrix: [B0-primary, B0-replay, B2-primary, B2-replay]
-  actual_execution_denominator_eligible: false
-  capability_claim_eligible: false
-  adapter_implementation_observed: false
-  interpretation: >-
-    These objects only prove that the frozen acceptance path can distinguish
-    both declared configuration identities and reproduce evaluator-bound
-    records before execution. They are not scheduled AIOS-P1-001 runs, never
-    enter the future two-run denominator, and do not prove B0 or B2 capability.
-
-evidence_class_and_actual_execution_registry:
-  policy: frozen-inputs/evaluation-policy-v10.json
-  classes:
-    calibration:
-      id: PRE_EXECUTION_CONTRACT_CALIBRATION_ONLY
-      denominator_eligible: false
-      reclassification_forbidden: true
-    actual_validator_test_vector:
-      id: PRE_EXECUTION_ACTUAL_VALIDATOR_TEST_VECTOR_ONLY
-      denominator_eligible: false
-      reclassification_forbidden: true
-    actual_scheduled_execution:
-      id: P1_001_ACTUAL_SCHEDULED_EXECUTION
-      denominator_eligible_only_after_exact_founder_start_authorization: true
-  actual_matrix: [B0-primary, B0-replay, B2-primary, B2-replay]
-  denominator_units: [B0, B2]
-  acceptance_path: >-
-    The actual path requires a Human-Founder Ed25519 signature under the frozen
-    public key and namespace. The signed record binds the exact contract SHA,
-    commit, tree, freeze receipt, five-review post-review seal, validity window,
-    nonce, four exact slots and zero exclusions. The frozen preflight launcher
-    admits each slot once into a fixed supervisor ledger; the actual validator
-    derives that ledger from the signed nonce and rejects direct execution,
-    replay, unknown fields, missing or extra attempts, and omitted FAIL,
-    INVALID or ABORTED outcomes. Calibration and validator test-vector
-    identities remain denominator-ineligible. The worker must not be able to
-    write activation or supervisor-ledger roots; absent independently verified
-    isolation, execution remains forbidden even with a valid signature.
-
-exact_execution_write_scope:
-  exact_changed_path_count: 33
-  paths:
-    - research/evaluation-harness/p1_001/README.md
-    - research/evaluation-harness/p1_001/validate_contracts.rb
-    - research/evaluation-harness/p1_001/run_harness.rb
-    - research/evaluation-harness/p1_001/replay.rb
-    - research/evaluation-harness/p1_001/adapters/b0_fixture_adapter.rb
-    - research/evaluation-harness/p1_001/adapters/b2_current_sourcelens_adapter.rb
-    - research/evaluation-harness/p1_001/tests/contract_validation_test.rb
-    - research/evaluation-harness/p1_001/tests/preflight_negative_test.rb
-    - research/evaluation-harness/p1_001/tests/evaluator_test.rb
-    - research/evaluation-harness/p1_001/tests/replay_test.rb
-    - research/fixtures/p1_001/task-spec-v2.json
-    - research/fixtures/p1_001/environment-snapshot-v1.json
-    - research/fixtures/p1_001/system-configuration-b0-v1.json
-    - research/fixtures/p1_001/system-configuration-b2-v1.json
-    - research/fixtures/p1_001/baseline-context-v1.txt
-    - research/fixtures/p1_001/response-format-v1.json
-    - research/fixtures/p1_001/p1-001-fixture-v1.bundle
-    - research/fixtures/p1_001/evaluator-v2.rb
-    - research/fixtures/p1_001/TagNormalizerOracle-v2.java
-    - research/fixtures/p1_001/evaluation-policy-v8.json
-    - research/fixtures/p1_001/validate-run-record-semantics-v8.rb
-    - research/fixtures/p1_001/founder-authority-public-key-v1.pub
-    - research/fixtures/p1_001/founder-authority-allowed-signers-v1
-    - research/fixtures/p1_001/founder-authorization-schema-v10.json
-    - research/fixtures/p1_001/preflight-admission-registry-schema-v10.json
-    - research/fixtures/p1_001/actual-execution-registry-schema-v10.json
-    - research/fixtures/p1_001/preflight-launcher-v10.rb
-    - research/fixtures/p1_001/evaluation-policy-v10.json
-    - research/fixtures/p1_001/validate-actual-run-registry-v10.rb
-    - docs/aios/research/P1-001/CONFORMANCE_REPORT.md
-    - docs/aios/research/P1-001/FAILURE_LEDGER.json
-    - docs/aios/research/P1-001/EVIDENCE_MANIFEST.json
-    - docs/aios/research/P1-001/REPRODUCTION_RECEIPT.json
-  all_other_paths: forbidden
-  inherited_worktree: read_only_forbidden_to_modify
-  implementation_workspace: disposable_only
-  task_contract_during_execution: immutable
-
-file_ownership:
-  Evaluation Harness Worker:
-    - research/evaluation-harness/p1_001/README.md
-    - research/evaluation-harness/p1_001/validate_contracts.rb
-    - research/evaluation-harness/p1_001/run_harness.rb
-    - research/evaluation-harness/p1_001/replay.rb
-    - research/evaluation-harness/p1_001/adapters/b0_fixture_adapter.rb
-    - research/evaluation-harness/p1_001/adapters/b2_current_sourcelens_adapter.rb
-    - research/evaluation-harness/p1_001/tests/contract_validation_test.rb
-    - research/evaluation-harness/p1_001/tests/preflight_negative_test.rb
-    - research/evaluation-harness/p1_001/tests/evaluator_test.rb
-    - research/evaluation-harness/p1_001/tests/replay_test.rb
-  Fixture Custodian Worker:
-    - research/fixtures/p1_001/task-spec-v2.json
-    - research/fixtures/p1_001/environment-snapshot-v1.json
-    - research/fixtures/p1_001/system-configuration-b0-v1.json
-    - research/fixtures/p1_001/system-configuration-b2-v1.json
-    - research/fixtures/p1_001/baseline-context-v1.txt
-    - research/fixtures/p1_001/response-format-v1.json
-    - research/fixtures/p1_001/p1-001-fixture-v1.bundle
-    - research/fixtures/p1_001/evaluator-v2.rb
-    - research/fixtures/p1_001/TagNormalizerOracle-v2.java
-    - research/fixtures/p1_001/evaluation-policy-v8.json
-    - research/fixtures/p1_001/founder-authority-public-key-v1.pub
-    - research/fixtures/p1_001/founder-authority-allowed-signers-v1
-    - research/fixtures/p1_001/founder-authorization-schema-v10.json
-    - research/fixtures/p1_001/preflight-admission-registry-schema-v10.json
-    - research/fixtures/p1_001/actual-execution-registry-schema-v10.json
-  Evaluation Policy Worker:
-    - research/fixtures/p1_001/validate-run-record-semantics-v8.rb
-    - research/fixtures/p1_001/preflight-launcher-v10.rb
-    - research/fixtures/p1_001/evaluation-policy-v10.json
-    - research/fixtures/p1_001/validate-actual-run-registry-v10.rb
-  Evidence Custodian Worker:
-    - docs/aios/research/P1-001/CONFORMANCE_REPORT.md
-    - docs/aios/research/P1-001/FAILURE_LEDGER.json
-    - docs/aios/research/P1-001/EVIDENCE_MANIFEST.json
-    - docs/aios/research/P1-001/REPRODUCTION_RECEIPT.json
-  overlap_policy: STOP_ON_OVERLAP_UNOWNED_PATH_OR_CONTRACT_PATH_MUTATION
-
-execution_permissions:
-  development_worker_writes: exact_scope_in_disposable_workspace_only
-  founder_private_key_access: forbidden_to_all_agents_and_workers
-  founder_execution_start: signed_exact_authorization_required_after_five_review_seal
-  preflight_admission: exactly_once_per_matrix_slot_via_frozen_launcher
-  activation_and_supervisor_ledger_worker_write: prohibited_and_must_be_technically_verified_before_start
-  system_under_test_model_initiated_writes: prohibited
-  system_under_test_shell: prohibited
-  deterministic_controller_commands: predeclared_argv_only
-  evaluator_commands: predeclared_argv_only_in_locked_container
-  external_network_requests: 0
-  remote_side_effects: 0
-  production_access: prohibited
-  human_approval_before_candidate_execution: required
-  evaluator_invocation: exactly_one_candidate_path_argument_with_base_commit_and_tree_compiled_into_evaluator_v2
-  oracle_custody: external_hash_frozen_read_only_not_candidate_mutable
-
-metrics:
-  primary:
-    name: Reproducible Harness Conformance Rate
-    numerator: configurations with schema-valid primary run and normalized fresh replay accepted by the frozen evaluator
-    denominator: 2 scheduled configurations
-    target: 2/2
-  guardrails:
-    evidence_completeness: 100_percent
-    fresh_replay_success: 2/2
-    deterministic_evaluator_agreement: 3/3_per_frozen_output
-    source_identity_mismatch: 0
-    forbidden_or_unsafe_actions: 0
-    unrecorded_tool_actions_or_exit_codes: 0
-    post_hoc_exclusions: 0
-    external_network_requests: 0
-    remote_side_effects: 0
-    real_provider_cost_usd: 0
-    human_interventions: record_exact_count
-    wall_clock_tool_calls_compute_cost: record_all_and_remain_within_budget
-  explicitly_not_measured:
-    - VTSR superiority
-    - repository_intelligence_improvement
-    - model_quality_improvement
-    - production_reliability
-    - hidden_set_performance
-    - multi_agent_benefit
-
-budget_boundary:
-  maximum_elapsed_engineering_hours: 24
-  maximum_calendar_window_days: 5
-  maximum_implementation_attempts: 3
-  maximum_fixture_tasks: 1
-  maximum_adapter_configurations: 2
-  scheduled_primary_runs: 2
-  scheduled_fresh_replays: 2
-  maximum_changed_paths: 33
-  maximum_new_runtime_dependencies: 0
-  maximum_external_network_requests: 0
-  maximum_real_provider_model_cost_usd: 0
-  maximum_remote_side_effects: 0
-  scope_expansion_requires_new_contract_and_founder_decision: true
-
-required_artifacts:
-  - schema-valid TaskSpec, EnvironmentSnapshot, two SystemConfigurations and RunRecords
-  - B0 and B2 adapter definitions with exact hashes and narrow claim boundaries
-  - raw primary and replay records, observable traces and evaluator inputs/outputs
-  - normalized replay specification and artifact checksums
-  - exact commands, exit codes, timings, tool calls, interventions and cost
-  - immutable failure and invalid-run ledger with reason codes
-  - successful RunRecord semantic-validation output and normalized replay identity
-  - explicit calibration evidence-completeness validation against evaluation-policy-v8
-  - Founder-signed exact-contract execution-start authorization, five-review seal and closed preflight admission registry
-  - closed actual execution registry retaining exactly four outcomes including every FAIL, INVALID or ABORTED result and zero exclusions
-  - actual-run registry validation against evaluation-policy-v10, including signature, nonce, admission, anti-reclassification and provenance joins
-  - evidence manifest and reproduction receipt
-  - independent Chief AI Research, CTO, Security, Quality and Product reviews
-  - P1 Evaluation Foundation Conformance Report v0.1
-
-success_criteria:
-  - Both scheduled configurations run under the same frozen TaskSpec, environment class, budget policy and deterministic evaluator.
-  - Reproducible Harness Conformance Rate is 2/2.
-  - Both fresh replays reproduce normalized artifact identity and evaluator verdict.
-  - Evidence completeness is 100 percent and every retained checksum verifies.
-  - Deterministic evaluator agreement is 3/3 for each frozen output.
-  - Every successful RunRecord satisfies the frozen semantic policy; schema validity alone is insufficient.
-  - Every denominator-eligible RunRecord is classified as P1_001_ACTUAL_SCHEDULED_EXECUTION, is hash-bound by the closed execution registry, and started strictly after exact-contract Founder authorization.
-  - Every run is preceded by one unique signed-authority preflight admission; all four admission IDs and outcomes are retained and joined exactly.
-  - Calibration and validator test-vector records remain denominator-ineligible and cannot be reclassified.
-  - Primary and replay records match the frozen normalized replay field set after only the four declared nondeterministic fields are excluded.
-  - Source mismatch, forbidden action, unsafe action, post-hoc exclusion, unrecorded result, network request, real-provider cost and remote effect are all zero.
-  - Independent reviewers accept only the narrow conformance claim.
-  - The report explicitly makes no superiority, hidden-set, production, P1-exit or general capability claim.
-
-failure_criteria:
-  - Either adapter requires an adapter-specific TaskSpec, evaluator or success rule.
-  - Either fresh replay fails normalized identity or deterministic verdict reproduction.
-  - Any mandatory evidence, raw result, exit code, cost record or checksum is missing or inconsistent.
-  - Any forbidden action, source drift, boundary violation, contamination, network or remote effect occurs.
-  - Success requires exceeding budget, changing frozen inputs, expanding scope or weakening the oracle after output is observed.
-  - Independent review rejects the conformance claim or finds implementation/evaluator coupling.
-
-stop_conditions:
-  - This exact contract has not passed all required pre-execution reviews or lacks Founder execution-start authorization.
-  - Any frozen source, fixture, environment, evaluator, configuration, scope, ownership, metric, budget or oracle hash drifts.
-  - Caller-selected base identity, mutable oracle, semantically false success, incomplete evidence or normalized replay ambiguity can reach PASS.
-  - Any calibration or validator test-vector identity can enter the actual execution registry or denominator.
-  - The actual 2/2 denominator lacks exactly four registry-bound primary/replay records created after exact-contract Founder start authorization.
-  - Founder signature, exact contract/freeze/review binding, validity window, nonce, slot admission, failure retention, zero-exclusion or supervisor-ledger isolation can be bypassed.
-  - Fixture provenance, redistribution, representativeness or year-one relevance cannot be defended.
-  - A source-identity, secret, license, custody, network, sandbox or evaluator-independence blocker appears.
-  - The evaluator or acceptance rule would need to change after adapter output is observed.
-  - The task requires real-provider source egress, system-under-test writes or shell, remote repository effects, production access, business-code changes, UI, memory, multi-Agent, or broad runtime work.
-  - Evidence cannot be reproduced from the frozen fixture bundle and image digest.
-  - Any required guardrail fails and cannot be corrected in scope without weakening the oracle.
-  - The 24-hour effort, five-day window, 33-path limit, zero-dependency limit or three-attempt limit is reached.
-  - Three consecutive attempts encounter the same blocker without new evidence.
+required_evidence:
+  - frozen input and configuration hashes
+  - runtime and dependency observation
+  - actual commands, cwd, start/end time and exit status
+  - stdout/stderr or their hashes
+  - primary RunRecord
+  - controlled failure RunRecord
+  - replay comparison
+  - evaluator identity and verdict
+  - pre-implementation evaluator/oracle freeze receipt and ownership map
+  - Evidence Manifest with artifact checksums
+  - source diff and rollback point
+  - independent review reports
 
 acceptance_criteria:
-  - All success criteria pass and no failure criterion occurs.
-  - Required artifacts and manifest independently replay from immutable identities.
-  - Chief AI Research accepts falsifiability and claim boundary.
-  - CTO accepts architecture and scope.
-  - Security accepts trust and custody boundaries.
-  - Quality and Evaluation independently accepts reproducibility and evidence.
-  - Product Intelligence accepts only the fixture's bounded JTBD relevance.
-  - Acceptance remains limited to P1-001 conformance and does not pass P1.
+  - all contract schemas parse and reject malformed mandatory fields
+  - one positive synthetic run completes with complete evidence
+  - one controlled failure is recorded as failure and cannot be promoted to success
+  - a fresh replay produces the same normalized verdict and artifact identity
+  - the harness stub is never reported as B0 or as an Agent capability result
+  - Worker and Integration writes are confined to their exact owned paths in the Task worktree
+  - canonical main and the synthetic system-under-test checkout remain byte-identical
+  - zero network, provider, Secret, remote or production effect
+  - Quality, CTO and boundary-scoped Security reviews are PASS
 
-required_pre_execution_reviews:
-  - Chief AI Research Agent
-  - CTO Agent
-  - Security Agent
-  - Quality and Evaluation Agent
-  - Product Intelligence Agent
+failure_criteria:
+  - evidence is incomplete, mutable or cannot be verified
+  - replay result differs without a declared nondeterminism policy
+  - evaluator or expected output is changed after observing implementation results
+  - Worker or Integration writes an immutable or Quality-owned path
+  - a forbidden effect occurs
+  - the task requires Agent Runtime, Supervisor, Root Custody or platform sandbox work
 
-forbidden_actions:
-  - execute implementation, adapter runs or scheduled evaluation before this exact contract is independently accepted and Founder separately starts AIOS-P1-001
-  - modify the inherited SourceLens worktree, P0 checkpoint or historical evidence
-  - modify business behavior or build a user-facing feature
-  - modify frozen fixture, TaskSpec, environment, configurations, evaluator, oracle, metric, budget or success rule after implementation output is observed
-  - use hidden tasks or claim hidden-set performance
-  - use real-provider source egress or nonzero model spend
-  - allow system-under-test model-initiated writes, shell, external network or remote effects
-  - claim VTSR improvement, benchmark superiority, production readiness, P1 completion or general capability
+stop_conditions:
+  - budget exhausted without satisfying acceptance criteria
+  - source, fixture or evaluator contamination
+  - scope or permission expansion required
+  - a higher-severity safety or data-integrity issue is demonstrated by direct evidence
+  - three implementation iterations fail for the same cause without new evidence
 
-founder_decision:
-  p1_entry_authorized: true
-  contract_preparation_authorized: true
-  contract_freeze_accepted: false
-  execution_start_authorized: false
-  required_next_decision: ACCEPT_OR_REJECT_EXACT_REVIEWED_CONTRACT_AND_START_AIOS_P1_001
+completion_rule: >-
+  Completion requires frozen artifacts, independent PASS reviews and Founder Gate.
+  Task completion does not authorize B0/B1/B2 runs, P2 entry, production use or remote effects.

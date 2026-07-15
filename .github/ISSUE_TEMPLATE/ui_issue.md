@@ -26,13 +26,11 @@ assignees: ""
 Screenshot, browser route, or smoke output:
 
 
-## Related standard
-
-- `docs/FRONTEND_DESIGN_SYSTEM.md`
-
 ## AIOS relevance
 
-- Evidence-loop task affected:
-- Current phase permits UI work: yes / no / unknown
+- Affected user workflow:
+- Evidence or reproduction attached:
+- Current authorized Task includes this path: yes / no / unknown
 
-Broad UI work is frozen in P0. Accessibility or security defects may proceed only as bounded approved tasks.
+UI work must be justified by an authorized Task and independently reviewed. The current P1 default
+scope does not include broad product UI expansion.

@@ -109,14 +109,6 @@ interface DashboardProductPlane {
   onAction: () => void
 }
 
-interface DashboardExecutiveSignal {
-  key: string
-  label: string
-  value: string
-  detail: string
-  tone: CommandTone
-}
-
 function formatDuration(ms: number | null): string {
   if (ms == null) return '-'
   if (ms < 1000) return `${ms}ms`
@@ -654,59 +646,14 @@ export default function Dashboard() {
     riskCount,
     stats?.repositoryCount,
   ])
-  const executiveSignals = useMemo<DashboardExecutiveSignal[]>(() => [
-    {
-      key: 'phase-progress',
-      label: '阶段进度',
-      value: 'P1 Evaluation Foundation',
-      detail: 'P0 Gate 已通过且 P1 已获准进入；AIOS-P1-001 仍处于合同冻结与独立审查，尚未授权执行。',
-      tone: 'warning',
-    },
-    {
-      key: 'quality-state',
-      label: '继承链路状态',
-      value: `${trustedLoopCompletion}% / ${trustedLoopStatusLabel}`,
-      detail: `${metricsSourceLabel}；该百分比只描述继承产品链路就绪度，不是 Verified Task Success Rate。`,
-      tone: trustedLoopStatus,
-    },
-    {
-      key: 'risk-blocker',
-      label: '风险阻塞',
-      value: loadError ? '数据异常' : riskCount > 0 ? `${riskCount} risks` : activeScans > 0 ? `${activeScans} running` : '无当前阻断',
-      detail: loadError
-        ? '继承产品运行信号：先恢复 Dashboard API 或网络；不生成 AIOS 项目任务。'
-        : riskCount > 0
-          ? '继承产品运行信号：先复盘报告证据，再进入修复候选或审计；不改变 AIOS-P1-001 合同冻结优先级。'
-          : activeScans > 0
-            ? '继承产品运行信号：等待扫描完成后再查看报告和 code_chunks。'
-            : '继承产品运行未发现显式阻断；AIOS 项目仍停止在 P1-001 执行前合同审查。',
-      tone: loadError ? 'danger' : riskCount > 0 ? 'danger' : activeScans > 0 ? 'idle' : 'ready',
-    },
-    {
-      key: 'current-project-task',
-      label: '当前项目任务',
-      value: 'AIOS-P1-001 Contract Freeze',
-      detail: '这是当前唯一项目任务；实现与评估运行尚未启动，下方产品操作不进入 AIOS 排期或阶段投入。',
-      tone: 'warning',
-    },
-  ], [
-    activeScans,
-    loadError,
-    metricsSourceLabel,
-    riskCount,
-    trustedLoopCompletion,
-    trustedLoopStatus,
-    trustedLoopStatusLabel,
-  ])
-
   return (
     <div>
       <div className="sl-dashboard-hero">
         <div className="sl-dashboard-hero-main">
-          <div className="sl-kicker">P1 Evaluation Foundation / Evidence Loop</div>
+          <div className="sl-kicker">Repository Intelligence / Evidence Loop</div>
           <h1 className="sl-dashboard-title">工程智能首页</h1>
           <p className="sl-dashboard-hero-lede">
-            当前处于 P1 Agent Evaluation and Research Foundation。先冻结并审查 AIOS-P1-001 研究合同，再由 Founder 单独决定是否启动执行。
+            展示继承 SourceLens 能力的本地运行状态。项目阶段、任务和授权只以仓库控制面为准，本页面不保存项目状态。
           </p>
           <DashboardNextActionPanel action={nextAction} />
           <div className="sl-dashboard-status">
@@ -726,9 +673,9 @@ export default function Dashboard() {
               {trustedLoopStatusLabel}
             </Tag>
           </div>
-          <strong>Not measured</strong>
-          <p>Verified Task Success Rate</p>
-          <small>P1 基线尚未测量；下方仅展示继承产品链路状态，不构成 VTSR 测量。</small>
+          <strong>{trustedLoopCompletion}%</strong>
+          <p>Inherited loop readiness</p>
+          <small>该信号只描述继承产品链路，不是 Verified Task Success Rate 或 Agent 能力结论。</small>
           <div className="sl-dashboard-north-star-steps">
             {trustedLoopStages.map(stage => (
               <div className={`sl-dashboard-north-star-step sl-dashboard-north-star-step-${stage.status}`} key={stage.key}>
@@ -787,8 +734,6 @@ export default function Dashboard() {
           </div>
         ))}
       </div>
-
-      <DashboardExecutiveBriefing signals={executiveSignals} />
 
       <DashboardProductPlaneMap planes={productPlanes} />
 
@@ -946,40 +891,6 @@ export default function Dashboard() {
   )
 }
 
-function DashboardExecutiveBriefing({
-  signals,
-}: {
-  signals: DashboardExecutiveSignal[]
-}) {
-  return (
-    <section className="sl-dashboard-executive" role="region" aria-label="管理层决策简报">
-      <div className="sl-dashboard-executive-head">
-        <div>
-          <span>Executive briefing</span>
-          <h2>管理层决策简报</h2>
-        </div>
-        <p>
-          汇总当前 P1 合同冻结、继承链路状态、风险阻塞和唯一项目任务。P0 Gate 已通过，但该简报不证明 P1-001 已执行、VTSR 已测量、可信 Agent 闭环已实现或系统达到生产可用。
-        </p>
-        <Tag color="warning">P1-001 execution: NOT AUTHORIZED</Tag>
-      </div>
-      <div className="sl-dashboard-executive-grid">
-        {signals.map(signal => (
-          <article
-            className={`sl-dashboard-executive-card sl-dashboard-executive-card-${signal.tone}`}
-            data-sl-dashboard-executive-signal={signal.key}
-            key={signal.key}
-          >
-            <span>{signal.label}</span>
-            <strong>{signal.value}</strong>
-            <p>{signal.detail}</p>
-          </article>
-        ))}
-      </div>
-    </section>
-  )
-}
-
 function DashboardProductPlaneMap({ planes }: { planes: DashboardProductPlane[] }) {
   return (
     <section className="sl-dashboard-product-plane" role="region" aria-label="继承产品三平面（AIOS研究范围外）">
@@ -1032,7 +943,7 @@ function DashboardNextActionPanel({ action }: { action: DashboardNextAction }) {
           <span className="sl-dashboard-next-label">{action.label}</span>
           <strong className="sl-dashboard-next-title">{action.title}</strong>
           <p>{action.description}</p>
-          <small>仅用于操作继承系统，不生成 AIOS 开发任务，也不改变 AIOS-P1-001 合同冻结的唯一优先级。</small>
+          <small>仅用于操作继承系统，不生成或修改 AIOS 项目控制面状态。</small>
         </div>
         <div className="sl-dashboard-next-actions">
           <ActionButton type="primary" icon={<ArrowRightOutlined />} onClick={action.onPrimary} label={action.primaryLabel} />
@@ -1068,7 +979,7 @@ function DashboardCommandPanel({ items }: { items: DashboardCommandItem[] }) {
           <span>Inherited runtime operations</span>
           <strong>继承产品操作（AIOS研究范围外）</strong>
         </div>
-        <p>这些入口只用于操作继承系统，不生成 AIOS 开发任务，不进入项目排期，也不改变 AIOS-P1-001 合同冻结的唯一优先级。</p>
+        <p>这些入口只用于操作继承系统，不生成任务、不进入项目排期，也不修改 AIOS 项目控制面状态。</p>
       </div>
       <div className="sl-dashboard-command-grid">
         {items.map(item => (

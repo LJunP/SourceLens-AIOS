@@ -4,7 +4,6 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 EVAL_FILE="${ROOT_DIR}/docs/llm-safety-evals/prompt-injection-cases.json"
 OUTPUT_EVAL_FILE="${ROOT_DIR}/docs/llm-safety-evals/output-quality-cases.json"
-PROVIDER_RUN_TEMPLATE="${ROOT_DIR}/docs/llm-safety-evals/provider-run-template.json"
 
 fail() {
   echo "LLM SAFETY CHECK FAIL: $*" >&2
@@ -29,12 +28,7 @@ require_cmd rg
 cd "$ROOT_DIR"
 
 node --check "$ROOT_DIR/scripts/validate-llm-safety-evals.mjs"
-node --check "$ROOT_DIR/scripts/validate-llm-provider-run.mjs"
-node --check "$ROOT_DIR/scripts/run-llm-provider-eval.mjs"
-node --check "$ROOT_DIR/scripts/llm-provider-eval-mock-smoke.mjs"
 node "$ROOT_DIR/scripts/validate-llm-safety-evals.mjs" "$EVAL_FILE" "$OUTPUT_EVAL_FILE"
-node "$ROOT_DIR/scripts/validate-llm-provider-run.mjs" "$PROVIDER_RUN_TEMPLATE" "$EVAL_FILE" "$OUTPUT_EVAL_FILE" --allow-template
-node "$ROOT_DIR/scripts/llm-provider-eval-mock-smoke.mjs"
 
 assert_match \
   "Code QA prompt must wrap retrieved chunks as untrusted data" \

@@ -1,126 +1,46 @@
 # Contributing to SourceLens AIOS
 
-This is the execution entry for developers, Codex and temporary specialist Agents.
+## 开始前
 
-## 1. Read before work
-
-Read in this order:
+按顺序读取：
 
 1. `docs/aios/truth/project_state.yaml`
 2. `docs/aios/STRATEGIC_CONSTITUTION.md`
 3. `docs/aios/MASTER_EXECUTION_PROTOCOL.md`
-4. the task contract and its referenced domain documents
-5. `docs/aios/EVALUATION_PROTOCOL.md` for any capability claim
+4. 当前 Task Contract
+5. 能力研究再读取 `docs/aios/EVALUATION_PROTOCOL.md`
 
-Do not recover current priorities from old status boards, handoffs or progress logs.
+没有当前 Task 或执行授权时，不得自行开始实现。
 
-## 2. P1 contribution boundary
+## Task-level Delegation
 
-The project is currently in `P1 Agent Evaluation and Research Foundation`.
-P1 entry is authorized; AIOS-P1-001 execution is not authorized until the exact
-frozen contract passes independent review and receives a separate Founder start.
+一个可执行 Task 必须定义目标、Why Now、Owner、读写范围、预算、验收/失败标准、Evidence、Reviewer、rollback 和 Stop Condition。Founder 批准整个 Task envelope；范围内的普通编码、测试和修复由 Agent 自主完成，不逐文件审批。
 
-Allowed work:
+- 一个 Task ID、一个有效 Contract、一个短生命周期分支和 worktree。
+- 一个文件同一时刻只有一个实现 Owner。
+- 实现者不能独立验收自己的成果。
+- 普通错误在原 Task 和预算内修复；禁止自动创建 successor/replacement/normalization。
+- 只有范围、权限、预算、战略或重大风险变化才升级 Founder。
 
-- exact Task Contract, fixture, environment, evaluator and evidence preparation;
-- read-only evaluation-foundation audits and independent reviews;
-- work explicitly listed by a Founder-started P1 Task Contract;
-- urgent evidence-backed security or data-integrity containment.
+## 当前 P1 边界
 
-Not allowed without a new approved task:
+允许：Evaluation Harness、schema、synthetic conformance fixture、local test/replay/evidence 和独立审查。
 
-- product features or broad UI work;
-- deletion or cleanup of inherited user work;
-- broad refactoring or technology replacement;
-- memory, learning or multi-Agent product construction;
-- production-readiness claims.
+不允许：Supervisor、Root Custody、完整 Trust Runtime、Multi-Agent Runtime、Agent Shell、system-under-test 写 canonical source、真实受限源码外发、remote write、生产副作用或能力夸大。
 
-## 3. Task readiness
+继承业务代码当前默认冻结。只有当前 Task 明确列入 write scope 时才能修改。
 
-Do not edit until the task defines:
+## 验证
 
-- task ID, phase, objective and `why_now`;
-- TaskSpec or immutable issue/source reference;
-- accountable role and temporary worker role;
-- explicit read and write scope;
-- baseline, acceptance criteria and evidence;
-- independent reviewer;
-- risk level, forbidden actions and stop conditions.
-
-The full schema is in `docs/aios/MASTER_EXECUTION_PROTOCOL.md`.
-
-## 4. Ownership and Agent rules
-
-- One physical Agent has one role and one task context.
-- One file has one implementation owner during a task.
-- Parallel write scopes must be disjoint or use separate worktrees.
-- Do not overwrite, revert or reformat unrelated user changes.
-- The implementer cannot independently verify its own work.
-- A worker cannot change phase, strategy, acceptance criteria or permissions.
-- Agent output is a candidate until the accountable role and independent gate accept it.
-
-The active team model is defined in `docs/TEAM_OPERATING_MODEL.md`.
-
-## 5. Engineering boundaries
-
-- Prefer existing repository patterns and the smallest measurable change.
-- Do not introduce a service, database, framework or abstraction without evidence that the current stack cannot support the experiment.
-- Bind code-task evidence to repository identity, base commit and environment.
-- Do not expose raw artifacts, prompts, credentials, absolute paths or model payloads without policy and audit.
-- Do not treat a nonzero command, incomplete checkpoint or missing verifier as success.
-- Do not delete release evidence, runtime state, environment files or generated caches without an approved retention task.
-
-Use `docs/ENGINEERING_STANDARDS.md`, `docs/SECURITY_BOUNDARY.md`, `docs/THREAT_MODEL.md`, `docs/API_DESIGN.md` and `docs/DATABASE_DESIGN.md` as supporting constraints where they do not conflict with `docs/aios/`.
-
-## 6. Verification
-
-Choose checks proportional to the change:
-
-| Change | Minimum verification |
-| --- | --- |
-| AIOS Markdown/YAML | `make aios-governance-check`, `make code-map-check`, `git diff --check` |
-| Java/backend behavior | targeted Maven tests plus relevant API/schema gate |
-| Rust analyzer | targeted Cargo tests and analyzer contract checks |
-| frontend behavior | static UI validator, build and relevant Playwright smoke |
-| security boundary | targeted negative tests and relevant security suite |
-| evaluation capability | frozen TaskSpec/environment/baseline/evaluator and retained trace |
-| release evidence | package generation plus independent verifier |
-| phase gate | declared gate packet and independent review |
-
-If a check is not run, report that fact and the residual risk. A focused check proves only its scope.
-
-## 7. Evidence and claims
-
-Use these levels exactly:
-
-- `DEFINED`: documentation or schema exists.
-- `IMPLEMENTED`: executable implementation exists.
-- `TESTED`: relevant tests passed against an identified state.
-- `GATE_PASSED`: a declared gate passed and retained evidence exists.
-- `PRODUCTION_PROVEN`: repeated production evidence exists.
-
-Do not infer a higher level from a lower one. `PASS`, `GREEN` and `DONE` without replayable evidence do not establish a capability.
-
-## 8. Completion report
-
-Every handoff includes:
-
-```text
-Task ID and status:
-Role and worker identity:
-Files/behavior changed:
-Commands and exact results:
-Evidence paths:
-Independent reviewer verdict:
-Residual risks and limitations:
-Truth/ADR updates:
-Next eligible action:
+```bash
+make aios-governance-check
+make p1-safety-check
+make verify
+git diff --check
 ```
 
-## 9. Git and safety prohibitions
+专项变更至少运行对应语言测试。未运行的检查必须在交付中明确说明。
 
-- Do not use destructive Git commands or revert unrelated work.
-- Do not commit secrets, local `.env`, tokens or private keys.
-- Do not silently modify hidden tests, evaluator or acceptance criteria.
-- Do not auto-merge, push remote changes or write to production.
-- Do not remove an inherited asset without migration-ledger evidence, regression review and explicit Founder authorization.
+## 完成报告
+
+必须包含：Task ID/状态、变更文件、命令与真实结果、Evidence、独立审查、限制、rollback 和下一项合格行动。文档存在、实现存在、测试通过、Gate 通过与生产可用必须分开表述。

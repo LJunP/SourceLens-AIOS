@@ -1,202 +1,67 @@
-name: SourceLens CI
+name: SourceLens AIOS CI
 
 on:
   pull_request:
   push:
-    branches:
-      - main
+    branches: [main]
 
 permissions:
   contents: read
 
 concurrency:
-  group: sourcelens-ci-${{ github.ref }}
+  group: sourcelens-aios-ci-${{ github.ref }}
   cancel-in-progress: true
 
 jobs:
-  security:
-    name: Security Regression Checks (${{ matrix.suite }})
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    strategy:
-      fail-fast: false
-      matrix:
-        suite:
-          - static
-          - llm-provider
-          - release-evidence-profile
-          - release-verifier-public-repo-marker
-          - release-verifier-public-repo-ui-marker
-          - release-verifier-autorepair-ui-marker
-          - release-verifier-dashboard-ui-marker
-          - release-verifier-report-evidence-marker
-          - release-verifier-scan-governance-marker
-          - release-verifier-agent-chat-marker
-          - release-verifier-artifacts-marker
-          - release-verifier-integrity
-          - integration-drill
-    steps:
-      - name: Checkout
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
-        with:
-          persist-credentials: false
-
-      - name: Set up Node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
-        with:
-          node-version: "20"
-
-      - name: Install ripgrep
-        run: sudo apt-get update && sudo apt-get install -y ripgrep
-
-      - name: Run security regression checks
-        run: SOURCELENS_SECURITY_REGRESSION_SUITE="${{ matrix.suite }}" ./scripts/security-regression-check.sh
-
-  supply-chain:
-    name: Dependency Regression Checks
+  authority:
+    name: Current Authority and P1 Boundary
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
-      - name: Checkout
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           persist-credentials: false
-
-      - name: Install ripgrep
-        run: sudo apt-get update && sudo apt-get install -y ripgrep
-
-      - name: Run dependency regression checks
-        run: ./scripts/dependency-regression-check.sh
-
-  release-evidence-ci:
-    name: Release Evidence CI Profile
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    env:
-      SOURCELENS_RELEASE_EVIDENCE_DIR: ${{ runner.temp }}/release-evidence
-      SOURCELENS_RELEASE_EVIDENCE_RUN_ID: ci-${{ github.run_id }}-${{ github.run_attempt }}
-      SOURCELENS_RELEASE_EVIDENCE_ENV_FILE: deploy/.env.example
-    steps:
-      - name: Checkout
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
-        with:
-          persist-credentials: false
-
-      - name: Set up Node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
-        with:
-          node-version: "20"
-
-      - name: Generate CI release evidence
-        run: make release-evidence-ci
-
-      - name: Verify CI release evidence
-        env:
-          RUN_DIR: ${{ env.SOURCELENS_RELEASE_EVIDENCE_DIR }}/${{ env.SOURCELENS_RELEASE_EVIDENCE_RUN_ID }}
-        run: make verify-release-evidence DIR="${RUN_DIR}"
-
-      - name: Assert CI release evidence profile
-        env:
-          RUN_DIR: ${{ env.SOURCELENS_RELEASE_EVIDENCE_DIR }}/${{ env.SOURCELENS_RELEASE_EVIDENCE_RUN_ID }}
-        run: |
-          grep -Fx "release_evidence_profile_schema: 3" "${RUN_DIR}/manifest.txt"
-          grep -Fx "release_evidence_profile: ci" "${RUN_DIR}/manifest.txt"
-          grep -Fx "release_evidence_profile_source: env" "${RUN_DIR}/manifest.txt"
-          grep -Fx "include_verify: false" "${RUN_DIR}/manifest.txt"
-          grep -Fx "include_preflight: false" "${RUN_DIR}/manifest.txt"
-          grep -Fx "include_smoke: false" "${RUN_DIR}/manifest.txt"
-          grep -Fx "include_public_repo_smoke: false" "${RUN_DIR}/manifest.txt"
-          grep -Fx "include_autorepair_patch_smoke: false" "${RUN_DIR}/manifest.txt"
-          grep -Fx "include_patch_ready_ui_smoke: false" "${RUN_DIR}/manifest.txt"
-          grep -Fx "include_agent_chat_closure_rail_ui_smoke: false" "${RUN_DIR}/manifest.txt"
-          grep -Fx "include_audit_workbench_smoke: false" "${RUN_DIR}/manifest.txt"
-          grep -Fx -- '- required_failures: `0`' "${RUN_DIR}/summary.md"
-          grep -Fx -- '- optional_warnings: `0`' "${RUN_DIR}/summary.md"
-
-      - name: Upload CI release evidence
-        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
-        with:
-          name: release-evidence-ci-${{ github.run_id }}-${{ github.run_attempt }}
-          path: ${{ env.SOURCELENS_RELEASE_EVIDENCE_DIR }}/${{ env.SOURCELENS_RELEASE_EVIDENCE_RUN_ID }}
-          if-no-files-found: error
-          retention-days: 7
+      - name: Validate current authority
+        run: ./scripts/validate-aios-governance.sh
+      - name: Validate P1 safety boundary
+        run: ./scripts/check-p1-safety-boundary.sh
 
   backend:
-    name: Backend Spring
+    name: Backend Tests
     runs-on: ubuntu-latest
     timeout-minutes: 20
     defaults:
       run:
         working-directory: backend-spring
     steps:
-      - name: Checkout
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           persist-credentials: false
-
-      - name: Set up Java
-        uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4
+      - uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4
         with:
           distribution: temurin
           java-version: "17"
           cache: maven
-
-      - name: Test backend
-        run: mvn clean test
-
-  llm-safety:
-    name: LLM Safety Regression
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
-    steps:
-      - name: Checkout
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
-        with:
-          persist-credentials: false
-
-      - name: Set up Java
-        uses: actions/setup-java@c1e323688fd81a25caa38c78aa6df2d33d3e20d9 # v4
-        with:
-          distribution: temurin
-          java-version: "17"
-          cache: maven
-
-      - name: Set up Node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
-        with:
-          node-version: "20"
-
-      - name: Install ripgrep
-        run: sudo apt-get update && sudo apt-get install -y ripgrep
-
-      - name: Run LLM safety regression checks
-        run: ./scripts/llm-safety-regression.sh
+      - run: mvn clean test
 
   frontend:
-    name: Web Console
+    name: Frontend Build
     runs-on: ubuntu-latest
     timeout-minutes: 15
     defaults:
       run:
         working-directory: web-console
     steps:
-      - name: Checkout
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           persist-credentials: false
-
-      - name: Set up Node
-        uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: "20"
           cache: npm
           cache-dependency-path: web-console/package-lock.json
-
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Build frontend
-        run: npm run build
+      - run: npm ci
+      - run: npm run build
 
   analyzer:
     name: Rust Analyzer
@@ -206,34 +71,30 @@ jobs:
       run:
         working-directory: analyzer-rust
     steps:
-      - name: Checkout
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           persist-credentials: false
-
-      - name: Set up Rust
-        uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
-
-      - name: Cache cargo
-        uses: Swatinem/rust-cache@e18b497796c12c097a38f9edb9d0641fb99eee32 # v2
+      - uses: dtolnay/rust-toolchain@29eef336d9b2848a0b548edc03f92a220660cdb8 # stable
+      - uses: Swatinem/rust-cache@e18b497796c12b097a38f9edb9d0641fb99eee32 # v2
         with:
           workspaces: analyzer-rust
+      - run: cargo check --locked
+      - run: cargo test --locked
 
-      - name: Check analyzer
-        run: cargo check --locked
-
-      - name: Test analyzer
-        run: cargo test --locked
-
-  docker:
-    name: Backend Docker Image
+  contracts:
+    name: API, DB, LLM and Dependency Contracts
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 15
     steps:
-      - name: Checkout
-        uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
         with:
           persist-credentials: false
-
-      - name: Build backend image
-        run: docker build -f backend-spring/Dockerfile .
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "20"
+      - name: Install ripgrep
+        run: sudo apt-get update && sudo apt-get install -y ripgrep
+      - run: node scripts/validate-api-design.mjs
+      - run: node scripts/validate-db-schema-contract.mjs
+      - run: ./scripts/llm-safety-regression.sh
+      - run: ./scripts/dependency-regression-check.sh

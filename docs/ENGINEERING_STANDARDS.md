@@ -1,8 +1,7 @@
 # SourceLens Engineering Standards
 
-> AIOS v2.3 状态：`SUPPORTING ENGINEERING POLICY`。任务、角色、独立验证和完成定义发生冲突时，以 `aios/MASTER_EXECUTION_PROTOCOL.md` 为准。
-
-状态：长期执行。本文定义 SourceLens 工程实现标准。
+任务、角色、独立验证和完成定义发生冲突时，以
+`aios/MASTER_EXECUTION_PROTOCOL.md` 为准。
 
 ## 1. 基本原则
 
@@ -10,7 +9,7 @@
 - 不做无关重构。
 - 不回滚别人未确认的改动。
 - 代码事实、文档事实、测试证据必须一致。
-- 重要决策写 ADR，重要风险写 risk register。
+- 重要且长期有效的决策写 ADR；当前事实只进入 Truth。
 
 ## 2. 后端标准
 
@@ -32,7 +31,7 @@
 
 - 脚本必须 fail fast。
 - destructive 行为默认 dry-run 或需要显式确认。
-- release evidence 不得自动删除。
+- 当前 Task evidence 冻结后不得重写；历史证据存放在项目外封存，不进入默认上下文。
 - 本地 env/secrets 不得提交。
 
 ## 5. Review 标准

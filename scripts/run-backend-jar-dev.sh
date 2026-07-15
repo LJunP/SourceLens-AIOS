@@ -97,7 +97,7 @@ assert_backend_port_available() {
       echo "$listener" >&2
       echo >&2
       echo "The listener command is: $listener_command" >&2
-      echo "Do not use backend-spring/target/*.jar for release evidence or long-running smoke tests; Maven clean can delete that jar while the app is running." >&2
+      echo "Do not use backend-spring/target/*.jar for frozen verification or long-running tests; Maven clean can delete that jar while the app is running." >&2
       echo "Stop the stale target-jar backend first, then run: SERVER_PORT=$port make backend-jar" >&2
       echo "Or choose another free port, for example: SERVER_PORT=19080 make backend-jar" >&2
       exit 1
@@ -108,7 +108,7 @@ assert_backend_port_available() {
   echo "$listener" >&2
   echo >&2
   echo "If the listener above is an existing SourceLens backend, keep using http://localhost:$port instead of starting another one." >&2
-  echo "Before using it for release evidence, confirm it is not a target/classes backend or a backend-spring/target/*.jar process; those runtimes can be broken by Maven clean." >&2
+  echo "Before using it for frozen verification, confirm it is not a target/classes backend or a backend-spring/target/*.jar process; those runtimes can be broken by Maven clean." >&2
   echo "To stop a stale local backend, first confirm the listener above, then run: lsof -tiTCP:$port -sTCP:LISTEN | xargs kill" >&2
   echo "To start on another port: SERVER_PORT=19080 make backend-jar" >&2
   exit 1

@@ -59,7 +59,7 @@ cleanup_backend_runtime_jars() {
   local kept=0
   local removed=0
 
-  [ -d "$runtime_dir" ] || return
+  [ -d "$runtime_dir" ] || return 0
   list_file="$(mktemp)"
   find "$runtime_dir" -maxdepth 1 -type f -name 'source-lens-backend.*' -exec stat -f '%m %N' {} \; | sort -rn > "$list_file"
 
@@ -90,6 +90,8 @@ cleanup_generated_dirs() {
   run_rm_dir "$ROOT_DIR/web-console/playwright-report"
   run_rm_file "$ROOT_DIR/web-console/tsconfig.tsbuildinfo"
   run_rm_file "$ROOT_DIR/web-console/tsconfig.node.tsbuildinfo"
+  run_rm_file "$ROOT_DIR/web-console/vite.config.js"
+  run_rm_file "$ROOT_DIR/web-console/vite.config.d.ts"
 
   if [ -d "$ROOT_DIR/backend-spring/target" ]; then
     if is_path_open "$ROOT_DIR/backend-spring/target/classes" || is_backend_target_in_process_command; then

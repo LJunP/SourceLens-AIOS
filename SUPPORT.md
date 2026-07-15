@@ -1,44 +1,13 @@
-# Support
+# SourceLens AIOS 支持入口
 
-状态：根目录支持入口。本文用于开发者、新 Codex、子 agent、未来用户快速定位问题。
-
-## 1. Start Here
-
-| Problem | First File |
+| 问题 | 入口 |
 | --- | --- |
-| Cannot understand project status | `docs/aios/truth/project_state.yaml`, then `CHAIRMAN_BRIEFING.md` |
-| Need to contribute or run a task | `CONTRIBUTING.md` |
-| Local startup issue | `README.md` and `docs/OPERATIONS_RUNBOOK.md` |
-| Backend/API issue | `docs/API_DESIGN.md` |
-| Database issue | `docs/DATABASE_DESIGN.md` |
-| Security issue | `SECURITY.md` |
-| Release evidence issue | `docs/RELEASE_PROCESS.md` |
-| Agent/team process issue | `docs/TEAM_OPERATING_MODEL.md` |
+| 当前项目状态 | `docs/aios/truth/project_state.yaml` |
+| 战略或阶段路线 | `docs/aios/STRATEGIC_CONSTITUTION.md`、`ROADMAP.md` |
+| 如何执行任务 | `CONTRIBUTING.md`、`docs/aios/MASTER_EXECUTION_PROTOCOL.md` |
+| 本地启动 | `README.md`、`make help` |
+| API / Database | `docs/API_DESIGN.md`、`docs/DATABASE_DESIGN.md` |
+| 安全边界 | `SECURITY.md`、`docs/SECURITY_BOUNDARY.md` |
+| 当前代码索引 | `docs/PROJECT_CODE_MAP.md` |
 
-## 2. Common Local Checks
-
-```bash
-make up-infra
-make analyzer
-make backend
-make frontend
-make code-map-check
-make api-design-check
-```
-
-## 3. Before Asking for Help
-
-Collect:
-
-- Exact command.
-- Full error message.
-- Current URL or API path if applicable.
-- Whether backend is healthy at `http://localhost:8080`.
-- Whether MySQL/Redis are running.
-- Relevant `requestId` if the UI shows one.
-
-## 4. Security
-
-Do not paste secrets, private keys, `.env`, GitHub App private keys, webhook secrets, LLM keys, raw artifact contents, or private repository code into public issues.
-
-Follow `SECURITY.md`.
+报告问题时提供精确命令、完整错误、源码 commit、环境版本和相关测试结果。不要粘贴 Secret、私钥、`.env`、受限源码或真实 provider payload。

@@ -1,55 +1,32 @@
-# SourceLens Test Strategy
+# SourceLens AIOS 测试策略
 
-> AIOS v2.3 状态：`SUPPORTING TEST REFERENCE`。现有测试入口继续有效；旧岗位别名、旧 Phase 和 release authority 口径均为历史。Agent 研究、独立验证和 Patch Evidence 以 `aios/EVALUATION_PROTOCOL.md` 为最高约束。
+当前目标是建立 P1 Evaluation Harness，并保护继承代码的可构建性。测试结果必须与
+其实际覆盖范围一致，不得用“命令通过”冒充能力证明。
 
-状态：长期执行。本文定义 SourceLens 测试分层、责任和放行规则。
+## 当前基线
 
-## 1. 测试金字塔
+| 范围 | 入口 | 证明边界 |
+| --- | --- | --- |
+| 当前权威与 P1 边界 | `make aios-governance-check`、`make p1-safety-check` | 文档和配置一致性 |
+| 后端 | `make test-backend` | 当前 JUnit/Maven 回归 |
+| 前端 | `make test-frontend` | TypeScript 与生产构建 |
+| Rust Analyzer | `make test-analyzer` | 当前 Rust check/test |
+| API/DB | `make api-design-check`、`make db-schema-check` | 静态契约同步 |
+| LLM 输入边界 | `make llm-safety-check` | 本地 fixture 和 Guard 回归 |
+| 依赖 | `make dependency-check` | lockfile、固定引用和供应链静态边界 |
+| 全部当前基线 | `make verify` | 上述检查的集合 |
 
-| 层级 | 目标 | 工具/入口 | Owner |
-| --- | --- | --- | --- |
-| Unit | 单个 service、parser、ranker、sanitizer、状态机规则 | Maven/JUnit、Rust tests、Node check | 对应工程 owner |
-| Integration | DB、Flyway、Controller、任务流程、artifact、audit | Maven targeted tests | `比尔盖茨` / `拉里佩奇` |
-| Frontend static | UI 规则、脱敏、可读性、禁止回退 | `node scripts/validate-frontend-ui.mjs` | `扎克伯格` |
-| Frontend smoke | 核心页面、三视口、mock API、真实 UI marker | Playwright smoke | `扎克伯格` / `拉里佩奇` |
-| Security static gate | 安全边界静态契约、脚本结构、CI/文档一致性 | `make verify` 内置 static suite | `奥特曼` |
-| Security full regression | forged marker、secret、sandbox、release verifier 全量负例 | `make security-regression-check` | `奥特曼` |
-| Release evidence | full/focused evidence、verifier、authority | `make release-evidence-*` | `黄仁勋` / `达里奥` |
-| End-to-end drills | backup、rollback、GitHub App、webhook、real provider | drill scripts | 对应 owner |
+## 改动要求
 
-## 2. 按改动类型必跑
+- 行为改动必须包含对应单元或集成测试。
+- API、DB、schema、evaluation contract 改动必须同步文档和 validator。
+- 失败、跳过、未执行和 UNKNOWN 必须分别记录，禁止互相替代。
+- flaky 结果不得直接忽略；应停止、定位或明确收窄 claim。
+- 实现者不得独立验收自己的成果。
+- P1-001 的 harness stub 通过不等于 B0/B1/B2 baseline 完成。
 
-| 改动 | 必跑 |
-| --- | --- |
-| 后端业务 | 对应 Maven targeted test |
-| Controller/API | `make api-design-check` + targeted controller test |
-| DB migration | Flyway 启动或相关 mapper/service test |
-| 前端 UI | `node scripts/validate-frontend-ui.mjs` + `npm --prefix web-console run build` + focused smoke |
-| 安全边界静态契约 | `make verify` 或 `make security-regression-static` |
-| release verifier/marker 防伪 | `make security-regression-check` 或相关 focused suite |
-| release verifier/evidence | focused evidence + `make verify-release-evidence DIR=...` |
-| 结构/API 入口变化 | `make code-map` + `make code-map-check` |
-| 阶段日常收口 | `make verify` |
-| 发布安全收口 | `make security-regression-check` + release evidence verifier |
+## Task 证据最小项
 
-## 3. 失败处理
-
-- P0/P1 gate 失败不得标记 DONE。
-- 未运行的测试必须写 `Not run` 和原因。
-- flaky 测试必须登记 owner，不得直接忽略。
-- focused evidence 只能证明当前切片，不能替代 full authority。
-
-## 4. 测试记录模板
-
-```text
-Change:
-Risk level:
-Required tests:
-Executed tests:
-Passed:
-Failed:
-Not run:
-Evidence:
-Owner:
-Next:
-```
+每个实际 Task 至少记录：source identity、输入、配置、命令、退出状态、测试结果、
+风险、Reviewer verdict 和 rollback reference。Founder Gate 只接受与 exact candidate
+绑定的证据。

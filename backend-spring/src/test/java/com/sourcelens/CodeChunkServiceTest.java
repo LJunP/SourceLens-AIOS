@@ -6831,7 +6831,7 @@ class CodeChunkServiceTest {
                 .id(1L)
                 .scanTaskId(42L)
                 .filePath("docs/report.md")
-                .content("治理说明 董事长入口 Markdown URL 追问")
+                .content("review guide Markdown URL lookup")
                 .startLine(1)
                 .endLine(20)
                 .build();

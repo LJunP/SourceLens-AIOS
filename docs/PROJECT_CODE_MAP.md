@@ -6,7 +6,7 @@
 
 - 纳入逐文件用途索引的文件数：485。
 - 其中源码/脚本/配置/SQL/CSS 类文件数：420。
-- 纳入统计的文本总行数：134965。
+- 纳入统计的文本总行数：134964。
 - 排除逐文件展开的本地生成/证据目录：`.git/`、`bin/`、`web-console/node_modules/`、`backend-spring/target/`、`analyzer-rust/target/`、`.sourcelens-runtime/`、`release-evidence/`、前端构建和测试产物。
 - 本地生成物、依赖缓存和历史证据目录不是源码或当前权威；它们必须保持未跟踪并可重建或从封存恢复。
 
@@ -785,11 +785,11 @@
 | `backend-spring/src/test/java/com/sourcelens/TokenEncryptorTest.java` | 后端测试文件 TokenEncryptorTest，覆盖对应 controller/service/security/sandbox/analysis 行为；检测到 1 个测试/断言方法。 |
 | `backend-spring/src/test/java/com/sourcelens/ToolExecutionServiceTest.java` | 后端测试文件 ToolExecutionServiceTest，覆盖对应 controller/service/security/sandbox/analysis 行为；检测到 1 个测试/断言方法。 |
 | `backend-spring/src/test/java/com/sourcelens/WorkspaceSandboxCleanupServiceTest.java` | 后端测试文件 WorkspaceSandboxCleanupServiceTest，覆盖对应 controller/service/security/sandbox/analysis 行为；检测到 4 个测试/断言方法。 |
-| `backend-spring/src/test/resources/application-test.yml` | 后端测试文件 application-test.yml，覆盖对应 controller/service/security/sandbox/analysis 行为；检测到 0 个测试/断言方法。 |
+| `backend-spring/src/test/resources/application-test.yml` | 后端测试资源 application-test.yml，用于测试运行时配置、夹具或扩展声明。 |
 | `backend-spring/src/test/resources/application.yml` | Spring Boot 配置文件，定义端口、数据源、Redis、Flyway、JWT、workspace、sandbox、GitHub、LLM、清理任务和安全默认值。 |
-| `backend-spring/src/test/resources/mockito-extensions/org.mockito.plugins.MockMaker` | 后端测试文件 org.mockito.plugins.MockMaker，覆盖对应 controller/service/security/sandbox/analysis 行为；检测到 0 个测试/断言方法。 |
-| `backend-spring/src/test/resources/p6-code-qa-retrieval-eval-cases.json` | 后端测试文件 AuthController，覆盖对应 controller/service/security/sandbox/analysis 行为；检测到 0 个测试/断言方法。 |
-| `backend-spring/src/test/resources/schema-test.sql` | 后端测试文件 schema-test.sql，覆盖对应 controller/service/security/sandbox/analysis 行为；检测到 0 个测试/断言方法。 |
+| `backend-spring/src/test/resources/code-qa-retrieval-regression-cases.json` | 后端测试 JSON fixture code-qa-retrieval-regression-cases.json，提供可复现的测试输入或预期数据。 |
+| `backend-spring/src/test/resources/mockito-extensions/org.mockito.plugins.MockMaker` | 后端测试资源 org.mockito.plugins.MockMaker，用于测试运行时配置、夹具或扩展声明。 |
+| `backend-spring/src/test/resources/schema-test.sql` | 后端测试 SQL fixture schema-test.sql，提供隔离测试所需的 schema 或数据。 |
 
 ### CHANGELOG.md
 

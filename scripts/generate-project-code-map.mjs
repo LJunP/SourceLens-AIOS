@@ -227,7 +227,12 @@ function describeFile(rel, text) {
     if (base === 'Dockerfile') return '后端容器镜像定义，用于构建可部署的 Spring Boot backend runtime。'
     if (rel.includes('/db/migration/')) return describeMigration(rel, text)
     if (rel.endsWith('application.yml') || rel.endsWith('application-dev.yml') || rel.endsWith('application-prod.yml')) return 'Spring Boot 配置文件，定义端口、数据源、Redis、Flyway、JWT、workspace、sandbox、GitHub、LLM、清理任务和安全默认值。'
-    if (rel.includes('/src/test/')) return describeTest(rel, text)
+    if (rel.includes('/src/test/') && ext === '.java') return describeTest(rel, text)
+    if (rel.includes('/src/test/resources/')) {
+      if (ext === '.json') return `后端测试 JSON fixture ${base}，提供可复现的测试输入或预期数据。`
+      if (ext === '.sql') return `后端测试 SQL fixture ${base}，提供隔离测试所需的 schema 或数据。`
+      return `后端测试资源 ${base}，用于测试运行时配置、夹具或扩展声明。`
+    }
     if (base === 'SourceLensApplication.java') return 'Spring Boot 主启动类，启动 SourceLens 后端应用并装配所有业务模块。'
     if (rel.includes('/common/security/')) return '后端安全基础设施，覆盖 JWT、认证过滤、denylist、敏感数据脱敏、token 加密和用户参数解析。'
     if (rel.includes('/common/config/')) return '后端公共配置，包含异步执行、CORS、安全启动校验、加密器和 MyBatis Plus 配置。'

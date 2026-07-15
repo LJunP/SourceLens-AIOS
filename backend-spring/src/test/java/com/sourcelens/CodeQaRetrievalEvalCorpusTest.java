@@ -23,28 +23,28 @@ class CodeQaRetrievalEvalCorpusTest {
     @Test
     void fixedRetrievalEvalCorpus_shouldPassAllCases() throws Exception {
         RetrievalEvalCorpus corpus;
-        try (InputStream input = getClass().getResourceAsStream("/p6-code-qa-retrieval-eval-cases.json")) {
-            assertNotNull(input, "missing p6-code-qa-retrieval-eval-cases.json");
+        try (InputStream input = getClass().getResourceAsStream("/code-qa-retrieval-regression-cases.json")) {
+            assertNotNull(input, "missing code-qa-retrieval-regression-cases.json");
             corpus = objectMapper.readValue(input, RetrievalEvalCorpus.class);
         }
 
         assertEquals(1, corpus.version());
-        assertNotNull(corpus.metrics(), "P6 retrieval eval corpus metrics are required");
+        assertNotNull(corpus.metrics(), "retrieval regression corpus metrics are required");
         assertEquals("fixed_golden_regression", corpus.metrics().evaluationScope(),
-                "P6 retrieval eval corpus must not be represented as a broad benchmark");
+                "retrieval regression corpus must not be represented as a broad benchmark");
         assertTrue(!corpus.metrics().benchmarkClaim(),
-                "P6 retrieval eval corpus must stay explicit that it is not a benchmark claim");
+                "retrieval regression corpus must stay explicit that it is not a benchmark claim");
         int topK = corpus.metrics().topK();
-        assertTrue(topK > 0, "P6 retrieval eval topK must be positive");
+        assertTrue(topK > 0, "retrieval regression topK must be positive");
         assertTrue(corpus.cases().size() >= corpus.metrics().minCaseCount(),
-                "P6 retrieval eval corpus must keep core case coverage");
+                "retrieval regression corpus must keep core case coverage");
 
         Set<String> caseIds = new HashSet<>();
         double recallAtKSum = 0.0;
         double mrrAtKSum = 0.0;
         for (RetrievalEvalCase evalCase : corpus.cases()) {
-            assertTrue(hasText(evalCase.id()), "P6 retrieval eval case id is required");
-            assertTrue(caseIds.add(evalCase.id()), "duplicate P6 retrieval eval case id: " + evalCase.id());
+            assertTrue(hasText(evalCase.id()), "retrieval regression case id is required");
+            assertTrue(caseIds.add(evalCase.id()), "duplicate retrieval regression case id: " + evalCase.id());
             assertTrue(hasText(evalCase.question()), evalCase.id() + " question is required");
             assertTrue(hasText(evalCase.expectedFirstPath()), evalCase.id() + " expectedFirstPath is required");
             assertTrue(!evalCase.expectedIncludedPaths().isEmpty(),
@@ -100,15 +100,15 @@ class CodeQaRetrievalEvalCorpusTest {
         }
         for (String requiredCaseId : corpus.metrics().requiredCaseIds()) {
             assertTrue(caseIds.contains(requiredCaseId),
-                    "P6 retrieval eval corpus is missing required case id: " + requiredCaseId);
+                    "retrieval regression corpus is missing required case id: " + requiredCaseId);
         }
 
         double recallAtK = recallAtKSum / corpus.cases().size();
         double mrrAtK = mrrAtKSum / corpus.cases().size();
         assertTrue(recallAtK >= corpus.metrics().minRecallAtK(),
-                "P6 retrieval eval Recall@" + topK + " below threshold: " + recallAtK);
+                "retrieval regression Recall@" + topK + " below threshold: " + recallAtK);
         assertTrue(mrrAtK >= corpus.metrics().minMrrAtK(),
-                "P6 retrieval eval MRR@" + topK + " below threshold: " + mrrAtK);
+                "retrieval regression MRR@" + topK + " below threshold: " + mrrAtK);
     }
 
     private boolean hasText(String value) {

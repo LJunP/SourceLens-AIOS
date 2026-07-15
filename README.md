@@ -4,16 +4,10 @@ SourceLens AIOS 是一个以软件工程为首个验证环境的可信自主智�
 
 第一年度唯一目标：构建并科学评估一个可信软件工程 Agent。项目先建立可复现的 Evaluation Harness，再测量 Repository Intelligence，之后才建设单 Agent Runtime、可信执行、软件工程 Agent 和条件式的多 Agent/Organization Runtime。
 
-## 当前状态
+## 当前事实
 
-当前事实只读 [`docs/aios/truth/project_state.yaml`](docs/aios/truth/project_state.yaml)：
-
-- P0：`COMPLETE`
-- P1 阶段进入：`AUTHORIZED`
-- P1 执行：`NOT_STARTED`
-- AIOS-P1-001：`DRAFT / NOT_AUTHORIZED / RUNS=0`
-- 当前可执行 Task：`NONE`
-- 当前长期 Goal：等待 Founder 手动替换精简正文并重新激活
+当前 phase、Goal、Task、Gate、运行数和授权状态只读
+[`docs/aios/truth/project_state.yaml`](docs/aios/truth/project_state.yaml)。README 不复制这些易变化字段，避免形成第二套状态源。
 
 PRE、Discovery、BOUND、MCF、Carrier、Supervisor 和 Root Custody 路线已经终止并从活跃项目面移除。它们只存在于项目外历史归档，不得恢复调度。
 

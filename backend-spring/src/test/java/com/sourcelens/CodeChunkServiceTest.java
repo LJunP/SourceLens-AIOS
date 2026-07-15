@@ -6838,16 +6838,16 @@ class CodeChunkServiceTest {
         CodeChunk sameNamedDecoy = CodeChunk.builder()
                 .id(98L)
                 .scanTaskId(42L)
-                .filePath("archive/docs/CHAIRMAN_BRIEFING.md")
-                .content("旧版董事长入口说明")
+                .filePath("archive/docs/review-guide.md")
+                .content("historical review guide")
                 .startLine(15)
                 .endLine(25)
                 .build();
         CodeChunk target = CodeChunk.builder()
                 .id(99L)
                 .scanTaskId(42L)
-                .filePath("docs/CHAIRMAN_BRIEFING.md")
-                .content("当前董事长入口说明")
+                .filePath("docs/review-guide.md")
+                .content("current review guide")
                 .startLine(15)
                 .endLine(25)
                 .build();
@@ -6857,7 +6857,7 @@ class CodeChunkServiceTest {
 
         List<CodeChunk> result = codeChunkService.listRetrievalCandidates(
                 42L,
-                "解释这个治理文档 https://github.com/acme/source-lens/blob/feature/docs/review/docs/CHAIRMAN_BRIEFING.md#L20"
+                "解释这个文档 https://github.com/acme/source-lens/blob/feature/docs/review/docs/review-guide.md#L20"
         );
 
         assertEquals(target, result.get(0));

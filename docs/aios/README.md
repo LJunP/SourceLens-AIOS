@@ -24,6 +24,6 @@ P0 合同、P0 review、旧 Goal、旧状态、PRE/Discovery/BOUND/MCF/Carrier�
 
 ## 当前边界
 
-P0 已完成，P1 entry 已获授权，P1 execution 尚未开始，AIOS-P1-001 runs 为 0。P1 的下一项工作是实现最小 Evaluation Harness，不是继续建设治理基础设施或提前建设 P3/P5 Trust Runtime。
+当前 phase、Goal、Task、Gate、运行数和授权状态只由 `truth/project_state.yaml` 表达，本文件不复制其具体值。Truth 指向 P1 时，P1 只建立 Evaluation Harness 和可比较 baseline，不继续建设治理基础设施，也不提前建设 P3/P5 Trust Runtime。
 
 `DEFINED`、`IMPLEMENTED`、`TESTED`、`GATE_PASSED`、`PRODUCTION_PROVEN` 必须分开使用。任何低级别证据都不能推导更高级别结论。

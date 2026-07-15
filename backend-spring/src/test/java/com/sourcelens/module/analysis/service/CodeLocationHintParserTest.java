@@ -905,11 +905,11 @@ class CodeLocationHintParserTest {
     @Test
     void pathSuffixHints_shouldNormalizeHostedMarkdownUrlsForEvidenceDocs() {
         List<String> hints = CodeLocationHintParser.pathSuffixHints(
-                "查看治理说明 https://github.com/acme/source-lens/blob/feature/docs/review/docs/CHAIRMAN_BRIEFING.md#L20"
+                "查看说明 https://github.com/acme/source-lens/blob/feature/docs/review/docs/review-guide.md#L20"
         );
 
-        assertTrue(hints.contains("docs/CHAIRMAN_BRIEFING.md"));
-        assertTrue(hints.contains("CHAIRMAN_BRIEFING.md"));
+        assertTrue(hints.contains("docs/review-guide.md"));
+        assertTrue(hints.contains("review-guide.md"));
         assertFalse(hints.stream().anyMatch(hint -> hint.contains("github.com")));
         assertFalse(hints.stream().anyMatch(hint -> hint.contains("feature/docs/review")));
         assertFalse(hints.stream().anyMatch(hint -> hint.contains("#L20")));

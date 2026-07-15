@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "description": "P6 fixed offline retrieval evaluation corpus for CodeQaRetrievalService.",
+  "description": "Fixed offline retrieval regression corpus for CodeQaRetrievalService; not a benchmark claim.",
   "metrics": {
     "evaluationScope": "fixed_golden_regression",
     "benchmarkClaim": false,

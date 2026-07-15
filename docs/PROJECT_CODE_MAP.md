@@ -4,9 +4,9 @@
 
 ## 1. 生成范围
 
-- 纳入逐文件用途索引的文件数：485。
-- 其中源码/脚本/配置/SQL/CSS 类文件数：420。
-- 纳入统计的文本总行数：135041。
+- 纳入逐文件用途索引的文件数：540。
+- 其中源码/脚本/配置/SQL/CSS 类文件数：433。
+- 纳入统计的文本总行数：137264。
 - 排除逐文件展开的本地生成/证据目录：`.git/`、`bin/`、`web-console/node_modules/`、`backend-spring/target/`、`analyzer-rust/target/`、`.sourcelens-runtime/`、`release-evidence/`、前端构建和测试产物。
 - 本地生成物、依赖缓存和历史证据目录不是源码或当前权威；它们必须保持未跟踪并可重建或从封存恢复。
 
@@ -25,11 +25,12 @@
 | `CONTRIBUTING.md` | 1 | 项目根文件或辅助目录。 |
 | `deploy` | 2 | Docker Compose 和环境模板。 |
 | `docs` | 24 | 当前架构、接口、安全、研究与 AIOS 权威文档。 |
+| `evaluation-harness` | 54 | 项目根文件或辅助目录。 |
 | `LICENSE` | 1 | 项目根文件或辅助目录。 |
 | `Makefile` | 1 | 项目根文件或辅助目录。 |
 | `README.md` | 1 | 项目根文件或辅助目录。 |
 | `ROADMAP.md` | 1 | 项目根文件或辅助目录。 |
-| `scripts` | 14 | 本地构建、验证、代码地图和最小安全检查。 |
+| `scripts` | 15 | 本地构建、验证、代码地图和最小安全检查。 |
 | `SECURITY.md` | 1 | 项目根文件或辅助目录。 |
 | `SUPPORT.md` | 1 | 项目根文件或辅助目录。 |
 | `web-console` | 72 | React/Vite 前端控制台。 |
@@ -174,7 +175,22 @@
 | `docs/aios/tasks` | 1 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/aios/truth` | 1 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/llm-safety-evals` | 2 | LLM 安全评测用例目录，存放 prompt injection、输出质量和 provider run 模板。 |
-| `scripts` | 14 | 本地自动化脚本目录，封装启动、校验、代码地图和生成物清理。 |
+| `evaluation-harness` | 54 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/adapters` | 2 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/adapters/harness_stub` | 2 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/evaluator` | 4 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/fixtures` | 14 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/fixtures/oracle` | 4 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/fixtures/visible` | 10 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/harness` | 5 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/recording` | 27 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/recording/aios-p1-001-evidence` | 25 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/recording/aios-p1-001-evidence/controlled-failure` | 6 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/recording/aios-p1-001-evidence/positive` | 6 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/recording/aios-p1-001-evidence/promotion-probe` | 3 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/recording/aios-p1-001-evidence/replay` | 6 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/replay` | 2 | 项目根文件或辅助目录。子目录。 |
+| `scripts` | 15 | 本地自动化脚本目录，封装启动、校验、代码地图和生成物清理。 |
 | `web-console` | 72 | React/Vite 前端控制台工程，承载 SourceLens 用户界面和 UI smoke。 |
 | `web-console/src` | 66 | 前端源码根目录。 |
 | `web-console/src/api` | 21 | 前端 API client 层，集中定义后端 HTTP 调用和 TypeScript 响应类型。 |
@@ -845,6 +861,65 @@
 | `docs/TEST_STRATEGY.md` | 项目文档。标题：SourceLens AIOS 测试策略。 |
 | `docs/WORKTREE_HYGIENE.md` | 项目文档。标题：SourceLens AIOS 工作树卫生规则。 |
 
+### evaluation-harness
+
+| 文件 | 作用 |
+| --- | --- |
+| `evaluation-harness/adapters/harness_stub/adapter.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/adapters/harness_stub/README.md` | Markdown 文档。 |
+| `evaluation-harness/evaluator/evaluate.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/evaluator/README.md` | Markdown 文档。 |
+| `evaluation-harness/evaluator/schema-validator.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/evaluator/self-test.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/fixtures/oracle/expected-result.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/fixtures/oracle/FREEZE_RECEIPT.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/fixtures/oracle/oracle.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/fixtures/oracle/OWNERSHIP_MAP.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/fixtures/visible/context.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/fixtures/visible/controlled-failure-result.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/fixtures/visible/controlled-failure-run-record.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/fixtures/visible/controlled-failure.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/fixtures/visible/environment-snapshot.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/fixtures/visible/positive-run-record.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/fixtures/visible/promoted-controlled-failure-run-record.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/fixtures/visible/response-format.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/fixtures/visible/system-configuration.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/fixtures/visible/task-spec.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/harness/cli.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/harness/contracts.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/harness/README.md` | Markdown 文档。 |
+| `evaluation-harness/harness/run.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/harness/self-test.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/recording/aios-p1-001-evidence/controlled-failure/adapter-command-ledger.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/recording/aios-p1-001-evidence/controlled-failure/deterministic-projection.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/recording/aios-p1-001-evidence/controlled-failure/evaluator-command-ledger.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/recording/aios-p1-001-evidence/controlled-failure/evaluator-verdict.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/recording/aios-p1-001-evidence/controlled-failure/result.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/recording/aios-p1-001-evidence/controlled-failure/run-record.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/recording/aios-p1-001-evidence/evidence-manifest.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/recording/aios-p1-001-evidence/evidence-summary.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/recording/aios-p1-001-evidence/positive/adapter-command-ledger.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/recording/aios-p1-001-evidence/positive/deterministic-projection.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/recording/aios-p1-001-evidence/positive/evaluator-command-ledger.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/recording/aios-p1-001-evidence/positive/evaluator-verdict.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/recording/aios-p1-001-evidence/positive/result.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/recording/aios-p1-001-evidence/positive/run-record.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/recording/aios-p1-001-evidence/preflight.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/recording/aios-p1-001-evidence/promotion-probe/evaluator-command-ledger.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/recording/aios-p1-001-evidence/promotion-probe/evaluator-verdict.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/recording/aios-p1-001-evidence/promotion-probe/run-record.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/recording/aios-p1-001-evidence/replay-comparison.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/recording/aios-p1-001-evidence/replay/adapter-command-ledger.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/recording/aios-p1-001-evidence/replay/deterministic-projection.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/recording/aios-p1-001-evidence/replay/evaluator-command-ledger.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/recording/aios-p1-001-evidence/replay/evaluator-verdict.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/recording/aios-p1-001-evidence/replay/result.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/recording/aios-p1-001-evidence/replay/run-record.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/recording/manifest.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/recording/recorder.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/replay/cli.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/replay/replay.mjs` | Node.js 自动化脚本或配置文件。 |
+
 ### LICENSE
 
 | 文件 | 作用 |
@@ -887,6 +962,7 @@
 | `scripts/validate-db-schema-contract.mjs` | 静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。 |
 | `scripts/validate-llm-safety-evals.mjs` | 静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。 |
 | `scripts/verify-all.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
+| `scripts/verify-p1-harness.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 
 ### SECURITY.md
 

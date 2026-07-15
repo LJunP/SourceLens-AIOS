@@ -25,6 +25,7 @@ required_files=(
   docs/aios/BASELINE_ADAPTER_CONTRACT.md
   docs/aios/truth/project_state.yaml
   docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
+  docs/aios/tasks/P1-002_B0_ADAPTER_CONFORMANCE.yaml
   docs/aios/schemas/task-spec.schema.json
   docs/aios/schemas/environment-snapshot.schema.json
   docs/aios/schemas/system-configuration.schema.json
@@ -38,6 +39,7 @@ done
 ruby -ryaml -rjson -rdigest -e '
   truth = YAML.safe_load(File.read("docs/aios/truth/project_state.yaml"), aliases: false)
   task = YAML.safe_load(File.read("docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml"), aliases: false)
+  active_task = YAML.safe_load(File.read("docs/aios/tasks/P1-002_B0_ADAPTER_CONFORMANCE.yaml"), aliases: false)
   ledger = YAML.safe_load(File.read("docs/aios/MIGRATION_LEDGER.yaml"), aliases: false)
 
   expected_hashes = {
@@ -45,6 +47,7 @@ ruby -ryaml -rjson -rdigest -e '
     "docs/aios/MASTER_EXECUTION_PROTOCOL.md" => "47c444c50c7521a7515dfb2fbee0c8c81cc72b32c42eba549d080eeb0c1bcedf",
     "docs/aios/EVALUATION_PROTOCOL.md" => "da029143561fbb3c213d4a358b25e085542c6cd26ae8150a53cbb5998177eed8",
     "docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml" => "d2974752b088ff30b0764d6b482e19ea939cd497eb2db3e26af28bf09dc2e12f",
+    "docs/aios/tasks/P1-002_B0_ADAPTER_CONFORMANCE.yaml" => "c303f045e67dc1f76d51a5789eeb0573021bdcd9d17cd169d7448f64f91a87d8",
     "evaluation-harness/fixtures/oracle/FREEZE_RECEIPT.json" => "ef7f9807795a685d0aa92fc19248ed0101362861ad7d71e4fdcdbb9df0b840c6",
     "evaluation-harness/recording/aios-p1-001-evidence/evidence-manifest.json" => "e1f735816c18ab7631fa1d0b771deccc25564074350d1d74e67975d187ef3952"
   }
@@ -57,7 +60,7 @@ ruby -ryaml -rjson -rdigest -e '
   abort "phase must be P1" unless truth.dig("project", "current_phase") == "P1"
   abort "P0 must be complete" unless truth.dig("project", "p0_status") == "COMPLETE"
   abort "P1 entry must be authorized" unless truth.dig("project", "p1_entry_status") == "AUTHORIZED"
-  abort "P1 execution authorization state drift" unless truth.dig("project", "p1_execution_status") == "NO_TASK_AUTHORIZED"
+  abort "P1 execution authorization state drift" unless truth.dig("project", "p1_execution_status") == "TASK_AUTHORIZED"
   abort "accepted candidate commit drift" unless truth.dig("project", "accepted_harness_candidate_commit") == "02342da942e291eaa65230f824fcf47eae8f8a30"
   abort "accepted candidate tree drift" unless truth.dig("project", "accepted_harness_candidate_tree") == "1a31751dc1b4d5bc2c9b2c4aaf0aa640528edecc"
   abort "active Goal state drift" unless truth.dig("goal", "control_plane_status_observed") == "ACTIVE"
@@ -65,15 +68,61 @@ ruby -ryaml -rjson -rdigest -e '
   abort "active Goal raw hash drift" unless truth.dig("goal", "observed_raw_body_sha256") == "9b59ffc6919473b596f09a96afc1e8684f076f5ac32c6014ac96344a496cd0d8"
   abort "active Goal canonicalization drift" unless truth.dig("goal", "body_canonicalization") == "UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF"
   abort "active Goal identity state drift" unless truth.dig("goal", "identity_status") == "FOUNDER_MANUALLY_INSTALLED_AND_ACTIVE"
-  abort "Goal task authority was not cleared" unless truth.dig("goal", "current_task_authority") == "NONE"
-  abort "current task was not cleared" unless truth.dig("active_work", "current_task") == "NONE"
-  abort "current Task Contract was not cleared" unless truth.dig("active_work", "current_task_contract") == "NONE"
-  abort "next action over-authorizes a task" unless truth.dig("active_work", "next_eligible_action") == "NONE_UNTIL_FOUNDER_AUTHORIZES_A_SEPARATE_P1_BASELINE_TASK"
+  active_task_id = "AIOS-P1-002_B0_ADAPTER_CONFORMANCE"
+  active_task_path = "docs/aios/tasks/P1-002_B0_ADAPTER_CONFORMANCE.yaml"
+  active_task_sha = "c303f045e67dc1f76d51a5789eeb0573021bdcd9d17cd169d7448f64f91a87d8"
+  abort "Goal task authority drift" unless truth.dig("goal", "current_task_authority") == active_task_id
+  abort "current task drift" unless truth.dig("active_work", "current_task") == active_task_id
+  current_contract = truth.dig("active_work", "current_task_contract")
+  abort "current Task Contract missing" unless current_contract.is_a?(Hash)
+  abort "current Task Contract path drift" unless current_contract["path"] == active_task_path
+  abort "current Task Contract hash drift" unless current_contract["sha256"] == active_task_sha
+  abort "current Task Contract status drift" unless current_contract["status"] == "EXECUTION_AUTHORIZED"
+  abort "next action drift" unless truth.dig("active_work", "next_eligible_action") == "EXECUTE_CURRENT_TASK_WITHIN_EXACT_OFFLINE_CONFORMANCE_ENVELOPE"
 
-  authorization = truth.dig("active_work", "current_execution_authorization")
-  abort "current authorization state missing" unless authorization.is_a?(Hash)
-  abort "current execution authorization was not cleared" unless authorization["status"] == "NONE"
-  abort "current authorization clear reason drift" unless authorization["reason"] == "AIOS-P1-001 completed its Founder Gate; no B0, B1, B2 or later task is authorized."
+  current_authorization = truth.dig("active_work", "current_execution_authorization")
+  abort "current authorization state missing" unless current_authorization.is_a?(Hash)
+  expected_current_authorization = {
+    "status" => "ACTIVE",
+    "authority" => "Human Founder",
+    "authorization_model" => "TASK_LEVEL_DELEGATED_EXECUTION",
+    "source" => "CODEX_THREAD_FOUNDER_MESSAGE",
+    "source_message_sha256" => "bedd3c781cc224a13c3e64a7ff7bcd6d9d23cafaf6a897d70f4c3994697ec6db",
+    "task_id" => active_task_id,
+    "task_contract_sha256" => active_task_sha,
+    "goal_body_canonical_sha256" => "fed643624aa5794a5cea5db2a04f25cc89d829a619e905df946a3616f14ad6c0",
+    "authorized_parent_commit" => "c3bbcf07b597220710fda1f7ee335d4b1ccbba5e",
+    "authorized_parent_tree" => "b035d7410065f5f17b914365c10a3acc5f66fc6d",
+    "scope" => "P1_B0_ADAPTER_OFFLINE_CONFORMANCE_ONLY",
+    "network" => "forbidden",
+    "provider" => "forbidden",
+    "secrets" => "forbidden",
+    "remote" => "forbidden",
+    "production" => "forbidden",
+    "main_advance" => "forbidden_without_founder_gate",
+    "binding_rule" => "SHA256_OF_ORDERED_LF_FIELDS_WITH_FINAL_LF",
+    "binding_sha256" => "fc014c1c3eecbd51a374a56b5213a08dd98053bb11c670801019846999cdf889"
+  }
+  expected_current_authorization.each do |field, expected|
+    abort "current Founder authorization drift: #{field}" unless current_authorization[field] == expected
+  end
+  current_binding_fields = [
+    "authority=#{current_authorization.fetch("authority").tr(" ", "_")}",
+    "authorization_model=#{current_authorization.fetch("authorization_model")}",
+    "task_id=#{current_authorization.fetch("task_id")}",
+    "task_contract_sha256=#{current_authorization.fetch("task_contract_sha256")}",
+    "goal_body_canonical_sha256=#{current_authorization.fetch("goal_body_canonical_sha256")}",
+    "authorized_parent_commit=#{current_authorization.fetch("authorized_parent_commit")}",
+    "authorized_parent_tree=#{current_authorization.fetch("authorized_parent_tree")}",
+    "scope=#{current_authorization.fetch("scope")}",
+    "network=#{current_authorization.fetch("network")}",
+    "provider=#{current_authorization.fetch("provider")}",
+    "secrets=#{current_authorization.fetch("secrets")}",
+    "remote=#{current_authorization.fetch("remote")}",
+    "production=#{current_authorization.fetch("production")}",
+    "main_advance=#{current_authorization.fetch("main_advance")}",
+  ]
+  abort "current Founder authorization binding drift" unless current_authorization["binding_sha256"] == Digest::SHA256.hexdigest(current_binding_fields.join("\n") + "\n")
 
   completed = truth.dig("task_history", "aios_p1_001")
   abort "P1-001 completion history missing" unless completed.is_a?(Hash)
@@ -156,11 +205,67 @@ ruby -ryaml -rjson -rdigest -e '
   abort "Founder Gate auto-authorized a next task" unless gate["next_task_authorized"] == false
   abort "Harness conformance status drift" unless truth.dig("claim_boundary", "evaluation_harness") == "IMPLEMENTED_AND_FOUNDER_GATE_ACCEPTED_CONFORMANCE_ONLY"
   abort "Harness conformance did not pass" unless truth.dig("claim_boundary", "harness_conformance") == "PASS"
+  abort "B0 conformance was prematurely claimed" unless truth.dig("claim_boundary", "b0_adapter_conformance") == "NOT_YET_EXECUTED"
+  abort "live B0 performance was prematurely claimed" unless truth.dig("claim_boundary", "b0_live_model_performance") == "UNKNOWN_NO_PROVIDER_RUNS"
   abort "offsite custody status drift" unless truth.dig("historical_lineages", "archive", "offsite_status") == "PASS_WITH_DECLARED_HISTORICAL_COUNT_LIMITATION"
   abort "offsite verification binding drift" unless truth.dig("historical_lineages", "archive", "offsite_verification_receipt_sha256") == "e45658d02dc21184cc5c79d5a2b052ce1b2e3885b342930a2e0fb536ba03a91f"
   abort "production readiness falsely claimed" unless truth.dig("claim_boundary", "production_ready") == false
   abort "Agent capability falsely claimed" unless truth.dig("claim_boundary", "trustworthy_software_engineering_agent_proven") == false
   abort "historical lineages reopened" unless truth.dig("historical_lineages", "continuation_allowed") == false
+
+  active_history = truth.dig("task_history", "aios_p1_002")
+  abort "P1-002 active history missing" unless active_history.is_a?(Hash)
+  expected_active_history = {
+    "task_id" => active_task_id,
+    "contract" => active_task_path,
+    "task_contract_sha256" => active_task_sha,
+    "status" => "EXECUTION_AUTHORIZED_NOT_YET_IMPLEMENTED",
+    "execution_authorized" => true,
+    "persistent_evidence_runs" => 0,
+    "measurement_retries" => 0,
+    "provider_calls" => 0,
+    "capability_claims" => 0,
+    "claim_boundary" => "OFFLINE_B0_ADAPTER_CONFORMANCE_ONLY"
+  }
+  expected_active_history.each do |field, expected|
+    abort "P1-002 active history drift: #{field}" unless active_history[field] == expected
+  end
+
+  abort "active task id drift" unless active_task["task_id"] == active_task_id
+  abort "active task phase drift" unless active_task["phase"] == "P1"
+  abort "active Task Contract schema drift" unless active_task["schema_version"] == 2
+  abort "active Task Contract authorization drift" unless active_task["status"] == "EXECUTION_AUTHORIZED" && active_task["execution_authorized"] == true
+  abort "active Task Contract message binding drift" unless active_task.dig("founder_authorization", "message_sha256") == "bedd3c781cc224a13c3e64a7ff7bcd6d9d23cafaf6a897d70f4c3994697ec6db"
+  abort "active Task Contract parent drift" unless active_task.dig("source", "authorized_parent_commit") == "c3bbcf07b597220710fda1f7ee335d4b1ccbba5e" && active_task.dig("source", "authorized_parent_tree") == "b035d7410065f5f17b914365c10a3acc5f66fc6d"
+  abort "active Task Contract branch drift" unless active_task.dig("source", "task_branch") == "task/AIOS-P1-002-b0-adapter-conformance"
+  abort "active Task Contract live model enabled" unless active_task.dig("environment", "live_model_invocation") == "forbidden"
+  abort "active Task Contract provider calls widened" unless active_task.dig("environment", "provider_calls") == 0 && active_task.dig("budget", "provider_calls") == 0
+  abort "active Task Contract network calls widened" unless active_task.dig("environment", "network") == "forbidden" && active_task.dig("budget", "network_calls") == 0
+  abort "active Task Contract tool boundary widened" unless active_task.dig("environment", "enabled_tools") == [] && active_task.dig("environment", "loop_limit") == 1
+  abort "active Task Contract retries widened" unless active_task.dig("budget", "measurement_retries") == 0
+
+  active_worker_paths = active_task.dig("implementation_scope", "worker_writable_paths") || []
+  active_integration_paths = active_task.dig("implementation_scope", "integration_writable_paths") || []
+  active_quality_paths = active_task.dig("implementation_scope", "quality_owned_preimplementation_paths") || []
+  expected_active_worker_paths = [
+    "evaluation-harness/adapters/b0_direct_model/**",
+    "evaluation-harness/harness/b0_direct_model/**",
+    "evaluation-harness/recording/b0-direct-model-offline-evidence/**",
+    "evaluation-harness/recording/recorder.mjs"
+  ]
+  expected_active_integration_paths = ["scripts/verify-p1-b0-direct-model-offline.sh", "Makefile"]
+  expected_active_quality_paths = [
+    "evaluation-harness/fixtures/b0_direct_model/**",
+    "evaluation-harness/evaluator/b0_direct_model/**"
+  ]
+  abort "active Worker paths drifted" unless active_worker_paths == expected_active_worker_paths
+  abort "active Integration paths drifted" unless active_integration_paths == expected_active_integration_paths
+  abort "active Quality paths drifted" unless active_quality_paths == expected_active_quality_paths
+  active_owned = active_worker_paths + active_integration_paths + active_quality_paths
+  abort "active owned path declaration overlap" unless active_owned.uniq.length == active_owned.length
+  abort "active Task Contract became writable" if active_owned.include?(active_task_path)
+  abort "accepted schemas became writable in active task" if active_owned.any? { |path| path.start_with?("docs/aios/schemas/") }
+  abort "active Task immutable binding missing" unless (active_task.dig("implementation_scope", "immutable_inputs") || []).include?(active_task_path)
 
   abort "task id drift" unless task["task_id"] == "AIOS-P1-001"
   abort "task phase drift" unless task["phase"] == "P1"

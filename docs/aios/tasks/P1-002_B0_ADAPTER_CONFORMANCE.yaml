@@ -1,0 +1,209 @@
+schema_version: 2
+record_type: sourcelens_aios_task_contract
+task_id: AIOS-P1-002_B0_ADAPTER_CONFORMANCE
+phase: P1
+title: Implement offline B0 Direct Model adapter conformance
+status: EXECUTION_AUTHORIZED
+execution_authorized: true
+
+founder_authorization:
+  source: CODEX_THREAD_FOUNDER_MESSAGE
+  message_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  message_sha256: bedd3c781cc224a13c3e64a7ff7bcd6d9d23cafaf6a897d70f4c3994697ec6db
+  message: "授权继续开发。时刻检查项目不要偏离。"
+  interpretation: >-
+    Continue the next P1 engineering task described immediately before the authorization:
+    B0 Direct Model adapter development under the current Goal. The authorization is
+    normalized into this narrower offline-conformance envelope and grants no network,
+    Provider, Secret, remote, production, P2 or P3 capability.
+
+objective: >-
+  Implement the smallest offline-verifiable B0 Direct Model adapter compatibility path.
+  It must bind one visible synthetic TaskSpec, ordered bounded textual context,
+  response format and deterministic prerecorded response; enforce B0 no-tool,
+  single-turn and zero-network constraints; emit a schema-valid RunRecord; record
+  observable execution evidence; reject a controlled invalid response; and replay
+  the normalized result byte-for-byte. This is real P1 code development, but it is
+  adapter conformance only and not a model-performance experiment.
+
+why_now:
+  - AIOS-P1-001 Evaluation Harness passed Founder Gate and established the reproducible evidence path.
+  - The P1 route requires comparable B0/B1/B2 adapters before real benchmark measurement.
+  - B0 is the smallest baseline adapter and can be made locally testable without Provider access.
+
+research_hypothesis:
+  statement: >-
+    A B0 adapter can enforce exact issue/context/configuration bindings and generate
+    reproducible evidence without tools, iteration, network or a live model Provider.
+  falsifier: >-
+    The interface cannot be validated or replayed without live Provider access,
+    modifying accepted schemas, weakening evaluator independence, or expanding into
+    Repository Intelligence or Agent Runtime.
+
+claim_boundary:
+  proves_if_accepted:
+    - B0 configuration and input-binding conformance for one visible synthetic fixture
+    - no-tool single-turn adapter invocation through a deterministic offline response transport
+    - controlled-failure rejection, replay equality and evidence-manifest verification
+  does_not_prove:
+    - a live Direct Model run
+    - B0 model quality or benchmark performance
+    - Verified Task Success Rate or inclusion in its denominator
+    - comparison against B1, B2 or A0
+    - Repository Intelligence or software-engineering Agent capability
+    - hidden-set validity, production readiness or hostile-principal resistance
+
+source:
+  canonical_repository: /Users/lijunpeng/Desktop/cc/project/SourceLens-AIOS
+  canonical_branch: main
+  authorized_parent_commit: c3bbcf07b597220710fda1f7ee335d4b1ccbba5e
+  authorized_parent_tree: b035d7410065f5f17b914365c10a3acc5f66fc6d
+  implementation_parent_rule: >-
+    Create the Task branch from the governance synchronization commit whose only
+    delta from the authorized parent is this immutable Task Contract, current Truth,
+    governance validation and mechanically refreshed code map.
+  task_branch: task/AIOS-P1-002-b0-adapter-conformance
+  task_worktree: /Users/lijunpeng/Desktop/cc/project/.sourcelens-worktrees/AIOS-P1-002-b0-adapter-conformance
+  inherited_source_worktree_write_allowed: false
+
+roles:
+  accountable_owner: Chief AI Research Agent
+  integration_owner: Engineering Manager Agent
+  worker: B0 Adapter Engineer
+  quality_owner: Quality and Evaluation Agent
+  independent_reviewers:
+    - CTO Agent
+    - Security Agent for declared boundary only
+    - Quality and Evaluation Agent
+
+delegated_execution:
+  model: TASK_LEVEL_FOUNDER_AUTHORIZATION
+  founder_approval_granularity: one Task envelope, not individual files or commands
+  ordinary_implementation_fixes_inside_scope: allowed
+  automatic_successor_or_replacement: forbidden
+  escalation_conditions:
+    - objective, path, budget, metric, permission or claim expansion
+    - network, live Provider, Secret, remote, production or public effect required
+    - accepted schema, P1-001 frozen evaluator/oracle/evidence or source identity drift
+    - B0 performance measurement or VTSR inclusion requested
+    - P2/P3 capability or architecture required
+    - any Stop Condition
+
+implementation_scope:
+  quality_owned_preimplementation_paths:
+    - evaluation-harness/fixtures/b0_direct_model/**
+    - evaluation-harness/evaluator/b0_direct_model/**
+  worker_writable_paths:
+    - evaluation-harness/adapters/b0_direct_model/**
+    - evaluation-harness/harness/b0_direct_model/**
+    - evaluation-harness/recording/b0-direct-model-offline-evidence/**
+    - evaluation-harness/recording/recorder.mjs
+  integration_writable_paths:
+    - scripts/verify-p1-b0-direct-model-offline.sh
+    - Makefile
+  immutable_inputs:
+    - docs/aios/tasks/P1-002_B0_ADAPTER_CONFORMANCE.yaml
+    - docs/aios/EVALUATION_PROTOCOL.md
+    - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+    - docs/aios/schemas/task-spec.schema.json
+    - docs/aios/schemas/environment-snapshot.schema.json
+    - docs/aios/schemas/system-configuration.schema.json
+    - docs/aios/schemas/run-record.schema.json
+    - evaluation-harness/evaluator/schema-validator.mjs
+    - evaluation-harness/harness/cli.mjs
+    - evaluation-harness/harness/contracts.mjs
+    - evaluation-harness/harness/README.md
+    - evaluation-harness/harness/run.mjs
+    - evaluation-harness/harness/self-test.mjs
+    - evaluation-harness/replay/**
+    - evaluation-harness/recording/manifest.mjs
+    - evaluation-harness/evaluator/evaluate.mjs
+    - evaluation-harness/fixtures/visible/**
+    - evaluation-harness/fixtures/oracle/**
+    - evaluation-harness/recording/aios-p1-001-evidence/**
+  forbidden_paths:
+    - /Users/lijunpeng/Desktop/cc/project/SourceLens/**
+    - docs/aios/STRATEGIC_CONSTITUTION.md
+    - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+    - historical archives and P0 evidence
+    - backend-spring/src/main/**
+    - analyzer-rust/src/**
+    - web-console/src/**
+
+separation_and_freeze_order:
+  - Quality creates and freezes the B0 visible fixture, oracle and evaluator before Worker implementation.
+  - The freeze receipt binds this Task Contract, accepted schemas, fixture, oracle, evaluator and runtime identities.
+  - Worker may read but cannot modify Quality-owned or immutable paths.
+  - Integration may modify only its two exact paths after Worker handoff.
+  - Reviewer reads the frozen candidate and evidence; Worker cannot perform final acceptance.
+
+environment:
+  execution_mode: OFFLINE_PRERECORDED_RESPONSE_CONFORMANCE
+  synthetic_fixture: required
+  live_model_invocation: forbidden
+  provider_calls: 0
+  network: forbidden
+  secrets: forbidden
+  remote_effects: forbidden
+  production_effects: forbidden
+  enabled_tools: []
+  loop_limit: 1
+  canonical_main_write_during_implementation: forbidden
+
+budget:
+  engineering_hours: 16
+  calendar_days: 3
+  implementation_iterations_inside_same_task: 2
+  measurement_retries: 0
+  provider_calls: 0
+  network_calls: 0
+  new_runtime_services: 0
+  new_databases: 0
+
+required_evidence:
+  - Task Contract, accepted schema, fixture, oracle and evaluator hashes
+  - Quality freeze receipt and ownership map
+  - runtime and dependency observation
+  - actual commands, argv, cwd, start/end time, exit status and stream hashes
+  - positive and controlled-failure RunRecords
+  - replay comparison
+  - B0 configuration, context, response-format and prerecorded-response bindings
+  - Evidence Manifest with closed artifact population and checksums
+  - source diff, candidate commit/tree and rollback point
+  - full P1-001 regression result
+  - CTO, Security and Quality independent review reports
+
+acceptance_criteria:
+  - accepted TaskSpec, EnvironmentSnapshot, SystemConfiguration and RunRecord schemas remain byte-identical
+  - P1-001 frozen evaluator, oracle, fixtures and evidence remain byte-identical and its verification still passes
+  - recorder extension preserves the P1-001 default record type and behavior exactly
+  - B0 preflight requires adapter_id B0, loop_limit 1, zero enabled tools and zero tool budget
+  - exact issue, ordered context, response format, prerecorded response and configuration identities are hash-bound
+  - one positive visible synthetic invocation produces a schema-valid B0 RunRecord and PASS from the frozen B0 conformance evaluator
+  - one controlled invalid response is recorded as failure and cannot be promoted to success
+  - fresh replay produces byte-equal normalized projection and evaluator verdict
+  - Evidence Manifest detects mutation, addition, removal and path escape
+  - evidence states live_model_invoked false, provider_calls 0, included_in_vtsr_denominator false and benchmark_claim false
+  - no canonical main, inherited workspace, network, Provider, Secret, remote or production effect occurs
+  - full repository verification passes
+  - CTO, Security and Quality reviews are PASS
+
+failure_criteria:
+  - a live model, network, Provider or Secret is required
+  - evidence is incomplete, mutable, irreproducible or claim-inflating
+  - controlled failure can be promoted to success
+  - Worker changes Quality-owned, immutable or forbidden paths
+  - accepted P1-001 artifacts or regressions drift
+  - completion requires P2 Repository Intelligence or P3 Runtime/Trust work
+
+stop_conditions:
+  - budget exhausted without meeting acceptance criteria
+  - source, fixture, oracle or evaluator contamination
+  - scope, permission, budget or claim expansion required
+  - two implementation iterations fail for the same cause without new evidence
+  - any forbidden effect or high-severity evidence-integrity issue occurs
+
+completion_rule: >-
+  Frozen artifacts, verified evidence, full regression, independent PASS reviews and
+  Founder Gate are required. Completion does not authorize a live B0 measurement,
+  B1/B2/A0 work, VTSR reporting, main advance, P2/P3 entry, remote or production effects.

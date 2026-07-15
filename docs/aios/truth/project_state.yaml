@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-15T09:45:43Z"
-verification_scope: AIOS_P1_001_FOUNDER_GATE_CLOSE
+last_verified_at: "2026-07-15T10:01:52Z"
+verification_scope: AIOS_P1_002_B0_ADAPTER_CONFORMANCE_AUTHORIZATION_SYNC
 
 authority:
   founder: Human Founder
@@ -29,7 +29,7 @@ goal:
   observed_raw_body_sha256: 9b59ffc6919473b596f09a96afc1e8684f076f5ac32c6014ac96344a496cd0d8
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_AND_ACTIVE
-  current_task_authority: NONE
+  current_task_authority: AIOS-P1-002_B0_ADAPTER_CONFORMANCE
   note: The active control-plane body equals the Founder-approved body after canonical trailing-LF normalization.
 
 project:
@@ -40,7 +40,7 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  p1_execution_status: NO_TASK_AUTHORIZED
+  p1_execution_status: TASK_AUTHORIZED
   canonical_branch: main
   accepted_harness_candidate_commit: 02342da942e291eaa65230f824fcf47eae8f8a30
   accepted_harness_candidate_tree: 1a31751dc1b4d5bc2c9b2c4aaf0aa640528edecc
@@ -56,12 +56,32 @@ p0_baseline:
   online_verification_status: ARCHIVED_NOT_ON_ACTIVE_PATH
 
 active_work:
-  current_task: NONE
-  current_task_contract: NONE
+  current_task: AIOS-P1-002_B0_ADAPTER_CONFORMANCE
+  current_task_contract:
+    path: docs/aios/tasks/P1-002_B0_ADAPTER_CONFORMANCE.yaml
+    sha256: c303f045e67dc1f76d51a5789eeb0573021bdcd9d17cd169d7448f64f91a87d8
+    status: EXECUTION_AUTHORIZED
   current_execution_authorization:
-    status: NONE
-    reason: AIOS-P1-001 completed its Founder Gate; no B0, B1, B2 or later task is authorized.
-  next_eligible_action: NONE_UNTIL_FOUNDER_AUTHORIZES_A_SEPARATE_P1_BASELINE_TASK
+    status: ACTIVE
+    authority: Human Founder
+    authorization_model: TASK_LEVEL_DELEGATED_EXECUTION
+    source: CODEX_THREAD_FOUNDER_MESSAGE
+    source_message_sha256: bedd3c781cc224a13c3e64a7ff7bcd6d9d23cafaf6a897d70f4c3994697ec6db
+    task_id: AIOS-P1-002_B0_ADAPTER_CONFORMANCE
+    task_contract_sha256: c303f045e67dc1f76d51a5789eeb0573021bdcd9d17cd169d7448f64f91a87d8
+    goal_body_canonical_sha256: fed643624aa5794a5cea5db2a04f25cc89d829a619e905df946a3616f14ad6c0
+    authorized_parent_commit: c3bbcf07b597220710fda1f7ee335d4b1ccbba5e
+    authorized_parent_tree: b035d7410065f5f17b914365c10a3acc5f66fc6d
+    scope: P1_B0_ADAPTER_OFFLINE_CONFORMANCE_ONLY
+    network: forbidden
+    provider: forbidden
+    secrets: forbidden
+    remote: forbidden
+    production: forbidden
+    main_advance: forbidden_without_founder_gate
+    binding_rule: SHA256_OF_ORDERED_LF_FIELDS_WITH_FINAL_LF
+    binding_sha256: fc014c1c3eecbd51a374a56b5213a08dd98053bb11c670801019846999cdf889
+  next_eligible_action: EXECUTE_CURRENT_TASK_WITHIN_EXACT_OFFLINE_CONFORMANCE_ENVELOPE
 
 task_history:
   aios_p1_001:
@@ -103,6 +123,17 @@ task_history:
       main_advance: forbidden_without_founder_gate
       binding_rule: SHA256_OF_ORDERED_LF_FIELDS_WITH_FINAL_LF
       binding_sha256: e5e490324bf9aa563847b797ce6567d805bc7452d229b063923e566d67939ad3
+  aios_p1_002:
+    task_id: AIOS-P1-002_B0_ADAPTER_CONFORMANCE
+    contract: docs/aios/tasks/P1-002_B0_ADAPTER_CONFORMANCE.yaml
+    task_contract_sha256: c303f045e67dc1f76d51a5789eeb0573021bdcd9d17cd169d7448f64f91a87d8
+    status: EXECUTION_AUTHORIZED_NOT_YET_IMPLEMENTED
+    execution_authorized: true
+    persistent_evidence_runs: 0
+    measurement_retries: 0
+    provider_calls: 0
+    capability_claims: 0
+    claim_boundary: OFFLINE_B0_ADAPTER_CONFORMANCE_ONLY
 
 gate_history:
   - task_id: AIOS-P1-001
@@ -137,9 +168,9 @@ historical_lineages:
 
 p1_boundary:
   allowed_now:
-    - Evaluation Harness implementation under a Founder-authorized Task envelope.
-    - Synthetic conformance fixtures that make no Agent capability claim.
-    - Local build, test, replay, evidence generation and independent review.
+    - AIOS-P1-002 B0 adapter offline conformance under its exact Founder-authorized Task envelope.
+    - Quality-frozen synthetic fixture, prerecorded response transport and no-capability-claim evaluator.
+    - Local implementation, build, test, replay, evidence generation and independent review within owned paths.
   deferred_to_p2_or_later:
     - Repository Intelligence capability improvement and benchmark claims.
   deferred_to_p3_or_later:
@@ -155,6 +186,8 @@ claim_boundary:
   repository_intelligence_quality: UNKNOWN_NOT_YET_BENCHMARKED
   evaluation_harness: IMPLEMENTED_AND_FOUNDER_GATE_ACCEPTED_CONFORMANCE_ONLY
   harness_conformance: PASS
+  b0_adapter_conformance: NOT_YET_EXECUTED
+  b0_live_model_performance: UNKNOWN_NO_PROVIDER_RUNS
   verified_task_success_rate: UNKNOWN_NO_RUNS
   production_ready: false
   trustworthy_software_engineering_agent_proven: false

@@ -44,14 +44,44 @@ ruby -ryaml -rjson -rdigest -rtime -e '
   pilot_task_path = "docs/aios/tasks/P1-003_PILOT_TASK_DATASET_AND_HIDDEN_SET_CURATION.yaml"
   pilot_task_sha = "8dec9d7b12df2e31c62e9ce146938c8a192b4751ce3a9aced3ccd38414fd0aa6"
   pilot_task = YAML.safe_load(File.read(pilot_task_path), aliases: false)
-  authorization_path = "/Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-003-execution-authorization-20260715T125627Z/FOUNDER_EXECUTION_AUTHORIZATION_RECORD.json"
+  authorization_capture_path = "/Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-003-execution-authorization-20260715T125627Z/FOUNDER_EXECUTION_AUTHORIZATION_RECORD.json"
+  authorization_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-003-execution-authorization-20260715T125627Z/FOUNDER_EXECUTION_AUTHORIZATION_RECORD.json"
   authorization_sha = "1082f0a81eb41a1fae9a1767d421bb0fe8f11810bccba197ad18e3e430762a1b"
   abort "P1-003 Founder authorization missing" unless File.file?(authorization_path)
   pilot_authorization = JSON.parse(File.read(authorization_path))
-  parent_binding_path = "/Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-003-execution-authorization-20260715T125627Z/IMPLEMENTATION_PARENT_BINDING_RECORD.json"
+  parent_binding_capture_path = "/Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-003-execution-authorization-20260715T125627Z/IMPLEMENTATION_PARENT_BINDING_RECORD.json"
+  parent_binding_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-003-execution-authorization-20260715T125627Z/IMPLEMENTATION_PARENT_BINDING_RECORD.json"
   parent_binding_sha = "ead76e3b06eb2c509ec0ee66df72af4756be946f5f75f2801d4b75a92a1b6774"
   abort "P1-003 implementation parent binding missing" unless File.file?(parent_binding_path)
   parent_binding = JSON.parse(File.read(parent_binding_path))
+  hidden_public_receipt_path = "/Volumes/lijp/SourceLens-AIOS-P1-003-terminal-relocation-20260715T145418Z/visible/evidence/HIDDEN_OFFSITE_PUBLIC_RECEIPT.json"
+  hidden_public_receipt_sha = "f249c9703de977e513890b0cf592ce52ce050996482e615270d22add4067b8a7"
+  terminal_evidence_paths = {
+    "classification_correction" => [
+      "/Users/lijunpeng/Developer/.sourcelens-audit/p1-003-pilot-dataset-v0.1/integration/P1_003_TERMINAL_CLASSIFICATION_CORRECTION_RECORD.json",
+      "4ec9307bb7b4ea2fc807d8e34769592e8a1bf661c77e4962699f39328cc9ed8c"
+    ],
+    "evidence_manifest_v2" => [
+      "/Users/lijunpeng/Developer/.sourcelens-audit/p1-003-pilot-dataset-v0.1/integration/TERMINAL_EVIDENCE_MANIFEST_V2.json",
+      "76083450ff7da28eef4f264b3cb15c684207af69997b89d3515ae695d6c9ddf1"
+    ],
+    "cto_review" => [
+      "/Users/lijunpeng/Developer/.sourcelens-audit/p1-003-pilot-dataset-v0.1/reviews/cto/TERMINAL_CLASSIFICATION_REVIEW.json",
+      "215788a95673940f221b37242d54eb59177c4c7f9c5595b0affa1368065533c5"
+    ],
+    "quality_review" => [
+      "/Users/lijunpeng/Developer/.sourcelens-audit/p1-003-pilot-dataset-v0.1/reviews/quality/TERMINAL_CLASSIFICATION_REVIEW.json",
+      "f37e71d03c13a9e5ab56f46537a40c3eee58831692dcc28e57c388e6a259da0b"
+    ],
+    "prior_relocation_stop" => [
+      "/Users/lijunpeng/Developer/.sourcelens-audit/p1-003-terminal-relocation-20260715T145418Z/P1_003_TERMINAL_RELOCATION_STOP_RECORD.json",
+      "f125fb6cee24388f0ec4113df2792b5c89ed3f706bd9d3fd9dd0d08e94710908"
+    ],
+    "overall_recovery_stop" => [
+      "/Users/lijunpeng/Developer/.sourcelens-audit/p1-003-terminal-relocation-20260715T145418Z/P1_003_STOPPED_STATE_RECOVERY_AND_CANONICAL_CUTOVER_TERMINAL_STOP_RECORD.json",
+      "fd2b0b1947a9fbbf8f10294106a7abeadd3f42658b6f629fab2dfdd2567d89fa"
+    ]
+  }
   goal_path = "/Users/lijunpeng/.codex/attachments/37671a04-0182-4aff-9f0a-c044c5b3cfa3/goal-objective.md"
   abort "active Goal body missing" unless File.file?(goal_path)
   ledger = YAML.safe_load(File.read("docs/aios/MIGRATION_LEDGER.yaml"), aliases: false)
@@ -68,6 +98,7 @@ ruby -ryaml -rjson -rdigest -rtime -e '
     "evaluation-harness/fixtures/oracle/FREEZE_RECEIPT.json" => "ef7f9807795a685d0aa92fc19248ed0101362861ad7d71e4fdcdbb9df0b840c6",
     "evaluation-harness/recording/aios-p1-001-evidence/evidence-manifest.json" => "e1f735816c18ab7631fa1d0b771deccc25564074350d1d74e67975d187ef3952"
   }
+  terminal_evidence_paths.each_value { |path, expected| expected_hashes[path] = expected }
   expected_hashes.each do |path, expected|
     actual = Digest::SHA256.file(path).hexdigest
     abort "authority hash drift: #{path}" unless actual == expected
@@ -77,65 +108,42 @@ ruby -ryaml -rjson -rdigest -rtime -e '
   abort "phase must be P1" unless truth.dig("project", "current_phase") == "P1"
   abort "P0 must be complete" unless truth.dig("project", "p0_status") == "COMPLETE"
   abort "P1 entry must be authorized" unless truth.dig("project", "p1_entry_status") == "AUTHORIZED"
-  abort "P1 execution authorization state drift" unless truth.dig("project", "p1_execution_status") == "ACTIVE_AUTHORIZED_FOR_IMPLEMENTATION"
+  abort "P1 execution authorization state drift" unless truth.dig("project", "p1_execution_status") == "NO_ACTIVE_TASK_AUTHORIZED"
+  abort "canonical repository drift" unless truth.dig("project", "canonical_repository") == "/Users/lijunpeng/Developer/SourceLens-AIOS"
+  abort "old Desktop repository remains canonical" if truth.dig("project", "canonical_repository") == "/Users/lijunpeng/Desktop/cc/project/SourceLens-AIOS"
+  abort "canonical cutover parent commit drift" unless truth.dig("project", "canonical_cutover_parent_commit") == "65157b6f771c3a95486144ab712c3a99f9d06845"
+  abort "canonical cutover parent tree drift" unless truth.dig("project", "canonical_cutover_parent_tree") == "2409b9abacb276a0e977b65f6dcb0d1bdb6f1d30"
   abort "accepted candidate commit drift" unless truth.dig("project", "accepted_harness_candidate_commit") == "02342da942e291eaa65230f824fcf47eae8f8a30"
   abort "accepted candidate tree drift" unless truth.dig("project", "accepted_harness_candidate_tree") == "1a31751dc1b4d5bc2c9b2c4aaf0aa640528edecc"
-  abort "active Goal state drift" unless truth.dig("goal", "control_plane_status_observed") == "ACTIVE"
-  abort "active Goal canonical hash drift" unless truth.dig("goal", "observed_body_sha256") == "fed643624aa5794a5cea5db2a04f25cc89d829a619e905df946a3616f14ad6c0"
-  abort "active Goal raw hash drift" unless truth.dig("goal", "observed_raw_body_sha256") == "9b59ffc6919473b596f09a96afc1e8684f076f5ac32c6014ac96344a496cd0d8"
-  abort "active Goal canonicalization drift" unless truth.dig("goal", "body_canonicalization") == "UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF"
-  abort "active Goal identity state drift" unless truth.dig("goal", "identity_status") == "FOUNDER_MANUALLY_INSTALLED_AND_ACTIVE"
+  abort "Goal control-plane observation drift" unless truth.dig("goal", "control_plane_status_observed") == "ACTIVE"
+  abort "Goal canonical hash drift" unless truth.dig("goal", "observed_body_sha256") == "fed643624aa5794a5cea5db2a04f25cc89d829a619e905df946a3616f14ad6c0"
+  abort "Goal raw hash drift" unless truth.dig("goal", "observed_raw_body_sha256") == "9b59ffc6919473b596f09a96afc1e8684f076f5ac32c6014ac96344a496cd0d8"
+  abort "Goal canonicalization drift" unless truth.dig("goal", "body_canonicalization") == "UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF"
+  abort "Goal identity state drift" unless truth.dig("goal", "identity_status") == "FOUNDER_MANUALLY_INSTALLED_LONG_TERM_GOAL_IDENTITY_PRESERVED"
+  abort "Goal incorrectly retained Task authority without an active Task" unless truth.dig("goal", "current_task_authority") == "NONE"
   goal_bytes = File.binread(goal_path)
-  abort "active Goal raw bytes drift" unless Digest::SHA256.hexdigest(goal_bytes) == "9b59ffc6919473b596f09a96afc1e8684f076f5ac32c6014ac96344a496cd0d8"
+  abort "Goal raw bytes drift" unless Digest::SHA256.hexdigest(goal_bytes) == "9b59ffc6919473b596f09a96afc1e8684f076f5ac32c6014ac96344a496cd0d8"
   canonical_goal = goal_bytes.force_encoding("UTF-8").gsub("\r\n", "\n").gsub("\r", "\n").sub(/\n*\z/, "\n")
-  abort "active Goal canonical bytes drift" unless canonical_goal.valid_encoding? && Digest::SHA256.hexdigest(canonical_goal) == "fed643624aa5794a5cea5db2a04f25cc89d829a619e905df946a3616f14ad6c0"
+  abort "Goal canonical bytes drift" unless canonical_goal.valid_encoding? && Digest::SHA256.hexdigest(canonical_goal) == "fed643624aa5794a5cea5db2a04f25cc89d829a619e905df946a3616f14ad6c0"
   terminal_task_id = "AIOS-P1-002_B0_ADAPTER_CONFORMANCE"
   terminal_task_path = "docs/aios/tasks/P1-002_B0_ADAPTER_CONFORMANCE.yaml"
   terminal_task_sha = "c303f045e67dc1f76d51a5789eeb0573021bdcd9d17cd169d7448f64f91a87d8"
   pilot_task_id = "AIOS-P1-003_PILOT_TASK_DATASET_AND_HIDDEN_SET_CURATION"
-  abort "Goal task authority drift" unless truth.dig("goal", "current_task_authority") == "#{pilot_task_id}_ACTIVE_AUTHORIZED_FOR_IMPLEMENTATION"
-  abort "current task drift" unless truth.dig("active_work", "current_task") == pilot_task_id
-  abort "current task state drift" unless truth.dig("active_work", "current_task_status") == "ACTIVE_AUTHORIZED_FOR_IMPLEMENTATION"
-  current_contract = truth.dig("active_work", "current_task_contract")
-  abort "current Task Contract binding drift" unless current_contract == {
-    "path" => pilot_task_path,
-    "sha256" => pilot_task_sha,
-    "capture_time_status" => "DRAFT_NOT_AUTHORIZED",
-    "execution_authorized_by_contract_bytes" => false
-  }
-  current_authorization = truth.dig("active_work", "current_execution_authorization")
-  abort "current authorization path drift" unless current_authorization["path"] == authorization_path
-  abort "current authorization hash drift" unless current_authorization["sha256"] == authorization_sha
-  abort "current authorization status drift" unless current_authorization["status"] == "ACTIVE_AUTHORIZED_FOR_IMPLEMENTATION"
-  abort "current authorization scope drift" unless current_authorization["scope"] == "TASK_LEVEL_DELEGATED_EXECUTION"
-  abort "current authorization nonce drift" unless current_authorization["nonce"] == "b56ae67c0aa13fff47c396bc7c064d74a56bb93a6ab27ebeebfb69f9997894c9"
-  abort "current authorization time binding drift" unless current_authorization["effective_from_utc"] == "2026-07-15T12:56:27Z" && current_authorization["expires_at_utc"] == "2026-07-22T12:56:27Z"
-  abort "current authorization parent drift" unless current_authorization["authorized_parent_commit"] == "4fc43418755c6d63b8d6cecd04a23e0101259d65" && current_authorization["authorized_parent_tree"] == "d9475b5d07fb80dd981bfb49e067edffba2d5b86"
-  implementation_binding = truth.dig("active_work", "implementation_parent_binding")
-  abort "implementation parent binding drift" unless implementation_binding == {
-    "path" => parent_binding_path,
-    "sha256" => parent_binding_sha,
-    "status" => "ACTIVE_AFTER_CANONICAL_TRUTH_ACTIVATION",
-    "parent_authorization_sha256" => authorization_sha,
-    "execution_nonce" => "b56ae67c0aa13fff47c396bc7c064d74a56bb93a6ab27ebeebfb69f9997894c9",
-    "effective_from_utc" => "2026-07-15T12:56:27Z",
-    "expires_at_utc" => "2026-07-22T12:56:27Z",
-    "implementation_parent_commit" => "b9cbbf64b7fa98e7dfd30f752085f40104571957",
-    "implementation_parent_tree" => "0580f4de27e4c6b18dbb7f170ba659e2b38ffba2",
-    "implementation_branch" => "task/AIOS-P1-003-pilot-dataset-curation",
-    "implementation_worktree" => "/Users/lijunpeng/Desktop/cc/project/.sourcelens-worktrees/AIOS-P1-003-pilot-dataset-curation",
-    "scope_expansion" => false,
-    "main_advance" => false,
-    "baseline_execution" => false
-  }
-  abort "next action drift" unless truth.dig("active_work", "next_eligible_action") == "CREATE_EXACT_P1_003_TASK_BRANCH_AND_WORKTREE"
+  abort "current Task must be NONE" unless truth.dig("active_work", "current_task") == "NONE" && truth.dig("active_work", "current_task_status") == "NONE"
+  abort "current Task Contract must be NONE" unless truth.dig("active_work", "current_task_contract") == "NONE"
+  abort "current execution authorization must be NONE" unless truth.dig("active_work", "current_execution_authorization") == "NONE"
+  abort "next action drift" unless truth.dig("active_work", "next_eligible_action") == "SELECT_NEXT_P1_REAL_ENGINEERING_TASK_AFTER_CUTOVER_FOUNDER_GATE"
   abort "P1 implementation boundary drift" unless truth.dig("p1_boundary", "allowed_now") == [
-    "The exact P1-003 Task-level Founder Authorization and append-only implementation-parent binding are active within their bound time window.",
-    "One exact Task branch and one exact Task worktree may be created from implementation parent b9cbbf64b7fa98e7dfd30f752085f40104571957 / 0580f4de27e4c6b18dbb7f170ba659e2b38ffba2.",
-    "Dataset curation, anonymous read-only allowlisted acquisition, offline verification, Evidence, independent review and offsite custody are authorized only within the exact Task Contract, Founder Authorization, budget and Stop Conditions.",
-    "Canonical main advance and B0/B1/B2/A0 baseline execution remain unauthorized."
+    "No P1 Task is currently authorized for execution.",
+    "The long-term Goal control plane is active; selecting and executing the next real P1 engineering Task still requires a separate exact Task Contract and Founder authorization.",
+    "P1-003 is terminal, its hidden custody is quarantined historical risk, and it cannot be resumed, retried, backfilled, replaced or represented as PASS.",
+    "B0/B1/B2/A0 execution, P2 entry and any canonical main advance outside a separately authorized Founder Gate remain unauthorized."
   ]
-  abort "P1-003 dataset claim boundary drift" unless truth.dig("claim_boundary", "p1_pilot_task_dataset") == "ACTIVE_AUTHORIZED_FOR_IMPLEMENTATION_NO_DATASET_OR_RUNS_YET" && truth.dig("claim_boundary", "p1_pilot_task_dataset_claims") == 0
+  abort "P1-003 dataset claim boundary drift" unless truth.dig("claim_boundary", "p1_pilot_task_dataset") == "TERMINAL_STOPPED_NOT_ACCEPTED" && truth.dig("claim_boundary", "p1_pilot_task_dataset_claims") == 0
+  abort "P1-003 eligible task claim drift" unless truth.dig("claim_boundary", "p1_pilot_task_dataset_eligible_tasks") == "0_OF_8"
+  abort "P1-003 Evidence integrity drift" unless truth.dig("claim_boundary", "p1_pilot_task_acquisition_evidence_integrity") == "FAIL"
+  abort "P1-003 exact closure falsely claimed" unless truth.dig("claim_boundary", "p1_pilot_task_exact_request_and_byte_closure") == "UNKNOWN_NOT_PASS"
+  abort "P1-003 hidden custody quarantine drift" unless truth.dig("claim_boundary", "p1_pilot_task_hidden_custody") == "QUARANTINED_HISTORICAL_RISK"
 
   abort "P1-003 Task id drift" unless pilot_task["task_id"] == pilot_task_id
   abort "P1-003 phase drift" unless pilot_task["phase"] == "P1"
@@ -164,9 +172,7 @@ ruby -ryaml -rjson -rdigest -rtime -e '
   abort "P1-003 authorization authority binding drift" unless pilot_authorization["constitution_sha256"] == "040196be12532b8c3661665995d3e79a28d268a1ecc991623380f0939f468485" && pilot_authorization["master_execution_protocol_sha256"] == "47c444c50c7521a7515dfb2fbee0c8c81cc72b32c42eba549d080eeb0c1bcedf" && pilot_authorization["evaluation_protocol_sha256"] == "da029143561fbb3c213d4a358b25e085542c6cd26ae8150a53cbb5998177eed8"
   abort "P1-003 authorization parent drift" unless pilot_authorization["authorized_parent_commit"] == "4fc43418755c6d63b8d6cecd04a23e0101259d65" && pilot_authorization["authorized_parent_tree"] == "d9475b5d07fb80dd981bfb49e067edffba2d5b86"
   abort "P1-003 authorization nonce drift" unless pilot_authorization["execution_nonce"] == "b56ae67c0aa13fff47c396bc7c064d74a56bb93a6ab27ebeebfb69f9997894c9"
-  effective_from = Time.iso8601(pilot_authorization.fetch("effective_from_utc"))
-  expires_at = Time.iso8601(pilot_authorization.fetch("expires_at_utc"))
-  abort "P1-003 authorization window drift" unless pilot_authorization["effective_from_utc"] == "2026-07-15T12:56:27Z" && pilot_authorization["expires_at_utc"] == "2026-07-22T12:56:27Z" && effective_from <= Time.now.utc && Time.now.utc < expires_at
+  abort "P1-003 capture-time authorization window drift" unless pilot_authorization["effective_from_utc"] == "2026-07-15T12:56:27Z" && pilot_authorization["expires_at_utc"] == "2026-07-22T12:56:27Z"
   expected_scope = {
     "governance_only_pre_execution_sync" => true,
     "one_task_branch" => "task/AIOS-P1-003-pilot-dataset-curation",
@@ -204,7 +210,7 @@ ruby -ryaml -rjson -rdigest -rtime -e '
     "authority_source_message" => "\u6388\u6743",
     "authority_source_message_sha256" => "fce3771b1b29f5b8c466a7b4e76e01f1ab8436b481c706af4563f5819cc1e017",
     "created_at_utc" => "2026-07-15T13:09:19Z",
-    "parent_authorization_record" => authorization_path,
+    "parent_authorization_record" => authorization_capture_path,
     "parent_authorization_sha256" => authorization_sha,
     "task_id" => pilot_task_id,
     "task_contract_sha256" => pilot_task_sha,
@@ -224,6 +230,101 @@ ruby -ryaml -rjson -rdigest -rtime -e '
     "drift_effect" => "STOP_BEFORE_BRANCH_OR_WORKTREE_CREATION"
   }
   abort "P1-003 implementation parent record drift" unless parent_binding == expected_parent_binding
+
+  pilot_history = truth.dig("task_history", "aios_p1_003")
+  abort "P1-003 terminal history missing" unless pilot_history.is_a?(Hash)
+  expected_pilot_history = {
+    "task_id" => pilot_task_id,
+    "contract" => pilot_task_path,
+    "task_contract_sha256" => pilot_task_sha,
+    "status" => "TERMINAL_STOPPED_BEFORE_INTEGRATION_ACQUISITION_EVIDENCE_INTEGRITY_FAILURE",
+    "execution_authorized" => false,
+    "original_execution_authorization_status" => "CONSUMED_AND_TERMINATED",
+    "curation_eligible_tasks_completed" => 0,
+    "curation_eligible_tasks_required" => 8,
+    "retained_complete_request_records" => 37,
+    "conservative_actual_request_minimum" => 39,
+    "exact_actual_request_population" => "UNKNOWN",
+    "exact_total_inbound_bytes" => "UNKNOWN",
+    "evidence_integrity" => "FAIL",
+    "candidate_status" => "NOT_CREATED",
+    "final_candidate_review_status" => "NOT_PERFORMED",
+    "founder_gate_status" => "NOT_REACHED",
+    "main_advanced" => false,
+    "resume_retry_successor_allowed" => false
+  }
+  expected_pilot_history.each do |field, expected|
+    abort "P1-003 terminal history drift: #{field}" unless pilot_history[field] == expected
+  end
+
+  pilot_authorization_history = pilot_history.fetch("authorization_history")
+  abort "P1-003 capture-time authorization locator rewritten" unless pilot_authorization_history["original_capture_time_authorization_path"] == authorization_capture_path
+  abort "P1-003 current authorization custody locator drift" unless pilot_authorization_history["current_custody_authorization_path"] == authorization_path
+  abort "P1-003 authorization history hash drift" unless pilot_authorization_history["authorization_sha256"] == authorization_sha
+  abort "P1-003 capture-time parent binding locator rewritten" unless pilot_authorization_history["original_capture_time_parent_binding_path"] == parent_binding_capture_path
+  abort "P1-003 current parent binding custody locator drift" unless pilot_authorization_history["current_custody_parent_binding_path"] == parent_binding_path
+  abort "P1-003 parent binding history hash drift" unless pilot_authorization_history["parent_binding_sha256"] == parent_binding_sha
+  abort "P1-003 execution nonce not retired" unless pilot_authorization_history["execution_nonce_status"] == "RETIRED"
+
+  pilot_evidence = pilot_history.fetch("terminal_evidence")
+  expected_pilot_evidence_fields = {
+    "classification_correction_path" => terminal_evidence_paths.fetch("classification_correction")[0],
+    "classification_correction_sha256" => terminal_evidence_paths.fetch("classification_correction")[1],
+    "evidence_manifest_v2_path" => terminal_evidence_paths.fetch("evidence_manifest_v2")[0],
+    "evidence_manifest_v2_sha256" => terminal_evidence_paths.fetch("evidence_manifest_v2")[1],
+    "cto_terminal_classification_review_path" => terminal_evidence_paths.fetch("cto_review")[0],
+    "cto_terminal_classification_review_sha256" => terminal_evidence_paths.fetch("cto_review")[1],
+    "quality_terminal_classification_review_path" => terminal_evidence_paths.fetch("quality_review")[0],
+    "quality_terminal_classification_review_sha256" => terminal_evidence_paths.fetch("quality_review")[1],
+    "prior_relocation_stop_path" => terminal_evidence_paths.fetch("prior_relocation_stop")[0],
+    "prior_relocation_stop_sha256" => terminal_evidence_paths.fetch("prior_relocation_stop")[1],
+    "overall_recovery_stop_path" => terminal_evidence_paths.fetch("overall_recovery_stop")[0],
+    "overall_recovery_stop_sha256" => terminal_evidence_paths.fetch("overall_recovery_stop")[1]
+  }
+  expected_pilot_evidence_fields.each do |field, expected|
+    abort "P1-003 terminal Evidence binding drift: #{field}" unless pilot_evidence[field] == expected
+  end
+
+  correction = JSON.parse(File.read(terminal_evidence_paths.fetch("classification_correction")[0]))
+  manifest_v2 = JSON.parse(File.read(terminal_evidence_paths.fetch("evidence_manifest_v2")[0]))
+  cto_review = JSON.parse(File.read(terminal_evidence_paths.fetch("cto_review")[0]))
+  quality_review = JSON.parse(File.read(terminal_evidence_paths.fetch("quality_review")[0]))
+  prior_relocation_stop = JSON.parse(File.read(terminal_evidence_paths.fetch("prior_relocation_stop")[0]))
+  overall_recovery_stop = JSON.parse(File.read(terminal_evidence_paths.fetch("overall_recovery_stop")[0]))
+  exact_terminal_status = "TERMINAL_STOPPED_BEFORE_INTEGRATION_ACQUISITION_EVIDENCE_INTEGRITY_FAILURE"
+  abort "P1-003 correction status drift" unless correction["corrected_status"] == exact_terminal_status && correction["task_remains_terminal"] == true
+  population = correction.dig("correct_primary_reason", "population")
+  abort "P1-003 retained request population drift" unless population["retained_complete_request_records"] == 37 && population["conservative_actual_request_minimum"] == 39
+  abort "P1-003 unknown request/byte boundary lost" unless population["exact_actual_request_population"] == "UNKNOWN" && population["exact_total_inbound_bytes"] == "UNKNOWN"
+  completion = correction.fetch("completion_projection")
+  abort "P1-003 candidate or gate falsely claimed" unless completion["curation_eligible_tasks_completed"] == 0 && completion["curation_eligible_tasks_required"] == 8 && completion["candidate"] == "NOT_CREATED" && completion["founder_gate"] == "NOT_PERFORMED" && completion["main_advance"] == false
+  abort "P1-003 terminal manifest status drift" unless manifest_v2["status"] == exact_terminal_status
+  abort "P1-003 CTO terminal classification drift" unless cto_review.dig("aggregate_decision", "supported_terminal_classification") == "ACQUISITION_EVIDENCE_INTEGRITY_FAILURE" && cto_review.dig("aggregate_decision", "task_should_remain_terminal_stopped") == true && cto_review["status"] == "NOT_A_FINAL_CANDIDATE_REVIEW"
+  abort "P1-003 Quality terminal classification drift" unless quality_review.dig("aggregate_verdict", "correct_terminal_classification") == "ACQUISITION_EVIDENCE_INTEGRITY_FAILURE" && quality_review.dig("aggregate_verdict", "task_terminal_state") == "TERMINAL_STOP_REQUIRED" && quality_review["status"] == "NOT_A_FINAL_CANDIDATE_REVIEW"
+  abort "prior relocation Stop Record drift" unless prior_relocation_stop["status"] == "TERMINAL_STOPPED_AFTER_INTEGRATION_CONTEXT_HIDDEN_ROOT_DIRECTORY_ENUMERATION_BOUNDARY_BREACH"
+  abort "overall recovery Stop Record task state drift" unless overall_recovery_stop["task_state"] == exact_terminal_status
+  abort "overall recovery Stop Record terminal state drift" unless overall_recovery_stop["recovery_operation_state"] == "TERMINAL_STOPPED_HIDDEN_OFFSITE_RESTORE_MISMATCH"
+  hidden_stop_evidence = overall_recovery_stop.fetch("decisive_non_pass_evidence")
+  abort "overall recovery Stop Record public receipt locator drift" unless hidden_stop_evidence["public_aggregate_receipt_path"] == hidden_public_receipt_path && hidden_stop_evidence["public_aggregate_receipt_sha256"] == hidden_public_receipt_sha
+  abort "overall recovery Stop Record restore status drift" unless hidden_stop_evidence["restore_verification"] == "NON_PASS_AGGREGATE_RESTORE_MISMATCH" && hidden_stop_evidence["pass_receipt_generated"] == false && hidden_stop_evidence["retry_count"] == 0
+  abort "overall recovery Stop Record hidden access claim drift" unless hidden_stop_evidence["hidden_details_accessed_by_primary_agent"] == false
+
+  hidden_custody = pilot_history.fetch("hidden_custody")
+  abort "hidden custody quarantine state drift" unless hidden_custody["status"] == "QUARANTINED_HISTORICAL_RISK"
+  abort "hidden public receipt locator drift" unless hidden_custody["public_receipt_path"] == hidden_public_receipt_path && hidden_custody["public_receipt_sha256"] == hidden_public_receipt_sha
+  abort "hidden custody became a PASS" unless hidden_custody["restore_verification"] == "NON_PASS_AGGREGATE_RESTORE_MISMATCH" && hidden_custody["pass_receipt_generated"] == false && hidden_custody["retry_count"] == 0
+  abort "primary Agent hidden access was authorized" unless hidden_custody["hidden_contents_or_paths_authorized_for_primary_agent"] == false
+  abort "generic custodian artifact-name observation was erased" unless hidden_custody["generic_custodian_artifact_names_observed"] == true
+  abort "hidden dataset identity or content access was falsely recorded" unless hidden_custody["hidden_dataset_identity_or_content_accessed"] == false
+  abort "hidden private file content access was falsely recorded" unless hidden_custody["hidden_private_file_contents_read"] == false
+
+  cutover = pilot_history.fetch("canonical_cutover")
+  abort "P1-003 canonical cutover repository drift" unless cutover["repository"] == "/Users/lijunpeng/Developer/SourceLens-AIOS"
+  abort "P1-003 canonical cutover parent drift" unless cutover["parent_commit"] == "65157b6f771c3a95486144ab712c3a99f9d06845" && cutover["parent_tree"] == "2409b9abacb276a0e977b65f6dcb0d1bdb6f1d30"
+  abort "old Desktop repository remains canonical" unless cutover["old_desktop_repository_is_canonical"] == false
+  abort "new canonical Task branch count drift" unless cutover["new_canonical_task_branch_count"] == 0
+  abort "new canonical worktree count drift" unless cutover["new_canonical_worktree_count"] == 1
+  abort "old Desktop cleanup policy drift" unless cutover["old_desktop_cleanup_policy"] == "REMOVE_ONLY_AFTER_ALL_CUTOVER_CHECKS_PASS"
 
   completed = truth.dig("task_history", "aios_p1_001")
   abort "P1-001 completion history missing" unless completed.is_a?(Hash)
@@ -313,6 +414,11 @@ ruby -ryaml -rjson -rdigest -rtime -e '
   abort "production readiness falsely claimed" unless truth.dig("claim_boundary", "production_ready") == false
   abort "Agent capability falsely claimed" unless truth.dig("claim_boundary", "trustworthy_software_engineering_agent_proven") == false
   abort "historical lineages reopened" unless truth.dig("historical_lineages", "continuation_allowed") == false
+  closed_lineages = truth.dig("historical_lineages", "names") || []
+  %w[PRE PRE_DISCOVERY BOUND_EXP MCF EXECUTION_CARRIER SUPERVISOR_AND_ROOT_CUSTODY].each do |lineage|
+    abort "historical lineage missing from closed set: #{lineage}" unless closed_lineages.include?(lineage)
+  end
+  abort "historical lineage status drift" unless truth.dig("historical_lineages", "status") == "CLOSED_AND_EXCLUDED_FROM_DEFAULT_CONTEXT"
 
   terminal_history = truth.dig("task_history", "aios_p1_002")
   abort "P1-002 terminal history missing" unless terminal_history.is_a?(Hash)
@@ -486,27 +592,14 @@ if git grep -n -E 'AIOS-P1-001 Contract Freeze|P1-001 execution: NOT AUTHORIZED'
   fail "product UI mirrors project control-plane state"
 fi
 
-authorized_task_branch="task/AIOS-P1-003-pilot-dataset-curation"
 task_branches="$(git for-each-ref --format='%(refname:short)' refs/heads/task/)"
 task_branch_count="$(printf '%s\n' "$task_branches" | grep -c . || true)"
-[[ "$task_branch_count" -le 1 ]] || fail "more than one task branch exists"
-if [[ "$task_branch_count" -eq 1 ]]; then
-  [[ "$task_branches" == "$authorized_task_branch" ]] || fail "unauthorized task branch exists: $task_branches"
-  git merge-base --is-ancestor b9cbbf64b7fa98e7dfd30f752085f40104571957 "$authorized_task_branch" || fail "authorized task branch is not descended from bound implementation parent"
-fi
+[[ "$task_branch_count" -eq 0 ]] || fail "no Task is authorized but local Task branch exists: $task_branches"
 
-authorized_task_worktree="/Users/lijunpeng/Desktop/cc/project/.sourcelens-worktrees/AIOS-P1-003-pilot-dataset-curation"
 worktree_paths="$(git worktree list --porcelain | sed -n 's/^worktree //p')"
 worktree_count="$(printf '%s\n' "$worktree_paths" | grep -c . || true)"
-[[ "$worktree_count" -ge 1 && "$worktree_count" -le 2 ]] || fail "worktree population exceeds canonical plus one authorized task worktree"
-while IFS= read -r worktree_path; do
-  [[ -n "$worktree_path" ]] || continue
-  [[ "$worktree_path" == "$ROOT_DIR" || "$worktree_path" == "$authorized_task_worktree" ]] || fail "unauthorized worktree exists: $worktree_path"
-done <<< "$worktree_paths"
-if [[ "$worktree_count" -eq 2 ]]; then
-  printf '%s\n' "$worktree_paths" | grep -Fxq "$authorized_task_worktree" || fail "second worktree is not the authorized P1-003 worktree"
-  [[ "$task_branches" == "$authorized_task_branch" ]] || fail "authorized P1-003 worktree exists without its exact task branch"
-fi
+[[ "$worktree_count" -eq 1 ]] || fail "no Task is authorized but worktree population is not exactly one canonical worktree"
+[[ "$worktree_paths" == "$ROOT_DIR" ]] || fail "sole worktree is not the canonical repository: $worktree_paths"
 
 git diff --check || fail "git whitespace validation failed"
 

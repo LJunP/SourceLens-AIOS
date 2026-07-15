@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-15T13:10:55Z"
-verification_scope: AIOS_P1_003_IMPLEMENTATION_AUTHORITY_ACTIVATION
+last_verified_at: "2026-07-15T17:10:03Z"
+verification_scope: P1_003_TERMINAL_STATE_AND_VISIBLE_CANONICAL_CUTOVER
 
 authority:
   founder: Human Founder
@@ -28,9 +28,9 @@ goal:
   observed_body_sha256: fed643624aa5794a5cea5db2a04f25cc89d829a619e905df946a3616f14ad6c0
   observed_raw_body_sha256: 9b59ffc6919473b596f09a96afc1e8684f076f5ac32c6014ac96344a496cd0d8
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
-  identity_status: FOUNDER_MANUALLY_INSTALLED_AND_ACTIVE
-  current_task_authority: AIOS-P1-003_PILOT_TASK_DATASET_AND_HIDDEN_SET_CURATION_ACTIVE_AUTHORIZED_FOR_IMPLEMENTATION
-  note: The active control-plane body equals the Founder-approved body after canonical trailing-LF normalization.
+  identity_status: FOUNDER_MANUALLY_INSTALLED_LONG_TERM_GOAL_IDENTITY_PRESERVED
+  current_task_authority: NONE
+  note: The Founder-approved long-term Goal body is the current active long-term execution authority. No P1 Task is active until a separate exact Task Contract receives Founder authorization.
 
 project:
   name: SourceLens AIOS
@@ -40,8 +40,11 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  p1_execution_status: ACTIVE_AUTHORIZED_FOR_IMPLEMENTATION
+  p1_execution_status: NO_ACTIVE_TASK_AUTHORIZED
   canonical_branch: main
+  canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
+  canonical_cutover_parent_commit: 65157b6f771c3a95486144ab712c3a99f9d06845
+  canonical_cutover_parent_tree: 2409b9abacb276a0e977b65f6dcb0d1bdb6f1d30
   accepted_harness_candidate_commit: 02342da942e291eaa65230f824fcf47eae8f8a30
   accepted_harness_candidate_tree: 1a31751dc1b4d5bc2c9b2c4aaf0aa640528edecc
   realignment_parent_commit: f3fa42221de95381d98fb3c5a966bf33e99e4d21
@@ -56,39 +59,11 @@ p0_baseline:
   online_verification_status: ARCHIVED_NOT_ON_ACTIVE_PATH
 
 active_work:
-  current_task: AIOS-P1-003_PILOT_TASK_DATASET_AND_HIDDEN_SET_CURATION
-  current_task_status: ACTIVE_AUTHORIZED_FOR_IMPLEMENTATION
-  current_task_contract:
-    path: docs/aios/tasks/P1-003_PILOT_TASK_DATASET_AND_HIDDEN_SET_CURATION.yaml
-    sha256: 8dec9d7b12df2e31c62e9ce146938c8a192b4751ce3a9aced3ccd38414fd0aa6
-    capture_time_status: DRAFT_NOT_AUTHORIZED
-    execution_authorized_by_contract_bytes: false
-  current_execution_authorization:
-    path: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-003-execution-authorization-20260715T125627Z/FOUNDER_EXECUTION_AUTHORIZATION_RECORD.json
-    sha256: 1082f0a81eb41a1fae9a1767d421bb0fe8f11810bccba197ad18e3e430762a1b
-    status: ACTIVE_AUTHORIZED_FOR_IMPLEMENTATION
-    scope: TASK_LEVEL_DELEGATED_EXECUTION
-    nonce: b56ae67c0aa13fff47c396bc7c064d74a56bb93a6ab27ebeebfb69f9997894c9
-    effective_from_utc: "2026-07-15T12:56:27Z"
-    expires_at_utc: "2026-07-22T12:56:27Z"
-    authorized_parent_commit: 4fc43418755c6d63b8d6cecd04a23e0101259d65
-    authorized_parent_tree: d9475b5d07fb80dd981bfb49e067edffba2d5b86
-  implementation_parent_binding:
-    path: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-003-execution-authorization-20260715T125627Z/IMPLEMENTATION_PARENT_BINDING_RECORD.json
-    sha256: ead76e3b06eb2c509ec0ee66df72af4756be946f5f75f2801d4b75a92a1b6774
-    status: ACTIVE_AFTER_CANONICAL_TRUTH_ACTIVATION
-    parent_authorization_sha256: 1082f0a81eb41a1fae9a1767d421bb0fe8f11810bccba197ad18e3e430762a1b
-    execution_nonce: b56ae67c0aa13fff47c396bc7c064d74a56bb93a6ab27ebeebfb69f9997894c9
-    effective_from_utc: "2026-07-15T12:56:27Z"
-    expires_at_utc: "2026-07-22T12:56:27Z"
-    implementation_parent_commit: b9cbbf64b7fa98e7dfd30f752085f40104571957
-    implementation_parent_tree: 0580f4de27e4c6b18dbb7f170ba659e2b38ffba2
-    implementation_branch: task/AIOS-P1-003-pilot-dataset-curation
-    implementation_worktree: /Users/lijunpeng/Desktop/cc/project/.sourcelens-worktrees/AIOS-P1-003-pilot-dataset-curation
-    scope_expansion: false
-    main_advance: false
-    baseline_execution: false
-  next_eligible_action: CREATE_EXACT_P1_003_TASK_BRANCH_AND_WORKTREE
+  current_task: NONE
+  current_task_status: NONE
+  current_task_contract: NONE
+  current_execution_authorization: NONE
+  next_eligible_action: SELECT_NEXT_P1_REAL_ENGINEERING_TASK_AFTER_CUTOVER_FOUNDER_GATE
 
 task_history:
   aios_p1_001:
@@ -167,6 +142,66 @@ task_history:
       git_bundle_custody_receipt_sha256: 904835d27eeb333836c32ec5f662f7aa5fe2bd889266482097a8f6ee3094d7dc
       task_branches_removed: true
       task_worktrees_removed: true
+  aios_p1_003:
+    task_id: AIOS-P1-003_PILOT_TASK_DATASET_AND_HIDDEN_SET_CURATION
+    contract: docs/aios/tasks/P1-003_PILOT_TASK_DATASET_AND_HIDDEN_SET_CURATION.yaml
+    task_contract_sha256: 8dec9d7b12df2e31c62e9ce146938c8a192b4751ce3a9aced3ccd38414fd0aa6
+    status: TERMINAL_STOPPED_BEFORE_INTEGRATION_ACQUISITION_EVIDENCE_INTEGRITY_FAILURE
+    execution_authorized: false
+    original_execution_authorization_status: CONSUMED_AND_TERMINATED
+    curation_eligible_tasks_completed: 0
+    curation_eligible_tasks_required: 8
+    retained_complete_request_records: 37
+    conservative_actual_request_minimum: 39
+    exact_actual_request_population: UNKNOWN
+    exact_total_inbound_bytes: UNKNOWN
+    evidence_integrity: FAIL
+    candidate_status: NOT_CREATED
+    final_candidate_review_status: NOT_PERFORMED
+    founder_gate_status: NOT_REACHED
+    main_advanced: false
+    resume_retry_successor_allowed: false
+    authorization_history:
+      original_capture_time_authorization_path: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-003-execution-authorization-20260715T125627Z/FOUNDER_EXECUTION_AUTHORIZATION_RECORD.json
+      current_custody_authorization_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-003-execution-authorization-20260715T125627Z/FOUNDER_EXECUTION_AUTHORIZATION_RECORD.json
+      authorization_sha256: 1082f0a81eb41a1fae9a1767d421bb0fe8f11810bccba197ad18e3e430762a1b
+      original_capture_time_parent_binding_path: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-003-execution-authorization-20260715T125627Z/IMPLEMENTATION_PARENT_BINDING_RECORD.json
+      current_custody_parent_binding_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-003-execution-authorization-20260715T125627Z/IMPLEMENTATION_PARENT_BINDING_RECORD.json
+      parent_binding_sha256: ead76e3b06eb2c509ec0ee66df72af4756be946f5f75f2801d4b75a92a1b6774
+      execution_nonce_status: RETIRED
+    terminal_evidence:
+      classification_correction_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-003-pilot-dataset-v0.1/integration/P1_003_TERMINAL_CLASSIFICATION_CORRECTION_RECORD.json
+      classification_correction_sha256: 4ec9307bb7b4ea2fc807d8e34769592e8a1bf661c77e4962699f39328cc9ed8c
+      evidence_manifest_v2_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-003-pilot-dataset-v0.1/integration/TERMINAL_EVIDENCE_MANIFEST_V2.json
+      evidence_manifest_v2_sha256: 76083450ff7da28eef4f264b3cb15c684207af69997b89d3515ae695d6c9ddf1
+      cto_terminal_classification_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-003-pilot-dataset-v0.1/reviews/cto/TERMINAL_CLASSIFICATION_REVIEW.json
+      cto_terminal_classification_review_sha256: 215788a95673940f221b37242d54eb59177c4c7f9c5595b0affa1368065533c5
+      quality_terminal_classification_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-003-pilot-dataset-v0.1/reviews/quality/TERMINAL_CLASSIFICATION_REVIEW.json
+      quality_terminal_classification_review_sha256: f37e71d03c13a9e5ab56f46537a40c3eee58831692dcc28e57c388e6a259da0b
+      prior_relocation_stop_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-003-terminal-relocation-20260715T145418Z/P1_003_TERMINAL_RELOCATION_STOP_RECORD.json
+      prior_relocation_stop_sha256: f125fb6cee24388f0ec4113df2792b5c89ed3f706bd9d3fd9dd0d08e94710908
+      overall_recovery_stop_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-003-terminal-relocation-20260715T145418Z/P1_003_STOPPED_STATE_RECOVERY_AND_CANONICAL_CUTOVER_TERMINAL_STOP_RECORD.json
+      overall_recovery_stop_sha256: fd2b0b1947a9fbbf8f10294106a7abeadd3f42658b6f629fab2dfdd2567d89fa
+    hidden_custody:
+      status: QUARANTINED_HISTORICAL_RISK
+      public_receipt_path: /Volumes/lijp/SourceLens-AIOS-P1-003-terminal-relocation-20260715T145418Z/visible/evidence/HIDDEN_OFFSITE_PUBLIC_RECEIPT.json
+      public_receipt_sha256: f249c9703de977e513890b0cf592ce52ce050996482e615270d22add4067b8a7
+      restore_verification: NON_PASS_AGGREGATE_RESTORE_MISMATCH
+      pass_receipt_generated: false
+      retry_count: 0
+      hidden_contents_or_paths_authorized_for_primary_agent: false
+      generic_custodian_artifact_names_observed: true
+      hidden_dataset_identity_or_content_accessed: false
+      hidden_private_file_contents_read: false
+      claim_boundary: A non-recursive visible-audit-root intent check exposed generic hidden-custodian artifact names but no hidden dataset identity or content and no hidden private file contents; this observation is not proof of hidden content leakage, and hidden custody is not a current canonical input.
+    canonical_cutover:
+      repository: /Users/lijunpeng/Developer/SourceLens-AIOS
+      parent_commit: 65157b6f771c3a95486144ab712c3a99f9d06845
+      parent_tree: 2409b9abacb276a0e977b65f6dcb0d1bdb6f1d30
+      old_desktop_repository_is_canonical: false
+      new_canonical_task_branch_count: 0
+      new_canonical_worktree_count: 1
+      old_desktop_cleanup_policy: REMOVE_ONLY_AFTER_ALL_CUTOVER_CHECKS_PASS
 
 gate_history:
   - task_id: AIOS-P1-001
@@ -201,10 +236,10 @@ historical_lineages:
 
 p1_boundary:
   allowed_now:
-    - The exact P1-003 Task-level Founder Authorization and append-only implementation-parent binding are active within their bound time window.
-    - One exact Task branch and one exact Task worktree may be created from implementation parent b9cbbf64b7fa98e7dfd30f752085f40104571957 / 0580f4de27e4c6b18dbb7f170ba659e2b38ffba2.
-    - Dataset curation, anonymous read-only allowlisted acquisition, offline verification, Evidence, independent review and offsite custody are authorized only within the exact Task Contract, Founder Authorization, budget and Stop Conditions.
-    - Canonical main advance and B0/B1/B2/A0 baseline execution remain unauthorized.
+    - No P1 Task is currently authorized for execution.
+    - The long-term Goal control plane is active; selecting and executing the next real P1 engineering Task still requires a separate exact Task Contract and Founder authorization.
+    - P1-003 is terminal, its hidden custody is quarantined historical risk, and it cannot be resumed, retried, backfilled, replaced or represented as PASS.
+    - B0/B1/B2/A0 execution, P2 entry and any canonical main advance outside a separately authorized Founder Gate remain unauthorized.
   deferred_to_p2_or_later:
     - Repository Intelligence capability improvement and benchmark claims.
   deferred_to_p3_or_later:
@@ -222,9 +257,13 @@ claim_boundary:
   harness_conformance: PASS
   b0_adapter_conformance: TERMINAL_STOPPED_NOT_ACCEPTED
   b0_live_model_performance: UNKNOWN_NO_PROVIDER_RUNS
-  p1_pilot_task_dataset: ACTIVE_AUTHORIZED_FOR_IMPLEMENTATION_NO_DATASET_OR_RUNS_YET
+  p1_pilot_task_dataset: TERMINAL_STOPPED_NOT_ACCEPTED
   p1_pilot_task_dataset_version: p1-pilot-task-dataset-v0.1
   p1_pilot_task_dataset_claims: 0
+  p1_pilot_task_dataset_eligible_tasks: 0_OF_8
+  p1_pilot_task_acquisition_evidence_integrity: FAIL
+  p1_pilot_task_exact_request_and_byte_closure: UNKNOWN_NOT_PASS
+  p1_pilot_task_hidden_custody: QUARANTINED_HISTORICAL_RISK
   verified_task_success_rate: UNKNOWN_NO_RUNS
   production_ready: false
   trustworthy_software_engineering_agent_proven: false

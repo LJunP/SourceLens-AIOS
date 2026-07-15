@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-15T10:01:52Z"
-verification_scope: AIOS_P1_002_B0_ADAPTER_CONFORMANCE_AUTHORIZATION_SYNC
+last_verified_at: "2026-07-15T12:02:53Z"
+verification_scope: AIOS_P1_002_TERMINAL_SYNC_AND_CLEANUP
 
 authority:
   founder: Human Founder
@@ -29,7 +29,7 @@ goal:
   observed_raw_body_sha256: 9b59ffc6919473b596f09a96afc1e8684f076f5ac32c6014ac96344a496cd0d8
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_AND_ACTIVE
-  current_task_authority: AIOS-P1-002_B0_ADAPTER_CONFORMANCE
+  current_task_authority: NONE
   note: The active control-plane body equals the Founder-approved body after canonical trailing-LF normalization.
 
 project:
@@ -40,7 +40,7 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  p1_execution_status: TASK_AUTHORIZED
+  p1_execution_status: NO_ACTIVE_TASK_AUTHORIZED
   canonical_branch: main
   accepted_harness_candidate_commit: 02342da942e291eaa65230f824fcf47eae8f8a30
   accepted_harness_candidate_tree: 1a31751dc1b4d5bc2c9b2c4aaf0aa640528edecc
@@ -56,32 +56,10 @@ p0_baseline:
   online_verification_status: ARCHIVED_NOT_ON_ACTIVE_PATH
 
 active_work:
-  current_task: AIOS-P1-002_B0_ADAPTER_CONFORMANCE
-  current_task_contract:
-    path: docs/aios/tasks/P1-002_B0_ADAPTER_CONFORMANCE.yaml
-    sha256: c303f045e67dc1f76d51a5789eeb0573021bdcd9d17cd169d7448f64f91a87d8
-    status: EXECUTION_AUTHORIZED
-  current_execution_authorization:
-    status: ACTIVE
-    authority: Human Founder
-    authorization_model: TASK_LEVEL_DELEGATED_EXECUTION
-    source: CODEX_THREAD_FOUNDER_MESSAGE
-    source_message_sha256: bedd3c781cc224a13c3e64a7ff7bcd6d9d23cafaf6a897d70f4c3994697ec6db
-    task_id: AIOS-P1-002_B0_ADAPTER_CONFORMANCE
-    task_contract_sha256: c303f045e67dc1f76d51a5789eeb0573021bdcd9d17cd169d7448f64f91a87d8
-    goal_body_canonical_sha256: fed643624aa5794a5cea5db2a04f25cc89d829a619e905df946a3616f14ad6c0
-    authorized_parent_commit: c3bbcf07b597220710fda1f7ee335d4b1ccbba5e
-    authorized_parent_tree: b035d7410065f5f17b914365c10a3acc5f66fc6d
-    scope: P1_B0_ADAPTER_OFFLINE_CONFORMANCE_ONLY
-    network: forbidden
-    provider: forbidden
-    secrets: forbidden
-    remote: forbidden
-    production: forbidden
-    main_advance: forbidden_without_founder_gate
-    binding_rule: SHA256_OF_ORDERED_LF_FIELDS_WITH_FINAL_LF
-    binding_sha256: fc014c1c3eecbd51a374a56b5213a08dd98053bb11c670801019846999cdf889
-  next_eligible_action: EXECUTE_CURRENT_TASK_WITHIN_EXACT_OFFLINE_CONFORMANCE_ENVELOPE
+  current_task: NONE
+  current_task_contract: NONE
+  current_execution_authorization: NONE
+  next_eligible_action: FOUNDER_SELECT_NEXT_P1_TASK
 
 task_history:
   aios_p1_001:
@@ -127,13 +105,39 @@ task_history:
     task_id: AIOS-P1-002_B0_ADAPTER_CONFORMANCE
     contract: docs/aios/tasks/P1-002_B0_ADAPTER_CONFORMANCE.yaml
     task_contract_sha256: c303f045e67dc1f76d51a5789eeb0573021bdcd9d17cd169d7448f64f91a87d8
-    status: EXECUTION_AUTHORIZED_NOT_YET_IMPLEMENTED
-    execution_authorized: true
-    persistent_evidence_runs: 0
+    status: TERMINAL_STOPPED_AFTER_ONE_TIME_BOUNDED_REMEDIATION_NON_PASS
+    execution_authorized: false
+    original_execution_authorization_status: CONSUMED_AND_TERMINATED
+    implementation_attempts: 2
+    persistent_evidence_runs: 2
+    accepted_evidence_runs: 0
     measurement_retries: 0
     provider_calls: 0
     capability_claims: 0
     claim_boundary: OFFLINE_B0_ADAPTER_CONFORMANCE_ONLY
+    founder_gate_status: NOT_REACHED
+    main_advanced: false
+    terminal_reason: GOVERNANCE_TASK_BRANCH_CARDINALITY_NON_PASS
+    first_rejected_candidate:
+      commit: dbc77f25d56994a8ae6aa228570c1327ec59ebd6
+      tree: 6acb236ebf5d87c78dda39af003e229b93c3b469
+      outcome: STOPPED_AFTER_INDEPENDENT_REVIEW_NON_PASS
+    bounded_remediation_candidate:
+      commit: e7a665315dda01da699f91caf1dec09ecf75d2dc
+      tree: 3b9b0105877eda7a8b49fa21ed639c0ae8f2efaa
+      outcome: TERMINAL_STOPPED_AFTER_ONE_TIME_BOUNDED_REMEDIATION_NON_PASS
+    terminal_evidence:
+      stop_record_path: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-002-bounded-remediation-20260715T113708Z/TERMINAL_STOP_RECORD.json
+      stop_record_sha256: 09f174f85a8d3e87602f09f24d495664d0ba41081baea68ba00757277cd51aef
+      evidence_manifest_path: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-002-bounded-remediation-20260715T113708Z/TERMINAL_EVIDENCE_MANIFEST.json
+      evidence_manifest_sha256: ed832bb6ec9cd104a5005106efed5b0b8b23e73d4fd26625d4008a3d62e97759
+    terminal_cleanup:
+      authorization_record_sha256: 465ff355ddd53519eb0fed041cacd50d5c99dfae95f3acdfe8b3f01bc4d1b632
+      git_bundle_path: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-002-terminal-sync-20260715T115410Z/p1-002-terminal-candidates.bundle
+      git_bundle_sha256: 985fad210f1e3c270c7526f4b5e263ea697a749ab905f188c0c6a85673e61554
+      git_bundle_custody_receipt_sha256: 904835d27eeb333836c32ec5f662f7aa5fe2bd889266482097a8f6ee3094d7dc
+      task_branches_removed: true
+      task_worktrees_removed: true
 
 gate_history:
   - task_id: AIOS-P1-001
@@ -168,9 +172,8 @@ historical_lineages:
 
 p1_boundary:
   allowed_now:
-    - AIOS-P1-002 B0 adapter offline conformance under its exact Founder-authorized Task envelope.
-    - Quality-frozen synthetic fixture, prerecorded response transport and no-capability-claim evaluator.
-    - Local implementation, build, test, replay, evidence generation and independent review within owned paths.
+    - No P1 Task execution is currently authorized.
+    - Founder may select one next P1 Task after reading this terminal state; phase entry does not authorize execution.
   deferred_to_p2_or_later:
     - Repository Intelligence capability improvement and benchmark claims.
   deferred_to_p3_or_later:
@@ -186,7 +189,7 @@ claim_boundary:
   repository_intelligence_quality: UNKNOWN_NOT_YET_BENCHMARKED
   evaluation_harness: IMPLEMENTED_AND_FOUNDER_GATE_ACCEPTED_CONFORMANCE_ONLY
   harness_conformance: PASS
-  b0_adapter_conformance: NOT_YET_EXECUTED
+  b0_adapter_conformance: TERMINAL_STOPPED_NOT_ACCEPTED
   b0_live_model_performance: UNKNOWN_NO_PROVIDER_RUNS
   verified_task_success_rate: UNKNOWN_NO_RUNS
   production_ready: false

@@ -43,7 +43,8 @@ ruby -ryaml -rjson -rdigest -e '
   expected_hashes = {
     "docs/aios/STRATEGIC_CONSTITUTION.md" => "040196be12532b8c3661665995d3e79a28d268a1ecc991623380f0939f468485",
     "docs/aios/MASTER_EXECUTION_PROTOCOL.md" => "47c444c50c7521a7515dfb2fbee0c8c81cc72b32c42eba549d080eeb0c1bcedf",
-    "docs/aios/EVALUATION_PROTOCOL.md" => "da029143561fbb3c213d4a358b25e085542c6cd26ae8150a53cbb5998177eed8"
+    "docs/aios/EVALUATION_PROTOCOL.md" => "da029143561fbb3c213d4a358b25e085542c6cd26ae8150a53cbb5998177eed8",
+    "docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml" => "d2974752b088ff30b0764d6b482e19ea939cd497eb2db3e26af28bf09dc2e12f"
   }
   expected_hashes.each do |path, expected|
     actual = Digest::SHA256.file(path).hexdigest
@@ -54,19 +55,73 @@ ruby -ryaml -rjson -rdigest -e '
   abort "phase must be P1" unless truth.dig("project", "current_phase") == "P1"
   abort "P0 must be complete" unless truth.dig("project", "p0_status") == "COMPLETE"
   abort "P1 entry must be authorized" unless truth.dig("project", "p1_entry_status") == "AUTHORIZED"
-  abort "P1 execution must not be started" unless truth.dig("project", "p1_execution_status") == "NOT_STARTED"
-  abort "current task must be NONE" unless truth.dig("active_work", "current_task") == "NONE"
-  abort "current authorization must be NONE" unless truth.dig("active_work", "current_execution_authorization") == "NONE"
-  abort "P1-001 execution widened" unless truth.dig("active_work", "aios_p1_001", "execution_authorized") == false
+  abort "P1 execution authorization state drift" unless truth.dig("project", "p1_execution_status") == "TASK_AUTHORIZED"
+  abort "active Goal state drift" unless truth.dig("goal", "control_plane_status_observed") == "ACTIVE"
+  abort "active Goal canonical hash drift" unless truth.dig("goal", "observed_body_sha256") == "fed643624aa5794a5cea5db2a04f25cc89d829a619e905df946a3616f14ad6c0"
+  abort "active Goal raw hash drift" unless truth.dig("goal", "observed_raw_body_sha256") == "9b59ffc6919473b596f09a96afc1e8684f076f5ac32c6014ac96344a496cd0d8"
+  abort "active Goal canonicalization drift" unless truth.dig("goal", "body_canonicalization") == "UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF"
+  abort "active Goal identity state drift" unless truth.dig("goal", "identity_status") == "FOUNDER_MANUALLY_INSTALLED_AND_ACTIVE"
+  abort "Goal task authority drift" unless truth.dig("goal", "current_task_authority") == "AIOS-P1-001"
+  abort "current task drift" unless truth.dig("active_work", "current_task") == "AIOS-P1-001"
+  abort "current Task Contract path drift" unless truth.dig("active_work", "current_task_contract") == "docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml"
+
+  authorization = truth.dig("active_work", "current_execution_authorization")
+  abort "Founder authorization missing" unless authorization.is_a?(Hash)
+  expected_authorization = {
+    "authority" => "Human Founder",
+    "authorization_model" => "TASK_LEVEL_DELEGATED_EXECUTION",
+    "status" => "ACTIVE",
+    "source" => "CODEX_THREAD_FOUNDER_MESSAGE",
+    "task_id" => "AIOS-P1-001",
+    "task_contract_sha256" => "d2974752b088ff30b0764d6b482e19ea939cd497eb2db3e26af28bf09dc2e12f",
+    "goal_body_canonical_sha256" => "fed643624aa5794a5cea5db2a04f25cc89d829a619e905df946a3616f14ad6c0",
+    "authorized_parent_commit" => "12aa712c8e8456bb4d70a6b5014fb0937ada778f",
+    "authorized_parent_tree" => "a2d966ebbd7784d30e7e38eaac04e0b8eb295022",
+    "scope" => "TRUTH_SYNC_AND_P1_001_IMPLEMENTATION",
+    "network" => "forbidden",
+    "provider" => "forbidden",
+    "secrets" => "forbidden",
+    "remote" => "forbidden",
+    "production" => "forbidden",
+    "main_advance" => "forbidden_without_founder_gate",
+    "binding_rule" => "SHA256_OF_ORDERED_LF_FIELDS_WITH_FINAL_LF"
+  }
+  expected_authorization.each do |field, expected|
+    abort "Founder authorization drift: #{field}" unless authorization[field] == expected
+  end
+  authorization_fields = [
+    "authority=#{authorization.fetch("authority").tr(" ", "_")}",
+    "authorization_model=#{authorization.fetch("authorization_model")}",
+    "task_id=#{authorization.fetch("task_id")}",
+    "task_contract_sha256=#{authorization.fetch("task_contract_sha256")}",
+    "goal_body_canonical_sha256=#{authorization.fetch("goal_body_canonical_sha256")}",
+    "authorized_parent_commit=#{authorization.fetch("authorized_parent_commit")}",
+    "authorized_parent_tree=#{authorization.fetch("authorized_parent_tree")}",
+    "scope=#{authorization.fetch("scope")}",
+    "network=#{authorization.fetch("network")}",
+    "provider=#{authorization.fetch("provider")}",
+    "secrets=#{authorization.fetch("secrets")}",
+    "remote=#{authorization.fetch("remote")}",
+    "production=#{authorization.fetch("production")}",
+    "main_advance=#{authorization.fetch("main_advance")}",
+  ]
+  expected_binding = Digest::SHA256.hexdigest(authorization_fields.join("\n") + "\n")
+  abort "Founder authorization binding drift" unless authorization["binding_sha256"] == expected_binding
+
+  abort "P1-001 current-state status drift" unless truth.dig("active_work", "aios_p1_001", "status") == "FOUNDER_TASK_AUTHORIZED"
+  abort "P1-001 execution authorization missing" unless truth.dig("active_work", "aios_p1_001", "execution_authorized") == true
   abort "P1-001 runs are not zero" unless truth.dig("active_work", "aios_p1_001", "scheduled_runs") == 0
+  abort "P1-001 capability claims are not zero" unless truth.dig("active_work", "aios_p1_001", "capability_claims") == 0
+  abort "offsite custody status drift" unless truth.dig("historical_lineages", "archive", "offsite_status") == "PASS_WITH_DECLARED_HISTORICAL_COUNT_LIMITATION"
+  abort "offsite verification binding drift" unless truth.dig("historical_lineages", "archive", "offsite_verification_receipt_sha256") == "e45658d02dc21184cc5c79d5a2b052ce1b2e3885b342930a2e0fb536ba03a91f"
   abort "production readiness falsely claimed" unless truth.dig("claim_boundary", "production_ready") == false
   abort "Agent capability falsely claimed" unless truth.dig("claim_boundary", "trustworthy_software_engineering_agent_proven") == false
   abort "historical lineages reopened" unless truth.dig("historical_lineages", "continuation_allowed") == false
 
   abort "task id drift" unless task["task_id"] == "AIOS-P1-001"
   abort "task phase drift" unless task["phase"] == "P1"
-  abort "task execution improperly authorized" unless task["execution_authorized"] == false
-  abort "task status drift" unless task["status"] == "DRAFT_READY_FOR_FOUNDER_TASK_AUTHORIZATION"
+  abort "frozen Task Contract must not self-authorize execution" unless task["execution_authorized"] == false
+  abort "frozen Task Contract capture-time status drift" unless task["status"] == "DRAFT_READY_FOR_FOUNDER_TASK_AUTHORIZATION"
   abort "harness stub missing" unless task.dig("baseline_plan", "harness_stub", "name") == "HARNESS_STUB"
   abort "harness stub included in VTSR" unless task.dig("baseline_plan", "harness_stub", "included_in_vtsr_denominator") == false
   %w[B0 B1 B2].each { |key| abort "future baseline missing: #{key}" unless task.dig("baseline_plan", "future_true_baselines", key) }

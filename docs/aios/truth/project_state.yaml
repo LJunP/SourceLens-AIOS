@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-15T07:20:00Z"
-verification_scope: STRATEGIC_REALIGNMENT_CURRENT_STATE
+last_verified_at: "2026-07-15T08:33:10Z"
+verification_scope: LONG_TERM_GOAL_ACTIVATION_AND_P1_001_AUTHORIZATION
 
 authority:
   founder: Human Founder
@@ -24,11 +24,13 @@ authority:
   rule: Each authority controls only its domain. Historical material cannot override current facts.
 
 goal:
-  control_plane_status_observed: PAUSED
-  observed_body_sha256: 384121de3ffe15f3976e47f1f35e0dfc63d3647a19fff530717a141a9c7deb36
-  identity_status: PENDING_FOUNDER_MANUAL_REPLACEMENT_AND_ACTIVATION
-  current_task_authority: NONE
-  note: The historical Goal body remains evidence but is not copied into repository truth.
+  control_plane_status_observed: ACTIVE
+  observed_body_sha256: fed643624aa5794a5cea5db2a04f25cc89d829a619e905df946a3616f14ad6c0
+  observed_raw_body_sha256: 9b59ffc6919473b596f09a96afc1e8684f076f5ac32c6014ac96344a496cd0d8
+  body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  identity_status: FOUNDER_MANUALLY_INSTALLED_AND_ACTIVE
+  current_task_authority: AIOS-P1-001
+  note: The active control-plane body equals the Founder-approved body after canonical trailing-LF normalization.
 
 project:
   name: SourceLens AIOS
@@ -38,7 +40,7 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  p1_execution_status: NOT_STARTED
+  p1_execution_status: TASK_AUTHORIZED
   canonical_branch: main
   realignment_parent_commit: f3fa42221de95381d98fb3c5a966bf33e99e4d21
   realignment_parent_tree: 97972952872b0a1e340b6a88cbd7491b7f7df953
@@ -52,16 +54,34 @@ p0_baseline:
   online_verification_status: ARCHIVED_NOT_ON_ACTIVE_PATH
 
 active_work:
-  current_task: NONE
-  current_task_contract: NONE
-  current_execution_authorization: NONE
+  current_task: AIOS-P1-001
+  current_task_contract: docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
+  current_execution_authorization:
+    authority: Human Founder
+    authorization_model: TASK_LEVEL_DELEGATED_EXECUTION
+    status: ACTIVE
+    source: CODEX_THREAD_FOUNDER_MESSAGE
+    task_id: AIOS-P1-001
+    task_contract_sha256: d2974752b088ff30b0764d6b482e19ea939cd497eb2db3e26af28bf09dc2e12f
+    goal_body_canonical_sha256: fed643624aa5794a5cea5db2a04f25cc89d829a619e905df946a3616f14ad6c0
+    authorized_parent_commit: 12aa712c8e8456bb4d70a6b5014fb0937ada778f
+    authorized_parent_tree: a2d966ebbd7784d30e7e38eaac04e0b8eb295022
+    scope: TRUTH_SYNC_AND_P1_001_IMPLEMENTATION
+    network: forbidden
+    provider: forbidden
+    secrets: forbidden
+    remote: forbidden
+    production: forbidden
+    main_advance: forbidden_without_founder_gate
+    binding_rule: SHA256_OF_ORDERED_LF_FIELDS_WITH_FINAL_LF
+    binding_sha256: e5e490324bf9aa563847b797ce6567d805bc7452d229b063923e566d67939ad3
   aios_p1_001:
     contract: docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
-    status: DRAFT_READY_FOR_FOUNDER_TASK_AUTHORIZATION
-    execution_authorized: false
+    status: FOUNDER_TASK_AUTHORIZED
+    execution_authorized: true
     scheduled_runs: 0
     capability_claims: 0
-  next_eligible_action: Founder manually installs and activates the corrected long-term Goal, then grants one Task-level authorization for AIOS-P1-001 implementation.
+  next_eligible_action: Freeze Quality-owned evaluator, oracle and fixtures, then implement AIOS-P1-001 inside the authorized Task envelope.
 
 historical_lineages:
   status: CLOSED_AND_EXCLUDED_FROM_DEFAULT_CONTEXT
@@ -78,7 +98,9 @@ historical_lineages:
     archive_sha256: 67d14cbdd54eab7fa79d7333b55ff5a7c3775d7b8b5662481e2636e2c66ab9b9
     git_bundle_path: /Users/lijunpeng/.codex/sourcelens-backups/strategic-realignment-20260715/SourceLens-AIOS-all-refs-before-realignment.bundle
     git_bundle_sha256: 2a4b6f37f3b5d20f615b76698bffab796550b2686697de273ecdf91742ad7c90
-    offsite_status: PENDING_EXTERNAL_VOLUME
+    offsite_status: PASS_WITH_DECLARED_HISTORICAL_COUNT_LIMITATION
+    offsite_package: /Volumes/lijp/SourceLens-AIOS-strategic-realignment-offsite-20260715T080934Z
+    offsite_verification_receipt_sha256: e45658d02dc21184cc5c79d5a2b052ce1b2e3885b342930a2e0fb536ba03a91f
     authority: HISTORICAL_EVIDENCE_ONLY
 
 p1_boundary:

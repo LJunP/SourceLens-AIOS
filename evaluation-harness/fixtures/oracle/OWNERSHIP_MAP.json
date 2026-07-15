@@ -1,0 +1,40 @@
+{
+  "schema_version": "1.0",
+  "record_type": "aios_p1_001_preimplementation_ownership_map",
+  "task_contract_ref": "docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml",
+  "task_contract_sha256": "d2974752b088ff30b0764d6b482e19ea939cd497eb2db3e26af28bf09dc2e12f",
+  "owners": [
+    {
+      "role": "Quality and Evaluation Agent",
+      "paths": [
+        "evaluation-harness/evaluator/**",
+        "evaluation-harness/fixtures/visible/**",
+        "evaluation-harness/fixtures/oracle/**"
+      ],
+      "write_window": "preimplementation freeze only"
+    },
+    {
+      "role": "Evaluation Harness Engineer",
+      "paths": [
+        "evaluation-harness/harness/**",
+        "evaluation-harness/adapters/harness_stub/**",
+        "evaluation-harness/recording/**",
+        "evaluation-harness/replay/**"
+      ],
+      "write_window": "after Quality freeze and Founder task authorization"
+    },
+    {
+      "role": "Engineering Manager Agent",
+      "paths": [
+        "scripts/verify-p1-harness.sh",
+        "Makefile"
+      ],
+      "write_window": "integration only"
+    }
+  ],
+  "invariants": [
+    "Worker and Integration may read but never change Quality-owned frozen bytes.",
+    "Any evaluator, oracle, schema, Task Contract, or visible fixture change after Worker start stops the Task.",
+    "No owner in this map may write canonical main, inherited SourceLens, historical evidence, or forbidden Task Contract paths."
+  ]
+}

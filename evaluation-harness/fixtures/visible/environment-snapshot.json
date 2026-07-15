@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0",
+  "snapshot_id": "ENV-AIOS-P1-001-VISIBLE-001",
+  "created_at": "2026-07-15T00:00:00Z",
+  "source": {
+    "repository_identity": "sourcelens-fixture://p1-harness-visible-001",
+    "base_commit": "6dc3a1b82bf1c77b6b0fd58ae3106f282686cf2118207dda4f042a8a3d84e9da",
+    "tree_hash": "f1b6462b10822b8437e9f6937fb33905f95ee694bd1c0c77e19bea960c561ea6",
+    "worktree_clean": true
+  },
+  "runtime": {
+    "os": "standalone-synthetic-fixture",
+    "architecture": "runtime-independent-json",
+    "container_image_digest": "sha256:7972cd213ebc1049b08847a07a80bafc6fd1786102d279d649612e1c71167d10",
+    "locale": "C",
+    "timezone": "UTC"
+  },
+  "dependencies": {
+    "lockfiles": [],
+    "toolchains": {
+      "evaluator": "Node.js 20 standard library only"
+    },
+    "caches": [
+      {
+        "name": "all-caches",
+        "policy": "disabled",
+        "digest": null
+      }
+    ]
+  },
+  "model": {
+    "model_ref": "synthetic://no-model",
+    "provider": "none",
+    "model_id": "deterministic-harness-stub",
+    "model_version": "1.0",
+    "parameters": {}
+  },
+  "prompt_version": "harness-stub-prompt-v1",
+  "policy_version": "harness-stub-policy-v1",
+  "tools": [
+    {
+      "tool_id": "quality-evaluator",
+      "version": "1.0.0",
+      "permission": "execute_isolated"
+    }
+  ],
+  "network": {
+    "policy": "none",
+    "allowed_hosts": []
+  },
+  "environment_variables": {
+    "non_secret_values": {
+      "LC_ALL": "C",
+      "TZ": "UTC"
+    },
+    "secret_names_present": []
+  },
+  "secret_policy": {
+    "values_retained": false,
+    "redaction_policy_version": "no-secrets-v1"
+  },
+  "random_seed": 0
+}

@@ -1,0 +1,1 @@
+{"additional_properties":false,"required_keys":["schema_version","task_id","sorted_values","sum","count"],"schema_version":"1.0","semantics":{"count":"integer number of input values","sorted_values":"input integers in ascending order","sum":"integer sum of input values"}}

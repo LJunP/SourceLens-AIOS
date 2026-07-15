@@ -1,0 +1,210 @@
+{
+  "schema_version": "1.0",
+  "record_type": "aios_p1_001_quality_preimplementation_freeze_receipt",
+  "freeze_id": "AIOS-P1-001-QUALITY-FREEZE-20260715T090550Z",
+  "created_at": "2026-07-15T09:05:50Z",
+  "task_id": "AIOS-P1-001",
+  "freeze_state": "FROZEN_BEFORE_WORKER_IMPLEMENTATION",
+  "task_contract": {
+    "path": "docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml",
+    "sha256": "d2974752b088ff30b0764d6b482e19ea939cd497eb2db3e26af28bf09dc2e12f"
+  },
+  "source_parent": {
+    "commit": "0e305c7011579c4cdf57fa01fbc2ee26484935e9",
+    "tree": "e877990d2c65e1d6eccfabec227a1e84fa175961",
+    "branch": "task/AIOS-P1-001-evaluation-harness"
+  },
+  "runtime_observation": {
+    "runtime": "Node.js",
+    "version": "v20.17.0",
+    "executable_path": "/usr/local/bin/node",
+    "executable_sha256": "c5548e7a991a5c90170a29843ffc46df4643e29141f3cbb035f60295cf2bc882",
+    "executable_byte_length": 193262272,
+    "dependency_policy": "Node.js standard library only; zero third-party evaluator dependency"
+  },
+  "canonicalization": {
+    "artifact_identity": "SHA-256 over exact raw file bytes",
+    "json_text": "UTF-8, LF line endings, final newline retained where present",
+    "manifest_entry_encoding": "UTF-8 path + NUL + lowercase SHA-256 + NUL + decimal byte length + LF",
+    "manifest_entry_order": "ascending bytewise repository-relative path",
+    "manifest_root_algorithm": "SHA-256 over concatenated manifest entry bytes",
+    "receipt_self_binding": "The receipt does not contain its own hash; its exact SHA-256 is reported and committed externally."
+  },
+  "evaluator_identity": {
+    "algorithm": "SHA-256 over sorted evaluate.mjs and schema-validator.mjs manifest entries using basename paths",
+    "sha256": "ef86e54dfac30c85bed9dc71b93d9e56bb84671ae45b52f41f08fcd911d1574c",
+    "evaluator_id": "AIOS-P1-001-QUALITY-EVALUATOR",
+    "evaluator_version": "1.0.0"
+  },
+  "quality_manifest": {
+    "entry_count": 17,
+    "encoded_byte_length": 2135,
+    "root_sha256": "f3325f112bf2e50d28338a177f4c05208ed0b89e3622e770c7849e44d2479aa5",
+    "artifacts": [
+      {
+        "path": "evaluation-harness/evaluator/README.md",
+        "sha256": "666ff551d88a18cd05a75c24c713d297f2e2a00a3360eee794ba709c70073a99",
+        "byte_length": 1165
+      },
+      {
+        "path": "evaluation-harness/evaluator/evaluate.mjs",
+        "sha256": "e1ffddbec624c1f33ac99cc045689ae318e10d1e8a1dfb4af7634fedcecc0c6f",
+        "byte_length": 11362
+      },
+      {
+        "path": "evaluation-harness/evaluator/schema-validator.mjs",
+        "sha256": "5d944ab5abfab7bcd1619c385727c99f38cf6e7deacee881a768573d2e09f741",
+        "byte_length": 5829
+      },
+      {
+        "path": "evaluation-harness/evaluator/self-test.mjs",
+        "sha256": "9e7110bbba50952dd5744f8a709af45fbdd606f3f7d4092a53a9953e6fc7d74d",
+        "byte_length": 4562
+      },
+      {
+        "path": "evaluation-harness/fixtures/oracle/OWNERSHIP_MAP.json",
+        "sha256": "1b788e73340807df7b3441c30428dd264dcbdb921127d216c0709ed03e9b3400",
+        "byte_length": 1430
+      },
+      {
+        "path": "evaluation-harness/fixtures/oracle/expected-result.json",
+        "sha256": "ba7421a52d353f5a663ed8e8f2dcd78de02a06a25f51031a6ad9032980f748ac",
+        "byte_length": 106
+      },
+      {
+        "path": "evaluation-harness/fixtures/oracle/oracle.json",
+        "sha256": "5bb3d92e6933002863fd038f4ff22d4a1831156f95bccd37f048615eebcd0647",
+        "byte_length": 1551
+      },
+      {
+        "path": "evaluation-harness/fixtures/visible/context.json",
+        "sha256": "6dc3a1b82bf1c77b6b0fd58ae3106f282686cf2118207dda4f042a8a3d84e9da",
+        "byte_length": 80
+      },
+      {
+        "path": "evaluation-harness/fixtures/visible/controlled-failure-result.json",
+        "sha256": "5be3befb83dc776f3c7c24e9ea253cb4e0520a920ed5833a0a9d4e38803e3d52",
+        "byte_length": 106
+      },
+      {
+        "path": "evaluation-harness/fixtures/visible/controlled-failure-run-record.json",
+        "sha256": "cafacbefaa4ec3eee93ad4d8f35f32f63aecfe0d4c0e1545058e3d1b9d0b8b9e",
+        "byte_length": 1135
+      },
+      {
+        "path": "evaluation-harness/fixtures/visible/controlled-failure.json",
+        "sha256": "78fe11a2c906e415fba93ef108616d418e7b2a08f787cde1e6b094ebf95dd74a",
+        "byte_length": 662
+      },
+      {
+        "path": "evaluation-harness/fixtures/visible/environment-snapshot.json",
+        "sha256": "6d05916bb3617172ad90ecf776683835584988134c3d59a0ef002f741bca8c77",
+        "byte_length": 1645
+      },
+      {
+        "path": "evaluation-harness/fixtures/visible/positive-run-record.json",
+        "sha256": "c4e6673077af0d6bc79033f488ad30d00d740cc79c2c3554ac344b6eff9f8236",
+        "byte_length": 1096
+      },
+      {
+        "path": "evaluation-harness/fixtures/visible/promoted-controlled-failure-run-record.json",
+        "sha256": "de386360169903cf72333155e9d02b467c44ba85117f8fd4475ac90673f5bf40",
+        "byte_length": 1120
+      },
+      {
+        "path": "evaluation-harness/fixtures/visible/response-format.json",
+        "sha256": "18b7fd73850886a68d87d7d147476b3f9288debfd654f505b0246bd214f3a232",
+        "byte_length": 273
+      },
+      {
+        "path": "evaluation-harness/fixtures/visible/system-configuration.json",
+        "sha256": "ac6f9aba64b19a9c891d6b60ce2def8476b647729e3709ecc17cc4f8671463d8",
+        "byte_length": 590
+      },
+      {
+        "path": "evaluation-harness/fixtures/visible/task-spec.json",
+        "sha256": "3a0ce56c7e153101aea360c3ffea29f3a3d7935f6e86bcf22da48e863873affe",
+        "byte_length": 3249
+      }
+    ]
+  },
+  "external_bindings": [
+    {
+      "path": "docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml",
+      "sha256": "d2974752b088ff30b0764d6b482e19ea939cd497eb2db3e26af28bf09dc2e12f",
+      "byte_length": 8585
+    },
+    {
+      "path": "docs/aios/schemas/task-spec.schema.json",
+      "sha256": "ec226d14172081fb52fbbdc756b4a205155f0b584326436578ad13af4f2b8372",
+      "byte_length": 5989
+    },
+    {
+      "path": "docs/aios/schemas/environment-snapshot.schema.json",
+      "sha256": "3a38bed470ff59d843b3e6450f5999210d57088bed7bdf13dbd88768dae368f1",
+      "byte_length": 5214
+    },
+    {
+      "path": "docs/aios/schemas/system-configuration.schema.json",
+      "sha256": "fe9cc8a78f96cef885a9ba9ce6644ebfe176d6f21161005006d591a20a3dc95d",
+      "byte_length": 1278
+    },
+    {
+      "path": "docs/aios/schemas/run-record.schema.json",
+      "sha256": "a139b73a7482fed64e6d24f8ca391b03963eef57db2b48d0c4c6776ff652bc56",
+      "byte_length": 3613
+    },
+    {
+      "path": "docs/aios/EVALUATION_PROTOCOL.md",
+      "sha256": "da029143561fbb3c213d4a358b25e085542c6cd26ae8150a53cbb5998177eed8",
+      "byte_length": 10127
+    },
+    {
+      "path": "docs/aios/BASELINE_ADAPTER_CONTRACT.md",
+      "sha256": "27a213589699d96a5f41f4b0e293718257c6186720e55b74c3ee29dd9cf5c03c",
+      "byte_length": 5323
+    }
+  ],
+  "synthetic_source_identity": {
+    "base_commit_semantics": "SHA-256 of exact context.json bytes; this is a synthetic immutable source identifier, not a Git commit claim.",
+    "base_commit": "6dc3a1b82bf1c77b6b0fd58ae3106f282686cf2118207dda4f042a8a3d84e9da",
+    "tree_semantics": "SHA-256 over sorted basename manifest entries for context.json and response-format.json using the receipt manifest encoding.",
+    "tree_hash": "f1b6462b10822b8437e9f6937fb33905f95ee694bd1c0c77e19bea960c561ea6",
+    "environment_digest_semantics": "Schema-conformance identity for the standalone synthetic environment contract; it is not a claim that a container image was executed.",
+    "environment_digest": "sha256:7972cd213ebc1049b08847a07a80bafc6fd1786102d279d649612e1c71167d10"
+  },
+  "ownership_binding": {
+    "path": "evaluation-harness/fixtures/oracle/OWNERSHIP_MAP.json",
+    "sha256": "1b788e73340807df7b3441c30428dd264dcbdb921127d216c0709ed03e9b3400",
+    "quality_owner": "Quality and Evaluation Agent",
+    "worker_mutation_allowed_after_freeze": false,
+    "integration_mutation_allowed_after_freeze": false
+  },
+  "validation": {
+    "command": ["/usr/local/bin/node", "evaluation-harness/evaluator/self-test.mjs"],
+    "expected_exit_status": 0,
+    "expected_assertion_count": 93,
+    "expected_positive_verdict": "PASS",
+    "expected_controlled_failure_verdict": "FAIL",
+    "expected_promotion_probe_verdict": "FAIL",
+    "expected_replay_byte_equal": true
+  },
+  "claim_boundary": {
+    "proves_if_later_executed_and_reviewed": "Only deterministic harness conformance for one visible standalone synthetic fixture and its evidence/replay path.",
+    "a0_field_semantics": "The A0 adapter_id is used solely because the accepted SystemConfiguration schema has no HARNESS_STUB enum. It does not establish an A0 configuration, capability, performance, or baseline result.",
+    "does_not_prove": [
+      "A0 or B0 baseline performance",
+      "Verified Task Success Rate",
+      "Repository Intelligence improvement",
+      "software-engineering Agent capability",
+      "hidden-set validity",
+      "production readiness",
+      "hostile-principal resistance"
+    ]
+  },
+  "post_freeze_rules": [
+    "Worker and Integration may read but must not change any artifact listed in quality_manifest.",
+    "Any byte change to the evaluator, oracle, visible fixture, accepted schemas, Task Contract, Evaluation Protocol, or Baseline Adapter Contract invalidates this receipt and stops AIOS-P1-001.",
+    "This freeze receipt is preimplementation evidence only; it is not a Task PASS, Founder Gate, benchmark result, or authorization for B0/B1/B2 runs."
+  ]
+}

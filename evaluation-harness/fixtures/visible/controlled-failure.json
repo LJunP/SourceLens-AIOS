@@ -1,0 +1,18 @@
+{
+  "schema_version": "1.0",
+  "fixture_id": "AIOS-P1-001-CONTROLLED-FAILURE-WRONG-SUM",
+  "base_result_ref": "evaluation-harness/fixtures/oracle/expected-result.json",
+  "mutated_result_ref": "evaluation-harness/fixtures/visible/controlled-failure-result.json",
+  "mutation": {
+    "operation": "replace",
+    "json_pointer": "/sum",
+    "original_value": 11,
+    "replacement_value": 12
+  },
+  "expected_evaluator_exit_status": 1,
+  "expected_verdict": "FAIL",
+  "required_reason_codes": [
+    "RESULT_SHA256_MISMATCH"
+  ],
+  "claim_boundary": "This fixture proves only that a known wrong result is rejected and cannot be promoted to a conformance success."
+}

@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "configuration_id": "CONFIG-AIOS-P1-001-HARNESS-STUB-001",
+  "adapter_id": "A0",
+  "adapter_version": "HARNESS_STUB-1.0",
+  "model_ref": "synthetic://no-model",
+  "prompt_ref": "harness-stub-prompt-v1",
+  "policy_ref": "harness-stub-policy-v1",
+  "response_format_ref": "evaluation-harness/fixtures/visible/response-format.json",
+  "loop_limit": 1,
+  "enabled_tools": [],
+  "feature_flags": {
+    "harness_stub_only": true,
+    "benchmark_claim": false,
+    "agent_capability_claim": false,
+    "included_in_vtsr_denominator": false
+  },
+  "random_seed": 0
+}

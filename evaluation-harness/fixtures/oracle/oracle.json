@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "oracle_id": "AIOS-P1-001-VISIBLE-ORACLE-001",
+  "evaluator_id": "AIOS-P1-001-QUALITY-EVALUATOR",
+  "evaluator_version": "1.0.0",
+  "task_id": "AIOS-P1-001-VISIBLE-001",
+  "dataset_version": "p1-harness-conformance-visible-v1",
+  "adapter_id": "A0",
+  "adapter_version": "HARNESS_STUB-1.0",
+  "environment_snapshot_id": "ENV-AIOS-P1-001-VISIBLE-001",
+  "system_configuration_id": "CONFIG-AIOS-P1-001-HARNESS-STUB-001",
+  "expected_result_ref": "evaluation-harness/fixtures/oracle/expected-result.json",
+  "expected_result_sha256": "ba7421a52d353f5a663ed8e8f2dcd78de02a06a25f51031a6ad9032980f748ac",
+  "required_terminal_status": "completed",
+  "required_stop_reason_code": "agent_complete",
+  "required_verification_ref": "quality-evaluator://AIOS-P1-001/1.0.0",
+  "required_feature_flags": {
+    "harness_stub_only": true,
+    "benchmark_claim": false,
+    "agent_capability_claim": false,
+    "included_in_vtsr_denominator": false
+  },
+  "forbidden_capability_claims": [
+    "B0 baseline performance",
+    "A0 capability or performance baseline",
+    "Verified Task Success Rate",
+    "Repository Intelligence improvement",
+    "software-engineering Agent ability",
+    "hidden-set validity",
+    "production readiness"
+  ],
+  "claim_boundary": "PASS proves only deterministic conformance of one visible synthetic HARNESS_STUB fixture and its evidence/replay plumbing. The schema-required A0 adapter_id is compatibility notation only; it is not an A0, B0, VTSR, Repository Intelligence, or Agent capability result."
+}

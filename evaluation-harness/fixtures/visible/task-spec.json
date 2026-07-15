@@ -1,0 +1,76 @@
+{
+  "schema_version": "1.0",
+  "task_id": "AIOS-P1-001-VISIBLE-001",
+  "dataset_version": "p1-harness-conformance-visible-v1",
+  "evaluation_split": "development",
+  "source": {
+    "kind": "synthetic_fixture",
+    "provenance": "Quality-owned standalone deterministic fixture created for AIOS-P1-001 harness conformance only.",
+    "license": "CC0-1.0",
+    "redistribution": "allowed"
+  },
+  "repository": {
+    "identity": "sourcelens-fixture://p1-harness-visible-001",
+    "base_commit": "6dc3a1b82bf1c77b6b0fd58ae3106f282686cf2118207dda4f042a8a3d84e9da",
+    "tree_hash": "f1b6462b10822b8437e9f6937fb33905f95ee694bd1c0c77e19bea960c561ea6",
+    "dirty_state_policy": "clean_immutable_base"
+  },
+  "issue": {
+    "text": "Read the frozen context artifact. Emit one JSON result conforming to the frozen response format: values sorted ascending, their integer sum, and their count. Do not use a model, network, Secret, provider, repository mutation, remote effect, or production effect. This is a harness-conformance fixture, not an Agent capability task.",
+    "allowed_clarifications": []
+  },
+  "language": ["json"],
+  "build_system": ["none"],
+  "environment_snapshot_ref": "ENV-AIOS-P1-001-VISIBLE-001",
+  "baseline_context": {
+    "artifact_ref": "evaluation-harness/fixtures/visible/context.json",
+    "sha256": "6dc3a1b82bf1c77b6b0fd58ae3106f282686cf2118207dda4f042a8a3d84e9da",
+    "max_model_tokens": 256,
+    "ordering": "artifact_order",
+    "response_format_ref": "evaluation-harness/fixtures/visible/response-format.json",
+    "response_format_sha256": "18b7fd73850886a68d87d7d147476b3f9288debfd654f505b0246bd214f3a232"
+  },
+  "allowed_tools": ["quality-evaluator"],
+  "network_policy": "none",
+  "allowed_network_hosts": [],
+  "budgets": {
+    "wall_clock_seconds": 10,
+    "max_model_tokens": 0,
+    "max_tool_calls": 1,
+    "max_cost_usd": 0
+  },
+  "verification": {
+    "evaluator_version": "AIOS-P1-001-QUALITY-EVALUATOR/1.0.0",
+    "required_commands": [
+      {
+        "command_id": "evaluator-contract",
+        "role": "issue_specific",
+        "argv": ["/usr/local/bin/node", "evaluation-harness/evaluator/evaluate.mjs", "--help"],
+        "working_directory": "TASK_WORKTREE",
+        "timeout_seconds": 10,
+        "expected_exit_codes": [0],
+        "non_secret_environment": {}
+      }
+    ],
+    "behavioral_assertions": [
+      "The exact result bytes match the frozen oracle result.",
+      "A wrong sum is rejected even if a RunRecord attempts to mark it completed.",
+      "Repeated evaluation of unchanged inputs produces byte-identical verdict output."
+    ],
+    "scope_policy": "Harness conformance only; no B0, VTSR, Repository Intelligence, Agent capability, hidden-set, production, or hostile-principal claim."
+  },
+  "forbidden_changes": [
+    "any mutation of the frozen fixture or evaluator",
+    "any canonical repository or system-under-test checkout mutation"
+  ],
+  "required_evidence": [
+    "primary RunRecord",
+    "controlled failure RunRecord",
+    "byte-identical replay verdict",
+    "evaluator identity and verdict",
+    "hash-bound Evidence Manifest"
+  ],
+  "risk_class": "low",
+  "human_approval_required": true,
+  "tags": ["harness-conformance", "synthetic", "visible", "non-benchmark"]
+}

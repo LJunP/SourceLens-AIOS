@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-15T08:33:10Z"
-verification_scope: LONG_TERM_GOAL_ACTIVATION_AND_P1_001_AUTHORIZATION
+last_verified_at: "2026-07-15T09:45:43Z"
+verification_scope: AIOS_P1_001_FOUNDER_GATE_CLOSE
 
 authority:
   founder: Human Founder
@@ -29,7 +29,7 @@ goal:
   observed_raw_body_sha256: 9b59ffc6919473b596f09a96afc1e8684f076f5ac32c6014ac96344a496cd0d8
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_AND_ACTIVE
-  current_task_authority: AIOS-P1-001
+  current_task_authority: NONE
   note: The active control-plane body equals the Founder-approved body after canonical trailing-LF normalization.
 
 project:
@@ -40,8 +40,10 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  p1_execution_status: TASK_AUTHORIZED
+  p1_execution_status: NO_TASK_AUTHORIZED
   canonical_branch: main
+  accepted_harness_candidate_commit: 02342da942e291eaa65230f824fcf47eae8f8a30
+  accepted_harness_candidate_tree: 1a31751dc1b4d5bc2c9b2c4aaf0aa640528edecc
   realignment_parent_commit: f3fa42221de95381d98fb3c5a966bf33e99e4d21
   realignment_parent_tree: 97972952872b0a1e340b6a88cbd7491b7f7df953
 
@@ -54,34 +56,64 @@ p0_baseline:
   online_verification_status: ARCHIVED_NOT_ON_ACTIVE_PATH
 
 active_work:
-  current_task: AIOS-P1-001
-  current_task_contract: docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
+  current_task: NONE
+  current_task_contract: NONE
   current_execution_authorization:
-    authority: Human Founder
-    authorization_model: TASK_LEVEL_DELEGATED_EXECUTION
-    status: ACTIVE
-    source: CODEX_THREAD_FOUNDER_MESSAGE
-    task_id: AIOS-P1-001
-    task_contract_sha256: d2974752b088ff30b0764d6b482e19ea939cd497eb2db3e26af28bf09dc2e12f
-    goal_body_canonical_sha256: fed643624aa5794a5cea5db2a04f25cc89d829a619e905df946a3616f14ad6c0
-    authorized_parent_commit: 12aa712c8e8456bb4d70a6b5014fb0937ada778f
-    authorized_parent_tree: a2d966ebbd7784d30e7e38eaac04e0b8eb295022
-    scope: TRUTH_SYNC_AND_P1_001_IMPLEMENTATION
-    network: forbidden
-    provider: forbidden
-    secrets: forbidden
-    remote: forbidden
-    production: forbidden
-    main_advance: forbidden_without_founder_gate
-    binding_rule: SHA256_OF_ORDERED_LF_FIELDS_WITH_FINAL_LF
-    binding_sha256: e5e490324bf9aa563847b797ce6567d805bc7452d229b063923e566d67939ad3
+    status: NONE
+    reason: AIOS-P1-001 completed its Founder Gate; no B0, B1, B2 or later task is authorized.
+  next_eligible_action: NONE_UNTIL_FOUNDER_AUTHORIZES_A_SEPARATE_P1_BASELINE_TASK
+
+task_history:
   aios_p1_001:
+    task_id: AIOS-P1-001
     contract: docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
-    status: FOUNDER_TASK_AUTHORIZED
-    execution_authorized: true
-    scheduled_runs: 0
+    task_contract_sha256: d2974752b088ff30b0764d6b482e19ea939cd497eb2db3e26af28bf09dc2e12f
+    status: FOUNDER_GATE_ACCEPTED_COMPLETE
+    execution_authorized: false
+    persistent_evidence_runs: 1
+    measurement_retries: 0
     capability_claims: 0
-  next_eligible_action: Freeze Quality-owned evaluator, oracle and fixtures, then implement AIOS-P1-001 inside the authorized Task envelope.
+    accepted_candidate_commit: 02342da942e291eaa65230f824fcf47eae8f8a30
+    accepted_candidate_tree: 1a31751dc1b4d5bc2c9b2c4aaf0aa640528edecc
+    evidence_manifest_sha256: e1f735816c18ab7631fa1d0b771deccc25564074350d1d74e67975d187ef3952
+    cto_review: PASS
+    security_review: PASS
+    quality_review: PASS
+    founder_gate_decision: PASS
+    founder_gate_decision_record:
+      path: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-001-founder-gate-20260715T093331Z/FOUNDER_GATE_DECISION_RECORD.json
+      sha256: 2bacd875f90619ccba19a2cc56a257721ab85b76bd8d3bc168dc50acec4deb72
+    execution_authorization_history:
+      authority: Human Founder
+      authorization_model: TASK_LEVEL_DELEGATED_EXECUTION
+      original_status: ACTIVE
+      current_status: CONSUMED_AND_CLOSED_BY_FOUNDER_GATE
+      source: CODEX_THREAD_FOUNDER_MESSAGE
+      task_id: AIOS-P1-001
+      task_contract_sha256: d2974752b088ff30b0764d6b482e19ea939cd497eb2db3e26af28bf09dc2e12f
+      goal_body_canonical_sha256: fed643624aa5794a5cea5db2a04f25cc89d829a619e905df946a3616f14ad6c0
+      authorized_parent_commit: 12aa712c8e8456bb4d70a6b5014fb0937ada778f
+      authorized_parent_tree: a2d966ebbd7784d30e7e38eaac04e0b8eb295022
+      scope: TRUTH_SYNC_AND_P1_001_IMPLEMENTATION
+      network: forbidden
+      provider: forbidden
+      secrets: forbidden
+      remote: forbidden
+      production: forbidden
+      main_advance: forbidden_without_founder_gate
+      binding_rule: SHA256_OF_ORDERED_LF_FIELDS_WITH_FINAL_LF
+      binding_sha256: e5e490324bf9aa563847b797ce6567d805bc7452d229b063923e566d67939ad3
+
+gate_history:
+  - task_id: AIOS-P1-001
+    gate: FOUNDER_GATE
+    decision: PASS
+    decision_record_sha256: 2bacd875f90619ccba19a2cc56a257721ab85b76bd8d3bc168dc50acec4deb72
+    candidate_commit: 02342da942e291eaa65230f824fcf47eae8f8a30
+    candidate_tree: 1a31751dc1b4d5bc2c9b2c4aaf0aa640528edecc
+    evidence_manifest_sha256: e1f735816c18ab7631fa1d0b771deccc25564074350d1d74e67975d187ef3952
+    claim_boundary: VISIBLE_SYNTHETIC_DETERMINISTIC_HARNESS_STUB_CONFORMANCE_ONLY
+    next_task_authorized: false
 
 historical_lineages:
   status: CLOSED_AND_EXCLUDED_FROM_DEFAULT_CONTEXT
@@ -121,7 +153,8 @@ p1_boundary:
 
 claim_boundary:
   repository_intelligence_quality: UNKNOWN_NOT_YET_BENCHMARKED
-  evaluation_harness: DEFINED_NOT_IMPLEMENTED
+  evaluation_harness: IMPLEMENTED_AND_FOUNDER_GATE_ACCEPTED_CONFORMANCE_ONLY
+  harness_conformance: PASS
   verified_task_success_rate: UNKNOWN_NO_RUNS
   production_ready: false
   trustworthy_software_engineering_agent_proven: false

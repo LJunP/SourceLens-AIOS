@@ -44,7 +44,9 @@ ruby -ryaml -rjson -rdigest -e '
     "docs/aios/STRATEGIC_CONSTITUTION.md" => "040196be12532b8c3661665995d3e79a28d268a1ecc991623380f0939f468485",
     "docs/aios/MASTER_EXECUTION_PROTOCOL.md" => "47c444c50c7521a7515dfb2fbee0c8c81cc72b32c42eba549d080eeb0c1bcedf",
     "docs/aios/EVALUATION_PROTOCOL.md" => "da029143561fbb3c213d4a358b25e085542c6cd26ae8150a53cbb5998177eed8",
-    "docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml" => "d2974752b088ff30b0764d6b482e19ea939cd497eb2db3e26af28bf09dc2e12f"
+    "docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml" => "d2974752b088ff30b0764d6b482e19ea939cd497eb2db3e26af28bf09dc2e12f",
+    "evaluation-harness/fixtures/oracle/FREEZE_RECEIPT.json" => "ef7f9807795a685d0aa92fc19248ed0101362861ad7d71e4fdcdbb9df0b840c6",
+    "evaluation-harness/recording/aios-p1-001-evidence/evidence-manifest.json" => "e1f735816c18ab7631fa1d0b771deccc25564074350d1d74e67975d187ef3952"
   }
   expected_hashes.each do |path, expected|
     actual = Digest::SHA256.file(path).hexdigest
@@ -55,22 +57,56 @@ ruby -ryaml -rjson -rdigest -e '
   abort "phase must be P1" unless truth.dig("project", "current_phase") == "P1"
   abort "P0 must be complete" unless truth.dig("project", "p0_status") == "COMPLETE"
   abort "P1 entry must be authorized" unless truth.dig("project", "p1_entry_status") == "AUTHORIZED"
-  abort "P1 execution authorization state drift" unless truth.dig("project", "p1_execution_status") == "TASK_AUTHORIZED"
+  abort "P1 execution authorization state drift" unless truth.dig("project", "p1_execution_status") == "NO_TASK_AUTHORIZED"
+  abort "accepted candidate commit drift" unless truth.dig("project", "accepted_harness_candidate_commit") == "02342da942e291eaa65230f824fcf47eae8f8a30"
+  abort "accepted candidate tree drift" unless truth.dig("project", "accepted_harness_candidate_tree") == "1a31751dc1b4d5bc2c9b2c4aaf0aa640528edecc"
   abort "active Goal state drift" unless truth.dig("goal", "control_plane_status_observed") == "ACTIVE"
   abort "active Goal canonical hash drift" unless truth.dig("goal", "observed_body_sha256") == "fed643624aa5794a5cea5db2a04f25cc89d829a619e905df946a3616f14ad6c0"
   abort "active Goal raw hash drift" unless truth.dig("goal", "observed_raw_body_sha256") == "9b59ffc6919473b596f09a96afc1e8684f076f5ac32c6014ac96344a496cd0d8"
   abort "active Goal canonicalization drift" unless truth.dig("goal", "body_canonicalization") == "UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF"
   abort "active Goal identity state drift" unless truth.dig("goal", "identity_status") == "FOUNDER_MANUALLY_INSTALLED_AND_ACTIVE"
-  abort "Goal task authority drift" unless truth.dig("goal", "current_task_authority") == "AIOS-P1-001"
-  abort "current task drift" unless truth.dig("active_work", "current_task") == "AIOS-P1-001"
-  abort "current Task Contract path drift" unless truth.dig("active_work", "current_task_contract") == "docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml"
+  abort "Goal task authority was not cleared" unless truth.dig("goal", "current_task_authority") == "NONE"
+  abort "current task was not cleared" unless truth.dig("active_work", "current_task") == "NONE"
+  abort "current Task Contract was not cleared" unless truth.dig("active_work", "current_task_contract") == "NONE"
+  abort "next action over-authorizes a task" unless truth.dig("active_work", "next_eligible_action") == "NONE_UNTIL_FOUNDER_AUTHORIZES_A_SEPARATE_P1_BASELINE_TASK"
 
   authorization = truth.dig("active_work", "current_execution_authorization")
-  abort "Founder authorization missing" unless authorization.is_a?(Hash)
+  abort "current authorization state missing" unless authorization.is_a?(Hash)
+  abort "current execution authorization was not cleared" unless authorization["status"] == "NONE"
+  abort "current authorization clear reason drift" unless authorization["reason"] == "AIOS-P1-001 completed its Founder Gate; no B0, B1, B2 or later task is authorized."
+
+  completed = truth.dig("task_history", "aios_p1_001")
+  abort "P1-001 completion history missing" unless completed.is_a?(Hash)
+  expected_completion = {
+    "task_id" => "AIOS-P1-001",
+    "contract" => "docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml",
+    "task_contract_sha256" => "d2974752b088ff30b0764d6b482e19ea939cd497eb2db3e26af28bf09dc2e12f",
+    "status" => "FOUNDER_GATE_ACCEPTED_COMPLETE",
+    "execution_authorized" => false,
+    "persistent_evidence_runs" => 1,
+    "measurement_retries" => 0,
+    "capability_claims" => 0,
+    "accepted_candidate_commit" => "02342da942e291eaa65230f824fcf47eae8f8a30",
+    "accepted_candidate_tree" => "1a31751dc1b4d5bc2c9b2c4aaf0aa640528edecc",
+    "evidence_manifest_sha256" => "e1f735816c18ab7631fa1d0b771deccc25564074350d1d74e67975d187ef3952",
+    "cto_review" => "PASS",
+    "security_review" => "PASS",
+    "quality_review" => "PASS",
+    "founder_gate_decision" => "PASS"
+  }
+  expected_completion.each do |field, expected|
+    abort "P1-001 completion drift: #{field}" unless completed[field] == expected
+  end
+  gate_record = completed.fetch("founder_gate_decision_record")
+  abort "Founder Gate record path drift" unless gate_record["path"] == "/Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-001-founder-gate-20260715T093331Z/FOUNDER_GATE_DECISION_RECORD.json"
+  abort "Founder Gate record hash drift" unless gate_record["sha256"] == "2bacd875f90619ccba19a2cc56a257721ab85b76bd8d3bc168dc50acec4deb72"
+
+  authorization = completed.fetch("execution_authorization_history")
   expected_authorization = {
     "authority" => "Human Founder",
     "authorization_model" => "TASK_LEVEL_DELEGATED_EXECUTION",
-    "status" => "ACTIVE",
+    "original_status" => "ACTIVE",
+    "current_status" => "CONSUMED_AND_CLOSED_BY_FOUNDER_GATE",
     "source" => "CODEX_THREAD_FOUNDER_MESSAGE",
     "task_id" => "AIOS-P1-001",
     "task_contract_sha256" => "d2974752b088ff30b0764d6b482e19ea939cd497eb2db3e26af28bf09dc2e12f",
@@ -108,10 +144,18 @@ ruby -ryaml -rjson -rdigest -e '
   expected_binding = Digest::SHA256.hexdigest(authorization_fields.join("\n") + "\n")
   abort "Founder authorization binding drift" unless authorization["binding_sha256"] == expected_binding
 
-  abort "P1-001 current-state status drift" unless truth.dig("active_work", "aios_p1_001", "status") == "FOUNDER_TASK_AUTHORIZED"
-  abort "P1-001 execution authorization missing" unless truth.dig("active_work", "aios_p1_001", "execution_authorized") == true
-  abort "P1-001 runs are not zero" unless truth.dig("active_work", "aios_p1_001", "scheduled_runs") == 0
-  abort "P1-001 capability claims are not zero" unless truth.dig("active_work", "aios_p1_001", "capability_claims") == 0
+  gate_history = truth.fetch("gate_history")
+  abort "Founder Gate history population drift" unless gate_history.is_a?(Array) && gate_history.length == 1
+  gate = gate_history.first
+  abort "Founder Gate task drift" unless gate["task_id"] == "AIOS-P1-001"
+  abort "Founder Gate decision drift" unless gate["gate"] == "FOUNDER_GATE" && gate["decision"] == "PASS"
+  abort "Founder Gate record binding drift" unless gate["decision_record_sha256"] == "2bacd875f90619ccba19a2cc56a257721ab85b76bd8d3bc168dc50acec4deb72"
+  abort "Founder Gate candidate drift" unless gate["candidate_commit"] == "02342da942e291eaa65230f824fcf47eae8f8a30" && gate["candidate_tree"] == "1a31751dc1b4d5bc2c9b2c4aaf0aa640528edecc"
+  abort "Founder Gate Evidence drift" unless gate["evidence_manifest_sha256"] == "e1f735816c18ab7631fa1d0b771deccc25564074350d1d74e67975d187ef3952"
+  abort "Founder Gate claim boundary drift" unless gate["claim_boundary"] == "VISIBLE_SYNTHETIC_DETERMINISTIC_HARNESS_STUB_CONFORMANCE_ONLY"
+  abort "Founder Gate auto-authorized a next task" unless gate["next_task_authorized"] == false
+  abort "Harness conformance status drift" unless truth.dig("claim_boundary", "evaluation_harness") == "IMPLEMENTED_AND_FOUNDER_GATE_ACCEPTED_CONFORMANCE_ONLY"
+  abort "Harness conformance did not pass" unless truth.dig("claim_boundary", "harness_conformance") == "PASS"
   abort "offsite custody status drift" unless truth.dig("historical_lineages", "archive", "offsite_status") == "PASS_WITH_DECLARED_HISTORICAL_COUNT_LIMITATION"
   abort "offsite verification binding drift" unless truth.dig("historical_lineages", "archive", "offsite_verification_receipt_sha256") == "e45658d02dc21184cc5c79d5a2b052ce1b2e3885b342930a2e0fb536ba03a91f"
   abort "production readiness falsely claimed" unless truth.dig("claim_boundary", "production_ready") == false
@@ -181,6 +225,9 @@ ruby -ryaml -rjson -rdigest -e '
 
   Dir.glob("docs/aios/schemas/*.json").each { |path| JSON.parse(File.read(path)) }
 ' || fail "structured authority validation failed"
+
+[[ "$(git rev-parse 02342da942e291eaa65230f824fcf47eae8f8a30^{tree})" == "1a31751dc1b4d5bc2c9b2c4aaf0aa640528edecc" ]] || fail "accepted candidate tree no longer resolves"
+git merge-base --is-ancestor 02342da942e291eaa65230f824fcf47eae8f8a30 HEAD || fail "accepted candidate is not an ancestor of current main"
 
 historical_paths=(
   CHAIRMAN_BRIEFING.md

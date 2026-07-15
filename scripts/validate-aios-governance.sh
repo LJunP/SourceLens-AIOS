@@ -26,6 +26,7 @@ required_files=(
   docs/aios/truth/project_state.yaml
   docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
   docs/aios/tasks/P1-002_B0_ADAPTER_CONFORMANCE.yaml
+  docs/aios/tasks/P1-003_PILOT_TASK_DATASET_AND_HIDDEN_SET_CURATION.yaml
   docs/aios/schemas/task-spec.schema.json
   docs/aios/schemas/environment-snapshot.schema.json
   docs/aios/schemas/system-configuration.schema.json
@@ -36,10 +37,19 @@ for file in "${required_files[@]}"; do
   [[ -s "$file" ]] || fail "required file missing or empty: $file"
 done
 
-ruby -ryaml -rjson -rdigest -e '
+ruby -ryaml -rjson -rdigest -rtime -e '
   truth = YAML.safe_load(File.read("docs/aios/truth/project_state.yaml"), aliases: false)
   task = YAML.safe_load(File.read("docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml"), aliases: false)
   terminal_task = YAML.safe_load(File.read("docs/aios/tasks/P1-002_B0_ADAPTER_CONFORMANCE.yaml"), aliases: false)
+  pilot_task_path = "docs/aios/tasks/P1-003_PILOT_TASK_DATASET_AND_HIDDEN_SET_CURATION.yaml"
+  pilot_task_sha = "8dec9d7b12df2e31c62e9ce146938c8a192b4751ce3a9aced3ccd38414fd0aa6"
+  pilot_task = YAML.safe_load(File.read(pilot_task_path), aliases: false)
+  authorization_path = "/Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-003-execution-authorization-20260715T125627Z/FOUNDER_EXECUTION_AUTHORIZATION_RECORD.json"
+  authorization_sha = "1082f0a81eb41a1fae9a1767d421bb0fe8f11810bccba197ad18e3e430762a1b"
+  abort "P1-003 Founder authorization missing" unless File.file?(authorization_path)
+  pilot_authorization = JSON.parse(File.read(authorization_path))
+  goal_path = "/Users/lijunpeng/.codex/attachments/37671a04-0182-4aff-9f0a-c044c5b3cfa3/goal-objective.md"
+  abort "active Goal body missing" unless File.file?(goal_path)
   ledger = YAML.safe_load(File.read("docs/aios/MIGRATION_LEDGER.yaml"), aliases: false)
 
   expected_hashes = {
@@ -48,6 +58,8 @@ ruby -ryaml -rjson -rdigest -e '
     "docs/aios/EVALUATION_PROTOCOL.md" => "da029143561fbb3c213d4a358b25e085542c6cd26ae8150a53cbb5998177eed8",
     "docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml" => "d2974752b088ff30b0764d6b482e19ea939cd497eb2db3e26af28bf09dc2e12f",
     "docs/aios/tasks/P1-002_B0_ADAPTER_CONFORMANCE.yaml" => "c303f045e67dc1f76d51a5789eeb0573021bdcd9d17cd169d7448f64f91a87d8",
+    pilot_task_path => pilot_task_sha,
+    authorization_path => authorization_sha,
     "evaluation-harness/fixtures/oracle/FREEZE_RECEIPT.json" => "ef7f9807795a685d0aa92fc19248ed0101362861ad7d71e4fdcdbb9df0b840c6",
     "evaluation-harness/recording/aios-p1-001-evidence/evidence-manifest.json" => "e1f735816c18ab7631fa1d0b771deccc25564074350d1d74e67975d187ef3952"
   }
@@ -60,7 +72,7 @@ ruby -ryaml -rjson -rdigest -e '
   abort "phase must be P1" unless truth.dig("project", "current_phase") == "P1"
   abort "P0 must be complete" unless truth.dig("project", "p0_status") == "COMPLETE"
   abort "P1 entry must be authorized" unless truth.dig("project", "p1_entry_status") == "AUTHORIZED"
-  abort "P1 execution authorization state drift" unless truth.dig("project", "p1_execution_status") == "NO_ACTIVE_TASK_AUTHORIZED"
+  abort "P1 execution authorization state drift" unless truth.dig("project", "p1_execution_status") == "GOVERNANCE_SYNC_AUTHORIZED_IMPLEMENTATION_BINDING_PENDING"
   abort "accepted candidate commit drift" unless truth.dig("project", "accepted_harness_candidate_commit") == "02342da942e291eaa65230f824fcf47eae8f8a30"
   abort "accepted candidate tree drift" unless truth.dig("project", "accepted_harness_candidate_tree") == "1a31751dc1b4d5bc2c9b2c4aaf0aa640528edecc"
   abort "active Goal state drift" unless truth.dig("goal", "control_plane_status_observed") == "ACTIVE"
@@ -68,18 +80,97 @@ ruby -ryaml -rjson -rdigest -e '
   abort "active Goal raw hash drift" unless truth.dig("goal", "observed_raw_body_sha256") == "9b59ffc6919473b596f09a96afc1e8684f076f5ac32c6014ac96344a496cd0d8"
   abort "active Goal canonicalization drift" unless truth.dig("goal", "body_canonicalization") == "UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF"
   abort "active Goal identity state drift" unless truth.dig("goal", "identity_status") == "FOUNDER_MANUALLY_INSTALLED_AND_ACTIVE"
+  goal_bytes = File.binread(goal_path)
+  abort "active Goal raw bytes drift" unless Digest::SHA256.hexdigest(goal_bytes) == "9b59ffc6919473b596f09a96afc1e8684f076f5ac32c6014ac96344a496cd0d8"
+  canonical_goal = goal_bytes.force_encoding("UTF-8").gsub("\r\n", "\n").gsub("\r", "\n").sub(/\n*\z/, "\n")
+  abort "active Goal canonical bytes drift" unless canonical_goal.valid_encoding? && Digest::SHA256.hexdigest(canonical_goal) == "fed643624aa5794a5cea5db2a04f25cc89d829a619e905df946a3616f14ad6c0"
   terminal_task_id = "AIOS-P1-002_B0_ADAPTER_CONFORMANCE"
   terminal_task_path = "docs/aios/tasks/P1-002_B0_ADAPTER_CONFORMANCE.yaml"
   terminal_task_sha = "c303f045e67dc1f76d51a5789eeb0573021bdcd9d17cd169d7448f64f91a87d8"
-  abort "Goal task authority must be NONE" unless truth.dig("goal", "current_task_authority") == "NONE"
-  abort "current task must be NONE" unless truth.dig("active_work", "current_task") == "NONE"
-  abort "current Task Contract must be NONE" unless truth.dig("active_work", "current_task_contract") == "NONE"
-  abort "current execution authorization must be NONE" unless truth.dig("active_work", "current_execution_authorization") == "NONE"
-  abort "next action drift" unless truth.dig("active_work", "next_eligible_action") == "FOUNDER_SELECT_NEXT_P1_TASK"
-  abort "P1 idle boundary drift" unless truth.dig("p1_boundary", "allowed_now") == [
-    "No P1 Task execution is currently authorized.",
-    "Founder may select one next P1 Task after reading this terminal state; phase entry does not authorize execution."
+  pilot_task_id = "AIOS-P1-003_PILOT_TASK_DATASET_AND_HIDDEN_SET_CURATION"
+  abort "Goal task authority drift" unless truth.dig("goal", "current_task_authority") == "#{pilot_task_id}_GOVERNANCE_SYNC_ONLY"
+  abort "current task drift" unless truth.dig("active_work", "current_task") == pilot_task_id
+  abort "current task state drift" unless truth.dig("active_work", "current_task_status") == "P1_003_GOVERNANCE_SYNC_AUTHORIZED"
+  current_contract = truth.dig("active_work", "current_task_contract")
+  abort "current Task Contract binding drift" unless current_contract == {
+    "path" => pilot_task_path,
+    "sha256" => pilot_task_sha,
+    "capture_time_status" => "DRAFT_NOT_AUTHORIZED",
+    "execution_authorized_by_contract_bytes" => false
+  }
+  current_authorization = truth.dig("active_work", "current_execution_authorization")
+  abort "current authorization path drift" unless current_authorization["path"] == authorization_path
+  abort "current authorization hash drift" unless current_authorization["sha256"] == authorization_sha
+  abort "current authorization status drift" unless current_authorization["status"] == "ACTIVE_FOR_GOVERNANCE_SYNC"
+  abort "current authorization scope drift" unless current_authorization["scope"] == "GOVERNANCE_ONLY_PRE_EXECUTION_SYNC"
+  abort "current authorization nonce drift" unless current_authorization["nonce"] == "b56ae67c0aa13fff47c396bc7c064d74a56bb93a6ab27ebeebfb69f9997894c9"
+  abort "current authorization time binding drift" unless current_authorization["effective_from_utc"] == "2026-07-15T12:56:27Z" && current_authorization["expires_at_utc"] == "2026-07-22T12:56:27Z"
+  abort "current authorization parent drift" unless current_authorization["authorized_parent_commit"] == "4fc43418755c6d63b8d6cecd04a23e0101259d65" && current_authorization["authorized_parent_tree"] == "d9475b5d07fb80dd981bfb49e067edffba2d5b86"
+  abort "implementation parent binding was prematurely claimed" unless truth.dig("active_work", "implementation_parent_binding") == "PENDING_APPEND_ONLY_HASH_BOUND_RECORD"
+  abort "next action drift" unless truth.dig("active_work", "next_eligible_action") == "ROOT_CREATE_HASH_BOUND_IMPLEMENTATION_PARENT_BINDING"
+  abort "P1 governance-sync boundary drift" unless truth.dig("p1_boundary", "allowed_now") == [
+    "The exact P1-003 governance-only pre-execution sync is authorized from parent 4fc43418755c6d63b8d6cecd04a23e0101259d65.",
+    "P1-003 implementation remains inactive until an append-only Founder binding records this governance-sync commit and tree as the implementation parent.",
+    "No Task branch, worktree, data acquisition, network effect, dataset root, experiment or baseline run is authorized by the current governance-sync state."
   ]
+
+  abort "P1-003 Task id drift" unless pilot_task["task_id"] == pilot_task_id
+  abort "P1-003 phase drift" unless pilot_task["phase"] == "P1"
+  abort "P1-003 contract bytes self-authorized" unless pilot_task["status"] == "DRAFT_NOT_AUTHORIZED" && pilot_task["execution_authorized"] == false
+  abort "P1-003 contract draft boundary drift" unless pilot_task.dig("founder_selection", "authorization_effect") == "DRAFT_ONLY" && pilot_task.dig("founder_selection", "network_authorized") == false && pilot_task.dig("founder_selection", "data_acquisition_authorized") == false && pilot_task.dig("founder_selection", "experiment_authorized") == false
+  abort "P1-003 selected parent drift" unless pilot_task.dig("source", "selected_parent_commit") == "4fc43418755c6d63b8d6cecd04a23e0101259d65" && pilot_task.dig("source", "selected_parent_tree") == "d9475b5d07fb80dd981bfb49e067edffba2d5b86"
+  expected_sync_paths = [
+    pilot_task_path,
+    "docs/aios/truth/project_state.yaml",
+    "scripts/validate-aios-governance.sh",
+    "scripts/check-p1-safety-boundary.sh",
+    "docs/PROJECT_CODE_MAP.md"
+  ]
+  abort "P1-003 governance sync paths drift" unless pilot_task.dig("implementation_scope", "pre_execution_governance_sync_paths") == expected_sync_paths
+  abort "P1-003 task count drift" unless pilot_task.dig("dataset_identity", "exact_curation_eligible_task_count") == 8 && pilot_task.dig("dataset_identity", "split_counts") == {"development" => 4, "validation" => 2, "hidden" => 2}
+  abort "P1-003 model budget widened" unless pilot_task.dig("budget", "model_calls") == 0 && pilot_task.dig("budget", "provider_calls") == 0 && pilot_task.dig("budget", "baseline_runs") == 0
+  abort "P1-003 remote or production budget widened" unless pilot_task.dig("budget", "remote_writes") == 0 && pilot_task.dig("budget", "production_effects") == 0 && pilot_task.dig("budget", "public_releases") == 0
+  abort "P1-003 new runtime boundary widened" unless pilot_task.dig("budget", "new_runtime_services") == 0 && pilot_task.dig("budget", "new_sandbox_or_execution_carrier") == 0
+  abort "P1-003 network draft boundary drift" unless pilot_task.dig("proposed_network_boundary", "current_status") == "NOT_AUTHORIZED_BY_THIS_DRAFT"
+  abort "P1-003 accepted harness became writable" unless (pilot_task.dig("implementation_scope", "immutable_inputs") || []).include?("evaluation-harness/recording/aios-p1-001-evidence/**")
+  abort "P1-003 claim boundary widened" unless pilot_task.dig("claim_boundary", "does_not_prove").include?("P1 exit") && pilot_task.dig("claim_boundary", "does_not_prove").include?("B0, B1, B2 or A0 performance")
+
+  abort "P1-003 authorization status drift" unless pilot_authorization["status"] == "ACTIVE" && pilot_authorization["authority"] == "Human Founder"
+  abort "P1-003 authorization Task binding drift" unless pilot_authorization["task_id"] == pilot_task_id && pilot_authorization["task_contract_sha256"] == pilot_task_sha
+  abort "P1-003 authorization Goal binding drift" unless pilot_authorization["goal_raw_body_sha256"] == "9b59ffc6919473b596f09a96afc1e8684f076f5ac32c6014ac96344a496cd0d8" && pilot_authorization["goal_canonical_body_sha256"] == "fed643624aa5794a5cea5db2a04f25cc89d829a619e905df946a3616f14ad6c0"
+  abort "P1-003 authorization authority binding drift" unless pilot_authorization["constitution_sha256"] == "040196be12532b8c3661665995d3e79a28d268a1ecc991623380f0939f468485" && pilot_authorization["master_execution_protocol_sha256"] == "47c444c50c7521a7515dfb2fbee0c8c81cc72b32c42eba549d080eeb0c1bcedf" && pilot_authorization["evaluation_protocol_sha256"] == "da029143561fbb3c213d4a358b25e085542c6cd26ae8150a53cbb5998177eed8"
+  abort "P1-003 authorization parent drift" unless pilot_authorization["authorized_parent_commit"] == "4fc43418755c6d63b8d6cecd04a23e0101259d65" && pilot_authorization["authorized_parent_tree"] == "d9475b5d07fb80dd981bfb49e067edffba2d5b86"
+  abort "P1-003 authorization nonce drift" unless pilot_authorization["execution_nonce"] == "b56ae67c0aa13fff47c396bc7c064d74a56bb93a6ab27ebeebfb69f9997894c9"
+  effective_from = Time.iso8601(pilot_authorization.fetch("effective_from_utc"))
+  expires_at = Time.iso8601(pilot_authorization.fetch("expires_at_utc"))
+  abort "P1-003 authorization window drift" unless pilot_authorization["effective_from_utc"] == "2026-07-15T12:56:27Z" && pilot_authorization["expires_at_utc"] == "2026-07-22T12:56:27Z" && effective_from <= Time.now.utc && Time.now.utc < expires_at
+  expected_scope = {
+    "governance_only_pre_execution_sync" => true,
+    "one_task_branch" => "task/AIOS-P1-003-pilot-dataset-curation",
+    "one_task_worktree" => "/Users/lijunpeng/Desktop/cc/project/.sourcelens-worktrees/AIOS-P1-003-pilot-dataset-curation",
+    "dataset_curation" => true,
+    "anonymous_read_only_network_acquisition" => true,
+    "offline_fixed_digest_disposable_oci_verification" => true,
+    "evidence_and_independent_review" => true,
+    "offsite_package_and_restore_verification" => true,
+    "main_advance" => false,
+    "baseline_execution" => false
+  }
+  abort "P1-003 authorization scope drift" unless pilot_authorization["authorized_scope"] == expected_scope
+  abort "P1-003 offsite binding drift" unless pilot_authorization.dig("offsite_binding", "path") == "/Volumes/lijp/SourceLens-AIOS-P1-003-offsite-20260715T125627Z" && pilot_authorization.dig("offsite_binding", "expected_volume_uuid") == "2D3D7BCD-5BC5-3D2A-B853-F1FA95D290F8"
+  abort "P1-003 offsite precondition weakened" unless pilot_authorization.dig("offsite_binding", "write_precondition") == "VOLUME_MOUNTED_AND_UUID_EXACT_MATCH_AND_TARGET_PATH_ABSENT" && pilot_authorization.dig("offsite_binding", "non_match_effect") == "STOP_BEFORE_OFFSITE_WRITE"
+  expected_budget = {
+    "engineering_hours" => 32, "calendar_days" => 7, "maximum_candidates_screened" => 24,
+    "maximum_external_repositories_acquired" => 4, "maximum_anonymous_network_requests" => 120,
+    "maximum_total_inbound_bytes" => 1073741824, "maximum_external_staging_bytes" => 4294967296,
+    "in_task_correction_passes" => 2, "model_calls" => 0, "provider_calls" => 0,
+    "baseline_runs" => 0, "remote_writes" => 0, "production_effects" => 0,
+    "public_releases" => 0
+  }
+  abort "P1-003 authorization budget drift" unless pilot_authorization["budgets"] == expected_budget
+  %w[canonical\ main\ advance B0/B1/B2/A0\ execution P1\ exit P2\ or\ P3\ entry Provider\ or\ Secret\ use authenticated\ network remote\ write production\ effect public\ release Supervisor\ or\ Root\ Custody new\ execution\ carrier\ or\ sandbox\ design successor,\ replacement,\ normalization\ or\ correction\ chain].each do |boundary|
+    abort "P1-003 non-authorization missing: #{boundary}" unless pilot_authorization.fetch("explicit_non_authorizations").include?(boundary.tr("\\", ""))
+  end
 
   completed = truth.dig("task_history", "aios_p1_001")
   abort "P1-001 completion history missing" unless completed.is_a?(Hash)
@@ -343,10 +434,10 @@ if git grep -n -E 'AIOS-P1-001 Contract Freeze|P1-001 execution: NOT AUTHORIZED'
 fi
 
 task_branch_count="$(git for-each-ref --format='%(refname:short)' refs/heads/task/ | wc -l | tr -d ' ')"
-[[ "$task_branch_count" -eq 0 ]] || fail "task branch exists while current Task is NONE"
+[[ "$task_branch_count" -eq 0 ]] || fail "task branch exists before P1-003 implementation-parent binding"
 
 worktree_count="$(git worktree list --porcelain | grep -c '^worktree ' || true)"
-[[ "$worktree_count" -eq 1 ]] || fail "task worktree exists while current Task is NONE"
+[[ "$worktree_count" -eq 1 ]] || fail "task worktree exists before P1-003 implementation-parent binding"
 
 git diff --check || fail "git whitespace validation failed"
 

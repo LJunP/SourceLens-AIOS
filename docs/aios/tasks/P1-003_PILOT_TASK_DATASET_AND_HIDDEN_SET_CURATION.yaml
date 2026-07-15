@@ -1,0 +1,1056 @@
+schema_version: 2
+record_type: sourcelens_aios_task_contract
+task_id: AIOS-P1-003_PILOT_TASK_DATASET_AND_HIDDEN_SET_CURATION
+phase: P1
+title: Curate and freeze P1 Pilot Task Dataset v0.1 with operational hidden-set custody
+status: DRAFT_NOT_AUTHORIZED
+execution_authorized: false
+
+founder_selection:
+  source: CODEX_THREAD_FOUNDER_MESSAGE
+  message_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  message_sha256: 0ea4648595cd55fc786e6f8066673f69442c17c1453b911f444b14de6cf24625
+  message_byte_length: 162
+  message: "批准采用混合来源策略，起草 P1 Pilot Task Dataset + Hidden-set Curation 的 exact Task Contract；当前仅起草，不执行数据获取或实验。"
+  authorization_effect: DRAFT_ONLY
+  network_authorized: false
+  data_acquisition_authorized: false
+  experiment_authorized: false
+
+objective: >-
+  Curate, version and freeze p1-pilot-task-dataset-v0.1 as a small mixed-source
+  software-engineering task set. The Task must bind provenance, rights status,
+  immutable source identity, reproducible environment materialization, issue-specific
+  verification, development/validation/hidden separation, lineage and contamination
+  analysis, operational hidden-set custody, deterministic validation, rebuild evidence
+  and rollback evidence. It must produce exactly eight curation-eligible real tasks
+  split 4/2/2.
+  It does not run a model or any B0/B1/B2/A0 baseline and does not establish a
+  representative benchmark, VTSR, P1 exit or Agent capability.
+
+why_now:
+  - AIOS-P1-001 passed Founder Gate and proved only the deterministic visible synthetic harness path.
+  - AIOS-P1-002 is terminally stopped and cannot be resumed, retried or used as an accepted B0 adapter.
+  - P1 requires a versioned task set and implementation-hidden evaluation boundary before comparable baseline runs are scientifically defensible.
+  - Current canonical assets contain only one visible synthetic conformance fixture and one 22-case regression corpus whose benchmarkClaim remains false.
+  - Task curation is the smallest next P1 research asset that advances B0/B1/B2 comparability without entering P2 Repository Intelligence or P3 Runtime/Trust work.
+
+research_hypothesis:
+  statement: >-
+    A bounded mixed-source pilot can produce exactly eight real, reconstructable and
+    mechanically validated software-engineering tasks with explicit provenance,
+    rights classification, 4/2/2 split isolation, issue-specific oracles and
+    operational hidden custody within the declared budget, without modifying accepted
+    schemas or running any model baseline.
+  falsifier: >-
+    Eight eligible tasks cannot be obtained within budget; any accepted source,
+    license, issue, patch, oracle, environment, split or hidden-custody identity cannot
+    be made reproducible and hash-bound; hidden bytes are exposed to a prohibited role;
+    accepted schemas must change; or completion requires P2/P3 capability.
+
+dataset_identity:
+  dataset_id: SourceLens-AIOS-P1-PILOT-TASK-DATASET
+  dataset_version: p1-pilot-task-dataset-v0.1
+  intended_use: CONTROLLED_P1_DATASET_CURATION_CANDIDATE
+  publication_status: INTERNAL_NOT_AUTHORIZED_FOR_PUBLIC_RELEASE
+  exact_curation_eligible_task_count: 8
+  split_counts:
+    development: 4
+    validation: 2
+    hidden: 2
+  source_mix:
+    sourcelens_internal_reconstructed_development_tasks:
+      minimum: 1
+      maximum: 2
+    public_oss_development_tasks:
+      minimum: 2
+      maximum: 3
+    public_oss_validation_tasks: 2
+    public_oss_hidden_tasks: 2
+    development_formula: public_oss_development_tasks = 4 - sourcelens_internal_reconstructed_development_tasks
+  excluded_from_count:
+    - evaluation-harness/fixtures/visible synthetic harness-conformance fixture
+    - backend-spring 22-case retrieval regression corpus
+    - any candidate whose eligibility is not CURATION_ELIGIBLE
+  diversity_floor:
+    repository_lineages: 5
+    external_repository_lineages: 4
+    language_or_build_ecosystems: 2
+    bounded_engineering_task_categories: 3
+
+claim_boundary:
+  proves_if_accepted:
+    - p1-pilot-task-dataset-v0.1 contains exactly eight hash-bound curation-eligible pilot tasks
+    - provenance, rights classification, source identity and environment materialization are recorded for those tasks
+    - development, validation and implementation-hidden split mechanics pass declared overlap checks
+    - operational hidden custody and deterministic dataset validation work under cooperative local role separation
+    - the frozen pilot is eligible as input to a separately authorized baseline-configuration freeze and evaluation-preparation task
+  does_not_prove:
+    - statistical or domain representativeness
+    - a public benchmark or SourceLens-Bench
+    - P1 exit
+    - B0, B1, B2 or A0 performance
+    - Verified Task Success Rate or any denominator entry
+    - software-engineering Agent capability or superiority
+    - that public hidden tasks were absent from model training data
+    - hostile-principal secrecy, OS-level isolation or P3 Trust Runtime security
+    - production readiness or public redistribution authority
+    - final baseline-ready EnvironmentSnapshots or a frozen live-model configuration
+  required_terms:
+    hidden_set_term: IMPLEMENTATION_HIDDEN
+    overlap_term: NO_KNOWN_OVERLAP
+    forbidden_terms:
+      - MODEL_UNSEEN
+      - UNCONTAMINATED
+      - REPRESENTATIVE_BENCHMARK
+
+source:
+  canonical_repository: /Users/lijunpeng/Desktop/cc/project/SourceLens-AIOS
+  canonical_branch: main
+  selected_parent_commit: 4fc43418755c6d63b8d6cecd04a23e0101259d65
+  selected_parent_tree: d9475b5d07fb80dd981bfb49e067edffba2d5b86
+  contract_canonical_path: docs/aios/tasks/P1-003_PILOT_TASK_DATASET_AND_HIDDEN_SET_CURATION.yaml
+  pre_execution_sync_rule: >-
+    Before implementation, a separately Founder-authorized governance-only sync may
+    add these exact Task Contract bytes and synchronize current Truth, governance
+    validation, the P1 safety validator and the mechanical code map. The implementation
+    branch must start from that exact sync commit/tree, which must be bound in the
+    Founder Execution Authorization. No other pre-execution main change is allowed.
+  task_branch: task/AIOS-P1-003-pilot-dataset-curation
+  task_worktree: /Users/lijunpeng/Desktop/cc/project/.sourcelens-worktrees/AIOS-P1-003-pilot-dataset-curation
+  external_dataset_root: /Users/lijunpeng/Desktop/cc/project/.sourcelens-datasets/AIOS-P1-003/pilot-v0.1
+  external_hidden_root: /Users/lijunpeng/Desktop/cc/project/.sourcelens-datasets/AIOS-P1-003/pilot-v0.1-hidden-quality-custody
+  external_evidence_root: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-003-pilot-dataset-v0.1
+  inherited_source_worktree_write_allowed: false
+  canonical_main_write_during_implementation: false
+
+authority_prerequisites_for_execution:
+  - Founder accepts the exact Task Contract SHA-256.
+  - Founder separately authorizes one Task-level execution envelope and binds the implementation parent commit/tree, nonce and effective window.
+  - Founder asserts sufficient internal research rights for the selected exact SourceLens commits and paths; imported or third-party paths not covered by that assertion are excluded, and public redistribution remains prohibited.
+  - Founder explicitly authorizes the proposed anonymous read-only network allowlist and byte/request budgets.
+  - Founder accepts cooperative-local role/context hidden custody as the bounded P1 claim.
+  - Founder accepts curation-only no-model EnvironmentSnapshot metadata and that a later baseline task must create a new dataset version with exact live-model configuration before any baseline run.
+  - Founder authorizes only an already available fixed-digest disposable OCI evaluation environment; this Task may not design a new carrier or sandbox.
+  - Founder binds an offsite destination and volume identity before the offsite Gate action.
+  - Current Truth and validators are synchronized by the exact governance-only pre-execution sync rule.
+
+roles:
+  accountable_owner: Chief AI Research Agent
+  integration_owner: Engineering Manager Agent
+  value_and_task_mix_reviewer: Product Intelligence Agent
+  visible_dataset_worker: Dataset Curation Researcher
+  hidden_curator_and_custodian: Quality and Evaluation Agent dedicated hidden-custody instance
+  independent_reviewers:
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent independent reviewer instance
+  separation_rules:
+    - The hidden curator/custodian and independent Quality reviewer must be distinct physical Agent instances and contexts.
+    - The visible Dataset Worker may know the declared generic custody root path from this Contract but is not authorized or instructed to access it and must not receive hidden task identities, hidden issue bytes, expected patches, private tests or hidden evaluator bytes.
+    - The Product reviewer assesses task relevance and mix but cannot accept technical, security or quality evidence.
+    - Implementers may critique their own output but cannot provide final independent acceptance.
+    - One path has exactly one active writer Owner at a time.
+
+delegated_execution:
+  model: TASK_LEVEL_FOUNDER_AUTHORIZATION
+  founder_approval_granularity: one exact Task envelope, not individual files or commands
+  ordinary_curation_and_implementation_fixes_inside_scope: allowed
+  candidate_exclusion_inside_fixed_screening_budget: allowed_and_not_a_retry
+  automatic_successor_replacement_or_correction_chain: forbidden
+  escalation_conditions:
+    - objective, task count, split, path, role, budget, network host, permission or claim expansion
+    - a Secret, authenticated account, Provider, remote write, production or public-release capability is required
+    - accepted schema, P1-001 accepted artifact, source identity or hidden-custody boundary drifts
+    - P2 Repository Intelligence or P3 Runtime/Trust capability is required
+    - any Stop Condition
+
+source_strategy:
+  sourcelens_internal_candidates:
+    allowed_split: development
+    required_count_minimum: 1
+    required_count_maximum: 2
+    source_kind: internal_issue
+    rights_status: FOUNDER_ASSERTED_SUFFICIENT_INTERNAL_RESEARCH_RIGHTS_REQUIRED
+    internal_custody: RESTRICTED
+    public_redistribution: PROHIBITED
+    candidate_fix_commits:
+      - fix_commit: 040cff0219b7413a5dd5861b4f7be7a250db6d69
+        fix_tree: ff17d10e2f3de7550d183fe3cf0b43a2936014d9
+        base_commit: 627bb64c5d636a24cea24c6d21d3500c3aeafcb1
+        base_tree: d745083c99e25cfef2170a3a8551393720589bbf
+      - fix_commit: 77892349578febc43c1c4054081d4c9cfa5c3cfc
+        fix_tree: c34240cc6a486d17872a505dda8ef508e41d0364
+        base_commit: 040cff0219b7413a5dd5861b4f7be7a250db6d69
+        base_tree: ff17d10e2f3de7550d183fe3cf0b43a2936014d9
+      - fix_commit: 09cf8dd6a1bcee138b949d117804d652000eb7cc
+        fix_tree: daa58725d293b954887dbe5b17aab5219b618658
+        base_commit: 77892349578febc43c1c4054081d4c9cfa5c3cfc
+        base_tree: c34240cc6a486d17872a505dda8ef508e41d0364
+    selection_rule: >-
+      Select one or two non-overlapping bounded tasks only after reconstructing a
+      defensible problem statement and issue-specific oracle. A commit message alone
+      is not original Issue evidence; such tasks must be labeled INTERNAL_RECONSTRUCTED_TASK.
+      Mixed or inseparable commits are excluded rather than silently split. If only one
+      SourceLens candidate qualifies, the remaining development slot is filled by one
+      additional eligible public OSS task without changing the 4/2/2 split.
+  public_oss_candidates:
+    required_count_minimum: 6
+    required_count_maximum: 7
+    development_minimum: 2
+    development_maximum: 3
+    validation: 2
+    hidden: 2
+    count_formula: total_public = 8 - selected_SourceLens_internal_count
+    max_external_repositories: 4
+    source_kind: public_issue
+    preferred_code_licenses:
+      - MIT
+      - Apache-2.0
+      - BSD-2-Clause
+      - BSD-3-Clause
+      - ISC
+    selection_rules:
+      - Each accepted repository has a license blob and hash plus any NOTICE/attribution requirement.
+      - Code, Issue text, reference patch and oracle/test rights are classified independently.
+      - Repository license does not automatically authorize redistribution of Issue text.
+      - If Issue-text redistribution is not allowed, store a curator-authored factual task description and retain only a source URL, retrieval hash and restricted provenance outside public artifacts.
+      - Validation and hidden repositories are disjoint from development repositories.
+      - The two hidden tasks come from two different external repository lineages.
+      - Public visibility is not evidence of absence from model training data.
+      - Security vulnerabilities under embargo, tasks containing Secrets or personal data, and dependency-install or production tasks are excluded.
+
+admission_contract:
+  required_per_candidate_fields:
+    - candidate_id
+    - repository_identity
+    - repository_identity_canonical
+    - repository_url
+    - source_origin
+    - base_commit
+    - base_tree
+    - reference_patch_commit_or_hash
+    - issue_identity_or_internal_evidence
+    - issue_source_url_or_internal_reference
+    - issue_retrieved_at_utc
+    - issue_original_bytes_sha256_or_null
+    - code_license_spdx_or_internal_rights_label
+    - code_license_blob_sha256
+    - notice_and_attribution_status
+    - internal_usage_rights_status
+    - public_redistribution_status
+    - issue_text_rights_status
+    - patch_rights_status
+    - oracle_and_test_rights_status
+    - secret_personal_data_and_large_file_scan_result
+    - issue_lineage_id
+    - patch_similarity_cluster_id
+    - model_training_exposure
+    - bounded_task_category
+    - dependency_artifact_manifest_ref
+    - admission_decision
+    - exclusion_reason_codes
+  closed_enums:
+    source_origin:
+      - SOURCELENS_HISTORY
+      - PUBLIC_ISSUE
+    public_visibility:
+      - PUBLIC
+      - INTERNAL
+    worker_visibility:
+      - VISIBLE
+      - WITHHELD
+    expected_patch_visibility:
+      - QUALITY_ONLY
+      - NOT_RETAINED
+    model_training_exposure:
+      - UNKNOWN
+      - PLAUSIBLE_PUBLIC_EXPOSURE
+      - KNOWN_EXPOSURE
+    issue_lineage_status:
+      - UNIQUE
+      - DUPLICATE
+      - UNKNOWN
+    patch_similarity_status:
+      - UNIQUE
+      - DUPLICATE
+      - UNKNOWN
+    within_dataset_contamination:
+      - NO_KNOWN_OVERLAP
+      - SUSPECTED
+      - KNOWN
+    public_redistribution_status:
+      - ALLOWED
+      - RESTRICTED
+      - PROHIBITED
+      - UNKNOWN
+    asset_internal_usage_rights_status:
+      - ALLOWED
+      - RESTRICTED
+      - PROHIBITED
+      - UNKNOWN
+    asset_rights_field_binding:
+      - issue_text_rights_status
+      - patch_rights_status
+      - oracle_and_test_rights_status
+    internal_usage_rights_status:
+      - ALLOWED
+      - RESTRICTED
+      - PROHIBITED
+      - UNKNOWN
+    bounded_task_category:
+      - CI_OR_BUILD_WORKFLOW
+      - BACKEND_BEHAVIOR
+      - FRONTEND_BEHAVIOR
+      - TEST_ORACLE_OR_REGRESSION
+      - SCRIPT_OR_AUTOMATION
+      - CONFIGURATION_OR_DEPENDENCY
+    eligibility:
+      - CURATION_ELIGIBLE
+      - REGRESSION_ONLY
+      - EXCLUDED
+  admission_rules:
+    - UNKNOWN or PROHIBITED internal usage rights for bytes that would be copied exclude those bytes from canonical, custody and offsite packages.
+    - RESTRICTED internal-usage assets may remain only in separated private research custody and private offsite; their public redistribution status remains PROHIBITED.
+    - Public redistribution PROHIBITED does not prohibit private internal custody when internal usage rights are independently RESTRICTED or ALLOWED.
+    - ALLOWED does not authorize public release; public release remains Founder-reserved.
+    - UNKNOWN issue_lineage_status or patch_similarity_status excludes a candidate from hidden.
+    - Model-training exposure UNKNOWN may remain curation-eligible only with the explicit no-model-unseen claim boundary.
+    - Exclusions remain in a reason-coded candidate exclusion ledger.
+    - SourceLens paths are eligible only when the Founder rights assertion covers the exact path and no uncovered imported or third-party bytes enter custody.
+  task_spec_mapping:
+    SourceLens_internal_research: >-
+      TaskSpec source.redistribution is restricted, meaning internal controlled use
+      only. The admission ledger separately records public_redistribution_status as
+      PROHIBITED; this is not a public-release authorization.
+    public_asset: TaskSpec source.redistribution mirrors the independently verified asset disposition.
+
+task_eligibility:
+  required_for_each_of_eight_tasks:
+    - TaskSpec validates against the accepted TaskSpec v1 schema without schema modification.
+    - A curation-only EnvironmentSnapshot validates against the accepted EnvironmentSnapshot schema, can be materialized, and uses the exact no-model sentinel defined below.
+    - Immutable base commit and tree reconstruct to a clean source snapshot.
+    - A real public Issue or explicitly labeled internal reconstructed problem statement is bound.
+    - An issue-specific oracle or behavioral assertion exists and is not only golden-patch byte equality.
+    - The base revision demonstrates the declared failing behavior or explicit unmet assertion.
+    - The reference patch makes issue-specific and required regression verification pass.
+    - Curation verification runs only in an already available fixed-digest disposable OCI environment with zero network, zero Secret, zero Provider, zero remote and zero production effect.
+    - Reference patch changes no more than five source/test files and no more than 250 effective non-generated, non-lockfile lines.
+    - Each required verification command completes within 600 seconds.
+    - Source, Issue, patch, tests and oracle internal usage rights are ALLOWED or explicitly RESTRICTED with separated internal custody.
+    - Expected patch, private assertions and hidden evaluator bytes are unavailable to future implementation Workers.
+  cross_dataset_constraints:
+    - Exact split counts are development=4, validation=2, hidden=2.
+    - Duplicate issue_lineage_id or patch_similarity_cluster_id among any two eligible tasks is forbidden, including within the same split.
+    - Repository identity overlap across splits is zero.
+    - Issue lineage overlap across splits is zero.
+    - Patch-similarity cluster overlap across splits is zero.
+    - SourceLens history appears only in development.
+    - The two hidden tasks use two distinct external repository lineages.
+    - At least two language or build ecosystems and three bounded engineering task categories are represented.
+
+curation_environment_snapshot_contract:
+  purpose: SOURCE_AND_ORACLE_CURATION_ONLY
+  accepted_schema: docs/aios/schemas/environment-snapshot.schema.json
+  exact_no_model_sentinel:
+    model_ref: curation://no-model
+    provider: none
+    model_id: no-model-curation-only
+    model_version: "1"
+    parameters: {}
+    prompt_version: curation-no-prompt-v1
+    policy_version: p1-pilot-curation-policy-v1
+  claim: >-
+    These values satisfy the accepted schema while truthfully recording that this Task
+    performs no model or baseline run. They are not a live-model configuration.
+  later_transition: >-
+    Before B0/B1/B2/A0 execution, a separately authorized task must freeze exact model,
+    prompt, policy and SystemConfiguration identities and create a new dataset version
+    with new TaskSpec and EnvironmentSnapshot hashes. Silent replacement is forbidden.
+
+baseline_context_freeze_rule: >-
+  Every TaskSpec requires an exact baseline_context and response format. Context must
+  be generated by one deterministic, patch-blind rule frozen before baseline execution.
+  The rule may use only the Issue text, path-sorted top-level tree, build descriptors,
+  README and declared public source artifacts, with complete-line truncation to a fixed
+  byte/token budget. It must not select paths or lines from the reference patch, changed
+  file list, hidden oracle, private tests or expected output. Context bytes, ordering,
+  SHA-256, response-format bytes and response-format SHA-256 are frozen per task. Any
+  rule or byte change creates a new dataset version. This is P1 baseline fairness, not
+  P2 Repository Intelligence.
+
+environment_and_oracle_rules:
+  acquisition_stage:
+    network: PROPOSED_REQUIRES_FOUNDER_EXECUTION_AUTHORIZATION
+    third_party_code_execution: forbidden
+    dependency_install_or_build: forbidden
+    dependency_materialization: >-
+      Only deterministic direct retrieval of exact declared artifacts is allowed.
+      Package-manager online resolution, install scripts, repository hooks, build
+      plugins and candidate source execution are forbidden during acquisition.
+  verification_stage:
+    begins_only_after: SOURCE_ADMISSION_AND_ACQUISITION_FREEZE
+    network: forbidden
+    secrets: forbidden
+    provider: forbidden
+    remote_effects: forbidden
+    production_effects: forbidden
+    execution_location: external disposable source snapshots inside an existing fixed-digest OCI environment only
+    execution_claim: P1_DISPOSABLE_OFFLINE_EVALUATION_ENVIRONMENT_NOT_P3_TRUST_RUNTIME
+    minimum_environment_boundary:
+      network: none
+      secrets: none
+      user: non_root
+      root_filesystem: read_only
+      writable_mounts:
+        - exact task-local source and output root only
+      host_mounts:
+        - no canonical repository
+        - no historical Evidence
+        - no home directory
+        - no credential store
+        - no container-engine socket
+      capabilities: drop_all
+      privileged: false
+      lifecycle: one bounded command group followed by teardown and population check
+    allowed_execution: >-
+      Only exact predeclared issue-specific and regression commands approved in the
+      frozen TaskSpec and Security admission may run after image, command and dependency
+      hashes are frozen. No installer, package-manager network, repository hook,
+      submodule, LFS, privileged command or host mutation is allowed. If the existing
+      evaluation environment cannot enforce this minimum boundary, the candidate is
+      excluded; this Task must not design a replacement carrier or sandbox.
+  oracle_rules:
+    - Prefer executable tests and behavioral assertions over golden-patch byte equality.
+    - Expected patches may support Quality analysis but cannot be the sole success oracle.
+    - Per-task evaluator/oracle plans are Quality-owned and frozen before future baseline implementation.
+    - Existing P1-001 evaluator, fixture, oracle and Evidence remain byte-identical and cannot evaluate these real tasks.
+  visible_oracle_custody:
+    owner: Quality and Evaluation Agent dedicated curation instance
+    external_root: /Users/lijunpeng/Desktop/cc/project/.sourcelens-datasets/AIOS-P1-003/pilot-v0.1-quality-oracles
+    public_safe_repository_output: evaluation-harness/datasets/pilot-v0.1/oracles/visible-public-safe
+    pre_baseline_freeze_receipt: VISIBLE_ORACLE_FREEZE_RECEIPT.json
+    required_binding_per_task:
+      - task_id
+      - evaluator_id
+      - evaluator_version
+      - evaluator_bytes_sha256
+      - issue_specific_command_and_assertion_hash
+      - regression_command_hash
+      - reference_patch_hash
+      - base_failure_evidence_hash
+      - reference_patch_success_evidence_hash
+    validation_rule: >-
+      The public validator bytes may be invoked by Quality with an external hash-bound
+      reference patch handle. It emits only typed verdicts and hashes; validation/hidden
+      expected patches and private oracle bytes never enter Worker-visible output.
+
+dependency_artifact_contract:
+  manifest_name: DEPENDENCY_ARTIFACT_MANIFEST.json
+  required_fields_per_artifact:
+    - ecosystem
+    - coordinate
+    - canonical_url
+    - sha256
+    - byte_length
+    - license_spdx_or_status
+    - license_or_notice_sha256
+    - internal_usage_rights_status
+    - public_redistribution_status
+    - offsite_eligibility
+    - direct_or_transitive
+  closure_rule: >-
+    Every artifact used by an eligible task must appear in the frozen manifest. The
+    complete closure must be enumerable without executing candidate source, repository
+    hooks, install scripts or lifecycle plugins. Tasks whose closure cannot be frozen
+    this way are excluded.
+  execution_rule: >-
+    Verification uses the frozen read-only dependency cache with network disabled.
+    UNKNOWN or PROHIBITED internal-use artifacts are absent from custody and offsite.
+
+proposed_network_boundary:
+  current_status: NOT_AUTHORIZED_BY_THIS_DRAFT
+  future_mode: ANONYMOUS_READ_ONLY_PUBLIC_SOURCE_ACQUISITION
+  exact_hosts:
+    - github.com
+    - api.github.com
+    - codeload.github.com
+    - raw.githubusercontent.com
+    - repo.maven.apache.org
+  allowed_protocols:
+    - HTTPS
+  allowed_operations:
+    - unauthenticated GET and HEAD for public metadata, archives, license, Issue and dependency artifacts
+    - anonymous Git upload-pack clone or fetch for exact public commits; smart-HTTP POST is allowed only for the exact git-upload-pack service and path
+  forbidden_operations:
+    - SSH
+    - Git receive-pack, push, fork, pull request, release, comment or any remote write
+    - POST other than the exact anonymous git-upload-pack smart-HTTP operation
+    - authenticated request, PAT, cookie, GitHub CLI login or Provider credential
+    - LFS, submodule recursion, arbitrary redirect outside the exact host allowlist
+    - URL userinfo, query credentials, signed temporary URLs or unredacted authorization material
+    - package publish or dependency resolution outside repo.maven.apache.org
+  credential_isolation:
+    temporary_home: required_empty_directory
+    environment:
+      GIT_CONFIG_GLOBAL: /dev/null
+      GIT_CONFIG_NOSYSTEM: "1"
+      GIT_TERMINAL_PROMPT: "0"
+      GIT_ASKPASS: /usr/bin/false
+    required_git_config_overrides:
+      - credential.helper=
+      - http.extraHeader=
+    forbidden_environment_classes:
+      - token
+      - cookie
+      - authorization_header
+      - proxy_credentials
+      - ssh_agent
+      - provider_secret
+  ledger_requirements:
+    - canonical URL without userinfo or sensitive query plus SHA-256 of the exact request target
+    - argv and cwd
+    - start and end UTC
+    - exit status
+    - response or artifact byte count
+    - response or artifact SHA-256
+    - redirect chain and host decision
+  preflight_receipt:
+    name: NETWORK_AND_CREDENTIAL_PREFLIGHT_RECEIPT.json
+    required_checks:
+      - effective Git credential.helper is empty
+      - effective Git http.extraHeader is empty
+      - temporary HOME is empty except declared task files
+      - token, cookie, authorization header, proxy credential and SSH agent variables are absent
+      - every scheme and host is in the exact allowlist
+      - remote-write verbs and Git receive-pack are rejected
+      - request, repository and byte counters start at zero
+    non_pass_effect: STOP_BEFORE_FIRST_NETWORK_EFFECT
+  freeze_transition: >-
+    After acquisition freeze, network returns to zero for environment materialization,
+    base/fix verification, rebuild, review and all future baseline evaluation.
+  post_freeze_requirement: >-
+    The actual network ledger must show zero requests after the acquisition-freeze
+    timestamp, and all request/byte/repository counters must close exactly against the
+    frozen budget ledger.
+
+implementation_scope:
+  pre_execution_governance_sync_paths:
+    - docs/aios/tasks/P1-003_PILOT_TASK_DATASET_AND_HIDDEN_SET_CURATION.yaml
+    - docs/aios/truth/project_state.yaml
+    - scripts/validate-aios-governance.sh
+    - scripts/check-p1-safety-boundary.sh
+    - docs/PROJECT_CODE_MAP.md
+  visible_dataset_worker_paths:
+    - evaluation-harness/datasets/pilot-v0.1/development/**
+    - evaluation-harness/datasets/pilot-v0.1/validation/**
+    - evaluation-harness/datasets/pilot-v0.1/public-source-ledger.json
+    - evaluation-harness/datasets/pilot-v0.1/candidate-exclusion-ledger.json
+    - evaluation-harness/datasets/pilot-v0.1/README.md
+  quality_owned_repository_paths:
+    - evaluation-harness/datasets/pilot-v0.1/split-policy.json
+    - evaluation-harness/datasets/pilot-v0.1/hidden-commitment.json
+    - evaluation-harness/datasets/pilot-v0.1/hidden-custody-receipt.json
+    - evaluation-harness/datasets/pilot-v0.1/oracles/visible-public-safe/**
+    - evaluation-harness/dataset-tools/validate-pilot-dataset.mjs
+    - evaluation-harness/dataset-tools/fixtures/pilot-v0.1-negative/**
+  integration_paths:
+    - evaluation-harness/datasets/pilot-v0.1/dataset-manifest.json
+    - evaluation-harness/datasets/pilot-v0.1/provenance-lineage-ledger.json
+    - evaluation-harness/datasets/pilot-v0.1/dataset-validation-report.json
+    - evaluation-harness/datasets/pilot-v0.1/rebuild-instructions.md
+    - scripts/verify-p1-pilot-dataset.sh
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+  external_visible_source_paths:
+    - /Users/lijunpeng/Desktop/cc/project/.sourcelens-datasets/AIOS-P1-003/pilot-v0.1/**
+  external_hidden_quality_paths:
+    - /Users/lijunpeng/Desktop/cc/project/.sourcelens-datasets/AIOS-P1-003/pilot-v0.1-hidden-quality-custody/**
+  external_quality_oracle_paths:
+    - /Users/lijunpeng/Desktop/cc/project/.sourcelens-datasets/AIOS-P1-003/pilot-v0.1-quality-oracles/**
+  external_evidence_paths:
+    - /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-003-pilot-dataset-v0.1/**
+  immutable_inputs:
+    - this exact Task Contract
+    - docs/aios/STRATEGIC_CONSTITUTION.md
+    - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+    - docs/aios/EVALUATION_PROTOCOL.md
+    - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+    - docs/aios/schemas/task-spec.schema.json
+    - docs/aios/schemas/environment-snapshot.schema.json
+    - docs/aios/schemas/system-configuration.schema.json
+    - docs/aios/schemas/run-record.schema.json
+    - evaluation-harness/evaluator/**
+    - evaluation-harness/fixtures/**
+    - evaluation-harness/recording/aios-p1-001-evidence/**
+    - docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
+    - docs/aios/tasks/P1-002_B0_ADAPTER_CONFORMANCE.yaml
+  forbidden_paths:
+    - /Users/lijunpeng/Desktop/cc/project/SourceLens/**
+    - backend-spring/src/main/**
+    - analyzer-rust/src/**
+    - web-console/src/**
+    - historical Evidence, Review, checkpoint and archives
+  repository_exclusions:
+    - cloned repositories
+    - dependency caches
+    - build outputs
+    - container or VM layers
+    - large source bundles
+    - hidden TaskSpec, Issue identity, source URL, expected patch, private test or evaluator bytes
+    - restricted or prohibited source bytes
+
+ownership_and_writer_map:
+  default_write_policy: DENY
+  phases:
+    governance_sync:
+      writer: Engineering Manager Agent governance integration instance
+      exact_paths:
+        - docs/aios/tasks/P1-003_PILOT_TASK_DATASET_AND_HIDDEN_SET_CURATION.yaml
+        - docs/aios/truth/project_state.yaml
+        - scripts/validate-aios-governance.sh
+        - scripts/check-p1-safety-boundary.sh
+        - docs/PROJECT_CODE_MAP.md
+      transition: after the sync commit these exact bytes are immutable Task inputs
+    visible_curation:
+      writer: Dataset Curation Researcher
+      exact_paths:
+        - evaluation-harness/datasets/pilot-v0.1/development/**
+        - evaluation-harness/datasets/pilot-v0.1/validation/**
+        - evaluation-harness/datasets/pilot-v0.1/public-source-ledger.json
+        - evaluation-harness/datasets/pilot-v0.1/candidate-exclusion-ledger.json
+        - evaluation-harness/datasets/pilot-v0.1/README.md
+        - /Users/lijunpeng/Desktop/cc/project/.sourcelens-datasets/AIOS-P1-003/pilot-v0.1/worker/**
+    quality_curation:
+      writer: Quality and Evaluation Agent dedicated hidden-custody instance
+      exact_paths:
+        - evaluation-harness/datasets/pilot-v0.1/split-policy.json
+        - evaluation-harness/datasets/pilot-v0.1/hidden-commitment.json
+        - evaluation-harness/datasets/pilot-v0.1/hidden-custody-receipt.json
+        - evaluation-harness/datasets/pilot-v0.1/oracles/visible-public-safe/**
+        - evaluation-harness/dataset-tools/validate-pilot-dataset.mjs
+        - evaluation-harness/dataset-tools/fixtures/pilot-v0.1-negative/**
+        - /Users/lijunpeng/Desktop/cc/project/.sourcelens-datasets/AIOS-P1-003/pilot-v0.1-hidden-quality-custody/**
+        - /Users/lijunpeng/Desktop/cc/project/.sourcelens-datasets/AIOS-P1-003/pilot-v0.1-quality-oracles/**
+    integration:
+      writer: Engineering Manager Agent
+      exact_paths:
+        - evaluation-harness/datasets/pilot-v0.1/dataset-manifest.json
+        - evaluation-harness/datasets/pilot-v0.1/provenance-lineage-ledger.json
+        - evaluation-harness/datasets/pilot-v0.1/dataset-validation-report.json
+        - evaluation-harness/datasets/pilot-v0.1/rebuild-instructions.md
+        - scripts/verify-p1-pilot-dataset.sh
+        - Makefile
+        - docs/PROJECT_CODE_MAP.md
+      precondition: governance_sync phase is frozen; code-map ownership transfers only for the candidate integration update
+    evidence:
+      disjoint_writers:
+        Dataset Curation Researcher: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-003-pilot-dataset-v0.1/worker/**
+        Engineering Manager Agent: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-003-pilot-dataset-v0.1/integration/**
+        hidden_custodian: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-003-pilot-dataset-v0.1/quality-custody/**
+        CTO_reviewer: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-003-pilot-dataset-v0.1/reviews/cto/**
+        Security_reviewer: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-003-pilot-dataset-v0.1/reviews/security/**
+        Quality_reviewer: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-003-pilot-dataset-v0.1/reviews/quality/**
+        Product_reviewer: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-003-pilot-dataset-v0.1/reviews/product/**
+    offsite_visible:
+      writer: Engineering Manager Agent
+      exact_path_template: FOUNDER_BOUND_EXACT_OFFSITE_PATH/visible/**
+      precondition: candidate, visible custody and Evidence manifests are frozen and all independent reviews are PASS
+    offsite_hidden:
+      writer: Quality and Evaluation Agent dedicated hidden-custody instance
+      exact_path_template: FOUNDER_BOUND_EXACT_OFFSITE_PATH/hidden/**
+      precondition: hidden package and custody receipt are frozen and all independent reviews are PASS
+    offsite_binding_rule: >-
+      Founder Execution Authorization must replace FOUNDER_BOUND_EXACT_OFFSITE_PATH
+      with one exact path and volume identity before any offsite write; no other offsite
+      path is writable.
+  overlap_rule: phase overlap or undeclared writer/path is a Stop Condition
+
+hidden_custody:
+  custody_model: ROLE_SEPARATED_HIDDEN_CUSTODY_UNDER_COOPERATIVE_LOCAL_PROCESS
+  quality_owner: dedicated hidden curator and custodian instance
+  canonical_repository_may_contain_only:
+    - dataset version
+    - hidden task count
+    - opaque hidden task IDs
+    - aggregate category coverage
+    - hidden package root SHA-256
+    - custody receipt hash and external reference
+    - generic custody-root reference declared by this Contract
+  canonical_repository_must_not_contain:
+    - hidden repository identity
+    - hidden Issue identity or URL
+    - hidden Issue bytes
+    - hidden source bundle or path mapping
+    - hidden expected patch
+    - hidden private test
+    - hidden evaluator or oracle bytes
+  worker_handoff_must_not_contain:
+    - hidden source/task identity or opaque-ID-to-source mapping
+    - hidden Issue, patch, test, evaluator or oracle bytes
+  worker_access_to_declared_hidden_root:
+    path_knowledge_from_contract: allowed_and_not_a_secrecy_claim
+    authorization: NOT_AUTHORIZED
+    context_delivery: NOT_PROVIDED
+    observed_access_requirement: NO_ACCESS_OBSERVED_IN_TASK_COMMAND_AND_CONTEXT_LEDGER
+    capability_denial_claim: false
+    observed_or_disclosed_access_effect: STOP_AND_RECORD_CONTAMINATION_OR_BOUNDARY_BREACH
+  contamination_rule: >-
+    If the visible Dataset Worker, Integration Owner or a future baseline implementation
+    Worker reads hidden task bytes or identity mapping, the hidden split is contaminated,
+    the Task stops, and the event remains in Evidence. No re-labeling may restore it.
+  claim_limit: >-
+    Custody proves only that hidden content was not delivered in Worker/Integration
+    context and that no access was observed in the bounded task ledger. It does not
+    prove filesystem capability denial, model-training novelty, hostile-principal
+    secrecy, OS isolation or P3 Trust. An opaque commitment ID is not a hidden source
+    or task identity.
+
+reviewer_hidden_read_matrix:
+  visible_dataset_worker:
+    hidden_access: none
+  integration_owner:
+    hidden_access: commitment_hash_and_custody_verdict_only
+  CTO_reviewer:
+    hidden_access: blinded_task_ids_environment_structure_and_evidence_closure_only
+  Security_reviewer:
+    hidden_access: read_only_repository_identity_license_provenance_redistribution_and_patch_rights_metadata_hash
+    explicitly_excluded: expected_patch_private_test_and_oracle_bytes
+  independent_Quality_reviewer:
+    hidden_access: complete_hidden_package_read_only
+  Product_reviewer:
+    hidden_access: aggregate_category_and_ecosystem_counts_only
+  close_rule: every reviewer physical Agent/context closes after its report and memory export
+
+canonical_manifest_identity:
+  json_canonicalization: RFC8785_JCS_UTF8
+  path_rules:
+    root_relative: true
+    separator: "/"
+    unicode_normalization: NFC
+    ordering: ascending_unsigned_UTF8_bytes
+    forbidden:
+      - absolute path
+      - dot or dot-dot component
+      - NUL
+      - backslash
+      - symlink
+      - hardlink
+      - device or socket
+  entry_schema:
+    exact_fields:
+      - path
+      - byte_length
+      - sha256
+    byte_length: decimal_integer_of_exact_file_bytes
+    sha256: lowercase_SHA256_of_exact_file_bytes
+  root_derivation: >-
+    Enumerate every permitted regular file except the root-manifest file itself, create
+    path/byte_length/sha256 entries, sort by unsigned UTF-8 path bytes, encode the object
+    {schema_version:"1",entries:[...]} as RFC8785 JCS with no trailing LF, and SHA-256
+    those exact bytes. Store the manifest outside the covered root or exclude its exact
+    declared filename to avoid a self-hash cycle.
+  mutation_rule: any byte or path change creates a new root and dataset version
+
+deduplication_contract:
+  repository_identity_canonicalization: >-
+    Lowercase scheme and host, remove a terminal .git, remove default port and trailing
+    slash, preserve case-sensitive owner/repository path bytes, and bind the resulting
+    UTF-8 NFC HTTPS identity plus exact source commit.
+  normalized_patch_fingerprint: >-
+    Generate git diff --no-ext-diff --no-renames --unified=0 from base to reference,
+    normalize CRLF to LF, sort changed paths by unsigned UTF-8 bytes, emit for each path
+    the UTF-8 literal "PATH", one NUL byte, the root-relative path, one LF, then preserve
+    only added/deleted content lines after removing index/---/+++/@@ metadata lines, and
+    hash the resulting exact bytes with SHA-256.
+  pairwise_matrix:
+    exact_pair_count: 28
+    owner: independent Quality reviewer
+    required_fields_per_pair:
+      - lower_task_id
+      - upper_task_id
+      - same_repository
+      - linked_issue_evidence
+      - shared_commit_ancestry_evidence
+      - changed_path_jaccard
+      - normalized_patch_fingerprint_equal
+      - normalized_content_five_token_shingle_jaccard
+      - verdict
+      - reason_codes
+      - evidence_refs
+    thresholds:
+      changed_path_or_content_suspected_at_or_above: 0.70
+    closed_verdicts:
+      - NO_KNOWN_OVERLAP
+      - DUPLICATE
+      - UNKNOWN
+    eligibility_rule: every one of 28 pair verdicts must be NO_KNOWN_OVERLAP
+
+task_category_contract:
+  source_field: admission_contract.bounded_task_category
+  closed_enum: admission_contract.closed_enums.bounded_task_category
+  assignment_owner:
+    development_and_validation: Product Intelligence Agent
+    hidden: Quality hidden curator using the same closed enum
+  quality_check: one and only one category per eligible task
+  product_visibility: aggregate hidden category counts only
+  diversity_rule: at least three distinct enum values across the eight CURATION_ELIGIBLE tasks
+
+minimum_deliverables:
+  canonical_candidate:
+    - dataset manifest
+    - split policy
+    - provenance and lineage ledger
+    - 28-pair deduplication adjudication matrix
+    - candidate exclusion ledger
+    - four development TaskSpec and EnvironmentSnapshot packages
+    - two validation TaskSpec and EnvironmentSnapshot packages
+    - deterministic patch-blind baseline context and response format for each visible task
+    - hidden commitment
+    - hidden custody receipt
+    - public-safe visible oracle identities and pre-baseline freeze receipt
+    - Quality-owned public dataset validator
+    - singleton negative fixtures
+    - dataset validation report
+    - rebuild instructions
+    - P1 pilot dataset curation report
+  external_visible_custody:
+    - source admission records
+    - license and NOTICE bytes or hashes
+    - source bundles and reference patch identities
+    - dependency and environment materialization artifacts permitted by rights status
+    - dependency artifact manifests
+    - network and credential preflight receipt
+    - network and budget ledger
+  external_hidden_custody:
+    - two hidden TaskSpecs and EnvironmentSnapshots
+    - hidden source bundles and exact mapping
+    - hidden issue provenance
+    - hidden expected patches, private tests and evaluator/oracle plans
+    - full hidden validation report
+  evidence:
+    - frozen Task Contract, Goal, parent and authorization identities
+    - ownership and role handoff receipts
+    - source candidate and admission manifests
+    - split, deduplication, patch-similarity and contamination reports
+    - canonical visible and hidden root manifests
+    - actual acquisition and verification commands with argv, cwd, time, exit and stream hashes
+    - base failure and reference-patch success evidence for every eligible task
+    - negative validator fixtures and results
+    - fresh reconstruction and offline verification results
+    - candidate commit/tree, diff and rollback point
+    - P1-001 regression and full make verify results
+    - CTO, Security, Quality and Product review reports
+    - offsite custody and restore verification
+    - Founder Gate Decision Packet
+
+budget:
+  engineering_hours: 32
+  calendar_days: 7
+  exact_curation_eligible_tasks: 8
+  maximum_candidates_screened: 24
+  maximum_external_repositories_acquired: 4
+  maximum_anonymous_network_requests: 120
+  maximum_total_inbound_bytes: 1073741824
+  maximum_single_repository_bytes: 402653184
+  maximum_issue_and_patch_metadata_bytes: 26214400
+  maximum_external_staging_bytes: 4294967296
+  maximum_verification_seconds_per_task_command: 600
+  in_task_correction_passes: 2
+  model_calls: 0
+  provider_calls: 0
+  baseline_runs: 0
+  measurement_retries: 0
+  remote_writes: 0
+  production_effects: 0
+  public_releases: 0
+  new_runtime_services: 0
+  new_databases: 0
+  new_sandbox_or_execution_carrier: 0
+
+validator_requirements:
+  public_validator_checks:
+    - exact dataset ID, version, six visible task records and hidden commitment count=2
+    - accepted TaskSpec and curation-only EnvironmentSnapshot schema validation for six visible tasks
+    - TaskSpec and EnvironmentSnapshot source, commit, tree, network, tool and evaluator-reference consistency
+    - RFC8785 manifest and artifact hash/byte-length closure
+    - repository, issue-lineage and patch-similarity overlap among the six visible tasks equals zero
+    - SourceLens appears only in development
+    - visible external repository count and visible category/ecosystem floors
+    - internal-usage rights and public-redistribution fields are complete and eligible
+    - no hidden source/task identity, relative path, URL, patch, test, evaluator or oracle byte appears in canonical or Worker-visible artifacts; the declared generic custody-root reference is allowed
+    - deterministic baseline context is patch-blind and hash-bound
+    - prohibited synthetic fixture and 22-case corpus are excluded from eligible count
+    - visible development and validation base-failure/reference-patch-success Evidence binds the frozen Quality-owned evaluator identity and hash
+    - network and credential preflight, request/byte budgets and zero post-freeze request count close mechanically
+  quality_private_validator_checks:
+    - hidden package root hash equals hidden commitment
+    - both hidden TaskSpecs and EnvironmentSnapshots validate
+    - hidden source snapshots reconstruct exact clean commit/tree
+    - hidden base failure and reference-patch success evidence is complete
+    - complete eight-task repository, issue-lineage and patch-similarity isolation passes the 28-pair adjudication matrix
+    - hidden repository distinctness and complete-dataset category/ecosystem floors pass
+    - Security hidden provenance verdict and all hidden internal-usage/public-redistribution/dependency dispositions are eligible and hash-bound
+    - hidden expected patches, private tests and evaluator/oracle plans remain Quality-only
+    - exact hidden source/task identities, relative paths and URLs are compared against canonical and Worker-visible bytes and no leakage is found
+  negative_fixture_protocol:
+    valid_prestate: evaluation-harness/dataset-tools/fixtures/pilot-v0.1-negative/valid-prestate.json
+    catalog: evaluation-harness/dataset-tools/fixtures/pilot-v0.1-negative/negative-vector-catalog.json
+    mutation_engine: RFC6902_JSON_PATCH_ONE_OPERATION_ONLY
+    value_from_rule: value_from is resolved from the immutable valid prestate into one literal RFC6902 value before mutation and is itself hash-bound in the catalog
+    fixture_rule: every replace/remove target exists in the valid prestate; every add parent exists
+    expected_exit_status: 1
+    expected_typed_verdict: REJECT
+    expected_reason_cardinality: 1
+    vectors:
+      - {id: N01, op: replace, path: /artifacts/0/sha256, value: "0000000000000000000000000000000000000000000000000000000000000000", reason: ARTIFACT_HASH_MISMATCH}
+      - {id: N02, op: remove, path: /artifacts/0, reason: REQUIRED_ARTIFACT_MISSING}
+      - {id: N03, op: replace, path: /artifacts/0/path, value: ../escape, reason: PATH_ESCAPE}
+      - {id: N04, op: replace, path: /split_counts/hidden, value: 3, reason: SPLIT_COUNT_MISMATCH}
+      - {id: N05, op: replace, path: /tasks/4/repository_identity_canonical, value_from: /tasks/0/repository_identity_canonical, reason: REPOSITORY_SPLIT_OVERLAP}
+      - {id: N06, op: replace, path: /tasks/4/issue_lineage_id, value_from: /tasks/0/issue_lineage_id, reason: ISSUE_LINEAGE_OVERLAP}
+      - {id: N07, op: replace, path: /tasks/4/patch_similarity_cluster_id, value_from: /tasks/0/patch_similarity_cluster_id, reason: PATCH_SIMILARITY_OVERLAP}
+      - {id: N08, op: replace, path: /tasks/0/internal_usage_rights_status, value: UNKNOWN, reason: COPIED_CONTENT_RIGHTS_INELIGIBLE}
+      - {id: N09, op: replace, path: /tasks/0/task_spec_source_sha256, value: "0000000000000000000000000000000000000000000000000000000000000000", reason: TASKSPEC_SOURCE_IDENTITY_MISMATCH}
+      - {id: N10, op: replace, path: /tasks/0/environment_snapshot_source_sha256, value: "0000000000000000000000000000000000000000000000000000000000000000", reason: ENVIRONMENT_SOURCE_IDENTITY_MISMATCH}
+      - {id: N11, op: add, path: /visible_artifacts/-, value: {path: hidden/expected.patch, byte_length: 1, sha256: "2d711642b726b04401627ca9fbac32f5da7e5c853fb1903cc4db02258717921a"}, reason: HIDDEN_ORACLE_LEAKAGE}
+      - {id: N12, op: add, path: /public_metadata/hidden_repository_identity, value: forbidden/repository, reason: HIDDEN_IDENTITY_LEAKAGE}
+      - {id: N13, op: replace, path: /hidden_commitment/root_sha256, value: "0000000000000000000000000000000000000000000000000000000000000000", reason: HIDDEN_COMMITMENT_MISMATCH}
+      - {id: N14, op: replace, path: /tasks/0/source_origin, value: SYNTHETIC_FIXTURE, reason: SYNTHETIC_FIXTURE_COUNTED}
+      - {id: N15, op: replace, path: /tasks/0/source_origin, value: REGRESSION_CORPUS, reason: REGRESSION_CORPUS_COUNTED}
+      - {id: N16, op: replace, path: /network_preflight/effective_credential_helper, value: osxkeychain, reason: CREDENTIAL_HELPER_PRESENT}
+      - {id: N17, op: add, path: /network_preflight/environment/TOKEN, value: redacted-present, reason: SECRET_ENV_PRESENT}
+      - {id: N18, op: add, path: /network_ledger/requests/-, value: {host: example.com, method: GET, bytes: 0}, reason: NETWORK_HOST_FORBIDDEN}
+      - {id: N19, op: add, path: /network_ledger/requests/-, value: {host: github.com, method: POST, service: git-receive-pack, path: /owner/repository.git/git-receive-pack, bytes: 0}, reason: REMOTE_WRITE_OPERATION_FORBIDDEN}
+      - {id: N20, op: replace, path: /network_ledger/post_freeze_request_count, value: 1, reason: POST_FREEZE_NETWORK_EFFECT}
+      - {id: N21, op: replace, path: /network_ledger/total_request_count, value: 121, reason: NETWORK_REQUEST_BUDGET_EXCEEDED}
+
+acceptance_criteria:
+  - Exactly eight CURATION_ELIGIBLE real tasks exist with development=4, validation=2 and hidden=2.
+  - One or two SourceLens internal reconstructed tasks are development-only; six or seven accepted public tasks fill all remaining slots without changing the split.
+  - At least five repository lineages, four external repository lineages, two language/build ecosystems and three bounded task categories are represented.
+  - Every accepted TaskSpec and curation-only EnvironmentSnapshot validates against unchanged accepted schemas and the exact no-model sentinel; no baseline-ready snapshot is claimed.
+  - Every source bundle fresh-reconstructs its exact base commit/tree to a clean state.
+  - Every task has reproducible base-failure and reference-patch-success issue-specific verification plus required regression verification.
+  - Repository, issue-lineage and patch-similarity overlap across splits is zero.
+  - All 28 pairwise adjudications are NO_KNOWN_OVERLAP; issue-lineage and patch-similarity duplicates across all eight CURATION_ELIGIBLE tasks are zero.
+  - Every copied source, Issue, patch, test, oracle and dependency artifact has ALLOWED or separated RESTRICTED internal-usage rights; UNKNOWN or PROHIBITED internal-use bytes are absent, and public redistribution remains independently bounded.
+  - Public and Quality-private validators pass all positive checks and reject every declared single-failure negative vector.
+  - The canonical candidate exposes only the hidden commitment and custody receipt, not hidden identity or content.
+  - Worker and Integration handoffs contain no hidden task bytes or mapping, and bounded ledgers show no observed hidden-root access; no filesystem capability-denial claim is made.
+  - Acquisition and dependency materialization freeze before all offline rebuild and base/fix verification.
+  - Every eligible task has a closed Dependency Artifact Manifest and passes verification inside the declared fixed-digest disposable OCI boundary without designing a new carrier.
+  - P1-001 accepted evaluator, fixtures, Evidence and schemas remain byte-identical and P1-001 verification passes.
+  - Complete repository verification passes.
+  - Fresh candidate rebuild, rollback verification and offsite restore verification pass.
+  - CTO, Security and independent Quality reviews are PASS; Product review confirms the declared pilot mix without claiming representativeness.
+  - No model, B0/B1/B2/A0, VTSR, performance measurement, P2/P3, remote, production or public-release action occurs; a later baseline freeze requires a new dataset version.
+
+failure_criteria:
+  - Fewer than eight candidates satisfy all eligibility conditions within budget.
+  - Any accepted source, rights, Issue, patch, oracle, environment or split identity is unresolved or irreproducible.
+  - Base failure or reference-patch success cannot be reproduced offline after freeze.
+  - A complete dependency closure or fixed-digest disposable OCI verification environment cannot be frozen without executing unadmitted third-party code during acquisition.
+  - Golden-patch byte equality is the sole success oracle.
+  - Hidden content or mapping is exposed to a prohibited role or canonical path.
+  - Split overlap or contamination is detected.
+  - Completion requires modifying accepted schemas or P1-001 accepted artifacts.
+  - Completion requires a network host, credential, permission, path, budget or claim expansion.
+  - Any final EnvironmentSnapshot is represented as baseline-ready without a later exact model/configuration freeze and new dataset version.
+  - Completion requires Repository Intelligence, Agent Runtime, Supervisor, Root Custody, strong isolation or other P2/P3 capability.
+
+stop_conditions:
+  - Any failure criterion becomes true.
+  - The 32 engineering-hour or 7-calendar-day budget is exhausted.
+  - Twenty-four candidates are screened without obtaining exactly eight CURATION_ELIGIBLE tasks.
+  - A Secret, credential-helper value, authentication material or forbidden redirect is observed.
+  - Network remains active after acquisition freeze or any offline verification attempts network access.
+  - Source, Issue, patch, license, oracle, evaluator or hidden-custody contamination occurs.
+  - Dependency artifact rights, digest, closure or offsite eligibility is UNKNOWN or internally prohibited.
+  - The existing disposable OCI environment cannot enforce network=none, non-root, read-only root, exact task-local writes, no host credential mounts and teardown before verification freeze.
+  - Any write occurs outside the exact owned paths or in inherited SourceLens, canonical main, historical Evidence or immutable inputs.
+  - A required rebuild, rollback, offsite, P1-001 regression, full verification or independent review is non-PASS.
+  - The same implementation defect remains after two in-Task correction passes without new evidence.
+  - Scope, budget, permission, role, metric or claim expansion would be required.
+  - An undeclared writer/path overlap or write outside the actor-by-phase map occurs.
+
+rollback:
+  implementation_rule: canonical main remains unchanged until separate Founder Gate authorization
+  candidate_identity: exact parent, commit and tree must be frozen before review
+  pre_cleanup_custody: >-
+    Before any branch/worktree cleanup, create and fresh-clone verify a Git bundle
+    containing the implementation parent and candidate. Preserve external visible and
+    hidden custody plus all failure Evidence.
+  pre_gate_stop: >-
+    Stop without main advance. After verified bundle custody, remove the Task worktree
+    and branch only if separately authorized by the terminal-state decision.
+  main_advance: forbidden_without_separate_founder_gate
+  history_rewrite: forbidden
+
+offsite:
+  required_before_founder_gate: true
+  path_and_volume_identity: FOUNDER_MUST_BIND_IN_EXECUTION_AUTHORIZATION
+  visible_and_hidden_packages_separate: true
+  prohibited_content: UNKNOWN_OR_PROHIBITED_INTERNAL_USAGE_RIGHTS_BYTES
+  private_restricted_content_rule: >-
+    RESTRICTED internal-research bytes, including Founder-authorized SourceLens bytes,
+    may enter only the private access-controlled package when the exact rights assertion
+    and path list are bound. Public redistribution remains prohibited.
+  verification:
+    - SHA-256 identity
+    - fresh source reconstruction
+    - hidden commitment match by Quality custodian
+    - Evidence manifest closure
+    - rollback artifact availability
+  claim_boundary: Integrity and recoverability only; not hostile-principal confidentiality.
+
+independent_review:
+  freeze_before_review: true
+  reviewer_input: exact frozen candidate and immutable Evidence only
+  required_reports:
+    - CTO architecture and P1-boundary review
+    - Security source-rights, network, custody and claim-boundary review
+    - independent Quality dataset, split, oracle and negative-vector review
+    - Product task-mix and software-engineering relevance review
+  acceptance_rule: CTO, Security and independent Quality must each be exact PASS
+  product_rule: Product must confirm the declared pilot mix is useful for later controlled baselines without claiming statistical representativeness
+  non_pass_effect: STOP_AND_RETURN_TO_FOUNDER
+  reviewer_pass_is_founder_gate: false
+
+p1_p2_p3_boundary:
+  p1_allowed:
+    - Task discovery and bounded candidate screening
+    - TaskSpec, EnvironmentSnapshot, source, rights, oracle and baseline-context materialization
+    - split, deduplication, contamination analysis and operational hidden custody
+    - dataset validator, rebuild, replay, Evidence and offsite custody
+  p2_forbidden:
+    - Repository Intelligence feature development
+    - graph, symbol, ranker or context-selection algorithm improvement
+    - B2 optimization or Repository Context Benchmark claims
+  p3_forbidden:
+    - Agent Runtime or Agent Shell
+    - model-initiated writes
+    - Supervisor or Root Custody
+    - platform or OS identity
+    - strong isolation or hostile-principal resistance
+    - capability runtime, resume or checkpoint runtime
+  environment_note: >-
+    Reproducible task environment materialization and an image digest are P1 evaluation
+    inputs. They do not authorize building a P3 Trust Runtime or execution carrier.
+
+explicit_non_authorizations:
+  - This Draft does not authorize data acquisition, network access or dependency download.
+  - This Draft does not authorize branch, worktree, dataset root, hidden root or evidence root creation.
+  - This Draft does not authorize modifying canonical Truth, validators, code map or Task files.
+  - This Draft does not authorize running external source, tests, models, baselines or experiments.
+  - This Draft does not authorize main advance, remote write, production effect or public release.
+  - This Draft does not authorize AIOS-P1-002 recovery, B0/B1/B2/A0 execution, P2 or P3.
+  - This Draft does not authorize a successor, replacement, normalization or correction chain.
+
+completion_rule: >-
+  Completion requires exact 4/2/2 pilot closure, immutable source and rights evidence,
+  deterministic public and private validation, clean reconstruction, offline base/fix
+  verification, hidden custody, rollback, offsite restore, P1-001 and full regression,
+  independent PASS reviews and a separate Founder Gate. Completion authorizes neither
+  baseline execution nor P1 exit. This Draft remains non-executable until the Founder
+  accepts its exact SHA-256 and separately grants the bounded execution authorities.

@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-15T13:00:00Z"
-verification_scope: AIOS_P1_003_GOVERNANCE_ONLY_PRE_EXECUTION_SYNC
+last_verified_at: "2026-07-15T13:10:55Z"
+verification_scope: AIOS_P1_003_IMPLEMENTATION_AUTHORITY_ACTIVATION
 
 authority:
   founder: Human Founder
@@ -29,7 +29,7 @@ goal:
   observed_raw_body_sha256: 9b59ffc6919473b596f09a96afc1e8684f076f5ac32c6014ac96344a496cd0d8
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_AND_ACTIVE
-  current_task_authority: AIOS-P1-003_PILOT_TASK_DATASET_AND_HIDDEN_SET_CURATION_GOVERNANCE_SYNC_ONLY
+  current_task_authority: AIOS-P1-003_PILOT_TASK_DATASET_AND_HIDDEN_SET_CURATION_ACTIVE_AUTHORIZED_FOR_IMPLEMENTATION
   note: The active control-plane body equals the Founder-approved body after canonical trailing-LF normalization.
 
 project:
@@ -40,7 +40,7 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  p1_execution_status: GOVERNANCE_SYNC_AUTHORIZED_IMPLEMENTATION_BINDING_PENDING
+  p1_execution_status: ACTIVE_AUTHORIZED_FOR_IMPLEMENTATION
   canonical_branch: main
   accepted_harness_candidate_commit: 02342da942e291eaa65230f824fcf47eae8f8a30
   accepted_harness_candidate_tree: 1a31751dc1b4d5bc2c9b2c4aaf0aa640528edecc
@@ -57,7 +57,7 @@ p0_baseline:
 
 active_work:
   current_task: AIOS-P1-003_PILOT_TASK_DATASET_AND_HIDDEN_SET_CURATION
-  current_task_status: P1_003_GOVERNANCE_SYNC_AUTHORIZED
+  current_task_status: ACTIVE_AUTHORIZED_FOR_IMPLEMENTATION
   current_task_contract:
     path: docs/aios/tasks/P1-003_PILOT_TASK_DATASET_AND_HIDDEN_SET_CURATION.yaml
     sha256: 8dec9d7b12df2e31c62e9ce146938c8a192b4751ce3a9aced3ccd38414fd0aa6
@@ -66,15 +66,29 @@ active_work:
   current_execution_authorization:
     path: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-003-execution-authorization-20260715T125627Z/FOUNDER_EXECUTION_AUTHORIZATION_RECORD.json
     sha256: 1082f0a81eb41a1fae9a1767d421bb0fe8f11810bccba197ad18e3e430762a1b
-    status: ACTIVE_FOR_GOVERNANCE_SYNC
-    scope: GOVERNANCE_ONLY_PRE_EXECUTION_SYNC
+    status: ACTIVE_AUTHORIZED_FOR_IMPLEMENTATION
+    scope: TASK_LEVEL_DELEGATED_EXECUTION
     nonce: b56ae67c0aa13fff47c396bc7c064d74a56bb93a6ab27ebeebfb69f9997894c9
     effective_from_utc: "2026-07-15T12:56:27Z"
     expires_at_utc: "2026-07-22T12:56:27Z"
     authorized_parent_commit: 4fc43418755c6d63b8d6cecd04a23e0101259d65
     authorized_parent_tree: d9475b5d07fb80dd981bfb49e067edffba2d5b86
-  implementation_parent_binding: PENDING_APPEND_ONLY_HASH_BOUND_RECORD
-  next_eligible_action: ROOT_CREATE_HASH_BOUND_IMPLEMENTATION_PARENT_BINDING
+  implementation_parent_binding:
+    path: /Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-003-execution-authorization-20260715T125627Z/IMPLEMENTATION_PARENT_BINDING_RECORD.json
+    sha256: ead76e3b06eb2c509ec0ee66df72af4756be946f5f75f2801d4b75a92a1b6774
+    status: ACTIVE_AFTER_CANONICAL_TRUTH_ACTIVATION
+    parent_authorization_sha256: 1082f0a81eb41a1fae9a1767d421bb0fe8f11810bccba197ad18e3e430762a1b
+    execution_nonce: b56ae67c0aa13fff47c396bc7c064d74a56bb93a6ab27ebeebfb69f9997894c9
+    effective_from_utc: "2026-07-15T12:56:27Z"
+    expires_at_utc: "2026-07-22T12:56:27Z"
+    implementation_parent_commit: b9cbbf64b7fa98e7dfd30f752085f40104571957
+    implementation_parent_tree: 0580f4de27e4c6b18dbb7f170ba659e2b38ffba2
+    implementation_branch: task/AIOS-P1-003-pilot-dataset-curation
+    implementation_worktree: /Users/lijunpeng/Desktop/cc/project/.sourcelens-worktrees/AIOS-P1-003-pilot-dataset-curation
+    scope_expansion: false
+    main_advance: false
+    baseline_execution: false
+  next_eligible_action: CREATE_EXACT_P1_003_TASK_BRANCH_AND_WORKTREE
 
 task_history:
   aios_p1_001:
@@ -187,9 +201,10 @@ historical_lineages:
 
 p1_boundary:
   allowed_now:
-    - The exact P1-003 governance-only pre-execution sync is authorized from parent 4fc43418755c6d63b8d6cecd04a23e0101259d65.
-    - P1-003 implementation remains inactive until an append-only Founder binding records this governance-sync commit and tree as the implementation parent.
-    - No Task branch, worktree, data acquisition, network effect, dataset root, experiment or baseline run is authorized by the current governance-sync state.
+    - The exact P1-003 Task-level Founder Authorization and append-only implementation-parent binding are active within their bound time window.
+    - One exact Task branch and one exact Task worktree may be created from implementation parent b9cbbf64b7fa98e7dfd30f752085f40104571957 / 0580f4de27e4c6b18dbb7f170ba659e2b38ffba2.
+    - Dataset curation, anonymous read-only allowlisted acquisition, offline verification, Evidence, independent review and offsite custody are authorized only within the exact Task Contract, Founder Authorization, budget and Stop Conditions.
+    - Canonical main advance and B0/B1/B2/A0 baseline execution remain unauthorized.
   deferred_to_p2_or_later:
     - Repository Intelligence capability improvement and benchmark claims.
   deferred_to_p3_or_later:
@@ -207,7 +222,7 @@ claim_boundary:
   harness_conformance: PASS
   b0_adapter_conformance: TERMINAL_STOPPED_NOT_ACCEPTED
   b0_live_model_performance: UNKNOWN_NO_PROVIDER_RUNS
-  p1_pilot_task_dataset: GOVERNANCE_SYNC_ONLY_IMPLEMENTATION_NOT_YET_ACTIVE
+  p1_pilot_task_dataset: ACTIVE_AUTHORIZED_FOR_IMPLEMENTATION_NO_DATASET_OR_RUNS_YET
   p1_pilot_task_dataset_version: p1-pilot-task-dataset-v0.1
   p1_pilot_task_dataset_claims: 0
   verified_task_success_rate: UNKNOWN_NO_RUNS

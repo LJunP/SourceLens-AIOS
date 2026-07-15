@@ -48,6 +48,10 @@ ruby -ryaml -rjson -rdigest -rtime -e '
   authorization_sha = "1082f0a81eb41a1fae9a1767d421bb0fe8f11810bccba197ad18e3e430762a1b"
   abort "P1-003 Founder authorization missing" unless File.file?(authorization_path)
   pilot_authorization = JSON.parse(File.read(authorization_path))
+  parent_binding_path = "/Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-003-execution-authorization-20260715T125627Z/IMPLEMENTATION_PARENT_BINDING_RECORD.json"
+  parent_binding_sha = "ead76e3b06eb2c509ec0ee66df72af4756be946f5f75f2801d4b75a92a1b6774"
+  abort "P1-003 implementation parent binding missing" unless File.file?(parent_binding_path)
+  parent_binding = JSON.parse(File.read(parent_binding_path))
   goal_path = "/Users/lijunpeng/.codex/attachments/37671a04-0182-4aff-9f0a-c044c5b3cfa3/goal-objective.md"
   abort "active Goal body missing" unless File.file?(goal_path)
   ledger = YAML.safe_load(File.read("docs/aios/MIGRATION_LEDGER.yaml"), aliases: false)
@@ -60,6 +64,7 @@ ruby -ryaml -rjson -rdigest -rtime -e '
     "docs/aios/tasks/P1-002_B0_ADAPTER_CONFORMANCE.yaml" => "c303f045e67dc1f76d51a5789eeb0573021bdcd9d17cd169d7448f64f91a87d8",
     pilot_task_path => pilot_task_sha,
     authorization_path => authorization_sha,
+    parent_binding_path => parent_binding_sha,
     "evaluation-harness/fixtures/oracle/FREEZE_RECEIPT.json" => "ef7f9807795a685d0aa92fc19248ed0101362861ad7d71e4fdcdbb9df0b840c6",
     "evaluation-harness/recording/aios-p1-001-evidence/evidence-manifest.json" => "e1f735816c18ab7631fa1d0b771deccc25564074350d1d74e67975d187ef3952"
   }
@@ -72,7 +77,7 @@ ruby -ryaml -rjson -rdigest -rtime -e '
   abort "phase must be P1" unless truth.dig("project", "current_phase") == "P1"
   abort "P0 must be complete" unless truth.dig("project", "p0_status") == "COMPLETE"
   abort "P1 entry must be authorized" unless truth.dig("project", "p1_entry_status") == "AUTHORIZED"
-  abort "P1 execution authorization state drift" unless truth.dig("project", "p1_execution_status") == "GOVERNANCE_SYNC_AUTHORIZED_IMPLEMENTATION_BINDING_PENDING"
+  abort "P1 execution authorization state drift" unless truth.dig("project", "p1_execution_status") == "ACTIVE_AUTHORIZED_FOR_IMPLEMENTATION"
   abort "accepted candidate commit drift" unless truth.dig("project", "accepted_harness_candidate_commit") == "02342da942e291eaa65230f824fcf47eae8f8a30"
   abort "accepted candidate tree drift" unless truth.dig("project", "accepted_harness_candidate_tree") == "1a31751dc1b4d5bc2c9b2c4aaf0aa640528edecc"
   abort "active Goal state drift" unless truth.dig("goal", "control_plane_status_observed") == "ACTIVE"
@@ -88,9 +93,9 @@ ruby -ryaml -rjson -rdigest -rtime -e '
   terminal_task_path = "docs/aios/tasks/P1-002_B0_ADAPTER_CONFORMANCE.yaml"
   terminal_task_sha = "c303f045e67dc1f76d51a5789eeb0573021bdcd9d17cd169d7448f64f91a87d8"
   pilot_task_id = "AIOS-P1-003_PILOT_TASK_DATASET_AND_HIDDEN_SET_CURATION"
-  abort "Goal task authority drift" unless truth.dig("goal", "current_task_authority") == "#{pilot_task_id}_GOVERNANCE_SYNC_ONLY"
+  abort "Goal task authority drift" unless truth.dig("goal", "current_task_authority") == "#{pilot_task_id}_ACTIVE_AUTHORIZED_FOR_IMPLEMENTATION"
   abort "current task drift" unless truth.dig("active_work", "current_task") == pilot_task_id
-  abort "current task state drift" unless truth.dig("active_work", "current_task_status") == "P1_003_GOVERNANCE_SYNC_AUTHORIZED"
+  abort "current task state drift" unless truth.dig("active_work", "current_task_status") == "ACTIVE_AUTHORIZED_FOR_IMPLEMENTATION"
   current_contract = truth.dig("active_work", "current_task_contract")
   abort "current Task Contract binding drift" unless current_contract == {
     "path" => pilot_task_path,
@@ -101,18 +106,36 @@ ruby -ryaml -rjson -rdigest -rtime -e '
   current_authorization = truth.dig("active_work", "current_execution_authorization")
   abort "current authorization path drift" unless current_authorization["path"] == authorization_path
   abort "current authorization hash drift" unless current_authorization["sha256"] == authorization_sha
-  abort "current authorization status drift" unless current_authorization["status"] == "ACTIVE_FOR_GOVERNANCE_SYNC"
-  abort "current authorization scope drift" unless current_authorization["scope"] == "GOVERNANCE_ONLY_PRE_EXECUTION_SYNC"
+  abort "current authorization status drift" unless current_authorization["status"] == "ACTIVE_AUTHORIZED_FOR_IMPLEMENTATION"
+  abort "current authorization scope drift" unless current_authorization["scope"] == "TASK_LEVEL_DELEGATED_EXECUTION"
   abort "current authorization nonce drift" unless current_authorization["nonce"] == "b56ae67c0aa13fff47c396bc7c064d74a56bb93a6ab27ebeebfb69f9997894c9"
   abort "current authorization time binding drift" unless current_authorization["effective_from_utc"] == "2026-07-15T12:56:27Z" && current_authorization["expires_at_utc"] == "2026-07-22T12:56:27Z"
   abort "current authorization parent drift" unless current_authorization["authorized_parent_commit"] == "4fc43418755c6d63b8d6cecd04a23e0101259d65" && current_authorization["authorized_parent_tree"] == "d9475b5d07fb80dd981bfb49e067edffba2d5b86"
-  abort "implementation parent binding was prematurely claimed" unless truth.dig("active_work", "implementation_parent_binding") == "PENDING_APPEND_ONLY_HASH_BOUND_RECORD"
-  abort "next action drift" unless truth.dig("active_work", "next_eligible_action") == "ROOT_CREATE_HASH_BOUND_IMPLEMENTATION_PARENT_BINDING"
-  abort "P1 governance-sync boundary drift" unless truth.dig("p1_boundary", "allowed_now") == [
-    "The exact P1-003 governance-only pre-execution sync is authorized from parent 4fc43418755c6d63b8d6cecd04a23e0101259d65.",
-    "P1-003 implementation remains inactive until an append-only Founder binding records this governance-sync commit and tree as the implementation parent.",
-    "No Task branch, worktree, data acquisition, network effect, dataset root, experiment or baseline run is authorized by the current governance-sync state."
+  implementation_binding = truth.dig("active_work", "implementation_parent_binding")
+  abort "implementation parent binding drift" unless implementation_binding == {
+    "path" => parent_binding_path,
+    "sha256" => parent_binding_sha,
+    "status" => "ACTIVE_AFTER_CANONICAL_TRUTH_ACTIVATION",
+    "parent_authorization_sha256" => authorization_sha,
+    "execution_nonce" => "b56ae67c0aa13fff47c396bc7c064d74a56bb93a6ab27ebeebfb69f9997894c9",
+    "effective_from_utc" => "2026-07-15T12:56:27Z",
+    "expires_at_utc" => "2026-07-22T12:56:27Z",
+    "implementation_parent_commit" => "b9cbbf64b7fa98e7dfd30f752085f40104571957",
+    "implementation_parent_tree" => "0580f4de27e4c6b18dbb7f170ba659e2b38ffba2",
+    "implementation_branch" => "task/AIOS-P1-003-pilot-dataset-curation",
+    "implementation_worktree" => "/Users/lijunpeng/Desktop/cc/project/.sourcelens-worktrees/AIOS-P1-003-pilot-dataset-curation",
+    "scope_expansion" => false,
+    "main_advance" => false,
+    "baseline_execution" => false
+  }
+  abort "next action drift" unless truth.dig("active_work", "next_eligible_action") == "CREATE_EXACT_P1_003_TASK_BRANCH_AND_WORKTREE"
+  abort "P1 implementation boundary drift" unless truth.dig("p1_boundary", "allowed_now") == [
+    "The exact P1-003 Task-level Founder Authorization and append-only implementation-parent binding are active within their bound time window.",
+    "One exact Task branch and one exact Task worktree may be created from implementation parent b9cbbf64b7fa98e7dfd30f752085f40104571957 / 0580f4de27e4c6b18dbb7f170ba659e2b38ffba2.",
+    "Dataset curation, anonymous read-only allowlisted acquisition, offline verification, Evidence, independent review and offsite custody are authorized only within the exact Task Contract, Founder Authorization, budget and Stop Conditions.",
+    "Canonical main advance and B0/B1/B2/A0 baseline execution remain unauthorized."
   ]
+  abort "P1-003 dataset claim boundary drift" unless truth.dig("claim_boundary", "p1_pilot_task_dataset") == "ACTIVE_AUTHORIZED_FOR_IMPLEMENTATION_NO_DATASET_OR_RUNS_YET" && truth.dig("claim_boundary", "p1_pilot_task_dataset_claims") == 0
 
   abort "P1-003 Task id drift" unless pilot_task["task_id"] == pilot_task_id
   abort "P1-003 phase drift" unless pilot_task["phase"] == "P1"
@@ -171,6 +194,36 @@ ruby -ryaml -rjson -rdigest -rtime -e '
   %w[canonical\ main\ advance B0/B1/B2/A0\ execution P1\ exit P2\ or\ P3\ entry Provider\ or\ Secret\ use authenticated\ network remote\ write production\ effect public\ release Supervisor\ or\ Root\ Custody new\ execution\ carrier\ or\ sandbox\ design successor,\ replacement,\ normalization\ or\ correction\ chain].each do |boundary|
     abort "P1-003 non-authorization missing: #{boundary}" unless pilot_authorization.fetch("explicit_non_authorizations").include?(boundary.tr("\\", ""))
   end
+
+  expected_parent_binding = {
+    "schema_version" => "1.0",
+    "record_type" => "sourcelens_aios_implementation_parent_binding",
+    "status" => "ACTIVE_AFTER_CANONICAL_TRUTH_ACTIVATION",
+    "authority" => "Human Founder",
+    "authority_source" => "CODEX_THREAD_FOUNDER_MESSAGE",
+    "authority_source_message" => "\u6388\u6743",
+    "authority_source_message_sha256" => "fce3771b1b29f5b8c466a7b4e76e01f1ab8436b481c706af4563f5819cc1e017",
+    "created_at_utc" => "2026-07-15T13:09:19Z",
+    "parent_authorization_record" => authorization_path,
+    "parent_authorization_sha256" => authorization_sha,
+    "task_id" => pilot_task_id,
+    "task_contract_sha256" => pilot_task_sha,
+    "execution_nonce" => "b56ae67c0aa13fff47c396bc7c064d74a56bb93a6ab27ebeebfb69f9997894c9",
+    "effective_from_utc" => "2026-07-15T12:56:27Z",
+    "expires_at_utc" => "2026-07-22T12:56:27Z",
+    "governance_sync_commit" => "b9cbbf64b7fa98e7dfd30f752085f40104571957",
+    "governance_sync_tree" => "0580f4de27e4c6b18dbb7f170ba659e2b38ffba2",
+    "implementation_branch_initial_ref" => "b9cbbf64b7fa98e7dfd30f752085f40104571957",
+    "implementation_branch" => "task/AIOS-P1-003-pilot-dataset-curation",
+    "implementation_worktree" => "/Users/lijunpeng/Desktop/cc/project/.sourcelens-worktrees/AIOS-P1-003-pilot-dataset-curation",
+    "binding_effect" => "BINDS_THE_ALREADY_AUTHORIZED_TASK_TO_THE_CAUSALLY_LATER_GOVERNANCE_SYNC_COMMIT_AND_TREE_WITHOUT_SCOPE_EXPANSION",
+    "scope_expansion" => false,
+    "main_advance" => false,
+    "baseline_execution" => false,
+    "activation_precondition" => "CANONICAL_TRUTH_AND_VALIDATORS_BIND_THIS_RECORD_SHA256_AND_REMAIN_PASS",
+    "drift_effect" => "STOP_BEFORE_BRANCH_OR_WORKTREE_CREATION"
+  }
+  abort "P1-003 implementation parent record drift" unless parent_binding == expected_parent_binding
 
   completed = truth.dig("task_history", "aios_p1_001")
   abort "P1-001 completion history missing" unless completed.is_a?(Hash)
@@ -433,11 +486,27 @@ if git grep -n -E 'AIOS-P1-001 Contract Freeze|P1-001 execution: NOT AUTHORIZED'
   fail "product UI mirrors project control-plane state"
 fi
 
-task_branch_count="$(git for-each-ref --format='%(refname:short)' refs/heads/task/ | wc -l | tr -d ' ')"
-[[ "$task_branch_count" -eq 0 ]] || fail "task branch exists before P1-003 implementation-parent binding"
+authorized_task_branch="task/AIOS-P1-003-pilot-dataset-curation"
+task_branches="$(git for-each-ref --format='%(refname:short)' refs/heads/task/)"
+task_branch_count="$(printf '%s\n' "$task_branches" | grep -c . || true)"
+[[ "$task_branch_count" -le 1 ]] || fail "more than one task branch exists"
+if [[ "$task_branch_count" -eq 1 ]]; then
+  [[ "$task_branches" == "$authorized_task_branch" ]] || fail "unauthorized task branch exists: $task_branches"
+  git merge-base --is-ancestor b9cbbf64b7fa98e7dfd30f752085f40104571957 "$authorized_task_branch" || fail "authorized task branch is not descended from bound implementation parent"
+fi
 
-worktree_count="$(git worktree list --porcelain | grep -c '^worktree ' || true)"
-[[ "$worktree_count" -eq 1 ]] || fail "task worktree exists before P1-003 implementation-parent binding"
+authorized_task_worktree="/Users/lijunpeng/Desktop/cc/project/.sourcelens-worktrees/AIOS-P1-003-pilot-dataset-curation"
+worktree_paths="$(git worktree list --porcelain | sed -n 's/^worktree //p')"
+worktree_count="$(printf '%s\n' "$worktree_paths" | grep -c . || true)"
+[[ "$worktree_count" -ge 1 && "$worktree_count" -le 2 ]] || fail "worktree population exceeds canonical plus one authorized task worktree"
+while IFS= read -r worktree_path; do
+  [[ -n "$worktree_path" ]] || continue
+  [[ "$worktree_path" == "$ROOT_DIR" || "$worktree_path" == "$authorized_task_worktree" ]] || fail "unauthorized worktree exists: $worktree_path"
+done <<< "$worktree_paths"
+if [[ "$worktree_count" -eq 2 ]]; then
+  printf '%s\n' "$worktree_paths" | grep -Fxq "$authorized_task_worktree" || fail "second worktree is not the authorized P1-003 worktree"
+  [[ "$task_branches" == "$authorized_task_branch" ]] || fail "authorized P1-003 worktree exists without its exact task branch"
+fi
 
 git diff --check || fail "git whitespace validation failed"
 

@@ -31,15 +31,26 @@ ruby -ryaml -rjson -rdigest -e '
   task_sha = "8dec9d7b12df2e31c62e9ce146938c8a192b4751ce3a9aced3ccd38414fd0aa6"
   authorization_path = "/Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-003-execution-authorization-20260715T125627Z/FOUNDER_EXECUTION_AUTHORIZATION_RECORD.json"
   authorization_sha = "1082f0a81eb41a1fae9a1767d421bb0fe8f11810bccba197ad18e3e430762a1b"
+  parent_binding_path = "/Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-003-execution-authorization-20260715T125627Z/IMPLEMENTATION_PARENT_BINDING_RECORD.json"
+  parent_binding_sha = "ead76e3b06eb2c509ec0ee66df72af4756be946f5f75f2801d4b75a92a1b6774"
   abort "P1-003 Task Contract identity drift" unless Digest::SHA256.file(task_path).hexdigest == task_sha
   abort "P1-003 authorization missing" unless File.file?(authorization_path)
   abort "P1-003 authorization identity drift" unless Digest::SHA256.file(authorization_path).hexdigest == authorization_sha
+  abort "P1-003 implementation parent binding missing" unless File.file?(parent_binding_path)
+  abort "P1-003 implementation parent binding identity drift" unless Digest::SHA256.file(parent_binding_path).hexdigest == parent_binding_sha
   task = YAML.safe_load(File.read(task_path), aliases: false)
   authorization = JSON.parse(File.read(authorization_path))
+  parent_binding = JSON.parse(File.read(parent_binding_path))
   truth = YAML.safe_load(File.read("docs/aios/truth/project_state.yaml"), aliases: false)
 
-  abort "P1-003 implementation was prematurely activated" unless truth.dig("active_work", "implementation_parent_binding") == "PENDING_APPEND_ONLY_HASH_BOUND_RECORD"
-  abort "P1-003 governance-sync next action drift" unless truth.dig("active_work", "next_eligible_action") == "ROOT_CREATE_HASH_BOUND_IMPLEMENTATION_PARENT_BINDING"
+  abort "P1-003 implementation authority state drift" unless truth.dig("project", "p1_execution_status") == "ACTIVE_AUTHORIZED_FOR_IMPLEMENTATION" && truth.dig("active_work", "current_task_status") == "ACTIVE_AUTHORIZED_FOR_IMPLEMENTATION"
+  implementation_binding = truth.dig("active_work", "implementation_parent_binding")
+  abort "P1-003 implementation parent path drift" unless implementation_binding["path"] == parent_binding_path && implementation_binding["sha256"] == parent_binding_sha
+  abort "P1-003 implementation parent commit/tree drift" unless implementation_binding["implementation_parent_commit"] == "b9cbbf64b7fa98e7dfd30f752085f40104571957" && implementation_binding["implementation_parent_tree"] == "0580f4de27e4c6b18dbb7f170ba659e2b38ffba2"
+  abort "P1-003 implementation binding widened scope" unless implementation_binding.values_at("scope_expansion", "main_advance", "baseline_execution") == [false, false, false]
+  abort "P1-003 implementation next action drift" unless truth.dig("active_work", "next_eligible_action") == "CREATE_EXACT_P1_003_TASK_BRANCH_AND_WORKTREE"
+  abort "P1-003 parent binding authorization drift" unless parent_binding["parent_authorization_sha256"] == authorization_sha && parent_binding["execution_nonce"] == authorization["execution_nonce"]
+  abort "P1-003 parent binding scope widened" unless parent_binding.values_at("scope_expansion", "main_advance", "baseline_execution") == [false, false, false]
   abort "P1-003 acquisition contract must remain draft-only" unless task.dig("proposed_network_boundary", "current_status") == "NOT_AUTHORIZED_BY_THIS_DRAFT"
   abort "P1-003 network protocol widened" unless task.dig("proposed_network_boundary", "allowed_protocols") == ["HTTPS"]
   expected_hosts = %w[github.com api.github.com codeload.github.com raw.githubusercontent.com repo.maven.apache.org]

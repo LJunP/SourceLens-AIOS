@@ -8,7 +8,7 @@ Truth 状态。
 - `main` 是唯一 canonical source branch。
 - 一个已授权 Task 最多使用一个 Task branch 和一个 implementation worktree。
 - audit、evidence、offsite 与依赖缓存不得作为源码事实源。
-- 未经 Founder Gate，不得推进 `main`。
+- 未经独立审查与 Master Task Gate，不得推进 `main`；触及 Founder 保留事项时还必须先取得 exact Founder decision。
 
 ## 生成物
 

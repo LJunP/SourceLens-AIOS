@@ -16,6 +16,8 @@ tracked_sensitive="$(git ls-files \
 
 git ls-files | grep -q '^\.sourcelens-audit/' && fail "historical audit material leaked into Git"
 
+ruby "${ROOT_DIR}/scripts/validate-current-task-authority.rb"
+
 ruby -ryaml -rjson -rdigest -e '
   harness = YAML.safe_load(File.read("docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml"), aliases: false)
   abort "P1-001 network must remain disabled" unless harness.dig("environment", "network") == "disabled"
@@ -133,13 +135,8 @@ ruby -ryaml -rjson -rdigest -e '
 
   exact_terminal_status = "TERMINAL_STOPPED_BEFORE_INTEGRATION_ACQUISITION_EVIDENCE_INTEGRITY_FAILURE"
   active_task_id = "AIOS-P1-005_EVALUATION_MATRIX_AND_VTSR_COUNTING_VALIDATOR"
-  abort "P1 Task execution state drift" unless truth.dig("project", "p1_execution_status") == "NO_CURRENT_TASK"
   abort "canonical repository drift" unless truth.dig("project", "canonical_repository") == "/Users/lijunpeng/Developer/SourceLens-AIOS"
   abort "old Desktop repository remains canonical" if truth.dig("project", "canonical_repository") == "/Users/lijunpeng/Desktop/cc/project/SourceLens-AIOS"
-  abort "current Task must be NONE" unless truth.dig("active_work", "current_task") == "NONE" && truth.dig("active_work", "current_task_status") == "NONE"
-  abort "current Task Contract must be null" unless truth.dig("active_work", "current_task_contract").nil? && truth.dig("active_work", "current_task_contract_sha256").nil?
-  abort "current authorization must be null" unless truth.dig("active_work", "current_execution_authorization").nil? && truth.dig("active_work", "current_execution_authorization_sha256").nil?
-  abort "next action drift" unless truth.dig("active_work", "next_eligible_action") == "PREPARE_NEXT_INDEPENDENT_P1_REAL_ENGINEERING_TASK"
   p1_006_state = "TERMINAL_STOPPED_DURING_ACTIVATION_OUT_OF_SCOPE_WRITE"
   abort "P1-006 Contract identity drift" unless p1_006_task["task_id"] == "AIOS-P1-006_PATCH_EVIDENCE_PACKAGE_INTEGRITY_VALIDATOR" && p1_006_task["phase"] == "P1" && p1_006_task["execution_authorized"] == false
   abort "P1-006 capture-time authorization drift" unless p1_006_authorization["status"] == "ACTIVE_TASK_LEVEL_DELEGATED_EXECUTION_AUTHORIZATION" && p1_006_authorization["execution_authorized"] == true && p1_006_authorization["task_contract_sha256"] == p1_006_task_sha
@@ -266,27 +263,5 @@ ruby -ryaml -rjson -rdigest -e '
   abort "P1-003 remote write was authorized" unless authorization.fetch("explicit_non_authorizations").include?("remote write")
   abort "P1-003 production effect was authorized" unless authorization.fetch("explicit_non_authorizations").include?("production effect")
 ' || fail "P1 task safety declaration invalid"
-
-task_branches="$(git for-each-ref --format='%(refname:short)' refs/heads/task/)"
-worktree_paths="$(git worktree list --porcelain | sed -n 's/^worktree //p')"
-worktree_count="$(printf '%s\n' "$worktree_paths" | grep -c . || true)"
-expected_task_branch="task/AIOS-P1-005-evaluation-matrix-vtsr-validator"
-expected_task_worktree="/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-005-evaluation-matrix-vtsr-validator"
-activation_receipt="/Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/activation/ACTIVATION_RECEIPT.json"
-terminal_stop_record="/Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/terminal/TERMINAL_STOP_RECORD.json"
-if [[ -f "$terminal_stop_record" && -n "$task_branches" ]]; then
-  [[ "$task_branches" == "$expected_task_branch" ]] || fail "terminal P1-005 Task branch population drift: $task_branches"
-  [[ "$worktree_count" -eq 2 ]] || fail "terminal P1-005 pre-cleanup worktree population must be canonical plus one exact Task worktree"
-  printf '%s\n' "$worktree_paths" | grep -Fx "$ROOT_DIR" >/dev/null || fail "canonical worktree missing"
-  printf '%s\n' "$worktree_paths" | grep -Fx "$expected_task_worktree" >/dev/null || fail "exact P1-005 Task worktree missing"
-elif [[ -f "$terminal_stop_record" ]]; then
-  [[ -z "$task_branches" ]] || fail "unexpected Task branch remains after P1-005 terminal cleanup: $task_branches"
-  [[ "$worktree_count" -eq 1 && "$worktree_paths" == "$ROOT_DIR" ]] || fail "post-cleanup worktree population is not exactly the canonical repository"
-elif [[ -f "$activation_receipt" ]]; then
-  fail "P1-005 activation exists without terminal stop record"
-else
-  [[ -z "$task_branches" ]] || fail "P1-005 Task branch exists before activation receipt: $task_branches"
-  [[ "$worktree_count" -eq 1 && "$worktree_paths" == "$ROOT_DIR" ]] || fail "pre-resource worktree population is not exactly the canonical repository"
-fi
 
 echo "P1 basic safety boundary validation passed (declarative/cooperative-local scope only)."

@@ -38,12 +38,11 @@ Repository revision + bounded real Issue
 
 ## 当前 P1 顺序
 
-1. Founder 手动安装并激活精简长期 Goal。
-2. 一次 Task-level 授权启动 `AIOS-P1-001`。
-3. 实现最小 Evaluation Harness：TaskSpec、EnvironmentSnapshot、SystemConfiguration、RunRecord、evaluator、replay、Evidence Manifest。
-4. 以 `HARNESS_STUB` 验证工具链；该结果不计入 VTSR，也不得称为 B0。
-5. 在相同任务、环境、预算和 evaluator 下运行真实 B0（Direct Model）、B1（简单检索）、B2（SourceLens Repository Intelligence）。
-6. 形成 P1 Evaluation Foundation Research Artifact，由独立审查和 Founder Gate 决定是否进入 P2。
+1. 精简长期 Goal 已由 Founder 手动安装，P1 Phase entry 已获授权。
+2. `AIOS-P1-001` 已建立并通过最小 Evaluation Harness conformance 基线。
+3. Master 按 Phase-level Delegation 自主选择、实施、审查和集成 P1 内的最小真实工程增量，不再逐 Task 请求 Founder。
+4. 在 TaskSpec、EnvironmentSnapshot、SystemConfiguration、RunRecord、evaluator、replay 和 Evidence Manifest 可复现后，按 Evaluation Protocol 运行真实 B0/B1/B2；未经对应 Task 边界不得提前运行。
+5. 形成 P1 Evaluation Foundation Research Artifact，由独立审查和 Founder Phase Gate 决定是否进入 P2。
 
 ## P1 明确不做
 

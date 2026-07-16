@@ -7,20 +7,23 @@
 1. `docs/aios/truth/project_state.yaml`
 2. `docs/aios/STRATEGIC_CONSTITUTION.md`
 3. `docs/aios/MASTER_EXECUTION_PROTOCOL.md`
-4. 当前 Task Contract
-5. 能力研究再读取 `docs/aios/EVALUATION_PROTOCOL.md`
+4. `docs/aios/FOUNDER_DELEGATION_POLICY.md`
+5. 当前 Task Contract
+6. 能力研究再读取 `docs/aios/EVALUATION_PROTOCOL.md`
 
-没有当前 Task 或执行授权时，不得自行开始实现。
+没有当前 Task 时，由 Master 在当前 Phase envelope 内选择并完成内部审查；未形成
+canonical Contract 与 phase-delegated Task authority 前，Worker 不得开始实现。
 
-## Task-level Delegation
+## Phase-level Delegation
 
-一个可执行 Task 必须定义目标、Why Now、Owner、读写范围、预算、验收/失败标准、Evidence、Reviewer、rollback 和 Stop Condition。Founder 批准整个 Task envelope；范围内的普通编码、测试和修复由 Agent 自主完成，不逐文件审批。
+一个可执行 Task 必须定义目标、Why Now、Owner、读写范围、预算、验收/失败标准、Evidence、Reviewer、rollback 和 Stop Condition。当前 Phase 已由 Founder 批准；Master 在 `FOUNDER_DELEGATION_POLICY.md` 边界内签发普通 Task authority，Agent 自主完成范围内的设计、编码、测试、修复和 Task Gate，不逐 Task、逐文件或逐命令请求 Founder。
 
 - 一个 Task ID、一个有效 Contract、一个短生命周期分支和 worktree。
 - 一个文件同一时刻只有一个实现 Owner。
 - 实现者不能独立验收自己的成果。
 - 普通错误在原 Task 和预算内修复；禁止自动创建 successor/replacement/normalization。
-- 只有范围、权限、预算、战略或重大风险变化才升级 Founder。
+- 只有触及 Founder 保留的战略、Phase、重大范围/预算/权限、高风险外部效果、不可逆动作或 critical risk 接受时才升级 Founder。
+- Task Gate 通过后，Master 可自主集成本地 `main`；Phase Gate 仍由 Founder 决定。
 
 ## 当前 P1 边界
 

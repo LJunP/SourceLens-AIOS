@@ -34,11 +34,14 @@ required_files=(
   docs/aios/schemas/environment-snapshot.schema.json
   docs/aios/schemas/system-configuration.schema.json
   docs/aios/schemas/run-record.schema.json
+  scripts/validate-current-task-authority.rb
 )
 
 for file in "${required_files[@]}"; do
   [[ -s "$file" ]] || fail "required file missing or empty: $file"
 done
+
+ruby "${ROOT_DIR}/scripts/validate-current-task-authority.rb"
 
 ruby -ryaml -rjson -rdigest -rtime -e '
   truth = YAML.safe_load(File.read("docs/aios/truth/project_state.yaml"), aliases: false)
@@ -174,20 +177,18 @@ ruby -ryaml -rjson -rdigest -rtime -e '
   abort "phase must be P1" unless truth.dig("project", "current_phase") == "P1"
   abort "P0 must be complete" unless truth.dig("project", "p0_status") == "COMPLETE"
   abort "P1 entry must be authorized" unless truth.dig("project", "p1_entry_status") == "AUTHORIZED"
-  abort "P1 execution state drift" unless truth.dig("project", "p1_execution_status") == "NO_CURRENT_TASK"
   abort "canonical repository drift" unless truth.dig("project", "canonical_repository") == "/Users/lijunpeng/Developer/SourceLens-AIOS"
   abort "old Desktop repository remains canonical" if truth.dig("project", "canonical_repository") == "/Users/lijunpeng/Desktop/cc/project/SourceLens-AIOS"
   abort "canonical cutover parent commit drift" unless truth.dig("project", "canonical_cutover_parent_commit") == "65157b6f771c3a95486144ab712c3a99f9d06845"
   abort "canonical cutover parent tree drift" unless truth.dig("project", "canonical_cutover_parent_tree") == "2409b9abacb276a0e977b65f6dcb0d1bdb6f1d30"
   abort "accepted candidate commit drift" unless truth.dig("project", "accepted_harness_candidate_commit") == "02342da942e291eaa65230f824fcf47eae8f8a30"
   abort "accepted candidate tree drift" unless truth.dig("project", "accepted_harness_candidate_tree") == "1a31751dc1b4d5bc2c9b2c4aaf0aa640528edecc"
-  abort "Goal control-plane observation drift" unless truth.dig("goal", "control_plane_status_observed") == "ACTIVE"
+  abort "Goal control-plane observation invalid" unless %w[ACTIVE BLOCKED].include?(truth.dig("goal", "control_plane_status_observed"))
   abort "Goal canonical hash drift" unless truth.dig("goal", "observed_body_sha256") == "fed643624aa5794a5cea5db2a04f25cc89d829a619e905df946a3616f14ad6c0"
   abort "Goal raw hash drift" unless truth.dig("goal", "observed_raw_body_sha256") == "9b59ffc6919473b596f09a96afc1e8684f076f5ac32c6014ac96344a496cd0d8"
   abort "Goal canonicalization drift" unless truth.dig("goal", "body_canonicalization") == "UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF"
   abort "Goal identity state drift" unless truth.dig("goal", "identity_status") == "FOUNDER_MANUALLY_INSTALLED_LONG_TERM_GOAL_IDENTITY_PRESERVED"
   active_task_id = "AIOS-P1-005_EVALUATION_MATRIX_AND_VTSR_COUNTING_VALIDATOR"
-  abort "Goal current Task authority drift" unless truth.dig("goal", "current_task_authority") == "NONE"
   goal_bytes = File.binread(goal_path)
   abort "Goal raw bytes drift" unless Digest::SHA256.hexdigest(goal_bytes) == "9b59ffc6919473b596f09a96afc1e8684f076f5ac32c6014ac96344a496cd0d8"
   canonical_goal = goal_bytes.force_encoding("UTF-8").gsub("\r\n", "\n").gsub("\r", "\n").sub(/\n*\z/, "\n")
@@ -196,20 +197,6 @@ ruby -ryaml -rjson -rdigest -rtime -e '
   terminal_task_path = "docs/aios/tasks/P1-002_B0_ADAPTER_CONFORMANCE.yaml"
   terminal_task_sha = "c303f045e67dc1f76d51a5789eeb0573021bdcd9d17cd169d7448f64f91a87d8"
   pilot_task_id = "AIOS-P1-003_PILOT_TASK_DATASET_AND_HIDDEN_SET_CURATION"
-  abort "current Task must be NONE" unless truth.dig("active_work", "current_task") == "NONE" && truth.dig("active_work", "current_task_status") == "NONE"
-  abort "current Task Contract must be null" unless truth.dig("active_work", "current_task_contract").nil? && truth.dig("active_work", "current_task_contract_sha256").nil?
-  abort "current execution authorization must be null" unless truth.dig("active_work", "current_execution_authorization").nil? && truth.dig("active_work", "current_execution_authorization_sha256").nil?
-  abort "current execution nonce must be empty" unless truth.dig("active_work", "execution_nonce").nil? && truth.dig("active_work", "execution_nonce_status") == "NONE"
-  abort "current Task resources must be empty" unless truth.dig("active_work", "task_branch").nil? && truth.dig("active_work", "task_worktree").nil? && truth.dig("active_work", "execution_evidence_root").nil? && truth.dig("active_work", "offsite_target").nil?
-  abort "next action drift" unless truth.dig("active_work", "next_eligible_action") == "PREPARE_NEXT_INDEPENDENT_P1_REAL_ENGINEERING_TASK"
-  abort "P1 implementation boundary drift" unless truth.dig("p1_boundary", "allowed_now") == [
-    "No current Task is authorized; active_work.current_task is NONE.",
-    "P1-006 is terminal non-PASS after an activation-scope violation; it cannot resume, retry or continue through a successor/replacement/correction chain, and no implementation or capability claim exists.",
-    "P1-005 is terminal non-PASS, cannot resume, retry or continue through a successor/replacement/correction chain, and no partial implementation is accepted.",
-    "P1-003 is terminal, its hidden custody is quarantined historical risk, and it cannot be resumed, retried, backfilled, replaced or represented as PASS.",
-    "P1-004 is terminal, not accepted, cannot be resumed, retried or continued through a successor/correction chain, and its Worker candidate remains off main.",
-    "B0/B1/B2/A0 execution, P2/P3 entry, automatic canonical main advance and all unapproved external effects remain unauthorized."
-  ]
   abort "P1-003 dataset claim boundary drift" unless truth.dig("claim_boundary", "p1_pilot_task_dataset") == "TERMINAL_STOPPED_NOT_ACCEPTED" && truth.dig("claim_boundary", "p1_pilot_task_dataset_claims") == 0
   abort "P1-003 eligible task claim drift" unless truth.dig("claim_boundary", "p1_pilot_task_dataset_eligible_tasks") == "0_OF_8"
   abort "P1-003 Evidence integrity drift" unless truth.dig("claim_boundary", "p1_pilot_task_acquisition_evidence_integrity") == "FAIL"
@@ -793,29 +780,6 @@ done
 
 if git grep -n -E 'AIOS-P1-001 Contract Freeze|P1-001 execution: NOT AUTHORIZED' -- web-console/src >/dev/null 2>&1; then
   fail "product UI mirrors project control-plane state"
-fi
-
-task_branches="$(git for-each-ref --format='%(refname:short)' refs/heads/task/)"
-task_branch_count="$(printf '%s\n' "$task_branches" | grep -c . || true)"
-worktree_paths="$(git worktree list --porcelain | sed -n 's/^worktree //p')"
-worktree_count="$(printf '%s\n' "$worktree_paths" | grep -c . || true)"
-expected_task_branch="task/AIOS-P1-005-evaluation-matrix-vtsr-validator"
-expected_task_worktree="/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-005-evaluation-matrix-vtsr-validator"
-activation_receipt="/Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/activation/ACTIVATION_RECEIPT.json"
-terminal_stop_record="/Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/terminal/TERMINAL_STOP_RECORD.json"
-if [[ -f "$terminal_stop_record" && "$task_branch_count" -eq 1 ]]; then
-  [[ "$task_branches" == "$expected_task_branch" ]] || fail "terminal P1-005 Task branch population drift: $task_branches"
-  [[ "$worktree_count" -eq 2 ]] || fail "terminal P1-005 pre-cleanup worktree population must be canonical plus one exact Task worktree"
-  printf '%s\n' "$worktree_paths" | grep -Fx "$ROOT_DIR" >/dev/null || fail "canonical worktree missing"
-  printf '%s\n' "$worktree_paths" | grep -Fx "$expected_task_worktree" >/dev/null || fail "exact P1-005 Task worktree missing"
-elif [[ -f "$terminal_stop_record" ]]; then
-  [[ "$task_branch_count" -eq 0 ]] || fail "unexpected Task branch remains after P1-005 terminal cleanup: $task_branches"
-  [[ "$worktree_count" -eq 1 && "$worktree_paths" == "$ROOT_DIR" ]] || fail "post-cleanup worktree population is not exactly the canonical repository"
-elif [[ -f "$activation_receipt" ]]; then
-  fail "P1-005 activation exists without terminal stop record"
-else
-  [[ "$task_branch_count" -eq 0 ]] || fail "P1-005 Task branch exists before activation receipt: $task_branches"
-  [[ "$worktree_count" -eq 1 && "$worktree_paths" == "$ROOT_DIR" ]] || fail "pre-resource worktree population is not exactly the canonical repository"
 fi
 
 p1_005_closure_parent="1354e6a401d3a9d7794ece9de6e5a438e13ad5e6"

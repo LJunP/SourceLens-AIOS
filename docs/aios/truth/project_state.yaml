@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-16T08:12:42Z"
-verification_scope: P1_006_TERMINAL_CLOSURE_AND_OFFSITE_VERIFICATION
+last_verified_at: "2026-07-16T10:11:51Z"
+verification_scope: FOUNDER_PHASE_LEVEL_DELEGATION_AND_GENERIC_TASK_AUTHORITY
 
 authority:
   founder: Human Founder
@@ -15,6 +15,11 @@ authority:
     version: "1.0"
     sha256: 47c444c50c7521a7515dfb2fbee0c8c81cc72b32c42eba549d080eeb0c1bcedf
     status: FROZEN
+  founder_delegation_policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: "1.0"
+    sha256: 1f4996990159db877833f7c39fe761c70d94ecfee73d096774da5107151483be
+    status: FOUNDER_DIRECTIVE_ACTIVE
   evaluation_protocol:
     path: docs/aios/EVALUATION_PROTOCOL.md
     version: "1.1"
@@ -24,13 +29,13 @@ authority:
   rule: Each authority controls only its domain. Historical material cannot override current facts.
 
 goal:
-  control_plane_status_observed: ACTIVE
+  control_plane_status_observed: BLOCKED
   observed_body_sha256: fed643624aa5794a5cea5db2a04f25cc89d829a619e905df946a3616f14ad6c0
   observed_raw_body_sha256: 9b59ffc6919473b596f09a96afc1e8684f076f5ac32c6014ac96344a496cd0d8
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_LONG_TERM_GOAL_IDENTITY_PRESERVED
   current_task_authority: NONE
-  note: The Founder-approved long-term Goal body remains active. P1-002 through P1-006 are terminal Historical Evidence, all related nonces are retired, and no current Task is authorized.
+  note: The Founder-approved long-term Goal identity remains canonical, but the Codex control-plane Goal is currently blocked after a repeated pre-execution authorization loop. No current Task is active; after the user resumes the Goal, the Phase-level delegation policy permits the Agent organization to continue P1 without routine Founder approvals.
 
 project:
   name: SourceLens AIOS
@@ -40,15 +45,144 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
+  phase_execution_status: NO_CURRENT_TASK
   p1_execution_status: NO_CURRENT_TASK
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
+  task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
+  execution_evidence_root_base: /Users/lijunpeng/Developer/.sourcelens-audit
   canonical_cutover_parent_commit: 65157b6f771c3a95486144ab712c3a99f9d06845
   canonical_cutover_parent_tree: 2409b9abacb276a0e977b65f6dcb0d1bdb6f1d30
   accepted_harness_candidate_commit: 02342da942e291eaa65230f824fcf47eae8f8a30
   accepted_harness_candidate_tree: 1a31751dc1b4d5bc2c9b2c4aaf0aa640528edecc
   realignment_parent_commit: f3fa42221de95381d98fb3c5a966bf33e99e4d21
   realignment_parent_tree: 97972952872b0a1e340b6a88cbd7491b7f7df953
+
+phase_delegation:
+  status: ACTIVE
+  model: PHASE_LEVEL_FOUNDER_DELEGATION
+  decision_source: FOUNDER_DIRECTIVE_IN_CODEX_THREAD_2026_07_16
+  phase_gate_owner: HUMAN_FOUNDER
+  task_selection_owner: MASTER_CEO_AGENT
+  task_authorization_owner: MASTER_CEO_AGENT_WITHIN_CURRENT_PHASE_ENVELOPE
+  task_gate_owner: MASTER_CEO_AGENT_AFTER_REQUIRED_INDEPENDENT_REVIEW
+  founder_reserved_decisions:
+    - mission_icp_year_one_or_phase_route_change
+    - phase_entry_or_exit
+    - material_scope_budget_or_permission_expansion_beyond_phase_envelope
+    - network_provider_secret_remote_production_or_public_effect
+    - irreversible_asset_removal
+    - material_legal_privacy_commercial_commitment
+    - critical_residual_risk_acceptance
+  agent_delegated_decisions:
+    - select_reject_sequence_and_freeze_phase_local_tasks
+    - assign_roles_workers_reviewers_and_disjoint_write_ownership
+    - authorize_and_execute_local_task_branch_worktree_and_commands
+    - perform_in_scope_implementation_tests_repairs_evidence_replay_and_rollback
+    - accept_return_or_terminally_stop_tasks_after_independent_review
+    - integrate_task_to_local_canonical_main_after_task_gate
+    - choose_the_next_independent_phase_local_task_after_task_completion_or_stop
+  escalation_conditions:
+    - founder_reserved_decision_required
+    - phase_boundary_or_strategy_conflict
+    - high_risk_external_effect_required
+    - irreversible_action_required
+    - critical_risk_requires_acceptance
+  anti_loop:
+    routine_founder_task_approval_required: false
+    per_file_or_command_approval_required: false
+    ordinary_repairs_stay_in_same_task: true
+    successor_replacement_correction_chain_allowed: false
+    task_id_hardcoding_in_current_authority_validator_allowed: false
+  claim_boundary: This policy delegates Phase-local engineering decisions; it does not delegate Founder-reserved decisions or prove product capability.
+
+phase_boundary:
+  phase: P1
+  allowed_task_kinds:
+    - EVALUATION_FOUNDATION_ENGINEERING
+    - EVALUATION_FOUNDATION_RESEARCH
+  allowed_capabilities:
+    - TASK_SPEC_VALIDATION
+    - ENVIRONMENT_SNAPSHOT_CAPTURE
+    - SYSTEM_CONFIGURATION_CAPTURE
+    - RUN_RECORDING
+    - DETERMINISTIC_REPLAY
+    - EVALUATOR_AND_ORACLE
+    - EVIDENCE_MANIFEST
+    - BASELINE_ADAPTER_CONFORMANCE
+    - LOCAL_SYNTHETIC_DATASET
+    - LOCAL_VISIBLE_DATASET
+    - LOCAL_BOUNDED_BASELINE_EVALUATION
+    - FAILURE_TAXONOMY
+    - EVALUATION_METRICS
+    - PATCH_EVIDENCE_VALIDATION
+    - OBSERVABLE_TRACE_VALIDATION
+  role_write_roots:
+    worker:
+      - evaluation-harness/adapters
+      - evaluation-harness/environment
+      - evaluation-harness/harness
+      - evaluation-harness/recording
+      - evaluation-harness/replay
+      - evaluation-harness/validators
+    quality:
+      - evaluation-harness/evaluator
+      - evaluation-harness/fixtures
+    integration:
+      - scripts
+      - docs/aios/tasks
+      - docs/aios/truth/project_state.yaml
+      - docs/PROJECT_CODE_MAP.md
+      - Makefile
+    external_evidence: EXTERNAL_TASK_EVIDENCE_ROOT_ONLY
+  immutable_authority_paths:
+    - AGENTS.md
+    - docs/aios/STRATEGIC_CONSTITUTION.md
+    - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+    - docs/aios/FOUNDER_DELEGATION_POLICY.md
+    - docs/aios/EVALUATION_PROTOCOL.md
+    - scripts/validate-current-task-authority.rb
+    - scripts/test-current-task-authority.rb
+    - scripts/validate-aios-governance.sh
+    - scripts/check-p1-safety-boundary.sh
+  allowed_independent_reviewers:
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent
+  required_reviewers_by_risk:
+    low:
+      - Quality and Evaluation Agent
+    medium:
+      - CTO Agent
+      - Security Agent
+      - Quality and Evaluation Agent
+    high:
+      - CTO Agent
+      - Security Agent
+      - Quality and Evaluation Agent
+    critical:
+      - CTO Agent
+      - Security Agent
+      - Quality and Evaluation Agent
+  founder_reserved_risk_levels:
+    - critical
+  deferred_capabilities:
+    - P2_REPOSITORY_INTELLIGENCE_CAPABILITY_CLAIM
+    - P3_SINGLE_AGENT_RUNTIME
+    - AGENT_SHELL
+    - MODEL_INITIATED_CANONICAL_WRITE
+    - PLATFORM_IDENTITY
+    - SUPERVISOR
+    - ROOT_CUSTODY
+    - STRONG_ISOLATION
+    - MULTI_AGENT_RUNTIME
+  default_external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false
 
 p0_baseline:
   checkpoint_commit: ad6450e418d8f1b4fd5a789f913525a8dd8bdc10
@@ -67,11 +201,35 @@ active_work:
   current_execution_authorization_sha256: null
   execution_nonce: null
   execution_nonce_status: NONE
+  authorization_id: null
+  activation_parent_commit: null
+  activation_parent_tree: null
+  task_resource_state: NONE
   task_branch: null
   task_worktree: null
   execution_evidence_root: null
   offsite_target: null
-  next_eligible_action: PREPARE_NEXT_INDEPENDENT_P1_REAL_ENGINEERING_TASK
+  founder_reserved_authorization: null
+  founder_reserved_authorization_sha256: null
+  founder_decision_required: false
+  escalation_reason: null
+  user_action_required: RESUME_LONG_TERM_GOAL_CONTROL_PLANE
+  next_eligible_action: USER_RESUME_LONG_TERM_GOAL_THEN_MASTER_AUTONOMOUSLY_SELECT_NEXT_PHASE_LOCAL_TASK
+
+superseded_pre_delegation_authorizations:
+  aios_p1_009:
+    task_id: AIOS-P1-009_ENVIRONMENT_SNAPSHOT_REPRODUCIBILITY
+    prior_contract_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-execution-recalibration-and-p1-009-preparation-20260716T093755Z/AIOS-P1-009_ENVIRONMENT_SNAPSHOT_REPRODUCIBILITY.yaml
+    prior_contract_sha256: 41c007e80119284be204b14e2653698e8e5a3afe597eb0c9898e0462dd0c2a40
+    prior_authorization_candidate_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-execution-recalibration-and-p1-009-preparation-20260716T093755Z/FOUNDER_EXECUTION_AUTHORIZATION_CANDIDATE.md
+    prior_authorization_candidate_sha256: 0925c139696cae82cf67efc4ae514dbd57afdc18a0c6c683ee9de0fb5e61e8aa
+    status: SUPERSEDED_UNUSED_BY_FOUNDER_PHASE_LEVEL_DELEGATION
+    activation_commit_created: false
+    task_branch_created: false
+    task_worktree_created: false
+    implementation_started: false
+    reusable_as_execution_authority: false
+    note: The engineering objective may be selected independently by Master, but these pre-delegation bytes require a routine per-Task Founder Gate and cannot be activated under the current authority model.
 
 task_history:
   aios_p1_001:
@@ -393,14 +551,20 @@ historical_lineages:
     offsite_verification_receipt_sha256: e45658d02dc21184cc5c79d5a2b052ce1b2e3885b342930a2e0fb536ba03a91f
     authority: HISTORICAL_EVIDENCE_ONLY
 
-p1_boundary:
-  allowed_now:
-    - No current Task is authorized; active_work.current_task is NONE.
-    - P1-006 is terminal non-PASS after an activation-scope violation; it cannot resume, retry or continue through a successor/replacement/correction chain, and no implementation or capability claim exists.
-    - P1-005 is terminal non-PASS, cannot resume, retry or continue through a successor/replacement/correction chain, and no partial implementation is accepted.
-    - P1-003 is terminal, its hidden custody is quarantined historical risk, and it cannot be resumed, retried, backfilled, replaced or represented as PASS.
-    - P1-004 is terminal, not accepted, cannot be resumed, retried or continued through a successor/correction chain, and its Worker candidate remains off main.
-    - B0/B1/B2/A0 execution, P2/P3 entry, automatic canonical main advance and all unapproved external effects remain unauthorized.
+phase_execution_claim:
+  current_task_claim: NO_CURRENT_TASK
+  phase_local_allowed:
+    - local evaluation foundation engineering under an exact Task Contract
+    - synthetic fixtures, deterministic tests, replay, Evidence, rollback and independent review
+    - local canonical main integration after Master Task Gate
+  historical_terminal_rules:
+    - P1-002 through P1-006 remain terminal Historical Evidence and cannot resume, retry or continue through successor, replacement or correction chains.
+    - P1-007 and P1-008 abandoned contract preparations have no execution authority and cannot supply implementation assets.
+  not_authorized_in_current_phase:
+    - B0/B1/B2/A0 execution without an exact phase-local Task Contract
+    - P2 or P3 entry
+    - unapproved external effects
+    - product or benchmark capability claims without Evaluation Protocol evidence
   deferred_to_p2_or_later:
     - Repository Intelligence capability improvement and benchmark claims.
   deferred_to_p3_or_later:

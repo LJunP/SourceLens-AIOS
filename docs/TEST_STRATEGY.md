@@ -28,5 +28,5 @@
 ## Task 证据最小项
 
 每个实际 Task 至少记录：source identity、输入、配置、命令、退出状态、测试结果、
-风险、Reviewer verdict 和 rollback reference。Founder Gate 只接受与 exact candidate
-绑定的证据。
+风险、Reviewer verdict 和 rollback reference。Task Gate 只接受与 exact candidate
+绑定的证据；Founder 只在 Phase Gate或保留决策时审查相应绑定证据。

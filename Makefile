@@ -58,6 +58,7 @@ code-map-check: ## 校验代码地图同步性
 	node scripts/generate-project-code-map.mjs --check
 
 aios-governance-check: ## 校验最小当前权威、P1 边界和历史隔离
+	ruby scripts/test-current-task-authority.rb
 	./scripts/validate-aios-governance.sh
 
 p1-safety-check: ## 校验 P1 cooperative-local 基础安全声明

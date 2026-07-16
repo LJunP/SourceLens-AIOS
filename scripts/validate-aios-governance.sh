@@ -69,8 +69,17 @@ ruby -ryaml -rjson -rdigest -rtime -e '
   active_task = YAML.safe_load(File.read(active_task_path), aliases: false)
   active_authorization_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/activation/FOUNDER_EXECUTION_AUTHORIZATION_RECORD.json"
   active_authorization_sha = "e4af3f5b7696232a37b818ae12bf0c6f04872f07978ca5c21cfee3c147068559"
+  p1_005_terminal_stop_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/terminal/TERMINAL_STOP_RECORD.json"
+  p1_005_terminal_stop_sha = "7ba972bc2514e158ea491d703fc0979b0da34c7e840c4e90e18874da62b65ba0"
+  p1_005_terminal_manifest_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/terminal/TERMINAL_EVIDENCE_MANIFEST.json"
+  p1_005_terminal_manifest_sha = "4be9f4ad4b25cbd2e4b6e3411e30cfc51ca1330c13a36bbca7f2c2450ec5be09"
+  p1_005_offsite_receipt_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/terminal/OFFSITE_TERMINAL_VERIFICATION_RECEIPT.json"
+  p1_005_offsite_receipt_sha = "534c0b2dfd830fa465723700e88a70264cb156d281e2ebb0b4ed560867bf0b9d"
   abort "P1-005 Founder authorization missing" unless File.file?(active_authorization_path)
   active_authorization = JSON.parse(File.read(active_authorization_path))
+  p1_005_terminal_stop = JSON.parse(File.read(p1_005_terminal_stop_path))
+  p1_005_terminal_manifest = JSON.parse(File.read(p1_005_terminal_manifest_path))
+  p1_005_offsite_receipt = JSON.parse(File.read(p1_005_offsite_receipt_path))
   authorization_capture_path = "/Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-003-execution-authorization-20260715T125627Z/FOUNDER_EXECUTION_AUTHORIZATION_RECORD.json"
   authorization_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-003-execution-authorization-20260715T125627Z/FOUNDER_EXECUTION_AUTHORIZATION_RECORD.json"
   authorization_sha = "1082f0a81eb41a1fae9a1767d421bb0fe8f11810bccba197ad18e3e430762a1b"
@@ -125,6 +134,9 @@ ruby -ryaml -rjson -rdigest -rtime -e '
     p1_004_restore_receipt_path => p1_004_restore_receipt_sha,
     active_task_path => active_task_sha,
     active_authorization_path => active_authorization_sha,
+    p1_005_terminal_stop_path => p1_005_terminal_stop_sha,
+    p1_005_terminal_manifest_path => p1_005_terminal_manifest_sha,
+    p1_005_offsite_receipt_path => p1_005_offsite_receipt_sha,
     authorization_path => authorization_sha,
     parent_binding_path => parent_binding_sha,
     "evaluation-harness/fixtures/oracle/FREEZE_RECEIPT.json" => "ef7f9807795a685d0aa92fc19248ed0101362861ad7d71e4fdcdbb9df0b840c6",
@@ -141,7 +153,7 @@ ruby -ryaml -rjson -rdigest -rtime -e '
   abort "phase must be P1" unless truth.dig("project", "current_phase") == "P1"
   abort "P0 must be complete" unless truth.dig("project", "p0_status") == "COMPLETE"
   abort "P1 entry must be authorized" unless truth.dig("project", "p1_entry_status") == "AUTHORIZED"
-  abort "P1 execution authorization state drift" unless truth.dig("project", "p1_execution_status") == "TASK_AUTHORIZED_PRE_IMPLEMENTATION"
+  abort "P1 execution state drift" unless truth.dig("project", "p1_execution_status") == "NO_CURRENT_TASK"
   abort "canonical repository drift" unless truth.dig("project", "canonical_repository") == "/Users/lijunpeng/Developer/SourceLens-AIOS"
   abort "old Desktop repository remains canonical" if truth.dig("project", "canonical_repository") == "/Users/lijunpeng/Desktop/cc/project/SourceLens-AIOS"
   abort "canonical cutover parent commit drift" unless truth.dig("project", "canonical_cutover_parent_commit") == "65157b6f771c3a95486144ab712c3a99f9d06845"
@@ -154,7 +166,7 @@ ruby -ryaml -rjson -rdigest -rtime -e '
   abort "Goal canonicalization drift" unless truth.dig("goal", "body_canonicalization") == "UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF"
   abort "Goal identity state drift" unless truth.dig("goal", "identity_status") == "FOUNDER_MANUALLY_INSTALLED_LONG_TERM_GOAL_IDENTITY_PRESERVED"
   active_task_id = "AIOS-P1-005_EVALUATION_MATRIX_AND_VTSR_COUNTING_VALIDATOR"
-  abort "Goal current Task authority drift" unless truth.dig("goal", "current_task_authority") == active_task_id
+  abort "Goal current Task authority drift" unless truth.dig("goal", "current_task_authority") == "NONE"
   goal_bytes = File.binread(goal_path)
   abort "Goal raw bytes drift" unless Digest::SHA256.hexdigest(goal_bytes) == "9b59ffc6919473b596f09a96afc1e8684f076f5ac32c6014ac96344a496cd0d8"
   canonical_goal = goal_bytes.force_encoding("UTF-8").gsub("\r\n", "\n").gsub("\r", "\n").sub(/\n*\z/, "\n")
@@ -163,20 +175,18 @@ ruby -ryaml -rjson -rdigest -rtime -e '
   terminal_task_path = "docs/aios/tasks/P1-002_B0_ADAPTER_CONFORMANCE.yaml"
   terminal_task_sha = "c303f045e67dc1f76d51a5789eeb0573021bdcd9d17cd169d7448f64f91a87d8"
   pilot_task_id = "AIOS-P1-003_PILOT_TASK_DATASET_AND_HIDDEN_SET_CURATION"
-  abort "current Task identity drift" unless truth.dig("active_work", "current_task") == active_task_id && truth.dig("active_work", "current_task_status") == "FOUNDER_EXECUTION_AUTHORIZED_PRE_IMPLEMENTATION"
-  abort "current Task Contract drift" unless truth.dig("active_work", "current_task_contract") == active_task_path && truth.dig("active_work", "current_task_contract_sha256") == active_task_sha
-  abort "current execution authorization drift" unless truth.dig("active_work", "current_execution_authorization") == active_authorization_path && truth.dig("active_work", "current_execution_authorization_sha256") == active_authorization_sha
-  abort "current execution nonce drift" unless truth.dig("active_work", "execution_nonce") == "3642ac4b49ff5d7d6c97068d0094dc54b36aa2f5d3ab67485b77afed7efe5117" && truth.dig("active_work", "execution_nonce_status") == "CONSUMED_ACTIVE"
-  abort "activation parent drift" unless truth.dig("active_work", "activation_parent_commit") == "c1dc6fdc7c8eaa7728c27caad8013631babecc74" && truth.dig("active_work", "activation_parent_tree") == "0aaa9a7156250d02d3e0fd9a92f7f999237176c0"
-  abort "Task resource path drift" unless truth.dig("active_work", "task_branch") == "task/AIOS-P1-005-evaluation-matrix-vtsr-validator" && truth.dig("active_work", "task_worktree") == "/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-005-evaluation-matrix-vtsr-validator"
-  abort "execution Evidence root drift" unless truth.dig("active_work", "execution_evidence_root") == "/Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z"
-  abort "next action drift" unless truth.dig("active_work", "next_eligible_action") == "VERIFY_P1_005_ACTIVATION_COMMIT_CREATE_RECEIPT_THEN_CREATE_EXACT_TASK_RESOURCES"
+  abort "current Task must be NONE" unless truth.dig("active_work", "current_task") == "NONE" && truth.dig("active_work", "current_task_status") == "NONE"
+  abort "current Task Contract must be null" unless truth.dig("active_work", "current_task_contract").nil? && truth.dig("active_work", "current_task_contract_sha256").nil?
+  abort "current execution authorization must be null" unless truth.dig("active_work", "current_execution_authorization").nil? && truth.dig("active_work", "current_execution_authorization_sha256").nil?
+  abort "current execution nonce must be empty" unless truth.dig("active_work", "execution_nonce").nil? && truth.dig("active_work", "execution_nonce_status") == "NONE"
+  abort "current Task resources must be empty" unless truth.dig("active_work", "task_branch").nil? && truth.dig("active_work", "task_worktree").nil? && truth.dig("active_work", "execution_evidence_root").nil? && truth.dig("active_work", "offsite_target").nil?
+  abort "next action drift" unless truth.dig("active_work", "next_eligible_action") == "FOUNDER_AUTHORIZE_NEXT_P1_REAL_ENGINEERING_TASK"
   abort "P1 implementation boundary drift" unless truth.dig("p1_boundary", "allowed_now") == [
-    "Only exact AIOS-P1-005_EVALUATION_MATRIX_AND_VTSR_COUNTING_VALIDATOR is currently authorized for bounded Task execution.",
-    "The Task branch, worktree and execution evidence population may be created only after the five-path activation commit passes full verification and its create-once Activation Receipt binds the implementation parent.",
+    "No current Task is authorized; active_work.current_task is NONE.",
+    "P1-005 is terminal non-PASS, cannot resume, retry or continue through a successor/replacement/correction chain, and no partial implementation is accepted.",
     "P1-003 is terminal, its hidden custody is quarantined historical risk, and it cannot be resumed, retried, backfilled, replaced or represented as PASS.",
     "P1-004 is terminal, not accepted, cannot be resumed, retried or continued through a successor/correction chain, and its Worker candidate remains off main.",
-    "B0/B1/B2/A0 execution, P2/P3 entry, automatic canonical main advance and all effects outside the exact P1-005 Task Contract remain unauthorized."
+    "B0/B1/B2/A0 execution, P2/P3 entry, automatic canonical main advance and all unapproved external effects remain unauthorized."
   ]
   abort "P1-003 dataset claim boundary drift" unless truth.dig("claim_boundary", "p1_pilot_task_dataset") == "TERMINAL_STOPPED_NOT_ACCEPTED" && truth.dig("claim_boundary", "p1_pilot_task_dataset_claims") == 0
   abort "P1-003 eligible task claim drift" unless truth.dig("claim_boundary", "p1_pilot_task_dataset_eligible_tasks") == "0_OF_8"
@@ -186,6 +196,9 @@ ruby -ryaml -rjson -rdigest -rtime -e '
   abort "P1-004 acceptance falsely claimed" unless truth.dig("claim_boundary", "p1_004_parameterized_harness_admission") == "TERMINAL_STOPPED_NOT_ACCEPTED"
   abort "P1-004 Worker candidate falsely accepted" unless truth.dig("claim_boundary", "p1_004_worker_candidate_accepted") == false
   abort "P1-004 capability claim widened" unless truth.dig("claim_boundary", "p1_004_capability_claims") == 0
+  abort "P1-005 falsely accepted" unless truth.dig("claim_boundary", "p1_005_evaluation_matrix_vtsr_validator") == "TERMINAL_STOPPED_NOT_ACCEPTED"
+  abort "P1-005 candidate falsely created" unless truth.dig("claim_boundary", "p1_005_candidate_created") == false
+  abort "P1-005 capability claim widened" unless truth.dig("claim_boundary", "p1_005_capability_claims") == 0
 
   abort "P1-005 Task id or phase drift" unless active_task["task_id"] == active_task_id && active_task["phase"] == "P1"
   abort "P1-005 frozen Contract bytes changed authorization semantics" unless active_task["status"] == "FINAL_CONTRACT_CANDIDATE_AWAITING_FOUNDER_EXECUTION_AUTHORIZATION" && active_task["execution_authorized"] == false
@@ -201,6 +214,18 @@ ruby -ryaml -rjson -rdigest -rtime -e '
   abort "P1-005 authorization nonce drift" unless active_authorization["consumed_single_use_nonce"] == "3642ac4b49ff5d7d6c97068d0094dc54b36aa2f5d3ab67485b77afed7efe5117"
   abort "P1-005 automatic continuation enabled" unless active_authorization["automatic_main_advance"] == false && active_authorization["automatic_next_task"] == false
   abort "P1-005 later scope enabled" unless active_authorization["b0_b1_b2_a0_authorized"] == false && active_authorization["p2_p3_authorized"] == false
+  p1_005_terminal_state = "TERMINAL_STOPPED_DURING_QUALITY_FREEZE_OUT_OF_SCOPE_WRITE"
+  abort "P1-005 stop state drift" unless p1_005_terminal_stop["terminal_state"] == p1_005_terminal_state
+  abort "P1-005 stop reason drift" unless p1_005_terminal_stop.dig("stop_condition", "triggered") == true && p1_005_terminal_stop.dig("stop_condition", "failure_classification") == "EXECUTION_SCOPE_COMPLIANCE_FAILURE"
+  abort "P1-005 nonce not retired" unless p1_005_terminal_stop.dig("authority_bindings", "nonce_terminal_status") == "RETIRED_AFTER_TASK_STOP"
+  abort "P1-005 terminal manifest drift" unless p1_005_terminal_manifest["terminal_state"] == p1_005_terminal_state && p1_005_terminal_manifest["artifact_count"] == 15
+  abort "P1-005 offsite verification not PASS" unless p1_005_offsite_receipt["result"] == "PASS" && p1_005_offsite_receipt["package_classification"] == "TERMINAL_NON_PASS_NOT_CANDIDATE"
+  p1_005_history = truth.dig("task_history", "aios_p1_005")
+  abort "P1-005 terminal history missing" unless p1_005_history.is_a?(Hash)
+  abort "P1-005 terminal history drift" unless p1_005_history["status"] == p1_005_terminal_state && p1_005_history["execution_authorized"] == false && p1_005_history["execution_nonce_status"] == "RETIRED_AFTER_TASK_STOP" && p1_005_history["resume_retry_successor_allowed"] == false
+  abort "P1-005 candidate or capability falsely claimed" unless p1_005_history.dig("implementation_state", "candidate_created") == false && p1_005_history["capability_claims"] == 0 && p1_005_history["founder_gate_status"] == "NOT_REACHED"
+  abort "P1-005 terminal Evidence binding drift" unless p1_005_history.dig("terminal_evidence", "stop_record_sha256") == p1_005_terminal_stop_sha && p1_005_history.dig("terminal_evidence", "evidence_manifest_sha256") == p1_005_terminal_manifest_sha
+  abort "P1-005 offsite custody drift" unless p1_005_history.dig("terminal_cleanup", "restore_verification_receipt_sha256") == p1_005_offsite_receipt_sha && p1_005_history.dig("terminal_cleanup", "restore_status") == "PASS"
 
   abort "P1-003 Task id drift" unless pilot_task["task_id"] == pilot_task_id
   abort "P1-003 phase drift" unless pilot_task["phase"] == "P1"
@@ -737,14 +762,35 @@ worktree_count="$(printf '%s\n' "$worktree_paths" | grep -c . || true)"
 expected_task_branch="task/AIOS-P1-005-evaluation-matrix-vtsr-validator"
 expected_task_worktree="/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-005-evaluation-matrix-vtsr-validator"
 activation_receipt="/Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/activation/ACTIVATION_RECEIPT.json"
-if [[ -f "$activation_receipt" ]]; then
-  [[ "$task_branch_count" -eq 1 && "$task_branches" == "$expected_task_branch" ]] || fail "active P1-005 Task branch population drift: $task_branches"
-  [[ "$worktree_count" -eq 2 ]] || fail "active P1-005 worktree population must be canonical plus one exact Task worktree"
+terminal_stop_record="/Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/terminal/TERMINAL_STOP_RECORD.json"
+if [[ -f "$terminal_stop_record" && "$task_branch_count" -eq 1 ]]; then
+  [[ "$task_branches" == "$expected_task_branch" ]] || fail "terminal P1-005 Task branch population drift: $task_branches"
+  [[ "$worktree_count" -eq 2 ]] || fail "terminal P1-005 pre-cleanup worktree population must be canonical plus one exact Task worktree"
   printf '%s\n' "$worktree_paths" | grep -Fx "$ROOT_DIR" >/dev/null || fail "canonical worktree missing"
   printf '%s\n' "$worktree_paths" | grep -Fx "$expected_task_worktree" >/dev/null || fail "exact P1-005 Task worktree missing"
+elif [[ -f "$terminal_stop_record" ]]; then
+  [[ "$task_branch_count" -eq 0 ]] || fail "unexpected Task branch remains after P1-005 terminal cleanup: $task_branches"
+  [[ "$worktree_count" -eq 1 && "$worktree_paths" == "$ROOT_DIR" ]] || fail "post-cleanup worktree population is not exactly the canonical repository"
+elif [[ -f "$activation_receipt" ]]; then
+  fail "P1-005 activation exists without terminal stop record"
 else
   [[ "$task_branch_count" -eq 0 ]] || fail "P1-005 Task branch exists before activation receipt: $task_branches"
   [[ "$worktree_count" -eq 1 && "$worktree_paths" == "$ROOT_DIR" ]] || fail "pre-resource worktree population is not exactly the canonical repository"
+fi
+
+p1_005_closure_parent="1354e6a401d3a9d7794ece9de6e5a438e13ad5e6"
+p1_005_closure_paths_expected=$'docs/PROJECT_CODE_MAP.md\ndocs/aios/truth/project_state.yaml\nscripts/check-p1-safety-boundary.sh\nscripts/validate-aios-governance.sh'
+current_head="$(git rev-parse HEAD)"
+if [[ "$current_head" == "$p1_005_closure_parent" ]]; then
+  p1_005_closure_paths_actual="$(git diff --name-only HEAD -- | LC_ALL=C sort)"
+  [[ "$p1_005_closure_paths_actual" == "$p1_005_closure_paths_expected" ]] || fail "P1-005 terminal closure pre-commit path population drift"
+else
+  git merge-base --is-ancestor "$p1_005_closure_parent" "$current_head" || fail "P1-005 activation commit is not an ancestor of current main"
+  p1_005_closure_commit="$(git rev-list --reverse --first-parent "$p1_005_closure_parent..$current_head" | sed -n '1p')"
+  [[ -n "$p1_005_closure_commit" ]] || fail "P1-005 terminal closure commit cannot be located"
+  [[ "$(git rev-list --parents -n 1 "$p1_005_closure_commit")" == "$p1_005_closure_commit $p1_005_closure_parent" ]] || fail "P1-005 terminal closure commit is not the unique direct child of the activation commit"
+  [[ "$(git diff --name-only "$p1_005_closure_parent" "$p1_005_closure_commit" -- | LC_ALL=C sort)" == "$p1_005_closure_paths_expected" ]] || fail "P1-005 terminal closure commit path population drift"
+  [[ "$(git log -1 --format=%s "$p1_005_closure_commit")" == "governance(p1): close terminal P1-005 state" ]] || fail "P1-005 terminal closure commit subject drift"
 fi
 
 closure_parent="ade80fca9ce4bd46446c0bf9e6e37fbde1e4dd0e"

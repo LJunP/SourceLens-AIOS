@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-16T06:10:10Z"
-verification_scope: P1_005_PRE_EXECUTION_GOVERNANCE_ACTIVATION
+last_verified_at: "2026-07-16T06:57:23Z"
+verification_scope: P1_005_TERMINAL_CLOSURE_AND_OFFSITE_VERIFICATION
 
 authority:
   founder: Human Founder
@@ -29,8 +29,8 @@ goal:
   observed_raw_body_sha256: 9b59ffc6919473b596f09a96afc1e8684f076f5ac32c6014ac96344a496cd0d8
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_LONG_TERM_GOAL_IDENTITY_PRESERVED
-  current_task_authority: AIOS-P1-005_EVALUATION_MATRIX_AND_VTSR_COUNTING_VALIDATOR
-  note: The Founder-approved long-term Goal body remains the active long-term authority; the exact P1-005 Task Contract and Founder Execution Authorization Record govern only the bounded current Task.
+  current_task_authority: NONE
+  note: The Founder-approved long-term Goal body remains active. P1-005 is terminal non-PASS, its nonce is retired, and no current Task is authorized.
 
 project:
   name: SourceLens AIOS
@@ -40,7 +40,7 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  p1_execution_status: TASK_AUTHORIZED_PRE_IMPLEMENTATION
+  p1_execution_status: NO_CURRENT_TASK
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   canonical_cutover_parent_commit: 65157b6f771c3a95486144ab712c3a99f9d06845
@@ -59,37 +59,19 @@ p0_baseline:
   online_verification_status: ARCHIVED_NOT_ON_ACTIVE_PATH
 
 active_work:
-  current_task: AIOS-P1-005_EVALUATION_MATRIX_AND_VTSR_COUNTING_VALIDATOR
-  current_task_status: FOUNDER_EXECUTION_AUTHORIZED_PRE_IMPLEMENTATION
-  current_task_contract: docs/aios/tasks/P1-005_EVALUATION_MATRIX_AND_VTSR_COUNTING_VALIDATOR.yaml
-  current_task_contract_sha256: e17340610bc8a53b887c4699ba13ab6b4e89e9caedb0f56c5375bf8eac122a2c
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/activation/FOUNDER_EXECUTION_AUTHORIZATION_RECORD.json
-  current_execution_authorization_sha256: e4af3f5b7696232a37b818ae12bf0c6f04872f07978ca5c21cfee3c147068559
-  execution_nonce: 3642ac4b49ff5d7d6c97068d0094dc54b36aa2f5d3ab67485b77afed7efe5117
-  execution_nonce_status: CONSUMED_ACTIVE
-  effective_from_utc: "2026-07-16T05:11:35Z"
-  expires_at_utc: "2026-07-23T05:11:35Z"
-  activation_parent_commit: c1dc6fdc7c8eaa7728c27caad8013631babecc74
-  activation_parent_tree: 0aaa9a7156250d02d3e0fd9a92f7f999237176c0
-  implementation_parent: PENDING_ACTIVATION_COMMIT_AND_RECEIPT
-  task_branch: task/AIOS-P1-005-evaluation-matrix-vtsr-validator
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-005-evaluation-matrix-vtsr-validator
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z
-  offsite_target: /Volumes/lijp/SourceLens-AIOS-P1-005-offsite-20260716T051135Z
-  offsite_volume_uuid: 2D3D7BCD-5BC5-3D2A-B853-F1FA95D290F8
-  budget:
-    engineering_hours: 16
-    calendar_days: 3
-    implementation_iterations_inside_same_task: 2
-    candidate_freezes: 2
-    measurement_retries: 0
-    live_baseline_runs: 0
-    network_requests: 0
-    provider_calls: 0
-    secrets_accessed: 0
-    remote_writes: 0
-    production_effects: 0
-  next_eligible_action: VERIFY_P1_005_ACTIVATION_COMMIT_CREATE_RECEIPT_THEN_CREATE_EXACT_TASK_RESOURCES
+  current_task: NONE
+  current_task_status: NONE
+  current_task_contract: null
+  current_task_contract_sha256: null
+  current_execution_authorization: null
+  current_execution_authorization_sha256: null
+  execution_nonce: null
+  execution_nonce_status: NONE
+  task_branch: null
+  task_worktree: null
+  execution_evidence_root: null
+  offsite_target: null
+  next_eligible_action: FOUNDER_AUTHORIZE_NEXT_P1_REAL_ENGINEERING_TASK
 
 task_history:
   aios_p1_001:
@@ -293,6 +275,51 @@ task_history:
       restore_status: PASS
       task_branch_removed: true
       task_worktree_removed: true
+  aios_p1_005:
+    task_id: AIOS-P1-005_EVALUATION_MATRIX_AND_VTSR_COUNTING_VALIDATOR
+    contract: docs/aios/tasks/P1-005_EVALUATION_MATRIX_AND_VTSR_COUNTING_VALIDATOR.yaml
+    task_contract_sha256: e17340610bc8a53b887c4699ba13ab6b4e89e9caedb0f56c5375bf8eac122a2c
+    status: TERMINAL_STOPPED_DURING_QUALITY_FREEZE_OUT_OF_SCOPE_WRITE
+    execution_authorized: false
+    original_execution_authorization_status: CONSUMED_AND_TERMINATED
+    execution_authorization_sha256: e4af3f5b7696232a37b818ae12bf0c6f04872f07978ca5c21cfee3c147068559
+    execution_nonce_status: RETIRED_AFTER_TASK_STOP
+    measurement_retries: 0
+    capability_claims: 0
+    founder_gate_status: NOT_REACHED
+    main_candidate_advanced: false
+    resume_retry_successor_allowed: false
+    terminal_reason: OUT_OF_SCOPE_WRITE_DURING_QUALITY_FREEZE
+    failure_classification: EXECUTION_SCOPE_COMPLIANCE_FAILURE
+    activation:
+      parent_commit: c1dc6fdc7c8eaa7728c27caad8013631babecc74
+      parent_tree: 0aaa9a7156250d02d3e0fd9a92f7f999237176c0
+      commit: 1354e6a401d3a9d7794ece9de6e5a438e13ad5e6
+      tree: f5bdb548daf40127ee63ced1cdf26b4a363510eb
+      receipt_sha256: 2952290ca7d29bbd4d63cb5099df0323e3eb2a57374031751044705aef0dc00d
+    implementation_state:
+      quality_freeze_commit_created: false
+      worker_implementation_started: false
+      worker_commit_created: false
+      candidate_created: false
+      independent_candidate_reviews_performed: false
+    terminal_evidence:
+      stop_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/terminal/TERMINAL_STOP_RECORD.json
+      stop_record_sha256: 7ba972bc2514e158ea491d703fc0979b0da34c7e840c4e90e18874da62b65ba0
+      evidence_manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/terminal/TERMINAL_EVIDENCE_MANIFEST.json
+      evidence_manifest_sha256: 4be9f4ad4b25cbd2e4b6e3411e30cfc51ca1330c13a36bbca7f2c2450ec5be09
+      out_of_scope_file_count: 60
+      current_out_of_scope_root_absent: true
+      exact_second_level_event_times: UNKNOWN
+    terminal_cleanup:
+      offsite_package: /Volumes/lijp/SourceLens-AIOS-P1-005-terminal-closure-20260716T064413Z
+      offsite_volume_uuid: 2D3D7BCD-5BC5-3D2A-B853-F1FA95D290F8
+      package_content_sha256sums_sha256: 105e599646f7b9731e62445528bd5711a5fadbcb92310622f237a665d159fbcc
+      git_bundle_sha256: d04a3fa46caae93fabc6cef03b7783225a1caa235058b2c7c3a712304cd21b27
+      restore_verification_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/terminal/OFFSITE_TERMINAL_VERIFICATION_RECEIPT.json
+      restore_verification_receipt_sha256: 534c0b2dfd830fa465723700e88a70264cb156d281e2ebb0b4ed560867bf0b9d
+      restore_status: PASS
+      resource_removal_state: AUTHORIZED_AFTER_GOVERNANCE_COMMIT_FULL_VERIFY
 
 gate_history:
   - task_id: AIOS-P1-001
@@ -327,11 +354,11 @@ historical_lineages:
 
 p1_boundary:
   allowed_now:
-    - Only exact AIOS-P1-005_EVALUATION_MATRIX_AND_VTSR_COUNTING_VALIDATOR is currently authorized for bounded Task execution.
-    - The Task branch, worktree and execution evidence population may be created only after the five-path activation commit passes full verification and its create-once Activation Receipt binds the implementation parent.
+    - No current Task is authorized; active_work.current_task is NONE.
+    - P1-005 is terminal non-PASS, cannot resume, retry or continue through a successor/replacement/correction chain, and no partial implementation is accepted.
     - P1-003 is terminal, its hidden custody is quarantined historical risk, and it cannot be resumed, retried, backfilled, replaced or represented as PASS.
     - P1-004 is terminal, not accepted, cannot be resumed, retried or continued through a successor/correction chain, and its Worker candidate remains off main.
-    - B0/B1/B2/A0 execution, P2/P3 entry, automatic canonical main advance and all effects outside the exact P1-005 Task Contract remain unauthorized.
+    - B0/B1/B2/A0 execution, P2/P3 entry, automatic canonical main advance and all unapproved external effects remain unauthorized.
   deferred_to_p2_or_later:
     - Repository Intelligence capability improvement and benchmark claims.
   deferred_to_p3_or_later:
@@ -359,6 +386,9 @@ claim_boundary:
   p1_004_parameterized_harness_admission: TERMINAL_STOPPED_NOT_ACCEPTED
   p1_004_worker_candidate_accepted: false
   p1_004_capability_claims: 0
+  p1_005_evaluation_matrix_vtsr_validator: TERMINAL_STOPPED_NOT_ACCEPTED
+  p1_005_candidate_created: false
+  p1_005_capability_claims: 0
   verified_task_success_rate: UNKNOWN_NO_RUNS
   production_ready: false
   trustworthy_software_engineering_agent_proven: false

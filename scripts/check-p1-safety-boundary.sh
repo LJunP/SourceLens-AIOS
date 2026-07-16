@@ -44,6 +44,12 @@ ruby -ryaml -rjson -rdigest -e '
   active_task_sha = "e17340610bc8a53b887c4699ba13ab6b4e89e9caedb0f56c5375bf8eac122a2c"
   active_authorization_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/activation/FOUNDER_EXECUTION_AUTHORIZATION_RECORD.json"
   active_authorization_sha = "e4af3f5b7696232a37b818ae12bf0c6f04872f07978ca5c21cfee3c147068559"
+  p1_005_terminal_stop_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/terminal/TERMINAL_STOP_RECORD.json"
+  p1_005_terminal_stop_sha = "7ba972bc2514e158ea491d703fc0979b0da34c7e840c4e90e18874da62b65ba0"
+  p1_005_terminal_manifest_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/terminal/TERMINAL_EVIDENCE_MANIFEST.json"
+  p1_005_terminal_manifest_sha = "4be9f4ad4b25cbd2e4b6e3411e30cfc51ca1330c13a36bbca7f2c2450ec5be09"
+  p1_005_offsite_receipt_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/terminal/OFFSITE_TERMINAL_VERIFICATION_RECEIPT.json"
+  p1_005_offsite_receipt_sha = "534c0b2dfd830fa465723700e88a70264cb156d281e2ebb0b4ed560867bf0b9d"
   {
     p1_004_task_path => p1_004_task_sha,
     p1_004_authorization_path => p1_004_authorization_sha,
@@ -52,7 +58,10 @@ ruby -ryaml -rjson -rdigest -e '
     p1_004_seal_path => p1_004_seal_sha,
     p1_004_restore_path => p1_004_restore_sha,
     active_task_path => active_task_sha,
-    active_authorization_path => active_authorization_sha
+    active_authorization_path => active_authorization_sha,
+    p1_005_terminal_stop_path => p1_005_terminal_stop_sha,
+    p1_005_terminal_manifest_path => p1_005_terminal_manifest_sha,
+    p1_005_offsite_receipt_path => p1_005_offsite_receipt_sha
   }.each do |path, expected|
     abort "P1-004 terminal custody artifact missing: #{path}" unless File.file?(path)
     abort "P1-004 terminal custody artifact drift: #{path}" unless Digest::SHA256.file(path).hexdigest == expected
@@ -65,6 +74,9 @@ ruby -ryaml -rjson -rdigest -e '
   p1_004_restore = JSON.parse(File.read(p1_004_restore_path))
   active_task = YAML.safe_load(File.read(active_task_path), aliases: false)
   active_authorization = JSON.parse(File.read(active_authorization_path))
+  p1_005_terminal_stop = JSON.parse(File.read(p1_005_terminal_stop_path))
+  p1_005_terminal_manifest = JSON.parse(File.read(p1_005_terminal_manifest_path))
+  p1_005_offsite_receipt = JSON.parse(File.read(p1_005_offsite_receipt_path))
 
   task_path = "docs/aios/tasks/P1-003_PILOT_TASK_DATASET_AND_HIDDEN_SET_CURATION.yaml"
   task_sha = "8dec9d7b12df2e31c62e9ce146938c8a192b4751ce3a9aced3ccd38414fd0aa6"
@@ -101,13 +113,13 @@ ruby -ryaml -rjson -rdigest -e '
 
   exact_terminal_status = "TERMINAL_STOPPED_BEFORE_INTEGRATION_ACQUISITION_EVIDENCE_INTEGRITY_FAILURE"
   active_task_id = "AIOS-P1-005_EVALUATION_MATRIX_AND_VTSR_COUNTING_VALIDATOR"
-  abort "P1 Task authorization state drift" unless truth.dig("project", "p1_execution_status") == "TASK_AUTHORIZED_PRE_IMPLEMENTATION"
+  abort "P1 Task execution state drift" unless truth.dig("project", "p1_execution_status") == "NO_CURRENT_TASK"
   abort "canonical repository drift" unless truth.dig("project", "canonical_repository") == "/Users/lijunpeng/Developer/SourceLens-AIOS"
   abort "old Desktop repository remains canonical" if truth.dig("project", "canonical_repository") == "/Users/lijunpeng/Desktop/cc/project/SourceLens-AIOS"
-  abort "current Task identity drift" unless truth.dig("active_work", "current_task") == active_task_id && truth.dig("active_work", "current_task_status") == "FOUNDER_EXECUTION_AUTHORIZED_PRE_IMPLEMENTATION"
-  abort "current Task Contract drift" unless truth.dig("active_work", "current_task_contract") == active_task_path && truth.dig("active_work", "current_task_contract_sha256") == active_task_sha
-  abort "current authorization drift" unless truth.dig("active_work", "current_execution_authorization") == active_authorization_path && truth.dig("active_work", "current_execution_authorization_sha256") == active_authorization_sha
-  abort "next action drift" unless truth.dig("active_work", "next_eligible_action") == "VERIFY_P1_005_ACTIVATION_COMMIT_CREATE_RECEIPT_THEN_CREATE_EXACT_TASK_RESOURCES"
+  abort "current Task must be NONE" unless truth.dig("active_work", "current_task") == "NONE" && truth.dig("active_work", "current_task_status") == "NONE"
+  abort "current Task Contract must be null" unless truth.dig("active_work", "current_task_contract").nil? && truth.dig("active_work", "current_task_contract_sha256").nil?
+  abort "current authorization must be null" unless truth.dig("active_work", "current_execution_authorization").nil? && truth.dig("active_work", "current_execution_authorization_sha256").nil?
+  abort "next action drift" unless truth.dig("active_work", "next_eligible_action") == "FOUNDER_AUTHORIZE_NEXT_P1_REAL_ENGINEERING_TASK"
   abort "P1-005 Contract identity drift" unless active_task["task_id"] == active_task_id && active_task["phase"] == "P1"
   abort "P1-005 Contract self-authorized" unless active_task["execution_authorized"] == false
   %w[network provider secrets remote production public_release].each do |field|
@@ -119,6 +131,18 @@ ruby -ryaml -rjson -rdigest -e '
   abort "P1-005 authorization identity drift" unless active_authorization["status"] == "AUTHORIZED_ACTIVE" && active_authorization["task_id"] == active_task_id && active_authorization.dig("task_contract", "sha256") == active_task_sha
   abort "P1-005 automatic continuation enabled" unless active_authorization["automatic_main_advance"] == false && active_authorization["automatic_next_task"] == false
   abort "P1-005 later scope enabled" unless active_authorization["b0_b1_b2_a0_authorized"] == false && active_authorization["p2_p3_authorized"] == false
+  p1_005_state = "TERMINAL_STOPPED_DURING_QUALITY_FREEZE_OUT_OF_SCOPE_WRITE"
+  abort "P1-005 terminal state drift" unless p1_005_terminal_stop["terminal_state"] == p1_005_state
+  abort "P1-005 stop classification drift" unless p1_005_terminal_stop.dig("stop_condition", "failure_classification") == "EXECUTION_SCOPE_COMPLIANCE_FAILURE"
+  abort "P1-005 nonce not retired" unless p1_005_terminal_stop.dig("authority_bindings", "nonce_terminal_status") == "RETIRED_AFTER_TASK_STOP"
+  abort "P1-005 terminal manifest drift" unless p1_005_terminal_manifest["terminal_state"] == p1_005_state && p1_005_terminal_manifest["artifact_count"] == 15
+  abort "P1-005 offsite verification not PASS" unless p1_005_offsite_receipt["result"] == "PASS" && p1_005_offsite_receipt["package_classification"] == "TERMINAL_NON_PASS_NOT_CANDIDATE"
+  p1_005_history = truth.dig("task_history", "aios_p1_005")
+  abort "P1-005 terminal history missing" unless p1_005_history.is_a?(Hash)
+  abort "P1-005 terminal history drift" unless p1_005_history["status"] == p1_005_state && p1_005_history["execution_authorized"] == false && p1_005_history["execution_nonce_status"] == "RETIRED_AFTER_TASK_STOP" && p1_005_history["resume_retry_successor_allowed"] == false
+  abort "P1-005 partial candidate falsely accepted" unless p1_005_history.dig("implementation_state", "candidate_created") == false && p1_005_history["capability_claims"] == 0 && p1_005_history["founder_gate_status"] == "NOT_REACHED"
+  abort "P1-005 offsite custody drift" unless p1_005_history.dig("terminal_cleanup", "restore_verification_receipt_sha256") == p1_005_offsite_receipt_sha && p1_005_history.dig("terminal_cleanup", "restore_status") == "PASS"
+  abort "P1-005 claim boundary widened" unless truth.dig("claim_boundary", "p1_005_evaluation_matrix_vtsr_validator") == "TERMINAL_STOPPED_NOT_ACCEPTED" && truth.dig("claim_boundary", "p1_005_candidate_created") == false && truth.dig("claim_boundary", "p1_005_capability_claims") == 0
   p1_004_id = "AIOS-P1-004_PARAMETERIZED_EVALUATION_HARNESS_ADMISSION"
   p1_004_state = "TERMINAL_STOPPED_AFTER_UNAUTHORIZED_TRANSIENT_EFFECT_AND_INDEPENDENT_REVIEW_FAIL"
   abort "P1-004 Contract identity drift" unless p1_004_task["task_id"] == p1_004_id && p1_004_task["phase"] == "P1"
@@ -216,11 +240,17 @@ worktree_count="$(printf '%s\n' "$worktree_paths" | grep -c . || true)"
 expected_task_branch="task/AIOS-P1-005-evaluation-matrix-vtsr-validator"
 expected_task_worktree="/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-005-evaluation-matrix-vtsr-validator"
 activation_receipt="/Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/activation/ACTIVATION_RECEIPT.json"
-if [[ -f "$activation_receipt" ]]; then
-  [[ "$task_branches" == "$expected_task_branch" ]] || fail "active P1-005 Task branch population drift: $task_branches"
-  [[ "$worktree_count" -eq 2 ]] || fail "active P1-005 worktree population must be canonical plus one exact Task worktree"
+terminal_stop_record="/Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/terminal/TERMINAL_STOP_RECORD.json"
+if [[ -f "$terminal_stop_record" && -n "$task_branches" ]]; then
+  [[ "$task_branches" == "$expected_task_branch" ]] || fail "terminal P1-005 Task branch population drift: $task_branches"
+  [[ "$worktree_count" -eq 2 ]] || fail "terminal P1-005 pre-cleanup worktree population must be canonical plus one exact Task worktree"
   printf '%s\n' "$worktree_paths" | grep -Fx "$ROOT_DIR" >/dev/null || fail "canonical worktree missing"
   printf '%s\n' "$worktree_paths" | grep -Fx "$expected_task_worktree" >/dev/null || fail "exact P1-005 Task worktree missing"
+elif [[ -f "$terminal_stop_record" ]]; then
+  [[ -z "$task_branches" ]] || fail "unexpected Task branch remains after P1-005 terminal cleanup: $task_branches"
+  [[ "$worktree_count" -eq 1 && "$worktree_paths" == "$ROOT_DIR" ]] || fail "post-cleanup worktree population is not exactly the canonical repository"
+elif [[ -f "$activation_receipt" ]]; then
+  fail "P1-005 activation exists without terminal stop record"
 else
   [[ -z "$task_branches" ]] || fail "P1-005 Task branch exists before activation receipt: $task_branches"
   [[ "$worktree_count" -eq 1 && "$worktree_paths" == "$ROOT_DIR" ]] || fail "pre-resource worktree population is not exactly the canonical repository"

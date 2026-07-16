@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-16T12:51:30Z"
-verification_scope: FOUNDER_PHASE_LEVEL_DELEGATION_AND_GENERIC_TASK_AUTHORITY
+last_verified_at: "2026-07-16T13:03:07Z"
+verification_scope: PHASE_DELEGATED_P1_011_TASK_ACTIVATION
 
 authority:
   founder: Human Founder
@@ -34,8 +34,8 @@ goal:
   observed_raw_body_sha256: 9b59ffc6919473b596f09a96afc1e8684f076f5ac32c6014ac96344a496cd0d8
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_LONG_TERM_GOAL_IDENTITY_PRESERVED
-  current_task_authority: NONE
-  note: The Founder-approved long-term Goal identity is canonical and the Codex control-plane Goal is ACTIVE. No current Task is active; the Phase-level delegation policy requires the Agent organization to select and execute the next P1 engineering task without routine Founder approvals.
+  current_task_authority: AIOS-P1-011_ENVIRONMENT_SNAPSHOT_CAPTURE_AND_REPLAY
+  note: The Founder-approved long-term Goal identity is canonical and the Codex control-plane Goal is ACTIVE. P1-011 is authorized under the Phase-level delegation policy without routine Founder approval.
 
 project:
   name: SourceLens AIOS
@@ -45,8 +45,8 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  phase_execution_status: NO_CURRENT_TASK
-  p1_execution_status: NO_CURRENT_TASK
+  phase_execution_status: TASK_ACTIVE
+  p1_execution_status: TASK_ACTIVE
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -193,28 +193,28 @@ p0_baseline:
   online_verification_status: ARCHIVED_NOT_ON_ACTIVE_PATH
 
 active_work:
-  current_task: NONE
-  current_task_status: NONE
-  current_task_contract: null
-  current_task_contract_sha256: null
-  current_execution_authorization: null
-  current_execution_authorization_sha256: null
+  current_task: AIOS-P1-011_ENVIRONMENT_SNAPSHOT_CAPTURE_AND_REPLAY
+  current_task_status: AUTHORIZED_ACTIVE
+  current_task_contract: docs/aios/tasks/P1-011_ENVIRONMENT_SNAPSHOT_CAPTURE_AND_REPLAY.yaml
+  current_task_contract_sha256: 59ad6ca86c8eeb62394265d7a81cd08b089fdb33d54d4f9e17e558249304cd7a
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-011-environment-snapshot-execution-20260716T125500Z/PHASE_DELEGATED_TASK_AUTHORIZATION.json
+  current_execution_authorization_sha256: 8d13470f4b272f4509729629029ca0710f761eca88d083162db62bde58c7ecc7
   execution_nonce: null
-  execution_nonce_status: NONE
-  authorization_id: null
-  activation_parent_commit: null
-  activation_parent_tree: null
-  task_resource_state: NONE
-  task_branch: null
-  task_worktree: null
-  execution_evidence_root: null
+  execution_nonce_status: NOT_REQUIRED_PHASE_DELEGATION
+  authorization_id: e973eea9a9d8364597ec17d6cf4070f126bb3ca7e2c83fe158fbf79a7cd963ea
+  activation_parent_commit: 7d636bb3e2ba07d93eeab3e88d95580e977dc273
+  activation_parent_tree: 95d7e8dd8337088c76ebcd7376d7d16995778c1f
+  task_resource_state: DECLARED
+  task_branch: task/AIOS-P1-011-environment-snapshot-reproducibility
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-011-environment-snapshot-reproducibility
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-011-environment-snapshot-execution-20260716T125500Z
   offsite_target: null
   founder_reserved_authorization: null
   founder_reserved_authorization_sha256: null
   founder_decision_required: false
   escalation_reason: null
   user_action_required: null
-  next_eligible_action: MASTER_AUTONOMOUSLY_SELECT_AND_EXECUTE_NEXT_PHASE_LOCAL_ENGINEERING_TASK
+  next_eligible_action: MASTER_AUTONOMOUSLY_EXECUTE_P1_011_WITHIN_TASK_ENVELOPE
 
 superseded_pre_delegation_authorizations:
   aios_p1_009:
@@ -552,7 +552,7 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_task_claim: NO_CURRENT_TASK
+  current_task_claim: AIOS-P1-011_ENVIRONMENT_SNAPSHOT_CAPTURE_AND_REPLAY
   phase_local_allowed:
     - local evaluation foundation engineering under an exact Task Contract
     - synthetic fixtures, deterministic tests, replay, Evidence, rollback and independent review

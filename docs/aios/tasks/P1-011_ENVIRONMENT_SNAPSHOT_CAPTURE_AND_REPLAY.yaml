@@ -1,0 +1,307 @@
+schema_version: 1
+record_type: sourcelens_aios_phase_delegated_task_contract
+task_id: AIOS-P1-011_ENVIRONMENT_SNAPSHOT_CAPTURE_AND_REPLAY
+phase: P1
+title: Environment Snapshot Capture and Replay Verification
+status: READY_FOR_PHASE_DELEGATED_EXECUTION
+execution_authority: PHASE_DELEGATED
+task_kind: EVALUATION_FOUNDATION_ENGINEERING
+risk_level: medium
+
+objective: >-
+  Implement the smallest deterministic local Environment Snapshot capture and
+  verification capability needed by the accepted P1 Evaluation Harness. The
+  capability must bind a clean synthetic Git source identity, an explicit
+  target-runtime declaration, declared dependency lockfiles, model/prompt/tool
+  declarations and the existing P1 safety policy into a schema-valid snapshot;
+  separately record the capture tool's observed local Node identity; reproduce the same deterministic
+  identity projection from two fresh materializations; and reject controlled
+  source, runtime, dependency and policy drift.
+
+why_now:
+  - AIOS-P1-001 proved visible synthetic harness conformance, but it consumes a manually frozen EnvironmentSnapshot rather than a reproducible capture path.
+  - Reproducible environment identity is required before comparable local baseline evaluation can be trusted.
+  - This is a bounded P1 engineering increment and does not require Repository Intelligence, Agent Runtime or P3 Trust Runtime.
+
+task_spec_ref: docs/aios/schemas/environment-snapshot.schema.json
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/schemas/environment-snapshot.schema.json
+  - docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
+  - evaluation-harness/fixtures/visible/environment-snapshot.json
+  - evaluation-harness/evaluator/schema-validator.mjs
+dependencies:
+  - AIOS-P1-001
+
+capabilities:
+  - ENVIRONMENT_SNAPSHOT_CAPTURE
+  - DETERMINISTIC_REPLAY
+  - EVIDENCE_MANIFEST
+capability_claim: false
+
+lineage:
+  kind: INDEPENDENT_PHASE_INCREMENT
+  retries: []
+  remediates: []
+  supersedes: []
+  note: >-
+    The engineering objective is selected independently under Phase-level
+    delegation. No bytes, authorization or partial implementation from the
+    superseded pre-delegation P1-009 preparation are reused.
+
+roles:
+  accountable_owner: Engineering Manager Agent
+  worker: Environment Snapshot Engineer
+  independent_reviewers:
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent
+
+allowed_paths:
+  worker:
+    - evaluation-harness/environment/**
+  quality:
+    - evaluation-harness/fixtures/environment-snapshot/**
+  integration:
+    - scripts/verify-p1-environment-snapshot.sh
+    - Makefile
+  external_evidence:
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-011-environment-snapshot-execution-20260716T125500Z/**
+
+frozen_inputs:
+  - docs/aios/schemas/environment-snapshot.schema.json
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
+  - evaluation-harness/evaluator/schema-validator.mjs
+
+implementation_requirements:
+  - Capture a schema-valid EnvironmentSnapshot using only explicitly supplied source, target-runtime, dependency, model, prompt, tool and policy inputs.
+  - Canonicalize JSON as UTF-8 with LF and exactly one trailing LF.
+  - Derive snapshot_id from the exact deterministic identity projection frozen below; observation time and the physical materialization path are excluded.
+  - Refuse dirty Git materializations, symlinks, paths outside the declared source root and undeclared lockfiles.
+  - Record source commit/tree, explicit target runtime, locale/timezone, lockfile hashes, network none, provider none and no retained Secret values in the EnvironmentSnapshot.
+  - Record the capture tool Node executable path/hash, Node version, host platform and host architecture only in execution Evidence; do not place or mislabel them as the schema's target container_image_digest.
+  - Treat target runtime, model, prompt and tool fields as caller-supplied declarations; validate and bind them without claiming that capture proves runtime availability or execution.
+  - Verify captured bytes and return typed failures for source, runtime, dependency and policy drift.
+  - Demonstrate equal deterministic projections from two fresh synthetic Git materializations.
+  - Keep created_at as observation metadata and exclude it from replay identity equality.
+
+quality_freeze:
+  must_complete_before_worker_start: true
+  freeze_commit_position: first_commit_after_activation_on_task_branch
+  exact_paths:
+    - evaluation-harness/fixtures/environment-snapshot/OWNERSHIP_MAP.json
+    - evaluation-harness/fixtures/environment-snapshot/CASE_MATRIX.json
+    - evaluation-harness/fixtures/environment-snapshot/ORACLE.json
+    - evaluation-harness/fixtures/environment-snapshot/FREEZE_RECEIPT.json
+    - evaluation-harness/fixtures/environment-snapshot/source-template/README.md
+    - evaluation-harness/fixtures/environment-snapshot/source-template/package-lock.json
+    - evaluation-harness/fixtures/environment-snapshot/target-runtime-oci-manifest.json
+    - evaluation-harness/fixtures/environment-snapshot/declarations.json
+  freeze_receipt_rule: >-
+    FREEZE_RECEIPT.json is written last, contains the exact Task Contract SHA-256
+    and the sorted path/SHA-256/byte-length population of every other
+    Quality-owned file, excludes itself from that population, and binds the
+    Quality freeze commit/tree. Worker start is forbidden until Integration
+    verifies the receipt and the Task worktree is clean.
+  ownership_rule: >-
+    Quality owns every path under evaluation-harness/fixtures/environment-snapshot.
+    Worker has read-only access after freeze and cannot amend, replace or
+    regenerate any Quality byte.
+
+deterministic_identity_projection:
+  canonicalization: UTF-8 canonical JSON with recursively sorted object keys, array order as specified, no insignificant whitespace, and exactly one trailing LF
+  included_fields_in_order:
+    - schema_version
+    - source.repository_identity
+    - source.base_commit
+    - source.tree_hash
+    - source.worktree_clean
+    - runtime.os
+    - runtime.architecture
+    - runtime.container_image_digest
+    - runtime.locale
+    - runtime.timezone
+    - dependencies.lockfiles
+    - dependencies.toolchains
+    - dependencies.caches
+    - model
+    - prompt_version
+    - policy_version
+    - tools
+    - network
+    - environment_variables
+    - secret_policy
+    - random_seed
+  excluded_fields:
+    - snapshot_id
+    - created_at
+    - physical source path
+    - capture tool runtime observation
+  normalization:
+    repository_identity: exact caller-supplied logical identity; physical paths are forbidden
+    git_hashes: lowercase hexadecimal
+    container_image_digest: lowercase SHA-256 of the exact frozen target-runtime-oci-manifest.json bytes, prefixed with sha256
+    lockfiles: repository-relative POSIX paths sorted by UTF-8 byte order, each paired with lowercase SHA-256
+    empty_lockfiles: encoded as an empty array
+    toolchains: object keys sorted by UTF-8 byte order
+    caches: sorted by name, then policy, then digest with null encoded as JSON null
+    tools: sorted by tool_id, then version, then permission
+    environment_variables: non-secret keys sorted and secret_names_present sorted and unique
+  snapshot_id_formula: "ENV- followed by lowercase SHA-256 of the canonical projection bytes"
+
+closed_result_contract:
+  fields:
+    - schema_version
+    - command
+    - verdict
+    - reason_code
+    - snapshot_id
+    - projection_sha256
+  commands:
+    - capture
+    - verify
+  success:
+    verdict: PASS
+    reason_code: PASS
+    exit_status: 0
+    snapshot_id_nullable: false
+    projection_sha256_nullable: false
+  typed_failure:
+    verdict: FAIL
+    exit_status: 2
+    snapshot_id_nullable: true
+    projection_sha256_nullable: true
+  unexpected_internal_failure_exit_status: 1
+  reason_precedence:
+    - MALFORMED_INPUT
+    - PATH_CONTAINMENT_VIOLATION
+    - SYMLINK_FORBIDDEN
+    - SOURCE_NOT_CLEAN
+    - UNDECLARED_LOCKFILE
+    - SOURCE_IDENTITY_MISMATCH
+    - RUNTIME_IDENTITY_MISMATCH
+    - DEPENDENCY_IDENTITY_MISMATCH
+    - POLICY_BOUNDARY_MISMATCH
+    - SNAPSHOT_SCHEMA_INVALID
+    - SNAPSHOT_ID_MISMATCH
+
+quality_case_matrix:
+  total_cases: 13
+  cases:
+    - Q01_CLEAN_CAPTURE_PASS
+    - Q02_EXACT_VERIFY_PASS
+    - Q03_TWO_FRESH_MATERIALIZATIONS_REPLAY_PASS
+    - Q04_DIRTY_SOURCE_SOURCE_NOT_CLEAN
+    - Q05_COMMIT_OR_TREE_DRIFT_SOURCE_IDENTITY_MISMATCH
+    - Q06_TARGET_RUNTIME_DRIFT_RUNTIME_IDENTITY_MISMATCH
+    - Q07_LOCKFILE_BYTE_DRIFT_DEPENDENCY_IDENTITY_MISMATCH
+    - Q08_NETWORK_PROVIDER_OR_SECRET_POLICY_DRIFT_POLICY_BOUNDARY_MISMATCH
+    - Q09_SOURCE_ROOT_SYMLINK_SYMLINK_FORBIDDEN
+    - Q10_LOCKFILE_SYMLINK_SYMLINK_FORBIDDEN
+    - Q11_SOURCE_OR_LOCKFILE_ESCAPE_PATH_CONTAINMENT_VIOLATION
+    - Q12_UNDECLARED_LOCKFILE_UNDECLARED_LOCKFILE
+    - Q13_MALFORMED_DECLARATION_MALFORMED_INPUT
+  metrics:
+    expected_outcome_agreement: 13_OF_13
+    false_accepts: 0
+    fresh_materialization_repetitions: 2
+    replay_projection_mismatches: 0
+    flaky_cases_allowed: 0
+    stdout_contract: exactly one closed-result JSON object followed by LF
+    stderr_contract: empty for typed PASS/FAIL; diagnostics belong in Evidence command ledger
+
+budget:
+  engineering_hours: 12
+  calendar_days: 3
+  implementation_iterations: 2
+  execution_retries: 0
+  candidate_freezes: 1
+  network_calls: 0
+  provider_calls: 0
+
+acceptance_criteria:
+  - The Quality-owned fixture set and expected typed outcomes are frozen before Worker implementation.
+  - A clean synthetic Git fixture produces a schema-valid EnvironmentSnapshot.
+  - Target runtime, model, prompt and tool declarations are supplied by the frozen Quality fixture and represented without fabrication or host-runtime relabeling.
+  - The target container_image_digest equals the SHA-256 of the frozen fixture-only OCI manifest bytes; capture does not claim that the image was executed.
+  - The capture tool Node identity is recorded separately in Evidence and is not used as container image identity.
+  - Two fresh materializations of the same synthetic source produce byte-equal deterministic identity projections and the same snapshot_id.
+  - Source commit/tree drift is rejected with SOURCE_IDENTITY_MISMATCH.
+  - Dirty worktree state is rejected with SOURCE_NOT_CLEAN.
+  - Target-runtime declaration or frozen OCI-manifest digest drift is rejected with RUNTIME_IDENTITY_MISMATCH; capture-tool Node identity drift is Evidence-only and does not change snapshot identity.
+  - Declared lockfile byte drift is rejected with DEPENDENCY_IDENTITY_MISMATCH.
+  - Network, provider or Secret-retention policy drift is rejected with POLICY_BOUNDARY_MISMATCH.
+  - Symlink and source-containment probes fail closed.
+  - All 13 Quality cases match their single expected typed outcome; false accepts, replay mismatches and flaky cases are zero.
+  - The P1-001 regression gate and the complete repository verification remain PASS.
+  - Exact candidate receives PASS from CTO, Security and Quality reviewers.
+
+failure_criteria:
+  - Replay identity differs for equivalent fresh materializations.
+  - A controlled source, runtime, dependency or policy drift is accepted.
+  - The implementation requires network, provider, Secret, remote, production or public effects.
+  - Any accepted P1-001 evaluator, oracle, fixture, schema or historical Evidence is modified.
+  - Evidence cannot bind implementation bytes, fixture bytes, commands and test results.
+
+stop_conditions:
+  - Any write occurs outside the exact role-owned Task paths or external Evidence root.
+  - Any immutable authority, accepted P1-001 artifact or historical Evidence changes.
+  - A Founder-reserved decision or deferred P2/P3 capability becomes necessary.
+  - The same root cause remains after two implementation iterations without new Evidence.
+  - Any final independent review is non-PASS after the implementation budget is exhausted.
+
+forbidden_actions:
+  - No network access.
+  - No provider access.
+  - No Secret access or retention.
+  - No remote write or other remote effect.
+  - No production effect.
+  - No public release or public effect.
+  - No B0, B1, B2 or A0 evaluation execution.
+  - No benchmark, VTSR, Agent-capability or P1-completion claim.
+  - No modification of the accepted P1-001 evaluator, oracle, fixtures, schemas or Evidence.
+  - No reuse of P1-002 through P1-010 rejected candidates, partial implementations or hidden material.
+  - No successor, replacement, correction or pre-execution governance chain.
+
+evidence:
+  required:
+    - exact Task Contract and phase-delegated authorization hashes
+    - Quality fixture freeze manifest and hashes
+    - source, runtime, dependency and policy input observations
+    - actual argv, cwd, start/end time and exit status for verification commands
+    - positive capture and verify results
+    - two-materialization deterministic replay comparison
+    - controlled source, dirty-state, runtime, dependency, policy, symlink and containment failures
+    - candidate commit and tree
+    - P1-001 regression and complete repository verification results
+    - rollback proof
+    - CTO, Security and Quality review reports
+
+rollback:
+  strategy: >-
+    Keep canonical main unchanged until Task Gate. The activation commit is the
+    rollback anchor; rejection deletes only the Task branch/worktree after
+    Evidence preservation. Accepted integration must remain a local fast-forward
+    descendant and retain the pre-integration commit as rollback reference.
+
+delegated_authority:
+  phase_local: true
+  task_gate_owner: MASTER_CEO_AGENT
+  founder_gate: RESERVED_DECISIONS_ONLY
+  founder_reserved_decisions: []
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false
+
+completion_rule: >-
+  Exact acceptance criteria, required Evidence, rollback proof and all three
+  independent PASS reviews are required for the Master-owned Task Gate. PASS
+  proves only local Environment Snapshot capture and replay conformance; it does
+  not prove baseline performance, Agent ability, P1 completion, production
+  readiness or hostile-principal resistance.

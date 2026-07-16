@@ -40,13 +40,19 @@ ruby -ryaml -rjson -rdigest -e '
   p1_004_seal_sha = "2bb0a14c832567feb89f6fb71e6ab88c338a4308669928399e8c2364f6553875"
   p1_004_restore_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-004-terminal-closure-verification-20260716T041834Z/OFFSITE_RESTORE_VERIFICATION_RECEIPT.json"
   p1_004_restore_sha = "15e92ebef2a234652e1d42a2aaa7e42fdffc9466e5f4fd94447f136a0ab56368"
+  active_task_path = "docs/aios/tasks/P1-005_EVALUATION_MATRIX_AND_VTSR_COUNTING_VALIDATOR.yaml"
+  active_task_sha = "e17340610bc8a53b887c4699ba13ab6b4e89e9caedb0f56c5375bf8eac122a2c"
+  active_authorization_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/activation/FOUNDER_EXECUTION_AUTHORIZATION_RECORD.json"
+  active_authorization_sha = "e4af3f5b7696232a37b818ae12bf0c6f04872f07978ca5c21cfee3c147068559"
   {
     p1_004_task_path => p1_004_task_sha,
     p1_004_authorization_path => p1_004_authorization_sha,
     p1_004_stop_path => p1_004_stop_sha,
     p1_004_manifest_path => p1_004_manifest_sha,
     p1_004_seal_path => p1_004_seal_sha,
-    p1_004_restore_path => p1_004_restore_sha
+    p1_004_restore_path => p1_004_restore_sha,
+    active_task_path => active_task_sha,
+    active_authorization_path => active_authorization_sha
   }.each do |path, expected|
     abort "P1-004 terminal custody artifact missing: #{path}" unless File.file?(path)
     abort "P1-004 terminal custody artifact drift: #{path}" unless Digest::SHA256.file(path).hexdigest == expected
@@ -57,6 +63,8 @@ ruby -ryaml -rjson -rdigest -e '
   p1_004_manifest = JSON.parse(File.read(p1_004_manifest_path))
   p1_004_seal = JSON.parse(File.read(p1_004_seal_path))
   p1_004_restore = JSON.parse(File.read(p1_004_restore_path))
+  active_task = YAML.safe_load(File.read(active_task_path), aliases: false)
+  active_authorization = JSON.parse(File.read(active_authorization_path))
 
   task_path = "docs/aios/tasks/P1-003_PILOT_TASK_DATASET_AND_HIDDEN_SET_CURATION.yaml"
   task_sha = "8dec9d7b12df2e31c62e9ce146938c8a192b4751ce3a9aced3ccd38414fd0aa6"
@@ -92,11 +100,25 @@ ruby -ryaml -rjson -rdigest -e '
   truth = YAML.safe_load(File.read("docs/aios/truth/project_state.yaml"), aliases: false)
 
   exact_terminal_status = "TERMINAL_STOPPED_BEFORE_INTEGRATION_ACQUISITION_EVIDENCE_INTEGRITY_FAILURE"
-  abort "P1 Task execution unexpectedly authorized" unless truth.dig("project", "p1_execution_status") == "NO_ACTIVE_TASK_AUTHORIZED"
+  active_task_id = "AIOS-P1-005_EVALUATION_MATRIX_AND_VTSR_COUNTING_VALIDATOR"
+  abort "P1 Task authorization state drift" unless truth.dig("project", "p1_execution_status") == "TASK_AUTHORIZED_PRE_IMPLEMENTATION"
   abort "canonical repository drift" unless truth.dig("project", "canonical_repository") == "/Users/lijunpeng/Developer/SourceLens-AIOS"
   abort "old Desktop repository remains canonical" if truth.dig("project", "canonical_repository") == "/Users/lijunpeng/Desktop/cc/project/SourceLens-AIOS"
-  abort "current Task or authorization unexpectedly active" unless truth.dig("active_work", "current_task") == "NONE" && truth.dig("active_work", "current_task_status") == "NONE" && truth.dig("active_work", "current_execution_authorization") == "NONE"
-  abort "next action bypasses Founder Task selection" unless truth.dig("active_work", "next_eligible_action") == "FOUNDER_SELECT_NEXT_P1_REAL_ENGINEERING_TASK"
+  abort "current Task identity drift" unless truth.dig("active_work", "current_task") == active_task_id && truth.dig("active_work", "current_task_status") == "FOUNDER_EXECUTION_AUTHORIZED_PRE_IMPLEMENTATION"
+  abort "current Task Contract drift" unless truth.dig("active_work", "current_task_contract") == active_task_path && truth.dig("active_work", "current_task_contract_sha256") == active_task_sha
+  abort "current authorization drift" unless truth.dig("active_work", "current_execution_authorization") == active_authorization_path && truth.dig("active_work", "current_execution_authorization_sha256") == active_authorization_sha
+  abort "next action drift" unless truth.dig("active_work", "next_eligible_action") == "VERIFY_P1_005_ACTIVATION_COMMIT_CREATE_RECEIPT_THEN_CREATE_EXACT_TASK_RESOURCES"
+  abort "P1-005 Contract identity drift" unless active_task["task_id"] == active_task_id && active_task["phase"] == "P1"
+  abort "P1-005 Contract self-authorized" unless active_task["execution_authorized"] == false
+  %w[network provider secrets remote production public_release].each do |field|
+    abort "P1-005 safety boundary widened: #{field}" unless active_task.dig("runtime_boundary", field) == "forbidden"
+  end
+  active_budget = active_task.fetch("budget")
+  abort "P1-005 external effects enabled" unless active_budget.values_at("network_requests", "provider_calls", "secrets_accessed", "remote_writes", "production_effects") == [0, 0, 0, 0, 0]
+  abort "P1-005 measurement or baseline retry enabled" unless active_budget["measurement_retries"] == 0 && active_budget["live_baseline_runs"] == 0
+  abort "P1-005 authorization identity drift" unless active_authorization["status"] == "AUTHORIZED_ACTIVE" && active_authorization["task_id"] == active_task_id && active_authorization.dig("task_contract", "sha256") == active_task_sha
+  abort "P1-005 automatic continuation enabled" unless active_authorization["automatic_main_advance"] == false && active_authorization["automatic_next_task"] == false
+  abort "P1-005 later scope enabled" unless active_authorization["b0_b1_b2_a0_authorized"] == false && active_authorization["p2_p3_authorized"] == false
   p1_004_id = "AIOS-P1-004_PARAMETERIZED_EVALUATION_HARNESS_ADMISSION"
   p1_004_state = "TERMINAL_STOPPED_AFTER_UNAUTHORIZED_TRANSIENT_EFFECT_AND_INDEPENDENT_REVIEW_FAIL"
   abort "P1-004 Contract identity drift" unless p1_004_task["task_id"] == p1_004_id && p1_004_task["phase"] == "P1"
@@ -189,9 +211,19 @@ ruby -ryaml -rjson -rdigest -e '
 ' || fail "P1 task safety declaration invalid"
 
 task_branches="$(git for-each-ref --format='%(refname:short)' refs/heads/task/)"
-[[ -z "$task_branches" ]] || fail "no Task is authorized but local Task branch exists: $task_branches"
 worktree_paths="$(git worktree list --porcelain | sed -n 's/^worktree //p')"
 worktree_count="$(printf '%s\n' "$worktree_paths" | grep -c . || true)"
-[[ "$worktree_count" -eq 1 && "$worktree_paths" == "$ROOT_DIR" ]] || fail "no Task is authorized but worktree population is not exactly the canonical repository"
+expected_task_branch="task/AIOS-P1-005-evaluation-matrix-vtsr-validator"
+expected_task_worktree="/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-005-evaluation-matrix-vtsr-validator"
+activation_receipt="/Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/activation/ACTIVATION_RECEIPT.json"
+if [[ -f "$activation_receipt" ]]; then
+  [[ "$task_branches" == "$expected_task_branch" ]] || fail "active P1-005 Task branch population drift: $task_branches"
+  [[ "$worktree_count" -eq 2 ]] || fail "active P1-005 worktree population must be canonical plus one exact Task worktree"
+  printf '%s\n' "$worktree_paths" | grep -Fx "$ROOT_DIR" >/dev/null || fail "canonical worktree missing"
+  printf '%s\n' "$worktree_paths" | grep -Fx "$expected_task_worktree" >/dev/null || fail "exact P1-005 Task worktree missing"
+else
+  [[ -z "$task_branches" ]] || fail "P1-005 Task branch exists before activation receipt: $task_branches"
+  [[ "$worktree_count" -eq 1 && "$worktree_paths" == "$ROOT_DIR" ]] || fail "pre-resource worktree population is not exactly the canonical repository"
+fi
 
 echo "P1 basic safety boundary validation passed (declarative/cooperative-local scope only)."

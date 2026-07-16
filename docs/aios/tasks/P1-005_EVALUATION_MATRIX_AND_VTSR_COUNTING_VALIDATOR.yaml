@@ -1,0 +1,591 @@
+schema_version: 1
+record_type: sourcelens_aios_task_contract_candidate
+task_id: AIOS-P1-005_EVALUATION_MATRIX_AND_VTSR_COUNTING_VALIDATOR
+phase: P1
+title: Implement the frozen evaluation matrix and VTSR counting validator
+status: FINAL_CONTRACT_CANDIDATE_AWAITING_FOUNDER_EXECUTION_AUTHORIZATION
+execution_authorized: false
+
+contract_preparation_history:
+  initial_reviewed_candidate_sha256: bc44bf62f887f63fb147ec1f01cb1269a76265ff88e1443f9b8ecc62870660f2
+  initial_reviewed_candidate_preserved_as: AIOS-P1-005_EVALUATION_MATRIX_AND_VTSR_COUNTING_VALIDATOR.INITIAL_REVIEWED.yaml
+  initial_cto_review_sha256: 04d1953cbfc45ae81c901694ffd912bb169fc29b16a2278c8dd7cd1547d3697e
+  initial_security_review_sha256: 23a62ba26e427f5dd3efea7a022b740b944b49f81311924d4298d583b53877de
+  initial_quality_review_sha256: f23690703a48b8297748a5a78eefe4cea1130425597ba569885b0dbe1ebd570a
+  bounded_refinement_scope:
+    - remove the evidence-freeze causal cycle
+    - freeze matrix canonicalization, payload hashing and decimal projection
+    - close infrastructure-invalid attempt/rerun identity and terminal selection
+    - freeze actor-by-stage exact writer/effect routes
+    - split composite negative fixtures into one-failure atomic cases
+    - freeze exact JSON string escaping and key ordering
+    - bind every attempt RunRecord to the frozen matrix dataset_version
+  quality_final_nonpass_candidate_sha256: cee0837b9da886d4f4496ba10d8106342c836f2de7f33c19aa447015b3bf6b90
+  rule: This is one bounded refinement inside the same authorized contract-preparation action, not a successor Task or implementation correction chain.
+
+objective: >-
+  Implement the smallest deterministic machine validator required by Evaluation
+  Protocol v1.1 to bind a frozen evaluation matrix to RunRecord and independent
+  verification evidence, calculate Verified Task Success Rate without denominator
+  drift, preserve every failure and invalid attempt, and emit a replayable,
+  internally consistent counting report. The Task uses only synthetic counting
+  fixtures and does not execute or measure B0, B1, B2 or A0.
+
+why_now:
+  - P1-001 passed Founder Gate and established a deterministic harness-conformance evidence path.
+  - Evaluation Protocol v1.1 requires a machine validator for VTSR counting rules before any benchmark report can be accepted.
+  - The canonical repository currently contains the normative VTSR rules but no accepted implementation of the evaluation matrix or aggregate counting validator.
+  - P1-002, P1-003 and P1-004 are terminal non-PASS historical Tasks and are not implementation inputs for this Task.
+  - This is real P1 evaluation code, not governance expansion and not a retry, resume, replacement, successor or correction of a prior Task.
+
+research_hypothesis:
+  statement: >-
+    A deterministic validator can mechanically derive the exact VTSR numerator,
+    denominator, failures, infrastructure-invalid attempts, exclusions,
+    repetitions, task aggregation and reason-code distribution from a frozen
+    synthetic evaluation matrix and hash-bound evidence, while rejecting identity
+    drift, false-success promotion and post-hoc denominator improvement.
+  falsifier: >-
+    The protocol rules cannot be represented without changing accepted P1 schemas,
+    cannot be evaluated deterministically within the declared paths and budget, or
+    require a live baseline, Provider, network, Secret, P2/P3 capability, prior
+    rejected candidate or an unbounded governance mechanism.
+
+authority_binding:
+  founder: Human Founder
+  long_term_goal_canonical_sha256: fed643624aa5794a5cea5db2a04f25cc89d829a619e905df946a3616f14ad6c0
+  constitution:
+    path: docs/aios/STRATEGIC_CONSTITUTION.md
+    sha256: 040196be12532b8c3661665995d3e79a28d268a1ecc991623380f0939f468485
+  master_execution_protocol:
+    path: docs/aios/MASTER_EXECUTION_PROTOCOL.md
+    sha256: 47c444c50c7521a7515dfb2fbee0c8c81cc72b32c42eba549d080eeb0c1bcedf
+  evaluation_protocol:
+    path: docs/aios/EVALUATION_PROTOCOL.md
+    version: "1.1"
+    sha256: da029143561fbb3c213d4a358b25e085542c6cd26ae8150a53cbb5998177eed8
+  baseline_adapter_contract:
+    path: docs/aios/BASELINE_ADAPTER_CONTRACT.md
+    sha256: 27a213589699d96a5f41f4b0e293718257c6186720e55b74c3ee29dd9cf5c03c
+  accepted_run_record_schema:
+    path: docs/aios/schemas/run-record.schema.json
+    sha256: a139b73a7482fed64e6d24f8ca391b03963eef57db2b48d0c4c6776ff652bc56
+
+source:
+  canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
+  canonical_branch: main
+  authorization_parent_commit: c1dc6fdc7c8eaa7728c27caad8013631babecc74
+  authorization_parent_tree: 0aaa9a7156250d02d3e0fd9a92f7f999237176c0
+  task_branch: task/AIOS-P1-005-evaluation-matrix-vtsr-validator
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-005-evaluation-matrix-vtsr-validator
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z
+  external_contract_candidate: /Users/lijunpeng/Developer/.sourcelens-audit/p1-005-contract-preparation-20260716T051135Z/AIOS-P1-005_EVALUATION_MATRIX_AND_VTSR_COUNTING_VALIDATOR.yaml
+  canonical_contract_path: docs/aios/tasks/P1-005_EVALUATION_MATRIX_AND_VTSR_COUNTING_VALIDATOR.yaml
+  remote_write_allowed: false
+
+runtime_boundary:
+  runtime_name: Node.js
+  executable: /usr/local/bin/node
+  version: v20.17.0
+  executable_sha256: c5548e7a991a5c90170a29843ffc46df4643e29141f3cbb035f60295cf2bc882
+  dependencies: standard_library_only
+  network: forbidden
+  provider: forbidden
+  secrets: forbidden
+  remote: forbidden
+  production: forbidden
+  public_release: forbidden
+
+offsite:
+  target_path: /Volumes/lijp/SourceLens-AIOS-P1-005-offsite-20260716T051135Z
+  volume_uuid: 2D3D7BCD-5BC5-3D2A-B853-F1FA95D290F8
+  target_must_be_absent_before_execution_activation: true
+  creation_stage: AFTER_EXACT_CANDIDATE_AND_THREE_INDEPENDENT_PASS_REVIEWS
+  required_before_founder_gate: true
+
+claim_boundary:
+  proves_if_founder_gate_accepts:
+    - the frozen synthetic evaluation matrix is parsed and identity-checked deterministically
+    - VTSR numerator, denominator, failure, invalid-attempt, exclusion, repetition and reason-code counts follow Evaluation Protocol v1.1 for the frozen fixture catalog
+    - retries do not create denominator entries
+    - post-hoc exclusions cannot improve primary VTSR
+    - false-success, identity-drift and count-tampering fixtures are rejected
+    - identical inputs replay to byte-identical normalized reports
+  does_not_prove:
+    - B0, B1, B2 or A0 conformance or performance
+    - model or software-engineering Agent capability
+    - a representative task dataset or hidden-set validity
+    - any benchmark score or P1 exit
+    - Repository Intelligence improvement
+    - production readiness, strong isolation, hostile-principal resistance or P2/P3 readiness
+
+roles:
+  accountable_owner: Chief AI Research Agent
+  integration_owner: Engineering Manager Agent
+  implementation_worker: Evaluation Metrics Engineer
+  quality_fixture_and_oracle_owner: Quality and Evaluation Agent
+  independent_reviewers:
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent independent reviewer instance
+  separation_rules:
+    - Worker cannot provide final independent acceptance of its own implementation.
+    - Quality fixture/oracle ownership is separate from Worker implementation ownership.
+    - The Quality independent reviewer must be distinct from the Quality fixture/oracle author context.
+    - One path has one active writer role at a time.
+
+delegated_execution:
+  model: ONE_TASK_LEVEL_FOUNDER_AUTHORIZATION
+  founder_approval_granularity: task envelope, not individual files or commands
+  ordinary_implementation_fixes_inside_scope: allowed
+  maximum_implementation_iterations: 2
+  maximum_candidate_freezes: 2
+  retry_resume_successor_or_correction_task: forbidden
+  founder_reserved_decisions:
+    - objective, phase, path, budget, permission, metric or claim expansion
+    - network, Provider, Secret, remote, production or public effects
+    - acceptance of reviewer non-PASS or material residual risk
+    - canonical main advance after implementation
+    - execution of B0, B1, B2 or A0
+    - entry into P2 or P3
+  escalation_conditions:
+    - an authority, parent, contract, runtime, accepted input or frozen Quality artifact drifts
+    - a Founder-reserved decision becomes necessary
+    - any Stop Condition is triggered
+
+pre_execution_activation:
+  authorization_required: FUTURE_EXACT_FOUNDER_EXECUTION_AUTHORIZATION_RECORD
+  purpose: Bind current Truth and validators to the exact active Task before implementation resources are created.
+  one_governance_only_main_commit_allowed: true
+  exact_paths:
+    - docs/aios/tasks/P1-005_EVALUATION_MATRIX_AND_VTSR_COUNTING_VALIDATOR.yaml
+    - docs/aios/truth/project_state.yaml
+    - scripts/validate-aios-governance.sh
+    - scripts/check-p1-safety-boundary.sh
+    - docs/PROJECT_CODE_MAP.md
+  constraints:
+    - canonical Task Contract bytes equal the Founder-accepted external contract bytes
+    - the activation parent equals the bound authorization parent commit and tree and has not moved
+    - Truth changes only current Task, exact authority, branch/worktree, budget and next action facts
+    - validators retain all historical terminal-state and P1/P3 boundary checks
+    - code-map changes are mechanically generated
+    - full make verify passes before task branch/worktree creation
+    - activation commit has exactly one parent and exactly the five declared changed paths
+    - a create-once activation receipt binds commit, tree, changed-path diff, contract and Founder authorization
+    - task branch/worktree are created only from the receipt-bound activation commit/tree
+  failure_effect: STOP_BEFORE_TASK_BRANCH_OR_WORKTREE_CREATION
+
+ownership_and_write_scope:
+  quality_owned_preimplementation_paths:
+    - evaluation-harness/fixtures/counting/**
+    - evaluation-harness/evaluator/vtsr-counting-evaluator.mjs
+    - evaluation-harness/evaluator/vtsr-counting-self-test.mjs
+  worker_writable_paths:
+    - docs/aios/schemas/evaluation-matrix.schema.json
+    - docs/aios/schemas/run-verification.schema.json
+    - docs/aios/schemas/vtsr-report.schema.json
+    - evaluation-harness/metrics/**
+    - evaluation-harness/recording/aios-p1-005-evidence/**
+  integration_writable_paths:
+    - scripts/verify-p1-harness.sh
+    - docs/PROJECT_CODE_MAP.md
+  immutable_after_activation_paths:
+    - docs/aios/tasks/P1-005_EVALUATION_MATRIX_AND_VTSR_COUNTING_VALIDATOR.yaml
+    - docs/aios/truth/project_state.yaml
+    - scripts/validate-aios-governance.sh
+    - scripts/check-p1-safety-boundary.sh
+  forbidden_write_roots:
+    - /Users/lijunpeng/Desktop/cc/project/SourceLens
+    - /Users/lijunpeng/Developer/.sourcelens-audit outside the exact execution evidence root
+    - /Volumes/lijp except the exact offsite target and only at the authorized offsite stage
+  transient_effects:
+    allowed_root: evaluation-harness/recording/.p1-005-tmp
+    lifecycle: absent before verification, task-process-local during verification, removed in finally, absent after every PASS or FAIL
+    residual_effect: STOP_TASK
+  external_writer_map:
+    execution_root_creation:
+      actor: Engineering Manager Agent
+      exact_paths:
+        - /Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z
+      stage: AFTER_ALL_PREFLIGHTS_BEFORE_ANY_CHILD_ARTIFACT
+    integration_activation:
+      actor: Engineering Manager Agent
+      exact_paths:
+        - /Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/activation/**
+      stage: PRE_EXECUTION_ACTIVATION
+    quality_freeze:
+      actor: Quality and Evaluation Agent fixture/oracle owner
+      exact_paths:
+        - /Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/quality-freeze/**
+      stage: QUALITY_FREEZE_BEFORE_WORKER
+    worker_evidence:
+      actor: Evaluation Metrics Engineer
+      exact_paths:
+        - /Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/worker/**
+      stage: IMPLEMENT_AND_VERIFY
+    integration_candidate:
+      actor: Engineering Manager Agent
+      exact_paths:
+        - /Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/integration/**
+        - /Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/manifests/CANDIDATE_EVIDENCE_MANIFEST.json
+      stage: CANDIDATE_FREEZE_BEFORE_REVIEW
+    cto_review:
+      actor: CTO Agent
+      exact_paths:
+        - /Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/reviews/CTO_REVIEW.json
+      stage: INDEPENDENT_REVIEW
+    security_review:
+      actor: Security Agent
+      exact_paths:
+        - /Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/reviews/SECURITY_REVIEW.json
+      stage: INDEPENDENT_REVIEW
+    quality_review:
+      actor: Quality and Evaluation Agent independent reviewer instance
+      exact_paths:
+        - /Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/reviews/QUALITY_REVIEW.json
+      stage: INDEPENDENT_REVIEW
+    integration_post_review:
+      actor: Engineering Manager Agent
+      exact_paths:
+        - /Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/gate/FOUNDER_GATE_DECISION_PACKET.md
+        - /Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/manifests/POST_REVIEW_EVIDENCE_INDEX.json
+      stage: AFTER_THREE_PASS_REVIEWS_BEFORE_OFFSITE
+    integration_offsite:
+      actor: Engineering Manager Agent
+      exact_paths:
+        - /Volumes/lijp/SourceLens-AIOS-P1-005-offsite-20260716T051135Z
+        - /Volumes/lijp/SourceLens-AIOS-P1-005-offsite-20260716T051135Z/**
+        - /Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/offsite/OFFSITE_VERIFICATION_RECEIPT.json
+      stage: AFTER_POST_REVIEW_INDEX_BEFORE_FOUNDER_GATE
+    transient_test_effect:
+      actor: Evaluation Metrics Engineer
+      exact_paths:
+        - evaluation-harness/recording/.p1-005-tmp/**
+      stage: TASK_PROCESS_LIFETIME_ONLY
+  route_invariants:
+    - each exact external path has one writer actor and one stage
+    - reviewers only read candidate bytes and CandidateEvidenceManifest and cannot write implementation or another reviewer's path
+    - Integration cannot rewrite Worker, Quality or reviewer evidence
+    - offsite writes begin only after three PASS reviews and PostReviewEvidenceIndex freeze
+    - any write outside the actor's exact route stops the Task
+
+immutable_inputs:
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+  - docs/aios/schemas/run-record.schema.json
+  - docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
+  - evaluation-harness/adapters/harness_stub/**
+  - evaluation-harness/evaluator/evaluate.mjs
+  - evaluation-harness/evaluator/schema-validator.mjs
+  - evaluation-harness/fixtures/visible/**
+  - evaluation-harness/fixtures/oracle/**
+  - evaluation-harness/recording/aios-p1-001-evidence/**
+
+implementation_contract:
+  frozen_matrix:
+    required_identity_fields:
+      - schema_version
+      - matrix_id
+      - dataset_version
+      - frozen_at_utc
+      - protocol_sha256
+      - allowed_infrastructure_invalid_reason_codes
+      - task_aggregation_rules
+      - scheduled_entries
+      - payload_sha256
+    canonicalization:
+      input_encoding: UTF-8 without BOM
+      JSON_rule: object keys recursively sorted lexicographically by UTF-16 code units, array order preserved, integers rendered in base-10 without leading zero, strings serialized by the exact string rule below, no insignificant whitespace, exactly one trailing LF
+      numeric_domain: integers only; non-integer JSON numbers are rejected
+      duplicate_member_rule: reject before semantic JSON parsing
+      string_rule:
+        - reject unpaired UTF-16 surrogate code points and do not apply Unicode normalization
+        - encode quotation mark U+0022 as bytes 5c22 and reverse solidus U+005C as bytes 5c5c
+        - encode U+0008, U+0009, U+000A, U+000C and U+000D as bytes 5c62, 5c74, 5c6e, 5c66 and 5c72 respectively
+        - encode every other U+0000 through U+001F code point as bytes 5c75 followed by exactly four lowercase ASCII hexadecimal digits
+        - never escape solidus U+002F
+        - encode every other Unicode scalar value literally as UTF-8
+      canonical_file_bytes: canonical JSON of the complete matrix object followed by exactly one LF
+      payload_hash_preimage: canonical JSON of the root object with only the root payload_sha256 member omitted followed by exactly one LF
+      payload_hash_algorithm: SHA-256 lowercase hexadecimal
+      verification_order:
+        - reject invalid UTF-8, BOM, duplicate member, non-integer number or schema failure
+        - require input bytes equal canonical_file_bytes
+        - compute payload hash over payload_hash_preimage
+        - compare with payload_sha256 before resolving any referenced path
+    scheduled_entry_identity:
+      - schedule_id
+      - task_id
+      - system_configuration_id
+      - environment_snapshot_id
+      - repetition_id
+      - disposition
+      - predeclared_exclusion_reason
+      - scheduled_run_id
+    disposition_values:
+      - ELIGIBLE
+      - PREDECLARED_EXCLUDED
+    invariants:
+      - schedule_id is unique
+      - scheduled_run_id is unique among eligible entries
+      - the task/configuration/environment/repetition tuple is unique
+      - predeclared exclusion exists in frozen bytes before any outcome bytes
+      - unknown fields, duplicate JSON members, noncanonical bytes, path traversal and symlinks are rejected
+  observation_input:
+    required_bindings:
+      - schedule_id
+      - scheduled_run_id
+      - ordered attempt records with attempt_id and one-based attempt_index
+      - RunRecord identity and SHA-256
+      - independent verification receipt identity and SHA-256
+      - patch-apply result
+      - issue-specific test result
+      - required regression result
+      - evidence-completeness result
+      - rollback-valid result
+      - declared-scope result
+      - post-hoc exclusion annotation, if any
+    attempt_identity:
+      - attempt_id is globally unique in the observation set
+      - attempt_index starts at 1 and is contiguous within one schedule_id
+      - RunRecord.run_id equals scheduled_run_id for the first attempt and scheduled_run_id followed by /infra-rerun/ plus decimal attempt_index for later infrastructure reruns
+      - every attempt repeats the frozen task_id, system_configuration_id, environment_snapshot_id and repetition_id identity
+      - every RunRecord.dataset_version exactly equals frozen_matrix.dataset_version
+      - usage.retries remains internal to one attempt and does not create an attempt or denominator entry
+    terminal_selection:
+      - zero or more leading attempts may be predeclared infrastructure-invalid
+      - the first non-infrastructure-invalid attempt is the unique final primary outcome
+      - no attempt may follow the final primary outcome
+      - all-infrastructure-invalid attempts without a final primary outcome produce REPORT_INCOMPLETE and cannot yield a final VTSR report
+      - an undeclared invalid reason, identity mismatch, index gap, duplicate or post-terminal attempt rejects the observation set
+    rule: Outcome bytes cannot alter frozen matrix identity, eligibility or aggregation rules.
+  verified_success_requires_all:
+    - one eligible scheduled entry has a final non-infrastructure-invalid RunRecord
+    - patch applies to the frozen source revision
+    - issue-specific tests pass
+    - required regressions pass
+    - independent evaluator verdict is PASS
+    - policy_violations is empty
+    - Patch Evidence Package is complete and internally consistent
+    - rollback evidence is valid
+    - result remains inside declared task scope
+  counting_rules:
+    - each eligible scheduled task/configuration/environment/repetition tuple contributes exactly one primary denominator entry
+    - usage.retries records retries inside that denominator entry and never adds denominator entries
+    - completed output lacking any verified-success condition counts as failed, never as verified success
+    - timeout, budget exhaustion, crash, missing evidence, policy violation and system-attributable setup failure count as failed
+    - infrastructure-invalid classification requires a matrix-predeclared shared-harness reason code
+    - an infrastructure-invalid attempt remains in raw counts and requires a same-identity rerun before the final report is complete
+    - a same-identity infrastructure rerun does not create a second denominator entry
+    - predeclared excluded entries do not enter the primary denominator
+    - post-hoc exclusion annotations are reported but cannot remove or improve a primary denominator entry
+    - every scheduled stochastic repetition contributes its own denominator entry
+    - task-level success uses only the frozen per-task k-of-n rule
+    - unscheduled, duplicate or identity-mismatched outcomes are rejected and cannot change counts
+  report_contract:
+    required_counts:
+      - eligible_scheduled_count
+      - primary_denominator
+      - verified_success_numerator
+      - failed_run_count
+      - infrastructure_invalid_attempt_count
+      - predeclared_excluded_count
+      - post_hoc_exclusion_count
+      - reason_code_distribution
+    required_invariants:
+      - verified_success_numerator is not greater than primary_denominator
+      - verified_success_numerator plus failed_run_count equals primary_denominator
+      - every eligible schedule_id has exactly one final primary outcome
+      - every raw attempt is represented in the reason-code and invalid-attempt accounting
+      - VTSR ratio is emitted as exact numerator/denominator plus a deterministic six-decimal projection
+      - denominator zero produces NOT_COMPUTABLE and never PASS or a fabricated percentage
+      - report identity binds matrix, observations, validator, runtime and protocol hashes
+    decimal_projection:
+      scale: 6
+      rounding: ROUND_HALF_UP_FOR_NONNEGATIVE_RATIONAL
+      algorithm: q = floor((2 * verified_success_numerator * 1000000 + primary_denominator) / (2 * primary_denominator)); format q as an integer part and exactly six fractional digits
+      denominator_zero: emit null decimal and status NOT_COMPUTABLE
+  replay:
+    normalized_report_bytes: same canonical JSON rule as frozen_matrix.canonicalization and exactly one trailing LF
+    requirement: identical frozen inputs produce byte-identical normalized report and report SHA-256
+
+quality_fixture_catalog:
+  exact_atomic_cases: 20
+  cases:
+    - C01_ALL_VERIFIED_SUCCESS
+    - C02_ORDINARY_FAILURE_COUNTS
+    - C03_TIMEOUT_COUNTS_AS_FAILURE
+    - C04_BUDGET_EXHAUSTION_COUNTS_AS_FAILURE
+    - C05_POLICY_VIOLATION_COUNTS_AS_FAILURE
+    - C06_MISSING_EVIDENCE_COUNTS_AS_FAILURE
+    - C07_RETRY_DOES_NOT_ADD_DENOMINATOR
+    - C08_EACH_STOCHASTIC_REPETITION_COUNTS
+    - C09_TASK_LEVEL_K_OF_N_AGGREGATION
+    - C10_PREDECLARED_EXCLUSION_BEFORE_OUTPUT
+    - C11_PREDECLARED_INFRA_INVALID_WITH_SAME_IDENTITY_RERUN
+    - C12_POST_HOC_EXCLUSION_CANNOT_IMPROVE_VTSR
+    - C13_UNDECLARED_INFRA_INVALID_REASON_REJECTED
+    - C14_UNSCHEDULED_OUTCOME_REJECTED
+    - C15_DUPLICATE_SCHEDULE_REJECTED
+    - C16_DUPLICATE_RUN_REJECTED
+    - C17_IDENTITY_BINDING_MISMATCH_REJECTED
+    - C18_FALSE_SUCCESS_MISSING_REQUIRED_GATE_REJECTED
+    - C19_TAMPERED_REPORT_REJECTED
+    - C20_TAMPERED_EVIDENCE_HASH_REJECTED
+  atomicity_rule: Each fixture has one declared primary phenomenon, one expected typed outcome and no OR-combined oracle.
+
+budget:
+  engineering_hours_max: 16
+  calendar_days_max: 3
+  task_branches_max: 1
+  task_worktrees_max: 1
+  implementation_iterations_max: 2
+  candidate_freezes_max: 2
+  measurement_retries: 0
+  live_baseline_runs: 0
+  network_requests: 0
+  provider_calls: 0
+  secrets_accessed: 0
+  remote_writes: 0
+  production_effects: 0
+
+metrics:
+  primary:
+    - 20/20 frozen atomic fixture cases receive the exact expected typed outcome
+    - 100 percent of false-success, identity-drift, denominator-drift and tamper fixtures are rejected
+    - positive report and replay normalized bytes are identical
+    - zero unexplained numerator or denominator delta exists across every fixture
+  guardrails:
+    - accepted P1-001 harness verification remains PASS
+    - accepted P1-001 immutable artifact hashes remain unchanged
+    - complete make verify remains PASS
+    - changed tracked paths are a subset of the exact ownership/write scope
+    - no residual transient effect exists
+    - network, Provider, Secret, remote and production counts remain zero
+
+verification_plan:
+  required_commands:
+    - /usr/local/bin/node evaluation-harness/evaluator/vtsr-counting-self-test.mjs
+    - /usr/local/bin/node evaluation-harness/metrics/self-test.mjs
+    - ./scripts/verify-p1-harness.sh
+    - make verify
+  required_checks:
+    - schema-positive and schema-negative vectors
+    - exact 20-case oracle comparison
+    - controlled false-success rejection
+    - replay byte equality and hash equality
+    - immutable-input hash comparison
+    - changed-path allowlist and single-owner check
+    - pre/post branch, worktree and canonical status comparison
+    - rebuild from bundle in a fresh temporary clone
+    - rollback to the activation parent and reapply candidate verification
+
+evidence_lifecycle:
+  candidate_evidence_manifest:
+    path: manifests/CANDIDATE_EVIDENCE_MANIFEST.json
+    freeze_stage: AFTER_IMPLEMENTATION_REBUILD_AND_ROLLBACK_BEFORE_REVIEW
+    create_once: true
+    required_artifacts:
+      - Founder execution authorization and activation receipt
+      - source commit, tree, branch/worktree and clean-status observations
+      - Quality ownership map, fixture inventory and freeze receipt
+      - runtime identity and command ledger with actual argv, cwd, start/end and exit status
+      - implementation diff and changed-path ownership report
+      - all fixture inputs, expected outcomes and actual outputs with hashes
+      - normalized VTSR reports and replay comparison
+      - controlled failure and tamper evidence
+      - immutable-input before/after comparison
+      - full verification output
+      - candidate commit/tree and bundle
+      - rebuild and rollback receipts
+    forbidden_future_artifacts:
+      - independent review reports
+      - offsite verification receipt
+      - Founder Gate decision
+  post_review_evidence_index:
+    path: manifests/POST_REVIEW_EVIDENCE_INDEX.json
+    freeze_stage: AFTER_THREE_PASS_REVIEWS_BEFORE_OFFSITE
+    create_once: true
+    required_bindings:
+      - CandidateEvidenceManifest SHA-256 and root
+      - exact candidate commit/tree and bundle SHA-256
+      - CTO Review SHA-256 and PASS
+      - Security Review SHA-256 and PASS
+      - Quality Review SHA-256 and PASS
+      - Founder Gate Decision Packet SHA-256
+    rule: It references frozen prior artifacts and cannot rewrite or absorb their bytes.
+  offsite_verification_receipt:
+    path: offsite/OFFSITE_VERIFICATION_RECEIPT.json
+    create_stage: AFTER_OFFSITE_COPY_AND_FRESH_RESTORE
+    create_once: true
+    required_bindings:
+      - PostReviewEvidenceIndex SHA-256
+      - offsite package manifest/root/checksums
+      - fresh bundle clone commit/tree
+      - rebuild and rollback verification results
+      - bound volume UUID
+  founder_gate_decision:
+    sequence: Founder decision occurs only after the three frozen evidence levels above and binds them as parent evidence; it is not a child artifact required by an earlier manifest.
+  manifest_rule: sorted relative path + NUL + lowercase SHA-256 + NUL + decimal byte length + LF
+  frozen_artifact_mutation: forbidden
+
+acceptance_criteria:
+  - exact Task Contract and Founder execution authorization remain valid and hash-bound
+  - Quality freezes the exact 20-case fixture/oracle set before Worker implementation starts
+  - all normative counting and report invariants are implemented without changing accepted P1 schemas
+  - every required verification command passes
+  - replay is byte-identical
+  - CandidateEvidenceManifest is hash-bound and immutable before review
+  - PostReviewEvidenceIndex binds the three PASS reviews without rewriting candidate evidence
+  - OffsiteVerificationReceipt binds the frozen post-review package after fresh restore
+  - fresh rebuild and rollback verification pass
+  - CTO, Security and Quality each return PASS on the exact frozen candidate
+  - offsite package restore verification passes on the bound volume
+  - no capability or benchmark claim exceeds the declared claim boundary
+
+failure_criteria:
+  - any accepted P1-001 artifact or authority binding drifts
+  - any numerator, denominator, invalid, failure, retry, repetition, exclusion or reason-code rule is ambiguous or mechanically inconsistent
+  - any false-success, post-hoc exclusion, identity drift or tamper fixture is accepted
+  - replay differs for identical inputs
+  - any required test, rebuild, rollback, review or offsite verification is non-PASS
+  - any forbidden effect occurs
+
+stop_conditions:
+  - objective, path, budget, permission, metric, role or claim expansion is required
+  - implementation requires a live B0/B1/B2/A0 run, Provider, network, Secret, remote or production effect
+  - implementation requires P2 Repository Intelligence or P3 Runtime/Trust capability
+  - accepted schemas, protocols, P1-001 evidence or historical terminal records must be modified
+  - work is attempted outside the exact branch/worktree/write scope or a residual transient path remains
+  - calendar or engineering budget is exceeded
+  - both allowed implementation/candidate iterations are exhausted without three independent PASS reviews
+  - evidence integrity, rebuild, rollback or offsite recovery cannot be proven
+  - canonical main, Goal, authority or authorization window drifts before Gate
+  - any automatic retry, resume, successor, replacement or correction chain is proposed
+
+rollback:
+  rollback_anchor: authorization_parent_commit
+  canonical_main_during_implementation: unchanged_after_activation_commit
+  candidate_preservation: complete Git bundle plus external Evidence Manifest
+  restore_test: fresh clone bundle, verify candidate commit/tree, verify activation parent topology, then run required checks
+  main_advance: separate Founder Gate authorization required
+
+explicit_non_authorizations:
+  - this contract candidate does not authorize its own execution
+  - no B0, B1, B2 or A0 execution or performance measurement
+  - no benchmark, VTSR score, Agent capability or P1-exit claim
+  - no P2 or P3 entry
+  - no network, Provider, Secret, remote, production or public effect
+  - no model-initiated canonical repository write or Agent shell capability
+  - no Supervisor, Root Custody, strong isolation, Multi-Agent Runtime or Trust Runtime work
+  - no reuse or acceptance of P1-002, P1-003 or P1-004 rejected candidates
+  - no canonical main advance without a separate Founder Gate decision
+
+completion_rule: >-
+  After future execution authorization, the Task may autonomously proceed inside
+  this envelope through implementation, bounded ordinary repair, Evidence, rebuild,
+  rollback, independent review and offsite verification. It then stops at Founder
+  Gate. A Task PASS does not itself authorize a baseline run, main advance, next
+  Task, P2/P3 entry or any capability claim.

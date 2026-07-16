@@ -29,6 +29,7 @@ required_files=(
   docs/aios/tasks/P1-003_PILOT_TASK_DATASET_AND_HIDDEN_SET_CURATION.yaml
   docs/aios/tasks/P1-004_PARAMETERIZED_EVALUATION_HARNESS_ADMISSION.yaml
   docs/aios/tasks/P1-005_EVALUATION_MATRIX_AND_VTSR_COUNTING_VALIDATOR.yaml
+  docs/aios/tasks/P1-006_PATCH_EVIDENCE_PACKAGE_INTEGRITY_VALIDATOR.yaml
   docs/aios/schemas/task-spec.schema.json
   docs/aios/schemas/environment-snapshot.schema.json
   docs/aios/schemas/system-configuration.schema.json
@@ -75,11 +76,26 @@ ruby -ryaml -rjson -rdigest -rtime -e '
   p1_005_terminal_manifest_sha = "4be9f4ad4b25cbd2e4b6e3411e30cfc51ca1330c13a36bbca7f2c2450ec5be09"
   p1_005_offsite_receipt_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/terminal/OFFSITE_TERMINAL_VERIFICATION_RECEIPT.json"
   p1_005_offsite_receipt_sha = "534c0b2dfd830fa465723700e88a70264cb156d281e2ebb0b4ed560867bf0b9d"
+  p1_006_task_path = "docs/aios/tasks/P1-006_PATCH_EVIDENCE_PACKAGE_INTEGRITY_VALIDATOR.yaml"
+  p1_006_task_sha = "84febd287bb956c59bdf09e44c07a8f6e711ffa4ac1447200e2a2e7a35b9579f"
+  p1_006_authorization_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-006-cross-contract-preflight-contract-preparation-20260716T071228Z/FOUNDER_EXECUTION_AUTHORIZATION_RECORD.json"
+  p1_006_authorization_sha = "f85b2150a387edf5b81120ee845bcfd54ea7504f9cf64c450ee6e539b57be7c4"
+  p1_006_terminal_stop_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-006-terminal-closure-20260716T080325Z/terminal/TERMINAL_STOP_RECORD.json"
+  p1_006_terminal_stop_sha = "d7c9c9b9d0640c5a169074deaf56a190bfa714db10b113e358bdd9e5625393d8"
+  p1_006_terminal_manifest_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-006-terminal-closure-20260716T080325Z/terminal/TERMINAL_EVIDENCE_MANIFEST.json"
+  p1_006_terminal_manifest_sha = "a89c2215d9835ce96e1472f801343a3c4203638b4b9b3d54b4138ad4a445b72f"
+  p1_006_offsite_receipt_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-006-terminal-closure-20260716T080325Z/verification/OFFSITE_TERMINAL_VERIFICATION_RECEIPT.json"
+  p1_006_offsite_receipt_sha = "2ac90fe52ea56f5de670dfaf5edb5c2800696425d6b8482cb4f45260369cf45f"
   abort "P1-005 Founder authorization missing" unless File.file?(active_authorization_path)
   active_authorization = JSON.parse(File.read(active_authorization_path))
   p1_005_terminal_stop = JSON.parse(File.read(p1_005_terminal_stop_path))
   p1_005_terminal_manifest = JSON.parse(File.read(p1_005_terminal_manifest_path))
   p1_005_offsite_receipt = JSON.parse(File.read(p1_005_offsite_receipt_path))
+  p1_006_task = YAML.safe_load(File.read(p1_006_task_path), aliases: false)
+  p1_006_authorization = JSON.parse(File.read(p1_006_authorization_path))
+  p1_006_terminal_stop = JSON.parse(File.read(p1_006_terminal_stop_path))
+  p1_006_terminal_manifest = JSON.parse(File.read(p1_006_terminal_manifest_path))
+  p1_006_offsite_receipt = JSON.parse(File.read(p1_006_offsite_receipt_path))
   authorization_capture_path = "/Users/lijunpeng/Desktop/cc/project/.sourcelens-audit/p1-003-execution-authorization-20260715T125627Z/FOUNDER_EXECUTION_AUTHORIZATION_RECORD.json"
   authorization_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-003-execution-authorization-20260715T125627Z/FOUNDER_EXECUTION_AUTHORIZATION_RECORD.json"
   authorization_sha = "1082f0a81eb41a1fae9a1767d421bb0fe8f11810bccba197ad18e3e430762a1b"
@@ -137,6 +153,11 @@ ruby -ryaml -rjson -rdigest -rtime -e '
     p1_005_terminal_stop_path => p1_005_terminal_stop_sha,
     p1_005_terminal_manifest_path => p1_005_terminal_manifest_sha,
     p1_005_offsite_receipt_path => p1_005_offsite_receipt_sha,
+    p1_006_task_path => p1_006_task_sha,
+    p1_006_authorization_path => p1_006_authorization_sha,
+    p1_006_terminal_stop_path => p1_006_terminal_stop_sha,
+    p1_006_terminal_manifest_path => p1_006_terminal_manifest_sha,
+    p1_006_offsite_receipt_path => p1_006_offsite_receipt_sha,
     authorization_path => authorization_sha,
     parent_binding_path => parent_binding_sha,
     "evaluation-harness/fixtures/oracle/FREEZE_RECEIPT.json" => "ef7f9807795a685d0aa92fc19248ed0101362861ad7d71e4fdcdbb9df0b840c6",
@@ -180,9 +201,10 @@ ruby -ryaml -rjson -rdigest -rtime -e '
   abort "current execution authorization must be null" unless truth.dig("active_work", "current_execution_authorization").nil? && truth.dig("active_work", "current_execution_authorization_sha256").nil?
   abort "current execution nonce must be empty" unless truth.dig("active_work", "execution_nonce").nil? && truth.dig("active_work", "execution_nonce_status") == "NONE"
   abort "current Task resources must be empty" unless truth.dig("active_work", "task_branch").nil? && truth.dig("active_work", "task_worktree").nil? && truth.dig("active_work", "execution_evidence_root").nil? && truth.dig("active_work", "offsite_target").nil?
-  abort "next action drift" unless truth.dig("active_work", "next_eligible_action") == "FOUNDER_AUTHORIZE_NEXT_P1_REAL_ENGINEERING_TASK"
+  abort "next action drift" unless truth.dig("active_work", "next_eligible_action") == "PREPARE_NEXT_INDEPENDENT_P1_REAL_ENGINEERING_TASK"
   abort "P1 implementation boundary drift" unless truth.dig("p1_boundary", "allowed_now") == [
     "No current Task is authorized; active_work.current_task is NONE.",
+    "P1-006 is terminal non-PASS after an activation-scope violation; it cannot resume, retry or continue through a successor/replacement/correction chain, and no implementation or capability claim exists.",
     "P1-005 is terminal non-PASS, cannot resume, retry or continue through a successor/replacement/correction chain, and no partial implementation is accepted.",
     "P1-003 is terminal, its hidden custody is quarantined historical risk, and it cannot be resumed, retried, backfilled, replaced or represented as PASS.",
     "P1-004 is terminal, not accepted, cannot be resumed, retried or continued through a successor/correction chain, and its Worker candidate remains off main.",
@@ -199,6 +221,24 @@ ruby -ryaml -rjson -rdigest -rtime -e '
   abort "P1-005 falsely accepted" unless truth.dig("claim_boundary", "p1_005_evaluation_matrix_vtsr_validator") == "TERMINAL_STOPPED_NOT_ACCEPTED"
   abort "P1-005 candidate falsely created" unless truth.dig("claim_boundary", "p1_005_candidate_created") == false
   abort "P1-005 capability claim widened" unless truth.dig("claim_boundary", "p1_005_capability_claims") == 0
+  p1_006_state = "TERMINAL_STOPPED_DURING_ACTIVATION_OUT_OF_SCOPE_WRITE"
+  abort "P1-006 Contract identity drift" unless p1_006_task["task_id"] == "AIOS-P1-006_PATCH_EVIDENCE_PACKAGE_INTEGRITY_VALIDATOR" && p1_006_task["phase"] == "P1" && p1_006_task["execution_authorized"] == false
+  abort "P1-006 capture-time authorization drift" unless p1_006_authorization["status"] == "ACTIVE_TASK_LEVEL_DELEGATED_EXECUTION_AUTHORIZATION" && p1_006_authorization["execution_authorized"] == true && p1_006_authorization["task_contract_sha256"] == p1_006_task_sha
+  abort "P1-006 stop state drift" unless p1_006_terminal_stop["task_state"] == p1_006_state
+  abort "P1-006 stop classification drift" unless p1_006_terminal_stop.dig("failure", "classification") == "EXECUTION_SCOPE_COMPLIANCE_FAILURE" && p1_006_terminal_stop.dig("failure", "reason_code") == "ACTIVATION_CONTRACT_WRITTEN_OUTSIDE_CANONICAL_EXACT_PATH"
+  abort "P1-006 nonce not retired" unless p1_006_terminal_stop.dig("authority", "execution_nonce_terminal_status") == "RETIRED_AFTER_TASK_STOP"
+  abort "P1-006 implementation falsely claimed" unless p1_006_terminal_stop.dig("implementation_state", "quality_freeze_commit_created") == false && p1_006_terminal_stop.dig("implementation_state", "worker_implementation_started") == false && p1_006_terminal_stop.dig("implementation_state", "candidate_created") == false
+  abort "P1-006 terminal manifest drift" unless p1_006_terminal_manifest["terminal_state"] == p1_006_state && p1_006_terminal_manifest["package_classification"] == "TERMINAL_NON_PASS_NOT_CANDIDATE" && p1_006_terminal_manifest["artifact_count"] == 14
+  abort "P1-006 offsite verification not PASS" unless p1_006_offsite_receipt["result"] == "PASS" && p1_006_offsite_receipt["package_classification"] == "TERMINAL_NON_PASS_NOT_CANDIDATE"
+  p1_006_history = truth.dig("task_history", "aios_p1_006")
+  abort "P1-006 terminal history missing" unless p1_006_history.is_a?(Hash)
+  abort "P1-006 terminal history drift" unless p1_006_history["status"] == p1_006_state && p1_006_history["execution_authorized"] == false && p1_006_history["execution_nonce_status"] == "RETIRED_AFTER_TASK_STOP" && p1_006_history["resume_retry_successor_allowed"] == false
+  abort "P1-006 candidate or capability falsely claimed" unless p1_006_history["candidate_created"] == false && p1_006_history["capability_claims"] == 0 && p1_006_history["founder_gate_status"] == "NOT_REACHED"
+  abort "P1-006 terminal Evidence binding drift" unless p1_006_history.dig("terminal_evidence", "stop_record_sha256") == p1_006_terminal_stop_sha && p1_006_history.dig("terminal_evidence", "evidence_manifest_sha256") == p1_006_terminal_manifest_sha
+  abort "P1-006 offsite custody drift" unless p1_006_history.dig("terminal_cleanup", "restore_verification_receipt_sha256") == p1_006_offsite_receipt_sha && p1_006_history.dig("terminal_cleanup", "restore_status") == "PASS"
+  abort "P1-006 cleanup drift" unless p1_006_history.dig("terminal_cleanup", "out_of_scope_file_removed") == true && p1_006_history.dig("terminal_cleanup", "canonical_partial_activation_restored") == true
+  abort "P1-006 claim boundary widened" unless truth.dig("claim_boundary", "p1_006_patch_evidence_package_validator") == "TERMINAL_STOPPED_NOT_ACCEPTED" && truth.dig("claim_boundary", "p1_006_candidate_created") == false && truth.dig("claim_boundary", "p1_006_capability_claims") == 0
+  abort "P1-006 out-of-scope path still exists" if File.exist?("/Users/lijunpeng/Desktop/cc/docs/aios/tasks/P1-006_PATCH_EVIDENCE_PACKAGE_INTEGRITY_VALIDATOR.yaml")
 
   abort "P1-005 Task id or phase drift" unless active_task["task_id"] == active_task_id && active_task["phase"] == "P1"
   abort "P1-005 frozen Contract bytes changed authorization semantics" unless active_task["status"] == "FINAL_CONTRACT_CANDIDATE_AWAITING_FOUNDER_EXECUTION_AUTHORIZATION" && active_task["execution_authorized"] == false

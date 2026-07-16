@@ -1,0 +1,769 @@
+schema_version: 2
+record_type: sourcelens_aios_task_contract
+task_id: AIOS-P1-006_PATCH_EVIDENCE_PACKAGE_INTEGRITY_VALIDATOR
+phase: P1
+title: Implement a deterministic Patch Evidence Package integrity validator
+status: FINAL_CONTRACT_CANDIDATE_AWAITING_FOUNDER_EXECUTION_AUTHORIZATION
+execution_authorized: false
+
+authority:
+  founder: Human Founder
+  goal_canonical_sha256: fed643624aa5794a5cea5db2a04f25cc89d829a619e905df946a3616f14ad6c0
+  strategic_constitution: docs/aios/STRATEGIC_CONSTITUTION.md
+  master_execution_protocol: docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  evaluation_protocol: docs/aios/EVALUATION_PROTOCOL.md
+  baseline_adapter_contract: docs/aios/BASELINE_ADAPTER_CONTRACT.md
+  canonical_truth: docs/aios/truth/project_state.yaml
+  authorization_rule: >-
+    This contract is inert until an exact Founder Execution Authorization Record
+    binds its final SHA-256, byte length, canonical parent, single-use nonce,
+    effective window, roles, paths, runtime identity and offsite identity.
+
+objective: >-
+  Implement the smallest reusable, deterministic Patch Evidence Package integrity
+  validator. It validates one frozen standalone synthetic package catalog against
+  a Quality-owned closed package-manifest schema; proves referenced-path
+  containment before content reads; verifies complete artifact population and
+  SHA-256 bindings; checks TaskSpec, EnvironmentSnapshot and RunRecord schemas;
+  checks package/task/run/source/environment/verification/rollback identity joins;
+  and enforces the narrow structural invariants of a claimed verified-success
+  package. It emits a typed canonical result and deterministic replay evidence.
+
+why_now:
+  - The active Goal makes a traceable, reversible Patch Evidence Package part of the only year-one product loop.
+  - Evaluation Protocol v1.1 says a run cannot count as verified when mandatory package fields, independent verification, policy state or rollback evidence are incomplete.
+  - P1-001 accepted local harness/evaluator/replay plumbing, but it did not implement a reusable Patch Evidence Package integrity contract or validator.
+  - This increment is independent of the terminal P1-002 adapter, P1-003 dataset, P1-004 harness-admission and P1-005 VTSR-counting scopes.
+
+research_hypothesis:
+  statement: >-
+    A standard-library-only validator can deterministically distinguish structurally
+    complete, internally hash-bound synthetic Patch Evidence Packages from frozen
+    one-fault packages without executing a baseline, judging patch correctness or
+    using any stopped candidate.
+  falsifier: >-
+    The frozen package contract cannot produce one unambiguous result per fixture,
+    path containment cannot be established before referenced bytes are read,
+    replay differs, accepted P1-001 bytes drift, or completion requires a baseline,
+    dataset, parameterized harness, VTSR counter, stopped partial, network or P2/P3 work.
+
+claim_boundary:
+  proves_if_accepted:
+    - deterministic structural and hash-integrity validation for the exact frozen standalone synthetic package catalog
+    - deterministic rejection of the exact frozen one-fault package fixtures with one typed primary reason
+    - complete package artifact population, identity joins and replay for those fixtures
+  does_not_prove:
+    - patch correctness, issue resolution or independent evaluator correctness
+    - B0, B1, B2 or A0 adapter conformance or execution
+    - Agent capability, VTSR, benchmark performance or P1 exit
+    - dataset or hidden-set validity
+    - Repository Intelligence, P2 or P3 readiness
+    - platform identity, strong isolation, hostile-principal resistance or production readiness
+
+source_identity:
+  canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
+  canonical_branch: main
+  activation_parent_commit: 5a582f7843f4cf0a0d49cea1536019d374e8cdc2
+  activation_parent_tree: 3d396ca2da410ba60408bc495df881f710793c6c
+  task_branch: task/AIOS-P1-006-patch-evidence-package-validator
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-006-patch-evidence-package-validator
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-006-patch-evidence-package-execution-20260716T071228Z
+  contract_preparation_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-006-cross-contract-preflight-contract-preparation-20260716T071228Z
+  offsite_target: /Volumes/lijp/SourceLens-AIOS-P1-006-offsite-20260716T071228Z
+  offsite_volume_uuid: 2D3D7BCD-5BC5-3D2A-B853-F1FA95D290F8
+  inherited_source_worktree_write_allowed: false
+  automatic_main_advance: false
+
+historical_exclusions:
+  terminal_tasks:
+    - AIOS-P1-002_B0_ADAPTER_CONFORMANCE
+    - AIOS-P1-003_PILOT_TASK_DATASET_AND_HIDDEN_SET_CURATION
+    - AIOS-P1-004_PARAMETERIZED_EVALUATION_HARNESS_ADMISSION
+    - AIOS-P1-005_EVALUATION_MATRIX_AND_VTSR_COUNTING_VALIDATOR
+  preparation_draft_not_implementation_basis:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-006-cross-contract-preflight-contract-preparation-20260716T071228Z/AIOS-P1-006_CROSS_CONTRACT_PREFLIGHT_AND_RUN_ADMISSION_VALIDATOR.yaml
+    reason: Independent CTO review found material overlap with terminal P1-004; it was never Founder-authorized or executed.
+  rules:
+    - terminal Tasks remain Historical Evidence and cannot be resumed, retried, renamed, replaced or continued
+    - rejected candidates, partial implementations, stopped worktrees, hidden custody and rejected source diffs are not implementation inputs
+    - the superseded preparation draft and its review reports remain read-only preparation evidence and are not executable authority
+    - terminal records may be read only to verify exclusion and terminal status
+
+roles:
+  accountable_owner: Chief AI Research Agent
+  integration_owner: Engineering Manager Agent
+  quality_contract_fixture_owner: Quality and Evaluation Agent dedicated schema/oracle owner
+  implementation_worker: Evidence Integrity Engineer
+  independent_reviewers:
+    cto: CTO Agent dedicated reviewer
+    security: Security Agent dedicated reviewer
+    quality: Quality and Evaluation Agent dedicated reviewer distinct from schema/oracle owner
+  separation_rules:
+    - one physical Agent binds one role and this Task context only
+    - the implementation Worker cannot write Quality-owned schema, fixtures, oracle, mutation catalog or freeze receipt
+    - the Quality schema/oracle owner cannot implement the validator or perform final Quality review
+    - reviewers only read the frozen candidate and frozen Evidence; each reviewer writes only its assigned review path
+    - no implementer or Integration owner may independently accept the implementation
+
+delegated_execution:
+  model: TASK_LEVEL_FOUNDER_AUTHORIZATION
+  founder_granularity: one complete Task envelope, not individual files or commands
+  ordinary_in_scope_implementation_repairs: allowed
+  maximum_implementation_iterations: 2
+  maximum_candidate_freezes: 2
+  automatic_retry_resume_successor_replacement: forbidden
+  escalation_conditions:
+    - objective, path, owner, budget, metric, permission or claim-boundary expansion
+    - any write outside the stage-specific exact writer map
+    - any network, Provider, Secret, remote, production or public effect
+    - accepted source, Goal, Contract, Quality schema/oracle/fixture or P1-001 identity drift
+    - use of any terminal Task candidate, partial implementation or hidden material
+    - any Stop Condition
+
+activation_scope:
+  purpose: One governance-only activation commit on canonical main before Task branch/worktree creation.
+  writer: Engineering Manager Agent acting as activation integrator
+  exact_paths:
+    - docs/aios/tasks/P1-006_PATCH_EVIDENCE_PACKAGE_INTEGRITY_VALIDATOR.yaml
+    - docs/aios/truth/project_state.yaml
+    - scripts/validate-aios-governance.sh
+    - scripts/check-p1-safety-boundary.sh
+    - docs/PROJECT_CODE_MAP.md
+  rules:
+    - canonical Contract bytes must equal the exact Founder-authorized external Contract bytes
+    - Truth may only move current Task from NONE to this exact Task and bind the exact authorization
+    - validators may only replace the no-current-Task projection with exact P1-006 bindings while retaining all historical and safety checks
+    - code-map changes are mechanical
+    - full make verify must PASS before Task branch/worktree creation
+    - activation receipt follows the verified activation commit and binds its commit/tree
+    - the worktree-only write invariant begins after activation and Task worktree creation
+  post_activation_immutable_paths:
+    - docs/aios/tasks/P1-006_PATCH_EVIDENCE_PACKAGE_INTEGRITY_VALIDATOR.yaml
+    - docs/aios/truth/project_state.yaml
+    - scripts/validate-aios-governance.sh
+    - scripts/check-p1-safety-boundary.sh
+  immutable_check: >-
+    Before Quality freeze, Worker start, each candidate freeze, each review handoff,
+    rebuild, rollback and offsite packaging, compare these paths byte-for-byte and
+    by SHA-256 with the verified activation tree. Any drift is STOP.
+
+path_ownership:
+  implementation_worktree_writers:
+    quality_schema_fixture_owner:
+      writable_paths:
+        - docs/aios/schemas/patch-evidence-package.schema.json
+        - evaluation-harness/fixtures/evidence-package/**
+    implementation_worker:
+      writable_paths:
+        - evaluation-harness/evidence-package/validator.mjs
+        - evaluation-harness/evidence-package/cli.mjs
+        - evaluation-harness/evidence-package/self-test.mjs
+        - evaluation-harness/evidence-package/README.md
+    integration_owner:
+      writable_paths:
+        - scripts/verify-p1-evidence-package.sh
+        - Makefile
+        - docs/PROJECT_CODE_MAP.md
+  external_evidence_writers:
+    quality_schema_fixture_owner:
+      writable_paths:
+        - /Users/lijunpeng/Developer/.sourcelens-audit/p1-006-patch-evidence-package-execution-20260716T071228Z/quality-freeze/**
+    implementation_worker:
+      writable_paths:
+        - /Users/lijunpeng/Developer/.sourcelens-audit/p1-006-patch-evidence-package-execution-20260716T071228Z/worker/**
+    integration_owner:
+      writable_paths:
+        - /Users/lijunpeng/Developer/.sourcelens-audit/p1-006-patch-evidence-package-execution-20260716T071228Z/integration/**
+        - /Users/lijunpeng/Developer/.sourcelens-audit/p1-006-patch-evidence-package-execution-20260716T071228Z/evidence-manifest.json
+        - /Users/lijunpeng/Developer/.sourcelens-audit/p1-006-patch-evidence-package-execution-20260716T071228Z/post-read-verification.json
+        - /Users/lijunpeng/Developer/.sourcelens-audit/p1-006-patch-evidence-package-execution-20260716T071228Z/founder-gate/**
+    cto_reviewer:
+      writable_paths:
+        - /Users/lijunpeng/Developer/.sourcelens-audit/p1-006-patch-evidence-package-execution-20260716T071228Z/reviews/cto/**
+    security_reviewer:
+      writable_paths:
+        - /Users/lijunpeng/Developer/.sourcelens-audit/p1-006-patch-evidence-package-execution-20260716T071228Z/reviews/security/**
+    quality_reviewer:
+      writable_paths:
+        - /Users/lijunpeng/Developer/.sourcelens-audit/p1-006-patch-evidence-package-execution-20260716T071228Z/reviews/quality/**
+  offsite_writer:
+    role: Engineering Manager Agent acting after three final PASS reviews
+    writable_paths:
+      - /Volumes/lijp/SourceLens-AIOS-P1-006-offsite-20260716T071228Z/**
+  invariants:
+    - after activation every repository write resolves inside the exact Task worktree
+    - every path has exactly one writer in each stage
+    - Quality-owned schema/fixture paths are read-only to Worker and Integration
+    - Worker-owned implementation paths are read-only to Quality owner and final reviewers
+    - canonical main is read-only after activation until a separate Founder Gate
+    - no unowned or overlapping write is permitted
+
+external_root_preflight:
+  before_first_execution_evidence_write:
+    - execution Evidence root must not exist
+    - every existing ancestor must lstat as non-symlink and realpath under /Users/lijunpeng/Developer/.sourcelens-audit
+    - create the exact root once with no reused contents
+  before_first_offsite_write:
+    - offsite target must not exist
+    - /Volumes/lijp must be mounted with the exact bound Volume UUID
+    - every existing ancestor must lstat as non-symlink and realpath under /Volumes/lijp
+    - create the exact target once only after all three final reviews are PASS
+  per_write_rules:
+    - reject any symlink component or entry before every create-once external write
+    - resolve relative repository paths against the exact Task worktree, never process cwd or canonical main
+    - any freshness, containment, symlink or Volume UUID mismatch is STOP before the attempted write
+
+read_boundary:
+  command_scoped_rule: >-
+    Read-only access is permitted to the tracked canonical parent/candidate tree and
+    Git metadata only when required by the exact verification commands. Hidden
+    custody, stopped candidate/worktree/bundle/partial roots, Secrets and unrelated
+    external roots remain forbidden. The accepted P1-001 before/after inventory
+    includes every tracked P1-001 evaluator, harness, adapter, recording, replay,
+    visible fixture, oracle and retained Evidence file exercised by regression.
+  explicit_authority_inputs:
+    - /Users/lijunpeng/.codex/attachments/37671a04-0182-4aff-9f0a-c044c5b3cfa3/goal-objective.md
+    - docs/aios/STRATEGIC_CONSTITUTION.md
+    - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+    - docs/aios/EVALUATION_PROTOCOL.md
+    - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+    - docs/aios/truth/project_state.yaml
+    - docs/aios/schemas/task-spec.schema.json
+    - docs/aios/schemas/environment-snapshot.schema.json
+    - docs/aios/schemas/system-configuration.schema.json
+    - docs/aios/schemas/run-record.schema.json
+    - docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
+    - docs/aios/tasks/P1-006_PATCH_EVIDENCE_PACKAGE_INTEGRITY_VALIDATOR.yaml
+
+forbidden_writes:
+  - /Users/lijunpeng/Desktop/cc/project/SourceLens/**
+  - /Users/lijunpeng/Desktop/cc/evaluation-harness/**
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+  - docs/aios/schemas/task-spec.schema.json
+  - docs/aios/schemas/environment-snapshot.schema.json
+  - docs/aios/schemas/system-configuration.schema.json
+  - docs/aios/schemas/run-record.schema.json
+  - evaluation-harness/evaluator/**
+  - evaluation-harness/harness/**
+  - evaluation-harness/adapters/**
+  - evaluation-harness/recording/**
+  - evaluation-harness/replay/**
+  - evaluation-harness/fixtures/visible/**
+  - evaluation-harness/fixtures/oracle/**
+  - backend-spring/**
+  - analyzer-rust/**
+  - web-console/**
+
+forbidden_implementation_inputs:
+  - hidden custody directories, identities or content
+  - rejected/stopped P1-002/P1-003/P1-004/P1-005 source, worktrees, bundles, fixture bytes or partial files
+  - superseded P1-006 preflight/admission draft as source or interface authority
+
+environment_and_permissions:
+  runtime: Node.js standard library only
+  node_path: /usr/local/bin/node
+  node_version: v20.17.0
+  node_sha256: c5548e7a991a5c90170a29843ffc46df4643e29141f3cbb035f60295cf2bc882
+  network_requests: 0
+  provider_calls: 0
+  secrets_accessed: 0
+  remote_writes: 0
+  production_effects: 0
+  public_effects: 0
+  baseline_runs: 0
+  measurement_retries: 0
+  new_runtime_services: 0
+  new_databases: 0
+  agent_shell_capability: false
+  model_initiated_canonical_write: false
+
+package_contract:
+  package_root_rule:
+    - package-manifest.json is the only authority file inside each package root
+    - all declared artifact refs are unique normalized POSIX relative paths
+    - absolute paths, empty paths, dot segments, parent traversal and NUL are rejected before filesystem resolution
+    - lstat and component-wise containment reject symlinks before any referenced content read
+    - actual regular-file population must equal the manifest-declared artifact population plus package-manifest.json
+  manifest_required_sections:
+    - schema_version
+    - record_type
+    - package_id
+    - package_outcome
+    - task_id
+    - run_id
+    - source_identity
+    - environment_snapshot_id
+    - system_configuration_id
+    - artifacts
+    - verification
+    - rollback
+    - policy_violations
+    - claim_boundary
+  mandatory_artifact_roles:
+    - task_spec
+    - environment_snapshot
+    - system_configuration
+    - run_record
+    - problem_understanding
+    - repository_evidence
+    - reasoning_summary
+    - plan
+    - actions
+    - patch
+    - tests
+    - independent_verification
+    - risk_assessment
+    - approval
+    - rollback
+  accepted_source_schemas:
+    task_spec: docs/aios/schemas/task-spec.schema.json
+    environment_snapshot: docs/aios/schemas/environment-snapshot.schema.json
+    system_configuration: docs/aios/schemas/system-configuration.schema.json
+    run_record: docs/aios/schemas/run-record.schema.json
+  manifest_closed_schema:
+    top_level_exact_keys:
+      - schema_version
+      - record_type
+      - package_id
+      - package_outcome
+      - task_id
+      - run_id
+      - source_identity
+      - environment_snapshot_id
+      - system_configuration_id
+      - artifacts
+      - verification
+      - rollback
+      - policy_violations
+      - claim_boundary
+    constants:
+      schema_version: "1.0"
+      record_type: aios_patch_evidence_package
+    scalar_types:
+      package_id: non-empty string
+      package_outcome: enum [VERIFIED_SUCCESS, EVALUATED_FAILURE]
+      task_id: non-empty string
+      run_id: non-empty string
+      environment_snapshot_id: non-empty string
+      system_configuration_id: non-empty string
+      claim_boundary: non-empty string
+    source_identity:
+      exact_keys: [repository_identity, base_commit, tree_hash]
+      repository_identity: non-empty string
+      base_commit: 40-to-64 lowercase hexadecimal characters
+      tree_hash: 40-to-64 lowercase hexadecimal characters
+    artifact_entry:
+      exact_keys: [role, ref, sha256, byte_length, run_record_checksum_key]
+      role: one mandatory_artifact_role, exactly one entry per role
+      ref: unique normalized POSIX relative path
+      sha256: 64 lowercase hexadecimal characters
+      byte_length: non-negative integer
+      run_record_checksum_key: non-empty string or null
+      checksum_key_rule: >-
+        actions, patch, tests, independent_verification and rollback entries have
+        distinct non-null keys; all other mandatory roles have null.
+    verification:
+      exact_keys: [artifact_ref, verification_ref, evaluator_id, evaluator_version, verdict]
+      artifact_ref: equals the independent_verification artifact ref
+      verification_ref: non-empty string equal to RunRecord.verification_ref
+      evaluator_id: non-empty string
+      evaluator_version: non-empty string
+      verdict: enum [PASS, FAIL]
+    rollback:
+      exact_keys: [artifact_ref, rollback_id]
+      artifact_ref: equals the rollback artifact ref
+      rollback_id: non-empty string
+    policy_violations: unique array of non-empty strings
+  structured_artifact_contracts:
+    tests:
+      exact_keys: [schema_version, record_type, package_id, task_id, run_id, command_results, overall_verdict]
+      constants: {schema_version: "1.0", record_type: aios_patch_test_report}
+      command_result_exact_keys: [command_id, argv, cwd, exit_status, stdout_sha256, stderr_sha256]
+      command_results_rule: unique command_id; argv is non-empty string array; cwd is non-empty string; exit_status is integer; hashes are lowercase SHA-256
+      overall_verdict: enum [PASS, FAIL]
+    independent_verification:
+      exact_keys: [schema_version, record_type, package_id, task_id, run_id, evaluator_id, evaluator_version, verdict, reason_codes]
+      constants: {schema_version: "1.0", record_type: aios_patch_independent_verification}
+      verdict: enum [PASS, FAIL]
+      reason_codes: unique array of non-empty strings
+    approval:
+      exact_keys: [schema_version, record_type, package_id, task_id, run_id, approval_required, approval_state, approver_role]
+      constants: {schema_version: "1.0", record_type: aios_patch_approval_record}
+      approval_required: boolean
+      approval_state: enum [APPROVED, REJECTED, NOT_REQUIRED, PENDING]
+      approver_role: non-empty string or null
+    rollback:
+      exact_keys: [schema_version, record_type, package_id, task_id, run_id, base_commit, rollback_id, rollback_type, valid]
+      constants: {schema_version: "1.0", record_type: aios_patch_rollback_record}
+      rollback_type: enum [checkpoint, inverse_patch, disposable_workspace]
+      valid: boolean
+  identity_joins:
+    - package task_id equals TaskSpec task_id and RunRecord task_id
+    - package run_id equals RunRecord run_id
+    - package source identity equals TaskSpec repository identity/base commit/tree hash and EnvironmentSnapshot source identity/base commit/tree hash
+    - package environment_snapshot_id equals TaskSpec environment_snapshot_ref, EnvironmentSnapshot snapshot_id and RunRecord environment_snapshot_id
+    - package system_configuration_id equals SystemConfiguration configuration_id and RunRecord system_configuration_id
+    - RunRecord adapter_id/adapter_version equal SystemConfiguration adapter_id/adapter_version
+    - SystemConfiguration model_ref equals EnvironmentSnapshot model.model_ref
+    - SystemConfiguration prompt_ref equals EnvironmentSnapshot prompt_version
+    - SystemConfiguration policy_ref equals EnvironmentSnapshot policy_version
+    - SystemConfiguration response_format_ref equals TaskSpec baseline_context.response_format_ref
+    - every SystemConfiguration enabled_tools entry is present in TaskSpec allowed_tools and in EnvironmentSnapshot tools by tool_id
+    - package verification.verification_ref equals RunRecord verification_ref and verification.artifact_ref identifies the mandatory independent_verification artifact role
+    - package rollback ref identifies the mandatory rollback artifact role and the rollback artifact binds package_id/task_id/run_id/base_commit
+    - RunRecord trace_ref equals the actions artifact ref
+    - RunRecord patch_ref equals the patch artifact ref
+    - RunRecord test_artifact_refs equals the one-element ordered list containing the tests artifact ref
+    - RunRecord artifact_checksums exactly equals the manifest-derived key-to-sha256 map for every artifact entry with non-null run_record_checksum_key
+    - every TaskSpec.required_evidence value identifies one mandatory artifact role and the set equals the package evidence-role population declared by the fixture TaskSpec
+    - tests, independent_verification, approval and rollback structured artifacts all bind the package_id/task_id/run_id from package-manifest.json
+  verified_success_invariants:
+    - package_outcome VERIFIED_SUCCESS requires RunRecord terminal_status completed
+    - package_outcome VERIFIED_SUCCESS requires RunRecord stop_reason_code agent_complete
+    - package_outcome VERIFIED_SUCCESS requires RunRecord invalid_run_reason null
+    - package_outcome VERIFIED_SUCCESS requires empty RunRecord and package policy_violations
+    - package_outcome VERIFIED_SUCCESS requires independent verification verdict PASS
+    - package_outcome VERIFIED_SUCCESS requires the independent-verification evaluator_version to equal TaskSpec verification.evaluator_version and the manifest verification identity/verdict to equal the structured verification artifact
+    - package_outcome VERIFIED_SUCCESS requires tests overall_verdict PASS, exact coverage of every TaskSpec verification.required_commands command_id and each exit_status within the corresponding expected_exit_codes
+    - package_outcome VERIFIED_SUCCESS requires approval.approval_required to equal TaskSpec.human_approval_required
+    - when TaskSpec human_approval_required is true VERIFIED_SUCCESS requires approval_state APPROVED and a non-null approver_role
+    - when TaskSpec human_approval_required is false VERIFIED_SUCCESS requires approval_state NOT_REQUIRED and approver_role null
+    - package_outcome VERIFIED_SUCCESS requires rollback valid true
+  evaluated_failure_rule: >-
+    EVALUATED_FAILURE may be structurally VALID when all mandatory Evidence is
+    present and hash-bound; structural validity never promotes it to success.
+
+validation_result_contract:
+  canonicalization: UTF-8 JSON, recursively sorted object keys, array order preserved, no insignificant whitespace, exactly one trailing LF
+  fields_and_types:
+    schema_version: constant string 1.0
+    record_type: constant string aios_patch_evidence_package_validation_result
+    package_id: string or null
+    verdict: enum [VALID, INVALID]
+    primary_reason_code: null for VALID; one closed reason-code string for INVALID
+    check_results: ordered array of closed check-result objects
+    authority_manifest_sha256: lowercase SHA-256 of exact package-manifest.json bytes or null only when the fixed manifest path is absent, non-regular or unsafe
+    authority_manifest_byte_length: non-negative integer or null paired with authority_manifest_sha256
+    input_root_sha256: lowercase SHA-256 string or null when safe input population cannot be established
+    validator_executable_identity_sha256: lowercase SHA-256 string
+    validation_contract_identity_sha256: lowercase SHA-256 string
+    claim_boundary: constant string Structural and hash-integrity validation only; not patch-correctness or Agent-capability evidence.
+  check_result_schema:
+    exact_keys: [check_id, status, reason_code]
+    check_id: one mandatory check ID
+    status: enum [PASS, FAIL, NOT_EVALUATED]
+    reason_code: null unless status is FAIL
+  mandatory_checks_in_precedence_order:
+    - MANIFEST_JSON
+    - MANIFEST_SCHEMA
+    - REFERENCE_PATH_SYNTAX
+    - REFERENCE_PATH_CONTAINMENT
+    - ARTIFACT_POPULATION
+    - ARTIFACT_HASHES
+    - TASK_SPEC_SCHEMA
+    - ENVIRONMENT_SNAPSHOT_SCHEMA
+    - SYSTEM_CONFIGURATION_SCHEMA
+    - RUN_RECORD_SCHEMA
+    - STRUCTURED_ARTIFACT_SCHEMAS
+    - TASK_ID_JOIN
+    - RUN_ID_JOIN
+    - SOURCE_IDENTITY_JOIN
+    - ENVIRONMENT_ID_JOIN
+    - SYSTEM_CONFIGURATION_ID_JOIN
+    - SYSTEM_CONFIGURATION_BINDING_JOIN
+    - RUN_ARTIFACT_REFERENCE_JOIN
+    - REQUIRED_EVIDENCE_JOIN
+    - VERIFICATION_ID_JOIN
+    - ROLLBACK_ID_JOIN
+    - VERIFIED_SUCCESS_INVARIANTS
+  closed_reason_codes_by_check:
+    MANIFEST_JSON: MANIFEST_INVALID_JSON
+    MANIFEST_SCHEMA: MANIFEST_SCHEMA_INVALID
+    REFERENCE_PATH_SYNTAX: REFERENCE_PATH_SYNTAX_INVALID
+    REFERENCE_PATH_CONTAINMENT: REFERENCE_PATH_CONTAINMENT_INVALID
+    ARTIFACT_POPULATION: ARTIFACT_POPULATION_MISMATCH
+    ARTIFACT_HASHES: ARTIFACT_HASH_MISMATCH
+    TASK_SPEC_SCHEMA: TASK_SPEC_SCHEMA_INVALID
+    ENVIRONMENT_SNAPSHOT_SCHEMA: ENVIRONMENT_SNAPSHOT_SCHEMA_INVALID
+    SYSTEM_CONFIGURATION_SCHEMA: SYSTEM_CONFIGURATION_SCHEMA_INVALID
+    RUN_RECORD_SCHEMA: RUN_RECORD_SCHEMA_INVALID
+    STRUCTURED_ARTIFACT_SCHEMAS: STRUCTURED_ARTIFACT_SCHEMA_INVALID
+    TASK_ID_JOIN: TASK_ID_MISMATCH
+    RUN_ID_JOIN: RUN_ID_MISMATCH
+    SOURCE_IDENTITY_JOIN: SOURCE_IDENTITY_MISMATCH
+    ENVIRONMENT_ID_JOIN: ENVIRONMENT_ID_MISMATCH
+    SYSTEM_CONFIGURATION_ID_JOIN: SYSTEM_CONFIGURATION_ID_MISMATCH
+    SYSTEM_CONFIGURATION_BINDING_JOIN: SYSTEM_CONFIGURATION_BINDING_MISMATCH
+    RUN_ARTIFACT_REFERENCE_JOIN: RUN_ARTIFACT_REFERENCE_MISMATCH
+    REQUIRED_EVIDENCE_JOIN: REQUIRED_EVIDENCE_MISMATCH
+    VERIFICATION_ID_JOIN: VERIFICATION_ID_MISMATCH
+    ROLLBACK_ID_JOIN: ROLLBACK_ID_MISMATCH
+    VERIFIED_SUCCESS_INVARIANTS: VERIFIED_SUCCESS_INVARIANT_VIOLATION
+  precedence_rule: >-
+    The first FAIL in mandatory check order is the only primary reason. All later
+    checks that depend on failed or unsafe input are NOT_EVALUATED; independent
+    earlier checks retain their observed state. Every frozen negative fixture has
+    exactly one expected primary reason under this rule.
+  safe_read_rule: >-
+    MANIFEST_JSON and MANIFEST_SCHEMA read only package-manifest.json. Reference
+    syntax and component-wise containment complete before any other package file is
+    opened. ARTIFACT_POPULATION uses lstat without following symlinks. Artifact
+    content and schema reads begin only after containment and population PASS.
+  input_root_sha256_derivation: >-
+    After safe population and hashes PASS, construct one authority-manifest entry
+    from exact package-manifest.json bytes and all declared artifact entries. Sort
+    the complete population by UTF-8 path bytes and hash the concatenation of
+    relative_path + NUL + lowercase sha256 + NUL + decimal byte_length + LF.
+    Otherwise output null. authority_manifest_sha256/byte_length expose the same
+    exact manifest identity separately.
+  validator_executable_identity_sha256_derivation: >-
+    Sort the exact executed/imported source closure by UTF-8 path bytes:
+    evaluation-harness/evidence-package/cli.mjs,
+    evaluation-harness/evidence-package/validator.mjs and
+    evaluation-harness/evaluator/schema-validator.mjs. Hash the concatenation of
+    relative_path + NUL + lowercase file_sha256 + NUL + decimal byte_length + LF.
+    README and self-test are not executable-identity inputs.
+  validation_contract_identity_sha256_derivation: >-
+    Sort the exact decision-authoritative contract/schema closure by UTF-8 path
+    bytes: the exact Founder-authorized P1-006 Task Contract,
+    patch-evidence-package.schema.json, task-spec.schema.json,
+    environment-snapshot.schema.json, system-configuration.schema.json and
+    run-record.schema.json. Hash relative_path + NUL + lowercase file_sha256 + NUL
+    + decimal byte_length + LF for each entry.
+  cli_exit_codes:
+    valid_package: 0
+    invalid_package: 1
+    malformed_invocation_or_internal_error: 2
+  invocation_failure_rule: >-
+    Exit 2 emits a separate closed invocation-failure record and is never reported
+    as a package-validation result.
+
+quality_freeze:
+  order:
+    - Quality validates every target path resolves inside the exact Task worktree before first write.
+    - Quality creates the package schema, fixture catalog, fixture bytes, oracle, mutation catalog, ownership map and freeze receipt.
+    - Integration commits the Quality freeze on the Task branch.
+    - Worker receives every Quality-owned path read-only and implements only Worker-owned files.
+  fixtures:
+    valid:
+      - P01_VALID_VERIFIED_SUCCESS_PACKAGE
+      - P02_VALID_EVALUATED_FAILURE_PACKAGE
+    invalid:
+      - N01_MANIFEST_INVALID_JSON
+      - N02_MANIFEST_SCHEMA_INVALID
+      - N03_REFERENCE_PATH_SYNTAX_INVALID
+      - N04_REFERENCE_PATH_CONTAINMENT_INVALID
+      - N05_ARTIFACT_MISSING
+      - N06_UNDECLARED_ARTIFACT_PRESENT
+      - N07_ARTIFACT_HASH_MISMATCH
+      - N08_TASK_SPEC_SCHEMA_INVALID
+      - N09_ENVIRONMENT_SNAPSHOT_SCHEMA_INVALID
+      - N10_RUN_RECORD_SCHEMA_INVALID
+      - N11_TASK_ID_MISMATCH
+      - N12_RUN_ID_MISMATCH
+      - N13_SOURCE_IDENTITY_MISMATCH
+      - N14_ENVIRONMENT_ID_MISMATCH
+      - N15_VERIFICATION_ID_MISMATCH
+      - N16_ROLLBACK_ID_MISMATCH
+      - N17_VERIFIED_SUCCESS_INVARIANT_VIOLATION
+      - N18_SYSTEM_CONFIGURATION_SCHEMA_INVALID
+      - N19_STRUCTURED_ARTIFACT_SCHEMA_INVALID
+      - N20_SYSTEM_CONFIGURATION_ID_MISMATCH
+      - N21_RUN_ARTIFACT_REFERENCE_MISMATCH
+      - N22_REQUIRED_EVIDENCE_MISMATCH
+      - N23_VERIFIED_SUCCESS_TESTS_NOT_PASS
+      - N24_VERIFIED_SUCCESS_VERIFICATION_NOT_PASS
+      - N25_VERIFIED_SUCCESS_APPROVAL_UNSATISFIED
+      - N26_VERIFIED_SUCCESS_ROLLBACK_INVALID
+      - N27_SYSTEM_CONFIGURATION_MODEL_REF_MISMATCH
+      - N28_SYSTEM_CONFIGURATION_PROMPT_REF_MISMATCH
+      - N29_SYSTEM_CONFIGURATION_POLICY_REF_MISMATCH
+      - N30_SYSTEM_CONFIGURATION_RESPONSE_FORMAT_REF_MISMATCH
+      - N31_SYSTEM_CONFIGURATION_TOOL_NOT_ALLOWED_BY_TASK
+      - N32_SYSTEM_CONFIGURATION_TOOL_ABSENT_FROM_ENVIRONMENT
+  mutation_contract: >-
+    mutation-catalog.json binds each invalid fixture to one valid parent, one named
+    mutation transaction, the exact allowed touched paths/JSON pointers and one
+    expected primary reason. Quality mechanically proves that all nondeclared bytes
+    equal the parent and that any checksum refresh is confined to the declared
+    transaction. Worker cannot change this catalog.
+  exact_replay_population: all 34 frozen fixtures
+  semantic_oracle_rule: >-
+    The preimplementation oracle freezes verdict, primary reason, ordered check
+    statuses and claim boundary. It does not predict the executable or validation-
+    contract identity before those bytes exist. Candidate verification binds the
+    frozen semantic oracle to both actual frozen identities and then requires byte-
+    identical replay with those identities.
+  freeze_receipt_binds:
+    - exact Founder-authorized Task Contract SHA-256 and byte length
+    - accepted protocol/schema hashes
+    - package schema, fixture catalog, every fixture artifact, oracle, mutation catalog and ownership-map hashes
+    - Node runtime identity
+    - canonical parent commit/tree
+    - identity-golden-vectors.json proving that exact manifest-byte drift changes authority_manifest_sha256/input_root_sha256 and schema-byte drift changes validation_contract_identity_sha256
+
+implementation_requirements:
+  - use Node.js standard library and the accepted P1-001 local schema-validator implementation read-only
+  - accept an explicit package root and explicit output path; no hard-coded fixture identity
+  - never invoke an adapter, model, evaluator, baseline, test command from a package or executable content from a package
+  - never mutate the input package
+  - emit actual argv, cwd, runtime identity, start/end time, exit status and stdout/stderr hashes
+  - create output Evidence only in exact create-once external Evidence paths
+  - preserve accepted P1-001 source, fixtures, evaluator, retained Evidence and verification behavior byte-identically
+  - self-test and replay the complete frozen fixture population
+
+metrics:
+  fixture_population: 34
+  structurally_valid_fixture_count: 2
+  invalid_fixture_count: 32
+  valid_fixture_accuracy_required: 1.0
+  invalid_fixture_accuracy_required: 1.0
+  primary_reason_accuracy_required: 1.0
+  replay_denominator: 34
+  deterministic_replay_byte_equality_required: 1.0
+  accepted_p1_001_hash_drift_allowed: 0
+  forbidden_external_effects_allowed: 0
+  benchmark_or_capability_claims_allowed: 0
+
+budget:
+  engineering_hours: 16
+  calendar_days: 4
+  implementation_iterations_inside_same_task: 2
+  candidate_freezes: 2
+  measurement_retries: 0
+  baseline_runs: 0
+  network_requests: 0
+  provider_calls: 0
+  secrets_accessed: 0
+  remote_writes: 0
+  production_effects: 0
+
+verification_plan:
+  required_commands:
+    - id: p1_006_self_test
+      argv: [/usr/local/bin/node, evaluation-harness/evidence-package/self-test.mjs]
+    - id: p1_006_gate
+      argv: [./scripts/verify-p1-evidence-package.sh]
+    - id: accepted_p1_001_regression
+      argv: [./scripts/verify-p1-harness.sh]
+    - id: complete_repository_verification
+      argv: [make, verify]
+  required_proofs:
+    - exact 34-fixture catalog, mutation reconstruction and Quality freeze identity
+    - all expected verdicts, primary reasons and dependent-check states
+    - reject-before-read proof for path syntax/symlink containment fixtures
+    - byte-identical replay for all 34 fixtures
+    - golden identity vectors for exact authority-manifest and validation-contract/schema drift
+    - create-once Evidence Manifest and post-read verification
+    - accepted P1-001 complete exercised-path before/after hash comparison
+    - canonical main no-write observation during Task implementation
+    - Task diff and stage-specific path-ownership compliance
+    - fresh-clone rebuild from candidate Git bundle
+    - rollback to activation parent and forward reapplication of candidate
+    - CTO, Security and Quality independent frozen-candidate reviews
+    - offsite package SHA-256 and fresh restore verification
+
+required_evidence:
+  - Founder Execution Authorization Record
+  - activation receipt and post-activation immutable-path checks
+  - external-root preflight receipts
+  - Quality freeze receipt, mutation catalog and ownership map
+  - actual command ledger
+  - runtime/dependency observation
+  - frozen input inventory
+  - validation outputs and semantic-oracle comparison
+  - reject-before-read and controlled-invalid evidence
+  - full 34-fixture replay comparison
+  - authority-manifest and validation-contract identity golden-vector report
+  - accepted P1-001 before/after identity comparison
+  - repository diff and path-ownership report
+  - Evidence Manifest and post-read verification
+  - rebuild and rollback reports
+  - CTO, Security and Quality review reports
+  - offsite verification receipt
+  - Founder Gate Decision Packet
+
+acceptance_criteria:
+  - both structurally valid fixtures are VALID; evaluated failure remains explicitly non-success
+  - all 32 invalid fixtures are INVALID with the exact one primary reason and frozen dependent-check states
+  - all 34 fixtures reproduce byte-identical results under the same frozen executable and validation-contract identities
+  - exact package-manifest bytes participate in authority_manifest_sha256 and input_root_sha256
+  - exact executable closure and decision-authoritative Task/schema closure have separate stable identities
+  - path syntax/containment failures occur before any escaped referenced content is opened
+  - package artifact population is exact, regular-file-only and fully hash-bound
+  - TaskSpec, EnvironmentSnapshot and RunRecord schema and identity joins are mechanically checked
+  - SystemConfiguration model/prompt/policy/response-format/tool bindings are mechanically consistent with TaskSpec and EnvironmentSnapshot without admitting or executing a run
+  - verified-success structural invariants are enforced without claiming correctness
+  - Evidence is complete, create-once and verifies after freeze
+  - accepted P1-001 exercised source/fixture/evaluator/evidence identities and regression behavior remain unchanged
+  - only exact stage-owned paths change on the Task branch/worktree
+  - canonical main remains unchanged after activation until a separate Founder Gate
+  - fresh-clone rebuild, rollback and offsite restore are PASS
+  - CTO, Security and Quality final reviews are independently PASS
+  - no forbidden effect, baseline run or widened capability claim occurs
+
+failure_criteria:
+  - any fixture verdict, primary reason, dependent-check state or replay differs from the frozen oracle
+  - any escaped referenced content is opened before containment PASS
+  - package completeness, population, hash or identity joins are ambiguous
+  - structural validity is represented as patch correctness or Agent capability
+  - Evidence is incomplete, mutable after freeze or unverifiable
+  - an accepted P1-001 artifact or behavior drifts
+  - an out-of-scope or unowned write occurs
+  - a terminal Task candidate, partial implementation or hidden material is accessed or used
+  - any baseline is run or benchmark/capability claim is emitted
+  - any network, Provider, Secret, remote, production or public effect occurs
+
+stop_conditions:
+  - pre-execution Goal, Contract, parent commit/tree, authorization, nonce, time window, runtime, path or offsite identity does not match
+  - any external target freshness, non-symlink, realpath-containment or Volume UUID check fails
+  - Quality freeze cannot complete entirely inside exact Quality-owned Task-worktree paths
+  - accepted schema/protocol/P1-001 baseline or Quality artifact contamination is detected
+  - objective, path, owner, budget, metric, permission or claim-boundary expansion is required
+  - the same implementation defect remains after two in-scope implementation iterations without new evidence
+  - candidate Evidence, replay, rebuild, rollback or offsite restore is non-PASS
+  - CTO, Security or Quality final review is non-PASS
+  - authorization expires before terminal Evidence and review handoff complete
+
+rollback:
+  checkpoint: activation commit and Task-branch Quality-freeze commit
+  candidate_preservation: complete Git bundle plus external Evidence Manifest before cleanup
+  canonical_main_rule: no candidate main advance without a separate Founder Gate
+  stopped_task_rule: preserve exact stopped state and return to Founder; do not auto-create retry, successor, replacement or correction chain
+
+offsite_requirement:
+  required_before_founder_gate: true
+  target: /Volumes/lijp/SourceLens-AIOS-P1-006-offsite-20260716T071228Z
+  volume_uuid: 2D3D7BCD-5BC5-3D2A-B853-F1FA95D290F8
+  verification:
+    - SHA-256 manifest
+    - Git bundle integrity and fresh clone
+    - candidate tree identity
+    - rollback topology
+    - Evidence and review binding
+
+explicit_non_authorizations:
+  - execution before exact Founder authorization
+  - automatic canonical main advance
+  - execution of B0, B1, B2 or A0
+  - adapter implementation
+  - dataset or hidden-set acquisition/curation
+  - parameterized harness or admission implementation
+  - evaluation matrix or VTSR-counting implementation
+  - benchmark, VTSR, Agent-capability or P1-exit claim
+  - P2 or P3 entry
+  - Repository Intelligence expansion
+  - Agent Runtime, Agent Shell, Supervisor, Root Custody, strong isolation or Multi-Agent Runtime
+  - network, Provider, Secret, remote, production or public effect
+  - use of stopped/rejected P1-002/P1-003/P1-004/P1-005 material
+  - retry, resume, successor, replacement, correction or pre-execution governance chain
+
+completion_rule: >-
+  Completion requires one frozen candidate, complete Evidence, full replay,
+  rebuild, rollback, three independent PASS reviews, verified offsite custody and a
+  separate Founder Gate. Acceptance proves only the bounded structural and hash-
+  integrity claim. It does not authorize main advance, a baseline run, VTSR,
+  another Task, P2/P3 entry or any external side effect.

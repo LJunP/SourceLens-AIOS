@@ -50,6 +50,16 @@ ruby -ryaml -rjson -rdigest -e '
   p1_005_terminal_manifest_sha = "4be9f4ad4b25cbd2e4b6e3411e30cfc51ca1330c13a36bbca7f2c2450ec5be09"
   p1_005_offsite_receipt_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/terminal/OFFSITE_TERMINAL_VERIFICATION_RECEIPT.json"
   p1_005_offsite_receipt_sha = "534c0b2dfd830fa465723700e88a70264cb156d281e2ebb0b4ed560867bf0b9d"
+  p1_006_task_path = "docs/aios/tasks/P1-006_PATCH_EVIDENCE_PACKAGE_INTEGRITY_VALIDATOR.yaml"
+  p1_006_task_sha = "84febd287bb956c59bdf09e44c07a8f6e711ffa4ac1447200e2a2e7a35b9579f"
+  p1_006_authorization_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-006-cross-contract-preflight-contract-preparation-20260716T071228Z/FOUNDER_EXECUTION_AUTHORIZATION_RECORD.json"
+  p1_006_authorization_sha = "f85b2150a387edf5b81120ee845bcfd54ea7504f9cf64c450ee6e539b57be7c4"
+  p1_006_terminal_stop_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-006-terminal-closure-20260716T080325Z/terminal/TERMINAL_STOP_RECORD.json"
+  p1_006_terminal_stop_sha = "d7c9c9b9d0640c5a169074deaf56a190bfa714db10b113e358bdd9e5625393d8"
+  p1_006_terminal_manifest_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-006-terminal-closure-20260716T080325Z/terminal/TERMINAL_EVIDENCE_MANIFEST.json"
+  p1_006_terminal_manifest_sha = "a89c2215d9835ce96e1472f801343a3c4203638b4b9b3d54b4138ad4a445b72f"
+  p1_006_offsite_receipt_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-006-terminal-closure-20260716T080325Z/verification/OFFSITE_TERMINAL_VERIFICATION_RECEIPT.json"
+  p1_006_offsite_receipt_sha = "2ac90fe52ea56f5de670dfaf5edb5c2800696425d6b8482cb4f45260369cf45f"
   {
     p1_004_task_path => p1_004_task_sha,
     p1_004_authorization_path => p1_004_authorization_sha,
@@ -61,7 +71,12 @@ ruby -ryaml -rjson -rdigest -e '
     active_authorization_path => active_authorization_sha,
     p1_005_terminal_stop_path => p1_005_terminal_stop_sha,
     p1_005_terminal_manifest_path => p1_005_terminal_manifest_sha,
-    p1_005_offsite_receipt_path => p1_005_offsite_receipt_sha
+    p1_005_offsite_receipt_path => p1_005_offsite_receipt_sha,
+    p1_006_task_path => p1_006_task_sha,
+    p1_006_authorization_path => p1_006_authorization_sha,
+    p1_006_terminal_stop_path => p1_006_terminal_stop_sha,
+    p1_006_terminal_manifest_path => p1_006_terminal_manifest_sha,
+    p1_006_offsite_receipt_path => p1_006_offsite_receipt_sha
   }.each do |path, expected|
     abort "P1-004 terminal custody artifact missing: #{path}" unless File.file?(path)
     abort "P1-004 terminal custody artifact drift: #{path}" unless Digest::SHA256.file(path).hexdigest == expected
@@ -77,6 +92,11 @@ ruby -ryaml -rjson -rdigest -e '
   p1_005_terminal_stop = JSON.parse(File.read(p1_005_terminal_stop_path))
   p1_005_terminal_manifest = JSON.parse(File.read(p1_005_terminal_manifest_path))
   p1_005_offsite_receipt = JSON.parse(File.read(p1_005_offsite_receipt_path))
+  p1_006_task = YAML.safe_load(File.read(p1_006_task_path), aliases: false)
+  p1_006_authorization = JSON.parse(File.read(p1_006_authorization_path))
+  p1_006_terminal_stop = JSON.parse(File.read(p1_006_terminal_stop_path))
+  p1_006_terminal_manifest = JSON.parse(File.read(p1_006_terminal_manifest_path))
+  p1_006_offsite_receipt = JSON.parse(File.read(p1_006_offsite_receipt_path))
 
   task_path = "docs/aios/tasks/P1-003_PILOT_TASK_DATASET_AND_HIDDEN_SET_CURATION.yaml"
   task_sha = "8dec9d7b12df2e31c62e9ce146938c8a192b4751ce3a9aced3ccd38414fd0aa6"
@@ -119,7 +139,20 @@ ruby -ryaml -rjson -rdigest -e '
   abort "current Task must be NONE" unless truth.dig("active_work", "current_task") == "NONE" && truth.dig("active_work", "current_task_status") == "NONE"
   abort "current Task Contract must be null" unless truth.dig("active_work", "current_task_contract").nil? && truth.dig("active_work", "current_task_contract_sha256").nil?
   abort "current authorization must be null" unless truth.dig("active_work", "current_execution_authorization").nil? && truth.dig("active_work", "current_execution_authorization_sha256").nil?
-  abort "next action drift" unless truth.dig("active_work", "next_eligible_action") == "FOUNDER_AUTHORIZE_NEXT_P1_REAL_ENGINEERING_TASK"
+  abort "next action drift" unless truth.dig("active_work", "next_eligible_action") == "PREPARE_NEXT_INDEPENDENT_P1_REAL_ENGINEERING_TASK"
+  p1_006_state = "TERMINAL_STOPPED_DURING_ACTIVATION_OUT_OF_SCOPE_WRITE"
+  abort "P1-006 Contract identity drift" unless p1_006_task["task_id"] == "AIOS-P1-006_PATCH_EVIDENCE_PACKAGE_INTEGRITY_VALIDATOR" && p1_006_task["phase"] == "P1" && p1_006_task["execution_authorized"] == false
+  abort "P1-006 capture-time authorization drift" unless p1_006_authorization["status"] == "ACTIVE_TASK_LEVEL_DELEGATED_EXECUTION_AUTHORIZATION" && p1_006_authorization["execution_authorized"] == true && p1_006_authorization["task_contract_sha256"] == p1_006_task_sha
+  abort "P1-006 terminal state drift" unless p1_006_terminal_stop["task_state"] == p1_006_state && p1_006_terminal_manifest["terminal_state"] == p1_006_state
+  abort "P1-006 stop classification drift" unless p1_006_terminal_stop.dig("failure", "classification") == "EXECUTION_SCOPE_COMPLIANCE_FAILURE"
+  abort "P1-006 nonce not retired" unless p1_006_terminal_stop.dig("authority", "execution_nonce_terminal_status") == "RETIRED_AFTER_TASK_STOP"
+  abort "P1-006 offsite verification not PASS" unless p1_006_offsite_receipt["result"] == "PASS" && p1_006_offsite_receipt["package_classification"] == "TERMINAL_NON_PASS_NOT_CANDIDATE"
+  p1_006_history = truth.dig("task_history", "aios_p1_006")
+  abort "P1-006 terminal history drift" unless p1_006_history.is_a?(Hash) && p1_006_history["status"] == p1_006_state && p1_006_history["execution_authorized"] == false && p1_006_history["execution_nonce_status"] == "RETIRED_AFTER_TASK_STOP" && p1_006_history["resume_retry_successor_allowed"] == false
+  abort "P1-006 implementation falsely claimed" unless p1_006_history["quality_freeze_started"] == false && p1_006_history["worker_implementation_started"] == false && p1_006_history["candidate_created"] == false && p1_006_history["capability_claims"] == 0
+  abort "P1-006 cleanup drift" unless p1_006_history.dig("terminal_cleanup", "restore_status") == "PASS" && p1_006_history.dig("terminal_cleanup", "out_of_scope_file_removed") == true && p1_006_history.dig("terminal_cleanup", "canonical_partial_activation_restored") == true
+  abort "P1-006 claim boundary widened" unless truth.dig("claim_boundary", "p1_006_patch_evidence_package_validator") == "TERMINAL_STOPPED_NOT_ACCEPTED" && truth.dig("claim_boundary", "p1_006_candidate_created") == false && truth.dig("claim_boundary", "p1_006_capability_claims") == 0
+  abort "P1-006 out-of-scope path still exists" if File.exist?("/Users/lijunpeng/Desktop/cc/docs/aios/tasks/P1-006_PATCH_EVIDENCE_PACKAGE_INTEGRITY_VALIDATOR.yaml")
   abort "P1-005 Contract identity drift" unless active_task["task_id"] == active_task_id && active_task["phase"] == "P1"
   abort "P1-005 Contract self-authorized" unless active_task["execution_authorized"] == false
   %w[network provider secrets remote production public_release].each do |field|

@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-16T06:57:23Z"
-verification_scope: P1_005_TERMINAL_CLOSURE_AND_OFFSITE_VERIFICATION
+last_verified_at: "2026-07-16T08:12:42Z"
+verification_scope: P1_006_TERMINAL_CLOSURE_AND_OFFSITE_VERIFICATION
 
 authority:
   founder: Human Founder
@@ -30,7 +30,7 @@ goal:
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_LONG_TERM_GOAL_IDENTITY_PRESERVED
   current_task_authority: NONE
-  note: The Founder-approved long-term Goal body remains active. P1-005 is terminal non-PASS, its nonce is retired, and no current Task is authorized.
+  note: The Founder-approved long-term Goal body remains active. P1-002 through P1-006 are terminal Historical Evidence, all related nonces are retired, and no current Task is authorized.
 
 project:
   name: SourceLens AIOS
@@ -71,7 +71,7 @@ active_work:
   task_worktree: null
   execution_evidence_root: null
   offsite_target: null
-  next_eligible_action: FOUNDER_AUTHORIZE_NEXT_P1_REAL_ENGINEERING_TASK
+  next_eligible_action: PREPARE_NEXT_INDEPENDENT_P1_REAL_ENGINEERING_TASK
 
 task_history:
   aios_p1_001:
@@ -321,6 +321,47 @@ task_history:
       restore_status: PASS
       resource_removal_state: AUTHORIZED_AFTER_GOVERNANCE_COMMIT_FULL_VERIFY
 
+  aios_p1_006:
+    task_id: AIOS-P1-006_PATCH_EVIDENCE_PACKAGE_INTEGRITY_VALIDATOR
+    contract: docs/aios/tasks/P1-006_PATCH_EVIDENCE_PACKAGE_INTEGRITY_VALIDATOR.yaml
+    task_contract_sha256: 84febd287bb956c59bdf09e44c07a8f6e711ffa4ac1447200e2a2e7a35b9579f
+    status: TERMINAL_STOPPED_DURING_ACTIVATION_OUT_OF_SCOPE_WRITE
+    execution_authorized: false
+    original_execution_authorization_status: CONSUMED_AND_TERMINATED
+    execution_authorization_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-006-cross-contract-preflight-contract-preparation-20260716T071228Z/FOUNDER_EXECUTION_AUTHORIZATION_RECORD.json
+    execution_authorization_sha256: f85b2150a387edf5b81120ee845bcfd54ea7504f9cf64c450ee6e539b57be7c4
+    execution_nonce_status: RETIRED_AFTER_TASK_STOP
+    failure_classification: EXECUTION_SCOPE_COMPLIANCE_FAILURE
+    terminal_reason: ACTIVATION_CONTRACT_WRITTEN_OUTSIDE_CANONICAL_EXACT_PATH
+    activation_commit_created: false
+    task_branch_created: false
+    task_worktree_created: false
+    quality_freeze_started: false
+    worker_implementation_started: false
+    candidate_created: false
+    founder_gate_status: NOT_REACHED
+    main_candidate_advanced: false
+    baseline_runs: 0
+    capability_claims: 0
+    resume_retry_successor_allowed: false
+    terminal_evidence:
+      stop_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-006-terminal-closure-20260716T080325Z/terminal/TERMINAL_STOP_RECORD.json
+      stop_record_sha256: d7c9c9b9d0640c5a169074deaf56a190bfa714db10b113e358bdd9e5625393d8
+      evidence_manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-006-terminal-closure-20260716T080325Z/terminal/TERMINAL_EVIDENCE_MANIFEST.json
+      evidence_manifest_sha256: a89c2215d9835ce96e1472f801343a3c4203638b4b9b3d54b4138ad4a445b72f
+      pre_cleanup_diff_sha256: b696fc228b40b7bc630bfde2c24507ec36b8f888670086f7cee627b9d78bd142
+      out_of_scope_contract_sha256: 84febd287bb956c59bdf09e44c07a8f6e711ffa4ac1447200e2a2e7a35b9579f
+    terminal_cleanup:
+      offsite_package: /Volumes/lijp/SourceLens-AIOS-P1-006-terminal-closure-20260716T080325Z
+      offsite_volume_uuid: 2D3D7BCD-5BC5-3D2A-B853-F1FA95D290F8
+      authoritative_sha256sums_sha256: 5677fa184c1f0401e28fd22f6dd7a9fe619dbd443d3caa89c75afe4d0df79bf5
+      git_bundle_sha256: cf95c0f804a44407f6b3f3078ea23722488aebfe6a92302c8a1c7e3e84f55823
+      restore_verification_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-006-terminal-closure-20260716T080325Z/verification/OFFSITE_TERMINAL_VERIFICATION_RECEIPT.json
+      restore_verification_receipt_sha256: 2ac90fe52ea56f5de670dfaf5edb5c2800696425d6b8482cb4f45260369cf45f
+      restore_status: PASS
+      out_of_scope_file_removed: true
+      canonical_partial_activation_restored: true
+
 gate_history:
   - task_id: AIOS-P1-001
     gate: FOUNDER_GATE
@@ -355,6 +396,7 @@ historical_lineages:
 p1_boundary:
   allowed_now:
     - No current Task is authorized; active_work.current_task is NONE.
+    - P1-006 is terminal non-PASS after an activation-scope violation; it cannot resume, retry or continue through a successor/replacement/correction chain, and no implementation or capability claim exists.
     - P1-005 is terminal non-PASS, cannot resume, retry or continue through a successor/replacement/correction chain, and no partial implementation is accepted.
     - P1-003 is terminal, its hidden custody is quarantined historical risk, and it cannot be resumed, retried, backfilled, replaced or represented as PASS.
     - P1-004 is terminal, not accepted, cannot be resumed, retried or continued through a successor/correction chain, and its Worker candidate remains off main.
@@ -389,6 +431,9 @@ claim_boundary:
   p1_005_evaluation_matrix_vtsr_validator: TERMINAL_STOPPED_NOT_ACCEPTED
   p1_005_candidate_created: false
   p1_005_capability_claims: 0
+  p1_006_patch_evidence_package_validator: TERMINAL_STOPPED_NOT_ACCEPTED
+  p1_006_candidate_created: false
+  p1_006_capability_claims: 0
   verified_task_success_rate: UNKNOWN_NO_RUNS
   production_ready: false
   trustworthy_software_engineering_agent_proven: false

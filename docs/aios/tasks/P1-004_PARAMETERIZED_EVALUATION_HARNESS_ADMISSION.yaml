@@ -1,0 +1,451 @@
+schema_version: 3
+record_type: sourcelens_aios_task_contract
+task_id: AIOS-P1-004_PARAMETERIZED_EVALUATION_HARNESS_ADMISSION
+contract_revision: 2
+supersedes_pre_review_draft_sha256: 74d7e9ad63e722cb3f8797289624a544bfcd79d46e4072e9c84471127ec57e3b
+revision_scope: >-
+  One bounded mechanical correction of the same Task Contract after independent
+  CTO, Security and Quality contract review. It does not create a successor Task,
+  change the objective, expand the budget, authorize execution or add P3 scope.
+phase: P1
+title: Parameterize the accepted Evaluation Harness input admission path
+status: FOUNDER_EXECUTION_AUTHORIZATION_REQUIRED
+execution_authorized: false
+
+objective: >-
+  Refactor the accepted P1-001 Evaluation Harness so that one closed, hash-bound,
+  path-safe admission manifest can select a Quality-frozen TaskSpec,
+  EnvironmentSnapshot, SystemConfiguration, visible fixture, adapter, evaluator
+  and oracle without P1-001 task or path hard-coding. Preserve the exact legacy
+  P1-001 behavior and frozen evidence, add fail-closed admission tests, controlled
+  failure, replay and Evidence Manifest generation, and stop before any B0/B1/B2
+  measurement or capability claim.
+
+why_now:
+  - P1-001 passed Founder Gate and provides the accepted deterministic harness and evidence path.
+  - The accepted harness still hard-codes P1-001 task identity, fixture paths, adapter, evaluator, verification reference and evidence metadata.
+  - B0, B1 and B2 cannot later use one comparable harness until an independently frozen input bundle can be admitted without modifying harness source per experiment.
+  - P1-002 and P1-003 are terminal non-PASS tasks and are neither inputs nor implementation sources for this Task.
+
+research_hypothesis:
+  statement: >-
+    A minimal parameterized admission interface can execute a second visible
+    synthetic HARNESS_STUB fixture from frozen hashes, reject identity and path
+    drift, reproduce the normalized result, and preserve P1-001 legacy behavior
+    without changing accepted schemas, evaluator/oracle bytes, using a Provider,
+    or entering Agent Runtime.
+  falsifier: >-
+    The interface cannot be made reproducible and fail-closed within the exact
+    paths and budget, or requires changing accepted schemas, P1-001 frozen
+    evaluator/oracle/evidence, using P1-002/P1-003 candidates, live B0/B1/B2,
+    network/Provider/Secret access, or P2/P3 capability.
+
+claim_boundary:
+  proves_if_accepted:
+    - one additional visible synthetic input bundle can be admitted through a closed hash-bound manifest
+    - referenced input bytes, adapter and evaluator identities are verified before execution
+    - controlled failure, promotion rejection, replay and evidence-manifest plumbing remain reproducible for the admitted bundle
+    - legacy P1-001 invocation and accepted fixture behavior remain regression-compatible
+  does_not_prove:
+    - B0, B1, B2 or A0 performance
+    - Verified Task Success Rate or inclusion in its denominator
+    - model, Repository Intelligence or software-engineering Agent capability
+    - hidden-set validity or P1-003 dataset validity
+    - production readiness, hostile-principal resistance, strong isolation or P2/P3 readiness
+
+authority_binding:
+  long_term_goal_canonical_sha256: fed643624aa5794a5cea5db2a04f25cc89d829a619e905df946a3616f14ad6c0
+  constitution_sha256: 040196be12532b8c3661665995d3e79a28d268a1ecc991623380f0939f468485
+  master_execution_protocol_sha256: 47c444c50c7521a7515dfb2fbee0c8c81cc72b32c42eba549d080eeb0c1bcedf
+  evaluation_protocol_sha256: da029143561fbb3c213d4a358b25e085542c6cd26ae8150a53cbb5998177eed8
+  p1_003_cutover_founder_gate_record_sha256: 641f81ed7b23f69d575579f592c140a2fa8ff6af1db512704342e2d322016dbf
+
+source:
+  canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
+  canonical_branch: main
+  activation_parent_commit: 48258805dfa5e7a9c6d04d23e699b1a4e7b56a33
+  activation_parent_tree: 46c9540905db8d9bf3157929ecb45bf294352fd4
+  implementation_parent_binding:
+    derivation: RESULT_OF_THE_SINGLE_AUTHORIZED_PRE_EXECUTION_ACTIVATION_COMMIT
+    activation_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-004-parameterized-harness-admission-execution-20260716T002125Z/activation/ACTIVATION_RECEIPT.json
+    activation_receipt_canonicalization: UTF8_LF_SORTED_KEYS_NO_INSIGNIFICANT_WHITESPACE
+    required_receipt_fields:
+      - schema_id
+      - task_id
+      - goal_sha256
+      - activation_parent_commit
+      - activation_parent_tree
+      - activation_parent_count
+      - exact_changed_paths
+      - diff_sha256
+      - activation_commit
+      - activation_tree
+      - full_verify_result
+      - full_verify_evidence_sha256
+      - task_contract_sha256
+      - founder_execution_authorization_sha256
+    branch_base: EXACT_ACTIVATION_COMMIT_AND_TREE_FROM_ACTIVATION_RECEIPT
+    other_main_movement_effect: STOP_BEFORE_BRANCH_OR_WORKTREE_CREATION
+  task_branch: task/AIOS-P1-004-parameterized-harness-admission
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-004-parameterized-harness-admission
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-004-parameterized-harness-admission-execution-20260716T002125Z
+  intended_canonical_contract_path: docs/aios/tasks/P1-004_PARAMETERIZED_EVALUATION_HARNESS_ADMISSION.yaml
+  remote_write_allowed: false
+
+offsite:
+  target_path: /Volumes/lijp/SourceLens-AIOS-P1-004-offsite-20260716T002125Z
+  volume_uuid: 2D3D7BCD-5BC5-3D2A-B853-F1FA95D290F8
+  creation_stage: AFTER_FROZEN_CANDIDATE_AND_THREE_PASS_REVIEWS
+  required_before_founder_gate: true
+  target_must_be_absent_before_first_write: true
+
+roles:
+  accountable_owner: Chief AI Research Agent
+  integration_owner: Engineering Manager Agent
+  implementation_worker: Evaluation Harness Engineer
+  quality_fixture_owner: Quality and Evaluation Agent
+  independent_reviewers:
+    - CTO Agent
+    - Security Agent for the declared P1 boundary
+    - Quality and Evaluation Agent
+  worker_must_not_review_own_result: true
+
+delegated_execution:
+  model: ONE_TASK_LEVEL_FOUNDER_AUTHORIZATION
+  founder_approval_granularity: task envelope, not individual files or commands
+  ordinary_implementation_fixes_inside_scope: allowed
+  maximum_implementation_iterations_inside_same_task: 2
+  retry_or_successor_task: forbidden
+  founder_reserved_decisions:
+    - objective, phase, path, budget, metric, permission or claim expansion
+    - network, Provider, Secret, remote, production or public effects
+    - acceptance of a reviewer non-PASS or material residual risk
+    - canonical main advance after implementation
+    - B0/B1/B2 execution or P2/P3 entry
+  escalation_conditions:
+    - any Founder-reserved decision becomes necessary
+    - parent, Goal, authority, contract, evaluator, oracle or fixture identity drifts
+    - any Stop Condition is triggered
+
+pre_execution_activation:
+  authorized_only_by_future_exact_founder_execution_record: true
+  purpose: Bind current Truth and validators to the exact active Task before branch/worktree creation.
+  one_governance_only_main_commit_allowed: true
+  exact_paths:
+    - docs/aios/tasks/P1-004_PARAMETERIZED_EVALUATION_HARNESS_ADMISSION.yaml
+    - docs/aios/truth/project_state.yaml
+    - scripts/validate-aios-governance.sh
+    - scripts/check-p1-safety-boundary.sh
+    - docs/PROJECT_CODE_MAP.md
+  constraints:
+    - the canonical Task Contract copy must be byte-identical to this frozen external contract
+    - Truth may only bind Goal, exact Task, authorization, parent, branch/worktree, budget and current next action
+    - validators may only replace no-active-task assumptions with exact P1-004 binding and retain all existing historical and safety checks
+    - the code map change must be mechanically generated
+    - full make verify must pass before creating the Task branch/worktree
+    - the activation commit must have activation_parent_commit as its only parent and exactly the five declared changed paths
+    - after full verification, Integration must create-once the external activation receipt and bind its SHA-256 in the pre-execution evidence index
+    - the Task branch must be created only from the activation commit/tree named by that receipt
+    - activation_parent is historical input to activation; implementation_parent is the receipt-bound activation result and is the only implementation branch base
+  failure_effect: STOP_BEFORE_BRANCH_OR_WORKTREE_CREATION
+
+ownership_and_write_scope:
+  quality_owned_preimplementation_paths:
+    - evaluation-harness/fixtures/admission/**
+  worker_writable_paths:
+    - evaluation-harness/harness/cli.mjs
+    - evaluation-harness/harness/contracts.mjs
+    - evaluation-harness/harness/run.mjs
+    - evaluation-harness/harness/self-test.mjs
+    - evaluation-harness/harness/README.md
+    - evaluation-harness/harness/admission/**
+    - evaluation-harness/replay/cli.mjs
+    - evaluation-harness/replay/replay.mjs
+    - evaluation-harness/recording/manifest.mjs
+    - evaluation-harness/recording/p1-004-admission-evidence/**
+  integration_writable_paths:
+    - scripts/verify-p1-harness.sh
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+  bounded_ephemeral_test_effects:
+    owner: Evaluation Harness Engineer
+    creator: evaluation-harness/harness/self-test.mjs
+    exact_root_name_regexes:
+      - '^evaluation-harness/recording/\.worker-self-test-[0-9]+-[0-9]+$'
+      - '^evaluation-harness/recording/\.worker-corrupt-[0-9]+-[0-9]+$'
+      - '^evaluation-harness/recording/\.worker-extra-[0-9]+-[0-9]+$'
+    effect_scope: Each matched root and only its descendants while the exact legacy self-test process is alive.
+    lifecycle:
+      - every matched root must be absent before the legacy self-test starts
+      - the legacy self-test may create each matched root only for its current process-id and timestamp suffix
+      - cleanup must execute in the existing finally path
+      - every matched root must be absent after the self-test exits, whether PASS or FAIL
+      - pre/post population and cleanup result must be recorded in the command evidence
+    tracked_diff_allowed: false
+    residual_or_nonmatching_path_effect: STOP_TASK
+  immutable_after_activation_paths:
+    - docs/aios/tasks/P1-004_PARAMETERIZED_EVALUATION_HARNESS_ADMISSION.yaml
+    - docs/aios/truth/project_state.yaml
+    - scripts/validate-aios-governance.sh
+    - scripts/check-p1-safety-boundary.sh
+  single_owner_rule: A path has one active writer role; Quality freezes before Worker starts, and Integration writes only after Worker handoff.
+
+immutable_inputs:
+  - docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
+  - docs/aios/tasks/P1-002_B0_ADAPTER_CONFORMANCE.yaml
+  - docs/aios/tasks/P1-003_PILOT_TASK_DATASET_AND_HIDDEN_SET_CURATION.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+  - docs/aios/schemas/task-spec.schema.json
+  - docs/aios/schemas/environment-snapshot.schema.json
+  - docs/aios/schemas/system-configuration.schema.json
+  - docs/aios/schemas/run-record.schema.json
+  - evaluation-harness/evaluator/**
+  - evaluation-harness/fixtures/visible/**
+  - evaluation-harness/fixtures/oracle/**
+  - evaluation-harness/adapters/harness_stub/**
+  - evaluation-harness/recording/aios-p1-001-evidence/**
+
+admission_manifest_contract:
+  quality_owner: Quality and Evaluation Agent
+  schema_path: evaluation-harness/fixtures/admission/schema/admission-manifest.schema.json
+  positive_manifest_path: evaluation-harness/fixtures/admission/manifests/positive.json
+  envelope:
+    required_fields:
+      - schema_version
+      - payload
+      - payload_sha256
+    unknown_fields: forbidden
+    nested_unknown_fields: forbidden_by_closed_schema
+  canonicalization:
+    rule_id: P1_004_CANONICAL_JSON_LF_PAYLOAD_HASH_V1
+    canonicalizer_path: evaluation-harness/evaluator/schema-validator.mjs
+    canonicalizer_export: canonicalJson
+    parser_input: UTF8_JSON_WITH_EXACTLY_ONE_TRAILING_LF_AND_NO_BOM
+    duplicate_object_member_names: rejected_by_recanonicalization_mismatch
+    canonical_file_bytes: canonicalJson(parsed_envelope) followed by one LF
+    payload_hash_preimage: canonicalJson(parsed_envelope with payload_sha256 field completely omitted) followed by one LF
+    payload_hash_algorithm: SHA-256
+    self_reference_rule: payload_sha256 is completely omitted from its own hash preimage
+    verification_order:
+      - reject invalid JSON or schema
+      - require input bytes equal canonical_file_bytes
+      - compute payload hash from payload_hash_preimage
+      - compare computed hash with payload_sha256
+      - verify the Quality freeze inventory hash and byte length of the complete manifest file
+  exact_reference_map:
+    task_spec: evaluation-harness/fixtures/admission/visible/task-spec.json
+    environment_snapshot: evaluation-harness/fixtures/admission/visible/environment-snapshot.json
+    system_configuration: evaluation-harness/fixtures/admission/visible/system-configuration.json
+    context: evaluation-harness/fixtures/admission/visible/context.json
+    response_format: evaluation-harness/fixtures/admission/visible/response-format.json
+    controlled_failure: evaluation-harness/fixtures/admission/visible/controlled-failure.json
+    controlled_failure_result: evaluation-harness/fixtures/admission/visible/controlled-failure-result.json
+    expected_result: evaluation-harness/fixtures/admission/oracle/expected-result.json
+    oracle: evaluation-harness/fixtures/admission/oracle/oracle.json
+    adapter_entrypoint: evaluation-harness/adapters/harness_stub/adapter.mjs
+    evaluator_entrypoint: evaluation-harness/evaluator/evaluate.mjs
+  execution_closure_exact_files:
+    adapter:
+      - evaluation-harness/adapters/harness_stub/adapter.mjs
+      - evaluation-harness/evaluator/schema-validator.mjs
+    evaluator:
+      - evaluation-harness/evaluator/evaluate.mjs
+      - evaluation-harness/evaluator/schema-validator.mjs
+  path_rules:
+    - every reference must equal the repo-relative POSIX path for its exact reference-map key
+    - absolute paths, empty segments, dot segments, parent traversal, backslashes, NUL bytes and percent-encoded path substitutions are rejected
+    - lstat must prove every path component from repository root through the final file is not a symlink
+    - the final object must be a regular file
+  output_contract:
+    allowed_parent: evaluation-harness/recording/p1-004-admission-evidence
+    leaf_name_rule: one normalized run-id segment containing only ASCII letters, digits, hyphen and underscore
+    creation_rule: parent exists, contains no symlink component, and the leaf does not exist before create-once mkdir
+    escape_or_existing_effect: reject before any run artifact is written
+  consumed_byte_binding:
+    - the parent harness must read each JSON input once into a Buffer after identity verification and parse that same Buffer
+    - immediately before each adapter or evaluator spawn, record SHA-256 and byte length for every file in that execution closure and every referenced input passed in argv
+    - argv must contain the same normalized exact paths whose identities were verified
+    - immediately after child termination, recompute and record the same identities before accepting its output
+    - pre-spawn and post-execution identities must equal each other and the Quality freeze inventory
+    - any mismatch invalidates the run and stops the Task
+    - this is a cooperative-local bounded observation and does not claim hostile-principal race resistance
+
+forbidden_sources_and_paths:
+  - P1-002 rejected candidate commits, branches, bundles, worktrees and source diffs
+  - P1-003 dataset, hidden custody, rejected candidate material and private custodian artifacts
+  - /Users/lijunpeng/Desktop/cc/project/SourceLens/**
+  - historical PRE, Discovery, BOUND, MCF, Carrier, Supervisor and Root Custody implementations
+  - backend-spring/src/main/**
+  - analyzer-rust/src/**
+  - web-console/src/**
+
+quality_freeze_before_worker:
+  required_artifacts:
+    - closed admission-manifest schema and positive manifest for one new visible synthetic HARNESS_STUB fixture
+    - canonicalization rule id, immutable canonicalizer SHA-256/byte length and non-self-referential payload-hash test vectors
+    - exact referenced-path, SHA-256 and byte-length inventory
+    - fifteen atomic negative admission fixtures, each derived from the valid positive fixture by exactly one mutation
+    - one typed expected rejection reason for each negative fixture
+    - ownership map
+    - P1-001 immutable baseline hash manifest
+    - Quality freeze receipt binding this Task Contract and runtime observation
+  required_negative_cases:
+    - id: N01_UNKNOWN_MANIFEST_FIELD
+      single_mutation: add one unknown top-level field
+      expected_reason: ADMISSION_SCHEMA_UNKNOWN_FIELD
+    - id: N02_MISSING_REQUIRED_FIELD
+      single_mutation: remove payload.schema_version
+      expected_reason: ADMISSION_SCHEMA_REQUIRED_FIELD_MISSING
+    - id: N03_PAYLOAD_HASH_MISMATCH
+      single_mutation: replace payload_sha256 with 64 zeroes
+      expected_reason: ADMISSION_PAYLOAD_HASH_MISMATCH
+    - id: N04_REFERENCED_SHA256_MISMATCH
+      single_mutation: replace context.sha256 with 64 zeroes
+      expected_reason: ADMISSION_REFERENCE_SHA256_MISMATCH
+    - id: N05_REFERENCED_LENGTH_MISMATCH
+      single_mutation: increment context.byte_length by one
+      expected_reason: ADMISSION_REFERENCE_LENGTH_MISMATCH
+    - id: N06_ABSOLUTE_REFERENCE
+      single_mutation: replace context.path with one absolute path
+      expected_reason: ADMISSION_REFERENCE_ABSOLUTE
+    - id: N07_PARENT_TRAVERSAL
+      single_mutation: replace context.path with a path containing one parent segment
+      expected_reason: ADMISSION_REFERENCE_TRAVERSAL
+    - id: N08_SYMLINK_COMPONENT
+      single_mutation: replace context.path with the Quality-owned symlink fixture path
+      expected_reason: ADMISSION_REFERENCE_SYMLINK
+    - id: N09_ADAPTER_OUTSIDE_EXACT_MAP
+      single_mutation: replace adapter_entrypoint.path with one different repository file
+      expected_reason: ADMISSION_ADAPTER_NOT_ALLOWLISTED
+    - id: N10_EVALUATOR_OUTSIDE_EXACT_MAP
+      single_mutation: replace evaluator_entrypoint.path with one different repository file
+      expected_reason: ADMISSION_EVALUATOR_NOT_ALLOWLISTED
+    - id: N11_TASK_IDENTITY_MISMATCH
+      single_mutation: replace the manifest task identity only
+      expected_reason: ADMISSION_TASK_IDENTITY_MISMATCH
+    - id: N12_ENVIRONMENT_IDENTITY_MISMATCH
+      single_mutation: replace the manifest environment identity only
+      expected_reason: ADMISSION_ENVIRONMENT_IDENTITY_MISMATCH
+    - id: N13_CONFIGURATION_IDENTITY_MISMATCH
+      single_mutation: replace the manifest configuration identity only
+      expected_reason: ADMISSION_CONFIGURATION_IDENTITY_MISMATCH
+    - id: N14_OUTPUT_PATH_ESCAPE
+      single_mutation: replace output path with one parent-traversing path
+      expected_reason: ADMISSION_OUTPUT_ESCAPE
+    - id: N15_OUTPUT_ALREADY_EXISTS
+      single_mutation: pre-create the exact otherwise-valid evidence directory
+      expected_reason: ADMISSION_OUTPUT_EXISTS
+  atomic_fixture_rule: Each fixture has one valid pre-state, one mutation and one expected primary reason; aggregate OR fixtures are forbidden.
+  mutation_after_freeze_effect: STOP_TASK
+
+minimum_implementation:
+  - parse one closed admission manifest with no unknown fields
+  - require every manifest reference to equal its exact reference-map path and reject any symlink component
+  - verify referenced SHA-256 and byte length before use, bind the exact argv-consumed paths at pre-spawn and post-execution, and revalidate before final evidence freeze
+  - derive task, run, adapter, evaluator, verification and evidence identities from admitted bytes instead of P1-001 constants
+  - preserve the legacy P1-001 CLI invocation and exact accepted fixture behavior
+  - support an explicit bundle argument for execution and fresh replay
+  - record the admission-manifest identity and referenced input identities in preflight and Evidence Manifest
+  - execute positive, controlled-failure, promotion-probe and replay paths for the frozen admission fixture
+  - keep output create-once beneath evaluation-harness/recording and reject symlink or population drift
+
+environment:
+  execution_mode: LOCAL_OFFLINE_SYNTHETIC_CONFORMANCE
+  network: forbidden
+  provider: forbidden
+  secrets: forbidden
+  remote_effects: forbidden
+  production_effects: forbidden
+  public_release: forbidden
+  live_model_calls: 0
+  canonical_main_write_during_implementation: forbidden
+  system_under_test_write: forbidden
+  identity_claim: cooperative-local task attribution only, not platform identity or strong isolation
+
+budget:
+  engineering_hours: 16
+  calendar_days: 3
+  implementation_iterations_inside_same_task: 2
+  measurement_retries: 0
+  network_calls: 0
+  provider_calls: 0
+  model_calls: 0
+  remote_writes: 0
+  production_effects: 0
+  new_runtime_services: 0
+  new_databases: 0
+
+required_evidence:
+  - exact Task Contract and Founder Execution Authorization hashes
+  - Goal, source commit/tree, branch/worktree and runtime observations
+  - pre-execution activation commit/tree and full verification result
+  - create-once Activation Receipt binding activation parent, implementation parent, exact five-path diff and full verification
+  - Quality freeze receipt, ownership map and all frozen input hashes
+  - closed admission schema, canonicalization rule, positive manifest and fifteen atomic negative fixture identities
+  - actual commands, argv, cwd, timestamps, exit status and stdout/stderr hashes
+  - positive, controlled-failure, promotion-probe and replay RunRecords/verdicts
+  - admission-manifest and referenced-byte identity verification results
+  - per-spawn pre/post identity ledger for the actual adapter/evaluator closure and argv-referenced files
+  - negative-case results with one expected failure reason per case
+  - legacy self-test ephemeral-root pre/post population and cleanup evidence
+  - P1-001 immutable baseline before/after comparison
+  - closed Evidence Manifest with artifact population and checksums
+  - source diff, candidate commit/tree and rollback point
+  - full make verify result
+  - fresh-clone rebuild and rollback verification
+  - CTO, Security and Quality independent review reports
+  - offsite package manifest and fresh restore verification
+
+acceptance_criteria:
+  - the new Quality-frozen visible bundle passes admission, execution, evaluator, controlled-failure, promotion and replay checks
+  - every referenced input, adapter and evaluator execution-closure file is hash- and byte-length-bound to its exact reference-map path, contains no symlink component, and has equal pre-spawn and post-execution identity
+  - all fifteen declared atomic negative admission cases fail closed for their single typed expected reason
+  - task/run/evidence identities for the new bundle contain no hard-coded AIOS-P1-001 identity
+  - legacy P1-001 CLI, evaluator self-test, harness self-test and frozen evidence verification remain PASS
+  - P1-001 contract, accepted schemas, evaluator, oracle, visible fixtures, harness_stub adapter and accepted evidence remain byte-identical
+  - evidence is create-once, its closed population verifies, and fresh replay is byte-equal on normalized output and evaluator verdict
+  - the final diff is confined to exact owned paths and the canonical main is not advanced by implementation
+  - full make verify, fresh-clone rebuild and rollback verification pass
+  - zero network, Provider, Secret, remote, production or public effect
+  - CTO, Security and Quality independently return PASS on the same frozen candidate and evidence
+
+failure_criteria:
+  - accepted schema, P1-001 evaluator/oracle/fixture/adapter/evidence bytes change
+  - any P1-002 or P1-003 rejected or hidden material is read, copied, reused or merged
+  - a declared path/hash/length/symlink negative case is accepted
+  - controlled failure is promoted, replay diverges, or evidence cannot be verified
+  - a tracked write occurs outside exact owner scope, or an ephemeral test effect falls outside its three exact patterns or remains after self-test cleanup
+  - any forbidden external effect occurs
+  - the objective requires B0/B1/B2 execution, Repository Intelligence, Agent Runtime or P3 Trust work
+
+stop_conditions:
+  - source, Goal, Task Contract, authorization, Quality freeze or parent identity drifts
+  - activation commit/receipt is not the unique implementation parent, or main moves outside the single authorized activation commit
+  - a manifest reference, symlink status, consumed-byte identity or execution-closure identity drifts
+  - scope, path, budget, metric, permission or claim expansion is required
+  - the accepted P1-001 behavior cannot be preserved within two in-task implementation iterations
+  - evidence, rebuild, rollback or offsite verification fails after the allowed implementation budget
+  - CTO, Security or Quality final review is non-PASS
+  - the same blocking cause recurs without new engineering evidence
+
+completion_and_gate:
+  candidate_completion_requires:
+    - all acceptance criteria
+    - frozen candidate commit/tree and Evidence Manifest
+    - rebuild, rollback and offsite PASS
+    - CTO, Security and Quality PASS
+  founder_gate_required: true
+  automatic_main_advance: false
+  automatic_next_task: false
+  explicit_non_authorizations:
+    - P1-004 execution before an exact Founder Execution Authorization Record
+    - main fast-forward or gate-close Truth update
+    - B0, B1, B2 or A0 execution
+    - VTSR or Agent capability claim
+    - P2 or P3 entry
+    - network, Provider, Secret, remote, production or public effects
+    - Supervisor, Root Custody, strong isolation, Multi-Agent Runtime or full Trust Runtime
+    - retry, resume, successor, replacement or correction chain

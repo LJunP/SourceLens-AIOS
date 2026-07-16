@@ -27,6 +27,7 @@ required_files=(
   docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
   docs/aios/tasks/P1-002_B0_ADAPTER_CONFORMANCE.yaml
   docs/aios/tasks/P1-003_PILOT_TASK_DATASET_AND_HIDDEN_SET_CURATION.yaml
+  docs/aios/tasks/P1-004_PARAMETERIZED_EVALUATION_HARNESS_ADMISSION.yaml
   docs/aios/schemas/task-spec.schema.json
   docs/aios/schemas/environment-snapshot.schema.json
   docs/aios/schemas/system-configuration.schema.json
@@ -41,6 +42,13 @@ ruby -ryaml -rjson -rdigest -rtime -e '
   truth = YAML.safe_load(File.read("docs/aios/truth/project_state.yaml"), aliases: false)
   task = YAML.safe_load(File.read("docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml"), aliases: false)
   terminal_task = YAML.safe_load(File.read("docs/aios/tasks/P1-002_B0_ADAPTER_CONFORMANCE.yaml"), aliases: false)
+  active_task_path = "docs/aios/tasks/P1-004_PARAMETERIZED_EVALUATION_HARNESS_ADMISSION.yaml"
+  active_task_sha = "0551602b5a330fc6d7920d048bba33caae9c5a0358c0bf57ef40cf7a63eaec6f"
+  active_task = YAML.safe_load(File.read(active_task_path), aliases: false)
+  active_authorization_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-004-task-contract-20260716T002125Z/revision-2/FOUNDER_EXECUTION_AUTHORIZATION_RECORD.json"
+  active_authorization_sha = "3979871bfa949c2f613f30c5169880e6bb02131f690298b446b0c831e147517e"
+  abort "P1-004 Founder authorization missing" unless File.file?(active_authorization_path)
+  active_authorization = JSON.parse(File.read(active_authorization_path))
   pilot_task_path = "docs/aios/tasks/P1-003_PILOT_TASK_DATASET_AND_HIDDEN_SET_CURATION.yaml"
   pilot_task_sha = "8dec9d7b12df2e31c62e9ce146938c8a192b4751ce3a9aced3ccd38414fd0aa6"
   pilot_task = YAML.safe_load(File.read(pilot_task_path), aliases: false)
@@ -93,6 +101,8 @@ ruby -ryaml -rjson -rdigest -rtime -e '
     "docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml" => "d2974752b088ff30b0764d6b482e19ea939cd497eb2db3e26af28bf09dc2e12f",
     "docs/aios/tasks/P1-002_B0_ADAPTER_CONFORMANCE.yaml" => "c303f045e67dc1f76d51a5789eeb0573021bdcd9d17cd169d7448f64f91a87d8",
     pilot_task_path => pilot_task_sha,
+    active_task_path => active_task_sha,
+    active_authorization_path => active_authorization_sha,
     authorization_path => authorization_sha,
     parent_binding_path => parent_binding_sha,
     "evaluation-harness/fixtures/oracle/FREEZE_RECEIPT.json" => "ef7f9807795a685d0aa92fc19248ed0101362861ad7d71e4fdcdbb9df0b840c6",
@@ -108,7 +118,7 @@ ruby -ryaml -rjson -rdigest -rtime -e '
   abort "phase must be P1" unless truth.dig("project", "current_phase") == "P1"
   abort "P0 must be complete" unless truth.dig("project", "p0_status") == "COMPLETE"
   abort "P1 entry must be authorized" unless truth.dig("project", "p1_entry_status") == "AUTHORIZED"
-  abort "P1 execution authorization state drift" unless truth.dig("project", "p1_execution_status") == "NO_ACTIVE_TASK_AUTHORIZED"
+  abort "P1 execution authorization state drift" unless truth.dig("project", "p1_execution_status") == "TASK_AUTHORIZED_PRE_IMPLEMENTATION"
   abort "canonical repository drift" unless truth.dig("project", "canonical_repository") == "/Users/lijunpeng/Developer/SourceLens-AIOS"
   abort "old Desktop repository remains canonical" if truth.dig("project", "canonical_repository") == "/Users/lijunpeng/Desktop/cc/project/SourceLens-AIOS"
   abort "canonical cutover parent commit drift" unless truth.dig("project", "canonical_cutover_parent_commit") == "65157b6f771c3a95486144ab712c3a99f9d06845"
@@ -120,7 +130,7 @@ ruby -ryaml -rjson -rdigest -rtime -e '
   abort "Goal raw hash drift" unless truth.dig("goal", "observed_raw_body_sha256") == "9b59ffc6919473b596f09a96afc1e8684f076f5ac32c6014ac96344a496cd0d8"
   abort "Goal canonicalization drift" unless truth.dig("goal", "body_canonicalization") == "UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF"
   abort "Goal identity state drift" unless truth.dig("goal", "identity_status") == "FOUNDER_MANUALLY_INSTALLED_LONG_TERM_GOAL_IDENTITY_PRESERVED"
-  abort "Goal incorrectly retained Task authority without an active Task" unless truth.dig("goal", "current_task_authority") == "NONE"
+  abort "Goal current Task authority drift" unless truth.dig("goal", "current_task_authority") == "AIOS-P1-004_PARAMETERIZED_EVALUATION_HARNESS_ADMISSION"
   goal_bytes = File.binread(goal_path)
   abort "Goal raw bytes drift" unless Digest::SHA256.hexdigest(goal_bytes) == "9b59ffc6919473b596f09a96afc1e8684f076f5ac32c6014ac96344a496cd0d8"
   canonical_goal = goal_bytes.force_encoding("UTF-8").gsub("\r\n", "\n").gsub("\r", "\n").sub(/\n*\z/, "\n")
@@ -129,16 +139,52 @@ ruby -ryaml -rjson -rdigest -rtime -e '
   terminal_task_path = "docs/aios/tasks/P1-002_B0_ADAPTER_CONFORMANCE.yaml"
   terminal_task_sha = "c303f045e67dc1f76d51a5789eeb0573021bdcd9d17cd169d7448f64f91a87d8"
   pilot_task_id = "AIOS-P1-003_PILOT_TASK_DATASET_AND_HIDDEN_SET_CURATION"
-  abort "current Task must be NONE" unless truth.dig("active_work", "current_task") == "NONE" && truth.dig("active_work", "current_task_status") == "NONE"
-  abort "current Task Contract must be NONE" unless truth.dig("active_work", "current_task_contract") == "NONE"
-  abort "current execution authorization must be NONE" unless truth.dig("active_work", "current_execution_authorization") == "NONE"
-  abort "next action drift" unless truth.dig("active_work", "next_eligible_action") == "SELECT_NEXT_P1_REAL_ENGINEERING_TASK_AFTER_CUTOVER_FOUNDER_GATE"
+  active_task_id = "AIOS-P1-004_PARAMETERIZED_EVALUATION_HARNESS_ADMISSION"
+  abort "current Task binding drift" unless truth.dig("active_work", "current_task") == active_task_id && truth.dig("active_work", "current_task_status") == "FOUNDER_EXECUTION_AUTHORIZED_PRE_IMPLEMENTATION"
+  abort "current Task Contract binding drift" unless truth.dig("active_work", "current_task_contract") == active_task_path && truth.dig("active_work", "current_task_contract_sha256") == active_task_sha
+  abort "current execution authorization binding drift" unless truth.dig("active_work", "current_execution_authorization") == active_authorization_path && truth.dig("active_work", "current_execution_authorization_sha256") == active_authorization_sha
+  abort "current execution nonce drift" unless truth.dig("active_work", "execution_nonce") == "0de2abda5280156daa0dcdce4f71109d6be6df280c06debee7df72c9171282c5" && truth.dig("active_work", "execution_nonce_status") == "CONSUMED_ACTIVE"
+  abort "current authorization window drift" unless truth.dig("active_work", "effective_from_utc") == "2026-07-16T01:53:51Z" && truth.dig("active_work", "expires_at_utc") == "2026-07-23T01:53:51Z"
+  abort "activation parent drift" unless truth.dig("active_work", "activation_parent_commit") == "48258805dfa5e7a9c6d04d23e699b1a4e7b56a33" && truth.dig("active_work", "activation_parent_tree") == "46c9540905db8d9bf3157929ecb45bf294352fd4"
+  abort "implementation parent was claimed before Activation Receipt" unless truth.dig("active_work", "implementation_parent") == "PENDING_ACTIVATION_COMMIT_AND_RECEIPT"
+  abort "Task resource binding drift" unless truth.dig("active_work", "task_branch") == "task/AIOS-P1-004-parameterized-harness-admission" && truth.dig("active_work", "task_worktree") == "/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-004-parameterized-harness-admission" && truth.dig("active_work", "execution_evidence_root") == "/Users/lijunpeng/Developer/.sourcelens-audit/p1-004-parameterized-harness-admission-execution-20260716T002125Z"
+  abort "P1-004 offsite binding drift" unless truth.dig("active_work", "offsite_target") == "/Volumes/lijp/SourceLens-AIOS-P1-004-offsite-20260716T002125Z" && truth.dig("active_work", "offsite_volume_uuid") == "2D3D7BCD-5BC5-3D2A-B853-F1FA95D290F8"
+  expected_active_budget = {
+    "engineering_hours" => 16, "calendar_days" => 3,
+    "implementation_iterations_inside_same_task" => 2, "measurement_retries" => 0,
+    "network_calls" => 0, "provider_calls" => 0, "model_calls" => 0,
+    "remote_writes" => 0, "production_effects" => 0,
+    "new_runtime_services" => 0, "new_databases" => 0
+  }
+  abort "P1-004 active budget drift" unless truth.dig("active_work", "budget") == expected_active_budget
+  abort "next action drift" unless truth.dig("active_work", "next_eligible_action") == "VERIFY_P1_004_ACTIVATION_COMMIT_CREATE_ACTIVATION_RECEIPT_THEN_CREATE_EXACT_TASK_RESOURCES"
   abort "P1 implementation boundary drift" unless truth.dig("p1_boundary", "allowed_now") == [
-    "No P1 Task is currently authorized for execution.",
-    "The long-term Goal control plane is active; selecting and executing the next real P1 engineering Task still requires a separate exact Task Contract and Founder authorization.",
+    "Only exact AIOS-P1-004_PARAMETERIZED_EVALUATION_HARNESS_ADMISSION is currently authorized for bounded Task execution.",
+    "The Task branch, worktree and execution evidence root may be created only after the five-path activation commit passes full verification and its create-once Activation Receipt binds the implementation parent.",
     "P1-003 is terminal, its hidden custody is quarantined historical risk, and it cannot be resumed, retried, backfilled, replaced or represented as PASS.",
-    "B0/B1/B2/A0 execution, P2 entry and any canonical main advance outside a separately authorized Founder Gate remain unauthorized."
+    "B0/B1/B2/A0 execution, P2/P3 entry, automatic canonical main advance and all effects outside the exact P1-004 Task Contract remain unauthorized."
   ]
+  abort "P1-004 Task id drift" unless active_task["task_id"] == active_task_id
+  abort "P1-004 phase drift" unless active_task["phase"] == "P1"
+  abort "P1-004 frozen Contract self-authorized" unless active_task["status"] == "FOUNDER_EXECUTION_AUTHORIZATION_REQUIRED" && active_task["execution_authorized"] == false
+  abort "P1-004 Goal binding drift" unless active_task.dig("authority_binding", "long_term_goal_canonical_sha256") == "fed643624aa5794a5cea5db2a04f25cc89d829a619e905df946a3616f14ad6c0"
+  abort "P1-004 source parent drift" unless active_task.dig("source", "activation_parent_commit") == "48258805dfa5e7a9c6d04d23e699b1a4e7b56a33" && active_task.dig("source", "activation_parent_tree") == "46c9540905db8d9bf3157929ecb45bf294352fd4"
+  abort "P1-004 Task resource contract drift" unless active_task.dig("source", "task_branch") == "task/AIOS-P1-004-parameterized-harness-admission" && active_task.dig("source", "task_worktree") == "/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-004-parameterized-harness-admission" && active_task.dig("source", "execution_evidence_root") == "/Users/lijunpeng/Developer/.sourcelens-audit/p1-004-parameterized-harness-admission-execution-20260716T002125Z"
+  abort "P1-004 offsite contract drift" unless active_task.dig("offsite", "target_path") == "/Volumes/lijp/SourceLens-AIOS-P1-004-offsite-20260716T002125Z" && active_task.dig("offsite", "volume_uuid") == "2D3D7BCD-5BC5-3D2A-B853-F1FA95D290F8"
+  expected_activation_paths = [active_task_path, "docs/aios/truth/project_state.yaml", "scripts/validate-aios-governance.sh", "scripts/check-p1-safety-boundary.sh", "docs/PROJECT_CODE_MAP.md"]
+  abort "P1-004 activation path set drift" unless active_task.dig("pre_execution_activation", "exact_paths") == expected_activation_paths
+  abort "P1-004 budget drift" unless active_task["budget"] == expected_active_budget
+  abort "P1-004 network/provider/Secret boundary widened" unless active_task.dig("environment", "network") == "forbidden" && active_task.dig("environment", "provider") == "forbidden" && active_task.dig("environment", "secrets") == "forbidden"
+  abort "P1-004 external effects boundary widened" unless active_task.dig("environment", "remote_effects") == "forbidden" && active_task.dig("environment", "production_effects") == "forbidden" && active_task.dig("environment", "public_release") == "forbidden"
+  abort "P1-004 authorization status drift" unless active_authorization["status"] == "AUTHORIZED_ACTIVE" && active_authorization["task_id"] == active_task_id
+  abort "P1-004 authorization Contract binding drift" unless active_authorization.dig("task_contract", "sha256") == active_task_sha && active_authorization.dig("task_contract", "byte_length") == 25_930
+  abort "P1-004 authorization Candidate binding drift" unless active_authorization.dig("candidate", "sha256") == "73b47e3fcc54420ba669b671a7616aba47688178a24ee0eb3f7e43ec646ba752"
+  abort "P1-004 authorization Goal binding drift" unless active_authorization.dig("authority", "goal_canonical_sha256") == "fed643624aa5794a5cea5db2a04f25cc89d829a619e905df946a3616f14ad6c0"
+  abort "P1-004 authorization parent drift" unless active_authorization.dig("preflight", "activation_parent_commit") == "48258805dfa5e7a9c6d04d23e699b1a4e7b56a33" && active_authorization.dig("preflight", "activation_parent_tree") == "46c9540905db8d9bf3157929ecb45bf294352fd4"
+  abort "P1-004 authorization nonce drift" unless active_authorization["consumed_single_use_nonce"] == "0de2abda5280156daa0dcdce4f71109d6be6df280c06debee7df72c9171282c5"
+  abort "P1-004 authorization window drift" unless active_authorization["effective_from_utc"] == "2026-07-16T01:53:51Z" && active_authorization["expires_at_utc"] == "2026-07-23T01:53:51Z"
+  abort "P1-004 automatic main advance enabled" unless active_authorization["automatic_main_advance"] == false && active_authorization["automatic_next_task"] == false
+  abort "P1-004 baseline or later phase incorrectly authorized" unless active_authorization["b0_b1_b2_authorized"] == false && active_authorization["p2_p3_authorized"] == false
   abort "P1-003 dataset claim boundary drift" unless truth.dig("claim_boundary", "p1_pilot_task_dataset") == "TERMINAL_STOPPED_NOT_ACCEPTED" && truth.dig("claim_boundary", "p1_pilot_task_dataset_claims") == 0
   abort "P1-003 eligible task claim drift" unless truth.dig("claim_boundary", "p1_pilot_task_dataset_eligible_tasks") == "0_OF_8"
   abort "P1-003 Evidence integrity drift" unless truth.dig("claim_boundary", "p1_pilot_task_acquisition_evidence_integrity") == "FAIL"
@@ -592,14 +638,168 @@ if git grep -n -E 'AIOS-P1-001 Contract Freeze|P1-001 execution: NOT AUTHORIZED'
   fail "product UI mirrors project control-plane state"
 fi
 
-task_branches="$(git for-each-ref --format='%(refname:short)' refs/heads/task/)"
-task_branch_count="$(printf '%s\n' "$task_branches" | grep -c . || true)"
-[[ "$task_branch_count" -eq 0 ]] || fail "no Task is authorized but local Task branch exists: $task_branches"
+ruby -rjson -rdigest -ropen3 -e '
+  CANONICAL = "/Users/lijunpeng/Developer/SourceLens-AIOS"
+  TASK_ID = "AIOS-P1-004_PARAMETERIZED_EVALUATION_HARNESS_ADMISSION"
+  TASK_BRANCH = "task/AIOS-P1-004-parameterized-harness-admission"
+  TASK_WORKTREE = "/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-004-parameterized-harness-admission"
+  EXECUTION_ROOT = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-004-parameterized-harness-admission-execution-20260716T002125Z"
+  RECEIPT_PATH = "#{EXECUTION_ROOT}/activation/ACTIVATION_RECEIPT.json"
+  INDEX_PATH = "#{EXECUTION_ROOT}/activation/PRE_EXECUTION_EVIDENCE_INDEX.json"
+  ACTIVATION_PARENT = "48258805dfa5e7a9c6d04d23e699b1a4e7b56a33"
+  ACTIVATION_PARENT_TREE = "46c9540905db8d9bf3157929ecb45bf294352fd4"
+  GOAL_SHA = "fed643624aa5794a5cea5db2a04f25cc89d829a619e905df946a3616f14ad6c0"
+  CONTRACT_SHA = "0551602b5a330fc6d7920d048bba33caae9c5a0358c0bf57ef40cf7a63eaec6f"
+  AUTH_SHA = "3979871bfa949c2f613f30c5169880e6bb02131f690298b446b0c831e147517e"
+  EXACT_PATHS = [
+    "docs/aios/tasks/P1-004_PARAMETERIZED_EVALUATION_HARNESS_ADMISSION.yaml",
+    "docs/aios/truth/project_state.yaml",
+    "scripts/validate-aios-governance.sh",
+    "scripts/check-p1-safety-boundary.sh",
+    "docs/PROJECT_CODE_MAP.md"
+  ].freeze
+  RECEIPT_KEYS = %w[
+    schema_id task_id goal_sha256 activation_parent_commit activation_parent_tree
+    activation_parent_count exact_changed_paths diff_sha256 activation_commit
+    activation_tree full_verify_result full_verify_evidence_sha256
+    task_contract_sha256 founder_execution_authorization_sha256
+    pre_execution_evidence_index_core_sha256
+  ].sort.freeze
+  INDEX_CORE_KEYS = %w[
+    schema_id task_id goal_sha256 task_contract_sha256
+    founder_execution_authorization_sha256 activation_receipt_path
+    activation_commit activation_tree full_verify_evidence_path
+    full_verify_evidence_sha256
+  ].freeze
+  INDEX_KEYS = (INDEX_CORE_KEYS + %w[activation_receipt_sha256 core_sha256]).sort.freeze
 
-worktree_paths="$(git worktree list --porcelain | sed -n 's/^worktree //p')"
-worktree_count="$(printf '%s\n' "$worktree_paths" | grep -c . || true)"
-[[ "$worktree_count" -eq 1 ]] || fail "no Task is authorized but worktree population is not exactly one canonical worktree"
-[[ "$worktree_paths" == "$ROOT_DIR" ]] || fail "sole worktree is not the canonical repository: $worktree_paths"
+  def git(*args)
+    stdout, stderr, status = Open3.capture3("git", *args)
+    abort "git #{args.join(" ")} failed: #{stderr}" unless status.success?
+    stdout
+  end
+
+  def deep_sort(value)
+    case value
+    when Hash then value.keys.sort.to_h { |key| [key, deep_sort(value.fetch(key))] }
+    when Array then value.map { |item| deep_sort(item) }
+    else value
+    end
+  end
+
+  def canonical_json_file(path, value)
+    expected = JSON.generate(deep_sort(value)) + "\n"
+    abort "non-canonical JSON bytes: #{path}" unless File.binread(path) == expected
+  end
+
+  def parse_worktrees
+    git("worktree", "list", "--porcelain").split(/\n\n+/).map do |block|
+      next if block.empty?
+      block.lines.each_with_object({}) do |line, record|
+        key, value = line.chomp.split(" ", 2)
+        record[key] = value || true
+      end
+    end.compact
+  end
+
+  def sha256_file(path)
+    Digest::SHA256.file(path).hexdigest
+  end
+
+  receipt_exists = File.file?(RECEIPT_PATH)
+  index_exists = File.file?(INDEX_PATH)
+  task_branches = git("for-each-ref", "--format=%(refname:short)", "refs/heads/task/").lines.map(&:chomp).reject(&:empty?)
+  worktrees = parse_worktrees
+  canonical_entry = worktrees.find { |entry| entry["worktree"] == CANONICAL }
+  abort "canonical worktree missing" unless canonical_entry && canonical_entry["branch"] == "refs/heads/main"
+  canonical_head = git("-C", CANONICAL, "rev-parse", "HEAD").strip
+  canonical_tree = git("-C", CANONICAL, "rev-parse", "HEAD^{tree}").strip
+
+  if !receipt_exists && !index_exists && task_branches.empty?
+    abort "PRE_RESOURCE must contain only the canonical worktree" unless worktrees.length == 1
+    abort "PRE_RESOURCE canonical main moved before activation receipt" unless canonical_head == ACTIVATION_PARENT && canonical_tree == ACTIVATION_PARENT_TREE
+    if File.exist?(EXECUTION_ROOT)
+      abort "PRE_RESOURCE execution root is not a directory" unless File.directory?(EXECUTION_ROOT) && !File.symlink?(EXECUTION_ROOT)
+      entries = Dir.glob("#{EXECUTION_ROOT}/**/*", File::FNM_DOTMATCH).reject { |path| [".", ".."].include?(File.basename(path)) }
+      entries.each do |path|
+        relative = path.delete_prefix("#{EXECUTION_ROOT}/")
+        allowed_directory = File.directory?(path) && ["activation", "commands", "evidence"].include?(relative)
+        allowed_file = File.file?(path) && relative == "activation/PRE_EXECUTION_ACTIVATION_PREFLIGHT.json"
+        allowed = allowed_directory || allowed_file
+        abort "PRE_RESOURCE contains non-preflight Task artifact: #{relative}" unless allowed
+        abort "PRE_RESOURCE preflight path is a symlink: #{relative}" if File.symlink?(path)
+      end
+    end
+  else
+    abort "resource state is inconsistent: receipt/index/branch must activate together" unless receipt_exists && index_exists && task_branches == [TASK_BRANCH]
+    abort "ACTIVE_RESOURCE execution root missing" unless File.directory?(EXECUTION_ROOT) && !File.symlink?(EXECUTION_ROOT)
+    abort "Activation Receipt or index is a symlink" if File.symlink?(RECEIPT_PATH) || File.symlink?(INDEX_PATH)
+    abort "ACTIVE_RESOURCE canonical worktree must be clean" unless git("-C", CANONICAL, "status", "--porcelain").empty?
+
+    receipt = JSON.parse(File.read(RECEIPT_PATH))
+    index = JSON.parse(File.read(INDEX_PATH))
+    canonical_json_file(RECEIPT_PATH, receipt)
+    canonical_json_file(INDEX_PATH, index)
+    abort "Activation Receipt schema is not closed" unless receipt.keys.sort == RECEIPT_KEYS
+    abort "pre-execution Evidence index schema is not closed" unless index.keys.sort == INDEX_KEYS
+    abort "Activation Receipt schema drift" unless receipt["schema_id"] == "sourcelens-aios.p1-004-activation-receipt.v1"
+    abort "pre-execution Evidence index schema drift" unless index["schema_id"] == "sourcelens-aios.p1-004-pre-execution-evidence-index.v1"
+    [receipt, index].each do |record|
+      abort "P1-004 resource Task binding drift" unless record["task_id"] == TASK_ID
+      abort "P1-004 resource Goal binding drift" unless record["goal_sha256"] == GOAL_SHA
+      abort "P1-004 resource Contract binding drift" unless record["task_contract_sha256"] == CONTRACT_SHA
+      abort "P1-004 resource authorization binding drift" unless record["founder_execution_authorization_sha256"] == AUTH_SHA
+    end
+    abort "Activation Receipt parent drift" unless receipt["activation_parent_commit"] == ACTIVATION_PARENT && receipt["activation_parent_tree"] == ACTIVATION_PARENT_TREE && receipt["activation_parent_count"] == 1
+    abort "Activation Receipt path population drift" unless receipt["exact_changed_paths"] == EXACT_PATHS
+    abort "Activation Receipt full verification is not PASS" unless receipt["full_verify_result"] == "PASS"
+    %w[diff_sha256 full_verify_evidence_sha256 pre_execution_evidence_index_core_sha256].each do |field|
+      abort "Activation Receipt #{field} is not a SHA-256" unless receipt[field].is_a?(String) && receipt[field].match?(/\A[0-9a-f]{64}\z/)
+    end
+
+    activation_commit = receipt.fetch("activation_commit")
+    activation_tree = receipt.fetch("activation_tree")
+    abort "invalid activation commit identity" unless activation_commit.match?(/\A[0-9a-f]{40}\z/)
+    abort "invalid activation tree identity" unless activation_tree.match?(/\A[0-9a-f]{40}\z/)
+    abort "activation commit tree drift" unless git("rev-parse", "#{activation_commit}^{tree}").strip == activation_tree
+    parent_line = git("rev-list", "--parents", "-n", "1", activation_commit).split
+    abort "activation commit must have exactly one parent" unless parent_line == [activation_commit, ACTIVATION_PARENT]
+    changed_paths = git("diff", "--name-only", ACTIVATION_PARENT, activation_commit, "--").lines.map(&:chomp).reject(&:empty?)
+    abort "activation commit changed-path population drift" unless changed_paths.sort == EXACT_PATHS.sort
+    diff_bytes = git("diff", "--binary", "--full-index", "--no-color", ACTIVATION_PARENT, activation_commit, "--", *EXACT_PATHS)
+    abort "activation diff SHA-256 drift" unless receipt["diff_sha256"] == Digest::SHA256.hexdigest(diff_bytes)
+    abort "ACTIVE_RESOURCE canonical main is not the receipt-bound activation commit" unless canonical_head == activation_commit && canonical_tree == activation_tree
+
+    index_core_bytes = INDEX_CORE_KEYS.map { |key| "#{key}=#{index.fetch(key)}\n" }.join
+    index_core_sha = Digest::SHA256.hexdigest(index_core_bytes)
+    abort "pre-execution Evidence index core SHA-256 drift" unless index["core_sha256"] == index_core_sha
+    abort "Activation Receipt does not bind the index core" unless receipt["pre_execution_evidence_index_core_sha256"] == index_core_sha
+    abort "pre-execution Evidence index receipt path drift" unless index["activation_receipt_path"] == RECEIPT_PATH
+    abort "pre-execution Evidence index does not bind the receipt bytes" unless index["activation_receipt_sha256"] == sha256_file(RECEIPT_PATH)
+    abort "pre-execution Evidence index activation identity drift" unless index["activation_commit"] == activation_commit && index["activation_tree"] == activation_tree
+    abort "full verification Evidence binding mismatch" unless index["full_verify_evidence_sha256"] == receipt["full_verify_evidence_sha256"]
+    full_verify_path = File.expand_path(index.fetch("full_verify_evidence_path"))
+    activation_root = File.join(EXECUTION_ROOT, "activation") + "/"
+    abort "full verification Evidence escapes activation root" unless full_verify_path.start_with?(activation_root)
+    abort "full verification Evidence aliases receipt/index" if [RECEIPT_PATH, INDEX_PATH].include?(full_verify_path)
+    abort "full verification Evidence missing" unless File.file?(full_verify_path) && !File.symlink?(full_verify_path)
+    relative_parts = full_verify_path.delete_prefix(activation_root).split("/")
+    cursor = activation_root.delete_suffix("/")
+    relative_parts.each do |part|
+      cursor = File.join(cursor, part)
+      abort "full verification Evidence path contains a symlink" if File.symlink?(cursor)
+    end
+    abort "full verification Evidence SHA-256 drift" unless sha256_file(full_verify_path) == index["full_verify_evidence_sha256"]
+
+    task_ref = git("rev-parse", "refs/heads/#{TASK_BRANCH}").strip
+    abort "Task branch is not based on the exact activation commit" unless git("merge-base", activation_commit, task_ref).strip == activation_commit
+    abort "Task branch contains a merge commit after activation" unless git("rev-list", "--merges", "#{activation_commit}..#{task_ref}").strip.empty?
+    abort "ACTIVE_RESOURCE worktree population must be canonical plus exact Task" unless worktrees.length == 2
+    task_entry = worktrees.find { |entry| entry["worktree"] == TASK_WORKTREE }
+    abort "exact Task worktree missing or detached" unless task_entry && task_entry["branch"] == "refs/heads/#{TASK_BRANCH}"
+    abort "Task worktree HEAD does not equal exact Task ref" unless task_entry["HEAD"] == task_ref
+  end
+' || fail "P1-004 PRE_RESOURCE/ACTIVE_RESOURCE validation failed"
 
 git diff --check || fail "git whitespace validation failed"
 

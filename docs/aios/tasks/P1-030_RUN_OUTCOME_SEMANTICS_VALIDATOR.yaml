@@ -1,0 +1,281 @@
+schema_version: 1
+record_type: sourcelens_aios_phase_delegated_task_contract
+task_id: AIOS-P1-030_RUN_OUTCOME_SEMANTICS_VALIDATOR
+phase: P1
+title: RunRecord Outcome Semantics Validator
+status: READY_FOR_PHASE_DELEGATED_EXECUTION
+execution_authority: PHASE_DELEGATED
+task_kind: EVALUATION_FOUNDATION_ENGINEERING
+risk_level: medium
+
+objective: >-
+  Implement a pure deterministic validator that accepts one already-parsed
+  RunRecord, validates the accepted schema, enforces the closed relationship
+  between terminal_status, stop_reason_code, invalid infrastructure, policy
+  violations and required failure taxonomy, and returns a hash-bound outcome
+  projection. It does not validate timestamps, execute commands, count VTSR or
+  decide independent success.
+
+why_now:
+  - Evaluation Protocol v1.1 requires every scheduled run, including failure, timeout, policy and infrastructure outcomes, to remain countable with explicit reason codes.
+  - P1-001 records visible runs, but the accepted RunRecord schema does not by itself close every cross-field outcome relationship.
+  - A pure outcome validator is an independent P1 primitive needed before baseline matrix counting and does not continue temporal, command-ledger or VTSR Tasks.
+
+task_spec_ref: docs/aios/schemas/task-spec.schema.json
+read_context:
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/schemas/run-record.schema.json
+  - evaluation-harness/evaluator/schema-validator.mjs
+  - evaluation-harness/fixtures/visible/positive-run-record.json
+  - evaluation-harness/fixtures/visible/controlled-failure-run-record.json
+
+verified_source:
+  evaluation_protocol:
+    path: docs/aios/EVALUATION_PROTOCOL.md
+    sha256: da029143561fbb3c213d4a358b25e085542c6cd26ae8150a53cbb5998177eed8
+  run_record_schema:
+    path: docs/aios/schemas/run-record.schema.json
+    sha256: a139b73a7482fed64e6d24f8ca391b03963eef57db2b48d0c4c6776ff652bc56
+  schema_validator:
+    path: evaluation-harness/evaluator/schema-validator.mjs
+    sha256: 5d944ab5abfab7bcd1619c385727c99f38cf6e7deacee881a768573d2e09f741
+  accepted_positive_example:
+    path: evaluation-harness/fixtures/visible/positive-run-record.json
+    sha256: c4e6673077af0d6bc79033f488ad30d00d740cc79c2c3554ac344b6eff9f8236
+  accepted_failure_example:
+    path: evaluation-harness/fixtures/visible/controlled-failure-run-record.json
+    sha256: cafacbefaa4ec3eee93ad4d8f35f32f63aecfe0d4c0e1545058e3d1b9d0b8b9e
+
+dependencies: [AIOS-P1-001]
+capabilities: [RUN_RECORDING, FAILURE_TAXONOMY]
+capability_claim: false
+lineage:
+  kind: INDEPENDENT_PHASE_INCREMENT
+  retries: []
+  remediates: []
+  supersedes: []
+  note: This Task validates RunRecord outcome relationships only and is not temporal validation, command-ledger capture, VTSR counting or continuation of another Task.
+
+roles:
+  accountable_owner: Quality and Evaluation Lead Agent
+  worker: Run Outcome Semantics Engineer
+  independent_reviewers: [CTO Agent, Security Agent, Quality and Evaluation Agent]
+
+allowed_paths:
+  worker:
+    - evaluation-harness/validators/run-outcome-semantics.mjs
+  quality:
+    - evaluation-harness/fixtures/run-outcome-semantics/**
+  integration:
+    - scripts/verify-p1-run-outcome-semantics.sh
+    - Makefile
+  external_evidence:
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-030-run-outcome-semantics-execution-20260716T181807Z/evidence/worker/**
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-030-run-outcome-semantics-execution-20260716T181807Z/evidence/integration/**
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-030-run-outcome-semantics-execution-20260716T181807Z/reviews/cto/**
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-030-run-outcome-semantics-execution-20260716T181807Z/reviews/security/**
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-030-run-outcome-semantics-execution-20260716T181807Z/reviews/quality/**
+
+pre_activation_review_policy:
+  initial_reviews: [CTO Agent, Security Agent, Quality and Evaluation Agent]
+  maximum_bounded_contract_repairs: 1
+  repair_boundary: Only exact blockers raised by the initial reviews; no objective, capability, path, budget, permission or claim expansion.
+  final_rule: The repaired exact bytes must receive three new exact PASS reviews. Any remaining non-PASS abandons the Task before activation without successor or replacement.
+
+implementation_boundary:
+  module: evaluation-harness/validators/run-outcome-semantics.mjs
+  exported_signature: validateRunOutcome(runRecord)
+  input: one in-memory object
+  effects:
+    filesystem_read: only the fixed accepted RunRecord schema during module initialization
+    filesystem_write: none
+    child_process: none
+    network: none
+    clock: none
+    randomness: none
+  terminal_mapping:
+    completed: [agent_complete]
+    failed: [test_failure, tool_error, model_error, uncaught_exception]
+    timed_out: [wall_clock_timeout]
+    budget_exhausted: [token_budget, tool_budget, cost_budget]
+    policy_blocked: [policy_violation]
+    invalid_infrastructure: [infrastructure_failure]
+    cancelled: [human_cancel]
+  cross_field_rules:
+    - completed requires empty error_taxonomy and empty policy_violations.
+    - policy_blocked requires a non-empty policy_violations array and error_taxonomy containing policy.
+    - every non-policy_blocked outcome requires an empty policy_violations array.
+    - invalid_infrastructure requires error_taxonomy containing infrastructure.
+    - invalid_infrastructure requires one accepted non-null invalid_run_reason; every other terminal_status requires invalid_run_reason to be null.
+    - The accepted schema check is mandatory and mechanically enforces this nullability and closed enum before semantic checks; the implementation may not bypass or weaken it.
+  validation_precedence:
+    - RUN_RECORD_SCHEMA_INVALID
+    - TERMINAL_STOP_REASON_MISMATCH
+    - POLICY_VIOLATION_SEMANTICS_MISMATCH
+    - ERROR_TAXONOMY_MISMATCH
+    - PASS
+  pass_result:
+    closed_keys: [schema_version, record_type, verdict, run_id, terminal_status, disposition, outcome_identity_sha256]
+    constants:
+      schema_version: "1.0"
+      record_type: aios_p1_run_outcome_semantics
+      verdict: PASS
+    input_bindings:
+      run_id: runRecord.run_id
+      terminal_status: runRecord.terminal_status
+    disposition_mapping:
+      completed: COMPLETED_PENDING_INDEPENDENT_VERIFICATION
+      failed: ELIGIBLE_FAILED
+      timed_out: ELIGIBLE_FAILED
+      budget_exhausted: ELIGIBLE_FAILED
+      policy_blocked: ELIGIBLE_FAILED
+      invalid_infrastructure: INFRASTRUCTURE_INVALID_PENDING_PREDECLARED_REASON_CHECK
+      cancelled: ELIGIBLE_FAILED
+    identity_projection:
+      ordered_keys: [run_id, terminal_status, stop_reason_code, invalid_run_reason, error_taxonomy, policy_violations]
+      array_order: preserved exactly as recorded
+      bytes: UTF-8 canonicalJson(projection) plus exactly one LF
+      digest: SHA-256 lowercase hexadecimal
+  failure:
+    type: RunOutcomeFailure
+    enumerable_properties: [reasonCode]
+    fixed_name: RunOutcomeFailure
+    fixed_message: message equals reasonCode exactly
+    input_content_or_free_form_message: forbidden
+    frozen_observation:
+      constructor_name: RunOutcomeFailure
+      error_name: RunOutcomeFailure
+      error_message: exact reasonCode string
+      own_enumerable_keys: [reasonCode]
+      input_substring_present: false
+
+quality_test_envelope:
+  freeze_before_worker: true
+  files:
+    - evaluation-harness/fixtures/run-outcome-semantics/OWNERSHIP_MAP.json
+    - evaluation-harness/fixtures/run-outcome-semantics/TEST_PLAN.json
+    - evaluation-harness/fixtures/run-outcome-semantics/GOLDEN_RESULTS.json
+    - evaluation-harness/fixtures/run-outcome-semantics/run-cases.mjs
+    - evaluation-harness/fixtures/run-outcome-semantics/records/**
+    - evaluation-harness/fixtures/run-outcome-semantics/FREEZE_RECEIPT.json
+  valid_cases:
+    - V01 completed/agent_complete
+    - V02 failed/test_failure
+    - V03 failed/tool_error
+    - V04 failed/model_error
+    - V05 failed/uncaught_exception
+    - V06 timed_out/wall_clock_timeout
+    - V07 budget_exhausted/token_budget
+    - V08 budget_exhausted/tool_budget
+    - V09 budget_exhausted/cost_budget
+    - V10 policy_blocked/policy_violation with error_taxonomy [unknown, policy] and policy_violations [z-policy, a-policy] in that exact non-sorted order
+    - V11 invalid_infrastructure/infrastructure_failure with error_taxonomy [unknown, infrastructure] in that exact non-sorted order and shared_harness_failure
+    - V12 cancelled/human_cancel
+  negative_cases:
+    - N01 completed/test_failure returns TERMINAL_STOP_REASON_MISMATCH.
+    - N02 failed/agent_complete returns TERMINAL_STOP_REASON_MISMATCH.
+    - N03 timed_out/tool_error returns TERMINAL_STOP_REASON_MISMATCH.
+    - N04 budget_exhausted/wall_clock_timeout returns TERMINAL_STOP_REASON_MISMATCH.
+    - N05 policy_blocked/test_failure returns TERMINAL_STOP_REASON_MISMATCH.
+    - N06 invalid_infrastructure/uncaught_exception returns TERMINAL_STOP_REASON_MISMATCH.
+    - N07 cancelled/agent_complete returns TERMINAL_STOP_REASON_MISMATCH.
+    - N08 policy_blocked with empty policy_violations returns POLICY_VIOLATION_SEMANTICS_MISMATCH.
+    - N09 failed with one policy violation returns POLICY_VIOLATION_SEMANTICS_MISMATCH.
+    - N10 completed with non-empty error_taxonomy returns ERROR_TAXONOMY_MISMATCH.
+    - N11 policy_blocked without policy taxonomy returns ERROR_TAXONOMY_MISMATCH.
+    - N12 invalid_infrastructure without infrastructure taxonomy returns ERROR_TAXONOMY_MISMATCH.
+    - N13 missing run_id returns RUN_RECORD_SCHEMA_INVALID.
+    - N14 failed with shared_harness_failure invalid_run_reason returns RUN_RECORD_SCHEMA_INVALID.
+    - N15 invalid_infrastructure with null invalid_run_reason returns RUN_RECORD_SCHEMA_INVALID.
+  precedence_cases:
+    - P01 has missing run_id plus wrong terminal/stop pair and returns only RUN_RECORD_SCHEMA_INVALID.
+    - P02 has wrong terminal/stop pair plus policy violation mismatch and returns only TERMINAL_STOP_REASON_MISMATCH.
+    - P03 has policy violation mismatch plus taxonomy mismatch and returns only POLICY_VIOLATION_SEMANTICS_MISMATCH.
+  frozen_goldens:
+    - Quality independently freezes exact pass-result objects, canonical bytes, byte lengths and outcome_identity_sha256 for V01-V12.
+    - Quality freezes the complete failure observation for N01-N15 and P01-P03: constructor name, error name, exact reasonCode message, own enumerable key population [reasonCode], reasonCode, and input_substring_present false.
+    - Golden generation may use a Quality-owned independent standard-library script before Worker implementation and may not import Worker code.
+  oracle:
+    - Each V/N case uses a distinct complete RunRecord; negative cases change exactly their named condition from a valid semantic record.
+    - V10 and V11 freeze deliberately non-sorted multi-element arrays; their exact independent identity goldens must fail an implementation that sorts either array.
+    - P cases are the only multi-fault vectors and mechanically establish every adjacent validation-precedence edge.
+    - All 30 case IDs occur exactly once and the actual result population equals the frozen golden population.
+    - The full 30-case matrix runs twice; each population equals the frozen oracle and the two populations are byte-identical.
+
+execution_surface:
+  runtime_executable: /usr/local/bin/node
+  runtime_version: v20.17.0
+  driver_argv: [/usr/local/bin/node, evaluation-harness/fixtures/run-outcome-semantics/run-cases.mjs]
+  cwd: TASK_WORKTREE_ROOT
+  environment: {LC_ALL: C, TZ: UTC}
+  shell: false
+  child_processes: forbidden
+  network: forbidden
+  timeout_seconds: 10
+
+budget:
+  engineering_hours: 8
+  calendar_days: 2
+  implementation_iterations: 2
+  execution_retries: 0
+  candidate_freezes: 1
+  network_calls: 0
+  provider_calls: 0
+
+acceptance_criteria:
+  - The final exact Contract receives CTO, Security and Quality PASS before activation.
+  - Quality freezes 12 valid, 15 single-defect and 3 adjacent-precedence cases plus all independent goldens before Worker implementation.
+  - V01-V12 equal exact goldens; N01-N15 and P01-P03 return only their complete frozen failure observations.
+  - Both complete 30-case populations equal the frozen oracle and each other byte-for-byte.
+  - Accepted RunRecord schema, generic validator, P1-001 fixtures/evaluator/oracle/Evidence and P1-011 artifacts remain byte-identical.
+  - Targeted gate, P1-001 regression, P1-011 regression, make verify, fresh-clone targeted rebuild and rollback all PASS.
+  - CTO, Security and Quality independently PASS the exact candidate and frozen Evidence.
+  - Master Task Gate integrates locally, synchronizes Truth/code map and final make verify PASS.
+
+failure_criteria:
+  - A valid semantic record is rejected or differs from its frozen golden.
+  - An invalid or precedence record is accepted or returns an unexpected reason.
+  - The validator executes effects, reads arbitrary paths, changes accepted artifacts or claims independent success/counting.
+
+stop_conditions:
+  - The final contract review after at most one bounded repair is non-PASS.
+  - Any write occurs outside exact role-owned Task paths or external Evidence paths.
+  - Any accepted schema, generic validator, P1-001/P1-011 artifact or historical Evidence changes.
+  - The same implementation root cause remains after two iterations without new Evidence.
+  - Any final independent review is non-PASS after the single candidate freeze.
+  - A Founder-reserved decision, external effect or P2/P3 capability becomes necessary.
+
+forbidden_actions:
+  - No network, provider, secret, remote, production or public effect.
+  - No new timestamp ordering, duration, stricter RFC3339 semantics or temporal claim beyond the accepted generic schema validator's existing date-time format check; no command execution, command ledger, VTSR counting, baseline execution or independent success decision.
+  - No arbitrary path, stdin, schema override, child process, clock, randomness or mutable global state in the validator.
+  - No accepted schema, generic validator, P1-001/P1-011 artifact, historical Evidence or path outside allowed_paths modification.
+  - No benchmark, VTSR, Agent-capability or P1-completion claim.
+  - No platform identity, Supervisor, Root Custody, sandbox, Trust Runtime or P2/P3 capability.
+  - No retry, successor, replacement or pre-execution governance chain.
+
+evidence:
+  required:
+    - exact final Contract, phase authorization and final three contract reviews
+    - Quality commits, freeze receipt, 30 record identities, mutation definitions and independent goldens
+    - two complete actual 30-case populations and frozen-oracle comparisons
+    - runtime, implementation and candidate identities
+    - accepted-input non-drift and P1-001/P1-011 regression results
+    - fresh-clone targeted rebuild and rollback
+    - CTO/Security/Quality final reviews, Master Task Gate and final canonical make verify
+
+rollback:
+  strategy: Keep canonical main unchanged until Master Task Gate; preserve rejected Evidence before resource cleanup; accepted integration is a local fast-forward descendant.
+
+delegated_authority:
+  phase_local: true
+  task_gate_owner: MASTER_CEO_AGENT
+  founder_gate: RESERVED_DECISIONS_ONLY
+  founder_reserved_decisions: []
+  external_effects: {network: false, provider: false, secret: false, remote: false, production: false, public: false}
+
+completion_rule: >-
+  PASS proves only deterministic local RunRecord outcome semantics for the frozen
+  visible matrix. It does not prove timestamp validity, command capture, VTSR
+  counting, independent task success, baseline performance, Agent capability,
+  P1 completion, hostile-principal resistance or production readiness.

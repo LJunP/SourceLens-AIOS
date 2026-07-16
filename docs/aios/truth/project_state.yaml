@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-16T16:44:51Z"
-verification_scope: P1_019_TERMINAL_SECURITY_REVIEW_FAIL_AND_RESOURCE_CLEANUP
+last_verified_at: "2026-07-16T18:28:50Z"
+verification_scope: P1_030_PHASE_DELEGATED_ACTIVATION
 
 authority:
   founder: Human Founder
@@ -34,7 +34,7 @@ goal:
   observed_raw_body_sha256: 9b59ffc6919473b596f09a96afc1e8684f076f5ac32c6014ac96344a496cd0d8
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_LONG_TERM_GOAL_IDENTITY_PRESERVED
-  current_task_authority: NONE
+  current_task_authority: AIOS-P1-030_RUN_OUTCOME_SEMANTICS_VALIDATOR
   note: The Founder-approved long-term Goal identity is canonical and the Codex control-plane Goal is ACTIVE. Current Task authority is expressed only by current_task_authority and active_work; the Phase-level delegation policy requires autonomous P1 continuation without routine Founder approvals.
 
 project:
@@ -45,8 +45,8 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  phase_execution_status: NO_CURRENT_TASK
-  p1_execution_status: NO_CURRENT_TASK
+  phase_execution_status: TASK_ACTIVE
+  p1_execution_status: TASK_ACTIVE
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -193,28 +193,28 @@ p0_baseline:
   online_verification_status: ARCHIVED_NOT_ON_ACTIVE_PATH
 
 active_work:
-  current_task: NONE
-  current_task_status: NONE
-  current_task_contract: null
-  current_task_contract_sha256: null
-  current_execution_authorization: null
-  current_execution_authorization_sha256: null
+  current_task: AIOS-P1-030_RUN_OUTCOME_SEMANTICS_VALIDATOR
+  current_task_status: AUTHORIZED_ACTIVE
+  current_task_contract: docs/aios/tasks/P1-030_RUN_OUTCOME_SEMANTICS_VALIDATOR.yaml
+  current_task_contract_sha256: 7816fb18a854bb1c777cb24ea2492ff9e467eabbb6b133b382ec5a34571593f4
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-030-run-outcome-semantics-execution-20260716T181807Z/PHASE_DELEGATED_TASK_AUTHORIZATION.json
+  current_execution_authorization_sha256: cd4ad0997766db615d600ebea0b9f849f0369a24997191723bfa6bb316cb9b45
   execution_nonce: null
-  execution_nonce_status: NONE
-  authorization_id: null
-  activation_parent_commit: null
-  activation_parent_tree: null
-  task_resource_state: NONE
-  task_branch: null
-  task_worktree: null
-  execution_evidence_root: null
+  execution_nonce_status: NOT_REQUIRED_PHASE_DELEGATION
+  authorization_id: 5dc2646f09223e7e3fee38325d863e84b1532ee78a0c0f015e182e6ed8022dd5
+  activation_parent_commit: e36a6217c01d5b41ef10de423ab4bf30accb54a2
+  activation_parent_tree: 6893c8e042d9d4bbd7d35f379cd07d42d6de96aa
+  task_resource_state: DECLARED
+  task_branch: task/AIOS-P1-030-run-outcome-semantics
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-030-run-outcome-semantics
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-030-run-outcome-semantics-execution-20260716T181807Z
   offsite_target: null
   founder_reserved_authorization: null
   founder_reserved_authorization_sha256: null
   founder_decision_required: false
   escalation_reason: null
   user_action_required: null
-  next_eligible_action: MASTER_AUTONOMOUSLY_SELECT_AND_EXECUTE_NEXT_HIGHEST_VALUE_P1_ENGINEERING_TASK
+  next_eligible_action: MASTER_AUTONOMOUSLY_EXECUTE_CURRENT_P1_TASK_WITHIN_EXACT_ENVELOPE
 
 superseded_pre_delegation_authorizations:
   aios_p1_009:
@@ -687,7 +687,7 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_task_claim: NO_CURRENT_TASK
+  current_task_claim: AIOS-P1-030_RUN_OUTCOME_SEMANTICS_VALIDATOR
   phase_local_allowed:
     - local evaluation foundation engineering under an exact Task Contract
     - synthetic fixtures, deterministic tests, replay, Evidence, rollback and independent review

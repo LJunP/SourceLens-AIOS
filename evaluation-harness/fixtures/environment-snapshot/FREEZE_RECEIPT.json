@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.0",
+  "record_type": "sourcelens_aios_quality_fixture_freeze_receipt",
+  "task_id": "AIOS-P1-011_ENVIRONMENT_SNAPSHOT_CAPTURE_AND_REPLAY",
+  "status": "FROZEN",
+  "quality_owner": "Quality and Evaluation Agent",
+  "task_contract": {
+    "path": "docs/aios/tasks/P1-011_ENVIRONMENT_SNAPSHOT_CAPTURE_AND_REPLAY.yaml",
+    "sha256": "59ad6ca86c8eeb62394265d7a81cd08b089fdb33d54d4f9e17e558249304cd7a"
+  },
+  "activation_parent_commit": "c557d87b6b340d4ce5cd4d4b491560feea4b2417",
+  "freeze_commit": "762c7bbe57ba1d4cc259eaebd3b1a676f6a0d843",
+  "freeze_tree": "23b377a8885e3165ee3f2fd26412e84d1c00f143",
+  "freeze_commit_position": "first_commit_after_activation_on_task_branch",
+  "receipt_excluded_from_frozen_population": true,
+  "frozen_files": [
+    {
+      "path": "evaluation-harness/fixtures/environment-snapshot/CASE_MATRIX.json",
+      "sha256": "026f8d69bafd8fc301ffa20704a93cbd9ac04d9f1e1a566af11288068885aa44",
+      "byte_length": 4880
+    },
+    {
+      "path": "evaluation-harness/fixtures/environment-snapshot/ORACLE.json",
+      "sha256": "55e20ea7aca192f3001d908b0d82deb4bf0999781a31303db904bd6c2e0fb65f",
+      "byte_length": 4258
+    },
+    {
+      "path": "evaluation-harness/fixtures/environment-snapshot/OWNERSHIP_MAP.json",
+      "sha256": "be3385185f646fbb7c14c595d6a98709d7175c4609d473d09fa0db2a31559a85",
+      "byte_length": 1243
+    },
+    {
+      "path": "evaluation-harness/fixtures/environment-snapshot/declarations.json",
+      "sha256": "8d077dbb0f8da8eb7a77c5ee05d2a8a36c3fcb2915ecdb2ef492bfe3da615c13",
+      "byte_length": 2069
+    },
+    {
+      "path": "evaluation-harness/fixtures/environment-snapshot/source-template/README.md",
+      "sha256": "9283c084b37979f996b4048a900583557da830b9de129d5b1c9a1745d6dda07b",
+      "byte_length": 241
+    },
+    {
+      "path": "evaluation-harness/fixtures/environment-snapshot/source-template/package-lock.json",
+      "sha256": "7991e977b4fee66e5e3a36218e9516f9578a4a47c13e71c7e02a62732b4fce30",
+      "byte_length": 247
+    },
+    {
+      "path": "evaluation-harness/fixtures/environment-snapshot/target-runtime-oci-manifest.json",
+      "sha256": "4f600442a776edb4988a90e387469c420c6e4795f0d8b9c7eff9a0490ca3b474",
+      "byte_length": 439
+    }
+  ],
+  "frozen_population_order": "path_utf8_byte_order",
+  "worker_access_after_freeze": "READ_ONLY",
+  "integration_verification_status": "PENDING",
+  "worker_start_rule": "Integration must verify this receipt and a clean Task worktree before Worker implementation starts."
+}

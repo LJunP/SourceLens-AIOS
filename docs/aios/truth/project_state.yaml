@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-16T02:20:14Z"
-verification_scope: P1_004_PRE_EXECUTION_GOVERNANCE_ACTIVATION
+last_verified_at: "2026-07-16T04:39:44Z"
+verification_scope: P1_004_TERMINAL_CLOSURE_AND_OFFSITE_CUSTODY
 
 authority:
   founder: Human Founder
@@ -29,8 +29,8 @@ goal:
   observed_raw_body_sha256: 9b59ffc6919473b596f09a96afc1e8684f076f5ac32c6014ac96344a496cd0d8
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_LONG_TERM_GOAL_IDENTITY_PRESERVED
-  current_task_authority: AIOS-P1-004_PARAMETERIZED_EVALUATION_HARNESS_ADMISSION
-  note: The Founder-approved long-term Goal body remains the active long-term authority; the exact P1-004 Task Contract and Founder Execution Authorization Record govern only the bounded current Task.
+  current_task_authority: NONE
+  note: The Founder-approved long-term Goal body is the current active long-term execution authority. No P1 Task is active until a separate exact Task Contract receives Founder authorization.
 
 project:
   name: SourceLens AIOS
@@ -40,7 +40,7 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  p1_execution_status: TASK_AUTHORIZED_PRE_IMPLEMENTATION
+  p1_execution_status: NO_ACTIVE_TASK_AUTHORIZED
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   canonical_cutover_parent_commit: 65157b6f771c3a95486144ab712c3a99f9d06845
@@ -59,37 +59,11 @@ p0_baseline:
   online_verification_status: ARCHIVED_NOT_ON_ACTIVE_PATH
 
 active_work:
-  current_task: AIOS-P1-004_PARAMETERIZED_EVALUATION_HARNESS_ADMISSION
-  current_task_status: FOUNDER_EXECUTION_AUTHORIZED_PRE_IMPLEMENTATION
-  current_task_contract: docs/aios/tasks/P1-004_PARAMETERIZED_EVALUATION_HARNESS_ADMISSION.yaml
-  current_task_contract_sha256: 0551602b5a330fc6d7920d048bba33caae9c5a0358c0bf57ef40cf7a63eaec6f
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-004-task-contract-20260716T002125Z/revision-2/FOUNDER_EXECUTION_AUTHORIZATION_RECORD.json
-  current_execution_authorization_sha256: 3979871bfa949c2f613f30c5169880e6bb02131f690298b446b0c831e147517e
-  execution_nonce: 0de2abda5280156daa0dcdce4f71109d6be6df280c06debee7df72c9171282c5
-  execution_nonce_status: CONSUMED_ACTIVE
-  effective_from_utc: "2026-07-16T01:53:51Z"
-  expires_at_utc: "2026-07-23T01:53:51Z"
-  activation_parent_commit: 48258805dfa5e7a9c6d04d23e699b1a4e7b56a33
-  activation_parent_tree: 46c9540905db8d9bf3157929ecb45bf294352fd4
-  implementation_parent: PENDING_ACTIVATION_COMMIT_AND_RECEIPT
-  task_branch: task/AIOS-P1-004-parameterized-harness-admission
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-004-parameterized-harness-admission
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-004-parameterized-harness-admission-execution-20260716T002125Z
-  offsite_target: /Volumes/lijp/SourceLens-AIOS-P1-004-offsite-20260716T002125Z
-  offsite_volume_uuid: 2D3D7BCD-5BC5-3D2A-B853-F1FA95D290F8
-  budget:
-    engineering_hours: 16
-    calendar_days: 3
-    implementation_iterations_inside_same_task: 2
-    measurement_retries: 0
-    network_calls: 0
-    provider_calls: 0
-    model_calls: 0
-    remote_writes: 0
-    production_effects: 0
-    new_runtime_services: 0
-    new_databases: 0
-  next_eligible_action: VERIFY_P1_004_ACTIVATION_COMMIT_CREATE_ACTIVATION_RECEIPT_THEN_CREATE_EXACT_TASK_RESOURCES
+  current_task: NONE
+  current_task_status: NONE
+  current_task_contract: NONE
+  current_execution_authorization: NONE
+  next_eligible_action: FOUNDER_SELECT_NEXT_P1_REAL_ENGINEERING_TASK
 
 task_history:
   aios_p1_001:
@@ -228,6 +202,71 @@ task_history:
       new_canonical_task_branch_count: 0
       new_canonical_worktree_count: 1
       old_desktop_cleanup_policy: REMOVE_ONLY_AFTER_ALL_CUTOVER_CHECKS_PASS
+  aios_p1_004:
+    task_id: AIOS-P1-004_PARAMETERIZED_EVALUATION_HARNESS_ADMISSION
+    contract: docs/aios/tasks/P1-004_PARAMETERIZED_EVALUATION_HARNESS_ADMISSION.yaml
+    task_contract_sha256: 0551602b5a330fc6d7920d048bba33caae9c5a0358c0bf57ef40cf7a63eaec6f
+    status: TERMINAL_STOPPED_AFTER_UNAUTHORIZED_TRANSIENT_EFFECT_AND_INDEPENDENT_REVIEW_FAIL
+    execution_authorized: false
+    original_execution_authorization_status: CONSUMED_AND_TERMINATED
+    execution_authorization_sha256: 3979871bfa949c2f613f30c5169880e6bb02131f690298b446b0c831e147517e
+    execution_nonce_status: RETIRED_AFTER_TASK_STOP
+    measurement_retries: 0
+    capability_claims: 0
+    founder_gate_status: NOT_REACHED
+    main_advanced: false
+    resume_retry_successor_allowed: false
+    terminal_reason: UNAUTHORIZED_TRANSIENT_EFFECT
+    activation:
+      parent_commit: 48258805dfa5e7a9c6d04d23e699b1a4e7b56a33
+      parent_tree: 46c9540905db8d9bf3157929ecb45bf294352fd4
+      commit: ade80fca9ce4bd46446c0bf9e6e37fbde1e4dd0e
+      tree: 7d46a79ae09175e8d5e9a1b40b0b58be6467b550
+      receipt_sha256: 1fbbe9ae9a73581d739efdb392fca46c9e34ce66ef07161a74ee8f8545029ccb
+      pre_execution_evidence_index_sha256: 24929cd7fe456ec9e5ae6bd42f8768ab64cf20a7401e8dfd337b9a18741548de
+    quality_freeze:
+      commit: 6a002a25523ee527edb49040bafa9c9832eacb94
+      tree: 72c9ecc8ac6635caeedc36b0d480240ee7b164aa
+      receipt_sha256: e0dccba1325a836ec9db11d75468aad48438c05b8b50e5228286227c742cd949
+    worker_candidate:
+      commit: 68cf892d99ff636449f2694f7c7d5561e8693259
+      tree: 4fd7b9bae834d1402029c16e076a78f1612abf08
+      evidence_manifest_sha256: 75c3f4d57949375dd96d49cc4cbbf3338dc5cee8cb1fda042135295272e70bc5
+      accepted: false
+    integration_state:
+      commit: null
+      state: STOPPED_UNCOMMITTED_ARCHIVED_NOT_MERGED
+      dirty_paths:
+        - docs/PROJECT_CODE_MAP.md
+        - scripts/verify-p1-harness.sh
+      full_index_diff_sha256: 801261e297b03a299c01780367642e57a6cd9d1de43c46cb88c20531b46b6b36
+      full_index_diff_byte_length: 18639
+    terminal_evidence:
+      stop_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-004-parameterized-harness-admission-execution-20260716T002125Z/terminal/TERMINAL_STOP_RECORD.json
+      stop_record_sha256: ba3a50a97fe3bfd79c2568c13108828326dbba820cd2eef53e38fc54cd0bced3
+      evidence_manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-004-parameterized-harness-admission-execution-20260716T002125Z/terminal/TERMINAL_EVIDENCE_MANIFEST.json
+      evidence_manifest_sha256: 201bcf229c3179f882a066173401c3b335c7dc36fea1828fc43d7cda6b7a9320
+      evidence_manifest_root_sha256: f2d40a99178fe0b1dff221b1b5b0e85116aafe357d93bb028b676ca8185e530c
+      seal_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-004-parameterized-harness-admission-execution-20260716T002125Z/terminal/TERMINAL_SEAL.json
+      seal_sha256: 2bb0a14c832567feb89f6fb71e6ab88c338a4308669928399e8c2364f6553875
+      cto_review_sha256: aa0c9a359e8ea19f93ff855691f031dd4a3c044aa3257af8470691181c9a9513
+      cto_review_result: FAIL
+      security_review_sha256: 48bc8aa79a7f3eb2ad28077294339d8b5f3d90de4124354badbe528d54eff5b7
+      security_review_result: FAIL
+      quality_review_sha256: 06d512c7011422c7325d09ba9372aba55d74b6706a94232571ba29b9ecf5f0b9
+      quality_review_result: FAIL
+    terminal_cleanup:
+      offsite_package: /Volumes/lijp/SourceLens-AIOS-P1-004-terminal-20260716T041834Z
+      offsite_volume_uuid: 2D3D7BCD-5BC5-3D2A-B853-F1FA95D290F8
+      git_bundle_sha256: 5410da4d31bfc6deb003464eacc34b14b1a483f02bc4438a78a6c804685409ec
+      payload_manifest_sha256: 9f297dde6edc670dbc3924f98040520117f30594947ca05d81bed400dfa9fa01
+      payload_root_sha256: ffa1be1609516c465c2529b25cd8f2fc001bf10168eb86f7330c3174bfd0987b
+      integration_patch_sha256: 801261e297b03a299c01780367642e57a6cd9d1de43c46cb88c20531b46b6b36
+      restore_verification_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-004-terminal-closure-verification-20260716T041834Z/OFFSITE_RESTORE_VERIFICATION_RECEIPT.json
+      restore_verification_receipt_sha256: 15e92ebef2a234652e1d42a2aaa7e42fdffc9466e5f4fd94447f136a0ab56368
+      restore_status: PASS
+      task_branch_removed: true
+      task_worktree_removed: true
 
 gate_history:
   - task_id: AIOS-P1-001
@@ -262,10 +301,11 @@ historical_lineages:
 
 p1_boundary:
   allowed_now:
-    - Only exact AIOS-P1-004_PARAMETERIZED_EVALUATION_HARNESS_ADMISSION is currently authorized for bounded Task execution.
-    - The Task branch, worktree and execution evidence root may be created only after the five-path activation commit passes full verification and its create-once Activation Receipt binds the implementation parent.
+    - No P1 Task is currently authorized for execution.
+    - The long-term Goal control plane is active; selecting and executing the next real P1 engineering Task still requires a separate exact Task Contract and Founder authorization.
     - P1-003 is terminal, its hidden custody is quarantined historical risk, and it cannot be resumed, retried, backfilled, replaced or represented as PASS.
-    - B0/B1/B2/A0 execution, P2/P3 entry, automatic canonical main advance and all effects outside the exact P1-004 Task Contract remain unauthorized.
+    - P1-004 is terminal, not accepted, cannot be resumed, retried or continued through a successor/correction chain, and its Worker candidate remains off main.
+    - B0/B1/B2/A0 execution, P2/P3 entry and any canonical main advance outside a separately authorized Founder Gate remain unauthorized.
   deferred_to_p2_or_later:
     - Repository Intelligence capability improvement and benchmark claims.
   deferred_to_p3_or_later:
@@ -290,6 +330,9 @@ claim_boundary:
   p1_pilot_task_acquisition_evidence_integrity: FAIL
   p1_pilot_task_exact_request_and_byte_closure: UNKNOWN_NOT_PASS
   p1_pilot_task_hidden_custody: QUARANTINED_HISTORICAL_RISK
+  p1_004_parameterized_harness_admission: TERMINAL_STOPPED_NOT_ACCEPTED
+  p1_004_worker_candidate_accepted: false
+  p1_004_capability_claims: 0
   verified_task_success_rate: UNKNOWN_NO_RUNS
   production_ready: false
   trustworthy_software_engineering_agent_proven: false

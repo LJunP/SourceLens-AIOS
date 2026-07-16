@@ -1,0 +1,295 @@
+schema_version: 1
+record_type: sourcelens_aios_phase_delegated_task_contract
+task_id: AIOS-P1-019_COMMAND_EXECUTION_LEDGER_TERMINAL_CAPTURE
+phase: P1
+title: Bounded Command Execution Ledger Terminal Capture
+status: READY_FOR_PHASE_DELEGATED_EXECUTION
+execution_authority: PHASE_DELEGATED
+task_kind: EVALUATION_FOUNDATION_ENGINEERING
+risk_level: medium
+
+objective: >-
+  Harden the accepted P1 command recorder so every bounded local child-process
+  outcome used by the Evaluation Harness returns a structured terminal ledger:
+  zero exit, nonzero exit, signal, timeout, spawn error and stdout/stderr capture
+  limit. Preserve the existing P1-001 API and regression behavior, and prove a
+  deterministic comparison projection for repeated normal runs. This Task does
+  not provide Agent shell, descendant isolation or hostile-principal resistance.
+
+why_now:
+  - The accepted P1-001 recorder returns useful ledgers for ordinary exits but throws without a terminal ledger for spawn and capture-limit failures.
+  - Missing terminal evidence weakens the trace and failure-accounting foundation required by Evaluation Protocol v1.1.
+  - Closing bounded process terminal capture is higher-value than adding another schema-only validator and directly improves real harness code.
+
+task_spec_ref: docs/aios/schemas/run-record.schema.json
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/schemas/run-record.schema.json
+  - docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
+  - evaluation-harness/recording/recorder.mjs
+  - evaluation-harness/harness/run.mjs
+dependencies:
+  - AIOS-P1-001
+
+capabilities:
+  - RUN_RECORDING
+  - DETERMINISTIC_REPLAY
+  - EVIDENCE_MANIFEST
+capability_claim: false
+
+lineage:
+  kind: INDEPENDENT_PHASE_INCREMENT
+  retries: []
+  remediates: []
+  supersedes: []
+  prohibited_sources:
+    - P1_002_THROUGH_P1_018_REJECTED_ABANDONED_OR_PARTIAL_IMPLEMENTATIONS
+  note: This Task evolves the accepted P1-001 recorder and does not reuse or repair any stopped Task candidate.
+
+roles:
+  accountable_owner: Engineering Manager Agent
+  worker: Command Ledger Engineer
+  independent_reviewers:
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent
+
+allowed_paths:
+  worker:
+    - evaluation-harness/recording/**
+  quality:
+    - evaluation-harness/fixtures/command-ledger/**
+  integration:
+    - scripts/verify-p1-command-ledger.sh
+    - Makefile
+  external_evidence:
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-019-command-ledger-execution-20260716T161000Z/evidence/worker/**
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-019-command-ledger-execution-20260716T161000Z/evidence/integration/**
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-019-command-ledger-execution-20260716T161000Z/reviews/cto/**
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-019-command-ledger-execution-20260716T161000Z/reviews/security/**
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-019-command-ledger-execution-20260716T161000Z/reviews/quality/**
+
+frozen_execution_surface:
+  parent_runtime_executable: /usr/local/bin/node
+  parent_runtime_version: v20.17.0
+  test_driver_argv:
+    - /usr/local/bin/node
+    - evaluation-harness/fixtures/command-ledger/run-cases.mjs
+  cwd: TASK_WORKTREE_ROOT
+  environment_exact:
+    LC_ALL: C
+    TZ: UTC
+  shell: false
+  stdin: ignore
+  per_child_timeout_upper_bound_seconds: 5
+  stdout_limit_bytes: 1048576
+  stderr_limit_bytes: 1048576
+  network: forbidden
+  fixture_child_rule: Every spawned child is the frozen Node executable plus one exact Quality-owned local helper path and frozen literal arguments, except the single nonexistent-executable spawn-error case.
+  interface_boundary: recordCommand remains an internal programmatic harness API; this Task adds no user-facing command text parser, raw shell endpoint or Agent-controlled effect interface.
+
+terminal_ledger_contract:
+  existing_fields_preserved:
+    - schema_version
+    - record_type
+    - argv
+    - cwd
+    - environment
+    - started_at
+    - ended_at
+    - latency_ms
+    - timeout_seconds
+    - timed_out
+    - exit_status
+    - signal
+    - stdout_sha256
+    - stdout_bytes
+    - stderr_sha256
+    - stderr_bytes
+  required_new_fields:
+    - terminal_kind
+    - spawn_error_code
+    - capture_limit_stream
+  terminal_kinds:
+    - EXITED
+    - SIGNALED
+    - TIMED_OUT
+    - SPAWN_ERROR
+    - CAPTURE_LIMIT_EXCEEDED
+  invariants:
+    - EXITED has integer exit_status, null signal, timed_out false, null spawn_error_code and null capture_limit_stream.
+    - SIGNALED has null exit_status, non-empty signal, timed_out false, null spawn_error_code and null capture_limit_stream.
+    - TIMED_OUT has null exit_status, non-empty signal, timed_out true, null spawn_error_code and null capture_limit_stream.
+    - SPAWN_ERROR has null exit_status, null signal, timed_out false, a frozen non-content-bearing error code and null capture_limit_stream.
+    - CAPTURE_LIMIT_EXCEEDED has null exit_status, non-empty signal, timed_out false, null spawn_error_code and capture_limit_stream stdout or stderr.
+    - For capture overflow, retain exactly the first 1048576 bytes of the affected stream, discard later bytes, terminate the child and hash/count only those exact retained bytes; no child output content appears in errors.
+  caller_programming_errors:
+    - Empty or non-string argv and invalid timeoutSeconds continue to reject before spawn and are not classified as child terminal outcomes.
+
+deterministic_replay_projection:
+  included_fields:
+    - argv
+    - cwd_token
+    - environment
+    - timeout_seconds
+    - terminal_kind
+    - timed_out
+    - exit_status
+    - signal
+    - stdout_sha256
+    - stdout_bytes
+    - stderr_sha256
+    - stderr_bytes
+    - spawn_error_code
+    - capture_limit_stream
+  excluded_fields:
+    - started_at
+    - ended_at
+    - latency_ms
+    - physical task-worktree prefix
+  cwd_token_rule: Exact Task worktree root is projected as TASK_WORKTREE_ROOT before byte comparison.
+  canonicalization: Recursively sorted-key JSON with no whitespace and one LF.
+
+quality_freeze:
+  must_complete_before_worker_start: true
+  freeze_sequence:
+    - First commit every Quality file except FREEZE_RECEIPT.json.
+    - Second commit only FREEZE_RECEIPT.json, binding exact Contract hash, first fixture commit/tree and every first-commit Quality path/hash/byte length.
+    - Integration verifies both commits and a clean worktree before Worker starts.
+  exact_control_paths:
+    - evaluation-harness/fixtures/command-ledger/OWNERSHIP_MAP.json
+    - evaluation-harness/fixtures/command-ledger/CASE_MATRIX.json
+    - evaluation-harness/fixtures/command-ledger/ORACLE.json
+    - evaluation-harness/fixtures/command-ledger/FREEZE_RECEIPT.json
+    - evaluation-harness/fixtures/command-ledger/run-cases.mjs
+  exact_helper_paths:
+    - evaluation-harness/fixtures/command-ledger/helpers/exit-zero.mjs
+    - evaluation-harness/fixtures/command-ledger/helpers/exit-nonzero.mjs
+    - evaluation-harness/fixtures/command-ledger/helpers/signal-self.mjs
+    - evaluation-harness/fixtures/command-ledger/helpers/timeout.mjs
+    - evaluation-harness/fixtures/command-ledger/helpers/stdout-stderr.mjs
+    - evaluation-harness/fixtures/command-ledger/helpers/stdout-overflow.mjs
+    - evaluation-harness/fixtures/command-ledger/helpers/stderr-overflow.mjs
+  ownership_rule: Quality owns all fixture drivers, helpers and oracle bytes; Worker reads but never modifies them.
+
+quality_case_matrix:
+  total_cases: 12
+  cases:
+    - Q01_ZERO_EXIT_WITH_STDOUT
+    - Q02_NONZERO_EXIT_WITH_STDERR
+    - Q03_SIGNAL_TERMINATION
+    - Q04_TIMEOUT_TERMINATION
+    - Q05_SIMULTANEOUS_STDOUT_AND_STDERR_CAPTURE
+    - Q06_NONEXISTENT_EXECUTABLE_SPAWN_ERROR
+    - Q07_STDOUT_CAPTURE_LIMIT
+    - Q08_STDERR_CAPTURE_LIMIT
+    - Q09_TWO_NORMAL_RUNS_EQUAL_DETERMINISTIC_PROJECTION
+    - Q10_EMPTY_ARGV_REJECTS_BEFORE_SPAWN
+    - Q11_NON_STRING_ARGV_REJECTS_BEFORE_SPAWN
+    - Q12_INVALID_TIMEOUT_REJECTS_BEFORE_SPAWN
+  exact_oracle_rule: Each case freezes exact argv template, terminal_kind, timed_out, exit_status, signal, stdout/stderr bytes and hashes, spawn_error_code, capture_limit_stream and normalized projection where applicable.
+  independent_terminal_population:
+    - Q01
+    - Q02
+    - Q03
+    - Q04
+    - Q05
+    - Q06
+    - Q07
+    - Q08
+  metrics:
+    exact_oracle_agreement: 12_OF_12
+    missing_terminal_ledgers: 0
+    projection_replay_mismatches: 0
+    flaky_cases_allowed: 0
+
+evidence_writer_map:
+  worker: evidence/worker
+  integration: evidence/integration
+  cto: reviews/cto
+  security: reviews/security
+  quality: reviews/quality
+  ordering:
+    - Quality freeze receipt is verified before Worker start.
+    - Worker implementation and self-test end before the single candidate freeze.
+    - Integration freezes exact candidate commit/tree and primary manifest before any final review.
+    - Each reviewer binds the same Contract hash, candidate commit/tree and primary manifest hash and writes only its own review path.
+    - Integration writes the final Task Gate index only after all three reviews are exact PASS.
+
+budget:
+  engineering_hours: 8
+  calendar_days: 2
+  implementation_iterations: 2
+  execution_retries: 0
+  candidate_freezes: 1
+  network_calls: 0
+  provider_calls: 0
+
+acceptance_criteria:
+  - Quality freezes twelve atomic terminal-outcome and caller-precondition cases before Worker implementation.
+  - Exact oracle agreement is 12/12, every child outcome has one terminal ledger and normalized replay mismatch is zero.
+  - Existing recordCommand call shape remains compatible with P1-001, and P1-001 plus P1-011 regression gates remain PASS.
+  - Test execution uses only the frozen local Node helper population, shell false, closed environment and bounded output/time.
+  - Candidate targeted verification, fresh-clone targeted rebuild and targeted rollback PASS.
+  - Exact candidate receives PASS from CTO, Security and Quality with disjoint review Evidence.
+  - Master Task Gate synchronizes Truth/code map and final canonical make verify PASS before local integration is complete.
+
+failure_criteria:
+  - A child terminal outcome throws without returning its required terminal ledger.
+  - Any frozen terminal field, output hash/length or normalized replay projection differs from the Quality oracle.
+  - Existing P1-001 harness behavior regresses.
+  - The implementation invokes shell mode, propagates process.env, exceeds capture/time bounds or performs an external effect.
+
+stop_conditions:
+  - Any write occurs outside exact role-owned Task paths or exact role-owned Evidence path.
+  - Any accepted authority, P1-001/P1-011 fixture/Evidence or historical Evidence changes.
+  - A Founder-reserved decision, raw Agent shell or deferred P2/P3 capability becomes necessary.
+  - The same root cause remains after two implementation iterations without new Evidence.
+  - Any final independent review is non-PASS after the single candidate freeze.
+
+forbidden_actions:
+  - No network, Provider, Secret, remote, production or public effect.
+  - No process.env enumeration or propagation; only the frozen LC_ALL/TZ child environment is used in Task tests.
+  - No shell true, command string parsing, raw Agent shell interface or arbitrary caller-supplied executable in the frozen case driver.
+  - No descendant isolation, kill-domain, hostile-principal, platform-identity, Supervisor, Root Custody or Full Trust Runtime claim.
+  - No B0, B1, B2 or A0 execution.
+  - No modification of accepted P1-001/P1-011 fixtures, schemas or historical Evidence.
+  - No benchmark, VTSR, Agent-capability or P1-completion claim.
+  - No use of rejected or abandoned P1-002 through P1-018 implementation bytes.
+  - No successor, replacement, correction or pre-execution governance chain.
+
+evidence:
+  required:
+    - exact Contract and phase-delegated authorization hashes
+    - Quality freeze receipt and every frozen fixture hash
+    - twelve exact case results and normalized replay comparison
+    - actual parent/child argv, cwd, closed environment names, start/end and terminal fields
+    - Node runtime identity, implementation hashes and candidate commit/tree
+    - P1-001 and P1-011 regression results
+    - fresh-clone targeted rebuild and targeted rollback proof
+    - CTO, Security and Quality final reviews bound to candidate and primary manifest
+    - final canonical complete verification after Master Task Gate
+
+rollback:
+  strategy: Keep canonical main unchanged until Master Task Gate; preserve rejected Evidence before removing Task resources; accepted integration remains a local fast-forward descendant.
+
+delegated_authority:
+  phase_local: true
+  task_gate_owner: MASTER_CEO_AGENT
+  founder_gate: RESERVED_DECISIONS_ONLY
+  founder_reserved_decisions: []
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false
+
+completion_rule: >-
+  PASS proves only bounded cooperative-local terminal ledger capture for the twelve
+  Quality-frozen child-process cases and P1-001 compatibility. It does not prove
+  arbitrary command safety, descendant teardown, hostile-principal resistance,
+  Agent shell, full trace completeness, Agent capability, P1 completion or
+  production readiness.

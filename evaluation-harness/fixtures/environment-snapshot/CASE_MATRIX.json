@@ -1,0 +1,127 @@
+{
+  "schema_version": "1.0",
+  "task_id": "AIOS-P1-011_ENVIRONMENT_SNAPSHOT_CAPTURE_AND_REPLAY",
+  "total_cases": 13,
+  "baseline": {
+    "source_template": "evaluation-harness/fixtures/environment-snapshot/source-template",
+    "declarations": "evaluation-harness/fixtures/environment-snapshot/declarations.json",
+    "target_runtime_oci_manifest": "evaluation-harness/fixtures/environment-snapshot/target-runtime-oci-manifest.json",
+    "oracle": "evaluation-harness/fixtures/environment-snapshot/ORACLE.json"
+  },
+  "cases": [
+    {
+      "id": "Q01_CLEAN_CAPTURE_PASS",
+      "command": "capture",
+      "mutation": "none",
+      "expected_verdict": "PASS",
+      "expected_reason_code": "PASS",
+      "expected_exit_status": 0
+    },
+    {
+      "id": "Q02_EXACT_VERIFY_PASS",
+      "command": "verify",
+      "mutation": "none against Q01 snapshot bytes",
+      "expected_verdict": "PASS",
+      "expected_reason_code": "PASS",
+      "expected_exit_status": 0
+    },
+    {
+      "id": "Q03_TWO_FRESH_MATERIALIZATIONS_REPLAY_PASS",
+      "command": "capture",
+      "mutation": "materialize the frozen template twice at distinct physical paths using the frozen Git recipe",
+      "expected_verdict": "PASS",
+      "expected_reason_code": "PASS",
+      "expected_exit_status": 0,
+      "additional_oracle": "both typed results are PASS; projection bytes, projection_sha256, snapshot_id, source.base_commit, and source.tree_hash are equal"
+    },
+    {
+      "id": "Q04_DIRTY_SOURCE_SOURCE_NOT_CLEAN",
+      "command": "capture",
+      "mutation": "append one untracked file to the clean source",
+      "expected_verdict": "FAIL",
+      "expected_reason_code": "SOURCE_NOT_CLEAN",
+      "expected_exit_status": 2
+    },
+    {
+      "id": "Q05_COMMIT_OR_TREE_DRIFT_SOURCE_IDENTITY_MISMATCH",
+      "command": "verify",
+      "mutation": "replace source.base_commit with forty lowercase zeroes",
+      "expected_verdict": "FAIL",
+      "expected_reason_code": "SOURCE_IDENTITY_MISMATCH",
+      "expected_exit_status": 2
+    },
+    {
+      "id": "Q06_TARGET_RUNTIME_DRIFT_RUNTIME_IDENTITY_MISMATCH",
+      "command": "verify",
+      "mutation": "replace runtime.container_image_digest with sha256 plus sixty-four zeroes",
+      "expected_verdict": "FAIL",
+      "expected_reason_code": "RUNTIME_IDENTITY_MISMATCH",
+      "expected_exit_status": 2
+    },
+    {
+      "id": "Q07_LOCKFILE_BYTE_DRIFT_DEPENDENCY_IDENTITY_MISMATCH",
+      "command": "verify",
+      "mutation": "keep the source clean and replace the captured dependencies.lockfiles[0].sha256 with sixty-four zeroes",
+      "expected_verdict": "FAIL",
+      "expected_reason_code": "DEPENDENCY_IDENTITY_MISMATCH",
+      "expected_exit_status": 2
+    },
+    {
+      "id": "Q08_NETWORK_PROVIDER_OR_SECRET_POLICY_DRIFT_POLICY_BOUNDARY_MISMATCH",
+      "command": "verify",
+      "mutation": "replace network.policy none with declared_allowlist",
+      "expected_verdict": "FAIL",
+      "expected_reason_code": "POLICY_BOUNDARY_MISMATCH",
+      "expected_exit_status": 2
+    },
+    {
+      "id": "Q09_SOURCE_ROOT_SYMLINK_SYMLINK_FORBIDDEN",
+      "command": "capture",
+      "mutation": "supply a symlink as the declared source root",
+      "expected_verdict": "FAIL",
+      "expected_reason_code": "SYMLINK_FORBIDDEN",
+      "expected_exit_status": 2
+    },
+    {
+      "id": "Q10_LOCKFILE_SYMLINK_SYMLINK_FORBIDDEN",
+      "command": "capture",
+      "mutation": "replace package-lock.json with a symlink to a regular file inside the source root",
+      "expected_verdict": "FAIL",
+      "expected_reason_code": "SYMLINK_FORBIDDEN",
+      "expected_exit_status": 2
+    },
+    {
+      "id": "Q11_SOURCE_OR_LOCKFILE_ESCAPE_PATH_CONTAINMENT_VIOLATION",
+      "command": "capture",
+      "mutation": "declare ../outside-lock.json as a lockfile path",
+      "expected_verdict": "FAIL",
+      "expected_reason_code": "PATH_CONTAINMENT_VIOLATION",
+      "expected_exit_status": 2
+    },
+    {
+      "id": "Q12_UNDECLARED_LOCKFILE_UNDECLARED_LOCKFILE",
+      "command": "capture",
+      "mutation": "add npm-shrinkwrap.json inside the source root without declaring it",
+      "expected_verdict": "FAIL",
+      "expected_reason_code": "UNDECLARED_LOCKFILE",
+      "expected_exit_status": 2
+    },
+    {
+      "id": "Q13_MALFORMED_DECLARATION_MALFORMED_INPUT",
+      "command": "capture",
+      "mutation": "remove target_runtime.architecture from declarations.json",
+      "expected_verdict": "FAIL",
+      "expected_reason_code": "MALFORMED_INPUT",
+      "expected_exit_status": 2
+    }
+  ],
+  "metrics": {
+    "expected_outcome_agreement": "13_OF_13",
+    "false_accepts": 0,
+    "fresh_materialization_repetitions": 2,
+    "replay_projection_mismatches": 0,
+    "flaky_cases_allowed": 0,
+    "stdout_contract": "exactly one closed-result JSON object followed by LF",
+    "stderr_contract": "empty for typed PASS or FAIL"
+  }
+}

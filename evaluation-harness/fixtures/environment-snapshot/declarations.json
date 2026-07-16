@@ -1,0 +1,78 @@
+{
+  "schema_version": "1.0",
+  "repository_identity": "sourcelens-fixture://p1-011/environment-snapshot-source-v1",
+  "materialization": {
+    "git_object_format": "sha1",
+    "file_mode": "100644",
+    "files": [
+      "README.md",
+      "package-lock.json"
+    ],
+    "author_name": "SourceLens Quality Fixture",
+    "author_email": "quality-fixture@sourcelens.invalid",
+    "committer_name": "SourceLens Quality Fixture",
+    "committer_email": "quality-fixture@sourcelens.invalid",
+    "author_date": "2026-07-16T00:00:00Z",
+    "committer_date": "2026-07-16T00:00:00Z",
+    "commit_message": "fixture: freeze P1-011 synthetic source",
+    "expected_commit": "f25e96ac8eb87d37e1e9631e0c52f4083a82382b",
+    "expected_tree": "c7445a6aa59932fa3437ebd2a26b30ce84a18163"
+  },
+  "target_runtime": {
+    "os": "linux",
+    "architecture": "x86_64",
+    "container_image_digest": "sha256:4f600442a776edb4988a90e387469c420c6e4795f0d8b9c7eff9a0490ca3b474",
+    "locale": "C",
+    "timezone": "UTC"
+  },
+  "dependencies": {
+    "lockfiles": [
+      {
+        "path": "package-lock.json",
+        "sha256": "7991e977b4fee66e5e3a36218e9516f9578a4a47c13e71c7e02a62732b4fce30"
+      }
+    ],
+    "toolchains": {
+      "node": "20.17.0"
+    },
+    "caches": [
+      {
+        "name": "all-caches",
+        "policy": "disabled",
+        "digest": null
+      }
+    ]
+  },
+  "model": {
+    "model_ref": "synthetic://no-model",
+    "provider": "none",
+    "model_id": "no-model",
+    "model_version": "1.0",
+    "parameters": {}
+  },
+  "prompt_version": "no-prompt-v1",
+  "policy_version": "p1-011-local-no-effects-v1",
+  "tools": [
+    {
+      "tool_id": "environment-snapshot-capture",
+      "version": "1.0.0",
+      "permission": "observe"
+    }
+  ],
+  "network": {
+    "policy": "none",
+    "allowed_hosts": []
+  },
+  "environment_variables": {
+    "non_secret_values": {
+      "LC_ALL": "C",
+      "TZ": "UTC"
+    },
+    "secret_names_present": []
+  },
+  "secret_policy": {
+    "values_retained": false,
+    "redaction_policy_version": "no-secrets-v1"
+  },
+  "random_seed": 0
+}

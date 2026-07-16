@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "task_id": "AIOS-P1-011_ENVIRONMENT_SNAPSHOT_CAPTURE_AND_REPLAY",
+  "quality_owner": "Quality and Evaluation Agent",
+  "quality_root": "evaluation-harness/fixtures/environment-snapshot",
+  "exact_paths": [
+    "evaluation-harness/fixtures/environment-snapshot/CASE_MATRIX.json",
+    "evaluation-harness/fixtures/environment-snapshot/FREEZE_RECEIPT.json",
+    "evaluation-harness/fixtures/environment-snapshot/ORACLE.json",
+    "evaluation-harness/fixtures/environment-snapshot/OWNERSHIP_MAP.json",
+    "evaluation-harness/fixtures/environment-snapshot/declarations.json",
+    "evaluation-harness/fixtures/environment-snapshot/source-template/README.md",
+    "evaluation-harness/fixtures/environment-snapshot/source-template/package-lock.json",
+    "evaluation-harness/fixtures/environment-snapshot/target-runtime-oci-manifest.json"
+  ],
+  "write_policy": {
+    "quality_before_freeze": "write_exact_paths_only",
+    "quality_after_freeze": "read_only",
+    "worker": "read_only_after_verified_freeze",
+    "integration": "verify_only",
+    "all_other_roles": "forbidden"
+  },
+  "worker_start_gate": {
+    "freeze_receipt_present": true,
+    "freeze_receipt_verified": true,
+    "task_worktree_clean": true
+  }
+}

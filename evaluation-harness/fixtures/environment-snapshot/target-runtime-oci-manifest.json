@@ -1,0 +1,14 @@
+{
+  "schemaVersion": 2,
+  "mediaType": "application/vnd.oci.image.manifest.v1+json",
+  "config": {
+    "mediaType": "application/vnd.oci.image.config.v1+json",
+    "digest": "sha256:72bf62f6f80ebac8f4d4e22a1e719e951a99a28f244513d2b5451d1c7c2e63a9",
+    "size": 256
+  },
+  "layers": [],
+  "annotations": {
+    "org.opencontainers.image.ref.name": "sourcelens-aios-p1-011-fixture-only",
+    "org.opencontainers.image.version": "1.0.0"
+  }
+}

@@ -1,0 +1,141 @@
+{
+  "schema_version": "1.0",
+  "task_id": "AIOS-P1-011_ENVIRONMENT_SNAPSHOT_CAPTURE_AND_REPLAY",
+  "closed_result_contract": {
+    "additional_properties": false,
+    "fields_in_order": [
+      "schema_version",
+      "command",
+      "verdict",
+      "reason_code",
+      "snapshot_id",
+      "projection_sha256"
+    ],
+    "field_contract": {
+      "schema_version": {
+        "const": "1.0"
+      },
+      "command": {
+        "enum": [
+          "capture",
+          "verify"
+        ]
+      },
+      "verdict": {
+        "enum": [
+          "PASS",
+          "FAIL"
+        ]
+      },
+      "reason_code": {
+        "enum": [
+          "PASS",
+          "MALFORMED_INPUT",
+          "PATH_CONTAINMENT_VIOLATION",
+          "SYMLINK_FORBIDDEN",
+          "SOURCE_NOT_CLEAN",
+          "UNDECLARED_LOCKFILE",
+          "SOURCE_IDENTITY_MISMATCH",
+          "RUNTIME_IDENTITY_MISMATCH",
+          "DEPENDENCY_IDENTITY_MISMATCH",
+          "POLICY_BOUNDARY_MISMATCH",
+          "SNAPSHOT_SCHEMA_INVALID",
+          "SNAPSHOT_ID_MISMATCH"
+        ]
+      },
+      "snapshot_id": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "projection_sha256": {
+        "type": [
+          "lowercase_sha256",
+          "null"
+        ]
+      }
+    },
+    "pass": {
+      "verdict": "PASS",
+      "reason_code": "PASS",
+      "exit_status": 0,
+      "snapshot_id_nullable": false,
+      "projection_sha256_nullable": false
+    },
+    "typed_fail": {
+      "verdict": "FAIL",
+      "exit_status": 2,
+      "snapshot_id_nullable": true,
+      "projection_sha256_nullable": true
+    },
+    "unexpected_internal_failure_exit_status": 1,
+    "stdout": "exactly one closed-result JSON object followed by LF",
+    "stderr_for_typed_pass_or_fail": "empty"
+  },
+  "reason_precedence": [
+    "MALFORMED_INPUT",
+    "PATH_CONTAINMENT_VIOLATION",
+    "SYMLINK_FORBIDDEN",
+    "SOURCE_NOT_CLEAN",
+    "UNDECLARED_LOCKFILE",
+    "SOURCE_IDENTITY_MISMATCH",
+    "RUNTIME_IDENTITY_MISMATCH",
+    "DEPENDENCY_IDENTITY_MISMATCH",
+    "POLICY_BOUNDARY_MISMATCH",
+    "SNAPSHOT_SCHEMA_INVALID",
+    "SNAPSHOT_ID_MISMATCH"
+  ],
+  "deterministic_identity_projection": {
+    "canonicalization": "UTF-8 canonical JSON; recursively sorted object keys; normalized array order; no insignificant whitespace; exactly one trailing LF",
+    "included_fields_in_order": [
+      "schema_version",
+      "source.repository_identity",
+      "source.base_commit",
+      "source.tree_hash",
+      "source.worktree_clean",
+      "runtime.os",
+      "runtime.architecture",
+      "runtime.container_image_digest",
+      "runtime.locale",
+      "runtime.timezone",
+      "dependencies.lockfiles",
+      "dependencies.toolchains",
+      "dependencies.caches",
+      "model",
+      "prompt_version",
+      "policy_version",
+      "tools",
+      "network",
+      "environment_variables",
+      "secret_policy",
+      "random_seed"
+    ],
+    "excluded_fields": [
+      "snapshot_id",
+      "created_at",
+      "physical_source_path",
+      "capture_tool_runtime_observation"
+    ],
+    "normalization": {
+      "repository_identity": "exact logical caller value; physical paths forbidden",
+      "git_hashes": "lowercase hexadecimal",
+      "container_image_digest": "sha256 prefix plus lowercase SHA-256 of exact target-runtime-oci-manifest.json bytes",
+      "lockfiles": "repository-relative POSIX paths sorted by UTF-8 byte order and paired with lowercase SHA-256",
+      "empty_lockfiles": "empty JSON array",
+      "toolchains": "object keys sorted by UTF-8 byte order",
+      "caches": "sort by name, policy, digest; null remains JSON null",
+      "tools": "sort by tool_id, version, permission",
+      "environment_variables": "sort non-secret keys; sort and deduplicate secret_names_present"
+    },
+    "snapshot_id_formula": "ENV- plus lowercase SHA-256 of canonical projection bytes"
+  },
+  "capture_tool_runtime_rule": "Node executable path/hash, Node version, host platform, and host architecture are Evidence-only and never alter EnvironmentSnapshot identity.",
+  "metrics": {
+    "expected_outcome_agreement": "13_OF_13",
+    "false_accepts": 0,
+    "fresh_materialization_repetitions": 2,
+    "replay_projection_mismatches": 0,
+    "flaky_cases_allowed": 0
+  }
+}

@@ -1,0 +1,222 @@
+schema_version: 1
+record_type: sourcelens_aios_phase_delegated_task_contract
+task_id: AIOS-P1-015_RUN_RECORD_RFC3339_TEMPORAL_VALIDATION
+phase: P1
+title: RunRecord RFC3339 Temporal Validation
+status: READY_FOR_PHASE_DELEGATED_EXECUTION
+execution_authority: PHASE_DELEGATED
+task_kind: EVALUATION_FOUNDATION_ENGINEERING
+risk_level: medium
+
+objective: >-
+  Implement one deterministic local validator for the RunRecord started_at and
+  ended_at fields. It must accept the four frozen valid RFC3339 forms, reject
+  the three frozen invalid forms with exact typed outcomes, accept equal
+  instants, and reproduce byte-identical normalized output from two fresh input
+  materializations. No other RunRecord invariant is claimed.
+
+why_now:
+  - The accepted RunRecord schema declares date-time fields, while deterministic evaluation needs a mechanically tested strict timestamp and ordering rule.
+  - A small fully covered temporal slice produces accepted engineering evidence sooner than another broad RunRecord contract.
+  - This remains local P1 evaluation-foundation work and does not implement a trace runtime, baseline or P3 capability.
+
+task_spec_ref: docs/aios/schemas/run-record.schema.json
+read_context:
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/schemas/run-record.schema.json
+  - docs/aios/truth/project_state.yaml
+dependencies:
+  - AIOS-P1-001
+
+capabilities:
+  - RUN_RECORDING
+  - DETERMINISTIC_REPLAY
+  - EVIDENCE_MANIFEST
+capability_claim: false
+
+lineage:
+  kind: INDEPENDENT_PHASE_INCREMENT
+  retries: []
+  remediates: []
+  supersedes: []
+  note: This Task validates only timestamp syntax and ordering and uses no P1-014 Contract or implementation bytes.
+
+roles:
+  accountable_owner: Engineering Manager Agent
+  worker: RunRecord Temporal Engineer
+  independent_reviewers:
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent
+
+allowed_paths:
+  worker:
+    - evaluation-harness/validators/run-record-time/**
+  quality:
+    - evaluation-harness/fixtures/run-record-time/**
+  integration:
+    - scripts/verify-p1-run-record-time.sh
+    - Makefile
+  external_evidence:
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-015-run-record-time-execution-20260716T153000Z/**
+
+frozen_inputs:
+  - docs/aios/schemas/run-record.schema.json
+  - docs/aios/EVALUATION_PROTOCOL.md
+
+implementation_requirements:
+  - Read the eight Quality-frozen UTF-8 JSON inputs, each containing started_at and ended_at string fields.
+  - For the accepted Task claim, distinguish exactly the frozen whole-second Z, nanosecond Z, positive-offset and negative-offset valid forms from the frozen missing-timezone and impossible-date invalid forms; behavior for untested timestamp forms remains UNKNOWN_NOT_CLAIMED.
+  - Convert both valid timestamps to exact integer nanoseconds since Unix epoch without floating-point arithmetic.
+  - Reject ended_at earlier than started_at and accept equality.
+  - Emit normalized UTC strings with Z and exactly nine fractional digits plus non-negative duration_ns as a decimal string.
+  - Emit exactly one closed JSON result plus LF on stdout and no stderr for expected PASS or FAIL.
+  - Demonstrate byte-identical output from two physical copies of the same valid input.
+
+quality_freeze:
+  must_complete_before_worker_start: true
+  freeze_commit_position: first_commit_after_activation_on_task_branch
+  exact_paths:
+    - evaluation-harness/fixtures/run-record-time/OWNERSHIP_MAP.json
+    - evaluation-harness/fixtures/run-record-time/CASE_MATRIX.json
+    - evaluation-harness/fixtures/run-record-time/ORACLE.json
+    - evaluation-harness/fixtures/run-record-time/FREEZE_RECEIPT.json
+    - evaluation-harness/fixtures/run-record-time/cases/Q01.json
+    - evaluation-harness/fixtures/run-record-time/cases/Q02.json
+    - evaluation-harness/fixtures/run-record-time/cases/Q03.json
+    - evaluation-harness/fixtures/run-record-time/cases/Q04.json
+    - evaluation-harness/fixtures/run-record-time/cases/Q05.json
+    - evaluation-harness/fixtures/run-record-time/cases/Q06.json
+    - evaluation-harness/fixtures/run-record-time/cases/Q07.json
+    - evaluation-harness/fixtures/run-record-time/cases/Q08.json
+  freeze_receipt_rule: Quality writes FREEZE_RECEIPT.json last, excludes itself from its sorted file manifest, and binds exact Contract hash and freeze commit/tree.
+  ownership_rule: Quality owns every run-record-time fixture; Worker reads but never modifies them.
+
+closed_result_contract:
+  fields:
+    - schema_version
+    - verdict
+    - reason_code
+    - normalized_started_at
+    - normalized_ended_at
+    - duration_ns
+  success:
+    verdict: PASS
+    reason_code: PASS
+    exit_status: 0
+    nullable_fields: []
+  typed_failure:
+    verdict: FAIL
+    exit_status: 2
+    normalized_started_at: null
+    normalized_ended_at: null
+    duration_ns: null
+  unexpected_internal_failure_exit_status: 1
+  reason_precedence:
+    - INVALID_RFC3339
+    - ENDED_BEFORE_STARTED
+
+quality_case_matrix:
+  total_cases: 8
+  cases:
+    - Q01_UTC_WHOLE_SECONDS_PASS
+    - Q02_UTC_NANOSECONDS_PASS
+    - Q03_POSITIVE_OFFSET_PASS
+    - Q04_NEGATIVE_OFFSET_PASS
+    - Q05_EQUAL_INSTANTS_PASS
+    - Q06_MISSING_TIMEZONE_INVALID_RFC3339
+    - Q07_IMPOSSIBLE_DATE_INVALID_RFC3339
+    - Q08_ENDED_BEFORE_STARTED
+  exact_coverage:
+    valid_rfc3339_forms: Q01_Q02_Q03_Q04
+    equality_rule: Q05
+    syntax_failure: Q06
+    calendar_failure: Q07
+    ordering_failure: Q08
+    fresh_materialization_replay: Q02_COPIED_TWICE
+  metrics:
+    expected_outcome_agreement: 8_OF_8
+    false_accepts: 0
+    replay_output_mismatches: 0
+    flaky_cases_allowed: 0
+
+budget:
+  engineering_hours: 6
+  calendar_days: 2
+  implementation_iterations: 2
+  execution_retries: 0
+  candidate_freezes: 1
+  network_calls: 0
+  provider_calls: 0
+
+acceptance_criteria:
+  - Quality freezes exactly eight inputs and exact expected typed outputs before Worker implementation.
+  - Q01 through Q05 PASS with exact normalized timestamps and duration_ns.
+  - Q06 and Q07 fail with INVALID_RFC3339 and Q08 fails with ENDED_BEFORE_STARTED.
+  - Two fresh copies of Q02 produce byte-identical stdout.
+  - The eight-case oracle agreement is 8/8, false accepts and replay mismatches are zero.
+  - P1-001 and P1-011 regression gates remain PASS.
+  - Candidate targeted gates, fresh-clone targeted rebuild and rollback PASS.
+  - Master Gate performs mechanical Truth/code-map synchronization and final canonical make verify.
+  - Exact candidate receives PASS from CTO, Security and Quality reviewers.
+
+failure_criteria:
+  - Any of the eight frozen outcomes differs from the oracle.
+  - Equivalent Q02 copies produce different output.
+  - A timestamp is evaluated with floating-point arithmetic or platform locale parsing.
+  - Implementation requires network, Provider, Secret, remote, production or public effects.
+
+stop_conditions:
+  - Any write occurs outside exact role-owned Task paths or external Evidence root.
+  - Any immutable authority, accepted artifact or historical Evidence changes.
+  - A Founder-reserved decision or deferred P2/P3 capability becomes necessary.
+  - The same root cause remains after two implementation iterations without new Evidence.
+  - Any final independent review is non-PASS after the implementation budget is exhausted.
+
+forbidden_actions:
+  - No network access.
+  - No provider access.
+  - No Secret access or retention.
+  - No remote write or other remote effect.
+  - No production effect.
+  - No public release or public effect.
+  - No B0, B1, B2 or A0 evaluation execution.
+  - No broad RunRecord terminal/artifact validator, trace runtime, benchmark, VTSR, Agent-capability or P1-completion claim.
+  - No claim about RFC3339 forms outside the eight frozen Quality cases.
+  - No modification of accepted P1-001/P1-011 artifacts, schemas or historical Evidence.
+  - No reuse of P1-014 Contract or implementation bytes.
+  - No successor, replacement, correction or pre-execution governance chain.
+
+evidence:
+  required:
+    - exact Task Contract and phase-delegated authorization hashes
+    - Quality freeze receipt and eight exact fixture hashes
+    - eight typed results and Q02 replay comparison
+    - actual argv, cwd, start/end time and exit status for verification commands
+    - implementation hashes, candidate commit and tree
+    - P1-001 and P1-011 regression results
+    - fresh-clone targeted rebuild and rollback proof
+    - final canonical complete verification after Master Gate
+    - CTO, Security and Quality review reports
+
+rollback:
+  strategy: Keep canonical main unchanged until Master Task Gate; rejected Task resources are removed only after Evidence preservation, and accepted integration remains a local fast-forward descendant.
+
+delegated_authority:
+  phase_local: true
+  task_gate_owner: MASTER_CEO_AGENT
+  founder_gate: RESERVED_DECISIONS_ONLY
+  founder_reserved_decisions: []
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false
+
+completion_rule: >-
+  PASS proves only the eight frozen RFC3339 timestamp and ordering cases plus
+  deterministic replay. Untested RFC3339 forms remain UNKNOWN_NOT_CLAIMED. It
+  does not prove other RunRecord invariants, trace
+  integrity, baseline performance, Agent ability, P1 completion or production readiness.

@@ -73,12 +73,25 @@ function mutateJson(source, target, mutate) {
 }
 
 const results = [];
+const securityRegressionProbes = [];
 function check(caseId, run, extra = true) {
   const spec = caseMatrix.cases.find((entry) => entry.id === caseId);
   const pass = run.status === spec.expected_exit_status && run.stderr === "" &&
     run.parsed?.verdict === spec.expected_verdict && run.parsed?.reason_code === spec.expected_reason_code && extra;
   results.push({ case_id: caseId, pass, expected: spec, actual: { status: run.status, stdout: run.stdout, stderr: run.stderr } });
   if (!pass) throw new Error(`${caseId} failed: ${JSON.stringify(results.at(-1))}`);
+}
+
+function checkSecurityProbe(probeId, run) {
+  const pass = run.status === 2 && run.stderr === "" &&
+    run.parsed?.verdict === "FAIL" && run.parsed?.reason_code === "SYMLINK_FORBIDDEN";
+  securityRegressionProbes.push({
+    probe_id: probeId,
+    pass,
+    expected: { verdict: "FAIL", reason_code: "SYMLINK_FORBIDDEN", exit_status: 2 },
+    actual: { status: run.status, stdout: run.stdout, stderr: run.stderr },
+  });
+  if (!pass) throw new Error(`${probeId} failed: ${JSON.stringify(securityRegressionProbes.at(-1))}`);
 }
 
 try {
@@ -142,7 +155,42 @@ try {
   const q13Declarations = mutateJson(declarationsPath, join(scratch, "q13-declarations.json"), (value) => { delete value.target_runtime.architecture; });
   check("Q13_MALFORMED_DECLARATION_MALFORMED_INPUT", invoke("capture", sourceA, { id: "q13" }, q13Declarations));
 
-  process.stdout.write(`${JSON.stringify({ status: "PASS", passed: results.length, total: caseMatrix.total_cases, results })}\n`);
+  const nestedLockSymlink = materialize("nested-lock-symlink");
+  mkdirSync(join(nestedLockSymlink, "nested"));
+  symlinkSync("../README.md", join(nestedLockSymlink, "nested/yarn.lock"));
+  git(nestedLockSymlink, ["add", "nested/yarn.lock"]);
+  git(nestedLockSymlink, ["commit", "--quiet", "-m", "test: add nested lockfile symlink"], {
+    GIT_AUTHOR_NAME: "SourceLens Quality Fixture",
+    GIT_AUTHOR_EMAIL: "quality-fixture@sourcelens.invalid",
+    GIT_COMMITTER_NAME: "SourceLens Quality Fixture",
+    GIT_COMMITTER_EMAIL: "quality-fixture@sourcelens.invalid",
+    GIT_AUTHOR_DATE: "2026-07-16T00:02:00Z",
+    GIT_COMMITTER_DATE: "2026-07-16T00:02:00Z",
+  });
+  checkSecurityProbe("S01_COMMITTED_NESTED_LOCKFILE_SYMLINK", invoke("capture", nestedLockSymlink, { id: "s01" }));
+
+  const directorySymlink = materialize("directory-symlink");
+  mkdirSync(join(directorySymlink, "real-directory"));
+  writeFileSync(join(directorySymlink, "real-directory/data.txt"), "synthetic\n");
+  symlinkSync("real-directory", join(directorySymlink, "linked-directory"));
+  git(directorySymlink, ["add", "real-directory/data.txt", "linked-directory"]);
+  git(directorySymlink, ["commit", "--quiet", "-m", "test: add directory symlink"], {
+    GIT_AUTHOR_NAME: "SourceLens Quality Fixture",
+    GIT_AUTHOR_EMAIL: "quality-fixture@sourcelens.invalid",
+    GIT_COMMITTER_NAME: "SourceLens Quality Fixture",
+    GIT_COMMITTER_EMAIL: "quality-fixture@sourcelens.invalid",
+    GIT_AUTHOR_DATE: "2026-07-16T00:03:00Z",
+    GIT_COMMITTER_DATE: "2026-07-16T00:03:00Z",
+  });
+  checkSecurityProbe("S02_COMMITTED_DIRECTORY_SYMLINK", invoke("capture", directorySymlink, { id: "s02" }));
+
+  process.stdout.write(`${JSON.stringify({
+    status: "PASS",
+    passed: results.length,
+    total: caseMatrix.total_cases,
+    results,
+    security_regression_probes: securityRegressionProbes,
+  })}\n`);
 } finally {
   rmSync(scratchParent, { recursive: true, force: true });
 }

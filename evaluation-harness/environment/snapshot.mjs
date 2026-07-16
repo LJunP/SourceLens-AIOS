@@ -237,7 +237,9 @@ function discoverLockfiles(root, dir = root, found = []) {
     if (entry.name === ".git") continue;
     const path = resolve(dir, entry.name);
     const stat = lstatSync(path);
-    if (stat.isSymbolicLink()) continue;
+    if (stat.isSymbolicLink()) {
+      throw new TypedFailure(REASONS.SYMLINK_FORBIDDEN, `symlink discovered while scanning source: ${relative(root, path).split(sep).join("/")}`);
+    }
     if (stat.isDirectory()) discoverLockfiles(root, path, found);
     else if (stat.isFile() && LOCKFILE_BASENAMES.has(entry.name)) {
       found.push(relative(root, path).split(sep).join("/"));

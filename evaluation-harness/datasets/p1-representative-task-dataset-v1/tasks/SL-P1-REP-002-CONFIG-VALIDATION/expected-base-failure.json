@@ -1,0 +1,10 @@
+{
+  "assertion_id": "REP002_REJECT_UNKNOWN_KEYS",
+  "command_id": "issue-test",
+  "expected_exit_status": 1,
+  "failure_class": "TEST_ASSERTION_FAILURE",
+  "forbidden_exit_modes": ["timeout", "signal", "spawn_error"],
+  "forbidden_output_tokens": ["SyntaxError", "ERR_MODULE_NOT_FOUND", "MODULE_NOT_FOUND", "ENOENT", "timeout", "signal"],
+  "required_output_tokens": ["not ok", "REP002_REJECT_UNKNOWN_KEYS"],
+  "schema_version": "1.0"
+}

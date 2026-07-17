@@ -1,0 +1,10 @@
+{
+  "assertion_id": "REP005_FORMAT_NAME_ACROSS_MODULES",
+  "command_id": "issue-test",
+  "expected_exit_status": 1,
+  "failure_class": "TEST_ASSERTION_FAILURE",
+  "forbidden_exit_modes": ["timeout", "signal", "spawn_error"],
+  "forbidden_output_tokens": ["SyntaxError", "ERR_MODULE_NOT_FOUND", "MODULE_NOT_FOUND", "ENOENT", "timeout", "signal"],
+  "required_output_tokens": ["not ok", "REP005_FORMAT_NAME_ACROSS_MODULES"],
+  "schema_version": "1.0"
+}

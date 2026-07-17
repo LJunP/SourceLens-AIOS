@@ -1,0 +1,18 @@
+diff --git a/src/path.mjs b/src/path.mjs
+--- a/src/path.mjs
++++ b/src/path.mjs
+@@ -1,5 +1,11 @@
+-import { resolve } from "node:path";
+-
++import { isAbsolute, relative, resolve, sep } from "node:path";
++
+ export function resolveUnder(root, candidate) {
+-  return resolve(root, candidate);
++  const resolvedRoot = resolve(root);
++  const resolvedCandidate = resolve(resolvedRoot, candidate);
++  const relation = relative(resolvedRoot, resolvedCandidate);
++  if (relation === ".." || relation.startsWith(`..${sep}`) || isAbsolute(relation)) {
++    throw new Error("path escapes root");
++  }
++  return resolvedCandidate;
+ }

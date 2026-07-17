@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "dataset_id": "SOURCELENS-P1-REPRESENTATIVE-TASKS",
+  "dataset_version": "1.0.0",
+  "task_count": 6,
+  "split_counts": {
+    "development": 4,
+    "validation": 2,
+    "hidden": 0
+  },
+  "archetype_coverage": {
+    "bounded_logic_bug_fix": ["SL-P1-REP-001-RANGE-NORMALIZATION"],
+    "input_contract_validation": ["SL-P1-REP-002-CONFIG-VALIDATION"],
+    "path_containment_security_fix": ["SL-P1-REP-003-SAFE-PATH-JOIN"],
+    "deterministic_error_handling": ["SL-P1-REP-004-COMMAND-RESULT-MAPPING"],
+    "multi_file_behavior_change": ["SL-P1-REP-005-PROFILE-DISPLAY-NAME"],
+    "behavior_preserving_refactor": ["SL-P1-REP-006-DEDUPE-REFACTOR"]
+  },
+  "language_coverage": {
+    "javascript": 6
+  },
+  "risk_coverage": {
+    "low": 5,
+    "medium": 1,
+    "high": 0,
+    "critical": 0
+  },
+  "representativeness_claim": "Coverage is representative only of the six predeclared bounded software-engineering archetypes and declared split/risk axes. It is not evidence of ecosystem, language, repository-size, user-value or production representativeness.",
+  "claim_boundary": "P1_EXIT_CAPABILITY_ENGINEERING_ARTIFACT_ONLY_NO_BENCHMARK_AGENT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM"
+}

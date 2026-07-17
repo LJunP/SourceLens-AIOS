@@ -1,0 +1,26 @@
+{
+  "schema_version": "1.0",
+  "dataset_id": "SOURCELENS-P1-REPRESENTATIVE-TASKS",
+  "dataset_version": "1.0.0",
+  "asset_root": "evaluation-harness/datasets/p1-representative-task-dataset-v1",
+  "freeze_owner": "Quality and Evaluation Agent",
+  "worker_role": "Dataset Validator Engineer",
+  "rules": [
+    {
+      "path_pattern": "evaluation-harness/datasets/p1-representative-task-dataset-v1/**",
+      "owner": "Quality and Evaluation Agent",
+      "worker_access": "READ_ONLY_AFTER_QUALITY_FREEZE"
+    },
+    {
+      "path_pattern": "evaluation-harness/validators/task-dataset-validator.mjs",
+      "owner": "Dataset Validator Engineer",
+      "quality_access": "INDEPENDENT_REVIEW_ONLY"
+    },
+    {
+      "path_pattern": "evaluation-harness/validators/task-dataset-self-test.mjs",
+      "owner": "Dataset Validator Engineer",
+      "quality_access": "INDEPENDENT_REVIEW_ONLY"
+    }
+  ],
+  "separation_invariant": "Quality freezes dataset bytes before Worker implementation. Worker must not modify the frozen dataset root and must not perform final Quality review."
+}

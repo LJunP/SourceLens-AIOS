@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "record_type": "sourcelens_aios_p1_quality_dataset_freeze_receipt",
+  "task_id": "AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET",
+  "dataset_id": "SOURCELENS-P1-REPRESENTATIVE-TASKS",
+  "dataset_version": "1.0.0",
+  "freeze_owner": "Quality and Evaluation Agent",
+  "frozen_at_utc": "2026-07-17T02:02:13Z",
+  "task_contract": {
+    "path": "docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml",
+    "sha256": "acec5432aacd6476693db62bdb52ee326c467f17b691860688fe952f7ffbdc33",
+    "byte_length": 18346
+  },
+  "dataset_manifest": {
+    "path": "evaluation-harness/datasets/p1-representative-task-dataset-v1/dataset-manifest.json",
+    "sha256": "22f252319ed066655b05142a391709741703e01fbb4d6b5ebfbbcb6acd782be6",
+    "byte_length": 15313
+  },
+  "ownership_map": {
+    "path": "evaluation-harness/datasets/p1-representative-task-dataset-v1/OWNERSHIP_MAP.json",
+    "sha256": "27b00f2080c911d3b313eca5e62e28efdfa4ef81173e601259adb1da7fda22fd",
+    "byte_length": 1074
+  },
+  "artifact_count": 44,
+  "artifact_population_sha256": "2d952e871a60eff0ba73f4c162057c4037b8e4c22ef0bd12d4e5eb75d13e0f83",
+  "git_binding": {
+    "kind": "EXTERNAL_GIT_COMMIT_CONTAINING_EXACT_RECEIPT_BYTES",
+    "source_parent_commit": "5751e93632e42a6e47da5e93d69a91a03b406150",
+    "source_parent_tree": "606958b978333f175495847b4a8034e2be8684b3"
+  },
+  "worker_write_access_after_freeze": "DENIED_FOR_DATASET_ROOT",
+  "claim_boundary": "P1_EXIT_CAPABILITY_ENGINEERING_ARTIFACT_ONLY_NO_BENCHMARK_AGENT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM"
+}

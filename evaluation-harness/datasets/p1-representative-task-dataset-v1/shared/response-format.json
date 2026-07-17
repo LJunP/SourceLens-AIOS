@@ -1,0 +1,10 @@
+{
+  "additionalProperties": false,
+  "properties": {
+    "changed_paths": { "items": { "type": "string" }, "type": "array" },
+    "summary": { "type": "string" },
+    "tests": { "items": { "type": "string" }, "type": "array" }
+  },
+  "required": ["summary", "changed_paths", "tests"],
+  "type": "object"
+}

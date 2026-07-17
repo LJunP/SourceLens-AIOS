@@ -1,0 +1,12 @@
+diff --git a/src/config.mjs b/src/config.mjs
+--- a/src/config.mjs
++++ b/src/config.mjs
+@@ -5,5 +5,8 @@ export function validateConfig(config) {
+   for (const key of REQUIRED_KEYS) {
+     if (!(key in config)) throw new Error(`missing key: ${key}`);
+   }
++  for (const key of Object.keys(config)) {
++    if (!ALLOWED_KEYS.has(key)) throw new Error(`unknown key: ${key}`);
++  }
+   return { ok: true, mode: config.mode };
+ }

@@ -1,0 +1,43 @@
+diff --git a/src/projects.mjs b/src/projects.mjs
+--- a/src/projects.mjs
++++ b/src/projects.mjs
+@@ -1,8 +1,5 @@
++import { uniqueStable } from "./unique.mjs";
++
+ export function uniqueProjectNames(names) {
+-  const seen = new Set();
+-  return names.filter((name) => {
+-    if (seen.has(name)) return false;
+-    seen.add(name);
+-    return true;
+-  });
++  return uniqueStable(names);
+ }
+diff --git a/src/unique.mjs b/src/unique.mjs
+new file mode 100644
+--- /dev/null
++++ b/src/unique.mjs
+@@ -0,0 +1,8 @@
++export function uniqueStable(values) {
++  const seen = new Set();
++  return values.filter((value) => {
++    if (seen.has(value)) return false;
++    seen.add(value);
++    return true;
++  });
++}
+diff --git a/src/users.mjs b/src/users.mjs
+--- a/src/users.mjs
++++ b/src/users.mjs
+@@ -1,8 +1,5 @@
++import { uniqueStable } from "./unique.mjs";
++
+ export function uniqueUserNames(names) {
+-  const seen = new Set();
+-  return names.filter((name) => {
+-    if (seen.has(name)) return false;
+-    seen.add(name);
+-    return true;
+-  });
++  return uniqueStable(names);
+ }

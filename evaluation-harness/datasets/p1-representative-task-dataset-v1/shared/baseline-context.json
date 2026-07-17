@@ -1,0 +1,11 @@
+{
+  "context_kind": "issue_only",
+  "dataset_id": "SOURCELENS-P1-REPRESENTATIVE-TASKS",
+  "dataset_version": "1.0.0",
+  "instructions": [
+    "Use only the task repository and declared tools.",
+    "Produce the smallest patch that satisfies issue-specific and regression tests.",
+    "Do not use network, providers, secrets or remote effects."
+  ],
+  "schema_version": "1.0"
+}

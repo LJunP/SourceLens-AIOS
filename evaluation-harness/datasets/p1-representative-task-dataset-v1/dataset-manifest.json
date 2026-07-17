@@ -1,0 +1,386 @@
+{
+  "schema_version": "1.0",
+  "dataset_id": "SOURCELENS-P1-REPRESENTATIVE-TASKS",
+  "dataset_version": "1.0.0",
+  "visibility": "VISIBLE_SYNTHETIC",
+  "task_count": 6,
+  "split_counts": {
+    "development": 4,
+    "validation": 2,
+    "hidden": 0
+  },
+  "source_policy": {
+    "kind": "synthetic_fixture",
+    "provenance": "Clean-room synthetic source authored under AIOS-P1-035.",
+    "license": null,
+    "redistribution": "restricted"
+  },
+  "claim_boundary": "P1_EXIT_CAPABILITY_ENGINEERING_ARTIFACT_ONLY_NO_BENCHMARK_AGENT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM",
+  "tasks": [
+    {
+      "task_id": "SL-P1-REP-001-RANGE-NORMALIZATION",
+      "split": "development",
+      "archetype": "bounded_logic_bug_fix",
+      "task_spec_path": "tasks/SL-P1-REP-001-RANGE-NORMALIZATION/task-spec.json",
+      "base_commit": "68ce8226eff4c5c7230b55b18a4cbea2f8e4a20f",
+      "tree_hash": "900814727113d65f5dad8b63222e14f39b2cf38b",
+      "assertion_id": "REP001_NEGATIVE_RANGE_ORDER"
+    },
+    {
+      "task_id": "SL-P1-REP-002-CONFIG-VALIDATION",
+      "split": "development",
+      "archetype": "input_contract_validation",
+      "task_spec_path": "tasks/SL-P1-REP-002-CONFIG-VALIDATION/task-spec.json",
+      "base_commit": "10ad29f28c4358759711f78021b5ee897658f913",
+      "tree_hash": "e8611a442b405a9cc5180d2675b090618ea66d5b",
+      "assertion_id": "REP002_REJECT_UNKNOWN_KEYS"
+    },
+    {
+      "task_id": "SL-P1-REP-003-SAFE-PATH-JOIN",
+      "split": "development",
+      "archetype": "path_containment_security_fix",
+      "task_spec_path": "tasks/SL-P1-REP-003-SAFE-PATH-JOIN/task-spec.json",
+      "base_commit": "10c8d9177404a85d845e7f4f207ac61cbd2538fc",
+      "tree_hash": "9a0d83cb86ce3aaed0def3d480542800641eb18e",
+      "assertion_id": "REP003_REJECT_PARENT_ESCAPE"
+    },
+    {
+      "task_id": "SL-P1-REP-004-COMMAND-RESULT-MAPPING",
+      "split": "development",
+      "archetype": "deterministic_error_handling",
+      "task_spec_path": "tasks/SL-P1-REP-004-COMMAND-RESULT-MAPPING/task-spec.json",
+      "base_commit": "289d81fede3e4ee8c3ad2b08cb8ed67135531705",
+      "tree_hash": "4a0632cad019bfc6302ec32096bf0d3ee05ac366",
+      "assertion_id": "REP004_PRESERVE_NONZERO_EXIT"
+    },
+    {
+      "task_id": "SL-P1-REP-005-PROFILE-DISPLAY-NAME",
+      "split": "validation",
+      "archetype": "multi_file_behavior_change",
+      "task_spec_path": "tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/task-spec.json",
+      "base_commit": "bd50586883fda10c974bd6944c502945019da99e",
+      "tree_hash": "152201a4e29bca172c713b0669d807e3b0fc4fb3",
+      "assertion_id": "REP005_FORMAT_NAME_ACROSS_MODULES"
+    },
+    {
+      "task_id": "SL-P1-REP-006-DEDUPE-REFACTOR",
+      "split": "validation",
+      "archetype": "behavior_preserving_refactor",
+      "task_spec_path": "tasks/SL-P1-REP-006-DEDUPE-REFACTOR/task-spec.json",
+      "base_commit": "dd71c92a04693e60f1cb30d577107205411cbed3",
+      "tree_hash": "78327e74c83aed97eddcc7485dcf985865c2b815",
+      "assertion_id": "REP006_DEDUPE_PRESERVES_ORDER"
+    }
+  ],
+  "artifact_count": 44,
+  "artifacts": [
+    {
+      "path": "OWNERSHIP_MAP.json",
+      "sha256": "27b00f2080c911d3b313eca5e62e28efdfa4ef81173e601259adb1da7fda22fd",
+      "byte_length": 1074,
+      "type": "json",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "coverage.json",
+      "sha256": "79f27fa199a48bf52f122e0f98d0d4f6912677e645d48008f93a335787d1dae4",
+      "byte_length": 1213,
+      "type": "json",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "dataset.schema.json",
+      "sha256": "2a8ec7343af1848ae439c8cbb78c2403fdc4c806e078d6bf2be999bb452a78ec",
+      "byte_length": 3007,
+      "type": "json",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "materialization-recipe.json",
+      "sha256": "104ed7109df7da155867a428b50575a9cda6bca481e183cebed50788c01a3a5e",
+      "byte_length": 456,
+      "type": "json",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "shared/baseline-context.json",
+      "sha256": "64fab9efd47c193af94e3f7baee67072a32497d35c9dc1aee8a804bf32269cb9",
+      "byte_length": 377,
+      "type": "json",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "shared/response-format.json",
+      "sha256": "6b8ec1d2a6a288e5b908716714589dae963739f2b35a0a29237ff4cbc1355c4b",
+      "byte_length": 306,
+      "type": "json",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-001-RANGE-NORMALIZATION/expected-base-failure.json",
+      "sha256": "5dbe034939ed2178f86fd84ad409cff9426040f63343de27f7ad3e8f46dd2494",
+      "byte_length": 439,
+      "type": "json",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-001-RANGE-NORMALIZATION/reference-solution.patch",
+      "sha256": "44e0068f8fe3cff3d64706efa63fb523c6c79734c68009e63245e532c81fb96b",
+      "byte_length": 256,
+      "type": "patch",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/src/range.mjs",
+      "sha256": "1e3de2958c9841bbe785d903b2f5453389c4225359308b539ac2cb3194469d75",
+      "byte_length": 115,
+      "type": "javascript",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/test/issue.test.mjs",
+      "sha256": "51fd472f8cf85fd595246814db29699ab81ccdc2986d80666d8609a8c4972b4b",
+      "byte_length": 237,
+      "type": "javascript",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/test/regression.test.mjs",
+      "sha256": "381c573d8f99305b47db9f1a2ca49779842fe1187b9d7c5b7410e56dda9240c5",
+      "byte_length": 241,
+      "type": "javascript",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-001-RANGE-NORMALIZATION/task-spec.json",
+      "sha256": "25de6b6f330e09c076521b42a88d60712637e0fc7de7ab1cfe1f9f5d4c223321",
+      "byte_length": 2960,
+      "type": "json",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-002-CONFIG-VALIDATION/expected-base-failure.json",
+      "sha256": "7849288e0e2369d620e2ac352274d9fd3e9aafc1781f9ecebbedb53b00a2e80d",
+      "byte_length": 437,
+      "type": "json",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-002-CONFIG-VALIDATION/reference-solution.patch",
+      "sha256": "f4c1342e7f6610e16803a0869f68cdde1644f95bcee17201478ad3288ee260ae",
+      "byte_length": 422,
+      "type": "patch",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-002-CONFIG-VALIDATION/source-template/src/config.mjs",
+      "sha256": "75c5d640cd7f70bc7d355761d6d2de15142a6e573b4267c0d19231bf326a2870",
+      "byte_length": 265,
+      "type": "javascript",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-002-CONFIG-VALIDATION/source-template/test/issue.test.mjs",
+      "sha256": "50432e97edb751ac07402c03ac9088786e22ee21690e5b949868ec6aacb4077c",
+      "byte_length": 263,
+      "type": "javascript",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-002-CONFIG-VALIDATION/source-template/test/regression.test.mjs",
+      "sha256": "9f08dc88c953b258dd48ec11297a90adb969073c81d1352abe9320157bd88398",
+      "byte_length": 263,
+      "type": "javascript",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-002-CONFIG-VALIDATION/task-spec.json",
+      "sha256": "f82368198c7c76022852b2d2814f8660219d659db68a7e2771d991ddd63ca3bc",
+      "byte_length": 2843,
+      "type": "json",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-003-SAFE-PATH-JOIN/expected-base-failure.json",
+      "sha256": "d41b43eb2df637b14c8418932eab2b524eecad7d85017124a054e9f5b3af1378",
+      "byte_length": 439,
+      "type": "json",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-003-SAFE-PATH-JOIN/reference-solution.patch",
+      "sha256": "2785628985854952f69bec29341dcb587eaea3513a5893606152604cd478179c",
+      "byte_length": 620,
+      "type": "patch",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-003-SAFE-PATH-JOIN/source-template/src/path.mjs",
+      "sha256": "bf64b55fc410200403bee3b986da5c8824f4d7ec86a2a0ba65e6e9a5fb933f0a",
+      "byte_length": 123,
+      "type": "javascript",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-003-SAFE-PATH-JOIN/source-template/test/issue.test.mjs",
+      "sha256": "bc171d5941be21c0874529ffd46dbbb909431e375d46d2e534e33a74ebcdbbdd",
+      "byte_length": 256,
+      "type": "javascript",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-003-SAFE-PATH-JOIN/source-template/test/regression.test.mjs",
+      "sha256": "4b32d6011ad818a0d0231c87bcbb6b4922185c5e8032e6a99cd50eeed85e975b",
+      "byte_length": 263,
+      "type": "javascript",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-003-SAFE-PATH-JOIN/task-spec.json",
+      "sha256": "09d87107e2da2ba211aae1cf0ee9b773ce4efa0df5e109c793f694069ac67087",
+      "byte_length": 2858,
+      "type": "json",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-004-COMMAND-RESULT-MAPPING/expected-base-failure.json",
+      "sha256": "30464c4c6ab915c67e93cc563760e262fc8a3262d19cfef1daf4379e012aa7c1",
+      "byte_length": 441,
+      "type": "json",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-004-COMMAND-RESULT-MAPPING/reference-solution.patch",
+      "sha256": "0586fc3deb0917c5aacc4c23a43c2ebed9c29a257a7f65409a1686245acf93e5",
+      "byte_length": 332,
+      "type": "patch",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-004-COMMAND-RESULT-MAPPING/source-template/src/result.mjs",
+      "sha256": "139e4d2048729e2cbfe131587eec5c3d60ca955cc4b6516a203ca162f59ff4ef",
+      "byte_length": 162,
+      "type": "javascript",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-004-COMMAND-RESULT-MAPPING/source-template/test/issue.test.mjs",
+      "sha256": "07f7cbf3d7b29dfc5cf5bf06e9aa70cf1525c7a0f3174a6d081718ba7f4a016a",
+      "byte_length": 290,
+      "type": "javascript",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-004-COMMAND-RESULT-MAPPING/source-template/test/regression.test.mjs",
+      "sha256": "a5be3a8e6325d04c3c0b303e97bfe26cf00057cdad24b8c09750a25c9dbf6f01",
+      "byte_length": 287,
+      "type": "javascript",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-004-COMMAND-RESULT-MAPPING/task-spec.json",
+      "sha256": "f6b4c558c313f1f7716c33646eb587705a1ced8fb00db97a9e00d4c19ad23fe3",
+      "byte_length": 2842,
+      "type": "json",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/expected-base-failure.json",
+      "sha256": "f144e8942a1fe6779291d36de929a838f066ff5f20198c2cc5976966176e0dfa",
+      "byte_length": 451,
+      "type": "json",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/reference-solution.patch",
+      "sha256": "4db8e4484e4a8114c71b721e47806ea12e993d698f7332f16b19f6605c5e836b",
+      "byte_length": 262,
+      "type": "patch",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/source-template/src/greeting.mjs",
+      "sha256": "2a186fb9ace72d24eb7696d5edd1d63e3d86254b416362b6a3a89ebd7e09ff84",
+      "byte_length": 140,
+      "type": "javascript",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/source-template/src/profile.mjs",
+      "sha256": "00aa57e8f6ecd37eb79af02a7a6e414911b89d04e623dd9c22edeae5796f33f2",
+      "byte_length": 92,
+      "type": "javascript",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/source-template/test/issue.test.mjs",
+      "sha256": "f60a977e0d43ef2440085a6b822bd7d88bbe026b87665c30da32b8c599e3edda",
+      "byte_length": 264,
+      "type": "javascript",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/source-template/test/regression.test.mjs",
+      "sha256": "237e0dd5fbb72c009b5287e2bc1d2f88284c64d991575113851d9b2e3e686300",
+      "byte_length": 262,
+      "type": "javascript",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/task-spec.json",
+      "sha256": "19460b7b855fd7a1dade980c7ed4836a7fa97c9a50c3fd3316e9773128cbd723",
+      "byte_length": 2890,
+      "type": "json",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-006-DEDUPE-REFACTOR/expected-base-failure.json",
+      "sha256": "e590ac0206654359385f08849cadbcf4e968d6f85dededd65647d1ef4c3d01fc",
+      "byte_length": 443,
+      "type": "json",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-006-DEDUPE-REFACTOR/reference-solution.patch",
+      "sha256": "dc715cbf1352b0342242eb640513e58c97d0c47a5455a51cfe6d859c1c2c9cc4",
+      "byte_length": 1066,
+      "type": "patch",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-006-DEDUPE-REFACTOR/source-template/src/projects.mjs",
+      "sha256": "ad2a9024b228373904fca35154e660b9bc4f8eeb76a77f41226de432b72ad12c",
+      "byte_length": 187,
+      "type": "javascript",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-006-DEDUPE-REFACTOR/source-template/src/users.mjs",
+      "sha256": "f2ea56b1a50eebe4597174fa019e587b9041574b62ee099c955050b7883020b6",
+      "byte_length": 184,
+      "type": "javascript",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-006-DEDUPE-REFACTOR/source-template/test/issue.test.mjs",
+      "sha256": "d8fcf30399d6068d2c201315be85c86c92133d8f597c4dc4a9456d1d561608c6",
+      "byte_length": 745,
+      "type": "javascript",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-006-DEDUPE-REFACTOR/source-template/test/regression.test.mjs",
+      "sha256": "da5a4e9e4b4c64dca3647bc25aa7f8d7f9ffbc418bb2e5aa65be48c682745984",
+      "byte_length": 454,
+      "type": "javascript",
+      "owner_role": "Quality and Evaluation Agent"
+    },
+    {
+      "path": "tasks/SL-P1-REP-006-DEDUPE-REFACTOR/task-spec.json",
+      "sha256": "5e7c175f8a7c0204b45a7cba20fb3212a8d7f2d0d2094709d194dd1d3daa57ee",
+      "byte_length": 2857,
+      "type": "json",
+      "owner_role": "Quality and Evaluation Agent"
+    }
+  ]
+}

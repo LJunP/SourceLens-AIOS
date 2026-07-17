@@ -1,0 +1,9 @@
+diff --git a/src/range.mjs b/src/range.mjs
+--- a/src/range.mjs
++++ b/src/range.mjs
+@@ -1,4 +1,4 @@
+ export function normalizeRange(start, end) {
+   if (start <= end) return { start, end };
+-  return { start, end };
++  return { start: end, end: start };
+ }

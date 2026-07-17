@@ -1,0 +1,13 @@
+{
+  "commit_message": "fixture: base",
+  "file_mode": "100644",
+  "git_author_date": "2000-01-01T00:00:00Z",
+  "git_author_email": "fixture@sourcelens.local",
+  "git_author_name": "SourceLens AIOS Fixture",
+  "git_committer_date": "2000-01-01T00:00:00Z",
+  "git_committer_email": "fixture@sourcelens.local",
+  "git_committer_name": "SourceLens AIOS Fixture",
+  "hash_algorithm": "sha1",
+  "schema_version": "1.0",
+  "source_directory": "source-template"
+}

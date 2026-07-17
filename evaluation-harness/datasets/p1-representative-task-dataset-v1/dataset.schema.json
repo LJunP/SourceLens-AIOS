@@ -1,0 +1,87 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sourcelens.local/schemas/p1-representative-task-dataset-manifest-v1.json",
+  "title": "SourceLens P1 Representative Task Dataset Manifest v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "dataset_id",
+    "dataset_version",
+    "visibility",
+    "task_count",
+    "split_counts",
+    "source_policy",
+    "claim_boundary",
+    "tasks",
+    "artifact_count",
+    "artifacts"
+  ],
+  "properties": {
+    "schema_version": { "const": "1.0" },
+    "dataset_id": { "const": "SOURCELENS-P1-REPRESENTATIVE-TASKS" },
+    "dataset_version": { "const": "1.0.0" },
+    "visibility": { "const": "VISIBLE_SYNTHETIC" },
+    "task_count": { "const": 6 },
+    "split_counts": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["development", "validation", "hidden"],
+      "properties": {
+        "development": { "const": 4 },
+        "validation": { "const": 2 },
+        "hidden": { "const": 0 }
+      }
+    },
+    "source_policy": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "provenance", "license", "redistribution"],
+      "properties": {
+        "kind": { "const": "synthetic_fixture" },
+        "provenance": { "const": "Clean-room synthetic source authored under AIOS-P1-035." },
+        "license": { "type": "null" },
+        "redistribution": { "const": "restricted" }
+      }
+    },
+    "claim_boundary": {
+      "const": "P1_EXIT_CAPABILITY_ENGINEERING_ARTIFACT_ONLY_NO_BENCHMARK_AGENT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM"
+    },
+    "tasks": {
+      "type": "array",
+      "minItems": 6,
+      "maxItems": 6,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["task_id", "split", "archetype", "task_spec_path", "base_commit", "tree_hash", "assertion_id"],
+        "properties": {
+          "task_id": { "type": "string" },
+          "split": { "enum": ["development", "validation"] },
+          "archetype": { "type": "string" },
+          "task_spec_path": { "type": "string" },
+          "base_commit": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+          "tree_hash": { "type": "string", "pattern": "^[0-9a-f]{40}$" },
+          "assertion_id": { "type": "string" }
+        }
+      }
+    },
+    "artifact_count": { "type": "integer", "minimum": 1 },
+    "artifacts": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["path", "sha256", "byte_length", "type", "owner_role"],
+        "properties": {
+          "path": { "type": "string" },
+          "sha256": { "type": "string", "pattern": "^[0-9a-f]{64}$" },
+          "byte_length": { "type": "integer", "minimum": 1 },
+          "type": { "enum": ["json", "javascript", "patch"] },
+          "owner_role": { "const": "Quality and Evaluation Agent" }
+        }
+      }
+    }
+  }
+}

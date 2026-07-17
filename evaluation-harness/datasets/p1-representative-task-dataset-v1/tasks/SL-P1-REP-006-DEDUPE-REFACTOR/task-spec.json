@@ -1,0 +1,31 @@
+{
+  "schema_version": "1.0",
+  "task_id": "SL-P1-REP-006-DEDUPE-REFACTOR",
+  "dataset_version": "1.0.0",
+  "evaluation_split": "validation",
+  "source": { "kind": "synthetic_fixture", "provenance": "Clean-room synthetic JavaScript fixture authored and Quality-frozen under AIOS-P1-035.", "license": null, "redistribution": "restricted" },
+  "repository": { "identity": "sourcelens-fixture://p1-representative-tasks/SL-P1-REP-006-DEDUPE-REFACTOR@1.0.0", "base_commit": "dd71c92a04693e60f1cb30d577107205411cbed3", "tree_hash": "78327e74c83aed97eddcc7485dcf985865c2b815", "dirty_state_policy": "clean_immutable_base" },
+  "issue": { "text": "Refactor duplicated stable-deduplication logic into one shared helper while preserving first-occurrence order and both public function names.", "allowed_clarifications": [] },
+  "language": ["javascript"],
+  "build_system": ["node-test"],
+  "environment_snapshot_ref": "ENV-SOURCELENS-P1-REP-NODE20-STDLIB-1",
+  "baseline_context": { "artifact_ref": "evaluation-harness/datasets/p1-representative-task-dataset-v1/shared/baseline-context.json", "sha256": "64fab9efd47c193af94e3f7baee67072a32497d35c9dc1aee8a804bf32269cb9", "max_model_tokens": 1024, "ordering": "artifact_order", "response_format_ref": "evaluation-harness/datasets/p1-representative-task-dataset-v1/shared/response-format.json", "response_format_sha256": "6b8ec1d2a6a288e5b908716714589dae963739f2b35a0a29237ff4cbc1355c4b" },
+  "allowed_tools": ["local-node-test", "local-file-edit"],
+  "network_policy": "none",
+  "allowed_network_hosts": [],
+  "budgets": { "wall_clock_seconds": 60, "max_model_tokens": 1024, "max_tool_calls": 8, "max_cost_usd": 0 },
+  "verification": {
+    "evaluator_version": "AIOS-P1-035-DATASET-VALIDATOR/1.0.0",
+    "required_commands": [
+      { "command_id": "issue-test", "role": "static", "argv": ["/usr/local/bin/node", "--test", "test/issue.test.mjs"], "working_directory": "TASK_REPOSITORY", "timeout_seconds": 10, "expected_exit_codes": [0], "non_secret_environment": {} },
+      { "command_id": "regression-test", "role": "regression", "argv": ["/usr/local/bin/node", "--test", "test/regression.test.mjs"], "working_directory": "TASK_REPOSITORY", "timeout_seconds": 10, "expected_exit_codes": [0], "non_secret_environment": {} }
+    ],
+    "behavioral_assertions": ["Both modules delegate to one shared stable-unique helper.", "First-occurrence ordering remains unchanged."],
+    "scope_policy": "Visible synthetic behavior-preserving refactor only; no benchmark, Agent, P2, P3 or production claim."
+  },
+  "forbidden_changes": ["test files", "network or dependency use", "public function names"],
+  "required_evidence": ["issue-specific test PASS", "regression test PASS", "patch identity"],
+  "risk_class": "low",
+  "human_approval_required": true,
+  "tags": ["behavior-preserving-refactor", "visible", "synthetic"]
+}

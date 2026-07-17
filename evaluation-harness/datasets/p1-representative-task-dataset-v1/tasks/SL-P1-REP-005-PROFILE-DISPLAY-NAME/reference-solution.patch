@@ -1,0 +1,8 @@
+diff --git a/src/profile.mjs b/src/profile.mjs
+--- a/src/profile.mjs
++++ b/src/profile.mjs
+@@ -1,3 +1,3 @@
+ export function formatDisplayName(profile) {
+-  return `${profile.first} ${profile.last}`;
++  return `${profile.first.trim()} ${profile.last.trim()}`;
+ }

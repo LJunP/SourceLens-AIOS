@@ -1,0 +1,619 @@
+schema_version: 1
+record_type: sourcelens_aios_phase_delegated_task_contract
+task_id: AIOS-P1-038_MINIMAL_HIDDEN_ADMISSION_PARAMETERIZED_HARNESS_IMPLEMENTATION
+phase: P1
+status: READY_FOR_PHASE_DELEGATED_EXECUTION
+execution_authority: PHASE_DELEGATED
+title: Minimal Hidden Admission and Parameterized Evaluation Harness Implementation
+
+objective: >-
+  Implement one minimal, runnable, deterministic, role-separated local vertical
+  slice that admits exactly two Quality-frozen public synthetic validation tasks
+  through a direct-child admission CLI and executes them through a parameterized
+  Evaluation Harness, with create-once outputs, exact call accounting, frozen
+  evaluation, deterministic replay and hash-bound Evidence. The two mandatory
+  Exit capabilities are accepted atomically or not at all.
+
+why_now:
+  - VERSIONED_REPRESENTATIVE_TASK_DATASET is accepted and provides the two frozen validation tasks required by this slice.
+  - HIDDEN_SET_PROTOCOL and PARAMETERIZED_EVALUATION_HARNESS are the next adjacent mandatory Exit capabilities in the current Truth priority order.
+  - The Founder-approved final clean-room route permits exactly one new implementation activation, one branch, one worktree, one candidate and zero execution retries.
+  - The pre-freeze CTO, Security and Quality convergence result is ready for one final exact Contract and forbids any later Contract correction.
+
+task_spec_ref: docs/aios/EVALUATION_PROTOCOL.md#2-unit-of-evaluation
+read_context:
+  - docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
+  - docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
+  - docs/aios/schemas/task-spec.schema.json
+  - docs/aios/schemas/environment-snapshot.schema.json
+  - docs/aios/schemas/system-configuration.schema.json
+  - docs/aios/schemas/run-record.schema.json
+  - evaluation-harness/harness/contracts.mjs
+  - evaluation-harness/datasets/p1-representative-task-dataset-v1/dataset-manifest.json
+  - evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/task-spec.json
+  - evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/task-spec.json
+  - evaluation-harness/validators/task-dataset-validator.mjs
+  - evaluation-harness/validators/task-dataset-self-test.mjs
+
+dependencies:
+  - AIOS-P1-001
+  - AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+
+mandatory_exit_capability: PARAMETERIZED_EVALUATION_HARNESS
+integrated_mandatory_exit_capabilities:
+  - HIDDEN_SET_PROTOCOL
+  - PARAMETERIZED_EVALUATION_HARNESS
+founder_final_clean_room_route_id: P1_038_FINAL_CLEAN_ROOM_IMPLEMENTATION_ROUTE
+
+clean_room_recovery:
+  historical_execution_lineage_reused: false
+  attempt_ordinal: 1
+  bounded_contract_corrections_allowed: 0
+  bounded_contract_corrections_used: 0
+  original_contract_path: null
+  original_contract_sha256: null
+  old_task_contract_asset_reuse_allowed: false
+  old_candidate_or_partial_implementation_reuse_allowed: false
+  old_hidden_material_or_failed_evidence_reuse_allowed: false
+
+task_kind: EVALUATION_FOUNDATION_ENGINEERING
+capabilities:
+  - TASK_SPEC_VALIDATION
+  - ENVIRONMENT_SNAPSHOT_CAPTURE
+  - SYSTEM_CONFIGURATION_CAPTURE
+  - RUN_RECORDING
+  - DETERMINISTIC_REPLAY
+  - EVALUATOR_AND_ORACLE
+  - EVIDENCE_MANIFEST
+  - LOCAL_SYNTHETIC_DATASET
+  - LOCAL_VISIBLE_DATASET
+capability_claim: false
+risk_level: medium
+
+lineage:
+  kind: INDEPENDENT_PHASE_INCREMENT
+  retries: []
+  remediates: []
+  supersedes: []
+
+roles:
+  accountable_owner: Engineering Manager Agent
+  worker: Evaluation Harness Engineer
+  quality_asset_owner: Quality and Evaluation Agent
+  integration_owner: Engineering Manager Agent
+  independent_reviewers:
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent
+  separation_rule: >-
+    Quality and Evaluation exclusively authors and freezes all admission packages,
+    semantic inputs, closed schemas, case matrix, oracles, evaluator, evaluator
+    self-test, ownership map and Quality freeze receipt before Worker start. The
+    Worker may read but cannot modify any Quality-owned byte and writes only the
+    Worker scope. Integration may write only its exact integration scope. No
+    implementer performs a final independent review, and final reviewers bind the
+    exact candidate commit/tree, Contract hash and Evidence Manifest hash.
+
+source_identity:
+  canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
+  preparation_parent_commit: db3329c058053ec3265188c742ee5e1cc22176a9
+  preparation_parent_tree: c23e9ce57d062c72722f5e88138957b75befb5c4
+  founder_route_parent_commit: de4effe7c9be8da61db06ba031283c8e5ed6e66d
+  founder_route_parent_tree: fdedb7c4f14a3aad80df49b970f0e6db7fbbf4ad
+  task_branch: task/AIOS-P1-038-minimal-hidden-admission-parameterized-harness
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-038-minimal-hidden-admission-parameterized-harness
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-038-hidden-admission-harness-execution-20260717T054851Z
+
+prefreeze_convergence_binding:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-038-minimal-hidden-admission-harness/PREFREEZE_CONVERGENCE_SPEC.json
+  sha256: 11606ea34786ef0dce2abf0918dee2598e34ca3d648b454e76615a6fc72527ae
+  byte_length: 7910
+  record_type: aios_p1_038_clean_prefreeze_convergence_spec
+  schema_version: "1.0"
+  status: READY_FOR_ONE_FINAL_EXACT_CONTRACT
+
+founder_route:
+  route_id: P1_038_FINAL_CLEAN_ROOM_IMPLEMENTATION_ROUTE
+  atomic_capability_acceptance: true
+  final_exact_contract_count: 1
+  activation_limit: 1
+  branch_limit: 1
+  worktree_limit: 1
+  candidate_limit: 1
+  execution_retry_limit: 0
+  contract_correction_limit: 0
+  reusable: false
+  old_asset_reuse_allowed: false
+  successor_replacement_or_correction_chain_allowed: false
+
+runtime_identity:
+  executable: /usr/local/bin/node
+  version: v20.17.0
+  sha256: c5548e7a991a5c90170a29843ffc46df4643e29141f3cbb035f60295cf2bc882
+  shell: false
+  package_installation: forbidden
+
+allowed_paths:
+  quality:
+    - evaluation-harness/fixtures/p1-038-hidden-admission/**
+    - evaluation-harness/evaluator/p1-038/**
+  worker:
+    - evaluation-harness/validators/p1-038/**
+    - evaluation-harness/harness/parameterized/**
+    - evaluation-harness/recording/p1-038/**
+    - evaluation-harness/replay/p1-038/**
+  integration:
+    - scripts/verify-p1-038-integrated-harness.sh
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+  external_evidence:
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-038-hidden-admission-harness-execution-20260717T054851Z/**
+
+immutable_inputs:
+  - this exact Task Contract after freeze
+  - current Truth and Founder Delegation Policy
+  - accepted P1-001 Contract and tracked harness assets
+  - accepted P1-035 Contract, tracked dataset and validators
+  - all Quality-owned P1-038 bytes after the Quality freeze receipt
+  - all accepted schemas outside the exact Quality-owned P1-038 schema paths
+  - canonical main and the two source task repositories during Task execution
+  - all historical failed Task assets, execution lineages, candidates, partial implementations, hidden material, Evidence and reviews
+
+quality_first_freeze:
+  order:
+    - Quality authors exactly the declared Quality-owned artifacts and no Worker-owned implementation.
+    - Quality validates the seven closed schemas and freezes the exact 17-case matrix, all oracles and evaluator self-test.
+    - Quality emits an ownership map and create-once Quality freeze receipt binding this Contract, all Quality assets, accepted dependencies and runtime identity.
+    - Worker start is forbidden until the freeze receipt population, byte lengths and SHA-256 identities verify exactly.
+    - Any Quality-owned byte, Contract byte, dependency identity or runtime identity change after Worker start terminally stops the route.
+  selected_public_synthetic_tasks:
+    - SL-P1-REP-005-PROFILE-DISPLAY-NAME
+    - SL-P1-REP-006-DEDUPE-REFACTOR
+  visibility_semantics: >-
+    The admitted packages use public synthetic tracked inputs with role-separated
+    pre-freeze admission. This is a mechanics-only hidden-admission protocol; it
+    does not create secret custody, real hidden-set secrecy or hostile-principal
+    resistance.
+  additional_properties_allowed: false
+  other_required_assets:
+    - CaseMatrix
+    - Oracle
+    - Evaluator
+    - EvaluatorSelfTest
+    - OwnershipMap
+    - QualityFreezeReceipt
+
+semantic_input_bindings:
+  total: 8
+  per_task_order:
+    - TaskSpec
+    - EnvironmentSnapshot
+    - SystemConfiguration
+    - DeterministicAdapterInput
+  bindings:
+    - binding_id: TASK_005_TASK_SPEC
+      task_id: SL-P1-REP-005-PROFILE-DISPLAY-NAME
+      kind: TaskSpec
+      source: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/task-spec.json
+    - binding_id: TASK_005_ENVIRONMENT_SNAPSHOT
+      task_id: SL-P1-REP-005-PROFILE-DISPLAY-NAME
+      kind: EnvironmentSnapshot
+      source: evaluation-harness/fixtures/p1-038-hidden-admission/quality/tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/environment-snapshot.json
+    - binding_id: TASK_005_SYSTEM_CONFIGURATION
+      task_id: SL-P1-REP-005-PROFILE-DISPLAY-NAME
+      kind: SystemConfiguration
+      source: evaluation-harness/fixtures/p1-038-hidden-admission/quality/tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/system-configuration.json
+    - binding_id: TASK_005_DETERMINISTIC_ADAPTER_INPUT
+      task_id: SL-P1-REP-005-PROFILE-DISPLAY-NAME
+      kind: DeterministicAdapterInput
+      source: evaluation-harness/fixtures/p1-038-hidden-admission/quality/tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/deterministic-adapter-input.json
+    - binding_id: TASK_006_TASK_SPEC
+      task_id: SL-P1-REP-006-DEDUPE-REFACTOR
+      kind: TaskSpec
+      source: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/task-spec.json
+    - binding_id: TASK_006_ENVIRONMENT_SNAPSHOT
+      task_id: SL-P1-REP-006-DEDUPE-REFACTOR
+      kind: EnvironmentSnapshot
+      source: evaluation-harness/fixtures/p1-038-hidden-admission/quality/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/environment-snapshot.json
+    - binding_id: TASK_006_SYSTEM_CONFIGURATION
+      task_id: SL-P1-REP-006-DEDUPE-REFACTOR
+      kind: SystemConfiguration
+      source: evaluation-harness/fixtures/p1-038-hidden-admission/quality/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/system-configuration.json
+    - binding_id: TASK_006_DETERMINISTIC_ADAPTER_INPUT
+      task_id: SL-P1-REP-006-DEDUPE-REFACTOR
+      kind: DeterministicAdapterInput
+      source: evaluation-harness/fixtures/p1-038-hidden-admission/quality/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/deterministic-adapter-input.json
+  identity_fields_required_for_every_binding:
+    - canonical repository-relative path
+    - regular-file type
+    - byte_length
+    - sha256
+  population_rule: >-
+    Each AdmissionPackage contains exactly the four bindings for its declared
+    task in the frozen order; duplicate, missing, extra, reordered, symlinked,
+    escaped, type-drifted, byte-drifted, hash-drifted or post-read-drifted input
+    fails closed before adapter execution.
+
+closed_schemas:
+  additional_properties_allowed: false
+  recursive_closure_required: true
+  schemas:
+    - name: AdmissionPackage
+      path: evaluation-harness/fixtures/p1-038-hidden-admission/schemas/admission-package.schema.json
+      purpose: Bind one admitted task identity to exactly four ordered semantic input identities.
+    - name: AdmissionRequest
+      path: evaluation-harness/fixtures/p1-038-hidden-admission/schemas/admission-request.schema.json
+      purpose: Bind the requested task, package path and requested output root for direct-child admission.
+    - name: AdmissionReceipt
+      path: evaluation-harness/fixtures/p1-038-hidden-admission/schemas/admission-receipt.schema.json
+      purpose: Emit the exact admitted or rejected decision, reason and sanitized descriptor without raw semantic input content.
+    - name: ParameterizedRunRequest
+      path: evaluation-harness/fixtures/p1-038-hidden-admission/schemas/parameterized-run-request.schema.json
+      purpose: Bind one request to the exact child invocation and create-once run root.
+    - name: ParameterizedResult
+      path: evaluation-harness/fixtures/p1-038-hidden-admission/schemas/parameterized-result.schema.json
+      purpose: Bind aggregate verdict, reason, case results and output identity.
+    - name: CaseResult
+      path: evaluation-harness/fixtures/p1-038-hidden-admission/schemas/case-result.schema.json
+      purpose: Bind case identity, observed call vector, verdict, reason, exit status and effect oracle result.
+    - name: OutputIndex
+      path: evaluation-harness/fixtures/p1-038-hidden-admission/schemas/output-index.schema.json
+      purpose: Close the exact create-once artifact population with path, type, byte length and SHA-256 identity.
+  validation_rule: >-
+    Every object and nested object rejects unknown properties, every required
+    field is explicit, enum populations are closed, integer domains are bounded,
+    and schema validation cannot replace path, filesystem, identity, semantic or
+    post-read checks.
+
+required_call_chain:
+  - PARAMETERIZED_HARNESS
+  - DIRECT_CHILD_ADMISSION_CLI_SHELL_FALSE
+  - ACTUAL_ARGV_CWD_STATUS_STDOUT_STDERR_CAPTURE
+  - EXACT_ADMISSION_RECEIPT_STDOUT_PERSISTENCE
+  - LEDGER_STDOUT_SHA_EQUALS_RECEIPT_SHA
+  - SANITIZED_DESCRIPTOR_ONLY
+  - DETERMINISTIC_ADAPTER
+  - QUALITY_EVALUATOR
+  - CREATE_ONCE_OUTPUT_AND_EVIDENCE
+
+call_components:
+  order: [H, D, A, E, V, R]
+  definitions:
+    H: PARAMETERIZED_HARNESS
+    D: DIRECT_CHILD_ADMISSION_CLI
+    A: DETERMINISTIC_ADAPTER
+    E: QUALITY_EVALUATOR
+    V: OUTPUT_VERIFIER
+    R: REPLAY_COMPARATOR
+  invocation_rules:
+    admission_process: DIRECT_CHILD_ONLY
+    shell: false
+    argv: FROZEN_EXACT_ARGV
+    cwd: FROZEN_EXACT_CWD
+    capture: ACTUAL_STATUS_STDOUT_STDERR
+    receipt_source: EXACT_CHILD_STDOUT_BYTES
+    receipt_persistence: CREATE_ONCE
+    ledger_stdout_sha_rule: MUST_EQUAL_PERSISTED_RECEIPT_SHA256
+    descriptor_policy: SANITIZED_IDENTITY_AND_STATUS_ONLY_NO_SEMANTIC_INPUT_CONTENT
+
+input_validation_precedence:
+  - PATH_LEXICAL_CANONICALITY
+  - SYMLINK_AND_CONTAINMENT
+  - TYPE
+  - EXACT_POPULATION
+  - BYTE_LENGTH
+  - SHA256
+  - CLOSED_SCHEMA
+  - SEMANTIC_VALIDATION
+  - POST_READ_IDENTITY
+
+output_validation_precedence:
+  - CLOSED_CLI_SCHEMA
+  - LEXICAL_PATH_CANONICALITY
+  - COMPONENT_LSTAT_AND_SYMLINK
+  - REALPATH_CONTAINMENT_AND_PARENT_TYPE
+  - TARGET_LEAF_EXISTENCE
+  - EXCLUSIVE_ROOT_CREATE_AND_RECHECK
+  - LEAF_CREATE_ONCE
+  - EXACT_POPULATION_TYPE_LENGTH_AND_HASH
+  - OUTPUT_MANIFEST_CREATE_ONCE_FREEZE
+  - POST_FREEZE_IDENTITY_VERIFICATION
+
+precedence_rules:
+  first_failure_only: true
+  no_or_or_aggregate_reason_selection: true
+  no_implementation_selected_validation_order: true
+  no_adapter_or_evaluator_call_after_admission_rejection: true
+  no_child_spawn_after_pre_spawn_request_or_output_validation_failure: true
+
+case_matrix:
+  component_order: [H, D, A, E, V, R]
+  exact_case_count: 17
+  expected_pass_count: 3
+  expected_fail_count: 14
+  cases:
+    - {id: P01, behavior: TASK_005_PRIMARY, calls: [1, 1, 1, 1, 1, 0], verdict: PASS, reason: NONE, exit_status: 0}
+    - {id: P02, behavior: TASK_005_FRESH_REPLAY, calls: [1, 1, 1, 1, 1, 1], verdict: PASS, reason: NONE, exit_status: 0}
+    - {id: P03, behavior: TASK_006_PRIMARY, calls: [1, 1, 1, 1, 1, 0], verdict: PASS, reason: NONE, exit_status: 0}
+    - {id: F01, behavior: CONTROLLED_RESULT_HASH_DRIFT, calls: [1, 1, 1, 1, 1, 0], verdict: FAIL, reason: RESULT_SHA256_MISMATCH, exit_status: 1}
+    - {id: A01, behavior: UNDECLARED_TASK, calls: [1, 1, 0, 0, 0, 0], verdict: FAIL, reason: TASK_NOT_ADMITTED, exit_status: 1}
+    - {id: A02, behavior: PACKAGE_IDENTITY_DRIFT, calls: [1, 1, 0, 0, 0, 0], verdict: FAIL, reason: PACKAGE_IDENTITY_MISMATCH, exit_status: 2}
+    - {id: A03, behavior: SEMANTIC_INPUT_IDENTITY_DRIFT, calls: [1, 1, 0, 0, 0, 0], verdict: FAIL, reason: SEMANTIC_INPUT_IDENTITY_MISMATCH, exit_status: 2}
+    - {id: A04, behavior: RESEALED_PATH_ESCAPE_WITH_DERIVED_IDENTITY_UPDATE_ONLY, calls: [1, 1, 0, 0, 0, 0], verdict: FAIL, reason: PATH_CONTAINMENT_VIOLATION, exit_status: 2}
+    - {id: A05, behavior: SEMANTIC_INPUT_SYMLINK, calls: [1, 1, 0, 0, 0, 0], verdict: FAIL, reason: SYMLINK_FORBIDDEN, exit_status: 2}
+    - {id: I01, behavior: PREBUILT_RECEIPT_BYPASS, calls: [1, 0, 0, 0, 0, 0], verdict: FAIL, reason: ADMISSION_INVOCATION_REQUIRED, exit_status: 2}
+    - {id: R01, behavior: REPLAY_PROJECTION_DRIFT, calls: [0, 0, 0, 0, 0, 1], verdict: FAIL, reason: REPLAY_MISMATCH, exit_status: 1}
+    - {id: O01, behavior: OUTPUT_PATH_ESCAPE, calls: [1, 0, 0, 0, 0, 0], verdict: FAIL, reason: OUTPUT_PATH_CONTAINMENT_VIOLATION, exit_status: 2}
+    - {id: O02, behavior: OUTPUT_TARGET_SYMLINK, calls: [1, 0, 0, 0, 0, 0], verdict: FAIL, reason: OUTPUT_SYMLINK_FORBIDDEN, exit_status: 2}
+    - {id: O03, behavior: ENTIRE_RUN_OUTPUT_ROOT_LEAF_PREEXISTS, calls: [1, 0, 0, 0, 0, 0], verdict: FAIL, reason: OUTPUT_CREATE_ONCE_VIOLATION, exit_status: 2}
+    - {id: O04, behavior: FROZEN_OUTPUT_ONE_ARTIFACT_BYTE_DRIFT, calls: [0, 0, 0, 0, 1, 0], verdict: FAIL, reason: OUTPUT_ARTIFACT_IDENTITY_MISMATCH, exit_status: 2}
+    - {id: S01, behavior: REQUEST_REQUIRED_FIELD_MISSING, calls: [1, 0, 0, 0, 0, 0], verdict: FAIL, reason: ADMISSION_REQUEST_REQUIRED_FIELD_MISSING, exit_status: 2}
+    - {id: S02, behavior: REQUEST_UNKNOWN_FIELD, calls: [1, 0, 0, 0, 0, 0], verdict: FAIL, reason: ADMISSION_REQUEST_UNKNOWN_PROPERTY, exit_status: 2}
+
+mechanical_counts:
+  cases: 17
+  expected_pass: 3
+  expected_fail: 14
+  H: 15
+  D: 9
+  A: 4
+  E: 4
+  V: 5
+  R: 2
+  admission_admitted: 4
+  admission_rejected: 5
+  evaluator_pass: 3
+  evaluator_fail: 1
+  output_verifier_pass: 4
+  output_verifier_fail: 1
+  replay_comparator_pass: 1
+  replay_comparator_fail: 1
+  fresh_replay_equal: 1
+  replay_drift_rejected: 1
+  output_rejections: 4
+
+effect_oracles:
+  global:
+    outside_allowed_roots_unchanged: true
+    canonical_main_unchanged_during_execution: true
+    source_task_repositories_unchanged: true
+    network_provider_secret_remote_production_public_effects: 0
+  exact_output_cases:
+    O01: NO_PATH_CREATION_NO_CHILD_SPAWN_ALLOWED_OR_OUTSIDE_ROOT_UNCHANGED
+    O02: SYMLINK_AND_TARGET_UNCHANGED_NO_CHILD_SPAWN
+    O03: ENTIRE_PREEXISTING_OUTPUT_ROOT_UNCHANGED_NO_CHILD_SPAWN
+    O04: COPY_VERIFIED_P01_PACKAGE_TO_SACRIFICIAL_ROOT_MUTATE_ONE_DECLARED_REGULAR_ARTIFACT_BYTE_NO_RESEAL_ONE_VERIFIER_CALL_P01_EVIDENCE_UNCHANGED
+
+output_and_evidence_contract:
+  create_once: true
+  overwrite_or_reseal: forbidden
+  exact_population_required: true
+  regular_files_only: true
+  symlinks: forbidden
+  lexical_and_realpath_containment: required
+  required_run_artifacts:
+    - closed ParameterizedResult
+    - exact CaseResult population
+    - captured child argv, cwd, status, stdout and stderr identities
+    - exact persisted AdmissionReceipt stdout bytes
+    - sanitized admission descriptor
+    - deterministic adapter result
+    - Quality evaluator verdict
+    - OutputIndex
+    - post-freeze identity verification
+  freeze_rule: >-
+    The OutputIndex is the final create-once output artifact. Once created, every
+    declared artifact and the index itself must pass a fresh population, type,
+    byte-length and SHA-256 verification; no output can be rewritten or resealed.
+
+required_regressions:
+  - P1_001_PASS
+  - P1_035_PASS
+  - MAKE_VERIFY_PASS
+  - FRESH_REBUILD_PASS
+  - ROLLBACK_PASS
+
+replay_rebuild_rollback:
+  replay:
+    primary: P01
+    fresh_replay: P02
+    required_equalities:
+      - normalized verdict
+      - reason code
+      - semantic result projection
+      - frozen artifact identities
+    controlled_drift_case: R01
+    controlled_drift_result: REPLAY_MISMATCH
+  rebuild:
+    source: exact frozen candidate Git commit and tree
+    environment: fresh local checkout using existing local Git objects only
+    network_or_dependency_download: forbidden
+    required_result: all 17 cases, mechanical counts and regressions reproduce exactly
+  rollback_verification:
+    before_gate: Delete only the unmerged Task branch and worktree after preserving immutable Evidence.
+    after_integration: Forward-revert the exact local integration commit without history rewrite and verify the pre-integration tree.
+    preserve:
+      - exact Contract
+      - Evidence
+      - candidate Git objects
+      - review records
+    destructive_history_rewrite: false
+
+budget:
+  engineering_hours: 24
+  calendar_days: 5
+  implementation_iterations: 2
+  candidate_freezes: 1
+  execution_retries: 0
+  network_calls: 0
+  provider_calls: 0
+  secret_reads: 0
+  remote_effects: 0
+  production_effects: 0
+  public_effects: 0
+  branches: 1
+  worktrees: 1
+
+metrics:
+  semantic_input_bindings: 8_OF_8
+  closed_schemas: 7_OF_7
+  case_matrix: 17_OF_17
+  expected_pass: 3_OF_3
+  expected_fail: 14_OF_14
+  call_counts: H15_D9_A4_E4_V5_R2
+  admission_results: ADMITTED4_REJECTED5
+  evaluator_results: PASS3_FAIL1
+  output_verifier_results: PASS4_FAIL1
+  replay_results: PASS1_FAIL1
+  output_rejections: 4_OF_4
+  regressions: 5_OF_5_PASS
+  external_effects: 0
+
+acceptance_criteria:
+  - The exact Quality-first freeze completes before Worker start and binds all Quality-owned bytes, this exact Contract, both accepted dependencies, runtime identity, ownership map and the seven recursively closed schemas.
+  - Exactly two public synthetic validation tasks are admitted and exactly eight ordered semantic input bindings are hash- and length-bound; every input follows the frozen precedence and post-read identity rule.
+  - Every run follows the exact required call chain, uses a direct child with shell false, captures actual argv/cwd/status/stdout/stderr, persists exact AdmissionReceipt stdout bytes create-once and proves ledger stdout SHA-256 equality.
+  - The exact P01-P03, F01, A01-A05, I01, R01, O01-O04 and S01-S02 matrix produces its frozen call vector, verdict, reason code, exit status and applicable effect oracle with the exact aggregate mechanical counts.
+  - Outputs and Evidence are create-once, exact-population, regular-file-only and hash-bound; path escape, symlink, preexisting leaf, byte drift, overwrite and reseal attempts fail closed in the frozen precedence.
+  - P01 and P02 replay equalities hold, R01 is rejected, and P1-001, P1-035, make verify, fresh rebuild and rollback are all PASS without network or package download.
+  - The frozen candidate commit/tree, source diff, command ledger, artifact index and Evidence Manifest are complete and independently reproducible.
+  - CTO, Security and Quality independently PASS the exact candidate, Contract and Evidence Manifest after implementation, with no implementer self-review.
+  - HIDDEN_SET_PROTOCOL and PARAMETERIZED_EVALUATION_HARNESS are accepted atomically under the fixed P1-safe claim boundary; partial capability acceptance is forbidden.
+  - No historical failed asset, execution lineage, candidate, partial implementation, hidden material, Evidence or review is read, adopted, replayed or reused.
+  - All writes remain inside the exact role-owned paths and external Evidence root, and network, provider, secret, remote, production and public effects remain zero.
+
+failure_criteria:
+  - Any Quality asset is authored after Worker observation, changes after freeze, lacks exact identity, or is writable by Worker or Integration.
+  - Any schema is open, any semantic binding is missing, extra, reordered, ambiguous or identity-drifted, or any validation precedence differs from this Contract.
+  - Any case differs from its exact call vector, verdict, reason, exit status or effect oracle, or any aggregate mechanical count differs.
+  - Admission can be bypassed with a prebuilt receipt, semantic content leaks through the sanitized descriptor, or the ledger does not bind exact child stdout bytes.
+  - Any output is created before its validation stage, escapes containment, follows a symlink, overwrites a preexisting leaf, is resealed, or remains accepted after post-freeze drift.
+  - Replay, P1-001 regression, P1-035 regression, make verify, fresh rebuild, rollback or any independent review is non-PASS.
+  - Either mandatory Exit capability would require partial acceptance, a broader claim, an external effect, historical failed asset reuse or a successor/replacement/correction chain.
+  - Evidence is incomplete, mutable, non-reproducible or not bound to the exact Contract and candidate commit/tree.
+
+stop_conditions:
+  - Any final exact Contract review is non-PASS.
+  - A real architecture implementation root prevents this exact runnable vertical slice from satisfying all atomic acceptance criteria.
+  - Any forbidden path read or write, historical failed asset read or reuse, or forbidden external effect occurs.
+  - Contract, scope, permission, budget, route, runtime, accepted dependency, Quality asset or claim boundary expansion is required.
+  - Two implementation iterations fail for the same root cause without new engineering evidence, or the 24-hour or 5-day budget is exhausted.
+  - Candidate, branch, worktree or execution retry limits would be exceeded.
+  - A higher-severity safety, integrity, custody or containment defect is demonstrated by direct Evidence.
+
+terminal_rule:
+  final_contract_any_non_pass: PERMANENTLY_STOP_ROUTE_AND_ESCALATE_FOUNDER
+  real_architecture_implementation_failure: PERMANENTLY_STOP_ROUTE_AND_ESCALATE_FOUNDER
+  fourth_route_allowed: false
+  post_failure_founder_choices:
+    - FORMALLY_REVISE_P1_EXIT_GATE
+    - STOP_P1
+  no_successor_replacement_correction_or_retry: true
+
+evidence:
+  required:
+    - exact final Task Contract and phase-delegated execution authorization
+    - prefreeze convergence spec identity and one-final-exact-Contract freeze receipt
+    - Quality ownership map and pre-Worker Quality freeze receipt
+    - exact population, byte lengths and SHA-256 identities for all Quality-owned assets
+    - runtime executable path, version and SHA-256 observation
+    - exact command ledger with argv, cwd, start/end time, status, stdout/stderr identities and effect observations
+    - eight semantic input binding validation results in exact order
+    - seven closed-schema positive and negative validation results
+    - exact 17-case result matrix with per-case call vector, verdict, reason, exit status and effect oracle result
+    - aggregate mechanical call and verdict counts
+    - exact admission receipt stdout persistence and ledger SHA equality proof
+    - output create-once, population, containment, symlink and post-freeze identity results
+    - P1-001, P1-035 and make verify regression results
+    - deterministic replay comparison and controlled replay-drift rejection
+    - fresh local rebuild and rollback verification
+    - frozen candidate commit/tree, source diff and write-scope audit
+    - closed artifact index and Evidence Manifest with all artifact byte lengths and SHA-256 hashes
+    - CTO, Security and Quality independent PASS reviews
+    - atomic delegated Task Gate receipt for both mandatory Exit capabilities
+  manifest:
+    record_type: aios_p1_mandatory_capability_evidence_manifest
+    mandatory_exit_capabilities:
+      - HIDDEN_SET_PROTOCOL
+      - PARAMETERIZED_EVALUATION_HARNESS
+    replay_result: PASS
+    rebuild_result: PASS
+    rollback_result: PASS
+    claim_boundary: COOPERATIVE_LOCAL_PUBLIC_SYNTHETIC_ROLE_SEPARATED_HIDDEN_ADMISSION_AND_PARAMETERIZED_HARNESS_REPRODUCIBLE_INTEGRATION_ONLY_NO_REAL_HIDDEN_SET_SECRECY_REPRESENTATIVENESS_CUSTODY_HOSTILE_PRINCIPAL_AGENT_P1_EXIT_P2_P3_OR_PRODUCTION_CLAIM
+
+rollback:
+  method: >-
+    Before Task Gate, remove only the unmerged Task worktree and branch while
+    preserving immutable Evidence and Git objects. After local canonical main
+    integration, use a forward revert of the exact integration commit and verify
+    the pre-integration tree; never rewrite history.
+  destructive_history_rewrite: false
+  external_resource_cleanup_required: false
+
+atomic_capability_acceptance:
+  required: true
+  capabilities_in_order:
+    - HIDDEN_SET_PROTOCOL
+    - PARAMETERIZED_EVALUATION_HARNESS
+  partial_acceptance_allowed: false
+  acceptance_unit: ONE_EXACT_CANDIDATE_ONE_EVIDENCE_MANIFEST_ONE_REVIEW_SET_ONE_TASK_GATE
+  next_capability_only_after_atomic_acceptance: VTSR_COUNTING_VALIDATOR
+
+claim_boundary: COOPERATIVE_LOCAL_PUBLIC_SYNTHETIC_ROLE_SEPARATED_HIDDEN_ADMISSION_AND_PARAMETERIZED_HARNESS_REPRODUCIBLE_INTEGRATION_ONLY_NO_REAL_HIDDEN_SET_SECRECY_REPRESENTATIVENESS_CUSTODY_HOSTILE_PRINCIPAL_AGENT_P1_EXIT_P2_P3_OR_PRODUCTION_CLAIM
+
+p1_claim_boundary:
+  proves_only:
+    - one cooperative local public synthetic role-separated hidden-admission mechanics implementation
+    - one deterministic parameterized harness integration over exactly two accepted synthetic validation tasks
+    - reproducible create-once Evidence, replay, rebuild and rollback for the frozen matrix
+  does_not_prove:
+    - real hidden-set secrecy or representativeness
+    - secret custody or hostile-principal resistance
+    - model or Agent capability
+    - benchmark validity, VTSR or comparative baseline performance
+    - P1 Exit, P2, P3, production readiness or external-effect authorization
+
+forbidden_actions:
+  - network access or network calls
+  - provider access or provider calls
+  - secret access, secret reads or secret material
+  - remote reads, remote writes or remote effects
+  - production access, production writes or production effects
+  - public release, public writes or public effects
+  - package installation, dependency download or new runtime service
+  - canonical main write before delegated Task Gate and local integration
+  - source task repository write or mutation
+  - reading, adopting, copying, replaying or reusing any historical failed Task asset, Contract, execution lineage, nonce, candidate, partial implementation, hidden material, Evidence or review
+  - changing this final exact Contract, any accepted dependency, any Quality-frozen byte, any schema, oracle, evaluator, case vector, precedence, count, effect oracle or claim boundary after Worker start
+  - prebuilt admission receipt injection, admission child bypass, shell execution, semantic input leakage, output overwrite or reseal
+  - B0, B1, B2, A0, model, provider, benchmark, VTSR or Agent execution
+  - Supervisor, Root Custody, Trust Runtime, Agent Runtime, strong isolation, Multi-Agent Runtime, P2 or P3 implementation
+  - partial capability acceptance, retry, successor, replacement, remediation, normalization, closure, feasibility or correction chain
+  - irreversible deletion, destructive history rewrite or unbounded execution
+
+delegated_authority:
+  phase_local: true
+  model: P1_PHASE_LEVEL_FOUNDER_DELEGATION
+  task_gate_owner: MASTER_CEO_AGENT
+  founder_gate: RESERVED_DECISIONS_ONLY
+  founder_reserved_decisions: []
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false
+  master_may_prepare_freeze_review_activate_implement_gate_integrate_cleanup_and_continue: true
+  routine_task_founder_approval_required: false
+  next_normal_founder_intervention: P1_PHASE_GATE_OR_REAL_FOUNDER_RESERVED_DECISION
+  post_acceptance_continuation: MASTER_AUTONOMOUSLY_SELECT_VTSR_COUNTING_VALIDATOR_WITHIN_CURRENT_P1_ENVELOPE
+
+completion_rule: >-
+  Completion requires one frozen exact candidate, complete reproducible Evidence,
+  exact PASS of every acceptance criterion, independent CTO, Security and Quality
+  PASS, and one Master Task Gate accepting both mandatory Exit capabilities
+  atomically. Completion does not prove P1 Exit or authorize benchmark, Agent,
+  P2, P3, production, hostile-principal or external-effect claims. Any final
+  Contract non-PASS or real architecture implementation failure permanently
+  stops this route and escalates the Founder under the frozen terminal rule.

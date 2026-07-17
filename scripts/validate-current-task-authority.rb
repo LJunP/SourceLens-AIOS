@@ -441,7 +441,7 @@ stop!("P1 project-level rebaseline schema drift") unless
   rebaseline.is_a?(Hash) && rebaseline.keys.sort == expected_rebaseline_keys.sort
 stop!("P1 project-level rebaseline authority drift") unless
   rebaseline["record_type"] == "p1_exit_gate_project_level_rebaseline" &&
-  %w[FOUNDER_APPROVED_ACTIVE TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION].include?(rebaseline["status"]) &&
+  %w[FOUNDER_APPROVED_ACTIVE TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION].include?(rebaseline["status"]) &&
   rebaseline["authority"] == "HUMAN_FOUNDER" &&
   valid_utc_timestamp?(rebaseline["approved_at_utc"])
 stop!("P1 project-level rebaseline parent drift") unless
@@ -459,7 +459,7 @@ stop!("P1 project-level rebaseline parent drift") unless
   stop!("P1 rebaseline #{label} byte drift") unless bytes.bytesize == byte_length && Digest::SHA256.hexdigest(bytes) == digest
 end
 stop!("P1 rebaseline budget or anti-loop boundary drift") unless
-  %w[REBASELINED_PENDING_EXECUTION REBASELINED_SLICE_ACTIVE P1_EXIT_EVIDENCE_COMPLETE_PENDING_FOUNDER_GATE TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION].include?(rebaseline["p1_status"]) &&
+  %w[REBASELINED_PENDING_EXECUTION REBASELINED_SLICE_ACTIVE P1_EXIT_EVIDENCE_COMPLETE_PENDING_FOUNDER_GATE TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION].include?(rebaseline["p1_status"]) &&
   rebaseline["task_limit"] == 4 &&
   rebaseline["engineering_hours_limit"] == 76 &&
   rebaseline["calendar_days_limit"] == 21 &&
@@ -487,7 +487,7 @@ stop!("P1 rebaseline aggregate budget drift") unless
 slice_attempts = rebaseline["slice_attempts"]
 stop!("P1 rebaseline slice attempt ledger invalid") unless
   slice_attempts.is_a?(Hash) && (slice_attempts.keys - %w[1 2 3 4]).empty?
-rebaseline_terminal = rebaseline["p1_status"] == "TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION"
+rebaseline_terminal = %w[TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION].include?(rebaseline["p1_status"])
 stop!("P1 rebaseline next slice ordinal invalid") unless
   (rebaseline_terminal && rebaseline["next_slice_ordinal"].nil? && rebaseline["next_slice_action"] == "FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED") ||
   (!rebaseline_terminal && rebaseline["next_slice_ordinal"].is_a?(Integer) && rebaseline["next_slice_ordinal"].between?(1, 5))
@@ -619,21 +619,22 @@ if project_level_reopen
       reopen_attempt.is_a?(Hash) && reopen_attempt.keys.sort == expected_reopen_attempt_keys.sort
     stop!("P1 project-level reopen attempt identity drift") unless
       reopen_attempt["attempt_ordinal"] == 2 &&
-      reopen_attempt["bounded_contract_corrections_used"] == 0 &&
+      reopen_attempt["bounded_contract_corrections_used"] == (reopen_attempt["status"] == "SCOPE_COMPLIANCE_BLOCKED" ? 1 : 0) &&
       reopen_attempt["contract_sha256"].is_a?(String) && reopen_attempt["contract_sha256"].match?(/\A[0-9a-f]{64}\z/) &&
       reopen_attempt["delivery_architecture_simplification_decision_sha256"] == delivery_simplification["decision_record_sha256"] &&
       reopen_attempt["integrated_mandatory_exit_capabilities"] == rebaseline["slices"].first["capability_projection"] &&
       reopen_attempt["project_level_rebaseline_decision_sha256"] == rebaseline["decision_record_sha256"] &&
       reopen_attempt["project_level_rebaseline_slice_ordinal"] == 1 &&
       reopen_attempt["project_level_reopen_decision_sha256"] == project_level_reopen["decision_record_sha256"] &&
-      %w[ACTIVE ACCEPTED ARCHITECTURE_BLOCKED].include?(reopen_attempt["status"]) &&
+      %w[ACTIVE ACCEPTED ARCHITECTURE_BLOCKED SCOPE_COMPLIANCE_BLOCKED].include?(reopen_attempt["status"]) &&
       reopen_attempt["task_id"].is_a?(String) && reopen_attempt["task_id"].match?(/\AAIOS-P1-\d{3}/) &&
       reopen_attempt["task_id"] != project_level_reopen["stopped_task_id"]
     reopen_capability_states = reopen_attempt["integrated_mandatory_exit_capabilities"].map { |capability| capability_status[capability] }
     expected_reopen_capability_state = {
       "ACTIVE" => "IN_PROGRESS",
       "ACCEPTED" => "ACCEPTED",
-      "ARCHITECTURE_BLOCKED" => "ARCHITECTURE_BLOCKED"
+      "ARCHITECTURE_BLOCKED" => "ARCHITECTURE_BLOCKED",
+      "SCOPE_COMPLIANCE_BLOCKED" => "P1_TERMINAL_STOPPED_NOT_ACCEPTED"
     }.fetch(reopen_attempt["status"])
     stop!("P1 project-level reopen attempt/capability state drift") unless
       reopen_capability_states.all? { |state| state == expected_reopen_capability_state }
@@ -1617,6 +1618,56 @@ capability_status.each do |capability, state|
         post_revision_terminal["failure_stage"] == "REAL_ARCHITECTURE_IMPLEMENTATION_FAILURE" &&
         post_revision_terminal["implementation_attempt_consumed"] == true
     end
+  when "P1_TERMINAL_STOPPED_NOT_ACCEPTED"
+    next unless reopened_slice_1
+    entry = attempts.first
+    stop!("P1 reopened Slice 1 scope-compliance terminal attempt missing") unless
+      entry.is_a?(Hash) && rebaseline_attempt.is_a?(Hash) &&
+      rebaseline_attempt["status"] == "SCOPE_COMPLIANCE_BLOCKED" &&
+      rebaseline_attempt["task_id"] == "AIOS-P1-042_PARAMETERIZED_EVALUATION_CORE_IMPLEMENTATION" &&
+      rebaseline_attempt["attempt_ordinal"] == 2 &&
+      rebaseline_attempt["contract_sha256"] == "e3a9ec7ca7945963af04636cb13c9d45b9c07d0bf8466d0554171167d572a958" &&
+      rebaseline_attempt["bounded_contract_corrections_used"] == 1 &&
+      entry["task_id"] == rebaseline_attempt["task_id"] &&
+      entry["status"] == "TERMINAL_STOPPED_BEFORE_ACTIVATION_OUT_OF_SCOPE_WRITE" &&
+      record_capabilities(entry) == rebaseline_attempt["integrated_mandatory_exit_capabilities"] &&
+      entry["clean_room_attempt_ordinal"] == 2 &&
+      entry["task_contract_sha256"] == rebaseline_attempt["contract_sha256"] &&
+      entry["bounded_contract_corrections_used"] == 1 &&
+      entry["failure_classification"] == "MASTER_CONTROL_PLANE_WRITE_SCOPE_COMPLIANCE_FAILURE" &&
+      entry["task_activated"] == false && entry["activation_commit_created"] == false &&
+      entry["task_branch_created"] == false && entry["task_worktree_created"] == false &&
+      entry["quality_freeze_complete"] == false && entry["worker_implementation_started"] == false &&
+      entry["candidate_created"] == false && entry["capability_claims"] == 0 &&
+      entry["founder_escalation_required"] == true && entry["recovery_allowed"] == false &&
+      entry["asset_reuse_allowed"] == false && entry["out_of_scope_write_removed"] == true &&
+      entry["canonical_contract_target_created"] == false
+    terminal_record = bound_json!(entry["terminal_record_path"], entry["terminal_record_sha256"], entry["execution_evidence_root"], "P1-042 terminal stop record")
+    terminal_manifest = bound_json!(entry["terminal_evidence_manifest_path"], entry["terminal_evidence_manifest_sha256"], entry["execution_evidence_root"], "P1-042 terminal Evidence Manifest")
+    stop!("P1-042 terminal stop record content drift") unless
+      terminal_record["record_type"] == "p1_task_pre_activation_terminal_stop_record" &&
+      terminal_record["task_id"] == entry["task_id"] &&
+      terminal_record["status"] == entry["status"] &&
+      terminal_record["p1_status_projection"] == "PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION" &&
+      terminal_record["failure_classification"] == entry["failure_classification"] &&
+      terminal_record.dig("exact_contract", "sha256") == entry["task_contract_sha256"] &&
+      terminal_record.dig("exact_contract", "byte_length") == entry["task_contract_byte_length"] &&
+      terminal_record.dig("out_of_scope_write", "path") == entry["out_of_scope_write_path"] &&
+      terminal_record.dig("out_of_scope_write", "sha256") == entry["out_of_scope_write_sha256"] &&
+      terminal_record.dig("negative_execution_facts", "task_activated") == false &&
+      terminal_record.dig("negative_execution_facts", "candidate_created") == false
+    stop!("P1-042 terminal Evidence Manifest content drift") unless
+      terminal_manifest["manifest_type"] == "p1_task_pre_activation_terminal_evidence_manifest" &&
+      terminal_manifest["task_id"] == entry["task_id"] &&
+      terminal_manifest.dig("observed_out_of_scope_effect", "path") == entry["out_of_scope_write_path"] &&
+      terminal_manifest.dig("observed_out_of_scope_effect", "sha256") == entry["out_of_scope_write_sha256"] &&
+      terminal_manifest.dig("observed_out_of_scope_effect", "expected_post_cleanup_state") == "ABSENT" &&
+      terminal_manifest.dig("canonical_pre_cleanup_observation", "commit") == "8ad576d32ccc15ac9bcac884c7f660ddd451c85e" &&
+      terminal_manifest.dig("canonical_pre_cleanup_observation", "tree") == "8a815d39297b3a5bc93365e0a92830071a74f776" &&
+      terminal_manifest.dig("canonical_pre_cleanup_observation", "task_branch_absent") == true &&
+      terminal_manifest.dig("canonical_pre_cleanup_observation", "task_worktree_absent") == true
+    stop!("P1-042 out-of-scope file cleanup drift") if File.exist?(entry["out_of_scope_write_path"])
+    stop!("P1-042 canonical contract target unexpectedly exists") if File.exist?(File.join(truth.dig("project", "canonical_repository"), "docs/aios/tasks/P1-042_PARAMETERIZED_EVALUATION_CORE_IMPLEMENTATION.yaml"))
   when "CONTRACT_REVIEW_BLOCKED"
     stop!("contract-review-blocked Exit capability cannot have an execution history entry") unless attempts.empty?
     integrated_contract_failure = integrated_member && integrated_primary_ledger.is_a?(Hash) && integrated_primary_ledger["task_id"] == integrated_route["task_id"]
@@ -2025,9 +2076,9 @@ stop!("canonical worktree population drift") unless canonical_worktrees.length =
 if current_task == "NONE"
   stop!("NONE state cannot retain an in-progress Exit capability") if capability_status.value?("IN_PROGRESS")
   founder_blocked_capabilities = capability_status.select { |_capability, state| %w[ARCHITECTURE_BLOCKED CONTRACT_REVIEW_BLOCKED P1_TERMINAL_STOPPED_NOT_ACCEPTED].include?(state) }.keys
-  p1_terminal_stop = project_status == "TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION"
+  p1_terminal_stop = %w[TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION].include?(project_status)
   stop!("NONE state goal authority drift") unless goal_task == "NONE"
-  allowed_none_project_statuses = rebaseline ? %w[REBASELINED_PENDING_EXECUTION NO_CURRENT_TASK TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION] : %w[NO_CURRENT_TASK]
+  allowed_none_project_statuses = rebaseline ? %w[REBASELINED_PENDING_EXECUTION NO_CURRENT_TASK TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION] : %w[NO_CURRENT_TASK]
   stop!("NONE state status drift") unless current_status == "NONE" && allowed_none_project_statuses.include?(project_status)
   %w[
     current_task_contract current_task_contract_sha256 current_execution_authorization
@@ -2039,7 +2090,13 @@ if current_task == "NONE"
     stop!("NONE state field must be null: #{field}") unless active[field].nil?
   end
   expected_none_nonce_status = p1_terminal_stop ? "NOT_APPLICABLE_TERMINAL_STOPPED" : "NONE"
-  expected_none_resource_status = p1_terminal_stop ? "TERMINAL_STOPPED_RESOURCES_PRESERVED" : "NONE"
+  expected_none_resource_status = if project_status == "PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION"
+    "TERMINAL_STOPPED_RESOURCES_ABSENT"
+  elsif p1_terminal_stop
+    "TERMINAL_STOPPED_RESOURCES_PRESERVED"
+  else
+    "NONE"
+  end
   stop!("NONE state nonce status drift") unless active["execution_nonce_status"] == expected_none_nonce_status
   stop!("NONE state resource status drift") unless active["task_resource_state"] == expected_none_resource_status
   if founder_blocked_capabilities.empty?
@@ -2047,8 +2104,12 @@ if current_task == "NONE"
   elsif p1_terminal_stop
     stop!("P1 terminal stop must escalate project-level Founder disposition") unless
       founder_required == true &&
-      escalation_reason == "P1_041_EXECUTION_SCOPE_COMPLIANCE_FAILURE_TRIGGERED_P1_FINAL_STOP_CONDITION" &&
-      user_action == "FOUNDER_PROJECT_LEVEL_DISPOSITION"
+      ((project_status == "PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION" &&
+        escalation_reason == "P1_042_MASTER_CONTROL_PLANE_WRITE_SCOPE_COMPLIANCE_FAILURE_TRIGGERED_P1_PERMANENT_STOP" &&
+        user_action == "FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED") ||
+       (project_status == "TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION" &&
+        escalation_reason == "P1_041_EXECUTION_SCOPE_COMPLIANCE_FAILURE_TRIGGERED_P1_FINAL_STOP_CONDITION" &&
+        user_action == "FOUNDER_PROJECT_LEVEL_DISPOSITION"))
   elsif post_revision_terminal
     stop!("post-revision final route terminal must escalate project-level Founder disposition") unless
       founder_required == true &&
@@ -2057,7 +2118,13 @@ if current_task == "NONE"
   else
     stop!("blocked mandatory capability must escalate Founder") unless founder_required == true && escalation_reason == "mandatory_exit_capability_blocked" && user_action == "FOUNDER_DECISION_REQUIRED"
   end
-  expected_none_claim = p1_terminal_stop ? "NONE_P1_TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION" : "NO_CURRENT_TASK"
+  expected_none_claim = if project_status == "PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION"
+    "NONE_P1_PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION"
+  elsif p1_terminal_stop
+    "NONE_P1_TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION"
+  else
+    "NO_CURRENT_TASK"
+  end
   stop!("NONE state task claim drift") unless truth.dig("phase_execution_claim", "current_task_claim") == expected_none_claim
   stop!("Task branches remain while no Task is active") unless task_branches.empty?
   stop!("Task worktrees remain while no Task is active") unless worktrees.length == 1
@@ -2069,7 +2136,7 @@ if current_task == "NONE"
   elsif goal_state == "ACTIVE"
     if p1_terminal_stop
       stop!("P1 terminal stop must wait for project-level Founder disposition") unless
-        next_action == "FOUNDER_DECIDE_STOP_P1_OR_AUTHORIZE_STRATEGIC_REVISION"
+        next_action == (project_status == "PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION" ? "FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED" : "FOUNDER_DECIDE_STOP_P1_OR_AUTHORIZE_STRATEGIC_REVISION")
     elsif founder_blocked_capabilities.empty?
       stop!("active Goal cannot require routine user action") unless user_action.nil?
       stop!("active Goal must advertise autonomous Master continuation") unless next_action.include?("MASTER_AUTONOMOUS")

@@ -23,7 +23,7 @@ ruby -ryaml -rjson -rdigest -e '
   rebaseline = truth.dig("mandatory_exit_capability_recovery", "project_level_rebaseline")
   delivery = truth.dig("mandatory_exit_capability_recovery", "delivery_architecture_simplification")
   abort "P1 rebaseline safety envelope missing" unless
-    rebaseline.is_a?(Hash) && %w[FOUNDER_APPROVED_ACTIVE TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION].include?(rebaseline["status"]) &&
+    rebaseline.is_a?(Hash) && %w[FOUNDER_APPROVED_ACTIVE TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION].include?(rebaseline["status"]) &&
     rebaseline["task_limit"] == 4 && rebaseline["post_freeze_contract_corrections"] == 0 &&
     rebaseline["successor_replacement_correction_chain_allowed"] == false &&
     rebaseline["default_external_effects_authorized"] == false

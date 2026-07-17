@@ -164,6 +164,11 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   truth["project"]["task_worktree_root"] = worktree_root
   truth["project"]["execution_evidence_root_base"] = evidence_base
   rebaseline = truth.dig("mandatory_exit_capability_recovery", "project_level_rebaseline")
+  rebaseline["status"] = "FOUNDER_APPROVED_ACTIVE"
+  rebaseline["p1_status"] = "REBASELINED_PENDING_EXECUTION"
+  rebaseline["current_task"] = "NONE"
+  rebaseline["next_slice_ordinal"] = 1
+  rebaseline["next_slice_action"] = "MASTER_AUTONOMOUSLY_PREPARE_AND_EXECUTE_ONE_ROLE_LOCAL_CLEAN_ROOM_SLICE_1_TASK"
   rebaseline_root = File.join(evidence_base, "p1-exit-gate-project-level-rebaseline")
   FileUtils.mkdir_p(rebaseline_root)
   {
@@ -189,6 +194,7 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   project_reopen_target = File.join(project_reopen_root, "FOUNDER_P1_PROJECT_LEVEL_REOPEN_DECISION_RECORD.json")
   FileUtils.cp(project_reopen_source, project_reopen_target)
   project_reopen["decision_record_path"] = project_reopen_target
+  project_reopen["slice_1_reopen_attempt"] = nil
   p1_041_history = truth.fetch("task_history").values.find do |entry|
     entry.is_a?(Hash) && entry["task_id"] == "AIOS-P1-041_PARAMETERIZED_EVALUATION_CORE_IMPLEMENTATION"
   end

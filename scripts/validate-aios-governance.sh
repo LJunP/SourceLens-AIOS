@@ -182,7 +182,7 @@ ruby -ryaml -rjson -rdigest -rtime -e '
     truth.dig("authority", "founder_delegation_policy", "sha256") == "3c694bd516a4a5a5700dc2742efd5917ce5c61d4d78fc43bb91594155fc7d115"
   rebaseline = truth.dig("mandatory_exit_capability_recovery", "project_level_rebaseline")
   abort "P1 project-level rebaseline state is invalid" unless
-    rebaseline.is_a?(Hash) && %w[FOUNDER_APPROVED_ACTIVE TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION].include?(rebaseline["status"]) &&
+    rebaseline.is_a?(Hash) && %w[FOUNDER_APPROVED_ACTIVE TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION].include?(rebaseline["status"]) &&
     rebaseline["plan_sha256"] == "ab0ba04abd4900758a3b4502fac21bdf6c392754666694a41c30c451e9058c29" &&
     rebaseline["decision_record_sha256"] == "083dc4d5f071bb82b6da3681c62e5a4ce37bfa8cac52c3f4da0f0ac5fea2d1f2" &&
     rebaseline["task_limit"] == 4 && rebaseline["engineering_hours_limit"] == 76 &&

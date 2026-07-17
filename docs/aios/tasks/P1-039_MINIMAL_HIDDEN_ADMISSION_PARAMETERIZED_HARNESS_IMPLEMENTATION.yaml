@@ -1,0 +1,565 @@
+schema_version: 1
+record_type: sourcelens_aios_phase_delegated_task_contract
+task_id: AIOS-P1-039_MINIMAL_HIDDEN_ADMISSION_PARAMETERIZED_HARNESS_IMPLEMENTATION
+phase: P1
+status: READY_FOR_PHASE_DELEGATED_EXECUTION
+execution_authority: PHASE_DELEGATED
+title: Minimal public-synthetic hidden admission and parameterized Evaluation Harness
+
+objective: >-
+  Implement one runnable, local, deterministic vertical slice in which a
+  parameterized Evaluation Harness calls a frozen hidden-admission interface,
+  admits only exact hash-bound public-synthetic task handles, records observable
+  evidence, rejects controlled failures, and reproduces the same normalized
+  result. The Task atomically closes the P1 Exit Gate engineering capabilities
+  HIDDEN_SET_PROTOCOL and PARAMETERIZED_EVALUATION_HARNESS under the declared
+  cooperative-local claim boundary only.
+
+why_now:
+  - VERSIONED_REPRESENTATIVE_TASK_DATASET is accepted, while hidden-set access separation and a parameterized Evaluation Harness are the next unclosed P1 Exit Gate capabilities.
+  - The Founder approved exactly one post-revision implementation route after separating hash-bound historical governance metadata from forbidden failed engineering assets.
+  - The smallest falsifiable increment is a public-synthetic, role-separated admission interface actually consumed by one parameterized harness; no real hidden set, baseline execution, Agent Runtime or Trust Runtime is needed.
+
+task_spec_ref: docs/aios/EVALUATION_PROTOCOL.md#5-dataset-governance
+
+read_context:
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+  - docs/aios/schemas/task-spec.schema.json
+  - docs/aios/schemas/environment-snapshot.schema.json
+  - docs/aios/schemas/system-configuration.schema.json
+  - docs/aios/schemas/run-record.schema.json
+  - docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
+  - docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
+  - evaluation-harness/harness/contracts.mjs
+  - evaluation-harness/harness/run.mjs
+  - evaluation-harness/evaluator/evaluate.mjs
+  - evaluation-harness/datasets/p1-representative-task-dataset-v1
+  - evaluation-harness/validators/task-dataset-validator.mjs
+
+dependencies:
+  - AIOS-P1-001
+  - AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+
+mandatory_exit_capability: PARAMETERIZED_EVALUATION_HARNESS
+integrated_mandatory_exit_capabilities:
+  - HIDDEN_SET_PROTOCOL
+  - PARAMETERIZED_EVALUATION_HARNESS
+founder_architecture_route_id: null
+founder_final_clean_room_route_id: P1_039_POST_REVISION_FINAL_IMPLEMENTATION_ROUTE
+
+clean_room_recovery:
+  historical_execution_lineage_reused: false
+  attempt_ordinal: 1
+  bounded_contract_corrections_allowed: 0
+  bounded_contract_corrections_used: 0
+  original_contract_path: null
+  original_contract_sha256: null
+  failed_contract_code_fixture_candidate_partial_hidden_nonce_reuse_allowed: false
+  historical_governance_metadata_use: AUTHORITY_VALIDATION_ONLY_NOT_SEMANTIC_INPUT
+
+task_kind: EVALUATION_FOUNDATION_ENGINEERING
+capabilities:
+  - TASK_SPEC_VALIDATION
+  - RUN_RECORDING
+  - DETERMINISTIC_REPLAY
+  - EVALUATOR_AND_ORACLE
+  - EVIDENCE_MANIFEST
+  - LOCAL_SYNTHETIC_DATASET
+  - LOCAL_VISIBLE_DATASET
+  - FAILURE_TAXONOMY
+capability_claim: false
+risk_level: medium
+
+lineage:
+  kind: INDEPENDENT_PHASE_INCREMENT
+  retries: []
+  remediates: []
+  supersedes: []
+
+roles:
+  accountable_owner: Engineering Manager Agent
+  quality_asset_owner: Quality and Evaluation Agent
+  worker: P1 Hidden Admission Harness Engineer
+  integration_owner: Engineering Manager Agent
+  independent_reviewers:
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent
+  separation_rule: >-
+    Quality and Evaluation alone authors and freezes the public-synthetic
+    admission fixtures, interface schemas, case recipes, oracle, evaluator and
+    expected results before Worker implementation starts. The Worker may read
+    those frozen bytes and the accepted P1-035 public dataset only through the
+    declared Task read boundary, may write only Worker paths, and cannot modify
+    or finally review Quality assets. Integration may write only integration
+    paths. Final reviewers read the frozen candidate and Evidence and do not
+    modify them.
+
+source_identity:
+  canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
+  canonical_branch: main
+  preparation_parent_commit: 8f2156d983b5a9a5358d78f5889afc59862fa58e
+  preparation_parent_tree: 7c002ea04122cd27cdaabe0c5427452f757bda03
+  activation_parent_rule: >-
+    The activation parent is the one canonical main commit that descends from
+    preparation_parent_commit and freezes only this final exact Contract. The
+    phase-delegated authorization binds that commit and tree after the final
+    Contract reviews PASS.
+  task_branch: task/aios-p1-039-minimal-hidden-admission-parameterized-harness-implementation
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-039_MINIMAL_HIDDEN_ADMISSION_PARAMETERIZED_HARNESS_IMPLEMENTATION
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-039-minimal-hidden-admission-harness/execution
+  branch_limit: 1
+  worktree_limit: 1
+  candidate_limit: 1
+
+accepted_input_bindings:
+  - path: docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
+    sha256: d2974752b088ff30b0764d6b482e19ea939cd497eb2db3e26af28bf09dc2e12f
+    byte_length: 8585
+  - path: docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
+    sha256: acec5432aacd6476693db62bdb52ee326c467f17b691860688fe952f7ffbdc33
+    byte_length: 18346
+  - path: docs/aios/EVALUATION_PROTOCOL.md
+    sha256: da029143561fbb3c213d4a358b25e085542c6cd26ae8150a53cbb5998177eed8
+    byte_length: 10127
+  - path: evaluation-harness/datasets/p1-representative-task-dataset-v1/QUALITY_FREEZE_RECEIPT.json
+    sha256: d509da3a7d8fba22b49d98ed9d5ced9e804a1541b4c427674f6c8a6950f41f9d
+    byte_length: 1571
+  - path: evaluation-harness/datasets/p1-representative-task-dataset-v1/dataset-manifest.json
+    sha256: 22f252319ed066655b05142a391709741703e01fbb4d6b5ebfbbcb6acd782be6
+    byte_length: 15313
+  - path: evaluation-harness/validators/task-dataset-validator.mjs
+    sha256: ede8d4a0dfae118beeb06c9640be56a4ca5b2896054241d39e81d1862241faa1
+    byte_length: 18798
+  - path: evaluation-harness/harness/contracts.mjs
+    sha256: cb3bae13030d889d672101afdc6b6646feea8f2f4a044a66c790e3c8ff92ee07
+    byte_length: 10088
+  - path: evaluation-harness/harness/run.mjs
+    sha256: 35e486bcc9147bba4774a2b5dd31595d29c74bcf25c16c4f5510da36aca0b0c6
+    byte_length: 11262
+  - path: evaluation-harness/evaluator/evaluate.mjs
+    sha256: e1ffddbec624c1f33ac99cc045689ae318e10d1e8a1dfb4af7634fedcecc0c6f
+    byte_length: 11362
+
+runtime_binding:
+  node:
+    executable: /usr/local/bin/node
+    version: v20.17.0
+    sha256: c5548e7a991a5c90170a29843ffc46df4643e29141f3cbb035f60295cf2bc882
+    byte_length: 193262272
+  dependencies: NODE_STANDARD_LIBRARY_ONLY
+  package_install_allowed: false
+
+allowed_paths:
+  worker:
+    - evaluation-harness/harness/parameterized/**
+  quality:
+    - evaluation-harness/fixtures/p1-039-hidden-admission/**
+    - evaluation-harness/evaluator/p1-039-hidden-admission/**
+  integration:
+    - scripts/verify-p1-039-hidden-admission-harness.sh
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+  external_evidence:
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-039-minimal-hidden-admission-harness/execution/**
+
+semantic_input_boundary:
+  policy: EXACT_HASH_BOUND_ALLOWLIST_DENY_BY_DEFAULT
+  public_synthetic_only: true
+  admitted_slots:
+    - admission_handle: PUBLIC-SYNTHETIC-H01
+      task_id: SL-P1-REP-005-PROFILE-DISPLAY-NAME
+      task_spec_path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/task-spec.json
+    - admission_handle: PUBLIC-SYNTHETIC-H02
+      task_id: SL-P1-REP-006-DEDUPE-REFACTOR
+      task_spec_path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/task-spec.json
+  quality_freeze_requirement: >-
+    Quality resolves each declared TaskSpec from the accepted P1-035 dataset,
+    freezes its exact path, regular-file type, byte length and SHA-256 into the
+    admission manifest, and freezes every request/recipe/expected-result byte.
+    No implementation-selected path, wildcard semantic input, symlink or
+    undeclared sibling is admitted.
+  worker_direct_input_rule: >-
+    Worker implementation receives public interface schemas and admitted
+    descriptors. The parameterized harness must obtain a task descriptor by
+    calling the implemented admission adapter; a direct TaskSpec path accepted
+    from CLI or an unadmitted handle is a failure.
+  historical_governance_metadata: NOT_A_SEMANTIC_TASK_INPUT
+  historical_failed_engineering_assets: FORBIDDEN
+  real_or_historical_hidden_material: FORBIDDEN
+
+trusted_verification_substrate:
+  policy: READ_ONLY_EXACT_PARENT_TRACKED_TREE_AND_FROZEN_LOCAL_RUNTIME_TOOLCHAIN
+  uses:
+    - build and self-test
+    - P1-001 regression
+    - P1-035 regression
+    - make verify
+    - Git source, rebuild and rollback observation
+  forbidden_uses:
+    - semantic task selection
+    - historical failed engineering asset recovery
+    - hidden material access
+    - writable implementation surface
+
+quality_freeze:
+  order:
+    - Freeze interface and result schemas with additionalProperties false and exact enums.
+    - Freeze two public-synthetic admitted-slot descriptors and their exact accepted P1-035 TaskSpec identities.
+    - Freeze the 16-case matrix, mutation recipes, expected verdicts, reason codes and exit statuses.
+    - Freeze the deterministic evaluator, oracle, expected results, ownership map and Quality handoff.
+    - Create one Quality Freeze Receipt before the first Worker write.
+  receipt_rule: >-
+    The receipt does not contain its own hash. It binds the exact Task Contract,
+    activation parent, runtime, and every other Quality-owned artifact by path,
+    type, byte length and SHA-256. Its authority is the exact tracked blob in the
+    Quality freeze commit. After that commit, any Quality-owned byte drift stops
+    the Task.
+  worker_start_precondition: >-
+    Quality Freeze Receipt, ownership map, case matrix, schemas, oracle,
+    evaluator and expected results all verify from the Quality freeze commit,
+    and the Worker path population is still empty.
+
+admission_interface_contract:
+  request_required_fields:
+    - schema_version
+    - request_id
+    - admission_handle
+    - expected_task_id
+    - expected_task_sha256
+    - expected_task_byte_length
+    - output_path
+  response_required_fields:
+    - schema_version
+    - request_id
+    - admission_handle
+    - verdict
+    - reason_code
+    - exit_status
+    - admitted_task
+  admitted_task_required_fields:
+    - task_id
+    - task_spec_path
+    - task_spec_sha256
+    - task_spec_byte_length
+  response_nullability:
+    PASS: admitted_task is the exact admitted descriptor
+    FAIL: admitted_task is null
+  deterministic_encoding: UTF8_JSON_SORTED_KEYS_LF_ONE_TRAILING_LF
+  deny_by_default: true
+
+parameterized_harness_contract:
+  invocation: >-
+    One CLI accepts only a frozen request path, the frozen admission manifest,
+    the exact new output path and the external Evidence root. It invokes the
+    admission adapter, consumes the returned descriptor, validates the accepted
+    TaskSpec, and writes one deterministic normalized run result.
+  minimum_parameters:
+    - admission_handle
+    - task_id
+    - task_spec_sha256
+    - environment_identity
+    - system_configuration_identity
+    - repetition_id
+    - output_path
+  required_output_claim_flags:
+    public_synthetic: true
+    real_hidden_set: false
+    benchmark_claim: false
+    agent_capability_claim: false
+    included_in_vtsr_denominator: false
+  direct_baseline_execution: forbidden
+  direct_task_solving: forbidden
+
+output_custody_contract:
+  root: EXTERNAL_EXECUTION_EVIDENCE_ROOT_ONLY
+  exact_allowed_output: runs/<case_id>/result.json
+  create_once: true
+  regular_file_only: true
+  parent_components_symlink_forbidden: true
+  undeclared_sibling_forbidden: true
+  preexisting_target_forbidden: true
+  all_sacrificial_material: execution/scratch/**
+
+atomic_case_matrix:
+  case_count: 16
+  cases:
+    - case_id: A01_ADMIT_H01
+      precondition: frozen valid request for PUBLIC-SYNTHETIC-H01
+      single_action: admit the exact declared handle and TaskSpec identity
+      expected_verdict: PASS
+      expected_reason_code: ADMISSION_ACCEPTED
+      expected_exit_status: 0
+    - case_id: A02_ADMIT_H02
+      precondition: frozen valid request for PUBLIC-SYNTHETIC-H02
+      single_action: admit the exact declared handle and TaskSpec identity
+      expected_verdict: PASS
+      expected_reason_code: ADMISSION_ACCEPTED
+      expected_exit_status: 0
+    - case_id: A03_UNKNOWN_HANDLE
+      precondition: frozen valid request shape
+      single_mutation: replace admission_handle with PUBLIC-SYNTHETIC-UNKNOWN
+      expected_verdict: FAIL
+      expected_reason_code: ADMISSION_HANDLE_NOT_ALLOWLISTED
+      expected_exit_status: 20
+    - case_id: A04_REQUEST_IDENTITY_DRIFT
+      precondition: frozen valid H01 request
+      single_mutation: replace expected_task_sha256 with 64 zero hexadecimal characters
+      expected_verdict: FAIL
+      expected_reason_code: REQUEST_TASK_IDENTITY_MISMATCH
+      expected_exit_status: 20
+    - case_id: A05_MANIFEST_IDENTITY_DRIFT
+      precondition: frozen valid H01 request and sacrificial manifest copy
+      single_mutation: replace H01 task_spec_sha256 with 64 zero hexadecimal characters
+      expected_verdict: FAIL
+      expected_reason_code: ADMISSION_MANIFEST_IDENTITY_MISMATCH
+      expected_exit_status: 20
+    - case_id: A06_SEMANTIC_PATH_ESCAPE
+      precondition: frozen valid H01 request and sacrificial manifest copy
+      single_mutation: replace H01 task_spec_path with ../outside.json
+      expected_verdict: FAIL
+      expected_reason_code: SEMANTIC_INPUT_PATH_FORBIDDEN
+      expected_exit_status: 20
+    - case_id: A07_SEMANTIC_SYMLINK
+      precondition: sacrificial in-root path with the H01 bytes behind a symlink
+      single_mutation: replace the regular admitted TaskSpec path with that symlink path
+      expected_verdict: FAIL
+      expected_reason_code: SEMANTIC_INPUT_SYMLINK_FORBIDDEN
+      expected_exit_status: 20
+    - case_id: P01_PARAMETERIZED_TWO_SLOT_RUN
+      precondition: exact valid H01 and H02 requests
+      single_action: run the same harness interface once for each handle with distinct run IDs
+      expected_verdict: PASS
+      expected_reason_code: PARAMETERIZED_RUNS_RECORDED
+      expected_exit_status: 0
+    - case_id: O01_EXACT_NEW_OUTPUT
+      precondition: declared output parent exists and exact target is absent
+      single_action: create the exact runs/O01_EXACT_NEW_OUTPUT/result.json regular file
+      expected_verdict: PASS
+      expected_reason_code: OUTPUT_CREATED
+      expected_exit_status: 0
+    - case_id: O02_UNDECLARED_SIBLING
+      precondition: exact allowed output remains absent
+      single_mutation: replace output_path with an undeclared sibling path
+      expected_verdict: FAIL
+      expected_reason_code: OUTPUT_PATH_NOT_ALLOWLISTED
+      expected_exit_status: 21
+    - case_id: O03_OUTPUT_SYMLINK
+      precondition: exact allowed output path is a sacrificial symlink and its target is unchanged
+      single_action: request creation at the symlink path
+      expected_verdict: FAIL
+      expected_reason_code: OUTPUT_SYMLINK_FORBIDDEN
+      expected_exit_status: 21
+    - case_id: O04_OUTPUT_CREATE_ONCE
+      precondition: exact allowed output path is a preexisting regular sacrificial file
+      single_action: request creation at the existing regular path
+      expected_verdict: FAIL
+      expected_reason_code: OUTPUT_CREATE_ONCE_VIOLATION
+      expected_exit_status: 21
+    - case_id: C01_CONTROLLED_RESULT_FAILURE
+      precondition: admitted H01 descriptor and sacrificial result copy
+      single_mutation: replace normalized task_id in the result with UNDECLARED-TASK
+      expected_verdict: FAIL
+      expected_reason_code: RESULT_TASK_IDENTITY_MISMATCH
+      expected_exit_status: 1
+    - case_id: R01_FIVE_REPLAY_EQUALITY
+      precondition: frozen valid P01 inputs
+      single_action: execute five fresh P01 replays in distinct create-once output roots
+      expected_verdict: PASS
+      expected_reason_code: FIVE_OF_FIVE_REPLAYS_EQUAL
+      expected_exit_status: 0
+    - case_id: G01_P1_001_REGRESSION
+      precondition: accepted P1-001 bytes and frozen runtime identity
+      single_action: execute scripts/verify-p1-harness.sh without changing accepted artifacts
+      expected_verdict: PASS
+      expected_reason_code: P1_001_REGRESSION_PASS
+      expected_exit_status: 0
+    - case_id: G02_P1_035_REGRESSION
+      precondition: accepted P1-035 bytes and frozen runtime identity
+      single_action: execute scripts/verify-p1-task-dataset.sh without changing accepted artifacts
+      expected_verdict: PASS
+      expected_reason_code: P1_035_REGRESSION_PASS
+      expected_exit_status: 0
+  singleton_failure_rule: >-
+    Every case has one frozen precondition and one action or mutation. A case
+    passes only when its exact verdict, one reason code and exit status match;
+    aggregate OR outcomes and implementation-selected reasons are forbidden.
+  precedence:
+    - PATH_TYPE_CONTAINMENT_AND_SYMLINK
+    - FROZEN_ARTIFACT_IDENTITY
+    - CLOSED_SCHEMA
+    - ADMISSION_ALLOWLIST_AND_REQUEST_IDENTITY
+    - OUTPUT_CUSTODY
+    - HARNESS_EXECUTION
+    - EVALUATOR_RESULT_AND_REPLAY
+
+implementation_order:
+  - Freeze and commit the final exact Contract on canonical main; do not activate the Task yet.
+  - CTO, Security and Quality independently review the same final Contract bytes; any non-PASS permanently stops P1.
+  - After three exact PASS reviews, create one phase-delegated authorization and one governance-only Truth activation commit.
+  - Create the one Task branch and one Task worktree from the activation commit.
+  - Quality authors, validates and commits the complete Quality freeze before any Worker write.
+  - Worker implements the admission adapter and parameterized harness without modifying Quality-owned bytes.
+  - Integration adds the one verification entrypoint, Makefile target and mechanical code-map update.
+  - Run the exact 16-case matrix, five replays, controlled failure, P1-001/P1-035 regressions and make verify.
+  - Freeze exactly one candidate, generate Evidence, verify fresh-clone rebuild and rollback, and obtain final CTO/Security/Quality reviews.
+  - On three final PASS reviews, Master issues the delegated Task Gate receipt, integrates locally to canonical main, synchronizes Truth atomically for both capabilities and removes Task resources.
+
+minimum_engineering_outputs:
+  quality:
+    - closed interface, request, response, admitted-task and result schemas
+    - exact two-slot public-synthetic admission manifest
+    - 16-case matrix and one recipe per case
+    - deterministic evaluator, oracle and expected results
+    - ownership map, Quality handoff and Quality Freeze Receipt
+  worker:
+    - minimal hidden-admission adapter
+    - parameterized harness library and CLI
+    - create-once output-custody implementation
+    - deterministic run/result projection
+    - self-test invoking all 16 frozen cases
+  integration:
+    - one P1-039 verification script
+    - one Makefile verification target
+    - mechanical project code-map update
+
+budget:
+  engineering_hours: 16
+  calendar_days: 3
+  implementation_iterations: 2
+  candidate_freezes: 1
+  execution_retries: 0
+  branches: 1
+  worktrees: 1
+  network_calls: 0
+  provider_calls: 0
+  secret_reads: 0
+  remote_writes: 0
+  production_effects: 0
+  public_effects: 0
+
+metrics:
+  quality_freeze_receipts: 1
+  admitted_slots_verified: 2_OF_2
+  atomic_cases_exact: 16_OF_16
+  output_custody_cases_exact: 4_OF_4
+  deterministic_replays_equal: 5_OF_5
+  controlled_failures_rejected: 1_OF_1
+  p1_001_regression: PASS
+  p1_035_regression: PASS
+  make_verify: PASS
+  candidate_freezes: 1
+  network_provider_secret_remote_production_public_effects: 0
+
+acceptance_criteria:
+  - One final exact Contract receives CTO, Security and Quality exact PASS before Task activation.
+  - Quality assets are frozen in one Quality commit before Worker implementation, and their bytes remain unchanged through candidate freeze.
+  - The admission adapter admits exactly H01 and H02 from the exact hash-bound public-synthetic allowlist and rejects unknown, drifted, escaped and symlinked inputs with their frozen typed outcomes.
+  - The parameterized harness actually calls the admission adapter and consumes both admitted descriptors through the same implementation and output schema.
+  - O01-O04 each produce the exact frozen output-custody verdict, reason code and exit status without modifying a forbidden or undeclared path.
+  - All 16 atomic cases match their single frozen outcome; five fresh P01 replays are byte-equal after excluding only predeclared run-instance fields.
+  - The controlled result mutation is rejected and cannot be promoted to success.
+  - Actual argv, cwd, start/end, exit status, stdout/stderr hashes, artifact hashes and filesystem observations are retained in Evidence.
+  - P1-001 regression, P1-035 regression, the P1-039 verification target and make verify all PASS without changing accepted inputs.
+  - Fresh-clone rebuild reproduces the candidate checks, and rollback verification proves the pre-Task parent is recoverable without rewriting history.
+  - CTO, Security and Quality final independent reviews of the exact frozen candidate and Evidence are PASS.
+  - The Task Gate accepts both HIDDEN_SET_PROTOCOL and PARAMETERIZED_EVALUATION_HARNESS atomically; no partial capability status is permitted.
+  - No real or historical hidden material, failed engineering asset, network, Provider, Secret, remote, production or public capability is used.
+
+failure_criteria:
+  - Any final Contract reviewer is non-PASS.
+  - The Worker directly accepts an arbitrary TaskSpec path or bypasses the frozen admission interface.
+  - A Quality-owned byte changes after the Quality freeze or a Worker/Integration write crosses ownership boundaries.
+  - Any admitted slot, request, output target, result or replay identity is ambiguous, mutable or not hash-bound.
+  - Any of the 16 cases has multiple reachable reason codes, an aggregate oracle, a mismatched exit status or cannot reach its frozen outcome.
+  - A forbidden path is read as a semantic input, a forbidden path is written, or a forbidden external effect occurs.
+  - Evidence, replay, fresh-clone rebuild, rollback, regression, make verify or any final independent review is non-PASS.
+  - Completion requires a real hidden set, baseline execution, Agent Runtime, Supervisor, Root Custody, Strong Isolation or P3 Trust Runtime.
+
+stop_conditions:
+  - The final exact Contract receives any CTO, Security or Quality non-PASS; stop P1 with no fifth route.
+  - Goal, Founder route, Contract, accepted dependency, preparation parent, activation parent or runtime identity drifts.
+  - A real architecture root prevents the integrated capability from producing runnable engineering output.
+  - A write occurs outside exact role-owned paths, Quality freeze is contaminated, or forbidden material/effects are accessed.
+  - The objective, paths, budget, permissions, roles, metrics or claim boundary require expansion.
+  - Two implementation iterations fail for the same root cause without new engineering Evidence.
+  - The 16-hour or 3-day budget is exhausted.
+  - Evidence, replay, rebuild, rollback or any final independent review is non-PASS.
+
+forbidden_actions:
+  - network
+  - provider
+  - secret
+  - remote
+  - production
+  - public effect
+  - package installation or dependency download
+  - reading, enumerating, restoring or creating real or historical hidden material
+  - reading or reusing failed Task code, fixture, candidate, partial implementation, nonce or unaccepted engineering asset
+  - using historical governance metadata as a semantic Task input
+  - modifying historical Contract, Evidence, Review or Terminal Record
+  - modifying accepted P1-001 or P1-035 artifacts
+  - direct TaskSpec CLI admission that bypasses the frozen admission interface
+  - executing B0, B1, B2 or A0
+  - generating benchmark, VTSR, Agent ability, P1 completion, P2, P3, secrecy, representativeness, production or hostile-principal claims
+  - entering P2 or P3
+  - PRE, MCF, Carrier, Supervisor, Root Custody, Strong Isolation, Full Trust Runtime or Multi-Agent Runtime work
+  - retry, resume, successor, replacement, correction chain or fifth implementation route
+  - automatic next Task before this Task Gate is complete
+
+evidence:
+  required:
+    - final exact Contract identity and three final Contract reviews
+    - phase-delegated authorization and activation parent commit/tree
+    - role handoff, ownership map, Quality freeze commit/tree and Quality Freeze Receipt
+    - accepted input and runtime identities
+    - frozen admission manifest, schemas, case matrix, recipes, oracle, evaluator and expected results
+    - actual command ledger with argv, cwd, start/end, exit status, signal and timeout state
+    - 16-case result matrix and O01-O04 effect observations
+    - five-replay normalized-byte comparison
+    - controlled-failure result and non-promotion proof
+    - source diff, candidate commit/tree and exact artifact index
+    - P1-001 regression, P1-035 regression, P1-039 self-test and make verify results
+    - canonical and historical forbidden-path non-write observations
+    - fresh-clone rebuild and rollback results
+    - closed Evidence Manifest with path, SHA-256 and byte length for every artifact
+    - CTO, Security and Quality final independent reviews
+    - delegated Task Gate receipt and atomic capability status projection
+
+rollback:
+  pre_gate: >-
+    Preserve external Evidence, then remove the unmerged Task worktree and Task
+    branch. Canonical main remains at the activation commit and no implementation
+    candidate is integrated.
+  post_gate: >-
+    Preserve accepted Evidence and candidate Git objects; reverse a local main
+    integration only with a forward revert of the exact integration commit.
+  destructive_history_rewrite: false
+
+claim_boundary: COOPERATIVE_LOCAL_PUBLIC_SYNTHETIC_ROLE_SEPARATED_HIDDEN_ADMISSION_AND_PARAMETERIZED_HARNESS_REPRODUCIBLE_INTEGRATION_ONLY_NO_REAL_HIDDEN_SET_SECRECY_REPRESENTATIVENESS_HOSTILE_PRINCIPAL_AGENT_P1_EXIT_P2_P3_OR_PRODUCTION_CLAIM
+
+delegated_authority:
+  phase_local: true
+  task_gate_owner: MASTER_CEO_AGENT
+  founder_gate: RESERVED_DECISIONS_ONLY
+  founder_reserved_decisions: []
+  ordinary_task_actions_autonomous: true
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false
+
+terminal_rule:
+  final_contract_non_pass: STOP_P1_NO_FIFTH_ROUTE
+  real_architecture_root_failure: STOP_P1_NO_FIFTH_ROUTE
+  implementation_retry_allowed: false
+  successor_replacement_correction_allowed: false
+  partial_capability_acceptance_allowed: false
+  next_capability_after_atomic_acceptance: VTSR_COUNTING_VALIDATOR

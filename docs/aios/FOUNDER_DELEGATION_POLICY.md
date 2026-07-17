@@ -1,8 +1,8 @@
 # SourceLens AIOS Founder Delegation Policy
 
-- Version: `1.0`
+- Version: `1.1`
 - Status: `FOUNDER_DIRECTIVE_ACTIVE`
-- Effective date: 2026-07-16
+- Effective date: 2026-07-17
 - Scope: current Founder-authorized Phase and its bounded local engineering Tasks
 
 ## 1. Purpose
@@ -60,7 +60,12 @@ worktree、测试、同 Task 修复、Evidence 或本地 Task Gate。
    和当前 lifecycle state；
 4. Master authority receipt 绑定完整 Contract hash，并声明是否触及 Founder Reserved
    Decisions；触及时必须另行绑定 exact Founder decision；
-5. 已终态的 Task ID 不得恢复、重放、换名复刻或形成 successor/remediation 链。
+5. 已终态的 Task ID、执行 lineage、nonce、candidate、partial implementation、hidden
+   material、失败 Evidence 和 Review 不得恢复、重放、复用或形成 successor/remediation
+   链；该限制不再解释为永久禁止实现 P1 Exit Gate 明确要求但尚未完成的能力；
+6. 对 P1 Exit Gate 必要能力，只允许从当前 canonical `main` 创建一次不继承旧实现和
+   未接受资产的 clean-room implementation Task。它必须直接产生可运行工程成果，并
+   绑定新的 Task ID、Contract、branch、worktree、Evidence 和独立审查。
 
 ## 5. Escalation and Anti-loop
 
@@ -74,3 +79,29 @@ remediation 链。Validator 不得把历史 Task ID、nonce、时间窗、offsit
 状态硬编码为未来 Task 的通用前置条件。
 
 正常情况下，Founder 的下一介入点是 Phase Gate。
+
+## 6. P1 Mandatory Exit Capability Recovery
+
+P1 当前只允许优先关闭以下 Exit Gate 必要能力：
+
+1. versioned representative Task Dataset；
+2. hidden-set protocol；
+3. parameterized Evaluation Harness；
+4. VTSR counting validator；
+5. B0/B1/B2 compatibility adapters；
+6. observable trace；
+7. evaluator disagreement / false-success characterization；
+8. reproducible baseline report。
+
+在上述能力完成或被 Founder 明确处置前，不得选择外围 validator、辅助治理工具或与
+P1 Exit Gate 无直接关系的工程增量。历史 Task 保持不可变和非 PASS；clean-room Task
+不得继承其代码、candidate、nonce、hidden material 或失败 Evidence。
+
+普通 Task 的 pre-activation contract review 最多允许一次同 Task bounded correction；
+修正不得改变 objective，或扩大 paths、budget、permissions、claim boundary。修正后任一
+Reviewer 仍非 PASS，则停止该能力路线并一次性升级 Founder，不得继续生成合同链。
+发生修正时必须保留原始 Contract bytes、SHA-256 和修正后的 exact Contract，并由当前
+authority validator 机械验证上述不变字段；未发生修正时 used counter 必须为 `0`。
+
+任一必要能力的 clean-room Task 因真实架构根因终态失败时，也必须停止该能力路线并
+一次性升级 Founder。不得换名重做、连续小修补或通过外围工作绕开 Exit Gate。

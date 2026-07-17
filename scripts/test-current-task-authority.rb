@@ -33,6 +33,7 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   FileUtils.cp(File.join(SOURCE_ROOT, "scripts/validate-current-task-authority.rb"), File.join(root, "scripts"))
   FileUtils.cp(File.join(SOURCE_ROOT, "AGENTS.md"), root)
   FileUtils.cp(File.join(SOURCE_ROOT, "docs/aios/FOUNDER_DELEGATION_POLICY.md"), File.join(root, "docs/aios"))
+  FileUtils.cp(File.join(SOURCE_ROOT, "docs/aios/tasks/P1-002_B0_ADAPTER_CONFORMANCE.yaml"), File.join(root, "docs/aios/tasks"))
 
   worktree_root = File.join(root, "task-worktrees")
   evidence_base = File.join(root, "audit")
@@ -70,7 +71,7 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
     "founder_decision_required" => false,
     "escalation_reason" => nil,
     "user_action_required" => nil,
-    "next_eligible_action" => "MASTER_AUTONOMOUSLY_SELECT_NEXT_PHASE_LOCAL_TASK"
+    "next_eligible_action" => "MASTER_AUTONOMOUSLY_IMPLEMENT_P1_EXIT_CAPABILITIES_IN_FROZEN_PRIORITY_ORDER"
   }
   truth["phase_execution_claim"]["current_task_claim"] = "NO_CURRENT_TASK"
   write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), truth)
@@ -93,6 +94,109 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   stale_none["active_work"]["activation_parent_commit"] = "deadbeef"
   write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), stale_none)
   run_validator(root, false, "stale NONE binding negative")
+
+  in_progress_none = Marshal.load(Marshal.dump(none_truth))
+  in_progress_none["mandatory_exit_capability_recovery"]["capability_status"]["VERSIONED_REPRESENTATIVE_TASK_DATASET"] = "IN_PROGRESS"
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), in_progress_none)
+  run_validator(root, false, "in-progress capability without active Task negative")
+
+  accepted_without_gate = Marshal.load(Marshal.dump(none_truth))
+  accepted_without_gate["mandatory_exit_capability_recovery"]["capability_status"]["VERSIONED_REPRESENTATIVE_TASK_DATASET"] = "ACCEPTED"
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), accepted_without_gate)
+  run_validator(root, false, "accepted capability without Task Gate binding negative")
+
+  disposed_without_founder = Marshal.load(Marshal.dump(none_truth))
+  disposed_without_founder["mandatory_exit_capability_recovery"]["capability_status"]["VERSIONED_REPRESENTATIVE_TASK_DATASET"] = "FOUNDER_DISPOSED"
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), disposed_without_founder)
+  run_validator(root, false, "Founder-disposed capability without decision binding negative")
+
+  fake_terminal_root = File.join(evidence_base, "fake-terminal")
+  FileUtils.mkdir_p(fake_terminal_root)
+  fake_task_id = "AIOS-P1-900_FAKE_ACCEPTED"
+  fake_capability = "VERSIONED_REPRESENTATIVE_TASK_DATASET"
+  fake_contract_sha = "1" * 64
+  fake_commit = run!("git", "rev-parse", "HEAD", chdir: root)
+  fake_tree = run!("git", "rev-parse", "HEAD^{tree}", chdir: root)
+  fake_manifest_path = File.join(fake_terminal_root, "weak-manifest.json")
+  File.write(fake_manifest_path, "{}\n")
+  fake_review_paths = {}
+  %w[cto security quality].each do |role|
+    path = File.join(fake_terminal_root, "weak-#{role}.json")
+    File.write(path, JSON.pretty_generate({ "status" => "PASS", "task_id" => fake_task_id, "mandatory_exit_capability" => fake_capability }) + "\n")
+    fake_review_paths[role] = path
+  end
+  fake_gate_path = File.join(fake_terminal_root, "weak-gate.json")
+  fake_gate = {
+    "record_type" => "aios_phase_delegated_task_gate_receipt",
+    "status" => "ACCEPTED",
+    "authority" => "MASTER_CEO_AGENT",
+    "task_id" => fake_task_id,
+    "mandatory_exit_capability" => fake_capability,
+    "task_contract_sha256" => fake_contract_sha,
+    "candidate_commit" => fake_commit,
+    "candidate_tree" => fake_tree,
+    "evidence_manifest_sha256" => Digest::SHA256.file(fake_manifest_path).hexdigest,
+    "cto_review_sha256" => Digest::SHA256.file(fake_review_paths["cto"]).hexdigest,
+    "security_review_sha256" => Digest::SHA256.file(fake_review_paths["security"]).hexdigest,
+    "quality_review_sha256" => Digest::SHA256.file(fake_review_paths["quality"]).hexdigest
+  }
+  File.write(fake_gate_path, JSON.pretty_generate(fake_gate) + "\n")
+  fake_accepted = Marshal.load(Marshal.dump(none_truth))
+  fake_accepted["mandatory_exit_capability_recovery"]["capability_status"][fake_capability] = "ACCEPTED"
+  fake_accepted["mandatory_exit_capability_recovery"]["capability_attempt_ledger"][fake_capability] = {
+    "status" => "ACCEPTED", "task_id" => fake_task_id, "attempt_ordinal" => 1,
+    "contract_sha256" => fake_contract_sha, "bounded_contract_corrections_used" => 0
+  }
+  fake_accepted["task_history"]["fake_accepted"] = {
+    "task_id" => fake_task_id,
+    "status" => "MASTER_TASK_GATE_ACCEPTED_COMPLETE",
+    "mandatory_exit_capability" => fake_capability,
+    "clean_room_attempt_ordinal" => 1,
+    "task_gate_result" => "PASS",
+    "task_contract_sha256" => fake_contract_sha,
+    "bounded_contract_corrections_used" => 0,
+    "accepted_candidate_commit" => fake_commit,
+    "accepted_candidate_tree" => fake_tree,
+    "execution_evidence_root" => fake_terminal_root,
+    "evidence_manifest_path" => fake_manifest_path,
+    "evidence_manifest_sha256" => Digest::SHA256.file(fake_manifest_path).hexdigest,
+    "cto_review_path" => fake_review_paths["cto"],
+    "cto_review_sha256" => Digest::SHA256.file(fake_review_paths["cto"]).hexdigest,
+    "security_review_path" => fake_review_paths["security"],
+    "security_review_sha256" => Digest::SHA256.file(fake_review_paths["security"]).hexdigest,
+    "quality_review_path" => fake_review_paths["quality"],
+    "quality_review_sha256" => Digest::SHA256.file(fake_review_paths["quality"]).hexdigest,
+    "task_gate_receipt_path" => fake_gate_path,
+    "task_gate_receipt_sha256" => Digest::SHA256.file(fake_gate_path).hexdigest
+  }
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), fake_accepted)
+  run_validator(root, false, "accepted capability with weakly bound artifacts negative")
+
+  fake_disposed = Marshal.load(Marshal.dump(none_truth))
+  fake_disposed["mandatory_exit_capability_recovery"]["capability_status"]["VERSIONED_REPRESENTATIVE_TASK_DATASET"] = "FOUNDER_DISPOSED"
+  fake_disposed["mandatory_exit_capability_recovery"]["founder_dispositions"]["VERSIONED_REPRESENTATIVE_TASK_DATASET"] = {
+    "status" => "APPROVED",
+    "decision_record_path" => File.join(evidence_base, "missing-founder-disposition.json"),
+    "decision_record_sha256" => "0" * 64
+  }
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), fake_disposed)
+  run_validator(root, false, "Founder disposition with nonexistent decision record negative")
+
+  blocked_without_terminal = Marshal.load(Marshal.dump(none_truth))
+  blocked_without_terminal["mandatory_exit_capability_recovery"]["capability_status"]["VERSIONED_REPRESENTATIVE_TASK_DATASET"] = "ARCHITECTURE_BLOCKED"
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), blocked_without_terminal)
+  run_validator(root, false, "architecture-blocked capability without terminal binding negative")
+
+  review_blocked_without_record = Marshal.load(Marshal.dump(none_truth))
+  review_blocked_without_record["mandatory_exit_capability_recovery"]["capability_status"]["VERSIONED_REPRESENTATIVE_TASK_DATASET"] = "CONTRACT_REVIEW_BLOCKED"
+  review_blocked_without_record["mandatory_exit_capability_recovery"]["capability_attempt_ledger"]["VERSIONED_REPRESENTATIVE_TASK_DATASET"] = {
+    "status" => "CONTRACT_REVIEW_BLOCKED", "task_id" => "AIOS-P1-900_REVIEW_BLOCKED",
+    "attempt_ordinal" => 1, "founder_escalation_required" => true,
+    "failure_record_path" => File.join(evidence_base, "missing-review-failure.json"),
+    "failure_record_sha256" => "0" * 64
+  }
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), review_blocked_without_record)
+  run_validator(root, false, "contract-review-blocked capability without failure record negative")
   write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), none_truth)
 
   parent_commit = run!("git", "rev-parse", "HEAD", chdir: root)
@@ -113,6 +217,15 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
     "task_spec_ref" => "synthetic://current-task-authority-test",
     "read_context" => ["docs/aios/FOUNDER_DELEGATION_POLICY.md"],
     "dependencies" => [],
+    "mandatory_exit_capability" => "VERSIONED_REPRESENTATIVE_TASK_DATASET",
+    "clean_room_recovery" => {
+      "historical_execution_lineage_reused" => false,
+      "attempt_ordinal" => 1,
+      "bounded_contract_corrections_allowed" => 1,
+      "bounded_contract_corrections_used" => 0,
+      "original_contract_path" => nil,
+      "original_contract_sha256" => nil
+    },
     "task_kind" => "EVALUATION_FOUNDATION_ENGINEERING",
     "capabilities" => ["TASK_SPEC_VALIDATION"],
     "capability_claim" => false,
@@ -178,6 +291,7 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   active_truth["goal"]["current_task_authority"] = task_id
   active_truth["project"]["phase_execution_status"] = "TASK_ACTIVE"
   active_truth["project"]["p1_execution_status"] = "TASK_ACTIVE"
+  active_truth["mandatory_exit_capability_recovery"]["capability_status"]["VERSIONED_REPRESENTATIVE_TASK_DATASET"] = "IN_PROGRESS"
   active_truth["active_work"] = {
     "current_task" => task_id,
     "current_task_status" => "AUTHORIZED_ACTIVE",
@@ -201,6 +315,13 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
     "escalation_reason" => nil,
     "user_action_required" => nil,
     "next_eligible_action" => "MASTER_AUTONOMOUSLY_EXECUTE_CURRENT_TASK"
+  }
+  active_truth["mandatory_exit_capability_recovery"]["capability_attempt_ledger"]["VERSIONED_REPRESENTATIVE_TASK_DATASET"] = {
+    "status" => "ACTIVE",
+    "task_id" => task_id,
+    "attempt_ordinal" => 1,
+    "contract_sha256" => contract_sha,
+    "bounded_contract_corrections_used" => 0
   }
   active_truth["phase_execution_claim"]["current_task_claim"] = task_id
   write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), active_truth)
@@ -234,6 +355,7 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   reserved_truth = Marshal.load(Marshal.dump(active_truth))
   reserved_truth["active_work"]["current_task_contract_sha256"] = reserved_contract_sha
   reserved_truth["active_work"]["current_execution_authorization_sha256"] = Digest::SHA256.file(authorization_path).hexdigest
+  reserved_truth["mandatory_exit_capability_recovery"]["capability_attempt_ledger"]["VERSIONED_REPRESENTATIVE_TASK_DATASET"]["contract_sha256"] = reserved_contract_sha
   reserved_truth["active_work"]["founder_reserved_authorization"] = founder_path
   reserved_truth["active_work"]["founder_reserved_authorization_sha256"] = Digest::SHA256.file(founder_path).hexdigest
   reserved_truth["active_work"]["founder_decision_required"] = true
@@ -301,6 +423,13 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), reused)
   run_validator(root, false, "terminal Task reuse negative")
 
+  reserved_historical_id = Marshal.load(Marshal.dump(active_truth))
+  reserved_historical_id["active_work"]["current_task"] = "AIOS-P1-007_RESERVED_ID"
+  reserved_historical_id["goal"]["current_task_authority"] = "AIOS-P1-007_RESERVED_ID"
+  reserved_historical_id["phase_execution_claim"]["current_task_claim"] = "AIOS-P1-007_RESERVED_ID"
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), reserved_historical_id)
+  run_validator(root, false, "P1-002..P1-034 reserved Task ID negative")
+
   reused_evidence = Marshal.load(Marshal.dump(active_truth))
   reused_evidence["task_history"]["other_test"] = {
     "task_id" => "AIOS-P1-899_OTHER",
@@ -314,6 +443,107 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   malformed_authorization_id["active_work"]["authorization_id"] = "not-a-canonical-id"
   write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), malformed_authorization_id)
   run_validator(root, false, "malformed authorization ID negative")
+
+  peripheral_contract = Marshal.load(Marshal.dump(contract))
+  peripheral_contract["mandatory_exit_capability"] = "PERIPHERAL_GOVERNANCE_VALIDATOR"
+  write_yaml(contract_path, peripheral_contract)
+  peripheral_sha = Digest::SHA256.file(contract_path).hexdigest
+  peripheral_authorization = Marshal.load(Marshal.dump(authorization))
+  peripheral_authorization["task_contract_sha256"] = peripheral_sha
+  File.write(authorization_path, JSON.pretty_generate(peripheral_authorization) + "\n")
+  peripheral_truth = Marshal.load(Marshal.dump(active_truth))
+  peripheral_truth["active_work"]["current_task_contract_sha256"] = peripheral_sha
+  peripheral_truth["active_work"]["current_execution_authorization_sha256"] = Digest::SHA256.file(authorization_path).hexdigest
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), peripheral_truth)
+  run_validator(root, false, "peripheral capability selection negative")
+
+  bypass_contract = Marshal.load(Marshal.dump(contract))
+  bypass_contract["mandatory_exit_capability"] = "HIDDEN_SET_PROTOCOL"
+  write_yaml(contract_path, bypass_contract)
+  bypass_sha = Digest::SHA256.file(contract_path).hexdigest
+  bypass_authorization = Marshal.load(Marshal.dump(authorization))
+  bypass_authorization["task_contract_sha256"] = bypass_sha
+  File.write(authorization_path, JSON.pretty_generate(bypass_authorization) + "\n")
+  bypass_truth = Marshal.load(Marshal.dump(active_truth))
+  bypass_truth["mandatory_exit_capability_recovery"]["capability_status"]["VERSIONED_REPRESENTATIVE_TASK_DATASET"] = "ARCHITECTURE_BLOCKED"
+  bypass_truth["mandatory_exit_capability_recovery"]["capability_status"]["HIDDEN_SET_PROTOCOL"] = "IN_PROGRESS"
+  bypass_truth["active_work"]["current_task_contract_sha256"] = bypass_sha
+  bypass_truth["active_work"]["current_execution_authorization_sha256"] = Digest::SHA256.file(authorization_path).hexdigest
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), bypass_truth)
+  run_validator(root, false, "earlier mandatory capability bypass negative")
+
+  reuse_contract = Marshal.load(Marshal.dump(contract))
+  reuse_contract["clean_room_recovery"]["historical_execution_lineage_reused"] = true
+  write_yaml(contract_path, reuse_contract)
+  reuse_sha = Digest::SHA256.file(contract_path).hexdigest
+  reuse_authorization = Marshal.load(Marshal.dump(authorization))
+  reuse_authorization["task_contract_sha256"] = reuse_sha
+  File.write(authorization_path, JSON.pretty_generate(reuse_authorization) + "\n")
+  reuse_truth = Marshal.load(Marshal.dump(active_truth))
+  reuse_truth["active_work"]["current_task_contract_sha256"] = reuse_sha
+  reuse_truth["active_work"]["current_execution_authorization_sha256"] = Digest::SHA256.file(authorization_path).hexdigest
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), reuse_truth)
+  run_validator(root, false, "historical execution lineage reuse negative")
+
+  prior_attempt_truth = Marshal.load(Marshal.dump(active_truth))
+  prior_attempt_truth["task_history"]["prior_clean_room_attempt"] = {
+    "task_id" => "AIOS-P1-899_PRIOR_CLEAN_ROOM_ATTEMPT",
+    "status" => "TERMINAL_STOPPED",
+    "mandatory_exit_capability" => "VERSIONED_REPRESENTATIVE_TASK_DATASET"
+  }
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), prior_attempt_truth)
+  write_yaml(contract_path, contract)
+  File.write(authorization_path, JSON.pretty_generate(authorization) + "\n")
+  run_validator(root, false, "second clean-room capability attempt negative")
+
+  historical_read_contract = Marshal.load(Marshal.dump(contract))
+  historical_read_contract["read_context"] = ["docs/aios/tasks/P1-002_B0_ADAPTER_CONFORMANCE.yaml"]
+  write_yaml(contract_path, historical_read_contract)
+  historical_read_sha = Digest::SHA256.file(contract_path).hexdigest
+  historical_read_authorization = Marshal.load(Marshal.dump(authorization))
+  historical_read_authorization["task_contract_sha256"] = historical_read_sha
+  File.write(authorization_path, JSON.pretty_generate(historical_read_authorization) + "\n")
+  historical_read_truth = Marshal.load(Marshal.dump(active_truth))
+  historical_read_truth["active_work"]["current_task_contract_sha256"] = historical_read_sha
+  historical_read_truth["active_work"]["current_execution_authorization_sha256"] = Digest::SHA256.file(authorization_path).hexdigest
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), historical_read_truth)
+  run_validator(root, false, "historical Task asset read-context negative")
+
+  excessive_correction_contract = Marshal.load(Marshal.dump(contract))
+  excessive_correction_contract["clean_room_recovery"]["bounded_contract_corrections_used"] = 2
+  write_yaml(contract_path, excessive_correction_contract)
+  excessive_correction_sha = Digest::SHA256.file(contract_path).hexdigest
+  excessive_correction_authorization = Marshal.load(Marshal.dump(authorization))
+  excessive_correction_authorization["task_contract_sha256"] = excessive_correction_sha
+  File.write(authorization_path, JSON.pretty_generate(excessive_correction_authorization) + "\n")
+  excessive_correction_truth = Marshal.load(Marshal.dump(active_truth))
+  excessive_correction_truth["active_work"]["current_task_contract_sha256"] = excessive_correction_sha
+  excessive_correction_truth["active_work"]["current_execution_authorization_sha256"] = Digest::SHA256.file(authorization_path).hexdigest
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), excessive_correction_truth)
+  run_validator(root, false, "excessive bounded Contract correction negative")
+
+  already_corrected_original = Marshal.load(Marshal.dump(contract))
+  already_corrected_original["clean_room_recovery"]["bounded_contract_corrections_used"] = 1
+  already_corrected_original["clean_room_recovery"]["original_contract_path"] = File.join(evidence_root, "earlier-original.yaml")
+  already_corrected_original["clean_room_recovery"]["original_contract_sha256"] = "0" * 64
+  already_corrected_path = File.join(evidence_root, "already-corrected-original.yaml")
+  write_yaml(already_corrected_path, already_corrected_original)
+  second_correction_contract = Marshal.load(Marshal.dump(contract))
+  second_correction_contract["clean_room_recovery"]["bounded_contract_corrections_used"] = 1
+  second_correction_contract["clean_room_recovery"]["original_contract_path"] = already_corrected_path
+  second_correction_contract["clean_room_recovery"]["original_contract_sha256"] = Digest::SHA256.file(already_corrected_path).hexdigest
+  write_yaml(contract_path, second_correction_contract)
+  second_correction_sha = Digest::SHA256.file(contract_path).hexdigest
+  second_correction_authorization = Marshal.load(Marshal.dump(authorization))
+  second_correction_authorization["task_contract_sha256"] = second_correction_sha
+  File.write(authorization_path, JSON.pretty_generate(second_correction_authorization) + "\n")
+  second_correction_truth = Marshal.load(Marshal.dump(active_truth))
+  second_correction_truth["active_work"]["current_task_contract_sha256"] = second_correction_sha
+  second_correction_truth["active_work"]["current_execution_authorization_sha256"] = Digest::SHA256.file(authorization_path).hexdigest
+  second_correction_truth["mandatory_exit_capability_recovery"]["capability_attempt_ledger"]["VERSIONED_REPRESENTATIVE_TASK_DATASET"]["contract_sha256"] = second_correction_sha
+  second_correction_truth["mandatory_exit_capability_recovery"]["capability_attempt_ledger"]["VERSIONED_REPRESENTATIVE_TASK_DATASET"]["bounded_contract_corrections_used"] = 1
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), second_correction_truth)
+  run_validator(root, false, "second bounded Contract correction disguised as first negative")
 
   missing_reviewer = Marshal.load(Marshal.dump(contract))
   missing_reviewer["roles"]["independent_reviewers"] = []
@@ -523,4 +753,4 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   run_validator(root, false, "authorization symlink escape negative")
 end
 
-puts "Current Task authority state-machine tests passed (5 positive states, 27 negative vectors)."
+puts "Current Task authority state-machine tests passed (5 positive states, 42 negative vectors)."

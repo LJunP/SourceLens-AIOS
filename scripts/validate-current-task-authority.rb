@@ -28,10 +28,41 @@ def sha256(path)
   Digest::SHA256.file(path).hexdigest
 end
 
+def bound_json!(path, expected_sha256, root, label)
+  stop!("#{label} path/hash invalid") unless nonempty_string?(path) && expected_sha256.is_a?(String) && expected_sha256.match?(/\A[0-9a-f]{64}\z/)
+  stop!("#{label} missing or outside custody") unless safe_under_root?(path, root, must_exist: true) && File.file?(path)
+  stop!("#{label} hash drift") unless sha256(path) == expected_sha256
+  JSON.parse(File.read(path))
+rescue JSON::ParserError
+  stop!("#{label} is not valid JSON")
+end
+
+def exact_terminal_status?(value)
+  value.is_a?(String) && (value == "TERMINAL_STOPPED" || value.start_with?("TERMINAL_STOPPED_"))
+end
+
 def git(*args)
   output = IO.popen(["git", "-C", REPO_ROOT, *args], err: File::NULL, &:read)
   stop!("git command failed: #{args.join(' ')}") unless $CHILD_STATUS.success?
   output.strip
+end
+
+def git_file(ref, path)
+  output = IO.popen(["git", "-C", REPO_ROOT, "show", "#{ref}:#{path}"], err: File::NULL, &:read)
+  $CHILD_STATUS.success? ? output : nil
+end
+
+def previous_truth_transition(current_bytes)
+  relative_path = "docs/aios/truth/project_state.yaml"
+  head_bytes = git_file("HEAD", relative_path)
+  return nil unless head_bytes
+  return [head_bytes, current_bytes] unless head_bytes == current_bytes
+
+  last_change = git("log", "-1", "--format=%H", "--", relative_path)
+  return nil if last_change.empty?
+  previous_bytes = git_file("#{last_change}^", relative_path)
+  changed_bytes = git_file(last_change, relative_path)
+  previous_bytes && changed_bytes ? [previous_bytes, changed_bytes] : nil
 end
 
 def existing_ancestor(path)
@@ -140,6 +171,8 @@ def truth_without_activation_fields(value)
   copy["project"].delete("p1_execution_status")
   copy.delete("active_work")
   copy.fetch("phase_execution_claim").delete("current_task_claim")
+  copy.fetch("mandatory_exit_capability_recovery").delete("capability_status")
+  copy.fetch("mandatory_exit_capability_recovery").delete("capability_attempt_ledger")
   copy
 end
 
@@ -218,6 +251,188 @@ stop!("per-file approval re-enabled") unless anti_loop["per_file_or_command_appr
 stop!("ordinary repairs escaped the Task") unless anti_loop["ordinary_repairs_stay_in_same_task"] == true
 stop!("successor chain re-enabled") unless anti_loop["successor_replacement_correction_chain_allowed"] == false
 stop!("Task-specific hardcoding re-enabled") unless anti_loop["task_id_hardcoding_in_current_authority_validator_allowed"] == false
+stop!("bounded Contract repair limit drift") unless anti_loop["maximum_same_task_bounded_contract_repairs"] == 1
+stop!("historical execution lineage reuse re-enabled") unless anti_loop["historical_execution_lineage_reuse_allowed"] == false
+stop!("historical stop permanently bans mandatory capability recovery") unless anti_loop["mandatory_exit_capability_permanent_ban_from_historical_stop"] == false
+stop!("peripheral work re-enabled before P1 Exit capabilities") unless anti_loop["peripheral_work_before_exit_capabilities_allowed"] == false
+
+mandatory_recovery = truth.fetch("mandatory_exit_capability_recovery")
+expected_exit_capabilities = %w[
+  VERSIONED_REPRESENTATIVE_TASK_DATASET
+  HIDDEN_SET_PROTOCOL
+  PARAMETERIZED_EVALUATION_HARNESS
+  VTSR_COUNTING_VALIDATOR
+  B0_B1_B2_COMPATIBILITY_ADAPTERS
+  OBSERVABLE_TRACE
+  EVALUATOR_DISAGREEMENT_AND_FALSE_SUCCESS_CHARACTERIZATION
+  REPRODUCIBLE_BASELINE_REPORT
+]
+stop!("mandatory Exit capability recovery is inactive") unless mandatory_recovery["status"] == "ACTIVE"
+stop!("mandatory Exit capability priority drift") unless mandatory_recovery["priority_order"] == expected_exit_capabilities
+stop!("historical Task immutability weakened") unless mandatory_recovery["historical_tasks_immutable"] == true
+stop!("historical execution lineage reuse enabled") unless mandatory_recovery["historical_execution_lineage_reuse_allowed"] == false
+stop!("clean-room recovery disabled") unless mandatory_recovery["clean_room_implementation_allowed_for_required_capability"] == true
+stop!("clean-room attempt count drift") unless mandatory_recovery["clean_room_attempts_per_missing_capability"] == 1
+stop!("same-Task bounded correction count drift") unless mandatory_recovery["maximum_same_task_bounded_contract_repairs"] == 1
+stop!("peripheral Task selection enabled") unless mandatory_recovery["peripheral_task_selection_allowed"] == false
+capability_status = mandatory_recovery["capability_status"]
+stop!("mandatory Exit capability status population drift") unless capability_status.is_a?(Hash) && capability_status.keys == expected_exit_capabilities
+allowed_capability_states = %w[MISSING IN_PROGRESS ACCEPTED FOUNDER_DISPOSED ARCHITECTURE_BLOCKED CONTRACT_REVIEW_BLOCKED]
+stop!("mandatory Exit capability status invalid") unless capability_status.values.all? { |value| allowed_capability_states.include?(value) }
+attempt_ledger = mandatory_recovery["capability_attempt_ledger"]
+stop!("mandatory Exit capability attempt ledger population drift") unless attempt_ledger.is_a?(Hash) && attempt_ledger.keys == expected_exit_capabilities
+founder_dispositions = mandatory_recovery["founder_dispositions"]
+stop!("mandatory Exit capability Founder disposition map invalid") unless founder_dispositions.is_a?(Hash) && (founder_dispositions.keys - expected_exit_capabilities).empty?
+history_entries_for_recovery = truth.fetch("task_history").values.select { |entry| entry.is_a?(Hash) }
+recovery_evidence_base = truth.dig("project", "execution_evidence_root_base")
+stop!("mandatory Exit capability Evidence base invalid") unless File.directory?(recovery_evidence_base) && !File.symlink?(recovery_evidence_base)
+
+history_entries_for_recovery.each do |entry|
+  match = entry["task_id"].to_s.match(/\AAIOS-P1-(\d{3})/)
+  next unless match && match[1].to_i >= 35
+  stop!("post-recovery Task history lacks mandatory capability identity") unless expected_exit_capabilities.include?(entry["mandatory_exit_capability"]) && entry["clean_room_attempt_ordinal"] == 1
+end
+
+capability_status.each do |capability, state|
+  attempts = history_entries_for_recovery.select { |entry| entry["mandatory_exit_capability"] == capability }
+  stop!("mandatory Exit capability has multiple clean-room attempts") if attempts.length > 1
+  ledger = attempt_ledger[capability]
+  case state
+  when "MISSING"
+    stop!("missing Exit capability already has an execution attempt") unless attempts.empty? && ledger.nil?
+  when "IN_PROGRESS"
+    stop!("in-progress Exit capability attempt ledger missing") unless attempts.empty? && ledger.is_a?(Hash) && ledger["status"] == "ACTIVE" && ledger["attempt_ordinal"] == 1
+  when "ACCEPTED"
+    entry = attempts.first
+    accepted_statuses = %w[MASTER_TASK_GATE_ACCEPTED_COMPLETE FOUNDER_GATE_ACCEPTED_COMPLETE]
+    stop!("accepted Exit capability lacks one Task Gate binding") unless entry && ledger.is_a?(Hash) && ledger["status"] == "ACCEPTED" && ledger["task_id"] == entry["task_id"] && ledger["attempt_ordinal"] == 1 && accepted_statuses.include?(entry["status"]) && entry["task_gate_result"] == "PASS"
+    commit = entry["accepted_candidate_commit"]
+    tree = entry["accepted_candidate_tree"]
+    stop!("accepted Exit capability candidate identity invalid") unless commit.is_a?(String) && commit.match?(/\A[0-9a-f]{40}\z/) && tree.is_a?(String) && tree.match?(/\A[0-9a-f]{40}\z/)
+    stop!("accepted Exit capability candidate Git object missing") unless system("git", "-C", REPO_ROOT, "cat-file", "-e", "#{commit}^{commit}", out: File::NULL, err: File::NULL)
+    stop!("accepted Exit capability candidate tree drift") unless git("rev-parse", "#{commit}^{tree}") == tree
+    evidence_root = entry["execution_evidence_root"]
+    stop!("accepted Exit capability Evidence root invalid") unless safe_under_root?(evidence_root, recovery_evidence_base, must_exist: true)
+    contract_sha = entry["task_contract_sha256"]
+    corrections_used = entry["bounded_contract_corrections_used"]
+    stop!("accepted Exit capability Task Contract lineage drift") unless contract_sha.is_a?(String) && contract_sha.match?(/\A[0-9a-f]{64}\z/) && ledger["contract_sha256"] == contract_sha && corrections_used.is_a?(Integer) && corrections_used.between?(0, 1) && ledger["bounded_contract_corrections_used"] == corrections_used
+    manifest = bound_json!(entry["evidence_manifest_path"], entry["evidence_manifest_sha256"], evidence_root, "accepted Exit capability Evidence Manifest")
+    stop!("accepted Exit capability Evidence Manifest content drift") unless manifest == {
+      "record_type" => "aios_p1_mandatory_capability_evidence_manifest",
+      "status" => "FROZEN",
+      "task_id" => entry["task_id"],
+      "mandatory_exit_capability" => capability,
+      "task_contract_sha256" => contract_sha,
+      "candidate_commit" => commit,
+      "candidate_tree" => tree
+    }
+    %w[cto security quality].each do |role|
+      review = bound_json!(entry["#{role}_review_path"], entry["#{role}_review_sha256"], evidence_root, "accepted Exit capability #{role} review")
+      stop!("accepted Exit capability #{role} review content drift") unless review == {
+        "record_type" => "aios_independent_task_review",
+        "status" => "PASS",
+        "role" => role.upcase,
+        "task_id" => entry["task_id"],
+        "mandatory_exit_capability" => capability,
+        "task_contract_sha256" => contract_sha,
+        "candidate_commit" => commit,
+        "candidate_tree" => tree,
+        "evidence_manifest_sha256" => entry["evidence_manifest_sha256"]
+      }
+    end
+    gate = bound_json!(entry["task_gate_receipt_path"], entry["task_gate_receipt_sha256"], evidence_root, "accepted Exit capability Task Gate receipt")
+    stop!("accepted Exit capability Task Gate receipt content drift") unless gate == {
+      "record_type" => "aios_phase_delegated_task_gate_receipt",
+      "status" => "ACCEPTED",
+      "authority" => "MASTER_CEO_AGENT",
+      "task_id" => entry["task_id"],
+      "mandatory_exit_capability" => capability,
+      "task_contract_sha256" => contract_sha,
+      "candidate_commit" => commit,
+      "candidate_tree" => tree,
+      "evidence_manifest_sha256" => entry["evidence_manifest_sha256"],
+      "cto_review_sha256" => entry["cto_review_sha256"],
+      "security_review_sha256" => entry["security_review_sha256"],
+      "quality_review_sha256" => entry["quality_review_sha256"]
+    }
+  when "ARCHITECTURE_BLOCKED"
+    entry = attempts.first
+    stop!("architecture-blocked Exit capability lacks terminal Evidence binding") unless entry && ledger.is_a?(Hash) && ledger["status"] == "ARCHITECTURE_BLOCKED" && ledger["task_id"] == entry["task_id"] && ledger["attempt_ordinal"] == 1 && exact_terminal_status?(entry["status"]) && entry["founder_escalation_required"] == true
+    terminal = entry["terminal_evidence"]
+    evidence_root = entry["execution_evidence_root"]
+    stop!("architecture-blocked Exit capability Evidence root invalid") unless terminal.is_a?(Hash) && safe_under_root?(evidence_root, recovery_evidence_base, must_exist: true)
+    manifest = bound_json!(terminal["evidence_manifest_path"], terminal["evidence_manifest_sha256"], evidence_root, "architecture-blocked Exit capability terminal manifest")
+    stop!("architecture-blocked Exit capability terminal manifest content drift") unless manifest == {
+      "record_type" => "aios_p1_mandatory_capability_terminal_evidence_manifest",
+      "status" => entry["status"],
+      "task_id" => entry["task_id"],
+      "mandatory_exit_capability" => capability,
+      "attempt_ordinal" => 1,
+      "task_contract_sha256" => ledger["contract_sha256"],
+      "bounded_contract_corrections_used" => ledger["bounded_contract_corrections_used"],
+      "failure_classification" => "REAL_ARCHITECTURE_ROOT"
+    }
+  when "CONTRACT_REVIEW_BLOCKED"
+    stop!("contract-review-blocked Exit capability cannot have an execution history entry") unless attempts.empty?
+    stop!("contract-review-blocked Exit capability ledger invalid") unless ledger.is_a?(Hash) && ledger["status"] == "CONTRACT_REVIEW_BLOCKED" && ledger["attempt_ordinal"] == 1 && ledger["founder_escalation_required"] == true
+    failure = bound_json!(ledger["failure_record_path"], ledger["failure_record_sha256"], recovery_evidence_base, "contract review failure record")
+    stop!("contract review failure record content drift") unless failure["record_type"] == "aios_p1_mandatory_capability_contract_review_failure" && failure["status"] == "CONTRACT_REVIEW_BLOCKED" && failure["task_id"] == ledger["task_id"] && failure["mandatory_exit_capability"] == capability && failure["attempt_ordinal"] == 1 && failure["founder_escalation_required"] == true && failure["final_review_result"] != "PASS"
+  when "FOUNDER_DISPOSED"
+    disposition = founder_dispositions[capability]
+    stop!("Founder-disposed Exit capability lacks an approved decision binding") unless disposition.is_a?(Hash) && disposition["status"] == "APPROVED"
+    decision = bound_json!(disposition["decision_record_path"], disposition["decision_record_sha256"], recovery_evidence_base, "Founder capability disposition")
+    blocking_evidence_sha = if ledger&.dig("status") == "CONTRACT_REVIEW_BLOCKED"
+      ledger["failure_record_sha256"]
+    elsif ledger&.dig("status") == "ARCHITECTURE_BLOCKED"
+      attempts.first&.dig("terminal_evidence", "evidence_manifest_sha256")
+    end
+    stop!("Founder capability disposition content drift") unless decision == {
+      "record_type" => "sourcelens_aios_founder_mandatory_capability_disposition",
+      "status" => "APPROVED",
+      "authority" => "HUMAN_FOUNDER",
+      "mandatory_exit_capability" => capability,
+      "blocked_task_id" => ledger&.dig("task_id"),
+      "blocked_attempt_ordinal" => ledger&.dig("attempt_ordinal"),
+      "blocking_evidence_sha256" => blocking_evidence_sha
+    }
+  end
+end
+
+if (transition = previous_truth_transition(truth_bytes))
+  previous_truth = YAML.safe_load(transition[0], aliases: false)
+  transition_truth = YAML.safe_load(transition[1], aliases: false)
+  previous_recovery = previous_truth["mandatory_exit_capability_recovery"]
+  current_recovery = transition_truth["mandatory_exit_capability_recovery"]
+  if previous_recovery.is_a?(Hash) && current_recovery.is_a?(Hash)
+    previous_history = previous_truth.fetch("task_history")
+    current_history = transition_truth.fetch("task_history")
+    previous_history.each do |key, value|
+      stop!("Task history is not append-only across current Truth transition: #{key}") unless current_history[key] == value
+    end
+
+    allowed_status_transitions = {
+      "MISSING" => %w[MISSING IN_PROGRESS CONTRACT_REVIEW_BLOCKED FOUNDER_DISPOSED],
+      "IN_PROGRESS" => %w[IN_PROGRESS ACCEPTED ARCHITECTURE_BLOCKED],
+      "CONTRACT_REVIEW_BLOCKED" => %w[CONTRACT_REVIEW_BLOCKED FOUNDER_DISPOSED],
+      "ARCHITECTURE_BLOCKED" => %w[ARCHITECTURE_BLOCKED FOUNDER_DISPOSED],
+      "ACCEPTED" => %w[ACCEPTED],
+      "FOUNDER_DISPOSED" => %w[FOUNDER_DISPOSED]
+    }
+    expected_exit_capabilities.each do |capability|
+      previous_state = previous_recovery.dig("capability_status", capability)
+      current_state = current_recovery.dig("capability_status", capability)
+      stop!("mandatory Exit capability status transition invalid: #{capability}") unless allowed_status_transitions.fetch(previous_state).include?(current_state)
+      previous_attempt = previous_recovery.dig("capability_attempt_ledger", capability)
+      current_attempt = current_recovery.dig("capability_attempt_ledger", capability)
+      if previous_attempt
+        stop!("mandatory Exit capability attempt ledger was erased: #{capability}") unless current_attempt.is_a?(Hash)
+        %w[task_id attempt_ordinal contract_sha256 bounded_contract_corrections_used].each do |field|
+          stop!("mandatory Exit capability attempt identity changed: #{capability}/#{field}") unless current_attempt[field] == previous_attempt[field]
+        end
+      end
+    end
+  end
+end
 
 phase = truth.dig("project", "current_phase")
 stop!("current Phase missing") unless phase.is_a?(String) && phase.match?(/\AP\d+\z/)
@@ -274,6 +489,8 @@ end
 stop!("canonical worktree population drift") unless canonical_worktrees.length == 1
 
 if current_task == "NONE"
+  stop!("NONE state cannot retain an in-progress Exit capability") if capability_status.value?("IN_PROGRESS")
+  founder_blocked_capabilities = capability_status.select { |_capability, state| %w[ARCHITECTURE_BLOCKED CONTRACT_REVIEW_BLOCKED].include?(state) }.keys
   stop!("NONE state goal authority drift") unless goal_task == "NONE"
   stop!("NONE state status drift") unless current_status == "NONE" && project_status == "NO_CURRENT_TASK"
   %w[
@@ -281,24 +498,32 @@ if current_task == "NONE"
     current_execution_authorization_sha256 execution_nonce authorization_id
     activation_parent_commit activation_parent_tree task_branch task_worktree
     execution_evidence_root offsite_target founder_reserved_authorization
-    founder_reserved_authorization_sha256 escalation_reason
+    founder_reserved_authorization_sha256
   ].each do |field|
     stop!("NONE state field must be null: #{field}") unless active[field].nil?
   end
   stop!("NONE state nonce status drift") unless active["execution_nonce_status"] == "NONE"
   stop!("NONE state resource status drift") unless active["task_resource_state"] == "NONE"
-  stop!("NONE state cannot require a Founder decision") unless founder_required == false
+  if founder_blocked_capabilities.empty?
+    stop!("NONE state cannot require a Founder decision") unless founder_required == false && escalation_reason.nil?
+  else
+    stop!("blocked mandatory capability must escalate Founder") unless founder_required == true && escalation_reason == "mandatory_exit_capability_blocked" && user_action == "FOUNDER_DECISION_REQUIRED"
+  end
   stop!("NONE state task claim drift") unless truth.dig("phase_execution_claim", "current_task_claim") == "NO_CURRENT_TASK"
   stop!("Task branches remain while no Task is active") unless task_branches.empty?
   stop!("Task worktrees remain while no Task is active") unless worktrees.length == 1
   forbidden_routine_action = /FOUNDER.*(APPROV|AUTHORIZ)|REQUEST.*FOUNDER|WAIT.*FOUNDER/
-  stop!("routine Founder Task approval advertised") if next_action.match?(forbidden_routine_action)
+  stop!("routine Founder Task approval advertised") if founder_blocked_capabilities.empty? && next_action.match?(forbidden_routine_action)
   goal_state = truth.dig("goal", "control_plane_status_observed")
   if goal_state == "BLOCKED"
     stop!("blocked Goal must request only control-plane resume") unless user_action == "RESUME_LONG_TERM_GOAL_CONTROL_PLANE" && next_action.start_with?("USER_RESUME_LONG_TERM_GOAL")
   elsif goal_state == "ACTIVE"
-    stop!("active Goal cannot require routine user action") unless user_action.nil?
-    stop!("active Goal must advertise autonomous Master continuation") unless next_action.include?("MASTER_AUTONOMOUS")
+    if founder_blocked_capabilities.empty?
+      stop!("active Goal cannot require routine user action") unless user_action.nil?
+      stop!("active Goal must advertise autonomous Master continuation") unless next_action.include?("MASTER_AUTONOMOUS")
+    else
+      stop!("blocked mandatory capability must wait for Founder disposition") unless next_action == "WAIT_FOR_FOUNDER_MANDATORY_EXIT_CAPABILITY_DECISION"
+    end
   else
     stop!("Goal control-plane state invalid")
   end
@@ -308,6 +533,8 @@ end
 
 expected_task_pattern = /\AAIOS-#{Regexp.escape(phase)}-\d{3}(?:[_-][A-Z0-9_-]+)?\z/
 stop!("active Task id/Phase format invalid") unless nonempty_string?(current_task) && current_task.match?(expected_task_pattern)
+current_task_number = current_task.match(/\AAIOS-#{Regexp.escape(phase)}-(\d{3})/)[1].to_i
+stop!("P1-002..P1-034 historical Task ID range is reserved") if phase == "P1" && current_task_number.between?(2, 34)
 history_entries = truth.fetch("task_history").values.select { |entry| entry.is_a?(Hash) && nonempty_string?(entry["task_id"]) }
 stop!("historical Task cannot be reactivated") if history_entries.any? { |entry| entry["task_id"] == current_task }
 terminal_history_ids = history_entries.select do |entry|
@@ -346,6 +573,37 @@ dependencies = contract["dependencies"]
 stop!("active Task dependencies must be explicit") unless dependencies.is_a?(Array) && dependencies.all? { |dependency| nonempty_string?(dependency) }
 stop!("active Task depends on terminal/nonaccepted Task lineage") unless (dependencies & terminal_history_ids).empty?
 stop!("active Task dependency is unknown or not accepted") unless (dependencies - accepted_history_ids).empty?
+mandatory_exit_capability = contract["mandatory_exit_capability"]
+stop!("active Task is not bound to a mandatory P1 Exit capability") unless expected_exit_capabilities.include?(mandatory_exit_capability)
+stop!("active Task mandatory Exit capability is not in progress") unless capability_status[mandatory_exit_capability] == "IN_PROGRESS"
+earlier_exit_capabilities = expected_exit_capabilities.take_while { |capability| capability != mandatory_exit_capability }
+unclosed_earlier_capabilities = earlier_exit_capabilities.reject do |capability|
+  %w[ACCEPTED FOUNDER_DISPOSED].include?(capability_status[capability])
+end
+stop!("active Task bypasses an earlier mandatory Exit capability") unless unclosed_earlier_capabilities.empty?
+clean_room = contract["clean_room_recovery"]
+stop!("active Task clean-room recovery declaration missing") unless clean_room.is_a?(Hash)
+stop!("active Task reuses historical execution lineage") unless clean_room["historical_execution_lineage_reused"] == false
+stop!("active Task clean-room attempt ordinal drift") unless clean_room["attempt_ordinal"] == 1
+stop!("active Task bounded Contract correction limit drift") unless clean_room["bounded_contract_corrections_allowed"] == 1
+corrections_used = clean_room["bounded_contract_corrections_used"]
+stop!("active Task bounded Contract correction usage invalid") unless corrections_used.is_a?(Integer) && corrections_used.between?(0, 1)
+if corrections_used.zero?
+  stop!("uncorrected Contract must not bind original Contract bytes") unless clean_room["original_contract_path"].nil? && clean_room["original_contract_sha256"].nil?
+  stop!("uncorrected Contract cannot replace a pre-existing Task Contract") unless git_file(active["activation_parent_commit"], contract_rel).nil?
+else
+  stop!("corrected Contract original path must be its canonical tracked path") unless clean_room["original_contract_path"] == contract_rel
+  stop!("corrected Contract original hash invalid") unless clean_room["original_contract_sha256"].is_a?(String) && clean_room["original_contract_sha256"].match?(/\A[0-9a-f]{64}\z/)
+end
+active_attempt = attempt_ledger[mandatory_exit_capability]
+prior_clean_room_attempts = history_entries.select { |entry| entry["mandatory_exit_capability"] == mandatory_exit_capability }
+stop!("mandatory Exit capability clean-room attempt already consumed") unless prior_clean_room_attempts.empty?
+stop!("active Task read context must be canonical repository-relative paths") unless contract["read_context"].all? do |path|
+  nonempty_string?(path) && !Pathname.new(path).absolute? && Pathname.new(path).cleanpath.to_s == path &&
+    safe_under_root?(File.join(REPO_ROOT, path), REPO_ROOT, must_exist: true)
+end
+terminal_contract_paths = history_entries.select { |entry| terminal_history_ids.include?(entry["task_id"]) }.map { |entry| entry["contract"] }.compact
+stop!("active Task read context references terminal or unaccepted Task assets") unless (contract["read_context"] & terminal_contract_paths).empty?
 task_kind = contract["task_kind"]
 stop!("active Task kind outside Phase envelope") unless allowed_task_kinds.include?(task_kind)
 capabilities = contract["capabilities"]
@@ -468,6 +726,22 @@ historical_overlap = historical_evidence_paths.any? do |path|
   current_evidence == historical || current_evidence.start_with?(historical + File::SEPARATOR) || historical.start_with?(current_evidence + File::SEPARATOR)
 end
 stop!("active Task overlaps historical Evidence custody") if historical_overlap
+if corrections_used == 1
+  original_contract_bytes = git_file(active.fetch("activation_parent_commit"), contract_rel)
+  stop!("corrected Contract original bytes are not committed at the activation parent") unless original_contract_bytes && Digest::SHA256.hexdigest(original_contract_bytes) == clean_room["original_contract_sha256"]
+  original_contract = YAML.safe_load(original_contract_bytes, aliases: false)
+  original_recovery = original_contract["clean_room_recovery"]
+  stop!("bounded Contract correction original bytes are not the uncorrected Contract") unless original_recovery.is_a?(Hash) && original_recovery["bounded_contract_corrections_allowed"] == 1 && original_recovery["bounded_contract_corrections_used"] == 0 && original_recovery["original_contract_path"].nil? && original_recovery["original_contract_sha256"].nil?
+  correction_invariants = %w[
+    task_id phase objective mandatory_exit_capability task_kind capabilities capability_claim
+    risk_level allowed_paths forbidden_actions budget claim_boundary delegated_authority
+  ]
+  correction_invariants.each do |field|
+    stop!("bounded Contract correction changed frozen field: #{field}") unless original_contract[field] == contract[field]
+  end
+end
+stop!("active Task attempt ledger schema drift") unless active_attempt.keys.sort == %w[attempt_ordinal bounded_contract_corrections_used contract_sha256 status task_id].sort
+stop!("active Task attempt ledger binding drift") unless active_attempt["task_id"] == current_task && active_attempt["contract_sha256"] == contract_sha && active_attempt["bounded_contract_corrections_used"] == corrections_used
 task_number = current_task.match(/\AAIOS-#{Regexp.escape(phase)}-(\d{3})/)[1]
 stop!("active Task Evidence root is not Task-specific") unless File.basename(current_evidence).downcase.include?("#{phase.downcase}-#{task_number}")
 stop!("active Task authorization must be inside exact Task Evidence custody") unless safe_under_root?(authorization_path, evidence_root, must_exist: true)
@@ -497,6 +771,16 @@ stop!("active Task activation path population drift") unless activation_paths ==
 parent_truth_bytes = IO.popen(["git", "-C", REPO_ROOT, "show", "#{activation_parent_commit}:docs/aios/truth/project_state.yaml"], err: File::NULL, &:read)
 stop!("active Task parent Truth unavailable") unless $CHILD_STATUS.success?
 parent_truth = YAML.safe_load(parent_truth_bytes, aliases: false)
+parent_capability_status = parent_truth.dig("mandatory_exit_capability_recovery", "capability_status")
+expected_active_capability_status = Marshal.load(Marshal.dump(parent_capability_status))
+stop!("active Task parent mandatory Exit capability was not missing") unless expected_active_capability_status.is_a?(Hash) && expected_active_capability_status[mandatory_exit_capability] == "MISSING"
+expected_active_capability_status[mandatory_exit_capability] = "IN_PROGRESS"
+stop!("active Task activation changed mandatory Exit capability status incorrectly") unless capability_status == expected_active_capability_status
+parent_attempt_ledger = parent_truth.dig("mandatory_exit_capability_recovery", "capability_attempt_ledger")
+stop!("active Task parent attempt ledger was already consumed") unless parent_attempt_ledger.is_a?(Hash) && parent_attempt_ledger[mandatory_exit_capability].nil?
+expected_active_attempt_ledger = Marshal.load(Marshal.dump(parent_attempt_ledger))
+expected_active_attempt_ledger[mandatory_exit_capability] = active_attempt
+stop!("active Task activation changed attempt ledger incorrectly") unless attempt_ledger == expected_active_attempt_ledger
 stop!("active Task activation changed Truth outside the closed activation field set") unless truth_without_activation_fields(parent_truth) == truth_without_activation_fields(truth)
 main_contract = IO.popen(["git", "-C", REPO_ROOT, "show", "#{main_head}:#{contract_rel}"], err: File::NULL, &:read)
 stop!("active Task Contract is not frozen in canonical activation commit") unless $CHILD_STATUS.success? && Digest::SHA256.hexdigest(main_contract) == contract_sha

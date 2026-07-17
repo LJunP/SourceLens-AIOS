@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-16T18:53:40Z"
-verification_scope: P1_030_TERMINAL_EXACT_SCOPE_INSUFFICIENT_FOR_CODE_MAP
+last_verified_at: "2026-07-17T00:20:58Z"
+verification_scope: P1_MANDATORY_EXIT_CAPABILITY_RECOVERY_CURRENT_STATE_SYNC
 
 authority:
   founder: Human Founder
@@ -17,8 +17,8 @@ authority:
     status: FROZEN
   founder_delegation_policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
-    version: "1.0"
-    sha256: 1f4996990159db877833f7c39fe761c70d94ecfee73d096774da5107151483be
+    version: "1.1"
+    sha256: 64f3fde7a0db23fde9c1dc4b51e3dcaf6046492e6acfd835258bc26c42ded334
     status: FOUNDER_DIRECTIVE_ACTIVE
   evaluation_protocol:
     path: docs/aios/EVALUATION_PROTOCOL.md
@@ -61,7 +61,7 @@ project:
 phase_delegation:
   status: ACTIVE
   model: PHASE_LEVEL_FOUNDER_DELEGATION
-  decision_source: FOUNDER_DIRECTIVE_IN_CODEX_THREAD_2026_07_16
+  decision_source: FOUNDER_DIRECTIVES_IN_CODEX_THREAD_2026_07_16_AND_2026_07_17
   phase_gate_owner: HUMAN_FOUNDER
   task_selection_owner: MASTER_CEO_AGENT
   task_authorization_owner: MASTER_CEO_AGENT_WITHIN_CURRENT_PHASE_ENVELOPE
@@ -94,7 +94,60 @@ phase_delegation:
     ordinary_repairs_stay_in_same_task: true
     successor_replacement_correction_chain_allowed: false
     task_id_hardcoding_in_current_authority_validator_allowed: false
+    maximum_same_task_bounded_contract_repairs: 1
+    historical_execution_lineage_reuse_allowed: false
+    mandatory_exit_capability_permanent_ban_from_historical_stop: false
+    peripheral_work_before_exit_capabilities_allowed: false
   claim_boundary: This policy delegates Phase-local engineering decisions; it does not delegate Founder-reserved decisions or prove product capability.
+
+mandatory_exit_capability_recovery:
+  status: ACTIVE
+  founder_decision_source: FOUNDER_DIRECTIVE_IN_CODEX_THREAD_2026_07_17
+  historical_tasks_immutable: true
+  historical_execution_lineage_reuse_allowed: false
+  clean_room_implementation_allowed_for_required_capability: true
+  clean_room_attempts_per_missing_capability: 1
+  maximum_same_task_bounded_contract_repairs: 1
+  peripheral_task_selection_allowed: false
+  priority_order:
+    - VERSIONED_REPRESENTATIVE_TASK_DATASET
+    - HIDDEN_SET_PROTOCOL
+    - PARAMETERIZED_EVALUATION_HARNESS
+    - VTSR_COUNTING_VALIDATOR
+    - B0_B1_B2_COMPATIBILITY_ADAPTERS
+    - OBSERVABLE_TRACE
+    - EVALUATOR_DISAGREEMENT_AND_FALSE_SUCCESS_CHARACTERIZATION
+    - REPRODUCIBLE_BASELINE_REPORT
+  capability_status:
+    VERSIONED_REPRESENTATIVE_TASK_DATASET: MISSING
+    HIDDEN_SET_PROTOCOL: MISSING
+    PARAMETERIZED_EVALUATION_HARNESS: MISSING
+    VTSR_COUNTING_VALIDATOR: MISSING
+    B0_B1_B2_COMPATIBILITY_ADAPTERS: MISSING
+    OBSERVABLE_TRACE: MISSING
+    EVALUATOR_DISAGREEMENT_AND_FALSE_SUCCESS_CHARACTERIZATION: MISSING
+    REPRODUCIBLE_BASELINE_REPORT: MISSING
+  capability_attempt_ledger:
+    VERSIONED_REPRESENTATIVE_TASK_DATASET: null
+    HIDDEN_SET_PROTOCOL: null
+    PARAMETERIZED_EVALUATION_HARNESS: null
+    VTSR_COUNTING_VALIDATOR: null
+    B0_B1_B2_COMPATIBILITY_ADAPTERS: null
+    OBSERVABLE_TRACE: null
+    EVALUATOR_DISAGREEMENT_AND_FALSE_SUCCESS_CHARACTERIZATION: null
+    REPRODUCIBLE_BASELINE_REPORT: null
+  founder_dispositions: {}
+  clean_room_rules:
+    - new_task_id_contract_branch_worktree_evidence_and_reviews
+    - bind_current_canonical_main
+    - no_old_nonce_candidate_partial_implementation_hidden_material_or_failed_evidence
+    - produce_runnable_engineering_output
+    - no_successor_replacement_or_correction_chain
+  escalation_rules:
+    - final_contract_review_non_pass_after_one_bounded_correction
+    - clean_room_task_terminal_failure_from_real_architecture_root
+    - founder_reserved_decision_required
+  claim_boundary: This recovery authorization removes a permanent capability ban only for P1 Exit Gate requirements; it does not accept historical Tasks or authorize external effects, P2, P3, benchmark claims or production use.
 
 phase_boundary:
   phase: P1
@@ -128,6 +181,7 @@ phase_boundary:
     quality:
       - evaluation-harness/evaluator
       - evaluation-harness/fixtures
+      - evaluation-harness/datasets
     integration:
       - scripts
       - docs/aios/tasks
@@ -214,7 +268,7 @@ active_work:
   founder_decision_required: false
   escalation_reason: null
   user_action_required: null
-  next_eligible_action: MASTER_AUTONOMOUSLY_SELECT_AND_EXECUTE_NEXT_HIGHEST_VALUE_P1_ENGINEERING_TASK
+  next_eligible_action: MASTER_AUTONOMOUSLY_IMPLEMENT_P1_EXIT_CAPABILITIES_IN_FROZEN_PRIORITY_ORDER
 
 superseded_pre_delegation_authorizations:
   aios_p1_009:
@@ -741,8 +795,12 @@ phase_execution_claim:
     - synthetic fixtures, deterministic tests, replay, Evidence, rollback and independent review
     - local canonical main integration after Master Task Gate
   historical_terminal_rules:
-    - P1-002 through P1-006 remain terminal Historical Evidence and cannot resume, retry or continue through successor, replacement or correction chains.
-    - P1-007 and P1-008 abandoned contract preparations have no execution authority and cannot supply implementation assets.
+    - P1-002 through P1-034 historical Tasks, preparations, Evidence and Reviews remain immutable and cannot resume, retry, supply implementation assets or continue through successor, replacement or correction chains.
+    - Historical terminal execution lineage is permanently closed, but it does not permanently ban one clean-room implementation of a still-missing P1 Exit Gate capability under the 2026-07-17 Founder recovery decision.
+    - Any such clean-room capability Task receives one attempt and at most one same-Task bounded contract correction; final non-PASS escalates Founder instead of creating another Task chain.
+  mandatory_priority_rule:
+    - Only the eight mandatory_exit_capability_recovery priority capabilities may be selected until they are complete or Founder-disposed.
+    - Peripheral validators, auxiliary governance tools and work without direct P1 Exit Gate value are ineligible.
   not_authorized_in_current_phase:
     - B0/B1/B2/A0 execution without an exact phase-local Task Contract
     - P2 or P3 entry

@@ -1,4 +1,4 @@
-.PHONY: help deps up up-infra down logs logs-backend dev backend backend-jar frontend analyzer verify clean clean-local-generated code-map code-map-check aios-governance-check p1-safety-check p1-harness-check p1-environment-snapshot-check script-check api-design-check db-schema-check dependency-check llm-safety-check mysql-flyway-smoke test-backend test-frontend test-analyzer
+.PHONY: help deps up up-infra down logs logs-backend dev backend backend-jar frontend analyzer verify clean clean-local-generated code-map code-map-check aios-governance-check p1-safety-check p1-harness-check p1-environment-snapshot-check p1-task-dataset-check script-check api-design-check db-schema-check dependency-check llm-safety-check mysql-flyway-smoke test-backend test-frontend test-analyzer
 
 help: ## 显示当前有效命令
 	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-24s\033[0m %s\n", $$1, $$2}'
@@ -39,7 +39,7 @@ analyzer: ## 构建 Rust analyzer
 	mkdir -p bin
 	cp analyzer-rust/target/release/sourcelens-analyzer bin/
 
-verify: p1-harness-check p1-environment-snapshot-check ## 运行当前 P1 开发基线验证
+verify: p1-harness-check p1-environment-snapshot-check p1-task-dataset-check ## 运行当前 P1 开发基线验证
 	./scripts/verify-all.sh
 
 test-backend: ## 运行后端测试
@@ -69,6 +69,9 @@ p1-harness-check: ## 校验 AIOS-P1-001 最小 Evaluation Harness
 
 p1-environment-snapshot-check: ## 校验 AIOS-P1-011 Environment Snapshot capture/replay
 	./scripts/verify-p1-environment-snapshot.sh
+
+p1-task-dataset-check: ## 校验 AIOS-P1-035 代表性任务数据集与确定性物化
+	./scripts/verify-p1-task-dataset.sh
 
 script-check: ## 检查当前 Shell 脚本语法
 	@for script in scripts/*.sh; do bash -n "$$script"; done

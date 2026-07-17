@@ -4,9 +4,9 @@
 
 ## 1. 生成范围
 
-- 纳入逐文件用途索引的文件数：566。
-- 其中源码/脚本/配置/SQL/CSS 类文件数：437。
-- 纳入统计的文本总行数：144682。
+- 纳入逐文件用途索引的文件数：615。
+- 其中源码/脚本/配置/SQL/CSS 类文件数：460。
+- 纳入统计的文本总行数：146406。
 - 排除逐文件展开的本地生成/证据目录：`.git/`、`bin/`、`web-console/node_modules/`、`backend-spring/target/`、`analyzer-rust/target/`、`.sourcelens-runtime/`、`release-evidence/`、前端构建和测试产物。
 - 本地生成物、依赖缓存和历史证据目录不是源码或当前权威；它们必须保持未跟踪并可重建或从封存恢复。
 
@@ -25,12 +25,12 @@
 | `CONTRIBUTING.md` | 1 | 项目根文件或辅助目录。 |
 | `deploy` | 2 | Docker Compose 和环境模板。 |
 | `docs` | 35 | 当前架构、接口、安全、研究与 AIOS 权威文档。 |
-| `evaluation-harness` | 66 | 项目根文件或辅助目录。 |
+| `evaluation-harness` | 114 | 项目根文件或辅助目录。 |
 | `LICENSE` | 1 | 项目根文件或辅助目录。 |
 | `Makefile` | 1 | 项目根文件或辅助目录。 |
 | `README.md` | 1 | 项目根文件或辅助目录。 |
 | `ROADMAP.md` | 1 | 项目根文件或辅助目录。 |
-| `scripts` | 18 | 本地构建、验证、代码地图和最小安全检查。 |
+| `scripts` | 19 | 本地构建、验证、代码地图和最小安全检查。 |
 | `SECURITY.md` | 1 | 项目根文件或辅助目录。 |
 | `SUPPORT.md` | 1 | 项目根文件或辅助目录。 |
 | `web-console` | 72 | React/Vite 前端控制台。 |
@@ -175,9 +175,37 @@
 | `docs/aios/tasks` | 11 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/aios/truth` | 1 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/llm-safety-evals` | 2 | LLM 安全评测用例目录，存放 prompt injection、输出质量和 provider run 模板。 |
-| `evaluation-harness` | 66 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness` | 114 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/adapters` | 2 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/adapters/harness_stub` | 2 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/datasets` | 46 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1` | 46 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/shared` | 2 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks` | 38 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION` | 6 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template` | 3 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/src` | 1 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/test` | 2 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-002-CONFIG-VALIDATION` | 6 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-002-CONFIG-VALIDATION/source-template` | 3 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-002-CONFIG-VALIDATION/source-template/src` | 1 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-002-CONFIG-VALIDATION/source-template/test` | 2 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-003-SAFE-PATH-JOIN` | 6 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-003-SAFE-PATH-JOIN/source-template` | 3 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-003-SAFE-PATH-JOIN/source-template/src` | 1 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-003-SAFE-PATH-JOIN/source-template/test` | 2 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-004-COMMAND-RESULT-MAPPING` | 6 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-004-COMMAND-RESULT-MAPPING/source-template` | 3 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-004-COMMAND-RESULT-MAPPING/source-template/src` | 1 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-004-COMMAND-RESULT-MAPPING/source-template/test` | 2 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME` | 7 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/source-template` | 4 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/source-template/src` | 2 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/source-template/test` | 2 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR` | 7 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/source-template` | 4 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/source-template/src` | 2 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/source-template/test` | 2 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/environment` | 4 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/evaluator` | 4 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/fixtures` | 22 | 项目根文件或辅助目录。子目录。 |
@@ -193,7 +221,8 @@
 | `evaluation-harness/recording/aios-p1-001-evidence/promotion-probe` | 3 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/recording/aios-p1-001-evidence/replay` | 6 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/replay` | 2 | 项目根文件或辅助目录。子目录。 |
-| `scripts` | 18 | 本地自动化脚本目录，封装启动、校验、代码地图和生成物清理。 |
+| `evaluation-harness/validators` | 2 | 项目根文件或辅助目录。子目录。 |
+| `scripts` | 19 | 本地自动化脚本目录，封装启动、校验、代码地图和生成物清理。 |
 | `web-console` | 72 | React/Vite 前端控制台工程，承载 SourceLens 用户界面和 UI smoke。 |
 | `web-console/src` | 66 | 前端源码根目录。 |
 | `web-console/src/api` | 21 | 前端 API client 层，集中定义后端 HTTP 调用和 TypeScript 响应类型。 |
@@ -881,6 +910,52 @@
 | --- | --- |
 | `evaluation-harness/adapters/harness_stub/adapter.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/adapters/harness_stub/README.md` | Markdown 文档。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/coverage.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/dataset-manifest.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/dataset.schema.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/materialization-recipe.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/OWNERSHIP_MAP.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/QUALITY_FREEZE_RECEIPT.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/shared/baseline-context.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/shared/response-format.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/expected-base-failure.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/reference-solution.patch` | 项目文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/src/range.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/test/issue.test.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/test/regression.test.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/task-spec.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-002-CONFIG-VALIDATION/expected-base-failure.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-002-CONFIG-VALIDATION/reference-solution.patch` | 项目文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-002-CONFIG-VALIDATION/source-template/src/config.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-002-CONFIG-VALIDATION/source-template/test/issue.test.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-002-CONFIG-VALIDATION/source-template/test/regression.test.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-002-CONFIG-VALIDATION/task-spec.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-003-SAFE-PATH-JOIN/expected-base-failure.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-003-SAFE-PATH-JOIN/reference-solution.patch` | 项目文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-003-SAFE-PATH-JOIN/source-template/src/path.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-003-SAFE-PATH-JOIN/source-template/test/issue.test.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-003-SAFE-PATH-JOIN/source-template/test/regression.test.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-003-SAFE-PATH-JOIN/task-spec.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-004-COMMAND-RESULT-MAPPING/expected-base-failure.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-004-COMMAND-RESULT-MAPPING/reference-solution.patch` | 项目文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-004-COMMAND-RESULT-MAPPING/source-template/src/result.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-004-COMMAND-RESULT-MAPPING/source-template/test/issue.test.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-004-COMMAND-RESULT-MAPPING/source-template/test/regression.test.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-004-COMMAND-RESULT-MAPPING/task-spec.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/expected-base-failure.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/reference-solution.patch` | 项目文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/source-template/src/greeting.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/source-template/src/profile.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/source-template/test/issue.test.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/source-template/test/regression.test.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/task-spec.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/expected-base-failure.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/reference-solution.patch` | 项目文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/source-template/src/projects.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/source-template/src/users.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/source-template/test/issue.test.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/source-template/test/regression.test.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/task-spec.json` | JSON 配置或数据文件。 |
 | `evaluation-harness/environment/cli.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/environment/README.md` | Markdown 文档。 |
 | `evaluation-harness/environment/self-test.mjs` | Node.js 自动化脚本或配置文件。 |
@@ -945,6 +1020,8 @@
 | `evaluation-harness/recording/recorder.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/replay/cli.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/replay/replay.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/validators/task-dataset-self-test.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/validators/task-dataset-validator.mjs` | Node.js 自动化脚本或配置文件。 |
 
 ### LICENSE
 
@@ -992,6 +1069,7 @@
 | `scripts/verify-all.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/verify-p1-environment-snapshot.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/verify-p1-harness.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
+| `scripts/verify-p1-task-dataset.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 
 ### SECURITY.md
 

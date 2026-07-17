@@ -1,6 +1,6 @@
 # SourceLens AIOS Founder Delegation Policy
 
-- Version: `1.2`
+- Version: `1.3`
 - Status: `FOUNDER_DIRECTIVE_ACTIVE`
 - Effective date: 2026-07-17
 - Scope: current Founder-authorized Phase and its bounded local engineering Tasks
@@ -102,16 +102,26 @@ implementation iteration；Slice 3 允许一次；Slice 4 不允许工程 retry�
 一个 candidate，successor、replacement、correction、closure、normalization 和
 feasibility chain 均为零。
 
-每个 Task 只冻结最小安全与验收包络：objective、why now、inputs、outputs、Owner、Worker、
-independent reviewers、exact allowed paths、budget、acceptance、Evidence、rollback、Stop
-Conditions 和 claim boundary。具体 fixture、mutation 和测试向量属于 Quality-owned
-executable test plan，必须在 Worker 开始前冻结并 hash-bound，但不得膨胀为 Contract
-版本链。
+每个 Task Contract 只冻结最小安全与研究包络：objective、why now、inputs、outputs、Owner、
+Worker、independent reviewers、exact allowed/forbidden paths、budget、acceptance、Evidence、
+rollback、Stop Conditions 和 claim boundary。具体 schema、fixture、mutation、测试向量、
+artifact lifecycle、writer map、evaluator handoff 和 verdict path 不得继续前置膨胀为巨型
+Contract；它们属于 Quality-owned executable evaluation plan 和 ownership manifest。
 
-CTO、Security、Quality 可以在 freeze 前共同审阅一份非权威 working draft；每个 Task 只
-冻结一个 final exact Contract。final freeze 后 Contract correction 次数为零。任一 final
-Contract Reviewer 非 PASS，或任一切片在允许 iteration 内无法完成 Evidence、replay、
-rebuild、rollback 和三方 PASS，P1 必须终态停止并一次性升级 Founder，不得创建新路线。
+Task Contract 准备阶段只允许一份 working draft 和最多一次 bounded correction；修正不得
+改变目标、扩大路径、预算、权限或声明。CTO、Security、Quality 对同一候选字节均 PASS 后，
+该字节才冻结为唯一 final exact Contract；final freeze 后 correction 次数为零，不得形成
+Contract 版本链。
+
+Task 激活后、Worker 实现前，Quality 必须冻结并 hash-bound executable evaluation plan、
+schemas、fixtures、oracle、evaluator、expected results、artifact lifecycle 和 ownership
+manifest。独立 evaluator 必须拥有与 Worker runtime 输出分离的 create-once verdict 路径；
+Worker 不得写 evaluator verdict。这些冻结资产属于 Implementation Evidence，并在 candidate
+review 中接受机械验证，不再形成新的前置合同或治理循环。
+
+若候选 Contract 在一次 bounded correction 后仍无法获得三方 PASS，或任一切片在允许
+implementation iteration 内无法完成 Evidence、replay、rebuild、rollback 和三方 PASS，
+P1 必须终态停止并一次性升级 Founder，不得创建新路线。
 
 P1 继续保持 cooperative-local claim boundary。exact write scope、canonical/history
 no-write、network/provider/Secret 默认禁止、output containment、symlink 拒绝、Evidence

@@ -348,7 +348,7 @@ policy_abs = File.join(REPO_ROOT, policy_rel)
 stop!("Founder delegation policy missing") unless safe_under_root?(policy_abs, REPO_ROOT, must_exist: true)
 stop!("Founder delegation policy hash drift") unless policy["sha256"] == sha256(policy_abs)
 stop!("Founder delegation policy inactive") unless policy["status"] == "FOUNDER_DIRECTIVE_ACTIVE"
-stop!("Founder delegation policy version drift") unless %w[1.1 1.2].include?(policy["version"])
+stop!("Founder delegation policy version drift") unless %w[1.1 1.2 1.3].include?(policy["version"])
 
 delegation = truth.fetch("phase_delegation")
 stop!("phase delegation is not active") unless delegation["status"] == "ACTIVE"
@@ -386,8 +386,8 @@ stop!("per-file approval re-enabled") unless anti_loop["per_file_or_command_appr
 stop!("ordinary repairs escaped the Task") unless anti_loop["ordinary_repairs_stay_in_same_task"] == true
 stop!("successor chain re-enabled") unless anti_loop["successor_replacement_correction_chain_allowed"] == false
 stop!("Task-specific hardcoding re-enabled") unless anti_loop["task_id_hardcoding_in_current_authority_validator_allowed"] == false
-expected_contract_repair_limit = policy["version"] == "1.2" ? 0 : 1
-stop!("post-freeze Contract correction policy drift") unless anti_loop["maximum_same_task_bounded_contract_repairs"] == expected_contract_repair_limit
+expected_contract_repair_limit = policy["version"] == "1.3" ? 1 : (policy["version"] == "1.2" ? 0 : 1)
+stop!("pre-freeze bounded Contract correction policy drift") unless anti_loop["maximum_same_task_bounded_contract_repairs"] == expected_contract_repair_limit
 stop!("historical execution lineage reuse re-enabled") unless anti_loop["historical_execution_lineage_reuse_allowed"] == false
 stop!("historical stop permanently bans mandatory capability recovery") unless anti_loop["mandatory_exit_capability_permanent_ban_from_historical_stop"] == false
 stop!("peripheral work re-enabled before P1 Exit capabilities") unless anti_loop["peripheral_work_before_exit_capabilities_allowed"] == false
@@ -410,7 +410,7 @@ stop!("historical Task immutability weakened") unless mandatory_recovery["histor
 stop!("historical execution lineage reuse enabled") unless mandatory_recovery["historical_execution_lineage_reuse_allowed"] == false
 stop!("clean-room recovery disabled") unless mandatory_recovery["clean_room_implementation_allowed_for_required_capability"] == true
 stop!("clean-room attempt count drift") unless mandatory_recovery["clean_room_attempts_per_missing_capability"] == 1
-stop!("rebaseline post-freeze Contract correction limit drift") unless mandatory_recovery["maximum_same_task_bounded_contract_repairs"] == expected_contract_repair_limit
+stop!("rebaseline pre-freeze bounded Contract correction limit drift") unless mandatory_recovery["maximum_same_task_bounded_contract_repairs"] == expected_contract_repair_limit
 stop!("peripheral Task selection enabled") unless mandatory_recovery["peripheral_task_selection_allowed"] == false
 capability_status = mandatory_recovery["capability_status"]
 stop!("mandatory Exit capability status population drift") unless capability_status.is_a?(Hash) && capability_status.keys == expected_exit_capabilities
@@ -425,7 +425,7 @@ recovery_evidence_base = truth.dig("project", "execution_evidence_root_base")
 stop!("mandatory Exit capability Evidence base invalid") unless File.directory?(recovery_evidence_base) && !File.symlink?(recovery_evidence_base)
 
 rebaseline = mandatory_recovery["project_level_rebaseline"]
-stop!("Founder Delegation Policy v1.2 requires the P1 project-level rebaseline binding") if policy["version"] == "1.2" && !rebaseline.is_a?(Hash)
+stop!("Founder Delegation Policy v1.2+ requires the P1 project-level rebaseline binding") if %w[1.2 1.3].include?(policy["version"]) && !rebaseline.is_a?(Hash)
 if rebaseline
 expected_rebaseline_keys = %w[
   record_type status authority approved_at_utc plan_path plan_sha256 plan_byte_length
@@ -486,6 +486,74 @@ slice_attempts = rebaseline["slice_attempts"]
 stop!("P1 rebaseline slice attempt ledger invalid") unless
   slice_attempts.is_a?(Hash) && (slice_attempts.keys - %w[1 2 3 4]).empty?
 stop!("P1 rebaseline next slice ordinal invalid") unless rebaseline["next_slice_ordinal"].is_a?(Integer) && rebaseline["next_slice_ordinal"].between?(1, 5)
+end
+
+delivery_simplification = mandatory_recovery["delivery_architecture_simplification"]
+if policy["version"] == "1.3"
+  expected_delivery_keys = %w[
+    record_type status authority approved_at_utc decision_record_path decision_record_sha256
+    decision_record_byte_length blocked_preparation model contract_preparation_bounded_corrections
+    post_freeze_contract_corrections quality_plan_freeze_stage
+    independent_evaluator_verdict_path_separate_from_worker_runtime worker_may_write_evaluator_verdict
+    clean_room_task_limit branch_limit worktree_limit candidate_limit retry_limit
+    implementation_iteration_limit capability_projection historical_failed_engineering_asset_reuse_allowed
+    p1_p3_boundary_preserved external_effects_authorized
+  ]
+  stop!("P1 delivery architecture simplification schema drift") unless
+    delivery_simplification.is_a?(Hash) && delivery_simplification.keys.sort == expected_delivery_keys.sort
+  stop!("P1 delivery architecture simplification authority drift") unless
+    delivery_simplification["record_type"] == "p1_delivery_architecture_simplification" &&
+    delivery_simplification["status"] == "FOUNDER_APPROVED_ACTIVE" &&
+    delivery_simplification["authority"] == "HUMAN_FOUNDER" &&
+    valid_utc_timestamp?(delivery_simplification["approved_at_utc"])
+  stop!("P1 delivery architecture simplification boundary drift") unless
+    delivery_simplification["model"] == "MINIMAL_IMMUTABLE_TASK_ENVELOPE_PLUS_POST_ACTIVATION_QUALITY_EXECUTABLE_PLAN" &&
+    delivery_simplification["contract_preparation_bounded_corrections"] == 1 &&
+    delivery_simplification["post_freeze_contract_corrections"] == 0 &&
+    delivery_simplification["quality_plan_freeze_stage"] == "AFTER_TASK_ACTIVATION_BEFORE_WORKER_IMPLEMENTATION" &&
+    delivery_simplification["independent_evaluator_verdict_path_separate_from_worker_runtime"] == true &&
+    delivery_simplification["worker_may_write_evaluator_verdict"] == false &&
+    delivery_simplification["clean_room_task_limit"] == 1 &&
+    delivery_simplification["branch_limit"] == 1 &&
+    delivery_simplification["worktree_limit"] == 1 &&
+    delivery_simplification["candidate_limit"] == 1 &&
+    delivery_simplification["retry_limit"] == 0 &&
+    delivery_simplification["implementation_iteration_limit"] == 2 &&
+    delivery_simplification["capability_projection"] == %w[PARAMETERIZED_EVALUATION_HARNESS VTSR_COUNTING_VALIDATOR OBSERVABLE_TRACE] &&
+    delivery_simplification["historical_failed_engineering_asset_reuse_allowed"] == false &&
+    delivery_simplification["p1_p3_boundary_preserved"] == true &&
+    delivery_simplification["external_effects_authorized"] == false
+  blocked_preparation = delivery_simplification["blocked_preparation"]
+  stop!("P1-040 blocked preparation binding drift") unless blocked_preparation == {
+    "task_id" => "AIOS-P1-040_PARAMETERIZED_EVALUATION_CORE",
+    "status" => "TERMINAL_STOPPED_FINAL_CONTRACT_REVIEW_NON_PASS",
+    "frozen_rejected_contract_sha256" => "c13ed3962efa3fc9b0e7464a02d9a8ff34add02ac793d65f6e9a7b22283a6061",
+    "terminal_record_sha256" => "9f50a68a6a4a3792ff7d8fc3ea836a5a17650a9bfcd105d9fdd313c4f52611c0",
+    "terminal_evidence_manifest_sha256" => "9e2040dbc53fd00b0053944499bb7ad4eda7811b8e87379c1d63fa7d6fb0deed",
+    "recovery_allowed" => false,
+    "asset_reuse_allowed" => false
+  }
+  decision = bound_json!(
+    delivery_simplification["decision_record_path"],
+    delivery_simplification["decision_record_sha256"],
+    recovery_evidence_base,
+    "P1 delivery architecture simplification Founder decision"
+  )
+  stop!("P1 delivery architecture simplification decision byte length drift") unless
+    File.binread(delivery_simplification["decision_record_path"]).bytesize == delivery_simplification["decision_record_byte_length"]
+  stop!("P1 delivery architecture simplification decision header drift") unless
+    decision["record_type"] == "sourcelens_aios_founder_p1_delivery_architecture_simplification_decision" &&
+    decision["decision_id"] == "FOUNDER_P1_DELIVERY_ARCHITECTURE_SIMPLIFICATION_2026_07_17" &&
+    decision["authority"] == "HUMAN_FOUNDER" &&
+    decision["status"] == "FOUNDER_APPROVED_ACTIVE" &&
+    decision.dig("canonical_parent", "commit") == "44748e5ecc313af3b148da81f43d980751b12453" &&
+    decision.dig("canonical_parent", "tree") == "41ad4c9cbf3af82fff01d7e80e09a5eb7528de49"
+  stop!("P1 delivery architecture simplification decision model drift") unless
+    decision.dig("delivery_architecture", "model") == delivery_simplification["model"] &&
+    decision.dig("delivery_architecture", "contract_preparation_bounded_corrections") == 1 &&
+    decision.dig("delivery_architecture", "post_freeze_contract_corrections") == 0 &&
+    decision.dig("delivery_architecture", "worker_may_write_evaluator_verdict") == false &&
+    decision.dig("final_engineering_route", "capability_projection") == delivery_simplification["capability_projection"]
 end
 
 historical_metadata_boundary = mandatory_recovery["historical_governance_metadata_read_boundary"]
@@ -1235,6 +1303,17 @@ end
 history_entries_for_recovery.each do |entry|
   match = entry["task_id"].to_s.match(/\AAIOS-P1-(\d{3})/)
   next unless match && match[1].to_i >= 35
+  if entry["preparation_only"] == true
+    slice = rebaseline["slices"].find { |candidate| candidate["ordinal"] == entry["project_level_rebaseline_slice_ordinal"] }
+    stop!("terminal preparation history consumed an implementation attempt or lacks exact Slice binding") unless
+      entry["clean_room_attempt_ordinal"] == 0 && entry["task_activated"] == false && entry["implementation_started"] == false &&
+      slice && entry["integrated_mandatory_exit_capabilities"] == slice["capability_projection"] &&
+      entry["mandatory_exit_capability"] == slice["capability_projection"].first &&
+      entry["project_level_rebaseline_decision_sha256"] == rebaseline["decision_record_sha256"] &&
+      entry["delivery_architecture_simplification_decision_sha256"] == delivery_simplification["decision_record_sha256"] &&
+      entry["recovery_allowed"] == false && entry["asset_reuse_allowed"] == false
+    next
+  end
   stop!("post-recovery Task history lacks mandatory capability identity") unless expected_exit_capabilities.include?(entry["mandatory_exit_capability"]) && entry["clean_room_attempt_ordinal"] == 1
   if entry.key?("project_level_rebaseline_slice_ordinal")
     slice = rebaseline["slices"].find { |candidate| candidate["ordinal"] == entry["project_level_rebaseline_slice_ordinal"] }
@@ -1254,7 +1333,9 @@ history_entries_for_recovery.each do |entry|
 end
 
 capability_status.each do |capability, state|
-  attempts = history_entries_for_recovery.select { |entry| record_capabilities(entry).include?(capability) }
+  attempts = history_entries_for_recovery.select do |entry|
+    entry["preparation_only"] != true && entry["clean_room_attempt_ordinal"] == 1 && record_capabilities(entry).include?(capability)
+  end
   stop!("mandatory Exit capability has multiple clean-room attempts") if attempts.length > 1
   ledger = attempt_ledger[capability]
   integrated_member = integrated_route && integrated_route_capabilities.include?(capability)
@@ -1506,7 +1587,7 @@ if (transition = previous_truth_transition(truth_bytes))
       integrated_capability_routes final_clean_room_implementation_route
       final_clean_room_implementation_attempt final_clean_room_contract_review_terminal
       post_revision_final_implementation_route post_revision_final_implementation_attempt
-      post_revision_final_route_terminal project_level_rebaseline founder_dispositions
+      post_revision_final_route_terminal project_level_rebaseline delivery_architecture_simplification founder_dispositions
       founder_decision_source maximum_same_task_bounded_contract_repairs
     ].each do |field|
       previous_recovery_invariants.delete(field)
@@ -1903,6 +1984,8 @@ contract_route_id = contract["founder_architecture_route_id"]
 contract_final_route_id = contract["founder_final_clean_room_route_id"]
 contract_rebaseline_slice_ordinal = contract["project_level_rebaseline_slice_ordinal"]
 contract_rebaseline_decision_sha = contract["project_level_rebaseline_decision_sha256"]
+contract_delivery_decision_sha = contract["delivery_architecture_simplification_decision_sha256"]
+contract_delivery_model = contract["delivery_architecture_model"]
 rebaseline_slice = nil
 if contract_rebaseline_slice_ordinal
   stop!("active rebaseline Task mixes historical route identities") unless contract_route_id.nil? && contract_final_route_id.nil?
@@ -1912,11 +1995,24 @@ if contract_rebaseline_slice_ordinal
     rebaseline_slice &&
     contract_rebaseline_slice_ordinal == rebaseline["next_slice_ordinal"] &&
     contract_rebaseline_decision_sha == rebaseline["decision_record_sha256"] &&
+    contract_delivery_decision_sha == delivery_simplification["decision_record_sha256"] &&
+    contract_delivery_model == delivery_simplification["model"] &&
     contract_integrated_capabilities == rebaseline_slice["capability_projection"] &&
     mandatory_exit_capability == contract_integrated_capabilities.first &&
     contract["claim_boundary"] == rebaseline_slice["claim_boundary"]
   stop!("active rebaseline Task current-state projection drift") unless
     rebaseline["p1_status"] == "REBASELINED_SLICE_ACTIVE" && rebaseline["current_task"] == current_task
+  if contract_rebaseline_slice_ordinal == 1
+    quality_plan = contract["post_activation_quality_plan"]
+    stop!("Slice 1 post-activation Quality plan boundary missing") unless quality_plan == {
+      "freeze_stage" => "AFTER_TASK_ACTIVATION_BEFORE_WORKER_IMPLEMENTATION",
+      "owner" => "Quality and Evaluation Agent",
+      "worker_start_precondition" => "QUALITY_EXECUTABLE_PLAN_AND_OWNERSHIP_MANIFEST_FROZEN",
+      "independent_evaluator_verdict_path_separate_from_worker_runtime" => true,
+      "worker_may_write_evaluator_verdict" => false,
+      "contract_version_chain_allowed" => false
+    }
+  end
   task_exit_capabilities = contract_integrated_capabilities
 elsif contract_final_route_id
   stop!("active Task mixes historical and final clean-room route identities") unless contract_route_id.nil?
@@ -1975,7 +2071,9 @@ elsif contract_final_route_id
 else
   attempt_ledger[mandatory_exit_capability]
 end
-prior_clean_room_attempts = history_entries.select { |entry| entry["mandatory_exit_capability"] == mandatory_exit_capability }
+prior_clean_room_attempts = history_entries.select do |entry|
+  entry["preparation_only"] != true && entry["clean_room_attempt_ordinal"] == 1 && entry["mandatory_exit_capability"] == mandatory_exit_capability
+end
 stop!("mandatory Exit capability clean-room attempt already consumed") unless prior_clean_room_attempts.empty?
 stop!("active Task read context must be canonical repository-relative paths") unless contract["read_context"].all? do |path|
   nonempty_string?(path) && path != "." && !Pathname.new(path).absolute? && Pathname.new(path).cleanpath.to_s == path &&
@@ -2130,7 +2228,7 @@ if corrections_used == 1
 end
 expected_attempt_keys = %w[attempt_ordinal bounded_contract_corrections_used contract_sha256 status task_id]
 if rebaseline_slice
-  expected_attempt_keys += %w[integrated_mandatory_exit_capabilities project_level_rebaseline_decision_sha256 project_level_rebaseline_slice_ordinal]
+  expected_attempt_keys += %w[delivery_architecture_simplification_decision_sha256 integrated_mandatory_exit_capabilities project_level_rebaseline_decision_sha256 project_level_rebaseline_slice_ordinal]
 elsif contract_final_route_id
   expected_attempt_keys += %w[integrated_mandatory_exit_capabilities founder_final_clean_room_route_id]
 elsif contract_integrated_capabilities
@@ -2142,7 +2240,8 @@ if rebaseline_slice
   stop!("active rebaseline Slice attempt ledger binding drift") unless
     active_attempt["integrated_mandatory_exit_capabilities"] == contract_integrated_capabilities &&
     active_attempt["project_level_rebaseline_slice_ordinal"] == contract_rebaseline_slice_ordinal &&
-    active_attempt["project_level_rebaseline_decision_sha256"] == contract_rebaseline_decision_sha
+    active_attempt["project_level_rebaseline_decision_sha256"] == contract_rebaseline_decision_sha &&
+    active_attempt["delivery_architecture_simplification_decision_sha256"] == contract_delivery_decision_sha
 elsif contract_final_route_id
   stop!("active Task final clean-room attempt ledger binding drift") unless active_attempt["integrated_mandatory_exit_capabilities"] == contract_integrated_capabilities && active_attempt["founder_final_clean_room_route_id"] == contract_final_route_id
 elsif contract_integrated_capabilities
@@ -2167,6 +2266,7 @@ if rebaseline_slice
     authorization["integrated_mandatory_exit_capabilities"] == contract_integrated_capabilities &&
     authorization["project_level_rebaseline_slice_ordinal"] == contract_rebaseline_slice_ordinal &&
     authorization["project_level_rebaseline_decision_sha256"] == contract_rebaseline_decision_sha &&
+    authorization["delivery_architecture_simplification_decision_sha256"] == contract_delivery_decision_sha &&
     !authorization.key?("founder_architecture_route_id") &&
     !authorization.key?("founder_final_clean_room_route_id")
 elsif contract_final_route_id

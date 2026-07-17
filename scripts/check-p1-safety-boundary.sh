@@ -21,11 +21,19 @@ ruby "${ROOT_DIR}/scripts/validate-current-task-authority.rb"
 ruby -ryaml -rjson -rdigest -e '
   truth = YAML.safe_load(File.read("docs/aios/truth/project_state.yaml"), aliases: false)
   rebaseline = truth.dig("mandatory_exit_capability_recovery", "project_level_rebaseline")
+  delivery = truth.dig("mandatory_exit_capability_recovery", "delivery_architecture_simplification")
   abort "P1 rebaseline safety envelope missing" unless
     rebaseline.is_a?(Hash) && rebaseline["status"] == "FOUNDER_APPROVED_ACTIVE" &&
     rebaseline["task_limit"] == 4 && rebaseline["post_freeze_contract_corrections"] == 0 &&
     rebaseline["successor_replacement_correction_chain_allowed"] == false &&
     rebaseline["default_external_effects_authorized"] == false
+  abort "P1 simplified delivery safety envelope missing" unless
+    delivery.is_a?(Hash) && delivery["status"] == "FOUNDER_APPROVED_ACTIVE" &&
+    delivery["post_freeze_contract_corrections"] == 0 &&
+    delivery["independent_evaluator_verdict_path_separate_from_worker_runtime"] == true &&
+    delivery["worker_may_write_evaluator_verdict"] == false &&
+    delivery["historical_failed_engineering_asset_reuse_allowed"] == false &&
+    delivery["external_effects_authorized"] == false
   abort "P1 rebaseline restored a historical route" unless
     truth.dig("mandatory_exit_capability_recovery", "post_revision_final_route_terminal", "status") == "P1_TERMINAL_STOPPED"
   harness = YAML.safe_load(File.read("docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml"), aliases: false)

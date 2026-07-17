@@ -175,6 +175,13 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
     FileUtils.cp(source, target)
     rebaseline[field] = target
   end
+  delivery = truth.dig("mandatory_exit_capability_recovery", "delivery_architecture_simplification")
+  delivery_root = File.join(evidence_base, "p1-delivery-architecture-simplification")
+  FileUtils.mkdir_p(delivery_root)
+  delivery_source = delivery.fetch("decision_record_path")
+  delivery_target = File.join(delivery_root, "FOUNDER_P1_DELIVERY_ARCHITECTURE_SIMPLIFICATION_DECISION_RECORD.json")
+  FileUtils.cp(delivery_source, delivery_target)
+  delivery["decision_record_path"] = delivery_target
   truth["task_history"] = {
     "aios_p1_006" => {
       "task_id" => "AIOS-P1-006_SYNTHETIC_TERMINAL_HISTORY",

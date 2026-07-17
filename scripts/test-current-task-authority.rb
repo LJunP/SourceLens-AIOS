@@ -9,6 +9,15 @@ require "tmpdir"
 require "yaml"
 
 SOURCE_ROOT = File.expand_path("..", __dir__)
+SAFE_AUTHORITY_FIXTURE_PATHS = %w[
+  AGENTS.md
+  docs/aios/FOUNDER_DELEGATION_POLICY.md
+  docs/aios/truth/project_state.yaml
+  docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
+  docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
+].freeze
+FORBIDDEN_P1_038_CONTRACT_PATH = "docs/aios/tasks/P1-038_MINIMAL_HIDDEN_ADMISSION_PARAMETERIZED_HARNESS_IMPLEMENTATION.yaml"
+FORBIDDEN_P1_038_CONTRACT_OID = "4ca0a67bef37fd55dc6db18f3190d94876d00221"
 
 def run!(*command, chdir: nil)
   stdout, stderr, status = if chdir
@@ -18,6 +27,68 @@ def run!(*command, chdir: nil)
   end
   raise "#{command.join(' ')} failed: #{stdout}#{stderr}" unless status.success?
   stdout.strip
+end
+
+def capture_bytes!(*command, chdir: nil, stdin_data: "")
+  stdout, stderr, status = Open3.capture3(*command, chdir: chdir, stdin_data: stdin_data, binmode: true)
+  raise "#{command.join(' ')} failed: #{stderr}" unless status.success?
+  stdout
+end
+
+def source_tracked_bytes(ref, path)
+  capture_bytes!("git", "show", "#{ref}:#{path}", chdir: SOURCE_ROOT)
+end
+
+def authority_metadata_commits(truth)
+  recovery = truth.fetch("mandatory_exit_capability_recovery")
+  commits = []
+  route = (recovery["integrated_capability_routes"] || {}).values.first
+  commits << route["canonical_parent_commit"] if route.is_a?(Hash)
+  %w[final_clean_room_implementation_route post_revision_final_implementation_route].each do |field|
+    value = recovery[field]
+    commits << value["canonical_parent_commit"] if value.is_a?(Hash)
+  end
+  truth.fetch("task_history").each_value do |entry|
+    next unless entry.is_a?(Hash) && entry["status"].to_s.include?("ACCEPTED")
+    commits << entry["accepted_candidate_commit"] if entry["accepted_candidate_commit"]
+  end
+  commits.compact.uniq
+end
+
+def import_commit_and_tree_metadata!(root, commit)
+  raise "unsafe metadata commit identity" unless commit.match?(/\A[0-9a-f]{40}\z/)
+  commit_bytes = capture_bytes!("git", "cat-file", "commit", commit, chdir: SOURCE_ROOT)
+  imported_commit = capture_bytes!("git", "hash-object", "-t", "commit", "-w", "--stdin", chdir: root, stdin_data: commit_bytes).strip
+  raise "commit metadata identity drift" unless imported_commit == commit
+  tree = capture_bytes!("git", "rev-parse", "#{commit}^{tree}", chdir: SOURCE_ROOT).strip
+  tree_bytes = capture_bytes!("git", "cat-file", "tree", tree, chdir: SOURCE_ROOT)
+  imported_tree = capture_bytes!("git", "hash-object", "-t", "tree", "-w", "--stdin", chdir: root, stdin_data: tree_bytes).strip
+  raise "tree metadata identity drift" unless imported_tree == tree
+end
+
+def initialize_synthetic_authority_repo!(root, ref)
+  FileUtils.rm_rf(root)
+  SAFE_AUTHORITY_FIXTURE_PATHS.each do |path|
+    absolute = File.join(root, path)
+    FileUtils.mkdir_p(File.dirname(absolute))
+    File.binwrite(absolute, source_tracked_bytes(ref, path))
+  end
+  validator_path = File.join(root, "scripts/validate-current-task-authority.rb")
+  FileUtils.mkdir_p(File.dirname(validator_path))
+  FileUtils.cp(File.join(SOURCE_ROOT, "scripts/validate-current-task-authority.rb"), validator_path)
+  run!("git", "init", "-q", "-b", "main", chdir: root)
+  run!("git", "config", "user.name", "SourceLens Synthetic Authority Test", chdir: root)
+  run!("git", "config", "user.email", "synthetic-authority@example.invalid", chdir: root)
+  run!("git", "add", "--", *SAFE_AUTHORITY_FIXTURE_PATHS, "scripts/validate-current-task-authority.rb", chdir: root)
+  run!("git", "commit", "-q", "-m", "synthetic authority base", chdir: root)
+  truth = YAML.safe_load(File.read(File.join(root, "docs/aios/truth/project_state.yaml")), aliases: false)
+  source_ref_commit = capture_bytes!("git", "rev-parse", "#{ref}^{commit}", chdir: SOURCE_ROOT).strip
+  (authority_metadata_commits(truth) + [source_ref_commit]).uniq.each do |commit|
+    import_commit_and_tree_metadata!(root, commit)
+  end
+  raise "forbidden P1-038 Contract materialized in synthetic worktree" if File.exist?(File.join(root, FORBIDDEN_P1_038_CONTRACT_PATH))
+  _stdout, _stderr, status = Open3.capture3("git", "cat-file", "-e", FORBIDDEN_P1_038_CONTRACT_OID, chdir: root)
+  raise "forbidden P1-038 Contract blob imported into synthetic object store" if status.success?
 end
 
 def write_yaml(path, value)
@@ -69,9 +140,12 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   end
   truth["mandatory_exit_capability_recovery"]["founder_dispositions"] = {}
   truth["mandatory_exit_capability_recovery"]["integrated_capability_routes"] = {}
+  truth["mandatory_exit_capability_recovery"]["historical_governance_metadata_read_boundary"] = nil
   truth["mandatory_exit_capability_recovery"]["final_clean_room_implementation_route"] = nil
   truth["mandatory_exit_capability_recovery"]["final_clean_room_implementation_attempt"] = nil
   truth["mandatory_exit_capability_recovery"]["final_clean_room_contract_review_terminal"] = nil
+  truth["mandatory_exit_capability_recovery"]["post_revision_final_implementation_route"] = nil
+  truth["mandatory_exit_capability_recovery"]["post_revision_final_implementation_attempt"] = nil
   truth["goal"]["control_plane_status_observed"] = "ACTIVE"
   truth["goal"]["current_task_authority"] = "NONE"
   truth["project"]["phase_execution_status"] = "NO_CURRENT_TASK"
@@ -781,14 +855,12 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
 end
 
 Dir.mktmpdir("aios-integrated-route-") do |root|
-  FileUtils.rm_rf(root)
-  run!("git", "clone", "--quiet", "--no-local", SOURCE_ROOT, root)
-  run!("git", "config", "user.name", "SourceLens Integrated Route Test", chdir: root)
-  run!("git", "config", "user.email", "integrated-route@example.invalid", chdir: root)
-  run!("git", "checkout", "-B", "main", "8ff44537dcc96b52260365f2a3f28175a0541e4f", chdir: root)
-  FileUtils.cp(File.join(SOURCE_ROOT, "scripts/validate-current-task-authority.rb"), File.join(root, "scripts"))
+  initialize_synthetic_authority_repo!(root, "8ff44537dcc96b52260365f2a3f28175a0541e4f")
 
   truth = YAML.safe_load(File.read(File.join(root, "docs/aios/truth/project_state.yaml")), aliases: false)
+  current_source_truth = YAML.safe_load(File.read(File.join(SOURCE_ROOT, "docs/aios/truth/project_state.yaml")), aliases: false)
+  truth["mandatory_exit_capability_recovery"]["historical_governance_metadata_read_boundary"] =
+    Marshal.load(Marshal.dump(current_source_truth.dig("mandatory_exit_capability_recovery", "historical_governance_metadata_read_boundary")))
   worktree_root = File.join(root, "task-worktrees")
   FileUtils.mkdir_p(worktree_root)
   truth["project"]["canonical_repository"] = root
@@ -799,20 +871,6 @@ Dir.mktmpdir("aios-integrated-route-") do |root|
   route_id = truth.dig("mandatory_exit_capability_recovery", "integrated_capability_routes").keys.fetch(0)
   route = truth.dig("mandatory_exit_capability_recovery", "integrated_capability_routes", route_id)
   evidence_base = truth.dig("project", "execution_evidence_root_base")
-
-  Dir.mktmpdir("p1-037-founder-terminal-rule-", evidence_base) do |decision_root|
-    original_decision_path = route["decision_record_path"]
-    mutated_decision_path = File.join(decision_root, "FOUNDER_DISPOSITION_MUTATED.json")
-    mutated_decision = JSON.parse(File.read(original_decision_path))
-    mutated_decision["terminal_rule"]["final_contract_non_pass_or_real_architecture_failure"] = "CONTINUE_WITH_SUCCESSOR"
-    write_json(mutated_decision_path, mutated_decision)
-    mutated_truth = Marshal.load(Marshal.dump(truth))
-    mutated_route = mutated_truth.dig("mandatory_exit_capability_recovery", "integrated_capability_routes", route_id)
-    mutated_route["decision_record_path"] = mutated_decision_path
-    mutated_route["decision_record_sha256"] = Digest::SHA256.file(mutated_decision_path).hexdigest
-    write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), mutated_truth)
-    run_validator(root, false, "Founder integrated disposition rebinding negative", expected_failure: "integrated capability route was removed, replaced, renamed or rebound")
-  end
 
   write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), truth)
   run!("git", "add", "docs/aios/truth/project_state.yaml", "scripts/validate-current-task-authority.rb", chdir: root)
@@ -925,7 +983,7 @@ Dir.mktmpdir("aios-integrated-route-") do |root|
     review_blocked_truth["active_work"]["user_action_required"] = "FOUNDER_DECISION_REQUIRED"
     review_blocked_truth["active_work"]["next_eligible_action"] = "WAIT_FOR_FOUNDER_MANDATORY_EXIT_CAPABILITY_DECISION"
     write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), review_blocked_truth)
-    run_validator(root, true, "integrated contract-review terminal positive")
+    run_validator(root, false, "unallowlisted integrated contract-review record negative", expected_failure: "is not admitted by one exact historical metadata record")
 
     partial_review_blocked = Marshal.load(Marshal.dump(review_blocked_truth))
     partial_review_blocked["mandatory_exit_capability_recovery"]["capability_status"][route["mandatory_exit_capabilities"].first] = "RELOCATED_PENDING_INTEGRATED_TASK"
@@ -1247,11 +1305,7 @@ Dir.mktmpdir("aios-integrated-route-") do |root|
 end
 
 Dir.mktmpdir("aios-final-clean-room-route-") do |root|
-  FileUtils.rm_rf(root)
-  run!("git", "clone", "--quiet", "--no-local", SOURCE_ROOT, root)
-  run!("git", "config", "user.name", "SourceLens Final Clean Room Route Test", chdir: root)
-  run!("git", "config", "user.email", "final-clean-room-route@example.invalid", chdir: root)
-  FileUtils.cp(File.join(SOURCE_ROOT, "scripts/validate-current-task-authority.rb"), File.join(root, "scripts"))
+  initialize_synthetic_authority_repo!(root, "HEAD")
 
   truth = YAML.safe_load(File.read(File.join(SOURCE_ROOT, "docs/aios/truth/project_state.yaml")), aliases: false)
   worktree_root = File.join(root, "task-worktrees")
@@ -1263,6 +1317,36 @@ Dir.mktmpdir("aios-final-clean-room-route-") do |root|
   final_terminal = truth.dig("mandatory_exit_capability_recovery", "final_clean_room_contract_review_terminal")
   if final_terminal
     run_validator(root, true, "final clean-room contract-review terminal positive")
+
+    boundary_hash_drift = Marshal.load(Marshal.dump(truth))
+    boundary_hash_drift["mandatory_exit_capability_recovery"]["historical_governance_metadata_read_boundary"]["decision_record_sha256"] = "0" * 64
+    write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), boundary_hash_drift)
+    run_validator(root, false, "historical governance boundary Founder hash negative")
+
+    boundary_allowlist_gap = Marshal.load(Marshal.dump(truth))
+    boundary_allowlist_gap["mandatory_exit_capability_recovery"]["historical_governance_metadata_read_boundary"]["allowed_records"].reject! do |entry|
+      entry["record_class"] == "INDEPENDENT_CONTRACT_REVIEW" && entry["path"].end_with?("CTO_FINAL_CONTRACT_REVIEW.json")
+    end
+    write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), boundary_allowlist_gap)
+    run_validator(root, false, "historical governance exact allowlist gap negative", expected_failure: "allowlist is not the exact closed set")
+
+    boundary_allowlist_extra = Marshal.load(Marshal.dump(truth))
+    boundary_allowlist_extra["mandatory_exit_capability_recovery"]["historical_governance_metadata_read_boundary"]["allowed_records"] <<
+      Marshal.load(Marshal.dump(boundary_allowlist_extra.dig("mandatory_exit_capability_recovery", "historical_governance_metadata_read_boundary", "allowed_records").first)).merge(
+        "path" => File.join(evidence_base, "forbidden-extra-governance-record.json")
+      )
+    write_json(File.join(evidence_base, "forbidden-extra-governance-record.json"), { "unexpected" => true })
+    extra_entry = boundary_allowlist_extra.dig("mandatory_exit_capability_recovery", "historical_governance_metadata_read_boundary", "allowed_records").last
+    extra_entry["sha256"] = Digest::SHA256.file(extra_entry["path"]).hexdigest
+    extra_entry["byte_length"] = File.size(extra_entry["path"])
+    write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), boundary_allowlist_extra)
+    run_validator(root, false, "historical governance extra allowlist record negative", expected_failure: "allowlist is not the exact closed set")
+    File.unlink(extra_entry["path"])
+
+    post_revision_route_drift = Marshal.load(Marshal.dump(truth))
+    post_revision_route_drift["mandatory_exit_capability_recovery"]["post_revision_final_implementation_route"]["task_id"] = "AIOS-P1-040_FORBIDDEN_FIFTH_ROUTE"
+    write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), post_revision_route_drift)
+    run_validator(root, false, "post-revision route identity negative", expected_failure: "post-revision final route identity drift")
 
     removed_terminal = Marshal.load(Marshal.dump(truth))
     removed_terminal["mandatory_exit_capability_recovery"]["final_clean_room_contract_review_terminal"] = nil
@@ -1289,12 +1373,47 @@ Dir.mktmpdir("aios-final-clean-room-route-") do |root|
     review_hash_drift["mandatory_exit_capability_recovery"]["final_clean_room_contract_review_terminal"]["cto_review_sha256"] = "0" * 64
     write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), review_hash_drift)
     run_validator(root, false, "final clean-room terminal review binding negative")
-    next
   end
 
-  run_validator(root, true, "final clean-room pending positive")
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), truth)
+  run_validator(root, true, "post-revision final route pending positive")
 
-  final_route = truth.dig("mandatory_exit_capability_recovery", "final_clean_room_implementation_route")
+  silent_phase_expansion = Marshal.load(Marshal.dump(truth))
+  silent_phase_expansion["phase_boundary"]["allowed_capabilities"] << "AGENT_SHELL"
+  silent_phase_expansion["phase_boundary"]["deferred_capabilities"].delete("AGENT_SHELL")
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), silent_phase_expansion)
+  run_validator(root, false, "NONE transition cannot silently expand Phase capability negative", expected_failure: "immutable control surface changed: phase_boundary")
+
+  silent_phase_claim_expansion = Marshal.load(Marshal.dump(truth))
+  silent_phase_claim_expansion["phase_execution_claim"]["forbidden_without_separate_founder_authority"] = []
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), silent_phase_claim_expansion)
+  run_validator(root, false, "NONE transition cannot silently expand Phase execution claim negative", expected_failure: "immutable control surface changed: phase_execution_claim")
+
+  unknown_active_work_field = Marshal.load(Marshal.dump(truth))
+  unknown_active_work_field["active_work"]["undeclared_authority_field"] = true
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), unknown_active_work_field)
+  run_validator(root, false, "NONE active-work unknown field negative", expected_failure: "active work schema drift")
+
+  recovery_invariant_drift = Marshal.load(Marshal.dump(truth))
+  recovery_invariant_drift["mandatory_exit_capability_recovery"]["clean_room_rules"] << "allow_historical_asset_reuse"
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), recovery_invariant_drift)
+  run_validator(root, false, "mandatory recovery invariant drift negative", expected_failure: "mandatory Exit capability recovery invariant surface changed")
+
+  founder_class_projection_drift = Marshal.load(Marshal.dump(truth))
+  founder_class_projection_drift["mandatory_exit_capability_recovery"]["historical_governance_metadata_read_boundary"]["founder_allowed_record_classes"] << "UNDECLARED_CLASS"
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), founder_class_projection_drift)
+  run_validator(root, false, "historical Founder class projection negative", expected_failure: "Founder class projection drift")
+
+  historical_semantic_projection = Marshal.load(Marshal.dump(truth))
+  historical_semantic_projection["mandatory_exit_capability_recovery"]["historical_governance_metadata_read_boundary"]["allowed_records"].first["projected_semantic_json_pointers"] = ["/task_id"]
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), historical_semantic_projection)
+  run_validator(root, false, "historical semantic projection remains empty negative", expected_failure: "allowlist entry schema drift")
+
+  final_route = truth.dig("mandatory_exit_capability_recovery", "post_revision_final_implementation_route") ||
+    truth.dig("mandatory_exit_capability_recovery", "final_clean_room_implementation_route")
+  post_revision_route = !truth.dig("mandatory_exit_capability_recovery", "post_revision_final_implementation_route").nil?
+  attempt_key = post_revision_route ? "post_revision_final_implementation_attempt" : "final_clean_room_implementation_attempt"
+  pending_state = post_revision_route ? "FOUNDER_REVISED_PENDING_IMPLEMENTATION" : "FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION"
   route_id = final_route.fetch("route_id")
   capabilities = final_route.fetch("mandatory_exit_capabilities")
   task_id = final_route.fetch("task_id")
@@ -1302,15 +1421,15 @@ Dir.mktmpdir("aios-final-clean-room-route-") do |root|
   partial_pending = Marshal.load(Marshal.dump(truth))
   partial_pending["mandatory_exit_capability_recovery"]["capability_status"][capabilities.first] = "CONTRACT_REVIEW_BLOCKED"
   write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), partial_pending)
-  run_validator(root, false, "partial final clean-room pending negative", expected_failure: "integrated capability route current state population is not atomic")
+  run_validator(root, false, "partial final route pending negative")
 
   removed_route = Marshal.load(Marshal.dump(truth))
-  removed_route["mandatory_exit_capability_recovery"]["final_clean_room_implementation_route"] = nil
+  removed_route["mandatory_exit_capability_recovery"][post_revision_route ? "post_revision_final_implementation_route" : "final_clean_room_implementation_route"] = nil
   write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), removed_route)
   run_validator(root, false, "final clean-room route removal negative")
 
   rebound_route = Marshal.load(Marshal.dump(truth))
-  rebound_route["mandatory_exit_capability_recovery"]["final_clean_room_implementation_route"]["route_id"] = "P1_038_REBOUND_ROUTE"
+  rebound_route["mandatory_exit_capability_recovery"][post_revision_route ? "post_revision_final_implementation_route" : "final_clean_room_implementation_route"]["route_id"] = "P1_FORBIDDEN_REBOUND_ROUTE"
   write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), rebound_route)
   run_validator(root, false, "final clean-room route rebind negative")
 
@@ -1333,12 +1452,74 @@ Dir.mktmpdir("aios-final-clean-room-route-") do |root|
   run!("git", "add", "docs/aios/truth/project_state.yaml", "scripts/validate-current-task-authority.rb", chdir: root)
   run!("git", "commit", "-m", "sync final clean-room route", chdir: root)
 
-  contract_rel = "docs/aios/tasks/P1-038_FINAL_CLEAN_ROOM_AUTHORITY_TEST.yaml"
+  if post_revision_route
+    pre_activation_terminal_root = Dir.mktmpdir("p1-039-contract-terminal-test-", evidence_base)
+    begin
+      terminal_record_path = File.join(pre_activation_terminal_root, "P1_039_FINAL_ROUTE_TERMINAL_RECORD.json")
+      terminal_record = {
+        "record_type" => "sourcelens_aios_p1_post_revision_final_route_terminal_record",
+        "schema_version" => "1.0",
+        "status" => "P1_TERMINAL_STOPPED",
+        "task_id" => task_id,
+        "route_id" => route_id,
+        "mandatory_exit_capabilities" => capabilities,
+        "failure_stage" => "FINAL_CONTRACT_REVIEW_NON_PASS",
+        "implementation_attempt_consumed" => false,
+        "route_recovery_allowed" => false,
+        "fifth_route_allowed" => false,
+        "successor_replacement_correction_allowed" => false,
+        "founder_escalation_required" => true,
+        "project_level_disposition_required" => true,
+        "terminal_action" => "STOP_P1_NO_FIFTH_ROUTE"
+      }
+      write_json(terminal_record_path, terminal_record)
+      contract_terminal_truth = Marshal.load(Marshal.dump(truth))
+      capabilities.each do |capability|
+        contract_terminal_truth["mandatory_exit_capability_recovery"]["capability_status"][capability] = "ARCHITECTURE_BLOCKED"
+      end
+      contract_terminal_truth["mandatory_exit_capability_recovery"]["post_revision_final_route_terminal"] = {
+        "record_type" => "p1_post_revision_final_route_terminal_binding",
+        "status" => "P1_TERMINAL_STOPPED",
+        "task_id" => task_id,
+        "route_id" => route_id,
+        "mandatory_exit_capabilities" => capabilities,
+        "failure_stage" => "FINAL_CONTRACT_REVIEW_NON_PASS",
+        "terminal_record_path" => terminal_record_path,
+        "terminal_record_sha256" => Digest::SHA256.file(terminal_record_path).hexdigest,
+        "implementation_attempt_consumed" => false,
+        "route_recovery_allowed" => false,
+        "fifth_route_allowed" => false,
+        "successor_replacement_correction_allowed" => false,
+        "founder_escalation_required" => true,
+        "project_level_disposition_required" => true
+      }
+      contract_terminal_truth["active_work"]["founder_decision_required"] = true
+      contract_terminal_truth["active_work"]["escalation_reason"] = "p1_post_revision_final_route_terminal_stop"
+      contract_terminal_truth["active_work"]["user_action_required"] = "FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED"
+      contract_terminal_truth["active_work"]["next_eligible_action"] = "STOP_P1_AND_WAIT_FOR_PROJECT_LEVEL_DISPOSITION"
+      write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), contract_terminal_truth)
+      run_validator(root, true, "post-revision final Contract NON_PASS terminal positive")
+
+      terminal_reentry = Marshal.load(Marshal.dump(contract_terminal_truth))
+      capabilities.each do |capability|
+        terminal_reentry["mandatory_exit_capability_recovery"]["capability_status"][capability] = pending_state
+      end
+      write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), terminal_reentry)
+      run_validator(root, false, "post-revision terminal cannot re-enter pending negative", expected_failure: "terminal capability projection is not atomic")
+    ensure
+      FileUtils.rm_rf(pre_activation_terminal_root)
+    end
+    write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), truth)
+  end
+
+  contract_rel = post_revision_route ?
+    "docs/aios/tasks/P1-039_MINIMAL_HIDDEN_ADMISSION_PARAMETERIZED_HARNESS_IMPLEMENTATION.yaml" :
+    "docs/aios/tasks/P1-038_FINAL_CLEAN_ROOM_AUTHORITY_TEST.yaml"
   contract_path = File.join(root, contract_rel)
-  evidence_root = Dir.mktmpdir("p1-038-final-clean-room-authority-test-", evidence_base)
+  evidence_root = Dir.mktmpdir(post_revision_route ? "p1-039-final-route-authority-test-" : "p1-038-final-route-authority-test-", evidence_base)
   begin
-  task_branch = "task/AIOS-P1-038-final-clean-room-authority-test"
-  task_worktree = File.join(worktree_root, "AIOS-P1-038-final-clean-room-authority-test")
+  task_branch = "task/#{task_id.downcase.tr('_', '-')}"
+  task_worktree = File.join(worktree_root, task_id)
   contract = {
     "schema_version" => 1,
     "task_id" => task_id,
@@ -1347,7 +1528,7 @@ Dir.mktmpdir("aios-final-clean-room-route-") do |root|
     "execution_authority" => "PHASE_DELEGATED",
     "objective" => "Verify the exact Founder-approved final clean-room route.",
     "why_now" => ["The one-time implementation route must activate and terminate atomically."],
-    "task_spec_ref" => "synthetic://p1-038-final-clean-room-route-test",
+    "task_spec_ref" => "synthetic://post-revision-final-route-test",
     "read_context" => [
       "docs/aios/FOUNDER_DELEGATION_POLICY.md",
       "docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml",
@@ -1380,9 +1561,9 @@ Dir.mktmpdir("aios-final-clean-room-route-") do |root|
       "independent_reviewers" => ["CTO Agent", "Security Agent", "Quality and Evaluation Agent"]
     },
     "allowed_paths" => {
-      "worker" => ["evaluation-harness/harness/p1-038-authority-test/**"],
-      "quality" => ["evaluation-harness/fixtures/p1-038-authority-test/**"],
-      "integration" => ["scripts/verify-p1-038-authority-test.sh"],
+      "worker" => ["evaluation-harness/harness/parameterized-authority-test/**"],
+      "quality" => ["evaluation-harness/fixtures/parameterized-authority-test/**"],
+      "integration" => ["scripts/verify-p1-final-route-authority-test.sh"],
       "external_evidence" => ["#{evidence_root}/**"]
     },
     "forbidden_actions" => ["network", "provider", "secret", "remote", "production", "public effect", "historical failed Task asset reuse"],
@@ -1445,7 +1626,7 @@ Dir.mktmpdir("aios-final-clean-room-route-") do |root|
     "integrated_mandatory_exit_capabilities" => capabilities,
     "founder_final_clean_room_route_id" => route_id
   }
-  active_truth["mandatory_exit_capability_recovery"]["final_clean_room_implementation_attempt"] = active_attempt
+  active_truth["mandatory_exit_capability_recovery"][attempt_key] = active_attempt
   active_truth["active_work"] = {
     "current_task" => task_id,
     "current_task_status" => "AUTHORIZED_ACTIVE",
@@ -1476,10 +1657,21 @@ Dir.mktmpdir("aios-final-clean-room-route-") do |root|
   run!("git", "commit", "-m", "activate final clean-room route test", chdir: root)
   run_validator(root, true, "final clean-room ACTIVE positive")
 
+  forbidden_contract_read = Marshal.load(Marshal.dump(active_truth))
+  forbidden_contract_read["active_work"]["current_task_contract"] = FORBIDDEN_P1_038_CONTRACT_PATH
+  forbidden_contract_read["active_work"]["current_task_contract_sha256"] = "0" * 64
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), forbidden_contract_read)
+  run_validator(
+    root,
+    false,
+    "active historical failed Contract read-before-deny negative",
+    expected_failure: "active Task contract overlaps a historical failed Contract denylist path"
+  )
+
   partial_active = Marshal.load(Marshal.dump(active_truth))
-  partial_active["mandatory_exit_capability_recovery"]["capability_status"][capabilities.first] = "FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION"
+  partial_active["mandatory_exit_capability_recovery"]["capability_status"][capabilities.first] = pending_state
   write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), partial_active)
-  run_validator(root, false, "partial final clean-room ACTIVE negative", expected_failure: "integrated capability route current state population is not atomic")
+  run_validator(root, false, "partial final route ACTIVE negative")
 
   wrong_task = Marshal.load(Marshal.dump(active_truth))
   wrong_task["active_work"]["current_task"] = "AIOS-P1-039_WRONG_TASK"
@@ -1489,9 +1681,14 @@ Dir.mktmpdir("aios-final-clean-room-route-") do |root|
   run_validator(root, false, "final clean-room wrong Task negative")
 
   attempt_identity_drift = Marshal.load(Marshal.dump(active_truth))
-  attempt_identity_drift["mandatory_exit_capability_recovery"]["final_clean_room_implementation_attempt"]["contract_sha256"] = "0" * 64
+  attempt_identity_drift["mandatory_exit_capability_recovery"][attempt_key]["contract_sha256"] = "0" * 64
   write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), attempt_identity_drift)
-  run_validator(root, false, "final clean-room attempt identity drift negative", expected_failure: "final clean-room implementation attempt identity changed: contract_sha256")
+  run_validator(
+    root,
+    false,
+    "final route attempt identity drift negative",
+    expected_failure: post_revision_route ? "post-revision final implementation attempt identity changed: contract_sha256" : "final clean-room implementation attempt identity changed: contract_sha256"
+  )
 
   apply_contract_variant = lambda do |contract_variant|
     write_yaml(contract_path, contract_variant)
@@ -1612,8 +1809,8 @@ Dir.mktmpdir("aios-final-clean-room-route-") do |root|
   capabilities.each do |capability|
     accepted_truth["mandatory_exit_capability_recovery"]["capability_status"][capability] = "ACCEPTED"
   end
-  accepted_truth["mandatory_exit_capability_recovery"]["final_clean_room_implementation_attempt"]["status"] = "ACCEPTED"
-  accepted_truth["task_history"]["p1_038_final_clean_room_accepted_test"] = {
+  accepted_truth["mandatory_exit_capability_recovery"][attempt_key]["status"] = "ACCEPTED"
+  accepted_truth["task_history"]["final_route_accepted_test"] = {
     "task_id" => task_id,
     "status" => "MASTER_TASK_GATE_ACCEPTED_COMPLETE",
     "mandatory_exit_capability" => capabilities.last,
@@ -1652,13 +1849,13 @@ Dir.mktmpdir("aios-final-clean-room-route-") do |root|
   partial_accepted = Marshal.load(Marshal.dump(accepted_truth))
   partial_accepted["mandatory_exit_capability_recovery"]["capability_status"][capabilities.first] = "IN_PROGRESS"
   write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), partial_accepted)
-  run_validator(root, false, "partial final clean-room ACCEPTED negative", expected_failure: "integrated capability route current state population is not atomic")
+  run_validator(root, false, "partial final route ACCEPTED negative")
 
   route_reuse = Marshal.load(Marshal.dump(accepted_truth))
   capabilities.each do |capability|
     route_reuse["mandatory_exit_capability_recovery"]["capability_status"][capability] = "IN_PROGRESS"
   end
-  route_reuse["mandatory_exit_capability_recovery"]["final_clean_room_implementation_attempt"]["status"] = "ACTIVE"
+  route_reuse["mandatory_exit_capability_recovery"][attempt_key]["status"] = "ACTIVE"
   route_reuse["goal"]["current_task_authority"] = task_id
   route_reuse["project"]["phase_execution_status"] = "TASK_ACTIVE"
   route_reuse["project"]["p1_execution_status"] = "TASK_ACTIVE"
@@ -1682,12 +1879,48 @@ Dir.mktmpdir("aios-final-clean-room-route-") do |root|
   capabilities.each do |capability|
     blocked_truth["mandatory_exit_capability_recovery"]["capability_status"][capability] = "ARCHITECTURE_BLOCKED"
   end
-  blocked_truth["mandatory_exit_capability_recovery"]["final_clean_room_implementation_attempt"]["status"] = "ARCHITECTURE_BLOCKED"
-  blocked_truth["task_history"]["p1_038_final_clean_room_architecture_blocked_test"] = {
+  blocked_truth["mandatory_exit_capability_recovery"][attempt_key]["status"] = "ARCHITECTURE_BLOCKED"
+  if post_revision_route
+    post_revision_terminal_record_path = File.join(evidence_root, "P1_039_POST_REVISION_TERMINAL_RECORD.json")
+    post_revision_terminal_record = {
+      "record_type" => "sourcelens_aios_p1_post_revision_final_route_terminal_record",
+      "schema_version" => "1.0",
+      "status" => "P1_TERMINAL_STOPPED",
+      "task_id" => task_id,
+      "route_id" => route_id,
+      "mandatory_exit_capabilities" => capabilities.dup,
+      "failure_stage" => "REAL_ARCHITECTURE_IMPLEMENTATION_FAILURE",
+      "implementation_attempt_consumed" => true,
+      "route_recovery_allowed" => false,
+      "fifth_route_allowed" => false,
+      "successor_replacement_correction_allowed" => false,
+      "founder_escalation_required" => true,
+      "project_level_disposition_required" => true,
+      "terminal_action" => "STOP_P1_NO_FIFTH_ROUTE"
+    }
+    write_json(post_revision_terminal_record_path, post_revision_terminal_record)
+    blocked_truth["mandatory_exit_capability_recovery"]["post_revision_final_route_terminal"] = {
+      "record_type" => "p1_post_revision_final_route_terminal_binding",
+      "status" => "P1_TERMINAL_STOPPED",
+      "task_id" => task_id,
+      "route_id" => route_id,
+      "mandatory_exit_capabilities" => capabilities.dup,
+      "failure_stage" => "REAL_ARCHITECTURE_IMPLEMENTATION_FAILURE",
+      "terminal_record_path" => post_revision_terminal_record_path,
+      "terminal_record_sha256" => Digest::SHA256.file(post_revision_terminal_record_path).hexdigest,
+      "implementation_attempt_consumed" => true,
+      "route_recovery_allowed" => false,
+      "fifth_route_allowed" => false,
+      "successor_replacement_correction_allowed" => false,
+      "founder_escalation_required" => true,
+      "project_level_disposition_required" => true
+    }
+  end
+  blocked_truth["task_history"]["final_route_architecture_blocked_test"] = {
     "task_id" => task_id,
     "status" => "TERMINAL_STOPPED_REAL_ARCHITECTURE_ROOT",
     "mandatory_exit_capability" => capabilities.last,
-    "integrated_mandatory_exit_capabilities" => capabilities,
+    "integrated_mandatory_exit_capabilities" => capabilities.dup,
     "founder_final_clean_room_route_id" => route_id,
     "clean_room_attempt_ordinal" => 1,
     "execution_evidence_root" => evidence_root,
@@ -1702,9 +1935,9 @@ Dir.mktmpdir("aios-final-clean-room-route-") do |root|
   blocked_truth["project"]["p1_execution_status"] = "NO_CURRENT_TASK"
   blocked_truth["active_work"] = none_active_work
   blocked_truth["active_work"]["founder_decision_required"] = true
-  blocked_truth["active_work"]["escalation_reason"] = "mandatory_exit_capability_blocked"
-  blocked_truth["active_work"]["user_action_required"] = "FOUNDER_DECISION_REQUIRED"
-  blocked_truth["active_work"]["next_eligible_action"] = "WAIT_FOR_FOUNDER_MANDATORY_EXIT_CAPABILITY_DECISION"
+  blocked_truth["active_work"]["escalation_reason"] = post_revision_route ? "p1_post_revision_final_route_terminal_stop" : "mandatory_exit_capability_blocked"
+  blocked_truth["active_work"]["user_action_required"] = post_revision_route ? "FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED" : "FOUNDER_DECISION_REQUIRED"
+  blocked_truth["active_work"]["next_eligible_action"] = post_revision_route ? "STOP_P1_AND_WAIT_FOR_PROJECT_LEVEL_DISPOSITION" : "WAIT_FOR_FOUNDER_MANDATORY_EXIT_CAPABILITY_DECISION"
   blocked_truth["phase_execution_claim"]["current_task_claim"] = "NO_CURRENT_TASK"
   write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), blocked_truth)
   run_validator(root, true, "final clean-room atomic ARCHITECTURE_BLOCKED positive")
@@ -1712,7 +1945,7 @@ Dir.mktmpdir("aios-final-clean-room-route-") do |root|
   partial_blocked = Marshal.load(Marshal.dump(blocked_truth))
   partial_blocked["mandatory_exit_capability_recovery"]["capability_status"][capabilities.first] = "IN_PROGRESS"
   write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), partial_blocked)
-  run_validator(root, false, "partial final clean-room ARCHITECTURE_BLOCKED negative", expected_failure: "integrated capability route current state population is not atomic")
+  run_validator(root, false, "partial final route ARCHITECTURE_BLOCKED negative")
   ensure
     FileUtils.rm_rf(evidence_root)
   end

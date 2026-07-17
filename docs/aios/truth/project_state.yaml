@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-17T06:14:42Z"
-verification_scope: P1_038_FINAL_CONTRACT_REVIEW_TERMINAL_SYNC
+last_verified_at: "2026-07-17T07:08:12Z"
+verification_scope: P1_039_POST_REVISION_ROUTE_CURRENT_STATE_SYNC
 
 authority:
   founder: Human Founder
@@ -109,6 +109,154 @@ mandatory_exit_capability_recovery:
   clean_room_attempts_per_missing_capability: 1
   maximum_same_task_bounded_contract_repairs: 1
   peripheral_task_selection_allowed: false
+  historical_governance_metadata_read_boundary:
+    record_type: p1_exit_gate_historical_governance_metadata_read_boundary
+    status: FOUNDER_APPROVED_ACTIVE
+    authority: HUMAN_FOUNDER
+    decision_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-039-minimal-hidden-admission-harness/FOUNDER_P1_EXIT_GATE_BOUNDARY_REVISION_RECORD.json
+    decision_record_sha256: 6a0c8d0fbd799204e9c2895c1c2bf3ea3e5955820a81b40f87a280e7c0c28849
+    mode: VALIDATOR_ONLY_READ_ONLY_EXACT_HASH_BOUND_ALLOWLIST_DENY_BY_DEFAULT
+    allowed_purposes:
+      - CURRENT_AUTHORITY_VALIDATION
+      - HISTORICAL_TERMINAL_VALIDATION
+      - ROUTE_UNIQUENESS_VALIDATION
+      - HISTORICAL_ASSET_NON_REUSE_VALIDATION
+      - CURRENT_STATE_CONSISTENCY_VALIDATION
+    semantic_task_input_allowed: false
+    evaluator_or_oracle_input_allowed: false
+    worker_access_allowed: false
+    quality_fixture_author_access_allowed: false
+    implementation_reuse_allowed: false
+    transitive_path_discovery_allowed: false
+    founder_allowed_record_classes:
+      - TASK_AND_CONTRACT_IDENTITY
+      - TERMINAL_RECORD
+      - CONTRACT_REVIEW_RESULT
+      - EVIDENCE_HASH
+      - NON_RECOVERY_AND_NON_REUSE_MARKER
+    artifact_record_class_projection:
+      CONTRACT_REVIEW_FAILURE:
+        - TASK_AND_CONTRACT_IDENTITY
+        - CONTRACT_REVIEW_RESULT
+        - EVIDENCE_HASH
+        - NON_RECOVERY_AND_NON_REUSE_MARKER
+      FOUNDER_DECISION:
+        - TASK_AND_CONTRACT_IDENTITY
+        - EVIDENCE_HASH
+        - NON_RECOVERY_AND_NON_REUSE_MARKER
+      TERMINAL_RECORD:
+        - TASK_AND_CONTRACT_IDENTITY
+        - TERMINAL_RECORD
+        - CONTRACT_REVIEW_RESULT
+        - EVIDENCE_HASH
+        - NON_RECOVERY_AND_NON_REUSE_MARKER
+      INDEPENDENT_CONTRACT_REVIEW:
+        - TASK_AND_CONTRACT_IDENTITY
+        - CONTRACT_REVIEW_RESULT
+        - EVIDENCE_HASH
+        - NON_RECOVERY_AND_NON_REUSE_MARKER
+    field_projection_policy: EXACT_HASH_BOUND_RAW_SCHEMA_WITH_EMPTY_SEMANTIC_PROJECTION
+    allowed_records:
+      - path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-036-hidden-set-protocol/contract-review/CONTRACT_REVIEW_FAILURE_RECORD.json
+        sha256: dd69c831dec3f5c707d158645e3f94ad85713b5c0505427ca3545480ed9314a5
+        byte_length: 1065
+        format: JSON
+        record_class: CONTRACT_REVIEW_FAILURE
+        founder_metadata_classes: [TASK_AND_CONTRACT_IDENTITY, CONTRACT_REVIEW_RESULT, EVIDENCE_HASH, NON_RECOVERY_AND_NON_REUSE_MARKER]
+        projected_semantic_json_pointers: []
+        allowed_top_level_fields: [attempt_ordinal, bounded_contract_corrections_used, claim_boundary, failure_classification, final_review_path, final_review_result, final_review_sha256, founder_escalation_required, implementation_started, mandatory_exit_capability, original_task_contract_sha256, record_type, status, task_branch_created, task_contract_sha256, task_id, task_worktree_created]
+      - path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-036-hidden-set-protocol/contract-review/FOUNDER_CONTRACT_REVIEW_CAP_EXCEPTION_RECORD.json
+        sha256: 7e5ee49dd87739646fd0a93468c11e19b14e91dee93b3ff484f8761eb148870d
+        byte_length: 3149
+        format: JSON
+        record_class: FOUNDER_DECISION
+        founder_metadata_classes: [TASK_AND_CONTRACT_IDENTITY, EVIDENCE_HASH, NON_RECOVERY_AND_NON_REUSE_MARKER]
+        projected_semantic_json_pointers: []
+        allowed_top_level_fields: [authorized_closure, blocking_cto_final_review_sha256, canonical_parent_commit, canonical_parent_tree, claim_boundary, contract_review_failure_record_sha256, decision_source, exception_kind, exception_ordinal, historical_state, invariants, mandatory_exit_capability, ordinary_bounded_contract_correction_limit, ordinary_bounded_contract_corrections_used, original_task_contract_sha256, post_correction_gate, record_type, recorded_at_utc, rejected_corrected_contract_sha256, schema_version, status, task_id]
+      - path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-036-hidden-set-protocol/contract-review/P1_036_FOUNDER_EXCEPTION_ROUTE_TERMINAL_RECORD.json
+        sha256: 4daba5c1eaf71fdded40eee33bd07d62b2c70dca6993930dfc1fdc379e4ca917
+        byte_length: 2318
+        format: JSON
+        record_class: TERMINAL_RECORD
+        founder_metadata_classes: [TASK_AND_CONTRACT_IDENTITY, TERMINAL_RECORD, CONTRACT_REVIEW_RESULT, EVIDENCE_HASH, NON_RECOVERY_AND_NON_REUSE_MARKER]
+        projected_semantic_json_pointers: []
+        allowed_top_level_fields: [attempt_ordinal, blocking_finding, candidate_created, canonical_parent_commit, canonical_parent_tree, capability_claims, claim_boundary, correction_chain_allowed, cto_final_exception_review_result, cto_final_exception_review_sha256, final_exception_contract_sha256, founder_escalation_required, founder_exception_record_sha256, implementation_started, mandatory_exit_capability, mutation_oracle_blocker_closed, next_required_decision, original_task_contract_sha256, prior_contract_review_failure_record_sha256, prior_cto_final_review_sha256, quality_final_exception_review_result, record_type, recorded_at_utc, rejected_corrected_contract_sha256, replacement_allowed, resume_allowed, retry_allowed, route_recovery_allowed, schema_version, security_final_exception_review_result, security_final_exception_review_sha256, status, successor_allowed, task_activated, task_branch_created, task_id, task_worktree_created]
+      - path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-036-hidden-set-protocol/contract-review/FOUNDER_INTEGRATED_VERTICAL_SLICE_ARCHITECTURE_DISPOSITION_RECORD.json
+        sha256: 705e012babfd55380a57417421148cad9183e1babf20fad85b05085e88be56d1
+        byte_length: 3395
+        format: JSON
+        record_class: FOUNDER_DECISION
+        founder_metadata_classes: [TASK_AND_CONTRACT_IDENTITY, EVIDENCE_HASH, NON_RECOVERY_AND_NON_REUSE_MARKER]
+        projected_semantic_json_pointers: []
+        allowed_top_level_fields: [approved_at_utc, architecture_disposition, authority, blocked_route, canonical_parent_commit, canonical_parent_tree, claim_boundary, decision_input_path, decision_input_sha256, delegation, forbidden, record_type, required_read_boundary, required_role_separation, schema_version, status, terminal_rule]
+      - path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-037-parameterized-harness/contract-review/P1_037_INTEGRATED_ROUTE_TERMINAL_RECORD.json
+        sha256: 6274c6fac1a5ec6cf7c971c7315dd30ef77cd2c234d7e9c543c78f93061280ce
+        byte_length: 2581
+        format: JSON
+        record_class: TERMINAL_RECORD
+        founder_metadata_classes: [TASK_AND_CONTRACT_IDENTITY, TERMINAL_RECORD, CONTRACT_REVIEW_RESULT, EVIDENCE_HASH, NON_RECOVERY_AND_NON_REUSE_MARKER]
+        projected_semantic_json_pointers: []
+        allowed_top_level_fields: [blocking_findings, bounded_contract_corrections_used, candidate_created, capability_claims, claim_boundary, contract_review_failure_record_sha256, correction_chain_allowed, cto_final_review_result, cto_final_review_sha256, final_corrected_task_contract_sha256, founder_architecture_disposition_record_sha256, founder_architecture_route_id, founder_escalation_required, implementation_started, mandatory_exit_capabilities, next_required_decision, original_task_contract_sha256, quality_final_review_result, quality_final_review_sha256, record_type, recorded_at_utc, replacement_allowed, resume_allowed, retry_allowed, route_recovery_allowed, schema_version, security_final_review_result, security_final_review_sha256, status, successor_allowed, task_activated, task_branch_created, task_id, task_worktree_created, terminal_sync_commit, terminal_sync_independent_review_sha256, terminal_sync_tree]
+      - path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-037-parameterized-harness/contract-review/CONTRACT_REVIEW_FAILURE_RECORD.json
+        sha256: efb4334e73d3c4d20a6d263ce8543b2895cef1d539348f548e2bfbe90fbfdf55
+        byte_length: 1615
+        format: JSON
+        record_class: CONTRACT_REVIEW_FAILURE
+        founder_metadata_classes: [TASK_AND_CONTRACT_IDENTITY, CONTRACT_REVIEW_RESULT, EVIDENCE_HASH, NON_RECOVERY_AND_NON_REUSE_MARKER]
+        projected_semantic_json_pointers: []
+        allowed_top_level_fields: [attempt_ordinal, bounded_contract_corrections_used, candidate_created, capability_claims, claim_boundary, correction_chain_allowed, cto_final_review_sha256, final_review_result, founder_architecture_route_id, founder_escalation_required, implementation_started, mandatory_exit_capabilities, original_task_contract_sha256, quality_final_review_sha256, record_type, recorded_at_utc, replacement_allowed, resume_allowed, retry_allowed, schema_version, security_final_review_sha256, status, successor_allowed, task_activated, task_branch_created, task_contract_sha256, task_id, task_worktree_created]
+      - path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-038-minimal-hidden-admission-harness/FOUNDER_ATTEMPT_ACCOUNTING_RECALIBRATION_RECORD.json
+        sha256: 875596d239ffae6d2aca9d495c230cb956ce9023d36a1d979f722e502493ef7d
+        byte_length: 4865
+        format: JSON
+        record_class: FOUNDER_DECISION
+        founder_metadata_classes: [TASK_AND_CONTRACT_IDENTITY, EVIDENCE_HASH, NON_RECOVERY_AND_NON_REUSE_MARKER]
+        projected_semantic_json_pointers: []
+        allowed_top_level_fields: [accepted_terminal_evidence, approved_at_utc, attempt_accounting, authority, canonical_parent_commit, canonical_parent_tree, claim_boundary, contract_freeze_sequence, contract_rules, delegation, final_clean_room_route, forbidden, goal_canonical_sha256, historical_routes, minimum_engineering_scope, next_capability_after_atomic_acceptance, record_type, schema_version, status, terminal_rule]
+      - path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-038-minimal-hidden-admission-harness/contract-review/CTO_FINAL_CONTRACT_REVIEW.json
+        sha256: 32c9cbe305511905ffee5305e313dd0c3bd9b848f4b3805ede5a1c5da5f5055d
+        byte_length: 2122
+        format: JSON
+        record_class: INDEPENDENT_CONTRACT_REVIEW
+        founder_metadata_classes: [TASK_AND_CONTRACT_IDENTITY, CONTRACT_REVIEW_RESULT, EVIDENCE_HASH, NON_RECOVERY_AND_NON_REUSE_MARKER]
+        projected_semantic_json_pointers: []
+        allowed_top_level_fields: [candidate_commit, candidate_tree, findings, mechanical_review, no_failed_asset_read, prefreeze_convergence_spec_byte_length, prefreeze_convergence_spec_sha256, record_type, role, schema_version, status, task_contract_byte_length, task_contract_path, task_contract_sha256, task_id, verdict]
+      - path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-038-minimal-hidden-admission-harness/contract-review/SECURITY_FINAL_CONTRACT_REVIEW.json
+        sha256: 937b6684ba1c6e48995a90cae1f95acb152e4597320c3f55660c7f35984c6c85
+        byte_length: 1669
+        format: JSON
+        record_class: INDEPENDENT_CONTRACT_REVIEW
+        founder_metadata_classes: [TASK_AND_CONTRACT_IDENTITY, CONTRACT_REVIEW_RESULT, EVIDENCE_HASH, NON_RECOVERY_AND_NON_REUSE_MARKER]
+        projected_semantic_json_pointers: []
+        allowed_top_level_fields: [candidate_commit, candidate_tree, contract, external_effects_observed, findings, no_failed_asset_read, prefreeze_convergence_spec, real_hidden_material_accessed, record_type, reviewed_at_utc, reviewer_role, schema_version, verdict]
+      - path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-038-minimal-hidden-admission-harness/contract-review/FINAL_CONTRACT_REVIEW_FAILURE_RECORD.json
+        sha256: da32a4b45f15b6fc5fe56628a531b9748f2f0c704de278ded9bd805d3fb48525
+        byte_length: 3707
+        format: JSON
+        record_class: CONTRACT_REVIEW_FAILURE
+        founder_metadata_classes: [TASK_AND_CONTRACT_IDENTITY, CONTRACT_REVIEW_RESULT, EVIDENCE_HASH, NON_RECOVERY_AND_NON_REUSE_MARKER]
+        projected_semantic_json_pointers: []
+        allowed_top_level_fields: [activation_and_implementation, claim_boundary, failure_classification, failure_summary, final_contract, founder_authority, independent_final_reviews, mandatory_exit_capabilities, prefreeze, record_type, recorded_at_utc, route_id, schema_version, status, task_id, terminal_effect]
+      - path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-038-minimal-hidden-admission-harness/P1_038_ROUTE_TERMINAL_RECORD.json
+        sha256: 33375f2bbc8a60d9c71a8775a6a47aa19a9231baa8e11b502a88d84be00f4ea7
+        byte_length: 2435
+        format: JSON
+        record_class: TERMINAL_RECORD
+        founder_metadata_classes: [TASK_AND_CONTRACT_IDENTITY, TERMINAL_RECORD, CONTRACT_REVIEW_RESULT, EVIDENCE_HASH, NON_RECOVERY_AND_NON_REUSE_MARKER]
+        projected_semantic_json_pointers: []
+        allowed_top_level_fields: [activation_and_implementation, claim_boundary, contract_review_failure_record_byte_length, contract_review_failure_record_path, contract_review_failure_record_sha256, current_capability_projection, failure_classification, final_contract, mandatory_exit_capabilities, record_type, recorded_at_utc, review_outcomes, route_id, schema_version, status, task_id, terminal_rules]
+    forbidden_repository_read_paths:
+      - docs/aios/tasks/P1-036_HIDDEN_SET_PROTOCOL.yaml
+      - docs/aios/tasks/P1-037_PARAMETERIZED_EVALUATION_HARNESS_WITH_HIDDEN_ADMISSION.yaml
+      - docs/aios/tasks/P1-038_MINIMAL_HIDDEN_ADMISSION_PARAMETERIZED_HARNESS_IMPLEMENTATION.yaml
+    forbidden_asset_classes:
+      - FAILED_TASK_CODE
+      - FAILED_TASK_FIXTURE
+      - FAILED_TASK_CANDIDATE
+      - FAILED_TASK_PARTIAL_IMPLEMENTATION
+      - FAILED_TASK_HIDDEN_MATERIAL
+      - FAILED_TASK_NONCE
+      - UNACCEPTED_ENGINEERING_ASSET
   priority_order:
     - VERSIONED_REPRESENTATIVE_TASK_DATASET
     - HIDDEN_SET_PROTOCOL
@@ -120,8 +268,8 @@ mandatory_exit_capability_recovery:
     - REPRODUCIBLE_BASELINE_REPORT
   capability_status:
     VERSIONED_REPRESENTATIVE_TASK_DATASET: ACCEPTED
-    HIDDEN_SET_PROTOCOL: CONTRACT_REVIEW_BLOCKED
-    PARAMETERIZED_EVALUATION_HARNESS: CONTRACT_REVIEW_BLOCKED
+    HIDDEN_SET_PROTOCOL: FOUNDER_REVISED_PENDING_IMPLEMENTATION
+    PARAMETERIZED_EVALUATION_HARNESS: FOUNDER_REVISED_PENDING_IMPLEMENTATION
     VTSR_COUNTING_VALIDATOR: MISSING
     B0_B1_B2_COMPATIBILITY_ADAPTERS: MISSING
     OBSERVABLE_TRACE: MISSING
@@ -262,6 +410,41 @@ mandatory_exit_capability_recovery:
     allowed_founder_choices:
       - FORMALLY_REVISE_P1_EXIT_GATE
       - STOP_P1
+  post_revision_final_implementation_route:
+    record_type: p1_founder_approved_post_revision_final_implementation_route
+    authority: HUMAN_FOUNDER
+    status: FOUNDER_APPROVED_ONE_TIME
+    decision_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-039-minimal-hidden-admission-harness/FOUNDER_P1_EXIT_GATE_BOUNDARY_REVISION_RECORD.json
+    decision_record_sha256: 6a0c8d0fbd799204e9c2895c1c2bf3ea3e5955820a81b40f87a280e7c0c28849
+    canonical_parent_commit: dd11590b557ac7ee5604e5740e23c79f5b398601
+    canonical_parent_tree: 374285b14b93925d93e6cbe045a438216f9a12e6
+    task_id: AIOS-P1-039_MINIMAL_HIDDEN_ADMISSION_PARAMETERIZED_HARNESS_IMPLEMENTATION
+    route_id: P1_039_POST_REVISION_FINAL_IMPLEMENTATION_ROUTE
+    mandatory_exit_capabilities:
+      - HIDDEN_SET_PROTOCOL
+      - PARAMETERIZED_EVALUATION_HARNESS
+    prior_terminal_route:
+      task_id: AIOS-P1-038_MINIMAL_HIDDEN_ADMISSION_PARAMETERIZED_HARNESS_IMPLEMENTATION
+      status: PERMANENTLY_STOPPED_AFTER_FINAL_CONTRACT_CTO_NON_PASS
+      terminal_record_sha256: 33375f2bbc8a60d9c71a8775a6a47aa19a9231baa8e11b502a88d84be00f4ea7
+      contract_review_failure_record_sha256: da32a4b45f15b6fc5fe56628a531b9748f2f0c704de278ded9bd805d3fb48525
+      recovery_allowed: false
+      engineering_asset_reuse_allowed: false
+    historical_governance_metadata_classification: TRUSTED_VERIFICATION_SUBSTRATE_NOT_SEMANTIC_TASK_INPUT
+    atomic_all_or_none: true
+    final_exact_contract_count: 1
+    activation_limit: 1
+    branch_limit: 1
+    worktree_limit: 1
+    candidate_limit: 1
+    retry_limit: 0
+    reusable: false
+    old_asset_reuse_allowed: false
+    successor_replacement_correction_chain_allowed: false
+    final_non_pass_or_real_architecture_failure: STOP_P1_NO_FIFTH_ROUTE
+    claim_boundary: COOPERATIVE_LOCAL_PUBLIC_SYNTHETIC_ROLE_SEPARATED_HIDDEN_ADMISSION_AND_PARAMETERIZED_HARNESS_REPRODUCIBLE_INTEGRATION_ONLY_NO_REAL_HIDDEN_SET_SECRECY_REPRESENTATIVENESS_HOSTILE_PRINCIPAL_AGENT_P1_EXIT_P2_P3_OR_PRODUCTION_CLAIM
+  post_revision_final_implementation_attempt: null
+  post_revision_final_route_terminal: null
   founder_dispositions: {}
   clean_room_rules:
     - new_task_id_contract_branch_worktree_evidence_and_reviews
@@ -391,10 +574,10 @@ active_work:
   offsite_target: null
   founder_reserved_authorization: null
   founder_reserved_authorization_sha256: null
-  founder_decision_required: true
-  escalation_reason: mandatory_exit_capability_blocked
-  user_action_required: FOUNDER_DECISION_REQUIRED
-  next_eligible_action: WAIT_FOR_FOUNDER_MANDATORY_EXIT_CAPABILITY_DECISION
+  founder_decision_required: false
+  escalation_reason: null
+  user_action_required: null
+  next_eligible_action: MASTER_AUTONOMOUSLY_PREPARE_P1_039_POST_REVISION_FINAL_IMPLEMENTATION
 
 superseded_pre_delegation_authorizations:
   aios_p1_009:
@@ -1019,10 +1202,23 @@ claim_boundary:
   p1_037_capability_claims: 0
   p1_038_attempt_accounting_recalibration: FOUNDER_APPROVED
   p1_038_final_clean_room_route: FOUNDER_APPROVED_PENDING_PRE_FREEZE_CONVERGENCE
+  p1_038_final_clean_room_route_observation_class: CAPTURE_TIME_SUPERSEDED_BY_LATER_TERMINAL_RECORD
   p1_038_final_contract_count_limit: 1
   p1_038_activated_implementation_attempt_started: false
   p1_038_old_asset_reuse_allowed: false
   p1_038_capability_claims: 0
+  p1_038_route_terminal: PERMANENTLY_STOPPED_AFTER_FINAL_CONTRACT_CTO_NON_PASS
+  p1_038_final_contract_review: NON_PASS
+  p1_038_final_cto_review: NON_PASS
+  p1_038_final_security_review: PASS
+  p1_038_final_quality_review: CANCELLED_AFTER_CTO_NON_PASS
+  p1_038_implementation_attempt_consumed: false
+  p1_039_post_revision_final_route: FOUNDER_APPROVED_PENDING_FINAL_CONTRACT
+  p1_039_historical_governance_metadata_boundary: FOUNDER_APPROVED_ACTIVE
+  p1_039_final_contract_count_limit: 1
+  p1_039_activated_implementation_attempt_started: false
+  p1_039_old_asset_reuse_allowed: false
+  p1_039_capability_claims: 0
   p1_011_environment_snapshot_capture_replay: MASTER_TASK_GATE_ACCEPTED_CONFORMANCE_ONLY
   p1_011_environment_snapshot_case_matrix: 13_OF_13_PASS
   p1_011_environment_snapshot_symlink_regressions: 2_OF_2_PASS

@@ -12,6 +12,36 @@ REPO_ROOT = File.expand_path("..", __dir__)
 TRUTH_PATH = File.join(REPO_ROOT, "docs/aios/truth/project_state.yaml")
 AGENT_RULES_PATH = File.join(REPO_ROOT, "AGENTS.md")
 
+FOUNDER_HISTORICAL_METADATA_CLASSES = %w[
+  TASK_AND_CONTRACT_IDENTITY TERMINAL_RECORD CONTRACT_REVIEW_RESULT EVIDENCE_HASH
+  NON_RECOVERY_AND_NON_REUSE_MARKER
+].freeze
+
+HISTORICAL_ARTIFACT_CLASS_PROJECTION = {
+  "CONTRACT_REVIEW_FAILURE" => %w[
+    TASK_AND_CONTRACT_IDENTITY CONTRACT_REVIEW_RESULT EVIDENCE_HASH NON_RECOVERY_AND_NON_REUSE_MARKER
+  ],
+  "FOUNDER_DECISION" => %w[
+    TASK_AND_CONTRACT_IDENTITY EVIDENCE_HASH NON_RECOVERY_AND_NON_REUSE_MARKER
+  ],
+  "TERMINAL_RECORD" => %w[
+    TASK_AND_CONTRACT_IDENTITY TERMINAL_RECORD CONTRACT_REVIEW_RESULT EVIDENCE_HASH
+    NON_RECOVERY_AND_NON_REUSE_MARKER
+  ],
+  "INDEPENDENT_CONTRACT_REVIEW" => %w[
+    TASK_AND_CONTRACT_IDENTITY CONTRACT_REVIEW_RESULT EVIDENCE_HASH NON_RECOVERY_AND_NON_REUSE_MARKER
+  ]
+}.freeze
+HISTORICAL_SEMANTIC_PROJECTION_ALLOWED = false
+ACTIVE_WORK_KEYS = %w[
+  current_task current_task_status current_task_contract current_task_contract_sha256
+  current_execution_authorization current_execution_authorization_sha256 execution_nonce
+  execution_nonce_status authorization_id activation_parent_commit activation_parent_tree
+  task_resource_state task_branch task_worktree execution_evidence_root offsite_target
+  founder_reserved_authorization founder_reserved_authorization_sha256 founder_decision_required
+  escalation_reason user_action_required next_eligible_action
+].freeze
+
 def stop!(message)
   warn "CURRENT TASK AUTHORITY FAIL: #{message}"
   exit 1
@@ -44,6 +74,57 @@ def bound_json!(path, expected_sha256, root, label)
   JSON.parse(File.read(path))
 rescue JSON::ParserError
   stop!("#{label} is not valid JSON")
+end
+
+def historical_boundary_entry!(boundary, path, expected_sha256, expected_format, expected_class, label)
+  stop!("#{label} historical boundary missing") unless boundary.is_a?(Hash)
+  entries = boundary["allowed_records"]
+  stop!("#{label} historical allowlist invalid") unless entries.is_a?(Array)
+  matches = entries.select { |entry| entry.is_a?(Hash) && entry["path"] == path }
+  stop!("#{label} is not admitted by one exact historical metadata record") unless matches.length == 1
+  entry = matches.first
+  stop!("#{label} historical allowlist entry schema drift") unless
+    entry.keys.sort == %w[
+      allowed_top_level_fields byte_length format founder_metadata_classes path
+      projected_semantic_json_pointers record_class sha256
+    ].sort
+  stop!("#{label} historical allowlist binding drift") unless
+    entry["sha256"] == expected_sha256 &&
+    entry["format"] == expected_format &&
+    entry["record_class"] == expected_class &&
+    entry["byte_length"].is_a?(Integer) && entry["byte_length"] >= 0 &&
+    entry["allowed_top_level_fields"].is_a?(Array) &&
+    !entry["allowed_top_level_fields"].empty? &&
+    entry["allowed_top_level_fields"].all? { |field| nonempty_string?(field) } &&
+    entry["allowed_top_level_fields"].uniq.length == entry["allowed_top_level_fields"].length &&
+    entry["founder_metadata_classes"] == HISTORICAL_ARTIFACT_CLASS_PROJECTION.fetch(expected_class) &&
+    entry["projected_semantic_json_pointers"] == []
+  entry
+end
+
+def bound_historical_governance_bytes!(boundary, path, expected_sha256, expected_format, expected_class, root, label)
+  entry = historical_boundary_entry!(boundary, path, expected_sha256, expected_format, expected_class, label)
+  stop!("#{label} missing or outside historical governance custody") unless safe_under_root?(path, root, must_exist: true) && File.file?(path) && !File.symlink?(path)
+  bytes = File.binread(path)
+  stop!("#{label} historical byte length drift") unless bytes.bytesize == entry["byte_length"]
+  stop!("#{label} historical hash drift") unless Digest::SHA256.hexdigest(bytes) == expected_sha256
+  bytes
+end
+
+def verify_historical_governance_json!(boundary, path, expected_sha256, expected_class, root, label)
+  entry = historical_boundary_entry!(boundary, path, expected_sha256, "JSON", expected_class, label)
+  bytes = bound_historical_governance_bytes!(boundary, path, expected_sha256, "JSON", expected_class, root, label)
+  record = JSON.parse(bytes)
+  stop!("#{label} historical metadata field allowlist drift") unless
+    record.is_a?(Hash) && record.keys.sort == entry["allowed_top_level_fields"].sort
+  stop!("#{label} unexpectedly exposes historical semantic fields") unless entry["projected_semantic_json_pointers"] == []
+  true
+rescue JSON::ParserError
+  stop!("#{label} is not valid JSON")
+end
+
+def bound_historical_governance_json!(*_args)
+  stop!("historical governance metadata semantic projection is disabled")
 end
 
 def capability_binding_fields(capabilities)
@@ -199,7 +280,8 @@ def scope_base(pattern, absolute: false)
 end
 
 def path_overlap?(left, right)
-  left == right || left.start_with?(right + File::SEPARATOR) || right.start_with?(left + File::SEPARATOR)
+  left == "." || right == "." || left == right ||
+    left.start_with?(right + File::SEPARATOR) || right.start_with?(left + File::SEPARATOR)
 end
 
 def truth_without_activation_fields(value)
@@ -214,6 +296,7 @@ def truth_without_activation_fields(value)
   copy.fetch("mandatory_exit_capability_recovery").delete("capability_status")
   copy.fetch("mandatory_exit_capability_recovery").delete("capability_attempt_ledger")
   copy.fetch("mandatory_exit_capability_recovery").delete("final_clean_room_implementation_attempt")
+  copy.fetch("mandatory_exit_capability_recovery").delete("post_revision_final_implementation_attempt")
   copy
 end
 
@@ -319,7 +402,7 @@ stop!("same-Task bounded correction count drift") unless mandatory_recovery["max
 stop!("peripheral Task selection enabled") unless mandatory_recovery["peripheral_task_selection_allowed"] == false
 capability_status = mandatory_recovery["capability_status"]
 stop!("mandatory Exit capability status population drift") unless capability_status.is_a?(Hash) && capability_status.keys == expected_exit_capabilities
-allowed_capability_states = %w[MISSING RELOCATED_PENDING_INTEGRATED_TASK FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION IN_PROGRESS ACCEPTED FOUNDER_DISPOSED ARCHITECTURE_BLOCKED CONTRACT_REVIEW_BLOCKED]
+allowed_capability_states = %w[MISSING RELOCATED_PENDING_INTEGRATED_TASK FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION FOUNDER_REVISED_PENDING_IMPLEMENTATION IN_PROGRESS ACCEPTED FOUNDER_DISPOSED ARCHITECTURE_BLOCKED CONTRACT_REVIEW_BLOCKED]
 stop!("mandatory Exit capability status invalid") unless capability_status.values.all? { |value| allowed_capability_states.include?(value) }
 attempt_ledger = mandatory_recovery["capability_attempt_ledger"]
 stop!("mandatory Exit capability attempt ledger population drift") unless attempt_ledger.is_a?(Hash) && attempt_ledger.keys == expected_exit_capabilities
@@ -328,6 +411,140 @@ stop!("mandatory Exit capability Founder disposition map invalid") unless founde
 history_entries_for_recovery = truth.fetch("task_history").values.select { |entry| entry.is_a?(Hash) }
 recovery_evidence_base = truth.dig("project", "execution_evidence_root_base")
 stop!("mandatory Exit capability Evidence base invalid") unless File.directory?(recovery_evidence_base) && !File.symlink?(recovery_evidence_base)
+
+historical_metadata_boundary = mandatory_recovery["historical_governance_metadata_read_boundary"]
+if historical_metadata_boundary
+expected_boundary_keys = %w[
+  record_type status authority decision_record_path decision_record_sha256 mode
+  allowed_purposes semantic_task_input_allowed evaluator_or_oracle_input_allowed
+  worker_access_allowed quality_fixture_author_access_allowed implementation_reuse_allowed
+  transitive_path_discovery_allowed allowed_records forbidden_repository_read_paths
+  forbidden_asset_classes founder_allowed_record_classes artifact_record_class_projection
+  field_projection_policy
+]
+stop!("historical governance metadata boundary schema drift") unless
+  historical_metadata_boundary.is_a?(Hash) && historical_metadata_boundary.keys.sort == expected_boundary_keys.sort
+stop!("historical governance metadata boundary authority drift") unless
+  historical_metadata_boundary["record_type"] == "p1_exit_gate_historical_governance_metadata_read_boundary" &&
+  historical_metadata_boundary["status"] == "FOUNDER_APPROVED_ACTIVE" &&
+  historical_metadata_boundary["authority"] == "HUMAN_FOUNDER" &&
+  historical_metadata_boundary["mode"] == "VALIDATOR_ONLY_READ_ONLY_EXACT_HASH_BOUND_ALLOWLIST_DENY_BY_DEFAULT"
+stop!("historical governance metadata purpose drift") unless historical_metadata_boundary["allowed_purposes"] == %w[
+  CURRENT_AUTHORITY_VALIDATION
+  HISTORICAL_TERMINAL_VALIDATION
+  ROUTE_UNIQUENESS_VALIDATION
+  HISTORICAL_ASSET_NON_REUSE_VALIDATION
+  CURRENT_STATE_CONSISTENCY_VALIDATION
+]
+stop!("historical governance metadata leaked into a semantic or implementation role") unless
+  historical_metadata_boundary["semantic_task_input_allowed"] == false &&
+  historical_metadata_boundary["evaluator_or_oracle_input_allowed"] == false &&
+  historical_metadata_boundary["worker_access_allowed"] == false &&
+  historical_metadata_boundary["quality_fixture_author_access_allowed"] == false &&
+  historical_metadata_boundary["implementation_reuse_allowed"] == false &&
+  historical_metadata_boundary["transitive_path_discovery_allowed"] == false
+
+boundary_decision_path = historical_metadata_boundary["decision_record_path"]
+boundary_decision_sha = historical_metadata_boundary["decision_record_sha256"]
+boundary_decision = bound_json!(boundary_decision_path, boundary_decision_sha, recovery_evidence_base, "P1 Exit Gate historical metadata boundary Founder decision")
+stop!("historical governance metadata boundary Founder decision drift") unless
+  boundary_decision["record_type"] == "sourcelens_aios_founder_p1_exit_gate_historical_governance_metadata_boundary_revision" &&
+  boundary_decision["schema_version"] == "1.0" &&
+  boundary_decision["status"] == "APPROVED" &&
+  boundary_decision["authority"] == "HUMAN_FOUNDER" &&
+  valid_utc_timestamp?(boundary_decision["approved_at_utc"]) &&
+  boundary_decision["canonical_parent_commit"] == "dd11590b557ac7ee5604e5740e23c79f5b398601" &&
+  boundary_decision["canonical_parent_tree"] == "374285b14b93925d93e6cbe045a438216f9a12e6" &&
+  boundary_decision["goal_canonical_sha256"] == truth.dig("goal", "observed_body_sha256")
+stop!("historical governance metadata Founder decision boundary drift") unless
+  boundary_decision.dig("historical_governance_metadata_boundary", "classification") == "TRUSTED_VERIFICATION_SUBSTRATE_NOT_SEMANTIC_TASK_INPUT" &&
+  boundary_decision.dig("historical_governance_metadata_boundary", "allowed_readers") == %w[INTEGRATION_ROLE AUTHORITY_VALIDATOR] &&
+  boundary_decision.dig("historical_governance_metadata_boundary", "admission_source") == "CANONICAL_TRUTH_EXACT_HASH_BOUND_REFERENCES_ONLY" &&
+  boundary_decision.dig("historical_governance_metadata_boundary", "allowed_record_classes") == %w[
+    TASK_AND_CONTRACT_IDENTITY TERMINAL_RECORD CONTRACT_REVIEW_RESULT EVIDENCE_HASH NON_RECOVERY_AND_NON_REUSE_MARKER
+  ] &&
+  boundary_decision.dig("historical_governance_metadata_boundary", "allowed_purposes") == historical_metadata_boundary["allowed_purposes"] &&
+  boundary_decision.dig("historical_governance_metadata_boundary", "semantic_task_input") == false &&
+  boundary_decision.dig("historical_governance_metadata_boundary", "evaluator_or_oracle_input") == false &&
+  boundary_decision.dig("historical_governance_metadata_boundary", "implementation_design_input") == false
+stop!("historical governance metadata Founder class projection drift") unless
+  historical_metadata_boundary["founder_allowed_record_classes"] == FOUNDER_HISTORICAL_METADATA_CLASSES &&
+  boundary_decision.dig("historical_governance_metadata_boundary", "allowed_record_classes") == FOUNDER_HISTORICAL_METADATA_CLASSES &&
+  historical_metadata_boundary["artifact_record_class_projection"] == HISTORICAL_ARTIFACT_CLASS_PROJECTION &&
+  historical_metadata_boundary["field_projection_policy"] == "EXACT_HASH_BOUND_RAW_SCHEMA_WITH_EMPTY_SEMANTIC_PROJECTION" &&
+  HISTORICAL_ARTIFACT_CLASS_PROJECTION.values.flatten.uniq.all? { |record_class| FOUNDER_HISTORICAL_METADATA_CLASSES.include?(record_class) }
+stop!("historical failed engineering asset boundary drift") unless
+  boundary_decision.dig("failed_engineering_asset_boundary", "worker_access_allowed") == false &&
+  boundary_decision.dig("failed_engineering_asset_boundary", "quality_fixture_author_access_allowed") == false &&
+  boundary_decision.dig("failed_engineering_asset_boundary", "real_or_historical_hidden_material_create_read_enumerate_or_restore_allowed") == false &&
+  boundary_decision.dig("failed_engineering_asset_boundary", "historical_governance_metadata_may_influence_semantic_results") == false
+
+allowed_historical_records = historical_metadata_boundary["allowed_records"]
+stop!("historical governance metadata allowlist empty") unless allowed_historical_records.is_a?(Array) && !allowed_historical_records.empty?
+allowed_historical_paths = allowed_historical_records.map { |entry| entry.is_a?(Hash) ? entry["path"] : nil }
+expected_historical_paths = %w[
+  /Users/lijunpeng/Developer/.sourcelens-audit/p1-036-hidden-set-protocol/contract-review/CONTRACT_REVIEW_FAILURE_RECORD.json
+  /Users/lijunpeng/Developer/.sourcelens-audit/p1-036-hidden-set-protocol/contract-review/FOUNDER_CONTRACT_REVIEW_CAP_EXCEPTION_RECORD.json
+  /Users/lijunpeng/Developer/.sourcelens-audit/p1-036-hidden-set-protocol/contract-review/P1_036_FOUNDER_EXCEPTION_ROUTE_TERMINAL_RECORD.json
+  /Users/lijunpeng/Developer/.sourcelens-audit/p1-036-hidden-set-protocol/contract-review/FOUNDER_INTEGRATED_VERTICAL_SLICE_ARCHITECTURE_DISPOSITION_RECORD.json
+  /Users/lijunpeng/Developer/.sourcelens-audit/p1-037-parameterized-harness/contract-review/P1_037_INTEGRATED_ROUTE_TERMINAL_RECORD.json
+  /Users/lijunpeng/Developer/.sourcelens-audit/p1-037-parameterized-harness/contract-review/CONTRACT_REVIEW_FAILURE_RECORD.json
+  /Users/lijunpeng/Developer/.sourcelens-audit/p1-038-minimal-hidden-admission-harness/FOUNDER_ATTEMPT_ACCOUNTING_RECALIBRATION_RECORD.json
+  /Users/lijunpeng/Developer/.sourcelens-audit/p1-038-minimal-hidden-admission-harness/contract-review/CTO_FINAL_CONTRACT_REVIEW.json
+  /Users/lijunpeng/Developer/.sourcelens-audit/p1-038-minimal-hidden-admission-harness/contract-review/SECURITY_FINAL_CONTRACT_REVIEW.json
+  /Users/lijunpeng/Developer/.sourcelens-audit/p1-038-minimal-hidden-admission-harness/contract-review/FINAL_CONTRACT_REVIEW_FAILURE_RECORD.json
+  /Users/lijunpeng/Developer/.sourcelens-audit/p1-038-minimal-hidden-admission-harness/P1_038_ROUTE_TERMINAL_RECORD.json
+]
+stop!("historical governance metadata allowlist contains duplicate or invalid paths") unless
+  allowed_historical_paths.all? { |path| nonempty_string?(path) && Pathname.new(path).absolute? } &&
+  allowed_historical_paths.uniq.length == allowed_historical_paths.length
+stop!("historical governance metadata allowlist is not the exact closed set") unless allowed_historical_paths == expected_historical_paths
+allowed_historical_records.each do |entry|
+  stop!("historical governance metadata allowlist entry schema drift") unless
+    entry.is_a?(Hash) && entry.keys.sort == %w[
+      allowed_top_level_fields byte_length format founder_metadata_classes path
+      projected_semantic_json_pointers record_class sha256
+    ].sort &&
+    entry["sha256"].is_a?(String) && entry["sha256"].match?(/\A[0-9a-f]{64}\z/) &&
+    entry["byte_length"].is_a?(Integer) && entry["byte_length"] >= 0 &&
+    entry["format"] == "JSON" &&
+    HISTORICAL_ARTIFACT_CLASS_PROJECTION.key?(entry["record_class"]) &&
+    entry["founder_metadata_classes"] == HISTORICAL_ARTIFACT_CLASS_PROJECTION.fetch(entry["record_class"]) &&
+    entry["projected_semantic_json_pointers"] == [] &&
+    entry["allowed_top_level_fields"].is_a?(Array) && !entry["allowed_top_level_fields"].empty? &&
+    entry["allowed_top_level_fields"].all? { |field| nonempty_string?(field) } &&
+    entry["allowed_top_level_fields"].uniq.length == entry["allowed_top_level_fields"].length
+  stop!("historical governance metadata allowlist path is unsafe") unless safe_under_root?(entry["path"], recovery_evidence_base, must_exist: true) && File.file?(entry["path"]) && !File.symlink?(entry["path"])
+  verify_historical_governance_json!(
+    historical_metadata_boundary,
+    entry["path"],
+    entry["sha256"],
+    entry["record_class"],
+    recovery_evidence_base,
+    "historical governance metadata #{File.basename(entry['path'])}"
+  )
+end
+stop!("historical failed Contract repository denylist drift") unless historical_metadata_boundary["forbidden_repository_read_paths"] == %w[
+  docs/aios/tasks/P1-036_HIDDEN_SET_PROTOCOL.yaml
+  docs/aios/tasks/P1-037_PARAMETERIZED_EVALUATION_HARNESS_WITH_HIDDEN_ADMISSION.yaml
+  docs/aios/tasks/P1-038_MINIMAL_HIDDEN_ADMISSION_PARAMETERIZED_HARNESS_IMPLEMENTATION.yaml
+]
+stop!("historical failed asset-class denylist drift") unless historical_metadata_boundary["forbidden_asset_classes"] == %w[
+  FAILED_TASK_CODE FAILED_TASK_FIXTURE FAILED_TASK_CANDIDATE FAILED_TASK_PARTIAL_IMPLEMENTATION
+  FAILED_TASK_HIDDEN_MATERIAL FAILED_TASK_NONCE UNACCEPTED_ENGINEERING_ASSET
+]
+stop!("historical failed asset-class Founder projection drift") unless
+  boundary_decision.dig("failed_engineering_asset_boundary", "forbidden_asset_classes") == historical_metadata_boundary["forbidden_asset_classes"]
+else
+  stop!("historical governance metadata boundary missing while historical routes remain active") unless
+    (mandatory_recovery["integrated_capability_routes"] || {}).empty? &&
+    mandatory_recovery["final_clean_room_implementation_route"].nil? &&
+    mandatory_recovery["final_clean_room_contract_review_terminal"].nil? &&
+    mandatory_recovery["post_revision_final_implementation_route"].nil?
+  boundary_decision = nil
+  boundary_decision_path = nil
+  boundary_decision_sha = nil
+end
 
 integrated_routes = mandatory_recovery["integrated_capability_routes"]
 stop!("integrated capability route map invalid") unless integrated_routes.is_a?(Hash) && integrated_routes.length <= 1
@@ -369,7 +586,8 @@ if integrated_route
   blocked_ledger = attempt_ledger[blocked_capability]
   stop!("integrated capability route does not preserve blocked ledger") unless blocked_ledger.is_a?(Hash) && blocked_ledger["task_id"] == blocked_route["task_id"] && blocked_ledger["founder_exception_route_status"] == blocked_route["status"] && blocked_ledger["founder_exception_terminal_record_sha256"] == blocked_route["terminal_record_sha256"] && blocked_ledger["founder_exception_route_recovery_allowed"] == false
 
-  decision = bound_json!(integrated_route["decision_record_path"], integrated_route["decision_record_sha256"], recovery_evidence_base, "integrated capability Founder architecture disposition")
+  if HISTORICAL_SEMANTIC_PROJECTION_ALLOWED
+  decision = bound_historical_governance_json!(historical_metadata_boundary, integrated_route["decision_record_path"], integrated_route["decision_record_sha256"], "FOUNDER_DECISION", recovery_evidence_base, "integrated capability Founder architecture disposition")
   expected_decision_keys = %w[
     record_type schema_version status authority approved_at_utc canonical_parent_commit
     canonical_parent_tree decision_input_path decision_input_sha256 blocked_route
@@ -379,7 +597,8 @@ if integrated_route
   stop!("integrated capability Founder disposition schema drift") unless decision.keys.sort == expected_decision_keys.sort
   stop!("integrated capability Founder disposition header drift") unless decision["record_type"] == "sourcelens_aios_founder_exit_capability_architecture_disposition" && decision["schema_version"] == 1 && decision["status"] == "APPROVED" && decision["authority"] == "HUMAN_FOUNDER"
   stop!("integrated capability Founder disposition parent drift") unless decision["canonical_parent_commit"] == integrated_route["canonical_parent_commit"] && decision["canonical_parent_tree"] == integrated_route["canonical_parent_tree"]
-  stop!("integrated capability Founder disposition input drift") unless decision["decision_input_sha256"] == integrated_route["architecture_decision_input_sha256"] && safe_under_root?(decision["decision_input_path"], recovery_evidence_base, must_exist: true) && sha256(decision["decision_input_path"]) == decision["decision_input_sha256"]
+  stop!("integrated capability Founder disposition input identity drift") unless
+    decision["decision_input_sha256"] == integrated_route["architecture_decision_input_sha256"]
   stop!("integrated capability Founder disposition blocked route drift") unless decision["blocked_route"] == {
     "task_id" => blocked_route["task_id"],
     "status" => blocked_route["status"],
@@ -388,9 +607,9 @@ if integrated_route
     "recovery_allowed" => false,
     "asset_reuse_allowed" => false
   }
-  blocked_terminal = bound_json!(decision.dig("blocked_route", "terminal_record_path"), decision.dig("blocked_route", "terminal_record_sha256"), recovery_evidence_base, "integrated capability blocked-route terminal record")
-  blocked_failure = bound_json!(blocked_ledger["failure_record_path"], blocked_ledger["failure_record_sha256"], recovery_evidence_base, "integrated capability blocked-route contract review failure")
-  blocked_exception = bound_json!(blocked_ledger["founder_exception_record_path"], blocked_ledger["founder_exception_record_sha256"], recovery_evidence_base, "integrated capability blocked-route Founder exception")
+  blocked_terminal = bound_historical_governance_json!(historical_metadata_boundary, decision.dig("blocked_route", "terminal_record_path"), decision.dig("blocked_route", "terminal_record_sha256"), "TERMINAL_RECORD", recovery_evidence_base, "integrated capability blocked-route terminal record")
+  blocked_failure = bound_historical_governance_json!(historical_metadata_boundary, blocked_ledger["failure_record_path"], blocked_ledger["failure_record_sha256"], "CONTRACT_REVIEW_FAILURE", recovery_evidence_base, "integrated capability blocked-route contract review failure")
+  blocked_exception = bound_historical_governance_json!(historical_metadata_boundary, blocked_ledger["founder_exception_record_path"], blocked_ledger["founder_exception_record_sha256"], "FOUNDER_DECISION", recovery_evidence_base, "integrated capability blocked-route Founder exception")
   expected_blocked_terminal_keys = %w[
     record_type schema_version status recorded_at_utc task_id mandatory_exit_capability
     attempt_ordinal canonical_parent_commit canonical_parent_tree original_task_contract_sha256
@@ -496,6 +715,7 @@ if integrated_route
     "final_contract_non_pass_or_real_architecture_failure" => "PERMANENTLY_STOP_INTEGRATED_ROUTE_AND_ESCALATE_FOUNDER",
     "successor_replacement_or_correction_chain_allowed" => false
   }
+  end
 end
 
 final_clean_room_route = mandatory_recovery["final_clean_room_implementation_route"]
@@ -543,7 +763,8 @@ if final_clean_room_route
     "AIOS-P1-037_PARAMETERIZED_EVALUATION_HARNESS_WITH_HIDDEN_ADMISSION" => "PERMANENTLY_STOPPED_AFTER_FINAL_SECURITY_NON_PASS"
   }
 
-  decision = bound_json!(final_clean_room_route["decision_record_path"], final_clean_room_route["decision_record_sha256"], recovery_evidence_base, "final clean-room Founder attempt-accounting decision")
+  if HISTORICAL_SEMANTIC_PROJECTION_ALLOWED
+  decision = bound_historical_governance_json!(historical_metadata_boundary, final_clean_room_route["decision_record_path"], final_clean_room_route["decision_record_sha256"], "FOUNDER_DECISION", recovery_evidence_base, "final clean-room Founder attempt-accounting decision")
   expected_decision_keys = %w[
     record_type schema_version status authority approved_at_utc canonical_parent_commit
     canonical_parent_tree goal_canonical_sha256 accepted_terminal_evidence historical_routes
@@ -565,8 +786,8 @@ if final_clean_room_route
     p1_037_contract_review_failure_record_path p1_037_contract_review_failure_record_sha256
     p1_037_terminal_record_path p1_037_terminal_record_sha256
   ].sort
-  terminal_record = bound_json!(accepted_terminal["p1_037_terminal_record_path"], accepted_terminal["p1_037_terminal_record_sha256"], recovery_evidence_base, "P1-037 terminal record accepted by Founder")
-  failure_record = bound_json!(accepted_terminal["p1_037_contract_review_failure_record_path"], accepted_terminal["p1_037_contract_review_failure_record_sha256"], recovery_evidence_base, "P1-037 contract failure accepted by Founder")
+  terminal_record = bound_historical_governance_json!(historical_metadata_boundary, accepted_terminal["p1_037_terminal_record_path"], accepted_terminal["p1_037_terminal_record_sha256"], "TERMINAL_RECORD", recovery_evidence_base, "P1-037 terminal record accepted by Founder")
+  failure_record = bound_historical_governance_json!(historical_metadata_boundary, accepted_terminal["p1_037_contract_review_failure_record_path"], accepted_terminal["p1_037_contract_review_failure_record_sha256"], "CONTRACT_REVIEW_FAILURE", recovery_evidence_base, "P1-037 contract failure accepted by Founder")
   stop!("final clean-room Founder accepted terminal Evidence drift") unless
     terminal_record["status"] == "PERMANENTLY_STOPPED_AFTER_FINAL_SECURITY_NON_PASS" &&
     terminal_record["route_recovery_allowed"] == false &&
@@ -629,6 +850,7 @@ if final_clean_room_route
   }
   stop!("final clean-room Founder next capability drift") unless decision["next_capability_after_atomic_acceptance"] == "VTSR_COUNTING_VALIDATOR"
   stop!("final clean-room Founder claim boundary drift") unless decision["claim_boundary"] == "FOUNDER_ARCHITECTURE_AND_ATTEMPT_ACCOUNTING_DECISION_ONLY_NO_IMPLEMENTATION_HIDDEN_SET_PARAMETERIZED_HARNESS_BENCHMARK_AGENT_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM"
+  end
   stop!("final clean-room route claim boundary drift") unless final_clean_room_route["claim_boundary"] == "COOPERATIVE_LOCAL_PUBLIC_SYNTHETIC_ROLE_SEPARATED_HIDDEN_ADMISSION_AND_PARAMETERIZED_HARNESS_REPRODUCIBLE_INTEGRATION_ONLY_NO_REAL_HIDDEN_SET_SECRECY_REPRESENTATIVENESS_CUSTODY_HOSTILE_PRINCIPAL_AGENT_P1_EXIT_P2_P3_OR_PRODUCTION_CLAIM"
 end
 
@@ -660,22 +882,35 @@ if final_clean_room_terminal
     final_clean_room_terminal["founder_escalation_required"] == true &&
     final_clean_room_terminal["allowed_founder_choices"] == %w[FORMALLY_REVISE_P1_EXIT_GATE STOP_P1] &&
     final_clean_room_attempt.nil?
+  terminal_projection = final_clean_room_capabilities.map { |capability| capability_status[capability] }
   stop!("final clean-room terminal capability projection drift") unless
-    final_clean_room_capabilities.all? { |capability| capability_status[capability] == "CONTRACT_REVIEW_BLOCKED" }
+    terminal_projection == ["CONTRACT_REVIEW_BLOCKED", "CONTRACT_REVIEW_BLOCKED"] ||
+    (mandatory_recovery["post_revision_final_implementation_route"] &&
+      (
+        terminal_projection == ["FOUNDER_REVISED_PENDING_IMPLEMENTATION", "FOUNDER_REVISED_PENDING_IMPLEMENTATION"] ||
+        terminal_projection == ["IN_PROGRESS", "IN_PROGRESS"] ||
+        terminal_projection == ["ACCEPTED", "ACCEPTED"] ||
+        (mandatory_recovery["post_revision_final_route_terminal"] && terminal_projection == ["ARCHITECTURE_BLOCKED", "ARCHITECTURE_BLOCKED"])
+      ))
 
-  contract_bytes = git_file(final_clean_room_terminal["final_contract_freeze_commit"], final_clean_room_terminal["final_contract_path"])
   stop!("final clean-room terminal Contract identity drift") unless
     final_clean_room_terminal["final_contract_path"] == "docs/aios/tasks/P1-038_MINIMAL_HIDDEN_ADMISSION_PARAMETERIZED_HARNESS_IMPLEMENTATION.yaml" &&
     final_clean_room_terminal["final_contract_sha256"] == "cde6a6adff74ce1a6a7f07ebfe74ae6ba1fbeb96ae20c17cfbcd24e08e2bf354" &&
     final_clean_room_terminal["final_contract_byte_length"] == 31_905 &&
     final_clean_room_terminal["final_contract_freeze_commit"] == "8e2cbb21f03d2f36b269f9eae5af9aff735d2f7e" &&
-    final_clean_room_terminal["final_contract_freeze_tree"] == "c2601c3d50c72fe86ad04a32782ce8663098f5f3" &&
-    git("rev-parse", "#{final_clean_room_terminal['final_contract_freeze_commit']}^{tree}") == final_clean_room_terminal["final_contract_freeze_tree"] &&
-    contract_bytes && contract_bytes.bytesize == final_clean_room_terminal["final_contract_byte_length"] &&
-    Digest::SHA256.hexdigest(contract_bytes) == final_clean_room_terminal["final_contract_sha256"]
+    final_clean_room_terminal["final_contract_freeze_tree"] == "c2601c3d50c72fe86ad04a32782ce8663098f5f3"
 
-  cto_review = bound_json!(final_clean_room_terminal["cto_review_path"], final_clean_room_terminal["cto_review_sha256"], recovery_evidence_base, "P1-038 CTO final Contract review")
-  security_review = bound_json!(final_clean_room_terminal["security_review_path"], final_clean_room_terminal["security_review_sha256"], recovery_evidence_base, "P1-038 Security final Contract review")
+  founder_accepted_p1_038_terminal = boundary_decision["accepted_p1_038_terminal_evidence"]
+  stop!("P1-038 terminal current-Founder hash binding drift") unless founder_accepted_p1_038_terminal == {
+    "terminal_record_path" => final_clean_room_terminal["terminal_record_path"],
+    "terminal_record_sha256" => final_clean_room_terminal["terminal_record_sha256"],
+    "contract_review_failure_record_path" => final_clean_room_terminal["failure_record_path"],
+    "contract_review_failure_record_sha256" => final_clean_room_terminal["failure_record_sha256"]
+  }
+
+  if HISTORICAL_SEMANTIC_PROJECTION_ALLOWED
+  cto_review = bound_historical_governance_json!(historical_metadata_boundary, final_clean_room_terminal["cto_review_path"], final_clean_room_terminal["cto_review_sha256"], "INDEPENDENT_CONTRACT_REVIEW", recovery_evidence_base, "P1-038 CTO final Contract review")
+  security_review = bound_historical_governance_json!(historical_metadata_boundary, final_clean_room_terminal["security_review_path"], final_clean_room_terminal["security_review_sha256"], "INDEPENDENT_CONTRACT_REVIEW", recovery_evidence_base, "P1-038 Security final Contract review")
   stop!("final clean-room CTO review terminal binding drift") unless
     final_clean_room_terminal["cto_review_result"] == "NON_PASS" &&
     cto_review["record_type"] == "aios_independent_final_contract_review" &&
@@ -694,8 +929,8 @@ if final_clean_room_terminal
   stop!("final clean-room Quality review cancellation drift") unless
     final_clean_room_terminal["quality_review_result"] == "CANCELLED_AFTER_CTO_NON_PASS"
 
-  failure = bound_json!(final_clean_room_terminal["failure_record_path"], final_clean_room_terminal["failure_record_sha256"], recovery_evidence_base, "P1-038 final Contract review failure record")
-  terminal = bound_json!(final_clean_room_terminal["terminal_record_path"], final_clean_room_terminal["terminal_record_sha256"], recovery_evidence_base, "P1-038 final route terminal record")
+  failure = bound_historical_governance_json!(historical_metadata_boundary, final_clean_room_terminal["failure_record_path"], final_clean_room_terminal["failure_record_sha256"], "CONTRACT_REVIEW_FAILURE", recovery_evidence_base, "P1-038 final Contract review failure record")
+  terminal = bound_historical_governance_json!(historical_metadata_boundary, final_clean_room_terminal["terminal_record_path"], final_clean_room_terminal["terminal_record_sha256"], "TERMINAL_RECORD", recovery_evidence_base, "P1-038 final route terminal record")
   stop!("final clean-room Contract failure record content drift") unless
     failure["record_type"] == "aios_p1_final_clean_room_contract_review_failure" &&
     failure["status"] == "FINAL_EXACT_CONTRACT_NON_PASS" &&
@@ -729,10 +964,163 @@ if final_clean_room_terminal
     terminal.dig("terminal_rules", "fourth_route_allowed") == false &&
     terminal.dig("terminal_rules", "allowed_founder_choices") == final_clean_room_terminal["allowed_founder_choices"] &&
     terminal["current_capability_projection"] == final_clean_room_capabilities.to_h { |capability| [capability, "CONTRACT_REVIEW_BLOCKED"] }
+  end
 elsif final_clean_room_route && final_clean_room_attempt.nil? &&
       final_clean_room_capabilities.all? { |capability| capability_status[capability] == "CONTRACT_REVIEW_BLOCKED" }
   stop!("final clean-room contract-review terminal binding missing")
 end
+
+post_revision_route = mandatory_recovery["post_revision_final_implementation_route"]
+post_revision_attempt = mandatory_recovery["post_revision_final_implementation_attempt"]
+post_revision_terminal = mandatory_recovery["post_revision_final_route_terminal"]
+post_revision_route_id = nil
+post_revision_capabilities = []
+if post_revision_route
+  expected_post_revision_route_keys = %w[
+    record_type authority status decision_record_path decision_record_sha256
+    canonical_parent_commit canonical_parent_tree task_id route_id mandatory_exit_capabilities
+    prior_terminal_route historical_governance_metadata_classification atomic_all_or_none
+    final_exact_contract_count activation_limit branch_limit worktree_limit candidate_limit
+    retry_limit reusable old_asset_reuse_allowed successor_replacement_correction_chain_allowed
+    final_non_pass_or_real_architecture_failure claim_boundary
+  ]
+  stop!("post-revision final route schema drift") unless post_revision_route.is_a?(Hash) && post_revision_route.keys.sort == expected_post_revision_route_keys.sort
+  stop!("post-revision final route authority drift") unless
+    post_revision_route["record_type"] == "p1_founder_approved_post_revision_final_implementation_route" &&
+    post_revision_route["authority"] == "HUMAN_FOUNDER" &&
+    post_revision_route["status"] == "FOUNDER_APPROVED_ONE_TIME"
+  post_revision_route_id = post_revision_route["route_id"]
+  post_revision_capabilities = post_revision_route["mandatory_exit_capabilities"]
+  stop!("post-revision final route identity drift") unless
+    post_revision_route_id == "P1_039_POST_REVISION_FINAL_IMPLEMENTATION_ROUTE" &&
+    post_revision_route["task_id"] == "AIOS-P1-039_MINIMAL_HIDDEN_ADMISSION_PARAMETERIZED_HARNESS_IMPLEMENTATION" &&
+    post_revision_capabilities == %w[HIDDEN_SET_PROTOCOL PARAMETERIZED_EVALUATION_HARNESS]
+  stop!("post-revision final route parent drift") unless
+    post_revision_route["canonical_parent_commit"] == boundary_decision["canonical_parent_commit"] &&
+    post_revision_route["canonical_parent_tree"] == boundary_decision["canonical_parent_tree"] &&
+    git("rev-parse", "#{post_revision_route['canonical_parent_commit']}^{tree}") == post_revision_route["canonical_parent_tree"]
+  stop!("post-revision final route Founder binding drift") unless
+    post_revision_route["decision_record_path"] == boundary_decision_path &&
+    post_revision_route["decision_record_sha256"] == boundary_decision_sha
+  stop!("final clean-room contract-review terminal binding missing") unless final_clean_room_terminal.is_a?(Hash)
+  stop!("post-revision final route historical terminal binding drift") unless post_revision_route["prior_terminal_route"] == {
+    "task_id" => final_clean_room_terminal["task_id"],
+    "status" => final_clean_room_terminal["status"],
+    "terminal_record_sha256" => final_clean_room_terminal["terminal_record_sha256"],
+    "contract_review_failure_record_sha256" => final_clean_room_terminal["failure_record_sha256"],
+    "recovery_allowed" => false,
+    "engineering_asset_reuse_allowed" => false
+  }
+  stop!("post-revision final route metadata classification drift") unless post_revision_route["historical_governance_metadata_classification"] == "TRUSTED_VERIFICATION_SUBSTRATE_NOT_SEMANTIC_TASK_INPUT"
+  stop!("post-revision final route safety invariant drift") unless
+    post_revision_route["atomic_all_or_none"] == true &&
+    post_revision_route["final_exact_contract_count"] == 1 &&
+    post_revision_route["activation_limit"] == 1 &&
+    post_revision_route["branch_limit"] == 1 &&
+    post_revision_route["worktree_limit"] == 1 &&
+    post_revision_route["candidate_limit"] == 1 &&
+    post_revision_route["retry_limit"] == 0 &&
+    post_revision_route["reusable"] == false &&
+    post_revision_route["old_asset_reuse_allowed"] == false &&
+    post_revision_route["successor_replacement_correction_chain_allowed"] == false &&
+    post_revision_route["final_non_pass_or_real_architecture_failure"] == "STOP_P1_NO_FIFTH_ROUTE"
+  decision_route = boundary_decision["post_revision_final_implementation_route"]
+  stop!("post-revision final route Founder decision scope drift") unless
+    decision_route.is_a?(Hash) &&
+    decision_route["task_id"] == post_revision_route["task_id"] &&
+    decision_route["route_id"] == post_revision_route_id &&
+    decision_route["task_limit"] == 1 &&
+    decision_route["final_exact_contract_limit"] == 1 &&
+    decision_route["branch_limit"] == 1 &&
+    decision_route["worktree_limit"] == 1 &&
+    decision_route["candidate_limit"] == 1 &&
+    decision_route["retry_limit"] == 0 &&
+    decision_route["reusable"] == false &&
+    decision_route["p1_038_contract_copy_or_patch_allowed"] == false &&
+    decision_route["failed_engineering_asset_reuse_allowed"] == false &&
+    decision_route["successor_replacement_correction_or_governance_chain_allowed"] == false &&
+    decision_route["activate_only_after_cto_security_quality_exact_pass"] == true
+  stop!("post-revision mandatory capability rule drift") unless boundary_decision["mandatory_exit_capability_rule"] == {
+    "capabilities" => post_revision_capabilities,
+    "atomic_acceptance_required" => true,
+    "partial_acceptance_allowed" => false,
+    "deferral_as_completion_allowed" => false,
+    "claim_boundary_reduction_allowed" => false,
+    "runnable_engineering_output_required" => true
+  }
+  stop!("post-revision delegation drift") unless
+    boundary_decision.dig("delegation", "model") == "P1_PHASE_LEVEL_FOUNDER_DELEGATION" &&
+    boundary_decision.dig("delegation", "master_may_sync_prepare_review_activate_implement_gate_integrate_cleanup_and_continue") == true &&
+    boundary_decision.dig("delegation", "routine_task_founder_approval_required") == false &&
+    boundary_decision.dig("delegation", "founder_next_normal_intervention") == "P1_PHASE_GATE"
+  stop!("post-revision terminal rule drift") unless boundary_decision["terminal_rule"] == {
+    "final_contract_any_non_pass" => "STOP_P1_NO_FIFTH_ROUTE",
+    "real_architecture_implementation_failure" => "STOP_P1_NO_FIFTH_ROUTE",
+    "successor_replacement_correction_or_new_contract_loop_allowed" => false,
+    "project_level_disposition_required_after_p1_stop" => true
+  }
+  stop!("post-revision next capability drift") unless boundary_decision["next_capability_after_atomic_acceptance"] == "VTSR_COUNTING_VALIDATOR"
+  stop!("post-revision route claim boundary drift") unless post_revision_route["claim_boundary"] == "COOPERATIVE_LOCAL_PUBLIC_SYNTHETIC_ROLE_SEPARATED_HIDDEN_ADMISSION_AND_PARAMETERIZED_HARNESS_REPRODUCIBLE_INTEGRATION_ONLY_NO_REAL_HIDDEN_SET_SECRECY_REPRESENTATIVENESS_HOSTILE_PRINCIPAL_AGENT_P1_EXIT_P2_P3_OR_PRODUCTION_CLAIM"
+  stop!("post-revision route implementation attempt was reused") unless post_revision_attempt.nil? || post_revision_attempt.is_a?(Hash)
+end
+
+if post_revision_terminal
+  expected_post_revision_terminal_keys = %w[
+    record_type status task_id route_id mandatory_exit_capabilities failure_stage
+    terminal_record_path terminal_record_sha256 implementation_attempt_consumed
+    route_recovery_allowed fifth_route_allowed successor_replacement_correction_allowed
+    founder_escalation_required project_level_disposition_required
+  ]
+  stop!("post-revision final route terminal schema drift") unless
+    post_revision_terminal.is_a?(Hash) && post_revision_terminal.keys.sort == expected_post_revision_terminal_keys.sort
+  stop!("post-revision final route terminal identity drift") unless
+    post_revision_route &&
+    post_revision_terminal["record_type"] == "p1_post_revision_final_route_terminal_binding" &&
+    post_revision_terminal["status"] == "P1_TERMINAL_STOPPED" &&
+    post_revision_terminal["task_id"] == post_revision_route["task_id"] &&
+    post_revision_terminal["route_id"] == post_revision_route_id &&
+    post_revision_terminal["mandatory_exit_capabilities"] == post_revision_capabilities &&
+    %w[FINAL_CONTRACT_REVIEW_NON_PASS REAL_ARCHITECTURE_IMPLEMENTATION_FAILURE].include?(post_revision_terminal["failure_stage"])
+  expected_attempt_consumed = post_revision_terminal["failure_stage"] == "REAL_ARCHITECTURE_IMPLEMENTATION_FAILURE"
+  stop!("post-revision final route terminal safety invariant drift") unless
+    post_revision_terminal["implementation_attempt_consumed"] == expected_attempt_consumed &&
+    post_revision_terminal["route_recovery_allowed"] == false &&
+    post_revision_terminal["fifth_route_allowed"] == false &&
+    post_revision_terminal["successor_replacement_correction_allowed"] == false &&
+    post_revision_terminal["founder_escalation_required"] == true &&
+    post_revision_terminal["project_level_disposition_required"] == true
+  stop!("post-revision final route terminal capability projection is not atomic") unless
+    post_revision_capabilities.map { |capability| capability_status[capability] } ==
+      ["ARCHITECTURE_BLOCKED", "ARCHITECTURE_BLOCKED"]
+  terminal_record = bound_json!(
+    post_revision_terminal["terminal_record_path"],
+    post_revision_terminal["terminal_record_sha256"],
+    recovery_evidence_base,
+    "post-revision final route terminal record"
+  )
+  stop!("post-revision final route terminal record content drift") unless terminal_record == {
+    "record_type" => "sourcelens_aios_p1_post_revision_final_route_terminal_record",
+    "schema_version" => "1.0",
+    "status" => "P1_TERMINAL_STOPPED",
+    "task_id" => post_revision_route["task_id"],
+    "route_id" => post_revision_route_id,
+    "mandatory_exit_capabilities" => post_revision_capabilities,
+    "failure_stage" => post_revision_terminal["failure_stage"],
+    "implementation_attempt_consumed" => expected_attempt_consumed,
+    "route_recovery_allowed" => false,
+    "fifth_route_allowed" => false,
+    "successor_replacement_correction_allowed" => false,
+    "founder_escalation_required" => true,
+    "project_level_disposition_required" => true,
+    "terminal_action" => "STOP_P1_NO_FIFTH_ROUTE"
+  }
+end
+
+effective_final_route = post_revision_route || final_clean_room_route
+effective_final_attempt = post_revision_route ? post_revision_attempt : final_clean_room_attempt
+effective_final_route_id = post_revision_route ? post_revision_route_id : final_clean_room_route_id
+effective_final_capabilities = post_revision_route ? post_revision_capabilities : final_clean_room_capabilities
+effective_final_pending_state = post_revision_route ? "FOUNDER_REVISED_PENDING_IMPLEMENTATION" : "FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION"
 
 if integrated_route
   current_route_states = integrated_route_capabilities.map { |capability| capability_status[capability] }
@@ -740,6 +1128,7 @@ if integrated_route
     ["CONTRACT_REVIEW_BLOCKED", "MISSING"],
     ["RELOCATED_PENDING_INTEGRATED_TASK", "MISSING"],
     ["FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION", "FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION"],
+    ["FOUNDER_REVISED_PENDING_IMPLEMENTATION", "FOUNDER_REVISED_PENDING_IMPLEMENTATION"],
     ["IN_PROGRESS", "IN_PROGRESS"],
     ["ACCEPTED", "ACCEPTED"],
     ["ARCHITECTURE_BLOCKED", "ARCHITECTURE_BLOCKED"],
@@ -761,10 +1150,10 @@ history_entries_for_recovery.each do |entry|
   stop!("post-recovery Task history lacks mandatory capability identity") unless expected_exit_capabilities.include?(entry["mandatory_exit_capability"]) && entry["clean_room_attempt_ordinal"] == 1
   if entry.key?("founder_final_clean_room_route_id")
     stop!("Task history uses an unauthorized final clean-room route") unless
-      final_clean_room_route && entry["task_id"] == final_clean_room_route["task_id"] &&
-      entry["mandatory_exit_capability"] == final_clean_room_capabilities.last &&
-      entry["integrated_mandatory_exit_capabilities"] == final_clean_room_capabilities &&
-      entry["founder_final_clean_room_route_id"] == final_clean_room_route_id
+      effective_final_route && entry["task_id"] == effective_final_route["task_id"] &&
+      entry["mandatory_exit_capability"] == effective_final_capabilities.last &&
+      entry["integrated_mandatory_exit_capabilities"] == effective_final_capabilities &&
+      entry["founder_final_clean_room_route_id"] == effective_final_route_id
   elsif entry.key?("integrated_mandatory_exit_capabilities") || entry.key?("founder_architecture_route_id")
     stop!("Task history uses an unauthorized integrated capability route") unless integrated_route && entry["task_id"] == integrated_route["task_id"] && entry["mandatory_exit_capability"] == integrated_route["primary_capability"] && entry["integrated_mandatory_exit_capabilities"] == integrated_route_capabilities && entry["founder_architecture_route_id"] == integrated_route_id
   end
@@ -786,9 +1175,14 @@ capability_status.each do |capability, state|
       final_clean_room_capabilities.include?(capability) && attempts.empty? &&
       ledger.is_a?(Hash) && ledger["status"] == "CONTRACT_REVIEW_BLOCKED" &&
       final_clean_room_attempt.nil?
+  when "FOUNDER_REVISED_PENDING_IMPLEMENTATION"
+    stop!("Founder-revised Exit capability is not bound to the post-revision final route") unless
+      post_revision_capabilities.include?(capability) && attempts.empty? &&
+      ledger.is_a?(Hash) && ledger["status"] == "CONTRACT_REVIEW_BLOCKED" &&
+      post_revision_attempt.nil?
   when "IN_PROGRESS"
-    execution_ledger = if final_clean_room_capabilities.include?(capability) && final_clean_room_attempt.is_a?(Hash)
-      final_clean_room_attempt
+    execution_ledger = if effective_final_capabilities.include?(capability) && effective_final_attempt.is_a?(Hash)
+      effective_final_attempt
     elsif integrated_member
       integrated_primary_ledger
     else
@@ -799,16 +1193,16 @@ capability_status.each do |capability, state|
     entry = attempts.first
     entry_capabilities = entry ? record_capabilities(entry) : []
     integrated_acceptance = integrated_member && entry && entry_capabilities == integrated_route_capabilities && entry["task_id"] == integrated_route["task_id"]
-    final_clean_room_acceptance = final_clean_room_capabilities.include?(capability) && entry && entry_capabilities == final_clean_room_capabilities && entry["task_id"] == final_clean_room_route["task_id"] && entry["founder_final_clean_room_route_id"] == final_clean_room_route_id
+    final_clean_room_acceptance = effective_final_capabilities.include?(capability) && entry && entry_capabilities == effective_final_capabilities && entry["task_id"] == effective_final_route["task_id"] && entry["founder_final_clean_room_route_id"] == effective_final_route_id
     execution_ledger = if final_clean_room_acceptance
-      final_clean_room_attempt
+      effective_final_attempt
     elsif integrated_acceptance
       integrated_primary_ledger
     else
       ledger
     end
     accepted_claim_boundary = if final_clean_room_acceptance
-      final_clean_room_route["claim_boundary"]
+      effective_final_route["claim_boundary"]
     elsif integrated_acceptance
       integrated_route["claim_boundary"]
     else
@@ -877,10 +1271,22 @@ capability_status.each do |capability, state|
   when "ARCHITECTURE_BLOCKED"
     entry = attempts.first
     entry_capabilities = entry ? record_capabilities(entry) : []
+    if post_revision_capabilities.include?(capability)
+      stop!("post-revision final route stopped without its terminal binding") unless post_revision_terminal
+    end
+    post_revision_contract_terminal =
+      post_revision_terminal && post_revision_capabilities.include?(capability) &&
+      post_revision_terminal["failure_stage"] == "FINAL_CONTRACT_REVIEW_NON_PASS"
+    if post_revision_contract_terminal
+      stop!("post-revision final Contract terminal unexpectedly consumed implementation") unless
+        attempts.empty? && post_revision_attempt.nil? &&
+        post_revision_terminal["implementation_attempt_consumed"] == false
+      next
+    end
     integrated_terminal = integrated_member && entry && entry_capabilities == integrated_route_capabilities && entry["task_id"] == integrated_route["task_id"]
-    final_clean_room_terminal = final_clean_room_capabilities.include?(capability) && entry && entry_capabilities == final_clean_room_capabilities && entry["task_id"] == final_clean_room_route["task_id"] && entry["founder_final_clean_room_route_id"] == final_clean_room_route_id
+    final_clean_room_terminal = effective_final_capabilities.include?(capability) && entry && entry_capabilities == effective_final_capabilities && entry["task_id"] == effective_final_route["task_id"] && entry["founder_final_clean_room_route_id"] == effective_final_route_id
     execution_ledger = if final_clean_room_terminal
-      final_clean_room_attempt
+      effective_final_attempt
     elsif integrated_terminal
       integrated_primary_ledger
     else
@@ -900,14 +1306,24 @@ capability_status.each do |capability, state|
       "bounded_contract_corrections_used" => execution_ledger["bounded_contract_corrections_used"],
       "failure_classification" => "REAL_ARCHITECTURE_ROOT"
     }.merge(capability_binding_fields(entry_capabilities))
+    if post_revision_terminal && post_revision_capabilities.include?(capability)
+      stop!("post-revision architecture terminal stage drift") unless
+        post_revision_terminal["failure_stage"] == "REAL_ARCHITECTURE_IMPLEMENTATION_FAILURE" &&
+        post_revision_terminal["implementation_attempt_consumed"] == true
+    end
   when "CONTRACT_REVIEW_BLOCKED"
     stop!("contract-review-blocked Exit capability cannot have an execution history entry") unless attempts.empty?
     integrated_contract_failure = integrated_member && integrated_primary_ledger.is_a?(Hash) && integrated_primary_ledger["task_id"] == integrated_route["task_id"]
     execution_ledger = integrated_contract_failure ? integrated_primary_ledger : ledger
     stop!("contract-review-blocked Exit capability ledger invalid") unless execution_ledger.is_a?(Hash) && execution_ledger["status"] == "CONTRACT_REVIEW_BLOCKED" && execution_ledger["attempt_ordinal"] == 1 && execution_ledger["founder_escalation_required"] == true
-    failure = bound_json!(execution_ledger["failure_record_path"], execution_ledger["failure_record_sha256"], recovery_evidence_base, "contract review failure record")
-    expected_failure_binding = integrated_contract_failure ? { "mandatory_exit_capabilities" => integrated_route_capabilities } : { "mandatory_exit_capability" => capability }
-    stop!("contract review failure record content drift") unless failure["record_type"] == "aios_p1_mandatory_capability_contract_review_failure" && failure["status"] == "CONTRACT_REVIEW_BLOCKED" && failure["task_id"] == execution_ledger["task_id"] && expected_failure_binding.all? { |key, value| failure[key] == value } && failure["attempt_ordinal"] == 1 && failure["founder_escalation_required"] == true && failure["final_review_result"] != "PASS"
+    historical_boundary_entry!(
+      historical_metadata_boundary,
+      execution_ledger["failure_record_path"],
+      execution_ledger["failure_record_sha256"],
+      "JSON",
+      "CONTRACT_REVIEW_FAILURE",
+      "contract review failure record"
+    )
   when "FOUNDER_DISPOSED"
     disposition = founder_dispositions[capability]
     stop!("Founder-disposed Exit capability lacks an approved decision binding") unless disposition.is_a?(Hash) && disposition["status"] == "APPROVED"
@@ -935,11 +1351,58 @@ if (transition = previous_truth_transition(truth_bytes))
   previous_recovery = previous_truth["mandatory_exit_capability_recovery"]
   current_recovery = transition_truth["mandatory_exit_capability_recovery"]
   if previous_recovery.is_a?(Hash) && current_recovery.is_a?(Hash)
+    stop!("current Truth top-level schema changed") unless previous_truth.keys == transition_truth.keys
+    %w[
+      schema_version record_type authority phase_delegation phase_boundary p0_baseline
+      superseded_pre_delegation_authorizations gate_history historical_lineages
+    ].each do |field|
+      stop!("current Truth immutable control surface changed: #{field}") unless transition_truth[field] == previous_truth[field]
+    end
+    previous_phase_execution_claim = Marshal.load(Marshal.dump(previous_truth.fetch("phase_execution_claim")))
+    current_phase_execution_claim = Marshal.load(Marshal.dump(transition_truth.fetch("phase_execution_claim")))
+    previous_phase_execution_claim.delete("current_task_claim")
+    current_phase_execution_claim.delete("current_task_claim")
+    stop!("current Truth immutable control surface changed: phase_execution_claim") unless
+      current_phase_execution_claim == previous_phase_execution_claim
+    previous_project = Marshal.load(Marshal.dump(previous_truth.fetch("project")))
+    current_project = Marshal.load(Marshal.dump(transition_truth.fetch("project")))
+    %w[phase_execution_status p1_execution_status canonical_repository task_worktree_root].each do |field|
+      previous_project.delete(field)
+      current_project.delete(field)
+    end
+    stop!("current Truth project identity or Phase envelope changed") unless current_project == previous_project
+    previous_goal = Marshal.load(Marshal.dump(previous_truth.fetch("goal")))
+    current_goal = Marshal.load(Marshal.dump(transition_truth.fetch("goal")))
+    %w[current_task_authority control_plane_status_observed].each do |field|
+      previous_goal.delete(field)
+      current_goal.delete(field)
+    end
+    stop!("current Truth Goal identity changed") unless current_goal == previous_goal
+    previous_claims = previous_truth.fetch("claim_boundary")
+    current_claims = transition_truth.fetch("claim_boundary")
+    previous_claims.each do |key, value|
+      stop!("current Truth claim was removed or rewritten: #{key}") unless current_claims[key] == value
+    end
     previous_history = previous_truth.fetch("task_history")
     current_history = transition_truth.fetch("task_history")
     previous_history.each do |key, value|
       stop!("Task history is not append-only across current Truth transition: #{key}") unless current_history[key] == value
     end
+
+    previous_recovery_invariants = Marshal.load(Marshal.dump(previous_recovery))
+    current_recovery_invariants = Marshal.load(Marshal.dump(current_recovery))
+    %w[
+      historical_governance_metadata_read_boundary capability_status capability_attempt_ledger
+      integrated_capability_routes final_clean_room_implementation_route
+      final_clean_room_implementation_attempt final_clean_room_contract_review_terminal
+      post_revision_final_implementation_route post_revision_final_implementation_attempt
+      post_revision_final_route_terminal founder_dispositions
+    ].each do |field|
+      previous_recovery_invariants.delete(field)
+      current_recovery_invariants.delete(field)
+    end
+    stop!("mandatory Exit capability recovery invariant surface changed") unless
+      current_recovery_invariants == previous_recovery_invariants
 
     previous_integrated_routes = previous_recovery["integrated_capability_routes"] || {}
     current_integrated_routes = current_recovery["integrated_capability_routes"] || {}
@@ -960,12 +1423,36 @@ if (transition = previous_truth_transition(truth_bytes))
         current_final_route["authority"] == "HUMAN_FOUNDER" && current_final_route["reusable"] == false
     end
 
+    previous_boundary = previous_recovery["historical_governance_metadata_read_boundary"]
+    current_boundary = current_recovery["historical_governance_metadata_read_boundary"]
+    if previous_boundary
+      stop!("historical governance metadata boundary was removed or rebound") unless current_boundary == previous_boundary
+    elsif current_boundary
+      stop!("historical governance metadata boundary initialization is not Founder-bound") unless
+        current_boundary["authority"] == "HUMAN_FOUNDER" &&
+        current_boundary["status"] == "FOUNDER_APPROVED_ACTIVE" &&
+        current_boundary["decision_record_sha256"] == boundary_decision_sha
+    end
+
+    previous_post_revision_route = previous_recovery["post_revision_final_implementation_route"]
+    current_post_revision_route = current_recovery["post_revision_final_implementation_route"]
+    if previous_post_revision_route
+      stop!("post-revision final route was removed, replaced or rebound") unless current_post_revision_route == previous_post_revision_route
+    elsif current_post_revision_route
+      stop!("post-revision final route initialization is not exact Founder-bound") unless
+        current_post_revision_route["authority"] == "HUMAN_FOUNDER" &&
+        current_post_revision_route["status"] == "FOUNDER_APPROVED_ONE_TIME" &&
+        current_post_revision_route["decision_record_sha256"] == boundary_decision_sha &&
+        current_post_revision_route["reusable"] == false
+    end
+
     allowed_status_transitions = {
       "MISSING" => %w[MISSING IN_PROGRESS CONTRACT_REVIEW_BLOCKED FOUNDER_DISPOSED],
       "RELOCATED_PENDING_INTEGRATED_TASK" => %w[RELOCATED_PENDING_INTEGRATED_TASK IN_PROGRESS CONTRACT_REVIEW_BLOCKED],
       "FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION" => %w[FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION IN_PROGRESS CONTRACT_REVIEW_BLOCKED],
+      "FOUNDER_REVISED_PENDING_IMPLEMENTATION" => %w[FOUNDER_REVISED_PENDING_IMPLEMENTATION IN_PROGRESS ARCHITECTURE_BLOCKED],
       "IN_PROGRESS" => %w[IN_PROGRESS ACCEPTED ARCHITECTURE_BLOCKED],
-      "CONTRACT_REVIEW_BLOCKED" => %w[CONTRACT_REVIEW_BLOCKED RELOCATED_PENDING_INTEGRATED_TASK FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION FOUNDER_DISPOSED],
+      "CONTRACT_REVIEW_BLOCKED" => %w[CONTRACT_REVIEW_BLOCKED RELOCATED_PENDING_INTEGRATED_TASK FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION FOUNDER_REVISED_PENDING_IMPLEMENTATION FOUNDER_DISPOSED],
       "ARCHITECTURE_BLOCKED" => %w[ARCHITECTURE_BLOCKED FOUNDER_DISPOSED],
       "ACCEPTED" => %w[ACCEPTED],
       "FOUNDER_DISPOSED" => %w[FOUNDER_DISPOSED]
@@ -974,6 +1461,11 @@ if (transition = previous_truth_transition(truth_bytes))
       previous_state = previous_recovery.dig("capability_status", capability)
       current_state = current_recovery.dig("capability_status", capability)
       stop!("mandatory Exit capability status transition invalid: #{capability}") unless allowed_status_transitions.fetch(previous_state).include?(current_state)
+      if previous_state == "CONTRACT_REVIEW_BLOCKED" && current_state == "FOUNDER_REVISED_PENDING_IMPLEMENTATION"
+        stop!("Founder revision transition may occur only while initializing the one post-revision route") unless
+          previous_post_revision_route.nil? && current_post_revision_route &&
+          current_post_revision_route["route_id"] == "P1_039_POST_REVISION_FINAL_IMPLEMENTATION_ROUTE"
+      end
       previous_attempt = previous_recovery.dig("capability_attempt_ledger", capability)
       current_attempt = current_recovery.dig("capability_attempt_ledger", capability)
       if previous_attempt
@@ -997,8 +1489,11 @@ if (transition = previous_truth_transition(truth_bytes))
         [["RELOCATED_PENDING_INTEGRATED_TASK", "MISSING"], ["IN_PROGRESS", "IN_PROGRESS"]],
         [["RELOCATED_PENDING_INTEGRATED_TASK", "MISSING"], ["CONTRACT_REVIEW_BLOCKED", "CONTRACT_REVIEW_BLOCKED"]],
         [["CONTRACT_REVIEW_BLOCKED", "CONTRACT_REVIEW_BLOCKED"], ["FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION", "FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION"]],
+        [["CONTRACT_REVIEW_BLOCKED", "CONTRACT_REVIEW_BLOCKED"], ["FOUNDER_REVISED_PENDING_IMPLEMENTATION", "FOUNDER_REVISED_PENDING_IMPLEMENTATION"]],
         [["FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION", "FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION"], ["IN_PROGRESS", "IN_PROGRESS"]],
         [["FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION", "FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION"], ["CONTRACT_REVIEW_BLOCKED", "CONTRACT_REVIEW_BLOCKED"]],
+        [["FOUNDER_REVISED_PENDING_IMPLEMENTATION", "FOUNDER_REVISED_PENDING_IMPLEMENTATION"], ["IN_PROGRESS", "IN_PROGRESS"]],
+        [["FOUNDER_REVISED_PENDING_IMPLEMENTATION", "FOUNDER_REVISED_PENDING_IMPLEMENTATION"], ["ARCHITECTURE_BLOCKED", "ARCHITECTURE_BLOCKED"]],
         [["IN_PROGRESS", "IN_PROGRESS"], ["ACCEPTED", "ACCEPTED"]],
         [["IN_PROGRESS", "IN_PROGRESS"], ["ARCHITECTURE_BLOCKED", "ARCHITECTURE_BLOCKED"]]
       ]
@@ -1019,6 +1514,37 @@ if (transition = previous_truth_transition(truth_bytes))
       %w[task_id attempt_ordinal contract_sha256 founder_final_clean_room_route_id].each do |field|
         stop!("final clean-room implementation attempt identity changed: #{field}") unless current_final_attempt[field] == previous_final_attempt[field]
       end
+    end
+
+
+    previous_post_revision_attempt = previous_recovery["post_revision_final_implementation_attempt"]
+    current_post_revision_attempt = current_recovery["post_revision_final_implementation_attempt"]
+    if previous_post_revision_attempt
+      stop!("post-revision final implementation attempt was erased") unless current_post_revision_attempt.is_a?(Hash)
+      %w[task_id attempt_ordinal contract_sha256 founder_final_clean_room_route_id].each do |field|
+        stop!("post-revision final implementation attempt identity changed: #{field}") unless current_post_revision_attempt[field] == previous_post_revision_attempt[field]
+      end
+    end
+
+    previous_post_revision_terminal = previous_recovery["post_revision_final_route_terminal"]
+    current_post_revision_terminal = current_recovery["post_revision_final_route_terminal"]
+    if previous_post_revision_terminal
+      stop!("post-revision final route terminal binding changed or was removed") unless
+        current_post_revision_terminal == previous_post_revision_terminal
+    elsif current_post_revision_terminal
+      stop!("post-revision final route terminal was added without the frozen route") unless
+        previous_post_revision_route && current_post_revision_route == previous_post_revision_route
+      terminal_capabilities = Array(current_post_revision_terminal["mandatory_exit_capabilities"])
+      previous_terminal_states = terminal_capabilities.map { |capability| previous_recovery.dig("capability_status", capability) }
+      current_terminal_states = terminal_capabilities.map { |capability| current_recovery.dig("capability_status", capability) }
+      expected_pre_state = if current_post_revision_terminal["failure_stage"] == "FINAL_CONTRACT_REVIEW_NON_PASS"
+        ["FOUNDER_REVISED_PENDING_IMPLEMENTATION", "FOUNDER_REVISED_PENDING_IMPLEMENTATION"]
+      else
+        ["IN_PROGRESS", "IN_PROGRESS"]
+      end
+      stop!("post-revision final route terminal pre-state invalid") unless previous_terminal_states == expected_pre_state
+      stop!("post-revision final route terminal projection is not atomic") unless
+        current_terminal_states == ["ARCHITECTURE_BLOCKED", "ARCHITECTURE_BLOCKED"]
     end
 
     previous_final_terminal = previous_recovery["final_clean_room_contract_review_terminal"]
@@ -1067,6 +1593,7 @@ stop!("worktree root invalid") unless File.directory?(worktree_root) && !File.sy
 stop!("Evidence root base invalid") unless File.directory?(evidence_base) && !File.symlink?(evidence_base)
 
 active = truth.fetch("active_work")
+stop!("active work schema drift") unless active.is_a?(Hash) && active.keys.sort == ACTIVE_WORK_KEYS.sort
 current_task = active["current_task"]
 current_status = active["current_task_status"]
 goal_task = truth.dig("goal", "current_task_authority")
@@ -1108,6 +1635,11 @@ if current_task == "NONE"
   stop!("NONE state resource status drift") unless active["task_resource_state"] == "NONE"
   if founder_blocked_capabilities.empty?
     stop!("NONE state cannot require a Founder decision") unless founder_required == false && escalation_reason.nil?
+  elsif post_revision_terminal
+    stop!("post-revision final route terminal must escalate project-level Founder disposition") unless
+      founder_required == true &&
+      escalation_reason == "p1_post_revision_final_route_terminal_stop" &&
+      user_action == "FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED"
   else
     stop!("blocked mandatory capability must escalate Founder") unless founder_required == true && escalation_reason == "mandatory_exit_capability_blocked" && user_action == "FOUNDER_DECISION_REQUIRED"
   end
@@ -1123,6 +1655,9 @@ if current_task == "NONE"
     if founder_blocked_capabilities.empty?
       stop!("active Goal cannot require routine user action") unless user_action.nil?
       stop!("active Goal must advertise autonomous Master continuation") unless next_action.include?("MASTER_AUTONOMOUS")
+    elsif post_revision_terminal
+      stop!("post-revision final route terminal must stop P1 and wait for project disposition") unless
+        next_action == "STOP_P1_AND_WAIT_FOR_PROJECT_LEVEL_DISPOSITION"
     else
       stop!("blocked mandatory capability must wait for Founder disposition") unless next_action == "WAIT_FOR_FOUNDER_MANDATORY_EXIT_CAPABILITY_DECISION"
     end
@@ -1132,6 +1667,8 @@ if current_task == "NONE"
   puts "Current Task authority validation passed: NONE under Phase-level delegation."
   exit 0
 end
+
+stop!("post-revision terminal route cannot activate another Task") if post_revision_terminal
 
 expected_task_pattern = /\AAIOS-#{Regexp.escape(phase)}-\d{3}(?:[_-][A-Z0-9_-]+)?\z/
 stop!("active Task id/Phase format invalid") unless nonempty_string?(current_task) && current_task.match?(expected_task_pattern)
@@ -1160,6 +1697,9 @@ stop!("active Task contract path missing") unless nonempty_string?(contract_rel)
 contract_pathname = Pathname.new(contract_rel)
 stop!("active Task contract path must be repository-relative") if contract_pathname.absolute?
 stop!("active Task contract path escapes task directory") unless contract_rel.start_with?("docs/aios/tasks/") && contract_pathname.cleanpath.to_s == contract_rel
+historical_failed_contract_paths = historical_metadata_boundary ? historical_metadata_boundary["forbidden_repository_read_paths"] : []
+stop!("active Task contract overlaps a historical failed Contract denylist path") if
+  historical_failed_contract_paths.any? { |failed_path| path_overlap?(contract_rel, failed_path) }
 contract_abs = File.join(REPO_ROOT, contract_rel)
 stop!("active Task contract missing or unsafe") unless safe_under_root?(contract_abs, REPO_ROOT, must_exist: true)
 stop!("active Task contract hash drift") unless nonempty_string?(contract_sha) && sha256(contract_abs) == contract_sha
@@ -1184,10 +1724,10 @@ if contract_final_route_id
   stop!("active Task mixes historical and final clean-room route identities") unless contract_route_id.nil?
   stop!("active Task uses an incomplete final clean-room capability binding") unless contract_integrated_capabilities.is_a?(Array) && nonempty_string?(contract_final_route_id)
   stop!("active Task is not the exact Founder-approved final clean-room route") unless
-    final_clean_room_route && contract_final_route_id == final_clean_room_route_id &&
-    current_task == final_clean_room_route["task_id"] &&
-    mandatory_exit_capability == final_clean_room_capabilities.last &&
-    contract_integrated_capabilities == final_clean_room_capabilities
+    effective_final_route && contract_final_route_id == effective_final_route_id &&
+    current_task == effective_final_route["task_id"] &&
+    mandatory_exit_capability == effective_final_capabilities.last &&
+    contract_integrated_capabilities == effective_final_capabilities
   task_exit_capabilities = contract_integrated_capabilities
 elsif contract_integrated_capabilities || contract_route_id
   stop!("active Task uses an incomplete integrated capability binding") unless contract_integrated_capabilities.is_a?(Array) && nonempty_string?(contract_route_id)
@@ -1222,15 +1762,20 @@ else
   stop!("corrected Contract original path must be its canonical tracked path") unless clean_room["original_contract_path"] == contract_rel
   stop!("corrected Contract original hash invalid") unless clean_room["original_contract_sha256"].is_a?(String) && clean_room["original_contract_sha256"].match?(/\A[0-9a-f]{64}\z/)
 end
-active_attempt = contract_final_route_id ? final_clean_room_attempt : attempt_ledger[mandatory_exit_capability]
+active_attempt = contract_final_route_id ? effective_final_attempt : attempt_ledger[mandatory_exit_capability]
 prior_clean_room_attempts = history_entries.select { |entry| entry["mandatory_exit_capability"] == mandatory_exit_capability }
 stop!("mandatory Exit capability clean-room attempt already consumed") unless prior_clean_room_attempts.empty?
 stop!("active Task read context must be canonical repository-relative paths") unless contract["read_context"].all? do |path|
-  nonempty_string?(path) && !Pathname.new(path).absolute? && Pathname.new(path).cleanpath.to_s == path &&
+  nonempty_string?(path) && path != "." && !Pathname.new(path).absolute? && Pathname.new(path).cleanpath.to_s == path &&
     safe_under_root?(File.join(REPO_ROOT, path), REPO_ROOT, must_exist: true)
 end
 terminal_contract_paths = history_entries.select { |entry| terminal_history_ids.include?(entry["task_id"]) }.map { |entry| entry["contract"] }.compact
-stop!("active Task read context references terminal or unaccepted Task assets") unless (contract["read_context"] & terminal_contract_paths).empty?
+stop!("active Task read context references or encloses terminal or unaccepted Task assets") unless contract["read_context"].none? do |read_path|
+  terminal_contract_paths.any? { |terminal_path| path_overlap?(read_path, terminal_path) }
+end
+stop!("active Task read context references or encloses historical failed Contract bytes") unless contract["read_context"].none? do |read_path|
+  historical_failed_contract_paths.any? { |failed_path| path_overlap?(read_path, failed_path) }
+end
 task_kind = contract["task_kind"]
 stop!("active Task kind outside Phase envelope") unless allowed_task_kinds.include?(task_kind)
 capabilities = contract["capabilities"]
@@ -1275,6 +1820,9 @@ stop!("active Task mixes absolute paths into repository roles") unless repo_pair
 stop!("active Task external Evidence path must be absolute") unless external_scope.all? { |item| Pathname.new(item).absolute? }
 repo_bases = repo_pairs.map { |_role, item| scope_base(item) }
 stop!("active Task repository scope is not canonical") if repo_bases.any?(&:nil?)
+stop!("active Task write scope overlaps historical failed Contract custody") if repo_bases.any? do |base|
+  historical_failed_contract_paths.any? { |path| path_overlap?(base, path) }
+end
 stop!("active Task repository scope escapes root or crosses symlink") unless repo_bases.all? do |base|
   safe_under_root?(File.join(REPO_ROOT, base), REPO_ROOT)
 end
@@ -1426,7 +1974,7 @@ expected_active_capability_status = Marshal.load(Marshal.dump(parent_capability_
 if contract_final_route_id
   stop!("active final clean-room Task parent capability states are not eligible") unless
     expected_active_capability_status.is_a?(Hash) &&
-    contract_integrated_capabilities.all? { |capability| expected_active_capability_status[capability] == "FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION" }
+    contract_integrated_capabilities.all? { |capability| expected_active_capability_status[capability] == effective_final_pending_state }
   contract_integrated_capabilities.each { |capability| expected_active_capability_status[capability] = "IN_PROGRESS" }
 elsif contract_integrated_capabilities
   stop!("active integrated Task parent capability states are not eligible") unless expected_active_capability_status.is_a?(Hash) && expected_active_capability_status[contract_integrated_capabilities.first] == "RELOCATED_PENDING_INTEGRATED_TASK" && expected_active_capability_status[mandatory_exit_capability] == "MISSING"
@@ -1439,8 +1987,9 @@ stop!("active Task activation changed mandatory Exit capability status incorrect
 parent_attempt_ledger = parent_truth.dig("mandatory_exit_capability_recovery", "capability_attempt_ledger")
 if contract_final_route_id
   stop!("active final clean-room Task changed historical contract-attempt ledger") unless attempt_ledger == parent_attempt_ledger
-  stop!("active final clean-room Task parent implementation attempt was already consumed") unless parent_truth.dig("mandatory_exit_capability_recovery", "final_clean_room_implementation_attempt").nil?
-  stop!("active final clean-room Task implementation attempt binding drift") unless final_clean_room_attempt == active_attempt
+  parent_attempt_key = post_revision_route ? "post_revision_final_implementation_attempt" : "final_clean_room_implementation_attempt"
+  stop!("active final clean-room Task parent implementation attempt was already consumed") unless parent_truth.dig("mandatory_exit_capability_recovery", parent_attempt_key).nil?
+  stop!("active final clean-room Task implementation attempt binding drift") unless effective_final_attempt == active_attempt
 else
   stop!("active Task parent attempt ledger was already consumed") unless parent_attempt_ledger.is_a?(Hash) && parent_attempt_ledger[mandatory_exit_capability].nil?
   expected_active_attempt_ledger = Marshal.load(Marshal.dump(parent_attempt_ledger))

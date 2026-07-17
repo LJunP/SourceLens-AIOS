@@ -34,9 +34,9 @@ clean_room_recovery:
   historical_execution_lineage_reused: false
   attempt_ordinal: 1
   bounded_contract_corrections_allowed: 1
-  bounded_contract_corrections_used: 0
-  original_contract_path:
-  original_contract_sha256:
+  bounded_contract_corrections_used: 1
+  original_contract_path: docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
+  original_contract_sha256: 7b89d05410619f0b3f0f5dadcf8ce2020a61b0b029740c522370f8e77e390b47
 
 task_kind: EVALUATION_FOUNDATION_ENGINEERING
 capabilities:
@@ -56,21 +56,24 @@ lineage:
 
 roles:
   accountable_owner: Engineering Manager Agent
-  worker: Dataset Curation Engineer
-  quality_asset_owner: Dataset Curation Engineer
+  worker: Dataset Validator Engineer
+  quality_asset_owner: Quality and Evaluation Agent
   independent_reviewers:
     - CTO Agent
     - Security Agent
     - Quality and Evaluation Agent
   separation_rule: >-
-    The Dataset Curation Engineer owns dataset bytes during implementation and
-    cannot perform final Quality review. CTO, Security and Quality reviewers
-    inspect only the frozen candidate and hash-bound Evidence.
+    Quality and Evaluation owns and freezes dataset, TaskSpec, source-template,
+    expected-failure oracle and reference-solution bytes before Worker start.
+    Dataset Validator Engineer can read but cannot modify those frozen bytes and
+    writes only validator/self-test paths. The Worker cannot perform final
+    Quality review; CTO, Security and Quality inspect the frozen candidate and
+    hash-bound Evidence.
 
 source_identity:
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
-  parent_commit: b96d3c51d6efcb3342534244b760d1862e53110f
-  parent_tree: 00c506f65a3dd61c873b50f2c6186856838d0a6c
+  parent_commit: 8cc6004d756b40444b6792b21bac1750f795d75c
+  parent_tree: ef257b80fa9d83b93d7f8832ff328cbb4637288a
   task_branch: task/AIOS-P1-035-versioned-representative-task-dataset
   task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-035-versioned-representative-task-dataset
   execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-035-versioned-representative-task-dataset
@@ -153,10 +156,10 @@ forbidden_actions:
   - creating retry, successor, replacement, correction chain or a new governance loop
 
 implementation_order:
-  - Freeze the six source templates, TaskSpecs, coverage declaration, materialization recipe and dataset manifest under the dataset root.
+  - Quality and Evaluation freezes the six source templates, TaskSpecs, expected-base-failure oracles, reference-solution patches, coverage declaration, materialization recipe and dataset manifest under the dataset root.
   - Record a Quality-asset freeze receipt before validator implementation begins.
-  - Implement the validator and self-test without changing frozen dataset bytes.
-  - Run deterministic double materialization, TaskSpec validation, base-failure checks, population checks and mutation rejection.
+  - Dataset Validator Engineer implements the validator and self-test without changing frozen dataset bytes.
+  - Run deterministic double materialization, TaskSpec validation, typed base-failure checks, solved-state witness checks, population checks and mutation rejection.
   - Freeze one candidate, then generate Evidence, independent reviews and a delegated Task Gate receipt.
 
 minimum_engineering_outputs:
@@ -165,6 +168,8 @@ minimum_engineering_outputs:
     - six versioned TaskSpec instances conforming to the accepted TaskSpec schema
     - six standalone synthetic repository templates
     - deterministic Git materialization recipe and expected commit/tree per task
+    - exact expected-base-failure identity per task
+    - one visible reference-solution patch per task as a solvability witness
     - explicit development/validation split and declared coverage axes
     - task-local provenance, redistribution and claim-boundary metadata
   validator:
@@ -174,8 +179,143 @@ minimum_engineering_outputs:
     - manifest SHA-256 and byte-length verification
     - deterministic double Git materialization with exact commit/tree equality
     - base revision clean-state verification
-    - required-command base-failure sanity check
-    - mutation tests for version, population, identity, split, provenance, path and hash drift
+    - required-command typed base-failure sanity check that rejects syntax, setup, missing-module, timeout and signal failures
+    - reference-solution patch apply plus issue-specific and regression command PASS
+    - the exact 12-case atomic mutation matrix frozen by this Contract
+
+expected_base_failure_matrix:
+  - task_id: SL-P1-REP-001-RANGE-NORMALIZATION
+    command_id: issue-test
+    expected_exit_status: 1
+    failure_class: TEST_ASSERTION_FAILURE
+    assertion_id: REP001_NEGATIVE_RANGE_ORDER
+  - task_id: SL-P1-REP-002-CONFIG-VALIDATION
+    command_id: issue-test
+    expected_exit_status: 1
+    failure_class: TEST_ASSERTION_FAILURE
+    assertion_id: REP002_REJECT_UNKNOWN_KEYS
+  - task_id: SL-P1-REP-003-SAFE-PATH-JOIN
+    command_id: issue-test
+    expected_exit_status: 1
+    failure_class: TEST_ASSERTION_FAILURE
+    assertion_id: REP003_REJECT_PARENT_ESCAPE
+  - task_id: SL-P1-REP-004-COMMAND-RESULT-MAPPING
+    command_id: issue-test
+    expected_exit_status: 1
+    failure_class: TEST_ASSERTION_FAILURE
+    assertion_id: REP004_PRESERVE_NONZERO_EXIT
+  - task_id: SL-P1-REP-005-PROFILE-DISPLAY-NAME
+    command_id: issue-test
+    expected_exit_status: 1
+    failure_class: TEST_ASSERTION_FAILURE
+    assertion_id: REP005_FORMAT_NAME_ACROSS_MODULES
+  - task_id: SL-P1-REP-006-DEDUPE-REFACTOR
+    command_id: issue-test
+    expected_exit_status: 1
+    failure_class: TEST_ASSERTION_FAILURE
+    assertion_id: REP006_DEDUPE_PRESERVES_ORDER
+
+global_base_failure_oracle:
+  required_output_tokens:
+    - "not ok"
+    - exact assertion_id
+  forbidden_output_tokens:
+    - SyntaxError
+    - ERR_MODULE_NOT_FOUND
+    - MODULE_NOT_FOUND
+    - ENOENT
+    - timeout
+    - signal
+  forbidden_exit_modes:
+    - timeout
+    - signal
+    - spawn_error
+
+atomic_mutation_matrix:
+  - case_id: M01_DATASET_VERSION_DRIFT
+    base: frozen_dataset
+    target: dataset-manifest.json#/dataset_version
+    single_mutation: replace 1.0.0 with 1.0.1 without changing artifact identities
+    expected_verdict: FAIL
+    expected_reason_code: DATASET_VERSION_MISMATCH
+    expected_exit_status: 2
+  - case_id: M02_TASK_POPULATION_MISSING
+    base: frozen_dataset
+    target: dataset-manifest.json#/tasks/5
+    single_mutation: remove exactly one declared task entry
+    expected_verdict: FAIL
+    expected_reason_code: TASK_POPULATION_MISMATCH
+    expected_exit_status: 2
+  - case_id: M03_UNDECLARED_ARTIFACT_EXTRA
+    base: frozen_dataset
+    target: dataset root
+    single_mutation: add exactly one undeclared regular file extra.txt
+    expected_verdict: FAIL
+    expected_reason_code: ARTIFACT_POPULATION_MISMATCH
+    expected_exit_status: 2
+  - case_id: M04_TASKSPEC_HASH_DRIFT
+    base: frozen_dataset
+    target: tasks/SL-P1-REP-001-RANGE-NORMALIZATION/task-spec.json
+    single_mutation: append exactly one LF byte
+    expected_verdict: FAIL
+    expected_reason_code: ARTIFACT_IDENTITY_MISMATCH
+    expected_exit_status: 2
+  - case_id: M05_SOURCE_HASH_DRIFT
+    base: frozen_dataset
+    target: tasks/SL-P1-REP-002-CONFIG-VALIDATION/source-template/src/config.mjs
+    single_mutation: append exactly one LF byte
+    expected_verdict: FAIL
+    expected_reason_code: ARTIFACT_IDENTITY_MISMATCH
+    expected_exit_status: 2
+  - case_id: M06_SPLIT_COUNT_DRIFT
+    base: frozen_dataset
+    target: dataset-manifest.json#/split_counts/development
+    single_mutation: replace integer 4 with integer 5
+    expected_verdict: FAIL
+    expected_reason_code: SPLIT_COUNT_MISMATCH
+    expected_exit_status: 2
+  - case_id: M07_DUPLICATE_TASK_ID
+    base: frozen_dataset
+    target: dataset-manifest.json#/tasks/5/task_id
+    single_mutation: replace the sixth task_id with the first task_id
+    expected_verdict: FAIL
+    expected_reason_code: TASK_ID_DUPLICATE
+    expected_exit_status: 2
+  - case_id: M08_ARCHETYPE_COVERAGE_MISSING
+    base: frozen_dataset
+    target: dataset-manifest.json#/tasks/5/archetype
+    single_mutation: replace behavior_preserving_refactor with bounded_logic_bug_fix
+    expected_verdict: FAIL
+    expected_reason_code: ARCHETYPE_COVERAGE_MISMATCH
+    expected_exit_status: 2
+  - case_id: M09_PROVENANCE_MISSING
+    base: frozen_dataset
+    target: tasks/SL-P1-REP-003-SAFE-PATH-JOIN/task-spec.json#/source/provenance
+    single_mutation: replace provenance with an empty string
+    expected_verdict: FAIL
+    expected_reason_code: PROVENANCE_INVALID
+    expected_exit_status: 2
+  - case_id: M10_PATH_ESCAPE
+    base: frozen_dataset
+    target: dataset-manifest.json#/tasks/0/task_spec_path
+    single_mutation: replace canonical path with ../outside.json
+    expected_verdict: FAIL
+    expected_reason_code: PATH_CONTAINMENT_VIOLATION
+    expected_exit_status: 2
+  - case_id: M11_SYMLINK_ARTIFACT
+    base: frozen_dataset
+    target: tasks/SL-P1-REP-004-COMMAND-RESULT-MAPPING/source-template/src/result.mjs
+    single_mutation: replace the regular file with a symlink to another in-root file
+    expected_verdict: FAIL
+    expected_reason_code: SYMLINK_FORBIDDEN
+    expected_exit_status: 2
+  - case_id: M12_EXPECTED_FAILURE_ORACLE_DRIFT
+    base: frozen_dataset
+    target: tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/expected-base-failure.json#/assertion_id
+    single_mutation: replace the assertion_id with REP005_UNDECLARED
+    expected_verdict: FAIL
+    expected_reason_code: BASE_FAILURE_ORACLE_MISMATCH
+    expected_exit_status: 2
 
 budget:
   engineering_hours: 16
@@ -194,6 +334,7 @@ metrics:
   deterministic_materializations: 12_OF_12
   exact_commit_tree_replays: 6_OF_6
   base_failure_sanity_checks: 6_OF_6
+  solved_state_witnesses: 6_OF_6
   declared_archetypes_covered: 6_OF_6
   split_counts_exact: 4_DEVELOPMENT_2_VALIDATION_0_HIDDEN
   mutation_vectors_rejected: 12_OF_12
@@ -203,10 +344,11 @@ acceptance_criteria:
   - The dataset has one immutable semantic version, one closed manifest, six unique task IDs and exact 4/2/0 development/validation/hidden split counts.
   - Every TaskSpec validates against the accepted task-spec.schema.json without changing that schema.
   - Every source template materializes twice into byte-identical logical source identity with the frozen exact Git commit and tree and a clean worktree.
-  - Every base repository executes its issue-specific required command and produces the predeclared failing exit status, proving the task is live rather than already solved.
+  - Every base repository executes its issue-specific required command and produces the exact TEST_ASSERTION_FAILURE, stable assertion ID, diagnostic constraints and exit status; syntax, setup, missing-module, timeout, signal and spawn failures are rejected.
+  - Each frozen reference-solution patch applies to a fresh base and makes all issue-specific and regression commands pass, proving a valid solved state exists without asserting that it is the only acceptable patch.
   - The six tasks cover all six frozen archetypes and the manifest makes no broader representativeness claim.
   - Dataset population, source files, TaskSpecs, recipes and coverage artifacts are hash-bound and symlink/path escape attempts fail closed.
-  - All 12 single-mutation negative vectors produce their exact typed failure and no mutation can be reported as PASS.
+  - The exact M01-M12 single-mutation vectors each produce their frozen reason code and exit status; no aggregate, OR oracle or implementation-selected vector is allowed.
   - Fresh-clone verification, deterministic replay, rollback verification, P1-001 regression and make verify are PASS.
   - CTO, Security and Quality final independent reviews of the frozen exact candidate are PASS.
   - The Task Gate Evidence uses the fixed P1-safe engineering-artifact-only claim boundary.
@@ -214,7 +356,8 @@ acceptance_criteria:
 failure_criteria:
   - Any TaskSpec cannot be validated or deterministically materialized from tracked dataset bytes.
   - Any source identity, task ID, split, provenance, manifest entry or coverage axis is ambiguous or mutable without a version change.
-  - A base task is already passing, cannot execute locally, needs a downloaded dependency or cannot be reproduced twice.
+  - A base task is already passing, fails for syntax/setup/module/timeout/signal reasons, lacks the exact assertion identity, needs a downloaded dependency or cannot be reproduced twice.
+  - A reference-solution patch fails to apply or fails any issue-specific or regression command.
   - The validator accepts a missing, extra, escaped, symlinked, hash-drifted or post-freeze dataset artifact.
   - Dataset construction depends on historical P1-002 through P1-034 implementation or hidden material.
   - Evidence, replay, rebuild, rollback or any final independent review is non-PASS.
@@ -235,7 +378,8 @@ evidence:
     - actual command ledger with argv, cwd, start/end and exit status
     - TaskSpec validation results
     - double materialization commit/tree comparison
-    - base-failure sanity-check results
+    - typed base-failure sanity-check results
+    - reference-solution patch apply and solved-state command results
     - 12-vector mutation result matrix
     - P1-001 regression and make verify results
     - candidate commit/tree and source diff

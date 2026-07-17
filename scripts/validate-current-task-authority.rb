@@ -297,6 +297,10 @@ def truth_without_activation_fields(value)
   copy.fetch("mandatory_exit_capability_recovery").delete("capability_attempt_ledger")
   copy.fetch("mandatory_exit_capability_recovery").delete("final_clean_room_implementation_attempt")
   copy.fetch("mandatory_exit_capability_recovery").delete("post_revision_final_implementation_attempt")
+  rebaseline = copy.fetch("mandatory_exit_capability_recovery")["project_level_rebaseline"]
+  if rebaseline.is_a?(Hash)
+    %w[p1_status current_task slice_attempts next_slice_ordinal next_slice_action].each { |field| rebaseline.delete(field) }
+  end
   copy
 end
 
@@ -338,6 +342,7 @@ policy_abs = File.join(REPO_ROOT, policy_rel)
 stop!("Founder delegation policy missing") unless safe_under_root?(policy_abs, REPO_ROOT, must_exist: true)
 stop!("Founder delegation policy hash drift") unless policy["sha256"] == sha256(policy_abs)
 stop!("Founder delegation policy inactive") unless policy["status"] == "FOUNDER_DIRECTIVE_ACTIVE"
+stop!("Founder delegation policy version drift") unless %w[1.1 1.2].include?(policy["version"])
 
 delegation = truth.fetch("phase_delegation")
 stop!("phase delegation is not active") unless delegation["status"] == "ACTIVE"
@@ -375,7 +380,8 @@ stop!("per-file approval re-enabled") unless anti_loop["per_file_or_command_appr
 stop!("ordinary repairs escaped the Task") unless anti_loop["ordinary_repairs_stay_in_same_task"] == true
 stop!("successor chain re-enabled") unless anti_loop["successor_replacement_correction_chain_allowed"] == false
 stop!("Task-specific hardcoding re-enabled") unless anti_loop["task_id_hardcoding_in_current_authority_validator_allowed"] == false
-stop!("bounded Contract repair limit drift") unless anti_loop["maximum_same_task_bounded_contract_repairs"] == 1
+expected_contract_repair_limit = policy["version"] == "1.2" ? 0 : 1
+stop!("post-freeze Contract correction policy drift") unless anti_loop["maximum_same_task_bounded_contract_repairs"] == expected_contract_repair_limit
 stop!("historical execution lineage reuse re-enabled") unless anti_loop["historical_execution_lineage_reuse_allowed"] == false
 stop!("historical stop permanently bans mandatory capability recovery") unless anti_loop["mandatory_exit_capability_permanent_ban_from_historical_stop"] == false
 stop!("peripheral work re-enabled before P1 Exit capabilities") unless anti_loop["peripheral_work_before_exit_capabilities_allowed"] == false
@@ -398,11 +404,11 @@ stop!("historical Task immutability weakened") unless mandatory_recovery["histor
 stop!("historical execution lineage reuse enabled") unless mandatory_recovery["historical_execution_lineage_reuse_allowed"] == false
 stop!("clean-room recovery disabled") unless mandatory_recovery["clean_room_implementation_allowed_for_required_capability"] == true
 stop!("clean-room attempt count drift") unless mandatory_recovery["clean_room_attempts_per_missing_capability"] == 1
-stop!("same-Task bounded correction count drift") unless mandatory_recovery["maximum_same_task_bounded_contract_repairs"] == 1
+stop!("rebaseline post-freeze Contract correction limit drift") unless mandatory_recovery["maximum_same_task_bounded_contract_repairs"] == expected_contract_repair_limit
 stop!("peripheral Task selection enabled") unless mandatory_recovery["peripheral_task_selection_allowed"] == false
 capability_status = mandatory_recovery["capability_status"]
 stop!("mandatory Exit capability status population drift") unless capability_status.is_a?(Hash) && capability_status.keys == expected_exit_capabilities
-allowed_capability_states = %w[MISSING RELOCATED_PENDING_INTEGRATED_TASK FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION FOUNDER_REVISED_PENDING_IMPLEMENTATION IN_PROGRESS ACCEPTED FOUNDER_DISPOSED ARCHITECTURE_BLOCKED CONTRACT_REVIEW_BLOCKED]
+allowed_capability_states = %w[MISSING RELOCATED_PENDING_INTEGRATED_TASK FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION FOUNDER_REVISED_PENDING_IMPLEMENTATION REBASELINED_PENDING_EXECUTION IN_PROGRESS ACCEPTED FOUNDER_DISPOSED ARCHITECTURE_BLOCKED CONTRACT_REVIEW_BLOCKED]
 stop!("mandatory Exit capability status invalid") unless capability_status.values.all? { |value| allowed_capability_states.include?(value) }
 attempt_ledger = mandatory_recovery["capability_attempt_ledger"]
 stop!("mandatory Exit capability attempt ledger population drift") unless attempt_ledger.is_a?(Hash) && attempt_ledger.keys == expected_exit_capabilities
@@ -411,6 +417,70 @@ stop!("mandatory Exit capability Founder disposition map invalid") unless founde
 history_entries_for_recovery = truth.fetch("task_history").values.select { |entry| entry.is_a?(Hash) }
 recovery_evidence_base = truth.dig("project", "execution_evidence_root_base")
 stop!("mandatory Exit capability Evidence base invalid") unless File.directory?(recovery_evidence_base) && !File.symlink?(recovery_evidence_base)
+
+rebaseline = mandatory_recovery["project_level_rebaseline"]
+stop!("Founder Delegation Policy v1.2 requires the P1 project-level rebaseline binding") if policy["version"] == "1.2" && !rebaseline.is_a?(Hash)
+if rebaseline
+expected_rebaseline_keys = %w[
+  record_type status authority approved_at_utc plan_path plan_sha256 plan_byte_length
+  decision_record_path decision_record_sha256 decision_record_byte_length
+  canonical_parent_commit canonical_parent_tree p1_status current_task task_limit
+  engineering_hours_limit calendar_days_limit final_contracts_per_task
+  post_freeze_contract_corrections successor_replacement_correction_chain_allowed
+  default_external_effects_authorized slices slice_attempts next_slice_ordinal next_slice_action
+]
+stop!("P1 project-level rebaseline schema drift") unless
+  rebaseline.is_a?(Hash) && rebaseline.keys.sort == expected_rebaseline_keys.sort
+stop!("P1 project-level rebaseline authority drift") unless
+  rebaseline["record_type"] == "p1_exit_gate_project_level_rebaseline" &&
+  rebaseline["status"] == "FOUNDER_APPROVED_ACTIVE" &&
+  rebaseline["authority"] == "HUMAN_FOUNDER" &&
+  valid_utc_timestamp?(rebaseline["approved_at_utc"])
+stop!("P1 project-level rebaseline parent drift") unless
+  rebaseline["canonical_parent_commit"] == "eca59026d57f6c67f268a44d41564fdb0a2ecc5f" &&
+  rebaseline["canonical_parent_tree"] == "29db5c1bd565e582a6a209f6a81c9efb0349f3e4" &&
+  git("rev-parse", "#{rebaseline['canonical_parent_commit']}^{tree}") == rebaseline["canonical_parent_tree"]
+{
+  "plan" => [rebaseline["plan_path"], rebaseline["plan_sha256"], rebaseline["plan_byte_length"], "ab0ba04abd4900758a3b4502fac21bdf6c392754666694a41c30c451e9058c29", 15_748],
+  "Founder decision" => [rebaseline["decision_record_path"], rebaseline["decision_record_sha256"], rebaseline["decision_record_byte_length"], "083dc4d5f071bb82b6da3681c62e5a4ce37bfa8cac52c3f4da0f0ac5fea2d1f2", 8_799]
+}.each do |label, (path, digest, byte_length, exact_digest, exact_length)|
+  stop!("P1 rebaseline #{label} identity drift") unless digest == exact_digest && byte_length == exact_length
+  stop!("P1 rebaseline #{label} missing or outside audit custody") unless
+    safe_under_root?(path, recovery_evidence_base, must_exist: true) && File.file?(path) && !File.symlink?(path)
+  bytes = File.binread(path)
+  stop!("P1 rebaseline #{label} byte drift") unless bytes.bytesize == byte_length && Digest::SHA256.hexdigest(bytes) == digest
+end
+stop!("P1 rebaseline budget or anti-loop boundary drift") unless
+  %w[REBASELINED_PENDING_EXECUTION REBASELINED_SLICE_ACTIVE P1_EXIT_EVIDENCE_COMPLETE_PENDING_FOUNDER_GATE].include?(rebaseline["p1_status"]) &&
+  rebaseline["task_limit"] == 4 &&
+  rebaseline["engineering_hours_limit"] == 76 &&
+  rebaseline["calendar_days_limit"] == 21 &&
+  rebaseline["final_contracts_per_task"] == 1 &&
+  rebaseline["post_freeze_contract_corrections"] == 0 &&
+  rebaseline["successor_replacement_correction_chain_allowed"] == false &&
+  rebaseline["default_external_effects_authorized"] == false
+expected_rebaseline_slices = [
+  [1, "PARAMETERIZED_EVALUATION_CORE", %w[PARAMETERIZED_EVALUATION_HARNESS VTSR_COUNTING_VALIDATOR OBSERVABLE_TRACE], 24, 5, 2, 1, nil, "COOPERATIVE_LOCAL_PARAMETERIZED_EVALUATION_CORE_CONFORMANCE_ONLY_NO_B0_B1_B2_BASELINE_AGENT_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM"],
+  [2, "B0_B1_B2_COMPATIBILITY_ADAPTERS", %w[B0_B1_B2_COMPATIBILITY_ADAPTERS], 24, 5, 2, 1, nil, "COOPERATIVE_LOCAL_B0_B1_B2_ADAPTER_CONFORMANCE_ONLY_NO_REAL_BASELINE_AGENT_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM"],
+  [3, "FRESH_SYNTHETIC_HOLDOUT_AND_EVALUATOR_CALIBRATION", %w[HIDDEN_SET_PROTOCOL EVALUATOR_DISAGREEMENT_AND_FALSE_SUCCESS_CHARACTERIZATION], 16, 4, 1, 1, nil, "COOPERATIVE_LOCAL_FRESH_SYNTHETIC_ROLE_SEPARATION_AND_EVALUATOR_CALIBRATION_ONLY_NO_REAL_HIDDEN_SET_REPRESENTATIVENESS_AGENT_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM"],
+  [4, "FROZEN_B0_B1_B2_BASELINE_EXPERIMENT_AND_P1_REPORT", %w[REPRODUCIBLE_BASELINE_REPORT], 12, 5, 1, 1, 48, "P1_INITIAL_SMALL_SAMPLE_REPRODUCIBLE_BASELINE_ONLY_NO_BROAD_GENERALIZATION_A0_P2_P3_PRODUCTION_OR_STATISTICAL_CERTAINTY_CLAIM"]
+]
+actual_rebaseline_slices = Array(rebaseline["slices"]).map do |slice|
+  expected_keys = %w[ordinal name capability_projection engineering_hours calendar_days implementation_iterations candidate_limit claim_boundary]
+  expected_keys << "scheduled_runs" if slice.is_a?(Hash) && slice.key?("scheduled_runs")
+  stop!("P1 rebaseline slice schema drift") unless slice.is_a?(Hash) && slice.keys.sort == expected_keys.sort
+  [slice["ordinal"], slice["name"], slice["capability_projection"], slice["engineering_hours"],
+   slice["calendar_days"], slice["implementation_iterations"], slice["candidate_limit"], slice["scheduled_runs"], slice["claim_boundary"]]
+end
+stop!("P1 rebaseline slice plan drift") unless actual_rebaseline_slices == expected_rebaseline_slices
+stop!("P1 rebaseline aggregate budget drift") unless
+  actual_rebaseline_slices.sum { |slice| slice[3] } == rebaseline["engineering_hours_limit"] &&
+  actual_rebaseline_slices.sum { |slice| slice[4] } <= rebaseline["calendar_days_limit"]
+slice_attempts = rebaseline["slice_attempts"]
+stop!("P1 rebaseline slice attempt ledger invalid") unless
+  slice_attempts.is_a?(Hash) && (slice_attempts.keys - %w[1 2 3 4]).empty?
+stop!("P1 rebaseline next slice ordinal invalid") unless rebaseline["next_slice_ordinal"].is_a?(Integer) && rebaseline["next_slice_ordinal"].between?(1, 5)
+end
 
 historical_metadata_boundary = mandatory_recovery["historical_governance_metadata_read_boundary"]
 if historical_metadata_boundary
@@ -888,6 +958,7 @@ if final_clean_room_terminal
     (mandatory_recovery["post_revision_final_implementation_route"] &&
       (
         terminal_projection == ["FOUNDER_REVISED_PENDING_IMPLEMENTATION", "FOUNDER_REVISED_PENDING_IMPLEMENTATION"] ||
+        (rebaseline && terminal_projection.all? { |state| %w[REBASELINED_PENDING_EXECUTION IN_PROGRESS ACCEPTED].include?(state) }) ||
         terminal_projection == ["IN_PROGRESS", "IN_PROGRESS"] ||
         terminal_projection == ["ACCEPTED", "ACCEPTED"] ||
         (mandatory_recovery["post_revision_final_route_terminal"] && terminal_projection == ["ARCHITECTURE_BLOCKED", "ARCHITECTURE_BLOCKED"])
@@ -1089,9 +1160,14 @@ if post_revision_terminal
     post_revision_terminal["successor_replacement_correction_allowed"] == false &&
     post_revision_terminal["founder_escalation_required"] == true &&
     post_revision_terminal["project_level_disposition_required"] == true
-  stop!("post-revision final route terminal capability projection is not atomic") unless
-    post_revision_capabilities.map { |capability| capability_status[capability] } ==
-      ["ARCHITECTURE_BLOCKED", "ARCHITECTURE_BLOCKED"]
+  current_post_revision_projection = post_revision_capabilities.map { |capability| capability_status[capability] }
+  if rebaseline
+    stop!("post-revision historical terminal capability projection escaped the approved rebaseline") unless
+      current_post_revision_projection.all? { |state| %w[REBASELINED_PENDING_EXECUTION IN_PROGRESS ACCEPTED].include?(state) }
+  else
+    stop!("post-revision final route terminal capability projection is not atomic") unless
+      current_post_revision_projection == ["ARCHITECTURE_BLOCKED", "ARCHITECTURE_BLOCKED"]
+  end
   terminal_record = bound_json!(
     post_revision_terminal["terminal_record_path"],
     post_revision_terminal["terminal_record_sha256"],
@@ -1129,12 +1205,18 @@ if integrated_route
     ["RELOCATED_PENDING_INTEGRATED_TASK", "MISSING"],
     ["FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION", "FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION"],
     ["FOUNDER_REVISED_PENDING_IMPLEMENTATION", "FOUNDER_REVISED_PENDING_IMPLEMENTATION"],
+    ["REBASELINED_PENDING_EXECUTION", "REBASELINED_PENDING_EXECUTION"],
     ["IN_PROGRESS", "IN_PROGRESS"],
     ["ACCEPTED", "ACCEPTED"],
     ["ARCHITECTURE_BLOCKED", "ARCHITECTURE_BLOCKED"],
     ["CONTRACT_REVIEW_BLOCKED", "CONTRACT_REVIEW_BLOCKED"]
   ]
-  stop!("integrated capability route current state population is not atomic") unless allowed_route_populations.include?(current_route_states)
+  if rebaseline
+    stop!("historical integrated route capability projection invalid under rebaseline") unless
+      current_route_states.all? { |state| allowed_capability_states.include?(state) }
+  else
+    stop!("integrated capability route current state population is not atomic") unless allowed_route_populations.include?(current_route_states)
+  end
 
   integrated_history_entries = history_entries_for_recovery.select do |entry|
     entry["founder_architecture_route_id"] == integrated_route_id ||
@@ -1148,7 +1230,13 @@ history_entries_for_recovery.each do |entry|
   match = entry["task_id"].to_s.match(/\AAIOS-P1-(\d{3})/)
   next unless match && match[1].to_i >= 35
   stop!("post-recovery Task history lacks mandatory capability identity") unless expected_exit_capabilities.include?(entry["mandatory_exit_capability"]) && entry["clean_room_attempt_ordinal"] == 1
-  if entry.key?("founder_final_clean_room_route_id")
+  if entry.key?("project_level_rebaseline_slice_ordinal")
+    slice = rebaseline["slices"].find { |candidate| candidate["ordinal"] == entry["project_level_rebaseline_slice_ordinal"] }
+    stop!("Task history uses an unauthorized project-level rebaseline Slice") unless
+      slice && entry["integrated_mandatory_exit_capabilities"] == slice["capability_projection"] &&
+      entry["mandatory_exit_capability"] == slice["capability_projection"].first &&
+      entry["project_level_rebaseline_decision_sha256"] == rebaseline["decision_record_sha256"]
+  elsif entry.key?("founder_final_clean_room_route_id")
     stop!("Task history uses an unauthorized final clean-room route") unless
       effective_final_route && entry["task_id"] == effective_final_route["task_id"] &&
       entry["mandatory_exit_capability"] == effective_final_capabilities.last &&
@@ -1165,6 +1253,8 @@ capability_status.each do |capability, state|
   ledger = attempt_ledger[capability]
   integrated_member = integrated_route && integrated_route_capabilities.include?(capability)
   integrated_primary_ledger = integrated_route ? attempt_ledger[integrated_route["primary_capability"]] : nil
+  rebaseline_capability_slice = Array(rebaseline&.dig("slices")).find { |slice| slice["capability_projection"].include?(capability) }
+  rebaseline_attempt = rebaseline_capability_slice ? rebaseline["slice_attempts"][rebaseline_capability_slice["ordinal"].to_s] : nil
   case state
   when "MISSING"
     stop!("missing Exit capability already has an execution attempt") unless attempts.empty? && ledger.nil?
@@ -1180,8 +1270,14 @@ capability_status.each do |capability, state|
       post_revision_capabilities.include?(capability) && attempts.empty? &&
       ledger.is_a?(Hash) && ledger["status"] == "CONTRACT_REVIEW_BLOCKED" &&
       post_revision_attempt.nil?
+  when "REBASELINED_PENDING_EXECUTION"
+    slice = Array(rebaseline&.dig("slices")).find { |candidate| candidate["capability_projection"].include?(capability) }
+    stop!("rebaselined Exit capability is not bound to exactly one approved Slice") unless
+      slice && Array(rebaseline&.dig("slices")).count { |candidate| candidate["capability_projection"].include?(capability) } == 1
   when "IN_PROGRESS"
-    execution_ledger = if effective_final_capabilities.include?(capability) && effective_final_attempt.is_a?(Hash)
+    execution_ledger = if rebaseline_attempt.is_a?(Hash)
+      rebaseline_attempt
+    elsif effective_final_capabilities.include?(capability) && effective_final_attempt.is_a?(Hash)
       effective_final_attempt
     elsif integrated_member
       integrated_primary_ledger
@@ -1194,14 +1290,20 @@ capability_status.each do |capability, state|
     entry_capabilities = entry ? record_capabilities(entry) : []
     integrated_acceptance = integrated_member && entry && entry_capabilities == integrated_route_capabilities && entry["task_id"] == integrated_route["task_id"]
     final_clean_room_acceptance = effective_final_capabilities.include?(capability) && entry && entry_capabilities == effective_final_capabilities && entry["task_id"] == effective_final_route["task_id"] && entry["founder_final_clean_room_route_id"] == effective_final_route_id
-    execution_ledger = if final_clean_room_acceptance
+    rebaseline_acceptance = entry && entry["project_level_rebaseline_slice_ordinal"] == rebaseline_capability_slice&.dig("ordinal") &&
+      entry_capabilities == rebaseline_capability_slice&.dig("capability_projection")
+    execution_ledger = if rebaseline_acceptance
+      rebaseline_attempt
+    elsif final_clean_room_acceptance
       effective_final_attempt
     elsif integrated_acceptance
       integrated_primary_ledger
     else
       ledger
     end
-    accepted_claim_boundary = if final_clean_room_acceptance
+    accepted_claim_boundary = if rebaseline_acceptance
+      rebaseline_capability_slice["claim_boundary"]
+    elsif final_clean_room_acceptance
       effective_final_route["claim_boundary"]
     elsif integrated_acceptance
       integrated_route["claim_boundary"]
@@ -1353,15 +1455,17 @@ if (transition = previous_truth_transition(truth_bytes))
   if previous_recovery.is_a?(Hash) && current_recovery.is_a?(Hash)
     stop!("current Truth top-level schema changed") unless previous_truth.keys == transition_truth.keys
     %w[
-      schema_version record_type authority phase_delegation phase_boundary p0_baseline
+      schema_version record_type phase_boundary p0_baseline
       superseded_pre_delegation_authorizations gate_history historical_lineages
     ].each do |field|
       stop!("current Truth immutable control surface changed: #{field}") unless transition_truth[field] == previous_truth[field]
     end
     previous_phase_execution_claim = Marshal.load(Marshal.dump(previous_truth.fetch("phase_execution_claim")))
     current_phase_execution_claim = Marshal.load(Marshal.dump(transition_truth.fetch("phase_execution_claim")))
-    previous_phase_execution_claim.delete("current_task_claim")
-    current_phase_execution_claim.delete("current_task_claim")
+    %w[current_task_claim historical_terminal_rules mandatory_priority_rule].each do |field|
+      previous_phase_execution_claim.delete(field)
+      current_phase_execution_claim.delete(field)
+    end
     stop!("current Truth immutable control surface changed: phase_execution_claim") unless
       current_phase_execution_claim == previous_phase_execution_claim
     previous_project = Marshal.load(Marshal.dump(previous_truth.fetch("project")))
@@ -1396,7 +1500,8 @@ if (transition = previous_truth_transition(truth_bytes))
       integrated_capability_routes final_clean_room_implementation_route
       final_clean_room_implementation_attempt final_clean_room_contract_review_terminal
       post_revision_final_implementation_route post_revision_final_implementation_attempt
-      post_revision_final_route_terminal founder_dispositions
+      post_revision_final_route_terminal project_level_rebaseline founder_dispositions
+      founder_decision_source maximum_same_task_bounded_contract_repairs
     ].each do |field|
       previous_recovery_invariants.delete(field)
       current_recovery_invariants.delete(field)
@@ -1446,14 +1551,34 @@ if (transition = previous_truth_transition(truth_bytes))
         current_post_revision_route["reusable"] == false
     end
 
+    previous_rebaseline = previous_recovery["project_level_rebaseline"]
+    current_rebaseline = current_recovery["project_level_rebaseline"]
+    if previous_rebaseline
+      stop!("P1 project-level rebaseline was removed") unless current_rebaseline.is_a?(Hash)
+      previous_rebaseline_immutable = Marshal.load(Marshal.dump(previous_rebaseline))
+      current_rebaseline_immutable = Marshal.load(Marshal.dump(current_rebaseline))
+      %w[p1_status current_task slice_attempts next_slice_ordinal next_slice_action].each do |field|
+        previous_rebaseline_immutable.delete(field)
+        current_rebaseline_immutable.delete(field)
+      end
+      stop!("P1 project-level rebaseline immutable binding drift") unless
+        current_rebaseline_immutable == previous_rebaseline_immutable
+    elsif current_rebaseline
+      stop!("P1 project-level rebaseline initialization is not Founder-bound") unless
+        current_rebaseline.is_a?(Hash) &&
+        current_rebaseline["authority"] == "HUMAN_FOUNDER" &&
+        current_rebaseline["decision_record_sha256"] == "083dc4d5f071bb82b6da3681c62e5a4ce37bfa8cac52c3f4da0f0ac5fea2d1f2"
+    end
+
     allowed_status_transitions = {
-      "MISSING" => %w[MISSING IN_PROGRESS CONTRACT_REVIEW_BLOCKED FOUNDER_DISPOSED],
+      "MISSING" => %w[MISSING REBASELINED_PENDING_EXECUTION IN_PROGRESS CONTRACT_REVIEW_BLOCKED FOUNDER_DISPOSED],
       "RELOCATED_PENDING_INTEGRATED_TASK" => %w[RELOCATED_PENDING_INTEGRATED_TASK IN_PROGRESS CONTRACT_REVIEW_BLOCKED],
       "FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION" => %w[FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION IN_PROGRESS CONTRACT_REVIEW_BLOCKED],
-      "FOUNDER_REVISED_PENDING_IMPLEMENTATION" => %w[FOUNDER_REVISED_PENDING_IMPLEMENTATION IN_PROGRESS ARCHITECTURE_BLOCKED],
+      "FOUNDER_REVISED_PENDING_IMPLEMENTATION" => %w[FOUNDER_REVISED_PENDING_IMPLEMENTATION REBASELINED_PENDING_EXECUTION IN_PROGRESS ARCHITECTURE_BLOCKED],
+      "REBASELINED_PENDING_EXECUTION" => %w[REBASELINED_PENDING_EXECUTION IN_PROGRESS ACCEPTED ARCHITECTURE_BLOCKED],
       "IN_PROGRESS" => %w[IN_PROGRESS ACCEPTED ARCHITECTURE_BLOCKED],
       "CONTRACT_REVIEW_BLOCKED" => %w[CONTRACT_REVIEW_BLOCKED RELOCATED_PENDING_INTEGRATED_TASK FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION FOUNDER_REVISED_PENDING_IMPLEMENTATION FOUNDER_DISPOSED],
-      "ARCHITECTURE_BLOCKED" => %w[ARCHITECTURE_BLOCKED FOUNDER_DISPOSED],
+      "ARCHITECTURE_BLOCKED" => %w[ARCHITECTURE_BLOCKED REBASELINED_PENDING_EXECUTION FOUNDER_DISPOSED],
       "ACCEPTED" => %w[ACCEPTED],
       "FOUNDER_DISPOSED" => %w[FOUNDER_DISPOSED]
     }
@@ -1494,10 +1619,13 @@ if (transition = previous_truth_transition(truth_bytes))
         [["FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION", "FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION"], ["CONTRACT_REVIEW_BLOCKED", "CONTRACT_REVIEW_BLOCKED"]],
         [["FOUNDER_REVISED_PENDING_IMPLEMENTATION", "FOUNDER_REVISED_PENDING_IMPLEMENTATION"], ["IN_PROGRESS", "IN_PROGRESS"]],
         [["FOUNDER_REVISED_PENDING_IMPLEMENTATION", "FOUNDER_REVISED_PENDING_IMPLEMENTATION"], ["ARCHITECTURE_BLOCKED", "ARCHITECTURE_BLOCKED"]],
+        [["ARCHITECTURE_BLOCKED", "ARCHITECTURE_BLOCKED"], ["REBASELINED_PENDING_EXECUTION", "REBASELINED_PENDING_EXECUTION"]],
+        [["REBASELINED_PENDING_EXECUTION", "REBASELINED_PENDING_EXECUTION"], ["IN_PROGRESS", "IN_PROGRESS"]],
+        [["IN_PROGRESS", "IN_PROGRESS"], ["ACCEPTED", "ACCEPTED"]],
         [["IN_PROGRESS", "IN_PROGRESS"], ["ACCEPTED", "ACCEPTED"]],
         [["IN_PROGRESS", "IN_PROGRESS"], ["ARCHITECTURE_BLOCKED", "ARCHITECTURE_BLOCKED"]]
       ]
-      if previous_route_states != current_route_states
+      if previous_route_states != current_route_states && current_rebaseline.nil?
         stop!("integrated capability route transition is not atomic") unless allowed_atomic_route_transitions.include?([previous_route_states, current_route_states])
       end
       blocked_capability = integrated_route_capabilities.first
@@ -1598,6 +1726,12 @@ current_task = active["current_task"]
 current_status = active["current_task_status"]
 goal_task = truth.dig("goal", "current_task_authority")
 project_status = truth.dig("project", "phase_execution_status")
+if rebaseline && current_task == "NONE"
+  stop!("P1 rebaseline current Task projection drift") unless rebaseline["current_task"] == "NONE"
+elsif rebaseline && rebaseline["p1_status"] == "REBASELINED_SLICE_ACTIVE"
+  stop!("P1 rebaseline active Task projection drift") unless
+    rebaseline["current_task"] == current_task && rebaseline["p1_status"] == "REBASELINED_SLICE_ACTIVE"
+end
 stop!("phase/P1 execution status drift") if phase == "P1" && truth.dig("project", "p1_execution_status") != project_status
 next_action = active["next_eligible_action"]
 stop!("next eligible action missing") unless nonempty_string?(next_action)
@@ -1621,7 +1755,8 @@ if current_task == "NONE"
   stop!("NONE state cannot retain an in-progress Exit capability") if capability_status.value?("IN_PROGRESS")
   founder_blocked_capabilities = capability_status.select { |_capability, state| %w[ARCHITECTURE_BLOCKED CONTRACT_REVIEW_BLOCKED].include?(state) }.keys
   stop!("NONE state goal authority drift") unless goal_task == "NONE"
-  stop!("NONE state status drift") unless current_status == "NONE" && project_status == "NO_CURRENT_TASK"
+  allowed_none_project_statuses = rebaseline ? %w[REBASELINED_PENDING_EXECUTION NO_CURRENT_TASK] : %w[NO_CURRENT_TASK]
+  stop!("NONE state status drift") unless current_status == "NONE" && allowed_none_project_statuses.include?(project_status)
   %w[
     current_task_contract current_task_contract_sha256 current_execution_authorization
     current_execution_authorization_sha256 execution_nonce authorization_id
@@ -1668,7 +1803,7 @@ if current_task == "NONE"
   exit 0
 end
 
-stop!("post-revision terminal route cannot activate another Task") if post_revision_terminal
+stop!("post-revision terminal route cannot activate another Task without an approved project-level rebaseline") if post_revision_terminal && !rebaseline
 
 expected_task_pattern = /\AAIOS-#{Regexp.escape(phase)}-\d{3}(?:[_-][A-Z0-9_-]+)?\z/
 stop!("active Task id/Phase format invalid") unless nonempty_string?(current_task) && current_task.match?(expected_task_pattern)
@@ -1720,7 +1855,24 @@ stop!("active Task is not bound to a mandatory P1 Exit capability") unless expec
 contract_integrated_capabilities = contract["integrated_mandatory_exit_capabilities"]
 contract_route_id = contract["founder_architecture_route_id"]
 contract_final_route_id = contract["founder_final_clean_room_route_id"]
-if contract_final_route_id
+contract_rebaseline_slice_ordinal = contract["project_level_rebaseline_slice_ordinal"]
+contract_rebaseline_decision_sha = contract["project_level_rebaseline_decision_sha256"]
+rebaseline_slice = nil
+if contract_rebaseline_slice_ordinal
+  stop!("active rebaseline Task mixes historical route identities") unless contract_route_id.nil? && contract_final_route_id.nil?
+  stop!("active rebaseline Task slice ordinal invalid") unless contract_rebaseline_slice_ordinal.is_a?(Integer)
+  rebaseline_slice = rebaseline["slices"].find { |slice| slice["ordinal"] == contract_rebaseline_slice_ordinal }
+  stop!("active Task is not bound to the current approved rebaseline Slice") unless
+    rebaseline_slice &&
+    contract_rebaseline_slice_ordinal == rebaseline["next_slice_ordinal"] &&
+    contract_rebaseline_decision_sha == rebaseline["decision_record_sha256"] &&
+    contract_integrated_capabilities == rebaseline_slice["capability_projection"] &&
+    mandatory_exit_capability == contract_integrated_capabilities.first &&
+    contract["claim_boundary"] == rebaseline_slice["claim_boundary"]
+  stop!("active rebaseline Task current-state projection drift") unless
+    rebaseline["p1_status"] == "REBASELINED_SLICE_ACTIVE" && rebaseline["current_task"] == current_task
+  task_exit_capabilities = contract_integrated_capabilities
+elsif contract_final_route_id
   stop!("active Task mixes historical and final clean-room route identities") unless contract_route_id.nil?
   stop!("active Task uses an incomplete final clean-room capability binding") unless contract_integrated_capabilities.is_a?(Array) && nonempty_string?(contract_final_route_id)
   stop!("active Task is not the exact Founder-approved final clean-room route") unless
@@ -1738,23 +1890,31 @@ else
 end
 stop!("active Task mandatory Exit capabilities are not all in progress") unless task_exit_capabilities.all? { |capability| capability_status[capability] == "IN_PROGRESS" }
 earlier_exit_capabilities = expected_exit_capabilities.take_while { |capability| capability != mandatory_exit_capability }
-unclosed_earlier_capabilities = earlier_exit_capabilities.reject do |capability|
-  %w[ACCEPTED FOUNDER_DISPOSED].include?(capability_status[capability]) || (task_exit_capabilities.include?(capability) && capability_status[capability] == "IN_PROGRESS")
+if rebaseline_slice
+  stop!("active rebaseline Task does not follow the approved Slice order") unless
+    rebaseline["slice_attempts"].keys.map(&:to_i).all? { |ordinal| ordinal <= contract_rebaseline_slice_ordinal }
+else
+  unclosed_earlier_capabilities = earlier_exit_capabilities.reject do |capability|
+    %w[ACCEPTED FOUNDER_DISPOSED].include?(capability_status[capability]) || (task_exit_capabilities.include?(capability) && capability_status[capability] == "IN_PROGRESS")
+  end
+  stop!("active Task bypasses an earlier mandatory Exit capability") unless unclosed_earlier_capabilities.empty?
 end
-stop!("active Task bypasses an earlier mandatory Exit capability") unless unclosed_earlier_capabilities.empty?
 clean_room = contract["clean_room_recovery"]
 stop!("active Task clean-room recovery declaration missing") unless clean_room.is_a?(Hash)
 stop!("active Task reuses historical execution lineage") unless clean_room["historical_execution_lineage_reused"] == false
 stop!("active Task clean-room attempt ordinal drift") unless clean_room["attempt_ordinal"] == 1
-expected_contract_correction_limit = contract_final_route_id ? 0 : 1
+expected_contract_correction_limit = (contract_final_route_id || rebaseline_slice) ? 0 : 1
 stop!("active Task bounded Contract correction limit drift") unless clean_room["bounded_contract_corrections_allowed"] == expected_contract_correction_limit
 corrections_used = clean_room["bounded_contract_corrections_used"]
 stop!("active Task bounded Contract correction usage invalid") unless corrections_used.is_a?(Integer) && corrections_used.between?(0, expected_contract_correction_limit)
 if corrections_used.zero?
   stop!("uncorrected Contract must not bind original Contract bytes") unless clean_room["original_contract_path"].nil? && clean_room["original_contract_sha256"].nil?
-  if contract_final_route_id
+  if contract_final_route_id || rebaseline_slice
     frozen_contract_bytes = git_file(active["activation_parent_commit"], contract_rel)
-    stop!("final clean-room Contract was not frozen at the activation parent") unless frozen_contract_bytes && Digest::SHA256.hexdigest(frozen_contract_bytes) == contract_sha
+    frozen_contract_error = rebaseline_slice ?
+      "single final Contract was not frozen at the activation parent" :
+      "final clean-room Contract was not frozen at the activation parent"
+    stop!(frozen_contract_error) unless frozen_contract_bytes && Digest::SHA256.hexdigest(frozen_contract_bytes) == contract_sha
   else
     stop!("uncorrected Contract cannot replace a pre-existing Task Contract") unless git_file(active["activation_parent_commit"], contract_rel).nil?
   end
@@ -1762,7 +1922,13 @@ else
   stop!("corrected Contract original path must be its canonical tracked path") unless clean_room["original_contract_path"] == contract_rel
   stop!("corrected Contract original hash invalid") unless clean_room["original_contract_sha256"].is_a?(String) && clean_room["original_contract_sha256"].match?(/\A[0-9a-f]{64}\z/)
 end
-active_attempt = contract_final_route_id ? effective_final_attempt : attempt_ledger[mandatory_exit_capability]
+active_attempt = if rebaseline_slice
+  rebaseline["slice_attempts"][contract_rebaseline_slice_ordinal.to_s]
+elsif contract_final_route_id
+  effective_final_attempt
+else
+  attempt_ledger[mandatory_exit_capability]
+end
 prior_clean_room_attempts = history_entries.select { |entry| entry["mandatory_exit_capability"] == mandatory_exit_capability }
 stop!("mandatory Exit capability clean-room attempt already consumed") unless prior_clean_room_attempts.empty?
 stop!("active Task read context must be canonical repository-relative paths") unless contract["read_context"].all? do |path|
@@ -1917,14 +2083,21 @@ if corrections_used == 1
   end
 end
 expected_attempt_keys = %w[attempt_ordinal bounded_contract_corrections_used contract_sha256 status task_id]
-if contract_final_route_id
+if rebaseline_slice
+  expected_attempt_keys += %w[integrated_mandatory_exit_capabilities project_level_rebaseline_decision_sha256 project_level_rebaseline_slice_ordinal]
+elsif contract_final_route_id
   expected_attempt_keys += %w[integrated_mandatory_exit_capabilities founder_final_clean_room_route_id]
 elsif contract_integrated_capabilities
   expected_attempt_keys += %w[integrated_mandatory_exit_capabilities founder_architecture_route_id]
 end
 stop!("active Task attempt ledger schema drift") unless active_attempt.keys.sort == expected_attempt_keys.sort
 stop!("active Task attempt ledger binding drift") unless active_attempt["task_id"] == current_task && active_attempt["contract_sha256"] == contract_sha && active_attempt["bounded_contract_corrections_used"] == corrections_used
-if contract_final_route_id
+if rebaseline_slice
+  stop!("active rebaseline Slice attempt ledger binding drift") unless
+    active_attempt["integrated_mandatory_exit_capabilities"] == contract_integrated_capabilities &&
+    active_attempt["project_level_rebaseline_slice_ordinal"] == contract_rebaseline_slice_ordinal &&
+    active_attempt["project_level_rebaseline_decision_sha256"] == contract_rebaseline_decision_sha
+elsif contract_final_route_id
   stop!("active Task final clean-room attempt ledger binding drift") unless active_attempt["integrated_mandatory_exit_capabilities"] == contract_integrated_capabilities && active_attempt["founder_final_clean_room_route_id"] == contract_final_route_id
 elsif contract_integrated_capabilities
   stop!("active Task integrated attempt ledger binding drift") unless active_attempt["integrated_mandatory_exit_capabilities"] == contract_integrated_capabilities && active_attempt["founder_architecture_route_id"] == contract_route_id
@@ -1943,7 +2116,14 @@ stop!("active Task authorization ID drift") unless active["authorization_id"].is
 stop!("active Task authorization replay detected") if recursive_values(truth.fetch("task_history"), "authorization_id").include?(active["authorization_id"])
 stop!("active Task Goal binding drift") unless authorization["goal_canonical_sha256"] == truth.dig("goal", "observed_body_sha256")
 stop!("active Task Phase binding drift") unless authorization["phase"] == phase
-if contract_final_route_id
+if rebaseline_slice
+  stop!("active Task authorization rebaseline Slice binding drift") unless
+    authorization["integrated_mandatory_exit_capabilities"] == contract_integrated_capabilities &&
+    authorization["project_level_rebaseline_slice_ordinal"] == contract_rebaseline_slice_ordinal &&
+    authorization["project_level_rebaseline_decision_sha256"] == contract_rebaseline_decision_sha &&
+    !authorization.key?("founder_architecture_route_id") &&
+    !authorization.key?("founder_final_clean_room_route_id")
+elsif contract_final_route_id
   stop!("active Task authorization final clean-room capability binding drift") unless
     authorization["integrated_mandatory_exit_capabilities"] == contract_integrated_capabilities &&
     authorization["founder_final_clean_room_route_id"] == contract_final_route_id &&
@@ -1964,14 +2144,19 @@ main_head = git("rev-parse", "refs/heads/#{main_branch}")
 stop!("active Task canonical main is not descended from activation parent") unless system("git", "-C", REPO_ROOT, "merge-base", "--is-ancestor", activation_parent_commit, main_head, out: File::NULL, err: File::NULL)
 stop!("active Task activation must be one governance commit") unless git("rev-list", "--count", "#{activation_parent_commit}..#{main_head}") == "1"
 activation_paths = git("diff", "--name-only", activation_parent_commit, main_head).lines.map(&:strip).reject(&:empty?).sort
-expected_activation_paths = contract_final_route_id ? ["docs/aios/truth/project_state.yaml"] : [contract_rel, "docs/aios/truth/project_state.yaml"].sort
+expected_activation_paths = (contract_final_route_id || rebaseline_slice) ? ["docs/aios/truth/project_state.yaml"] : [contract_rel, "docs/aios/truth/project_state.yaml"].sort
 stop!("active Task activation path population drift") unless activation_paths == expected_activation_paths
 parent_truth_bytes = IO.popen(["git", "-C", REPO_ROOT, "show", "#{activation_parent_commit}:docs/aios/truth/project_state.yaml"], err: File::NULL, &:read)
 stop!("active Task parent Truth unavailable") unless $CHILD_STATUS.success?
 parent_truth = YAML.safe_load(parent_truth_bytes, aliases: false)
 parent_capability_status = parent_truth.dig("mandatory_exit_capability_recovery", "capability_status")
 expected_active_capability_status = Marshal.load(Marshal.dump(parent_capability_status))
-if contract_final_route_id
+if rebaseline_slice
+  stop!("active rebaseline Task parent capability states are not eligible") unless
+    expected_active_capability_status.is_a?(Hash) &&
+    contract_integrated_capabilities.all? { |capability| expected_active_capability_status[capability] == "REBASELINED_PENDING_EXECUTION" }
+  contract_integrated_capabilities.each { |capability| expected_active_capability_status[capability] = "IN_PROGRESS" }
+elsif contract_final_route_id
   stop!("active final clean-room Task parent capability states are not eligible") unless
     expected_active_capability_status.is_a?(Hash) &&
     contract_integrated_capabilities.all? { |capability| expected_active_capability_status[capability] == effective_final_pending_state }
@@ -1985,7 +2170,14 @@ else
 end
 stop!("active Task activation changed mandatory Exit capability status incorrectly") unless capability_status == expected_active_capability_status
 parent_attempt_ledger = parent_truth.dig("mandatory_exit_capability_recovery", "capability_attempt_ledger")
-if contract_final_route_id
+if rebaseline_slice
+  stop!("active rebaseline Task changed historical contract-attempt ledger") unless attempt_ledger == parent_attempt_ledger
+  parent_rebaseline = parent_truth.dig("mandatory_exit_capability_recovery", "project_level_rebaseline")
+  stop!("active rebaseline Task parent Slice attempt was already consumed") unless
+    parent_rebaseline.is_a?(Hash) && parent_rebaseline.dig("slice_attempts", contract_rebaseline_slice_ordinal.to_s).nil?
+  stop!("active rebaseline Task Slice attempt binding drift") unless
+    rebaseline.dig("slice_attempts", contract_rebaseline_slice_ordinal.to_s) == active_attempt
+elsif contract_final_route_id
   stop!("active final clean-room Task changed historical contract-attempt ledger") unless attempt_ledger == parent_attempt_ledger
   parent_attempt_key = post_revision_route ? "post_revision_final_implementation_attempt" : "final_clean_room_implementation_attempt"
   stop!("active final clean-room Task parent implementation attempt was already consumed") unless parent_truth.dig("mandatory_exit_capability_recovery", parent_attempt_key).nil?

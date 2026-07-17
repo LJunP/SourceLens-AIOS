@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-17T08:45:50Z"
-verification_scope: P1_039_FINAL_CONTRACT_REVIEW_TERMINAL_SYNC
+last_verified_at: "2026-07-17T09:24:48Z"
+verification_scope: P1_EXIT_GATE_PROJECT_LEVEL_REBASELINE_CURRENT_STATE_SYNC
 
 authority:
   founder: Human Founder
@@ -17,8 +17,8 @@ authority:
     status: FROZEN
   founder_delegation_policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
-    version: "1.1"
-    sha256: 64f3fde7a0db23fde9c1dc4b51e3dcaf6046492e6acfd835258bc26c42ded334
+    version: "1.2"
+    sha256: 8df568de6671dccda37c76b5e38e4bbd2529fa47ef37ed52de15b5ec7ce2a041
     status: FOUNDER_DIRECTIVE_ACTIVE
   evaluation_protocol:
     path: docs/aios/EVALUATION_PROTOCOL.md
@@ -45,8 +45,8 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  phase_execution_status: NO_CURRENT_TASK
-  p1_execution_status: NO_CURRENT_TASK
+  phase_execution_status: REBASELINED_PENDING_EXECUTION
+  p1_execution_status: REBASELINED_PENDING_EXECUTION
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -94,7 +94,7 @@ phase_delegation:
     ordinary_repairs_stay_in_same_task: true
     successor_replacement_correction_chain_allowed: false
     task_id_hardcoding_in_current_authority_validator_allowed: false
-    maximum_same_task_bounded_contract_repairs: 1
+    maximum_same_task_bounded_contract_repairs: 0
     historical_execution_lineage_reuse_allowed: false
     mandatory_exit_capability_permanent_ban_from_historical_stop: false
     peripheral_work_before_exit_capabilities_allowed: false
@@ -102,12 +102,12 @@ phase_delegation:
 
 mandatory_exit_capability_recovery:
   status: ACTIVE
-  founder_decision_source: FOUNDER_DIRECTIVE_IN_CODEX_THREAD_2026_07_17
+  founder_decision_source: FOUNDER_P1_EXIT_GATE_PROJECT_LEVEL_REBASELINE_2026_07_17
   historical_tasks_immutable: true
   historical_execution_lineage_reuse_allowed: false
   clean_room_implementation_allowed_for_required_capability: true
   clean_room_attempts_per_missing_capability: 1
-  maximum_same_task_bounded_contract_repairs: 1
+  maximum_same_task_bounded_contract_repairs: 0
   peripheral_task_selection_allowed: false
   historical_governance_metadata_read_boundary:
     record_type: p1_exit_gate_historical_governance_metadata_read_boundary
@@ -268,13 +268,13 @@ mandatory_exit_capability_recovery:
     - REPRODUCIBLE_BASELINE_REPORT
   capability_status:
     VERSIONED_REPRESENTATIVE_TASK_DATASET: ACCEPTED
-    HIDDEN_SET_PROTOCOL: ARCHITECTURE_BLOCKED
-    PARAMETERIZED_EVALUATION_HARNESS: ARCHITECTURE_BLOCKED
-    VTSR_COUNTING_VALIDATOR: MISSING
-    B0_B1_B2_COMPATIBILITY_ADAPTERS: MISSING
-    OBSERVABLE_TRACE: MISSING
-    EVALUATOR_DISAGREEMENT_AND_FALSE_SUCCESS_CHARACTERIZATION: MISSING
-    REPRODUCIBLE_BASELINE_REPORT: MISSING
+    HIDDEN_SET_PROTOCOL: REBASELINED_PENDING_EXECUTION
+    PARAMETERIZED_EVALUATION_HARNESS: REBASELINED_PENDING_EXECUTION
+    VTSR_COUNTING_VALIDATOR: REBASELINED_PENDING_EXECUTION
+    B0_B1_B2_COMPATIBILITY_ADAPTERS: REBASELINED_PENDING_EXECUTION
+    OBSERVABLE_TRACE: REBASELINED_PENDING_EXECUTION
+    EVALUATOR_DISAGREEMENT_AND_FALSE_SUCCESS_CHARACTERIZATION: REBASELINED_PENDING_EXECUTION
+    REPRODUCIBLE_BASELINE_REPORT: REBASELINED_PENDING_EXECUTION
   capability_attempt_ledger:
     VERSIONED_REPRESENTATIVE_TASK_DATASET:
       status: ACCEPTED
@@ -461,6 +461,72 @@ mandatory_exit_capability_recovery:
     successor_replacement_correction_allowed: false
     founder_escalation_required: true
     project_level_disposition_required: true
+  project_level_rebaseline:
+    record_type: p1_exit_gate_project_level_rebaseline
+    status: FOUNDER_APPROVED_ACTIVE
+    authority: HUMAN_FOUNDER
+    approved_at_utc: "2026-07-17T09:24:48Z"
+    plan_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exit-gate-project-level-rebaseline-20260717T091107Z/P1_EXIT_GATE_PROJECT_LEVEL_REBASELINE.md
+    plan_sha256: ab0ba04abd4900758a3b4502fac21bdf6c392754666694a41c30c451e9058c29
+    plan_byte_length: 15748
+    decision_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exit-gate-project-level-rebaseline-20260717T091107Z/FOUNDER_FINAL_REBASELINE_DECISION_DRAFT.md
+    decision_record_sha256: 083dc4d5f071bb82b6da3681c62e5a4ce37bfa8cac52c3f4da0f0ac5fea2d1f2
+    decision_record_byte_length: 8799
+    canonical_parent_commit: eca59026d57f6c67f268a44d41564fdb0a2ecc5f
+    canonical_parent_tree: 29db5c1bd565e582a6a209f6a81c9efb0349f3e4
+    p1_status: REBASELINED_PENDING_EXECUTION
+    current_task: NONE
+    task_limit: 4
+    engineering_hours_limit: 76
+    calendar_days_limit: 21
+    final_contracts_per_task: 1
+    post_freeze_contract_corrections: 0
+    successor_replacement_correction_chain_allowed: false
+    default_external_effects_authorized: false
+    slices:
+      - ordinal: 1
+        name: PARAMETERIZED_EVALUATION_CORE
+        capability_projection:
+          - PARAMETERIZED_EVALUATION_HARNESS
+          - VTSR_COUNTING_VALIDATOR
+          - OBSERVABLE_TRACE
+        engineering_hours: 24
+        calendar_days: 5
+        implementation_iterations: 2
+        candidate_limit: 1
+        claim_boundary: COOPERATIVE_LOCAL_PARAMETERIZED_EVALUATION_CORE_CONFORMANCE_ONLY_NO_B0_B1_B2_BASELINE_AGENT_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
+      - ordinal: 2
+        name: B0_B1_B2_COMPATIBILITY_ADAPTERS
+        capability_projection:
+          - B0_B1_B2_COMPATIBILITY_ADAPTERS
+        engineering_hours: 24
+        calendar_days: 5
+        implementation_iterations: 2
+        candidate_limit: 1
+        claim_boundary: COOPERATIVE_LOCAL_B0_B1_B2_ADAPTER_CONFORMANCE_ONLY_NO_REAL_BASELINE_AGENT_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
+      - ordinal: 3
+        name: FRESH_SYNTHETIC_HOLDOUT_AND_EVALUATOR_CALIBRATION
+        capability_projection:
+          - HIDDEN_SET_PROTOCOL
+          - EVALUATOR_DISAGREEMENT_AND_FALSE_SUCCESS_CHARACTERIZATION
+        engineering_hours: 16
+        calendar_days: 4
+        implementation_iterations: 1
+        candidate_limit: 1
+        claim_boundary: COOPERATIVE_LOCAL_FRESH_SYNTHETIC_ROLE_SEPARATION_AND_EVALUATOR_CALIBRATION_ONLY_NO_REAL_HIDDEN_SET_REPRESENTATIVENESS_AGENT_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
+      - ordinal: 4
+        name: FROZEN_B0_B1_B2_BASELINE_EXPERIMENT_AND_P1_REPORT
+        capability_projection:
+          - REPRODUCIBLE_BASELINE_REPORT
+        engineering_hours: 12
+        calendar_days: 5
+        implementation_iterations: 1
+        candidate_limit: 1
+        scheduled_runs: 48
+        claim_boundary: P1_INITIAL_SMALL_SAMPLE_REPRODUCIBLE_BASELINE_ONLY_NO_BROAD_GENERALIZATION_A0_P2_P3_PRODUCTION_OR_STATISTICAL_CERTAINTY_CLAIM
+    slice_attempts: {}
+    next_slice_ordinal: 1
+    next_slice_action: MASTER_AUTONOMOUSLY_PREPARE_AND_EXECUTE_PARAMETERIZED_EVALUATION_CORE
   founder_dispositions: {}
   clean_room_rules:
     - new_task_id_contract_branch_worktree_evidence_and_reviews
@@ -590,10 +656,10 @@ active_work:
   offsite_target: null
   founder_reserved_authorization: null
   founder_reserved_authorization_sha256: null
-  founder_decision_required: true
-  escalation_reason: p1_post_revision_final_route_terminal_stop
-  user_action_required: FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED
-  next_eligible_action: STOP_P1_AND_WAIT_FOR_PROJECT_LEVEL_DISPOSITION
+  founder_decision_required: false
+  escalation_reason: null
+  user_action_required: null
+  next_eligible_action: MASTER_AUTONOMOUSLY_PREPARE_AND_EXECUTE_P1_REBASELINE_SLICE_1
 
 superseded_pre_delegation_authorizations:
   aios_p1_009:
@@ -1147,9 +1213,10 @@ phase_execution_claim:
   historical_terminal_rules:
     - P1-002 through P1-034 historical Tasks, preparations, Evidence and Reviews remain immutable and cannot resume, retry, supply implementation assets or continue through successor, replacement or correction chains.
     - Historical terminal execution lineage is permanently closed, but it does not permanently ban one clean-room implementation of a still-missing P1 Exit Gate capability under the 2026-07-17 Founder recovery decision.
-    - Any such clean-room capability Task receives one attempt and at most one same-Task bounded contract correction; final non-PASS escalates Founder instead of creating another Task chain.
+    - P1-036 through P1-039 remain terminal Historical Evidence and are not reopened by the project-level rebaseline.
+    - Each rebaseline Slice freezes one final exact Contract after pre-freeze collaboration; final freeze permits zero Contract correction and final non-PASS stops P1 without another Task route.
   mandatory_priority_rule:
-    - Only the eight mandatory_exit_capability_recovery priority capabilities may be selected until they are complete or Founder-disposed.
+    - Only the four Founder-approved rebaseline slices may be selected, in ordinal order, until the P1 Exit Gate evidence is complete or P1 terminally stops.
     - Peripheral validators, auxiliary governance tools and work without direct P1 Exit Gate value are ineligible.
   not_authorized_in_current_phase:
     - B0/B1/B2/A0 execution without an exact phase-local Task Contract

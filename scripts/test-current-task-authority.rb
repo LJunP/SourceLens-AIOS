@@ -48,6 +48,8 @@ def authority_metadata_commits(truth)
     value = recovery[field]
     commits << value["canonical_parent_commit"] if value.is_a?(Hash)
   end
+  rebaseline = recovery["project_level_rebaseline"]
+  commits << rebaseline["canonical_parent_commit"] if rebaseline.is_a?(Hash)
   truth.fetch("task_history").each_value do |entry|
     next unless entry.is_a?(Hash) && entry["status"].to_s.include?("ACCEPTED")
     commits << entry["accepted_candidate_commit"] if entry["accepted_candidate_commit"]
@@ -127,6 +129,18 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   truth["project"]["canonical_repository"] = root
   truth["project"]["task_worktree_root"] = worktree_root
   truth["project"]["execution_evidence_root_base"] = evidence_base
+  rebaseline = truth.dig("mandatory_exit_capability_recovery", "project_level_rebaseline")
+  rebaseline_root = File.join(evidence_base, "p1-exit-gate-project-level-rebaseline")
+  FileUtils.mkdir_p(rebaseline_root)
+  {
+    "plan_path" => "P1_EXIT_GATE_PROJECT_LEVEL_REBASELINE.md",
+    "decision_record_path" => "FOUNDER_FINAL_REBASELINE_DECISION_DRAFT.md"
+  }.each do |field, basename|
+    source = rebaseline.fetch(field)
+    target = File.join(rebaseline_root, basename)
+    FileUtils.cp(source, target)
+    rebaseline[field] = target
+  end
   truth["task_history"] = {
     "aios_p1_006" => {
       "task_id" => "AIOS-P1-006_SYNTHETIC_TERMINAL_HISTORY",
@@ -184,6 +198,7 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   run!("git", "add", ".", chdir: root)
   run!("git", "commit", "-m", "base", chdir: root)
   run!("git", "branch", "-M", "main", chdir: root)
+  import_commit_and_tree_metadata!(root, rebaseline.fetch("canonical_parent_commit"))
   run_validator(root, true, "NONE positive")
 
   none_truth = Marshal.load(Marshal.dump(truth))
@@ -1307,15 +1322,12 @@ end
 
 Dir.mktmpdir("aios-final-clean-room-route-") do |root|
   truth_relative_path = "docs/aios/truth/project_state.yaml"
-  current_truth_bytes = File.binread(File.join(SOURCE_ROOT, truth_relative_path))
+  current_truth_bytes = source_tracked_bytes("HEAD", truth_relative_path)
   current_truth = YAML.safe_load(current_truth_bytes, aliases: false)
   final_route_ref = "HEAD"
   if current_truth.dig("mandatory_exit_capability_recovery", "post_revision_final_route_terminal")
-    head_truth_bytes = source_tracked_bytes("HEAD", truth_relative_path)
-    if Digest::SHA256.hexdigest(head_truth_bytes) == Digest::SHA256.hexdigest(current_truth_bytes)
-      last_truth_commit = run!("git", "log", "-1", "--format=%H", "--", truth_relative_path, chdir: SOURCE_ROOT)
-      final_route_ref = "#{last_truth_commit}^"
-    end
+    last_truth_commit = run!("git", "log", "-1", "--format=%H", "--", truth_relative_path, chdir: SOURCE_ROOT)
+    final_route_ref = "#{last_truth_commit}^"
   end
   initialize_synthetic_authority_repo!(root, final_route_ref)
 

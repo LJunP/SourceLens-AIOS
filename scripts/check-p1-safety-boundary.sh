@@ -19,6 +19,15 @@ git ls-files | grep -q '^\.sourcelens-audit/' && fail "historical audit material
 ruby "${ROOT_DIR}/scripts/validate-current-task-authority.rb"
 
 ruby -ryaml -rjson -rdigest -e '
+  truth = YAML.safe_load(File.read("docs/aios/truth/project_state.yaml"), aliases: false)
+  rebaseline = truth.dig("mandatory_exit_capability_recovery", "project_level_rebaseline")
+  abort "P1 rebaseline safety envelope missing" unless
+    rebaseline.is_a?(Hash) && rebaseline["status"] == "FOUNDER_APPROVED_ACTIVE" &&
+    rebaseline["task_limit"] == 4 && rebaseline["post_freeze_contract_corrections"] == 0 &&
+    rebaseline["successor_replacement_correction_chain_allowed"] == false &&
+    rebaseline["default_external_effects_authorized"] == false
+  abort "P1 rebaseline restored a historical route" unless
+    truth.dig("mandatory_exit_capability_recovery", "post_revision_final_route_terminal", "status") == "P1_TERMINAL_STOPPED"
   harness = YAML.safe_load(File.read("docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml"), aliases: false)
   abort "P1-001 network must remain disabled" unless harness.dig("environment", "network") == "disabled"
   abort "P1-001 provider must remain none" unless harness.dig("environment", "provider") == "none"

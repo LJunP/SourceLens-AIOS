@@ -177,6 +177,17 @@ ruby -ryaml -rjson -rdigest -rtime -e '
   abort "phase must be P1" unless truth.dig("project", "current_phase") == "P1"
   abort "P0 must be complete" unless truth.dig("project", "p0_status") == "COMPLETE"
   abort "P1 entry must be authorized" unless truth.dig("project", "p1_entry_status") == "AUTHORIZED"
+  abort "Founder Delegation Policy v1.2 is not current" unless
+    truth.dig("authority", "founder_delegation_policy", "version") == "1.2" &&
+    truth.dig("authority", "founder_delegation_policy", "sha256") == "8df568de6671dccda37c76b5e38e4bbd2529fa47ef37ed52de15b5ec7ce2a041"
+  rebaseline = truth.dig("mandatory_exit_capability_recovery", "project_level_rebaseline")
+  abort "P1 project-level rebaseline is not active" unless
+    rebaseline.is_a?(Hash) && rebaseline["status"] == "FOUNDER_APPROVED_ACTIVE" &&
+    rebaseline["plan_sha256"] == "ab0ba04abd4900758a3b4502fac21bdf6c392754666694a41c30c451e9058c29" &&
+    rebaseline["decision_record_sha256"] == "083dc4d5f071bb82b6da3681c62e5a4ce37bfa8cac52c3f4da0f0ac5fea2d1f2" &&
+    rebaseline["task_limit"] == 4 && rebaseline["engineering_hours_limit"] == 76 &&
+    rebaseline["calendar_days_limit"] == 21 && rebaseline["post_freeze_contract_corrections"] == 0 &&
+    rebaseline["successor_replacement_correction_chain_allowed"] == false
   abort "canonical repository drift" unless truth.dig("project", "canonical_repository") == "/Users/lijunpeng/Developer/SourceLens-AIOS"
   abort "old Desktop repository remains canonical" if truth.dig("project", "canonical_repository") == "/Users/lijunpeng/Desktop/cc/project/SourceLens-AIOS"
   abort "canonical cutover parent commit drift" unless truth.dig("project", "canonical_cutover_parent_commit") == "65157b6f771c3a95486144ab712c3a99f9d06845"

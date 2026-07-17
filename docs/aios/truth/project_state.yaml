@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-17T01:52:08Z"
-verification_scope: P1_035_VERSIONED_REPRESENTATIVE_TASK_DATASET_ACTIVATION
+last_verified_at: "2026-07-17T02:34:18Z"
+verification_scope: P1_035_VERSIONED_REPRESENTATIVE_TASK_DATASET_TASK_GATE_ACCEPTED
 
 authority:
   founder: Human Founder
@@ -34,7 +34,7 @@ goal:
   observed_raw_body_sha256: 9b59ffc6919473b596f09a96afc1e8684f076f5ac32c6014ac96344a496cd0d8
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_LONG_TERM_GOAL_IDENTITY_PRESERVED
-  current_task_authority: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+  current_task_authority: NONE
   note: The Founder-approved long-term Goal identity is canonical and the Codex control-plane Goal is ACTIVE. Current Task authority is expressed only by current_task_authority and active_work; the Phase-level delegation policy requires autonomous P1 continuation without routine Founder approvals.
 
 project:
@@ -45,8 +45,8 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  phase_execution_status: TASK_ACTIVE
-  p1_execution_status: TASK_ACTIVE
+  phase_execution_status: NO_CURRENT_TASK
+  p1_execution_status: NO_CURRENT_TASK
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -119,7 +119,7 @@ mandatory_exit_capability_recovery:
     - EVALUATOR_DISAGREEMENT_AND_FALSE_SUCCESS_CHARACTERIZATION
     - REPRODUCIBLE_BASELINE_REPORT
   capability_status:
-    VERSIONED_REPRESENTATIVE_TASK_DATASET: IN_PROGRESS
+    VERSIONED_REPRESENTATIVE_TASK_DATASET: ACCEPTED
     HIDDEN_SET_PROTOCOL: MISSING
     PARAMETERIZED_EVALUATION_HARNESS: MISSING
     VTSR_COUNTING_VALIDATOR: MISSING
@@ -129,7 +129,7 @@ mandatory_exit_capability_recovery:
     REPRODUCIBLE_BASELINE_REPORT: MISSING
   capability_attempt_ledger:
     VERSIONED_REPRESENTATIVE_TASK_DATASET:
-      status: ACTIVE
+      status: ACCEPTED
       task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
       attempt_ordinal: 1
       contract_sha256: acec5432aacd6476693db62bdb52ee326c467f17b691860688fe952f7ffbdc33
@@ -252,28 +252,28 @@ p0_baseline:
   online_verification_status: ARCHIVED_NOT_ON_ACTIVE_PATH
 
 active_work:
-  current_task: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
-  current_task_status: AUTHORIZED_ACTIVE
-  current_task_contract: docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
-  current_task_contract_sha256: acec5432aacd6476693db62bdb52ee326c467f17b691860688fe952f7ffbdc33
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-035-versioned-representative-task-dataset/PHASE_DELEGATED_TASK_AUTHORIZATION.json
-  current_execution_authorization_sha256: 4e2e394421708e8966624a97bfe8353875275c150d728edb3658f74a344a2389
+  current_task: NONE
+  current_task_status: NONE
+  current_task_contract: null
+  current_task_contract_sha256: null
+  current_execution_authorization: null
+  current_execution_authorization_sha256: null
   execution_nonce: null
-  execution_nonce_status: NOT_REQUIRED_PHASE_DELEGATION
-  authorization_id: 715ae66c1898135b21ace02c19559d219ce9195a4fe2f19b4d2bb9474c7ba1fe
-  activation_parent_commit: 8cc6004d756b40444b6792b21bac1750f795d75c
-  activation_parent_tree: ef257b80fa9d83b93d7f8832ff328cbb4637288a
-  task_resource_state: DECLARED
-  task_branch: task/AIOS-P1-035-versioned-representative-task-dataset
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-035-versioned-representative-task-dataset
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-035-versioned-representative-task-dataset
+  execution_nonce_status: NONE
+  authorization_id: null
+  activation_parent_commit: null
+  activation_parent_tree: null
+  task_resource_state: NONE
+  task_branch: null
+  task_worktree: null
+  execution_evidence_root: null
   offsite_target: null
   founder_reserved_authorization: null
   founder_reserved_authorization_sha256: null
   founder_decision_required: false
   escalation_reason: null
   user_action_required: null
-  next_eligible_action: MASTER_AUTONOMOUSLY_EXECUTE_CURRENT_TASK
+  next_eligible_action: MASTER_AUTONOMOUSLY_SELECT_AND_EXECUTE_NEXT_MANDATORY_P1_EXIT_CAPABILITY_TASK
 
 superseded_pre_delegation_authorizations:
   aios_p1_009:
@@ -762,6 +762,31 @@ task_history:
     task_branch_removed: true
     task_worktree_removed: true
     claim_boundary: TARGETED_RUN_OUTCOME_RESULTS_ARE_HISTORICAL_ONLY_AND_NOT_ACCEPTED_DUE_TO_EXACT_SCOPE_STOP
+  aios_p1_035:
+    task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+    contract: docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
+    task_contract_sha256: acec5432aacd6476693db62bdb52ee326c467f17b691860688fe952f7ffbdc33
+    status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+    mandatory_exit_capability: VERSIONED_REPRESENTATIVE_TASK_DATASET
+    clean_room_attempt_ordinal: 1
+    bounded_contract_corrections_used: 1
+    task_gate_result: PASS
+    accepted_candidate_commit: 686eda0cd7a93b72ac5e64301479f17e4b096fb0
+    accepted_candidate_tree: b2740b44d0051303057deac7d719c27fd6a5578a
+    execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-035-versioned-representative-task-dataset
+    evidence_manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-035-versioned-representative-task-dataset/EVIDENCE_MANIFEST.json
+    evidence_manifest_sha256: bb6793e34ca1ee8f801b8f2aaf75fac5939c09eb0f3344d04cb362a1ed41101c
+    artifact_index_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-035-versioned-representative-task-dataset/ARTIFACT_INDEX.json
+    artifact_index_sha256: 15710bd290464f5f651760d7cb59947e3dbf2c8e80d021a06a956c9217cc64f0
+    cto_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-035-versioned-representative-task-dataset/reviews/CTO_REVIEW.json
+    cto_review_sha256: f1cc4d5eb6146a6acf9ecf9b8c2e7591225f134ae951ecf06934e1c0ba40e02f
+    security_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-035-versioned-representative-task-dataset/reviews/SECURITY_REVIEW.json
+    security_review_sha256: fc4bd1f46d5fba94150024d36d36c614b774f2859d586780f53d58e08a8ae91a
+    quality_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-035-versioned-representative-task-dataset/reviews/QUALITY_REVIEW.json
+    quality_review_sha256: 809712c2cb15441e4be116dbb3648d60a67f9c9605b34bb4cf26eba5fe0144ea
+    task_gate_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-035-versioned-representative-task-dataset/gate/TASK_GATE_RECEIPT.json
+    task_gate_receipt_sha256: 808b1ab6bd04184754118638cb44ffab03932c7a9e4ce80a181a20f022c6578a
+    claim_boundary: P1_EXIT_CAPABILITY_ENGINEERING_ARTIFACT_ONLY_NO_BENCHMARK_AGENT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
 
 gate_history:
   - task_id: AIOS-P1-001
@@ -794,7 +819,7 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_task_claim: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+  current_task_claim: NO_CURRENT_TASK
   phase_local_allowed:
     - local evaluation foundation engineering under an exact Task Contract
     - synthetic fixtures, deterministic tests, replay, Evidence, rollback and independent review
@@ -844,6 +869,10 @@ claim_boundary:
   p1_006_patch_evidence_package_validator: TERMINAL_STOPPED_NOT_ACCEPTED
   p1_006_candidate_created: false
   p1_006_capability_claims: 0
+  p1_035_versioned_representative_task_dataset: MASTER_TASK_GATE_ACCEPTED_ENGINEERING_ARTIFACT_ONLY
+  p1_035_visible_synthetic_task_population: 6
+  p1_035_dataset_replay: PASS
+  p1_035_benchmark_or_agent_capability_claim: false
   p1_011_environment_snapshot_capture_replay: MASTER_TASK_GATE_ACCEPTED_CONFORMANCE_ONLY
   p1_011_environment_snapshot_case_matrix: 13_OF_13_PASS
   p1_011_environment_snapshot_symlink_regressions: 2_OF_2_PASS

@@ -807,7 +807,7 @@ Dir.mktmpdir("aios-integrated-route-") do |root|
     mutated_route["decision_record_path"] = mutated_decision_path
     mutated_route["decision_record_sha256"] = Digest::SHA256.file(mutated_decision_path).hexdigest
     write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), mutated_truth)
-    run_validator(root, false, "Founder integrated terminal rule negative", expected_failure: "integrated capability Founder terminal rule drift")
+    run_validator(root, false, "Founder integrated disposition rebinding negative", expected_failure: "integrated capability route was removed, replaced, renamed or rebound")
   end
 
   write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), truth)
@@ -846,6 +846,29 @@ Dir.mktmpdir("aios-integrated-route-") do |root|
   ledger_mutation["mandatory_exit_capability_recovery"]["capability_attempt_ledger"]["HIDDEN_SET_PROTOCOL"]["founder_exception_terminal_record_sha256"] = "0" * 64
   write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), ledger_mutation)
   run_validator(root, false, "P1-036 ledger mutation negative", expected_failure: "integrated capability route does not preserve blocked ledger")
+
+  current_route_states = route["mandatory_exit_capabilities"].map do |capability|
+    truth.dig("mandatory_exit_capability_recovery", "capability_status", capability)
+  end
+  if current_route_states == ["CONTRACT_REVIEW_BLOCKED", "CONTRACT_REVIEW_BLOCKED"]
+    partial_terminal = Marshal.load(Marshal.dump(truth))
+    partial_terminal["mandatory_exit_capability_recovery"]["capability_status"][route["mandatory_exit_capabilities"].first] = "RELOCATED_PENDING_INTEGRATED_TASK"
+    write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), partial_terminal)
+    run_validator(root, false, "partial integrated terminal state negative", expected_failure: "integrated capability route current state population is not atomic")
+
+    terminal_reactivation = Marshal.load(Marshal.dump(truth))
+    route["mandatory_exit_capabilities"].each do |capability|
+      terminal_reactivation["mandatory_exit_capability_recovery"]["capability_status"][capability] = "IN_PROGRESS"
+    end
+    terminal_reactivation["mandatory_exit_capability_recovery"]["capability_attempt_ledger"][route["primary_capability"]]["status"] = "ACTIVE"
+    terminal_reactivation["active_work"]["founder_decision_required"] = false
+    terminal_reactivation["active_work"]["escalation_reason"] = nil
+    terminal_reactivation["active_work"]["user_action_required"] = nil
+    terminal_reactivation["active_work"]["next_eligible_action"] = "MASTER_AUTONOMOUSLY_EXECUTE_CURRENT_TASK"
+    write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), terminal_reactivation)
+    run_validator(root, false, "terminal integrated route reactivation negative", expected_failure: "mandatory Exit capability status transition invalid")
+    next
+  end
 
   write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), truth)
 

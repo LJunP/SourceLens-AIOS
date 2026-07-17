@@ -120,8 +120,8 @@ mandatory_exit_capability_recovery:
     - REPRODUCIBLE_BASELINE_REPORT
   capability_status:
     VERSIONED_REPRESENTATIVE_TASK_DATASET: ACCEPTED
-    HIDDEN_SET_PROTOCOL: RELOCATED_PENDING_INTEGRATED_TASK
-    PARAMETERIZED_EVALUATION_HARNESS: MISSING
+    HIDDEN_SET_PROTOCOL: CONTRACT_REVIEW_BLOCKED
+    PARAMETERIZED_EVALUATION_HARNESS: CONTRACT_REVIEW_BLOCKED
     VTSR_COUNTING_VALIDATOR: MISSING
     B0_B1_B2_COMPATIBILITY_ADAPTERS: MISSING
     OBSERVABLE_TRACE: MISSING
@@ -158,7 +158,19 @@ mandatory_exit_capability_recovery:
       founder_exception_route_status: PERMANENTLY_STOPPED_AFTER_SECURITY_NON_PASS
       founder_exception_route_recovery_allowed: false
       founder_escalation_required: true
-    PARAMETERIZED_EVALUATION_HARNESS: null
+    PARAMETERIZED_EVALUATION_HARNESS:
+      status: CONTRACT_REVIEW_BLOCKED
+      task_id: AIOS-P1-037_PARAMETERIZED_EVALUATION_HARNESS_WITH_HIDDEN_ADMISSION
+      attempt_ordinal: 1
+      contract_sha256: 87e32f0d4aea6ac2bec1b0f479680ccc34b2f7942651d5cc2fe4100bc14575b9
+      bounded_contract_corrections_used: 1
+      integrated_mandatory_exit_capabilities:
+        - HIDDEN_SET_PROTOCOL
+        - PARAMETERIZED_EVALUATION_HARNESS
+      founder_architecture_route_id: P1_037_HIDDEN_ADMISSION_PARAMETERIZED_HARNESS
+      failure_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-037-parameterized-harness/contract-review/CONTRACT_REVIEW_FAILURE_RECORD.json
+      failure_record_sha256: efb4334e73d3c4d20a6d263ce8543b2895cef1d539348f548e2bfbe90fbfdf55
+      founder_escalation_required: true
     VTSR_COUNTING_VALIDATOR: null
     B0_B1_B2_COMPATIBILITY_ADAPTERS: null
     OBSERVABLE_TRACE: null
@@ -319,10 +331,10 @@ active_work:
   offsite_target: null
   founder_reserved_authorization: null
   founder_reserved_authorization_sha256: null
-  founder_decision_required: false
-  escalation_reason: null
-  user_action_required: null
-  next_eligible_action: MASTER_AUTONOMOUSLY_PREPARE_AND_EXECUTE_P1_037_INTEGRATED_VERTICAL_SLICE
+  founder_decision_required: true
+  escalation_reason: mandatory_exit_capability_blocked
+  user_action_required: FOUNDER_DECISION_REQUIRED
+  next_eligible_action: WAIT_FOR_FOUNDER_MANDATORY_EXIT_CAPABILITY_DECISION
 
 superseded_pre_delegation_authorizations:
   aios_p1_009:
@@ -930,10 +942,19 @@ claim_boundary:
   p1_036_route_recovery_allowed: false
   p1_036_implementation_started: false
   p1_036_capability_claims: 0
-  p1_037_integrated_vertical_slice_disposition: FOUNDER_APPROVED_PENDING_TASK_PREPARATION
+  p1_037_integrated_vertical_slice_disposition: PERMANENTLY_STOPPED_AFTER_FINAL_SECURITY_NON_PASS
   p1_037_integrated_capabilities:
     - HIDDEN_SET_PROTOCOL
     - PARAMETERIZED_EVALUATION_HARNESS
+  p1_037_original_contract_sha256: e2dd93d53faf55d4880ae1b46b991013c9cd5453b33a4a9492cc0927144ef0a8
+  p1_037_final_corrected_contract_sha256: 87e32f0d4aea6ac2bec1b0f479680ccc34b2f7942651d5cc2fe4100bc14575b9
+  p1_037_bounded_contract_corrections_used: 1
+  p1_037_final_cto_review: PASS
+  p1_037_final_security_review: NON_PASS
+  p1_037_final_quality_review: CANCELLED_AFTER_SECURITY_NON_PASS
+  p1_037_failure_record_sha256: efb4334e73d3c4d20a6d263ce8543b2895cef1d539348f548e2bfbe90fbfdf55
+  p1_037_implementation_started: false
+  p1_037_route_recovery_allowed: false
   p1_037_partial_acceptance_allowed: false
   p1_037_capability_claims: 0
   p1_011_environment_snapshot_capture_replay: MASTER_TASK_GATE_ACCEPTED_CONFORMANCE_ONLY

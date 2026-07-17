@@ -37,6 +37,24 @@ rescue JSON::ParserError
   stop!("#{label} is not valid JSON")
 end
 
+def validate_artifact_index!(index, evidence_root, task_id, capability, commit, tree)
+  stop!("accepted Exit capability artifact index header drift") unless index["record_type"] == "aios_p1_mandatory_capability_artifact_index" && index["status"] == "FROZEN" && index["task_id"] == task_id && index["mandatory_exit_capability"] == capability && index["candidate_commit"] == commit && index["candidate_tree"] == tree
+  artifacts = index["artifacts"]
+  stop!("accepted Exit capability artifact index is empty") unless artifacts.is_a?(Array) && !artifacts.empty?
+  paths = []
+  artifacts.each do |artifact|
+    stop!("accepted Exit capability artifact index entry schema drift") unless artifact.is_a?(Hash) && artifact.keys.sort == %w[byte_length path sha256].sort && artifact["path"].is_a?(String) && artifact["sha256"].is_a?(String) && artifact["sha256"].match?(/\A[0-9a-f]{64}\z/) && artifact["byte_length"].is_a?(Integer) && artifact["byte_length"] >= 0
+    relative = Pathname.new(artifact["path"])
+    stop!("accepted Exit capability artifact path is not canonical relative") if relative.absolute? || relative.cleanpath.to_s != artifact["path"] || artifact["path"] == "."
+    absolute = File.join(evidence_root, artifact["path"])
+    stop!("accepted Exit capability artifact escaped Evidence root") unless safe_under_root?(absolute, evidence_root, must_exist: true) && File.file?(absolute) && !File.symlink?(absolute)
+    bytes = File.binread(absolute)
+    stop!("accepted Exit capability artifact identity drift") unless bytes.bytesize == artifact["byte_length"] && Digest::SHA256.hexdigest(bytes) == artifact["sha256"]
+    paths << artifact["path"]
+  end
+  stop!("accepted Exit capability artifact index contains duplicate paths") unless paths.uniq.length == paths.length
+end
+
 def exact_terminal_status?(value)
   value.is_a?(String) && (value == "TERMINAL_STOPPED" || value.start_with?("TERMINAL_STOPPED_"))
 end
@@ -267,6 +285,7 @@ expected_exit_capabilities = %w[
   EVALUATOR_DISAGREEMENT_AND_FALSE_SUCCESS_CHARACTERIZATION
   REPRODUCIBLE_BASELINE_REPORT
 ]
+mandatory_capability_claim_boundary = "P1_EXIT_CAPABILITY_ENGINEERING_ARTIFACT_ONLY_NO_BENCHMARK_AGENT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM"
 stop!("mandatory Exit capability recovery is inactive") unless mandatory_recovery["status"] == "ACTIVE"
 stop!("mandatory Exit capability priority drift") unless mandatory_recovery["priority_order"] == expected_exit_capabilities
 stop!("historical Task immutability weakened") unless mandatory_recovery["historical_tasks_immutable"] == true
@@ -324,8 +343,17 @@ capability_status.each do |capability, state|
       "mandatory_exit_capability" => capability,
       "task_contract_sha256" => contract_sha,
       "candidate_commit" => commit,
-      "candidate_tree" => tree
+      "candidate_tree" => tree,
+      "artifact_index_path" => entry["artifact_index_path"],
+      "artifact_index_sha256" => entry["artifact_index_sha256"],
+      "replay_result" => "PASS",
+      "rebuild_result" => "PASS",
+      "rollback_result" => "PASS",
+      "claim_boundary" => mandatory_capability_claim_boundary
     }
+    stop!("accepted Exit capability claim boundary drift") unless entry["claim_boundary"] == mandatory_capability_claim_boundary
+    artifact_index = bound_json!(entry["artifact_index_path"], entry["artifact_index_sha256"], evidence_root, "accepted Exit capability artifact index")
+    validate_artifact_index!(artifact_index, evidence_root, entry["task_id"], capability, commit, tree)
     %w[cto security quality].each do |role|
       review = bound_json!(entry["#{role}_review_path"], entry["#{role}_review_sha256"], evidence_root, "accepted Exit capability #{role} review")
       stop!("accepted Exit capability #{role} review content drift") unless review == {
@@ -337,7 +365,8 @@ capability_status.each do |capability, state|
         "task_contract_sha256" => contract_sha,
         "candidate_commit" => commit,
         "candidate_tree" => tree,
-        "evidence_manifest_sha256" => entry["evidence_manifest_sha256"]
+        "evidence_manifest_sha256" => entry["evidence_manifest_sha256"],
+        "claim_boundary" => mandatory_capability_claim_boundary
       }
     end
     gate = bound_json!(entry["task_gate_receipt_path"], entry["task_gate_receipt_sha256"], evidence_root, "accepted Exit capability Task Gate receipt")
@@ -353,7 +382,8 @@ capability_status.each do |capability, state|
       "evidence_manifest_sha256" => entry["evidence_manifest_sha256"],
       "cto_review_sha256" => entry["cto_review_sha256"],
       "security_review_sha256" => entry["security_review_sha256"],
-      "quality_review_sha256" => entry["quality_review_sha256"]
+      "quality_review_sha256" => entry["quality_review_sha256"],
+      "claim_boundary" => mandatory_capability_claim_boundary
     }
   when "ARCHITECTURE_BLOCKED"
     entry = attempts.first

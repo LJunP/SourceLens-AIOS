@@ -559,6 +559,54 @@ if policy["version"] == "1.3"
     decision.dig("final_engineering_route", "capability_projection") == delivery_simplification["capability_projection"]
 end
 
+project_level_reopen = mandatory_recovery["project_level_reopen"]
+if project_level_reopen
+  expected_reopen_keys = %w[
+    record_type status authority approved_at_utc decision_record_path decision_record_sha256
+    decision_record_byte_length canonical_parent_commit canonical_parent_tree stopped_task_id
+    terminal_record_sha256 terminal_evidence_manifest_sha256 master_context_mode
+    role_local_context_required failed_contract_body_broad_search_allowed
+    failed_engineering_asset_reuse_allowed slice_1_clean_room_task_limit
+    slice_1_reopen_attempt successor_replacement_correction_chain_allowed external_effects_authorized
+  ]
+  stop!("P1 project-level reopen schema drift") unless
+    project_level_reopen.is_a?(Hash) && project_level_reopen.keys.sort == expected_reopen_keys.sort
+  stop!("P1 project-level reopen authority drift") unless
+    project_level_reopen["record_type"] == "p1_project_level_reopen_with_role_local_context_separation" &&
+    project_level_reopen["status"] == "FOUNDER_APPROVED_ACTIVE" &&
+    project_level_reopen["authority"] == "HUMAN_FOUNDER" &&
+    valid_utc_timestamp?(project_level_reopen["approved_at_utc"]) &&
+    project_level_reopen["canonical_parent_commit"] == "8553f8eeb669c091f0b1631b057646802d2f2451" &&
+    project_level_reopen["canonical_parent_tree"] == "648c7ebd8376ea7ee5c618db961758e88869930f" &&
+    project_level_reopen["stopped_task_id"] == "AIOS-P1-041_PARAMETERIZED_EVALUATION_CORE_IMPLEMENTATION" &&
+    project_level_reopen["terminal_record_sha256"] == "56e38253a32dd2ec63177781fda21e50f87101c4ecad9b537c55634931f69d92" &&
+    project_level_reopen["terminal_evidence_manifest_sha256"] == "6bd4cee5836c0fd13893cdc7da284d1cbe04a0791735115b4e1ee92ee16a4250"
+  stop!("P1 project-level reopen safety boundary drift") unless
+    project_level_reopen["master_context_mode"] == "CURRENT_AUTHORITY_ACCEPTED_ASSETS_AND_EXACT_TRUTH_METADATA_ONLY" &&
+    project_level_reopen["role_local_context_required"] == true &&
+    project_level_reopen["failed_contract_body_broad_search_allowed"] == false &&
+    project_level_reopen["failed_engineering_asset_reuse_allowed"] == false &&
+    project_level_reopen["slice_1_clean_room_task_limit"] == 1 &&
+    (project_level_reopen["slice_1_reopen_attempt"].nil? || project_level_reopen["slice_1_reopen_attempt"].is_a?(Hash)) &&
+    project_level_reopen["successor_replacement_correction_chain_allowed"] == false &&
+    project_level_reopen["external_effects_authorized"] == false
+  reopen_decision = bound_json!(
+    project_level_reopen["decision_record_path"],
+    project_level_reopen["decision_record_sha256"],
+    recovery_evidence_base,
+    "P1 project-level reopen Founder decision"
+  )
+  stop!("P1 project-level reopen decision byte length drift") unless
+    File.binread(project_level_reopen["decision_record_path"]).bytesize == project_level_reopen["decision_record_byte_length"]
+  stop!("P1 project-level reopen decision content drift") unless
+    reopen_decision["record_type"] == "sourcelens_aios_founder_p1_project_level_reopen_decision" &&
+    reopen_decision["status"] == "APPROVED" && reopen_decision["authority"] == "HUMAN_FOUNDER" &&
+    reopen_decision.dig("canonical_parent", "commit") == project_level_reopen["canonical_parent_commit"] &&
+    reopen_decision.dig("canonical_parent", "tree") == project_level_reopen["canonical_parent_tree"] &&
+    reopen_decision.dig("p1_reopen", "approved") == true &&
+    reopen_decision.dig("role_local_context_separation", "status") == "FOUNDER_APPROVED_MANDATORY"
+end
+
 historical_metadata_boundary = mandatory_recovery["historical_governance_metadata_read_boundary"]
 if historical_metadata_boundary
 expected_boundary_keys = %w[
@@ -1591,7 +1639,7 @@ if (transition = previous_truth_transition(truth_bytes))
       integrated_capability_routes final_clean_room_implementation_route
       final_clean_room_implementation_attempt final_clean_room_contract_review_terminal
       post_revision_final_implementation_route post_revision_final_implementation_attempt
-      post_revision_final_route_terminal project_level_rebaseline delivery_architecture_simplification founder_dispositions
+      post_revision_final_route_terminal project_level_rebaseline delivery_architecture_simplification project_level_reopen founder_dispositions
       founder_decision_source maximum_same_task_bounded_contract_repairs
     ].each do |field|
       previous_recovery_invariants.delete(field)
@@ -1661,6 +1709,33 @@ if (transition = previous_truth_transition(truth_bytes))
         current_rebaseline["decision_record_sha256"] == "083dc4d5f071bb82b6da3681c62e5a4ce37bfa8cac52c3f4da0f0ac5fea2d1f2"
     end
 
+    previous_project_reopen = previous_recovery["project_level_reopen"]
+    current_project_reopen = current_recovery["project_level_reopen"]
+    if previous_project_reopen
+      previous_reopen_immutable = Marshal.load(Marshal.dump(previous_project_reopen))
+      current_reopen_immutable = Marshal.load(Marshal.dump(current_project_reopen))
+      previous_reopen_immutable.delete("slice_1_reopen_attempt")
+      current_reopen_immutable.delete("slice_1_reopen_attempt")
+      stop!("P1 project-level reopen binding changed or was removed") unless
+        current_project_reopen.is_a?(Hash) && current_reopen_immutable == previous_reopen_immutable
+      if previous_project_reopen["slice_1_reopen_attempt"].nil? && current_project_reopen["slice_1_reopen_attempt"]
+        attempt = current_project_reopen["slice_1_reopen_attempt"]
+        stop!("P1 project-level reopen attempt initialization invalid") unless
+          attempt.is_a?(Hash) && attempt["attempt_ordinal"] == 2 &&
+          attempt["project_level_reopen_decision_sha256"] == current_project_reopen["decision_record_sha256"]
+      else
+        stop!("P1 project-level reopen attempt changed or was removed") unless
+          current_project_reopen["slice_1_reopen_attempt"] == previous_project_reopen["slice_1_reopen_attempt"]
+      end
+    elsif current_project_reopen
+      stop!("P1 project-level reopen initialization is not exact Founder-bound") unless
+        current_project_reopen["authority"] == "HUMAN_FOUNDER" &&
+        current_project_reopen["status"] == "FOUNDER_APPROVED_ACTIVE" &&
+        current_project_reopen["decision_record_sha256"] == "975c398038d54a54ff1646e4e80ce3029a6dc2754882d6cfa88dbfecc902c2e1" &&
+        previous_rebaseline&.dig("p1_status") == "TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION" &&
+        current_rebaseline&.dig("p1_status") == "REBASELINED_PENDING_EXECUTION"
+    end
+
     allowed_status_transitions = {
       "MISSING" => %w[MISSING REBASELINED_PENDING_EXECUTION IN_PROGRESS CONTRACT_REVIEW_BLOCKED FOUNDER_DISPOSED],
       "RELOCATED_PENDING_INTEGRATED_TASK" => %w[RELOCATED_PENDING_INTEGRATED_TASK IN_PROGRESS CONTRACT_REVIEW_BLOCKED],
@@ -1672,12 +1747,17 @@ if (transition = previous_truth_transition(truth_bytes))
       "ARCHITECTURE_BLOCKED" => %w[ARCHITECTURE_BLOCKED REBASELINED_PENDING_EXECUTION FOUNDER_DISPOSED],
       "ACCEPTED" => %w[ACCEPTED],
       "FOUNDER_DISPOSED" => %w[FOUNDER_DISPOSED],
-      "P1_TERMINAL_STOPPED_NOT_ACCEPTED" => %w[P1_TERMINAL_STOPPED_NOT_ACCEPTED]
+      "P1_TERMINAL_STOPPED_NOT_ACCEPTED" => %w[P1_TERMINAL_STOPPED_NOT_ACCEPTED REBASELINED_PENDING_EXECUTION]
     }
     expected_exit_capabilities.each do |capability|
       previous_state = previous_recovery.dig("capability_status", capability)
       current_state = current_recovery.dig("capability_status", capability)
       stop!("mandatory Exit capability status transition invalid: #{capability}") unless allowed_status_transitions.fetch(previous_state).include?(current_state)
+      if previous_state == "P1_TERMINAL_STOPPED_NOT_ACCEPTED" && current_state == "REBASELINED_PENDING_EXECUTION"
+        stop!("P1 terminal capability reopened without the exact Founder project-level decision") unless
+          previous_project_reopen.nil? && current_project_reopen &&
+          current_project_reopen["decision_record_sha256"] == "975c398038d54a54ff1646e4e80ce3029a6dc2754882d6cfa88dbfecc902c2e1"
+      end
       if previous_state == "CONTRACT_REVIEW_BLOCKED" && current_state == "FOUNDER_REVISED_PENDING_IMPLEMENTATION"
         stop!("Founder revision transition may occur only while initializing the one post-revision route") unless
           previous_post_revision_route.nil? && current_post_revision_route &&

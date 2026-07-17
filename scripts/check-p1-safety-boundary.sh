@@ -23,12 +23,12 @@ ruby -ryaml -rjson -rdigest -e '
   rebaseline = truth.dig("mandatory_exit_capability_recovery", "project_level_rebaseline")
   delivery = truth.dig("mandatory_exit_capability_recovery", "delivery_architecture_simplification")
   abort "P1 rebaseline safety envelope missing" unless
-    rebaseline.is_a?(Hash) && rebaseline["status"] == "FOUNDER_APPROVED_ACTIVE" &&
+    rebaseline.is_a?(Hash) && %w[FOUNDER_APPROVED_ACTIVE TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION].include?(rebaseline["status"]) &&
     rebaseline["task_limit"] == 4 && rebaseline["post_freeze_contract_corrections"] == 0 &&
     rebaseline["successor_replacement_correction_chain_allowed"] == false &&
     rebaseline["default_external_effects_authorized"] == false
   abort "P1 simplified delivery safety envelope missing" unless
-    delivery.is_a?(Hash) && delivery["status"] == "FOUNDER_APPROVED_ACTIVE" &&
+    delivery.is_a?(Hash) && %w[FOUNDER_APPROVED_ACTIVE TERMINAL_STOPPED_AFTER_P1_041_SCOPE_COMPLIANCE_FAILURE].include?(delivery["status"]) &&
     delivery["post_freeze_contract_corrections"] == 0 &&
     delivery["independent_evaluator_verdict_path_separate_from_worker_runtime"] == true &&
     delivery["worker_may_write_evaluator_verdict"] == false &&

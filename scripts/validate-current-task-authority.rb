@@ -414,7 +414,7 @@ stop!("rebaseline pre-freeze bounded Contract correction limit drift") unless ma
 stop!("peripheral Task selection enabled") unless mandatory_recovery["peripheral_task_selection_allowed"] == false
 capability_status = mandatory_recovery["capability_status"]
 stop!("mandatory Exit capability status population drift") unless capability_status.is_a?(Hash) && capability_status.keys == expected_exit_capabilities
-allowed_capability_states = %w[MISSING RELOCATED_PENDING_INTEGRATED_TASK FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION FOUNDER_REVISED_PENDING_IMPLEMENTATION REBASELINED_PENDING_EXECUTION IN_PROGRESS ACCEPTED FOUNDER_DISPOSED ARCHITECTURE_BLOCKED CONTRACT_REVIEW_BLOCKED]
+allowed_capability_states = %w[MISSING RELOCATED_PENDING_INTEGRATED_TASK FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION FOUNDER_REVISED_PENDING_IMPLEMENTATION REBASELINED_PENDING_EXECUTION IN_PROGRESS ACCEPTED FOUNDER_DISPOSED ARCHITECTURE_BLOCKED CONTRACT_REVIEW_BLOCKED P1_TERMINAL_STOPPED_NOT_ACCEPTED]
 stop!("mandatory Exit capability status invalid") unless capability_status.values.all? { |value| allowed_capability_states.include?(value) }
 attempt_ledger = mandatory_recovery["capability_attempt_ledger"]
 stop!("mandatory Exit capability attempt ledger population drift") unless attempt_ledger.is_a?(Hash) && attempt_ledger.keys == expected_exit_capabilities
@@ -439,7 +439,7 @@ stop!("P1 project-level rebaseline schema drift") unless
   rebaseline.is_a?(Hash) && rebaseline.keys.sort == expected_rebaseline_keys.sort
 stop!("P1 project-level rebaseline authority drift") unless
   rebaseline["record_type"] == "p1_exit_gate_project_level_rebaseline" &&
-  rebaseline["status"] == "FOUNDER_APPROVED_ACTIVE" &&
+  %w[FOUNDER_APPROVED_ACTIVE TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION].include?(rebaseline["status"]) &&
   rebaseline["authority"] == "HUMAN_FOUNDER" &&
   valid_utc_timestamp?(rebaseline["approved_at_utc"])
 stop!("P1 project-level rebaseline parent drift") unless
@@ -457,7 +457,7 @@ stop!("P1 project-level rebaseline parent drift") unless
   stop!("P1 rebaseline #{label} byte drift") unless bytes.bytesize == byte_length && Digest::SHA256.hexdigest(bytes) == digest
 end
 stop!("P1 rebaseline budget or anti-loop boundary drift") unless
-  %w[REBASELINED_PENDING_EXECUTION REBASELINED_SLICE_ACTIVE P1_EXIT_EVIDENCE_COMPLETE_PENDING_FOUNDER_GATE].include?(rebaseline["p1_status"]) &&
+  %w[REBASELINED_PENDING_EXECUTION REBASELINED_SLICE_ACTIVE P1_EXIT_EVIDENCE_COMPLETE_PENDING_FOUNDER_GATE TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION].include?(rebaseline["p1_status"]) &&
   rebaseline["task_limit"] == 4 &&
   rebaseline["engineering_hours_limit"] == 76 &&
   rebaseline["calendar_days_limit"] == 21 &&
@@ -485,7 +485,10 @@ stop!("P1 rebaseline aggregate budget drift") unless
 slice_attempts = rebaseline["slice_attempts"]
 stop!("P1 rebaseline slice attempt ledger invalid") unless
   slice_attempts.is_a?(Hash) && (slice_attempts.keys - %w[1 2 3 4]).empty?
-stop!("P1 rebaseline next slice ordinal invalid") unless rebaseline["next_slice_ordinal"].is_a?(Integer) && rebaseline["next_slice_ordinal"].between?(1, 5)
+rebaseline_terminal = rebaseline["p1_status"] == "TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION"
+stop!("P1 rebaseline next slice ordinal invalid") unless
+  (rebaseline_terminal && rebaseline["next_slice_ordinal"].nil? && rebaseline["next_slice_action"] == "FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED") ||
+  (!rebaseline_terminal && rebaseline["next_slice_ordinal"].is_a?(Integer) && rebaseline["next_slice_ordinal"].between?(1, 5))
 end
 
 delivery_simplification = mandatory_recovery["delivery_architecture_simplification"]
@@ -503,7 +506,7 @@ if policy["version"] == "1.3"
     delivery_simplification.is_a?(Hash) && delivery_simplification.keys.sort == expected_delivery_keys.sort
   stop!("P1 delivery architecture simplification authority drift") unless
     delivery_simplification["record_type"] == "p1_delivery_architecture_simplification" &&
-    delivery_simplification["status"] == "FOUNDER_APPROVED_ACTIVE" &&
+    %w[FOUNDER_APPROVED_ACTIVE TERMINAL_STOPPED_AFTER_P1_041_SCOPE_COMPLIANCE_FAILURE].include?(delivery_simplification["status"]) &&
     delivery_simplification["authority"] == "HUMAN_FOUNDER" &&
     valid_utc_timestamp?(delivery_simplification["approved_at_utc"])
   stop!("P1 delivery architecture simplification boundary drift") unless
@@ -1035,7 +1038,8 @@ if final_clean_room_terminal
         (rebaseline && terminal_projection.all? { |state| %w[REBASELINED_PENDING_EXECUTION IN_PROGRESS ACCEPTED].include?(state) }) ||
         terminal_projection == ["IN_PROGRESS", "IN_PROGRESS"] ||
         terminal_projection == ["ACCEPTED", "ACCEPTED"] ||
-        (mandatory_recovery["post_revision_final_route_terminal"] && terminal_projection == ["ARCHITECTURE_BLOCKED", "ARCHITECTURE_BLOCKED"])
+        (mandatory_recovery["post_revision_final_route_terminal"] && terminal_projection == ["ARCHITECTURE_BLOCKED", "ARCHITECTURE_BLOCKED"]) ||
+        (rebaseline && terminal_projection == ["P1_TERMINAL_STOPPED_NOT_ACCEPTED", "P1_TERMINAL_STOPPED_NOT_ACCEPTED"])
       ))
 
   stop!("final clean-room terminal Contract identity drift") unless
@@ -1237,7 +1241,7 @@ if post_revision_terminal
   current_post_revision_projection = post_revision_capabilities.map { |capability| capability_status[capability] }
   if rebaseline
     stop!("post-revision historical terminal capability projection escaped the approved rebaseline") unless
-      current_post_revision_projection.all? { |state| %w[REBASELINED_PENDING_EXECUTION IN_PROGRESS ACCEPTED].include?(state) }
+      current_post_revision_projection.all? { |state| %w[REBASELINED_PENDING_EXECUTION IN_PROGRESS ACCEPTED P1_TERMINAL_STOPPED_NOT_ACCEPTED].include?(state) }
   else
     stop!("post-revision final route terminal capability projection is not atomic") unless
       current_post_revision_projection == ["ARCHITECTURE_BLOCKED", "ARCHITECTURE_BLOCKED"]
@@ -1644,7 +1648,7 @@ if (transition = previous_truth_transition(truth_bytes))
       stop!("P1 project-level rebaseline was removed") unless current_rebaseline.is_a?(Hash)
       previous_rebaseline_immutable = Marshal.load(Marshal.dump(previous_rebaseline))
       current_rebaseline_immutable = Marshal.load(Marshal.dump(current_rebaseline))
-      %w[p1_status current_task slice_attempts next_slice_ordinal next_slice_action].each do |field|
+      %w[status p1_status current_task slice_attempts next_slice_ordinal next_slice_action].each do |field|
         previous_rebaseline_immutable.delete(field)
         current_rebaseline_immutable.delete(field)
       end
@@ -1662,12 +1666,13 @@ if (transition = previous_truth_transition(truth_bytes))
       "RELOCATED_PENDING_INTEGRATED_TASK" => %w[RELOCATED_PENDING_INTEGRATED_TASK IN_PROGRESS CONTRACT_REVIEW_BLOCKED],
       "FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION" => %w[FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION IN_PROGRESS CONTRACT_REVIEW_BLOCKED],
       "FOUNDER_REVISED_PENDING_IMPLEMENTATION" => %w[FOUNDER_REVISED_PENDING_IMPLEMENTATION REBASELINED_PENDING_EXECUTION IN_PROGRESS ARCHITECTURE_BLOCKED],
-      "REBASELINED_PENDING_EXECUTION" => %w[REBASELINED_PENDING_EXECUTION IN_PROGRESS ACCEPTED ARCHITECTURE_BLOCKED],
-      "IN_PROGRESS" => %w[IN_PROGRESS ACCEPTED ARCHITECTURE_BLOCKED],
+      "REBASELINED_PENDING_EXECUTION" => %w[REBASELINED_PENDING_EXECUTION IN_PROGRESS ACCEPTED ARCHITECTURE_BLOCKED P1_TERMINAL_STOPPED_NOT_ACCEPTED],
+      "IN_PROGRESS" => %w[IN_PROGRESS ACCEPTED ARCHITECTURE_BLOCKED P1_TERMINAL_STOPPED_NOT_ACCEPTED],
       "CONTRACT_REVIEW_BLOCKED" => %w[CONTRACT_REVIEW_BLOCKED RELOCATED_PENDING_INTEGRATED_TASK FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION FOUNDER_REVISED_PENDING_IMPLEMENTATION FOUNDER_DISPOSED],
       "ARCHITECTURE_BLOCKED" => %w[ARCHITECTURE_BLOCKED REBASELINED_PENDING_EXECUTION FOUNDER_DISPOSED],
       "ACCEPTED" => %w[ACCEPTED],
-      "FOUNDER_DISPOSED" => %w[FOUNDER_DISPOSED]
+      "FOUNDER_DISPOSED" => %w[FOUNDER_DISPOSED],
+      "P1_TERMINAL_STOPPED_NOT_ACCEPTED" => %w[P1_TERMINAL_STOPPED_NOT_ACCEPTED]
     }
     expected_exit_capabilities.each do |capability|
       previous_state = previous_recovery.dig("capability_status", capability)
@@ -1874,9 +1879,10 @@ stop!("canonical worktree population drift") unless canonical_worktrees.length =
 
 if current_task == "NONE"
   stop!("NONE state cannot retain an in-progress Exit capability") if capability_status.value?("IN_PROGRESS")
-  founder_blocked_capabilities = capability_status.select { |_capability, state| %w[ARCHITECTURE_BLOCKED CONTRACT_REVIEW_BLOCKED].include?(state) }.keys
+  founder_blocked_capabilities = capability_status.select { |_capability, state| %w[ARCHITECTURE_BLOCKED CONTRACT_REVIEW_BLOCKED P1_TERMINAL_STOPPED_NOT_ACCEPTED].include?(state) }.keys
+  p1_terminal_stop = project_status == "TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION"
   stop!("NONE state goal authority drift") unless goal_task == "NONE"
-  allowed_none_project_statuses = rebaseline ? %w[REBASELINED_PENDING_EXECUTION NO_CURRENT_TASK] : %w[NO_CURRENT_TASK]
+  allowed_none_project_statuses = rebaseline ? %w[REBASELINED_PENDING_EXECUTION NO_CURRENT_TASK TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION] : %w[NO_CURRENT_TASK]
   stop!("NONE state status drift") unless current_status == "NONE" && allowed_none_project_statuses.include?(project_status)
   %w[
     current_task_contract current_task_contract_sha256 current_execution_authorization
@@ -1887,10 +1893,17 @@ if current_task == "NONE"
   ].each do |field|
     stop!("NONE state field must be null: #{field}") unless active[field].nil?
   end
-  stop!("NONE state nonce status drift") unless active["execution_nonce_status"] == "NONE"
-  stop!("NONE state resource status drift") unless active["task_resource_state"] == "NONE"
+  expected_none_nonce_status = p1_terminal_stop ? "NOT_APPLICABLE_TERMINAL_STOPPED" : "NONE"
+  expected_none_resource_status = p1_terminal_stop ? "TERMINAL_STOPPED_RESOURCES_PRESERVED" : "NONE"
+  stop!("NONE state nonce status drift") unless active["execution_nonce_status"] == expected_none_nonce_status
+  stop!("NONE state resource status drift") unless active["task_resource_state"] == expected_none_resource_status
   if founder_blocked_capabilities.empty?
     stop!("NONE state cannot require a Founder decision") unless founder_required == false && escalation_reason.nil?
+  elsif p1_terminal_stop
+    stop!("P1 terminal stop must escalate project-level Founder disposition") unless
+      founder_required == true &&
+      escalation_reason == "P1_041_EXECUTION_SCOPE_COMPLIANCE_FAILURE_TRIGGERED_P1_FINAL_STOP_CONDITION" &&
+      user_action == "FOUNDER_PROJECT_LEVEL_DISPOSITION"
   elsif post_revision_terminal
     stop!("post-revision final route terminal must escalate project-level Founder disposition") unless
       founder_required == true &&
@@ -1899,7 +1912,8 @@ if current_task == "NONE"
   else
     stop!("blocked mandatory capability must escalate Founder") unless founder_required == true && escalation_reason == "mandatory_exit_capability_blocked" && user_action == "FOUNDER_DECISION_REQUIRED"
   end
-  stop!("NONE state task claim drift") unless truth.dig("phase_execution_claim", "current_task_claim") == "NO_CURRENT_TASK"
+  expected_none_claim = p1_terminal_stop ? "NONE_P1_TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION" : "NO_CURRENT_TASK"
+  stop!("NONE state task claim drift") unless truth.dig("phase_execution_claim", "current_task_claim") == expected_none_claim
   stop!("Task branches remain while no Task is active") unless task_branches.empty?
   stop!("Task worktrees remain while no Task is active") unless worktrees.length == 1
   forbidden_routine_action = /FOUNDER.*(APPROV|AUTHORIZ)|REQUEST.*FOUNDER|WAIT.*FOUNDER/
@@ -1908,7 +1922,10 @@ if current_task == "NONE"
   if goal_state == "BLOCKED"
     stop!("blocked Goal must request only control-plane resume") unless user_action == "RESUME_LONG_TERM_GOAL_CONTROL_PLANE" && next_action.start_with?("USER_RESUME_LONG_TERM_GOAL")
   elsif goal_state == "ACTIVE"
-    if founder_blocked_capabilities.empty?
+    if p1_terminal_stop
+      stop!("P1 terminal stop must wait for project-level Founder disposition") unless
+        next_action == "FOUNDER_DECIDE_STOP_P1_OR_AUTHORIZE_STRATEGIC_REVISION"
+    elsif founder_blocked_capabilities.empty?
       stop!("active Goal cannot require routine user action") unless user_action.nil?
       stop!("active Goal must advertise autonomous Master continuation") unless next_action.include?("MASTER_AUTONOMOUS")
     elsif post_revision_terminal

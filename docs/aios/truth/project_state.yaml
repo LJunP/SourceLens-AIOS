@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-17T11:55:40Z"
-verification_scope: P1_041_PARAMETERIZED_EVALUATION_CORE_ACTIVATION
+last_verified_at: "2026-07-17T12:13:32Z"
+verification_scope: P1_041_TERMINAL_STOP_AND_P1_PROJECT_LEVEL_DISPOSITION_REQUIRED
 
 authority:
   founder: Human Founder
@@ -34,7 +34,7 @@ goal:
   observed_raw_body_sha256: 9b59ffc6919473b596f09a96afc1e8684f076f5ac32c6014ac96344a496cd0d8
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_LONG_TERM_GOAL_IDENTITY_PRESERVED
-  current_task_authority: AIOS-P1-041_PARAMETERIZED_EVALUATION_CORE_IMPLEMENTATION
+  current_task_authority: NONE
   note: The Founder-approved long-term Goal identity is canonical and the Codex control-plane Goal is ACTIVE. Current Task authority is expressed only by current_task_authority and active_work; the Phase-level delegation policy requires autonomous P1 continuation without routine Founder approvals.
 
 project:
@@ -45,8 +45,8 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  phase_execution_status: TASK_ACTIVE
-  p1_execution_status: TASK_ACTIVE
+  phase_execution_status: TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION
+  p1_execution_status: TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -268,13 +268,13 @@ mandatory_exit_capability_recovery:
     - REPRODUCIBLE_BASELINE_REPORT
   capability_status:
     VERSIONED_REPRESENTATIVE_TASK_DATASET: ACCEPTED
-    HIDDEN_SET_PROTOCOL: REBASELINED_PENDING_EXECUTION
-    PARAMETERIZED_EVALUATION_HARNESS: IN_PROGRESS
-    VTSR_COUNTING_VALIDATOR: IN_PROGRESS
-    B0_B1_B2_COMPATIBILITY_ADAPTERS: REBASELINED_PENDING_EXECUTION
-    OBSERVABLE_TRACE: IN_PROGRESS
-    EVALUATOR_DISAGREEMENT_AND_FALSE_SUCCESS_CHARACTERIZATION: REBASELINED_PENDING_EXECUTION
-    REPRODUCIBLE_BASELINE_REPORT: REBASELINED_PENDING_EXECUTION
+    HIDDEN_SET_PROTOCOL: P1_TERMINAL_STOPPED_NOT_ACCEPTED
+    PARAMETERIZED_EVALUATION_HARNESS: P1_TERMINAL_STOPPED_NOT_ACCEPTED
+    VTSR_COUNTING_VALIDATOR: P1_TERMINAL_STOPPED_NOT_ACCEPTED
+    B0_B1_B2_COMPATIBILITY_ADAPTERS: P1_TERMINAL_STOPPED_NOT_ACCEPTED
+    OBSERVABLE_TRACE: P1_TERMINAL_STOPPED_NOT_ACCEPTED
+    EVALUATOR_DISAGREEMENT_AND_FALSE_SUCCESS_CHARACTERIZATION: P1_TERMINAL_STOPPED_NOT_ACCEPTED
+    REPRODUCIBLE_BASELINE_REPORT: P1_TERMINAL_STOPPED_NOT_ACCEPTED
   capability_attempt_ledger:
     VERSIONED_REPRESENTATIVE_TASK_DATASET:
       status: ACCEPTED
@@ -463,7 +463,7 @@ mandatory_exit_capability_recovery:
     project_level_disposition_required: true
   project_level_rebaseline:
     record_type: p1_exit_gate_project_level_rebaseline
-    status: FOUNDER_APPROVED_ACTIVE
+    status: TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION
     authority: HUMAN_FOUNDER
     approved_at_utc: "2026-07-17T09:24:48Z"
     plan_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exit-gate-project-level-rebaseline-20260717T091107Z/P1_EXIT_GATE_PROJECT_LEVEL_REBASELINE.md
@@ -474,8 +474,8 @@ mandatory_exit_capability_recovery:
     decision_record_byte_length: 8799
     canonical_parent_commit: eca59026d57f6c67f268a44d41564fdb0a2ecc5f
     canonical_parent_tree: 29db5c1bd565e582a6a209f6a81c9efb0349f3e4
-    p1_status: REBASELINED_SLICE_ACTIVE
-    current_task: AIOS-P1-041_PARAMETERIZED_EVALUATION_CORE_IMPLEMENTATION
+    p1_status: TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION
+    current_task: NONE
     task_limit: 4
     engineering_hours_limit: 76
     calendar_days_limit: 21
@@ -526,7 +526,7 @@ mandatory_exit_capability_recovery:
         claim_boundary: P1_INITIAL_SMALL_SAMPLE_REPRODUCIBLE_BASELINE_ONLY_NO_BROAD_GENERALIZATION_A0_P2_P3_PRODUCTION_OR_STATISTICAL_CERTAINTY_CLAIM
     slice_attempts:
       "1":
-        status: ACTIVE
+        status: TERMINAL_STOPPED_AFTER_HISTORICAL_CONTRACT_READ_BOUNDARY_VIOLATION
         task_id: AIOS-P1-041_PARAMETERIZED_EVALUATION_CORE_IMPLEMENTATION
         attempt_ordinal: 1
         contract_sha256: 950f6979bc9243c1fab8066fa715d3b931b67b102d741d531a96c5526d3ac109
@@ -538,11 +538,23 @@ mandatory_exit_capability_recovery:
         project_level_rebaseline_slice_ordinal: 1
         project_level_rebaseline_decision_sha256: 083dc4d5f071bb82b6da3681c62e5a4ce37bfa8cac52c3f4da0f0ac5fea2d1f2
         delivery_architecture_simplification_decision_sha256: 678f469ca9222662a6814617cfac35ccf229b06f540bedbab5ade6bae10230c0
-    next_slice_ordinal: 1
-    next_slice_action: MASTER_AUTONOMOUSLY_FREEZE_QUALITY_PLAN_AND_EXECUTE_PARAMETERIZED_EVALUATION_CORE
+        task_activated: true
+        quality_freeze_complete: false
+        worker_implementation_started: false
+        candidate_created: false
+        capability_claims: 0
+        terminal_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-041-parameterized-evaluation-core/terminal/P1_041_TERMINAL_STOP_RECORD.json
+        terminal_record_sha256: 56e38253a32dd2ec63177781fda21e50f87101c4ecad9b537c55634931f69d92
+        terminal_evidence_manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-041-parameterized-evaluation-core/terminal/TERMINAL_EVIDENCE_MANIFEST.json
+        terminal_evidence_manifest_sha256: 6bd4cee5836c0fd13893cdc7da284d1cbe04a0791735115b4e1ee92ee16a4250
+        failure_classification: EXECUTION_SCOPE_COMPLIANCE_FAILURE
+        recovery_allowed: false
+        asset_reuse_allowed: false
+    next_slice_ordinal: null
+    next_slice_action: FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED
   delivery_architecture_simplification:
     record_type: p1_delivery_architecture_simplification
-    status: FOUNDER_APPROVED_ACTIVE
+    status: TERMINAL_STOPPED_AFTER_P1_041_SCOPE_COMPLIANCE_FAILURE
     authority: HUMAN_FOUNDER
     approved_at_utc: "2026-07-17T11:28:08Z"
     decision_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-040-parameterized-evaluation-core/terminal/FOUNDER_P1_DELIVERY_ARCHITECTURE_SIMPLIFICATION_DECISION_RECORD.json
@@ -686,28 +698,28 @@ p0_baseline:
   online_verification_status: ARCHIVED_NOT_ON_ACTIVE_PATH
 
 active_work:
-  current_task: AIOS-P1-041_PARAMETERIZED_EVALUATION_CORE_IMPLEMENTATION
-  current_task_status: AUTHORIZED_ACTIVE
-  current_task_contract: docs/aios/tasks/P1-041_PARAMETERIZED_EVALUATION_CORE_IMPLEMENTATION.yaml
-  current_task_contract_sha256: 950f6979bc9243c1fab8066fa715d3b931b67b102d741d531a96c5526d3ac109
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-041-parameterized-evaluation-core/integration/PHASE_DELEGATED_TASK_AUTHORIZATION.json
-  current_execution_authorization_sha256: 1b1238555fe4bb486accf710ba108e28e9d2483ecaaf361e7c7b81390c359457
+  current_task: NONE
+  current_task_status: NONE
+  current_task_contract: null
+  current_task_contract_sha256: null
+  current_execution_authorization: null
+  current_execution_authorization_sha256: null
   execution_nonce: null
-  execution_nonce_status: NOT_REQUIRED_PHASE_DELEGATION
-  authorization_id: 3051d1fdcbbb99767b45e6944567694f7f097af72ef914bcff7337bd24037c3a
-  activation_parent_commit: 249784bd832a22d5bc9677a52c8fdb33a118bcc3
-  activation_parent_tree: 22f47f4379f7c63c634eb72f75c82c9fdc424847
-  task_resource_state: DECLARED
-  task_branch: task/AIOS-P1-041-parameterized-evaluation-core
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-041-parameterized-evaluation-core
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-041-parameterized-evaluation-core
+  execution_nonce_status: NOT_APPLICABLE_TERMINAL_STOPPED
+  authorization_id: null
+  activation_parent_commit: null
+  activation_parent_tree: null
+  task_resource_state: TERMINAL_STOPPED_RESOURCES_PRESERVED
+  task_branch: null
+  task_worktree: null
+  execution_evidence_root: null
   offsite_target: null
   founder_reserved_authorization: null
   founder_reserved_authorization_sha256: null
-  founder_decision_required: false
-  escalation_reason: null
-  user_action_required: null
-  next_eligible_action: MASTER_AUTONOMOUSLY_FREEZE_QUALITY_PLAN_AND_EXECUTE_CURRENT_TASK
+  founder_decision_required: true
+  escalation_reason: P1_041_EXECUTION_SCOPE_COMPLIANCE_FAILURE_TRIGGERED_P1_FINAL_STOP_CONDITION
+  user_action_required: FOUNDER_PROJECT_LEVEL_DISPOSITION
+  next_eligible_action: FOUNDER_DECIDE_STOP_P1_OR_AUTHORIZE_STRATEGIC_REVISION
 
 superseded_pre_delegation_authorizations:
   aios_p1_009:
@@ -1254,6 +1266,44 @@ task_history:
     recovery_allowed: false
     asset_reuse_allowed: false
     claim_boundary: CONTRACT_PREPARATION_TERMINAL_EVIDENCE_ONLY_NO_IMPLEMENTATION_CAPABILITY_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
+  aios_p1_041:
+    task_id: AIOS-P1-041_PARAMETERIZED_EVALUATION_CORE_IMPLEMENTATION
+    status: TERMINAL_STOPPED_AFTER_HISTORICAL_CONTRACT_READ_BOUNDARY_VIOLATION
+    mandatory_exit_capability: PARAMETERIZED_EVALUATION_HARNESS
+    mandatory_exit_capabilities:
+      - PARAMETERIZED_EVALUATION_HARNESS
+      - VTSR_COUNTING_VALIDATOR
+      - OBSERVABLE_TRACE
+    integrated_mandatory_exit_capabilities:
+      - PARAMETERIZED_EVALUATION_HARNESS
+      - VTSR_COUNTING_VALIDATOR
+      - OBSERVABLE_TRACE
+    clean_room_attempt_ordinal: 1
+    project_level_rebaseline_slice_ordinal: 1
+    project_level_rebaseline_decision_sha256: 083dc4d5f071bb82b6da3681c62e5a4ce37bfa8cac52c3f4da0f0ac5fea2d1f2
+    delivery_architecture_simplification_decision_sha256: 678f469ca9222662a6814617cfac35ccf229b06f540bedbab5ade6bae10230c0
+    task_contract: docs/aios/tasks/P1-041_PARAMETERIZED_EVALUATION_CORE_IMPLEMENTATION.yaml
+    task_contract_sha256: 950f6979bc9243c1fab8066fa715d3b931b67b102d741d531a96c5526d3ac109
+    contract_freeze_commit: 249784bd832a22d5bc9677a52c8fdb33a118bcc3
+    contract_freeze_tree: 22f47f4379f7c63c634eb72f75c82c9fdc424847
+    activation_commit: a2472c0496ecaf260a4940c3a2f5eb6bc6ae54d4
+    activation_tree: 8fcdccf3255551dba91cfd2cd3626bbac4254f3a
+    task_activated: true
+    quality_freeze_complete: false
+    quality_commit_created: false
+    worker_implementation_started: false
+    candidate_created: false
+    capability_claims: 0
+    failure_classification: EXECUTION_SCOPE_COMPLIANCE_FAILURE
+    terminal_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-041-parameterized-evaluation-core/terminal/P1_041_TERMINAL_STOP_RECORD.json
+    terminal_record_sha256: 56e38253a32dd2ec63177781fda21e50f87101c4ecad9b537c55634931f69d92
+    terminal_evidence_manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-041-parameterized-evaluation-core/terminal/TERMINAL_EVIDENCE_MANIFEST.json
+    terminal_evidence_manifest_sha256: 6bd4cee5836c0fd13893cdc7da284d1cbe04a0791735115b4e1ee92ee16a4250
+    stopped_unaccepted_quality_asset_count: 10
+    recovery_allowed: false
+    asset_reuse_allowed: false
+    p1_status_projection: TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION
+    claim_boundary: SCOPE_COMPLIANCE_FAILURE_AND_CONTAINMENT_EVIDENCE_ONLY_NO_ENGINEERING_CAPABILITY_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
 
 gate_history:
   - task_id: AIOS-P1-001
@@ -1286,7 +1336,7 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_task_claim: AIOS-P1-041_PARAMETERIZED_EVALUATION_CORE_IMPLEMENTATION
+  current_task_claim: NONE_P1_TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION
   phase_local_allowed:
     - local evaluation foundation engineering under an exact Task Contract
     - synthetic fixtures, deterministic tests, replay, Evidence, rollback and independent review
@@ -1295,6 +1345,7 @@ phase_execution_claim:
     - P1-002 through P1-034 historical Tasks, preparations, Evidence and Reviews remain immutable and cannot resume, retry, supply implementation assets or continue through successor, replacement or correction chains.
     - Historical terminal execution lineage is permanently closed, but it does not permanently ban one clean-room implementation of a still-missing P1 Exit Gate capability under the 2026-07-17 Founder recovery decision.
     - P1-036 through P1-040 remain terminal Historical Evidence and are not reopened by the project-level rebaseline or delivery-architecture simplification.
+    - P1-041 is terminal Historical Evidence after a read-scope compliance failure; its partial Quality assets are unaccepted and non-reusable.
     - Each rebaseline Slice uses one minimal Task Contract candidate with at most one bounded pre-freeze correction; exact bytes freeze only after three-party PASS and permit zero post-freeze correction.
     - Detailed schemas, fixtures, writer maps, artifact lifecycle and evaluator handoff freeze after Task activation and before Worker implementation as Quality-owned executable Evidence, not as a Contract version chain.
   mandatory_priority_rule:
@@ -1358,6 +1409,11 @@ claim_boundary:
   p1_037_final_corrected_contract_sha256: 87e32f0d4aea6ac2bec1b0f479680ccc34b2f7942651d5cc2fe4100bc14575b9
   p1_037_bounded_contract_corrections_used: 1
   p1_037_final_cto_review: PASS
+  p1_041_parameterized_evaluation_core: TERMINAL_STOPPED_NOT_ACCEPTED
+  p1_041_quality_freeze_complete: false
+  p1_041_worker_implementation_started: false
+  p1_041_candidate_created: false
+  p1_041_capability_claims: 0
   p1_037_final_security_review: NON_PASS
   p1_037_final_quality_review: CANCELLED_AFTER_SECURITY_NON_PASS
   p1_037_failure_record_sha256: efb4334e73d3c4d20a6d263ce8543b2895cef1d539348f548e2bfbe90fbfdf55

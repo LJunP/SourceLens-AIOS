@@ -189,12 +189,17 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   project_reopen_target = File.join(project_reopen_root, "FOUNDER_P1_PROJECT_LEVEL_REOPEN_DECISION_RECORD.json")
   FileUtils.cp(project_reopen_source, project_reopen_target)
   project_reopen["decision_record_path"] = project_reopen_target
+  p1_041_history = truth.fetch("task_history").values.find do |entry|
+    entry.is_a?(Hash) && entry["task_id"] == "AIOS-P1-041_PARAMETERIZED_EVALUATION_CORE_IMPLEMENTATION"
+  end
+  raise "current role-local reopen fixture lacks P1-041 terminal metadata" unless p1_041_history
   truth["task_history"] = {
     "aios_p1_006" => {
       "task_id" => "AIOS-P1-006_SYNTHETIC_TERMINAL_HISTORY",
       "status" => "TERMINAL_STOPPED",
       "resume_retry_successor_allowed" => false
-    }
+    },
+    "aios_p1_041" => Marshal.load(Marshal.dump(p1_041_history))
   }
   truth["mandatory_exit_capability_recovery"]["capability_status"].keys.each do |capability|
     truth["mandatory_exit_capability_recovery"]["capability_status"][capability] = "MISSING"
@@ -250,6 +255,27 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   run_validator(root, true, "NONE positive")
 
   none_truth = Marshal.load(Marshal.dump(truth))
+  premature_reopen_attempt = Marshal.load(Marshal.dump(none_truth))
+  premature_reopen_attempt["mandatory_exit_capability_recovery"]["project_level_reopen"]["slice_1_reopen_attempt"] = {
+    "status" => "ACTIVE",
+    "task_id" => "AIOS-P1-042_SYNTHETIC_REOPEN_ATTEMPT",
+    "attempt_ordinal" => 2,
+    "contract_sha256" => "2" * 64,
+    "bounded_contract_corrections_used" => 0,
+    "integrated_mandatory_exit_capabilities" => rebaseline.fetch("slices").first.fetch("capability_projection"),
+    "project_level_rebaseline_slice_ordinal" => 1,
+    "project_level_rebaseline_decision_sha256" => rebaseline.fetch("decision_record_sha256"),
+    "delivery_architecture_simplification_decision_sha256" => delivery.fetch("decision_record_sha256"),
+    "project_level_reopen_decision_sha256" => project_reopen.fetch("decision_record_sha256")
+  }
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), premature_reopen_attempt)
+  run_validator(
+    root,
+    false,
+    "reopened Slice 1 attempt cannot exist before capability activation negative",
+    expected_failure: "P1 project-level reopen attempt/capability state drift"
+  )
+
   bad_none = Marshal.load(Marshal.dump(none_truth))
   bad_none["active_work"]["next_eligible_action"] = "REQUEST_FOUNDER_APPROVAL_FOR_NEXT_P1_TASK"
   write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), bad_none)

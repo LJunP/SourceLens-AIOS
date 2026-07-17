@@ -101,13 +101,47 @@ def write_json(path, value)
   File.write(path, JSON.pretty_generate(value) + "\n", mode: "w:UTF-8")
 end
 
-def run_validator(root, expected_pass, label, expected_failure: nil)
-  stdout, stderr, status = Open3.capture3({ "LC_ALL" => "C", "LANG" => "C" }, "ruby", "scripts/validate-current-task-authority.rb", chdir: root)
+def run_validator(root, expected_pass, label, expected_failure: nil, env: {})
+  validator_env = { "LC_ALL" => "C", "LANG" => "C" }.merge(env)
+  stdout, stderr, status = Open3.capture3(validator_env, "ruby", "scripts/validate-current-task-authority.rb", chdir: root)
   actual = status.success?
   raise "#{label}: expected #{expected_pass ? 'PASS' : 'FAIL'}, observed #{actual ? 'PASS' : 'FAIL'}: #{stdout}#{stderr}" unless actual == expected_pass
   if !expected_pass && expected_failure && !"#{stdout}#{stderr}".include?(expected_failure)
     raise "#{label}: expected failure containing #{expected_failure.inspect}, observed: #{stdout}#{stderr}"
   end
+end
+
+Dir.mktmpdir("aios-rebuild-authority-") do |root|
+  canonical_root = File.join(root, "canonical")
+  rebuild_root = File.join(root, "fresh-clone")
+  run!("git", "clone", "--no-local", "--branch", "main", SOURCE_ROOT, canonical_root)
+  FileUtils.cp(File.join(SOURCE_ROOT, "scripts/validate-current-task-authority.rb"), File.join(canonical_root, "scripts/validate-current-task-authority.rb"))
+  truth_path = File.join(canonical_root, "docs/aios/truth/project_state.yaml")
+  truth = YAML.safe_load(File.read(truth_path), aliases: false)
+  truth["project"]["canonical_repository"] = canonical_root
+  truth["project"]["task_worktree_root"] = File.join(root, "task-worktrees")
+  FileUtils.mkdir_p(truth["project"]["task_worktree_root"])
+  write_yaml(truth_path, truth)
+  run!("git", "config", "user.name", "SourceLens Rebuild Verification Test", chdir: canonical_root)
+  run!("git", "config", "user.email", "rebuild-verification@example.invalid", chdir: canonical_root)
+  run!("git", "add", "docs/aios/truth/project_state.yaml", "scripts/validate-current-task-authority.rb", chdir: canonical_root)
+  run!("git", "commit", "-m", "synthetic rebuild authority source", chdir: canonical_root)
+
+  run!("git", "clone", "--no-local", "--branch", "main", canonical_root, rebuild_root)
+  run_validator(rebuild_root, false, "fresh clone without rebuild mode negative", expected_failure: "canonical repository identity drift")
+  run_validator(canonical_root, false, "canonical cannot use rebuild mode negative", expected_failure: "requires a non-canonical fresh clone", env: { "SOURCELENS_REBUILD_VERIFY" => "1" })
+  run_validator(rebuild_root, true, "clean fresh clone rebuild mode positive", env: { "SOURCELENS_REBUILD_VERIFY" => "1" })
+
+  File.write(File.join(rebuild_root, "UNTRACKED_REBUILD_DRIFT"), "drift\n", mode: "w:UTF-8")
+  run_validator(rebuild_root, false, "dirty fresh clone rebuild mode negative", expected_failure: "clone is not clean", env: { "SOURCELENS_REBUILD_VERIFY" => "1" })
+  FileUtils.rm_f(File.join(rebuild_root, "UNTRACKED_REBUILD_DRIFT"))
+
+  run!("git", "config", "user.name", "SourceLens Rebuild Verification Test", chdir: rebuild_root)
+  run!("git", "config", "user.email", "rebuild-verification@example.invalid", chdir: rebuild_root)
+  File.write(File.join(rebuild_root, "REBUILD_HEAD_DRIFT"), "drift\n", mode: "w:UTF-8")
+  run!("git", "add", "REBUILD_HEAD_DRIFT", chdir: rebuild_root)
+  run!("git", "commit", "-m", "synthetic rebuild head drift", chdir: rebuild_root)
+  run_validator(rebuild_root, false, "fresh clone HEAD drift negative", expected_failure: "HEAD drift", env: { "SOURCELENS_REBUILD_VERIFY" => "1" })
 end
 
 Dir.mktmpdir("aios-current-task-authority-") do |root|
@@ -1326,8 +1360,13 @@ Dir.mktmpdir("aios-final-clean-room-route-") do |root|
   current_truth = YAML.safe_load(current_truth_bytes, aliases: false)
   final_route_ref = "HEAD"
   if current_truth.dig("mandatory_exit_capability_recovery", "post_revision_final_route_terminal")
-    last_truth_commit = run!("git", "log", "-1", "--format=%H", "--", truth_relative_path, chdir: SOURCE_ROOT)
-    final_route_ref = "#{last_truth_commit}^"
+    truth_commits = run!("git", "log", "--format=%H", "--", truth_relative_path, chdir: SOURCE_ROOT).lines.map(&:strip)
+    final_route_ref = truth_commits.find do |commit|
+      candidate = YAML.safe_load(source_tracked_bytes(commit, truth_relative_path), aliases: false)
+      candidate.dig("mandatory_exit_capability_recovery", "post_revision_final_implementation_route") &&
+        candidate.dig("mandatory_exit_capability_recovery", "post_revision_final_route_terminal").nil?
+    end
+    raise "post-revision final route pre-terminal Truth commit not found" unless final_route_ref
   end
   initialize_synthetic_authority_repo!(root, final_route_ref)
 

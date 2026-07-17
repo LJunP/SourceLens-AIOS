@@ -168,6 +168,12 @@ def git(*args)
   output.strip
 end
 
+def git_at(root, *args)
+  output = IO.popen(["git", "-C", root, *args], err: File::NULL, &:read)
+  stop!("git command failed at #{root}: #{args.join(' ')}") unless $CHILD_STATUS.success?
+  output.strip
+end
+
 def git_file(ref, path)
   output = IO.popen(["git", "-C", REPO_ROOT, "show", "#{ref}:#{path}"], err: File::NULL, &:read)
   $CHILD_STATUS.success? ? output : nil
@@ -1716,7 +1722,41 @@ stop!("Phase reviewer policy missing") unless nonempty_list?(allowed_reviewers) 
 canonical_root = truth.dig("project", "canonical_repository")
 worktree_root = truth.dig("project", "task_worktree_root")
 evidence_base = truth.dig("project", "execution_evidence_root_base")
-stop!("canonical repository identity drift") unless safe_under_root?(canonical_root, File.dirname(canonical_root), must_exist: true) && File.realpath(canonical_root) == File.realpath(git("worktree", "list", "--porcelain").lines.first.to_s.sub(/^worktree /, "").strip)
+rebuild_mode_value = ENV.fetch("SOURCELENS_REBUILD_VERIFY", "0")
+stop!("rebuild verification mode value invalid") unless %w[0 1].include?(rebuild_mode_value)
+rebuild_verification_mode = rebuild_mode_value == "1"
+stop!("canonical repository path invalid") unless
+  nonempty_string?(canonical_root) &&
+  safe_under_root?(canonical_root, File.dirname(canonical_root), must_exist: true) &&
+  File.directory?(canonical_root) &&
+  !File.symlink?(canonical_root)
+
+runtime_worktree = git("worktree", "list", "--porcelain").lines.first.to_s.sub(/^worktree /, "").strip
+stop!("runtime worktree identity invalid") unless
+  nonempty_string?(runtime_worktree) &&
+  File.directory?(runtime_worktree) &&
+  File.realpath(runtime_worktree) == File.realpath(REPO_ROOT)
+
+rebuild_clone_status_before = nil
+rebuild_canonical_status_before = nil
+if rebuild_verification_mode
+  stop!("rebuild verification mode requires a non-canonical fresh clone") if File.realpath(canonical_root) == File.realpath(REPO_ROOT)
+  stop!("rebuild verification mode requires current Task NONE") unless truth.dig("goal", "current_task_authority") == "NONE" && truth.dig("active_work", "current_task") == "NONE"
+  stop!("rebuild verification mode requires ACTIVE Goal") unless truth.dig("goal", "control_plane_status_observed") == "ACTIVE"
+  stop!("rebuild verification mode branch drift") unless
+    git("branch", "--show-current") == truth.dig("project", "canonical_branch") &&
+    git_at(canonical_root, "branch", "--show-current") == truth.dig("project", "canonical_branch")
+  rebuild_clone_status_before = git("status", "--porcelain=v1", "--untracked-files=all")
+  rebuild_canonical_status_before = git_at(canonical_root, "status", "--porcelain=v1", "--untracked-files=all")
+  stop!("rebuild verification clone is not clean") unless rebuild_clone_status_before.empty?
+  stop!("canonical repository is not clean during rebuild verification") unless rebuild_canonical_status_before.empty?
+  stop!("rebuild verification HEAD drift") unless git("rev-parse", "HEAD") == git_at(canonical_root, "rev-parse", "HEAD")
+  stop!("rebuild verification tree drift") unless git("rev-parse", "HEAD^{tree}") == git_at(canonical_root, "rev-parse", "HEAD^{tree}")
+else
+  stop!("canonical repository identity drift") unless File.realpath(canonical_root) == File.realpath(runtime_worktree)
+end
+
+authority_runtime_root = rebuild_verification_mode ? REPO_ROOT : canonical_root
 stop!("worktree root invalid") unless File.directory?(worktree_root) && !File.symlink?(worktree_root)
 stop!("Evidence root base invalid") unless File.directory?(evidence_base) && !File.symlink?(evidence_base)
 
@@ -1741,7 +1781,7 @@ user_action = active["user_action_required"]
 
 task_branches = git("for-each-ref", "--format=%(refname:short)", "refs/heads/task/").lines.map(&:strip).reject(&:empty?)
 worktrees = worktree_records
-canonical_real = File.realpath(canonical_root)
+canonical_real = File.realpath(authority_runtime_root)
 canonical_worktrees = worktrees.select do |entry|
   begin
     File.realpath(entry.fetch("worktree")) == canonical_real
@@ -1798,6 +1838,12 @@ if current_task == "NONE"
     end
   else
     stop!("Goal control-plane state invalid")
+  end
+  if rebuild_verification_mode
+    stop!("rebuild verification clone changed during validation") unless git("status", "--porcelain=v1", "--untracked-files=all") == rebuild_clone_status_before
+    stop!("canonical repository changed during rebuild verification") unless git_at(canonical_root, "status", "--porcelain=v1", "--untracked-files=all") == rebuild_canonical_status_before
+    stop!("canonical HEAD changed during rebuild verification") unless git("rev-parse", "HEAD") == git_at(canonical_root, "rev-parse", "HEAD")
+    stop!("canonical tree changed during rebuild verification") unless git("rev-parse", "HEAD^{tree}") == git_at(canonical_root, "rev-parse", "HEAD^{tree}")
   end
   puts "Current Task authority validation passed: NONE under Phase-level delegation."
   exit 0

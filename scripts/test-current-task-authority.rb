@@ -71,6 +71,7 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   truth["mandatory_exit_capability_recovery"]["integrated_capability_routes"] = {}
   truth["mandatory_exit_capability_recovery"]["final_clean_room_implementation_route"] = nil
   truth["mandatory_exit_capability_recovery"]["final_clean_room_implementation_attempt"] = nil
+  truth["mandatory_exit_capability_recovery"]["final_clean_room_contract_review_terminal"] = nil
   truth["goal"]["control_plane_status_observed"] = "ACTIVE"
   truth["goal"]["current_task_authority"] = "NONE"
   truth["project"]["phase_execution_status"] = "NO_CURRENT_TASK"
@@ -1259,6 +1260,38 @@ Dir.mktmpdir("aios-final-clean-room-route-") do |root|
   truth["project"]["canonical_repository"] = root
   truth["project"]["task_worktree_root"] = worktree_root
   write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), truth)
+  final_terminal = truth.dig("mandatory_exit_capability_recovery", "final_clean_room_contract_review_terminal")
+  if final_terminal
+    run_validator(root, true, "final clean-room contract-review terminal positive")
+
+    removed_terminal = Marshal.load(Marshal.dump(truth))
+    removed_terminal["mandatory_exit_capability_recovery"]["final_clean_room_contract_review_terminal"] = nil
+    write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), removed_terminal)
+    run_validator(root, false, "final clean-room terminal removal negative", expected_failure: "final clean-room contract-review terminal binding missing")
+
+    terminal_status_drift = Marshal.load(Marshal.dump(truth))
+    terminal_status_drift["mandatory_exit_capability_recovery"]["final_clean_room_contract_review_terminal"]["status"] = "ACTIVE"
+    write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), terminal_status_drift)
+    run_validator(root, false, "final clean-room terminal status drift negative", expected_failure: "final clean-room contract-review terminal route binding drift")
+
+    partial_terminal = Marshal.load(Marshal.dump(truth))
+    capability = final_terminal.fetch("mandatory_exit_capabilities").first
+    partial_terminal["mandatory_exit_capability_recovery"]["capability_status"][capability] = "FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION"
+    write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), partial_terminal)
+    run_validator(root, false, "partial final clean-room terminal projection negative", expected_failure: "final clean-room terminal capability projection drift")
+
+    consumed_attempt = Marshal.load(Marshal.dump(truth))
+    consumed_attempt["mandatory_exit_capability_recovery"]["final_clean_room_contract_review_terminal"]["implementation_attempt_consumed"] = true
+    write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), consumed_attempt)
+    run_validator(root, false, "final clean-room terminal implementation consumption negative", expected_failure: "final clean-room terminal safety rule drift")
+
+    review_hash_drift = Marshal.load(Marshal.dump(truth))
+    review_hash_drift["mandatory_exit_capability_recovery"]["final_clean_room_contract_review_terminal"]["cto_review_sha256"] = "0" * 64
+    write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), review_hash_drift)
+    run_validator(root, false, "final clean-room terminal review binding negative")
+    next
+  end
+
   run_validator(root, true, "final clean-room pending positive")
 
   final_route = truth.dig("mandatory_exit_capability_recovery", "final_clean_room_implementation_route")

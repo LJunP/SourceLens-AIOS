@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-17T05:05:25Z"
-verification_scope: P1_038_ATTEMPT_ACCOUNTING_RECALIBRATION_AND_FINAL_CLEAN_ROOM_ROUTE_SYNC
+last_verified_at: "2026-07-17T06:14:42Z"
+verification_scope: P1_038_FINAL_CONTRACT_REVIEW_TERMINAL_SYNC
 
 authority:
   founder: Human Founder
@@ -120,8 +120,8 @@ mandatory_exit_capability_recovery:
     - REPRODUCIBLE_BASELINE_REPORT
   capability_status:
     VERSIONED_REPRESENTATIVE_TASK_DATASET: ACCEPTED
-    HIDDEN_SET_PROTOCOL: FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION
-    PARAMETERIZED_EVALUATION_HARNESS: FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION
+    HIDDEN_SET_PROTOCOL: CONTRACT_REVIEW_BLOCKED
+    PARAMETERIZED_EVALUATION_HARNESS: CONTRACT_REVIEW_BLOCKED
     VTSR_COUNTING_VALIDATOR: MISSING
     B0_B1_B2_COMPATIBILITY_ADAPTERS: MISSING
     OBSERVABLE_TRACE: MISSING
@@ -230,6 +230,38 @@ mandatory_exit_capability_recovery:
     successor_replacement_correction_chain_allowed: false
     claim_boundary: COOPERATIVE_LOCAL_PUBLIC_SYNTHETIC_ROLE_SEPARATED_HIDDEN_ADMISSION_AND_PARAMETERIZED_HARNESS_REPRODUCIBLE_INTEGRATION_ONLY_NO_REAL_HIDDEN_SET_SECRECY_REPRESENTATIVENESS_CUSTODY_HOSTILE_PRINCIPAL_AGENT_P1_EXIT_P2_P3_OR_PRODUCTION_CLAIM
   final_clean_room_implementation_attempt: null
+  final_clean_room_contract_review_terminal:
+    record_type: p1_final_clean_room_contract_review_terminal_binding
+    status: PERMANENTLY_STOPPED_AFTER_FINAL_CONTRACT_CTO_NON_PASS
+    task_id: AIOS-P1-038_MINIMAL_HIDDEN_ADMISSION_PARAMETERIZED_HARNESS_IMPLEMENTATION
+    route_id: P1_038_FINAL_CLEAN_ROOM_IMPLEMENTATION_ROUTE
+    mandatory_exit_capabilities:
+      - HIDDEN_SET_PROTOCOL
+      - PARAMETERIZED_EVALUATION_HARNESS
+    final_contract_path: docs/aios/tasks/P1-038_MINIMAL_HIDDEN_ADMISSION_PARAMETERIZED_HARNESS_IMPLEMENTATION.yaml
+    final_contract_sha256: cde6a6adff74ce1a6a7f07ebfe74ae6ba1fbeb96ae20c17cfbcd24e08e2bf354
+    final_contract_byte_length: 31905
+    final_contract_freeze_commit: 8e2cbb21f03d2f36b269f9eae5af9aff735d2f7e
+    final_contract_freeze_tree: c2601c3d50c72fe86ad04a32782ce8663098f5f3
+    cto_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-038-minimal-hidden-admission-harness/contract-review/CTO_FINAL_CONTRACT_REVIEW.json
+    cto_review_sha256: 32c9cbe305511905ffee5305e313dd0c3bd9b848f4b3805ede5a1c5da5f5055d
+    cto_review_result: NON_PASS
+    security_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-038-minimal-hidden-admission-harness/contract-review/SECURITY_FINAL_CONTRACT_REVIEW.json
+    security_review_sha256: 937b6684ba1c6e48995a90cae1f95acb152e4597320c3f55660c7f35984c6c85
+    security_review_result: PASS
+    quality_review_result: CANCELLED_AFTER_CTO_NON_PASS
+    failure_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-038-minimal-hidden-admission-harness/contract-review/FINAL_CONTRACT_REVIEW_FAILURE_RECORD.json
+    failure_record_sha256: da32a4b45f15b6fc5fe56628a531b9748f2f0c704de278ded9bd805d3fb48525
+    terminal_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-038-minimal-hidden-admission-harness/P1_038_ROUTE_TERMINAL_RECORD.json
+    terminal_record_sha256: 33375f2bbc8a60d9c71a8775a6a47aa19a9231baa8e11b502a88d84be00f4ea7
+    implementation_attempt_consumed: false
+    route_recovery_allowed: false
+    fourth_route_allowed: false
+    successor_replacement_or_correction_allowed: false
+    founder_escalation_required: true
+    allowed_founder_choices:
+      - FORMALLY_REVISE_P1_EXIT_GATE
+      - STOP_P1
   founder_dispositions: {}
   clean_room_rules:
     - new_task_id_contract_branch_worktree_evidence_and_reviews
@@ -359,10 +391,10 @@ active_work:
   offsite_target: null
   founder_reserved_authorization: null
   founder_reserved_authorization_sha256: null
-  founder_decision_required: false
-  escalation_reason: null
-  user_action_required: null
-  next_eligible_action: MASTER_AUTONOMOUSLY_PREPARE_P1_038_FINAL_CLEAN_ROOM_IMPLEMENTATION
+  founder_decision_required: true
+  escalation_reason: mandatory_exit_capability_blocked
+  user_action_required: FOUNDER_DECISION_REQUIRED
+  next_eligible_action: WAIT_FOR_FOUNDER_MANDATORY_EXIT_CAPABILITY_DECISION
 
 superseded_pre_delegation_authorizations:
   aios_p1_009:

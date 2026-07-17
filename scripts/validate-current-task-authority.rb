@@ -500,6 +500,7 @@ end
 
 final_clean_room_route = mandatory_recovery["final_clean_room_implementation_route"]
 final_clean_room_attempt = mandatory_recovery["final_clean_room_implementation_attempt"]
+final_clean_room_terminal = mandatory_recovery["final_clean_room_contract_review_terminal"]
 final_clean_room_route_id = nil
 final_clean_room_capabilities = []
 if final_clean_room_route
@@ -629,6 +630,108 @@ if final_clean_room_route
   stop!("final clean-room Founder next capability drift") unless decision["next_capability_after_atomic_acceptance"] == "VTSR_COUNTING_VALIDATOR"
   stop!("final clean-room Founder claim boundary drift") unless decision["claim_boundary"] == "FOUNDER_ARCHITECTURE_AND_ATTEMPT_ACCOUNTING_DECISION_ONLY_NO_IMPLEMENTATION_HIDDEN_SET_PARAMETERIZED_HARNESS_BENCHMARK_AGENT_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM"
   stop!("final clean-room route claim boundary drift") unless final_clean_room_route["claim_boundary"] == "COOPERATIVE_LOCAL_PUBLIC_SYNTHETIC_ROLE_SEPARATED_HIDDEN_ADMISSION_AND_PARAMETERIZED_HARNESS_REPRODUCIBLE_INTEGRATION_ONLY_NO_REAL_HIDDEN_SET_SECRECY_REPRESENTATIVENESS_CUSTODY_HOSTILE_PRINCIPAL_AGENT_P1_EXIT_P2_P3_OR_PRODUCTION_CLAIM"
+end
+
+if final_clean_room_terminal
+  expected_terminal_keys = %w[
+    record_type status task_id route_id mandatory_exit_capabilities final_contract_path
+    final_contract_sha256 final_contract_byte_length final_contract_freeze_commit
+    final_contract_freeze_tree cto_review_path cto_review_sha256 cto_review_result
+    security_review_path security_review_sha256 security_review_result quality_review_result
+    failure_record_path failure_record_sha256 terminal_record_path terminal_record_sha256
+    implementation_attempt_consumed route_recovery_allowed fourth_route_allowed
+    successor_replacement_or_correction_allowed founder_escalation_required
+    allowed_founder_choices
+  ]
+  stop!("final clean-room contract-review terminal schema drift") unless
+    final_clean_room_terminal.is_a?(Hash) && final_clean_room_terminal.keys.sort == expected_terminal_keys.sort
+  stop!("final clean-room contract-review terminal route binding drift") unless
+    final_clean_room_route &&
+    final_clean_room_terminal["record_type"] == "p1_final_clean_room_contract_review_terminal_binding" &&
+    final_clean_room_terminal["status"] == "PERMANENTLY_STOPPED_AFTER_FINAL_CONTRACT_CTO_NON_PASS" &&
+    final_clean_room_terminal["task_id"] == final_clean_room_route["task_id"] &&
+    final_clean_room_terminal["route_id"] == final_clean_room_route_id &&
+    final_clean_room_terminal["mandatory_exit_capabilities"] == final_clean_room_capabilities
+  stop!("final clean-room terminal safety rule drift") unless
+    final_clean_room_terminal["implementation_attempt_consumed"] == false &&
+    final_clean_room_terminal["route_recovery_allowed"] == false &&
+    final_clean_room_terminal["fourth_route_allowed"] == false &&
+    final_clean_room_terminal["successor_replacement_or_correction_allowed"] == false &&
+    final_clean_room_terminal["founder_escalation_required"] == true &&
+    final_clean_room_terminal["allowed_founder_choices"] == %w[FORMALLY_REVISE_P1_EXIT_GATE STOP_P1] &&
+    final_clean_room_attempt.nil?
+  stop!("final clean-room terminal capability projection drift") unless
+    final_clean_room_capabilities.all? { |capability| capability_status[capability] == "CONTRACT_REVIEW_BLOCKED" }
+
+  contract_bytes = git_file(final_clean_room_terminal["final_contract_freeze_commit"], final_clean_room_terminal["final_contract_path"])
+  stop!("final clean-room terminal Contract identity drift") unless
+    final_clean_room_terminal["final_contract_path"] == "docs/aios/tasks/P1-038_MINIMAL_HIDDEN_ADMISSION_PARAMETERIZED_HARNESS_IMPLEMENTATION.yaml" &&
+    final_clean_room_terminal["final_contract_sha256"] == "cde6a6adff74ce1a6a7f07ebfe74ae6ba1fbeb96ae20c17cfbcd24e08e2bf354" &&
+    final_clean_room_terminal["final_contract_byte_length"] == 31_905 &&
+    final_clean_room_terminal["final_contract_freeze_commit"] == "8e2cbb21f03d2f36b269f9eae5af9aff735d2f7e" &&
+    final_clean_room_terminal["final_contract_freeze_tree"] == "c2601c3d50c72fe86ad04a32782ce8663098f5f3" &&
+    git("rev-parse", "#{final_clean_room_terminal['final_contract_freeze_commit']}^{tree}") == final_clean_room_terminal["final_contract_freeze_tree"] &&
+    contract_bytes && contract_bytes.bytesize == final_clean_room_terminal["final_contract_byte_length"] &&
+    Digest::SHA256.hexdigest(contract_bytes) == final_clean_room_terminal["final_contract_sha256"]
+
+  cto_review = bound_json!(final_clean_room_terminal["cto_review_path"], final_clean_room_terminal["cto_review_sha256"], recovery_evidence_base, "P1-038 CTO final Contract review")
+  security_review = bound_json!(final_clean_room_terminal["security_review_path"], final_clean_room_terminal["security_review_sha256"], recovery_evidence_base, "P1-038 Security final Contract review")
+  stop!("final clean-room CTO review terminal binding drift") unless
+    final_clean_room_terminal["cto_review_result"] == "NON_PASS" &&
+    cto_review["record_type"] == "aios_independent_final_contract_review" &&
+    cto_review["role"] == "CTO" && cto_review["verdict"] == "NON_PASS" &&
+    cto_review["task_id"] == final_clean_room_terminal["task_id"] &&
+    cto_review["task_contract_sha256"] == final_clean_room_terminal["final_contract_sha256"] &&
+    cto_review.dig("findings", 0, "finding_id") == "CTO-P1-038-FINAL-CONTRACT-001" &&
+    cto_review.dig("findings", 0, "severity") == "BLOCKER"
+  stop!("final clean-room Security review terminal binding drift") unless
+    final_clean_room_terminal["security_review_result"] == "PASS" &&
+    security_review["record_type"] == "aios_p1_038_security_final_contract_review" &&
+    security_review["verdict"] == "PASS" &&
+    security_review.dig("contract", "sha256") == final_clean_room_terminal["final_contract_sha256"] &&
+    security_review["no_failed_asset_read"] == true &&
+    security_review["external_effects_observed"] == 0
+  stop!("final clean-room Quality review cancellation drift") unless
+    final_clean_room_terminal["quality_review_result"] == "CANCELLED_AFTER_CTO_NON_PASS"
+
+  failure = bound_json!(final_clean_room_terminal["failure_record_path"], final_clean_room_terminal["failure_record_sha256"], recovery_evidence_base, "P1-038 final Contract review failure record")
+  terminal = bound_json!(final_clean_room_terminal["terminal_record_path"], final_clean_room_terminal["terminal_record_sha256"], recovery_evidence_base, "P1-038 final route terminal record")
+  stop!("final clean-room Contract failure record content drift") unless
+    failure["record_type"] == "aios_p1_final_clean_room_contract_review_failure" &&
+    failure["status"] == "FINAL_EXACT_CONTRACT_NON_PASS" &&
+    failure["task_id"] == final_clean_room_terminal["task_id"] &&
+    failure["route_id"] == final_clean_room_route_id &&
+    failure["mandatory_exit_capabilities"] == final_clean_room_capabilities &&
+    failure.dig("final_contract", "sha256") == final_clean_room_terminal["final_contract_sha256"] &&
+    failure.dig("independent_final_reviews", "cto", "sha256") == final_clean_room_terminal["cto_review_sha256"] &&
+    failure.dig("independent_final_reviews", "cto", "verdict") == "NON_PASS" &&
+    failure.dig("independent_final_reviews", "security", "sha256") == final_clean_room_terminal["security_review_sha256"] &&
+    failure.dig("independent_final_reviews", "security", "verdict") == "PASS" &&
+    failure.dig("independent_final_reviews", "quality", "verdict") == "CANCELLED_AFTER_CTO_NON_PASS" &&
+    failure.dig("activation_and_implementation", "task_activated") == false &&
+    failure.dig("activation_and_implementation", "implementation_attempt_consumed") == false &&
+    failure.dig("terminal_effect", "route_permanently_stopped") == true &&
+    failure.dig("terminal_effect", "fourth_route_allowed") == false &&
+    failure.dig("terminal_effect", "founder_escalation_required") == true
+  stop!("final clean-room route terminal record content drift") unless
+    terminal["record_type"] == "aios_p1_final_clean_room_route_terminal_record" &&
+    terminal["status"] == final_clean_room_terminal["status"] &&
+    terminal["task_id"] == final_clean_room_terminal["task_id"] &&
+    terminal["route_id"] == final_clean_room_route_id &&
+    terminal["mandatory_exit_capabilities"] == final_clean_room_capabilities &&
+    terminal["contract_review_failure_record_sha256"] == final_clean_room_terminal["failure_record_sha256"] &&
+    terminal.dig("review_outcomes", "cto") == "NON_PASS" &&
+    terminal.dig("review_outcomes", "security") == "PASS" &&
+    terminal.dig("review_outcomes", "quality") == "CANCELLED_AFTER_CTO_NON_PASS" &&
+    terminal.dig("review_outcomes", "aggregate") == "NON_PASS" &&
+    terminal.dig("activation_and_implementation", "implementation_attempt_consumed") == false &&
+    terminal.dig("terminal_rules", "route_recovery_allowed") == false &&
+    terminal.dig("terminal_rules", "fourth_route_allowed") == false &&
+    terminal.dig("terminal_rules", "allowed_founder_choices") == final_clean_room_terminal["allowed_founder_choices"] &&
+    terminal["current_capability_projection"] == final_clean_room_capabilities.to_h { |capability| [capability, "CONTRACT_REVIEW_BLOCKED"] }
+elsif final_clean_room_route && final_clean_room_attempt.nil? &&
+      final_clean_room_capabilities.all? { |capability| capability_status[capability] == "CONTRACT_REVIEW_BLOCKED" }
+  stop!("final clean-room contract-review terminal binding missing")
 end
 
 if integrated_route
@@ -916,6 +1019,19 @@ if (transition = previous_truth_transition(truth_bytes))
       %w[task_id attempt_ordinal contract_sha256 founder_final_clean_room_route_id].each do |field|
         stop!("final clean-room implementation attempt identity changed: #{field}") unless current_final_attempt[field] == previous_final_attempt[field]
       end
+    end
+
+    previous_final_terminal = previous_recovery["final_clean_room_contract_review_terminal"]
+    current_final_terminal = current_recovery["final_clean_room_contract_review_terminal"]
+    if previous_final_terminal
+      stop!("final clean-room contract-review terminal binding changed") unless current_final_terminal == previous_final_terminal
+    elsif current_final_terminal
+      stop!("final clean-room contract-review terminal was added after implementation activation") unless previous_final_attempt.nil? && current_final_attempt.nil?
+      terminal_capabilities = Array(current_final_terminal["mandatory_exit_capabilities"])
+      previous_terminal_states = terminal_capabilities.map { |capability| previous_recovery.dig("capability_status", capability) }
+      current_terminal_states = terminal_capabilities.map { |capability| current_recovery.dig("capability_status", capability) }
+      stop!("final clean-room contract-review terminal pre-state invalid") unless previous_terminal_states == ["FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION", "FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION"]
+      stop!("final clean-room contract-review terminal projection is not atomic") unless current_terminal_states == ["CONTRACT_REVIEW_BLOCKED", "CONTRACT_REVIEW_BLOCKED"]
     end
   end
 end

@@ -1,0 +1,480 @@
+schema_version: 1
+record_type: sourcelens_aios_phase_delegated_task_contract
+task_id: AIOS-P1-037_PARAMETERIZED_EVALUATION_HARNESS_WITH_HIDDEN_ADMISSION
+phase: P1
+title: Parameterized Evaluation Harness with Public Synthetic Hidden Admission
+status: READY_FOR_PHASE_DELEGATED_EXECUTION
+execution_authority: PHASE_DELEGATED
+task_kind: EVALUATION_FOUNDATION_ENGINEERING
+risk_level: high
+
+objective: >-
+  Implement one clean-room integrated vertical slice in which a common,
+  parameterized local Evaluation Harness executes two Quality-frozen visible
+  projections of accepted P1-035 representative Tasks, an independent
+  evaluator determines their outcomes in fresh materializations, and a minimal
+  fail-closed admission adapter accepts only an opaque public-synthetic hidden
+  handoff without reading, materializing, scheduling or evaluating hidden Task
+  content. The Task must close HIDDEN_SET_PROTOCOL and
+  PARAMETERIZED_EVALUATION_HARNESS atomically or close neither.
+
+why_now:
+  - P1-035 accepted the versioned representative visible Task Dataset required by the P1 Exit Gate.
+  - P1-001 is intentionally bound to one visible synthetic conformance fixture and does not prove a parameterized multi-Task harness.
+  - The Founder permanently terminated the standalone P1-036 route and relocated the minimum hidden-admission boundary into this integrated vertical slice.
+  - VTSR counting cannot be implemented responsibly before repeatable parameterized execution and fail-closed hidden admission mechanics exist.
+
+task_spec_ref: docs/aios/EVALUATION_PROTOCOL.md#2-unit-of-evaluation
+read_context:
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+  - docs/aios/schemas/task-spec.schema.json
+  - docs/aios/schemas/environment-snapshot.schema.json
+  - docs/aios/schemas/system-configuration.schema.json
+  - docs/aios/schemas/run-record.schema.json
+  - docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
+  - docs/aios/tasks/P1-011_ENVIRONMENT_SNAPSHOT_CAPTURE_AND_REPLAY.yaml
+  - docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
+  - evaluation-harness/environment/snapshot.mjs
+  - evaluation-harness/evaluator/schema-validator.mjs
+  - evaluation-harness/validators/task-dataset-validator.mjs
+  - evaluation-harness/datasets/p1-representative-task-dataset-v1/dataset-manifest.json
+dependencies:
+  - AIOS-P1-001
+  - AIOS-P1-011_ENVIRONMENT_SNAPSHOT_CAPTURE_AND_REPLAY
+  - AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+
+mandatory_exit_capability: PARAMETERIZED_EVALUATION_HARNESS
+integrated_mandatory_exit_capabilities:
+  - HIDDEN_SET_PROTOCOL
+  - PARAMETERIZED_EVALUATION_HARNESS
+founder_architecture_route_id: P1_037_HIDDEN_ADMISSION_PARAMETERIZED_HARNESS
+
+clean_room_recovery:
+  historical_execution_lineage_reused: false
+  attempt_ordinal: 1
+  bounded_contract_corrections_allowed: 1
+  bounded_contract_corrections_used: 0
+  original_contract_path: null
+  original_contract_sha256: null
+  prohibited_source_lineages:
+    - AIOS-P1-036_HIDDEN_SET_PROTOCOL
+    - every other terminal, rejected or unaccepted P1 Task asset
+
+capabilities:
+  - TASK_SPEC_VALIDATION
+  - ENVIRONMENT_SNAPSHOT_CAPTURE
+  - SYSTEM_CONFIGURATION_CAPTURE
+  - RUN_RECORDING
+  - DETERMINISTIC_REPLAY
+  - EVALUATOR_AND_ORACLE
+  - EVIDENCE_MANIFEST
+  - LOCAL_SYNTHETIC_DATASET
+  - LOCAL_VISIBLE_DATASET
+  - LOCAL_BOUNDED_BASELINE_EVALUATION
+  - FAILURE_TAXONOMY
+capability_claim: false
+
+lineage:
+  kind: INDEPENDENT_PHASE_INCREMENT
+  retries: []
+  remediates: []
+  supersedes: []
+  architecture_relocation: >-
+    Founder-approved integration of a minimum public-synthetic hidden-admission
+    boundary with the parameterized harness. This does not resume, retry,
+    replace, correct or reuse P1-036.
+
+roles:
+  accountable_owner: Engineering Manager Agent
+  worker: Parameterized Harness Engineer
+  quality_asset_owner: Quality and Evaluation Agent
+  integration_owner: Master CEO Agent
+  independent_reviewers:
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent
+  separation_rule: >-
+    Quality exclusively authors and freezes schemas, visible execution
+    projections, environment snapshots, configuration, requests, candidate
+    patches, public hidden-admission fixtures, oracle and evaluator before the
+    Worker starts. Worker may read but never modify Quality bytes and writes
+    only harness and adapter paths. Integration writes only exact integration
+    paths. Worker cannot perform final review.
+
+source_identity:
+  canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
+  parent_commit: 8ff44537dcc96b52260365f2a3f28175a0541e4f
+  parent_tree: 4e726e35de4b785612a845e23706850539ff09e4
+  task_branch: task/AIOS-P1-037-parameterized-harness-hidden-admission
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-037-parameterized-harness-hidden-admission
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-037-parameterized-harness/execution
+
+allowed_paths:
+  quality:
+    - evaluation-harness/fixtures/parameterized-harness/**
+    - evaluation-harness/evaluator/parameterized/**
+  worker:
+    - evaluation-harness/harness/parameterized/**
+    - evaluation-harness/adapters/fixture-patch/**
+  integration:
+    - scripts/verify-p1-parameterized-harness.sh
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+  external_evidence:
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-037-parameterized-harness/**
+
+selected_visible_tasks:
+  tasks:
+    - task_id: SL-P1-REP-001-RANGE-NORMALIZATION
+      split: development
+    - task_id: SL-P1-REP-005-PROFILE-DISPLAY-NAME
+      split: validation
+  selection_claim: >-
+    These two Tasks prove parameterization across two distinct accepted
+    synthetic Task shapes only. They do not constitute a benchmark or a
+    representative performance sample.
+
+execution_projection_contract:
+  source: exact accepted P1-035 TaskSpec bytes
+  projection_owner: Quality and Evaluation Agent
+  allowed_json_pointer_deltas_in_order:
+    - /environment_snapshot_ref
+    - /verification/evaluator_version
+  environment_snapshot_ref_rule: exact P1-011-derived snapshot_id for the selected Task materialization
+  evaluator_version_rule: AIOS-P1-037-PARAMETERIZED-EVALUATOR/1.0.0
+  all_other_fields_rule: canonical deep equality with the accepted P1-035 TaskSpec
+  projection_identity_rule: >-
+    Each binding receipt records original and projected path/hash/byte length,
+    both exact deltas, source commit/tree, EnvironmentSnapshot identity and
+    evaluator identity. Any third delta is EXECUTION_PROJECTION_DRIFT.
+  original_asset_mutation_allowed: false
+
+semantic_input_boundary:
+  enforcement_claim: DECLARED_HASH_BOUND_INPUT_ADMISSION_NOT_OS_LEVEL_EXHAUSTIVE_READ_CONFINEMENT
+  default: DENY
+  manifest_population: exact
+  canonicalization: UTF-8 canonical JSON with recursively sorted object keys and exactly one trailing LF
+  path_form: normalized POSIX repository-relative path
+  symlink: reject
+  hardlink: reject
+  special_file: reject
+  entry_fields_in_order:
+    - ordinal
+    - role
+    - path
+    - media_type
+    - schema_id
+    - owner_role
+    - visibility
+    - byte_length
+    - sha256
+  accepted_dependency_inputs:
+    - P1-035 dataset manifest, materialization recipe and selected Task artifacts
+    - accepted TaskSpec schemas and P1-011 snapshot implementation
+  quality_inputs:
+    - projected TaskSpecs and execution-binding receipts
+    - EnvironmentSnapshots and SystemConfigurations
+    - evaluation requests and candidate patches
+    - public-synthetic hidden enrollment, request and admission records
+  adapter_exclusions:
+    - Quality evaluator implementation
+    - Quality oracle
+    - unselected Task artifacts
+    - real or historical hidden material
+    - historical/offsite Evidence or untracked private material
+  limitation: >-
+    This contract verifies declared/configured semantic inputs and actual
+    admission bytes. It does not claim hostile-principal resistance or prove
+    that the cooperative-local Node process performed no other OS reads.
+
+trusted_verification_substrate:
+  pre_freeze_source: exact parent tracked tree
+  post_freeze_source: exact candidate tracked tree
+  candidate_derivation: parent plus only exact allowed path diffs
+  access_mode: read-only declared verification substrate
+  os_level_exhaustive_read_confinement_claim: false
+  exact_entrypoints:
+    - ./scripts/verify-p1-harness.sh
+    - ./scripts/verify-p1-environment-snapshot.sh
+    - ./scripts/verify-p1-task-dataset.sh
+    - ./scripts/verify-p1-parameterized-harness.sh
+    - make verify
+  runtime_observation:
+    node_executable: /usr/local/bin/node
+    git_executable: /usr/bin/git
+    capture_fields:
+      - executable realpath
+      - version
+      - SHA-256
+      - byte length
+  forbidden_substrate:
+    - historical hidden material
+    - offsite custody
+    - external historical Evidence
+    - untracked private material
+
+quality_freeze:
+  must_complete_before_worker_start: true
+  freeze_commit_position: first commit after activation on the Task branch
+  roots:
+    - evaluation-harness/fixtures/parameterized-harness
+    - evaluation-harness/evaluator/parameterized
+  required_artifacts:
+    - OWNERSHIP_MAP.json
+    - CASE_MATRIX.json
+    - ORACLE.json
+    - SEMANTIC_INPUT_MANIFEST.json
+    - VERIFICATION_SUBSTRATE_DECLARATION.json
+    - task-spec, environment, configuration and request schemas
+    - hidden enrollment, hidden request and hidden admission schemas
+    - REP-001 and REP-005 original-to-projection binding receipts
+    - two projected TaskSpecs
+    - two P1-011-derived EnvironmentSnapshots
+    - two SystemConfigurations
+    - visible and hidden positive/negative fixtures
+    - parameterized independent evaluator and self-test
+    - QUALITY_FREEZE_RECEIPT.json written last
+  receipt_rule: >-
+    The receipt excludes itself from its manifest and is externally identified
+    by its fixed path and Git blob in the Quality freeze commit. It binds the
+    exact Task Contract, parent commit/tree, Quality commit/tree, Owner map,
+    semantic manifest, evaluator/oracle and every other Quality artifact by
+    path/hash/byte length. Worker write access to both Quality roots is denied.
+
+interfaces:
+  visible_cli: >-
+    node evaluation-harness/harness/parameterized/cli.mjs run --request FILE --output NEW_DIRECTORY
+  hidden_cli: >-
+    node evaluation-harness/harness/parameterized/cli.mjs admit-hidden --request FILE --admission FILE --output NEW_DIRECTORY
+  replay_cli: >-
+    node evaluation-harness/harness/parameterized/replay.mjs --evidence DIRECTORY --output NEW_DIRECTORY
+  visible_run_interface: run(TaskSpec, EnvironmentSnapshot, SystemConfiguration, repetition_id) -> RunRecord
+  visible_success_exit_status: 0
+  evaluated_failure_exit_status: 1
+  invalid_input_exit_status: 2
+  unexpected_internal_failure_exit_status: 3
+
+visible_execution_requirements:
+  - Run the accepted P1-035 validator as an independent trusted-verification subprocess; do not import it into the adapter or runner.
+  - Deterministically materialize each selected source-template and verify exact P1-035 commit/tree before candidate work.
+  - Validate exactly two allowed execution-projection deltas and all four accepted contract schemas.
+  - The fixture-patch adapter may consume only its exact semantic manifest and selected fresh workspace and may output only a candidate patch and action ledger.
+  - The adapter must not read the Quality evaluator, oracle, unselected Tasks or hidden-admission content.
+  - The independent evaluator applies the candidate patch in a separate fresh materialization, verifies changed-path scope, runs exact required commands and emits the canonical verdict.
+  - Evaluator success must be based on patch applicability, required issue/regression commands, policy and Evidence; patch byte equality with a reference solution is forbidden as a success oracle.
+  - Spawn errors, timeout, signal and nonzero exits must produce typed command ledger records rather than missing Evidence.
+
+hidden_admission_requirements:
+  mode: HIDDEN_EXTERNAL_CUSTODIAN
+  visibility: PUBLIC_SYNTHETIC_ONLY
+  successful_status: HIDDEN_HANDOFF_ADMITTED
+  execution_route: EXTERNAL_CUSTODIAN_ONLY
+  scheduled_run: false
+  included_in_vtsr_denominator: false
+  local_materialization: forbidden
+  adapter_or_evaluator_invocation: forbidden
+  run_record_creation: forbidden
+  allowed_public_fields:
+    - schema_version
+    - request_id
+    - mode
+    - request_sha256
+    - admission_id
+    - hidden_set_public_id
+    - hidden_set_version
+    - environment_snapshot_id
+    - evaluator_identity_sha256
+    - execution_route
+    - status
+    - scheduled_run
+    - included_in_vtsr_denominator
+  recursively_forbidden_data:
+    - hidden task identity
+    - hidden path, repository or source
+    - prompt or context
+    - oracle, expected patch or expected result
+    - per-Task result
+    - private manifest bytes or locator
+    - Secret or credential
+  field_scan_rule: forbidden-field scan precedes generic unknown-field schema rejection
+
+closed_reason_precedence:
+  order:
+    - INVOCATION_CONTRACT_VIOLATION
+    - AUTHORITY_OR_SOURCE_IDENTITY_MISMATCH
+    - OWNER_OR_STAGE_VIOLATION
+    - QUALITY_FREEZE_IDENTITY_MISMATCH
+    - MANIFEST_OR_SCHEMA_VIOLATION
+    - PATH_LEXICAL_VIOLATION
+    - PATH_CONTAINMENT_VIOLATION
+    - SYMLINK_HARDLINK_OR_NONREGULAR_FILE_VIOLATION
+    - ARTIFACT_POPULATION_MISMATCH
+    - ARTIFACT_IDENTITY_MISMATCH
+    - HIDDEN_DISCLOSURE_VIOLATION
+    - EXECUTION_PROJECTION_DRIFT
+    - ENVIRONMENT_IDENTITY_MISMATCH
+    - REQUEST_BINDING_MISMATCH
+    - HIDDEN_ADMISSION_REQUIRED
+    - HIDDEN_ADMISSION_MISMATCH
+    - POLICY_BOUNDARY_MISMATCH
+    - ISSUE_TEST_FAILED
+    - REGRESSION_TEST_FAILED
+    - EVALUATOR_OR_ORACLE_IDENTITY_MISMATCH
+    - REPLAY_MISMATCH
+    - PASS
+  rule: first failure only; remaining checks are NOT_EVALUATED_AFTER_FIRST_FAILURE
+
+quality_case_matrix:
+  total_atomic_cases: 20
+  cases:
+    - V01_REP001_VISIBLE_PASS
+    - V02_REP005_VISIBLE_PASS
+    - V03_TWO_FRESH_EXECUTIONS_REPLAY_BYTE_EQUAL
+    - V04_WRONG_PATCH_ISSUE_TEST_FAILED
+    - V05_REGRESSION_BREAK_REGRESSION_TEST_FAILED
+    - V06_TASK_SNAPSHOT_MISMATCH_ENVIRONMENT_IDENTITY_MISMATCH
+    - V07_THIRD_PROJECTION_DELTA_EXECUTION_PROJECTION_DRIFT
+    - V08_REQUEST_HASH_DRIFT_REQUEST_BINDING_MISMATCH
+    - V09_MISSING_SEMANTIC_INPUT_ARTIFACT_POPULATION_MISMATCH
+    - V10_EXTRA_SEMANTIC_INPUT_ARTIFACT_POPULATION_MISMATCH
+    - V11_INPUT_BYTE_DRIFT_ARTIFACT_IDENTITY_MISMATCH
+    - V12_PARENT_TRAVERSAL_PATH_LEXICAL_VIOLATION
+    - V13_SYMLINK_TARGET_SYMLINK_HARDLINK_OR_NONREGULAR_FILE_VIOLATION
+    - V14_HARDLINK_TARGET_SYMLINK_HARDLINK_OR_NONREGULAR_FILE_VIOLATION
+    - H01_EXACT_OPAQUE_HIDDEN_ADMISSION_PASS
+    - H02_MISSING_HIDDEN_ADMISSION_HIDDEN_ADMISSION_REQUIRED
+    - H03_HIDDEN_ADMISSION_HASH_DRIFT_HIDDEN_ADMISSION_MISMATCH
+    - H04_DIRECT_HIDDEN_FIELD_HIDDEN_DISCLOSURE_VIOLATION
+    - H05_NESTED_HIDDEN_FIELD_HIDDEN_DISCLOSURE_VIOLATION
+    - H06_SCHEDULED_OR_VTSR_TRUE_POLICY_BOUNDARY_MISMATCH
+  per_case_rule: one pre-state, one mutation, one typed result, one exit status and one effect oracle
+  metrics:
+    expected_outcome_agreement: 20_OF_20
+    false_accepts: 0
+    replay_mismatches: 0
+    hidden_local_executions: 0
+    flaky_cases_allowed: 0
+
+evidence_requirements:
+  - exact Contract, activation parent and Quality freeze identities
+  - original/projected TaskSpec hashes and exact two-delta proofs
+  - EnvironmentSnapshot projection and source commit/tree bindings
+  - semantic input manifests and verification substrate declaration
+  - adapter action ledger and candidate patch identity
+  - raw command ledgers with argv, cwd, time, timeout, exit/signal and stdout/stderr hashes
+  - normalized command projections excluding time, latency, PID and temporary paths
+  - two visible RunRecords and independent evaluator results
+  - hidden admission positive and negative results proving no local execution
+  - 20-case self-test result and deterministic replay comparison
+  - candidate diff and Owner verification
+  - P1-001, P1-011 and P1-035 regressions plus complete make verify
+  - frozen Evidence Manifest, artifact index, rebuild and rollback proof
+  - CTO, Security and Quality independent reviews
+  - integrated Task Gate receipt binding both mandatory capabilities and partial_acceptance=false
+
+deterministic_replay_projection:
+  include:
+    - request SHA-256
+    - execution binding SHA-256
+    - projected TaskSpec SHA-256
+    - source commit/tree
+    - EnvironmentSnapshot ID and projection SHA-256
+    - SystemConfiguration SHA-256
+    - adapter identity and candidate patch SHA-256
+    - repetition ID
+    - RunRecord terminal status
+    - normalized command projections
+    - evaluator identity, verdict and reason codes
+    - policy violations
+  exclude:
+    - timestamps
+    - latency
+    - process ID
+    - temporary absolute paths
+    - Evidence root path
+  pass_rule: deterministic projection and canonical evaluator output are byte-equal across fresh replay
+
+budget:
+  engineering_hours: 28
+  calendar_days: 5
+  implementation_iterations: 2
+  candidate_freezes: 1
+  execution_retries: 0
+  network_calls: 0
+  provider_calls: 0
+  secret_reads: 0
+  remote_writes: 0
+  production_effects: 0
+
+acceptance_criteria:
+  - Quality freeze completes before Worker implementation and remains byte-identical afterward.
+  - Both selected visible Tasks execute through the same parameterized runner and independently evaluate PASS.
+  - Original P1-035 assets remain byte-identical; each execution projection differs at exactly the two allowed pointers.
+  - Each EnvironmentSnapshot binds its selected deterministic source commit/tree and matches the projected TaskSpec reference.
+  - The adapter never consumes evaluator/oracle/unselected/hidden bytes as declared semantic inputs.
+  - The valid public-synthetic opaque hidden handoff is admitted without local Task materialization, adapter/evaluator invocation, RunRecord or VTSR scheduling.
+  - All 20 atomic Quality cases match their frozen typed outcome with zero false accepts or replay mismatches.
+  - P1-001, P1-011, P1-035, the new P1-037 verifier and complete make verify all PASS.
+  - Evidence, fresh-clone rebuild and rollback verification PASS.
+  - CTO, Security and Quality independently review the exact candidate and all return PASS.
+  - One Task Gate receipt atomically binds HIDDEN_SET_PROTOCOL and PARAMETERIZED_EVALUATION_HARNESS; partial acceptance is false.
+
+failure_criteria:
+  - Either integrated capability cannot meet its acceptance criteria.
+  - A third TaskSpec projection delta is required or an accepted dependency must be modified.
+  - Hidden Task content, path, oracle, expected output or per-Task result appears in a public artifact.
+  - Hidden admission triggers local execution or enters a scheduled/VTSR population.
+  - A controlled path, symlink, hardlink, population, identity, binding or policy mutation is accepted.
+  - Replay differs on any deterministic projection field.
+  - Evidence cannot bind inputs, implementation, commands, evaluator output and candidate identity.
+
+stop_conditions:
+  - Any write occurs outside the exact role-owned paths or Task Evidence root.
+  - Any historical or accepted immutable asset changes.
+  - Real or historical hidden material is read, enumerated, created, restored or reused.
+  - Network, Provider, Secret, remote, production or public effect is required or observed.
+  - B0, B1, B2 or A0 execution, P2/P3 scope or a deferred Trust Runtime capability becomes necessary.
+  - Scope, path, permission, role or budget expansion is required.
+  - The same implementation root cause remains after two iterations without new Evidence.
+  - Any final contract review remains non-PASS after the one bounded correction.
+  - Any final candidate review, replay, rebuild or rollback is non-PASS.
+  - A real architecture root prevents the integrated slice; the route then stops permanently and escalates Founder without a successor.
+
+rollback:
+  method: >-
+    Before Task Gate, delete the unmerged Task worktree and branch after binding
+    the terminal Evidence. After a PASS candidate but before local integration,
+    retain the activation parent as the rollback anchor. After local fast-forward,
+    verify that resetting a disposable clone to the activation parent restores
+    the exact pre-Task tree; do not rewrite canonical history.
+
+forbidden_actions:
+  - create, read, enumerate, restore or reuse real or historical hidden material
+  - reuse P1-036 Contract, candidate, fixture, partial implementation, nonce, branch, worktree or failed Evidence
+  - modify accepted P1-001, P1-011 or P1-035 assets
+  - Worker modification of Quality-owned schemas, fixtures, oracle, evaluator or freeze receipt
+  - semantic-input repository wildcard reads or runtime discovery of extra semantic inputs
+  - symlink, hardlink or special-file input artifacts
+  - untracked private, offsite or historical Evidence as execution input
+  - network, Provider, Secret, remote, production or public effect
+  - B0, B1, B2 or A0 execution
+  - benchmark, VTSR, Agent capability, true hidden-set secrecy/quality/custody, P1 completion, P2/P3 or production claim
+  - Supervisor, Root Custody, Strong Isolation or hostile-principal resistance work
+  - partial acceptance of either integrated capability
+  - retry, resume, successor, replacement or correction chain
+
+claim_boundary: COOPERATIVE_LOCAL_PUBLIC_SYNTHETIC_HIDDEN_ADMISSION_AND_PARAMETERIZED_HARNESS_REPRODUCIBLE_INTEGRATION_ONLY_NO_REAL_HIDDEN_SET_SECRECY_REPRESENTATIVENESS_HOSTILE_PRINCIPAL_PRODUCTION_P1_EXIT_P2_OR_P3_CLAIM
+
+delegated_authority:
+  phase_local: true
+  task_gate_owner: MASTER_CEO_AGENT
+  founder_gate: RESERVED_DECISIONS_ONLY
+  founder_reserved_decisions: []
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false

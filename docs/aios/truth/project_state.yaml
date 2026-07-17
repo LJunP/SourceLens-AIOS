@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-17T02:34:18Z"
-verification_scope: P1_035_VERSIONED_REPRESENTATIVE_TASK_DATASET_TASK_GATE_ACCEPTED
+last_verified_at: "2026-07-17T02:52:15Z"
+verification_scope: P1_036_HIDDEN_SET_PROTOCOL_CONTRACT_REVIEW_BLOCKED
 
 authority:
   founder: Human Founder
@@ -120,7 +120,7 @@ mandatory_exit_capability_recovery:
     - REPRODUCIBLE_BASELINE_REPORT
   capability_status:
     VERSIONED_REPRESENTATIVE_TASK_DATASET: ACCEPTED
-    HIDDEN_SET_PROTOCOL: MISSING
+    HIDDEN_SET_PROTOCOL: CONTRACT_REVIEW_BLOCKED
     PARAMETERIZED_EVALUATION_HARNESS: MISSING
     VTSR_COUNTING_VALIDATOR: MISSING
     B0_B1_B2_COMPATIBILITY_ADAPTERS: MISSING
@@ -134,7 +134,15 @@ mandatory_exit_capability_recovery:
       attempt_ordinal: 1
       contract_sha256: acec5432aacd6476693db62bdb52ee326c467f17b691860688fe952f7ffbdc33
       bounded_contract_corrections_used: 1
-    HIDDEN_SET_PROTOCOL: null
+    HIDDEN_SET_PROTOCOL:
+      status: CONTRACT_REVIEW_BLOCKED
+      task_id: AIOS-P1-036_HIDDEN_SET_PROTOCOL
+      attempt_ordinal: 1
+      contract_sha256: 48388c938f8a32d79b4e5fef449a62d353aa65342710e668d952425b20f6456d
+      bounded_contract_corrections_used: 1
+      failure_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-036-hidden-set-protocol/contract-review/CONTRACT_REVIEW_FAILURE_RECORD.json
+      failure_record_sha256: dd69c831dec3f5c707d158645e3f94ad85713b5c0505427ca3545480ed9314a5
+      founder_escalation_required: true
     PARAMETERIZED_EVALUATION_HARNESS: null
     VTSR_COUNTING_VALIDATOR: null
     B0_B1_B2_COMPATIBILITY_ADAPTERS: null
@@ -270,10 +278,10 @@ active_work:
   offsite_target: null
   founder_reserved_authorization: null
   founder_reserved_authorization_sha256: null
-  founder_decision_required: false
-  escalation_reason: null
-  user_action_required: null
-  next_eligible_action: MASTER_AUTONOMOUSLY_SELECT_AND_EXECUTE_NEXT_MANDATORY_P1_EXIT_CAPABILITY_TASK
+  founder_decision_required: true
+  escalation_reason: mandatory_exit_capability_blocked
+  user_action_required: FOUNDER_DECISION_REQUIRED
+  next_eligible_action: WAIT_FOR_FOUNDER_MANDATORY_EXIT_CAPABILITY_DECISION
 
 superseded_pre_delegation_authorizations:
   aios_p1_009:
@@ -873,6 +881,9 @@ claim_boundary:
   p1_035_visible_synthetic_task_population: 6
   p1_035_dataset_replay: PASS
   p1_035_benchmark_or_agent_capability_claim: false
+  p1_036_hidden_set_protocol_contract_review: CONTRACT_REVIEW_BLOCKED
+  p1_036_implementation_started: false
+  p1_036_capability_claims: 0
   p1_011_environment_snapshot_capture_replay: MASTER_TASK_GATE_ACCEPTED_CONFORMANCE_ONLY
   p1_011_environment_snapshot_case_matrix: 13_OF_13_PASS
   p1_011_environment_snapshot_symlink_regressions: 2_OF_2_PASS

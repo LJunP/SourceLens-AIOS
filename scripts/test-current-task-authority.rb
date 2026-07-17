@@ -11,7 +11,11 @@ require "yaml"
 SOURCE_ROOT = File.expand_path("..", __dir__)
 
 def run!(*command, chdir: nil)
-  stdout, stderr, status = Open3.capture3(*command, chdir: chdir)
+  stdout, stderr, status = if chdir
+    Open3.capture3(*command, chdir: chdir)
+  else
+    Open3.capture3(*command)
+  end
   raise "#{command.join(' ')} failed: #{stdout}#{stderr}" unless status.success?
   stdout.strip
 end
@@ -20,10 +24,17 @@ def write_yaml(path, value)
   File.write(path, YAML.dump(value), mode: "w:UTF-8")
 end
 
-def run_validator(root, expected_pass, label)
+def write_json(path, value)
+  File.write(path, JSON.pretty_generate(value) + "\n", mode: "w:UTF-8")
+end
+
+def run_validator(root, expected_pass, label, expected_failure: nil)
   stdout, stderr, status = Open3.capture3({ "LC_ALL" => "C", "LANG" => "C" }, "ruby", "scripts/validate-current-task-authority.rb", chdir: root)
   actual = status.success?
   raise "#{label}: expected #{expected_pass ? 'PASS' : 'FAIL'}, observed #{actual ? 'PASS' : 'FAIL'}: #{stdout}#{stderr}" unless actual == expected_pass
+  if !expected_pass && expected_failure && !"#{stdout}#{stderr}".include?(expected_failure)
+    raise "#{label}: expected failure containing #{expected_failure.inspect}, observed: #{stdout}#{stderr}"
+  end
 end
 
 Dir.mktmpdir("aios-current-task-authority-") do |root|
@@ -45,6 +56,19 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   truth["project"]["canonical_repository"] = root
   truth["project"]["task_worktree_root"] = worktree_root
   truth["project"]["execution_evidence_root_base"] = evidence_base
+  truth["task_history"] = {
+    "aios_p1_006" => {
+      "task_id" => "AIOS-P1-006_SYNTHETIC_TERMINAL_HISTORY",
+      "status" => "TERMINAL_STOPPED",
+      "resume_retry_successor_allowed" => false
+    }
+  }
+  truth["mandatory_exit_capability_recovery"]["capability_status"].keys.each do |capability|
+    truth["mandatory_exit_capability_recovery"]["capability_status"][capability] = "MISSING"
+    truth["mandatory_exit_capability_recovery"]["capability_attempt_ledger"][capability] = nil
+  end
+  truth["mandatory_exit_capability_recovery"]["founder_dispositions"] = {}
+  truth["mandatory_exit_capability_recovery"]["integrated_capability_routes"] = {}
   truth["goal"]["control_plane_status_observed"] = "ACTIVE"
   truth["goal"]["current_task_authority"] = "NONE"
   truth["project"]["phase_execution_status"] = "NO_CURRENT_TASK"
@@ -753,4 +777,431 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   run_validator(root, false, "authorization symlink escape negative")
 end
 
-puts "Current Task authority state-machine tests passed (5 positive states, 42 negative vectors)."
+Dir.mktmpdir("aios-integrated-route-") do |root|
+  FileUtils.rm_rf(root)
+  run!("git", "clone", "--quiet", "--no-local", SOURCE_ROOT, root)
+  run!("git", "config", "user.name", "SourceLens Integrated Route Test", chdir: root)
+  run!("git", "config", "user.email", "integrated-route@example.invalid", chdir: root)
+  FileUtils.cp(File.join(SOURCE_ROOT, "scripts/validate-current-task-authority.rb"), File.join(root, "scripts"))
+
+  truth = YAML.safe_load(File.read(File.join(SOURCE_ROOT, "docs/aios/truth/project_state.yaml")), aliases: false)
+  worktree_root = File.join(root, "task-worktrees")
+  FileUtils.mkdir_p(worktree_root)
+  truth["project"]["canonical_repository"] = root
+  truth["project"]["task_worktree_root"] = worktree_root
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), truth)
+  run_validator(root, true, "integrated route current sync positive")
+
+  route_id = truth.dig("mandatory_exit_capability_recovery", "integrated_capability_routes").keys.fetch(0)
+  route = truth.dig("mandatory_exit_capability_recovery", "integrated_capability_routes", route_id)
+  evidence_base = truth.dig("project", "execution_evidence_root_base")
+
+  Dir.mktmpdir("p1-037-founder-terminal-rule-", evidence_base) do |decision_root|
+    original_decision_path = route["decision_record_path"]
+    mutated_decision_path = File.join(decision_root, "FOUNDER_DISPOSITION_MUTATED.json")
+    mutated_decision = JSON.parse(File.read(original_decision_path))
+    mutated_decision["terminal_rule"]["final_contract_non_pass_or_real_architecture_failure"] = "CONTINUE_WITH_SUCCESSOR"
+    write_json(mutated_decision_path, mutated_decision)
+    mutated_truth = Marshal.load(Marshal.dump(truth))
+    mutated_route = mutated_truth.dig("mandatory_exit_capability_recovery", "integrated_capability_routes", route_id)
+    mutated_route["decision_record_path"] = mutated_decision_path
+    mutated_route["decision_record_sha256"] = Digest::SHA256.file(mutated_decision_path).hexdigest
+    write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), mutated_truth)
+    run_validator(root, false, "Founder integrated terminal rule negative", expected_failure: "integrated capability Founder terminal rule drift")
+  end
+
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), truth)
+  run!("git", "add", "docs/aios/truth/project_state.yaml", "scripts/validate-current-task-authority.rb", chdir: root)
+  run!("git", "commit", "-m", "sync integrated route", chdir: root)
+  activation_parent = run!("git", "rev-parse", "HEAD", chdir: root)
+  activation_tree = run!("git", "rev-parse", "HEAD^{tree}", chdir: root)
+
+  removed_route = Marshal.load(Marshal.dump(truth))
+  removed_route["mandatory_exit_capability_recovery"]["integrated_capability_routes"] = {}
+  removed_route["mandatory_exit_capability_recovery"]["capability_status"]["HIDDEN_SET_PROTOCOL"] = "CONTRACT_REVIEW_BLOCKED"
+  removed_route["active_work"]["founder_decision_required"] = true
+  removed_route["active_work"]["escalation_reason"] = "mandatory_exit_capability_blocked"
+  removed_route["active_work"]["user_action_required"] = "FOUNDER_DECISION_REQUIRED"
+  removed_route["active_work"]["next_eligible_action"] = "WAIT_FOR_FOUNDER_MANDATORY_EXIT_CAPABILITY_DECISION"
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), removed_route)
+  run_validator(root, false, "integrated route removal negative", expected_failure: "integrated capability route was removed, replaced, renamed or rebound")
+
+  rebound_route = Marshal.load(Marshal.dump(truth))
+  rebound_value = rebound_route["mandatory_exit_capability_recovery"]["integrated_capability_routes"].delete(route_id)
+  rebound_route["mandatory_exit_capability_recovery"]["integrated_capability_routes"]["P1_099_REBOUND_ROUTE"] = rebound_value
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), rebound_route)
+  run_validator(root, false, "integrated route rebind negative", expected_failure: "integrated capability route was removed, replaced, renamed or rebound")
+
+  second_route = Marshal.load(Marshal.dump(truth))
+  second_route["mandatory_exit_capability_recovery"]["integrated_capability_routes"]["P1_099_SECOND_ROUTE"] = Marshal.load(Marshal.dump(route))
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), second_route)
+  run_validator(root, false, "second integrated route negative", expected_failure: "integrated capability route map invalid")
+
+  decision_drift = Marshal.load(Marshal.dump(truth))
+  decision_drift["mandatory_exit_capability_recovery"]["integrated_capability_routes"][route_id]["decision_record_sha256"] = "0" * 64
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), decision_drift)
+  run_validator(root, false, "integrated route decision hash drift negative", expected_failure: "integrated capability route was removed, replaced, renamed or rebound")
+
+  ledger_mutation = Marshal.load(Marshal.dump(truth))
+  ledger_mutation["mandatory_exit_capability_recovery"]["capability_attempt_ledger"]["HIDDEN_SET_PROTOCOL"]["founder_exception_terminal_record_sha256"] = "0" * 64
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), ledger_mutation)
+  run_validator(root, false, "P1-036 ledger mutation negative", expected_failure: "integrated capability route does not preserve blocked ledger")
+
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), truth)
+
+  Dir.mktmpdir("p1-037-contract-review-terminal-", evidence_base) do |terminal_root|
+    failure_path = File.join(terminal_root, "CONTRACT_REVIEW_FAILURE.json")
+    failure = {
+      "record_type" => "aios_p1_mandatory_capability_contract_review_failure",
+      "status" => "CONTRACT_REVIEW_BLOCKED",
+      "task_id" => route["task_id"],
+      "mandatory_exit_capabilities" => route["mandatory_exit_capabilities"],
+      "attempt_ordinal" => 1,
+      "founder_escalation_required" => true,
+      "final_review_result" => "NON_PASS"
+    }
+    write_json(failure_path, failure)
+
+    review_blocked_truth = Marshal.load(Marshal.dump(truth))
+    route["mandatory_exit_capabilities"].each do |capability|
+      review_blocked_truth["mandatory_exit_capability_recovery"]["capability_status"][capability] = "CONTRACT_REVIEW_BLOCKED"
+    end
+    review_blocked_truth["mandatory_exit_capability_recovery"]["capability_attempt_ledger"][route["primary_capability"]] = {
+      "status" => "CONTRACT_REVIEW_BLOCKED",
+      "task_id" => route["task_id"],
+      "attempt_ordinal" => 1,
+      "contract_sha256" => "1" * 64,
+      "bounded_contract_corrections_used" => 1,
+      "integrated_mandatory_exit_capabilities" => route["mandatory_exit_capabilities"],
+      "founder_architecture_route_id" => route_id,
+      "founder_escalation_required" => true,
+      "failure_record_path" => failure_path,
+      "failure_record_sha256" => Digest::SHA256.file(failure_path).hexdigest
+    }
+    review_blocked_truth["active_work"]["founder_decision_required"] = true
+    review_blocked_truth["active_work"]["escalation_reason"] = "mandatory_exit_capability_blocked"
+    review_blocked_truth["active_work"]["user_action_required"] = "FOUNDER_DECISION_REQUIRED"
+    review_blocked_truth["active_work"]["next_eligible_action"] = "WAIT_FOR_FOUNDER_MANDATORY_EXIT_CAPABILITY_DECISION"
+    write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), review_blocked_truth)
+    run_validator(root, true, "integrated contract-review terminal positive")
+
+    partial_review_blocked = Marshal.load(Marshal.dump(review_blocked_truth))
+    partial_review_blocked["mandatory_exit_capability_recovery"]["capability_status"][route["mandatory_exit_capabilities"].first] = "RELOCATED_PENDING_INTEGRATED_TASK"
+    write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), partial_review_blocked)
+    run_validator(root, false, "partial integrated CONTRACT_REVIEW_BLOCKED negative", expected_failure: "integrated capability route current state population is not atomic")
+  end
+
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), truth)
+  Dir.mktmpdir("p1-037-authority-test-", evidence_base) do |evidence_root|
+    task_id = route["task_id"]
+    task_branch = "task/AIOS-P1-037-integrated-authority-test"
+    task_worktree = File.join(worktree_root, "AIOS-P1-037-integrated-authority-test")
+    contract_rel = "docs/aios/tasks/P1-037_INTEGRATED_AUTHORITY_TEST.yaml"
+    contract_path = File.join(root, contract_rel)
+    contract = {
+      "schema_version" => 1,
+      "task_id" => task_id,
+      "phase" => "P1",
+      "status" => "READY_FOR_PHASE_DELEGATED_EXECUTION",
+      "execution_authority" => "PHASE_DELEGATED",
+      "objective" => "Verify the exact Founder-approved integrated capability route.",
+      "why_now" => ["The route must activate both capabilities atomically."],
+      "task_spec_ref" => "synthetic://p1-037-integrated-route-test",
+      "read_context" => ["docs/aios/FOUNDER_DELEGATION_POLICY.md"],
+      "dependencies" => ["AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET"],
+      "mandatory_exit_capability" => route["primary_capability"],
+      "integrated_mandatory_exit_capabilities" => route["mandatory_exit_capabilities"],
+      "founder_architecture_route_id" => route_id,
+      "clean_room_recovery" => {
+        "historical_execution_lineage_reused" => false,
+        "attempt_ordinal" => 1,
+        "bounded_contract_corrections_allowed" => 1,
+        "bounded_contract_corrections_used" => 0,
+        "original_contract_path" => nil,
+        "original_contract_sha256" => nil
+      },
+      "task_kind" => "EVALUATION_FOUNDATION_ENGINEERING",
+      "capabilities" => ["EVALUATOR_AND_ORACLE", "LOCAL_SYNTHETIC_DATASET"],
+      "capability_claim" => false,
+      "risk_level" => "medium",
+      "lineage" => { "kind" => "INDEPENDENT_PHASE_INCREMENT", "retries" => [], "remediates" => [], "supersedes" => [] },
+      "roles" => {
+        "accountable_owner" => "Engineering Manager Agent",
+        "worker" => "Integrated Route Worker",
+        "independent_reviewers" => ["CTO Agent", "Security Agent", "Quality and Evaluation Agent"]
+      },
+      "allowed_paths" => {
+        "worker" => ["evaluation-harness/harness/p1-037-test/**"],
+        "quality" => ["evaluation-harness/fixtures/p1-037-test/**"],
+        "external_evidence" => ["#{evidence_root}/**"]
+      },
+      "forbidden_actions" => ["network", "Provider", "Secret", "remote", "production", "public effect"],
+      "budget" => { "engineering_hours" => 1, "implementation_iterations" => 1, "execution_retries" => 0, "network_calls" => 0 },
+      "acceptance_criteria" => ["both capabilities transition atomically"],
+      "failure_criteria" => ["either capability transitions alone"],
+      "stop_conditions" => ["the exact route binding drifts"],
+      "evidence" => { "required" => ["authority validator result"] },
+      "rollback" => { "method" => "delete the unmerged synthetic worktree" },
+      "claim_boundary" => route["claim_boundary"],
+      "delegated_authority" => {
+        "phase_local" => true,
+        "task_gate_owner" => "MASTER_CEO_AGENT",
+        "founder_gate" => "RESERVED_DECISIONS_ONLY",
+        "founder_reserved_decisions" => [],
+        "external_effects" => { "network" => false, "provider" => false, "secret" => false, "remote" => false, "production" => false, "public" => false }
+      }
+    }
+    write_yaml(contract_path, contract)
+    contract_sha = Digest::SHA256.file(contract_path).hexdigest
+    authorization_id = Digest::SHA256.hexdigest("#{task_id}:#{contract_sha}:#{activation_parent}")
+    authorization_path = File.join(evidence_root, "PHASE_DELEGATED_AUTHORIZATION.json")
+    authorization = {
+      "record_type" => "aios_phase_delegated_task_authorization",
+      "status" => "ACTIVE",
+      "authority" => "MASTER_CEO_AGENT",
+      "delegation_model" => "PHASE_LEVEL_FOUNDER_DELEGATION",
+      "authorization_id" => authorization_id,
+      "task_id" => task_id,
+      "phase" => "P1",
+      "task_contract_sha256" => contract_sha,
+      "goal_canonical_sha256" => truth.dig("goal", "observed_body_sha256"),
+      "parent_commit" => activation_parent,
+      "parent_tree" => activation_tree,
+      "integrated_mandatory_exit_capabilities" => route["mandatory_exit_capabilities"],
+      "founder_architecture_route_id" => route_id,
+      "external_effects" => contract.dig("delegated_authority", "external_effects"),
+      "founder_reserved_decisions" => [],
+      "founder_reserved_decision_required" => false
+    }
+    File.write(authorization_path, JSON.pretty_generate(authorization) + "\n")
+
+    active_truth = Marshal.load(Marshal.dump(truth))
+    active_truth["goal"]["current_task_authority"] = task_id
+    active_truth["project"]["phase_execution_status"] = "TASK_ACTIVE"
+    active_truth["project"]["p1_execution_status"] = "TASK_ACTIVE"
+    route["mandatory_exit_capabilities"].each do |capability|
+      active_truth["mandatory_exit_capability_recovery"]["capability_status"][capability] = "IN_PROGRESS"
+    end
+    active_truth["mandatory_exit_capability_recovery"]["capability_attempt_ledger"][route["primary_capability"]] = {
+      "status" => "ACTIVE",
+      "task_id" => task_id,
+      "attempt_ordinal" => 1,
+      "contract_sha256" => contract_sha,
+      "bounded_contract_corrections_used" => 0,
+      "integrated_mandatory_exit_capabilities" => route["mandatory_exit_capabilities"],
+      "founder_architecture_route_id" => route_id
+    }
+    active_truth["active_work"] = {
+      "current_task" => task_id,
+      "current_task_status" => "AUTHORIZED_ACTIVE",
+      "current_task_contract" => contract_rel,
+      "current_task_contract_sha256" => contract_sha,
+      "current_execution_authorization" => authorization_path,
+      "current_execution_authorization_sha256" => Digest::SHA256.file(authorization_path).hexdigest,
+      "execution_nonce" => nil,
+      "execution_nonce_status" => "NOT_REQUIRED_PHASE_DELEGATION",
+      "authorization_id" => authorization_id,
+      "activation_parent_commit" => activation_parent,
+      "activation_parent_tree" => activation_tree,
+      "task_resource_state" => "DECLARED",
+      "task_branch" => task_branch,
+      "task_worktree" => task_worktree,
+      "execution_evidence_root" => evidence_root,
+      "offsite_target" => nil,
+      "founder_reserved_authorization" => nil,
+      "founder_reserved_authorization_sha256" => nil,
+      "founder_decision_required" => false,
+      "escalation_reason" => nil,
+      "user_action_required" => nil,
+      "next_eligible_action" => "MASTER_AUTONOMOUSLY_EXECUTE_CURRENT_TASK"
+    }
+    active_truth["phase_execution_claim"]["current_task_claim"] = task_id
+    write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), active_truth)
+    run!("git", "add", contract_rel, "docs/aios/truth/project_state.yaml", chdir: root)
+    run!("git", "commit", "-m", "activate integrated route test", chdir: root)
+    run_validator(root, true, "integrated dual activation positive")
+
+    partial_in_progress = Marshal.load(Marshal.dump(active_truth))
+    partial_in_progress["mandatory_exit_capability_recovery"]["capability_status"][route["mandatory_exit_capabilities"].first] = "RELOCATED_PENDING_INTEGRATED_TASK"
+    write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), partial_in_progress)
+    run_validator(root, false, "partial integrated IN_PROGRESS negative", expected_failure: "integrated capability route current state population is not atomic")
+
+    candidate_commit = run!("git", "rev-parse", "HEAD", chdir: root)
+    candidate_tree = run!("git", "rev-parse", "HEAD^{tree}", chdir: root)
+    result_path = File.join(evidence_root, "result.txt")
+    File.write(result_path, "integrated route acceptance test\n")
+    artifact_index_path = File.join(evidence_root, "ARTIFACT_INDEX.json")
+    artifact_index = {
+      "record_type" => "aios_p1_mandatory_capability_artifact_index",
+      "status" => "FROZEN",
+      "task_id" => task_id,
+      "mandatory_exit_capabilities" => route["mandatory_exit_capabilities"],
+      "candidate_commit" => candidate_commit,
+      "candidate_tree" => candidate_tree,
+      "artifacts" => [{
+        "path" => "result.txt",
+        "sha256" => Digest::SHA256.file(result_path).hexdigest,
+        "byte_length" => File.size(result_path)
+      }]
+    }
+    write_json(artifact_index_path, artifact_index)
+    artifact_index_sha = Digest::SHA256.file(artifact_index_path).hexdigest
+    manifest_path = File.join(evidence_root, "EVIDENCE_MANIFEST.json")
+    manifest = {
+      "record_type" => "aios_p1_mandatory_capability_evidence_manifest",
+      "status" => "FROZEN",
+      "task_id" => task_id,
+      "task_contract_sha256" => contract_sha,
+      "candidate_commit" => candidate_commit,
+      "candidate_tree" => candidate_tree,
+      "artifact_index_path" => artifact_index_path,
+      "artifact_index_sha256" => artifact_index_sha,
+      "replay_result" => "PASS",
+      "rebuild_result" => "PASS",
+      "rollback_result" => "PASS",
+      "claim_boundary" => route["claim_boundary"],
+      "mandatory_exit_capabilities" => route["mandatory_exit_capabilities"]
+    }
+    write_json(manifest_path, manifest)
+    manifest_sha = Digest::SHA256.file(manifest_path).hexdigest
+    review_paths = {}
+    review_hashes = {}
+    %w[cto security quality].each do |role|
+      review_path = File.join(evidence_root, "#{role.upcase}_REVIEW.json")
+      review = {
+        "record_type" => "aios_independent_task_review",
+        "status" => "PASS",
+        "role" => role.upcase,
+        "task_id" => task_id,
+        "task_contract_sha256" => contract_sha,
+        "candidate_commit" => candidate_commit,
+        "candidate_tree" => candidate_tree,
+        "evidence_manifest_sha256" => manifest_sha,
+        "claim_boundary" => route["claim_boundary"],
+        "mandatory_exit_capabilities" => route["mandatory_exit_capabilities"]
+      }
+      write_json(review_path, review)
+      review_paths[role] = review_path
+      review_hashes[role] = Digest::SHA256.file(review_path).hexdigest
+    end
+    gate_path = File.join(evidence_root, "TASK_GATE_RECEIPT.json")
+    gate = {
+      "record_type" => "aios_phase_delegated_task_gate_receipt",
+      "status" => "ACCEPTED",
+      "authority" => "MASTER_CEO_AGENT",
+      "task_id" => task_id,
+      "task_contract_sha256" => contract_sha,
+      "candidate_commit" => candidate_commit,
+      "candidate_tree" => candidate_tree,
+      "evidence_manifest_sha256" => manifest_sha,
+      "cto_review_sha256" => review_hashes["cto"],
+      "security_review_sha256" => review_hashes["security"],
+      "quality_review_sha256" => review_hashes["quality"],
+      "claim_boundary" => route["claim_boundary"],
+      "mandatory_exit_capabilities" => route["mandatory_exit_capabilities"]
+    }
+    write_json(gate_path, gate)
+
+    none_active_work = Marshal.load(Marshal.dump(truth["active_work"]))
+    accepted_truth = Marshal.load(Marshal.dump(active_truth))
+    route["mandatory_exit_capabilities"].each do |capability|
+      accepted_truth["mandatory_exit_capability_recovery"]["capability_status"][capability] = "ACCEPTED"
+    end
+    accepted_truth["mandatory_exit_capability_recovery"]["capability_attempt_ledger"][route["primary_capability"]]["status"] = "ACCEPTED"
+    accepted_truth["task_history"]["integrated_route_accepted"] = {
+      "task_id" => task_id,
+      "status" => "MASTER_TASK_GATE_ACCEPTED_COMPLETE",
+      "mandatory_exit_capability" => route["primary_capability"],
+      "integrated_mandatory_exit_capabilities" => route["mandatory_exit_capabilities"],
+      "founder_architecture_route_id" => route_id,
+      "clean_room_attempt_ordinal" => 1,
+      "task_gate_result" => "PASS",
+      "task_contract_sha256" => contract_sha,
+      "bounded_contract_corrections_used" => 0,
+      "accepted_candidate_commit" => candidate_commit,
+      "accepted_candidate_tree" => candidate_tree,
+      "execution_evidence_root" => evidence_root,
+      "evidence_manifest_path" => manifest_path,
+      "evidence_manifest_sha256" => manifest_sha,
+      "artifact_index_path" => artifact_index_path,
+      "artifact_index_sha256" => artifact_index_sha,
+      "cto_review_path" => review_paths["cto"],
+      "cto_review_sha256" => review_hashes["cto"],
+      "security_review_path" => review_paths["security"],
+      "security_review_sha256" => review_hashes["security"],
+      "quality_review_path" => review_paths["quality"],
+      "quality_review_sha256" => review_hashes["quality"],
+      "task_gate_receipt_path" => gate_path,
+      "task_gate_receipt_sha256" => Digest::SHA256.file(gate_path).hexdigest,
+      "claim_boundary" => route["claim_boundary"]
+    }
+    accepted_truth["goal"]["current_task_authority"] = "NONE"
+    accepted_truth["project"]["phase_execution_status"] = "NO_CURRENT_TASK"
+    accepted_truth["project"]["p1_execution_status"] = "NO_CURRENT_TASK"
+    accepted_truth["active_work"] = none_active_work
+    accepted_truth["active_work"]["next_eligible_action"] = "MASTER_AUTONOMOUSLY_IMPLEMENT_P1_EXIT_CAPABILITIES_IN_FROZEN_PRIORITY_ORDER"
+    accepted_truth["phase_execution_claim"]["current_task_claim"] = "NO_CURRENT_TASK"
+    write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), accepted_truth)
+    run_validator(root, true, "integrated dual ACCEPTED positive")
+
+    partial_accepted = Marshal.load(Marshal.dump(accepted_truth))
+    partial_accepted["mandatory_exit_capability_recovery"]["capability_status"][route["mandatory_exit_capabilities"].first] = "IN_PROGRESS"
+    write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), partial_accepted)
+    run_validator(root, false, "partial integrated ACCEPTED negative", expected_failure: "integrated capability route current state population is not atomic")
+
+    terminal_manifest_path = File.join(evidence_root, "TERMINAL_EVIDENCE_MANIFEST.json")
+    terminal_manifest = {
+      "record_type" => "aios_p1_mandatory_capability_terminal_evidence_manifest",
+      "status" => "TERMINAL_STOPPED_REAL_ARCHITECTURE_ROOT",
+      "task_id" => task_id,
+      "attempt_ordinal" => 1,
+      "task_contract_sha256" => contract_sha,
+      "bounded_contract_corrections_used" => 0,
+      "failure_classification" => "REAL_ARCHITECTURE_ROOT",
+      "mandatory_exit_capabilities" => route["mandatory_exit_capabilities"]
+    }
+    write_json(terminal_manifest_path, terminal_manifest)
+    architecture_blocked_truth = Marshal.load(Marshal.dump(active_truth))
+    route["mandatory_exit_capabilities"].each do |capability|
+      architecture_blocked_truth["mandatory_exit_capability_recovery"]["capability_status"][capability] = "ARCHITECTURE_BLOCKED"
+    end
+    architecture_blocked_truth["mandatory_exit_capability_recovery"]["capability_attempt_ledger"][route["primary_capability"]]["status"] = "ARCHITECTURE_BLOCKED"
+    architecture_blocked_truth["task_history"]["integrated_route_architecture_blocked"] = {
+      "task_id" => task_id,
+      "status" => "TERMINAL_STOPPED_REAL_ARCHITECTURE_ROOT",
+      "mandatory_exit_capability" => route["primary_capability"],
+      "integrated_mandatory_exit_capabilities" => route["mandatory_exit_capabilities"],
+      "founder_architecture_route_id" => route_id,
+      "clean_room_attempt_ordinal" => 1,
+      "execution_evidence_root" => evidence_root,
+      "founder_escalation_required" => true,
+      "terminal_evidence" => {
+        "evidence_manifest_path" => terminal_manifest_path,
+        "evidence_manifest_sha256" => Digest::SHA256.file(terminal_manifest_path).hexdigest
+      }
+    }
+    architecture_blocked_truth["goal"]["current_task_authority"] = "NONE"
+    architecture_blocked_truth["project"]["phase_execution_status"] = "NO_CURRENT_TASK"
+    architecture_blocked_truth["project"]["p1_execution_status"] = "NO_CURRENT_TASK"
+    architecture_blocked_truth["active_work"] = none_active_work
+    architecture_blocked_truth["active_work"]["founder_decision_required"] = true
+    architecture_blocked_truth["active_work"]["escalation_reason"] = "mandatory_exit_capability_blocked"
+    architecture_blocked_truth["active_work"]["user_action_required"] = "FOUNDER_DECISION_REQUIRED"
+    architecture_blocked_truth["active_work"]["next_eligible_action"] = "WAIT_FOR_FOUNDER_MANDATORY_EXIT_CAPABILITY_DECISION"
+    architecture_blocked_truth["phase_execution_claim"]["current_task_claim"] = "NO_CURRENT_TASK"
+    write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), architecture_blocked_truth)
+    run_validator(root, true, "integrated dual ARCHITECTURE_BLOCKED positive")
+
+    partial_architecture_blocked = Marshal.load(Marshal.dump(architecture_blocked_truth))
+    partial_architecture_blocked["mandatory_exit_capability_recovery"]["capability_status"][route["mandatory_exit_capabilities"].first] = "IN_PROGRESS"
+    write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), partial_architecture_blocked)
+    run_validator(root, false, "partial integrated ARCHITECTURE_BLOCKED negative", expected_failure: "integrated capability route current state population is not atomic")
+
+    route_reuse = Marshal.load(Marshal.dump(accepted_truth))
+    route_reuse["active_work"]["current_task"] = task_id
+    write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), route_reuse)
+    run_validator(root, false, "integrated route reuse negative", expected_failure: "integrated capability route was reused")
+  end
+end
+
+puts "Current Task authority state-machine tests passed (10 positive states, 53 negative vectors)."

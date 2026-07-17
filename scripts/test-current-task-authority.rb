@@ -182,6 +182,13 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   delivery_target = File.join(delivery_root, "FOUNDER_P1_DELIVERY_ARCHITECTURE_SIMPLIFICATION_DECISION_RECORD.json")
   FileUtils.cp(delivery_source, delivery_target)
   delivery["decision_record_path"] = delivery_target
+  project_reopen = truth.dig("mandatory_exit_capability_recovery", "project_level_reopen")
+  project_reopen_root = File.join(evidence_base, "p1-project-level-reopen")
+  FileUtils.mkdir_p(project_reopen_root)
+  project_reopen_source = project_reopen.fetch("decision_record_path")
+  project_reopen_target = File.join(project_reopen_root, "FOUNDER_P1_PROJECT_LEVEL_REOPEN_DECISION_RECORD.json")
+  FileUtils.cp(project_reopen_source, project_reopen_target)
+  project_reopen["decision_record_path"] = project_reopen_target
   truth["task_history"] = {
     "aios_p1_006" => {
       "task_id" => "AIOS-P1-006_SYNTHETIC_TERMINAL_HISTORY",

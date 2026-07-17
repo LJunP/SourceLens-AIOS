@@ -1,0 +1,385 @@
+schema_version: 1
+record_type: sourcelens_aios_phase_delegated_task_contract
+task_id: AIOS-P1-036_HIDDEN_SET_PROTOCOL
+phase: P1
+status: READY_FOR_PHASE_DELEGATED_EXECUTION
+execution_authority: PHASE_DELEGATED
+title: Hidden-set Protocol
+
+objective: >-
+  Build and mechanically validate a versioned hidden-set access protocol that
+  separates implementation roles from hidden task identity, content and oracle
+  access. The protocol must support a hash-bound public enrollment receipt,
+  bounded evaluation request, custodian-produced aggregate response and closed
+  disclosure checks without creating, importing or reading any real hidden
+  task. This closes only the P1 hidden-set protocol engineering requirement and
+  makes no benchmark, Agent, P2, P3, production or hostile-principal claim.
+
+why_now:
+  - HIDDEN_SET_PROTOCOL is the first MISSING capability after the accepted representative Task Dataset in the Founder-frozen P1 Exit Gate order.
+  - A visible representative dataset now exists, but unbiased future evaluation still requires a protocol that prevents implementation roles from receiving hidden task or oracle bytes.
+  - Parameterized harness and baseline runs need a stable public handshake before any hidden evaluation can be admitted later.
+
+task_spec_ref: docs/aios/EVALUATION_PROTOCOL.md#9-independent-evaluator
+read_context:
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/schemas/task-spec.schema.json
+  - docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
+  - docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
+  - evaluation-harness/datasets/p1-representative-task-dataset-v1/dataset-manifest.json
+dependencies:
+  - AIOS-P1-001
+  - AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+
+mandatory_exit_capability: HIDDEN_SET_PROTOCOL
+clean_room_recovery:
+  historical_execution_lineage_reused: false
+  attempt_ordinal: 1
+  bounded_contract_corrections_allowed: 1
+  bounded_contract_corrections_used: 0
+  original_contract_path:
+  original_contract_sha256:
+
+task_kind: EVALUATION_FOUNDATION_ENGINEERING
+capabilities:
+  - TASK_SPEC_VALIDATION
+  - DETERMINISTIC_REPLAY
+  - EVALUATOR_AND_ORACLE
+  - EVIDENCE_MANIFEST
+  - LOCAL_SYNTHETIC_DATASET
+capability_claim: false
+risk_level: medium
+
+lineage:
+  kind: INDEPENDENT_PHASE_INCREMENT
+  retries: []
+  remediates: []
+  supersedes: []
+
+roles:
+  accountable_owner: Engineering Manager Agent
+  worker: Hidden Protocol Validator Engineer
+  quality_asset_owner: Quality and Evaluation Agent
+  future_hidden_custodian: Independent Hidden-set Custodian
+  independent_reviewers:
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent
+  separation_rule: >-
+    Quality and Evaluation owns and freezes protocol, schema, public-fixture,
+    disclosure-oracle and mutation-vector bytes before Worker start. Hidden
+    Protocol Validator Engineer can read but cannot modify those frozen bytes
+    and writes only validator/self-test paths. No real hidden task, hidden task
+    identity, hidden source, hidden oracle or historical hidden material is an
+    input. The future Hidden-set Custodian role is defined by the protocol but
+    is not instantiated by this Task. Worker cannot perform final review.
+
+source_identity:
+  canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
+  parent_commit: ee71139fcf1c7cb935a6c77e085dd30e9c9a528a
+  parent_tree: e48e871087e27d3a8db610f82e53329d541dd90e
+  task_branch: task/AIOS-P1-036-hidden-set-protocol
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-036-hidden-set-protocol
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-036-hidden-set-protocol
+
+protocol_contract:
+  protocol_id: SOURCELENS-P1-HIDDEN-SET-PROTOCOL
+  protocol_version: 1.0.0
+  implementation_visibility: PUBLIC_PROTOCOL_AND_AGGREGATE_RESULT_ONLY
+  real_hidden_task_population_in_this_task: 0
+  historical_hidden_material_reused: false
+  benchmark_claim: false
+  agent_capability_claim: false
+  actor_roles:
+    - IMPLEMENTATION_WORKER
+    - EVALUATION_INTEGRATOR
+    - INDEPENDENT_HIDDEN_SET_CUSTODIAN
+    - INDEPENDENT_EVALUATOR
+  lifecycle:
+    - PUBLIC_ENROLLMENT_FROZEN
+    - EVALUATION_REQUEST_ADMITTED
+    - CUSTODIAN_EXECUTION_ATTESTED
+    - AGGREGATE_RESULT_RELEASED
+  allowed_public_fields:
+    - protocol_id
+    - protocol_version
+    - hidden_set_public_id
+    - hidden_set_version
+    - task_schema_sha256
+    - population_count
+    - coverage_summary
+    - private_manifest_commitment_sha256
+    - custodian_role
+    - enrollment_status
+    - request_identity
+    - candidate_identity
+    - environment_identity
+    - aggregate_counts
+    - aggregate_metric_values
+    - aggregate_reason_code_distribution
+    - execution_attestation_sha256
+  forbidden_public_fields:
+    - hidden_task_id
+    - hidden_task_path
+    - hidden_repository_identity
+    - hidden_source
+    - hidden_prompt
+    - hidden_expected_patch
+    - hidden_oracle
+    - hidden_expected_result
+    - hidden_per_task_result
+    - private_manifest_path
+  access_rules:
+    IMPLEMENTATION_WORKER: PUBLIC_ENROLLMENT_ONLY
+    EVALUATION_INTEGRATOR: PUBLIC_ENROLLMENT_REQUEST_AND_AGGREGATE_RESULT
+    INDEPENDENT_HIDDEN_SET_CUSTODIAN: PRIVATE_CUSTODY_AND_EXECUTION
+    INDEPENDENT_EVALUATOR: PUBLIC_ENROLLMENT_REQUEST_ATTESTATION_AND_AGGREGATE_RESULT
+  claim_boundary: >-
+    Protocol PASS proves closed-schema cooperative-local separation mechanics
+    over standalone public synthetic fixtures. It does not prove existence,
+    quality, secrecy, representativeness or hostile-principal protection of a
+    real hidden set and does not authorize hidden execution.
+
+allowed_paths:
+  quality:
+    - evaluation-harness/fixtures/hidden-set-protocol/**
+  worker:
+    - evaluation-harness/validators/hidden-set-protocol-validator.mjs
+    - evaluation-harness/validators/hidden-set-protocol-self-test.mjs
+  integration:
+    - scripts/verify-p1-hidden-set-protocol.sh
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+  external_evidence:
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-036-hidden-set-protocol/**
+
+immutable_inputs:
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/schemas/task-spec.schema.json
+  - docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
+  - docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
+  - evaluation-harness/datasets/p1-representative-task-dataset-v1/**
+  - evaluation-harness/evaluator/**
+  - evaluation-harness/recording/aios-p1-001-evidence/**
+  - all historical Task, Evidence, Review, candidate, partial implementation and hidden material for P1-002 through P1-034
+
+forbidden_actions:
+  - network
+  - provider
+  - secret
+  - remote
+  - production
+  - public effect
+  - package installation or dependency download
+  - reading, enumerating, restoring, adopting or copying any historical or real hidden material
+  - creating a real hidden task set or claiming hidden dataset validity
+  - granting implementation roles access to hidden identity, content, oracle, expected result or per-task result
+  - changing the accepted representative dataset, TaskSpec schema, Evaluation Protocol, P1-001 evaluator, oracle, fixture or Evidence
+  - executing B0, B1, B2 or A0
+  - generating VTSR, benchmark, Agent capability, P1 completion, P2 or P3 claims
+  - creating retry, successor, replacement, correction chain or a new governance loop
+
+implementation_order:
+  - Quality freezes protocol policy, closed schemas, one public positive package, one controlled-failure package, exact mutation catalog, ownership map and Quality freeze receipt.
+  - Hidden Protocol Validator Engineer implements closed-schema, identity-binding, role-separation, disclosure and replay validation without modifying Quality-owned bytes.
+  - Execute positive validation, exact atomic mutation matrix, controlled failure, deterministic replay, P1-001 regression, P1-035 regression and full make verify.
+  - Freeze one candidate, generate Evidence, complete independent reviews and issue a delegated Task Gate receipt only after exact PASS.
+
+minimum_engineering_outputs:
+  quality_owned:
+    - versioned protocol policy with closed actor, lifecycle, access and disclosure rules
+    - closed public enrollment receipt schema
+    - closed evaluation request schema
+    - closed custodian aggregate response schema
+    - closed execution attestation schema
+    - standalone public synthetic positive package containing no private hidden material
+    - controlled-failure package and exact atomic mutation catalog
+    - ownership map and Quality freeze receipt
+  worker_owned:
+    - deterministic hidden-set protocol validator
+    - deterministic self-test with exact reason codes and exit status
+    - path containment and symlink rejection for all public package inputs
+  integration_owned:
+    - one local verification entrypoint wired into make verify
+    - mechanically regenerated project code map
+
+typed_outcomes:
+  PASS: 0
+  MALFORMED_INPUT: 2
+  PROTOCOL_IDENTITY_MISMATCH: 2
+  CLOSED_SCHEMA_VIOLATION: 2
+  ROLE_SEPARATION_VIOLATION: 2
+  HIDDEN_DISCLOSURE_VIOLATION: 2
+  REQUEST_BINDING_MISMATCH: 2
+  RESPONSE_BINDING_MISMATCH: 2
+  POPULATION_ACCOUNTING_MISMATCH: 2
+  PATH_CONTAINMENT_VIOLATION: 2
+  SYMLINK_FORBIDDEN: 2
+  ARTIFACT_IDENTITY_MISMATCH: 2
+
+atomic_mutation_matrix:
+  - case_id: M01_PROTOCOL_VERSION_DRIFT
+    base: frozen_public_positive_package
+    target: public-enrollment-receipt.json#/protocol_version
+    single_mutation: replace 1.0.0 with 1.0.1
+    expected_reason_code: PROTOCOL_IDENTITY_MISMATCH
+    expected_exit_status: 2
+  - case_id: M02_IMPLEMENTATION_ROLE_PRIVATE_ACCESS
+    base: frozen_public_positive_package
+    target: evaluation-request.json#/requested_access
+    single_mutation: replace PUBLIC_AGGREGATE_ONLY with PRIVATE_HIDDEN_CONTENT
+    expected_reason_code: ROLE_SEPARATION_VIOLATION
+    expected_exit_status: 2
+  - case_id: M03_HIDDEN_TASK_ID_DISCLOSURE
+    base: frozen_public_positive_package
+    target: aggregate-response.json
+    single_mutation: add hidden_task_id with one synthetic string
+    expected_reason_code: HIDDEN_DISCLOSURE_VIOLATION
+    expected_exit_status: 2
+  - case_id: M04_HIDDEN_ORACLE_DISCLOSURE
+    base: frozen_public_positive_package
+    target: aggregate-response.json
+    single_mutation: add hidden_oracle with one synthetic string
+    expected_reason_code: HIDDEN_DISCLOSURE_VIOLATION
+    expected_exit_status: 2
+  - case_id: M05_REQUEST_PUBLIC_RECEIPT_HASH_DRIFT
+    base: frozen_public_positive_package
+    target: evaluation-request.json#/public_enrollment_receipt_sha256
+    single_mutation: replace the hash with sixty-four lowercase zeroes
+    expected_reason_code: REQUEST_BINDING_MISMATCH
+    expected_exit_status: 2
+  - case_id: M06_RESPONSE_REQUEST_HASH_DRIFT
+    base: frozen_public_positive_package
+    target: aggregate-response.json#/evaluation_request_sha256
+    single_mutation: replace the hash with sixty-four lowercase zeroes
+    expected_reason_code: RESPONSE_BINDING_MISMATCH
+    expected_exit_status: 2
+  - case_id: M07_ATTESTATION_RESPONSE_HASH_DRIFT
+    base: frozen_public_positive_package
+    target: execution-attestation.json#/aggregate_response_sha256
+    single_mutation: replace the hash with sixty-four lowercase zeroes
+    expected_reason_code: RESPONSE_BINDING_MISMATCH
+    expected_exit_status: 2
+  - case_id: M08_AGGREGATE_POPULATION_DRIFT
+    base: frozen_public_positive_package
+    target: aggregate-response.json#/aggregate_counts/eligible
+    single_mutation: replace the frozen population integer with one less
+    expected_reason_code: POPULATION_ACCOUNTING_MISMATCH
+    expected_exit_status: 2
+  - case_id: M09_UNKNOWN_PUBLIC_FIELD
+    base: frozen_public_positive_package
+    target: public-enrollment-receipt.json
+    single_mutation: add one undeclared field named extra
+    expected_reason_code: CLOSED_SCHEMA_VIOLATION
+    expected_exit_status: 2
+  - case_id: M10_ARTIFACT_BYTE_DRIFT
+    base: frozen_public_positive_package
+    target: evaluation-request.json
+    single_mutation: append exactly one LF byte without updating package identity
+    expected_reason_code: ARTIFACT_IDENTITY_MISMATCH
+    expected_exit_status: 2
+  - case_id: M11_PATH_ESCAPE
+    base: frozen_public_positive_package
+    target: package-manifest.json#/artifacts/0/path
+    single_mutation: replace the canonical relative path with ../outside.json
+    expected_reason_code: PATH_CONTAINMENT_VIOLATION
+    expected_exit_status: 2
+  - case_id: M12_SYMLINK_PUBLIC_ARTIFACT
+    base: frozen_public_positive_package
+    target: aggregate-response.json
+    single_mutation: replace the regular file with a symlink to another in-root file
+    expected_reason_code: SYMLINK_FORBIDDEN
+    expected_exit_status: 2
+
+budget:
+  engineering_hours: 14
+  calendar_days: 3
+  implementation_iterations: 2
+  candidate_freezes: 1
+  execution_retries: 0
+  network_calls: 0
+  provider_calls: 0
+  secret_reads: 0
+  remote_writes: 0
+  production_effects: 0
+
+metrics:
+  positive_protocol_packages: 1_OF_1_PASS
+  controlled_failure_packages: 1_OF_1_FAIL_CLOSED
+  closed_schemas: 4_OF_4
+  role_separation_rules: 4_OF_4
+  forbidden_disclosure_fields_rejected: 10_OF_10
+  atomic_mutation_vectors: 12_OF_12
+  deterministic_replays: 2_OF_2_BYTE_EQUAL
+  real_hidden_tasks_read_or_created: 0
+  network_provider_secret_remote_production_effects: 0
+
+acceptance_criteria:
+  - Protocol version, actor roles, lifecycle, allowed public metadata, forbidden hidden disclosures and claim boundary are closed and hash-bound.
+  - The public enrollment receipt exposes only opaque public identity, version, schema identity, population/coverage summary, private-manifest commitment and custodian role; it contains no hidden task identity, path, repository, source, prompt, oracle, expected patch/result or per-task result.
+  - An implementation role can consume only the public enrollment receipt and cannot request or receive private hidden bytes; the independent custodian role alone is designated for future private custody and execution.
+  - Evaluation request binds exact public receipt, candidate, run, environment and evaluator identities and requests PUBLIC_AGGREGATE_ONLY access.
+  - Aggregate response and execution attestation bind the exact request and expose only aggregate counts, aggregate metrics, reason-code distribution and attestation identity.
+  - Package manifest population, path containment, regular-file type, byte length and SHA-256 are mechanically verified; unknown fields and symlinks fail closed.
+  - The positive package passes twice with byte-identical typed output; the controlled failure and exact M01-M12 mutations produce their frozen reason code and exit status.
+  - No real or historical hidden task identity/content is created, read, enumerated, copied or used by this Task.
+  - Fresh-clone verification, P1-001 regression, P1-035 regression, rollback and make verify are PASS.
+  - CTO, Security and Quality final independent reviews of the frozen exact candidate are PASS.
+
+failure_criteria:
+  - Any public schema or package can disclose a forbidden hidden field or allow an implementation role private access.
+  - Request, response, attestation, candidate, environment, evaluator, population or protocol identities are ambiguous or mutable without rejection.
+  - An unknown, missing, extra, escaped, symlinked or hash-drifted package artifact is accepted.
+  - Deterministic replay differs or any exact mutation vector produces a different verdict, reason code or exit status.
+  - The implementation needs real/historical hidden material, network, Provider, Secret, package installation, a new runtime or a P2/P3 capability.
+  - Evidence, replay, rebuild, rollback or any final independent review is non-PASS.
+
+stop_conditions:
+  - A write occurs outside exact allowed paths or any forbidden external effect occurs.
+  - Goal, Contract, parent commit/tree, accepted dependency or Quality freeze identity drifts.
+  - Any real or historical hidden task identity, content, path, oracle or expected result becomes visible to Worker, Integration or Master during execution.
+  - The objective requires a real hidden-set acquisition, strong isolation, Supervisor, Root Custody, P3 Trust Runtime or broader permission.
+  - Two implementation iterations fail for the same root cause without new engineering evidence.
+  - The 14-hour or 3-day budget is exceeded.
+  - A real architecture root prevents runnable protocol validation.
+
+evidence:
+  required:
+    - exact Task Contract and phase-delegated authorization
+    - Quality asset freeze receipt and ownership map
+    - frozen protocol, schemas, positive package, controlled failure and mutation catalog
+    - actual command ledger with argv, cwd, start/end and exit status
+    - closed-schema, role-separation, disclosure and identity-binding results
+    - exact M01-M12 mutation result matrix
+    - deterministic replay, P1-001 regression, P1-035 regression and make verify results
+    - candidate commit/tree and source diff
+    - fresh-clone rebuild and rollback results
+    - closed artifact index and P1-safe Evidence Manifest
+    - CTO, Security and Quality independent reviews
+    - delegated Task Gate receipt
+
+rollback:
+  method: >-
+    Before Task Gate, delete the unmerged Task worktree and branch. After local
+    main integration, use a forward revert of the exact accepted candidate
+    integration commit while preserving Evidence and candidate Git objects.
+  destructive_history_rewrite: false
+
+claim_boundary: P1_EXIT_CAPABILITY_ENGINEERING_ARTIFACT_ONLY_NO_BENCHMARK_AGENT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
+
+delegated_authority:
+  phase_local: true
+  task_gate_owner: MASTER_CEO_AGENT
+  founder_gate: RESERVED_DECISIONS_ONLY
+  founder_reserved_decisions: []
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false

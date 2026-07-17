@@ -1,0 +1,267 @@
+schema_version: 1
+record_type: sourcelens_aios_phase_delegated_task_contract
+task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+phase: P1
+status: READY_FOR_PHASE_DELEGATED_EXECUTION
+execution_authority: PHASE_DELEGATED
+title: Versioned Representative Task Dataset
+
+objective: >-
+  Build and mechanically validate one versioned, visible, standalone synthetic
+  software-engineering Task Dataset that can be deterministically materialized
+  into clean Git repositories and consumed later by the common P1 Evaluation
+  Harness. The dataset must directly close the P1 Exit Gate requirement for at
+  least one representative task set without claiming benchmark, Agent, P2, P3,
+  production or hostile-principal capability.
+
+why_now:
+  - VERSIONED_REPRESENTATIVE_TASK_DATASET is the first missing capability in the Founder-frozen P1 Exit Gate order.
+  - P1-001 provides an accepted deterministic harness-conformance basis, but it contains only one mechanics fixture rather than a representative software-engineering task set.
+  - Parameterized harness, baseline adapters and VTSR work require stable task identities, source materialization and declared coverage before they can produce comparable runs.
+
+task_spec_ref: docs/aios/EVALUATION_PROTOCOL.md#2-unit-of-evaluation
+read_context:
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+  - docs/aios/schemas/task-spec.schema.json
+  - docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
+  - evaluation-harness/harness/contracts.mjs
+dependencies:
+  - AIOS-P1-001
+
+mandatory_exit_capability: VERSIONED_REPRESENTATIVE_TASK_DATASET
+clean_room_recovery:
+  historical_execution_lineage_reused: false
+  attempt_ordinal: 1
+  bounded_contract_corrections_allowed: 1
+  bounded_contract_corrections_used: 0
+  original_contract_path:
+  original_contract_sha256:
+
+task_kind: EVALUATION_FOUNDATION_ENGINEERING
+capabilities:
+  - TASK_SPEC_VALIDATION
+  - LOCAL_SYNTHETIC_DATASET
+  - LOCAL_VISIBLE_DATASET
+  - DETERMINISTIC_REPLAY
+  - EVIDENCE_MANIFEST
+capability_claim: false
+risk_level: medium
+
+lineage:
+  kind: INDEPENDENT_PHASE_INCREMENT
+  retries: []
+  remediates: []
+  supersedes: []
+
+roles:
+  accountable_owner: Engineering Manager Agent
+  worker: Dataset Curation Engineer
+  quality_asset_owner: Dataset Curation Engineer
+  independent_reviewers:
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent
+  separation_rule: >-
+    The Dataset Curation Engineer owns dataset bytes during implementation and
+    cannot perform final Quality review. CTO, Security and Quality reviewers
+    inspect only the frozen candidate and hash-bound Evidence.
+
+source_identity:
+  canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
+  parent_commit: b96d3c51d6efcb3342534244b760d1862e53110f
+  parent_tree: 00c506f65a3dd61c873b50f2c6186856838d0a6c
+  task_branch: task/AIOS-P1-035-versioned-representative-task-dataset
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-035-versioned-representative-task-dataset
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-035-versioned-representative-task-dataset
+
+dataset_contract:
+  dataset_id: SOURCELENS-P1-REPRESENTATIVE-TASKS
+  dataset_version: 1.0.0
+  visibility: VISIBLE_SYNTHETIC
+  benchmark_claim: false
+  agent_capability_claim: false
+  task_count: 6
+  split_counts:
+    development: 4
+    validation: 2
+    hidden: 0
+  required_task_archetypes:
+    - bounded_logic_bug_fix
+    - input_contract_validation
+    - path_containment_security_fix
+    - deterministic_error_handling
+    - multi_file_behavior_change
+    - behavior_preserving_refactor
+  source_policy:
+    kind: synthetic_fixture
+    provenance: Clean-room synthetic source authored under AIOS-P1-035.
+    license:
+    redistribution: restricted
+  environment_boundary:
+    language: JavaScript
+    runtime: Node.js standard library only
+    package_install: forbidden
+    network: none
+    provider: none
+    secrets: none
+  representativeness_claim: >-
+    Coverage is representative only of the six predeclared bounded software-
+    engineering archetypes and declared risk/split axes. It is not evidence of
+    ecosystem, language, repository-size, user-value or production
+    representativeness.
+
+allowed_paths:
+  quality:
+    - evaluation-harness/datasets/p1-representative-task-dataset-v1/**
+  worker:
+    - evaluation-harness/validators/task-dataset-validator.mjs
+    - evaluation-harness/validators/task-dataset-self-test.mjs
+  integration:
+    - scripts/verify-p1-task-dataset.sh
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+  external_evidence:
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-035-versioned-representative-task-dataset/**
+
+immutable_inputs:
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+  - docs/aios/schemas/task-spec.schema.json
+  - docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
+  - evaluation-harness/evaluator/**
+  - evaluation-harness/fixtures/**
+  - evaluation-harness/recording/aios-p1-001-evidence/**
+  - historical Task, Evidence, Review, candidate, partial implementation and hidden material for P1-002 through P1-034
+
+forbidden_actions:
+  - network
+  - provider
+  - secret
+  - remote
+  - production
+  - public effect
+  - package installation or dependency download
+  - reading or adopting historical P1-002 through P1-034 implementation assets or hidden material
+  - changing the accepted TaskSpec schema, Evaluation Protocol, P1-001 evaluator, oracle, fixture or Evidence
+  - creating hidden tasks or claiming hidden-set separation
+  - executing B0, B1, B2 or A0
+  - generating VTSR, benchmark, Agent capability, P1 completion, P2 or P3 claims
+  - creating retry, successor, replacement, correction chain or a new governance loop
+
+implementation_order:
+  - Freeze the six source templates, TaskSpecs, coverage declaration, materialization recipe and dataset manifest under the dataset root.
+  - Record a Quality-asset freeze receipt before validator implementation begins.
+  - Implement the validator and self-test without changing frozen dataset bytes.
+  - Run deterministic double materialization, TaskSpec validation, base-failure checks, population checks and mutation rejection.
+  - Freeze one candidate, then generate Evidence, independent reviews and a delegated Task Gate receipt.
+
+minimum_engineering_outputs:
+  dataset:
+    - closed dataset manifest and schema
+    - six versioned TaskSpec instances conforming to the accepted TaskSpec schema
+    - six standalone synthetic repository templates
+    - deterministic Git materialization recipe and expected commit/tree per task
+    - explicit development/validation split and declared coverage axes
+    - task-local provenance, redistribution and claim-boundary metadata
+  validator:
+    - closed-schema and exact-population validation
+    - TaskSpec schema validation
+    - path-containment and symlink rejection
+    - manifest SHA-256 and byte-length verification
+    - deterministic double Git materialization with exact commit/tree equality
+    - base revision clean-state verification
+    - required-command base-failure sanity check
+    - mutation tests for version, population, identity, split, provenance, path and hash drift
+
+budget:
+  engineering_hours: 16
+  calendar_days: 3
+  implementation_iterations: 2
+  candidate_freezes: 1
+  execution_retries: 0
+  network_calls: 0
+  provider_calls: 0
+  secret_reads: 0
+  remote_writes: 0
+  production_effects: 0
+
+metrics:
+  task_specs_schema_valid: 6_OF_6
+  deterministic_materializations: 12_OF_12
+  exact_commit_tree_replays: 6_OF_6
+  base_failure_sanity_checks: 6_OF_6
+  declared_archetypes_covered: 6_OF_6
+  split_counts_exact: 4_DEVELOPMENT_2_VALIDATION_0_HIDDEN
+  mutation_vectors_rejected: 12_OF_12
+  network_provider_secret_remote_production_effects: 0
+
+acceptance_criteria:
+  - The dataset has one immutable semantic version, one closed manifest, six unique task IDs and exact 4/2/0 development/validation/hidden split counts.
+  - Every TaskSpec validates against the accepted task-spec.schema.json without changing that schema.
+  - Every source template materializes twice into byte-identical logical source identity with the frozen exact Git commit and tree and a clean worktree.
+  - Every base repository executes its issue-specific required command and produces the predeclared failing exit status, proving the task is live rather than already solved.
+  - The six tasks cover all six frozen archetypes and the manifest makes no broader representativeness claim.
+  - Dataset population, source files, TaskSpecs, recipes and coverage artifacts are hash-bound and symlink/path escape attempts fail closed.
+  - All 12 single-mutation negative vectors produce their exact typed failure and no mutation can be reported as PASS.
+  - Fresh-clone verification, deterministic replay, rollback verification, P1-001 regression and make verify are PASS.
+  - CTO, Security and Quality final independent reviews of the frozen exact candidate are PASS.
+  - The Task Gate Evidence uses the fixed P1-safe engineering-artifact-only claim boundary.
+
+failure_criteria:
+  - Any TaskSpec cannot be validated or deterministically materialized from tracked dataset bytes.
+  - Any source identity, task ID, split, provenance, manifest entry or coverage axis is ambiguous or mutable without a version change.
+  - A base task is already passing, cannot execute locally, needs a downloaded dependency or cannot be reproduced twice.
+  - The validator accepts a missing, extra, escaped, symlinked, hash-drifted or post-freeze dataset artifact.
+  - Dataset construction depends on historical P1-002 through P1-034 implementation or hidden material.
+  - Evidence, replay, rebuild, rollback or any final independent review is non-PASS.
+
+stop_conditions:
+  - A write occurs outside the exact allowed paths or a forbidden external effect occurs.
+  - Goal, Contract, parent commit/tree, accepted schema or P1-001 dependency identity drifts.
+  - The objective requires a hidden-set implementation, model/provider execution, new runtime infrastructure, P2/P3 work or a broader permission.
+  - Two implementation iterations fail for the same root cause without new engineering evidence.
+  - The 16-hour or 3-day budget is exceeded.
+  - A real architecture root prevents the clean-room capability from producing runnable engineering output.
+
+evidence:
+  required:
+    - exact Task Contract and phase-delegated authorization
+    - dataset asset freeze receipt and ownership record
+    - frozen dataset manifest, file identities and population
+    - actual command ledger with argv, cwd, start/end and exit status
+    - TaskSpec validation results
+    - double materialization commit/tree comparison
+    - base-failure sanity-check results
+    - 12-vector mutation result matrix
+    - P1-001 regression and make verify results
+    - candidate commit/tree and source diff
+    - replay, fresh-clone rebuild and rollback results
+    - closed artifact index and P1-safe Evidence Manifest
+    - CTO, Security and Quality independent reviews
+    - delegated Task Gate receipt
+
+rollback:
+  method: >-
+    Before Task Gate, delete the unmerged Task worktree and branch. After local
+    main integration, reset by a forward revert of the exact accepted candidate
+    integration commit; preserve Evidence and the original candidate Git objects.
+  destructive_history_rewrite: false
+
+claim_boundary: P1_EXIT_CAPABILITY_ENGINEERING_ARTIFACT_ONLY_NO_BENCHMARK_AGENT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
+
+delegated_authority:
+  phase_local: true
+  task_gate_owner: MASTER_CEO_AGENT
+  founder_gate: RESERVED_DECISIONS_ONLY
+  founder_reserved_decisions: []
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false

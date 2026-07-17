@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-17T02:52:15Z"
-verification_scope: P1_036_HIDDEN_SET_PROTOCOL_CONTRACT_REVIEW_BLOCKED
+last_verified_at: "2026-07-17T03:16:13Z"
+verification_scope: P1_036_HIDDEN_SET_PROTOCOL_PERMANENTLY_STOPPED_AFTER_FOUNDER_EXCEPTION_SECURITY_NON_PASS
 
 authority:
   founder: Human Founder
@@ -142,6 +142,21 @@ mandatory_exit_capability_recovery:
       bounded_contract_corrections_used: 1
       failure_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-036-hidden-set-protocol/contract-review/CONTRACT_REVIEW_FAILURE_RECORD.json
       failure_record_sha256: dd69c831dec3f5c707d158645e3f94ad85713b5c0505427ca3545480ed9314a5
+      founder_exception_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-036-hidden-set-protocol/contract-review/FOUNDER_CONTRACT_REVIEW_CAP_EXCEPTION_RECORD.json
+      founder_exception_record_sha256: 7e5ee49dd87739646fd0a93468c11e19b14e91dee93b3ff484f8761eb148870d
+      founder_exception_final_contract_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-036-hidden-set-protocol/contract-review/AIOS-P1-036_HIDDEN_SET_PROTOCOL_FINAL_EXCEPTION_CANDIDATE.yaml
+      founder_exception_final_contract_sha256: 34273ed370d56ab9fc5412969e58610c87f76ae473bbdd5f31acd7b3ee5a1b3b
+      founder_exception_cto_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-036-hidden-set-protocol/contract-review/CTO_FINAL_EXCEPTION_CONTRACT_REVIEW.json
+      founder_exception_cto_review_sha256: fe947a94fb3afb9827fffaf0e54d23043033c5a9c4fdb845262dee5b905aeb1c
+      founder_exception_cto_review_result: PASS
+      founder_exception_security_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-036-hidden-set-protocol/contract-review/SECURITY_FINAL_EXCEPTION_CONTRACT_REVIEW.json
+      founder_exception_security_review_sha256: c77683647d7d94e813818324a7760a4913ab7bb7ea418f6f3045357c49527ff9
+      founder_exception_security_review_result: NON_PASS
+      founder_exception_quality_review_result: CANCELLED_AFTER_SECURITY_NON_PASS
+      founder_exception_terminal_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-036-hidden-set-protocol/contract-review/P1_036_FOUNDER_EXCEPTION_ROUTE_TERMINAL_RECORD.json
+      founder_exception_terminal_record_sha256: 4daba5c1eaf71fdded40eee33bd07d62b2c70dca6993930dfc1fdc379e4ca917
+      founder_exception_route_status: PERMANENTLY_STOPPED_AFTER_SECURITY_NON_PASS
+      founder_exception_route_recovery_allowed: false
       founder_escalation_required: true
     PARAMETERIZED_EVALUATION_HARNESS: null
     VTSR_COUNTING_VALIDATOR: null
@@ -881,7 +896,12 @@ claim_boundary:
   p1_035_visible_synthetic_task_population: 6
   p1_035_dataset_replay: PASS
   p1_035_benchmark_or_agent_capability_claim: false
-  p1_036_hidden_set_protocol_contract_review: CONTRACT_REVIEW_BLOCKED
+  p1_036_hidden_set_protocol_contract_review: PERMANENTLY_STOPPED_AFTER_FOUNDER_EXCEPTION_SECURITY_NON_PASS
+  p1_036_mutation_oracle_precedence_blocker: CLOSED_BY_FOUNDER_EXCEPTION_CONTRACT_CANDIDATE
+  p1_036_final_exception_cto_review: PASS
+  p1_036_final_exception_security_review: NON_PASS_READ_ALLOWLIST_VS_MANDATORY_VERIFICATION_CONTRADICTION
+  p1_036_final_exception_quality_review: CANCELLED_AFTER_SECURITY_NON_PASS
+  p1_036_route_recovery_allowed: false
   p1_036_implementation_started: false
   p1_036_capability_claims: 0
   p1_011_environment_snapshot_capture_replay: MASTER_TASK_GATE_ACCEPTED_CONFORMANCE_ONLY

@@ -213,6 +213,7 @@ def truth_without_activation_fields(value)
   copy.fetch("phase_execution_claim").delete("current_task_claim")
   copy.fetch("mandatory_exit_capability_recovery").delete("capability_status")
   copy.fetch("mandatory_exit_capability_recovery").delete("capability_attempt_ledger")
+  copy.fetch("mandatory_exit_capability_recovery").delete("final_clean_room_implementation_attempt")
   copy
 end
 
@@ -318,7 +319,7 @@ stop!("same-Task bounded correction count drift") unless mandatory_recovery["max
 stop!("peripheral Task selection enabled") unless mandatory_recovery["peripheral_task_selection_allowed"] == false
 capability_status = mandatory_recovery["capability_status"]
 stop!("mandatory Exit capability status population drift") unless capability_status.is_a?(Hash) && capability_status.keys == expected_exit_capabilities
-allowed_capability_states = %w[MISSING RELOCATED_PENDING_INTEGRATED_TASK IN_PROGRESS ACCEPTED FOUNDER_DISPOSED ARCHITECTURE_BLOCKED CONTRACT_REVIEW_BLOCKED]
+allowed_capability_states = %w[MISSING RELOCATED_PENDING_INTEGRATED_TASK FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION IN_PROGRESS ACCEPTED FOUNDER_DISPOSED ARCHITECTURE_BLOCKED CONTRACT_REVIEW_BLOCKED]
 stop!("mandatory Exit capability status invalid") unless capability_status.values.all? { |value| allowed_capability_states.include?(value) }
 attempt_ledger = mandatory_recovery["capability_attempt_ledger"]
 stop!("mandatory Exit capability attempt ledger population drift") unless attempt_ledger.is_a?(Hash) && attempt_ledger.keys == expected_exit_capabilities
@@ -497,11 +498,145 @@ if integrated_route
   }
 end
 
+final_clean_room_route = mandatory_recovery["final_clean_room_implementation_route"]
+final_clean_room_attempt = mandatory_recovery["final_clean_room_implementation_attempt"]
+final_clean_room_route_id = nil
+final_clean_room_capabilities = []
+if final_clean_room_route
+  expected_final_route_keys = %w[
+    record_type authority status decision_record_path decision_record_sha256
+    canonical_parent_commit canonical_parent_tree task_id route_id mandatory_exit_capabilities
+    prior_terminal_routes atomic_all_or_none final_exact_contract_count activation_limit
+    branch_limit worktree_limit candidate_limit retry_limit reusable old_asset_reuse_allowed
+    successor_replacement_correction_chain_allowed claim_boundary
+  ]
+  stop!("final clean-room route schema drift") unless final_clean_room_route.is_a?(Hash) && final_clean_room_route.keys.sort == expected_final_route_keys.sort
+  stop!("final clean-room route authority drift") unless
+    final_clean_room_route["record_type"] == "p1_founder_approved_final_clean_room_implementation_route" &&
+    final_clean_room_route["authority"] == "HUMAN_FOUNDER" &&
+    final_clean_room_route["status"] == "FOUNDER_APPROVED_ONE_TIME"
+  final_clean_room_route_id = final_clean_room_route["route_id"]
+  final_clean_room_capabilities = final_clean_room_route["mandatory_exit_capabilities"]
+  stop!("final clean-room route identity invalid") unless
+    final_clean_room_route_id == "P1_038_FINAL_CLEAN_ROOM_IMPLEMENTATION_ROUTE" &&
+    final_clean_room_route["task_id"] == "AIOS-P1-038_MINIMAL_HIDDEN_ADMISSION_PARAMETERIZED_HARNESS_IMPLEMENTATION"
+  stop!("final clean-room route capability population drift") unless integrated_route && final_clean_room_capabilities == integrated_route_capabilities
+  stop!("final clean-room route safety invariant drift") unless
+    final_clean_room_route["atomic_all_or_none"] == true &&
+    final_clean_room_route["final_exact_contract_count"] == 1 &&
+    final_clean_room_route["activation_limit"] == 1 &&
+    final_clean_room_route["branch_limit"] == 1 &&
+    final_clean_room_route["worktree_limit"] == 1 &&
+    final_clean_room_route["candidate_limit"] == 1 &&
+    final_clean_room_route["retry_limit"] == 0 &&
+    final_clean_room_route["reusable"] == false &&
+    final_clean_room_route["old_asset_reuse_allowed"] == false &&
+    final_clean_room_route["successor_replacement_correction_chain_allowed"] == false
+  stop!("final clean-room route parent identity invalid") unless
+    final_clean_room_route["canonical_parent_commit"].is_a?(String) && final_clean_room_route["canonical_parent_commit"].match?(/\A[0-9a-f]{40}\z/) &&
+    final_clean_room_route["canonical_parent_tree"].is_a?(String) && final_clean_room_route["canonical_parent_tree"].match?(/\A[0-9a-f]{40}\z/)
+  stop!("final clean-room route parent object missing") unless system("git", "-C", REPO_ROOT, "cat-file", "-e", "#{final_clean_room_route['canonical_parent_commit']}^{commit}", out: File::NULL, err: File::NULL)
+  stop!("final clean-room route parent tree drift") unless git("rev-parse", "#{final_clean_room_route['canonical_parent_commit']}^{tree}") == final_clean_room_route["canonical_parent_tree"]
+  stop!("final clean-room route prior terminal routes drift") unless final_clean_room_route["prior_terminal_routes"] == {
+    "AIOS-P1-036_HIDDEN_SET_PROTOCOL" => "PERMANENTLY_STOPPED_AFTER_SECURITY_NON_PASS",
+    "AIOS-P1-037_PARAMETERIZED_EVALUATION_HARNESS_WITH_HIDDEN_ADMISSION" => "PERMANENTLY_STOPPED_AFTER_FINAL_SECURITY_NON_PASS"
+  }
+
+  decision = bound_json!(final_clean_room_route["decision_record_path"], final_clean_room_route["decision_record_sha256"], recovery_evidence_base, "final clean-room Founder attempt-accounting decision")
+  expected_decision_keys = %w[
+    record_type schema_version status authority approved_at_utc canonical_parent_commit
+    canonical_parent_tree goal_canonical_sha256 accepted_terminal_evidence historical_routes
+    attempt_accounting final_clean_room_route contract_freeze_sequence contract_rules
+    minimum_engineering_scope forbidden terminal_rule delegation
+    next_capability_after_atomic_acceptance claim_boundary
+  ]
+  stop!("final clean-room Founder decision schema drift") unless decision.keys.sort == expected_decision_keys.sort
+  stop!("final clean-room Founder decision header drift") unless
+    decision["record_type"] == "sourcelens_aios_founder_exit_capability_attempt_accounting_recalibration" &&
+    decision["schema_version"] == "1.0" && decision["status"] == "APPROVED" &&
+    decision["authority"] == "HUMAN_FOUNDER" && valid_utc_timestamp?(decision["approved_at_utc"])
+  stop!("final clean-room Founder decision parent drift") unless
+    decision["canonical_parent_commit"] == final_clean_room_route["canonical_parent_commit"] &&
+    decision["canonical_parent_tree"] == final_clean_room_route["canonical_parent_tree"]
+  stop!("final clean-room Founder decision Goal drift") unless decision["goal_canonical_sha256"] == truth.dig("goal", "observed_body_sha256")
+  accepted_terminal = decision["accepted_terminal_evidence"]
+  stop!("final clean-room Founder accepted terminal Evidence schema drift") unless accepted_terminal.is_a?(Hash) && accepted_terminal.keys.sort == %w[
+    p1_037_contract_review_failure_record_path p1_037_contract_review_failure_record_sha256
+    p1_037_terminal_record_path p1_037_terminal_record_sha256
+  ].sort
+  terminal_record = bound_json!(accepted_terminal["p1_037_terminal_record_path"], accepted_terminal["p1_037_terminal_record_sha256"], recovery_evidence_base, "P1-037 terminal record accepted by Founder")
+  failure_record = bound_json!(accepted_terminal["p1_037_contract_review_failure_record_path"], accepted_terminal["p1_037_contract_review_failure_record_sha256"], recovery_evidence_base, "P1-037 contract failure accepted by Founder")
+  stop!("final clean-room Founder accepted terminal Evidence drift") unless
+    terminal_record["status"] == "PERMANENTLY_STOPPED_AFTER_FINAL_SECURITY_NON_PASS" &&
+    terminal_record["route_recovery_allowed"] == false &&
+    terminal_record["contract_review_failure_record_sha256"] == accepted_terminal["p1_037_contract_review_failure_record_sha256"] &&
+    failure_record["status"] == "CONTRACT_REVIEW_BLOCKED" &&
+    failure_record["implementation_started"] == false && failure_record["task_activated"] == false &&
+    failure_record["task_branch_created"] == false && failure_record["task_worktree_created"] == false &&
+    failure_record["candidate_created"] == false
+  stop!("final clean-room Founder historical route preservation drift") unless decision["historical_routes"] == {
+    "AIOS-P1-036_HIDDEN_SET_PROTOCOL" => {
+      "status" => "PERMANENTLY_STOPPED_AFTER_SECURITY_NON_PASS",
+      "immutable" => true, "recovery_allowed" => false, "asset_reuse_allowed" => false
+    },
+    "AIOS-P1-037_PARAMETERIZED_EVALUATION_HARNESS_WITH_HIDDEN_ADMISSION" => {
+      "status" => "PERMANENTLY_STOPPED_AFTER_FINAL_SECURITY_NON_PASS",
+      "immutable" => true, "recovery_allowed" => false, "asset_reuse_allowed" => false
+    }
+  }
+  stop!("final clean-room Founder attempt-accounting drift") unless decision["attempt_accounting"] == {
+    "contract_preparation_failure_is_activated_implementation_attempt" => false,
+    "activated_implementation_attempt_starts_at_governance_activation_commit" => true,
+    "historical_contract_failures_remain_terminal" => true,
+    "maximum_new_clean_room_implementation_routes" => 1,
+    "implementation_retry_limit" => 0
+  }
+  stop!("final clean-room Founder route binding drift") unless decision["final_clean_room_route"] == {
+    "task_id" => final_clean_room_route["task_id"],
+    "mandatory_exit_capabilities" => final_clean_room_capabilities,
+    "atomic_acceptance_required" => true,
+    "partial_acceptance_allowed" => false,
+    "branch_limit" => 1,
+    "worktree_limit" => 1,
+    "candidate_limit" => 1,
+    "retry_limit" => 0,
+    "old_asset_reuse_allowed" => false
+  }
+  stop!("final clean-room Founder contract freeze sequence drift") unless decision["contract_freeze_sequence"] == %w[
+    MINIMAL_DRAFT
+    CTO_SECURITY_QUALITY_PRE_FREEZE_COLLABORATIVE_CONTRADICTION_REMOVAL
+    ONE_FINAL_EXACT_CONTRACT_FREEZE
+    CTO_SECURITY_QUALITY_FINAL_INDEPENDENT_REVIEW
+    ACTIVATE_ONLY_AFTER_ALL_EXACT_PASS
+  ]
+  stop!("final clean-room Founder contract rule drift") unless decision["contract_rules"] == {
+    "pre_freeze_frozen_version_chain_allowed" => false,
+    "successor_replacement_or_correction_chain_allowed" => false,
+    "final_exact_contract_count" => 1,
+    "final_contract_non_pass_action" => "PERMANENTLY_STOP_ROUTE_AND_ESCALATE_FOUNDER"
+  }
+  stop!("final clean-room Founder terminal rule drift") unless decision["terminal_rule"] == {
+    "final_contract_any_non_pass" => "PERMANENTLY_STOP_ROUTE_AND_ESCALATE_FOUNDER",
+    "real_architecture_implementation_failure" => "PERMANENTLY_STOP_ROUTE_AND_ESCALATE_FOUNDER",
+    "post_failure_founder_choices" => %w[FORMALLY_REVISE_P1_EXIT_GATE STOP_P1]
+  }
+  stop!("final clean-room Founder delegation drift") unless decision["delegation"] == {
+    "model" => "P1_PHASE_LEVEL_FOUNDER_DELEGATION",
+    "master_may_sync_prepare_freeze_review_activate_implement_gate_integrate_cleanup_and_continue" => true,
+    "routine_task_founder_approval_required" => false,
+    "next_normal_founder_intervention" => "P1_PHASE_GATE_OR_REAL_FOUNDER_RESERVED_DECISION"
+  }
+  stop!("final clean-room Founder next capability drift") unless decision["next_capability_after_atomic_acceptance"] == "VTSR_COUNTING_VALIDATOR"
+  stop!("final clean-room Founder claim boundary drift") unless decision["claim_boundary"] == "FOUNDER_ARCHITECTURE_AND_ATTEMPT_ACCOUNTING_DECISION_ONLY_NO_IMPLEMENTATION_HIDDEN_SET_PARAMETERIZED_HARNESS_BENCHMARK_AGENT_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM"
+  stop!("final clean-room route claim boundary drift") unless final_clean_room_route["claim_boundary"] == "COOPERATIVE_LOCAL_PUBLIC_SYNTHETIC_ROLE_SEPARATED_HIDDEN_ADMISSION_AND_PARAMETERIZED_HARNESS_REPRODUCIBLE_INTEGRATION_ONLY_NO_REAL_HIDDEN_SET_SECRECY_REPRESENTATIVENESS_CUSTODY_HOSTILE_PRINCIPAL_AGENT_P1_EXIT_P2_P3_OR_PRODUCTION_CLAIM"
+end
+
 if integrated_route
   current_route_states = integrated_route_capabilities.map { |capability| capability_status[capability] }
   allowed_route_populations = [
     ["CONTRACT_REVIEW_BLOCKED", "MISSING"],
     ["RELOCATED_PENDING_INTEGRATED_TASK", "MISSING"],
+    ["FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION", "FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION"],
     ["IN_PROGRESS", "IN_PROGRESS"],
     ["ACCEPTED", "ACCEPTED"],
     ["ARCHITECTURE_BLOCKED", "ARCHITECTURE_BLOCKED"],
@@ -511,7 +646,7 @@ if integrated_route
 
   integrated_history_entries = history_entries_for_recovery.select do |entry|
     entry["founder_architecture_route_id"] == integrated_route_id ||
-      record_capabilities(entry) == integrated_route_capabilities
+      entry["task_id"] == integrated_route["task_id"]
   end
   active_route_instance = truth.dig("active_work", "current_task") == integrated_route["task_id"] ? 1 : 0
   stop!("integrated capability route was reused") if integrated_history_entries.length + active_route_instance > 1
@@ -521,7 +656,13 @@ history_entries_for_recovery.each do |entry|
   match = entry["task_id"].to_s.match(/\AAIOS-P1-(\d{3})/)
   next unless match && match[1].to_i >= 35
   stop!("post-recovery Task history lacks mandatory capability identity") unless expected_exit_capabilities.include?(entry["mandatory_exit_capability"]) && entry["clean_room_attempt_ordinal"] == 1
-  if entry.key?("integrated_mandatory_exit_capabilities") || entry.key?("founder_architecture_route_id")
+  if entry.key?("founder_final_clean_room_route_id")
+    stop!("Task history uses an unauthorized final clean-room route") unless
+      final_clean_room_route && entry["task_id"] == final_clean_room_route["task_id"] &&
+      entry["mandatory_exit_capability"] == final_clean_room_capabilities.last &&
+      entry["integrated_mandatory_exit_capabilities"] == final_clean_room_capabilities &&
+      entry["founder_final_clean_room_route_id"] == final_clean_room_route_id
+  elsif entry.key?("integrated_mandatory_exit_capabilities") || entry.key?("founder_architecture_route_id")
     stop!("Task history uses an unauthorized integrated capability route") unless integrated_route && entry["task_id"] == integrated_route["task_id"] && entry["mandatory_exit_capability"] == integrated_route["primary_capability"] && entry["integrated_mandatory_exit_capabilities"] == integrated_route_capabilities && entry["founder_architecture_route_id"] == integrated_route_id
   end
 end
@@ -537,15 +678,39 @@ capability_status.each do |capability, state|
     stop!("missing Exit capability already has an execution attempt") unless attempts.empty? && ledger.nil?
   when "RELOCATED_PENDING_INTEGRATED_TASK"
     stop!("relocated Exit capability is not bound to the Founder-approved integrated route") unless integrated_member && capability == integrated_route_capabilities.first && attempts.empty? && ledger.is_a?(Hash) && ledger["status"] == "CONTRACT_REVIEW_BLOCKED"
+  when "FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION"
+    stop!("Founder-recalibrated Exit capability is not bound to the final clean-room route") unless
+      final_clean_room_capabilities.include?(capability) && attempts.empty? &&
+      ledger.is_a?(Hash) && ledger["status"] == "CONTRACT_REVIEW_BLOCKED" &&
+      final_clean_room_attempt.nil?
   when "IN_PROGRESS"
-    execution_ledger = integrated_member ? integrated_primary_ledger : ledger
+    execution_ledger = if final_clean_room_capabilities.include?(capability) && final_clean_room_attempt.is_a?(Hash)
+      final_clean_room_attempt
+    elsif integrated_member
+      integrated_primary_ledger
+    else
+      ledger
+    end
     stop!("in-progress Exit capability attempt ledger missing") unless attempts.empty? && execution_ledger.is_a?(Hash) && execution_ledger["status"] == "ACTIVE" && execution_ledger["attempt_ordinal"] == 1
   when "ACCEPTED"
     entry = attempts.first
     entry_capabilities = entry ? record_capabilities(entry) : []
     integrated_acceptance = integrated_member && entry && entry_capabilities == integrated_route_capabilities && entry["task_id"] == integrated_route["task_id"]
-    execution_ledger = integrated_acceptance ? integrated_primary_ledger : ledger
-    accepted_claim_boundary = integrated_acceptance ? integrated_route["claim_boundary"] : mandatory_capability_claim_boundary
+    final_clean_room_acceptance = final_clean_room_capabilities.include?(capability) && entry && entry_capabilities == final_clean_room_capabilities && entry["task_id"] == final_clean_room_route["task_id"] && entry["founder_final_clean_room_route_id"] == final_clean_room_route_id
+    execution_ledger = if final_clean_room_acceptance
+      final_clean_room_attempt
+    elsif integrated_acceptance
+      integrated_primary_ledger
+    else
+      ledger
+    end
+    accepted_claim_boundary = if final_clean_room_acceptance
+      final_clean_room_route["claim_boundary"]
+    elsif integrated_acceptance
+      integrated_route["claim_boundary"]
+    else
+      mandatory_capability_claim_boundary
+    end
     accepted_statuses = %w[MASTER_TASK_GATE_ACCEPTED_COMPLETE FOUNDER_GATE_ACCEPTED_COMPLETE]
     stop!("accepted Exit capability lacks one Task Gate binding") unless entry && execution_ledger.is_a?(Hash) && execution_ledger["status"] == "ACCEPTED" && execution_ledger["task_id"] == entry["task_id"] && execution_ledger["attempt_ordinal"] == 1 && accepted_statuses.include?(entry["status"]) && entry["task_gate_result"] == "PASS"
     commit = entry["accepted_candidate_commit"]
@@ -610,7 +775,14 @@ capability_status.each do |capability, state|
     entry = attempts.first
     entry_capabilities = entry ? record_capabilities(entry) : []
     integrated_terminal = integrated_member && entry && entry_capabilities == integrated_route_capabilities && entry["task_id"] == integrated_route["task_id"]
-    execution_ledger = integrated_terminal ? integrated_primary_ledger : ledger
+    final_clean_room_terminal = final_clean_room_capabilities.include?(capability) && entry && entry_capabilities == final_clean_room_capabilities && entry["task_id"] == final_clean_room_route["task_id"] && entry["founder_final_clean_room_route_id"] == final_clean_room_route_id
+    execution_ledger = if final_clean_room_terminal
+      final_clean_room_attempt
+    elsif integrated_terminal
+      integrated_primary_ledger
+    else
+      ledger
+    end
     stop!("architecture-blocked Exit capability lacks terminal Evidence binding") unless entry && execution_ledger.is_a?(Hash) && execution_ledger["status"] == "ARCHITECTURE_BLOCKED" && execution_ledger["task_id"] == entry["task_id"] && execution_ledger["attempt_ordinal"] == 1 && exact_terminal_status?(entry["status"]) && entry["founder_escalation_required"] == true
     terminal = entry["terminal_evidence"]
     evidence_root = entry["execution_evidence_root"]
@@ -675,11 +847,22 @@ if (transition = previous_truth_transition(truth_bytes))
       stop!("integrated capability route was removed, replaced, renamed or rebound") unless current_integrated_routes == previous_integrated_routes
     end
 
+    previous_final_route = previous_recovery["final_clean_room_implementation_route"]
+    current_final_route = current_recovery["final_clean_room_implementation_route"]
+    if previous_final_route
+      stop!("final clean-room route was removed, replaced or rebound") unless current_final_route == previous_final_route
+    elsif current_final_route
+      stop!("final clean-room route initialization is not Founder-bound") unless
+        current_final_route["record_type"] == "p1_founder_approved_final_clean_room_implementation_route" &&
+        current_final_route["authority"] == "HUMAN_FOUNDER" && current_final_route["reusable"] == false
+    end
+
     allowed_status_transitions = {
       "MISSING" => %w[MISSING IN_PROGRESS CONTRACT_REVIEW_BLOCKED FOUNDER_DISPOSED],
       "RELOCATED_PENDING_INTEGRATED_TASK" => %w[RELOCATED_PENDING_INTEGRATED_TASK IN_PROGRESS CONTRACT_REVIEW_BLOCKED],
+      "FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION" => %w[FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION IN_PROGRESS CONTRACT_REVIEW_BLOCKED],
       "IN_PROGRESS" => %w[IN_PROGRESS ACCEPTED ARCHITECTURE_BLOCKED],
-      "CONTRACT_REVIEW_BLOCKED" => %w[CONTRACT_REVIEW_BLOCKED RELOCATED_PENDING_INTEGRATED_TASK FOUNDER_DISPOSED],
+      "CONTRACT_REVIEW_BLOCKED" => %w[CONTRACT_REVIEW_BLOCKED RELOCATED_PENDING_INTEGRATED_TASK FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION FOUNDER_DISPOSED],
       "ARCHITECTURE_BLOCKED" => %w[ARCHITECTURE_BLOCKED FOUNDER_DISPOSED],
       "ACCEPTED" => %w[ACCEPTED],
       "FOUNDER_DISPOSED" => %w[FOUNDER_DISPOSED]
@@ -698,6 +881,9 @@ if (transition = previous_truth_transition(truth_bytes))
         %w[integrated_mandatory_exit_capabilities founder_architecture_route_id].each do |field|
           stop!("mandatory Exit capability integrated attempt identity changed: #{capability}/#{field}") if previous_attempt.key?(field) && current_attempt[field] != previous_attempt[field]
         end
+        if current_final_route && Array(current_final_route["mandatory_exit_capabilities"]).include?(capability)
+          stop!("final clean-room route changed historical contract-attempt ledger: #{capability}") unless current_attempt == previous_attempt
+        end
       end
     end
     if integrated_route
@@ -707,6 +893,9 @@ if (transition = previous_truth_transition(truth_bytes))
         [["CONTRACT_REVIEW_BLOCKED", "MISSING"], ["RELOCATED_PENDING_INTEGRATED_TASK", "MISSING"]],
         [["RELOCATED_PENDING_INTEGRATED_TASK", "MISSING"], ["IN_PROGRESS", "IN_PROGRESS"]],
         [["RELOCATED_PENDING_INTEGRATED_TASK", "MISSING"], ["CONTRACT_REVIEW_BLOCKED", "CONTRACT_REVIEW_BLOCKED"]],
+        [["CONTRACT_REVIEW_BLOCKED", "CONTRACT_REVIEW_BLOCKED"], ["FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION", "FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION"]],
+        [["FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION", "FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION"], ["IN_PROGRESS", "IN_PROGRESS"]],
+        [["FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION", "FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION"], ["CONTRACT_REVIEW_BLOCKED", "CONTRACT_REVIEW_BLOCKED"]],
         [["IN_PROGRESS", "IN_PROGRESS"], ["ACCEPTED", "ACCEPTED"]],
         [["IN_PROGRESS", "IN_PROGRESS"], ["ARCHITECTURE_BLOCKED", "ARCHITECTURE_BLOCKED"]]
       ]
@@ -717,6 +906,16 @@ if (transition = previous_truth_transition(truth_bytes))
       previous_blocked_ledger = previous_recovery.dig("capability_attempt_ledger", blocked_capability)
       current_blocked_ledger = current_recovery.dig("capability_attempt_ledger", blocked_capability)
       stop!("P1-036 blocked route ledger changed across integrated route transition") unless previous_blocked_ledger == current_blocked_ledger
+    end
+
+
+    previous_final_attempt = previous_recovery["final_clean_room_implementation_attempt"]
+    current_final_attempt = current_recovery["final_clean_room_implementation_attempt"]
+    if previous_final_attempt
+      stop!("final clean-room implementation attempt was erased") unless current_final_attempt.is_a?(Hash)
+      %w[task_id attempt_ordinal contract_sha256 founder_final_clean_room_route_id].each do |field|
+        stop!("final clean-room implementation attempt identity changed: #{field}") unless current_final_attempt[field] == previous_final_attempt[field]
+      end
     end
   end
 end
@@ -864,7 +1063,17 @@ mandatory_exit_capability = contract["mandatory_exit_capability"]
 stop!("active Task is not bound to a mandatory P1 Exit capability") unless expected_exit_capabilities.include?(mandatory_exit_capability)
 contract_integrated_capabilities = contract["integrated_mandatory_exit_capabilities"]
 contract_route_id = contract["founder_architecture_route_id"]
-if contract_integrated_capabilities || contract_route_id
+contract_final_route_id = contract["founder_final_clean_room_route_id"]
+if contract_final_route_id
+  stop!("active Task mixes historical and final clean-room route identities") unless contract_route_id.nil?
+  stop!("active Task uses an incomplete final clean-room capability binding") unless contract_integrated_capabilities.is_a?(Array) && nonempty_string?(contract_final_route_id)
+  stop!("active Task is not the exact Founder-approved final clean-room route") unless
+    final_clean_room_route && contract_final_route_id == final_clean_room_route_id &&
+    current_task == final_clean_room_route["task_id"] &&
+    mandatory_exit_capability == final_clean_room_capabilities.last &&
+    contract_integrated_capabilities == final_clean_room_capabilities
+  task_exit_capabilities = contract_integrated_capabilities
+elsif contract_integrated_capabilities || contract_route_id
   stop!("active Task uses an incomplete integrated capability binding") unless contract_integrated_capabilities.is_a?(Array) && nonempty_string?(contract_route_id)
   stop!("active Task is not the exact Founder-approved integrated route") unless integrated_route && contract_route_id == integrated_route_id && current_task == integrated_route["task_id"] && mandatory_exit_capability == integrated_route["primary_capability"] && contract_integrated_capabilities == integrated_route_capabilities
   task_exit_capabilities = contract_integrated_capabilities
@@ -881,17 +1090,23 @@ clean_room = contract["clean_room_recovery"]
 stop!("active Task clean-room recovery declaration missing") unless clean_room.is_a?(Hash)
 stop!("active Task reuses historical execution lineage") unless clean_room["historical_execution_lineage_reused"] == false
 stop!("active Task clean-room attempt ordinal drift") unless clean_room["attempt_ordinal"] == 1
-stop!("active Task bounded Contract correction limit drift") unless clean_room["bounded_contract_corrections_allowed"] == 1
+expected_contract_correction_limit = contract_final_route_id ? 0 : 1
+stop!("active Task bounded Contract correction limit drift") unless clean_room["bounded_contract_corrections_allowed"] == expected_contract_correction_limit
 corrections_used = clean_room["bounded_contract_corrections_used"]
-stop!("active Task bounded Contract correction usage invalid") unless corrections_used.is_a?(Integer) && corrections_used.between?(0, 1)
+stop!("active Task bounded Contract correction usage invalid") unless corrections_used.is_a?(Integer) && corrections_used.between?(0, expected_contract_correction_limit)
 if corrections_used.zero?
   stop!("uncorrected Contract must not bind original Contract bytes") unless clean_room["original_contract_path"].nil? && clean_room["original_contract_sha256"].nil?
-  stop!("uncorrected Contract cannot replace a pre-existing Task Contract") unless git_file(active["activation_parent_commit"], contract_rel).nil?
+  if contract_final_route_id
+    frozen_contract_bytes = git_file(active["activation_parent_commit"], contract_rel)
+    stop!("final clean-room Contract was not frozen at the activation parent") unless frozen_contract_bytes && Digest::SHA256.hexdigest(frozen_contract_bytes) == contract_sha
+  else
+    stop!("uncorrected Contract cannot replace a pre-existing Task Contract") unless git_file(active["activation_parent_commit"], contract_rel).nil?
+  end
 else
   stop!("corrected Contract original path must be its canonical tracked path") unless clean_room["original_contract_path"] == contract_rel
   stop!("corrected Contract original hash invalid") unless clean_room["original_contract_sha256"].is_a?(String) && clean_room["original_contract_sha256"].match?(/\A[0-9a-f]{64}\z/)
 end
-active_attempt = attempt_ledger[mandatory_exit_capability]
+active_attempt = contract_final_route_id ? final_clean_room_attempt : attempt_ledger[mandatory_exit_capability]
 prior_clean_room_attempts = history_entries.select { |entry| entry["mandatory_exit_capability"] == mandatory_exit_capability }
 stop!("mandatory Exit capability clean-room attempt already consumed") unless prior_clean_room_attempts.empty?
 stop!("active Task read context must be canonical repository-relative paths") unless contract["read_context"].all? do |path|
@@ -1038,12 +1253,16 @@ if corrections_used == 1
   end
 end
 expected_attempt_keys = %w[attempt_ordinal bounded_contract_corrections_used contract_sha256 status task_id]
-if contract_integrated_capabilities
+if contract_final_route_id
+  expected_attempt_keys += %w[integrated_mandatory_exit_capabilities founder_final_clean_room_route_id]
+elsif contract_integrated_capabilities
   expected_attempt_keys += %w[integrated_mandatory_exit_capabilities founder_architecture_route_id]
 end
 stop!("active Task attempt ledger schema drift") unless active_attempt.keys.sort == expected_attempt_keys.sort
 stop!("active Task attempt ledger binding drift") unless active_attempt["task_id"] == current_task && active_attempt["contract_sha256"] == contract_sha && active_attempt["bounded_contract_corrections_used"] == corrections_used
-if contract_integrated_capabilities
+if contract_final_route_id
+  stop!("active Task final clean-room attempt ledger binding drift") unless active_attempt["integrated_mandatory_exit_capabilities"] == contract_integrated_capabilities && active_attempt["founder_final_clean_room_route_id"] == contract_final_route_id
+elsif contract_integrated_capabilities
   stop!("active Task integrated attempt ledger binding drift") unless active_attempt["integrated_mandatory_exit_capabilities"] == contract_integrated_capabilities && active_attempt["founder_architecture_route_id"] == contract_route_id
 end
 task_number = current_task.match(/\AAIOS-#{Regexp.escape(phase)}-(\d{3})/)[1]
@@ -1060,10 +1279,15 @@ stop!("active Task authorization ID drift") unless active["authorization_id"].is
 stop!("active Task authorization replay detected") if recursive_values(truth.fetch("task_history"), "authorization_id").include?(active["authorization_id"])
 stop!("active Task Goal binding drift") unless authorization["goal_canonical_sha256"] == truth.dig("goal", "observed_body_sha256")
 stop!("active Task Phase binding drift") unless authorization["phase"] == phase
-if contract_integrated_capabilities
+if contract_final_route_id
+  stop!("active Task authorization final clean-room capability binding drift") unless
+    authorization["integrated_mandatory_exit_capabilities"] == contract_integrated_capabilities &&
+    authorization["founder_final_clean_room_route_id"] == contract_final_route_id &&
+    !authorization.key?("founder_architecture_route_id")
+elsif contract_integrated_capabilities
   stop!("active Task authorization integrated capability binding drift") unless authorization["integrated_mandatory_exit_capabilities"] == contract_integrated_capabilities && authorization["founder_architecture_route_id"] == contract_route_id
 else
-  stop!("ordinary Task authorization cannot carry an integrated capability binding") if authorization.key?("integrated_mandatory_exit_capabilities") || authorization.key?("founder_architecture_route_id")
+  stop!("ordinary Task authorization cannot carry an integrated capability binding") if authorization.key?("integrated_mandatory_exit_capabilities") || authorization.key?("founder_architecture_route_id") || authorization.key?("founder_final_clean_room_route_id")
 end
 
 activation_parent_commit = active["activation_parent_commit"]
@@ -1076,13 +1300,19 @@ main_head = git("rev-parse", "refs/heads/#{main_branch}")
 stop!("active Task canonical main is not descended from activation parent") unless system("git", "-C", REPO_ROOT, "merge-base", "--is-ancestor", activation_parent_commit, main_head, out: File::NULL, err: File::NULL)
 stop!("active Task activation must be one governance commit") unless git("rev-list", "--count", "#{activation_parent_commit}..#{main_head}") == "1"
 activation_paths = git("diff", "--name-only", activation_parent_commit, main_head).lines.map(&:strip).reject(&:empty?).sort
-stop!("active Task activation path population drift") unless activation_paths == [contract_rel, "docs/aios/truth/project_state.yaml"].sort
+expected_activation_paths = contract_final_route_id ? ["docs/aios/truth/project_state.yaml"] : [contract_rel, "docs/aios/truth/project_state.yaml"].sort
+stop!("active Task activation path population drift") unless activation_paths == expected_activation_paths
 parent_truth_bytes = IO.popen(["git", "-C", REPO_ROOT, "show", "#{activation_parent_commit}:docs/aios/truth/project_state.yaml"], err: File::NULL, &:read)
 stop!("active Task parent Truth unavailable") unless $CHILD_STATUS.success?
 parent_truth = YAML.safe_load(parent_truth_bytes, aliases: false)
 parent_capability_status = parent_truth.dig("mandatory_exit_capability_recovery", "capability_status")
 expected_active_capability_status = Marshal.load(Marshal.dump(parent_capability_status))
-if contract_integrated_capabilities
+if contract_final_route_id
+  stop!("active final clean-room Task parent capability states are not eligible") unless
+    expected_active_capability_status.is_a?(Hash) &&
+    contract_integrated_capabilities.all? { |capability| expected_active_capability_status[capability] == "FOUNDER_RECALIBRATED_PENDING_IMPLEMENTATION" }
+  contract_integrated_capabilities.each { |capability| expected_active_capability_status[capability] = "IN_PROGRESS" }
+elsif contract_integrated_capabilities
   stop!("active integrated Task parent capability states are not eligible") unless expected_active_capability_status.is_a?(Hash) && expected_active_capability_status[contract_integrated_capabilities.first] == "RELOCATED_PENDING_INTEGRATED_TASK" && expected_active_capability_status[mandatory_exit_capability] == "MISSING"
   contract_integrated_capabilities.each { |capability| expected_active_capability_status[capability] = "IN_PROGRESS" }
 else
@@ -1091,10 +1321,16 @@ else
 end
 stop!("active Task activation changed mandatory Exit capability status incorrectly") unless capability_status == expected_active_capability_status
 parent_attempt_ledger = parent_truth.dig("mandatory_exit_capability_recovery", "capability_attempt_ledger")
-stop!("active Task parent attempt ledger was already consumed") unless parent_attempt_ledger.is_a?(Hash) && parent_attempt_ledger[mandatory_exit_capability].nil?
-expected_active_attempt_ledger = Marshal.load(Marshal.dump(parent_attempt_ledger))
-expected_active_attempt_ledger[mandatory_exit_capability] = active_attempt
-stop!("active Task activation changed attempt ledger incorrectly") unless attempt_ledger == expected_active_attempt_ledger
+if contract_final_route_id
+  stop!("active final clean-room Task changed historical contract-attempt ledger") unless attempt_ledger == parent_attempt_ledger
+  stop!("active final clean-room Task parent implementation attempt was already consumed") unless parent_truth.dig("mandatory_exit_capability_recovery", "final_clean_room_implementation_attempt").nil?
+  stop!("active final clean-room Task implementation attempt binding drift") unless final_clean_room_attempt == active_attempt
+else
+  stop!("active Task parent attempt ledger was already consumed") unless parent_attempt_ledger.is_a?(Hash) && parent_attempt_ledger[mandatory_exit_capability].nil?
+  expected_active_attempt_ledger = Marshal.load(Marshal.dump(parent_attempt_ledger))
+  expected_active_attempt_ledger[mandatory_exit_capability] = active_attempt
+  stop!("active Task activation changed attempt ledger incorrectly") unless attempt_ledger == expected_active_attempt_ledger
+end
 stop!("active Task activation changed Truth outside the closed activation field set") unless truth_without_activation_fields(parent_truth) == truth_without_activation_fields(truth)
 main_contract = IO.popen(["git", "-C", REPO_ROOT, "show", "#{main_head}:#{contract_rel}"], err: File::NULL, &:read)
 stop!("active Task Contract is not frozen in canonical activation commit") unless $CHILD_STATUS.success? && Digest::SHA256.hexdigest(main_contract) == contract_sha

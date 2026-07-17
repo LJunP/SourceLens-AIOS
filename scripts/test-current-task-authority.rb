@@ -146,6 +146,7 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   truth["mandatory_exit_capability_recovery"]["final_clean_room_contract_review_terminal"] = nil
   truth["mandatory_exit_capability_recovery"]["post_revision_final_implementation_route"] = nil
   truth["mandatory_exit_capability_recovery"]["post_revision_final_implementation_attempt"] = nil
+  truth["mandatory_exit_capability_recovery"]["post_revision_final_route_terminal"] = nil
   truth["goal"]["control_plane_status_observed"] = "ACTIVE"
   truth["goal"]["current_task_authority"] = "NONE"
   truth["project"]["phase_execution_status"] = "NO_CURRENT_TASK"
@@ -1305,9 +1306,20 @@ Dir.mktmpdir("aios-integrated-route-") do |root|
 end
 
 Dir.mktmpdir("aios-final-clean-room-route-") do |root|
-  initialize_synthetic_authority_repo!(root, "HEAD")
+  truth_relative_path = "docs/aios/truth/project_state.yaml"
+  current_truth_bytes = File.binread(File.join(SOURCE_ROOT, truth_relative_path))
+  current_truth = YAML.safe_load(current_truth_bytes, aliases: false)
+  final_route_ref = "HEAD"
+  if current_truth.dig("mandatory_exit_capability_recovery", "post_revision_final_route_terminal")
+    head_truth_bytes = source_tracked_bytes("HEAD", truth_relative_path)
+    if Digest::SHA256.hexdigest(head_truth_bytes) == Digest::SHA256.hexdigest(current_truth_bytes)
+      last_truth_commit = run!("git", "log", "-1", "--format=%H", "--", truth_relative_path, chdir: SOURCE_ROOT)
+      final_route_ref = "#{last_truth_commit}^"
+    end
+  end
+  initialize_synthetic_authority_repo!(root, final_route_ref)
 
-  truth = YAML.safe_load(File.read(File.join(SOURCE_ROOT, "docs/aios/truth/project_state.yaml")), aliases: false)
+  truth = YAML.safe_load(source_tracked_bytes(final_route_ref, truth_relative_path), aliases: false)
   worktree_root = File.join(root, "task-worktrees")
   evidence_base = truth.dig("project", "execution_evidence_root_base")
   FileUtils.mkdir_p(worktree_root)

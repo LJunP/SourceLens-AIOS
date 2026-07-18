@@ -1,0 +1,263 @@
+schema_version: 1
+record_type: sourcelens_aios_phase_delegated_task_contract
+task_id: AIOS-P1-046_SOURCE_BOUND_OBSERVABLE_TRACE_KERNEL
+phase: P1
+route_id: P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_V1
+status: ACTIVE
+classification: ENGINEERING
+lineage: INDEPENDENT_PHASE_INCREMENT
+title: Source-Bound Observable Trace Kernel
+
+objective: >-
+  Execute one accepted visible synthetic reference control from an exact
+  P1-035 base in a disposable cooperative-local repository and produce a
+  source-, environment- and execution-tool-bound observable action Trace with
+  independent fail-closed verification, fresh-materialization normalized
+  replay and exact rollback. This Task establishes only the observable Trace
+  increment of the P1 Evaluation Run Kernel.
+
+why_now:
+  - P1-001, P1-011 and P1-035 are accepted but remain separate engineering assets.
+  - The unchanged Evaluation Protocol v1.1 P1 Exit Gate requires complete observable traces.
+  - P1-044 and P1-045 are terminal with zero accepted capability; this Task neither continues nor repairs either failed target.
+
+independence:
+  retries: []
+  remediates: []
+  supersedes: []
+  replaces: []
+  forbidden_predecessor_inputs:
+    - AIOS-P1-043 rejected Task body, engineering source, tree, candidate, Quality, Evidence and Review bytes
+    - AIOS-P1-044 rejected Task body, engineering source, tree, candidate, Quality, Evidence, Review and implementation lineage
+    - AIOS-P1-045 rejected Task body, engineering source, tree, candidate, Quality, Evidence, Review and implementation lineage
+
+risk_level: high
+execution_authority: PHASE_DELEGATED
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+
+budget:
+  engineering_hours: 18
+  calendar_days: 4
+  implementation_iterations: 2
+  candidates: 1
+
+bounded_contract_correction:
+  allowed_pre_activation: 1
+  used: 0
+  post_quality_freeze_allowed: 0
+
+roles:
+  owner: Engineering Manager Agent
+  worker: Observable Trace Kernel Engineer
+  independent_reviewers:
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent
+
+accepted_inputs:
+  evaluation_protocol:
+    path: docs/aios/EVALUATION_PROTOCOL.md
+    version: "1.1"
+    sha256: da029143561fbb3c213d4a358b25e085542c6cd26ae8150a53cbb5998177eed8
+    mode: BYTE_READ_ONLY
+  p1_001:
+    task_id: AIOS-P1-001
+    contract_path: docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
+    contract_sha256: d2974752b088ff30b0764d6b482e19ea939cd497eb2db3e26af28bf09dc2e12f
+    accepted_candidate_commit: 02342da942e291eaa65230f824fcf47eae8f8a30
+    accepted_candidate_tree: 1a31751dc1b4d5bc2c9b2c4aaf0aa640528edecc
+    mode: BYTE_READ_ONLY
+  p1_011:
+    task_id: AIOS-P1-011_ENVIRONMENT_SNAPSHOT_CAPTURE_AND_REPLAY
+    contract_path: docs/aios/tasks/P1-011_ENVIRONMENT_SNAPSHOT_CAPTURE_AND_REPLAY.yaml
+    contract_sha256: 59ad6ca86c8eeb62394265d7a81cd08b089fdb33d54d4f9e17e558249304cd7a
+    accepted_candidate_commit: d243293d0db28cf346b479e6f458a6b187cf83e3
+    accepted_candidate_tree: ac054eb5296513f838c352acddd7f0d37d69dd0d
+    mode: BYTE_READ_ONLY
+  p1_035:
+    task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+    contract_path: docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
+    contract_sha256: acec5432aacd6476693db62bdb52ee326c467f17b691860688fe952f7ffbdc33
+    accepted_candidate_commit: 686eda0cd7a93b72ac5e64301479f17e4b096fb0
+    accepted_candidate_tree: b2740b44d0051303057deac7d719c27fd6a5578a
+    dataset_manifest_path: evaluation-harness/datasets/p1-representative-task-dataset-v1/dataset-manifest.json
+    dataset_manifest_sha256: 22f252319ed066655b05142a391709741703e01fbb4d6b5ebfbbcb6acd782be6
+    mode: BYTE_READ_ONLY
+
+selected_visible_synthetic_control:
+  task_id: SL-P1-REP-003-SAFE-PATH-JOIN
+  split: development
+  task_spec_path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-003-SAFE-PATH-JOIN/task-spec.json
+  task_spec_sha256: 09d87107e2da2ba211aae1cf0ee9b773ce4efa0df5e109c793f694069ac67087
+  task_spec_byte_length: 2858
+  repository_identity: sourcelens-fixture://p1-representative-tasks/SL-P1-REP-003-SAFE-PATH-JOIN@1.0.0
+  base_commit: 10c8d9177404a85d845e7f4f207ac61cbd2538fc
+  base_tree: 9a0d83cb86ce3aaed0def3d480542800641eb18e
+  reference_patch_path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-003-SAFE-PATH-JOIN/reference-solution.patch
+  reference_patch_sha256: 2785628985854952f69bec29341dcb587eaea3513a5893606152604cd478179c
+  reference_patch_byte_length: 620
+  expected_base_failure_path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-003-SAFE-PATH-JOIN/expected-base-failure.json
+  expected_base_failure_sha256: d41b43eb2df637b14c8418932eab2b524eecad7d85017124a054e9f5b3af1378
+  expected_base_failure_byte_length: 439
+  provenance: ACCEPTED_P1_035_VISIBLE_SYNTHETIC_DEVELOPMENT_CONTROL
+  empirical_run: false
+  benchmark_eligible: false
+  capability_claim: false
+
+quality_freeze_rule: >-
+  After Task activation and before Worker implementation, a non-Worker Quality
+  Asset Author freezes the exact Trace schema, action plan, normalized identity
+  projection, reason-code precedence, independent evaluator, negative vectors,
+  ownership map and create-once verdict rules. Expected values must be derived
+  from the accepted selected control and Evaluation Protocol, not from Worker
+  output. The freeze receipt binds every Quality byte and the physical author.
+  The final Quality reviewer must be a fresh physical Agent distinct from the
+  Quality Asset Author, evaluator author, Worker and owner.
+
+trace_contract: >-
+  The Trace records observable execution only and never hidden chain-of-thought.
+  Every predeclared event category required by Evaluation Protocol v1.1 Section
+  6 is present or carries an explicit frozen not_applicable reason. Events have
+  a unique ordinal, event type, run/task/source/environment/tool identities,
+  bounded argv and logical cwd, start/end observation, exit code or signal,
+  stdout/stderr SHA-256 and byte lengths, mutation or patch identity, test or
+  verifier result, stop reason, prior-event hash and event hash. The terminal
+  Trace root covers the closed event population; omission, duplication,
+  reordering, substitution or post-hoc exclusion fails closed.
+
+source_environment_and_tool_binding: >-
+  Before any control action, formal execution verifies the exact frozen
+  candidate commit and tree, clean task worktree, a closed manifest of every
+  executed Task-local source byte, accepted dataset/TaskSpec/base identities,
+  a P1-011 source-bound Environment Snapshot, and every execution tool's
+  supplied absolute path, realpath, SHA-256, byte length, mode, version and
+  architecture. Declared target runtime and observed host execution tools are
+  separate fields and may never be presented as the same fact. Formal Evidence
+  retains the pre-evaluation binding and actual observed identities.
+
+execution_flow:
+  - Materialize the selected accepted source into a uniquely owned disposable repository and verify exact base commit, tree and clean state.
+  - Capture and verify a P1-011 source-bound Environment Snapshot without changing accepted P1-011 bytes.
+  - Run the issue-specific base test and retain its exact expected failure; run the base regression test and require PASS.
+  - Apply only the accepted P1-035 reference patch, verify exact patch and changed-path scope, then require issue-specific and regression tests PASS.
+  - Run the frozen independent Quality evaluator without trusting a Worker verdict.
+  - Roll back the disposable repository to the exact base commit/tree and clean state.
+  - Repeat from a second fresh materialization and require byte-equal normalized semantic projection while retaining physical paths and wall-clock observations outside that projection.
+
+runtime_and_process_rule: >-
+  No arbitrary shell, PATH lookup, host executable override or inherited host
+  environment is allowed. Every child uses a frozen absolute executable and
+  argv array, bounded logical cwd, replacement allowlist-only environment,
+  bounded stdout/stderr and timeout, shell=false and process-group termination
+  where supported. NODE_BIN, NODE_OPTIONS, NODE_PATH, HOME, TMPDIR, dynamic
+  loader variables, tokens, Provider and Secret variables are rejected before
+  spawn. Exit zero alone never proves PASS.
+
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
+  - docs/aios/tasks/P1-011_ENVIRONMENT_SNAPSHOT_CAPTURE_AND_REPLAY.yaml
+  - docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
+  - evaluation-harness/datasets/p1-representative-task-dataset-v1/dataset-manifest.json
+  - evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-003-SAFE-PATH-JOIN/**
+  - evaluation-harness/environment/**
+  - docs/aios/schemas/**
+
+allowlisted_paths:
+  - evaluation-harness/fixtures/source-bound-observable-trace-v1/**
+  - evaluation-harness/evaluator/source-bound-observable-trace-v1/**
+  - evaluation-harness/harness/source-bound-observable-trace-v1/**
+  - evaluation-harness/recording/source-bound-observable-trace-v1/**
+  - evaluation-harness/replay/source-bound-observable-trace-v1/**
+  - evaluation-harness/validators/source-bound-observable-trace-v1/**
+  - scripts/verify-p1-source-bound-observable-trace.sh
+  - Makefile
+  - docs/PROJECT_CODE_MAP.md
+  - docs/aios/tasks/P1-046_SOURCE_BOUND_OBSERVABLE_TRACE_KERNEL.yaml
+  - docs/aios/truth/project_state.yaml
+
+write_scope:
+  quality_exclusive:
+    - evaluation-harness/fixtures/source-bound-observable-trace-v1/**
+    - evaluation-harness/evaluator/source-bound-observable-trace-v1/**
+  worker:
+    - evaluation-harness/harness/source-bound-observable-trace-v1/**
+    - evaluation-harness/recording/source-bound-observable-trace-v1/**
+    - evaluation-harness/replay/source-bound-observable-trace-v1/**
+    - evaluation-harness/validators/source-bound-observable-trace-v1/**
+  integration:
+    - scripts/verify-p1-source-bound-observable-trace.sh
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+    - docs/aios/tasks/P1-046_SOURCE_BOUND_OBSERVABLE_TRACE_KERNEL.yaml
+    - docs/aios/truth/project_state.yaml
+  external_evidence:
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-046-source-bound-observable-trace/**
+
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+
+acceptance_criteria:
+  - Quality freezes one executable evaluation plan before Worker implementation; frozen Quality bytes remain unchanged and role identities are Evidence-bound.
+  - Formal execution preflight binds the exact candidate commit/tree, clean state and closed executed-source manifest before any control action or verdict.
+  - The accepted dataset, TaskSpec, reference patch, base commit/tree and materialized source population match exact frozen identities in both fresh materializations.
+  - Target runtime declarations remain separate from actual execution-tool observations; any path, realpath, binary, version or architecture drift fails closed.
+  - The base issue test produces the frozen expected failure, base regression passes, accepted reference patch is the only source mutation, and patched issue plus regression tests pass.
+  - Every required observable Trace category is present or explicitly not applicable; the closed hash chain and Trace root reject missing, duplicate, reordered, substituted or post-hoc-excluded events.
+  - Worker output cannot supply or overwrite the independent evaluator verdict; evaluator input is raw retained source, environment, tool, event, patch, test and rollback bytes.
+  - Negative controls cover source or accepted-input drift, dirty state, path or symlink escape, tool identity drift, forbidden environment, patch or changed-path drift, Trace omission/reorder/tamper, Worker verdict injection, output collision and rollback drift with zero false accepts.
+  - A second fresh materialization produces the same normalized semantic projection without concealing source, tool, patch, output, verdict or rollback identity; physical path and wall-clock observations remain retained outside the projection.
+  - Rollback restores exact base commit/tree, accepted source bytes and clean state; cleanup touches only uniquely owned Task scratch after realpath/dev/ino revalidation.
+  - P1-001, P1-011 and P1-035 targeted regressions, Task-targeted tests, rebuild/replay, full canonical make verify and fresh CTO, Security and Quality reviews all PASS for the one exact candidate.
+
+required_evidence:
+  - exact Goal, Phase, Task Contract, authority, activation parent and selected accepted-input identities
+  - Quality freeze receipt, ownership map, Trace schema, action plan, evaluator and negative-vector manifest
+  - frozen candidate commit/tree/full diff and pre-evaluation closed executed-source manifest
+  - both materialization identities, P1-011 Environment Snapshots and observed execution-tool identities
+  - raw hash-chained Trace events, Trace root, command receipts, stdout/stderr hashes, patch/diff and test results
+  - independent create-once evaluator verdict and negative-control results
+  - normalized replay comparison, exact rollback receipt and protected-artifact proof
+  - complete create-once Evidence manifest with SHA-256, byte lengths, modes, hardlink counts and exact path population
+  - three fresh independent final reviews over the same exact candidate and Evidence bytes
+
+rollback:
+  task_workspace: Remove only a clean Task worktree through non-forced git worktree removal after Evidence preservation; retain branch, candidate and Evidence tag.
+  disposable_repositories: Restore or remove only exact Task-owned paths after realpath/dev/ino ownership and base-state proof.
+  candidate_integration: Use local non-destructive git revert if a post-integration regression appears; never reset or clean.
+  evidence: Never delete, overwrite or rewrite retained Evidence, Review or terminal bytes.
+
+stop_conditions:
+  - Goal, Phase, canonical parent, accepted input, schema, TaskSpec, source, environment, tool or candidate identity drift.
+  - Task or remaining Phase hour, calendar, Task-count, implementation-iteration, repair or candidate budget exceeded.
+  - Any need for network, Provider, Secret, remote, production, public, dependency download, irreversible or beyond-envelope permission.
+  - Any need to modify accepted P1-001, P1-011, P1-035, selected dataset bytes, accepted schemas or Evaluation Protocol bytes.
+  - Quality/Worker write-surface contamination, Worker-controlled verdict, Evidence overwrite/damage, unprovable ownership, cleanup or rollback.
+  - Source/tool/patch identity, Trace completeness or fresh-materialization replay cannot close within the one same-Task bounded repair.
+  - A candidate-added or worsened high-severity safety, data-integrity or source-identity finding cannot close within the one same-Task bounded repair.
+  - Any required change to mission, ICP, year-one outcome, P1 Objective, P1 Exit Gate or Phase route.
+  - The accepted P1-001, P1-011 and P1-035 assets cannot compose this source-bound Trace without changing their frozen bytes, which exhausts the current route hypothesis.
+
+forbidden_actions:
+  - Read, restore, diff, checkout, cherry-pick or semantically reuse P1-043, P1-044 or P1-045 rejected Task body, engineering source/tree/candidate, Quality, oracle, fixture, nonce, Evidence, Review or implementation lineage.
+  - Modify accepted P1-001, P1-011, P1-035, selected dataset, accepted schemas, Evaluation Protocol or Baseline Adapter Contract bytes.
+  - Modify repository files outside allowlisted_paths or write external files outside the exact Task external Evidence root.
+  - Claim a complete Patch Evidence Package, empirical VTSR, baseline, adapter, model, Agent, hidden-set, benchmark, P1 Exit, P2, P3, production or hostile-principal capability.
+  - Execute B0, B1, B2 or A0; invoke a model; build an Agent Shell, Supervisor, Root Custody, Strong Isolation, Full Trust Runtime or Multi-Agent Runtime.
+  - Execute arbitrary shell, honor executable overrides, inherit the host environment, follow symlink aliases, accept multiply linked executable/input/Evidence files or trust exit zero without exact artifacts.
+  - Let Worker author or modify Quality schema, plan, oracle, evaluator, fixture or verdict bytes.
+  - Delete, overwrite, rename or rewrite historical or current Evidence, Review, terminal record, NON_PASS or parent-directory artifact.
+  - Create a successor, replacement, normalization, closure, feasibility or remediation chain, a second candidate or more than one bounded same-Task repair.
+
+claim_boundary: ONE_ACCEPTED_VISIBLE_SYNTHETIC_REFERENCE_CONTROL_SOURCE_ENVIRONMENT_AND_EXECUTION_TOOL_BOUND_OBSERVABLE_TRACE_WITH_INDEPENDENT_FAIL_CLOSED_VERIFICATION_FRESH_MATERIALIZATION_REPLAY_AND_EXACT_ROLLBACK_ONLY_NO_COMPLETE_PATCH_EVIDENCE_EMPIRICAL_VTSR_BASELINE_ADAPTER_MODEL_AGENT_HIDDEN_SET_BENCHMARK_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
+capability_claims: 0

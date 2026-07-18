@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-18T18:29:03Z"
-verification_scope: AIOS_P1_045_TERMINAL_SYNC_BETWEEN_TASKS
+last_verified_at: "2026-07-18T18:54:15Z"
+verification_scope: AIOS_P1_046_PHASE_DELEGATED_TASK_ACTIVATION
 
 authority:
   founder: Human Founder
@@ -37,8 +37,8 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
-  note: The Founder-approved long-term Goal identity is canonical and the Codex control-plane Goal is ACTIVE. P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_V1 remains ACTIVE; AIOS-P1-044 and AIOS-P1-045 are terminal with zero accepted capability, and Master must select the next independent Phase-local engineering Task.
+  current_task_authority: AIOS-P1-046_SOURCE_BOUND_OBSERVABLE_TRACE_KERNEL
+  note: The Founder-approved long-term Goal identity is canonical and the Codex control-plane Goal is ACTIVE. P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_V1 remains ACTIVE; AIOS-P1-044 and AIOS-P1-045 are terminal with zero accepted capability, and AIOS-P1-046 is the single independent Phase-delegated engineering Task.
 
 project:
   name: SourceLens AIOS
@@ -181,7 +181,28 @@ current_phase_route:
       - p1_011
       - p1_035
     claim_boundary: VISIBLE_SYNTHETIC_REFERENCE_CONTROL_PATCH_EVIDENCE_WALKING_SKELETON_ONLY
-  next_eligible_action: MASTER_SELECT_NEXT_PHASE_LOCAL_TASK
+  active_task:
+    task_id: AIOS-P1-046_SOURCE_BOUND_OBSERVABLE_TRACE_KERNEL
+    status: ACTIVE
+    classification: ENGINEERING
+    lineage: INDEPENDENT_PHASE_INCREMENT
+    contract_path: docs/aios/tasks/P1-046_SOURCE_BOUND_OBSERVABLE_TRACE_KERNEL.yaml
+    max_engineering_hours: 18
+    max_calendar_days: 4
+    max_implementation_iterations: 2
+    max_candidates: 1
+    bounded_contract_corrections_used: 0
+    objective: Execute one accepted visible synthetic reference control and produce a source-, environment- and execution-tool-bound observable Trace with independent fail-closed verification, fresh-materialization normalized replay and exact rollback.
+    accepted_input_ids:
+      - p1_001
+      - p1_011
+      - p1_035
+    retries: []
+    remediates: []
+    supersedes: []
+    replaces: []
+    claim_boundary: ONE_ACCEPTED_VISIBLE_SYNTHETIC_REFERENCE_CONTROL_SOURCE_ENVIRONMENT_AND_EXECUTION_TOOL_BOUND_OBSERVABLE_TRACE_WITH_INDEPENDENT_FAIL_CLOSED_VERIFICATION_FRESH_MATERIALIZATION_REPLAY_AND_EXACT_ROLLBACK_ONLY_NO_COMPLETE_PATCH_EVIDENCE_EMPIRICAL_VTSR_BASELINE_ADAPTER_MODEL_AGENT_HIDDEN_SET_BENCHMARK_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
+  next_eligible_action: EXECUTE_AIOS_P1_046
   next_founder_decision_points:
     - EXACT_PROVIDER_NETWORK_SECRET_COST_AUTHORIZATION
     - CRITICAL_RESIDUAL_ACCEPTANCE
@@ -907,38 +928,52 @@ p0_baseline:
   online_verification_status: ARCHIVED_NOT_ON_ACTIVE_PATH
 
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P1-046_SOURCE_BOUND_OBSERVABLE_TRACE_KERNEL
+  current_task_status: ACTIVE
   current_task_contract:
-    path: null
-    sha256: null
-    byte_length: null
-  current_task_contract_sha256: null
-  current_execution_authorization: null
-  current_execution_authorization_sha256: null
+    path: docs/aios/tasks/P1-046_SOURCE_BOUND_OBSERVABLE_TRACE_KERNEL.yaml
+    sha256: 308111ee3d86b088b006c82125a0b3128eea0e32e1341221735d743273913236
+    byte_length: 17189
+  current_task_contract_sha256: 308111ee3d86b088b006c82125a0b3128eea0e32e1341221735d743273913236
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-046-source-bound-observable-trace/MASTER_TASK_AUTHORITY.json
+  current_execution_authorization_sha256: e7b088f522d2e02367571e1972064cf55e7d281ab87978762ca18fc14c0ecc0e
   authority_record:
-    path: null
-    sha256: null
-    byte_length: null
-  execution_nonce: null
-  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
-  authorization_id: null
-  activation_parent_commit: null
-  activation_parent_tree: null
-  task_resource_state: NONE_PHASE_ACTIVE
-  task_branch: null
-  task_worktree: null
-  execution_evidence_root: null
-  allowlisted_paths: []
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-046-source-bound-observable-trace/MASTER_TASK_AUTHORITY.json
+    sha256: e7b088f522d2e02367571e1972064cf55e7d281ab87978762ca18fc14c0ecc0e
+    byte_length: 4084
+  execution_nonce: 83c2bd82c4c83ca5401796df17a11b6119b7af0989000f5bb8c6837c83a39812
+  execution_nonce_status: ACTIVE
+  authorization_id: 74fb080f35a6b23662c0fc065b49383f59b8d54159edfad328b8e70c369114b4
+  activation_parent_commit: 11c6f2824f4480c8f7085113b4e80025f828d459
+  activation_parent_tree: 4df404c2fc6db9f333f82e768c1566c79c21ff5d
+  task_resource_state: ACTIVE_DECLARED
+  task_branch: codex/p1-046-source-bound-trace
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p1-046-source-bound-trace
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-046-source-bound-observable-trace/EVIDENCE
+  allowlisted_paths:
+    - evaluation-harness/fixtures/source-bound-observable-trace-v1/**
+    - evaluation-harness/evaluator/source-bound-observable-trace-v1/**
+    - evaluation-harness/harness/source-bound-observable-trace-v1/**
+    - evaluation-harness/recording/source-bound-observable-trace-v1/**
+    - evaluation-harness/replay/source-bound-observable-trace-v1/**
+    - evaluation-harness/validators/source-bound-observable-trace-v1/**
+    - scripts/verify-p1-source-bound-observable-trace.sh
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+    - docs/aios/tasks/P1-046_SOURCE_BOUND_OBSERVABLE_TRACE_KERNEL.yaml
+    - docs/aios/truth/project_state.yaml
   budget:
-    engineering_hours: null
-    calendar_days: null
-    implementation_iterations: null
-    candidates: null
+    engineering_hours: 18
+    calendar_days: 4
+    implementation_iterations: 2
+    candidates: 1
   roles:
-    owner: null
-    worker: null
-    independent_reviewers: []
+    owner: Engineering Manager Agent
+    worker: Observable Trace Kernel Engineer
+    independent_reviewers:
+      - CTO Agent
+      - Security Agent
+      - Quality and Evaluation Agent
   external_effects:
     network: false
     provider: false
@@ -952,7 +987,7 @@ active_work:
   founder_decision_required: false
   escalation_reason: null
   user_action_required: NONE
-  next_eligible_action: MASTER_SELECT_NEXT_PHASE_LOCAL_TASK
+  next_eligible_action: EXECUTE_AIOS_P1_046
 
 superseded_pre_delegation_authorizations:
   aios_p1_009:
@@ -1833,6 +1868,7 @@ phase_execution_claim:
   mandatory_priority_rule:
     - AIOS-P1-044_LOCAL_PATCH_EVIDENCE_WALKING_SKELETON is terminal after exact-candidate final-review NON_PASS with zero accepted capability and no canonical integration.
     - AIOS-P1-045_EVALUATION_MATRIX_AND_VTSR_LEDGER_KERNEL is terminal after exact-candidate final-review NON_PASS with zero accepted capability and no canonical integration.
+    - AIOS-P1-046_SOURCE_BOUND_OBSERVABLE_TRACE_KERNEL is the single active independent Phase increment and does not retry, remediate, supersede or replace a historical Task.
     - After each Task reaches a terminal Task Gate, Master selects the next smallest independent P1 increment within the four-Task, 80-hour and 21-day Phase envelope without routine Founder approval.
     - Historical four-slice ordering and attempt routing have no current scheduling authority.
     - Peripheral validators, auxiliary governance tools and work without direct P1 Exit Gate value are ineligible.

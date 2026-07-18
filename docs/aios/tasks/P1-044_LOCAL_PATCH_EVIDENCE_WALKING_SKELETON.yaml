@@ -1,0 +1,233 @@
+schema_version: 1
+record_type: sourcelens_aios_phase_delegated_task_contract
+task_id: AIOS-P1-044_LOCAL_PATCH_EVIDENCE_WALKING_SKELETON
+phase: P1
+route_id: P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_V1
+status: ACTIVE
+classification: ENGINEERING
+title: Local Patch Evidence Walking Skeleton
+
+objective: >-
+  Execute the accepted P1-035 SL-P1-REP-001-RANGE-NORMALIZATION exact base
+  through one visible reference-patch positive control and bounded fail-closed
+  negative controls, producing independently re-executable, replayable and
+  rollback-capable Patch Evidence.
+
+why_now:
+  - This is the Founder-authorized first engineering Task on the run-kernel-first route.
+  - It joins the accepted dataset, source identity, environment, tests and Evidence plumbing into the smallest real patch-before/after loop.
+  - It directly falsifies the new architecture without reading P1-043 or building P2/P3 runtime capabilities.
+
+task_spec_ref: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/task-spec.json
+risk_level: high
+execution_authority: PHASE_DELEGATED
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+
+budget:
+  engineering_hours: 12
+  calendar_days: 3
+  implementation_iterations: 2
+  candidates: 1
+
+roles:
+  owner: Engineering Manager Agent
+  worker: Local Patch Kernel Engineer
+  independent_reviewers:
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent
+owner_role: Engineering Manager Agent
+worker_role: Local Patch Kernel Engineer
+independent_reviewer:
+  - CTO Agent
+  - Security Agent
+  - Quality and Evaluation Agent
+
+accepted_inputs:
+  p1_001:
+    task_id: AIOS-P1-001
+    contract_sha256: d2974752b088ff30b0764d6b482e19ea939cd497eb2db3e26af28bf09dc2e12f
+    accepted_candidate_commit: 02342da942e291eaa65230f824fcf47eae8f8a30
+    accepted_candidate_tree: 1a31751dc1b4d5bc2c9b2c4aaf0aa640528edecc
+    mode: BYTE_READ_ONLY
+  p1_011:
+    task_id: AIOS-P1-011_ENVIRONMENT_SNAPSHOT_CAPTURE_AND_REPLAY
+    contract_sha256: 59ad6ca86c8eeb62394265d7a81cd08b089fdb33d54d4f9e17e558249304cd7a
+    accepted_candidate_commit: d243293d0db28cf346b479e6f458a6b187cf83e3
+    accepted_candidate_tree: ac054eb5296513f838c352acddd7f0d37d69dd0d
+    mode: BYTE_READ_ONLY
+  p1_035:
+    task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+    contract_sha256: acec5432aacd6476693db62bdb52ee326c467f17b691860688fe952f7ffbdc33
+    accepted_candidate_commit: 686eda0cd7a93b72ac5e64301479f17e4b096fb0
+    accepted_candidate_tree: b2740b44d0051303057deac7d719c27fd6a5578a
+    mode: BYTE_READ_ONLY
+
+frozen_task_input:
+  dataset_id: SOURCELENS-P1-REPRESENTATIVE-TASKS
+  dataset_version: 1.0.0
+  task_id: SL-P1-REP-001-RANGE-NORMALIZATION
+  task_spec_sha256: 25de6b6f330e09c076521b42a88d60712637e0fc7de7ab1cfe1f9f5d4c223321
+  base_commit: 68ce8226eff4c5c7230b55b18a4cbea2f8e4a20f
+  base_tree: 900814727113d65f5dad8b63222e14f39b2cf38b
+  expected_base_failure_sha256: 5dbe034939ed2178f86fd84ad409cff9426040f63343de27f7ad3e8f46dd2494
+  reference_patch_sha256: 44e0068f8fe3cff3d64706efa63fb523c6c79734c68009e63245e532c81fb96b
+  allowed_source_paths:
+    - src/range.mjs
+  forbidden_patch_paths:
+    - test/issue.test.mjs
+    - test/regression.test.mjs
+
+accepted_schemas:
+  task_spec:
+    path: docs/aios/schemas/task-spec.schema.json
+    sha256: ec226d14172081fb52fbbdc756b4a205155f0b584326436578ad13af4f2b8372
+    byte_length: 5989
+  environment_snapshot:
+    path: docs/aios/schemas/environment-snapshot.schema.json
+    sha256: 3a38bed470ff59d843b3e6450f5999210d57088bed7bdf13dbd88768dae368f1
+    byte_length: 5214
+  system_configuration:
+    path: docs/aios/schemas/system-configuration.schema.json
+    sha256: fe9cc8a78f96cef885a9ba9ce6644ebfe176d6f21161005006d591a20a3dc95d
+    byte_length: 1278
+  run_record:
+    path: docs/aios/schemas/run-record.schema.json
+    sha256: a139b73a7482fed64e6d24f8ca391b03963eef57db2b48d0c4c6776ff652bc56
+    byte_length: 3613
+
+environment_binding_requirement: >-
+  Quality must freeze environment-binding.json under the already allowed
+  Task-local fixture root. It must bind the exact TaskSpec logical reference
+  ENV-SOURCELENS-P1-REP-NODE20-STDLIB-1 to one content-addressed snapshot and
+  normalized projection captured and verified through the accepted P1-011
+  implementation and accepted Environment Snapshot schema, and must also bind
+  source commit 68ce8226eff4c5c7230b55b18a4cbea2f8e4a20f and tree
+  900814727113d65f5dad8b63222e14f39b2cf38b. Any logical reference, snapshot,
+  projection, source or accepted-schema identity drift fails closed.
+
+schema_compatibility_notation: >-
+  If the accepted SystemConfiguration or RunRecord schema requires adapter_id,
+  A0 may appear only as an inherited schema-compatibility notation together
+  with reference_control_only=true, included_in_vtsr_denominator=false,
+  agent_capability_claim=false and a no_A0_execution claim boundary. It does
+  not mean A0, B0, B1 or B2 was executed and cannot support VTSR or capability
+  claims.
+
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
+  - docs/aios/tasks/P1-011_ENVIRONMENT_SNAPSHOT_CAPTURE_AND_REPLAY.yaml
+  - docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
+  - docs/aios/schemas/task-spec.schema.json
+  - docs/aios/schemas/environment-snapshot.schema.json
+  - docs/aios/schemas/system-configuration.schema.json
+  - docs/aios/schemas/run-record.schema.json
+  - evaluation-harness/datasets/p1-representative-task-dataset-v1/**
+  - evaluation-harness/harness/**
+  - evaluation-harness/environment/**
+  - evaluation-harness/evaluator/**
+  - evaluation-harness/recording/**
+  - evaluation-harness/replay/**
+
+allowlisted_paths:
+  - evaluation-harness/harness/local-patch-control/**
+  - evaluation-harness/adapters/reference-patch-control/**
+  - evaluation-harness/recording/local-patch-control/**
+  - evaluation-harness/replay/local-patch-control/**
+  - evaluation-harness/evaluator/local-patch-control/**
+  - evaluation-harness/fixtures/local-patch-control-v1/**
+  - scripts/verify-p1-local-patch-control.sh
+  - Makefile
+  - docs/PROJECT_CODE_MAP.md
+  - docs/aios/tasks/P1-044_LOCAL_PATCH_EVIDENCE_WALKING_SKELETON.yaml
+  - docs/aios/truth/project_state.yaml
+
+write_scope:
+  worker:
+    - evaluation-harness/harness/local-patch-control/**
+    - evaluation-harness/adapters/reference-patch-control/**
+    - evaluation-harness/recording/local-patch-control/**
+    - evaluation-harness/replay/local-patch-control/**
+  quality_exclusive:
+    - evaluation-harness/evaluator/local-patch-control/**
+    - evaluation-harness/fixtures/local-patch-control-v1/**
+  integration:
+    - scripts/verify-p1-local-patch-control.sh
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+    - docs/aios/tasks/P1-044_LOCAL_PATCH_EVIDENCE_WALKING_SKELETON.yaml
+    - docs/aios/truth/project_state.yaml
+  external_evidence:
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-044-local-patch-evidence/EVIDENCE/**
+
+quality_freeze_rule: >-
+  After Task activation and before Worker implementation, a non-Worker Quality
+  asset author freezes the Task-local executable evaluation plan, oracles,
+  expected results, mutation cases and create-once verdict rules under the
+  quality-exclusive roots. The Worker cannot modify those bytes or act as the
+  final Quality reviewer.
+
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+
+acceptance_criteria:
+  - Exact materialized base commit/tree equals 68ce8226eff4c5c7230b55b18a4cbea2f8e4a20f/900814727113d65f5dad8b63222e14f39b2cf38b; issue test yields the frozen assertion failure and base regression passes.
+  - The exact visible reference patch changes only src/range.mjs; issue-specific and regression tests both pass after application.
+  - An independent evaluator rematerializes a fresh base, verifies the exact Quality-frozen logical-to-content-addressed P1-011 environment binding and all four accepted schema identities, reapplies the exact patch, reruns tests and reaches the same verdict without trusting Worker-reported results; any environment, source or schema drift fails closed.
+  - No-op and wrong patches, test-file mutation, absolute or parent path, cwd or symlink escape, and pre-existing output collision all fail closed while a root-external sentinel and ../MASTER_TASK_AUTHORITY.json remain byte-identical.
+  - Non-allowlisted executable, network/provider/secret request, forbidden environment key or host-environment inheritance is rejected before spawn; the child receives replacement allowlisted environment only; timeout or output overflow terminates the full process group and retains a terminal ledger.
+  - Worker-owned paths cannot create, overwrite or mutate the independent verdict; the verdict is written create-once in the separate Quality root.
+  - The Evidence manifest binds source/environment/Task/Contract/candidate identity, actual argv, exit status, stdout/stderr hashes, patch, tests, verdict, all artifact hashes and lengths, and rollback receipt.
+  - Fresh replay has the same normalized semantic projection and evaluator verdict; original Evidence bytes remain unchanged; input, hash, extra-file or symlink-artifact drift fails closed.
+  - Rollback restores base commit/tree/clean status and any disposable workspace is destroyed only through ownership-safe cleanup.
+  - P1-001, P1-011 and P1-035 regressions, Task-targeted tests, disposable rebuild/replay and full make verify pass; fresh CTO, Security and Quality reviewers pass the one frozen candidate.
+
+required_evidence:
+  - Task Contract and phase-delegated authority exact identities
+  - Quality evaluation-plan freeze identity and ownership map
+  - positive base, patched-worker and fresh-evaluator command ledgers
+  - bounded negative-control results with root-external sentinel identity
+  - create-once independent verdict
+  - complete Evidence manifest with SHA-256 and byte lengths
+  - replay comparison and immutable-original-Evidence proof
+  - rollback receipt proving exact base and clean state
+  - targeted regression, clean rebuild/replay and full make verify results
+  - frozen candidate commit/tree/diff manifest and three fresh independent reviews
+
+rollback:
+  task_workspace: Restore or discard only a Task-owned disposable materialization after proving its base commit, tree and clean state.
+  candidate_integration: Use local non-destructive git revert if a post-integration regression appears; never reset or clean.
+  evidence: Never delete, overwrite or rewrite retained Evidence or Review bytes.
+
+stop_conditions:
+  - Goal, Phase or canonical source identity drift.
+  - Task or Phase hour, calendar, Task-count, implementation-iteration or candidate budget exceeded.
+  - Any need for network, Provider, Secret, remote, production, public, irreversible or beyond-envelope permission.
+  - Evaluator contamination, Evidence overwrite or damage, non-reproducibility, or unprovable rollback.
+  - A candidate-added or worsened high-severity safety, data-integrity or source-identity root cannot close within the one same-Task bounded repair.
+  - The walking-skeleton architecture hypothesis is falsified within budget such that the P1 Exit critical path is not executable.
+  - Any required change to mission, ICP, year-one outcome, P1 Objective or P1 Exit Gate.
+
+forbidden_actions:
+  - Read, restore, diff, checkout, cherry-pick or semantically reuse any P1-043 rejected Task body, engineering source/tree/candidate, partial implementation, Quality asset, oracle, fixture, nonce, Evidence or Review body.
+  - Modify accepted P1-001, P1-011, P1-035 dataset or the four accepted schema bytes.
+  - Modify files outside allowlisted_paths or let the Worker modify Quality-exclusive roots.
+  - Modify, replace, delete, rename or traverse from the Evidence root to MASTER_TASK_AUTHORITY.json or any parent-directory artifact.
+  - Network, Provider, Secret, remote, production, public, dependency download, fetch, push, PR, remote merge, release or external message.
+  - Execute B0, B1, B2 or A0, enter P2/P3, or build Agent Shell, model-initiated canonical write, Supervisor, Root Custody, Strong Isolation, Full Trust Runtime or Multi-Agent Runtime.
+  - Create a successor, replacement, normalization, closure, feasibility or remediation chain, a second candidate, or more than one bounded same-Task repair.
+  - Delete, overwrite or rewrite historical Evidence, Review, terminal record or NON_PASS.
+
+claim_boundary: VISIBLE_SYNTHETIC_REFERENCE_CONTROL_PATCH_EVIDENCE_WALKING_SKELETON_ONLY
+capability_claims: 0

@@ -473,6 +473,7 @@ def truth_without_activation_fields(value)
   copy["project"].delete("p1_execution_status")
   copy.delete("active_work")
   copy.fetch("phase_execution_claim").delete("current_task_claim")
+  copy.fetch("claim_boundary").delete("p1_status")
   copy.fetch("mandatory_exit_capability_recovery").delete("capability_status")
   copy.fetch("mandatory_exit_capability_recovery").delete("capability_attempt_ledger")
   copy.fetch("mandatory_exit_capability_recovery").delete("final_clean_room_implementation_attempt")
@@ -721,6 +722,8 @@ def validate_current_reopen_projection!(truth, enforce_accepted_handoff: false)
       recovery.dig("capability_status", capability) == expected["capability_status"]
     end
   return if stage == "ACCEPTED" && !enforce_accepted_handoff
+  stop!("current P1 project-level reopen claim lifecycle projection drift") unless
+    truth.dig("claim_boundary", "p1_status") == expected["rebaseline_p1_status"]
 
   stop!("current P1 project-level reopen global lifecycle projection drift") unless
     rebaseline["status"] == expected["rebaseline_status"] &&
@@ -732,6 +735,52 @@ def validate_current_reopen_projection!(truth, enforce_accepted_handoff: false)
     truth.dig("project", "p1_execution_status") == expected["project_status"] &&
     truth.dig("goal", "current_task_authority") == expected["current_task"] &&
     truth.dig("active_work", "current_task") == expected["current_task"]
+end
+
+def current_reopen_superseding_projection_state!(truth, legacy_attempt)
+  recovery = truth.fetch("mandatory_exit_capability_recovery")
+  current_reopen = recovery["current_project_level_reopen"]
+  return nil unless current_reopen.is_a?(Hash)
+
+  rebaseline = recovery.fetch("project_level_rebaseline")
+  slice = Array(rebaseline["slices"]).find { |candidate| candidate["ordinal"] == current_reopen["next_slice_ordinal"] }
+  stop!("current P1 project-level reopen cannot supersede the historical attempt") unless
+    legacy_attempt["status"] == "SCOPE_COMPLIANCE_BLOCKED" &&
+    legacy_attempt["attempt_ordinal"] == 2 &&
+    legacy_attempt["bounded_contract_corrections_used"] == 1 &&
+    current_reopen["record_type"] == "p1_project_level_reopen_after_p1_042_current_authority" &&
+    current_reopen["status"] == "FOUNDER_APPROVED_ACTIVE" &&
+    current_reopen["authority"] == "HUMAN_FOUNDER" &&
+    current_reopen["decision_record_sha256"] == "1c8b53a8a4ad1bbc62bd8f5c37e4fdbd25077a0851fce07dc5ed9ce631d47eeb" &&
+    current_reopen["historical_task_id"] == legacy_attempt["task_id"] &&
+    current_reopen["historical_task_contract_sha256"] == legacy_attempt["contract_sha256"] &&
+    current_reopen["next_slice_ordinal"] == legacy_attempt["project_level_rebaseline_slice_ordinal"] &&
+    slice.is_a?(Hash) && slice["capability_projection"] == legacy_attempt["integrated_mandatory_exit_capabilities"]
+
+  current_attempt = current_reopen["current_slice_attempt"]
+  if current_attempt.nil?
+    stop!("current P1 project-level reopen pending supersession projection drift") unless
+      current_reopen["current_p1_status"] == "REBASELINED_PENDING_EXECUTION" &&
+      current_reopen["current_task"] == "NONE"
+    validate_current_reopen_projection!(truth)
+    return "REBASELINED_PENDING_EXECUTION"
+  end
+
+  validate_current_reopen_attempt_identity!(truth, current_reopen, current_attempt)
+  stop!("current P1 project-level reopen attempt cannot supersede the historical attempt") unless
+    current_attempt["task_id"] != legacy_attempt["task_id"] &&
+    current_attempt["project_level_reopen_decision_sha256"] == current_reopen["decision_record_sha256"] &&
+    current_attempt["project_level_rebaseline_slice_ordinal"] == legacy_attempt["project_level_rebaseline_slice_ordinal"] &&
+    current_attempt["integrated_mandatory_exit_capabilities"] == legacy_attempt["integrated_mandatory_exit_capabilities"]
+  projection = {
+    "ACTIVE" => "IN_PROGRESS",
+    "ACCEPTED" => "ACCEPTED",
+    "ARCHITECTURE_BLOCKED" => "ARCHITECTURE_BLOCKED",
+    "SCOPE_COMPLIANCE_BLOCKED" => "P1_TERMINAL_STOPPED_NOT_ACCEPTED"
+  }[current_attempt["status"]]
+  stop!("current P1 project-level reopen supersession lifecycle status invalid") if projection.nil?
+  validate_current_reopen_projection!(truth)
+  projection
 end
 
 def validate_current_reopen_transition!(previous_truth, current_truth)
@@ -770,6 +819,18 @@ def validate_current_reopen_transition!(previous_truth, current_truth)
     }
     stop!("current P1 project-level reopen lifecycle transition invalid") unless
       allowed.fetch(previous_attempt["status"]).include?(current_attempt["status"])
+    if previous_attempt["status"] == "ACTIVE" && %w[ARCHITECTURE_BLOCKED SCOPE_COMPLIANCE_BLOCKED].include?(current_attempt["status"])
+      terminal_entries = current_truth.fetch("task_history").values.select do |entry|
+        entry.is_a?(Hash) &&
+          entry["task_id"] == current_attempt["task_id"] &&
+          entry["project_level_reopen_decision_sha256"] == current_reopen["decision_record_sha256"] &&
+          entry["clean_room_attempt_ordinal"] == 1
+      end
+      stop!("current P1 project-level reopen terminal history population drift") unless terminal_entries.length == 1
+      stop!("current P1 project-level reopen terminal Evidence root drift") unless
+        nonempty_string?(previous_truth.dig("active_work", "execution_evidence_root")) &&
+        terminal_entries.first["execution_evidence_root"] == previous_truth.dig("active_work", "execution_evidence_root")
+    end
   end
   accepted_handoff = previous_attempt && previous_attempt["status"] == "ACTIVE" && current_attempt["status"] == "ACCEPTED"
   validate_current_reopen_projection!(current_truth, enforce_accepted_handoff: accepted_handoff)
@@ -1216,12 +1277,10 @@ if project_level_reopen
       "ARCHITECTURE_BLOCKED" => "ARCHITECTURE_BLOCKED",
       "SCOPE_COMPLIANCE_BLOCKED" => "P1_TERMINAL_STOPPED_NOT_ACCEPTED"
     }.fetch(reopen_attempt["status"])
-    current_reopen_supersedes_terminal_projection = mandatory_recovery["current_project_level_reopen"].is_a?(Hash)
+    current_reopen_projection_state = current_reopen_superseding_projection_state!(truth, reopen_attempt)
+    effective_expected_state = current_reopen_projection_state || expected_reopen_capability_state
     stop!("P1 project-level reopen attempt/capability state drift") unless
-      reopen_capability_states.all? do |state|
-        state == expected_reopen_capability_state ||
-          (current_reopen_supersedes_terminal_projection && state == "REBASELINED_PENDING_EXECUTION")
-      end
+      reopen_capability_states.all? { |state| state == effective_expected_state }
   end
 end
 
@@ -2281,7 +2340,10 @@ capability_status.each do |capability, state|
       ledger
     end
     expected_attempt_ordinal = rebaseline_terminal ? expected_rebaseline_attempt_ordinal : 1
-    stop!("architecture-blocked Exit capability lacks terminal Evidence binding") unless entry && execution_ledger.is_a?(Hash) && execution_ledger["status"] == "ARCHITECTURE_BLOCKED" && execution_ledger["task_id"] == entry["task_id"] && execution_ledger["attempt_ordinal"] == expected_attempt_ordinal && exact_terminal_status?(entry["status"]) && entry["founder_escalation_required"] == true
+    terminal_status_valid = rebaseline_terminal ?
+      entry["status"] == "TERMINAL_STOPPED_AFTER_REAL_ARCHITECTURE_ROOT" :
+      exact_terminal_status?(entry["status"])
+    stop!("architecture-blocked Exit capability lacks terminal Evidence binding") unless entry && execution_ledger.is_a?(Hash) && execution_ledger["status"] == "ARCHITECTURE_BLOCKED" && execution_ledger["task_id"] == entry["task_id"] && execution_ledger["attempt_ordinal"] == expected_attempt_ordinal && terminal_status_valid && entry["founder_escalation_required"] == true
     terminal = entry["terminal_evidence"]
     evidence_root = entry["execution_evidence_root"]
     stop!("architecture-blocked Exit capability Evidence root invalid") unless terminal.is_a?(Hash) && safe_under_root?(evidence_root, recovery_evidence_base, must_exist: true)
@@ -2301,7 +2363,40 @@ capability_status.each do |capability, state|
         post_revision_terminal["implementation_attempt_consumed"] == true
     end
   when "P1_TERMINAL_STOPPED_NOT_ACCEPTED"
-    next unless historical_reopened_slice_1 && !current_reopened_slice_1
+    if current_reopened_slice_1
+      entry = attempts.first
+      entry_capabilities = entry ? record_capabilities(entry) : []
+      execution_ledger = rebaseline_attempt
+      stop!("current reopened Slice scope-compliance terminal lacks Evidence binding") unless
+        entry && execution_ledger.is_a?(Hash) &&
+        execution_ledger["status"] == "SCOPE_COMPLIANCE_BLOCKED" &&
+        execution_ledger["task_id"] == entry["task_id"] &&
+        execution_ledger["attempt_ordinal"] == 1 &&
+        entry_capabilities == rebaseline_capability_slice&.dig("capability_projection") &&
+        entry["status"] == "TERMINAL_STOPPED_AFTER_SCOPE_COMPLIANCE_FAILURE" &&
+        entry["founder_escalation_required"] == true
+      terminal = entry["terminal_evidence"]
+      evidence_root = entry["execution_evidence_root"]
+      stop!("current reopened Slice scope-compliance terminal Evidence root invalid") unless
+        terminal.is_a?(Hash) && safe_under_root?(evidence_root, recovery_evidence_base, must_exist: true)
+      manifest = bound_json!(
+        terminal["evidence_manifest_path"],
+        terminal["evidence_manifest_sha256"],
+        evidence_root,
+        "current reopened Slice scope-compliance terminal manifest"
+      )
+      stop!("current reopened Slice scope-compliance terminal manifest content drift") unless manifest == {
+        "record_type" => "aios_p1_mandatory_capability_terminal_evidence_manifest",
+        "status" => entry["status"],
+        "task_id" => entry["task_id"],
+        "attempt_ordinal" => 1,
+        "task_contract_sha256" => execution_ledger["contract_sha256"],
+        "bounded_contract_corrections_used" => execution_ledger["bounded_contract_corrections_used"],
+        "failure_classification" => "SCOPE_COMPLIANCE_FAILURE"
+      }.merge(capability_binding_fields(entry_capabilities))
+      next
+    end
+    next unless historical_reopened_slice_1
     entry = attempts.first
     stop!("P1 reopened Slice 1 scope-compliance terminal attempt missing") unless
       entry.is_a?(Hash) && rebaseline_attempt.is_a?(Hash) &&
@@ -2447,9 +2542,16 @@ if (transition = previous_truth_transition(truth_bytes))
     current_claims = transition_truth.fetch("claim_boundary")
     previous_claims.each do |key, value|
       if key == "p1_status" && current_claims[key] != value
-        stop!("current Truth P1 claim transition is not Founder-authorized") unless
+        founder_reopen_transition =
           value == "PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION" &&
           current_claims[key] == "REBASELINED_PENDING_EXECUTION"
+        delegated_reopen_lifecycle_transition =
+          previous_recovery["current_project_level_reopen"].is_a?(Hash) &&
+          current_recovery["current_project_level_reopen"].is_a?(Hash) &&
+          value == previous_recovery.dig("project_level_rebaseline", "p1_status") &&
+          current_claims[key] == current_recovery.dig("project_level_rebaseline", "p1_status")
+        stop!("current Truth P1 claim transition is not Founder-authorized") unless
+          founder_reopen_transition || delegated_reopen_lifecycle_transition
         next
       end
       stop!("current Truth claim was removed or rewritten: #{key}") unless current_claims[key] == value
@@ -2805,6 +2907,21 @@ if current_task == "NONE"
   founder_blocked_capabilities = capability_status.select { |_capability, state| %w[ARCHITECTURE_BLOCKED CONTRACT_REVIEW_BLOCKED P1_TERMINAL_STOPPED_NOT_ACCEPTED].include?(state) }.keys
   p1_terminal_stop = %w[TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION].include?(project_status)
   p1_founder_gate = project_status == "P1_EXIT_EVIDENCE_COMPLETE_PENDING_FOUNDER_GATE"
+  current_reopen_terminal_status = current_project_level_reopen&.dig("current_slice_attempt", "status")
+  current_reopen_terminal_expectation = {
+    "ARCHITECTURE_BLOCKED" => {
+      "project_status" => "TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION",
+      "escalation_reason" => "CURRENT_REBASELINED_SLICE_ARCHITECTURE_BLOCKED",
+      "user_action" => "FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED",
+      "next_action" => "FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED"
+    },
+    "SCOPE_COMPLIANCE_BLOCKED" => {
+      "project_status" => "PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION",
+      "escalation_reason" => "CURRENT_REBASELINED_SLICE_SCOPE_COMPLIANCE_BLOCKED",
+      "user_action" => "FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED",
+      "next_action" => "FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED"
+    }
+  }[current_reopen_terminal_status]
   stop!("NONE state goal authority drift") unless goal_task == "NONE"
   allowed_none_project_statuses = rebaseline ? %w[REBASELINED_PENDING_EXECUTION P1_EXIT_EVIDENCE_COMPLETE_PENDING_FOUNDER_GATE NO_CURRENT_TASK TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION] : %w[NO_CURRENT_TASK]
   stop!("NONE state status drift") unless current_status == "NONE" && allowed_none_project_statuses.include?(project_status)
@@ -2841,9 +2958,14 @@ if current_task == "NONE"
   elsif founder_blocked_capabilities.empty?
     stop!("NONE state cannot require a Founder decision") unless founder_required == false && escalation_reason.nil?
   elsif p1_terminal_stop
+    current_reopen_terminal_projection_valid = current_reopen_terminal_expectation &&
+      project_status == current_reopen_terminal_expectation["project_status"] &&
+      escalation_reason == current_reopen_terminal_expectation["escalation_reason"] &&
+      user_action == current_reopen_terminal_expectation["user_action"]
     stop!("P1 terminal stop must escalate project-level Founder disposition") unless
       founder_required == true &&
-      ((project_status == "PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION" &&
+      (current_reopen_terminal_projection_valid ||
+       (project_status == "PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION" &&
         escalation_reason == "P1_042_MASTER_CONTROL_PLANE_WRITE_SCOPE_COMPLIANCE_FAILURE_TRIGGERED_P1_PERMANENT_STOP" &&
         user_action == "FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED") ||
        (project_status == "TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION" &&
@@ -2883,7 +3005,9 @@ if current_task == "NONE"
         next_action == "FOUNDER_P1_PHASE_GATE_REVIEW_REQUIRED"
     elsif p1_terminal_stop
       stop!("P1 terminal stop must wait for project-level Founder disposition") unless
-        next_action == (project_status == "PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION" ? "FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED" : "FOUNDER_DECIDE_STOP_P1_OR_AUTHORIZE_STRATEGIC_REVISION")
+        next_action == (current_reopen_terminal_expectation ?
+          current_reopen_terminal_expectation["next_action"] :
+          (project_status == "PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION" ? "FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED" : "FOUNDER_DECIDE_STOP_P1_OR_AUTHORIZE_STRATEGIC_REVISION"))
     elsif founder_blocked_capabilities.empty?
       stop!("active Goal cannot require routine user action") unless user_action.nil? || user_action == "NONE"
       stop!("active Goal must advertise autonomous Master continuation") unless next_action.include?("MASTER_AUTONOMOUS")
@@ -3309,7 +3433,13 @@ main_head = git("rev-parse", "refs/heads/#{main_branch}")
 stop!("active Task canonical main is not descended from activation parent") unless system("git", "-C", REPO_ROOT, "merge-base", "--is-ancestor", activation_parent_commit, main_head, out: File::NULL, err: File::NULL)
 stop!("active Task activation must be one governance commit") unless git("rev-list", "--count", "#{activation_parent_commit}..#{main_head}") == "1"
 activation_paths = git("diff", "--name-only", activation_parent_commit, main_head).lines.map(&:strip).reject(&:empty?).sort
-expected_activation_paths = (contract_final_route_id || rebaseline_slice) ? ["docs/aios/truth/project_state.yaml"] : [contract_rel, "docs/aios/truth/project_state.yaml"].sort
+expected_activation_paths = if rebaseline_slice
+  ["docs/PROJECT_CODE_MAP.md", "docs/aios/truth/project_state.yaml"]
+elsif contract_final_route_id
+  ["docs/aios/truth/project_state.yaml"]
+else
+  [contract_rel, "docs/aios/truth/project_state.yaml"].sort
+end
 stop!("active Task activation path population drift") unless activation_paths == expected_activation_paths
 parent_truth_bytes = IO.popen(["git", "-C", REPO_ROOT, "show", "#{activation_parent_commit}:docs/aios/truth/project_state.yaml"], err: File::NULL, &:read)
 stop!("active Task parent Truth unavailable") unless $CHILD_STATUS.success?

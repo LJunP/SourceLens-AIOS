@@ -1,0 +1,251 @@
+schema_version: 1
+record_type: sourcelens_aios_minimal_phase_delegated_task_contract
+task_id: AIOS-P1-043_PARAMETERIZED_EVALUATION_CORE
+phase: P1
+title: Implement the clean-room Parameterized Evaluation Core
+status: READY_FOR_PHASE_DELEGATED_EXECUTION
+execution_authority: PHASE_DELEGATED
+
+objective: >-
+  Implement the smallest cooperative-local parameterized evaluation core that
+  expands a frozen evaluation matrix into deterministic scheduled-run identities,
+  records and validates observable execution traces, and computes VTSR counts from
+  independently owned evaluator verdicts without post-hoc denominator changes.
+
+why_now:
+  - P1 is Founder-authorized and the project-level rebaseline requires Slice 1 before any later Slice.
+  - The accepted harness, environment snapshot, and representative dataset exist, but the three Slice 1 capabilities remain REBASELINED_PENDING_EXECUTION.
+  - B0, B1, B2, hidden-set, baseline, Agent, P1 Exit, P2, and production claims are forbidden until their later authorized work and evidence exist.
+
+inputs:
+  immutable_authority:
+    - AGENTS.md
+    - docs/aios/EVALUATION_PROTOCOL.md
+    - docs/aios/truth/project_state.yaml
+  accepted_engineering:
+    - evaluation-harness/harness/**
+    - evaluation-harness/environment/**
+    - evaluation-harness/recording/**
+    - evaluation-harness/replay/**
+    - evaluation-harness/validators/task-dataset-validator.mjs
+    - evaluation-harness/datasets/p1-representative-task-dataset-v1/**
+    - docs/aios/schemas/task-spec.schema.json
+    - docs/aios/schemas/environment-snapshot.schema.json
+    - docs/aios/schemas/system-configuration.schema.json
+    - docs/aios/schemas/run-record.schema.json
+  forbidden_inputs:
+    - P1-002 through P1-042 failed or terminal Contract bodies
+    - P1-002 through P1-042 failed code, fixture, candidate, partial implementation, review, or execution lineage
+    - inherited Desktop workspace bytes
+    - hidden tasks or hidden expected results
+
+outputs:
+  - parameterized local evaluation-matrix loader and deterministic scheduled-run expansion
+  - observable execution-trace recorder and validator using only observable events
+  - VTSR counting validator with numerator, eligible denominator, failure, invalid-run, and reason-code counts
+  - deterministic replay and mutation/self-test evidence for the three Slice 1 capabilities
+  - one hash-bound, create-once local Evidence package and bounded claim statement
+
+task_spec_ref: docs/aios/EVALUATION_PROTOCOL.md
+read_context:
+  - AGENTS.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/schemas/task-spec.schema.json
+  - docs/aios/schemas/environment-snapshot.schema.json
+  - docs/aios/schemas/system-configuration.schema.json
+  - docs/aios/schemas/run-record.schema.json
+  - evaluation-harness/harness/README.md
+  - evaluation-harness/harness/contracts.mjs
+  - evaluation-harness/harness/run.mjs
+  - evaluation-harness/environment/README.md
+  - evaluation-harness/recording/recorder.mjs
+  - evaluation-harness/replay/replay.mjs
+  - evaluation-harness/datasets/p1-representative-task-dataset-v1/dataset-manifest.json
+
+dependencies:
+  - AIOS-P1-001
+  - AIOS-P1-011_ENVIRONMENT_SNAPSHOT_CAPTURE_AND_REPLAY
+  - AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+
+mandatory_exit_capability: PARAMETERIZED_EVALUATION_HARNESS
+integrated_mandatory_exit_capabilities:
+  - PARAMETERIZED_EVALUATION_HARNESS
+  - VTSR_COUNTING_VALIDATOR
+  - OBSERVABLE_TRACE
+project_level_rebaseline_slice_ordinal: 1
+project_level_rebaseline_decision_sha256: 083dc4d5f071bb82b6da3681c62e5a4ce37bfa8cac52c3f4da0f0ac5fea2d1f2
+delivery_architecture_simplification_decision_sha256: 678f469ca9222662a6814617cfac35ccf229b06f540bedbab5ade6bae10230c0
+delivery_architecture_model: MINIMAL_IMMUTABLE_TASK_ENVELOPE_PLUS_POST_ACTIVATION_QUALITY_EXECUTABLE_PLAN
+project_level_reopen_decision_sha256: 1c8b53a8a4ad1bbc62bd8f5c37e4fdbd25077a0851fce07dc5ed9ce631d47eeb
+
+post_activation_quality_plan:
+  freeze_stage: AFTER_TASK_ACTIVATION_BEFORE_WORKER_IMPLEMENTATION
+  owner: Quality and Evaluation Agent
+  worker_start_precondition: QUALITY_EXECUTABLE_PLAN_AND_OWNERSHIP_MANIFEST_FROZEN
+  independent_evaluator_verdict_path_separate_from_worker_runtime: true
+  worker_may_write_evaluator_verdict: false
+  contract_version_chain_allowed: false
+
+quality_freeze_requirements:
+  - The create-once freeze receipt hash-binds the executable plan, schemas, fixtures, oracle, evaluator identity/version/bytes, expected results, artifact lifecycle, evaluator handoff, writer map, and ownership manifest.
+  - The Quality-owned independent evaluator verdict path is separate from Worker runtime, create-once, and non-overwritable.
+  - Detailed schemas, fixture contents, reason codes, lifecycle transitions, and verdict paths are frozen only in the post-activation executable plan, not in this Contract.
+
+path_and_artifact_safety:
+  - Every repository output is a canonical descendant of its declared role root and every external output is a canonical descendant of the exact Task Evidence root.
+  - Leaf symlinks, ancestor symlinks, dot-dot traversal, absolute-path escape, and prefix-collision escape are rejected deterministically before read or write.
+  - Evidence and reviewer-owned artifacts are create-once and non-overwritable; the Quality ownership manifest freezes the sole writer for each artifact class.
+  - Trace redaction never retains Secret or sensitive values, while preserving hashes, byte lengths, redaction metadata, and other integrity fields required for replay and audit.
+
+clean_room_recovery:
+  historical_execution_lineage_reused: false
+  attempt_ordinal: 1
+  bounded_contract_corrections_allowed: 1
+  bounded_contract_corrections_used: 1
+  original_contract_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-043-parameterized-evaluation-core/contract-review/CANDIDATE.yaml
+  original_contract_sha256: eac9285290ffc53e22629af68a056c7c4437a6ac375f65f3b902702f8db95ca1
+
+task_kind: EVALUATION_FOUNDATION_ENGINEERING
+capabilities:
+  - RUN_RECORDING
+  - DETERMINISTIC_REPLAY
+  - EVALUATOR_AND_ORACLE
+  - EVIDENCE_MANIFEST
+  - FAILURE_TAXONOMY
+  - EVALUATION_METRICS
+  - OBSERVABLE_TRACE_VALIDATION
+capability_claim: false
+risk_level: medium
+
+lineage:
+  kind: INDEPENDENT_PHASE_INCREMENT
+  retries: []
+  remediates: []
+  supersedes: []
+
+roles:
+  accountable_owner: Engineering Manager Agent
+  worker: P1 Slice 1 Implementation Worker
+  independent_reviewers:
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent
+
+allowed_paths:
+  worker:
+    - evaluation-harness/harness/parameterized-core/**
+    - evaluation-harness/recording/parameterized-core/**
+    - evaluation-harness/replay/parameterized-core/**
+    - evaluation-harness/validators/parameterized-core/**
+  quality:
+    - evaluation-harness/evaluator/parameterized-core/**
+    - evaluation-harness/fixtures/parameterized-core/**
+  integration:
+    - scripts/verify-p1-parameterized-evaluation-core.sh
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+  external_evidence:
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-043-parameterized-evaluation-core/**
+
+forbidden_paths:
+  - AGENTS.md
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/tasks/P1-043_PARAMETERIZED_EVALUATION_CORE.yaml
+  - scripts/validate-current-task-authority.rb
+  - scripts/test-current-task-authority.rb
+  - scripts/validate-aios-governance.sh
+  - scripts/check-p1-safety-boundary.sh
+  - evaluation-harness/datasets/**
+  - /Users/lijunpeng/Desktop/cc/**
+
+forbidden_actions:
+  - network access or network calls
+  - Provider or model invocation
+  - Secret access, retention, or output
+  - remote read or write
+  - production effect
+  - public effect
+  - canonical main write from the Task worktree
+  - system-under-test source mutation
+  - historical failed Contract or engineering asset read/reuse
+  - B0, B1, B2, A0, hidden-set, real baseline, Agent, P1 Exit, P2, P3, production, or hostile-principal claim
+  - Supervisor, Root Custody, strong isolation, Full Trust Runtime, or Multi-Agent Runtime construction
+
+budget:
+  engineering_hours: 24
+  calendar_days: 5
+  implementation_iterations: 2
+  candidate_limit: 1
+  execution_retries: 0
+  network_calls: 0
+
+acceptance_criteria:
+  - Quality freezes the complete create-once, hash-bound executable plan and ownership package required above after activation and before Worker implementation.
+  - A frozen local matrix expands into a complete, deterministic set of unique scheduled-run identities with exact TaskSpec, system configuration, environment, repetition, evaluator, and budget bindings.
+  - The parameterized harness records every scheduled run exactly once and cannot silently add, remove, retry, or reclassify a run after outputs are observed.
+  - Observable traces validate every observable category in Evaluation Protocol section 6, including version identities, observations/context references, concise rationale, plans/revisions, tool/policy events, checkpoints/resume, mutations, tests, usage/cost/latency, errors/retries/interventions, and stop reason, without requiring or storing hidden chain-of-thought.
+  - The VTSR validator derives independently verified successes, eligible scheduled runs, failures, invalid runs, and reason-code distributions from frozen inputs and independent evaluator verdicts.
+  - Timeout, budget exhaustion, crash, missing Evidence, policy violation, and attributable setup failure count as failures; only predeclared shared-infrastructure reason codes may be classified invalid.
+  - Every infrastructure-invalid scheduled run remains in raw results with its reason code and is rerun under the identical frozen configuration; this protocol rerun is not a Task execution retry and cannot erase the invalid record.
+  - Run-level VTSR includes every scheduled repetition, and any task-level repeated-run result uses the aggregation rule predeclared before outputs are observed.
+  - Retry attempts remain inside their original run identity and cannot create a new denominator entry or erase a failure.
+  - Controlled failure, invalid-run, duplicate-run, post-hoc exclusion, denominator drift, trace mutation, missing Evidence, false-success promotion, containment escape, symlink escape, Evidence overwrite, and sensitive-value retention probes are rejected with stable reason codes.
+  - Fresh deterministic replay reproduces the normalized matrix, run-count projection, trace projection, VTSR aggregate, and Evidence manifest identities.
+  - The independent evaluator verdict path remains Quality-owned, separate from Worker runtime, create-once, and non-overwritable; Worker cannot write schemas, oracle, expected results, artifact lifecycle, or final evaluator verdicts.
+  - The exact candidate rebuilds from the frozen activation parent and passes Task checks plus repository make verify without network, Provider, Secret, remote, production, or public effects.
+  - Rollback removes the unmerged Task worktree/branch and leaves canonical main and historical custody byte-identical.
+  - CTO, Security, and Quality final reviews are PASS and the final claim stays within this Contract boundary.
+
+failure_criteria:
+  - any scheduled run, trace, evaluator verdict, count, replay result, or manifest identity cannot be reproduced
+  - any failure or invalid run can be omitted, promoted, overwritten, or reclassified after outputs are inspected
+  - any output escapes its role root, crosses a symlink, overwrites create-once Evidence, or retains a Secret or sensitive value
+  - Worker can write Quality-owned schema, evaluator, oracle, expected result, artifact lifecycle, or final verdict bytes
+  - implementation requires B0/B1/B2 execution, hidden data, Agent Runtime, P2/P3, or external effects
+  - implementation or Evidence uses a failed P1-002 through P1-042 asset or the old Desktop workspace
+  - candidate exceeds scope, budget, one-candidate limit, zero-retry rule, or two implementation iterations
+
+stop_conditions:
+  - a scope, path, budget, permission, external-effect, or claim-boundary expansion is required
+  - Quality freeze cannot separate evaluator/oracle/verdict ownership from Worker runtime before implementation
+  - source, fixture, evaluator, historical Evidence, or canonical main contamination is observed
+  - the same engineering root cause remains unresolved after the two allowed implementation iterations
+  - deterministic replay, rebuild, rollback, or any final independent review is NON_PASS
+  - a major security risk or Founder-reserved decision is required
+
+evidence:
+  required:
+    - frozen final Task Contract, original candidate identity, one bounded-correction binding, and phase-delegated authorization identities
+    - create-once Quality executable plan, freeze receipt, ownership manifest, schemas, fixtures, oracle, evaluator identity/version/bytes, expected results, artifact lifecycle, handoff, and writer-map hashes
+    - source parent, candidate commit/tree, diff, branch, worktree, and writer-scope evidence
+    - matrix expansion, raw failure/invalid records, invalid reruns, repetition aggregation, full observable trace, VTSR count, mutation, replay, rebuild, and rollback results
+    - containment/symlink/overwrite/redaction negative-probe results with stable reason codes
+    - zero external-effect evidence and final CTO/Security/Quality reviews
+    - Task Gate receipt and accepted artifact index
+
+rollback:
+  method: >-
+    Before canonical integration, remove the single unmerged Task worktree and branch,
+    verify canonical main and external historical custody are unchanged, then recreate
+    the same candidate only for the declared rollback/rebuild verification. After
+    integration, revert only through a separately reviewed canonical commit if required.
+
+claim_boundary: COOPERATIVE_LOCAL_PARAMETERIZED_EVALUATION_CORE_CONFORMANCE_ONLY_NO_B0_B1_B2_BASELINE_AGENT_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
+
+delegated_authority:
+  phase_local: true
+  task_gate_owner: MASTER_CEO_AGENT
+  founder_gate: RESERVED_DECISIONS_ONLY
+  founder_reserved_decisions: []
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false

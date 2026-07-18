@@ -5,6 +5,7 @@ require "digest"
 require "fileutils"
 require "json"
 require "open3"
+require "stringio"
 require "tmpdir"
 require "yaml"
 
@@ -18,6 +19,38 @@ SAFE_AUTHORITY_FIXTURE_PATHS = %w[
 ].freeze
 FORBIDDEN_P1_038_CONTRACT_PATH = "docs/aios/tasks/P1-038_MINIMAL_HIDDEN_ADMISSION_PARAMETERIZED_HARNESS_IMPLEMENTATION.yaml"
 FORBIDDEN_P1_038_CONTRACT_OID = "4ca0a67bef37fd55dc6db18f3190d94876d00221"
+VALIDATOR_HELPERS = Module.new
+validator_source = File.read(File.join(SOURCE_ROOT, "scripts/validate-current-task-authority.rb"), encoding: "UTF-8")
+validator_function_source = validator_source.split(/^def worktree_records\b/, 2).first
+VALIDATOR_HELPERS.module_eval(validator_function_source, File.join(SOURCE_ROOT, "scripts/validate-current-task-authority.rb"), 1)
+VALIDATOR_HELPER_RECEIVER = Object.new.extend(VALIDATOR_HELPERS)
+
+EXPECTED_REBASELINE_LIFECYCLE_STATES = %w[
+  FOUNDER_APPROVED_ACTIVE
+  REBASELINED_PENDING_EXECUTION
+  REBASELINED_SLICE_ACTIVE
+  P1_EXIT_EVIDENCE_COMPLETE_PENDING_FOUNDER_GATE
+  TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION
+  PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION
+].freeze
+expected_rebaseline_allowlist = "%w[#{EXPECTED_REBASELINE_LIFECYCLE_STATES.join(' ')}]"
+%w[
+  scripts/validate-current-task-authority.rb
+  scripts/validate-aios-governance.sh
+  scripts/check-p1-safety-boundary.sh
+].each do |relative_path|
+  source = File.read(File.join(SOURCE_ROOT, relative_path), encoding: "UTF-8")
+  raise "#{relative_path} lacks the exact production rebaseline lifecycle allowlist" unless source.include?(expected_rebaseline_allowlist)
+end
+authority_knowledge_sha = validator_source[/FOUNDER_KNOWLEDGE_SECTION_CANONICAL_SHA256 = "([0-9a-f]{64})"/, 1]
+authority_knowledge_length = validator_source[/FOUNDER_KNOWLEDGE_SECTION_CANONICAL_BYTE_LENGTH = ([\d_]+)/, 1]&.delete("_")
+governance_source = File.read(File.join(SOURCE_ROOT, "scripts/validate-aios-governance.sh"), encoding: "UTF-8")
+governance_knowledge_sha = governance_source[/founder_knowledge_section_sha256='([0-9a-f]{64})'/, 1]
+governance_knowledge_length = governance_source[/founder_knowledge_section_byte_length='(\d+)'/, 1]
+raise "authority/governance Founder Knowledge exact section hash drift" unless
+  authority_knowledge_sha == governance_knowledge_sha && authority_knowledge_sha == "e6b353038598122a9d347378ceaab1dc4e7957357bb29f72adfbcbf27820303e"
+raise "authority/governance Founder Knowledge exact section byte-length drift" unless
+  authority_knowledge_length == governance_knowledge_length && authority_knowledge_length == "1011"
 
 def run!(*command, chdir: nil)
   stdout, stderr, status = if chdir
@@ -73,7 +106,8 @@ def initialize_synthetic_authority_repo!(root, ref)
   SAFE_AUTHORITY_FIXTURE_PATHS.each do |path|
     absolute = File.join(root, path)
     FileUtils.mkdir_p(File.dirname(absolute))
-    File.binwrite(absolute, source_tracked_bytes(ref, path))
+    bytes = path == "AGENTS.md" ? File.binread(File.join(SOURCE_ROOT, path)) : source_tracked_bytes(ref, path)
+    File.binwrite(absolute, bytes)
   end
   validator_path = File.join(root, "scripts/validate-current-task-authority.rb")
   FileUtils.mkdir_p(File.dirname(validator_path))
@@ -111,10 +145,527 @@ def run_validator(root, expected_pass, label, expected_failure: nil, env: {})
   end
 end
 
+def run_exact_validator_helper(method_name, arguments, expected_pass, label, expected_failure: nil)
+  captured_stderr = StringIO.new
+  previous_stderr = $stderr
+  $stderr = captured_stderr
+  actual = true
+  begin
+    VALIDATOR_HELPER_RECEIVER.public_send(method_name, *arguments)
+  rescue SystemExit
+    actual = false
+  ensure
+    $stderr = previous_stderr
+  end
+  output = captured_stderr.string
+  raise "#{label}: expected #{expected_pass ? 'PASS' : 'FAIL'}, observed #{actual ? 'PASS' : 'FAIL'}: #{output}" unless actual == expected_pass
+  if !expected_pass && expected_failure && !output.include?(expected_failure)
+    raise "#{label}: expected failure containing #{expected_failure.inspect}, observed: #{output}"
+  end
+end
+
+def run_current_reopen_transition(root, previous_truth, current_truth, expected_pass, label, expected_failure: nil)
+  run_exact_validator_helper(
+    :validate_current_reopen_transition!,
+    [previous_truth, current_truth],
+    expected_pass,
+    label,
+    expected_failure: expected_failure
+  )
+end
+
+def run_rebaseline_contract_correction(root, clean_room, contract_sha256, final_contract_path, evidence_root, expected_pass, label, expected_failure: nil)
+  run_exact_validator_helper(
+    :validate_rebaseline_contract_correction_evidence!,
+    [clean_room, contract_sha256, File.binread(final_contract_path), evidence_root],
+    expected_pass,
+    label,
+    expected_failure: expected_failure
+  )
+end
+
+def run_rebaseline_contract_budget(contract, slice, expected_pass, label, expected_failure: nil)
+  run_exact_validator_helper(
+    :validate_rebaseline_contract_budget!,
+    [contract, slice],
+    expected_pass,
+    label,
+    expected_failure: expected_failure
+  )
+end
+
+def run_effective_slice_order(truth, expected_pass, label, expected_failure: nil)
+  run_exact_validator_helper(
+    :validate_effective_rebaseline_slice_order!,
+    [truth],
+    expected_pass,
+    label,
+    expected_failure: expected_failure
+  )
+end
+
+def run_effective_slice_transition(previous_truth, current_truth, expected_pass, label, expected_failure: nil)
+  run_exact_validator_helper(
+    :validate_effective_rebaseline_slice_transition!,
+    [previous_truth, current_truth],
+    expected_pass,
+    label,
+    expected_failure: expected_failure
+  )
+end
+
+def current_reopen_lifecycle_fixture(base_truth, stage, task_id: "AIOS-P1-943_CURRENT_REOPEN_LIFECYCLE_TEST", contract_sha256: "a" * 64)
+  value = Marshal.load(Marshal.dump(base_truth))
+  recovery = value.fetch("mandatory_exit_capability_recovery")
+  reopen = recovery.fetch("current_project_level_reopen")
+  rebaseline = recovery.fetch("project_level_rebaseline")
+  delivery = recovery.fetch("delivery_architecture_simplification")
+  slice = rebaseline.fetch("slices").find { |candidate| candidate["ordinal"] == reopen.fetch("next_slice_ordinal") }
+  attempt = if stage == "PENDING"
+    nil
+  else
+    {
+      "status" => stage,
+      "task_id" => task_id,
+      "attempt_ordinal" => 1,
+      "contract_sha256" => contract_sha256,
+      "bounded_contract_corrections_used" => 0,
+      "integrated_mandatory_exit_capabilities" => Marshal.load(Marshal.dump(slice.fetch("capability_projection"))),
+      "project_level_rebaseline_slice_ordinal" => reopen.fetch("next_slice_ordinal"),
+      "project_level_rebaseline_decision_sha256" => rebaseline.fetch("decision_record_sha256"),
+      "delivery_architecture_simplification_decision_sha256" => delivery.fetch("decision_record_sha256"),
+      "project_level_reopen_decision_sha256" => reopen.fetch("decision_record_sha256")
+    }
+  end
+  reopen["current_slice_attempt"] = attempt
+
+  projection = case stage
+  when "PENDING"
+    ["REBASELINED_PENDING_EXECUTION", "NONE", "REBASELINED_PENDING_EXECUTION", reopen.fetch("next_slice_ordinal"), "REBASELINED_PENDING_EXECUTION"]
+  when "ACTIVE"
+    ["REBASELINED_SLICE_ACTIVE", task_id, "TASK_ACTIVE", reopen.fetch("next_slice_ordinal"), "IN_PROGRESS"]
+  when "ACCEPTED"
+    ["ACCEPTED", "NONE", "REBASELINED_PENDING_EXECUTION", reopen.fetch("next_slice_ordinal") + 1, "ACCEPTED"]
+  when "ARCHITECTURE_BLOCKED"
+    ["ARCHITECTURE_BLOCKED", "NONE", "TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION", nil, "ARCHITECTURE_BLOCKED"]
+  when "SCOPE_COMPLIANCE_BLOCKED"
+    ["SCOPE_COMPLIANCE_BLOCKED", "NONE", "PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION", nil, "P1_TERMINAL_STOPPED_NOT_ACCEPTED"]
+  else
+    raise "unknown current reopen lifecycle stage: #{stage}"
+  end
+  reopen_status, current_task, project_status, next_slice_ordinal, capability_status = projection
+  rebaseline_status = case stage
+  when "PENDING", "ACCEPTED"
+    "REBASELINED_PENDING_EXECUTION"
+  when "ACTIVE"
+    "REBASELINED_SLICE_ACTIVE"
+  else
+    project_status
+  end
+  rebaseline["status"] = rebaseline_status
+  rebaseline["p1_status"] = rebaseline_status
+  rebaseline["current_task"] = current_task
+  rebaseline["next_slice_ordinal"] = next_slice_ordinal
+  rebaseline["next_slice_action"] = if next_slice_ordinal
+    "MASTER_AUTONOMOUSLY_PREPARE_AND_EXECUTE_REBASELINED_SLICE_#{next_slice_ordinal}"
+  else
+    "FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED"
+  end
+  reopen["current_p1_status"] = reopen_status
+  reopen["current_task"] = current_task
+  slice.fetch("capability_projection").each { |capability| recovery.fetch("capability_status")[capability] = capability_status }
+  value.fetch("project")["phase_execution_status"] = project_status
+  value.fetch("project")["p1_execution_status"] = project_status
+  value.fetch("goal")["current_task_authority"] = current_task
+  value.fetch("active_work")["current_task"] = current_task
+  value
+end
+
+def later_rebaseline_slice_fixture(base_truth, ordinal, stage)
+  raise "later Slice fixture ordinal invalid" unless ordinal.between?(2, 4)
+  raise "later Slice fixture stage invalid" unless %w[ACTIVE ACCEPTED].include?(stage)
+  value = Marshal.load(Marshal.dump(base_truth))
+  recovery = value.fetch("mandatory_exit_capability_recovery")
+  rebaseline = recovery.fetch("project_level_rebaseline")
+  delivery = recovery.fetch("delivery_architecture_simplification")
+  slice = rebaseline.fetch("slices").find { |candidate| candidate["ordinal"] == ordinal }
+  task_id = "AIOS-P1-#{950 + ordinal}_SYNTHETIC_SLICE_#{ordinal}"
+  attempt = {
+    "status" => stage,
+    "task_id" => task_id,
+    "attempt_ordinal" => 1,
+    "contract_sha256" => Digest::SHA256.hexdigest("#{task_id}:contract"),
+    "bounded_contract_corrections_used" => 0,
+    "integrated_mandatory_exit_capabilities" => Marshal.load(Marshal.dump(slice.fetch("capability_projection"))),
+    "project_level_rebaseline_slice_ordinal" => ordinal,
+    "project_level_rebaseline_decision_sha256" => rebaseline.fetch("decision_record_sha256"),
+    "delivery_architecture_simplification_decision_sha256" => delivery.fetch("decision_record_sha256")
+  }
+  rebaseline.fetch("slice_attempts")[ordinal.to_s] = attempt
+  capability_status = stage == "ACTIVE" ? "IN_PROGRESS" : "ACCEPTED"
+  slice.fetch("capability_projection").each do |capability|
+    recovery.fetch("capability_status")[capability] = capability_status
+  end
+  if stage == "ACTIVE"
+    rebaseline["status"] = "REBASELINED_SLICE_ACTIVE"
+    rebaseline["p1_status"] = "REBASELINED_SLICE_ACTIVE"
+    rebaseline["current_task"] = task_id
+    rebaseline["next_slice_ordinal"] = ordinal
+    rebaseline["next_slice_action"] = "MASTER_AUTONOMOUSLY_PREPARE_AND_EXECUTE_REBASELINED_SLICE_#{ordinal}"
+    value.fetch("project")["phase_execution_status"] = "TASK_ACTIVE"
+    value.fetch("project")["p1_execution_status"] = "TASK_ACTIVE"
+    value.fetch("goal")["current_task_authority"] = task_id
+    value.fetch("active_work")["current_task"] = task_id
+  elsif ordinal < 4
+    rebaseline["status"] = "REBASELINED_PENDING_EXECUTION"
+    rebaseline["p1_status"] = "REBASELINED_PENDING_EXECUTION"
+    rebaseline["current_task"] = "NONE"
+    rebaseline["next_slice_ordinal"] = ordinal + 1
+    rebaseline["next_slice_action"] = "MASTER_AUTONOMOUSLY_PREPARE_AND_EXECUTE_REBASELINED_SLICE_#{ordinal + 1}"
+    value.fetch("project")["phase_execution_status"] = "REBASELINED_PENDING_EXECUTION"
+    value.fetch("project")["p1_execution_status"] = "REBASELINED_PENDING_EXECUTION"
+    value.fetch("goal")["current_task_authority"] = "NONE"
+    value.fetch("active_work")["current_task"] = "NONE"
+  else
+    rebaseline["status"] = "P1_EXIT_EVIDENCE_COMPLETE_PENDING_FOUNDER_GATE"
+    rebaseline["p1_status"] = "P1_EXIT_EVIDENCE_COMPLETE_PENDING_FOUNDER_GATE"
+    rebaseline["current_task"] = "NONE"
+    rebaseline["next_slice_ordinal"] = nil
+    rebaseline["next_slice_action"] = "FOUNDER_P1_PHASE_GATE_REVIEW_REQUIRED"
+  end
+  value
+end
+
+def install_rebaseline_gate_evidence!(truth, evidence_base, candidate_commit, candidate_tree, contract_sha_by_ordinal = {}, candidate_identity_by_ordinal = {})
+  value = Marshal.load(Marshal.dump(truth))
+  recovery = value.fetch("mandatory_exit_capability_recovery")
+  rebaseline = recovery.fetch("project_level_rebaseline")
+  delivery = recovery.fetch("delivery_architecture_simplification")
+  reopen = recovery.fetch("current_project_level_reopen")
+
+  rebaseline.fetch("slices").each do |slice|
+    ordinal = slice.fetch("ordinal")
+    capabilities = Marshal.load(Marshal.dump(slice.fetch("capability_projection")))
+    task_id = "AIOS-P1-#{970 + ordinal}_SYNTHETIC_GATE_SLICE_#{ordinal}"
+    contract_sha = contract_sha_by_ordinal.fetch(ordinal, Digest::SHA256.hexdigest("#{task_id}:frozen-contract"))
+    slice_candidate_commit, slice_candidate_tree = candidate_identity_by_ordinal.fetch(ordinal, [candidate_commit, candidate_tree])
+    attempt = {
+      "status" => "ACCEPTED",
+      "task_id" => task_id,
+      "attempt_ordinal" => 1,
+      "contract_sha256" => contract_sha,
+      "bounded_contract_corrections_used" => 0,
+      "integrated_mandatory_exit_capabilities" => Marshal.load(Marshal.dump(capabilities)),
+      "project_level_rebaseline_slice_ordinal" => ordinal,
+      "project_level_rebaseline_decision_sha256" => rebaseline.fetch("decision_record_sha256"),
+      "delivery_architecture_simplification_decision_sha256" => delivery.fetch("decision_record_sha256")
+    }
+    if ordinal == 1
+      attempt["project_level_reopen_decision_sha256"] = reopen.fetch("decision_record_sha256")
+      reopen["current_slice_attempt"] = attempt
+      reopen["current_p1_status"] = "ACCEPTED"
+      reopen["current_task"] = "NONE"
+    else
+      rebaseline.fetch("slice_attempts")[ordinal.to_s] = attempt
+    end
+    capabilities.each { |capability| recovery.fetch("capability_status")[capability] = "ACCEPTED" }
+
+    evidence_root = File.join(evidence_base, "synthetic-gate-slice-#{ordinal}")
+    FileUtils.mkdir_p(evidence_root)
+    result_path = File.join(evidence_root, "result.txt")
+    File.write(result_path, "synthetic accepted Slice #{ordinal}\n", mode: "w:UTF-8")
+    binding = capabilities.length == 1 ? { "mandatory_exit_capability" => capabilities.first } : { "mandatory_exit_capabilities" => capabilities }
+    artifact_index_path = File.join(evidence_root, "ARTIFACT_INDEX.json")
+    write_json(artifact_index_path, {
+      "record_type" => "aios_p1_mandatory_capability_artifact_index",
+      "status" => "FROZEN",
+      "task_id" => task_id,
+      "candidate_commit" => slice_candidate_commit,
+      "candidate_tree" => slice_candidate_tree,
+      "artifacts" => [{
+        "path" => "result.txt",
+        "sha256" => Digest::SHA256.file(result_path).hexdigest,
+        "byte_length" => File.size(result_path)
+      }]
+    }.merge(binding))
+    artifact_index_sha = Digest::SHA256.file(artifact_index_path).hexdigest
+    manifest_path = File.join(evidence_root, "EVIDENCE_MANIFEST.json")
+    write_json(manifest_path, {
+      "record_type" => "aios_p1_mandatory_capability_evidence_manifest",
+      "status" => "FROZEN",
+      "task_id" => task_id,
+      "task_contract_sha256" => contract_sha,
+      "candidate_commit" => slice_candidate_commit,
+      "candidate_tree" => slice_candidate_tree,
+      "artifact_index_path" => artifact_index_path,
+      "artifact_index_sha256" => artifact_index_sha,
+      "replay_result" => "PASS",
+      "rebuild_result" => "PASS",
+      "rollback_result" => "PASS",
+      "claim_boundary" => slice.fetch("claim_boundary")
+    }.merge(binding))
+    manifest_sha = Digest::SHA256.file(manifest_path).hexdigest
+    review_paths = {}
+    review_hashes = {}
+    %w[cto security quality].each do |role|
+      review_path = File.join(evidence_root, "#{role.upcase}_REVIEW.json")
+      write_json(review_path, {
+        "record_type" => "aios_independent_task_review",
+        "status" => "PASS",
+        "role" => role.upcase,
+        "task_id" => task_id,
+        "task_contract_sha256" => contract_sha,
+        "candidate_commit" => slice_candidate_commit,
+        "candidate_tree" => slice_candidate_tree,
+        "evidence_manifest_sha256" => manifest_sha,
+        "claim_boundary" => slice.fetch("claim_boundary")
+      }.merge(binding))
+      review_paths[role] = review_path
+      review_hashes[role] = Digest::SHA256.file(review_path).hexdigest
+    end
+    gate_path = File.join(evidence_root, "TASK_GATE_RECEIPT.json")
+    write_json(gate_path, {
+      "record_type" => "aios_phase_delegated_task_gate_receipt",
+      "status" => "ACCEPTED",
+      "authority" => "MASTER_CEO_AGENT",
+      "task_id" => task_id,
+      "task_contract_sha256" => contract_sha,
+      "candidate_commit" => slice_candidate_commit,
+      "candidate_tree" => slice_candidate_tree,
+      "evidence_manifest_sha256" => manifest_sha,
+      "cto_review_sha256" => review_hashes.fetch("cto"),
+      "security_review_sha256" => review_hashes.fetch("security"),
+      "quality_review_sha256" => review_hashes.fetch("quality"),
+      "claim_boundary" => slice.fetch("claim_boundary")
+    }.merge(binding))
+
+    history = {
+      "task_id" => task_id,
+      "status" => "MASTER_TASK_GATE_ACCEPTED_COMPLETE",
+      "mandatory_exit_capability" => capabilities.first,
+      "integrated_mandatory_exit_capabilities" => Marshal.load(Marshal.dump(capabilities)),
+      "clean_room_attempt_ordinal" => 1,
+      "project_level_rebaseline_slice_ordinal" => ordinal,
+      "project_level_rebaseline_decision_sha256" => rebaseline.fetch("decision_record_sha256"),
+      "delivery_architecture_simplification_decision_sha256" => delivery.fetch("decision_record_sha256"),
+      "task_gate_result" => "PASS",
+      "task_contract_sha256" => contract_sha,
+      "bounded_contract_corrections_used" => 0,
+      "accepted_candidate_commit" => slice_candidate_commit,
+      "accepted_candidate_tree" => slice_candidate_tree,
+      "execution_evidence_root" => evidence_root,
+      "evidence_manifest_path" => manifest_path,
+      "evidence_manifest_sha256" => manifest_sha,
+      "artifact_index_path" => artifact_index_path,
+      "artifact_index_sha256" => artifact_index_sha,
+      "cto_review_path" => review_paths.fetch("cto"),
+      "cto_review_sha256" => review_hashes.fetch("cto"),
+      "security_review_path" => review_paths.fetch("security"),
+      "security_review_sha256" => review_hashes.fetch("security"),
+      "quality_review_path" => review_paths.fetch("quality"),
+      "quality_review_sha256" => review_hashes.fetch("quality"),
+      "task_gate_receipt_path" => gate_path,
+      "task_gate_receipt_sha256" => Digest::SHA256.file(gate_path).hexdigest,
+      "claim_boundary" => slice.fetch("claim_boundary")
+    }
+    history["project_level_reopen_decision_sha256"] = reopen.fetch("decision_record_sha256") if ordinal == 1
+    value.fetch("task_history")["synthetic_gate_slice_#{ordinal}"] = history
+  end
+
+  dataset_capability = "VERSIONED_REPRESENTATIVE_TASK_DATASET"
+  dataset_task_id = "AIOS-P1-969_SYNTHETIC_PREACCEPTED_DATASET"
+  dataset_contract_sha = Digest::SHA256.hexdigest("#{dataset_task_id}:frozen-contract")
+  dataset_claim_boundary = "P1_EXIT_CAPABILITY_ENGINEERING_ARTIFACT_ONLY_NO_BENCHMARK_AGENT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM"
+  dataset_root = File.join(evidence_base, "synthetic-preaccepted-dataset")
+  FileUtils.mkdir_p(dataset_root)
+  dataset_result_path = File.join(dataset_root, "result.txt")
+  File.write(dataset_result_path, "synthetic preaccepted dataset\n", mode: "w:UTF-8")
+  dataset_artifact_index_path = File.join(dataset_root, "ARTIFACT_INDEX.json")
+  write_json(dataset_artifact_index_path, {
+    "record_type" => "aios_p1_mandatory_capability_artifact_index",
+    "status" => "FROZEN",
+    "task_id" => dataset_task_id,
+    "mandatory_exit_capability" => dataset_capability,
+    "candidate_commit" => candidate_commit,
+    "candidate_tree" => candidate_tree,
+    "artifacts" => [{
+      "path" => "result.txt",
+      "sha256" => Digest::SHA256.file(dataset_result_path).hexdigest,
+      "byte_length" => File.size(dataset_result_path)
+    }]
+  })
+  dataset_artifact_index_sha = Digest::SHA256.file(dataset_artifact_index_path).hexdigest
+  dataset_manifest_path = File.join(dataset_root, "EVIDENCE_MANIFEST.json")
+  write_json(dataset_manifest_path, {
+    "record_type" => "aios_p1_mandatory_capability_evidence_manifest",
+    "status" => "FROZEN",
+    "task_id" => dataset_task_id,
+    "task_contract_sha256" => dataset_contract_sha,
+    "candidate_commit" => candidate_commit,
+    "candidate_tree" => candidate_tree,
+    "artifact_index_path" => dataset_artifact_index_path,
+    "artifact_index_sha256" => dataset_artifact_index_sha,
+    "replay_result" => "PASS",
+    "rebuild_result" => "PASS",
+    "rollback_result" => "PASS",
+    "claim_boundary" => dataset_claim_boundary,
+    "mandatory_exit_capability" => dataset_capability
+  })
+  dataset_manifest_sha = Digest::SHA256.file(dataset_manifest_path).hexdigest
+  dataset_review_paths = {}
+  dataset_review_hashes = {}
+  %w[cto security quality].each do |role|
+    review_path = File.join(dataset_root, "#{role.upcase}_REVIEW.json")
+    write_json(review_path, {
+      "record_type" => "aios_independent_task_review",
+      "status" => "PASS",
+      "role" => role.upcase,
+      "task_id" => dataset_task_id,
+      "task_contract_sha256" => dataset_contract_sha,
+      "candidate_commit" => candidate_commit,
+      "candidate_tree" => candidate_tree,
+      "evidence_manifest_sha256" => dataset_manifest_sha,
+      "claim_boundary" => dataset_claim_boundary,
+      "mandatory_exit_capability" => dataset_capability
+    })
+    dataset_review_paths[role] = review_path
+    dataset_review_hashes[role] = Digest::SHA256.file(review_path).hexdigest
+  end
+  dataset_gate_path = File.join(dataset_root, "TASK_GATE_RECEIPT.json")
+  write_json(dataset_gate_path, {
+    "record_type" => "aios_phase_delegated_task_gate_receipt",
+    "status" => "ACCEPTED",
+    "authority" => "MASTER_CEO_AGENT",
+    "task_id" => dataset_task_id,
+    "task_contract_sha256" => dataset_contract_sha,
+    "candidate_commit" => candidate_commit,
+    "candidate_tree" => candidate_tree,
+    "evidence_manifest_sha256" => dataset_manifest_sha,
+    "cto_review_sha256" => dataset_review_hashes.fetch("cto"),
+    "security_review_sha256" => dataset_review_hashes.fetch("security"),
+    "quality_review_sha256" => dataset_review_hashes.fetch("quality"),
+    "claim_boundary" => dataset_claim_boundary,
+    "mandatory_exit_capability" => dataset_capability
+  })
+  recovery.fetch("capability_status")[dataset_capability] = "ACCEPTED"
+  recovery.fetch("capability_attempt_ledger")[dataset_capability] = {
+    "status" => "ACCEPTED",
+    "task_id" => dataset_task_id,
+    "attempt_ordinal" => 1,
+    "contract_sha256" => dataset_contract_sha,
+    "bounded_contract_corrections_used" => 0
+  }
+  value.fetch("task_history")["synthetic_preaccepted_dataset"] = {
+    "task_id" => dataset_task_id,
+    "status" => "MASTER_TASK_GATE_ACCEPTED_COMPLETE",
+    "mandatory_exit_capability" => dataset_capability,
+    "clean_room_attempt_ordinal" => 1,
+    "task_gate_result" => "PASS",
+    "task_contract_sha256" => dataset_contract_sha,
+    "bounded_contract_corrections_used" => 0,
+    "accepted_candidate_commit" => candidate_commit,
+    "accepted_candidate_tree" => candidate_tree,
+    "execution_evidence_root" => dataset_root,
+    "evidence_manifest_path" => dataset_manifest_path,
+    "evidence_manifest_sha256" => dataset_manifest_sha,
+    "artifact_index_path" => dataset_artifact_index_path,
+    "artifact_index_sha256" => dataset_artifact_index_sha,
+    "cto_review_path" => dataset_review_paths.fetch("cto"),
+    "cto_review_sha256" => dataset_review_hashes.fetch("cto"),
+    "security_review_path" => dataset_review_paths.fetch("security"),
+    "security_review_sha256" => dataset_review_hashes.fetch("security"),
+    "quality_review_path" => dataset_review_paths.fetch("quality"),
+    "quality_review_sha256" => dataset_review_hashes.fetch("quality"),
+    "task_gate_receipt_path" => dataset_gate_path,
+    "task_gate_receipt_sha256" => Digest::SHA256.file(dataset_gate_path).hexdigest,
+    "claim_boundary" => dataset_claim_boundary
+  }
+
+  rebaseline["status"] = "P1_EXIT_EVIDENCE_COMPLETE_PENDING_FOUNDER_GATE"
+  rebaseline["p1_status"] = "P1_EXIT_EVIDENCE_COMPLETE_PENDING_FOUNDER_GATE"
+  rebaseline["current_task"] = "NONE"
+  rebaseline["next_slice_ordinal"] = nil
+  rebaseline["next_slice_action"] = "FOUNDER_P1_PHASE_GATE_REVIEW_REQUIRED"
+  value.fetch("project")["phase_execution_status"] = "P1_EXIT_EVIDENCE_COMPLETE_PENDING_FOUNDER_GATE"
+  value.fetch("project")["p1_execution_status"] = "P1_EXIT_EVIDENCE_COMPLETE_PENDING_FOUNDER_GATE"
+  value.fetch("goal")["current_task_authority"] = "NONE"
+  active = value.fetch("active_work")
+  active.keys.each { |key| active[key] = nil }
+  active.merge!({
+    "current_task" => "NONE",
+    "current_task_status" => "NONE",
+    "execution_nonce_status" => "NONE",
+    "task_resource_state" => "NONE",
+    "founder_decision_required" => true,
+    "escalation_reason" => "P1_EXIT_EVIDENCE_COMPLETE_PENDING_FOUNDER_GATE",
+    "user_action_required" => "FOUNDER_P1_PHASE_GATE_REVIEW_REQUIRED",
+    "next_eligible_action" => "FOUNDER_P1_PHASE_GATE_REVIEW_REQUIRED"
+  })
+  value.fetch("phase_execution_claim")["current_task_claim"] = "NONE_P1_EXIT_EVIDENCE_COMPLETE_PENDING_FOUNDER_GATE"
+  value
+end
+
+def slice_4_active_before_gate_fixture(gate_truth)
+  value = Marshal.load(Marshal.dump(gate_truth))
+  recovery = value.fetch("mandatory_exit_capability_recovery")
+  rebaseline = recovery.fetch("project_level_rebaseline")
+  slice = rebaseline.fetch("slices").find { |candidate| candidate["ordinal"] == 4 }
+  attempt = rebaseline.fetch("slice_attempts").fetch("4")
+  attempt["status"] = "ACTIVE"
+  task_id = attempt.fetch("task_id")
+  slice.fetch("capability_projection").each { |capability| recovery.fetch("capability_status")[capability] = "IN_PROGRESS" }
+  value.fetch("task_history").delete("synthetic_gate_slice_4")
+  rebaseline["status"] = "REBASELINED_SLICE_ACTIVE"
+  rebaseline["p1_status"] = "REBASELINED_SLICE_ACTIVE"
+  rebaseline["current_task"] = task_id
+  rebaseline["next_slice_ordinal"] = 4
+  rebaseline["next_slice_action"] = "MASTER_AUTONOMOUSLY_PREPARE_AND_EXECUTE_REBASELINED_SLICE_4"
+  value.fetch("project")["phase_execution_status"] = "TASK_ACTIVE"
+  value.fetch("project")["p1_execution_status"] = "TASK_ACTIVE"
+  value.fetch("goal")["current_task_authority"] = task_id
+  value.fetch("active_work")["current_task"] = task_id
+  value.fetch("phase_execution_claim")["current_task_claim"] = task_id
+  value
+end
+
+def slice_4_pending_before_activation_fixture(gate_truth)
+  value = Marshal.load(Marshal.dump(gate_truth))
+  recovery = value.fetch("mandatory_exit_capability_recovery")
+  rebaseline = recovery.fetch("project_level_rebaseline")
+  slice = rebaseline.fetch("slices").find { |candidate| candidate["ordinal"] == 4 }
+  rebaseline.fetch("slice_attempts").delete("4")
+  value.fetch("task_history").delete("synthetic_gate_slice_4")
+  slice.fetch("capability_projection").each do |capability|
+    recovery.fetch("capability_status")[capability] = "REBASELINED_PENDING_EXECUTION"
+  end
+  rebaseline["status"] = "REBASELINED_PENDING_EXECUTION"
+  rebaseline["p1_status"] = "REBASELINED_PENDING_EXECUTION"
+  rebaseline["current_task"] = "NONE"
+  rebaseline["next_slice_ordinal"] = 4
+  rebaseline["next_slice_action"] = "MASTER_AUTONOMOUSLY_PREPARE_AND_EXECUTE_REBASELINED_SLICE_4"
+  value.fetch("project")["phase_execution_status"] = "REBASELINED_PENDING_EXECUTION"
+  value.fetch("project")["p1_execution_status"] = "REBASELINED_PENDING_EXECUTION"
+  value.fetch("goal")["current_task_authority"] = "NONE"
+  active = value.fetch("active_work")
+  active.keys.each { |key| active[key] = nil }
+  active.merge!({
+    "current_task" => "NONE",
+    "current_task_status" => "NONE",
+    "execution_nonce_status" => "NONE",
+    "task_resource_state" => "NONE",
+    "founder_decision_required" => false,
+    "next_eligible_action" => "MASTER_AUTONOMOUSLY_PREPARE_AND_EXECUTE_REBASELINED_SLICE_4"
+  })
+  value.fetch("phase_execution_claim")["current_task_claim"] = "NONE_P1_REBASELINED_PENDING_EXECUTION"
+  value
+end
+
 Dir.mktmpdir("aios-rebuild-authority-") do |root|
   canonical_root = File.join(root, "canonical")
   rebuild_root = File.join(root, "fresh-clone")
   run!("git", "clone", "--no-local", "--branch", "main", SOURCE_ROOT, canonical_root)
+  FileUtils.cp(File.join(SOURCE_ROOT, "AGENTS.md"), File.join(canonical_root, "AGENTS.md"))
+  FileUtils.cp(File.join(SOURCE_ROOT, "docs/aios/truth/project_state.yaml"), File.join(canonical_root, "docs/aios/truth/project_state.yaml"))
   FileUtils.cp(File.join(SOURCE_ROOT, "scripts/validate-current-task-authority.rb"), File.join(canonical_root, "scripts/validate-current-task-authority.rb"))
   truth_path = File.join(canonical_root, "docs/aios/truth/project_state.yaml")
   truth = YAML.safe_load(File.read(truth_path), aliases: false)
@@ -124,7 +675,7 @@ Dir.mktmpdir("aios-rebuild-authority-") do |root|
   write_yaml(truth_path, truth)
   run!("git", "config", "user.name", "SourceLens Rebuild Verification Test", chdir: canonical_root)
   run!("git", "config", "user.email", "rebuild-verification@example.invalid", chdir: canonical_root)
-  run!("git", "add", "docs/aios/truth/project_state.yaml", "scripts/validate-current-task-authority.rb", chdir: canonical_root)
+  run!("git", "add", "AGENTS.md", "docs/aios/truth/project_state.yaml", "scripts/validate-current-task-authority.rb", chdir: canonical_root)
   run!("git", "commit", "-m", "synthetic rebuild authority source", chdir: canonical_root)
 
   run!("git", "clone", "--no-local", "--branch", "main", canonical_root, rebuild_root)
@@ -149,6 +700,8 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   FileUtils.mkdir_p(File.join(root, "docs/aios/truth"))
   FileUtils.mkdir_p(File.join(root, "docs/aios/tasks"))
   FileUtils.cp(File.join(SOURCE_ROOT, "scripts/validate-current-task-authority.rb"), File.join(root, "scripts"))
+  FileUtils.cp(File.join(SOURCE_ROOT, "scripts/validate-aios-governance.sh"), File.join(root, "scripts"))
+  FileUtils.cp(File.join(SOURCE_ROOT, "scripts/check-p1-safety-boundary.sh"), File.join(root, "scripts"))
   FileUtils.cp(File.join(SOURCE_ROOT, "AGENTS.md"), root)
   FileUtils.cp(File.join(SOURCE_ROOT, "docs/aios/FOUNDER_DELEGATION_POLICY.md"), File.join(root, "docs/aios"))
   FileUtils.cp(File.join(SOURCE_ROOT, "docs/aios/tasks/P1-002_B0_ADAPTER_CONFORMANCE.yaml"), File.join(root, "docs/aios/tasks"))
@@ -164,11 +717,11 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   truth["project"]["task_worktree_root"] = worktree_root
   truth["project"]["execution_evidence_root_base"] = evidence_base
   rebaseline = truth.dig("mandatory_exit_capability_recovery", "project_level_rebaseline")
-  rebaseline["status"] = "FOUNDER_APPROVED_ACTIVE"
+  rebaseline["status"] = "REBASELINED_PENDING_EXECUTION"
   rebaseline["p1_status"] = "REBASELINED_PENDING_EXECUTION"
   rebaseline["current_task"] = "NONE"
   rebaseline["next_slice_ordinal"] = 1
-  rebaseline["next_slice_action"] = "MASTER_AUTONOMOUSLY_PREPARE_AND_EXECUTE_ONE_ROLE_LOCAL_CLEAN_ROOM_SLICE_1_TASK"
+  rebaseline["next_slice_action"] = "MASTER_AUTONOMOUSLY_PREPARE_AND_EXECUTE_REBASELINED_SLICE_1"
   rebaseline_root = File.join(evidence_base, "p1-exit-gate-project-level-rebaseline")
   FileUtils.mkdir_p(rebaseline_root)
   {
@@ -195,21 +748,52 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   FileUtils.cp(project_reopen_source, project_reopen_target)
   project_reopen["decision_record_path"] = project_reopen_target
   project_reopen["slice_1_reopen_attempt"] = nil
+  current_project_reopen = truth.dig("mandatory_exit_capability_recovery", "current_project_level_reopen")
+  current_project_reopen_root = File.join(evidence_base, "p1-current-project-level-reopen")
+  FileUtils.mkdir_p(current_project_reopen_root)
+  current_project_reopen_source = current_project_reopen.fetch("decision_record_path")
+  current_project_reopen_target = File.join(current_project_reopen_root, "FOUNDER_P1_PROJECT_LEVEL_REOPEN_AFTER_P1_042_DECISION_RECORD.json")
+  FileUtils.cp(current_project_reopen_source, current_project_reopen_target)
+  current_project_reopen["decision_record_path"] = current_project_reopen_target
+  current_project_reopen["current_slice_attempt"] = nil
   p1_041_history = truth.fetch("task_history").values.find do |entry|
     entry.is_a?(Hash) && entry["task_id"] == "AIOS-P1-041_PARAMETERIZED_EVALUATION_CORE_IMPLEMENTATION"
   end
   raise "current role-local reopen fixture lacks P1-041 terminal metadata" unless p1_041_history
+  p1_042_history = Marshal.load(Marshal.dump(truth.fetch("task_history").fetch("aios_p1_042")))
+  p1_042_contract_root = File.join(evidence_base, "p1-042-contract-review")
+  p1_042_terminal_root = File.join(evidence_base, "p1-042-terminal-custody")
+  FileUtils.mkdir_p(p1_042_contract_root)
+  FileUtils.mkdir_p(p1_042_terminal_root)
+  p1_042_contract_target = File.join(p1_042_contract_root, "WORKING_DRAFT.yaml")
+  p1_042_record_target = File.join(p1_042_terminal_root, "P1_042_TERMINAL_STOP_RECORD.json")
+  p1_042_manifest_target = File.join(p1_042_terminal_root, "TERMINAL_EVIDENCE_MANIFEST.json")
+  p1_042_contract_source = p1_042_history.fetch("task_contract_external_path")
+  p1_042_record_source = p1_042_history.fetch("terminal_record_path")
+  p1_042_manifest_source = p1_042_history.fetch("terminal_evidence_manifest_path")
+  FileUtils.cp(p1_042_contract_source, p1_042_contract_target)
+  FileUtils.cp(p1_042_record_source, p1_042_record_target)
+  FileUtils.cp(p1_042_manifest_source, p1_042_manifest_target)
+  p1_042_relocated_history = Marshal.load(Marshal.dump(p1_042_history))
+  p1_042_relocated_history["task_contract_external_path"] = p1_042_contract_target
+  p1_042_relocated_history["execution_evidence_root"] = p1_042_terminal_root
+  p1_042_relocated_history["terminal_record_path"] = p1_042_record_target
+  p1_042_relocated_history["terminal_evidence_manifest_path"] = p1_042_manifest_target
   truth["task_history"] = {
     "aios_p1_006" => {
       "task_id" => "AIOS-P1-006_SYNTHETIC_TERMINAL_HISTORY",
       "status" => "TERMINAL_STOPPED",
       "resume_retry_successor_allowed" => false
     },
-    "aios_p1_041" => Marshal.load(Marshal.dump(p1_041_history))
+    "aios_p1_041" => Marshal.load(Marshal.dump(p1_041_history)),
+    "aios_p1_042" => p1_042_history
   }
   truth["mandatory_exit_capability_recovery"]["capability_status"].keys.each do |capability|
     truth["mandatory_exit_capability_recovery"]["capability_status"][capability] = "MISSING"
     truth["mandatory_exit_capability_recovery"]["capability_attempt_ledger"][capability] = nil
+  end
+  rebaseline.fetch("slices").first.fetch("capability_projection").each do |capability|
+    truth["mandatory_exit_capability_recovery"]["capability_status"][capability] = "REBASELINED_PENDING_EXECUTION"
   end
   truth["mandatory_exit_capability_recovery"]["founder_dispositions"] = {}
   truth["mandatory_exit_capability_recovery"]["integrated_capability_routes"] = {}
@@ -222,8 +806,8 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   truth["mandatory_exit_capability_recovery"]["post_revision_final_route_terminal"] = nil
   truth["goal"]["control_plane_status_observed"] = "ACTIVE"
   truth["goal"]["current_task_authority"] = "NONE"
-  truth["project"]["phase_execution_status"] = "NO_CURRENT_TASK"
-  truth["project"]["p1_execution_status"] = "NO_CURRENT_TASK"
+  truth["project"]["phase_execution_status"] = "REBASELINED_PENDING_EXECUTION"
+  truth["project"]["p1_execution_status"] = "REBASELINED_PENDING_EXECUTION"
   truth["active_work"] = {
     "current_task" => "NONE",
     "current_task_status" => "NONE",
@@ -245,10 +829,10 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
     "founder_reserved_authorization_sha256" => nil,
     "founder_decision_required" => false,
     "escalation_reason" => nil,
-    "user_action_required" => nil,
-    "next_eligible_action" => "MASTER_AUTONOMOUSLY_IMPLEMENT_P1_EXIT_CAPABILITIES_IN_FROZEN_PRIORITY_ORDER"
+    "user_action_required" => "NONE",
+    "next_eligible_action" => "MASTER_AUTONOMOUSLY_PREPARE_AND_EXECUTE_REBASELINED_SLICE_1"
   }
-  truth["phase_execution_claim"]["current_task_claim"] = "NO_CURRENT_TASK"
+  truth["phase_execution_claim"]["current_task_claim"] = "NONE_P1_REBASELINED_PENDING_EXECUTION"
   write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), truth)
 
   run!("git", "init", chdir: root)
@@ -258,29 +842,842 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   run!("git", "commit", "-m", "base", chdir: root)
   run!("git", "branch", "-M", "main", chdir: root)
   import_commit_and_tree_metadata!(root, rebaseline.fetch("canonical_parent_commit"))
+  import_commit_and_tree_metadata!(root, current_project_reopen.fetch("canonical_parent_commit"))
   run_validator(root, true, "NONE positive")
+  bypass_stdout, bypass_stderr, bypass_status = Open3.capture3(
+    "ruby", "scripts/validate-current-task-authority.rb", "--validate-current-reopen-transition",
+    chdir: root
+  )
+  raise "production validator accepted a helper bypass argument" if bypass_status.success?
+  bypass_output = "#{bypass_stdout}#{bypass_stderr}"
+  raise "production validator helper bypass did not fail closed" unless bypass_output.include?("does not accept arguments")
+  raise "production validator helper bypass emitted an authority PASS" if bypass_output.include?("authority validation passed")
 
   none_truth = Marshal.load(Marshal.dump(truth))
-  premature_reopen_attempt = Marshal.load(Marshal.dump(none_truth))
-  premature_reopen_attempt["mandatory_exit_capability_recovery"]["project_level_reopen"]["slice_1_reopen_attempt"] = {
-    "status" => "ACTIVE",
-    "task_id" => "AIOS-P1-042_SYNTHETIC_REOPEN_ATTEMPT",
-    "attempt_ordinal" => 2,
-    "contract_sha256" => "2" * 64,
-    "bounded_contract_corrections_used" => 0,
-    "integrated_mandatory_exit_capabilities" => rebaseline.fetch("slices").first.fetch("capability_projection"),
+  pending_current_reopen = current_reopen_lifecycle_fixture(none_truth, "PENDING")
+  active_current_reopen = current_reopen_lifecycle_fixture(none_truth, "ACTIVE")
+  accepted_current_reopen = current_reopen_lifecycle_fixture(none_truth, "ACCEPTED")
+  architecture_blocked_current_reopen = current_reopen_lifecycle_fixture(none_truth, "ARCHITECTURE_BLOCKED")
+  scope_blocked_current_reopen = current_reopen_lifecycle_fixture(none_truth, "SCOPE_COMPLIANCE_BLOCKED")
+  run_current_reopen_transition(root, pending_current_reopen, pending_current_reopen, true, "current reopen pending NONE positive")
+  run_current_reopen_transition(root, pending_current_reopen, active_current_reopen, true, "current reopen ordinal-1 ACTIVE positive")
+  run_current_reopen_transition(root, active_current_reopen, accepted_current_reopen, true, "current reopen ACCEPTED terminal positive")
+  run_current_reopen_transition(root, active_current_reopen, architecture_blocked_current_reopen, true, "current reopen ARCHITECTURE_BLOCKED terminal positive")
+  run_current_reopen_transition(root, active_current_reopen, scope_blocked_current_reopen, true, "current reopen SCOPE_COMPLIANCE_BLOCKED terminal positive")
+
+  slice_2_active_after_accepted = later_rebaseline_slice_fixture(accepted_current_reopen, 2, "ACTIVE")
+  run_current_reopen_transition(
+    root,
+    accepted_current_reopen,
+    slice_2_active_after_accepted,
+    true,
+    "current reopen ACCEPTED steady permits Slice 2 ACTIVE global projection positive"
+  )
+  run_effective_slice_order(pending_current_reopen, true, "effective Slice order pending ordinal 1 positive")
+  run_effective_slice_order(active_current_reopen, true, "effective Slice order ordinal 1 ACTIVE positive")
+  run_effective_slice_order(accepted_current_reopen, true, "effective Slice order ordinal 1 ACCEPTED to pending ordinal 2 positive")
+  run_effective_slice_order(slice_2_active_after_accepted, true, "effective Slice order ordinal 2 ACTIVE positive")
+  run_effective_slice_transition(accepted_current_reopen, slice_2_active_after_accepted, true, "effective Slice transition ordinal 1 to ordinal 2 ACTIVE positive")
+  slice_2_accepted = later_rebaseline_slice_fixture(slice_2_active_after_accepted, 2, "ACCEPTED")
+  run_effective_slice_order(slice_2_accepted, true, "effective Slice order ordinal 2 ACCEPTED to pending ordinal 3 positive")
+  run_effective_slice_transition(slice_2_active_after_accepted, slice_2_accepted, true, "effective Slice transition ordinal 2 ACTIVE to ACCEPTED positive")
+  slice_3_active = later_rebaseline_slice_fixture(slice_2_accepted, 3, "ACTIVE")
+  run_effective_slice_order(slice_3_active, true, "effective Slice order ordinal 3 ACTIVE positive")
+  run_effective_slice_transition(slice_2_accepted, slice_3_active, true, "effective Slice transition ordinal 2 to ordinal 3 ACTIVE positive")
+  slice_3_accepted = later_rebaseline_slice_fixture(slice_3_active, 3, "ACCEPTED")
+  run_effective_slice_order(slice_3_accepted, true, "effective Slice order ordinal 3 ACCEPTED to pending ordinal 4 positive")
+  run_effective_slice_transition(slice_3_active, slice_3_accepted, true, "effective Slice transition ordinal 3 ACTIVE to ACCEPTED positive")
+  slice_4_active = later_rebaseline_slice_fixture(slice_3_accepted, 4, "ACTIVE")
+  run_effective_slice_order(slice_4_active, true, "effective Slice order ordinal 4 ACTIVE positive")
+  run_effective_slice_transition(slice_3_accepted, slice_4_active, true, "effective Slice transition ordinal 3 to ordinal 4 ACTIVE positive")
+
+  run_effective_slice_transition(accepted_current_reopen, slice_2_accepted, false, "effective Slice cannot become ACCEPTED without ACTIVE transition negative", expected_failure: "activated without ACTIVE")
+
+  slice_1_to_3_gap = later_rebaseline_slice_fixture(accepted_current_reopen, 3, "ACTIVE")
+  run_effective_slice_order(slice_1_to_3_gap, false, "effective Slice order 1 to 3 gap negative", expected_failure: "gap or out-of-order")
+  slice_1_to_4_gap = later_rebaseline_slice_fixture(accepted_current_reopen, 4, "ACTIVE")
+  run_effective_slice_order(slice_1_to_4_gap, false, "effective Slice order 1 to 4 gap negative", expected_failure: "gap or out-of-order")
+  slice_2_to_4_gap = later_rebaseline_slice_fixture(slice_2_accepted, 4, "ACTIVE")
+  run_effective_slice_order(slice_2_to_4_gap, false, "effective Slice order 2 to 4 gap negative", expected_failure: "gap or out-of-order")
+
+  accepted_slice_1_projection_drift = Marshal.load(Marshal.dump(slice_2_active_after_accepted))
+  accepted_slice_1_projection_drift["mandatory_exit_capability_recovery"]["capability_status"][rebaseline.fetch("slices").first.fetch("capability_projection").first] = "REBASELINED_PENDING_EXECUTION"
+  run_current_reopen_transition(
+    root,
+    accepted_current_reopen,
+    accepted_slice_1_projection_drift,
+    false,
+    "current reopen ACCEPTED steady Slice 1 capability regression negative",
+    expected_failure: "lifecycle projection drift"
+  )
+
+  active_current_reopen_with_one_correction = Marshal.load(Marshal.dump(active_current_reopen))
+  active_current_reopen_with_one_correction.dig("mandatory_exit_capability_recovery", "current_project_level_reopen", "current_slice_attempt")["bounded_contract_corrections_used"] = 1
+  run_current_reopen_transition(root, pending_current_reopen, active_current_reopen_with_one_correction, true, "current reopen ACTIVE with one bounded Contract correction positive")
+
+  active_current_reopen_with_excessive_correction = Marshal.load(Marshal.dump(active_current_reopen))
+  active_current_reopen_with_excessive_correction.dig("mandatory_exit_capability_recovery", "current_project_level_reopen", "current_slice_attempt")["bounded_contract_corrections_used"] = 2
+  run_current_reopen_transition(root, pending_current_reopen, active_current_reopen_with_excessive_correction, false, "current reopen excessive bounded Contract correction negative", expected_failure: "attempt binding drift")
+
+  correction_unit_root = File.join(evidence_base, "rebaseline-contract-correction-unit")
+  FileUtils.mkdir_p(correction_unit_root)
+  original_contract_path = File.join(correction_unit_root, "ORIGINAL_CONTRACT_CANDIDATE.yaml")
+  original_contract = {
+    "task_id" => "AIOS-P1-943_CURRENT_REOPEN_LIFECYCLE_TEST",
+    "objective" => "frozen bounded correction unit",
+    "clean_room_recovery" => {
+      "bounded_contract_corrections_allowed" => 1,
+      "bounded_contract_corrections_used" => 0,
+      "original_contract_path" => nil,
+      "original_contract_sha256" => nil
+    }
+  }
+  write_yaml(original_contract_path, original_contract)
+  final_contract_path = File.join(correction_unit_root, "FINAL_CONTRACT.yaml")
+  final_contract = Marshal.load(Marshal.dump(original_contract))
+  final_contract["clean_room_recovery"]["bounded_contract_corrections_used"] = 1
+  final_contract["clean_room_recovery"]["original_contract_path"] = original_contract_path
+  final_contract["clean_room_recovery"]["original_contract_sha256"] = Digest::SHA256.file(original_contract_path).hexdigest
+  write_yaml(final_contract_path, final_contract)
+  final_contract_sha256 = Digest::SHA256.file(final_contract_path).hexdigest
+  run_rebaseline_contract_correction(
+    root,
+    final_contract.fetch("clean_room_recovery"),
+    final_contract_sha256,
+    final_contract_path,
+    correction_unit_root,
+    true,
+    "rebaseline one bounded Contract correction exact original/final binding positive"
+  )
+  missing_original_binding = Marshal.load(Marshal.dump(final_contract.fetch("clean_room_recovery")))
+  missing_original_binding["original_contract_path"] = nil
+  missing_original_binding["original_contract_sha256"] = nil
+  run_rebaseline_contract_correction(
+    root,
+    missing_original_binding,
+    final_contract_sha256,
+    final_contract_path,
+    correction_unit_root,
+    false,
+    "rebaseline corrected Contract missing original binding negative",
+    expected_failure: "original binding missing"
+  )
+  excessive_correction_binding = Marshal.load(Marshal.dump(final_contract.fetch("clean_room_recovery")))
+  excessive_correction_binding["bounded_contract_corrections_used"] = 2
+  run_rebaseline_contract_correction(
+    root,
+    excessive_correction_binding,
+    final_contract_sha256,
+    final_contract_path,
+    correction_unit_root,
+    false,
+    "rebaseline corrected Contract used greater than one negative",
+    expected_failure: "correction usage invalid"
+  )
+  FileUtils.rm_rf(correction_unit_root)
+
+  slice_1_budget_contract = {
+    "budget" => {
+      "engineering_hours" => 24,
+      "calendar_days" => 5,
+      "implementation_iterations" => 2,
+      "candidate_limit" => 1,
+      "execution_retries" => 0,
+      "network_calls" => 0
+    }
+  }
+  slice_1_budget = rebaseline.fetch("slices").find { |slice| slice["ordinal"] == 1 }
+  run_rebaseline_contract_budget(slice_1_budget_contract, slice_1_budget, true, "Slice 1 frozen Contract budget positive")
+  %w[engineering_hours calendar_days implementation_iterations candidate_limit].each do |field|
+    excessive = Marshal.load(Marshal.dump(slice_1_budget_contract))
+    excessive.fetch("budget")[field] = slice_1_budget.fetch(field) + 1
+    run_rebaseline_contract_budget(
+      excessive,
+      slice_1_budget,
+      false,
+      "Slice 1 #{field} budget exceeds frozen Slice negative",
+      expected_failure: "#{field} budget invalid or exceeds frozen Slice"
+    )
+  end
+  zero_budget = Marshal.load(Marshal.dump(slice_1_budget_contract))
+  zero_budget.fetch("budget")["engineering_hours"] = 0
+  run_rebaseline_contract_budget(zero_budget, slice_1_budget, false, "Slice 1 non-positive budget negative", expected_failure: "engineering_hours budget invalid")
+  retry_budget = Marshal.load(Marshal.dump(slice_1_budget_contract))
+  retry_budget.fetch("budget")["execution_retries"] = 1
+  run_rebaseline_contract_budget(retry_budget, slice_1_budget, false, "Slice 1 execution retry budget negative", expected_failure: "execution retry must be zero")
+  network_budget = Marshal.load(Marshal.dump(slice_1_budget_contract))
+  network_budget.fetch("budget")["network_calls"] = 1
+  run_rebaseline_contract_budget(network_budget, slice_1_budget, false, "Slice 1 network call budget negative", expected_failure: "network calls must be zero")
+
+  slice_4_budget = rebaseline.fetch("slices").find { |slice| slice["ordinal"] == 4 }
+  slice_4_budget_contract = {
+    "budget" => {
+      "engineering_hours" => 12,
+      "calendar_days" => 5,
+      "implementation_iterations" => 1,
+      "candidate_limit" => 1,
+      "execution_retries" => 0,
+      "network_calls" => 0,
+      "scheduled_runs" => 48
+    }
+  }
+  run_rebaseline_contract_budget(slice_4_budget_contract, slice_4_budget, true, "Slice 4 exact scheduled-run budget positive")
+  wrong_scheduled_runs = Marshal.load(Marshal.dump(slice_4_budget_contract))
+  wrong_scheduled_runs.fetch("budget")["scheduled_runs"] = 47
+  run_rebaseline_contract_budget(wrong_scheduled_runs, slice_4_budget, false, "Slice 4 scheduled-run budget drift negative", expected_failure: "scheduled run budget drift")
+  missing_scheduled_runs = Marshal.load(Marshal.dump(slice_4_budget_contract))
+  missing_scheduled_runs.fetch("budget").delete("scheduled_runs")
+  run_rebaseline_contract_budget(missing_scheduled_runs, slice_4_budget, false, "Slice 4 scheduled-run budget missing negative", expected_failure: "scheduled run budget drift")
+
+  old_reopen_hash_activation = Marshal.load(Marshal.dump(active_current_reopen))
+  old_reopen_hash_activation.dig("mandatory_exit_capability_recovery", "current_project_level_reopen", "current_slice_attempt")["project_level_reopen_decision_sha256"] = project_reopen.fetch("decision_record_sha256")
+  run_current_reopen_transition(root, pending_current_reopen, old_reopen_hash_activation, false, "historical project reopen hash activation negative", expected_failure: "attempt binding drift")
+
+  old_attempt_ordinal_activation = Marshal.load(Marshal.dump(active_current_reopen))
+  old_attempt_ordinal_activation.dig("mandatory_exit_capability_recovery", "current_project_level_reopen", "current_slice_attempt")["attempt_ordinal"] = 2
+  run_current_reopen_transition(root, pending_current_reopen, old_attempt_ordinal_activation, false, "historical attempt ordinal activation negative", expected_failure: "attempt binding drift")
+
+  p1_042_reuse_activation = current_reopen_lifecycle_fixture(
+    none_truth,
+    "ACTIVE",
+    task_id: current_project_reopen.fetch("historical_task_id")
+  )
+  run_current_reopen_transition(root, pending_current_reopen, p1_042_reuse_activation, false, "P1-042 Task identity reuse activation negative", expected_failure: "attempt binding drift")
+
+  p1_042_contract_reuse_activation = current_reopen_lifecycle_fixture(
+    none_truth,
+    "ACTIVE",
+    contract_sha256: current_project_reopen.fetch("historical_task_contract_sha256")
+  )
+  run_current_reopen_transition(root, pending_current_reopen, p1_042_contract_reuse_activation, false, "P1-042 Contract hash reuse activation negative", expected_failure: "attempt binding drift")
+
+  active_task_identity_drift = current_reopen_lifecycle_fixture(none_truth, "ACCEPTED", task_id: "AIOS-P1-944_CHANGED_TASK")
+  run_current_reopen_transition(root, active_current_reopen, active_task_identity_drift, false, "active current reopen Task identity drift negative", expected_failure: "attempt identity changed")
+
+  active_contract_identity_drift = current_reopen_lifecycle_fixture(none_truth, "ACCEPTED", contract_sha256: "b" * 64)
+  run_current_reopen_transition(root, active_current_reopen, active_contract_identity_drift, false, "active current reopen Contract identity drift negative", expected_failure: "attempt identity changed")
+
+  run_current_reopen_transition(root, active_current_reopen, pending_current_reopen, false, "active current reopen rollback negative", expected_failure: "attempt was erased")
+  run_current_reopen_transition(root, accepted_current_reopen, active_current_reopen, false, "terminal current reopen reactivation negative", expected_failure: "lifecycle transition invalid")
+
+  current_reopen_identity_drift = Marshal.load(Marshal.dump(active_current_reopen))
+  current_reopen_identity_drift.dig("mandatory_exit_capability_recovery", "current_project_level_reopen")["canonical_parent_commit"] = "f" * 40
+  run_current_reopen_transition(root, pending_current_reopen, current_reopen_identity_drift, false, "current reopen canonical parent mutation negative", expected_failure: "immutable identity changed")
+
+  goal_identity_drift = Marshal.load(Marshal.dump(none_truth))
+  goal_identity_drift["goal"]["observed_body_sha256"] = "0" * 64
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), goal_identity_drift)
+  run_validator(root, false, "current Goal identity mutation negative", expected_failure: "current Goal canonical identity drift")
+
+  reopen_parent_drift = Marshal.load(Marshal.dump(none_truth))
+  reopen_parent_drift.dig("mandatory_exit_capability_recovery", "current_project_level_reopen")["canonical_parent_tree"] = "0" * 40
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), reopen_parent_drift)
+  run_validator(root, false, "current reopen canonical parent binding mutation negative", expected_failure: "current P1 project-level reopen authority drift")
+
+  p1_042_binding_drift = Marshal.load(Marshal.dump(none_truth))
+  p1_042_binding_drift.dig("mandatory_exit_capability_recovery", "current_project_level_reopen")["historical_terminal_record_sha256"] = "0" * 64
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), p1_042_binding_drift)
+  run_validator(root, false, "current reopen P1-042 historical binding mutation negative", expected_failure: "P1-042 exact historical custody identity drift")
+
+  reopen_decision_drift = Marshal.load(Marshal.dump(none_truth))
+  reopen_decision_drift.dig("mandatory_exit_capability_recovery", "current_project_level_reopen")["decision_record_sha256"] = "0" * 64
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), reopen_decision_drift)
+  run_validator(root, false, "current reopen decision hash mutation negative", expected_failure: "current P1 project-level reopen Founder decision hash drift")
+
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), none_truth)
+  p1_042_unit_truth = Marshal.load(Marshal.dump(none_truth))
+  p1_042_unit_truth.fetch("task_history")["aios_p1_042"] = Marshal.load(Marshal.dump(p1_042_relocated_history))
+  run_exact_validator_helper(
+    :validate_p1_042_mechanical_custody!,
+    [p1_042_unit_truth, evidence_base, true],
+    false,
+    "P1-042 identical bytes relocated inside audit root negative",
+    expected_failure: "canonical custody path drift"
+  )
+  run_exact_validator_helper(
+    :validate_p1_042_mechanical_custody!,
+    [p1_042_unit_truth, evidence_base, false],
+    true,
+    "P1-042 relocated unit fixture mechanical bytes positive without canonical authority claim"
+  )
+  [
+    [p1_042_contract_target, p1_042_contract_source, "Contract", "P1-042 exact Contract byte drift", "P1-042 exact Contract missing or outside audit custody"],
+    [p1_042_record_target, p1_042_record_source, "terminal record", "P1-042 terminal record byte drift", "P1-042 terminal record path is not exact execution-root custody"],
+    [p1_042_manifest_target, p1_042_manifest_source, "terminal manifest", "P1-042 terminal manifest byte drift", "P1-042 terminal manifest path is not exact execution-root custody"]
+  ].each do |target, source, label, tamper_failure, missing_failure|
+    File.binwrite(target, File.binread(source) + "tamper\n")
+    run_exact_validator_helper(
+      :validate_p1_042_mechanical_custody!,
+      [p1_042_unit_truth, evidence_base, false],
+      false,
+      "P1-042 #{label} tamper negative",
+      expected_failure: tamper_failure
+    )
+    FileUtils.cp(source, target)
+
+    FileUtils.rm_f(target)
+    run_exact_validator_helper(
+      :validate_p1_042_mechanical_custody!,
+      [p1_042_unit_truth, evidence_base, false],
+      false,
+      "P1-042 #{label} missing negative",
+      expected_failure: missing_failure
+    )
+    File.symlink(source, target)
+    run_exact_validator_helper(
+      :validate_p1_042_mechanical_custody!,
+      [p1_042_unit_truth, evidence_base, false],
+      false,
+      "P1-042 #{label} symlink negative",
+      expected_failure: missing_failure
+    )
+    FileUtils.rm_f(target)
+    FileUtils.cp(source, target)
+  end
+  cleanup_probe = File.join(root, "P1_042_CLEANUP_NEGATIVE_PROBE")
+  File.write(cleanup_probe, "must be absent\n", mode: "w:UTF-8")
+  run_exact_validator_helper(
+    :validate_absent_path!,
+    [cleanup_probe, "P1-042 cleanup probe"],
+    false,
+    "P1-042 cleanup residual file negative",
+    expected_failure: "unexpectedly exists"
+  )
+  FileUtils.rm_f(cleanup_probe)
+  File.symlink(p1_042_contract_source, cleanup_probe)
+  run_exact_validator_helper(
+    :validate_absent_path!,
+    [cleanup_probe, "P1-042 cleanup probe"],
+    false,
+    "P1-042 cleanup residual symlink negative",
+    expected_failure: "unexpectedly exists"
+  )
+  FileUtils.rm_f(cleanup_probe)
+  run_validator(root, true, "P1-042 exact custody restored positive")
+
+  founder_input_unit_root = File.join(root, "founder-input-custody")
+  founder_input_outside_root = File.join(root, "founder-input-outside")
+  FileUtils.mkdir_p(founder_input_unit_root)
+  FileUtils.mkdir_p(founder_input_outside_root)
+  founder_input_regular = File.join(founder_input_unit_root, "regular.txt")
+  founder_input_outside = File.join(founder_input_outside_root, "outside.txt")
+  File.write(founder_input_regular, "regular Founder input\n", mode: "w:UTF-8")
+  File.write(founder_input_outside, "outside Founder input\n", mode: "w:UTF-8")
+  run_exact_validator_helper(
+    :read_regular_file_under_root!,
+    [founder_input_regular, founder_input_unit_root, "Founder input unit"],
+    true,
+    "Founder input exact regular file positive"
+  )
+  founder_input_leaf_symlink = File.join(founder_input_unit_root, "leaf-symlink.txt")
+  File.symlink(founder_input_regular, founder_input_leaf_symlink)
+  run_exact_validator_helper(
+    :read_regular_file_under_root!,
+    [founder_input_leaf_symlink, founder_input_unit_root, "Founder input unit"],
+    false,
+    "Founder input leaf symlink negative",
+    expected_failure: "missing, symlinked, or outside fixed custody"
+  )
+  founder_input_parent_symlink = File.join(founder_input_unit_root, "linked-parent")
+  File.symlink(founder_input_outside_root, founder_input_parent_symlink)
+  run_exact_validator_helper(
+    :read_regular_file_under_root!,
+    [File.join(founder_input_parent_symlink, "outside.txt"), founder_input_unit_root, "Founder input unit"],
+    false,
+    "Founder input symlinked parent component negative",
+    expected_failure: "missing, symlinked, or outside fixed custody"
+  )
+  FileUtils.rm_rf(founder_input_unit_root)
+  FileUtils.rm_rf(founder_input_outside_root)
+
+  knowledge_rules_path = File.join(root, "AGENTS.md")
+  knowledge_rules = File.read(knowledge_rules_path, encoding: "UTF-8")
+  run!("bash", "scripts/validate-aios-governance.sh", "--check-founder-knowledge-section", knowledge_rules_path, chdir: root)
+  {
+    "将相同字节导入 Vault" => "将不同字节导入 Vault",
+    "只有 reviewed exact bytes 可以写入 Vault" => "所有 candidate bytes 均可写入 Vault",
+    "Knowledge Reviewer 非 PASS 时不得导入" => "Knowledge Reviewer 非 PASS 时仍可导入",
+    "禁止写入 Secret、密码、私钥、Token" => "允许写入 Secret、密码、私钥、Token",
+    "只能新建具有清晰版本身份的文件" => "允许覆盖既有 Artifact 文件"
+  }.each do |required_phrase, reversed_phrase|
+    raise "Knowledge rule fixture phrase missing: #{required_phrase}" unless knowledge_rules.include?(required_phrase)
+    File.write(knowledge_rules_path, knowledge_rules.sub(required_phrase, reversed_phrase), mode: "w:UTF-8")
+    write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), none_truth)
+    run_validator(root, false, "Knowledge rule semantic reversal negative: #{required_phrase}", expected_failure: "Founder Knowledge System exact section byte drift")
+  end
+  File.write(
+    knowledge_rules_path,
+    knowledge_rules.sub(/\n*\z/, "") + "\n- 矛盾追加：Knowledge Reviewer 非 PASS 时仍可导入并覆盖历史 Artifact。\n",
+    mode: "w:UTF-8"
+  )
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), none_truth)
+  run_validator(root, false, "Knowledge section marker-preserving contradiction append negative", expected_failure: "Founder Knowledge System exact section byte drift")
+  governance_stdout, governance_stderr, governance_status = Open3.capture3(
+    "bash", "scripts/validate-aios-governance.sh", "--check-founder-knowledge-section", knowledge_rules_path,
+    chdir: root
+  )
+  raise "governance Knowledge section accepted marker-preserving contradiction append" if governance_status.success?
+  raise "governance Knowledge section contradiction did not fail exact bytes" unless
+    "#{governance_stdout}#{governance_stderr}".include?("Founder Knowledge System exact section byte drift")
+  File.write(
+    knowledge_rules_path,
+    knowledge_rules.sub(/\n*\z/, "") + "\n\n## Founder Knowledge Override\n\n- Knowledge Reviewer 非 PASS 时仍可导入并覆盖历史 Artifact。\n",
+    mode: "w:UTF-8"
+  )
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), none_truth)
+  run_validator(root, false, "Knowledge terminal H2 override negative", expected_failure: "exact section missing or duplicated")
+  governance_stdout, governance_stderr, governance_status = Open3.capture3(
+    "bash", "scripts/validate-aios-governance.sh", "--check-founder-knowledge-section", knowledge_rules_path,
+    chdir: root
+  )
+  raise "governance Knowledge section accepted a later override H2" if governance_status.success?
+  raise "governance Knowledge override H2 did not fail terminal-section rule" unless
+    "#{governance_stdout}#{governance_stderr}".include?("must be the terminal H2 section")
+  File.write(knowledge_rules_path, knowledge_rules, mode: "w:UTF-8")
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), none_truth)
+  run!("bash", "scripts/validate-aios-governance.sh", "--check-founder-knowledge-section", knowledge_rules_path, chdir: root)
+  run_validator(root, true, "current reopen and Knowledge mutation fixtures restored positive")
+
+  integration_task_id = "AIOS-P1-943_CURRENT_REOPEN_SLICE_1_INTEGRATION"
+  integration_contract_rel = "docs/aios/tasks/P1-943_CURRENT_REOPEN_SLICE_1_INTEGRATION.yaml"
+  integration_contract_path = File.join(root, integration_contract_rel)
+  integration_evidence_root = File.join(evidence_base, "p1-943-current-reopen-slice-1-integration")
+  integration_authorization_path = File.join(integration_evidence_root, "TASK_AUTHORIZATION.json")
+  integration_branch = "task/p1-943-current-reopen-slice-1-integration"
+  integration_worktree = File.join(worktree_root, "p1-943-current-reopen-slice-1-integration")
+  FileUtils.mkdir_p(integration_evidence_root)
+  integration_contract = {
+    "task_id" => integration_task_id,
+    "phase" => "P1",
+    "status" => "READY_FOR_PHASE_DELEGATED_EXECUTION",
+    "execution_authority" => "PHASE_DELEGATED",
+    "objective" => "Validate one fresh current-reopen Slice 1 activation through the complete authority surface.",
+    "why_now" => ["The current project-level reopen requires one exact clean-room Slice 1 activation."],
+    "task_spec_ref" => "docs/aios/FOUNDER_DELEGATION_POLICY.md",
+    "read_context" => [
+      "AGENTS.md",
+      "docs/aios/FOUNDER_DELEGATION_POLICY.md",
+      "docs/aios/truth/project_state.yaml"
+    ],
+    "dependencies" => [],
+    "mandatory_exit_capability" => "PARAMETERIZED_EVALUATION_HARNESS",
+    "integrated_mandatory_exit_capabilities" => Marshal.load(Marshal.dump(rebaseline.fetch("slices").first.fetch("capability_projection"))),
     "project_level_rebaseline_slice_ordinal" => 1,
     "project_level_rebaseline_decision_sha256" => rebaseline.fetch("decision_record_sha256"),
     "delivery_architecture_simplification_decision_sha256" => delivery.fetch("decision_record_sha256"),
-    "project_level_reopen_decision_sha256" => project_reopen.fetch("decision_record_sha256")
+    "delivery_architecture_model" => delivery.fetch("model"),
+    "project_level_reopen_decision_sha256" => current_project_reopen.fetch("decision_record_sha256"),
+    "post_activation_quality_plan" => {
+      "freeze_stage" => "AFTER_TASK_ACTIVATION_BEFORE_WORKER_IMPLEMENTATION",
+      "owner" => "Quality and Evaluation Agent",
+      "worker_start_precondition" => "QUALITY_EXECUTABLE_PLAN_AND_OWNERSHIP_MANIFEST_FROZEN",
+      "independent_evaluator_verdict_path_separate_from_worker_runtime" => true,
+      "worker_may_write_evaluator_verdict" => false,
+      "contract_version_chain_allowed" => false
+    },
+    "clean_room_recovery" => {
+      "historical_execution_lineage_reused" => false,
+      "attempt_ordinal" => 1,
+      "bounded_contract_corrections_allowed" => 1,
+      "bounded_contract_corrections_used" => 0,
+      "original_contract_path" => nil,
+      "original_contract_sha256" => nil
+    },
+    "task_kind" => "EVALUATION_FOUNDATION_ENGINEERING",
+    "capabilities" => ["EVALUATOR_AND_ORACLE", "EVALUATION_METRICS", "OBSERVABLE_TRACE_VALIDATION"],
+    "capability_claim" => false,
+    "risk_level" => "medium",
+    "lineage" => {
+      "kind" => "INDEPENDENT_PHASE_INCREMENT",
+      "retries" => [],
+      "remediates" => [],
+      "supersedes" => []
+    },
+    "roles" => {
+      "accountable_owner" => "Engineering Manager Agent",
+      "worker" => "Fresh Slice 1 Worker",
+      "independent_reviewers" => ["CTO Agent", "Security Agent", "Quality and Evaluation Agent"]
+    },
+    "allowed_paths" => {
+      "worker" => ["evaluation-harness/harness/**", "evaluation-harness/validators/**"],
+      "quality" => ["evaluation-harness/fixtures/**"],
+      "external_evidence" => ["#{integration_evidence_root}/**"]
+    },
+    "forbidden_actions" => ["network", "Provider", "Secret", "remote", "production", "public effect", "historical failed Contract reuse"],
+    "budget" => {
+      "engineering_hours" => 1,
+      "calendar_days" => 1,
+      "implementation_iterations" => 1,
+      "candidate_limit" => 1,
+      "execution_retries" => 0,
+      "network_calls" => 0
+    },
+    "acceptance_criteria" => ["the complete main validator accepts the exact active authority combination"],
+    "failure_criteria" => ["any authority, order, scope, resource or identity binding fails"],
+    "stop_conditions" => ["the fixture requires historical failed Contract bytes or external effects"],
+    "evidence" => { "required" => ["complete validator result"] },
+    "rollback" => { "method" => "remove the synthetic Task worktree and rebuild the next isolated fixture lineage" },
+    "claim_boundary" => rebaseline.fetch("slices").first.fetch("claim_boundary"),
+    "delegated_authority" => {
+      "phase_local" => true,
+      "task_gate_owner" => "MASTER_CEO_AGENT",
+      "founder_gate" => "RESERVED_DECISIONS_ONLY",
+      "founder_reserved_decisions" => [],
+      "external_effects" => {
+        "network" => false,
+        "provider" => false,
+        "secret" => false,
+        "remote" => false,
+        "production" => false,
+        "public" => false
+      }
+    }
   }
-  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), premature_reopen_attempt)
-  run_validator(
-    root,
-    false,
-    "reopened Slice 1 attempt cannot exist before capability activation negative",
-    expected_failure: "P1 project-level reopen attempt/capability state drift"
+  write_yaml(integration_contract_path, integration_contract)
+  integration_contract_sha = Digest::SHA256.file(integration_contract_path).hexdigest
+  run!("git", "add", integration_contract_rel, chdir: root)
+  run!("git", "commit", "-m", "freeze current reopen Slice 1 integration Contract", chdir: root)
+  integration_parent_commit = run!("git", "rev-parse", "HEAD", chdir: root)
+  integration_parent_tree = run!("git", "rev-parse", "HEAD^{tree}", chdir: root)
+  integration_authorization_id = Digest::SHA256.hexdigest("#{integration_task_id}:#{integration_contract_sha}:#{integration_parent_commit}")
+  integration_authorization = {
+    "record_type" => "aios_phase_delegated_task_authorization",
+    "status" => "ACTIVE",
+    "authority" => "MASTER_CEO_AGENT",
+    "delegation_model" => "PHASE_LEVEL_FOUNDER_DELEGATION",
+    "authorization_id" => integration_authorization_id,
+    "task_id" => integration_task_id,
+    "phase" => "P1",
+    "task_contract_sha256" => integration_contract_sha,
+    "goal_canonical_sha256" => none_truth.dig("goal", "observed_body_sha256"),
+    "parent_commit" => integration_parent_commit,
+    "parent_tree" => integration_parent_tree,
+    "integrated_mandatory_exit_capabilities" => Marshal.load(Marshal.dump(rebaseline.fetch("slices").first.fetch("capability_projection"))),
+    "project_level_rebaseline_slice_ordinal" => 1,
+    "project_level_rebaseline_decision_sha256" => rebaseline.fetch("decision_record_sha256"),
+    "delivery_architecture_simplification_decision_sha256" => delivery.fetch("decision_record_sha256"),
+    "project_level_reopen_decision_sha256" => current_project_reopen.fetch("decision_record_sha256"),
+    "external_effects" => integration_contract.dig("delegated_authority", "external_effects"),
+    "founder_reserved_decisions" => [],
+    "founder_reserved_decision_required" => false
+  }
+  write_json(integration_authorization_path, integration_authorization)
+  integration_active_truth = current_reopen_lifecycle_fixture(
+    none_truth,
+    "ACTIVE",
+    task_id: integration_task_id,
+    contract_sha256: integration_contract_sha
   )
+  integration_active_truth["phase_execution_claim"]["current_task_claim"] = integration_task_id
+  integration_active_truth["active_work"] = {
+    "current_task" => integration_task_id,
+    "current_task_status" => "AUTHORIZED_ACTIVE",
+    "current_task_contract" => integration_contract_rel,
+    "current_task_contract_sha256" => integration_contract_sha,
+    "current_execution_authorization" => integration_authorization_path,
+    "current_execution_authorization_sha256" => Digest::SHA256.file(integration_authorization_path).hexdigest,
+    "execution_nonce" => nil,
+    "execution_nonce_status" => "NOT_REQUIRED_PHASE_DELEGATION",
+    "authorization_id" => integration_authorization_id,
+    "activation_parent_commit" => integration_parent_commit,
+    "activation_parent_tree" => integration_parent_tree,
+    "task_resource_state" => "CREATED",
+    "task_branch" => integration_branch,
+    "task_worktree" => integration_worktree,
+    "execution_evidence_root" => integration_evidence_root,
+    "offsite_target" => nil,
+    "founder_reserved_authorization" => nil,
+    "founder_reserved_authorization_sha256" => nil,
+    "founder_decision_required" => false,
+    "escalation_reason" => nil,
+    "user_action_required" => nil,
+    "next_eligible_action" => "MASTER_AUTONOMOUSLY_EXECUTE_CURRENT_TASK"
+  }
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), integration_active_truth)
+  run!("git", "add", "docs/aios/truth/project_state.yaml", chdir: root)
+  run!("git", "commit", "-m", "activate current reopen Slice 1 integration fixture", chdir: root)
+  run!("git", "branch", integration_branch, "HEAD", chdir: root)
+  run!("git", "worktree", "add", integration_worktree, integration_branch, chdir: root)
+  run_validator(root, true, "complete current reopen Slice 1 ACTIVE integration positive")
+  active_safety_truth = Marshal.load(Marshal.dump(integration_active_truth))
+  active_safety_truth.fetch("mandatory_exit_capability_recovery")["post_revision_final_route_terminal"] = { "status" => "P1_TERMINAL_STOPPED" }
+  active_safety_truth_path = File.join(root, "SLICE_1_ACTIVE_SAFETY_TRUTH.yaml")
+  write_yaml(active_safety_truth_path, active_safety_truth)
+  run!(
+    "bash", "scripts/check-p1-safety-boundary.sh", "--check-rebaseline-safety-envelope",
+    active_safety_truth_path, chdir: root
+  )
+  FileUtils.rm_f(active_safety_truth_path)
+  run!("git", "worktree", "remove", integration_worktree, chdir: root)
+  run!("git", "branch", "-d", integration_branch, chdir: root)
+
+  gate_base_candidate_commit = run!("git", "rev-parse", "HEAD", chdir: root)
+  gate_base_candidate_tree = run!("git", "rev-parse", "HEAD^{tree}", chdir: root)
+  slice_4 = rebaseline.fetch("slices").find { |slice| slice["ordinal"] == 4 }
+  slice_4_task_id = "AIOS-P1-974_SYNTHETIC_GATE_SLICE_4"
+  slice_4_contract_rel = "docs/aios/tasks/P1-974_SYNTHETIC_GATE_SLICE_4.yaml"
+  slice_4_contract_path = File.join(root, slice_4_contract_rel)
+  slice_4_active_evidence_root = File.join(evidence_base, "p1-974-synthetic-gate-slice-4-active")
+  slice_4_authorization_path = File.join(slice_4_active_evidence_root, "TASK_AUTHORIZATION.json")
+  slice_4_branch = "task/p1-974-synthetic-gate-slice-4"
+  slice_4_worktree = File.join(worktree_root, "p1-974-synthetic-gate-slice-4")
+  FileUtils.mkdir_p(slice_4_active_evidence_root)
+  slice_4_contract = {
+    "task_id" => slice_4_task_id,
+    "phase" => "P1",
+    "status" => "READY_FOR_PHASE_DELEGATED_EXECUTION",
+    "execution_authority" => "PHASE_DELEGATED",
+    "objective" => "Run the complete frozen Slice 4 baseline experiment and produce the bounded P1 report.",
+    "why_now" => ["Slices 1 through 3 are accepted and the exact fourth Slice is next in the frozen order."],
+    "task_spec_ref" => "docs/aios/EVALUATION_PROTOCOL.md",
+    "read_context" => [
+      "AGENTS.md",
+      "docs/aios/FOUNDER_DELEGATION_POLICY.md",
+      "docs/aios/truth/project_state.yaml"
+    ],
+    "dependencies" => [],
+    "mandatory_exit_capability" => slice_4.fetch("capability_projection").first,
+    "integrated_mandatory_exit_capabilities" => Marshal.load(Marshal.dump(slice_4.fetch("capability_projection"))),
+    "project_level_rebaseline_slice_ordinal" => 4,
+    "project_level_rebaseline_decision_sha256" => rebaseline.fetch("decision_record_sha256"),
+    "delivery_architecture_simplification_decision_sha256" => delivery.fetch("decision_record_sha256"),
+    "delivery_architecture_model" => delivery.fetch("model"),
+    "clean_room_recovery" => {
+      "historical_execution_lineage_reused" => false,
+      "attempt_ordinal" => 1,
+      "bounded_contract_corrections_allowed" => 1,
+      "bounded_contract_corrections_used" => 0,
+      "original_contract_path" => nil,
+      "original_contract_sha256" => nil
+    },
+    "task_kind" => "EVALUATION_FOUNDATION_ENGINEERING",
+    "capabilities" => ["EVALUATOR_AND_ORACLE", "EVALUATION_METRICS", "OBSERVABLE_TRACE_VALIDATION"],
+    "capability_claim" => false,
+    "risk_level" => "medium",
+    "lineage" => { "kind" => "INDEPENDENT_PHASE_INCREMENT", "retries" => [], "remediates" => [], "supersedes" => [] },
+    "roles" => {
+      "accountable_owner" => "Engineering Manager Agent",
+      "worker" => "Fresh Slice 4 Worker",
+      "independent_reviewers" => ["CTO Agent", "Security Agent", "Quality and Evaluation Agent"]
+    },
+    "allowed_paths" => {
+      "worker" => ["evaluation-harness/harness/synthetic-slice-4/**"],
+      "quality" => ["evaluation-harness/fixtures/synthetic-slice-4/**"],
+      "external_evidence" => ["#{slice_4_active_evidence_root}/**"]
+    },
+    "forbidden_actions" => ["network", "Provider", "Secret", "remote", "production", "public effect", "historical failed Contract reuse"],
+    "budget" => {
+      "engineering_hours" => 12,
+      "calendar_days" => 5,
+      "implementation_iterations" => 1,
+      "candidate_limit" => 1,
+      "execution_retries" => 0,
+      "network_calls" => 0,
+      "scheduled_runs" => 48
+    },
+    "acceptance_criteria" => ["the exact 48-run bounded Slice 4 evidence package reaches independent Task Gate PASS"],
+    "failure_criteria" => ["any frozen run count, budget, authority, evidence, or claim boundary drifts"],
+    "stop_conditions" => ["the Slice requires external effects or exceeds its frozen envelope"],
+    "evidence" => { "required" => ["complete production authority validator result", "Task Gate evidence package"] },
+    "rollback" => { "method" => "remove the unmerged synthetic Slice 4 worktree" },
+    "claim_boundary" => slice_4.fetch("claim_boundary"),
+    "delegated_authority" => {
+      "phase_local" => true,
+      "task_gate_owner" => "MASTER_CEO_AGENT",
+      "founder_gate" => "RESERVED_DECISIONS_ONLY",
+      "founder_reserved_decisions" => [],
+      "external_effects" => {
+        "network" => false, "provider" => false, "secret" => false,
+        "remote" => false, "production" => false, "public" => false
+      }
+    }
+  }
+  write_yaml(slice_4_contract_path, slice_4_contract)
+  slice_4_contract_sha = Digest::SHA256.file(slice_4_contract_path).hexdigest
+  preliminary_gate_truth = install_rebaseline_gate_evidence!(
+    none_truth,
+    evidence_base,
+    gate_base_candidate_commit,
+    gate_base_candidate_tree,
+    { 4 => slice_4_contract_sha }
+  )
+  slice_4_pending_truth = slice_4_pending_before_activation_fixture(preliminary_gate_truth)
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), slice_4_pending_truth)
+  run!("git", "add", slice_4_contract_rel, "docs/aios/truth/project_state.yaml", chdir: root)
+  run!("git", "commit", "-m", "freeze valid Slice 4 Contract and pending authority", chdir: root)
+  slice_4_parent_commit = run!("git", "rev-parse", "HEAD", chdir: root)
+  slice_4_parent_tree = run!("git", "rev-parse", "HEAD^{tree}", chdir: root)
+  slice_4_authorization_id = Digest::SHA256.hexdigest("#{slice_4_task_id}:#{slice_4_contract_sha}:#{slice_4_parent_commit}")
+  slice_4_authorization = {
+    "record_type" => "aios_phase_delegated_task_authorization",
+    "status" => "ACTIVE",
+    "authority" => "MASTER_CEO_AGENT",
+    "delegation_model" => "PHASE_LEVEL_FOUNDER_DELEGATION",
+    "authorization_id" => slice_4_authorization_id,
+    "task_id" => slice_4_task_id,
+    "phase" => "P1",
+    "task_contract_sha256" => slice_4_contract_sha,
+    "goal_canonical_sha256" => slice_4_pending_truth.dig("goal", "observed_body_sha256"),
+    "parent_commit" => slice_4_parent_commit,
+    "parent_tree" => slice_4_parent_tree,
+    "integrated_mandatory_exit_capabilities" => Marshal.load(Marshal.dump(slice_4.fetch("capability_projection"))),
+    "project_level_rebaseline_slice_ordinal" => 4,
+    "project_level_rebaseline_decision_sha256" => rebaseline.fetch("decision_record_sha256"),
+    "delivery_architecture_simplification_decision_sha256" => delivery.fetch("decision_record_sha256"),
+    "external_effects" => slice_4_contract.dig("delegated_authority", "external_effects"),
+    "founder_reserved_decisions" => [],
+    "founder_reserved_decision_required" => false
+  }
+  write_json(slice_4_authorization_path, slice_4_authorization)
+  slice_4_active_truth = Marshal.load(Marshal.dump(slice_4_pending_truth))
+  slice_4_active_recovery = slice_4_active_truth.fetch("mandatory_exit_capability_recovery")
+  slice_4_active_rebaseline = slice_4_active_recovery.fetch("project_level_rebaseline")
+  slice_4_attempt = {
+    "status" => "ACTIVE",
+    "task_id" => slice_4_task_id,
+    "attempt_ordinal" => 1,
+    "contract_sha256" => slice_4_contract_sha,
+    "bounded_contract_corrections_used" => 0,
+    "integrated_mandatory_exit_capabilities" => Marshal.load(Marshal.dump(slice_4.fetch("capability_projection"))),
+    "project_level_rebaseline_slice_ordinal" => 4,
+    "project_level_rebaseline_decision_sha256" => rebaseline.fetch("decision_record_sha256"),
+    "delivery_architecture_simplification_decision_sha256" => delivery.fetch("decision_record_sha256")
+  }
+  slice_4_active_rebaseline.fetch("slice_attempts")["4"] = slice_4_attempt
+  slice_4.fetch("capability_projection").each do |capability|
+    slice_4_active_recovery.fetch("capability_status")[capability] = "IN_PROGRESS"
+  end
+  slice_4_active_rebaseline["status"] = "REBASELINED_SLICE_ACTIVE"
+  slice_4_active_rebaseline["p1_status"] = "REBASELINED_SLICE_ACTIVE"
+  slice_4_active_rebaseline["current_task"] = slice_4_task_id
+  slice_4_active_rebaseline["next_slice_ordinal"] = 4
+  slice_4_active_rebaseline["next_slice_action"] = "MASTER_AUTONOMOUSLY_PREPARE_AND_EXECUTE_REBASELINED_SLICE_4"
+  slice_4_active_truth.fetch("project")["phase_execution_status"] = "TASK_ACTIVE"
+  slice_4_active_truth.fetch("project")["p1_execution_status"] = "TASK_ACTIVE"
+  slice_4_active_truth.fetch("goal")["current_task_authority"] = slice_4_task_id
+  slice_4_active_truth.fetch("phase_execution_claim")["current_task_claim"] = slice_4_task_id
+  slice_4_active_truth["active_work"] = {
+    "current_task" => slice_4_task_id,
+    "current_task_status" => "AUTHORIZED_ACTIVE",
+    "current_task_contract" => slice_4_contract_rel,
+    "current_task_contract_sha256" => slice_4_contract_sha,
+    "current_execution_authorization" => slice_4_authorization_path,
+    "current_execution_authorization_sha256" => Digest::SHA256.file(slice_4_authorization_path).hexdigest,
+    "execution_nonce" => nil,
+    "execution_nonce_status" => "NOT_REQUIRED_PHASE_DELEGATION",
+    "authorization_id" => slice_4_authorization_id,
+    "activation_parent_commit" => slice_4_parent_commit,
+    "activation_parent_tree" => slice_4_parent_tree,
+    "task_resource_state" => "CREATED",
+    "task_branch" => slice_4_branch,
+    "task_worktree" => slice_4_worktree,
+    "execution_evidence_root" => slice_4_active_evidence_root,
+    "offsite_target" => nil,
+    "founder_reserved_authorization" => nil,
+    "founder_reserved_authorization_sha256" => nil,
+    "founder_decision_required" => false,
+    "escalation_reason" => nil,
+    "user_action_required" => nil,
+    "next_eligible_action" => "MASTER_AUTONOMOUSLY_EXECUTE_CURRENT_TASK"
+  }
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), slice_4_active_truth)
+  run!("git", "add", "docs/aios/truth/project_state.yaml", chdir: root)
+  run!("git", "commit", "-m", "activate complete valid Slice 4 predecessor", chdir: root)
+  run!("git", "branch", slice_4_branch, "HEAD", chdir: root)
+  run!("git", "worktree", "add", slice_4_worktree, slice_4_branch, chdir: root)
+  run_validator(root, true, "complete valid Slice 4 ACTIVE production-validator predecessor positive")
+  slice_4_active_safety_path = File.join(root, "SLICE_4_ACTIVE_SAFETY_TRUTH.yaml")
+  slice_4_active_safety_truth = Marshal.load(Marshal.dump(slice_4_active_truth))
+  slice_4_active_safety_truth.fetch("mandatory_exit_capability_recovery")["post_revision_final_route_terminal"] = { "status" => "P1_TERMINAL_STOPPED" }
+  write_yaml(slice_4_active_safety_path, slice_4_active_safety_truth)
+  run!("bash", "scripts/check-p1-safety-boundary.sh", "--check-rebaseline-safety-envelope", slice_4_active_safety_path, chdir: root)
+  FileUtils.rm_f(slice_4_active_safety_path)
+  run!("git", "worktree", "remove", slice_4_worktree, chdir: root)
+  run!("git", "branch", "-d", slice_4_branch, chdir: root)
+
+  slice_4_candidate_commit = run!("git", "rev-parse", "HEAD", chdir: root)
+  slice_4_candidate_tree = run!("git", "rev-parse", "HEAD^{tree}", chdir: root)
+  gate_truth = install_rebaseline_gate_evidence!(
+    none_truth,
+    evidence_base,
+    gate_base_candidate_commit,
+    gate_base_candidate_tree,
+    { 4 => slice_4_contract_sha },
+    { 4 => [slice_4_candidate_commit, slice_4_candidate_tree] }
+  )
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), gate_truth)
+  run_validator(root, true, "complete valid Slice 4 ACTIVE to ACCEPTED Founder Phase Gate production-validator positive")
+  gate_safety_truth = Marshal.load(Marshal.dump(gate_truth))
+  gate_safety_truth.fetch("mandatory_exit_capability_recovery")["post_revision_final_route_terminal"] = { "status" => "P1_TERMINAL_STOPPED" }
+  gate_safety_truth_path = File.join(root, "SLICE_4_GATE_SAFETY_TRUTH.yaml")
+  write_yaml(gate_safety_truth_path, gate_safety_truth)
+  run!(
+    "bash", "scripts/check-p1-safety-boundary.sh", "--check-rebaseline-safety-envelope",
+    gate_safety_truth_path, chdir: root
+  )
+  FileUtils.rm_f(gate_safety_truth_path)
+
+  gate_founder_projection_drift = Marshal.load(Marshal.dump(gate_truth))
+  gate_founder_projection_drift.fetch("active_work")["founder_decision_required"] = false
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), gate_founder_projection_drift)
+  run_validator(root, false, "Founder Phase Gate founder-decision field negative", expected_failure: "Founder Phase Gate escalation projection drift")
+
+  gate_user_action_drift = Marshal.load(Marshal.dump(gate_truth))
+  gate_user_action_drift.fetch("active_work")["user_action_required"] = "NONE"
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), gate_user_action_drift)
+  run_validator(root, false, "Founder Phase Gate user-action field negative", expected_failure: "Founder Phase Gate escalation projection drift")
+
+  gate_phase_claim_drift = Marshal.load(Marshal.dump(gate_truth))
+  gate_phase_claim_drift.fetch("phase_execution_claim")["current_task_claim"] = "NONE_P1_REBASELINED_PENDING_EXECUTION"
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), gate_phase_claim_drift)
+  run_validator(root, false, "Founder Phase Gate phase claim negative", expected_failure: "NONE state task claim drift")
+
+  gate_incomplete_attempt = Marshal.load(Marshal.dump(gate_truth))
+  gate_incomplete_attempt.dig("mandatory_exit_capability_recovery", "project_level_rebaseline", "slice_attempts", "4")["status"] = "ACTIVE"
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), gate_incomplete_attempt)
+  run_validator(root, false, "Founder Phase Gate incomplete Slice acceptance negative", expected_failure: "completed Slice prefix drift")
+
+  gate_wrong_escalation = Marshal.load(Marshal.dump(gate_truth))
+  gate_wrong_escalation.fetch("active_work")["escalation_reason"] = "ROUTINE_TASK_APPROVAL"
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), gate_wrong_escalation)
+  run_validator(root, false, "Founder Phase Gate escalation reason negative", expected_failure: "Founder Phase Gate escalation projection drift")
+
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), gate_truth)
+  run_validator(root, true, "Founder Phase Gate negative fixtures restored positive")
+
+  # The remaining vectors exercise legacy generic Task authority behavior. Rebuild a
+  # separate synthetic lineage without the current-reopen control node so those
+  # generic vectors cannot accidentally act as Slice 1 activation fixtures.
+  truth = Marshal.load(Marshal.dump(none_truth))
+  truth.fetch("mandatory_exit_capability_recovery").delete("current_project_level_reopen")
+  truth.fetch("task_history").delete("aios_p1_042")
+  rebaseline = truth.dig("mandatory_exit_capability_recovery", "project_level_rebaseline")
+  delivery = truth.dig("mandatory_exit_capability_recovery", "delivery_architecture_simplification")
+  project_reopen = truth.dig("mandatory_exit_capability_recovery", "project_level_reopen")
+  rebaseline["status"] = "FOUNDER_APPROVED_ACTIVE"
+  rebaseline["p1_status"] = "REBASELINED_PENDING_EXECUTION"
+  rebaseline["current_task"] = "NONE"
+  rebaseline["next_slice_ordinal"] = 1
+  rebaseline["next_slice_action"] = "MASTER_AUTONOMOUSLY_IMPLEMENT_P1_EXIT_CAPABILITIES_IN_FROZEN_PRIORITY_ORDER"
+  truth.fetch("mandatory_exit_capability_recovery").fetch("capability_status").keys.each do |capability|
+    truth["mandatory_exit_capability_recovery"]["capability_status"][capability] = "MISSING"
+  end
+  truth["project"]["phase_execution_status"] = "NO_CURRENT_TASK"
+  truth["project"]["p1_execution_status"] = "NO_CURRENT_TASK"
+  truth["active_work"]["user_action_required"] = nil
+  truth["active_work"]["next_eligible_action"] = "MASTER_AUTONOMOUSLY_IMPLEMENT_P1_EXIT_CAPABILITIES_IN_FROZEN_PRIORITY_ORDER"
+  truth["phase_execution_claim"]["current_task_claim"] = "NO_CURRENT_TASK"
+  write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), truth)
+  FileUtils.rm_rf(File.join(root, ".git"))
+  run!("git", "init", chdir: root)
+  run!("git", "config", "user.name", "SourceLens Legacy Authority Test", chdir: root)
+  run!("git", "config", "user.email", "legacy-authority@example.invalid", chdir: root)
+  run!("git", "add", ".", chdir: root)
+  run!("git", "commit", "-m", "legacy generic authority base", chdir: root)
+  run!("git", "branch", "-M", "main", chdir: root)
+  import_commit_and_tree_metadata!(root, rebaseline.fetch("canonical_parent_commit"))
+  none_truth = Marshal.load(Marshal.dump(truth))
+  run_validator(root, true, "legacy generic NONE positive")
 
   bad_none = Marshal.load(Marshal.dump(none_truth))
   bad_none["active_work"]["next_eligible_action"] = "REQUEST_FOUNDER_APPROVAL_FOR_NEXT_P1_TASK"

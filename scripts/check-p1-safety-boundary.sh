@@ -9,6 +9,36 @@ fail() {
   exit 1
 }
 
+check_rebaseline_safety_envelope() {
+  local truth_path="$1"
+  ruby -ryaml -e '
+    truth = YAML.safe_load(File.read(ARGV.fetch(0)), aliases: false)
+    rebaseline = truth.dig("mandatory_exit_capability_recovery", "project_level_rebaseline")
+    delivery = truth.dig("mandatory_exit_capability_recovery", "delivery_architecture_simplification")
+    abort "P1 rebaseline safety envelope missing" unless
+      rebaseline.is_a?(Hash) && %w[FOUNDER_APPROVED_ACTIVE REBASELINED_PENDING_EXECUTION REBASELINED_SLICE_ACTIVE P1_EXIT_EVIDENCE_COMPLETE_PENDING_FOUNDER_GATE TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION].include?(rebaseline["status"]) &&
+      rebaseline["task_limit"] == 4 && rebaseline["post_freeze_contract_corrections"] == 0 &&
+      rebaseline["successor_replacement_correction_chain_allowed"] == false &&
+      rebaseline["default_external_effects_authorized"] == false
+    abort "P1 simplified delivery safety envelope missing" unless
+      delivery.is_a?(Hash) && %w[FOUNDER_APPROVED_ACTIVE TERMINAL_STOPPED_AFTER_P1_041_SCOPE_COMPLIANCE_FAILURE].include?(delivery["status"]) &&
+      delivery["post_freeze_contract_corrections"] == 0 &&
+      delivery["independent_evaluator_verdict_path_separate_from_worker_runtime"] == true &&
+      delivery["worker_may_write_evaluator_verdict"] == false &&
+      delivery["historical_failed_engineering_asset_reuse_allowed"] == false &&
+      delivery["external_effects_authorized"] == false
+    abort "P1 rebaseline restored a historical route" unless
+      truth.dig("mandatory_exit_capability_recovery", "post_revision_final_route_terminal", "status") == "P1_TERMINAL_STOPPED"
+  ' "$truth_path" || fail "P1 rebaseline safety envelope drift"
+}
+
+if [[ $# -gt 0 ]]; then
+  [[ $# -eq 2 && "$1" == "--check-rebaseline-safety-envelope" ]] || fail "unsupported arguments"
+  check_rebaseline_safety_envelope "$2"
+  echo "P1 rebaseline safety envelope validation passed."
+  exit 0
+fi
+
 tracked_sensitive="$(git ls-files \
   | grep -E '(^|/)(\.env($|\.)|id_(rsa|ed25519)$|.*\.(pem|key|p12|pfx)$)' \
   | grep -Ev '(^|/)\.env\.example$' || true)"
@@ -17,25 +47,9 @@ tracked_sensitive="$(git ls-files \
 git ls-files | grep -q '^\.sourcelens-audit/' && fail "historical audit material leaked into Git"
 
 ruby "${ROOT_DIR}/scripts/validate-current-task-authority.rb"
+check_rebaseline_safety_envelope "docs/aios/truth/project_state.yaml"
 
 ruby -ryaml -rjson -rdigest -e '
-  truth = YAML.safe_load(File.read("docs/aios/truth/project_state.yaml"), aliases: false)
-  rebaseline = truth.dig("mandatory_exit_capability_recovery", "project_level_rebaseline")
-  delivery = truth.dig("mandatory_exit_capability_recovery", "delivery_architecture_simplification")
-  abort "P1 rebaseline safety envelope missing" unless
-    rebaseline.is_a?(Hash) && %w[FOUNDER_APPROVED_ACTIVE TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION].include?(rebaseline["status"]) &&
-    rebaseline["task_limit"] == 4 && rebaseline["post_freeze_contract_corrections"] == 0 &&
-    rebaseline["successor_replacement_correction_chain_allowed"] == false &&
-    rebaseline["default_external_effects_authorized"] == false
-  abort "P1 simplified delivery safety envelope missing" unless
-    delivery.is_a?(Hash) && %w[FOUNDER_APPROVED_ACTIVE TERMINAL_STOPPED_AFTER_P1_041_SCOPE_COMPLIANCE_FAILURE].include?(delivery["status"]) &&
-    delivery["post_freeze_contract_corrections"] == 0 &&
-    delivery["independent_evaluator_verdict_path_separate_from_worker_runtime"] == true &&
-    delivery["worker_may_write_evaluator_verdict"] == false &&
-    delivery["historical_failed_engineering_asset_reuse_allowed"] == false &&
-    delivery["external_effects_authorized"] == false
-  abort "P1 rebaseline restored a historical route" unless
-    truth.dig("mandatory_exit_capability_recovery", "post_revision_final_route_terminal", "status") == "P1_TERMINAL_STOPPED"
   harness = YAML.safe_load(File.read("docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml"), aliases: false)
   abort "P1-001 network must remain disabled" unless harness.dig("environment", "network") == "disabled"
   abort "P1-001 provider must remain none" unless harness.dig("environment", "provider") == "none"

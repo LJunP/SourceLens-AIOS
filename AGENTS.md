@@ -58,3 +58,11 @@ Founder 只保留：
 - Reviewer 非 PASS 时，团队在原 Task 内修复或终态停止；Reviewer PASS 只证明 Task Gate 条件，不代表 Phase Gate、生产可用或能力主张自动成立。
 
 正常情况下，Founder 的下一个介入点是 Phase Gate，而不是单个 P1 工程 Task。若无需 Founder 决策，面向 Founder 的状态更新必须明确写：`你现在无需操作，我将在现有授权范围内继续执行。`
+
+## Founder Knowledge System（常驻规则）
+
+- Founder Knowledge Vault 的唯一精确路径是 `/Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault`。
+- Vault 只用于 Founder 学习与长期知识沉淀；它不是 Truth、Git source of truth、Evidence Store、Task authority/control plane、Gate authority/decision system 或能力证明。
+- 导入流程固定为：Learning Artifact candidate → 独立 Knowledge Reviewer → exact Artifact bytes PASS → 将相同字节导入 Vault → 验证 import path、SHA-256 与 bytes equality。
+- Artifact 必须分离 `FACT`、`INFERENCE`、`UNKNOWN`；Knowledge Reviewer 非 PASS 时不得导入、不得伪造 PASS，也不得影响原 Task、Truth、Evidence 或 Gate，且不得阻断后续工程开发。
+- 只有 reviewed exact bytes 可以写入 Vault；禁止写入 Secret、密码、私钥、Token、隐藏推理链或未经授权的受限源码，禁止删除或覆盖任何历史 Artifact，只能新建具有清晰版本身份的文件。

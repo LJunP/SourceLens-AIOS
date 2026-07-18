@@ -9,8 +9,38 @@ fail() {
   exit 1
 }
 
+check_founder_knowledge_section() {
+  local rules_path="$1"
+  local founder_knowledge_section_header='## Founder Knowledge System（常驻规则）'
+  local founder_knowledge_section_byte_length='1011'
+  local founder_knowledge_section_sha256='e6b353038598122a9d347378ceaab1dc4e7957357bb29f72adfbcbf27820303e'
+  ruby -rdigest -e '
+    rules_path, header, expected_length, expected_sha = ARGV
+    header = header.dup.force_encoding("UTF-8")
+    rules = File.binread(rules_path).force_encoding("UTF-8")
+    abort "Founder Knowledge System document encoding invalid" unless rules.valid_encoding?
+    lines = rules.lines
+    starts = lines.each_index.select { |index| lines[index].sub(/\r?\n\z/, "") == header }
+    abort "Founder Knowledge System exact section missing or duplicated" unless starts.length == 1
+    start_index = starts.first
+    end_index = ((start_index + 1)...lines.length).find { |index| lines[index].start_with?("## ") }
+    abort "Founder Knowledge System must be the terminal H2 section" if end_index
+    section = lines[start_index...(end_index || lines.length)].join
+    canonical = section.gsub(/\r\n?/, "\n").sub(/\n*\z/, "") + "\n"
+    abort "Founder Knowledge System exact section byte drift" unless
+      canonical.bytesize == Integer(expected_length, 10) && Digest::SHA256.hexdigest(canonical) == expected_sha
+  ' "$rules_path" "$founder_knowledge_section_header" "$founder_knowledge_section_byte_length" "$founder_knowledge_section_sha256" || fail "Founder Knowledge System exact section drift"
+}
+
 command -v ruby >/dev/null 2>&1 || fail "ruby is required"
 command -v git >/dev/null 2>&1 || fail "git is required"
+
+if [[ $# -gt 0 ]]; then
+  [[ $# -eq 2 && "$1" == "--check-founder-knowledge-section" ]] || fail "unsupported arguments"
+  check_founder_knowledge_section "$2"
+  echo "Founder Knowledge System exact section validation passed."
+  exit 0
+fi
 
 required_files=(
   AGENTS.md
@@ -40,6 +70,22 @@ required_files=(
 for file in "${required_files[@]}"; do
   [[ -s "$file" ]] || fail "required file missing or empty: $file"
 done
+
+knowledge_markers=(
+  '/Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault'
+  '它不是 Truth、Git source of truth、Evidence Store、Task authority/control plane、Gate authority/decision system 或能力证明'
+  '独立 Knowledge Reviewer'
+  'exact Artifact bytes PASS'
+  'SHA-256 与 bytes equality'
+  'FACT`、`INFERENCE`、`UNKNOWN'
+  '不得阻断后续工程开发'
+  '禁止删除或覆盖任何历史 Artifact'
+)
+for marker in "${knowledge_markers[@]}"; do
+  grep -Fq "$marker" AGENTS.md || fail "Founder Knowledge System rule missing: $marker"
+done
+
+check_founder_knowledge_section AGENTS.md
 
 ruby "${ROOT_DIR}/scripts/validate-current-task-authority.rb"
 
@@ -137,7 +183,7 @@ ruby -ryaml -rjson -rdigest -rtime -e '
       "fd2b0b1947a9fbbf8f10294106a7abeadd3f42658b6f629fab2dfdd2567d89fa"
     ]
   }
-  goal_path = "/Users/lijunpeng/.codex/attachments/37671a04-0182-4aff-9f0a-c044c5b3cfa3/goal-objective.md"
+  goal_path = "/Users/lijunpeng/.codex/attachments/8129b464-59e1-42b0-a4f6-8a993620d401/pasted-text-1.txt"
   abort "active Goal body missing" unless File.file?(goal_path)
   ledger = YAML.safe_load(File.read("docs/aios/MIGRATION_LEDGER.yaml"), aliases: false)
 
@@ -182,7 +228,7 @@ ruby -ryaml -rjson -rdigest -rtime -e '
     truth.dig("authority", "founder_delegation_policy", "sha256") == "3c694bd516a4a5a5700dc2742efd5917ce5c61d4d78fc43bb91594155fc7d115"
   rebaseline = truth.dig("mandatory_exit_capability_recovery", "project_level_rebaseline")
   abort "P1 project-level rebaseline state is invalid" unless
-    rebaseline.is_a?(Hash) && %w[FOUNDER_APPROVED_ACTIVE TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION].include?(rebaseline["status"]) &&
+    rebaseline.is_a?(Hash) && %w[FOUNDER_APPROVED_ACTIVE REBASELINED_PENDING_EXECUTION REBASELINED_SLICE_ACTIVE P1_EXIT_EVIDENCE_COMPLETE_PENDING_FOUNDER_GATE TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION].include?(rebaseline["status"]) &&
     rebaseline["plan_sha256"] == "ab0ba04abd4900758a3b4502fac21bdf6c392754666694a41c30c451e9058c29" &&
     rebaseline["decision_record_sha256"] == "083dc4d5f071bb82b6da3681c62e5a4ce37bfa8cac52c3f4da0f0ac5fea2d1f2" &&
     rebaseline["task_limit"] == 4 && rebaseline["engineering_hours_limit"] == 76 &&
@@ -203,16 +249,19 @@ ruby -ryaml -rjson -rdigest -rtime -e '
   abort "canonical cutover parent tree drift" unless truth.dig("project", "canonical_cutover_parent_tree") == "2409b9abacb276a0e977b65f6dcb0d1bdb6f1d30"
   abort "accepted candidate commit drift" unless truth.dig("project", "accepted_harness_candidate_commit") == "02342da942e291eaa65230f824fcf47eae8f8a30"
   abort "accepted candidate tree drift" unless truth.dig("project", "accepted_harness_candidate_tree") == "1a31751dc1b4d5bc2c9b2c4aaf0aa640528edecc"
-  abort "Goal control-plane observation invalid" unless %w[ACTIVE BLOCKED].include?(truth.dig("goal", "control_plane_status_observed"))
-  abort "Goal canonical hash drift" unless truth.dig("goal", "observed_body_sha256") == "fed643624aa5794a5cea5db2a04f25cc89d829a619e905df946a3616f14ad6c0"
-  abort "Goal raw hash drift" unless truth.dig("goal", "observed_raw_body_sha256") == "9b59ffc6919473b596f09a96afc1e8684f076f5ac32c6014ac96344a496cd0d8"
+  abort "Goal control-plane observation invalid" unless truth.dig("goal", "control_plane_status_observed") == "ACTIVE"
+  abort "Goal source path drift" unless truth.dig("goal", "source_attachment_path") == goal_path
+  abort "Goal canonical hash drift" unless truth.dig("goal", "observed_body_sha256") == "b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a"
+  abort "Goal canonical byte length drift" unless truth.dig("goal", "observed_body_byte_length") == 19_434
+  abort "Goal raw hash drift" unless truth.dig("goal", "observed_raw_body_sha256") == "28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1"
+  abort "Goal raw byte length drift" unless truth.dig("goal", "observed_raw_body_byte_length") == 19_433
   abort "Goal canonicalization drift" unless truth.dig("goal", "body_canonicalization") == "UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF"
-  abort "Goal identity state drift" unless truth.dig("goal", "identity_status") == "FOUNDER_MANUALLY_INSTALLED_LONG_TERM_GOAL_IDENTITY_PRESERVED"
+  abort "Goal identity state drift" unless truth.dig("goal", "identity_status") == "FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE"
   active_task_id = "AIOS-P1-005_EVALUATION_MATRIX_AND_VTSR_COUNTING_VALIDATOR"
   goal_bytes = File.binread(goal_path)
-  abort "Goal raw bytes drift" unless Digest::SHA256.hexdigest(goal_bytes) == "9b59ffc6919473b596f09a96afc1e8684f076f5ac32c6014ac96344a496cd0d8"
+  abort "Goal raw bytes drift" unless goal_bytes.bytesize == 19_433 && Digest::SHA256.hexdigest(goal_bytes) == "28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1"
   canonical_goal = goal_bytes.force_encoding("UTF-8").gsub("\r\n", "\n").gsub("\r", "\n").sub(/\n*\z/, "\n")
-  abort "Goal canonical bytes drift" unless canonical_goal.valid_encoding? && Digest::SHA256.hexdigest(canonical_goal) == "fed643624aa5794a5cea5db2a04f25cc89d829a619e905df946a3616f14ad6c0"
+  abort "Goal canonical bytes drift" unless canonical_goal.valid_encoding? && canonical_goal.bytesize == 19_434 && Digest::SHA256.hexdigest(canonical_goal) == "b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a"
   terminal_task_id = "AIOS-P1-002_B0_ADAPTER_CONFORMANCE"
   terminal_task_path = "docs/aios/tasks/P1-002_B0_ADAPTER_CONFORMANCE.yaml"
   terminal_task_sha = "c303f045e67dc1f76d51a5789eeb0573021bdcd9d17cd169d7448f64f91a87d8"

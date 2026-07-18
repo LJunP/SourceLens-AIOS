@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-18T13:19:58Z"
-verification_scope: AIOS_P1_044_PHASE_DELEGATED_TASK_ACTIVATION
+last_verified_at: "2026-07-18T15:46:42Z"
+verification_scope: AIOS_P1_044_FINAL_REVIEW_NON_PASS_TERMINAL_SYNC
 
 authority:
   founder: Human Founder
@@ -37,8 +37,8 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: AIOS-P1-044_LOCAL_PATCH_EVIDENCE_WALKING_SKELETON
-  note: The Founder-approved long-term Goal identity is canonical and the Codex control-plane Goal is ACTIVE. P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_V1 is ACTIVE and AIOS-P1-044 is the single phase-delegated engineering Task.
+  current_task_authority: NONE
+  note: The Founder-approved long-term Goal identity is canonical and the Codex control-plane Goal is ACTIVE. P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_V1 remains ACTIVE; AIOS-P1-044 is terminal after exact-candidate final-review NON_PASS and the Phase is between Tasks while Master selects the next independent engineering increment.
 
 project:
   name: SourceLens AIOS
@@ -168,7 +168,7 @@ current_phase_route:
       claim_boundary: P1_EXIT_CAPABILITY_ENGINEERING_ARTIFACT_ONLY_NO_BENCHMARK_AGENT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
   first_task:
     task_id: AIOS-P1-044_LOCAL_PATCH_EVIDENCE_WALKING_SKELETON
-    status: ACTIVE
+    status: TERMINAL_STOPPED_FINAL_REVIEW_NON_PASS
     classification: ENGINEERING
     contract_path: docs/aios/tasks/P1-044_LOCAL_PATCH_EVIDENCE_WALKING_SKELETON.yaml
     max_engineering_hours: 12
@@ -181,7 +181,7 @@ current_phase_route:
       - p1_011
       - p1_035
     claim_boundary: VISIBLE_SYNTHETIC_REFERENCE_CONTROL_PATCH_EVIDENCE_WALKING_SKELETON_ONLY
-  next_eligible_action: EXECUTE_AIOS_P1_044
+  next_eligible_action: MASTER_SELECT_AND_ACTIVATE_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
   next_founder_decision_points:
     - EXACT_PROVIDER_NETWORK_SECRET_COST_AUTHORIZATION
     - CRITICAL_RESIDUAL_ACCEPTANCE
@@ -907,52 +907,38 @@ p0_baseline:
   online_verification_status: ARCHIVED_NOT_ON_ACTIVE_PATH
 
 active_work:
-  current_task: AIOS-P1-044_LOCAL_PATCH_EVIDENCE_WALKING_SKELETON
-  current_task_status: ACTIVE
+  current_task: NONE
+  current_task_status: NONE
   current_task_contract:
-    path: docs/aios/tasks/P1-044_LOCAL_PATCH_EVIDENCE_WALKING_SKELETON.yaml
-    sha256: cbf555e9a907bb0bad5faaa10ab6141941ac0460f492c735a4688dbf67cc560f
-    byte_length: 12746
-  current_task_contract_sha256: cbf555e9a907bb0bad5faaa10ab6141941ac0460f492c735a4688dbf67cc560f
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-044-local-patch-evidence/MASTER_TASK_AUTHORITY.json
-  current_execution_authorization_sha256: 842b6c38cd1b167d9138b5c2ee0af29a78181e8d0f48de0fdfc8f0595c7e85ce
+    path: null
+    sha256: null
+    byte_length: null
+  current_task_contract_sha256: null
+  current_execution_authorization: null
+  current_execution_authorization_sha256: null
   authority_record:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-044-local-patch-evidence/MASTER_TASK_AUTHORITY.json
-    sha256: 842b6c38cd1b167d9138b5c2ee0af29a78181e8d0f48de0fdfc8f0595c7e85ce
-    byte_length: 2489
-  execution_nonce: 3ff49014bfc224d5b65d2e344d8a06d743b2cd3c5fc843d20296b5fdf9ec3703
-  execution_nonce_status: ACTIVE
-  authorization_id: 1d42262204ded1b260f7954bd7baaf7e520fd6eef98319245b15a30481e10e8e
-  activation_parent_commit: 7fb6307323a610354c25c2d123284d2b5a879360
-  activation_parent_tree: 46a475fab24096ed561e31af53962ada3320bd6f
-  task_resource_state: ACTIVE_DECLARED
-  task_branch: codex/p1-044-local-patch-evidence
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p1-044-local-patch-evidence
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-044-local-patch-evidence/EVIDENCE
-  allowlisted_paths:
-    - evaluation-harness/harness/local-patch-control/**
-    - evaluation-harness/adapters/reference-patch-control/**
-    - evaluation-harness/recording/local-patch-control/**
-    - evaluation-harness/replay/local-patch-control/**
-    - evaluation-harness/evaluator/local-patch-control/**
-    - evaluation-harness/fixtures/local-patch-control-v1/**
-    - scripts/verify-p1-local-patch-control.sh
-    - Makefile
-    - docs/PROJECT_CODE_MAP.md
-    - docs/aios/tasks/P1-044_LOCAL_PATCH_EVIDENCE_WALKING_SKELETON.yaml
-    - docs/aios/truth/project_state.yaml
+    path: null
+    sha256: null
+    byte_length: null
+  execution_nonce: null
+  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
+  authorization_id: null
+  activation_parent_commit: null
+  activation_parent_tree: null
+  task_resource_state: NONE_PHASE_ACTIVE
+  task_branch: null
+  task_worktree: null
+  execution_evidence_root: null
+  allowlisted_paths: []
   budget:
-    engineering_hours: 12
-    calendar_days: 3
-    implementation_iterations: 2
-    candidates: 1
+    engineering_hours: null
+    calendar_days: null
+    implementation_iterations: null
+    candidates: null
   roles:
-    owner: Engineering Manager Agent
-    worker: Local Patch Kernel Engineer
-    independent_reviewers:
-      - CTO Agent
-      - Security Agent
-      - Quality and Evaluation Agent
+    owner: null
+    worker: null
+    independent_reviewers: []
   external_effects:
     network: false
     provider: false
@@ -966,7 +952,7 @@ active_work:
   founder_decision_required: false
   escalation_reason: null
   user_action_required: NONE
-  next_eligible_action: EXECUTE_AIOS_P1_044
+  next_eligible_action: MASTER_SELECT_AND_ACTIVATE_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
 
 superseded_pre_delegation_authorizations:
   aios_p1_009:
@@ -984,6 +970,56 @@ superseded_pre_delegation_authorizations:
     note: The engineering objective may be selected independently by Master, but these pre-delegation bytes require a routine per-Task Founder Gate and cannot be activated under the current authority model.
 
 task_history:
+  aios_p1_044:
+    task_id: AIOS-P1-044_LOCAL_PATCH_EVIDENCE_WALKING_SKELETON
+    contract: docs/aios/tasks/P1-044_LOCAL_PATCH_EVIDENCE_WALKING_SKELETON.yaml
+    task_contract_sha256: cbf555e9a907bb0bad5faaa10ab6141941ac0460f492c735a4688dbf67cc560f
+    task_contract_byte_length: 12746
+    route_id: P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_V1
+    status: TERMINAL_STOPPED_FINAL_REVIEW_NON_PASS
+    classification: ENGINEERING
+    task_gate_result: NON_PASS
+    bounded_same_task_quality_repairs_used: 1
+    second_same_task_repair_allowed: false
+    candidate_ordinal: 1
+    second_candidate_allowed: false
+    candidate_created: true
+    candidate_commit: 5df5566e7426efe1b85c956989d6a422fd1033a6
+    candidate_tree: 8a8c36a28197e84ea42b1a85977846baeb032883
+    candidate_integrated: false
+    candidate_manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-044-local-patch-evidence/EVIDENCE/candidate/CANDIDATE_MANIFEST.json
+    candidate_manifest_sha256: e7402d372702f0cf1294f2c605a6fc7d49ddc86ff5b01a9b717c4c1002a2b5b1
+    candidate_manifest_byte_length: 15509
+    candidate_diff_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-044-local-patch-evidence/EVIDENCE/candidate/candidate.diff
+    candidate_diff_sha256: 77df53f72937aeb302ad8708ea4e6cfbb9ee389323ac51e0660c3fef3dc5f382
+    candidate_diff_byte_length: 235232
+    formal_evidence_manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-044-local-patch-evidence/EVIDENCE/run-001/evidence-manifest.json
+    formal_evidence_manifest_sha256: 5ee53ebd269d3fc0a047f954c84b39cce9f5ebebcd59d1c98231c6d1a2c05eee
+    formal_evidence_manifest_byte_length: 48596
+    cto_initial_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-044-local-patch-evidence/EVIDENCE/reviews/CTO_REVIEW.json
+    cto_initial_review_sha256: e420288eb4c765bfcc2111377fdac47b5beea3d17e7a1935d2c8d7548c4fd170
+    cto_initial_review_control_status: OVERTURNED_BY_LATER_REPRODUCIBLE_CANDIDATE_EVIDENCE_DO_NOT_USE_AS_PASS
+    cto_controlling_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-044-local-patch-evidence/EVIDENCE/reviews/CTO_REVIEW_SUPPLEMENTAL_FINDING.json
+    cto_controlling_review_sha256: aafc4a2b568f93a14641c6764138ffe3761c0e1a9c0b4b4e657a304eda9ecdf3
+    cto_final_target_verdict: NON_PASS
+    security_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-044-local-patch-evidence/EVIDENCE/reviews/SECURITY_REVIEW.json
+    security_review_sha256: f9d870e34e2aa38dfe0f822067c7fe9282bcdef81b092b7062abcaa3dbcaf538
+    security_final_target_verdict: NON_PASS
+    quality_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-044-local-patch-evidence/EVIDENCE/reviews/QUALITY_REVIEW.json
+    quality_review_sha256: f55fdb46540b7b2f3c3b580ec56b06527eb3996de68a1f94af017f422a086032
+    quality_final_target_verdict: NON_PASS
+    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-044-local-patch-evidence/EVIDENCE/gate/TASK_TERMINAL_RECEIPT.json
+    terminal_receipt_sha256: 54e8ba756ec8db613df89ffcc44485394169bd7c8ef5d1e32f5a04a0b5901357
+    terminal_receipt_byte_length: 5209
+    evidence_tag: evidence/p1-044-final-non-pass-5df5566
+    blocking_findings:
+      - SECURITY-P1-044-FINAL-001_HOST_NODE_BIN_VERIFICATION_BYPASS
+      - CTO-P1-044-REPLAY-001
+      - QUALITY-P1-044-FINAL-001
+    successor_replacement_or_remediation_chain_allowed: false
+    capability_claims: 0
+    product_capability_changed: false
+    claim_boundary: P1_044_FINAL_REVIEW_NON_PASS_AND_TERMINAL_EVIDENCE_ONLY_NO_ACCEPTED_ENGINEERING_CAPABILITY_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
   aios_p1_001:
     task_id: AIOS-P1-001
     contract: docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
@@ -1728,8 +1764,8 @@ historical_lineages:
 
 phase_execution_claim:
   current_route_claim: P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_V1_ACTIVE
-  current_task_claim: AIOS_P1_044_ACTIVE_PHASE_DELEGATED_ENGINEERING
-  real_engineering_progress: AIOS_P1_044_ACTIVATED_IMPLEMENTATION_PENDING
+  current_task_claim: NONE_PHASE_ACTIVE_BETWEEN_TASKS
+  real_engineering_progress: AIOS_P1_044_TERMINAL_FINAL_REVIEW_NON_PASS_NEXT_INDEPENDENT_TASK_SELECTION
   product_capability_changed: false
   phase_local_allowed:
     - local evaluation foundation engineering under an exact Task Contract
@@ -1745,7 +1781,7 @@ phase_execution_claim:
     - The historical Founder project-level reopen permitted one role-local clean-room Slice 1 Task; that routing is now superseded and did not reopen P1-041 or authorize historical failed engineering-asset reuse.
     - The historical rebaseline Slice Contract and Quality-freeze rules remain capture-time facts but no longer schedule current work.
   mandatory_priority_rule:
-    - AIOS-P1-044_LOCAL_PATCH_EVIDENCE_WALKING_SKELETON is the first and only currently eligible engineering Task.
+    - AIOS-P1-044_LOCAL_PATCH_EVIDENCE_WALKING_SKELETON is terminal after exact-candidate final-review NON_PASS with zero accepted capability and no canonical integration.
     - After each Task reaches a terminal Task Gate, Master selects the next smallest independent P1 increment within the four-Task, 80-hour and 21-day Phase envelope without routine Founder approval.
     - Historical four-slice ordering and attempt routing have no current scheduling authority.
     - Peripheral validators, auxiliary governance tools and work without direct P1 Exit Gate value are ineligible.
@@ -1767,9 +1803,9 @@ phase_execution_claim:
 
 claim_boundary:
   current_phase_route: P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_V1_ACTIVE
-  current_task: AIOS-P1-044_LOCAL_PATCH_EVIDENCE_WALKING_SKELETON
-  next_eligible_action: EXECUTE_AIOS_P1_044
-  real_engineering_progress: AIOS_P1_044_ACTIVATED_IMPLEMENTATION_PENDING
+  current_task: NONE
+  next_eligible_action: MASTER_SELECT_AND_ACTIVATE_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
+  real_engineering_progress: AIOS_P1_044_TERMINAL_FINAL_REVIEW_NON_PASS_NEXT_INDEPENDENT_TASK_SELECTION
   product_capability_changed_by_route_activation: false
   repository_intelligence_quality: UNKNOWN_NOT_YET_BENCHMARKED
   evaluation_harness: IMPLEMENTED_AND_FOUNDER_GATE_ACCEPTED_CONFORMANCE_ONLY
@@ -1832,6 +1868,14 @@ claim_boundary:
   p1_043_capability_claims: 0
   p1_043_recovery_allowed: false
   p1_043_asset_reuse_allowed: false
+  p1_044_local_patch_evidence_walking_skeleton: TERMINAL_STOPPED_FINAL_REVIEW_NON_PASS
+  p1_044_candidate_commit: 5df5566e7426efe1b85c956989d6a422fd1033a6
+  p1_044_candidate_tree: 8a8c36a28197e84ea42b1a85977846baeb032883
+  p1_044_candidate_integrated: false
+  p1_044_final_cto_target_verdict: NON_PASS
+  p1_044_final_security_target_verdict: NON_PASS
+  p1_044_final_quality_target_verdict: NON_PASS
+  p1_044_capability_claims: 0
   p1_status: ACTIVE
   p1_037_final_security_review: NON_PASS
   p1_037_final_quality_review: CANCELLED_AFTER_SECURITY_NON_PASS

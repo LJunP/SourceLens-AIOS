@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-18T02:49:53Z"
-verification_scope: AIOS_P1_043_PARAMETERIZED_EVALUATION_CORE_PHASE_DELEGATED_ACTIVATION
+last_verified_at: "2026-07-18T06:19:23Z"
+verification_scope: P1_043_TERMINAL_ROUTING_SEPARATION_AFTER_SECURITY_NON_PASS
 
 authority:
   founder: Human Founder
@@ -37,7 +37,7 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: AIOS-P1-043_PARAMETERIZED_EVALUATION_CORE
+  current_task_authority: NONE
   note: The Founder-approved long-term Goal identity is canonical and the Codex control-plane Goal is ACTIVE. Current Task authority is expressed only by current_task_authority and active_work; the Phase-level delegation policy requires autonomous P1 continuation without routine Founder approvals.
 
 project:
@@ -48,8 +48,8 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  phase_execution_status: TASK_ACTIVE
-  p1_execution_status: TASK_ACTIVE
+  phase_execution_status: TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION
+  p1_execution_status: TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -272,10 +272,10 @@ mandatory_exit_capability_recovery:
   capability_status:
     VERSIONED_REPRESENTATIVE_TASK_DATASET: ACCEPTED
     HIDDEN_SET_PROTOCOL: REBASELINED_PENDING_EXECUTION
-    PARAMETERIZED_EVALUATION_HARNESS: IN_PROGRESS
-    VTSR_COUNTING_VALIDATOR: IN_PROGRESS
+    PARAMETERIZED_EVALUATION_HARNESS: ARCHITECTURE_BLOCKED
+    VTSR_COUNTING_VALIDATOR: ARCHITECTURE_BLOCKED
     B0_B1_B2_COMPATIBILITY_ADAPTERS: REBASELINED_PENDING_EXECUTION
-    OBSERVABLE_TRACE: IN_PROGRESS
+    OBSERVABLE_TRACE: ARCHITECTURE_BLOCKED
     EVALUATOR_DISAGREEMENT_AND_FALSE_SUCCESS_CHARACTERIZATION: REBASELINED_PENDING_EXECUTION
     REPRODUCIBLE_BASELINE_REPORT: REBASELINED_PENDING_EXECUTION
   capability_attempt_ledger:
@@ -466,7 +466,7 @@ mandatory_exit_capability_recovery:
     project_level_disposition_required: true
   project_level_rebaseline:
     record_type: p1_exit_gate_project_level_rebaseline
-    status: REBASELINED_SLICE_ACTIVE
+    status: TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION
     authority: HUMAN_FOUNDER
     approved_at_utc: "2026-07-17T09:24:48Z"
     plan_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exit-gate-project-level-rebaseline-20260717T091107Z/P1_EXIT_GATE_PROJECT_LEVEL_REBASELINE.md
@@ -477,8 +477,8 @@ mandatory_exit_capability_recovery:
     decision_record_byte_length: 8799
     canonical_parent_commit: eca59026d57f6c67f268a44d41564fdb0a2ecc5f
     canonical_parent_tree: 29db5c1bd565e582a6a209f6a81c9efb0349f3e4
-    p1_status: REBASELINED_SLICE_ACTIVE
-    current_task: AIOS-P1-043_PARAMETERIZED_EVALUATION_CORE
+    p1_status: TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION
+    current_task: NONE
     task_limit: 4
     engineering_hours_limit: 76
     calendar_days_limit: 21
@@ -553,8 +553,8 @@ mandatory_exit_capability_recovery:
         failure_classification: EXECUTION_SCOPE_COMPLIANCE_FAILURE
         recovery_allowed: false
         asset_reuse_allowed: false
-    next_slice_ordinal: 1
-    next_slice_action: MASTER_AUTONOMOUSLY_PREPARE_AND_EXECUTE_REBASELINED_SLICE_1
+    next_slice_ordinal: null
+    next_slice_action: FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED
   delivery_architecture_simplification:
     record_type: p1_delivery_architecture_simplification
     status: FOUNDER_APPROVED_ACTIVE
@@ -640,11 +640,15 @@ mandatory_exit_capability_recovery:
     historical_task_contract_sha256: e3a9ec7ca7945963af04636cb13c9d45b9c07d0bf8466d0554171167d572a958
     historical_terminal_record_sha256: 90770a7d1c10d7904c21574ab24163a97a3bda177c7dfe17c6e7f4eed2706506
     historical_terminal_evidence_manifest_sha256: 50d4dc066deba78c25c20a46a0fd747ffc8d3cf7920883ef06b2ad47ca363c6f
-    current_p1_status: REBASELINED_SLICE_ACTIVE
-    current_task: AIOS-P1-043_PARAMETERIZED_EVALUATION_CORE
-    next_slice_ordinal: 1
+    current_p1_status: ARCHITECTURE_BLOCKED
+    current_task: NONE
+    approved_reopen_decision_route:
+      next_slice_ordinal: 1
+      next_slice_action: MASTER_AUTONOMOUSLY_PREPARE_AND_EXECUTE_REBASELINED_SLICE_1
+    next_slice_ordinal: null
+    next_slice_action: FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED
     current_slice_attempt:
-      status: ACTIVE
+      status: ARCHITECTURE_BLOCKED
       task_id: AIOS-P1-043_PARAMETERIZED_EVALUATION_CORE
       attempt_ordinal: 1
       contract_sha256: 52fb35d0ba2f7475c1dca5d9150115388cc9dc7bdecc2f1dfb281fa987283ad1
@@ -771,28 +775,28 @@ p0_baseline:
   online_verification_status: ARCHIVED_NOT_ON_ACTIVE_PATH
 
 active_work:
-  current_task: AIOS-P1-043_PARAMETERIZED_EVALUATION_CORE
-  current_task_status: AUTHORIZED_ACTIVE
-  current_task_contract: docs/aios/tasks/P1-043_PARAMETERIZED_EVALUATION_CORE.yaml
-  current_task_contract_sha256: 52fb35d0ba2f7475c1dca5d9150115388cc9dc7bdecc2f1dfb281fa987283ad1
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-043-parameterized-evaluation-core/activation-v2/TASK_AUTHORIZATION.json
-  current_execution_authorization_sha256: b3c0805914a96c0cbebaa92779351bd3192de8fd53ffbbf7a5d54cfe809538a0
+  current_task: NONE
+  current_task_status: NONE
+  current_task_contract: null
+  current_task_contract_sha256: null
+  current_execution_authorization: null
+  current_execution_authorization_sha256: null
   execution_nonce: null
-  execution_nonce_status: NOT_REQUIRED_PHASE_DELEGATION
-  authorization_id: 3bad5ef008ab5b2084f57541670ba502f42fb2de1696b6ee92bb88be1555a2cd
-  activation_parent_commit: f11a49a2e3915f875678fcba598cc3a514fa9036
-  activation_parent_tree: 9e178ac0c55e62303b87d5ead6a08764f009d57d
-  task_resource_state: CREATED
-  task_branch: task/p1-043-parameterized-evaluation-core
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p1-043-parameterized-evaluation-core
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-043-parameterized-evaluation-core
+  execution_nonce_status: NOT_APPLICABLE_TERMINAL_STOPPED
+  authorization_id: null
+  activation_parent_commit: null
+  activation_parent_tree: null
+  task_resource_state: TERMINAL_STOPPED_RESOURCES_PRESERVED
+  task_branch: null
+  task_worktree: null
+  execution_evidence_root: null
   offsite_target: null
   founder_reserved_authorization: null
   founder_reserved_authorization_sha256: null
-  founder_decision_required: false
-  escalation_reason: null
-  user_action_required: null
-  next_eligible_action: MASTER_AUTONOMOUSLY_EXECUTE_CURRENT_TASK
+  founder_decision_required: true
+  escalation_reason: CURRENT_REBASELINED_SLICE_ARCHITECTURE_BLOCKED
+  user_action_required: FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED
+  next_eligible_action: FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED
 
 superseded_pre_delegation_authorizations:
   aios_p1_009:
@@ -1427,6 +1431,100 @@ task_history:
     asset_reuse_allowed: false
     p1_status_projection: PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION
     claim_boundary: PRE_ACTIVATION_SCOPE_FAILURE_AND_TERMINALIZATION_EVIDENCE_ONLY_NO_PARAMETERIZED_EVALUATION_CORE_CAPABILITY_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
+  aios_p1_043:
+    task_id: AIOS-P1-043_PARAMETERIZED_EVALUATION_CORE
+    status: TERMINAL_STOPPED_AFTER_REAL_ARCHITECTURE_ROOT
+    terminal_classification: ARCHITECTURE_BLOCKED
+    failure_classification: REAL_ARCHITECTURE_ROOT
+    mandatory_exit_capability: PARAMETERIZED_EVALUATION_HARNESS
+    integrated_mandatory_exit_capabilities:
+      - PARAMETERIZED_EVALUATION_HARNESS
+      - VTSR_COUNTING_VALIDATOR
+      - OBSERVABLE_TRACE
+    clean_room_attempt_ordinal: 1
+    project_level_rebaseline_slice_ordinal: 1
+    project_level_rebaseline_decision_sha256: 083dc4d5f071bb82b6da3681c62e5a4ce37bfa8cac52c3f4da0f0ac5fea2d1f2
+    project_level_reopen_decision_sha256: 1c8b53a8a4ad1bbc62bd8f5c37e4fdbd25077a0851fce07dc5ed9ce631d47eeb
+    founder_escalation_required: true
+    task_contract:
+      path: docs/aios/tasks/P1-043_PARAMETERIZED_EVALUATION_CORE.yaml
+      sha256: 52fb35d0ba2f7475c1dca5d9150115388cc9dc7bdecc2f1dfb281fa987283ad1
+      byte_length: 14358
+      bounded_contract_corrections_used: 1
+    project_level_bindings:
+      slice_ordinal: 1
+      project_level_rebaseline_decision_sha256: 083dc4d5f071bb82b6da3681c62e5a4ce37bfa8cac52c3f4da0f0ac5fea2d1f2
+      delivery_architecture_simplification_decision_sha256: 678f469ca9222662a6814617cfac35ccf229b06f540bedbab5ade6bae10230c0
+      project_level_reopen_decision_sha256: 1c8b53a8a4ad1bbc62bd8f5c37e4fdbd25077a0851fce07dc5ed9ce631d47eeb
+    activation:
+      commit: 78dc057d869c1854b5097ac26effcd9a1136565a
+      tree: 891b99ac971ae741063320c029ad42e0e89d6615
+      authorization_id: 3bad5ef008ab5b2084f57541670ba502f42fb2de1696b6ee92bb88be1555a2cd
+      authorization_sha256: b3c0805914a96c0cbebaa92779351bd3192de8fd53ffbbf7a5d54cfe809538a0
+    quality_freeze:
+      commit: 5b6280f062cf8eff1d0112aa0050dbebd1f53941
+      tree: e8252802636eef2a7417a07997583787c196813f
+      receipt_sha256: 8a9ed04a848ffca75c05103cb8b691f9714c948e28d6ad2a5f5bc519732667d4
+      self_test_result_sha256: 76fb962ef5ca3f888895cd8ff3dc1ed8575edbcdd3afa72a033d03c1921b4dd1
+      status: PASS_HISTORICAL_ONLY_AFTER_TASK_STOP
+    quality_freeze_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-043-parameterized-evaluation-core/quality-freeze/QUALITY_FREEZE_RECEIPT.json
+      sha256: 8a9ed04a848ffca75c05103cb8b691f9714c948e28d6ad2a5f5bc519732667d4
+      byte_length: 9334
+    rejected_candidate:
+      commit: c1d2e0084f49dda17576e6b0df1f5c02cc5740c0
+      tree: 37df60845950a69390e808aa70198d0bf6e6cfdf
+      preservation_ref: refs/tags/evidence/p1-043-rejected-candidate-20260718
+      candidate_nonpass_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-043-parameterized-evaluation-core/terminal/P1_043_CANDIDATE_NONPASS_RECORD.json
+      candidate_nonpass_record_sha256: 215840e40eeb7770572d0891a9455e44644707b7360679abfb5838d2f7bbe09d
+      candidate_nonpass_record_byte_length: 6149
+      targeted_task_checks: PASS_HISTORICAL_ONLY
+      repository_make_verify: NON_PASS
+      candidate_accepted: false
+      candidate_integrated: false
+      capability_claims: 0
+    independent_terminal_reviews:
+      cto:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-043-parameterized-evaluation-core/terminal/reviews/CTO_TERMINAL_REVIEW.json
+        sha256: 23f9590f10c6f5e1d0517d35f53424130d2c0685bf6f95cda8fca53244c2cab1
+        byte_length: 4525
+        status: NON_PASS
+      security:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-043-parameterized-evaluation-core/terminal/reviews/SECURITY_TERMINAL_REVIEW.json
+        sha256: 828d09a35755af73ac0488e98dff9516a590791cd16cf61e76ce1b0c7731fecf
+        byte_length: 8110
+        status: NON_PASS
+      quality:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-043-parameterized-evaluation-core/terminal/reviews/QUALITY_TERMINAL_REVIEW.json
+        sha256: 71005ee606eded1d2c1360bc71433f6c154e8e9359870ac867aa6b970b2a1435
+        byte_length: 7885
+        status: NON_PASS
+    rollback:
+      receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-043-parameterized-evaluation-core/terminal/P1_043_ROLLBACK_RECEIPT.json
+      receipt_sha256: b16b99d9a18984dc5b2d3c0806fb587be1cc2fcd9a570d2a69b5a749750419b8
+      receipt_byte_length: 2119
+      task_branch_removed: true
+      task_worktree_removed: true
+      canonical_commit_unchanged: 78dc057d869c1854b5097ac26effcd9a1136565a
+      canonical_tree_unchanged: 891b99ac971ae741063320c029ad42e0e89d6615
+    execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-043-parameterized-evaluation-core
+    terminal_evidence:
+      terminal_stop_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-043-parameterized-evaluation-core/terminal/P1_043_TERMINAL_STOP_RECORD.json
+      terminal_stop_record_sha256: bda34c158275ef33493df9654c16d8e3e08721447d18ab69ed8a3c379cde0b13
+      terminal_stop_record_byte_length: 6211
+      evidence_manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-043-parameterized-evaluation-core/terminal/TERMINAL_EVIDENCE_MANIFEST.json
+      evidence_manifest_sha256: db6f1f61db83684e8d8fbe191c9ad77d5bd1460c209718646422421a50b5a041
+      evidence_manifest_byte_length: 546
+    candidate_accepted: false
+    candidate_integrated: false
+    capability_claims: 0
+    recovery_allowed: false
+    asset_reuse_allowed: false
+    retry_allowed: false
+    successor_allowed: false
+    replacement_allowed: false
+    continue_to_next_slice: false
+    claim_boundary: REAL_ARCHITECTURE_ROOT_AND_TERMINAL_EVIDENCE_ONLY_NO_PARAMETERIZED_EVALUATION_CORE_ACCEPTANCE_NO_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
 
 gate_history:
   - task_id: AIOS-P1-001
@@ -1459,7 +1557,7 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_task_claim: AIOS-P1-043_PARAMETERIZED_EVALUATION_CORE
+  current_task_claim: NONE_P1_TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION
   phase_local_allowed:
     - local evaluation foundation engineering under an exact Task Contract
     - synthetic fixtures, deterministic tests, replay, Evidence, rollback and independent review
@@ -1546,7 +1644,15 @@ claim_boundary:
   p1_042_worker_implementation_started: false
   p1_042_candidate_created: false
   p1_042_capability_claims: 0
-  p1_status: REBASELINED_SLICE_ACTIVE
+  p1_043_parameterized_evaluation_core: TERMINAL_STOPPED_AFTER_REAL_ARCHITECTURE_ROOT
+  p1_043_terminal_classification: ARCHITECTURE_BLOCKED
+  p1_043_failure_classification: REAL_ARCHITECTURE_ROOT
+  p1_043_candidate_accepted: false
+  p1_043_candidate_integrated: false
+  p1_043_capability_claims: 0
+  p1_043_recovery_allowed: false
+  p1_043_asset_reuse_allowed: false
+  p1_status: TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION
   p1_037_final_security_review: NON_PASS
   p1_037_final_quality_review: CANCELLED_AFTER_SECURITY_NON_PASS
   p1_037_failure_record_sha256: efb4334e73d3c4d20a6d263ce8543b2895cef1d539348f548e2bfbe90fbfdf55

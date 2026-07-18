@@ -128,7 +128,10 @@ def initialize_synthetic_authority_repo!(root, ref)
 end
 
 def write_yaml(path, value)
-  File.write(path, YAML.dump(value), mode: "w:UTF-8")
+  # Test fixtures often reuse the same nested Hash for two exact bindings.
+  # Break Ruby object aliases so the production parser can keep aliases disabled.
+  alias_free_value = JSON.parse(JSON.generate(value))
+  File.write(path, YAML.dump(alias_free_value), mode: "w:UTF-8")
 end
 
 def write_json(path, value)
@@ -224,13 +227,115 @@ def run_effective_slice_transition(previous_truth, current_truth, expected_pass,
   )
 end
 
+Dir.mktmpdir("aios-worktree-record-authority-", SOURCE_ROOT) do |root|
+  canonical_dir = File.join(root, "canonical")
+  runtime_dir = File.join(root, "linked-current")
+  external_dir = File.join(root, "external-linked")
+  symlink_dir = File.join(root, "linked-current-symlink")
+  missing_dir = File.join(root, "missing")
+  [canonical_dir, runtime_dir, external_dir].each { |path| FileUtils.mkdir_p(path) }
+  File.symlink(runtime_dir, symlink_dir)
+
+  primary_records = VALIDATOR_HELPER_RECEIVER.parse_worktree_porcelain_records!(
+    "worktree #{canonical_dir}\nHEAD #{"1" * 40}\nbranch refs/heads/main\n"
+  )
+  primary_runtime = VALIDATOR_HELPER_RECEIVER.unique_runtime_worktree_record!(primary_records, canonical_dir)
+  run_exact_validator_helper(
+    :validate_runtime_worktree_population!,
+    [primary_records, primary_records.first, primary_runtime],
+    true,
+    "worktree canonical primary runtime positive"
+  )
+
+  linked_porcelain = [
+    "worktree #{canonical_dir}\nHEAD #{"1" * 40}\nbranch refs/heads/main",
+    "worktree #{runtime_dir}\nHEAD #{"2" * 40}\nbranch refs/heads/task/current"
+  ].join("\n\n") + "\n"
+  linked_records = VALIDATOR_HELPER_RECEIVER.parse_worktree_porcelain_records!(linked_porcelain)
+  linked_runtime = VALIDATOR_HELPER_RECEIVER.unique_runtime_worktree_record!(linked_records, runtime_dir)
+  run_exact_validator_helper(
+    :validate_runtime_worktree_population!,
+    [linked_records, linked_records.first, linked_runtime],
+    true,
+    "worktree linked current runtime positive"
+  )
+
+  reversed_records = VALIDATOR_HELPER_RECEIVER.parse_worktree_porcelain_records!(
+    linked_porcelain.split(/\n\n/).reverse.join("\n\n")
+  )
+  reversed_runtime = VALIDATOR_HELPER_RECEIVER.unique_runtime_worktree_record!(reversed_records, runtime_dir)
+  reversed_canonical = reversed_records.find { |record| record["worktree"] == canonical_dir }
+  run_exact_validator_helper(
+    :validate_runtime_worktree_population!,
+    [reversed_records, reversed_canonical, reversed_runtime],
+    true,
+    "worktree porcelain order reversed positive"
+  )
+
+  run_exact_validator_helper(
+    :unique_runtime_worktree_record!,
+    [primary_records, runtime_dir],
+    false,
+    "worktree no runtime match negative",
+    expected_failure: "no exact existing non-symlink match"
+  )
+  duplicate_records = VALIDATOR_HELPER_RECEIVER.parse_worktree_porcelain_records!(
+    "worktree #{runtime_dir}\nHEAD #{"2" * 40}\nbranch refs/heads/task/current\n\n" \
+    "worktree #{runtime_dir}\nHEAD #{"3" * 40}\nbranch refs/heads/task/duplicate\n"
+  )
+  run_exact_validator_helper(
+    :unique_runtime_worktree_record!,
+    [duplicate_records, runtime_dir],
+    false,
+    "worktree duplicate runtime match negative",
+    expected_failure: "duplicate exact matches"
+  )
+  symlink_only_records = [{ "worktree" => symlink_dir, "branch" => "refs/heads/task/symlink" }]
+  run_exact_validator_helper(
+    :unique_runtime_worktree_record!,
+    [symlink_only_records, runtime_dir],
+    false,
+    "worktree symlink-only runtime match negative",
+    expected_failure: "match missing, symlinked, or not a directory"
+  )
+  run_exact_validator_helper(
+    :unique_runtime_worktree_record!,
+    [[{ "worktree" => runtime_dir }, { "worktree" => symlink_dir }], runtime_dir],
+    false,
+    "worktree real plus symlink duplicate negative",
+    expected_failure: "duplicate exact matches"
+  )
+  run_exact_validator_helper(
+    :unique_runtime_worktree_record!,
+    [[{ "worktree" => missing_dir }], runtime_dir],
+    false,
+    "worktree nonexistent runtime record negative",
+    expected_failure: "no exact existing non-symlink match"
+  )
+  external_record = { "worktree" => external_dir, "branch" => "refs/heads/feature/external" }
+  run_exact_validator_helper(
+    :validate_runtime_worktree_population!,
+    [linked_records + [external_record], linked_records.first, linked_runtime],
+    false,
+    "worktree external-path extra linked worktree negative",
+    expected_failure: "outside canonical and current runtime"
+  )
+end
+
 def current_reopen_lifecycle_fixture(base_truth, stage, task_id: "AIOS-P1-943_CURRENT_REOPEN_LIFECYCLE_TEST", contract_sha256: "a" * 64)
   value = Marshal.load(Marshal.dump(base_truth))
   recovery = value.fetch("mandatory_exit_capability_recovery")
   reopen = recovery.fetch("current_project_level_reopen")
+  value.fetch("task_history").delete_if do |_key, entry|
+    entry.is_a?(Hash) &&
+      entry["project_level_reopen_decision_sha256"] == reopen["decision_record_sha256"] &&
+      entry["clean_room_attempt_ordinal"] == 1
+  end
   rebaseline = recovery.fetch("project_level_rebaseline")
   delivery = recovery.fetch("delivery_architecture_simplification")
-  slice = rebaseline.fetch("slices").find { |candidate| candidate["ordinal"] == reopen.fetch("next_slice_ordinal") }
+  approved_route = reopen.fetch("approved_reopen_decision_route")
+  approved_ordinal = approved_route.fetch("next_slice_ordinal")
+  slice = rebaseline.fetch("slices").find { |candidate| candidate["ordinal"] == approved_ordinal }
   attempt = if stage == "PENDING"
     nil
   else
@@ -241,7 +346,7 @@ def current_reopen_lifecycle_fixture(base_truth, stage, task_id: "AIOS-P1-943_CU
       "contract_sha256" => contract_sha256,
       "bounded_contract_corrections_used" => 0,
       "integrated_mandatory_exit_capabilities" => Marshal.load(Marshal.dump(slice.fetch("capability_projection"))),
-      "project_level_rebaseline_slice_ordinal" => reopen.fetch("next_slice_ordinal"),
+      "project_level_rebaseline_slice_ordinal" => approved_ordinal,
       "project_level_rebaseline_decision_sha256" => rebaseline.fetch("decision_record_sha256"),
       "delivery_architecture_simplification_decision_sha256" => delivery.fetch("decision_record_sha256"),
       "project_level_reopen_decision_sha256" => reopen.fetch("decision_record_sha256")
@@ -251,11 +356,11 @@ def current_reopen_lifecycle_fixture(base_truth, stage, task_id: "AIOS-P1-943_CU
 
   projection = case stage
   when "PENDING"
-    ["REBASELINED_PENDING_EXECUTION", "NONE", "REBASELINED_PENDING_EXECUTION", reopen.fetch("next_slice_ordinal"), "REBASELINED_PENDING_EXECUTION"]
+    ["REBASELINED_PENDING_EXECUTION", "NONE", "REBASELINED_PENDING_EXECUTION", approved_ordinal, "REBASELINED_PENDING_EXECUTION"]
   when "ACTIVE"
-    ["REBASELINED_SLICE_ACTIVE", task_id, "TASK_ACTIVE", reopen.fetch("next_slice_ordinal"), "IN_PROGRESS"]
+    ["REBASELINED_SLICE_ACTIVE", task_id, "TASK_ACTIVE", approved_ordinal, "IN_PROGRESS"]
   when "ACCEPTED"
-    ["ACCEPTED", "NONE", "REBASELINED_PENDING_EXECUTION", reopen.fetch("next_slice_ordinal") + 1, "ACCEPTED"]
+    ["ACCEPTED", "NONE", "REBASELINED_PENDING_EXECUTION", approved_ordinal + 1, "ACCEPTED"]
   when "ARCHITECTURE_BLOCKED"
     ["ARCHITECTURE_BLOCKED", "NONE", "TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION", nil, "ARCHITECTURE_BLOCKED"]
   when "SCOPE_COMPLIANCE_BLOCKED"
@@ -284,12 +389,220 @@ def current_reopen_lifecycle_fixture(base_truth, stage, task_id: "AIOS-P1-943_CU
   value.fetch("claim_boundary")["p1_status"] = rebaseline_status
   reopen["current_p1_status"] = reopen_status
   reopen["current_task"] = current_task
+  reopen["next_slice_ordinal"] = next_slice_ordinal
+  reopen["next_slice_action"] = rebaseline["next_slice_action"]
   slice.fetch("capability_projection").each { |capability| recovery.fetch("capability_status")[capability] = capability_status }
   value.fetch("project")["phase_execution_status"] = project_status
   value.fetch("project")["p1_execution_status"] = project_status
   value.fetch("goal")["current_task_authority"] = current_task
   value.fetch("active_work")["current_task"] = current_task
   value
+end
+
+def install_synthetic_architecture_terminal_evidence!(truth, task_id, contract_sha256, contract_path, terminal_root, capabilities)
+  root = truth.dig("project", "canonical_repository")
+  FileUtils.mkdir_p(terminal_root)
+  candidate_commit = run!("git", "rev-parse", "HEAD", chdir: root)
+  candidate_tree = run!("git", "rev-parse", "HEAD^{tree}", chdir: root)
+  task_number = task_id[/\AAIOS-P1-(\d{3})/, 1]
+  raise "synthetic architecture terminal Task ID invalid" unless task_number
+  tag = "refs/tags/evidence/synthetic-#{Digest::SHA256.hexdigest(task_id)[0, 16]}"
+  run!("git", "tag", "-f", tag.delete_prefix("refs/tags/"), candidate_commit, chdir: root)
+  contract_absolute = File.join(root, contract_path)
+  contract_byte_length = File.file?(contract_absolute) ? File.binread(contract_absolute).bytesize : 0
+  contract = {
+    "path" => contract_path,
+    "sha256" => contract_sha256,
+    "byte_length" => contract_byte_length,
+    "bounded_contract_corrections_used" => truth.dig("mandatory_exit_capability_recovery", "current_project_level_reopen", "current_slice_attempt", "bounded_contract_corrections_used") || 0
+  }
+  activation = {
+    "commit" => candidate_commit,
+    "tree" => candidate_tree,
+    "authorization_id" => Digest::SHA256.hexdigest("#{task_id}:authorization-id"),
+    "authorization_sha256" => Digest::SHA256.hexdigest("#{task_id}:authorization")
+  }
+  quality_receipt_path = File.join(terminal_root, "SYNTHETIC_QUALITY_FREEZE_RECEIPT.json")
+  quality_receipt = {
+    "record_type" => "synthetic_quality_freeze_receipt",
+    "status" => "PASS",
+    "task_id" => task_id,
+    "task_contract" => contract.slice("path", "sha256", "byte_length"),
+    "quality_commit" => { "commit" => candidate_commit, "tree" => candidate_tree }
+  }
+  write_json(quality_receipt_path, quality_receipt)
+  quality = {
+    "commit" => candidate_commit,
+    "tree" => candidate_tree,
+    "receipt_sha256" => Digest::SHA256.file(quality_receipt_path).hexdigest,
+    "self_test_result_sha256" => Digest::SHA256.hexdigest("#{task_id}:quality-self-test"),
+    "status" => "PASS_HISTORICAL_ONLY_AFTER_TASK_STOP"
+  }
+  candidate_record_path = File.join(terminal_root, "SYNTHETIC_CANDIDATE_NONPASS_RECORD.json")
+  rejected = {
+    "commit" => candidate_commit,
+    "tree" => candidate_tree,
+    "preservation_ref" => tag,
+    "candidate_nonpass_record_path" => candidate_record_path,
+    "candidate_nonpass_record_sha256" => nil,
+    "candidate_nonpass_record_byte_length" => nil,
+    "targeted_task_checks" => "PASS_HISTORICAL_ONLY",
+    "repository_make_verify" => "NON_PASS",
+    "candidate_accepted" => false,
+    "candidate_integrated" => false,
+    "capability_claims" => 0
+  }
+  candidate_record = {
+    "record_type" => "synthetic_candidate_nonpass_record",
+    "status" => "NON_PASS_STOP_CONDITION_TRIGGERED",
+    "task_id" => task_id,
+    "attempt_ordinal" => 1,
+    "rejected_candidate" => {
+      "commit" => candidate_commit,
+      "tree" => candidate_tree,
+      "candidate_accepted" => false,
+      "canonical_main_advanced" => false
+    },
+    "negative_execution_facts" => { "capability_claims" => 0 }
+  }
+  write_json(candidate_record_path, candidate_record)
+  rejected["candidate_nonpass_record_sha256"] = Digest::SHA256.file(candidate_record_path).hexdigest
+  rejected["candidate_nonpass_record_byte_length"] = File.size(candidate_record_path)
+  review_bindings = {}
+  %w[cto security quality].each do |role|
+    review_path = File.join(terminal_root, "SYNTHETIC_#{role.upcase}_TERMINAL_REVIEW.json")
+    write_json(review_path, {
+      "record_type" => "synthetic_#{role}_terminal_review",
+      "status" => "NON_PASS",
+      "task_id" => task_id,
+      "attempt_ordinal" => 1
+    })
+    review_bindings[role] = {
+      "path" => review_path,
+      "sha256" => Digest::SHA256.file(review_path).hexdigest,
+      "byte_length" => File.size(review_path),
+      "status" => "NON_PASS"
+    }
+  end
+  rollback_path = File.join(terminal_root, "SYNTHETIC_ROLLBACK_RECEIPT.json")
+  rollback_receipt = {
+    "record_type" => "synthetic_terminal_rollback_receipt",
+    "status" => "PASS",
+    "task_id" => task_id,
+    "removed_task_resources" => { "branch_absent" => true, "worktree_absent" => true },
+    "rejected_candidate_preservation" => {
+      "commit" => candidate_commit,
+      "tree" => candidate_tree,
+      "ref" => tag,
+      "candidate_integrated_to_main" => false
+    }
+  }
+  write_json(rollback_path, rollback_receipt)
+  rollback = {
+    "receipt_path" => rollback_path,
+    "receipt_sha256" => Digest::SHA256.file(rollback_path).hexdigest,
+    "receipt_byte_length" => File.size(rollback_path),
+    "task_branch_removed" => true,
+    "task_worktree_removed" => true,
+    "canonical_commit_unchanged" => candidate_commit,
+    "canonical_tree_unchanged" => candidate_tree
+  }
+  bindings = {
+    "slice_ordinal" => 1,
+    "project_level_rebaseline_decision_sha256" => truth.dig("mandatory_exit_capability_recovery", "project_level_rebaseline", "decision_record_sha256"),
+    "delivery_architecture_simplification_decision_sha256" => truth.dig("mandatory_exit_capability_recovery", "current_project_level_reopen", "current_slice_attempt", "delivery_architecture_simplification_decision_sha256"),
+    "project_level_reopen_decision_sha256" => truth.dig("mandatory_exit_capability_recovery", "current_project_level_reopen", "decision_record_sha256")
+  }
+  manifest_path = File.join(terminal_root, "TERMINAL_EVIDENCE_MANIFEST.json")
+  manifest = {
+    "record_type" => "aios_p1_mandatory_capability_terminal_evidence_manifest",
+    "status" => "TERMINAL_STOPPED_AFTER_REAL_ARCHITECTURE_ROOT",
+    "task_id" => task_id,
+    "attempt_ordinal" => 1,
+    "task_contract_sha256" => contract_sha256,
+    "bounded_contract_corrections_used" => contract["bounded_contract_corrections_used"],
+    "failure_classification" => "REAL_ARCHITECTURE_ROOT",
+    "mandatory_exit_capabilities" => capabilities
+  }
+  write_json(manifest_path, manifest)
+  terminal_record_path = File.join(terminal_root, "SYNTHETIC_TERMINAL_STOP_RECORD.json")
+  claim_boundary = "SYNTHETIC_REAL_ARCHITECTURE_ROOT_TERMINAL_EVIDENCE_ONLY"
+  terminal_record = {
+    "record_type" => "aios_p1_#{task_number}_terminal_stop_record",
+    "status" => "TERMINAL_STOPPED_AFTER_REAL_ARCHITECTURE_ROOT",
+    "task_id" => task_id,
+    "attempt_ordinal" => 1,
+    "terminal_classification" => "ARCHITECTURE_BLOCKED",
+    "failure_classification" => "REAL_ARCHITECTURE_ROOT",
+    "founder_escalation_required" => true,
+    "task_contract" => contract,
+    "mandatory_exit_capabilities" => capabilities,
+    "project_level_bindings" => bindings,
+    "activation" => activation,
+    "quality_freeze" => quality,
+    "rejected_candidate" => rejected,
+    "independent_terminal_reviews" => review_bindings,
+    "rollback" => rollback,
+    "terminal_evidence_manifest" => {
+      "path" => manifest_path,
+      "sha256" => Digest::SHA256.file(manifest_path).hexdigest,
+      "byte_length" => File.size(manifest_path)
+    },
+    "prohibitions" => {
+      "retry" => false,
+      "successor" => false,
+      "replacement" => false,
+      "historical_candidate_reuse" => false,
+      "continue_to_slice_2" => false
+    },
+    "next_required_decision" => "FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED",
+    "claim_boundary" => claim_boundary
+  }
+  write_json(terminal_record_path, terminal_record)
+  {
+    "task_id" => task_id,
+    "status" => terminal_record["status"],
+    "terminal_classification" => "ARCHITECTURE_BLOCKED",
+    "failure_classification" => "REAL_ARCHITECTURE_ROOT",
+    "mandatory_exit_capability" => capabilities.first,
+    "integrated_mandatory_exit_capabilities" => capabilities,
+    "clean_room_attempt_ordinal" => 1,
+    "project_level_rebaseline_slice_ordinal" => 1,
+    "project_level_rebaseline_decision_sha256" => bindings["project_level_rebaseline_decision_sha256"],
+    "project_level_reopen_decision_sha256" => bindings["project_level_reopen_decision_sha256"],
+    "founder_escalation_required" => true,
+    "task_contract" => contract,
+    "project_level_bindings" => bindings,
+    "activation" => activation,
+    "quality_freeze" => quality,
+    "quality_freeze_receipt" => {
+      "path" => quality_receipt_path,
+      "sha256" => Digest::SHA256.file(quality_receipt_path).hexdigest,
+      "byte_length" => File.size(quality_receipt_path)
+    },
+    "rejected_candidate" => rejected,
+    "independent_terminal_reviews" => review_bindings,
+    "rollback" => rollback,
+    "execution_evidence_root" => terminal_root,
+    "terminal_evidence" => {
+      "terminal_stop_record_path" => terminal_record_path,
+      "terminal_stop_record_sha256" => Digest::SHA256.file(terminal_record_path).hexdigest,
+      "terminal_stop_record_byte_length" => File.size(terminal_record_path),
+      "evidence_manifest_path" => manifest_path,
+      "evidence_manifest_sha256" => Digest::SHA256.file(manifest_path).hexdigest,
+      "evidence_manifest_byte_length" => File.size(manifest_path)
+    },
+    "candidate_accepted" => false,
+    "candidate_integrated" => false,
+    "capability_claims" => 0,
+    "recovery_allowed" => false,
+    "asset_reuse_allowed" => false,
+    "retry_allowed" => false,
+    "successor_allowed" => false,
+    "replacement_allowed" => false,
+    "continue_to_next_slice" => false,
+    "claim_boundary" => claim_boundary
+  }
 end
 
 def current_reopen_terminal_fixture(active_truth, stage, task_id:, contract_sha256:, terminal_evidence_root: nil, terminal_status_override: nil)
@@ -328,6 +641,15 @@ def current_reopen_terminal_fixture(active_truth, stage, task_id:, contract_sha2
   failure_classification = stage == "ARCHITECTURE_BLOCKED" ? "REAL_ARCHITECTURE_ROOT" : "SCOPE_COMPLIANCE_FAILURE"
   terminal_root = terminal_evidence_root || active_truth.dig("active_work", "execution_evidence_root")
   FileUtils.mkdir_p(terminal_root)
+  contract_path = active_truth.dig("active_work", "current_task_contract")
+  if stage == "ARCHITECTURE_BLOCKED" &&
+      terminal_status == "TERMINAL_STOPPED_AFTER_REAL_ARCHITECTURE_ROOT" &&
+      contract_path
+    value.fetch("task_history")["synthetic_current_reopen_#{stage.downcase}"] = install_synthetic_architecture_terminal_evidence!(
+      value, task_id, contract_sha256, contract_path, terminal_root, capabilities
+    )
+    return value
+  end
   manifest_path = File.join(terminal_root, "TERMINAL_EVIDENCE_MANIFEST_#{Digest::SHA256.hexdigest(terminal_status)[0, 8]}.json")
   write_json(manifest_path, {
     "record_type" => "aios_p1_mandatory_capability_terminal_evidence_manifest",
@@ -442,6 +764,8 @@ def install_rebaseline_gate_evidence!(truth, evidence_base, candidate_commit, ca
       reopen["current_slice_attempt"] = attempt
       reopen["current_p1_status"] = "ACCEPTED"
       reopen["current_task"] = "NONE"
+      reopen["next_slice_ordinal"] = ordinal + 1
+      reopen["next_slice_action"] = "MASTER_AUTONOMOUSLY_PREPARE_AND_EXECUTE_REBASELINED_SLICE_#{ordinal + 1}"
     else
       rebaseline.fetch("slice_attempts")[ordinal.to_s] = attempt
     end
@@ -786,9 +1110,9 @@ Dir.mktmpdir("aios-rebuild-authority-") do |root|
   run!("git", "commit", "--amend", "-m", "synthetic rebuild authority source", chdir: canonical_root)
 
   run!("git", "clone", "--no-local", "--branch", "main", canonical_root, rebuild_root)
-  run_validator(rebuild_root, false, "fresh clone without rebuild mode negative", expected_failure: "canonical repository identity drift")
+  run_validator(rebuild_root, false, "wrong workspace common-dir normal mode negative", expected_failure: "canonical repository identity drift")
   run_validator(canonical_root, false, "canonical cannot use rebuild mode negative", expected_failure: "requires a non-canonical fresh clone", env: { "SOURCELENS_REBUILD_VERIFY" => "1" })
-  run_validator(rebuild_root, true, "clean fresh clone rebuild mode positive", env: { "SOURCELENS_REBUILD_VERIFY" => "1" })
+  run_validator(rebuild_root, true, "fresh clone rebuild approved and current routing separation nonregression positive", env: { "SOURCELENS_REBUILD_VERIFY" => "1" })
 
   File.write(File.join(rebuild_root, "UNTRACKED_REBUILD_DRIFT"), "drift\n", mode: "w:UTF-8")
   run_validator(rebuild_root, false, "dirty fresh clone rebuild mode negative", expected_failure: "clone is not clean", env: { "SOURCELENS_REBUILD_VERIFY" => "1" })
@@ -865,6 +1189,12 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   current_project_reopen["current_slice_attempt"] = nil
   current_project_reopen["current_p1_status"] = "REBASELINED_PENDING_EXECUTION"
   current_project_reopen["current_task"] = "NONE"
+  current_project_reopen["next_slice_ordinal"] = current_project_reopen.dig(
+    "approved_reopen_decision_route", "next_slice_ordinal"
+  )
+  current_project_reopen["next_slice_action"] = current_project_reopen.dig(
+    "approved_reopen_decision_route", "next_slice_action"
+  )
   p1_041_history = truth.fetch("task_history").values.find do |entry|
     entry.is_a?(Hash) && entry["task_id"] == "AIOS-P1-041_PARAMETERIZED_EVALUATION_CORE_IMPLEMENTATION"
   end
@@ -901,7 +1231,7 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
     truth["mandatory_exit_capability_recovery"]["capability_status"][capability] = "MISSING"
     truth["mandatory_exit_capability_recovery"]["capability_attempt_ledger"][capability] = nil
   end
-  rebaseline.fetch("slices").first.fetch("capability_projection").each do |capability|
+  rebaseline.fetch("slices").flat_map { |slice| slice.fetch("capability_projection") }.each do |capability|
     truth["mandatory_exit_capability_recovery"]["capability_status"][capability] = "REBASELINED_PENDING_EXECUTION"
   end
   truth["mandatory_exit_capability_recovery"]["founder_dispositions"] = {}
@@ -988,6 +1318,24 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   run_current_reopen_transition(root, active_current_reopen, accepted_current_reopen, true, "current reopen ACCEPTED terminal positive")
   run_current_reopen_transition(root, active_current_reopen, architecture_blocked_current_reopen, true, "current reopen ARCHITECTURE_BLOCKED terminal positive")
   run_current_reopen_transition(root, active_current_reopen, scope_blocked_current_reopen, true, "current reopen SCOPE_COMPLIANCE_BLOCKED terminal positive")
+
+  current_reopen_authority = none_truth.dig("mandatory_exit_capability_recovery", "current_project_level_reopen")
+  current_reopen_decision = JSON.parse(File.read(current_reopen_authority.fetch("decision_record_path")))
+  run_exact_validator_helper(
+    :validate_approved_reopen_decision_binding!,
+    [none_truth, current_reopen_authority, current_reopen_decision],
+    true,
+    "historical approved reopen decision ordinal and action exact binding positive"
+  )
+  mismatched_historical_decision_action = Marshal.load(Marshal.dump(current_reopen_decision))
+  mismatched_historical_decision_action.fetch("decision")["next_slice_action"] = "FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED"
+  run_exact_validator_helper(
+    :validate_approved_reopen_decision_binding!,
+    [none_truth, current_reopen_authority, mismatched_historical_decision_action],
+    false,
+    "historical decision action inconsistent with original decision bytes negative",
+    expected_failure: "Founder decision route binding drift"
+  )
 
   legacy_attempt = none_truth.dig("mandatory_exit_capability_recovery", "project_level_reopen", "slice_1_reopen_attempt")
   run_current_reopen_superseding_projection(pending_current_reopen, legacy_attempt, true, "current reopen pending supersedes preserved legacy attempt positive")
@@ -1226,7 +1574,7 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   goal_identity_drift = Marshal.load(Marshal.dump(none_truth))
   goal_identity_drift["goal"]["observed_body_sha256"] = "0" * 64
   write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), goal_identity_drift)
-  run_validator(root, false, "current Goal identity mutation negative", expected_failure: "current Goal canonical identity drift")
+  run_validator(root, false, "current Goal identity drift mutation negative", expected_failure: "current Goal canonical identity drift")
 
   reopen_parent_drift = Marshal.load(Marshal.dump(none_truth))
   reopen_parent_drift.dig("mandatory_exit_capability_recovery", "current_project_level_reopen")["canonical_parent_tree"] = "0" * 40
@@ -1241,7 +1589,7 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   reopen_decision_drift = Marshal.load(Marshal.dump(none_truth))
   reopen_decision_drift.dig("mandatory_exit_capability_recovery", "current_project_level_reopen")["decision_record_sha256"] = "0" * 64
   write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), reopen_decision_drift)
-  run_validator(root, false, "current reopen decision hash mutation negative", expected_failure: "current P1 project-level reopen cannot supersede the historical attempt")
+  run_validator(root, false, "current reopen decision hash mutation negative", expected_failure: "current P1 project-level reopen Founder decision hash drift")
 
   write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), none_truth)
   p1_042_unit_truth = Marshal.load(Marshal.dump(none_truth))
@@ -1558,7 +1906,7 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   run!("git", "commit", "-m", "activate current reopen Slice 1 integration fixture", chdir: root)
   run!("git", "branch", integration_branch, "HEAD", chdir: root)
   run!("git", "worktree", "add", integration_worktree, integration_branch, chdir: root)
-  run_validator(root, true, "complete current reopen Slice 1 ACTIVE integration positive")
+  run_validator(integration_worktree, true, "linked current worktree approved and current routing separation nonregression positive")
   integration_active_commit = run!("git", "rev-parse", "HEAD", chdir: root)
   active_safety_truth = Marshal.load(Marshal.dump(integration_active_truth))
   active_safety_truth.fetch("mandatory_exit_capability_recovery")["post_revision_final_route_terminal"] = { "status" => "P1_TERMINAL_STOPPED" }
@@ -1578,7 +1926,7 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   run!("git", "commit", "-m", "synthetic activation missing code map", chdir: root)
   run!("git", "branch", integration_branch, "HEAD", chdir: root)
   run!("git", "worktree", "add", integration_worktree, integration_branch, chdir: root)
-  run_validator(root, false, "rebaseline activation missing Code Map negative", expected_failure: "active Task activation path population drift")
+  run_validator(integration_worktree, false, "rebaseline activation missing Code Map negative", expected_failure: "active Task activation path population drift")
   run!("git", "worktree", "remove", integration_worktree, chdir: root)
   run!("git", "branch", "-d", integration_branch, chdir: root)
 
@@ -1590,7 +1938,7 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   run!("git", "commit", "-m", "synthetic activation with third path", chdir: root)
   run!("git", "branch", integration_branch, "HEAD", chdir: root)
   run!("git", "worktree", "add", integration_worktree, integration_branch, chdir: root)
-  run_validator(root, false, "rebaseline activation third path negative", expected_failure: "active Task activation path population drift")
+  run_validator(integration_worktree, false, "rebaseline activation third path negative", expected_failure: "active Task activation path population drift")
   run!("git", "worktree", "remove", integration_worktree, chdir: root)
   run!("git", "branch", "-d", integration_branch, chdir: root)
 
@@ -1603,7 +1951,7 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   run!("git", "commit", "-m", "synthetic split activation truth", chdir: root)
   run!("git", "branch", integration_branch, "HEAD", chdir: root)
   run!("git", "worktree", "add", integration_worktree, integration_branch, chdir: root)
-  run_validator(root, false, "rebaseline activation two commits negative", expected_failure: "active Task activation must be one governance commit")
+  run_validator(integration_worktree, false, "rebaseline activation two commits negative", expected_failure: "active Task activation must be one governance commit")
   run!("git", "worktree", "remove", integration_worktree, chdir: root)
   run!("git", "branch", "-d", integration_branch, chdir: root)
 
@@ -1636,7 +1984,160 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
     write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), terminal_truth)
     run!("git", "add", "docs/aios/truth/project_state.yaml", chdir: root)
     run!("git", "commit", "-m", "synthetic current reopen #{terminal_stage}", chdir: root)
-    run_validator(root, true, "preserved legacy plus current reopen #{terminal_stage} production-validator positive")
+    if terminal_stage == "ARCHITECTURE_BLOCKED"
+      hidden_state = terminal_truth.dig("mandatory_exit_capability_recovery", "capability_status", "HIDDEN_SET_PROTOCOL")
+      raise "current Slice terminal fixture did not preserve Hidden pending" unless hidden_state == "REBASELINED_PENDING_EXECUTION"
+      terminal_reopen = terminal_truth.dig("mandatory_exit_capability_recovery", "current_project_level_reopen")
+      raise "historical approved reopen route identity drift in terminal fixture" unless
+        terminal_reopen["approved_reopen_decision_route"] == {
+          "next_slice_ordinal" => 1,
+          "next_slice_action" => "MASTER_AUTONOMOUSLY_PREPARE_AND_EXECUTE_REBASELINED_SLICE_1"
+        }
+      raise "current terminal routing is not fail-closed in terminal fixture" unless
+        terminal_reopen["next_slice_ordinal"].nil? &&
+        terminal_reopen["next_slice_action"] == "FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED"
+      run_validator(root, true, "historical approved ordinal 1 with current terminal routing null and Hidden pending positive")
+
+      residual_task_branch = "task/residual-none-terminal"
+      run!("git", "branch", residual_task_branch, "HEAD", chdir: root)
+      run_validator(
+        root,
+        false,
+        "NONE residual task branch production-validator negative",
+        expected_failure: "Task branches remain while no Task is active"
+      )
+      run!("git", "branch", "-D", residual_task_branch, chdir: root)
+
+      residual_external_branch = "feature/residual-none-external-linked"
+      residual_external_worktree = File.join(root, "external-residual-linked-worktree")
+      run!("git", "worktree", "add", "-b", residual_external_branch, residual_external_worktree, "HEAD", chdir: root)
+      run_validator(
+        root,
+        false,
+        "NONE residual external-path worktree production-validator negative",
+        expected_failure: "unexpected worktree population outside canonical and current runtime"
+      )
+      run!("git", "worktree", "remove", residual_external_worktree, chdir: root)
+      run!("git", "branch", "-D", residual_external_branch, chdir: root)
+
+      terminal_history_key = terminal_truth.fetch("task_history").keys.find do |key|
+        terminal_truth.dig("task_history", key, "task_id") == integration_task_id &&
+          terminal_truth.dig("task_history", key, "terminal_classification") == "ARCHITECTURE_BLOCKED"
+      end
+      raise "current architecture terminal history fixture missing" unless terminal_history_key
+      run_terminal_truth_negative = lambda do |variant, label, expected_failure|
+        run!("git", "reset", "--hard", integration_active_commit, chdir: root)
+        write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), variant)
+        run!("git", "add", "docs/aios/truth/project_state.yaml", chdir: root)
+        run!("git", "commit", "-m", "synthetic #{label}", chdir: root)
+        run_validator(root, false, label, expected_failure: expected_failure)
+      end
+
+      stale_current_terminal_ordinal = Marshal.load(Marshal.dump(terminal_truth))
+      stale_current_terminal_ordinal.dig(
+        "mandatory_exit_capability_recovery", "current_project_level_reopen"
+      )["next_slice_ordinal"] = 1
+      run_terminal_truth_negative.call(
+        stale_current_terminal_ordinal,
+        "current terminal routing stale ordinal 1 negative",
+        "current routing drift"
+      )
+
+      null_approved_reopen_ordinal = Marshal.load(Marshal.dump(terminal_truth))
+      null_approved_reopen_ordinal.dig(
+        "mandatory_exit_capability_recovery", "current_project_level_reopen", "approved_reopen_decision_route"
+      )["next_slice_ordinal"] = nil
+      run_terminal_truth_negative.call(
+        null_approved_reopen_ordinal,
+        "historical approved reopen ordinal null negative",
+        "approved decision route binding drift"
+      )
+
+      drifted_approved_reopen_ordinal = Marshal.load(Marshal.dump(terminal_truth))
+      drifted_approved_route = drifted_approved_reopen_ordinal.dig(
+        "mandatory_exit_capability_recovery", "current_project_level_reopen", "approved_reopen_decision_route"
+      )
+      drifted_approved_route["next_slice_ordinal"] = 2
+      drifted_approved_route["next_slice_action"] = "MASTER_AUTONOMOUSLY_PREPARE_AND_EXECUTE_REBASELINED_SLICE_2"
+      run_terminal_truth_negative.call(
+        drifted_approved_reopen_ordinal,
+        "historical approved reopen ordinal drift negative",
+        "current P1 project-level reopen cannot supersede the historical attempt"
+      )
+
+      missing_current_terminal_action = Marshal.load(Marshal.dump(terminal_truth))
+      missing_current_terminal_action.dig(
+        "mandatory_exit_capability_recovery", "current_project_level_reopen"
+      ).delete("next_slice_action")
+      run_terminal_truth_negative.call(
+        missing_current_terminal_action,
+        "current terminal next Slice action missing negative",
+        "current P1 project-level reopen current routing drift"
+      )
+
+      wrong_current_terminal_action = Marshal.load(Marshal.dump(terminal_truth))
+      wrong_current_terminal_action.dig(
+        "mandatory_exit_capability_recovery", "current_project_level_reopen"
+      )["next_slice_action"] = "MASTER_AUTONOMOUSLY_PREPARE_AND_EXECUTE_REBASELINED_SLICE_1"
+      run_terminal_truth_negative.call(
+        wrong_current_terminal_action,
+        "current terminal next Slice action wrong negative",
+        "current routing drift"
+      )
+
+      terminal_without_evidence = Marshal.load(Marshal.dump(terminal_truth))
+      terminal_without_evidence.fetch("task_history").delete(terminal_history_key)
+      run_terminal_truth_negative.call(
+        terminal_without_evidence,
+        "current terminal routing without terminal Evidence negative",
+        "current architecture terminal history population drift"
+      )
+
+      false_hidden_blocked = Marshal.load(Marshal.dump(terminal_truth))
+      false_hidden_blocked.dig("mandatory_exit_capability_recovery", "capability_status")["HIDDEN_SET_PROTOCOL"] = "ARCHITECTURE_BLOCKED"
+      run_terminal_truth_negative.call(
+        false_hidden_blocked,
+        "current Slice false Hidden architecture-blocked without Evidence negative",
+        "marked an unrelated capability architecture-blocked"
+      )
+
+      attempt_projection_mismatch = Marshal.load(Marshal.dump(terminal_truth))
+      attempt_projection_mismatch.dig(
+        "mandatory_exit_capability_recovery", "current_project_level_reopen", "current_slice_attempt",
+        "integrated_mandatory_exit_capabilities"
+      ).pop
+      run_terminal_truth_negative.call(
+        attempt_projection_mismatch,
+        "current Slice attempt projection mismatch negative",
+        "current P1 project-level reopen attempt binding drift"
+      )
+
+      terminal_manifest_hash_drift = Marshal.load(Marshal.dump(terminal_truth))
+      terminal_manifest_hash_drift.dig("task_history", terminal_history_key, "terminal_evidence")["evidence_manifest_sha256"] = "0" * 64
+      run_terminal_truth_negative.call(
+        terminal_manifest_hash_drift,
+        "current Slice terminal manifest hash drift negative",
+        "current architecture terminal manifest hash drift"
+      )
+
+      terminal_stop_hash_drift = Marshal.load(Marshal.dump(terminal_truth))
+      terminal_stop_hash_drift.dig("task_history", terminal_history_key, "terminal_evidence")["terminal_stop_record_sha256"] = "0" * 64
+      run_terminal_truth_negative.call(
+        terminal_stop_hash_drift,
+        "current Slice terminal stop record hash drift negative",
+        "current architecture terminal stop record hash drift"
+      )
+
+      candidate_reuse = Marshal.load(Marshal.dump(terminal_truth))
+      candidate_reuse.dig("task_history", terminal_history_key)["asset_reuse_allowed"] = true
+      run_terminal_truth_negative.call(
+        candidate_reuse,
+        "current Slice rejected candidate reuse flag negative",
+        "current architecture terminal history binding drift"
+      )
+    else
+      run_validator(root, true, "preserved legacy plus current reopen #{terminal_stage} production-validator positive")
+    end
     run!("git", "reset", "--hard", integration_active_commit, chdir: root)
   end
   {
@@ -1654,7 +2155,7 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
     write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), wrong_terminal_truth)
     run!("git", "add", "docs/aios/truth/project_state.yaml", chdir: root)
     run!("git", "commit", "-m", "synthetic current reopen wrong terminal status #{terminal_stage}", chdir: root)
-    run_validator(root, false, "current reopen #{terminal_stage} wrong self-consistent terminal status negative", expected_failure: terminal_stage == "ARCHITECTURE_BLOCKED" ? "architecture-blocked Exit capability lacks terminal Evidence binding" : "current reopened Slice scope-compliance terminal lacks Evidence binding")
+    run_validator(root, false, "current reopen #{terminal_stage} wrong self-consistent terminal status negative", expected_failure: terminal_stage == "ARCHITECTURE_BLOCKED" ? "current architecture terminal history schema drift" : "current reopened Slice scope-compliance terminal lacks Evidence binding")
     run!("git", "reset", "--hard", integration_active_commit, chdir: root)
   end
 
@@ -1834,7 +2335,7 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   run!("git", "commit", "-m", "activate complete valid Slice 4 predecessor", chdir: root)
   run!("git", "branch", slice_4_branch, "HEAD", chdir: root)
   run!("git", "worktree", "add", slice_4_worktree, slice_4_branch, chdir: root)
-  run_validator(root, true, "complete valid Slice 4 ACTIVE production-validator predecessor positive")
+  run_validator(slice_4_worktree, true, "complete valid Slice 4 linked current worktree ACTIVE production-validator predecessor positive")
   slice_4_active_safety_path = File.join(root, "SLICE_4_ACTIVE_SAFETY_TRUTH.yaml")
   slice_4_active_safety_truth = Marshal.load(Marshal.dump(slice_4_active_truth))
   slice_4_active_safety_truth.fetch("mandatory_exit_capability_recovery")["post_revision_final_route_terminal"] = { "status" => "P1_TERMINAL_STOPPED" }
@@ -2572,12 +3073,14 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   created_truth = Marshal.load(Marshal.dump(active_truth))
   created_truth["active_work"]["task_resource_state"] = "CREATED"
   write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), created_truth)
-  run_validator(root, true, "active CREATED positive")
+  write_yaml(File.join(task_worktree, "docs/aios/truth/project_state.yaml"), created_truth)
+  run_validator(task_worktree, true, "linked current worktree active CREATED positive")
   review_truth = Marshal.load(Marshal.dump(created_truth))
   review_truth["active_work"]["current_task_status"] = "REVIEW"
   review_truth["active_work"]["task_resource_state"] = "REVIEW"
   write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), review_truth)
-  run_validator(root, true, "active REVIEW positive")
+  write_yaml(File.join(task_worktree, "docs/aios/truth/project_state.yaml"), review_truth)
+  run_validator(task_worktree, true, "linked current worktree active REVIEW positive")
   empty_tree = run!("git", "hash-object", "-t", "tree", "/dev/null", chdir: root)
   orphan_commit = run!("git", "commit-tree", empty_tree, "-m", "unrelated root", chdir: root)
   run!("git", "update-ref", "refs/heads/#{task_branch}", orphan_commit, chdir: root)
@@ -3102,7 +3605,7 @@ Dir.mktmpdir("aios-final-clean-room-route-") do |root|
     post_revision_route_drift = Marshal.load(Marshal.dump(truth))
     post_revision_route_drift["mandatory_exit_capability_recovery"]["post_revision_final_implementation_route"]["task_id"] = "AIOS-P1-040_FORBIDDEN_FIFTH_ROUTE"
     write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), post_revision_route_drift)
-    run_validator(root, false, "post-revision route identity negative", expected_failure: "post-revision final route identity drift")
+    run_validator(root, false, "P1-039 historical route identity immutable mutation negative", expected_failure: "post-revision final route identity drift")
 
     removed_terminal = Marshal.load(Marshal.dump(truth))
     removed_terminal["mandatory_exit_capability_recovery"]["final_clean_room_contract_review_terminal"] = nil
@@ -3112,7 +3615,7 @@ Dir.mktmpdir("aios-final-clean-room-route-") do |root|
     terminal_status_drift = Marshal.load(Marshal.dump(truth))
     terminal_status_drift["mandatory_exit_capability_recovery"]["final_clean_room_contract_review_terminal"]["status"] = "ACTIVE"
     write_yaml(File.join(root, "docs/aios/truth/project_state.yaml"), terminal_status_drift)
-    run_validator(root, false, "final clean-room terminal status drift negative", expected_failure: "final clean-room contract-review terminal route binding drift")
+    run_validator(root, false, "P1-038 historical terminal fact immutable mutation negative", expected_failure: "final clean-room contract-review terminal route binding drift")
 
     partial_terminal = Marshal.load(Marshal.dump(truth))
     capability = final_terminal.fetch("mandatory_exit_capabilities").first

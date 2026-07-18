@@ -197,6 +197,14 @@ def git_file(ref, path)
   $CHILD_STATUS.success? ? output : nil
 end
 
+def git_common_dir_real(root)
+  raw = git_at(root, "rev-parse", "--git-common-dir")
+  common_dir = Pathname.new(raw).absolute? ? raw : File.expand_path(raw, root)
+  File.realpath(common_dir)
+rescue ArgumentError, Errno::ENOENT, Errno::EACCES
+  nil
+end
+
 def previous_truth_transition(current_bytes)
   relative_path = "docs/aios/truth/project_state.yaml"
   head_bytes = git_file("HEAD", relative_path)
@@ -486,16 +494,69 @@ def truth_without_activation_fields(value)
   project_reopen.delete("slice_1_reopen_attempt") if project_reopen.is_a?(Hash)
   current_project_reopen = copy.fetch("mandatory_exit_capability_recovery")["current_project_level_reopen"]
   if current_project_reopen.is_a?(Hash)
-    %w[current_slice_attempt current_p1_status current_task].each { |field| current_project_reopen.delete(field) }
+    %w[current_slice_attempt current_p1_status current_task next_slice_ordinal next_slice_action].each do |field|
+      current_project_reopen.delete(field)
+    end
   end
   copy
 end
 
-def validate_current_reopen_attempt_identity!(truth, reopen, attempt)
+def approved_reopen_decision_route!(truth, reopen, allow_legacy: false)
+  route = reopen.is_a?(Hash) ? reopen["approved_reopen_decision_route"] : nil
+  if !route.is_a?(Hash) && allow_legacy
+    legacy_ordinal = reopen["next_slice_ordinal"]
+    route = {
+      "next_slice_ordinal" => legacy_ordinal,
+      "next_slice_action" => legacy_ordinal.is_a?(Integer) ?
+        "MASTER_AUTONOMOUSLY_PREPARE_AND_EXECUTE_REBASELINED_SLICE_#{legacy_ordinal}" : nil
+    }
+  end
+  stop!("current P1 project-level reopen approved decision route schema drift") unless
+    route.is_a?(Hash) && route.keys.sort == %w[next_slice_action next_slice_ordinal].sort
+  ordinal = route["next_slice_ordinal"]
+  stop!("current P1 project-level reopen approved decision route binding drift") unless
+    ordinal.is_a?(Integer) &&
+    Array(truth.dig("mandatory_exit_capability_recovery", "project_level_rebaseline", "slices")).any? do |slice|
+      slice["ordinal"] == ordinal
+    end &&
+    route["next_slice_action"] == "MASTER_AUTONOMOUSLY_PREPARE_AND_EXECUTE_REBASELINED_SLICE_#{ordinal}"
+  route
+end
+
+def validate_approved_reopen_decision_binding!(truth, reopen, decision)
+  route = approved_reopen_decision_route!(truth, reopen)
+  stop!("current P1 project-level reopen Founder decision route binding drift") unless
+    decision.is_a?(Hash) &&
+    decision.dig("decision", "next_slice_ordinal") == route["next_slice_ordinal"] &&
+    decision.dig("decision", "next_slice_action") == route["next_slice_action"]
+  route
+end
+
+def immutable_current_reopen_transition_identity(reopen)
+  copy = Marshal.load(Marshal.dump(reopen))
+  unless copy["approved_reopen_decision_route"].is_a?(Hash)
+    legacy_ordinal = copy["next_slice_ordinal"]
+    copy["approved_reopen_decision_route"] = {
+      "next_slice_ordinal" => legacy_ordinal,
+      "next_slice_action" => legacy_ordinal.is_a?(Integer) ?
+        "MASTER_AUTONOMOUSLY_PREPARE_AND_EXECUTE_REBASELINED_SLICE_#{legacy_ordinal}" : nil
+    }
+  end
+  %w[current_slice_attempt current_p1_status current_task next_slice_ordinal next_slice_action].each do |field|
+    copy.delete(field)
+  end
+  copy
+end
+
+def validate_current_reopen_attempt_identity!(truth, reopen, attempt, allow_legacy_reopen_route: false)
   recovery = truth.fetch("mandatory_exit_capability_recovery")
   rebaseline = recovery.fetch("project_level_rebaseline")
   delivery = recovery.fetch("delivery_architecture_simplification")
-  slice = Array(rebaseline["slices"]).find { |candidate| candidate["ordinal"] == reopen["next_slice_ordinal"] }
+  approved_route = approved_reopen_decision_route!(
+    truth, reopen, allow_legacy: allow_legacy_reopen_route
+  )
+  approved_ordinal = approved_route["next_slice_ordinal"]
+  slice = Array(rebaseline["slices"]).find { |candidate| candidate["ordinal"] == approved_ordinal }
   expected_keys = %w[
     attempt_ordinal bounded_contract_corrections_used contract_sha256
     delivery_architecture_simplification_decision_sha256 integrated_mandatory_exit_capabilities
@@ -513,18 +574,21 @@ def validate_current_reopen_attempt_identity!(truth, reopen, attempt)
     attempt["delivery_architecture_simplification_decision_sha256"] == delivery["decision_record_sha256"] &&
     attempt["integrated_mandatory_exit_capabilities"] == slice["capability_projection"] &&
     attempt["project_level_rebaseline_decision_sha256"] == rebaseline["decision_record_sha256"] &&
-    attempt["project_level_rebaseline_slice_ordinal"] == reopen["next_slice_ordinal"] &&
+    attempt["project_level_rebaseline_slice_ordinal"] == approved_ordinal &&
     attempt["project_level_reopen_decision_sha256"] == reopen["decision_record_sha256"] &&
     %w[ACTIVE ACCEPTED ARCHITECTURE_BLOCKED SCOPE_COMPLIANCE_BLOCKED].include?(attempt["status"]) &&
     attempt["task_id"].is_a?(String) && attempt["task_id"].match?(/\AAIOS-P1-\d{3}(?:[_-][A-Z0-9_-]+)?\z/) &&
     attempt["task_id"] != reopen["historical_task_id"]
 end
 
-def validate_effective_rebaseline_slice_order!(truth)
+def validate_effective_rebaseline_slice_order!(truth, allow_legacy_reopen_route: false)
   recovery = truth.fetch("mandatory_exit_capability_recovery")
   rebaseline = recovery["project_level_rebaseline"]
   reopen = recovery["current_project_level_reopen"]
   return nil unless rebaseline.is_a?(Hash) && reopen.is_a?(Hash)
+  approved_ordinal = approved_reopen_decision_route!(
+    truth, reopen, allow_legacy: allow_legacy_reopen_route
+  )["next_slice_ordinal"]
 
   slices = Array(rebaseline["slices"]).sort_by { |slice| slice["ordinal"] }
   ordinals = slices.map { |slice| slice["ordinal"] }
@@ -532,11 +596,13 @@ def validate_effective_rebaseline_slice_order!(truth)
   effective_attempts = {}
   slices.each do |slice|
     ordinal = slice["ordinal"]
-    attempt = ordinal == 1 ? reopen["current_slice_attempt"] : rebaseline.dig("slice_attempts", ordinal.to_s)
+    attempt = ordinal == approved_ordinal ? reopen["current_slice_attempt"] : rebaseline.dig("slice_attempts", ordinal.to_s)
     effective_attempts[ordinal] = attempt
     next unless attempt
-    if ordinal == 1
-      validate_current_reopen_attempt_identity!(truth, reopen, attempt)
+    if ordinal == approved_ordinal
+      validate_current_reopen_attempt_identity!(
+        truth, reopen, attempt, allow_legacy_reopen_route: allow_legacy_reopen_route
+      )
       next
     end
     expected_keys = %w[
@@ -610,7 +676,7 @@ def validate_effective_rebaseline_slice_order!(truth)
 end
 
 def validate_effective_rebaseline_slice_transition!(previous_truth, current_truth)
-  previous_order = validate_effective_rebaseline_slice_order!(previous_truth)
+  previous_order = validate_effective_rebaseline_slice_order!(previous_truth, allow_legacy_reopen_route: true)
   current_order = validate_effective_rebaseline_slice_order!(current_truth)
   return nil unless previous_order.is_a?(Hash) && current_order.is_a?(Hash)
 
@@ -650,7 +716,9 @@ def validate_current_reopen_projection!(truth, enforce_accepted_handoff: false)
   return unless reopen.is_a?(Hash)
 
   rebaseline = recovery.fetch("project_level_rebaseline")
-  slice = Array(rebaseline["slices"]).find { |candidate| candidate["ordinal"] == reopen["next_slice_ordinal"] }
+  approved_route = approved_reopen_decision_route!(truth, reopen)
+  approved_ordinal = approved_route["next_slice_ordinal"]
+  slice = Array(rebaseline["slices"]).find { |candidate| candidate["ordinal"] == approved_ordinal }
   stop!("current P1 project-level reopen Slice projection missing") unless slice
   attempt = reopen["current_slice_attempt"]
   validate_current_reopen_attempt_identity!(truth, reopen, attempt) if attempt
@@ -662,8 +730,10 @@ def validate_current_reopen_projection!(truth, enforce_accepted_handoff: false)
       "current_task" => "NONE",
       "rebaseline_status" => "REBASELINED_PENDING_EXECUTION",
       "rebaseline_p1_status" => "REBASELINED_PENDING_EXECUTION",
-      "rebaseline_next_slice" => reopen["next_slice_ordinal"],
-      "rebaseline_next_action" => "MASTER_AUTONOMOUSLY_PREPARE_AND_EXECUTE_REBASELINED_SLICE_#{reopen['next_slice_ordinal']}",
+      "rebaseline_next_slice" => approved_ordinal,
+      "rebaseline_next_action" => approved_route["next_slice_action"],
+      "current_reopen_next_slice" => approved_ordinal,
+      "current_reopen_next_action" => approved_route["next_slice_action"],
       "capability_status" => "REBASELINED_PENDING_EXECUTION",
       "project_status" => "REBASELINED_PENDING_EXECUTION"
     }
@@ -673,8 +743,10 @@ def validate_current_reopen_projection!(truth, enforce_accepted_handoff: false)
       "current_task" => attempt["task_id"],
       "rebaseline_status" => "REBASELINED_SLICE_ACTIVE",
       "rebaseline_p1_status" => "REBASELINED_SLICE_ACTIVE",
-      "rebaseline_next_slice" => reopen["next_slice_ordinal"],
-      "rebaseline_next_action" => "MASTER_AUTONOMOUSLY_PREPARE_AND_EXECUTE_REBASELINED_SLICE_#{reopen['next_slice_ordinal']}",
+      "rebaseline_next_slice" => approved_ordinal,
+      "rebaseline_next_action" => approved_route["next_slice_action"],
+      "current_reopen_next_slice" => approved_ordinal,
+      "current_reopen_next_action" => approved_route["next_slice_action"],
       "capability_status" => "IN_PROGRESS",
       "project_status" => "TASK_ACTIVE"
     }
@@ -684,8 +756,10 @@ def validate_current_reopen_projection!(truth, enforce_accepted_handoff: false)
       "current_task" => "NONE",
       "rebaseline_status" => "REBASELINED_PENDING_EXECUTION",
       "rebaseline_p1_status" => "REBASELINED_PENDING_EXECUTION",
-      "rebaseline_next_slice" => reopen["next_slice_ordinal"] + 1,
-      "rebaseline_next_action" => "MASTER_AUTONOMOUSLY_PREPARE_AND_EXECUTE_REBASELINED_SLICE_#{reopen['next_slice_ordinal'] + 1}",
+      "rebaseline_next_slice" => approved_ordinal + 1,
+      "rebaseline_next_action" => "MASTER_AUTONOMOUSLY_PREPARE_AND_EXECUTE_REBASELINED_SLICE_#{approved_ordinal + 1}",
+      "current_reopen_next_slice" => approved_ordinal + 1,
+      "current_reopen_next_action" => "MASTER_AUTONOMOUSLY_PREPARE_AND_EXECUTE_REBASELINED_SLICE_#{approved_ordinal + 1}",
       "capability_status" => "ACCEPTED",
       "project_status" => "REBASELINED_PENDING_EXECUTION"
     }
@@ -697,6 +771,8 @@ def validate_current_reopen_projection!(truth, enforce_accepted_handoff: false)
       "rebaseline_p1_status" => "TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION",
       "rebaseline_next_slice" => nil,
       "rebaseline_next_action" => "FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED",
+      "current_reopen_next_slice" => nil,
+      "current_reopen_next_action" => "FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED",
       "capability_status" => "ARCHITECTURE_BLOCKED",
       "project_status" => "TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION"
     }
@@ -708,6 +784,8 @@ def validate_current_reopen_projection!(truth, enforce_accepted_handoff: false)
       "rebaseline_p1_status" => "PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION",
       "rebaseline_next_slice" => nil,
       "rebaseline_next_action" => "FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED",
+      "current_reopen_next_slice" => nil,
+      "current_reopen_next_action" => "FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED",
       "capability_status" => "P1_TERMINAL_STOPPED_NOT_ACCEPTED",
       "project_status" => "PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION"
     }
@@ -721,6 +799,15 @@ def validate_current_reopen_projection!(truth, enforce_accepted_handoff: false)
     slice["capability_projection"].all? do |capability|
       recovery.dig("capability_status", capability) == expected["capability_status"]
     end
+  stop!("current P1 project-level reopen current routing drift") unless
+    reopen["next_slice_ordinal"] == expected["current_reopen_next_slice"] &&
+    reopen["next_slice_action"] == expected["current_reopen_next_action"]
+  if stage == "ARCHITECTURE_BLOCKED"
+    unrelated_blocked = recovery.fetch("capability_status").select do |capability, state|
+      state == "ARCHITECTURE_BLOCKED" && !slice.fetch("capability_projection").include?(capability)
+    end
+    stop!("current P1 project-level reopen marked an unrelated capability architecture-blocked") unless unrelated_blocked.empty?
+  end
   return if stage == "ACCEPTED" && !enforce_accepted_handoff
   stop!("current P1 project-level reopen claim lifecycle projection drift") unless
     truth.dig("claim_boundary", "p1_status") == expected["rebaseline_p1_status"]
@@ -737,13 +824,230 @@ def validate_current_reopen_projection!(truth, enforce_accepted_handoff: false)
     truth.dig("active_work", "current_task") == expected["current_task"]
 end
 
+def effective_rebaseline_capability_state(truth, capability)
+  recovery = truth.fetch("mandatory_exit_capability_recovery")
+  rebaseline = recovery["project_level_rebaseline"]
+  reopen = recovery["current_project_level_reopen"]
+  return nil unless rebaseline.is_a?(Hash)
+  slices = Array(rebaseline["slices"]).select { |slice| Array(slice["capability_projection"]).include?(capability) }
+  stop!("effective rebaseline capability has ambiguous Slice authority") unless slices.length == 1
+  slice = slices.first
+  approved_ordinal = reopen.is_a?(Hash) ? approved_reopen_decision_route!(truth, reopen)["next_slice_ordinal"] : nil
+  attempt = if slice["ordinal"] == approved_ordinal
+    reopen["current_slice_attempt"]
+  else
+    rebaseline.dig("slice_attempts", slice["ordinal"].to_s)
+  end
+  return "REBASELINED_PENDING_EXECUTION" if attempt.nil?
+  {
+    "ACTIVE" => "IN_PROGRESS",
+    "ACCEPTED" => "ACCEPTED",
+    "ARCHITECTURE_BLOCKED" => "ARCHITECTURE_BLOCKED",
+    "SCOPE_COMPLIANCE_BLOCKED" => "P1_TERMINAL_STOPPED_NOT_ACCEPTED"
+  }[attempt["status"]]
+end
+
+def validate_current_rebaseline_architecture_terminal!(truth, evidence_base)
+  recovery = truth.fetch("mandatory_exit_capability_recovery")
+  reopen = recovery["current_project_level_reopen"]
+  attempt = reopen&.dig("current_slice_attempt")
+  return nil unless attempt.is_a?(Hash) && attempt["status"] == "ARCHITECTURE_BLOCKED"
+
+  validate_current_reopen_attempt_identity!(truth, reopen, attempt)
+  rebaseline = recovery.fetch("project_level_rebaseline")
+  slice = Array(rebaseline["slices"]).find { |candidate| candidate["ordinal"] == attempt["project_level_rebaseline_slice_ordinal"] }
+  capabilities = attempt["integrated_mandatory_exit_capabilities"]
+  stop!("current architecture terminal Slice binding drift") unless
+    slice.is_a?(Hash) && capabilities == slice["capability_projection"] &&
+    capabilities.all? { |capability| recovery.dig("capability_status", capability) == "ARCHITECTURE_BLOCKED" }
+
+  entries = truth.fetch("task_history").values.select do |entry|
+    entry.is_a?(Hash) && entry["task_id"] == attempt["task_id"] &&
+      entry["project_level_reopen_decision_sha256"] == reopen["decision_record_sha256"] &&
+      entry["clean_room_attempt_ordinal"] == attempt["attempt_ordinal"]
+  end
+  stop!("current architecture terminal history population drift") unless entries.length == 1
+  entry = entries.first
+  expected_entry_keys = %w[
+    task_id status terminal_classification failure_classification mandatory_exit_capability
+    integrated_mandatory_exit_capabilities clean_room_attempt_ordinal
+    project_level_rebaseline_slice_ordinal project_level_rebaseline_decision_sha256
+    project_level_reopen_decision_sha256 founder_escalation_required task_contract
+    project_level_bindings activation quality_freeze quality_freeze_receipt rejected_candidate
+    independent_terminal_reviews rollback execution_evidence_root terminal_evidence
+    candidate_accepted candidate_integrated capability_claims recovery_allowed asset_reuse_allowed
+    retry_allowed successor_allowed replacement_allowed continue_to_next_slice claim_boundary
+  ]
+  stop!("current architecture terminal history schema drift") unless entry.keys.sort == expected_entry_keys.sort
+  stop!("current architecture terminal history binding drift") unless
+    entry["status"] == "TERMINAL_STOPPED_AFTER_REAL_ARCHITECTURE_ROOT" &&
+    entry["terminal_classification"] == "ARCHITECTURE_BLOCKED" &&
+    entry["failure_classification"] == "REAL_ARCHITECTURE_ROOT" &&
+    entry["mandatory_exit_capability"] == capabilities.first &&
+    entry["integrated_mandatory_exit_capabilities"] == capabilities &&
+    entry["clean_room_attempt_ordinal"] == attempt["attempt_ordinal"] &&
+    entry["project_level_rebaseline_slice_ordinal"] == slice["ordinal"] &&
+    entry["project_level_rebaseline_decision_sha256"] == rebaseline["decision_record_sha256"] &&
+    entry["project_level_reopen_decision_sha256"] == reopen["decision_record_sha256"] &&
+    entry["founder_escalation_required"] == true &&
+    entry["candidate_accepted"] == false && entry["candidate_integrated"] == false &&
+    entry["capability_claims"] == 0 && entry["recovery_allowed"] == false &&
+    entry["asset_reuse_allowed"] == false && entry["retry_allowed"] == false &&
+    entry["successor_allowed"] == false && entry["replacement_allowed"] == false &&
+    entry["continue_to_next_slice"] == false
+
+  evidence_root = entry["execution_evidence_root"]
+  stop!("current architecture terminal Evidence root invalid") unless
+    safe_under_root?(evidence_root, evidence_base, must_exist: true) && File.directory?(evidence_root) && !File.symlink?(evidence_root)
+  terminal_binding = entry["terminal_evidence"]
+  stop!("current architecture terminal Evidence binding schema drift") unless
+    terminal_binding.is_a?(Hash) && terminal_binding.keys.sort == %w[
+      evidence_manifest_byte_length evidence_manifest_path evidence_manifest_sha256
+      terminal_stop_record_byte_length terminal_stop_record_path terminal_stop_record_sha256
+    ].sort
+  manifest = bound_json!(
+    terminal_binding["evidence_manifest_path"], terminal_binding["evidence_manifest_sha256"],
+    evidence_root, "current architecture terminal manifest"
+  )
+  stop!("current architecture terminal manifest byte length drift") unless
+    File.binread(terminal_binding["evidence_manifest_path"]).bytesize == terminal_binding["evidence_manifest_byte_length"]
+  stop!("current architecture terminal manifest content drift") unless manifest == {
+    "record_type" => "aios_p1_mandatory_capability_terminal_evidence_manifest",
+    "status" => entry["status"],
+    "task_id" => entry["task_id"],
+    "attempt_ordinal" => attempt["attempt_ordinal"],
+    "task_contract_sha256" => attempt["contract_sha256"],
+    "bounded_contract_corrections_used" => attempt["bounded_contract_corrections_used"],
+    "failure_classification" => "REAL_ARCHITECTURE_ROOT",
+    "mandatory_exit_capabilities" => capabilities
+  }
+
+  terminal_record = bound_json!(
+    terminal_binding["terminal_stop_record_path"], terminal_binding["terminal_stop_record_sha256"],
+    evidence_root, "current architecture terminal stop record"
+  )
+  stop!("current architecture terminal stop record byte length drift") unless
+    File.binread(terminal_binding["terminal_stop_record_path"]).bytesize == terminal_binding["terminal_stop_record_byte_length"]
+  task_number = entry["task_id"].to_s[/\AAIOS-P1-(\d{3})/, 1]
+  stop!("current architecture terminal stop record binding drift") unless
+    task_number && terminal_record["record_type"] == "aios_p1_#{task_number}_terminal_stop_record"
+  stop!("current architecture terminal stop record content drift") unless
+    terminal_record["status"] == entry["status"] &&
+    terminal_record["task_id"] == entry["task_id"] &&
+    terminal_record["attempt_ordinal"] == attempt["attempt_ordinal"] &&
+    terminal_record["terminal_classification"] == "ARCHITECTURE_BLOCKED" &&
+    terminal_record["failure_classification"] == "REAL_ARCHITECTURE_ROOT" &&
+    terminal_record["founder_escalation_required"] == true &&
+    terminal_record["task_contract"] == entry["task_contract"] &&
+    terminal_record["mandatory_exit_capabilities"] == capabilities &&
+    terminal_record["project_level_bindings"] == entry["project_level_bindings"] &&
+    terminal_record["activation"] == entry["activation"] &&
+    terminal_record["quality_freeze"] == entry["quality_freeze"] &&
+    terminal_record["rejected_candidate"] == entry["rejected_candidate"] &&
+    terminal_record["independent_terminal_reviews"] == entry["independent_terminal_reviews"] &&
+    terminal_record["rollback"] == entry["rollback"] &&
+    terminal_record["terminal_evidence_manifest"] == {
+      "path" => terminal_binding["evidence_manifest_path"],
+      "sha256" => terminal_binding["evidence_manifest_sha256"],
+      "byte_length" => terminal_binding["evidence_manifest_byte_length"]
+    } &&
+    terminal_record.dig("prohibitions", "retry") == false &&
+    terminal_record.dig("prohibitions", "successor") == false &&
+    terminal_record.dig("prohibitions", "replacement") == false &&
+    terminal_record.dig("prohibitions", "historical_candidate_reuse") == false &&
+    terminal_record.dig("prohibitions", "continue_to_slice_2") == false &&
+    terminal_record["next_required_decision"] == "FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED" &&
+    terminal_record["claim_boundary"] == entry["claim_boundary"]
+
+  contract = entry["task_contract"]
+  contract_path = contract.is_a?(Hash) ? contract["path"] : nil
+  contract_absolute = nonempty_string?(contract_path) && !Pathname.new(contract_path).absolute? ? File.join(REPO_ROOT, contract_path) : nil
+  stop!("current architecture terminal Contract identity drift") unless
+    contract.is_a?(Hash) && contract.keys.sort == %w[bounded_contract_corrections_used byte_length path sha256].sort &&
+    contract["sha256"] == attempt["contract_sha256"] &&
+    contract["bounded_contract_corrections_used"] == attempt["bounded_contract_corrections_used"] &&
+    contract_absolute && safe_under_root?(contract_absolute, REPO_ROOT, must_exist: true) &&
+    File.binread(contract_absolute).bytesize == contract["byte_length"] && sha256(contract_absolute) == contract["sha256"]
+  bindings = entry["project_level_bindings"]
+  stop!("current architecture terminal project-level binding drift") unless bindings == {
+    "slice_ordinal" => slice["ordinal"],
+    "project_level_rebaseline_decision_sha256" => rebaseline["decision_record_sha256"],
+    "delivery_architecture_simplification_decision_sha256" => attempt["delivery_architecture_simplification_decision_sha256"],
+    "project_level_reopen_decision_sha256" => reopen["decision_record_sha256"]
+  }
+
+  quality = entry["quality_freeze"]
+  quality_receipt_binding = entry["quality_freeze_receipt"]
+  stop!("current architecture terminal Quality freeze receipt binding schema drift") unless
+    quality_receipt_binding.is_a?(Hash) && quality_receipt_binding.keys.sort == %w[byte_length path sha256].sort &&
+    quality_receipt_binding["sha256"] == quality["receipt_sha256"]
+  quality_receipt = bound_json!(
+    quality_receipt_binding["path"], quality_receipt_binding["sha256"], evidence_root,
+    "current architecture terminal Quality freeze receipt"
+  )
+  stop!("current architecture terminal Quality freeze receipt drift") unless
+    File.binread(quality_receipt_binding["path"]).bytesize == quality_receipt_binding["byte_length"] &&
+    quality_receipt["status"] == "PASS" && quality_receipt["task_id"] == entry["task_id"] &&
+    quality_receipt.dig("task_contract", "sha256") == contract["sha256"] &&
+    quality_receipt.dig("quality_commit", "commit") == quality["commit"] &&
+    quality_receipt.dig("quality_commit", "tree") == quality["tree"]
+
+  rejected = entry["rejected_candidate"]
+  candidate_record = bound_json!(
+    rejected["candidate_nonpass_record_path"], rejected["candidate_nonpass_record_sha256"],
+    evidence_root, "current architecture terminal candidate NONPASS record"
+  )
+  stop!("current architecture terminal candidate NONPASS record drift") unless
+    File.binread(rejected["candidate_nonpass_record_path"]).bytesize == rejected["candidate_nonpass_record_byte_length"] &&
+    candidate_record["status"] == "NON_PASS_STOP_CONDITION_TRIGGERED" &&
+    candidate_record["task_id"] == entry["task_id"] &&
+    candidate_record["attempt_ordinal"] == attempt["attempt_ordinal"] &&
+    candidate_record.dig("rejected_candidate", "commit") == rejected["commit"] &&
+    candidate_record.dig("rejected_candidate", "tree") == rejected["tree"] &&
+    candidate_record.dig("rejected_candidate", "candidate_accepted") == false &&
+    candidate_record.dig("rejected_candidate", "canonical_main_advanced") == false &&
+    candidate_record.dig("negative_execution_facts", "capability_claims") == 0
+  preservation_ref = rejected["preservation_ref"]
+  stop!("current architecture terminal candidate preservation ref invalid") unless
+    nonempty_string?(preservation_ref) && preservation_ref.start_with?("refs/tags/evidence/") &&
+    git("rev-parse", "#{preservation_ref}^{}") == rejected["commit"] &&
+    git("rev-parse", "#{preservation_ref}^{}^{tree}") == rejected["tree"]
+
+  reviews = entry["independent_terminal_reviews"]
+  stop!("current architecture terminal independent review role population drift") unless
+    reviews.is_a?(Hash) && reviews.keys.sort == %w[cto quality security].sort
+  reviews.each do |role, binding|
+    stop!("current architecture terminal #{role} review binding schema drift") unless
+      binding.is_a?(Hash) && binding.keys.sort == %w[byte_length path sha256 status].sort && binding["status"] == "NON_PASS"
+    review = bound_json!(binding["path"], binding["sha256"], evidence_root, "current architecture terminal #{role} review")
+    stop!("current architecture terminal #{role} review byte length drift") unless File.binread(binding["path"]).bytesize == binding["byte_length"]
+    stop!("current architecture terminal #{role} review content drift") unless
+      review["status"] == "NON_PASS" && review["task_id"] == entry["task_id"] &&
+      (!review.key?("attempt_ordinal") || review["attempt_ordinal"] == attempt["attempt_ordinal"])
+  end
+
+  rollback = entry["rollback"]
+  rollback_receipt = bound_json!(rollback["receipt_path"], rollback["receipt_sha256"], evidence_root, "current architecture terminal rollback receipt")
+  stop!("current architecture terminal rollback receipt drift") unless
+    File.binread(rollback["receipt_path"]).bytesize == rollback["receipt_byte_length"] &&
+    rollback_receipt["status"] == "PASS" && rollback_receipt["task_id"] == entry["task_id"] &&
+    rollback_receipt.dig("removed_task_resources", "branch_absent") == true &&
+    rollback_receipt.dig("removed_task_resources", "worktree_absent") == true &&
+    rollback_receipt.dig("rejected_candidate_preservation", "commit") == rejected["commit"] &&
+    rollback_receipt.dig("rejected_candidate_preservation", "tree") == rejected["tree"] &&
+    rollback_receipt.dig("rejected_candidate_preservation", "ref") == preservation_ref &&
+    rollback_receipt.dig("rejected_candidate_preservation", "candidate_integrated_to_main") == false
+  entry
+end
+
 def current_reopen_superseding_projection_state!(truth, legacy_attempt)
   recovery = truth.fetch("mandatory_exit_capability_recovery")
   current_reopen = recovery["current_project_level_reopen"]
   return nil unless current_reopen.is_a?(Hash)
 
   rebaseline = recovery.fetch("project_level_rebaseline")
-  slice = Array(rebaseline["slices"]).find { |candidate| candidate["ordinal"] == current_reopen["next_slice_ordinal"] }
+  approved_ordinal = approved_reopen_decision_route!(truth, current_reopen)["next_slice_ordinal"]
+  slice = Array(rebaseline["slices"]).find { |candidate| candidate["ordinal"] == approved_ordinal }
   stop!("current P1 project-level reopen cannot supersede the historical attempt") unless
     legacy_attempt["status"] == "SCOPE_COMPLIANCE_BLOCKED" &&
     legacy_attempt["attempt_ordinal"] == 2 &&
@@ -751,10 +1055,11 @@ def current_reopen_superseding_projection_state!(truth, legacy_attempt)
     current_reopen["record_type"] == "p1_project_level_reopen_after_p1_042_current_authority" &&
     current_reopen["status"] == "FOUNDER_APPROVED_ACTIVE" &&
     current_reopen["authority"] == "HUMAN_FOUNDER" &&
-    current_reopen["decision_record_sha256"] == "1c8b53a8a4ad1bbc62bd8f5c37e4fdbd25077a0851fce07dc5ed9ce631d47eeb" &&
+    current_reopen["decision_record_sha256"].is_a?(String) &&
+    current_reopen["decision_record_sha256"].match?(/\A[0-9a-f]{64}\z/) &&
     current_reopen["historical_task_id"] == legacy_attempt["task_id"] &&
     current_reopen["historical_task_contract_sha256"] == legacy_attempt["contract_sha256"] &&
-    current_reopen["next_slice_ordinal"] == legacy_attempt["project_level_rebaseline_slice_ordinal"] &&
+    approved_ordinal == legacy_attempt["project_level_rebaseline_slice_ordinal"] &&
     slice.is_a?(Hash) && slice["capability_projection"] == legacy_attempt["integrated_mandatory_exit_capabilities"]
 
   current_attempt = current_reopen["current_slice_attempt"]
@@ -789,12 +1094,8 @@ def validate_current_reopen_transition!(previous_truth, current_truth)
   stop!("current P1 project-level reopen binding changed or was removed") unless
     previous_reopen.is_a?(Hash) && current_reopen.is_a?(Hash)
 
-  previous_immutable = Marshal.load(Marshal.dump(previous_reopen))
-  current_immutable = Marshal.load(Marshal.dump(current_reopen))
-  %w[current_slice_attempt current_p1_status current_task].each do |field|
-    previous_immutable.delete(field)
-    current_immutable.delete(field)
-  end
+  previous_immutable = immutable_current_reopen_transition_identity(previous_reopen)
+  current_immutable = immutable_current_reopen_transition_identity(current_reopen)
   stop!("current P1 project-level reopen immutable identity changed") unless current_immutable == previous_immutable
 
   previous_attempt = previous_reopen["current_slice_attempt"]
@@ -804,7 +1105,9 @@ def validate_current_reopen_transition!(previous_truth, current_truth)
     stop!("current P1 project-level reopen attempt must activate before terminal state") if
       current_attempt && current_attempt["status"] != "ACTIVE"
   else
-    validate_current_reopen_attempt_identity!(previous_truth, previous_reopen, previous_attempt)
+    validate_current_reopen_attempt_identity!(
+      previous_truth, previous_reopen, previous_attempt, allow_legacy_reopen_route: true
+    )
     stop!("current P1 project-level reopen attempt was erased") unless current_attempt
     previous_identity = Marshal.load(Marshal.dump(previous_attempt))
     current_identity = Marshal.load(Marshal.dump(current_attempt))
@@ -894,16 +1197,57 @@ rescue Psych::Exception
   stop!("corrected rebaseline Contract original is not valid YAML")
 end
 
-def worktree_records
-  output = git("worktree", "list", "--porcelain")
-  output.split(/\n\n+/).map do |block|
+def parse_worktree_porcelain_records!(output)
+  stop!("git worktree porcelain output invalid") unless output.is_a?(String)
+  records = output.split(/\n\n+/).each_with_object([]) do |block, parsed|
+    next if block.strip.empty?
     fields = {}
     block.lines.each do |line|
-      key, value = line.strip.split(" ", 2)
+      key, value = line.chomp.split(" ", 2)
+      stop!("git worktree porcelain record field invalid") unless nonempty_string?(key)
+      stop!("git worktree porcelain record contains duplicate field") if fields.key?(key)
       fields[key] = value || true
     end
-    fields unless fields.empty?
-  end.compact
+    stop!("git worktree porcelain record lacks path") unless nonempty_string?(fields["worktree"])
+    parsed << fields
+  end
+  stop!("git worktree porcelain record population empty") if records.empty?
+  records
+end
+
+def unique_runtime_worktree_record!(records, repo_root)
+  stop!("runtime repository root missing, symlinked, or not a directory") unless
+    nonempty_string?(repo_root) && File.directory?(repo_root) &&
+    File.expand_path(repo_root) == File.realpath(repo_root)
+  runtime_real = File.realpath(repo_root)
+  matching = Array(records).select do |record|
+    path = record.is_a?(Hash) ? record["worktree"] : nil
+    next false unless nonempty_string?(path)
+    File.realpath(path) == runtime_real
+  rescue ArgumentError, Errno::ENOENT, Errno::EACCES
+    false
+  end
+  stop!("runtime worktree identity has no exact existing non-symlink match") if matching.empty?
+  stop!("runtime worktree identity has duplicate exact matches") unless matching.length == 1
+  selected = matching.first
+  selected_path = selected.fetch("worktree")
+  stop!("runtime worktree identity match missing, symlinked, or not a directory") unless
+    File.directory?(selected_path) && File.expand_path(selected_path) == File.realpath(selected_path)
+  selected
+end
+
+def validate_runtime_worktree_population!(records, canonical_record, runtime_record)
+  allowed = [canonical_record, runtime_record].uniq
+  unexpected = Array(records).reject do |entry|
+    allowed.any? { |candidate| entry.equal?(candidate) }
+  end
+  stop!("unexpected worktree population outside canonical and current runtime") unless unexpected.empty?
+  true
+end
+
+def worktree_records
+  output = git("worktree", "list", "--porcelain")
+  parse_worktree_porcelain_records!(output)
 end
 
 stop!("current Task authority validator does not accept arguments") unless ARGV.empty?
@@ -1293,7 +1637,8 @@ expected_current_reopen_keys = %w[
   current_goal_raw_sha256 current_goal_canonical_sha256 historical_task_id
   historical_task_contract_sha256 historical_terminal_record_sha256
   historical_terminal_evidence_manifest_sha256 current_p1_status current_task
-  next_slice_ordinal current_slice_attempt successor_replacement_correction_chain_allowed
+  approved_reopen_decision_route next_slice_ordinal next_slice_action current_slice_attempt
+  successor_replacement_correction_chain_allowed
   external_effects_authorized claim_boundary
 ]
 stop!("current P1 project-level reopen schema drift") unless
@@ -1306,6 +1651,7 @@ stop!("current P1 project-level reopen authority drift") unless
   current_project_level_reopen["canonical_parent_commit"] == "4a5cacc3c048bab2e3dcbc91d3f3bc45f2ba5a29" &&
   current_project_level_reopen["canonical_parent_tree"] == "aaf1e8004deae9abb55fae6a963bed498dd76df1" &&
   git("rev-parse", "#{current_project_level_reopen['canonical_parent_commit']}^{tree}") == current_project_level_reopen["canonical_parent_tree"]
+approved_reopen_decision_route = approved_reopen_decision_route!(truth, current_project_level_reopen)
 stop!("current P1 project-level reopen state drift") unless
   current_project_level_reopen["current_goal_raw_sha256"] == goal["observed_raw_body_sha256"] &&
   current_project_level_reopen["current_goal_canonical_sha256"] == goal["observed_body_sha256"] &&
@@ -1313,7 +1659,6 @@ stop!("current P1 project-level reopen state drift") unless
   current_project_level_reopen["historical_task_contract_sha256"] == "e3a9ec7ca7945963af04636cb13c9d45b9c07d0bf8466d0554171167d572a958" &&
   current_project_level_reopen["historical_terminal_record_sha256"] == "90770a7d1c10d7904c21574ab24163a97a3bda177c7dfe17c6e7f4eed2706506" &&
   current_project_level_reopen["historical_terminal_evidence_manifest_sha256"] == "50d4dc066deba78c25c20a46a0fd747ffc8d3cf7920883ef06b2ad47ca363c6f" &&
-  current_project_level_reopen["next_slice_ordinal"] == 1 &&
   (current_project_level_reopen["current_slice_attempt"].nil? || current_project_level_reopen["current_slice_attempt"].is_a?(Hash)) &&
   current_project_level_reopen["successor_replacement_correction_chain_allowed"] == false &&
   current_project_level_reopen["external_effects_authorized"] == false
@@ -1348,10 +1693,9 @@ stop!("current P1 project-level reopen decision content drift") unless
   current_reopen_decision.dig("historical_terminal_binding", "terminal_evidence_manifest_sha256") == current_project_level_reopen["historical_terminal_evidence_manifest_sha256"] &&
   current_reopen_decision.dig("decision", "p1_current_status") == "REBASELINED_PENDING_EXECUTION" &&
   current_reopen_decision.dig("decision", "current_task") == "NONE" &&
-  current_reopen_decision.dig("decision", "next_slice_ordinal") == 1 &&
-  current_reopen_decision.dig("decision", "next_slice_action") == "MASTER_AUTONOMOUSLY_PREPARE_AND_EXECUTE_REBASELINED_SLICE_1" &&
   current_reopen_decision.dig("decision", "classification") == "PROJECT_LEVEL_REOPEN_NOT_P1_042_RETRY_RESUME_SUCCESSOR_REPLACEMENT_OR_CORRECTION" &&
   current_reopen_decision["claim_boundary"] == current_project_level_reopen["claim_boundary"]
+validate_approved_reopen_decision_binding!(truth, current_project_level_reopen, current_reopen_decision)
 %w[takeover_prompt goal_identity_correction].each do |input_name|
   input = current_reopen_decision.dig("founder_inputs", input_name)
   input_path = input_name == "takeover_prompt" ? input["path"] : input["goal_attachment_path"]
@@ -1365,6 +1709,7 @@ stop!("current P1 project-level reopen decision content drift") unless
     Digest::SHA256.hexdigest(input_canonical) == input["canonical_sha256"]
 end
 validate_current_reopen_projection!(truth)
+current_rebaseline_architecture_terminal = validate_current_rebaseline_architecture_terminal!(truth, recovery_evidence_base)
 end
 effective_rebaseline_slice_order = validate_effective_rebaseline_slice_order!(truth)
 
@@ -1844,7 +2189,9 @@ if final_clean_room_terminal
     (mandatory_recovery["post_revision_final_implementation_route"] &&
       (
         terminal_projection == ["FOUNDER_REVISED_PENDING_IMPLEMENTATION", "FOUNDER_REVISED_PENDING_IMPLEMENTATION"] ||
-        (rebaseline && terminal_projection.all? { |state| %w[REBASELINED_PENDING_EXECUTION IN_PROGRESS ACCEPTED].include?(state) }) ||
+        (rebaseline && final_clean_room_capabilities.each_with_index.all? do |capability, index|
+          terminal_projection[index] == effective_rebaseline_capability_state(truth, capability)
+        end) ||
         terminal_projection == ["IN_PROGRESS", "IN_PROGRESS"] ||
         terminal_projection == ["ACCEPTED", "ACCEPTED"] ||
         (mandatory_recovery["post_revision_final_route_terminal"] && terminal_projection == ["ARCHITECTURE_BLOCKED", "ARCHITECTURE_BLOCKED"]) ||
@@ -2050,7 +2397,9 @@ if post_revision_terminal
   current_post_revision_projection = post_revision_capabilities.map { |capability| capability_status[capability] }
   if rebaseline
     stop!("post-revision historical terminal capability projection escaped the approved rebaseline") unless
-      current_post_revision_projection.all? { |state| %w[REBASELINED_PENDING_EXECUTION IN_PROGRESS ACCEPTED P1_TERMINAL_STOPPED_NOT_ACCEPTED].include?(state) }
+      post_revision_capabilities.each_with_index.all? do |capability, index|
+        current_post_revision_projection[index] == effective_rebaseline_capability_state(truth, capability)
+      end
   else
     stop!("post-revision final route terminal capability projection is not atomic") unless
       current_post_revision_projection == ["ARCHITECTURE_BLOCKED", "ARCHITECTURE_BLOCKED"]
@@ -2162,7 +2511,8 @@ capability_status.each do |capability, state|
   integrated_primary_ledger = integrated_route ? attempt_ledger[integrated_route["primary_capability"]] : nil
   rebaseline_capability_slice = Array(rebaseline&.dig("slices")).find { |slice| slice["capability_projection"].include?(capability) }
   historical_reopened_slice_1 = rebaseline_capability_slice&.dig("ordinal") == 1 && project_level_reopen.is_a?(Hash)
-  current_reopened_slice_1 = rebaseline_capability_slice&.dig("ordinal") == 1 && current_project_level_reopen.is_a?(Hash)
+  current_reopened_slice_1 = current_project_level_reopen.is_a?(Hash) &&
+    rebaseline_capability_slice&.dig("ordinal") == approved_reopen_decision_route&.dig("next_slice_ordinal")
   historical_slice_1_attempts = historical_reopened_slice_1 ? all_attempts.select do |entry|
     entry["clean_room_attempt_ordinal"] == 1 &&
       entry["task_id"] == project_level_reopen["stopped_task_id"] &&
@@ -2314,11 +2664,13 @@ capability_status.each do |capability, state|
   when "ARCHITECTURE_BLOCKED"
     entry = attempts.first
     entry_capabilities = entry ? record_capabilities(entry) : []
-    if post_revision_capabilities.include?(capability)
+    rebaseline_terminal = entry && entry["project_level_rebaseline_slice_ordinal"] == rebaseline_capability_slice&.dig("ordinal") &&
+      entry_capabilities == rebaseline_capability_slice&.dig("capability_projection")
+    if post_revision_capabilities.include?(capability) && !rebaseline_terminal
       stop!("post-revision final route stopped without its terminal binding") unless post_revision_terminal
     end
     post_revision_contract_terminal =
-      post_revision_terminal && post_revision_capabilities.include?(capability) &&
+      !rebaseline_terminal && post_revision_terminal && post_revision_capabilities.include?(capability) &&
       post_revision_terminal["failure_stage"] == "FINAL_CONTRACT_REVIEW_NON_PASS"
     if post_revision_contract_terminal
       stop!("post-revision final Contract terminal unexpectedly consumed implementation") unless
@@ -2328,8 +2680,10 @@ capability_status.each do |capability, state|
     end
     integrated_terminal = integrated_member && entry && entry_capabilities == integrated_route_capabilities && entry["task_id"] == integrated_route["task_id"]
     final_clean_room_terminal = effective_final_capabilities.include?(capability) && entry && entry_capabilities == effective_final_capabilities && entry["task_id"] == effective_final_route["task_id"] && entry["founder_final_clean_room_route_id"] == effective_final_route_id
-    rebaseline_terminal = entry && entry["project_level_rebaseline_slice_ordinal"] == rebaseline_capability_slice&.dig("ordinal") &&
-      entry_capabilities == rebaseline_capability_slice&.dig("capability_projection")
+    if current_reopened_slice_1 && rebaseline_terminal
+      stop!("current architecture terminal exact Evidence was not validated") unless
+        current_rebaseline_architecture_terminal.equal?(entry)
+    end
     execution_ledger = if rebaseline_terminal
       rebaseline_attempt
     elsif final_clean_room_terminal
@@ -2357,7 +2711,7 @@ capability_status.each do |capability, state|
       "bounded_contract_corrections_used" => execution_ledger["bounded_contract_corrections_used"],
       "failure_classification" => "REAL_ARCHITECTURE_ROOT"
     }.merge(capability_binding_fields(entry_capabilities))
-    if post_revision_terminal && post_revision_capabilities.include?(capability)
+    if !rebaseline_terminal && post_revision_terminal && post_revision_capabilities.include?(capability)
       stop!("post-revision architecture terminal stage drift") unless
         post_revision_terminal["failure_stage"] == "REAL_ARCHITECTURE_IMPLEMENTATION_FAILURE" &&
         post_revision_terminal["implementation_attempt_consumed"] == true
@@ -2842,11 +3196,9 @@ stop!("canonical repository path invalid") unless
   File.directory?(canonical_root) &&
   !File.symlink?(canonical_root)
 
-runtime_worktree = git("worktree", "list", "--porcelain").lines.first.to_s.sub(/^worktree /, "").strip
-stop!("runtime worktree identity invalid") unless
-  nonempty_string?(runtime_worktree) &&
-  File.directory?(runtime_worktree) &&
-  File.realpath(runtime_worktree) == File.realpath(REPO_ROOT)
+worktrees = worktree_records
+runtime_worktree_record = unique_runtime_worktree_record!(worktrees, REPO_ROOT)
+runtime_worktree = runtime_worktree_record.fetch("worktree")
 
 rebuild_clone_status_before = nil
 rebuild_canonical_status_before = nil
@@ -2864,7 +3216,9 @@ if rebuild_verification_mode
   stop!("rebuild verification HEAD drift") unless git("rev-parse", "HEAD") == git_at(canonical_root, "rev-parse", "HEAD")
   stop!("rebuild verification tree drift") unless git("rev-parse", "HEAD^{tree}") == git_at(canonical_root, "rev-parse", "HEAD^{tree}")
 else
-  stop!("canonical repository identity drift") unless File.realpath(canonical_root) == File.realpath(runtime_worktree)
+  stop!("canonical repository identity drift") unless
+    git_common_dir_real(canonical_root) &&
+    git_common_dir_real(canonical_root) == git_common_dir_real(runtime_worktree)
 end
 
 authority_runtime_root = rebuild_verification_mode ? REPO_ROOT : canonical_root
@@ -2891,7 +3245,6 @@ escalation_reason = active["escalation_reason"]
 user_action = active["user_action_required"]
 
 task_branches = git("for-each-ref", "--format=%(refname:short)", "refs/heads/task/").lines.map(&:strip).reject(&:empty?)
-worktrees = worktree_records
 canonical_real = File.realpath(authority_runtime_root)
 canonical_worktrees = worktrees.select do |entry|
   begin
@@ -2901,6 +3254,7 @@ canonical_worktrees = worktrees.select do |entry|
   end
 end
 stop!("canonical worktree population drift") unless canonical_worktrees.length == 1
+validate_runtime_worktree_population!(worktrees, canonical_worktrees.first, runtime_worktree_record)
 
 if current_task == "NONE"
   stop!("NONE state cannot retain an in-progress Exit capability") if capability_status.value?("IN_PROGRESS")
@@ -2992,7 +3346,19 @@ if current_task == "NONE"
   end
   stop!("NONE state task claim drift") unless truth.dig("phase_execution_claim", "current_task_claim") == expected_none_claim
   stop!("Task branches remain while no Task is active") unless task_branches.empty?
-  stop!("Task worktrees remain while no Task is active") unless worktrees.length == 1
+  residual_task_worktrees = worktrees.reject { |entry| entry.equal?(runtime_worktree_record) }.select do |entry|
+    record_path = entry["worktree"]
+    record_branch = entry["branch"]
+    under_task_root = begin
+      expanded = File.expand_path(record_path)
+      root_expanded = File.expand_path(worktree_root)
+      expanded == root_expanded || expanded.start_with?(root_expanded + File::SEPARATOR)
+    rescue ArgumentError
+      false
+    end
+    record_branch.to_s.start_with?("refs/heads/task/") || under_task_root
+  end
+  stop!("Task worktrees remain while no Task is active") unless residual_task_worktrees.empty?
   forbidden_routine_action = /FOUNDER.*(APPROV|AUTHORIZ)|REQUEST.*FOUNDER|WAIT.*FOUNDER/
   stop!("routine Founder Task approval advertised") if founder_blocked_capabilities.empty? && !p1_founder_gate && next_action.match?(forbidden_routine_action)
   goal_state = truth.dig("goal", "control_plane_status_observed")

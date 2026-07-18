@@ -1,0 +1,299 @@
+schema_version: 1
+record_type: sourcelens_aios_phase_delegated_task_contract
+task_id: AIOS-P1-045_EVALUATION_MATRIX_AND_VTSR_LEDGER_KERNEL
+phase: P1
+route_id: P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_V1
+status: ACTIVE
+classification: ENGINEERING
+lineage: INDEPENDENT_PHASE_INCREMENT
+title: Evaluation Matrix and VTSR Ledger Kernel
+
+objective: >-
+  Build one cooperative-local, adapter-neutral counting kernel that freezes a
+  closed synthetic conformance Evaluation Matrix keyed to the six accepted
+  P1-035 visible synthetic TaskSpecs, consumes explicitly labeled Quality-owned
+  synthetic outcome fixtures, independently recomputes Evaluation Protocol v1.1
+  VTSR counting expectations from retained bytes, and reproduces the same
+  normalized conformance result in a fresh process. No fixture is a real
+  scheduled baseline run and no output is an empirical VTSR measurement.
+
+why_now:
+  - P1-044 is terminal with zero accepted capability and its source, Quality assets and Evidence are not inputs to this Task.
+  - A frozen run population and normative counting validator are required before any baseline report can be accepted.
+  - This increment directly prevents denominator gaming, post-hoc exclusion and false-success promotion without executing a patch, baseline system or Agent.
+
+independence:
+  retries: []
+  remediates: []
+  supersedes: []
+  replaces: []
+  forbidden_predecessor_inputs:
+    - AIOS-P1-043 rejected Task, source, candidate, Quality, Evidence and Review bytes
+    - AIOS-P1-044 rejected candidate, source, Quality, Evidence, Review and implementation lineage
+
+risk_level: high
+execution_authority: PHASE_DELEGATED
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+
+budget:
+  engineering_hours: 16
+  calendar_days: 4
+  implementation_iterations: 2
+  candidates: 1
+
+bounded_contract_correction:
+  ordinal: 1
+  original_sha256: e41af550a3e1b07acdc0709580ddaa5fe9f7337eec18eb17e92114b1c3a5c854
+  original_byte_length: 14043
+  root_causes:
+    - SYNTHETIC_CONFORMANCE_FIXTURES_WERE_AMBIGUOUSLY_DESCRIBED_AS_REAL_SCHEDULED_RUN_OUTCOMES
+    - INFRASTRUCTURE_INVALID_REPLACEMENT_AND_DENOMINATOR_IDENTITY_MODEL_WAS_UNDERDEFINED
+    - INDEPENDENT_QUALITY_RECOMPUTATION_COULD_SHARE_WORKER_IMPLEMENTATION_OR_PHYSICAL_REVIEWER_IDENTITY
+    - WORKER_MATRIX_AND_METRICS_PATHS_WERE_OUTSIDE_CURRENT_PHASE_ROLE_ROOTS
+    - REPOSITORY_ALLOWLIST_AND_EXTERNAL_EVIDENCE_WRITE_WORDING_CONFLICTED
+  status: APPLIED_PRE_ACTIVATION
+  second_contract_correction_allowed: false
+
+roles:
+  owner: Engineering Manager Agent
+  worker: Evaluation Matrix and VTSR Kernel Engineer
+  independent_reviewers:
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent
+owner_role: Engineering Manager Agent
+worker_role: Evaluation Matrix and VTSR Kernel Engineer
+independent_reviewer:
+  - CTO Agent
+  - Security Agent
+  - Quality and Evaluation Agent
+
+accepted_inputs:
+  evaluation_protocol:
+    path: docs/aios/EVALUATION_PROTOCOL.md
+    version: "1.1"
+    sha256: da029143561fbb3c213d4a358b25e085542c6cd26ae8150a53cbb5998177eed8
+    mode: BYTE_READ_ONLY
+  p1_001:
+    task_id: AIOS-P1-001
+    contract_sha256: d2974752b088ff30b0764d6b482e19ea939cd497eb2db3e26af28bf09dc2e12f
+    accepted_candidate_commit: 02342da942e291eaa65230f824fcf47eae8f8a30
+    accepted_candidate_tree: 1a31751dc1b4d5bc2c9b2c4aaf0aa640528edecc
+    mode: BYTE_READ_ONLY
+  p1_011:
+    task_id: AIOS-P1-011_ENVIRONMENT_SNAPSHOT_CAPTURE_AND_REPLAY
+    contract_sha256: 59ad6ca86c8eeb62394265d7a81cd08b089fdb33d54d4f9e17e558249304cd7a
+    accepted_candidate_commit: d243293d0db28cf346b479e6f458a6b187cf83e3
+    accepted_candidate_tree: ac054eb5296513f838c352acddd7f0d37d69dd0d
+    mode: BYTE_READ_ONLY
+  p1_035:
+    task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+    contract_sha256: acec5432aacd6476693db62bdb52ee326c467f17b691860688fe952f7ffbdc33
+    accepted_candidate_commit: 686eda0cd7a93b72ac5e64301479f17e4b096fb0
+    accepted_candidate_tree: b2740b44d0051303057deac7d719c27fd6a5578a
+    dataset_id: SOURCELENS-P1-REPRESENTATIVE-TASKS
+    dataset_version: 1.0.0
+    visible_synthetic_task_count: 6
+    mode: BYTE_READ_ONLY
+
+accepted_schemas:
+  task_spec:
+    path: docs/aios/schemas/task-spec.schema.json
+    sha256: ec226d14172081fb52fbbdc756b4a205155f0b584326436578ad13af4f2b8372
+    byte_length: 5989
+  environment_snapshot:
+    path: docs/aios/schemas/environment-snapshot.schema.json
+    sha256: 3a38bed470ff59d843b3e6450f5999210d57088bed7bdf13dbd88768dae368f1
+    byte_length: 5214
+  system_configuration:
+    path: docs/aios/schemas/system-configuration.schema.json
+    sha256: fe9cc8a78f96cef885a9ba9ce6644ebfe176d6f21161005006d591a20a3dc95d
+    byte_length: 1278
+  run_record:
+    path: docs/aios/schemas/run-record.schema.json
+    sha256: a139b73a7482fed64e6d24f8ca391b03963eef57db2b48d0c4c6776ff652bc56
+    byte_length: 3613
+
+frozen_population_requirement: >-
+  Quality must freeze the exact six-task synthetic conformance Evaluation
+  Matrix before Worker implementation. Every matrix_entry_id is identified by
+  TaskSpec SHA-256, repository identity, base commit, tree, complete Environment
+  Snapshot document SHA-256, SystemConfiguration SHA-256 and repetition_id. A
+  display ID alone is never sufficient. Once frozen, population additions,
+  removals, substitutions, retries promoted to repetitions or post-output
+  exclusions fail closed.
+
+conformance_data_boundary: >-
+  Every Quality-owned outcome input is permanently labeled
+  fixture_provenance=QUALITY_SYNTHETIC_CONFORMANCE, empirical_run=false,
+  benchmark_eligible=false and capability_claim=false. It is a typed test vector
+  for the counting algorithm, not a completed RunRecord, baseline execution or
+  Patch Evidence Package. Worker outputs and independent verdicts must retain
+  these labels and call their aggregate VTSR_COUNTING_CONFORMANCE_EXPECTATION;
+  they cannot use VTSR_RESULT, benchmark score or equivalent empirical wording.
+
+attempt_and_denominator_model: >-
+  Each matrix_entry_id is one potential denominator contribution and owns a
+  predeclared bounded attempt sequence. Every attempt has attempt_id,
+  attempt_ordinal, attempt_kind PRIMARY or INFRASTRUCTURE_REPLACEMENT, exact
+  matrix_entry_id and optional replaces_attempt_id. Every attempt has exactly
+  one create-once terminal fixture outcome. A permitted infrastructure-invalid
+  attempt remains in raw results; its replacement has identical frozen Task,
+  configuration, environment and repetition identities, does not add a second
+  denominator entry and is the only attempt eligible to supply that entry's
+  non-invalid result. Duplicate ordinals, unlinked replacement, identity drift,
+  multiple non-invalid outcomes or an unbounded replacement chain fail closed.
+
+normative_counting_requirement: >-
+  The kernel implements Evaluation Protocol v1.1 Section 7 exactly. Timeout,
+  budget exhaustion, crash, missing Evidence, policy violation and ordinary
+  system-attributable setup failure count as failures. Retry stays inside its
+  scheduled run. Infrastructure-invalid exclusion requires a predeclared
+  shared-harness reason, remains in raw results and requires the same
+  configuration to be rerun under the frozen attempt_and_denominator_model.
+  Synthetic conformance reports include expected numerator, denominator,
+  invalid-attempt count, failure count and reason-code distribution without
+  claiming an empirical system result.
+
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml
+  - docs/aios/tasks/P1-011_ENVIRONMENT_SNAPSHOT_CAPTURE_AND_REPLAY.yaml
+  - docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
+  - docs/aios/schemas/task-spec.schema.json
+  - docs/aios/schemas/environment-snapshot.schema.json
+  - docs/aios/schemas/system-configuration.schema.json
+  - docs/aios/schemas/run-record.schema.json
+  - evaluation-harness/datasets/p1-representative-task-dataset-v1/**
+  - evaluation-harness/harness/**
+  - evaluation-harness/environment/**
+  - evaluation-harness/evaluator/**
+  - evaluation-harness/recording/**
+  - evaluation-harness/replay/**
+
+allowlisted_paths:
+  - evaluation-harness/harness/vtsr-ledger-v1/**
+  - evaluation-harness/validators/vtsr-ledger-v1/**
+  - evaluation-harness/recording/vtsr-ledger-v1/**
+  - evaluation-harness/replay/vtsr-ledger-v1/**
+  - evaluation-harness/evaluator/vtsr-ledger-v1/**
+  - evaluation-harness/fixtures/vtsr-ledger-v1/**
+  - scripts/verify-p1-vtsr-ledger.sh
+  - Makefile
+  - docs/PROJECT_CODE_MAP.md
+  - docs/aios/tasks/P1-045_EVALUATION_MATRIX_AND_VTSR_LEDGER_KERNEL.yaml
+  - docs/aios/truth/project_state.yaml
+
+write_scope:
+  worker:
+    - evaluation-harness/harness/vtsr-ledger-v1/**
+    - evaluation-harness/validators/vtsr-ledger-v1/**
+    - evaluation-harness/recording/vtsr-ledger-v1/**
+    - evaluation-harness/replay/vtsr-ledger-v1/**
+  quality_exclusive:
+    - evaluation-harness/evaluator/vtsr-ledger-v1/**
+    - evaluation-harness/fixtures/vtsr-ledger-v1/**
+  integration:
+    - scripts/verify-p1-vtsr-ledger.sh
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+    - docs/aios/tasks/P1-045_EVALUATION_MATRIX_AND_VTSR_LEDGER_KERNEL.yaml
+    - docs/aios/truth/project_state.yaml
+  external_evidence:
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-045-evaluation-matrix-vtsr-ledger/EVIDENCE/**
+
+quality_freeze_rule: >-
+  After Task activation and before Worker implementation, a non-Worker Quality
+  fixture author freezes the matrix, synthetic outcome fixtures, expected
+  normative counts, mutation cases, ownership map and create-once verdict rules
+  under the Quality-exclusive roots. The freeze receipt binds the physical
+  fixture-author identity. Worker cannot modify those bytes or act as final
+  Quality reviewer.
+
+independent_recomputation_rule: >-
+  The Quality evaluator is a disjoint implementation of the normative counting
+  rules. It may read the frozen matrix, synthetic outcome fixtures, Task-local
+  oracle and canonical serialization utility contract, but must not import,
+  execute or copy Worker aggregation, normalization or ledger code. It writes a
+  create-once verdict from raw retained inputs. The final Quality reviewer must
+  be a fresh physical Agent instance distinct from the fixture author, evaluator
+  author, Worker and owner; the Evidence binds all physical role identities.
+
+runtime_and_environment_rule: >-
+  Task code must not execute arbitrary shell or inherit the host environment.
+  If a subprocess is unavoidable, the exact absolute executable path, realpath,
+  SHA-256, byte length and mode are frozen; argv and cwd are bounded; the child
+  receives a replacement allowlist-only environment. NODE_BIN, NODE_OPTIONS,
+  NODE_PATH, HOME, tokens, Provider and Secret variables are rejected and cannot
+  substitute a verifier. Exit zero alone never proves PASS; exact result
+  artifacts and identities must also validate.
+
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+
+acceptance_criteria:
+  - All accepted input, schema, canonical parent, dataset, TaskSpec, source, Environment Snapshot document and SystemConfiguration identities match exactly before any case is evaluated.
+  - Quality freezes one closed synthetic conformance matrix covering all six accepted P1-035 visible synthetic task identities, a declared repetition population and explicitly non-empirical outcome fixtures; no fixture or aggregate is presented as an actual scheduled baseline run or measured VTSR.
+  - The create-once raw conformance ledger preserves every frozen attempt fixture, failure, retry, invalid and reason code without Worker-controlled deletion, overwrite or promotion; each attempt is linked through the exact attempt_and_denominator_model.
+  - VTSR counting expectations exactly follow Evaluation Protocol v1.1, including failure classification, retry handling, one denominator contribution per matrix_entry_id, predeclared infrastructure-invalid replacement and prohibition of post-hoc denominator changes.
+  - Missing or duplicate matrix entries or attempts, extra attempts, Task/config/environment/repetition drift, retry-as-new-run, invalid replacement identity, multiple non-invalid outcomes, failure-to-success promotion, illegal invalid reasons and post-output exclusions all fail closed.
+  - Independent Quality recomputation reads raw matrix and synthetic outcome fixtures rather than trusting Worker aggregate output, shares no Worker aggregation or normalization implementation, and writes its verdict create-once in a separate Quality root.
+  - Final Quality review is performed by a fresh physical Agent instance distinct from the Quality fixture author, evaluator author, Worker and owner; exact role identities are Evidence-bound.
+  - Fresh-process replay starts only from retained serialized bytes, recomputes the same canonical semantic projection and rejects field, population, hash, extra-file, symlink and path drift without false PASS or false failure from JSON property ordering.
+  - Formal Evidence binds exact Task/Contract/authority/candidate, accepted inputs, Quality freeze, matrix, raw ledger, aggregate, independent verdict, actual argv/cwd/runtime identity, stdout/stderr hashes, all artifact hashes and byte lengths, rebuild and rollback.
+  - Output collision and any second write fail closed; original formal Evidence, authority and parent artifacts remain byte-identical; cleanup touches only exact Task-owned paths after realpath/dev/ino ownership revalidation.
+  - P1-001, P1-011 and P1-035 regressions, Task-targeted tests, clean rebuild/replay, full canonical make verify and fresh CTO, Security and Quality reviews all PASS for the one exact candidate.
+
+required_evidence:
+  - exact Task Contract, phase-delegated authority and activation identities
+  - Quality freeze receipt and ownership map
+  - frozen six-task synthetic conformance Evaluation Matrix, attempt model and closed matrix-entry population manifest
+  - create-once raw synthetic terminal-outcome fixture ledger and reason-code population
+  - Worker VTSR counting-conformance expectation and disjoint independent Quality recomputation verdict
+  - explicit proof that every fixture and aggregate is non-empirical and benchmark-ineligible
+  - persisted fresh-process replay comparison
+  - bounded negative-control results including denominator, promotion and identity mutations
+  - complete Evidence manifest with SHA-256 and byte lengths
+  - rebuild, protected-artifact and rollback receipts
+  - frozen candidate commit/tree/full diff manifest and three fresh independent reviews
+
+rollback:
+  task_workspace: Restore or discard only Task-owned disposable paths after exact ownership and clean-state proof.
+  candidate_integration: Use local non-destructive git revert if a post-integration regression appears; never reset or clean.
+  evidence: Never delete, overwrite or rewrite retained Evidence, Review or terminal bytes.
+
+stop_conditions:
+  - Goal, Phase, canonical parent, accepted input, schema, TaskSpec, source, environment or configuration identity drift.
+  - Task or remaining Phase hour, calendar, Task-count, implementation-iteration or candidate budget exceeded.
+  - Any need for network, Provider, Secret, remote, production, public, irreversible or beyond-envelope permission.
+  - Any need to modify accepted P1-001, P1-011, P1-035, accepted schema or Evaluation Protocol bytes.
+  - Any need to execute or claim a patch, B0, B1, B2, A0, Agent, benchmark, P2 or P3 capability.
+  - Worker contamination of Quality fixtures, evaluator, oracle or verdict; Evidence overwrite/damage; unprovable cleanup or rollback.
+  - Fresh retained-byte replay is not semantically stable, or normative VTSR differs for the same exact inputs.
+  - A candidate-added or worsened high-severity safety, data-integrity or source-identity root cannot close within the one same-Task bounded repair.
+  - Any required change to mission, ICP, year-one outcome, P1 Objective, P1 Exit Gate or Phase route.
+
+forbidden_actions:
+  - Read, restore, diff, checkout, cherry-pick or semantically reuse any P1-043 or P1-044 rejected Task body, engineering source/tree/candidate, Quality asset, oracle, fixture, nonce, Evidence or Review body.
+  - Modify accepted P1-001, P1-011, P1-035, any accepted schema, Evaluation Protocol or Baseline Adapter Contract bytes.
+  - Modify repository files outside allowlisted_paths, write external files outside the exact write_scope.external_evidence root, or let Worker modify Quality-exclusive roots.
+  - Invent or label any synthetic fixture as a completed empirical run, delete failed fixture attempts, change a frozen denominator, post-hoc exclude outcomes or convert invalid/failure to success.
+  - Execute arbitrary shell, honor host executable override, inherit host environment or treat exit zero without exact result-artifact verification as PASS.
+  - Modify, replace, delete, rename or traverse from this Task Evidence root to any parent-directory artifact.
+  - Network, Provider, Secret, remote, production, public, dependency download, fetch, push, PR, remote merge, release or external message.
+  - Execute B0, B1, B2 or A0, enter P2/P3, or build Agent Shell, model-initiated canonical write, Supervisor, Root Custody, Strong Isolation, Full Trust Runtime or Multi-Agent Runtime.
+  - Create a successor, replacement, normalization, closure, feasibility or remediation chain, a second candidate, or more than one bounded same-Task repair.
+  - Delete, overwrite or rewrite historical Evidence, Review, terminal record or NON_PASS.
+
+claim_boundary: LOCAL_VISIBLE_SYNTHETIC_P1_REPRESENTATIVE_DATASET_MATRIX_VTSR_COUNTING_AND_PERSISTED_REPLAY_CONFORMANCE_ONLY_NO_EXECUTED_B0_B1_B2_A0_BASELINE_MODEL_AGENT_BENCHMARK_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
+capability_claims: 0

@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-18T18:54:15Z"
-verification_scope: AIOS_P1_046_PHASE_DELEGATED_TASK_ACTIVATION
+last_verified_at: "2026-07-18T19:05:18Z"
+verification_scope: AIOS_P1_046_BOUNDED_CONTRACT_CORRECTION_REBIND
 
 authority:
   founder: Human Founder
@@ -191,7 +191,7 @@ current_phase_route:
     max_calendar_days: 4
     max_implementation_iterations: 2
     max_candidates: 1
-    bounded_contract_corrections_used: 0
+    bounded_contract_corrections_used: 1
     objective: Execute one accepted visible synthetic reference control and produce a source-, environment- and execution-tool-bound observable Trace with independent fail-closed verification, fresh-materialization normalized replay and exact rollback.
     accepted_input_ids:
       - p1_001
@@ -932,20 +932,20 @@ active_work:
   current_task_status: ACTIVE
   current_task_contract:
     path: docs/aios/tasks/P1-046_SOURCE_BOUND_OBSERVABLE_TRACE_KERNEL.yaml
-    sha256: 308111ee3d86b088b006c82125a0b3128eea0e32e1341221735d743273913236
-    byte_length: 17189
-  current_task_contract_sha256: 308111ee3d86b088b006c82125a0b3128eea0e32e1341221735d743273913236
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-046-source-bound-observable-trace/MASTER_TASK_AUTHORITY.json
-  current_execution_authorization_sha256: e7b088f522d2e02367571e1972064cf55e7d281ab87978762ca18fc14c0ecc0e
+    sha256: b0dfadce496ee2fd9f8232d8e37ad1354216ecc2aea556422c37cd29e18f218a
+    byte_length: 17551
+  current_task_contract_sha256: b0dfadce496ee2fd9f8232d8e37ad1354216ecc2aea556422c37cd29e18f218a
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-046-source-bound-observable-trace/MASTER_TASK_AUTHORITY_CORRECTED_1.json
+  current_execution_authorization_sha256: 4bbec571435e1c4acc232c6aa2ce5241249bb1a11c667b5b9e4279f7ebf69ffe
   authority_record:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-046-source-bound-observable-trace/MASTER_TASK_AUTHORITY.json
-    sha256: e7b088f522d2e02367571e1972064cf55e7d281ab87978762ca18fc14c0ecc0e
-    byte_length: 4084
-  execution_nonce: 83c2bd82c4c83ca5401796df17a11b6119b7af0989000f5bb8c6837c83a39812
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-046-source-bound-observable-trace/MASTER_TASK_AUTHORITY_CORRECTED_1.json
+    sha256: 4bbec571435e1c4acc232c6aa2ce5241249bb1a11c667b5b9e4279f7ebf69ffe
+    byte_length: 4802
+  execution_nonce: 55d4033469bc45ed956e31d27506f6b847ea8cab32e7eb3fa2c12575d7a2cf3c
   execution_nonce_status: ACTIVE
-  authorization_id: 74fb080f35a6b23662c0fc065b49383f59b8d54159edfad328b8e70c369114b4
-  activation_parent_commit: 11c6f2824f4480c8f7085113b4e80025f828d459
-  activation_parent_tree: 4df404c2fc6db9f333f82e768c1566c79c21ff5d
+  authorization_id: 215ef8feb0b81393c1b70f784d3e47d3f77c689f65c5d75075660f9f513077f5
+  activation_parent_commit: 2a02badc0fa081b23f5e014bd9e6f0ce70f9a32d
+  activation_parent_tree: 3108210210a1114ab3a22a5f74b723791a3ccc6d
   task_resource_state: ACTIVE_DECLARED
   task_branch: codex/p1-046-source-bound-trace
   task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p1-046-source-bound-trace

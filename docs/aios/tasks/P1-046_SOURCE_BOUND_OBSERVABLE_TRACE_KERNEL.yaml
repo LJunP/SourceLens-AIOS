@@ -44,7 +44,11 @@ budget:
 
 bounded_contract_correction:
   allowed_pre_activation: 1
-  used: 0
+  used: 1
+  correction_ordinal: 1
+  root_cause: CURRENT_P1_SAFETY_CHECK_REQUIRES_LEGACY_ROLE_PROJECTIONS
+  scope_budget_permission_and_claim_changed: false
+  second_contract_correction_allowed: false
   post_quality_freeze_allowed: 0
 
 roles:
@@ -54,6 +58,12 @@ roles:
     - CTO Agent
     - Security Agent
     - Quality and Evaluation Agent
+owner_role: Engineering Manager Agent
+worker_role: Observable Trace Kernel Engineer
+independent_reviewer:
+  - CTO Agent
+  - Security Agent
+  - Quality and Evaluation Agent
 
 accepted_inputs:
   evaluation_protocol:

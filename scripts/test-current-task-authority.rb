@@ -138,6 +138,62 @@ def write_json(path, value)
   File.write(path, JSON.pretty_generate(value) + "\n", mode: "w:UTF-8")
 end
 
+def exclusive_fixture_flags
+  flags = File::WRONLY | File::CREAT | File::EXCL
+  flags |= File::NOFOLLOW if File.const_defined?(:NOFOLLOW)
+  flags
+end
+
+def create_owned_temp_directory!(prefix, parent)
+  path = Dir.mktmpdir(prefix, parent)
+  File.chmod(0o700, path)
+  stat = File.lstat(path)
+  raise "owned fixture directory identity invalid" unless
+    stat.directory? && !stat.symlink? && (stat.mode & 0o777) == 0o700
+  [path, stat]
+end
+
+def create_exclusive_owned_fixture!(path, bytes)
+  begin
+    File.lstat(path)
+    raise Errno::EEXIST, path
+  rescue Errno::ENOENT
+    nil
+  end
+  owned_stat = nil
+  File.open(path, exclusive_fixture_flags, 0o600) do |file|
+    file.binmode
+    owned_stat = file.stat
+    file.write(bytes)
+    file.flush
+    file.fsync
+  end
+  stat = File.lstat(path)
+  raise "owned fixture file identity invalid" unless
+    owned_stat && owned_stat.file? && stat.file? && !stat.symlink? &&
+      same_lstat_identity?(stat, owned_stat) && (stat.mode & 0o777) == 0o600
+  owned_stat
+end
+
+def same_lstat_identity?(left, right)
+  left.dev == right.dev && left.ino == right.ino
+end
+
+def remove_owned_regular_fixture!(path, owned_stat)
+  current = File.lstat(path)
+  raise "owned fixture file was replaced; refusing cleanup" unless
+    current.file? && !current.symlink? && same_lstat_identity?(current, owned_stat)
+  File.unlink(path)
+end
+
+def remove_owned_empty_directory!(path, owned_stat)
+  current = File.lstat(path)
+  raise "owned fixture directory was replaced; refusing cleanup" unless
+    current.directory? && !current.symlink? && same_lstat_identity?(current, owned_stat)
+  raise "owned fixture directory is not empty; refusing cleanup" unless Dir.children(path).empty?
+  Dir.rmdir(path)
+end
+
 def run_validator(root, expected_pass, label, expected_failure: nil, env: {})
   validator_env = { "LC_ALL" => "C", "LANG" => "C" }.merge(env)
   stdout, stderr, status = Open3.capture3(validator_env, "ruby", "scripts/validate-current-task-authority.rb", chdir: root)
@@ -225,6 +281,32 @@ def run_effective_slice_transition(previous_truth, current_truth, expected_pass,
     label,
     expected_failure: expected_failure
   )
+end
+
+def run_p1_project_level_stop_requirement(truth, evidence_base, expected_pass, label, expected_failure: nil)
+  run_exact_validator_helper(
+    :validate_p1_project_level_stop_requirement!,
+    [truth, evidence_base],
+    expected_pass,
+    label,
+    expected_failure: expected_failure
+  )
+end
+
+def restore_pre_stop_execution_envelope!(truth)
+  recovery = truth.fetch("mandatory_exit_capability_recovery")
+  recovery["status"] = "ACTIVE"
+  recovery["founder_decision_source"] = "FOUNDER_P1_DELIVERY_ARCHITECTURE_SIMPLIFICATION_2026_07_17"
+  recovery["clean_room_implementation_allowed_for_required_capability"] = true
+  recovery.fetch("founder_dispositions").delete("P1_PROJECT_LEVEL_ROUTE")
+  recovery["claim_boundary"] = "This recovery authorization removes a permanent capability ban only for P1 Exit Gate requirements; it does not accept historical Tasks or authorize external effects, P2, P3, benchmark claims or production use."
+  recovery.fetch("project_level_rebaseline").fetch("slices").flat_map do |slice|
+    slice.fetch("capability_projection")
+  end.each do |capability|
+    recovery.fetch("capability_status")[capability] = "REBASELINED_PENDING_EXECUTION"
+  end
+  truth.fetch("goal")["note"] = "The Founder-approved long-term Goal identity is canonical and the Codex control-plane Goal is ACTIVE. Current Task authority is expressed only by current_task_authority and active_work; the Phase-level delegation policy requires autonomous P1 continuation without routine Founder approvals."
+  truth
 end
 
 Dir.mktmpdir("aios-worktree-record-authority-", SOURCE_ROOT) do |root|
@@ -324,6 +406,7 @@ end
 
 def current_reopen_lifecycle_fixture(base_truth, stage, task_id: "AIOS-P1-943_CURRENT_REOPEN_LIFECYCLE_TEST", contract_sha256: "a" * 64)
   value = Marshal.load(Marshal.dump(base_truth))
+  restore_pre_stop_execution_envelope!(value)
   recovery = value.fetch("mandatory_exit_capability_recovery")
   reopen = recovery.fetch("current_project_level_reopen")
   value.fetch("task_history").delete_if do |_key, entry|
@@ -1126,6 +1209,164 @@ Dir.mktmpdir("aios-rebuild-authority-") do |root|
   run_validator(rebuild_root, false, "fresh clone HEAD drift negative", expected_failure: "HEAD drift", env: { "SOURCELENS_REBUILD_VERIFY" => "1" })
 end
 
+
+stop_truth = YAML.safe_load(File.read(File.join(SOURCE_ROOT, "docs/aios/truth/project_state.yaml")), aliases: false)
+stop_evidence_base = stop_truth.dig("project", "execution_evidence_root_base")
+run_p1_project_level_stop_requirement(
+  stop_truth, stop_evidence_base, true, "Founder STOP_P1 current canonical candidate positive"
+)
+stop_negative = lambda do |variant, label, expected_failure|
+  run_p1_project_level_stop_requirement(
+    variant, stop_evidence_base, false, label, expected_failure: expected_failure
+  )
+end
+
+stop_decision_hash_drift = Marshal.load(Marshal.dump(stop_truth))
+stop_decision_hash_drift.dig(
+  "mandatory_exit_capability_recovery", "founder_dispositions", "P1_PROJECT_LEVEL_ROUTE"
+)["decision_record_sha256"] = "0" * 64
+stop_negative.call(
+  stop_decision_hash_drift, "Founder STOP_P1 decision hash drift negative", "Founder decision byte drift"
+)
+
+stop_decision_length_drift = Marshal.load(Marshal.dump(stop_truth))
+stop_decision_length_drift.dig(
+  "mandatory_exit_capability_recovery", "founder_dispositions", "P1_PROJECT_LEVEL_ROUTE"
+)["decision_record_byte_length"] += 1
+stop_negative.call(
+  stop_decision_length_drift, "Founder STOP_P1 decision length drift negative", "Founder decision byte drift"
+)
+
+stop_disposition = stop_truth.dig(
+  "mandatory_exit_capability_recovery", "founder_dispositions", "P1_PROJECT_LEVEL_ROUTE"
+)
+stop_fixture_root = nil
+stop_fixture_root_stat = nil
+stop_decision_tamper_path = nil
+stop_decision_tamper_stat = nil
+stop_symlink_collision_path = nil
+stop_symlink_collision_stat = nil
+begin
+  stop_fixture_root, stop_fixture_root_stat = create_owned_temp_directory!(
+    "sourcelens-stop-decision-tamper-", stop_evidence_base
+  )
+  stop_decision_tamper_path = File.join(stop_fixture_root, "tampered-decision.json")
+  tampered_decision_bytes = File.binread(stop_disposition.fetch("decision_record_path")) + "tamper\n"
+  stop_decision_tamper_stat = create_exclusive_owned_fixture!(stop_decision_tamper_path, tampered_decision_bytes)
+
+  before_collision_stat = File.lstat(stop_decision_tamper_path)
+  before_collision_bytes = File.binread(stop_decision_tamper_path)
+  collision_rejected = false
+  begin
+    File.open(stop_decision_tamper_path, exclusive_fixture_flags, 0o600) { |file| file.write("collision") }
+  rescue Errno::EEXIST, Errno::ELOOP
+    collision_rejected = true
+  end
+  after_collision_stat = File.lstat(stop_decision_tamper_path)
+  raise "exclusive fixture collision was not rejected" unless collision_rejected
+  raise "exclusive fixture collision changed inode or bytes" unless
+    same_lstat_identity?(before_collision_stat, after_collision_stat) &&
+    before_collision_bytes == File.binread(stop_decision_tamper_path)
+
+  stop_symlink_collision_path = File.join(stop_fixture_root, "preexisting-symlink")
+  File.symlink(stop_decision_tamper_path, stop_symlink_collision_path)
+  stop_symlink_collision_stat = File.lstat(stop_symlink_collision_path)
+  symlink_collision_rejected = false
+  begin
+    create_exclusive_owned_fixture!(stop_symlink_collision_path, "symlink-collision")
+  rescue Errno::EEXIST, Errno::ELOOP
+    symlink_collision_rejected = true
+  end
+  raise "pre-existing symlink fixture was not refused before create" unless symlink_collision_rejected
+  raise "symlink collision changed inode, target, or bytes" unless
+    same_lstat_identity?(File.lstat(stop_symlink_collision_path), stop_symlink_collision_stat) &&
+      File.readlink(stop_symlink_collision_path) == stop_decision_tamper_path &&
+      File.binread(stop_decision_tamper_path) == before_collision_bytes
+
+  symlink_cleanup_refused = false
+  begin
+    remove_owned_regular_fixture!(stop_symlink_collision_path, stop_decision_tamper_stat)
+  rescue RuntimeError => error
+    raise unless error.message.include?("refusing cleanup")
+    symlink_cleanup_refused = true
+  end
+  raise "symlink cleanup was unexpectedly accepted" unless symlink_cleanup_refused
+  raise "symlink cleanup refusal changed symlink inode" unless
+    same_lstat_identity?(File.lstat(stop_symlink_collision_path), stop_symlink_collision_stat)
+  raise "exclusive fixture flags lack no-follow protection" unless
+    !File.const_defined?(:NOFOLLOW) || (exclusive_fixture_flags & File::NOFOLLOW) == File::NOFOLLOW
+
+  stop_decision_bytes_drift = Marshal.load(Marshal.dump(stop_truth))
+  stop_decision_bytes_drift.dig(
+    "mandatory_exit_capability_recovery", "founder_dispositions", "P1_PROJECT_LEVEL_ROUTE"
+  )["decision_record_path"] = stop_decision_tamper_path
+  stop_negative.call(
+    stop_decision_bytes_drift, "Founder STOP_P1 decision bytes drift negative", "Founder decision byte drift"
+  )
+ensure
+  if stop_symlink_collision_stat
+    current_symlink_stat = File.lstat(stop_symlink_collision_path)
+    raise "owned symlink fixture was replaced; refusing cleanup" unless
+      current_symlink_stat.symlink? && same_lstat_identity?(current_symlink_stat, stop_symlink_collision_stat)
+    File.unlink(stop_symlink_collision_path)
+  end
+  remove_owned_regular_fixture!(stop_decision_tamper_path, stop_decision_tamper_stat) if stop_decision_tamper_stat
+  remove_owned_empty_directory!(stop_fixture_root, stop_fixture_root_stat) if stop_fixture_root_stat
+end
+
+stop_goal_not_active = Marshal.load(Marshal.dump(stop_truth))
+stop_goal_not_active.dig("goal", "control_plane_status_observed").replace("BLOCKED")
+stop_negative.call(stop_goal_not_active, "Founder STOP_P1 Goal not ACTIVE negative", "current Truth projection drift")
+
+stop_current_task_non_none = Marshal.load(Marshal.dump(stop_truth))
+stop_current_task_non_none.dig("goal", "current_task_authority").replace("AIOS-P1-999_FORGED")
+stop_current_task_non_none.dig("active_work", "current_task").replace("AIOS-P1-999_FORGED")
+stop_negative.call(stop_current_task_non_none, "Founder STOP_P1 current Task non-NONE negative", "current Truth projection drift")
+
+stop_current_ordinal_one = Marshal.load(Marshal.dump(stop_truth))
+stop_current_ordinal_one.dig(
+  "mandatory_exit_capability_recovery", "current_project_level_reopen"
+)["next_slice_ordinal"] = 1
+stop_negative.call(stop_current_ordinal_one, "Founder STOP_P1 current ordinal 1 negative", "current Truth projection drift")
+
+stop_current_ordinal_two = Marshal.load(Marshal.dump(stop_truth))
+stop_current_ordinal_two.dig(
+  "mandatory_exit_capability_recovery", "project_level_rebaseline"
+)["next_slice_ordinal"] = 2
+stop_negative.call(stop_current_ordinal_two, "Founder STOP_P1 current ordinal 2 negative", "current Truth projection drift")
+
+stop_executable_action = Marshal.load(Marshal.dump(stop_truth))
+stop_executable_action.dig(
+  "mandatory_exit_capability_recovery", "current_project_level_reopen"
+)["next_slice_action"] = "MASTER_AUTONOMOUSLY_PREPARE_AND_EXECUTE_REBASELINED_SLICE_1"
+stop_negative.call(stop_executable_action, "Founder STOP_P1 executable current action negative", "current Truth projection drift")
+
+stop_rejected_route_recoverable = Marshal.load(Marshal.dump(stop_truth))
+stop_attempt = stop_rejected_route_recoverable.dig(
+  "mandatory_exit_capability_recovery", "current_project_level_reopen", "current_slice_attempt"
+)
+stop_history = stop_rejected_route_recoverable.fetch("task_history").values.find do |entry|
+  entry.is_a?(Hash) && entry["task_id"] == stop_attempt["task_id"] &&
+    entry["project_level_reopen_decision_sha256"] == stop_attempt["project_level_reopen_decision_sha256"]
+end
+raise "Founder STOP_P1 historical terminal fixture missing" unless stop_history
+stop_history["recovery_allowed"] = true
+stop_negative.call(
+  stop_rejected_route_recoverable, "Founder STOP_P1 rejected route recoverable negative", "rejected route preservation drift"
+)
+
+%w[P2 P3].each do |forged_phase|
+  stop_phase_entry = Marshal.load(Marshal.dump(stop_truth))
+  stop_phase_entry.dig("project", "current_phase").replace(forged_phase)
+  stop_negative.call(
+    stop_phase_entry, "Founder STOP_P1 attempted #{forged_phase} entry negative", "current Truth projection drift"
+  )
+end
+
+stop_binding_missing = Marshal.load(Marshal.dump(stop_truth))
+stop_binding_missing.dig("mandatory_exit_capability_recovery", "founder_dispositions").delete("P1_PROJECT_LEVEL_ROUTE")
+stop_negative.call(stop_binding_missing, "Founder STOP_P1 decision binding missing negative", "decision binding missing")
+
 Dir.mktmpdir("aios-current-task-authority-") do |root|
   FileUtils.mkdir_p(File.join(root, "scripts"))
   FileUtils.mkdir_p(File.join(root, "docs/aios/truth"))
@@ -1144,6 +1385,7 @@ Dir.mktmpdir("aios-current-task-authority-") do |root|
   FileUtils.mkdir_p(evidence_base)
 
   truth = YAML.safe_load(File.read(File.join(SOURCE_ROOT, "docs/aios/truth/project_state.yaml")), aliases: false)
+  restore_pre_stop_execution_envelope!(truth)
   truth["authority"]["founder_delegation_policy"]["sha256"] = Digest::SHA256.file(File.join(root, "docs/aios/FOUNDER_DELEGATION_POLICY.md")).hexdigest
   truth["project"]["canonical_repository"] = root
   truth["project"]["task_worktree_root"] = worktree_root

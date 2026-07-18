@@ -297,6 +297,8 @@ class CurrentTaskAuthorityTest
     dump_owned_yaml(fixture["truth_path"], truth)
     commit(repo, "test: restore route envelope binding")
 
+    accepted_lineage_tests(fixture)
+
     truth = yaml(fixture["truth_path"])
     link_path = File.join(fixture["external"], "decision-packet-link.md")
     File.symlink(fixture["packet_path"], link_path)
@@ -314,6 +316,78 @@ class CurrentTaskAuthorityTest
            "owned symlink fixture identity changed before cleanup")
     assert(File.readlink(link_path) == fixture["packet_path"], "owned symlink target changed before cleanup")
     File.unlink(link_path)
+  end
+
+  def top_level_history_record(truth, task_id)
+    matches = truth.fetch("task_history").values.select do |record|
+      record.is_a?(Hash) && record["task_id"] == task_id
+    end
+    assert(matches.length == 1, "fixture accepted input must have one top-level history record")
+    matches.first
+  end
+
+  def accepted_lineage_tests(fixture)
+    repo = fixture["repo"]
+    truth_path = fixture["truth_path"]
+
+    truth = yaml(truth_path)
+    inputs = truth.fetch("current_phase_route").fetch("accepted_inputs")
+    primary_key = inputs.keys.sort.first
+    primary = inputs.fetch(primary_key)
+    original_status = primary.fetch("status")
+    primary["status"] = "MASTER_TASK_GATE_NOT_ACCEPTED_COMPLETE"
+    dump_owned_yaml(truth_path, truth)
+    commit(repo, "test: masquerade rejected accepted-input status")
+    expect_nonpass(repo, "rejected-status accepted-input masquerade", /status is not an exact accepted Gate lifecycle/)
+    primary["status"] = original_status
+    dump_owned_yaml(truth_path, truth)
+    commit(repo, "test: restore accepted-input status")
+
+    truth = yaml(truth_path)
+    inputs = truth.fetch("current_phase_route").fetch("accepted_inputs")
+    input_pairs = inputs.keys.sort.combination(2).to_a
+    alias_pair = input_pairs.find { |left, right| inputs[left]["task_id"] != inputs[right]["task_id"] }
+    assert(alias_pair, "fixture needs two accepted inputs with distinct Task ids")
+    alias_source, alias_target = alias_pair
+    original_task_id = inputs[alias_source].fetch("task_id")
+    inputs[alias_source]["task_id"] = inputs[alias_target].fetch("task_id")
+    dump_owned_yaml(truth_path, truth)
+    commit(repo, "test: alias one accepted input to another Task id")
+    expect_nonpass(repo, "accepted-input Task-id alias", /history (?:status|contract|task_contract_sha256|accepted_candidate_)/)
+    inputs[alias_source]["task_id"] = original_task_id
+    dump_owned_yaml(truth_path, truth)
+    commit(repo, "test: restore accepted-input Task id")
+
+    truth = yaml(truth_path)
+    inputs = truth.fetch("current_phase_route").fetch("accepted_inputs")
+    substitution = nil
+    inputs.keys.sort.each do |input_key|
+      input = inputs.fetch(input_key)
+      history = top_level_history_record(truth, input.fetch("task_id"))
+      [%w[activation_parent_commit activation_parent_tree], %w[activation_commit activation_tree]].each do |commit_key, tree_key|
+        next unless history[commit_key].is_a?(String) && history[tree_key].is_a?(String)
+        next if history[commit_key] == input["accepted_candidate_commit"]
+        substitution = [input_key, history[commit_key], history[tree_key]]
+        break
+      end
+      break if substitution
+    end
+    assert(substitution, "fixture needs a pre-acceptance parent candidate for substitution")
+    input_key, substitute_commit, substitute_tree = substitution
+    input = inputs.fetch(input_key)
+    accepted_commit = input.fetch("accepted_candidate_commit")
+    accepted_tree = input.fetch("accepted_candidate_tree")
+    input["accepted_candidate_commit"] = substitute_commit
+    input["accepted_candidate_tree"] = substitute_tree
+    dump_owned_yaml(truth_path, truth)
+    commit(repo, "test: substitute pre-acceptance parent candidate")
+    expect_nonpass(repo, "pre-acceptance parent candidate substitution",
+                   /history accepted_candidate_commit binding mismatch/)
+    input["accepted_candidate_commit"] = accepted_commit
+    input["accepted_candidate_tree"] = accepted_tree
+    dump_owned_yaml(truth_path, truth)
+    commit(repo, "test: restore accepted candidate lineage")
+    expect_pass(repo, "accepted-input lineage restored")
   end
 
   def activate_fixture(fixture)

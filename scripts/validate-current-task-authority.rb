@@ -18,6 +18,7 @@ module CurrentTaskAuthority
   EXTERNAL_EFFECT_KEYS = %w[network provider secret remote production public].freeze
   ACTIVE_STATUSES = %w[ACTIVE AUTHORIZED_ACTIVE EXECUTING].freeze
   AUTHORIZED_ROUTE_STATUSES = %w[AUTHORIZED_READY ACTIVE].freeze
+  ACCEPTED_GATE_STATUS_RE = /\A(?:FOUNDER_GATE|MASTER_TASK_GATE)_ACCEPTED_COMPLETE\z/.freeze
   ROUTE_PACKET_SHA256 = "7320cebe730c076c3ec273469e908f33cfdd865079845b690089043a49955f19".freeze
   ROUTE_PACKET_BYTE_LENGTH = 21_400
   GOAL_RAW_SHA256 = "28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1".freeze
@@ -210,6 +211,25 @@ module CurrentTaskAuthority
     assert(actual_tree == tree_id, "#{label}.tree does not match commit")
   end
 
+  def accepted_history_record(truth, task_id, label)
+    history = hash(truth["task_history"], "task_history")
+    matches = history.values.select do |record|
+      record.is_a?(Hash) && record["task_id"] == task_id
+    end
+    assert(matches.length == 1, "#{label} must map to exactly one top-level task_history record")
+    record = matches.first
+    status = string(record["status"], "#{label} history status")
+    assert(ACCEPTED_GATE_STATUS_RE.match?(status), "#{label} history status is not an exact accepted Gate lifecycle")
+    record
+  end
+
+  def validate_accepted_contract(bytes, path, task_id, phase, label)
+    contract = parse_structured(bytes, path, label)
+    assert(contract["task_id"] == task_id, "#{label} task_id mismatch")
+    assert(contract["phase"] == phase, "#{label} phase mismatch")
+    contract
+  end
+
   def validate_external_effects(value, label)
     effects = hash(value, label)
     assert(effects.keys.sort == EXTERNAL_EFFECT_KEYS.sort, "#{label} must contain exactly the six external-effect keys")
@@ -353,20 +373,40 @@ module CurrentTaskAuthority
     assert(!accepted.empty?, "current_phase_route.accepted_inputs must not be empty")
     accepted.each do |input_id, record_value|
       record = hash(record_value, "accepted input #{input_id}")
-      string(record["task_id"], "accepted input #{input_id}.task_id")
-      assert(record["status"].to_s.include?("ACCEPTED") || record["status"].to_s.include?("COMPLETE"),
-             "accepted input #{input_id} is not accepted")
+      task_id = string(record["task_id"], "accepted input #{input_id}.task_id")
+      status = string(record["status"], "accepted input #{input_id}.status")
+      assert(ACCEPTED_GATE_STATUS_RE.match?(status),
+             "accepted input #{input_id} status is not an exact accepted Gate lifecycle")
+      history_record = accepted_history_record(truth, task_id, "accepted input #{input_id}")
+      bindings = {
+        "status" => status,
+        "contract" => record["task_contract_path"],
+        "task_contract_sha256" => record["task_contract_sha256"],
+        "accepted_candidate_commit" => record["accepted_candidate_commit"],
+        "accepted_candidate_tree" => record["accepted_candidate_tree"]
+      }
+      bindings.each do |history_key, expected|
+        assert(history_record[history_key] == expected,
+               "accepted input #{input_id} history #{history_key} binding mismatch")
+      end
       validate_commit_tree(root, record["accepted_candidate_commit"], record["accepted_candidate_tree"],
                            "accepted input #{input_id}")
       _out, _err, ancestor_status = git(root, "merge-base", "--is-ancestor",
                                          record["accepted_candidate_commit"], "HEAD", allow_failure: true)
       assert(ancestor_status.success?, "accepted input #{input_id} is not an ancestor of canonical HEAD")
       contract_path = repo_path(root, record["task_contract_path"], "accepted input #{input_id}.task_contract_path")
-      validate_sha_only(contract_path, record["task_contract_sha256"], "accepted input #{input_id} contract")
+      current_contract = validate_sha_only(contract_path, record["task_contract_sha256"],
+                                           "accepted input #{input_id} contract")
       historical_contract = git(root, "show",
                                 "#{record['accepted_candidate_commit']}:#{record['task_contract_path']}").first
       assert(sha256(historical_contract) == record["task_contract_sha256"],
              "accepted input #{input_id} commit does not bind the declared contract bytes")
+      assert(current_contract == historical_contract,
+             "accepted input #{input_id} current and accepted-commit contract bytes differ")
+      validate_accepted_contract(current_contract, contract_path, task_id, project["current_phase"],
+                                 "accepted input #{input_id} current contract")
+      validate_accepted_contract(historical_contract, record["task_contract_path"], task_id,
+                                 project["current_phase"], "accepted input #{input_id} accepted-commit contract")
     end
 
     first_task = hash(route["first_task"], "current_phase_route.first_task")

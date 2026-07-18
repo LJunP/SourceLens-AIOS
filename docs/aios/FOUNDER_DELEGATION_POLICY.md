@@ -1,8 +1,8 @@
 # SourceLens AIOS Founder Delegation Policy
 
-- Version: `1.3`
+- Version: `1.4`
 - Status: `FOUNDER_DIRECTIVE_ACTIVE`
-- Effective date: 2026-07-17
+- Effective date: 2026-07-18
 - Scope: current Founder-authorized Phase and its bounded local engineering Tasks
 
 ## 1. Purpose
@@ -80,55 +80,47 @@ remediation 链。Validator 不得把历史 Task ID、nonce、时间窗、offsit
 
 正常情况下，Founder 的下一介入点是 Phase Gate。
 
-## 6. P1 Exit Gate Project-level Rebaseline
+## 6. P1 Run-Kernel-First Architecture Route
 
-Founder 已批准 P1 Exit Gate 项目级重基线。P1-036 至 P1-039 及其 Contract、Review、
-Evidence 和 Terminal Record 继续保持不可修改的 Historical Evidence；任何新 Task 都不得
-恢复或复用这些执行 lineage、nonce、candidate、partial implementation 或 hidden material。
+Founder 已批准 `P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_V1` 并重新授权 P1 Phase entry。
+本路线不恢复、重试或替代任何历史失败 Task；旧四切片路线、P1-043 和 STOP_P1 governance
+outcome chain 均为永久关闭的 Historical Evidence，不再拥有当前调度权，也不得作为语义
+输入或复用其 execution lineage、nonce、candidate、partial implementation、Quality asset、
+oracle、fixture、Evidence 或 Review body。
 
-P1 只允许通过以下四个垂直切片关闭剩余 Exit Gate 能力，顺序不可交换，也不得创建第
-五个工程 Task：
+本路线保持 Strategic Constitution v2.3 的 P1 Objective 和 Evaluation Protocol v1.1
+第 12 节 P1 Exit Gate 原文、标准与证据要求不变。首个 walking skeleton 或任一普通 Task
+PASS 均不等于 P1 Exit、P2/P3 entry、Agent 能力、benchmark、production 或 hostile-principal
+security 证明。
 
-1. `Parameterized Evaluation Core`：parameterized Evaluation Harness、VTSR counting
-   validator、observable trace；
-2. `B0/B1/B2 Compatibility Adapters`；
-3. `Fresh Synthetic Holdout + Evaluator Calibration`：hidden-set separation、evaluator
-   disagreement 和 false-success characterization；
-4. `Frozen B0/B1/B2 Baseline Experiment and P1 Report`：48 个预声明 scheduled runs、
-   reproducible baseline report、首个 P2 hypothesis 和 Stop Condition。
+Phase envelope 最多包含 `4 engineering Tasks / 80 engineering hours / 21 calendar days`；
+等待 Founder-reserved Provider、Secret 或 network 决策的时间不计入 calendar budget。
+任一时刻最多一个 active Task、一个 Task branch、一个 Task worktree 和一个 active
+candidate。Master 必须在此 envelope 内自主选择、冻结、执行、审查、接受或终止最小真实
+工程 Task，并在 Task Gate PASS 后集成本地 canonical `main`；不得恢复逐 Task Founder 审批。
 
-四个切片总上限为 `76 engineering hours / 21 calendar days`。Slice 1、2 各允许最多两次
-implementation iteration；Slice 3 允许一次；Slice 4 不允许工程 retry。每个切片只能产生
-一个 candidate，successor、replacement、correction、closure、normalization 和
-feasibility chain 均为零。
+首个工程 Task 固定为 `AIOS-P1-044_LOCAL_PATCH_EVIDENCE_WALKING_SKELETON`，预算为
+`12 engineering hours / 3 calendar days`。它只允许使用当前 canonical `main` 中已接受的
+P1-001 harness、P1-011 environment snapshot capture/replay 和 P1-035 versioned visible
+synthetic dataset 资产，并以全新的 Contract、branch、worktree、Evidence 和独立审查执行；
+不得读取或复用 P1-043 rejected Task 或工程资产。
 
-每个 Task Contract 只冻结最小安全与研究包络：objective、why now、inputs、outputs、Owner、
-Worker、independent reviewers、exact allowed/forbidden paths、budget、acceptance、Evidence、
-rollback、Stop Conditions 和 claim boundary。具体 schema、fixture、mutation、测试向量、
-artifact lifecycle、writer map、evaluator handoff 和 verdict path 不得继续前置膨胀为巨型
-Contract；它们属于 Quality-owned executable evaluation plan 和 ownership manifest。
+每个 Task 只允许一份最小 working Contract 和最多一次不改变目标、不扩大路径、预算、权限
+或 claim 的 bounded contract correction。普通实现只允许 initial implementation 加一次
+同 Task bounded repair；repair 必须保持在同一 Task、Contract、branch、worktree 和 Evidence
+root 内。第二轮 exact candidate 对冻结 target claim 仍为 NON_PASS 时，该 Task 终态停止，
+不得创建 successor、replacement、normalization、closure、feasibility 或 remediation chain。
 
-Task Contract 准备阶段只允许一份 working draft 和最多一次 bounded correction；修正不得
-改变目标、扩大路径、预算、权限或声明。CTO、Security、Quality 对同一候选字节均 PASS 后，
-该字节才冻结为唯一 final exact Contract；final freeze 后 correction 次数为零，不得形成
-Contract 版本链。
+Review Gate 只由预声明 Acceptance Criteria、冻结 target claim 的 `TARGET_VERDICT`，以及
+Reviewer 以 candidate diff 或 executable behavior Evidence 证明为 candidate 新增或恶化的
+high-severity in-scope safety、data-integrity 或 source-identity finding 控制。未由 candidate
+新增或恶化且与 target 无直接因果关系的 inherited 或 out-of-scope observation 必须如实记录，
+但不得自动阻塞 Task、扩大范围或创建治理修正链。实现者不得独立验收自己的结果。
 
-Task 激活后、Worker 实现前，Quality 必须冻结并 hash-bound executable evaluation plan、
-schemas、fixtures、oracle、evaluator、expected results、artifact lifecycle 和 ownership
-manifest。独立 evaluator 必须拥有与 Worker runtime 输出分离的 create-once verdict 路径；
-Worker 不得写 evaluator verdict。这些冻结资产属于 Implementation Evidence，并在 candidate
-review 中接受机械验证，不再形成新的前置合同或治理循环。
-
-若候选 Contract 在一次 bounded correction 后仍无法获得三方 PASS，或任一切片在允许
-implementation iteration 内无法完成 Evidence、replay、rebuild、rollback 和三方 PASS，
-P1 必须终态停止并一次性升级 Founder，不得创建新路线。
-
-P1 继续保持 cooperative-local claim boundary。exact write scope、canonical/history
-no-write、network/provider/Secret 默认禁止、output containment、symlink 拒绝、Evidence
-immutable 和 Worker/Reviewer 分离属于当前 P1 必须条件；platform identity、
-hostile-principal resistance、Supervisor、Root Custody、Strong Isolation、Full Trust
-Runtime 和 production sandbox 继续延期至 P3/P5，不得重新成为 P1 前置条件。
-
-Slice 4 如需外部 Provider，必须由 Founder 对 exact Provider、model/version、Secret
-custody、network allowlist、48 runs 和 cost cap 单独授权；这不恢复普通逐 Task 审批。
-正常情况下 Founder 的下一介入点仅为该外部权限决策、P1 最终止损或 P1 Phase Gate。
+本路线默认只允许 cooperative-local、local synthetic、可重放和可回滚的 P1 evaluation
+foundation work。network、Provider、Secret、remote、production、public effect、dependency
+download、fetch、push、PR、remote merge 和 release 均未获授权；P2/P3 entry、Agent Shell、
+model-initiated canonical write、Supervisor、Root Custody、Strong Isolation、Full Trust Runtime
+与 Multi-Agent Runtime 均被禁止。需要 Founder-reserved 外部权限、critical residual risk
+接受、Phase envelope 或 route hypothesis 已耗尽、P1 Phase Gate 或 P1 final stop 时才升级
+Founder；其他情况下 Master 持续自主推进真实工程。

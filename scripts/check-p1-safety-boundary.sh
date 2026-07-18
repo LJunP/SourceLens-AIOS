@@ -2,297 +2,307 @@
 set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
-cd "$ROOT_DIR"
+TRUTH_PATH="${ROOT_DIR}/docs/aios/truth/project_state.yaml"
 
 fail() {
   echo "P1 SAFETY BOUNDARY FAIL: $*" >&2
   exit 1
 }
 
-check_rebaseline_safety_envelope() {
+check_current_p1_route() {
   local truth_path="$1"
-  ruby -ryaml -e '
-    truth = YAML.safe_load(File.read(ARGV.fetch(0)), aliases: false)
-    rebaseline = truth.dig("mandatory_exit_capability_recovery", "project_level_rebaseline")
-    delivery = truth.dig("mandatory_exit_capability_recovery", "delivery_architecture_simplification")
-    abort "P1 rebaseline safety envelope missing" unless
-      rebaseline.is_a?(Hash) && %w[FOUNDER_APPROVED_ACTIVE REBASELINED_PENDING_EXECUTION REBASELINED_SLICE_ACTIVE P1_EXIT_EVIDENCE_COMPLETE_PENDING_FOUNDER_GATE TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION].include?(rebaseline["status"]) &&
-      rebaseline["task_limit"] == 4 && rebaseline["post_freeze_contract_corrections"] == 0 &&
-      rebaseline["successor_replacement_correction_chain_allowed"] == false &&
-      rebaseline["default_external_effects_authorized"] == false
-    abort "P1 simplified delivery safety envelope missing" unless
-      delivery.is_a?(Hash) && %w[FOUNDER_APPROVED_ACTIVE TERMINAL_STOPPED_AFTER_P1_041_SCOPE_COMPLIANCE_FAILURE].include?(delivery["status"]) &&
-      delivery["post_freeze_contract_corrections"] == 0 &&
-      delivery["independent_evaluator_verdict_path_separate_from_worker_runtime"] == true &&
-      delivery["worker_may_write_evaluator_verdict"] == false &&
-      delivery["historical_failed_engineering_asset_reuse_allowed"] == false &&
-      delivery["external_effects_authorized"] == false
-    abort "P1 rebaseline restored a historical route" unless
-      truth.dig("mandatory_exit_capability_recovery", "post_revision_final_route_terminal", "status") == "P1_TERMINAL_STOPPED"
-  ' "$truth_path" || fail "P1 rebaseline safety envelope drift"
+  ruby -ryaml -rdigest -rpathname -e '
+    def stop!(message)
+      abort(message)
+    end
+
+    def mapping!(value, label)
+      stop!("#{label} missing or not a mapping") unless value.is_a?(Hash)
+      value
+    end
+
+    def nonempty_string!(value, label)
+      stop!("#{label} missing or empty") unless value.is_a?(String) && !value.empty?
+      value
+    end
+
+    def positive_integer!(value, label)
+      stop!("#{label} must be a positive integer") unless value.is_a?(Integer) && value.positive?
+      value
+    end
+
+    def sha256!(value, label)
+      stop!("#{label} must be lowercase SHA-256") unless value.is_a?(String) && value.match?(/\A[0-9a-f]{64}\z/)
+      value
+    end
+
+    def effect_map!(value, label)
+      effects = mapping!(value, label)
+      expected = %w[network provider secret remote production public]
+      stop!("#{label} keys drifted") unless effects.keys.sort == expected.sort
+      expected.each { |key| stop!("#{label}.#{key} must be false") unless effects[key] == false }
+      effects
+    end
+
+    def safe_relative_path!(value, label)
+      path = Pathname.new(nonempty_string!(value, label))
+      stop!("#{label} must be repository-relative") if path.absolute?
+      parts = path.each_filename.to_a
+      stop!("#{label} contains unsafe traversal") if parts.empty? || parts.any? { |part| part == ".." || part.empty? }
+      path.cleanpath
+    end
+
+    def nullable_binding!(value, label)
+      binding = mapping!(value, label)
+      expected = %w[path sha256 byte_length]
+      stop!("#{label} keys drifted") unless binding.keys.sort == expected.sort
+      expected.each { |key| stop!("#{label}.#{key} must be null while no Task is active") unless binding[key].nil? }
+    end
+
+    def binding!(value, label)
+      binding = mapping!(value, label)
+      expected = %w[path sha256 byte_length]
+      stop!("#{label} keys drifted") unless binding.keys.sort == expected.sort
+      nonempty_string!(binding["path"], "#{label}.path")
+      sha256!(binding["sha256"], "#{label}.sha256")
+      positive_integer!(binding["byte_length"], "#{label}.byte_length")
+      binding
+    end
+
+    def validate_bound_contract!(repo_root, binding, current_task)
+      relative = safe_relative_path!(binding["path"], "active Task Contract path")
+      candidate = repo_root.join(relative).cleanpath
+      stop!("active Task Contract missing or symlinked") unless candidate.file? && !candidate.symlink?
+      real_candidate = candidate.realpath
+      stop!("active Task Contract escaped repository") unless real_candidate.to_s.start_with?(repo_root.to_s + File::SEPARATOR)
+      bytes = File.binread(real_candidate)
+      stop!("active Task Contract byte length drift") unless bytes.bytesize == binding["byte_length"]
+      stop!("active Task Contract hash drift") unless Digest::SHA256.hexdigest(bytes) == binding["sha256"]
+      contract = YAML.safe_load(bytes, permitted_classes: [], permitted_symbols: [], aliases: false)
+      mapping!(contract, "active Task Contract")
+      stop!("active Task Contract task identity drift") unless contract["task_id"] == current_task
+      stop!("active Task Contract phase drift") unless contract["phase"] == "P1"
+      %w[objective why_now owner_role worker_role acceptance_criteria required_evidence stop_conditions forbidden_actions].each do |key|
+        value = contract[key]
+        present = value.is_a?(String) ? !value.empty? : value.respond_to?(:empty?) ? !value.empty? : !value.nil?
+        stop!("active Task Contract missing #{key}") unless present
+      end
+      contract
+    rescue Psych::Exception
+      stop!("active Task Contract YAML invalid")
+    end
+
+    truth_path = Pathname.new(ARGV.fetch(0))
+    stop!("Truth missing or symlinked") unless truth_path.file? && !truth_path.symlink?
+    repo_root = truth_path.realpath.dirname.dirname.dirname.dirname
+    truth = YAML.safe_load(truth_path.read, permitted_classes: [], permitted_symbols: [], aliases: false)
+    mapping!(truth, "Truth")
+
+    project = mapping!(truth["project"], "project")
+    stop!("current phase must remain P1") unless project["current_phase"] == "P1"
+    stop!("P0 must remain complete") unless project["p0_status"] == "COMPLETE"
+    stop!("P1 entry must be authorized") unless project["p1_entry_status"] == "AUTHORIZED"
+
+    route = mapping!(truth["current_phase_route"], "current_phase_route")
+    nonempty_string!(route["route_id"], "current_phase_route.route_id")
+    stop!("route phase drift") unless route["phase"] == "P1" && route["phase_entry_status"] == "AUTHORIZED"
+    route_status = nonempty_string!(route["status"], "current_phase_route.status")
+    allowed_route_statuses = %w[AUTHORIZED_READY ACTIVE]
+    stop!("current_phase_route.status is outside the executable lifecycle") unless allowed_route_statuses.include?(route_status)
+    decision_packet = binding!(route["decision_packet"], "current_phase_route.decision_packet")
+    stop!("decision packet path missing") if decision_packet["path"].empty?
+    activation_parent = mapping!(route["activation_parent"], "current_phase_route.activation_parent")
+    %w[commit tree].each do |key|
+      value = activation_parent[key]
+      stop!("activation_parent.#{key} invalid") unless value.is_a?(String) && value.match?(/\A[0-9a-f]{40,64}\z/)
+    end
+    exit_gate = mapping!(route["p1_exit_gate"], "current_phase_route.p1_exit_gate")
+    stop!("P1 Exit Gate source drift") unless exit_gate["source"] == "docs/aios/EVALUATION_PROTOCOL.md"
+    stop!("P1 Exit Gate was changed by route activation") unless exit_gate["changed"] == false
+
+    envelope = mapping!(route["envelope"], "current_phase_route.envelope")
+    %w[max_engineering_tasks max_engineering_hours max_calendar_days].each do |key|
+      positive_integer!(envelope[key], "current_phase_route.envelope.#{key}")
+    end
+    single_resource_limits = {
+      "max_active_tasks" => 1,
+      "max_task_branches" => 1,
+      "max_task_worktrees" => 1,
+      "max_active_candidates" => 1,
+      "max_contract_corrections_per_task" => 1,
+      "max_same_task_repairs" => 1
+    }
+    single_resource_limits.each do |key, expected|
+      stop!("P1 route envelope #{key} drift") unless envelope[key] == expected
+    end
+    effect_map!(envelope["external_effects"], "current_phase_route.envelope.external_effects")
+    stop!("P2 entry was authorized inside P1") unless envelope["p2_entry_authorized"] == false
+    stop!("P3 entry was authorized inside P1") unless envelope["p3_entry_authorized"] == false
+
+    accepted_inputs = mapping!(route["accepted_inputs"], "current_phase_route.accepted_inputs")
+    stop!("P1 route has no accepted inputs") if accepted_inputs.empty?
+    accepted_inputs.each do |input_id, input|
+      nonempty_string!(input_id, "accepted input id")
+      binding = mapping!(input, "accepted input #{input_id}")
+      nonempty_string!(binding["task_id"], "accepted input #{input_id}.task_id")
+      nonempty_string!(binding["status"], "accepted input #{input_id}.status")
+      sha256!(binding["task_contract_sha256"], "accepted input #{input_id}.task_contract_sha256")
+    end
+
+    first_task = mapping!(route["first_task"], "current_phase_route.first_task")
+    first_task_id = nonempty_string!(first_task["task_id"], "current_phase_route.first_task.task_id")
+    stop!("first Task phase identity invalid") unless first_task_id.start_with?("AIOS-P1-")
+    safe_relative_path!(first_task["contract_path"], "current_phase_route.first_task.contract_path")
+    stop!("first Task contract path is outside current Task contracts") unless first_task["contract_path"].start_with?("docs/aios/tasks/")
+    positive_integer!(first_task["max_engineering_hours"], "first Task engineering budget")
+    positive_integer!(first_task["max_calendar_days"], "first Task calendar budget")
+    positive_integer!(first_task["max_implementation_iterations"], "first Task implementation iterations")
+    stop!("first Task candidate count must be one") unless first_task["max_candidates"] == 1
+    stop!("first Task engineering budget exceeds route envelope") unless
+      first_task["max_engineering_hours"] <= envelope["max_engineering_hours"]
+    stop!("first Task calendar budget exceeds route envelope") unless
+      first_task["max_calendar_days"] <= envelope["max_calendar_days"]
+    stop!("first Task implementation iterations exceed route repair allowance") unless
+      first_task["max_implementation_iterations"] <= envelope["max_same_task_repairs"] + 1
+    input_ids = first_task["accepted_input_ids"]
+    stop!("first Task accepted inputs missing") unless input_ids.is_a?(Array) && !input_ids.empty? && input_ids.uniq.length == input_ids.length
+    stop!("first Task references an unaccepted input") unless input_ids.all? { |input_id| accepted_inputs.key?(input_id) }
+    nonempty_string!(first_task["claim_boundary"], "first Task claim boundary")
+
+    phase_boundary = mapping!(truth["phase_boundary"], "phase_boundary")
+    stop!("phase boundary drift") unless phase_boundary["phase"] == "P1"
+    task_kinds = phase_boundary["allowed_task_kinds"]
+    stop!("P1 allowed task kinds invalid") unless task_kinds.is_a?(Array) && !task_kinds.empty? && task_kinds.all? { |kind| kind.is_a?(String) && kind.start_with?("EVALUATION_FOUNDATION_") }
+    capabilities = phase_boundary["allowed_capabilities"]
+    stop!("P1 allowed capabilities missing") unless capabilities.is_a?(Array) && !capabilities.empty?
+    forbidden_capabilities = %w[
+      P2_REPOSITORY_INTELLIGENCE_CAPABILITY_CLAIM P3_SINGLE_AGENT_RUNTIME AGENT_SHELL
+      MODEL_INITIATED_CANONICAL_WRITE PLATFORM_IDENTITY SUPERVISOR ROOT_CUSTODY STRONG_ISOLATION
+      MULTI_AGENT_RUNTIME
+    ]
+    stop!("P1 phase boundary admits a deferred capability") unless (capabilities & forbidden_capabilities).empty?
+    deferred = phase_boundary["deferred_capabilities"]
+    stop!("P1 deferred capability set incomplete") unless deferred.is_a?(Array) && (forbidden_capabilities - deferred).empty?
+    effect_map!(phase_boundary["default_external_effects"], "phase_boundary.default_external_effects")
+
+    role_roots = mapping!(phase_boundary["role_write_roots"], "phase_boundary.role_write_roots")
+    role_roots.each do |role, roots|
+      next if roots.is_a?(String)
+      stop!("phase boundary write roots invalid for #{role}") unless roots.is_a?(Array)
+      roots.each { |path| safe_relative_path!(path, "phase boundary write root #{role}") }
+    end
+
+    active = mapping!(truth["active_work"], "active_work")
+    effect_map!(active["external_effects"], "active_work.external_effects")
+    current_task = active["current_task"]
+    goal_task = truth.dig("goal", "current_task_authority")
+
+    if current_task == "NONE"
+      initial_ready = route_status == "AUTHORIZED_READY"
+      between_tasks = route_status == "ACTIVE"
+      stop!("Task NONE requires either initial route-ready or between-Task Phase-active lifecycle") unless
+        initial_ready || between_tasks
+      if initial_ready
+        stop!("initial Task NONE project projection is not route-ready") unless
+          project["phase_execution_status"] == "AUTHORIZED_READY" &&
+          project["p1_execution_status"] == "AUTHORIZED_READY"
+        stop!("initial Task NONE requires an eligible first Task") unless
+          first_task["status"] == "ELIGIBLE_NOT_ACTIVATED"
+      else
+        allowed_project_active_statuses = %w[ACTIVE EXECUTING]
+        stop!("between-Task NONE requires active project execution") unless
+          allowed_project_active_statuses.include?(project["phase_execution_status"]) &&
+          allowed_project_active_statuses.include?(project["p1_execution_status"])
+        stop!("between-Task NONE cannot leave first Task active") if first_task["status"] == "ACTIVE"
+      end
+      stop!("goal current Task authority drift") unless goal_task == "NONE"
+      stop!("active_work current_task_status drift") unless active["current_task_status"] == "NONE"
+      nullable_binding!(active["current_task_contract"], "active_work.current_task_contract")
+      nullable_binding!(active["authority_record"], "active_work.authority_record")
+      %w[task_branch task_worktree execution_evidence_root].each do |key|
+        stop!("active_work.#{key} must be null while no Task is active") unless active[key].nil?
+      end
+      expected_resource_state = initial_ready ? "NOT_CREATED_ROUTE_READY" : "NONE_PHASE_ACTIVE"
+      stop!("Task NONE resource state drift") unless active["task_resource_state"] == expected_resource_state
+      empty_budget = mapping!(active["budget"], "active_work.budget")
+      expected_budget_keys = %w[engineering_hours calendar_days implementation_iterations candidates]
+      stop!("active_work.budget keys drifted while no Task is active") unless empty_budget.keys.sort == expected_budget_keys.sort
+      expected_budget_keys.each do |key|
+        stop!("active_work.budget.#{key} must be null while no Task is active") unless empty_budget[key].nil?
+      end
+      empty_roles = mapping!(active["roles"], "active_work.roles")
+      expected_role_keys = %w[owner worker independent_reviewers]
+      stop!("active_work.roles keys drifted while no Task is active") unless empty_roles.keys.sort == expected_role_keys.sort
+      %w[owner worker].each do |key|
+        stop!("active_work.roles.#{key} must be null while no Task is active") unless empty_roles[key].nil?
+      end
+      stop!("active_work.roles.independent_reviewers must be empty while no Task is active") unless empty_roles["independent_reviewers"] == []
+      stop!("active_work.allowlisted_paths must be empty while no Task is active") unless active["allowlisted_paths"] == []
+      stop!("Task NONE state unexpectedly requires Founder decision") unless active["founder_decision_required"] == false
+      nonempty_string!(active["next_eligible_action"], "active_work.next_eligible_action")
+      stop!("Task NONE next action drift") unless active["next_eligible_action"] == route["next_eligible_action"]
+    else
+      current_task = nonempty_string!(current_task, "active_work.current_task")
+      stop!("active Task requires route ACTIVE") unless route_status == "ACTIVE"
+      allowed_project_active_statuses = %w[ACTIVE EXECUTING]
+      stop!("active Task requires active project execution status") unless
+        allowed_project_active_statuses.include?(project["phase_execution_status"]) &&
+        allowed_project_active_statuses.include?(project["p1_execution_status"])
+      stop!("goal/current Task identity drift") unless goal_task == current_task
+      nonempty_string!(active["current_task_status"], "active_work.current_task_status")
+      contract_binding = binding!(active["current_task_contract"], "active_work.current_task_contract")
+      binding!(active["authority_record"], "active_work.authority_record")
+      validate_bound_contract!(repo_root, contract_binding, current_task)
+      %w[task_branch task_worktree execution_evidence_root].each do |key|
+        nonempty_string!(active[key], "active_work.#{key}")
+      end
+      paths = active["allowlisted_paths"]
+      stop!("active Task allowlisted paths missing") unless paths.is_a?(Array) && !paths.empty? && paths.uniq.length == paths.length
+      paths.each { |path| safe_relative_path!(path, "active Task allowlisted path") }
+      active_budget = mapping!(active["budget"], "active_work.budget")
+      expected_budget_keys = %w[engineering_hours calendar_days implementation_iterations candidates]
+      stop!("active_work.budget keys drifted") unless active_budget.keys.sort == expected_budget_keys.sort
+      expected_budget_keys.each { |key| positive_integer!(active_budget[key], "active_work.budget.#{key}") }
+      stop!("active Task engineering budget exceeds route envelope") unless
+        active_budget["engineering_hours"] <= envelope["max_engineering_hours"]
+      stop!("active Task calendar budget exceeds route envelope") unless
+        active_budget["calendar_days"] <= envelope["max_calendar_days"]
+      stop!("active Task implementation iterations exceed route repair allowance") unless
+        active_budget["implementation_iterations"] <= envelope["max_same_task_repairs"] + 1
+      stop!("active Task candidate budget exceeds route concurrency allowance") unless
+        active_budget["candidates"] <= envelope["max_active_candidates"]
+      if current_task == first_task_id
+        stop!("activated first Task engineering budget exceeds its declared bound") unless
+          active_budget["engineering_hours"] <= first_task["max_engineering_hours"]
+        stop!("activated first Task calendar budget exceeds its declared bound") unless
+          active_budget["calendar_days"] <= first_task["max_calendar_days"]
+        stop!("activated first Task implementation budget exceeds its declared bound") unless
+          active_budget["implementation_iterations"] <= first_task["max_implementation_iterations"]
+        stop!("activated first Task candidate budget exceeds its declared bound") unless
+          active_budget["candidates"] <= first_task["max_candidates"]
+      end
+      mapping!(active["roles"], "active_work.roles")
+      stop!("active Task unexpectedly requires Founder decision") unless active["founder_decision_required"] == false
+    end
+  ' "$truth_path" || fail "current P1 route safety envelope drift"
 }
 
+command -v ruby >/dev/null 2>&1 || fail "ruby is required"
+command -v git >/dev/null 2>&1 || fail "git is required"
+
 if [[ $# -gt 0 ]]; then
-  [[ $# -eq 2 && "$1" == "--check-rebaseline-safety-envelope" ]] || fail "unsupported arguments"
-  check_rebaseline_safety_envelope "$2"
-  echo "P1 rebaseline safety envelope validation passed."
+  [[ $# -eq 2 && "$1" == "--check-current-p1-route" ]] || fail "unsupported arguments"
+  check_current_p1_route "$2"
+  echo "Current P1 route safety validation passed."
   exit 0
 fi
 
-tracked_sensitive="$(git ls-files \
-  | grep -E '(^|/)(\.env($|\.)|id_(rsa|ed25519)$|.*\.(pem|key|p12|pfx)$)' \
-  | grep -Ev '(^|/)\.env\.example$' || true)"
-[[ -z "$tracked_sensitive" ]] || fail "tracked secret-like files detected: $tracked_sensitive"
+[[ -f "$TRUTH_PATH" && ! -L "$TRUTH_PATH" ]] || fail "canonical Truth missing, non-regular, or symlinked"
 
-git ls-files | grep -q '^\.sourcelens-audit/' && fail "historical audit material leaked into Git"
+tracked_audit_paths="$(git -C "$ROOT_DIR" ls-files | grep -E '(^|/)\.sourcelens-audit(/|$)' || true)"
+[[ -z "$tracked_audit_paths" ]] || fail "external Evidence material leaked into Git: ${tracked_audit_paths}"
 
 ruby "${ROOT_DIR}/scripts/validate-current-task-authority.rb"
-check_rebaseline_safety_envelope "docs/aios/truth/project_state.yaml"
+check_current_p1_route "$TRUTH_PATH"
 
-ruby -ryaml -rjson -rdigest -e '
-  harness = YAML.safe_load(File.read("docs/aios/tasks/P1-001_EVALUATION_HARNESS.yaml"), aliases: false)
-  abort "P1-001 network must remain disabled" unless harness.dig("environment", "network") == "disabled"
-  abort "P1-001 provider must remain none" unless harness.dig("environment", "provider") == "none"
-  abort "P1-001 secrets must remain none" unless harness.dig("environment", "secrets") == "none"
-  abort "P1-001 task worktree write boundary widened" unless harness.dig("environment", "task_worktree_write") == "exact_owned_paths_only"
-  abort "P1-001 canonical main write must remain forbidden" unless harness.dig("environment", "canonical_main_write") == "forbidden"
-  abort "P1-001 system-under-test write must remain forbidden" unless harness.dig("environment", "system_under_test_checkout_write") == "forbidden"
-  abort "P1-001 remote effects must remain forbidden" unless harness.dig("environment", "remote_effects") == "forbidden"
-  abort "P1-001 production effects must remain forbidden" unless harness.dig("environment", "production_effects") == "forbidden"
-
-  p1_004_task_path = "docs/aios/tasks/P1-004_PARAMETERIZED_EVALUATION_HARNESS_ADMISSION.yaml"
-  p1_004_task_sha = "0551602b5a330fc6d7920d048bba33caae9c5a0358c0bf57ef40cf7a63eaec6f"
-  p1_004_authorization_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-004-task-contract-20260716T002125Z/revision-2/FOUNDER_EXECUTION_AUTHORIZATION_RECORD.json"
-  p1_004_authorization_sha = "3979871bfa949c2f613f30c5169880e6bb02131f690298b446b0c831e147517e"
-  p1_004_execution_root = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-004-parameterized-harness-admission-execution-20260716T002125Z"
-  p1_004_stop_path = "#{p1_004_execution_root}/terminal/TERMINAL_STOP_RECORD.json"
-  p1_004_stop_sha = "ba3a50a97fe3bfd79c2568c13108828326dbba820cd2eef53e38fc54cd0bced3"
-  p1_004_manifest_path = "#{p1_004_execution_root}/terminal/TERMINAL_EVIDENCE_MANIFEST.json"
-  p1_004_manifest_sha = "201bcf229c3179f882a066173401c3b335c7dc36fea1828fc43d7cda6b7a9320"
-  p1_004_seal_path = "#{p1_004_execution_root}/terminal/TERMINAL_SEAL.json"
-  p1_004_seal_sha = "2bb0a14c832567feb89f6fb71e6ab88c338a4308669928399e8c2364f6553875"
-  p1_004_restore_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-004-terminal-closure-verification-20260716T041834Z/OFFSITE_RESTORE_VERIFICATION_RECEIPT.json"
-  p1_004_restore_sha = "15e92ebef2a234652e1d42a2aaa7e42fdffc9466e5f4fd94447f136a0ab56368"
-  active_task_path = "docs/aios/tasks/P1-005_EVALUATION_MATRIX_AND_VTSR_COUNTING_VALIDATOR.yaml"
-  active_task_sha = "e17340610bc8a53b887c4699ba13ab6b4e89e9caedb0f56c5375bf8eac122a2c"
-  active_authorization_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/activation/FOUNDER_EXECUTION_AUTHORIZATION_RECORD.json"
-  active_authorization_sha = "e4af3f5b7696232a37b818ae12bf0c6f04872f07978ca5c21cfee3c147068559"
-  p1_005_terminal_stop_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/terminal/TERMINAL_STOP_RECORD.json"
-  p1_005_terminal_stop_sha = "7ba972bc2514e158ea491d703fc0979b0da34c7e840c4e90e18874da62b65ba0"
-  p1_005_terminal_manifest_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/terminal/TERMINAL_EVIDENCE_MANIFEST.json"
-  p1_005_terminal_manifest_sha = "4be9f4ad4b25cbd2e4b6e3411e30cfc51ca1330c13a36bbca7f2c2450ec5be09"
-  p1_005_offsite_receipt_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-005-evaluation-matrix-vtsr-execution-20260716T051135Z/terminal/OFFSITE_TERMINAL_VERIFICATION_RECEIPT.json"
-  p1_005_offsite_receipt_sha = "534c0b2dfd830fa465723700e88a70264cb156d281e2ebb0b4ed560867bf0b9d"
-  p1_006_task_path = "docs/aios/tasks/P1-006_PATCH_EVIDENCE_PACKAGE_INTEGRITY_VALIDATOR.yaml"
-  p1_006_task_sha = "84febd287bb956c59bdf09e44c07a8f6e711ffa4ac1447200e2a2e7a35b9579f"
-  p1_006_authorization_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-006-cross-contract-preflight-contract-preparation-20260716T071228Z/FOUNDER_EXECUTION_AUTHORIZATION_RECORD.json"
-  p1_006_authorization_sha = "f85b2150a387edf5b81120ee845bcfd54ea7504f9cf64c450ee6e539b57be7c4"
-  p1_006_terminal_stop_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-006-terminal-closure-20260716T080325Z/terminal/TERMINAL_STOP_RECORD.json"
-  p1_006_terminal_stop_sha = "d7c9c9b9d0640c5a169074deaf56a190bfa714db10b113e358bdd9e5625393d8"
-  p1_006_terminal_manifest_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-006-terminal-closure-20260716T080325Z/terminal/TERMINAL_EVIDENCE_MANIFEST.json"
-  p1_006_terminal_manifest_sha = "a89c2215d9835ce96e1472f801343a3c4203638b4b9b3d54b4138ad4a445b72f"
-  p1_006_offsite_receipt_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-006-terminal-closure-20260716T080325Z/verification/OFFSITE_TERMINAL_VERIFICATION_RECEIPT.json"
-  p1_006_offsite_receipt_sha = "2ac90fe52ea56f5de670dfaf5edb5c2800696425d6b8482cb4f45260369cf45f"
-  {
-    p1_004_task_path => p1_004_task_sha,
-    p1_004_authorization_path => p1_004_authorization_sha,
-    p1_004_stop_path => p1_004_stop_sha,
-    p1_004_manifest_path => p1_004_manifest_sha,
-    p1_004_seal_path => p1_004_seal_sha,
-    p1_004_restore_path => p1_004_restore_sha,
-    active_task_path => active_task_sha,
-    active_authorization_path => active_authorization_sha,
-    p1_005_terminal_stop_path => p1_005_terminal_stop_sha,
-    p1_005_terminal_manifest_path => p1_005_terminal_manifest_sha,
-    p1_005_offsite_receipt_path => p1_005_offsite_receipt_sha,
-    p1_006_task_path => p1_006_task_sha,
-    p1_006_authorization_path => p1_006_authorization_sha,
-    p1_006_terminal_stop_path => p1_006_terminal_stop_sha,
-    p1_006_terminal_manifest_path => p1_006_terminal_manifest_sha,
-    p1_006_offsite_receipt_path => p1_006_offsite_receipt_sha
-  }.each do |path, expected|
-    abort "P1-004 terminal custody artifact missing: #{path}" unless File.file?(path)
-    abort "P1-004 terminal custody artifact drift: #{path}" unless Digest::SHA256.file(path).hexdigest == expected
-  end
-  p1_004_task = YAML.safe_load(File.read(p1_004_task_path), aliases: false)
-  p1_004_authorization = JSON.parse(File.read(p1_004_authorization_path))
-  p1_004_stop = JSON.parse(File.read(p1_004_stop_path))
-  p1_004_manifest = JSON.parse(File.read(p1_004_manifest_path))
-  p1_004_seal = JSON.parse(File.read(p1_004_seal_path))
-  p1_004_restore = JSON.parse(File.read(p1_004_restore_path))
-  active_task = YAML.safe_load(File.read(active_task_path), aliases: false)
-  active_authorization = JSON.parse(File.read(active_authorization_path))
-  p1_005_terminal_stop = JSON.parse(File.read(p1_005_terminal_stop_path))
-  p1_005_terminal_manifest = JSON.parse(File.read(p1_005_terminal_manifest_path))
-  p1_005_offsite_receipt = JSON.parse(File.read(p1_005_offsite_receipt_path))
-  p1_006_task = YAML.safe_load(File.read(p1_006_task_path), aliases: false)
-  p1_006_authorization = JSON.parse(File.read(p1_006_authorization_path))
-  p1_006_terminal_stop = JSON.parse(File.read(p1_006_terminal_stop_path))
-  p1_006_terminal_manifest = JSON.parse(File.read(p1_006_terminal_manifest_path))
-  p1_006_offsite_receipt = JSON.parse(File.read(p1_006_offsite_receipt_path))
-
-  task_path = "docs/aios/tasks/P1-003_PILOT_TASK_DATASET_AND_HIDDEN_SET_CURATION.yaml"
-  task_sha = "8dec9d7b12df2e31c62e9ce146938c8a192b4751ce3a9aced3ccd38414fd0aa6"
-  authorization_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-003-execution-authorization-20260715T125627Z/FOUNDER_EXECUTION_AUTHORIZATION_RECORD.json"
-  authorization_sha = "1082f0a81eb41a1fae9a1767d421bb0fe8f11810bccba197ad18e3e430762a1b"
-  parent_binding_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-003-execution-authorization-20260715T125627Z/IMPLEMENTATION_PARENT_BINDING_RECORD.json"
-  parent_binding_sha = "ead76e3b06eb2c509ec0ee66df72af4756be946f5f75f2801d4b75a92a1b6774"
-  correction_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-003-pilot-dataset-v0.1/integration/P1_003_TERMINAL_CLASSIFICATION_CORRECTION_RECORD.json"
-  correction_sha = "4ec9307bb7b4ea2fc807d8e34769592e8a1bf661c77e4962699f39328cc9ed8c"
-  manifest_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-003-pilot-dataset-v0.1/integration/TERMINAL_EVIDENCE_MANIFEST_V2.json"
-  manifest_sha = "76083450ff7da28eef4f264b3cb15c684207af69997b89d3515ae695d6c9ddf1"
-  overall_stop_path = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-003-terminal-relocation-20260715T145418Z/P1_003_STOPPED_STATE_RECOVERY_AND_CANONICAL_CUTOVER_TERMINAL_STOP_RECORD.json"
-  overall_stop_sha = "fd2b0b1947a9fbbf8f10294106a7abeadd3f42658b6f629fab2dfdd2567d89fa"
-  hidden_public_receipt_path = "/Volumes/lijp/SourceLens-AIOS-P1-003-terminal-relocation-20260715T145418Z/visible/evidence/HIDDEN_OFFSITE_PUBLIC_RECEIPT.json"
-  hidden_public_receipt_sha = "f249c9703de977e513890b0cf592ce52ce050996482e615270d22add4067b8a7"
-  abort "P1-003 Task Contract identity drift" unless Digest::SHA256.file(task_path).hexdigest == task_sha
-  {
-    authorization_path => authorization_sha,
-    parent_binding_path => parent_binding_sha,
-    correction_path => correction_sha,
-    manifest_path => manifest_sha,
-    overall_stop_path => overall_stop_sha
-  }.each do |path, expected|
-    abort "P1-003 custody Evidence missing: #{path}" unless File.file?(path)
-    abort "P1-003 custody Evidence identity drift: #{path}" unless Digest::SHA256.file(path).hexdigest == expected
-  end
-  task = YAML.safe_load(File.read(task_path), aliases: false)
-  authorization = JSON.parse(File.read(authorization_path))
-  parent_binding = JSON.parse(File.read(parent_binding_path))
-  correction = JSON.parse(File.read(correction_path))
-  manifest = JSON.parse(File.read(manifest_path))
-  overall_stop = JSON.parse(File.read(overall_stop_path))
-  truth = YAML.safe_load(File.read("docs/aios/truth/project_state.yaml"), aliases: false)
-
-  exact_terminal_status = "TERMINAL_STOPPED_BEFORE_INTEGRATION_ACQUISITION_EVIDENCE_INTEGRITY_FAILURE"
-  active_task_id = "AIOS-P1-005_EVALUATION_MATRIX_AND_VTSR_COUNTING_VALIDATOR"
-  abort "canonical repository drift" unless truth.dig("project", "canonical_repository") == "/Users/lijunpeng/Developer/SourceLens-AIOS"
-  abort "old Desktop repository remains canonical" if truth.dig("project", "canonical_repository") == "/Users/lijunpeng/Desktop/cc/project/SourceLens-AIOS"
-  p1_006_state = "TERMINAL_STOPPED_DURING_ACTIVATION_OUT_OF_SCOPE_WRITE"
-  abort "P1-006 Contract identity drift" unless p1_006_task["task_id"] == "AIOS-P1-006_PATCH_EVIDENCE_PACKAGE_INTEGRITY_VALIDATOR" && p1_006_task["phase"] == "P1" && p1_006_task["execution_authorized"] == false
-  abort "P1-006 capture-time authorization drift" unless p1_006_authorization["status"] == "ACTIVE_TASK_LEVEL_DELEGATED_EXECUTION_AUTHORIZATION" && p1_006_authorization["execution_authorized"] == true && p1_006_authorization["task_contract_sha256"] == p1_006_task_sha
-  abort "P1-006 terminal state drift" unless p1_006_terminal_stop["task_state"] == p1_006_state && p1_006_terminal_manifest["terminal_state"] == p1_006_state
-  abort "P1-006 stop classification drift" unless p1_006_terminal_stop.dig("failure", "classification") == "EXECUTION_SCOPE_COMPLIANCE_FAILURE"
-  abort "P1-006 nonce not retired" unless p1_006_terminal_stop.dig("authority", "execution_nonce_terminal_status") == "RETIRED_AFTER_TASK_STOP"
-  abort "P1-006 offsite verification not PASS" unless p1_006_offsite_receipt["result"] == "PASS" && p1_006_offsite_receipt["package_classification"] == "TERMINAL_NON_PASS_NOT_CANDIDATE"
-  p1_006_history = truth.dig("task_history", "aios_p1_006")
-  abort "P1-006 terminal history drift" unless p1_006_history.is_a?(Hash) && p1_006_history["status"] == p1_006_state && p1_006_history["execution_authorized"] == false && p1_006_history["execution_nonce_status"] == "RETIRED_AFTER_TASK_STOP" && p1_006_history["resume_retry_successor_allowed"] == false
-  abort "P1-006 implementation falsely claimed" unless p1_006_history["quality_freeze_started"] == false && p1_006_history["worker_implementation_started"] == false && p1_006_history["candidate_created"] == false && p1_006_history["capability_claims"] == 0
-  abort "P1-006 cleanup drift" unless p1_006_history.dig("terminal_cleanup", "restore_status") == "PASS" && p1_006_history.dig("terminal_cleanup", "out_of_scope_file_removed") == true && p1_006_history.dig("terminal_cleanup", "canonical_partial_activation_restored") == true
-  abort "P1-006 claim boundary widened" unless truth.dig("claim_boundary", "p1_006_patch_evidence_package_validator") == "TERMINAL_STOPPED_NOT_ACCEPTED" && truth.dig("claim_boundary", "p1_006_candidate_created") == false && truth.dig("claim_boundary", "p1_006_capability_claims") == 0
-  abort "P1-006 out-of-scope path still exists" if File.exist?("/Users/lijunpeng/Desktop/cc/docs/aios/tasks/P1-006_PATCH_EVIDENCE_PACKAGE_INTEGRITY_VALIDATOR.yaml")
-  abort "P1-005 Contract identity drift" unless active_task["task_id"] == active_task_id && active_task["phase"] == "P1"
-  abort "P1-005 Contract self-authorized" unless active_task["execution_authorized"] == false
-  %w[network provider secrets remote production public_release].each do |field|
-    abort "P1-005 safety boundary widened: #{field}" unless active_task.dig("runtime_boundary", field) == "forbidden"
-  end
-  active_budget = active_task.fetch("budget")
-  abort "P1-005 external effects enabled" unless active_budget.values_at("network_requests", "provider_calls", "secrets_accessed", "remote_writes", "production_effects") == [0, 0, 0, 0, 0]
-  abort "P1-005 measurement or baseline retry enabled" unless active_budget["measurement_retries"] == 0 && active_budget["live_baseline_runs"] == 0
-  abort "P1-005 authorization identity drift" unless active_authorization["status"] == "AUTHORIZED_ACTIVE" && active_authorization["task_id"] == active_task_id && active_authorization.dig("task_contract", "sha256") == active_task_sha
-  abort "P1-005 automatic continuation enabled" unless active_authorization["automatic_main_advance"] == false && active_authorization["automatic_next_task"] == false
-  abort "P1-005 later scope enabled" unless active_authorization["b0_b1_b2_a0_authorized"] == false && active_authorization["p2_p3_authorized"] == false
-  p1_005_state = "TERMINAL_STOPPED_DURING_QUALITY_FREEZE_OUT_OF_SCOPE_WRITE"
-  abort "P1-005 terminal state drift" unless p1_005_terminal_stop["terminal_state"] == p1_005_state
-  abort "P1-005 stop classification drift" unless p1_005_terminal_stop.dig("stop_condition", "failure_classification") == "EXECUTION_SCOPE_COMPLIANCE_FAILURE"
-  abort "P1-005 nonce not retired" unless p1_005_terminal_stop.dig("authority_bindings", "nonce_terminal_status") == "RETIRED_AFTER_TASK_STOP"
-  abort "P1-005 terminal manifest drift" unless p1_005_terminal_manifest["terminal_state"] == p1_005_state && p1_005_terminal_manifest["artifact_count"] == 15
-  abort "P1-005 offsite verification not PASS" unless p1_005_offsite_receipt["result"] == "PASS" && p1_005_offsite_receipt["package_classification"] == "TERMINAL_NON_PASS_NOT_CANDIDATE"
-  p1_005_history = truth.dig("task_history", "aios_p1_005")
-  abort "P1-005 terminal history missing" unless p1_005_history.is_a?(Hash)
-  abort "P1-005 terminal history drift" unless p1_005_history["status"] == p1_005_state && p1_005_history["execution_authorized"] == false && p1_005_history["execution_nonce_status"] == "RETIRED_AFTER_TASK_STOP" && p1_005_history["resume_retry_successor_allowed"] == false
-  abort "P1-005 partial candidate falsely accepted" unless p1_005_history.dig("implementation_state", "candidate_created") == false && p1_005_history["capability_claims"] == 0 && p1_005_history["founder_gate_status"] == "NOT_REACHED"
-  abort "P1-005 offsite custody drift" unless p1_005_history.dig("terminal_cleanup", "restore_verification_receipt_sha256") == p1_005_offsite_receipt_sha && p1_005_history.dig("terminal_cleanup", "restore_status") == "PASS"
-  abort "P1-005 claim boundary widened" unless truth.dig("claim_boundary", "p1_005_evaluation_matrix_vtsr_validator") == "TERMINAL_STOPPED_NOT_ACCEPTED" && truth.dig("claim_boundary", "p1_005_candidate_created") == false && truth.dig("claim_boundary", "p1_005_capability_claims") == 0
-  p1_004_id = "AIOS-P1-004_PARAMETERIZED_EVALUATION_HARNESS_ADMISSION"
-  p1_004_state = "TERMINAL_STOPPED_AFTER_UNAUTHORIZED_TRANSIENT_EFFECT_AND_INDEPENDENT_REVIEW_FAIL"
-  abort "P1-004 Contract identity drift" unless p1_004_task["task_id"] == p1_004_id && p1_004_task["phase"] == "P1"
-  abort "P1-004 Contract self-authorized" unless p1_004_task["status"] == "FOUNDER_EXECUTION_AUTHORIZATION_REQUIRED" && p1_004_task["execution_authorized"] == false
-  p1_004_environment = p1_004_task.fetch("environment")
-  %w[network provider secrets remote_effects production_effects public_release].each do |field|
-    abort "P1-004 historical safety boundary widened: #{field}" unless p1_004_environment[field] == "forbidden"
-  end
-  p1_004_budget = p1_004_task.fetch("budget")
-  abort "P1-004 external effect budget widened" unless p1_004_budget.values_at("network_calls", "provider_calls", "model_calls", "remote_writes", "production_effects") == [0, 0, 0, 0, 0]
-  abort "P1-004 retry boundary widened" unless p1_004_budget["measurement_retries"] == 0 && p1_004_task.dig("delegated_execution", "retry_or_successor_task") == "forbidden"
-  abort "P1-004 capture-time authorization binding drift" unless p1_004_authorization["status"] == "AUTHORIZED_ACTIVE" && p1_004_authorization["task_id"] == p1_004_id && p1_004_authorization.dig("task_contract", "sha256") == p1_004_task_sha
-  abort "P1-004 authorization external boundary widened" unless p1_004_authorization["b0_b1_b2_authorized"] == false && p1_004_authorization["p2_p3_authorized"] == false && p1_004_authorization["automatic_main_advance"] == false && p1_004_authorization["automatic_next_task"] == false
-  abort "P1-004 terminal state drift" unless p1_004_stop["task_id"] == p1_004_id && p1_004_stop["task_state"] == p1_004_state
-  abort "P1-004 terminal reason drift" unless p1_004_stop.dig("failure", "reason_code") == "UNAUTHORIZED_TRANSIENT_EFFECT" && p1_004_stop.dig("failure", "contract_effect") == "STOP_TASK"
-  abort "P1-004 nonce not retired" unless p1_004_stop.dig("nonce_state", "status") == "RETIRED_AFTER_TASK_STOP"
-  abort "P1-004 candidate falsely accepted" unless p1_004_stop.dig("worker_candidate", "accepted") == false && p1_004_stop.dig("founder_gate", "status") == "NOT_REACHED"
-  abort "P1-004 terminal manifest population drift" unless p1_004_manifest["artifact_count"] == 12 && p1_004_manifest["root_sha256"] == "f2d40a99178fe0b1dff221b1b5b0e85116aafe357d93bb028b676ca8185e530c"
-  abort "P1-004 terminal Seal drift" unless p1_004_seal["task_id"] == p1_004_id && p1_004_seal["task_state"] == p1_004_state && p1_004_seal.dig("terminal_stop_record", "sha256") == p1_004_stop_sha && p1_004_seal.dig("terminal_evidence_manifest", "sha256") == p1_004_manifest_sha
-  abort "P1-004 offsite restore is not PASS" unless p1_004_restore["result"] == "PASS" && p1_004_restore.dig("claim_boundary", "candidate_accepted") == false && p1_004_restore.dig("claim_boundary", "p1_004_capability_claims") == 0
-  p1_004_history = truth.dig("task_history", "aios_p1_004")
-  abort "P1-004 terminal history missing" unless p1_004_history.is_a?(Hash)
-  abort "P1-004 terminal history drift" unless p1_004_history["status"] == p1_004_state && p1_004_history["execution_authorized"] == false && p1_004_history["execution_nonce_status"] == "RETIRED_AFTER_TASK_STOP" && p1_004_history["resume_retry_successor_allowed"] == false
-  abort "P1-004 cleanup failed" unless p1_004_history.dig("terminal_cleanup", "restore_status") == "PASS" && p1_004_history.dig("terminal_cleanup", "task_branch_removed") == true && p1_004_history.dig("terminal_cleanup", "task_worktree_removed") == true
-  abort "P1-004 claim boundary widened" unless truth.dig("claim_boundary", "p1_004_parameterized_harness_admission") == "TERMINAL_STOPPED_NOT_ACCEPTED" && truth.dig("claim_boundary", "p1_004_worker_candidate_accepted") == false && truth.dig("claim_boundary", "p1_004_capability_claims") == 0
-  abort "P1-003 terminal status drift" unless truth.dig("task_history", "aios_p1_003", "status") == exact_terminal_status
-  abort "P1-003 recovery was enabled" unless truth.dig("task_history", "aios_p1_003", "resume_retry_successor_allowed") == false
-  abort "P1-003 nonce not retired" unless truth.dig("task_history", "aios_p1_003", "authorization_history", "execution_nonce_status") == "RETIRED"
-  abort "P1-003 Evidence integrity falsely passed" unless truth.dig("task_history", "aios_p1_003", "evidence_integrity") == "FAIL"
-  abort "P1-003 hidden custody not quarantined" unless truth.dig("task_history", "aios_p1_003", "hidden_custody", "status") == "QUARANTINED_HISTORICAL_RISK"
-  abort "P1-003 hidden custody became a PASS" unless truth.dig("task_history", "aios_p1_003", "hidden_custody", "restore_verification") == "NON_PASS_AGGREGATE_RESTORE_MISMATCH" && truth.dig("task_history", "aios_p1_003", "hidden_custody", "pass_receipt_generated") == false
-  abort "primary Agent hidden access was authorized" unless truth.dig("task_history", "aios_p1_003", "hidden_custody", "hidden_contents_or_paths_authorized_for_primary_agent") == false
-  abort "generic custodian artifact-name observation was erased" unless truth.dig("task_history", "aios_p1_003", "hidden_custody", "generic_custodian_artifact_names_observed") == true
-  abort "hidden dataset identity or content access was falsely recorded" unless truth.dig("task_history", "aios_p1_003", "hidden_custody", "hidden_dataset_identity_or_content_accessed") == false
-  abort "hidden private file content access was falsely recorded" unless truth.dig("task_history", "aios_p1_003", "hidden_custody", "hidden_private_file_contents_read") == false
-  abort "hidden public receipt locator drift" unless truth.dig("task_history", "aios_p1_003", "hidden_custody", "public_receipt_path") == hidden_public_receipt_path && truth.dig("task_history", "aios_p1_003", "hidden_custody", "public_receipt_sha256") == hidden_public_receipt_sha
-  abort "P1-003 terminal correction drift" unless correction["corrected_status"] == exact_terminal_status && correction["task_remains_terminal"] == true
-  abort "P1-003 terminal manifest drift" unless manifest["status"] == exact_terminal_status
-  abort "overall stop task state drift" unless overall_stop["task_state"] == exact_terminal_status
-  hidden_stop_evidence = overall_stop.fetch("decisive_non_pass_evidence")
-  abort "overall stop public receipt binding drift" unless hidden_stop_evidence["public_aggregate_receipt_path"] == hidden_public_receipt_path && hidden_stop_evidence["public_aggregate_receipt_sha256"] == hidden_public_receipt_sha
-  abort "overall stop hidden restore status drift" unless hidden_stop_evidence["restore_verification"] == "NON_PASS_AGGREGATE_RESTORE_MISMATCH" && hidden_stop_evidence["pass_receipt_generated"] == false && hidden_stop_evidence["retry_count"] == 0
-  abort "overall stop hidden details access drift" unless hidden_stop_evidence["hidden_details_accessed_by_primary_agent"] == false
-  cutover = truth.dig("task_history", "aios_p1_003", "canonical_cutover")
-  abort "new canonical Task branch count drift" unless cutover["new_canonical_task_branch_count"] == 0
-  abort "new canonical worktree count drift" unless cutover["new_canonical_worktree_count"] == 1
-  abort "old Desktop cleanup policy drift" unless cutover["old_desktop_cleanup_policy"] == "REMOVE_ONLY_AFTER_ALL_CUTOVER_CHECKS_PASS"
-  abort "historical governance lineages reopened" unless truth.dig("historical_lineages", "status") == "CLOSED_AND_EXCLUDED_FROM_DEFAULT_CONTEXT" && truth.dig("historical_lineages", "continuation_allowed") == false
-  closed_lineages = truth.dig("historical_lineages", "names") || []
-  %w[PRE PRE_DISCOVERY BOUND_EXP MCF EXECUTION_CARRIER SUPERVISOR_AND_ROOT_CUSTODY].each do |lineage|
-    abort "historical lineage missing from closed set: #{lineage}" unless closed_lineages.include?(lineage)
-  end
-  abort "P1-003 parent binding authorization drift" unless parent_binding["parent_authorization_sha256"] == authorization_sha && parent_binding["execution_nonce"] == authorization["execution_nonce"]
-  abort "P1-003 parent binding scope widened" unless parent_binding.values_at("scope_expansion", "main_advance", "baseline_execution") == [false, false, false]
-  abort "P1-003 acquisition contract must remain draft-only" unless task.dig("proposed_network_boundary", "current_status") == "NOT_AUTHORIZED_BY_THIS_DRAFT"
-  abort "P1-003 network protocol widened" unless task.dig("proposed_network_boundary", "allowed_protocols") == ["HTTPS"]
-  expected_hosts = %w[github.com api.github.com codeload.github.com raw.githubusercontent.com repo.maven.apache.org]
-  abort "P1-003 network host allowlist drift" unless task.dig("proposed_network_boundary", "exact_hosts") == expected_hosts
-  forbidden_operations = task.dig("proposed_network_boundary", "forbidden_operations") || []
-  abort "P1-003 authenticated network prohibition missing" unless forbidden_operations.any? { |entry| entry.include?("authenticated request") && entry.include?("Provider credential") }
-  abort "P1-003 remote-write prohibition missing" unless forbidden_operations.any? { |entry| entry.include?("Git receive-pack") && entry.include?("remote write") }
-  abort "P1-003 acquisition executed source" unless task.dig("environment_and_oracle_rules", "acquisition_stage", "third_party_code_execution") == "forbidden"
-  abort "P1-003 acquisition installed dependencies" unless task.dig("environment_and_oracle_rules", "acquisition_stage", "dependency_install_or_build") == "forbidden"
-  verification = task.dig("environment_and_oracle_rules", "verification_stage")
-  %w[network secrets provider remote_effects production_effects].each do |field|
-    abort "P1-003 verification safety boundary widened: #{field}" unless verification[field] == "forbidden"
-  end
-  minimum_boundary = verification.fetch("minimum_environment_boundary")
-  abort "P1-003 OCI network boundary widened" unless minimum_boundary["network"] == "none"
-  abort "P1-003 OCI Secret boundary widened" unless minimum_boundary["secrets"] == "none"
-  abort "P1-003 OCI user boundary widened" unless minimum_boundary["user"] == "non_root"
-  abort "P1-003 OCI root filesystem became writable" unless minimum_boundary["root_filesystem"] == "read_only"
-  abort "P1-003 OCI capabilities widened" unless minimum_boundary["capabilities"] == "drop_all" && minimum_boundary["privileged"] == false
-
-  budget = task.fetch("budget")
-  abort "P1-003 model/provider/baseline execution enabled" unless budget.values_at("model_calls", "provider_calls", "baseline_runs") == [0, 0, 0]
-  abort "P1-003 remote/production/public effects enabled" unless budget.values_at("remote_writes", "production_effects", "public_releases") == [0, 0, 0]
-  abort "P1-003 new runtime or sandbox enabled" unless budget.values_at("new_runtime_services", "new_sandbox_or_execution_carrier") == [0, 0]
-  scope = authorization.fetch("authorized_scope")
-  abort "P1-003 main advance authorized" unless scope["main_advance"] == false
-  abort "P1-003 baseline execution authorized" unless scope["baseline_execution"] == false
-  abort "P1-003 Provider call budget widened" unless authorization.dig("budgets", "provider_calls") == 0
-  abort "P1-003 remote write budget widened" unless authorization.dig("budgets", "remote_writes") == 0
-  abort "P1-003 production effect budget widened" unless authorization.dig("budgets", "production_effects") == 0
-  abort "P1-003 public release budget widened" unless authorization.dig("budgets", "public_releases") == 0
-  abort "P1-003 authenticated network was authorized" unless authorization.fetch("explicit_non_authorizations").include?("authenticated network")
-  abort "P1-003 Secret use was authorized" unless authorization.fetch("explicit_non_authorizations").include?("Provider or Secret use")
-  abort "P1-003 remote write was authorized" unless authorization.fetch("explicit_non_authorizations").include?("remote write")
-  abort "P1-003 production effect was authorized" unless authorization.fetch("explicit_non_authorizations").include?("production effect")
-' || fail "P1 task safety declaration invalid"
-
-echo "P1 basic safety boundary validation passed (declarative/cooperative-local scope only)."
+echo "P1 basic safety boundary validation passed (current cooperative-local route only)."

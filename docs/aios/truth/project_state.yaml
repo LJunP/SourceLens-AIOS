@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-18T07:20:25Z"
-verification_scope: FOUNDER_STOP_P1_PROJECT_LEVEL_FINAL_DISPOSITION
+last_verified_at: "2026-07-18T06:19:23Z"
+verification_scope: P1_043_TERMINAL_ROUTING_SEPARATION_AFTER_SECURITY_NON_PASS
 
 authority:
   founder: Human Founder
@@ -38,7 +38,7 @@ goal:
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
   current_task_authority: NONE
-  note: The Founder-approved long-term Goal identity is canonical and the Codex control-plane Goal is ACTIVE. P1 is project-level terminally stopped by Founder decision, current Task authority is NONE, and any future work requires a new Founder Phase or architecture-route decision rather than P1 continuation.
+  note: The Founder-approved long-term Goal identity is canonical and the Codex control-plane Goal is ACTIVE. Current Task authority is expressed only by current_task_authority and active_work; the Phase-level delegation policy requires autonomous P1 continuation without routine Founder approvals.
 
 project:
   name: SourceLens AIOS
@@ -48,8 +48,8 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  phase_execution_status: PROJECT_LEVEL_TERMINAL_STOPPED_BY_FOUNDER
-  p1_execution_status: PROJECT_LEVEL_TERMINAL_STOPPED_BY_FOUNDER
+  phase_execution_status: TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION
+  p1_execution_status: TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -104,11 +104,11 @@ phase_delegation:
   claim_boundary: This policy delegates Phase-local engineering decisions; it does not delegate Founder-reserved decisions or prove product capability.
 
 mandatory_exit_capability_recovery:
-  status: PROJECT_LEVEL_TERMINAL_STOPPED_BY_FOUNDER
-  founder_decision_source: FOUNDER_STOP_P1_PROJECT_LEVEL_DECISION_2026_07_18
+  status: ACTIVE
+  founder_decision_source: FOUNDER_P1_DELIVERY_ARCHITECTURE_SIMPLIFICATION_2026_07_17
   historical_tasks_immutable: true
   historical_execution_lineage_reuse_allowed: false
-  clean_room_implementation_allowed_for_required_capability: false
+  clean_room_implementation_allowed_for_required_capability: true
   clean_room_attempts_per_missing_capability: 1
   maximum_same_task_bounded_contract_repairs: 1
   peripheral_task_selection_allowed: false
@@ -271,13 +271,13 @@ mandatory_exit_capability_recovery:
     - REPRODUCIBLE_BASELINE_REPORT
   capability_status:
     VERSIONED_REPRESENTATIVE_TASK_DATASET: ACCEPTED
-    HIDDEN_SET_PROTOCOL: P1_TERMINAL_STOPPED_NOT_ACCEPTED
+    HIDDEN_SET_PROTOCOL: REBASELINED_PENDING_EXECUTION
     PARAMETERIZED_EVALUATION_HARNESS: ARCHITECTURE_BLOCKED
     VTSR_COUNTING_VALIDATOR: ARCHITECTURE_BLOCKED
-    B0_B1_B2_COMPATIBILITY_ADAPTERS: P1_TERMINAL_STOPPED_NOT_ACCEPTED
+    B0_B1_B2_COMPATIBILITY_ADAPTERS: REBASELINED_PENDING_EXECUTION
     OBSERVABLE_TRACE: ARCHITECTURE_BLOCKED
-    EVALUATOR_DISAGREEMENT_AND_FALSE_SUCCESS_CHARACTERIZATION: P1_TERMINAL_STOPPED_NOT_ACCEPTED
-    REPRODUCIBLE_BASELINE_REPORT: P1_TERMINAL_STOPPED_NOT_ACCEPTED
+    EVALUATOR_DISAGREEMENT_AND_FALSE_SUCCESS_CHARACTERIZATION: REBASELINED_PENDING_EXECUTION
+    REPRODUCIBLE_BASELINE_REPORT: REBASELINED_PENDING_EXECUTION
   capability_attempt_ledger:
     VERSIONED_REPRESENTATIVE_TASK_DATASET:
       status: ACCEPTED
@@ -477,7 +477,7 @@ mandatory_exit_capability_recovery:
     decision_record_byte_length: 8799
     canonical_parent_commit: eca59026d57f6c67f268a44d41564fdb0a2ecc5f
     canonical_parent_tree: 29db5c1bd565e582a6a209f6a81c9efb0349f3e4
-    p1_status: PROJECT_LEVEL_TERMINAL_STOPPED_BY_FOUNDER
+    p1_status: TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION
     current_task: NONE
     task_limit: 4
     engineering_hours_limit: 76
@@ -554,7 +554,7 @@ mandatory_exit_capability_recovery:
         recovery_allowed: false
         asset_reuse_allowed: false
     next_slice_ordinal: null
-    next_slice_action: NO_P1_SLICE_ACTION_PROJECT_LEVEL_STOPPED
+    next_slice_action: FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED
   delivery_architecture_simplification:
     record_type: p1_delivery_architecture_simplification
     status: FOUNDER_APPROVED_ACTIVE
@@ -640,13 +640,13 @@ mandatory_exit_capability_recovery:
     historical_task_contract_sha256: e3a9ec7ca7945963af04636cb13c9d45b9c07d0bf8466d0554171167d572a958
     historical_terminal_record_sha256: 90770a7d1c10d7904c21574ab24163a97a3bda177c7dfe17c6e7f4eed2706506
     historical_terminal_evidence_manifest_sha256: 50d4dc066deba78c25c20a46a0fd747ffc8d3cf7920883ef06b2ad47ca363c6f
-    current_p1_status: PROJECT_LEVEL_TERMINAL_STOPPED_BY_FOUNDER
+    current_p1_status: ARCHITECTURE_BLOCKED
     current_task: NONE
     approved_reopen_decision_route:
       next_slice_ordinal: 1
       next_slice_action: MASTER_AUTONOMOUSLY_PREPARE_AND_EXECUTE_REBASELINED_SLICE_1
     next_slice_ordinal: null
-    next_slice_action: NO_P1_SLICE_ACTION_PROJECT_LEVEL_STOPPED
+    next_slice_action: FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED
     current_slice_attempt:
       status: ARCHITECTURE_BLOCKED
       task_id: AIOS-P1-043_PARAMETERIZED_EVALUATION_CORE
@@ -664,40 +664,7 @@ mandatory_exit_capability_recovery:
     successor_replacement_correction_chain_allowed: false
     external_effects_authorized: false
     claim_boundary: FOUNDER_PROJECT_LEVEL_REOPEN_AND_CURRENT_AUTHORITY_SYNCHRONIZATION_ONLY_NO_P1_042_RECOVERY_ENGINEERING_CAPABILITY_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
-  founder_dispositions:
-    P1_PROJECT_LEVEL_ROUTE:
-      record_type: p1_project_level_final_disposition_binding
-      status: APPROVED_STOP_P1
-      authority: HUMAN_FOUNDER
-      decision: STOP_P1
-      decision_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-stop-project-level-disposition-20260718T072025Z/FOUNDER_STOP_P1_PROJECT_LEVEL_DECISION_RECORD.json
-      decision_record_sha256: 2abb9fc85677530c9e9552445671a36a21dd8f2aec2ac165115f6fa8f0cfe8ef
-      decision_record_byte_length: 4887
-      canonical_parent_commit: 04a5eea0a644620ca4f19011ef63d6894fa7acd1
-      canonical_parent_tree: d36da14953864c28608205216a6199b2e33dbc3c
-      current_goal_raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
-      current_goal_raw_byte_length: 19433
-      current_goal_canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
-      current_goal_canonical_byte_length: 19434
-      p1_disposition_packet_sha256: 8092cdac15f06848e5747f5fb62ae75976bd82f43cb6ac8956e6dc00bf3b9f44
-      p1_disposition_packet_byte_length: 4720
-      knowledge_review_sha256: a7470e1f6e4725842c34d7008b4c87d98abc834391927ef7c0bccac64b5f0d84
-      knowledge_review_byte_length: 8457
-      knowledge_review_verdict: NON_PASS
-      knowledge_candidate_sha256: b48d62e6dfa439f6d3677e2e689e07c95211eccec9d57d13a3a050251e542277
-      knowledge_candidate_byte_length: 7738
-      knowledge_candidate_imported: false
-      current_phase: P1
-      current_task: NONE
-      next_slice_ordinal: null
-      next_slice_action: NO_P1_SLICE_ACTION_PROJECT_LEVEL_STOPPED
-      next_founder_decision_point: FOUNDER_NEW_PHASE_OR_ARCHITECTURE_ROUTE_DESIGN_REQUIRED
-      p1_exit_gate_revised: false
-      p2_entry_authorized: false
-      p3_entry_authorized: false
-      external_effects_authorized: false
-      rejected_candidate_recovery_or_reuse_authorized: false
-      claim_boundary: FOUNDER_STOP_P1_PROJECT_LEVEL_GOVERNANCE_DISPOSITION_ONLY_LONG_TERM_GOAL_REMAINS_ACTIVE_NO_P1_ENGINEERING_ACCEPTANCE_P1_EXIT_P2_P3_EXTERNAL_EFFECT_PRODUCTION_CAPABILITY_KNOWLEDGE_IMPORT_OR_REJECTED_CANDIDATE_RECOVERY_CLAIM
+  founder_dispositions: {}
   clean_room_rules:
     - new_task_id_contract_branch_worktree_evidence_and_reviews
     - bind_current_canonical_main
@@ -708,7 +675,7 @@ mandatory_exit_capability_recovery:
     - final_contract_review_non_pass_after_one_bounded_correction
     - clean_room_task_terminal_failure_from_real_architecture_root
     - founder_reserved_decision_required
-  claim_boundary: Historical recovery decisions remain immutable Evidence, but the Founder STOP_P1 disposition removes all current P1 execution authority; it does not accept historical Tasks or authorize engineering continuation, external effects, P2, P3, benchmark claims, production use or Knowledge import.
+  claim_boundary: This recovery authorization removes a permanent capability ban only for P1 Exit Gate requirements; it does not accept historical Tasks or authorize external effects, P2, P3, benchmark claims or production use.
 
 phase_boundary:
   phase: P1
@@ -819,7 +786,7 @@ active_work:
   authorization_id: null
   activation_parent_commit: null
   activation_parent_tree: null
-  task_resource_state: TERMINAL_STOPPED_RESOURCES_ABSENT
+  task_resource_state: TERMINAL_STOPPED_RESOURCES_PRESERVED
   task_branch: null
   task_worktree: null
   execution_evidence_root: null
@@ -827,9 +794,9 @@ active_work:
   founder_reserved_authorization: null
   founder_reserved_authorization_sha256: null
   founder_decision_required: true
-  escalation_reason: P1_PROJECT_LEVEL_STOPPED_NEXT_DECISION_NEW_PHASE_OR_ARCHITECTURE_ROUTE
-  user_action_required: FOUNDER_NEW_PHASE_OR_ARCHITECTURE_ROUTE_DESIGN_REQUIRED
-  next_eligible_action: FOUNDER_NEW_PHASE_OR_ARCHITECTURE_ROUTE_DESIGN_REQUIRED
+  escalation_reason: CURRENT_REBASELINED_SLICE_ARCHITECTURE_BLOCKED
+  user_action_required: FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED
+  next_eligible_action: FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED
 
 superseded_pre_delegation_authorizations:
   aios_p1_009:
@@ -1590,7 +1557,7 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_task_claim: NONE_P1_PROJECT_LEVEL_TERMINAL_STOPPED_BY_FOUNDER
+  current_task_claim: NONE_P1_TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION
   phase_local_allowed:
     - local evaluation foundation engineering under an exact Task Contract
     - synthetic fixtures, deterministic tests, replay, Evidence, rollback and independent review
@@ -1604,11 +1571,9 @@ phase_execution_claim:
     - The Founder project-level reopen permits one new role-local clean-room Slice 1 Task; it does not reopen P1-041 or authorize historical failed engineering-asset reuse.
     - Each rebaseline Slice uses one minimal Task Contract candidate with at most one bounded pre-freeze correction; exact bytes freeze only after three-party PASS and permit zero post-freeze correction.
     - Detailed schemas, fixtures, writer maps, artifact lifecycle and evaluator handoff freeze after Task activation and before Worker implementation as Quality-owned executable Evidence, not as a Contract version chain.
-    - The Founder STOP_P1 project-level disposition terminally stops the current P1 route; no historical reopen authority, failed candidate or unfinished Slice can supply current execution authority.
   mandatory_priority_rule:
     - Only the four Founder-approved rebaseline slices may be selected, in ordinal order, until the P1 Exit Gate evidence is complete or P1 terminally stops.
     - Peripheral validators, auxiliary governance tools and work without direct P1 Exit Gate value are ineligible.
-    - P1 is now project-level terminally stopped; no P1 Slice or engineering Task is eligible without a new Founder Phase or architecture-route decision.
   not_authorized_in_current_phase:
     - B0/B1/B2/A0 execution without an exact phase-local Task Contract
     - P2 or P3 entry
@@ -1687,7 +1652,7 @@ claim_boundary:
   p1_043_capability_claims: 0
   p1_043_recovery_allowed: false
   p1_043_asset_reuse_allowed: false
-  p1_status: PROJECT_LEVEL_TERMINAL_STOPPED_BY_FOUNDER
+  p1_status: TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION
   p1_037_final_security_review: NON_PASS
   p1_037_final_quality_review: CANCELLED_AFTER_SECURITY_NON_PASS
   p1_037_failure_record_sha256: efb4334e73d3c4d20a6d263ce8543b2895cef1d539348f548e2bfbe90fbfdf55

@@ -47,12 +47,6 @@ FOUNDER_KNOWLEDGE_SECTION_CANONICAL_BYTE_LENGTH = 1_011
 FOUNDER_KNOWLEDGE_SECTION_CANONICAL_SHA256 = "e6b353038598122a9d347378ceaab1dc4e7957357bb29f72adfbcbf27820303e".freeze
 FOUNDER_ATTACHMENTS_ROOT = "/Users/lijunpeng/.codex/attachments".freeze
 
-P1_PROJECT_LEVEL_STOP_DISPOSITION_KEY = "P1_PROJECT_LEVEL_ROUTE".freeze
-P1_PROJECT_LEVEL_STOP_STATUS = "PROJECT_LEVEL_TERMINAL_STOPPED_BY_FOUNDER".freeze
-P1_PROJECT_LEVEL_STOP_ACTION = "NO_P1_SLICE_ACTION_PROJECT_LEVEL_STOPPED".freeze
-P1_PROJECT_LEVEL_STOP_NEXT_DECISION = "FOUNDER_NEW_PHASE_OR_ARCHITECTURE_ROUTE_DESIGN_REQUIRED".freeze
-P1_PROJECT_LEVEL_STOP_CLAIM = "FOUNDER_STOP_P1_PROJECT_LEVEL_GOVERNANCE_DISPOSITION_ONLY_LONG_TERM_GOAL_REMAINS_ACTIVE_NO_P1_ENGINEERING_ACCEPTANCE_P1_EXIT_P2_P3_EXTERNAL_EFFECT_PRODUCTION_CAPABILITY_KNOWLEDGE_IMPORT_OR_REJECTED_CANDIDATE_RECOVERY_CLAIM".freeze
-
 P1_042_TASK_ID = "AIOS-P1-042_PARAMETERIZED_EVALUATION_CORE_IMPLEMENTATION".freeze
 P1_042_AUDIT_ROOT = "/Users/lijunpeng/Developer/.sourcelens-audit".freeze
 P1_042_CONTRACT_HISTORICAL_PATH = "/Users/lijunpeng/Developer/.sourcelens-audit/p1-042-parameterized-evaluation-core/contract-review/WORKING_DRAFT.yaml".freeze
@@ -98,27 +92,6 @@ def bound_json!(path, expected_sha256, root, label)
   JSON.parse(File.read(path))
 rescue JSON::ParserError
   stop!("#{label} is not valid JSON")
-end
-
-def bound_exact_file!(path, expected_sha256, expected_byte_length, root, label)
-  stop!("#{label} identity invalid") unless
-    nonempty_string?(path) && expected_sha256.is_a?(String) && expected_sha256.match?(/\A[0-9a-f]{64}\z/) &&
-    expected_byte_length.is_a?(Integer) && expected_byte_length >= 0
-  stop!("#{label} missing or outside custody") unless
-    safe_under_root?(path, root, must_exist: true) && File.file?(path) && !File.symlink?(path)
-  bytes = File.binread(path)
-  stop!("#{label} byte drift") unless
-    bytes.bytesize == expected_byte_length && Digest::SHA256.hexdigest(bytes) == expected_sha256
-  bytes
-end
-
-def p1_project_level_stop_disposition(truth)
-  truth.dig("mandatory_exit_capability_recovery", "founder_dispositions", P1_PROJECT_LEVEL_STOP_DISPOSITION_KEY)
-end
-
-def p1_project_level_stopped?(truth)
-  disposition = p1_project_level_stop_disposition(truth)
-  disposition.is_a?(Hash) && disposition["status"] == "APPROVED_STOP_P1" && disposition["decision"] == "STOP_P1"
 end
 
 def historical_boundary_entry!(boundary, path, expected_sha256, expected_format, expected_class, label)
@@ -233,9 +206,6 @@ rescue ArgumentError, Errno::ENOENT, Errno::EACCES
 end
 
 def previous_truth_transition(current_bytes)
-  # A rebuild clone proves exact current HEAD/tree equality with the clean canonical
-  # repository; transition authority belongs to canonical history, not clone depth.
-  return nil if ENV.fetch("SOURCELENS_REBUILD_VERIFY", "0") == "1"
   relative_path = "docs/aios/truth/project_state.yaml"
   head_bytes = git_file("HEAD", relative_path)
   return nil unless head_bytes
@@ -688,13 +658,6 @@ def validate_effective_rebaseline_slice_order!(truth, allow_legacy_reopen_route:
       %w[ARCHITECTURE_BLOCKED SCOPE_COMPLIANCE_BLOCKED].include?(current_attempt["status"]) &&
       rebaseline["status"] == rebaseline["p1_status"] && rebaseline["current_task"] == "NONE" &&
       rebaseline["next_slice_ordinal"].nil? && rebaseline["next_slice_action"] == "FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED"
-  when P1_PROJECT_LEVEL_STOP_STATUS
-    stop!("effective rebaseline Founder STOP_P1 terminal Slice drift") unless
-      p1_project_level_stopped?(truth) && first_nonaccepted_ordinal && current_attempt.is_a?(Hash) &&
-      current_attempt["status"] == "ARCHITECTURE_BLOCKED" &&
-      rebaseline["status"] == "TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION" &&
-      rebaseline["current_task"] == "NONE" && rebaseline["next_slice_ordinal"].nil? &&
-      rebaseline["next_slice_action"] == P1_PROJECT_LEVEL_STOP_ACTION
   when "P1_EXIT_EVIDENCE_COMPLETE_PENDING_FOUNDER_GATE"
     stop!("effective rebaseline completed Slice prefix drift") unless
       first_nonaccepted_ordinal.nil? &&
@@ -801,18 +764,7 @@ def validate_current_reopen_projection!(truth, enforce_accepted_handoff: false)
       "project_status" => "REBASELINED_PENDING_EXECUTION"
     }
   when "ARCHITECTURE_BLOCKED"
-    p1_project_level_stopped?(truth) ? {
-      "reopen_p1_status" => P1_PROJECT_LEVEL_STOP_STATUS,
-      "current_task" => "NONE",
-      "rebaseline_status" => "TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION",
-      "rebaseline_p1_status" => P1_PROJECT_LEVEL_STOP_STATUS,
-      "rebaseline_next_slice" => nil,
-      "rebaseline_next_action" => P1_PROJECT_LEVEL_STOP_ACTION,
-      "current_reopen_next_slice" => nil,
-      "current_reopen_next_action" => P1_PROJECT_LEVEL_STOP_ACTION,
-      "capability_status" => "ARCHITECTURE_BLOCKED",
-      "project_status" => P1_PROJECT_LEVEL_STOP_STATUS
-    } : {
+    {
       "reopen_p1_status" => "ARCHITECTURE_BLOCKED",
       "current_task" => "NONE",
       "rebaseline_status" => "TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION",
@@ -886,7 +838,7 @@ def effective_rebaseline_capability_state(truth, capability)
   else
     rebaseline.dig("slice_attempts", slice["ordinal"].to_s)
   end
-  return p1_project_level_stopped?(truth) ? "P1_TERMINAL_STOPPED_NOT_ACCEPTED" : "REBASELINED_PENDING_EXECUTION" if attempt.nil?
+  return "REBASELINED_PENDING_EXECUTION" if attempt.nil?
   {
     "ACTIVE" => "IN_PROGRESS",
     "ACCEPTED" => "ACCEPTED",
@@ -1086,210 +1038,6 @@ def validate_current_rebaseline_architecture_terminal!(truth, evidence_base)
     rollback_receipt.dig("rejected_candidate_preservation", "ref") == preservation_ref &&
     rollback_receipt.dig("rejected_candidate_preservation", "candidate_integrated_to_main") == false
   entry
-end
-
-def validate_p1_project_level_stop_disposition!(truth, evidence_base)
-  disposition = p1_project_level_stop_disposition(truth)
-  return nil unless disposition
-
-  expected_binding_keys = %w[
-    record_type status authority decision decision_record_path decision_record_sha256
-    decision_record_byte_length canonical_parent_commit canonical_parent_tree
-    current_goal_raw_sha256 current_goal_raw_byte_length current_goal_canonical_sha256
-    current_goal_canonical_byte_length p1_disposition_packet_sha256
-    p1_disposition_packet_byte_length knowledge_review_sha256 knowledge_review_byte_length
-    knowledge_review_verdict knowledge_candidate_sha256 knowledge_candidate_byte_length
-    knowledge_candidate_imported current_phase current_task next_slice_ordinal
-    next_slice_action next_founder_decision_point p1_exit_gate_revised p2_entry_authorized
-    p3_entry_authorized external_effects_authorized
-    rejected_candidate_recovery_or_reuse_authorized claim_boundary
-  ]
-  stop!("P1 project-level STOP disposition binding schema drift") unless
-    disposition.is_a?(Hash) && disposition.keys.sort == expected_binding_keys.sort
-  stop!("P1 project-level STOP disposition binding header drift") unless
-    disposition["record_type"] == "p1_project_level_final_disposition_binding" &&
-    disposition["status"] == "APPROVED_STOP_P1" && disposition["authority"] == "HUMAN_FOUNDER" &&
-    disposition["decision"] == "STOP_P1" && disposition["claim_boundary"] == P1_PROJECT_LEVEL_STOP_CLAIM
-
-  decision_bytes = bound_exact_file!(
-    disposition["decision_record_path"], disposition["decision_record_sha256"],
-    disposition["decision_record_byte_length"], evidence_base, "P1 project-level STOP Founder decision"
-  )
-  decision = JSON.parse(decision_bytes)
-  expected_decision_keys = %w[
-    schema_version record_type status authority decision recorded_at_utc decision_source
-    source_message_raw_identity_claimed canonical_parent long_term_goal decision_inputs
-    authorized_current_state historical_truth_preservation knowledge_system
-    founder_decision_clauses forbidden claim_boundary
-  ]
-  stop!("P1 project-level STOP Founder decision schema drift") unless
-    decision.is_a?(Hash) && decision.keys.sort == expected_decision_keys.sort
-  stop!("P1 project-level STOP Founder decision header drift") unless
-    decision["schema_version"] == 1 &&
-    decision["record_type"] == "sourcelens_aios_founder_p1_project_level_disposition" &&
-    decision["status"] == "APPROVED" && decision["authority"] == "HUMAN_FOUNDER" &&
-    decision["decision"] == "STOP_P1" && valid_utc_timestamp?(decision["recorded_at_utc"]) &&
-    decision["decision_source"] == "FOUNDER_PROJECT_LEVEL_DECISION_IN_CURRENT_CODEX_THREAD" &&
-    decision["source_message_raw_identity_claimed"] == false &&
-    decision["claim_boundary"] == P1_PROJECT_LEVEL_STOP_CLAIM
-
-  parent = decision["canonical_parent"]
-  stop!("P1 project-level STOP canonical parent binding drift") unless
-    parent == {
-      "commit" => disposition["canonical_parent_commit"],
-      "tree" => disposition["canonical_parent_tree"]
-    } && parent["commit"].match?(/\A[0-9a-f]{40}\z/) && parent["tree"].match?(/\A[0-9a-f]{40}\z/) &&
-    git("rev-parse", "#{parent['commit']}^{tree}") == parent["tree"]
-  parent_truth_bytes = git_file(parent["commit"], "docs/aios/truth/project_state.yaml")
-  stop!("P1 project-level STOP canonical parent Truth missing") unless parent_truth_bytes
-  parent_truth = YAML.safe_load(parent_truth_bytes, aliases: false)
-  stop!("P1 project-level STOP parent was not pending the exact Founder disposition") unless
-    parent_truth.dig("project", "current_phase") == "P1" &&
-    parent_truth.dig("project", "phase_execution_status") == "TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION" &&
-    parent_truth.dig("goal", "current_task_authority") == "NONE" &&
-    parent_truth.dig("active_work", "current_task") == "NONE" &&
-    parent_truth.dig("mandatory_exit_capability_recovery", "current_project_level_reopen", "current_slice_attempt", "status") == "ARCHITECTURE_BLOCKED" &&
-    parent_truth.dig("mandatory_exit_capability_recovery", "current_project_level_reopen", "next_slice_ordinal").nil? &&
-    parent_truth.dig("mandatory_exit_capability_recovery", "current_project_level_reopen", "next_slice_action") == "FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED"
-
-  goal = truth.fetch("goal")
-  stop!("P1 project-level STOP Goal binding drift") unless decision["long_term_goal"] == {
-    "control_plane_status" => "ACTIVE",
-    "raw_body_byte_length" => disposition["current_goal_raw_byte_length"],
-    "raw_body_sha256" => disposition["current_goal_raw_sha256"],
-    "canonicalization" => "UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF",
-    "canonical_body_byte_length" => disposition["current_goal_canonical_byte_length"],
-    "canonical_body_sha256" => disposition["current_goal_canonical_sha256"]
-  } && disposition["current_goal_raw_sha256"] == goal["observed_raw_body_sha256"] &&
-    disposition["current_goal_raw_byte_length"] == goal["observed_raw_body_byte_length"] &&
-    disposition["current_goal_canonical_sha256"] == goal["observed_body_sha256"] &&
-    disposition["current_goal_canonical_byte_length"] == goal["observed_body_byte_length"]
-
-  inputs = decision["decision_inputs"]
-  stop!("P1 project-level STOP decision input schema drift") unless
-    inputs.is_a?(Hash) && inputs.keys.sort == %w[
-      knowledge_candidate knowledge_review p1_project_level_disposition_packet
-    ].sort
-  packet = inputs["p1_project_level_disposition_packet"]
-  review = inputs["knowledge_review"]
-  candidate = inputs["knowledge_candidate"]
-  stop!("P1 project-level STOP disposition packet binding drift") unless
-    packet.is_a?(Hash) && packet.keys.sort == %w[byte_length path sha256].sort &&
-    packet["sha256"] == disposition["p1_disposition_packet_sha256"] &&
-    packet["byte_length"] == disposition["p1_disposition_packet_byte_length"]
-  stop!("P1 project-level STOP Knowledge Review binding drift") unless
-    review.is_a?(Hash) && review.keys.sort == %w[byte_length path sha256 verdict].sort &&
-    review["sha256"] == disposition["knowledge_review_sha256"] &&
-    review["byte_length"] == disposition["knowledge_review_byte_length"] &&
-    review["verdict"] == disposition["knowledge_review_verdict"] && review["verdict"] == "NON_PASS"
-  stop!("P1 project-level STOP Knowledge candidate binding drift") unless
-    candidate.is_a?(Hash) && candidate.keys.sort == %w[byte_length path sha256 vault_import_authorized].sort &&
-    candidate["sha256"] == disposition["knowledge_candidate_sha256"] &&
-    candidate["byte_length"] == disposition["knowledge_candidate_byte_length"] &&
-    candidate["vault_import_authorized"] == false && disposition["knowledge_candidate_imported"] == false
-  [[packet, "P1 disposition packet"], [review, "Knowledge Review"], [candidate, "Knowledge candidate"]].each do |input, label|
-    bound_exact_file!(input["path"], input["sha256"], input["byte_length"], evidence_base, label)
-  end
-
-  expected_current_state = {
-    "current_phase" => "P1",
-    "p1_route_status" => P1_PROJECT_LEVEL_STOP_STATUS,
-    "current_task" => "NONE",
-    "current_slice_ordinal" => nil,
-    "current_slice_action" => P1_PROJECT_LEVEL_STOP_ACTION,
-    "next_founder_decision_point" => P1_PROJECT_LEVEL_STOP_NEXT_DECISION,
-    "p1_exit_gate_revised" => false,
-    "p2_entry_authorized" => false,
-    "p3_entry_authorized" => false,
-    "external_effects_authorized" => false
-  }
-  stop!("P1 project-level STOP authorized current state drift") unless
-    decision["authorized_current_state"] == expected_current_state &&
-    disposition["current_phase"] == "P1" && disposition["current_task"] == "NONE" &&
-    disposition["next_slice_ordinal"].nil? && disposition["next_slice_action"] == P1_PROJECT_LEVEL_STOP_ACTION &&
-    disposition["next_founder_decision_point"] == P1_PROJECT_LEVEL_STOP_NEXT_DECISION &&
-    disposition["p1_exit_gate_revised"] == false && disposition["p2_entry_authorized"] == false &&
-    disposition["p3_entry_authorized"] == false && disposition["external_effects_authorized"] == false &&
-    disposition["rejected_candidate_recovery_or_reuse_authorized"] == false
-  stop!("P1 project-level STOP historical preservation drift") unless
-    decision["historical_truth_preservation"] == {
-      "approved_reopen_decision_route_remains_historical" => true,
-      "p1_043_terminal_facts_remain_historical" => true,
-      "p1_043_rejected_candidate_current_authority" => false,
-      "p1_043_rejected_candidate_recovery_allowed" => false,
-      "p1_043_rejected_candidate_asset_reuse_allowed" => false,
-      "p1_043_rejected_candidate_source_read_authorized" => false
-    }
-  stop!("P1 project-level STOP Knowledge boundary drift") unless decision["knowledge_system"] == {
-    "knowledge_review_verdict" => "NON_PASS",
-    "knowledge_candidate_imported" => false,
-    "knowledge_candidate_rewrite_authorized" => false,
-    "knowledge_review_change_authorized" => false,
-    "vault_change_authorized" => false
-  }
-  stop!("P1 project-level STOP Founder clauses population drift") unless
-    decision["founder_decision_clauses"].is_a?(Array) && decision["founder_decision_clauses"].length == 9 &&
-    decision["founder_decision_clauses"].all? { |clause| nonempty_string?(clause) }
-
-  recovery = truth.fetch("mandatory_exit_capability_recovery")
-  rebaseline = recovery.fetch("project_level_rebaseline")
-  reopen = recovery.fetch("current_project_level_reopen")
-  stop!("P1 project-level STOP current Truth projection drift") unless
-    recovery["status"] == P1_PROJECT_LEVEL_STOP_STATUS &&
-    recovery["clean_room_implementation_allowed_for_required_capability"] == false &&
-    truth.dig("project", "current_phase") == "P1" &&
-    truth.dig("project", "phase_execution_status") == P1_PROJECT_LEVEL_STOP_STATUS &&
-    truth.dig("project", "p1_execution_status") == P1_PROJECT_LEVEL_STOP_STATUS &&
-    goal["control_plane_status_observed"] == "ACTIVE" && goal["current_task_authority"] == "NONE" &&
-    rebaseline["p1_status"] == P1_PROJECT_LEVEL_STOP_STATUS && rebaseline["current_task"] == "NONE" &&
-    rebaseline["next_slice_ordinal"].nil? && rebaseline["next_slice_action"] == P1_PROJECT_LEVEL_STOP_ACTION &&
-    reopen["current_p1_status"] == P1_PROJECT_LEVEL_STOP_STATUS && reopen["current_task"] == "NONE" &&
-    reopen["next_slice_ordinal"].nil? && reopen["next_slice_action"] == P1_PROJECT_LEVEL_STOP_ACTION &&
-    truth.dig("claim_boundary", "p1_status") == P1_PROJECT_LEVEL_STOP_STATUS &&
-    truth.dig("phase_execution_claim", "current_task_claim") == "NONE_P1_PROJECT_LEVEL_TERMINAL_STOPPED_BY_FOUNDER"
-  approved_reopen_decision_route!(truth, reopen)
-  attempt = reopen["current_slice_attempt"]
-  stop!("P1 project-level STOP historical terminal attempt drift") unless
-    attempt.is_a?(Hash) && attempt["status"] == "ARCHITECTURE_BLOCKED"
-  historical_entries = truth.fetch("task_history").values.select do |entry|
-    entry.is_a?(Hash) && entry["task_id"] == attempt["task_id"] &&
-      entry["project_level_reopen_decision_sha256"] == reopen["decision_record_sha256"]
-  end
-  stop!("P1 project-level STOP rejected route preservation drift") unless
-    historical_entries.length == 1 && historical_entries.first["recovery_allowed"] == false &&
-    historical_entries.first["asset_reuse_allowed"] == false && historical_entries.first["retry_allowed"] == false &&
-    historical_entries.first["successor_allowed"] == false && historical_entries.first["replacement_allowed"] == false &&
-    historical_entries.first["continue_to_next_slice"] == false
-
-  active = truth.fetch("active_work")
-  stop!("P1 project-level STOP next Founder decision projection drift") unless
-    active["current_task"] == "NONE" && active["founder_decision_required"] == true &&
-    active["escalation_reason"] == "P1_PROJECT_LEVEL_STOPPED_NEXT_DECISION_NEW_PHASE_OR_ARCHITECTURE_ROUTE" &&
-    active["user_action_required"] == P1_PROJECT_LEVEL_STOP_NEXT_DECISION &&
-    active["next_eligible_action"] == P1_PROJECT_LEVEL_STOP_NEXT_DECISION
-  disposition
-rescue JSON::ParserError, Psych::Exception
-  stop!("P1 project-level STOP Founder decision is not valid structured Evidence")
-end
-
-def validate_p1_project_level_stop_requirement!(truth, evidence_base)
-  final_surfaces = [
-    truth.dig("project", "phase_execution_status"),
-    truth.dig("project", "p1_execution_status"),
-    truth.dig("mandatory_exit_capability_recovery", "status"),
-    truth.dig("mandatory_exit_capability_recovery", "project_level_rebaseline", "p1_status"),
-    truth.dig("mandatory_exit_capability_recovery", "current_project_level_reopen", "current_p1_status"),
-    truth.dig("claim_boundary", "p1_status")
-  ]
-  disposition = p1_project_level_stop_disposition(truth)
-  if final_surfaces.include?(P1_PROJECT_LEVEL_STOP_STATUS)
-    stop!("P1 project-level STOP decision binding missing") unless p1_project_level_stopped?(truth)
-    stop!("P1 project-level STOP final surface population drift") unless
-      final_surfaces.all? { |surface| surface == P1_PROJECT_LEVEL_STOP_STATUS }
-    return validate_p1_project_level_stop_disposition!(truth, evidence_base)
-  end
-  stop!("P1 project-level STOP decision binding exists outside final state") if disposition
-  nil
 end
 
 def current_reopen_superseding_projection_state!(truth, legacy_attempt)
@@ -1510,22 +1258,6 @@ stop!("AGENTS.md is not valid UTF-8") unless rules.valid_encoding?
 truth = YAML.safe_load(truth_bytes, aliases: false)
 validate_founder_knowledge_section!(rules)
 
-# Fail wrong-workspace identity before history-sensitive transition validation. This
-# keeps the negative independent of squash depth while rebuild mode remains explicit.
-early_canonical_root = truth.dig("project", "canonical_repository")
-early_rebuild_mode_value = ENV.fetch("SOURCELENS_REBUILD_VERIFY", "0")
-stop!("rebuild verification mode value invalid") unless %w[0 1].include?(early_rebuild_mode_value)
-stop!("canonical repository path invalid") unless
-  nonempty_string?(early_canonical_root) && File.directory?(early_canonical_root) && !File.symlink?(early_canonical_root)
-if early_rebuild_mode_value == "1"
-  stop!("rebuild verification mode requires a non-canonical fresh clone") if
-    File.realpath(early_canonical_root) == File.realpath(REPO_ROOT)
-else
-  stop!("canonical repository identity drift") unless
-    git_common_dir_real(early_canonical_root) &&
-    git_common_dir_real(early_canonical_root) == git_common_dir_real(REPO_ROOT)
-end
-
 required_rule_markers = [
   "docs/aios/FOUNDER_DELEGATION_POLICY.md",
   "## Phase 级 Founder Delegation（强制执行）",
@@ -1638,13 +1370,11 @@ expected_exit_capabilities = %w[
   REPRODUCIBLE_BASELINE_REPORT
 ]
 mandatory_capability_claim_boundary = "P1_EXIT_CAPABILITY_ENGINEERING_ARTIFACT_ONLY_NO_BENCHMARK_AGENT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM"
+stop!("mandatory Exit capability recovery is inactive") unless mandatory_recovery["status"] == "ACTIVE"
 stop!("mandatory Exit capability priority drift") unless mandatory_recovery["priority_order"] == expected_exit_capabilities
 stop!("historical Task immutability weakened") unless mandatory_recovery["historical_tasks_immutable"] == true
 stop!("historical execution lineage reuse enabled") unless mandatory_recovery["historical_execution_lineage_reuse_allowed"] == false
-stop!("mandatory Exit capability recovery lifecycle invalid") unless
-  %w[ACTIVE PROJECT_LEVEL_TERMINAL_STOPPED_BY_FOUNDER].include?(mandatory_recovery["status"])
-stop!("clean-room recovery authority drift") unless
-  mandatory_recovery["clean_room_implementation_allowed_for_required_capability"] == !p1_project_level_stopped?(truth)
+stop!("clean-room recovery disabled") unless mandatory_recovery["clean_room_implementation_allowed_for_required_capability"] == true
 stop!("clean-room attempt count drift") unless mandatory_recovery["clean_room_attempts_per_missing_capability"] == 1
 stop!("rebaseline pre-freeze bounded Contract correction limit drift") unless mandatory_recovery["maximum_same_task_bounded_contract_repairs"] == expected_contract_repair_limit
 stop!("peripheral Task selection enabled") unless mandatory_recovery["peripheral_task_selection_allowed"] == false
@@ -1655,9 +1385,7 @@ stop!("mandatory Exit capability status invalid") unless capability_status.value
 attempt_ledger = mandatory_recovery["capability_attempt_ledger"]
 stop!("mandatory Exit capability attempt ledger population drift") unless attempt_ledger.is_a?(Hash) && attempt_ledger.keys == expected_exit_capabilities
 founder_dispositions = mandatory_recovery["founder_dispositions"]
-allowed_founder_disposition_keys = expected_exit_capabilities + [P1_PROJECT_LEVEL_STOP_DISPOSITION_KEY]
-stop!("mandatory Exit capability Founder disposition map invalid") unless
-  founder_dispositions.is_a?(Hash) && (founder_dispositions.keys - allowed_founder_disposition_keys).empty?
+stop!("mandatory Exit capability Founder disposition map invalid") unless founder_dispositions.is_a?(Hash) && (founder_dispositions.keys - expected_exit_capabilities).empty?
 history_entries_for_recovery = truth.fetch("task_history").values.select { |entry| entry.is_a?(Hash) }
 recovery_evidence_base = truth.dig("project", "execution_evidence_root_base")
 stop!("mandatory Exit capability Evidence base invalid") unless File.directory?(recovery_evidence_base) && !File.symlink?(recovery_evidence_base)
@@ -1695,7 +1423,7 @@ stop!("P1 project-level rebaseline parent drift") unless
   stop!("P1 rebaseline #{label} byte drift") unless bytes.bytesize == byte_length && Digest::SHA256.hexdigest(bytes) == digest
 end
 stop!("P1 rebaseline budget or anti-loop boundary drift") unless
-  %w[REBASELINED_PENDING_EXECUTION REBASELINED_SLICE_ACTIVE P1_EXIT_EVIDENCE_COMPLETE_PENDING_FOUNDER_GATE TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION PROJECT_LEVEL_TERMINAL_STOPPED_BY_FOUNDER].include?(rebaseline["p1_status"]) &&
+  %w[REBASELINED_PENDING_EXECUTION REBASELINED_SLICE_ACTIVE P1_EXIT_EVIDENCE_COMPLETE_PENDING_FOUNDER_GATE TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION].include?(rebaseline["p1_status"]) &&
   rebaseline["task_limit"] == 4 &&
   rebaseline["engineering_hours_limit"] == 76 &&
   rebaseline["calendar_days_limit"] == 21 &&
@@ -1723,11 +1451,10 @@ stop!("P1 rebaseline aggregate budget drift") unless
 slice_attempts = rebaseline["slice_attempts"]
 stop!("P1 rebaseline slice attempt ledger invalid") unless
   slice_attempts.is_a?(Hash) && (slice_attempts.keys - %w[1 2 3 4]).empty?
-rebaseline_terminal = %w[TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION PROJECT_LEVEL_TERMINAL_STOPPED_BY_FOUNDER].include?(rebaseline["p1_status"])
+rebaseline_terminal = %w[TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION].include?(rebaseline["p1_status"])
 rebaseline_founder_gate = rebaseline["p1_status"] == "P1_EXIT_EVIDENCE_COMPLETE_PENDING_FOUNDER_GATE"
 stop!("P1 rebaseline next slice ordinal invalid") unless
-  (rebaseline["p1_status"] == P1_PROJECT_LEVEL_STOP_STATUS && rebaseline["next_slice_ordinal"].nil? && rebaseline["next_slice_action"] == P1_PROJECT_LEVEL_STOP_ACTION) ||
-  (rebaseline_terminal && rebaseline["p1_status"] != P1_PROJECT_LEVEL_STOP_STATUS && rebaseline["next_slice_ordinal"].nil? && rebaseline["next_slice_action"] == "FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED") ||
+  (rebaseline_terminal && rebaseline["next_slice_ordinal"].nil? && rebaseline["next_slice_action"] == "FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED") ||
   (rebaseline_founder_gate && rebaseline["next_slice_ordinal"].nil? && rebaseline["next_slice_action"] == "FOUNDER_P1_PHASE_GATE_REVIEW_REQUIRED") ||
   (!rebaseline_terminal && !rebaseline_founder_gate && rebaseline["next_slice_ordinal"].is_a?(Integer) && rebaseline["next_slice_ordinal"].between?(1, 4))
 if rebaseline["status"] == "REBASELINED_PENDING_EXECUTION"
@@ -1748,10 +1475,6 @@ elsif rebaseline["status"] == "P1_EXIT_EVIDENCE_COMPLETE_PENDING_FOUNDER_GATE"
     rebaseline["p1_status"] == "P1_EXIT_EVIDENCE_COMPLETE_PENDING_FOUNDER_GATE" &&
     rebaseline["current_task"] == "NONE" && rebaseline["next_slice_ordinal"].nil? &&
     rebaseline["next_slice_action"] == "FOUNDER_P1_PHASE_GATE_REVIEW_REQUIRED"
-elsif rebaseline["p1_status"] == P1_PROJECT_LEVEL_STOP_STATUS
-  stop!("P1 rebaseline Founder STOP_P1 projection drift") unless
-    p1_project_level_stopped?(truth) && rebaseline["current_task"] == "NONE" &&
-    rebaseline["next_slice_ordinal"].nil? && rebaseline["next_slice_action"] == P1_PROJECT_LEVEL_STOP_ACTION
 end
 end
 
@@ -1987,7 +1710,6 @@ validate_approved_reopen_decision_binding!(truth, current_project_level_reopen, 
 end
 validate_current_reopen_projection!(truth)
 current_rebaseline_architecture_terminal = validate_current_rebaseline_architecture_terminal!(truth, recovery_evidence_base)
-project_level_stop_disposition = validate_p1_project_level_stop_requirement!(truth, recovery_evidence_base)
 end
 effective_rebaseline_slice_order = validate_effective_rebaseline_slice_order!(truth)
 
@@ -3141,7 +2863,7 @@ if (transition = previous_truth_transition(truth_bytes))
     stop!("current Truth project identity or Phase envelope changed") unless current_project == previous_project
     previous_goal = Marshal.load(Marshal.dump(previous_truth.fetch("goal")))
     current_goal = Marshal.load(Marshal.dump(transition_truth.fetch("goal")))
-    %w[current_task_authority control_plane_status_observed note].each do |field|
+    %w[current_task_authority control_plane_status_observed].each do |field|
       previous_goal.delete(field)
       current_goal.delete(field)
     end
@@ -3197,7 +2919,6 @@ if (transition = previous_truth_transition(truth_bytes))
     previous_recovery_invariants = Marshal.load(Marshal.dump(previous_recovery))
     current_recovery_invariants = Marshal.load(Marshal.dump(current_recovery))
     %w[
-      status clean_room_implementation_allowed_for_required_capability claim_boundary
       historical_governance_metadata_read_boundary capability_status capability_attempt_ledger
       integrated_capability_routes final_clean_room_implementation_route
       final_clean_room_implementation_attempt final_clean_room_contract_review_terminal
@@ -3210,41 +2931,6 @@ if (transition = previous_truth_transition(truth_bytes))
     end
     stop!("mandatory Exit capability recovery invariant surface changed") unless
       current_recovery_invariants == previous_recovery_invariants
-
-    previous_stop_disposition = p1_project_level_stop_disposition(previous_truth)
-    current_stop_disposition = p1_project_level_stop_disposition(transition_truth)
-    if current_stop_disposition
-      if previous_stop_disposition
-        stop!("P1 project-level STOP disposition binding changed") unless
-          current_stop_disposition == previous_stop_disposition
-      else
-        stop!("P1 project-level STOP disposition transition is not exact Founder-authorized") unless
-          previous_truth.dig("project", "phase_execution_status") == "TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION" &&
-          transition_truth.dig("project", "phase_execution_status") == P1_PROJECT_LEVEL_STOP_STATUS &&
-          previous_recovery["status"] == "ACTIVE" && current_recovery["status"] == P1_PROJECT_LEVEL_STOP_STATUS &&
-          previous_recovery["clean_room_implementation_allowed_for_required_capability"] == true &&
-          current_recovery["clean_room_implementation_allowed_for_required_capability"] == false &&
-          transition_truth.dig("goal", "control_plane_status_observed") == "ACTIVE" &&
-          transition_truth.dig("goal", "current_task_authority") == "NONE" &&
-          transition_truth.dig("active_work", "current_task") == "NONE" &&
-          transition_truth.dig("phase_execution_claim", "historical_terminal_rules").first(
-            previous_truth.dig("phase_execution_claim", "historical_terminal_rules").length
-          ) == previous_truth.dig("phase_execution_claim", "historical_terminal_rules") &&
-          transition_truth.dig("phase_execution_claim", "mandatory_priority_rule").first(
-            previous_truth.dig("phase_execution_claim", "mandatory_priority_rule").length
-          ) == previous_truth.dig("phase_execution_claim", "mandatory_priority_rule")
-        stop!("P1 project-level STOP Goal note drift") unless
-          transition_truth.dig("goal", "note") == "The Founder-approved long-term Goal identity is canonical and the Codex control-plane Goal is ACTIVE. P1 is project-level terminally stopped by Founder decision, current Task authority is NONE, and any future work requires a new Founder Phase or architecture-route decision rather than P1 continuation."
-      end
-    else
-      stop!("P1 project-level STOP disposition was erased") if previous_stop_disposition
-      stop!("mandatory Exit capability recovery lifecycle changed without STOP_P1 disposition") unless
-        current_recovery["status"] == previous_recovery["status"] &&
-        current_recovery["clean_room_implementation_allowed_for_required_capability"] == previous_recovery["clean_room_implementation_allowed_for_required_capability"] &&
-        current_recovery["claim_boundary"] == previous_recovery["claim_boundary"]
-      stop!("current Truth Goal note changed without STOP_P1 disposition") unless
-        transition_truth.dig("goal", "note") == previous_truth.dig("goal", "note")
-    end
 
     previous_integrated_routes = previous_recovery["integrated_capability_routes"] || {}
     current_integrated_routes = current_recovery["integrated_capability_routes"] || {}
@@ -3573,7 +3259,7 @@ validate_runtime_worktree_population!(worktrees, canonical_worktrees.first, runt
 if current_task == "NONE"
   stop!("NONE state cannot retain an in-progress Exit capability") if capability_status.value?("IN_PROGRESS")
   founder_blocked_capabilities = capability_status.select { |_capability, state| %w[ARCHITECTURE_BLOCKED CONTRACT_REVIEW_BLOCKED P1_TERMINAL_STOPPED_NOT_ACCEPTED].include?(state) }.keys
-  p1_terminal_stop = %w[TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION PROJECT_LEVEL_TERMINAL_STOPPED_BY_FOUNDER].include?(project_status)
+  p1_terminal_stop = %w[TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION].include?(project_status)
   p1_founder_gate = project_status == "P1_EXIT_EVIDENCE_COMPLETE_PENDING_FOUNDER_GATE"
   current_reopen_terminal_status = current_project_level_reopen&.dig("current_slice_attempt", "status")
   current_reopen_terminal_expectation = {
@@ -3590,16 +3276,8 @@ if current_task == "NONE"
       "next_action" => "FOUNDER_PROJECT_LEVEL_DISPOSITION_REQUIRED"
     }
   }[current_reopen_terminal_status]
-  if p1_project_level_stopped?(truth)
-    current_reopen_terminal_expectation = {
-      "project_status" => P1_PROJECT_LEVEL_STOP_STATUS,
-      "escalation_reason" => "P1_PROJECT_LEVEL_STOPPED_NEXT_DECISION_NEW_PHASE_OR_ARCHITECTURE_ROUTE",
-      "user_action" => P1_PROJECT_LEVEL_STOP_NEXT_DECISION,
-      "next_action" => P1_PROJECT_LEVEL_STOP_NEXT_DECISION
-    }
-  end
   stop!("NONE state goal authority drift") unless goal_task == "NONE"
-  allowed_none_project_statuses = rebaseline ? %w[REBASELINED_PENDING_EXECUTION P1_EXIT_EVIDENCE_COMPLETE_PENDING_FOUNDER_GATE NO_CURRENT_TASK TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION PROJECT_LEVEL_TERMINAL_STOPPED_BY_FOUNDER] : %w[NO_CURRENT_TASK]
+  allowed_none_project_statuses = rebaseline ? %w[REBASELINED_PENDING_EXECUTION P1_EXIT_EVIDENCE_COMPLETE_PENDING_FOUNDER_GATE NO_CURRENT_TASK TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION] : %w[NO_CURRENT_TASK]
   stop!("NONE state status drift") unless current_status == "NONE" && allowed_none_project_statuses.include?(project_status)
   %w[
     current_task_contract current_task_contract_sha256 current_execution_authorization
@@ -3611,7 +3289,7 @@ if current_task == "NONE"
     stop!("NONE state field must be null: #{field}") unless active[field].nil?
   end
   expected_none_nonce_status = p1_terminal_stop ? "NOT_APPLICABLE_TERMINAL_STOPPED" : "NONE"
-  expected_none_resource_status = if %w[PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION PROJECT_LEVEL_TERMINAL_STOPPED_BY_FOUNDER].include?(project_status)
+  expected_none_resource_status = if project_status == "PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION"
     "TERMINAL_STOPPED_RESOURCES_ABSENT"
   elsif p1_terminal_stop
     "TERMINAL_STOPPED_RESOURCES_PRESERVED"
@@ -3655,9 +3333,7 @@ if current_task == "NONE"
   else
     stop!("blocked mandatory capability must escalate Founder") unless founder_required == true && escalation_reason == "mandatory_exit_capability_blocked" && user_action == "FOUNDER_DECISION_REQUIRED"
   end
-  expected_none_claim = if project_status == P1_PROJECT_LEVEL_STOP_STATUS
-    "NONE_P1_PROJECT_LEVEL_TERMINAL_STOPPED_BY_FOUNDER"
-  elsif project_status == "PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION"
+  expected_none_claim = if project_status == "PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION"
     "NONE_P1_PERMANENTLY_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION"
   elsif p1_terminal_stop
     "NONE_P1_TERMINAL_STOPPED_PENDING_PROJECT_LEVEL_DISPOSITION"

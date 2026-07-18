@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-18T16:13:25Z"
-verification_scope: AIOS_P1_045_PHASE_DELEGATED_TASK_ACTIVATION
+last_verified_at: "2026-07-18T18:29:03Z"
+verification_scope: AIOS_P1_045_TERMINAL_SYNC_BETWEEN_TASKS
 
 authority:
   founder: Human Founder
@@ -37,8 +37,8 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: AIOS-P1-045_EVALUATION_MATRIX_AND_VTSR_LEDGER_KERNEL
-  note: The Founder-approved long-term Goal identity is canonical and the Codex control-plane Goal is ACTIVE. P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_V1 remains ACTIVE; AIOS-P1-044 is terminal with zero accepted capability and AIOS-P1-045 is the single independent phase-delegated engineering Task.
+  current_task_authority: NONE
+  note: The Founder-approved long-term Goal identity is canonical and the Codex control-plane Goal is ACTIVE. P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_V1 remains ACTIVE; AIOS-P1-044 and AIOS-P1-045 are terminal with zero accepted capability, and Master must select the next independent Phase-local engineering Task.
 
 project:
   name: SourceLens AIOS
@@ -181,28 +181,7 @@ current_phase_route:
       - p1_011
       - p1_035
     claim_boundary: VISIBLE_SYNTHETIC_REFERENCE_CONTROL_PATCH_EVIDENCE_WALKING_SKELETON_ONLY
-  active_task:
-    task_id: AIOS-P1-045_EVALUATION_MATRIX_AND_VTSR_LEDGER_KERNEL
-    status: ACTIVE
-    classification: ENGINEERING
-    lineage: INDEPENDENT_PHASE_INCREMENT
-    contract_path: docs/aios/tasks/P1-045_EVALUATION_MATRIX_AND_VTSR_LEDGER_KERNEL.yaml
-    max_engineering_hours: 16
-    max_calendar_days: 4
-    max_implementation_iterations: 2
-    max_candidates: 1
-    bounded_contract_corrections_used: 1
-    objective: Build a closed synthetic conformance Evaluation Matrix, create-once outcome-fixture ledger, normative VTSR counting expectation and persisted fresh-process replay over the six accepted P1-035 task identities without executing or claiming a real baseline run.
-    accepted_input_ids:
-      - p1_001
-      - p1_011
-      - p1_035
-    retries: []
-    remediates: []
-    supersedes: []
-    replaces: []
-    claim_boundary: LOCAL_VISIBLE_SYNTHETIC_P1_REPRESENTATIVE_DATASET_MATRIX_VTSR_COUNTING_AND_PERSISTED_REPLAY_CONFORMANCE_ONLY_NO_EXECUTED_B0_B1_B2_A0_BASELINE_MODEL_AGENT_BENCHMARK_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
-  next_eligible_action: EXECUTE_AIOS_P1_045
+  next_eligible_action: MASTER_SELECT_NEXT_PHASE_LOCAL_TASK
   next_founder_decision_points:
     - EXACT_PROVIDER_NETWORK_SECRET_COST_AUTHORIZATION
     - CRITICAL_RESIDUAL_ACCEPTANCE
@@ -928,52 +907,38 @@ p0_baseline:
   online_verification_status: ARCHIVED_NOT_ON_ACTIVE_PATH
 
 active_work:
-  current_task: AIOS-P1-045_EVALUATION_MATRIX_AND_VTSR_LEDGER_KERNEL
-  current_task_status: ACTIVE
+  current_task: NONE
+  current_task_status: NONE
   current_task_contract:
-    path: docs/aios/tasks/P1-045_EVALUATION_MATRIX_AND_VTSR_LEDGER_KERNEL.yaml
-    sha256: 721161f1541b178f7dd773a92704c4f5d2c2e21cdf28c1018202afa54bc03013
-    byte_length: 17988
-  current_task_contract_sha256: 721161f1541b178f7dd773a92704c4f5d2c2e21cdf28c1018202afa54bc03013
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-045-evaluation-matrix-vtsr-ledger/MASTER_TASK_AUTHORITY.json
-  current_execution_authorization_sha256: 9046775587f9298ba6e5e1755b938c2600b5dd9699b825d650746e8f1e598891
+    path: null
+    sha256: null
+    byte_length: null
+  current_task_contract_sha256: null
+  current_execution_authorization: null
+  current_execution_authorization_sha256: null
   authority_record:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-045-evaluation-matrix-vtsr-ledger/MASTER_TASK_AUTHORITY.json
-    sha256: 9046775587f9298ba6e5e1755b938c2600b5dd9699b825d650746e8f1e598891
-    byte_length: 3591
-  execution_nonce: 95176ab21ed26f57aaf3a8f1c0ae4392e2456b8177e22ad589b17a4d8e992df4
-  execution_nonce_status: ACTIVE
-  authorization_id: 432a89a35ae7fe622c6164fff7db3be4aacecd9e4512da521f427544b7a5210f
-  activation_parent_commit: 3e4ada705c0c6b4a04d2bfd3fc389c08d01885b6
-  activation_parent_tree: ecad72c585a6544b33d9430798ea76a99712c002
-  task_resource_state: ACTIVE_DECLARED
-  task_branch: codex/p1-045-vtsr-ledger
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p1-045-vtsr-ledger
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-045-evaluation-matrix-vtsr-ledger/EVIDENCE
-  allowlisted_paths:
-    - evaluation-harness/harness/vtsr-ledger-v1/**
-    - evaluation-harness/validators/vtsr-ledger-v1/**
-    - evaluation-harness/recording/vtsr-ledger-v1/**
-    - evaluation-harness/replay/vtsr-ledger-v1/**
-    - evaluation-harness/evaluator/vtsr-ledger-v1/**
-    - evaluation-harness/fixtures/vtsr-ledger-v1/**
-    - scripts/verify-p1-vtsr-ledger.sh
-    - Makefile
-    - docs/PROJECT_CODE_MAP.md
-    - docs/aios/tasks/P1-045_EVALUATION_MATRIX_AND_VTSR_LEDGER_KERNEL.yaml
-    - docs/aios/truth/project_state.yaml
+    path: null
+    sha256: null
+    byte_length: null
+  execution_nonce: null
+  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
+  authorization_id: null
+  activation_parent_commit: null
+  activation_parent_tree: null
+  task_resource_state: NONE_PHASE_ACTIVE
+  task_branch: null
+  task_worktree: null
+  execution_evidence_root: null
+  allowlisted_paths: []
   budget:
-    engineering_hours: 16
-    calendar_days: 4
-    implementation_iterations: 2
-    candidates: 1
+    engineering_hours: null
+    calendar_days: null
+    implementation_iterations: null
+    candidates: null
   roles:
-    owner: Engineering Manager Agent
-    worker: Evaluation Matrix and VTSR Kernel Engineer
-    independent_reviewers:
-      - CTO Agent
-      - Security Agent
-      - Quality and Evaluation Agent
+    owner: null
+    worker: null
+    independent_reviewers: []
   external_effects:
     network: false
     provider: false
@@ -987,7 +952,7 @@ active_work:
   founder_decision_required: false
   escalation_reason: null
   user_action_required: NONE
-  next_eligible_action: EXECUTE_AIOS_P1_045
+  next_eligible_action: MASTER_SELECT_NEXT_PHASE_LOCAL_TASK
 
 superseded_pre_delegation_authorizations:
   aios_p1_009:
@@ -1005,6 +970,56 @@ superseded_pre_delegation_authorizations:
     note: The engineering objective may be selected independently by Master, but these pre-delegation bytes require a routine per-Task Founder Gate and cannot be activated under the current authority model.
 
 task_history:
+  aios_p1_045:
+    task_id: AIOS-P1-045_EVALUATION_MATRIX_AND_VTSR_LEDGER_KERNEL
+    contract: docs/aios/tasks/P1-045_EVALUATION_MATRIX_AND_VTSR_LEDGER_KERNEL.yaml
+    task_contract_sha256: 721161f1541b178f7dd773a92704c4f5d2c2e21cdf28c1018202afa54bc03013
+    task_contract_byte_length: 17988
+    route_id: P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_V1
+    status: TERMINAL_STOPPED_FINAL_REVIEW_NON_PASS
+    classification: ENGINEERING
+    task_gate_result: NON_PASS
+    bounded_contract_corrections_used: 1
+    bounded_same_task_repairs_used: 1
+    additional_same_task_repair_allowed: false
+    candidate_ordinal: 1
+    second_candidate_allowed: false
+    candidate_created: true
+    candidate_commit: d922aaa84e4943fa928a7278c35238a3ebba42cd
+    candidate_tree: 6ee95d236c4f60901c06808b6e6901a8accf48e6
+    candidate_integrated: false
+    candidate_manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-045-evaluation-matrix-vtsr-ledger/EVIDENCE/CANDIDATE_D922AAA84E4943FA/candidate-manifest.json
+    candidate_manifest_sha256: 9e400d4a79ab940489343c372a73ad53911a97f3f0b0b419feb83275df44d909
+    candidate_manifest_byte_length: 4359
+    candidate_diff_sha256: 7f1119f6233a09152cabba60a66bd4e1cb8ca2b6bc13721c4b90b0c108d74926
+    candidate_diff_byte_length: 265255
+    formal_evidence_manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-045-evaluation-matrix-vtsr-ledger/EVIDENCE/CANDIDATE_D922AAA84E4943FA/evidence-manifest.json
+    formal_evidence_manifest_sha256: 371ff1714d8cb47935668ac877ed053b04e716d4b9a14cf90d80add898697f1d
+    formal_evidence_manifest_byte_length: 11720
+    formal_evidence_manifest_root_sha256: d31e8d47768b8962aa2d7bddbcac4a7f891bb7d358813ac749a68b1accb8383c
+    final_review_manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-045-evaluation-matrix-vtsr-ledger/EVIDENCE/REVIEWS_D922AAA84E4943FA/FINAL_REVIEW_MANIFEST.json
+    final_review_manifest_sha256: ac0570e13cf63e0d853c0ddb861b56d097bc90576bb0fb6ef7078e2bb5f06f90
+    final_review_manifest_byte_length: 2362
+    cto_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-045-evaluation-matrix-vtsr-ledger/EVIDENCE/REVIEWS_D922AAA84E4943FA/CTO_REVIEW.json
+    cto_review_sha256: 568d879a0624a1968554767b510024b537ccc01e468977d77697686515f45a8e
+    cto_final_target_verdict: NON_PASS
+    security_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-045-evaluation-matrix-vtsr-ledger/EVIDENCE/REVIEWS_D922AAA84E4943FA/SECURITY_REVIEW.json
+    security_review_sha256: 4e2cd4f47f9784b1a27b3edc8357ed8e9378270d44a3c1460e42fb19bfb6f1bc
+    security_final_target_verdict: NON_PASS
+    quality_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-045-evaluation-matrix-vtsr-ledger/EVIDENCE/REVIEWS_D922AAA84E4943FA/QUALITY_REVIEW.json
+    quality_review_sha256: 756fdcd292c11bade07208c2d3bc63d5ec917609577bd36fbca39694dea57767
+    quality_final_target_verdict: PASS_DOES_NOT_OVERRIDE_CTO_OR_SECURITY_NON_PASS
+    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-045-evaluation-matrix-vtsr-ledger/EVIDENCE/GATE_D922AAA84E4943FA/TASK_TERMINAL_RECEIPT.json
+    terminal_receipt_sha256: 06a77b72a3efadfff891d35bcb0f5e10596048c1b9ebb524ec65520771e59f7c
+    terminal_receipt_byte_length: 4048
+    evidence_tag: evidence/p1-045-final-non-pass-d922aaa
+    blocking_findings:
+      - CTO-P1-045-001_INDEPENDENT_RECOMPUTATION_DOMAIN_DIVERGENCE
+      - SECURITY-P1-045-FINAL-001
+    successor_replacement_or_remediation_chain_allowed: false
+    capability_claims: 0
+    product_capability_changed: false
+    claim_boundary: P1_045_FINAL_REVIEW_NON_PASS_AND_TERMINAL_EVIDENCE_ONLY_NO_ACCEPTED_ENGINEERING_CAPABILITY_EMPIRICAL_VTSR_BASELINE_MODEL_AGENT_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
   aios_p1_044:
     task_id: AIOS-P1-044_LOCAL_PATCH_EVIDENCE_WALKING_SKELETON
     contract: docs/aios/tasks/P1-044_LOCAL_PATCH_EVIDENCE_WALKING_SKELETON.yaml
@@ -1817,7 +1832,7 @@ phase_execution_claim:
     - The historical rebaseline Slice Contract and Quality-freeze rules remain capture-time facts but no longer schedule current work.
   mandatory_priority_rule:
     - AIOS-P1-044_LOCAL_PATCH_EVIDENCE_WALKING_SKELETON is terminal after exact-candidate final-review NON_PASS with zero accepted capability and no canonical integration.
-    - AIOS-P1-045_EVALUATION_MATRIX_AND_VTSR_LEDGER_KERNEL is the single active independent Phase increment and does not remediate or reuse P1-044.
+    - AIOS-P1-045_EVALUATION_MATRIX_AND_VTSR_LEDGER_KERNEL is terminal after exact-candidate final-review NON_PASS with zero accepted capability and no canonical integration.
     - After each Task reaches a terminal Task Gate, Master selects the next smallest independent P1 increment within the four-Task, 80-hour and 21-day Phase envelope without routine Founder approval.
     - Historical four-slice ordering and attempt routing have no current scheduling authority.
     - Peripheral validators, auxiliary governance tools and work without direct P1 Exit Gate value are ineligible.

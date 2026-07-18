@@ -249,6 +249,10 @@ class CurrentTaskAuthorityTest
     truth["project"]["p1_execution_status"] = "AUTHORIZED_READY"
     truth["current_phase_route"]["status"] = "AUTHORIZED_READY"
     truth["current_phase_route"]["decision_packet"]["path"] = packet_path
+    first_task_id = truth.fetch("current_phase_route").fetch("first_task").fetch("task_id")
+    truth.fetch("task_history").delete_if do |_key, record|
+      record.is_a?(Hash) && record["task_id"] == first_task_id
+    end
     truth["current_phase_route"]["first_task"]["status"] = "ELIGIBLE_NOT_ACTIVATED"
     truth["current_phase_route"]["next_eligible_action"] = "MASTER_ACTIVATE_FIRST_TASK"
     truth["current_phase_route"].delete("active_task")

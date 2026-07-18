@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-18T19:05:18Z"
-verification_scope: AIOS_P1_046_BOUNDED_CONTRACT_CORRECTION_REBIND
+last_verified_at: "2026-07-18T20:39:01Z"
+verification_scope: AIOS_P1_046_TERMINAL_SYNC_AND_ROUTE_HYPOTHESIS_GATE_PREPARATION
 
 authority:
   founder: Human Founder
@@ -37,8 +37,8 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: AIOS-P1-046_SOURCE_BOUND_OBSERVABLE_TRACE_KERNEL
-  note: The Founder-approved long-term Goal identity is canonical and the Codex control-plane Goal is ACTIVE. P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_V1 remains ACTIVE; AIOS-P1-044 and AIOS-P1-045 are terminal with zero accepted capability, and AIOS-P1-046 is the single independent Phase-delegated engineering Task.
+  current_task_authority: NONE
+  note: The Founder-approved long-term Goal identity and P1 Phase entry remain ACTIVE. AIOS-P1-044, AIOS-P1-045 and AIOS-P1-046 are terminal with zero accepted capability. The P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_V1 authorization remains current while its exact composition hypothesis is exhausted pending the permitted Founder route decision.
 
 project:
   name: SourceLens AIOS
@@ -181,9 +181,9 @@ current_phase_route:
       - p1_011
       - p1_035
     claim_boundary: VISIBLE_SYNTHETIC_REFERENCE_CONTROL_PATCH_EVIDENCE_WALKING_SKELETON_ONLY
-  active_task:
+  latest_terminal_task:
     task_id: AIOS-P1-046_SOURCE_BOUND_OBSERVABLE_TRACE_KERNEL
-    status: ACTIVE
+    status: TERMINAL_STOPPED_PRE_WORKER_QUALITY_FREEZE_NON_PASS
     classification: ENGINEERING
     lineage: INDEPENDENT_PHASE_INCREMENT
     contract_path: docs/aios/tasks/P1-046_SOURCE_BOUND_OBSERVABLE_TRACE_KERNEL.yaml
@@ -201,8 +201,21 @@ current_phase_route:
     remediates: []
     supersedes: []
     replaces: []
+    worker_started: false
+    implementation_started: false
+    candidate_created: false
+    candidate_integrated: false
+    capability_claims: 0
+    terminal_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-046-source-bound-observable-trace/terminal/TASK_TERMINAL_RECORD.json
+    terminal_record_sha256: ce73391a167decd928acd861b9cab6a7f73ef3aefd1907dcd548bbe6f7620829
+    terminal_record_byte_length: 6722
     claim_boundary: ONE_ACCEPTED_VISIBLE_SYNTHETIC_REFERENCE_CONTROL_SOURCE_ENVIRONMENT_AND_EXECUTION_TOOL_BOUND_OBSERVABLE_TRACE_WITH_INDEPENDENT_FAIL_CLOSED_VERIFICATION_FRESH_MATERIALIZATION_REPLAY_AND_EXACT_ROLLBACK_ONLY_NO_COMPLETE_PATCH_EVIDENCE_EMPIRICAL_VTSR_BASELINE_ADAPTER_MODEL_AGENT_HIDDEN_SET_BENCHMARK_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
-  next_eligible_action: EXECUTE_AIOS_P1_046
+  route_hypothesis:
+    status: EXHAUSTED_PENDING_FOUNDER_DECISION
+    basis: Accepted P1-001, P1-011 and P1-035 cannot compose the required source-, environment- and tool-bound independently verified replay under the exact current process, custody and raw-output boundary without changing frozen accepted bytes or the route boundary.
+    task_capacity_remaining: 1
+    successor_replacement_or_route_repair_authorized: false
+  next_eligible_action: PREPARE_FOUNDER_ROUTE_HYPOTHESIS_DECISION_PACKET
   next_founder_decision_points:
     - EXACT_PROVIDER_NETWORK_SECRET_COST_AUTHORIZATION
     - CRITICAL_RESIDUAL_ACCEPTANCE
@@ -928,52 +941,38 @@ p0_baseline:
   online_verification_status: ARCHIVED_NOT_ON_ACTIVE_PATH
 
 active_work:
-  current_task: AIOS-P1-046_SOURCE_BOUND_OBSERVABLE_TRACE_KERNEL
-  current_task_status: ACTIVE
+  current_task: NONE
+  current_task_status: NONE
   current_task_contract:
-    path: docs/aios/tasks/P1-046_SOURCE_BOUND_OBSERVABLE_TRACE_KERNEL.yaml
-    sha256: b0dfadce496ee2fd9f8232d8e37ad1354216ecc2aea556422c37cd29e18f218a
-    byte_length: 17551
-  current_task_contract_sha256: b0dfadce496ee2fd9f8232d8e37ad1354216ecc2aea556422c37cd29e18f218a
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-046-source-bound-observable-trace/MASTER_TASK_AUTHORITY_CORRECTED_1.json
-  current_execution_authorization_sha256: 4bbec571435e1c4acc232c6aa2ce5241249bb1a11c667b5b9e4279f7ebf69ffe
+    path: null
+    sha256: null
+    byte_length: null
+  current_task_contract_sha256: null
+  current_execution_authorization: null
+  current_execution_authorization_sha256: null
   authority_record:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-046-source-bound-observable-trace/MASTER_TASK_AUTHORITY_CORRECTED_1.json
-    sha256: 4bbec571435e1c4acc232c6aa2ce5241249bb1a11c667b5b9e4279f7ebf69ffe
-    byte_length: 4802
-  execution_nonce: 55d4033469bc45ed956e31d27506f6b847ea8cab32e7eb3fa2c12575d7a2cf3c
-  execution_nonce_status: ACTIVE
-  authorization_id: 215ef8feb0b81393c1b70f784d3e47d3f77c689f65c5d75075660f9f513077f5
-  activation_parent_commit: 2a02badc0fa081b23f5e014bd9e6f0ce70f9a32d
-  activation_parent_tree: 3108210210a1114ab3a22a5f74b723791a3ccc6d
-  task_resource_state: ACTIVE_DECLARED
-  task_branch: codex/p1-046-source-bound-trace
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p1-046-source-bound-trace
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-046-source-bound-observable-trace/EVIDENCE
-  allowlisted_paths:
-    - evaluation-harness/fixtures/source-bound-observable-trace-v1/**
-    - evaluation-harness/evaluator/source-bound-observable-trace-v1/**
-    - evaluation-harness/harness/source-bound-observable-trace-v1/**
-    - evaluation-harness/recording/source-bound-observable-trace-v1/**
-    - evaluation-harness/replay/source-bound-observable-trace-v1/**
-    - evaluation-harness/validators/source-bound-observable-trace-v1/**
-    - scripts/verify-p1-source-bound-observable-trace.sh
-    - Makefile
-    - docs/PROJECT_CODE_MAP.md
-    - docs/aios/tasks/P1-046_SOURCE_BOUND_OBSERVABLE_TRACE_KERNEL.yaml
-    - docs/aios/truth/project_state.yaml
+    path: null
+    sha256: null
+    byte_length: null
+  execution_nonce: null
+  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
+  authorization_id: null
+  activation_parent_commit: null
+  activation_parent_tree: null
+  task_resource_state: NONE_PHASE_ACTIVE
+  task_branch: null
+  task_worktree: null
+  execution_evidence_root: null
+  allowlisted_paths: []
   budget:
-    engineering_hours: 18
-    calendar_days: 4
-    implementation_iterations: 2
-    candidates: 1
+    engineering_hours: null
+    calendar_days: null
+    implementation_iterations: null
+    candidates: null
   roles:
-    owner: Engineering Manager Agent
-    worker: Observable Trace Kernel Engineer
-    independent_reviewers:
-      - CTO Agent
-      - Security Agent
-      - Quality and Evaluation Agent
+    owner: null
+    worker: null
+    independent_reviewers: []
   external_effects:
     network: false
     provider: false
@@ -987,7 +986,7 @@ active_work:
   founder_decision_required: false
   escalation_reason: null
   user_action_required: NONE
-  next_eligible_action: EXECUTE_AIOS_P1_046
+  next_eligible_action: PREPARE_FOUNDER_ROUTE_HYPOTHESIS_DECISION_PACKET
 
 superseded_pre_delegation_authorizations:
   aios_p1_009:
@@ -1005,6 +1004,40 @@ superseded_pre_delegation_authorizations:
     note: The engineering objective may be selected independently by Master, but these pre-delegation bytes require a routine per-Task Founder Gate and cannot be activated under the current authority model.
 
 task_history:
+  aios_p1_046:
+    task_id: AIOS-P1-046_SOURCE_BOUND_OBSERVABLE_TRACE_KERNEL
+    contract: docs/aios/tasks/P1-046_SOURCE_BOUND_OBSERVABLE_TRACE_KERNEL.yaml
+    task_contract_sha256: b0dfadce496ee2fd9f8232d8e37ad1354216ecc2aea556422c37cd29e18f218a
+    task_contract_byte_length: 17551
+    route_id: P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_V1
+    status: TERMINAL_STOPPED_PRE_WORKER_QUALITY_FREEZE_NON_PASS
+    classification: ENGINEERING
+    task_gate_result: NON_PASS
+    bounded_contract_corrections_used: 1
+    pre_worker_quality_freeze_corrections_used: 1
+    additional_same_task_correction_or_repair_allowed: false
+    reviewed_quality_freeze_commit: b1314901091f2041c4a126f505ebd89616301923
+    reviewed_quality_freeze_tree: 1d86475ee9295f9f81bdcd4727cb082f8a54c24c
+    quality_freeze_receipt_sha256: 0976c599b26845e6de9960ce6055a63568d99d6167f6217d4df7cd8181219b81
+    cto_review_sha256: 87c9310e1cc8a74fd73b0b55e13f6e7f736c86fc6be100d529018cf5561867d8
+    cto_target_verdict: NON_PASS
+    security_review_sha256: 8d4dbd409942abf0571c52d18e01e07ca000ffcab03d958b40f7885578d1b943
+    security_target_verdict: NON_PASS
+    quality_review_sha256: 278ab951215a7a859ed680ed8133eb68e67dd103b4ecf5547db474c2c15b5e9b
+    quality_target_verdict: NON_PASS
+    terminal_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-046-source-bound-observable-trace/terminal/TASK_TERMINAL_RECORD.json
+    terminal_record_sha256: ce73391a167decd928acd861b9cab6a7f73ef3aefd1907dcd548bbe6f7620829
+    terminal_record_byte_length: 6722
+    evidence_tag: evidence/p1-046-pre-worker-freeze-b131490
+    worker_started: false
+    implementation_started: false
+    candidate_created: false
+    candidate_integrated: false
+    accepted_capability_created: false
+    capability_claims: 0
+    route_hypothesis_exhausted: true
+    successor_replacement_or_remediation_chain_allowed: false
+    claim_boundary: P1_046_PRE_WORKER_QUALITY_FREEZE_NON_PASS_AND_ROUTE_HYPOTHESIS_EXHAUSTION_EVIDENCE_ONLY_NO_ACCEPTED_ENGINEERING_CAPABILITY_PATCH_EVIDENCE_EMPIRICAL_VTSR_BASELINE_MODEL_AGENT_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
   aios_p1_045:
     task_id: AIOS-P1-045_EVALUATION_MATRIX_AND_VTSR_LEDGER_KERNEL
     contract: docs/aios/tasks/P1-045_EVALUATION_MATRIX_AND_VTSR_LEDGER_KERNEL.yaml
@@ -1848,9 +1881,9 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_V1_ACTIVE
-  current_task_claim: AIOS_P1_045_ACTIVE_INDEPENDENT_PHASE_DELEGATED_ENGINEERING
-  real_engineering_progress: AIOS_P1_045_ACTIVATED_QUALITY_FREEZE_PENDING
+  current_route_claim: P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_V1_HYPOTHESIS_EXHAUSTED_PENDING_FOUNDER_DECISION
+  current_task_claim: NONE
+  real_engineering_progress: AIOS_P1_046_TERMINAL_PRE_WORKER_QUALITY_FREEZE_NON_PASS_ZERO_ACCEPTED_CAPABILITY
   product_capability_changed: false
   phase_local_allowed:
     - local evaluation foundation engineering under an exact Task Contract
@@ -1868,8 +1901,8 @@ phase_execution_claim:
   mandatory_priority_rule:
     - AIOS-P1-044_LOCAL_PATCH_EVIDENCE_WALKING_SKELETON is terminal after exact-candidate final-review NON_PASS with zero accepted capability and no canonical integration.
     - AIOS-P1-045_EVALUATION_MATRIX_AND_VTSR_LEDGER_KERNEL is terminal after exact-candidate final-review NON_PASS with zero accepted capability and no canonical integration.
-    - AIOS-P1-046_SOURCE_BOUND_OBSERVABLE_TRACE_KERNEL is the single active independent Phase increment and does not retry, remediate, supersede or replace a historical Task.
-    - After each Task reaches a terminal Task Gate, Master selects the next smallest independent P1 increment within the four-Task, 80-hour and 21-day Phase envelope without routine Founder approval.
+    - AIOS-P1-046_SOURCE_BOUND_OBSERVABLE_TRACE_KERNEL is terminal before Worker start after three fresh pre-Worker Quality-freeze NON_PASS reviews, with zero accepted capability and no canonical engineering integration.
+    - The exact Run-Kernel composition hypothesis is exhausted; the remaining fourth-Task capacity cannot be used as a successor, replacement or route repair without the permitted Founder route decision.
     - Historical four-slice ordering and attempt routing have no current scheduling authority.
     - Peripheral validators, auxiliary governance tools and work without direct P1 Exit Gate value are ineligible.
   not_authorized_in_current_phase:
@@ -1889,10 +1922,10 @@ phase_execution_claim:
     - canonical main advance outside an accepted task gate
 
 claim_boundary:
-  current_phase_route: P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_V1_ACTIVE
-  current_task: AIOS-P1-045_EVALUATION_MATRIX_AND_VTSR_LEDGER_KERNEL
-  next_eligible_action: EXECUTE_AIOS_P1_045
-  real_engineering_progress: AIOS_P1_045_ACTIVATED_QUALITY_FREEZE_PENDING
+  current_phase_route: P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_V1_HYPOTHESIS_EXHAUSTED_PENDING_FOUNDER_DECISION
+  current_task: NONE
+  next_eligible_action: PREPARE_FOUNDER_ROUTE_HYPOTHESIS_DECISION_PACKET
+  real_engineering_progress: AIOS_P1_046_TERMINAL_PRE_WORKER_QUALITY_FREEZE_NON_PASS_ZERO_ACCEPTED_CAPABILITY
   product_capability_changed_by_route_activation: false
   repository_intelligence_quality: UNKNOWN_NOT_YET_BENCHMARKED
   evaluation_harness: IMPLEMENTED_AND_FOUNDER_GATE_ACCEPTED_CONFORMANCE_ONLY
@@ -1963,11 +1996,17 @@ claim_boundary:
   p1_044_final_security_target_verdict: NON_PASS
   p1_044_final_quality_target_verdict: NON_PASS
   p1_044_capability_claims: 0
-  p1_045_evaluation_matrix_vtsr_ledger_kernel: ACTIVE_PHASE_DELEGATED_ENGINEERING
+  p1_045_evaluation_matrix_vtsr_ledger_kernel: TERMINAL_STOPPED_FINAL_REVIEW_NON_PASS
   p1_045_bounded_contract_corrections_used: 1
   p1_045_synthetic_conformance_only: true
   p1_045_empirical_runs_executed: false
   p1_045_capability_claims: 0
+  p1_046_source_bound_observable_trace_kernel: TERMINAL_STOPPED_PRE_WORKER_QUALITY_FREEZE_NON_PASS
+  p1_046_worker_started: false
+  p1_046_candidate_created: false
+  p1_046_candidate_integrated: false
+  p1_046_capability_claims: 0
+  p1_run_kernel_first_route_hypothesis: EXHAUSTED_PENDING_FOUNDER_DECISION
   p1_status: ACTIVE
   p1_037_final_security_review: NON_PASS
   p1_037_final_quality_review: CANCELLED_AFTER_SECURITY_NON_PASS

@@ -3,6 +3,7 @@
 
 require "digest"
 require "fileutils"
+require "json"
 require "open3"
 require "pathname"
 require "rbconfig"
@@ -257,6 +258,7 @@ class CurrentTaskAuthorityTest
     truth["current_phase_route"]["first_task"]["status"] = "ELIGIBLE_NOT_ACTIVATED"
     truth["current_phase_route"]["next_eligible_action"] = "MASTER_ACTIVATE_FIRST_TASK"
     truth["current_phase_route"].delete("active_task")
+    truth["current_phase_route"].delete("terminal_disposition")
     truth["active_work"] = ready_active_work
     dump_owned_yaml(truth_path, truth)
     commit(repo, "test: fixture ready route")
@@ -321,6 +323,198 @@ class CurrentTaskAuthorityTest
            "owned symlink fixture identity changed before cleanup")
     assert(File.readlink(link_path) == fixture["packet_path"], "owned symlink target changed before cleanup")
     File.unlink(link_path)
+  end
+
+  def terminal_tests(fixture)
+    repo = fixture["repo"]
+    truth_path = fixture["truth_path"]
+    ready_truth = yaml(truth_path)
+    truth = Marshal.load(Marshal.dump(ready_truth))
+    route = truth.fetch("current_phase_route")
+    task = route.fetch("first_task")
+    task_id = task.fetch("task_id")
+    route_id = route.fetch("route_id")
+    blockers = %w[FIXTURE-CONTRACT-001 FIXTURE-CONTRACT-002]
+    contract_identity = { "sha256" => "a" * 64, "byte_length" => 321 }
+
+    review_path = File.join(fixture["external"], "terminal-review.json")
+    review = {
+      "record_type" => "fixture_corrected_contract_review",
+      "review_target" => {
+        "task_id" => task_id,
+        "sha256" => contract_identity["sha256"],
+        "byte_length" => contract_identity["byte_length"]
+      },
+      "verdict" => { "target_verdict" => "NON_PASS", "blocking_finding_ids" => blockers }
+    }
+    create_exclusive(review_path, JSON.pretty_generate(review) + "\n")
+    review_bytes = File.binread(review_path)
+    review_identity = {
+      "path" => review_path,
+      "sha256" => Digest::SHA256.hexdigest(review_bytes),
+      "byte_length" => review_bytes.bytesize
+    }
+
+    terminal_path = File.join(fixture["external"], "route-terminal-record.json")
+    terminal_record = {
+      "record_type" => "sourcelens_aios_p1_route_terminal_record",
+      "route_id" => route_id,
+      "task_id" => task_id,
+      "status" => "P1_FINAL_STOP",
+      "terminal_stage" => "CORRECTED_CONTRACT_REVIEW_NON_PASS_PRE_TASK_ACTIVATION",
+      "terminal_reason" => { "blocking_finding_ids" => blockers },
+      "contract_review_chain" => {
+        "bounded_contract_correction" => { "corrections_used" => 1 },
+        "corrected" => {
+          "contract" => contract_identity,
+          "cto_review" => review_identity.merge("verdict" => "NON_PASS")
+        }
+      },
+      "execution_state" => {
+        "task_activated" => false,
+        "task_authority_record_created" => false,
+        "task_branch_created" => false,
+        "task_worktree_created" => false,
+        "worker_started" => false,
+        "implementation_started" => false,
+        "candidate_created" => false,
+        "accepted_capability_count" => 0,
+        "capability_claims" => []
+      },
+      "terminal_rules" => {
+        "retry_allowed" => false,
+        "second_contract_correction_allowed" => false,
+        "successor_allowed" => false,
+        "replacement_allowed" => false,
+        "new_route_allowed" => false,
+        "route_v2_or_v3_allowed" => false,
+        "normalization_closure_feasibility_or_remediation_chain_allowed" => false,
+        "further_contract_review_or_governance_chain_allowed" => false
+      },
+      "founder_next_decision" => { "decision_point" => "P1_FINAL_STOP" },
+      "claim_boundary" => {
+        "accepted_capability_count" => 0,
+        "capability_claim" => "NONE",
+        "p1_exit_verdict_issued" => false
+      }
+    }
+    create_exclusive(terminal_path, JSON.pretty_generate(terminal_record) + "\n")
+    terminal_bytes = File.binread(terminal_path)
+    terminal_identity = {
+      "path" => terminal_path,
+      "sha256" => Digest::SHA256.hexdigest(terminal_bytes),
+      "byte_length" => terminal_bytes.bytesize
+    }
+
+    truth["project"]["phase_execution_status"] = "P1_FINAL_STOP"
+    truth["project"]["p1_execution_status"] = "P1_FINAL_STOP"
+    route["status"] = "P1_FINAL_STOP"
+    route["first_task"]["status"] = "TERMINAL_STOPPED"
+    route["first_task"]["terminal_stage"] = terminal_record["terminal_stage"]
+    route["next_eligible_action"] = "FOUNDER_P1_FINAL_STOP"
+    route["terminal_disposition"] = {
+      "status" => "P1_FINAL_STOP",
+      "task_id" => task_id,
+      "terminal_stage" => terminal_record["terminal_stage"],
+      "terminal_record" => terminal_identity,
+      "corrected_contract" => contract_identity,
+      "controlling_review" => review_identity,
+      "blocking_finding_ids" => blockers,
+      "bounded_contract_corrections_used" => 1,
+      "task_activated" => false,
+      "implementation_started" => false,
+      "candidate_created" => false,
+      "accepted_capability_created" => false,
+      "p1_exit_gate_changed" => false,
+      "further_route_engineering_authorized" => false,
+      "next_founder_decision" => "P1_FINAL_STOP"
+    }
+    truth["task_history"]["fixture_terminal_first_task"] = {
+      "task_id" => task_id,
+      "status" => "TERMINAL_STOPPED",
+      "terminal_record" => terminal_identity
+    }
+    truth["active_work"] = ready_active_work
+    truth["active_work"]["task_resource_state"] = "NONE_ROUTE_FINAL_STOP"
+    truth["active_work"]["founder_decision_required"] = true
+    truth["active_work"]["escalation_reason"] = "P1_FINAL_STOP"
+    truth["active_work"]["user_action_required"] = "FOUNDER_P1_FINAL_STOP"
+    truth["active_work"]["next_eligible_action"] = "FOUNDER_P1_FINAL_STOP"
+    truth = JSON.parse(JSON.generate(truth))
+    dump_owned_yaml(truth_path, truth)
+    commit(repo, "test: enter packet-declared terminal route")
+    expect_pass(repo, "packet-declared terminal route with Task NONE")
+
+    original = tamper_owned_byte(terminal_path)
+    expect_nonpass(repo, "terminal record byte tamper", /route terminal record SHA-256 mismatch/)
+    restore_owned_byte(terminal_path, original)
+
+    original = tamper_owned_byte(review_path)
+    expect_nonpass(repo, "terminal review byte tamper", /terminal controlling review SHA-256 mismatch/)
+    restore_owned_byte(review_path, original)
+
+    truth = yaml(truth_path)
+    truth["active_work"]["founder_decision_required"] = false
+    dump_owned_yaml(truth_path, truth)
+    commit(repo, "test: suppress terminal Founder decision")
+    expect_nonpass(repo, "terminal Founder decision suppression", /must require the packet-declared Founder decision/)
+    truth["active_work"]["founder_decision_required"] = true
+    dump_owned_yaml(truth_path, truth)
+    commit(repo, "test: restore terminal Founder decision")
+
+    truth = yaml(truth_path)
+    truth["current_phase_route"]["terminal_disposition"]["task_activated"] = true
+    dump_owned_yaml(truth_path, truth)
+    commit(repo, "test: claim terminal Task activation")
+    expect_nonpass(repo, "terminal Task activation claim", /terminal disposition task_activated must be false/)
+    truth["current_phase_route"]["terminal_disposition"]["task_activated"] = false
+    dump_owned_yaml(truth_path, truth)
+    commit(repo, "test: restore terminal Task non-activation")
+
+    truth = yaml(truth_path)
+    truth["project"]["phase_execution_status"] = "ACTIVE"
+    truth["project"]["p1_execution_status"] = "ACTIVE"
+    truth["current_phase_route"]["status"] = "ACTIVE"
+    truth["current_phase_route"]["next_eligible_action"] = "MASTER_SELECT_NEXT_PHASE_LOCAL_TASK"
+    truth["active_work"]["task_resource_state"] = "NONE_PHASE_ACTIVE"
+    truth["active_work"]["founder_decision_required"] = false
+    truth["active_work"]["escalation_reason"] = nil
+    truth["active_work"]["user_action_required"] = "NONE"
+    truth["active_work"]["next_eligible_action"] = "MASTER_SELECT_NEXT_PHASE_LOCAL_TASK"
+    dump_owned_yaml(truth_path, truth)
+    commit(repo, "test: project terminal route back to active")
+    expect_nonpass(repo, "terminal route active reprojection",
+                   /terminal route markers cannot be projected back to an executable route/)
+
+    truth = yaml(truth_path)
+    truth["project"]["phase_execution_status"] = "P1_FINAL_STOP"
+    truth["project"]["p1_execution_status"] = "P1_FINAL_STOP"
+    truth["current_phase_route"]["status"] = "P1_FINAL_STOP"
+    truth["current_phase_route"]["next_eligible_action"] = "FOUNDER_P1_FINAL_STOP"
+    truth["active_work"]["task_resource_state"] = "NONE_ROUTE_FINAL_STOP"
+    truth["active_work"]["founder_decision_required"] = true
+    truth["active_work"]["escalation_reason"] = "P1_FINAL_STOP"
+    truth["active_work"]["user_action_required"] = "FOUNDER_P1_FINAL_STOP"
+    truth["active_work"]["next_eligible_action"] = "FOUNDER_P1_FINAL_STOP"
+    dump_owned_yaml(truth_path, truth)
+    commit(repo, "test: restore terminal route after active reprojection")
+
+    truth = yaml(truth_path)
+    truth["current_phase_route"]["next_eligible_action"] = "MASTER_ACTIVATE_FIRST_TASK"
+    truth["active_work"]["next_eligible_action"] = "MASTER_ACTIVATE_FIRST_TASK"
+    dump_owned_yaml(truth_path, truth)
+    commit(repo, "test: reopen terminal route")
+    expect_nonpass(repo, "terminal route reopen attempt", /next action must be Founder P1 final stop/)
+
+    truth = yaml(truth_path)
+    truth["current_phase_route"]["status"] = "P1_UNDECLARED_STOP"
+    dump_owned_yaml(truth_path, truth)
+    commit(repo, "test: use undeclared terminal status")
+    expect_nonpass(repo, "undeclared terminal status", /neither executable nor the packet-declared final stop/)
+
+    dump_owned_yaml(truth_path, ready_truth)
+    commit(repo, "test: restore route ready state")
+    expect_pass(repo, "ready route restored after terminal tests")
   end
 
   def top_level_history_record(truth, task_id)
@@ -599,6 +793,7 @@ class CurrentTaskAuthorityTest
       sandbox_identity = [sandbox_stat.dev, sandbox_stat.ino]
       fixture = prepare_fixture(sandbox)
       ready_tests(fixture)
+      terminal_tests(fixture)
       fixture = activate_fixture(fixture)
       active_tests(fixture)
     ensure

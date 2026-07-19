@@ -1,0 +1,284 @@
+{
+  "schema_version": 1,
+  "record_type": "sourcelens_aios_experiment_pack_task_card",
+  "status": "QUALITY_FREEZE_CANDIDATE",
+  "freeze_effective_only_with_external_quality_receipt": true,
+  "task_id": "AIOS-P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK",
+  "control_id": "SL-P1-REP-006-DEDUPE-REFACTOR",
+  "quality_owner": "Quality and Evaluation Agent",
+  "worker_may_modify": false,
+  "identity": {
+    "contract": {
+      "path": "docs/aios/tasks/P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK.yaml",
+      "sha256": "092a7d38d5c3f208a0e97d74cfbee906793d2a5fe31caf2fd15948b7ea209a62",
+      "byte_length": 9995
+    },
+    "activation_commit": "4d6405fcab11e7300b938b27a30c208727f4e6a6",
+    "activation_tree": "9a01bb8b6aec40a2a6cc957634fed47bae7db360"
+  },
+  "inputs": {
+    "task_spec": {
+      "path": "evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/task-spec.json",
+      "sha256": "5e7c175f8a7c0204b45a7cba20fb3212a8d7f2d0d2094709d194dd1d3daa57ee",
+      "byte_length": 2857
+    },
+    "expected_base_failure": {
+      "path": "evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/expected-base-failure.json",
+      "sha256": "e590ac0206654359385f08849cadbcf4e968d6f85dededd65647d1ef4c3d01fc",
+      "byte_length": 443
+    },
+    "reference_patch": {
+      "path": "evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/reference-solution.patch",
+      "sha256": "dc715cbf1352b0342242eb640513e58c97d0c47a5455a51cfe6d859c1c2c9cc4",
+      "byte_length": 1066,
+      "must_be_nonempty": true
+    },
+    "materialization_recipe": {
+      "path": "evaluation-harness/datasets/p1-representative-task-dataset-v1/materialization-recipe.json",
+      "sha256": "104ed7109df7da155867a428b50575a9cda6bca481e183cebed50788c01a3a5e",
+      "byte_length": 456
+    },
+    "source_template": {
+      "root": "evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/source-template",
+      "files": [
+        {
+          "path": "src/projects.mjs",
+          "sha256": "ad2a9024b228373904fca35154e660b9bc4f8eeb76a77f41226de432b72ad12c",
+          "byte_length": 187
+        },
+        {
+          "path": "src/users.mjs",
+          "sha256": "f2ea56b1a50eebe4597174fa019e587b9041574b62ee099c955050b7883020b6",
+          "byte_length": 184
+        },
+        {
+          "path": "test/issue.test.mjs",
+          "sha256": "d8fcf30399d6068d2c201315be85c86c92133d8f597c4dc4a9456d1d561608c6",
+          "byte_length": 745
+        },
+        {
+          "path": "test/regression.test.mjs",
+          "sha256": "da5a4e9e4b4c64dca3647bc25aa7f8d7f9ffbc418bb2e5aa65be48c682745984",
+          "byte_length": 454
+        }
+      ]
+    },
+    "frozen_base": {
+      "commit": "dd71c92a04693e60f1cb30d577107205411cbed3",
+      "tree": "78327e74c83aed97eddcc7485dcf985865c2b815",
+      "dirty_state": "clean"
+    },
+    "executables": {
+      "git": {
+        "path": "/usr/bin/git",
+        "version": "git version 2.39.5 (Apple Git-154)",
+        "sha256": "29d5080bd197feb8245ee7d9a275fee4750b5496c6a7016090eff5a357c1e8c4",
+        "byte_length": 118848
+      },
+      "node": {
+        "path": "/usr/local/bin/node",
+        "version": "v20.17.0",
+        "sha256": "c5548e7a991a5c90170a29843ffc46df4643e29141f3cbb035f60295cf2bc882",
+        "byte_length": 193262272
+      }
+    }
+  },
+  "runner_interface": {
+    "run": {
+      "argv_template": [
+        "/usr/local/bin/node",
+        "evaluation-harness/harness/experiment-pack-reentry-v1/experiment-pack.mjs",
+        "run",
+        "--task-card",
+        "evaluation-harness/fixtures/experiment-pack-reentry-v1/task-card.json",
+        "--evidence-root",
+        "ABSOLUTE_EXISTING_TASK_EVIDENCE_ROOT",
+        "--run-id",
+        "SAFE_UNIQUE_RUN_ID"
+      ],
+      "run_id_pattern": "^[a-z0-9][a-z0-9._-]{0,63}$",
+      "output_directory": "<evidence-root>/<run-id>",
+      "output_must_not_exist": true,
+      "output_creation": "ATOMIC_CREATE_ONCE",
+      "success_exit_status": 0,
+      "failure_exit_status": 2
+    },
+    "self_test": {
+      "argv": [
+        "/usr/local/bin/node",
+        "evaluation-harness/harness/experiment-pack-reentry-v1/experiment-pack.mjs",
+        "self-test",
+        "--task-card",
+        "evaluation-harness/fixtures/experiment-pack-reentry-v1/task-card.json"
+      ],
+      "success_exit_status": 0,
+      "failure_exit_status": 2
+    },
+    "run_a": {
+      "actor": "Experiment Pack Engineer",
+      "may_read_run_b": false
+    },
+    "run_b": {
+      "actor": "Independent Reviewer",
+      "must_use_distinct_run_id": true,
+      "must_not_accept_run_a_path_or_verdict_as_input": true
+    }
+  },
+  "positive_execution": {
+    "deterministic_git_environment": {
+      "GIT_AUTHOR_NAME": "SourceLens AIOS Fixture",
+      "GIT_AUTHOR_EMAIL": "fixture@sourcelens.local",
+      "GIT_AUTHOR_DATE": "2000-01-01T00:00:00Z",
+      "GIT_COMMITTER_NAME": "SourceLens AIOS Fixture",
+      "GIT_COMMITTER_EMAIL": "fixture@sourcelens.local",
+      "GIT_COMMITTER_DATE": "2000-01-01T00:00:00Z",
+      "commit_message": "fixture: base",
+      "commit_gpgsign": false
+    },
+    "required_actions_in_order": [
+      "validate_frozen_inputs",
+      "materialize_distinct_disposable_repository",
+      "verify_base_commit_tree_and_clean_state",
+      "run_base_issue_test",
+      "validate_typed_base_failure",
+      "run_base_regression_test",
+      "validate_reference_patch",
+      "apply_reference_patch",
+      "verify_exact_patch_scope",
+      "run_patched_issue_test",
+      "run_patched_regression_test",
+      "apply_inverse_patch",
+      "verify_exact_rollback",
+      "emit_create_once_evidence"
+    ],
+    "commands": {
+      "base_issue_test": ["/usr/local/bin/node", "--test", "test/issue.test.mjs"],
+      "base_regression_test": ["/usr/local/bin/node", "--test", "test/regression.test.mjs"],
+      "patched_issue_test": ["/usr/local/bin/node", "--test", "test/issue.test.mjs"],
+      "patched_regression_test": ["/usr/local/bin/node", "--test", "test/regression.test.mjs"]
+    },
+    "base_issue_expectation": {
+      "exit_status": 1,
+      "signal": null,
+      "required_output_tokens": ["not ok", "REP006_DEDUPE_PRESERVES_ORDER"],
+      "forbidden_output_tokens": ["SyntaxError", "ERR_MODULE_NOT_FOUND", "MODULE_NOT_FOUND", "ENOENT", "timeout", "signal"]
+    },
+    "required_zero_exit_actions": [
+      "base_regression_test",
+      "patched_issue_test",
+      "patched_regression_test"
+    ],
+    "expected_changed_paths_sorted": [
+      "src/projects.mjs",
+      "src/unique.mjs",
+      "src/users.mjs"
+    ],
+    "rollback_expectation": {
+      "src_unique_exists": false,
+      "original_source_bytes_restored": true,
+      "head_commit": "dd71c92a04693e60f1cb30d577107205411cbed3",
+      "tree": "78327e74c83aed97eddcc7485dcf985865c2b815",
+      "git_status_porcelain": ""
+    }
+  },
+  "raw_evidence": {
+    "retain_physical_fields": ["run_id", "physical_path", "inode", "pid", "started_at_utc", "finished_at_utc"],
+    "command_record_required_fields": ["action_id", "argv", "cwd", "exit_status", "signal", "duration_ms", "stdout", "stderr"],
+    "stream_artifact_required_fields": ["path", "byte_length", "sha256"],
+    "required_files": ["manifest.json", "result.json", "stable-projection.json", "commands"],
+    "artifact_creation": "REGULAR_CREATE_ONCE_NO_SYMLINK_NO_HARDLINK_NLINK_ONE"
+  },
+  "stable_projection": {
+    "include": [
+      "schema_version",
+      "task_id",
+      "control_id",
+      "input_identities",
+      "base_commit",
+      "base_tree",
+      "ordered_action_ids",
+      "command_argv",
+      "command_exit_status",
+      "command_signal",
+      "stdout_byte_length",
+      "stdout_sha256",
+      "stderr_byte_length",
+      "stderr_sha256",
+      "typed_base_failure_status",
+      "changed_paths_sorted",
+      "patched_test_statuses",
+      "rollback_status",
+      "rollback_tree",
+      "negative_control_reason_codes",
+      "verdict"
+    ],
+    "exclude": ["physical_path", "cwd", "inode", "pid", "started_at_utc", "finished_at_utc", "duration_ms"],
+    "run_a_run_b_requirement": "EXACT_CANONICAL_JSON_BYTE_EQUALITY"
+  },
+  "negative_controls": [
+    {
+      "id": "preexisting-evidence",
+      "family": "PREEXISTING_EVIDENCE",
+      "expected_reason_code": "PREEXISTING_EVIDENCE_REJECTED"
+    },
+    {
+      "id": "symlink-evidence",
+      "family": "SYMLINK_EVIDENCE",
+      "expected_reason_code": "SYMLINK_EVIDENCE_REJECTED"
+    },
+    {
+      "id": "hardlink-or-nlink-drift",
+      "family": "HARDLINK_OR_NLINK_DRIFT",
+      "expected_reason_code": "HARDLINK_OR_NLINK_DRIFT_REJECTED"
+    },
+    {
+      "id": "path-escape",
+      "family": "PATH_ESCAPE",
+      "expected_reason_code": "PATH_ESCAPE_REJECTED"
+    },
+    {
+      "id": "empty-or-noop-patch",
+      "family": "EMPTY_OR_NOOP_PATCH",
+      "expected_reason_code": "EMPTY_OR_NOOP_PATCH_REJECTED"
+    },
+    {
+      "id": "patch-scope-drift",
+      "family": "PATCH_SCOPE_DRIFT",
+      "expected_reason_code": "PATCH_SCOPE_DRIFT_REJECTED"
+    },
+    {
+      "id": "missing-required-action",
+      "family": "MISSING_REQUIRED_ACTION",
+      "expected_reason_code": "MISSING_REQUIRED_ACTION_REJECTED"
+    },
+    {
+      "id": "artifact-identity-tamper",
+      "family": "ARTIFACT_IDENTITY_TAMPER",
+      "expected_reason_code": "ARTIFACT_IDENTITY_TAMPER_REJECTED"
+    }
+  ],
+  "negative_control_acceptance": {
+    "scheduled": 8,
+    "required_rejections": 8,
+    "maximum_false_accepts": 0,
+    "fixtures_must_be_unique_and_test_owned": true,
+    "cleanup_only_verified_test_owned_fixtures": true,
+    "never_follow_or_remove_preexisting_objects": true
+  },
+  "rollback": {
+    "method": "git apply --reverse of exact frozen reference patch inside disposable materialization",
+    "must_remove_added_file": "src/unique.mjs",
+    "must_restore_all_frozen_source_bytes": true,
+    "must_restore_exact_base_identity_and_clean_state": true
+  },
+  "permissions": {
+    "network": false,
+    "provider": false,
+    "secret": false,
+    "remote": false,
+    "production": false,
+    "public": false,
+    "canonical_source_as_materialization_or_patch_target": false
+  },
+  "claim_boundary": "ONE_VISIBLE_SYNTHETIC_COOPERATIVE_LOCAL_REFERENCE_TASK_ACTUAL_EXECUTION_AND_INDEPENDENT_REEXECUTION_ONLY"
+}

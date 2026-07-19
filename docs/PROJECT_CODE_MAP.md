@@ -4,9 +4,9 @@
 
 ## 1. 生成范围
 
-- 纳入逐文件用途索引的文件数：625。
-- 其中源码/脚本/配置/SQL/CSS 类文件数：460。
-- 纳入统计的文本总行数：150800。
+- 纳入逐文件用途索引的文件数：628。
+- 其中源码/脚本/配置/SQL/CSS 类文件数：462。
+- 纳入统计的文本总行数：152876。
 - 排除逐文件展开的本地生成/证据目录：`.git/`、`bin/`、`web-console/node_modules/`、`backend-spring/target/`、`analyzer-rust/target/`、`.sourcelens-runtime/`、`release-evidence/`、前端构建和测试产物。
 - 本地生成物、依赖缓存和历史证据目录不是源码或当前权威；它们必须保持未跟踪并可重建或从封存恢复。
 
@@ -25,12 +25,12 @@
 | `CONTRIBUTING.md` | 1 | 项目根文件或辅助目录。 |
 | `deploy` | 2 | Docker Compose 和环境模板。 |
 | `docs` | 45 | 当前架构、接口、安全、研究与 AIOS 权威文档。 |
-| `evaluation-harness` | 114 | 项目根文件或辅助目录。 |
+| `evaluation-harness` | 116 | 项目根文件或辅助目录。 |
 | `LICENSE` | 1 | 项目根文件或辅助目录。 |
 | `Makefile` | 1 | 项目根文件或辅助目录。 |
 | `README.md` | 1 | 项目根文件或辅助目录。 |
 | `ROADMAP.md` | 1 | 项目根文件或辅助目录。 |
-| `scripts` | 19 | 本地构建、验证、代码地图和最小安全检查。 |
+| `scripts` | 20 | 本地构建、验证、代码地图和最小安全检查。 |
 | `SECURITY.md` | 1 | 项目根文件或辅助目录。 |
 | `SUPPORT.md` | 1 | 项目根文件或辅助目录。 |
 | `web-console` | 72 | React/Vite 前端控制台。 |
@@ -175,7 +175,7 @@
 | `docs/aios/tasks` | 21 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/aios/truth` | 1 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/llm-safety-evals` | 2 | LLM 安全评测用例目录，存放 prompt injection、输出质量和 provider run 模板。 |
-| `evaluation-harness` | 114 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness` | 116 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/adapters` | 2 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/adapters/harness_stub` | 2 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/datasets` | 46 | 项目根文件或辅助目录。子目录。 |
@@ -208,12 +208,14 @@
 | `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/source-template/test` | 2 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/environment` | 4 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/evaluator` | 4 | 项目根文件或辅助目录。子目录。 |
-| `evaluation-harness/fixtures` | 22 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/fixtures` | 23 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/fixtures/environment-snapshot` | 8 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/fixtures/environment-snapshot/source-template` | 2 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/fixtures/experiment-pack-reentry-v1` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/fixtures/oracle` | 4 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/fixtures/visible` | 10 | 项目根文件或辅助目录。子目录。 |
-| `evaluation-harness/harness` | 5 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/harness` | 6 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/harness/experiment-pack-reentry-v1` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/recording` | 27 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/recording/aios-p1-001-evidence` | 25 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/recording/aios-p1-001-evidence/controlled-failure` | 6 | 项目根文件或辅助目录。子目录。 |
@@ -222,7 +224,7 @@
 | `evaluation-harness/recording/aios-p1-001-evidence/replay` | 6 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/replay` | 2 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/validators` | 2 | 项目根文件或辅助目录。子目录。 |
-| `scripts` | 19 | 本地自动化脚本目录，封装启动、校验、代码地图和生成物清理。 |
+| `scripts` | 20 | 本地自动化脚本目录，封装启动、校验、代码地图和生成物清理。 |
 | `web-console` | 72 | React/Vite 前端控制台工程，承载 SourceLens 用户界面和 UI smoke。 |
 | `web-console/src` | 66 | 前端源码根目录。 |
 | `web-console/src/api` | 21 | 前端 API client 层，集中定义后端 HTTP 调用和 TypeScript 响应类型。 |
@@ -982,6 +984,7 @@
 | `evaluation-harness/fixtures/environment-snapshot/source-template/package-lock.json` | JSON 配置或数据文件。 |
 | `evaluation-harness/fixtures/environment-snapshot/source-template/README.md` | Markdown 文档。 |
 | `evaluation-harness/fixtures/environment-snapshot/target-runtime-oci-manifest.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/fixtures/experiment-pack-reentry-v1/task-card.json` | JSON 配置或数据文件。 |
 | `evaluation-harness/fixtures/oracle/expected-result.json` | JSON 配置或数据文件。 |
 | `evaluation-harness/fixtures/oracle/FREEZE_RECEIPT.json` | JSON 配置或数据文件。 |
 | `evaluation-harness/fixtures/oracle/oracle.json` | JSON 配置或数据文件。 |
@@ -998,6 +1001,7 @@
 | `evaluation-harness/fixtures/visible/task-spec.json` | JSON 配置或数据文件。 |
 | `evaluation-harness/harness/cli.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/harness/contracts.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/harness/experiment-pack-reentry-v1/experiment-pack.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/harness/README.md` | Markdown 文档。 |
 | `evaluation-harness/harness/run.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/harness/self-test.mjs` | Node.js 自动化脚本或配置文件。 |
@@ -1078,6 +1082,7 @@
 | `scripts/validate-llm-safety-evals.mjs` | 静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。 |
 | `scripts/verify-all.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/verify-p1-environment-snapshot.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
+| `scripts/verify-p1-experiment-pack-reentry.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/verify-p1-harness.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/verify-p1-task-dataset.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 

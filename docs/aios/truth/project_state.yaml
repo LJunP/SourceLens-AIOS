@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-19T02:34:51Z"
-verification_scope: P1_EXPERIMENT_PACK_DUAL_RUN_ROUTE_FINAL_STOP_AFTER_CORRECTED_CONTRACT_CTO_NON_PASS
+last_verified_at: "2026-07-19T01:42:44Z"
+verification_scope: P1_EXPERIMENT_PACK_DUAL_RUN_ROUTE_AUTHORIZED_READY_AT_ACTIVATION_PARENT
 
 authority:
   founder: Human Founder
@@ -38,7 +38,7 @@ goal:
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
   current_task_authority: NONE
-  note: The Founder-approved long-term Goal identity and P1 Phase entry remain ACTIVE. P1_EXPERIMENT_PACK_DUAL_RUN_ARCHITECTURE_ROUTE_V1 reached P1_FINAL_STOP before Task activation after its only bounded Contract correction remained NON_PASS. No engineering Task is active; the next decision is the Founder P1_FINAL_STOP point.
+  note: The Founder-approved long-term Goal identity and P1 Phase entry remain ACTIVE. P1_EXPERIMENT_PACK_DUAL_RUN_ARCHITECTURE_ROUTE_V1 is AUTHORIZED_READY and AIOS-P1-047 is eligible for immediate Master activation without another routine Founder approval.
 
 project:
   name: SourceLens AIOS
@@ -48,8 +48,8 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  phase_execution_status: P1_FINAL_STOP
-  p1_execution_status: P1_FINAL_STOP
+  phase_execution_status: AUTHORIZED_READY
+  p1_execution_status: AUTHORIZED_READY
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -63,7 +63,7 @@ project:
 
 current_phase_route:
   route_id: P1_EXPERIMENT_PACK_DUAL_RUN_ARCHITECTURE_ROUTE_V1
-  status: P1_FINAL_STOP
+  status: AUTHORIZED_READY
   phase: P1
   phase_entry_status: AUTHORIZED
   decision_source: CODEX_THREAD_FOUNDER_MESSAGE_2026_07_19
@@ -176,8 +176,7 @@ current_phase_route:
       claim_boundary: P1_EXIT_CAPABILITY_ENGINEERING_ARTIFACT_ONLY_NO_BENCHMARK_AGENT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
   first_task:
     task_id: AIOS-P1-047_LOCAL_DUAL_RUN_EXPERIMENT_PACK
-    status: TERMINAL_STOPPED
-    terminal_stage: CORRECTED_CONTRACT_REVIEW_NON_PASS_PRE_TASK_ACTIVATION
+    status: ELIGIBLE_NOT_ACTIVATED
     classification: ENGINEERING
     contract_path: docs/aios/tasks/P1-047_LOCAL_DUAL_RUN_EXPERIMENT_PACK.yaml
     max_engineering_hours: 12
@@ -191,34 +190,6 @@ current_phase_route:
     accepted_schema_sources:
       - p1_011
     claim_boundary: ONE_VISIBLE_COOPERATIVE_LOCAL_REFERENCE_TASK_ACTUAL_EXECUTION_AND_INDEPENDENT_SEMANTIC_REEXECUTION_ONLY
-  terminal_disposition:
-    status: P1_FINAL_STOP
-    task_id: AIOS-P1-047_LOCAL_DUAL_RUN_EXPERIMENT_PACK
-    terminal_stage: CORRECTED_CONTRACT_REVIEW_NON_PASS_PRE_TASK_ACTIVATION
-    terminal_record:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-047-local-dual-run-experiment-pack/terminal/P1_047_ROUTE_TERMINAL_RECORD.json
-      sha256: f610b09d160e500bc3f83ce96cedd50d940e90754b98582ca955774d3133769e
-      byte_length: 5580
-    corrected_contract:
-      sha256: 578eb9768e608140d6048984ed69597c7fc521f958ddd736e433bde586dbd1a7
-      byte_length: 16996
-      evidence_tag: evidence/p1-047-contract-corrected-nonpass-578eb976
-      git_blob: ffc4b4535046148b63b97daa3d5fe4ef04f0495c
-    controlling_review:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-047-local-dual-run-experiment-pack/contract-review/CTO_CORRECTED_CONTRACT_REVIEW.json
-      sha256: 4ac72eb03c1d6070d4c3ff5b73058c056e8aeb82c68bcdfb0e5c4a7cffd28efd
-      byte_length: 13027
-    blocking_finding_ids:
-      - SEC-CONTRACT-001
-      - SEC-CONTRACT-002
-    bounded_contract_corrections_used: 1
-    task_activated: false
-    implementation_started: false
-    candidate_created: false
-    accepted_capability_created: false
-    p1_exit_gate_changed: false
-    further_route_engineering_authorized: false
-    next_founder_decision: P1_FINAL_STOP
   prior_architecture_route:
     route_id: P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_V1
     status: HISTORICAL_EXHAUSTED_NO_SCHEDULING_AUTHORITY
@@ -232,9 +203,12 @@ current_phase_route:
     capability_claims: 0
     rejected_asset_read_or_reuse_allowed: false
     basis: The exact composition hypothesis was falsified by executable Evidence; it no longer schedules work and does not modify the unchanged P1 Exit Gate.
-  next_eligible_action: FOUNDER_P1_FINAL_STOP
+  next_eligible_action: MASTER_ACTIVATE_AIOS_P1_047
   next_founder_decision_points:
+    - EXACT_PROVIDER_NETWORK_SECRET_COST_AUTHORIZATION
+    - CRITICAL_RESIDUAL_ACCEPTANCE
     - P1_FINAL_STOP
+    - P1_PHASE_GATE
 
 phase_delegation:
   status: ACTIVE
@@ -972,7 +946,7 @@ active_work:
   authorization_id: null
   activation_parent_commit: null
   activation_parent_tree: null
-  task_resource_state: NONE_ROUTE_FINAL_STOP
+  task_resource_state: NOT_CREATED_ROUTE_READY
   task_branch: null
   task_worktree: null
   execution_evidence_root: null
@@ -996,10 +970,10 @@ active_work:
   offsite_target: null
   founder_reserved_authorization: null
   founder_reserved_authorization_sha256: null
-  founder_decision_required: true
-  escalation_reason: P1_FINAL_STOP
-  user_action_required: FOUNDER_P1_FINAL_STOP
-  next_eligible_action: FOUNDER_P1_FINAL_STOP
+  founder_decision_required: false
+  escalation_reason: null
+  user_action_required: NONE
+  next_eligible_action: MASTER_ACTIVATE_AIOS_P1_047
 
 superseded_pre_delegation_authorizations:
   aios_p1_009:
@@ -1017,44 +991,6 @@ superseded_pre_delegation_authorizations:
     note: The engineering objective may be selected independently by Master, but these pre-delegation bytes require a routine per-Task Founder Gate and cannot be activated under the current authority model.
 
 task_history:
-  aios_p1_047:
-    task_id: AIOS-P1-047_LOCAL_DUAL_RUN_EXPERIMENT_PACK
-    route_id: P1_EXPERIMENT_PACK_DUAL_RUN_ARCHITECTURE_ROUTE_V1
-    status: TERMINAL_STOPPED
-    terminal_stage: CORRECTED_CONTRACT_REVIEW_NON_PASS_PRE_TASK_ACTIVATION
-    classification: ENGINEERING
-    task_gate_result: NOT_REACHED
-    task_contract_path: docs/aios/tasks/P1-047_LOCAL_DUAL_RUN_EXPERIMENT_PACK.yaml
-    initial_task_contract_sha256: 9b0e4a815c3984651aaf57055f9e8760ffdaba75eb04564f85e148ee53f5b9e3
-    initial_task_contract_byte_length: 15836
-    corrected_task_contract_sha256: 578eb9768e608140d6048984ed69597c7fc521f958ddd736e433bde586dbd1a7
-    corrected_task_contract_byte_length: 16996
-    bounded_contract_corrections_used: 1
-    initial_security_review_sha256: 9d0db73300657891e4213f55bc0f26c7591ca8b40d691fa5cc298385ca70a377
-    initial_security_review_result: NON_PASS
-    corrected_cto_review_sha256: 4ac72eb03c1d6070d4c3ff5b73058c056e8aeb82c68bcdfb0e5c4a7cffd28efd
-    corrected_cto_review_result: NON_PASS
-    corrected_security_review_result: CANCELLED_AFTER_CONTROLLING_CTO_NON_PASS
-    corrected_quality_review_result: CANCELLED_AFTER_CONTROLLING_CTO_NON_PASS
-    blocking_finding_ids:
-      - SEC-CONTRACT-001
-      - SEC-CONTRACT-002
-    terminal_record:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-047-local-dual-run-experiment-pack/terminal/P1_047_ROUTE_TERMINAL_RECORD.json
-      sha256: f610b09d160e500bc3f83ce96cedd50d940e90754b98582ca955774d3133769e
-      byte_length: 5580
-    initial_contract_evidence_tag: evidence/p1-047-contract-security-nonpass-9b0e4a
-    corrected_contract_evidence_tag: evidence/p1-047-contract-corrected-nonpass-578eb976
-    task_activated: false
-    task_branch_created: false
-    task_worktree_created: false
-    worker_started: false
-    implementation_started: false
-    candidate_created: false
-    accepted_capability_created: false
-    capability_claims: 0
-    retry_successor_replacement_or_new_route_allowed: false
-    next_founder_decision: P1_FINAL_STOP
   aios_p1_046:
     task_id: AIOS-P1-046_SOURCE_BOUND_OBSERVABLE_TRACE_KERNEL
     contract: docs/aios/tasks/P1-046_SOURCE_BOUND_OBSERVABLE_TRACE_KERNEL.yaml

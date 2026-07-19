@@ -17,7 +17,7 @@ module CurrentTaskAuthority
   SAFE_TASK_ID_RE = /\AAIOS-P1-[0-9]{3}(?:_[A-Z0-9_]+)?\z/.freeze
   EXTERNAL_EFFECT_KEYS = %w[network provider secret remote production public].freeze
   ACTIVE_STATUSES = %w[ACTIVE AUTHORIZED_ACTIVE EXECUTING].freeze
-  EXECUTABLE_ROUTE_STATUSES = %w[AUTHORIZED_READY ACTIVE].freeze
+  AUTHORIZED_ROUTE_STATUSES = %w[AUTHORIZED_READY ACTIVE].freeze
   ACCEPTED_GATE_STATUS_RE = /\A(?:FOUNDER_GATE|MASTER_TASK_GATE)_ACCEPTED_COMPLETE\z/.freeze
   GOAL_RAW_SHA256 = "28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1".freeze
   GOAL_RAW_BYTE_LENGTH = 19_433
@@ -289,11 +289,6 @@ module CurrentTaskAuthority
       /- Canonical commit：`([0-9a-f]{40})`。\s+- Canonical tree：`([0-9a-f]{40})`。/m,
       "activation parent declaration"
     )
-    final_stop_status = one_packet_match(
-      text,
-      /若 T1 触发上述 Stop Condition，整个新 route 立即终态停止并进入 `(P1_[A-Z0-9_]+)`/,
-      "final-stop status declaration"
-    )
     repair_count = chinese_integer(same_task_repairs)
     {
       "route_id" => route_id,
@@ -310,7 +305,6 @@ module CurrentTaskAuthority
       "max_same_task_repairs" => repair_count,
       "activation_parent_commit" => parent[0],
       "activation_parent_tree" => parent[1],
-      "final_stop_status" => final_stop_status,
       "text" => text
     }
   rescue ArgumentError
@@ -337,6 +331,8 @@ module CurrentTaskAuthority
     route_id = string(route["route_id"], "current_phase_route.route_id")
     assert(route["phase"] == project["current_phase"], "route phase must equal project phase")
     assert(route["phase_entry_status"] == "AUTHORIZED", "route phase entry must be AUTHORIZED")
+    assert(AUTHORIZED_ROUTE_STATUSES.include?(route["status"]), "route status is not executable")
+
     packet = hash(route["decision_packet"], "current_phase_route.decision_packet")
     packet_path = string(packet["path"], "current_phase_route.decision_packet.path")
     assert(Pathname.new(packet_path).absolute?, "decision packet path must be absolute")
@@ -346,9 +342,6 @@ module CurrentTaskAuthority
            "decision packet byte length must be positive")
     packet_bytes = validate_identity(packet_path, packet, "Founder route decision packet")
     claims = packet_claims(packet_bytes)
-    known_route_statuses = EXECUTABLE_ROUTE_STATUSES + [claims["final_stop_status"]]
-    assert(known_route_statuses.include?(route["status"]),
-           "route status is neither executable nor the packet-declared final stop")
     assert(route_id == claims["route_id"], "Truth route id does not match exact decision packet")
     authorization_token = string(route["authorization_token"], "current_phase_route.authorization_token")
     assert(authorization_token == claims["authorization_token"],
@@ -449,19 +442,10 @@ module CurrentTaskAuthority
     first_task_packet_bindings.each do |key, value|
       assert(first_task[key] == value, "first Task #{key} does not match exact decision packet")
     end
-    first_task_terminal_history = hash(truth["task_history"], "task_history").values.any? do |entry|
-      entry.is_a?(Hash) && entry["task_id"] == first_task_id && entry["status"].to_s.start_with?("TERMINAL_")
-    end
-    terminal_marked = route.key?("terminal_disposition") ||
-                      first_task["status"].to_s.start_with?("TERMINAL_") || first_task_terminal_history
-    if terminal_marked
-      assert(route["status"] == claims["final_stop_status"],
-             "terminal route markers cannot be projected back to an executable route")
-    end
     goal = hash(truth["goal"], "goal")
     assert(claims["text"].include?(goal["observed_body_sha256"].to_s),
            "canonical Goal identity is not bound by the exact decision packet")
-    [route, route_id, first_task, accepted, claims]
+    [route, route_id, first_task, accepted]
   end
 
   def historical_task_ids(truth)
@@ -488,98 +472,7 @@ module CurrentTaskAuthority
     item.each { |key, value| assert(value.nil?, "#{label}.#{key} must be null while Task is NONE") }
   end
 
-  def validate_terminal_disposition(root, truth, route, first_task, terminal_status)
-    terminal = hash(route["terminal_disposition"], "current_phase_route.terminal_disposition")
-    assert(terminal["status"] == terminal_status, "terminal disposition status mismatch")
-    assert(terminal["task_id"] == first_task["task_id"], "terminal disposition Task mismatch")
-
-    record_identity = hash(terminal["terminal_record"], "terminal disposition record")
-    record_path = string(record_identity["path"], "terminal disposition record path")
-    assert(Pathname.new(record_path).absolute?, "terminal disposition record path must be absolute")
-    record_bytes = validate_identity(record_path, record_identity, "route terminal record")
-    record = parse_structured(record_bytes, record_path, "route terminal record")
-    assert(record["record_type"] == "sourcelens_aios_p1_route_terminal_record",
-           "route terminal record type mismatch")
-    assert(record["route_id"] == route["route_id"], "route terminal record route mismatch")
-    assert(record["task_id"] == first_task["task_id"], "route terminal record Task mismatch")
-    assert(record["status"] == terminal_status, "route terminal record status mismatch")
-    assert(record["terminal_stage"] == terminal["terminal_stage"], "terminal stage projection mismatch")
-    %w[task_activated implementation_started candidate_created accepted_capability_created
-       p1_exit_gate_changed further_route_engineering_authorized].each do |key|
-      exact_false(terminal[key], "terminal disposition #{key}")
-    end
-    assert(terminal["next_founder_decision"] == terminal_status,
-           "terminal disposition next Founder decision mismatch")
-
-    contract_chain = hash(record["contract_review_chain"], "terminal contract review chain")
-    correction = hash(contract_chain["bounded_contract_correction"], "terminal bounded Contract correction")
-    assert(terminal["bounded_contract_corrections_used"] == correction["corrections_used"],
-           "terminal bounded Contract correction projection mismatch")
-    corrected = hash(contract_chain["corrected"],
-                     "terminal corrected contract review")
-    corrected_contract = hash(corrected["contract"], "terminal corrected contract")
-    contract_projection = hash(terminal["corrected_contract"], "terminal corrected contract projection")
-    %w[sha256 byte_length].each do |key|
-      assert(contract_projection[key] == corrected_contract[key],
-             "terminal corrected contract #{key} projection mismatch")
-    end
-
-    review_record = hash(corrected["cto_review"], "terminal corrected CTO review")
-    review_identity = hash(terminal["controlling_review"], "terminal controlling review")
-    %w[path sha256 byte_length].each do |key|
-      assert(review_identity[key] == review_record[key], "terminal controlling review #{key} projection mismatch")
-    end
-    review_path = string(review_identity["path"], "terminal controlling review path")
-    assert(Pathname.new(review_path).absolute?, "terminal controlling review path must be absolute")
-    review = parse_structured(validate_identity(review_path, review_identity, "terminal controlling review"),
-                              review_path, "terminal controlling review")
-    review_target = hash(review["review_target"], "terminal controlling review target")
-    review_verdict = hash(review["verdict"], "terminal controlling review verdict")
-    assert(review_target["task_id"] == first_task["task_id"], "terminal review target Task mismatch")
-    assert(review_target["sha256"] == contract_projection["sha256"] &&
-           review_target["byte_length"] == contract_projection["byte_length"],
-           "terminal review target Contract identity mismatch")
-    assert(review_verdict["target_verdict"] == "NON_PASS", "terminal controlling review must be NON_PASS")
-
-    blockers = array(terminal["blocking_finding_ids"], "terminal blocking findings")
-    record_blockers = array(hash(record["terminal_reason"], "terminal reason")["blocking_finding_ids"],
-                            "terminal record blocking findings")
-    assert(!blockers.empty? && blockers == record_blockers && blockers == review_verdict["blocking_finding_ids"],
-           "terminal blocking finding projection mismatch")
-
-    execution = hash(record["execution_state"], "terminal execution state")
-    %w[task_activated task_authority_record_created task_branch_created task_worktree_created worker_started
-       implementation_started candidate_created].each do |key|
-      exact_false(execution[key], "terminal execution_state.#{key}")
-    end
-    assert(execution["accepted_capability_count"] == 0, "terminal accepted capability count must be zero")
-    assert(array(execution["capability_claims"], "terminal capability claims").empty?,
-           "terminal capability claims must be empty")
-
-    rules = hash(record["terminal_rules"], "terminal rules")
-    %w[retry_allowed second_contract_correction_allowed successor_allowed replacement_allowed new_route_allowed
-       route_v2_or_v3_allowed normalization_closure_feasibility_or_remediation_chain_allowed
-       further_contract_review_or_governance_chain_allowed].each do |key|
-      exact_false(rules[key], "terminal rule #{key}")
-    end
-    founder_next = hash(record["founder_next_decision"], "terminal Founder decision")
-    assert(founder_next["decision_point"] == terminal_status, "terminal Founder decision mismatch")
-    claim = hash(record["claim_boundary"], "terminal claim boundary")
-    assert(claim["accepted_capability_count"] == 0 && claim["capability_claim"] == "NONE",
-           "terminal claim boundary must project zero capability")
-    exact_false(claim["p1_exit_verdict_issued"], "terminal P1 Exit verdict")
-
-    history = hash(truth["task_history"], "task_history")
-    matches = history.values.select do |entry|
-      entry.is_a?(Hash) && entry["task_id"] == first_task["task_id"]
-    end
-    assert(matches.length == 1, "terminal first Task must have exactly one top-level task_history record")
-    history_record = matches.first
-    assert(history_record["status"] == first_task["status"], "terminal Task history status mismatch")
-    assert(history_record["terminal_record"] == record_identity, "terminal Task history record identity mismatch")
-  end
-
-  def validate_none_state(root, truth, route, first_task, claims)
+  def validate_none_state(truth, route, first_task)
     goal = hash(truth["goal"], "goal")
     project = hash(truth["project"], "project")
     active = hash(truth["active_work"], "active_work")
@@ -588,26 +481,17 @@ module CurrentTaskAuthority
            "active_work must express Task NONE")
     initial_ready = route["status"] == "AUTHORIZED_READY"
     between_tasks = route["status"] == "ACTIVE"
-    terminal = route["status"] == claims["final_stop_status"]
-    assert(initial_ready || between_tasks || terminal,
-           "Task NONE requires a ready, active or packet-declared terminal Phase route")
+    assert(initial_ready || between_tasks, "Task NONE requires a ready or active Phase route")
     if initial_ready
       assert(project["phase_execution_status"] == "AUTHORIZED_READY" &&
              project["p1_execution_status"] == "AUTHORIZED_READY", "initial Task NONE requires project AUTHORIZED_READY")
       assert(first_task["status"] == "ELIGIBLE_NOT_ACTIVATED",
              "initial Task NONE requires an eligible, non-activated first Task")
-    elsif between_tasks
+    else
       assert(%w[ACTIVE EXECUTING].include?(project["phase_execution_status"]) &&
              %w[ACTIVE EXECUTING].include?(project["p1_execution_status"]),
              "between-Task NONE requires active project execution")
       assert(first_task["status"] != "ACTIVE", "between-Task NONE cannot leave first Task active")
-    else
-      assert(project["phase_execution_status"] == claims["final_stop_status"] &&
-             project["p1_execution_status"] == claims["final_stop_status"],
-             "terminal Task NONE requires project final-stop status")
-      assert(first_task["status"] == "TERMINAL_STOPPED",
-             "terminal Task NONE requires first Task TERMINAL_STOPPED")
-      validate_terminal_disposition(root, truth, route, first_task, claims["final_stop_status"])
     end
     null_identity(active["current_task_contract"], "active_work.current_task_contract")
     null_identity(active["authority_record"], "active_work.authority_record")
@@ -620,13 +504,7 @@ module CurrentTaskAuthority
     end
     assert(active["execution_nonce_status"] == "NOT_APPLICABLE_TASK_NONE",
            "Task NONE execution_nonce_status mismatch")
-    expected_resource_state = if initial_ready
-                                "NOT_CREATED_ROUTE_READY"
-                              elsif between_tasks
-                                "NONE_PHASE_ACTIVE"
-                              else
-                                "NONE_ROUTE_FINAL_STOP"
-                              end
+    expected_resource_state = initial_ready ? "NOT_CREATED_ROUTE_READY" : "NONE_PHASE_ACTIVE"
     assert(active["task_resource_state"] == expected_resource_state, "Task NONE resource state mismatch")
     assert(array(active["allowlisted_paths"], "active_work.allowlisted_paths").empty?,
            "Task NONE allowlisted_paths must be empty")
@@ -639,25 +517,11 @@ module CurrentTaskAuthority
     assert(roles["owner"].nil? && roles["worker"].nil? &&
            array(roles["independent_reviewers"], "Task NONE reviewers").empty?, "Task NONE roles must be empty")
     validate_external_effects(active["external_effects"], "active_work.external_effects")
-    if terminal
-      founder_action = "FOUNDER_#{claims['final_stop_status']}"
-      assert(active["founder_decision_required"] == true,
-             "terminal Task NONE must require the packet-declared Founder decision")
-      assert(active["escalation_reason"] == claims["final_stop_status"],
-             "terminal Task NONE escalation reason mismatch")
-      assert(active["user_action_required"] == founder_action,
-             "terminal Task NONE user action mismatch")
-    else
-      exact_false(active["founder_decision_required"], "active_work.founder_decision_required")
-      assert(active["escalation_reason"].nil?, "Task NONE escalation_reason must be null")
-      assert(active["user_action_required"] == "NONE", "Task NONE user_action_required must be NONE")
-    end
+    exact_false(active["founder_decision_required"], "active_work.founder_decision_required")
+    assert(active["escalation_reason"].nil?, "Task NONE escalation_reason must be null")
+    assert(active["user_action_required"] == "NONE", "Task NONE user_action_required must be NONE")
     string(active["next_eligible_action"], "active_work.next_eligible_action")
     assert(active["next_eligible_action"] == route["next_eligible_action"], "next eligible action mismatch")
-    if terminal
-      assert(active["next_eligible_action"] == "FOUNDER_#{claims['final_stop_status']}",
-             "terminal Task NONE next action must be Founder P1 final stop")
-    end
   end
 
   def identity_from(record, legacy_sha, label)
@@ -912,14 +776,14 @@ module CurrentTaskAuthority
     validate_repository_and_worktrees(root, truth)
     validate_goal(truth)
     validate_authority_documents(root, truth)
-    route, route_id, first_task, _accepted, claims = validate_route(root, truth)
+    route, route_id, first_task, = validate_route(root, truth)
     first_task_in_history = historical_task_ids(truth).include?(first_task["task_id"])
     if %w[ELIGIBLE_NOT_ACTIVATED ACTIVE].include?(first_task["status"])
       assert(!first_task_in_history, "first Task id reuses historical Truth while eligible or active")
     end
     if hash(truth["active_work"], "active_work")["current_task"] == "NONE"
-      validate_none_state(root, truth, route, first_task, claims)
-      route["status"] == claims["final_stop_status"] ? "P1_FINAL_STOP_NONE" : "READY_NONE"
+      validate_none_state(truth, route, first_task)
+      "READY_NONE"
     else
       validate_active_state(root, truth, route, route_id, first_task)
       "ACTIVE_TASK"

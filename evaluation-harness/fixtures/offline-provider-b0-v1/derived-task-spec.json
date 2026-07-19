@@ -1,0 +1,89 @@
+{
+  "schema_version": "1.0",
+  "task_id": "SL-P1-REP-001-RANGE-NORMALIZATION-P1-052-OFFLINE-B0",
+  "dataset_version": "1.0.0+p1-052-offline-b0-envelope-v1",
+  "evaluation_split": "development",
+  "source": {
+    "kind": "synthetic_fixture",
+    "provenance": "P1-052 task-owned offline invocation derivative of accepted REP-001; accepted P1-035 bytes remain unchanged.",
+    "license": null,
+    "redistribution": "restricted"
+  },
+  "repository": {
+    "identity": "sourcelens-fixture://p1-representative-tasks/SL-P1-REP-001-RANGE-NORMALIZATION@1.0.0",
+    "base_commit": "68ce8226eff4c5c7230b55b18a4cbea2f8e4a20f",
+    "tree_hash": "900814727113d65f5dad8b63222e14f39b2cf38b",
+    "dirty_state_policy": "clean_immutable_base"
+  },
+  "issue": {
+    "text": "Fix normalizeRange so a reversed numeric range is returned in ascending endpoint order. Preserve already ordered ranges and do not change the public function signature.",
+    "allowed_clarifications": []
+  },
+  "language": ["javascript"],
+  "build_system": ["node-test"],
+  "environment_snapshot_ref": "ENV-SOURCELENS-P1-REP-NODE20-STDLIB-1",
+  "baseline_context": {
+    "artifact_ref": "evaluation-harness/datasets/p1-representative-task-dataset-v1/shared/baseline-context.json",
+    "sha256": "64fab9efd47c193af94e3f7baee67072a32497d35c9dc1aee8a804bf32269cb9",
+    "max_model_tokens": 1024,
+    "ordering": "artifact_order",
+    "response_format_ref": "evaluation-harness/fixtures/offline-provider-b0-v1/output-schema.json",
+    "response_format_sha256": "ac8352fd34221b3d39cf6f435b6355a333e57cdb4d3db122bdb4ac81c5398d0f"
+  },
+  "allowed_tools": [],
+  "network_policy": "none",
+  "allowed_network_hosts": [],
+  "budgets": {
+    "wall_clock_seconds": 60,
+    "max_model_tokens": 1024,
+    "max_tool_calls": 0,
+    "max_cost_usd": 0
+  },
+  "verification": {
+    "evaluator_version": "AIOS-P1-052-OFFLINE-PROVIDER-B0-EVALUATOR/1.0.0",
+    "required_commands": [
+      {
+        "command_id": "issue-test",
+        "role": "issue_specific",
+        "argv": ["/usr/local/bin/node", "--test", "test/issue.test.mjs"],
+        "working_directory": "TASK_REPOSITORY",
+        "timeout_seconds": 10,
+        "expected_exit_codes": [0],
+        "non_secret_environment": {}
+      },
+      {
+        "command_id": "regression-test",
+        "role": "regression",
+        "argv": ["/usr/local/bin/node", "--test", "test/regression.test.mjs"],
+        "working_directory": "TASK_REPOSITORY",
+        "timeout_seconds": 10,
+        "expected_exit_codes": [0],
+        "non_secret_environment": {}
+      }
+    ],
+    "behavioral_assertions": [
+      "Reversed endpoints are normalized into ascending order.",
+      "Already ordered endpoints remain unchanged."
+    ],
+    "scope_policy": "P1-052 task-owned offline transport envelope only; no scheduled baseline run, VTSR, model, Agent, P1 Exit or product claim."
+  },
+  "forbidden_changes": [
+    "test files",
+    "network or dependency use",
+    "public function signature"
+  ],
+  "required_evidence": [
+    "issue-specific test PASS",
+    "regression test PASS",
+    "patch identity",
+    "accepted response-format projection PASS"
+  ],
+  "risk_class": "high",
+  "human_approval_required": true,
+  "tags": [
+    "bounded-logic-bug-fix",
+    "visible",
+    "synthetic",
+    "p1-052-derived-offline-provider-envelope"
+  ]
+}

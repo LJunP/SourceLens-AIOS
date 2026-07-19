@@ -1,0 +1,22 @@
+{
+  "schema_version": "1.0",
+  "configuration_id": "P1-052-B0-OFFLINE-GPT-5.6-SOL-V1",
+  "adapter_id": "B0",
+  "adapter_version": "AIOS-P1-052-OFFLINE-PROVIDER-B0/1.0.0",
+  "model_ref": "gpt-5.6-sol",
+  "prompt_ref": "p1-052-offline-provider-b0-developer-prompt-v1",
+  "policy_ref": "p1-052-cooperative-local-no-external-effects-v1",
+  "response_format_ref": "evaluation-harness/fixtures/offline-provider-b0-v1/output-schema.json",
+  "loop_limit": 1,
+  "enabled_tools": [],
+  "feature_flags": {
+    "transport_implemented": false,
+    "network_authorized": false,
+    "provider_authorized": false,
+    "secret_authorized": false,
+    "max_output_tokens": 1024,
+    "accepted_response_projection_required": true,
+    "scheduled_baseline_run": false
+  },
+  "random_seed": null
+}

@@ -1,0 +1,277 @@
+schema_version: 1
+record_type: sourcelens_aios_phase_delegated_task_contract
+task_id: AIOS-P1-052_OFFLINE_PROVIDER_B0_RUNNER_AND_EVALUATOR
+phase: P1
+route_id: P1_LOCAL_FIRST_PROVIDER_HARNESS_ARCHITECTURE_ROUTE_V1
+status: AUTHORIZED_ACTIVE
+execution_authority: FOUNDER_ROUTE_AUTHORIZED_PHASE_DELEGATED
+effective_only_when_canonical_truth_binds_exact_bytes: true
+title: Offline Provider B0 Runner and Evaluator
+
+objective: >-
+  Build one executable cooperative-local harness that deterministically constructs
+  a bounded OpenAI Responses API request for accepted REP-001, parses untrusted
+  structured-response fixtures, validates and applies only a safe patch to a
+  disposable materialization, independently replays the evaluation, and proves
+  exact rollback without any Provider or other external effect.
+
+why_now:
+  - The Founder authorized a local-first engineering route so real executable value resumes before any bounded Provider call.
+  - Accepted P1-035 provides an exact visible control and accepted P1-048 provides proven local execution patterns.
+  - The next high-value risk is whether a future Provider response can be handled safely and evaluated independently before network permission exists.
+
+task_kind: EVALUATION_FOUNDATION_ENGINEERING
+risk_level: high
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+founder_decision_required: false
+
+contract_correction:
+  allowance: 1
+  used: 1
+  cause: SECURITY_ENTRY_P1_052_001_ACCEPTED_CONTROL_RESPONSE_AND_TOKEN_PROFILE_CONTRADICTION
+  scope_or_permission_changed: false
+
+owner_role: Engineering Manager Agent
+worker_role: Offline Provider Harness Engineer
+
+source_identity:
+  canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
+  activation_parent_commit: 898bece5cebfceabd1a858f540815ca40830d6e8
+  activation_parent_tree: d843b0065b9f06b830fa2725044ac794d2360ef2
+  task_branch: codex/p1-052-offline-provider-b0-runner
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-052-offline-provider-b0-runner
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-052-offline-provider-b0-runner-and-evaluator-20260719T134310Z
+
+founder_route_authority:
+  authorization_token: AUTHORIZE_P1_LOCAL_FIRST_PROVIDER_HARNESS_ENGINEERING_ROUTE_V1
+  decision_packet_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-local-first-provider-harness-route-20260719T134310Z/FOUNDER_P1_LOCAL_FIRST_PROVIDER_HARNESS_ROUTE_DECISION_PACKET.md
+  decision_packet_sha256: c92c38f85f87b90663ea080c70f989306bab11bbf58c985b697a39e82e34426a
+  decision_packet_byte_length: 3995
+
+accepted_control:
+  control_id: SL-P1-REP-001-RANGE-NORMALIZATION
+  task_spec_path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/task-spec.json
+  task_spec_sha256: 25de6b6f330e09c076521b42a88d60712637e0fc7de7ab1cfe1f9f5d4c223321
+  task_spec_byte_length: 2960
+  expected_base_failure_path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/expected-base-failure.json
+  expected_base_failure_sha256: 5dbe034939ed2178f86fd84ad409cff9426040f63343de27f7ad3e8f46dd2494
+  expected_base_failure_byte_length: 439
+  source_path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/src/range.mjs
+  source_sha256: 1e3de2958c9841bbe785d903b2f5453389c4225359308b539ac2cb3194469d75
+  source_byte_length: 115
+  issue_test_path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/test/issue.test.mjs
+  regression_test_path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/test/regression.test.mjs
+  reference_patch_path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/reference-solution.patch
+  reference_patch_sha256: 44e0068f8fe3cff3d64706efa63fb523c6c79734c68009e63245e532c81fb96b
+  reference_patch_byte_length: 256
+  frozen_base_commit: 68ce8226eff4c5c7230b55b18a4cbea2f8e4a20f
+  frozen_base_tree: 900814727113d65f5dad8b63222e14f39b2cf38b
+  accepted_baseline_context_path: evaluation-harness/datasets/p1-representative-task-dataset-v1/shared/baseline-context.json
+  accepted_baseline_context_sha256: 64fab9efd47c193af94e3f7baee67072a32497d35c9dc1aee8a804bf32269cb9
+  accepted_baseline_context_byte_length: 377
+  accepted_response_format_path: evaluation-harness/datasets/p1-representative-task-dataset-v1/shared/response-format.json
+  accepted_response_format_sha256: 6b8ec1d2a6a288e5b908716714589dae963739f2b35a0a29237ff4cbc1355c4b
+  accepted_response_format_byte_length: 306
+  accepted_max_model_tokens: 1024
+
+accepted_inputs:
+  p1_035:
+    task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+    status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+    contract_path: docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
+    contract_sha256: acec5432aacd6476693db62bdb52ee326c467f17b691860688fe952f7ffbdc33
+    accepted_candidate_commit: 686eda0cd7a93b72ac5e64301479f17e4b096fb0
+    accepted_candidate_tree: b2740b44d0051303057deac7d719c27fd6a5578a
+  p1_048_substrate:
+    task_id: AIOS-P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK
+    status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+    contract_path: docs/aios/tasks/P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK.yaml
+    contract_sha256: 092a7d38d5c3f208a0e97d74cfbee906793d2a5fe31caf2fd15948b7ea209a62
+    accepted_candidate_commit: 9e130f2aae0fd951b252cf0dff8edc9b9364e962
+    accepted_candidate_tree: 3a4229e9a8da181ca8bb256f5467cf96549c2549
+    reuse_boundary: DESIGN_AND_ACCEPTED_LOCAL_EXECUTION_PATTERNS_ONLY_NO_MODIFICATION_OF_ACCEPTED_BYTES
+
+derived_invocation_contract:
+  status: QUALITY_FROZEN_TASK_OWNED_DERIVATIVE_NOT_ACCEPTED_P1_035_MUTATION
+  purpose: >-
+    Carry one untrusted patch as a P1-052-local transport field while retaining
+    an exact projection to the accepted summary, changed_paths and tests response
+    format. This derivative is not a scheduled baseline run, VTSR input or
+    modification of the accepted REP-001 TaskSpec.
+  output_schema:
+    path: evaluation-harness/fixtures/offline-provider-b0-v1/output-schema.json
+    sha256: ac8352fd34221b3d39cf6f435b6355a333e57cdb4d3db122bdb4ac81c5398d0f
+    byte_length: 618
+  developer_prompt:
+    path: evaluation-harness/fixtures/offline-provider-b0-v1/developer-prompt.txt
+    sha256: f4cc4fdc14e036cdf5f7f19d9ca36ad0ed6e94c377a328066ce23dfe2fa1b17c
+    byte_length: 782
+  derived_task_spec:
+    path: evaluation-harness/fixtures/offline-provider-b0-v1/derived-task-spec.json
+    sha256: 1ec5b89c416d51212ad40a272cec167c88ae09b614161ba190d0a6d28b2aeadb
+    byte_length: 3320
+  system_configuration:
+    path: evaluation-harness/fixtures/offline-provider-b0-v1/system-configuration.json
+    sha256: 2c63a75c5e6ae5a5d17b017d0bbcab123bf2b6e99bea9f86dfc5883be48da2da
+    byte_length: 777
+  accepted_response_projection_fields:
+    - summary
+    - changed_paths
+    - tests
+  patch_transport_field: patch
+  full_baseline_adapter_preflight_status: NOT_SCHEDULED_NO_PROVIDER_OR_ENVIRONMENT_SNAPSHOT_AUTHORITY
+
+provider_request_profile:
+  endpoint_semantics: OPENAI_RESPONSES_API_CREATE_REQUEST_OFFLINE_SERIALIZATION_ONLY
+  model: gpt-5.6-sol
+  reasoning_effort: high
+  output_mode: strict_json_schema
+  store: false
+  stream: false
+  background: false
+  tools: []
+  maximum_output_tokens: 1024
+  transport_implemented: false
+  api_key_read_allowed: false
+
+outputs:
+  - evaluation-harness/fixtures/offline-provider-b0-v1/task-card.json
+  - evaluation-harness/fixtures/offline-provider-b0-v1/developer-prompt.txt
+  - evaluation-harness/fixtures/offline-provider-b0-v1/output-schema.json
+  - evaluation-harness/fixtures/offline-provider-b0-v1/derived-task-spec.json
+  - evaluation-harness/fixtures/offline-provider-b0-v1/system-configuration.json
+  - evaluation-harness/fixtures/offline-provider-b0-v1/responses/*.json
+  - evaluation-harness/harness/offline-provider-b0-v1/core.mjs
+  - evaluation-harness/harness/offline-provider-b0-v1/offline-provider-b0.mjs
+  - evaluation-harness/evaluator/offline-provider-b0-v1/evaluate.mjs
+  - scripts/verify-p1-offline-provider-b0.sh
+  - task-owned Evidence outside the repository
+
+allowlisted_paths:
+  - docs/aios/tasks/P1-052_OFFLINE_PROVIDER_B0_RUNNER_AND_EVALUATOR.yaml
+  - evaluation-harness/fixtures/offline-provider-b0-v1
+  - evaluation-harness/harness/offline-provider-b0-v1
+  - evaluation-harness/evaluator/offline-provider-b0-v1
+  - scripts/verify-p1-offline-provider-b0.sh
+  - Makefile
+  - docs/PROJECT_CODE_MAP.md
+  - docs/aios/truth/project_state.yaml
+
+write_ownership:
+  quality:
+    - evaluation-harness/fixtures/offline-provider-b0-v1/**
+    - evaluation-harness/evaluator/offline-provider-b0-v1/evaluate.mjs
+  worker:
+    - evaluation-harness/harness/offline-provider-b0-v1/core.mjs
+    - evaluation-harness/harness/offline-provider-b0-v1/offline-provider-b0.mjs
+  integration:
+    - docs/aios/tasks/P1-052_OFFLINE_PROVIDER_B0_RUNNER_AND_EVALUATOR.yaml
+    - scripts/verify-p1-offline-provider-b0.sh
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+    - docs/aios/truth/project_state.yaml
+  external_evidence:
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-052-offline-provider-b0-runner-and-evaluator-20260719T134310Z/**
+
+roles:
+  owner: Engineering Manager Agent
+  worker: Offline Provider Harness Engineer
+  independent_reviewers:
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent
+
+budget:
+  engineering_hours: 16
+  calendar_days: 4
+  implementation_iterations: 2
+  candidates: 1
+
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+
+quality_freeze_after_activation:
+  owner: Quality and Evaluation Agent
+  worker_may_modify: false
+  freezes:
+    - exact Task Card and accepted-input identities
+    - developer prompt and strict structured-output schema
+    - valid response fixture and negative-response matrix
+    - evaluator commands, stable projection and reason codes
+
+minimal_safety_invariants:
+  - The implementation contains no network transport and never reads an API key or Secret.
+  - Canonical source and accepted dataset bytes are never patch targets or run materializations.
+  - Untrusted response bytes are bounded, parsed fail-closed and validated before any patch action.
+  - Model-declared paths or verdicts are never treated as execution truth.
+  - Accepted REP-001 TaskSpec, baseline context, response format and 1024-token budget remain immutable and hash-bound.
+  - The offline request Task input contains only the exact accepted issue text plus the exact ordered accepted baseline-context artifact; source, tests, oracle and reference patch bytes are evaluator-only and never enter the model request.
+  - The P1-052 derived TaskSpec and SystemConfiguration are task-owned offline transport inputs, not accepted-dataset mutations or eligible scheduled baseline runs.
+  - Parsed summary, changed_paths and tests are independently projected and validated against the accepted response-format bytes before patch evaluation.
+  - The only allowed changed path is src/range.mjs; tests, oracle, prompts, schema and harness code are immutable inputs.
+  - Each evaluation and replay uses a fresh task-owned disposable materialization from exact REP-001 bytes.
+  - Evidence leaves are regular, contained, create-once, task-owned and never follow pre-existing symlinks or hardlinks.
+  - Independent replay directly reexecutes the patch and tests and ignores worker or response verdict claims.
+  - Rollback restores exact original bytes, base tree and clean state before any disposable materialization is released.
+
+acceptance_criteria:
+  - Two request builds from exact frozen inputs produce byte-identical canonical JSON and the frozen expected request SHA-256.
+  - The request input is exactly the accepted issue text followed by the accepted baseline-context artifact in artifact order, with no source, test, oracle, reference-patch or hidden evaluator bytes.
+  - The task-owned derived TaskSpec and SystemConfiguration validate against the accepted schemas, bind the exact P1-052 output schema, preserve the accepted baseline context and cap model output at 1024 tokens.
+  - The request uses model gpt-5.6-sol, developer and user inputs, high reasoning, strict JSON schema, at most 1024 output tokens, no tools, store false, stream false and background false.
+  - Static and runtime controls prove that no network, Provider, Secret, remote, production or public effect occurs.
+  - The valid completed-response fixture yields exactly one schema-valid patch payload for REP-001 and rejects unexpected output item types, refusal, incomplete, malformed, oversized, duplicate or model-drifted responses.
+  - Before patch handling, the exact summary, changed_paths and tests projection validates against accepted response-format SHA-256 6b8ec1d2a6a288e5b908716714589dae963739f2b35a0a29237ff4cbc1355c4b.
+  - Patch validation rejects empty/no-op patches, absolute or escaped paths, test/oracle mutation, unexpected files, binary patches, rename/copy/mode changes and declared-versus-actual path drift.
+  - Exact REP-001 base issue test exits 1 with REP001_NEGATIVE_RANGE_ORDER while regression exits 0; the accepted valid patch makes both exit 0.
+  - Independent replay starts from a distinct fresh materialization, ignores response verdict claims, reruns validation and produces the same stable semantic projection.
+  - Rollback restores exact accepted source bytes, frozen base tree and clean state in both executions.
+  - Quality-frozen negative controls have zero false accepts and Evidence ownership/path tamper cases fail closed without modifying pre-existing objects.
+  - Targeted verification and accepted P1-035/P1-048 regressions pass before exact-candidate review.
+  - Fresh CTO, Security and Quality reviewers PASS the same exact candidate before Task Gate.
+  - After Task Gate, the reviewed tree is integrated locally and one clean canonical make verify passes.
+
+required_evidence:
+  - exact Contract, Task Card, prompt, schema, fixture, request, response and candidate identities
+  - exact accepted REP-001 response-format projection and task-owned derived TaskSpec/SystemConfiguration identities
+  - request determinism and explicit no-transport verification
+  - valid execution and independent replay raw command evidence
+  - negative matrix result with exact reason codes and zero false accepts
+  - rollback source/tree/clean-state proof
+  - fresh CTO, Security and Quality exact-candidate reviews
+  - integration tree equality and canonical make verify result
+
+rollback:
+  run_level: Restore exact source bytes and verify exact tree and clean state inside each disposable materialization.
+  candidate_level: Do not integrate a NON_PASS candidate; preserve Evidence and remove only the verified task-owned clean worktree after terminalization.
+  integrated_level: Use non-destructive git revert of the exact integration commit and preserve all Evidence.
+
+stop_conditions:
+  - Worker has not produced an executable request builder and valid fixture evaluation within 8 engineering hours.
+  - Any accepted input, prompt, schema, Task Card, source or candidate identity drifts.
+  - The derived TaskSpec or SystemConfiguration exceeds 1024 model tokens, enables a tool, claims a scheduled run or fails exact response-format binding.
+  - Any network, Provider, Secret, remote, production, public or other Founder-reserved permission is required.
+  - Untrusted output can escape the allowed patch path, modify tests/oracles, contaminate canonical or overwrite Evidence.
+  - Rollback cannot restore exact accepted bytes, tree and clean state.
+  - One bounded same-Task repair is consumed and the exact candidate remains TARGET_NON_PASS.
+  - An exact-candidate reviewer returns TARGET_NON_PASS.
+  - Canonical integrated tree differs from the reviewed tree or canonical make verify is NON_PASS.
+
+forbidden_actions:
+  - reading, restoring or reusing P1-049 or P1-050 rejected candidate, Review or Evidence bodies
+  - reading, restoring, fixing, integrating or reusing P1-051 rejected source bytes
+  - modifying accepted P1-035 or P1-048 bytes or current authority validators
+  - implementing network transport, calling a Provider, reading a Secret or installing dependencies
+  - changing the P1 Exit Gate, Phase scope, policy or external-effect permissions
+  - creating successor, replacement, normalization, closure, feasibility or remediation chains
+  - push, pull request, release, remote mutation, production or public effect
+  - P2/P3 entry, Agent Shell, Supervisor, Root Custody, Strong Isolation or Multi-Agent Runtime work
+  - claiming Provider, model, empirical baseline, VTSR, Agent, P1 Exit, product, production or hostile-principal capability
+
+claim_boundary: COOPERATIVE_LOCAL_OFFLINE_REQUEST_CONSTRUCTION_UNTRUSTED_RESPONSE_PARSING_BOUNDED_PATCH_EVALUATION_INDEPENDENT_REPLAY_AND_ROLLBACK_ONLY

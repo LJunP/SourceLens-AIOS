@@ -1,0 +1,30 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["summary", "changed_paths", "tests", "patch"],
+  "properties": {
+    "summary": {
+      "type": "string"
+    },
+    "changed_paths": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["src/range.mjs"]
+      }
+    },
+    "tests": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "/usr/local/bin/node --test test/issue.test.mjs",
+          "/usr/local/bin/node --test test/regression.test.mjs"
+        ]
+      }
+    },
+    "patch": {
+      "type": "string"
+    }
+  }
+}

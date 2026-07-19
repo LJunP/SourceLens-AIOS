@@ -4,9 +4,9 @@
 
 ## 1. 生成范围
 
-- 纳入逐文件用途索引的文件数：630。
+- 纳入逐文件用途索引的文件数：635。
 - 其中源码/脚本/配置/SQL/CSS 类文件数：462。
-- 纳入统计的文本总行数：153709。
+- 纳入统计的文本总行数：154151。
 - 排除逐文件展开的本地生成/证据目录：`.git/`、`bin/`、`web-console/node_modules/`、`backend-spring/target/`、`analyzer-rust/target/`、`.sourcelens-runtime/`、`release-evidence/`、前端构建和测试产物。
 - 本地生成物、依赖缓存和历史证据目录不是源码或当前权威；它们必须保持未跟踪并可重建或从封存恢复。
 
@@ -24,8 +24,8 @@
 | `CODE_OF_CONDUCT.md` | 1 | 项目根文件或辅助目录。 |
 | `CONTRIBUTING.md` | 1 | 项目根文件或辅助目录。 |
 | `deploy` | 2 | Docker Compose 和环境模板。 |
-| `docs` | 47 | 当前架构、接口、安全、研究与 AIOS 权威文档。 |
-| `evaluation-harness` | 116 | 项目根文件或辅助目录。 |
+| `docs` | 48 | 当前架构、接口、安全、研究与 AIOS 权威文档。 |
+| `evaluation-harness` | 120 | 项目根文件或辅助目录。 |
 | `LICENSE` | 1 | 项目根文件或辅助目录。 |
 | `Makefile` | 1 | 项目根文件或辅助目录。 |
 | `README.md` | 1 | 项目根文件或辅助目录。 |
@@ -169,13 +169,13 @@
 | `backend-spring/src/test/resources` | 5 | Spring Boot 后端服务。子目录。 |
 | `backend-spring/src/test/resources/mockito-extensions` | 1 | Spring Boot 后端服务。子目录。 |
 | `deploy` | 2 | 部署配置目录，包含 Docker Compose 和环境变量模板。 |
-| `docs` | 47 | 项目事实源文档目录，覆盖产品、架构、API、数据库、安全、运维、阶段需求、进度和交接。 |
-| `docs/aios` | 35 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
+| `docs` | 48 | 项目事实源文档目录，覆盖产品、架构、API、数据库、安全、运维、阶段需求、进度和交接。 |
+| `docs/aios` | 36 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/aios/schemas` | 4 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
-| `docs/aios/tasks` | 23 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
+| `docs/aios/tasks` | 24 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/aios/truth` | 1 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/llm-safety-evals` | 2 | LLM 安全评测用例目录，存放 prompt injection、输出质量和 provider run 模板。 |
-| `evaluation-harness` | 116 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness` | 120 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/adapters` | 2 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/adapters/harness_stub` | 2 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/datasets` | 46 | 项目根文件或辅助目录。子目录。 |
@@ -208,10 +208,11 @@
 | `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/source-template/test` | 2 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/environment` | 4 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/evaluator` | 4 | 项目根文件或辅助目录。子目录。 |
-| `evaluation-harness/fixtures` | 23 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/fixtures` | 27 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/fixtures/environment-snapshot` | 8 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/fixtures/environment-snapshot/source-template` | 2 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/fixtures/experiment-pack-reentry-v1` | 1 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/fixtures/offline-provider-b0-v1` | 4 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/fixtures/oracle` | 4 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/fixtures/visible` | 10 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/harness` | 6 | 项目根文件或辅助目录。子目录。 |
@@ -904,6 +905,7 @@
 | `docs/aios/tasks/P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK.yaml` | 项目文档。标题：Compatibility projection required by the current P1 start-safety validator.。 |
 | `docs/aios/tasks/P1-049_PROTOCOL_VTSR_ACCOUNTING_VALIDATOR.yaml` | 项目文档。标题：Compatibility projection required by the current P1 start-safety validator.。 |
 | `docs/aios/tasks/P1-050_B0_B1_B2_COMPATIBILITY_ADAPTER_CONFORMANCE.yaml` | 项目文档。标题：P1-050_B0_B1_B2_COMPATIBILITY_ADAPTER_CONFORMANCE.yaml。 |
+| `docs/aios/tasks/P1-052_OFFLINE_PROVIDER_B0_RUNNER_AND_EVALUATOR.yaml` | 项目文档。标题：P1-052_OFFLINE_PROVIDER_B0_RUNNER_AND_EVALUATOR.yaml。 |
 | `docs/aios/truth/project_state.yaml` | 项目文档。标题：project_state.yaml。 |
 | `docs/API_DESIGN.md` | API 设计文档，记录后端接口、请求响应、权限和当前 route inventory。标题：API 设计。 |
 | `docs/ARCHITECTURE.md` | 项目文档。标题：架构设计。 |
@@ -987,6 +989,10 @@
 | `evaluation-harness/fixtures/environment-snapshot/source-template/README.md` | Markdown 文档。 |
 | `evaluation-harness/fixtures/environment-snapshot/target-runtime-oci-manifest.json` | JSON 配置或数据文件。 |
 | `evaluation-harness/fixtures/experiment-pack-reentry-v1/task-card.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/fixtures/offline-provider-b0-v1/derived-task-spec.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/fixtures/offline-provider-b0-v1/developer-prompt.txt` | 项目文件。 |
+| `evaluation-harness/fixtures/offline-provider-b0-v1/output-schema.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/fixtures/offline-provider-b0-v1/system-configuration.json` | JSON 配置或数据文件。 |
 | `evaluation-harness/fixtures/oracle/expected-result.json` | JSON 配置或数据文件。 |
 | `evaluation-harness/fixtures/oracle/FREEZE_RECEIPT.json` | JSON 配置或数据文件。 |
 | `evaluation-harness/fixtures/oracle/oracle.json` | JSON 配置或数据文件。 |

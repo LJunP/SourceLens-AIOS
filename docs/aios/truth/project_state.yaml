@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-19T16:30:49Z"
-verification_scope: P1_052_TERMINAL_EXACT_CANDIDATE_SECURITY_NONPASS_AND_ROUTE_EXHAUSTION_SYNC
+last_verified_at: "2026-07-19T22:54:09Z"
+verification_scope: P1_BOUNDED_UNTRUSTED_EXECUTION_AND_OFFLINE_PROVIDER_ROUTE_AUTHORIZED_READY
 
 authority:
   founder: Human Founder
@@ -38,7 +38,13 @@ goal:
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
   current_task_authority: NONE
-  note: The Founder-approved long-term Goal and P1 Phase remain ACTIVE. P1-052 is terminal after all three fresh exact-candidate reviewers returned TARGET_VERDICT NON_PASS for a candidate-added untrusted-patch runtime-isolation bypass. Its candidate was not integrated and created no accepted capability. The one-Task local-first route is exhausted; no engineering Task is currently authorized pending a new Founder Phase or architecture route decision.
+  note: >-
+    The Founder-approved long-term Goal and P1 Phase remain ACTIVE. The Founder
+    authorized a bounded two-Task architecture route: P1-053 task-local
+    untrusted-patch execution quarantine, followed only after its Task Gate PASS
+    by P1-054 clean-room offline Provider B0 composition. P1-052 remains terminal
+    rejected Evidence with no source recovery or reuse. No Task is active until
+    route-entry make verify passes and Master activates P1-053.
 
 project:
   name: SourceLens AIOS
@@ -48,8 +54,8 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  phase_execution_status: ACTIVE
-  p1_execution_status: ACTIVE
+  phase_execution_status: AUTHORIZED_READY
+  p1_execution_status: AUTHORIZED_READY
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -62,16 +68,16 @@ project:
   realignment_parent_tree: 97972952872b0a1e340b6a88cbd7491b7f7df953
 
 current_phase_route:
-  route_id: P1_LOCAL_FIRST_PROVIDER_HARNESS_ARCHITECTURE_ROUTE_V1
-  status: ACTIVE
+  route_id: P1_BOUNDED_UNTRUSTED_EXECUTION_QUARANTINE_AND_OFFLINE_PROVIDER_COMPOSITION_ARCHITECTURE_ROUTE_V1
+  status: AUTHORIZED_READY
   phase: P1
   phase_entry_status: AUTHORIZED
-  decision_source: CODEX_THREAD_FOUNDER_MESSAGE_2026_07_19
-  authorization_token: AUTHORIZE_P1_LOCAL_FIRST_PROVIDER_HARNESS_ENGINEERING_ROUTE_V1
+  decision_source: CODEX_THREAD_FOUNDER_MESSAGE_2026_07_20
+  authorization_token: AUTHORIZE_P1_BOUNDED_UNTRUSTED_EXECUTION_QUARANTINE_AND_OFFLINE_PROVIDER_COMPOSITION_ROUTE_V1
   decision_packet:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-local-first-provider-harness-route-20260719T134310Z/FOUNDER_P1_LOCAL_FIRST_PROVIDER_HARNESS_ROUTE_DECISION_PACKET.md
-    sha256: c92c38f85f87b90663ea080c70f989306bab11bbf58c985b697a39e82e34426a
-    byte_length: 3995
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-bounded-untrusted-execution-and-offline-provider-route-20260719T163942Z/FOUNDER_P1_BOUNDED_UNTRUSTED_EXECUTION_AND_OFFLINE_PROVIDER_ROUTE_DECISION_PACKET.md
+    sha256: 5f442aa9718933f6f7f9a16e7bf2fc6115b7a5a7a45cdbcfe8100e29d5bb7ab2
+    byte_length: 9810
   prior_route_founder_task_scoped_failure_override:
     status: HISTORICAL_NO_CURRENT_SCHEDULING_AUTHORITY
     decision_source: CODEX_THREAD_FOUNDER_MESSAGE_2026_07_19
@@ -95,22 +101,22 @@ current_phase_route:
       p1_exit_gate_changed: false
       external_effects_authorized: false
   activation_parent:
-    commit: 898bece5cebfceabd1a858f540815ca40830d6e8
-    tree: d843b0065b9f06b830fa2725044ac794d2360ef2
+    commit: 7745caec735b7b4ec97ab829998cc6edab54b382
+    tree: 8fd0143f5fd15bd70897971ddb308151f6eb2c84
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: "1.6"
     sha256: 4cee36f00b6686c75ed8f4d2811e4615ef98120c3f5e9be3e30b4fc5b2c1793c
-  objective: Deliver one executable offline Provider B0 request, response-parsing and patch-evaluation harness over accepted REP-001, with independent replay, rollback, Evidence and negative controls, before any Provider permission is considered.
+  objective: Establish one exact-host task-local untrusted-patch execution quarantine, then conditionally compose one clean-room offline Provider B0 harness over that accepted substrate without any Provider or external effect.
   p1_exit_gate:
     source: docs/aios/EVALUATION_PROTOCOL.md
     version: "1.1"
     changed: false
     status: UNCHANGED_PENDING_EVIDENCE
   envelope:
-    max_engineering_tasks: 1
-    max_engineering_hours: 16
-    max_calendar_days: 4
+    max_engineering_tasks: 2
+    max_engineering_hours: 32
+    max_calendar_days: 8
     founder_reserved_external_authorization_wait_excluded_from_calendar_budget: false
     max_active_tasks: 1
     max_task_branches: 1
@@ -175,6 +181,15 @@ current_phase_route:
       accepted_candidate_tree: b2740b44d0051303057deac7d719c27fd6a5578a
       evidence_manifest_sha256: bb6793e34ca1ee8f801b8f2aaf75fac5939c09eb0f3344d04cb362a1ed41101c
       claim_boundary: P1_EXIT_CAPABILITY_ENGINEERING_ARTIFACT_ONLY_NO_BENCHMARK_AGENT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
+    p1_048:
+      task_id: AIOS-P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK
+      status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+      task_contract_path: docs/aios/tasks/P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK.yaml
+      task_contract_sha256: 092a7d38d5c3f208a0e97d74cfbee906793d2a5fe31caf2fd15948b7ea209a62
+      accepted_candidate_commit: 9e130f2aae0fd951b252cf0dff8edc9b9364e962
+      accepted_candidate_tree: 3a4229e9a8da181ca8bb256f5467cf96549c2549
+      reuse_boundary: ACCEPTED_DESIGN_AND_LOCAL_EXECUTION_PATTERNS_ONLY_NO_REJECTED_LINEAGE_OR_ACCEPTED_BYTE_MUTATION
+      claim_boundary: ONE_VISIBLE_SYNTHETIC_COOPERATIVE_LOCAL_REFERENCE_TASK_ACTUAL_EXECUTION_AND_INDEPENDENT_REEXECUTION_ONLY
   accepted_substrates:
     p1_048:
       task_id: AIOS-P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK
@@ -185,22 +200,31 @@ current_phase_route:
       accepted_candidate_tree: 3a4229e9a8da181ca8bb256f5467cf96549c2549
       reuse_boundary: DESIGN_AND_ACCEPTED_LOCAL_EXECUTION_PATTERNS_ONLY_NO_MODIFICATION_OF_ACCEPTED_BYTES
   first_task:
-    task_id: AIOS-P1-052_OFFLINE_PROVIDER_B0_RUNNER_AND_EVALUATOR
-    status: TERMINAL_STOPPED_EXACT_CANDIDATE_SECURITY_NONPASS
+    task_id: AIOS-P1-053_TASK_LOCAL_UNTRUSTED_PATCH_EXECUTION_QUARANTINE
+    status: ELIGIBLE_NOT_ACTIVATED
     classification: ENGINEERING
-    contract_path: docs/aios/tasks/P1-052_OFFLINE_PROVIDER_B0_RUNNER_AND_EVALUATOR.yaml
+    contract_path: docs/aios/tasks/P1-053_TASK_LOCAL_UNTRUSTED_PATCH_EXECUTION_QUARANTINE.yaml
     max_engineering_hours: 16
     max_calendar_days: 4
     max_implementation_iterations: 2
     max_candidates: 1
-    bounded_contract_corrections_used: 1
-    bounded_contract_correction_cause: SECURITY_ENTRY_P1_052_001_ACCEPTED_CONTROL_RESPONSE_AND_TOKEN_PROFILE_CONTRADICTION
-    objective: Build and validate an offline Provider B0 request, untrusted structured-response parser and bounded patch evaluator over accepted REP-001 with independent replay and rollback.
+    bounded_contract_corrections_used: 0
+    objective: Build and falsify one exact-host task-local quarantine that denies declared network, host-filesystem, canonical, Evidence, Secret and process-spawn effects while executing a safe REP-001 patch in disposable materializations.
     accepted_input_ids:
       - p1_035
-    accepted_substrate_ids:
       - p1_048
-    claim_boundary: COOPERATIVE_LOCAL_OFFLINE_REQUEST_CONSTRUCTION_UNTRUSTED_RESPONSE_PARSING_BOUNDED_PATCH_EVALUATION_INDEPENDENT_REPLAY_AND_ROLLBACK_ONLY
+    claim_boundary: ONE_EXACT_HOST_RUNTIME_TASK_LOCAL_UNTRUSTED_PATCH_ADMISSION_AND_DECLARED_EFFECT_DENIAL_CONFORMANCE_ONLY
+  second_task:
+    task_id: AIOS-P1-054_CLEAN_ROOM_OFFLINE_PROVIDER_B0_COMPOSITION
+    status: CONDITIONAL_NOT_ELIGIBLE_UNTIL_P1_053_TASK_GATE_PASS
+    classification: ENGINEERING
+    max_engineering_hours: 16
+    max_calendar_days: 4
+    max_implementation_iterations: 2
+    max_candidates: 1
+    entry_condition: P1_053_EXACT_TASK_GATE_PASS_CANONICAL_INTEGRATION_AND_CLEAN_MAKE_VERIFY_PASS
+    rejected_p1_052_source_read_or_reuse_allowed: false
+    claim_boundary: COOPERATIVE_LOCAL_CLEAN_ROOM_OFFLINE_PROVIDER_B0_COMPOSITION_ONLY
   prior_route_first_accepted_task:
     task_id: AIOS-P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK
     status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
@@ -234,13 +258,13 @@ current_phase_route:
     candidate_integrated: false
     failure_classification: SECURITY_P1_052_001_UNTRUSTED_PATCH_RUNTIME_ISOLATION_BYPASS
   selected_next_task:
-    task_id: AIOS-P1-052_OFFLINE_PROVIDER_B0_RUNNER_AND_EVALUATOR
-    status: TERMINAL_STOPPED_EXACT_CANDIDATE_SECURITY_NONPASS
+    task_id: AIOS-P1-053_TASK_LOCAL_UNTRUSTED_PATCH_EXECUTION_QUARANTINE
+    status: ELIGIBLE_NOT_ACTIVATED
     classification: ENGINEERING
-    selection_basis: HISTORICAL_FOUNDER_AUTHORIZED_LOCAL_FIRST_PROVIDER_HARNESS_REAL_ENGINEERING_ATTEMPT
+    selection_basis: FOUNDER_AUTHORIZED_BOUNDED_UNTRUSTED_EXECUTION_ARCHITECTURE_ROUTE_AND_DIRECT_P1_PROVIDER_PATH_BLOCKER
     historical_rejected_candidate_or_evidence_body_read_or_reuse_allowed: false
     provider_call_allowed: false
-    claim_boundary: COOPERATIVE_LOCAL_OFFLINE_REQUEST_CONSTRUCTION_UNTRUSTED_RESPONSE_PARSING_BOUNDED_PATCH_EVALUATION_INDEPENDENT_REPLAY_AND_ROLLBACK_ONLY
+    claim_boundary: ONE_EXACT_HOST_RUNTIME_TASK_LOCAL_UNTRUSTED_PATCH_ADMISSION_AND_DECLARED_EFFECT_DENIAL_CONFORMANCE_ONLY
   prior_architecture_route:
     route_id: P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_V1
     status: HISTORICAL_EXHAUSTED_NO_SCHEDULING_AUTHORITY
@@ -255,27 +279,27 @@ current_phase_route:
     rejected_asset_read_or_reuse_allowed: false
     basis: The exact composition hypothesis was falsified by executable Evidence; it no longer schedules work and does not modify the unchanged P1 Exit Gate.
   route_execution_accounting:
-    maximum_executable_engineering_tasks: 1
+    maximum_executable_engineering_tasks: 2
     active_task_id: null
-    executed_task_ids:
-      - AIOS-P1-052_OFFLINE_PROVIDER_B0_RUNNER_AND_EVALUATOR
-    status: EXHAUSTED_RETURNS_TO_FOUNDER
+    executed_task_ids: []
+    status: AUTHORIZED_READY
   immediate_prior_route:
-    route_id: P1_EXPERIMENT_PACK_DUAL_RUN_ARCHITECTURE_ROUTE_V1
+    route_id: P1_LOCAL_FIRST_PROVIDER_HARNESS_ARCHITECTURE_ROUTE_V1
     status: HISTORICAL_EXHAUSTED_NO_SCHEDULING_AUTHORITY
     executed_task_ids:
-      - AIOS-P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK
-      - AIOS-P1-049_PROTOCOL_VTSR_ACCOUNTING_VALIDATOR
-      - AIOS-P1-050_B0_B1_B2_COMPATIBILITY_ADAPTER_CONFORMANCE
-    rejected_entry_candidate:
-      task_id: AIOS-P1-051_REAL_PROVIDER_B0_SINGLE_TASK_MEASUREMENT_PILOT
-      commit: 4bd97cb3dc7fecd64f3daf8d65fbcbd72a8382c5
-      tree: 4bc9b45995d3fcccc2cfe4657294e9e6178525a6
-      evidence_tag: evidence/p1-051-entry-sync-security-nonpass-4bd97cb
-      status: REJECTED_SECURITY_NON_PASS_NO_SOURCE_READ_FIX_INTEGRATION_OR_REUSE
-  next_eligible_action: NEW_PHASE_OR_ARCHITECTURE_ROUTE_WITH_BOUNDED_UNTRUSTED_CODE_EXECUTION_ISOLATION_BASIS
+      - AIOS-P1-052_OFFLINE_PROVIDER_B0_RUNNER_AND_EVALUATOR
+    terminal_task:
+      task_id: AIOS-P1-052_OFFLINE_PROVIDER_B0_RUNNER_AND_EVALUATOR
+      status: TERMINAL_STOPPED_EXACT_CANDIDATE_SECURITY_NONPASS
+      rejected_candidate_commit: efbc426e660d2293c531a44449dfd1c06567edde
+      rejected_candidate_tree: c161a954c4163aa23cb4e9b09c28af141111c417
+      evidence_tag: evidence/p1-052-candidate-efbc426
+      source_read_fix_replay_integration_or_reuse_allowed: false
+  next_eligible_action: MASTER_ACTIVATE_FIRST_TASK
   next_founder_decision_points:
-    - NEW_PHASE_OR_ARCHITECTURE_ROUTE_WITH_BOUNDED_UNTRUSTED_CODE_EXECUTION_ISOLATION_BASIS
+    - EXACT_BOUNDED_PROVIDER_CALL_AUTHORIZATION_AFTER_P1_054_ACCEPTANCE
+    - NEW_PHASE_OR_ARCHITECTURE_ROUTE_OR_P1_STOP_IF_CURRENT_ROUTE_TERMINATES
+    - P1_PHASE_GATE
 
 phase_delegation:
   status: ACTIVE
@@ -1013,7 +1037,7 @@ active_work:
   authorization_id: null
   activation_parent_commit: null
   activation_parent_tree: null
-  task_resource_state: NONE_PHASE_ACTIVE
+  task_resource_state: NOT_CREATED_ROUTE_READY
   task_branch: null
   task_worktree: null
   execution_evidence_root: null
@@ -1040,7 +1064,7 @@ active_work:
   founder_decision_required: false
   escalation_reason: null
   user_action_required: NONE
-  next_eligible_action: NEW_PHASE_OR_ARCHITECTURE_ROUTE_WITH_BOUNDED_UNTRUSTED_CODE_EXECUTION_ISOLATION_BASIS
+  next_eligible_action: MASTER_ACTIVATE_FIRST_TASK
 
 superseded_pre_delegation_authorizations:
   aios_p1_009:
@@ -1225,6 +1249,8 @@ task_history:
     route_id: P1_EXPERIMENT_PACK_DUAL_RUN_ARCHITECTURE_ROUTE_V1
     status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
     classification: ENGINEERING
+    contract: docs/aios/tasks/P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK.yaml
+    task_contract_sha256: 092a7d38d5c3f208a0e97d74cfbee906793d2a5fe31caf2fd15948b7ea209a62
     contract_path: docs/aios/tasks/P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK.yaml
     contract_sha256: 092a7d38d5c3f208a0e97d74cfbee906793d2a5fe31caf2fd15948b7ea209a62
     contract_byte_length: 9995
@@ -2187,9 +2213,9 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: P1_LOCAL_FIRST_PROVIDER_HARNESS_ARCHITECTURE_ROUTE_V1_CURRENT_EXHAUSTED_NO_EXECUTABLE_TASK
-  current_task_claim: NONE_P1_052_TERMINAL_EXACT_CANDIDATE_SECURITY_NONPASS
-  real_engineering_progress: TERMINAL_STOPPED_NO_ACTIVE_ENGINEERING_TASK_AWAITING_FOUNDER_ROUTE_DECISION
+  current_route_claim: P1_BOUNDED_UNTRUSTED_EXECUTION_QUARANTINE_AND_OFFLINE_PROVIDER_COMPOSITION_ARCHITECTURE_ROUTE_V1_AUTHORIZED_READY
+  current_task_claim: NONE_P1_053_ELIGIBLE_NOT_ACTIVATED_PENDING_ROUTE_ENTRY_VERIFY
+  real_engineering_progress: ROUTE_AUTHORIZED_READY_ENGINEERING_NOT_YET_STARTED
   product_capability_changed: false
   phase_local_allowed:
     - local evaluation foundation engineering under an exact Task Contract
@@ -2218,7 +2244,8 @@ phase_execution_claim:
     - AIOS-P1-049_PROTOCOL_VTSR_ACCOUNTING_VALIDATOR is terminal after its frozen candidate make-verify acceptance criterion conflicted with the immutable canonical-only authority check; its targeted engineering evidence passed but no Run A, finalized Run B, candidate review, integration or accepted capability exists, and its lineage cannot be resumed or reused.
     - AIOS-P1-050_B0_B1_B2_COMPATIBILITY_ADAPTER_CONFORMANCE is terminal after its single repaired candidate passed targeted checks but the exact frozen Run B repair root could not be created under the preserved mode-0500 Evidence parent; no formal adapter ran, no candidate review or integration occurred, and zero capability was accepted.
     - P1-048, P1-049 and P1-050 consumed the three executable engineering Task slots of the prior route; that prior route is exhausted and has no current scheduling authority.
-    - AIOS-P1-052 consumed the local-first route's sole executable engineering Task slot and terminated at exact-candidate review; the route is exhausted and only a new Founder Phase or architecture route decision can schedule engineering.
+    - AIOS-P1-052 consumed the prior local-first route's sole executable engineering Task slot and remains terminal rejected Evidence with no recovery or source reuse.
+    - The Founder-authorized bounded untrusted-execution route makes AIOS-P1-053 eligible after route-entry make verify; P1-054 remains conditional on P1-053 exact Task Gate PASS and clean canonical integration.
     - Historical four-slice ordering and attempt routing have no current scheduling authority.
     - Peripheral validators, auxiliary governance tools and work without direct P1 Exit Gate value are ineligible.
   not_authorized_in_current_phase:
@@ -2238,10 +2265,10 @@ phase_execution_claim:
     - canonical main advance outside an accepted task gate
 
 claim_boundary:
-  current_phase_route: P1_LOCAL_FIRST_PROVIDER_HARNESS_ARCHITECTURE_ROUTE_V1_CURRENT_EXHAUSTED_NO_EXECUTABLE_TASK
+  current_phase_route: P1_BOUNDED_UNTRUSTED_EXECUTION_QUARANTINE_AND_OFFLINE_PROVIDER_COMPOSITION_ARCHITECTURE_ROUTE_V1_AUTHORIZED_READY
   current_task: NONE
-  next_eligible_action: NEW_PHASE_OR_ARCHITECTURE_ROUTE_WITH_BOUNDED_UNTRUSTED_CODE_EXECUTION_ISOLATION_BASIS
-  real_engineering_progress: TERMINAL_STOPPED_NO_ACTIVE_ENGINEERING_TASK_AWAITING_FOUNDER_ROUTE_DECISION
+  next_eligible_action: MASTER_ACTIVATE_FIRST_TASK
+  real_engineering_progress: ROUTE_AUTHORIZED_READY_ENGINEERING_NOT_YET_STARTED
   product_capability_changed_by_route_activation: false
   p1_048_actual_execution_experiment_pack: MASTER_TASK_GATE_ACCEPTED_COMPLETE
   p1_048_formal_run_a: PASS
@@ -2281,7 +2308,7 @@ claim_boundary:
   p1_052_external_effect_observed: false
   p1_052_accepted_capability: false
   p1_052_capability_claims: 0
-  current_route_executable_task_slots: 1_TERMINAL_NONPASS_OF_1
+  current_route_executable_task_slots: 0_EXECUTED_2_AUTHORIZED_OF_2
   prior_experiment_pack_route_executable_task_slots_used: 3_OF_3
   p1_050_claim_boundary: LOCAL_SYNTHETIC_PROVIDER_NEUTRAL_B0_B1_B2_COMPATIBILITY_ADAPTER_EXECUTION_CONFORMANCE_ONLY_NO_EMPIRICAL_BASELINE_PERFORMANCE_VTSR_MODEL_AGENT_INHERITED_SOURCELENS_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
   repository_intelligence_quality: UNKNOWN_NOT_YET_BENCHMARKED

@@ -1,0 +1,266 @@
+schema_version: 1
+record_type: sourcelens_aios_phase_delegated_task_contract
+task_id: AIOS-P1-050_B0_B1_B2_COMPATIBILITY_ADAPTER_CONFORMANCE
+phase: P1
+route_id: P1_EXPERIMENT_PACK_DUAL_RUN_ARCHITECTURE_ROUTE_V1
+status: AUTHORIZED_ACTIVE
+execution_authority: PHASE_DELEGATED
+effective_only_when_canonical_truth_binds_exact_bytes: true
+title: Provider-Neutral B0 B1 B2 Compatibility Adapter Conformance Pack
+
+objective: >-
+  Build one clean-room, provider-neutral, executable compatibility adapter pack
+  for the B0, B1 and B2 common interface defined by Baseline Adapter Contract
+  v0.2. Against one Quality-frozen visible synthetic TaskSpec and one common
+  EnvironmentSnapshot, budget and evaluator identity, execute local
+  deterministic conformance drivers, emit schema-valid RunRecord and observable
+  execution Evidence, reject forbidden adapter capabilities and independently
+  replay the exact candidate. B2 must bind the exact read-only P0 Git snapshot
+  and a fresh Quality external truth-binding attestation, then retain a missing
+  or failed task outcome rather than emulate an unavailable capability. This
+  Task proves local interface and policy conformance only; it does not execute
+  or measure a real model, Agent or baseline performance.
+
+why_now:
+  - Evaluation Protocol v1.1 requires B0, B1 and B2 to run under one harness or documented compatibility adapters before P1 Exit.
+  - P1-048 accepted a narrow actual-execution and independent-reexecution substrate, while the current route still has no accepted B0/B1/B2 compatibility adapter capability.
+  - P1-049 is terminal and cannot be resumed or reused; this Task has a different falsifiable output and directly tests the next missing P1 Exit capability within the final route slot.
+
+task_kind: EVALUATION_FOUNDATION_ENGINEERING
+risk_level: medium
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+founder_decision_required: false
+
+contract_correction:
+  allowance: 1
+  used: 0
+  scope_or_permission_changed: false
+
+owner_role: Engineering Manager Agent
+worker_role: Baseline Compatibility Adapter Engineer
+
+source_identity:
+  canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
+  activation_parent_commit: 8497767901751c4cb73b01c9556867673b42fee8
+  activation_parent_tree: 4ea984afceb49ba516314e3e732a1bfc1513a7ee
+  task_branch: codex/p1-050-baseline-adapter-conformance
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-050-baseline-adapter-conformance
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-050-baseline-adapter-conformance
+
+normative_inputs:
+  baseline_adapter_contract:
+    path: docs/aios/BASELINE_ADAPTER_CONTRACT.md
+    version: "0.2"
+    sha256: 27a213589699d96a5f41f4b0e293718257c6186720e55b74c3ee29dd9cf5c03c
+    byte_length: 5323
+  evaluation_protocol:
+    path: docs/aios/EVALUATION_PROTOCOL.md
+    version: "1.1"
+    sha256: da029143561fbb3c213d4a358b25e085542c6cd26ae8150a53cbb5998177eed8
+    byte_length: 10127
+  schemas:
+    task_spec:
+      path: docs/aios/schemas/task-spec.schema.json
+      sha256: ec226d14172081fb52fbbdc756b4a205155f0b584326436578ad13af4f2b8372
+      byte_length: 5989
+    environment_snapshot:
+      path: docs/aios/schemas/environment-snapshot.schema.json
+      sha256: 3a38bed470ff59d843b3e6450f5999210d57088bed7bdf13dbd88768dae368f1
+      byte_length: 5214
+    system_configuration:
+      path: docs/aios/schemas/system-configuration.schema.json
+      sha256: fe9cc8a78f96cef885a9ba9ce6644ebfe176d6f21161005006d591a20a3dc95d
+      byte_length: 1278
+    run_record:
+      path: docs/aios/schemas/run-record.schema.json
+      sha256: a139b73a7482fed64e6d24f8ca391b03963eef57db2b48d0c4c6776ff652bc56
+      byte_length: 3613
+
+accepted_control:
+  dataset_version: "1.0.0"
+  task_id: SL-P1-REP-004-COMMAND-RESULT-MAPPING
+  split: development
+  task_spec_path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-004-COMMAND-RESULT-MAPPING/task-spec.json
+  task_spec_sha256: f6b4c558c313f1f7716c33646eb587705a1ced8fb00db97a9e00d4c19ad23fe3
+  task_spec_byte_length: 2842
+  frozen_base_commit: 289d81fede3e4ee8c3ad2b08cb8ed67135531705
+  frozen_base_tree: 4a0632cad019bfc6302ec32096bf0d3ee05ac366
+  materialization_recipe_path: evaluation-harness/datasets/p1-representative-task-dataset-v1/materialization-recipe.json
+  materialization_recipe_sha256: 104ed7109df7da155867a428b50575a9cda6bca481e183cebed50788c01a3a5e
+  materialization_recipe_byte_length: 456
+  baseline_context_path: evaluation-harness/datasets/p1-representative-task-dataset-v1/shared/baseline-context.json
+  baseline_context_sha256: 64fab9efd47c193af94e3f7baee67072a32497d35c9dc1aee8a804bf32269cb9
+  baseline_context_byte_length: 377
+  response_format_path: evaluation-harness/datasets/p1-representative-task-dataset-v1/shared/response-format.json
+  response_format_sha256: 6b8ec1d2a6a288e5b908716714589dae963739f2b35a0a29237ff4cbc1355c4b
+  response_format_byte_length: 306
+
+b2_snapshot_source:
+  status: EXACT_READ_ONLY_P0_GIT_OBJECT_REQUIRES_FRESH_QUALITY_ATTESTATION_BEFORE_WORKER
+  repository_path: /Users/lijunpeng/Desktop/cc/project/SourceLens
+  access_mode: READ_ONLY_GIT_OBJECTS_ONLY_WORKING_TREE_BYTES_ARE_NOT_INPUT
+  commit: 09cf8dd6a1bcee138b949d117804d652000eb7cc
+  tree: daa58725d293b954887dbe5b17aab5219b618658
+  git_object_format: sha1
+  canonical_truth_binding: p0_baseline.frozen_base
+  fresh_attestation_owner: Quality and Evaluation Agent
+  fresh_attestation_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-050-baseline-adapter-conformance/quality-freeze/B2_SNAPSHOT_ATTESTATION.json
+  attestation_must_bind:
+    - physical repository and Git directory identities without modification
+    - exact commit object and exact tree reached from that commit
+    - a Quality-owned exact capability inventory derived from the frozen tree
+    - current working tree exclusion and zero inherited-repository mutation
+    - the distinction between snapshot identity conformance and task success or baseline performance
+
+accepted_reuse:
+  - P1-035 accepted visible synthetic dataset and exact REP-004 TaskSpec, materialization recipe, baseline context and response format bytes
+  - the exact read-only P0 Git snapshot identity named under b2_snapshot_source after a fresh Quality external truth-binding attestation
+  - the four frozen P0 contract schemas and Baseline Adapter Contract v0.2
+  - evaluation-harness/evaluator/schema-validator.mjs as a read-only schema utility
+  - Node.js standard library through one exact absolute executable identity
+
+forbidden_reuse:
+  - P1-049 candidate, implementation, Quality fixture, Run A, Run B, Review or Evidence bytes
+  - historical failed or rejected Task implementation, fixture, candidate, Review or Evidence bytes
+  - P1-001 adapter or recorder runtime behavior as the P1-050 implementation
+  - P1-011 runtime implementation
+  - a Provider response, real model response, un-attested or mutable inherited SourceLens working tree, or empirical baseline receipt
+
+outputs:
+  - one parameterized B0/B1/B2 compatibility adapter pack and CLI
+  - one Worker targeted self-test and project verifier
+  - one Quality-owned executable Task Card, newly frozen common environment/configuration bundle, real local runtime materialization identity, deterministic conformance drivers, B2 snapshot attestation, expected projections and negative controls
+  - one Worker Run A and one fresh independent Quality Run B under disjoint task-owned external Evidence roots
+  - one exact-candidate manifest, comparison receipt, fresh exact-candidate reviews and Task Gate receipt when accepted
+
+allowlisted_paths:
+  - docs/aios/tasks/P1-050_B0_B1_B2_COMPATIBILITY_ADAPTER_CONFORMANCE.yaml
+  - evaluation-harness/adapters/baseline-compat-v1/**
+  - evaluation-harness/fixtures/baseline-compat-v1/**
+  - scripts/verify-p1-baseline-adapter-conformance.sh
+  - Makefile
+  - docs/PROJECT_CODE_MAP.md
+  - docs/aios/truth/project_state.yaml
+
+write_ownership:
+  quality:
+    - evaluation-harness/fixtures/baseline-compat-v1/**
+  worker:
+    - evaluation-harness/adapters/baseline-compat-v1/**
+    - scripts/verify-p1-baseline-adapter-conformance.sh
+  integration:
+    - docs/aios/tasks/P1-050_B0_B1_B2_COMPATIBILITY_ADAPTER_CONFORMANCE.yaml
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+    - docs/aios/truth/project_state.yaml
+  external_evidence_master:
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-050-baseline-adapter-conformance/authority/**
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-050-baseline-adapter-conformance/candidate/**
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-050-baseline-adapter-conformance/comparison/**
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-050-baseline-adapter-conformance/gate/**
+  external_evidence_worker:
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-050-baseline-adapter-conformance/run-a/**
+  external_evidence_quality:
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-050-baseline-adapter-conformance/quality-freeze/**
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-050-baseline-adapter-conformance/run-b/**
+  external_evidence_reviewers:
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-050-baseline-adapter-conformance/contract-review/**
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-050-baseline-adapter-conformance/candidate-review/**
+
+roles:
+  owner: Engineering Manager Agent
+  worker: Baseline Compatibility Adapter Engineer
+  independent_reviewers:
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent
+
+budget:
+  engineering_hours: 24
+  calendar_days: 8
+  implementation_iterations: 2
+  candidates: 1
+
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+
+quality_freeze_after_activation:
+  owner: Quality and Evaluation Agent
+  worker_may_modify: false
+  worker_must_start_within_engineering_hours: 1
+  freezes:
+    - executable Task Card and exact accepted-input identities
+    - one common EnvironmentSnapshot, three SystemConfigurations, deterministic conformance-driver inputs and the B2 external truth-binding attestation
+    - exact commands, expected canonical projections, common-envelope assertions and replay comparison keys
+    - forbidden-feature, cross-contract, execution-safety, Evidence-path and result-spoof negative controls with maximum false accepts zero
+
+minimal_safety_invariants:
+  - All repository and external inputs are exact-identity-bound regular nlink-one leaves read through normalized physically contained paths without following symlinks.
+  - The adapter executes only the Quality-frozen local conformance driver through one exact absolute Node.js executable; shell, PATH lookup, executable override, stdin program injection and inherited host environment are forbidden.
+  - Child argv, cwd, timeout, expected exit, environment allowlist and output identities are validated before execution; cwd and referenced artifacts cannot escape their declared physical roots.
+  - B0 has loop_limit one, enables no tools and receives no repository, search, terminal, graph, memory, feedback or hidden-evaluator capability.
+  - B1 is one fixed-loop local synthetic driver and may declare only TaskSpec- and EnvironmentSnapshot-allowed file, lexical-search, structured-patch and verification-command capabilities; SourceLens graph, ranker, memory, extra Agent and undeclared network capabilities fail closed.
+  - B2 binds only commit 09cf8dd6a1bcee138b949d117804d652000eb7cc and tree daa58725d293b954887dbe5b17aab5219b618658 through the fresh Quality external attestation; the dirty inherited working tree is never an input, an undeclared or unavailable capability is recorded failed or missing, and no capability or successful patch is synthesized.
+  - Adapter code never decides verified task success; it emits observable RunRecord and Evidence for a separate evaluator and ignores any driver-supplied success or verdict field as authority.
+  - Every Run A and Run B output leaf is atomic, create-once, task-owned, contained, regular and nlink one; pre-existing, symlinked, hardlinked or escaped targets fail closed without unrelated mutation.
+  - Quality owns the Task Card, configurations, conformance drivers, expected projections and negative controls; Worker cannot modify or generate those bytes.
+  - Run B is a fresh independent execution from the same frozen inputs and exact candidate, not a verdict copied or inferred from Run A.
+  - Disposable scratch may be removed only by its creator after exact ownership, containment, device, inode and marker checks; finalized Evidence is never removed.
+
+acceptance_criteria:
+  - The frozen matrix contains exactly one B0, one B1 and one B2 conformance entry over the same TaskSpec, EnvironmentSnapshot, response format, budget and evaluator identity; the predeclared adapter configuration and B2 exact snapshot binding are the only treatment differences.
+  - The Quality-frozen EnvironmentSnapshot binds the exact TaskSpec source, exact local Node.js executable and a locally present materializable runtime bundle; its container_image_digest is derived from real retained bundle bytes and is not an invented placeholder.
+  - Before Worker mutation, Quality produces the successful external B2 truth-binding attestation at the exact declared path; commit, tree, physical source, capability inventory or zero-mutation proof drift fails closed.
+  - All four schemas validate and the Baseline Adapter Contract cross-contract preflight passes before any driver is executed.
+  - Each adapter invocation actually executes its local deterministic conformance driver without shell or network and retains exact executable, argv, cwd, environment, exit, signal, timeout, duration and raw stdout/stderr byte identities.
+  - B0, B1 and B2 enforce their frozen capability boundaries and produce schema-valid RunRecord plus adapter-neutral observable Evidence without adapter-specific success logic; B2 records missing or failed behavior when the attested snapshot lacks an authorized offline task-repair entrypoint.
+  - The frozen response format contains no patch bytes, so each independent evaluator result is an expected NON_PASS with PATCH_MISSING; terminal_status completed or a driver success or verdict field never becomes verified task success.
+  - Synthetic conformance outputs are explicitly excluded from empirical baseline, VTSR, model, Agent, inherited SourceLens performance and P1 Exit claims.
+  - Deterministic projections reproduce byte-for-byte in fresh Worker Run A and independent Quality Run B while nondeterministic physical and timing observations remain retained outside the equality projection.
+  - Quality-frozen negative controls cover cross-contract identity drift, forbidden B0 tool or loop, forbidden B1 graph/memory/multi-Agent capability, absent or drifted B2 attestation, un-attested B2 capability, hidden/evaluator/reference-patch data access, malformed argv, cwd escape, executable drift, timeout, expected-exit mismatch, driver success spoof, budget overrun, symlink, hardlink, path escape and pre-existing output with zero false accepts.
+  - Targeted verifier, schema/harness regressions, P1-035 accepted dataset regression, P1-048 accepted Experiment Pack regression, P1 safety and Code Map checks pass on the exact candidate before review.
+  - Fresh CTO, Security and Quality reviews of the same exact candidate, manifest and Run A/Run B Evidence all return TARGET_VERDICT PASS before Task Gate.
+  - Only after candidate Task Gate, the exact reviewed tree is fast-forward integrated into local canonical main; tree equality is verified and one clean canonical full make verify passes before terminal Task acceptance.
+
+required_evidence:
+  - exact Contract, authority record, Quality Task Card, fixture, accepted-input and candidate identities
+  - actual Worker Run A raw execution artifacts and deterministic projections for B0, B1 and B2
+  - executable negative-control results with expected reason codes and zero false accepts
+  - fresh independent Quality Run B raw artifacts and exact deterministic-projection comparison
+  - targeted verifier and declared regression results
+  - fresh CTO, Security and Quality exact-candidate target verdicts
+  - integration tree equality, clean canonical make verify and Task Gate receipt
+
+rollback:
+  run_level: Preserve finalized Evidence and remove only disposable scratch whose exact create receipt, ownership and physical containment still match; any mismatch performs zero deletion.
+  candidate_level: Do not integrate a NON_PASS candidate; retain Evidence and an Evidence tag, then remove only the verified clean task worktree after terminalization.
+  integrated_level: Use non-destructive git revert of the exact integration commit and preserve all Evidence; do not reset or clean.
+
+stop_conditions:
+  - Worker has not started within 1 engineering hour after activation.
+  - The exact accepted TaskSpec, schema, Baseline Adapter Contract, Quality fixture, runtime executable or source identity drifts.
+  - Quality cannot produce the exact real local runtime materialization identity or successful external B2 snapshot attestation before Worker start.
+  - Worker modifies or semantically contaminates Quality-owned driver, oracle, expected projection, Task Card or independent verdict bytes.
+  - Any adapter accepts a forbidden capability, trusts a driver success field, hides a failed execution, escapes its path or overwrites Evidence.
+  - Fresh Run B cannot reproduce the declared deterministic projection from the same frozen inputs and exact candidate.
+  - One bounded same-Task repair is consumed and the exact candidate remains TARGET_NON_PASS.
+  - The 24 engineering-hour, 8 calendar-day, one-correction, one-repair or one-candidate bound is exhausted.
+  - A Provider/model, network, Secret, mutable inherited working tree, remote, production, public, empirical baseline or another Founder-reserved expansion is required.
+
+forbidden_actions:
+  - reading, restoring, retrying or reusing P1-049 candidate, implementation, Quality, Run or Review bytes
+  - reading, restoring, retrying or reusing any historical rejected or terminal engineering, Quality, Review or Evidence asset body
+  - changing the P1 Exit Gate, Phase route, Founder policy, authority-validator semantics or frozen schemas
+  - creating successor, replacement, normalization, closure, feasibility, remediation or Route V2 or V3 work
+  - network, Provider, Secret, dependency download, remote, production or public effects
+  - push, pull request, release or remote mutation
+  - P2 or P3 entry, Agent Shell, model-initiated canonical write, Supervisor, Root Custody, Strong Isolation, Full Trust Runtime or Multi-Agent Runtime work
+  - claiming a real B0/B1/B2 baseline, model or Agent performance, VTSR, superiority, inherited SourceLens capability, P1 Exit, production or hostile-principal security result from this Task
+
+claim_boundary: LOCAL_SYNTHETIC_PROVIDER_NEUTRAL_B0_B1_B2_COMPATIBILITY_ADAPTER_EXECUTION_CONFORMANCE_ONLY_NO_EMPIRICAL_BASELINE_PERFORMANCE_VTSR_MODEL_AGENT_INHERITED_SOURCELENS_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM

@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-19T07:40:30Z"
-verification_scope: AIOS_P1_049_TASK_SCOPED_TERMINAL_AND_P1_050_SELECTION
+last_verified_at: "2026-07-19T08:25:23Z"
+verification_scope: AIOS_P1_050_PHASE_DELEGATED_TASK_ACTIVATION
 
 authority:
   founder: Human Founder
@@ -37,8 +37,8 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
-  note: The Founder-approved long-term Goal identity and P1 Phase entry remain ACTIVE. P1-048 remains accepted within its narrow conformance claim; P1-049 is terminal at Task Gate before review because its frozen pre-review aggregate-verification criterion conflicts with the immutable canonical-only authority check. The route remains ACTIVE between Tasks while Master activates the independently selected P1-050 adapter-conformance engineering Task.
+  current_task_authority: AIOS-P1-050_B0_B1_B2_COMPATIBILITY_ADAPTER_CONFORMANCE
+  note: The Founder-approved long-term Goal identity and P1 Phase entry remain ACTIVE. P1-048 remains accepted within its narrow conformance claim, P1-049 remains terminal with zero accepted capability, and P1-050 is now the sole active executable engineering Task for provider-neutral B0/B1/B2 compatibility adapter conformance.
 
 project:
   name: SourceLens AIOS
@@ -48,8 +48,8 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  phase_execution_status: ACTIVE
-  p1_execution_status: ACTIVE
+  phase_execution_status: EXECUTING
+  p1_execution_status: EXECUTING
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -246,14 +246,24 @@ current_phase_route:
     failure_classification: TASK_ENVELOPE_ACCEPTANCE_INCOMPATIBILITY
   selected_next_task:
     task_id: AIOS-P1-050_B0_B1_B2_COMPATIBILITY_ADAPTER_CONFORMANCE
-    status: SELECTED_PENDING_ACTIVATION
+    status: ACTIVATED_AS_CURRENT_TASK
     classification: ENGINEERING
     selection_basis: P1_EXIT_GATE_DIRECT_VALUE_PROVIDER_NEUTRAL_EXECUTABLE_BASELINE_ADAPTER_COMPATIBILITY
     genuinely_independent_from_p1_049: true
     p1_049_candidate_or_evidence_read_or_reuse_allowed: false
     empirical_baseline_or_performance_claim_allowed: false
     claim_boundary: LOCAL_SYNTHETIC_PROVIDER_NEUTRAL_B0_B1_B2_COMPATIBILITY_ADAPTER_EXECUTION_CONFORMANCE_ONLY
-  active_task: null
+  active_task:
+    task_id: AIOS-P1-050_B0_B1_B2_COMPATIBILITY_ADAPTER_CONFORMANCE
+    status: ACTIVE
+    classification: ENGINEERING
+    contract_path: docs/aios/tasks/P1-050_B0_B1_B2_COMPATIBILITY_ADAPTER_CONFORMANCE.yaml
+    max_engineering_hours: 24
+    max_calendar_days: 8
+    max_implementation_iterations: 2
+    max_candidates: 1
+    mandatory_exit_capability: B0_B1_B2_COMPATIBILITY_ADAPTERS
+    claim_boundary: LOCAL_SYNTHETIC_PROVIDER_NEUTRAL_B0_B1_B2_COMPATIBILITY_ADAPTER_EXECUTION_CONFORMANCE_ONLY_NO_EMPIRICAL_BASELINE_PERFORMANCE_VTSR_MODEL_AGENT_INHERITED_SOURCELENS_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
   prior_architecture_route:
     route_id: P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_V1
     status: HISTORICAL_EXHAUSTED_NO_SCHEDULING_AUTHORITY
@@ -267,7 +277,7 @@ current_phase_route:
     capability_claims: 0
     rejected_asset_read_or_reuse_allowed: false
     basis: The exact composition hypothesis was falsified by executable Evidence; it no longer schedules work and does not modify the unchanged P1 Exit Gate.
-  next_eligible_action: MASTER_ACTIVATE_AIOS_P1_050_B0_B1_B2_COMPATIBILITY_ADAPTER_CONFORMANCE
+  next_eligible_action: QUALITY_FREEZE_P1_050_TASK_CARD_AND_B2_ATTESTATION_THEN_START_WORKER
   next_founder_decision_points:
     - EXACT_PROVIDER_NETWORK_SECRET_COST_AUTHORIZATION
     - CRITICAL_RESIDUAL_ACCEPTANCE
@@ -992,38 +1002,48 @@ p0_baseline:
   online_verification_status: ARCHIVED_NOT_ON_ACTIVE_PATH
 
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P1-050_B0_B1_B2_COMPATIBILITY_ADAPTER_CONFORMANCE
+  current_task_status: ACTIVE
   current_task_contract:
-    path: null
-    sha256: null
-    byte_length: null
-  current_task_contract_sha256: null
-  current_execution_authorization: null
-  current_execution_authorization_sha256: null
+    path: docs/aios/tasks/P1-050_B0_B1_B2_COMPATIBILITY_ADAPTER_CONFORMANCE.yaml
+    sha256: 3ad1282a39b2c474460f9553ba55ff15f4d8e255ebb09e9d36afe20ad93893a0
+    byte_length: 19191
+  current_task_contract_sha256: 3ad1282a39b2c474460f9553ba55ff15f4d8e255ebb09e9d36afe20ad93893a0
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-050-baseline-adapter-conformance/authority/MASTER_TASK_AUTHORITY.json
+  current_execution_authorization_sha256: dcc9ea8dea3f736dac7c9649edc77ae41c207064c3238720b7dd766828bbde3a
   authority_record:
-    path: null
-    sha256: null
-    byte_length: null
-  execution_nonce: null
-  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
-  authorization_id: null
-  activation_parent_commit: null
-  activation_parent_tree: null
-  task_resource_state: NONE_PHASE_ACTIVE
-  task_branch: null
-  task_worktree: null
-  execution_evidence_root: null
-  allowlisted_paths: []
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-050-baseline-adapter-conformance/authority/MASTER_TASK_AUTHORITY.json
+    sha256: dcc9ea8dea3f736dac7c9649edc77ae41c207064c3238720b7dd766828bbde3a
+    byte_length: 4319
+  execution_nonce: AIOS-P1-050-EXEC-3AD1282A-8497767
+  execution_nonce_status: ACTIVE
+  authorization_id: AIOS-P1-050-AUTH-3AD1282A-8497767
+  activation_parent_commit: 8497767901751c4cb73b01c9556867673b42fee8
+  activation_parent_tree: 4ea984afceb49ba516314e3e732a1bfc1513a7ee
+  task_resource_state: CREATED_ACTIVE
+  task_branch: codex/p1-050-baseline-adapter-conformance
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-050-baseline-adapter-conformance
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-050-baseline-adapter-conformance
+  allowlisted_paths:
+    - docs/aios/tasks/P1-050_B0_B1_B2_COMPATIBILITY_ADAPTER_CONFORMANCE.yaml
+    - evaluation-harness/adapters/baseline-compat-v1/**
+    - evaluation-harness/fixtures/baseline-compat-v1/**
+    - scripts/verify-p1-baseline-adapter-conformance.sh
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+    - docs/aios/truth/project_state.yaml
   budget:
-    engineering_hours: null
-    calendar_days: null
-    implementation_iterations: null
-    candidates: null
+    engineering_hours: 24
+    calendar_days: 8
+    implementation_iterations: 2
+    candidates: 1
   roles:
-    owner: null
-    worker: null
-    independent_reviewers: []
+    owner: Engineering Manager Agent
+    worker: Baseline Compatibility Adapter Engineer
+    independent_reviewers:
+      - CTO Agent
+      - Security Agent
+      - Quality and Evaluation Agent
   external_effects:
     network: false
     provider: false
@@ -1037,7 +1057,7 @@ active_work:
   founder_decision_required: false
   escalation_reason: null
   user_action_required: NONE
-  next_eligible_action: MASTER_ACTIVATE_AIOS_P1_050_B0_B1_B2_COMPATIBILITY_ADAPTER_CONFORMANCE
+  next_eligible_action: QUALITY_FREEZE_P1_050_TASK_CARD_AND_B2_ATTESTATION_THEN_START_WORKER
 
 superseded_pre_delegation_authorizations:
   aios_p1_009:
@@ -2071,8 +2091,8 @@ historical_lineages:
 
 phase_execution_claim:
   current_route_claim: P1_EXPERIMENT_PACK_DUAL_RUN_ARCHITECTURE_ROUTE_V1_ACTIVE_TASK_SCOPED_FAILURE_OVERRIDE
-  current_task_claim: NONE_BETWEEN_PHASE_LOCAL_TASKS
-  real_engineering_progress: P1_049_IMPLEMENTED_AND_TARGETED_TESTED_THEN_TASK_GATE_NON_PASS_PRE_REVIEW_P1_050_SELECTED_PENDING_ACTIVATION
+  current_task_claim: AIOS_P1_050_ACTIVE_PRE_WORKER_QUALITY_FREEZE_AND_B2_ATTESTATION
+  real_engineering_progress: P1_050_ACTIVATED_PRE_WORKER_QUALITY_FREEZE_AND_B2_ATTESTATION
   product_capability_changed: false
   phase_local_allowed:
     - local evaluation foundation engineering under an exact Task Contract
@@ -2098,7 +2118,7 @@ phase_execution_claim:
     - The Founder task-scoped failure override keeps the same route ACTIVE and supersedes only the automatic route-death scheduling effect of the P1-047 pre-Worker failure.
     - AIOS-P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK completed its exact Task Gate with actual Run A, independent Run B, exact stable semantic equality, exact rollback, zero false accepts, three fresh Reviewer PASS verdicts and canonical make verify PASS.
     - AIOS-P1-049_PROTOCOL_VTSR_ACCOUNTING_VALIDATOR is terminal after its frozen candidate make-verify acceptance criterion conflicted with the immutable canonical-only authority check; its targeted engineering evidence passed but no Run A, finalized Run B, candidate review, integration or accepted capability exists, and its lineage cannot be resumed or reused.
-    - AIOS-P1-050_B0_B1_B2_COMPATIBILITY_ADAPTER_CONFORMANCE is the independently selected final Phase-local executable Task; it must use clean-room provider-neutral local synthetic inputs and cannot read or reuse P1-049 candidate or Evidence bytes.
+    - AIOS-P1-050_B0_B1_B2_COMPATIBILITY_ADAPTER_CONFORMANCE is the sole active Phase-local executable Task; it must use clean-room provider-neutral local synthetic inputs and cannot read or reuse P1-049 candidate or Evidence bytes.
     - Historical four-slice ordering and attempt routing have no current scheduling authority.
     - Peripheral validators, auxiliary governance tools and work without direct P1 Exit Gate value are ineligible.
   not_authorized_in_current_phase:
@@ -2119,9 +2139,9 @@ phase_execution_claim:
 
 claim_boundary:
   current_phase_route: P1_EXPERIMENT_PACK_DUAL_RUN_ARCHITECTURE_ROUTE_V1_ACTIVE_TASK_SCOPED_FAILURE_OVERRIDE
-  current_task: NONE_BETWEEN_PHASE_LOCAL_TASKS
-  next_eligible_action: MASTER_ACTIVATE_AIOS_P1_050_B0_B1_B2_COMPATIBILITY_ADAPTER_CONFORMANCE
-  real_engineering_progress: P1_049_TASK_GATE_NON_PASS_PRE_REVIEW_P1_050_SELECTED_PENDING_ACTIVATION
+  current_task: AIOS-P1-050_B0_B1_B2_COMPATIBILITY_ADAPTER_CONFORMANCE
+  next_eligible_action: QUALITY_FREEZE_P1_050_TASK_CARD_AND_B2_ATTESTATION_THEN_START_WORKER
+  real_engineering_progress: P1_050_ACTIVATED_PRE_WORKER_QUALITY_FREEZE_AND_B2_ATTESTATION
   product_capability_changed_by_route_activation: false
   p1_048_actual_execution_experiment_pack: MASTER_TASK_GATE_ACCEPTED_COMPLETE
   p1_048_formal_run_a: PASS
@@ -2141,8 +2161,8 @@ claim_boundary:
   p1_049_candidate_integrated: false
   p1_049_accepted_capability: false
   p1_050_selected_task: AIOS-P1-050_B0_B1_B2_COMPATIBILITY_ADAPTER_CONFORMANCE
-  p1_050_status: SELECTED_PENDING_ACTIVATION
-  p1_050_claim_boundary: LOCAL_SYNTHETIC_PROVIDER_NEUTRAL_B0_B1_B2_COMPATIBILITY_ADAPTER_EXECUTION_CONFORMANCE_ONLY_NO_EMPIRICAL_BASELINE_PERFORMANCE_AGENT_P1_EXIT_PROVIDER_NETWORK_OR_PRODUCTION_CLAIM
+  p1_050_status: ACTIVE_PRE_WORKER_QUALITY_FREEZE_AND_B2_ATTESTATION
+  p1_050_claim_boundary: LOCAL_SYNTHETIC_PROVIDER_NEUTRAL_B0_B1_B2_COMPATIBILITY_ADAPTER_EXECUTION_CONFORMANCE_ONLY_NO_EMPIRICAL_BASELINE_PERFORMANCE_VTSR_MODEL_AGENT_INHERITED_SOURCELENS_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
   repository_intelligence_quality: UNKNOWN_NOT_YET_BENCHMARKED
   evaluation_harness: IMPLEMENTED_AND_FOUNDER_GATE_ACCEPTED_CONFORMANCE_ONLY
   harness_conformance: PASS

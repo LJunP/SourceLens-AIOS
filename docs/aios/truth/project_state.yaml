@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-18T20:39:01Z"
-verification_scope: AIOS_P1_046_TERMINAL_SYNC_AND_ROUTE_HYPOTHESIS_GATE_PREPARATION
+last_verified_at: "2026-07-19T01:42:44Z"
+verification_scope: P1_EXPERIMENT_PACK_DUAL_RUN_ROUTE_AUTHORIZED_READY_AT_ACTIVATION_PARENT
 
 authority:
   founder: Human Founder
@@ -17,8 +17,8 @@ authority:
     status: FROZEN
   founder_delegation_policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
-    version: "1.4"
-    sha256: 546d0b1498ea06ae39f51484da268c40e45eb1a81db8774646a9d3995a533cd5
+    version: "1.5"
+    sha256: de41890c724d53496fb0c740d032c45d13c197a4e4650217a6e6b3adcc8b12a9
     status: FOUNDER_DIRECTIVE_ACTIVE
   evaluation_protocol:
     path: docs/aios/EVALUATION_PROTOCOL.md
@@ -38,7 +38,7 @@ goal:
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
   current_task_authority: NONE
-  note: The Founder-approved long-term Goal identity and P1 Phase entry remain ACTIVE. AIOS-P1-044, AIOS-P1-045 and AIOS-P1-046 are terminal with zero accepted capability. The P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_V1 authorization remains current while its exact composition hypothesis is exhausted pending the permitted Founder route decision.
+  note: The Founder-approved long-term Goal identity and P1 Phase entry remain ACTIVE. P1_EXPERIMENT_PACK_DUAL_RUN_ARCHITECTURE_ROUTE_V1 is AUTHORIZED_READY and AIOS-P1-047 is eligible for immediate Master activation without another routine Founder approval.
 
 project:
   name: SourceLens AIOS
@@ -48,8 +48,8 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  phase_execution_status: ACTIVE
-  p1_execution_status: ACTIVE
+  phase_execution_status: AUTHORIZED_READY
+  p1_execution_status: AUTHORIZED_READY
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -62,33 +62,33 @@ project:
   realignment_parent_tree: 97972952872b0a1e340b6a88cbd7491b7f7df953
 
 current_phase_route:
-  route_id: P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_V1
-  status: ACTIVE
+  route_id: P1_EXPERIMENT_PACK_DUAL_RUN_ARCHITECTURE_ROUTE_V1
+  status: AUTHORIZED_READY
   phase: P1
   phase_entry_status: AUTHORIZED
-  decision_source: CODEX_THREAD_FOUNDER_MESSAGE_2026_07_18
-  authorization_token: AUTHORIZE_P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_AND_PHASE_REENTRY_V1
+  decision_source: CODEX_THREAD_FOUNDER_MESSAGE_2026_07_19
+  authorization_token: AUTHORIZE_P1_EXPERIMENT_PACK_DUAL_RUN_ARCHITECTURE_ROUTE_V1
   decision_packet:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/new-phase-architecture-route-20260718T100359Z/FOUNDER_P1_RUN_KERNEL_FIRST_ROUTE_AND_PHASE_ENTRY_DECISION_PACKET.md
-    sha256: 7320cebe730c076c3ec273469e908f33cfdd865079845b690089043a49955f19
-    byte_length: 21400
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-experiment-pack-route-decision-20260718T210020Z/FOUNDER_P1_EXPERIMENT_PACK_DUAL_RUN_ROUTE_DECISION_PACKET.md
+    sha256: 4724a6745dc0c93fc1c8933a2b019f8580222b306b4bd7f53c6821d4a5b2b382
+    byte_length: 21549
   activation_parent:
-    commit: c8e3b718788fd14989acab8df80eae895495bab7
-    tree: d36da14953864c28608205216a6199b2e33dbc3c
+    commit: 4f27b7e0b4953785ece1c097545ad3039dc7f119
+    tree: 77c9b6dcf31b0e02b9ec18dd81d06b1e69196671
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
-    version: "1.4"
-    sha256: 546d0b1498ea06ae39f51484da268c40e45eb1a81db8774646a9d3995a533cd5
-  objective: Establish the minimum cooperative-local Evaluation Run Kernel that converts versioned TaskSpec and immutable source/environment into independently verified, traceable, replayable and rollback-capable Patch Evidence, then complete the unchanged P1 Exit Gate.
+    version: "1.5"
+    sha256: de41890c724d53496fb0c740d032c45d13c197a4e4650217a6e6b3adcc8b12a9
+  objective: Deliver a minimal one-command Experiment Pack with actual Run A, fresh independent Run B, stable-semantic comparison, raw Evidence and exact rollback, then use the validated substrate to complete the unchanged P1 Exit Gate.
   p1_exit_gate:
     source: docs/aios/EVALUATION_PROTOCOL.md
     version: "1.1"
     changed: false
     status: UNCHANGED_PENDING_EVIDENCE
   envelope:
-    max_engineering_tasks: 4
-    max_engineering_hours: 80
-    max_calendar_days: 21
+    max_engineering_tasks: 3
+    max_engineering_hours: 48
+    max_calendar_days: 14
     founder_reserved_external_authorization_wait_excluded_from_calendar_budget: true
     max_active_tasks: 1
     max_task_branches: 1
@@ -118,9 +118,14 @@ current_phase_route:
   historical_isolation:
     old_four_slice_route_status: HISTORICAL_SUPERSEDED_NO_SCHEDULING_AUTHORITY
     p1_043_status: TERMINAL_HISTORICAL_NO_RECOVERY_OR_REUSE
+    p1_044_status: TERMINAL_HISTORICAL_NO_RECOVERY_READ_OR_REUSE
+    p1_045_status: TERMINAL_HISTORICAL_NO_RECOVERY_READ_OR_REUSE
+    p1_046_status: TERMINAL_HISTORICAL_METADATA_ONLY_NO_REJECTED_ASSET_READ_OR_REUSE
+    prior_run_kernel_route_status: HISTORICAL_EXHAUSTED_NO_SCHEDULING_AUTHORITY
     stop_p1_governance_chain_status: PERMANENTLY_CLOSED
     historical_failed_task_semantic_input_allowed: false
     historical_failed_engineering_asset_reuse_allowed: false
+    historical_failed_quality_review_or_evidence_read_allowed: false
   prior_route_disposition:
     status: HISTORICAL_SUPERSEDED
     stop_p1_sync:
@@ -151,6 +156,9 @@ current_phase_route:
     p1_011:
       task_id: AIOS-P1-011_ENVIRONMENT_SNAPSHOT_CAPTURE_AND_REPLAY
       status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+      runtime_input_status: HISTORICAL_ACCEPTED_CONFORMANCE_ONLY_RETIRED_AS_CURRENT_RUNTIME_INPUT
+      accepted_schema_reuse_allowed: true
+      runtime_implementation_call_copy_or_modify_allowed: false
       task_contract_path: docs/aios/tasks/P1-011_ENVIRONMENT_SNAPSHOT_CAPTURE_AND_REPLAY.yaml
       task_contract_sha256: 59ad6ca86c8eeb62394265d7a81cd08b089fdb33d54d4f9e17e558249304cd7a
       accepted_candidate_commit: d243293d0db28cf346b479e6f458a6b187cf83e3
@@ -167,61 +175,40 @@ current_phase_route:
       evidence_manifest_sha256: bb6793e34ca1ee8f801b8f2aaf75fac5939c09eb0f3344d04cb362a1ed41101c
       claim_boundary: P1_EXIT_CAPABILITY_ENGINEERING_ARTIFACT_ONLY_NO_BENCHMARK_AGENT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
   first_task:
-    task_id: AIOS-P1-044_LOCAL_PATCH_EVIDENCE_WALKING_SKELETON
-    status: TERMINAL_STOPPED_FINAL_REVIEW_NON_PASS
+    task_id: AIOS-P1-047_LOCAL_DUAL_RUN_EXPERIMENT_PACK
+    status: ELIGIBLE_NOT_ACTIVATED
     classification: ENGINEERING
-    contract_path: docs/aios/tasks/P1-044_LOCAL_PATCH_EVIDENCE_WALKING_SKELETON.yaml
+    contract_path: docs/aios/tasks/P1-047_LOCAL_DUAL_RUN_EXPERIMENT_PACK.yaml
     max_engineering_hours: 12
     max_calendar_days: 3
     max_implementation_iterations: 2
     max_candidates: 1
-    objective: Execute the accepted SL-P1-REP-001-RANGE-NORMALIZATION exact base through a visible reference-patch positive control and bounded fail-closed negative controls to produce independently re-executable, replayable and rollback-capable Patch Evidence.
+    objective: Deliver one one-command Experiment Pack that performs actual Run A and fresh independent Run B over one accepted visible control, preserves raw Evidence, compares stable semantics and proves exact rollback.
     accepted_input_ids:
       - p1_001
-      - p1_011
       - p1_035
-    claim_boundary: VISIBLE_SYNTHETIC_REFERENCE_CONTROL_PATCH_EVIDENCE_WALKING_SKELETON_ONLY
-  latest_terminal_task:
-    task_id: AIOS-P1-046_SOURCE_BOUND_OBSERVABLE_TRACE_KERNEL
-    status: TERMINAL_STOPPED_PRE_WORKER_QUALITY_FREEZE_NON_PASS
-    classification: ENGINEERING
-    lineage: INDEPENDENT_PHASE_INCREMENT
-    contract_path: docs/aios/tasks/P1-046_SOURCE_BOUND_OBSERVABLE_TRACE_KERNEL.yaml
-    max_engineering_hours: 18
-    max_calendar_days: 4
-    max_implementation_iterations: 2
-    max_candidates: 1
-    bounded_contract_corrections_used: 1
-    objective: Execute one accepted visible synthetic reference control and produce a source-, environment- and execution-tool-bound observable Trace with independent fail-closed verification, fresh-materialization normalized replay and exact rollback.
-    accepted_input_ids:
-      - p1_001
+    accepted_schema_sources:
       - p1_011
-      - p1_035
-    retries: []
-    remediates: []
-    supersedes: []
-    replaces: []
-    worker_started: false
-    implementation_started: false
-    candidate_created: false
-    candidate_integrated: false
-    capability_claims: 0
+    claim_boundary: ONE_VISIBLE_COOPERATIVE_LOCAL_REFERENCE_TASK_ACTUAL_EXECUTION_AND_INDEPENDENT_SEMANTIC_REEXECUTION_ONLY
+  prior_architecture_route:
+    route_id: P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_V1
+    status: HISTORICAL_EXHAUSTED_NO_SCHEDULING_AUTHORITY
+    terminal_task_id: AIOS-P1-046_SOURCE_BOUND_OBSERVABLE_TRACE_KERNEL
+    terminal_task_status: TERMINAL_STOPPED_PRE_WORKER_QUALITY_FREEZE_NON_PASS
     terminal_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-046-source-bound-observable-trace/terminal/TASK_TERMINAL_RECORD.json
     terminal_record_sha256: ce73391a167decd928acd861b9cab6a7f73ef3aefd1907dcd548bbe6f7620829
     terminal_record_byte_length: 6722
-    claim_boundary: ONE_ACCEPTED_VISIBLE_SYNTHETIC_REFERENCE_CONTROL_SOURCE_ENVIRONMENT_AND_EXECUTION_TOOL_BOUND_OBSERVABLE_TRACE_WITH_INDEPENDENT_FAIL_CLOSED_VERIFICATION_FRESH_MATERIALIZATION_REPLAY_AND_EXACT_ROLLBACK_ONLY_NO_COMPLETE_PATCH_EVIDENCE_EMPIRICAL_VTSR_BASELINE_ADAPTER_MODEL_AGENT_HIDDEN_SET_BENCHMARK_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
-  route_hypothesis:
-    status: EXHAUSTED_PENDING_FOUNDER_DECISION
-    basis: Accepted P1-001, P1-011 and P1-035 cannot compose the required source-, environment- and tool-bound independently verified replay under the exact current process, custody and raw-output boundary without changing frozen accepted bytes or the route boundary.
-    task_capacity_remaining: 1
-    successor_replacement_or_route_repair_authorized: false
-  next_eligible_action: PREPARE_FOUNDER_ROUTE_HYPOTHESIS_DECISION_PACKET
+    worker_started: false
+    candidate_created: false
+    capability_claims: 0
+    rejected_asset_read_or_reuse_allowed: false
+    basis: The exact composition hypothesis was falsified by executable Evidence; it no longer schedules work and does not modify the unchanged P1 Exit Gate.
+  next_eligible_action: MASTER_ACTIVATE_AIOS_P1_047
   next_founder_decision_points:
     - EXACT_PROVIDER_NETWORK_SECRET_COST_AUTHORIZATION
     - CRITICAL_RESIDUAL_ACCEPTANCE
-    - PHASE_ENVELOPE_OR_ROUTE_HYPOTHESIS_EXHAUSTED
-    - P1_PHASE_GATE
     - P1_FINAL_STOP
+    - P1_PHASE_GATE
 
 phase_delegation:
   status: ACTIVE
@@ -266,7 +253,7 @@ phase_delegation:
   claim_boundary: This policy delegates Phase-local engineering decisions; it does not delegate Founder-reserved decisions or prove product capability.
 
 mandatory_exit_capability_recovery:
-  status: HISTORICAL_SUPERSEDED_BY_P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_V1
+  status: HISTORICAL_POLICY_CONTEXT_SUPERSEDED_BY_P1_EXPERIMENT_PACK_DUAL_RUN_ARCHITECTURE_ROUTE_V1
   founder_decision_source: FOUNDER_P1_DELIVERY_ARCHITECTURE_SIMPLIFICATION_2026_07_17
   historical_tasks_immutable: true
   historical_execution_lineage_reuse_allowed: false
@@ -959,7 +946,7 @@ active_work:
   authorization_id: null
   activation_parent_commit: null
   activation_parent_tree: null
-  task_resource_state: NONE_PHASE_ACTIVE
+  task_resource_state: NOT_CREATED_ROUTE_READY
   task_branch: null
   task_worktree: null
   execution_evidence_root: null
@@ -986,7 +973,7 @@ active_work:
   founder_decision_required: false
   escalation_reason: null
   user_action_required: NONE
-  next_eligible_action: PREPARE_FOUNDER_ROUTE_HYPOTHESIS_DECISION_PACKET
+  next_eligible_action: MASTER_ACTIVATE_AIOS_P1_047
 
 superseded_pre_delegation_authorizations:
   aios_p1_009:
@@ -1881,15 +1868,17 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_V1_HYPOTHESIS_EXHAUSTED_PENDING_FOUNDER_DECISION
+  current_route_claim: P1_EXPERIMENT_PACK_DUAL_RUN_ARCHITECTURE_ROUTE_V1_AUTHORIZED_READY
   current_task_claim: NONE
-  real_engineering_progress: AIOS_P1_046_TERMINAL_PRE_WORKER_QUALITY_FREEZE_NON_PASS_ZERO_ACCEPTED_CAPABILITY
+  real_engineering_progress: ROUTE_ACTIVATION_ONLY_P1_047_ELIGIBLE_NOT_STARTED
   product_capability_changed: false
   phase_local_allowed:
     - local evaluation foundation engineering under an exact Task Contract
     - synthetic fixtures, deterministic tests, replay, Evidence, rollback and independent review
     - local canonical main integration after Master Task Gate
   historical_terminal_rules:
+    - P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_V1 is HISTORICAL_EXHAUSTED_NO_SCHEDULING_AUTHORITY; its failed Task and rejected Quality, Review and Evidence assets cannot be read, recovered or reused by the current route.
+    - P1-011 remains accepted only within its historical narrow conformance claim and is retired as a current runtime input; only its accepted schema may be reused by a clean-room implementation.
     - The old four-slice route, P1-043 and STOP_P1 governance chain are Historical Evidence with no current scheduling authority; none may be recovered, retried, used as semantic input or reused as an engineering asset.
     - P1-002 through P1-034 historical Tasks, preparations, Evidence and Reviews remain immutable and cannot resume, retry, supply implementation assets or continue through successor, replacement or correction chains.
     - Historical terminal execution lineage is permanently closed, but it does not permanently ban one clean-room implementation of a still-missing P1 Exit Gate capability under the 2026-07-17 Founder recovery decision.
@@ -1902,7 +1891,8 @@ phase_execution_claim:
     - AIOS-P1-044_LOCAL_PATCH_EVIDENCE_WALKING_SKELETON is terminal after exact-candidate final-review NON_PASS with zero accepted capability and no canonical integration.
     - AIOS-P1-045_EVALUATION_MATRIX_AND_VTSR_LEDGER_KERNEL is terminal after exact-candidate final-review NON_PASS with zero accepted capability and no canonical integration.
     - AIOS-P1-046_SOURCE_BOUND_OBSERVABLE_TRACE_KERNEL is terminal before Worker start after three fresh pre-Worker Quality-freeze NON_PASS reviews, with zero accepted capability and no canonical engineering integration.
-    - The exact Run-Kernel composition hypothesis is exhausted; the remaining fourth-Task capacity cannot be used as a successor, replacement or route repair without the permitted Founder route decision.
+    - The exact Run-Kernel composition hypothesis is exhausted and has no current scheduling authority.
+    - AIOS-P1-047_LOCAL_DUAL_RUN_EXPERIMENT_PACK is the first eligible Task under the current route and must be activated immediately after route activation PASS.
     - Historical four-slice ordering and attempt routing have no current scheduling authority.
     - Peripheral validators, auxiliary governance tools and work without direct P1 Exit Gate value are ineligible.
   not_authorized_in_current_phase:
@@ -1922,10 +1912,10 @@ phase_execution_claim:
     - canonical main advance outside an accepted task gate
 
 claim_boundary:
-  current_phase_route: P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_V1_HYPOTHESIS_EXHAUSTED_PENDING_FOUNDER_DECISION
+  current_phase_route: P1_EXPERIMENT_PACK_DUAL_RUN_ARCHITECTURE_ROUTE_V1_AUTHORIZED_READY
   current_task: NONE
-  next_eligible_action: PREPARE_FOUNDER_ROUTE_HYPOTHESIS_DECISION_PACKET
-  real_engineering_progress: AIOS_P1_046_TERMINAL_PRE_WORKER_QUALITY_FREEZE_NON_PASS_ZERO_ACCEPTED_CAPABILITY
+  next_eligible_action: MASTER_ACTIVATE_AIOS_P1_047
+  real_engineering_progress: ROUTE_ACTIVATION_ONLY_P1_047_ELIGIBLE_NOT_STARTED
   product_capability_changed_by_route_activation: false
   repository_intelligence_quality: UNKNOWN_NOT_YET_BENCHMARKED
   evaluation_harness: IMPLEMENTED_AND_FOUNDER_GATE_ACCEPTED_CONFORMANCE_ONLY
@@ -2006,7 +1996,7 @@ claim_boundary:
   p1_046_candidate_created: false
   p1_046_candidate_integrated: false
   p1_046_capability_claims: 0
-  p1_run_kernel_first_route_hypothesis: EXHAUSTED_PENDING_FOUNDER_DECISION
+  p1_run_kernel_first_route_hypothesis: HISTORICAL_EXHAUSTED_NO_SCHEDULING_AUTHORITY
   p1_status: ACTIVE
   p1_037_final_security_review: NON_PASS
   p1_037_final_quality_review: CANCELLED_AFTER_SECURITY_NON_PASS

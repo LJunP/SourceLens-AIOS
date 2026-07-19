@@ -218,13 +218,14 @@ class CurrentTaskAuthorityTest
     register_owned(policy_path)
     rewrite_owned(policy_path, File.binread(File.join(SOURCE_REPO, POLICY_RELATIVE)))
 
-    packet_source = source_truth.fetch("current_phase_route").fetch("decision_packet").fetch("path")
+    packet_identity = source_truth.fetch("current_phase_route").fetch("decision_packet")
+    packet_source = packet_identity.fetch("path")
     goal_source = source_truth.fetch("goal").fetch("source_attachment_path")
     packet_path = verified_source_copy(
       packet_source,
       File.join(external, "decision-packet.md"),
-      "7320cebe730c076c3ec273469e908f33cfdd865079845b690089043a49955f19",
-      21_400
+      packet_identity.fetch("sha256"),
+      packet_identity.fetch("byte_length")
     )
     goal_path = verified_source_copy(
       goal_source,

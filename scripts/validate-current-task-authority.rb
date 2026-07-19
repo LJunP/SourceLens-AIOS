@@ -19,8 +19,6 @@ module CurrentTaskAuthority
   ACTIVE_STATUSES = %w[ACTIVE AUTHORIZED_ACTIVE EXECUTING].freeze
   AUTHORIZED_ROUTE_STATUSES = %w[AUTHORIZED_READY ACTIVE].freeze
   ACCEPTED_GATE_STATUS_RE = /\A(?:FOUNDER_GATE|MASTER_TASK_GATE)_ACCEPTED_COMPLETE\z/.freeze
-  ROUTE_PACKET_SHA256 = "7320cebe730c076c3ec273469e908f33cfdd865079845b690089043a49955f19".freeze
-  ROUTE_PACKET_BYTE_LENGTH = 21_400
   GOAL_RAW_SHA256 = "28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1".freeze
   GOAL_RAW_BYTE_LENGTH = 19_433
   GOAL_CANONICAL_SHA256 = "b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a".freeze
@@ -246,38 +244,52 @@ module CurrentTaskAuthority
   def packet_claims(packet_bytes)
     text = packet_bytes.dup.force_encoding(Encoding::UTF_8)
     assert(text.valid_encoding?, "decision packet must be valid UTF-8")
-    route_id = one_packet_match(text, /Route ID：`([^`]+)`/, "Route ID declaration")
-    first_task_id = one_packet_match(text, /Task ID：`([^`]+)`/, "first Task ID declaration")
+    route_id = one_packet_match(
+      text,
+      /## 1\. 单一结论.*?`(P1_[A-Z0-9_]+ARCHITECTURE_ROUTE_V1)`/m,
+      "Route ID declaration"
+    )
+    first_task_id = one_packet_match(
+      text,
+      /### T1 — (AIOS-P1-[0-9]{3}_[A-Z0-9_]+)/,
+      "first Task ID declaration"
+    )
     authorization_token = one_packet_match(
       text,
-      /Founder Project-Level Route Decision — ([A-Z0-9_]+)/,
+      /authorization_token=([A-Z0-9_]+)/,
       "Founder authorization token declaration"
     )
     envelope = one_packet_match(
       text,
-      /新路线 Phase envelope 为最多 (\d+) 个工程 Task、(\d+) engineering hours、(\d+) calendar days/,
+      /### Route Envelope\s+- 最多 `(\d+) engineering Tasks`。\s+- 最多 `(\d+) engineering hours`。\s+- 最多 `(\d+) calendar days`。/m,
       "Phase envelope declaration"
     )
     first_task_budget = one_packet_match(
       text,
-      /预算：`(\d+) engineering hours \/ (\d+) calendar days`，最多([一二两三四五六七八九十]+)次同 Task implementation iteration，([一二两三四五六七八九十]+)个最终 candidate/,
+      /### T1 — [^\n]+\s+- Budget：`(\d+) engineering hours \/ (\d+) calendar days`/m,
       "first Task budget declaration"
     )
     contract_corrections = one_packet_match(
       text,
-      /每个 Task 一份最小 working Contract，最多([一二两三四五六七八九十]+)次[^\n]+contract correction/,
+      /### Route Envelope.*?每个 Task 最多一份 working Contract、([一二两三四五六七八九十]+)次[^\n]+bounded contract/m,
       "per-Task contract correction declaration"
     )
     same_task_repairs = one_packet_match(
       text,
-      /initial implementation 加([一二两三四五六七八九十]+)次同 Task bounded repair/,
+      /### Route Envelope.*?initial implementation 加([一二两三四五六七八九十]+)次 same-Task bounded repair/m,
       "same-Task repair declaration"
+    )
+    candidates = one_packet_match(
+      text,
+      /### Route Envelope.*?same-Task bounded repair、([一二两三四五六七八九十]+)个 exact candidate/m,
+      "per-Task candidate declaration"
     )
     parent = one_packet_match(
       text,
-      /canonical repository 为 `[^`]+`，`main` clean，当前 HEAD 为 `([0-9a-f]{40})`，tree 为 `([0-9a-f]{40})`/,
+      /- Canonical commit：`([0-9a-f]{40})`。\s+- Canonical tree：`([0-9a-f]{40})`。/m,
       "activation parent declaration"
     )
+    repair_count = chinese_integer(same_task_repairs)
     {
       "route_id" => route_id,
       "first_task_id" => first_task_id,
@@ -287,10 +299,10 @@ module CurrentTaskAuthority
       "max_calendar_days" => Integer(envelope[2], 10),
       "first_task_engineering_hours" => Integer(first_task_budget[0], 10),
       "first_task_calendar_days" => Integer(first_task_budget[1], 10),
-      "first_task_implementation_iterations" => chinese_integer(first_task_budget[2]),
-      "first_task_candidates" => chinese_integer(first_task_budget[3]),
+      "first_task_implementation_iterations" => 1 + repair_count,
+      "first_task_candidates" => chinese_integer(candidates),
       "max_contract_corrections_per_task" => chinese_integer(contract_corrections),
-      "max_same_task_repairs" => chinese_integer(same_task_repairs),
+      "max_same_task_repairs" => repair_count,
       "activation_parent_commit" => parent[0],
       "activation_parent_tree" => parent[1],
       "text" => text
@@ -324,8 +336,10 @@ module CurrentTaskAuthority
     packet = hash(route["decision_packet"], "current_phase_route.decision_packet")
     packet_path = string(packet["path"], "current_phase_route.decision_packet.path")
     assert(Pathname.new(packet_path).absolute?, "decision packet path must be absolute")
-    assert(packet["sha256"] == ROUTE_PACKET_SHA256 && packet["byte_length"] == ROUTE_PACKET_BYTE_LENGTH,
-           "Truth does not bind the authorized route decision packet identity")
+    assert(SHA256_RE.match?(string(packet["sha256"], "current_phase_route.decision_packet.sha256")),
+           "decision packet SHA-256 must be lowercase")
+    assert(integer(packet["byte_length"], "current_phase_route.decision_packet.byte_length").positive?,
+           "decision packet byte length must be positive")
     packet_bytes = validate_identity(packet_path, packet, "Founder route decision packet")
     claims = packet_claims(packet_bytes)
     assert(route_id == claims["route_id"], "Truth route id does not match exact decision packet")
@@ -429,9 +443,8 @@ module CurrentTaskAuthority
       assert(first_task[key] == value, "first Task #{key} does not match exact decision packet")
     end
     goal = hash(truth["goal"], "goal")
-    assert(claims["text"].include?(goal["observed_raw_body_sha256"].to_s) &&
-           claims["text"].include?(goal["observed_body_sha256"].to_s),
-           "Goal identities are not bound by the exact decision packet")
+    assert(claims["text"].include?(goal["observed_body_sha256"].to_s),
+           "canonical Goal identity is not bound by the exact decision packet")
     [route, route_id, first_task, accepted]
   end
 

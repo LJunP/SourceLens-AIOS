@@ -1,0 +1,353 @@
+schema_version: 1
+record_type: sourcelens_aios_phase_delegated_task_contract
+task_id: AIOS-P1-049_PROTOCOL_VTSR_ACCOUNTING_VALIDATOR
+phase: P1
+route_id: P1_EXPERIMENT_PACK_DUAL_RUN_ARCHITECTURE_ROUTE_V1
+status: AUTHORIZED_ACTIVE
+execution_authority: PHASE_DELEGATED
+effective_only_when_canonical_truth_binds_exact_bytes: true
+title: Frozen Evaluation Matrix and Protocol VTSR Accounting Validator
+
+objective: >-
+  Build a clean-room, parameterized, fail-closed and one-command validator that
+  admits a frozen evaluation matrix plus run outcome receipts and mechanically
+  derives scheduled, eligible, success, failure, infrastructure-invalid,
+  reason-code distribution, task aggregation and exact VTSR rational outputs
+  under Evaluation Protocol v1.1 sections 7 and 8. P1-048 accepted Run A and
+  Run B are exact-hash-bound conformance inputs only, never a baseline claim.
+
+why_now:
+  - P1-048 proved one actual local execution, fresh independent reexecution, raw Evidence, stable semantic equality and exact rollback.
+  - Evaluation Protocol v1.1 requires a machine validator for VTSR counting rules before any benchmark report can be accepted.
+  - Frozen denominator, exclusion and retry semantics are the highest-value local P1 prerequisite that can be completed without Provider, network, Secret or other Founder-reserved effects.
+
+task_kind: EVALUATION_FOUNDATION_ENGINEERING
+mandatory_exit_capability: VTSR_COUNTING_VALIDATOR
+risk_level: medium
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+founder_decision_required: false
+
+contract_correction:
+  allowance: 1
+  used: 1
+  cause: SEC_P1_049_CONTRACT_001_002_003_OUTPUT_ANCHOR_EVIDENCE_ISOLATION_AND_CLEANUP_OWNERSHIP
+  scope_or_permission_changed: false
+  corrected_from:
+    contract_sha256: 7ca81c6e2239371da06bbac76dd12ae72865921410711df203f4d378bac64401
+    contract_byte_length: 17032
+    security_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-049-protocol-vtsr-accounting-validator/contract-review/SECURITY_CONTRACT_REVIEW.json
+    security_review_sha256: 7ed63b10aa1b253e13656a3695f3ab61bdd752aae247a60aaef5042b3ed9265c
+    security_review_byte_length: 12914
+
+# Compatibility projection required by the current P1 start-safety validator.
+# The authoritative role mapping remains the exact roles block below.
+owner_role: Engineering Manager Agent
+worker_role: VTSR Accounting Engineer
+
+source_identity:
+  canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
+  activation_parent_commit: 137f519be7cc3bef7eb67f2a9f87bea490f970ab
+  activation_parent_tree: c2149196c018cadee6ea707b3d3a690d71dce4af
+  task_branch: codex/p1-049-protocol-vtsr-accounting-validator
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-049-protocol-vtsr-accounting-validator
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-049-protocol-vtsr-accounting-validator
+
+authority_inputs:
+  strategic_constitution:
+    path: docs/aios/STRATEGIC_CONSTITUTION.md
+    sha256: 040196be12532b8c3661665995d3e79a28d268a1ecc991623380f0939f468485
+  master_execution_protocol:
+    path: docs/aios/MASTER_EXECUTION_PROTOCOL.md
+    sha256: 47c444c50c7521a7515dfb2fbee0c8c81cc72b32c42eba549d080eeb0c1bcedf
+  founder_delegation_policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: "1.6"
+    sha256: 4cee36f00b6686c75ed8f4d2811e4615ef98120c3f5e9be3e30b4fc5b2c1793c
+  evaluation_protocol:
+    path: docs/aios/EVALUATION_PROTOCOL.md
+    version: "1.1"
+    sha256: da029143561fbb3c213d4a358b25e085542c6cd26ae8150a53cbb5998177eed8
+  founder_reentry_packet:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-task-scoped-failure-override-reentry-20260719T031108Z/FOUNDER_P1_TASK_SCOPED_FAILURE_OVERRIDE_AND_ENGINEERING_REENTRY_PACKET.md
+    sha256: 4a27a5e0f8a336fe41473b7905441846c2846ed874a2ec17d6c4909f8db5db65
+    byte_length: 18636
+
+accepted_p1_048_conformance_inputs:
+  usage: CONFORMANCE_ONLY_NOT_BASELINE
+  contract:
+    path: docs/aios/tasks/P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK.yaml
+    sha256: 092a7d38d5c3f208a0e97d74cfbee906793d2a5fe31caf2fd15948b7ea209a62
+    byte_length: 9995
+  task_card:
+    path: evaluation-harness/fixtures/experiment-pack-reentry-v1/task-card.json
+    sha256: 15cb56812e348fcca3238467db4e7cdedd9b9210ddedc1568d44b1eeb82f854f
+    byte_length: 10348
+  task_gate_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-048-actual-experiment-pack/gate/TASK_GATE_RECEIPT.json
+    sha256: d71948e4221121b072877e66d55d1ab92362cc11fc273d994a2ebb7754b1b84e
+    byte_length: 4103
+  run_a:
+    result_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-048-actual-experiment-pack/run-a-9e130f2-20260719t0532z/result.json
+    result_sha256: 9d2a75541b620249d6c7431590e96e77ea1c54e45e82df3166927d6532bf6611
+    result_byte_length: 25617
+    manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-048-actual-experiment-pack/run-a-9e130f2-20260719t0532z/manifest.json
+    manifest_sha256: 2b97d6c85145a2ec2a8f30585650b2cb8a2315aac8cd9401c12d694bf1bf899c
+    manifest_byte_length: 15829
+  run_b:
+    result_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-048-actual-experiment-pack/run-b-9e130f2-20260719t0537z/result.json
+    result_sha256: e57cfbea6743a72707077267fd4dd3e76b3fd91c141e0b437f126d4760519c83
+    result_byte_length: 25618
+    manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-048-actual-experiment-pack/run-b-9e130f2-20260719t0537z/manifest.json
+    manifest_sha256: 3ff27a7f7d8034417897995e45afe140ddbe7763cb41d76b1094317a9e7d0a42
+    manifest_byte_length: 15829
+  stable_projection:
+    sha256: ae357f2ae3a0fd1d6825e17792221019d544125acde3d960fc05983b2cfffa19
+    byte_length: 18355
+    run_a_run_b_exact_byte_equal: true
+
+accepted_p1_035_control_inputs:
+  task_spec_path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/task-spec.json
+  task_spec_sha256: 5e7c175f8a7c0204b45a7cba20fb3212a8d7f2d0d2094709d194dd1d3daa57ee
+  task_spec_byte_length: 2857
+  expected_base_failure_sha256: e590ac0206654359385f08849cadbcf4e968d6f85dededd65647d1ef4c3d01fc
+  expected_base_failure_byte_length: 443
+  reference_patch_sha256: dc715cbf1352b0342242eb640513e58c97d0c47a5455a51cfe6d859c1c2c9cc4
+  reference_patch_byte_length: 1066
+  frozen_base_commit: dd71c92a04693e60f1cb30d577107205411cbed3
+  frozen_base_tree: 78327e74c83aed97eddcc7485dcf985865c2b815
+
+accepted_reuse:
+  - Evaluation Protocol v1.1 normative VTSR and comparison rules
+  - P1-048 exact accepted receipts as conformance-only inputs
+  - P1-035 exact accepted control identities
+  - Node.js 20 standard library and current repository-local toolchain
+
+forbidden_reuse:
+  - any historical rejected or terminal Task implementation, review, fixture, Evidence, branch or worktree body
+  - P1-048 runner, verifier or implementation source as a modification or remediation target
+  - any input success or verdict field as authoritative outcome classification
+  - any network-fetched dependency, data or code
+
+output_interface:
+  command: node evaluation-harness/validators/vtsr-v1/cli.mjs count --matrix MATRIX_JSON --outcomes OUTCOMES_JSON --output-parent OWNED_REAL_DIRECTORY --output-name NEW_SINGLE_SEGMENT
+  output_binding:
+    - The existing output parent is passed explicitly, lstat as a real owned directory, resolved without a symlink in any existing ancestor and bound by device, inode, uid and mode before any write.
+    - The output name is one normalized non-dot path segment and the resulting output directory is a strict physical descendant of the bound parent.
+    - The output directory must not exist and is created exclusively with mode 0700; a directory is never required to have nlink one.
+    - Every output file is created exclusively, atomically finalized, regular, nlink one and never overwritten.
+  create_once_outputs:
+    - validation.json
+    - raw-ledger.json
+    - vtsr-summary.json
+  required_summary_fields:
+    - scheduled_count
+    - numerator
+    - denominator
+    - failure_count
+    - invalid_count
+    - reason_code_distribution
+    - task_aggregation
+    - rerun_required
+    - vtsr
+    - report_acceptability
+  zero_denominator_rule: VTSR_NULL_AND_REPORT_NOT_ACCEPTABLE
+
+outputs:
+  - evaluation-harness/fixtures/vtsr-v1/task-card.json
+  - evaluation-harness/fixtures/vtsr-v1 quality-owned matrix, outcomes, oracles and negative controls
+  - evaluation-harness/validators/vtsr-v1/contracts.mjs
+  - evaluation-harness/validators/vtsr-v1/cli.mjs
+  - evaluation-harness/validators/vtsr-v1/self-test.mjs
+  - scripts/verify-p1-vtsr-accounting.sh
+  - actual task-owned Run A and independent Run B Evidence outside the repository
+
+allowlisted_paths:
+  - docs/aios/tasks/P1-049_PROTOCOL_VTSR_ACCOUNTING_VALIDATOR.yaml
+  - evaluation-harness/validators/vtsr-v1/contracts.mjs
+  - evaluation-harness/validators/vtsr-v1/cli.mjs
+  - evaluation-harness/validators/vtsr-v1/self-test.mjs
+  - evaluation-harness/fixtures/vtsr-v1/**
+  - scripts/verify-p1-vtsr-accounting.sh
+  - Makefile
+  - docs/PROJECT_CODE_MAP.md
+  - docs/aios/truth/project_state.yaml
+
+write_ownership:
+  master:
+    - docs/aios/tasks/P1-049_PROTOCOL_VTSR_ACCOUNTING_VALIDATOR.yaml
+    - docs/aios/truth/project_state.yaml
+  quality:
+    - evaluation-harness/fixtures/vtsr-v1/**
+  worker:
+    - evaluation-harness/validators/vtsr-v1/contracts.mjs
+    - evaluation-harness/validators/vtsr-v1/cli.mjs
+    - evaluation-harness/validators/vtsr-v1/self-test.mjs
+    - scripts/verify-p1-vtsr-accounting.sh
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+  external_evidence_master:
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-049-protocol-vtsr-accounting-validator/authority/**
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-049-protocol-vtsr-accounting-validator/candidate/**
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-049-protocol-vtsr-accounting-validator/comparison/**
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-049-protocol-vtsr-accounting-validator/gate/**
+  external_evidence_worker:
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-049-protocol-vtsr-accounting-validator/run-a/**
+  external_evidence_quality:
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-049-protocol-vtsr-accounting-validator/quality-freeze/**
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-049-protocol-vtsr-accounting-validator/run-b/**
+  external_evidence_reviewers:
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-049-protocol-vtsr-accounting-validator/contract-review/CTO_CONTRACT_REVIEW.json
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-049-protocol-vtsr-accounting-validator/contract-review/SECURITY_CONTRACT_REVIEW.json
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-049-protocol-vtsr-accounting-validator/contract-review/QUALITY_CONTRACT_REVIEW.json
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-049-protocol-vtsr-accounting-validator/contract-review/CTO_CORRECTED_CONTRACT_REVIEW.json
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-049-protocol-vtsr-accounting-validator/contract-review/SECURITY_CORRECTED_CONTRACT_REVIEW.json
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-049-protocol-vtsr-accounting-validator/contract-review/QUALITY_CORRECTED_CONTRACT_REVIEW.json
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-049-protocol-vtsr-accounting-validator/candidate-review/**
+
+roles:
+  owner: Engineering Manager Agent
+  worker: VTSR Accounting Engineer
+  independent_reviewers:
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent
+
+budget:
+  engineering_hours: 12
+  calendar_days: 3
+  implementation_iterations: 2
+  candidates: 1
+
+route_envelope_accounting:
+  executable_task_ordinal: 2
+  max_route_tasks: 3
+  max_route_engineering_hours: 48
+  max_route_calendar_days: 14
+  remaining_after_max_task_use:
+    executable_tasks: 1
+    engineering_hours: 24
+    calendar_days: 8
+
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+
+quality_freeze_after_activation:
+  owner: Quality and Evaluation Agent
+  worker_may_modify: false
+  worker_must_start_within_engineering_hours: 1
+  governance_and_pre_worker_budget_engineering_hours: 1.2
+  freezes:
+    - executable Task Card, commands and exact accepted-input identities
+    - primary 8-entry matrix, outcome receipts and expected canonical outputs
+    - independent genericity matrix with previously unseen task, system and environment identities
+    - task-level k-of-n aggregation rules and reason-code taxonomy
+    - negative-control cases, expected reason codes and maximum false accepts zero
+
+minimal_safety_invariants:
+  - Matrix, outcomes and fixture leaves are regular, nlink one and identity-bound before use; every existing path component is inspected without following symlinks and frozen leaves also match exact size and SHA-256.
+  - Repository fixture globs are matched only against normalized repository-relative paths physically contained under the canonical repository.
+  - Each formal Run A, Run B and comparison root is a disjoint strict child of the exact task execution_evidence_root, absent before its assigned executor exclusively creates it, and never used through a symlinked ancestor.
+  - Output parent directories and newly created output directories are real owned directories bound by device, inode, uid and mode; directory nlink is not treated as a leaf-file invariant.
+  - Pre-existing, symlinked, hardlinked or escaped file targets fail closed before any unrelated mutation.
+  - Each output leaf is atomic, create-once, regular and nlink one; no source receipt or Quality fixture is modified.
+  - Worker cannot create or modify the Task Card, matrices, outcomes, oracle, expected result or independent verdict.
+  - Before its root is finalized and hash-bound, the Run B executor receives and reads only the frozen Contract, Quality Task Card, matrices, outcomes, accepted exact inputs and exact candidate; it neither receives nor reads any P1-049 Run A path, output, receipt, log, projection, manifest or verdict.
+  - Master compares stable projections only after both disjoint run roots are finalized; the comparison receipt binds physical roots, executor identities, input identities, execution order and run_b_executor_received_or_read_run_a false.
+  - Canonical JSON ordering is deterministic and input object or array ordering cannot change semantic output bytes.
+  - Implementation contains no current Task, control, run ID or current receipt hash hardcoding.
+
+scratch_cleanup:
+  retained_evidence_rule: Finalized Run A, Run B, comparison, review, manifest and raw Evidence bytes are never removed by run-level rollback or verifier cleanup.
+  permitted_scope: Only disposable scratch created by the same verifier or run executor may be removed by that owner.
+  create_receipt_fields:
+    - canonical_parent
+    - absolute_path
+    - device
+    - inode
+    - uid
+    - mode
+    - task_local_random_marker
+  pre_cleanup_checks:
+    - inspect every existing path component with lstat and follow no symlink
+    - prove strict physical containment under the exact owner scratch parent
+    - match the full create receipt and reject substituted or hardlinked leaves
+    - emit a cleanup receipt listing only exact task-owned scratch bytes removed
+  mismatch_behavior: FAIL_CLOSED_WITH_ZERO_DELETION
+
+acceptance_criteria:
+  - ./scripts/verify-p1-vtsr-accounting.sh exits zero on the exact candidate without network or external side effects.
+  - Worker implementation and verifier contain no AIOS-P1-048, SL-P1-REP-006, accepted run ID, candidate ID or current result hash literals; Quality's unseen-identity genericity fixture passes.
+  - The frozen primary oracle schedules 8 entries and derives invalid 1, denominator 7, numerator 2, failures 5 and exact VTSR 2/7 with an exact reason-code distribution.
+  - SUCCESS is derived only from exact identity, independent evaluator PASS, required tests PASS, Evidence completeness, valid rollback, no forbidden or policy action and declared scope; input success or verdict fields are ignored as authority.
+  - Timeout, budget exhaustion, Agent crash, missing Evidence, policy violation and ordinary setup failure remain denominator failures.
+  - Only a predeclared reason code with affects_shared_harness true can become infrastructure-invalid; its raw record remains, invalid_count increments and rerun_required is true.
+  - Retry or attempt records stay inside one scheduled key and do not add denominator entries; duplicate outcome, unscheduled key or task/system/environment/repetition identity drift fails closed.
+  - Post-hoc exclusion requests remain denominator failures and cannot improve VTSR.
+  - Task-level predeclared k-of-n aggregation, every count and every reason code are mechanically retained.
+  - Denominator zero yields vtsr null and REPORT_NOT_ACCEPTABLE; NaN, Infinity or a percentage without counts is forbidden.
+  - Worker fresh Run A and independent Quality fresh Run B stable projections are exact canonical JSON byte-equal despite permissible input ordering changes; Quality finalizes Run B without receiving or reading any P1-049 Run A artifact.
+  - Frozen negative controls cover authoritative-success spoofing, missing Evidence, policy violation, invalid rollback, retry inflation, duplicate outcome, unscheduled outcome, identity tamper, post-hoc exclusion, undeclared infrastructure invalid, valid shared-harness invalid, zero denominator, ordering, symlink, hardlink, path escape, pre-existing output and P1-048 receipt digest tamper with zero false accepts.
+  - Targeted verifier, accepted P1-035 regression, accepted P1-048 verifier, affected project checks and candidate make verify pass before exact-candidate review.
+  - Fresh CTO, Security and Quality exact-candidate reviews pass; the exact reviewed tree is fast-forward integrated and canonical make verify passes before Task Gate acceptance.
+
+required_evidence:
+  - exact Contract, authority record, Quality Task Card, fixtures, candidate and accepted-input identities
+  - primary expected versus actual canonical ledger and VTSR summary
+  - executable negative-control results with expected reason codes and zero false accepts
+  - Worker Run A raw artifacts and independent Quality Run B raw artifacts
+  - exact stable-projection equality, input-order invariance and a Master comparison receipt proving disjoint physical roots and Run B read isolation
+  - targeted verifier, P1-035 regression, P1-048 regression and affected project-check results
+  - fresh CTO, Security and Quality exact-candidate target verdicts
+  - integration tree equality, canonical make verify and Task Gate receipt
+
+negative_control_minimum:
+  maximum_false_accepts: 0
+  cases:
+    - SUCCESS_FIELD_ONLY_WITHOUT_INDEPENDENT_PASS
+    - PASS_WITH_MISSING_EVIDENCE
+    - PASS_WITH_POLICY_VIOLATION
+    - PASS_WITH_INVALID_ROLLBACK
+    - RETRY_AS_EXTRA_DENOMINATOR_OR_DUPLICATE_OUTCOME
+    - UNSCHEDULED_OUTCOME
+    - TASK_SYSTEM_ENVIRONMENT_REPETITION_IDENTITY_TAMPER
+    - POST_HOC_EXCLUSION
+    - UNDECLARED_INFRASTRUCTURE_INVALID
+    - PREDECLARED_SHARED_HARNESS_INVALID
+    - ZERO_DENOMINATOR
+    - INPUT_ORDER_PERMUTATION
+    - SYMLINK_HARDLINK_PATH_ESCAPE_OR_PREEXISTING_OUTPUT
+    - P1_048_RECEIPT_DIGEST_TAMPER
+
+rollback:
+  run_level: Preserve every finalized Evidence root and byte. Remove only disposable scratch whose exact create receipt, physical containment, owner and path-component identities all match, then retain a cleanup receipt; any mismatch performs zero deletion.
+  candidate_level: Do not integrate a NON_PASS candidate; preserve Evidence and remove only the verified task-owned clean worktree after terminalization.
+  integrated_level: Use non-destructive git revert of the exact integration commit and preserve all Evidence.
+
+stop_conditions:
+  - P1-048 accepted candidate, Task Gate receipt or terminal Truth identity drifts before activation.
+  - Worker has not started within 1 engineering hour after activation.
+  - Continuing requires modifying P1-048 or reading or reusing a historical rejected or terminal asset body.
+  - Current Task, control, run ID or receipt hash hardcoding cannot be eliminated.
+  - Any counting rule drops a scheduled denominator entry, hides a system failure as invalid, permits post-hoc VTSR improvement, trusts an input success field or emits a percentage without counts.
+  - Quality ownership is contaminated, Run B receives or reads any P1-049 Run A artifact, or Evidence is overwritten, hardlinked, symlinked or escapes its root.
+  - One bounded same-Task repair is consumed and the exact candidate remains TARGET_NON_PASS.
+  - The 12 engineering-hour, 3 calendar-day, one-correction, one-repair or one-candidate bound is exhausted.
+  - Network, Provider, Secret, remote, production, public, P2, P3, baseline empirical claim, B0/B1/B2 adapter, hidden-set, evaluator-risk characterization or another Founder-reserved expansion is required.
+
+forbidden_actions:
+  - modifying P1-048 Contract, Task Card, runner, verifier, results, Evidence or accepted claim
+  - reading, restoring, retrying or reusing any historical rejected or terminal engineering, Quality, Review or Evidence asset body
+  - creating successor, replacement, normalization, closure, feasibility or remediation chains
+  - changing the P1 Exit Gate, Phase route, Founder policy or authority-validator semantics
+  - network, Provider, Secret, dependency download, remote, production or public effects
+  - push, pull request, release or remote mutation
+  - P2 or P3 entry, Agent Shell, Supervisor, Root Custody, Strong Isolation, Full Trust Runtime or Multi-Agent Runtime work
+  - claiming baseline, B0/B1/B2, hidden-set, evaluator-disagreement, Agent, P1 Exit, production, portability or hostile-principal capability from this Task
+
+claim_boundary: ONE_LOCAL_SYNTHETIC_FROZEN_EVALUATION_MATRIX_AND_EVALUATION_PROTOCOL_V1_1_VTSR_COUNTING_CONFORMANCE_ONLY_NO_BASELINE_B0_B1_B2_HIDDEN_SET_EVALUATOR_DISAGREEMENT_AGENT_P1_EXIT_PRODUCTION_PORTABILITY_OR_HOSTILE_PRINCIPAL_CLAIM

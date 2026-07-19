@@ -1,0 +1,192 @@
+schema_version: 1
+record_type: sourcelens_aios_phase_delegated_task_contract
+task_id: AIOS-P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK
+phase: P1
+route_id: P1_EXPERIMENT_PACK_DUAL_RUN_ARCHITECTURE_ROUTE_V1
+status: AUTHORIZED_ACTIVE
+execution_authority: PHASE_DELEGATED
+effective_only_when_canonical_truth_binds_exact_bytes: true
+title: Actual Execution Experiment Pack
+
+objective: >-
+  Build and execute one minimal local Experiment Pack for the accepted visible
+  synthetic control SL-P1-REP-006-DEDUPE-REFACTOR. Produce an actual Run A and
+  a fresh independent Run B from the same frozen inputs, preserve raw command
+  Evidence, compare only predeclared stable semantics, exercise negative
+  controls, and prove exact rollback to the frozen base identity.
+
+why_now:
+  - The current P1 Exit Gate requires reproducible executable evaluation evidence, not another document-only artifact.
+  - P1-047 stopped before Worker activation and produced no implementation, run, candidate or capability evidence.
+  - The Founder-authorized task-scoped re-entry names this independent runnable Task as the immediate next action.
+
+task_kind: EVALUATION_FOUNDATION_ENGINEERING
+risk_level: medium
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+founder_decision_required: false
+
+contract_correction:
+  allowance: 1
+  used: 1
+  cause: START_SAFETY_VALIDATOR_REQUIRED_ROLE_PROJECTION
+  scope_or_permission_changed: false
+
+# Compatibility projection required by the current P1 start-safety validator.
+# The authoritative role mapping remains the exact roles block below.
+owner_role: Engineering Manager Agent
+worker_role: Experiment Pack Engineer
+
+source_identity:
+  canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
+  activation_parent_commit: 021bcd62dec8e4f4de3a8625469b76dc49aeaa11
+  activation_parent_tree: cbba12fd8d186c19d79555b9016b4f01f09f314d
+  task_branch: codex/p1-048-actual-experiment-pack
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-048-actual-experiment-pack
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-048-actual-experiment-pack
+
+accepted_control:
+  control_id: SL-P1-REP-006-DEDUPE-REFACTOR
+  task_spec_path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/task-spec.json
+  task_spec_sha256: 5e7c175f8a7c0204b45a7cba20fb3212a8d7f2d0d2094709d194dd1d3daa57ee
+  task_spec_byte_length: 2857
+  expected_base_failure_path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/expected-base-failure.json
+  expected_base_failure_sha256: e590ac0206654359385f08849cadbcf4e968d6f85dededd65647d1ef4c3d01fc
+  expected_base_failure_byte_length: 443
+  reference_patch_path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/reference-solution.patch
+  reference_patch_sha256: dc715cbf1352b0342242eb640513e58c97d0c47a5455a51cfe6d859c1c2c9cc4
+  reference_patch_byte_length: 1066
+  frozen_base_commit: dd71c92a04693e60f1cb30d577107205411cbed3
+  frozen_base_tree: 78327e74c83aed97eddcc7485dcf985865c2b815
+  split: validation
+  risk: low
+
+accepted_reuse:
+  - P1-035 accepted dataset and exact REP-006 control bytes
+  - evaluation-harness/evaluator/schema-validator.mjs
+  - docs/aios/schemas/environment-snapshot.schema.json
+  - Node.js standard library and explicit local Git and Node executables
+
+forbidden_reuse:
+  - P1-047 Contract, Review, Evidence, candidate or rejected lineage
+  - P1-001 recorder or harness behavior
+  - P1-011 runtime implementation
+  - any historical failed engineering, Quality, Review or Evidence asset
+
+outputs:
+  - evaluation-harness/fixtures/experiment-pack-reentry-v1/task-card.json
+  - evaluation-harness/harness/experiment-pack-reentry-v1/experiment-pack.mjs
+  - scripts/verify-p1-experiment-pack-reentry.sh
+  - actual task-owned Run A and independent Run B Evidence outside the repository
+
+allowlisted_paths:
+  - docs/aios/tasks/P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK.yaml
+  - evaluation-harness/fixtures/experiment-pack-reentry-v1/task-card.json
+  - evaluation-harness/harness/experiment-pack-reentry-v1/experiment-pack.mjs
+  - scripts/verify-p1-experiment-pack-reentry.sh
+  - Makefile
+  - docs/PROJECT_CODE_MAP.md
+  - docs/aios/truth/project_state.yaml
+
+write_ownership:
+  quality:
+    - evaluation-harness/fixtures/experiment-pack-reentry-v1/task-card.json
+  worker:
+    - evaluation-harness/harness/experiment-pack-reentry-v1/experiment-pack.mjs
+    - scripts/verify-p1-experiment-pack-reentry.sh
+  integration:
+    - docs/aios/tasks/P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK.yaml
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+    - docs/aios/truth/project_state.yaml
+  external_evidence:
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-048-actual-experiment-pack/**
+
+roles:
+  owner: Engineering Manager Agent
+  worker: Experiment Pack Engineer
+  independent_reviewers:
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent
+
+budget:
+  engineering_hours: 12
+  calendar_days: 3
+  implementation_iterations: 2
+  candidates: 1
+
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+
+quality_freeze_after_activation:
+  owner: Quality and Evaluation Agent
+  worker_may_modify: false
+  freezes:
+    - executable Task Card and exact input identities
+    - required commands and assertions
+    - stable semantic projection
+    - negative-control cases and reason codes
+
+minimal_safety_invariants:
+  - Canonical source is never a run materialization or patch target.
+  - Each run uses a distinct newly created disposable materialization from the frozen base.
+  - Each Evidence output leaf is atomic, create-once, task-owned, contained, regular and nlink one.
+  - Pre-existing, symlinked, hardlinked, escaped or identity-drifted Evidence paths fail closed without cleanup of pre-existing objects.
+  - Worker cannot create or modify the Task Card, oracle, expected result or independent verdict.
+  - Run B ignores Run A verdict fields and directly reexecutes from frozen inputs.
+  - Rollback must remove the added file and restore exact original source bytes, base tree and clean state.
+
+acceptance_criteria:
+  - Run A and Run B each start from exact base commit dd71c92a04693e60f1cb30d577107205411cbed3 and tree 78327e74c83aed97eddcc7485dcf985865c2b815 in distinct materializations.
+  - Before patching, issue test exits 1 with REP006_DEDUPE_PRESERVES_ORDER and regression test exits 0.
+  - The exact non-empty patch is applied and changed paths are exactly src/projects.mjs, src/users.mjs and src/unique.mjs.
+  - Patched issue and regression tests both exit 0.
+  - Every command retains argv, cwd, exit, signal, duration, and raw stdout and stderr bytes with lengths and SHA-256.
+  - Inverse patch removes src/unique.mjs and restores exact base source bytes, tree and clean state.
+  - Run A and Run B stable semantic projections match while physical path, inode, PID, time and duration remain retained but excluded from equality.
+  - Quality-frozen negative controls reject pre-existing Evidence, symlink, hardlink or nlink drift, path escape, empty or no-op patch, patch-scope drift, missing required action and artifact identity tamper with zero false accepts.
+  - Targeted verification, accepted P1-035 regression, fresh Run B and fresh CTO, Security and Quality exact-candidate reviews pass before candidate Task Gate.
+  - After candidate Task Gate, the exact reviewed tree is integrated locally and one clean canonical full make verify passes before terminal Task PASS.
+
+required_evidence:
+  - exact Contract, Task Card, candidate and input identities
+  - Run A raw artifacts, stable projection and rollback result
+  - executable negative-control results
+  - independent fresh Run B raw artifacts and A/B stable comparison
+  - targeted verifier and accepted dataset regression results
+  - fresh CTO, Security and Quality target verdicts
+  - integration tree equality and canonical make verify result
+
+rollback:
+  run_level: Apply the inverse patch in the disposable materialization and verify exact frozen base identity and clean state.
+  candidate_level: Do not integrate a NON_PASS candidate; preserve Evidence and remove only the verified task-owned clean worktree after terminalization.
+  integrated_level: Use non-destructive git revert of the exact integration commit and preserve all Evidence.
+
+stop_conditions:
+  - Worker has not started within 1 engineering hour after activation.
+  - Actual Run A is not produced within 8 engineering hours.
+  - Fresh independent Run B is not produced within 12 engineering hours.
+  - Source, tool, Task Card, oracle or accepted-input identity drifts.
+  - Worker contaminates Quality-owned or independent-review bytes.
+  - A forbidden zero-action, tamper, path, symlink or hardlink case is accepted.
+  - Rollback cannot restore exact base identity.
+  - One bounded same-Task implementation repair is consumed and the exact candidate remains TARGET_NON_PASS.
+  - Evidence is overwritten, damaged or escapes the allowed root.
+  - Network, Provider, Secret, remote, production, public or another Founder-reserved permission is required.
+
+forbidden_actions:
+  - reading, restoring, retrying or reusing P1-047 rejected bytes or lineage
+  - changing the P1 Exit Gate, Phase route, Founder policy or current authority validators
+  - creating successor, replacement, normalization, closure, feasibility, remediation or Route V2 or V3
+  - network, Provider, Secret, dependency download, remote, production or public effects
+  - push, pull request, release or remote mutation
+  - P2 or P3 entry, Agent Shell, Supervisor, Root Custody, Strong Isolation, Full Trust Runtime or Multi-Agent Runtime work
+  - claiming Agent, benchmark, P1 Exit, production or hostile-principal capability from this Task
+
+claim_boundary: ONE_VISIBLE_SYNTHETIC_COOPERATIVE_LOCAL_REFERENCE_TASK_ACTUAL_EXECUTION_AND_INDEPENDENT_REEXECUTION_ONLY

@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-19T03:30:54Z"
-verification_scope: P1_TASK_SCOPED_FAILURE_OVERRIDE_REENTRY_ACTIVE_TASK_NONE
+last_verified_at: "2026-07-19T04:08:40Z"
+verification_scope: AIOS_P1_048_PHASE_DELEGATED_TASK_ACTIVATION
 
 authority:
   founder: Human Founder
@@ -37,8 +37,8 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
-  note: The Founder-approved long-term Goal identity and P1 Phase entry remain ACTIVE. P1_EXPERIMENT_PACK_DUAL_RUN_ARCHITECTURE_ROUTE_V1 is ACTIVE under the exact task-scoped failure override; P1-047 is terminal pre-Worker and P1-048 is the next executable engineering Task.
+  current_task_authority: AIOS-P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK
+  note: The Founder-approved long-term Goal identity and P1 Phase entry remain ACTIVE. P1_EXPERIMENT_PACK_DUAL_RUN_ARCHITECTURE_ROUTE_V1 is ACTIVE under the exact task-scoped failure override; P1-047 remains terminal and P1-048 is the sole active executable engineering Task.
 
 project:
   name: SourceLens AIOS
@@ -48,8 +48,8 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  phase_execution_status: ACTIVE
-  p1_execution_status: ACTIVE
+  phase_execution_status: EXECUTING
+  p1_execution_status: EXECUTING
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -214,7 +214,7 @@ current_phase_route:
     claim_boundary: ONE_VISIBLE_COOPERATIVE_LOCAL_REFERENCE_TASK_ACTUAL_EXECUTION_AND_INDEPENDENT_SEMANTIC_REEXECUTION_ONLY
   reentry_first_executable_task:
     task_id: AIOS-P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK
-    status: SELECTED_NOT_ACTIVATED
+    status: ACTIVE
     classification: ENGINEERING
     contract_path: docs/aios/tasks/P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK.yaml
     max_engineering_hours: 12
@@ -226,6 +226,17 @@ current_phase_route:
       - p1_035
     accepted_schema_sources:
       - p1_011
+    claim_boundary: ONE_VISIBLE_SYNTHETIC_COOPERATIVE_LOCAL_REFERENCE_TASK_ACTUAL_EXECUTION_AND_INDEPENDENT_REEXECUTION_ONLY
+  active_task:
+    task_id: AIOS-P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK
+    status: ACTIVE
+    classification: ENGINEERING
+    contract_path: docs/aios/tasks/P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK.yaml
+    max_engineering_hours: 12
+    max_calendar_days: 3
+    max_implementation_iterations: 2
+    max_candidates: 1
+    accepted_control_id: SL-P1-REP-006-DEDUPE-REFACTOR
     claim_boundary: ONE_VISIBLE_SYNTHETIC_COOPERATIVE_LOCAL_REFERENCE_TASK_ACTUAL_EXECUTION_AND_INDEPENDENT_REEXECUTION_ONLY
   prior_architecture_route:
     route_id: P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_V1
@@ -240,7 +251,7 @@ current_phase_route:
     capability_claims: 0
     rejected_asset_read_or_reuse_allowed: false
     basis: The exact composition hypothesis was falsified by executable Evidence; it no longer schedules work and does not modify the unchanged P1 Exit Gate.
-  next_eligible_action: MASTER_ACTIVATE_AIOS_P1_048
+  next_eligible_action: QUALITY_FREEZE_P1_048_TASK_CARD_THEN_START_WORKER
   next_founder_decision_points:
     - EXACT_PROVIDER_NETWORK_SECRET_COST_AUTHORIZATION
     - CRITICAL_RESIDUAL_ACCEPTANCE
@@ -965,38 +976,48 @@ p0_baseline:
   online_verification_status: ARCHIVED_NOT_ON_ACTIVE_PATH
 
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK
+  current_task_status: ACTIVE
   current_task_contract:
-    path: null
-    sha256: null
-    byte_length: null
-  current_task_contract_sha256: null
-  current_execution_authorization: null
-  current_execution_authorization_sha256: null
+    path: docs/aios/tasks/P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK.yaml
+    sha256: 092a7d38d5c3f208a0e97d74cfbee906793d2a5fe31caf2fd15948b7ea209a62
+    byte_length: 9995
+  current_task_contract_sha256: 092a7d38d5c3f208a0e97d74cfbee906793d2a5fe31caf2fd15948b7ea209a62
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-048-actual-experiment-pack/MASTER_TASK_AUTHORITY_CORRECTED.json
+  current_execution_authorization_sha256: 7dd2e7fb3514b480166091253d602421a83315d2b9c17b73d24c38823b35b490
   authority_record:
-    path: null
-    sha256: null
-    byte_length: null
-  execution_nonce: null
-  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
-  authorization_id: null
-  activation_parent_commit: null
-  activation_parent_tree: null
-  task_resource_state: NONE_PHASE_ACTIVE
-  task_branch: null
-  task_worktree: null
-  execution_evidence_root: null
-  allowlisted_paths: []
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-048-actual-experiment-pack/MASTER_TASK_AUTHORITY_CORRECTED.json
+    sha256: 7dd2e7fb3514b480166091253d602421a83315d2b9c17b73d24c38823b35b490
+    byte_length: 4372
+  execution_nonce: AIOS-P1-048-EXEC-092A7D38-021BCD62
+  execution_nonce_status: ACTIVE
+  authorization_id: AIOS-P1-048-AUTH-092A7D38-021BCD62
+  activation_parent_commit: 021bcd62dec8e4f4de3a8625469b76dc49aeaa11
+  activation_parent_tree: cbba12fd8d186c19d79555b9016b4f01f09f314d
+  task_resource_state: CREATED_ACTIVE
+  task_branch: codex/p1-048-actual-experiment-pack
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-048-actual-experiment-pack
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-048-actual-experiment-pack
+  allowlisted_paths:
+    - docs/aios/tasks/P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK.yaml
+    - evaluation-harness/fixtures/experiment-pack-reentry-v1/task-card.json
+    - evaluation-harness/harness/experiment-pack-reentry-v1/experiment-pack.mjs
+    - scripts/verify-p1-experiment-pack-reentry.sh
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+    - docs/aios/truth/project_state.yaml
   budget:
-    engineering_hours: null
-    calendar_days: null
-    implementation_iterations: null
-    candidates: null
+    engineering_hours: 12
+    calendar_days: 3
+    implementation_iterations: 2
+    candidates: 1
   roles:
-    owner: null
-    worker: null
-    independent_reviewers: []
+    owner: Engineering Manager Agent
+    worker: Experiment Pack Engineer
+    independent_reviewers:
+      - CTO Agent
+      - Security Agent
+      - Quality and Evaluation Agent
   external_effects:
     network: false
     provider: false
@@ -1010,7 +1031,7 @@ active_work:
   founder_decision_required: false
   escalation_reason: null
   user_action_required: NONE
-  next_eligible_action: MASTER_ACTIVATE_AIOS_P1_048
+  next_eligible_action: QUALITY_FREEZE_P1_048_TASK_CARD_THEN_START_WORKER
 
 superseded_pre_delegation_authorizations:
   aios_p1_009:
@@ -1936,8 +1957,8 @@ historical_lineages:
 
 phase_execution_claim:
   current_route_claim: P1_EXPERIMENT_PACK_DUAL_RUN_ARCHITECTURE_ROUTE_V1_ACTIVE_TASK_SCOPED_FAILURE_OVERRIDE
-  current_task_claim: NONE
-  real_engineering_progress: REENTRY_CUTOVER_ONLY_P1_048_SELECTED_NOT_STARTED
+  current_task_claim: AIOS-P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK_ACTIVE
+  real_engineering_progress: P1_048_ACTIVATED_PRE_WORKER_QUALITY_FREEZE
   product_capability_changed: false
   phase_local_allowed:
     - local evaluation foundation engineering under an exact Task Contract
@@ -1961,7 +1982,7 @@ phase_execution_claim:
     - The exact Run-Kernel composition hypothesis is exhausted and has no current scheduling authority.
     - AIOS-P1-047_LOCAL_DUAL_RUN_EXPERIMENT_PACK is terminal before Worker start after corrected Contract review NON_PASS, with zero implementation, candidate or capability; its rejected lineage cannot be read, retried or reused.
     - The Founder task-scoped failure override keeps the same route ACTIVE and supersedes only the automatic route-death scheduling effect of the P1-047 pre-Worker failure.
-    - AIOS-P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK is the first executable re-entry Task and must be activated immediately after this one-shot cutover PASS.
+    - AIOS-P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK is the sole active executable re-entry Task; Quality must freeze its Task Card and the Worker must start within the first engineering hour.
     - Historical four-slice ordering and attempt routing have no current scheduling authority.
     - Peripheral validators, auxiliary governance tools and work without direct P1 Exit Gate value are ineligible.
   not_authorized_in_current_phase:
@@ -1982,9 +2003,9 @@ phase_execution_claim:
 
 claim_boundary:
   current_phase_route: P1_EXPERIMENT_PACK_DUAL_RUN_ARCHITECTURE_ROUTE_V1_ACTIVE_TASK_SCOPED_FAILURE_OVERRIDE
-  current_task: NONE
-  next_eligible_action: MASTER_ACTIVATE_AIOS_P1_048
-  real_engineering_progress: REENTRY_CUTOVER_ONLY_P1_048_SELECTED_NOT_STARTED
+  current_task: AIOS-P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK_ACTIVE
+  next_eligible_action: QUALITY_FREEZE_P1_048_TASK_CARD_THEN_START_WORKER
+  real_engineering_progress: P1_048_ACTIVATED_PRE_WORKER_QUALITY_FREEZE
   product_capability_changed_by_route_activation: false
   repository_intelligence_quality: UNKNOWN_NOT_YET_BENCHMARKED
   evaluation_harness: IMPLEMENTED_AND_FOUNDER_GATE_ACCEPTED_CONFORMANCE_ONLY

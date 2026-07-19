@@ -1,0 +1,336 @@
+schema_version: 1
+record_type: sourcelens_aios_phase_delegated_task_contract
+task_id: AIOS-P1-053_TASK_LOCAL_UNTRUSTED_PATCH_EXECUTION_QUARANTINE
+phase: P1
+route_id: P1_BOUNDED_UNTRUSTED_EXECUTION_QUARANTINE_AND_OFFLINE_PROVIDER_COMPOSITION_ARCHITECTURE_ROUTE_V1
+status: AUTHORIZED_ACTIVE
+execution_authority: FOUNDER_ROUTE_AUTHORIZED_PHASE_DELEGATED
+effective_only_when_canonical_truth_binds_exact_bytes: true
+title: Task-local Untrusted Patch Execution Quarantine
+
+objective: >-
+  Clean-room implement and falsify one exact-host, deny-default, task-local
+  quarantine around only each patched-test Node child. The trusted parent owns
+  disposable materialization, structural patch admission, patch application,
+  Evidence and exact rollback. The untrusted child receives only the declared
+  materialization, exact argv, cwd and rebuilt environment, and must not obtain
+  network, Secret, canonical, Evidence-root, undeclared host-filesystem, shell or
+  descendant-process capability.
+
+why_now:
+  - The Founder authorized this bounded architecture route after the prior route proved that text denylisting is not a runtime security boundary.
+  - Accepted P1-035 supplies one exact visible control and accepted P1-048 supplies accepted cooperative-local execution, replay, Evidence and rollback patterns.
+  - The next falsifiable blocker on the Provider experiment path is whether one exact local runtime can deny the declared effects while executing the safe REP-001 patch.
+
+task_kind: EVALUATION_FOUNDATION_ENGINEERING
+risk_level: high
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+founder_decision_required: false
+
+contract_correction:
+  allowance: 1
+  used: 0
+  cause: null
+  scope_or_permission_changed: false
+
+owner_role: P1-053 Engineering Manager Agent
+worker_role: P1-053 Quarantine Runner Engineer
+
+source_identity:
+  canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
+  activation_parent_commit: 4c1adf7d33383d51e8949f66250cc5971bcfca8d
+  activation_parent_tree: a0c7db0795d0cf2b365d5771b12efeb0200be0e3
+  task_branch: codex/p1-053-task-local-quarantine
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-053-task-local-quarantine
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-053-task-local-untrusted-patch-execution-quarantine-20260719T230324Z
+
+founder_route_authority:
+  authorization_token: AUTHORIZE_P1_BOUNDED_UNTRUSTED_EXECUTION_QUARANTINE_AND_OFFLINE_PROVIDER_COMPOSITION_ROUTE_V1
+  decision_packet_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-bounded-untrusted-execution-and-offline-provider-route-20260719T163942Z/FOUNDER_P1_BOUNDED_UNTRUSTED_EXECUTION_AND_OFFLINE_PROVIDER_ROUTE_DECISION_PACKET.md
+  decision_packet_sha256: 5f442aa9718933f6f7f9a16e7bf2fc6115b7a5a7a45cdbcfe8100e29d5bb7ab2
+  decision_packet_byte_length: 9810
+
+accepted_control:
+  control_id: SL-P1-REP-001-RANGE-NORMALIZATION
+  task_spec_path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/task-spec.json
+  task_spec_sha256: 25de6b6f330e09c076521b42a88d60712637e0fc7de7ab1cfe1f9f5d4c223321
+  task_spec_byte_length: 2960
+  expected_base_failure_path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/expected-base-failure.json
+  expected_base_failure_sha256: 5dbe034939ed2178f86fd84ad409cff9426040f63343de27f7ad3e8f46dd2494
+  expected_base_failure_byte_length: 439
+  source_path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/src/range.mjs
+  source_sha256: 1e3de2958c9841bbe785d903b2f5453389c4225359308b539ac2cb3194469d75
+  source_byte_length: 115
+  issue_test_path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/test/issue.test.mjs
+  regression_test_path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/test/regression.test.mjs
+  reference_patch_path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/reference-solution.patch
+  reference_patch_sha256: 44e0068f8fe3cff3d64706efa63fb523c6c79734c68009e63245e532c81fb96b
+  reference_patch_byte_length: 256
+  frozen_base_commit: 68ce8226eff4c5c7230b55b18a4cbea2f8e4a20f
+  frozen_base_tree: 900814727113d65f5dad8b63222e14f39b2cf38b
+
+accepted_inputs:
+  p1_035:
+    task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+    status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+    contract_path: docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
+    contract_sha256: acec5432aacd6476693db62bdb52ee326c467f17b691860688fe952f7ffbdc33
+    accepted_candidate_commit: 686eda0cd7a93b72ac5e64301479f17e4b096fb0
+    accepted_candidate_tree: b2740b44d0051303057deac7d719c27fd6a5578a
+    reuse_boundary: EXACT_ACCEPTED_DATASET_BYTES_ONLY_NO_MUTATION
+  p1_048_substrate:
+    task_id: AIOS-P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK
+    status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+    contract_path: docs/aios/tasks/P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK.yaml
+    contract_sha256: 092a7d38d5c3f208a0e97d74cfbee906793d2a5fe31caf2fd15948b7ea209a62
+    accepted_candidate_commit: 9e130f2aae0fd951b252cf0dff8edc9b9364e962
+    accepted_candidate_tree: 3a4229e9a8da181ca8bb256f5467cf96549c2549
+    reuse_boundary: ACCEPTED_DESIGN_AND_LOCAL_EXECUTION_PATTERNS_ONLY_NO_ACCEPTED_BYTE_MUTATION
+
+historical_isolation:
+  terminal_finding_metadata_allowed: SECURITY-P1-052-001_UNTRUSTED_PATCH_RUNTIME_ISOLATION_BYPASS
+  rejected_p1_052_source_fixture_evaluator_candidate_review_or_evidence_body_read_allowed: false
+  rejected_p1_052_fix_replay_restore_integration_or_reuse_allowed: false
+
+exact_host_identity:
+  observed_at_utc: "2026-07-19T23:03:24Z"
+  operating_system:
+    product_name: macOS
+    product_version: "15.2"
+    build_version: 24C101
+    kernel_release: 24.2.0
+    machine_architecture: arm64
+    execution_uid: 501
+    execution_gid: 20
+    root_execution: false
+  sandbox_executable:
+    path: /usr/bin/sandbox-exec
+    realpath: /usr/bin/sandbox-exec
+    sha256: 7fc7dcd7782e1abd52b11f6c512bdfb0c09d2502b619c483fdfce554c472352e
+    byte_length: 102560
+    mode: "0755"
+    owner_uid: 0
+    owner_gid: 0
+    observed_link_count: 1
+    current_user_writable: false
+    identifier: com.apple.sandbox-exec
+    platform_identifier: 16
+    candidate_cdhash_full_sha256: 6fbe50ec0c5d77d1b8c8bf7f656ecdeae1461adf6e58c170ae2197790ded21eb
+    required_signature_verification: VALID_ON_DISK_AND_SATISFIES_DESIGNATED_REQUIREMENT
+    lifecycle_status: APPLE_DEPRECATED_EXACT_HOST_PRIMITIVE
+  node_executable:
+    path: /usr/local/bin/node
+    realpath: /usr/local/bin/node
+    version: v20.17.0
+    sha256: c5548e7a991a5c90170a29843ffc46df4643e29141f3cbb035f60295cf2bc882
+    byte_length: 193262272
+    mode: "0755"
+    owner_uid: 0
+    owner_gid: 0
+    observed_link_count: 1
+    current_user_writable: false
+  trusted_parent_git_executable:
+    path: /usr/bin/git
+    realpath: /usr/bin/git
+    version: git version 2.39.5 (Apple Git-154)
+    sha256: 29d5080bd197feb8245ee7d9a275fee4750b5496c6a7016090eff5a357c1e8c4
+    byte_length: 118848
+    mode: "0755"
+    owner_uid: 0
+    owner_gid: 0
+    observed_link_count: 78
+    current_user_writable: false
+
+execution_model:
+  trusted_parent_responsibilities:
+    - Verify every bound executable, Contract, profile, input and task-owned path before child launch.
+    - Atomically create a unique disposable materialization and synthetic canaries without following or replacing pre-existing objects.
+    - Materialize the exact REP-001 base, structurally admit and apply the exact test patch, record Evidence and perform exact rollback.
+    - Rebuild the child environment from a literal allowlist and launch only the exact sandbox command.
+  untrusted_child_boundary:
+    - Each child runs under the deny-default OS runtime profile before importing patched materialization code.
+    - The child receives read access to the declared materialization and only the minimum frozen runtime resources required by Node.
+    - The child receives no write access and no network, Secret, canonical, Evidence-root, undeclared host-filesystem, shell, fork or descendant-process capability.
+  exact_positive_commands:
+    - /usr/local/bin/node test/issue.test.mjs
+    - /usr/local/bin/node test/regression.test.mjs
+  node_test_runner_process_isolation_allowed: false
+  text_regex_token_or_ast_capability_denylist_as_security_boundary_allowed: false
+
+outputs:
+  - evaluation-harness/fixtures/task-local-untrusted-patch-quarantine-v1/task-card.json
+  - evaluation-harness/fixtures/task-local-untrusted-patch-quarantine-v1/probes/*.mjs
+  - evaluation-harness/evaluator/task-local-untrusted-patch-quarantine-v1/evaluate.mjs
+  - evaluation-harness/harness/task-local-untrusted-patch-quarantine-v1/quarantine.mjs
+  - evaluation-harness/harness/task-local-untrusted-patch-quarantine-v1/deny-default.sb
+  - scripts/verify-p1-task-local-untrusted-patch-quarantine.sh
+  - task-owned Evidence outside the repository
+
+allowlisted_paths:
+  - docs/aios/tasks/P1-053_TASK_LOCAL_UNTRUSTED_PATCH_EXECUTION_QUARANTINE.yaml
+  - evaluation-harness/fixtures/task-local-untrusted-patch-quarantine-v1
+  - evaluation-harness/evaluator/task-local-untrusted-patch-quarantine-v1
+  - evaluation-harness/harness/task-local-untrusted-patch-quarantine-v1
+  - scripts/verify-p1-task-local-untrusted-patch-quarantine.sh
+  - Makefile
+  - docs/PROJECT_CODE_MAP.md
+  - docs/aios/truth/project_state.yaml
+
+write_ownership:
+  quality:
+    - evaluation-harness/fixtures/task-local-untrusted-patch-quarantine-v1/**
+    - evaluation-harness/evaluator/task-local-untrusted-patch-quarantine-v1/evaluate.mjs
+  worker:
+    - evaluation-harness/harness/task-local-untrusted-patch-quarantine-v1/quarantine.mjs
+    - evaluation-harness/harness/task-local-untrusted-patch-quarantine-v1/deny-default.sb
+  integration:
+    - docs/aios/tasks/P1-053_TASK_LOCAL_UNTRUSTED_PATCH_EXECUTION_QUARANTINE.yaml
+    - scripts/verify-p1-task-local-untrusted-patch-quarantine.sh
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+    - docs/aios/truth/project_state.yaml
+  external_evidence:
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-053-task-local-untrusted-patch-execution-quarantine-20260719T230324Z/**
+
+roles:
+  owner: P1-053 Engineering Manager Agent
+  worker: P1-053 Quarantine Runner Engineer
+  independent_reviewers:
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent
+
+budget:
+  engineering_hours: 16
+  calendar_days: 4
+  implementation_iterations: 2
+  candidates: 1
+
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+
+quality_freeze_after_activation:
+  owner: Quality and Evaluation Agent
+  worker_may_modify: false
+  freezes:
+    - exact Task Card, accepted-input identities and positive commands
+    - parameterized runtime-denial and pre-launch binding probes
+    - synthetic canary construction and pre/post identity assertions
+    - evaluator commands, stable projection fields and reason codes
+
+minimal_safety_invariants:
+  - The runtime boundary is the exact deny-default OS profile; patch-content text, regex, token or AST capability denial is not an accepted security boundary.
+  - No network transport, Provider call, real Secret read, remote mutation, production effect or public effect is implemented or exercised.
+  - The trusted parent is not patch-controlled and the untrusted child cannot write canonical source, task Evidence or any materialization content.
+  - Accepted P1-035 and P1-048 bytes remain immutable and every run uses a fresh task-owned disposable materialization.
+  - Every materialization directory is real, contained and uniquely owned; every canary and Evidence leaf is regular, non-symlink, link-count one and create-once; cleanup removes only an object whose exact creation identity the current run owns.
+  - The formal negative matrix touches no real Secret, real external address, pre-existing Evidence or user asset.
+  - Dynamic import, computed access, symlink, parent traversal and file-URL probes reach runtime denial instead of being rejected by patch text inspection.
+  - Profile, sandbox executable, Node, argv, cwd, environment or materialization identity drift fails before child launch.
+  - Any child descendant, usable socket, forbidden file access or synthetic canary drift is a false accept and immediate terminal failure.
+  - Each Run performs exact inverse patch rollback and verifies the frozen base tree, source hashes, population and clean state before releasing its materialization.
+
+acceptance_criteria:
+  - Current exact macOS, sandbox-exec signature and bytes, Node, trusted-parent Git, profile, runner, argv, cwd, rebuilt environment and accepted inputs are hash-bound in executable Evidence.
+  - A safe exact REP-001 patch runs issue and regression tests in quarantined children using the two direct Node commands and both exit zero.
+  - Independent Run A and Quality-owned Run B use distinct fresh materializations, repeat admission, patch, tests and rollback, and produce byte-identical stable projections after excluding physical path, inode, PID and timing fields.
+  - Host, canonical and Evidence synthetic canary classes each deny read, write-existing, create, rename, unlink and hardlink operations; pre-existing canary identity fields and hashes remain unchanged and absent targets remain absent.
+  - Synthetic loopback bind and connect probes are denied before any listener or connection becomes usable; no DNS or real external address is used.
+  - A synthetic Secret environment canary and synthetic Secret file canary are invisible and unreadable to the child; no real Secret is read.
+  - Dynamic import, computed global access, symlink escape, parent traversal and file-URL escape are admitted to a quarantined child and denied by the runtime profile.
+  - Child-process spawn, shell execution and timeout-descendant probes create no descendant process.
+  - Profile-byte, sandbox-identity, argv, cwd, environment-key, materialization-population, symlink, hardlink, link-count and mode drift cases fail before child launch.
+  - The frozen negative matrix records zero false accepts and no forbidden or external effect.
+  - Targeted verification and accepted P1-035/P1-048 regressions pass before exact-candidate review.
+  - Fresh CTO, Security and Quality reviewers PASS the same exact candidate commit and tree before Task Gate.
+  - After Task Gate, the reviewed tree is integrated locally, equals the reviewed tree exactly and one clean canonical make verify passes.
+
+stable_projection:
+  included_fields:
+    - schema_version
+    - task_id
+    - target_claim
+    - host_identity_projection
+    - accepted_input_identities
+    - profile_identity
+    - runner_identity
+    - positive_case_results
+    - negative_case_results
+    - false_accept_count
+    - rollback_projection
+    - external_effects
+  excluded_run_physical_fields:
+    - run_id
+    - physical_path
+    - device
+    - inode
+    - pid
+    - wall_clock_time
+    - duration
+
+required_evidence:
+  - exact Contract, authority, Quality freeze receipt, Task Card and probe identities
+  - exact OS, sandbox signature, executable, profile, runner, argv, cwd, environment and input identities
+  - Run A and independent Run B raw command, exit, signal, stdout and stderr identities
+  - runtime probe admission and child-start proof and pre-launch drift probe child-not-started proof
+  - synthetic canary pre/post identities, network usability results and descendant observations
+  - patch application, changed population, exact inverse rollback, base tree and clean-state proof
+  - parameterized negative matrix with exact reason codes and zero false accepts
+  - byte-identical Run A and Run B stable projection
+  - exact candidate manifest and fresh CTO, Security and Quality reviews
+  - integration tree equality and canonical make verify result
+
+target_claim: ONE_EXACT_HOST_RUNTIME_TASK_LOCAL_UNTRUSTED_PATCH_ADMISSION_AND_DECLARED_EFFECT_DENIAL_CONFORMANCE_ONLY
+claim_boundary: ONE_EXACT_HOST_RUNTIME_TASK_LOCAL_UNTRUSTED_PATCH_ADMISSION_AND_DECLARED_EFFECT_DENIAL_CONFORMANCE_ONLY
+
+claim_exclusions:
+  - SANDBOX_ESCAPE_RESISTANCE
+  - HOSTILE_PRINCIPAL_CONTAINMENT
+  - STRONG_ISOLATION
+  - GENERAL_PURPOSE_SANDBOX
+  - PROVIDER_CAPABILITY
+  - AGENT_CAPABILITY
+  - P1_EXIT
+  - PRODUCT_OR_PRODUCTION_CAPABILITY
+  - OTHER_HOST_OR_RUNTIME_CONFORMANCE
+
+forbidden_actions:
+  - Read, recover, restore, replay, fix, integrate or reuse P1-052 rejected implementation, fixture, evaluator, candidate, Review body or Evidence body.
+  - Use patch-content text, regex, token or AST capability denylisting as the runtime security boundary.
+  - Access a real Secret, real external address, Provider, remote system, production system or public surface.
+  - Modify accepted P1-035 or P1-048 bytes, canonical source outside the allowlist, immutable validators, the P1 Exit Gate, Phase route or capability policy.
+  - Introduce Docker, a VM, root entitlement, App Sandbox signing work, dependency download, network transport, broader filesystem permission or a general-purpose sandbox platform.
+  - Claim Strong Isolation, hostile-principal containment, sandbox escape resistance, Provider, Agent, P1 Exit, product or production capability.
+  - Create a second candidate, successor, replacement, normalization, closure, feasibility, remediation or governance correction chain.
+  - Push, open a PR, release, mutate a remote or create any network, Provider, Secret, remote, production or public effect.
+
+rollback:
+  run_level: Restore exact source bytes and verify exact frozen base tree, population and clean state inside each disposable materialization.
+  candidate_level: Do not integrate a NON_PASS candidate; preserve Evidence and remove only a verified task-owned clean worktree after terminalization.
+  integrated_level: Use non-destructive git revert of the exact integration commit and preserve all Evidence.
+
+stop_conditions:
+  - The exact sandbox-exec, Apple signature, macOS build, Node or trusted-parent Git identity drifts.
+  - The deny-default profile cannot run both positive REP-001 tests while satisfying every frozen denial control.
+  - Any formal negative control obtains a forbidden capability, any canary drifts, or any actual external effect occurs.
+  - The child observes an undeclared environment key, creates a usable socket, launches a shell or produces any descendant process.
+  - Runtime denial depends on a patch-content text, regex, token or AST capability denylist.
+  - Docker, VM, root entitlement, App Sandbox signing, dependency download or broader permission is required.
+  - An accepted input, Contract, Quality freeze, profile, runner, candidate or Evidence identity drifts.
+  - P1-052 or another rejected engineering asset or review or Evidence body is read, recovered or reused.
+  - Evidence is overwritten, escapes the task root or cannot prove create-once ownership.
+  - Exact rollback, Run A/B stable equality or zero-false-accept requirement fails.
+  - The same-Task bounded repair is exhausted, a second candidate is required, or scope, permission, target claim or Phase would expand.
+  - Any fresh exact-candidate Reviewer returns TARGET_NON_PASS or the reviewed and integrated trees differ.
+  - Canonical make verify returns NONPASS; only non-destructive revert is then allowed and P1-054 remains ineligible.
+
+next_task_gate:
+  task_id: AIOS-P1-054_CLEAN_ROOM_OFFLINE_PROVIDER_B0_COMPOSITION
+  eligible_only_after: P1_053_FRESH_THREE_REVIEWER_PASS_CANONICAL_TREE_EQUALITY_AND_CLEAN_MAKE_VERIFY_PASS
+  automatic_founder_reapproval_required: false

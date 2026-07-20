@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-19T23:15:07Z"
-verification_scope: P1_053_TASK_LOCAL_UNTRUSTED_PATCH_EXECUTION_QUARANTINE_ACTIVATION
+last_verified_at: "2026-07-20T00:14:00Z"
+verification_scope: P1_053_EXACT_HOST_PRIMITIVE_TERMINAL_NONPASS_AND_ROUTE_STOP
 
 authority:
   founder: Human Founder
@@ -37,15 +37,16 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: AIOS-P1-053_TASK_LOCAL_UNTRUSTED_PATCH_EXECUTION_QUARANTINE
+  current_task_authority: NONE
   note: >-
     The Founder-approved long-term Goal and P1 Phase remain ACTIVE. The Founder
-    authorized a bounded two-Task architecture route. Route-entry make verify
-    passed and P1-053 task-local untrusted-patch execution quarantine is the sole
-    active Task under its exact reviewed Contract. Quality must freeze the Task
-    Card, probes and evaluator before Worker mutation. P1-054 remains conditional
-    on P1-053 Task Gate PASS; P1-052 remains terminal rejected Evidence with no
-    source recovery or reuse.
+    authorized a bounded two-Task architecture route. P1-053 activated and began
+    real implementation, but the exact-host sandbox-exec primitive could not
+    safely start and terminate Node under the frozen denial boundary and left
+    four local Node processes in an uninterruptible exiting state. P1-053 is
+    terminal NON_PASS before candidate freeze; P1-054 is ineligible and this
+    route has no remaining scheduling authority. The Goal and P1 remain ACTIVE,
+    awaiting one new Phase or architecture route decision.
 
 project:
   name: SourceLens AIOS
@@ -57,6 +58,7 @@ project:
   p1_entry_status: AUTHORIZED
   phase_execution_status: ACTIVE
   p1_execution_status: ACTIVE
+  current_route_execution_status: TERMINAL_NO_ELIGIBLE_TASK_AWAITING_NEW_ROUTE
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -71,6 +73,7 @@ project:
 current_phase_route:
   route_id: P1_BOUNDED_UNTRUSTED_EXECUTION_QUARANTINE_AND_OFFLINE_PROVIDER_COMPOSITION_ARCHITECTURE_ROUTE_V1
   status: ACTIVE
+  scheduling_status: TERMINAL_NO_SCHEDULING_AUTHORITY
   phase: P1
   phase_entry_status: AUTHORIZED
   decision_source: CODEX_THREAD_FOUNDER_MESSAGE_2026_07_20
@@ -202,7 +205,7 @@ current_phase_route:
       reuse_boundary: DESIGN_AND_ACCEPTED_LOCAL_EXECUTION_PATTERNS_ONLY_NO_MODIFICATION_OF_ACCEPTED_BYTES
   first_task:
     task_id: AIOS-P1-053_TASK_LOCAL_UNTRUSTED_PATCH_EXECUTION_QUARANTINE
-    status: ACTIVE
+    status: TERMINAL_STOPPED_PRE_CANDIDATE_EXACT_HOST_PRIMITIVE_NONPASS_WITH_LOCAL_PROCESS_RESIDUAL
     classification: ENGINEERING
     contract_path: docs/aios/tasks/P1-053_TASK_LOCAL_UNTRUSTED_PATCH_EXECUTION_QUARANTINE.yaml
     max_engineering_hours: 16
@@ -217,7 +220,7 @@ current_phase_route:
     claim_boundary: ONE_EXACT_HOST_RUNTIME_TASK_LOCAL_UNTRUSTED_PATCH_ADMISSION_AND_DECLARED_EFFECT_DENIAL_CONFORMANCE_ONLY
   second_task:
     task_id: AIOS-P1-054_CLEAN_ROOM_OFFLINE_PROVIDER_B0_COMPOSITION
-    status: CONDITIONAL_NOT_ELIGIBLE_UNTIL_P1_053_TASK_GATE_PASS
+    status: INELIGIBLE_ROUTE_TERMINATED_AFTER_P1_053_NONPASS
     classification: ENGINEERING
     max_engineering_hours: 16
     max_calendar_days: 4
@@ -260,7 +263,7 @@ current_phase_route:
     failure_classification: SECURITY_P1_052_001_UNTRUSTED_PATCH_RUNTIME_ISOLATION_BYPASS
   selected_next_task:
     task_id: AIOS-P1-053_TASK_LOCAL_UNTRUSTED_PATCH_EXECUTION_QUARANTINE
-    status: ACTIVE
+    status: TERMINAL_STOPPED_PRE_CANDIDATE_EXACT_HOST_PRIMITIVE_NONPASS_WITH_LOCAL_PROCESS_RESIDUAL
     classification: ENGINEERING
     selection_basis: FOUNDER_AUTHORIZED_BOUNDED_UNTRUSTED_EXECUTION_ARCHITECTURE_ROUTE_AND_DIRECT_P1_PROVIDER_PATH_BLOCKER
     historical_rejected_candidate_or_evidence_body_read_or_reuse_allowed: false
@@ -281,9 +284,23 @@ current_phase_route:
     basis: The exact composition hypothesis was falsified by executable Evidence; it no longer schedules work and does not modify the unchanged P1 Exit Gate.
   route_execution_accounting:
     maximum_executable_engineering_tasks: 2
-    active_task_id: AIOS-P1-053_TASK_LOCAL_UNTRUSTED_PATCH_EXECUTION_QUARANTINE
-    executed_task_ids: []
-    status: ACTIVE_ENGINEERING
+    active_task_id: null
+    executed_task_ids:
+      - AIOS-P1-053_TASK_LOCAL_UNTRUSTED_PATCH_EXECUTION_QUARANTINE
+    status: TERMINAL_EXHAUSTED_RETURNS_TO_FOUNDER
+  terminal_outcome:
+    task_id: AIOS-P1-053_TASK_LOCAL_UNTRUSTED_PATCH_EXECUTION_QUARANTINE
+    status: TERMINAL_STOPPED_PRE_CANDIDATE_EXACT_HOST_PRIMITIVE_NONPASS_WITH_LOCAL_PROCESS_RESIDUAL
+    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-053-task-local-untrusted-patch-execution-quarantine-20260719T230324Z/terminal/TASK_TERMINAL_RECEIPT.json
+    terminal_receipt_sha256: 9033ba1017da616669e77d14a6eacccabebe0b7472b7453a7b53815feb249fbe
+    terminal_receipt_byte_length: 6549
+    failed_implementation_commit: 94b740ef0400a37d99064cc3e010dc12ad2f7b20
+    failed_implementation_tree: d782618613789c61a489177eac315df56434a0cc
+    evidence_tag: evidence/p1-053-primitive-nonpass-94b740e
+    candidate_created: false
+    accepted_capability_created: false
+    local_process_residual_observed: true
+    residual_pid_count_observed: 4
   immediate_prior_route:
     route_id: P1_LOCAL_FIRST_PROVIDER_HARNESS_ARCHITECTURE_ROUTE_V1
     status: HISTORICAL_EXHAUSTED_NO_SCHEDULING_AUTHORITY
@@ -296,11 +313,10 @@ current_phase_route:
       rejected_candidate_tree: c161a954c4163aa23cb4e9b09c28af141111c417
       evidence_tag: evidence/p1-052-candidate-efbc426
       source_read_fix_replay_integration_or_reuse_allowed: false
-  next_eligible_action: CONTINUE_CURRENT_TASK
+  next_eligible_action: FOUNDER_NEW_PHASE_OR_ARCHITECTURE_ROUTE_AND_PHASE_LOCAL_ENTRY
   next_founder_decision_points:
-    - EXACT_BOUNDED_PROVIDER_CALL_AUTHORIZATION_AFTER_P1_054_ACCEPTANCE
-    - NEW_PHASE_OR_ARCHITECTURE_ROUTE_OR_P1_STOP_IF_CURRENT_ROUTE_TERMINATES
-    - P1_PHASE_GATE
+    - NEW_PHASE_OR_ARCHITECTURE_ROUTE_AND_PHASE_LOCAL_ENTRY
+    - P1_PHASE_GATE_OR_P1_STOP
 
 phase_delegation:
   status: ACTIVE
@@ -1020,49 +1036,38 @@ p0_baseline:
   online_verification_status: ARCHIVED_NOT_ON_ACTIVE_PATH
 
 active_work:
-  current_task: AIOS-P1-053_TASK_LOCAL_UNTRUSTED_PATCH_EXECUTION_QUARANTINE
-  current_task_status: ACTIVE
+  current_task: NONE
+  current_task_status: NONE
   current_task_contract:
-    path: docs/aios/tasks/P1-053_TASK_LOCAL_UNTRUSTED_PATCH_EXECUTION_QUARANTINE.yaml
-    sha256: 3558fe4610ff2d3854d28e57a0425e9bdf640e314beee71267d47865a161d99d
-    byte_length: 19775
-  current_task_contract_sha256: 3558fe4610ff2d3854d28e57a0425e9bdf640e314beee71267d47865a161d99d
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-053-task-local-untrusted-patch-execution-quarantine-20260719T230324Z/authority/MASTER_TASK_AUTHORITY.json
-  current_execution_authorization_sha256: 4d3883c418bd6935b205d5d1c5fbd2a2ddfdd0606a18089229f3ca145eeaa24a
+    path: null
+    sha256: null
+    byte_length: null
+  current_task_contract_sha256: null
+  current_execution_authorization: null
+  current_execution_authorization_sha256: null
   authority_record:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-053-task-local-untrusted-patch-execution-quarantine-20260719T230324Z/authority/MASTER_TASK_AUTHORITY.json
-    sha256: 4d3883c418bd6935b205d5d1c5fbd2a2ddfdd0606a18089229f3ca145eeaa24a
-    byte_length: 4079
-  execution_nonce: exec-p1-053-0c176c77-ac56-4534-96b3-435db3adfc6d
-  execution_nonce_status: ACTIVE
-  authorization_id: auth-p1-053-90820156-51bf-4d31-a536-d20c5111bad3
-  activation_parent_commit: 4c1adf7d33383d51e8949f66250cc5971bcfca8d
-  activation_parent_tree: a0c7db0795d0cf2b365d5771b12efeb0200be0e3
-  task_resource_state: CREATED_ACTIVE
-  task_branch: codex/p1-053-task-local-quarantine
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-053-task-local-quarantine
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-053-task-local-untrusted-patch-execution-quarantine-20260719T230324Z
-  allowlisted_paths:
-    - docs/aios/tasks/P1-053_TASK_LOCAL_UNTRUSTED_PATCH_EXECUTION_QUARANTINE.yaml
-    - evaluation-harness/fixtures/task-local-untrusted-patch-quarantine-v1
-    - evaluation-harness/evaluator/task-local-untrusted-patch-quarantine-v1
-    - evaluation-harness/harness/task-local-untrusted-patch-quarantine-v1
-    - scripts/verify-p1-task-local-untrusted-patch-quarantine.sh
-    - Makefile
-    - docs/PROJECT_CODE_MAP.md
-    - docs/aios/truth/project_state.yaml
+    path: null
+    sha256: null
+    byte_length: null
+  execution_nonce: null
+  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
+  authorization_id: null
+  activation_parent_commit: null
+  activation_parent_tree: null
+  task_resource_state: NONE_PHASE_ACTIVE
+  task_branch: null
+  task_worktree: null
+  execution_evidence_root: null
+  allowlisted_paths: []
   budget:
-    engineering_hours: 16
-    calendar_days: 4
-    implementation_iterations: 2
-    candidates: 1
+    engineering_hours: null
+    calendar_days: null
+    implementation_iterations: null
+    candidates: null
   roles:
-    owner: P1-053 Engineering Manager Agent
-    worker: P1-053 Quarantine Runner Engineer
-    independent_reviewers:
-      - CTO Agent
-      - Security Agent
-      - Quality and Evaluation Agent
+    owner: null
+    worker: null
+    independent_reviewers: []
   external_effects:
     network: false
     provider: false
@@ -1076,7 +1081,7 @@ active_work:
   founder_decision_required: false
   escalation_reason: null
   user_action_required: NONE
-  next_eligible_action: CONTINUE_CURRENT_TASK
+  next_eligible_action: FOUNDER_NEW_PHASE_OR_ARCHITECTURE_ROUTE_AND_PHASE_LOCAL_ENTRY
 
 superseded_pre_delegation_authorizations:
   aios_p1_009:
@@ -1094,6 +1099,40 @@ superseded_pre_delegation_authorizations:
     note: The engineering objective may be selected independently by Master, but these pre-delegation bytes require a routine per-Task Founder Gate and cannot be activated under the current authority model.
 
 task_history:
+  aios_p1_053:
+    task_id: AIOS-P1-053_TASK_LOCAL_UNTRUSTED_PATCH_EXECUTION_QUARANTINE
+    route_id: P1_BOUNDED_UNTRUSTED_EXECUTION_QUARANTINE_AND_OFFLINE_PROVIDER_COMPOSITION_ARCHITECTURE_ROUTE_V1
+    status: TERMINAL_STOPPED_PRE_CANDIDATE_EXACT_HOST_PRIMITIVE_NONPASS_WITH_LOCAL_PROCESS_RESIDUAL
+    classification: ENGINEERING_TASK_EXACT_HOST_PRIMITIVE_RUNTIME_NONPASS
+    contract: docs/aios/tasks/P1-053_TASK_LOCAL_UNTRUSTED_PATCH_EXECUTION_QUARANTINE.yaml
+    task_contract_sha256: 3558fe4610ff2d3854d28e57a0425e9bdf640e314beee71267d47865a161d99d
+    task_contract_byte_length: 19775
+    canonical_activation_commit: fc784e5f4deabe54ccc4f076a06ded07547ef881
+    canonical_activation_tree: 19e5a9a89596d311cb3f769ec9eb83fd00bb7fdc
+    quality_freeze_commit: ae3db029e69d5416d31663b9a532c2269e579b71
+    quality_freeze_tree: b861276df67a2fe92a478ffcb8b06fe0b0fae059
+    quality_freeze_manifest_sha256: c407aa2f0a3446783b1e6d16d87720df966f3f901a8f33b4dc36acdec0c1349f
+    failed_implementation_commit: 94b740ef0400a37d99064cc3e010dc12ad2f7b20
+    failed_implementation_tree: d782618613789c61a489177eac315df56434a0cc
+    evidence_tag: evidence/p1-053-primitive-nonpass-94b740e
+    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-053-task-local-untrusted-patch-execution-quarantine-20260719T230324Z/terminal/TASK_TERMINAL_RECEIPT.json
+    terminal_receipt_sha256: 9033ba1017da616669e77d14a6eacccabebe0b7472b7453a7b53815feb249fbe
+    terminal_receipt_byte_length: 6549
+    controlling_failure: EXACT_HOST_SANDBOX_EXEC_NODE_START_AND_TERMINATION_PRIMITIVE_NONPASS
+    implementation_started: true
+    implementation_iterations_used: 1
+    candidate_created: false
+    formal_run_a_executed: false
+    formal_run_b_executed: false
+    independent_candidate_reviews_started: false
+    candidate_integrated: false
+    accepted_capability_created: false
+    local_host_process_residual_observed: true
+    residual_pid_count_observed: 4
+    p1_054_eligible: false
+    retry_resume_successor_replacement_or_remediation_allowed: false
+    route_effect: CURRENT_ROUTE_TERMINATED_RETURNS_TO_FOUNDER
+    claim_boundary: TERMINAL_NONPASS_OF_EXACT_HOST_SANDBOX_EXEC_PRIMITIVE_ONLY_NO_QUARANTINE_PROVIDER_AGENT_P1_EXIT_PRODUCT_PRODUCTION_OR_HOSTILE_PRINCIPAL_CAPABILITY
   aios_p1_052:
     task_id: AIOS-P1-052_OFFLINE_PROVIDER_B0_RUNNER_AND_EVALUATOR
     route_id: P1_LOCAL_FIRST_PROVIDER_HARNESS_ARCHITECTURE_ROUTE_V1
@@ -2225,9 +2264,9 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: P1_BOUNDED_UNTRUSTED_EXECUTION_QUARANTINE_AND_OFFLINE_PROVIDER_COMPOSITION_ARCHITECTURE_ROUTE_V1_ACTIVE
-  current_task_claim: AIOS_P1_053_ACTIVE_EXACT_CONTRACT_BOUND_PRE_WORKER_QUALITY_FREEZE
-  real_engineering_progress: TASK_ACTIVATED_PRE_WORKER_QUALITY_FREEZE_ENGINEERING_NOT_YET_STARTED
+  current_route_claim: P1_BOUNDED_UNTRUSTED_EXECUTION_QUARANTINE_AND_OFFLINE_PROVIDER_COMPOSITION_ARCHITECTURE_ROUTE_V1_TERMINAL_NO_SCHEDULING_AUTHORITY
+  current_task_claim: NONE_P1_053_TERMINAL_PRE_CANDIDATE_PRIMITIVE_NONPASS
+  real_engineering_progress: P1_053_IMPLEMENTATION_STARTED_THEN_TERMINAL_NO_ACCEPTED_CAPABILITY
   product_capability_changed: false
   phase_local_allowed:
     - local evaluation foundation engineering under an exact Task Contract
@@ -2257,7 +2296,7 @@ phase_execution_claim:
     - AIOS-P1-050_B0_B1_B2_COMPATIBILITY_ADAPTER_CONFORMANCE is terminal after its single repaired candidate passed targeted checks but the exact frozen Run B repair root could not be created under the preserved mode-0500 Evidence parent; no formal adapter ran, no candidate review or integration occurred, and zero capability was accepted.
     - P1-048, P1-049 and P1-050 consumed the three executable engineering Task slots of the prior route; that prior route is exhausted and has no current scheduling authority.
     - AIOS-P1-052 consumed the prior local-first route's sole executable engineering Task slot and remains terminal rejected Evidence with no recovery or source reuse.
-    - The Founder-authorized bounded untrusted-execution route makes AIOS-P1-053 eligible after route-entry make verify; P1-054 remains conditional on P1-053 exact Task Gate PASS and clean canonical integration.
+    - AIOS-P1-053 activated and began implementation but terminated before candidate freeze when the exact-host sandbox-exec primitive failed safe Node start/termination and left four local processes in an uninterruptible exiting state; P1-054 is ineligible and the current route has no scheduling authority.
     - Historical four-slice ordering and attempt routing have no current scheduling authority.
     - Peripheral validators, auxiliary governance tools and work without direct P1 Exit Gate value are ineligible.
   not_authorized_in_current_phase:
@@ -2277,10 +2316,10 @@ phase_execution_claim:
     - canonical main advance outside an accepted task gate
 
 claim_boundary:
-  current_phase_route: P1_BOUNDED_UNTRUSTED_EXECUTION_QUARANTINE_AND_OFFLINE_PROVIDER_COMPOSITION_ARCHITECTURE_ROUTE_V1_ACTIVE
-  current_task: AIOS-P1-053_TASK_LOCAL_UNTRUSTED_PATCH_EXECUTION_QUARANTINE
-  next_eligible_action: CONTINUE_CURRENT_TASK
-  real_engineering_progress: TASK_ACTIVATED_PRE_WORKER_QUALITY_FREEZE_ENGINEERING_NOT_YET_STARTED
+  current_phase_route: P1_BOUNDED_UNTRUSTED_EXECUTION_QUARANTINE_AND_OFFLINE_PROVIDER_COMPOSITION_ARCHITECTURE_ROUTE_V1_TERMINAL_NO_SCHEDULING_AUTHORITY
+  current_task: NONE
+  next_eligible_action: FOUNDER_NEW_PHASE_OR_ARCHITECTURE_ROUTE_AND_PHASE_LOCAL_ENTRY
+  real_engineering_progress: P1_053_IMPLEMENTATION_STARTED_THEN_TERMINAL_NO_ACCEPTED_CAPABILITY
   product_capability_changed_by_route_activation: false
   p1_048_actual_execution_experiment_pack: MASTER_TASK_GATE_ACCEPTED_COMPLETE
   p1_048_formal_run_a: PASS

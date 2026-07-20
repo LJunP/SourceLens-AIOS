@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-20T08:57:13Z"
-verification_scope: P1_057_FORMAL_RUN_A_PREFLIGHT_NONPASS_TERMINAL
+last_verified_at: "2026-07-20T09:24:49Z"
+verification_scope: P1_058_EXACT_CONTRACT_START_REVIEWS_PASS_AND_TASK_ACTIVATION
 
 authority:
   founder: Human Founder
@@ -37,18 +37,17 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
+  current_task_authority: AIOS-P1-058_COMPLETE_OBSERVABLE_TRACE_CONFORMANCE
   note: >-
-    The Founder-approved long-term Goal and P1 Phase remain ACTIVE. The exact
-    phase-level continuous engineering route remains ACTIVE. P1-057 produced
-    real Worker code and a runnable targeted PASS, then its one frozen candidate
-    stopped at Formal Run A preflight because the system LibreSSL digest output
-    was parsed using an incompatible field convention. No formal run root,
-    candidate review, canonical integration or accepted capability was created.
-    P1-057 is terminal without retry or candidate mutation, Task slot 1 is
-    consumed, and Master must autonomously select a different P1 Exit Gate
-    output. P1-056 and P1-057 engineering bytes remain terminal and non-reusable.
-    No Provider, network or external effect is enabled.
+    The Founder-approved long-term Goal, P1 Phase and exact phase-level
+    continuous engineering route remain ACTIVE. P1-057 remains terminal and its
+    engineering lineage remains non-reusable. Master selected the different P1
+    Exit Gate item 3 output P1-058, completed the one machine input-identity lint,
+    and froze one exact 21,287-byte Contract. One parallel CTO, Security and
+    Quality start-review round returned PASS on those exact bytes without a
+    Contract correction. P1-058 is now the only active Task and may proceed to
+    Quality Freeze and real implementation. No Provider, network or external
+    effect is enabled.
 
 project:
   name: SourceLens AIOS
@@ -60,7 +59,7 @@ project:
   p1_entry_status: AUTHORIZED
   phase_execution_status: ACTIVE
   p1_execution_status: ACTIVE
-  current_route_execution_status: ACTIVE_BETWEEN_TASKS_AFTER_P1_057_TERMINAL
+  current_route_execution_status: ACTIVE_TASK_2_P1_058
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -76,9 +75,9 @@ current_phase_route:
   route_id: P1_PHASE_LEVEL_CONTINUOUS_ENGINEERING_EXECUTION_ROUTE_V1
   status: ACTIVE
   authority_object_status: ACTIVE
-  execution_status: BETWEEN_TASKS_AFTER_TASK_1_TERMINAL
+  execution_status: ACTIVE_TASK_2
   founder_phase_route_decision_required: false
-  scheduling_status: MASTER_SELECT_NEXT_PHASE_LOCAL_TASK
+  scheduling_status: CONTINUE_CURRENT_TASK
   phase: P1
   phase_entry_status: AUTHORIZED
   decision_source: CODEX_THREAD_FOUNDER_MESSAGE_2026_07_20
@@ -220,16 +219,39 @@ current_phase_route:
     claim_boundary: ONE_VISIBLE_SYNTHETIC_REP001_EVALUATOR_DISAGREEMENT_AND_FALSE_SUCCESS_CHARACTERIZATION_ONLY_NO_PROVIDER_MODEL_VTSR_AGENT_P1_EXIT_OR_PRODUCTION_CLAIM
   route_execution_accounting:
     maximum_engineering_tasks: 6
-    task_slots_consumed: 1
-    active_task_id: NONE
+    task_slots_consumed: 2
+    active_task_id: AIOS-P1-058_COMPLETE_OBSERVABLE_TRACE_CONFORMANCE
     scheduled_task_ids:
       - AIOS-P1-057_LOCAL_EVALUATOR_FALSE_SUCCESS_CHARACTERIZATION_PACK
+      - AIOS-P1-058_COMPLETE_OBSERVABLE_TRACE_CONFORMANCE
     terminal_task_ids:
       - AIOS-P1-057_LOCAL_EVALUATOR_FALSE_SUCCESS_CHARACTERIZATION_PACK
     normalized_root_causes_seen:
       - FORMAL_PREFLIGHT_HASH_OUTPUT_FORMAT_PARSER_DEFECT
-    status: ACTIVE_BETWEEN_TASKS_1_OF_6_CONSUMED
-  next_eligible_action: MASTER_SELECT_NEXT_PHASE_LOCAL_TASK
+    status: ACTIVE_TASK_2_OF_6_CONSUMED
+  active_task:
+    task_id: AIOS-P1-058_COMPLETE_OBSERVABLE_TRACE_CONFORMANCE
+    status: ACTIVE
+    classification: EVALUATION_FOUNDATION_ENGINEERING
+    contract_path: docs/aios/tasks/P1-058_COMPLETE_OBSERVABLE_TRACE_CONFORMANCE.yaml
+    contract_sha256: 46454411fc23e514ed2ca14d7c62fb6c9860f36b4e0d2fbf2a4d6037ff59f808
+    contract_byte_length: 21287
+    max_engineering_hours: 10
+    max_calendar_days: 3
+    max_implementation_iterations: 2
+    max_candidates: 1
+    bounded_contract_corrections_used: 0
+    contract_review_rounds_used: 1
+    task_slot: 2
+    objective: Complete Evaluation Protocol section 6 observable trace coverage for the exact accepted P1-048 dual-run evidence.
+    accepted_input_ids:
+      - p1_048
+    activation_parent_commit: 4ce819e133f409c8268ceb42b0e47d503826e377
+    activation_parent_tree: 6fd27968de68efd98d8a947d46ca2dc3f575a912
+    authority_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-058-complete-observable-trace-20260720T090625Z/authority/TASK_AUTHORITY.yaml
+    authority_record_sha256: dfc38d34bc15679b3d9fb50df397dd57a9a086a44ea17514595b8581aeea5f2d
+    claim_boundary: ONE_ACCEPTED_VISIBLE_SYNTHETIC_COOPERATIVE_LOCAL_P1_048_RUN_PAIR_EVALUATION_PROTOCOL_V1_1_SECTION_6_COMPLETE_OBSERVABLE_TRACE_CONFORMANCE_ONLY_NO_MODEL_PROVIDER_AGENT_BENCHMARK_VTSR_FULL_P1_EXIT_P2_P3_OR_PRODUCTION_CLAIM
+  next_eligible_action: CONTINUE_CURRENT_TASK
 phase_delegation:
   status: ACTIVE
   model: PHASE_LEVEL_FOUNDER_DELEGATION
@@ -948,38 +970,49 @@ p0_baseline:
   online_verification_status: ARCHIVED_NOT_ON_ACTIVE_PATH
 
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P1-058_COMPLETE_OBSERVABLE_TRACE_CONFORMANCE
+  current_task_status: ACTIVE
   current_task_contract:
-    path: null
-    sha256: null
-    byte_length: null
-  current_task_contract_sha256: null
-  current_execution_authorization: null
-  current_execution_authorization_sha256: null
+    path: docs/aios/tasks/P1-058_COMPLETE_OBSERVABLE_TRACE_CONFORMANCE.yaml
+    sha256: 46454411fc23e514ed2ca14d7c62fb6c9860f36b4e0d2fbf2a4d6037ff59f808
+    byte_length: 21287
+  current_task_contract_sha256: 46454411fc23e514ed2ca14d7c62fb6c9860f36b4e0d2fbf2a4d6037ff59f808
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-058-complete-observable-trace-20260720T090625Z/authority/TASK_AUTHORITY.yaml
+  current_execution_authorization_sha256: dfc38d34bc15679b3d9fb50df397dd57a9a086a44ea17514595b8581aeea5f2d
   authority_record:
-    path: null
-    sha256: null
-    byte_length: null
-  execution_nonce: null
-  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
-  authorization_id: null
-  activation_parent_commit: null
-  activation_parent_tree: null
-  task_resource_state: NONE_PHASE_ACTIVE
-  task_branch: null
-  task_worktree: null
-  execution_evidence_root: null
-  allowlisted_paths: []
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-058-complete-observable-trace-20260720T090625Z/authority/TASK_AUTHORITY.yaml
+    sha256: dfc38d34bc15679b3d9fb50df397dd57a9a086a44ea17514595b8581aeea5f2d
+    byte_length: 3072
+  execution_nonce: 0bd855b9a771e91eb4ed538e7daf95e2661e965b71cef04e1f4689daf29d96fa
+  execution_nonce_status: ACTIVE
+  authorization_id: 81897fd96c253f503c19195caf72a9b955e381adb1532e125eb988eb65884688
+  activation_parent_commit: 4ce819e133f409c8268ceb42b0e47d503826e377
+  activation_parent_tree: 6fd27968de68efd98d8a947d46ca2dc3f575a912
+  task_resource_state: ACTIVE
+  task_branch: codex/p1-058-complete-observable-trace
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-058-complete-observable-trace
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-058-complete-observable-trace-20260720T090625Z
+  allowlisted_paths:
+    - docs/aios/tasks/P1-058_COMPLETE_OBSERVABLE_TRACE_CONFORMANCE.yaml
+    - evaluation-harness/fixtures/complete-observable-trace-v1/**
+    - evaluation-harness/evaluator/complete-observable-trace-v1/**
+    - evaluation-harness/recording/complete-observable-trace-v1/**
+    - scripts/verify-p1-complete-observable-trace-v1.sh
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+    - docs/aios/truth/project_state.yaml
   budget:
-    engineering_hours: null
-    calendar_days: null
-    implementation_iterations: null
-    candidates: null
+    engineering_hours: 10
+    calendar_days: 3
+    implementation_iterations: 2
+    candidates: 1
   roles:
-    owner: null
-    worker: null
-    independent_reviewers: []
+    owner: Engineering Manager Agent
+    worker: Observable Trace Engineer
+    independent_reviewers:
+      - CTO Agent
+      - Security Agent
+      - Quality and Evaluation Agent
   external_effects:
     network: false
     provider: false
@@ -996,7 +1029,7 @@ active_work:
   user_action_required: NONE
   phase_route_decision_required: false
   phase_route_user_action_required: NONE
-  next_eligible_action: MASTER_SELECT_NEXT_PHASE_LOCAL_TASK
+  next_eligible_action: CONTINUE_CURRENT_TASK
 superseded_pre_delegation_authorizations:
   aios_p1_009:
     task_id: AIOS-P1-009_ENVIRONMENT_SNAPSHOT_REPRODUCIBILITY

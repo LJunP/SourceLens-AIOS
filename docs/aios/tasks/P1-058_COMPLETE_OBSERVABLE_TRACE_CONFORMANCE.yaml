@@ -1,0 +1,361 @@
+schema_version: 1
+record_type: sourcelens_aios_phase_delegated_task_contract
+task_id: AIOS-P1-058_COMPLETE_OBSERVABLE_TRACE_CONFORMANCE
+phase: P1
+route_id: P1_PHASE_LEVEL_CONTINUOUS_ENGINEERING_EXECUTION_ROUTE_V1
+status: AUTHORIZED_ACTIVE
+execution_authority: PHASE_DELEGATED
+effective_only_when_canonical_truth_binds_exact_bytes: true
+title: Complete Observable Trace Conformance
+
+objective: >-
+  Complete P1 Exit Gate item 3 by building one executable, self-contained
+  observable-trace builder, validator and characterization runner that maps
+  every Evaluation Protocol section 6 requirement to an explicit observed or
+  justified not-applicable field for the accepted P1-048 visible synthetic
+  dual-run control, rejects omission and tamper cases, and proves exact stable
+  semantic equality without copying hidden reasoning.
+
+why_now:
+  - P1-057 is terminal and its evaluator target and engineering lineage cannot be retried or reused.
+  - Complete observable trace coverage is the highest-value different P1 Exit Gate output that needs no Founder-reserved permission.
+  - Accepted P1-048 Run A and independent Run B contain real commands, durations, tests, mutations, rollback and exact stable Evidence suitable for a bounded trace conformance implementation.
+  - This produces reusable executable foundation code rather than another state-only or documentation-only outcome.
+
+task_kind: EVALUATION_FOUNDATION_ENGINEERING
+risk_level: medium
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+founder_decision_required: false
+capability_claim: false
+
+owner_role: Engineering Manager Agent
+worker_role: Observable Trace Engineer
+
+roles:
+  owner: Engineering Manager Agent
+  worker: Observable Trace Engineer
+  independent_reviewers:
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent
+
+route_authority:
+  authorization_token: AUTHORIZE_P1_PHASE_LEVEL_CONTINUOUS_ENGINEERING_EXECUTION_ROUTE_V1
+  decision_packet:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-phase-continuous-execution-correction-20260720T075451Z/FOUNDER_P1_PHASE_LEVEL_CONTINUOUS_EXECUTION_ROUTE_PACKET_V1.md
+    byte_length: 13230
+    sha256: 31f751d38c76f97480a79a991f1a29f3b896f752e2ca2cc68eccaae6db5e4419
+
+source_identity:
+  canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
+  activation_parent_commit: 4ce819e133f409c8268ceb42b0e47d503826e377
+  activation_parent_tree: 6fd27968de68efd98d8a947d46ca2dc3f575a912
+  task_branch: codex/p1-058-complete-observable-trace
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-058-complete-observable-trace
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-058-complete-observable-trace-20260720T090625Z
+
+budget:
+  engineering_hours: 10
+  calendar_days: 3
+  implementation_iterations: 2
+  candidates: 1
+
+contract_admission:
+  machine_input_identity_lint_sessions: 1
+  parallel_human_start_review_rounds: 1
+  contract_corrections_allowed: 1
+  contract_corrections_used: 0
+  correction_boundary: PRE_ACTIVATION_SAME_BLOCKING_ROOT_CAUSE_ONLY_NO_OBJECTIVE_PATH_PERMISSION_BUDGET_OR_CLAIM_CHANGE
+  second_nonpass_action: TERMINAL_STOP
+  task_slot: 2
+  task_slot_consumed_when: EXACT_CONTRACT_FIRST_ENTERS_INDEPENDENT_REVIEW
+
+protocol_input:
+  path: docs/aios/EVALUATION_PROTOCOL.md
+  version: "1.1"
+  byte_length: 10127
+  sha256: da029143561fbb3c213d4a358b25e085542c6cd26ae8150a53cbb5998177eed8
+  controlling_section: 6
+
+accepted_input:
+  task_id: AIOS-P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK
+  lifecycle: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+  accepted_candidate_commit: 9e130f2aae0fd951b252cf0dff8edc9b9364e962
+  accepted_candidate_tree: 3a4229e9a8da181ca8bb256f5467cf96549c2549
+  accepted_claim_must_not_be_promoted: true
+  canonical_files:
+    - path: docs/aios/tasks/P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK.yaml
+      byte_length: 9995
+      sha256: 092a7d38d5c3f208a0e97d74cfbee906793d2a5fe31caf2fd15948b7ea209a62
+    - path: evaluation-harness/fixtures/experiment-pack-reentry-v1/task-card.json
+      byte_length: 10348
+      sha256: 15cb56812e348fcca3238467db4e7cdedd9b9210ddedc1568d44b1eeb82f854f
+    - path: evaluation-harness/harness/experiment-pack-reentry-v1/experiment-pack.mjs
+      byte_length: 54079
+      sha256: 3252202d919a929b88b2e75a4f5417e334326142726577b7112a45505a3c7635
+  accepted_gate_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-048-actual-experiment-pack/gate/TASK_GATE_RECEIPT.json
+    byte_length: 4103
+    sha256: d71948e4221121b072877e66d55d1ab92362cc11fc273d994a2ebb7754b1b84e
+  run_a:
+    result:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-048-actual-experiment-pack/run-a-9e130f2-20260719t0532z/result.json
+      byte_length: 25617
+      sha256: 9d2a75541b620249d6c7431590e96e77ea1c54e45e82df3166927d6532bf6611
+    manifest:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-048-actual-experiment-pack/run-a-9e130f2-20260719t0532z/manifest.json
+      byte_length: 15829
+      sha256: 2b97d6c85145a2ec2a8f30585650b2cb8a2315aac8cd9401c12d694bf1bf899c
+    stable_projection:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-048-actual-experiment-pack/run-a-9e130f2-20260719t0532z/stable-projection.json
+      byte_length: 18355
+      sha256: ae357f2ae3a0fd1d6825e17792221019d544125acde3d960fc05983b2cfffa19
+  run_b:
+    result:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-048-actual-experiment-pack/run-b-9e130f2-20260719t0537z/result.json
+      byte_length: 25618
+      sha256: e57cfbea6743a72707077267fd4dd3e76b3fd91c141e0b437f126d4760519c83
+    manifest:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-048-actual-experiment-pack/run-b-9e130f2-20260719t0537z/manifest.json
+      byte_length: 15829
+      sha256: 3ff27a7f7d8034417897995e45afe140ddbe7763cb41d76b1094317a9e7d0a42
+    stable_projection:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-048-actual-experiment-pack/run-b-9e130f2-20260719t0537z/stable-projection.json
+      byte_length: 18355
+      sha256: ae357f2ae3a0fd1d6825e17792221019d544125acde3d960fc05983b2cfffa19
+  external_read_policy: READ_ONLY_EXACT_PATH_BYTE_LENGTH_SHA256_REGULAR_NON_SYMLINK
+
+external_evidence_safety:
+  exact_roots_only:
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-048-actual-experiment-pack/run-a-9e130f2-20260719t0532z
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-048-actual-experiment-pack/run-b-9e130f2-20260719t0537z
+  path_source: QUALITY_FROZEN_CARD_ONLY_NO_FREE_CLI_PATHS
+  directory_glob_or_recursive_discovery_allowed: false
+  readable_leaf_population: EXACT_MANIFEST_REACHABLE_40_PER_RUN
+  materialization_or_git_directory_read_allowed: false
+  required_checks:
+    - canonical root and ancestor containment
+    - regular non-symlink leaf with nlink one
+    - O_RDONLY and O_NOFOLLOW open
+    - pre-read and post-read device inode mode size identity equality
+    - direct Node crypto SHA-256 over opened descriptor bytes
+    - exact result manifest stable-projection task control and run identity reconciliation
+    - distinct Run A and Run B roots plus distinct materialization identities
+  mutation_chmod_cleanup_delete_or_rename_allowed: false
+
+read_context:
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - exact accepted_input bytes declared above
+
+forbidden_read_or_reuse:
+  - any P1-057 or P1-056 Contract, source, fixture, oracle, runner, verifier, candidate, tree, Evidence or Review byte
+  - any P1-057 or P1-056 branch, worktree, tag target or recovered artifact
+  - any other rejected or failed engineering lineage as implementation, fixture, oracle, corpus or design input
+  - mutation or lifecycle promotion of accepted P1-048 bytes or Evidence
+
+different_target_proof:
+  prior_terminal_task: AIOS-P1-057_LOCAL_EVALUATOR_FALSE_SUCCESS_CHARACTERIZATION_PACK
+  objective_overlap: false
+  input_overlap: PARTIAL_ACCEPTED_P1_048_ONLY_WITH_DIFFERENT_EXACT_SOURCE_POPULATION
+  target_output_overlap: false
+  architecture_hypothesis_overlap: false
+  acceptance_gate_overlap: false
+  matching_dimension_count: 1_OF_5_BELOW_TERMINAL_RETRY_THRESHOLD
+  current_objective: COMPLETE_OBSERVABLE_TRACE_COVERAGE
+  current_inputs: ACCEPTED_P1_048_DUAL_RUN_ONLY
+  current_target_output: TRACE_BUILDER_VALIDATOR_AND_COVERAGE_CHARACTERIZATION
+  current_architecture_hypothesis: DERIVE_COMPLETE_PROVENANCE_BOUND_TRACE_FROM_IMMUTABLE_ACCEPTED_DUAL_RUN_EVIDENCE
+  current_acceptance_gate: ALL_SECTION_6_REQUIREMENTS_EXPLICIT_AND_ALL_TAMPERS_FAIL_CLOSED
+
+allowlisted_paths:
+  - docs/aios/tasks/P1-058_COMPLETE_OBSERVABLE_TRACE_CONFORMANCE.yaml
+  - evaluation-harness/fixtures/complete-observable-trace-v1/**
+  - evaluation-harness/evaluator/complete-observable-trace-v1/**
+  - evaluation-harness/recording/complete-observable-trace-v1/**
+  - scripts/verify-p1-complete-observable-trace-v1.sh
+  - Makefile
+  - docs/PROJECT_CODE_MAP.md
+  - docs/aios/truth/project_state.yaml
+
+write_ownership:
+  quality:
+    - evaluation-harness/fixtures/complete-observable-trace-v1/**
+    - evaluation-harness/evaluator/complete-observable-trace-v1/**
+  worker:
+    - evaluation-harness/recording/complete-observable-trace-v1/**
+  integration:
+    - docs/aios/tasks/P1-058_COMPLETE_OBSERVABLE_TRACE_CONFORMANCE.yaml
+    - scripts/verify-p1-complete-observable-trace-v1.sh
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+    - docs/aios/truth/project_state.yaml
+  external_evidence:
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-058-complete-observable-trace-20260720T090625Z/**
+
+role_separation:
+  identities_must_be_distinct: true
+  quality_owns:
+    - exact section 6 coverage map and field vocabulary
+    - provenance-bound source-case extraction from accepted P1-048 bytes
+    - expected verdicts, negative cases and independent reference oracle
+    - stable semantic projection inclusion and exclusion rules
+  worker_owns:
+    - trace builder
+    - trace validator
+    - characterization runner and metrics emitter
+  prohibitions:
+    - Worker may not create or modify Quality-owned bytes.
+    - Builder or validator may not read expected-verdict, reference-oracle or Reviewer bytes.
+    - Worker may not review or accept its own candidate.
+    - Hidden chain-of-thought, private reasoning or model scratchpad content may not be generated, requested, copied or retained.
+
+quality_freeze_after_activation:
+  required_before_worker_mutation: true
+  owner: Quality and Evaluation Agent
+  worker_may_modify: false
+  deadline_engineering_hours_after_activation: 0.5
+  freezes:
+    - exact source-case bytes derived from and provenance-bound to accepted P1-048 Run A and Run B
+    - exact eleven-requirement Evaluation Protocol section 6 coverage map
+    - explicit OBSERVED and NOT_APPLICABLE_WITH_REASON state vocabulary
+    - expected complete trace decisions and reason codes
+    - negative and tamper case population
+    - independent reference oracle
+    - raw trace and stable semantic projection contracts
+    - candidate file identity manifest schema using direct byte hashing without output-column parsing
+    - exact applicability matrix that prevents missing source fields from being relabeled as observed
+
+trace_coverage_requirements:
+  - RUN_TASK_AGENT_MODEL_PROMPT_TOOL_VERSIONS
+  - OBSERVATIONS_AND_SELECTED_CONTEXT_REFERENCES
+  - CONCISE_DECISION_RATIONALE_WITHOUT_HIDDEN_REASONING
+  - PLANS_AND_PLAN_REVISIONS
+  - TOOL_REQUEST_POLICY_INPUT_OUTPUT_EXIT_AND_DURATION
+  - CHECKPOINTS_AND_RESUME_EVENTS
+  - FILE_MUTATIONS_AND_PATCH_HASHES
+  - TESTS_AND_VERIFIER_RESULTS
+  - TOKEN_COST_AND_LATENCY_ACCOUNTING
+  - ERRORS_RETRIES_HUMAN_INTERVENTIONS_AND_STOP_REASON
+  - REDACTION_WITH_ARTIFACT_INTEGRITY_METADATA
+
+required_trace_semantics:
+  - Every coverage requirement appears exactly once in the coverage ledger.
+  - Every required field is either OBSERVED with exact source provenance or NOT_APPLICABLE_WITH_REASON using a predeclared reason code.
+  - Empty arrays and zero counts for retries, errors, checkpoints, resumes or human interventions are explicit and cannot be inferred from omission.
+  - Provider-free deterministic execution records Agent, model, prompt, token and cost as frozen NOT_APPLICABLE_WITH_REASON states rather than fabricated identities, zero-valued observations or omissions.
+  - Decision rationale is NOT_APPLICABLE_WITH_REASON because accepted P1-048 Evidence has no runtime rationale field; no free-text rationale or hidden chain-of-thought may be invented.
+  - The frozen Task Card plan is observed, plan revisions are explicitly not applicable, and missing fields never authorize a not-applicable state.
+  - Tool actions bind request argv, source inputs, stdout and stderr byte identities, exit status, signal and duration; predeclared policy is distinguished from unavailable runtime policy decisions.
+  - File mutations bind base identity, changed paths, patch identity and rollback result.
+  - Raw physical path, inode, PID, wall-clock time and duration remain in raw trace only; stable projection records their presence and accounting but excludes their values.
+
+minimum_negative_controls:
+  - missing coverage requirement
+  - duplicate or reordered coverage requirement
+  - omitted field represented as implicit success
+  - forged NOT_APPLICABLE on an observed command or test field
+  - source result, manifest or stable-projection identity drift
+  - command exit, signal, stdout or stderr identity tamper
+  - changed-path or patch-identity tamper
+  - missing zero-count retry, error, checkpoint, resume or human-intervention ledger
+  - hidden chain-of-thought or private-reasoning field injection
+  - raw physical value leaked into stable semantic projection
+  - Run A and Run B stable semantic projection mismatch
+  - post-hoc action deletion, duplication or exclusion
+  - free-path input, path escape, symlink, hardlink or unmanifested leaf admission
+  - missing manifest leaf, extra command reference or source-object replacement during read
+
+minimum_outputs:
+  - Quality-owned frozen source cases, coverage map, expected verdicts and reference oracle
+  - Worker-owned trace builder, validator and characterization runner
+  - one raw complete observable trace per accepted P1-048 source run
+  - one stable semantic projection per source run with exact byte equality
+  - per-requirement coverage verdict, state, source pointer and reason code
+  - negative-control results with zero false accepts and zero unresolved cases
+  - one reproducible no-network targeted verification command
+  - one create-once Trace A from the accepted Run A source and one independent create-once Trace B from the accepted Run B source
+
+candidate_discipline:
+  final_candidate_count: 1
+  same_task_repair_allowed_only_before_candidate_freeze: 1
+  mutation_after_candidate_freeze_allowed: false
+  candidate_review_rounds: 1
+  candidate_manifest_hashing: DIRECT_BYTES_WITH_NODE_CRYPTO_NO_OPENSSL_OUTPUT_FIELD_PARSING
+  trace_a_trace_b_and_reviews_bind_same_candidate_commit_tree_manifest: true
+  candidate_review_nonpass_action: TERMINAL_STOP_NO_UNFREEZE_NO_CORRECTED_CANDIDATE_NO_REREVIEW
+
+deadlines:
+  worker_start_engineering_hours_after_task_review_entry: 1
+  runnable_falsifiable_result_engineering_hours_after_task_review_entry: 4
+
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+
+acceptance_criteria:
+  - The one machine lint verifies every declared canonical and external accepted-input path, byte length and SHA-256 before Contract review.
+  - The one parallel CTO, Security and Quality start-review round returns PASS for these exact Contract bytes before activation.
+  - Quality freezes and self-validates source cases, coverage map, expected verdicts, negative cases and oracle before Worker mutation, including both exact manifests and all 80 manifest-reachable leaves without directory discovery.
+  - The builder and validator are deterministic local functions and do not read Reviewer, expected-verdict or oracle bytes.
+  - All eleven section 6 coverage requirements are present exactly once and every required field has an explicit observed or justified not-applicable state.
+  - Both accepted P1-048 source runs produce valid raw complete traces and zero missing coverage requirements; all external paths come only from the frozen Quality card and no free CLI path is accepted.
+  - Run A and Run B stable semantic projections are exact canonical-JSON byte equal while required raw physical and duration values remain captured outside the projection.
+  - Every mandatory negative control is rejected with zero false accepts and zero unresolved results.
+  - No hidden chain-of-thought, private reasoning, Secret or unredacted sensitive content is created or retained.
+  - One targeted command reproduces the complete characterization and all negative controls without network or mutation of accepted input Evidence.
+  - Formal Trace A and independent Trace B use the same frozen candidate and Quality bytes; the Trace B executor does not read Trace A path, bytes, result or verdict before emitting Trace B.
+  - The one candidate manifest binds commit, tree, diff and every Quality, Worker and Integration file using direct byte hashing without digest-output column parsing.
+  - Fresh CTO, Security and Quality reviewers return TARGET_VERDICT PASS for the same exact candidate, manifest and targeted result in one review round.
+  - Only after Task Gate may the reviewed tree be integrated locally; integrated tree equals reviewed tree and one clean canonical full make verify passes.
+
+required_evidence:
+  - exact Goal, route packet, Contract, authority and accepted P1-048 input identities
+  - Quality freeze receipt and manifest identities
+  - runnable targeted result with eleven-of-eleven coverage, 14-of-14 ordered actions, 19-of-19 commands, 80-of-80 manifest leaves, exact dual-source stable equality and all negative-control verdicts
+  - create-once Trace A and independent Trace B raw records, stable projections and artifact manifests
+  - candidate commit, tree, direct-byte diff identity and per-file manifest
+  - fresh CTO, Security and Quality exact-candidate target verdicts
+  - reviewed and integrated tree equality plus canonical make verify result
+
+p1_exit_projection_if_accepted:
+  completed_item: 3
+  completed_item_count_before: 2
+  completed_item_count_after: 3
+  strict_completion_percent_after: 37.5
+  phase_exit_claim: false
+
+rollback:
+  source_level: Never modify accepted P1-048 source or Evidence.
+  candidate_level: Preserve Evidence, do not integrate a NON_PASS candidate, and remove only the verified-clean task worktree after terminalization.
+  integrated_level: Use non-destructive git revert of the exact integration commit and preserve all Evidence; never reset or clean.
+
+stop_conditions:
+  - Any accepted P1-048 canonical or external path, byte length, SHA-256 or accepted lifecycle drifts.
+  - Contract admission needs a second correction or second start-review round.
+  - Quality freeze is absent, inconsistent, contaminated or not finished before Worker mutation.
+  - Worker does not start within one engineering hour after Contract review entry.
+  - No runnable falsifiable targeted command and result exists within four engineering hours.
+  - Any section 6 requirement is missing, duplicated, implicit, irreconcilable or represented by an unapproved not-applicable reason.
+  - Any free path, recursive discovery, unmanifested leaf, symlink, hardlink, non-regular object or read-time source identity replacement is accepted.
+  - Any mandatory negative control is accepted, any false accept or unresolved result exists, or stable semantic projections differ.
+  - Hidden chain-of-thought, private reasoning, Secret, external effect or unredacted sensitive content is produced or retained.
+  - Accepted P1-048 Evidence, canonical source or a pre-existing object is overwritten, followed, escaped, renamed, deleted or damaged.
+  - Candidate mutates after freeze, manifest omits an exact candidate or Quality identity, or any fresh Reviewer returns TARGET_VERDICT NON_PASS.
+  - Reviewed and integrated trees differ or canonical full make verify is NONPASS.
+  - Network, Provider, Secret, remote, production, public, P2 or P3 permission is required.
+
+forbidden_actions:
+  - modify Goal, Strategic Constitution, Master Execution Protocol, Founder Delegation Policy, Evaluation Protocol, authority validators or P1 Exit Gate
+  - mutate accepted P1-048 source or Evidence bytes or promote its accepted claim
+  - read, restore, compare, retry, rename or reuse P1-057 or P1-056 engineering assets
+  - create successor, replacement, normalization, remediation, closure, feasibility, corrected candidate, second candidate or re-review chain
+  - build a generic Agent runtime, model recorder, Provider adapter, shell, sandbox, Supervisor, Root Custody, Strong Isolation or Multi-Agent Runtime
+  - network, Provider, Secret, dependency download, remote, production, public, push, pull request or release
+  - claim model, Agent, benchmark, VTSR, P1 Exit, production, sandbox or hostile-principal capability
+
+claim_boundary: ONE_ACCEPTED_VISIBLE_SYNTHETIC_COOPERATIVE_LOCAL_P1_048_RUN_PAIR_EVALUATION_PROTOCOL_V1_1_SECTION_6_COMPLETE_OBSERVABLE_TRACE_CONFORMANCE_ONLY_NO_MODEL_PROVIDER_AGENT_BENCHMARK_VTSR_FULL_P1_EXIT_P2_P3_OR_PRODUCTION_CLAIM

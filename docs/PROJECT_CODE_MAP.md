@@ -4,9 +4,9 @@
 
 ## 1. 生成范围
 
-- 纳入逐文件用途索引的文件数：646。
+- 纳入逐文件用途索引的文件数：647。
 - 其中源码/脚本/配置/SQL/CSS 类文件数：466。
-- 纳入统计的文本总行数：158059。
+- 纳入统计的文本总行数：158335。
 - 排除逐文件展开的本地生成/证据目录：`.git/`、`bin/`、`web-console/node_modules/`、`backend-spring/target/`、`analyzer-rust/target/`、`.sourcelens-runtime/`、`release-evidence/`、前端构建和测试产物。
 - 本地生成物、依赖缓存和历史证据目录不是源码或当前权威；它们必须保持未跟踪并可重建或从封存恢复。
 
@@ -24,7 +24,7 @@
 | `CODE_OF_CONDUCT.md` | 1 | 项目根文件或辅助目录。 |
 | `CONTRIBUTING.md` | 1 | 项目根文件或辅助目录。 |
 | `deploy` | 2 | Docker Compose 和环境模板。 |
-| `docs` | 50 | 当前架构、接口、安全、研究与 AIOS 权威文档。 |
+| `docs` | 51 | 当前架构、接口、安全、研究与 AIOS 权威文档。 |
 | `evaluation-harness` | 128 | 项目根文件或辅助目录。 |
 | `LICENSE` | 1 | 项目根文件或辅助目录。 |
 | `Makefile` | 1 | 项目根文件或辅助目录。 |
@@ -169,10 +169,10 @@
 | `backend-spring/src/test/resources` | 5 | Spring Boot 后端服务。子目录。 |
 | `backend-spring/src/test/resources/mockito-extensions` | 1 | Spring Boot 后端服务。子目录。 |
 | `deploy` | 2 | 部署配置目录，包含 Docker Compose 和环境变量模板。 |
-| `docs` | 50 | 项目事实源文档目录，覆盖产品、架构、API、数据库、安全、运维、阶段需求、进度和交接。 |
-| `docs/aios` | 38 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
+| `docs` | 51 | 项目事实源文档目录，覆盖产品、架构、API、数据库、安全、运维、阶段需求、进度和交接。 |
+| `docs/aios` | 39 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/aios/schemas` | 4 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
-| `docs/aios/tasks` | 26 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
+| `docs/aios/tasks` | 27 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/aios/truth` | 1 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/llm-safety-evals` | 2 | LLM 安全评测用例目录，存放 prompt injection、输出质量和 provider run 模板。 |
 | `evaluation-harness` | 128 | 项目根文件或辅助目录。子目录。 |
@@ -912,6 +912,7 @@
 | `docs/aios/tasks/P1-052_OFFLINE_PROVIDER_B0_RUNNER_AND_EVALUATOR.yaml` | 项目文档。标题：P1-052_OFFLINE_PROVIDER_B0_RUNNER_AND_EVALUATOR.yaml。 |
 | `docs/aios/tasks/P1-053_TASK_LOCAL_UNTRUSTED_PATCH_EXECUTION_QUARANTINE.yaml` | 项目文档。标题：P1-053_TASK_LOCAL_UNTRUSTED_PATCH_EXECUTION_QUARANTINE.yaml。 |
 | `docs/aios/tasks/P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE.yaml` | 项目文档。标题：P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE.yaml。 |
+| `docs/aios/tasks/P1-056_OFFLINE_B0_FINITE_IR_ADAPTER_CONFORMANCE.yaml` | 项目文档。标题：P1-056_OFFLINE_B0_FINITE_IR_ADAPTER_CONFORMANCE.yaml。 |
 | `docs/aios/truth/project_state.yaml` | 项目文档。标题：project_state.yaml。 |
 | `docs/API_DESIGN.md` | API 设计文档，记录后端接口、请求响应、权限和当前 route inventory。标题：API 设计。 |
 | `docs/ARCHITECTURE.md` | 项目文档。标题：架构设计。 |

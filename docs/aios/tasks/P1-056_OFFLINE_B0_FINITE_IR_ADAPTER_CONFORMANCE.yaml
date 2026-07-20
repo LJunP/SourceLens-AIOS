@@ -1,0 +1,250 @@
+schema_version: 1
+record_type: sourcelens_aios_phase_delegated_task_contract
+task_id: AIOS-P1-056_OFFLINE_B0_FINITE_IR_ADAPTER_CONFORMANCE
+phase: P1
+route_id: P1_FINITE_TYPED_PATCH_IR_TRUSTED_COMPILER_AND_OFFLINE_ADAPTER_ROUTE_V1
+status: AUTHORIZED_ACTIVE
+execution_authority: PHASE_DELEGATED
+effective_only_when_canonical_truth_binds_exact_bytes: true
+title: Clean-room Offline B0 Finite IR Adapter Conformance
+
+objective: >-
+  Build and falsify one clean-room provider-neutral offline response adapter for
+  the accepted REP-001 control. It must admit one exact frozen request and only
+  four exact frozen offline response envelopes, map each envelope to exactly one
+  of the four P1-055 accepted legal IR byte programs, and pass that exact Buffer
+  directly to the accepted finite trusted compiler. All other bytes reject
+  before compiler invocation, mutation or child start. The Task must complete
+  actual Run A, independent fresh Run B, stable-projection exact equality, zero
+  false accepts and exact no-source-mutation rollback against one candidate.
+
+why_now:
+  - P1-055 is Founder-exception accepted, canonically integrated and full make verify passed; the route's Task 2 entry condition is satisfied.
+  - P1 still lacks a runnable offline B0 compatibility path that composes a bounded response with the accepted finite compiler without Provider access.
+  - Exact whole-envelope membership plus closed-table extraction is the smallest executable test of adapter composition and avoids free-form generation, network, sandbox or future-phase runtime work.
+
+task_kind: EVALUATION_FOUNDATION_ENGINEERING
+risk_level: medium
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+founder_decision_required: false
+capability_claim: false
+
+owner_role: Engineering Manager Agent
+worker_role: Offline Finite IR Adapter Engineer
+roles:
+  owner: Engineering Manager Agent
+  worker: Offline Finite IR Adapter Engineer
+  independent_reviewers:
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent
+
+budget:
+  engineering_hours: 10
+  calendar_days: 3
+  implementation_iterations: 2
+  candidates: 1
+
+contract_correction:
+  allowance: 1
+  used: 0
+  rule: Any correction must occur before activation and may not change objective, paths, permission, budget or claim.
+
+source_identity:
+  canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
+  activation_parent_commit: b7cdab2209513b0bec4c6b1fecc74967d8cc05c6
+  activation_parent_tree: c5accc215cc48e9993f08424f897b8d57d0709e0
+  task_branch: codex/p1-056-offline-b0-finite-ir-adapter
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-056-offline-b0-finite-ir-adapter
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-056-offline-b0-finite-ir-adapter-20260720T055846Z
+
+founder_route_authority:
+  route_authorization_token: AUTHORIZE_P1_FINITE_TYPED_PATCH_IR_TRUSTED_COMPILER_AND_OFFLINE_ADAPTER_ROUTE_V1
+  route_decision_packet_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-finite-typed-patch-ir-route-20260720T001400Z/FOUNDER_P1_FINITE_TYPED_PATCH_IR_TRUSTED_COMPILER_AND_OFFLINE_ADAPTER_ROUTE_DECISION_PACKET.md
+  route_decision_packet_sha256: 6009cfcff6de1768de0586317fa22896d3b05e4c2c7d628b7dd9ea064cd4252b
+  route_decision_packet_byte_length: 21286
+  p1_056_entry_authorization_token: AUTHORIZE_ONE_FINAL_P1_055_EXACT_WORKTREE_RECREATE_TREE_INTEGRATION_AND_P1_056_ENTRY_V1
+  p1_056_entry_packet_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-055-finite-typed-patch-ir-20260720T014028Z/terminal/FOUNDER_FINAL_WORKTREE_RECOVERY_PACKET.md
+  p1_056_entry_packet_sha256: e8c57ef729c99c395a4842c6754c29241d59d5f91ead83e91a0e31efbd92ed4f
+  p1_056_entry_packet_byte_length: 8570
+
+accepted_input:
+  task_id: AIOS-P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE
+  status: FOUNDER_EXCEPTION_ACCEPTED_COMPLETE
+  contract_path: docs/aios/tasks/P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE.yaml
+  contract_sha256: 150b80d116088489339a850095e8d3ff33dd73e1212b7c617a8becf02c509289
+  accepted_candidate_commit: 4d65d5178e1d5cf0a2852acc844f6f4b12c2fdc0
+  accepted_candidate_tree: 22948c19a83b5c3bf7f9383982e2e092b1840561
+  integration_commit: f53e0f2b9e693ec07a8168b0dd90eb6d1057e4a5
+  canonical_full_make_verify: PASS
+  acceptance_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-055-finite-typed-patch-ir-20260720T014028Z/terminal/P1_055_FINAL_INTEGRATION_ACCEPTANCE_RECEIPT.json
+  acceptance_receipt_sha256: 2a3b3fd9749a10165a0e56a242f658a41e0c0eab3c5d1d99c4bfdb46a370e812
+  quality_review_provenance: NON_PASS_CREATE_ONCE_VIOLATION_PRESERVED_UNDER_FOUNDER_RESIDUAL_ACCEPTANCE
+  reuse_boundary: ACCEPTED_FINITE_IR_PROGRAM_BYTES_COMPILER_INTERFACE_ORACLE_AND_CONFORMANCE_PATTERNS_ONLY
+
+read_context:
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/tasks/P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE.yaml
+  - evaluation-harness/fixtures/finite-typed-patch-ir-v1/task-card.json
+  - evaluation-harness/fixtures/finite-typed-patch-ir-v1/programs/**
+  - evaluation-harness/evaluator/finite-typed-patch-ir-v1/quality-oracle.mjs
+  - evaluation-harness/harness/finite-typed-patch-ir-v1/compiler.mjs
+  - evaluation-harness/harness/finite-typed-patch-ir-v1/runner.mjs
+  - scripts/verify-p1-finite-typed-patch-ir-v1.sh
+
+forbidden_read_or_reuse:
+  - P1-052 rejected candidate, body, source, fixture, Quality, Review, Evidence or engineering lineage
+  - P1-053 failed runner, profile, source, fixture, Quality asset, implementation, branch, tree or engineering lineage
+  - historical failed implementation assets as semantic, design, oracle, fixture or code input
+
+allowlisted_paths:
+  - docs/aios/tasks/P1-056_OFFLINE_B0_FINITE_IR_ADAPTER_CONFORMANCE.yaml
+  - evaluation-harness/fixtures/offline-finite-ir-adapter-v1/**
+  - evaluation-harness/evaluator/offline-finite-ir-adapter-v1/**
+  - evaluation-harness/harness/offline-finite-ir-adapter-v1/**
+  - scripts/verify-p1-offline-finite-ir-adapter-v1.sh
+  - Makefile
+  - docs/PROJECT_CODE_MAP.md
+  - docs/aios/truth/project_state.yaml
+
+write_ownership:
+  quality:
+    - evaluation-harness/fixtures/offline-finite-ir-adapter-v1/**
+    - evaluation-harness/evaluator/offline-finite-ir-adapter-v1/quality-oracle.mjs
+  worker:
+    - evaluation-harness/harness/offline-finite-ir-adapter-v1/adapter.mjs
+    - evaluation-harness/harness/offline-finite-ir-adapter-v1/runner.mjs
+  integration:
+    - docs/aios/tasks/P1-056_OFFLINE_B0_FINITE_IR_ADAPTER_CONFORMANCE.yaml
+    - scripts/verify-p1-offline-finite-ir-adapter-v1.sh
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+    - docs/aios/truth/project_state.yaml
+  external_evidence:
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-056-offline-b0-finite-ir-adapter-20260720T055846Z/**
+
+quality_freeze_after_activation:
+  required_before_worker_mutation: true
+  owner: Quality and Evaluation Agent
+  worker_may_modify: false
+  deadline_engineering_hours_after_activation: 0.6
+  worker_start_deadline_engineering_hours_after_activation: 1.0
+  total_pre_worker_limit_engineering_hours: 1.0
+  freezes:
+    - one exact canonical offline request byte string and identity
+    - four exact provider-neutral success response envelopes and their one-to-one legal IR mappings
+    - exact malformed, free-form-code, encoding, identity and tamper corpus with expected reason codes
+    - fixed adapter and compiler composition interfaces, action schedule and TCB import/API allowlists
+    - Run A and Run B raw Evidence schema, stable projection, negative counting and exact rollback oracle
+    - candidate manifest schema and exact candidate binding rules
+
+offline_envelope_boundary:
+  request_schema: SL-OFFLINE-IR-REQUEST/1
+  response_schema: SL-OFFLINE-IR-RESPONSE/1
+  baseline_marker: CONSTRAINED_IR_BASELINE
+  request_population: 1
+  admitted_success_response_population: 4
+  encoding: ASCII_SUBSET_OF_UTF8_NO_BOM_NO_NUL_EXACTLY_ONE_TRAILING_LF
+  admission: EXACT_WHOLE_RAW_BUFFER_MEMBERSHIP_BEFORE_DECODE_PARSE_COMPILER_WRITE_OR_CHILD_START
+  extraction: CLOSED_TABLE_RESPONSE_BYTES_TO_ACCEPTED_IR_BUFFER
+  response_decode_or_parse: false
+  output_population: EXACT_P1_055_FOUR_LEGAL_IR_BUFFERS_ONLY
+  real_provider_compatibility_claim: false
+
+adapter_tcb:
+  import_allowlist:
+    - node:crypto
+  forbidden_imports_or_apis:
+    - node:fs
+    - node:child_process
+    - node:net
+    - node:http
+    - node:https
+    - node:tls
+    - node:dgram
+    - node:vm
+    - node:module
+    - node:worker_threads
+    - eval
+    - Function
+    - WebAssembly
+    - dynamic_import
+  shell: false
+  response_decode_or_parse: false
+  free_form_text_interpretation: false
+
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+
+candidate_discipline:
+  final_candidate_count: 1
+  bounded_repair_allowed_only_before_candidate_freeze: true
+  mutation_after_candidate_freeze_allowed: false
+  run_a_run_b_and_reviews_bind_same_candidate_commit_tree_manifest: true
+  formal_run_nonpass_action: TERMINAL_STOP_NO_UNFREEZE_OR_CORRECTED_CANDIDATE
+
+acceptance_criteria:
+  - Quality freezes and self-validates the exact request, four response envelopes, response-to-IR mapping, malformed/tamper corpus, fixed interfaces, stable projection and rollback oracle before Worker mutation.
+  - Adapter admission checks raw Buffer type, frozen maximum lengths, SHA-256 only as a non-authorizing index, and final exact Buffer equality against the one request and four responses before any decode, parse, compiler invocation, write or child start.
+  - Every admitted response maps one-to-one to exactly one accepted P1-055 IR Buffer; adapter output length, SHA-256 and exact bytes equal the corresponding accepted program and no fifth output exists.
+  - Adapter passes its exact output Buffer directly to the unmodified accepted P1-055 compileFiniteTypedPatchIr interface; four composed observations receive their frozen program/outcome identities, and only IR10 has the accepted success outcome.
+  - Request or response identity, encoding, length, hash, schema, baseline marker or envelope drift rejects before compiler invocation; malformed JSON, free-form code, tool calls, streams, Provider fields, path/shell/import payloads, BOM, NUL, invalid UTF-8, duplicate/extra/missing/reordered fields and extra whitespace/LF all reject.
+  - Deterministic negative closure covers every strict truncation, every one-byte prefix/suffix and every-position fixed-byte substitution of each success response; legal-to-legal equality is handled as the target legal envelope and all other bytes reject with zero false accepts.
+  - Rejection Evidence proves compiler_call_attempts zero, mutation_attempts zero, child_start_attempts zero, canary unchanged and all external effects false.
+  - Adapter TCB has only node:crypto and no filesystem, child-process, network, dynamic-execution or free-form parsing API; P1-055 accepted compiler bytes are not modified.
+  - Targeted verification executes the exact four success responses, explicit negative corpus, deterministic negative closure, candidate-binding checks, evaluator-tamper checks and source-clean rollback checks.
+  - One exact final candidate commit/tree/manifest is frozen after targeted verification; repair closes and Run A plus independent fresh Run B execute the same candidate and frozen inputs in distinct create-once Evidence roots.
+  - Run B does not read Run A path, receipt, stable projection or verdict; both runs produce exact-byte-equal predeclared stable projections, zero false accepts, unchanged canonical/task source and exact clean rollback.
+  - Fresh CTO, Security and Quality reviewers return TARGET_VERDICT PASS for the same exact candidate and Evidence; Reviewer NON_PASS terminates the Task without candidate correction.
+  - Only after Task Gate may the reviewed tree be squash-integrated locally; integrated tree equals reviewed tree and one clean canonical full make verify passes.
+
+required_evidence:
+  - exact Contract, route packets, Goal, authority and Quality freeze identities
+  - exact request/response/program mapping and negative corpus identities
+  - candidate commit/tree, binary diff hash and per-file mode/length/SHA manifest
+  - Run A and independent Run B raw commands, observations, negative results, stable projections and source-clean rollback receipts
+  - deterministic negative-closure counts/digest and zero false accepts
+  - adapter/compiler composition observations and static TCB checks
+  - stable projection exact-byte comparison
+  - fresh CTO, Security and Quality exact-candidate verdicts
+  - reviewed/integrated tree equality and canonical make verify result
+
+rollback:
+  run_level: Adapter and compiler composition is in-memory only; verify exact candidate source commit/tree and clean status before and after, remove only create-once run Evidence objects proven owned by a failed pre-publication run, and never mutate canonical or accepted P1-055 bytes.
+  candidate_level: Do not integrate a NON_PASS candidate; preserve raw Evidence and a recoverable evidence tag, then remove only a verified-clean task-owned worktree.
+  integrated_level: Use non-destructive git revert of the exact integration commit and preserve all Evidence; never reset or clean.
+
+stop_conditions:
+  - Quality freeze is incomplete, inconsistent, contaminated or not finished within 0.6 engineering hours after activation.
+  - Worker implementation does not start within the first engineering hour or pre-Worker work exceeds 1.0 engineering hour.
+  - Request, response or adapter output population ceases to be finite, exact and exhaustively auditable.
+  - Any non-exact response is admitted, any output differs from the four accepted IR bytes, or any invalid input reaches compiler, mutation or child start.
+  - Adapter requires JSON/free-text interpretation, arbitrary source, diff, AST, expression, path, command, argv, cwd, env, module, executable or broader TCB.
+  - Accepted P1-055 source, Evidence, canary, canonical source or a pre-existing object is overwritten, damaged, followed, renamed, deleted or cleaned.
+  - An external effect, escaped path, identity drift, Evidence overwrite or cleanup ambiguity occurs.
+  - One pre-freeze bounded repair is consumed and targeted verification still does not pass.
+  - Candidate is mutated after freeze, Run A or Run B is NONPASS, stable projections differ, false accepts are nonzero, or rollback is not exact.
+  - Any fresh Reviewer returns TARGET_VERDICT NON_PASS.
+  - Reviewed and integrated trees differ or canonical full make verify is NONPASS.
+  - Network, Provider, Secret, remote, production, public, dependency download, Docker, VM, root, Strong Isolation, P2 or P3 permission is required.
+
+forbidden_actions:
+  - reading, restoring, retrying, fixing, replaying or reusing P1-052 rejected or P1-053 failed engineering assets
+  - modifying accepted P1-055 compiler, runner, fixtures, evaluator, Contract or Evidence bytes
+  - arbitrary response parsing, diff, AST, free-form source, expression, path, command, argv, cwd, env, module or executable selection
+  - eval, Function, vm, WebAssembly, dynamic import, shell or model-selected child process
+  - real Provider response, API key, network, Secret, stream, tool call, remote storage or dependency download
+  - model-generated source, test, script, module, command, build hook or package lifecycle execution
+  - real or third-party untrusted repository execution, native addon or package installation
+  - Docker, VM, root, entitlement, code signing, Strong Isolation, Supervisor, Root Custody, Full Trust Runtime or Multi-Agent Runtime
+  - remote, production, public, push, pull request, release or external side effect
+  - P2/P3 entry, P1 Exit Gate change, unrestricted B0, model performance, general Agent, benchmark, hostile-principal, production or P1 Exit claim
+  - successor, replacement, normalization, closure, feasibility, remediation, corrected candidate, extra Task or Route V2/V3 chain
+
+claim_boundary: ONE_VISIBLE_SYNTHETIC_CLEAN_ROOM_OFFLINE_CONSTRAINED_IR_BASELINE_ADAPTER_TO_ACCEPTED_FINITE_COMPILER_DUAL_RUN_CONFORMANCE_ONLY_NO_REAL_PROVIDER_UNRESTRICTED_B0_MODEL_PERFORMANCE_VTSR_AGENT_SANDBOX_STRONG_ISOLATION_HOSTILE_PRINCIPAL_P1_EXIT_OR_PRODUCTION_CLAIM

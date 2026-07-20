@@ -1,0 +1,312 @@
+schema_version: 1
+record_type: sourcelens_aios_phase_delegated_task_contract
+task_id: AIOS-P1-057_LOCAL_EVALUATOR_FALSE_SUCCESS_CHARACTERIZATION_PACK
+phase: P1
+route_id: P1_PHASE_LEVEL_CONTINUOUS_ENGINEERING_EXECUTION_ROUTE_V1
+status: AUTHORIZED_ACTIVE
+execution_authority: PHASE_DELEGATED
+effective_only_when_canonical_truth_binds_exact_bytes: true
+title: Local Evaluator False-Success Characterization Pack
+
+objective: >-
+  Complete P1 Exit Gate item 6 for one visible synthetic REP-001 control by
+  building and executing one local characterization pack that measures a
+  diagnostic declared-success comparator and a Worker-owned evaluator under
+  test against a separately frozen Quality-owned reference oracle. Emit
+  deterministic agreement, disagreement, TP, TN, FP, FN, false-success and
+  false-negative results with explicit denominators and invalid-run handling.
+
+why_now:
+  - P1 Exit Gate item 6 is PARTIAL and is the mandatory first target of the authorized route.
+  - Accepted P1-035, P1-048 and P1-055 provide sufficient visible synthetic ground truth and local dual-run patterns.
+  - This is a runnable and falsifiable engineering increment that requires no Provider, network or future-phase capability.
+
+task_kind: EVALUATION_FOUNDATION_ENGINEERING
+risk_level: medium
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+founder_decision_required: false
+capability_claim: false
+
+owner_role: Engineering Manager Agent
+worker_role: Evaluator Characterization Engineer
+
+roles:
+  owner: Engineering Manager Agent
+  worker: Evaluator Characterization Engineer
+  independent_reviewers:
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent
+
+route_authority:
+  authorization_token: AUTHORIZE_P1_PHASE_LEVEL_CONTINUOUS_ENGINEERING_EXECUTION_ROUTE_V1
+  decision_packet:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-phase-continuous-execution-correction-20260720T075451Z/FOUNDER_P1_PHASE_LEVEL_CONTINUOUS_EXECUTION_ROUTE_PACKET_V1.md
+    byte_length: 13230
+    sha256: 31f751d38c76f97480a79a991f1a29f3b896f752e2ca2cc68eccaae6db5e4419
+
+source_identity:
+  canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
+  activation_parent_commit: 14ca04dd25a22423fe34906f4caca77efd6ef576
+  activation_parent_tree: 2a786a35bd53ca6e4828099f837aa3ebc31909a5
+  task_branch: codex/p1-057-local-evaluator-false-success
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-057-local-evaluator-false-success
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-057-local-evaluator-false-success-20260720T081347Z
+
+budget:
+  engineering_hours: 12
+  calendar_days: 4
+  implementation_iterations: 2
+  candidates: 1
+
+contract_admission:
+  machine_input_identity_lint_sessions: 1
+  parallel_human_start_review_rounds: 1
+  contract_corrections_allowed: 1
+  contract_corrections_used: 0
+  correction_boundary: PRE_ACTIVATION_SAME_BLOCKING_ROOT_CAUSE_ONLY_NO_OBJECTIVE_PATH_PERMISSION_BUDGET_OR_CLAIM_CHANGE
+  second_nonpass_action: TERMINAL_STOP
+  task_slot_consumed_when: EXACT_CONTRACT_FIRST_ENTERS_INDEPENDENT_REVIEW
+
+accepted_inputs:
+  p1_035:
+    task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+    lifecycle: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+    accepted_candidate_commit: 686eda0cd7a93b72ac5e64301479f17e4b096fb0
+    accepted_candidate_tree: b2740b44d0051303057deac7d719c27fd6a5578a
+    files:
+      - path: docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
+        byte_length: 18346
+        sha256: acec5432aacd6476693db62bdb52ee326c467f17b691860688fe952f7ffbdc33
+      - path: evaluation-harness/datasets/p1-representative-task-dataset-v1/materialization-recipe.json
+        byte_length: 456
+        sha256: 104ed7109df7da155867a428b50575a9cda6bca481e183cebed50788c01a3a5e
+      - path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/task-spec.json
+        byte_length: 2960
+        sha256: 25de6b6f330e09c076521b42a88d60712637e0fc7de7ab1cfe1f9f5d4c223321
+      - path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/expected-base-failure.json
+        byte_length: 439
+        sha256: 5dbe034939ed2178f86fd84ad409cff9426040f63343de27f7ad3e8f46dd2494
+      - path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/reference-solution.patch
+        byte_length: 256
+        sha256: 44e0068f8fe3cff3d64706efa63fb523c6c79734c68009e63245e532c81fb96b
+      - path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/src/range.mjs
+        byte_length: 115
+        sha256: 1e3de2958c9841bbe785d903b2f5453389c4225359308b539ac2cb3194469d75
+      - path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/test/issue.test.mjs
+        byte_length: 237
+        sha256: 51fd472f8cf85fd595246814db29699ab81ccdc2986d80666d8609a8c4972b4b
+      - path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/test/regression.test.mjs
+        byte_length: 241
+        sha256: 381c573d8f99305b47db9f1a2ca49779842fe1187b9d7c5b7410e56dda9240c5
+
+  p1_048:
+    task_id: AIOS-P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK
+    lifecycle: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+    accepted_candidate_commit: 9e130f2aae0fd951b252cf0dff8edc9b9364e962
+    accepted_candidate_tree: 3a4229e9a8da181ca8bb256f5467cf96549c2549
+    reuse_boundary: ACCEPTED_COOPERATIVE_LOCAL_DUAL_RUN_AND_CREATE_ONCE_EVIDENCE_PATTERN_ONLY
+    files:
+      - path: docs/aios/tasks/P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK.yaml
+        byte_length: 9995
+        sha256: 092a7d38d5c3f208a0e97d74cfbee906793d2a5fe31caf2fd15948b7ea209a62
+      - path: evaluation-harness/fixtures/experiment-pack-reentry-v1/task-card.json
+        byte_length: 10348
+        sha256: 15cb56812e348fcca3238467db4e7cdedd9b9210ddedc1568d44b1eeb82f854f
+
+  p1_055:
+    task_id: AIOS-P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE
+    lifecycle: FOUNDER_EXCEPTION_ACCEPTED_COMPLETE
+    lifecycle_must_not_be_rewritten: true
+    accepted_candidate_commit: 4d65d5178e1d5cf0a2852acc844f6f4b12c2fdc0
+    accepted_candidate_tree: 22948c19a83b5c3bf7f9383982e2e092b1840561
+    integration_commit: f53e0f2b9e693ec07a8168b0dd90eb6d1057e4a5
+    reuse_boundary: ACCEPTED_READ_ONLY_FINITE_VISIBLE_SYNTHETIC_REP001_INTERFACE_AND_OUTCOME_SEMANTICS_ONLY
+    files:
+      - path: docs/aios/tasks/P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE.yaml
+        byte_length: 18087
+        sha256: 150b80d116088489339a850095e8d3ff33dd73e1212b7c617a8becf02c509289
+      - path: evaluation-harness/fixtures/finite-typed-patch-ir-v1/task-card.json
+        byte_length: 24928
+        sha256: 08c6c25c34d70fb7d41452a69fd31e7527aac5014c34d9ef2305cdbca4be200c
+      - path: evaluation-harness/fixtures/finite-typed-patch-ir-v1/programs/ir00.json
+        byte_length: 255
+        sha256: e21da56b4132c121419863bad9e682532963f8b5bc9951af31b23234d9c46736
+      - path: evaluation-harness/fixtures/finite-typed-patch-ir-v1/programs/ir01.json
+        byte_length: 255
+        sha256: db33a4d4f2a5b21f211344d785785c2b4c246677bbcf68ef0d5e1831cdf3d0c1
+      - path: evaluation-harness/fixtures/finite-typed-patch-ir-v1/programs/ir10.json
+        byte_length: 255
+        sha256: ac80def7bc984820b63243b020754715c1a7ad34e18e3ded2a4ee5c1961defcc
+      - path: evaluation-harness/fixtures/finite-typed-patch-ir-v1/programs/ir11.json
+        byte_length: 255
+        sha256: 0eeca741f57b218ee175308080de3ada3db1b4eb93222bd252cac9ed6e2c66f7
+
+read_context:
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - exact accepted_inputs files declared above
+
+forbidden_read_or_reuse:
+  - P1-056 Contract, source, fixture, oracle, adapter, runner, candidate, tree, Evidence or Review bytes
+  - any P1-056 branch, worktree, rejected engineering source or recovered artifact
+  - any other rejected or failed engineering lineage as implementation, oracle, corpus or design input
+  - mutation or lifecycle promotion of any accepted P1-035, P1-048 or P1-055 byte
+
+allowlisted_paths:
+  - docs/aios/tasks/P1-057_LOCAL_EVALUATOR_FALSE_SUCCESS_CHARACTERIZATION_PACK.yaml
+  - evaluation-harness/fixtures/local-evaluator-false-success-v1/**
+  - evaluation-harness/evaluator/local-evaluator-false-success-v1/**
+  - evaluation-harness/harness/local-evaluator-false-success-v1/**
+  - scripts/verify-p1-local-evaluator-false-success-v1.sh
+  - Makefile
+  - docs/PROJECT_CODE_MAP.md
+  - docs/aios/truth/project_state.yaml
+
+write_ownership:
+  quality:
+    - evaluation-harness/fixtures/local-evaluator-false-success-v1/**
+    - evaluation-harness/evaluator/local-evaluator-false-success-v1/**
+  worker:
+    - evaluation-harness/harness/local-evaluator-false-success-v1/**
+  integration:
+    - docs/aios/tasks/P1-057_LOCAL_EVALUATOR_FALSE_SUCCESS_CHARACTERIZATION_PACK.yaml
+    - scripts/verify-p1-local-evaluator-false-success-v1.sh
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+    - docs/aios/truth/project_state.yaml
+  external_evidence:
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-057-local-evaluator-false-success-20260720T081347Z/**
+
+role_separation:
+  identities_must_be_distinct: true
+  quality_owns:
+    - reference oracle
+    - observation corpus and expected verdicts
+    - reason-code vocabulary
+    - denominator, exclusion and invalid-run rules
+    - stable semantic projection contract
+  worker_owns:
+    - evaluator under test
+    - diagnostic declared-success comparator
+    - characterization runner and metrics emitter
+  prohibitions:
+    - Worker may not create or modify Quality-owned bytes.
+    - Evaluator under test may not read or import reference-oracle, expected-verdict or reviewer bytes.
+    - Declared success, wrapper exit zero or self-reported checksum booleans may not authorize acceptance.
+    - Worker may not review or accept its own candidate.
+
+quality_freeze_after_activation:
+  required_before_worker_mutation: true
+  owner: Quality and Evaluation Agent
+  worker_may_modify: false
+  deadline_engineering_hours_after_activation: 0.5
+  freezes:
+    - exact Task Card, observation corpus and expected verdict bytes
+    - reference oracle and reason-code vocabulary
+    - one visible REP-001 known-good and controlled-invalid ground truth
+    - diagnostic comparator, hardened evaluator and confusion-matrix definitions
+    - scheduled, eligible, excluded and infrastructure-invalid denominator rules
+    - case deletion, duplication, reorder and post-hoc exclusion tamper controls
+    - Run A and Run B raw Evidence schema, stable projection and exact comparison rule
+    - candidate manifest schema binding every candidate and Quality file by path, mode, byte length and SHA-256
+
+minimum_case_families:
+  - known-good success and valid success with a false declared-failure field
+  - safe-wrong and identity-no-effect outcomes
+  - forged success and exit-zero-but-semantic-failure
+  - missing issue test, regression test, Evidence or rollback
+  - wrong task, base, candidate, program or outcome identity
+  - tampered raw command log, manifest or stable projection bytes
+  - missing external-effect declaration or forged all-false declaration contradicted by raw events
+  - post-hoc exclusion or denominator manipulation
+
+minimum_outputs:
+  - Quality-owned frozen Task Card, observations, expected verdicts and reference oracle
+  - Worker-owned evaluator under test, diagnostic comparator and runner
+  - per-case observed and expected verdicts, reason codes and checked-signal identifiers
+  - diagnostic and hardened TP, TN, FP, FN, unresolved, agreement and disagreement counts
+  - false-success and false-negative numerator and denominator pairs
+  - scheduled, eligible, excluded, infrastructure-invalid and failure counts
+  - Run A and independent Run B raw Evidence and exact stable projection comparison
+  - one reproducible targeted verification command
+
+candidate_discipline:
+  final_candidate_count: 1
+  same_task_repair_allowed_only_before_candidate_freeze: 1
+  mutation_after_candidate_freeze_allowed: false
+  run_a_run_b_and_reviews_bind_same_candidate_commit_tree_manifest: true
+  candidate_review_rounds: 1
+  formal_run_nonpass_action: TERMINAL_STOP_NO_UNFREEZE_NO_CORRECTED_CANDIDATE_NO_REREVIEW
+
+deadlines:
+  worker_start_engineering_hours_after_task_review_entry: 1
+  runnable_falsifiable_result_engineering_hours_after_task_review_entry: 4
+
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+
+acceptance_criteria:
+  - The one machine lint verifies every declared accepted-input path, byte length and SHA-256 before Contract review.
+  - The one parallel CTO, Security and Quality start-review round returns PASS for these exact Contract bytes before activation.
+  - Quality freezes and self-validates the reference oracle, observation corpus, expected verdicts, denominator rules and stable projection before Worker mutation.
+  - Evaluator under test is a deterministic pure decision function with no reference-oracle, expected-verdict, reviewer, filesystem, child-process, network or dynamic-execution input.
+  - Artifact bytes are decoded and their byte lengths and SHA-256 values are independently recomputed; self-reported consistency booleans are ignored.
+  - Raw external-effect events are reconciled against an exact six-key declaration, and acceptance requires both sources to prove all effects false.
+  - Every frozen scheduled case executes exactly once; missing, duplicate, reordered or post-hoc excluded cases fail closed and cannot improve any denominator.
+  - The diagnostic comparator quantifies the deliberately adversarial false-success risk; it never supplies the accepted evaluator verdict.
+  - The hardened evaluator matches the independent oracle for every frozen case with zero false accepts, zero false negatives and zero unresolved cases.
+  - Every count and rate reconciles to exact integer numerator and denominator fields; percentages without counts are forbidden.
+  - Run A and independent Run B use the same frozen candidate and inputs in distinct fresh create-once task-owned roots.
+  - Run B rereads frozen inputs and does not read Run A path, receipt, result, projection or verdict.
+  - Run A and Run B stable semantic projections are exact canonical-JSON byte equal while physical paths, inode, PID, time and duration remain raw-only.
+  - The candidate manifest binds candidate commit, tree, diff length and SHA-256 plus every candidate and Quality file path, mode, byte length and SHA-256; omitted identities reject before a formal run.
+  - One targeted command reproduces the complete characterization and its negative controls.
+  - Fresh CTO, Security and Quality reviewers return TARGET_VERDICT PASS for the same exact candidate, manifest and formal Evidence.
+  - Only after Task Gate may the reviewed tree be integrated locally; integrated tree equals reviewed tree and one clean canonical full make verify passes.
+
+required_evidence:
+  - exact Goal, route packet, Contract, authority and accepted-input identities
+  - Quality freeze receipt and manifest identities
+  - candidate commit, tree, diff identity and per-file manifest
+  - Run A and independent Run B raw per-case decisions, metrics, negative controls and stable projections
+  - diagnostic and hardened confusion matrices with exact numerator and denominator pairs
+  - zero hardened false accepts, false negatives and unresolved cases
+  - fresh CTO, Security and Quality exact-candidate target verdicts
+  - reviewed/integrated tree equality and canonical make verify result
+
+rollback:
+  run_level: Remove only create-receipted task-owned disposable roots after device, inode, marker and containment verification.
+  candidate_level: Preserve Evidence, do not integrate a NON_PASS candidate, and remove only the verified-clean task worktree after terminalization.
+  integrated_level: Use non-destructive git revert of the exact integration commit and preserve all Evidence; never reset or clean.
+
+stop_conditions:
+  - Any accepted-input path, byte length or SHA-256 drifts.
+  - Contract admission needs a second correction or a second start-review round.
+  - Quality freeze is absent, inconsistent, contaminated or not finished before Worker mutation.
+  - Worker does not start within one engineering hour after Contract review entry.
+  - No runnable falsifiable targeted command and result exists within four engineering hours.
+  - Evaluator under test reads or derives a verdict from oracle, expected-label, reviewer or declared-success authority.
+  - Any mandatory controlled-invalid case is accepted or any hardened false positive, false negative or unresolved case exists.
+  - Denominator, exclusion, invalid-run or reason-code accounting is post-hoc, incomplete or irreconcilable.
+  - Evidence, canonical source or a pre-existing object is overwritten, followed, escaped, renamed, deleted or damaged.
+  - Candidate mutates after freeze, manifest omits an exact candidate or Quality identity, Run A or Run B is NON_PASS, or stable projections differ.
+  - Any fresh candidate Reviewer returns TARGET_VERDICT NON_PASS.
+  - Reviewed and integrated trees differ or canonical full make verify is NONPASS.
+  - Network, Provider, Secret, remote, production, public, P2 or P3 permission is required.
+
+forbidden_actions:
+  - modify Goal, Strategic Constitution, Master Execution Protocol, Founder Delegation Policy, Evaluation Protocol, authority validators or P1 Exit Gate
+  - mutate accepted P1-035, P1-048 or P1-055 bytes or promote their accepted claim
+  - read, restore, compare, retry, rename or reuse P1-056 engineering assets
+  - create successor, replacement, normalization, remediation, closure, feasibility, corrected candidate, second candidate or re-review chain
+  - build a generic evaluator platform, Provider adapter, Agent runtime, shell, sandbox, Supervisor, Root Custody, Strong Isolation or Multi-Agent Runtime
+  - network, Provider, Secret, dependency download, remote, production, public, push, pull request or release
+  - claim Provider, model, VTSR, Agent, benchmark, P1 Exit, production, sandbox or hostile-principal capability
+
+claim_boundary: ONE_VISIBLE_SYNTHETIC_REP001_EVALUATOR_DISAGREEMENT_AND_FALSE_SUCCESS_CHARACTERIZATION_ONLY_NO_PROVIDER_MODEL_VTSR_AGENT_P1_EXIT_OR_PRODUCTION_CLAIM

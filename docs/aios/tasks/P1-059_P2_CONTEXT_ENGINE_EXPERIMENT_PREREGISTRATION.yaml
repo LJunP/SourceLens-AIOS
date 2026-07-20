@@ -1,0 +1,395 @@
+schema_version: 1
+record_type: sourcelens_aios_phase_delegated_task_contract
+task_id: AIOS-P1-059_P2_CONTEXT_ENGINE_EXPERIMENT_PREREGISTRATION
+phase: P1
+route_id: P1_PHASE_LEVEL_CONTINUOUS_ENGINEERING_EXECUTION_ROUTE_V1
+status: ACTIVE
+classification: EVALUATION_FOUNDATION_ENGINEERING
+title: P2 Context Engine Experiment Preregistration
+
+contract_history:
+  correction_ordinal: 1
+  correction_limit: 1
+  original_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-059-context-engine-preregistration-20260720T115222Z/contract/AIOS-P1-059_P2_CONTEXT_ENGINE_EXPERIMENT_PREREGISTRATION.yaml
+  original_sha256: 1bec0ee5aebb14e968b811f96573bd5611244911a46188f939d70d4225f749ae
+  original_byte_length: 19597
+  correction_reason: SECURITY_CONTRACT_JSON_DUPLICATE_MEMBER_PREPARSE_REJECTION_MISSING
+  prior_reviews:
+    cto: PASS
+    security: NON_PASS
+    quality: NOT_CREATED
+  prior_review_reuse_allowed: false
+
+objective: >-
+  Build and mechanically validate one versioned, closed-schema preregistration
+  for the first P2 context-engine experiment. It binds accepted P1-035 inputs,
+  freezes one falsifiable hypothesis plus exact comparison, counting, exclusion
+  and stop/continue rules before any P2 implementation or run. This P1 Task does
+  not enter P2, implement a context engine, execute an Agent or claim benchmark
+  capability.
+
+mandatory_exit_capability: P2_CONTEXT_ENGINE_EXPERIMENT_PREREGISTRATION
+target_gate:
+  source: docs/aios/EVALUATION_PROTOCOL.md
+  section: 12
+  item: 8
+  exact_requirement: the first P2 context-engine experiment has a predeclared hypothesis and stop condition
+
+capabilities:
+  - EVALUATION_METRICS
+  - LOCAL_VISIBLE_DATASET
+  - EVIDENCE_MANIFEST
+
+source_identity:
+  canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
+  activation_parent:
+    commit: 111af28760b69c71d22e83108b49c4ba7e04252c
+    tree: 6f7737a24ea639ec05988bc5fc86f04b1f929598
+  branch: codex/aios-p1-059-context-engine-preregistration
+  worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-059-context-engine-preregistration
+  evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-059-context-engine-preregistration-20260720T115222Z
+
+accepted_inputs:
+  p1_035_contract:
+    path: docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
+    sha256: acec5432aacd6476693db62bdb52ee326c467f17b691860688fe952f7ffbdc33
+    byte_length: 18346
+  dataset_manifest:
+    path: evaluation-harness/datasets/p1-representative-task-dataset-v1/dataset-manifest.json
+    sha256: 22f252319ed066655b05142a391709741703e01fbb4d6b5ebfbbcb6acd782be6
+    byte_length: 15313
+    dataset_id: SOURCELENS-P1-REPRESENTATIVE-TASKS
+    dataset_version: 1.0.0
+    visibility: VISIBLE_SYNTHETIC
+  coverage:
+    path: evaluation-harness/datasets/p1-representative-task-dataset-v1/coverage.json
+    sha256: 79f27fa199a48bf52f122e0f98d0d4f6912677e645d48008f93a335787d1dae4
+    byte_length: 1213
+  baseline_context:
+    path: evaluation-harness/datasets/p1-representative-task-dataset-v1/shared/baseline-context.json
+    sha256: 64fab9efd47c193af94e3f7baee67072a32497d35c9dc1aee8a804bf32269cb9
+    byte_length: 377
+  response_format:
+    path: evaluation-harness/datasets/p1-representative-task-dataset-v1/shared/response-format.json
+    sha256: 6b8ec1d2a6a288e5b908716714589dae963739f2b35a0a29237ff4cbc1355c4b
+    byte_length: 306
+  task_specs:
+    - task_id: SL-P1-REP-001-RANGE-NORMALIZATION
+      split: development
+      path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/task-spec.json
+      sha256: 25de6b6f330e09c076521b42a88d60712637e0fc7de7ab1cfe1f9f5d4c223321
+      byte_length: 2960
+    - task_id: SL-P1-REP-002-CONFIG-VALIDATION
+      split: development
+      path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-002-CONFIG-VALIDATION/task-spec.json
+      sha256: f82368198c7c76022852b2d2814f8660219d659db68a7e2771d991ddd63ca3bc
+      byte_length: 2843
+    - task_id: SL-P1-REP-003-SAFE-PATH-JOIN
+      split: development
+      path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-003-SAFE-PATH-JOIN/task-spec.json
+      sha256: 09d87107e2da2ba211aae1cf0ee9b773ce4efa0df5e109c793f694069ac67087
+      byte_length: 2858
+    - task_id: SL-P1-REP-004-COMMAND-RESULT-MAPPING
+      split: development
+      path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-004-COMMAND-RESULT-MAPPING/task-spec.json
+      sha256: f6b4c558c313f1f7716c33646eb587705a1ced8fb00db97a9e00d4c19ad23fe3
+      byte_length: 2842
+    - task_id: SL-P1-REP-005-PROFILE-DISPLAY-NAME
+      split: validation
+      path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/task-spec.json
+      sha256: 19460b7b855fd7a1dade980c7ed4836a7fa97c9a50c3fd3316e9773128cbd723
+      byte_length: 2890
+    - task_id: SL-P1-REP-006-DEDUPE-REFACTOR
+      split: validation
+      path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/task-spec.json
+      sha256: 5e7c175f8a7c0204b45a7cba20fb3212a8d7f2d0d2094709d194dd1d3daa57ee
+      byte_length: 2857
+
+historical_isolation:
+  forbidden_task_ids:
+    - AIOS-P1-056_OFFLINE_B0_FINITE_IR_ADAPTER_CONFORMANCE
+    - AIOS-P1-057_LOCAL_EVALUATOR_FALSE_SUCCESS_CHARACTERIZATION_PACK
+    - AIOS-P1-058_COMPLETE_OBSERVABLE_TRACE_CONFORMANCE
+  forbidden_assets: contract bodies, branches, worktrees, commits, trees, tags, source, fixtures, validators, scripts, Evidence and Reviews
+  permitted_reference: canonical Truth terminal metadata only
+  reuse_allowed: false
+
+roles:
+  owner: P1-059 Master Task Owner
+  worker: P1-059 Validator Worker
+  independent_reviewers:
+    - P1-059 CTO Reviewer
+    - P1-059 Security Reviewer
+    - P1-059 Quality Reviewer
+
+role_separation:
+  quality_asset_owner: P1-059 Quality Asset Owner
+  quality_writes_only:
+    - evaluation-harness/fixtures/context-engine-preregistration-v1/**
+  worker_writes_only:
+    - evaluation-harness/validators/context-engine-preregistration-v1/**
+  integration_writes_only:
+    - scripts/verify-p1-context-engine-preregistration-v1.sh
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+    - docs/aios/tasks/P1-059_P2_CONTEXT_ENGINE_EXPERIMENT_PREREGISTRATION.yaml
+    - docs/aios/truth/project_state.yaml
+  rule: >-
+    Quality freezes the positive artifact, schemas, independent oracle,
+    negative matrix and candidate-manifest schema before Worker starts. Worker
+    may read but cannot change Quality bytes and cannot issue final acceptance.
+
+allowlisted_paths:
+  - evaluation-harness/fixtures/context-engine-preregistration-v1/**
+  - evaluation-harness/validators/context-engine-preregistration-v1/**
+  - scripts/verify-p1-context-engine-preregistration-v1.sh
+  - Makefile
+  - docs/PROJECT_CODE_MAP.md
+  - docs/aios/tasks/P1-059_P2_CONTEXT_ENGINE_EXPERIMENT_PREREGISTRATION.yaml
+  - docs/aios/truth/project_state.yaml
+
+budget:
+  engineering_hours: 8
+  calendar_days: 3
+  implementation_iterations: 2
+  candidates: 1
+
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+
+preregistration_minimum_contract:
+  experiment_id: P2-CTX-EXP-001-BOUNDED-CONTEXT-VTSR
+  owner_phase: P2
+  preregistered_in_phase: P1
+  lifecycle: PREREGISTERED_NOT_EXECUTED
+  research_question: >-
+    On the accepted six-task visible synthetic P1-035 set, does one bounded
+    repository-context configuration improve independently verified task
+    success over issue-only context when every other run input is held equal?
+  hypothesis:
+    null: Candidate verified successes minus baseline verified successes across 18 eligible runs is less than 2.
+    alternative: Candidate verified successes minus baseline verified successes across 18 eligible runs is at least 2.
+    falsifiable: true
+  configurations:
+    baseline:
+      id: CTX-BASELINE-ISSUE-ONLY-V1
+      context_identity_ref: accepted_inputs.baseline_context
+    candidate:
+      id: CTX-CANDIDATE-BOUNDED-REPOSITORY-CONTEXT-V1
+      ranked_repository_files_maximum: 4
+      selected_context_bytes_maximum: 8192
+      allowed_source_kind: repository regular files at the frozen base revision
+      forbidden_context_kinds:
+        - tests
+        - reference-solution patches
+        - expected-base-failure oracles
+        - evaluator or review artifacts
+        - secrets
+        - network-fetched content
+    held_equal_before_run:
+      - exact model and Provider identity
+      - exact Agent/runtime implementation
+      - TaskSpec and frozen base revision
+      - environment snapshot
+      - tool policy and budgets
+      - evaluator and oracle
+      - repetition schedule and seeds when supported
+    future_binding_status: NOT_AUTHORIZED_IN_P1
+    future_binding_rule: >-
+      Exact future model, Provider, runtime, candidate implementation commit/tree
+      and environment identities do not exist in this Task. A future immutable
+      P2 execution matrix must bind them equally for both arms before the first
+      run. The only accepted unbound sentinel is NOT_AUTHORIZED_IN_P1, and no run
+      or result is admissible while that sentinel remains.
+  sample:
+    task_population: 6
+    configurations: 2
+    repetitions_per_task_configuration: 3
+    scheduled_runs_per_configuration: 18
+    total_scheduled_runs: 36
+    pairing: same task and repetition ordinal across both configurations
+    order: deterministic counterbalanced order frozen before outputs
+  primary_metric:
+    id: VTSR
+    definition: independently verified successful runs divided by eligible scheduled runs
+    decision_unit: integer successful-run count out of 18 per configuration
+    success_delta_required: 2
+    equivalent_minimum_absolute_delta: 0.1111111111111111
+  task_success_rule: at least 2 independently verified successful runs out of 3 scheduled repetitions
+  secondary_metrics:
+    - relevant-source recall at 4 against a Quality-frozen visible oracle
+    - relevant-source precision at 4 against the same oracle
+    - selected context bytes
+    - token count, cost and end-to-end latency
+    - false-success count
+    - policy-violation count
+    - invalid-run count and reason-code distribution
+  exclusions:
+    infrastructure_reason_codes:
+      - SHARED_HARNESS_UNAVAILABLE
+      - SHARED_ENVIRONMENT_MATERIALIZATION_FAILURE
+    reruns_per_infrastructure_invalid_run: 1
+    rule: >-
+      Infrastructure-invalid runs remain in raw results and are rerun once under
+      the same configuration. System-attributable timeout, budget exhaustion,
+      crash, missing Evidence, policy violation or ordinary setup failure counts
+      as failure. No post-output exclusion may improve VTSR.
+  stop_continue_decision:
+    precedence: STOP_OVERRIDES_CONTINUE
+    stop_action: STOP_CONTEXT_STRATEGY_V1_AND_RETAIN_NEGATIVE_RESEARCH_ARTIFACT
+    stop_when_any:
+      - candidate successful-run count minus baseline successful-run count is less than 2
+      - candidate loses task-level success on any task that baseline passes
+      - false-success count is greater than 0
+      - policy-violation count is greater than 0
+      - forbidden context selection count is greater than 0
+      - selected context exceeds four files or 8192 bytes in any run
+      - a required future identity is unbound when a run starts
+      - more than two infrastructure-invalid runs remain after the one allowed same-configuration rerun
+    continue_action: CONTINUE_ONLY_TO_A_FRESH_BOUNDED_P2_REPLICATION_DECISION
+    continue_when_all:
+      - candidate successful-run count minus baseline successful-run count is at least 2
+      - candidate loses task-level success on zero baseline-passing tasks
+      - false-success, policy-violation and forbidden-context counts are all zero
+      - every run respects context, task, tool and Evidence budgets
+      - all identities were frozen before the first run
+  claim_boundary: >-
+    PREDECLARED_VISIBLE_SYNTHETIC_SIX_TASK_CONTEXT_COMPARISON_ONLY_NO_P2_ENTRY
+    _NO_CONTEXT_ENGINE_IMPLEMENTATION_NO_RUN_NO_PROVIDER_NO_MODEL_NO_BENCHMARK
+    _NO_AGENT_CAPABILITY_NO_P1_EXIT_NO_PRODUCTION_OR_GENERALIZATION_CLAIM
+
+quality_freeze_requirements:
+  required_files:
+    - evaluation-harness/fixtures/context-engine-preregistration-v1/preregistration.schema.json
+    - evaluation-harness/fixtures/context-engine-preregistration-v1/experiment-preregistration.json
+    - evaluation-harness/fixtures/context-engine-preregistration-v1/relevance-oracle.json
+    - evaluation-harness/fixtures/context-engine-preregistration-v1/quality-card.json
+    - evaluation-harness/fixtures/context-engine-preregistration-v1/quality-oracle.mjs
+    - evaluation-harness/fixtures/context-engine-preregistration-v1/candidate-manifest.schema.json
+  parser_security:
+    duplicate_json_members: REJECT_BEFORE_JSON_PARSE_OR_SCHEMA_VALIDATION
+    duplicate_reason_code: DUPLICATE_JSON_MEMBER
+    applies_to:
+      - preregistration
+      - schema
+      - relevance oracle
+      - quality card
+      - candidate manifest
+    rule: >-
+      Every security-relevant JSON byte stream must pass a raw-byte duplicate
+      object-member detector before JSON.parse, schema validation or semantic
+      use. Last-value-wins and first-value-wins parsing are forbidden.
+  requirements:
+    - closed schemas reject unknown and missing fields at every object boundary
+    - exact accepted input paths, SHA-256 values and byte lengths are bound
+    - all six task IDs appear exactly once in dataset order
+    - only the exact NOT_AUTHORIZED_IN_P1 sentinel is accepted before future binding
+    - hypothesis, VTSR, counts, exclusions and stop/continue rules are machine-checkable
+    - STOP_OVERRIDES_CONTINUE cannot be bypassed
+    - no external effect or P2 execution authority appears
+  negative_matrix_minimum_categories:
+    - duplicate JSON object member before parse
+    - unknown or missing field
+    - missing or non-falsifiable hypothesis
+    - missing stop condition or stop precedence
+    - VTSR, denominator or success-delta drift
+    - task omitted, duplicated, reordered or substituted
+    - accepted input path, SHA-256 or byte-length drift
+    - sample or repetition drift
+    - post-output exclusion or system-failure reclassification
+    - held-equal policy removed or future identity falsely bound
+    - context budget widened or forbidden content allowed
+    - external effect or claim boundary widened
+    - symlink, repository-path escape or unowned extra artifact
+
+worker_requirements:
+  required_files:
+    - evaluation-harness/validators/context-engine-preregistration-v1/validate.mjs
+    - evaluation-harness/validators/context-engine-preregistration-v1/self-test.mjs
+  validator_cli:
+    argv: node validate.mjs --repository-root ABSOLUTE_REPOSITORY --artifact-root ABSOLUTE_ARTIFACT_ROOT
+    pass_exit_status: 0
+    nonpass_exit_status: 2
+    pass_stdout: P1_CONTEXT_ENGINE_PREREGISTRATION_OK experiment=P2-CTX-EXP-001-BOUNDED-CONTEXT-VTSR tasks=6 runs=36
+    stderr_policy: empty on PASS
+  implementation:
+    - Node.js standard library only; no package install or network
+    - reject duplicate JSON object members from raw bytes before JSON.parse or schema use
+    - secure regular-file reads with symlink and path-containment rejection
+    - closed artifact population and exact canonical input identity checks
+    - semantic checks independent from schema-shape checks
+    - isolated uniquely owned temporary fixtures; clean only owned paths
+    - every Quality mutation rejected with its reason code
+    - false accepts zero and unresolved cases zero
+
+candidate_manifest_contract:
+  schema_owner: P1-059 Quality Asset Owner
+  parser_rule: reject duplicate JSON object members before parse or schema validation
+  exact_top_level_fields:
+    - schema_version
+    - record_type
+    - task_id
+    - activation_parent_commit
+    - activation_parent_tree
+    - candidate_commit
+    - candidate_tree
+    - files
+  exact_file_fields: [path, sha256, byte_length, file_type]
+  population: every repository file changed from activation parent to candidate, exactly once, lexicographically sorted
+  freeze_preflight: >-
+    Before candidate commit, Integration generates a full provisional manifest
+    with valid dummy 40-hex identities from the staged tree, runs raw duplicate
+    detection, schema validation and byte checks. After the single candidate
+    commit, Integration creates the final manifest in memory, repeats every
+    check before exclusive create-once storage, then direct-hashes stored bytes.
+    Failure is terminal; no manifest correction, corrected candidate or rereview.
+
+execution_order:
+  - Direct-hash and parse this corrected Contract once; reject before review on mismatch.
+  - Fresh CTO, Security and Quality review the same corrected bytes; prior reviews are not reused.
+  - Unanimous Contract PASS is required before one branch/worktree/authority activation.
+  - Quality freezes exact files and oracle before Worker starts.
+  - Worker writes only validator files; Integration writes only integration files.
+  - Use at most one same-Task repair before the one-way candidate freeze.
+  - Provisional manifest preflight precedes the single candidate commit.
+  - Run targeted validation, independent replay and one fresh final review round.
+  - Integrate only unanimous candidate PASS; only then run canonical full make verify and synchronize Truth.
+
+acceptance_criteria:
+  - Exact corrected Contract and active authority identities validate.
+  - Quality bytes remain exact after their pre-Worker commit.
+  - Positive artifact passes independent Quality oracle and Worker validator.
+  - Every frozen negative is rejected by both with zero false accepts and unresolved cases.
+  - Duplicate members are rejected before any JSON semantic use.
+  - Two isolated targeted runs produce exact-equal stable semantic receipts.
+  - Candidate manifest schema and candidate diff byte identities match exactly.
+  - Fresh CTO, Security and Quality candidate TARGET_VERDICT values all PASS.
+  - Integrated tree equals reviewed tree and canonical full make verify passes.
+  - Only P1 Exit Gate item 8 may become COMPLETE; no other capability changes automatically.
+
+stop_conditions:
+  - identity, Goal, authority, clean-state or accepted-input drift
+  - any forbidden failed-task engineering asset read or reuse
+  - corrected Contract reviewer NON_PASS
+  - need for second Contract correction, second implementation repair, second candidate or rereview
+  - Quality byte drift or candidate manifest preflight/final NON_PASS
+  - any final reviewer TARGET_VERDICT NON_PASS
+  - reviewed/integrated tree mismatch or canonical full make verify NONPASS
+  - any external effect, P2 implementation/run or scope expansion
+
+terminal_rule: >-
+  Preserve one truthful terminal receipt and one canonical Truth sync, consume
+  Task slot 3, prohibit retry/reuse of P1-059 engineering bytes and select a
+  different remaining P1 Exit output unless the route itself must stop. Do not
+  request routine Founder approval.
+
+claim_boundary: >-
+  ONE_VERSIONED_EXECUTABLE_PREREGISTRATION_FOR_THE_FIRST_P2_CONTEXT_ENGINE
+  _EXPERIMENT_USING_ACCEPTED_VISIBLE_SYNTHETIC_P1_035_INPUTS_ONLY_NO_P2_ENTRY
+  _NO_CONTEXT_ENGINE_IMPLEMENTATION_NO_EXPERIMENT_RUN_NO_PROVIDER_NO_MODEL
+  _NO_AGENT_BENCHMARK_P1_EXIT_PRODUCTION_OR_GENERALIZATION_CLAIM

@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-20T11:38:56Z"
-verification_scope: P1_058_SECURITY_CANDIDATE_NONPASS_TERMINAL
+last_verified_at: "2026-07-20T12:21:01Z"
+verification_scope: P1_059_CORRECTED_CONTRACT_UNANIMOUS_PASS_TASK_ACTIVATION
 
 authority:
   founder: Human Founder
@@ -37,19 +37,18 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
+  current_task_authority: AIOS-P1-059_P2_CONTEXT_ENGINE_EXPERIMENT_PREREGISTRATION
   note: >-
     The Founder-approved long-term Goal, P1 Phase and exact phase-level
-    continuous engineering route remain ACTIVE. P1-058 produced real Quality
-    and Worker code, a runnable targeted PASS, and an exact-equal formal Trace
-    A/B stable projection. Its one frozen candidate then received a controlling
-    Security TARGET_VERDICT NON_PASS because the candidate manifest did not
-    conform to the Quality-frozen manifest schema. No corrected manifest,
-    candidate, re-review, canonical integration, full make verify or accepted
-    capability was created. P1-058 is terminal, Task slot 2 is consumed, and
-    Master must select a different P1 Exit Gate output. P1-056, P1-057 and
-    P1-058 engineering bytes remain terminal and non-reusable. No Provider,
-    network or external effect is enabled.
+    continuous engineering route remain ACTIVE. P1-059 is the third independent
+    route Task and targets only Evaluation Protocol v1.1 P1 Exit Gate item 8:
+    an executable preregistration for the first P2 context-engine experiment.
+    One bounded Contract correction added raw duplicate-JSON-member rejection;
+    fresh CTO, Security and Quality reviews of the corrected exact bytes all
+    PASS. The Task is now activated for Quality freeze and Worker engineering.
+    It does not enter P2, run an Agent or authorize Provider, network or any
+    external effect. P1-056, P1-057 and P1-058 engineering bytes remain terminal
+    and non-reusable.
 
 project:
   name: SourceLens AIOS
@@ -61,7 +60,7 @@ project:
   p1_entry_status: AUTHORIZED
   phase_execution_status: ACTIVE
   p1_execution_status: ACTIVE
-  current_route_execution_status: ACTIVE_BETWEEN_TASKS_AFTER_P1_058_TERMINAL
+  current_route_execution_status: ACTIVE_TASK_3_P1_059
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -77,9 +76,9 @@ current_phase_route:
   route_id: P1_PHASE_LEVEL_CONTINUOUS_ENGINEERING_EXECUTION_ROUTE_V1
   status: ACTIVE
   authority_object_status: ACTIVE
-  execution_status: BETWEEN_TASKS_AFTER_TASK_2_TERMINAL
+  execution_status: TASK_3_ACTIVE
   founder_phase_route_decision_required: false
-  scheduling_status: MASTER_SELECT_NEXT_PHASE_LOCAL_TASK
+  scheduling_status: P1_059_QUALITY_FREEZE_THEN_WORKER_EXECUTION
   phase: P1
   phase_entry_status: AUTHORIZED
   decision_source: CODEX_THREAD_FOUNDER_MESSAGE_2026_07_20
@@ -108,7 +107,7 @@ current_phase_route:
     version: "1.1"
     changed: false
     strict_status_at_activation: 2_COMPLETE_2_PARTIAL_4_NOT_COMPLETE_25_PERCENT
-    status: UNCHANGED_AFTER_P1_058_TERMINAL
+    status: UNCHANGED_DURING_P1_059_ACTIVE
   envelope:
     max_engineering_tasks: 6
     max_engineering_hours: 48
@@ -156,6 +155,9 @@ current_phase_route:
     p1_056_status: TERMINAL_STOPPED_FORMAL_RUN_A_PRE_CONFORMANCE_CANDIDATE_BINDING_NONPASS
     p1_056_engineering_asset_read_restore_retry_compare_or_reuse_allowed: false
     p1_056_canonical_terminal_metadata_only_allowed: true
+    p1_057_status: TERMINAL_FORMAL_RUN_A_PREFLIGHT_NON_PASS
+    p1_057_engineering_asset_read_restore_retry_compare_or_reuse_allowed: false
+    p1_057_canonical_terminal_metadata_only_allowed: true
     p1_058_status: TERMINAL_SECURITY_CANDIDATE_NON_PASS
     p1_058_engineering_asset_read_restore_retry_compare_or_reuse_allowed: false
     p1_058_canonical_terminal_metadata_only_allowed: true
@@ -224,52 +226,48 @@ current_phase_route:
     claim_boundary: ONE_VISIBLE_SYNTHETIC_REP001_EVALUATOR_DISAGREEMENT_AND_FALSE_SUCCESS_CHARACTERIZATION_ONLY_NO_PROVIDER_MODEL_VTSR_AGENT_P1_EXIT_OR_PRODUCTION_CLAIM
   route_execution_accounting:
     maximum_engineering_tasks: 6
-    task_slots_consumed: 2
-    active_task_id: NONE
+    task_slots_consumed: 3
+    active_task_id: AIOS-P1-059_P2_CONTEXT_ENGINE_EXPERIMENT_PREREGISTRATION
     scheduled_task_ids:
       - AIOS-P1-057_LOCAL_EVALUATOR_FALSE_SUCCESS_CHARACTERIZATION_PACK
       - AIOS-P1-058_COMPLETE_OBSERVABLE_TRACE_CONFORMANCE
+      - AIOS-P1-059_P2_CONTEXT_ENGINE_EXPERIMENT_PREREGISTRATION
     terminal_task_ids:
       - AIOS-P1-057_LOCAL_EVALUATOR_FALSE_SUCCESS_CHARACTERIZATION_PACK
       - AIOS-P1-058_COMPLETE_OBSERVABLE_TRACE_CONFORMANCE
     normalized_root_causes_seen:
       - FORMAL_PREFLIGHT_HASH_OUTPUT_FORMAT_PARSER_DEFECT
       - CANDIDATE_MANIFEST_SCHEMA_NONCONFORMANCE
-    status: ACTIVE_BETWEEN_TASKS_2_OF_6_CONSUMED
+    status: ACTIVE_TASK_3_OF_6_CONSUMED
   active_task:
-    task_id: AIOS-P1-058_COMPLETE_OBSERVABLE_TRACE_CONFORMANCE
-    status: TERMINAL_SECURITY_CANDIDATE_NON_PASS
+    task_id: AIOS-P1-059_P2_CONTEXT_ENGINE_EXPERIMENT_PREREGISTRATION
+    status: ACTIVE
     classification: EVALUATION_FOUNDATION_ENGINEERING
-    contract_path: docs/aios/tasks/P1-058_COMPLETE_OBSERVABLE_TRACE_CONFORMANCE.yaml
-    contract_sha256: 46454411fc23e514ed2ca14d7c62fb6c9860f36b4e0d2fbf2a4d6037ff59f808
-    contract_byte_length: 21287
-    max_engineering_hours: 10
+    contract_path: docs/aios/tasks/P1-059_P2_CONTEXT_ENGINE_EXPERIMENT_PREREGISTRATION.yaml
+    contract_sha256: ad2097b44b462ab22b91ad20bb116177108db79efd0e057d3fecd848b4995f45
+    contract_byte_length: 19363
+    max_engineering_hours: 8
     max_calendar_days: 3
     max_implementation_iterations: 2
     max_candidates: 1
-    bounded_contract_corrections_used: 0
-    contract_review_rounds_used: 1
-    task_slot: 2
-    objective: Complete Evaluation Protocol section 6 observable trace coverage for the exact accepted P1-048 dual-run evidence.
+    bounded_contract_corrections_used: 1
+    contract_review_rounds_used: 2
+    task_slot: 3
+    objective: Build and validate one versioned preregistration for the first P2 context-engine experiment without entering P2 or running it.
     accepted_input_ids:
-      - p1_048
-    activation_parent_commit: 4ce819e133f409c8268ceb42b0e47d503826e377
-    activation_parent_tree: 6fd27968de68efd98d8a947d46ca2dc3f575a912
-    authority_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-058-complete-observable-trace-20260720T090625Z/authority/TASK_AUTHORITY.yaml
-    authority_record_sha256: dfc38d34bc15679b3d9fb50df397dd57a9a086a44ea17514595b8581aeea5f2d
-    quality_freeze_commit: b9db92bd21b14c71100fa35626482b2f70fd5596
-    quality_freeze_tree: 5013f9eaad618a138132b3b2a120f210e4d112d3
-    worker_commit: d2d0b36acf7e1a427e29575ae8dbee9de9c35f8e
-    worker_tree: 9f4d954d63ad3156acbe90c3ed250d6b6c2d4ac5
-    candidate_commit: 35770485b98e9fb24f8e89d5b53618eaaa6c6ce3
-    candidate_tree: 602927baa292ad47a952e4c7ff5d470fb72fa891
-    candidate_manifest_sha256: 2df18b8a7890f7426cecbb7fc07c1429657a7a33966d210fb8abff3905ca1998
-    security_final_review_sha256: 8b1285b1f9477aa654fdd3a96271e4420556739e4af65c821b05520b2e2172cd
-    terminal_receipt_sha256: 842922e0fd4e7dd454a0b14cbab0e7d7d43eb8bc1724be6672e07a5e1af61c7b
-    failure_classification: CANDIDATE_MANIFEST_SCHEMA_NONCONFORMANCE
-    retry_repair_unfreeze_or_reuse_allowed: false
-    claim_boundary: ONE_ACCEPTED_VISIBLE_SYNTHETIC_COOPERATIVE_LOCAL_P1_048_RUN_PAIR_EVALUATION_PROTOCOL_V1_1_SECTION_6_COMPLETE_OBSERVABLE_TRACE_CONFORMANCE_ONLY_NO_MODEL_PROVIDER_AGENT_BENCHMARK_VTSR_FULL_P1_EXIT_P2_P3_OR_PRODUCTION_CLAIM
-  next_eligible_action: MASTER_SELECT_NEXT_PHASE_LOCAL_TASK
+      - p1_035
+    activation_parent_commit: 111af28760b69c71d22e83108b49c4ba7e04252c
+    activation_parent_tree: 6f7737a24ea639ec05988bc5fc86f04b1f929598
+    authority_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-059-context-engine-preregistration-20260720T115222Z/authority/TASK_AUTHORITY.yaml
+    authority_record_sha256: 523abdc869041556b8d1ba23b4428cf1507f8c003b7555c727797939529deda9
+    corrected_contract_cto_review_sha256: 29afc4c8d0f3b2ebe965b1430833796705569ad471f69531b01e1b8035d919ac
+    corrected_contract_security_review_sha256: 30a51e1517eb4eff07500b4d6ba94f3ed11a91a461b6dca2755679b191183631
+    corrected_contract_quality_review_sha256: 108e3182558f866dea252e355db8a4c2a63f8f31a71b8803d2989cc91431089e
+    quality_freeze_status: NOT_STARTED
+    worker_status: NOT_STARTED
+    candidate_status: NOT_CREATED
+    claim_boundary: ONE_VERSIONED_EXECUTABLE_PREREGISTRATION_FOR_THE_FIRST_P2_CONTEXT_ENGINE_EXPERIMENT_USING_ACCEPTED_VISIBLE_SYNTHETIC_P1_035_INPUTS_ONLY_NO_P2_ENTRY_NO_CONTEXT_ENGINE_IMPLEMENTATION_NO_EXPERIMENT_RUN_NO_PROVIDER_NO_MODEL_NO_AGENT_BENCHMARK_P1_EXIT_PRODUCTION_OR_GENERALIZATION_CLAIM
+  next_eligible_action: EXECUTE_P1_059_QUALITY_FREEZE
 phase_delegation:
   status: ACTIVE
   model: PHASE_LEVEL_FOUNDER_DELEGATION
@@ -988,38 +986,48 @@ p0_baseline:
   online_verification_status: ARCHIVED_NOT_ON_ACTIVE_PATH
 
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P1-059_P2_CONTEXT_ENGINE_EXPERIMENT_PREREGISTRATION
+  current_task_status: ACTIVE
   current_task_contract:
-    path: null
-    sha256: null
-    byte_length: null
-  current_task_contract_sha256: null
-  current_execution_authorization: null
-  current_execution_authorization_sha256: null
+    path: docs/aios/tasks/P1-059_P2_CONTEXT_ENGINE_EXPERIMENT_PREREGISTRATION.yaml
+    sha256: ad2097b44b462ab22b91ad20bb116177108db79efd0e057d3fecd848b4995f45
+    byte_length: 19363
+  current_task_contract_sha256: ad2097b44b462ab22b91ad20bb116177108db79efd0e057d3fecd848b4995f45
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-059-context-engine-preregistration-20260720T115222Z/authority/TASK_AUTHORITY.yaml
+  current_execution_authorization_sha256: 523abdc869041556b8d1ba23b4428cf1507f8c003b7555c727797939529deda9
   authority_record:
-    path: null
-    sha256: null
-    byte_length: null
-  execution_nonce: null
-  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
-  authorization_id: null
-  activation_parent_commit: null
-  activation_parent_tree: null
-  task_resource_state: NONE_PHASE_ACTIVE
-  task_branch: null
-  task_worktree: null
-  execution_evidence_root: null
-  allowlisted_paths: []
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-059-context-engine-preregistration-20260720T115222Z/authority/TASK_AUTHORITY.yaml
+    sha256: 523abdc869041556b8d1ba23b4428cf1507f8c003b7555c727797939529deda9
+    byte_length: 2050
+  execution_nonce: 168d7e59a63297e5c43fb95cefaa6fd7
+  execution_nonce_status: ACTIVE
+  authorization_id: P1-059-AUTH-20260720T121851Z
+  activation_parent_commit: 111af28760b69c71d22e83108b49c4ba7e04252c
+  activation_parent_tree: 6f7737a24ea639ec05988bc5fc86f04b1f929598
+  task_resource_state: ONE_BRANCH_ONE_WORKTREE_ACTIVE
+  task_branch: codex/aios-p1-059-context-engine-preregistration
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-059-context-engine-preregistration
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-059-context-engine-preregistration-20260720T115222Z
+  allowlisted_paths:
+    - evaluation-harness/fixtures/context-engine-preregistration-v1/**
+    - evaluation-harness/validators/context-engine-preregistration-v1/**
+    - scripts/verify-p1-context-engine-preregistration-v1.sh
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+    - docs/aios/tasks/P1-059_P2_CONTEXT_ENGINE_EXPERIMENT_PREREGISTRATION.yaml
+    - docs/aios/truth/project_state.yaml
   budget:
-    engineering_hours: null
-    calendar_days: null
-    implementation_iterations: null
-    candidates: null
+    engineering_hours: 8
+    calendar_days: 3
+    implementation_iterations: 2
+    candidates: 1
   roles:
-    owner: null
-    worker: null
-    independent_reviewers: []
+    owner: P1-059 Master Task Owner
+    worker: P1-059 Validator Worker
+    independent_reviewers:
+      - P1-059 CTO Reviewer
+      - P1-059 Security Reviewer
+      - P1-059 Quality Reviewer
   external_effects:
     network: false
     provider: false
@@ -1036,7 +1044,7 @@ active_work:
   user_action_required: NONE
   phase_route_decision_required: false
   phase_route_user_action_required: NONE
-  next_eligible_action: MASTER_SELECT_NEXT_PHASE_LOCAL_TASK
+  next_eligible_action: EXECUTE_P1_059_QUALITY_FREEZE
 superseded_pre_delegation_authorizations:
   aios_p1_009:
     task_id: AIOS-P1-009_ENVIRONMENT_SNAPSHOT_REPRODUCIBILITY
@@ -2388,8 +2396,8 @@ historical_lineages:
 
 phase_execution_claim:
   current_route_claim: P1_PHASE_LEVEL_CONTINUOUS_ENGINEERING_EXECUTION_ROUTE_V1_ACTIVE
-  current_task_claim: NONE_BETWEEN_TASKS_AFTER_P1_057_TERMINAL
-  real_engineering_progress: P1_057_RUNNABLE_TARGETED_PASS_BUT_FORMAL_PREFLIGHT_NONPASS_NO_ACCEPTED_CAPABILITY
+  current_task_claim: AIOS_P1_059_ACTIVE_P1_EXIT_ITEM_8_ONLY
+  real_engineering_progress: P1_059_CONTRACT_REVIEWED_AND_ACTIVATED_ENGINEERING_NOT_YET_STARTED
   product_capability_changed: false
   phase_local_allowed:
     - local evaluation foundation engineering under an exact Task Contract
@@ -2443,9 +2451,9 @@ phase_execution_claim:
 
 claim_boundary:
   current_phase_route: P1_PHASE_LEVEL_CONTINUOUS_ENGINEERING_EXECUTION_ROUTE_V1_ACTIVE
-  current_task: NONE_AFTER_P1_057_TERMINAL
-  next_eligible_action: MASTER_SELECT_NEXT_PHASE_LOCAL_TASK
-  real_engineering_progress: P1_057_RUNNABLE_TARGETED_PASS_BUT_FORMAL_PREFLIGHT_NONPASS_NO_ACCEPTED_CAPABILITY
+  current_task: AIOS-P1-059_P2_CONTEXT_ENGINE_EXPERIMENT_PREREGISTRATION_ACTIVE
+  next_eligible_action: EXECUTE_P1_059_QUALITY_FREEZE
+  real_engineering_progress: P1_059_CONTRACT_REVIEWED_AND_ACTIVATED_ENGINEERING_NOT_YET_STARTED
   product_capability_changed_by_route_activation: false
   p1_057_status: TERMINAL_FORMAL_RUN_A_PREFLIGHT_NON_PASS
   p1_057_contract_sha256: 4152f5a10c998f10721439c09e20cf7ef37c1c446a26ae1d1c8e574b16d1cf97
@@ -2525,7 +2533,7 @@ claim_boundary:
   p1_056_formal_run_b: NOT_STARTED
   p1_056_candidate_integrated: false
   p1_056_accepted_capability: false
-  current_route_executable_task_slots: 1_CONSUMED_1_ACTIVE_OF_6
+  current_route_executable_task_slots: 3_CONSUMED_1_ACTIVE_OF_6
   prior_experiment_pack_route_executable_task_slots_used: 3_OF_3
   p1_050_claim_boundary: LOCAL_SYNTHETIC_PROVIDER_NEUTRAL_B0_B1_B2_COMPATIBILITY_ADAPTER_EXECUTION_CONFORMANCE_ONLY_NO_EMPIRICAL_BASELINE_PERFORMANCE_VTSR_MODEL_AGENT_INHERITED_SOURCELENS_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
   repository_intelligence_quality: UNKNOWN_NOT_YET_BENCHMARKED

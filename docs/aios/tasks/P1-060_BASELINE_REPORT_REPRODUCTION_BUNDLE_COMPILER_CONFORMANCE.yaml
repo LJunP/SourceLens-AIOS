@@ -1,0 +1,315 @@
+schema_version: "1.0"
+record_type: sourcelens_aios_phase_delegated_task_contract
+task_id: AIOS-P1-060_BASELINE_REPORT_REPRODUCTION_BUNDLE_COMPILER_CONFORMANCE
+status: CORRECTED_CONTRACT_CANDIDATE_PENDING_FRESH_REVIEW
+classification: EVALUATION_FOUNDATION_ENGINEERING
+route_id: P1_PHASE_LEVEL_CONTINUOUS_ENGINEERING_EXECUTION_ROUTE_V1
+phase: P1
+task_slot: 4
+bounded_contract_corrections_used: 1
+
+prior_contract:
+  sha256: 69edc438cac4f182b225d2bbd69ad52f687f24e9da1a42113843027214a41795
+  byte_length: 14067
+  cto_target_verdict: NON_PASS
+  security_target_verdict: PASS_NOT_REUSABLE
+  quality_target_verdict: NON_PASS
+  blocking_findings:
+    - reproduction entrypoint could validate pre-existing bytes without rebuilding a fresh bundle
+    - accountable Owner, delegated Gate ownership and rollback contract were not explicit
+
+why_now: >-
+  Gate item 7 remains NOT_COMPLETE and this is the highest-value provider-free
+  prerequisite that is independent under the route's four-of-five anti-retry
+  rule. It creates runnable report-reproduction mechanics before any future
+  Founder-authorized baseline run, without relabeling P1-048 or any synthetic
+  fixture as a baseline result.
+owner: P1-060 Master Task Owner
+worker: P1-060 Bundle Compiler Worker
+independent_reviewers:
+  - P1-060 CTO Reviewer
+  - P1-060 Security Reviewer
+  - P1-060 Quality Reviewer
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+
+allowed_paths:
+  - evaluation-harness/fixtures/baseline-report-reproduction-v1/**
+  - evaluation-harness/baseline-report/reproduction-bundle-v1/**
+  - scripts/verify-p1-baseline-report-reproduction-v1.sh
+  - Makefile
+  - docs/PROJECT_CODE_MAP.md
+  - docs/aios/tasks/P1-060_BASELINE_REPORT_REPRODUCTION_BUNDLE_COMPILER_CONFORMANCE.yaml
+  - docs/aios/truth/project_state.yaml
+
+forbidden_actions:
+  - modify any accepted input, authority document, current authority validator or P1 Exit Gate
+  - read, restore, compare, repair or reuse any rejected engineering lineage
+  - run B0, B1, B2, A0, a model, Provider or Agent
+  - claim a baseline result, VTSR observation, benchmark, P1 Exit, P2 entry, production or product readiness
+  - network, Secret, remote, production, public, fetch, download, push, pull request or release action
+
+authority:
+  authorization_token: AUTHORIZE_P1_PHASE_LEVEL_CONTINUOUS_ENGINEERING_EXECUTION_ROUTE_V1
+  packet_sha256: 31f751d38c76f97480a79a991f1a29f3b896f752e2ca2cc68eccaae6db5e4419
+  canonical_parent_commit: 99b5e5e5395bd51482dc281515c45f53e4ce4aa1
+  canonical_parent_tree: b4268ab5fae97d80cc607ab5a12ddd8a6ff6f489
+  canonical_truth_sha256: 57e96d0c2d2bdb3c4bb8d8a8e7371bc3a6fbdd0ec6575598a657938ae76fa7fa
+  long_term_goal_canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+
+objective: >-
+  Implement and independently validate one deterministic local compiler and
+  validator for a closed Baseline Report Reproduction Bundle. The Task creates
+  an executable prerequisite for Evaluation Protocol v1.1 P1 Exit Gate item 7.
+  It does not run B0, B1, B2 or A0 and does not create or accept a baseline
+  result, VTSR observation, model result or benchmark claim.
+
+frozen_target_claim:
+  gate_item: 7
+  target_output: BASELINE_REPORT_REPRODUCTION_BUNDLE_COMPILER_AND_VALIDATOR_CONFORMANCE
+  expected_gate_effect_on_pass: PREREQUISITE_ACCEPTED_ITEM_7_REMAINS_NOT_COMPLETE
+  exact_claim_boundary: ONE_LOCAL_SYNTHETIC_BASELINE_REPORT_REPRODUCTION_BUNDLE_COMPILER_AND_VALIDATOR_CONFORMANCE_ONLY_NO_BASELINE_RUN_NO_B0_B1_B2_RESULT_NO_VTSR_LEDGER_NO_PROVIDER_MODEL_AGENT_P1_EXIT_P2_PRODUCTION_OR_GENERALIZATION_CLAIM
+
+independence_and_anti_loop:
+  forbidden_engineering_lineages:
+    - AIOS-P1-049_PROTOCOL_VTSR_ACCOUNTING_VALIDATOR
+    - AIOS-P1-050_B0_B1_B2_COMPATIBILITY_ADAPTER_CONFORMANCE
+    - AIOS-P1-056_OFFLINE_B0_FINITE_IR_ADAPTER_CONFORMANCE
+    - AIOS-P1-057_LOCAL_EVALUATOR_FALSE_SUCCESS_CHARACTERIZATION_PACK
+    - AIOS-P1-058_COMPLETE_OBSERVABLE_TRACE_CONFORMANCE
+    - AIOS-P1-059_P2_CONTEXT_ENGINE_EXPERIMENT_PREREGISTRATION
+    - every other rejected or failed P1 engineering lineage
+  read_restore_compare_reuse_or_repair_allowed: false
+  five_dimension_delta:
+    objective: compile and validate reproduction-bundle structure, not VTSR counting, adapter execution, evaluator characterization, trace coverage or preregistration
+    inputs: only accepted canonical P1-035 and P1-048 plus current frozen protocols
+    target_output: deterministic three-file report reproduction bundle
+    architecture_hypothesis: two independent implementations execute a finite closed-shape schema and compare byte-stable bundle output
+    acceptance_gate: exact repeat compilation, reproduction validation and mutation rejection without any baseline execution
+  terminal_task_rename_retry_or_replacement: false
+
+accepted_inputs:
+  evaluation_protocol:
+    path: docs/aios/EVALUATION_PROTOCOL.md
+    sha256: da029143561fbb3c213d4a358b25e085542c6cd26ae8150a53cbb5998177eed8
+    byte_length: 10127
+  baseline_adapter_contract:
+    path: docs/aios/BASELINE_ADAPTER_CONTRACT.md
+    sha256: 27a213589699d96a5f41f4b0e293718257c6186720e55b74c3ee29dd9cf5c03c
+    byte_length: 5323
+  p1_035_contract:
+    path: docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
+    sha256: acec5432aacd6476693db62bdb52ee326c467f17b691860688fe952f7ffbdc33
+    byte_length: 18346
+  p1_035_dataset_manifest:
+    path: evaluation-harness/datasets/p1-representative-task-dataset-v1/dataset-manifest.json
+    sha256: 22f252319ed066655b05142a391709741703e01fbb4d6b5ebfbbcb6acd782be6
+    byte_length: 15313
+  p1_048_contract:
+    path: docs/aios/tasks/P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK.yaml
+    sha256: 092a7d38d5c3f208a0e97d74cfbee906793d2a5fe31caf2fd15948b7ea209a62
+    byte_length: 9995
+  p1_048_task_card:
+    path: evaluation-harness/fixtures/experiment-pack-reentry-v1/task-card.json
+    sha256: 15cb56812e348fcca3238467db4e7cdedd9b9210ddedc1568d44b1eeb82f854f
+    byte_length: 10348
+  mutation_rule: accepted input bytes are read-only and cannot be changed
+  p1_048_reuse_boundary: accepted disposable-run, exact replay, rollback and evidence-binding patterns only; no result is relabeled as a baseline
+
+bundle_contract:
+  schema_language: AIOS_FINITE_CLOSED_SHAPE_V1
+  schema_rule: >-
+    The schema is a finite data description, not JSON Schema. Every object node
+    declares its complete required key set and rejects unknown or missing keys;
+    array item shapes, scalar types, enums, constants and integer bounds are
+    explicit. Quality and Worker independently execute the schema recursively
+    against every positive and mutated artifact. Parsing a schema without
+    applying it to the instance is NON_PASS.
+  input_status: SYNTHETIC_CONFORMANCE_ONLY_NOT_BASELINE_RESULT
+  output_population_exactly:
+    - report.json
+    - reproduce.json
+    - manifest.json
+  report_requirements:
+    - frozen research question and explicit conformance-only status
+    - exact accepted input identities
+    - dataset and synthetic configuration identities
+    - unique scheduled run IDs and internally consistent success, failure and invalid counts
+    - predeclared invalid-run reason codes, failure taxonomy and no post-output exclusion
+    - cost and latency fields with synthetic-conformance labels
+    - limitations, decision and stop or continue rationale
+    - benchmark_claim, baseline_result_claim, vtsr_claim and p1_exit_claim all false
+  reproduction_requirements:
+    - reproduce.json contains one closed argv_template array only; no shell string
+    - argv_template names the frozen compiler entrypoint and exact repository-relative schema and input paths, with only REPOSITORY_ROOT and FRESH_OUTPUT_ROOT runtime tokens
+    - the resolver substitutes those two tokens without shell evaluation and rejects every unknown token
+    - the resolved exact argv must invoke the frozen compiler from the frozen input into a newly created, previously absent, uniquely owned output root
+    - the compiler must create all three bundle files and then invoke the independent Worker validator on the fresh bundle before returning PASS
+    - repository-relative input paths and an absolute fresh output root only after token resolution
+    - local Node.js standard-library command only
+    - exact input, schema, compiler and validator SHA-256 and byte lengths
+    - network, Provider, Secret, remote, production and public effects false
+  manifest_requirements:
+    - exact two non-manifest file identities, lexicographically sorted and unique
+    - manifest root binds UTF-8 path, NUL, lowercase SHA-256, NUL, decimal byte length and LF
+    - create-once output; no overwrite, symlink follow or pre-existing output adoption
+  determinism: identical frozen input and exact implementation bytes must produce byte-identical output bundle in distinct owned roots
+  reproduction_proof: >-
+    Formal Run A and Run B each execute the exact resolved argv from
+    reproduce.json, never a direct substitute command and never validation of
+    pre-existing output. Each run rebuilds all three files in its own fresh
+    root, validates them, and compares report.json, reproduce.json,
+    manifest.json, manifest root and stable projection byte-for-byte with the
+    retained reference compilation.
+
+write_ownership:
+  quality_only:
+    - evaluation-harness/fixtures/baseline-report-reproduction-v1/finite-schema.json
+    - evaluation-harness/fixtures/baseline-report-reproduction-v1/positive-input.json
+    - evaluation-harness/fixtures/baseline-report-reproduction-v1/quality-card.json
+    - evaluation-harness/fixtures/baseline-report-reproduction-v1/quality-oracle.mjs
+    - evaluation-harness/fixtures/baseline-report-reproduction-v1/candidate-manifest-schema.json
+  worker_only:
+    - evaluation-harness/baseline-report/reproduction-bundle-v1/compiler.mjs
+    - evaluation-harness/baseline-report/reproduction-bundle-v1/validate.mjs
+    - evaluation-harness/baseline-report/reproduction-bundle-v1/self-test.mjs
+  integration_only:
+    - scripts/verify-p1-baseline-report-reproduction-v1.sh
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+    - docs/aios/tasks/P1-060_BASELINE_REPORT_REPRODUCTION_BUNDLE_COMPILER_CONFORMANCE.yaml
+    - docs/aios/truth/project_state.yaml
+  external_evidence_only:
+    - contract, authority, review, manifest, formal-run and terminal or acceptance records under the one P1-060 Evidence root
+
+role_separation:
+  quality: freezes schema, positive fixture, mutation matrix and independent oracle before Worker starts
+  worker: writes compiler, validator and self-test without importing, executing or copying Quality oracle runtime
+  integration: wires one targeted command, candidate manifest, formal runs and canonical lifecycle
+  final_reviewers:
+    - fresh CTO Reviewer
+    - fresh Security Reviewer
+    - fresh Quality Reviewer
+  implementer_self_acceptance_allowed: false
+
+security_contract:
+  json_duplicate_members: reject from raw UTF-8 bytes before JSON.parse or semantic use for every JSON trust-boundary input
+  file_open: use O_RDONLY plus O_NOFOLLOW, then fstat the opened descriptor before and after reading; require regular file, nlink 1 and stable device and inode; repository containment and cooperative-local immutable-parent assumptions must be explicit
+  paths: absolute repository root plus normalized repository-relative artifact paths; reject absolute artifact paths, parent escape, NUL and symlinks
+  output: unique mkdtemp-owned parent, requested output absent, mkdir mode 0700 and file creation with exclusive mode 0400
+  cleanup: remove only the exact temporary root created and owned by the current test
+  environment: pass only an explicit minimal PATH, LC_ALL and TZ set; never record inherited environment values
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false
+    p2_entry: false
+  hostile_principal_or_strong_isolation_claim: false
+
+negative_matrix_minimum:
+  count_per_independent_validator: 24
+  required_categories:
+    - duplicate object member before parse
+    - missing and unknown field at top-level and nested object boundaries
+    - wrong scalar type, enum, constant and integer bounds
+    - missing or shell-string reproduction command
+    - absolute path, parent escape, NUL and symlink input
+    - accepted input SHA-256 or byte-length drift
+    - duplicate or missing run ID
+    - numerator greater than denominator
+    - success plus failure plus invalid count mismatch
+    - post-output exclusion or undeclared invalid reason
+    - missing failure taxonomy, limitation, decision or stop rationale
+    - benchmark, baseline, VTSR, P1 Exit or product claim widened
+    - nondeterministic timestamp or host-specific output injected
+    - output file omitted, extra, reordered or tampered
+    - manifest identity, sort order or root mismatch
+    - pre-existing output, symlink output or unowned cleanup target
+    - network, Provider, Secret, remote, production or public permission widened
+  false_accepts_required: 0
+  unresolved_required: 0
+
+candidate_and_formal_evidence:
+  final_candidates: 1
+  candidate_freeze_one_way: true
+  provisional_manifest_preflight_before_candidate_commit: required
+  final_manifest_schema_and_exact_diff_validation_after_candidate_commit: required
+  manifest_population: every repository file changed from activation parent to candidate exactly once, lexicographically sorted
+  candidate_manifest_exact_top_level_fields:
+    - schema_version
+    - record_type
+    - activation_parent_commit
+    - candidate_commit
+    - candidate_tree
+    - file_count
+    - files
+    - claim_boundary
+  candidate_manifest_exact_per_file_fields:
+    - path
+    - sha256
+    - byte_length
+    - git_blob_oid
+  candidate_manifest_preflight_identity: use explicit 40-hex provisional commit and tree sentinels, execute the same finite schema and exact diff, hash, byte-length and Git-blob checks in memory before the one candidate commit
+  formal_run_a_and_b:
+    candidate_identity_equal: required
+    frozen_input_identity_equal: required
+    roots: two distinct create-once roots under the task Evidence root
+    stable_projection_exact_byte_equal: required
+    raw_receipts_may_differ_only_in_declared_run_identity_and_root: true
+    exact_reproduction_argv_executed: required
+    fresh_bundle_rebuilt_before_validation: required
+    direct_compiler_substitution_or_preexisting_bundle_validation: forbidden
+  final_review_rounds: 1
+  corrected_candidate_or_rereview_allowed: false
+
+targeted_commands:
+  quality_positive: node evaluation-harness/fixtures/baseline-report-reproduction-v1/quality-oracle.mjs --repository-root ABS --artifact-root ABS
+  quality_self_test: node evaluation-harness/fixtures/baseline-report-reproduction-v1/quality-oracle.mjs --repository-root ABS --artifact-root ABS --self-test
+  worker_positive: node evaluation-harness/baseline-report/reproduction-bundle-v1/self-test.mjs --repository-root ABS --artifact-root ABS --positive-only
+  worker_self_test: node evaluation-harness/baseline-report/reproduction-bundle-v1/self-test.mjs --repository-root ABS --artifact-root ABS
+  integration: bash scripts/verify-p1-baseline-report-reproduction-v1.sh
+
+acceptance_criteria:
+  - all accepted input identities match and remain unchanged
+  - Quality schema bytes are frozen before Worker starts and remain exact
+  - both independent implementations execute the finite schema recursively
+  - positive input compiles to the exact three-file closed bundle and validates
+  - two isolated compilations from identical inputs are byte-identical
+  - the emitted argv reproduction entrypoint is resolved without shell evaluation and rebuilds all three files from frozen inputs in a fresh absent root before independent validation
+  - Formal Run A and Run B execute that exact resolved argv and reproduce the retained reference bundle, manifest root and stable projection byte-for-byte
+  - each independent validator rejects at least 24 reason-bound negatives with zero false accepts and zero unresolved cases
+  - provisional and final candidate manifests match their schema and exact Git diff
+  - fresh CTO, Security and Quality TARGET_VERDICT values are all PASS on the same candidate bytes
+  - integrated tree equals reviewed tree and one canonical full make verify passes
+  - Truth states prerequisite accepted, Gate item 7 still NOT_COMPLETE and P1 remains 2 of 8 complete
+
+budget:
+  engineering_hours: 8
+  calendar_days: 3
+  implementation_iterations: 2
+  contract_corrections: 1
+  same_task_repairs: 1
+  candidates: 1
+  final_review_rounds: 1
+
+stop_conditions:
+  - any Contract reviewer NON_PASS not closed by the one permitted pre-activation correction
+  - need for a second Contract correction, second same-Task repair, second candidate or rereview
+  - any read, restore, compare, fix or reuse of a forbidden engineering lineage
+  - Quality byte drift or candidate manifest preflight or final NON_PASS
+  - any final candidate reviewer TARGET_VERDICT NON_PASS
+  - reviewed tree differs from integrated tree or canonical full make verify NONPASS
+  - actual Evidence overwrite, deletion, unowned cleanup, external effect or scope expansion
+  - task output is represented as a baseline result, VTSR observation, model result, P1 Exit or product capability
+
+rollback_contract:
+  task_local: all generated bundles use uniquely owned disposable roots; on NON_PASS clean only roots whose owner marker, device and inode match the current run
+  candidate: preserve the one exact candidate with a local Evidence tag before any canonical integration; never reset or clean
+  integration: if canonical full make verify is NONPASS, use one non-destructive git revert of the integration, preserve all Evidence and terminalize the Task without a corrected candidate or rereview
+  external_effects: none exist to compensate because network, Provider, remote, production and public actions are forbidden
+
+next_state_on_pass: ACCEPT_PREREQUISITE_ONLY_INTEGRATE_EXACT_CANDIDATE_RUN_FULL_VERIFY_SYNC_TRUTH_THEN_RECOMPUTE_GATE
+next_state_on_nonpass: TERMINAL_ONCE_PRESERVE_EVIDENCE_SYNC_TRUTH_SELECT_DIFFERENT_GATE_OUTPUT

@@ -1,1 +1,0 @@
-{"schema":"SL-PATCH-IR/1","task":"SL-P1-REP-001-RANGE-NORMALIZATION@1.0.0","base_commit":"68ce8226eff4c5c7230b55b18a4cbea2f8e4a20f","base_tree":"900814727113d65f5dad8b63222e14f39b2cf38b","target":"T0","op":"REBIND_OBJECT_FIELDS","values":["ARG0","ARG1"]}

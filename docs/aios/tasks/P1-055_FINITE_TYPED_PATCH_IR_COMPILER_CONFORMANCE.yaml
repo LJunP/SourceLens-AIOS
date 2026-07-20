@@ -1,0 +1,271 @@
+schema_version: 1
+record_type: sourcelens_aios_phase_delegated_task_contract
+task_id: AIOS-P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE
+phase: P1
+route_id: P1_FINITE_TYPED_PATCH_IR_TRUSTED_COMPILER_AND_OFFLINE_ADAPTER_ROUTE_V1
+status: AUTHORIZED_ACTIVE
+execution_authority: PHASE_DELEGATED
+effective_only_when_canonical_truth_binds_exact_bytes: true
+title: Finite Typed Patch IR Trusted Compiler Conformance
+
+objective: >-
+  Build and falsify one trusted deterministic compiler for the exact accepted
+  REP-001 control. It must admit only four exact SL-PATCH-IR/1 byte programs,
+  map them to exactly three Quality-frozen complete postimages plus one
+  identity/no-effect rejection, and complete actual Run A, independent fresh
+  Run B, zero false accepts and exact rollback against one frozen candidate.
+  Proposal bytes remain opaque data and are never interpreted as code, diff,
+  AST, expression, path, command, environment or module content.
+
+why_now:
+  - P1-053 falsified the exact-host sandbox-exec primitive, not the finite Typed Patch IR architecture.
+  - P1-056 is ineligible until this exact compiler substrate passes its Task Gate and canonical integration.
+  - This is the smallest runnable and falsifiable P1 increment that restores direct engineering value without building Strong Isolation or a general patch generator.
+
+task_kind: EVALUATION_FOUNDATION_ENGINEERING
+risk_level: medium
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+founder_decision_required: false
+capability_claim: false
+
+owner_role: Engineering Manager Agent
+worker_role: Finite Typed Patch IR Compiler Engineer
+roles:
+  owner: Engineering Manager Agent
+  worker: Finite Typed Patch IR Compiler Engineer
+  independent_reviewers:
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent
+
+budget:
+  engineering_hours: 14
+  calendar_days: 4
+  implementation_iterations: 2
+  candidates: 1
+
+contract_correction:
+  allowance: 1
+  used: 0
+  rule: Any correction must occur before activation and may not change objective, paths, permission, budget or claim.
+
+source_identity:
+  canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
+  activation_parent_commit: 26985aeb924ca280144b4e46c6542de3d75121b4
+  activation_parent_tree: cbe139b53a2ccda39c3cd132869e6173aae8efa1
+  task_branch: codex/p1-055-finite-typed-patch-ir
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-055-finite-typed-patch-ir
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-055-finite-typed-patch-ir-20260720T014028Z
+
+founder_route_authority:
+  authorization_token: AUTHORIZE_P1_FINITE_TYPED_PATCH_IR_TRUSTED_COMPILER_AND_OFFLINE_ADAPTER_ROUTE_V1
+  decision_packet_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-finite-typed-patch-ir-route-20260720T001400Z/FOUNDER_P1_FINITE_TYPED_PATCH_IR_TRUSTED_COMPILER_AND_OFFLINE_ADAPTER_ROUTE_DECISION_PACKET.md
+  decision_packet_sha256: 6009cfcff6de1768de0586317fa22896d3b05e4c2c7d628b7dd9ea064cd4252b
+  decision_packet_byte_length: 21286
+
+accepted_inputs:
+  p1_035:
+    task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+    status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+    contract_path: docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
+    contract_sha256: acec5432aacd6476693db62bdb52ee326c467f17b691860688fe952f7ffbdc33
+    accepted_candidate_commit: 686eda0cd7a93b72ac5e64301479f17e4b096fb0
+    accepted_candidate_tree: b2740b44d0051303057deac7d719c27fd6a5578a
+  p1_048:
+    task_id: AIOS-P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK
+    status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+    contract_path: docs/aios/tasks/P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK.yaml
+    contract_sha256: 092a7d38d5c3f208a0e97d74cfbee906793d2a5fe31caf2fd15948b7ea209a62
+    accepted_candidate_commit: 9e130f2aae0fd951b252cf0dff8edc9b9364e962
+    accepted_candidate_tree: 3a4229e9a8da181ca8bb256f5467cf96549c2549
+    reuse_boundary: ACCEPTED_COOPERATIVE_LOCAL_DUAL_RUN_EVIDENCE_AND_ROLLBACK_PATTERNS_ONLY
+
+accepted_rep_001:
+  task_id: SL-P1-REP-001-RANGE-NORMALIZATION
+  dataset_version: 1.0.0
+  task_spec:
+    path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/task-spec.json
+    sha256: 25de6b6f330e09c076521b42a88d60712637e0fc7de7ab1cfe1f9f5d4c223321
+    byte_length: 2960
+  expected_base_failure:
+    path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/expected-base-failure.json
+    sha256: 5dbe034939ed2178f86fd84ad409cff9426040f63343de27f7ad3e8f46dd2494
+    byte_length: 439
+  reference_solution_patch:
+    path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/reference-solution.patch
+    sha256: 44e0068f8fe3cff3d64706efa63fb523c6c79734c68009e63245e532c81fb96b
+    byte_length: 256
+    usage: QUALITY_SOLVABILITY_AND_EVALUATOR_WITNESS_ONLY_NOT_RUNTIME_PATCH_INPUT
+  materialization_recipe:
+    path: evaluation-harness/datasets/p1-representative-task-dataset-v1/materialization-recipe.json
+    sha256: 104ed7109df7da155867a428b50575a9cda6bca481e183cebed50788c01a3a5e
+    byte_length: 456
+  source_preimage:
+    path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/src/range.mjs
+    sha256: 1e3de2958c9841bbe785d903b2f5453389c4225359308b539ac2cb3194469d75
+    byte_length: 115
+    expected_mode: "0644"
+  issue_test:
+    path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/test/issue.test.mjs
+    sha256: 51fd472f8cf85fd595246814db29699ab81ccdc2986d80666d8609a8c4972b4b
+    byte_length: 237
+  regression_test:
+    path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/test/regression.test.mjs
+    sha256: 381c573d8f99305b47db9f1a2ca49779842fe1187b9d7c5b7410e56dda9240c5
+    byte_length: 241
+  frozen_base_commit: 68ce8226eff4c5c7230b55b18a4cbea2f8e4a20f
+  frozen_base_tree: 900814727113d65f5dad8b63222e14f39b2cf38b
+  target_mapping:
+    target_id: T0
+    path: src/range.mjs
+    replacement_span_zero_based_half_open: [88, 113]
+
+read_context:
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
+  - docs/aios/tasks/P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK.yaml
+  - evaluation-harness/datasets/p1-representative-task-dataset-v1/materialization-recipe.json
+  - evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/**
+  - evaluation-harness/harness/experiment-pack-reentry-v1/experiment-pack.mjs
+  - evaluation-harness/fixtures/experiment-pack-reentry-v1/task-card.json
+
+forbidden_read_or_reuse:
+  - P1-052 rejected candidate, body, source, fixture, Quality, Review, Evidence or engineering lineage
+  - P1-053 failed runner, profile, source, fixture, Quality asset, implementation, branch, tree or engineering lineage
+  - historical failed implementation assets as semantic, design, oracle, fixture or code input
+  - P1-053 material except exact terminal metadata and terminal receipt identity
+
+allowlisted_paths:
+  - docs/aios/tasks/P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE.yaml
+  - evaluation-harness/fixtures/finite-typed-patch-ir-v1/**
+  - evaluation-harness/evaluator/finite-typed-patch-ir-v1/**
+  - evaluation-harness/harness/finite-typed-patch-ir-v1/**
+  - scripts/verify-p1-finite-typed-patch-ir-v1.sh
+  - Makefile
+  - docs/PROJECT_CODE_MAP.md
+  - docs/aios/truth/project_state.yaml
+
+write_ownership:
+  quality:
+    - evaluation-harness/fixtures/finite-typed-patch-ir-v1/task-card.json
+    - evaluation-harness/fixtures/finite-typed-patch-ir-v1/programs/**
+    - evaluation-harness/evaluator/finite-typed-patch-ir-v1/quality-oracle.mjs
+  worker:
+    - evaluation-harness/harness/finite-typed-patch-ir-v1/compiler.mjs
+    - evaluation-harness/harness/finite-typed-patch-ir-v1/runner.mjs
+  integration:
+    - docs/aios/tasks/P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE.yaml
+    - scripts/verify-p1-finite-typed-patch-ir-v1.sh
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+    - docs/aios/truth/project_state.yaml
+  external_evidence:
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-055-finite-typed-patch-ir-20260720T014028Z/**
+
+quality_freeze_after_activation:
+  required_before_worker_mutation: true
+  owner: Quality and Evaluation Agent
+  worker_may_modify: false
+  deadline_engineering_hours_after_activation: 0.8
+  freezes:
+    - exact four canonical IR byte strings, lengths, SHA-256 identities and internal enums
+    - exact complete postimage or identity/no-effect outcome for each legal program
+    - exact Task Card, target preimage, commands, environment and TCB API allowlists
+    - deterministic byte-closure generator, explicit negative corpus and expected counts
+    - filesystem, Evidence, canary, evaluator-tamper and cleanup negative controls
+    - Run A and Run B action schedule, raw Evidence schema, stable projection and rollback oracle
+    - candidate manifest schema and exact candidate binding rules
+  worker_start_deadline_engineering_hours_after_activation: 1.0
+  total_pre_worker_limit_engineering_hours: 1.4
+
+finite_ir_boundary:
+  schema: SL-PATCH-IR/1
+  legal_program_population: 4
+  legal_values:
+    - [ARG0, ARG0]
+    - [ARG0, ARG1]
+    - [ARG1, ARG0]
+    - [ARG1, ARG1]
+  admission: EXACT_RAW_BUFFER_MEMBERSHIP_BEFORE_PARSE_WRITE_OR_CHILD_START
+  output_population: THREE_FROZEN_COMPLETE_POSTIMAGES_PLUS_ONE_IDENTITY_NO_EFFECT_REJECTION
+  compiler_kind: CLOSED_TABLE_LOOKUP_NO_TEXT_GENERATION
+  only_success_program: [ARG1, ARG0]
+  external_effects: false
+
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+
+candidate_discipline:
+  final_candidate_count: 1
+  bounded_repair_allowed_only_before_candidate_freeze: true
+  mutation_after_candidate_freeze_allowed: false
+  run_a_run_b_and_reviews_bind_same_candidate_commit_tree_manifest: true
+  formal_run_nonpass_action: TERMINAL_STOP_NO_UNFREEZE_OR_CORRECTED_CANDIDATE
+
+acceptance_criteria:
+  - Quality freezes and self-validates the exact Task Card, four program bytes, three full postimages, one no-effect outcome, fixed command/environment profile, negative schedule, stable projection and rollback oracle before Worker mutation.
+  - Admission uses length, SHA-256 as a non-authorizing index, and final exact raw Buffer equality against the four frozen bytes before UTF-8 decoding, JSON parsing, materialization, mutation or test child start.
+  - The exact four legal programs execute exhaustively and map one-to-one to their frozen outcome; identity produces zero mutation and zero child starts, the two safe-wrong postimages are rejected, and only ARG1/ARG0 passes issue and regression tests.
+  - Compiler output is exactly the frozen three full postimages plus the no-effect outcome; it performs table lookup only and cannot generate diff, AST, source, expression, identifier, literal, path, executable, argv, cwd, env or module content.
+  - Proposal bytes never reach path, source template, postimage template, executable, argv, cwd, env, module specifier, terminal control, error text or Evidence leaf name; retained proposal Evidence is limited to length and SHA-256.
+  - Compiler TCB has no filesystem, child-process, network or dynamic-execution import/API; trusted runner may start only Quality-frozen absolute Node and local Git commands with fixed argv, cwd, timeout, maxBuffer and minimal non-secret env.
+  - The deterministic byte-closure schedule covers every-position/every-other-byte substitution, every strict truncation and every one-byte prefix/suffix; legal-to-legal mutations receive their target legal outcome and all other cases reject with zero false accepts.
+  - The explicit malformed/payload, filesystem/Evidence/canary and outcome/evaluator-tamper matrices all execute with their frozen expected result; every invalid-input rejection proves mutation_attempts zero, child_start_attempts zero, canary unchanged and external effects all false.
+  - Every materialization and Evidence root is fresh, exclusive, task-owned, contained and non-symlinked; target and Evidence leaves are regular and nlink one; pre-existing, symlinked, hardlinked, escaped, identity-drifted or unowned objects are never overwritten, followed, renamed, deleted or cleaned.
+  - Sidecars are same-directory create-once/no-follow objects; only exact task-owned materialized T0 with verified preimage/type/mode/nlink may be atomically replaced, and root/target/sidecar identity is rechecked before and after replacement.
+  - Base issue test exits with the frozen expected failure while regression passes; the correct frozen postimage makes both tests pass; safe-wrong outcomes remain evaluator failures.
+  - After targeted verification, one exact final candidate commit/tree/manifest is frozen and repair closes; Run A and independent fresh Run B execute the same candidate and frozen inputs in distinct roots without candidate mutation.
+  - Run B independently reexecutes every legal program and frozen negative control without reading Run A path, receipt or verdict; raw physical Evidence is retained and the predeclared stable projections are exact byte equal with zero residual physical variants.
+  - Each mutating outcome rolls back through the frozen complete base postimage and restores exact source bytes, base commit/tree and clean state; identity/no-effect proves that no mutation occurred.
+  - Fresh CTO, Security and Quality reviewers return TARGET_VERDICT PASS for the same exact candidate and Evidence; Reviewer NON_PASS terminates the Task without candidate correction.
+  - Only after Task Gate may the reviewed tree be squash-integrated locally; integrated tree equals reviewed tree and one clean canonical full make verify passes.
+
+required_evidence:
+  - exact Contract, route packet, Goal, authority and Quality freeze identities
+  - candidate commit/tree, diff hash, allowed-path population and per-file mode/length/SHA manifest
+  - Run A and independent Run B raw commands, streams, action receipts, negative results and stable projections
+  - byte-closure schedule counts/digest, legal transitions, rejected count and zero false accepts
+  - full postimage table, evaluator outcomes, filesystem/Evidence/canary controls and static TCB checks
+  - exact rollback receipts and distinct materialization identities
+  - stable projection exact-byte comparison
+  - fresh CTO, Security and Quality exact-candidate verdicts
+  - reviewed/integrated tree equality and canonical make verify result
+
+rollback:
+  run_level: Restore only the exact task-owned materialized T0 through the frozen complete base postimage, verify base commit/tree and clean state, and remove only objects whose create receipt, device, inode and marker still prove ownership.
+  candidate_level: Do not integrate a NON_PASS candidate; preserve raw Evidence and a recoverable evidence tag, then remove only a verified-clean task-owned worktree.
+  integrated_level: Use non-destructive git revert of the exact integration commit and preserve all Evidence; never reset or clean.
+
+stop_conditions:
+  - Quality freeze is incomplete, inconsistent, contaminated or not finished within 0.8 engineering hours after activation.
+  - Worker implementation does not start within the first engineering hour or pre-Worker work exceeds 1.4 engineering hours.
+  - Legal input or output population ceases to be finite, exact and exhaustively auditable.
+  - Any proposal byte reaches a forbidden dataflow sink or any invalid input reaches mutation, test or child start.
+  - Any non-frozen postimage, extra changed path, new file, mode drift or source identity drift occurs.
+  - Compiler or driver requires generic JSON interpretation, arbitrary text generation, AST/diff/source execution, dynamic execution, open command selection or broader TCB.
+  - Evidence, canary, canonical source or a pre-existing object is overwritten, damaged, followed, renamed, deleted or cleaned.
+  - An abnormal residual process, external effect, escaped path, ownership drift or cleanup ambiguity occurs.
+  - One pre-freeze bounded repair is consumed and targeted verification still does not pass.
+  - Candidate is mutated after freeze, Run A or Run B is NONPASS, stable projections differ, false accepts are nonzero, or rollback is not exact.
+  - Any fresh Reviewer returns TARGET_VERDICT NON_PASS.
+  - Reviewed and integrated trees differ or canonical full make verify is NONPASS.
+  - Network, Provider, Secret, remote, production, public, dependency download, Docker, VM, root, Strong Isolation, P2 or P3 permission is required.
+
+forbidden_actions:
+  - reading, restoring, retrying, fixing, replaying or reusing P1-052 rejected or P1-053 failed engineering assets
+  - arbitrary diff, generic AST, free-form source, expression, path, command, argv, cwd, env, module or executable selection
+  - eval, Function, vm, WebAssembly, dynamic import, shell or model-selected child process
+  - model-generated source, test, script, module, command, build hook or package lifecycle execution
+  - real or third-party untrusted repository execution, native addon, package installation or dependency download
+  - Docker, VM, root, entitlement, code signing, Strong Isolation, Supervisor, Root Custody, Full Trust Runtime or Multi-Agent Runtime
+  - network, Provider, Secret, remote, production, public, push, pull request, release or external side effect
+  - P2/P3 entry, P1 Exit Gate change, general Agent, benchmark, hostile-principal, production or P1 Exit claim
+  - successor, replacement, normalization, closure, feasibility, remediation, corrected candidate, extra Task or Route V2/V3 chain
+
+claim_boundary: ONE_VISIBLE_SYNTHETIC_REP001_FOUR_PROGRAM_FINITE_TYPED_PATCH_IR_TRUSTED_COMPILER_NON_INTERPRETATION_DUAL_RUN_CONFORMANCE_ONLY_NO_GENERAL_PATCH_GENERATION_OFFLINE_ADAPTER_PROVIDER_MODEL_PERFORMANCE_AGENT_SANDBOX_STRONG_ISOLATION_HOSTILE_PRINCIPAL_P1_EXIT_OR_PRODUCTION_CLAIM

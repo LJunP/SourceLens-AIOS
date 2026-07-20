@@ -241,9 +241,61 @@ module CurrentTaskAuthority
     match.is_a?(Array) && match.length == 1 ? match.first : match
   end
 
-  def packet_claims(packet_bytes)
-    text = packet_bytes.dup.force_encoding(Encoding::UTF_8)
-    assert(text.valid_encoding?, "decision packet must be valid UTF-8")
+  def project_route_packet_claims(text)
+    record_type = one_packet_match(
+      text,
+      /- `record_type`: `(FOUNDER_PROJECT_LEVEL_ARCHITECTURE_ROUTE_AND_PHASE_REENTRY_DECISION_PACKET)`/,
+      "project-level route record type"
+    )
+    assert(record_type == "FOUNDER_PROJECT_LEVEL_ARCHITECTURE_ROUTE_AND_PHASE_REENTRY_DECISION_PACKET",
+           "unsupported project-level route record type")
+    route_id = one_packet_match(text, /- `route_id`: `(P1_[A-Z0-9_]+_ROUTE_V1)`/,
+                                "Route ID declaration")
+    authorization_token = one_packet_match(text, /- `authorization_token`: `([A-Z0-9_]+)`/,
+                                            "Founder authorization token declaration")
+    envelope = one_packet_match(
+      text,
+      /- `maximum_engineering_tasks`: `(\d+)`\s+- `maximum_engineering_hours`: `(\d+)`\s+- `maximum_calendar_days`: `(\d+)`/m,
+      "Phase envelope declaration"
+    )
+    task_section = one_packet_match(text, /## 7\. Task 1[^\n]*\n(.*?)\n## 8\. Task 2/m,
+                                    "first Task section")
+    first_task_id = one_packet_match(task_section, /- `task_id`: `(AIOS-P1-[0-9]{3}_[A-Z0-9_]+)`/,
+                                     "first Task ID declaration")
+    first_task_budget = one_packet_match(
+      task_section,
+      /- `engineering_hours`: `(\d+)`\s+- `calendar_days`: `(\d+)`\s+- `implementation_iterations`: `(\d+)`\s+- `final_candidates`: `(\d+)`/m,
+      "first Task budget declaration"
+    )
+    parent = one_packet_match(
+      text,
+      /- canonical `main`：commit `([0-9a-f]{40})`；tree `([0-9a-f]{40})`；工作区 clean。/,
+      "activation parent declaration"
+    )
+    implementation_iterations = Integer(first_task_budget[2], 10)
+    assert(implementation_iterations >= 1, "first Task implementation iterations must be positive")
+    {
+      "route_id" => route_id,
+      "first_task_id" => first_task_id,
+      "authorization_token" => authorization_token,
+      "max_engineering_tasks" => Integer(envelope[0], 10),
+      "max_engineering_hours" => Integer(envelope[1], 10),
+      "max_calendar_days" => Integer(envelope[2], 10),
+      "first_task_engineering_hours" => Integer(first_task_budget[0], 10),
+      "first_task_calendar_days" => Integer(first_task_budget[1], 10),
+      "first_task_implementation_iterations" => implementation_iterations,
+      "first_task_candidates" => Integer(first_task_budget[3], 10),
+      "max_contract_corrections_per_task" => nil,
+      "max_same_task_repairs" => implementation_iterations - 1,
+      "activation_parent_commit" => parent[0],
+      "activation_parent_tree" => parent[1],
+      "text" => text
+    }
+  rescue ArgumentError
+    fail!("decision packet contains a non-integer Phase envelope")
+  end
+
+  def legacy_route_packet_claims(text)
     route_id = one_packet_match(
       text,
       /## 1\. 单一结论.*?`(P1_[A-Z0-9_]+ARCHITECTURE_ROUTE_V1)`/m,
@@ -309,6 +361,16 @@ module CurrentTaskAuthority
     }
   rescue ArgumentError
     fail!("decision packet contains a non-integer Phase envelope")
+  end
+
+  def packet_claims(packet_bytes)
+    text = packet_bytes.dup.force_encoding(Encoding::UTF_8)
+    assert(text.valid_encoding?, "decision packet must be valid UTF-8")
+    if text.include?("FOUNDER_PROJECT_LEVEL_ARCHITECTURE_ROUTE_AND_PHASE_REENTRY_DECISION_PACKET")
+      project_route_packet_claims(text)
+    else
+      legacy_route_packet_claims(text)
+    end
   end
 
   def chinese_integer(text)
@@ -379,8 +441,18 @@ module CurrentTaskAuthority
     %w[max_engineering_tasks max_engineering_hours max_calendar_days].each do |key|
       assert(envelope[key] == claims[key], "route envelope #{key} does not match exact decision packet")
     end
-    %w[max_contract_corrections_per_task max_same_task_repairs].each do |key|
-      assert(envelope[key] == claims[key], "route envelope #{key} does not match exact decision packet")
+    assert(envelope["max_same_task_repairs"] == claims["max_same_task_repairs"],
+           "route envelope max_same_task_repairs does not match exact decision packet")
+    if claims["max_contract_corrections_per_task"]
+      assert(envelope["max_contract_corrections_per_task"] == claims["max_contract_corrections_per_task"],
+             "route envelope max_contract_corrections_per_task does not match exact decision packet")
+    else
+      delegated_limit = integer(
+        truth.dig("phase_delegation", "anti_loop", "maximum_same_task_bounded_contract_repairs"),
+        "delegation policy maximum bounded Contract repairs"
+      )
+      assert(envelope["max_contract_corrections_per_task"] <= delegated_limit,
+             "route envelope contract correction limit exceeds delegated policy")
     end
 
     accepted = hash(route["accepted_inputs"], "current_phase_route.accepted_inputs")

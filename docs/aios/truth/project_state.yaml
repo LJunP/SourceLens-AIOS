@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-20T04:17:35Z"
-verification_scope: P1_055_TERMINAL_QUALITY_REVIEW_EVIDENCE_PROVENANCE_NON_PASS_AND_ROUTE_DISPOSITION
+last_verified_at: "2026-07-20T04:51:44Z"
+verification_scope: P1_055_FOUNDER_OVERRIDE_INTEGRATION_FULL_VERIFY_NON_PASS_AND_NON_DESTRUCTIVE_REVERT
 
 authority:
   founder: Human Founder
@@ -39,13 +39,15 @@ goal:
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
   current_task_authority: NONE
   note: >-
-    The Founder-approved long-term Goal and P1 Phase remain ACTIVE. P1-055
-    produced one frozen candidate whose formal Run A and independent Run B
-    passed, but the fresh Quality Review file was modified after first creation.
-    That create-once Evidence provenance violation is a controlling NON_PASS:
-    the candidate was not integrated, P1-056 is ineligible under the current
-    route, and a Founder-reserved residual-risk or route disposition decision is
-    now required. No engineering capability was accepted.
+    The Founder-approved long-term Goal and P1 Phase remain ACTIVE. The Founder
+    accepted the P1-055 Quality Review provenance residual for one exact
+    integration attempt. The integrated tree equalled the frozen candidate and
+    the P1-055 targeted verifier passed, but the single canonical full make
+    verify failed because the candidate Truth declared a P1-055 task worktree
+    that terminal cleanup had already removed. The integration was immediately
+    reverted non-destructively. P1-056 was not activated and no engineering
+    capability was accepted; the Founder must choose one final exact-worktree
+    recovery integration attempt or permanent P1-055 integration abandonment.
 
 project:
   name: SourceLens AIOS
@@ -57,7 +59,7 @@ project:
   p1_entry_status: AUTHORIZED
   phase_execution_status: ACTIVE_AWAITING_FOUNDER_RESERVED_ROUTE_DISPOSITION
   p1_execution_status: ACTIVE_AWAITING_FOUNDER_RESERVED_ROUTE_DISPOSITION
-  current_route_execution_status: TERMINAL_P1_055_QUALITY_REVIEW_EVIDENCE_PROVENANCE_NON_PASS
+  current_route_execution_status: TERMINAL_P1_055_FOUNDER_OVERRIDE_INTEGRATION_REVERTED_AFTER_FULL_VERIFY_NON_PASS
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -90,7 +92,11 @@ current_phase_route:
       path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-055-finite-typed-patch-ir-20260720T014028Z/terminal/FOUNDER_ROUTE_DISPOSITION_PACKET.md
       sha256: 1de67a0b8717d7f6a39396693e97e55bcd33c8d2a829ae2f7a95447fef7249ed
       byte_length: 7297
-    current_founder_decision_point: BOUNDED_VISIBLE_SYNTHETIC_PROVIDER_B0_ENTRY_OR_P1_ROUTE_DISPOSITION
+    founder_override_integration_revert_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-055-finite-typed-patch-ir-20260720T014028Z/terminal/FOUNDER_OVERRIDE_INTEGRATION_REVERT_RECEIPT.json
+      sha256: 16b589ef21bc5ab8bb1b4f81bd6ee4aa6f2d4b6541a56b57aaef8b72a36ab113
+      byte_length: 3452
+    current_founder_decision_point: FINAL_P1_055_EXACT_WORKTREE_RECOVERY_INTEGRATION_OR_PERMANENT_ABANDON
   prior_route_founder_task_scoped_failure_override:
     status: HISTORICAL_NO_CURRENT_SCHEDULING_AUTHORITY
     decision_source: CODEX_THREAD_FOUNDER_MESSAGE_2026_07_19
@@ -214,7 +220,7 @@ current_phase_route:
       reuse_boundary: DESIGN_AND_ACCEPTED_LOCAL_EXECUTION_PATTERNS_ONLY_NO_MODIFICATION_OF_ACCEPTED_BYTES
   first_task:
     task_id: AIOS-P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE
-    status: TERMINAL_STOPPED_EXACT_CANDIDATE_QUALITY_REVIEW_EVIDENCE_PROVENANCE_NON_PASS
+    status: TERMINAL_STOPPED_FOUNDER_OVERRIDE_INTEGRATION_FULL_VERIFY_NON_PASS_REVERTED
     classification: ENGINEERING
     contract_path: docs/aios/tasks/P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE.yaml
     max_engineering_hours: 14
@@ -229,7 +235,7 @@ current_phase_route:
     claim_boundary: ONE_VISIBLE_SYNTHETIC_REP001_FOUR_PROGRAM_FINITE_TYPED_PATCH_IR_TRUSTED_COMPILER_NON_INTERPRETATION_DUAL_RUN_CONFORMANCE_ONLY_NO_GENERAL_PATCH_GENERATION_OFFLINE_ADAPTER_PROVIDER_MODEL_PERFORMANCE_AGENT_SANDBOX_STRONG_ISOLATION_HOSTILE_PRINCIPAL_P1_EXIT_OR_PRODUCTION_CLAIM
   second_task:
     task_id: AIOS-P1-056_OFFLINE_B0_FINITE_IR_ADAPTER_CONFORMANCE
-    status: INELIGIBLE_AFTER_P1_055_NON_PASS
+    status: INELIGIBLE_AFTER_P1_055_INTEGRATION_FULL_VERIFY_NON_PASS
     classification: ENGINEERING
     max_engineering_hours: 10
     max_calendar_days: 3
@@ -262,19 +268,19 @@ current_phase_route:
     claim_boundary: ONE_VISIBLE_SYNTHETIC_COOPERATIVE_LOCAL_REFERENCE_TASK_ACTUAL_EXECUTION_AND_INDEPENDENT_REEXECUTION_ONLY
   last_terminal_task:
     task_id: AIOS-P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE
-    status: TERMINAL_STOPPED_EXACT_CANDIDATE_QUALITY_REVIEW_EVIDENCE_PROVENANCE_NON_PASS
-    classification: ENGINEERING_TASK_WITH_PASSING_DUAL_RUN_BUT_INVALID_FRESH_QUALITY_REVIEW_PROVENANCE
+    status: TERMINAL_STOPPED_FOUNDER_OVERRIDE_INTEGRATION_FULL_VERIFY_NON_PASS_REVERTED
+    classification: ENGINEERING_TASK_WITH_PASSING_CANDIDATE_EVIDENCE_BUT_INTEGRATION_AUTHORITY_WORKTREE_PRECONDITION_NON_PASS
     terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-055-finite-typed-patch-ir-20260720T014028Z/terminal/TASK_TERMINAL_RECEIPT.json
     terminal_receipt_sha256: 561b04345a83bc247465c4251b6f4602114ad6533da9cf8f5ebc630235b09685
     terminal_receipt_byte_length: 4361
     accepted_capability_created: false
     candidate_integrated: false
-    failure_classification: QUALITY_REVIEW_EVIDENCE_CREATE_ONCE_PROVENANCE_NON_PASS
+    failure_classification: P1_055_INTEGRATION_PREFLIGHT_WORKTREE_STATE_001
   selected_next_task:
     task_id: NONE
     status: NONE_ROUTE_TERMINAL_AWAITING_FOUNDER_RESERVED_DECISION
     classification: NONE
-    selection_basis: P1_055_NON_PASS_MAKES_P1_056_INELIGIBLE_UNDER_CURRENT_ROUTE
+    selection_basis: P1_055_INTEGRATION_FULL_VERIFY_NON_PASS_MAKES_P1_056_INELIGIBLE_UNDER_CURRENT_ROUTE
     historical_rejected_candidate_or_evidence_body_read_or_reuse_allowed: false
     provider_call_allowed: false
     claim_boundary: ONE_VISIBLE_SYNTHETIC_REP001_FOUR_PROGRAM_FINITE_TYPED_PATCH_IR_TRUSTED_COMPILER_NON_INTERPRETATION_DUAL_RUN_CONFORMANCE_ONLY
@@ -299,7 +305,7 @@ current_phase_route:
     status: TERMINAL_FIRST_TASK_NON_PASS_SECOND_TASK_INELIGIBLE
   terminal_outcome:
     task_id: AIOS-P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE
-    status: TERMINAL_STOPPED_EXACT_CANDIDATE_QUALITY_REVIEW_EVIDENCE_PROVENANCE_NON_PASS
+    status: TERMINAL_STOPPED_FOUNDER_OVERRIDE_INTEGRATION_FULL_VERIFY_NON_PASS_REVERTED
     terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-055-finite-typed-patch-ir-20260720T014028Z/terminal/TASK_TERMINAL_RECEIPT.json
     terminal_receipt_sha256: 561b04345a83bc247465c4251b6f4602114ad6533da9cf8f5ebc630235b09685
     terminal_receipt_byte_length: 4361
@@ -311,6 +317,14 @@ current_phase_route:
     independent_run_b: PASS
     stable_projection_exact_byte_equal: true
     quality_review_provenance: NON_PASS_CREATE_ONCE_VIOLATION
+    founder_residual_acceptance_authorized: true
+    integration_attempt_commit: a7d2ec9d68f17bd2c0c0234498e203087412c945
+    integration_attempt_tree: 22948c19a83b5c3bf7f9383982e2e092b1840561
+    reviewed_tree_equal: true
+    canonical_full_make_verify: NON_PASS_DECLARED_ACTIVE_TASK_WORKTREE_MISSING
+    integration_revert_commit: e2da899d43cbe0ec1730c0c762c20659ee2b9b94
+    restored_tree: 2f8e0e9b6989857e53d9587fb2966ba0bf4e1db1
+    integration_revert_receipt_sha256: 16b589ef21bc5ab8bb1b4f81bd6ee4aa6f2d4b6541a56b57aaef8b72a36ab113
     accepted_capability_created: false
     candidate_integrated: false
   immediate_prior_route:
@@ -325,9 +339,9 @@ current_phase_route:
       rejected_candidate_tree: c161a954c4163aa23cb4e9b09c28af141111c417
       evidence_tag: evidence/p1-052-candidate-efbc426
       source_read_fix_replay_integration_or_reuse_allowed: false
-  next_eligible_action: FOUNDER_ROUTE_DISPOSITION_REQUIRED
+  next_eligible_action: FOUNDER_FINAL_P1_055_EXACT_WORKTREE_RECOVERY_INTEGRATION_OR_PERMANENT_ABANDON_DECISION_REQUIRED
   next_founder_decision_points:
-    - BOUNDED_VISIBLE_SYNTHETIC_PROVIDER_B0_ENTRY_OR_P1_ROUTE_DISPOSITION
+    - FINAL_P1_055_EXACT_WORKTREE_RECOVERY_INTEGRATION_OR_PERMANENT_ABANDON
 
 phase_delegation:
   status: ACTIVE
@@ -1065,7 +1079,7 @@ active_work:
   authorization_id: null
   activation_parent_commit: null
   activation_parent_tree: null
-  task_resource_state: TERMINAL_RESOURCES_PRESERVED_PENDING_SAFE_CLEANUP
+  task_resource_state: TERMINAL_CANDIDATE_BRANCH_AND_EVIDENCE_TAG_PRESERVED_TASK_WORKTREE_ABSENT
   task_branch: null
   task_worktree: null
   execution_evidence_root: null
@@ -1087,12 +1101,12 @@ active_work:
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-055-finite-typed-patch-ir-20260720T014028Z/terminal/FOUNDER_ROUTE_DISPOSITION_PACKET.md
-  founder_reserved_authorization_sha256: 1de67a0b8717d7f6a39396693e97e55bcd33c8d2a829ae2f7a95447fef7249ed
+  founder_reserved_authorization: null
+  founder_reserved_authorization_sha256: null
   founder_decision_required: true
-  escalation_reason: P1_055_QUALITY_REVIEW_EVIDENCE_CREATE_ONCE_PROVENANCE_NON_PASS_REQUIRES_RESIDUAL_ACCEPTANCE_OR_ROUTE_DISPOSITION
-  user_action_required: FOUNDER_ROUTE_DISPOSITION
-  next_eligible_action: FOUNDER_ROUTE_DISPOSITION_REQUIRED
+  escalation_reason: P1_055_FOUNDER_OVERRIDE_INTEGRATION_FULL_VERIFY_NON_PASS_AFTER_MISSING_DECLARED_TASK_WORKTREE_AND_NON_DESTRUCTIVE_REVERT
+  user_action_required: FOUNDER_DECIDE_FINAL_P1_055_EXACT_WORKTREE_RECOVERY_INTEGRATION_OR_PERMANENT_ABANDON
+  next_eligible_action: FOUNDER_FINAL_P1_055_EXACT_WORKTREE_RECOVERY_INTEGRATION_OR_PERMANENT_ABANDON_DECISION_REQUIRED
 
 superseded_pre_delegation_authorizations:
   aios_p1_009:
@@ -1113,8 +1127,8 @@ task_history:
   aios_p1_055:
     task_id: AIOS-P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE
     route_id: P1_FINITE_TYPED_PATCH_IR_TRUSTED_COMPILER_AND_OFFLINE_ADAPTER_ROUTE_V1
-    status: TERMINAL_STOPPED_EXACT_CANDIDATE_QUALITY_REVIEW_EVIDENCE_PROVENANCE_NON_PASS
-    classification: ENGINEERING_TASK_WITH_PASSING_DUAL_RUN_BUT_INVALID_FRESH_QUALITY_REVIEW_PROVENANCE
+    status: TERMINAL_STOPPED_FOUNDER_OVERRIDE_INTEGRATION_FULL_VERIFY_NON_PASS_REVERTED
+    classification: ENGINEERING_TASK_WITH_PASSING_CANDIDATE_EVIDENCE_BUT_INTEGRATION_AUTHORITY_WORKTREE_PRECONDITION_NON_PASS
     contract_path: docs/aios/tasks/P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE.yaml
     contract_sha256: 150b80d116088489339a850095e8d3ff33dd73e1212b7c617a8becf02c509289
     contract_byte_length: 18087
@@ -1156,7 +1170,7 @@ task_history:
       quality_final_sha256: e817a52bda545d7d80cddd23a0559cdbd22db495c478c8e29362fa44b27a88a9
       quality_same_path_modified_after_creation: true
       quality_target_verdict: NON_PASS_CREATE_ONCE_PROVENANCE_VIOLATION
-    controlling_failure: QUALITY_REVIEW_EVIDENCE_CREATE_ONCE_PROVENANCE_NON_PASS
+    controlling_failure: P1_055_INTEGRATION_PREFLIGHT_WORKTREE_STATE_001
     terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-055-finite-typed-patch-ir-20260720T014028Z/terminal/TASK_TERMINAL_RECEIPT.json
     terminal_receipt_sha256: 561b04345a83bc247465c4251b6f4602114ad6533da9cf8f5ebc630235b09685
     terminal_receipt_byte_length: 4361
@@ -1164,11 +1178,21 @@ task_history:
     founder_disposition_packet_sha256: 1de67a0b8717d7f6a39396693e97e55bcd33c8d2a829ae2f7a95447fef7249ed
     founder_disposition_packet_byte_length: 7297
     candidate_integrated: false
-    canonical_full_make_verify_run: false
+    founder_quality_review_provenance_residual_accepted: true
+    integration_attempt_commit: a7d2ec9d68f17bd2c0c0234498e203087412c945
+    integration_attempt_tree: 22948c19a83b5c3bf7f9383982e2e092b1840561
+    reviewed_tree_equal: true
+    canonical_full_make_verify_run: true
+    canonical_full_make_verify_result: NON_PASS_DECLARED_ACTIVE_TASK_WORKTREE_MISSING
+    integration_revert_commit: e2da899d43cbe0ec1730c0c762c20659ee2b9b94
+    integration_revert_tree: 2f8e0e9b6989857e53d9587fb2966ba0bf4e1db1
+    integration_revert_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-055-finite-typed-patch-ir-20260720T014028Z/terminal/FOUNDER_OVERRIDE_INTEGRATION_REVERT_RECEIPT.json
+    integration_revert_receipt_sha256: 16b589ef21bc5ab8bb1b4f81bd6ee4aa6f2d4b6541a56b57aaef8b72a36ab113
+    integration_revert_receipt_byte_length: 3452
     accepted_capability_created: false
     p1_056_eligible: false
-    route_effect: TERMINAL_EXHAUSTED_RETURNS_TO_FOUNDER_RESERVED_DECISION
-    claim_boundary: TERMINAL_NONPASS_OF_P1_055_REVIEW_EVIDENCE_PROVENANCE_ONLY_WITH_FORMAL_ENGINEERING_EVIDENCE_PRESERVED_NO_ACCEPTED_COMPILER_ADAPTER_PROVIDER_AGENT_P1_EXIT_PRODUCT_PRODUCTION_OR_HOSTILE_PRINCIPAL_CAPABILITY
+    route_effect: TERMINAL_STOPPED_AFTER_FOUNDER_OVERRIDE_INTEGRATION_FULL_VERIFY_NON_PASS_RETURNS_TO_FOUNDER
+    claim_boundary: TERMINAL_NONPASS_OF_P1_055_CANONICAL_INTEGRATION_AUTHORITY_WORKTREE_PRECONDITION_WITH_FORMAL_ENGINEERING_EVIDENCE_AND_ORIGINAL_QUALITY_PROVENANCE_NONPASS_PRESERVED_NO_ACCEPTED_COMPILER_ADAPTER_PROVIDER_AGENT_P1_EXIT_PRODUCT_PRODUCTION_OR_HOSTILE_PRINCIPAL_CAPABILITY
   aios_p1_053:
     task_id: AIOS-P1-053_TASK_LOCAL_UNTRUSTED_PATCH_EXECUTION_QUARANTINE
     route_id: P1_BOUNDED_UNTRUSTED_EXECUTION_QUARANTINE_AND_OFFLINE_PROVIDER_COMPOSITION_ARCHITECTURE_ROUTE_V1
@@ -2335,8 +2359,8 @@ historical_lineages:
 
 phase_execution_claim:
   current_route_claim: P1_FINITE_TYPED_PATCH_IR_TRUSTED_COMPILER_AND_OFFLINE_ADAPTER_ROUTE_V1_TERMINAL_EXHAUSTED
-  current_task_claim: NONE_AWAITING_FOUNDER_RESERVED_ROUTE_DISPOSITION
-  real_engineering_progress: P1_055_EXACT_CANDIDATE_AND_DUAL_RUN_COMPLETED_BUT_TASK_TERMINAL_QUALITY_REVIEW_EVIDENCE_PROVENANCE_NON_PASS_NOT_INTEGRATED
+  current_task_claim: NONE_AWAITING_FOUNDER_FINAL_P1_055_EXACT_WORKTREE_RECOVERY_INTEGRATION_OR_PERMANENT_ABANDON_DECISION
+  real_engineering_progress: P1_055_EXACT_CANDIDATE_AND_DUAL_RUN_PASS_PRESERVED_BUT_FOUNDER_OVERRIDE_CANONICAL_INTEGRATION_FULL_VERIFY_NON_PASS_AND_INTEGRATION_REVERTED_P1_056_NOT_STARTED
   product_capability_changed: false
   phase_local_allowed:
     - local evaluation foundation engineering under an exact Task Contract
@@ -2367,7 +2391,7 @@ phase_execution_claim:
     - P1-048, P1-049 and P1-050 consumed the three executable engineering Task slots of the prior route; that prior route is exhausted and has no current scheduling authority.
     - AIOS-P1-052 consumed the prior local-first route's sole executable engineering Task slot and remains terminal rejected Evidence with no recovery or source reuse.
     - AIOS-P1-053 activated and began implementation but terminated before candidate freeze when the exact-host sandbox-exec primitive failed safe Node start/termination and left four local processes in an uninterruptible exiting state; P1-054 is ineligible and that prior route has no scheduling authority.
-    - AIOS-P1-055 produced one exact candidate with passing formal Run A, independent Run B, zero false accepts and exact rollback, but its fresh Quality Review file was modified after first creation; the create-once Evidence provenance violation is controlling NON_PASS, the candidate was not integrated, P1-056 is ineligible under the current route, and the route is terminal pending Founder disposition.
+    - AIOS-P1-055 produced one exact candidate with passing formal Run A, independent Run B, zero false accepts and exact rollback. The Founder accepted the Quality Review create-once provenance residual for one exact integration attempt without rewriting that Review as PASS. The integrated tree equalled the candidate and its targeted verifier passed, but the single canonical full make verify was NON_PASS because terminal cleanup had removed the task worktree still declared by candidate Truth; the integration was immediately reverted non-destructively, P1-056 did not start, and the route is terminal pending one Founder disposition.
     - Historical four-slice ordering and attempt routing have no current scheduling authority.
     - Peripheral validators, auxiliary governance tools and work without direct P1 Exit Gate value are ineligible.
   not_authorized_in_current_phase:
@@ -2389,8 +2413,8 @@ phase_execution_claim:
 claim_boundary:
   current_phase_route: P1_FINITE_TYPED_PATCH_IR_TRUSTED_COMPILER_AND_OFFLINE_ADAPTER_ROUTE_V1_TERMINAL_EXHAUSTED
   current_task: NONE
-  next_eligible_action: FOUNDER_ROUTE_DISPOSITION_REQUIRED
-  real_engineering_progress: P1_055_EXACT_CANDIDATE_AND_DUAL_RUN_COMPLETED_BUT_TASK_TERMINAL_QUALITY_REVIEW_EVIDENCE_PROVENANCE_NON_PASS_NOT_INTEGRATED
+  next_eligible_action: FOUNDER_FINAL_P1_055_EXACT_WORKTREE_RECOVERY_INTEGRATION_OR_PERMANENT_ABANDON_DECISION_REQUIRED
+  real_engineering_progress: P1_055_EXACT_CANDIDATE_AND_DUAL_RUN_PASS_PRESERVED_BUT_FOUNDER_OVERRIDE_CANONICAL_INTEGRATION_FULL_VERIFY_NON_PASS_AND_INTEGRATION_REVERTED_P1_056_NOT_STARTED
   product_capability_changed_by_route_activation: false
   p1_048_actual_execution_experiment_pack: MASTER_TASK_GATE_ACCEPTED_COMPLETE
   p1_048_formal_run_a: PASS
@@ -2430,7 +2454,7 @@ claim_boundary:
   p1_052_external_effect_observed: false
   p1_052_accepted_capability: false
   p1_052_capability_claims: 0
-  p1_055_status: TERMINAL_STOPPED_EXACT_CANDIDATE_QUALITY_REVIEW_EVIDENCE_PROVENANCE_NON_PASS
+  p1_055_status: TERMINAL_STOPPED_FOUNDER_OVERRIDE_INTEGRATION_FULL_VERIFY_NON_PASS_REVERTED
   p1_055_candidate_commit: 4d65d5178e1d5cf0a2852acc844f6f4b12c2fdc0
   p1_055_candidate_tree: 22948c19a83b5c3bf7f9383982e2e092b1840561
   p1_055_formal_run_a: PASS
@@ -2438,9 +2462,15 @@ claim_boundary:
   p1_055_run_a_run_b_stable_projection_exact_byte_equal: true
   p1_055_false_accepts: 0
   p1_055_quality_review_provenance: NON_PASS_CREATE_ONCE_VIOLATION
+  p1_055_founder_quality_review_provenance_residual_accepted_for_one_integration_attempt: true
+  p1_055_integration_attempt_commit: a7d2ec9d68f17bd2c0c0234498e203087412c945
+  p1_055_integrated_tree_equal_to_candidate: true
+  p1_055_canonical_full_make_verify: NON_PASS_DECLARED_ACTIVE_TASK_WORKTREE_MISSING
+  p1_055_integration_revert_commit: e2da899d43cbe0ec1730c0c762c20659ee2b9b94
+  p1_055_revert_restored_tree: 2f8e0e9b6989857e53d9587fb2966ba0bf4e1db1
   p1_055_candidate_integrated: false
   p1_055_accepted_capability: false
-  p1_056_status: INELIGIBLE_AFTER_P1_055_NON_PASS
+  p1_056_status: INELIGIBLE_AFTER_P1_055_INTEGRATION_FULL_VERIFY_NON_PASS
   current_route_executable_task_slots: 1_TERMINAL_NON_PASS_0_ACTIVE_OF_2_AUTHORIZED_ROUTE_EXHAUSTED
   prior_experiment_pack_route_executable_task_slots_used: 3_OF_3
   p1_050_claim_boundary: LOCAL_SYNTHETIC_PROVIDER_NEUTRAL_B0_B1_B2_COMPATIBILITY_ADAPTER_EXECUTION_CONFORMANCE_ONLY_NO_EMPIRICAL_BASELINE_PERFORMANCE_VTSR_MODEL_AGENT_INHERITED_SOURCELENS_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM

@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-20T01:47:22Z"
-verification_scope: P1_055_FINITE_TYPED_PATCH_IR_ROUTE_AND_TASK_ACTIVATION
+last_verified_at: "2026-07-20T05:49:27Z"
+verification_scope: P1_055_FOUNDER_EXCEPTION_ACCEPTED_EXACT_CANDIDATE_INTEGRATION_FULL_VERIFY_PASS
 
 authority:
   founder: Human Founder
@@ -37,15 +37,17 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: AIOS-P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE
+  current_task_authority: NONE
   note: >-
-    The Founder-approved long-term Goal and P1 Phase remain ACTIVE. The Founder
-    P1-053 remains terminal after falsifying the exact-host sandbox-exec
-    primitive. A normal host restart cleared its four local process residuals,
-    the Founder authorized the independent finite Typed Patch IR route, the
-    route-entry full make verify passed, and P1-055 is now the only active Task.
-    This activation proves no new capability; Worker implementation and fresh
-    executable Evidence are still required.
+    The Founder-approved long-term Goal and P1 Phase remain ACTIVE. P1-055's
+    exact candidate retained passing formal Run A, independent Run B, stable
+    projection equality, zero false accepts and exact rollback. The Founder
+    accepted the preserved Quality Review create-once provenance NON_PASS as an
+    explicit residual without rewriting it as PASS. After the exact declared
+    task worktree was restored, the same candidate tree was integrated once and
+    the single canonical full make verify passed. P1-055 is accepted only within
+    its finite synthetic trusted-compiler conformance claim. P1-056 offline
+    adapter entry is authorized and is the next real engineering Task.
 
 project:
   name: SourceLens AIOS
@@ -57,7 +59,7 @@ project:
   p1_entry_status: AUTHORIZED
   phase_execution_status: ACTIVE
   p1_execution_status: ACTIVE
-  current_route_execution_status: ACTIVE_P1_055_FINITE_TYPED_PATCH_IR_COMPILER
+  current_route_execution_status: ACTIVE_BETWEEN_TASKS_P1_055_ACCEPTED_P1_056_ENTRY_AUTHORIZED
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -81,6 +83,25 @@ current_phase_route:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-finite-typed-patch-ir-route-20260720T001400Z/FOUNDER_P1_FINITE_TYPED_PATCH_IR_TRUSTED_COMPILER_AND_OFFLINE_ADAPTER_ROUTE_DECISION_PACKET.md
     sha256: 6009cfcff6de1768de0586317fa22896d3b05e4c2c7d628b7dd9ea064cd4252b
     byte_length: 21286
+  p1_055_founder_exception_integration:
+    residual_acceptance_packet:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-055-finite-typed-patch-ir-20260720T014028Z/terminal/FOUNDER_ROUTE_DISPOSITION_PACKET.md
+      sha256: 1de67a0b8717d7f6a39396693e97e55bcd33c8d2a829ae2f7a95447fef7249ed
+      byte_length: 7297
+    final_recovery_packet:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-055-finite-typed-patch-ir-20260720T014028Z/terminal/FOUNDER_FINAL_WORKTREE_RECOVERY_PACKET.md
+      sha256: e8c57ef729c99c395a4842c6754c29241d59d5f91ead83e91a0e31efbd92ed4f
+      byte_length: 8570
+    final_authorization_token: AUTHORIZE_ONE_FINAL_P1_055_EXACT_WORKTREE_RECREATE_TREE_INTEGRATION_AND_P1_056_ENTRY_V1
+    integration_commit: f53e0f2b9e693ec07a8168b0dd90eb6d1057e4a5
+    integration_tree: 22948c19a83b5c3bf7f9383982e2e092b1840561
+    candidate_tree_equal: true
+    canonical_full_make_verify: PASS
+    quality_review_provenance: NON_PASS_CREATE_ONCE_VIOLATION_PRESERVED_NOT_REWRITTEN_AS_PASS
+    acceptance_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-055-finite-typed-patch-ir-20260720T014028Z/terminal/P1_055_FINAL_INTEGRATION_ACCEPTANCE_RECEIPT.json
+      sha256: 2a3b3fd9749a10165a0e56a242f658a41e0c0eab3c5d1d99c4bfdb46a370e812
+      byte_length: 3534
   prior_route_founder_task_scoped_failure_override:
     status: HISTORICAL_NO_CURRENT_SCHEDULING_AUTHORITY
     decision_source: CODEX_THREAD_FOUNDER_MESSAGE_2026_07_19
@@ -202,9 +223,19 @@ current_phase_route:
       accepted_candidate_commit: 9e130f2aae0fd951b252cf0dff8edc9b9364e962
       accepted_candidate_tree: 3a4229e9a8da181ca8bb256f5467cf96549c2549
       reuse_boundary: DESIGN_AND_ACCEPTED_LOCAL_EXECUTION_PATTERNS_ONLY_NO_MODIFICATION_OF_ACCEPTED_BYTES
+    p1_055:
+      task_id: AIOS-P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE
+      status: FOUNDER_EXCEPTION_ACCEPTED_COMPLETE
+      contract_path: docs/aios/tasks/P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE.yaml
+      contract_sha256: 150b80d116088489339a850095e8d3ff33dd73e1212b7c617a8becf02c509289
+      accepted_candidate_commit: 4d65d5178e1d5cf0a2852acc844f6f4b12c2fdc0
+      accepted_candidate_tree: 22948c19a83b5c3bf7f9383982e2e092b1840561
+      integration_commit: f53e0f2b9e693ec07a8168b0dd90eb6d1057e4a5
+      quality_review_provenance: NON_PASS_CREATE_ONCE_VIOLATION_PRESERVED
+      reuse_boundary: FINITE_TYPED_PATCH_IR_V1_COMPILER_INTERFACE_AND_ACCEPTED_SYNTHETIC_CONFORMANCE_ONLY_NO_GENERAL_PATCH_GENERATION_OR_REJECTED_P1_052_SOURCE_REUSE
   first_task:
     task_id: AIOS-P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE
-    status: ACTIVE
+    status: FOUNDER_EXCEPTION_ACCEPTED_COMPLETE
     classification: ENGINEERING
     contract_path: docs/aios/tasks/P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE.yaml
     max_engineering_hours: 14
@@ -219,7 +250,7 @@ current_phase_route:
     claim_boundary: ONE_VISIBLE_SYNTHETIC_REP001_FOUR_PROGRAM_FINITE_TYPED_PATCH_IR_TRUSTED_COMPILER_NON_INTERPRETATION_DUAL_RUN_CONFORMANCE_ONLY_NO_GENERAL_PATCH_GENERATION_OFFLINE_ADAPTER_PROVIDER_MODEL_PERFORMANCE_AGENT_SANDBOX_STRONG_ISOLATION_HOSTILE_PRINCIPAL_P1_EXIT_OR_PRODUCTION_CLAIM
   second_task:
     task_id: AIOS-P1-056_OFFLINE_B0_FINITE_IR_ADAPTER_CONFORMANCE
-    status: CONDITIONAL_INELIGIBLE_PENDING_P1_055_TASK_GATE
+    status: ELIGIBLE_ENTRY_AUTHORIZED_PRE_ACTIVATION
     classification: ENGINEERING
     max_engineering_hours: 10
     max_calendar_days: 3
@@ -244,12 +275,14 @@ current_phase_route:
       - p1_011
     claim_boundary: ONE_VISIBLE_SYNTHETIC_COOPERATIVE_LOCAL_REFERENCE_TASK_ACTUAL_EXECUTION_AND_INDEPENDENT_REEXECUTION_ONLY
   last_completed_task:
-    task_id: AIOS-P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK
-    status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
-    accepted_candidate_commit: 9e130f2aae0fd951b252cf0dff8edc9b9364e962
-    accepted_candidate_tree: 3a4229e9a8da181ca8bb256f5467cf96549c2549
-    task_gate_receipt_sha256: d71948e4221121b072877e66d55d1ab92362cc11fc273d994a2ebb7754b1b84e
-    claim_boundary: ONE_VISIBLE_SYNTHETIC_COOPERATIVE_LOCAL_REFERENCE_TASK_ACTUAL_EXECUTION_AND_INDEPENDENT_REEXECUTION_ONLY
+    task_id: AIOS-P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE
+    status: FOUNDER_EXCEPTION_ACCEPTED_COMPLETE
+    accepted_candidate_commit: 4d65d5178e1d5cf0a2852acc844f6f4b12c2fdc0
+    accepted_candidate_tree: 22948c19a83b5c3bf7f9383982e2e092b1840561
+    integration_commit: f53e0f2b9e693ec07a8168b0dd90eb6d1057e4a5
+    canonical_full_make_verify: PASS
+    acceptance_receipt_sha256: 2a3b3fd9749a10165a0e56a242f658a41e0c0eab3c5d1d99c4bfdb46a370e812
+    claim_boundary: ONE_VISIBLE_SYNTHETIC_REP001_FOUR_PROGRAM_FINITE_TYPED_PATCH_IR_TRUSTED_COMPILER_NON_INTERPRETATION_DUAL_RUN_CONFORMANCE_ONLY
   last_terminal_task:
     task_id: AIOS-P1-053_TASK_LOCAL_UNTRUSTED_PATCH_EXECUTION_QUARANTINE
     status: TERMINAL_STOPPED_PRE_CANDIDATE_EXACT_HOST_PRIMITIVE_NONPASS_WITH_LOCAL_PROCESS_RESIDUAL
@@ -261,13 +294,13 @@ current_phase_route:
     candidate_integrated: false
     failure_classification: EXACT_HOST_SANDBOX_EXEC_NODE_START_AND_TERMINATION_PRIMITIVE_NONPASS
   selected_next_task:
-    task_id: AIOS-P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE
-    status: ACTIVE
+    task_id: AIOS-P1-056_OFFLINE_B0_FINITE_IR_ADAPTER_CONFORMANCE
+    status: ELIGIBLE_ENTRY_AUTHORIZED_PRE_ACTIVATION
     classification: ENGINEERING
-    selection_basis: FOUNDER_AUTHORIZED_FINITE_TYPED_PATCH_IR_ROUTE_AND_DIRECT_P1_BASELINE_ADAPTER_VALUE
+    selection_basis: P1_055_FOUNDER_EXCEPTION_ACCEPTED_AND_ROUTE_SECOND_TASK_ENTRY_CONDITION_SATISFIED
     historical_rejected_candidate_or_evidence_body_read_or_reuse_allowed: false
     provider_call_allowed: false
-    claim_boundary: ONE_VISIBLE_SYNTHETIC_REP001_FOUR_PROGRAM_FINITE_TYPED_PATCH_IR_TRUSTED_COMPILER_NON_INTERPRETATION_DUAL_RUN_CONFORMANCE_ONLY
+    claim_boundary: ONE_VISIBLE_SYNTHETIC_CLEAN_ROOM_OFFLINE_FINITE_IR_ADAPTER_CONFORMANCE_ONLY
   prior_architecture_route:
     route_id: P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_V1
     status: HISTORICAL_EXHAUSTED_NO_SCHEDULING_AUTHORITY
@@ -283,9 +316,10 @@ current_phase_route:
     basis: The exact composition hypothesis was falsified by executable Evidence; it no longer schedules work and does not modify the unchanged P1 Exit Gate.
   route_execution_accounting:
     maximum_executable_engineering_tasks: 2
-    active_task_id: AIOS-P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE
-    executed_task_ids: []
-    status: ACTIVE_FIRST_TASK
+    active_task_id: NONE
+    executed_task_ids:
+      - AIOS-P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE
+    status: BETWEEN_TASKS_FIRST_ACCEPTED_SECOND_ENTRY_AUTHORIZED
   terminal_outcome:
     task_id: AIOS-P1-053_TASK_LOCAL_UNTRUSTED_PATCH_EXECUTION_QUARANTINE
     status: TERMINAL_STOPPED_PRE_CANDIDATE_EXACT_HOST_PRIMITIVE_NONPASS_WITH_LOCAL_PROCESS_RESIDUAL
@@ -311,9 +345,8 @@ current_phase_route:
       rejected_candidate_tree: c161a954c4163aa23cb4e9b09c28af141111c417
       evidence_tag: evidence/p1-052-candidate-efbc426
       source_read_fix_replay_integration_or_reuse_allowed: false
-  next_eligible_action: CONTINUE_CURRENT_TASK
+  next_eligible_action: ACTIVATE_P1_056_OFFLINE_B0_FINITE_IR_ADAPTER_CONFORMANCE
   next_founder_decision_points:
-    - BOUNDED_VISIBLE_SYNTHETIC_PROVIDER_B0_ENTRY_OR_P1_ROUTE_DISPOSITION
     - P1_PHASE_GATE_OR_P1_STOP
 
 phase_delegation:
@@ -1034,49 +1067,38 @@ p0_baseline:
   online_verification_status: ARCHIVED_NOT_ON_ACTIVE_PATH
 
 active_work:
-  current_task: AIOS-P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE
-  current_task_status: ACTIVE
+  current_task: NONE
+  current_task_status: NONE
   current_task_contract:
-    path: docs/aios/tasks/P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE.yaml
-    sha256: 150b80d116088489339a850095e8d3ff33dd73e1212b7c617a8becf02c509289
-    byte_length: 18087
-  current_task_contract_sha256: 150b80d116088489339a850095e8d3ff33dd73e1212b7c617a8becf02c509289
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-055-finite-typed-patch-ir-20260720T014028Z/authority/MASTER_TASK_AUTHORITY.json
-  current_execution_authorization_sha256: 032a068ea0d10012f7c42123c5c1086d3a87ce3be2cd1ad5c5758f5eff7f060c
+    path: null
+    sha256: null
+    byte_length: null
+  current_task_contract_sha256: null
+  current_execution_authorization: null
+  current_execution_authorization_sha256: null
   authority_record:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-055-finite-typed-patch-ir-20260720T014028Z/authority/MASTER_TASK_AUTHORITY.json
-    sha256: 032a068ea0d10012f7c42123c5c1086d3a87ce3be2cd1ad5c5758f5eff7f060c
-    byte_length: 2403
-  execution_nonce: d024a9d10e2a807cbf09a239c55541d0
-  execution_nonce_status: ACTIVE
-  authorization_id: P1-055-AUTH-0b1bb31868f6cbe131d60cba1c9b4e9c
-  activation_parent_commit: 26985aeb924ca280144b4e46c6542de3d75121b4
-  activation_parent_tree: cbe139b53a2ccda39c3cd132869e6173aae8efa1
-  task_resource_state: ACTIVE_RESOURCES_CREATED
-  task_branch: codex/p1-055-finite-typed-patch-ir
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-055-finite-typed-patch-ir
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-055-finite-typed-patch-ir-20260720T014028Z
-  allowlisted_paths:
-    - docs/aios/tasks/P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE.yaml
-    - evaluation-harness/fixtures/finite-typed-patch-ir-v1/**
-    - evaluation-harness/evaluator/finite-typed-patch-ir-v1/**
-    - evaluation-harness/harness/finite-typed-patch-ir-v1/**
-    - scripts/verify-p1-finite-typed-patch-ir-v1.sh
-    - Makefile
-    - docs/PROJECT_CODE_MAP.md
-    - docs/aios/truth/project_state.yaml
+    path: null
+    sha256: null
+    byte_length: null
+  execution_nonce: null
+  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
+  authorization_id: null
+  activation_parent_commit: null
+  activation_parent_tree: null
+  task_resource_state: NONE_PHASE_ACTIVE
+  task_branch: null
+  task_worktree: null
+  execution_evidence_root: null
+  allowlisted_paths: []
   budget:
-    engineering_hours: 14
-    calendar_days: 4
-    implementation_iterations: 2
-    candidates: 1
+    engineering_hours: null
+    calendar_days: null
+    implementation_iterations: null
+    candidates: null
   roles:
-    owner: Engineering Manager Agent
-    worker: Finite Typed Patch IR Compiler Engineer
-    independent_reviewers:
-      - CTO Agent
-      - Security Agent
-      - Quality and Evaluation Agent
+    owner: null
+    worker: null
+    independent_reviewers: []
   external_effects:
     network: false
     provider: false
@@ -1090,7 +1112,7 @@ active_work:
   founder_decision_required: false
   escalation_reason: null
   user_action_required: NONE
-  next_eligible_action: CONTINUE_CURRENT_TASK
+  next_eligible_action: ACTIVATE_P1_056_OFFLINE_B0_FINITE_IR_ADAPTER_CONFORMANCE
 
 superseded_pre_delegation_authorizations:
   aios_p1_009:
@@ -1108,6 +1130,64 @@ superseded_pre_delegation_authorizations:
     note: The engineering objective may be selected independently by Master, but these pre-delegation bytes require a routine per-Task Founder Gate and cannot be activated under the current authority model.
 
 task_history:
+  aios_p1_055:
+    task_id: AIOS-P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE
+    route_id: P1_FINITE_TYPED_PATCH_IR_TRUSTED_COMPILER_AND_OFFLINE_ADAPTER_ROUTE_V1
+    status: FOUNDER_EXCEPTION_ACCEPTED_COMPLETE
+    classification: ENGINEERING_TASK_WITH_PASSING_DUAL_RUN_EXACT_TREE_INTEGRATION_AND_FULL_VERIFY_UNDER_EXPLICIT_FOUNDER_QUALITY_PROVENANCE_RESIDUAL_ACCEPTANCE
+    contract_path: docs/aios/tasks/P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE.yaml
+    contract_sha256: 150b80d116088489339a850095e8d3ff33dd73e1212b7c617a8becf02c509289
+    contract_byte_length: 18087
+    candidate_commit: 4d65d5178e1d5cf0a2852acc844f6f4b12c2fdc0
+    candidate_tree: 22948c19a83b5c3bf7f9383982e2e092b1840561
+    candidate_manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-055-finite-typed-patch-ir-20260720T014028Z/candidate/CANDIDATE_MANIFEST.json
+    candidate_manifest_sha256: 4af6dd3c9d985a89f2992a64762b9a80268aac7308d7a1923bfee9c772e4a221
+    candidate_manifest_byte_length: 4960
+    evidence_tag: evidence/p1-055-exact-candidate-4d65d517
+    formal_evidence:
+      run_a: PASS
+      independent_run_b: PASS
+      stable_projection_exact_byte_equal: true
+      stable_projection_sha256: 80f0f92b493ea62a8cd29a5f3d69cc8bb70c035fa8e866c131e2896be759b07b
+      legal_programs: 4
+      byte_closure_total: 263168
+      false_accepts: 0
+      negative_cases: 30
+      exact_rollback: true
+    independent_candidate_reviews:
+      cto_sha256: 77c6a2e61821cee7f92f223c6b0ed612ccf96c016fbbe0b5da6edac1cdb2ecd8
+      cto_target_verdict: PASS
+      security_sha256: 995c6b615788df2a7b2fb12696c4db1e09639d63027fffc52386337420f6d7be
+      security_target_verdict: PASS
+      quality_final_sha256: e817a52bda545d7d80cddd23a0559cdbd22db495c478c8e29362fa44b27a88a9
+      quality_same_path_modified_after_creation: true
+      quality_target_verdict: NON_PASS_CREATE_ONCE_PROVENANCE_VIOLATION
+    founder_exception:
+      quality_review_provenance_residual_accepted: true
+      quality_review_rewritten_as_pass: false
+      fresh_review_loop_run: false
+      final_recovery_packet_sha256: e8c57ef729c99c395a4842c6754c29241d59d5f91ead83e91a0e31efbd92ed4f
+    prior_integration_attempt:
+      commit: a7d2ec9d68f17bd2c0c0234498e203087412c945
+      tree: 22948c19a83b5c3bf7f9383982e2e092b1840561
+      canonical_full_make_verify: NON_PASS_DECLARED_ACTIVE_TASK_WORKTREE_MISSING
+      non_destructive_revert_commit: e2da899d43cbe0ec1730c0c762c20659ee2b9b94
+      revert_receipt_sha256: 16b589ef21bc5ab8bb1b4f81bd6ee4aa6f2d4b6541a56b57aaef8b72a36ab113
+    final_integration:
+      worktree_recreated_exact: true
+      commit: f53e0f2b9e693ec07a8168b0dd90eb6d1057e4a5
+      tree: 22948c19a83b5c3bf7f9383982e2e092b1840561
+      integrated_tree_equal_to_candidate: true
+      canonical_full_make_verify_command: "LC_ALL=C LANG=C make verify"
+      canonical_full_make_verify_result: PASS
+      canonical_full_make_verify_invocations_under_final_authorization: 1
+      acceptance_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-055-finite-typed-patch-ir-20260720T014028Z/terminal/P1_055_FINAL_INTEGRATION_ACCEPTANCE_RECEIPT.json
+      acceptance_receipt_sha256: 2a3b3fd9749a10165a0e56a242f658a41e0c0eab3c5d1d99c4bfdb46a370e812
+      acceptance_receipt_byte_length: 3534
+    accepted_capability_created: true
+    p1_056_eligible: true
+    route_effect: FIRST_TASK_ACCEPTED_SECOND_TASK_ENTRY_AUTHORIZED
+    claim_boundary: ONE_VISIBLE_SYNTHETIC_REP001_FOUR_PROGRAM_FINITE_TYPED_PATCH_IR_TRUSTED_COMPILER_NON_INTERPRETATION_DUAL_RUN_CONFORMANCE_ONLY_NO_GENERAL_PATCH_GENERATION_OFFLINE_ADAPTER_PROVIDER_MODEL_PERFORMANCE_AGENT_SANDBOX_STRONG_ISOLATION_HOSTILE_PRINCIPAL_P1_EXIT_OR_PRODUCTION_CLAIM
   aios_p1_053:
     task_id: AIOS-P1-053_TASK_LOCAL_UNTRUSTED_PATCH_EXECUTION_QUARANTINE
     route_id: P1_BOUNDED_UNTRUSTED_EXECUTION_QUARANTINE_AND_OFFLINE_PROVIDER_COMPOSITION_ARCHITECTURE_ROUTE_V1
@@ -2274,8 +2354,8 @@ historical_lineages:
 
 phase_execution_claim:
   current_route_claim: P1_FINITE_TYPED_PATCH_IR_TRUSTED_COMPILER_AND_OFFLINE_ADAPTER_ROUTE_V1_ACTIVE
-  current_task_claim: AIOS_P1_055_AUTHORIZED_ACTIVE_QUALITY_FREEZE_PENDING
-  real_engineering_progress: P1_055_ACTIVATED_QUALITY_FREEZE_PENDING_WORKER_NOT_STARTED
+  current_task_claim: NONE_BETWEEN_TASKS_P1_056_ENTRY_AUTHORIZED
+  real_engineering_progress: P1_055_EXACT_CANDIDATE_FOUNDER_EXCEPTION_ACCEPTED_AND_CANONICALLY_INTEGRATED_FULL_VERIFY_PASS_P1_056_ACTIVATION_NEXT
   product_capability_changed: false
   phase_local_allowed:
     - local evaluation foundation engineering under an exact Task Contract
@@ -2306,6 +2386,7 @@ phase_execution_claim:
     - P1-048, P1-049 and P1-050 consumed the three executable engineering Task slots of the prior route; that prior route is exhausted and has no current scheduling authority.
     - AIOS-P1-052 consumed the prior local-first route's sole executable engineering Task slot and remains terminal rejected Evidence with no recovery or source reuse.
     - AIOS-P1-053 activated and began implementation but terminated before candidate freeze when the exact-host sandbox-exec primitive failed safe Node start/termination and left four local processes in an uninterruptible exiting state; P1-054 is ineligible and that prior route has no scheduling authority.
+    - AIOS-P1-055 completed formal Run A and independent Run B with exact stable equality, zero false accepts and exact rollback. Its Quality Review create-once provenance remains NON_PASS, but the Founder explicitly accepted that residual without rewriting it as PASS; after exact worktree restoration, the same frozen candidate tree was integrated once and the single canonical full make verify passed. The accepted claim is limited to the finite synthetic Typed Patch IR trusted compiler, and P1-056 offline adapter entry is now authorized.
     - Historical four-slice ordering and attempt routing have no current scheduling authority.
     - Peripheral validators, auxiliary governance tools and work without direct P1 Exit Gate value are ineligible.
   not_authorized_in_current_phase:
@@ -2326,9 +2407,9 @@ phase_execution_claim:
 
 claim_boundary:
   current_phase_route: P1_FINITE_TYPED_PATCH_IR_TRUSTED_COMPILER_AND_OFFLINE_ADAPTER_ROUTE_V1_ACTIVE
-  current_task: AIOS-P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE
-  next_eligible_action: CONTINUE_CURRENT_TASK
-  real_engineering_progress: P1_055_ACTIVATED_QUALITY_FREEZE_PENDING_WORKER_NOT_STARTED
+  current_task: NONE
+  next_eligible_action: ACTIVATE_P1_056_OFFLINE_B0_FINITE_IR_ADAPTER_CONFORMANCE
+  real_engineering_progress: P1_055_EXACT_CANDIDATE_FOUNDER_EXCEPTION_ACCEPTED_AND_CANONICALLY_INTEGRATED_FULL_VERIFY_PASS_P1_056_ACTIVATION_NEXT
   product_capability_changed_by_route_activation: false
   p1_048_actual_execution_experiment_pack: MASTER_TASK_GATE_ACCEPTED_COMPLETE
   p1_048_formal_run_a: PASS
@@ -2368,7 +2449,22 @@ claim_boundary:
   p1_052_external_effect_observed: false
   p1_052_accepted_capability: false
   p1_052_capability_claims: 0
-  current_route_executable_task_slots: 0_COMPLETED_1_ACTIVE_OF_2_AUTHORIZED
+  p1_055_status: FOUNDER_EXCEPTION_ACCEPTED_COMPLETE
+  p1_055_candidate_commit: 4d65d5178e1d5cf0a2852acc844f6f4b12c2fdc0
+  p1_055_candidate_tree: 22948c19a83b5c3bf7f9383982e2e092b1840561
+  p1_055_formal_run_a: PASS
+  p1_055_independent_run_b: PASS
+  p1_055_run_a_run_b_stable_projection_exact_byte_equal: true
+  p1_055_false_accepts: 0
+  p1_055_quality_review_provenance: NON_PASS_CREATE_ONCE_VIOLATION_PRESERVED
+  p1_055_founder_quality_review_provenance_residual_accepted: true
+  p1_055_quality_review_rewritten_as_pass: false
+  p1_055_integration_commit: f53e0f2b9e693ec07a8168b0dd90eb6d1057e4a5
+  p1_055_integrated_tree_equal_to_candidate: true
+  p1_055_canonical_full_make_verify: PASS
+  p1_055_accepted_capability: true
+  p1_056_status: ELIGIBLE_ENTRY_AUTHORIZED_PRE_ACTIVATION
+  current_route_executable_task_slots: 1_COMPLETED_0_ACTIVE_OF_2_AUTHORIZED
   prior_experiment_pack_route_executable_task_slots_used: 3_OF_3
   p1_050_claim_boundary: LOCAL_SYNTHETIC_PROVIDER_NEUTRAL_B0_B1_B2_COMPATIBILITY_ADAPTER_EXECUTION_CONFORMANCE_ONLY_NO_EMPIRICAL_BASELINE_PERFORMANCE_VTSR_MODEL_AGENT_INHERITED_SOURCELENS_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
   repository_intelligence_quality: UNKNOWN_NOT_YET_BENCHMARKED

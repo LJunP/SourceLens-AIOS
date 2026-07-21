@@ -1,0 +1,120 @@
+{
+  "schema": "P1-062-QUALITY-FROZEN-REQUEST/1",
+  "model": "gpt-5.6-luna",
+  "system_prompt": "You are the bounded selector in SourceLens P1-062. Use only the supplied issue and baseline context. You have no tools and must not request, infer, emit, or describe repository source, tests, patches, diffs, paths, commands, arguments, executables, evaluator logic, governance data, hidden data, or credentials. For the reversed-range return described by the issue, select the origin of the target start field and then the origin of the target end field: ARG0 means the input start argument and ARG1 means the input end argument. Return exactly one admitted JSON object using schema SL-PATCH-IR-CHOICE/1 and task SL-P1-REP-001-RANGE-NORMALIZATION@1.0.0. The only variable members are the two values, each exactly ARG0 or ARG1. Emit a single canonical JSON object with keys in the order schema, task, values; no spaces, markdown, explanation, leading or trailing bytes, or newline.",
+  "user_envelope": {
+    "schema": "P1-062-FINITE-IR-REQUEST/1",
+    "task": {
+      "task_id": "SL-P1-REP-001-RANGE-NORMALIZATION",
+      "dataset_version": "1.0.0",
+      "issue": {
+        "text": "Fix normalizeRange so a reversed numeric range is returned in ascending endpoint order. Preserve already ordered ranges and do not change the public function signature.",
+        "allowed_clarifications": []
+      }
+    },
+    "accepted_baseline_context": {
+      "context_kind": "issue_only",
+      "dataset_id": "SOURCELENS-P1-REPRESENTATIVE-TASKS",
+      "dataset_version": "1.0.0",
+      "instructions": [
+        "Use only the task repository and declared tools.",
+        "Produce the smallest patch that satisfies issue-specific and regression tests.",
+        "Do not use network, providers, secrets or remote effects."
+      ],
+      "schema_version": "1.0"
+    },
+    "finite_ir_instruction": {
+      "target": "T0",
+      "operation": "REBIND_OBJECT_FIELDS",
+      "value_positions": [
+        "origin of target start field for the reversed-range return",
+        "origin of target end field for the reversed-range return"
+      ],
+      "argument_meanings": {
+        "ARG0": "input start argument",
+        "ARG1": "input end argument"
+      },
+      "allowed_values": [
+        "ARG0",
+        "ARG1"
+      ]
+    },
+    "response_contract": {
+      "schema": "SL-PATCH-IR-CHOICE/1",
+      "task": "SL-P1-REP-001-RANGE-NORMALIZATION@1.0.0",
+      "exact_shape": {
+        "schema": "SL-PATCH-IR-CHOICE/1",
+        "task": "SL-P1-REP-001-RANGE-NORMALIZATION@1.0.0",
+        "values": [
+          "ARG0_OR_ARG1",
+          "ARG0_OR_ARG1"
+        ]
+      },
+      "additional_members_allowed": false,
+      "canonical_json_required": true
+    }
+  },
+  "request_construction": {
+    "messages": [
+      {
+        "role": "system",
+        "content_source": "/system_prompt",
+        "transform": "EXACT_JSON_STRING_VALUE"
+      },
+      {
+        "role": "user",
+        "content_source": "/user_envelope",
+        "transform": "JSON_STRINGIFY_UTF8_NO_WHITESPACE_PRESERVE_MEMBER_ORDER"
+      }
+    ],
+    "parameters": {
+      "stream": false,
+      "temperature": 0,
+      "max_tokens": 128
+    }
+  },
+  "data_manifest": {
+    "accepted_source_bindings": [
+      {
+        "artifact_id": "P1_035_REP001_ISSUE_TEXT",
+        "source_path": "evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/task-spec.json",
+        "source_sha256": "25de6b6f330e09c076521b42a88d60712637e0fc7de7ab1cfe1f9f5d4c223321",
+        "source_byte_length": 2960,
+        "source_pointer": "/issue/text",
+        "destination_pointer": "/user_envelope/task/issue/text",
+        "transform": "EXACT_JSON_STRING_VALUE"
+      },
+      {
+        "artifact_id": "P1_035_REP001_ALLOWED_CLARIFICATIONS",
+        "source_path": "evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/task-spec.json",
+        "source_sha256": "25de6b6f330e09c076521b42a88d60712637e0fc7de7ab1cfe1f9f5d4c223321",
+        "source_byte_length": 2960,
+        "source_pointer": "/issue/allowed_clarifications",
+        "destination_pointer": "/user_envelope/task/issue/allowed_clarifications",
+        "transform": "EXACT_JSON_VALUE"
+      },
+      {
+        "artifact_id": "P1_035_REP001_ACCEPTED_BASELINE_CONTEXT",
+        "source_path": "evaluation-harness/datasets/p1-representative-task-dataset-v1/shared/baseline-context.json",
+        "source_sha256": "64fab9efd47c193af94e3f7baee67072a32497d35c9dc1aee8a804bf32269cb9",
+        "source_byte_length": 377,
+        "source_pointer": "",
+        "destination_pointer": "/user_envelope/accepted_baseline_context",
+        "transform": "EXACT_JSON_VALUE"
+      }
+    ],
+    "quality_authored_artifact_id": "P1_062_FINITE_IR_RESPONSE_INSTRUCTION",
+    "forbidden_categories": [
+      "SOURCE_BYTES",
+      "TEST_BYTES",
+      "REFERENCE_PATCH",
+      "EVALUATOR_BYTES",
+      "GOVERNANCE_OR_TRUTH_BYTES",
+      "SECRET_OR_AUTHORIZATION_HEADER",
+      "HIDDEN_TASK_OR_HIDDEN_EVIDENCE"
+    ],
+    "forbidden_category_payload_count": 0,
+    "credential_in_request_body": false,
+    "source_test_reference_patch_or_evaluator_bytes_in_messages": false
+  }
+}

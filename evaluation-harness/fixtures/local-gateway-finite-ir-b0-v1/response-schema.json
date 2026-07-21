@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "sourcelens://p1-062/sl-patch-ir-choice-v1",
+  "title": "P1-062 finite typed patch IR choice",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema",
+    "task",
+    "values"
+  ],
+  "properties": {
+    "schema": {
+      "const": "SL-PATCH-IR-CHOICE/1"
+    },
+    "task": {
+      "const": "SL-P1-REP-001-RANGE-NORMALIZATION@1.0.0"
+    },
+    "values": {
+      "type": "array",
+      "minItems": 2,
+      "maxItems": 2,
+      "items": {
+        "type": "string",
+        "enum": [
+          "ARG0",
+          "ARG1"
+        ]
+      }
+    }
+  },
+  "x-sourcelens-canonical-content": {
+    "encoding": "UTF-8",
+    "key_order": [
+      "schema",
+      "task",
+      "values"
+    ],
+    "whitespace_allowed": false,
+    "terminal_lf_allowed": false,
+    "admitted_content_count": 4
+  }
+}

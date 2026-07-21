@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "record_type": "sourcelens_aios_p1_066_quality_negative_case_matrix",
+  "task_id": "AIOS-P1-066_ENGINEERING_FIRST_OFFLINE_B0_COMPLETE_EVIDENCE_VERTICAL_SLICE",
+  "case_count": 15,
+  "maximum_false_accepts": 0,
+  "pre_admission_rejection_assertions": {
+    "admitted": false,
+    "materialization_creations": 0,
+    "mutation_attempts": 0,
+    "child_start_attempts": 0,
+    "canary_status": "UNCHANGED",
+    "external_effects": {
+      "network": false,
+      "provider": false,
+      "secret": false,
+      "remote": false,
+      "production": false,
+      "public": false
+    }
+  },
+  "post_run_rejection_assertions": {
+    "target_verdict": "NON_PASS",
+    "stable_projection_emitted": false,
+    "original_evidence_unchanged": true,
+    "canonical_source_changed": false
+  },
+  "cases": [
+    {
+      "id": "environment-identity-mismatch",
+      "family": "ENVIRONMENT_CONFIG_MISMATCH",
+      "stage": "PRE_ADMISSION",
+      "mutation": "replace environment_binding.sha256 with a different 64-hex digest",
+      "expected_reason_code": "ENVIRONMENT_BINDING_REJECTED"
+    },
+    {
+      "id": "system-configuration-mismatch",
+      "family": "ENVIRONMENT_CONFIG_MISMATCH",
+      "stage": "PRE_ADMISSION",
+      "mutation": "replace system_configuration_binding.configuration_id",
+      "expected_reason_code": "SYSTEM_CONFIGURATION_BINDING_REJECTED"
+    },
+    {
+      "id": "duplicate-result",
+      "family": "DUPLICATE_OR_MISSING_RESULT",
+      "stage": "PRE_ADMISSION",
+      "mutation": "append a second result object",
+      "expected_reason_code": "RESULT_CARDINALITY_REJECTED"
+    },
+    {
+      "id": "missing-result",
+      "family": "DUPLICATE_OR_MISSING_RESULT",
+      "stage": "PRE_ADMISSION",
+      "mutation": "replace results with an empty array",
+      "expected_reason_code": "RESULT_CARDINALITY_REJECTED"
+    },
+    {
+      "id": "unknown-member",
+      "family": "UNKNOWN_MEMBER",
+      "stage": "PRE_ADMISSION",
+      "mutation": "add response.unexpected",
+      "expected_reason_code": "SUBMISSION_UNKNOWN_MEMBER_REJECTED"
+    },
+    {
+      "id": "malformed-schema",
+      "family": "MALFORMED_SCHEMA",
+      "stage": "PRE_ADMISSION",
+      "mutation": "replace results array with a string",
+      "expected_reason_code": "SUBMISSION_SCHEMA_REJECTED"
+    },
+    {
+      "id": "input-identity-drift",
+      "family": "HASH_OR_LENGTH_DRIFT",
+      "stage": "PRE_ADMISSION",
+      "mutation": "replace finite_typed_result.byte_length with 254",
+      "expected_reason_code": "INPUT_IDENTITY_REJECTED"
+    },
+    {
+      "id": "input-path-escape",
+      "family": "PATH_TYPE_SYMLINK_BOUNDARY",
+      "stage": "PRE_ADMISSION",
+      "mutation": "request a relative input leaf containing parent traversal",
+      "expected_reason_code": "INPUT_PATH_ESCAPE_REJECTED"
+    },
+    {
+      "id": "input-directory-as-file",
+      "family": "PATH_TYPE_SYMLINK_BOUNDARY",
+      "stage": "PRE_ADMISSION",
+      "mutation": "place a directory where a regular input leaf is required",
+      "expected_reason_code": "INPUT_TYPE_REJECTED"
+    },
+    {
+      "id": "input-symlink",
+      "family": "PATH_TYPE_SYMLINK_BOUNDARY",
+      "stage": "PRE_ADMISSION",
+      "mutation": "place a symlink where a regular input leaf is required",
+      "expected_reason_code": "INPUT_SYMLINK_REJECTED"
+    },
+    {
+      "id": "unsupported-ir",
+      "family": "UNSUPPORTED_IR",
+      "stage": "PRE_ADMISSION",
+      "mutation": "use canonical base64 e30= with its matching length and hash",
+      "expected_reason_code": "IR_NOT_EXACTLY_ADMITTED"
+    },
+    {
+      "id": "cross-run-substitution",
+      "family": "CROSS_RUN_SUBSTITUTION",
+      "stage": "POST_RUN_EVALUATION",
+      "mutation": "bind one Run A artifact to the Run B manifest",
+      "expected_reason_code": "RUN_BINDING_REJECTED"
+    },
+    {
+      "id": "evidence-tamper",
+      "family": "EVIDENCE_TAMPER",
+      "stage": "POST_RUN_EVALUATION",
+      "mutation": "change an artifact byte after its manifest identity is frozen",
+      "expected_reason_code": "EVIDENCE_IDENTITY_REJECTED"
+    },
+    {
+      "id": "rollback-omission",
+      "family": "ROLLBACK_OMISSION",
+      "stage": "POST_RUN_EVALUATION",
+      "mutation": "omit rollback evidence from an otherwise complete test-owned observation",
+      "expected_reason_code": "ROLLBACK_EVIDENCE_MISSING"
+    },
+    {
+      "id": "forbidden-external-effect-request",
+      "family": "FORBIDDEN_EXTERNAL_EFFECT_REQUEST",
+      "stage": "PRE_ADMISSION",
+      "mutation": "set requested_external_effects.network to true",
+      "expected_reason_code": "EXTERNAL_EFFECT_REQUEST_REJECTED"
+    }
+  ],
+  "claim_boundary": "ONE_VISIBLE_SYNTHETIC_REP_001_COOPERATIVE_LOCAL_OFFLINE_B0_COMPLETE_EVIDENCE_OBSERVATION_ONLY"
+}

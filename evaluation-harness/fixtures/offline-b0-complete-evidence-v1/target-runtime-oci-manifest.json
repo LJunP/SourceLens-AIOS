@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "record_type": "sourcelens_aios_declared_synthetic_target_runtime_oci_manifest",
+  "target_runtime_id": "TARGET-P1-066-DARWIN-ARM64-NODE20-STDLIB-1",
+  "oci_manifest": {
+    "schemaVersion": 2,
+    "mediaType": "application/vnd.oci.image.manifest.v1+json",
+    "config": {
+      "mediaType": "application/vnd.sourcelens.aios.synthetic-runtime.config.v1+json",
+      "digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "layers": [],
+    "annotations": {
+      "org.opencontainers.image.title": "SourceLens P1-066 declared synthetic target",
+      "org.opencontainers.image.version": "1",
+      "sourcelens.aios.container-execution-observed": "false",
+      "sourcelens.aios.materialized": "false",
+      "sourcelens.aios.pullable": "false",
+      "sourcelens.aios.target-kind": "DECLARED_SYNTHETIC_TARGET"
+    }
+  },
+  "declared_target": {
+    "kind": "DECLARED_SYNTHETIC_TARGET",
+    "os": "darwin",
+    "architecture": "arm64",
+    "node_version": "v20.17.0",
+    "node_standard_library_only": true,
+    "materialized": false,
+    "container_execution_observed": false,
+    "pullable_image": false
+  },
+  "actual_executor_evidence_policy": {
+    "capture_per_run": true,
+    "executor_kind": "LOCAL_HOST_PROCESS",
+    "required_fields": [
+      "platform",
+      "architecture",
+      "node_path",
+      "node_version",
+      "node_byte_length",
+      "node_sha256",
+      "git_path",
+      "git_version",
+      "git_byte_length",
+      "git_sha256",
+      "container_runtime_observed"
+    ],
+    "container_runtime_observed": false,
+    "must_not_claim_declared_target_was_materialized": true
+  }
+}

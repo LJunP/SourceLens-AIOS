@@ -1,0 +1,507 @@
+{
+  "schema_version": 1,
+  "record_type": "sourcelens_aios_p1_066_offline_b0_quality_task_card",
+  "status": "QUALITY_FREEZE_CANDIDATE",
+  "freeze_effective_only_with_external_quality_receipt": true,
+  "task_id": "AIOS-P1-066_ENGINEERING_FIRST_OFFLINE_B0_COMPLETE_EVIDENCE_VERTICAL_SLICE",
+  "control_id": "SL-P1-REP-001-RANGE-NORMALIZATION",
+  "quality_owner": "Quality and Evaluation Agent",
+  "worker_may_modify": false,
+  "activation": {
+    "commit": "7081d857a4cb401294673dd566ff63dc6b2a7cb1",
+    "tree": "10c1ba1f2fc9529e4a9d766adbfaa7775bced852"
+  },
+  "authority": {
+    "path": "/Users/lijunpeng/Developer/.sourcelens-audit/p1-066-engineering-first-offline-b0-SSBiXrxT/authority/TASK_AUTHORITY.yaml",
+    "byte_length": 2624,
+    "sha256": "a4eebb955d8cd23730c249e6a7453a4b94a773f8cd2090dd7dbdbb5ffe5f72e9"
+  },
+  "contract": {
+    "path": "docs/aios/tasks/P1-066_ENGINEERING_FIRST_OFFLINE_B0_COMPLETE_EVIDENCE_VERTICAL_SLICE.yaml",
+    "byte_length": 13993,
+    "sha256": "923d2ad4a5d56c6f154c1e946699744facf86741131dfacc46d165e5b832c790"
+  },
+  "accepted_inputs": {
+    "task_spec": {
+      "path": "evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/task-spec.json",
+      "byte_length": 2960,
+      "sha256": "25de6b6f330e09c076521b42a88d60712637e0fc7de7ab1cfe1f9f5d4c223321"
+    },
+    "expected_base_failure": {
+      "path": "evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/expected-base-failure.json",
+      "byte_length": 439,
+      "sha256": "5dbe034939ed2178f86fd84ad409cff9426040f63343de27f7ad3e8f46dd2494"
+    },
+    "materialization_recipe": {
+      "path": "evaluation-harness/datasets/p1-representative-task-dataset-v1/materialization-recipe.json",
+      "byte_length": 456,
+      "sha256": "104ed7109df7da155867a428b50575a9cda6bca481e183cebed50788c01a3a5e"
+    },
+    "baseline_context": {
+      "path": "evaluation-harness/datasets/p1-representative-task-dataset-v1/shared/baseline-context.json",
+      "byte_length": 377,
+      "sha256": "64fab9efd47c193af94e3f7baee67072a32497d35c9dc1aee8a804bf32269cb9"
+    },
+    "response_format": {
+      "path": "evaluation-harness/datasets/p1-representative-task-dataset-v1/shared/response-format.json",
+      "byte_length": 306,
+      "sha256": "6b8ec1d2a6a288e5b908716714589dae963739f2b35a0a29237ff4cbc1355c4b"
+    },
+    "source_preimage": {
+      "path": "evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/src/range.mjs",
+      "byte_length": 115,
+      "sha256": "1e3de2958c9841bbe785d903b2f5453389c4225359308b539ac2cb3194469d75",
+      "mode": "0644"
+    },
+    "issue_test": {
+      "path": "evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/test/issue.test.mjs",
+      "byte_length": 237,
+      "sha256": "51fd472f8cf85fd595246814db29699ab81ccdc2986d80666d8609a8c4972b4b"
+    },
+    "regression_test": {
+      "path": "evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/test/regression.test.mjs",
+      "byte_length": 241,
+      "sha256": "381c573d8f99305b47db9f1a2ca49779842fe1187b9d7c5b7410e56dda9240c5"
+    },
+    "compiler": {
+      "path": "evaluation-harness/harness/finite-typed-patch-ir-v1/compiler.mjs",
+      "version": "SL-PATCH-IR-TRUSTED-COMPILER/1",
+      "byte_length": 3814,
+      "sha256": "013a58a6284270c6808f6cfe815dbea6825b8a43a0a6f885305df23890c7a4f9"
+    },
+    "ir10": {
+      "path": "evaluation-harness/fixtures/finite-typed-patch-ir-v1/programs/ir10.json",
+      "program_id": "IR10",
+      "byte_length": 255,
+      "sha256": "ac80def7bc984820b63243b020754715c1a7ad34e18e3ded2a4ee5c1961defcc"
+    },
+    "base": {
+      "commit": "68ce8226eff4c5c7230b55b18a4cbea2f8e4a20f",
+      "tree": "900814727113d65f5dad8b63222e14f39b2cf38b",
+      "dirty_state": "clean"
+    },
+    "accepted_postimage": {
+      "byte_length": 127,
+      "sha256": "e8304b77da9b8c33f64ecdc568db7e97297ace72ecb796971bb3f5eda09d9001"
+    }
+  },
+  "quality_assets": {
+    "target_runtime": {
+      "path": "evaluation-harness/fixtures/offline-b0-complete-evidence-v1/target-runtime-oci-manifest.json",
+      "byte_length": 1688,
+      "sha256": "4319712be0509e870bb9478e991bff31dd8a11384349f5e71c40715f8ee75e22"
+    },
+    "environment_snapshot": {
+      "path": "evaluation-harness/fixtures/offline-b0-complete-evidence-v1/environment-snapshot.json",
+      "byte_length": 1782,
+      "sha256": "f6aa054ef9b03712465f4442213f72af5dff97da7dc2977e612e18617fa8fc80"
+    },
+    "system_configuration": {
+      "path": "evaluation-harness/fixtures/offline-b0-complete-evidence-v1/system-configuration.json",
+      "byte_length": 986,
+      "sha256": "60a0bd1ac6e8b1e1b381aff7c8ec614d46afeb758d86b842ef328bb8d22ae9ea"
+    },
+    "positive_result": {
+      "path": "evaluation-harness/fixtures/offline-b0-complete-evidence-v1/positive-result.json",
+      "byte_length": 2993,
+      "sha256": "a141b29b8c35a0a48265f48507dc8c85d5c1d32840e00eb064b5ac0a7e4d0e86"
+    },
+    "negative_cases": {
+      "path": "evaluation-harness/fixtures/offline-b0-complete-evidence-v1/negative-cases.json",
+      "byte_length": 4762,
+      "sha256": "8682d743f1b26eb6cb8ca33bd763d66a60f686e06ca59b638747d8d4ec2e7342"
+    }
+  },
+  "declared_target_and_actual_executor": {
+    "declared_target_kind": "DECLARED_SYNTHETIC_TARGET",
+    "declared_target_materialized": false,
+    "declared_target_container_execution_observed": false,
+    "actual_executor_kind": "LOCAL_HOST_PROCESS",
+    "actual_executor_must_be_measured_per_run": true,
+    "actual_executor_container_runtime_observed": false,
+    "actual_executor_identity": {
+      "platform": "darwin",
+      "architecture": "arm64",
+      "node_path": "/usr/local/bin/node",
+      "node_version": "v20.17.0",
+      "node_byte_length": 193262272,
+      "node_sha256": "c5548e7a991a5c90170a29843ffc46df4643e29141f3cbb035f60295cf2bc882",
+      "git_path": "/usr/bin/git",
+      "git_version": "git version 2.39.5 (Apple Git-154)",
+      "git_byte_length": 118848,
+      "git_sha256": "29d5080bd197feb8245ee7d9a275fee4750b5496c6a7016090eff5a357c1e8c4"
+    }
+  },
+  "adapter_contract": {
+    "module_path": "evaluation-harness/adapters/offline-b0-finite-typed-v1/adapter.mjs",
+    "export_name": "admitOfflineB0Result",
+    "arguments": [
+      "submissionBytes",
+      "proposalBytes"
+    ],
+    "arguments_are_buffers": true,
+    "proposal_source": "decode positive-result.json results[0].finite_typed_result.bytes_base64",
+    "proposal_flow": "DECODE_TO_BUFFER_THEN_PASS_UNMODIFIED_TO_COMPILE_FINITE_TYPED_PATCH_IR",
+    "compiler_import": "../../harness/finite-typed-patch-ir-v1/compiler.mjs",
+    "result_controlled_path_argv_cwd_env_module_or_executable": false,
+    "free_form_code_diff_ast_or_module_execution": false,
+    "adapter_decides_task_success": false
+  },
+  "runner_interface": {
+    "run_argv_template": [
+      "/usr/local/bin/node",
+      "evaluation-harness/harness/offline-b0-complete-evidence-v1/run.mjs",
+      "run",
+      "--task-card",
+      "evaluation-harness/fixtures/offline-b0-complete-evidence-v1/task-card.json",
+      "--candidate-manifest",
+      "ABSOLUTE_EXACT_CANDIDATE_MANIFEST",
+      "--evidence-root",
+      "ABSOLUTE_AUTHORIZED_EVIDENCE_ROOT",
+      "--run-id",
+      "SAFE_UNIQUE_RUN_ID",
+      "--repetition-id",
+      "POSITIVE_INTEGER"
+    ],
+    "run_id_pattern": "^[a-z0-9][a-z0-9._-]{0,63}$",
+    "success_exit_status": 0,
+    "failure_exit_status": 2,
+    "agent_success_label": "AGENT_COMPLETE_NOT_INDEPENDENTLY_VERIFIED",
+    "run_a_actor": "Offline B0 Adapter Engineer",
+    "run_b_actor": "Independent Quality and Evaluation Agent",
+    "run_b_must_not_consume_run_a_path_receipt_or_verdict": true,
+    "run_roots_must_be_physically_distinct": true
+  },
+  "candidate_provenance_contract": {
+    "candidate_manifest_record_type": "sourcelens_aios_p1_066_exact_candidate_manifest_v2",
+    "provenance_record_type": "sourcelens_aios_p1_066_candidate_execution_provenance",
+    "repository_root_must_equal_executing_module_repository_root": true,
+    "repository_head_tree_and_clean_state_must_be_recomputed": true,
+    "required_executing_modules": [
+      "adapter",
+      "quality_oracle",
+      "runner",
+      "task_card"
+    ],
+    "candidate_manifest_must_be_copied_create_once_into_each_run": true,
+    "quality_evaluator_must_independently_recompute_repository_and_module_identities": true
+  },
+  "required_actions_in_order": [
+    "validate_candidate_and_quality_identities",
+    "validate_closed_task_environment_configuration_and_result",
+    "admit_exact_ir10_through_accepted_compiler",
+    "create_fresh_task_owned_run_and_evidence_roots",
+    "materialize_exact_rep001_base",
+    "verify_base_commit_tree_clean_state_and_source_preimage",
+    "execute_typed_base_issue_and_regression_tests",
+    "atomically_replace_t0_with_admitted_complete_postimage",
+    "verify_exact_changed_path_scope",
+    "capture_exact_patch_diff_and_hash",
+    "execute_patched_issue_and_regression_tests",
+    "record_observable_actions_and_raw_stream_identities",
+    "restore_exact_base_source",
+    "verify_exact_rollback_commit_tree_and_clean_state",
+    "emit_create_once_run_record_and_manifest"
+  ],
+  "fixed_commands": {
+    "git_init": [
+      "/usr/bin/git",
+      "init",
+      "--quiet",
+      "--template=",
+      "--object-format=sha1"
+    ],
+    "git_add": [
+      "/usr/bin/git",
+      "add",
+      "--all"
+    ],
+    "git_commit": [
+      "/usr/bin/git",
+      "-c",
+      "commit.gpgsign=false",
+      "commit",
+      "--quiet",
+      "--no-verify",
+      "--no-gpg-sign",
+      "-m",
+      "fixture: base"
+    ],
+    "issue_test": [
+      "/usr/local/bin/node",
+      "--test",
+      "test/issue.test.mjs"
+    ],
+    "regression_test": [
+      "/usr/local/bin/node",
+      "--test",
+      "test/regression.test.mjs"
+    ],
+    "git_status": [
+      "/usr/bin/git",
+      "status",
+      "--porcelain=v1",
+      "-z",
+      "--untracked-files=all"
+    ],
+    "git_head": [
+      "/usr/bin/git",
+      "rev-parse",
+      "HEAD"
+    ],
+    "git_tree": [
+      "/usr/bin/git",
+      "rev-parse",
+      "HEAD^{tree}"
+    ],
+    "git_diff": [
+      "/usr/bin/git",
+      "diff",
+      "--binary",
+      "--full-index",
+      "--no-ext-diff",
+      "--no-renames",
+      "--",
+      "src/range.mjs"
+    ]
+  },
+  "command_profile": {
+    "shell": false,
+    "fixed_argv_and_cwd_only": true,
+    "timeout_ms": 15000,
+    "max_buffer_bytes": 4194304,
+    "environment": {
+      "HOME": "TASK_OWNED_DISPOSABLE_HOME",
+      "PATH": "/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/bin",
+      "LANG": "C",
+      "LC_ALL": "C",
+      "TZ": "UTC",
+      "NODE_OPTIONS": "--no-warnings",
+      "GIT_CONFIG_NOSYSTEM": "1",
+      "GIT_CONFIG_GLOBAL": "/dev/null",
+      "GIT_TERMINAL_PROMPT": "0",
+      "GIT_AUTHOR_NAME": "SourceLens AIOS Fixture",
+      "GIT_AUTHOR_EMAIL": "fixture@sourcelens.local",
+      "GIT_AUTHOR_DATE": "2000-01-01T00:00:00Z",
+      "GIT_COMMITTER_NAME": "SourceLens AIOS Fixture",
+      "GIT_COMMITTER_EMAIL": "fixture@sourcelens.local",
+      "GIT_COMMITTER_DATE": "2000-01-01T00:00:00Z"
+    }
+  },
+  "run_evidence_contract": {
+    "manifest_record_type": "sourcelens_aios_p1_066_run_manifest",
+    "observation_record_type": "sourcelens_aios_p1_066_run_observation",
+    "manifest_required_fields": [
+      "schema_version",
+      "record_type",
+      "task_id",
+      "control_id",
+      "run_id",
+      "repetition_id",
+      "candidate_binding",
+      "run_root_receipt",
+      "artifacts",
+      "agent_status"
+    ],
+    "artifact_required_fields": [
+      "role",
+      "path",
+      "byte_length",
+      "sha256"
+    ],
+    "command_stream_additional_fields": [
+      "action_id",
+      "stream"
+    ],
+    "required_artifact_roles": [
+      "candidate_manifest",
+      "candidate_provenance",
+      "observation",
+      "patch",
+      "patch_evidence_package",
+      "run_record",
+      "rollback_source",
+      "command_stream"
+    ],
+    "observation_required_fields": [
+      "schema_version",
+      "record_type",
+      "task_id",
+      "control_id",
+      "run_id",
+      "repetition_id",
+      "candidate_binding",
+      "physical_receipt",
+      "actual_executor",
+      "bindings",
+      "ordered_action_ids",
+      "admission",
+      "commands",
+      "base_tests",
+      "patched_tests",
+      "changed_paths",
+      "rollback",
+      "external_effects",
+      "agent_status",
+      "claim_boundary"
+    ],
+    "command_required_fields": [
+      "action_id",
+      "argv",
+      "argv_equivalent",
+      "cwd",
+      "cwd_equivalent",
+      "exit_status",
+      "signal",
+      "timeout_ms",
+      "duration_ms",
+      "stdout",
+      "stderr"
+    ],
+    "artifact_creation": "CREATE_ONCE_REGULAR_NOFOLLOW_NLINK_ONE_CONTAINED",
+    "directory_validation": "REAL_DIRECTORY_NO_SYMLINK_REALPATH_DEVICE_INODE_STABLE",
+    "directory_nlink_is_a_gate": false,
+    "preexisting_object_overwrite_or_cleanup": false
+  },
+  "run_record_requirements": {
+    "schema_path": "docs/aios/schemas/run-record.schema.json",
+    "schema_version": "1.0",
+    "adapter_id": "B0",
+    "adapter_version": "OFFLINE-B0-FINITE-TYPED-ADAPTER/1",
+    "terminal_status": "completed",
+    "stop_reason_code": "agent_complete",
+    "invalid_run_reason": null,
+    "policy_violations": [],
+    "verification_ref_before_independent_evaluation": null,
+    "offline_usage": {
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "tool_calls": 0,
+      "retries": 0,
+      "human_interventions": 0,
+      "cost_usd": 0
+    }
+  },
+  "quality_evaluator_interface": {
+    "module_path": "evaluation-harness/evaluator/offline-b0-complete-evidence-v1/quality-oracle.mjs",
+    "version": "P1-066-OFFLINE-B0-QUALITY-ORACLE/2",
+    "exports": [
+      "canonicalJsonBytes",
+      "validateTaskCard",
+      "validateQualityAssets",
+      "evaluateRunEvidence",
+      "compareStableRuns"
+    ],
+    "self_test_argv": [
+      "/usr/local/bin/node",
+      "evaluation-harness/evaluator/offline-b0-complete-evidence-v1/quality-oracle.mjs",
+      "self-test"
+    ],
+    "evaluate_run_argv_template": [
+      "/usr/local/bin/node",
+      "evaluation-harness/evaluator/offline-b0-complete-evidence-v1/quality-oracle.mjs",
+      "evaluate-run",
+      "--run-manifest",
+      "ABSOLUTE_RUN_MANIFEST"
+    ],
+    "compare_runs_argv_template": [
+      "/usr/local/bin/node",
+      "evaluation-harness/evaluator/offline-b0-complete-evidence-v1/quality-oracle.mjs",
+      "compare-runs",
+      "--run-a-manifest",
+      "ABSOLUTE_RUN_A_MANIFEST",
+      "--run-b-manifest",
+      "ABSOLUTE_RUN_B_MANIFEST"
+    ],
+    "adapter_reported_pass_is_authoritative": false,
+    "recompute_artifact_length_and_sha256": true,
+    "recompute_stable_projection": true
+  },
+  "stable_projection": {
+    "include": [
+      "schema_version",
+      "task_id",
+      "control_id",
+      "candidate_binding",
+      "candidate_provenance",
+      "input_identities",
+      "declared_target_runtime",
+      "actual_executor_identity",
+      "environment_snapshot_id",
+      "system_configuration_id",
+      "admission",
+      "ordered_action_ids",
+      "commands",
+      "base_tests",
+      "patched_tests",
+      "changed_paths",
+      "patch_evidence_package_status",
+      "run_record_status",
+      "rollback",
+      "external_effects",
+      "evaluator",
+      "complete_evidence",
+      "verdict",
+      "claim_boundary"
+    ],
+    "exclude": [
+      "run_id",
+      "repetition_id",
+      "physical_path",
+      "realpath",
+      "cwd",
+      "device",
+      "inode",
+      "pid",
+      "started_at",
+      "ended_at",
+      "duration_ms",
+      "latency_ms",
+      "nonce"
+    ],
+    "normalization": [
+      "EXACT_RUN_ROOT_TO_PLACEHOLDER",
+      "EXACT_MATERIALIZATION_ROOT_TO_TASK_REPOSITORY",
+      "NODE_TAP_DURATION_MS_TO_PLACEHOLDER"
+    ],
+    "normalization_residual_physical_variants_required": 0,
+    "run_a_run_b_requirement": "EXACT_CANONICAL_JSON_BYTE_EQUALITY"
+  },
+  "positive_expectations": {
+    "result_count": 1,
+    "program_id": "IR10",
+    "outcome_id": "CORRECT_END_START",
+    "admission_status": "ADMITTED_EXACT_IR10",
+    "base_issue_exit_status": 1,
+    "base_regression_exit_status": 0,
+    "patched_issue_exit_status": 0,
+    "patched_regression_exit_status": 0,
+    "changed_paths": [
+      "src/range.mjs"
+    ],
+    "evaluator_verdict": "PASS"
+  },
+  "rollback": {
+    "mutation_occurred": true,
+    "restored_source_byte_length": 115,
+    "restored_source_sha256": "1e3de2958c9841bbe785d903b2f5453389c4225359308b539ac2cb3194469d75",
+    "restored_base_commit": "68ce8226eff4c5c7230b55b18a4cbea2f8e4a20f",
+    "restored_base_tree": "900814727113d65f5dad8b63222e14f39b2cf38b",
+    "git_status_porcelain": "",
+    "restored_exact_base": true
+  },
+  "negative_case_contract": {
+    "path": "evaluation-harness/fixtures/offline-b0-complete-evidence-v1/negative-cases.json",
+    "case_count": 15,
+    "maximum_false_accepts": 0
+  },
+  "external_effects": {
+    "network": false,
+    "provider": false,
+    "secret": false,
+    "remote": false,
+    "production": false,
+    "public": false
+  },
+  "claim_boundary": "ONE_VISIBLE_SYNTHETIC_REP_001_COOPERATIVE_LOCAL_OFFLINE_B0_COMPLETE_EVIDENCE_OBSERVATION_ONLY"
+}

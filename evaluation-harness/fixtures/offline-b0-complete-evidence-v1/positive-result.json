@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "record_type": "sourcelens_aios_provider_neutral_offline_b0_result_envelope",
+  "submission_id": "P1-066-REP001-OFFLINE-IR10",
+  "provenance": {
+    "kind": "QUALITY_FROZEN_COOPERATIVE_LOCAL_FIXTURE",
+    "live_model_invoked": false,
+    "provider_invoked": false,
+    "model_performance_sample": false
+  },
+  "task_binding": {
+    "task_id": "SL-P1-REP-001-RANGE-NORMALIZATION",
+    "dataset_version": "1.0.0",
+    "task_spec_byte_length": 2960,
+    "task_spec_sha256": "25de6b6f330e09c076521b42a88d60712637e0fc7de7ab1cfe1f9f5d4c223321",
+    "base_commit": "68ce8226eff4c5c7230b55b18a4cbea2f8e4a20f",
+    "base_tree": "900814727113d65f5dad8b63222e14f39b2cf38b"
+  },
+  "target_runtime_binding": {
+    "target_runtime_id": "TARGET-P1-066-DARWIN-ARM64-NODE20-STDLIB-1",
+    "byte_length": 1688,
+    "sha256": "4319712be0509e870bb9478e991bff31dd8a11384349f5e71c40715f8ee75e22",
+    "materialized": false,
+    "container_execution_observed": false
+  },
+  "environment_binding": {
+    "snapshot_id": "ENV-SOURCELENS-P1-REP-NODE20-STDLIB-1",
+    "byte_length": 1782,
+    "sha256": "f6aa054ef9b03712465f4442213f72af5dff97da7dc2977e612e18617fa8fc80"
+  },
+  "system_configuration_binding": {
+    "configuration_id": "P1-066-B0-OFFLINE-FINITE-TYPED-1",
+    "byte_length": 986,
+    "sha256": "60a0bd1ac6e8b1e1b381aff7c8ec614d46afeb758d86b842ef328bb8d22ae9ea"
+  },
+  "compiler_binding": {
+    "version": "SL-PATCH-IR-TRUSTED-COMPILER/1",
+    "byte_length": 3814,
+    "sha256": "013a58a6284270c6808f6cfe815dbea6825b8a43a0a6f885305df23890c7a4f9"
+  },
+  "response_format_binding": {
+    "byte_length": 306,
+    "sha256": "6b8ec1d2a6a288e5b908716714589dae963739f2b35a0a29237ff4cbc1355c4b"
+  },
+  "results": [
+    {
+      "result_id": "R0",
+      "response": {
+        "summary": "Normalize reversed endpoints by returning the previous end as start and the previous start as end.",
+        "changed_paths": [
+          "src/range.mjs"
+        ],
+        "tests": [
+          "issue-test: expected PASS",
+          "regression-test: expected PASS"
+        ]
+      },
+      "finite_typed_result": {
+        "schema": "SL-PATCH-IR/1",
+        "encoding": "base64",
+        "bytes_base64": "eyJzY2hlbWEiOiJTTC1QQVRDSC1JUi8xIiwidGFzayI6IlNMLVAxLVJFUC0wMDEtUkFOR0UtTk9STUFMSVpBVElPTkAxLjAuMCIsImJhc2VfY29tbWl0IjoiNjhjZTgyMjZlZmY0YzVjNzIzMGI1NWIxOGE0Y2JlYTJmOGU0YTIwZiIsImJhc2VfdHJlZSI6IjkwMDgxNDcyNzExM2Q2NWY1ZGFkOGI2MzIyMmUxNGYzOWIyY2YzOGIiLCJ0YXJnZXQiOiJUMCIsIm9wIjoiUkVCSU5EX09CSkVDVF9GSUVMRFMiLCJ2YWx1ZXMiOlsiQVJHMSIsIkFSRzAiXX0K",
+        "byte_length": 255,
+        "sha256": "ac80def7bc984820b63243b020754715c1a7ad34e18e3ded2a4ee5c1961defcc"
+      },
+      "requested_external_effects": {
+        "network": false,
+        "provider": false,
+        "secret": false,
+        "remote": false,
+        "production": false,
+        "public": false
+      }
+    }
+  ],
+  "claim_boundary": "ONE_VISIBLE_SYNTHETIC_REP_001_COOPERATIVE_LOCAL_OFFLINE_B0_COMPLETE_EVIDENCE_OBSERVATION_ONLY"
+}

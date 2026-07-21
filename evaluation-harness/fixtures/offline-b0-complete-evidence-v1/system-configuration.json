@@ -1,0 +1,25 @@
+{
+  "schema_version": "1.0",
+  "configuration_id": "P1-066-B0-OFFLINE-FINITE-TYPED-1",
+  "adapter_id": "B0",
+  "adapter_version": "OFFLINE-B0-FINITE-TYPED-ADAPTER/1",
+  "model_ref": "OFFLINE-FROZEN-RESULT-NO-LIVE-MODEL/1",
+  "prompt_ref": "P1-035-BASELINE-CONTEXT-64fab9efd47c193af94e3f7baee67072a32497d35c9dc1aee8a804bf32269cb9",
+  "policy_ref": "P1-066-OFFLINE-NO-EXTERNAL-EFFECTS/1",
+  "response_format_ref": "evaluation-harness/datasets/p1-representative-task-dataset-v1/shared/response-format.json",
+  "loop_limit": 1,
+  "enabled_tools": [],
+  "feature_flags": {
+    "actual_executor_reported_separately": true,
+    "execution_feedback_available_to_b0": false,
+    "graph_enabled": false,
+    "live_model_invoked": false,
+    "memory_enabled": false,
+    "offline_frozen_result_replay": true,
+    "proposal_executed_as_code": false,
+    "provider_invoked": false,
+    "repository_tools_available_to_b0": false,
+    "target_runtime_materialized": false
+  },
+  "random_seed": null
+}

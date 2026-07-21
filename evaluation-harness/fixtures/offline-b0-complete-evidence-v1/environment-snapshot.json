@@ -1,0 +1,63 @@
+{
+  "schema_version": "1.0",
+  "snapshot_id": "ENV-SOURCELENS-P1-REP-NODE20-STDLIB-1",
+  "created_at": "2026-07-21T12:40:18Z",
+  "source": {
+    "repository_identity": "sourcelens-fixture://p1-representative-tasks/SL-P1-REP-001-RANGE-NORMALIZATION@1.0.0",
+    "base_commit": "68ce8226eff4c5c7230b55b18a4cbea2f8e4a20f",
+    "tree_hash": "900814727113d65f5dad8b63222e14f39b2cf38b",
+    "worktree_clean": true
+  },
+  "runtime": {
+    "os": "darwin",
+    "architecture": "arm64",
+    "container_image_digest": "sha256:4319712be0509e870bb9478e991bff31dd8a11384349f5e71c40715f8ee75e22",
+    "locale": "C",
+    "timezone": "UTC"
+  },
+  "dependencies": {
+    "lockfiles": [],
+    "toolchains": {
+      "node": "v20.17.0",
+      "git": "git version 2.39.5 (Apple Git-154)"
+    },
+    "caches": [
+      {
+        "name": "package-cache",
+        "policy": "disabled",
+        "digest": null
+      }
+    ]
+  },
+  "model": {
+    "model_ref": "OFFLINE-FROZEN-RESULT-NO-LIVE-MODEL/1",
+    "provider": "none",
+    "model_id": "offline-frozen-result",
+    "model_version": "quality-frozen-input-v1",
+    "parameters": {
+      "execution_mode": "OFFLINE_FROZEN_RESULT_REPLAY",
+      "live_model_invoked": false,
+      "provider_invoked": false
+    }
+  },
+  "prompt_version": "P1-035-BASELINE-CONTEXT-64fab9efd47c193af94e3f7baee67072a32497d35c9dc1aee8a804bf32269cb9",
+  "policy_version": "P1-066-OFFLINE-NO-EXTERNAL-EFFECTS/1",
+  "tools": [],
+  "network": {
+    "policy": "none",
+    "allowed_hosts": []
+  },
+  "environment_variables": {
+    "non_secret_values": {
+      "LANG": "C",
+      "LC_ALL": "C",
+      "TZ": "UTC"
+    },
+    "secret_names_present": []
+  },
+  "secret_policy": {
+    "values_retained": false,
+    "redaction_policy_version": "P1-066-NO-SECRETS/1"
+  },
+  "random_seed": null
+}

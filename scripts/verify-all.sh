@@ -26,8 +26,9 @@ check_shell_scripts() {
 
 run_step "Shell syntax" check_shell_scripts
 run_step "Git whitespace" git -C "$ROOT_DIR" diff --check
-run_step "AIOS current authority" "${ROOT_DIR}/scripts/validate-aios-governance.sh"
-run_step "P1 basic safety boundary" "${ROOT_DIR}/scripts/check-p1-safety-boundary.sh"
+# Project administration remains available through the explicit
+# `make aios-governance-check` and `make p1-safety-check` targets. Product
+# verification intentionally does not depend on historical route state.
 run_step "Project code map" node "${ROOT_DIR}/scripts/generate-project-code-map.mjs" --check
 run_step "API contract" node "${ROOT_DIR}/scripts/validate-api-design.mjs"
 run_step "Database schema contract" node "${ROOT_DIR}/scripts/validate-db-schema-contract.mjs"

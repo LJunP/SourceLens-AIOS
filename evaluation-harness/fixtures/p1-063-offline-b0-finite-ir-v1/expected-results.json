@@ -1,0 +1,126 @@
+{
+  "schema_version": 1,
+  "record_type": "sourcelens_aios_p1_063_expected_results",
+  "task_id": "AIOS-P1-063_CLEAN_ROOM_OFFLINE_RESULT_ADMISSION_AND_B0_ADAPTER",
+  "control_id": "SL-P1-REP-001-RANGE-NORMALIZATION",
+  "compiler": {
+    "path": "evaluation-harness/harness/finite-typed-patch-ir-v1/compiler.mjs",
+    "version": "SL-PATCH-IR-TRUSTED-COMPILER/1",
+    "byte_length": 3814,
+    "sha256": "013a58a6284270c6808f6cfe815dbea6825b8a43a0a6f885305df23890c7a4f9"
+  },
+  "independent_oracle": {
+    "path": "evaluation-harness/evaluator/finite-typed-patch-ir-v1/quality-oracle.mjs",
+    "version": "SL-PATCH-IR-QUALITY-ORACLE/1",
+    "byte_length": 32410,
+    "sha256": "8638ff9f6235203526420101be00f69745fbdc8c97a78a7e159550956bb4bb2f"
+  },
+  "closed_ir": {
+    "schema": "SL-PATCH-IR/1",
+    "admission": "RAW_BUFFER_MAX_255_SHA256_LENGTH_AND_EXACT_BYTES_EQUALITY_ONLY",
+    "decode_or_parse": false,
+    "programs": [
+      {
+        "program_id": "IR00",
+        "byte_length": 255,
+        "sha256": "e21da56b4132c121419863bad9e682532963f8b5bc9951af31b23234d9c46736",
+        "compiler_status": "COMPILED",
+        "outcome_id": "SAFE_WRONG_START_START",
+        "outcome_kind": "COMPLETE_POSTIMAGE",
+        "postimage_byte_length": 129,
+        "postimage_sha256": "7c96fca76278ec86045d4eb61141d279eeda08af8c10a7465cea0f6e4656e2f1",
+        "mutation_attempts": 1,
+        "test_child_starts": 2,
+        "issue_exit_status": 1,
+        "regression_exit_status": 0,
+        "evaluator_verdict": "REJECT_SAFE_WRONG"
+      },
+      {
+        "program_id": "IR01",
+        "byte_length": 255,
+        "sha256": "db33a4d4f2a5b21f211344d785785c2b4c246677bbcf68ef0d5e1831cdf3d0c1",
+        "compiler_status": "IDENTITY_NO_EFFECT_REJECTION",
+        "outcome_id": "IDENTITY_NO_EFFECT_REJECTION",
+        "outcome_kind": "IDENTITY_NO_EFFECT_REJECTION",
+        "postimage_byte_length": null,
+        "postimage_sha256": null,
+        "mutation_attempts": 0,
+        "test_child_starts": 0,
+        "issue_exit_status": null,
+        "regression_exit_status": null,
+        "evaluator_verdict": "REJECT_IDENTITY_NO_EFFECT"
+      },
+      {
+        "program_id": "IR10",
+        "byte_length": 255,
+        "sha256": "ac80def7bc984820b63243b020754715c1a7ad34e18e3ded2a4ee5c1961defcc",
+        "compiler_status": "COMPILED",
+        "outcome_id": "CORRECT_END_START",
+        "outcome_kind": "COMPLETE_POSTIMAGE",
+        "postimage_byte_length": 127,
+        "postimage_sha256": "e8304b77da9b8c33f64ecdc568db7e97297ace72ecb796971bb3f5eda09d9001",
+        "mutation_attempts": 1,
+        "test_child_starts": 2,
+        "issue_exit_status": 0,
+        "regression_exit_status": 0,
+        "evaluator_verdict": "PASS_ONLY_SUCCESS"
+      },
+      {
+        "program_id": "IR11",
+        "byte_length": 255,
+        "sha256": "0eeca741f57b218ee175308080de3ada3db1b4eb93222bd252cac9ed6e2c66f7",
+        "compiler_status": "COMPILED",
+        "outcome_id": "SAFE_WRONG_END_END",
+        "outcome_kind": "COMPLETE_POSTIMAGE",
+        "postimage_byte_length": 125,
+        "postimage_sha256": "229b8e41f7db2b6b007a3d05e5e61a3fdd68a9cf3107e0384d234d203d8f306e",
+        "mutation_attempts": 1,
+        "test_child_starts": 2,
+        "issue_exit_status": 1,
+        "regression_exit_status": 0,
+        "evaluator_verdict": "REJECT_SAFE_WRONG"
+      }
+    ],
+    "only_success_program_id": "IR10",
+    "byte_closure": {
+      "substitution": 260100,
+      "strict_truncation": 1020,
+      "one_byte_prefix": 1024,
+      "one_byte_suffix": 1024,
+      "total": 263168,
+      "legal_to_legal_transitions": 8,
+      "rejections": 263160,
+      "false_accepts": 0,
+      "stream_sha256": "a819e42a5f5ecca01daa3f77f0701f5dac80b8ff7f096c8bac8d627f30d8a38b"
+    }
+  },
+  "positive_run": {
+    "selected_program_id": "IR10",
+    "admission": "ADMITTED_EXACT_LEGAL_PROGRAM",
+    "outcome_id": "CORRECT_END_START",
+    "postimage_byte_length": 127,
+    "postimage_sha256": "e8304b77da9b8c33f64ecdc568db7e97297ace72ecb796971bb3f5eda09d9001",
+    "base_test_statuses": { "issue": 1, "regression": 0, "typed_failure": "PASS" },
+    "changed_paths_sorted": ["src/range.mjs"],
+    "patched_test_statuses": { "issue": 0, "regression": 0 },
+    "rollback": {
+      "status": "PASS",
+      "source_byte_length": 115,
+      "source_sha256": "1e3de2958c9841bbe785d903b2f5453389c4225359308b539ac2cb3194469d75",
+      "base_commit": "68ce8226eff4c5c7230b55b18a4cbea2f8e4a20f",
+      "base_tree": "900814727113d65f5dad8b63222e14f39b2cf38b",
+      "git_status_porcelain": ""
+    },
+    "run_record": {
+      "schema_version": "1.0",
+      "adapter_id": "B0",
+      "adapter_version": "P1-063-OFFLINE-FINITE-IR-B0/1",
+      "terminal_status": "completed",
+      "stop_reason_code": "agent_complete",
+      "invalid_run_reason": null,
+      "verification_ref": "quality-evaluator://AIOS-P1-063/1.0.0"
+    },
+    "verdict": "PASS_ONLY_SUCCESS"
+  },
+  "claim_boundary": "ONE_VISIBLE_SYNTHETIC_REP_001_COOPERATIVE_LOCAL_OFFLINE_FINITE_IR_RESULT_ADMISSION_AND_B0_ADAPTER_RUN_WITH_INDEPENDENT_REPLAY_AND_ROLLBACK_ONLY_NO_LIVE_MODEL_PROVIDER_PROVENANCE_B0_SUITE_B1_B2_VTSR_TRUSTWORTHY_AGENT_P1_COMPLETION_P2_P3_PRODUCTION_PUBLIC_OR_HOSTILE_PRINCIPAL_CLAIM"
+}

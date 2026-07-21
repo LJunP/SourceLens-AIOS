@@ -1,25 +1,21 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
-require "digest"
-require "fileutils"
 require "open3"
-require "pathname"
 require "rbconfig"
-require "tmpdir"
+require "time"
 require "yaml"
+require_relative "validate-current-task-authority"
 
 VALIDATOR = File.expand_path("validate-current-task-authority.rb", __dir__)
 SAFETY_VALIDATOR = File.expand_path("check-p1-safety-boundary.sh", __dir__)
 SOURCE_REPO = File.expand_path("..", __dir__)
 TRUTH_RELATIVE = "docs/aios/truth/project_state.yaml"
-POLICY_RELATIVE = "docs/aios/FOUNDER_DELEGATION_POLICY.md"
 
 class TestFailure < StandardError; end
 
 class CurrentTaskAuthorityTest
   def initialize
-    @owned = {}
     @passes = 0
   end
 
@@ -30,97 +26,16 @@ class CurrentTaskAuthorityTest
   def shell(root, *argv)
     stdout, stderr, status = Open3.capture3(*argv, chdir: root)
     raise TestFailure, "command failed: #{argv.join(' ')}\n#{stdout}#{stderr}" unless status.success?
+
     stdout
   end
 
-  def register_owned(path)
-    stat = File.lstat(path)
-    @owned[path] = [stat.dev, stat.ino]
-    path
+  def yaml(path)
+    YAML.safe_load(File.binread(path), permitted_classes: [], permitted_symbols: [], aliases: false)
   end
 
-  def assert_owned(path)
-    expected = @owned[path]
-    raise TestFailure, "unowned fixture path: #{path}" unless expected
-    stat = File.lstat(path)
-    raise TestFailure, "fixture became a symlink: #{path}" if stat.symlink?
-    raise TestFailure, "fixture identity changed: #{path}" unless [stat.dev, stat.ino] == expected
-    stat
-  end
-
-  def create_exclusive(path, bytes)
-    FileUtils.mkdir_p(File.dirname(path))
-    flags = File::WRONLY | File::CREAT | File::EXCL
-    flags |= File::NOFOLLOW if defined?(File::NOFOLLOW)
-    File.open(path, flags, 0o600) do |file|
-      file.write(bytes)
-      file.flush
-      file.fsync
-    end
-    register_owned(path)
-  end
-
-  def rewrite_owned(path, bytes)
-    expected = assert_owned(path)
-    flags = File::WRONLY | File::TRUNC
-    flags |= File::NOFOLLOW if defined?(File::NOFOLLOW)
-    File.open(path, flags) do |file|
-      opened = file.stat
-      assert([opened.dev, opened.ino] == [expected.dev, expected.ino], "fixture changed while opening")
-      file.write(bytes)
-      file.flush
-      file.fsync
-    end
-  end
-
-  def tamper_owned_byte(path)
-    expected = assert_owned(path)
-    flags = File::RDWR
-    flags |= File::NOFOLLOW if defined?(File::NOFOLLOW)
-    original = nil
-    File.open(path, flags) do |file|
-      opened = file.stat
-      assert([opened.dev, opened.ino] == [expected.dev, expected.ino], "fixture changed while opening")
-      original = file.read(1)
-      assert(original && !original.empty?, "cannot tamper empty fixture")
-      file.seek(0, IO::SEEK_SET)
-      file.write((original.getbyte(0) ^ 1).chr)
-      file.flush
-      file.fsync
-    end
-    original
-  end
-
-  def restore_owned_byte(path, original)
-    expected = assert_owned(path)
-    flags = File::RDWR
-    flags |= File::NOFOLLOW if defined?(File::NOFOLLOW)
-    File.open(path, flags) do |file|
-      opened = file.stat
-      assert([opened.dev, opened.ino] == [expected.dev, expected.ino], "fixture changed while restoring")
-      file.seek(0, IO::SEEK_SET)
-      file.write(original)
-      file.flush
-      file.fsync
-    end
-  end
-
-  def verified_source_copy(source, destination, sha, length)
-    stat = File.lstat(source)
-    assert(stat.file? && !stat.symlink?, "source identity fixture is not a regular file")
-    bytes = File.binread(source)
-    assert(bytes.bytesize == length, "source identity byte length mismatch")
-    assert(Digest::SHA256.hexdigest(bytes) == sha, "source identity SHA mismatch")
-    create_exclusive(destination, bytes)
-    destination
-  end
-
-  def commit(repo, message)
-    shell(repo, "git", "add", "--all")
-    shell(repo, "git", "commit", "-m", message)
-    shell(repo, "git", "status", "--porcelain=v1").tap do |status|
-      assert(status.empty?, "fixture repository is not clean after commit")
-    end
+  def deep_copy(value)
+    Marshal.load(Marshal.dump(value))
   end
 
   def run_validator(repo)
@@ -131,559 +46,254 @@ class CurrentTaskAuthorityTest
     Open3.capture3("bash", SAFETY_VALIDATOR, "--check-current-p1-route", truth_path, chdir: repo)
   end
 
-  def expect_pass(repo, label)
-    stdout, stderr, status = run_validator(repo)
-    assert(status.success?, "#{label}: expected PASS\n#{stdout}#{stderr}")
-    assert(stdout.include?("CURRENT_TASK_AUTHORITY: PASS"), "#{label}: PASS marker missing")
+  def pass(label)
     @passes += 1
     puts "PASS #{label}"
   end
 
-  def expect_nonpass(repo, label, pattern)
-    stdout, stderr, status = run_validator(repo)
-    output = stdout + stderr
-    assert(!status.success?, "#{label}: expected NON_PASS")
-    assert(output.include?("CURRENT_TASK_AUTHORITY: NON_PASS"), "#{label}: NON_PASS marker missing")
-    assert(pattern.match?(output), "#{label}: expected #{pattern.inspect}, got #{output.inspect}")
-    @passes += 1
-    puts "PASS #{label}"
+  def expect_category(label, expected)
+    yield
+    raise TestFailure, "#{label}: expected #{expected}, got PASS"
+  rescue AuthorityValidationError => e
+    assert(e.category == expected, "#{label}: expected #{expected}, got #{e.category}: #{e.message}")
+    pass("#{label} category=#{expected}")
   end
 
-  def expect_safety_pass(repo, truth_path, label)
-    stdout, stderr, status = run_safety(repo, truth_path)
-    assert(status.success?, "#{label}: expected safety PASS\n#{stdout}#{stderr}")
-    assert(stdout.include?("Current P1 route safety validation passed."), "#{label}: safety PASS marker missing")
-    @passes += 1
-    puts "PASS #{label}"
-  end
-
-  def expect_safety_nonpass(repo, truth_path, label, pattern)
-    stdout, stderr, status = run_safety(repo, truth_path)
-    output = stdout + stderr
-    assert(!status.success?, "#{label}: expected safety NON_PASS")
-    assert(pattern.match?(output), "#{label}: expected #{pattern.inspect}, got #{output.inspect}")
-    @passes += 1
-    puts "PASS #{label}"
-  end
-
-  def yaml(path)
-    YAML.safe_load(File.binread(path), permitted_classes: [], permitted_symbols: [], aliases: false)
-  end
-
-  def dump_owned_yaml(path, value)
-    rewrite_owned(path, YAML.dump(value))
-  end
-
-  def ready_active_work
-    {
-      "current_task" => "NONE",
-      "current_task_status" => "NONE",
-      "current_task_contract" => { "path" => nil, "sha256" => nil, "byte_length" => nil },
-      "current_task_contract_sha256" => nil,
-      "current_execution_authorization" => nil,
-      "current_execution_authorization_sha256" => nil,
-      "authority_record" => { "path" => nil, "sha256" => nil, "byte_length" => nil },
-      "execution_nonce" => nil,
-      "execution_nonce_status" => "NOT_APPLICABLE_TASK_NONE",
-      "authorization_id" => nil,
-      "activation_parent_commit" => nil,
-      "activation_parent_tree" => nil,
-      "task_resource_state" => "NOT_CREATED_ROUTE_READY",
-      "task_branch" => nil,
-      "task_worktree" => nil,
-      "execution_evidence_root" => nil,
-      "allowlisted_paths" => [],
-      "budget" => {
-        "engineering_hours" => nil,
-        "calendar_days" => nil,
-        "implementation_iterations" => nil,
-        "candidates" => nil
-      },
-      "roles" => { "owner" => nil, "worker" => nil, "independent_reviewers" => [] },
-      "external_effects" => false_effects,
-      "offsite_target" => nil,
-      "founder_reserved_authorization" => nil,
-      "founder_reserved_authorization_sha256" => nil,
-      "founder_decision_required" => false,
-      "escalation_reason" => nil,
-      "user_action_required" => "NONE",
-      "next_eligible_action" => "MASTER_ACTIVATE_FIRST_TASK"
-    }
-  end
-
-  def false_effects
-    {
-      "network" => false,
-      "provider" => false,
-      "secret" => false,
-      "remote" => false,
-      "production" => false,
-      "public" => false
-    }
-  end
-
-  def deep_copy(value)
-    Marshal.load(Marshal.dump(value))
-  end
-
-  def prepare_fixture(sandbox)
-    source_truth_path = File.join(SOURCE_REPO, TRUTH_RELATIVE)
-    source_truth = yaml(source_truth_path)
-    canonical_source = source_truth.fetch("project").fetch("canonical_repository")
-    repo = File.join(sandbox, "repo")
-    external = File.join(sandbox, "external")
-    FileUtils.mkdir_p(external)
-    shell(sandbox, "git", "clone", "--quiet", "--no-hardlinks", canonical_source, repo)
-    shell(repo, "git", "config", "user.name", "Authority Fixture")
-    shell(repo, "git", "config", "user.email", "authority-fixture@example.invalid")
-    shell(repo, "git", "checkout", "--quiet", "main")
-
-    truth_path = File.join(repo, TRUTH_RELATIVE)
-    policy_path = File.join(repo, POLICY_RELATIVE)
-    register_owned(truth_path)
-    register_owned(policy_path)
-    rewrite_owned(policy_path, File.binread(File.join(SOURCE_REPO, POLICY_RELATIVE)))
-
-    packet_identity = source_truth.fetch("current_phase_route").fetch("decision_packet")
-    packet_source = packet_identity.fetch("path")
-    goal_source = source_truth.fetch("goal").fetch("source_attachment_path")
-    packet_path = verified_source_copy(
-      packet_source,
-      File.join(external, "decision-packet.md"),
-      packet_identity.fetch("sha256"),
-      packet_identity.fetch("byte_length")
+  def accounting(truth, claims, inherited_claims, packet_identity, now)
+    CurrentTaskAuthority.validate_v2_accounting(
+      SOURCE_REPO, truth, truth["current_phase_route"], claims, inherited_claims, packet_identity, now
     )
-    goal_path = verified_source_copy(
-      goal_source,
-      File.join(external, "goal.txt"),
-      "28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1",
-      19_433
-    )
-
-    worktree_root = File.join(external, "worktrees")
-    evidence_base = File.join(external, "audit")
-    FileUtils.mkdir_p(worktree_root)
-    FileUtils.mkdir_p(evidence_base)
-
-    truth = source_truth
-    truth["goal"]["source_attachment_path"] = goal_path
-    truth["goal"]["current_task_authority"] = "NONE"
-    truth["project"]["canonical_repository"] = repo
-    truth["project"]["canonical_branch"] = "main"
-    truth["project"]["task_worktree_root"] = worktree_root
-    truth["project"]["execution_evidence_root_base"] = evidence_base
-    truth["project"]["phase_execution_status"] = "AUTHORIZED_READY"
-    truth["project"]["p1_execution_status"] = "AUTHORIZED_READY"
-    truth["current_phase_route"]["status"] = "AUTHORIZED_READY"
-    truth["current_phase_route"]["decision_packet"]["path"] = packet_path
-    first_task_id = truth.fetch("current_phase_route").fetch("first_task").fetch("task_id")
-    truth.fetch("task_history").delete_if do |_key, record|
-      record.is_a?(Hash) && record["task_id"] == first_task_id
-    end
-    truth["current_phase_route"]["first_task"]["status"] = "ELIGIBLE_NOT_ACTIVATED"
-    truth["current_phase_route"]["next_eligible_action"] = "MASTER_ACTIVATE_FIRST_TASK"
-    truth["current_phase_route"].delete("active_task")
-    truth["active_work"] = ready_active_work
-    dump_owned_yaml(truth_path, truth)
-    commit(repo, "test: fixture ready route")
-
-    {
-      "repo" => repo,
-      "external" => external,
-      "truth_path" => truth_path,
-      "policy_path" => policy_path,
-      "packet_path" => packet_path,
-      "goal_path" => goal_path,
-      "worktree_root" => worktree_root,
-      "evidence_base" => evidence_base
-    }
-  end
-
-  def ready_tests(fixture)
-    repo = fixture["repo"]
-    expect_pass(repo, "ready route with Task NONE")
-    expect_safety_pass(repo, fixture["truth_path"], "ready route safety with Task NONE")
-
-    original = tamper_owned_byte(fixture["packet_path"])
-    expect_nonpass(repo, "decision packet byte tamper", /decision packet.*SHA-256 mismatch/i)
-    restore_owned_byte(fixture["packet_path"], original)
-    expect_pass(repo, "decision packet restored")
-
-    original = tamper_owned_byte(fixture["goal_path"])
-    expect_nonpass(repo, "Goal source byte tamper", /Goal raw SHA-256 mismatch/)
-    restore_owned_byte(fixture["goal_path"], original)
-
-    original = tamper_owned_byte(fixture["policy_path"])
-    commit(repo, "test: tamper owned authority policy bytes")
-    expect_nonpass(repo, "authority policy byte tamper", /founder_delegation_policy SHA-256 mismatch/)
-    restore_owned_byte(fixture["policy_path"], original)
-    commit(repo, "test: restore owned authority policy bytes")
-
-    truth = yaml(fixture["truth_path"])
-    original_hours = truth["current_phase_route"]["envelope"]["max_engineering_hours"]
-    truth["current_phase_route"]["envelope"]["max_engineering_hours"] = original_hours + 1
-    dump_owned_yaml(fixture["truth_path"], truth)
-    commit(repo, "test: detach route envelope from decision packet")
-    expect_nonpass(repo, "route envelope decision-byte detachment", /envelope max_engineering_hours does not match/)
-    truth["current_phase_route"]["envelope"]["max_engineering_hours"] = original_hours
-    dump_owned_yaml(fixture["truth_path"], truth)
-    commit(repo, "test: restore route envelope binding")
-
-    truth = yaml(fixture["truth_path"])
-    original_host = truth["current_phase_route"]["founder_reserved_profile"]["transport"]["host"]
-    truth["current_phase_route"]["founder_reserved_profile"]["transport"]["host"] = "localhost"
-    dump_owned_yaml(fixture["truth_path"], truth)
-    commit(repo, "test: expand literal gateway host to DNS name")
-    expect_nonpass(repo, "Founder profile host expansion", /transport exceeds the literal local-gateway boundary/)
-    expect_safety_nonpass(repo, fixture["truth_path"], "safety rejects Founder profile host expansion",
-                          /transport exceeds literal loopback boundary/)
-    truth["current_phase_route"]["founder_reserved_profile"]["transport"]["host"] = original_host
-    dump_owned_yaml(fixture["truth_path"], truth)
-    commit(repo, "test: restore literal gateway host")
-
-    truth = yaml(fixture["truth_path"])
-    truth["current_phase_route"]["founder_reserved_profile"]["call_limits"]["source_bearing_max"] = 2
-    dump_owned_yaml(fixture["truth_path"], truth)
-    commit(repo, "test: expand source-bearing call budget")
-    expect_nonpass(repo, "Founder profile call expansion", /call limits drifted/)
-    truth["current_phase_route"]["founder_reserved_profile"]["call_limits"]["source_bearing_max"] = 1
-    dump_owned_yaml(fixture["truth_path"], truth)
-    commit(repo, "test: restore one-call budget")
-
-    truth = yaml(fixture["truth_path"])
-    truth["current_phase_route"]["envelope"]["external_effects"]["remote"] = true
-    dump_owned_yaml(fixture["truth_path"], truth)
-    commit(repo, "test: authorize remote effect outside packet")
-    expect_nonpass(repo, "remote effect expansion", /exact authorized external-effect map/)
-    truth["current_phase_route"]["envelope"]["external_effects"]["remote"] = false
-    dump_owned_yaml(fixture["truth_path"], truth)
-    commit(repo, "test: restore remote deny")
-
-    accepted_lineage_tests(fixture)
-
-    truth = yaml(fixture["truth_path"])
-    link_path = File.join(fixture["external"], "decision-packet-link.md")
-    File.symlink(fixture["packet_path"], link_path)
-    link_stat = File.lstat(link_path)
-    assert(link_stat.symlink?, "failed to create owned symlink fixture")
-    truth["current_phase_route"]["decision_packet"]["path"] = link_path
-    dump_owned_yaml(fixture["truth_path"], truth)
-    commit(repo, "test: point route packet at symlink")
-    expect_nonpass(repo, "decision packet symlink", /must not be a symlink/)
-    truth["current_phase_route"]["decision_packet"]["path"] = fixture["packet_path"]
-    dump_owned_yaml(fixture["truth_path"], truth)
-    commit(repo, "test: restore real route packet")
-    current_link = File.lstat(link_path)
-    assert(current_link.symlink? && [current_link.dev, current_link.ino] == [link_stat.dev, link_stat.ino],
-           "owned symlink fixture identity changed before cleanup")
-    assert(File.readlink(link_path) == fixture["packet_path"], "owned symlink target changed before cleanup")
-    File.unlink(link_path)
-  end
-
-  def top_level_history_record(truth, task_id)
-    matches = truth.fetch("task_history").values.select do |record|
-      record.is_a?(Hash) && record["task_id"] == task_id
-    end
-    assert(matches.length == 1, "fixture accepted input must have one top-level history record")
-    matches.first
-  end
-
-  def accepted_lineage_tests(fixture)
-    repo = fixture["repo"]
-    truth_path = fixture["truth_path"]
-
-    truth = yaml(truth_path)
-    inputs = truth.fetch("current_phase_route").fetch("accepted_inputs")
-    primary_key = inputs.keys.sort.first
-    primary = inputs.fetch(primary_key)
-    original_status = primary.fetch("status")
-    primary["status"] = "MASTER_TASK_GATE_NOT_ACCEPTED_COMPLETE"
-    dump_owned_yaml(truth_path, truth)
-    commit(repo, "test: masquerade rejected accepted-input status")
-    expect_nonpass(repo, "rejected-status accepted-input masquerade", /status is not an exact accepted Gate lifecycle/)
-    primary["status"] = original_status
-    dump_owned_yaml(truth_path, truth)
-    commit(repo, "test: restore accepted-input status")
-
-    truth = yaml(truth_path)
-    inputs = truth.fetch("current_phase_route").fetch("accepted_inputs")
-    input_pairs = inputs.keys.sort.combination(2).to_a
-    alias_pair = input_pairs.find { |left, right| inputs[left]["task_id"] != inputs[right]["task_id"] }
-    assert(alias_pair, "fixture needs two accepted inputs with distinct Task ids")
-    alias_source, alias_target = alias_pair
-    original_task_id = inputs[alias_source].fetch("task_id")
-    inputs[alias_source]["task_id"] = inputs[alias_target].fetch("task_id")
-    dump_owned_yaml(truth_path, truth)
-    commit(repo, "test: alias one accepted input to another Task id")
-    expect_nonpass(repo, "accepted-input Task-id alias", /history (?:status|contract|task_contract_sha256|accepted_candidate_)/)
-    inputs[alias_source]["task_id"] = original_task_id
-    dump_owned_yaml(truth_path, truth)
-    commit(repo, "test: restore accepted-input Task id")
-
-    truth = yaml(truth_path)
-    inputs = truth.fetch("current_phase_route").fetch("accepted_inputs")
-    substitution = nil
-    inputs.keys.sort.each do |input_key|
-      input = inputs.fetch(input_key)
-      history = top_level_history_record(truth, input.fetch("task_id"))
-      [%w[activation_parent_commit activation_parent_tree], %w[activation_commit activation_tree]].each do |commit_key, tree_key|
-        next unless history[commit_key].is_a?(String) && history[tree_key].is_a?(String)
-        next if history[commit_key] == input["accepted_candidate_commit"]
-        substitution = [input_key, history[commit_key], history[tree_key]]
-        break
-      end
-      break if substitution
-    end
-    assert(substitution, "fixture needs a pre-acceptance parent candidate for substitution")
-    input_key, substitute_commit, substitute_tree = substitution
-    input = inputs.fetch(input_key)
-    accepted_commit = input.fetch("accepted_candidate_commit")
-    accepted_tree = input.fetch("accepted_candidate_tree")
-    input["accepted_candidate_commit"] = substitute_commit
-    input["accepted_candidate_tree"] = substitute_tree
-    dump_owned_yaml(truth_path, truth)
-    commit(repo, "test: substitute pre-acceptance parent candidate")
-    expect_nonpass(repo, "pre-acceptance parent candidate substitution",
-                   /history accepted_candidate_commit binding mismatch/)
-    input["accepted_candidate_commit"] = accepted_commit
-    input["accepted_candidate_tree"] = accepted_tree
-    dump_owned_yaml(truth_path, truth)
-    commit(repo, "test: restore accepted candidate lineage")
-    expect_pass(repo, "accepted-input lineage restored")
-  end
-
-  def activate_fixture(fixture)
-    repo = fixture["repo"]
-    truth_path = fixture["truth_path"]
-    truth = yaml(truth_path)
-    task = truth.fetch("current_phase_route").fetch("first_task")
-    task_id = task.fetch("task_id")
-    route_id = truth.fetch("current_phase_route").fetch("route_id")
-    contract_relative = task.fetch("contract_path")
-    contract_path = File.join(repo, contract_relative)
-    FileUtils.mkdir_p(File.dirname(contract_path))
-
-    budget = {
-      "engineering_hours" => task.fetch("max_engineering_hours"),
-      "calendar_days" => task.fetch("max_calendar_days"),
-      "implementation_iterations" => task.fetch("max_implementation_iterations"),
-      "candidates" => task.fetch("max_candidates")
-    }
-    roles = {
-      "owner" => "Fixture Master",
-      "worker" => "Fixture Worker",
-      "independent_reviewers" => ["Fixture CTO", "Fixture Security", "Fixture Quality"]
-    }
-    allowlisted = ["evaluation-harness/harness/local-patch-control/**", "scripts/verify-fixture-task.sh"]
-    contract = {
-      "schema_version" => 1,
-      "record_type" => "aios_phase_local_task_contract",
-      "task_id" => task_id,
-      "phase" => "P1",
-      "route_id" => route_id,
-      "status" => "ACTIVE",
-      "objective" => "Run one bounded local-gateway finite-IR fixture task.",
-      "why_now" => "Exercise the exact Founder-reserved authority path without network in this fixture.",
-      "owner_role" => roles["owner"],
-      "worker_role" => roles["worker"],
-      "budget" => budget,
-      "roles" => roles,
-      "allowlisted_paths" => allowlisted,
-      "external_effects" => deep_copy(truth.fetch("current_phase_route").fetch("envelope").fetch("external_effects")),
-      "founder_reserved_authorization" => {
-        "path" => truth.dig("current_phase_route", "decision_packet", "path"),
-        "sha256" => truth.dig("current_phase_route", "decision_packet", "sha256"),
-        "byte_length" => truth.dig("current_phase_route", "decision_packet", "byte_length"),
-        "authorization_token" => truth.dig("current_phase_route", "authorization_token")
-      },
-      "founder_reserved_profile" => deep_copy(truth.dig("current_phase_route", "founder_reserved_profile")),
-      "acceptance_criteria" => ["exact bounded fixture passes"],
-      "required_evidence" => ["fixture receipt"],
-      "stop_conditions" => ["authority drift"],
-      "forbidden_actions" => ["network"]
-    }
-    if File.exist?(contract_path)
-      register_owned(contract_path)
-      rewrite_owned(contract_path, YAML.dump(contract))
-    else
-      create_exclusive(contract_path, YAML.dump(contract))
-    end
-    contract_bytes = File.binread(contract_path)
-    contract_sha = Digest::SHA256.hexdigest(contract_bytes)
-
-    branch = "codex/test-current-authority-active"
-    worktree = File.join(fixture["worktree_root"], "active")
-    evidence = File.join(fixture["evidence_base"], "active-task")
-    FileUtils.mkdir_p(evidence)
-    authorization_id = Digest::SHA256.hexdigest("#{task_id}:fixture-authority")
-    parent_commit = shell(repo, "git", "rev-parse", "HEAD").strip
-    parent_tree = shell(repo, "git", "rev-parse", "HEAD^{tree}").strip
-    authority_path = File.join(fixture["external"], "task-authority.yaml")
-    authority = {
-      "schema_version" => 1,
-      "record_type" => "aios_phase_delegated_task_authority",
-      "task_id" => task_id,
-      "phase" => "P1",
-      "route_id" => route_id,
-      "status" => "ACTIVE",
-      "authorization_id" => authorization_id,
-      "task_contract_sha256" => contract_sha,
-      "execution_nonce" => Digest::SHA256.hexdigest("#{task_id}:fixture-nonce"),
-      "activation_parent" => { "commit" => parent_commit, "tree" => parent_tree },
-      "branch" => branch,
-      "worktree" => worktree,
-      "evidence_root" => evidence,
-      "budget" => budget,
-      "roles" => roles,
-      "allowlisted_paths" => allowlisted,
-      "external_effects" => deep_copy(truth.fetch("current_phase_route").fetch("envelope").fetch("external_effects")),
-      "founder_reserved_authorization" => deep_copy(contract.fetch("founder_reserved_authorization")),
-      "founder_reserved_profile" => deep_copy(truth.dig("current_phase_route", "founder_reserved_profile"))
-    }
-    create_exclusive(authority_path, YAML.dump(authority))
-    authority_bytes = File.binread(authority_path)
-    authority_sha = Digest::SHA256.hexdigest(authority_bytes)
-
-    truth["goal"]["current_task_authority"] = task_id
-    truth["project"]["phase_execution_status"] = "ACTIVE"
-    truth["project"]["p1_execution_status"] = "ACTIVE"
-    truth["current_phase_route"]["status"] = "ACTIVE"
-    truth["current_phase_route"]["first_task"]["status"] = "ACTIVE"
-    truth["current_phase_route"]["next_eligible_action"] = "CONTINUE_CURRENT_TASK"
-    truth["active_work"] = {
-      "current_task" => task_id,
-      "current_task_status" => "ACTIVE",
-      "current_task_contract" => {
-        "path" => contract_relative,
-        "sha256" => contract_sha,
-        "byte_length" => contract_bytes.bytesize
-      },
-      "current_task_contract_sha256" => contract_sha,
-      "current_execution_authorization" => authority_path,
-      "current_execution_authorization_sha256" => authority_sha,
-      "authority_record" => {
-        "path" => authority_path,
-        "sha256" => authority_sha,
-        "byte_length" => authority_bytes.bytesize
-      },
-      "execution_nonce" => Digest::SHA256.hexdigest("#{task_id}:fixture-nonce"),
-      "execution_nonce_status" => "ACTIVE",
-      "authorization_id" => authorization_id,
-      "activation_parent_commit" => parent_commit,
-      "activation_parent_tree" => parent_tree,
-      "task_resource_state" => "ACTIVE",
-      "task_branch" => branch,
-      "task_worktree" => worktree,
-      "execution_evidence_root" => evidence,
-      "allowlisted_paths" => allowlisted,
-      "budget" => budget,
-      "roles" => roles,
-      "external_effects" => deep_copy(truth.fetch("current_phase_route").fetch("envelope").fetch("external_effects")),
-      "offsite_target" => nil,
-      "founder_reserved_authorization" => truth.dig("current_phase_route", "decision_packet", "path"),
-      "founder_reserved_authorization_sha256" => truth.dig("current_phase_route", "decision_packet", "sha256"),
-      "founder_decision_required" => false,
-      "escalation_reason" => nil,
-      "user_action_required" => "NONE",
-      "next_eligible_action" => "CONTINUE_CURRENT_TASK"
-    }
-    dump_owned_yaml(truth_path, truth)
-    commit(repo, "test: activate generic phase-local task")
-    shell(repo, "git", "worktree", "add", "--quiet", "-b", branch, worktree, "HEAD")
-
-    fixture.merge(
-      "task_id" => task_id,
-      "contract_path" => contract_path,
-      "contract_bytes" => contract_bytes,
-      "authority_path" => authority_path,
-      "authority_bytes" => authority_bytes,
-      "task_worktree" => worktree,
-      "task_branch" => branch
-    )
-  end
-
-  def active_tests(fixture)
-    repo = fixture["repo"]
-    expect_pass(repo, "generic active Task")
-    expect_safety_pass(repo, fixture["truth_path"], "generic active Task safety")
-
-    original = tamper_owned_byte(fixture["authority_path"])
-    expect_nonpass(repo, "authority record byte tamper", /authority record SHA-256 mismatch/)
-    restore_owned_byte(fixture["authority_path"], original)
-
-    original = tamper_owned_byte(fixture["contract_path"])
-    shell(repo, "git", "add", fixture["contract_path"])
-    shell(repo, "git", "commit", "-m", "test: tamper owned contract bytes")
-    expect_nonpass(repo, "Task Contract byte tamper", /active Task contract SHA-256 mismatch/)
-    restore_owned_byte(fixture["contract_path"], original)
-    commit(repo, "test: restore owned contract bytes")
-
-    truth = yaml(fixture["truth_path"])
-    truth["active_work"]["external_effects"]["network"] = false
-    dump_owned_yaml(fixture["truth_path"], truth)
-    commit(repo, "test: set unauthorized external effect")
-    expect_nonpass(repo, "missing authorized network effect", /exact authorized external-effect map/)
-    truth["active_work"]["external_effects"]["network"] = true
-    dump_owned_yaml(fixture["truth_path"], truth)
-    commit(repo, "test: restore external effects")
-
-    truth = yaml(fixture["truth_path"])
-    truth["task_history"]["fixture_reuse"] = { "task_id" => fixture["task_id"], "status" => "HISTORICAL" }
-    dump_owned_yaml(fixture["truth_path"], truth)
-    commit(repo, "test: inject historical Task id collision")
-    expect_nonpass(repo, "historical Task id reuse", /reuses historical|reuses a historical/)
-    truth["task_history"].delete("fixture_reuse")
-    dump_owned_yaml(fixture["truth_path"], truth)
-    commit(repo, "test: remove historical Task id collision")
-
-    extra = File.join(fixture["worktree_root"], "extra")
-    shell(repo, "git", "worktree", "add", "--quiet", "-b", "codex/test-current-authority-extra", extra, "HEAD")
-    expect_nonpass(repo, "undeclared extra worktree", /Git worktree set does not equal/)
-    shell(repo, "git", "worktree", "remove", extra)
-    shell(repo, "git", "branch", "-d", "codex/test-current-authority-extra")
-    expect_pass(repo, "active Task after owned extra worktree cleanup")
-
-    shell(repo, "git", "worktree", "remove", fixture["task_worktree"])
-    shell(repo, "git", "branch", "-d", fixture["task_branch"])
-    truth = yaml(fixture["truth_path"])
-    truth["goal"]["current_task_authority"] = "NONE"
-    truth["project"]["phase_execution_status"] = "ACTIVE"
-    truth["project"]["p1_execution_status"] = "ACTIVE"
-    truth["current_phase_route"]["status"] = "ACTIVE"
-    truth["current_phase_route"]["first_task"]["status"] = "MASTER_TASK_GATE_ACCEPTED_COMPLETE"
-    truth["current_phase_route"]["next_eligible_action"] = "MASTER_SELECT_NEXT_PHASE_LOCAL_TASK"
-    truth["current_phase_route"].delete("active_task")
-    truth["task_history"]["fixture_completed_first_task"] = {
-      "task_id" => fixture["task_id"],
-      "status" => "MASTER_TASK_GATE_ACCEPTED_COMPLETE"
-    }
-    truth["active_work"] = ready_active_work
-    truth["active_work"]["task_resource_state"] = "NONE_PHASE_ACTIVE"
-    truth["active_work"]["next_eligible_action"] = "MASTER_SELECT_NEXT_PHASE_LOCAL_TASK"
-    dump_owned_yaml(fixture["truth_path"], truth)
-    commit(repo, "test: enter between-Task active Phase idle")
-    expect_pass(repo, "between-Task active Phase with Task NONE")
   end
 
   def run
-    sandbox = Dir.mktmpdir("sourcelens-current-authority-")
-    sandbox_identity = nil
-    begin
-      sandbox_stat = File.lstat(sandbox)
-      assert(sandbox_stat.directory? && !sandbox_stat.symlink?, "temporary root is not an owned directory")
-      sandbox_identity = [sandbox_stat.dev, sandbox_stat.ino]
-      fixture = prepare_fixture(sandbox)
-      ready_tests(fixture)
-      fixture = activate_fixture(fixture)
-      active_tests(fixture)
-    ensure
-      if sandbox_identity
-        current = File.lstat(sandbox)
-        assert(current.directory? && !current.symlink? && [current.dev, current.ino] == sandbox_identity,
-               "temporary root identity changed before cleanup")
-        FileUtils.remove_entry_secure(sandbox)
-      end
+    truth_path = File.join(SOURCE_REPO, TRUTH_RELATIVE)
+    truth = yaml(truth_path)
+    route = truth.fetch("current_phase_route")
+    assert(route.dig("authority_kernel", "schema_version") == "2.0", "source Truth is not schema v2")
+    fixed_now = Time.iso8601("2026-07-22T00:00:00Z")
+
+    validated_route, claims, inherited_claims, packet_identity =
+      CurrentTaskAuthority.validate_v2_packet(SOURCE_REPO, truth)
+    assert(validated_route.equal?(route), "v2 packet validation returned another route")
+    assert(claims["route_id"] == route["route_id"], "packet route identity mismatch")
+    assert(claims["task_id"] == route.dig("accounting", "transitions", 0, "task_id"),
+           "packet Task identity mismatch")
+    assert(inherited_claims["external_effects"] == CurrentTaskAuthority::FALSE_EXTERNAL_EFFECTS,
+           "inherited packet external effects drifted")
+    pass("exact direct and inherited packet claims")
+
+    open, bindings, = accounting(truth, claims, inherited_claims, packet_identity, fixed_now)
+    assert(open && open["task_slot"] == 1, "v2 accounting did not derive the unique open Task")
+    CurrentTaskAuthority.validate_v2_active_projection(truth, route, open, bindings, packet_identity)
+    pass("v2 ledger bindings and active_work derivation")
+
+    transition = route.dig("accounting", "transitions", 0)
+    contract = yaml(File.join(SOURCE_REPO, transition.dig("contract", "path")))
+    payload_sha = CurrentTaskAuthority.canonical_digest(contract.fetch("descriptor_payload"))
+    assert(payload_sha == contract["descriptor_payload_sha256"], "descriptor payload digest mismatch")
+    digest_input = {
+      "descriptor_payload_sha256" => payload_sha,
+      "contract" => transition["contract"],
+      "authority" => transition["authority"],
+      "write_allowlist" => transition["write_allowlist"]
+    }
+    assert(CurrentTaskAuthority.canonical_json(digest_input).bytesize == 770,
+           "final descriptor canonical bytes length drifted")
+    assert(CurrentTaskAuthority.canonical_digest(digest_input) == transition["descriptor_digest"],
+           "final descriptor digest mismatch")
+    pass("descriptor payload and exact identity digest")
+
+    mutated = deep_copy(truth)
+    mutated["current_phase_route"]["route_id"] = "P1_SYNTHETIC_ROUTE_DRIFT"
+    expect_category("packet/Truth route drift", "ROUTE_IDENTITY") do
+      CurrentTaskAuthority.validate_v2_packet(SOURCE_REPO, mutated)
     end
+
+    mutated = deep_copy(truth)
+    mutated.dig("current_phase_route", "envelope", "external_effects")["network"] = true
+    expect_category("external effect expansion", "EXTERNAL_EFFECT") do
+      CurrentTaskAuthority.validate_v2_envelope(mutated["current_phase_route"], claims, fixed_now)
+    end
+
+    CurrentTaskAuthority.validate_cumulative_hours_v2(64, 64)
+    pass("cumulative scheduled hours exact boundary 64")
+    expect_category("cumulative scheduled hours 65", "BUDGET") do
+      CurrentTaskAuthority.validate_cumulative_hours_v2(65, 64)
+    end
+
+    mutated = deep_copy(truth)
+    mutated.dig("current_phase_route", "accounting")["transitions"] = []
+    expect_category("ledger deletion/reset", "ACCOUNTING_SEQUENCE") do
+      accounting(mutated, claims, inherited_claims, packet_identity, fixed_now)
+    end
+
+    mutated = deep_copy(truth)
+    mutated["task_history"]["synthetic_terminal_lineage_collision"] = {
+      "status" => "TERMINAL_NON_PASS",
+      "execution_lineage_id" => transition["execution_lineage_id"]
+    }
+    expect_category("historical execution-lineage reuse", "ACCOUNTING_SEQUENCE") do
+      accounting(mutated, claims, inherited_claims, packet_identity, fixed_now)
+    end
+
+    mutated = deep_copy(truth)
+    mutated.dig("current_phase_route", "accounting", "transitions", 0)["task_slot"] = 2
+    expect_category("slot gap", "ACCOUNTING_SEQUENCE") do
+      accounting(mutated, claims, inherited_claims, packet_identity, fixed_now)
+    end
+
+    mutated = deep_copy(truth)
+    mutated.dig("current_phase_route", "accounting", "transitions", 0)["scheduled_engineering_hours"] = 65
+    expect_category("more than 64 scheduled hours", "BUDGET") do
+      accounting(mutated, claims, inherited_claims, packet_identity, fixed_now)
+    end
+
+    mutated = deep_copy(truth)
+    mutated.dig("current_phase_route", "accounting", "transitions", 0)["scheduled_engineering_hours"] = 25
+    expect_category("Task 1 packet cap 24", "PACKET_BINDING") do
+      accounting(mutated, claims, inherited_claims, packet_identity, fixed_now)
+    end
+
+    mutated = deep_copy(truth)
+    mutated.dig("current_phase_route", "accounting", "transitions", 0)["implementation_iterations_cap"] = 3
+    expect_category("implementation iteration cap 2", "BUDGET") do
+      accounting(mutated, claims, inherited_claims, packet_identity, fixed_now)
+    end
+
+    mutated = deep_copy(truth)
+    mutated.dig("current_phase_route", "accounting", "transitions", 0)["final_candidates_cap"] = 2
+    expect_category("one final candidate cap", "BUDGET") do
+      accounting(mutated, claims, inherited_claims, packet_identity, fixed_now)
+    end
+
+    head = shell(SOURCE_REPO, "git", "rev-parse", "HEAD").strip
+    head_tree = shell(SOURCE_REPO, "git", "rev-parse", "HEAD^{tree}").strip
+    head_truth = YAML.safe_load(
+      shell(SOURCE_REPO, "git", "show", "#{head}:#{TRUTH_RELATIVE}"),
+      permitted_classes: [], permitted_symbols: [], aliases: false
+    )
+    mutated = deep_copy(head_truth)
+    duplicate = deep_copy(mutated.dig("current_phase_route", "accounting", "transitions", 0))
+    duplicate.update(
+      "sequence" => mutated.dig("current_phase_route", "accounting", "transitions").length + 1,
+      "task_slot" => 2,
+      "task_id" => "AIOS-P1-999_SYNTHETIC_SECOND_TASK",
+      "execution_lineage_id" => "SYNTHETIC_ROUTE_TASK_SLOT_2",
+      "canonical_parent" => { "commit" => head, "tree" => head_tree }
+    )
+    mutated.dig("current_phase_route", "accounting", "transitions") << duplicate
+    expect_category("predecessor-open second schedule", "ACCOUNTING_SEQUENCE") do
+      accounting(mutated, claims, inherited_claims, packet_identity, fixed_now)
+    end
+
+    mutated = deep_copy(truth)
+    mutated.dig("current_phase_route", "accounting", "transitions", 0)["canonical_parent"] =
+      { "commit" => head, "tree" => head_tree }
+    expect_category("canonical-parent mutation", "PARENT_CHAIN") do
+      accounting(mutated, claims, inherited_claims, packet_identity, fixed_now)
+    end
+
+    usage_truth = deep_copy(head_truth)
+    scheduled = usage_truth.dig("current_phase_route", "accounting", "transitions", 0)
+    current_usage, = accounting(usage_truth, claims, inherited_claims, packet_identity, fixed_now)
+    usage_truth.dig("current_phase_route", "accounting", "transitions") << {
+      "sequence" => usage_truth.dig("current_phase_route", "accounting", "transitions").length + 1,
+      "transition" => "USAGE_RECORDED",
+      "task_slot" => scheduled["task_slot"],
+      "task_id" => scheduled["task_id"],
+      "execution_lineage_id" => scheduled["execution_lineage_id"],
+      "descriptor_digest" => scheduled["descriptor_digest"],
+      "implementation_iterations_used" => 2,
+      "final_candidates_used" => [current_usage["final_candidates_used"], 1].max,
+      "final_review_rounds_used" => current_usage["final_review_rounds_used"],
+      "canonical_parent" => { "commit" => head, "tree" => head_tree }
+    }
+    usage_open, usage_bindings, = accounting(usage_truth, claims, inherited_claims, packet_identity, fixed_now)
+    assert(usage_open["implementation_iterations_used"] == 2 && usage_open["final_candidates_used"] == 1,
+           "usage transition was not derived")
+    pass("append-only implementation/candidate usage transition")
+    usage_truth.dig("current_phase_route", "current_task")["candidate_status"] = "NOT_CREATED"
+    expect_category("candidate usage must project to current_task", "ACTIVE_PROJECTION") do
+      CurrentTaskAuthority.validate_v2_active_projection(
+        usage_truth, usage_truth["current_phase_route"], usage_open, usage_bindings, packet_identity
+      )
+    end
+
+    overuse_truth = deep_copy(usage_truth)
+    overuse_truth.dig("current_phase_route", "accounting", "transitions").last["final_candidates_used"] = 2
+    expect_category("more than one candidate used", "BUDGET") do
+      accounting(overuse_truth, claims, inherited_claims, packet_identity, fixed_now)
+    end
+
+    mutated = deep_copy(truth)
+    mutated.dig("current_phase_route", "accounting", "remaining")["scheduled_engineering_hours"] = 39
+    expect_category("remaining counter decrement/reset", "BUDGET") do
+      accounting(mutated, claims, inherited_claims, packet_identity, fixed_now)
+    end
+
+    mutated = deep_copy(truth)
+    mutated.dig("current_phase_route", "accounting", "transitions", 0)["descriptor_digest"] = "0" * 64
+    expect_category("descriptor digest substitution", "DESCRIPTOR_BINDING") do
+      accounting(mutated, claims, inherited_claims, packet_identity, fixed_now)
+    end
+
+    mutated = deep_copy(truth)
+    mutated["active_work"]["task_slot"] = 2
+    expect_category("active_work not derived from open Task", "ACTIVE_PROJECTION") do
+      CurrentTaskAuthority.validate_v2_active_projection(mutated, mutated["current_phase_route"], open,
+                                                         bindings, packet_identity)
+    end
+
+    expired_now = Time.iso8601(claims["route_deadline_utc"]) + 1
+    expect_category("untrusted wall-clock route expiry", "ROUTE_WINDOW") do
+      accounting(truth, claims, inherited_claims, packet_identity, expired_now)
+    end
+
+    terminal_truth = deep_copy(head_truth)
+    scheduled = terminal_truth.dig("current_phase_route", "accounting", "transitions", 0)
+    terminal_truth.dig("current_phase_route", "accounting", "transitions") << {
+      "sequence" => terminal_truth.dig("current_phase_route", "accounting", "transitions").length + 1,
+      "transition" => "TERMINAL",
+      "status" => "TERMINAL_NON_PASS",
+      "task_slot" => scheduled["task_slot"],
+      "task_id" => scheduled["task_id"],
+      "execution_lineage_id" => scheduled["execution_lineage_id"],
+      "descriptor_digest" => scheduled["descriptor_digest"],
+      "canonical_parent" => { "commit" => head, "tree" => head_tree }
+    }
+    terminal_truth.dig("current_phase_route", "accounting")["open_task_count"] = 0
+    terminal_open, terminal_bindings, = accounting(
+      terminal_truth, claims, inherited_claims, packet_identity, expired_now
+    )
+    assert(terminal_open.nil? && terminal_bindings.key?(1), "terminal transition did not close the open Task")
+    pass("terminal transition closes Task and permits post-deadline Truth sync")
+    expect_category("terminal ledger requires active_work NONE", "ACTIVE_PROJECTION") do
+      CurrentTaskAuthority.validate_v2_active_projection(
+        terminal_truth, terminal_truth["current_phase_route"], terminal_open, terminal_bindings, packet_identity
+      )
+    end
+
+    CurrentTaskAuthority.validate_legacy_v1_slot!("AIOS-P1-999_SYNTHETIC", "AIOS-P1-999_SYNTHETIC")
+    pass("legacy v1 first Task / slot 1")
+    expect_category("legacy v1 Task 2 rejection", "LEGACY_V1") do
+      CurrentTaskAuthority.validate_legacy_v1_slot!("AIOS-P1-998_SYNTHETIC", "AIOS-P1-999_SYNTHETIC")
+    end
+
+    safety_bytes = File.binread(SAFETY_VALIDATOR)
+    assert(!safety_bytes.include?("ruby -ryaml") && !safety_bytes.include?("ruby -e") &&
+           safety_bytes.include?("exec ruby \"${CORE}\""), "safety entry contains a second semantic implementation")
+    core_stdout, core_stderr, core_status = run_validator(SOURCE_REPO)
+    safety_stdout, safety_stderr, safety_status = run_safety(SOURCE_REPO, truth_path)
+    core_output = core_stdout + core_stderr
+    safety_output = safety_stdout + safety_stderr
+    core_category = core_output[/category=([A-Z0-9_]+)/, 1]
+    safety_category = safety_output[/category=([A-Z0-9_]+)/, 1]
+    assert(core_status.success? == safety_status.success?, "core and safety exit status differ")
+    assert(core_category && core_category == safety_category,
+           "core/safety category mismatch: #{core_output.inspect} versus #{safety_output.inspect}")
+    assert(core_category != "UNEXPECTED", "core returned an unexpected exception: #{core_output}")
+    pass("core/safety exact category parity category=#{core_category}")
+
     puts "CURRENT_TASK_AUTHORITY_TESTS: PASS assertions=#{@passes}"
   end
 end

@@ -1,0 +1,388 @@
+schema_version: "1.0"
+record_type: sourcelens_aios_phase_delegated_task_contract
+task_id: AIOS-P1-061_BASELINE_FAIRNESS_ADMISSION_CERTIFICATE_COMPILER_CONFORMANCE
+phase: P1
+route_id: P1_PHASE_LEVEL_CONTINUOUS_ENGINEERING_EXECUTION_ROUTE_V1
+status: AUTHORIZED_ACTIVE
+effective_only_when_canonical_truth_binds_exact_bytes: true
+classification: EVALUATION_FOUNDATION_ENGINEERING
+title: Baseline Fairness Admission Certificate Compiler Conformance
+task_slot: 5
+bounded_contract_corrections_used: 1
+
+contract_history:
+  correction_ordinal: 1
+  correction_limit: 1
+  original_sha256: 5f1060d3dacaed3dbb5a004214b1bebcb3f037159e310ded627f35b8ef04f097
+  original_byte_length: 15402
+  original_reviews:
+    cto: NON_PASS_FAIRNESS_JOINS_AND_CANONICAL_PATHS_NOT_CLOSED
+    security: NON_PASS_SHELL_RUN_ROOT_AND_REPOSITORY_ROOT_BOUNDARIES_NOT_CLOSED
+    quality: NON_PASS_FAIRNESS_READINESS_AND_FORMAL_ANTI_TOY_RULES_NOT_CLOSED
+  prior_review_reuse_allowed: false
+
+objective: >-
+  Implement one deterministic local compiler and two independently authored
+  validators for a closed Baseline Fairness Admission Bundle. For fully
+  enumerated B0, B1 and B2 configuration cells, the compiler emits only an
+  ADMIT or REJECT certificate with reason codes proving common TaskSpec,
+  source, environment, evaluator, repetition and budget bindings and explicit
+  treatment differences. A canonical-readiness mode must inspect the accepted
+  P1-035 dataset and truthfully report the exact missing inputs that prevent a
+  real B0/B1/B2 schedule today.
+
+why_now: >-
+  P1 Exit Gate item 4 is NOT_COMPLETE. The current canonical repository has
+  accepted TaskSpecs but no matching environment instance or real B0/B1/B2
+  configurations. This Task converts that readiness gap into runnable,
+  falsifiable local engineering without executing an adapter or model. It is
+  the final permitted provider-free prerequisite; PASS does not complete item
+  4 and the next decision must concern real Provider/model execution rather
+  than another offline prerequisite.
+
+owner: P1-061 Master Task Owner
+worker: P1-061 Fairness Compiler Worker
+independent_reviewers:
+  - P1-061 CTO Reviewer
+  - P1-061 Security Reviewer
+  - P1-061 Quality Reviewer
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+founder_decision_required: false
+
+authority:
+  authorization_token: AUTHORIZE_P1_PHASE_LEVEL_CONTINUOUS_ENGINEERING_EXECUTION_ROUTE_V1
+  packet_sha256: 31f751d38c76f97480a79a991f1a29f3b896f752e2ca2cc68eccaae6db5e4419
+  canonical_parent_commit: 1d7b2df60942b310beff3be2922b005c314eaf09
+  canonical_parent_tree: dc2c6cd4e89a89440bcf2a2a7d908b9d6f73b6df
+  canonical_truth_sha256: 8422055bb10bd28b5f61da2fcfa7f7adab0e6eab00c7c8e7d81f2d7c214015c4
+  long_term_goal_canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+
+source_identity:
+  canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
+  task_branch: codex/aios-p1-061-baseline-fairness-admission
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-061-baseline-fairness-admission
+  evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-061-baseline-fairness-admission-20260720T231654Z
+
+frozen_target_claim:
+  gate_item: 4
+  target_output: BASELINE_FAIRNESS_ADMISSION_CERTIFICATE_COMPILER_CONFORMANCE
+  expected_gate_effect_on_pass: PREREQUISITE_ACCEPTED_ITEM_4_REMAINS_NOT_COMPLETE
+  exact_claim_boundary: ONE_LOCAL_SYNTHETIC_AND_CANONICAL_READINESS_BASELINE_FAIRNESS_ADMISSION_CERTIFICATE_COMPILER_ONLY_NO_RUN_SCHEDULE_VTSR_RUN_RECORD_ADAPTER_PROVIDER_MODEL_AGENT_BASELINE_RESULT_P1_EXIT_P2_P3_PRODUCTION_OR_GENERALIZATION_CLAIM
+
+independence_and_anti_loop:
+  historical_engineering_asset_source: CANONICAL_TRUTH_TERMINAL_METADATA_ONLY
+  failed_contract_candidate_fixture_or_evidence_read_restore_compare_repair_or_reuse_allowed: false
+  output_must_not_be_named_evaluation_matrix_kernel: true
+  five_dimension_delta:
+    objective: static pre-schedule fairness admission, not VTSR counting, adapter execution, report reproduction, trace coverage, evaluator characterization or preregistration
+    inputs: accepted TaskSpec identities and new Quality-owned closed cell descriptors, not RunRecords, model responses, failed adapter bytes or prior report bundles
+    target_output: ADMIT_OR_REJECT certificate and typed canonical-readiness blockers only, not a schedule, ledger, RunRecord, adapter or report
+    architecture_hypothesis: stateless finite cross-contract constraint compiler with independent Quality oracle, not an execution or accounting pipeline
+    acceptance_gate: fairness drift and missing-input rejection with stable certificate equality, not numerator/denominator counting, patch execution or report reconstruction
+  permitted_similarity_with_any_terminal_task: AT_MOST_TWO_OF_FIVE
+  successor_replacement_normalization_closure_feasibility_or_remediation_chain_allowed: false
+
+accepted_inputs:
+  evaluation_protocol:
+    path: docs/aios/EVALUATION_PROTOCOL.md
+    sha256: da029143561fbb3c213d4a358b25e085542c6cd26ae8150a53cbb5998177eed8
+    byte_length: 10127
+  baseline_adapter_contract:
+    path: docs/aios/BASELINE_ADAPTER_CONTRACT.md
+    sha256: 27a213589699d96a5f41f4b0e293718257c6186720e55b74c3ee29dd9cf5c03c
+    byte_length: 5323
+  task_spec_schema:
+    path: docs/aios/schemas/task-spec.schema.json
+    sha256: ec226d14172081fb52fbbdc756b4a205155f0b584326436578ad13af4f2b8372
+    byte_length: 5989
+  environment_snapshot_schema:
+    path: docs/aios/schemas/environment-snapshot.schema.json
+    sha256: 3a38bed470ff59d843b3e6450f5999210d57088bed7bdf13dbd88768dae368f1
+    byte_length: 5214
+  system_configuration_schema:
+    path: docs/aios/schemas/system-configuration.schema.json
+    sha256: fe9cc8a78f96cef885a9ba9ce6644ebfe176d6f21161005006d591a20a3dc95d
+    byte_length: 1278
+  p1_035_dataset_manifest:
+    path: evaluation-harness/datasets/p1-representative-task-dataset-v1/dataset-manifest.json
+    sha256: 22f252319ed066655b05142a391709741703e01fbb4d6b5ebfbbcb6acd782be6
+    byte_length: 15313
+  p1_035_selected_task_spec:
+    path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/task-spec.json
+    sha256: 25de6b6f330e09c076521b42a88d60712637e0fc7de7ab1cfe1f9f5d4c223321
+    byte_length: 2960
+    task_id: SL-P1-REP-001-RANGE-NORMALIZATION
+  common_schema_validator:
+    path: evaluation-harness/evaluator/schema-validator.mjs
+    sha256: 5d944ab5abfab7bcd1619c385727c99f38cf6e7deacee881a768573d2e09f741
+    byte_length: 5829
+  mutation_rule: all accepted input bytes are read-only
+
+allowed_paths:
+  - evaluation-harness/fixtures/baseline-fairness-admission-v1/**
+  - evaluation-harness/evaluator/baseline-fairness-admission-v1/**
+  - evaluation-harness/baseline/fairness-admission-v1/**
+  - scripts/verify-p1-baseline-fairness-admission-v1.sh
+  - Makefile
+  - docs/PROJECT_CODE_MAP.md
+  - docs/aios/tasks/P1-061_BASELINE_FAIRNESS_ADMISSION_CERTIFICATE_COMPILER_CONFORMANCE.yaml
+  - docs/aios/truth/project_state.yaml
+
+write_ownership:
+  quality_only:
+    - evaluation-harness/fixtures/baseline-fairness-admission-v1/**
+    - evaluation-harness/evaluator/baseline-fairness-admission-v1/**
+  worker_only:
+    - evaluation-harness/baseline/fairness-admission-v1/**
+  integration_only:
+    - scripts/verify-p1-baseline-fairness-admission-v1.sh
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+    - docs/aios/tasks/P1-061_BASELINE_FAIRNESS_ADMISSION_CERTIFICATE_COMPILER_CONFORMANCE.yaml
+    - docs/aios/truth/project_state.yaml
+  implementer_self_acceptance_allowed: false
+
+quality_freeze_after_activation:
+  required_before_worker_mutation: true
+  artifacts:
+    - closed input schema
+    - closed certificate schema
+    - one fully enumerated positive B0/B1/B2 bundle
+    - mutation case table with exact expected reason codes
+    - independent Quality oracle
+    - exact canonical-readiness expected blockers
+  minimum_negative_cases_per_validator: 20
+  quality_oracle_must_execute_all_constraints_independently: true
+  worker_may_not_import_or_call_quality_oracle: true
+
+finite_admission_contract:
+  input_population: exactly one TaskSpec, one EnvironmentSnapshot, one evaluator identity, one repetition policy and exactly one cell each for B0, B1 and B2
+  output_population: exactly one canonical certificate with verdict, reason_codes, common_bindings, treatment_differences, cell_identities and claim_boundary
+  recursive_closed_shapes_required: true
+  raw_duplicate_json_members_rejected_before_semantic_parse: true
+  accepted_schemas_must_validate:
+    - the complete TaskSpec instance
+    - the complete EnvironmentSnapshot instance
+    - each complete B0, B1 and B2 SystemConfiguration instance
+  canonical_json: UTF8_SORTED_KEYS_NO_INSIGNIFICANT_WHITESPACE_EXACTLY_ONE_TRAILING_LF
+  common_bindings:
+    - task_id and dataset version
+    - repository identity, base commit and tree
+    - TaskSpec environment_snapshot_ref equals EnvironmentSnapshot snapshot_id
+    - evaluator identity and version
+    - repetition population
+    - wall-clock, token, cost and shared verification budgets are exact-equal across all cells
+    - every cell model_ref exact-equals EnvironmentSnapshot model.model_ref
+    - every cell prompt_ref exact-equals EnvironmentSnapshot prompt_version
+    - every cell policy_ref exact-equals EnvironmentSnapshot policy_version
+    - every cell response_format_ref exact-equals TaskSpec baseline_context.response_format_ref
+    - TaskSpec and EnvironmentSnapshot network policy and allowed-host population are exact-equal
+    - TaskSpec baseline-context and response-format references resolve inside the declared repository root and their bytes match the declared SHA-256
+    - every enabled tool is present in both TaskSpec allowed_tools and EnvironmentSnapshot tools
+  finite_permitted_treatment_fields:
+    - adapter_id
+    - adapter_version
+    - loop_limit
+    - enabled_tools
+    - feature_flags explicitly enumerated by key in treatment_differences
+    - B2 snapshot_attestation_ref and snapshot_attestation_sha256
+  forbidden_treatment_fields:
+    - task, source, environment, evaluator or repetition identity
+    - wall-clock, token, cost or verification budget
+    - model_ref, prompt_ref, policy_ref or response_format_ref
+    - network policy or allowed hosts
+  required_treatment_checks:
+    B0: loop limit exactly 1 and no tools, graph, memory, multi-Agent, repository read/search or execution feedback
+    B1: fixed loop greater than 1; enabled_tools is non-empty and is a declared subset of TaskSpec and EnvironmentSnapshot; no SourceLens graph, ranker, learned memory or multi-Agent
+    B2: one exact snapshot attestation regular file is safely read and hash-bound; its closed record has PASS status and binds snapshot id, repository identity, source commit/tree and exact capability-inventory hash; every B2 tool is present in that bound inventory and inherited missing evidence is never synthesized
+  b2_attestation_closed_keys:
+    - schema_version
+    - record_type
+    - status
+    - snapshot_id
+    - repository_identity
+    - source_commit
+    - source_tree
+    - capability_inventory
+    - capability_inventory_sha256
+    - claim_boundary
+  globally_forbidden:
+    - hidden task, expected patch or evaluator-internal reference
+    - network host or Secret value
+    - undeclared fairness exception
+    - duplicate or missing adapter cell
+    - unknown top-level or nested member
+  certificate_execution_status: NOT_EXECUTED_CONFORMANCE_ONLY
+
+canonical_readiness_mode:
+  reads:
+    - exact accepted P1-035 dataset manifest and its exact selected manifest-bound TaskSpec
+    - exact deterministic expected paths below, without scanning or fallback naming
+  canonical_repository_exact_path: /Users/lijunpeng/Developer/SourceLens-AIOS
+  canonical_repository_realpath_must_equal_exact_path: true
+  selected_task:
+    task_id: SL-P1-REP-001-RANGE-NORMALIZATION
+    path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/task-spec.json
+    sha256: 25de6b6f330e09c076521b42a88d60712637e0fc7de7ab1cfe1f9f5d4c223321
+    byte_length: 2960
+    manifest_must_bind_exact_identity: true
+  exact_expected_paths:
+    environment_snapshot: evaluation-harness/environments/p1-representative-task-dataset-v1/ENV-SOURCELENS-P1-REP-NODE20-STDLIB-1.json
+    B0_system_configuration: evaluation-harness/baselines/configurations/v1/B0.json
+    B1_system_configuration: evaluation-harness/baselines/configurations/v1/B1.json
+    B2_system_configuration: evaluation-harness/baselines/configurations/v1/B2.json
+  must_not_create_missing_inputs: true
+  expected_current_verdict: BLOCKED
+  exact_expected_reason_codes:
+    - MISSING_ENVIRONMENT_SNAPSHOT_INSTANCE
+    - MISSING_B0_SYSTEM_CONFIGURATION
+    - MISSING_B1_SYSTEM_CONFIGURATION
+    - MISSING_B2_SYSTEM_CONFIGURATION
+  output_must_bind:
+    - canonical repository exact path and realpath
+    - dataset manifest path, SHA-256 and byte length
+    - selected TaskSpec path, SHA-256 and byte length
+    - all four deterministic expected paths
+    - lstat result for every expected path
+    - exact sorted blocker population
+  output_is_evidence_of_readiness_gap_not_baseline_failure: true
+
+security_contract:
+  runtime: PINNED_LOCAL_NODE_STDLIB_ONLY
+  candidate_node_runtime_may_spawn_shell_eval_or_subprocess: false
+  fixed_integration_wrapper_may_be_invoked_by_controller: true
+  integration_wrapper_may_not_spawn_network_provider_model_or_arbitrary_user_argv: true
+  network_provider_model_secret_remote_production_or_public_effect_allowed: false
+  input_reads: O_RDONLY_NOFOLLOW_FD_FSTAT_REGULAR_NLINK_ONE_CONTAINED_STABLE_DEVICE_INODE
+  output_roots: caller_supplied_previously_absent_uniquely_owned_0700
+  output_files: create_once_0400
+  targeted_run_parent: /private/tmp
+  formal_run_parent: /Users/lijunpeng/Developer/.sourcelens-audit/p1-061-baseline-fairness-admission-20260720T231654Z/formal
+  run_root_rule: explicit absolute --run-root whose real parent equals one allowed parent, basename is unique, target is absent and not a symlink, and owner marker plus device/inode are captured before any child write
+  cleanup: only roots whose owner marker, device and inode match the current invocation
+  arbitrary_command_or_path_execution_allowed: false
+
+negative_matrix_minimum:
+  cases:
+    - missing_B0_cell
+    - duplicate_B1_cell
+    - unknown_adapter
+    - task_identity_drift
+    - source_commit_drift
+    - source_tree_drift
+    - repository_identity_drift
+    - task_environment_ref_drift
+    - environment_identity_drift
+    - model_ref_drift
+    - evaluator_identity_drift
+    - repetition_drift
+    - undeclared_budget_drift
+    - undeclared_prompt_drift
+    - undeclared_policy_drift
+    - undeclared_response_format_drift
+    - network_policy_drift
+    - allowed_host_drift
+    - baseline_context_hash_drift
+    - response_format_hash_drift
+    - B0_tool_enabled
+    - B0_loop_not_one
+    - B1_undeclared_tool
+    - B1_SourceLens_graph_enabled
+    - B1_memory_enabled
+    - B1_multi_agent_enabled
+    - B2_snapshot_or_attestation_missing
+    - B2_attestation_hash_tamper
+    - B2_attestation_nonpass
+    - B2_capability_inventory_drift
+    - hidden_reference_present
+    - expected_patch_reference_present
+    - network_host_present
+    - duplicate_json_member
+    - unknown_nested_member
+  reason_bound: true
+  false_admits: 0
+  unresolved: 0
+
+targeted_commands:
+  quality: /usr/local/bin/node evaluation-harness/evaluator/baseline-fairness-admission-v1/quality-oracle.mjs self-test
+  worker: /usr/local/bin/node evaluation-harness/baseline/fairness-admission-v1/compiler.mjs self-test
+  canonical_readiness: /usr/local/bin/node evaluation-harness/baseline/fairness-admission-v1/compiler.mjs canonical-readiness --canonical-repository /Users/lijunpeng/Developer/SourceLens-AIOS
+  integration_argv_template:
+    - /bin/bash
+    - scripts/verify-p1-baseline-fairness-admission-v1.sh
+    - --candidate-root
+    - CANDIDATE_ROOT
+    - --canonical-repository
+    - /Users/lijunpeng/Developer/SourceLens-AIOS
+    - --run-root
+    - RUN_ROOT
+
+candidate_and_formal_evidence:
+  final_candidates: 1
+  candidate_freeze_is_one_way: true
+  candidate_identity: exact git commit and tree plus changed-path list
+  separate_candidate_manifest_required: false
+  reason: avoid introducing a second identity layer; git commit/tree and create-once formal receipts are controlling
+  formal_run_a_and_b:
+    - execute the same integration command from the same candidate in distinct fresh roots
+    - retain raw receipts and compare the declared stable certificate bytes exactly
+    - require both independent validators to report positive PASS, all negatives rejected, false admits 0 and unresolved 0
+    - require canonical-readiness BLOCKED with the frozen missing-input reasons
+    - Run A is executed by Worker and Run B by an independent Quality role
+    - each create-once receipt binds candidate commit/tree, exact changed paths, Contract identity, Quality-freeze identity, canonical accepted-input identities and the run-root owner marker/device/inode
+    - Run A and Run B roots are distinct absent direct children of the exact formal_run_parent and neither role may read the other run root before both receipts are finalized
+  candidate_review_rounds: 1
+  required_final_reviewers:
+    - CTO
+    - Security
+    - Quality
+
+acceptance_criteria:
+  - exact Contract receives one fresh parallel CTO, Security and Quality PASS round before activation
+  - current authority validator passes immediately after activation
+  - Quality freezes the declared artifacts before Worker mutation and Worker does not edit Quality paths
+  - Quality and Worker independently execute every finite admission constraint
+  - positive bundle is admitted and every reason-bound negative is rejected by both implementations with false admits 0 and unresolved 0
+  - canonical-readiness inspects current accepted canonical inputs and returns BLOCKED with all frozen missing-input reasons without creating substitutes
+  - Formal Run A and independent Run B use the same candidate and produce exact-equal stable certificate bytes
+  - fresh CTO, Security and Quality TARGET_VERDICT values are PASS on the same exact candidate commit/tree
+  - integrated tree equals reviewed tree and one canonical full make verify passes
+  - Truth records prerequisite accepted, Gate item 4 remains NOT_COMPLETE and P1 remains 2 of 8 complete
+
+forbidden_actions:
+  - modify accepted inputs, authority policy, current authority validator or P1 Exit Gate
+  - read, restore, compare, repair or reuse failed engineering lineage bytes
+  - generate an evaluation schedule, VTSR ledger, RunRecord, adapter or baseline report
+  - execute B0, B1, B2, A0, a model, Provider, Agent, patch or repository test as a baseline run
+  - network, Secret, remote, production, public, fetch, download, push, pull request or release
+  - claim adapter readiness, baseline performance, P1 Exit, P2 entry, production or product capability
+
+budget:
+  engineering_hours: 8
+  calendar_days: 3
+  implementation_iterations: 2
+  contract_corrections: 1
+  same_task_repairs: 1
+  candidates: 1
+  candidate_review_rounds: 1
+
+stop_conditions:
+  - any Contract reviewer NON_PASS not closed by the one permitted pre-activation correction
+  - need for a second Contract correction, second same-Task repair, second candidate or rereview
+  - current authority validator does not PASS immediately after activation
+  - any failed engineering lineage read or reuse
+  - Quality ownership drift, false admit, unresolved mutation or canonical-readiness false readiness
+  - any final candidate reviewer TARGET_VERDICT NON_PASS
+  - reviewed tree differs from integrated tree or canonical full make verify NONPASS
+  - Evidence overwrite, deletion, unowned cleanup, external effect or scope expansion
+  - output is represented as a schedule, baseline result, VTSR, Agent capability, P1 Exit or product readiness
+
+rollback_contract:
+  task_local: clean only uniquely owned disposable roots whose owner marker, device and inode match
+  pre_candidate: use the one same-Task repair for ordinary implementation defects within unchanged scope
+  candidate: preserve exact commit/tree on NON_PASS; no mutation, corrected candidate or rereview
+  integration: on canonical full make verify NONPASS use one non-destructive git revert and terminalize without reset or clean
+
+next_state_on_pass: ACCEPT_PREREQUISITE_ONLY_INTEGRATE_EXACT_CANDIDATE_RUN_FULL_VERIFY_SYNC_TRUTH_THEN_RETURN_TO_FOUNDER_PROVIDER_DECISION
+next_state_on_nonpass: TERMINAL_ONCE_PRESERVE_EVIDENCE_SYNC_TRUTH_THEN_RETURN_TO_FOUNDER_PROVIDER_DECISION

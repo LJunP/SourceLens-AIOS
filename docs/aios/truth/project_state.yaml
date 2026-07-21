@@ -2781,9 +2781,9 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: P1_LOCAL_GATEWAY_EMPIRICAL_BASELINE_VERTICAL_SLICE_ROUTE_V1_TASK_SLOT_EXHAUSTED
-  current_task_claim: NONE_ROUTE_EXHAUSTED_AFTER_P1_062_TERMINAL
-  real_engineering_progress: P1_062_REAL_PROVIDER_RUN_AND_REVIEWED_CANDIDATE_CANONICAL_GATE_NON_PASS_REVERTED_ZERO_ACCEPTED_CAPABILITY
+  current_route_claim: P1_ENGINEERING_FIRST_PHASE_RESET_AND_OFFLINE_B0_CONTINUOUS_EXECUTION_V1_ACTIVE
+  current_task_claim: AIOS_P1_066_AUTHORIZED_ACTIVE_IMPLEMENTATION_PENDING
+  real_engineering_progress: P1_066_TASK_ACTIVATED_NO_ACCEPTED_CAPABILITY_CREDIT_YET
   product_capability_changed: false
   phase_local_allowed:
     - local evaluation foundation engineering under an exact Task Contract
@@ -2840,11 +2840,13 @@ phase_execution_claim:
     - canonical main advance outside an accepted task gate
 
 claim_boundary:
-  current_phase_route: P1_LOCAL_GATEWAY_EMPIRICAL_BASELINE_VERTICAL_SLICE_ROUTE_V1_EXECUTION_EXHAUSTED
-  current_task: NONE_AFTER_P1_062_TERMINAL
-  next_eligible_action: FOUNDER_DECIDE_NEW_P1_ARCHITECTURE_ROUTE
-  real_engineering_progress: P1_062_REAL_PROVIDER_RUN_REVIEWED_CANDIDATE_CANONICAL_GATE_NON_PASS_REVERTED
+  current_phase_route: P1_ENGINEERING_FIRST_PHASE_RESET_AND_OFFLINE_B0_CONTINUOUS_EXECUTION_V1_ACTIVE
+  current_task: AIOS-P1-066_ENGINEERING_FIRST_OFFLINE_B0_COMPLETE_EVIDENCE_VERTICAL_SLICE
+  next_eligible_action: EXECUTE_P1_066_QUALITY_FREEZE_AND_ENGINEERING
+  real_engineering_progress: P1_066_TASK_ACTIVATED_NO_ACCEPTED_CAPABILITY_CREDIT_YET
   product_capability_changed_by_route_activation: false
+  p1_066_status: AUTHORIZED_ACTIVE
+  p1_066_claim_limit: ONE_VISIBLE_SYNTHETIC_REP_001_COOPERATIVE_LOCAL_OFFLINE_B0_COMPLETE_EVIDENCE_OBSERVATION_ONLY
   p1_062_status: TERMINAL_CANONICAL_FULL_VERIFY_NON_PASS_REVERTED
   p1_062_provider_source_bearing_submission_count: 1
   p1_062_provider_automatic_retry_count: 0

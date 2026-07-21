@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-21T15:22:32Z"
-verification_scope: P1_066_ACCEPTED_INTEGRATION_AND_CANONICAL_VERIFY_PASS_TERMINAL_SYNC
+last_verified_at: "2026-07-21T15:31:13Z"
+verification_scope: P1_067_OFFLINE_B1_SIMPLE_TOOL_TASK_ACTIVATION
 
 authority:
   founder: Human Founder
@@ -37,15 +37,16 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
+  current_task_authority: AIOS-P1-067_OFFLINE_B1_SIMPLE_TOOL_COMPATIBILITY_ADAPTER_VERTICAL_SLICE
   note: >-
     The Founder-approved long-term Goal and P1 remain ACTIVE. The Founder has
     authorized the engineering-first offline B0 continuous-execution route. P1-066
     passed its Master Task Gate, exact reviewed-tree integration and the single
     canonical full verification under its narrow one-visible-synthetic-REP-001 B0
-    Evidence claim. The Phase remains ACTIVE and Master must select Task 2 without
-    another Founder approval. Strict P1 completion remains 2/8 (25%); P1-066 does
-    not complete the B0/B1/B2 Exit Gate item.
+    Evidence claim. P1-067 is now the one active Task and directly targets the B1
+    compatibility gap with a finite typed offline simple-tool adapter. Strict P1
+    completion remains 2/8 (25%) at activation; no new credit is claimed before
+    the P1-067 Task Gate.
 
 project:
   name: SourceLens AIOS
@@ -57,7 +58,7 @@ project:
   p1_entry_status: AUTHORIZED
   phase_execution_status: ACTIVE
   p1_execution_status: ACTIVE
-  current_route_execution_status: ACTIVE_READY_TASK_2_AFTER_P1_066_ACCEPTED
+  current_route_execution_status: ACTIVE_TASK_2_P1_067
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -397,9 +398,9 @@ current_phase_route:
   route_id: P1_ENGINEERING_FIRST_PHASE_RESET_AND_OFFLINE_B0_CONTINUOUS_EXECUTION_V1
   status: ACTIVE
   authority_object_status: FOUNDER_PHASE_ENTRY_CONSUMED_ACTIVE
-  execution_status: TASK_1_ACCEPTED_READY_TASK_2
+  execution_status: TASK_2_ACTIVE
   founder_phase_route_decision_required: false
-  scheduling_status: READY_FOR_TASK_2_NO_ACTIVE_TASK
+  scheduling_status: ONE_ACTIVE_TASK
   phase: P1
   phase_entry_status: AUTHORIZED
   authorization_token: AUTHORIZE_P1_ENGINEERING_FIRST_PHASE_RESET_AND_OFFLINE_B0_CONTINUOUS_EXECUTION_V1
@@ -418,7 +419,7 @@ current_phase_route:
     version: "1.1"
     changed: false
     strict_status_at_activation: 2_COMPLETE_2_PARTIAL_4_NOT_COMPLETE_25_PERCENT
-    status: P1_066_NARROW_B0_SLICE_ACCEPTED_NO_EXIT_ITEM_COMPLETED
+    status: P1_066_NARROW_B0_ACCEPTED_P1_067_ACTIVE_NO_NEW_EXIT_ITEM_CREDIT
   envelope:
     max_engineering_tasks: 3
     max_engineering_hours: 64
@@ -456,6 +457,13 @@ current_phase_route:
     p1_063_or_p1_064_source_fixture_test_candidate_diff_or_implementation_evidence_read_allowed: false
     other_terminal_or_rejected_engineering_lineage_read_or_reuse_allowed: false
     accepted_canonical_p1_035_p1_048_p1_055_assets_allowed: true
+  active_task:
+    task_id: AIOS-P1-067_OFFLINE_B1_SIMPLE_TOOL_COMPATIBILITY_ADAPTER_VERTICAL_SLICE
+    task_slot: 2
+    status: AUTHORIZED_ACTIVE
+    contract_path: docs/aios/tasks/P1-067_OFFLINE_B1_SIMPLE_TOOL_COMPATIBILITY_ADAPTER_VERTICAL_SLICE.yaml
+    contract_sha256: 864224f56deb3f177f077a1e5b53e078943992bfdc8bc0ad756a788bca2576cc
+    contract_byte_length: 16459
   last_terminal_task:
     task_id: AIOS-P1-066_ENGINEERING_FIRST_OFFLINE_B0_COMPLETE_EVIDENCE_VERTICAL_SLICE
     task_slot: 1
@@ -478,17 +486,18 @@ current_phase_route:
     claim_boundary: ONE_VISIBLE_SYNTHETIC_REP_001_COOPERATIVE_LOCAL_OFFLINE_B0_COMPLETE_EVIDENCE_OBSERVATION_ONLY
   route_execution_accounting:
     maximum_engineering_tasks: 3
-    task_slots_consumed: 1
-    active_task_id: NONE
+    task_slots_consumed: 2
+    active_task_id: AIOS-P1-067_OFFLINE_B1_SIMPLE_TOOL_COMPATIBILITY_ADAPTER_VERTICAL_SLICE
     scheduled_task_ids:
       - AIOS-P1-066_ENGINEERING_FIRST_OFFLINE_B0_COMPLETE_EVIDENCE_VERTICAL_SLICE
+      - AIOS-P1-067_OFFLINE_B1_SIMPLE_TOOL_COMPATIBILITY_ADAPTER_VERTICAL_SLICE
     terminal_task_ids:
       - AIOS-P1-066_ENGINEERING_FIRST_OFFLINE_B0_COMPLETE_EVIDENCE_VERTICAL_SLICE
     accepted_task_ids:
       - AIOS-P1-066_ENGINEERING_FIRST_OFFLINE_B0_COMPLETE_EVIDENCE_VERTICAL_SLICE
-    status: ACTIVE_1_OF_3_TASKS_CONSUMED_READY_TASK_2
-  claim_boundary: P1_066_ACCEPTED_NARROW_B0_OBSERVATION_PHASE_ACTIVE_NO_STRICT_EXIT_ITEM_CREDIT
-  next_eligible_action: SELECT_AND_ACTIVATE_TASK_2_WITHIN_CURRENT_PHASE_ENVELOPE
+    status: ACTIVE_TASK_2_OF_3_TASK_SLOTS_CONSUMED
+  claim_boundary: ONE_VISIBLE_SYNTHETIC_REP_001_COOPERATIVE_LOCAL_OFFLINE_B1_FINITE_TYPED_SIMPLE_TOOL_COMPATIBILITY_ADAPTER_COMPLETE_EVIDENCE_OBSERVATION_ONLY_NO_LIVE_MODEL_EMPIRICAL_BASELINE_VTSR_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
+  next_eligible_action: EXECUTE_P1_067_QUALITY_FREEZE_AND_ENGINEERING
 phase_delegation:
   status: ACTIVE
   model: PHASE_LEVEL_FOUNDER_DELEGATION
@@ -1216,38 +1225,54 @@ p0_baseline:
   online_verification_status: ARCHIVED_NOT_ON_ACTIVE_PATH
 
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P1-067_OFFLINE_B1_SIMPLE_TOOL_COMPATIBILITY_ADAPTER_VERTICAL_SLICE
+  current_task_status: AUTHORIZED_ACTIVE
   current_task_contract:
-    path: null
-    sha256: null
-    byte_length: null
-  current_task_contract_sha256: null
-  current_execution_authorization: null
-  current_execution_authorization_sha256: null
+    path: docs/aios/tasks/P1-067_OFFLINE_B1_SIMPLE_TOOL_COMPATIBILITY_ADAPTER_VERTICAL_SLICE.yaml
+    sha256: 864224f56deb3f177f077a1e5b53e078943992bfdc8bc0ad756a788bca2576cc
+    byte_length: 16459
+  current_task_contract_sha256: 864224f56deb3f177f077a1e5b53e078943992bfdc8bc0ad756a788bca2576cc
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-067-offline-b1-7jPPTE1B/authority/TASK_AUTHORITY.yaml
+  current_execution_authorization_sha256: b521f5ce9c88284a255501b593fb64bc72e72a1832dd0e00b0665cdf7afc41bb
   authority_record:
-    path: null
-    sha256: null
-    byte_length: null
-  execution_nonce: null
-  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
-  authorization_id: null
-  activation_parent_commit: null
-  activation_parent_tree: null
-  task_resource_state: NONE_PHASE_ACTIVE
-  task_branch: null
-  task_worktree: null
-  execution_evidence_root: null
-  allowlisted_paths: []
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-067-offline-b1-7jPPTE1B/authority/TASK_AUTHORITY.yaml
+    sha256: b521f5ce9c88284a255501b593fb64bc72e72a1832dd0e00b0665cdf7afc41bb
+    byte_length: 2466
+  execution_nonce: P1-067-20260721T153113Z
+  execution_nonce_status: ACTIVE_TASK_OWNED
+  authorization_id: P1-067-PHASE-DELEGATED-AUTHORITY-V1
+  activation_parent_commit: cef95015c23e1c643f640fd758265d17daf7200d
+  activation_parent_tree: 15c2157d5d836f18ae1d6160a5421660c094e5e8
+  task_resource_state: ONE_ACTIVE_TASK_BRANCH_WORKTREE
+  task_branch: codex/p1-067-offline-b1-simple-tool
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-067-offline-b1-simple-tool
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-067-offline-b1-7jPPTE1B
+  allowlisted_paths:
+    - docs/aios/tasks/P1-067_OFFLINE_B1_SIMPLE_TOOL_COMPATIBILITY_ADAPTER_VERTICAL_SLICE.yaml
+    - evaluation-harness/fixtures/offline-b1-simple-tool-v1/task-card.json
+    - evaluation-harness/fixtures/offline-b1-simple-tool-v1/target-runtime-oci-manifest.json
+    - evaluation-harness/fixtures/offline-b1-simple-tool-v1/environment-snapshot.json
+    - evaluation-harness/fixtures/offline-b1-simple-tool-v1/system-configuration.json
+    - evaluation-harness/fixtures/offline-b1-simple-tool-v1/compatibility-profile.json
+    - evaluation-harness/fixtures/offline-b1-simple-tool-v1/positive-tool-plan.json
+    - evaluation-harness/fixtures/offline-b1-simple-tool-v1/negative-cases.json
+    - evaluation-harness/evaluator/offline-b1-simple-tool-v1/quality-oracle.mjs
+    - evaluation-harness/adapters/offline-b1-finite-tool-v1/adapter.mjs
+    - evaluation-harness/harness/offline-b1-complete-evidence-v1/run.mjs
+    - scripts/verify-p1-067-offline-b1.sh
+    - scripts/verify-all.sh
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+    - docs/aios/truth/project_state.yaml
   budget:
-    engineering_hours: null
-    calendar_days: null
-    implementation_iterations: null
-    candidates: null
+    engineering_hours: 16
+    calendar_days: 4
+    implementation_iterations: 2
+    candidates: 1
   roles:
-    owner: null
-    worker: null
-    independent_reviewers: []
+    owner: Engineering Manager Agent
+    worker: Offline B1 Adapter Engineer
+    independent_reviewers: [CTO Agent, Security Agent, Quality and Evaluation Agent]
   external_effects:
     network: false
     provider: false
@@ -1264,7 +1289,7 @@ active_work:
   user_action_required: NONE
   phase_route_decision_required: false
   phase_route_user_action_required: NONE
-  next_eligible_action: SELECT_AND_ACTIVATE_TASK_2_WITHIN_CURRENT_PHASE_ENVELOPE
+  next_eligible_action: EXECUTE_P1_067_QUALITY_FREEZE_AND_ENGINEERING
 superseded_pre_delegation_authorizations:
   aios_p1_009:
     task_id: AIOS-P1-009_ENVIRONMENT_SNAPSHOT_REPRODUCIBILITY
@@ -2833,8 +2858,8 @@ historical_lineages:
 
 phase_execution_claim:
   current_route_claim: P1_ENGINEERING_FIRST_PHASE_RESET_AND_OFFLINE_B0_CONTINUOUS_EXECUTION_V1_ACTIVE
-  current_task_claim: NO_ACTIVE_TASK_P1_066_ACCEPTED_READY_TASK_2
-  real_engineering_progress: P1_066_ACCEPTED_ONE_VISIBLE_SYNTHETIC_REP_001_OFFLINE_B0_COMPLETE_EVIDENCE_SLICE_STRICT_P1_COMPLETION_UNCHANGED_25_PERCENT
+  current_task_claim: AIOS_P1_067_AUTHORIZED_ACTIVE_IMPLEMENTATION_PENDING
+  real_engineering_progress: P1_066_ACCEPTED_NARROW_B0_SLICE_P1_067_ACTIVE_NO_ACCEPTED_P1_067_CAPABILITY_CREDIT_YET_STRICT_P1_COMPLETION_25_PERCENT
   product_capability_changed: false
   phase_local_allowed:
     - local evaluation foundation engineering under an exact Task Contract
@@ -2892,9 +2917,9 @@ phase_execution_claim:
 
 claim_boundary:
   current_phase_route: P1_ENGINEERING_FIRST_PHASE_RESET_AND_OFFLINE_B0_CONTINUOUS_EXECUTION_V1_ACTIVE
-  current_task: NONE
-  next_eligible_action: SELECT_AND_ACTIVATE_TASK_2_WITHIN_CURRENT_PHASE_ENVELOPE
-  real_engineering_progress: P1_066_ACCEPTED_ONE_VISIBLE_SYNTHETIC_REP_001_OFFLINE_B0_COMPLETE_EVIDENCE_SLICE_STRICT_P1_COMPLETION_UNCHANGED_25_PERCENT
+  current_task: AIOS-P1-067_OFFLINE_B1_SIMPLE_TOOL_COMPATIBILITY_ADAPTER_VERTICAL_SLICE
+  next_eligible_action: EXECUTE_P1_067_QUALITY_FREEZE_AND_ENGINEERING
+  real_engineering_progress: P1_066_ACCEPTED_NARROW_B0_SLICE_P1_067_ACTIVE_NO_ACCEPTED_P1_067_CAPABILITY_CREDIT_YET_STRICT_P1_COMPLETION_25_PERCENT
   product_capability_changed_by_route_activation: false
   p1_066_status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
   p1_066_claim_limit: ONE_VISIBLE_SYNTHETIC_REP_001_COOPERATIVE_LOCAL_OFFLINE_B0_COMPLETE_EVIDENCE_OBSERVATION_ONLY
@@ -2903,6 +2928,8 @@ claim_boundary:
   p1_066_integration_commit: 5985752adebaabf89b0b2984742791e92668acc7
   p1_066_final_reviews: CTO_PASS_SECURITY_PASS_QUALITY_PASS
   p1_066_canonical_full_make_verify: PASS_ONE_INVOCATION
+  p1_067_status: AUTHORIZED_ACTIVE
+  p1_067_claim_limit: ONE_VISIBLE_SYNTHETIC_REP_001_COOPERATIVE_LOCAL_OFFLINE_B1_FINITE_TYPED_SIMPLE_TOOL_COMPATIBILITY_ADAPTER_COMPLETE_EVIDENCE_OBSERVATION_ONLY_NO_LIVE_MODEL_EMPIRICAL_BASELINE_VTSR_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
   p1_062_status: TERMINAL_CANONICAL_FULL_VERIFY_NON_PASS_REVERTED
   p1_062_provider_source_bearing_submission_count: 1
   p1_062_provider_automatic_retry_count: 0

@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-21T12:54:55Z"
-verification_scope: P1_066_ENGINEERING_FIRST_OFFLINE_B0_TASK_ACTIVATION
+last_verified_at: "2026-07-21T15:22:32Z"
+verification_scope: P1_066_ACCEPTED_INTEGRATION_AND_CANONICAL_VERIFY_PASS_TERMINAL_SYNC
 
 authority:
   founder: Human Founder
@@ -37,14 +37,15 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: AIOS-P1-066_ENGINEERING_FIRST_OFFLINE_B0_COMPLETE_EVIDENCE_VERTICAL_SLICE
+  current_task_authority: NONE
   note: >-
     The Founder-approved long-term Goal and P1 remain ACTIVE. The Founder has
     authorized the engineering-first offline B0 continuous-execution route. P1-066
-    is the one active Task and directly targets complete observable B0 Evidence for
-    accepted REP-001 using accepted P1-035/P1-048/P1-055 substrates. No capability
-    is credited at activation; strict P1 completion remains 2/8 (25%) until the
-    Task Gate, reviewed integration and canonical verification actually pass.
+    passed its Master Task Gate, exact reviewed-tree integration and the single
+    canonical full verification under its narrow one-visible-synthetic-REP-001 B0
+    Evidence claim. The Phase remains ACTIVE and Master must select Task 2 without
+    another Founder approval. Strict P1 completion remains 2/8 (25%); P1-066 does
+    not complete the B0/B1/B2 Exit Gate item.
 
 project:
   name: SourceLens AIOS
@@ -56,7 +57,7 @@ project:
   p1_entry_status: AUTHORIZED
   phase_execution_status: ACTIVE
   p1_execution_status: ACTIVE
-  current_route_execution_status: ACTIVE_TASK_1_P1_066
+  current_route_execution_status: ACTIVE_READY_TASK_2_AFTER_P1_066_ACCEPTED
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -396,9 +397,9 @@ current_phase_route:
   route_id: P1_ENGINEERING_FIRST_PHASE_RESET_AND_OFFLINE_B0_CONTINUOUS_EXECUTION_V1
   status: ACTIVE
   authority_object_status: FOUNDER_PHASE_ENTRY_CONSUMED_ACTIVE
-  execution_status: TASK_1_ACTIVE
+  execution_status: TASK_1_ACCEPTED_READY_TASK_2
   founder_phase_route_decision_required: false
-  scheduling_status: ONE_ACTIVE_TASK
+  scheduling_status: READY_FOR_TASK_2_NO_ACTIVE_TASK
   phase: P1
   phase_entry_status: AUTHORIZED
   authorization_token: AUTHORIZE_P1_ENGINEERING_FIRST_PHASE_RESET_AND_OFFLINE_B0_CONTINUOUS_EXECUTION_V1
@@ -417,7 +418,7 @@ current_phase_route:
     version: "1.1"
     changed: false
     strict_status_at_activation: 2_COMPLETE_2_PARTIAL_4_NOT_COMPLETE_25_PERCENT
-    status: UNCHANGED_TASK_ACTIVE_NO_NEW_CAPABILITY_CREDIT
+    status: P1_066_NARROW_B0_SLICE_ACCEPTED_NO_EXIT_ITEM_COMPLETED
   envelope:
     max_engineering_tasks: 3
     max_engineering_hours: 64
@@ -455,15 +456,39 @@ current_phase_route:
     p1_063_or_p1_064_source_fixture_test_candidate_diff_or_implementation_evidence_read_allowed: false
     other_terminal_or_rejected_engineering_lineage_read_or_reuse_allowed: false
     accepted_canonical_p1_035_p1_048_p1_055_assets_allowed: true
-  active_task:
+  last_terminal_task:
     task_id: AIOS-P1-066_ENGINEERING_FIRST_OFFLINE_B0_COMPLETE_EVIDENCE_VERTICAL_SLICE
     task_slot: 1
-    status: AUTHORIZED_ACTIVE
+    status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
     contract_path: docs/aios/tasks/P1-066_ENGINEERING_FIRST_OFFLINE_B0_COMPLETE_EVIDENCE_VERTICAL_SLICE.yaml
     contract_sha256: 923d2ad4a5d56c6f154c1e946699744facf86741131dfacc46d165e5b832c790
     contract_byte_length: 13993
-  claim_boundary: ONE_VISIBLE_SYNTHETIC_REP_001_COOPERATIVE_LOCAL_OFFLINE_B0_COMPLETE_EVIDENCE_OBSERVATION_ONLY
-  next_eligible_action: EXECUTE_P1_066_QUALITY_FREEZE_AND_ENGINEERING
+    reviewed_candidate_commit: 0947d04dbe6302222ba87cc61c21ced51b456ec2
+    reviewed_candidate_tree: 1d9d578376cbec04c5c738934215776e229461ff
+    evidence_tag: evidence/p1-066-corrected-exact-candidate-v2
+    integrated_commit: 5985752adebaabf89b0b2984742791e92668acc7
+    integrated_tree: 1d9d578376cbec04c5c738934215776e229461ff
+    integrated_tree_equal_to_reviewed_tree: true
+    canonical_full_make_verify_result: PASS
+    canonical_full_make_verify_invocations: 1
+    integration_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-066-engineering-first-offline-b0-SSBiXrxT/integration/P1_066_INTEGRATION_RECEIPT.json
+    integration_receipt_sha256: b6352637d3ffa4618cb5d00c25e902bd91a3ca1f6072041e69bbd8505a3deea4
+    integration_receipt_byte_length: 2252
+    p1_exit_gate_item_completed: false
+    claim_boundary: ONE_VISIBLE_SYNTHETIC_REP_001_COOPERATIVE_LOCAL_OFFLINE_B0_COMPLETE_EVIDENCE_OBSERVATION_ONLY
+  route_execution_accounting:
+    maximum_engineering_tasks: 3
+    task_slots_consumed: 1
+    active_task_id: NONE
+    scheduled_task_ids:
+      - AIOS-P1-066_ENGINEERING_FIRST_OFFLINE_B0_COMPLETE_EVIDENCE_VERTICAL_SLICE
+    terminal_task_ids:
+      - AIOS-P1-066_ENGINEERING_FIRST_OFFLINE_B0_COMPLETE_EVIDENCE_VERTICAL_SLICE
+    accepted_task_ids:
+      - AIOS-P1-066_ENGINEERING_FIRST_OFFLINE_B0_COMPLETE_EVIDENCE_VERTICAL_SLICE
+    status: ACTIVE_1_OF_3_TASKS_CONSUMED_READY_TASK_2
+  claim_boundary: P1_066_ACCEPTED_NARROW_B0_OBSERVATION_PHASE_ACTIVE_NO_STRICT_EXIT_ITEM_CREDIT
+  next_eligible_action: SELECT_AND_ACTIVATE_TASK_2_WITHIN_CURRENT_PHASE_ENVELOPE
 phase_delegation:
   status: ACTIVE
   model: PHASE_LEVEL_FOUNDER_DELEGATION
@@ -1191,53 +1216,38 @@ p0_baseline:
   online_verification_status: ARCHIVED_NOT_ON_ACTIVE_PATH
 
 active_work:
-  current_task: AIOS-P1-066_ENGINEERING_FIRST_OFFLINE_B0_COMPLETE_EVIDENCE_VERTICAL_SLICE
-  current_task_status: AUTHORIZED_ACTIVE
+  current_task: NONE
+  current_task_status: NONE
   current_task_contract:
-    path: docs/aios/tasks/P1-066_ENGINEERING_FIRST_OFFLINE_B0_COMPLETE_EVIDENCE_VERTICAL_SLICE.yaml
-    sha256: 923d2ad4a5d56c6f154c1e946699744facf86741131dfacc46d165e5b832c790
-    byte_length: 13993
-  current_task_contract_sha256: 923d2ad4a5d56c6f154c1e946699744facf86741131dfacc46d165e5b832c790
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-066-engineering-first-offline-b0-SSBiXrxT/authority/TASK_AUTHORITY.yaml
-  current_execution_authorization_sha256: a4eebb955d8cd23730c249e6a7453a4b94a773f8cd2090dd7dbdbb5ffe5f72e9
+    path: null
+    sha256: null
+    byte_length: null
+  current_task_contract_sha256: null
+  current_execution_authorization: null
+  current_execution_authorization_sha256: null
   authority_record:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-066-engineering-first-offline-b0-SSBiXrxT/authority/TASK_AUTHORITY.yaml
-    sha256: a4eebb955d8cd23730c249e6a7453a4b94a773f8cd2090dd7dbdbb5ffe5f72e9
-    byte_length: 2624
-  execution_nonce: P1-066-20260721T124018Z
-  execution_nonce_status: ACTIVE_TASK_OWNED
-  authorization_id: P1-066-PHASE-DELEGATED-AUTHORITY-V1
-  activation_parent_commit: b1d3f4d46fb03e1547792f52484217a336d7d235
-  activation_parent_tree: 2875dfd2e3911df95a802fed4ef5330cdc7045d0
-  task_resource_state: ONE_ACTIVE_TASK_BRANCH_WORKTREE
-  task_branch: codex/p1-066-engineering-first-offline-b0
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-066-engineering-first-offline-b0
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-066-engineering-first-offline-b0-SSBiXrxT
-  allowlisted_paths:
-    - docs/aios/tasks/P1-066_ENGINEERING_FIRST_OFFLINE_B0_COMPLETE_EVIDENCE_VERTICAL_SLICE.yaml
-    - evaluation-harness/fixtures/offline-b0-complete-evidence-v1/task-card.json
-    - evaluation-harness/fixtures/offline-b0-complete-evidence-v1/target-runtime-oci-manifest.json
-    - evaluation-harness/fixtures/offline-b0-complete-evidence-v1/environment-snapshot.json
-    - evaluation-harness/fixtures/offline-b0-complete-evidence-v1/system-configuration.json
-    - evaluation-harness/fixtures/offline-b0-complete-evidence-v1/positive-result.json
-    - evaluation-harness/fixtures/offline-b0-complete-evidence-v1/negative-cases.json
-    - evaluation-harness/evaluator/offline-b0-complete-evidence-v1/quality-oracle.mjs
-    - evaluation-harness/adapters/offline-b0-finite-typed-v1/adapter.mjs
-    - evaluation-harness/harness/offline-b0-complete-evidence-v1/run.mjs
-    - scripts/verify-p1-066-offline-b0.sh
-    - scripts/verify-all.sh
-    - Makefile
-    - docs/PROJECT_CODE_MAP.md
-    - docs/aios/truth/project_state.yaml
+    path: null
+    sha256: null
+    byte_length: null
+  execution_nonce: null
+  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
+  authorization_id: null
+  activation_parent_commit: null
+  activation_parent_tree: null
+  task_resource_state: NONE_PHASE_ACTIVE
+  task_branch: null
+  task_worktree: null
+  execution_evidence_root: null
+  allowlisted_paths: []
   budget:
-    engineering_hours: 32
-    calendar_days: 7
-    implementation_iterations: 3
-    candidates: 1
+    engineering_hours: null
+    calendar_days: null
+    implementation_iterations: null
+    candidates: null
   roles:
-    owner: Engineering Manager Agent
-    worker: Offline B0 Adapter Engineer
-    independent_reviewers: [CTO Agent, Security Agent, Quality and Evaluation Agent]
+    owner: null
+    worker: null
+    independent_reviewers: []
   external_effects:
     network: false
     provider: false
@@ -1254,7 +1264,7 @@ active_work:
   user_action_required: NONE
   phase_route_decision_required: false
   phase_route_user_action_required: NONE
-  next_eligible_action: EXECUTE_P1_066_QUALITY_FREEZE_AND_ENGINEERING
+  next_eligible_action: SELECT_AND_ACTIVATE_TASK_2_WITHIN_CURRENT_PHASE_ENVELOPE
 superseded_pre_delegation_authorizations:
   aios_p1_009:
     task_id: AIOS-P1-009_ENVIRONMENT_SNAPSHOT_REPRODUCIBILITY
@@ -1271,6 +1281,47 @@ superseded_pre_delegation_authorizations:
     note: The engineering objective may be selected independently by Master, but these pre-delegation bytes require a routine per-Task Founder Gate and cannot be activated under the current authority model.
 
 task_history:
+  aios_p1_066:
+    task_id: AIOS-P1-066_ENGINEERING_FIRST_OFFLINE_B0_COMPLETE_EVIDENCE_VERTICAL_SLICE
+    route_id: P1_ENGINEERING_FIRST_PHASE_RESET_AND_OFFLINE_B0_CONTINUOUS_EXECUTION_V1
+    status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+    classification: REAL_OFFLINE_B0_COMPLETE_EVIDENCE_ENGINEERING_VERTICAL_SLICE
+    contract_path: docs/aios/tasks/P1-066_ENGINEERING_FIRST_OFFLINE_B0_COMPLETE_EVIDENCE_VERTICAL_SLICE.yaml
+    contract_sha256: 923d2ad4a5d56c6f154c1e946699744facf86741131dfacc46d165e5b832c790
+    contract_byte_length: 13993
+    task_slot: 1
+    implementation_iterations_used: 2
+    formal_review_cycles_used: 2
+    candidate_commit: 0947d04dbe6302222ba87cc61c21ced51b456ec2
+    candidate_tree: 1d9d578376cbec04c5c738934215776e229461ff
+    candidate_manifest_sha256: 32895805caa7eeb03ce0212b71758b1fa900887820231359d442eb087aa9f3c3
+    candidate_diff_hash_manifest_sha256: 5c04f768351ca8fa6baacb66ce1405c93aedf82a502d66ea62d80c8aa77e8aa7
+    evidence_tag: evidence/p1-066-corrected-exact-candidate-v2
+    formal_run_a_result: PASS
+    formal_run_b_result: PASS_INDEPENDENT_QUALITY_ACTOR
+    stable_projection_exact_byte_equality: true
+    false_accepts: 0
+    rollback_exact: true
+    cto_final_review_result: PASS
+    cto_final_review_sha256: dc05a870caa1e2c9649e50bdda0948b50eab35755c2b8e52ef12444da3a4c3e3
+    security_final_review_result: PASS
+    security_final_review_sha256: 57c786a3640779deca40a29539a5315ad9b07b6ef609428128f29d0cbed2b18d
+    quality_final_review_result: PASS
+    quality_final_review_sha256: 459252e94011aafe52d9c40f7bf9ef17def571406f6aa2e5b248f49e810dd4e7
+    integration_commit: 5985752adebaabf89b0b2984742791e92668acc7
+    integration_tree: 1d9d578376cbec04c5c738934215776e229461ff
+    integrated_tree_equal_to_reviewed_tree: true
+    canonical_full_make_verify: PASS
+    canonical_full_make_verify_invocations: 1
+    canonical_full_make_verify_log_sha256: a04afa8df7c7377fca8e3b56c64f662eefe7beccec5c9d981e95b6c383c68a23
+    integration_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-066-engineering-first-offline-b0-SSBiXrxT/integration/P1_066_INTEGRATION_RECEIPT.json
+    integration_receipt_sha256: b6352637d3ffa4618cb5d00c25e902bd91a3ca1f6072041e69bbd8505a3deea4
+    integration_receipt_byte_length: 2252
+    accepted_capability_created: true
+    p1_exit_gate_item_completed: false
+    p1_exit_gate_changed: false
+    strict_p1_completion_after_task: 2_COMPLETE_2_PARTIAL_4_NOT_COMPLETE_25_PERCENT
+    claim_boundary: ONE_VISIBLE_SYNTHETIC_REP_001_COOPERATIVE_LOCAL_OFFLINE_B0_COMPLETE_EVIDENCE_OBSERVATION_ONLY
   aios_p1_062:
     task_id: AIOS-P1-062_LOCAL_GATEWAY_FINITE_IR_B0_VERTICAL_SLICE
     route_id: P1_LOCAL_GATEWAY_EMPIRICAL_BASELINE_VERTICAL_SLICE_ROUTE_V1
@@ -2782,8 +2833,8 @@ historical_lineages:
 
 phase_execution_claim:
   current_route_claim: P1_ENGINEERING_FIRST_PHASE_RESET_AND_OFFLINE_B0_CONTINUOUS_EXECUTION_V1_ACTIVE
-  current_task_claim: AIOS_P1_066_AUTHORIZED_ACTIVE_IMPLEMENTATION_PENDING
-  real_engineering_progress: P1_066_TASK_ACTIVATED_NO_ACCEPTED_CAPABILITY_CREDIT_YET
+  current_task_claim: NO_ACTIVE_TASK_P1_066_ACCEPTED_READY_TASK_2
+  real_engineering_progress: P1_066_ACCEPTED_ONE_VISIBLE_SYNTHETIC_REP_001_OFFLINE_B0_COMPLETE_EVIDENCE_SLICE_STRICT_P1_COMPLETION_UNCHANGED_25_PERCENT
   product_capability_changed: false
   phase_local_allowed:
     - local evaluation foundation engineering under an exact Task Contract
@@ -2841,12 +2892,17 @@ phase_execution_claim:
 
 claim_boundary:
   current_phase_route: P1_ENGINEERING_FIRST_PHASE_RESET_AND_OFFLINE_B0_CONTINUOUS_EXECUTION_V1_ACTIVE
-  current_task: AIOS-P1-066_ENGINEERING_FIRST_OFFLINE_B0_COMPLETE_EVIDENCE_VERTICAL_SLICE
-  next_eligible_action: EXECUTE_P1_066_QUALITY_FREEZE_AND_ENGINEERING
-  real_engineering_progress: P1_066_TASK_ACTIVATED_NO_ACCEPTED_CAPABILITY_CREDIT_YET
+  current_task: NONE
+  next_eligible_action: SELECT_AND_ACTIVATE_TASK_2_WITHIN_CURRENT_PHASE_ENVELOPE
+  real_engineering_progress: P1_066_ACCEPTED_ONE_VISIBLE_SYNTHETIC_REP_001_OFFLINE_B0_COMPLETE_EVIDENCE_SLICE_STRICT_P1_COMPLETION_UNCHANGED_25_PERCENT
   product_capability_changed_by_route_activation: false
-  p1_066_status: AUTHORIZED_ACTIVE
+  p1_066_status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
   p1_066_claim_limit: ONE_VISIBLE_SYNTHETIC_REP_001_COOPERATIVE_LOCAL_OFFLINE_B0_COMPLETE_EVIDENCE_OBSERVATION_ONLY
+  p1_066_reviewed_candidate_commit: 0947d04dbe6302222ba87cc61c21ced51b456ec2
+  p1_066_reviewed_and_integrated_tree: 1d9d578376cbec04c5c738934215776e229461ff
+  p1_066_integration_commit: 5985752adebaabf89b0b2984742791e92668acc7
+  p1_066_final_reviews: CTO_PASS_SECURITY_PASS_QUALITY_PASS
+  p1_066_canonical_full_make_verify: PASS_ONE_INVOCATION
   p1_062_status: TERMINAL_CANONICAL_FULL_VERIFY_NON_PASS_REVERTED
   p1_062_provider_source_bearing_submission_count: 1
   p1_062_provider_automatic_retry_count: 0

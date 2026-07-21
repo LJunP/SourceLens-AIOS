@@ -1,4 +1,4 @@
-.PHONY: help deps up up-infra down logs logs-backend dev backend backend-jar frontend analyzer verify clean clean-local-generated code-map code-map-check aios-governance-check p1-safety-check p1-harness-check p1-environment-snapshot-check p1-task-dataset-check p1-experiment-pack-reentry-check p1-finite-typed-patch-ir-check p1-offline-b0-finite-ir-check script-check api-design-check db-schema-check dependency-check llm-safety-check mysql-flyway-smoke test-backend test-frontend test-analyzer
+.PHONY: help deps up up-infra down logs logs-backend dev backend backend-jar frontend analyzer verify clean clean-local-generated code-map code-map-check aios-governance-check p1-safety-check p1-harness-check p1-environment-snapshot-check p1-task-dataset-check p1-experiment-pack-reentry-check p1-finite-typed-patch-ir-check script-check api-design-check db-schema-check dependency-check llm-safety-check mysql-flyway-smoke test-backend test-frontend test-analyzer
 
 help: ## 显示当前有效命令
 	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-24s\033[0m %s\n", $$1, $$2}'
@@ -39,7 +39,7 @@ analyzer: ## 构建 Rust analyzer
 	mkdir -p bin
 	cp analyzer-rust/target/release/sourcelens-analyzer bin/
 
-verify: p1-harness-check p1-environment-snapshot-check p1-task-dataset-check p1-experiment-pack-reentry-check p1-finite-typed-patch-ir-check p1-offline-b0-finite-ir-check ## 运行当前 P1 开发基线验证
+verify: p1-harness-check p1-environment-snapshot-check p1-task-dataset-check p1-experiment-pack-reentry-check p1-finite-typed-patch-ir-check ## 运行当前 P1 开发基线验证
 	./scripts/verify-all.sh
 
 test-backend: ## 运行后端测试
@@ -78,9 +78,6 @@ p1-experiment-pack-reentry-check: ## 校验 AIOS-P1-048 实际 Experiment Pack �
 
 p1-finite-typed-patch-ir-check: ## 校验 AIOS-P1-055 有限 Typed Patch IR compiler 与 trusted runner
 	./scripts/verify-p1-finite-typed-patch-ir-v1.sh
-
-p1-offline-b0-finite-ir-check: ## 校验 AIOS-P1-063 离线有限 IR admission 与 B0 adapter
-	./scripts/verify-p1-063-offline-b0-finite-ir-v1.sh
 
 script-check: ## 检查当前 Shell 脚本语法
 	@for script in scripts/*.sh; do bash -n "$$script"; done

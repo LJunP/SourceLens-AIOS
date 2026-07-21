@@ -1,0 +1,232 @@
+schema_version: "1.0"
+record_type: sourcelens_aios_phase_delegated_task_contract
+task_id: AIOS-P1-062_LOCAL_GATEWAY_FINITE_IR_B0_VERTICAL_SLICE
+phase: P1
+route_id: P1_LOCAL_GATEWAY_EMPIRICAL_BASELINE_VERTICAL_SLICE_ROUTE_V1
+status: AUTHORIZED_ACTIVE
+effective_only_when_canonical_truth_binds_exact_bytes: true
+classification: EVALUATION_FOUNDATION_ENGINEERING
+title: Local Gateway Finite IR B0 Vertical Slice
+
+objective: >-
+  Implement and execute one bounded empirical B0 vertical slice for the visible
+  accepted REP-001 task. Submit exactly one source-bearing Chat Completions
+  request to the Founder-supplied literal-loopback compatible gateway, accept
+  only one of four finite P1-055 typed IR choices, compile through the accepted
+  trusted compiler, run the frozen local tests, independently replay the same
+  retained response without another Provider call, and preserve truthful closed
+  Evidence and rollback identity.
+
+why_now: >-
+  P1 is 2/8 complete and has no empirical Provider baseline. Previous work
+  repeatedly stopped before real engineering. This is the smallest runnable,
+  falsifiable vertical slice that turns the accepted TaskSpec and finite IR
+  substrate into real evidence without authorizing agent shell, arbitrary model
+  patches, remote writes, production effects, P2 or P3.
+
+owner_role: P1-062 Master Task Owner
+worker_role: P1-062 Local Gateway Worker
+roles:
+  owner: P1-062 Master Task Owner
+  worker: P1-062 Local Gateway Worker
+  independent_reviewers:
+    - P1-062 CTO Reviewer
+    - P1-062 Security Reviewer
+    - P1-062 Quality Reviewer
+
+budget:
+  engineering_hours: 10
+  calendar_days: 3
+  implementation_iterations: 2
+  candidates: 1
+
+allowlisted_paths:
+  - evaluation-harness/adapters/local-gateway-finite-ir-b0-v1/**
+  - evaluation-harness/fixtures/local-gateway-finite-ir-b0-v1/**
+  - evaluation-harness/evaluator/local-gateway-finite-ir-b0-v1/**
+  - evaluation-harness/recording/local-gateway-finite-ir-b0-v1/**
+  - evaluation-harness/replay/local-gateway-finite-ir-b0-v1/**
+  - evaluation-harness/validators/local-gateway-finite-ir-b0-v1/**
+  - scripts/verify-p1-local-gateway-finite-ir-b0-v1.sh
+  - Makefile
+  - docs/PROJECT_CODE_MAP.md
+  - docs/aios/tasks/P1-062_LOCAL_GATEWAY_FINITE_IR_B0_VERTICAL_SLICE.yaml
+  - docs/aios/truth/project_state.yaml
+
+external_effects:
+  network: true
+  provider: true
+  secret: true
+  remote: false
+  production: false
+  public: false
+
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-062-local-gateway-20260721T022035Z/FOUNDER_P1_LOCAL_GATEWAY_EMPIRICAL_BASELINE_ROUTE_PACKET_V1.md
+  sha256: 6ff5f7e72a994429fd91dbfe7169156c11a2e93bb22c61188ac229d1b5ede78c
+  byte_length: 7717
+  authorization_token: FOUNDER_DIRECT_INSTRUCTION_USE_SUPPLIED_LOCAL_OPENAI_COMPATIBLE_GATEWAY_2026_07_21
+
+founder_reserved_profile:
+  schema_version: "1.0"
+  profile_id: P1_LOCAL_GATEWAY_FINITE_IR_B0_V1
+  decision_basis: FOUNDER_DIRECT_UI_INSTRUCTION_2026_07_21
+  route_id: P1_LOCAL_GATEWAY_EMPIRICAL_BASELINE_VERTICAL_SLICE_ROUTE_V1
+  task_id: AIOS-P1-062_LOCAL_GATEWAY_FINITE_IR_B0_VERTICAL_SLICE
+  transport:
+    scheme: http
+    host: 127.0.0.1
+    port: 8787
+    base_path: /v1
+    metadata_path: /v1/models
+    completion_path: /v1/chat/completions
+    api_format: OPENAI_COMPATIBLE_CHAT_COMPLETIONS
+    method: POST
+    follow_redirects: false
+    use_proxy: false
+    dns_resolution: false
+    fallback_endpoint_allowed: false
+    expected_peer_address: 127.0.0.1
+    expected_peer_port: 8787
+  model:
+    requested_model: gpt-5.6-luna
+    substitution_allowed: false
+    provider_provenance: OPENAI_FOUNDER_ATTESTED_GATEWAY_NOT_INDEPENDENTLY_VERIFIED
+  secret:
+    env_name: P1_062_LOCAL_GATEWAY_API_KEY
+    source: FOUNDER_TRANSIENT_UI_INPUT
+    persist: false
+    log_hash_or_evidence_allowed: false
+  call_limits:
+    metadata_max: 1
+    metadata_used_before_activation: 1
+    source_bearing_max: 1
+    source_bearing_used_before_activation: 0
+    automatic_retry_max: 0
+    ambiguous_send_retry_allowed: false
+  request_limits:
+    max_input_tokens: 4096
+    max_output_tokens: 1024
+    timeout_seconds: 120
+    request_body_max_bytes: 32768
+    response_body_max_bytes: 131072
+  egress:
+    allowed_artifact_ids:
+      - P1_035_REP001_ISSUE_TEXT
+      - P1_035_REP001_ALLOWED_CLARIFICATIONS
+      - P1_035_REP001_ACCEPTED_BASELINE_CONTEXT
+      - P1_062_FINITE_IR_RESPONSE_INSTRUCTION
+    forbidden_categories:
+      - SOURCE_BYTES
+      - TEST_BYTES
+      - REFERENCE_PATCH
+      - EVALUATOR_BYTES
+      - GOVERNANCE_OR_TRUTH_BYTES
+      - SECRET_OR_AUTHORIZATION_HEADER
+      - HIDDEN_TASK_OR_HIDDEN_EVIDENCE
+  external_effects:
+    network: true
+    provider: true
+    secret: true
+    remote: false
+    production: false
+    public: false
+  claim_limits:
+    direct_openai_provenance_proven: false
+    upstream_provider: OPENAI_FOUNDER_ATTESTED
+    upstream_request_count: UNKNOWN
+    monetary_cost: UNKNOWN_USER_MANAGED_GATEWAY
+
+accepted_inputs:
+  p1_035_rep001:
+    task_spec_path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/task-spec.json
+    task_spec_sha256: 25de6b6f330e09c076521b42a88d60712637e0fc7de7ab1cfe1f9f5d4c223321
+    baseline_context_sha256: 64fab9efd47c193af94e3f7baee67072a32497d35c9dc1aee8a804bf32269cb9
+    reuse_boundary: ISSUE_ALLOWED_CLARIFICATIONS_AND_ACCEPTED_BASELINE_CONTEXT_FOR_EGRESS_SOURCE_AND_TESTS_LOCAL_ONLY
+  p1_048:
+    reuse_boundary: ACCEPTED_LOCAL_EXECUTION_RECORDING_REPLAY_ROLLBACK_AND_EVIDENCE_PATTERNS_ONLY
+  p1_055:
+    compiler_path: evaluation-harness/harness/finite-typed-patch-ir-v1/compiler.mjs
+    compiler_sha256: 013a58a6284270c6808f6cfe815dbea6825b8a43a0a6f885305df23890c7a4f9
+    program_population:
+      - IR00
+      - IR01
+      - IR10
+      - IR11
+    reuse_boundary: EXACT_ACCEPTED_COMPILER_INTERFACE_AND_FOUR_PROGRAM_BYTES_ONLY
+
+finite_response_contract:
+  schema: SL-PATCH-IR-CHOICE/1
+  exact_shape:
+    schema: SL-PATCH-IR-CHOICE/1
+    task: SL-P1-REP-001-RANGE-NORMALIZATION@1.0.0
+    values:
+      - ARG0_OR_ARG1
+      - ARG0_OR_ARG1
+  semantic_population:
+    - IR00
+    - IR01
+    - IR10
+    - IR11
+  additional_members_allowed: false
+  model_supplied_path_source_diff_command_argv_or_executable_allowed: false
+
+transport_contract:
+  implementation: NODE_HTTP_STDLIB_DIRECT_LITERAL_ADDRESS_NO_PROXY_NO_REDIRECT
+  completion_requests: EXACTLY_ZERO_OR_ONE_TERMINAL_AFTER_FIRST_SEND
+  automatic_retries: 0
+  ambiguous_send_retry_allowed: false
+  authorization_header_persistence_logging_hashing_or_evidence_allowed: false
+  credential_available_to_post_transport_children: false
+  raw_response_max_bytes: 131072
+  response_content_max_bytes: 512
+  credential_reflection_handling: DO_NOT_PERSIST_REFLECTED_BYTES_RECORD_SAFE_TERMINAL_REASON_ONLY
+
+quality_freeze:
+  required_before_provider_submission: true
+  owns:
+    - exact system instruction and user envelope
+    - exact finite response schema
+    - four-program mapping table
+    - fake-server positive and adversarial response fixtures
+    - independent evaluator and expected stable projection
+  worker_must_not_import_or_call_quality_oracle: true
+
+acceptance_criteria:
+  - All offline conformance and adversarial transport/parser tests pass before the real request.
+  - Exact request body bytes and a category-level egress manifest are frozen before transport and contain no source, tests, reference patch, evaluator, governance, Truth or credential.
+  - Source-bearing Provider submissions are zero or one; once sent, success, refusal, timeout, reset, malformed output or ambiguous delivery is terminal and never retried.
+  - The response is bounded and parsed as untrusted bytes; only an exact closed four-state IR choice may reach the accepted P1-055 compiler.
+  - Run A and independent Run B use the same retained response with no second Provider request and agree on the stable projection.
+  - Both disposable repositories prove exact base commit/tree/clean rollback and cleanup only task-owned paths.
+  - Evidence records request and response identities, timing, HTTP status, returned model and usage when present; OpenAI provenance is Founder-attested while exact upstream model, upstream call count and monetary cost remain independently unverified.
+  - Credential value, length and hash are absent from Git, Evidence, logs, argv and every post-transport child.
+
+required_evidence:
+  - frozen egress artifact identities and exact request-body identity
+  - transport receipt with one-shot counter, peer address, status, latency and safe response identity
+  - response parser and finite-IR mapping outcome
+  - accepted compiler identity and outcome
+  - Run A and independent Run B fixed-test results and stable-projection comparison
+  - rollback and cleanup receipts
+  - closed Evidence manifest with credential leak scan
+
+stop_conditions:
+  - exact route, packet, profile, endpoint, model, budget, identity or clean-state drift
+  - credential reflection or any credential persistence, logging, hashing or propagation after transport
+  - any second metadata request, second source-bearing submission, retry, redirect, proxy, DNS or endpoint fallback
+  - source, tests, reference patch, evaluator, governance, Truth or hidden evidence enters egress
+  - Provider text can select a path, source, diff, command, argv, executable or non-finite mutation
+  - remote, production or public effect
+  - Evidence corruption, scope expansion, second candidate or need for another Founder-reserved decision
+
+forbidden_actions:
+  - read, restore, compare, repair or reuse P1-052 or P1-056 rejected engineering bytes
+  - expose or persist the supplied credential or screenshot contents
+  - rewrite Founder-attested OpenAI provenance as independently verified exact upstream model, upstream request count or monetary cost
+  - let the model read repository source or tests, execute tools, write source directly or produce a free-form patch
+  - start P2, P3, agent shell, remote write, production or public activity
+  - create a successor, replacement, normalization, closure, feasibility or remediation chain
+
+claim_boundary: >-
+  ONE_VISIBLE_SYNTHETIC_REP001_SINGLE_LITERAL_LOOPBACK_OPENAI_COMPATIBLE_GATEWAY_CHAT_COMPLETION_FINITE_IR_B0_OBSERVATION_WITH_AT_MOST_ONE_SOURCE_BEARING_SUBMISSION_AND_DUAL_LOCAL_EVALUATION_ONLY_NO_DIRECT_OPENAI_PROVENANCE_EXACT_UPSTREAM_MODEL_UPSTREAM_CALL_COUNT_COST_B0_SUITE_VTSR_AGENT_P1_EXIT_P2_P3_PRODUCT_PRODUCTION_PUBLIC_OR_GENERAL_PROVIDER_CLAIM

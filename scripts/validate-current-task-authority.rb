@@ -16,6 +16,22 @@ module CurrentTaskAuthority
   COMMIT_RE = /\A[0-9a-f]{40}\z/.freeze
   SAFE_TASK_ID_RE = /\AAIOS-P1-[0-9]{3}(?:_[A-Z0-9_]+)?\z/.freeze
   EXTERNAL_EFFECT_KEYS = %w[network provider secret remote production public].freeze
+  FALSE_EXTERNAL_EFFECTS = {
+    "network" => false,
+    "provider" => false,
+    "secret" => false,
+    "remote" => false,
+    "production" => false,
+    "public" => false
+  }.freeze
+  LOCAL_GATEWAY_EXTERNAL_EFFECTS = {
+    "network" => true,
+    "provider" => true,
+    "secret" => true,
+    "remote" => false,
+    "production" => false,
+    "public" => false
+  }.freeze
   ACTIVE_STATUSES = %w[ACTIVE AUTHORIZED_ACTIVE EXECUTING].freeze
   AUTHORIZED_ROUTE_STATUSES = %w[AUTHORIZED_READY ACTIVE].freeze
   ACCEPTED_GATE_STATUS_RE = /\A(?:FOUNDER_GATE|MASTER_TASK_GATE)_ACCEPTED_COMPLETE\z/.freeze
@@ -228,10 +244,144 @@ module CurrentTaskAuthority
     contract
   end
 
-  def validate_external_effects(value, label)
+  def validate_external_effects(value, label, expected = FALSE_EXTERNAL_EFFECTS)
     effects = hash(value, label)
     assert(effects.keys.sort == EXTERNAL_EFFECT_KEYS.sort, "#{label} must contain exactly the six external-effect keys")
-    EXTERNAL_EFFECT_KEYS.each { |key| exact_false(effects[key], "#{label}.#{key}") }
+    assert(effects == expected, "#{label} does not equal the exact authorized external-effect map")
+    effects
+  end
+
+  def exact_keys(value, expected, label)
+    record = hash(value, label)
+    assert(record.keys.sort == expected.sort, "#{label} keys drifted")
+    record
+  end
+
+  def founder_reserved_profile_from_packet(text)
+    matches = text.scan(
+      /<!-- BEGIN FOUNDER_RESERVED_PROFILE_JSON -->\s*```json\s*(.*?)\s*```\s*<!-- END FOUNDER_RESERVED_PROFILE_JSON -->/m
+    )
+    assert(matches.length == 1, "decision packet must contain exactly one Founder-reserved profile")
+    profile = JSON.parse(matches.first.first)
+    hash(profile, "Founder-reserved profile")
+  rescue JSON::ParserError => e
+    fail!("Founder-reserved profile is invalid JSON: #{e.message}")
+  end
+
+  def validate_founder_reserved_profile(value, route_id, task_id, label)
+    profile = exact_keys(
+      value,
+      %w[schema_version profile_id decision_basis route_id task_id transport model secret call_limits request_limits egress external_effects claim_limits],
+      label
+    )
+    assert(profile["schema_version"] == "1.0", "#{label} schema version drifted")
+    string(profile["profile_id"], "#{label}.profile_id")
+    string(profile["decision_basis"], "#{label}.decision_basis")
+    assert(profile["route_id"] == route_id, "#{label} route id mismatch")
+    assert(profile["task_id"] == task_id, "#{label} Task id mismatch")
+
+    transport = exact_keys(
+      profile["transport"],
+      %w[scheme host port base_path metadata_path completion_path api_format method follow_redirects use_proxy dns_resolution fallback_endpoint_allowed expected_peer_address expected_peer_port],
+      "#{label}.transport"
+    )
+    expected_transport = {
+      "scheme" => "http",
+      "host" => "127.0.0.1",
+      "port" => 8787,
+      "base_path" => "/v1",
+      "metadata_path" => "/v1/models",
+      "completion_path" => "/v1/chat/completions",
+      "api_format" => "OPENAI_COMPATIBLE_CHAT_COMPLETIONS",
+      "method" => "POST",
+      "follow_redirects" => false,
+      "use_proxy" => false,
+      "dns_resolution" => false,
+      "fallback_endpoint_allowed" => false,
+      "expected_peer_address" => "127.0.0.1",
+      "expected_peer_port" => 8787
+    }
+    assert(transport == expected_transport, "#{label}.transport exceeds the literal local-gateway boundary")
+
+    model = exact_keys(profile["model"], %w[requested_model substitution_allowed provider_provenance],
+                       "#{label}.model")
+    string(model["requested_model"], "#{label}.model.requested_model")
+    exact_false(model["substitution_allowed"], "#{label}.model.substitution_allowed")
+    assert(model["provider_provenance"] == "OPENAI_FOUNDER_ATTESTED_GATEWAY_NOT_INDEPENDENTLY_VERIFIED",
+           "#{label}.model provider provenance must remain Founder-attested and independently unverified")
+
+    secret = exact_keys(profile["secret"], %w[env_name source persist log_hash_or_evidence_allowed],
+                        "#{label}.secret")
+    assert(secret["env_name"].is_a?(String) && secret["env_name"].match?(/\A[A-Z][A-Z0-9_]*\z/),
+           "#{label}.secret.env_name is invalid")
+    assert(secret["source"] == "FOUNDER_TRANSIENT_UI_INPUT", "#{label}.secret source drifted")
+    exact_false(secret["persist"], "#{label}.secret.persist")
+    exact_false(secret["log_hash_or_evidence_allowed"], "#{label}.secret.log_hash_or_evidence_allowed")
+
+    calls = exact_keys(
+      profile["call_limits"],
+      %w[metadata_max metadata_used_before_activation source_bearing_max source_bearing_used_before_activation automatic_retry_max ambiguous_send_retry_allowed],
+      "#{label}.call_limits"
+    )
+    assert(calls == {
+      "metadata_max" => 1,
+      "metadata_used_before_activation" => 1,
+      "source_bearing_max" => 1,
+      "source_bearing_used_before_activation" => 0,
+      "automatic_retry_max" => 0,
+      "ambiguous_send_retry_allowed" => false
+    }, "#{label}.call limits drifted")
+
+    limits = exact_keys(
+      profile["request_limits"],
+      %w[max_input_tokens max_output_tokens timeout_seconds request_body_max_bytes response_body_max_bytes],
+      "#{label}.request_limits"
+    )
+    caps = {
+      "max_input_tokens" => 4096,
+      "max_output_tokens" => 1024,
+      "timeout_seconds" => 120,
+      "request_body_max_bytes" => 32_768,
+      "response_body_max_bytes" => 131_072
+    }
+    caps.each do |key, cap|
+      current = integer(limits[key], "#{label}.request_limits.#{key}")
+      assert(current.positive? && current <= cap, "#{label}.request_limits.#{key} exceeds the safety cap")
+    end
+
+    egress = exact_keys(profile["egress"], %w[allowed_artifact_ids forbidden_categories], "#{label}.egress")
+    expected_allowed = %w[
+      P1_035_REP001_ISSUE_TEXT
+      P1_035_REP001_ALLOWED_CLARIFICATIONS
+      P1_035_REP001_ACCEPTED_BASELINE_CONTEXT
+      P1_062_FINITE_IR_RESPONSE_INSTRUCTION
+    ]
+    expected_forbidden = %w[
+      SOURCE_BYTES
+      TEST_BYTES
+      REFERENCE_PATCH
+      EVALUATOR_BYTES
+      GOVERNANCE_OR_TRUTH_BYTES
+      SECRET_OR_AUTHORIZATION_HEADER
+      HIDDEN_TASK_OR_HIDDEN_EVIDENCE
+    ]
+    assert(array(egress["allowed_artifact_ids"], "#{label}.egress.allowed_artifact_ids") == expected_allowed,
+           "#{label}.egress allowlist drifted")
+    assert(array(egress["forbidden_categories"], "#{label}.egress.forbidden_categories") == expected_forbidden,
+           "#{label}.egress denylist drifted")
+
+    validate_external_effects(profile["external_effects"], "#{label}.external_effects",
+                              LOCAL_GATEWAY_EXTERNAL_EFFECTS)
+    claims = exact_keys(profile["claim_limits"],
+                        %w[direct_openai_provenance_proven upstream_provider upstream_request_count monetary_cost],
+                        "#{label}.claim_limits")
+    assert(claims == {
+      "direct_openai_provenance_proven" => false,
+      "upstream_provider" => "OPENAI_FOUNDER_ATTESTED",
+      "upstream_request_count" => "UNKNOWN",
+      "monetary_cost" => "UNKNOWN_USER_MANAGED_GATEWAY"
+    }, "#{label}.claim limits drifted")
+    profile
   end
 
   def one_packet_match(text, pattern, label)
@@ -274,6 +424,9 @@ module CurrentTaskAuthority
     )
     implementation_iterations = Integer(first_task_budget[2], 10)
     assert(implementation_iterations >= 1, "first Task implementation iterations must be positive")
+    founder_reserved_profile = founder_reserved_profile_from_packet(text)
+    validate_founder_reserved_profile(founder_reserved_profile, route_id, first_task_id,
+                                      "decision packet Founder-reserved profile")
     {
       "route_id" => route_id,
       "first_task_id" => first_task_id,
@@ -289,6 +442,7 @@ module CurrentTaskAuthority
       "max_same_task_repairs" => implementation_iterations - 1,
       "activation_parent_commit" => parent[0],
       "activation_parent_tree" => parent[1],
+      "founder_reserved_profile" => founder_reserved_profile,
       "text" => text
     }
   rescue ArgumentError
@@ -437,7 +591,14 @@ module CurrentTaskAuthority
                 "route envelope correction-chain permission")
     exact_false(envelope["p2_entry_authorized"], "route envelope P2 entry")
     exact_false(envelope["p3_entry_authorized"], "route envelope P3 entry")
-    validate_external_effects(envelope["external_effects"], "current_phase_route.envelope.external_effects")
+    route_profile = validate_founder_reserved_profile(
+      route["founder_reserved_profile"], route_id, claims["first_task_id"],
+      "current_phase_route.founder_reserved_profile"
+    )
+    assert(route_profile == claims["founder_reserved_profile"],
+           "Truth Founder-reserved profile does not equal the exact decision packet")
+    validate_external_effects(envelope["external_effects"], "current_phase_route.envelope.external_effects",
+                              route_profile["external_effects"])
     %w[max_engineering_tasks max_engineering_hours max_calendar_days].each do |key|
       assert(envelope[key] == claims[key], "route envelope #{key} does not match exact decision packet")
     end
@@ -756,12 +917,38 @@ module CurrentTaskAuthority
              "allowlisted path overlaps immutable authority: #{scope}")
     end
 
-    validate_external_effects(active["external_effects"], "active_work.external_effects")
-    validate_external_effects(contract_field(contract, "external_effects"), "contract external_effects")
-    validate_external_effects(contract_field(authority_record, "external_effects"), "authority external_effects")
+    expected_effects = validate_founder_reserved_profile(
+      route["founder_reserved_profile"], route_id, task_id, "current_phase_route.founder_reserved_profile"
+    )["external_effects"]
+    validate_external_effects(active["external_effects"], "active_work.external_effects", expected_effects)
+    validate_external_effects(contract_field(contract, "external_effects"), "contract external_effects", expected_effects)
+    validate_external_effects(contract_field(authority_record, "external_effects"), "authority external_effects",
+                              expected_effects)
+    contract_profile = validate_founder_reserved_profile(
+      contract_field(contract, "founder_reserved_profile"), route_id, task_id, "contract Founder-reserved profile"
+    )
+    authority_profile = validate_founder_reserved_profile(
+      contract_field(authority_record, "founder_reserved_profile"), route_id, task_id,
+      "authority Founder-reserved profile"
+    )
+    assert(contract_profile == route["founder_reserved_profile"], "contract Founder-reserved profile mismatch")
+    assert(authority_profile == route["founder_reserved_profile"], "authority Founder-reserved profile mismatch")
     exact_false(active["founder_decision_required"], "active_work.founder_decision_required")
-    assert(active["founder_reserved_authorization"].nil? && active["founder_reserved_authorization_sha256"].nil?,
-           "active cooperative-local Task must not claim Founder-reserved authorization")
+    packet = hash(route["decision_packet"], "current_phase_route.decision_packet")
+    assert(active["founder_reserved_authorization"] == packet["path"],
+           "active Founder-reserved authorization path mismatch")
+    assert(active["founder_reserved_authorization_sha256"] == packet["sha256"],
+           "active Founder-reserved authorization SHA mismatch")
+    [contract, authority_record].each_with_index do |record, index|
+      label = index.zero? ? "contract" : "authority record"
+      binding = exact_keys(contract_field(record, "founder_reserved_authorization"),
+                           %w[path sha256 byte_length authorization_token],
+                           "#{label} Founder-reserved authorization")
+      assert(binding["path"] == packet["path"] && binding["sha256"] == packet["sha256"] &&
+             binding["byte_length"] == packet["byte_length"] &&
+             binding["authorization_token"] == route["authorization_token"],
+             "#{label} Founder-reserved authorization mismatch")
+    end
 
     branch = string(active["task_branch"], "active_work.task_branch")
     assert(branch != project["canonical_branch"], "Task branch must differ from canonical branch")

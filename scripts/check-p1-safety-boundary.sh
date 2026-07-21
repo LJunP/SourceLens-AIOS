@@ -36,12 +36,137 @@ check_current_p1_route() {
       value
     end
 
-    def effect_map!(value, label)
+    FALSE_EFFECTS = {
+      "network" => false,
+      "provider" => false,
+      "secret" => false,
+      "remote" => false,
+      "production" => false,
+      "public" => false
+    }.freeze
+    LOCAL_GATEWAY_EFFECTS = {
+      "network" => true,
+      "provider" => true,
+      "secret" => true,
+      "remote" => false,
+      "production" => false,
+      "public" => false
+    }.freeze
+
+    def effect_map!(value, label, expected = FALSE_EFFECTS)
       effects = mapping!(value, label)
-      expected = %w[network provider secret remote production public]
-      stop!("#{label} keys drifted") unless effects.keys.sort == expected.sort
-      expected.each { |key| stop!("#{label}.#{key} must be false") unless effects[key] == false }
+      keys = %w[network provider secret remote production public]
+      stop!("#{label} keys drifted") unless effects.keys.sort == keys.sort
+      stop!("#{label} does not equal the exact authorized effect map") unless effects == expected
       effects
+    end
+
+    def exact_keys!(value, expected, label)
+      record = mapping!(value, label)
+      stop!("#{label} keys drifted") unless record.keys.sort == expected.sort
+      record
+    end
+
+    def founder_profile!(value, route_id, task_id, label)
+      profile = exact_keys!(
+        value,
+        %w[schema_version profile_id decision_basis route_id task_id transport model secret call_limits request_limits egress external_effects claim_limits],
+        label
+      )
+      stop!("#{label} schema drift") unless profile["schema_version"] == "1.0"
+      stop!("#{label} route drift") unless profile["route_id"] == route_id
+      stop!("#{label} Task drift") unless profile["task_id"] == task_id
+      nonempty_string!(profile["decision_basis"], "#{label}.decision_basis")
+
+      transport = exact_keys!(
+        profile["transport"],
+        %w[scheme host port base_path metadata_path completion_path api_format method follow_redirects use_proxy dns_resolution fallback_endpoint_allowed expected_peer_address expected_peer_port],
+        "#{label}.transport"
+      )
+      expected_transport = {
+        "scheme" => "http",
+        "host" => "127.0.0.1",
+        "port" => 8787,
+        "base_path" => "/v1",
+        "metadata_path" => "/v1/models",
+        "completion_path" => "/v1/chat/completions",
+        "api_format" => "OPENAI_COMPATIBLE_CHAT_COMPLETIONS",
+        "method" => "POST",
+        "follow_redirects" => false,
+        "use_proxy" => false,
+        "dns_resolution" => false,
+        "fallback_endpoint_allowed" => false,
+        "expected_peer_address" => "127.0.0.1",
+        "expected_peer_port" => 8787
+      }
+      stop!("#{label} transport exceeds literal loopback boundary") unless transport == expected_transport
+
+      model = exact_keys!(profile["model"], %w[requested_model substitution_allowed provider_provenance],
+                          "#{label}.model")
+      nonempty_string!(model["requested_model"], "#{label}.model.requested_model")
+      stop!("#{label} allows model substitution") unless model["substitution_allowed"] == false
+      stop!("#{label} overclaims provider provenance") unless
+        model["provider_provenance"] == "OPENAI_FOUNDER_ATTESTED_GATEWAY_NOT_INDEPENDENTLY_VERIFIED"
+
+      secret = exact_keys!(profile["secret"], %w[env_name source persist log_hash_or_evidence_allowed],
+                           "#{label}.secret")
+      stop!("#{label} secret env invalid") unless
+        secret["env_name"].is_a?(String) && secret["env_name"].match?(/\A[A-Z][A-Z0-9_]*\z/)
+      stop!("#{label} secret source drift") unless secret["source"] == "FOUNDER_TRANSIENT_UI_INPUT"
+      stop!("#{label} permits secret persistence") unless
+        secret["persist"] == false && secret["log_hash_or_evidence_allowed"] == false
+
+      calls = exact_keys!(
+        profile["call_limits"],
+        %w[metadata_max metadata_used_before_activation source_bearing_max source_bearing_used_before_activation automatic_retry_max ambiguous_send_retry_allowed],
+        "#{label}.call_limits"
+      )
+      stop!("#{label} call limits drift") unless calls == {
+        "metadata_max" => 1,
+        "metadata_used_before_activation" => 1,
+        "source_bearing_max" => 1,
+        "source_bearing_used_before_activation" => 0,
+        "automatic_retry_max" => 0,
+        "ambiguous_send_retry_allowed" => false
+      }
+
+      limits = exact_keys!(profile["request_limits"],
+                           %w[max_input_tokens max_output_tokens timeout_seconds request_body_max_bytes response_body_max_bytes],
+                           "#{label}.request_limits")
+      caps = {
+        "max_input_tokens" => 4096,
+        "max_output_tokens" => 1024,
+        "timeout_seconds" => 120,
+        "request_body_max_bytes" => 32768,
+        "response_body_max_bytes" => 131072
+      }
+      caps.each do |key, cap|
+        positive_integer!(limits[key], "#{label}.request_limits.#{key}")
+        stop!("#{label}.request_limits.#{key} exceeds cap") unless limits[key] <= cap
+      end
+
+      egress = exact_keys!(profile["egress"], %w[allowed_artifact_ids forbidden_categories], "#{label}.egress")
+      stop!("#{label} egress allowlist drift") unless egress["allowed_artifact_ids"] == %w[
+        P1_035_REP001_ISSUE_TEXT
+        P1_035_REP001_ALLOWED_CLARIFICATIONS
+        P1_035_REP001_ACCEPTED_BASELINE_CONTEXT
+        P1_062_FINITE_IR_RESPONSE_INSTRUCTION
+      ]
+      stop!("#{label} egress denylist drift") unless egress["forbidden_categories"] == %w[
+        SOURCE_BYTES TEST_BYTES REFERENCE_PATCH EVALUATOR_BYTES GOVERNANCE_OR_TRUTH_BYTES
+        SECRET_OR_AUTHORIZATION_HEADER HIDDEN_TASK_OR_HIDDEN_EVIDENCE
+      ]
+      effect_map!(profile["external_effects"], "#{label}.external_effects", LOCAL_GATEWAY_EFFECTS)
+      claims = exact_keys!(profile["claim_limits"],
+                           %w[direct_openai_provenance_proven upstream_provider upstream_request_count monetary_cost],
+                           "#{label}.claim_limits")
+      stop!("#{label} claim boundary drift") unless claims == {
+        "direct_openai_provenance_proven" => false,
+        "upstream_provider" => "OPENAI_FOUNDER_ATTESTED",
+        "upstream_request_count" => "UNKNOWN",
+        "monetary_cost" => "UNKNOWN_USER_MANAGED_GATEWAY"
+      }
+      profile
     end
 
     def safe_relative_path!(value, label)
@@ -135,7 +260,6 @@ check_current_p1_route() {
     single_resource_limits.each do |key, expected|
       stop!("P1 route envelope #{key} drift") unless envelope[key] == expected
     end
-    effect_map!(envelope["external_effects"], "current_phase_route.envelope.external_effects")
     stop!("P2 entry was authorized inside P1") unless envelope["p2_entry_authorized"] == false
     stop!("P3 entry was authorized inside P1") unless envelope["p3_entry_authorized"] == false
 
@@ -151,6 +275,10 @@ check_current_p1_route() {
 
     first_task = mapping!(route["first_task"], "current_phase_route.first_task")
     first_task_id = nonempty_string!(first_task["task_id"], "current_phase_route.first_task.task_id")
+    route_profile = founder_profile!(route["founder_reserved_profile"], route["route_id"], first_task_id,
+                                     "current_phase_route.founder_reserved_profile")
+    effect_map!(envelope["external_effects"], "current_phase_route.envelope.external_effects",
+                route_profile["external_effects"])
     stop!("first Task phase identity invalid") unless first_task_id.start_with?("AIOS-P1-")
     safe_relative_path!(first_task["contract_path"], "current_phase_route.first_task.contract_path")
     stop!("first Task contract path is outside current Task contracts") unless first_task["contract_path"].start_with?("docs/aios/tasks/")
@@ -193,11 +321,11 @@ check_current_p1_route() {
     end
 
     active = mapping!(truth["active_work"], "active_work")
-    effect_map!(active["external_effects"], "active_work.external_effects")
     current_task = active["current_task"]
     goal_task = truth.dig("goal", "current_task_authority")
 
     if current_task == "NONE"
+      effect_map!(active["external_effects"], "active_work.external_effects")
       initial_ready = route_status == "AUTHORIZED_READY"
       between_tasks = route_status == "ACTIVE"
       stop!("Task NONE requires either initial route-ready or between-Task Phase-active lifecycle") unless
@@ -252,7 +380,7 @@ check_current_p1_route() {
       nonempty_string!(active["current_task_status"], "active_work.current_task_status")
       contract_binding = binding!(active["current_task_contract"], "active_work.current_task_contract")
       binding!(active["authority_record"], "active_work.authority_record")
-      validate_bound_contract!(repo_root, contract_binding, current_task)
+      contract = validate_bound_contract!(repo_root, contract_binding, current_task)
       %w[task_branch task_worktree execution_evidence_root].each do |key|
         nonempty_string!(active[key], "active_work.#{key}")
       end
@@ -282,6 +410,17 @@ check_current_p1_route() {
           active_budget["candidates"] <= first_task["max_candidates"]
       end
       mapping!(active["roles"], "active_work.roles")
+      effect_map!(active["external_effects"], "active_work.external_effects", route_profile["external_effects"])
+      effect_map!(contract["external_effects"], "active Task Contract external_effects",
+                  route_profile["external_effects"])
+      contract_profile = founder_profile!(contract["founder_reserved_profile"], route["route_id"], current_task,
+                                          "active Task Contract founder_reserved_profile")
+      stop!("active Task Contract profile mismatch") unless contract_profile == route_profile
+      packet = decision_packet
+      stop!("active Founder authorization path drift") unless
+        active["founder_reserved_authorization"] == packet["path"]
+      stop!("active Founder authorization SHA drift") unless
+        active["founder_reserved_authorization_sha256"] == packet["sha256"]
       stop!("active Task unexpectedly requires Founder decision") unless active["founder_decision_required"] == false
     end
   ' "$truth_path" || fail "current P1 route safety envelope drift"

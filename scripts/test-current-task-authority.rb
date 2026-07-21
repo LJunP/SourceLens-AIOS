@@ -10,6 +10,7 @@ require "tmpdir"
 require "yaml"
 
 VALIDATOR = File.expand_path("validate-current-task-authority.rb", __dir__)
+SAFETY_VALIDATOR = File.expand_path("check-p1-safety-boundary.sh", __dir__)
 SOURCE_REPO = File.expand_path("..", __dir__)
 TRUTH_RELATIVE = "docs/aios/truth/project_state.yaml"
 POLICY_RELATIVE = "docs/aios/FOUNDER_DELEGATION_POLICY.md"
@@ -126,6 +127,10 @@ class CurrentTaskAuthorityTest
     Open3.capture3(RbConfig.ruby, VALIDATOR, chdir: repo)
   end
 
+  def run_safety(repo, truth_path)
+    Open3.capture3("bash", SAFETY_VALIDATOR, "--check-current-p1-route", truth_path, chdir: repo)
+  end
+
   def expect_pass(repo, label)
     stdout, stderr, status = run_validator(repo)
     assert(status.success?, "#{label}: expected PASS\n#{stdout}#{stderr}")
@@ -139,6 +144,23 @@ class CurrentTaskAuthorityTest
     output = stdout + stderr
     assert(!status.success?, "#{label}: expected NON_PASS")
     assert(output.include?("CURRENT_TASK_AUTHORITY: NON_PASS"), "#{label}: NON_PASS marker missing")
+    assert(pattern.match?(output), "#{label}: expected #{pattern.inspect}, got #{output.inspect}")
+    @passes += 1
+    puts "PASS #{label}"
+  end
+
+  def expect_safety_pass(repo, truth_path, label)
+    stdout, stderr, status = run_safety(repo, truth_path)
+    assert(status.success?, "#{label}: expected safety PASS\n#{stdout}#{stderr}")
+    assert(stdout.include?("Current P1 route safety validation passed."), "#{label}: safety PASS marker missing")
+    @passes += 1
+    puts "PASS #{label}"
+  end
+
+  def expect_safety_nonpass(repo, truth_path, label, pattern)
+    stdout, stderr, status = run_safety(repo, truth_path)
+    output = stdout + stderr
+    assert(!status.success?, "#{label}: expected safety NON_PASS")
     assert(pattern.match?(output), "#{label}: expected #{pattern.inspect}, got #{output.inspect}")
     @passes += 1
     puts "PASS #{label}"
@@ -198,6 +220,10 @@ class CurrentTaskAuthorityTest
       "production" => false,
       "public" => false
     }
+  end
+
+  def deep_copy(value)
+    Marshal.load(Marshal.dump(value))
   end
 
   def prepare_fixture(sandbox)
@@ -276,6 +302,7 @@ class CurrentTaskAuthorityTest
   def ready_tests(fixture)
     repo = fixture["repo"]
     expect_pass(repo, "ready route with Task NONE")
+    expect_safety_pass(repo, fixture["truth_path"], "ready route safety with Task NONE")
 
     original = tamper_owned_byte(fixture["packet_path"])
     expect_nonpass(repo, "decision packet byte tamper", /decision packet.*SHA-256 mismatch/i)
@@ -301,6 +328,36 @@ class CurrentTaskAuthorityTest
     truth["current_phase_route"]["envelope"]["max_engineering_hours"] = original_hours
     dump_owned_yaml(fixture["truth_path"], truth)
     commit(repo, "test: restore route envelope binding")
+
+    truth = yaml(fixture["truth_path"])
+    original_host = truth["current_phase_route"]["founder_reserved_profile"]["transport"]["host"]
+    truth["current_phase_route"]["founder_reserved_profile"]["transport"]["host"] = "localhost"
+    dump_owned_yaml(fixture["truth_path"], truth)
+    commit(repo, "test: expand literal gateway host to DNS name")
+    expect_nonpass(repo, "Founder profile host expansion", /transport exceeds the literal local-gateway boundary/)
+    expect_safety_nonpass(repo, fixture["truth_path"], "safety rejects Founder profile host expansion",
+                          /transport exceeds literal loopback boundary/)
+    truth["current_phase_route"]["founder_reserved_profile"]["transport"]["host"] = original_host
+    dump_owned_yaml(fixture["truth_path"], truth)
+    commit(repo, "test: restore literal gateway host")
+
+    truth = yaml(fixture["truth_path"])
+    truth["current_phase_route"]["founder_reserved_profile"]["call_limits"]["source_bearing_max"] = 2
+    dump_owned_yaml(fixture["truth_path"], truth)
+    commit(repo, "test: expand source-bearing call budget")
+    expect_nonpass(repo, "Founder profile call expansion", /call limits drifted/)
+    truth["current_phase_route"]["founder_reserved_profile"]["call_limits"]["source_bearing_max"] = 1
+    dump_owned_yaml(fixture["truth_path"], truth)
+    commit(repo, "test: restore one-call budget")
+
+    truth = yaml(fixture["truth_path"])
+    truth["current_phase_route"]["envelope"]["external_effects"]["remote"] = true
+    dump_owned_yaml(fixture["truth_path"], truth)
+    commit(repo, "test: authorize remote effect outside packet")
+    expect_nonpass(repo, "remote effect expansion", /exact authorized external-effect map/)
+    truth["current_phase_route"]["envelope"]["external_effects"]["remote"] = false
+    dump_owned_yaml(fixture["truth_path"], truth)
+    commit(repo, "test: restore remote deny")
 
     accepted_lineage_tests(fixture)
 
@@ -425,10 +482,25 @@ class CurrentTaskAuthorityTest
       "phase" => "P1",
       "route_id" => route_id,
       "status" => "ACTIVE",
+      "objective" => "Run one bounded local-gateway finite-IR fixture task.",
+      "why_now" => "Exercise the exact Founder-reserved authority path without network in this fixture.",
+      "owner_role" => roles["owner"],
+      "worker_role" => roles["worker"],
       "budget" => budget,
       "roles" => roles,
       "allowlisted_paths" => allowlisted,
-      "external_effects" => false_effects
+      "external_effects" => deep_copy(truth.fetch("current_phase_route").fetch("envelope").fetch("external_effects")),
+      "founder_reserved_authorization" => {
+        "path" => truth.dig("current_phase_route", "decision_packet", "path"),
+        "sha256" => truth.dig("current_phase_route", "decision_packet", "sha256"),
+        "byte_length" => truth.dig("current_phase_route", "decision_packet", "byte_length"),
+        "authorization_token" => truth.dig("current_phase_route", "authorization_token")
+      },
+      "founder_reserved_profile" => deep_copy(truth.dig("current_phase_route", "founder_reserved_profile")),
+      "acceptance_criteria" => ["exact bounded fixture passes"],
+      "required_evidence" => ["fixture receipt"],
+      "stop_conditions" => ["authority drift"],
+      "forbidden_actions" => ["network"]
     }
     if File.exist?(contract_path)
       register_owned(contract_path)
@@ -464,7 +536,9 @@ class CurrentTaskAuthorityTest
       "budget" => budget,
       "roles" => roles,
       "allowlisted_paths" => allowlisted,
-      "external_effects" => false_effects
+      "external_effects" => deep_copy(truth.fetch("current_phase_route").fetch("envelope").fetch("external_effects")),
+      "founder_reserved_authorization" => deep_copy(contract.fetch("founder_reserved_authorization")),
+      "founder_reserved_profile" => deep_copy(truth.dig("current_phase_route", "founder_reserved_profile"))
     }
     create_exclusive(authority_path, YAML.dump(authority))
     authority_bytes = File.binread(authority_path)
@@ -504,10 +578,10 @@ class CurrentTaskAuthorityTest
       "allowlisted_paths" => allowlisted,
       "budget" => budget,
       "roles" => roles,
-      "external_effects" => false_effects,
+      "external_effects" => deep_copy(truth.fetch("current_phase_route").fetch("envelope").fetch("external_effects")),
       "offsite_target" => nil,
-      "founder_reserved_authorization" => nil,
-      "founder_reserved_authorization_sha256" => nil,
+      "founder_reserved_authorization" => truth.dig("current_phase_route", "decision_packet", "path"),
+      "founder_reserved_authorization_sha256" => truth.dig("current_phase_route", "decision_packet", "sha256"),
       "founder_decision_required" => false,
       "escalation_reason" => nil,
       "user_action_required" => "NONE",
@@ -531,6 +605,7 @@ class CurrentTaskAuthorityTest
   def active_tests(fixture)
     repo = fixture["repo"]
     expect_pass(repo, "generic active Task")
+    expect_safety_pass(repo, fixture["truth_path"], "generic active Task safety")
 
     original = tamper_owned_byte(fixture["authority_path"])
     expect_nonpass(repo, "authority record byte tamper", /authority record SHA-256 mismatch/)
@@ -544,11 +619,11 @@ class CurrentTaskAuthorityTest
     commit(repo, "test: restore owned contract bytes")
 
     truth = yaml(fixture["truth_path"])
-    truth["active_work"]["external_effects"]["network"] = true
+    truth["active_work"]["external_effects"]["network"] = false
     dump_owned_yaml(fixture["truth_path"], truth)
     commit(repo, "test: set unauthorized external effect")
-    expect_nonpass(repo, "unauthorized network effect", /external_effects\.network must be false/)
-    truth["active_work"]["external_effects"]["network"] = false
+    expect_nonpass(repo, "missing authorized network effect", /exact authorized external-effect map/)
+    truth["active_work"]["external_effects"]["network"] = true
     dump_owned_yaml(fixture["truth_path"], truth)
     commit(repo, "test: restore external effects")
 

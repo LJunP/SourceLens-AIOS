@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-21T01:07:10Z"
-verification_scope: P1_061_AND_CONTINUOUS_ROUTE_PROCESS_ARCHITECTURE_ROOT_TERMINAL
+last_verified_at: "2026-07-21T02:20:35Z"
+verification_scope: P1_LOCAL_GATEWAY_ROUTE_AUTHORIZED_READY_PRE_TASK_ACTIVATION
 
 authority:
   founder: Human Founder
@@ -39,16 +39,15 @@ goal:
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
   current_task_authority: NONE
   note: >-
-    The Founder-approved long-term Goal, P1 Phase and exact phase-level
-    continuous engineering authority object remains the current historical
-    binding, but route execution is STOPPED with no scheduling authority.
-    P1-061 failed current-authority validation before Quality freeze or Worker
-    because the exact Contract lacked the validator-required roles mapping. A
-    second Contract correction is forbidden. Together with P1-060, this is the
-    second consecutive pre-Worker Contract/activation mechanics failure and
-    triggers PROCESS_ARCHITECTURE_ROOT. Task slot 5 is consumed, slot 6 is
-    ineligible, no implementation or capability exists, and P1 remains 2/8
-    complete (25%) pending one Founder route recovery decision.
+    The Founder-approved long-term Goal and P1 remain ACTIVE. The Founder
+    directly supplied and instructed use of one local OpenAI-compatible gateway
+    configuration and explicitly attested authentic OpenAI model provenance.
+    The exact route is now AUTHORIZED_READY with Task NONE while the bounded
+    authority bridge is validated. No Provider source-bearing request or new
+    engineering capability has yet been produced, and P1 remains 2/8 complete
+    (25%). After canonical bridge verification, the Master must mechanically
+    activate P1-062 and immediately enter real engineering without requesting
+    per-Task Founder approval.
 
 project:
   name: SourceLens AIOS
@@ -58,9 +57,9 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  phase_execution_status: ACTIVE
-  p1_execution_status: ACTIVE
-  current_route_execution_status: STOPPED_PROCESS_ARCHITECTURE_ROOT_FOUNDER_DECISION_REQUIRED
+  phase_execution_status: AUTHORIZED_READY
+  p1_execution_status: AUTHORIZED_READY
+  current_route_execution_status: AUTHORIZED_READY_TASK_1_NOT_ACTIVATED
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -73,45 +72,46 @@ project:
   realignment_parent_tree: 97972952872b0a1e340b6a88cbd7491b7f7df953
 
 current_phase_route:
-  route_id: P1_PHASE_LEVEL_CONTINUOUS_ENGINEERING_EXECUTION_ROUTE_V1
-  status: ACTIVE
-  authority_object_status: ACTIVE_HISTORICAL_BINDING_NO_SCHEDULING_AUTHORITY
-  execution_status: STOPPED_PROCESS_ARCHITECTURE_ROOT
-  founder_phase_route_decision_required: true
-  scheduling_status: STOPPED_NO_TASK_6
+  route_id: P1_LOCAL_GATEWAY_EMPIRICAL_BASELINE_VERTICAL_SLICE_ROUTE_V1
+  status: AUTHORIZED_READY
+  authority_object_status: FOUNDER_DIRECTIVE_ACTIVE
+  execution_status: AUTHORIZED_READY_TASK_1_NOT_ACTIVATED
+  founder_phase_route_decision_required: false
+  scheduling_status: TASK_1_ELIGIBLE_NOT_ACTIVATED
   phase: P1
   phase_entry_status: AUTHORIZED
-  decision_source: CODEX_THREAD_FOUNDER_MESSAGE_2026_07_20
-  authorization_token: AUTHORIZE_P1_PHASE_LEVEL_CONTINUOUS_ENGINEERING_EXECUTION_ROUTE_V1
+  decision_source: CODEX_THREAD_FOUNDER_DIRECT_LOCAL_GATEWAY_INSTRUCTION_2026_07_21
+  authorization_token: FOUNDER_DIRECT_INSTRUCTION_USE_SUPPLIED_LOCAL_OPENAI_COMPATIBLE_GATEWAY_2026_07_21
   decision_packet:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-phase-continuous-execution-correction-20260720T075451Z/FOUNDER_P1_PHASE_LEVEL_CONTINUOUS_EXECUTION_ROUTE_PACKET_V1.md
-    sha256: 31f751d38c76f97480a79a991f1a29f3b896f752e2ca2cc68eccaae6db5e4419
-    byte_length: 13230
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-062-local-gateway-20260721T022035Z/FOUNDER_P1_LOCAL_GATEWAY_EMPIRICAL_BASELINE_ROUTE_PACKET_V1.md
+    sha256: 6ff5f7e72a994429fd91dbfe7169156c11a2e93bb22c61188ac229d1b5ede78c
+    byte_length: 7717
   superseded_unactivated_packet:
-    authorization_token: AUTHORIZE_P1_PHASE_LEVEL_CONTINUOUS_ENGINEERING_EXECUTION_ENVELOPE_V1
-    sha256: 60cd45ddb12aa0d234458bb2ce45b26b8652be41a63dd22a10c5741c8d5170b0
-    status: FOUNDER_AUTHORIZED_BUT_UNACTIVATED_MECHANICALLY_INCOMPATIBLE_NO_SCHEDULING_AUTHORITY
+    authorization_token: AUTHORIZE_P1_PROCESS_ARCHITECTURE_RECOVERY_AND_EMPIRICAL_B0_VERTICAL_SLICE_ROUTE_V1
+    sha256: 8c35e8cc4953c74d1afb4d8454a7697d839f94d46beaa85f310611f63a483c94
+    status: SUPERSEDED_BY_LATEST_FOUNDER_DIRECT_LOCAL_GATEWAY_INSTRUCTION_BEFORE_ACTIVATION
   activation_parent:
-    commit: 14ca04dd25a22423fe34906f4caca77efd6ef576
-    tree: 2a786a35bd53ca6e4828099f837aa3ebc31909a5
+    commit: f96781b3fc24656694842b2f23edfd5676eda11c
+    tree: 221fd5fcadab7f1013bbf77369b718754101e935
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: "1.6"
     sha256: 4cee36f00b6686c75ed8f4d2811e4615ef98120c3f5e9be3e30b4fc5b2c1793c
   objective: >-
-    Continuously convert remaining P1 Exit Gate gaps into accepted executable
-    local Evidence, one minimal falsifiable engineering Task at a time, without
-    Provider or external effects and without per-Task Founder approval.
+    Produce one real, bounded and falsifiable local-gateway B0 vertical slice
+    for accepted REP-001 using the accepted finite typed IR compiler, one
+    source-bearing submission, independent local replay, complete Evidence and
+    no free-form model mutation.
   p1_exit_gate:
     source: docs/aios/EVALUATION_PROTOCOL.md
     version: "1.1"
     changed: false
     strict_status_at_activation: 2_COMPLETE_2_PARTIAL_4_NOT_COMPLETE_25_PERCENT
-    status: UNCHANGED_AFTER_P1_061_AND_ROUTE_TERMINAL
+    status: UNCHANGED_ROUTE_READY_NO_NEW_CAPABILITY
   envelope:
-    max_engineering_tasks: 6
-    max_engineering_hours: 48
-    max_calendar_days: 14
+    max_engineering_tasks: 1
+    max_engineering_hours: 12
+    max_calendar_days: 3
     max_active_tasks: 1
     max_task_branches: 1
     max_task_worktrees: 1
@@ -125,12 +125,81 @@ current_phase_route:
     p2_entry_authorized: false
     p3_entry_authorized: false
     external_effects:
-      network: false
-      provider: false
-      secret: false
+      network: true
+      provider: true
+      secret: true
       remote: false
       production: false
       public: false
+  founder_reserved_profile:
+    schema_version: "1.0"
+    profile_id: P1_LOCAL_GATEWAY_FINITE_IR_B0_V1
+    decision_basis: FOUNDER_DIRECT_UI_INSTRUCTION_2026_07_21
+    route_id: P1_LOCAL_GATEWAY_EMPIRICAL_BASELINE_VERTICAL_SLICE_ROUTE_V1
+    task_id: AIOS-P1-062_LOCAL_GATEWAY_FINITE_IR_B0_VERTICAL_SLICE
+    transport:
+      scheme: http
+      host: 127.0.0.1
+      port: 8787
+      base_path: /v1
+      metadata_path: /v1/models
+      completion_path: /v1/chat/completions
+      api_format: OPENAI_COMPATIBLE_CHAT_COMPLETIONS
+      method: POST
+      follow_redirects: false
+      use_proxy: false
+      dns_resolution: false
+      fallback_endpoint_allowed: false
+      expected_peer_address: 127.0.0.1
+      expected_peer_port: 8787
+    model:
+      requested_model: gpt-5.6-luna
+      substitution_allowed: false
+      provider_provenance: OPENAI_FOUNDER_ATTESTED_GATEWAY_NOT_INDEPENDENTLY_VERIFIED
+    secret:
+      env_name: P1_062_LOCAL_GATEWAY_API_KEY
+      source: FOUNDER_TRANSIENT_UI_INPUT
+      persist: false
+      log_hash_or_evidence_allowed: false
+    call_limits:
+      metadata_max: 1
+      metadata_used_before_activation: 1
+      source_bearing_max: 1
+      source_bearing_used_before_activation: 0
+      automatic_retry_max: 0
+      ambiguous_send_retry_allowed: false
+    request_limits:
+      max_input_tokens: 4096
+      max_output_tokens: 1024
+      timeout_seconds: 120
+      request_body_max_bytes: 32768
+      response_body_max_bytes: 131072
+    egress:
+      allowed_artifact_ids:
+        - P1_035_REP001_ISSUE_TEXT
+        - P1_035_REP001_ALLOWED_CLARIFICATIONS
+        - P1_035_REP001_ACCEPTED_BASELINE_CONTEXT
+        - P1_062_FINITE_IR_RESPONSE_INSTRUCTION
+      forbidden_categories:
+        - SOURCE_BYTES
+        - TEST_BYTES
+        - REFERENCE_PATCH
+        - EVALUATOR_BYTES
+        - GOVERNANCE_OR_TRUTH_BYTES
+        - SECRET_OR_AUTHORIZATION_HEADER
+        - HIDDEN_TASK_OR_HIDDEN_EVIDENCE
+    external_effects:
+      network: true
+      provider: true
+      secret: true
+      remote: false
+      production: false
+      public: false
+    claim_limits:
+      direct_openai_provenance_proven: false
+      upstream_provider: OPENAI_FOUNDER_ATTESTED
+      upstream_request_count: UNKNOWN
+      monetary_cost: UNKNOWN_USER_MANAGED_GATEWAY
   anti_loop:
     task_slot_consumed_at_first_contract_review: true
     same_task_repair_limit: 1
@@ -203,31 +272,33 @@ current_phase_route:
       lifecycle_must_not_be_rewritten: true
       reuse_boundary: FINITE_TYPED_PATCH_IR_V1_ACCEPTED_CANONICAL_INTERFACE_AND_VISIBLE_SYNTHETIC_OUTCOME_SEMANTICS_ONLY
   first_task:
-    task_id: AIOS-P1-057_LOCAL_EVALUATOR_FALSE_SUCCESS_CHARACTERIZATION_PACK
-    status: TERMINAL_FORMAL_RUN_A_PREFLIGHT_NON_PASS
-    classification: ENGINEERING
-    contract_path: docs/aios/tasks/P1-057_LOCAL_EVALUATOR_FALSE_SUCCESS_CHARACTERIZATION_PACK.yaml
-    contract_sha256: 4152f5a10c998f10721439c09e20cf7ef37c1c446a26ae1d1c8e574b16d1cf97
-    contract_byte_length: 18458
-    max_engineering_hours: 12
-    max_calendar_days: 4
+    task_id: AIOS-P1-062_LOCAL_GATEWAY_FINITE_IR_B0_VERTICAL_SLICE
+    status: ELIGIBLE_NOT_ACTIVATED
+    classification: EVALUATION_FOUNDATION_ENGINEERING
+    contract_path: docs/aios/tasks/P1-062_LOCAL_GATEWAY_FINITE_IR_B0_VERTICAL_SLICE.yaml
+    max_engineering_hours: 10
+    max_calendar_days: 3
     max_implementation_iterations: 2
     max_candidates: 1
     bounded_contract_corrections_used: 0
-    contract_review_rounds_used: 1
+    contract_review_rounds_used: 0
     task_slot: 1
-    objective: Complete evaluator disagreement and false-success characterization for one visible synthetic REP-001 control.
+    objective: Execute one real local-gateway REP-001 finite-IR B0 vertical slice with one submission and independent local replay.
     accepted_input_ids:
       - p1_035
       - p1_048
     accepted_substrate_ids:
       - p1_055
-    candidate_commit: 16b7d5c47c594ae4c60a018031d34b329a098db6
-    candidate_tree: 4ad4fc1386a753e43e52429eb491e76dcd4b0542
-    candidate_manifest_sha256: 0bbb7a8e0a3f2dfb2ae147f5f0b2c3aefd45978de81085db6a47d46d98360bb8
-    terminal_receipt_sha256: 9ba4e02038ca1bcaaeb2e7d179d1d83dda66009fdd11824c620e416c0c833179
-    claim_boundary: ONE_VISIBLE_SYNTHETIC_REP001_EVALUATOR_DISAGREEMENT_AND_FALSE_SUCCESS_CHARACTERIZATION_ONLY_NO_PROVIDER_MODEL_VTSR_AGENT_P1_EXIT_OR_PRODUCTION_CLAIM
+    claim_boundary: ONE_VISIBLE_SYNTHETIC_REP001_SINGLE_LITERAL_LOOPBACK_OPENAI_COMPATIBLE_GATEWAY_CHAT_COMPLETION_FINITE_IR_B0_OBSERVATION_ONLY_NO_INDEPENDENT_EXACT_UPSTREAM_MODEL_UPSTREAM_CALL_COUNT_COST_B0_SUITE_VTSR_AGENT_P1_EXIT_P2_P3_PRODUCT_PRODUCTION_PUBLIC_OR_GENERAL_PROVIDER_CLAIM
   route_execution_accounting:
+    maximum_engineering_tasks: 1
+    task_slots_consumed: 0
+    active_task_id: NONE
+    scheduled_task_ids:
+      - AIOS-P1-062_LOCAL_GATEWAY_FINITE_IR_B0_VERTICAL_SLICE
+    terminal_task_ids: []
+    status: AUTHORIZED_READY_TASK_1_NOT_ACTIVATED
+  prior_route_execution_accounting:
     maximum_engineering_tasks: 6
     task_slots_consumed: 5
     active_task_id: NONE
@@ -250,7 +321,7 @@ current_phase_route:
       - CONTRACT_LIFECYCLE_STATUS_NOT_ACTIVATED_BEFORE_EXACT_REVIEW_BINDING
       - CONTRACT_ROLE_MAPPING_REQUIRED_BY_CURRENT_AUTHORITY_VALIDATOR
     status: STOPPED_PROCESS_ARCHITECTURE_ROOT_5_OF_6_CONSUMED_SLOT_6_INELIGIBLE
-  active_task:
+  prior_terminal_task:
     task_id: AIOS-P1-061_BASELINE_FAIRNESS_ADMISSION_CERTIFICATE_COMPILER_CONFORMANCE
     status: TERMINAL_PRE_WORKER_AUTHORITY_VALIDATION_NON_PASS
     classification: PRE_WORKER_CONTRACT_ROLE_MAPPING_FAILURE_ZERO_ENGINEERING
@@ -293,7 +364,7 @@ current_phase_route:
     route_stop_trigger: TWO_CONSECUTIVE_PRE_WORKER_CONTRACT_ACTIVATION_MECHANICS_FAILURES
     gate_effect_on_pass: PREREQUISITE_ACCEPTED_ITEM_4_REMAINS_NOT_COMPLETE
     claim_boundary: ONE_LOCAL_SYNTHETIC_AND_CANONICAL_READINESS_BASELINE_FAIRNESS_ADMISSION_CERTIFICATE_COMPILER_ONLY_NO_RUN_SCHEDULE_VTSR_RUN_RECORD_ADAPTER_PROVIDER_MODEL_AGENT_BASELINE_RESULT_P1_EXIT_P2_P3_PRODUCTION_OR_GENERALIZATION_CLAIM
-  next_eligible_action: FOUNDER_PROCESS_ARCHITECTURE_RECOVERY_AND_PROVIDER_PHASE_ROUTE_DECISION
+  next_eligible_action: MASTER_ACTIVATE_FIRST_TASK
 phase_delegation:
   status: ACTIVE
   model: PHASE_LEVEL_FOUNDER_DELEGATION
@@ -1030,7 +1101,7 @@ active_work:
   authorization_id: null
   activation_parent_commit: null
   activation_parent_tree: null
-  task_resource_state: NONE_PHASE_ACTIVE
+  task_resource_state: NOT_CREATED_ROUTE_READY
   task_branch: null
   task_worktree: null
   execution_evidence_root: null
@@ -1058,9 +1129,9 @@ active_work:
   founder_decision_required_scope: RESERVED_DECISIONS_ONLY
   escalation_reason: null
   user_action_required: NONE
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_PROCESS_ARCHITECTURE_RECOVERY_AND_PROVIDER_PHASE_ROUTE_DECISION
-  next_eligible_action: FOUNDER_PROCESS_ARCHITECTURE_RECOVERY_AND_PROVIDER_PHASE_ROUTE_DECISION
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: MASTER_ACTIVATE_FIRST_TASK
 superseded_pre_delegation_authorizations:
   aios_p1_009:
     task_id: AIOS-P1-009_ENVIRONMENT_SNAPSHOT_REPRODUCIBILITY
@@ -2585,10 +2656,10 @@ phase_execution_claim:
     - canonical main advance outside an accepted task gate
 
 claim_boundary:
-  current_phase_route: P1_PHASE_LEVEL_CONTINUOUS_ENGINEERING_EXECUTION_ROUTE_V1_STOPPED_PROCESS_ARCHITECTURE_ROOT
-  current_task: NONE_ROUTE_STOPPED_AFTER_P1_061_TERMINAL
-  next_eligible_action: FOUNDER_PROCESS_ARCHITECTURE_RECOVERY_AND_PROVIDER_PHASE_ROUTE_DECISION
-  real_engineering_progress: P1_061_ZERO_ENGINEERING_PRE_WORKER_TERMINAL_ROUTE_STOPPED
+  current_phase_route: P1_LOCAL_GATEWAY_EMPIRICAL_BASELINE_VERTICAL_SLICE_ROUTE_V1_AUTHORIZED_READY
+  current_task: NONE_ROUTE_READY_PENDING_MECHANICAL_ACTIVATION
+  next_eligible_action: MASTER_ACTIVATE_FIRST_TASK
+  real_engineering_progress: P1_062_NOT_STARTED_ROUTE_BRIDGE_ONLY
   product_capability_changed_by_route_activation: false
   p1_057_status: TERMINAL_FORMAL_RUN_A_PREFLIGHT_NON_PASS
   p1_057_contract_sha256: 4152f5a10c998f10721439c09e20cf7ef37c1c446a26ae1d1c8e574b16d1cf97

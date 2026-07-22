@@ -1,0 +1,378 @@
+schema_version: "1.0"
+record_type: sourcelens_aios_phase_delegated_task_contract
+task_id: AIOS-P1-069_CLEAN_ROOM_OFFLINE_BLIND_ADMISSION_PARAMETERIZED_HARNESS_VERTICAL_SLICE
+task_slot: 1
+status: ACTIVE
+phase: P1
+route_id: P1_CLEAN_ROOM_BLIND_ADMISSION_AND_EMPIRICAL_EVALUATION_ROUTE_V1
+
+why_now:
+  - The prior three-Task route is exhausted and P1 remains strictly 2/8 complete.
+  - Hidden-set separation and a data-driven executable evaluation harness are current P1 Exit requirements and unblock later VTSR and false-success experiments.
+  - This Task starts from accepted canonical assets only and does not retry, repair or reuse P1-068.
+
+objective: >-
+  Build and actually execute one cooperative-local, clean-room, offline blind-admission
+  vertical slice in which the same data-driven harness runs a visible conformance task
+  and a Quality-withheld synthetic task after candidate freeze, retains real execution
+  and rollback Evidence, and fails closed on identity, architecture, path, hidden-data
+  and Evidence tamper controls.
+
+non_objectives:
+  - commercial hidden-set secrecy or hostile-principal resistance
+  - strong isolation, sandbox platform, Agent Runtime or arbitrary shell execution
+  - model, Provider, network, B0/B1/B2 completion, Observable Trace or baseline report
+  - VTSR aggregation or evaluator-disagreement characterization, which belongs to P1-070
+  - P1 Exit, P2, P3, production or public capability claims
+
+authority:
+  founder_authorization_token: AUTHORIZE_P1_CLEAN_ROOM_BLIND_ADMISSION_AND_EMPIRICAL_EVALUATION_ROUTE_V1
+  decision_packet:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-068-complete-observable-trace-L6vko0hp/terminal/P1_PHASE_GATE_CLEAN_ROOM_BLIND_ADMISSION_ROUTE_DECISION_PACKET_V1.md
+    sha256: 302a0821176f66afbced4f26c3c2e22c5460ef8d7055f219a9f1be40e29f093a
+    byte_length: 8572
+  goal_identity:
+    raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+    raw_byte_length: 19433
+    canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+    canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+    canonical_byte_length: 19434
+  canonical_parent:
+    commit: 8a110d7a2abd5ae8072040a789a2709ec45525b5
+    tree: 4c67d2edef302e3a7426562ac8ffdc146098bbe5
+  activation_requires:
+    - clean canonical main at the exact parent
+    - exact Contract CTO, Security and Quality review PASS
+    - one phase-delegated Task authority record bound to this Contract
+    - canonical Truth activation before Quality or Worker mutation
+
+route_envelope:
+  maximum_engineering_tasks: 2
+  maximum_engineering_hours: 40
+  maximum_calendar_days: 10
+  maximum_active_tasks: 1
+  maximum_task_branches: 1
+  maximum_task_worktrees: 1
+  maximum_active_candidates: 1
+  task_2_condition: P1_069_ACCEPTED_AND_CANONICAL_FULL_VERIFY_PASS
+
+task_envelope:
+  maximum_engineering_hours: 24
+  maximum_calendar_days: 6
+  maximum_pre_worker_engineering_hours: 2
+  worker_start_deadline: FIRST_ENGINEERING_HOUR
+  maximum_pre_freeze_implementation_iterations: 2
+  maximum_exact_candidates: 1
+  maximum_final_review_cycles: 1
+  post_freeze_source_repairs_allowed: false
+  contract_review_cycles: 2
+  contract_corrections_allowed: 1
+  contract_corrections_used: 1
+
+budget:
+  engineering_hours: 24
+  calendar_days: 6
+  implementation_iterations: 2
+  candidates: 1
+
+resources:
+  execution_nonce: P1-069-20260722T060337Z-49506445
+  branch: codex/p1-069-blind-admission-harness
+  worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-069-blind-admission-harness
+  evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-069-blind-admission-49506445
+
+roles:
+  owner: Engineering Manager Agent
+  worker: Blind Admission Harness Engineer
+  independent_reviewers:
+    - Fresh CTO Candidate Reviewer Agent
+    - Fresh Security Candidate Reviewer Agent
+    - Fresh Quality Candidate Reviewer Agent
+
+owner_role: Engineering Manager Agent
+worker_role: Blind Admission Harness Engineer
+
+role_assignments:
+  quality_owner: Independent Quality and Evaluation Agent
+  contract_reviewers:
+    - CTO Contract Reviewer Agent
+    - Security Contract Reviewer Agent
+    - Quality Contract Reviewer Agent
+  separation:
+    - Master owns Contract, authority, activation compatibility, integration and Truth.
+    - Quality owns public conformance contracts, the external withheld pack, commitment, expected result and independent oracle.
+    - Worker owns harness, recorder and candidate-side validators only after Quality Freeze.
+    - Worker cannot be a final reviewer and receives no withheld path or bytes before candidate freeze.
+
+allowlisted_paths:
+  - docs/aios/tasks/P1-069_CLEAN_ROOM_OFFLINE_BLIND_ADMISSION_PARAMETERIZED_HARNESS_VERTICAL_SLICE.yaml
+  - docs/aios/truth/project_state.yaml
+  - evaluation-harness/contracts/blind-admission-v1/admission-envelope.schema.json
+  - evaluation-harness/contracts/blind-admission-v1/evidence.schema.json
+  - evaluation-harness/fixtures/blind-admission-v1/visible-task-card.json
+  - evaluation-harness/fixtures/blind-admission-v1/visible-source.json
+  - evaluation-harness/fixtures/blind-admission-v1/visible-expected.json
+  - evaluation-harness/fixtures/blind-admission-v1/negative-cases.json
+  - evaluation-harness/fixtures/blind-admission-v1/runtime-profile.json
+  - evaluation-harness/evaluator/blind-admission-v1/public-conformance-oracle.mjs
+  - evaluation-harness/harness/blind-admission-v1/run.mjs
+  - evaluation-harness/recording/blind-admission-v1/recorder.mjs
+  - evaluation-harness/validators/blind-admission-v1/validator.mjs
+  - scripts/validate-current-task-authority.rb
+  - scripts/test-current-task-authority.rb
+  - scripts/check-p1-safety-boundary.sh
+  - scripts/verify-p1-069-blind-admission-harness.sh
+  - Makefile
+  - docs/PROJECT_CODE_MAP.md
+
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-068-complete-observable-trace-L6vko0hp/terminal/P1_PHASE_GATE_CLEAN_ROOM_BLIND_ADMISSION_ROUTE_DECISION_PACKET_V1.md
+  sha256: 302a0821176f66afbced4f26c3c2e22c5460ef8d7055f219a9f1be40e29f093a
+  byte_length: 8572
+  authorization_token: AUTHORIZE_P1_CLEAN_ROOM_BLIND_ADMISSION_AND_EMPIRICAL_EVALUATION_ROUTE_V1
+
+read_only_inputs:
+  - docs/aios/schemas/task-spec.schema.json
+  - docs/aios/schemas/environment-snapshot.schema.json
+  - docs/aios/schemas/system-configuration.schema.json
+  - docs/aios/schemas/run-record.schema.json
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+  - canonical assets explicitly accepted by current Truth
+
+write_scope:
+  master_owned:
+    - docs/aios/tasks/P1-069_CLEAN_ROOM_OFFLINE_BLIND_ADMISSION_PARAMETERIZED_HARNESS_VERTICAL_SLICE.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+  quality_owned:
+    - evaluation-harness/contracts/blind-admission-v1/admission-envelope.schema.json
+    - evaluation-harness/contracts/blind-admission-v1/evidence.schema.json
+    - evaluation-harness/fixtures/blind-admission-v1/visible-task-card.json
+    - evaluation-harness/fixtures/blind-admission-v1/visible-source.json
+    - evaluation-harness/fixtures/blind-admission-v1/visible-expected.json
+    - evaluation-harness/fixtures/blind-admission-v1/negative-cases.json
+    - evaluation-harness/fixtures/blind-admission-v1/runtime-profile.json
+    - evaluation-harness/evaluator/blind-admission-v1/public-conformance-oracle.mjs
+  worker_owned:
+    - evaluation-harness/harness/blind-admission-v1/run.mjs
+    - evaluation-harness/recording/blind-admission-v1/recorder.mjs
+    - evaluation-harness/validators/blind-admission-v1/validator.mjs
+  integration_owned:
+    - scripts/validate-current-task-authority.rb
+    - scripts/test-current-task-authority.rb
+    - scripts/check-p1-safety-boundary.sh
+    - scripts/verify-p1-069-blind-admission-harness.sh
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+  external_quality_only:
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-069-blind-admission-49506445/quality-withheld/withheld-task-card.json
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-069-blind-admission-49506445/quality-withheld/withheld-source.json
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-069-blind-admission-49506445/quality-withheld/withheld-tests.json
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-069-blind-admission-49506445/quality-withheld/withheld-expected.json
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-069-blind-admission-49506445/quality-withheld/withheld-oracle.mjs
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-069-blind-admission-49506445/quality-withheld/formal-matrix.json
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-069-blind-admission-49506445/quality-withheld/stable-projection.json
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-069-blind-admission-49506445/quality-withheld/commitment-manifest.json
+  external_task_evidence:
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-069-blind-admission-49506445/**
+
+forbidden_read_scope:
+  - any terminal or rejected Task source, fixture, test, candidate, diff, partial implementation or hidden Evidence
+  - P1-058, P1-063, P1-064, P1-067 or P1-068 candidate and implementation bytes
+  - evaluation-harness/fixtures/offline-provider-b0-v1
+  - withheld TaskSpec, fixture, tests, oracle, expected patch or assertions from the Worker role
+
+quality_freeze:
+  timing: AFTER_CANONICAL_ACTIVATION_BEFORE_WORKER_MUTATION
+  maximum_share_of_task_budget: 10_PERCENT
+  repository_outputs:
+    - public blind-admission envelope schema and finite operation vocabulary
+    - visible synthetic source fixture, TaskSpec, Task Card and expected conformance projection
+    - candidate-side output and Evidence schemas
+    - public negative-case declarations
+  external_withheld_outputs:
+    - a new synthetic hidden TaskSpec and source fixture
+    - hidden tests, expected result and independent oracle
+    - one commitment manifest exposing only hashes and lengths to Master and Worker
+  worker_disclosure:
+    allowed:
+      - public schemas and visible conformance assets
+      - external withheld commitment hash and byte lengths
+    forbidden:
+      - withheld paths, bytes, issue text, tests, oracle, expected patch and assertions
+
+execution_model:
+  task_card_trust: QUALITY_FROZEN_HASH_BOUND_INPUT
+  patch_form: FINITE_TYPED_DATA_NO_FREE_FORM_CODE_EXECUTION
+  process_api: DIRECT_SPAWN_WITHOUT_SHELL
+  result_controls_execution_parameters: false
+  dynamic_module_or_executable_target: false
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false
+
+mandatory_pre_execution_bindings:
+  - Contract, Task authority, candidate and Quality Freeze identities
+  - exact Task Card path, type, length and SHA-256
+  - source identity, immutable base manifest and clean-state policy
+  - Environment Snapshot and System Configuration identities
+  - actual process architecture matched to the frozen runtime profile
+  - absolute executable, realpath, digest, mode, version and architecture probe
+  - ordered argv array, exact cwd, explicit non-secret environment and numeric timeout
+  - fresh task-owned disposable source and Evidence roots
+  - all bindings complete before the first child start or source/output mutation
+
+path_and_evidence_invariants:
+  - Resolve every owned root and ancestor component with lstat and realpath containment; no component may be a symlink.
+  - Task-controlled inputs and Evidence leaves are regular non-symlink files with nlink one and exact length/hash before trusted read.
+  - Host executable identity does not require nlink one, but does require the frozen path, realpath, digest, mode, version and runtime architecture binding.
+  - Every output and Evidence leaf is absent before use and created atomically with exclusive create and no-follow behavior.
+  - Visible, withheld and replay runs use distinct physical roots and never overwrite, rename, delete or clean a pre-existing object.
+  - Completed Evidence is sealed and reverified before replay or review.
+  - Canonical source is never a run materialization or mutation target.
+
+required_real_runs:
+  visible_conformance:
+    timing: BEFORE_CANDIDATE_FREEZE
+    actor: Worker under Quality-owned public inputs
+    purpose: targeted implementation feedback only
+  visible_formal_run:
+    timing: AFTER_CANDIDATE_FREEZE
+    actor: fresh Quality Admission Actor
+    exact_candidate_and_harness_required: true
+    candidate_mutation_allowed: false
+  withheld_run_a:
+    timing: AFTER_VISIBLE_FORMAL_RUN_ON_THE_SAME_FROZEN_CANDIDATE
+    actor: the same fresh Quality Admission Actor
+    candidate_mutation_allowed: false
+  withheld_replay_b:
+    timing: AFTER_RUN_A
+    actor: fresh independent Quality Replay Actor
+    run_a_path_receipt_or_verdict_input_allowed: false
+    replay_scope: VISIBLE_FORMAL_AND_WITHHELD_MATRIX_ON_THE_SAME_FROZEN_CANDIDATE
+    candidate_mutation_allowed: false
+  stable_projection_exact_equality_required: true
+
+required_runtime_evidence:
+  - actual executable and argv, cwd, environment profile, timeout, exit code and duration
+  - retained bounded stdout and stderr with exact identities
+  - source/environment/system-configuration identities
+  - typed patch operations, before/after content and patch hash
+  - issue-specific and regression test artifacts
+  - independent evaluator identity and verdict
+  - rollback source identity, path set and clean-state equality
+  - hidden commitment verification without withheld bytes in Worker or candidate Evidence
+
+required_evidence:
+  - exact Contract, authority, Quality Freeze, candidate and executing-module identities
+  - retained visible, withheld A, independent replay B and negative-matrix run artifacts
+  - independent evaluator verdicts, stable projection comparison and zero-false-accept receipt
+  - exact rollback and six-false-external-effect receipts
+
+minimum_negative_families:
+  families:
+    - Task Card or commitment substitution
+    - path escape, root alias or scope substitution
+    - symlink component or task-controlled hardlink substitution
+    - base identity, source manifest or dirty-state drift
+    - hidden canary, oracle or expected-result leakage into Worker, candidate or visible logs
+    - empty patch and apply-without-material-change no-op patch
+    - pre-existing output or Evidence leaf
+    - actual alternate-architecture invocation before child or mutation
+    - sealed artifact, manifest, length or checksum tamper
+    - rollback content, path-set, source-identity or clean-state mismatch
+    - executable, argv, cwd, env or timeout substitution
+    - each of the six forbidden external effects
+  false_accepts_allowed: 0
+
+acceptance_criteria:
+  - Contract, authority, Quality Freeze, candidate and executing-module identities match exactly.
+  - One generic data-driven harness executes the visible and withheld Task Cards without Task-specific code or result-controlled behavior.
+  - Worker starts within the first engineering hour and never receives or reads withheld paths or bytes before candidate freeze.
+  - The actual process architecture and all source/environment/executable identities fail closed before child start or mutation.
+  - The post-freeze visible formal run, withheld run A and independent replay B all use the same exact candidate and retain complete runtime Evidence, independent evaluator verdicts and exact rollback.
+  - Run A and independent replay B have byte-equal frozen stable projections while dynamic fields remain outside the projection.
+  - All required negative families execute with zero false accepts.
+  - Targeted verification and accepted current-baseline regressions pass on one clean committed candidate.
+  - One exact candidate receives one fresh CTO, Security and Quality TARGET_VERDICT PASS review cycle.
+  - Reviewed and integrated trees are exactly equal and the single post-integration canonical make verify passes.
+
+capability_projection_on_pass:
+  accepted_atomic_capabilities:
+    - HIDDEN_SET_PROTOCOL
+    - PARAMETERIZED_EVALUATION_HARNESS
+  strict_p1_completion: RECOMPUTE_FROM_CANONICAL_P1_EXIT_GATE_WITHOUT_PREDECLARED_PERCENTAGE
+  complete_p1_exit_claim: false
+  p1_070_entry_condition_satisfied: true
+
+claim_boundary: >-
+  ONE_LOCAL_SYNTHETIC_VISIBLE_AND_QUALITY_WITHHELD_TASK_COOPERATIVE_ROLE_SEPARATION_AND
+  DATA_DRIVEN_OFFLINE_PARAMETERIZED_HARNESS_WITH_REAL_EXECUTION_INDEPENDENT_REPLAY_ZERO
+  FALSE_ACCEPTS_AND_EXACT_ROLLBACK_ONLY_NO_COMMERCIAL_SECRECY_HOSTILE_PRINCIPAL_STRONG
+  ISOLATION_MODEL_PROVIDER_B0_B1_B2_OBSERVABLE_TRACE_VTSR_BASELINE_REPORT_COMPLETE_P1
+  EXIT_P2_P3_PRODUCTION_OR_PUBLIC_CLAIM
+
+candidate_and_review:
+  exact_candidates: 1
+  final_review_cycles: 1
+  post_freeze_repair: false
+  reviewer_outputs_separate:
+    - TARGET_VERDICT
+    - IN_SCOPE_FINDINGS
+    - INHERITED_OR_OUT_OF_SCOPE_OBSERVATIONS
+  gate_relevance: >-
+    A finding blocks only when the exact candidate adds or worsens it, or the target
+    execution path directly depends on it; the finding reproducibly affects this
+    Task claim, identity, offline permission, independence, Evidence or rollback;
+    and candidate-to-risk causality is established. Unmodified unrelated baseline
+    defects are recorded but cannot start a governance remediation chain.
+  non_pass_effect: TERMINAL_TASK_AND_ROUTE_STOP_NO_CORRECTION_REPLACEMENT_OR_SECOND_REVIEW
+
+integration:
+  precondition: CTO_SECURITY_QUALITY_TARGET_VERDICTS_ALL_PASS
+  method: ONE_LOCAL_SQUASH_COMMIT
+  reviewed_tree_must_equal_integrated_tree: true
+  canonical_full_make_verify_invocations: 1
+  make_verify_nonpass: NON_DESTRUCTIVE_GIT_REVERT_AND_TERMINAL_ROUTE_STOP
+  post_gate_truth_sync:
+    - update canonical Truth and mechanically regenerate Project Code Map
+    - run targeted Truth and Code Map checks only
+    - do not run a second full make verify
+
+rollback:
+  run_level: Restore the exact source bytes, path set and clean identity inside the disposable run root; remove only objects proven task-owned.
+  candidate_level: Preserve a NON_PASS candidate, tag and Evidence without integration or repair.
+  integrated_level: Use non-destructive git revert of the exact integration commit; never reset or clean.
+
+stop_conditions:
+  - baseline, Goal, route packet, Contract or authority identity drift
+  - historical or rejected engineering bytes are read or reused
+  - hidden bytes, paths, oracle or expected result leak to Worker or candidate
+  - Task-specific hardcode or inability to switch inputs through frozen data
+  - actual architecture or another mandatory identity is not bound before child start or mutation
+  - shell, free-form, dynamic-module or result-controlled execution
+  - any negative family false accepts, replay differs or rollback is not exact
+  - an external effect, Evidence damage, budget overrun or Phase boundary change
+  - any final Reviewer TARGET_VERDICT NON_PASS
+  - reviewed/integrated tree mismatch or canonical make verify NONPASS
+
+forbidden_actions:
+  - repair, retry, recover or reuse P1-068 or another terminal Task
+  - create correction, successor, replacement, normalization, closure or remediation chains
+  - configure API keys, network, Provider, Secret, remote, production or public effects
+  - build P2/P3 or higher-phase systems
+  - push, open a pull request, release or modify a remote
+  - count Contract, Evidence, reviews, hashes or documentation as engineering progress

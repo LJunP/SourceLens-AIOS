@@ -449,6 +449,76 @@ module CurrentTaskAuthority
     fail!("decision packet contains a non-integer Phase envelope")
   end
 
+  def phase_gate_route_packet_claims(text)
+    record_type = one_packet_match(
+      text,
+      /- record_type: `(founder_p1_phase_gate_route_decision_packet)`/,
+      "P1 Phase Gate route record type"
+    )
+    assert(record_type == "founder_p1_phase_gate_route_decision_packet",
+           "unsupported P1 Phase Gate route record type")
+    route_id = one_packet_match(text, /路线 ID：`(P1_[A-Z0-9_]+_ROUTE_V1)`/,
+                                "Route ID declaration")
+    authorization_token = one_packet_match(
+      text,
+      /`authorization_token=([A-Z0-9_]+)`/,
+      "Founder authorization token declaration"
+    )
+    first_task_section = one_packet_match(text, /## 3\. Task 1[^\n]*\n(.*?)\n## 4\. Task 2/m,
+                                          "first Task section")
+    first_task_id = one_packet_match(
+      first_task_section,
+      /Task ID：`(AIOS-P1-[0-9]{3}_[A-Z0-9_]+)`/,
+      "first Task ID declaration"
+    )
+    route_budget = one_packet_match(
+      text,
+      /- maximum engineering Tasks: `(\d+)`\s+- maximum engineering hours: `(\d+)`\s+- maximum calendar days: `(\d+)`/m,
+      "Phase envelope declaration"
+    )
+    first_task_budget = one_packet_match(
+      text,
+      /- Task 1: `(\d+) hours \/ (\d+) days`/,
+      "first Task budget declaration"
+    )
+    implementation_iterations = one_packet_match(
+      text,
+      /- per Task pre-freeze implementation\/test iterations: `(\d+)`/,
+      "per-Task implementation iteration declaration"
+    )
+    candidates = one_packet_match(text, /- per Task exact candidates: `(\d+)`/,
+                                  "per-Task candidate declaration")
+    parent_commit = one_packet_match(text, /- canonical commit: `([0-9a-f]{40})`/,
+                                     "activation parent commit")
+    parent_tree = one_packet_match(text, /- canonical tree: `([0-9a-f]{40})`/,
+                                   "activation parent tree")
+    assert(text.include?("network、Provider、Secret、remote、production、public effects"),
+           "offline Phase Gate packet must explicitly prohibit all six external effects")
+    iteration_count = Integer(implementation_iterations, 10)
+    assert(iteration_count.positive?, "first Task implementation iterations must be positive")
+    {
+      "route_id" => route_id,
+      "first_task_id" => first_task_id,
+      "authorization_token" => authorization_token,
+      "max_engineering_tasks" => Integer(route_budget[0], 10),
+      "max_engineering_hours" => Integer(route_budget[1], 10),
+      "max_calendar_days" => Integer(route_budget[2], 10),
+      "first_task_engineering_hours" => Integer(first_task_budget[0], 10),
+      "first_task_calendar_days" => Integer(first_task_budget[1], 10),
+      "first_task_implementation_iterations" => iteration_count,
+      "first_task_candidates" => Integer(candidates, 10),
+      "max_contract_corrections_per_task" => nil,
+      "max_same_task_repairs" => iteration_count - 1,
+      "activation_parent_commit" => parent_commit,
+      "activation_parent_tree" => parent_tree,
+      "founder_reserved_profile" => nil,
+      "external_effects" => FALSE_EXTERNAL_EFFECTS,
+      "text" => text
+    }
+  rescue ArgumentError
+    fail!("decision packet contains a non-integer Phase envelope")
+  end
+
   def legacy_route_packet_claims(text)
     route_id = one_packet_match(
       text,
@@ -520,7 +590,9 @@ module CurrentTaskAuthority
   def packet_claims(packet_bytes)
     text = packet_bytes.dup.force_encoding(Encoding::UTF_8)
     assert(text.valid_encoding?, "decision packet must be valid UTF-8")
-    if text.include?("FOUNDER_PROJECT_LEVEL_ARCHITECTURE_ROUTE_AND_PHASE_REENTRY_DECISION_PACKET")
+    if text.include?("founder_p1_phase_gate_route_decision_packet")
+      phase_gate_route_packet_claims(text)
+    elsif text.include?("FOUNDER_PROJECT_LEVEL_ARCHITECTURE_ROUTE_AND_PHASE_REENTRY_DECISION_PACKET")
       project_route_packet_claims(text)
     else
       legacy_route_packet_claims(text)
@@ -579,11 +651,14 @@ module CurrentTaskAuthority
 
     envelope = hash(route["envelope"], "current_phase_route.envelope")
     %w[max_engineering_tasks max_engineering_hours max_calendar_days max_active_tasks
-       max_task_branches max_task_worktrees max_active_candidates
-       max_contract_corrections_per_task max_same_task_repairs].each do |key|
+       max_task_branches max_task_worktrees max_active_candidates max_same_task_repairs].each do |key|
       assert(integer(envelope[key], "current_phase_route.envelope.#{key}") > 0,
              "current_phase_route.envelope.#{key} must be positive")
     end
+    contract_corrections = integer(envelope["max_contract_corrections_per_task"],
+                                   "current_phase_route.envelope.max_contract_corrections_per_task")
+    assert(contract_corrections >= 0,
+           "current_phase_route.envelope.max_contract_corrections_per_task must be non-negative")
     %w[max_active_tasks max_task_branches max_task_worktrees max_active_candidates].each do |key|
       assert(envelope[key] == 1, "current_phase_route.envelope.#{key} must equal 1")
     end
@@ -591,14 +666,21 @@ module CurrentTaskAuthority
                 "route envelope correction-chain permission")
     exact_false(envelope["p2_entry_authorized"], "route envelope P2 entry")
     exact_false(envelope["p3_entry_authorized"], "route envelope P3 entry")
-    route_profile = validate_founder_reserved_profile(
-      route["founder_reserved_profile"], route_id, claims["first_task_id"],
-      "current_phase_route.founder_reserved_profile"
-    )
-    assert(route_profile == claims["founder_reserved_profile"],
-           "Truth Founder-reserved profile does not equal the exact decision packet")
+    if claims["founder_reserved_profile"]
+      route_profile = validate_founder_reserved_profile(
+        route["founder_reserved_profile"], route_id, claims["first_task_id"],
+        "current_phase_route.founder_reserved_profile"
+      )
+      assert(route_profile == claims["founder_reserved_profile"],
+             "Truth Founder-reserved profile does not equal the exact decision packet")
+      expected_effects = route_profile["external_effects"]
+    else
+      assert(!route.key?("founder_reserved_profile") || route["founder_reserved_profile"].nil?,
+             "offline route must not invent a Founder-reserved provider profile")
+      expected_effects = claims.fetch("external_effects", FALSE_EXTERNAL_EFFECTS)
+    end
     validate_external_effects(envelope["external_effects"], "current_phase_route.envelope.external_effects",
-                              route_profile["external_effects"])
+                              expected_effects)
     %w[max_engineering_tasks max_engineering_hours max_calendar_days].each do |key|
       assert(envelope[key] == claims[key], "route envelope #{key} does not match exact decision packet")
     end
@@ -676,9 +758,19 @@ module CurrentTaskAuthority
       assert(first_task[key] == value, "first Task #{key} does not match exact decision packet")
     end
     goal = hash(truth["goal"], "goal")
-    assert(claims["text"].include?(goal["observed_body_sha256"].to_s),
-           "canonical Goal identity is not bound by the exact decision packet")
-    [route, route_id, first_task, accepted]
+    unless claims["text"].include?(goal["observed_body_sha256"].to_s)
+      goal_binding = exact_keys(route["goal_identity"],
+                                %w[raw_sha256 raw_byte_length canonicalization canonical_sha256 canonical_byte_length],
+                                "current_phase_route.goal_identity")
+      assert(goal_binding == {
+        "raw_sha256" => goal["observed_raw_body_sha256"],
+        "raw_byte_length" => goal["observed_raw_body_byte_length"],
+        "canonicalization" => goal["body_canonicalization"],
+        "canonical_sha256" => goal["observed_body_sha256"],
+        "canonical_byte_length" => goal["observed_body_byte_length"]
+      }, "current Phase route Goal identity mismatch")
+    end
+    [route, route_id, first_task, accepted, claims]
   end
 
   def historical_task_ids(truth)
@@ -808,7 +900,7 @@ module CurrentTaskAuthority
     list.map.with_index { |entry, index| safe_scope_path(entry, "#{label}[#{index}]") }.uniq.sort
   end
 
-  def validate_active_state(root, truth, route, route_id, first_task)
+  def validate_active_state(root, truth, route, route_id, first_task, claims)
     goal = hash(truth["goal"], "goal")
     project = hash(truth["project"], "project")
     active = hash(truth["active_work"], "active_work")
@@ -844,6 +936,19 @@ module CurrentTaskAuthority
       assert(contract_field(record, "phase") == project["current_phase"], "#{label} phase mismatch")
       assert(contract_field(record, "route_id") == route_id, "#{label} route id mismatch")
       assert(ACTIVE_STATUSES.include?(contract_field(record, "status")), "#{label} status is not active")
+    end
+    expected_goal_identity = {
+      "raw_sha256" => goal["observed_raw_body_sha256"],
+      "raw_byte_length" => goal["observed_raw_body_byte_length"],
+      "canonicalization" => goal["body_canonicalization"],
+      "canonical_sha256" => goal["observed_body_sha256"],
+      "canonical_byte_length" => goal["observed_body_byte_length"]
+    }
+    [contract, authority_record].each_with_index do |record, index|
+      label = index.zero? ? "contract" : "authority record"
+      binding = exact_keys(contract_field(record, "goal_identity"), expected_goal_identity.keys,
+                           "#{label} Goal identity")
+      assert(binding == expected_goal_identity, "#{label} Goal identity mismatch")
     end
     assert(contract_field(authority_record, "task_contract_sha256") == contract_identity["sha256"],
            "authority record contract SHA mismatch")
@@ -917,22 +1022,33 @@ module CurrentTaskAuthority
              "allowlisted path overlaps immutable authority: #{scope}")
     end
 
-    expected_effects = validate_founder_reserved_profile(
-      route["founder_reserved_profile"], route_id, task_id, "current_phase_route.founder_reserved_profile"
-    )["external_effects"]
+    if claims["founder_reserved_profile"]
+      expected_effects = validate_founder_reserved_profile(
+        route["founder_reserved_profile"], route_id, task_id, "current_phase_route.founder_reserved_profile"
+      )["external_effects"]
+    else
+      expected_effects = claims.fetch("external_effects", FALSE_EXTERNAL_EFFECTS)
+    end
     validate_external_effects(active["external_effects"], "active_work.external_effects", expected_effects)
     validate_external_effects(contract_field(contract, "external_effects"), "contract external_effects", expected_effects)
     validate_external_effects(contract_field(authority_record, "external_effects"), "authority external_effects",
                               expected_effects)
-    contract_profile = validate_founder_reserved_profile(
-      contract_field(contract, "founder_reserved_profile"), route_id, task_id, "contract Founder-reserved profile"
-    )
-    authority_profile = validate_founder_reserved_profile(
-      contract_field(authority_record, "founder_reserved_profile"), route_id, task_id,
-      "authority Founder-reserved profile"
-    )
-    assert(contract_profile == route["founder_reserved_profile"], "contract Founder-reserved profile mismatch")
-    assert(authority_profile == route["founder_reserved_profile"], "authority Founder-reserved profile mismatch")
+    if claims["founder_reserved_profile"]
+      contract_profile = validate_founder_reserved_profile(
+        contract_field(contract, "founder_reserved_profile"), route_id, task_id, "contract Founder-reserved profile"
+      )
+      authority_profile = validate_founder_reserved_profile(
+        contract_field(authority_record, "founder_reserved_profile"), route_id, task_id,
+        "authority Founder-reserved profile"
+      )
+      assert(contract_profile == route["founder_reserved_profile"], "contract Founder-reserved profile mismatch")
+      assert(authority_profile == route["founder_reserved_profile"], "authority Founder-reserved profile mismatch")
+    else
+      assert(contract_field(contract, "founder_reserved_profile").nil?,
+             "offline Contract must not invent a Founder-reserved provider profile")
+      assert(contract_field(authority_record, "founder_reserved_profile").nil?,
+             "offline authority must not invent a Founder-reserved provider profile")
+    end
     exact_false(active["founder_decision_required"], "active_work.founder_decision_required")
     packet = hash(route["decision_packet"], "current_phase_route.decision_packet")
     assert(active["founder_reserved_authorization"] == packet["path"],
@@ -1009,7 +1125,24 @@ module CurrentTaskAuthority
 
     active = hash(truth["active_work"], "active_work")
     records = worktrees(root)
-    expected_paths = [File.realpath(canonical)]
+    route = hash(truth["current_phase_route"], "current_phase_route")
+    inherited = array(route.fetch("inherited_worktree_inventory", []),
+                      "current_phase_route.inherited_worktree_inventory")
+    inherited_records = inherited.map.with_index do |value, index|
+      record = exact_keys(value, %w[path head branch status],
+                          "current_phase_route.inherited_worktree_inventory[#{index}]")
+      path = string(record["path"], "inherited worktree path")
+      assert(Pathname.new(path).absolute?, "inherited worktree path must be absolute")
+      assert(COMMIT_RE.match?(string(record["head"], "inherited worktree head")),
+             "inherited worktree head must be a full commit id")
+      string(record["branch"], "inherited worktree branch")
+      assert(record["status"] == "INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT",
+             "inherited worktree status is not terminal and out of scope")
+      record.merge("realpath" => File.realpath(path))
+    end
+    assert(inherited_records.map { |record| record["realpath"] }.uniq.length == inherited_records.length,
+           "inherited worktree inventory contains duplicate paths")
+    expected_paths = [File.realpath(canonical)] + inherited_records.map { |record| record["realpath"] }
     if active["current_task"] != "NONE"
       expected_paths << File.realpath(string(active["task_worktree"], "active_work.task_worktree"))
     end
@@ -1018,6 +1151,11 @@ module CurrentTaskAuthority
     canonical_record = records.find { |record| File.realpath(record["path"]) == File.realpath(canonical) }
     assert(canonical_record && canonical_record["branch"] == project["canonical_branch"],
            "canonical worktree branch identity mismatch")
+    inherited_records.each do |expected|
+      actual = records.find { |record| File.realpath(record["path"]) == expected["realpath"] }
+      assert(actual && actual["head"] == expected["head"] && actual["branch"] == expected["branch"],
+             "inherited terminal worktree inventory drifted")
+    end
     return if active["current_task"] == "NONE"
 
     task_record = records.find { |record| File.realpath(record["path"]) == File.realpath(active["task_worktree"]) }
@@ -1035,7 +1173,7 @@ module CurrentTaskAuthority
     validate_repository_and_worktrees(root, truth)
     validate_goal(truth)
     validate_authority_documents(root, truth)
-    route, route_id, first_task, = validate_route(root, truth)
+    route, route_id, first_task, _accepted, claims = validate_route(root, truth)
     first_task_in_history = historical_task_ids(truth).include?(first_task["task_id"])
     if %w[ELIGIBLE_NOT_ACTIVATED ACTIVE].include?(first_task["status"])
       assert(!first_task_in_history, "first Task id reuses historical Truth while eligible or active")
@@ -1044,7 +1182,7 @@ module CurrentTaskAuthority
       validate_none_state(truth, route, first_task)
       "READY_NONE"
     else
-      validate_active_state(root, truth, route, route_id, first_task)
+      validate_active_state(root, truth, route, route_id, first_task, claims)
       "ACTIVE_TASK"
     end
   end

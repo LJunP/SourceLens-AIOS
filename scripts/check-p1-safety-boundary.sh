@@ -254,12 +254,14 @@ check_current_p1_route() {
       "max_task_branches" => 1,
       "max_task_worktrees" => 1,
       "max_active_candidates" => 1,
-      "max_contract_corrections_per_task" => 1,
       "max_same_task_repairs" => 1
     }
     single_resource_limits.each do |key, expected|
       stop!("P1 route envelope #{key} drift") unless envelope[key] == expected
     end
+    contract_corrections = envelope["max_contract_corrections_per_task"]
+    stop!("P1 route contract-correction limit must be zero or one") unless
+      contract_corrections.is_a?(Integer) && contract_corrections.between?(0, 1)
     stop!("P2 entry was authorized inside P1") unless envelope["p2_entry_authorized"] == false
     stop!("P3 entry was authorized inside P1") unless envelope["p3_entry_authorized"] == false
 
@@ -275,10 +277,13 @@ check_current_p1_route() {
 
     first_task = mapping!(route["first_task"], "current_phase_route.first_task")
     first_task_id = nonempty_string!(first_task["task_id"], "current_phase_route.first_task.task_id")
-    route_profile = founder_profile!(route["founder_reserved_profile"], route["route_id"], first_task_id,
-                                     "current_phase_route.founder_reserved_profile")
+    route_profile = if route.key?("founder_reserved_profile") && !route["founder_reserved_profile"].nil?
+                      founder_profile!(route["founder_reserved_profile"], route["route_id"], first_task_id,
+                                       "current_phase_route.founder_reserved_profile")
+                    end
+    authorized_effects = route_profile ? route_profile["external_effects"] : FALSE_EFFECTS
     effect_map!(envelope["external_effects"], "current_phase_route.envelope.external_effects",
-                route_profile["external_effects"])
+                authorized_effects)
     stop!("first Task phase identity invalid") unless first_task_id.start_with?("AIOS-P1-")
     safe_relative_path!(first_task["contract_path"], "current_phase_route.first_task.contract_path")
     stop!("first Task contract path is outside current Task contracts") unless first_task["contract_path"].start_with?("docs/aios/tasks/")
@@ -410,12 +415,17 @@ check_current_p1_route() {
           active_budget["candidates"] <= first_task["max_candidates"]
       end
       mapping!(active["roles"], "active_work.roles")
-      effect_map!(active["external_effects"], "active_work.external_effects", route_profile["external_effects"])
+      effect_map!(active["external_effects"], "active_work.external_effects", authorized_effects)
       effect_map!(contract["external_effects"], "active Task Contract external_effects",
-                  route_profile["external_effects"])
-      contract_profile = founder_profile!(contract["founder_reserved_profile"], route["route_id"], current_task,
-                                          "active Task Contract founder_reserved_profile")
-      stop!("active Task Contract profile mismatch") unless contract_profile == route_profile
+                  authorized_effects)
+      if route_profile
+        contract_profile = founder_profile!(contract["founder_reserved_profile"], route["route_id"], current_task,
+                                            "active Task Contract founder_reserved_profile")
+        stop!("active Task Contract profile mismatch") unless contract_profile == route_profile
+      else
+        stop!("offline active Task Contract invented a Founder-reserved provider profile") unless
+          !contract.key?("founder_reserved_profile") || contract["founder_reserved_profile"].nil?
+      end
       packet = decision_packet
       stop!("active Founder authorization path drift") unless
         active["founder_reserved_authorization"] == packet["path"]

@@ -282,6 +282,7 @@ class CurrentTaskAuthorityTest
     end
     truth["current_phase_route"]["first_task"]["status"] = "ELIGIBLE_NOT_ACTIVATED"
     truth["current_phase_route"]["next_eligible_action"] = "MASTER_ACTIVATE_FIRST_TASK"
+    truth["current_phase_route"]["inherited_worktree_inventory"] = []
     truth["current_phase_route"].delete("active_task")
     truth["active_work"] = ready_active_work
     dump_owned_yaml(truth_path, truth)
@@ -330,25 +331,27 @@ class CurrentTaskAuthorityTest
     commit(repo, "test: restore route envelope binding")
 
     truth = yaml(fixture["truth_path"])
-    original_host = truth["current_phase_route"]["founder_reserved_profile"]["transport"]["host"]
-    truth["current_phase_route"]["founder_reserved_profile"]["transport"]["host"] = "localhost"
-    dump_owned_yaml(fixture["truth_path"], truth)
-    commit(repo, "test: expand literal gateway host to DNS name")
-    expect_nonpass(repo, "Founder profile host expansion", /transport exceeds the literal local-gateway boundary/)
-    expect_safety_nonpass(repo, fixture["truth_path"], "safety rejects Founder profile host expansion",
-                          /transport exceeds literal loopback boundary/)
-    truth["current_phase_route"]["founder_reserved_profile"]["transport"]["host"] = original_host
-    dump_owned_yaml(fixture["truth_path"], truth)
-    commit(repo, "test: restore literal gateway host")
+    if truth["current_phase_route"]["founder_reserved_profile"]
+      original_host = truth["current_phase_route"]["founder_reserved_profile"]["transport"]["host"]
+      truth["current_phase_route"]["founder_reserved_profile"]["transport"]["host"] = "localhost"
+      dump_owned_yaml(fixture["truth_path"], truth)
+      commit(repo, "test: expand literal gateway host to DNS name")
+      expect_nonpass(repo, "Founder profile host expansion", /transport exceeds the literal local-gateway boundary/)
+      expect_safety_nonpass(repo, fixture["truth_path"], "safety rejects Founder profile host expansion",
+                            /transport exceeds literal loopback boundary/)
+      truth["current_phase_route"]["founder_reserved_profile"]["transport"]["host"] = original_host
+      dump_owned_yaml(fixture["truth_path"], truth)
+      commit(repo, "test: restore literal gateway host")
 
-    truth = yaml(fixture["truth_path"])
-    truth["current_phase_route"]["founder_reserved_profile"]["call_limits"]["source_bearing_max"] = 2
-    dump_owned_yaml(fixture["truth_path"], truth)
-    commit(repo, "test: expand source-bearing call budget")
-    expect_nonpass(repo, "Founder profile call expansion", /call limits drifted/)
-    truth["current_phase_route"]["founder_reserved_profile"]["call_limits"]["source_bearing_max"] = 1
-    dump_owned_yaml(fixture["truth_path"], truth)
-    commit(repo, "test: restore one-call budget")
+      truth = yaml(fixture["truth_path"])
+      truth["current_phase_route"]["founder_reserved_profile"]["call_limits"]["source_bearing_max"] = 2
+      dump_owned_yaml(fixture["truth_path"], truth)
+      commit(repo, "test: expand source-bearing call budget")
+      expect_nonpass(repo, "Founder profile call expansion", /call limits drifted/)
+      truth["current_phase_route"]["founder_reserved_profile"]["call_limits"]["source_bearing_max"] = 1
+      dump_owned_yaml(fixture["truth_path"], truth)
+      commit(repo, "test: restore one-call budget")
+    end
 
     truth = yaml(fixture["truth_path"])
     truth["current_phase_route"]["envelope"]["external_effects"]["remote"] = true
@@ -496,6 +499,7 @@ class CurrentTaskAuthorityTest
         "byte_length" => truth.dig("current_phase_route", "decision_packet", "byte_length"),
         "authorization_token" => truth.dig("current_phase_route", "authorization_token")
       },
+      "goal_identity" => deep_copy(truth.dig("current_phase_route", "goal_identity")),
       "founder_reserved_profile" => deep_copy(truth.dig("current_phase_route", "founder_reserved_profile")),
       "acceptance_criteria" => ["exact bounded fixture passes"],
       "required_evidence" => ["fixture receipt"],
@@ -538,6 +542,7 @@ class CurrentTaskAuthorityTest
       "allowlisted_paths" => allowlisted,
       "external_effects" => deep_copy(truth.fetch("current_phase_route").fetch("envelope").fetch("external_effects")),
       "founder_reserved_authorization" => deep_copy(contract.fetch("founder_reserved_authorization")),
+      "goal_identity" => deep_copy(truth.dig("current_phase_route", "goal_identity")),
       "founder_reserved_profile" => deep_copy(truth.dig("current_phase_route", "founder_reserved_profile"))
     }
     create_exclusive(authority_path, YAML.dump(authority))
@@ -619,11 +624,12 @@ class CurrentTaskAuthorityTest
     commit(repo, "test: restore owned contract bytes")
 
     truth = yaml(fixture["truth_path"])
-    truth["active_work"]["external_effects"]["network"] = false
+    original_network = truth["active_work"]["external_effects"]["network"]
+    truth["active_work"]["external_effects"]["network"] = !original_network
     dump_owned_yaml(fixture["truth_path"], truth)
     commit(repo, "test: set unauthorized external effect")
-    expect_nonpass(repo, "missing authorized network effect", /exact authorized external-effect map/)
-    truth["active_work"]["external_effects"]["network"] = true
+    expect_nonpass(repo, "unauthorized network-effect drift", /exact authorized external-effect map/)
+    truth["active_work"]["external_effects"]["network"] = original_network
     dump_owned_yaml(fixture["truth_path"], truth)
     commit(repo, "test: restore external effects")
 

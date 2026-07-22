@@ -1,0 +1,255 @@
+{
+  "schema_version": "offline-scheduled-matrix-contract/v1",
+  "record_type": "PUBLIC_EXECUTABLE_ACCOUNTING_CONTRACT",
+  "status": "FROZEN_PREFREEZE",
+  "task_id": "AIOS-P1-070_OFFLINE_SCHEDULED_MATRIX_VTSR_AND_FALSE_SUCCESS_EXPERIMENT",
+  "authority_inputs": [
+    {
+      "path": "docs/aios/tasks/P1-070_OFFLINE_SCHEDULED_MATRIX_VTSR_AND_FALSE_SUCCESS_EXPERIMENT.yaml",
+      "sha256": "02fc6ef5590803156e78c6f5328bfa6644f980323a38a504554250c5b94f72ca",
+      "byte_length": 14653
+    },
+    {
+      "path": "docs/aios/EVALUATION_PROTOCOL.md",
+      "sha256": "da029143561fbb3c213d4a358b25e085542c6cd26ae8150a53cbb5998177eed8",
+      "byte_length": 10127
+    }
+  ],
+  "accepted_read_only_engineering_inputs": [
+    {
+      "path": "evaluation-harness/harness/blind-admission-v1/run.mjs",
+      "sha256": "3df2b36200e9e15ccd8149e1b42bb541174d1e610dfd918258334ad9f3aa83a5",
+      "byte_length": 15124
+    },
+    {
+      "path": "evaluation-harness/recording/blind-admission-v1/recorder.mjs",
+      "sha256": "49b71330d0a52db3a735435f91dbcf9de5e4a40a97585378066981fe42ce68e4",
+      "byte_length": 11675
+    },
+    {
+      "path": "evaluation-harness/validators/blind-admission-v1/validator.mjs",
+      "sha256": "80913d2d5d4aaf28f8fb717714613e880e412faaa05cef58a13f7b242b2d8b31",
+      "byte_length": 11428
+    },
+    {
+      "path": "evaluation-harness/evaluator/blind-admission-v1/public-conformance-oracle.mjs",
+      "sha256": "72220bebc24d62fd131a23d52a0e64550f978731e13af643e7ccc974de3b258d",
+      "byte_length": 6199
+    },
+    {
+      "path": "evaluation-harness/replay/stable-replay-projection-v2/project.mjs",
+      "sha256": "c36c28540a4025529fc427bce7c6be73ea467258c3d9a27a4b3a5dbe2afbf49a",
+      "byte_length": 20797
+    },
+    {
+      "path": "evaluation-harness/contracts/stable-replay-projection-v2/stable-replay-projection-v2.contract.json",
+      "sha256": "49064285a28d09433e4a16412e4dd7198c0dbddea985875633a6ad1cf4b270c8",
+      "byte_length": 8366
+    },
+    {
+      "path": "evaluation-harness/fixtures/blind-admission-v1/visible-task-card.json",
+      "sha256": "479d73fa02fa7c031e08c32897020a07167fe71a31c0e2868fa1c53236a773d5",
+      "byte_length": 911
+    },
+    {
+      "path": "evaluation-harness/fixtures/blind-admission-v1/visible-source.json",
+      "sha256": "7c1cdb2621e03e529a47cd548f0ab03f27ff8557153f742ee862d1224a16bc46",
+      "byte_length": 161
+    },
+    {
+      "path": "evaluation-harness/fixtures/blind-admission-v1/visible-expected.json",
+      "sha256": "6bd3364b4210c1f6fd8802ebe48d1bd9ad44383f5175b478a5433096b7147c7c",
+      "byte_length": 475
+    },
+    {
+      "path": "evaluation-harness/fixtures/blind-admission-v1/runtime-profile.json",
+      "sha256": "a60ddc957525ad8578a3104617d907ecf0a21749c0cd771b4ab5e50193fe60c1",
+      "byte_length": 665
+    }
+  ],
+  "prefreeze_outputs": {
+    "matrix_plan": {
+      "path": "evaluation-harness/fixtures/offline-scheduled-matrix-v1/matrix-plan.json",
+      "schema_version": "offline-scheduled-matrix-plan/v1",
+      "identity_binding": "PREFREEZE_RECEIPT_SHA256_AND_BYTE_LENGTH"
+    },
+    "negative_catalog": {
+      "path": "evaluation-harness/fixtures/offline-scheduled-matrix-v1/negative-cases.json",
+      "schema_version": "offline-scheduled-matrix-negative-catalog/v1",
+      "identity_binding": "PREFREEZE_RECEIPT_SHA256_AND_BYTE_LENGTH"
+    },
+    "prefreeze_receipt": {
+      "path": "/Users/lijunpeng/Developer/.sourcelens-audit/p1-070-offline-scheduled-matrix-TS8DyWZw/quality/PREFREEZE_RECEIPT.json",
+      "creation": "CREATE_ONCE_O_EXCL_EQUIVALENT_REVIEWED_BY_EXACT_SHA256_AND_BYTE_LENGTH"
+    }
+  },
+  "matrix_accounting": {
+    "scheduled_entry_count": 5,
+    "frozen_entry_order": [
+      "CORRECT_RESULT",
+      "WRONG_PATCH",
+      "MISSING_EVIDENCE",
+      "SCOPE_VIOLATION",
+      "DECLARED_SHARED_HARNESS_INVALID_CONTROL"
+    ],
+    "eligible_denominator": 4,
+    "verified_success_numerator": 1,
+    "failure_count": 3,
+    "infrastructure_invalid_count": 1,
+    "exact_vtsr": {
+      "numerator": 1,
+      "denominator": 4,
+      "canonical_fraction": "1/4"
+    },
+    "percentage_authority": "NON_AUTHORITATIVE_DISPLAY_ONLY",
+    "eligibility_authority": "FROZEN_PLAN_ONLY",
+    "terminal_classification_authority": "DERIVE_FROM_EXACT_BOUND_RAW_ARTIFACTS_NOT_LEDGER_OR_WORKER_AGGREGATE",
+    "ordinary_setup_failure_rule": "ELIGIBLE_SYSTEM_ATTRIBUTABLE_FAILURE_COUNTS_IN_DENOMINATOR",
+    "infrastructure_invalid_rule": "ONLY_FROZEN_SHARED_HARNESS_REASON_DECLARED_BEFORE_CHILD_START_IS_EXCLUDED"
+  },
+  "run_execution": {
+    "mode": "SERIAL_SINGLE_PROCESS_NO_PROACTIVE_CONCURRENCY",
+    "schedule_frozen_before_terminal_output_inspection": true,
+    "fresh_accepted_harness_run_required_for_eligible_entries": true,
+    "all_scheduled_terminal_or_control_artifacts_retained": true,
+    "candidate_claim_source": "FROZEN_PLAN_STIMULUS_AND_BOUND_RETAINED_SUBMISSION",
+    "primary_evaluator_result_source": "OBSERVE_ACTUAL_ONLY",
+    "scope_primary_evaluator_result": "OBSERVE_ACTUAL",
+    "post_hoc_result_rewrite_or_reclassification": "FORBIDDEN"
+  },
+  "reason_families": [
+    "VERIFIED_SUCCESS",
+    "WRONG_PATCH",
+    "MISSING_EVIDENCE",
+    "SCOPE_VIOLATION",
+    "DECLARED_SHARED_HARNESS_INVALID"
+  ],
+  "event_ledger": {
+    "path_role": "TASK_OWNED_RETAINED_APPEND_ONLY_ROUTE_EVIDENCE",
+    "format": "UTF8_CANONICAL_JSONL_EXACTLY_ONE_LF_PER_EVENT",
+    "creation": "ATOMIC_UNIQUE_TASK_OWNED_O_EXCL",
+    "mutation_before_close": "APPEND_ONLY",
+    "mutation_after_close": "FORBIDDEN",
+    "event_index": "CONTIGUOUS_ZERO_BASED_SAFE_INTEGER",
+    "genesis_previous_event_sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "event_sha256": "SHA256_UTF8_RECURSIVE_KEY_SORTED_COMPACT_JSON_OF_EVENT_WITHOUT_EVENT_SHA256_PLUS_EXACTLY_ONE_LF",
+    "previous_event_sha256": "EXACT_PRECEDING_EVENT_SHA256_OR_GENESIS_VALUE",
+    "required_event_sequence": [
+      "MATRIX_DECLARED",
+      "RUN_SCHEDULED:CORRECT_RESULT",
+      "RUN_SCHEDULED:WRONG_PATCH",
+      "RUN_SCHEDULED:MISSING_EVIDENCE",
+      "RUN_SCHEDULED:SCOPE_VIOLATION",
+      "RUN_SCHEDULED:DECLARED_SHARED_HARNESS_INVALID_CONTROL",
+      "SCHEDULE_FROZEN",
+      "RUN_TERMINAL:CORRECT_RESULT",
+      "RUN_TERMINAL:WRONG_PATCH",
+      "RUN_TERMINAL:MISSING_EVIDENCE",
+      "RUN_TERMINAL:SCOPE_VIOLATION",
+      "RUN_TERMINAL:DECLARED_SHARED_HARNESS_INVALID_CONTROL",
+      "MATRIX_CLOSED"
+    ],
+    "schedule_and_terminal_order": "EXACT_FROZEN_MATRIX_ORDER",
+    "schedule_events_bind": [
+      "matrix_plan_sha256",
+      "matrix_plan_byte_length",
+      "slot",
+      "entry_id",
+      "eligible",
+      "candidate_claim",
+      "frozen_stimulus_sha256"
+    ],
+    "terminal_events_bind": [
+      "entry_id",
+      "raw_artifact_manifest_sha256",
+      "raw_artifact_manifest_byte_length",
+      "rollback_receipt_sha256",
+      "rollback_receipt_byte_length",
+      "external_effects_receipt_sha256",
+      "external_effects_receipt_byte_length"
+    ],
+    "close_event_binds": [
+      "reported_aggregate_sha256",
+      "reported_aggregate_byte_length",
+      "last_terminal_event_sha256"
+    ],
+    "classification_values_trusted_from_ledger": false
+  },
+  "independent_recomputation": {
+    "actor_must_not_import_or_call_worker_counting_code": true,
+    "eligible_denominator_source": "FROZEN_PLAN_ONLY",
+    "terminal_verdict_source": "EXACT_BOUND_RAW_ARTIFACTS_ONLY",
+    "worker_report_compared_only_after_independent_derivation": true,
+    "required_outputs": [
+      "scheduled_count",
+      "eligible_denominator",
+      "verified_success_numerator",
+      "failure_count",
+      "invalid_count",
+      "exact_vtsr_fraction",
+      "reason_code_distribution",
+      "primary_evaluator_disagreement_matrix",
+      "candidate_claim_false_success_confusion_matrix"
+    ],
+    "integer_and_exact_rational_only": true,
+    "float_or_percentage_as_authority": "FORBIDDEN"
+  },
+  "characterization": {
+    "primary_evaluator_axis": [
+      "PASS",
+      "NON_PASS",
+      "NOT_RUN",
+      "ERROR"
+    ],
+    "independent_verdict_axis": [
+      "VERIFIED_SUCCESS",
+      "FAILURE",
+      "INFRASTRUCTURE_INVALID"
+    ],
+    "candidate_claim_axis": [
+      "CLAIMED_SUCCESS",
+      "NO_SUCCESS_CLAIM"
+    ],
+    "false_success_definition": "CANDIDATE_CLAIMED_SUCCESS_AND_INDEPENDENT_VERDICT_IS_FAILURE",
+    "all_cells_derived_from_retained_exact_artifacts": true,
+    "unknown_or_unobserved_primary_result_must_not_be_invented": true
+  },
+  "mandatory_negative_case_ids": [
+    "HISTORY_DELETE_RECHAINED",
+    "DENOMINATOR_REDUCTION_REBOUND",
+    "POST_HOC_INVALID_RECHAINED",
+    "DUPLICATE_SUCCESS_TERMINAL_RECHAINED",
+    "SCHEDULE_REORDER_REINDEXED_RECHAINED",
+    "NUMERATOR_INFLATION_REBOUND",
+    "REASON_DISTRIBUTION_MUTATION_REBOUND",
+    "PLAN_IDENTITY_MUTATION",
+    "TERMINAL_ARTIFACT_IDENTITY_TAMPER",
+    "ROLLBACK_FALSE",
+    "EXTERNAL_EFFECT_TRUE"
+  ],
+  "negative_fixture_rules": {
+    "each_case_starts_from_exact_closed_golden_checkpoint": true,
+    "each_case_uses_independent_atomic_unique_owned_root": true,
+    "case_may_clean_only_paths_named_in_its_ownership_marker": true,
+    "repair_or_continue_from_illegal_lineage": false,
+    "false_accept_budget": 0
+  },
+  "rollback": {
+    "source_root_initial_state": "ABSENT",
+    "source_root_final_state": "ABSENT",
+    "path_set_initial": [],
+    "path_set_final": [],
+    "clean_state_initial": true,
+    "clean_state_final": true,
+    "exact_required": true
+  },
+  "external_effects": {
+    "network": false,
+    "provider": false,
+    "secret": false,
+    "remote": false,
+    "production": false,
+    "public": false
+  },
+  "claim_boundary": "ONE_PREDECLARED_FIVE_ENTRY_COOPERATIVE_LOCAL_OFFLINE_SCHEDULED_MATRIX_USING_ACCEPTED_PUBLIC_HARNESS_AND_PROJECTION_INPUTS_WITH_EXACT_VTSR_ACCOUNTING_DISAGREEMENT_FALSE_SUCCESS_HISTORY_INTEGRITY_EXACT_ROLLBACK_AND_NO_EXTERNAL_EFFECTS_ONLY"
+}

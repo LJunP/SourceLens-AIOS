@@ -1,0 +1,205 @@
+{
+  "schema_version": "offline-scheduled-matrix-negative-catalog/v1",
+  "record_type": "FROZEN_CLOSED_NEGATIVE_MUTATION_CATALOG",
+  "status": "FROZEN_PREFREEZE",
+  "task_id": "AIOS-P1-070_OFFLINE_SCHEDULED_MATRIX_VTSR_AND_FALSE_SUCCESS_EXPERIMENT",
+  "contract_identity": {
+    "path": "evaluation-harness/contracts/offline-scheduled-matrix-v1/offline-scheduled-matrix-v1.contract.json",
+    "sha256": "86b210a53a687ec0b8bd2bfeb9377c48f8b844aba99e2bc329453766f57a54ed",
+    "byte_length": 9886
+  },
+  "matrix_plan_identity": {
+    "path": "evaluation-harness/fixtures/offline-scheduled-matrix-v1/matrix-plan.json",
+    "sha256": "4882738b41eafad14b0d108c04f5f12481cfd3ee86e0a2cff8806eb1601c9cb1",
+    "byte_length": 12522
+  },
+  "fixture_policy": {
+    "base_checkpoint": "EXACT_VALID_CLOSED_GOLDEN_MATRIX",
+    "each_case_copies_base_checkpoint_independently": true,
+    "each_case_root": "ATOMIC_UNIQUE_TASK_OWNED_O_EXCL",
+    "ownership_marker_required_before_mutation": true,
+    "cleanup_scope": "ONLY_PATHS_EXACTLY_LISTED_IN_CASE_OWNERSHIP_MARKER",
+    "preexisting_file_or_symlink_overwrite_follow_rename_or_delete": "FORBIDDEN",
+    "continue_or_repair_same_illegal_lineage": false,
+    "execution": "SERIAL_SINGLE_PROCESS_NO_PROACTIVE_CONCURRENCY",
+    "false_accept_budget": 0,
+    "external_effects": {
+      "network": false,
+      "provider": false,
+      "secret": false,
+      "remote": false,
+      "production": false,
+      "public": false
+    }
+  },
+  "cases": [
+    {
+      "case_id": "HISTORY_DELETE_RECHAINED",
+      "mutation_class": "APPEND_ONLY_HISTORY_DELETE",
+      "target": "ledger.event_index_8_RUN_TERMINAL_WRONG_PATCH",
+      "operations": [
+        "DELETE_TARGET_EVENT_FROM_DISPOSABLE_LEDGER_COPY",
+        "REINDEX_ALL_FOLLOWING_EVENTS_CONTIGUOUSLY",
+        "RECOMPUTE_PREVIOUS_EVENT_SHA256_AND_EVENT_SHA256_TO_CLOSE"
+      ],
+      "rebound": true,
+      "assertion": "RECHAINING_CANNOT_HIDE_A_MISSING_FROZEN_LIFECYCLE_EVENT_OR_TERMINAL",
+      "expected_result": "NON_PASS",
+      "expected_reason": "HISTORY_INTEGRITY_MISMATCH"
+    },
+    {
+      "case_id": "DENOMINATOR_REDUCTION_REBOUND",
+      "mutation_class": "ACCOUNTING_DENOMINATOR_REDUCTION",
+      "target": "reported_aggregate",
+      "operations": [
+        "SET_ELIGIBLE_DENOMINATOR_FROM_4_TO_3",
+        "SET_EXACT_VTSR_FROM_1_OVER_4_TO_1_OVER_3",
+        "RECOMPUTE_REPORTED_AGGREGATE_IDENTITY",
+        "REBIND_CLOSE_EVENT_AND_RECOMPUTE_EVENT_SHA256"
+      ],
+      "rebound": true,
+      "assertion": "DENOMINATOR_DERIVES_FROM_FROZEN_PLAN_AND_CANNOT_BE_REDUCED_BY_A_REBOUND_REPORT",
+      "expected_result": "NON_PASS",
+      "expected_reason": "REPORTED_AGGREGATE_MISMATCH"
+    },
+    {
+      "case_id": "POST_HOC_INVALID_RECHAINED",
+      "mutation_class": "POST_HOC_ELIGIBILITY_RECLASSIFICATION",
+      "target": "WRONG_PATCH_terminal_and_reported_aggregate",
+      "operations": [
+        "CHANGE_WRONG_PATCH_FROM_ELIGIBLE_FAILURE_TO_INFRASTRUCTURE_INVALID",
+        "SET_ELIGIBLE_DENOMINATOR_FROM_4_TO_3",
+        "SET_INVALID_COUNT_FROM_1_TO_2",
+        "SET_FAILURE_COUNT_FROM_3_TO_2",
+        "RECOMPUTE_MUTATED_ARTIFACT_IDENTITIES_AND_RECHAIN_TO_CLOSE"
+      ],
+      "rebound": true,
+      "assertion": "ONLY_THE_SLOT_5_PREDECLARED_SHARED_HARNESS_CONTROL_IS_INFRASTRUCTURE_INVALID",
+      "expected_result": "NON_PASS",
+      "expected_reason": "POST_HOC_INVALID_FORBIDDEN"
+    },
+    {
+      "case_id": "DUPLICATE_SUCCESS_TERMINAL_RECHAINED",
+      "mutation_class": "DUPLICATE_TERMINAL",
+      "target": "CORRECT_RESULT_terminal_event",
+      "operations": [
+        "INSERT_SECOND_CORRECT_RESULT_RUN_TERMINAL_BEFORE_MATRIX_CLOSED",
+        "REINDEX_FOLLOWING_EVENT",
+        "RECOMPUTE_PREVIOUS_EVENT_SHA256_AND_EVENT_SHA256_TO_CLOSE"
+      ],
+      "rebound": true,
+      "assertion": "EACH_FROZEN_ENTRY_HAS_EXACTLY_ONE_TERMINAL_OR_CONTROL_EVENT_AND_SUCCESS_CANNOT_BE_DUPLICATED",
+      "expected_result": "NON_PASS",
+      "expected_reason": "DUPLICATE_TERMINAL_EVENT"
+    },
+    {
+      "case_id": "SCHEDULE_REORDER_REINDEXED_RECHAINED",
+      "mutation_class": "FROZEN_SCHEDULE_REORDER",
+      "target": "RUN_SCHEDULED_CORRECT_RESULT_AND_WRONG_PATCH",
+      "operations": [
+        "SWAP_EVENT_PAYLOADS_AT_SCHEDULE_EVENT_INDEX_1_AND_2",
+        "REINDEX_IN_MUTATED_ORDER",
+        "RECOMPUTE_PREVIOUS_EVENT_SHA256_AND_EVENT_SHA256_TO_CLOSE"
+      ],
+      "rebound": true,
+      "assertion": "SCHEDULE_AND_TERMINAL_ORDER_MUST_EQUAL_THE_FIVE_ENTRY_FROZEN_PLAN_ORDER",
+      "expected_result": "NON_PASS",
+      "expected_reason": "SCHEDULE_ORDER_MISMATCH"
+    },
+    {
+      "case_id": "NUMERATOR_INFLATION_REBOUND",
+      "mutation_class": "ACCOUNTING_NUMERATOR_INFLATION",
+      "target": "reported_aggregate",
+      "operations": [
+        "SET_VERIFIED_SUCCESS_NUMERATOR_FROM_1_TO_2",
+        "SET_FAILURE_COUNT_FROM_3_TO_2",
+        "SET_EXACT_VTSR_FROM_1_OVER_4_TO_2_OVER_4",
+        "RECOMPUTE_REPORTED_AGGREGATE_IDENTITY",
+        "REBIND_CLOSE_EVENT_AND_RECOMPUTE_EVENT_SHA256"
+      ],
+      "rebound": true,
+      "assertion": "NUMERATOR_DERIVES_FROM_INDEPENDENT_EXACT_ARTIFACT_VERDICTS_NOT_THE_WORKER_REPORT",
+      "expected_result": "NON_PASS",
+      "expected_reason": "REPORTED_AGGREGATE_MISMATCH"
+    },
+    {
+      "case_id": "REASON_DISTRIBUTION_MUTATION_REBOUND",
+      "mutation_class": "FAILURE_TAXONOMY_REWRITE",
+      "target": "reported_aggregate.reason_code_distribution",
+      "operations": [
+        "SET_VERIFIED_SUCCESS_COUNT_FROM_1_TO_2",
+        "SET_WRONG_PATCH_COUNT_FROM_1_TO_0",
+        "PRESERVE_TOTAL_DISTRIBUTION_COUNT_5",
+        "RECOMPUTE_REPORTED_AGGREGATE_IDENTITY",
+        "REBIND_CLOSE_EVENT_AND_RECOMPUTE_EVENT_SHA256"
+      ],
+      "rebound": true,
+      "assertion": "REASON_DISTRIBUTION_DERIVES_FROM_BOUND_TERMINAL_ARTIFACTS_AND_MUST_MATCH_EXACTLY",
+      "expected_result": "NON_PASS",
+      "expected_reason": "REASON_DISTRIBUTION_MISMATCH"
+    },
+    {
+      "case_id": "PLAN_IDENTITY_MUTATION",
+      "mutation_class": "FROZEN_PLAN_TAMPER",
+      "target": "matrix_plan.schedule_4.eligible",
+      "operations": [
+        "SET_DECLARED_SHARED_HARNESS_INVALID_CONTROL_ELIGIBLE_FROM_FALSE_TO_TRUE",
+        "RECOMPUTE_MUTATED_PLAN_SHA256_AND_BYTE_LENGTH",
+        "REBIND_MUTATED_PLAN_IDENTITY_IN_LEDGER_COPY_AND_RECHAIN_TO_CLOSE"
+      ],
+      "rebound": true,
+      "assertion": "REBOUND_LEDGER_CANNOT_REPLACE_THE_PREFREEZE_RECEIPT_BOUND_PLAN_IDENTITY",
+      "expected_result": "NON_PASS",
+      "expected_reason": "PLAN_IDENTITY_MISMATCH"
+    },
+    {
+      "case_id": "TERMINAL_ARTIFACT_IDENTITY_TAMPER",
+      "mutation_class": "BOUND_RAW_ARTIFACT_TAMPER",
+      "target": "WRONG_PATCH.raw_candidate_stdout",
+      "operations": [
+        "ALTER_ONE_UTF8_BYTE_IN_BOUND_RAW_TERMINAL_ARTIFACT",
+        "PRESERVE_TERMINAL_ARTIFACT_MANIFEST_AND_LEDGER_IDENTITIES"
+      ],
+      "rebound": false,
+      "assertion": "RAW_TERMINAL_BYTES_MUST_MATCH_BOUND_SHA256_AND_BYTE_LENGTH_BEFORE_CLASSIFICATION",
+      "expected_result": "NON_PASS",
+      "expected_reason": "TERMINAL_ARTIFACT_IDENTITY_MISMATCH"
+    },
+    {
+      "case_id": "ROLLBACK_FALSE",
+      "mutation_class": "ROLLBACK_CLAIM_FALSE",
+      "target": "CORRECT_RESULT.rollback_receipt.exact",
+      "operations": [
+        "SET_EXACT_FROM_TRUE_TO_FALSE",
+        "SET_SOURCE_ROOT_FINAL_STATE_FROM_ABSENT_TO_PRESENT",
+        "RECOMPUTE_ROLLBACK_RECEIPT_AND_TERMINAL_MANIFEST_IDENTITIES",
+        "REBIND_TERMINAL_EVENT_AND_RECHAIN_TO_CLOSE"
+      ],
+      "rebound": true,
+      "assertion": "EXACT_ROLLBACK_IS_A_NON_NEGOTIABLE_TERMINAL_SUCCESS_CONDITION",
+      "expected_result": "NON_PASS",
+      "expected_reason": "ROLLBACK_NOT_EXACT"
+    },
+    {
+      "case_id": "EXTERNAL_EFFECT_TRUE",
+      "mutation_class": "EXTERNAL_EFFECT_CLAIM_TRUE",
+      "target": "CORRECT_RESULT.external_effects_receipt.network",
+      "operations": [
+        "SET_NETWORK_FROM_FALSE_TO_TRUE",
+        "RECOMPUTE_EXTERNAL_EFFECTS_RECEIPT_AND_TERMINAL_MANIFEST_IDENTITIES",
+        "REBIND_TERMINAL_EVENT_AND_RECHAIN_TO_CLOSE"
+      ],
+      "rebound": true,
+      "assertion": "ALL_SIX_EXTERNAL_EFFECT_FLAGS_MUST_REMAIN_EXACTLY_FALSE",
+      "expected_result": "NON_PASS",
+      "expected_reason": "EXTERNAL_EFFECT_FORBIDDEN"
+    }
+  ],
+  "counts": {
+    "mandatory": 11,
+    "catalog_entries": 11,
+    "expected_non_pass": 11,
+    "allowed_false_accepts": 0
+  },
+  "post_freeze_addition_change_or_expected_reason_rewrite_allowed": false
+}

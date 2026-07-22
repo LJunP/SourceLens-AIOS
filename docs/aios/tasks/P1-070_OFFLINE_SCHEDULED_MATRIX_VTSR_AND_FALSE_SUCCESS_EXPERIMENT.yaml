@@ -1,0 +1,315 @@
+schema_version: 1
+record_type: sourcelens_aios_phase_delegated_task_contract
+task_id: AIOS-P1-070_OFFLINE_SCHEDULED_MATRIX_VTSR_AND_FALSE_SUCCESS_EXPERIMENT
+task_slot: 2
+phase: P1
+route_id: P1_STABLE_REPLAY_PROJECTION_AND_EMPIRICAL_MATRIX_ROUTE_V1
+status: AUTHORIZED_ACTIVE
+execution_authority: FOUNDER_PHASE_GATE_DELEGATED
+title: Offline Scheduled Matrix VTSR and False-Success Experiment
+task_spec_ref:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-069-blind-admission-49506445/terminal/P1_PHASE_GATE_STABLE_REPLAY_PROJECTION_AND_EMPIRICAL_MATRIX_ROUTE_V1.md
+  sha256: 1c7e2c21d4a3159460dd53cdf8d0472e6509646462da4dca64e7db40a5db91d2
+  byte_length: 15962
+owner_role: P1_070_ENGINEERING_MANAGER_OWNER
+worker_role: P1_070_MATRIX_ENGINEERING_WORKER
+
+objective: >-
+  Execute one predeclared, real, serial, offline scheduled matrix on the accepted
+  blind-admission harness; retain every scheduled outcome; independently recompute
+  VTSR accounting, evaluator disagreement and false-success confusion; and prove
+  that history deletion, denominator reduction, post-hoc invalidation, duplicate
+  success and reordering all fail closed.
+
+why_now:
+  - P1-071 passed its exact Task Gate and closed the hidden-set access-separation Gate item.
+  - Strict P1 completion is now 3/8 (37.5%), while evaluator disagreement and
+    false-success risk characterization remains incomplete.
+  - This Task advances the next P1 Exit Gate item with executable empirical Evidence;
+    it does not add another authority kernel or governance-document chain.
+
+task_kind: EVALUATION_FOUNDATION_ENGINEERING
+risk_level: high
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+founder_decision_required: false
+baseline_ref:
+  path: docs/aios/EVALUATION_PROTOCOL.md
+  version: "1.1"
+  sha256: da029143561fbb3c213d4a358b25e085542c6cd26ae8150a53cbb5998177eed8
+
+dependencies:
+  - AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+  - AIOS-P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK
+  - AIOS-P1-071_STABLE_REPLAY_PROJECTION_AND_EXACT_HARNESS_ADMISSION_VERTICAL_SLICE
+
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-069-blind-admission-49506445/terminal/P1_PHASE_GATE_STABLE_REPLAY_PROJECTION_AND_EMPIRICAL_MATRIX_ROUTE_V1.md
+  sha256: 1c7e2c21d4a3159460dd53cdf8d0472e6509646462da4dca64e7db40a5db91d2
+  byte_length: 15962
+  authorization_token: AUTHORIZE_P1_STABLE_REPLAY_PROJECTION_AND_EMPIRICAL_MATRIX_CONTINUOUS_ROUTE_V1
+
+founder_authorization_source:
+  path: /Users/lijunpeng/.codex/attachments/28836c01-4b5f-4d02-8ca6-6567eadaeabb/pasted-text.txt
+  sha256: b387e4d3d1d52bd8bb3657916841d1b13abd7d120b1993ba6d440c1a93735b96
+  byte_length: 7951
+
+source_identity:
+  canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
+  activation_parent_commit: 2da6a314249c9ea98f3cc3134e6afe00e4c28db0
+  activation_parent_tree: 68d0605dbd94bf1003f36b51fe74b6f4ca082032
+  task_branch: codex/p1-070-offline-scheduled-matrix
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-070-offline-scheduled-matrix
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-070-offline-scheduled-matrix-TS8DyWZw
+
+budget:
+  engineering_hours: 16
+  calendar_days: 4
+  implementation_iterations: 2
+  candidates: 1
+
+roles:
+  owner: P1_070_ENGINEERING_MANAGER_OWNER
+  worker: P1_070_MATRIX_ENGINEERING_WORKER
+  independent_reviewers:
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent
+
+role_separation:
+  prefreeze_quality_actor: P1_070_PREFREEZE_QUALITY_ACTOR
+  matrix_worker: P1_070_MATRIX_ENGINEERING_WORKER
+  formal_recomputation_actor: P1_070_FORMAL_INDEPENDENT_RECOMPUTATION_ACTOR
+  final_reviewers_must_be_fresh_and_not_the_above_actors: true
+  worker_may_not_read_formal_recomputation_implementation_or_expected_receipt: true
+
+allowlisted_paths:
+  - Makefile
+  - docs/PROJECT_CODE_MAP.md
+  - docs/aios/tasks/P1-070_OFFLINE_SCHEDULED_MATRIX_VTSR_AND_FALSE_SUCCESS_EXPERIMENT.yaml
+  - docs/aios/truth/project_state.yaml
+  - evaluation-harness/contracts/offline-scheduled-matrix-v1/**
+  - evaluation-harness/evaluator/offline-scheduled-matrix-v1/**
+  - evaluation-harness/fixtures/offline-scheduled-matrix-v1/**
+  - evaluation-harness/harness/offline-scheduled-matrix-v1/**
+  - scripts/verify-p1-070-offline-scheduled-matrix.sh
+
+write_scope:
+  - Makefile
+  - docs/PROJECT_CODE_MAP.md
+  - docs/aios/tasks/P1-070_OFFLINE_SCHEDULED_MATRIX_VTSR_AND_FALSE_SUCCESS_EXPERIMENT.yaml
+  - docs/aios/truth/project_state.yaml
+  - evaluation-harness/contracts/offline-scheduled-matrix-v1/**
+  - evaluation-harness/evaluator/offline-scheduled-matrix-v1/**
+  - evaluation-harness/fixtures/offline-scheduled-matrix-v1/**
+  - evaluation-harness/harness/offline-scheduled-matrix-v1/**
+  - scripts/verify-p1-070-offline-scheduled-matrix.sh
+
+read_context:
+  canonical_authority:
+    - docs/aios/truth/project_state.yaml
+    - docs/aios/STRATEGIC_CONSTITUTION.md
+    - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+    - docs/aios/FOUNDER_DELEGATION_POLICY.md
+    - docs/aios/EVALUATION_PROTOCOL.md
+    - docs/aios/tasks/P1-070_OFFLINE_SCHEDULED_MATRIX_VTSR_AND_FALSE_SUCCESS_EXPERIMENT.yaml
+  accepted_read_only_engineering_inputs:
+    - path: evaluation-harness/harness/blind-admission-v1/run.mjs
+      sha256: 3df2b36200e9e15ccd8149e1b42bb541174d1e610dfd918258334ad9f3aa83a5
+      byte_length: 15124
+    - path: evaluation-harness/recording/blind-admission-v1/recorder.mjs
+      sha256: 49b71330d0a52db3a735435f91dbcf9de5e4a40a97585378066981fe42ce68e4
+      byte_length: 11675
+    - path: evaluation-harness/validators/blind-admission-v1/validator.mjs
+      sha256: 80913d2d5d4aaf28f8fb717714613e880e412faaa05cef58a13f7b242b2d8b31
+      byte_length: 11428
+    - path: evaluation-harness/evaluator/blind-admission-v1/public-conformance-oracle.mjs
+      sha256: 72220bebc24d62fd131a23d52a0e64550f978731e13af643e7ccc974de3b258d
+      byte_length: 6199
+    - path: evaluation-harness/replay/stable-replay-projection-v2/project.mjs
+      sha256: c36c28540a4025529fc427bce7c6be73ea467258c3d9a27a4b3a5dbe2afbf49a
+      byte_length: 20797
+    - path: evaluation-harness/contracts/stable-replay-projection-v2/stable-replay-projection-v2.contract.json
+      sha256: 49064285a28d09433e4a16412e4dd7198c0dbddea985875633a6ad1cf4b270c8
+      byte_length: 8366
+    - path: evaluation-harness/fixtures/blind-admission-v1/visible-task-card.json
+      sha256: 479d73fa02fa7c031e08c32897020a07167fe71a31c0e2868fa1c53236a773d5
+      byte_length: 911
+    - path: evaluation-harness/fixtures/blind-admission-v1/visible-source.json
+      sha256: 7c1cdb2621e03e529a47cd548f0ab03f27ff8557153f742ee862d1224a16bc46
+      byte_length: 161
+    - path: evaluation-harness/fixtures/blind-admission-v1/visible-expected.json
+      sha256: 6bd3364b4210c1f6fd8802ebe48d1bd9ad44383f5175b478a5433096b7147c7c
+      byte_length: 475
+    - path: evaluation-harness/fixtures/blind-admission-v1/runtime-profile.json
+      sha256: a60ddc957525ad8578a3104617d907ecf0a21749c0cd771b4ab5e50193fe60c1
+      byte_length: 665
+  forbidden_context:
+    - any_terminal_or_rejected_task_source_fixture_test_candidate_diff_partial_implementation_or_hidden_evidence
+    - any_p1_069_or_p1_071_raw_evidence_mutation
+
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+
+prefreeze_contract:
+  matrix_entry_order:
+    - CORRECT_RESULT
+    - WRONG_PATCH
+    - MISSING_EVIDENCE
+    - SCOPE_VIOLATION
+    - DECLARED_SHARED_HARNESS_INVALID_CONTROL
+  schedule_must_freeze_before_any_terminal_result_is_inspected: true
+  eligible_denominator: 4
+  predeclared_infrastructure_invalid_count: 1
+  expected_independent_success_numerator: 1
+  expected_independent_failure_count: 3
+  required_reason_families:
+    - VERIFIED_SUCCESS
+    - WRONG_PATCH
+    - MISSING_EVIDENCE
+    - SCOPE_VIOLATION
+    - DECLARED_SHARED_HARNESS_INVALID
+  authority_counts_are_integer_and_exact_rational_only: true
+  reported_percentage_is_non_authoritative: true
+
+ledger_contract:
+  format: UTF8_CANONICAL_JSONL_EXACTLY_ONE_LF_PER_EVENT
+  creation: ATOMIC_UNIQUE_TASK_OWNED_O_EXCL
+  mutation: APPEND_ONLY_UNTIL_MATRIX_CLOSED
+  event_hash_chain: SHA256_CANONICAL_EVENT_WITHOUT_EVENT_SHA256_PLUS_ONE_LF
+  event_index: CONTIGUOUS_ZERO_BASED
+  lifecycle:
+    - MATRIX_DECLARED
+    - FIVE_RUN_SCHEDULED_IN_FROZEN_ORDER
+    - SCHEDULE_FROZEN
+    - FIVE_RUN_TERMINAL_IN_FROZEN_ORDER
+    - MATRIX_CLOSED
+  close_is_terminal: true
+  classifications_must_be_derived_from_bound_artifacts_not_trusted_from_ledger: true
+
+independent_recomputation:
+  imports_or_calls_worker_counting_code: false
+  derives_eligibility_from_frozen_plan_only: true
+  derives_terminal_verdict_from_exact_bound_artifacts: true
+  recomputes:
+    - scheduled_count
+    - eligible_denominator
+    - verified_success_numerator
+    - failure_count
+    - invalid_count
+    - exact_vtsr_fraction
+    - reason_code_distribution
+    - primary_evaluator_disagreement_matrix
+    - candidate_claim_false_success_confusion_matrix
+  compares_reported_aggregate_only_after_independent_derivation: true
+
+required_actual_matrix:
+  correct_result: actual_fresh_accepted_harness_run_and_primary_oracle
+  wrong_patch: actual_fresh_accepted_harness_run_with_result_that_fails_frozen_expected_identity
+  missing_evidence: retained_submission_with_a_frozen_mandatory_evidence_field_absent
+  scope_violation: retained_submission_with_an_out_of_scope_path_and_internally_rebound_copy
+  infrastructure_invalid: predeclared_shared_harness_control_before_child_start_and_excluded_only_by_frozen_reason
+  execution_order: SERIAL_SINGLE_PROCESS_NO_PROACTIVE_CONCURRENCY
+
+mandatory_negative_cases:
+  - HISTORY_DELETE_RECHAINED
+  - DENOMINATOR_REDUCTION_REBOUND
+  - POST_HOC_INVALID_RECHAINED
+  - DUPLICATE_SUCCESS_TERMINAL_RECHAINED
+  - SCHEDULE_REORDER_REINDEXED_RECHAINED
+  - NUMERATOR_INFLATION_REBOUND
+  - REASON_DISTRIBUTION_MUTATION_REBOUND
+  - PLAN_IDENTITY_MUTATION
+  - TERMINAL_ARTIFACT_IDENTITY_TAMPER
+  - ROLLBACK_FALSE
+  - EXTERNAL_EFFECT_TRUE
+
+acceptance_criteria:
+  - P1-071 is accepted on canonical main and its single canonical make verify receipt remains PASS.
+  - No accepted P1-069 or P1-071 source byte changes.
+  - The exact matrix contract, plan and negative catalog are frozen before Worker execution.
+  - The five-entry scheduled matrix executes serially with every raw terminal/control result retained.
+  - Independent recomputation derives numerator 1, denominator 4, invalid 1 and failures 3 from raw artifacts.
+  - Actual primary-evaluator disagreement and candidate-claim false-success confusion are retained without post-hoc rewriting.
+  - Every mandatory history/accounting mutation is rejected with zero false accepts.
+  - Every disposable root is uniquely and atomically created, ownership-bound and exactly rolled back.
+  - Network, Provider, Secret, remote, production and public effects remain false.
+  - Targeted verification passes on one clean exact candidate.
+  - One exact candidate receives one fresh CTO, Security and Quality TARGET_VERDICT PASS on identical bytes.
+  - Reviewed tree equals integrated tree and one canonical make verify passes after integration.
+
+required_evidence:
+  - quality_prefreeze_identity_receipt
+  - accepted_input_identity_receipt
+  - frozen_schedule_and_matrix_plan
+  - raw_run_and_control_artifact_manifest
+  - append_only_event_ledger_and_reported_aggregate
+  - independent_recomputation_receipt
+  - false_success_and_disagreement_matrix
+  - negative_mutation_matrix_receipt
+  - rollback_and_external_effect_receipts
+  - exact_candidate_manifest_and_recovery_tag
+  - fresh_cto_security_quality_reviews
+  - integration_tree_equality_and_single_canonical_verify_receipt
+
+rollback:
+  before_integration: Remove only Task-owned disposable roots after ownership verification; preserve retained Evidence and leave canonical main unchanged.
+  formal_cases: Each case owns a unique atomic root and may clean only paths listed in its own ownership marker.
+  after_integration_verify_non_pass: Create one non-destructive git revert commit; do not reset, clean, retry, repair or create another candidate.
+  evidence_rule: Never overwrite, delete, rename or rewrite accepted or retained Evidence.
+
+stop_conditions:
+  - p1_071_acceptance_or_canonical_identity_drift
+  - accepted_harness_or_projection_blob_drift
+  - schedule_not_frozen_before_terminal_output_inspection
+  - independent_recomputation_or_raw_artifact_mismatch
+  - any_mandatory_negative_false_accept
+  - post_hoc_invalid_or_history_manipulation_not_fail_closed
+  - rollback_non_exact_or_evidence_damage
+  - any_external_effect
+  - second_candidate_second_review_or_post_freeze_repair_required
+  - any_fresh_reviewer_target_verdict_non_pass
+  - reviewed_integrated_tree_mismatch
+  - canonical_make_verify_non_pass
+  - scope_budget_permission_phase_or_claim_expansion_required
+  - task_or_route_budget_exhaustion
+
+forbidden_actions:
+  - network_provider_secret_remote_production_or_public_effect
+  - modifying_any_accepted_p1_069_or_p1_071_engineering_byte
+  - reading_or_reusing_any_non_allowlisted_terminal_or_rejected_engineering_asset
+  - arbitrary_shell_free_form_untrusted_or_result_controlled_execution
+  - post_hoc_denominator_reduction_or_invalid_classification
+  - successor_replacement_normalization_closure_correction_or_remediation_chain
+  - second_candidate_second_review_or_post_freeze_source_repair
+  - p2_or_p3_entry
+  - supervisor_root_custody_strong_isolation_full_trust_or_multi_agent_runtime
+  - push_pull_request_release_or_remote_mutation
+  - counting_contract_manifest_review_hash_receipt_or_truth_as_engineering_progress
+
+capability_projection_on_pass:
+  accepted_capabilities:
+    - VTSR_COUNTING_VALIDATOR
+    - EVALUATOR_DISAGREEMENT_AND_FALSE_SUCCESS_CHARACTERIZATION
+  p1_exit_gate_item_completed: EVALUATOR_DISAGREEMENT_AND_FALSE_SUCCESS_RISKS_CHARACTERIZED
+  strict_p1_completion: 4_COMPLETE_1_PARTIAL_3_NOT_COMPLETE_50_PERCENT
+  complete_p1_exit_claim: false
+
+claim_boundary: >-
+  ONE_PREDECLARED_FIVE_ENTRY_COOPERATIVE_LOCAL_OFFLINE_SCHEDULED_MATRIX_USING_THE
+  ACCEPTED_BLIND_ADMISSION_HARNESS_WITH_EXACT_VTSR_ACCOUNTING_EVALUATOR_DISAGREEMENT
+  FALSE_SUCCESS_CONFUSION_HISTORY_INTEGRITY_EXACT_ROLLBACK_AND_NO_EXTERNAL_EFFECTS
+  ONLY_NO_GENERAL_BENCHMARK_BASELINE_REPORT_COMPLETE_P1_P2_P3_PRODUCTION_PUBLIC_OR
+  HOSTILE_PRINCIPAL_CLAIM

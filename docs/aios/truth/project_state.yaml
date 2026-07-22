@@ -619,7 +619,7 @@ current_phase_route:
     accepted_canonical_schema_and_engineering_assets_allowed: true
   inherited_worktree_inventory:
     - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-063-atomic-offline-b0
-      head: 14a6e1ed7298dd3568b7290ff2f625785521f9c1d
+      head: 14a6e1ed7298dd3568b7290ff2f625785521f9c1
       branch: codex/p1-063-atomic-offline-b0
       status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
     - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-063-direct-engineering-v1

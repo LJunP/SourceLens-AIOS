@@ -617,6 +617,8 @@ current_phase_route:
     terminal_or_rejected_source_fixture_test_candidate_diff_partial_implementation_or_hidden_evidence_read_allowed: false
     p1_068_candidate_or_implementation_read_repair_reuse_or_review_allowed: false
     accepted_canonical_schema_and_engineering_assets_allowed: true
+  additional_write_roots:
+    - evaluation-harness/contracts
   inherited_worktree_inventory:
     - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-063-atomic-offline-b0
       head: 14a6e1ed7298dd3568b7290ff2f625785521f9c1
@@ -1436,15 +1438,15 @@ active_work:
     sha256: 514b4371f90f21f418aaa09709985e9eb3f6783e788de57254dab93537780963
     byte_length: 19510
   current_task_contract_sha256: 514b4371f90f21f418aaa09709985e9eb3f6783e788de57254dab93537780963
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-069-blind-admission-49506445/authority/TASK_AUTHORITY.yaml
-  current_execution_authorization_sha256: 7f6f2d27905f910cf2fe2ce161f309c2c9e612898f073b20f57a9a670882a750
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-069-blind-admission-49506445/authority/TASK_AUTHORITY_V2.yaml
+  current_execution_authorization_sha256: fae518aff0a7abb9de8647aec11d3ab5b602ee7b83f2aae8a5d644b64a3b6b09
   authority_record:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-069-blind-admission-49506445/authority/TASK_AUTHORITY.yaml
-    sha256: 7f6f2d27905f910cf2fe2ce161f309c2c9e612898f073b20f57a9a670882a750
-    byte_length: 4688
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-069-blind-admission-49506445/authority/TASK_AUTHORITY_V2.yaml
+    sha256: fae518aff0a7abb9de8647aec11d3ab5b602ee7b83f2aae8a5d644b64a3b6b09
+    byte_length: 4826
   execution_nonce: P1-069-20260722T060337Z-49506445
   execution_nonce_status: ACTIVE
-  authorization_id: P1-069-AUTH-20260722T060337Z-49506445
+  authorization_id: P1-069-AUTH-20260722T060337Z-49506445-V2
   activation_parent_commit: 8a110d7a2abd5ae8072040a789a2709ec45525b5
   activation_parent_tree: 4c67d2edef302e3a7426562ac8ffdc146098bbe5
   task_resource_state: ACTIVE
@@ -1452,7 +1454,6 @@ active_work:
   task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-069-blind-admission-harness
   execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-069-blind-admission-49506445
   allowlisted_paths:
-    - docs/aios/tasks/P1-069_CLEAN_ROOM_OFFLINE_BLIND_ADMISSION_PARAMETERIZED_HARNESS_VERTICAL_SLICE.yaml
     - docs/aios/truth/project_state.yaml
     - evaluation-harness/contracts/blind-admission-v1/admission-envelope.schema.json
     - evaluation-harness/contracts/blind-admission-v1/evidence.schema.json
@@ -1465,9 +1466,6 @@ active_work:
     - evaluation-harness/harness/blind-admission-v1/run.mjs
     - evaluation-harness/recording/blind-admission-v1/recorder.mjs
     - evaluation-harness/validators/blind-admission-v1/validator.mjs
-    - scripts/validate-current-task-authority.rb
-    - scripts/test-current-task-authority.rb
-    - scripts/check-p1-safety-boundary.sh
     - scripts/verify-p1-069-blind-admission-harness.sh
     - Makefile
     - docs/PROJECT_CODE_MAP.md

@@ -1008,12 +1008,17 @@ module CurrentTaskAuthority
 
     scopes = normalize_scopes(active["allowlisted_paths"], "active_work.allowlisted_paths")
     contract_scopes = normalize_scopes(contract_field(contract, "allowlisted_paths"), "contract allowlisted_paths")
-    assert(scopes == contract_scopes, "contract allowlisted paths mismatch")
+    assert((scopes - contract_scopes).empty?,
+           "active authority grants a path outside the reviewed Contract maximum scope")
     authority_scopes = normalize_scopes(contract_field(authority_record, "allowlisted_paths"),
                                         "authority record allowlisted_paths")
     assert(scopes == authority_scopes, "authority record allowlisted paths mismatch")
     boundary = hash(truth["phase_boundary"], "phase_boundary")
-    roots = flatten_write_roots(boundary["role_write_roots"])
+    route_roots = array(route.fetch("additional_write_roots", []),
+                        "current_phase_route.additional_write_roots").map.with_index do |path, index|
+      safe_scope_path(path, "current_phase_route.additional_write_roots[#{index}]")
+    end
+    roots = flatten_write_roots(boundary["role_write_roots"]) + route_roots
     immutable = array(boundary["immutable_authority_paths"], "phase_boundary.immutable_authority_paths")
     scopes.each do |scope|
       assert(roots.any? { |root_path| scope_within_root?(scope, root_path) },

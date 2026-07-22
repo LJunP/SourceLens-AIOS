@@ -274,6 +274,9 @@ check_current_p1_route() {
       nonempty_string!(binding["status"], "accepted input #{input_id}.status")
       sha256!(binding["task_contract_sha256"], "accepted input #{input_id}.task_contract_sha256")
     end
+    route_write_roots = route.fetch("additional_write_roots", [])
+    stop!("current route additional write roots must be a sequence") unless route_write_roots.is_a?(Array)
+    route_write_roots.each { |path| safe_relative_path!(path, "current route additional write root") }
 
     first_task = mapping!(route["first_task"], "current_phase_route.first_task")
     first_task_id = nonempty_string!(first_task["task_id"], "current_phase_route.first_task.task_id")

@@ -1,0 +1,472 @@
+{
+  "schema_version": 1,
+  "record_type": "sourcelens_aios_p1_067_offline_b1_quality_task_card",
+  "status": "QUALITY_FREEZE_CANDIDATE",
+  "freeze_effective_only_with_external_quality_receipt": true,
+  "task_id": "AIOS-P1-067_OFFLINE_B1_SIMPLE_TOOL_COMPATIBILITY_ADAPTER_VERTICAL_SLICE",
+  "control_id": "SL-P1-REP-001-RANGE-NORMALIZATION",
+  "quality_owner": "Independent Quality and Evaluation Agent",
+  "worker_may_modify": false,
+  "activation": {
+    "commit": "301f3d358215378ac47130f4339173a3d917f9d6",
+    "tree": "3898f6ec5a769412cb72f2f10b6ceb61ea2c556b"
+  },
+  "authority": {
+    "path": "/Users/lijunpeng/Developer/.sourcelens-audit/p1-067-offline-b1-7jPPTE1B/authority/TASK_AUTHORITY.yaml",
+    "byte_length": 2466,
+    "sha256": "b521f5ce9c88284a255501b593fb64bc72e72a1832dd0e00b0665cdf7afc41bb"
+  },
+  "contract": {
+    "path": "docs/aios/tasks/P1-067_OFFLINE_B1_SIMPLE_TOOL_COMPATIBILITY_ADAPTER_VERTICAL_SLICE.yaml",
+    "byte_length": 16459,
+    "sha256": "864224f56deb3f177f077a1e5b53e078943992bfdc8bc0ad756a788bca2576cc"
+  },
+  "accepted_inputs": {
+    "task_spec": {
+      "path": "evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/task-spec.json",
+      "byte_length": 2960,
+      "sha256": "25de6b6f330e09c076521b42a88d60712637e0fc7de7ab1cfe1f9f5d4c223321"
+    },
+    "expected_base_failure": {
+      "path": "evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/expected-base-failure.json",
+      "byte_length": 439,
+      "sha256": "5dbe034939ed2178f86fd84ad409cff9426040f63343de27f7ad3e8f46dd2494"
+    },
+    "materialization_recipe": {
+      "path": "evaluation-harness/datasets/p1-representative-task-dataset-v1/materialization-recipe.json",
+      "byte_length": 456,
+      "sha256": "104ed7109df7da155867a428b50575a9cda6bca481e183cebed50788c01a3a5e"
+    },
+    "baseline_context": {
+      "path": "evaluation-harness/datasets/p1-representative-task-dataset-v1/shared/baseline-context.json",
+      "byte_length": 377,
+      "sha256": "64fab9efd47c193af94e3f7baee67072a32497d35c9dc1aee8a804bf32269cb9"
+    },
+    "response_format": {
+      "path": "evaluation-harness/datasets/p1-representative-task-dataset-v1/shared/response-format.json",
+      "byte_length": 306,
+      "sha256": "6b8ec1d2a6a288e5b908716714589dae963739f2b35a0a29237ff4cbc1355c4b"
+    },
+    "source_preimage": {
+      "path": "evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/src/range.mjs",
+      "byte_length": 115,
+      "sha256": "1e3de2958c9841bbe785d903b2f5453389c4225359308b539ac2cb3194469d75",
+      "mode": "0644"
+    },
+    "issue_test": {
+      "path": "evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/test/issue.test.mjs",
+      "byte_length": 237,
+      "sha256": "51fd472f8cf85fd595246814db29699ab81ccdc2986d80666d8609a8c4972b4b"
+    },
+    "regression_test": {
+      "path": "evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/test/regression.test.mjs",
+      "byte_length": 241,
+      "sha256": "381c573d8f99305b47db9f1a2ca49779842fe1187b9d7c5b7410e56dda9240c5"
+    },
+    "compiler": {
+      "path": "evaluation-harness/harness/finite-typed-patch-ir-v1/compiler.mjs",
+      "version": "SL-PATCH-IR-TRUSTED-COMPILER/1",
+      "byte_length": 3814,
+      "sha256": "013a58a6284270c6808f6cfe815dbea6825b8a43a0a6f885305df23890c7a4f9"
+    },
+    "ir10": {
+      "path": "evaluation-harness/fixtures/finite-typed-patch-ir-v1/programs/ir10.json",
+      "program_id": "IR10",
+      "byte_length": 255,
+      "sha256": "ac80def7bc984820b63243b020754715c1a7ad34e18e3ded2a4ee5c1961defcc"
+    },
+    "base": {
+      "commit": "68ce8226eff4c5c7230b55b18a4cbea2f8e4a20f",
+      "tree": "900814727113d65f5dad8b63222e14f39b2cf38b",
+      "dirty_state": "clean"
+    },
+    "accepted_postimage": {
+      "byte_length": 127,
+      "sha256": "e8304b77da9b8c33f64ecdc568db7e97297ace72ecb796971bb3f5eda09d9001"
+    }
+  },
+  "accepted_regressions": {
+    "p1_035_verifier": {
+      "path": "scripts/verify-p1-task-dataset.sh"
+    },
+    "p1_055_verifier": {
+      "path": "scripts/verify-p1-finite-typed-patch-ir-v1.sh"
+    },
+    "p1_066_adapter": {
+      "path": "evaluation-harness/adapters/offline-b0-finite-typed-v1/adapter.mjs",
+      "byte_length": 12598,
+      "sha256": "88752be370fe88c2153594eee0415663d272cb962e1576c8817c3fce450686ad"
+    },
+    "p1_066_runner": {
+      "path": "evaluation-harness/harness/offline-b0-complete-evidence-v1/run.mjs",
+      "byte_length": 68946,
+      "sha256": "d0ee73404a1ebda4bbb7f82e08ee7882ca3b0f98bd3b90ca7450d0bc09246d47"
+    },
+    "p1_066_oracle": {
+      "path": "evaluation-harness/evaluator/offline-b0-complete-evidence-v1/quality-oracle.mjs",
+      "byte_length": 104557,
+      "sha256": "cdb7b37c6526b04b63508d00c07984302e93bbdb22fa047f41b8b1b9c66c0c6d"
+    },
+    "p1_066_verifier": {
+      "path": "scripts/verify-p1-066-offline-b0.sh",
+      "byte_length": 1558,
+      "sha256": "87d46aea664d17ad2bf17af2e4fa2414a498d0a59ceca481c9527df4b186c031"
+    },
+    "reuse_boundary": "READ_ONLY_ACCEPTED_REGRESSION_ONLY"
+  },
+  "quality_assets": {
+    "target_runtime": {
+      "path": "evaluation-harness/fixtures/offline-b1-simple-tool-v1/target-runtime-oci-manifest.json",
+      "byte_length": 1688,
+      "sha256": "482afa2abc0367224b783b5d065a676354e5cff9fb19c8bd7022970ff7dd02c6"
+    },
+    "environment_snapshot": {
+      "path": "evaluation-harness/fixtures/offline-b1-simple-tool-v1/environment-snapshot.json",
+      "byte_length": 2087,
+      "sha256": "333d30e7a7c960570bec5b409710e4dfba68aa6a46c51c396df5bc248726f149"
+    },
+    "system_configuration": {
+      "path": "evaluation-harness/fixtures/offline-b1-simple-tool-v1/system-configuration.json",
+      "byte_length": 1108,
+      "sha256": "8e7333d5acd3f6ac84d595c91fef3a053f2722e46ac09f4beb54fafe7965e5e9"
+    },
+    "compatibility_profile": {
+      "path": "evaluation-harness/fixtures/offline-b1-simple-tool-v1/compatibility-profile.json",
+      "byte_length": 4454,
+      "sha256": "6a4f462eab6b46bfc0d675dd902f09b57cf5b8c541e9ef07caadc0675e8ae6b8"
+    },
+    "positive_tool_plan": {
+      "path": "evaluation-harness/fixtures/offline-b1-simple-tool-v1/positive-tool-plan.json",
+      "byte_length": 1583,
+      "sha256": "8752ffa0a5325c7dcd72697ceeaf878f2b6fbadb8fb44890d215e7b1d85f1b0f"
+    },
+    "negative_cases": {
+      "path": "evaluation-harness/fixtures/offline-b1-simple-tool-v1/negative-cases.json",
+      "byte_length": 8704,
+      "sha256": "01b88bff780869b5f403348333cdfdd93b889b082eacfa8456efb2ef26fbbd06"
+    }
+  },
+  "declared_target_and_actual_executor": {
+    "declared_target_kind": "DECLARED_SYNTHETIC_TARGET",
+    "declared_target_materialized": false,
+    "declared_target_container_execution_observed": false,
+    "actual_executor_kind": "LOCAL_HOST_PROCESS",
+    "actual_executor_must_be_measured_per_run": true,
+    "actual_executor_container_runtime_observed": false,
+    "actual_executor_identity": {
+      "platform": "darwin",
+      "architecture": "arm64",
+      "node_path": "/usr/local/bin/node",
+      "node_version": "v20.17.0",
+      "node_byte_length": 193262272,
+      "node_sha256": "c5548e7a991a5c90170a29843ffc46df4643e29141f3cbb035f60295cf2bc882",
+      "git_path": "/usr/bin/git",
+      "git_version": "git version 2.39.5 (Apple Git-154)",
+      "git_byte_length": 118848,
+      "git_sha256": "29d5080bd197feb8245ee7d9a275fee4750b5496c6a7016090eff5a357c1e8c4"
+    }
+  },
+  "finite_tool_plan_contract": {
+    "record_type": "sourcelens_aios_offline_b1_finite_typed_tool_plan",
+    "canonical_json_required": true,
+    "duplicate_json_keys_rejected": true,
+    "exact_step_count": 3,
+    "maximum_step_count": 3,
+    "permitted_step_keys": [
+      "ordinal",
+      "tool_id",
+      "operation_id"
+    ],
+    "forbidden_dynamic_fields": [
+      "path",
+      "argv",
+      "cwd",
+      "env",
+      "executable",
+      "module",
+      "timeout",
+      "code",
+      "shell",
+      "diff",
+      "ast",
+      "payload",
+      "parameters"
+    ],
+    "required_steps": [
+      { "ordinal": 1, "tool_id": "local-file-edit", "operation_id": "apply-finite-typed-patch-ir" },
+      { "ordinal": 2, "tool_id": "local-node-test", "operation_id": "issue-test" },
+      { "ordinal": 3, "tool_id": "local-node-test", "operation_id": "regression-test" }
+    ],
+    "fixed_tool_call_count": 3,
+    "task_spec_maximum_tool_calls": 8,
+    "only_patch_program": "IR10",
+    "plan_controls_path_argv_cwd_env_executable_module_or_timeout": false,
+    "free_form_code_shell_diff_ast_payload_or_parameters": false
+  },
+  "fixed_operation_mapping": {
+    "local-file-edit/apply-finite-typed-patch-ir": {
+      "compiler_path": "evaluation-harness/harness/finite-typed-patch-ir-v1/compiler.mjs",
+      "program_path": "evaluation-harness/fixtures/finite-typed-patch-ir-v1/programs/ir10.json",
+      "program_id": "IR10",
+      "target_path": "src/range.mjs",
+      "mutation_kind": "ATOMIC_COMPLETE_POSTIMAGE_REPLACEMENT"
+    },
+    "local-node-test/issue-test": {
+      "argv": ["/usr/local/bin/node", "--test", "test/issue.test.mjs"],
+      "cwd": "TASK_REPOSITORY",
+      "timeout_seconds": 10,
+      "non_secret_environment": {}
+    },
+    "local-node-test/regression-test": {
+      "argv": ["/usr/local/bin/node", "--test", "test/regression.test.mjs"],
+      "cwd": "TASK_REPOSITORY",
+      "timeout_seconds": 10,
+      "non_secret_environment": {}
+    }
+  },
+  "pre_admission_safety": {
+    "invalid_plan_materialization_creations": 0,
+    "invalid_plan_mutation_attempts": 0,
+    "invalid_plan_child_start_attempts": 0,
+    "invalid_plan_external_effects": {
+      "network": false,
+      "provider": false,
+      "secret": false,
+      "remote": false,
+      "production": false,
+      "public": false
+    }
+  },
+  "child_process_failure_contract": {
+    "failure_kinds": ["timeout", "output_overflow", "signal"],
+    "worker_runner_self_test_must_execute_actual_failure_paths": true,
+    "oracle_process_group_control_self_test_is_not_worker_proof": true,
+    "child_must_be_terminated": true,
+    "descendants_must_not_survive": true,
+    "exact_rollback_required": true,
+    "success_must_not_be_reported": true
+  },
+  "required_actions_in_order": [
+    "validate_candidate_quality_and_input_identities",
+    "validate_canonical_closed_finite_tool_plan",
+    "create_fresh_task_owned_run_evidence_and_materialization_roots",
+    "materialize_and_verify_exact_rep001_base",
+    "execute_typed_base_issue_failure_and_base_regression_pass",
+    "execute_tool_step_1_exact_ir10_atomic_postimage",
+    "execute_tool_step_2_exact_issue_test",
+    "execute_tool_step_3_exact_regression_test",
+    "capture_exact_patch_changed_path_and_raw_stream_evidence",
+    "restore_exact_base_source_commit_tree_and_clean_state",
+    "emit_create_once_complete_evidence_manifest_and_run_record"
+  ],
+  "run_evidence_contract": {
+    "manifest_record_type": "sourcelens_aios_p1_067_run_manifest",
+    "provenance_record_type": "sourcelens_aios_p1_067_run_provenance",
+    "observation_record_type": "sourcelens_aios_p1_067_run_observation",
+    "rollback_record_type": "sourcelens_aios_p1_067_rollback_receipt",
+    "manifest_required_fields": [
+      "schema_version",
+      "record_type",
+      "task_id",
+      "control_id",
+      "run_id",
+      "repetition_id",
+      "candidate_binding",
+      "run_root_receipt",
+      "materialization_receipt",
+      "artifacts",
+      "agent_status"
+    ],
+    "required_artifact_roles": [
+      "candidate_provenance",
+      "tool_plan",
+      "observation",
+      "patch",
+      "rollback",
+      "actual_executor",
+      "action_trace",
+      "patch_evidence_package",
+      "run_record",
+      "command_stream"
+    ],
+    "artifact_creation": "CREATE_ONCE_REGULAR_NOFOLLOW_NLINK_ONE_CONTAINED",
+    "preexisting_object_overwrite_or_cleanup": false,
+    "cross_run_substitution_rejected_for": [
+      "observation",
+      "run_record",
+      "candidate_provenance",
+      "rollback",
+      "actual_executor",
+      "action_trace",
+      "patch_evidence_package"
+    ],
+    "raw_stdout_stderr_identity_required": true,
+    "retained_materialization_rechecked_at_evaluation": true,
+    "patch_evidence_package_required": true,
+    "patch_evidence_package_record_type": "sourcelens_aios_p1_067_patch_evidence_package",
+    "patch_evidence_package_mandatory_sections": [
+      "manifest",
+      "source_identity",
+      "environment",
+      "understanding",
+      "plan",
+      "actions",
+      "patch",
+      "tests",
+      "verification",
+      "risk",
+      "approval",
+      "rollback"
+    ],
+    "actual_executor_record_type": "sourcelens_aios_p1_067_actual_executor_evidence",
+    "actual_executor_per_run_required": true,
+    "action_trace_record_type": "sourcelens_aios_p1_067_complete_action_trace",
+    "action_trace_record_required_fields": [
+      "sequence",
+      "action_id",
+      "category",
+      "phase",
+      "tool_ordinal",
+      "request",
+      "outcome"
+    ],
+    "action_trace_required_action_ids": [
+      "candidate_git_head",
+      "candidate_git_tree",
+      "candidate_git_status",
+      "validate_quality_and_input_identities",
+      "actual_git_version",
+      "validate_closed_tool_plan_and_adapter_admission",
+      "create_exclusive_run_root",
+      "create_exclusive_materialization_root",
+      "materialize_source_inputs",
+      "materialize_git_init",
+      "materialize_git_add",
+      "materialize_git_commit",
+      "base_git_head",
+      "base_git_tree",
+      "base_git_status",
+      "base_issue_test",
+      "base_regression_test",
+      "tool_step_1_request",
+      "tool_step_1_atomic_postimage",
+      "changed_path_git_status",
+      "patch_git_diff",
+      "patch_capture",
+      "tool_step_2_request",
+      "tool_issue_test",
+      "tool_step_3_request",
+      "tool_regression_test",
+      "rollback_atomic_restore",
+      "rollback_git_head",
+      "rollback_git_tree",
+      "rollback_git_status",
+      "rollback_source_check",
+      "retained_evidence_policy"
+    ]
+  },
+  "run_record_requirements": {
+    "schema_path": "docs/aios/schemas/run-record.schema.json",
+    "schema_version": "1.0",
+    "adapter_id": "B1",
+    "adapter_version": "OFFLINE-B1-FINITE-TOOL-ADAPTER/1",
+    "terminal_status": "completed",
+    "stop_reason_code": "agent_complete",
+    "invalid_run_reason": null,
+    "tool_calls": 3,
+    "policy_violations": [],
+    "verification_ref_before_independent_evaluation": null
+  },
+  "quality_evaluator_interface": {
+    "module_path": "evaluation-harness/evaluator/offline-b1-simple-tool-v1/quality-oracle.mjs",
+    "version": "P1-067-OFFLINE-B1-QUALITY-ORACLE/2",
+    "exports": [
+      "canonicalJsonBytes",
+      "validateTaskCard",
+      "validateQualityAssets",
+      "validateFiniteToolPlan",
+      "evaluateRunEvidence",
+      "compareStableRuns"
+    ],
+    "self_test_argv": [
+      "/usr/local/bin/node",
+      "evaluation-harness/evaluator/offline-b1-simple-tool-v1/quality-oracle.mjs",
+      "self-test"
+    ],
+    "adapter_reported_pass_is_authoritative": false,
+    "recompute_artifact_length_and_sha256": true,
+    "recompute_stable_projection": true
+  },
+  "stable_projection": {
+    "include": [
+      "schema_version",
+      "task_id",
+      "control_id",
+      "candidate_binding",
+      "input_identities",
+      "plan_identity",
+      "actual_executor_identity",
+      "action_trace",
+      "patch_evidence_package",
+      "tool_actions",
+      "changed_paths",
+      "tests",
+      "rollback",
+      "run_record_status",
+      "external_effects",
+      "evaluator",
+      "complete_evidence",
+      "verdict",
+      "claim_boundary"
+    ],
+    "exclude": [
+      "run_id",
+      "repetition_id",
+      "physical_path",
+      "realpath",
+      "cwd",
+      "device",
+      "inode",
+      "pid",
+      "started_at",
+      "ended_at",
+      "duration_ms",
+      "latency_ms",
+      "nonce"
+    ],
+    "run_a_run_b_requirement": "EXACT_CANONICAL_JSON_BYTE_EQUALITY"
+  },
+  "positive_expectations": {
+    "base_issue_exit_status": 1,
+    "base_regression_exit_status": 0,
+    "fixed_tool_call_count": 3,
+    "patched_issue_exit_status": 0,
+    "patched_regression_exit_status": 0,
+    "changed_paths": ["src/range.mjs"],
+    "rollback_exact": true,
+    "evaluator_verdict": "PASS"
+  },
+  "rollback": {
+    "mutation_occurred": true,
+    "restored_source_byte_length": 115,
+    "restored_source_sha256": "1e3de2958c9841bbe785d903b2f5453389c4225359308b539ac2cb3194469d75",
+    "restored_base_commit": "68ce8226eff4c5c7230b55b18a4cbea2f8e4a20f",
+    "restored_base_tree": "900814727113d65f5dad8b63222e14f39b2cf38b",
+    "git_status_porcelain": "",
+    "restored_exact_base": true
+  },
+  "negative_case_contract": {
+    "path": "evaluation-harness/fixtures/offline-b1-simple-tool-v1/negative-cases.json",
+    "case_count": 53,
+    "maximum_false_accepts": 0
+  },
+  "external_effects": {
+    "network": false,
+    "provider": false,
+    "secret": false,
+    "remote": false,
+    "production": false,
+    "public": false
+  },
+  "claim_boundary": "ONE_VISIBLE_SYNTHETIC_REP_001_COOPERATIVE_LOCAL_OFFLINE_B1_FINITE_TYPED_SIMPLE_TOOL_COMPATIBILITY_ADAPTER_COMPLETE_EVIDENCE_OBSERVATION_ONLY_NO_LIVE_MODEL_EMPIRICAL_BASELINE_VTSR_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM"
+}

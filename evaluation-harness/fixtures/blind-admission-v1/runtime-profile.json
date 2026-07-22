@@ -1,0 +1,15 @@
+{
+  "schema_version": "blind-admission-runtime-profile/v1",
+  "profile_id": "P1-069-NODE20-DARWIN-ARM64",
+  "executable": {
+    "path": "/usr/local/bin/node",
+    "realpath": "/usr/local/bin/node",
+    "sha256": "c5548e7a991a5c90170a29843ffc46df4643e29141f3cbb035f60295cf2bc882",
+    "byte_length": 193262272,
+    "mode": "0755",
+    "version": "v20.17.0"
+  },
+  "actual_process": {"platform": "darwin", "arch": "arm64"},
+  "alternate_architecture_probe": ["/usr/bin/arch", "-x86_64", "/usr/local/bin/node", "-p", "process.arch"],
+  "external_effects": {"network": false, "provider": false, "secret": false, "remote": false, "production": false, "public": false}
+}

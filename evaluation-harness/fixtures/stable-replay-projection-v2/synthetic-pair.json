@@ -1,0 +1,108 @@
+{
+  "schema_version": "stable-replay-projection-synthetic-fixture/v2",
+  "fixture_id": "PUBLIC_SYNTHETIC_PAIR_001",
+  "provenance": "FRESH_SYNTHETIC_NO_RETAINED_VISIBLE_OR_WITHHELD_BYTES",
+  "shared": {
+    "case_id": "synthetic-case-001",
+    "candidate_status": "COMPLETED",
+    "EXECUTABLE": "/opt/sourcelens/bin/node",
+    "CANDIDATE_ROOT": "/worktrees/synthetic-candidate",
+    "repo_relative_paths": [
+      "src/synthetic.txt"
+    ],
+    "physical_path_fields": {
+      "/runtime/executable_path": "/opt/sourcelens/bin/node",
+      "/runtime/executable_realpath": "/opt/sourcelens/bin/node",
+      "/runtime/logical_cwd": "/worktrees/synthetic-candidate",
+      "/runtime/child/executable_path": "/opt/sourcelens/bin/node",
+      "/runtime/child/module_path": "/worktrees/synthetic-candidate/evaluation-harness/recording/blind-admission-v1/recorder.mjs"
+    }
+  },
+  "runs": [
+    {
+      "arm": "A",
+      "RUN_ROOT": "/private/tmp/p1-071-synthetic-run-a",
+      "duration_ms": 101.125,
+      "ordered_argv": [
+        "/opt/sourcelens/bin/node",
+        "/worktrees/synthetic-candidate/evaluation-harness/harness/blind-admission-v1/run.mjs",
+        "--owned-root",
+        "/private/tmp/p1-071-synthetic-run-a/candidate-owned",
+        "--source-root",
+        "/private/tmp/p1-071-synthetic-run-a/candidate-owned/source",
+        "--evidence-root",
+        "/private/tmp/p1-071-synthetic-run-a/candidate-owned/evidence",
+        "--canonical-root",
+        "/worktrees/synthetic-candidate",
+        "--logical-cwd",
+        "/worktrees/synthetic-candidate",
+        "--case-id",
+        "synthetic-case-001"
+      ],
+      "ordered_argv_sha256": "2af0d3318c7cafb647b9f6fc451b774ca60a8b72d8f9b98112d8956a183d13f7",
+      "child_logical_cwd": "/private/tmp/p1-071-synthetic-run-a/candidate-owned/source",
+      "candidate_stdout_utf8": "{\n  \"candidate_status\": \"COMPLETED\",\n  \"evidence_path\": \"/private/tmp/p1-071-synthetic-run-a/candidate-owned/evidence/evidence.json\"\n}\n",
+      "candidate_stdout_sha256": "7656d5ed554a0e72dbaaf5cbbab02a9e8c34efa30b78c4578e75b4383e5a0e76",
+      "candidate_stdout_byte_length": 135
+    },
+    {
+      "arm": "B",
+      "RUN_ROOT": "/private/tmp/p1-071-synthetic-run-b",
+      "duration_ms": 202.25,
+      "ordered_argv": [
+        "/opt/sourcelens/bin/node",
+        "/worktrees/synthetic-candidate/evaluation-harness/harness/blind-admission-v1/run.mjs",
+        "--owned-root",
+        "/private/tmp/p1-071-synthetic-run-b/candidate-owned",
+        "--source-root",
+        "/private/tmp/p1-071-synthetic-run-b/candidate-owned/source",
+        "--evidence-root",
+        "/private/tmp/p1-071-synthetic-run-b/candidate-owned/evidence",
+        "--canonical-root",
+        "/worktrees/synthetic-candidate",
+        "--logical-cwd",
+        "/worktrees/synthetic-candidate",
+        "--case-id",
+        "synthetic-case-001"
+      ],
+      "ordered_argv_sha256": "a7ac7a304228eb4c6e39e357797a91652fab54d1333744e0a5214bfdb500ac76",
+      "child_logical_cwd": "/private/tmp/p1-071-synthetic-run-b/candidate-owned/source",
+      "candidate_stdout_utf8": "{\n  \"candidate_status\": \"COMPLETED\",\n  \"evidence_path\": \"/private/tmp/p1-071-synthetic-run-b/candidate-owned/evidence/evidence.json\"\n}\n",
+      "candidate_stdout_sha256": "be2d2a02c1290334bd5bc50a7427537185a2b544f46c16aff2e503d845006cf1",
+      "candidate_stdout_byte_length": 135
+    }
+  ],
+  "expected_behavior": {
+    "tokenized_physical_path_fields": {
+      "/runtime/executable_path": "$EXECUTABLE",
+      "/runtime/executable_realpath": "$EXECUTABLE",
+      "/runtime/logical_cwd": "$CANDIDATE_ROOT",
+      "/runtime/child/executable_path": "$EXECUTABLE",
+      "/runtime/child/module_path": "$CANDIDATE_ROOT/evaluation-harness/recording/blind-admission-v1/recorder.mjs",
+      "/runtime/child/logical_cwd": "$RUN_ROOT/candidate-owned/source"
+    },
+    "tokenized_ordered_argv": [
+      "$EXECUTABLE",
+      "$CANDIDATE_ROOT/evaluation-harness/harness/blind-admission-v1/run.mjs",
+      "--owned-root",
+      "$RUN_ROOT/candidate-owned",
+      "--source-root",
+      "$RUN_ROOT/candidate-owned/source",
+      "--evidence-root",
+      "$RUN_ROOT/candidate-owned/evidence",
+      "--canonical-root",
+      "$CANDIDATE_ROOT",
+      "--logical-cwd",
+      "$CANDIDATE_ROOT",
+      "--case-id",
+      "synthetic-case-001"
+    ],
+    "tokenized_ordered_argv_sha256": "9ac6549387519ed60239dd1c96b8826dd6c6b012b7dac6cb9bea19ea38973948",
+    "normalized_stdout_utf8": "{\"candidate_status\":\"COMPLETED\",\"evidence_path\":\"$RUN_ROOT/candidate-owned/evidence/evidence.json\"}\n",
+    "normalized_stdout_sha256": "ad7717bd93ca4a5f015a37cdecd862412cdfc49d1d7e1b292b77e1d7b35eb2ee",
+    "normalized_stdout_byte_length": 100,
+    "delete_pointer": "/runtime/duration_ms",
+    "repo_relative_paths_preserved_exact": true,
+    "A_B_projection_bytes_equal": true
+  }
+}

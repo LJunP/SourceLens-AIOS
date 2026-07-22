@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sourcelens.local/schemas/blind-admission-evidence-v1.json",
+  "title": "SourceLens blind admission run evidence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "case_id", "task_id", "identities", "runtime", "patch", "result", "tests", "rollback", "external_effects", "candidate_status"],
+  "properties": {
+    "schema_version": {"const": "blind-admission-evidence/v1"},
+    "case_id": {"type": "string", "minLength": 1},
+    "task_id": {"type": "string", "minLength": 1},
+    "identities": {"type": "object"},
+    "runtime": {"type": "object"},
+    "patch": {"type": "object"},
+    "result": {"type": "object"},
+    "tests": {"type": "object"},
+    "rollback": {"type": "object"},
+    "external_effects": {"type": "object"},
+    "candidate_status": {"enum": ["COMPLETED", "REJECTED"]}
+  }
+}

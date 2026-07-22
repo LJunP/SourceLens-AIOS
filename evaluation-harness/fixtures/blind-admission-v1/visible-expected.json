@@ -1,0 +1,19 @@
+{
+  "schema_version": "blind-admission-expected/v1",
+  "task_id": "VISIBLE-COLOR-001",
+  "files": [
+    {
+      "path": "src/message.txt",
+      "content": "color=green\nstatus=ready\n",
+      "sha256": "93b47d098cc4970ad681e4bf498a4581ccd11cb442a92dc03e084748b908ec44",
+      "byte_length": 25
+    }
+  ],
+  "patch": {
+    "kind": "replace_exact",
+    "relative_path": "src/message.txt",
+    "replacements": 1,
+    "material_change": true
+  },
+  "expected_verdict": "PASS"
+}

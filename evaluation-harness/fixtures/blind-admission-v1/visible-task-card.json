@@ -1,0 +1,34 @@
+{
+  "schema_version": "blind-admission-task-card/v1",
+  "task_id": "VISIBLE-COLOR-001",
+  "source_artifact": {
+    "artifact_id": "VISIBLE_SOURCE",
+    "sha256": "7c1cdb2621e03e529a47cd548f0ab03f27ff8557153f742ee862d1224a16bc46",
+    "byte_length": 161
+  },
+  "runtime_profile": {
+    "artifact_id": "P1_069_RUNTIME_PROFILE",
+    "sha256": "a60ddc957525ad8578a3104617d907ecf0a21749c0cd771b4ab5e50193fe60c1",
+    "byte_length": 665
+  },
+  "operation": {
+    "kind": "replace_exact",
+    "relative_path": "src/message.txt",
+    "match": "color=blue",
+    "replacement": "color=green",
+    "expected_replacements": 1
+  },
+  "execution_policy": {
+    "timeout_ms": 5000,
+    "stdout_max_bytes": 65536,
+    "stderr_max_bytes": 65536,
+    "external_effects": {
+      "network": false,
+      "provider": false,
+      "secret": false,
+      "remote": false,
+      "production": false,
+      "public": false
+    }
+  }
+}

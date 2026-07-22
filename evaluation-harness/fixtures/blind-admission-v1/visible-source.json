@@ -1,0 +1,9 @@
+{
+  "schema_version": "blind-admission-source/v1",
+  "files": [
+    {
+      "path": "src/message.txt",
+      "content": "color=blue\nstatus=ready\n"
+    }
+  ]
+}

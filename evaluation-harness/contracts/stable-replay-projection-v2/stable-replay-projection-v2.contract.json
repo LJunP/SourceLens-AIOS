@@ -1,0 +1,192 @@
+{
+  "schema_version": "stable-replay-projection-contract/v2",
+  "record_type": "PUBLIC_EXECUTABLE_PROJECTION_CONTRACT",
+  "status": "FROZEN",
+  "task_id": "AIOS-P1-071_STABLE_REPLAY_PROJECTION_AND_EXACT_HARNESS_ADMISSION_VERTICAL_SLICE",
+  "authority": {
+    "founder_packet_sha256": "1c7e2c21d4a3159460dd53cdf8d0472e6509646462da4dca64e7db40a5db91d2",
+    "task_contract_sha256": "c02505bc0bac2a187f0c96290b33e562f6e06e15b2c22f4e747b42cf9d4d29c2",
+    "task_authority_sha256": "7f4dc4f251a025666f4092c46bfe5861ddb6eb924d1900dd95c0da4e576c0305",
+    "activation_head": "55faeadc529fd1f106d403bb6747cf828b4a7aaa"
+  },
+  "input_contract": {
+    "exact_inputs": [
+      "evidence.json",
+      "candidate.stdout"
+    ],
+    "evidence_schema_version": "blind-admission-evidence/v1",
+    "json_parse": "UTF8_STRICT_SINGLE_VALUE_DUPLICATE_OBJECT_KEYS_FORBIDDEN_NONFINITE_NUMBERS_FORBIDDEN",
+    "expected_scalar_leaf_count": 166,
+    "expected_scalar_leaf_type_map_canonicalization": "UTF8_JSON_ARRAY_SORT_BY_POINTER_OBJECT_KEYS_SORTED_NO_INSIGNIFICANT_WHITESPACE_EXACTLY_ONE_TRAILING_LF",
+    "expected_scalar_leaf_type_map_sha256": "830ac39ff24e505ee98b908cf1ed48eca5d126ed8ee65aced61a84288bd34f5f",
+    "expected_full_pointer_count_including_root": 182,
+    "expected_full_pointer_type_map_canonicalization": "UTF8_JSON_ARRAY_SORT_BY_POINTER_OBJECT_KEYS_SORTED_NO_INSIGNIFICANT_WHITESPACE_EXACTLY_ONE_TRAILING_LF",
+    "expected_full_pointer_type_map_sha256": "07beb1ff8847077517c6ebd9d11bcb29f4e37867a9e8bd61a6ed197e2f47451d",
+    "required_pointer": "/runtime/executable_sha256",
+    "forbidden_legacy_pointer": "/identities/executable_sha256"
+  },
+  "cli_contract": {
+    "implementation_path": "evaluation-harness/replay/stable-replay-projection-v2/project.mjs",
+    "arguments": [
+      "--evidence",
+      "ABSOLUTE_PATH_TO_EVIDENCE_JSON",
+      "--candidate-stdout",
+      "ABSOLUTE_PATH_TO_CANDIDATE_STDOUT"
+    ],
+    "each_flag_exactly_once": true,
+    "unknown_or_positional_arguments_allowed": false,
+    "success": {
+      "exit_code": 0,
+      "stdout": "EXACT_CANONICAL_PROJECTION_BYTES",
+      "stderr_byte_length": 0
+    },
+    "non_pass": {
+      "exit_code": 1,
+      "stdout_byte_length": 0,
+      "stderr": "UTF8_SORTED_COMPACT_JSON_OBJECT_WITH_EXACT_KEYS_REASON_AND_STATUS_AND_ONE_TRAILING_LF",
+      "status_value": "NON_PASS"
+    },
+    "input_mutation_allowed": false,
+    "filesystem_output_allowed": false,
+    "network_provider_secret_remote_production_public_effects_allowed": false
+  },
+  "root_derivation": {
+    "EXECUTABLE": {
+      "source_pointer": "/runtime/executable_path",
+      "required_equal_pointers": [
+        "/runtime/executable_realpath",
+        "/runtime/child/executable_path"
+      ],
+      "token": "$EXECUTABLE",
+      "subpaths_allowed": false
+    },
+    "CANDIDATE_ROOT": {
+      "source_pointer": "/runtime/logical_cwd",
+      "required_equal_argv_flag": "--canonical-root",
+      "required_equal_logical_cwd_argv_flag": "--logical-cwd",
+      "token": "$CANDIDATE_ROOT",
+      "subpaths_allowed": true
+    },
+    "RUN_ROOT": {
+      "source": "candidate.stdout/evidence_path",
+      "required_suffix": "/candidate-owned/evidence/evidence.json",
+      "token": "$RUN_ROOT",
+      "subpaths_allowed": true
+    },
+    "constraints": [
+      "ABSOLUTE_POSIX",
+      "LEXICALLY_CANONICAL",
+      "NO_DOT_OR_DOTDOT_COMPONENT",
+      "NO_REPEATED_SEPARATOR",
+      "NO_TRAILING_SEPARATOR",
+      "PAIRWISE_NON_EQUAL_AND_NON_OVERLAPPING_AT_COMPONENT_BOUNDARY",
+      "EACH_PHYSICAL_PATH_MATCHES_EXACTLY_ONE_DECLARED_ROLE"
+    ]
+  },
+  "path_contract": {
+    "physical_path_pointers": [
+      "/runtime/executable_path",
+      "/runtime/executable_realpath",
+      "/runtime/logical_cwd",
+      "/runtime/child/executable_path",
+      "/runtime/child/module_path",
+      "/runtime/child/logical_cwd"
+    ],
+    "ordered_argv_rule": "TOKENIZE_EVERY_ABSOLUTE_POSIX_STRING_ELEMENT_BY_EXACT_COMPONENT_BOUNDARY_PRESERVE_ARRAY_ORDER_AND_PRESERVE_ALL_NONABSOLUTE_VALUES",
+    "required_argv_bindings": {
+      "argv_0": "$EXECUTABLE",
+      "--owned-root": "$RUN_ROOT/candidate-owned",
+      "--source-root": "$RUN_ROOT/candidate-owned/source",
+      "--evidence-root": "$RUN_ROOT/candidate-owned/evidence",
+      "--canonical-root": "$CANDIDATE_ROOT",
+      "--logical-cwd": "$CANDIDATE_ROOT"
+    },
+    "required_projection_value": {
+      "/runtime/child/logical_cwd": "$RUN_ROOT/candidate-owned/source"
+    },
+    "repo_relative_pointer_patterns": [
+      "/patch/relative_path",
+      "/result/files/*/path",
+      "/result/path_set/*"
+    ],
+    "repo_relative_rule": "NONEMPTY_COMPONENT_SAFE_POSIX_RELATIVE_AND_PRESERVE_EXACT",
+    "environment_path_pointer": "/runtime/environment/PATH",
+    "environment_path_rule": "PRESERVE_EXACT_AS_ENVIRONMENT_VALUE_NOT_A_SINGLE_PHYSICAL_PATH_FIELD",
+    "absolute_path_at_any_other_pointer": "NON_PASS",
+    "generic_string_replacement_allowed": false
+  },
+  "raw_binding": {
+    "ordered_argv_sha256": "SHA256_OF_UTF8_COMPACT_JSON_ARRAY_ARRAY_ORDER_PRESERVED_NO_TRAILING_LF",
+    "candidate_stdout_sha256_pointer": "/runtime/stdout_sha256",
+    "candidate_stdout_byte_length_pointer": "/runtime/stdout_byte_length",
+    "verify_raw_bindings_before_transform": true
+  },
+  "stdout_contract": {
+    "top_level_type": "object",
+    "exact_keys": [
+      "candidate_status",
+      "evidence_path"
+    ],
+    "value_types": {
+      "candidate_status": "string",
+      "evidence_path": "string"
+    },
+    "candidate_status_must_equal_evidence_pointer": "/candidate_status",
+    "evidence_path_must_tokenize_to": "$RUN_ROOT/candidate-owned/evidence/evidence.json",
+    "normalized_bytes": "UTF8_RECURSIVE_KEY_SORT_NO_INSIGNIFICANT_WHITESPACE_EXACTLY_ONE_TRAILING_LF"
+  },
+  "transform_contract": {
+    "output_shape": "TRANSFORMED_EVIDENCE_OBJECT_WITH_NO_WRAPPER_OR_ADDED_POINTERS",
+    "delete_exactly": [
+      "/runtime/duration_ms"
+    ],
+    "replace_exactly": {
+      "/runtime/ordered_argv_sha256": "SHA256_OF_TOKENIZED_ARGV_CANONICAL_BYTES",
+      "/runtime/stdout_sha256": "SHA256_OF_NORMALIZED_STDOUT_BYTES",
+      "/runtime/stdout_byte_length": "BYTE_LENGTH_OF_NORMALIZED_STDOUT_BYTES"
+    },
+    "tokenize_only": [
+      "DECLARED_PHYSICAL_PATH_POINTERS",
+      "ABSOLUTE_ORDERED_ARGV_ELEMENTS"
+    ],
+    "all_other_input_pointers_types_and_values_preserved_exact": true,
+    "case_id_preserved_exact": true,
+    "runtime_executable_sha256_preserved_exact": true,
+    "missing_added_type_drift_extra_difference_or_unlisted_transform": "NON_PASS"
+  },
+  "inner_canonicalization": {
+    "tokenized_argv_bytes": "UTF8_JSON_ARRAY_ARRAY_ORDER_PRESERVED_NO_INSIGNIFICANT_WHITESPACE_NO_TRAILING_LF",
+    "normalized_stdout_bytes": "UTF8_RECURSIVE_KEY_SORT_NO_INSIGNIFICANT_WHITESPACE_EXACTLY_ONE_TRAILING_LF"
+  },
+  "projection_canonicalization": "UTF8_RECURSIVE_KEY_SORT_ARRAY_ORDER_PRESERVED_NO_INSIGNIFICANT_WHITESPACE_EXACTLY_ONE_TRAILING_LF",
+  "pair_gate": {
+    "pairings": [
+      "A_VISIBLE_TO_B_VISIBLE",
+      "A_WITHHELD_TO_B_WITHHELD"
+    ],
+    "case_id_exact_equal_before_projection": true,
+    "projection_bytes_exact_equal": true,
+    "unhandled_difference": "NON_PASS_NO_NEW_NORMALIZATION"
+  },
+  "layer_boundary": {
+    "projection_inputs_can_prove": "LEXICAL_ALIAS_AND_COMPONENT_OVERLAP_ONLY",
+    "disposed_historical_root_physical_symlink_state_reconstructible": false,
+    "fresh_run_physical_symlink_check": "UPSTREAM_ADMISSION_AND_RECEIPT_PRECONDITION",
+    "receipt_actor_identity_enters_projection_equality": false,
+    "receipt_oracle_pass_enters_projection_equality": false,
+    "receipt_oracle_pass_required_before_pair_gate": true
+  },
+  "frozen_tests": {
+    "catalog_path": "evaluation-harness/fixtures/stable-replay-projection-v2/test-cases.json",
+    "positive_count": 12,
+    "negative_count": 31,
+    "catalog_closed": true,
+    "post_freeze_test_or_normalization_change_allowed": false
+  },
+  "provenance_boundary": {
+    "contains_retained_withheld_task_card_source_tests_oracle_or_expected_bytes": false,
+    "development_fixtures": "FRESH_SYNTHETIC_ONLY",
+    "retained_formal_inputs": "QUALITY_ONLY_OUTSIDE_REPOSITORY"
+  },
+  "claim_boundary": "PUBLIC_DETERMINISTIC_COOPERATIVE_LOCAL_STABLE_REPLAY_PROJECTION_CONTRACT_ONLY_NOT_WORKER_IMPLEMENTATION_RETAINED_FORMAL_RESULT_TASK_GATE_CAPABILITY_P1_EXIT_P2_P3_PRODUCTION_OR_PUBLIC_RELEASE"
+}

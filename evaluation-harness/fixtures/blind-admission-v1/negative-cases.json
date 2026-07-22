@@ -1,0 +1,29 @@
+{
+  "schema_version": "blind-admission-negative-matrix/v1",
+  "false_accepts_allowed": 0,
+  "cases": [
+    {"id": "task_card_substitution", "expected_reason": "TASK_CARD_IDENTITY_MISMATCH", "pre_mutation": true, "no_child": true},
+    {"id": "commitment_substitution", "expected_reason": "COMMITMENT_IDENTITY_MISMATCH", "pre_mutation": true, "no_child": true},
+    {"id": "path_escape", "expected_reason": "PATH_OUTSIDE_OWNED_ROOT", "pre_mutation": true, "no_child": true},
+    {"id": "root_alias", "expected_reason": "ROOT_ALIAS_OR_OVERLAP", "pre_mutation": true, "no_child": true},
+    {"id": "symlink_component", "expected_reason": "SYMLINK_COMPONENT_FORBIDDEN", "pre_mutation": true, "no_child": true},
+    {"id": "hardlink_input", "expected_reason": "NON_UNIQUE_INPUT_LINK_COUNT", "pre_mutation": true, "no_child": true},
+    {"id": "base_identity_drift", "expected_reason": "SOURCE_IDENTITY_MISMATCH", "pre_mutation": true, "no_child": true},
+    {"id": "dirty_state_drift", "expected_reason": "SOURCE_MANIFEST_DRIFT", "pre_mutation": true, "no_child": true},
+    {"id": "hidden_canary_leak", "expected_reason": "HIDDEN_DATA_LEAKAGE", "pre_mutation": false, "no_child": true},
+    {"id": "empty_patch", "expected_reason": "EMPTY_PATCH", "pre_mutation": false, "no_child": true},
+    {"id": "no_op_patch", "expected_reason": "NO_MATERIAL_CHANGE", "pre_mutation": false, "no_child": true},
+    {"id": "preexisting_output", "expected_reason": "OUTPUT_ALREADY_EXISTS", "pre_mutation": true, "no_child": true},
+    {"id": "alternate_architecture", "expected_reason": "ACTUAL_ARCHITECTURE_MISMATCH", "pre_mutation": true, "no_child": true, "launcher": ["/usr/bin/arch", "-x86_64", "/usr/local/bin/node"]},
+    {"id": "evidence_tamper", "expected_reason": "EVIDENCE_IDENTITY_MISMATCH", "pre_mutation": false, "no_child": true},
+    {"id": "rollback_mismatch", "expected_reason": "ROLLBACK_NOT_EXACT", "pre_mutation": false, "no_child": true},
+    {"id": "execution_parameter_substitution", "expected_reason": "EXECUTION_BINDING_MISMATCH", "pre_mutation": true, "no_child": true},
+    {"id": "result_controlled_execution", "expected_reason": "RESULT_CONTROLLED_EXECUTION_FORBIDDEN", "pre_mutation": true, "no_child": true},
+    {"id": "forbidden_network", "expected_reason": "EXTERNAL_EFFECT_FORBIDDEN", "pre_mutation": true, "no_child": true},
+    {"id": "forbidden_provider", "expected_reason": "EXTERNAL_EFFECT_FORBIDDEN", "pre_mutation": true, "no_child": true},
+    {"id": "forbidden_secret", "expected_reason": "EXTERNAL_EFFECT_FORBIDDEN", "pre_mutation": true, "no_child": true},
+    {"id": "forbidden_remote", "expected_reason": "EXTERNAL_EFFECT_FORBIDDEN", "pre_mutation": true, "no_child": true},
+    {"id": "forbidden_production", "expected_reason": "EXTERNAL_EFFECT_FORBIDDEN", "pre_mutation": true, "no_child": true},
+    {"id": "forbidden_public", "expected_reason": "EXTERNAL_EFFECT_FORBIDDEN", "pre_mutation": true, "no_child": true}
+  ]
+}

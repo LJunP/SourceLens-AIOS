@@ -1,0 +1,311 @@
+schema_version: 1
+record_type: sourcelens_aios_phase_delegated_task_contract
+task_id: AIOS-P1-071_STABLE_REPLAY_PROJECTION_AND_EXACT_HARNESS_ADMISSION_VERTICAL_SLICE
+task_slot: 1
+phase: P1
+route_id: P1_STABLE_REPLAY_PROJECTION_AND_EMPIRICAL_MATRIX_ROUTE_V1
+status: AUTHORIZED_ACTIVE
+execution_authority: FOUNDER_PHASE_GATE_DELEGATED
+title: Stable Replay Projection and Exact Harness Admission Vertical Slice
+task_spec_ref:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-069-blind-admission-49506445/terminal/P1_PHASE_GATE_STABLE_REPLAY_PROJECTION_AND_EMPIRICAL_MATRIX_ROUTE_V1.md
+  sha256: 1c7e2c21d4a3159460dd53cdf8d0472e6509646462da4dca64e7db40a5db91d2
+  byte_length: 15962
+owner_role: P1_071_ENGINEERING_MANAGER_OWNER
+worker_role: P1_071_STABLE_PROJECTION_WORKER
+
+objective: >-
+  Carry the exact P1-069 blind-admission engineering blobs into one new integration
+  candidate without mutation, implement one public executable stable-projection v2,
+  prove retained visible and withheld A/B projection equality, execute the frozen
+  23-case negative matrix with zero false accepts and exact rollback, and admit the
+  result only after one fresh exact-tree review cycle and canonical verification.
+
+why_now:
+  - P1 strict completion is 2/8 (25%) and hidden-set access separation remains NOT_COMPLETE.
+  - P1-069 produced one runnable exact harness candidate and four passing raw offline runs,
+    but its Quality-owned projection v1 was mechanically unsatisfiable.
+  - The Founder has authorized one bounded engineering-first route that preserves those
+    exact bytes while adding a reusable projection executable and completing the real matrix.
+
+task_kind: EVALUATION_FOUNDATION_ENGINEERING
+risk_level: high
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+founder_decision_required: false
+baseline_ref:
+  path: docs/aios/EVALUATION_PROTOCOL.md
+  version: "1.1"
+  sha256: da029143561fbb3c213d4a358b25e085542c6cd26ae8150a53cbb5998177eed8
+dependencies:
+  - AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+  - AIOS-P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK
+  - P1_069_EXACT_FOUNDER_AUTHORIZED_CARRY_FORWARD
+
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-069-blind-admission-49506445/terminal/P1_PHASE_GATE_STABLE_REPLAY_PROJECTION_AND_EMPIRICAL_MATRIX_ROUTE_V1.md
+  sha256: 1c7e2c21d4a3159460dd53cdf8d0472e6509646462da4dca64e7db40a5db91d2
+  byte_length: 15962
+  authorization_token: AUTHORIZE_P1_STABLE_REPLAY_PROJECTION_AND_EMPIRICAL_MATRIX_CONTINUOUS_ROUTE_V1
+
+founder_authorization_source:
+  path: /Users/lijunpeng/.codex/attachments/28836c01-4b5f-4d02-8ca6-6567eadaeabb/pasted-text.txt
+  sha256: b387e4d3d1d52bd8bb3657916841d1b13abd7d120b1993ba6d440c1a93735b96
+  byte_length: 7951
+
+source_identity:
+  canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
+  activation_parent_commit: e6bb7d64b05aeb42c9c5bc24b9691691edd37ec0
+  activation_parent_tree: 3e8785eaf9e38a7e764b2d04a5d915500b41a23b
+  task_branch: codex/p1-071-stable-replay-projection
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-071-stable-replay-projection
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-071-stable-replay-projection-xu6z1Nqn
+
+budget:
+  engineering_hours: 20
+  calendar_days: 5
+  implementation_iterations: 2
+  candidates: 1
+
+roles:
+  owner: P1_071_ENGINEERING_MANAGER_OWNER
+  worker: P1_071_STABLE_PROJECTION_WORKER
+  independent_reviewers:
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent
+
+independent_reviewer:
+  - CTO Agent
+  - Security Agent
+  - Quality and Evaluation Agent
+reviewer_freshness:
+  prior_p1_069_reviews_reusable: false
+  one_fresh_physical_actor_per_role_required: true
+
+allowlisted_paths:
+  - Makefile
+  - docs/PROJECT_CODE_MAP.md
+  - docs/aios/tasks/P1-071_STABLE_REPLAY_PROJECTION_AND_EXACT_HARNESS_ADMISSION_VERTICAL_SLICE.yaml
+  - docs/aios/truth/project_state.yaml
+  - evaluation-harness/contracts/blind-admission-v1/**
+  - evaluation-harness/contracts/stable-replay-projection-v2/**
+  - evaluation-harness/evaluator/blind-admission-v1/**
+  - evaluation-harness/fixtures/blind-admission-v1/**
+  - evaluation-harness/fixtures/stable-replay-projection-v2/**
+  - evaluation-harness/harness/blind-admission-v1/**
+  - evaluation-harness/recording/blind-admission-v1/**
+  - evaluation-harness/replay/stable-replay-projection-v2/**
+  - evaluation-harness/validators/blind-admission-v1/**
+  - scripts/verify-p1-069-blind-admission-harness.sh
+  - scripts/verify-p1-071-stable-replay-projection.sh
+
+write_scope:
+  - Makefile
+  - docs/PROJECT_CODE_MAP.md
+  - docs/aios/tasks/P1-071_STABLE_REPLAY_PROJECTION_AND_EXACT_HARNESS_ADMISSION_VERTICAL_SLICE.yaml
+  - docs/aios/truth/project_state.yaml
+  - evaluation-harness/contracts/blind-admission-v1/**
+  - evaluation-harness/contracts/stable-replay-projection-v2/**
+  - evaluation-harness/evaluator/blind-admission-v1/**
+  - evaluation-harness/fixtures/blind-admission-v1/**
+  - evaluation-harness/fixtures/stable-replay-projection-v2/**
+  - evaluation-harness/harness/blind-admission-v1/**
+  - evaluation-harness/recording/blind-admission-v1/**
+  - evaluation-harness/replay/stable-replay-projection-v2/**
+  - evaluation-harness/validators/blind-admission-v1/**
+  - scripts/verify-p1-069-blind-admission-harness.sh
+  - scripts/verify-p1-071-stable-replay-projection.sh
+
+read_context:
+  canonical:
+    - docs/aios/truth/project_state.yaml
+    - docs/aios/STRATEGIC_CONSTITUTION.md
+    - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+    - docs/aios/FOUNDER_DELEGATION_POLICY.md
+    - docs/aios/EVALUATION_PROTOCOL.md
+    - docs/aios/tasks/P1-071_STABLE_REPLAY_PROJECTION_AND_EXACT_HARNESS_ADMISSION_VERTICAL_SLICE.yaml
+  exact_p1_069_base: /Users/lijunpeng/Developer/.sourcelens-audit/p1-069-blind-admission-49506445
+  exact_quality_inputs:
+    - path: quality-freeze/QUALITY_FREEZE_V3_RECEIPT.json
+      sha256: db945b20fde6e8f7304229e303463b3c33d7c83e943c2550c432d09dcd09821b
+      byte_length: 4183
+    - path: quality-withheld-v3/commitment-manifest.json
+      sha256: 4c18c90a2fa45f2a4be2ad288726886c15dd814bb7d71c3968618c409189740d
+      byte_length: 2734
+    - path: quality-withheld-v3/formal-matrix.json
+      sha256: 34e967a415371f42e45dbfa720682e6e7c5fecbedfbe29c6c7eff0326c2bc1f4
+      byte_length: 4410
+    - path: quality-withheld-v3/stable-projection.json
+      sha256: 6dce1b76c2f36d1ccfa64a395ec68d86095e47c11fb2e2ba87902e500e31df98
+      byte_length: 1528
+      authority: TERMINAL_V1_FAILURE_EVIDENCE_ONLY
+  exact_raw_run_directories:
+    - formal-a/visible
+    - formal-a/case
+    - formal-b/visible
+    - formal-b/case
+  role_separation:
+    quality_may_read_exact_quality_inputs_and_all_four_raw_runs: true
+    worker_may_read_retained_withheld_material: false
+    worker_context: PUBLIC_SCHEMA_FROZEN_V2_CONTRACT_TESTS_AND_FRESH_SYNTHETIC_FIXTURES_ONLY
+
+write_ownership:
+  quality:
+    - evaluation-harness/contracts/stable-replay-projection-v2/**
+    - evaluation-harness/fixtures/stable-replay-projection-v2/**
+  worker:
+    - evaluation-harness/replay/stable-replay-projection-v2/**
+  integration:
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+    - docs/aios/tasks/P1-071_STABLE_REPLAY_PROJECTION_AND_EXACT_HARNESS_ADMISSION_VERTICAL_SLICE.yaml
+    - docs/aios/truth/project_state.yaml
+    - evaluation-harness/contracts/blind-admission-v1/**
+    - evaluation-harness/evaluator/blind-admission-v1/**
+    - evaluation-harness/fixtures/blind-admission-v1/**
+    - evaluation-harness/harness/blind-admission-v1/**
+    - evaluation-harness/recording/blind-admission-v1/**
+    - evaluation-harness/validators/blind-admission-v1/**
+    - scripts/verify-p1-069-blind-admission-harness.sh
+    - scripts/verify-p1-071-stable-replay-projection.sh
+
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+
+accepted_inputs:
+  - task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+    status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+    accepted_candidate_commit: 686eda0cd7a93b72ac5e64301479f17e4b096fb0
+    accepted_candidate_tree: b2740b44d0051303057deac7d719c27fd6a5578a
+  - task_id: AIOS-P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK
+    status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+    accepted_candidate_commit: 9e130f2aae0fd951b252cf0dff8edc9b9364e962
+    accepted_candidate_tree: 3a4229e9a8da181ca8bb256f5467cf96549c2549
+
+p1_069_exact_carry_forward:
+  candidate_commit: f4b523079cdc2032851867dc24a79bbea32d9be2
+  candidate_tree: c6e17b4b19dab3247721328f954e6e10cdf104c1
+  candidate_manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-069-blind-admission-49506445/candidate/P1_069_CANDIDATE_MANIFEST.json
+  candidate_manifest_sha256: 853559ae5e25c41b9e7fa311c3a12f176d8991596e0a70176d881235f34431fd
+  evidence_tag: evidence/p1-069-candidate-f4b5230
+  immutable_engineering_blobs: true
+  old_task_contract_truth_or_terminal_state_carried_forward: false
+  old_non_pass_rewritten: false
+  other_terminal_or_rejected_asset_read_allowed: false
+  retained_raw_inputs:
+    - arm: A_VISIBLE
+      evidence_sha256: ffc89dfd87fb7ee304780f1e45e00d9b4978e9a007795ed57dbb687535908f11
+    - arm: A_WITHHELD
+      evidence_sha256: 84c41673873ae8c85ed6129ee833adae2bb227864702fc677a09d3aef21d8869
+    - arm: B_VISIBLE
+      evidence_sha256: d898e612c14e8645e64df0b3717c5add71f81fec35ee89f0472afe6a6167109e
+    - arm: B_WITHHELD
+      evidence_sha256: 18717526902d3c5aec17f543c1a6119f3398f0675ecb7fe75923e7c13b7e05c7
+
+quality_pre_freeze:
+  owner: FRESH_QUALITY_AND_EVALUATION_ACTOR
+  reference_checker: DISPOSABLE_READ_ONLY_NOT_CANDIDATE_SOURCE
+  maximum_drafts: 2
+  maximum_draft_corrections: 1
+  freeze_requires:
+    - exact_scalar_leaf_pointer_set_and_types_equal_across_four_evidence_inputs
+    - all_absolute_physical_paths_uniquely_component_safe_tokenizable
+    - stdout_is_exact_two_key_json
+    - visible_A_B_projection_byte_equal
+    - withheld_A_B_projection_byte_equal
+  second_non_pass_action: TERMINAL_ROUTE_STOP
+  post_freeze_contract_test_or_normalization_change_allowed: false
+
+implementation_rules:
+  - The Worker reads only public schema, frozen v2 contract/tests and fresh synthetic development fixtures.
+  - The Worker must not read retained withheld Task Card, source, tests, oracle or expected bytes.
+  - Stable projection input is exactly evidence.json plus candidate.stdout for one run.
+  - Raw Evidence remains unchanged; only the closed projection transformations in the Founder packet are allowed.
+  - Ordinary implementation defects stay in this Task and its two pre-freeze implementation/test iterations.
+  - Candidate freeze is one-way; post-freeze source repair, second candidate and second review are prohibited.
+
+acceptance_criteria:
+  - Founder packet, Goal, source parent, Task authority and all retained input identities match exactly.
+  - P1-069 harness, recorder, validator, public oracle, schemas, fixtures and scripts/verify-p1-069-blind-admission-harness.sh are blob-equal to commit f4b5230.
+  - The pre-existing P1-069 Makefile target and dependency semantics are unchanged; Makefile changes only append the P1-071 target/dependency and Code Map changes are official-generator-only.
+  - Stable-projection v2 public contract/tests pass the Quality satisfiability preflight before Worker mutation.
+  - The new executable produces byte-equal visible A/B and withheld A/B canonical projections.
+  - The frozen 23-case formal negative matrix executes 23/23 with zero false accepts.
+  - Every formal case uses a unique atomically created task-owned disposable root and proves exact rollback.
+  - Network, Provider, Secret, remote, production and public effects remain false.
+  - Targeted verifier, projection unit/negative tests, retained equality and formal matrix pass on one clean commit.
+  - One exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS on identical bytes.
+  - Reviewed tree equals integrated tree and one canonical make verify passes after integration.
+
+required_evidence:
+  - quality_pre_freeze_receipt
+  - exact_blob_carry_forward_manifest
+  - projection_contract_and_tests_identity
+  - visible_and_withheld_projection_pair_receipts
+  - formal_23_case_matrix_receipt
+  - rollback_and_external_effect_receipts
+  - exact_candidate_manifest_and_evidence_tag
+  - fresh_cto_security_quality_reviews
+  - integration_tree_equality_and_canonical_verify_receipt
+
+rollback:
+  before_integration: Discard only Task-owned disposable fixtures and leave canonical main unchanged; preserve all Evidence.
+  formal_cases: Remove only the unique atomically created Task-owned roots after exact ownership and rollback verification.
+  after_integration_verify_non_pass: Create one non-destructive git revert commit; do not reset, clean, retry, repair or create another candidate.
+  evidence_rule: Never overwrite, delete, rename or rewrite retained P1-069 Evidence or any create-once P1-071 Evidence.
+
+stop_conditions:
+  - baseline_goal_candidate_or_evidence_identity_drift
+  - second_quality_draft_non_pass
+  - projection_mismatch
+  - formal_negative_matrix_not_23_of_23
+  - any_false_accept
+  - rollback_non_exact
+  - unauthorized_source_blob_change
+  - any_fresh_reviewer_target_verdict_non_pass
+  - reviewed_integrated_tree_mismatch
+  - canonical_make_verify_non_pass
+  - second_candidate_second_review_or_post_freeze_repair_required
+  - scope_budget_permission_or_phase_expansion_required
+  - evidence_damage_or_any_external_effect
+  - task_or_route_budget_exhaustion
+
+forbidden_actions:
+  - network_provider_secret_remote_production_or_public_effect
+  - arbitrary_shell_free_form_or_untrusted_code_execution
+  - reading_any_non_allowlisted_terminal_or_rejected_engineering_asset
+  - modifying_or_rewriting_p1_069_raw_evidence_terminal_receipt_or_non_pass
+  - successor_replacement_normalization_closure_correction_or_remediation_chain
+  - second_candidate_second_review_or_post_freeze_source_repair
+  - p2_or_p3_entry
+  - supervisor_root_custody_strong_isolation_full_trust_or_multi_agent_runtime
+  - push_pull_request_release_or_remote_mutation
+  - counting_contract_manifest_review_hash_receipt_or_truth_as_engineering_progress
+
+capability_projection_on_pass:
+  accepted_atomic_capabilities:
+    - HIDDEN_SET_PROTOCOL
+    - PARAMETERIZED_EVALUATION_HARNESS
+  strict_p1_completion: RECOMPUTE_FROM_CANONICAL_P1_EXIT_GATE_WITHOUT_PREDECLARED_PERCENTAGE
+  p1_070_entry_condition_satisfied: true
+  complete_p1_exit_claim: false
+
+claim_boundary: >-
+  COOPERATIVE_LOCAL_EXACT_P1_069_HARNESS_BLOBS_PLUS_PUBLIC_STABLE_PROJECTION_V2
+  WITH_RETAINED_VISIBLE_AND_WITHHELD_AB_EQUALITY_23_CASE_ZERO_FALSE_ACCEPTS_EXACT
+  ROLLBACK_AND_NO_EXTERNAL_EFFECTS_ONLY_NO_COMMERCIAL_SECRECY_HOSTILE_PRINCIPAL
+  B0_B1_B2_COMPLETE_ADAPTER_OBSERVABLE_TRACE_BASELINE_REPORT_COMPLETE_P1_P2_P3
+  PRODUCTION_OR_PUBLIC_CLAIM

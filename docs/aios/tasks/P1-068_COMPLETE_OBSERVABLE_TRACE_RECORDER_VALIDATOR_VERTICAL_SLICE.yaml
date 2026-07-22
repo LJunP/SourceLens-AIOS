@@ -1,0 +1,407 @@
+schema_version: 1
+record_type: sourcelens_aios_task_contract
+task_id: AIOS-P1-068_COMPLETE_OBSERVABLE_TRACE_RECORDER_VALIDATOR_VERTICAL_SLICE
+task_slot: 3
+status: ACTIVE
+phase: P1
+task_kind: EVALUATION_FOUNDATION_ENGINEERING
+task_gate_owner: MASTER_CEO_AGENT
+title: Complete observable trace recorder, validator and independent replay vertical slice
+
+why_now:
+  - P1-066 accepted one real cooperative-local offline B0 patch lifecycle with complete Patch Evidence, independent evaluation and exact rollback.
+  - P1-067 ended terminally after its one canonical full verification found a stale generated Project Code Map; its candidate and implementation are not reusable.
+  - The current P1 Exit Gate still records OBSERVABLE_TRACE as missing, while the active Phase explicitly allows RUN_RECORDING, DETERMINISTIC_REPLAY, EVALUATOR_AND_ORACLE and OBSERVABLE_TRACE_VALIDATION.
+  - A complete, data-driven trace recorder can close one atomic P1 Exit item in the remaining sixteen-hour Task slot; an isolated B2 slice cannot close the combined B0/B1/B2 item because B1 is not accepted.
+
+objective: >-
+  Build and falsify a closed, data-driven complete observable trace recorder and
+  validator on one real offline REP-001 patch lifecycle. The implementation must
+  capture every observable field required by Evaluation Protocol v1.1 section 6,
+  retain raw action Evidence, support deterministic replay and independent
+  evaluation, and prove exact rollback without inventing model, prompt, rationale,
+  resume, retry or intervention Evidence that did not occur.
+
+hypothesis: >-
+  A task-agnostic append-only event trace with exact identities, a hash chain,
+  typed absence semantics and independent replay can record the complete
+  observable lifecycle of one finite offline patch run, reject every frozen
+  omission or tamper case with zero false accepts, and reproduce a predeclared
+  stable projection across two physically independent runs.
+
+goal_identity:
+  source_attachment_path: /Users/lijunpeng/.codex/attachments/8129b464-59e1-42b0-a4f6-8a993620d401/pasted-text-1.txt
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+
+phase_authority:
+  route_id: P1_ENGINEERING_FIRST_PHASE_RESET_AND_OFFLINE_B0_CONTINUOUS_EXECUTION_V1
+  authorization_token: AUTHORIZE_P1_ENGINEERING_FIRST_PHASE_RESET_AND_OFFLINE_B0_CONTINUOUS_EXECUTION_V1
+  decision_packet:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-064-clean-room-recovery-53xYCZTX/terminal/P1_RECOVERY_ROUTE_STOP_OR_PHASE_DECISION_V1.md
+    sha256: cd98346cfeb411d5943051d8b37da1cf0a31fe059afc9c8f0377c8fa1bf813b8
+    byte_length: 9879
+  activation_parent:
+    commit: c68f9a332695acd7b198002ae2a13057f1ff2b13
+    tree: 68470f30288972a77cc8bac0e369dec7fc307620
+
+task_resources:
+  branch: codex/p1-068-complete-observable-trace
+  worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-068-complete-observable-trace
+  evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-068-complete-observable-trace-L6vko0hp
+  authority_record: /Users/lijunpeng/Developer/.sourcelens-audit/p1-068-complete-observable-trace-L6vko0hp/authority/TASK_AUTHORITY.yaml
+
+route_envelope_accounting:
+  maximum_engineering_tasks: 3
+  maximum_engineering_hours: 64
+  maximum_calendar_days: 14
+  task_slots_consumed_before_activation: 2
+  task_slot_activated: 3
+  allocated_engineering_hours_before_task: 48
+  task_engineering_hours: 16
+  allocated_engineering_hours_through_task: 64
+  active_tasks: 1
+  active_task_branches: 1
+  active_task_worktrees: 1
+  active_candidates: 0
+
+budget:
+  engineering_hours: 16
+  calendar_days: 4
+  implementation_iterations: 2
+  formal_candidate_review_cycles: 1
+  candidates: 1
+
+accepted_inputs:
+  evaluation_protocol:
+    path: docs/aios/EVALUATION_PROTOCOL.md
+    version: "1.1"
+    sha256: da029143561fbb3c213d4a358b25e085542c6cd26ae8150a53cbb5998177eed8
+    byte_length: 10127
+  run_record_schema:
+    path: docs/aios/schemas/run-record.schema.json
+    sha256: a139b73a7482fed64e6d24f8ca391b03963eef57db2b48d0c4c6776ff652bc56
+    byte_length: 3613
+  representative_dataset_manifest:
+    path: evaluation-harness/datasets/p1-representative-task-dataset-v1/dataset-manifest.json
+    sha256: 22f252319ed066655b05142a391709741703e01fbb4d6b5ebfbbcb6acd782be6
+    byte_length: 15313
+    accepted_task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+  representative_task_spec:
+    path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/task-spec.json
+    sha256: 25de6b6f330e09c076521b42a88d60712637e0fc7de7ab1cfe1f9f5d4c223321
+    byte_length: 2960
+  representative_source:
+    path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/src/range.mjs
+    sha256: 1e3de2958c9841bbe785d903b2f5453389c4225359308b539ac2cb3194469d75
+    byte_length: 115
+  representative_issue_test:
+    path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/test/issue.test.mjs
+    sha256: 51fd472f8cf85fd595246814db29699ab81ccdc2986d80666d8609a8c4972b4b
+    byte_length: 237
+  representative_regression_test:
+    path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/test/regression.test.mjs
+    sha256: 381c573d8f99305b47db9f1a2ca49779842fe1187b9d7c5b7410e56dda9240c5
+    byte_length: 241
+  finite_typed_patch_compiler:
+    path: evaluation-harness/harness/finite-typed-patch-ir-v1/compiler.mjs
+    sha256: 013a58a6284270c6808f6cfe815dbea6825b8a43a0a6f885305df23890c7a4f9
+    byte_length: 3814
+    accepted_task_id: AIOS-P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE
+  finite_typed_patch_program:
+    path: evaluation-harness/fixtures/finite-typed-patch-ir-v1/programs/ir10.json
+    sha256: ac80def7bc984820b63243b020754715c1a7ad34e18e3ded2a4ee5c1961defcc
+    byte_length: 255
+allowlisted_paths:
+  - docs/aios/tasks/P1-068_COMPLETE_OBSERVABLE_TRACE_RECORDER_VALIDATOR_VERTICAL_SLICE.yaml
+  - evaluation-harness/fixtures/complete-observable-trace-v1/observable-trace.schema.json
+  - evaluation-harness/fixtures/complete-observable-trace-v1/task-card.json
+  - evaluation-harness/fixtures/complete-observable-trace-v1/present-family-conformance.json
+  - evaluation-harness/fixtures/complete-observable-trace-v1/negative-cases.json
+  - evaluation-harness/fixtures/complete-observable-trace-v1/target-runtime-oci-manifest.json
+  - evaluation-harness/fixtures/complete-observable-trace-v1/environment-snapshot.json
+  - evaluation-harness/fixtures/complete-observable-trace-v1/system-configuration.json
+  - evaluation-harness/recording/complete-observable-trace-v1/recorder.mjs
+  - evaluation-harness/validators/complete-observable-trace-v1/validator.mjs
+  - evaluation-harness/evaluator/complete-observable-trace-v1/quality-oracle.mjs
+  - evaluation-harness/harness/complete-observable-trace-v1/run.mjs
+  - scripts/verify-p1-068-complete-observable-trace.sh
+  - scripts/verify-all.sh
+  - Makefile
+  - docs/PROJECT_CODE_MAP.md
+  - docs/aios/truth/project_state.yaml
+
+write_ownership:
+  quality:
+    - evaluation-harness/fixtures/complete-observable-trace-v1/**
+    - evaluation-harness/evaluator/complete-observable-trace-v1/quality-oracle.mjs
+  worker:
+    - evaluation-harness/recording/complete-observable-trace-v1/recorder.mjs
+    - evaluation-harness/validators/complete-observable-trace-v1/validator.mjs
+    - evaluation-harness/harness/complete-observable-trace-v1/run.mjs
+  integration:
+    - docs/aios/tasks/P1-068_COMPLETE_OBSERVABLE_TRACE_RECORDER_VALIDATOR_VERTICAL_SLICE.yaml
+    - scripts/verify-p1-068-complete-observable-trace.sh
+    - scripts/verify-all.sh
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+    - docs/aios/truth/project_state.yaml
+  external_evidence:
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-068-complete-observable-trace-L6vko0hp/**
+
+roles:
+  owner: Engineering Manager Agent
+  quality_owner: Independent Quality and Evaluation Agent
+  worker: Observable Trace Recorder Engineer
+  independent_reviewers: [CTO Agent, Security Agent, Quality and Evaluation Agent]
+
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+
+trace_contract:
+  record_type: sourcelens_aios_complete_observable_trace
+  schema_version: 1
+  append_only_create_once_events: true
+  strict_sequence_from_one: true
+  unique_event_id: true
+  every_event_binds_one_run_id: true
+  previous_event_sha256_hash_chain: true
+  event_after_terminal_allowed: false
+  unknown_members_allowed: false
+  hidden_chain_of_thought_allowed: false
+  typed_absence_only: true
+  typed_absence_allowed_only_for:
+    - model_invocation
+    - prompt_invocation
+    - additional_plan_revisions
+    - errors
+    - retries
+    - human_interventions
+    - agent_runtime_checkpoint_and_resume
+  required_present_in_real_lifecycle:
+    - run_task_source_environment_and_configuration_identity
+    - agent_tool_and_policy_identity
+    - observations_and_selected_context_references
+    - concise_public_decision_rationale
+    - initial_plan
+    - every_actual_tool_request_policy_decision_and_result
+    - file_mutations_and_patch_hashes
+    - base_and_patched_tests
+    - token_cost_latency_and_tool_call_accounting
+    - stop_reason
+    - redaction_policy_and_secret_absence
+    - recorder_checkpoint_close_and_reopen
+    - exact_rollback_and_final_source_identity
+    - independent_verifier_result
+  typed_absence_reason_codes_are_frozen: true
+  oracle_cross_checks_absence_against_actual_action_population: true
+  raw_streams_retained: true
+  independent_verdict_required: true
+  runner_may_write_final_pass: false
+  execution_close_status: PENDING_INDEPENDENT_VERIFICATION
+  execution_close_is_terminal_verdict: false
+  execution_event_after_close_allowed: false
+  terminal_verdict_owner: INDEPENDENT_QUALITY_ORACLE
+  terminal_verdict_layer: FINAL_TRACE_BUNDLE
+  required_observable_families:
+    - run_task_source_environment_and_configuration_identity
+    - agent_model_prompt_policy_and_tool_versions
+    - observations_and_selected_context_references
+    - concise_public_decision_rationale
+    - initial_plan_and_plan_revisions
+    - tool_requests_policy_decisions_inputs_outputs_exit_signal_duration
+    - checkpoints_and_resume_events
+    - file_mutations_and_patch_hashes
+    - base_and_patched_tests
+    - independent_verifier_result
+    - token_cost_latency_and_tool_call_accounting
+    - errors_retries_human_interventions_and_stop_reason
+    - redaction_policy_and_secret_absence
+    - exact_rollback_and_final_source_identity
+
+real_lifecycle:
+  task: SL-P1-REP-001-RANGE-NORMALIZATION
+  source_materialization: fresh_task_owned_disposable_git_repository
+  required_order:
+    - exact_input_and_executor_preflight
+    - materialize_and_commit_frozen_base
+    - base_issue_test_expected_failure
+    - base_regression_test_pass
+    - compile_exact_finite_typed_ir10
+    - apply_complete_postimage
+    - patched_issue_test_pass
+    - patched_regression_test_pass
+    - capture_patch_and_mutation_identity
+    - exact_source_and_git_rollback
+    - recorder_checkpoint_close_and_fresh_instance_reopen
+    - execution_close_pending_independent_verification
+    - independent_quality_evaluation
+    - verified_patch_evidence_package
+    - final_terminal_trace_bundle
+  fixed_patch_program: IR10
+  dynamic_or_free_form_code_shell_diff_ast_execution: false
+  result_controls_path_argv_cwd_env_executable_module_or_timeout: false
+
+quality_freeze_after_activation:
+  must_complete_before_worker_mutation: true
+  worker_may_modify_quality_owned_paths: false
+  freezes:
+    - exact observable-trace schema, event vocabulary and typed absence reason codes
+    - state machine, hash-chain rules, required families and cross-record joins
+    - Task Card identities, fixed executable profiles and accepted input hashes
+    - raw stream retention, redaction and no-hidden-chain-of-thought rules
+    - checkpoint close-and-reopen conformance semantics without a P3 resume claim
+    - RunRecord, Patch Evidence Package, rollback and independent evaluation joins
+    - stable projection and Run A/Run B independence rules
+    - synthetic PRESENT-form conformance events for every section 6 observable family and exact round-trip projection
+    - complete omission, mutation, substitution, path and external-effect negative matrix
+
+positive_conformance:
+  fixture: evaluation-harness/fixtures/complete-observable-trace-v1/present-family-conformance.json
+  purpose: >-
+    Prove that every Evaluation Protocol section 6 family has a schema-valid
+    PRESENT representation and survives recorder, close, fresh-instance reopen,
+    validator and replay round-trip. This synthetic conformance fixture is not a
+    scheduled benchmark run, does not enter VTSR and cannot substitute for the
+    real Run A or Run B Evidence.
+  must_present:
+    - model invocation and prompt identity
+    - observation and selected context
+    - concise public rationale
+    - initial plan and a plan revision
+    - tool request, policy decision and result
+    - checkpoint and recorder reopen
+    - mutation, patch, tests and verifier result
+    - accounting, error, retry, human intervention and stop reason
+    - redaction policy and rollback
+  exact_round_trip_projection_required: true
+
+evidence_dag:
+  ordered_layers:
+    - raw_streams_and_source_artifacts
+    - append_only_execution_events
+    - execution_trace_manifest_closed_pending_independent_verification
+    - runner_run_record_and_execution_package_with_pending_verification
+    - independent_quality_evaluation_segment_and_receipt
+    - verified_patch_evidence_package
+    - final_terminal_trace_bundle_manifest
+  self_referential_hash_cycle_allowed: false
+  execution_chain_finalization: >-
+    The runner records rollback and then closes its execution chain as
+    PENDING_INDEPENDENT_VERIFICATION. The independent Quality oracle verifies the
+    immutable execution manifest, creates its verifier segment and receipt in
+    predeclared absent paths, assembles the verified Patch Evidence Package, and
+    creates the sole terminal final bundle binding both segments and every
+    retained artifact. The Quality segment does not append to or mutate the
+    closed runner event chain.
+  runner_forbidden_finalization_paths:
+    - independent verifier segment
+    - independent verifier receipt
+    - verified Patch Evidence Package
+    - final terminal trace bundle manifest
+  preexisting_quality_finalization_path_result: NON_PASS
+
+minimal_safety_invariants:
+  - Canonical source is never a run materialization or tool target.
+  - Every run uses a fresh task-owned Evidence root and disposable repository; a pre-existing object is rejected, never overwritten or cleaned.
+  - Every root and parent directory is checked component by component with lstat, realpath containment, expected ownership and restrictive mode; no directory component may be a symlink.
+  - Every task-controlled input or retained Evidence leaf is a regular non-symlink file with nlink one and exact expected hash and length before a trusted read.
+  - Every new Evidence leaf must be absent and is created atomically with exclusive create and no-follow semantics; event, manifest and receipt leaves are create-once and are never overwritten, replaced, renamed or reopened for truncation.
+  - A raw stream has one exclusive open, bounded append through the owned descriptor and immutable close; no later writer may reopen it.
+  - A fixed host executable is bound by absolute path, realpath, digest, mode, version and architecture and must not be writable by the current user; host executables are not required to have nlink one.
+  - Executable, argv, cwd, timeout and minimal non-secret environment are fixed by the frozen Task Card and cannot be supplied by run results.
+  - Typed NOT_APPLICABLE or EMPTY values use only predeclared reason codes and cannot hide an observable event.
+  - The recorder records observable events but never decides task success; the independent Quality oracle recomputes identities and verdict.
+  - A checkpoint close-and-reopen test proves recorder cursor and hash-chain recovery only; it is not Agent resume, P3 runtime or crash-consistency proof.
+  - The runner cannot create, preallocate or modify any independent-verdict, verified-Patch-Evidence or final-bundle path.
+  - Every mutating run restores exact source bytes, base commit, base tree and clean status.
+  - Graph, ranker, memory, multi-Agent, network, Provider, Secret, remote, production and public effects remain disabled.
+
+acceptance_criteria:
+  - All accepted input, Contract, authority, candidate, executing-module and Quality Freeze identities match before mutation or child start; no historical route receipt is a product-runtime dependency.
+  - The recorder and validator contain no Task ID, run ID, REP-001, IR10, candidate hash or external Evidence path literal as generic validation rules; exact fixture values come only from frozen data.
+  - A real fresh offline lifecycle executes the required base failure, finite patch, patched success, independent verification and exact rollback order.
+  - The retained real trace records every family required PRESENT by this Contract; only the explicitly allowlisted non-occurring families may use a frozen typed absence, and the oracle cross-checks each reason against the actual action population. No post-hoc Evidence is synthesized.
+  - The frozen PRESENT-form conformance fixture covers every section 6 family, survives recorder close plus fresh-instance reopen, and reproduces its exact declared round-trip projection; it cannot be counted as Run A, Run B or VTSR Evidence.
+  - In each real run the recorder creates a task-owned checkpoint, closes, and a fresh recorder instance reopens from the exact checkpoint receipt before appending the next event with continuous sequence, cursor and prior-event hash. This proves recorder continuity only, not Agent resume, crash consistency or P3 runtime.
+  - Every event has strict sequence, unique ID, run binding, prior-event hash and exact raw input/output identity; no event follows terminal.
+  - Recorder output remains pending and contains no final PASS or self-approval; only the independent oracle may write the final evaluation segment.
+  - Frozen negatives cover missing, duplicate, reordered and gapped events; hash-chain break; unknown nested member; cross-run substitution; stream, path, type, symlink, hardlink, length and hash tamper; forged absence; tool/result mismatch; denied child start; checkpoint/resume misuse; mutation, test, accounting, terminal and rollback inconsistency; six external effects; process timeout cleanup; candidate and Code Map drift, with zero false accepts.
+  - Fresh Run A and independent Quality Run B use distinct physical roots, retain distinct raw Evidence and produce byte-equal predeclared stable projections while preserving dynamic fields outside that projection.
+  - Targeted verification, accepted P1-035/P1-055 regressions and official Project Code Map check pass on one clean committed candidate. P1-066 remains covered only by the one post-integration canonical full make verify and is not a separate runtime dependency.
+  - The official Project Code Map generator is the final repository-content mutation before the exact candidate commit; no source byte changes are allowed between candidate freeze and reviewed-tree integration. The explicitly separate post-acceptance Truth plus Code Map terminal-sync commit remains allowed.
+  - One exact candidate receives one fresh CTO, Security and Quality TARGET_VERDICT PASS review cycle.
+  - Reviewed and integrated trees are exactly equal and the one post-integration canonical full make verify passes.
+  - Only after all conditions pass may Truth mark OBSERVABLE_TRACE accepted and recompute strict P1 completion; otherwise no P1 completion credit is granted.
+
+success_projection:
+  accepted_atomic_p1_exit_item: OBSERVABLE_TRACE
+  strict_p1_completion_before_task: 2_COMPLETE_2_PARTIAL_4_NOT_COMPLETE_25_PERCENT
+  strict_p1_completion_after_pass: 3_COMPLETE_2_PARTIAL_3_NOT_COMPLETE_37_5_PERCENT
+  complete_p1_exit_claim: false
+  p2_or_p3_entry_claim: false
+
+candidate_freeze_and_review:
+  pre_freeze_implementation_iterations: 2
+  exact_candidates: 1
+  formal_review_cycles: 1
+  post_freeze_source_repairs_allowed: false
+  final_source_mutation: official_make_code_map
+  clean_candidate_checks:
+    - make code-map-check
+    - ./scripts/verify-p1-068-complete-observable-trace.sh
+    - candidate_worktree_clean_and_tree_unchanged
+  formal_runs:
+    - Run A executes once in a fresh task-owned root.
+    - Run B executes once by a fresh independent Quality actor in a different physical root and does not consume Run A path, receipt or verdict.
+    - The predeclared stable projection must be exact byte-equal.
+  reviews:
+    - Fresh CTO, Security and Quality reviewers inspect the same exact candidate and the same frozen Run A/Run B Evidence.
+    - Any TARGET_VERDICT NON_PASS terminally stops the Task; no correction or second review cycle is allowed.
+
+integration:
+  method: one_local_squash_commit
+  precondition: CTO_SECURITY_QUALITY_TARGET_VERDICTS_ALL_PASS
+  reviewed_tree_must_equal_integrated_tree: true
+  canonical_full_make_verify_invocations: 1
+  make_verify_nonpass_disposition: non_destructive_git_revert_and_terminal_stop
+  post_acceptance_truth_sync:
+    - Update Truth and mechanically regenerate Project Code Map in the same terminal-sync commit.
+    - Run targeted Truth and Code Map checks only; do not run a second full make verify.
+
+rollback:
+  run_level: Restore exact frozen source bytes, base commit, base tree and clean status inside the disposable materialization; remove only objects proven task-owned.
+  candidate_level: Do not integrate a NON_PASS candidate; preserve its exact Git identity and Evidence.
+  integrated_level: Use non-destructive git revert of the exact integration commit; never reset or clean.
+
+stop_conditions:
+  - Any required observable family cannot be captured truthfully and would require post-hoc inference or fabricated Evidence.
+  - The implementation becomes specific to a Task ID, run ID, REP-001, IR10, candidate hash or external Evidence path instead of frozen input data.
+  - Continuing requires reading, restoring, comparing, copying or reusing P1-058, P1-067 or any other terminal or rejected engineering source, fixture, test, candidate, diff or implementation Evidence.
+  - Continuing requires modification of accepted P1-035/P1-055/P1-066 bytes, RunRecord schema, Evaluation Protocol, P1 Exit Gate, current Phase boundary, authority validator or Code Map generator.
+  - An invalid input can reach mutation or child start, or a result controls path, argv, cwd, env, executable, module, timeout or free-form execution.
+  - Evidence, canonical source or a pre-existing object is overwritten, followed, escaped, renamed, deleted or damaged.
+  - The two implementation iterations end without all targeted checks passing.
+  - Run A or Run B cannot reproduce, stable projections differ, false accepts are nonzero or rollback is not exact.
+  - Any one-cycle final Reviewer returns TARGET_VERDICT NON_PASS.
+  - Reviewed and integrated trees differ or the one canonical full make verify returns NONPASS.
+  - The Task requires network, Provider, Secret, remote, production, public, P2/P3, critical-risk acceptance or an irreversible action.
+
+forbidden_actions:
+  - Read or reuse P1-058, P1-067, P1-063, P1-064 or any other terminal or rejected engineering implementation lineage.
+  - Modify accepted P1-035, P1-055 or P1-066 implementation, fixture, result or Evidence bytes.
+  - Build an Agent Runtime, sandbox platform, authority kernel, Supervisor, Root Custody, strong-isolation system or Multi-Agent Runtime.
+  - Execute proposal text, free-form or untrusted code, arbitrary shell, dynamic module targets or result-controlled execution parameters.
+  - Configure or use an API key, network, Provider, Secret, remote, production or public effect.
+  - Push, open a pull request, release, modify a remote, enter P2/P3 or change the P1 Objective or Exit Gate.
+  - Count this Contract, Quality Freeze, Evidence, review or administrative work as capability progress.
+
+claim_boundary: ONE_VISIBLE_SYNTHETIC_REP_001_COOPERATIVE_LOCAL_COMPLETE_OBSERVABLE_TRACE_RECORDER_VALIDATOR_AND_INDEPENDENT_REPLAY_CONFORMANCE_ACCEPTING_ONLY_ONE_OBSERVABLE_TRACE_P1_EXIT_ITEM_NO_GENERAL_AGENT_RUNTIME_VTSR_COMPLETE_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM

@@ -1,6 +1,6 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-23T05:48:53Z"
+last_verified_at: "2026-07-23T05:58:56Z"
 verification_scope: P1_076_TERMINAL_PREFREEZE_FEASIBILITY_NON_PASS
 
 authority:
@@ -956,7 +956,7 @@ mandatory_exit_capability_recovery:
     PARAMETERIZED_EVALUATION_HARNESS: ACCEPTED_P1_071_COOPERATIVE_LOCAL
     VTSR_COUNTING_VALIDATOR: ACCEPTED_P1_070_COOPERATIVE_LOCAL
     B0_B1_B2_COMPATIBILITY_ADAPTERS: MISSING_P1_062_TERMINAL_CANONICAL_GATE_NON_PASS
-    OBSERVABLE_TRACE: MISSING_P1_072_TERMINAL_PREFREEZE_TARGET_NOT_READY
+    OBSERVABLE_TRACE: MISSING_P1_076_TERMINAL_PREFREEZE_FEASIBILITY_NON_PASS
     EVALUATOR_DISAGREEMENT_AND_FALSE_SUCCESS_CHARACTERIZATION: ACCEPTED_P1_070_COOPERATIVE_LOCAL
     REPRODUCIBLE_BASELINE_REPORT: MISSING_PENDING_NEW_P1_ROUTE
   capability_attempt_ledger:
@@ -1017,24 +1017,25 @@ mandatory_exit_capability_recovery:
       capability_accepted: false
       p1_exit_gate_changed: false
     OBSERVABLE_TRACE:
-      status: TERMINAL_PREFREEZE_TARGET_NOT_READY
-      task_id: AIOS-P1-072_COMPLETE_OBSERVABLE_TRACE_VERTICAL_SLICE
-      route_id: P1_OFFLINE_EXIT_GATE_CLOSURE_ENGINEERING_ROUTE_V1
+      status: TERMINAL_PREFREEZE_FEASIBILITY_NON_PASS
+      task_id: AIOS-P1-076_TRUSTED_OUTER_VERIFIER_AND_PHYSICAL_ROLLBACK_ATTESTATION_VERTICAL_SLICE
+      route_id: P1_TRUSTED_OUTER_VERIFIER_AND_OFFLINE_ADAPTER_ENGINEERING_ROUTE_V1
       task_slot: 1
-      attempt_ordinal: 2
-      contract_sha256: 5a8b5b4d2dbcf72c28ba84a12ae70d589eee0eb43f91b14ea061e2daf79e7f2b
+      attempt_ordinal: 3
+      contract_sha256: 2ec076c6d193c8182183235ad9a64c14c05ea1185888b1ad26613e7d7da90a27
       implementation_iterations_used: 2
+      worker_implementation_started: false
+      worker_source_writes: 0
       candidate_count: 0
       actual_run_a_count: 0
       actual_run_b_count: 0
-      cto_prefreeze_target_verdict: TARGET_NOT_READY
-      cto_prefreeze_review_sha256: 7d51e0a830772c3e7b42ab4382164392d6e59ca88e752cbd19b2beae92984a0a
-      security_prefreeze_target_verdict: TARGET_NOT_READY
-      security_prefreeze_review_sha256: e7af08c84e89d3e9b6c09d1af2ab8950cef19293c3d6b314d41d44e50001e4fc
+      independent_prefreeze_feasibility_verdict: NON_PASS
+      independent_prefreeze_feasibility_review_sha256: 3828472d190a35712370b2dc3d0b659a69825d964a6abd0002d66fc1d9e18a53
+      git_restore_counterexample_sha256: 0ad4cd77014665d495159723e5c768a67c9cd59677512f8219ca5050e3832a4d
       blocking_findings:
-        - UNRECORDED_QUALITY_GIT_CHILDREN_AFTER_RECORDED_STOP
-        - EMPTY_MATERIALIZATION_FALSE_ACCEPT_WITHOUT_PHYSICAL_ROLLBACK_PROOF
-      terminal_record_sha256: 73521455ea1b2682efbe2515defab437794c8ec81e814507383a4dd711032d1d
+        - P1-076-FINAL-PREFREEZE-INODE-EQUALITY-001
+        - FROZEN_TARGET_INODE_EQUALITY_CONFLICTS_WITH_REAL_APPLE_GIT_RESTORE_SEMANTICS
+      terminal_record_sha256: 4fc2376fac6b154ed98357eac4a3b2a1b57e9114d38a836d67c032eb9805fd4a
       candidate_integrated: false
       canonical_full_make_verify_invocations: 0
       capability_accepted: false
@@ -1042,14 +1043,15 @@ mandatory_exit_capability_recovery:
       strict_p1_completion_after_task: 4_COMPLETE_1_PARTIAL_3_NOT_COMPLETE_50_PERCENT
       retry_repair_replacement_or_reuse_allowed: false
       prior_terminal_attempt:
-        task_id: AIOS-P1-068_COMPLETE_OBSERVABLE_TRACE_RECORDER_VALIDATOR_VERTICAL_SLICE
-        status: TERMINAL_FINAL_CTO_REVIEW_NON_PASS
-        candidate_commit: 05144cd0cdccac583d45c32ee44f7298d3d29ad9
-        candidate_tree: 3b27aa19eb6ba00db94d587e84a14318ee7fa4cf
-        cto_final_review_sha256: 8a6528a1d27355feffa46c494215b16dfc476f0e139b39a49cee1bc9cb5b8304
-        blocking_finding: CTO-P1-068-001_EXECUTED_HOST_ARCHITECTURE_NOT_BOUND
+        task_id: AIOS-P1-072_COMPLETE_OBSERVABLE_TRACE_VERTICAL_SLICE
+        status: TERMINAL_PREFREEZE_TARGET_NOT_READY
+        contract_sha256: 5a8b5b4d2dbcf72c28ba84a12ae70d589eee0eb43f91b14ea061e2daf79e7f2b
+        terminal_record_sha256: 73521455ea1b2682efbe2515defab437794c8ec81e814507383a4dd711032d1d
+        blocking_findings:
+          - UNRECORDED_QUALITY_GIT_CHILDREN_AFTER_RECORDED_STOP
+          - EMPTY_MATERIALIZATION_FALSE_ACCEPT_WITHOUT_PHYSICAL_ROLLBACK_PROOF
         rewritten_or_reused: false
-      claim_boundary: P1_072_UNFROZEN_IMPLEMENTATION_AND_MECHANICAL_SELF_TESTS_PRESERVED_TARGET_NOT_READY_NO_ACTUAL_AB_CANDIDATE_INTEGRATION_ACCEPTED_OBSERVABLE_TRACE_PROGRESS_P2_P3_PRODUCTION_OR_PUBLIC_CLAIM
+      claim_boundary: P1_076_UNTRACKED_QUALITY_BYTES_AND_REAL_GIT_COUNTEREXAMPLE_PRESERVED_FEASIBILITY_NON_PASS_NO_WORKER_ACTUAL_AB_CANDIDATE_INTEGRATION_ACCEPTED_OBSERVABLE_TRACE_PROGRESS_P1_077_P2_P3_PRODUCTION_OR_PUBLIC_CLAIM
     EVALUATOR_DISAGREEMENT_AND_FALSE_SUCCESS_CHARACTERIZATION:
       status: ACCEPTED
       task_id: AIOS-P1-070_OFFLINE_SCHEDULED_MATRIX_VTSR_AND_FALSE_SUCCESS_EXPERIMENT

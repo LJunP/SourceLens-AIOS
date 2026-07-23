@@ -1,0 +1,255 @@
+schema_version: 1
+record_type: sourcelens_aios_phase_delegated_task_contract
+task_id: AIOS-P1-083_B0_MINIMAL_COMPATIBILITY_ADAPTER
+task_slot: 1
+phase: P1
+route_id: P1_MINIMAL_ADAPTER_DECOMPOSITION_ENGINEERING_ROUTE_V1
+status: AUTHORIZED_ACTIVE
+execution_authority: FOUNDER_PHASE_GATE_DELEGATED
+title: B0 Minimal Direct-Model Compatibility Adapter
+
+objective: >-
+  Implement and independently evaluate one provider-neutral offline B0 adapter
+  that conforms to the accepted Baseline Adapter Contract common interface,
+  validates all four P0 contracts and their cross-bindings, consumes only one
+  accepted visible development TaskSpec plus a Quality-frozen prerecorded
+  response, and emits a schema-valid RunRecord without invoking a model,
+  Provider, network, tool, patch execution or evaluator verdict.
+
+why_now:
+  - Strict P1 completion is 4/8 (50%) and B0/B1/B2 compatibility remains missing.
+  - The Founder authorized a three-Task minimal decomposition route so each adapter can be built and reviewed independently.
+  - B0 is the smallest executable component and establishes the common interface without prematurely building B1, B2 or the Task 3 common harness.
+
+task_kind: EVALUATION_FOUNDATION_ENGINEERING
+risk_level: high
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+founder_decision_required: false
+
+baseline_ref:
+  path: docs/aios/BASELINE_ADAPTER_CONTRACT.md
+  version: "0.2"
+  sha256: 27a213589699d96a5f41f4b0e293718257c6186720e55b74c3ee29dd9cf5c03c
+  byte_length: 5323
+
+dependencies:
+  - AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+  - AIOS-P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK
+  - AIOS-P1-071_STABLE_REPLAY_PROJECTION_AND_EXACT_HARNESS_ADMISSION_VERTICAL_SLICE
+  - AIOS-P1-070_OFFLINE_SCHEDULED_MATRIX_VTSR_AND_FALSE_SUCCESS_EXPERIMENT
+
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimal-adapter-decomposition-2Ur1nf/FOUNDER_P1_MINIMAL_ADAPTER_DECOMPOSITION_ENGINEERING_ROUTE_V1.md
+  sha256: 5fc07c645066a8f6ff343f5b05f7a0c239148c8ae8a31c8446e2ea0861f0b9c1
+  byte_length: 6438
+  authorization_token: AUTHORIZE_P1_MINIMAL_ADAPTER_DECOMPOSITION_ENGINEERING_ROUTE_V1
+
+source_identity:
+  canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
+  route_activation_parent_commit: d39f5b192ceeec7fe783ce66663d65b0499ba9dd
+  route_activation_parent_tree: 8a3c0c23edeb17e900865703476495472345300a
+  task_branch: codex/p1-083-b0-minimal-adapter
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-083-b0-minimal-adapter
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-083-b0-minimal-yAZ2QN
+
+budget:
+  engineering_hours: 8
+  calendar_days: 3
+  implementation_iterations: 2
+  candidates: 1
+
+anti_loop_budget:
+  contract_corrections: 0
+  quality_freezes: 1
+  quality_refreezes: 0
+  same_task_code_only_repairs: 1
+  exact_candidates: 1
+  final_review_cycles: 1
+  post_candidate_source_repairs: 0
+  successor_replacement_correction_normalization_closure_feasibility_or_remediation_tasks: 0
+
+owner_role: P1_083_ENGINEERING_MANAGER_OWNER
+worker_role: P1_083_B0_ADAPTER_WORKER
+roles:
+  owner: P1_083_ENGINEERING_MANAGER_OWNER
+  worker: P1_083_B0_ADAPTER_WORKER
+  independent_reviewers:
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent
+
+role_separation:
+  quality_freeze_actor: P1_083_B0_QUALITY_FREEZE_ACTOR
+  worker_actor: P1_083_B0_ADAPTER_WORKER
+  quality_owns:
+    - evaluation-harness/evaluator/b0-direct-model-v1/**
+    - evaluation-harness/fixtures/b0-direct-model-v1/**
+  worker_owns:
+    - evaluation-harness/adapters/b0-direct-model-v1/**
+    - evaluation-harness/harness/b0-direct-model-v1/**
+  adapter_may_emit_evaluator_verdict: false
+  implementer_self_acceptance_allowed: false
+
+allowlisted_paths:
+  - Makefile
+  - docs/PROJECT_CODE_MAP.md
+  - docs/aios/tasks/P1-083_B0_MINIMAL_COMPATIBILITY_ADAPTER.yaml
+  - docs/aios/truth/project_state.yaml
+  - evaluation-harness/adapters/b0-direct-model-v1/**
+  - evaluation-harness/evaluator/b0-direct-model-v1/**
+  - evaluation-harness/fixtures/b0-direct-model-v1/**
+  - evaluation-harness/harness/b0-direct-model-v1/**
+  - scripts/verify-p1-083-b0-direct-model.sh
+
+write_scope:
+  integration:
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+    - docs/aios/tasks/P1-083_B0_MINIMAL_COMPATIBILITY_ADAPTER.yaml
+    - docs/aios/truth/project_state.yaml
+    - scripts/verify-p1-083-b0-direct-model.sh
+  quality:
+    - evaluation-harness/evaluator/b0-direct-model-v1/**
+    - evaluation-harness/fixtures/b0-direct-model-v1/**
+  worker:
+    - evaluation-harness/adapters/b0-direct-model-v1/**
+    - evaluation-harness/harness/b0-direct-model-v1/**
+
+read_context:
+  canonical_authority:
+    - docs/aios/truth/project_state.yaml
+    - docs/aios/STRATEGIC_CONSTITUTION.md
+    - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+    - docs/aios/FOUNDER_DELEGATION_POLICY.md
+    - docs/aios/EVALUATION_PROTOCOL.md
+    - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+    - docs/aios/tasks/P1-083_B0_MINIMAL_COMPATIBILITY_ADAPTER.yaml
+  accepted_contract_schemas:
+    - path: docs/aios/schemas/task-spec.schema.json
+      sha256: ec226d14172081fb52fbbdc756b4a205155f0b584326436578ad13af4f2b8372
+      byte_length: 5989
+    - path: docs/aios/schemas/environment-snapshot.schema.json
+      sha256: 3a38bed470ff59d843b3e6450f5999210d57088bed7bdf13dbd88768dae368f1
+      byte_length: 5214
+    - path: docs/aios/schemas/system-configuration.schema.json
+      sha256: fe9cc8a78f96cef885a9ba9ce6644ebfe176d6f21161005006d591a20a3dc95d
+      byte_length: 1278
+    - path: docs/aios/schemas/run-record.schema.json
+      sha256: a139b73a7482fed64e6d24f8ca391b03963eef57db2b48d0c4c6776ff652bc56
+      byte_length: 3613
+  accepted_read_only_engineering_inputs:
+    - path: evaluation-harness/evaluator/schema-validator.mjs
+      sha256: 5d944ab5abfab7bcd1619c385727c99f38cf6e7deacee881a768573d2e09f741
+      byte_length: 5829
+    - path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/task-spec.json
+      sha256: 25de6b6f330e09c076521b42a88d60712637e0fc7de7ab1cfe1f9f5d4c223321
+      byte_length: 2960
+    - path: evaluation-harness/datasets/p1-representative-task-dataset-v1/shared/baseline-context.json
+      sha256: 64fab9efd47c193af94e3f7baee67072a32497d35c9dc1aee8a804bf32269cb9
+      byte_length: 377
+    - path: evaluation-harness/datasets/p1-representative-task-dataset-v1/shared/response-format.json
+      sha256: 6b8ec1d2a6a288e5b908716714589dae963739f2b35a0a29237ff4cbc1355c4b
+      byte_length: 306
+    - path: evaluation-harness/fixtures/offline-b0-complete-evidence-v1/environment-snapshot.json
+      sha256: f6aa054ef9b03712465f4442213f72af5dff97da7dc2977e612e18617fa8fc80
+      byte_length: 1782
+  accepted_regression_only:
+    - evaluation-harness/adapters/offline-b0-finite-typed-v1/adapter.mjs
+    - evaluation-harness/harness/offline-b0-complete-evidence-v1/run.mjs
+    - evaluation-harness/evaluator/offline-b0-complete-evidence-v1/quality-oracle.mjs
+    - scripts/verify-p1-066-offline-b0.sh
+  forbidden_context:
+    - any_p1_082_source_fixture_candidate_test_diff_or_failed_engineering_asset
+    - any_other_rejected_or_terminal_engineering_asset_not_explicitly_accepted_in_canonical_truth
+    - any_hidden_task_expected_patch_or_evaluator_internal_input
+
+quality_freeze:
+  exact_freezes: 1
+  refreeze_allowed: false
+  must_precede_worker_source_write: true
+  frozen_roots:
+    - evaluation-harness/evaluator/b0-direct-model-v1/**
+    - evaluation-harness/fixtures/b0-direct-model-v1/**
+  freezes:
+    - one visible development TaskSpec identity
+    - one B0 SystemConfiguration
+    - one prerecorded offline response
+    - one table-driven negative catalog
+    - one independent evaluator and stable projection
+  worker_may_modify_quality_frozen_bytes: false
+
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+founder_reserved_profile: null
+
+acceptance_criteria:
+  - The exact common interface is run(TaskSpec, EnvironmentSnapshot, SystemConfiguration, repetition_id) -> RunRecord.
+  - TaskSpec, EnvironmentSnapshot, SystemConfiguration and RunRecord pass their accepted schemas before any run is admitted.
+  - Cross-contract preflight rejects environment, repository, commit, tree, model, prompt, policy, response-format, context, network or secret-policy drift.
+  - B0 has enabled_tools=[] and loop_limit=1 and cannot access repository tools, execution feedback, graph, ranker, memory, extra Agents or hidden evaluator data.
+  - The adapter uses one Quality-frozen prerecorded response and records live_model_invoked=false, provider_invoked=false and model_performance_sample=false.
+  - The adapter never spawns a child, executes a patch, performs network access or allows result bytes to select argv, cwd, environment, module or path.
+  - Every observable adapter action binds to one run_id and trace; the RunRecord does not contain a success or evaluator verdict.
+  - An independent evaluator consumes the RunRecord and frozen inputs, then emits its own verdict.
+  - Two fresh deterministic invocations have an exact predeclared stable projection and retain any declared raw differences.
+  - The table-driven negative matrix has zero false accepts and proves rejected inputs do not create a scheduled RunRecord or external effect.
+  - Source bytes, canonical repository state and pre-existing canaries remain unchanged; cleanup is limited to Task-owned temporary paths.
+  - Existing accepted P1-035 and P1-066 regression verifiers remain PASS.
+  - Fresh CTO, Security and Quality TARGET_VERDICTs all PASS the same exact candidate; reviewed and integrated trees are equal; one canonical make verify passes.
+  - Task 1 accepts only the B0 component, keeps strict P1 completion at 4/8 (50%), and makes Task 2 eligible without claiming the B0/B1/B2 Exit Gate item.
+
+required_evidence:
+  - Quality freeze manifest binding exact fixtures, evaluator, stable projection and negative catalog
+  - Four-schema and cross-contract preflight receipt
+  - Positive RunRecords, observable traces and independent evaluator receipts
+  - Deterministic replay comparison and source-unchanged receipt
+  - Negative matrix receipt with expected and observed reason codes and false_accepts=0
+  - Exact candidate manifest and diff hash
+  - Fresh CTO, Security and Quality reviews over the same candidate bytes
+  - Reviewed-tree/integrated-tree equality and canonical make verify receipt
+
+rollback:
+  source_mutation_semantics: >-
+    B0 is not allowed to mutate source. Any source mutation is a Task NON_PASS;
+    restoring after mutation does not convert the run to PASS.
+  integration_failure: non_destructive_git_revert
+  destructive_reset_clean_or_historical_evidence_removal_allowed: false
+
+stop_conditions:
+  - Any preflight or negative-matrix false accept
+  - Any child process, network, Provider, Secret, remote, production or public effect
+  - Any hidden, expected-patch, evaluator-oracle or rejected historical asset read
+  - Any adapter-emitted success or evaluator verdict
+  - Any source, canonical, canary, trace or Evidence damage
+  - Any deterministic replay difference outside the frozen projection
+  - Need for a second repair, refreeze, second candidate or second review cycle
+  - Need to modify authority or safety validators, Phase objective, Exit Gate or high-risk permissions
+  - Any fresh final Reviewer TARGET_VERDICT NON_PASS
+  - Reviewed tree mismatch or canonical make verify NONPASS
+
+forbidden_actions:
+  - Read, restore, copy or reuse P1-082 engineering assets
+  - Modify authority/safety validators or any immutable authority document
+  - Build B1, B2, the Task 3 common harness, Trust Runtime, Supervisor, Root Custody, strong isolation or Multi-Agent Runtime
+  - Invoke a live model, Provider, network, Secret, remote, production or public effect
+  - Execute model output, patch bytes or result-controlled commands
+  - Use an adapter-specific success oracle or claim model quality, VTSR, benchmark, P1 Exit, P2, P3 or production readiness
+  - Create successor, replacement, correction, normalization, closure, feasibility or remediation tasks
+  - Push or modify a remote
+
+claim_boundary: >-
+  ONE_ACCEPTED_VISIBLE_DEVELOPMENT_TASK_PROVIDER_NEUTRAL_OFFLINE_B0_ADAPTER_CONFORMANCE_ONLY;
+  NO_LIVE_MODEL_PROVIDER_PATCH_EXECUTION_VERIFIED_TASK_SUCCESS_VTSR_BENCHMARK_P1_EXIT_P2_P3_PRODUCTION_PUBLIC_OR_HOSTILE_PRINCIPAL_CLAIM.

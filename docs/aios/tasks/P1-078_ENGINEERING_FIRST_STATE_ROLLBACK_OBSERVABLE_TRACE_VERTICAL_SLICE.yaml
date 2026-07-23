@@ -1,0 +1,502 @@
+schema_version: 1
+record_type: sourcelens_aios_phase_delegated_task_contract
+task_id: AIOS-P1-078_ENGINEERING_FIRST_STATE_ROLLBACK_OBSERVABLE_TRACE_VERTICAL_SLICE
+task_slot: 1
+phase: P1
+route_id: P1_FORMAL_PHASE_ARCHITECTURE_REVISION_ENGINEERING_FIRST_TRACE_AND_OFFLINE_ADAPTER_ROUTE_V1
+status: AUTHORIZED_ACTIVE
+execution_authority: FOUNDER_PHASE_GATE_DELEGATED
+title: Engineering-First State-Rollback Observable-Trace Vertical Slice
+task_spec_ref:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-076-trusted-outer-verifier-qAn5RqM9/terminal/P1_PHASE_GATE_FORMAL_PHASE_ARCHITECTURE_REVISION_ENGINEERING_FIRST_ROUTE_V1.md
+  sha256: 0dfe188d13448b88366a7dc98ca05c1603d763c52ddbd11dfdd7c91aba14f2a2
+  byte_length: 17345
+owner_role: P1_078_ENGINEERING_MANAGER_OWNER
+worker_role: P1_078_TRACE_ENGINEERING_WORKER
+
+objective: >-
+  Build and execute one clean-room, cooperative-local observable-trace vertical
+  slice that records every SUT and evaluator action, restores an actual disposable
+  Git worktree to its exact frozen logical state, truthfully retains any physical
+  inode replacement, proves physically independent A/B stable-projection equality,
+  and rejects every frozen negative control with zero false accepts.
+
+why_now:
+  - Strict P1 completion is 4/8 (50%) and OBSERVABLE_TRACE remains NOT_COMPLETE.
+  - P1-076 established that inode equality is not a feasible rollback invariant
+    for the pinned host Git restore behavior, while exact state restoration remains
+    feasible and is the requirement in Evaluation Protocol v1.1.
+  - The Founder authorized one formal Phase architecture revision from physical
+    identity preservation to state-equivalent rollback with observed physical
+    replacement; this is attempt ordinal 4 and not a P1-076 retry or repair.
+
+task_kind: EVALUATION_FOUNDATION_ENGINEERING
+risk_level: high
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+founder_decision_required: false
+attempt_accounting:
+  capability: OBSERVABLE_TRACE
+  attempt_ordinal: 4
+  historical_attempts_preserved: 3
+  reset_or_reorder_allowed: false
+  later_attempt_allowed_if_non_pass: false
+
+baseline_ref:
+  path: docs/aios/EVALUATION_PROTOCOL.md
+  version: "1.1"
+  sha256: da029143561fbb3c213d4a358b25e085542c6cd26ae8150a53cbb5998177eed8
+
+dependencies:
+  - AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+  - AIOS-P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK
+  - AIOS-P1-071_STABLE_REPLAY_PROJECTION_AND_EXACT_HARNESS_ADMISSION_VERTICAL_SLICE
+  - AIOS-P1-070_OFFLINE_SCHEDULED_MATRIX_VTSR_AND_FALSE_SUCCESS_EXPERIMENT
+
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-076-trusted-outer-verifier-qAn5RqM9/terminal/P1_PHASE_GATE_FORMAL_PHASE_ARCHITECTURE_REVISION_ENGINEERING_FIRST_ROUTE_V1.md
+  sha256: 0dfe188d13448b88366a7dc98ca05c1603d763c52ddbd11dfdd7c91aba14f2a2
+  byte_length: 17345
+  authorization_token: AUTHORIZE_P1_FORMAL_PHASE_ARCHITECTURE_REVISION_ENGINEERING_FIRST_TRACE_AND_OFFLINE_ADAPTER_ROUTE_V1
+
+source_identity:
+  canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
+  route_activation_parent_commit: a3412fb1c83d44b29acfbcea9239302c850023e2
+  route_activation_parent_tree: 8cb1d1962a937c1083c731bc8bde6c7736932039
+  task_branch: codex/p1-078-state-rollback-observable-trace
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-078-state-rollback-observable-trace
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-078-state-rollback-observable-trace-lnN2b9CP
+
+budget:
+  engineering_hours: 24
+  calendar_days: 7
+  implementation_iterations: 2
+  candidates: 1
+
+anti_loop_budget:
+  contract_corrections: 0
+  quality_freezes: 1
+  quality_refreezes: 0
+  same_task_worker_repairs_before_candidate: 1
+  final_review_cycles: 1
+  post_candidate_source_repairs: 0
+  successor_replacement_normalization_closure_or_remediation_tasks: 0
+  contract_review_and_quality_preparation_max_engineering_hours: 2.4
+  contract_review_and_quality_preparation_max_task_budget_percent: 10
+  accounting_rule: >-
+    Implementation iteration 1 begins only after final exact Contract review PASS
+    and canonical Task activation; it includes Task-owned Quality direct host
+    probes, Quality preparation and self-test, the single final Quality Freeze,
+    Worker initial implementation and initial targeted tests, and ends with that
+    targeted-test verdict. Iteration 2 is optional and contains exactly one bounded
+    in-scope same-Task Worker repair and targeted retest before candidate freeze.
+    Quality-frozen bytes cannot change during iteration 2; a Quality defect,
+    infeasible frozen invariant or need for refreeze is terminal NON_PASS. If
+    iteration 1 passes, iteration 2 is skipped; no third iteration, second repair,
+    second Quality Freeze, post-candidate repair, successor or replacement is
+    allowed. Quality preparation and initial Worker implementation are one
+    iteration, while initial Worker implementation and the optional repair are
+    never collapsed into one iteration.
+
+roles:
+  owner: P1_078_ENGINEERING_MANAGER_OWNER
+  worker: P1_078_TRACE_ENGINEERING_WORKER
+  independent_reviewers:
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent
+
+role_separation:
+  quality_freeze_actor: P1_078_PREFREEZE_QUALITY_ACTOR
+  worker_actor: P1_078_TRACE_ENGINEERING_WORKER
+  run_a_actor: P1_078_TRACE_ENGINEERING_WORKER
+  run_b_actor: P1_078_FRESH_NON_IMPLEMENTER_RUN_B_ACTOR
+  final_reviewers_must_be_fresh_and_not_worker_or_run_b_actor: true
+  quality_owns:
+    - executable_evaluation_plan
+    - task_card_and_schemas
+    - acceptance_oracle_and_expected_results
+    - writer_map_and_artifact_lifecycle
+    - evaluator_handoff
+    - stable_projection_rules
+    - negative_control_catalog
+  worker_owns_only:
+    - sut
+    - trace_producer
+    - runtime_harness
+  worker_may_modify_quality_frozen_bytes: false
+  worker_may_read_hidden_expected_implementation: false
+  implementer_self_acceptance_allowed: false
+
+allowlisted_paths:
+  - Makefile
+  - docs/PROJECT_CODE_MAP.md
+  - docs/aios/tasks/P1-078_ENGINEERING_FIRST_STATE_ROLLBACK_OBSERVABLE_TRACE_VERTICAL_SLICE.yaml
+  - docs/aios/truth/project_state.yaml
+  - evaluation-harness/contracts/state-rollback-observable-trace-v1/**
+  - evaluation-harness/evaluator/state-rollback-observable-trace-v1/**
+  - evaluation-harness/fixtures/state-rollback-observable-trace-v1/**
+  - evaluation-harness/harness/state-rollback-observable-trace-v1/**
+  - evaluation-harness/recording/state-rollback-observable-trace-v1/**
+  - evaluation-harness/replay/state-rollback-observable-trace-v1/**
+  - scripts/verify-p1-078-state-rollback-observable-trace.sh
+
+write_scope:
+  integration:
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+    - docs/aios/tasks/P1-078_ENGINEERING_FIRST_STATE_ROLLBACK_OBSERVABLE_TRACE_VERTICAL_SLICE.yaml
+    - docs/aios/truth/project_state.yaml
+    - scripts/verify-p1-078-state-rollback-observable-trace.sh
+  quality:
+    - evaluation-harness/contracts/state-rollback-observable-trace-v1/**
+    - evaluation-harness/evaluator/state-rollback-observable-trace-v1/**
+    - evaluation-harness/fixtures/state-rollback-observable-trace-v1/**
+  worker:
+    - evaluation-harness/harness/state-rollback-observable-trace-v1/**
+    - evaluation-harness/recording/state-rollback-observable-trace-v1/**
+    - evaluation-harness/replay/state-rollback-observable-trace-v1/**
+
+read_context:
+  canonical_authority:
+    - docs/aios/truth/project_state.yaml
+    - docs/aios/STRATEGIC_CONSTITUTION.md
+    - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+    - docs/aios/FOUNDER_DELEGATION_POLICY.md
+    - docs/aios/EVALUATION_PROTOCOL.md
+    - docs/aios/tasks/P1-078_ENGINEERING_FIRST_STATE_ROLLBACK_OBSERVABLE_TRACE_VERTICAL_SLICE.yaml
+  accepted_contract_inputs:
+    - task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+      contract_sha256: acec5432aacd6476693db62bdb52ee326c467f17b691860688fe952f7ffbdc33
+      accepted_commit: 686eda0cd7a93b72ac5e64301479f17e4b096fb0
+      accepted_tree: b2740b44d0051303057deac7d719c27fd6a5578a
+    - task_id: AIOS-P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK
+      contract_sha256: 092a7d38d5c3f208a0e97d74cfbee906793d2a5fe31caf2fd15948b7ea209a62
+      accepted_commit: 9e130f2aae0fd951b252cf0dff8edc9b9364e962
+      accepted_tree: 3a4229e9a8da181ca8bb256f5467cf96549c2549
+    - task_id: AIOS-P1-071_STABLE_REPLAY_PROJECTION_AND_EXACT_HARNESS_ADMISSION_VERTICAL_SLICE
+      contract_sha256: c02505bc0bac2a187f0c96290b33e562f6e06e15b2c22f4e747b42cf9d4d29c2
+      accepted_commit: 2da6a314249c9ea98f3cc3134e6afe00e4c28db0
+      accepted_tree: 68d0605dbd94bf1003f36b51fe74b6f4ca082032
+    - task_id: AIOS-P1-070_OFFLINE_SCHEDULED_MATRIX_VTSR_AND_FALSE_SUCCESS_EXPERIMENT
+      contract_sha256: 02fc6ef5590803156e78c6f5328bfa6644f980323a38a504554250c5b94f72ca
+      accepted_commit: ee51cc96fedec5cc9ec640c6c0c1c76d5268d6c5
+      accepted_tree: ffae19db6991a77424d0deaa96a1c761348b7b41
+  accepted_read_only_engineering_inputs:
+    - path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/task-spec.json
+      sha256: 25de6b6f330e09c076521b42a88d60712637e0fc7de7ab1cfe1f9f5d4c223321
+      byte_length: 2960
+    - path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/src/range.mjs
+      sha256: 1e3de2958c9841bbe785d903b2f5453389c4225359308b539ac2cb3194469d75
+      byte_length: 115
+    - path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/test/issue.test.mjs
+      sha256: 51fd472f8cf85fd595246814db29699ab81ccdc2986d80666d8609a8c4972b4b
+      byte_length: 237
+    - path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/test/regression.test.mjs
+      sha256: 381c573d8f99305b47db9f1a2ca49779842fe1187b9d7c5b7410e56dda9240c5
+      byte_length: 241
+    - path: evaluation-harness/contracts/stable-replay-projection-v2/stable-replay-projection-v2.contract.json
+      sha256: 49064285a28d09433e4a16412e4dd7198c0dbddea985875633a6ad1cf4b270c8
+      byte_length: 8366
+    - path: evaluation-harness/replay/stable-replay-projection-v2/project.mjs
+      sha256: c36c28540a4025529fc427bce7c6be73ea467258c3d9a27a4b3a5dbe2afbf49a
+      byte_length: 20797
+  allowed_historical_architecture_facts:
+    - p1_076_terminal_record_exact_identity_only
+    - p1_076_git_restore_counterexample_exact_identity_only
+    - p1_076_independent_feasibility_review_exact_identity_only
+  forbidden_context:
+    - any_p1_068_p1_072_p1_076_terminal_or_rejected_engineering_source_fixture_test_diff_partial_candidate_or_archive
+    - any_other_terminal_or_rejected_engineering_source_fixture_test_diff_partial_candidate_hidden_asset
+    - any_historical_task_lifecycle_recovery_or_non_pass_rewrite
+
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+
+quality_freeze:
+  exact_freezes: 1
+  refreeze_allowed: false
+  must_precede_worker_source_write: true
+  frozen_repository_roots:
+    - evaluation-harness/contracts/state-rollback-observable-trace-v1/**
+    - evaluation-harness/evaluator/state-rollback-observable-trace-v1/**
+    - evaluation-harness/fixtures/state-rollback-observable-trace-v1/**
+  required_files:
+    - executable_evaluation_plan
+    - task_card
+    - trace_and_evidence_schemas
+    - acceptance_oracle_and_expected_results
+    - writer_map
+    - artifact_lifecycle
+    - evaluator_handoff
+    - stable_projection_contract
+    - negative_control_catalog
+    - self_test
+    - freeze_receipt_and_manifest
+  direct_host_primitive_probes_before_freeze:
+    - exact_pinned_git_version_and_restore_command
+    - frozen_head_commit_and_tree_capture
+    - unchanged_index_capture_and_comparison
+    - file_type_content_hash_byte_length_and_mode_attestation
+    - untracked_and_ignored_inventory_capture
+    - regular_file_and_no_symlink_path_chain_attestation
+    - pre_mutated_post_device_inode_and_nlink_observation
+    - physical_replacement_transition_classification
+    - final_clean_repository_status_attestation
+  probe_evidence_must_be_retained_and_hash_bound: true
+  may_prescribe_worker_internal_commands: false
+  may_require_unique_worker_rollback_mechanism: false
+  inode_equality_required: false
+  freeze_non_pass_effect: TERMINAL_STOP_NO_REFREEZE_NO_CORRECTION
+
+rollback_contract:
+  exact_permitted_claim: GIT_WORKTREE_STATE_EQUIVALENT_ROLLBACK_WITH_OBSERVED_PHYSICAL_REPLACEMENT
+  exact_physical_identity_restoration_claim_allowed: false
+  disposable_real_git_worktree_required: true
+  pre_mutation_state:
+    - frozen_head_commit
+    - frozen_head_tree
+    - index_tree_and_index_byte_identity
+    - allowed_mutation_path_exact_type_content_sha256_byte_length_and_mode
+    - predeclared_untracked_inventory
+    - predeclared_ignored_inventory
+    - regular_file_leaf_and_no_symlink_path_chain
+    - device_inode_and_nlink
+  post_rollback_requirements:
+    - exact_frozen_head_commit_and_tree
+    - exact_unchanged_index
+    - exact_path_type_content_sha256_byte_length_and_mode
+    - exact_predeclared_untracked_and_ignored_inventory
+    - regular_file_leaf_and_no_symlink_path_chain
+    - clean_repository_status
+    - exact_post_device_inode_and_nlink_observation
+    - truthful_transition_classification
+  permitted_transition_classes:
+    - IN_PLACE_STATE_RESTORATION
+    - PHYSICAL_REPLACEMENT_RESTORATION
+  replacement_must_never_be_reported_as_in_place: true
+  missing_or_false_transition_classification_is_non_pass: true
+  state_correct_but_provenance_wrong_is_non_pass: true
+
+observable_trace_contract:
+  trusted_outer_verifier: EXPLICIT_COOPERATIVE_LOCAL_TCB
+  recursive_self_observation_claim_allowed: false
+  hostile_principal_or_strong_isolation_claim_allowed: false
+  sut_window: SUT_START_THROUGH_SUT_STOP
+  every_sut_and_evaluator_child_or_action_recorded: true
+  evaluator_actions_separately_typed: true
+  required_action_fields:
+    - action_id
+    - parent_action_id
+    - actor_type
+    - lifecycle_state
+    - exact_semantic_argv
+    - input_identities
+    - stdout_identity
+    - stderr_identity
+    - exit_status
+    - wall_timestamp
+    - monotonic_timestamp
+    - duration
+  unrecorded_action_is_non_pass: true
+  typed_ledger_confusion_is_non_pass: true
+
+run_architecture:
+  run_a_actor: P1_078_TRACE_ENGINEERING_WORKER
+  run_b_actor: P1_078_FRESH_NON_IMPLEMENTER_RUN_B_ACTOR
+  run_b_personally_rerun_from_frozen_candidate: true
+  physically_independent:
+    source_materialization: true
+    run_root: true
+    evidence_root: true
+    produced_artifact_inode: true
+  raw_evidence_retains:
+    - run_id
+    - actor_and_repetition_identity
+    - source_materialization_root
+    - run_root
+    - evidence_root
+    - wall_and_monotonic_timestamps
+    - duration
+    - device_inode_and_nlink
+    - exact_artifact_identity
+  evidence_or_root_reuse_is_non_pass: true
+
+stable_projection:
+  exact_equality_required: true
+  predeclared_nonsemantic_per_run_fields_only:
+    - run_id
+    - actor_instance_id
+    - repetition_id
+    - absolute_source_materialization_root
+    - absolute_run_root
+    - absolute_evidence_root
+    - wall_timestamp
+    - monotonic_timestamp
+    - duration
+    - raw_device_inode_and_nlink_values
+  required_preserved_semantics:
+    - candidate_identity
+    - base_commit_and_tree_identity
+    - task_and_contract_identity
+    - semantic_argv
+    - ordered_action_classes_and_actor_types
+    - lifecycle_and_exit_status
+    - normalized_raw_output_identities
+    - mutations_and_tests
+    - rollback_transition_classification
+    - non_command_artifact_identities
+    - all_external_effect_results
+  physical_replacement_may_normalize_to_inode_equality: false
+  excessive_field_deletion_or_normalization_is_non_pass: true
+
+mandatory_negative_cases:
+  - MISSING_ACTION
+  - EXTRA_ROLLBACK_ACTION
+  - UNRECORDED_EVALUATOR_CHILD_AFTER_SUT_STOP
+  - LIFECYCLE_REORDER
+  - TYPED_LEDGER_CONFUSION
+  - PATH_ESCAPE
+  - LEAF_SYMLINK
+  - PARENT_COMPONENT_SYMLINK_OR_PATH_REPLACEMENT
+  - HARDLINK_SUBSTITUTION
+  - DIRTY_INDEX
+  - UNTRACKED_RESIDUE
+  - IGNORED_RESIDUE
+  - CONTENT_MODE_OR_STATUS_MISMATCH
+  - COORDINATED_RECORD_LENGTH_HASH_AND_MANIFEST_FORGERY
+  - OMITTED_OR_FORGED_RAW_INODE_VALUES
+  - MISSING_OR_FALSE_TRANSITION_CLASSIFICATION
+  - VERIFIER_SELF_REPORTED_PASS
+  - RUN_A_RUN_B_EVIDENCE_REUSE
+  - SAME_ROOT_INODE_OR_COPY_SUBSTITUTION
+  - EXCESSIVE_STABLE_FIELD_DELETION_OR_NORMALIZATION
+  - SYNCHRONIZED_CANDIDATE_TOOL_OR_AUTHORITY_IDENTITY_REPLACEMENT
+  - STATE_CORRECT_BUT_PROVENANCE_WRONG_ROLLBACK
+  - EMPTY_MATERIALIZATION
+  - PROJECTION_TAMPER
+
+formal_execution:
+  order:
+    - quality_direct_host_primitive_probes
+    - single_quality_freeze_and_self_test
+    - worker_initial_implementation_and_targeted_tests
+    - optional_one_same_task_worker_repair_and_targeted_tests
+    - single_exact_candidate_freeze_and_manifest
+    - worker_run_a
+    - fresh_non_implementer_run_b
+    - independent_negative_matrix
+    - fresh_exact_candidate_reviews
+    - exact_local_integration
+    - one_canonical_make_verify
+  serial_single_process_where_shared_state_exists: true
+  proactive_concurrent_state_machine_runs_allowed: false
+
+acceptance_criteria:
+  - The exact Founder packet, baseline, Goal, authority documents and validators remain byte-identical.
+  - One feasible, self-tested Quality-owned acceptance set is frozen exactly once before Worker source write.
+  - Every acceptance invariant depending on a host primitive has retained direct probe Evidence.
+  - Worker changes only its SUT, trace producer and runtime-harness scope.
+  - Run A and physically independent Run B both pass from the same frozen candidate and Quality inputs.
+  - Every SUT and evaluator action is present in the correctly typed lifecycle ledger.
+  - The disposable Git worktree returns to the exact frozen logical state with truthful physical-transition Evidence.
+  - Stable projections are byte-equal after only predeclared nonsemantic normalization.
+  - Every mandatory negative case is rejected with zero false accepts.
+  - Network, Provider, Secret, remote, production and public effects remain false.
+  - One exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS on identical bytes.
+  - Reviewed tree equals integrated tree and one canonical full make verify passes after integration.
+
+required_evidence:
+  - exact_contract_identity_and_independent_contract_reviews
+  - direct_host_primitive_probe_manifest_and_receipts
+  - single_quality_freeze_manifest_self_test_and_writer_map
+  - accepted_input_identity_receipt
+  - worker_targeted_test_receipts
+  - exact_candidate_manifest_and_recovery_tag
+  - raw_run_a_and_physically_independent_run_b_evidence
+  - exact_state_rollback_and_physical_transition_attestations
+  - stable_projection_equality_receipt
+  - independent_negative_matrix_receipt_with_zero_false_accepts
+  - fresh_cto_security_quality_reviews
+  - integration_tree_equality_and_single_canonical_verify_receipt
+
+rollback:
+  before_integration: >-
+    Remove only Task-owned disposable run roots after ownership verification;
+    preserve retained Evidence and leave canonical main unchanged.
+  formal_cases: >-
+    Each case must atomically create a unique owned root and may clean only paths
+    listed in its own ownership marker.
+  after_integration_verify_non_pass: >-
+    Create one non-destructive git revert commit; do not reset, clean, retry,
+    repair, refreeze, create another candidate or invoke another review cycle.
+  evidence_rule: Never overwrite, delete, rename or rewrite accepted or retained Evidence.
+
+stop_conditions:
+  - baseline_goal_packet_authority_clean_state_or_evidence_identity_drift
+  - goal_constitution_protocol_policy_evaluation_protocol_validator_safety_or_exit_gate_byte_change_required
+  - exact_state_rollback_claim_requires_incorrect_physical_identity_restoration
+  - frozen_acceptance_invariant_lacks_retained_direct_host_probe
+  - quality_freeze_self_test_role_separation_or_feasibility_non_pass
+  - second_quality_freeze_contract_correction_third_iteration_or_post_candidate_repair_required
+  - worker_write_outside_worker_owned_scope
+  - any_required_action_missing_or_actor_types_conflated
+  - run_a_run_b_physical_independence_or_stable_projection_non_pass
+  - any_mandatory_negative_false_accept
+  - state_restored_but_provenance_or_transition_not_proven
+  - any_fresh_reviewer_target_verdict_non_pass
+  - reviewed_integrated_tree_mismatch
+  - canonical_make_verify_non_pass
+  - terminal_or_rejected_engineering_asset_read_or_reuse
+  - external_effect_evidence_damage_scope_permission_budget_phase_or_claim_expansion
+  - task_or_route_budget_exhaustion
+
+forbidden_actions:
+  - network_provider_secret_remote_production_or_public_effect
+  - modifying_goal_constitution_protocol_policy_evaluation_protocol_authority_validator_or_safety_validator
+  - reading_recovering_copying_comparing_extracting_adapting_or_reusing_terminal_or_rejected_engineering_assets
+  - treating_p1_076_non_pass_as_pass_or_erasing_historical_attempt_accounting
+  - claiming_exact_physical_identity_restoration
+  - worker_modification_of_quality_frozen_bytes
+  - quality_refreeze_contract_correction_third_iteration_or_post_candidate_source_repair
+  - successor_replacement_normalization_closure_correction_or_remediation_chain
+  - second_candidate_or_second_final_review_cycle
+  - p2_or_p3_entry
+  - supervisor_root_custody_strong_isolation_full_trust_or_multi_agent_runtime
+  - push_pull_request_release_or_remote_mutation
+  - counting_contract_manifest_review_hash_receipt_truth_or_quality_freeze_as_engineering_progress
+
+capability_projection_on_pass:
+  accepted_capabilities:
+    - OBSERVABLE_TRACE
+  p1_exit_gate_item_completed: OBSERVABLE_TRACE
+  strict_p1_completion: 5_COMPLETE_1_PARTIAL_2_NOT_COMPLETE_62_5_PERCENT
+  complete_p1_exit_claim: false
+  task_2_automatic_entry: AIOS-P1-079_CLEAN_ROOM_OFFLINE_B0_B1_B2_SHARED_HARNESS_ADAPTER_CONFORMANCE
+
+terminal_non_pass_effect:
+  p1_status: PERMANENTLY_STOPPED
+  later_observable_trace_attempts: PROHIBITED
+  next_founder_options:
+    - STOP_P1_OR_PROJECT_TERMINATION
+    - FORMAL_REPLACEMENT_LONG_TERM_GOAL_AND_STRATEGIC_CONSTITUTION
+  p2_or_p3_skip_allowed: false
+
+claim_boundary: >-
+  ONE_VISIBLE_SYNTHETIC_CLEAN_ROOM_COOPERATIVE_LOCAL_SUT_AND_SEPARATELY_TYPED
+  EVALUATOR_ACTION_TRACE_REAL_GIT_WORKTREE_STATE_EQUIVALENT_ROLLBACK_WITH_TRUTHFUL
+  OBSERVED_PHYSICAL_REPLACEMENT_PHYSICALLY_INDEPENDENT_AB_EXACT_STABLE_PROJECTION
+  ZERO_FALSE_ACCEPTS_AND_NO_EXTERNAL_EFFECTS_ONLY_NO_PHYSICAL_IDENTITY_RESTORATION
+  HOSTILE_PRINCIPAL_STRONG_ISOLATION_COMPLETE_P1_P2_P3_PRODUCTION_OR_PUBLIC_CLAIM

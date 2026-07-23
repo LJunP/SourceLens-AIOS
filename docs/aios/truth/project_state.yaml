@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-23T05:58:56Z"
-verification_scope: P1_076_TERMINAL_PREFREEZE_FEASIBILITY_NON_PASS
+last_verified_at: "2026-07-23T07:54:35Z"
+verification_scope: P1_078_RECOVERED_ROUTE_AUTHORIZED_READY
 
 authority:
   founder: Human Founder
@@ -39,13 +39,13 @@ goal:
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
   current_task_authority: NONE
   note: >-
-    The Founder-approved long-term Goal and P1 remain ACTIVE. P1-076 terminally
-    stopped in its second and final pre-freeze iteration after a real Git restore
-    counterexample proved the frozen target inode equality infeasible. No Worker
-    source, candidate, run, final review, integration or capability was created.
-    P1-077 is ineligible, the current route is terminal, strict P1 completion
-    remains 4/8 (50%), and the next valid action is a Founder P1 Phase Gate or new
-    architecture-route decision.
+    The Founder-approved long-term Goal and P1 remain ACTIVE. P1-076 terminal
+    facts and zero capability credit remain unchanged. The Founder authorized one
+    pre-activation accounting-only correction for P1-078; the corrected exact
+    Contract received fresh CTO, Security and Quality PASS on identical bytes.
+    The recovered route is AUTHORIZED_READY, current Task remains NONE, strict P1
+    completion remains 4/8 (50%), and the next action is P1-078 activation and
+    direct engineering execution without another routine Founder decision.
 
 project:
   name: SourceLens AIOS
@@ -55,9 +55,9 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  phase_execution_status: ACTIVE
-  p1_execution_status: ACTIVE
-  current_route_execution_status: P1_076_TERMINAL_NON_PASS_P1_077_INELIGIBLE
+  phase_execution_status: AUTHORIZED_READY
+  p1_execution_status: AUTHORIZED_READY
+  current_route_execution_status: P1_078_RECOVERED_ROUTE_AUTHORIZED_READY_TASK_NOT_ACTIVATED
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -549,7 +549,7 @@ historical_clean_room_blind_admission_phase_route:
   accounting: TERMINAL_TASK_1_OF_2_NONPASS_TASK_2_INELIGIBLE_ROUTE_STOPPED
   claim_boundary: P1_069_EXACT_CANDIDATE_AND_FOUR_RAW_POSITIVE_RUNS_PRESERVED_STABLE_PROJECTION_SPEC_NON_PASS_NO_NEGATIVE_MATRIX_FINAL_REVIEW_INTEGRATION_ACCEPTED_CAPABILITY_OR_P1_070
   next_eligible_action_at_terminal: FOUNDER_P1_PHASE_GATE_OR_NEW_ROUTE_DECISION_REQUIRED
-current_phase_route:
+historical_p1_076_phase_route:
   route_id: P1_TRUSTED_OUTER_VERIFIER_AND_OFFLINE_ADAPTER_ENGINEERING_ROUTE_V1
   status: ACTIVE
   authority_object_status: FOUNDER_PHASE_ENTRY_AUTHORITY_CONSUMED_ROUTE_TERMINAL
@@ -742,6 +742,246 @@ current_phase_route:
     status: TERMINAL_1_OF_2_TASKS_TASK_1_NON_PASS_TASK_2_INELIGIBLE
   claim_boundary: P1_076_UNFROZEN_QUALITY_BYTES_AND_REAL_GIT_COUNTEREXAMPLE_PRESERVED_NO_WORKER_CANDIDATE_CAPABILITY_OR_PROGRESS_CREDIT_STRICT_P1_REMAINS_50_PERCENT
   next_eligible_action: FOUNDER_P1_PHASE_GATE_OR_NEW_ROUTE_DECISION_REQUIRED
+current_phase_route:
+  route_id: P1_FORMAL_PHASE_ARCHITECTURE_REVISION_ENGINEERING_FIRST_TRACE_AND_OFFLINE_ADAPTER_ROUTE_V1
+  status: AUTHORIZED_READY
+  authority_object_status: FOUNDER_PHASE_ENTRY_AND_PREACTIVATION_RECOVERY_AUTHORITY_ACTIVE
+  execution_status: AUTHORIZED_READY_TASK_1_ELIGIBLE_NOT_ACTIVATED
+  founder_phase_route_decision_required: false
+  scheduling_status: TASK_1_ELIGIBLE_NOT_ACTIVATED
+  phase: P1
+  phase_entry_status: AUTHORIZED
+  authorization_token: AUTHORIZE_P1_FORMAL_PHASE_ARCHITECTURE_REVISION_ENGINEERING_FIRST_TRACE_AND_OFFLINE_ADAPTER_ROUTE_V1
+  decision_packet:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-076-trusted-outer-verifier-qAn5RqM9/terminal/P1_PHASE_GATE_FORMAL_PHASE_ARCHITECTURE_REVISION_ENGINEERING_FIRST_ROUTE_V1.md
+    sha256: 0dfe188d13448b88366a7dc98ca05c1603d763c52ddbd11dfdd7c91aba14f2a2
+    byte_length: 17345
+  preactivation_recovery_authority:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-078-state-rollback-observable-trace-lnN2b9CP/decision/P1_PHASE_GATE_ONE_PREACTIVATION_CONTRACT_ACCOUNTING_CORRECTION_AND_DIRECT_ENGINEERING_CONTINUATION_V1.md
+    sha256: 8659157e72716121c7f56ebb9263dc078a69dd82213bd954f8b610a695a81c1b
+    byte_length: 16737
+    authorization_token: AUTHORIZE_ONE_P1_078_PREACTIVATION_CONTRACT_ACCOUNTING_CORRECTION_AND_DIRECT_ENGINEERING_CONTINUATION_V1
+    status: FOUNDER_APPROVED_ONE_SHOT_ACCOUNTING_CORRECTION_CONSUMED
+    supersedes_original_packet_only_for:
+      - QUALITY_P1_078_CONTRACT_ITERATION_ACCOUNTING_001
+      - PREACTIVATION_NON_PASS_AUTOMATIC_PERMANENT_P1_STOP_DISPOSITION
+    rejected_contract_sha256: 7465a1ea1f2cc923f7ee56bff7c335b398ef6bf9d88e5d4cabd059bc26c24406
+    corrected_contract_sha256: ae5542dd5836da3146c1ca77049fd4fb03a8961ca3ce889153eda0857de4320d
+    corrected_contract_byte_length: 23009
+    correction_manifest_sha256: 0a7f26369fa3e1f689d31b3f48f5d805f0dd8abe2ea90ef8f7010ffc7e108ad6
+    correction_diff_sha256: 4c5741d95a0b637e1f0b1d7d8816527b4b23ef877225b5e321cc441dafdf285d
+    fresh_contract_reviews:
+      cto_sha256: 050d58bf9b0586ed4d7cddc82d1dbc340c8d0efc40ee1de58656d40e26469f8a
+      cto_target_verdict: PASS
+      security_sha256: 3e0f9522ebcaaca01589405dadeb7ca49f19bcdfd3507bd610a31a0c70ecd3ef
+      security_target_verdict: PASS
+      quality_sha256: 71afb02bcdad3e812e693afffd2d47204c898db97eee5984a7e479321403f97b
+      quality_target_verdict: PASS
+    contract_corrections_used: 1
+    further_contract_correction_or_rereview_allowed: false
+    capability_credit: 0
+  founder_authorization_source:
+    source: CODEX_THREAD_FOUNDER_DIRECT_MESSAGE_2026_07_23
+    original_route_packet_sha256: 0dfe188d13448b88366a7dc98ca05c1603d763c52ddbd11dfdd7c91aba14f2a2
+    recovery_packet_sha256: 8659157e72716121c7f56ebb9263dc078a69dd82213bd954f8b610a695a81c1b
+  activation_parent:
+    commit: a3412fb1c83d44b29acfbcea9239302c850023e2
+    tree: 8cb1d1962a937c1083c731bc8bde6c7736932039
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: "1.6"
+    sha256: 4cee36f00b6686c75ed8f4d2811e4615ef98120c3f5e9be3e30b4fc5b2c1793c
+  goal_identity:
+    raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+    raw_byte_length: 19433
+    canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+    canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+    canonical_byte_length: 19434
+  objective: >-
+    Implement and execute one clean-room cooperative-local state-equivalent
+    rollback observable-trace vertical slice with truthful physical-replacement
+    Evidence; after its exact Task Gate PASS, autonomously execute one clean-room
+    offline B0/B1/B2 shared-harness adapter-conformance Task.
+  p1_exit_gate:
+    source: docs/aios/EVALUATION_PROTOCOL.md
+    version: "1.1"
+    changed: false
+    strict_status_at_activation: 4_COMPLETE_1_PARTIAL_3_NOT_COMPLETE_50_PERCENT
+    status: UNCHANGED_STRICT_50_PERCENT_ROUTE_ACTIVATION_NO_CREDIT
+  envelope:
+    max_engineering_tasks: 2
+    max_engineering_hours: 40
+    max_calendar_days: 12
+    max_active_tasks: 1
+    max_task_branches: 1
+    max_task_worktrees: 1
+    max_active_candidates: 1
+    max_contract_corrections_per_task: 1
+    max_same_task_repairs: 1
+    max_candidate_review_rounds_per_task: 1
+    successor_replacement_normalization_closure_feasibility_or_remediation_chain_allowed: false
+    p2_entry_authorized: false
+    p3_entry_authorized: false
+    external_effects:
+      network: false
+      provider: false
+      secret: false
+      remote: false
+      production: false
+      public: false
+  iteration_accounting:
+    iterations_begin_after_final_contract_review_pass_and_task_activation: true
+    iteration_1:
+      - quality_direct_host_primitive_probes
+      - quality_preparation_and_self_test
+      - single_exact_quality_freeze
+      - worker_initial_implementation
+      - worker_initial_targeted_tests
+    iteration_1_ends_at: INITIAL_TARGETED_TEST_VERDICT
+    iteration_2_optional_only_for:
+      - one_bounded_in_scope_worker_repair
+      - targeted_retest
+    quality_refreeze_or_third_iteration_allowed: false
+  process_architecture:
+    exact_permitted_claim: GIT_WORKTREE_STATE_EQUIVALENT_ROLLBACK_WITH_OBSERVED_PHYSICAL_REPLACEMENT
+    exact_physical_identity_restoration_claim_allowed: false
+    trusted_outer_verifier_is_explicit_cooperative_local_tcb: true
+    recursive_self_observation_claim_allowed: false
+    separately_typed_evaluator_ledger_required: true
+    physically_independent_run_b_required: true
+    stable_projection_exact_equality_required: true
+    negative_case_count: 24
+    zero_false_accepts_required: true
+    authority_or_correction_work_receives_capability_credit: false
+  anti_loop:
+    routine_founder_task_approval_required: false
+    preactivation_contract_corrections_used: 1
+    further_contract_corrections_allowed: false
+    pre_candidate_implementation_iterations: 2
+    exact_candidates_per_task: 1
+    final_review_cycles_per_task: 1
+    post_freeze_source_repair_allowed: false
+    quality_refreeze_allowed: false
+    successor_replacement_correction_normalization_closure_or_remediation_chain_allowed: false
+    gate_relevance_rule_active: true
+    p1_078_non_pass_permanently_ends_later_observable_trace_attempts: true
+  historical_isolation:
+    rejected_contract_and_review_read_for_exact_governance_diff_only: true
+    p1_068_contract_source_fixture_test_candidate_diff_partial_or_hidden_asset_read_allowed: false
+    p1_072_source_fixture_test_diff_candidate_partial_or_archive_read_allowed: false
+    p1_076_source_fixture_test_diff_candidate_partial_or_archive_read_allowed: false
+    terminal_adapter_source_fixture_test_diff_candidate_or_partial_read_allowed: false
+    all_other_terminal_or_rejected_engineering_asset_read_allowed: false
+    accepted_canonical_schema_and_engineering_assets_allowed: true
+  additional_write_roots:
+    - evaluation-harness/contracts
+  inherited_worktree_inventory:
+    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-063-atomic-offline-b0
+      head: 14a6e1ed7298dd3568b7290ff2f625785521f9c1
+      branch: codex/p1-063-atomic-offline-b0
+      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-063-direct-engineering-v1
+      head: dab6459efab069466dcdfe53dad3df2de4f55223
+      branch: codex/p1-063-direct-engineering-v1
+      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-064-clean-room-control-plane-verifier-recovery
+      head: e9fa81c96fc1d8726bb2f3814a93e99799726dc1
+      branch: codex/p1-064-clean-room-control-plane-verifier-recovery
+      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-069-blind-admission-harness
+      head: f4b523079cdc2032851867dc24a79bbea32d9be2
+      branch: codex/p1-069-blind-admission-harness
+      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-076-trusted-outer-verifier
+      head: 35e61f136517b4d2bf4c908b2ba4762cf509deed
+      branch: codex/p1-076-trusted-outer-verifier
+      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+  accepted_inputs:
+    p1_035:
+      task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+      status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+      task_contract_path: docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
+      task_contract_sha256: acec5432aacd6476693db62bdb52ee326c467f17b691860688fe952f7ffbdc33
+      accepted_candidate_commit: 686eda0cd7a93b72ac5e64301479f17e4b096fb0
+      accepted_candidate_tree: b2740b44d0051303057deac7d719c27fd6a5578a
+      claim_boundary: P1_EXIT_CAPABILITY_ENGINEERING_ARTIFACT_ONLY_NO_BENCHMARK_AGENT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
+    p1_048:
+      task_id: AIOS-P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK
+      status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+      task_contract_path: docs/aios/tasks/P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK.yaml
+      task_contract_sha256: 092a7d38d5c3f208a0e97d74cfbee906793d2a5fe31caf2fd15948b7ea209a62
+      accepted_candidate_commit: 9e130f2aae0fd951b252cf0dff8edc9b9364e962
+      accepted_candidate_tree: 3a4229e9a8da181ca8bb256f5467cf96549c2549
+      claim_boundary: ONE_VISIBLE_SYNTHETIC_COOPERATIVE_LOCAL_REFERENCE_TASK_ACTUAL_EXECUTION_AND_INDEPENDENT_REEXECUTION_ONLY
+    p1_071:
+      task_id: AIOS-P1-071_STABLE_REPLAY_PROJECTION_AND_EXACT_HARNESS_ADMISSION_VERTICAL_SLICE
+      status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+      task_contract_path: docs/aios/tasks/P1-071_STABLE_REPLAY_PROJECTION_AND_EXACT_HARNESS_ADMISSION_VERTICAL_SLICE.yaml
+      task_contract_sha256: c02505bc0bac2a187f0c96290b33e562f6e06e15b2c22f4e747b42cf9d4d29c2
+      accepted_candidate_commit: 2da6a314249c9ea98f3cc3134e6afe00e4c28db0
+      accepted_candidate_tree: 68d0605dbd94bf1003f36b51fe74b6f4ca082032
+      reviewed_candidate_commit: 43552e2653b911ab9e2c3b4935f59d69cd59dbb6
+      reviewed_candidate_tree: 68d0605dbd94bf1003f36b51fe74b6f4ca082032
+      claim_boundary: COOPERATIVE_LOCAL_EXACT_P1_069_HARNESS_BLOBS_PUBLIC_STABLE_PROJECTION_V2_RETAINED_AB_EQUALITY_AND_23_CASE_MATRIX_ONLY
+    p1_070:
+      task_id: AIOS-P1-070_OFFLINE_SCHEDULED_MATRIX_VTSR_AND_FALSE_SUCCESS_EXPERIMENT
+      status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+      task_contract_path: docs/aios/tasks/P1-070_OFFLINE_SCHEDULED_MATRIX_VTSR_AND_FALSE_SUCCESS_EXPERIMENT.yaml
+      task_contract_sha256: 02fc6ef5590803156e78c6f5328bfa6644f980323a38a504554250c5b94f72ca
+      accepted_candidate_commit: ee51cc96fedec5cc9ec640c6c0c1c76d5268d6c5
+      accepted_candidate_tree: ffae19db6991a77424d0deaa96a1c761348b7b41
+      claim_boundary: ONE_PREDECLARED_FIVE_ENTRY_COOPERATIVE_LOCAL_OFFLINE_SCHEDULED_MATRIX_WITH_EXACT_VTSR_ACCOUNTING_EVALUATOR_DISAGREEMENT_FALSE_SUCCESS_HISTORY_INTEGRITY_AND_NO_EXTERNAL_EFFECTS_ONLY
+  first_task:
+    task_id: AIOS-P1-078_ENGINEERING_FIRST_STATE_ROLLBACK_OBSERVABLE_TRACE_VERTICAL_SLICE
+    task_slot: 1
+    status: ELIGIBLE_NOT_ACTIVATED
+    contract_path: docs/aios/tasks/P1-078_ENGINEERING_FIRST_STATE_ROLLBACK_OBSERVABLE_TRACE_VERTICAL_SLICE.yaml
+    contract_sha256: ae5542dd5836da3146c1ca77049fd4fb03a8961ca3ce889153eda0857de4320d
+    max_engineering_hours: 24
+    max_calendar_days: 7
+    max_implementation_iterations: 2
+    max_candidates: 1
+    accepted_input_ids:
+      - p1_035
+      - p1_048
+      - p1_071
+      - p1_070
+    capability_projection_on_pass:
+      - OBSERVABLE_TRACE
+    strict_progress_projection_on_pass: 5_COMPLETE_1_PARTIAL_2_NOT_COMPLETE_62_5_PERCENT
+    claim_boundary: GIT_WORKTREE_STATE_EQUIVALENT_ROLLBACK_WITH_OBSERVED_PHYSICAL_REPLACEMENT_AND_COMPLETE_COOPERATIVE_LOCAL_OBSERVABLE_TRACE_ONLY
+  projected_second_task:
+    task_id: AIOS-P1-079_CLEAN_ROOM_OFFLINE_B0_B1_B2_SHARED_HARNESS_ADAPTER_CONFORMANCE
+    task_slot: 2
+    status: CONDITIONALLY_ELIGIBLE_AFTER_P1_078_ACCEPTED_INTEGRATED_VERIFY_PASS
+    contract_path: null
+    max_engineering_hours: 16
+    max_calendar_days: 5
+    max_implementation_iterations: 2
+    max_candidates: 1
+    activation_condition: P1_078_ACCEPTED_INTEGRATED_AND_CANONICAL_MAKE_VERIFY_PASS
+    capability_projection_on_pass:
+      - PROVIDER_NEUTRAL_OFFLINE_ADAPTER_CONFORMANCE_ARTIFACT
+    strict_progress_projection_on_pass: UNCHANGED_5_COMPLETE_1_PARTIAL_2_NOT_COMPLETE_62_5_PERCENT
+    claim_boundary: CLEAN_ROOM_PROVIDER_NEUTRAL_OFFLINE_B0_B1_B2_SHARED_HARNESS_ADAPTER_CONFORMANCE_ONLY_NO_REAL_PROVIDER_BASELINE_CAPABILITY_CREDIT_P1_EXIT_P2_P3_PRODUCTION_OR_PUBLIC_CLAIM
+  route_execution_accounting:
+    maximum_engineering_tasks: 2
+    task_slots_consumed: 0
+    active_task_id: null
+    scheduled_task_ids: []
+    terminal_task_ids: []
+    accepted_task_ids: []
+    maximum_engineering_hours: 40
+    engineering_hours_consumed_before_task_1: 0
+    preactivation_contract_corrections_used: 1
+    status: AUTHORIZED_READY_ZERO_OF_TWO_TASKS
+  observable_trace_attempt_accounting:
+    historical_terminal_attempts: 3
+    authorized_next_attempt_ordinal: 4
+    current_attempt_status: ELIGIBLE_NOT_ACTIVATED
+    reset_delete_reorder_or_describe_as_first_attempt_allowed: false
+  claim_boundary: P1_078_ROUTE_AUTHORIZED_READY_AFTER_ONE_ACCOUNTING_ONLY_PREACTIVATION_CORRECTION_ZERO_ENGINEERING_OR_CAPABILITY_CREDIT_STRICT_P1_REMAINS_50_PERCENT
+  next_eligible_action: ACTIVATE_P1_078_FROM_REVIEWED_CORRECTED_CONTRACT
 phase_delegation:
   status: ACTIVE
   model: PHASE_LEVEL_FOUNDER_DELEGATION
@@ -956,7 +1196,7 @@ mandatory_exit_capability_recovery:
     PARAMETERIZED_EVALUATION_HARNESS: ACCEPTED_P1_071_COOPERATIVE_LOCAL
     VTSR_COUNTING_VALIDATOR: ACCEPTED_P1_070_COOPERATIVE_LOCAL
     B0_B1_B2_COMPATIBILITY_ADAPTERS: MISSING_P1_062_TERMINAL_CANONICAL_GATE_NON_PASS
-    OBSERVABLE_TRACE: MISSING_P1_076_TERMINAL_PREFREEZE_FEASIBILITY_NON_PASS
+    OBSERVABLE_TRACE: MISSING_P1_078_ATTEMPT_4_AUTHORIZED_NOT_ACTIVATED
     EVALUATOR_DISAGREEMENT_AND_FALSE_SUCCESS_CHARACTERIZATION: ACCEPTED_P1_070_COOPERATIVE_LOCAL
     REPRODUCIBLE_BASELINE_REPORT: MISSING_PENDING_NEW_P1_ROUTE
   capability_attempt_ledger:
@@ -1042,6 +1282,16 @@ mandatory_exit_capability_recovery:
       p1_exit_gate_item_completed: false
       strict_p1_completion_after_task: 4_COMPLETE_1_PARTIAL_3_NOT_COMPLETE_50_PERCENT
       retry_repair_replacement_or_reuse_allowed: false
+      founder_authorized_next_attempt:
+        task_id: AIOS-P1-078_ENGINEERING_FIRST_STATE_ROLLBACK_OBSERVABLE_TRACE_VERTICAL_SLICE
+        route_id: P1_FORMAL_PHASE_ARCHITECTURE_REVISION_ENGINEERING_FIRST_TRACE_AND_OFFLINE_ADAPTER_ROUTE_V1
+        status: ELIGIBLE_NOT_ACTIVATED
+        attempt_ordinal: 4
+        corrected_contract_sha256: ae5542dd5836da3146c1ca77049fd4fb03a8961ca3ce889153eda0857de4320d
+        recovery_packet_sha256: 8659157e72716121c7f56ebb9263dc078a69dd82213bd954f8b610a695a81c1b
+        contract_corrections_used: 1
+        engineering_execution_started: false
+        capability_credit: 0
       prior_terminal_attempt:
         task_id: AIOS-P1-072_COMPLETE_OBSERVABLE_TRACE_VERTICAL_SLICE
         status: TERMINAL_PREFREEZE_TARGET_NOT_READY
@@ -1537,7 +1787,7 @@ active_work:
   authorization_id: null
   activation_parent_commit: null
   activation_parent_tree: null
-  task_resource_state: NONE_PHASE_ACTIVE
+  task_resource_state: NOT_CREATED_ROUTE_READY
   task_branch: null
   task_worktree: null
   execution_evidence_root: null
@@ -1562,12 +1812,12 @@ active_work:
   founder_reserved_authorization: null
   founder_reserved_authorization_sha256: null
   founder_decision_required: false
-  founder_decision_required_scope: NONE_TASK_TERMINAL_ROUTE_REQUIRES_FOUNDER_PHASE_DECISION
+  founder_decision_required_scope: NONE_PHASE_ROUTE_AUTHORIZED_READY
   escalation_reason: null
   user_action_required: NONE
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_OR_NEW_ROUTE_DECISION
-  next_eligible_action: FOUNDER_P1_PHASE_GATE_OR_NEW_ROUTE_DECISION_REQUIRED
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: ACTIVATE_P1_078_FROM_REVIEWED_CORRECTED_CONTRACT
 superseded_pre_delegation_authorizations:
   aios_p1_009:
     task_id: AIOS-P1-009_ENVIRONMENT_SNAPSHOT_REPRODUCIBILITY

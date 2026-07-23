@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-23T04:46:19Z"
-verification_scope: P1_TRUSTED_OUTER_VERIFIER_AND_OFFLINE_ADAPTER_ROUTE_AUTHORIZED_READY
+last_verified_at: "2026-07-23T04:53:42Z"
+verification_scope: P1_076_TRUSTED_OUTER_VERIFIER_ACTIVE
 
 authority:
   founder: Human Founder
@@ -37,15 +37,15 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
+  current_task_authority: AIOS-P1-076_TRUSTED_OUTER_VERIFIER_AND_PHYSICAL_ROLLBACK_ATTESTATION_VERTICAL_SLICE
   note: >-
-    The Founder-approved long-term Goal and P1 remain ACTIVE. The exact trusted-outer-
-    verifier and offline-adapter engineering route is authorized and ready. P1-076 is
-    eligible but not yet activated; route activation itself creates no engineering or
-    capability credit. P1-076 is the final clean-room observable-trace architecture
+    The Founder-approved long-term Goal and P1 remain ACTIVE. P1-076 is the one
+    authorized active Task under the trusted-outer-verifier and offline-adapter
+    engineering route. It is the final clean-room observable-trace architecture
     attempt and must produce runnable cooperative-local SUT trace, separately typed
-    evaluator ledger, physical Git-worktree rollback attestation, independent A/B and
-    zero false accepts. Strict P1 completion remains 4/8 (50%) until its exact Task Gate.
+    evaluator ledger, physical Git-worktree rollback attestation, independent A/B
+    and zero false accepts. Task activation creates no capability credit; strict P1
+    completion remains 4/8 (50%) until its exact Task Gate.
 
 project:
   name: SourceLens AIOS
@@ -55,9 +55,9 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  phase_execution_status: AUTHORIZED_READY
-  p1_execution_status: AUTHORIZED_READY
-  current_route_execution_status: P1_TRUSTED_OUTER_VERIFIER_AND_OFFLINE_ADAPTER_ROUTE_AUTHORIZED_READY
+  phase_execution_status: ACTIVE
+  p1_execution_status: ACTIVE
+  current_route_execution_status: P1_076_ACTIVE_TRUSTED_OUTER_VERIFIER_ENGINEERING
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -551,11 +551,11 @@ historical_clean_room_blind_admission_phase_route:
   next_eligible_action_at_terminal: FOUNDER_P1_PHASE_GATE_OR_NEW_ROUTE_DECISION_REQUIRED
 current_phase_route:
   route_id: P1_TRUSTED_OUTER_VERIFIER_AND_OFFLINE_ADAPTER_ENGINEERING_ROUTE_V1
-  status: AUTHORIZED_READY
-  authority_object_status: FOUNDER_PHASE_ENTRY_AUTHORIZED_TASK_1_ELIGIBLE_NOT_ACTIVATED
-  execution_status: ROUTE_AUTHORIZED_READY_TASK_1_NOT_ACTIVATED
+  status: ACTIVE
+  authority_object_status: FOUNDER_PHASE_ENTRY_AUTHORIZED_TASK_1_ACTIVE
+  execution_status: ROUTE_ACTIVE_TASK_1_ENGINEERING
   founder_phase_route_decision_required: false
-  scheduling_status: TASK_1_ELIGIBLE_NOT_ACTIVATED
+  scheduling_status: TASK_1_ACTIVE
   phase: P1
   phase_entry_status: AUTHORIZED
   authorization_token: AUTHORIZE_P1_TRUSTED_OUTER_VERIFIER_AND_OFFLINE_ADAPTER_ENGINEERING_ROUTE_V1
@@ -695,7 +695,7 @@ current_phase_route:
   first_task:
     task_id: AIOS-P1-076_TRUSTED_OUTER_VERIFIER_AND_PHYSICAL_ROLLBACK_ATTESTATION_VERTICAL_SLICE
     task_slot: 1
-    status: ELIGIBLE_NOT_ACTIVATED
+    status: ACTIVE
     contract_path: docs/aios/tasks/P1-076_TRUSTED_OUTER_VERIFIER_AND_PHYSICAL_ROLLBACK_ATTESTATION_VERTICAL_SLICE.yaml
     max_engineering_hours: 20
     max_calendar_days: 6
@@ -726,16 +726,17 @@ current_phase_route:
     claim_boundary: CLEAN_ROOM_PROVIDER_NEUTRAL_OFFLINE_B0_B1_B2_SHARED_HARNESS_ADAPTER_CONFORMANCE_ONLY_NO_EMPIRICAL_MODEL_BASELINE_PROVIDER_P1_EXIT_P2_P3_PRODUCTION_OR_PUBLIC_CLAIM
   route_execution_accounting:
     maximum_engineering_tasks: 2
-    task_slots_consumed: 0
-    active_task_id: null
-    scheduled_task_ids: []
+    task_slots_consumed: 1
+    active_task_id: AIOS-P1-076_TRUSTED_OUTER_VERIFIER_AND_PHYSICAL_ROLLBACK_ATTESTATION_VERTICAL_SLICE
+    scheduled_task_ids:
+      - AIOS-P1-076_TRUSTED_OUTER_VERIFIER_AND_PHYSICAL_ROLLBACK_ATTESTATION_VERTICAL_SLICE
     terminal_task_ids: []
     accepted_task_ids: []
     maximum_engineering_hours: 36
     engineering_hours_consumed_before_task_1: 0
-    status: READY_0_OF_2_TASKS_TASK_1_ELIGIBLE_NOT_ACTIVATED
-  claim_boundary: ROUTE_AUTHORIZATION_ONLY_P1_076_ELIGIBLE_NO_ENGINEERING_EXECUTION_CANDIDATE_CAPABILITY_OR_PROGRESS_CREDIT_STRICT_P1_REMAINS_50_PERCENT
-  next_eligible_action: ACTIVATE_FIRST_TASK
+    status: ACTIVE_1_OF_2_TASKS_TASK_1_EXECUTING
+  claim_boundary: P1_076_ACTIVE_ENGINEERING_ONLY_NO_CANDIDATE_ACCEPTED_CAPABILITY_OR_PROGRESS_CREDIT_STRICT_P1_REMAINS_50_PERCENT
+  next_eligible_action: CONTINUE_CURRENT_TASK
 phase_delegation:
   status: ACTIVE
   model: PHASE_LEVEL_FOUNDER_DELEGATION
@@ -1511,38 +1512,53 @@ p0_baseline:
   online_verification_status: ARCHIVED_NOT_ON_ACTIVE_PATH
 
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P1-076_TRUSTED_OUTER_VERIFIER_AND_PHYSICAL_ROLLBACK_ATTESTATION_VERTICAL_SLICE
+  current_task_status: ACTIVE
   current_task_contract:
-    path: null
-    sha256: null
-    byte_length: null
-  current_task_contract_sha256: null
-  current_execution_authorization: null
-  current_execution_authorization_sha256: null
+    path: docs/aios/tasks/P1-076_TRUSTED_OUTER_VERIFIER_AND_PHYSICAL_ROLLBACK_ATTESTATION_VERTICAL_SLICE.yaml
+    sha256: 2ec076c6d193c8182183235ad9a64c14c05ea1185888b1ad26613e7d7da90a27
+    byte_length: 16333
+  current_task_contract_sha256: 2ec076c6d193c8182183235ad9a64c14c05ea1185888b1ad26613e7d7da90a27
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-076-trusted-outer-verifier-qAn5RqM9/authority/TASK_AUTHORITY.yaml
+  current_execution_authorization_sha256: 41107deb7e38e62ff14c50bd6391fb5cdc71fe9103fac98a1794762613cf95f0
   authority_record:
-    path: null
-    sha256: null
-    byte_length: null
-  execution_nonce: null
-  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
-  authorization_id: null
-  activation_parent_commit: null
-  activation_parent_tree: null
-  task_resource_state: NOT_CREATED_ROUTE_READY
-  task_branch: null
-  task_worktree: null
-  execution_evidence_root: null
-  allowlisted_paths: []
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-076-trusted-outer-verifier-qAn5RqM9/authority/TASK_AUTHORITY.yaml
+    sha256: 41107deb7e38e62ff14c50bd6391fb5cdc71fe9103fac98a1794762613cf95f0
+    byte_length: 2994
+  execution_nonce: 7b4732250d021579da58b4be9bc57fdfa96b3a7deb30aee0b758fdcde8770987
+  execution_nonce_status: ACTIVE
+  authorization_id: P1-076-AUTH-D3EC05493C6FFDDCD7825D0B6374AAFB
+  activation_parent_commit: 4d3c4eecc669d349b6045b35fb999d18ddf77a0f
+  activation_parent_tree: a9495fd56d6364e37b30e8b58844addaa47c08a7
+  task_resource_state: CREATED_ACTIVE
+  task_branch: codex/p1-076-trusted-outer-verifier
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-076-trusted-outer-verifier
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-076-trusted-outer-verifier-qAn5RqM9
+  allowlisted_paths:
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+    - docs/aios/tasks/P1-076_TRUSTED_OUTER_VERIFIER_AND_PHYSICAL_ROLLBACK_ATTESTATION_VERTICAL_SLICE.yaml
+    - docs/aios/truth/project_state.yaml
+    - evaluation-harness/contracts/trusted-outer-verifier-v1/**
+    - evaluation-harness/evaluator/trusted-outer-verifier-v1/**
+    - evaluation-harness/fixtures/trusted-outer-verifier-v1/**
+    - evaluation-harness/harness/trusted-outer-verifier-v1/**
+    - evaluation-harness/recording/trusted-outer-verifier-v1/**
+    - evaluation-harness/replay/trusted-outer-verifier-v1/**
+    - evaluation-harness/validators/trusted-outer-verifier-v1/**
+    - scripts/verify-p1-076-trusted-outer-verifier.sh
   budget:
-    engineering_hours: null
-    calendar_days: null
-    implementation_iterations: null
-    candidates: null
+    engineering_hours: 20
+    calendar_days: 6
+    implementation_iterations: 2
+    candidates: 1
   roles:
-    owner: null
-    worker: null
-    independent_reviewers: []
+    owner: P1_076_ENGINEERING_MANAGER_OWNER
+    worker: P1_076_TRUSTED_OUTER_VERIFIER_WORKER
+    independent_reviewers:
+      - CTO Agent
+      - Security Agent
+      - Quality and Evaluation Agent
   external_effects:
     network: false
     provider: false
@@ -1551,15 +1567,15 @@ active_work:
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: null
-  founder_reserved_authorization_sha256: null
+  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-072-complete-observable-trace-SiWfIxe2/terminal/P1_PHASE_GATE_TRUSTED_OUTER_VERIFIER_AND_OFFLINE_ADAPTER_ROUTE_V1.md
+  founder_reserved_authorization_sha256: 3e7b95672a73557b28326deb89c53e172f9527479e9f3cce4ecf276b4f572c03
   founder_decision_required: false
-  founder_decision_required_scope: NONE_WITHIN_AUTHORIZED_ROUTE_TASK_1_ACTIVATION
+  founder_decision_required_scope: NONE_WITHIN_ACTIVE_P1_076_TASK_ENVELOPE
   escalation_reason: null
   user_action_required: NONE
   phase_route_decision_required: false
   phase_route_user_action_required: NONE
-  next_eligible_action: ACTIVATE_FIRST_TASK
+  next_eligible_action: CONTINUE_CURRENT_TASK
 superseded_pre_delegation_authorizations:
   aios_p1_009:
     task_id: AIOS-P1-009_ENVIRONMENT_SNAPSHOT_REPRODUCIBILITY
@@ -3448,9 +3464,9 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: P1_TRUSTED_OUTER_VERIFIER_AND_OFFLINE_ADAPTER_ENGINEERING_ROUTE_V1_AUTHORIZED_READY
-  current_task_claim: NONE_P1_076_ELIGIBLE_NOT_ACTIVATED
-  real_engineering_progress: P1_070_ACCEPTED_EVALUATOR_RISK_GATE_COMPLETE_STRICT_P1_COMPLETION_50_PERCENT_NEW_ROUTE_ACTIVATION_NO_CREDIT
+  current_route_claim: P1_TRUSTED_OUTER_VERIFIER_AND_OFFLINE_ADAPTER_ENGINEERING_ROUTE_V1_ACTIVE
+  current_task_claim: P1_076_ACTIVE_PREFREEZE_ENGINEERING
+  real_engineering_progress: P1_070_ACCEPTED_EVALUATOR_RISK_GATE_COMPLETE_STRICT_P1_COMPLETION_50_PERCENT_P1_076_ACTIVE_NO_NEW_CREDIT
   product_capability_changed: false
   phase_local_allowed:
     - local evaluation foundation engineering under an exact Task Contract
@@ -3512,10 +3528,10 @@ phase_execution_claim:
     - canonical main advance outside an accepted task gate
 
 claim_boundary:
-  current_phase_route: P1_TRUSTED_OUTER_VERIFIER_AND_OFFLINE_ADAPTER_ENGINEERING_ROUTE_V1_AUTHORIZED_READY
-  current_task: NONE
-  next_eligible_action: ACTIVATE_FIRST_TASK
-  real_engineering_progress: P1_070_MASTER_TASK_GATE_ACCEPTED_EVALUATOR_RISK_GATE_COMPLETE_STRICT_P1_COMPLETION_50_PERCENT_NEW_ROUTE_ACTIVATION_NO_CREDIT
+  current_phase_route: P1_TRUSTED_OUTER_VERIFIER_AND_OFFLINE_ADAPTER_ENGINEERING_ROUTE_V1_ACTIVE
+  current_task: AIOS-P1-076_TRUSTED_OUTER_VERIFIER_AND_PHYSICAL_ROLLBACK_ATTESTATION_VERTICAL_SLICE
+  next_eligible_action: CONTINUE_CURRENT_TASK
+  real_engineering_progress: P1_070_MASTER_TASK_GATE_ACCEPTED_EVALUATOR_RISK_GATE_COMPLETE_STRICT_P1_COMPLETION_50_PERCENT_P1_076_ACTIVE_NO_NEW_CREDIT
   product_capability_changed_by_route_activation: false
   p1_066_status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
   p1_066_claim_limit: ONE_VISIBLE_SYNTHETIC_REP_001_COOPERATIVE_LOCAL_OFFLINE_B0_COMPLETE_EVIDENCE_OBSERVATION_ONLY

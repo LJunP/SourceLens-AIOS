@@ -1,0 +1,363 @@
+schema_version: 1
+record_type: sourcelens_aios_phase_delegated_task_contract
+task_id: AIOS-P1-086_HARNESS_OWNED_OUTPUT_ROOT_AND_B0_ADAPTER
+task_slot: 1
+phase: P1
+route_id: P1_TRUSTED_OWNED_OUTPUT_ROOT_AND_CLEAN_ROOM_ADAPTER_ENGINEERING_ROUTE_V1
+status: AUTHORIZED_ACTIVE
+execution_authority: FOUNDER_PHASE_GATE_DELEGATED
+title: Harness-Owned Output Root and B0 Direct Model Adapter
+
+objective: >-
+  Build one cooperative-local harness-owned output-root boundary and one
+  provider-neutral offline B0 Direct Model compatibility adapter that implement
+  the accepted P1 contracts, use only a Quality-frozen prerecorded response,
+  produce independently evaluated RunRecords, support exact stable replay and
+  source-unchanged rollback, and reject every declared output-root boundary
+  violation before any Task-owned mkdir or write.
+
+why_now:
+  - Strict P1 completion is 4/8 (50%) and B0/B1/B2 compatibility adapters remain missing.
+  - The Founder authorized a new three-Task clean-room architecture route rooted at the current clean canonical baseline.
+  - Task 1 establishes the narrow harness-owned output-root primitive required by the later B1 and B2 components without creating a general sandbox or security platform.
+  - Task 1 is a new route Task and does not recover, correct, continue or reuse P1-083 engineering assets.
+
+task_kind: EVALUATION_FOUNDATION_ENGINEERING
+risk_level: high
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+founder_decision_required: false
+
+baseline_ref:
+  path: docs/aios/EVALUATION_PROTOCOL.md
+  version: "1.1"
+  sha256: da029143561fbb3c213d4a358b25e085542c6cd26ae8150a53cbb5998177eed8
+
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-trusted-owned-output-root-route-proposal-phXqZ5/FOUNDER_P1_TRUSTED_OWNED_OUTPUT_ROOT_AND_CLEAN_ROOM_ADAPTER_ENGINEERING_ROUTE_V1.md
+  sha256: 41b43bbc587d8fefc42f826f1b801106b5ebb37a8e73fe5c1b72599cdb2b8e6a
+  byte_length: 9481
+  authorization_token: AUTHORIZE_P1_TRUSTED_OWNED_OUTPUT_ROOT_AND_CLEAN_ROOM_ADAPTER_ENGINEERING_ROUTE_V1
+
+source_identity:
+  canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
+  route_activation_parent_commit: 0a4d9d69cfae4adca0bc8049a67074e399eca1b1
+  route_activation_parent_tree: e0f524ec65f075aa9ceb157871f3965136931eaf
+  task_branch: codex/p1-086-owned-output-root-b0
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-086-owned-output-root-b0
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-086-owned-output-root-b0-7ird640F
+
+budget:
+  engineering_hours: 10
+  calendar_days: 3
+  implementation_iterations: 2
+  candidates: 1
+
+anti_loop_budget:
+  contract_corrections: 0
+  quality_freezes: 1
+  quality_refreezes: 0
+  code_only_repairs: 1
+  exact_candidates: 1
+  final_review_cycles: 1
+  post_candidate_repairs: 0
+  successor_replacement_correction_normalization_closure_feasibility_or_remediation_tasks: 0
+  accounting_rule: >-
+    Iteration 1 contains the single Quality freeze, initial Worker implementation
+    and targeted test. Iteration 2 is optional and contains only one in-scope
+    code-only Worker repair plus targeted retest. Quality-frozen bytes cannot
+    change after Worker implementation begins. No Contract correction, Quality
+    refreeze, second repair, second candidate, post-candidate repair or second
+    final review cycle is allowed.
+
+roles:
+  owner: P1_086_ENGINEERING_MANAGER_OWNER
+  worker: P1_086_OWNED_ROOT_B0_WORKER
+  independent_reviewers:
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent
+
+owner_role: P1_086_ENGINEERING_MANAGER_OWNER
+worker_role: P1_086_OWNED_ROOT_B0_WORKER
+
+role_separation:
+  quality_freeze_actor: P1_086_QUALITY_FREEZE_ACTOR
+  worker_actor: P1_086_OWNED_ROOT_B0_WORKER
+  run_a_actor: P1_086_OWNED_ROOT_B0_WORKER
+  run_b_actor: P1_086_FRESH_NON_IMPLEMENTER_RUN_B_ACTOR
+  final_reviewers_must_be_fresh_and_not_worker: true
+  quality_owns:
+    - executable_task_card_and_input_manifest
+    - prerecorded_offline_response
+    - acceptance_oracle
+    - negative_control_matrix
+    - stable_projection_rules
+    - freeze_manifest
+  worker_owns_only:
+    - owned_output_root_manager
+    - B0_adapter
+    - runtime_harness
+    - stable_projection_implementation
+  worker_may_modify_quality_frozen_bytes: false
+  adapter_self_acceptance_allowed: false
+  implementer_self_acceptance_allowed: false
+
+dependencies:
+  - AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+  - AIOS-P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK
+  - AIOS-P1-071_STABLE_REPLAY_PROJECTION_AND_EXACT_HARNESS_ADMISSION_VERTICAL_SLICE
+  - AIOS-P1-070_OFFLINE_SCHEDULED_MATRIX_VTSR_AND_FALSE_SUCCESS_EXPERIMENT
+
+accepted_read_only_inputs:
+  - path: docs/aios/schemas/task-spec.schema.json
+    sha256: ec226d14172081fb52fbbdc756b4a205155f0b584326436578ad13af4f2b8372
+    byte_length: 5989
+  - path: docs/aios/schemas/environment-snapshot.schema.json
+    sha256: 3a38bed470ff59d843b3e6450f5999210d57088bed7bdf13dbd88768dae368f1
+    byte_length: 5214
+  - path: docs/aios/schemas/system-configuration.schema.json
+    sha256: fe9cc8a78f96cef885a9ba9ce6644ebfe176d6f21161005006d591a20a3dc95d
+    byte_length: 1278
+  - path: docs/aios/schemas/run-record.schema.json
+    sha256: a139b73a7482fed64e6d24f8ca391b03963eef57db2b48d0c4c6776ff652bc56
+    byte_length: 3613
+  - path: docs/aios/BASELINE_ADAPTER_CONTRACT.md
+    sha256: 27a213589699d96a5f41f4b0e293718257c6186720e55b74c3ee29dd9cf5c03c
+    byte_length: 5323
+  - path: evaluation-harness/evaluator/schema-validator.mjs
+    sha256: 5d944ab5abfab7bcd1619c385727c99f38cf6e7deacee881a768573d2e09f741
+    byte_length: 5829
+  - path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/task-spec.json
+    sha256: 25de6b6f330e09c076521b42a88d60712637e0fc7de7ab1cfe1f9f5d4c223321
+    byte_length: 2960
+  - path: evaluation-harness/datasets/p1-representative-task-dataset-v1/shared/baseline-context.json
+    sha256: 64fab9efd47c193af94e3f7baee67072a32497d35c9dc1aee8a804bf32269cb9
+    byte_length: 377
+  - path: evaluation-harness/datasets/p1-representative-task-dataset-v1/shared/response-format.json
+    sha256: 6b8ec1d2a6a288e5b908716714589dae963739f2b35a0a29237ff4cbc1355c4b
+    byte_length: 306
+  - path: evaluation-harness/fixtures/offline-b0-complete-evidence-v1/environment-snapshot.json
+    sha256: f6aa054ef9b03712465f4442213f72af5dff97da7dc2977e612e18617fa8fc80
+    byte_length: 1782
+
+historical_isolation:
+  p1_083_allowed_reads:
+    - canonical Truth terminal facts
+    - terminal receipt identity
+    - Security final review finding identity
+  p1_083_forbidden_reads_or_reuse:
+    - source
+    - fixtures
+    - candidate
+    - tests
+    - diff
+    - Quality implementation
+    - failed engineering assets
+  other_failed_task_engineering_assets_allowed_as_design_or_implementation_source: false
+  accepted_canonical_assets_and_current_protocol_allowed: true
+
+allowlisted_paths:
+  - Makefile
+  - docs/PROJECT_CODE_MAP.md
+  - docs/aios/tasks/P1-086_HARNESS_OWNED_OUTPUT_ROOT_AND_B0_ADAPTER.yaml
+  - docs/aios/truth/project_state.yaml
+  - evaluation-harness/adapters/owned-output-root-b0-v1/**
+  - evaluation-harness/evaluator/owned-output-root-b0-v1/**
+  - evaluation-harness/fixtures/owned-output-root-b0-v1/**
+  - evaluation-harness/harness/owned-output-root-b0-v1/**
+  - evaluation-harness/replay/owned-output-root-b0-v1/**
+  - scripts/verify-p1-086-owned-output-root-b0.sh
+
+write_scope:
+  integration:
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+    - docs/aios/tasks/P1-086_HARNESS_OWNED_OUTPUT_ROOT_AND_B0_ADAPTER.yaml
+    - docs/aios/truth/project_state.yaml
+    - scripts/verify-p1-086-owned-output-root-b0.sh
+  quality:
+    - evaluation-harness/evaluator/owned-output-root-b0-v1/**
+    - evaluation-harness/fixtures/owned-output-root-b0-v1/**
+  worker:
+    - evaluation-harness/adapters/owned-output-root-b0-v1/**
+    - evaluation-harness/harness/owned-output-root-b0-v1/**
+    - evaluation-harness/replay/owned-output-root-b0-v1/**
+
+quality_freeze:
+  exact_freezes: 1
+  refreeze_allowed: false
+  must_precede_worker_source_write: true
+  frozen_repository_roots:
+    - evaluation-harness/evaluator/owned-output-root-b0-v1/**
+    - evaluation-harness/fixtures/owned-output-root-b0-v1/**
+  must_bind:
+    - exact accepted input path, SHA-256, byte length and regular-file type
+    - exact prerecorded response path, SHA-256, byte length and regular-file type
+    - expected positive RunRecord and independent evaluator semantics
+    - required stable projection and declared raw-difference fields
+    - complete negative-control identifiers and expected reason codes
+    - rejection-before-mkdir-or-write and zero non-owned residual assertions
+    - exact frozen Quality file manifest
+
+adapter_contract:
+  public_interface: run(TaskSpec, EnvironmentSnapshot, SystemConfiguration, repetition_id) -> RunRecord
+  adapter_id: B0
+  enabled_tools: []
+  loop_limit: 1
+  input_response: QUALITY_FROZEN_PRERECORDED_OFFLINE_RESPONSE_ONLY
+  provider_call_allowed: false
+  child_process_allowed: false
+  source_materialization_allowed: false
+  patch_execution_allowed: false
+  adapter_success_or_evaluator_verdict_fields_allowed: false
+  independent_evaluator_required: true
+
+owned_output_root_contract:
+  scope: COOPERATIVE_LOCAL_CURRENT_OFFLINE_ADAPTER_HARNESS_ONLY
+  caller_selectable_arbitrary_output_path_allowed: false
+  harness_internal_trusted_anchor_required: true
+  pre_effect_validation:
+    - trusted anchor exists as a real non-symlink directory
+    - every existing anchor and parent component is lstat-checked and contains no symlink
+    - anchor realpath exactly equals its normalized lexical path
+    - selected parent exists and is a real non-symlink directory
+    - proposed root is an immediate normalized child of the validated parent
+    - proposed root is lexically and by existing-parent realpath contained in the trusted anchor
+    - proposed root does not already exist as a file, directory, symlink or dangling symlink
+    - no Task-owned directory or file has been created or written
+  atomic_creation:
+    primitive: exclusive unique directory creation under the validated parent
+    root_mode: "0700"
+    ownership_nonce_file_mode: "0600"
+    post_create_binding:
+      - exact normalized root path
+      - root realpath
+      - device
+      - inode
+      - mode
+      - uid
+      - ownership nonce
+      - ownership marker device and inode
+  write_boundary:
+    - every relative artifact path must be normalized, non-empty and remain below the bound root
+    - all existing parent components must remain real directories with the originally bound root identity
+    - symlink, hardlink, special file, path replacement or containment drift fails closed
+    - files are created exclusively and each created path identity is added to an ownership ledger
+  cleanup_boundary:
+    - revalidate exact root path, realpath, device, inode, mode, uid and ownership nonce
+    - revalidate every owned file identity and reject any unowned or replaced entry
+    - remove only paths recorded in the current run ownership ledger
+    - remove the root only while its exact bound identity remains unchanged
+    - identity drift or unexpected entry fails closed and leaves the path untouched
+
+execution_and_evaluation:
+  cross_contract_preflight:
+    - TaskSpec schema and exact task identity
+    - EnvironmentSnapshot schema and TaskSpec reference equality
+    - SystemConfiguration schema, adapter B0, enabled_tools empty and loop_limit one
+    - RunRecord schema and exact task/environment/configuration/repetition bindings
+  positive_runs:
+    count: 2
+    fresh_output_root_per_run: true
+    distinct_repetition_id: true
+    independent_second_actor: true
+  stable_projection:
+    exact_byte_equality_required: true
+    raw_invocation_identity_differences_retained: true
+  rollback:
+    source_not_materialized_or_mutated: true
+    output_cleanup_subject_to_owned_identity_revalidation: true
+
+mandatory_negative_matrix:
+  isolated_fixture_per_case: true
+  cases:
+    - direct_symlink
+    - ancestor_symlink
+    - dangling_symlink
+    - preexisting_directory
+    - preexisting_file
+    - missing_parent
+    - replaced_parent
+    - lexical_escape
+    - realpath_escape
+    - root_type_drift
+    - root_device_drift
+    - root_inode_drift
+    - root_mode_drift
+    - ownership_nonce_drift
+    - identity_replacement_before_cleanup
+  global_assertions:
+    - every case returns its predeclared reason code
+    - cases rejected at preflight create no Task-owned directory or file
+    - no rejected case leaves a non-owned residual fixture
+    - no case produces an adapter success field or evaluator verdict from the adapter
+    - false accepts equal zero
+
+acceptance_criteria:
+  - All accepted input identities and all four schema contracts pass exact cross-contract preflight.
+  - The public adapter implements the exact run(TaskSpec, EnvironmentSnapshot, SystemConfiguration, repetition_id) to RunRecord interface with B0 enabled_tools empty and loop_limit one.
+  - The adapter consumes only the Quality-frozen prerecorded response, launches no Provider, network, shell or child process, and emits no success or evaluator verdict.
+  - The harness creates a unique owned output root without caller-selected arbitrary paths and performs all required anchor, parent, type, containment, symlink and existing-path checks before the first Task-owned mkdir or write.
+  - Every created root is bound to exact path, realpath, device, inode, mode, uid and ownership nonce identities; cleanup removes only exact paths owned by the current run after identity revalidation.
+  - Two fresh positive runs independently evaluate PASS, retain declared raw invocation differences and have byte-identical stable projections.
+  - Source remains unmaterialized and unchanged, rollback and owned cleanup are exact, and no non-owned residual fixture remains.
+  - Every mandatory isolated negative case returns the expected rejection before forbidden effect and the matrix reports zero false accepts.
+  - Targeted verification and the exact formal Task suite PASS on the frozen candidate with six external effects false.
+  - Fresh CTO, Security and Quality final reviewers return TARGET_VERDICT PASS for the same exact candidate bytes.
+  - The reviewed tree is integrated exactly to local canonical main and the one allowed canonical make verify invocation PASSes.
+
+required_evidence:
+  - Quality freeze manifest binding every frozen evaluator and fixture byte
+  - exact Task Contract and external Task authority identities
+  - targeted verification receipt
+  - two raw fresh positive run bundles
+  - independent evaluator outputs and exact stable projections
+  - isolated negative-matrix receipt with expected reason codes and false_accepts=0
+  - mkdir/write pre-effect counters and zero non-owned residual inventory
+  - source identity and source-unchanged rollback receipt
+  - owned-root create, write and cleanup identity ledger
+  - exact candidate commit, tree and diff/hash manifest
+  - fresh CTO, Security and Quality final review records
+  - reviewed-tree equality and canonical integration receipt
+  - one canonical make verify receipt
+
+forbidden_actions:
+  - Read, restore, copy, modify or reuse P1-083 or another failed Task source, fixture, candidate, test, diff, Quality implementation or failed engineering asset.
+  - Modify authority or safety validators, Strategic Constitution, Master Execution Protocol, Founder Delegation Policy, Evaluation Protocol, P1 Objective or P1 Exit Gate.
+  - Permit caller-selected arbitrary output paths or create any Task-owned directory or file before the complete pre-effect path boundary passes.
+  - Follow symlinks, overwrite a pre-existing path, delete an unowned or identity-drifted path, or claim hostile-principal or strong-isolation protection.
+  - Use network, Provider, Secret, remote, production or public effects.
+  - Enter P2 or P3, push or modify a remote, or claim model quality, task success, VTSR, benchmark, P1 Exit or production readiness.
+  - Create a Contract correction, Quality refreeze, second code repair, second candidate, second final review cycle, successor, replacement, correction, normalization, closure, feasibility or remediation Task.
+
+stop_conditions:
+  - Baseline, Goal, Founder packet, Contract, authority, accepted input identity or clean-state drift.
+  - Any need to read or reuse a failed Task engineering asset.
+  - Any need to modify an authority or safety validator, P1 Objective or P1 Exit Gate.
+  - The only allowed code-only repair is exhausted without targeted and formal PASS.
+  - A second repair, second candidate, second final review cycle or scope expansion would be required.
+  - Any fresh final Reviewer returns TARGET_VERDICT NON_PASS.
+  - Reviewed tree differs from integrated tree or canonical make verify returns NONPASS.
+  - Evidence damage, external side effect, permission expansion or critical residual-risk acceptance is required.
+
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+
+claim_boundary: >-
+  ONE_COOPERATIVE_LOCAL_HARNESS_OWNED_OUTPUT_ROOT_BOUNDARY_AND_PROVIDER_NEUTRAL
+  OFFLINE_B0_DIRECT_MODEL_ADAPTER_COMPONENT_ONLY_NO_MODEL_QUALITY_REAL_TASK
+  SUCCESS_VTSR_BENCHMARK_COMBINED_B0_B1_B2_P1_EXIT_P2_P3_PRODUCTION_PUBLIC
+  HOSTILE_PRINCIPAL_OR_STRONG_ISOLATION_CLAIM

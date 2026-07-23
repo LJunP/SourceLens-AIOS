@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-23T08:04:25Z"
-verification_scope: P1_078_ACTIVE_ITERATION_1_NOT_STARTED
+last_verified_at: "2026-07-23T09:35:42Z"
+verification_scope: P1_078_TERMINAL_NON_PASS_P1_ENGINEERING_PERMANENTLY_STOPPED
 
 authority:
   founder: Human Founder
@@ -37,16 +37,17 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: AIOS-P1-078_ENGINEERING_FIRST_STATE_ROLLBACK_OBSERVABLE_TRACE_VERTICAL_SLICE
+  current_task_authority: NONE
   note: >-
-    The Founder-approved long-term Goal and P1 remain ACTIVE. P1-076 terminal
-    facts and zero capability credit remain unchanged. The Founder authorized one
-    pre-activation accounting-only correction for P1-078; the corrected exact
-    Contract received fresh CTO, Security and Quality PASS on identical bytes.
-    P1-078 is now the one ACTIVE Task on its unique branch and worktree. Strict P1
-    completion remains 4/8 (50%) until the exact Task Gate passes; the next action
-    is Iteration 1 direct host probing, one Quality Freeze and Worker engineering
-    without another routine Founder decision.
+    The Founder-approved long-term Goal remains ACTIVE. P1-078 consumed both
+    implementation iterations and its only same-Task Worker repair. The final
+    targeted retest ended NON_PASS before paired evidence and frozen verifier or
+    projector execution because Array.map passed its numeric index to
+    fs.realpathSync as the options argument. No candidate, final reviews,
+    integration, canonical full make verify or capability credit occurred.
+    Under the exact Contract and Founder packet, P1 engineering and all later
+    Observable Trace attempts are permanently stopped. Strict P1 completion
+    remains 4/8 (50%); the only next decision is a Founder Phase Gate choice.
 
 project:
   name: SourceLens AIOS
@@ -58,7 +59,8 @@ project:
   p1_entry_status: AUTHORIZED
   phase_execution_status: EXECUTING
   p1_execution_status: EXECUTING
-  current_route_execution_status: P1_078_ACTIVE_ITERATION_1_NOT_STARTED
+  p1_engineering_status: PERMANENTLY_STOPPED_AFTER_P1_078_TERMINAL_NON_PASS
+  current_route_execution_status: TERMINAL_P1_078_NON_PASS_P1_079_INELIGIBLE
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -746,10 +748,10 @@ historical_p1_076_phase_route:
 current_phase_route:
   route_id: P1_FORMAL_PHASE_ARCHITECTURE_REVISION_ENGINEERING_FIRST_TRACE_AND_OFFLINE_ADAPTER_ROUTE_V1
   status: ACTIVE
-  authority_object_status: FOUNDER_PHASE_ENTRY_ACTIVE_PREACTIVATION_CORRECTION_CONSUMED
-  execution_status: ACTIVE_TASK_1_ITERATION_1_NOT_STARTED
-  founder_phase_route_decision_required: false
-  scheduling_status: ACTIVE_TASK_1
+  authority_object_status: FOUNDER_PHASE_ENTRY_AUTHORITY_RETAINED_TERMINAL_EXECUTION_NO_SCHEDULING
+  execution_status: TERMINAL_TASK_1_NON_PASS_TASK_2_INELIGIBLE_P1_ENGINEERING_PERMANENTLY_STOPPED
+  founder_phase_route_decision_required: true
+  scheduling_status: NO_ELIGIBLE_TASK_P1_PERMANENTLY_STOPPED
   phase: P1
   phase_entry_status: AUTHORIZED
   authorization_token: AUTHORIZE_P1_FORMAL_PHASE_ARCHITECTURE_REVISION_ENGINEERING_FIRST_TRACE_AND_OFFLINE_ADAPTER_ROUTE_V1
@@ -808,7 +810,7 @@ current_phase_route:
     version: "1.1"
     changed: false
     strict_status_at_activation: 4_COMPLETE_1_PARTIAL_3_NOT_COMPLETE_50_PERCENT
-    status: UNCHANGED_STRICT_50_PERCENT_ROUTE_ACTIVATION_NO_CREDIT
+    status: UNCHANGED_STRICT_50_PERCENT_P1_078_TERMINAL_NO_CREDIT
   envelope:
     max_engineering_tasks: 2
     max_engineering_hours: 40
@@ -897,6 +899,10 @@ current_phase_route:
       head: 35e61f136517b4d2bf4c908b2ba4762cf509deed
       branch: codex/p1-076-trusted-outer-verifier
       status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-078-state-rollback-observable-trace
+      head: 4bf00dab5aa9527b0cfcbc212ac1a88fcb094758
+      branch: codex/p1-078-state-rollback-observable-trace
+      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
   accepted_inputs:
     p1_035:
       task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
@@ -935,7 +941,7 @@ current_phase_route:
   first_task:
     task_id: AIOS-P1-078_ENGINEERING_FIRST_STATE_ROLLBACK_OBSERVABLE_TRACE_VERTICAL_SLICE
     task_slot: 1
-    status: ACTIVE
+    status: TERMINAL_TARGETED_RETEST_NON_PASS
     contract_path: docs/aios/tasks/P1-078_ENGINEERING_FIRST_STATE_ROLLBACK_OBSERVABLE_TRACE_VERTICAL_SLICE.yaml
     contract_sha256: ae5542dd5836da3146c1ca77049fd4fb03a8961ca3ce889153eda0857de4320d
     max_engineering_hours: 24
@@ -954,7 +960,7 @@ current_phase_route:
   projected_second_task:
     task_id: AIOS-P1-079_CLEAN_ROOM_OFFLINE_B0_B1_B2_SHARED_HARNESS_ADAPTER_CONFORMANCE
     task_slot: 2
-    status: CONDITIONALLY_ELIGIBLE_AFTER_P1_078_ACCEPTED_INTEGRATED_VERIFY_PASS
+    status: INELIGIBLE_AFTER_P1_078_TERMINAL_NON_PASS
     contract_path: null
     max_engineering_hours: 16
     max_calendar_days: 5
@@ -968,22 +974,23 @@ current_phase_route:
   route_execution_accounting:
     maximum_engineering_tasks: 2
     task_slots_consumed: 1
-    active_task_id: AIOS-P1-078_ENGINEERING_FIRST_STATE_ROLLBACK_OBSERVABLE_TRACE_VERTICAL_SLICE
+    active_task_id: null
     scheduled_task_ids:
       - AIOS-P1-078_ENGINEERING_FIRST_STATE_ROLLBACK_OBSERVABLE_TRACE_VERTICAL_SLICE
-    terminal_task_ids: []
+    terminal_task_ids:
+      - AIOS-P1-078_ENGINEERING_FIRST_STATE_ROLLBACK_OBSERVABLE_TRACE_VERTICAL_SLICE
     accepted_task_ids: []
     maximum_engineering_hours: 40
     engineering_hours_consumed_before_task_1: 0
     preactivation_contract_corrections_used: 1
-    status: ACTIVE_TASK_1_ONE_OF_TWO_TASK_SLOTS_CONSUMED
+    status: TERMINAL_1_OF_2_TASKS_TASK_1_NON_PASS_TASK_2_INELIGIBLE
   observable_trace_attempt_accounting:
     historical_terminal_attempts: 3
     authorized_next_attempt_ordinal: 4
-    current_attempt_status: ACTIVE_ITERATION_1_NOT_STARTED
+    current_attempt_status: TERMINAL_NON_PASS_ITERATION_2_NO_LATER_ATTEMPTS_ALLOWED
     reset_delete_reorder_or_describe_as_first_attempt_allowed: false
-  claim_boundary: P1_078_TASK_ACTIVE_AFTER_ONE_ACCOUNTING_ONLY_PREACTIVATION_CORRECTION_ZERO_ENGINEERING_OR_CAPABILITY_CREDIT_STRICT_P1_REMAINS_50_PERCENT
-  next_eligible_action: EXECUTE_P1_078_ITERATION_1_QUALITY_PROBES_FREEZE_AND_WORKER
+  claim_boundary: P1_078_REAL_LOCAL_ENGINEERING_AND_TWO_TARGETED_NON_PASS_RESULTS_PRESERVED_NO_CANDIDATE_REVIEW_INTEGRATION_CAPABILITY_OR_PROGRESS_CREDIT_P1_ENGINEERING_PERMANENTLY_STOPPED_STRICT_P1_REMAINS_50_PERCENT
+  next_eligible_action: FOUNDER_STOP_P1_OR_FORMAL_GOAL_AND_CONSTITUTION_REPLACEMENT_DECISION
 phase_delegation:
   status: ACTIVE
   model: PHASE_LEVEL_FOUNDER_DELEGATION
@@ -1771,52 +1778,38 @@ p0_baseline:
   online_verification_status: ARCHIVED_NOT_ON_ACTIVE_PATH
 
 active_work:
-  current_task: AIOS-P1-078_ENGINEERING_FIRST_STATE_ROLLBACK_OBSERVABLE_TRACE_VERTICAL_SLICE
-  current_task_status: AUTHORIZED_ACTIVE
+  current_task: NONE
+  current_task_status: NONE
   current_task_contract:
-    path: docs/aios/tasks/P1-078_ENGINEERING_FIRST_STATE_ROLLBACK_OBSERVABLE_TRACE_VERTICAL_SLICE.yaml
-    sha256: ae5542dd5836da3146c1ca77049fd4fb03a8961ca3ce889153eda0857de4320d
-    byte_length: 23009
-  current_task_contract_sha256: ae5542dd5836da3146c1ca77049fd4fb03a8961ca3ce889153eda0857de4320d
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-078-state-rollback-observable-trace-lnN2b9CP/authority/TASK_AUTHORITY.yaml
-  current_execution_authorization_sha256: bc73407e96076cfec4246030950ec2897bc2a581c4e8d87d62ae386d50c856c3
+    path: null
+    sha256: null
+    byte_length: null
+  current_task_contract_sha256: null
+  current_execution_authorization: null
+  current_execution_authorization_sha256: null
   authority_record:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-078-state-rollback-observable-trace-lnN2b9CP/authority/TASK_AUTHORITY.yaml
-    sha256: bc73407e96076cfec4246030950ec2897bc2a581c4e8d87d62ae386d50c856c3
-    byte_length: 3766
-  execution_nonce: 6b9acb4e7b43a193fd2aa8ef107f07a1566b6cf851025da381dbc3f7e58c5ece
-  execution_nonce_status: ACTIVE
-  authorization_id: 4b2e492b59fb06a0d0b5f3ba678442b57d87e671f7b0e3716191fbb0bf4321a4
-  activation_parent_commit: 9a4f6543a6c49b1e7b7d2af1fe5f521b21511c66
-  activation_parent_tree: 22e71d86c7917ecef98fb75c7a81b92451526fa9
-  task_resource_state: CREATED_ACTIVE
-  task_branch: codex/p1-078-state-rollback-observable-trace
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-078-state-rollback-observable-trace
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-078-state-rollback-observable-trace-lnN2b9CP
-  allowlisted_paths:
-    - Makefile
-    - docs/PROJECT_CODE_MAP.md
-    - docs/aios/tasks/P1-078_ENGINEERING_FIRST_STATE_ROLLBACK_OBSERVABLE_TRACE_VERTICAL_SLICE.yaml
-    - docs/aios/truth/project_state.yaml
-    - evaluation-harness/contracts/state-rollback-observable-trace-v1/**
-    - evaluation-harness/evaluator/state-rollback-observable-trace-v1/**
-    - evaluation-harness/fixtures/state-rollback-observable-trace-v1/**
-    - evaluation-harness/harness/state-rollback-observable-trace-v1/**
-    - evaluation-harness/recording/state-rollback-observable-trace-v1/**
-    - evaluation-harness/replay/state-rollback-observable-trace-v1/**
-    - scripts/verify-p1-078-state-rollback-observable-trace.sh
+    path: null
+    sha256: null
+    byte_length: null
+  execution_nonce: null
+  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
+  authorization_id: null
+  activation_parent_commit: null
+  activation_parent_tree: null
+  task_resource_state: NONE_PHASE_ACTIVE
+  task_branch: null
+  task_worktree: null
+  execution_evidence_root: null
+  allowlisted_paths: []
   budget:
-    engineering_hours: 24
-    calendar_days: 7
-    implementation_iterations: 2
-    candidates: 1
+    engineering_hours: null
+    calendar_days: null
+    implementation_iterations: null
+    candidates: null
   roles:
-    owner: P1_078_ENGINEERING_MANAGER_OWNER
-    worker: P1_078_TRACE_ENGINEERING_WORKER
-    independent_reviewers:
-      - CTO Agent
-      - Security Agent
-      - Quality and Evaluation Agent
+    owner: null
+    worker: null
+    independent_reviewers: []
   external_effects:
     network: false
     provider: false
@@ -1825,15 +1818,15 @@ active_work:
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-076-trusted-outer-verifier-qAn5RqM9/terminal/P1_PHASE_GATE_FORMAL_PHASE_ARCHITECTURE_REVISION_ENGINEERING_FIRST_ROUTE_V1.md
-  founder_reserved_authorization_sha256: 0dfe188d13448b88366a7dc98ca05c1603d763c52ddbd11dfdd7c91aba14f2a2
+  founder_reserved_authorization: null
+  founder_reserved_authorization_sha256: null
   founder_decision_required: false
   founder_decision_required_scope: NONE_WITHIN_ACTIVE_PHASE_ENVELOPE
   escalation_reason: null
   user_action_required: NONE
-  phase_route_decision_required: false
-  phase_route_user_action_required: NONE
-  next_eligible_action: EXECUTE_P1_078_ITERATION_1_QUALITY_PROBES_FREEZE_AND_WORKER
+  phase_route_decision_required: true
+  phase_route_user_action_required: FOUNDER_PHASE_GATE_DECISION
+  next_eligible_action: FOUNDER_STOP_P1_OR_FORMAL_GOAL_AND_CONSTITUTION_REPLACEMENT_DECISION
 superseded_pre_delegation_authorizations:
   aios_p1_009:
     task_id: AIOS-P1-009_ENVIRONMENT_SNAPSHOT_REPRODUCIBILITY
@@ -1850,6 +1843,62 @@ superseded_pre_delegation_authorizations:
     note: The engineering objective may be selected independently by Master, but these pre-delegation bytes require a routine per-Task Founder Gate and cannot be activated under the current authority model.
 
 task_history:
+  aios_p1_078:
+    task_id: AIOS-P1-078_ENGINEERING_FIRST_STATE_ROLLBACK_OBSERVABLE_TRACE_VERTICAL_SLICE
+    route_id: P1_FORMAL_PHASE_ARCHITECTURE_REVISION_ENGINEERING_FIRST_TRACE_AND_OFFLINE_ADAPTER_ROUTE_V1
+    status: TERMINAL_TARGETED_RETEST_NON_PASS_P1_ENGINEERING_PERMANENTLY_STOPPED
+    classification: REAL_STATE_ROLLBACK_OBSERVABLE_TRACE_ENGINEERING_STOPPED_BY_FINAL_ALLOWED_WORKER_RETEST_DEFECT
+    contract: docs/aios/tasks/P1-078_ENGINEERING_FIRST_STATE_ROLLBACK_OBSERVABLE_TRACE_VERTICAL_SLICE.yaml
+    task_contract_sha256: ae5542dd5836da3146c1ca77049fd4fb03a8961ca3ce889153eda0857de4320d
+    task_contract_byte_length: 23009
+    authority_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-078-state-rollback-observable-trace-lnN2b9CP/authority/TASK_AUTHORITY.yaml
+    authority_record_sha256: bc73407e96076cfec4246030950ec2897bc2a581c4e8d87d62ae386d50c856c3
+    authority_record_byte_length: 3766
+    activation_commit: e1bad169b0d9d4f060acc82b6b26bb7b019e9a01
+    activation_tree: 33d5f467788a1c90a0d2566183e17ce551a64bf9
+    task_slot: 1
+    implementation_iterations_used: 2
+    same_task_worker_repairs_used: 1
+    quality_freezes_used: 1
+    quality_freeze_manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-078-state-rollback-observable-trace-lnN2b9CP/iteration-1-quality-K8v4J2/quality-freeze-F7n3C6/QUALITY_FREEZE_MANIFEST.json
+    quality_freeze_manifest_sha256: 3a463c6b6d2129b2df944bec33fb34bf2bcae8e86ed2f49d49785672834b7824
+    quality_freeze_manifest_byte_length: 5275
+    iteration_1_targeted_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-078-state-rollback-observable-trace-lnN2b9CP/iteration-1-worker-targeted-jVfBwcFbyo_D/TARGETED_TEST_RECEIPT.json
+    iteration_1_targeted_receipt_sha256: 206c2c8b0335f8694a84196efe503d85eb439b20c76c5652d2fe210f11a826ea
+    iteration_1_targeted_receipt_byte_length: 19894
+    iteration_2_targeted_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-078-state-rollback-observable-trace-lnN2b9CP/iteration-2-worker-targeted-a-7FzW1lQ3Qn/TARGETED_TEST_RECEIPT.json
+    iteration_2_targeted_receipt_sha256: 2a8b4fd8d52f2da228741b1136e3439fddbbe9876eaaa0df5eb1fb0f69a1ea76
+    iteration_2_targeted_receipt_byte_length: 16758
+    terminal_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-078-state-rollback-observable-trace-lnN2b9CP/terminal/P1_078_TERMINAL_NON_PASS_RECEIPT.json
+    terminal_record_sha256: 7c87dde0cf0493c63c0d4acd335af319b2b98148e149fa8c99fca306d888d31c
+    terminal_record_byte_length: 6827
+    terminal_rejected_snapshot_commit: 4bf00dab5aa9527b0cfcbc212ac1a88fcb094758
+    terminal_rejected_snapshot_tree: d8b007bab73ec9f7ac84e412dc982bb712b77c67
+    terminal_evidence_tag: evidence/p1-078-terminal-nonpass-4bf00da
+    exact_root_cause: ARRAY_MAP_PASSED_NUMERIC_INDEX_TO_FS_REALPATHSYNC_OPTIONS
+    final_frozen_verifier_executed: false
+    final_frozen_projector_executed: false
+    actual_run_a_started: false
+    actual_run_b_started: false
+    candidate_count: 0
+    final_candidate_reviews: NOT_INVOKED_NO_CANDIDATE
+    candidate_integrated: false
+    canonical_full_make_verify: NOT_INVOKED_NO_CANDIDATE_OR_INTEGRATION
+    accepted_capability: false
+    capability_credit: 0
+    strict_p1_progress_before: 4_OF_8_50_PERCENT
+    strict_p1_progress_after: 4_OF_8_50_PERCENT
+    p1_079_entry: INELIGIBLE_NOT_ACTIVATED
+    later_observable_trace_attempts_allowed: false
+    retry_successor_replacement_normalization_closure_correction_or_remediation_allowed: false
+    external_effects:
+      network: false
+      provider: false
+      secret: false
+      remote: false
+      production: false
+      public: false
+    claim_boundary: EXACT_TERMINAL_REAL_ENGINEERING_AND_TARGETED_TEST_EVIDENCE_ONLY_NO_CANDIDATE_RUN_AB_REVIEW_INTEGRATION_CAPABILITY_PROGRESS_P1_079_P2_P3_PRODUCTION_OR_PUBLIC_CLAIM
   aios_p1_076:
     task_id: AIOS-P1-076_TRUSTED_OUTER_VERIFIER_AND_PHYSICAL_ROLLBACK_ATTESTATION_VERTICAL_SLICE
     route_id: P1_TRUSTED_OUTER_VERIFIER_AND_OFFLINE_ADAPTER_ENGINEERING_ROUTE_V1
@@ -3783,9 +3832,9 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: P1_FORMAL_PHASE_ARCHITECTURE_REVISION_ENGINEERING_FIRST_TRACE_AND_OFFLINE_ADAPTER_ROUTE_V1_ACTIVE
-  current_task_claim: P1_078_ACTIVE_ITERATION_1_NOT_STARTED_ZERO_CAPABILITY_CREDIT
-  real_engineering_progress: P1_070_ACCEPTED_EVALUATOR_RISK_GATE_COMPLETE_STRICT_P1_COMPLETION_50_PERCENT_P1_078_ACTIVE_NOT_YET_CREDITED
+  current_route_claim: P1_FORMAL_PHASE_ARCHITECTURE_REVISION_ROUTE_TERMINAL_P1_078_NON_PASS_P1_079_INELIGIBLE
+  current_task_claim: NONE_P1_078_TERMINAL_NON_PASS_ZERO_CAPABILITY_CREDIT
+  real_engineering_progress: P1_070_REMAINS_LAST_ACCEPTED_GATE_STRICT_P1_COMPLETION_50_PERCENT_P1_078_REAL_ENGINEERING_TERMINAL_NOT_CREDITED
   product_capability_changed: false
   phase_local_allowed:
     - local evaluation foundation engineering under an exact Task Contract
@@ -3848,17 +3897,17 @@ phase_execution_claim:
     - canonical main advance outside an accepted task gate
 
 claim_boundary:
-  current_phase_route: P1_FORMAL_PHASE_ARCHITECTURE_REVISION_ENGINEERING_FIRST_TRACE_AND_OFFLINE_ADAPTER_ROUTE_V1_ACTIVE
-  current_task: AIOS-P1-078_ENGINEERING_FIRST_STATE_ROLLBACK_OBSERVABLE_TRACE_VERTICAL_SLICE
-  next_eligible_action: EXECUTE_P1_078_ITERATION_1_QUALITY_PROBES_FREEZE_AND_WORKER
-  real_engineering_progress: P1_070_MASTER_TASK_GATE_ACCEPTED_EVALUATOR_RISK_GATE_COMPLETE_STRICT_P1_COMPLETION_50_PERCENT_P1_078_ACTIVE_NOT_YET_CREDITED
+  current_phase_route: P1_FORMAL_PHASE_ARCHITECTURE_REVISION_ROUTE_TERMINAL_P1_ENGINEERING_PERMANENTLY_STOPPED
+  current_task: NONE
+  next_eligible_action: FOUNDER_STOP_P1_OR_FORMAL_GOAL_AND_CONSTITUTION_REPLACEMENT_DECISION
+  real_engineering_progress: P1_070_MASTER_TASK_GATE_REMAINS_LAST_ACCEPTED_GATE_STRICT_P1_COMPLETION_50_PERCENT_P1_078_REAL_ENGINEERING_TERMINAL_NOT_CREDITED
   product_capability_changed_by_route_activation: false
-  p1_078_status: ACTIVE_ITERATION_1_NOT_STARTED
+  p1_078_status: TERMINAL_TARGETED_RETEST_NON_PASS
   p1_078_attempt_ordinal: 4
   p1_078_task_slot: 1_OF_2
   p1_078_contract_sha256: ae5542dd5836da3146c1ca77049fd4fb03a8961ca3ce889153eda0857de4320d
   p1_078_authority_sha256: bc73407e96076cfec4246030950ec2897bc2a581c4e8d87d62ae386d50c856c3
-  p1_078_worker_implementation_started: false
+  p1_078_worker_implementation_started: true
   p1_078_candidate_created: false
   p1_078_accepted_capability: false
   p1_076_status: TERMINAL_STOPPED_BEFORE_WORKER_SOURCE_WRITE_AND_CANDIDATE_FREEZE
@@ -4026,7 +4075,7 @@ claim_boundary:
   p1_061_candidate_created: false
   p1_061_candidate_integrated: false
   p1_061_accepted_capability: false
-  current_route_stop_trigger: NONE_P1_078_ACTIVE
+  current_route_stop_trigger: P1_078_ITERATION_2_TARGETED_RETEST_NON_PASS
   p1_048_actual_execution_experiment_pack: MASTER_TASK_GATE_ACCEPTED_COMPLETE
   p1_048_formal_run_a: PASS
   p1_048_independent_run_b: PASS
@@ -4087,7 +4136,7 @@ claim_boundary:
   p1_056_formal_run_b: NOT_STARTED
   p1_056_candidate_integrated: false
   p1_056_accepted_capability: false
-  current_route_executable_task_slots: 1_OF_2_ACTIVE_TASK_1
+  current_route_executable_task_slots: 1_OF_2_TERMINAL_TASK_1_TASK_2_INELIGIBLE
   prior_experiment_pack_route_executable_task_slots_used: 3_OF_3
   p1_050_claim_boundary: LOCAL_SYNTHETIC_PROVIDER_NEUTRAL_B0_B1_B2_COMPATIBILITY_ADAPTER_EXECUTION_CONFORMANCE_ONLY_NO_EMPIRICAL_BASELINE_PERFORMANCE_VTSR_MODEL_AGENT_INHERITED_SOURCELENS_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
   repository_intelligence_quality: UNKNOWN_NOT_YET_BENCHMARKED

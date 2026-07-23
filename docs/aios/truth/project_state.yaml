@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-23T12:11:53Z"
-verification_scope: P1_079_CONTRACT_GATE_PASS_AND_TASK_ACTIVATION
+last_verified_at: "2026-07-23T09:35:42Z"
+verification_scope: P1_078_TERMINAL_NON_PASS_P1_ENGINEERING_PERMANENTLY_STOPPED
 
 authority:
   founder: Human Founder
@@ -37,17 +37,17 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: AIOS-P1-079_CLEAN_ROOM_OFFLINE_B0_B1_B2_SHARED_HARNESS_ADAPTER_CONFORMANCE
+  current_task_authority: NONE
   note: >-
-    The Founder-approved long-term Goal remains ACTIVE. P1-078 remains terminal,
-    immutable and uncredited at Observable Trace attempt ordinal 4. The exact
-    Founder P1 Phase Gate decision starts one independent P1-079 clean-room
-    offline B0/B1/B2 adapter-conformance Task and authorizes zero Observable
-    Trace attempts. Its corrected Contract consumed the single correction and
-    both exact review rounds, then received fresh CTO, Security and Quality
-    Contract Gate PASS. P1-079 is now active with one branch/worktree and one
-    candidate maximum. Strict P1 completion remains 4/8 (50%) until full Task
-    Gate PASS, exact integration and one canonical make verify PASS.
+    The Founder-approved long-term Goal remains ACTIVE. P1-078 consumed both
+    implementation iterations and its only same-Task Worker repair. The final
+    targeted retest ended NON_PASS before paired evidence and frozen verifier or
+    projector execution because Array.map passed its numeric index to
+    fs.realpathSync as the options argument. No candidate, final reviews,
+    integration, canonical full make verify or capability credit occurred.
+    Under the exact Contract and Founder packet, P1 engineering and all later
+    Observable Trace attempts are permanently stopped. Strict P1 completion
+    remains 4/8 (50%); the only next decision is a Founder Phase Gate choice.
 
 project:
   name: SourceLens AIOS
@@ -59,8 +59,8 @@ project:
   p1_entry_status: AUTHORIZED
   phase_execution_status: EXECUTING
   p1_execution_status: EXECUTING
-  p1_engineering_status: ACTIVE_P1_079_INDEPENDENT_ADAPTER_CONFORMANCE
-  current_route_execution_status: ACTIVE_TASK_1_P1_079
+  p1_engineering_status: PERMANENTLY_STOPPED_AFTER_P1_078_TERMINAL_NON_PASS
+  current_route_execution_status: TERMINAL_P1_078_NON_PASS_P1_079_INELIGIBLE
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -745,7 +745,7 @@ historical_p1_076_phase_route:
     status: TERMINAL_1_OF_2_TASKS_TASK_1_NON_PASS_TASK_2_INELIGIBLE
   claim_boundary: P1_076_UNFROZEN_QUALITY_BYTES_AND_REAL_GIT_COUNTEREXAMPLE_PRESERVED_NO_WORKER_CANDIDATE_CAPABILITY_OR_PROGRESS_CREDIT_STRICT_P1_REMAINS_50_PERCENT
   next_eligible_action: FOUNDER_P1_PHASE_GATE_OR_NEW_ROUTE_DECISION_REQUIRED
-historical_p1_078_phase_route:
+current_phase_route:
   route_id: P1_FORMAL_PHASE_ARCHITECTURE_REVISION_ENGINEERING_FIRST_TRACE_AND_OFFLINE_ADAPTER_ROUTE_V1
   status: ACTIVE
   authority_object_status: FOUNDER_PHASE_ENTRY_AUTHORITY_RETAINED_TERMINAL_EXECUTION_NO_SCHEDULING
@@ -990,225 +990,7 @@ historical_p1_078_phase_route:
     current_attempt_status: TERMINAL_NON_PASS_ITERATION_2_NO_LATER_ATTEMPTS_ALLOWED
     reset_delete_reorder_or_describe_as_first_attempt_allowed: false
   claim_boundary: P1_078_REAL_LOCAL_ENGINEERING_AND_TWO_TARGETED_NON_PASS_RESULTS_PRESERVED_NO_CANDIDATE_REVIEW_INTEGRATION_CAPABILITY_OR_PROGRESS_CREDIT_P1_ENGINEERING_PERMANENTLY_STOPPED_STRICT_P1_REMAINS_50_PERCENT
-  next_eligible_action: SUPERSEDED_BY_FOUNDER_P1_079_PHASE_GATE_ROUTE
-
-current_phase_route:
-  route_id: P1_INDEPENDENT_ADAPTER_CONFORMANCE_AND_PHASE_GATE_ROUTE_V1
-  status: ACTIVE
-  authority_object_status: FOUNDER_PHASE_GATE_AUTHORITY_ACTIVE
-  execution_status: TASK_1_ACTIVE
-  founder_phase_route_decision_required: false
-  scheduling_status: TASK_1_ACTIVE
-  phase: P1
-  phase_entry_status: AUTHORIZED
-  authorization_token: AUTHORIZE_P1_078_TASK_SCOPED_TERMINAL_PRESERVATION_AND_INDEPENDENT_P1_079_ADAPTER_ROUTE_V1
-  decision_packet:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-078-task-scoped-terminal-adjudication-20260723T100952Z/FOUNDER_P1_078_TASK_SCOPED_TERMINAL_PRESERVATION_AND_INDEPENDENT_P1_079_ADAPTER_ROUTE_V1.md
-    sha256: a8e9dfd53fb41cc6eeb4c1f84426b76175ef22b62b1f6b067630247de74a8bb0
-    byte_length: 23042
-  founder_authorization_source:
-    source: CODEX_THREAD_FOUNDER_DIRECT_MESSAGE_2026_07_23
-    authorization_token: AUTHORIZE_P1_078_TASK_SCOPED_TERMINAL_PRESERVATION_AND_INDEPENDENT_P1_079_ADAPTER_ROUTE_V1
-    packet_sha256: a8e9dfd53fb41cc6eeb4c1f84426b76175ef22b62b1f6b067630247de74a8bb0
-  activation_parent:
-    commit: 956949d41b87fd8ec6cec1502b9b4c762cd024ac
-    tree: 567cac064f2e8b7de779b0b745211e5265c82daf
-  policy:
-    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
-    version: "1.6"
-    sha256: 4cee36f00b6686c75ed8f4d2811e4615ef98120c3f5e9be3e30b4fc5b2c1793c
-  goal_identity:
-    raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
-    raw_byte_length: 19433
-    canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
-    canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
-    canonical_byte_length: 19434
-  objective: >-
-    Implement and execute one clean-room, provider-neutral, fully offline and
-    falsifiable B0/B1/B2 shared-harness compatibility-adapter vertical slice for
-    accepted REP-001 using distinct adapters and configurations, an externally
-    truth-bound exact P0 B2 snapshot, independent A/B replay, exact stable
-    projections, exact rollback and zero false accepts.
-  p1_exit_gate:
-    source: docs/aios/EVALUATION_PROTOCOL.md
-    version: "1.1"
-    changed: false
-    strict_status_at_activation: 4_COMPLETE_1_PARTIAL_3_NOT_COMPLETE_50_PERCENT
-    status: UNCHANGED_STRICT_50_PERCENT_P1_079_ACTIVE_NO_CREDIT
-  envelope:
-    max_engineering_tasks: 1
-    max_engineering_hours: 16
-    max_calendar_days: 5
-    max_active_tasks: 1
-    max_task_branches: 1
-    max_task_worktrees: 1
-    max_active_candidates: 1
-    max_contract_corrections_per_task: 1
-    max_same_task_repairs: 2
-    max_candidate_review_rounds_per_task: 1
-    successor_replacement_normalization_closure_feasibility_or_remediation_chain_allowed: false
-    p2_entry_authorized: false
-    p3_entry_authorized: false
-    external_effects:
-      network: false
-      provider: false
-      secret: false
-      remote: false
-      production: false
-      public: false
-  contract_accounting:
-    working_contracts: 1
-    corrections_used: 1
-    exact_review_rounds_used: 2
-    round_1_cto: NON_PASS
-    round_1_security: NON_PASS
-    round_1_quality: NON_PASS
-    round_2_cto: PASS
-    round_2_security: PASS
-    round_2_quality: PASS
-    final_contract_sha256: de48f65c5af4c271920d37efa74e088be33beb2f9a08a75859b2178b446ccc69
-    final_contract_byte_length: 30015
-    further_contract_correction_or_review_allowed: false
-    capability_credit: 0
-  iteration_accounting:
-    route_start_utc: "2026-07-23T11:36:56Z"
-    route_deadline_utc: "2026-07-28T11:36:56Z"
-    preactivation_contract_work_counted: true
-    maximum_quality_freezes: 1
-    quality_freezes_used: 0
-    maximum_implementation_test_iterations: 3
-    implementation_test_iterations_used: 0
-    maximum_candidates: 1
-    candidates_used: 0
-    final_candidate_review_cycles_used: 0
-  process_architecture:
-    common_interface: run(TaskSpec, EnvironmentSnapshot, SystemConfiguration, repetition_id)_to_RunRecord
-    distinct_adapter_and_configuration_identities_required: true
-    exact_b2_p0_snapshot_and_external_truth_binding_required: true
-    b2_real_inherited_capability: repository_analysis.scan
-    missing_inherited_capability_emulation_allowed: false
-    deterministic_transport_doubles_typed_as_test_only: true
-    run_a_run_b_independent_materialization_required: true
-    stable_projection_exact_equality_required: true
-    rollback_exact_required: true
-    mandatory_negative_matrix_zero_false_accepts_required: true
-    empirical_baseline_or_performance_claim_allowed: false
-  anti_loop:
-    routine_founder_task_approval_required: false
-    exact_tasks: 1
-    bounded_contract_corrections_used: 1
-    exact_contract_review_rounds_used: 2
-    quality_freezes_per_task: 1
-    pre_candidate_implementation_test_iterations: 3
-    exact_candidates_per_task: 1
-    final_review_cycles_per_task: 1
-    post_candidate_source_repair_allowed: false
-    successor_replacement_correction_normalization_closure_feasibility_or_remediation_chain_allowed: false
-    adjacent_same_normalized_root_cause_action: TERMINAL_STOP
-  historical_isolation:
-    p1_078_truth_metadata_terminal_receipt_and_reviews_read_for_non_reuse_only: true
-    p1_078_source_fixture_test_diff_candidate_partial_archive_or_worktree_read_allowed: false
-    p1_069_accepted_input: false
-    p1_069_branch_evidence_candidate_archive_or_other_lineage_read_allowed: false
-    current_canonical_p1_071_bytes_readable_only_under_accepted_identity: true
-    all_other_terminal_or_rejected_engineering_asset_read_allowed: false
-    accepted_canonical_inputs_and_p0_anchor_read_only: true
-  additional_write_roots:
-    - evaluation-harness/contracts
-  inherited_worktree_inventory:
-    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-063-atomic-offline-b0
-      head: 14a6e1ed7298dd3568b7290ff2f625785521f9c1
-      branch: codex/p1-063-atomic-offline-b0
-      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
-    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-063-direct-engineering-v1
-      head: dab6459efab069466dcdfe53dad3df2de4f55223
-      branch: codex/p1-063-direct-engineering-v1
-      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
-    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-064-clean-room-control-plane-verifier-recovery
-      head: e9fa81c96fc1d8726bb2f3814a93e99799726dc1
-      branch: codex/p1-064-clean-room-control-plane-verifier-recovery
-      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
-    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-069-blind-admission-harness
-      head: f4b523079cdc2032851867dc24a79bbea32d9be2
-      branch: codex/p1-069-blind-admission-harness
-      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
-    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-076-trusted-outer-verifier
-      head: 35e61f136517b4d2bf4c908b2ba4762cf509deed
-      branch: codex/p1-076-trusted-outer-verifier
-      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
-    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-078-state-rollback-observable-trace
-      head: 4bf00dab5aa9527b0cfcbc212ac1a88fcb094758
-      branch: codex/p1-078-state-rollback-observable-trace
-      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
-  accepted_inputs:
-    p1_035:
-      task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
-      status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
-      task_contract_path: docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
-      task_contract_sha256: acec5432aacd6476693db62bdb52ee326c467f17b691860688fe952f7ffbdc33
-      accepted_candidate_commit: 686eda0cd7a93b72ac5e64301479f17e4b096fb0
-      accepted_candidate_tree: b2740b44d0051303057deac7d719c27fd6a5578a
-    p1_048:
-      task_id: AIOS-P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK
-      status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
-      task_contract_path: docs/aios/tasks/P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK.yaml
-      task_contract_sha256: 092a7d38d5c3f208a0e97d74cfbee906793d2a5fe31caf2fd15948b7ea209a62
-      accepted_candidate_commit: 9e130f2aae0fd951b252cf0dff8edc9b9364e962
-      accepted_candidate_tree: 3a4229e9a8da181ca8bb256f5467cf96549c2549
-    p1_071:
-      task_id: AIOS-P1-071_STABLE_REPLAY_PROJECTION_AND_EXACT_HARNESS_ADMISSION_VERTICAL_SLICE
-      status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
-      task_contract_path: docs/aios/tasks/P1-071_STABLE_REPLAY_PROJECTION_AND_EXACT_HARNESS_ADMISSION_VERTICAL_SLICE.yaml
-      task_contract_sha256: c02505bc0bac2a187f0c96290b33e562f6e06e15b2c22f4e747b42cf9d4d29c2
-      accepted_candidate_commit: 2da6a314249c9ea98f3cc3134e6afe00e4c28db0
-      accepted_candidate_tree: 68d0605dbd94bf1003f36b51fe74b6f4ca082032
-    p1_070:
-      task_id: AIOS-P1-070_OFFLINE_SCHEDULED_MATRIX_VTSR_AND_FALSE_SUCCESS_EXPERIMENT
-      status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
-      task_contract_path: docs/aios/tasks/P1-070_OFFLINE_SCHEDULED_MATRIX_VTSR_AND_FALSE_SUCCESS_EXPERIMENT.yaml
-      task_contract_sha256: 02fc6ef5590803156e78c6f5328bfa6644f980323a38a504554250c5b94f72ca
-      accepted_candidate_commit: ee51cc96fedec5cc9ec640c6c0c1c76d5268d6c5
-      accepted_candidate_tree: ffae19db6991a77424d0deaa96a1c761348b7b41
-  p0_b2_source_anchor:
-    commit: 09cf8dd6a1bcee138b949d117804d652000eb7cc
-    tree: daa58725d293b954887dbe5b17aab5219b618658
-    purpose: B2_EXACT_SNAPSHOT_DERIVATION_ONLY
-  first_task:
-    task_id: AIOS-P1-079_CLEAN_ROOM_OFFLINE_B0_B1_B2_SHARED_HARNESS_ADAPTER_CONFORMANCE
-    task_slot: 1
-    status: ACTIVE
-    contract_path: docs/aios/tasks/P1-079_CLEAN_ROOM_OFFLINE_B0_B1_B2_SHARED_HARNESS_ADAPTER_CONFORMANCE.yaml
-    contract_sha256: de48f65c5af4c271920d37efa74e088be33beb2f9a08a75859b2178b446ccc69
-    max_engineering_hours: 16
-    max_calendar_days: 5
-    max_implementation_iterations: 3
-    max_candidates: 1
-    accepted_input_ids:
-      - p1_035
-      - p1_048
-      - p1_071
-      - p1_070
-    capability_projection_on_pass:
-      - B0_B1_B2_COMPATIBILITY_ADAPTERS
-    strict_progress_projection_on_pass: 5_COMPLETE_1_PARTIAL_2_NOT_COMPLETE_62_5_PERCENT
-    claim_boundary: ONE_VISIBLE_SYNTHETIC_COOPERATIVE_LOCAL_OFFLINE_PROVIDER_NEUTRAL_EXECUTABLE_B0_B1_B2_COMPATIBILITY_ADAPTER_CONFORMANCE_WITH_EXACT_B2_P0_SNAPSHOT_TRUTH_BINDING_DISTINCT_SYSTEM_CONFIGURATIONS_INDEPENDENT_AB_REPLAY_STABLE_PROJECTION_ROLLBACK_AND_ZERO_FALSE_ACCEPTS_ONLY
-  route_execution_accounting:
-    maximum_engineering_tasks: 1
-    task_slots_consumed: 1
-    active_task_id: AIOS-P1-079_CLEAN_ROOM_OFFLINE_B0_B1_B2_SHARED_HARNESS_ADAPTER_CONFORMANCE
-    scheduled_task_ids:
-      - AIOS-P1-079_CLEAN_ROOM_OFFLINE_B0_B1_B2_SHARED_HARNESS_ADAPTER_CONFORMANCE
-    terminal_task_ids: []
-    accepted_task_ids: []
-    maximum_engineering_hours: 16
-    status: ACTIVE_1_OF_1_TASKS
-  observable_trace_attempt_accounting:
-    historical_terminal_attempts: 4
-    authorized_new_attempts: 0
-    current_attempt_status: NO_NEW_ATTEMPT_AUTHORIZED
-    p1_078_remains_terminal_ordinal_4: true
-  claim_boundary: P1_079_ACTIVE_NO_CAPABILITY_OR_PROGRESS_CREDIT_STRICT_P1_REMAINS_50_PERCENT
-  next_eligible_action: COMPLETE_B2_PREFREEZE_THEN_ONE_QUALITY_FREEZE_AND_START_WORKER_ENGINEERING
+  next_eligible_action: FOUNDER_STOP_P1_OR_FORMAL_GOAL_AND_CONSTITUTION_REPLACEMENT_DECISION
 phase_delegation:
   status: ACTIVE
   model: PHASE_LEVEL_FOUNDER_DELEGATION
@@ -1422,7 +1204,7 @@ mandatory_exit_capability_recovery:
     HIDDEN_SET_PROTOCOL: ACCEPTED_P1_071_COOPERATIVE_LOCAL
     PARAMETERIZED_EVALUATION_HARNESS: ACCEPTED_P1_071_COOPERATIVE_LOCAL
     VTSR_COUNTING_VALIDATOR: ACCEPTED_P1_070_COOPERATIVE_LOCAL
-    B0_B1_B2_COMPATIBILITY_ADAPTERS: MISSING_P1_079_ACTIVE_NO_CREDIT
+    B0_B1_B2_COMPATIBILITY_ADAPTERS: MISSING_P1_062_TERMINAL_CANONICAL_GATE_NON_PASS
     OBSERVABLE_TRACE: MISSING_P1_078_ATTEMPT_4_TERMINAL_TARGETED_RETEST_NON_PASS
     EVALUATOR_DISAGREEMENT_AND_FALSE_SUCCESS_CHARACTERIZATION: ACCEPTED_P1_070_COOPERATIVE_LOCAL
     REPRODUCIBLE_BASELINE_REPORT: MISSING_PENDING_NEW_P1_ROUTE
@@ -1483,17 +1265,6 @@ mandatory_exit_capability_recovery:
       candidate_integrated_after_revert: false
       capability_accepted: false
       p1_exit_gate_changed: false
-      founder_authorized_current_attempt:
-        task_id: AIOS-P1-079_CLEAN_ROOM_OFFLINE_B0_B1_B2_SHARED_HARNESS_ADAPTER_CONFORMANCE
-        route_id: P1_INDEPENDENT_ADAPTER_CONFORMANCE_AND_PHASE_GATE_ROUTE_V1
-        status: AUTHORIZED_ACTIVE
-        contract_sha256: de48f65c5af4c271920d37efa74e088be33beb2f9a08a75859b2178b446ccc69
-        contract_corrections_used: 1
-        contract_review_rounds_used: 2
-        implementation_iterations_used: 0
-        quality_freezes_used: 0
-        candidate_count: 0
-        capability_credit: 0
     OBSERVABLE_TRACE:
       status: TERMINAL_PREFREEZE_FEASIBILITY_NON_PASS
       task_id: AIOS-P1-076_TRUSTED_OUTER_VERIFIER_AND_PHYSICAL_ROLLBACK_ATTESTATION_VERTICAL_SLICE
@@ -2013,54 +1784,38 @@ p0_baseline:
   online_verification_status: ARCHIVED_NOT_ON_ACTIVE_PATH
 
 active_work:
-  current_task: AIOS-P1-079_CLEAN_ROOM_OFFLINE_B0_B1_B2_SHARED_HARNESS_ADAPTER_CONFORMANCE
-  current_task_status: AUTHORIZED_ACTIVE
+  current_task: NONE
+  current_task_status: NONE
   current_task_contract:
-    path: docs/aios/tasks/P1-079_CLEAN_ROOM_OFFLINE_B0_B1_B2_SHARED_HARNESS_ADAPTER_CONFORMANCE.yaml
-    sha256: de48f65c5af4c271920d37efa74e088be33beb2f9a08a75859b2178b446ccc69
-    byte_length: 30015
-  current_task_contract_sha256: de48f65c5af4c271920d37efa74e088be33beb2f9a08a75859b2178b446ccc69
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-079-clean-room-offline-adapter-ChichElL/authority/TASK_AUTHORITY.yaml
-  current_execution_authorization_sha256: 8a6bc273edf404e913d11f579de790f604fad8f899339ece28d00853bc500b87
+    path: null
+    sha256: null
+    byte_length: null
+  current_task_contract_sha256: null
+  current_execution_authorization: null
+  current_execution_authorization_sha256: null
   authority_record:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-079-clean-room-offline-adapter-ChichElL/authority/TASK_AUTHORITY.yaml
-    sha256: 8a6bc273edf404e913d11f579de790f604fad8f899339ece28d00853bc500b87
-    byte_length: 3484
-  execution_nonce: 6ac2f5d01c52778a75c2579bcb37d351ec711ebf786dbdbe42f2cbd6b861a473
-  execution_nonce_status: ACTIVE
-  authorization_id: P1-079-25a3e96addcb436ab275bde9
-  activation_parent_commit: 956949d41b87fd8ec6cec1502b9b4c762cd024ac
-  activation_parent_tree: 567cac064f2e8b7de779b0b745211e5265c82daf
-  task_resource_state: AUTHORIZED_ACTIVE_ONE_BRANCH_ONE_WORKTREE
-  task_branch: codex/p1-079-clean-room-offline-adapter
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-079-clean-room-offline-adapter
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-079-clean-room-offline-adapter-ChichElL
-  allowlisted_paths:
-    - Makefile
-    - docs/PROJECT_CODE_MAP.md
-    - docs/aios/tasks/P1-079_CLEAN_ROOM_OFFLINE_B0_B1_B2_SHARED_HARNESS_ADAPTER_CONFORMANCE.yaml
-    - docs/aios/truth/project_state.yaml
-    - evaluation-harness/adapters/offline-b0-b1-b2-shared-harness-v1/**
-    - evaluation-harness/contracts/offline-b0-b1-b2-shared-harness-v1/**
-    - evaluation-harness/environment/offline-b0-b1-b2-shared-harness-v1/**
-    - evaluation-harness/evaluator/offline-b0-b1-b2-shared-harness-v1/**
-    - evaluation-harness/fixtures/offline-b0-b1-b2-shared-harness-v1/**
-    - evaluation-harness/harness/offline-b0-b1-b2-shared-harness-v1/**
-    - evaluation-harness/recording/offline-b0-b1-b2-shared-harness-v1/**
-    - evaluation-harness/replay/offline-b0-b1-b2-shared-harness-v1/**
-    - scripts/verify-p1-079-offline-b0-b1-b2-adapter-conformance.sh
+    path: null
+    sha256: null
+    byte_length: null
+  execution_nonce: null
+  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
+  authorization_id: null
+  activation_parent_commit: null
+  activation_parent_tree: null
+  task_resource_state: NONE_PHASE_ACTIVE
+  task_branch: null
+  task_worktree: null
+  execution_evidence_root: null
+  allowlisted_paths: []
   budget:
-    engineering_hours: 16
-    calendar_days: 5
-    implementation_iterations: 3
-    candidates: 1
+    engineering_hours: null
+    calendar_days: null
+    implementation_iterations: null
+    candidates: null
   roles:
-    owner: P1_079_ENGINEERING_MANAGER_OWNER
-    worker: P1_079_CLEAN_ROOM_ADAPTER_WORKER
-    independent_reviewers:
-      - CTO Agent
-      - Security Agent
-      - Quality and Evaluation Agent
+    owner: null
+    worker: null
+    independent_reviewers: []
   external_effects:
     network: false
     provider: false
@@ -2069,15 +1824,15 @@ active_work:
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-078-task-scoped-terminal-adjudication-20260723T100952Z/FOUNDER_P1_078_TASK_SCOPED_TERMINAL_PRESERVATION_AND_INDEPENDENT_P1_079_ADAPTER_ROUTE_V1.md
-  founder_reserved_authorization_sha256: a8e9dfd53fb41cc6eeb4c1f84426b76175ef22b62b1f6b067630247de74a8bb0
+  founder_reserved_authorization: null
+  founder_reserved_authorization_sha256: null
   founder_decision_required: false
   founder_decision_required_scope: NONE_WITHIN_ACTIVE_PHASE_ENVELOPE
   escalation_reason: null
   user_action_required: NONE
-  phase_route_decision_required: false
-  phase_route_user_action_required: NONE
-  next_eligible_action: COMPLETE_B2_PREFREEZE_THEN_ONE_QUALITY_FREEZE_AND_START_WORKER_ENGINEERING
+  phase_route_decision_required: true
+  phase_route_user_action_required: FOUNDER_PHASE_GATE_DECISION
+  next_eligible_action: FOUNDER_STOP_P1_OR_FORMAL_GOAL_AND_CONSTITUTION_REPLACEMENT_DECISION
 superseded_pre_delegation_authorizations:
   aios_p1_009:
     task_id: AIOS-P1-009_ENVIRONMENT_SNAPSHOT_REPRODUCIBILITY

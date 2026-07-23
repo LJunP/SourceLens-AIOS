@@ -56,8 +56,8 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  phase_execution_status: AWAITING_FOUNDER_PHASE_GATE_DECISION
-  p1_execution_status: ACTIVE_PHASE_GATE_WAIT
+  phase_execution_status: ACTIVE
+  p1_execution_status: ACTIVE
   p1_engineering_status: P1_086_TERMINAL_FINAL_CTO_TARGET_NON_PASS
   current_route_execution_status: TERMINAL_TASK_1_OF_3_TASKS_2_AND_3_INELIGIBLE
   canonical_branch: main
@@ -1048,7 +1048,7 @@ historical_formal_phase_route_terminal:
   next_eligible_action: FOUNDER_P1_PHASE_GATE_DECISION_AFTER_P1_079_TERMINAL
 current_phase_route:
   route_id: P1_TRUSTED_OWNED_OUTPUT_ROOT_AND_CLEAN_ROOM_ADAPTER_ENGINEERING_ROUTE_V1
-  status: TERMINAL
+  status: ACTIVE
   authority_object_status: FOUNDER_PHASE_GATE_AUTHORITY_CONSUMED_TERMINAL_TASK_1
   execution_status: TERMINAL_TASK_1_FINAL_CTO_TARGET_NON_PASS
   founder_phase_route_decision_required: true
@@ -2181,7 +2181,7 @@ active_work:
   authorization_id: null
   activation_parent_commit: null
   activation_parent_tree: null
-  task_resource_state: NONE_PHASE_GATE_WAIT
+  task_resource_state: NONE_PHASE_ACTIVE
   task_branch: null
   task_worktree: null
   execution_evidence_root: null
@@ -2205,10 +2205,10 @@ active_work:
   offsite_target: null
   founder_reserved_authorization: null
   founder_reserved_authorization_sha256: null
-  founder_decision_required: true
-  founder_decision_required_scope: P1_PHASE_GATE_AFTER_TERMINAL_ROUTE
-  escalation_reason: P1_086_FINAL_CTO_TARGET_NON_PASS
-  user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
+  founder_decision_required: false
+  founder_decision_required_scope: NONE_NO_ACTIVE_TASK_WITHIN_ACTIVE_PHASE
+  escalation_reason: null
+  user_action_required: NONE
   phase_route_decision_required: true
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE_DECISION_AFTER_P1_086_TERMINAL

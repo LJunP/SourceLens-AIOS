@@ -4,9 +4,65 @@ task_id: AIOS-P1-086_HARNESS_OWNED_OUTPUT_ROOT_AND_B0_ADAPTER
 task_slot: 1
 phase: P1
 route_id: P1_TRUSTED_OWNED_OUTPUT_ROOT_AND_CLEAN_ROOM_ADAPTER_ENGINEERING_ROUTE_V1
-status: AUTHORIZED_ACTIVE
+status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
 execution_authority: FOUNDER_PHASE_GATE_DELEGATED
 title: Harness-Owned Output Root and B0 Direct Model Adapter
+
+terminal_result:
+  recorded_at: "2026-07-23T20:47:52Z"
+  classification: TERMINAL_EXACT_CANDIDATE_FINAL_CTO_TARGET_NON_PASS
+  normalized_root_cause: RUN_B_ACTOR_PROVENANCE_NOT_INDEPENDENT
+  candidate:
+    commit: d367d0f074ca845629a474f5544d45b9dd92ad80
+    tree: 5652eb6349a48cf10195046a1fe9d2166ae6b2d7
+    manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-086-owned-output-root-b0-7ird640F/candidate/CANDIDATE_MANIFEST.json
+    manifest_sha256: 7fef9e1e4b9c64cfe2805cf865200a1329feb7310c0922ea2698cae1fc56981e
+    manifest_byte_length: 11790
+    evidence_tag: evidence/p1-086-exact-candidate-v1
+    integrated: false
+  formal_worker_evidence:
+    verdict: PASS
+    worker_receipt_sha256: 8612e8b327324d218f258dda98fb8158f27b01a64de867d366e753539320cc47
+    positive_oracle_verdicts:
+      - PASS
+      - PASS
+    stable_comparison_verdict: PASS
+    negative_case_count: 15
+    false_accepts: 0
+    fixture_teardown_residual_count: 0
+    claim_limit: >-
+      The formal run proves two distinct owned roots and repetitions, independent
+      Quality-oracle evaluation, stable projection equality, negative-matrix
+      rejection and exact cleanup. It does not prove that a fresh non-implementer
+      independently executed Run B.
+  final_review_cycle:
+    cto:
+      target_verdict: NON_PASS
+      finding_id: CTO-P1-086-001
+      review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-086-owned-output-root-b0-7ird640F/final-reviews/cto/CTO_FINAL_REVIEW.json
+      review_sha256: db616b72bf8874f075b6a930cede4601b98e10624d3d8df60483b6080360e209
+      review_byte_length: 8875
+    security:
+      target_verdict: CANCELLED_AFTER_CTO_NON_PASS
+    quality:
+      target_verdict: CANCELLED_AFTER_CTO_NON_PASS
+  blocking_fact: >-
+    The frozen Contract and Quality task card require a fresh non-implementer
+    to independently execute Run B. The exact candidate instead creates one
+    adapter inside runPositivePair, sequentially invokes both A and B through
+    that same Worker execution path, and assigns the expected fresh-actor label
+    to B without an independently invoked or actor-bound Run B receipt.
+  implementation_iterations_used: 2
+  code_only_repairs_used: 1
+  repair_budget_exhausted: true
+  second_repair_or_candidate_allowed: false
+  canonical_make_verify: NOT_INVOKED_FINAL_CTO_TARGET_NON_PASS
+  accepted_capability: false
+  capability_credit: 0
+  strict_p1_completion_after_task: 4_COMPLETE_0_PARTIAL_4_NOT_COMPLETE_50_PERCENT
+  task_2_eligible: false
+  task_3_eligible: false
+  next_decision: FOUNDER_P1_PHASE_GATE
 
 objective: >-
   Build one cooperative-local harness-owned output-root boundary and one

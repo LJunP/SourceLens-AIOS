@@ -4,7 +4,7 @@ task_id: AIOS-P1-083_B0_MINIMAL_COMPATIBILITY_ADAPTER
 task_slot: 1
 phase: P1
 route_id: P1_MINIMAL_ADAPTER_DECOMPOSITION_ENGINEERING_ROUTE_V1
-status: AUTHORIZED_ACTIVE
+status: TERMINAL_FINAL_SECURITY_TARGET_NON_PASS
 execution_authority: FOUNDER_PHASE_GATE_DELEGATED
 title: B0 Minimal Direct-Model Compatibility Adapter
 
@@ -250,6 +250,44 @@ forbidden_actions:
   - Create successor, replacement, correction, normalization, closure, feasibility or remediation tasks
   - Push or modify a remote
 
+terminal_result:
+  recorded_at: "2026-07-23T18:57:53Z"
+  status: TERMINAL_FINAL_SECURITY_TARGET_NON_PASS
+  terminal_finding_id: SECURITY-P1-083-001
+  normalized_root_cause: OUTPUT_ROOT_ANCESTOR_SYMLINK_VALIDATED_AFTER_DIRECTORY_CREATION
+  candidate:
+    commit: 803b012e7fd56575b8799ac8337b3cc78d3f3205
+    tree: 66b8ac65d54e7e3e4c0c80ebcdf1ba4b801bb981
+    manifest_sha256: 501af40c891f0a4301e98d2c57fa6d42c36762866852f0720226fc4f95bb0f2e
+    evidence_tag: evidence/p1-083-b0-candidate-v1
+    integrated: false
+  final_reviews:
+    cto: PASS
+    security: NON_PASS
+    quality: PASS
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-083-b0-minimal-yAZ2QN/P1_083_TERMINAL_RECEIPT.json
+    sha256: 541fe78321fb8d7ce6427434b0887687ed0f4e421e649f84bee3ab4275e475a1
+    byte_length: 3638
+  task_gate:
+    accepted: false
+    canonical_integration_performed: false
+    canonical_make_verify_run: false
+    accepted_capability: false
+    exit_gate_credit: 0
+    strict_p1_completion: 4_OF_8_50_PERCENT
+  route_effect:
+    route_continuation_allowed: false
+    task_2_eligible: false
+    task_3_eligible: false
+    repair_or_second_candidate_allowed: false
+    successor_or_replacement_allowed: false
+    next_decision_point: FOUNDER_P1_PHASE_GATE
+  historical_asset_rule: >-
+    The exact P1-083 candidate, fixtures, tests, diff and failed engineering
+    assets are terminal rejected Evidence and cannot be repaired, restored,
+    copied or reused as engineering input.
+
 claim_boundary: >-
-  ONE_ACCEPTED_VISIBLE_DEVELOPMENT_TASK_PROVIDER_NEUTRAL_OFFLINE_B0_ADAPTER_CONFORMANCE_ONLY;
-  NO_LIVE_MODEL_PROVIDER_PATCH_EXECUTION_VERIFIED_TASK_SUCCESS_VTSR_BENCHMARK_P1_EXIT_P2_P3_PRODUCTION_PUBLIC_OR_HOSTILE_PRINCIPAL_CLAIM.
+  TERMINAL_REJECTED_EXACT_OFFLINE_B0_CANDIDATE_AND_REAL_FORMAL_EVIDENCE_ONLY;
+  NO_ACCEPTED_B0_COMPONENT_NO_B0_B1_B2_EXIT_GATE_CREDIT_NO_LIVE_MODEL_PROVIDER_VERIFIED_TASK_SUCCESS_VTSR_BENCHMARK_P1_EXIT_P2_P3_PRODUCTION_PUBLIC_OR_HOSTILE_PRINCIPAL_CLAIM.

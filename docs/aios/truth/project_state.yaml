@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-23T04:20:27Z"
-verification_scope: P1_072_TERMINAL_PREFREEZE_TARGET_NOT_READY_SYNC
+last_verified_at: "2026-07-23T04:46:19Z"
+verification_scope: P1_TRUSTED_OUTER_VERIFIER_AND_OFFLINE_ADAPTER_ROUTE_AUTHORIZED_READY
 
 authority:
   founder: Human Founder
@@ -39,14 +39,13 @@ goal:
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
   current_task_authority: NONE
   note: >-
-    The Founder-approved long-term Goal and P1 remain ACTIVE. P1-072 stopped terminally
-    before candidate freeze after its final allowed pre-freeze implementation iteration:
-    fresh CTO and Security audits found that Quality verification created unrecorded Git
-    children after the recorded STOP and that the Quality CLI could accept an empty
-    materialization without independently proving physical rollback. No candidate, actual
-    A/B run, final candidate review, integration, canonical make verify, accepted capability
-    or P1 Exit Gate credit was created. Strict P1 completion remains 4/8 (50%). Current Task
-    authority is NONE and the stopped route requires a Founder Phase Gate or new-route decision.
+    The Founder-approved long-term Goal and P1 remain ACTIVE. The exact trusted-outer-
+    verifier and offline-adapter engineering route is authorized and ready. P1-076 is
+    eligible but not yet activated; route activation itself creates no engineering or
+    capability credit. P1-076 is the final clean-room observable-trace architecture
+    attempt and must produce runnable cooperative-local SUT trace, separately typed
+    evaluator ledger, physical Git-worktree rollback attestation, independent A/B and
+    zero false accepts. Strict P1 completion remains 4/8 (50%) until its exact Task Gate.
 
 project:
   name: SourceLens AIOS
@@ -56,9 +55,9 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  phase_execution_status: ACTIVE
-  p1_execution_status: ACTIVE
-  current_route_execution_status: P1_OFFLINE_EXIT_GATE_CLOSURE_ROUTE_STOPPED_P1_072_PREFREEZE_TARGET_NOT_READY
+  phase_execution_status: AUTHORIZED_READY
+  p1_execution_status: AUTHORIZED_READY
+  current_route_execution_status: P1_TRUSTED_OUTER_VERIFIER_AND_OFFLINE_ADAPTER_ROUTE_AUTHORIZED_READY
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -551,26 +550,26 @@ historical_clean_room_blind_admission_phase_route:
   claim_boundary: P1_069_EXACT_CANDIDATE_AND_FOUR_RAW_POSITIVE_RUNS_PRESERVED_STABLE_PROJECTION_SPEC_NON_PASS_NO_NEGATIVE_MATRIX_FINAL_REVIEW_INTEGRATION_ACCEPTED_CAPABILITY_OR_P1_070
   next_eligible_action_at_terminal: FOUNDER_P1_PHASE_GATE_OR_NEW_ROUTE_DECISION_REQUIRED
 current_phase_route:
-  route_id: P1_OFFLINE_EXIT_GATE_CLOSURE_ENGINEERING_ROUTE_V1
-  status: ACTIVE
-  authority_object_status: FOUNDER_PHASE_ENTRY_CONSUMED_ROUTE_STOPPED
-  execution_status: TERMINAL_TASK_1_P1_072_PREFREEZE_TARGET_NOT_READY
-  founder_phase_route_decision_required: true
-  scheduling_status: NO_ELIGIBLE_TASK_ROUTE_STOPPED
+  route_id: P1_TRUSTED_OUTER_VERIFIER_AND_OFFLINE_ADAPTER_ENGINEERING_ROUTE_V1
+  status: AUTHORIZED_READY
+  authority_object_status: FOUNDER_PHASE_ENTRY_AUTHORIZED_TASK_1_ELIGIBLE_NOT_ACTIVATED
+  execution_status: ROUTE_AUTHORIZED_READY_TASK_1_NOT_ACTIVATED
+  founder_phase_route_decision_required: false
+  scheduling_status: TASK_1_ELIGIBLE_NOT_ACTIVATED
   phase: P1
   phase_entry_status: AUTHORIZED
-  authorization_token: AUTHORIZE_P1_OFFLINE_EXIT_GATE_CLOSURE_ENGINEERING_ROUTE_V1
+  authorization_token: AUTHORIZE_P1_TRUSTED_OUTER_VERIFIER_AND_OFFLINE_ADAPTER_ENGINEERING_ROUTE_V1
   decision_packet:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-offline-exit-gate-route-20260722T234500Z/FOUNDER_P1_OFFLINE_EXIT_GATE_CLOSURE_ENGINEERING_ROUTE_V1.md
-    sha256: 371d1fe9547f086b7e88f09eb28f0ab5bfe466076b88e73b8abf0fec7f226dfe
-    byte_length: 15703
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-072-complete-observable-trace-SiWfIxe2/terminal/P1_PHASE_GATE_TRUSTED_OUTER_VERIFIER_AND_OFFLINE_ADAPTER_ROUTE_V1.md
+    sha256: 3e7b95672a73557b28326deb89c53e172f9527479e9f3cce4ecf276b4f572c03
+    byte_length: 14096
   founder_authorization_source:
-    source: CODEX_THREAD_FOUNDER_DIRECT_RESPONSE_ANNOTATION_2026_07_23
-    authorization_token: AUTHORIZE_P1_OFFLINE_EXIT_GATE_CLOSURE_ENGINEERING_ROUTE_V1
-    packet_sha256: 371d1fe9547f086b7e88f09eb28f0ab5bfe466076b88e73b8abf0fec7f226dfe
+    source: CODEX_THREAD_FOUNDER_DIRECT_MESSAGE_2026_07_23
+    authorization_token: AUTHORIZE_P1_TRUSTED_OUTER_VERIFIER_AND_OFFLINE_ADAPTER_ENGINEERING_ROUTE_V1
+    packet_sha256: 3e7b95672a73557b28326deb89c53e172f9527479e9f3cce4ecf276b4f572c03
   activation_parent:
-    commit: 2030fc9af2390d51cb43f82d5589d0ad00aaf04c
-    tree: 1d4135bbbd5a404a05c9736bdf4101e794ed86f8
+    commit: 9da693bfbbcde8f82bb53e892ffd3284bdb11fd9
+    tree: 00e74498a66d6c747945b6502fee50ade13c2260
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: "1.6"
@@ -582,26 +581,25 @@ current_phase_route:
     canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
     canonical_byte_length: 19434
   objective: >-
-    Implement and execute one clean-room complete observable trace vertical slice with
-    pre-child actual executable and executing-architecture binding, complete Evaluation
-    Protocol section 6 observable fields, independent replay equality, zero-false-accept
-    negative controls and exact rollback; then schedule P1-075 only if its full
-    no-placeholder prerequisites can be frozen honestly.
+    Implement and execute one final clean-room cooperative-local trusted-outer-
+    verifier and physical-rollback observable-trace vertical slice; after its exact
+    Task Gate PASS, autonomously execute one clean-room offline B0/B1/B2 shared-
+    harness adapter-conformance Task.
   p1_exit_gate:
     source: docs/aios/EVALUATION_PROTOCOL.md
     version: "1.1"
     changed: false
     strict_status_at_activation: 4_COMPLETE_1_PARTIAL_3_NOT_COMPLETE_50_PERCENT
-    status: UNCHANGED_STRICT_50_PERCENT_TASK_1_TERMINAL_NO_CREDIT
+    status: UNCHANGED_STRICT_50_PERCENT_ROUTE_ACTIVATION_NO_CREDIT
   envelope:
     max_engineering_tasks: 2
-    max_engineering_hours: 24
-    max_calendar_days: 9
+    max_engineering_hours: 36
+    max_calendar_days: 11
     max_active_tasks: 1
     max_task_branches: 1
     max_task_worktrees: 1
     max_active_candidates: 1
-    max_contract_corrections_per_task: 1
+    max_contract_corrections_per_task: 0
     max_same_task_repairs: 1
     successor_replacement_normalization_closure_feasibility_or_remediation_chain_allowed: false
     p2_entry_authorized: false
@@ -615,13 +613,15 @@ current_phase_route:
       public: false
   process_architecture:
     authority_compatibility_change_receives_capability_credit: false
-    clean_room_p1_072_required: true
-    actual_process_architecture_binding_required_before_child_or_mutation: true
-    runtime_reported_architecture_must_match_content_architecture_set: true
-    complete_evaluation_protocol_section_6_trace_required: true
+    clean_room_p1_076_required: true
+    sut_trace_window: SUT_START_THROUGH_SUT_STOP
+    trusted_outer_verifier_is_explicit_cooperative_local_tcb: true
+    recursive_self_observation_claim_allowed: false
+    separately_typed_evaluator_ledger_required: true
+    physical_git_worktree_rollback_attestation_required: true
     physically_independent_run_b_required: true
-    arbitrary_shell_free_form_dynamic_or_result_controlled_execution_allowed: false
-    retained_raw_evidence_mutation_allowed: false
+    stable_projection_exact_equality_required: true
+    zero_false_accepts_required: true
   anti_loop:
     routine_founder_task_approval_required: false
     pre_freeze_implementation_iterations_per_task: 2
@@ -630,9 +630,11 @@ current_phase_route:
     post_freeze_source_repair_allowed: false
     successor_replacement_correction_normalization_closure_or_remediation_chain_allowed: false
     gate_relevance_rule_active: true
+    p1_076_non_pass_permanently_ends_observable_trace_attempts: true
   historical_isolation:
     p1_068_contract_source_fixture_test_candidate_diff_partial_or_hidden_asset_read_allowed: false
-    failed_mixed_effect_candidate_source_read_allowed: false
+    p1_072_source_fixture_test_diff_candidate_partial_or_archive_read_allowed: false
+    terminal_adapter_source_fixture_test_diff_candidate_or_partial_read_allowed: false
     old_task_lifecycle_recovery_or_nonpass_rewrite_allowed: false
     all_other_terminal_or_rejected_asset_read_allowed: false
     accepted_canonical_schema_and_engineering_assets_allowed: true
@@ -682,55 +684,58 @@ current_phase_route:
       reviewed_candidate_commit: 43552e2653b911ab9e2c3b4935f59d69cd59dbb6
       reviewed_candidate_tree: 68d0605dbd94bf1003f36b51fe74b6f4ca082032
       claim_boundary: COOPERATIVE_LOCAL_EXACT_P1_069_HARNESS_BLOBS_PUBLIC_STABLE_PROJECTION_V2_RETAINED_AB_EQUALITY_AND_23_CASE_MATRIX_ONLY
+    p1_070:
+      task_id: AIOS-P1-070_OFFLINE_SCHEDULED_MATRIX_VTSR_AND_FALSE_SUCCESS_EXPERIMENT
+      status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+      task_contract_path: docs/aios/tasks/P1-070_OFFLINE_SCHEDULED_MATRIX_VTSR_AND_FALSE_SUCCESS_EXPERIMENT.yaml
+      task_contract_sha256: 02fc6ef5590803156e78c6f5328bfa6644f980323a38a504554250c5b94f72ca
+      accepted_candidate_commit: ee51cc96fedec5cc9ec640c6c0c1c76d5268d6c5
+      accepted_candidate_tree: ffae19db6991a77424d0deaa96a1c761348b7b41
+      claim_boundary: ONE_PREDECLARED_FIVE_ENTRY_COOPERATIVE_LOCAL_OFFLINE_SCHEDULED_MATRIX_WITH_EXACT_VTSR_ACCOUNTING_EVALUATOR_DISAGREEMENT_FALSE_SUCCESS_HISTORY_INTEGRITY_AND_NO_EXTERNAL_EFFECTS_ONLY
   first_task:
-    task_id: AIOS-P1-072_COMPLETE_OBSERVABLE_TRACE_VERTICAL_SLICE
+    task_id: AIOS-P1-076_TRUSTED_OUTER_VERIFIER_AND_PHYSICAL_ROLLBACK_ATTESTATION_VERTICAL_SLICE
     task_slot: 1
-    status: TERMINAL_PREFREEZE_TARGET_NOT_READY
-    contract_path: docs/aios/tasks/P1-072_COMPLETE_OBSERVABLE_TRACE_VERTICAL_SLICE.yaml
-    max_engineering_hours: 16
-    max_calendar_days: 5
+    status: ELIGIBLE_NOT_ACTIVATED
+    contract_path: docs/aios/tasks/P1-076_TRUSTED_OUTER_VERIFIER_AND_PHYSICAL_ROLLBACK_ATTESTATION_VERTICAL_SLICE.yaml
+    max_engineering_hours: 20
+    max_calendar_days: 6
     max_implementation_iterations: 2
     max_candidates: 1
     accepted_input_ids:
       - p1_035
       - p1_048
       - p1_071
+      - p1_070
     capability_projection_on_pass:
       - OBSERVABLE_TRACE
     strict_progress_projection_on_pass: 5_COMPLETE_1_PARTIAL_2_NOT_COMPLETE_62_5_PERCENT
-    claim_boundary: ONE_VISIBLE_SYNTHETIC_CLEAN_ROOM_COMPLETE_OBSERVABLE_TRACE_WITH_PRE_CHILD_HOST_EXECUTABLE_AND_EXECUTING_ARCHITECTURE_BINDING_INDEPENDENT_REPLAY_ZERO_FALSE_ACCEPTS_EXACT_ROLLBACK_AND_NO_EXTERNAL_EFFECTS_ONLY
+    claim_boundary: ONE_VISIBLE_SYNTHETIC_CLEAN_ROOM_COOPERATIVE_LOCAL_SUT_TRACE_SEPARATELY_TYPED_OUTER_EVALUATOR_LEDGER_REAL_GIT_WORKTREE_PHYSICAL_ROLLBACK_INDEPENDENT_AB_EXACT_STABLE_PROJECTION_ZERO_FALSE_ACCEPTS_AND_NO_EXTERNAL_EFFECTS_ONLY
   projected_second_task:
-    task_id: AIOS-P1-075_P2_CONTEXT_ENGINE_EXPERIMENT_PREREGISTRATION
+    task_id: AIOS-P1-077_CLEAN_ROOM_OFFLINE_B0_B1_B2_SHARED_HARNESS_ADAPTER_CONFORMANCE
     task_slot: 2
-    status: INELIGIBLE_ROUTE_STOPPED_AFTER_P1_072_NON_PASS
+    status: PROJECTED_NOT_YET_AUTHORIZED_OR_SCHEDULED
     contract_path: null
-    max_engineering_hours: 8
-    max_calendar_days: 4
+    max_engineering_hours: 16
+    max_calendar_days: 5
     max_implementation_iterations: 2
     max_candidates: 1
-    activation_condition: UNMET_P1_072_TERMINAL_NONPASS_AND_FULL_NO_PLACEHOLDER_PREREQUISITES_NOT_REACHED
+    activation_condition: P1_076_ACCEPTED_INTEGRATED_AND_CANONICAL_MAKE_VERIFY_PASS
     capability_projection_on_pass:
-      - P2_CONTEXT_ENGINE_EXPERIMENT_PREREGISTRATION
-    claim_boundary: CLEAN_ROOM_EXECUTABLE_PREREGISTRATION_ONLY_NO_P2_ENTRY_OR_EXPERIMENT_EXECUTION
+      - B0_B1_B2_COMPATIBILITY_ADAPTERS
+    strict_progress_projection_on_pass: 6_COMPLETE_1_PARTIAL_1_NOT_COMPLETE_75_PERCENT
+    claim_boundary: CLEAN_ROOM_PROVIDER_NEUTRAL_OFFLINE_B0_B1_B2_SHARED_HARNESS_ADAPTER_CONFORMANCE_ONLY_NO_EMPIRICAL_MODEL_BASELINE_PROVIDER_P1_EXIT_P2_P3_PRODUCTION_OR_PUBLIC_CLAIM
   route_execution_accounting:
     maximum_engineering_tasks: 2
-    task_slots_consumed: 1
+    task_slots_consumed: 0
     active_task_id: null
-    scheduled_task_ids:
-      - AIOS-P1-072_COMPLETE_OBSERVABLE_TRACE_VERTICAL_SLICE
-    terminal_task_ids:
-      - AIOS-P1-072_COMPLETE_OBSERVABLE_TRACE_VERTICAL_SLICE
+    scheduled_task_ids: []
+    terminal_task_ids: []
     accepted_task_ids: []
-    maximum_engineering_hours: 24
+    maximum_engineering_hours: 36
     engineering_hours_consumed_before_task_1: 0
-    implementation_iterations_consumed_task_1: 2
-    candidate_count_task_1: 0
-    actual_run_a_count_task_1: 0
-    actual_run_b_count_task_1: 0
-    canonical_make_verify_invocations_task_1: 0
-    status: TERMINAL_TASK_1_NONPASS_TASK_2_INELIGIBLE_ROUTE_STOPPED
-  claim_boundary: P1_072_UNFROZEN_IMPLEMENTATION_AND_MECHANICAL_SELF_TESTS_PRESERVED_TARGET_NOT_READY_NO_ACTUAL_AB_CANDIDATE_INTEGRATION_ACCEPTED_OBSERVABLE_TRACE_PROGRESS_P2_P3_PRODUCTION_OR_PUBLIC_CLAIM_STRICT_P1_REMAINS_50_PERCENT
-  next_eligible_action: FOUNDER_P1_PHASE_GATE_OR_NEW_ROUTE_DECISION_REQUIRED
+    status: READY_0_OF_2_TASKS_TASK_1_ELIGIBLE_NOT_ACTIVATED
+  claim_boundary: ROUTE_AUTHORIZATION_ONLY_P1_076_ELIGIBLE_NO_ENGINEERING_EXECUTION_CANDIDATE_CAPABILITY_OR_PROGRESS_CREDIT_STRICT_P1_REMAINS_50_PERCENT
+  next_eligible_action: ACTIVATE_FIRST_TASK
 phase_delegation:
   status: ACTIVE
   model: PHASE_LEVEL_FOUNDER_DELEGATION
@@ -1524,7 +1529,7 @@ active_work:
   authorization_id: null
   activation_parent_commit: null
   activation_parent_tree: null
-  task_resource_state: NONE_PHASE_ACTIVE
+  task_resource_state: NOT_CREATED_ROUTE_READY
   task_branch: null
   task_worktree: null
   execution_evidence_root: null
@@ -1549,12 +1554,12 @@ active_work:
   founder_reserved_authorization: null
   founder_reserved_authorization_sha256: null
   founder_decision_required: false
-  founder_decision_required_scope: NONE_TASK_LEVEL_CURRENT_ROUTE_EXHAUSTED
+  founder_decision_required_scope: NONE_WITHIN_AUTHORIZED_ROUTE_TASK_1_ACTIVATION
   escalation_reason: null
   user_action_required: NONE
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_OR_NEW_ROUTE_DECISION
-  next_eligible_action: FOUNDER_P1_PHASE_GATE_OR_NEW_ROUTE_DECISION_REQUIRED
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: ACTIVATE_FIRST_TASK
 superseded_pre_delegation_authorizations:
   aios_p1_009:
     task_id: AIOS-P1-009_ENVIRONMENT_SNAPSHOT_REPRODUCIBILITY
@@ -3443,9 +3448,9 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: P1_OFFLINE_EXIT_GATE_CLOSURE_ENGINEERING_ROUTE_V1_TERMINAL_TASK_1_NONPASS_ROUTE_STOPPED
-  current_task_claim: NONE_P1_072_TERMINAL_NO_ENGINEERING_CREDIT
-  real_engineering_progress: P1_070_ACCEPTED_EVALUATOR_RISK_GATE_COMPLETE_STRICT_P1_COMPLETION_50_PERCENT_P1_072_TERMINAL_NO_CREDIT
+  current_route_claim: P1_TRUSTED_OUTER_VERIFIER_AND_OFFLINE_ADAPTER_ENGINEERING_ROUTE_V1_AUTHORIZED_READY
+  current_task_claim: NONE_P1_076_ELIGIBLE_NOT_ACTIVATED
+  real_engineering_progress: P1_070_ACCEPTED_EVALUATOR_RISK_GATE_COMPLETE_STRICT_P1_COMPLETION_50_PERCENT_NEW_ROUTE_ACTIVATION_NO_CREDIT
   product_capability_changed: false
   phase_local_allowed:
     - local evaluation foundation engineering under an exact Task Contract
@@ -3507,10 +3512,10 @@ phase_execution_claim:
     - canonical main advance outside an accepted task gate
 
 claim_boundary:
-  current_phase_route: P1_OFFLINE_EXIT_GATE_CLOSURE_ENGINEERING_ROUTE_V1_TERMINAL_TASK_1_NONPASS_ROUTE_STOPPED
+  current_phase_route: P1_TRUSTED_OUTER_VERIFIER_AND_OFFLINE_ADAPTER_ENGINEERING_ROUTE_V1_AUTHORIZED_READY
   current_task: NONE
-  next_eligible_action: FOUNDER_P1_PHASE_GATE_OR_NEW_ROUTE_DECISION_REQUIRED
-  real_engineering_progress: P1_070_MASTER_TASK_GATE_ACCEPTED_EVALUATOR_RISK_GATE_COMPLETE_STRICT_P1_COMPLETION_50_PERCENT_P1_072_TERMINAL_NO_CREDIT
+  next_eligible_action: ACTIVATE_FIRST_TASK
+  real_engineering_progress: P1_070_MASTER_TASK_GATE_ACCEPTED_EVALUATOR_RISK_GATE_COMPLETE_STRICT_P1_COMPLETION_50_PERCENT_NEW_ROUTE_ACTIVATION_NO_CREDIT
   product_capability_changed_by_route_activation: false
   p1_066_status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
   p1_066_claim_limit: ONE_VISIBLE_SYNTHETIC_REP_001_COOPERATIVE_LOCAL_OFFLINE_B0_COMPLETE_EVIDENCE_OBSERVATION_ONLY
@@ -3659,7 +3664,7 @@ claim_boundary:
   p1_061_candidate_created: false
   p1_061_candidate_integrated: false
   p1_061_accepted_capability: false
-  current_route_stop_trigger: P1_072_FINAL_PREFREEZE_CTO_AND_SECURITY_TARGET_NOT_READY_AFTER_TWO_IMPLEMENTATION_ITERATIONS
+  current_route_stop_trigger: NONE_ROUTE_AUTHORIZED_READY_TASK_1_ELIGIBLE
   p1_048_actual_execution_experiment_pack: MASTER_TASK_GATE_ACCEPTED_COMPLETE
   p1_048_formal_run_a: PASS
   p1_048_independent_run_b: PASS
@@ -3720,7 +3725,7 @@ claim_boundary:
   p1_056_formal_run_b: NOT_STARTED
   p1_056_candidate_integrated: false
   p1_056_accepted_capability: false
-  current_route_executable_task_slots: 1_OF_2_CONSUMED_ROUTE_STOPPED_TASK_2_INELIGIBLE
+  current_route_executable_task_slots: 0_OF_2_CONSUMED_TASK_1_ELIGIBLE_NOT_ACTIVATED
   prior_experiment_pack_route_executable_task_slots_used: 3_OF_3
   p1_050_claim_boundary: LOCAL_SYNTHETIC_PROVIDER_NEUTRAL_B0_B1_B2_COMPATIBILITY_ADAPTER_EXECUTION_CONFORMANCE_ONLY_NO_EMPIRICAL_BASELINE_PERFORMANCE_VTSR_MODEL_AGENT_INHERITED_SOURCELENS_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
   repository_intelligence_quality: UNKNOWN_NOT_YET_BENCHMARKED

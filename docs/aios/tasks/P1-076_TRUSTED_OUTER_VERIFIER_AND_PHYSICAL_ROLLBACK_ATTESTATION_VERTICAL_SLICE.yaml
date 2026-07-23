@@ -1,0 +1,370 @@
+schema_version: 1
+record_type: sourcelens_aios_phase_delegated_task_contract
+task_id: AIOS-P1-076_TRUSTED_OUTER_VERIFIER_AND_PHYSICAL_ROLLBACK_ATTESTATION_VERTICAL_SLICE
+task_slot: 1
+phase: P1
+route_id: P1_TRUSTED_OUTER_VERIFIER_AND_OFFLINE_ADAPTER_ENGINEERING_ROUTE_V1
+status: AUTHORIZED_ACTIVE
+execution_authority: FOUNDER_PHASE_GATE_DELEGATED
+title: Trusted Outer Verifier and Physical Rollback Attestation Vertical Slice
+recorded_at_utc: "2026-07-23T04:46:19Z"
+owner_role: P1_076_ENGINEERING_MANAGER_OWNER
+worker_role: P1_076_TRUSTED_OUTER_VERIFIER_WORKER
+
+objective: >-
+  Implement and execute one clean-room, cooperative-local, runnable vertical
+  slice that records every untrusted system-under-test action through SUT STOP,
+  retains separately typed trusted-outer-verifier actions, independently
+  attests a real Git worktree materialization and exact physical rollback,
+  proves one real Run A plus one physically independent Run B with exact stable
+  projection equality and zero false accepts, and closes only the P1
+  OBSERVABLE_TRACE Exit Gate item.
+
+why_now:
+  - Strict P1 completion is 4/8 (50%) and OBSERVABLE_TRACE remains missing.
+  - P1-068 and P1-072 independently failed the prior self-observing trace architecture root.
+  - The Founder authorized one final architecture-level attempt with an explicit cooperative-local trusted outer verifier boundary.
+  - A passing Task permits automatic entry into the offline B0/B1/B2 shared-harness adapter Task; a non-passing Task permanently ends further observable-trace retries.
+
+task_kind: EVALUATION_FOUNDATION_ENGINEERING
+risk_level: high
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+founder_decision_required: false
+baseline_ref:
+  path: docs/aios/EVALUATION_PROTOCOL.md
+  version: "1.1"
+  sha256: da029143561fbb3c213d4a358b25e085542c6cd26ae8150a53cbb5998177eed8
+
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-072-complete-observable-trace-SiWfIxe2/terminal/P1_PHASE_GATE_TRUSTED_OUTER_VERIFIER_AND_OFFLINE_ADAPTER_ROUTE_V1.md
+  sha256: 3e7b95672a73557b28326deb89c53e172f9527479e9f3cce4ecf276b4f572c03
+  byte_length: 14096
+  authorization_token: AUTHORIZE_P1_TRUSTED_OUTER_VERIFIER_AND_OFFLINE_ADAPTER_ENGINEERING_ROUTE_V1
+
+founder_authorization_source:
+  source: CODEX_THREAD_FOUNDER_DIRECT_MESSAGE_2026_07_23
+  authorization_token: AUTHORIZE_P1_TRUSTED_OUTER_VERIFIER_AND_OFFLINE_ADAPTER_ENGINEERING_ROUTE_V1
+  packet_sha256: 3e7b95672a73557b28326deb89c53e172f9527479e9f3cce4ecf276b4f572c03
+
+source_identity:
+  canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
+  activation_parent_commit: 9da693bfbbcde8f82bb53e892ffd3284bdb11fd9
+  activation_parent_tree: 00e74498a66d6c747945b6502fee50ade13c2260
+  task_branch: codex/p1-076-trusted-outer-verifier
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-076-trusted-outer-verifier
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-076-trusted-outer-verifier-qAn5RqM9
+
+budget:
+  engineering_hours: 20
+  calendar_days: 6
+  implementation_iterations: 2
+  candidates: 1
+
+roles:
+  owner: P1_076_ENGINEERING_MANAGER_OWNER
+  worker: P1_076_TRUSTED_OUTER_VERIFIER_WORKER
+  independent_reviewers:
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent
+
+role_separation:
+  worker_owns_sut_and_outer_verifier_runtime: true
+  quality_owns_frozen_schema_task_card_and_negative_cases: true
+  run_b_actor_must_be_distinct_from_worker: true
+  final_reviewers_must_not_implement_or_modify_candidate: true
+  verifier_trust_is_an_assumption_not_a_p1_security_capability: true
+
+dependencies:
+  - AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+  - AIOS-P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK
+  - AIOS-P1-071_STABLE_REPLAY_PROJECTION_AND_EXACT_HARNESS_ADMISSION_VERTICAL_SLICE
+  - AIOS-P1-070_OFFLINE_SCHEDULED_MATRIX_VTSR_AND_FALSE_SUCCESS_EXPERIMENT
+
+allowlisted_paths:
+  - Makefile
+  - docs/PROJECT_CODE_MAP.md
+  - docs/aios/tasks/P1-076_TRUSTED_OUTER_VERIFIER_AND_PHYSICAL_ROLLBACK_ATTESTATION_VERTICAL_SLICE.yaml
+  - docs/aios/truth/project_state.yaml
+  - evaluation-harness/contracts/trusted-outer-verifier-v1/**
+  - evaluation-harness/evaluator/trusted-outer-verifier-v1/**
+  - evaluation-harness/fixtures/trusted-outer-verifier-v1/**
+  - evaluation-harness/harness/trusted-outer-verifier-v1/**
+  - evaluation-harness/recording/trusted-outer-verifier-v1/**
+  - evaluation-harness/replay/trusted-outer-verifier-v1/**
+  - evaluation-harness/validators/trusted-outer-verifier-v1/**
+  - scripts/verify-p1-076-trusted-outer-verifier.sh
+
+write_scope:
+  - Makefile
+  - docs/PROJECT_CODE_MAP.md
+  - docs/aios/tasks/P1-076_TRUSTED_OUTER_VERIFIER_AND_PHYSICAL_ROLLBACK_ATTESTATION_VERTICAL_SLICE.yaml
+  - docs/aios/truth/project_state.yaml
+  - evaluation-harness/contracts/trusted-outer-verifier-v1/**
+  - evaluation-harness/evaluator/trusted-outer-verifier-v1/**
+  - evaluation-harness/fixtures/trusted-outer-verifier-v1/**
+  - evaluation-harness/harness/trusted-outer-verifier-v1/**
+  - evaluation-harness/recording/trusted-outer-verifier-v1/**
+  - evaluation-harness/replay/trusted-outer-verifier-v1/**
+  - evaluation-harness/validators/trusted-outer-verifier-v1/**
+  - scripts/verify-p1-076-trusted-outer-verifier.sh
+
+write_ownership:
+  quality:
+    - evaluation-harness/contracts/trusted-outer-verifier-v1/**
+    - evaluation-harness/fixtures/trusted-outer-verifier-v1/**
+    - evaluation-harness/evaluator/trusted-outer-verifier-v1/**
+  worker:
+    - evaluation-harness/harness/trusted-outer-verifier-v1/**
+    - evaluation-harness/recording/trusted-outer-verifier-v1/**
+    - evaluation-harness/replay/trusted-outer-verifier-v1/**
+    - evaluation-harness/validators/trusted-outer-verifier-v1/**
+  integration:
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+    - docs/aios/tasks/P1-076_TRUSTED_OUTER_VERIFIER_AND_PHYSICAL_ROLLBACK_ATTESTATION_VERTICAL_SLICE.yaml
+    - docs/aios/truth/project_state.yaml
+    - scripts/verify-p1-076-trusted-outer-verifier.sh
+
+read_context:
+  canonical_authority:
+    - docs/aios/truth/project_state.yaml
+    - docs/aios/STRATEGIC_CONSTITUTION.md
+    - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+    - docs/aios/FOUNDER_DELEGATION_POLICY.md
+    - docs/aios/EVALUATION_PROTOCOL.md
+    - docs/aios/tasks/P1-076_TRUSTED_OUTER_VERIFIER_AND_PHYSICAL_ROLLBACK_ATTESTATION_VERTICAL_SLICE.yaml
+  founder_packet:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-072-complete-observable-trace-SiWfIxe2/terminal/P1_PHASE_GATE_TRUSTED_OUTER_VERIFIER_AND_OFFLINE_ADAPTER_ROUTE_V1.md
+    sha256: 3e7b95672a73557b28326deb89c53e172f9527479e9f3cce4ecf276b4f572c03
+    byte_length: 14096
+  accepted_canonical_engineering:
+    - AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+    - AIOS-P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK
+    - AIOS-P1-071_STABLE_REPLAY_PROJECTION_AND_EXACT_HARNESS_ADMISSION_VERTICAL_SLICE
+    - AIOS-P1-070_OFFLINE_SCHEDULED_MATRIX_VTSR_AND_FALSE_SUCCESS_EXPERIMENT
+  terminal_metadata_only:
+    p1_072_terminal_record:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-072-complete-observable-trace-SiWfIxe2/terminal/P1_072_TERMINAL_STOP_RECORD.json
+      sha256: 73521455ea1b2682efbe2515defab437794c8ec81e814507383a4dd711032d1d
+      byte_length: 4686
+    p1_072_cto_review:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-072-complete-observable-trace-SiWfIxe2/terminal/CTO_FREEZE_GATE_REVIEW.json
+      sha256: 7d51e0a830772c3e7b42ab4382164392d6e59ca88e752cbd19b2beae92984a0a
+      byte_length: 2449
+    p1_072_security_review:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-072-complete-observable-trace-SiWfIxe2/terminal/SECURITY_FREEZE_GATE_REVIEW.json
+      sha256: e7af08c84e89d3e9b6c09d1af2ab8950cef19293c3d6b314d41d44e50001e4fc
+      byte_length: 1729
+  forbidden:
+    - P1_068_OR_P1_072_SOURCE_FIXTURE_TEST_DIFF_CANDIDATE_PARTIAL_IMPLEMENTATION_OR_HIDDEN_EVIDENCE
+    - P1_072_SOURCE_ARCHIVE_OPEN_HASH_EXTRACT_COMPARE_COPY_OR_REUSE
+    - TERMINAL_ADAPTER_SOURCE_FIXTURE_TEST_DIFF_CANDIDATE_OR_PARTIAL_IMPLEMENTATION
+    - ANY_OTHER_TERMINAL_OR_REJECTED_ENGINEERING_ASSET
+
+trust_boundary:
+  claim: COOPERATIVE_LOCAL
+  system_under_test:
+    - synthetic_task_runner
+    - every_SUT_child_process
+    - every_SUT_file_mutation
+  trusted_outer_verifier:
+    status: EXPLICIT_TRUST_BASE_ASSUMPTION
+    recursively_self_observed: false
+    hostile_principal_claim: false
+    security_capability_credit: false
+  required_composite_evidence:
+    - complete_sut_trace
+    - separately_typed_outer_evaluator_ledger
+    - post_attestation_admission_receipt
+
+execution_architecture:
+  sut_trace_window: SUT_START_THROUGH_SUT_STOP
+  every_sut_action_must_be_admitted_before_execution: true
+  post_stop_sut_child_allowed: false
+  evaluator_actions_must_not_be_labeled_as_sut_actions: true
+  evaluator_ledger_fields:
+    - sequence
+    - action_id
+    - operation
+    - argv
+    - cwd
+    - fixed_environment
+    - timeout_ms
+    - started_at
+    - ended_at
+    - exit_code
+    - stdout_sha256
+    - stderr_sha256
+    - result
+  admission_receipt_created_after:
+    - SUT_STOP
+    - OUTER_EVALUATOR_COMPLETE
+    - PHYSICAL_ROLLBACK_ATTESTED
+
+physical_rollback_attestation:
+  materialization_must_be_real_git_worktree: true
+  empty_directory_must_fail: true
+  pre_and_post_fields:
+    - repository_marker
+    - git_common_dir_identity
+    - head_commit
+    - head_tree
+    - porcelain_status
+    - target_relative_path
+    - target_file_type
+    - target_file_mode
+    - target_file_byte_length
+    - target_file_sha256
+  exact_pre_post_equality_required: true
+  target_file_must_be_opened_nofollow_when_supported: true
+  path_component_symlink_rejected: true
+
+required_actual_execution:
+  run_a:
+    actor: P1_076_TRUSTED_OUTER_VERIFIER_WORKER
+    fresh_materialization: true
+    actual_source_mutation: true
+    actual_tests: true
+    exact_rollback: true
+  run_b:
+    actor: FRESH_INDEPENDENT_RUN_B_ACTOR
+    physically_distinct_materialization: true
+    imports_worker_receipt_as_truth: false
+    actual_source_mutation: true
+    actual_tests: true
+    exact_rollback: true
+  stable_projection_exact_byte_equality_required: true
+
+required_negative_families:
+  - POST_STOP_CHILD_CREATION
+  - CHILD_COUNT_OR_ACTION_OMISSION
+  - ARGV_CWD_ENV_TIMEOUT_EXIT_OR_OUTPUT_IDENTITY_TAMPER
+  - EXECUTABLE_OR_ARCHITECTURE_SUBSTITUTION
+  - EVALUATOR_ACTION_MISLABELED_AS_SUT
+  - MISSING_OUTER_EVALUATOR_ACTION_IDENTITY
+  - EMPTY_OR_WRONG_MATERIALIZATION
+  - SYMLINK_HARDLINK_OR_REPLACED_MATERIALIZATION
+  - WRONG_REPOSITORY_MARKER_HEAD_TREE_OR_STATUS
+  - WRONG_TARGET_BYTES_TYPE_OR_MODE
+  - SYNTHETIC_EVIDENCE_WITHOUT_PHYSICAL_LIFECYCLE
+  - ROLLBACK_DECLARATION_WITHOUT_EXACT_PHYSICAL_RESTORATION
+  - EVIDENCE_MUTATION_OR_REPLAY_MISMATCH
+  - FORBIDDEN_EXTERNAL_EFFECT
+
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+
+anti_loop:
+  pre_freeze_implementation_iterations: 2
+  exact_candidates: 1
+  final_candidate_review_cycles: 1
+  post_freeze_source_repairs: 0
+  successor_replacement_correction_normalization_closure_feasibility_or_remediation_chain_allowed: false
+  renamed_observable_trace_retry_after_non_pass_allowed: false
+
+acceptance:
+  - One real Run A and one physically independent Run B both complete with exact rollback.
+  - The SUT trace contains every admitted SUT action through SUT STOP and contains no evaluator action.
+  - The outer evaluator ledger contains every evaluator operation used for physical attestation.
+  - The post-attestation admission receipt is created only after evaluator completion and rollback attestation.
+  - Every Evaluation Protocol section 6 observable field is present or explicitly represented as not applicable with a frozen reason.
+  - Stable projections from Run A and Run B are exactly byte-equal.
+  - Every frozen negative case is rejected and false accepts equal zero.
+  - All six external effects remain false.
+  - Fresh CTO, Security and Quality reviewers each return TARGET_VERDICT PASS on the same exact candidate tree.
+  - The reviewed tree is integrated exactly and one canonical make verify invocation passes.
+
+acceptance_criteria:
+  - REAL_RUN_A_AND_PHYSICALLY_INDEPENDENT_RUN_B_PASS_WITH_EXACT_ROLLBACK
+  - COMPLETE_SUT_TRACE_HAS_NO_UNRECORDED_SUT_ACTION_AND_NO_EVALUATOR_ACTION
+  - SEPARATELY_TYPED_OUTER_EVALUATOR_LEDGER_RECORDS_EVERY_ATTESTATION_OPERATION
+  - POST_ATTESTATION_RECEIPT_IS_CREATED_ONLY_AFTER_VERIFIER_COMPLETION_AND_ROLLBACK
+  - EVALUATION_PROTOCOL_SECTION_6_FIELDS_ARE_COMPLETE_OR_FROZEN_NOT_APPLICABLE
+  - RUN_A_AND_RUN_B_STABLE_PROJECTIONS_ARE_EXACTLY_BYTE_EQUAL
+  - ALL_FROZEN_NEGATIVE_CASES_REJECT_AND_FALSE_ACCEPTS_EQUAL_ZERO
+  - ALL_SIX_EXTERNAL_EFFECTS_REMAIN_FALSE
+  - THREE_FRESH_FINAL_REVIEWERS_PASS_THE_SAME_EXACT_CANDIDATE_TREE
+  - REVIEWED_TREE_EQUALS_INTEGRATED_TREE_AND_ONE_CANONICAL_MAKE_VERIFY_PASSES
+
+required_evidence:
+  - exact_candidate_manifest
+  - source_and_environment_identity
+  - real_run_a_raw_evidence
+  - physically_independent_run_b_raw_evidence
+  - complete_sut_hash_chain_trace_per_run
+  - separately_typed_outer_evaluator_ledger_per_run
+  - pre_and_post_physical_git_worktree_attestation_per_run
+  - post_attestation_admission_receipt_per_run
+  - exact_stable_projection_pair_and_byte_equality_receipt
+  - frozen_negative_matrix_and_zero_false_accept_receipt
+  - exact_rollback_receipts
+  - fresh_cto_security_quality_final_reviews
+  - reviewed_integrated_tree_equality_receipt
+  - single_canonical_make_verify_log
+
+forbidden_actions:
+  - READ_HASH_EXTRACT_COMPARE_COPY_OR_REUSE_P1_072_SOURCE_ARCHIVE
+  - READ_OR_REUSE_P1_068_P1_072_OR_TERMINAL_ADAPTER_ENGINEERING_ASSETS
+  - LABEL_OUTER_EVALUATOR_ACTION_AS_SUT_ACTION
+  - CLAIM_RECURSIVE_SELF_OBSERVATION_OR_HOSTILE_PRINCIPAL_SECURITY
+  - SPAWN_ANY_SUT_CHILD_AFTER_SUT_STOP
+  - ACCEPT_EMPTY_NON_GIT_WRONG_SYMLINKED_HARDLINKED_OR_REPLACED_MATERIALIZATION
+  - TRUST_SYNTHETIC_OR_SELF_CONSISTENT_EVIDENCE_WITHOUT_PHYSICAL_ATTESTATION
+  - MUTATE_RETAINED_RAW_EVIDENCE
+  - USE_NETWORK_PROVIDER_SECRET_REMOTE_PRODUCTION_OR_PUBLIC_EFFECT
+  - CREATE_SECOND_CANDIDATE_SECOND_FINAL_REVIEW_OR_POST_FREEZE_REPAIR
+  - CREATE_SUCCESSOR_REPLACEMENT_CORRECTION_NORMALIZATION_CLOSURE_FEASIBILITY_OR_REMEDIATION_CHAIN
+  - RESET_CLEAN_STASH_PUSH_PR_DEPLOY_PUBLISH_OR_ENTER_P2_OR_P3
+
+integration:
+  reviewed_tree_must_equal_integrated_tree: true
+  canonical_make_verify_invocations: 1
+  make_verify_non_pass_action: NON_DESTRUCTIVE_REVERT_AND_TERMINAL_ROUTE_STOP
+  remote_push_allowed: false
+
+rollback:
+  task_materializations: REMOVE_ONLY_TASK_OWNED_DISPOSABLE_WORKTREES_AFTER_EXACT_ATTESTATION
+  integration: NON_DESTRUCTIVE_GIT_REVERT_ONLY
+  reset_clean_stash_allowed: false
+  evidence_preservation_required: true
+
+stop_conditions:
+  - BASELINE_GOAL_PACKET_AUTHORITY_OR_EVIDENCE_IDENTITY_DRIFT
+  - READ_OR_REUSE_OF_FORBIDDEN_TERMINAL_ENGINEERING_ASSET
+  - NEED_FOR_PATH_BUDGET_PERMISSION_OR_CLAIM_EXPANSION
+  - NEED_FOR_MORE_THAN_TWO_PREFREEZE_IMPLEMENTATION_ITERATIONS
+  - NEED_FOR_SECOND_CANDIDATE_OR_SECOND_FINAL_REVIEW_CYCLE
+  - ACTUAL_A_OR_B_NON_PASS
+  - NEGATIVE_CASE_FALSE_ACCEPT
+  - PHYSICAL_ROLLBACK_OR_STABLE_PROJECTION_NON_PASS
+  - ANY_FINAL_REVIEWER_TARGET_VERDICT_NON_PASS
+  - REVIEWED_AND_INTEGRATED_TREE_MISMATCH
+  - CANONICAL_MAKE_VERIFY_NON_PASS
+  - EVIDENCE_DAMAGE_UNOWNED_CLEANUP_OR_EXTERNAL_EFFECT
+  - CRITICAL_RESIDUAL_RISK_OR_PHASE_GATE_CHANGE_REQUIRED
+
+progress_projection:
+  before: 4_COMPLETE_1_PARTIAL_3_NOT_COMPLETE_50_PERCENT
+  on_exact_task_gate_pass: 5_COMPLETE_1_PARTIAL_2_NOT_COMPLETE_62_5_PERCENT
+  on_non_pass: UNCHANGED_4_COMPLETE_1_PARTIAL_3_NOT_COMPLETE_50_PERCENT
+
+claim_boundary: >-
+  One visible synthetic cooperative-local clean-room SUT trace plus separately
+  typed trusted outer evaluator ledger, real Git-worktree physical rollback
+  attestation, physically independent A/B, exact stable projection and zero
+  false accepts only. No hostile-principal, recursive self-observation,
+  Provider, baseline-performance, P1 Exit, P2, P3, production or public claim.

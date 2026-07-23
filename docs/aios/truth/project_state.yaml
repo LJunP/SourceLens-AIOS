@@ -1462,7 +1462,7 @@ mandatory_exit_capability_recovery:
     HIDDEN_SET_PROTOCOL: ACCEPTED_P1_071_COOPERATIVE_LOCAL
     PARAMETERIZED_EVALUATION_HARNESS: ACCEPTED_P1_071_COOPERATIVE_LOCAL
     VTSR_COUNTING_VALIDATOR: ACCEPTED_P1_070_COOPERATIVE_LOCAL
-    B0_B1_B2_COMPATIBILITY_ADAPTERS: MISSING_P1_083_FINAL_SECURITY_TARGET_NON_PASS
+    B0_B1_B2_COMPATIBILITY_ADAPTERS: MISSING_P1_086_FINAL_CTO_TARGET_NON_PASS
     OBSERVABLE_TRACE: MISSING_P1_078_ATTEMPT_4_TERMINAL_TARGETED_RETEST_NON_PASS
     EVALUATOR_DISAGREEMENT_AND_FALSE_SUCCESS_CHARACTERIZATION: ACCEPTED_P1_070_COOPERATIVE_LOCAL
     REPRODUCIBLE_BASELINE_REPORT: MISSING_PENDING_NEW_P1_ROUTE
@@ -1565,7 +1565,7 @@ mandatory_exit_capability_recovery:
         capability_accepted: false
         capability_credit: 0
         strict_p1_completion_after_task: 4_COMPLETE_0_PARTIAL_4_NOT_COMPLETE_50_PERCENT
-      latest_terminal_attempt:
+      prior_terminal_attempt_p1_083:
         task_id: AIOS-P1-083_B0_MINIMAL_COMPATIBILITY_ADAPTER
         route_id: P1_MINIMAL_ADAPTER_DECOMPOSITION_ENGINEERING_ROUTE_V1
         status: TERMINAL_FINAL_SECURITY_TARGET_NON_PASS
@@ -1594,6 +1594,35 @@ mandatory_exit_capability_recovery:
         capability_accepted: false
         capability_credit: 0
         strict_p1_completion_after_task: 4_COMPLETE_0_PARTIAL_4_NOT_COMPLETE_50_PERCENT
+      latest_terminal_attempt:
+        task_id: AIOS-P1-086_HARNESS_OWNED_OUTPUT_ROOT_AND_B0_ADAPTER
+        route_id: P1_TRUSTED_OWNED_OUTPUT_ROOT_AND_CLEAN_ROOM_ADAPTER_ENGINEERING_ROUTE_V1
+        status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
+        activation_contract_sha256: 951afe4e4785b2fcc5979c998b06d20ca911632fbd456345f4382e4b28a56a77
+        terminal_contract_sha256: c58d52fdad4449fd932cfaa82b131313f92edb751ecf8572fdb5e6f0fb686a36
+        activation_commit: 5609c16292b99b1e06c4ddfb338177802c1c2b1c
+        activation_tree: 072ffe30e4d0564ae22dd66beece98aca1b1a799
+        quality_freeze_commit: 8c77fa1e116efda25455facb274896cc0636e552
+        quality_freeze_tree: 3fd64e67f5b13919966044309188dfed22990d4c
+        implementation_iterations_used: 2
+        code_only_repairs_used: 1
+        targeted_verification: PASS_2_OF_2
+        formal_suite_verdict: PASS
+        candidate_commit: d367d0f074ca845629a474f5544d45b9dd92ad80
+        candidate_tree: 5652eb6349a48cf10195046a1fe9d2166ae6b2d7
+        candidate_manifest_sha256: 7fef9e1e4b9c64cfe2805cf865200a1329feb7310c0922ea2698cae1fc56981e
+        final_review_cycle:
+          cto: NON_PASS
+          security: CANCELLED_AFTER_CTO_NON_PASS
+          quality: CANCELLED_AFTER_CTO_NON_PASS
+        terminal_finding_id: CTO-P1-086-001
+        normalized_root_cause: RUN_B_ACTOR_PROVENANCE_NOT_INDEPENDENT
+        terminal_receipt_sha256: 3c2ad534610e336b7412b916c91a686bc6fda3ede2ca9725bfc06eefb2ca87c6
+        candidate_integrated: false
+        canonical_full_make_verify_invocations: 0
+        capability_accepted: false
+        capability_credit: 0
+        strict_p1_completion_after_task: 4_OF_8_50_PERCENT
     OBSERVABLE_TRACE:
       status: TERMINAL_PREFREEZE_FEASIBILITY_NON_PASS
       task_id: AIOS-P1-076_TRUSTED_OUTER_VERIFIER_AND_PHYSICAL_ROLLBACK_ATTESTATION_VERTICAL_SLICE

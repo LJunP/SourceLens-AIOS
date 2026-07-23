@@ -1205,7 +1205,7 @@ mandatory_exit_capability_recovery:
     PARAMETERIZED_EVALUATION_HARNESS: ACCEPTED_P1_071_COOPERATIVE_LOCAL
     VTSR_COUNTING_VALIDATOR: ACCEPTED_P1_070_COOPERATIVE_LOCAL
     B0_B1_B2_COMPATIBILITY_ADAPTERS: MISSING_P1_062_TERMINAL_CANONICAL_GATE_NON_PASS
-    OBSERVABLE_TRACE: MISSING_P1_078_ATTEMPT_4_ACTIVE_NO_CREDIT
+    OBSERVABLE_TRACE: MISSING_P1_078_ATTEMPT_4_TERMINAL_TARGETED_RETEST_NON_PASS
     EVALUATOR_DISAGREEMENT_AND_FALSE_SUCCESS_CHARACTERIZATION: ACCEPTED_P1_070_COOPERATIVE_LOCAL
     REPRODUCIBLE_BASELINE_REPORT: MISSING_PENDING_NEW_P1_ROUTE
   capability_attempt_ledger:
@@ -1294,12 +1294,18 @@ mandatory_exit_capability_recovery:
       founder_authorized_next_attempt:
         task_id: AIOS-P1-078_ENGINEERING_FIRST_STATE_ROLLBACK_OBSERVABLE_TRACE_VERTICAL_SLICE
         route_id: P1_FORMAL_PHASE_ARCHITECTURE_REVISION_ENGINEERING_FIRST_TRACE_AND_OFFLINE_ADAPTER_ROUTE_V1
-        status: ACTIVE_ITERATION_1_NOT_STARTED
+        status: TERMINAL_TARGETED_RETEST_NON_PASS
         attempt_ordinal: 4
         corrected_contract_sha256: ae5542dd5836da3146c1ca77049fd4fb03a8961ca3ce889153eda0857de4320d
         recovery_packet_sha256: 8659157e72716121c7f56ebb9263dc078a69dd82213bd954f8b610a695a81c1b
         contract_corrections_used: 1
-        engineering_execution_started: false
+        implementation_iterations_used: 2
+        same_task_worker_repairs_used: 1
+        quality_freezes_used: 1
+        engineering_execution_started: true
+        candidate_count: 0
+        accepted_capability: false
+        terminal_record_sha256: 7c87dde0cf0493c63c0d4acd335af319b2b98148e149fa8c99fca306d888d31c
         capability_credit: 0
       prior_terminal_attempt:
         task_id: AIOS-P1-072_COMPLETE_OBSERVABLE_TRACE_VERTICAL_SLICE

@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-24T06:13:27Z"
-verification_scope: P1_097_MINIMAL_DOCUMENTED_ADAPTER_TASK_ACTIVATION
+last_verified_at: "2026-07-24T07:08:00Z"
+verification_scope: P1_097_TERMINAL_IMPLEMENTATION_ITERATION_EXHAUSTED_NON_PASS
 
 authority:
   founder: Human Founder
@@ -37,16 +37,17 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: AIOS-P1-097_MINIMAL_DOCUMENTED_B0_B1_B2_COMPATIBILITY_ADAPTERS
+  current_task_authority: NONE
   note: >-
     The Founder-approved long-term Goal remains ACTIVE with the exact
     Founder-installed identity. P1-092 remains accepted with zero capability
     credit. P1-093 remains terminal, rejected and excluded from engineering
     reuse. P1-095 remains terminal and its rejected engineering assets remain
-    excluded from read or reuse. The Founder-authorized P1-097 Task is ACTIVE
-    to implement minimal documented offline B0/B1/B2 compatibility adapters
-    directly against the accepted Baseline Adapter Contract. Activation adds
-    no capability credit; strict P1 completion remains 4/8 (50%).
+    excluded from read or reuse. P1-097 is terminal after the authorized
+    implementation iteration and unique code-only repair both failed the
+    complete negative matrix. Six positive runs and three stable pairs remain
+    real terminal Evidence, but no adapter capability was accepted, P1-098 was
+    not activated, and strict P1 completion remains 4/8 (50%).
 
 project:
   name: SourceLens AIOS
@@ -56,10 +57,10 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  phase_execution_status: ACTIVE
-  p1_execution_status: ACTIVE
-  p1_engineering_status: P1_097_ACTIVE_ENGINEERING
-  current_route_execution_status: ACTIVE_TASK_1_ENGINEERING
+  phase_execution_status: ACTIVE_FOUNDER_PHASE_GATE_REQUIRED
+  p1_execution_status: ACTIVE_WAITING_FOUNDER_PHASE_GATE
+  p1_engineering_status: P1_097_TERMINAL_REPAIR_BUDGET_EXHAUSTED_NON_PASS
+  current_route_execution_status: TERMINAL_TASK_1_NON_PASS
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -1292,11 +1293,11 @@ historical_p1_092_p1_093_phase_route:
 
 current_phase_route:
   route_id: P1_MINIMAL_DOCUMENTED_COMPATIBILITY_ADAPTER_AND_TRACE_ROUTE_V1
-  status: ACTIVE
-  authority_object_status: FOUNDER_PHASE_GATE_AUTHORITY_CONSUMED_ACTIVE
-  execution_status: ACTIVE_TASK_1_ENGINEERING
-  founder_phase_route_decision_required: false
-  scheduling_status: ACTIVE_TASK_1
+  status: TERMINAL
+  authority_object_status: FOUNDER_PHASE_GATE_AUTHORITY_CONSUMED_TERMINAL
+  execution_status: TERMINAL_TASK_1_IMPLEMENTATION_ITERATION_EXHAUSTED_NON_PASS
+  founder_phase_route_decision_required: true
+  scheduling_status: NO_ELIGIBLE_TASK_ROUTE_TERMINAL
   phase: P1
   phase_entry_status: AUTHORIZED
   authorization_token: AUTHORIZE_P1_MINIMAL_DOCUMENTED_COMPATIBILITY_ADAPTER_AND_TRACE_ROUTE_SCHEMA_COMPATIBLE_REISSUE_V1
@@ -1329,7 +1330,7 @@ current_phase_route:
     version: "1.1"
     changed: false
     strict_status_at_activation: 4_COMPLETE_0_PARTIAL_4_NOT_COMPLETE_50_PERCENT
-    status: UNCHANGED_STRICT_50_PERCENT_TASK_1_ACTIVE
+    status: UNCHANGED_STRICT_50_PERCENT_TASK_1_TERMINAL_NON_PASS
   envelope:
     max_engineering_tasks: 2
     max_engineering_hours: 36
@@ -1453,21 +1454,21 @@ current_phase_route:
     - task_slot: 1
       task_id: AIOS-P1-097_MINIMAL_DOCUMENTED_B0_B1_B2_COMPATIBILITY_ADAPTERS
       component: B0_B1_B2_COMPATIBILITY_ADAPTERS
-      status: ACTIVE
+      status: TERMINAL_IMPLEMENTATION_ITERATION_EXHAUSTED_NON_PASS
       engineering_hours: 22
       calendar_days: 6
       strict_p1_credit_on_pass: 1
     - task_slot: 2
       task_id: AIOS-P1-098_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE
       component: OBSERVABLE_TRACE
-      status: ELIGIBLE_AFTER_TASK_1_GATE_PASS
+      status: NOT_ACTIVATED_TASK_1_TERMINAL_NON_PASS
       engineering_hours: 14
       calendar_days: 4
       strict_p1_credit_on_pass: 1
   first_task:
     task_id: AIOS-P1-097_MINIMAL_DOCUMENTED_B0_B1_B2_COMPATIBILITY_ADAPTERS
     task_slot: 1
-    status: ACTIVE
+    status: TERMINAL_IMPLEMENTATION_ITERATION_EXHAUSTED_NON_PASS
     contract_path: docs/aios/tasks/P1-097_MINIMAL_DOCUMENTED_B0_B1_B2_COMPATIBILITY_ADAPTERS.yaml
     max_engineering_hours: 22
     max_calendar_days: 6
@@ -1481,11 +1482,24 @@ current_phase_route:
     capability_projection_on_pass:
       - B0_B1_B2_COMPATIBILITY_ADAPTERS
     strict_progress_projection_on_pass: 5_COMPLETE_0_PARTIAL_3_NOT_COMPLETE_62_5_PERCENT
+    terminal_contract_sha256: ce7cb3e78ad877437193ec1b970c993f3de578b65ff723aa042c615cc0147e73
+    terminal_contract_byte_length: 12681
+    terminal_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-097-minimal-documented-adapters-QqgitOfD/terminal/P1_097_TERMINAL_RECEIPT.json
+      sha256: 3e4f75c11bffbe308df5674e79d5cabfe7eea4074a19322e289c1478c04975a7
+      byte_length: 4848
+    implementation_iterations_used: 2
+    code_only_repairs_used: 1
+    candidate_count: 0
+    final_review_cycles: 0
+    capability_accepted: false
+    capability_credit: 0
+    strict_p1_completion_after_task: 4_COMPLETE_0_PARTIAL_4_NOT_COMPLETE_50_PERCENT
     claim_boundary: MINIMAL_DOCUMENTED_SHARED_OFFLINE_B0_B1_B2_ADAPTER_CONFORMANCE_ONLY_NO_LIVE_MODEL_PROVIDER_PERFORMANCE_BASELINE_VTSR_COMPLETE_P1_P2_P3_PRODUCTION_PUBLIC_OR_HOSTILE_PRINCIPAL_CLAIM
   projected_second_task:
     task_id: AIOS-P1-098_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE
     task_slot: 2
-    status: ELIGIBLE_AFTER_TASK_1_GATE_PASS
+    status: NOT_ACTIVATED_ROUTE_TERMINAL
     max_engineering_hours: 14
     max_calendar_days: 4
     max_implementation_iterations: 2
@@ -1496,19 +1510,55 @@ current_phase_route:
   route_execution_accounting:
     maximum_engineering_tasks: 2
     task_slots_consumed: 1
-    active_task_id: AIOS-P1-097_MINIMAL_DOCUMENTED_B0_B1_B2_COMPATIBILITY_ADAPTERS
+    active_task_id: null
     scheduled_task_ids:
       - AIOS-P1-097_MINIMAL_DOCUMENTED_B0_B1_B2_COMPATIBILITY_ADAPTERS
-    terminal_task_ids: []
+    terminal_task_ids:
+      - AIOS-P1-097_MINIMAL_DOCUMENTED_B0_B1_B2_COMPATIBILITY_ADAPTERS
     accepted_task_ids: []
     maximum_engineering_hours: 36
-    engineering_hours_authorized_current_task: 22
-    status: ACTIVE_1_OF_2_TASKS
+    engineering_hours_authorized_current_task: 0
+    status: TERMINAL_1_OF_2_TASKS_TASK_1_NON_PASS_TASK_2_INELIGIBLE
+  terminal_outcome:
+    status: TERMINAL_IMPLEMENTATION_ITERATION_EXHAUSTED_NON_PASS
+    normalized_root_cause_id: P1097.NEGATIVE.NONOWNED_FIXTURE.IDENTITY_HELPER_JSON_PARSE_ORDER
+    initial_matrix:
+      positive_runs_passed: 6
+      exact_stable_pairs_passed: 3
+      terminal_case_id: NEG_OUTPUT_ANCESTOR_SYMLINK
+      expected_reason_code: OUTPUT_ROOT_INVALID
+      observed_reason_code: INPUT_IDENTITY_MISMATCH
+    unique_code_only_repair:
+      used: true
+      repaired_root_cause: OUTPUT_ROOT_ANCESTOR_SYMLINK_CONTEXT_CLASSIFICATION
+    final_matrix:
+      positive_runs_passed: 6
+      exact_stable_pairs_passed: 3
+      terminal_case_id: NEG_NONOWNED_CLEANUP
+      expected_reason_code: NONOWNED_CLEANUP_FORBIDDEN
+      observed_reason_code: SCHEMA_INVALID
+      target_execution_count: 0
+      nonowned_fixture_changed: false
+      external_effect_observed: false
+    terminal_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-097-minimal-documented-adapters-QqgitOfD/terminal/P1_097_TERMINAL_RECEIPT.json
+      sha256: 3e4f75c11bffbe308df5674e79d5cabfe7eea4074a19322e289c1478c04975a7
+      byte_length: 4848
+    rejected_engineering_source_manifest:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-097-minimal-documented-adapters-QqgitOfD/terminal/REJECTED_ENGINEERING_SOURCE_MANIFEST.jsonl
+      sha256: 20183f5f4c0bd22181712924d57d343431329cd4a7e2a51f82e6bfc251cba6a6
+      byte_length: 6091
+      file_count: 32
+    p1_098_activated: false
+    capability_accepted: false
+    capability_credit: 0
+    strict_p1_completion_after_route: 4_COMPLETE_0_PARTIAL_4_NOT_COMPLETE_50_PERCENT
+    rejected_source_read_restore_compare_or_reuse_allowed: false
   claim_boundary: MINIMAL_DOCUMENTED_SHARED_OFFLINE_B0_B1_B2_THEN_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE_ONLY_NO_LIVE_MODEL_PROVIDER_PERFORMANCE_BASELINE_VTSR_COMPLETE_P1_P2_P3_PRODUCTION_PUBLIC_OR_HOSTILE_PRINCIPAL_CLAIM
-  next_eligible_action: EXECUTE_AIOS_P1_097_ENGINEERING
+  next_eligible_action: FOUNDER_P1_PHASE_GATE
 
 phase_delegation:
-  status: ACTIVE
+  status: ACTIVE_FOUNDER_PHASE_GATE_REQUIRED
   model: PHASE_LEVEL_FOUNDER_DELEGATION
   decision_source: FOUNDER_DIRECTIVES_IN_CODEX_THREAD_2026_07_16_AND_2026_07_17
   phase_gate_owner: HUMAN_FOUNDER
@@ -1720,7 +1770,7 @@ mandatory_exit_capability_recovery:
     HIDDEN_SET_PROTOCOL: ACCEPTED_P1_071_COOPERATIVE_LOCAL
     PARAMETERIZED_EVALUATION_HARNESS: ACCEPTED_P1_071_COOPERATIVE_LOCAL
     VTSR_COUNTING_VALIDATOR: ACCEPTED_P1_070_COOPERATIVE_LOCAL
-    B0_B1_B2_COMPATIBILITY_ADAPTERS: MISSING_P1_086_FINAL_CTO_TARGET_NON_PASS
+    B0_B1_B2_COMPATIBILITY_ADAPTERS: MISSING_P1_097_TERMINAL_IMPLEMENTATION_ITERATION_EXHAUSTED_NON_PASS
     OBSERVABLE_TRACE: MISSING_P1_089_FINAL_SECURITY_TARGET_NON_PASS
     EVALUATOR_DISAGREEMENT_AND_FALSE_SUCCESS_CHARACTERIZATION: ACCEPTED_P1_070_COOPERATIVE_LOCAL
     REPRODUCIBLE_BASELINE_REPORT: MISSING_PENDING_NEW_P1_ROUTE
@@ -1772,13 +1822,11 @@ mandatory_exit_capability_recovery:
         terminal_receipt_sha256: a3149d3188f9027c8ef44f5d2aaa7334a8dab9b5179be2a25b504e3e40e05fb7
         rewritten_or_reused: false
     B0_B1_B2_COMPATIBILITY_ADAPTERS:
-      status: EMPIRICAL_B0_VERTICAL_SLICE_TERMINAL_CANONICAL_GATE_NON_PASS
-      task_id: AIOS-P1-062_LOCAL_GATEWAY_FINITE_IR_B0_VERTICAL_SLICE
-      contract_sha256: 5be459aa217a50b5266ca88beded7797f1512a7f07a8f2ff37fbde18cd694390
-      candidate_commit: d8730dcec5e09fb663ce323a73e5c9c8d9af2633
-      candidate_tree: 50a64eafbb4ed0e1e4a41374ec1ef9fd969fcc30
+      status: TERMINAL_P1_097_IMPLEMENTATION_ITERATION_EXHAUSTED_NON_PASS
+      task_id: AIOS-P1-097_MINIMAL_DOCUMENTED_B0_B1_B2_COMPATIBILITY_ADAPTERS
+      route_id: P1_MINIMAL_DOCUMENTED_COMPATIBILITY_ADAPTER_AND_TRACE_ROUTE_V1
+      contract_sha256: ce7cb3e78ad877437193ec1b970c993f3de578b65ff723aa042c615cc0147e73
       empirical_observation_retained: true
-      candidate_integrated_after_revert: false
       capability_accepted: false
       p1_exit_gate_changed: false
       prior_terminal_attempt:
@@ -1881,6 +1929,39 @@ mandatory_exit_capability_recovery:
         capability_accepted: false
         capability_credit: 0
         strict_p1_completion_after_task: 4_OF_8_50_PERCENT
+      latest_terminal_attempt_p1_097:
+        task_id: AIOS-P1-097_MINIMAL_DOCUMENTED_B0_B1_B2_COMPATIBILITY_ADAPTERS
+        route_id: P1_MINIMAL_DOCUMENTED_COMPATIBILITY_ADAPTER_AND_TRACE_ROUTE_V1
+        status: TERMINAL_IMPLEMENTATION_ITERATION_EXHAUSTED_NON_PASS
+        activation_contract_sha256: 3e3d298b3b0a640bc4c1d74f16779e3e9e21cf7d3fc336cc1ee3354797eea83f
+        terminal_contract_sha256: ce7cb3e78ad877437193ec1b970c993f3de578b65ff723aa042c615cc0147e73
+        activation_commit: 9bc687b64f5c37af3bd6c9c449632d370e1785e6
+        activation_tree: ef6ebb8560dca3864c134b9d20757a7ebf55536f
+        implementation_iterations_used: 2
+        code_only_repairs_used: 1
+        positive_runs_passed: 6
+        exact_stable_pairs_passed: 3
+        b2_real_exact_p0_scan_runs: 2
+        complete_negative_matrix_passed: false
+        terminal_case_id: NEG_NONOWNED_CLEANUP
+        expected_reason_code: NONOWNED_CLEANUP_FORBIDDEN
+        observed_reason_code: SCHEMA_INVALID
+        normalized_root_cause_id: P1097.NEGATIVE.NONOWNED_FIXTURE.IDENTITY_HELPER_JSON_PARSE_ORDER
+        target_execution_count: 0
+        nonowned_fixture_changed: false
+        false_accept_observed: false
+        external_effect_observed: false
+        candidate_count: 0
+        final_review_cycles: 0
+        candidate_integrated: false
+        canonical_full_make_verify_invocations: 0
+        terminal_receipt_sha256: 3e4f75c11bffbe308df5674e79d5cabfe7eea4074a19322e289c1478c04975a7
+        capability_accepted: false
+        capability_credit: 0
+        strict_p1_completion_after_task: 4_COMPLETE_0_PARTIAL_4_NOT_COMPLETE_50_PERCENT
+        p1_098_activated: false
+        correction_replacement_successor_or_rereview_allowed: false
+        failed_engineering_asset_read_compare_restore_or_reuse_allowed: false
     OBSERVABLE_TRACE:
       status: TERMINAL_PREFREEZE_FEASIBILITY_NON_PASS
       task_id: AIOS-P1-076_TRUSTED_OUTER_VERIFIER_AND_PHYSICAL_ROLLBACK_ATTESTATION_VERTICAL_SLICE
@@ -2485,52 +2566,38 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: FOUNDER_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE_DECISION_AFTER_P1_079_TERMINAL
 active_work:
-  current_task: AIOS-P1-097_MINIMAL_DOCUMENTED_B0_B1_B2_COMPATIBILITY_ADAPTERS
-  current_task_status: ACTIVE
+  current_task: NONE
+  current_task_status: NONE
   current_task_contract:
-    path: docs/aios/tasks/P1-097_MINIMAL_DOCUMENTED_B0_B1_B2_COMPATIBILITY_ADAPTERS.yaml
-    sha256: 3e3d298b3b0a640bc4c1d74f16779e3e9e21cf7d3fc336cc1ee3354797eea83f
-    byte_length: 11400
-  current_task_contract_sha256: 3e3d298b3b0a640bc4c1d74f16779e3e9e21cf7d3fc336cc1ee3354797eea83f
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-097-minimal-documented-adapters-QqgitOfD/authority/PHASE_DELEGATED_TASK_AUTHORITY.yaml
-  current_execution_authorization_sha256: 7dca5891c4c815b230c6256a0f756cc526a0e43140483056ff87b19b2289bb57
+    path: null
+    sha256: null
+    byte_length: null
+  current_task_contract_sha256: null
+  current_execution_authorization: null
+  current_execution_authorization_sha256: null
   authority_record:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-097-minimal-documented-adapters-QqgitOfD/authority/PHASE_DELEGATED_TASK_AUTHORITY.yaml
-    sha256: 7dca5891c4c815b230c6256a0f756cc526a0e43140483056ff87b19b2289bb57
-    byte_length: 2929
-  execution_nonce: 4976ca1ad787eaf104e2bf119fef0425285a148a8e3016ba
-  execution_nonce_status: ACTIVE
-  authorization_id: PHASE-DELEGATED-P1-097-c51fba11-f313-4ecd-976a-0277b691b58b
-  activation_parent_commit: d6a55a1ab883081029e5669f81d4ee876debd39e
-  activation_parent_tree: c7f02fd3dde6515a5aebc06ea1c931a17e7d2605
-  task_resource_state: ACTIVE_BRANCH_WORKTREE_AND_EVIDENCE_ROOT
-  task_branch: codex/p1-097-minimal-documented-adapters
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-097-minimal-documented-adapters
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-097-minimal-documented-adapters-QqgitOfD
-  allowlisted_paths:
-    - evaluation-harness/adapters/p1-097-minimal-documented/**
-    - evaluation-harness/fixtures/p1-097-minimal-documented/**
-    - evaluation-harness/harness/p1-097-minimal-documented/**
-    - evaluation-harness/evaluator/p1-097-minimal-documented/**
-    - evaluation-harness/replay/p1-097-minimal-documented/**
-    - evaluation-harness/recording/p1-097-minimal-documented/**
-    - scripts/verify-p1-097-minimal-documented-adapters.sh
-    - docs/aios/tasks/P1-097_MINIMAL_DOCUMENTED_B0_B1_B2_COMPATIBILITY_ADAPTERS.yaml
-    - docs/aios/truth/project_state.yaml
-    - docs/PROJECT_CODE_MAP.md
-    - Makefile
+    path: null
+    sha256: null
+    byte_length: null
+  execution_nonce: null
+  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
+  authorization_id: null
+  activation_parent_commit: null
+  activation_parent_tree: null
+  task_resource_state: NONE_PHASE_ACTIVE_TERMINAL_EVIDENCE_PRESERVED
+  task_branch: null
+  task_worktree: null
+  execution_evidence_root: null
+  allowlisted_paths: []
   budget:
-    engineering_hours: 22
-    calendar_days: 6
-    implementation_iterations: 2
-    candidates: 1
+    engineering_hours: null
+    calendar_days: null
+    implementation_iterations: null
+    candidates: null
   roles:
-    owner: Engineering Manager Agent
-    worker: P1-097 Minimal Documented Adapter Worker
-    independent_reviewers:
-      - P1-097 CTO Reviewer
-      - P1-097 Security Reviewer
-      - P1-097 Quality Reviewer
+    owner: null
+    worker: null
+    independent_reviewers: []
   external_effects:
     network: false
     provider: false
@@ -2539,15 +2606,15 @@ active_work:
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimal-documented-adapter-trace-route-schema-compatible-reissue-20260724/FOUNDER_P1_MINIMAL_DOCUMENTED_COMPATIBILITY_ADAPTER_AND_TRACE_ROUTE_SCHEMA_COMPATIBLE_REISSUE_V1.md
-  founder_reserved_authorization_sha256: 19cf64687a657276b80ecbe52fedaa92fbe546201c67b41eddc6900e5f95402c
-  founder_decision_required: false
-  founder_decision_required_scope: NONE_WITHIN_ACTIVE_PHASE_ENVELOPE
-  escalation_reason: null
-  user_action_required: NONE
-  phase_route_decision_required: false
-  phase_route_user_action_required: NONE
-  next_eligible_action: EXECUTE_AIOS_P1_097_ENGINEERING
+  founder_reserved_authorization: null
+  founder_reserved_authorization_sha256: null
+  founder_decision_required: true
+  founder_decision_required_scope: P1_PHASE_ROUTE_AFTER_P1_097_TERMINAL_NON_PASS
+  escalation_reason: P1_097_IMPLEMENTATION_ITERATION_AND_UNIQUE_REPAIR_EXHAUSTED_NON_PASS
+  user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
+  phase_route_decision_required: true
+  phase_route_user_action_required: FOUNDER_PHASE_GATE_DECISION
+  next_eligible_action: FOUNDER_P1_PHASE_GATE
   last_accepted_task:
     task_id: AIOS-P1-092_SINGLE_AUTHORITY_CONTRACT_COMPATIBILITY_CONVERGENCE
     status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
@@ -2556,9 +2623,13 @@ active_work:
     integration_receipt_sha256: af0a26753ff9e20fe651d52d846f993cc755367b9b5b1cab237aa0540fe2bfd7
     capability_credit: 0
   last_terminal_task:
-    task_id: AIOS-P1-095_PREDECLARED_PHYSICAL_ARTIFACT_SET_SHARED_ADAPTER_CONFORMANCE
-    status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
-    terminal_receipt_sha256: bb2a22fc35a1b97bde91ea2de24a0a7fe571184dcd36a49ad1dbe3b43c61f8be
+    task_id: AIOS-P1-097_MINIMAL_DOCUMENTED_B0_B1_B2_COMPATIBILITY_ADAPTERS
+    status: TERMINAL_IMPLEMENTATION_ITERATION_EXHAUSTED_NON_PASS
+    terminal_contract_sha256: ce7cb3e78ad877437193ec1b970c993f3de578b65ff723aa042c615cc0147e73
+    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-097-minimal-documented-adapters-QqgitOfD/terminal/P1_097_TERMINAL_RECEIPT.json
+    terminal_receipt_sha256: 3e4f75c11bffbe308df5674e79d5cabfe7eea4074a19322e289c1478c04975a7
+    candidate_count: 0
+    final_review_cycles: 0
     capability_credit: 0
 
 superseded_pre_delegation_authorizations:
@@ -2577,6 +2648,54 @@ superseded_pre_delegation_authorizations:
     note: The engineering objective may be selected independently by Master, but these pre-delegation bytes require a routine per-Task Founder Gate and cannot be activated under the current authority model.
 
 task_history:
+  aios_p1_097:
+    task_id: AIOS-P1-097_MINIMAL_DOCUMENTED_B0_B1_B2_COMPATIBILITY_ADAPTERS
+    route_id: P1_MINIMAL_DOCUMENTED_COMPATIBILITY_ADAPTER_AND_TRACE_ROUTE_V1
+    status: TERMINAL_IMPLEMENTATION_ITERATION_EXHAUSTED_NON_PASS
+    classification: REAL_OFFLINE_B0_B1_B2_POSITIVE_EXECUTION_REJECTED_BY_COMPLETE_NEGATIVE_MATRIX
+    activation_contract_sha256: 3e3d298b3b0a640bc4c1d74f16779e3e9e21cf7d3fc336cc1ee3354797eea83f
+    terminal_contract_path: docs/aios/tasks/P1-097_MINIMAL_DOCUMENTED_B0_B1_B2_COMPATIBILITY_ADAPTERS.yaml
+    terminal_contract_sha256: ce7cb3e78ad877437193ec1b970c993f3de578b65ff723aa042c615cc0147e73
+    terminal_contract_byte_length: 12681
+    authority_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-097-minimal-documented-adapters-QqgitOfD/authority/PHASE_DELEGATED_TASK_AUTHORITY.yaml
+    authority_record_sha256: 7dca5891c4c815b230c6256a0f756cc526a0e43140483056ff87b19b2289bb57
+    authority_record_byte_length: 2929
+    activation_commit: 9bc687b64f5c37af3bd6c9c449632d370e1785e6
+    activation_tree: ef6ebb8560dca3864c134b9d20757a7ebf55536f
+    implementation_iterations_used: 2
+    code_only_repairs_used: 1
+    positive_runs_passed: 6
+    exact_stable_pairs_passed: 3
+    b2_real_exact_p0_scan_runs: 2
+    complete_negative_matrix_passed: false
+    initial_terminal_case_id: NEG_OUTPUT_ANCESTOR_SYMLINK
+    initial_expected_reason_code: OUTPUT_ROOT_INVALID
+    initial_observed_reason_code: INPUT_IDENTITY_MISMATCH
+    repaired_root_cause: OUTPUT_ROOT_ANCESTOR_SYMLINK_CONTEXT_CLASSIFICATION
+    final_terminal_case_id: NEG_NONOWNED_CLEANUP
+    final_expected_reason_code: NONOWNED_CLEANUP_FORBIDDEN
+    final_observed_reason_code: SCHEMA_INVALID
+    normalized_root_cause_id: P1097.NEGATIVE.NONOWNED_FIXTURE.IDENTITY_HELPER_JSON_PARSE_ORDER
+    target_execution_count_at_terminal_case: 0
+    nonowned_fixture_changed: false
+    false_accept_observed: false
+    external_effect_observed: false
+    candidate_count: 0
+    final_review_cycles_used: 0
+    candidate_integrated: false
+    canonical_full_make_verify_invocations: 0
+    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-097-minimal-documented-adapters-QqgitOfD/terminal/P1_097_TERMINAL_RECEIPT.json
+    terminal_receipt_sha256: 3e4f75c11bffbe308df5674e79d5cabfe7eea4074a19322e289c1478c04975a7
+    terminal_receipt_byte_length: 4848
+    rejected_engineering_source_manifest_sha256: 20183f5f4c0bd22181712924d57d343431329cd4a7e2a51f82e6bfc251cba6a6
+    accepted_capabilities: []
+    capability_credit: 0
+    strict_p1_completion_after_task: 4_COMPLETE_0_PARTIAL_4_NOT_COMPLETE_50_PERCENT
+    p1_098_entry: INELIGIBLE_ROUTE_STOPPED
+    correction_replacement_successor_or_rereview_allowed: false
+    failed_engineering_asset_read_compare_restore_or_reuse_allowed: false
+    next_eligible_action: FOUNDER_P1_PHASE_GATE
+    claim_boundary: REAL_OFFLINE_B0_B1_B2_POSITIVE_EXECUTION_AND_TERMINAL_NEGATIVE_MATRIX_EVIDENCE_ONLY_NO_ACCEPTED_ADAPTER_CAPABILITY_NO_P1_PROGRESS_NO_P1_098_P2_P3_PRODUCTION_PUBLIC_PROVIDER_OR_NETWORK_CLAIM
   aios_p1_095:
     task_id: AIOS-P1-095_PREDECLARED_PHYSICAL_ARTIFACT_SET_SHARED_ADAPTER_CONFORMANCE
     route_id: P1_PREDECLARED_ARTIFACT_SET_AND_SHARED_ADAPTER_RECOVERY_ROUTE_V1

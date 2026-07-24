@@ -1,0 +1,77 @@
+{
+  "schema_version": "p1-101-quality-positive-plan/v1",
+  "task_id": "AIOS-P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE",
+  "accepted_fixture_root": "evaluation-harness/fixtures/p1-097-minimal-documented",
+  "runs": [
+    {
+      "case_id": "B0_A",
+      "adapter_id": "B0",
+      "repetition_id": 1,
+      "configuration": "evaluation-harness/fixtures/p1-097-minimal-documented/system-configurations/b0-a.json",
+      "pair": "B0"
+    },
+    {
+      "case_id": "B0_B",
+      "adapter_id": "B0",
+      "repetition_id": 2,
+      "configuration": "evaluation-harness/fixtures/p1-097-minimal-documented/system-configurations/b0-b.json",
+      "pair": "B0"
+    },
+    {
+      "case_id": "B1_A",
+      "adapter_id": "B1",
+      "repetition_id": 1,
+      "configuration": "evaluation-harness/fixtures/p1-097-minimal-documented/system-configurations/b1-a.json",
+      "pair": "B1"
+    },
+    {
+      "case_id": "B1_B",
+      "adapter_id": "B1",
+      "repetition_id": 2,
+      "configuration": "evaluation-harness/fixtures/p1-097-minimal-documented/system-configurations/b1-b.json",
+      "pair": "B1"
+    },
+    {
+      "case_id": "B2_A",
+      "adapter_id": "B2",
+      "repetition_id": 1,
+      "configuration": "evaluation-harness/fixtures/p1-097-minimal-documented/system-configurations/b2-a.json",
+      "pair": "B2"
+    },
+    {
+      "case_id": "B2_B",
+      "adapter_id": "B2",
+      "repetition_id": 2,
+      "configuration": "evaluation-harness/fixtures/p1-097-minimal-documented/system-configurations/b2-b.json",
+      "pair": "B2"
+    }
+  ],
+  "requirements": {
+    "positive_runs": 6,
+    "distinct_run_roots": 6,
+    "exact_stable_pairs": 3,
+    "event_order": [
+      "admission",
+      "execution",
+      "validation",
+      "result",
+      "rollback"
+    ],
+    "b2_real_repository_analysis_scan_children": 2,
+    "replay_receipts": 6,
+    "rollback_receipts": 6,
+    "raw_stochastic_pairs_different": 3,
+    "false_accepts": 0,
+    "nonowned_residuals": 0,
+    "undeclared_executions": 0,
+    "external_effects": {
+      "network": false,
+      "provider": false,
+      "secret": false,
+      "remote": false,
+      "production": false,
+      "public": false
+    }
+  },
+  "claim_boundary": "SIX_ACCEPTED_CANONICAL_OFFLINE_B0_B1_B2_SHARED_OBSERVABLE_TRACE_RUNS_ONLY"
+}

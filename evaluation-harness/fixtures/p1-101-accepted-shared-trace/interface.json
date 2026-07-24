@@ -1,0 +1,176 @@
+{
+  "schema_version": "p1-101-quality-worker-interface/v1",
+  "task_id": "AIOS-P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE",
+  "worker_entry": "evaluation-harness/harness/p1-101-accepted-shared-trace/run.mjs",
+  "cli": {
+    "argv": [
+      "/usr/local/bin/node",
+      "WORKER_ENTRY",
+      "--request",
+      "ABSOLUTE_REGULAR_JSON",
+      "--output-root",
+      "ABSENT_ABSOLUTE_PATH"
+    ],
+    "allowed_exit_codes": {
+      "PASS": 0,
+      "REJECTED": 2
+    },
+    "stdout": "EXACTLY_ONE_CANONICAL_JSON_LINE",
+    "stderr": "EMPTY"
+  },
+  "request_closed_keys": [
+    "schema_version",
+    "request_id",
+    "case_id",
+    "mode",
+    "adapter_id",
+    "repetition_id",
+    "accepted_system_configuration",
+    "validation_inputs",
+    "mutation",
+    "requested_effects",
+    "expected_outcome",
+    "output_root"
+  ],
+  "request_schema": {
+    "schema_version": "p1-101-quality-request/v1",
+    "request_id": "UNIQUE_NONEMPTY_STRING",
+    "case_id": "FROZEN_POSITIVE_OR_NEGATIVE_CASE_ID",
+    "mode": [
+      "POSITIVE",
+      "NEGATIVE"
+    ],
+    "adapter_id": [
+      "B0",
+      "B1",
+      "B2"
+    ],
+    "repetition_id": "INTEGER_GTE_1",
+    "accepted_system_configuration": "BOUND_INPUT_RECORD",
+    "validation_inputs": "PRE_ADMISSION_VALIDATION_INPUT_RECORD",
+    "mutation": "NULL_FOR_POSITIVE_OR_FROZEN_NEGATIVE_MUTATION",
+    "requested_effects": "SIX_FALSE_EFFECT_RECORD_UNLESS_THE_NEGATIVE_CASE_REQUESTS_EXACTLY_ONE_EFFECT",
+    "expected_outcome": "EXPECTED_OUTCOME_RECORD",
+    "output_root": "EXACT_CLI_OUTPUT_ROOT"
+  },
+  "bound_input_record_closed_keys": [
+    "path",
+    "sha256",
+    "byte_length"
+  ],
+  "mutation_closed_keys": [
+    "stage",
+    "type"
+  ],
+  "external_effect_closed_keys": [
+    "network",
+    "provider",
+    "secret",
+    "remote",
+    "production",
+    "public"
+  ],
+  "expected_outcome_closed_keys": [
+    "status",
+    "pre_execution",
+    "target_execution_count"
+  ],
+  "validation_input_closed_keys": [
+    "task_spec",
+    "environment_snapshot",
+    "system_configuration",
+    "executable",
+    "input"
+  ],
+  "stdout_closed_keys": [
+    "schema_version",
+    "request_id",
+    "case_id",
+    "status",
+    "reason_code",
+    "target_execution_count",
+    "admitted",
+    "output_root_created",
+    "run_record_ref",
+    "trace_ref",
+    "stable_projection_ref",
+    "replay_receipt_ref",
+    "rollback_receipt_ref",
+    "external_effects",
+    "cleanup"
+  ],
+  "cleanup_closed_keys": [
+    "owned_paths_removed",
+    "nonowned_paths_touched",
+    "undeclared_executions"
+  ],
+  "positive_case_ids": [
+    "B0_A",
+    "B0_B",
+    "B1_A",
+    "B1_B",
+    "B2_A",
+    "B2_B"
+  ],
+  "required_positive_event_order": [
+    "admission",
+    "execution",
+    "validation",
+    "result",
+    "rollback"
+  ],
+  "negative_case_catalog": "evaluation-harness/fixtures/p1-101-accepted-shared-trace/negative-cases.json",
+  "negative_execution_contract": {
+    "PRE_EXECUTION": {
+      "required_target_execution_count": 0,
+      "required_admitted": false
+    },
+    "POST_EXECUTION": {
+      "fresh_accepted_adapter_run_per_case": true,
+      "required_target_execution_count": 1,
+      "required_admitted": false
+    }
+  },
+  "negative_validation_evidence": {
+    "scope": "ALL_NEGATIVES",
+    "source_path": "negative-source-input.bin",
+    "mutated_path": "negative-validation-input.bin",
+    "receipt_path": "negative-validation-receipt.json",
+    "receipt_closed_keys": [
+      "schema_version",
+      "record_type",
+      "mutation_type",
+      "source_identity",
+      "mutated_identity",
+      "observed_reason",
+      "validator_invoked",
+      "admitted",
+      "external_effects"
+    ],
+    "worker_must_not_receive_expected_reason": true
+  },
+  "pre_execution_validation_input_closed_keys": [
+    "schema_version",
+    "validation_inputs",
+    "requested_effects"
+  ],
+  "post_execution_validation_input_closed_keys": [
+    "schema_version",
+    "trace_events",
+    "output_identity",
+    "run_record_identity",
+    "child_invocations",
+    "output_inventory"
+  ],
+  "post_execution_mutation_targets": {
+    "TAMPER_EVENT_BYTES": "trace_events",
+    "REMOVE_REQUIRED_EVENT": "trace_events",
+    "REORDER_EVENTS": "trace_events",
+    "OUTPUT_IDENTITY_DRIFT": "output_identity",
+    "RUN_RECORD_IDENTITY_DRIFT": "run_record_identity",
+    "CHILD_IDENTITY_DRIFT": "child_invocations",
+    "ADD_UNEXPECTED_OUTPUT": "output_inventory",
+    "ADD_UNDECLARED_CHILD": "child_invocations"
+  },
+  "claim_boundary": "QUALITY_OWNED_P1_101_SHARED_OBSERVABLE_TRACE_INTERFACE_ONLY_NO_ADAPTER_REIMPLEMENTATION_MODEL_PERFORMANCE_PROVIDER_NETWORK_PRODUCTION_PUBLIC_OR_STRONG_ISOLATION_CLAIM"
+}

@@ -1,0 +1,148 @@
+{
+  "schema_version": "p1-101-quality-negative-catalog/v1",
+  "task_id": "AIOS-P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE",
+  "false_accepts_allowed": 0,
+  "cases": [
+    {
+      "case_id": "NEG_TASK_SPEC_IDENTITY_DRIFT",
+      "adapter_id": "B0",
+      "stage": "PRE_EXECUTION",
+      "mutation": "TASK_SPEC_IDENTITY_DRIFT",
+      "reason_code": "TASK_SPEC_IDENTITY_MISMATCH"
+    },
+    {
+      "case_id": "NEG_ENVIRONMENT_IDENTITY_DRIFT",
+      "adapter_id": "B0",
+      "stage": "PRE_EXECUTION",
+      "mutation": "ENVIRONMENT_IDENTITY_DRIFT",
+      "reason_code": "ENVIRONMENT_IDENTITY_MISMATCH"
+    },
+    {
+      "case_id": "NEG_SYSTEM_CONFIGURATION_IDENTITY_DRIFT",
+      "adapter_id": "B0",
+      "stage": "PRE_EXECUTION",
+      "mutation": "SYSTEM_CONFIGURATION_IDENTITY_DRIFT",
+      "reason_code": "SYSTEM_CONFIGURATION_IDENTITY_MISMATCH"
+    },
+    {
+      "case_id": "NEG_EXECUTABLE_IDENTITY_DRIFT",
+      "adapter_id": "B0",
+      "stage": "PRE_EXECUTION",
+      "mutation": "EXECUTABLE_IDENTITY_DRIFT",
+      "reason_code": "EXECUTABLE_IDENTITY_MISMATCH"
+    },
+    {
+      "case_id": "NEG_INPUT_IDENTITY_DRIFT",
+      "adapter_id": "B0",
+      "stage": "PRE_EXECUTION",
+      "mutation": "INPUT_IDENTITY_DRIFT",
+      "reason_code": "INPUT_IDENTITY_MISMATCH"
+    },
+    {
+      "case_id": "NEG_EFFECT_NETWORK",
+      "adapter_id": "B0",
+      "stage": "PRE_EXECUTION",
+      "mutation": "REQUEST_EFFECT_NETWORK",
+      "reason_code": "EXTERNAL_EFFECT_FORBIDDEN"
+    },
+    {
+      "case_id": "NEG_EFFECT_PROVIDER",
+      "adapter_id": "B0",
+      "stage": "PRE_EXECUTION",
+      "mutation": "REQUEST_EFFECT_PROVIDER",
+      "reason_code": "EXTERNAL_EFFECT_FORBIDDEN"
+    },
+    {
+      "case_id": "NEG_EFFECT_SECRET",
+      "adapter_id": "B0",
+      "stage": "PRE_EXECUTION",
+      "mutation": "REQUEST_EFFECT_SECRET",
+      "reason_code": "EXTERNAL_EFFECT_FORBIDDEN"
+    },
+    {
+      "case_id": "NEG_EFFECT_REMOTE",
+      "adapter_id": "B0",
+      "stage": "PRE_EXECUTION",
+      "mutation": "REQUEST_EFFECT_REMOTE",
+      "reason_code": "EXTERNAL_EFFECT_FORBIDDEN"
+    },
+    {
+      "case_id": "NEG_EFFECT_PRODUCTION",
+      "adapter_id": "B0",
+      "stage": "PRE_EXECUTION",
+      "mutation": "REQUEST_EFFECT_PRODUCTION",
+      "reason_code": "EXTERNAL_EFFECT_FORBIDDEN"
+    },
+    {
+      "case_id": "NEG_EFFECT_PUBLIC",
+      "adapter_id": "B0",
+      "stage": "PRE_EXECUTION",
+      "mutation": "REQUEST_EFFECT_PUBLIC",
+      "reason_code": "EXTERNAL_EFFECT_FORBIDDEN"
+    },
+    {
+      "case_id": "NEG_TAMPERED_EVENT_BYTES",
+      "adapter_id": "B0",
+      "stage": "POST_EXECUTION",
+      "mutation": "TAMPER_EVENT_BYTES",
+      "reason_code": "TRACE_EVENT_IDENTITY_MISMATCH"
+    },
+    {
+      "case_id": "NEG_MISSING_REQUIRED_EVENT",
+      "adapter_id": "B0",
+      "stage": "POST_EXECUTION",
+      "mutation": "REMOVE_REQUIRED_EVENT",
+      "reason_code": "TRACE_EVENT_SEQUENCE_INVALID"
+    },
+    {
+      "case_id": "NEG_REORDERED_EVENT",
+      "adapter_id": "B0",
+      "stage": "POST_EXECUTION",
+      "mutation": "REORDER_EVENTS",
+      "reason_code": "TRACE_EVENT_SEQUENCE_INVALID"
+    },
+    {
+      "case_id": "NEG_OUTPUT_IDENTITY_DRIFT",
+      "adapter_id": "B0",
+      "stage": "POST_EXECUTION",
+      "mutation": "OUTPUT_IDENTITY_DRIFT",
+      "reason_code": "OUTPUT_IDENTITY_MISMATCH"
+    },
+    {
+      "case_id": "NEG_RUN_RECORD_IDENTITY_DRIFT",
+      "adapter_id": "B0",
+      "stage": "POST_EXECUTION",
+      "mutation": "RUN_RECORD_IDENTITY_DRIFT",
+      "reason_code": "RUN_RECORD_IDENTITY_MISMATCH"
+    },
+    {
+      "case_id": "NEG_CHILD_IDENTITY_DRIFT",
+      "adapter_id": "B2",
+      "stage": "POST_EXECUTION",
+      "mutation": "CHILD_IDENTITY_DRIFT",
+      "reason_code": "CHILD_INVOCATION_IDENTITY_MISMATCH"
+    },
+    {
+      "case_id": "NEG_UNEXPECTED_OUTPUT",
+      "adapter_id": "B0",
+      "stage": "POST_EXECUTION",
+      "mutation": "ADD_UNEXPECTED_OUTPUT",
+      "reason_code": "UNEXPECTED_OUTPUT"
+    },
+    {
+      "case_id": "NEG_UNDECLARED_CHILD",
+      "adapter_id": "B0",
+      "stage": "POST_EXECUTION",
+      "mutation": "ADD_UNDECLARED_CHILD",
+      "reason_code": "UNDECLARED_CHILD_INVOCATION"
+    }
+  ],
+  "counts": {
+    "catalog_entries": 19,
+    "pre_execution": 11,
+    "post_execution": 8,
+    "external_effect_cases": 6
+  },
+  "fresh_fixture_per_case": true,
+  "claim_boundary": "REAL_DISPOSABLE_P1_101_SHARED_TRACE_NEGATIVE_FIXTURES_ONLY"
+}

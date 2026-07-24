@@ -338,7 +338,7 @@ class CurrentTaskAuthorityTest
       commit(repo, "test: expand literal gateway host to DNS name")
       expect_nonpass(repo, "Founder profile host expansion", /transport exceeds the literal local-gateway boundary/)
       expect_safety_nonpass(repo, fixture["truth_path"], "safety rejects Founder profile host expansion",
-                            /transport exceeds literal loopback boundary/)
+                            /transport exceeds the literal local-gateway boundary/)
       truth["current_phase_route"]["founder_reserved_profile"]["transport"]["host"] = original_host
       dump_owned_yaml(fixture["truth_path"], truth)
       commit(repo, "test: restore literal gateway host")

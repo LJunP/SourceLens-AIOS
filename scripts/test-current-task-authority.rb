@@ -229,14 +229,14 @@ class CurrentTaskAuthorityTest
   def prepare_fixture(sandbox)
     source_truth_path = File.join(SOURCE_REPO, TRUTH_RELATIVE)
     source_truth = yaml(source_truth_path)
-    canonical_source = source_truth.fetch("project").fetch("canonical_repository")
+    source_head = shell(SOURCE_REPO, "git", "rev-parse", "HEAD").strip
     repo = File.join(sandbox, "repo")
     external = File.join(sandbox, "external")
     FileUtils.mkdir_p(external)
-    shell(sandbox, "git", "clone", "--quiet", "--no-hardlinks", canonical_source, repo)
+    shell(sandbox, "git", "clone", "--quiet", "--no-hardlinks", SOURCE_REPO, repo)
     shell(repo, "git", "config", "user.name", "Authority Fixture")
     shell(repo, "git", "config", "user.email", "authority-fixture@example.invalid")
-    shell(repo, "git", "checkout", "--quiet", "main")
+    shell(repo, "git", "checkout", "--quiet", "-B", "main", source_head)
 
     truth_path = File.join(repo, TRUTH_RELATIVE)
     policy_path = File.join(repo, POLICY_RELATIVE)
@@ -487,8 +487,6 @@ class CurrentTaskAuthorityTest
       "status" => "ACTIVE",
       "objective" => "Run one bounded local-gateway finite-IR fixture task.",
       "why_now" => "Exercise the exact Founder-reserved authority path without network in this fixture.",
-      "owner_role" => roles["owner"],
-      "worker_role" => roles["worker"],
       "budget" => budget,
       "roles" => roles,
       "allowlisted_paths" => allowlisted,
@@ -607,10 +605,89 @@ class CurrentTaskAuthorityTest
     )
   end
 
+  def bind_authority_to_truth(fixture, truth, authority)
+    dump_owned_yaml(fixture["authority_path"], authority)
+    bytes = File.binread(fixture["authority_path"])
+    sha = Digest::SHA256.hexdigest(bytes)
+    truth["active_work"]["current_execution_authorization_sha256"] = sha
+    truth["active_work"]["authority_record"] = {
+      "path" => fixture["authority_path"],
+      "sha256" => sha,
+      "byte_length" => bytes.bytesize
+    }
+  end
+
+  def bind_contract_and_authority_to_truth(fixture, truth, contract, authority)
+    dump_owned_yaml(fixture["contract_path"], contract)
+    bytes = File.binread(fixture["contract_path"])
+    sha = Digest::SHA256.hexdigest(bytes)
+    truth["active_work"]["current_task_contract"] = {
+      "path" => truth.dig("current_phase_route", "first_task", "contract_path"),
+      "sha256" => sha,
+      "byte_length" => bytes.bytesize
+    }
+    truth["active_work"]["current_task_contract_sha256"] = sha
+    authority["task_contract_sha256"] = sha
+    bind_authority_to_truth(fixture, truth, authority)
+  end
+
+  def commit_truth(fixture, truth, message)
+    dump_owned_yaml(fixture["truth_path"], truth)
+    commit(fixture["repo"], message)
+  end
+
+  def expect_dual_nonpass(fixture, label, pattern)
+    expect_nonpass(fixture["repo"], "#{label} main", pattern)
+    expect_safety_nonpass(fixture["repo"], fixture["truth_path"], "#{label} safety", pattern)
+  end
+
   def active_tests(fixture)
     repo = fixture["repo"]
-    expect_pass(repo, "generic active Task")
-    expect_safety_pass(repo, fixture["truth_path"], "generic active Task safety")
+    expect_pass(repo, "mapping-only roles active Task")
+    expect_safety_pass(repo, fixture["truth_path"], "mapping-only roles active Task safety")
+
+    truth = yaml(fixture["truth_path"])
+    contract = yaml(fixture["contract_path"])
+    authority = yaml(fixture["authority_path"])
+    original_owner = contract.fetch("roles").fetch("owner")
+    contract["roles"]["owner"] = "Fixture Contract Drift"
+    bind_contract_and_authority_to_truth(fixture, truth, contract, authority)
+    commit_truth(fixture, truth, "test: drift Contract role mapping")
+    expect_dual_nonpass(fixture, "Contract role mismatch", /contract roles mismatch/)
+    truth = yaml(fixture["truth_path"])
+    contract = yaml(fixture["contract_path"])
+    authority = yaml(fixture["authority_path"])
+    contract["roles"]["owner"] = original_owner
+    bind_contract_and_authority_to_truth(fixture, truth, contract, authority)
+    commit_truth(fixture, truth, "test: restore Contract role mapping")
+    expect_pass(repo, "Contract role mapping restored")
+    expect_safety_pass(repo, fixture["truth_path"], "Contract role mapping safety restored")
+
+    truth = yaml(fixture["truth_path"])
+    authority = yaml(fixture["authority_path"])
+    original_owner = authority.fetch("roles").fetch("owner")
+    authority["roles"]["owner"] = "Fixture Authority Drift"
+    bind_authority_to_truth(fixture, truth, authority)
+    commit_truth(fixture, truth, "test: drift Authority role mapping")
+    expect_dual_nonpass(fixture, "Authority role mismatch", /authority record roles mismatch/)
+    truth = yaml(fixture["truth_path"])
+    authority = yaml(fixture["authority_path"])
+    authority["roles"]["owner"] = original_owner
+    bind_authority_to_truth(fixture, truth, authority)
+    commit_truth(fixture, truth, "test: restore Authority role mapping")
+    expect_pass(repo, "Authority role mapping restored")
+    expect_safety_pass(repo, fixture["truth_path"], "Authority role mapping safety restored")
+
+    truth = yaml(fixture["truth_path"])
+    original_owner = truth.dig("active_work", "roles", "owner")
+    truth["active_work"]["roles"]["owner"] = "Fixture Truth Drift"
+    commit_truth(fixture, truth, "test: drift Truth role mapping")
+    expect_dual_nonpass(fixture, "Truth role mismatch", /contract roles mismatch/)
+    truth = yaml(fixture["truth_path"])
+    truth["active_work"]["roles"]["owner"] = original_owner
+    commit_truth(fixture, truth, "test: restore Truth role mapping")
+    expect_pass(repo, "Truth role mapping restored")
+    expect_safety_pass(repo, fixture["truth_path"], "Truth role mapping safety restored")
 
     original = tamper_owned_byte(fixture["authority_path"])
     expect_nonpass(repo, "authority record byte tamper", /authority record SHA-256 mismatch/)
@@ -628,10 +705,61 @@ class CurrentTaskAuthorityTest
     truth["active_work"]["external_effects"]["network"] = !original_network
     dump_owned_yaml(fixture["truth_path"], truth)
     commit(repo, "test: set unauthorized external effect")
-    expect_nonpass(repo, "unauthorized network-effect drift", /exact authorized external-effect map/)
+    expect_dual_nonpass(fixture, "unauthorized network-effect drift",
+                        /exact authorized external-effect map/)
     truth["active_work"]["external_effects"]["network"] = original_network
     dump_owned_yaml(fixture["truth_path"], truth)
     commit(repo, "test: restore external effects")
+
+    truth = yaml(fixture["truth_path"])
+    original_hours = truth["active_work"]["budget"]["engineering_hours"]
+    truth["active_work"]["budget"]["engineering_hours"] = original_hours + 1
+    commit_truth(fixture, truth, "test: drift active Task budget")
+    expect_dual_nonpass(fixture, "active budget mismatch", /contract budget engineering_hours mismatch/)
+    truth = yaml(fixture["truth_path"])
+    truth["active_work"]["budget"]["engineering_hours"] = original_hours
+    commit_truth(fixture, truth, "test: restore active Task budget")
+
+    truth = yaml(fixture["truth_path"])
+    original_repairs = truth["current_phase_route"]["envelope"]["max_same_task_repairs"]
+    truth["current_phase_route"]["envelope"]["max_same_task_repairs"] = original_repairs + 1
+    commit_truth(fixture, truth, "test: expand repair allowance")
+    expect_dual_nonpass(fixture, "repair allowance mismatch", /max_same_task_repairs does not match/)
+    truth = yaml(fixture["truth_path"])
+    truth["current_phase_route"]["envelope"]["max_same_task_repairs"] = original_repairs
+    commit_truth(fixture, truth, "test: restore repair allowance")
+
+    truth = yaml(fixture["truth_path"])
+    truth["active_work"]["allowlisted_paths"] << "README.md"
+    commit_truth(fixture, truth, "test: grant path outside reviewed Contract")
+    expect_dual_nonpass(fixture, "allowlisted path mismatch", /outside the reviewed Contract maximum scope/)
+    truth = yaml(fixture["truth_path"])
+    truth["active_work"]["allowlisted_paths"].delete("README.md")
+    commit_truth(fixture, truth, "test: restore allowlisted paths")
+
+    truth = yaml(fixture["truth_path"])
+    truth["phase_boundary"]["allowed_capabilities"] << "AGENT_SHELL"
+    commit_truth(fixture, truth, "test: admit deferred capability")
+    expect_pass(repo, "authority core does not duplicate deferred-capability policy")
+    expect_safety_nonpass(repo, fixture["truth_path"], "safety rejects deferred capability",
+                          /P1 admits a deferred capability/)
+    truth = yaml(fixture["truth_path"])
+    truth["phase_boundary"]["allowed_capabilities"].delete("AGENT_SHELL")
+    commit_truth(fixture, truth, "test: restore deferred capability boundary")
+    expect_pass(repo, "deferred capability boundary restored")
+    expect_safety_pass(repo, fixture["truth_path"], "deferred capability safety restored")
+
+    truth = yaml(fixture["truth_path"])
+    truth["current_phase_route"]["additional_write_roots"] << "outside-p1-owned-root"
+    commit_truth(fixture, truth, "test: add route write root outside P1 boundary")
+    expect_pass(repo, "authority core leaves P1 write-root policy to safety")
+    expect_safety_nonpass(repo, fixture["truth_path"], "safety rejects out-of-bound write root",
+                          /route write root is outside the P1 boundary/)
+    truth = yaml(fixture["truth_path"])
+    truth["current_phase_route"]["additional_write_roots"].delete("outside-p1-owned-root")
+    commit_truth(fixture, truth, "test: restore route write roots")
+    expect_pass(repo, "route write roots restored")
+    expect_safety_pass(repo, fixture["truth_path"], "route write-root safety restored")
 
     truth = yaml(fixture["truth_path"])
     truth["task_history"]["fixture_reuse"] = { "task_id" => fixture["task_id"], "status" => "HISTORICAL" }

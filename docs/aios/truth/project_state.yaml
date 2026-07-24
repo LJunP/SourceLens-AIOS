@@ -1293,7 +1293,7 @@ historical_p1_092_p1_093_phase_route:
 
 current_phase_route:
   route_id: P1_MINIMAL_DOCUMENTED_COMPATIBILITY_ADAPTER_AND_TRACE_ROUTE_V1
-  status: TERMINAL
+  status: ACTIVE
   authority_object_status: FOUNDER_PHASE_GATE_AUTHORITY_CONSUMED_TERMINAL
   execution_status: TERMINAL_TASK_1_IMPLEMENTATION_ITERATION_EXHAUSTED_NON_PASS
   founder_phase_route_decision_required: true

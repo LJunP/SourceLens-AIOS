@@ -8,6 +8,7 @@ require "pathname"
 require "rbconfig"
 require "tmpdir"
 require "yaml"
+require_relative "validate-current-task-authority"
 
 VALIDATOR = File.expand_path("validate-current-task-authority.rb", __dir__)
 SAFETY_VALIDATOR = File.expand_path("check-p1-safety-boundary.sh", __dir__)
@@ -226,6 +227,245 @@ class CurrentTaskAuthorityTest
     Marshal.load(Marshal.dump(value))
   end
 
+  def v2_profile
+    {
+      "schema_version" => "2.0",
+      "profile_id" => "TEST_NARROW_PROVIDER_PROFILE_V2",
+      "decision_basis" => "TEST_EXACT_FOUNDER_PACKET",
+      "route_id" => "P1_TEST_NARROW_PROVIDER_PROFILE_ROUTE_V1",
+      "task_id" => "AIOS-P1-999_TEST_NARROW_PROVIDER_PROFILE",
+      "transport" => {
+        "scheme" => "http",
+        "host" => "127.0.0.1",
+        "port" => 8787,
+        "base_path" => "/v1",
+        "completion_path" => "/v1/chat/completions",
+        "api_format" => "OPENAI_COMPATIBLE_CHAT_COMPLETIONS",
+        "method" => "POST",
+        "follow_redirects" => false,
+        "use_proxy" => false,
+        "dns_resolution" => false,
+        "fallback_endpoint_allowed" => false,
+        "expected_peer_address" => "127.0.0.1",
+        "expected_peer_port" => 8787
+      },
+      "model" => {
+        "requested_model" => "gpt-5.6-luna",
+        "substitution_allowed" => false,
+        "provider_provenance" =>
+          "FOUNDER_ATTESTED_OPENAI_COMPATIBLE_LOCAL_GATEWAY_MODEL_NOT_INDEPENDENTLY_VERIFIED"
+      },
+      "secret" => {
+        "allowed_sources" => %w[LOCAL_PROCESS_ENV CONTROLLED_TEMPORARY_SECRET_FILE],
+        "persist" => false,
+        "prohibited_sinks" => %w[REPOSITORY EVIDENCE LOG TRACE PROMPT REVIEW VAULT]
+      },
+      "call_limits" => {
+        "provider_requests_max" => 72,
+        "automatic_retry_max" => 0
+      },
+      "token_limits" => {
+        "input_tokens_max" => 3_000_000,
+        "output_tokens_max" => 300_000
+      },
+      "monetary_limits" => {
+        "currency" => "USD",
+        "max_spend" => 25,
+        "unavailable_metering_status" => "UNKNOWN_GATEWAY_METERING_UNAVAILABLE"
+      },
+      "egress" => {
+        "restricted_source_allowed" => false
+      },
+      "external_effects" => {
+        "network" => true,
+        "provider" => true,
+        "secret" => true,
+        "remote" => false,
+        "production" => false,
+        "public" => false
+      },
+      "claim_limits" => {
+        "direct_openai_provenance_proven" => false,
+        "adapter_conformance_is_model_performance" => false,
+        "remote" => false,
+        "production" => false,
+        "public" => false
+      }
+    }
+  end
+
+  def v1_profile
+    {
+      "schema_version" => "1.0",
+      "profile_id" => "TEST_LEGACY_PROVIDER_PROFILE_V1",
+      "decision_basis" => "TEST_LEGACY_EXACT_FOUNDER_PACKET",
+      "route_id" => "P1_TEST_LEGACY_PROVIDER_PROFILE_ROUTE_V1",
+      "task_id" => "AIOS-P1-998_TEST_LEGACY_PROVIDER_PROFILE",
+      "transport" => {
+        "scheme" => "http",
+        "host" => "127.0.0.1",
+        "port" => 8787,
+        "base_path" => "/v1",
+        "metadata_path" => "/v1/models",
+        "completion_path" => "/v1/chat/completions",
+        "api_format" => "OPENAI_COMPATIBLE_CHAT_COMPLETIONS",
+        "method" => "POST",
+        "follow_redirects" => false,
+        "use_proxy" => false,
+        "dns_resolution" => false,
+        "fallback_endpoint_allowed" => false,
+        "expected_peer_address" => "127.0.0.1",
+        "expected_peer_port" => 8787
+      },
+      "model" => {
+        "requested_model" => "fixture-model",
+        "substitution_allowed" => false,
+        "provider_provenance" => "OPENAI_FOUNDER_ATTESTED_GATEWAY_NOT_INDEPENDENTLY_VERIFIED"
+      },
+      "secret" => {
+        "env_name" => "P1_TEST_PROVIDER_KEY",
+        "source" => "FOUNDER_TRANSIENT_UI_INPUT",
+        "persist" => false,
+        "log_hash_or_evidence_allowed" => false
+      },
+      "call_limits" => {
+        "metadata_max" => 1,
+        "metadata_used_before_activation" => 1,
+        "source_bearing_max" => 1,
+        "source_bearing_used_before_activation" => 0,
+        "automatic_retry_max" => 0,
+        "ambiguous_send_retry_allowed" => false
+      },
+      "request_limits" => {
+        "max_input_tokens" => 4096,
+        "max_output_tokens" => 1024,
+        "timeout_seconds" => 120,
+        "request_body_max_bytes" => 32_768,
+        "response_body_max_bytes" => 131_072
+      },
+      "egress" => {
+        "allowed_artifact_ids" => %w[
+          P1_035_REP001_ISSUE_TEXT
+          P1_035_REP001_ALLOWED_CLARIFICATIONS
+          P1_035_REP001_ACCEPTED_BASELINE_CONTEXT
+          P1_062_FINITE_IR_RESPONSE_INSTRUCTION
+        ],
+        "forbidden_categories" => %w[
+          SOURCE_BYTES
+          TEST_BYTES
+          REFERENCE_PATCH
+          EVALUATOR_BYTES
+          GOVERNANCE_OR_TRUTH_BYTES
+          SECRET_OR_AUTHORIZATION_HEADER
+          HIDDEN_TASK_OR_HIDDEN_EVIDENCE
+        ]
+      },
+      "external_effects" => {
+        "network" => true,
+        "provider" => true,
+        "secret" => true,
+        "remote" => false,
+        "production" => false,
+        "public" => false
+      },
+      "claim_limits" => {
+        "direct_openai_provenance_proven" => false,
+        "upstream_provider" => "OPENAI_FOUNDER_ATTESTED",
+        "upstream_request_count" => "UNKNOWN",
+        "monetary_cost" => "UNKNOWN_USER_MANAGED_GATEWAY"
+      }
+    }
+  end
+
+  def expect_profile_pass(profile, route_id, task_id, label)
+    CurrentTaskAuthority.validate_founder_reserved_profile(profile, route_id, task_id, label)
+    @passes += 1
+    puts "PASS #{label}"
+  rescue AuthorityValidationError => e
+    raise TestFailure, "#{label}: expected PASS, got #{e.message}"
+  end
+
+  def expect_profile_nonpass(profile, label, pattern)
+    CurrentTaskAuthority.validate_founder_reserved_profile(
+      profile,
+      profile.fetch("route_id"),
+      profile.fetch("task_id"),
+      label
+    )
+    raise TestFailure, "#{label}: expected NON_PASS"
+  rescue AuthorityValidationError => e
+    assert(pattern.match?(e.message), "#{label}: expected #{pattern.inspect}, got #{e.message.inspect}")
+    @passes += 1
+    puts "PASS #{label}"
+  end
+
+  def provider_profile_unit_tests
+    profile = v2_profile
+    expect_profile_pass(profile, profile.fetch("route_id"), profile.fetch("task_id"),
+                        "schema v2 narrower exact profile")
+    minimum_profile = deep_copy(profile)
+    minimum_profile["call_limits"]["provider_requests_max"] = 1
+    minimum_profile["token_limits"]["input_tokens_max"] = 1
+    minimum_profile["token_limits"]["output_tokens_max"] = 1
+    minimum_profile["monetary_limits"]["max_spend"] = 0
+    expect_profile_pass(
+      minimum_profile,
+      minimum_profile.fetch("route_id"),
+      minimum_profile.fetch("task_id"),
+      "schema v2 minimum exact profile"
+    )
+
+    [
+      [%w[call_limits provider_requests_max], 0, /provider_requests_max must be in 1\.\.144/],
+      [%w[call_limits provider_requests_max], 145, /provider_requests_max must be in 1\.\.144/],
+      [%w[call_limits automatic_retry_max], 1, /automatic_retry_max must equal 0/],
+      [%w[token_limits input_tokens_max], 0, /input_tokens_max must be in 1\.\.3000000/],
+      [%w[token_limits input_tokens_max], 3_000_001, /input_tokens_max must be in 1\.\.3000000/],
+      [%w[token_limits output_tokens_max], 0, /output_tokens_max must be in 1\.\.300000/],
+      [%w[token_limits output_tokens_max], 300_001, /output_tokens_max must be in 1\.\.300000/],
+      [%w[monetary_limits max_spend], -0.01, /max_spend must be numeric in 0\.\.25/],
+      [%w[monetary_limits max_spend], 25.01, /max_spend must be numeric in 0\.\.25/],
+      [%w[monetary_limits max_spend], "25", /max_spend must be numeric in 0\.\.25/]
+    ].each do |path, value, pattern|
+      variant = deep_copy(profile)
+      variant.fetch(path[0])[path[1]] = value
+      expect_profile_nonpass(variant, "schema v2 rejects #{path.join('.')}:#{value.inspect}", pattern)
+    end
+
+    begin
+      CurrentTaskAuthority.validate_exact_profile_binding(
+        profile,
+        deep_copy(profile).tap { |copy| copy["call_limits"]["provider_requests_max"] = 71 },
+        "Truth Founder-reserved profile does not equal the exact decision packet"
+      )
+      raise TestFailure, "packet/Truth profile mismatch: expected NON_PASS"
+    rescue AuthorityValidationError => e
+      assert(e.message.include?("exact decision packet"), "packet/Truth mismatch reason drifted")
+      @passes += 1
+      puts "PASS packet/Truth profile mismatch"
+    end
+
+    %w[contract authority].each do |binding|
+      begin
+        CurrentTaskAuthority.validate_exact_profile_binding(
+          deep_copy(profile).tap { |copy| copy["token_limits"]["output_tokens_max"] = 299_999 },
+          profile,
+          "#{binding} Founder-reserved profile mismatch"
+        )
+        raise TestFailure, "#{binding} profile mismatch: expected NON_PASS"
+      rescue AuthorityValidationError => e
+        assert(e.message.include?("#{binding} Founder-reserved profile mismatch"),
+               "#{binding} mismatch reason drifted")
+        @passes += 1
+        puts "PASS #{binding} profile mismatch"
+      end
+    end
+
+    legacy = v1_profile
+    expect_profile_pass(legacy, legacy.fetch("route_id"), legacy.fetch("task_id"),
+                        "legacy schema v1 compatibility")
+  end
+
   def prepare_fixture(sandbox)
     source_truth_path = File.join(SOURCE_REPO, TRUTH_RELATIVE)
     source_truth = yaml(source_truth_path)
@@ -349,8 +589,12 @@ class CurrentTaskAuthorityTest
       original_call_limit = profile["call_limits"][call_key]
       profile["call_limits"][call_key] = original_call_limit + 1
       dump_owned_yaml(fixture["truth_path"], truth)
-      commit(repo, "test: expand Founder-reserved call budget")
-      expect_nonpass(repo, "Founder profile call expansion", /call limits drifted/)
+      commit(repo, "test: detach Founder-reserved call budget from packet")
+      expect_nonpass(
+        repo,
+        "Founder profile call-budget detachment",
+        /call limits drifted|does not equal the exact decision packet/
+      )
       profile["call_limits"][call_key] = original_call_limit
       dump_owned_yaml(fixture["truth_path"], truth)
       commit(repo, "test: restore Founder-reserved call budget")
@@ -806,6 +1050,7 @@ class CurrentTaskAuthorityTest
     sandbox = Dir.mktmpdir("sourcelens-current-authority-")
     sandbox_identity = nil
     begin
+      provider_profile_unit_tests
       sandbox_stat = File.lstat(sandbox)
       assert(sandbox_stat.directory? && !sandbox_stat.symlink?, "temporary root is not an owned directory")
       sandbox_identity = [sandbox_stat.dev, sandbox_stat.ino]

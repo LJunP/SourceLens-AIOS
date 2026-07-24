@@ -438,28 +438,35 @@ module CurrentTaskAuthority
 
     calls = exact_keys(profile["call_limits"], %w[provider_requests_max automatic_retry_max],
                        "#{label}.call_limits")
-    assert(calls == {
-      "provider_requests_max" => 144,
-      "automatic_retry_max" => 0
-    }, "#{label}.call limits drifted")
+    provider_requests_max = integer(calls["provider_requests_max"],
+                                    "#{label}.call_limits.provider_requests_max")
+    assert(provider_requests_max.between?(1, 144),
+           "#{label}.call limits drifted: provider_requests_max must be in 1..144")
+    assert(calls["automatic_retry_max"] == 0,
+           "#{label}.call limits drifted: automatic_retry_max must equal 0")
 
     tokens = exact_keys(profile["token_limits"], %w[input_tokens_max output_tokens_max],
                         "#{label}.token_limits")
-    assert(tokens == {
-      "input_tokens_max" => 3_000_000,
-      "output_tokens_max" => 300_000
-    }, "#{label}.token limits drifted")
+    input_tokens_max = integer(tokens["input_tokens_max"], "#{label}.token_limits.input_tokens_max")
+    output_tokens_max = integer(tokens["output_tokens_max"], "#{label}.token_limits.output_tokens_max")
+    assert(input_tokens_max.between?(1, 3_000_000),
+           "#{label}.token limits drifted: input_tokens_max must be in 1..3000000")
+    assert(output_tokens_max.between?(1, 300_000),
+           "#{label}.token limits drifted: output_tokens_max must be in 1..300000")
 
     monetary = exact_keys(
       profile["monetary_limits"],
       %w[currency max_spend unavailable_metering_status],
       "#{label}.monetary_limits"
     )
-    assert(monetary == {
-      "currency" => "USD",
-      "max_spend" => 25,
-      "unavailable_metering_status" => "UNKNOWN_GATEWAY_METERING_UNAVAILABLE"
-    }, "#{label}.monetary limits drifted")
+    assert(monetary["currency"] == "USD",
+           "#{label}.monetary limits drifted: currency must equal USD")
+    max_spend = monetary["max_spend"]
+    finite_spend = max_spend.is_a?(Numeric) && (!max_spend.respond_to?(:finite?) || max_spend.finite?)
+    assert(finite_spend && max_spend.between?(0, 25),
+           "#{label}.monetary limits drifted: max_spend must be numeric in 0..25")
+    assert(monetary["unavailable_metering_status"] == "UNKNOWN_GATEWAY_METERING_UNAVAILABLE",
+           "#{label}.monetary limits drifted: unavailable metering status changed")
 
     egress = exact_keys(profile["egress"], %w[restricted_source_allowed], "#{label}.egress")
     exact_false(egress["restricted_source_allowed"], "#{label}.egress.restricted_source_allowed")
@@ -491,6 +498,11 @@ module CurrentTaskAuthority
     else
       fail!("#{label} schema version is unsupported")
     end
+  end
+
+  def validate_exact_profile_binding(actual, expected, message)
+    assert(actual == expected, message)
+    actual
   end
 
   def one_packet_match(text, pattern, label)
@@ -789,8 +801,11 @@ module CurrentTaskAuthority
         route["founder_reserved_profile"], route_id, claims["first_task_id"],
         "current_phase_route.founder_reserved_profile"
       )
-      assert(route_profile == claims["founder_reserved_profile"],
-             "Truth Founder-reserved profile does not equal the exact decision packet")
+      validate_exact_profile_binding(
+        route_profile,
+        claims["founder_reserved_profile"],
+        "Truth Founder-reserved profile does not equal the exact decision packet"
+      )
       expected_effects = route_profile["external_effects"]
     else
       assert(!route.key?("founder_reserved_profile") || route["founder_reserved_profile"].nil?,
@@ -1164,8 +1179,16 @@ module CurrentTaskAuthority
         contract_field(authority_record, "founder_reserved_profile"), route_id, task_id,
         "authority Founder-reserved profile"
       )
-      assert(contract_profile == route["founder_reserved_profile"], "contract Founder-reserved profile mismatch")
-      assert(authority_profile == route["founder_reserved_profile"], "authority Founder-reserved profile mismatch")
+      validate_exact_profile_binding(
+        contract_profile,
+        route["founder_reserved_profile"],
+        "contract Founder-reserved profile mismatch"
+      )
+      validate_exact_profile_binding(
+        authority_profile,
+        route["founder_reserved_profile"],
+        "authority Founder-reserved profile mismatch"
+      )
     else
       assert(contract_field(contract, "founder_reserved_profile").nil?,
              "offline Contract must not invent a Founder-reserved provider profile")
@@ -1311,14 +1334,16 @@ module CurrentTaskAuthority
   end
 end
 
-begin
-  state = CurrentTaskAuthority.validate!
-  puts "CURRENT_TASK_AUTHORITY: PASS state=#{state}"
-  exit 0
-rescue AuthorityValidationError => e
-  warn "CURRENT_TASK_AUTHORITY: NON_PASS #{e.message}"
-  exit 1
-rescue StandardError => e
-  warn "CURRENT_TASK_AUTHORITY: NON_PASS unexpected #{e.class}: #{e.message}"
-  exit 1
+if $PROGRAM_NAME == __FILE__
+  begin
+    state = CurrentTaskAuthority.validate!
+    puts "CURRENT_TASK_AUTHORITY: PASS state=#{state}"
+    exit 0
+  rescue AuthorityValidationError => e
+    warn "CURRENT_TASK_AUTHORITY: NON_PASS #{e.message}"
+    exit 1
+  rescue StandardError => e
+    warn "CURRENT_TASK_AUTHORITY: NON_PASS unexpected #{e.class}: #{e.message}"
+    exit 1
+  end
 end

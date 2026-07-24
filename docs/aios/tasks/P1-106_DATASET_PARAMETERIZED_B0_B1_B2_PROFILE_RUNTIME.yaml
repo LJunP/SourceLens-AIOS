@@ -1,0 +1,225 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P1-106_DATASET_PARAMETERIZED_B0_B1_B2_PROFILE_RUNTIME
+phase: P1
+route_id: P1_DATASET_PARAMETERIZED_PROFILE_RUNTIME_AND_REMAINING_EXIT_GATE_CONTINUOUS_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Build a new clean-room, dataset-parameterized offline B0/B1/B2 execution
+  runtime over all six accepted P1 representative tasks, execute the complete
+  18-run profile matrix, and prove exact identity binding, replay, rollback,
+  negative admission and zero external effects.
+why_now: >-
+  Strict P1 completion is 6/8 (75%). P1-104 truthfully established that the
+  accepted P1-097/P1-099 adapters are single-task conformance assets and
+  cannot execute ten of the required six-task by three-profile pairs. A new
+  generic runtime is therefore the smallest real engineering prerequisite for
+  the empirical baseline; repeating transaction governance or modifying the
+  accepted adapters would not close the demonstrated capability gap.
+task_spec_ref: >-
+  /Users/lijunpeng/Developer/.sourcelens-audit/p1-106-dataset-parameterized-profile-runtime-20260724/FOUNDER_P1_DATASET_PARAMETERIZED_PROFILE_RUNTIME_AND_REMAINING_EXIT_GATE_CONTINUOUS_ROUTE_V1.md
+owner_role: P1-106 Profile Runtime Engineering Manager
+worker_role: P1-106 Dataset Runtime Worker
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+risk_level: high
+budget:
+  engineering_hours: 12
+  calendar_days: 4
+  implementation_iterations: 2
+  candidates: 1
+roles:
+  owner: P1-106 Profile Runtime Engineering Manager
+  worker: P1-106 Dataset Runtime Worker
+  independent_reviewers:
+    - P1-106 Fresh CTO Reviewer
+    - P1-106 Fresh Security Reviewer
+    - P1-106 Fresh Quality Reviewer
+allowlisted_paths:
+  - evaluation-harness/environment/p1-106-dataset-profile-runtime
+  - evaluation-harness/harness/p1-106-dataset-profile-runtime
+  - evaluation-harness/recording/p1-106-dataset-profile-runtime
+  - evaluation-harness/replay/p1-106-dataset-profile-runtime
+  - evaluation-harness/evaluator/p1-106-dataset-profile-runtime
+  - evaluation-harness/fixtures/p1-106-dataset-profile-runtime
+  - scripts/verify-p1-106-dataset-profile-runtime.sh
+  - docs/aios/tasks/P1-106_DATASET_PARAMETERIZED_B0_B1_B2_PROFILE_RUNTIME.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+  - Makefile
+write_scope:
+  worker:
+    - evaluation-harness/environment/p1-106-dataset-profile-runtime
+    - evaluation-harness/harness/p1-106-dataset-profile-runtime
+    - evaluation-harness/recording/p1-106-dataset-profile-runtime
+    - evaluation-harness/replay/p1-106-dataset-profile-runtime
+  quality:
+    - evaluation-harness/evaluator/p1-106-dataset-profile-runtime
+    - evaluation-harness/fixtures/p1-106-dataset-profile-runtime
+  integration:
+    - scripts/verify-p1-106-dataset-profile-runtime.sh
+    - docs/aios/tasks/P1-106_DATASET_PARAMETERIZED_B0_B1_B2_PROFILE_RUNTIME.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+    - Makefile
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+  - docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
+  - docs/aios/tasks/P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE.yaml
+  - docs/aios/tasks/P1-099_EXACT_NONOWNED_CLASSIFICATION_RECOVERY_AND_ADAPTER_GATE.yaml
+  - docs/aios/tasks/P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE.yaml
+  - evaluation-harness/datasets/p1-representative-task-dataset-v1
+  - evaluation-harness/harness/finite-typed-patch-ir-v1/compiler.mjs
+  - evaluation-harness/fixtures/p1-097-minimal-documented/b2-p0-binding.json
+  - analyzer-rust
+dependencies:
+  - ACCEPTED_CANONICAL_P1_035_VISIBLE_SYNTHETIC_TASK_DATASET
+  - ACCEPTED_CANONICAL_P1_055_FINITE_TYPED_PATCH_IR_DESIGN_PRECEDENT
+  - FOUNDER_ACCEPTED_CANONICAL_P1_099_SINGLE_TASK_ADAPTER_CONFORMANCE
+  - ACCEPTED_CANONICAL_P1_101_SHARED_OBSERVABLE_TRACE
+historical_isolation:
+  p1_102_terminal_truth_receipt_and_review_conclusions_readable: true
+  p1_102_source_fixture_runner_candidate_or_engineering_bytes_readable: false
+  p1_104_terminal_truth_receipt_and_review_conclusions_readable: true
+  p1_104_source_fixture_runner_candidate_or_engineering_bytes_readable: false
+  p1_097_p1_099_accepted_canonical_adapter_bytes_mutable: false
+  other_rejected_engineering_lineage_read_restore_compare_or_reuse_allowed: false
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-106-dataset-parameterized-profile-runtime-20260724/FOUNDER_P1_DATASET_PARAMETERIZED_PROFILE_RUNTIME_AND_REMAINING_EXIT_GATE_CONTINUOUS_ROUTE_V1.md
+  sha256: 8836913c54007d6e090143f2cf77cd55923c6b12f4de9d747d9583e5d46c0690
+  byte_length: 6729
+  authorization_token: AUTHORIZE_P1_DATASET_PARAMETERIZED_PROFILE_RUNTIME_AND_REMAINING_EXIT_GATE_CONTINUOUS_ROUTE_V1
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+dataset_binding:
+  dataset_root: evaluation-harness/datasets/p1-representative-task-dataset-v1
+  dataset_version: 1.0.0
+  task_count: 6
+  task_ids:
+    - SL-P1-REP-001-RANGE-NORMALIZATION
+    - SL-P1-REP-002-CONFIG-VALIDATION
+    - SL-P1-REP-003-SAFE-PATH-JOIN
+    - SL-P1-REP-004-COMMAND-RESULT-MAPPING
+    - SL-P1-REP-005-PROFILE-DISPLAY-NAME
+    - SL-P1-REP-006-DEDUPE-REFACTOR
+accepted_p0_scan_binding:
+  operation: repository_analysis.scan
+  accepted_p0_checkpoint_commit: ad6450e418d8f1b4fd5a789f913525a8dd8bdc10
+  accepted_p0_checkpoint_tree: 2c0956ae8598547466f691ead21532a026006bf9
+  analyzer_tree: 408d57e9b4926f95ad059ab2675ee88dfc533096
+  source_path: analyzer-rust
+  required_cli_suffix:
+    - scan
+    - --repo-path
+    - ABSOLUTE_DISPOSABLE_SOURCE_ROOT
+architecture_constraints:
+  - Build a new runtime; do not fork, rewrite or extend accepted P1-097/P1-099 adapter bytes.
+  - Runtime dispatch is data-driven from frozen task and profile descriptors; generic runtime code cannot branch on a specific dataset Task ID.
+  - A patch plan is a finite typed list of exact regular-file preimages and postimages, not a shell command or free-form program.
+  - Patch plans may create or replace only declared Task-owned source files and may never modify tests.
+  - B0 consumes a per-task frozen structured result and performs no tool call.
+  - B1 executes only its per-task finite typed patch plan and declared local verification commands.
+  - B2 first performs one real accepted-P0 repository_analysis.scan, proves the scan did not mutate source, and then executes only its per-task finite typed patch plan and declared local verification commands.
+  - Every positive run uses an independently owned disposable root and returns it to the exact frozen source identity.
+  - Raw records retain stochastic identifiers and timing; stable projection includes only declared deterministic fields.
+quality_freeze:
+  positive_matrix:
+    task_count: 6
+    profiles:
+      - B0
+      - B1
+      - B2
+    independent_runs_per_task_profile: 1
+    scheduled_run_count: 18
+  required_per_run:
+    - exact TaskSpec and source inventory identity
+    - exact SystemConfiguration and structured input identity
+    - exact runtime and accepted-P0 executable identity where applicable
+    - complete admission, execution, validation, result and rollback trace
+    - exact output and RunRecord identity
+    - deterministic stable projection
+    - executable replay and exact rollback receipt
+  negative_matrix:
+    - task descriptor identity drift
+    - task ID and descriptor mismatch
+    - source preimage drift
+    - source symlink
+    - target path escape
+    - target test-file mutation request
+    - undeclared target file
+    - patch operation reorder
+    - patch postimage identity drift
+    - SystemConfiguration drift
+    - profile mismatch
+    - B0 tool request
+    - B1 undeclared command
+    - B2 scan binding drift
+    - output identity drift
+    - missing trace event
+    - reordered trace event
+    - RunRecord identity drift
+    - rollback identity drift
+    - non-owned cleanup request
+    - external-effect request
+acceptance_criteria:
+  - The new runtime contains no task-specific dispatch branch and reads all six task/profile plans from frozen data.
+  - All 18 independent offline executions complete under the declared profile semantics.
+  - Every B0 run performs zero tool calls.
+  - Every B1 run applies only its finite typed plan and both declared tests pass.
+  - Every B2 run performs one real exact accepted-P0 repository_analysis.scan, then applies only its finite typed plan and both declared tests pass.
+  - All 18 runs produce exact identity-bound trace, output, RunRecord, stable projection, replay and rollback Evidence.
+  - Every positive disposable source returns to its exact frozen pre-run identity.
+  - Every negative case starts from a fresh one-time fixture and rejects with the expected stable reason code.
+  - False accepts, undeclared executions, non-owned mutations and all six external effects equal zero.
+  - One exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS on the same exact bytes.
+  - The reviewed exact tree equals the integrated canonical tree.
+  - Exactly one post-integration canonical make verify invocation passes.
+required_evidence:
+  - Exact Founder packet, Contract, Goal, authority and activation parent identities.
+  - Frozen dataset, descriptor, typed-plan, accepted-P0 source and executable bindings.
+  - Raw 18-run outputs, traces, RunRecords, stable projections, replay and rollback receipts.
+  - Complete negative matrix raw results and aggregate false-accept and external-effect counts.
+  - Exact candidate commit, tree, diff/hash manifest and recoverable Evidence tag.
+  - Fresh CTO, Security and Quality reviews of the same candidate and Evidence bytes.
+  - Reviewed-tree versus integrated-tree equality and one canonical make verify result.
+rollback:
+  strategy: DISPOSABLE_FIXTURE_EXACT_ROLLBACK_AND_NON_DESTRUCTIVE_GIT_REVERT_AFTER_CANONICAL_INTEGRATION
+  forbidden:
+    - git reset
+    - git clean
+    - destructive history rewrite
+stop_conditions:
+  - Exact canonical parent, Goal, Founder packet, Contract, accepted dataset or accepted-P0 binding drifts.
+  - Any P1-102/P1-104 rejected engineering asset is required.
+  - An allowed path, Task budget or external-effect boundary must expand.
+  - The sole same-Task code-only repair is exhausted or the same normalized root cause repeats.
+  - Any final Reviewer, reviewed/integrated equality check or canonical make verify returns NON_PASS.
+  - Evidence is overwritten or deleted, an external effect occurs, or the Phase boundary changes.
+forbidden_actions:
+  - Modify accepted P1-097/P1-099 adapter source or accepted P1-101 trace source.
+  - Hardcode one dataset Task ID, expected answer or fixture-specific result into the generic runtime.
+  - Execute arbitrary shell, eval, dynamic import from a Task plan, network, Provider or Secret access.
+  - Read, restore, compare or reuse P1-102/P1-104 rejected source, fixture, runner, candidate or engineering bytes.
+  - Enter P2/P3, push or modify a remote, or claim production or public readiness.
+claim_boundary: >-
+  Dataset-parameterized cooperative-local offline B0/B1/B2 execution runtime
+  conformance over six accepted visible synthetic tasks only. This Task does
+  not claim live-model performance, reproducible empirical baseline results,
+  P1 completion, P2/P3 entry, production, public, hostile-principal or strong
+  isolation capability.

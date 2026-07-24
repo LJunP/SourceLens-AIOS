@@ -1,0 +1,160 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P1-099_EXACT_NONOWNED_CLASSIFICATION_RECOVERY_AND_ADAPTER_GATE
+phase: P1
+route_id: P1_ONE_SHOT_EXACT_SNAPSHOT_CLASSIFICATION_RECOVERY_AND_OBSERVABLE_TRACE_CONTINUOUS_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Restore the exact 32-file P1-097 Evidence snapshot authorized by the
+  Founder, make only the pre-parse non-owned cleanup classification change,
+  and pass the complete B0/B1/B2 adapter Gate from a fresh start.
+why_now: >-
+  P1-097 established six positive runs and three stable pairs, then stopped
+  because the non-owned cleanup fixture was parsed as JSON before its
+  ownership boundary was classified. The Founder has authorized one exact
+  snapshot recovery and one implementation iteration to close only that
+  identified root cause.
+task_spec_ref: >-
+  /Users/lijunpeng/Developer/.sourcelens-audit/p1-099-one-shot-exact-snapshot-recovery/FOUNDER_P1_ONE_SHOT_EXACT_SNAPSHOT_CLASSIFICATION_RECOVERY_AND_OBSERVABLE_TRACE_CONTINUOUS_ROUTE_V1.md
+owner_role: P1-099 Engineering Manager
+worker_role: P1-099 Exact Recovery Worker
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+risk_level: high
+budget:
+  engineering_hours: 8
+  calendar_days: 3
+  implementation_iterations: 1
+  candidates: 1
+roles:
+  owner: P1-099 Engineering Manager
+  worker: P1-099 Exact Recovery Worker
+  independent_reviewers:
+    - P1-099 Fresh CTO Reviewer
+    - P1-099 Fresh Security Reviewer
+    - P1-099 Fresh Quality Reviewer
+allowlisted_paths:
+  - evaluation-harness/adapters/p1-097-minimal-documented
+  - evaluation-harness/evaluator/p1-097-minimal-documented
+  - evaluation-harness/fixtures/p1-097-minimal-documented
+  - evaluation-harness/harness/p1-097-minimal-documented
+  - evaluation-harness/recording/p1-097-minimal-documented
+  - evaluation-harness/replay/p1-097-minimal-documented
+  - docs/aios/tasks/P1-099_EXACT_NONOWNED_CLASSIFICATION_RECOVERY_AND_ADAPTER_GATE.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+  - Makefile
+write_scope:
+  exact_snapshot_restore:
+    - evaluation-harness/adapters/p1-097-minimal-documented
+    - evaluation-harness/evaluator/p1-097-minimal-documented
+    - evaluation-harness/fixtures/p1-097-minimal-documented
+    - evaluation-harness/harness/p1-097-minimal-documented
+    - evaluation-harness/recording/p1-097-minimal-documented
+    - evaluation-harness/replay/p1-097-minimal-documented
+  unique_engineering_change:
+    - evaluation-harness/harness/p1-097-minimal-documented/contracts.mjs
+  integration:
+    - docs/aios/tasks/P1-099_EXACT_NONOWNED_CLASSIFICATION_RECOVERY_AND_ADAPTER_GATE.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+    - Makefile
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+  - /Users/lijunpeng/Developer/.sourcelens-audit/p1-097-minimal-documented-adapters-QqgitOfD/terminal/REJECTED_ENGINEERING_SOURCE_MANIFEST.jsonl
+  - /Users/lijunpeng/Developer/.sourcelens-audit/p1-097-minimal-documented-adapters-QqgitOfD/terminal/rejected-engineering-source
+dependencies:
+  - CURRENT_CANONICAL_MAIN_AT_ACTIVATION
+  - EXACT_FOUNDER_ROUTE_PACKET_8F5F3D61
+  - EXACT_P1_097_REJECTED_SOURCE_MANIFEST_20183F5F
+exact_recovery_boundary:
+  source_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-097-minimal-documented-adapters-QqgitOfD/terminal/rejected-engineering-source
+  manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-097-minimal-documented-adapters-QqgitOfD/terminal/REJECTED_ENGINEERING_SOURCE_MANIFEST.jsonl
+  manifest_sha256: 20183f5f4c0bd22181712924d57d343431329cd4a7e2a51f82e6bfc251cba6a6
+  manifest_byte_length: 6091
+  file_count: 32
+  restore_rule: EXACT_BYTES_MODE_AND_RELATIVE_PATH_ONLY
+  other_rejected_assets_allowed: false
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-099-one-shot-exact-snapshot-recovery/FOUNDER_P1_ONE_SHOT_EXACT_SNAPSHOT_CLASSIFICATION_RECOVERY_AND_OBSERVABLE_TRACE_CONTINUOUS_ROUTE_V1.md
+  sha256: 8f5f3d61335de60990af144142afdded8e653582e083a1a12131abe197acce92
+  byte_length: 5789
+  authorization_token: AUTHORIZE_P1_ONE_SHOT_EXACT_SNAPSHOT_CLASSIFICATION_RECOVERY_AND_OBSERVABLE_TRACE_CONTINUOUS_ROUTE_V1
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+quality_freeze:
+  positive_matrix:
+    - B0 A and B0 B execute independently.
+    - B1 A and B1 B execute independently.
+    - B2 A and B2 B execute independently and each records the exact accepted P0 repository_analysis.scan child invocation.
+    - The B0, B1, and B2 stable projection pairs are exact-equal.
+  negative_matrix:
+    - Every predeclared negative case in the exact restored fixture set runs from its own fresh fixture.
+    - NEG_NONOWNED_CLEANUP returns NONOWNED_CLEANUP_FORBIDDEN before JSON or structural parsing.
+    - False accepts, target execution, non-owned mutation, and all six external effects equal zero.
+  formal_rule: RUN_COMPLETE_MATRIX_FROM_THE_BEGINNING_WITHOUT_EARLY_CASE_OMISSION
+acceptance_criteria:
+  - All 32 restored files initially equal the exact authorized manifest in path, SHA-256, byte length, and mode.
+  - The only post-restore engineering byte change classifies non-owned cleanup before JSON or structural parsing.
+  - No refactor, architecture expansion, fixture rewrite, or other semantic change occurs.
+  - All six independent B0/B1/B2 A/B positive runs pass.
+  - All three exact stable projection comparisons pass.
+  - Both B2 runs record a real invocation of the exact accepted P0 repository_analysis.scan.
+  - The complete predeclared negative matrix runs and reports zero false accepts.
+  - Target execution, non-owned fixture mutation, and all six external effects are zero.
+  - One exact candidate receives fresh CTO, Security, and Quality TARGET_VERDICT PASS on the same bytes.
+  - The reviewed candidate tree equals the integrated canonical tree.
+  - Exactly one post-integration canonical make verify invocation passes.
+required_evidence:
+  - Exact Founder packet, Contract, authority, Goal, baseline commit/tree, and source-manifest identities.
+  - Exact pre-change restore verification for all 32 manifest entries.
+  - Minimal diff proving the one allowed engineering change.
+  - Complete formal matrix raw log and machine-readable summary.
+  - Exact candidate commit, tree, diff/hash manifest, and recoverable Evidence tag.
+  - Fresh CTO, Security, and Quality reviews of the same exact candidate and Evidence.
+  - Reviewed-tree versus integrated-tree equality receipt.
+  - One canonical make verify result.
+rollback:
+  strategy: NON_DESTRUCTIVE_GIT_REVERT_AFTER_INTEGRATION_ONLY
+  disposable_task_worktree: true
+  forbidden:
+    - git reset
+    - git clean
+    - destructive history rewrite
+stop_conditions:
+  - Exact canonical, Goal, P1-097 Contract, receipt, source-manifest, or 32-file snapshot identity drifts.
+  - Restoring the exact snapshot or the one root-cause change requires a path outside this Contract.
+  - Any post-restore engineering change other than pre-parse non-owned cleanup classification is required.
+  - The complete formal matrix, any final Reviewer, or canonical make verify returns NON_PASS.
+  - A second implementation change, repair, correction, replacement, or successor is required.
+  - Evidence is overwritten or deleted, an external effect occurs, or the Phase boundary changes.
+forbidden_actions:
+  - Read, restore, compare, or reuse any rejected Task, candidate, fixture, test, oracle, or engineering asset except the exact P1-097 32-file snapshot bound here.
+  - Modify the Long-term Goal, P1 Objective, P1 Exit Gate, Phase boundary, authority validator, or external-effect permissions.
+  - Modify restored fixture, oracle, descriptor, adapter, harness, recording, or replay bytes beyond the one contracts.mjs classification change.
+  - Create a second implementation iteration, repair, correction, successor, replacement, normalization, closure, feasibility, remediation, or governance chain.
+  - Use network, Provider, Secret, remote, production, or public effects.
+  - Push or modify a remote.
+  - Enter P2 or P3.
+claim_boundary: >-
+  Exact P1-097 snapshot recovery and minimum non-owned cleanup classification
+  correction for cooperative-local offline B0/B1/B2 adapter conformance only.
+  This Task does not claim live-model performance, Provider provenance,
+  baseline VTSR, complete P1, P2, P3, production, public, hostile-principal,
+  or general trusted-runtime capability.

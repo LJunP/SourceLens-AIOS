@@ -1,0 +1,179 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE
+phase: P1
+route_id: P1_EXACT_ADAPTER_RESIDUAL_ACCEPTANCE_AND_REMAINING_EXIT_GATE_CONTINUOUS_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Build one shared, executable and independently reviewable observable trace
+  for the accepted canonical B0, B1 and B2 adapters, with exact identity
+  binding, deterministic projection, truthful stochastic fields, replay,
+  rollback and a complete negative matrix.
+why_now: >-
+  The Founder-accepted exact adapter candidate is integrated and the single
+  canonical make verify passed, so B0_B1_B2_COMPATIBILITY_ADAPTERS is now
+  accepted. OBSERVABLE_TRACE is the next missing P1 Exit Gate capability and
+  directly converts those accepted executions into falsifiable retained
+  evidence.
+task_spec_ref: >-
+  /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-adapter-residual-remaining-exit-route-20260724/FOUNDER_P1_EXACT_ADAPTER_RESIDUAL_ACCEPTANCE_AND_REMAINING_EXIT_GATE_CONTINUOUS_ROUTE_V1.md
+owner_role: P1-101 Engineering Manager
+worker_role: P1-101 Trace Implementation Worker
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+risk_level: high
+budget:
+  engineering_hours: 12
+  calendar_days: 4
+  implementation_iterations: 2
+  candidates: 1
+roles:
+  owner: P1-101 Engineering Manager
+  worker: P1-101 Trace Implementation Worker
+  independent_reviewers:
+    - P1-101 Fresh CTO Reviewer
+    - P1-101 Fresh Security Reviewer
+    - P1-101 Fresh Quality Reviewer
+allowlisted_paths:
+  - evaluation-harness/harness/p1-101-accepted-shared-trace
+  - evaluation-harness/recording/p1-101-accepted-shared-trace
+  - evaluation-harness/replay/p1-101-accepted-shared-trace
+  - evaluation-harness/evaluator/p1-101-accepted-shared-trace
+  - evaluation-harness/fixtures/p1-101-accepted-shared-trace
+  - scripts/verify-p1-101-accepted-shared-trace.sh
+  - docs/aios/tasks/P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+  - Makefile
+write_scope:
+  worker:
+    - evaluation-harness/harness/p1-101-accepted-shared-trace
+    - evaluation-harness/recording/p1-101-accepted-shared-trace
+    - evaluation-harness/replay/p1-101-accepted-shared-trace
+  quality:
+    - evaluation-harness/evaluator/p1-101-accepted-shared-trace
+    - evaluation-harness/fixtures/p1-101-accepted-shared-trace
+  integration:
+    - scripts/verify-p1-101-accepted-shared-trace.sh
+    - docs/aios/tasks/P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+    - Makefile
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+  - evaluation-harness/adapters/p1-097-minimal-documented
+  - evaluation-harness/harness/p1-097-minimal-documented
+  - evaluation-harness/recording/p1-097-minimal-documented
+  - evaluation-harness/replay/p1-097-minimal-documented
+dependencies:
+  - FOUNDER_ACCEPTED_P1_099_EXACT_CANONICAL_ADAPTER_INTEGRATION_D933F9E
+  - ACCEPTED_CANONICAL_P1_035_TASK_DATASET
+  - ACCEPTED_CANONICAL_P1_071_HIDDEN_ADMISSION_AND_HARNESS
+  - ACCEPTED_CANONICAL_P1_070_COUNTING_AND_FALSE_SUCCESS_CHARACTERIZATION
+historical_isolation:
+  accepted_canonical_p1_099_adapter_bytes_readable: true
+  p1_099_terminal_task_status_rewritten: false
+  p1_099_quality_non_pass_rewritten: false
+  other_rejected_engineering_lineage_read_restore_compare_or_reuse_allowed: false
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-101-accepted-shared-observable-trace-20260724/FOUNDER_ROUTE_ACTIVATION_PROJECTION.md
+  sha256: 244dbd5862a5b796ff92c28c7672b4e46eda055e3372614c328cf49a4be4224d
+  byte_length: 2989
+  authorization_token: AUTHORIZE_P1_EXACT_ADAPTER_RESIDUAL_ACCEPTANCE_AND_REMAINING_EXIT_GATE_CONTINUOUS_ROUTE_V1
+governing_founder_packet:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-adapter-residual-remaining-exit-route-20260724/FOUNDER_P1_EXACT_ADAPTER_RESIDUAL_ACCEPTANCE_AND_REMAINING_EXIT_GATE_CONTINUOUS_ROUTE_V1.md
+  sha256: 0f55f7adc7188a3705fc54f4bacb7ca33af6bbfada0b81690c7c65a3628a3a01
+  byte_length: 12018
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+architecture_constraints:
+  - Reuse the accepted canonical adapters by invocation; do not fork or rewrite them.
+  - Record observable events only; never retain hidden chain-of-thought.
+  - Bind exact TaskSpec, Environment Snapshot, SystemConfiguration, executable, input, output, RunRecord and child invocation identities.
+  - B2 must retain the real accepted P0 repository_analysis.scan child invocation.
+  - Stable projection includes only predeclared deterministic fields; stochastic differences remain visible in raw trace bytes.
+  - Replay and rollback are executable checks, not documentation claims.
+quality_freeze:
+  positive_matrix:
+    - B0 A and B0 B each run through the accepted canonical adapter and emit a complete shared trace.
+    - B1 A and B1 B each run through the accepted canonical adapter and emit a complete shared trace.
+    - B2 A and B2 B each run through the accepted canonical adapter and bind a real accepted P0 repository_analysis.scan child invocation.
+    - Each trace contains admission, execution, validation, result and rollback events in the declared order.
+    - Each deterministic A/B pair has exact-equal stable projection bytes.
+    - Raw stochastic fields remain retained and are not normalized into false equality.
+  negative_matrix:
+    - tampered event bytes
+    - missing required event
+    - reordered event
+    - TaskSpec identity drift
+    - Environment Snapshot identity drift
+    - SystemConfiguration identity drift
+    - executable identity drift
+    - input identity drift
+    - output identity drift
+    - RunRecord identity drift
+    - child invocation identity drift
+    - unexpected output
+    - undeclared child invocation
+    - external-effect request
+  execution_semantics:
+    - PRE_EXECUTION negatives must record target execution zero.
+    - POST_EXECUTION negatives may perform exactly one declared offline cooperative-local target execution and must reject before admission.
+    - Every negative case starts from its own fresh one-time fixture.
+acceptance_criteria:
+  - Six independent B0/B1/B2 A/B positive runs pass through the accepted canonical adapters.
+  - Every positive trace contains the complete declared event sequence and exact identity bindings.
+  - Both B2 traces record a real invocation of the exact accepted P0 repository_analysis.scan.
+  - Three deterministic stable projection pairs are exact byte equal.
+  - Raw stochastic differences are retained without falsification.
+  - Replay reproduces the stable projection and detects raw or projected identity drift.
+  - Rollback returns each disposable target to its declared clean source state.
+  - Every predeclared negative case rejects with its expected stable reason code.
+  - PRE_EXECUTION and POST_EXECUTION cases obey the exact Founder-approved execution semantics.
+  - False accepts, non-owned residuals, undeclared executions and all six external effects equal zero.
+  - One exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS on the same bytes.
+  - The reviewed exact tree equals the canonical integrated tree.
+  - Exactly one post-integration canonical make verify invocation passes.
+required_evidence:
+  - Exact Founder packet, activation projection, Contract, authority, Goal and activation parent identities.
+  - Exact accepted P1-099 integration receipt and canonical adapter source identities.
+  - Raw six-run outputs, traces, RunRecords, stable projections, replay and rollback receipts.
+  - Complete negative matrix raw results and aggregate false-accept/external-effect counts.
+  - Exact candidate commit, tree, diff/hash manifest and recoverable Evidence tag.
+  - Fresh CTO, Security and Quality reviews of the same candidate and Evidence bytes.
+  - Reviewed-tree versus integrated-tree equality and one canonical make verify result.
+rollback:
+  strategy: DISPOSABLE_FIXTURE_CLEANUP_AND_NON_DESTRUCTIVE_GIT_REVERT_AFTER_CANONICAL_INTEGRATION
+  forbidden:
+    - git reset
+    - git clean
+    - destructive history rewrite
+stop_conditions:
+  - Accepted canonical adapter identity, Goal, route packet or activation identity drifts.
+  - A rejected engineering lineage is required.
+  - A required path exceeds this Contract or an external effect is required.
+  - The single same-Task code-only repair is exhausted.
+  - The same normalized root cause repeats in adjacent implementation iterations.
+  - Any final Reviewer, reviewed/integrated equality check or canonical make verify returns NON_PASS.
+  - Evidence is overwritten or deleted, or the Phase boundary changes.
+claim_boundary: >-
+  Accepted canonical cooperative-local offline B0/B1/B2 execution observable
+  trace, deterministic stable projection, replay and rollback only; no model
+  performance, baseline superiority, P1 exit, P2/P3 entry, production, public,
+  remote, provider, hostile-principal or strong-isolation claim.

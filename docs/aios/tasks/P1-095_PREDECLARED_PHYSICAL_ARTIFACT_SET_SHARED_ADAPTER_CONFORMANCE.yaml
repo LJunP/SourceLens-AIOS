@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P1-095_PREDECLARED_PHYSICAL_ARTIFACT_SET_SHARED_ADAPTER_CONFORMANCE
 phase: P1
 route_id: P1_PREDECLARED_ARTIFACT_SET_AND_SHARED_ADAPTER_RECOVERY_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
 objective: >-
   Implement and independently verify one clean-room shared offline B0, B1 and
   B2 compatibility-adapter architecture whose complete physical output sets
@@ -238,6 +238,47 @@ forbidden_actions:
   - Use network, Provider, Secret, remote, production or public effects.
   - Push, modify a remote, enter P2/P3 or build Supervisor, Root Custody, Trust Runtime, Multi-Agent Runtime or hostile-principal isolation.
   - Create a successor, replacement, correction, normalization, closure, feasibility or remediation chain.
+
+terminal_outcome:
+  status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
+  stopped_at_stage: FRESH_FINAL_CANDIDATE_REVIEW
+  implementation_iterations_used: 1
+  code_only_repairs_used: 0
+  candidates_used: 1
+  final_review_cycles_used: 1
+  quality_freeze:
+    commit: b0ed4079da58e01a41e0e0494285d9a86cd59ec2
+    tree: 67fbe64ca52ffc9cb5a13ec1029a02147237c201
+    manifest_sha256: c1f32d7b16a6265ef81bd40918a56461e847571333fdba891193d5047d71bd19
+    self_test_sha256: 2648d2513d7947bfcbdb58003e279bd7cf0c9ac99335df1aae46a04735ec4e4e
+  candidate:
+    commit: 3e57c4e5474396acbf91fb440a852174dec8518c
+    tree: 3f92b96a5b8cdbb6bb8e162f1f43f5f1e7046247
+    manifest_sha256: 63f7aa6a1deb8da76ab7dbc473e0f9d15ad6c4b2a4e5dfbf90375f4b664b28b7
+    evidence_tag: evidence/p1-095-candidate-3e57c4e
+    integrated: false
+  formal_result:
+    status: PASS_REJECTED_BY_FINAL_TARGET_REVIEW
+    summary_sha256: 89aee9cc2c7ad5e8811b6e1e85b6f88298a278f4dcd0705a46f3c288a7ee1424
+    run_count: 6
+    exact_replay_pair_count: 3
+    negative_case_count_reported: 37
+    false_accepts_reported: 0
+    nonowned_residuals_reported: 0
+  final_reviews:
+    cto:
+      target_verdict: NON_PASS
+      finding_id: CTO-P1-095-001
+      normalized_root_cause: MANDATORY_REAL_NEGATIVE_MATRIX_REPLACED_BY_INCOMPLETE_SYNTHETIC_VALIDATOR_PROBES
+      review_sha256: 0c28908c88608ed55e08bd1044f060f4172136c447cffb05dac3862b4960d1e8
+    security:
+      status: CANCELLED_AFTER_CTO_TARGET_NON_PASS
+    quality:
+      status: CANCELLED_AFTER_CTO_TARGET_NON_PASS
+  accepted_capability_created: false
+  capability_credit: 0
+  p1_096_entry: INELIGIBLE_ROUTE_STOPPED
+  correction_replacement_successor_or_rereview_allowed: false
 
 claim_boundary: >-
   One cooperative-local, provider-neutral, offline B0/B1/B2 shared-harness

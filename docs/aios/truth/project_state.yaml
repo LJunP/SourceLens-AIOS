@@ -57,8 +57,8 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  phase_execution_status: ACTIVE_FOUNDER_PHASE_GATE_REQUIRED
-  p1_execution_status: ACTIVE_WAITING_FOUNDER_PHASE_GATE
+  phase_execution_status: ACTIVE
+  p1_execution_status: ACTIVE
   p1_engineering_status: P1_097_TERMINAL_REPAIR_BUDGET_EXHAUSTED_NON_PASS
   current_route_execution_status: TERMINAL_TASK_1_NON_PASS
   canonical_branch: main
@@ -2584,7 +2584,7 @@ active_work:
   authorization_id: null
   activation_parent_commit: null
   activation_parent_tree: null
-  task_resource_state: NONE_PHASE_ACTIVE_TERMINAL_EVIDENCE_PRESERVED
+  task_resource_state: NONE_PHASE_ACTIVE
   task_branch: null
   task_worktree: null
   execution_evidence_root: null
@@ -2608,10 +2608,10 @@ active_work:
   offsite_target: null
   founder_reserved_authorization: null
   founder_reserved_authorization_sha256: null
-  founder_decision_required: true
-  founder_decision_required_scope: P1_PHASE_ROUTE_AFTER_P1_097_TERMINAL_NON_PASS
-  escalation_reason: P1_097_IMPLEMENTATION_ITERATION_AND_UNIQUE_REPAIR_EXHAUSTED_NON_PASS
-  user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
+  founder_decision_required: false
+  founder_decision_required_scope: NONE_WITHIN_ACTIVE_PHASE_ENVELOPE
+  escalation_reason: null
+  user_action_required: NONE
   phase_route_decision_required: true
   phase_route_user_action_required: FOUNDER_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE

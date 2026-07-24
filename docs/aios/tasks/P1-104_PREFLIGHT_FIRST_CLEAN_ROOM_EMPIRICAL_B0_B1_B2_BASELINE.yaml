@@ -1,0 +1,281 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P1-104_PREFLIGHT_FIRST_CLEAN_ROOM_EMPIRICAL_B0_B1_B2_BASELINE
+phase: P1
+route_id: P1_PREFLIGHT_FIRST_CLEAN_ROOM_EMPIRICAL_BASELINE_AND_PREREGISTRATION_CONTINUOUS_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Build and execute one clean-room, preflight-first, reproducible empirical
+  B0/B1/B2 baseline over the accepted canonical evaluation assets. Prove the
+  complete disposable-workspace transaction invariant before any Secret read
+  or Provider request, then execute the preregistered 36-run matrix, complete
+  negative matrix, independent evaluation, replay, rollback and bounded report.
+why_now: >-
+  Six of eight strict P1 Exit Gate items are accepted. The remaining baseline
+  report is the highest-value missing engineering result. P1-102 terminally
+  demonstrated that Provider execution must not begin until materialized-mode
+  and rollback invariants are independently closed; this Task tests that
+  prerequisite inside the real baseline Task rather than creating another
+  governance or remediation chain.
+task_spec_ref: >-
+  /Users/lijunpeng/Developer/.sourcelens-audit/p1-phase-gate-after-p1-102-20260724/FOUNDER_P1_PREFLIGHT_FIRST_CLEAN_ROOM_EMPIRICAL_BASELINE_AND_PREREGISTRATION_CONTINUOUS_ROUTE_V1.md
+owner_role: P1-104 Empirical Evaluation Manager
+worker_role: P1-104 Clean-Room Baseline Worker
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+risk_level: high
+budget:
+  engineering_hours: 28
+  calendar_days: 8
+  implementation_iterations: 2
+  candidates: 1
+roles:
+  owner: P1-104 Empirical Evaluation Manager
+  worker: P1-104 Clean-Room Baseline Worker
+  independent_reviewers:
+    - P1-104 Fresh CTO Reviewer
+    - P1-104 Fresh Security Reviewer
+    - P1-104 Fresh Quality Reviewer
+allowlisted_paths:
+  - evaluation-harness/environment/p1-104-preflight-first-baseline
+  - evaluation-harness/harness/p1-104-preflight-first-baseline
+  - evaluation-harness/recording/p1-104-preflight-first-baseline
+  - evaluation-harness/replay/p1-104-preflight-first-baseline
+  - evaluation-harness/evaluator/p1-104-preflight-first-baseline
+  - evaluation-harness/fixtures/p1-104-preflight-first-baseline
+  - scripts/verify-p1-104-preflight-first-baseline.sh
+  - docs/aios/tasks/P1-104_PREFLIGHT_FIRST_CLEAN_ROOM_EMPIRICAL_B0_B1_B2_BASELINE.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+  - Makefile
+write_scope:
+  worker:
+    - evaluation-harness/environment/p1-104-preflight-first-baseline
+    - evaluation-harness/harness/p1-104-preflight-first-baseline
+    - evaluation-harness/recording/p1-104-preflight-first-baseline
+    - evaluation-harness/replay/p1-104-preflight-first-baseline
+  quality:
+    - evaluation-harness/evaluator/p1-104-preflight-first-baseline
+    - evaluation-harness/fixtures/p1-104-preflight-first-baseline
+  integration:
+    - scripts/verify-p1-104-preflight-first-baseline.sh
+    - docs/aios/tasks/P1-104_PREFLIGHT_FIRST_CLEAN_ROOM_EMPIRICAL_B0_B1_B2_BASELINE.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+    - Makefile
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+  - docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
+  - docs/aios/tasks/P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE.yaml
+  - evaluation-harness/adapters/p1-097-minimal-documented
+  - evaluation-harness/harness/p1-097-minimal-documented
+  - evaluation-harness/recording/p1-097-minimal-documented
+  - evaluation-harness/replay/p1-097-minimal-documented
+  - evaluation-harness/evaluator/p1-097-minimal-documented
+  - evaluation-harness/fixtures/p1-097-minimal-documented
+  - evaluation-harness/harness/p1-101-accepted-shared-trace
+  - evaluation-harness/recording/p1-101-accepted-shared-trace
+  - evaluation-harness/replay/p1-101-accepted-shared-trace
+  - evaluation-harness/evaluator/p1-101-accepted-shared-trace
+  - evaluation-harness/fixtures/p1-101-accepted-shared-trace
+dependencies:
+  - ACCEPTED_CANONICAL_P1_035_VISIBLE_SYNTHETIC_TASK_DATASET
+  - FOUNDER_ACCEPTED_CANONICAL_P1_099_B0_B1_B2_ADAPTERS
+  - ACCEPTED_CANONICAL_P1_101_SHARED_OBSERVABLE_TRACE
+  - ACCEPTED_CANONICAL_P1_070_COUNTING_AND_FALSE_SUCCESS_CHARACTERIZATION
+historical_isolation:
+  p1_102_terminal_truth_and_receipt_metadata_readable: true
+  p1_102_source_fixture_runner_candidate_or_partial_engineering_asset_readable: false
+  p1_102_terminal_status_rewritten: false
+  other_rejected_engineering_lineage_read_restore_compare_or_reuse_allowed: false
+external_effects:
+  network: true
+  provider: true
+  secret: true
+  remote: false
+  production: false
+  public: false
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-phase-gate-after-p1-102-20260724/FOUNDER_P1_PREFLIGHT_FIRST_CLEAN_ROOM_EMPIRICAL_BASELINE_AND_PREREGISTRATION_CONTINUOUS_ROUTE_V1.md
+  sha256: 370f691f4adc37cfa9a128bee16535a2af81c838f72ac9ad0e5c8970c4958dbe
+  byte_length: 10792
+  authorization_token: AUTHORIZE_P1_PREFLIGHT_FIRST_CLEAN_ROOM_EMPIRICAL_BASELINE_AND_PREREGISTRATION_CONTINUOUS_ROUTE_V1
+governing_founder_packet:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-phase-gate-after-p1-102-20260724/FOUNDER_P1_PREFLIGHT_FIRST_CLEAN_ROOM_EMPIRICAL_BASELINE_AND_PREREGISTRATION_CONTINUOUS_ROUTE_V1.md
+  sha256: 370f691f4adc37cfa9a128bee16535a2af81c838f72ac9ad0e5c8970c4958dbe
+  byte_length: 10792
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+founder_reserved_profile:
+  schema_version: "2.0"
+  profile_id: P1_104_PREFLIGHT_FIRST_BOUNDED_LOOPBACK_EMPIRICAL_BASELINE_V1
+  decision_basis: EXACT_FOUNDER_PACKET_TASK_1_AFTER_MANDATORY_OFFLINE_PREFLIGHT
+  route_id: P1_PREFLIGHT_FIRST_CLEAN_ROOM_EMPIRICAL_BASELINE_AND_PREREGISTRATION_CONTINUOUS_ROUTE_V1
+  task_id: AIOS-P1-104_PREFLIGHT_FIRST_CLEAN_ROOM_EMPIRICAL_B0_B1_B2_BASELINE
+  transport:
+    scheme: http
+    host: 127.0.0.1
+    port: 8787
+    base_path: /v1
+    completion_path: /v1/chat/completions
+    api_format: OPENAI_COMPATIBLE_CHAT_COMPLETIONS
+    method: POST
+    follow_redirects: false
+    use_proxy: false
+    dns_resolution: false
+    fallback_endpoint_allowed: false
+    expected_peer_address: 127.0.0.1
+    expected_peer_port: 8787
+  model:
+    requested_model: gpt-5.6-luna
+    substitution_allowed: false
+    provider_provenance: FOUNDER_ATTESTED_OPENAI_COMPATIBLE_LOCAL_GATEWAY_MODEL_NOT_INDEPENDENTLY_VERIFIED
+  secret:
+    allowed_sources:
+      - LOCAL_PROCESS_ENV
+      - CONTROLLED_TEMPORARY_SECRET_FILE
+    persist: false
+    prohibited_sinks:
+      - REPOSITORY
+      - EVIDENCE
+      - LOG
+      - TRACE
+      - PROMPT
+      - REVIEW
+      - VAULT
+  call_limits:
+    provider_requests_max: 144
+    automatic_retry_max: 0
+  token_limits:
+    input_tokens_max: 3000000
+    output_tokens_max: 300000
+  monetary_limits:
+    currency: USD
+    max_spend: 25
+    unavailable_metering_status: UNKNOWN_GATEWAY_METERING_UNAVAILABLE
+  egress:
+    restricted_source_allowed: false
+  external_effects:
+    network: true
+    provider: true
+    secret: true
+    remote: false
+    production: false
+    public: false
+  claim_limits:
+    direct_openai_provenance_proven: false
+    adapter_conformance_is_model_performance: false
+    remote: false
+    production: false
+    public: false
+architecture_constraints:
+  - Reuse accepted canonical adapters and P1-101 trace by invocation; do not fork or rewrite them.
+  - Do not read P1-102 source, fixture, runner, candidate or partial engineering bytes.
+  - Before Secret read or Provider request, freeze source inventory and pass the complete offline transaction preflight.
+  - Distinguish original source mode from controlled materialized mode and bind validation to the latter.
+  - Every disposable fixture has unique ownership, exact rollback and no non-owned cleanup.
+  - B2 must retain a real accepted P0 repository_analysis.scan child invocation.
+  - Stable projection includes only preregistered deterministic fields; stochastic differences remain visible.
+  - No result-dependent metric, exclusion, sample, configuration or evaluator change is permitted.
+preflight_gate:
+  required_before_secret_or_provider:
+    - Freeze exact source inventory before materialization.
+    - Materialize every controlled regular file at the declared mode and freeze the materialized expected inventory.
+    - Verify rollback against the materialized expected inventory and exact original source bytes.
+    - Reject mode drift, byte drift, missing, reorder, unexpected output, non-owned path, symlink and cleanup-ownership violations.
+    - Complete deterministic replay with stable reason codes.
+    - Prove false accepts, undeclared execution and all six external effects equal zero.
+  failure_semantics:
+    - A preflight failure records Secret reads and Provider requests as zero.
+    - The sole repair must be code-only and the full preflight reruns from a fresh root.
+    - Repair exhaustion terminally stops the route.
+formal_matrix:
+  dataset_task_count: 6
+  profiles:
+    - B0
+    - B1
+    - B2
+  repetitions_per_task_profile: 2
+  scheduled_run_count: 36
+  required_outputs:
+    - exact input, SystemConfiguration, executable, trace, RunRecord and result identities
+    - raw stochastic fields
+    - deterministic stable projection
+    - independent evaluator verdict
+    - exact replay and rollback receipt
+    - exact Provider call, token, latency and available cost accounting
+    - aggregate VTSR, false-success, unsafe-action, Evidence-completeness and failure taxonomy
+  negative_matrix:
+    - source inventory mutation after freeze
+    - materialized mode drift
+    - result byte tamper
+    - missing result
+    - reordered event
+    - unexpected output
+    - non-owned path
+    - symlink boundary
+    - cleanup ownership violation
+    - TaskSpec identity drift
+    - Environment Snapshot identity drift
+    - SystemConfiguration identity drift
+    - executable identity drift
+    - input identity drift
+    - output identity drift
+    - RunRecord identity drift
+    - child invocation identity drift
+    - undeclared child invocation
+    - external-effect request
+acceptance_criteria:
+  - Complete offline preflight passes before any Secret read or Provider request.
+  - All 36 preregistered B0/B1/B2 runs complete or retain truthful declared failure, timeout, invalid or exclusion outcomes.
+  - Every B2 run records a real exact accepted P0 repository_analysis.scan child invocation.
+  - Raw stochastic differences remain retained and deterministic stable projections replay exactly.
+  - Independent evaluation uses the frozen task, metric, counting and exclusion rules.
+  - Every negative case rejects with its expected stable reason code from a fresh one-time fixture.
+  - False accepts, restricted source egress, target mutation, non-owned mutation, undeclared execution, retry and remote, production or public effects equal zero.
+  - Exact calls, tokens and latency are reported; unavailable monetary metering remains UNKNOWN_GATEWAY_METERING_UNAVAILABLE.
+  - The report states small-sample and provenance limits and makes no superiority, statistical-certainty or production claim.
+  - One exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS on the same bytes.
+  - The reviewed exact tree equals the canonical integrated tree.
+  - Exactly one post-integration canonical make verify invocation passes.
+required_evidence:
+  - Exact Founder packet, Contract, authority, Goal and activation parent identities.
+  - Exact accepted input commit, tree, Contract and integration identities.
+  - Preflight freeze, materialized inventory, full matrix and zero-Provider gate receipt.
+  - Raw 36-run requests, responses, traces, RunRecords, stable projections, evaluator verdicts, replay and rollback receipts.
+  - Complete negative matrix raw results and aggregate false-accept/external-effect counts.
+  - Exact Provider call, token, latency and available cost accounting without Secret retention.
+  - Reproducible baseline report and reproduction entry point.
+  - Exact candidate commit, tree, diff/hash manifest and recoverable Evidence tag.
+  - Fresh CTO, Security and Quality reviews of the same candidate and Evidence bytes.
+  - Reviewed-tree versus integrated-tree equality and one canonical make verify result.
+rollback:
+  strategy: DISPOSABLE_FIXTURE_CLEANUP_AND_NON_DESTRUCTIVE_GIT_REVERT_AFTER_CANONICAL_INTEGRATION
+  forbidden:
+    - git reset
+    - git clean
+    - destructive history rewrite
+stop_conditions:
+  - Accepted canonical input, Goal, Founder packet or activation identity drifts.
+  - P1-102 or another rejected engineering asset is required.
+  - Preflight permits Secret read or Provider use before complete PASS.
+  - A required path exceeds this Contract or an unauthorized external effect is required.
+  - The single same-Task code-only repair is exhausted.
+  - The same normalized root cause repeats in adjacent implementation iterations.
+  - Any final Reviewer, reviewed/integrated equality check or canonical make verify returns NON_PASS.
+  - Evidence is overwritten or deleted, a Secret reaches a prohibited sink, or the Phase boundary changes.
+claim_boundary: >-
+  One accepted small-sample reproducible B0/B1/B2 empirical baseline over the
+  accepted visible synthetic dataset and Founder-attested local gateway only;
+  no model superiority, statistical certainty, independent OpenAI provenance,
+  P1 exit, P2/P3 entry, production, public, remote, hostile-principal or
+  strong-isolation claim.

@@ -1,0 +1,238 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P1-097_MINIMAL_DOCUMENTED_B0_B1_B2_COMPATIBILITY_ADAPTERS
+phase: P1
+route_id: P1_MINIMAL_DOCUMENTED_COMPATIBILITY_ADAPTER_AND_TRACE_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Implement and independently verify the minimum documented compatibility
+  adapters required to select, invoke, record, replay and roll back B0, B1 and
+  B2 through one canonical cooperative-local offline harness.
+why_now: >-
+  Strict P1 completion is 4/8 and the B0/B1/B2 compatibility-adapter Exit Gate
+  item remains missing. The Founder selected the Baseline Adapter Contract's
+  documented-compatibility path and explicitly rejected another general
+  artifact-security, authority or hostile-principal framework.
+task_spec_ref: >-
+  /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimal-documented-adapter-trace-route-schema-compatible-reissue-20260724/FOUNDER_P1_MINIMAL_DOCUMENTED_COMPATIBILITY_ADAPTER_AND_TRACE_ROUTE_SCHEMA_COMPATIBLE_REISSUE_V1.md
+owner_role: Engineering Manager Agent
+worker_role: P1-097 Minimal Documented Adapter Worker
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+risk_level: high
+budget:
+  engineering_hours: 22
+  calendar_days: 6
+  implementation_iterations: 2
+  candidates: 1
+roles:
+  owner: Engineering Manager Agent
+  worker: P1-097 Minimal Documented Adapter Worker
+  independent_reviewers:
+    - P1-097 CTO Reviewer
+    - P1-097 Security Reviewer
+    - P1-097 Quality Reviewer
+additional_roles:
+  quality_design: P1-097 Quality Design Agent
+allowlisted_paths:
+  - evaluation-harness/adapters/p1-097-minimal-documented/**
+  - evaluation-harness/fixtures/p1-097-minimal-documented/**
+  - evaluation-harness/harness/p1-097-minimal-documented/**
+  - evaluation-harness/evaluator/p1-097-minimal-documented/**
+  - evaluation-harness/replay/p1-097-minimal-documented/**
+  - evaluation-harness/recording/p1-097-minimal-documented/**
+  - scripts/verify-p1-097-minimal-documented-adapters.sh
+  - docs/aios/tasks/P1-097_MINIMAL_DOCUMENTED_B0_B1_B2_COMPATIBILITY_ADAPTERS.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+  - Makefile
+write_scope:
+  quality_design:
+    - evaluation-harness/fixtures/p1-097-minimal-documented/**
+    - evaluation-harness/evaluator/p1-097-minimal-documented/**
+  worker:
+    - evaluation-harness/adapters/p1-097-minimal-documented/**
+    - evaluation-harness/harness/p1-097-minimal-documented/**
+    - evaluation-harness/recording/p1-097-minimal-documented/**
+    - evaluation-harness/replay/p1-097-minimal-documented/**
+  integration:
+    - scripts/verify-p1-097-minimal-documented-adapters.sh
+    - docs/aios/tasks/P1-097_MINIMAL_DOCUMENTED_B0_B1_B2_COMPATIBILITY_ADAPTERS.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+    - Makefile
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+  - docs/aios/schemas/task-spec.schema.json
+  - docs/aios/schemas/environment-snapshot.schema.json
+  - docs/aios/schemas/system-configuration.schema.json
+  - docs/aios/schemas/run-record.schema.json
+  - evaluation-harness/datasets/p1-representative-task-dataset-v1/**
+  - evaluation-harness/environment/**
+  - evaluation-harness/harness/**
+  - evaluation-harness/recording/**
+  - evaluation-harness/replay/**
+  - evaluation-harness/evaluator/**
+  - evaluation-harness/adapters/offline-b0-finite-typed-v1/**
+  - analyzer-rust/**
+dependencies:
+  - CURRENT_CANONICAL_MAIN_AT_ACTIVATION
+  - FOUNDER_PHASE_GATE_PACKET_19CF6468
+  - ACCEPTED_P1_035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+  - ACCEPTED_P1_048_ACTUAL_EXECUTION_EXPERIMENT_PACK
+  - ACCEPTED_P1_055_FINITE_TYPED_PATCH_IR_COMPILER
+  - ACCEPTED_P1_070_VTSR_AND_FALSE_SUCCESS_CHARACTERIZATION
+  - ACCEPTED_P1_071_HIDDEN_ADMISSION_AND_STABLE_REPLAY
+  - ACCEPTED_P1_092_SINGLE_AUTHORITY_COMPATIBILITY_CONVERGENCE
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimal-documented-adapter-trace-route-schema-compatible-reissue-20260724/FOUNDER_P1_MINIMAL_DOCUMENTED_COMPATIBILITY_ADAPTER_AND_TRACE_ROUTE_SCHEMA_COMPATIBLE_REISSUE_V1.md
+  sha256: 19cf64687a657276b80ecbe52fedaa92fbe546201c67b41eddc6900e5f95402c
+  byte_length: 8749
+  authorization_token: AUTHORIZE_P1_MINIMAL_DOCUMENTED_COMPATIBILITY_ADAPTER_AND_TRACE_ROUTE_SCHEMA_COMPATIBLE_REISSUE_V1
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+architecture:
+  mode: MINIMAL_DOCUMENTED_COMPATIBILITY_ADAPTERS
+  common_interface: run(TaskSpec, EnvironmentSnapshot, SystemConfiguration, repetition_id) -> RunRecord
+  adapters:
+    B0:
+      mode: FROZEN_PROVIDER_NEUTRAL_RESULT_CONFORMANCE
+      tools_allowed: []
+      loop_limit: 1
+      live_model_invoked: false
+      provider_invoked: false
+    B1:
+      mode: FINITE_TOOL_AGENT_CONFORMANCE
+      allowed_tool_classes:
+        - file_listing
+        - file_read
+        - lexical_search
+        - structured_patch
+        - verification_command
+      forbidden_features:
+        - sourcelens_graph
+        - ranker
+        - memory
+        - additional_agent
+        - network
+    B2:
+      mode: EXACT_ACCEPTED_P0_REPOSITORY_ANALYSIS_SCAN
+      required_operation: repository_analysis.scan
+      canonical_source_mutation_allowed: false
+  output_root:
+    ownership: ATOMICALLY_CREATED_UNIQUE_PROCESS_OWNED_DISPOSABLE_ROOT
+    preexisting_target_allowed: false
+    symlink_target_or_ancestor_allowed: false
+    nonowned_cleanup_allowed: false
+  forbidden_new_architecture:
+    - artifact_security_framework
+    - authority_framework
+    - trust_runtime
+    - hostile_principal_isolation
+    - general_untrusted_output_platform
+quality_design:
+  positive_matrix:
+    - B0 Run A and independently invoked Run B use distinct run roots and SystemConfiguration.
+    - B1 Run A and independently invoked Run B use distinct disposable source roots and exact rollback.
+    - B2 Run A and independently invoked Run B each launch one real exact accepted P0 repository_analysis.scan child.
+    - The three A/B stable projection pairs are exact byte-equal after only predeclared normalization.
+    - All four Baseline Adapter Contract documents validate and one cross-contract preflight serves all adapters.
+    - Every observable action joins to one run ID and the independent evaluator consumes only the common RunRecord.
+  negative_matrix:
+    - descriptor tamper
+    - missing executable
+    - command drift
+    - input identity tamper
+    - RunRecord identity tamper
+    - unexpected output entry
+    - output-root symlink
+    - non-owned cleanup attempt
+    - forbidden tool
+    - hidden-data access
+    - network access
+    - malformed argv rejected before target execution
+    - working directory drift rejected before target execution
+    - timeout contract rejected before target execution
+    - expected-exit contract rejected before target execution
+    - network request rejected
+    - Provider request rejected
+    - Secret request rejected
+    - remote request rejected
+    - production request rejected
+    - public request rejected
+  required_counts:
+    positive_runs: 6
+    exact_stable_pairs: 3
+    minimum_negative_cases: 21
+    false_accepts: 0
+    nonowned_residuals: 0
+acceptance_criteria:
+  - B0, B1 and B2 each have one distinct typed descriptor, executable entry and SystemConfiguration.
+  - All four Baseline Adapter Contract documents validate and one shared cross-contract preflight passes.
+  - B0 has no tools, no loop and loop_limit exactly 1.
+  - B1 exposes only the declared finite tool classes and rejects graph, ranker, memory, additional Agent and network.
+  - B2 performs a real inherited repository_analysis.scan against the exact accepted P0 binding in both fresh runs.
+  - Six independent positive runs and three exact stable projection pairs pass.
+  - B1 exact rollback passes and B0/B2 do not mutate canonical source.
+  - Tool, network, time, token, call and cost limits fail closed.
+  - Every observable action joins to one run ID and trace.
+  - The independent evaluator consumes common RunRecord without adapter-specific success logic.
+  - All required negative classes execute as real fixtures, every class rejects, false accepts equal zero and non-owned residuals equal zero.
+  - Malformed argv, working directory, timeout and expected-exit contracts reject before target command execution.
+  - All six external-effect request classes reject and retained external effects remain all false.
+  - One exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS.
+  - The reviewed tree equals the integrated tree and one canonical make verify invocation passes.
+required_evidence:
+  - Exact Contract, Founder packet, Goal, accepted-input and runtime identities.
+  - Quality-design artifact inventory and independent byte identities.
+  - Six raw positive run roots, three stable projections and B1 rollback receipt.
+  - Two real B2 child command ledgers and scan outputs.
+  - Real negative-matrix records with pre-execution side-effect counters.
+  - Exact candidate commit, tree, diff/hash manifest and recoverable Evidence tag.
+  - Fresh CTO, Security and Quality reviews of the same exact candidate.
+  - Reviewed-tree versus integrated-tree equality receipt.
+  - One canonical make verify result.
+rollback:
+  strategy: NON_DESTRUCTIVE_GIT_REVERT
+  forbidden:
+    - git reset
+    - git clean
+    - destructive history rewrite
+stop_conditions:
+  - A required change falls outside the allowlisted paths.
+  - The Goal, P1 Objective, P1 Exit Gate, Phase boundary or external-effect permissions must change.
+  - The unique code-only repair is exhausted or the same normalized root cause repeats.
+  - Any final Reviewer returns TARGET_VERDICT NON_PASS.
+  - Reviewed and integrated trees differ.
+  - Canonical make verify returns NON_PASS.
+  - Evidence is overwritten or deleted, an external effect occurs, or critical residual-risk acceptance is required.
+forbidden_actions:
+  - Read, restore, compare, copy, modify or reuse any P1-095 source, fixture, test, oracle, candidate, manifest, diff, run root or engineering asset.
+  - Read or reuse any other rejected engineering candidate.
+  - Build a general artifact-security, authority, Trust Runtime, hostile-principal isolation or untrusted-output framework.
+  - Start P1-098 before this Task Gate fully passes.
+  - Use network, Provider, Secret, remote, production or public effects.
+  - Push or modify a remote.
+  - Enter P2 or P3.
+  - Create a successor, replacement, correction, normalization, closure, feasibility or remediation chain.
+claim_boundary: >-
+  Cooperative-local provider-neutral offline B0/B1/B2 documented compatibility
+  adapter conformance only. No live model or Provider run, model performance,
+  baseline score, VTSR complete, P1 complete, P2, P3, production, public,
+  hostile-principal, strong-isolation or general trusted-runtime claim.

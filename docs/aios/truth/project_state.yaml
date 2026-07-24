@@ -1224,6 +1224,7 @@ current_phase_route:
     capability_projection_on_pass:
       - B0_B1_B2_COMPATIBILITY_ADAPTERS
     strict_progress_projection_on_pass: 5_COMPLETE_0_PARTIAL_3_NOT_COMPLETE_62_5_PERCENT
+    claim_boundary: CLEAN_ROOM_COOPERATIVE_LOCAL_SHARED_OFFLINE_B0_B1_B2_ADAPTER_CONFORMANCE_ONLY_NO_MODEL_PERFORMANCE_VTSR_COMPLETE_P1_P2_P3_PRODUCTION_PUBLIC_OR_HOSTILE_PRINCIPAL_CLAIM
     implementation_iterations_used: 0
     code_only_repairs_used: 0
     candidates_used: 0

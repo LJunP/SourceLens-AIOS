@@ -1,0 +1,445 @@
+schema_version: 1
+record_type: sourcelens_aios_phase_delegated_task_contract
+task_id: AIOS-P1-089_ACCEPTED_EXECUTION_OBSERVABLE_TRACE_VERTICAL_SLICE
+task_slot: 1
+phase: P1
+route_id: P1_ACCEPTED_EXECUTION_OBSERVABLE_TRACE_ENGINEERING_ROUTE_V1
+status: AUTHORIZED_ACTIVE
+execution_authority: FOUNDER_PHASE_GATE_DELEGATED
+title: Accepted Execution Observable Trace Vertical Slice
+task_spec_ref:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-observable-trace-route-proposal-20260724/FOUNDER_P1_ACCEPTED_EXECUTION_OBSERVABLE_TRACE_ENGINEERING_ROUTE_V1.md
+  sha256: ac7c09fe37aa4e67a82db7a2082e7e2f8c78715682ee4c016fb72b57695b7b21
+  byte_length: 11551
+owner_role: P1_089_ENGINEERING_MANAGER_OWNER
+worker_role: P1_089_OBSERVABLE_TRACE_WORKER
+
+objective: >-
+  Implement and execute one cooperative-local offline observable-trace vertical
+  slice from accepted canonical execution assets. Two sequential top-level
+  fresh Node processes must each produce one actor-bound raw run, one complete
+  observable trace, one RunRecord and one producer receipt; independent
+  verifier processes must recompute acceptance, prove exact stable projection
+  equality, reject the frozen tamper matrix with zero false accepts, and prove
+  source-unchanged rollback with no external effects.
+
+why_now:
+  - Strict P1 completion is 4/8 (50%) and OBSERVABLE_TRACE remains MISSING.
+  - Accepted P1-048, P1-066, P1-071 and P1-070 assets already provide the required execution, replay, projection and independent-recomputation patterns.
+  - P1-086 is terminal and non-reusable; this independent Task targets a different missing Exit Gate item and binds actor provenance through external process Evidence.
+
+task_kind: EVALUATION_FOUNDATION_ENGINEERING
+risk_level: high
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+founder_decision_required: false
+baseline_ref:
+  path: docs/aios/EVALUATION_PROTOCOL.md
+  version: "1.1"
+  sha256: da029143561fbb3c213d4a358b25e085542c6cd26ae8150a53cbb5998177eed8
+
+dependencies:
+  - AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+  - AIOS-P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK
+  - AIOS-P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE
+  - AIOS-P1-066_ENGINEERING_FIRST_OFFLINE_B0_COMPLETE_EVIDENCE_VERTICAL_SLICE
+  - AIOS-P1-071_STABLE_REPLAY_PROJECTION_AND_EXACT_HARNESS_ADMISSION_VERTICAL_SLICE
+  - AIOS-P1-070_OFFLINE_SCHEDULED_MATRIX_VTSR_AND_FALSE_SUCCESS_EXPERIMENT
+
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-observable-trace-route-proposal-20260724/FOUNDER_P1_ACCEPTED_EXECUTION_OBSERVABLE_TRACE_ENGINEERING_ROUTE_V1.md
+  sha256: ac7c09fe37aa4e67a82db7a2082e7e2f8c78715682ee4c016fb72b57695b7b21
+  byte_length: 11551
+  authorization_token: AUTHORIZE_P1_ACCEPTED_EXECUTION_OBSERVABLE_TRACE_ENGINEERING_ROUTE_V1
+
+founder_authorization_source:
+  source: CODEX_THREAD_FOUNDER_DIRECT_MESSAGE_2026_07_24
+  authorization_token: AUTHORIZE_P1_ACCEPTED_EXECUTION_OBSERVABLE_TRACE_ENGINEERING_ROUTE_V1
+  packet_sha256: ac7c09fe37aa4e67a82db7a2082e7e2f8c78715682ee4c016fb72b57695b7b21
+
+source_identity:
+  canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
+  activation_parent_commit: 5f92ffd6e2fef3fec2b957395e43b43bda1d9264
+  activation_parent_tree: cfb20616e8721b69f2bf062642213e8f1020ba23
+  task_branch: codex/p1-089-accepted-observable-trace
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-089-accepted-observable-trace
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-089-accepted-observable-trace-ZQ55vyc7
+
+budget:
+  engineering_hours: 18
+  calendar_days: 5
+  implementation_iterations: 2
+  candidates: 1
+
+roles:
+  owner: P1_089_ENGINEERING_MANAGER_OWNER
+  worker: P1_089_OBSERVABLE_TRACE_WORKER
+  independent_reviewers:
+    - P1_089_FRESH_CTO_REVIEWER
+    - P1_089_FRESH_SECURITY_REVIEWER
+    - P1_089_FRESH_QUALITY_REVIEWER
+
+independent_reviewer:
+  - CTO Agent
+  - Security Agent
+  - Quality and Evaluation Agent
+
+reviewer_freshness:
+  one_fresh_physical_actor_per_role_required: true
+  prior_task_reviews_reusable: false
+  implementer_self_acceptance_allowed: false
+
+allowlisted_paths:
+  - Makefile
+  - docs/PROJECT_CODE_MAP.md
+  - docs/aios/tasks/P1-089_ACCEPTED_EXECUTION_OBSERVABLE_TRACE_VERTICAL_SLICE.yaml
+  - docs/aios/truth/project_state.yaml
+  - evaluation-harness/contracts/accepted-execution-observable-trace-v1/**
+  - evaluation-harness/evaluator/accepted-execution-observable-trace-v1/**
+  - evaluation-harness/fixtures/accepted-execution-observable-trace-v1/**
+  - evaluation-harness/harness/accepted-execution-observable-trace-v1/**
+  - evaluation-harness/replay/accepted-execution-observable-trace-v1/**
+  - scripts/verify-all.sh
+  - scripts/verify-p1-089-observable-trace.sh
+
+write_scope:
+  - Makefile
+  - docs/PROJECT_CODE_MAP.md
+  - docs/aios/tasks/P1-089_ACCEPTED_EXECUTION_OBSERVABLE_TRACE_VERTICAL_SLICE.yaml
+  - docs/aios/truth/project_state.yaml
+  - evaluation-harness/contracts/accepted-execution-observable-trace-v1/**
+  - evaluation-harness/evaluator/accepted-execution-observable-trace-v1/**
+  - evaluation-harness/fixtures/accepted-execution-observable-trace-v1/**
+  - evaluation-harness/harness/accepted-execution-observable-trace-v1/**
+  - evaluation-harness/replay/accepted-execution-observable-trace-v1/**
+  - scripts/verify-all.sh
+  - scripts/verify-p1-089-observable-trace.sh
+
+write_ownership:
+  quality:
+    - evaluation-harness/contracts/accepted-execution-observable-trace-v1/**
+    - evaluation-harness/fixtures/accepted-execution-observable-trace-v1/**
+  worker:
+    - evaluation-harness/harness/accepted-execution-observable-trace-v1/**
+    - evaluation-harness/replay/accepted-execution-observable-trace-v1/**
+  independent_verifier:
+    - evaluation-harness/evaluator/accepted-execution-observable-trace-v1/**
+  integration:
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
+    - docs/aios/tasks/P1-089_ACCEPTED_EXECUTION_OBSERVABLE_TRACE_VERTICAL_SLICE.yaml
+    - docs/aios/truth/project_state.yaml
+    - scripts/verify-all.sh
+    - scripts/verify-p1-089-observable-trace.sh
+
+read_context:
+  canonical_authority:
+    - docs/aios/truth/project_state.yaml
+    - docs/aios/STRATEGIC_CONSTITUTION.md
+    - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+    - docs/aios/FOUNDER_DELEGATION_POLICY.md
+    - docs/aios/EVALUATION_PROTOCOL.md
+    - docs/aios/tasks/P1-089_ACCEPTED_EXECUTION_OBSERVABLE_TRACE_VERTICAL_SLICE.yaml
+  accepted_inputs:
+    - docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
+    - docs/aios/tasks/P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK.yaml
+    - docs/aios/tasks/P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE.yaml
+    - docs/aios/tasks/P1-066_ENGINEERING_FIRST_OFFLINE_B0_COMPLETE_EVIDENCE_VERTICAL_SLICE.yaml
+    - docs/aios/tasks/P1-071_STABLE_REPLAY_PROJECTION_AND_EXACT_HARNESS_ADMISSION_VERTICAL_SLICE.yaml
+    - docs/aios/tasks/P1-070_OFFLINE_SCHEDULED_MATRIX_VTSR_AND_FALSE_SUCCESS_EXPERIMENT.yaml
+  accepted_engineering_patterns:
+    - evaluation-harness/harness/experiment-pack-reentry-v1/experiment-pack.mjs
+    - evaluation-harness/harness/offline-b0-complete-evidence-v1/run.mjs
+    - evaluation-harness/evaluator/offline-b0-complete-evidence-v1/quality-oracle.mjs
+    - evaluation-harness/replay/stable-replay-projection-v2/project.mjs
+    - evaluation-harness/evaluator/offline-scheduled-matrix-v1/recompute.mjs
+  public_contracts:
+    - schemas/task-spec.schema.json
+    - schemas/environment-snapshot.schema.json
+    - schemas/system-configuration.schema.json
+    - schemas/run-record.schema.json
+    - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+
+accepted_substrate_identities:
+  p1_035:
+    status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+    accepted_candidate_commit: 686eda0cd7a93b72ac5e64301479f17e4b096fb0
+    accepted_candidate_tree: b2740b44d0051303057deac7d719c27fd6a5578a
+  p1_048:
+    status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+    accepted_candidate_commit: 9e130f2aae0fd951b252cf0dff8edc9b9364e962
+    accepted_candidate_tree: 3a4229e9a8da181ca8bb256f5467cf96549c2549
+  p1_055:
+    status: FOUNDER_EXCEPTION_ACCEPTED_COMPLETE
+    integration_commit: f53e0f2b9e693ec07a8168b0dd90eb6d1057e4a5
+    integration_tree: 22948c19a83b5c3bf7f9383982e2e092b1840561
+    contract_sha256: 150b80d116088489339a850095e8d3ff33dd73e1212b7c617a8becf02c509289
+  p1_066:
+    status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+    integration_commit: 5985752adebaabf89b0b2984742791e92668acc7
+    integration_tree: 1d9d578376cbec04c5c738934215776e229461ff
+    contract_sha256: 923d2ad4a5d56c6f154c1e946699744facf86741131dfacc46d165e5b832c790
+  p1_071:
+    status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+    integration_commit: 2da6a314249c9ea98f3cc3134e6afe00e4c28db0
+    integration_tree: 68d0605dbd94bf1003f36b51fe74b6f4ca082032
+    contract_sha256: c02505bc0bac2a187f0c96290b33e562f6e06e15b2c22f4e747b42cf9d4d29c2
+  p1_070:
+    status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+    integration_commit: ee51cc96fedec5cc9ec640c6c0c1c76d5268d6c5
+    integration_tree: ffae19db6991a77424d0deaa96a1c761348b7b41
+    contract_sha256: 02fc6ef5590803156e78c6f5328bfa6644f980323a38a504554250c5b94f72ca
+
+failed_asset_isolation:
+  forbidden_task_ids:
+    - AIOS-P1-068
+    - AIOS-P1-069
+    - AIOS-P1-072
+    - AIOS-P1-076
+    - AIOS-P1-078
+    - AIOS-P1-083
+    - AIOS-P1-086
+  forbidden_asset_classes:
+    - source
+    - candidate
+    - fixture
+    - test
+    - diff
+    - quality_implementation
+    - engineering_evidence
+  canonical_truth_terminal_facts_only: true
+  use_as_design_source_allowed: false
+
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+
+quality_freeze:
+  owner: P1_089_FRESH_QUALITY_REVIEWER
+  freeze_count: 1
+  freeze_before_worker_source_write: true
+  post_freeze_mutation_or_refreeze_allowed: false
+  must_freeze:
+    - exact_input_manifest
+    - fully_closed_nested_trace_contract
+    - single_run_producer_contract
+    - external_launcher_actor_provenance_oracle
+    - run_authority_path_hash_length_type_oracle
+    - stable_projection_rules
+    - source_identity_and_rollback_oracle
+    - reason_priority
+    - independent_golden_negative_matrix
+    - false_accepts_zero_and_residual_zero_assertions
+
+architecture:
+  single_run_producer:
+    top_level_entry: run-once
+    runs_per_process: 1
+    accepts_exact_task_environment_configuration_and_run_authority_only: true
+    receives_or_emits_success_or_evaluator_verdict: false
+    may_generate_second_actor_run: false
+    open_shell_dynamic_module_or_result_controlled_argv_cwd_env: false
+  actor_provenance:
+    top_level_node_processes: 2
+    execution_order: SEQUENTIAL_A_THEN_B
+    distinct_run_authority_files: true
+    distinct_nonces: true
+    distinct_actor_ids: true
+    distinct_runtime_roots: true
+    distinct_producer_receipts: true
+    external_launcher_and_producer_receipt_cross_binding: true
+    producer_self_label_is_not_proof: true
+  independent_verification:
+    separate_cli_and_process: true
+    imports_producer_implementation: false
+    consumes_frozen_evidence_only: true
+    recomputes_schema_identity_order_budget_rollback_and_projection: true
+  evidence_lifecycle:
+    producer_phase:
+      outputs:
+        - run_record
+        - producer_trace
+        - producer_receipt
+      immutable_before_independent_verification: true
+    verifier_phase:
+      outputs:
+        - verification_receipt
+        - stable_projection
+        - final_manifest
+      appends_without_rewriting_producer_outputs: true
+
+observable_trace_required_content:
+  - run_task_agent_model_prompt_policy_and_tool_versions
+  - input_observations_and_selected_context_references
+  - concise_non_chain_of_thought_decision_rationale
+  - plan_and_plan_revision_state
+  - tool_request_policy_input_output_exit_and_duration_or_explicit_empty_set
+  - checkpoint_and_resume_state
+  - file_mutation_and_patch_identity_or_explicit_false
+  - test_and_verifier_result_separated_by_evidence_phase
+  - token_cost_latency_error_retry_and_human_intervention
+  - unique_terminal_status_and_stop_reason
+  - source_unchanged_rollback
+
+formal_execution:
+  positive_runs:
+    - RUN_A_TOP_LEVEL_NODE_PROCESS
+    - RUN_B_TOP_LEVEL_NODE_PROCESS
+  verifier_processes:
+    - VERIFY_RUN_A_SEPARATE_NODE_PROCESS
+    - VERIFY_RUN_B_SEPARATE_NODE_PROCESS
+  stable_projection_exact_byte_equal: true
+  source_identity_and_rollback_pass: true
+  external_effects_all_false: true
+  active_fixture_concurrency: 1
+  state_machine_fixture_concurrency: 1
+
+mandatory_negative_matrix:
+  fixture_rule: EACH_CASE_FROM_AN_INDEPENDENT_GOLDEN_CHECKPOINT
+  false_accepts_required: 0
+  residuals_required: 0
+  cases:
+    - unknown_nested_member
+    - duplicate_json_key
+    - missing_event
+    - duplicate_event
+    - reordered_event
+    - truncated_event_chain
+    - rechained_missing_required_event
+    - duplicate_terminal
+    - post_terminal_action
+    - budget_overflow
+    - authority_path_drift
+    - authority_hash_drift
+    - authority_length_drift
+    - authority_type_drift
+    - authority_symlink
+    - actor_substitution
+    - nonce_substitution
+    - authority_reuse
+    - same_runtime_root
+    - same_process_receipt
+    - launch_producer_pid_mismatch
+    - run_record_tamper
+    - trace_artifact_tamper
+    - raw_stream_tamper
+    - source_environment_configuration_binding_drift
+    - rollback_mismatch
+    - nonowned_residual
+    - stable_projection_tamper
+    - external_effect_true
+    - producer_self_success_or_verdict
+
+implementation_rules:
+  - Build only the smallest clean-room P1-089 composition from accepted canonical patterns.
+  - Do not import Task-hardcoded P1-048, P1-066, P1-071 or P1-070 implementations into the P1-089 producer or verifier.
+  - Ordinary implementation defects stay inside this Task and its one allowed code-only repair.
+  - A failed first implementation must preserve a counterexample and normalized root cause before repair.
+  - Quality bytes freeze once and are never modified after Worker source mutation starts.
+  - Candidate freeze is one-way; post-freeze source repair, second candidate or second review cycle is prohibited.
+  - Formal A/B runs must be separate top-level Node processes; an internal helper invoking run A then run B is not acceptable Evidence.
+  - Cleanup may remove only exact Task-owned runtime artifacts after identity and inventory verification; Evidence is retained.
+
+acceptance_criteria:
+  - Goal, Founder packet, activation parent, accepted substrates, Contract, authority and clean state identities match exactly.
+  - Exact cross-contract preflight passes before Worker mutation.
+  - Quality freezes one satisfiable closed contract, oracle and independent negative matrix before Worker source write.
+  - Two sequential top-level producer processes each create one actor-bound raw run with distinct authority, nonce, actor, runtime root, process and producer receipt.
+  - Producer emits no success field, evaluator verdict or self-proclaimed independent-actor proof.
+  - Two separate independent verifier processes each recompute and PASS the exact frozen run package without importing producer implementation.
+  - A and B public stable projections are exact byte equal while raw actor and process identities remain distinct.
+  - Every required observable trace field is present and truthful; non-occurring actions are explicit empty or false and not fabricated.
+  - The mandatory negative matrix rejects every case with the frozen reason priority and zero false accepts.
+  - Exact source identity, source-unchanged rollback, owned-artifact cleanup, residual zero and all six false external-effect assertions pass.
+  - Targeted verification passes on one clean candidate commit.
+  - One exact candidate and diff/hash manifest are frozen and preserved by one non-overwriting Evidence tag.
+  - Fresh CTO, Security and Quality each return TARGET_VERDICT PASS for the same exact bytes.
+  - Reviewed tree equals integrated tree and one canonical make verify passes after integration.
+
+required_evidence:
+  - contract_identity_and_phase_delegated_authority
+  - quality_freeze_manifest_and_self_test_receipt
+  - exact_input_and_accepted_substrate_manifest
+  - external_launcher_and_distinct_run_authority_receipts
+  - raw_run_a_and_run_b_packages
+  - independent_verification_a_and_b_receipts
+  - exact_stable_projection_pair_receipt
+  - mandatory_negative_matrix_receipt
+  - source_identity_rollback_cleanup_and_external_effect_receipts
+  - implementation_counterexample_and_normalized_root_cause_if_repair_used
+  - exact_candidate_diff_hash_manifest_and_evidence_tag
+  - fresh_cto_security_quality_final_reviews
+  - integration_tree_equality_and_canonical_verify_receipt
+
+rollback:
+  before_integration: >-
+    Stop the Task, preserve all create-once Evidence and remove only exact
+    Task-owned disposable runtime artifacts whose ownership and inventory still
+    match; leave canonical main unchanged.
+  runtime: >-
+    Prove the accepted source commit, tree and status unchanged; remove only
+    Task-owned runtime artifacts after marker, path, type and inventory checks.
+  after_integration_verify_non_pass: >-
+    Create one non-destructive git revert commit; do not reset, clean, retry,
+    repair or create another candidate.
+  evidence_rule: >-
+    Never overwrite, delete, rename or rewrite any retained Evidence or any
+    historical terminal/rejected asset.
+
+stop_conditions:
+  - baseline_goal_packet_contract_authority_or_clean_state_drift
+  - accepted_substrate_identity_drift
+  - failed_or_rejected_engineering_asset_read_or_reuse_required
+  - quality_freeze_self_test_non_pass
+  - second_implementation_repair_required
+  - adjacent_same_normalized_root_cause
+  - actor_provenance_not_externally_proven
+  - mandatory_negative_matrix_non_pass_or_any_false_accept
+  - source_identity_or_rollback_non_pass
+  - any_nonowned_residual
+  - any_external_effect
+  - exact_candidate_or_final_review_budget_exhausted
+  - any_fresh_reviewer_target_verdict_non_pass
+  - reviewed_integrated_tree_mismatch
+  - canonical_make_verify_non_pass
+  - scope_budget_permission_phase_or_claim_expansion_required
+  - evidence_damage_or_critical_residual_risk_acceptance_required
+
+forbidden_actions:
+  - network_provider_secret_remote_production_or_public_effect
+  - open_shell_dynamic_module_or_result_controlled_process_execution
+  - reading_comparing_restoring_or_reusing_failed_task_engineering_assets
+  - modifying_authority_or_safety_validator_constitution_protocol_evaluation_protocol_objective_or_exit_gate
+  - producer_self_success_self_verdict_or_self_labeled_second_actor_as_proof
+  - concurrent_state_machine_or_formal_fixture_execution
+  - git_reset_hard_git_clean_or_recursive_cleanup_of_uncertain_path
+  - successor_replacement_correction_normalization_closure_feasibility_or_remediation_chain
+  - second_contract_second_candidate_second_review_cycle_or_post_freeze_source_repair
+  - p2_or_p3_entry
+  - supervisor_root_custody_trust_runtime_sandbox_platform_or_multi_agent_runtime
+  - push_pull_request_release_or_remote_mutation
+  - counting_contract_truth_review_hash_manifest_or_receipt_as_engineering_progress
+
+capability_projection_on_pass:
+  accepted_atomic_capabilities:
+    - OBSERVABLE_TRACE
+  strict_p1_completion: 5_COMPLETE_0_PARTIAL_3_NOT_COMPLETE_62_5_PERCENT
+  complete_p1_exit_claim: false
+  founder_phase_gate_after_task: true
+
+claim_boundary: >-
+  ONE_ACCEPTED_OFFLINE_EXECUTION_COMPLETE_OBSERVABLE_TRACE_VERTICAL_SLICE_WITH
+  TWO_TOP_LEVEL_ACTOR_BOUND_REPLAYS_AND_INDEPENDENT_VERIFICATION_ONLY_NO_B0_B1_B2
+  COMPATIBILITY_ADAPTER_MODEL_QUALITY_REAL_TASK_SUCCESS_BASELINE_BENCHMARK_VTSR
+  HOSTILE_PRINCIPAL_STRONG_ISOLATION_P1_EXIT_P2_P3_PRODUCTION_OR_PUBLIC_CLAIM

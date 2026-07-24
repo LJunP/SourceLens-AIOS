@@ -1,0 +1,247 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P1-095_PREDECLARED_PHYSICAL_ARTIFACT_SET_SHARED_ADAPTER_CONFORMANCE
+phase: P1
+route_id: P1_PREDECLARED_ARTIFACT_SET_AND_SHARED_ADAPTER_RECOVERY_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Implement and independently verify one clean-room shared offline B0, B1 and
+  B2 compatibility-adapter architecture whose complete physical output sets
+  are frozen before Worker source writes and enforced before every runtime
+  write, with real accepted-P0 repository_analysis.scan execution for B2.
+why_now: >-
+  B0_B1_B2_COMPATIBILITY_ADAPTERS is a missing P1 Exit Gate capability.
+  P1-093 terminally demonstrated that a post-hoc allowlist derived from the
+  completed inventory can false-accept an undeclared file. The Founder has
+  authorized a new clean-room architecture that closes this root cause without
+  reading or reusing the rejected engineering lineage.
+task_spec_ref: >-
+  /Users/lijunpeng/Developer/.sourcelens-audit/p1-predeclared-artifact-set-adapter-route-proposal-20260724/FOUNDER_P1_PREDECLARED_ARTIFACT_SET_AND_SHARED_ADAPTER_RECOVERY_ROUTE_V1.md
+task_kind: EVALUATION_FOUNDATION_ENGINEERING
+owner_role: Engineering Manager Agent
+worker_role: P1-095 Clean-Room Adapter Worker
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+risk_level: high
+
+source_identity:
+  canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
+  activation_parent_commit: 8c50040f94d46c5f2228fbc610d2e7afad3f26cd
+  activation_parent_tree: fbf8738a03755ca16f788ba7e2b2f9050718715f
+  task_branch: codex/p1-095-predeclared-shared-adapters
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-095-predeclared-shared-adapters
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-095-predeclared-shared-adapters-h6VSt2X7
+
+accepted_inputs:
+  representative_task:
+    task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+    control_id: SL-P1-REP-006-DEDUPE-REFACTOR
+    task_spec_path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/task-spec.json
+    task_spec_sha256: 5e7c175f8a7c0204b45a7cba20fb3212a8d7f2d0d2094709d194dd1d3daa57ee
+  execution_pattern:
+    task_id: AIOS-P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK
+    accepted_candidate_commit: 9e130f2aae0fd951b252cf0dff8edc9b9364e962
+    accepted_candidate_tree: 3a4229e9a8da181ca8bb256f5467cf96549c2549
+  evaluation_accounting:
+    task_id: AIOS-P1-070_OFFLINE_SCHEDULED_MATRIX_VTSR_AND_FALSE_SUCCESS_EXPERIMENT
+    accepted_candidate_commit: ee51cc96fedec5cc9ec640c6c0c1c76d5268d6c5
+    accepted_candidate_tree: ffae19db6991a77424d0deaa96a1c761348b7b41
+  stable_replay:
+    task_id: AIOS-P1-071_STABLE_REPLAY_PROJECTION_AND_EXACT_HARNESS_ADMISSION_VERTICAL_SLICE
+    accepted_candidate_commit: 2da6a314249c9ea98f3cc3134e6afe00e4c28db0
+    accepted_candidate_tree: 68d0605dbd94bf1003f36b51fe74b6f4ca082032
+  p0_analyzer_snapshot:
+    commit: ad6450e418d8f1b4fd5a789f913525a8dd8bdc10
+    tree: 2c0956ae8598547466f691ead21532a026006bf9
+    analyzer_subtree: 408d57e9b4926f95ad059ab2675ee88dfc533096
+    analyzer_path: analyzer-rust
+    executable_name: sourcelens-analyzer
+    operation_id: repository_analysis.scan
+    argv_contract:
+      - sourcelens-analyzer
+      - scan
+      - --repo-path
+      - TASK_OWNED_EXACT_REP006_MATERIALIZATION
+
+budget:
+  engineering_hours: 26
+  calendar_days: 8
+  implementation_iterations: 2
+  candidates: 1
+
+roles:
+  owner: Engineering Manager Agent
+  worker: P1-095 Clean-Room Adapter Worker
+  independent_reviewers:
+    - P1-095 CTO Reviewer
+    - P1-095 Security Reviewer
+    - P1-095 Quality Reviewer
+
+allowlisted_paths:
+  - evaluation-harness/adapters/p1-095-predeclared-shared-adapters/**
+  - evaluation-harness/environment/p1-095-predeclared-shared-adapters/**
+  - evaluation-harness/harness/p1-095-predeclared-shared-adapters/**
+  - evaluation-harness/recording/p1-095-predeclared-shared-adapters/**
+  - evaluation-harness/replay/p1-095-predeclared-shared-adapters/**
+  - evaluation-harness/validators/p1-095-predeclared-shared-adapters/**
+  - evaluation-harness/evaluator/p1-095-predeclared-shared-adapters/**
+  - evaluation-harness/fixtures/p1-095-predeclared-shared-adapters/**
+  - docs/aios/tasks/P1-095_PREDECLARED_PHYSICAL_ARTIFACT_SET_SHARED_ADAPTER_CONFORMANCE.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+  - Makefile
+
+write_scope:
+  quality:
+    - evaluation-harness/evaluator/p1-095-predeclared-shared-adapters/**
+    - evaluation-harness/fixtures/p1-095-predeclared-shared-adapters/**
+  worker:
+    - evaluation-harness/adapters/p1-095-predeclared-shared-adapters/**
+    - evaluation-harness/environment/p1-095-predeclared-shared-adapters/**
+    - evaluation-harness/harness/p1-095-predeclared-shared-adapters/**
+    - evaluation-harness/recording/p1-095-predeclared-shared-adapters/**
+    - evaluation-harness/replay/p1-095-predeclared-shared-adapters/**
+    - evaluation-harness/validators/p1-095-predeclared-shared-adapters/**
+  integration:
+    - docs/aios/tasks/P1-095_PREDECLARED_PHYSICAL_ARTIFACT_SET_SHARED_ADAPTER_CONFORMANCE.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+    - Makefile
+
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+  - docs/aios/schemas/task-spec.schema.json
+  - docs/aios/schemas/environment-snapshot.schema.json
+  - docs/aios/schemas/system-configuration.schema.json
+  - docs/aios/schemas/run-record.schema.json
+  - docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
+  - docs/aios/tasks/P1-048_ACTUAL_EXECUTION_EXPERIMENT_PACK.yaml
+  - docs/aios/tasks/P1-070_OFFLINE_SCHEDULED_MATRIX_VTSR_AND_FALSE_SUCCESS_EXPERIMENT.yaml
+  - docs/aios/tasks/P1-071_STABLE_REPLAY_PROJECTION_AND_EXACT_HARNESS_ADMISSION_VERTICAL_SLICE.yaml
+
+historical_isolation:
+  p1_093_allowed_reads:
+    - docs/aios/truth/project_state.yaml
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-093-shared-offline-adapters-0u7VQtQR/terminal/P1_093_TERMINAL_RECEIPT.json
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-093-shared-offline-adapters-0u7VQtQR/reviews/QUALITY_FINAL_REVIEW.json
+  p1_093_and_other_rejected_engineering_asset_reuse_allowed: false
+  rejected_source_fixture_candidate_diff_manifest_test_run_oracle_or_evidence_read_allowed: false
+
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-predeclared-artifact-set-adapter-route-proposal-20260724/FOUNDER_P1_PREDECLARED_ARTIFACT_SET_AND_SHARED_ADAPTER_RECOVERY_ROUTE_V1.md
+  sha256: 86065796d411656face2ffd0503c724aa9c47a19ed133620e28b8547ae6b6c53
+  byte_length: 9429
+  authorization_token: AUTHORIZE_P1_PREDECLARED_ARTIFACT_SET_AND_SHARED_ADAPTER_RECOVERY_ROUTE_V1
+
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+
+quality_freeze_after_activation:
+  owner: P1-095 Quality Freeze Author
+  worker_may_modify: false
+  freeze_once: true
+  required_artifacts:
+    - exact executable evaluation contract
+    - B0, B1 and B2 distinct SystemConfigurations
+    - complete closed relative artifact path set for each adapter
+    - per-path object type, byte role and single-write or mutable role
+    - accepted-P0 snapshot and built-analyzer external truth binding
+    - frozen non-secret child environment allowlist
+    - positive oracle
+    - mandatory negative matrix
+  required_architecture:
+    - The closed path sets exist before any Worker source write.
+    - Runtime validates membership before the first byte of every write.
+    - Runtime cannot add, infer, reorder or extend a path set.
+    - The final verifier independently enumerates physical inventory and exact-compares it with the frozen set.
+    - Inventory evidence is written outside the run root and cannot become a self-derived in-root allowlist.
+
+acceptance_criteria:
+  - B0, B1 and B2 have distinct executables and distinct SystemConfigurations but use the same accepted TaskSpec, EnvironmentSnapshot, budget, RunRecord interface, evaluator, replay and rollback protocol.
+  - B2 executes the exact Quality-bound accepted-P0 sourcelens-analyzer binary with operation repository_analysis.scan; a fabricated result, missing child, receipt-only claim or argv drift is rejected.
+  - Every runtime write is checked against the immutable Quality-frozen closed path set before the first write.
+  - Final verification independently enumerates every run root and rejects missing, extra, reordered, type-drifted, symlinked, hardlinked, inode-drifted or post-freeze entries.
+  - Child processes receive only the frozen non-secret environment allowlist and do not inherit SSH_AUTH_SOCK, API keys, tokens, credentials or proxy variables.
+  - Six independent runs complete: B0 A/B, B1 A/B and B2 A/B.
+  - Each adapter pair has exact replay and exact stable-projection equality.
+  - B1 proves exact source rollback; B0 and B2 prove exact no-mutation.
+  - The complete mandatory negative matrix reports false accepts zero and nonowned residuals zero.
+  - Targeted verification passes within at most two implementation iterations.
+  - One exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS on the same exact bytes and Evidence.
+  - The reviewed tree equals the integrated tree and one post-integration canonical make verify invocation passes.
+  - B0_B1_B2_COMPATIBILITY_ADAPTERS changes to ACCEPTED only after the complete Task Gate passes.
+
+required_evidence:
+  - Exact Contract, Founder packet, Goal and activation-parent identities.
+  - Quality freeze commit, manifest and self-test proving no Worker source existed when the closed sets were frozen.
+  - Accepted-P0 snapshot, analyzer subtree, offline locked build and executable identities.
+  - Six raw run roots and six independently enumerated inventory receipts.
+  - Three exact stable projections, B1 rollback receipt and B0/B2 no-mutation receipts.
+  - Mandatory negative matrix with per-case expected and actual rejection categories.
+  - Child environment projection proving secret and proxy variables are absent.
+  - Exact candidate commit, tree, binary diff/hash manifest and non-overwriting Evidence tag.
+  - Fresh CTO, Security and Quality reviews of the same candidate and formal Evidence.
+  - Reviewed-tree versus integrated-tree equality and one canonical make verify result.
+
+rollback:
+  run_level: >-
+    Remove only task-owned disposable run and materialization roots after
+    verification; never delete or rename a pre-existing object.
+  candidate_level: >-
+    Do not integrate a NON_PASS candidate; preserve exact Evidence, tag and the
+    clean task branch.
+  integrated_level: >-
+    Use a non-destructive git revert of the exact integration commit if the
+    single canonical make verify returns NONPASS.
+  forbidden:
+    - git reset
+    - git clean
+    - destructive history rewrite
+
+stop_conditions:
+  - A required change falls outside the allowlisted paths or current P1 boundary.
+  - The Quality-frozen closed artifact sets cannot be completed before Worker source write.
+  - The exact accepted P0 snapshot cannot be independently bound, built offline and executed without a forbidden external effect.
+  - Any runtime write occurs before frozen-path membership validation.
+  - Any required negative case is false-accepted or leaves a nonowned residual.
+  - The unique code-only repair is exhausted or repeats the same normalized root cause.
+  - Any final Reviewer returns TARGET_VERDICT NON_PASS.
+  - The reviewed and integrated trees differ.
+  - Canonical make verify returns NONPASS.
+  - Evidence is overwritten, deleted, escaped or externally mutated.
+  - A network, Provider, Secret, remote, production, public, P2/P3 or critical-risk decision is required.
+
+forbidden_actions:
+  - Read, restore, compare, copy, replay or reuse P1-093 branch source, candidate tree, diff, manifest, fixtures, oracle, tests, run roots or formal engineering Evidence.
+  - Read or reuse any other rejected Task engineering asset.
+  - Modify the P1 Objective, P1 Exit Gate or immutable authority validators.
+  - Let Worker modify Quality-owned fixtures, evaluator, oracle, expected result or closed artifact sets.
+  - Derive, complete, reorder or extend an allowlist from post-run physical inventory.
+  - Mock, fabricate or replace the required B2 repository_analysis.scan child execution.
+  - Use network, Provider, Secret, remote, production or public effects.
+  - Push, modify a remote, enter P2/P3 or build Supervisor, Root Custody, Trust Runtime, Multi-Agent Runtime or hostile-principal isolation.
+  - Create a successor, replacement, correction, normalization, closure, feasibility or remediation chain.
+
+claim_boundary: >-
+  One cooperative-local, provider-neutral, offline B0/B1/B2 shared-harness
+  compatibility-adapter conformance artifact with predeclared physical output
+  sets, real accepted-P0 repository_analysis.scan, exact replay and rollback
+  only. No model performance, baseline benchmark, VTSR, complete P1, P2, P3,
+  production, public, hostile-principal or strong-isolation claim.

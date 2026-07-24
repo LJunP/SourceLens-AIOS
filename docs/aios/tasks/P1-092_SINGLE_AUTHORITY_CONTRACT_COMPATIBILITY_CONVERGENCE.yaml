@@ -1,0 +1,140 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P1-092_SINGLE_AUTHORITY_CONTRACT_COMPATIBILITY_CONVERGENCE
+phase: P1
+route_id: P1_SINGLE_AUTHORITY_COMPATIBILITY_CONVERGENCE_THEN_SHARED_ADAPTER_AND_TRACE_ENGINEERING_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Make scripts/validate-current-task-authority.rb the single Task and route
+  accounting semantic core, with scripts/check-p1-safety-boundary.sh invoking
+  that core and retaining only non-duplicated P1 safety checks.
+why_now: >-
+  P1-090 proved that the two canonical entry points currently disagree about
+  valid mapping-only role contracts before Worker execution. The mismatch
+  blocks clean-room adapter work and must be removed once, without changing
+  the P1 Objective, Exit Gate, permissions, or capability status.
+task_spec_ref: >-
+  /Users/lijunpeng/Developer/.sourcelens-audit/p1-single-authority-adapter-trace-route-proposal-20260724/FOUNDER_P1_SINGLE_AUTHORITY_COMPATIBILITY_CONVERGENCE_THEN_SHARED_ADAPTER_AND_TRACE_ENGINEERING_ROUTE_V1.md
+owner_role: Engineering Manager Agent
+worker_role: P1 Authority Compatibility Worker
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+risk_level: high
+budget:
+  engineering_hours: 4
+  calendar_days: 2
+  implementation_iterations: 2
+  candidates: 1
+roles:
+  owner: Engineering Manager Agent
+  worker: P1 Authority Compatibility Worker
+  independent_reviewers:
+    - P1-092 CTO Reviewer
+    - P1-092 Security Reviewer
+    - P1-092 Quality Reviewer
+allowlisted_paths:
+  - scripts/check-p1-safety-boundary.sh
+  - scripts/test-current-task-authority.rb
+  - docs/aios/tasks/P1-092_SINGLE_AUTHORITY_CONTRACT_COMPATIBILITY_CONVERGENCE.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+  - Makefile
+write_scope:
+  worker:
+    - scripts/check-p1-safety-boundary.sh
+    - scripts/test-current-task-authority.rb
+  integration:
+    - docs/aios/tasks/P1-092_SINGLE_AUTHORITY_CONTRACT_COMPATIBILITY_CONVERGENCE.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+    - Makefile
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - scripts/validate-current-task-authority.rb
+  - scripts/check-p1-safety-boundary.sh
+  - scripts/test-current-task-authority.rb
+dependencies:
+  - CURRENT_CANONICAL_MAIN_AT_ACTIVATION
+  - FOUNDER_PHASE_GATE_PACKET_B5809744
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-single-authority-adapter-trace-route-proposal-20260724/FOUNDER_P1_SINGLE_AUTHORITY_COMPATIBILITY_CONVERGENCE_THEN_SHARED_ADAPTER_AND_TRACE_ENGINEERING_ROUTE_V1.md
+  sha256: b5809744a5d45dcf20fe597b706f815f04aee50ee69715b82375dad1cccee4c4
+  byte_length: 10376
+  authorization_token: AUTHORIZE_P1_SINGLE_AUTHORITY_COMPATIBILITY_CONVERGENCE_THEN_SHARED_ADAPTER_AND_TRACE_ENGINEERING_ROUTE_V1
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+quality_freeze:
+  positive_oracle:
+    - READY_NONE passes both canonical entry points.
+    - An active Contract containing mapping-only roles passes both entry points.
+  negative_matrix:
+    - Contract, Authority, or Truth role mismatch is rejected by both entry points.
+    - Budget, repair allowance, allowlisted path, Goal, packet, or external-effect drift is rejected.
+    - A P1 deferred capability remains rejected by the safety entry.
+    - A write root outside the P1 boundary remains rejected by the safety entry.
+  stable_failure_contract: >-
+    For accounting failures, the safety entry preserves the exact main
+    authority validator result and failure category instead of maintaining a
+    second accounting implementation.
+acceptance_criteria:
+  - scripts/check-p1-safety-boundary.sh invokes scripts/validate-current-task-authority.rb as the only Task and route accounting semantic core.
+  - The safety entry no longer independently requires owner_role, worker_role, repair, iteration, Task lifecycle, or other duplicate Contract and route accounting fields.
+  - READY_NONE passes both canonical entry points.
+  - An active mapping-only roles Contract passes both canonical entry points.
+  - Contract, Authority, and Truth role mismatches fail closed through both entry points with the authority-core category preserved.
+  - Budget, repair allowance, path, Goal, packet, and external-effect drift fail closed.
+  - Safety-only deferred-capability and write-root checks remain fail closed.
+  - No Goal, P1 Objective, P1 Exit Gate, external-effect permission, budget, role separation, path, or Evidence binding is weakened.
+  - One exact candidate receives fresh CTO, Security, and Quality TARGET_VERDICT PASS.
+  - The reviewed tree equals the integrated tree and one canonical make verify invocation passes.
+required_evidence:
+  - Exact Contract SHA-256 and byte length.
+  - Independent pre-Worker Quality freeze of the positive oracle and negative matrix.
+  - Targeted dual-entry test log including mapping-only roles and all required negative classes.
+  - Exact candidate commit, tree, diff/hash manifest, and recoverable Evidence tag.
+  - Fresh CTO, Security, and Quality reviews of the same exact candidate bytes.
+  - Reviewed-tree versus integrated-tree equality receipt.
+  - One canonical make verify result.
+rollback:
+  strategy: NON_DESTRUCTIVE_GIT_REVERT
+  forbidden:
+    - git reset
+    - git clean
+    - destructive history rewrite
+stop_conditions:
+  - A required change falls outside the allowlisted paths.
+  - The main authority core must be weakened or replaced.
+  - The P1 Objective, Exit Gate, Phase boundary, or external-effect permissions must change beyond this packet.
+  - The unique code-only repair is exhausted with a repeated normalized root cause.
+  - Any final Reviewer returns TARGET_VERDICT NON_PASS.
+  - Reviewed and integrated trees differ.
+  - Canonical make verify returns NON_PASS.
+  - Evidence is overwritten, deleted, or an external effect occurs.
+forbidden_actions:
+  - Read, restore, compare, or reuse failed P1-086, P1-089, or P1-090 engineering assets.
+  - Modify scripts/validate-current-task-authority.rb.
+  - Create a second authority kernel, schema, Supervisor, Root Custody, Trust Runtime, or general security platform.
+  - Start P1-093 before this Task Gate passes.
+  - Use network, Provider, Secret, remote, production, or public effects.
+  - Push or modify any remote.
+  - Enter P2 or P3.
+  - Create a successor, replacement, correction, normalization, closure, feasibility, or remediation chain.
+claim_boundary: >-
+  P1 single-authority Contract compatibility convergence and regression
+  evidence only. This Task creates no P1 Exit capability credit, model
+  performance, baseline, P2, P3, production, public, hostile-principal, or
+  general trusted-runtime claim.

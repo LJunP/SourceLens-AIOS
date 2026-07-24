@@ -344,13 +344,16 @@ class CurrentTaskAuthorityTest
       commit(repo, "test: restore literal gateway host")
 
       truth = yaml(fixture["truth_path"])
-      truth["current_phase_route"]["founder_reserved_profile"]["call_limits"]["source_bearing_max"] = 2
+      profile = truth["current_phase_route"]["founder_reserved_profile"]
+      call_key = profile["schema_version"] == "2.0" ? "provider_requests_max" : "source_bearing_max"
+      original_call_limit = profile["call_limits"][call_key]
+      profile["call_limits"][call_key] = original_call_limit + 1
       dump_owned_yaml(fixture["truth_path"], truth)
-      commit(repo, "test: expand source-bearing call budget")
+      commit(repo, "test: expand Founder-reserved call budget")
       expect_nonpass(repo, "Founder profile call expansion", /call limits drifted/)
-      truth["current_phase_route"]["founder_reserved_profile"]["call_limits"]["source_bearing_max"] = 1
+      profile["call_limits"][call_key] = original_call_limit
       dump_owned_yaml(fixture["truth_path"], truth)
-      commit(repo, "test: restore one-call budget")
+      commit(repo, "test: restore Founder-reserved call budget")
     end
 
     truth = yaml(fixture["truth_path"])

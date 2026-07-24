@@ -268,7 +268,7 @@ module CurrentTaskAuthority
     fail!("Founder-reserved profile is invalid JSON: #{e.message}")
   end
 
-  def validate_founder_reserved_profile(value, route_id, task_id, label)
+  def validate_founder_reserved_profile_v1(value, route_id, task_id, label)
     profile = exact_keys(
       value,
       %w[schema_version profile_id decision_basis route_id task_id transport model secret call_limits request_limits egress external_effects claim_limits],
@@ -384,6 +384,115 @@ module CurrentTaskAuthority
     profile
   end
 
+  def validate_founder_reserved_profile_v2(value, route_id, task_id, label)
+    profile = exact_keys(
+      value,
+      %w[schema_version profile_id decision_basis route_id task_id transport model secret call_limits token_limits monetary_limits egress external_effects claim_limits],
+      label
+    )
+    assert(profile["schema_version"] == "2.0", "#{label} schema version drifted")
+    string(profile["profile_id"], "#{label}.profile_id")
+    string(profile["decision_basis"], "#{label}.decision_basis")
+    assert(profile["route_id"] == route_id, "#{label} route id mismatch")
+    assert(profile["task_id"] == task_id, "#{label} Task id mismatch")
+
+    transport = exact_keys(
+      profile["transport"],
+      %w[scheme host port base_path completion_path api_format method follow_redirects use_proxy dns_resolution fallback_endpoint_allowed expected_peer_address expected_peer_port],
+      "#{label}.transport"
+    )
+    assert(transport == {
+      "scheme" => "http",
+      "host" => "127.0.0.1",
+      "port" => 8787,
+      "base_path" => "/v1",
+      "completion_path" => "/v1/chat/completions",
+      "api_format" => "OPENAI_COMPATIBLE_CHAT_COMPLETIONS",
+      "method" => "POST",
+      "follow_redirects" => false,
+      "use_proxy" => false,
+      "dns_resolution" => false,
+      "fallback_endpoint_allowed" => false,
+      "expected_peer_address" => "127.0.0.1",
+      "expected_peer_port" => 8787
+    }, "#{label}.transport exceeds the literal local-gateway boundary")
+
+    model = exact_keys(profile["model"], %w[requested_model substitution_allowed provider_provenance],
+                       "#{label}.model")
+    assert(model["requested_model"] == "gpt-5.6-luna", "#{label}.model requested model drifted")
+    exact_false(model["substitution_allowed"], "#{label}.model.substitution_allowed")
+    assert(
+      model["provider_provenance"] ==
+        "FOUNDER_ATTESTED_OPENAI_COMPATIBLE_LOCAL_GATEWAY_MODEL_NOT_INDEPENDENTLY_VERIFIED",
+      "#{label}.model provider provenance must remain Founder-attested and independently unverified"
+    )
+
+    secret = exact_keys(profile["secret"], %w[allowed_sources persist prohibited_sinks], "#{label}.secret")
+    assert(array(secret["allowed_sources"], "#{label}.secret.allowed_sources") ==
+           %w[LOCAL_PROCESS_ENV CONTROLLED_TEMPORARY_SECRET_FILE],
+           "#{label}.secret allowed sources drifted")
+    exact_false(secret["persist"], "#{label}.secret.persist")
+    assert(array(secret["prohibited_sinks"], "#{label}.secret.prohibited_sinks") ==
+           %w[REPOSITORY EVIDENCE LOG TRACE PROMPT REVIEW VAULT],
+           "#{label}.secret prohibited sinks drifted")
+
+    calls = exact_keys(profile["call_limits"], %w[provider_requests_max automatic_retry_max],
+                       "#{label}.call_limits")
+    assert(calls == {
+      "provider_requests_max" => 144,
+      "automatic_retry_max" => 0
+    }, "#{label}.call limits drifted")
+
+    tokens = exact_keys(profile["token_limits"], %w[input_tokens_max output_tokens_max],
+                        "#{label}.token_limits")
+    assert(tokens == {
+      "input_tokens_max" => 3_000_000,
+      "output_tokens_max" => 300_000
+    }, "#{label}.token limits drifted")
+
+    monetary = exact_keys(
+      profile["monetary_limits"],
+      %w[currency max_spend unavailable_metering_status],
+      "#{label}.monetary_limits"
+    )
+    assert(monetary == {
+      "currency" => "USD",
+      "max_spend" => 25,
+      "unavailable_metering_status" => "UNKNOWN_GATEWAY_METERING_UNAVAILABLE"
+    }, "#{label}.monetary limits drifted")
+
+    egress = exact_keys(profile["egress"], %w[restricted_source_allowed], "#{label}.egress")
+    exact_false(egress["restricted_source_allowed"], "#{label}.egress.restricted_source_allowed")
+
+    validate_external_effects(profile["external_effects"], "#{label}.external_effects",
+                              LOCAL_GATEWAY_EXTERNAL_EFFECTS)
+    claims = exact_keys(
+      profile["claim_limits"],
+      %w[direct_openai_provenance_proven adapter_conformance_is_model_performance remote production public],
+      "#{label}.claim_limits"
+    )
+    exact_false(claims["direct_openai_provenance_proven"],
+                "#{label}.claim_limits.direct_openai_provenance_proven")
+    exact_false(claims["adapter_conformance_is_model_performance"],
+                "#{label}.claim_limits.adapter_conformance_is_model_performance")
+    %w[remote production public].each do |key|
+      exact_false(claims[key], "#{label}.claim_limits.#{key}")
+    end
+    profile
+  end
+
+  def validate_founder_reserved_profile(value, route_id, task_id, label)
+    profile = hash(value, label)
+    case profile["schema_version"]
+    when "1.0"
+      validate_founder_reserved_profile_v1(profile, route_id, task_id, label)
+    when "2.0"
+      validate_founder_reserved_profile_v2(profile, route_id, task_id, label)
+    else
+      fail!("#{label} schema version is unsupported")
+    end
+  end
+
   def one_packet_match(text, pattern, label)
     matches = text.scan(pattern)
     assert(matches.length == 1, "decision packet must contain exactly one #{label}")
@@ -492,8 +601,16 @@ module CurrentTaskAuthority
                                      "activation parent commit")
     parent_tree = one_packet_match(text, /- canonical tree: `([0-9a-f]{40})`/,
                                    "activation parent tree")
-    assert(text.include?("network、Provider、Secret、remote、production、public effects"),
-           "offline Phase Gate packet must explicitly prohibit all six external effects")
+    founder_reserved_profile = if text.include?("BEGIN FOUNDER_RESERVED_PROFILE_JSON")
+                                 founder_reserved_profile_from_packet(text)
+                               end
+    if founder_reserved_profile
+      validate_founder_reserved_profile(founder_reserved_profile, route_id, first_task_id,
+                                        "decision packet Founder-reserved profile")
+    else
+      assert(text.include?("network、Provider、Secret、remote、production、public effects"),
+             "offline Phase Gate packet must explicitly prohibit all six external effects")
+    end
     iteration_count = Integer(implementation_iterations, 10)
     assert(iteration_count.positive?, "first Task implementation iterations must be positive")
     {
@@ -511,8 +628,9 @@ module CurrentTaskAuthority
       "max_same_task_repairs" => iteration_count - 1,
       "activation_parent_commit" => parent_commit,
       "activation_parent_tree" => parent_tree,
-      "founder_reserved_profile" => nil,
-      "external_effects" => FALSE_EXTERNAL_EFFECTS,
+      "founder_reserved_profile" => founder_reserved_profile,
+      "external_effects" => founder_reserved_profile ?
+        founder_reserved_profile["external_effects"] : FALSE_EXTERNAL_EFFECTS,
       "text" => text
     }
   rescue ArgumentError

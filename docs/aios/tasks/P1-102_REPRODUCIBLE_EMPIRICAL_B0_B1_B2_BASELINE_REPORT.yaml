@@ -1,0 +1,259 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P1-102_REPRODUCIBLE_EMPIRICAL_B0_B1_B2_BASELINE_REPORT
+phase: P1
+route_id: P1_EXACT_ADAPTER_RESIDUAL_ACCEPTANCE_AND_REMAINING_EXIT_GATE_CONTINUOUS_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Produce one reproducible empirical B0/B1/B2 baseline from the accepted
+  representative Task Dataset under one frozen Environment Snapshot,
+  Evaluator and counting rule, retaining every preregistered outcome and
+  exact bounded Provider-use accounting.
+why_now: >-
+  P1-101 completed its full Task Gate, its reviewed exact tree was integrated,
+  and the single post-integration canonical make verify passed. The shared
+  observable trace is therefore accepted and strict P1 completion is 75%;
+  REPRODUCIBLE_BASELINE_REPORT is the next missing P1 Exit Gate item.
+task_spec_ref: >-
+  /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-adapter-residual-remaining-exit-route-20260724/FOUNDER_P1_EXACT_ADAPTER_RESIDUAL_ACCEPTANCE_AND_REMAINING_EXIT_GATE_CONTINUOUS_ROUTE_V1.md
+owner_role: P1-102 Empirical Evaluation Manager
+worker_role: P1-102 Baseline Experiment Worker
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+risk_level: high
+budget:
+  engineering_hours: 28
+  calendar_days: 8
+  implementation_iterations: 2
+  candidates: 1
+roles:
+  owner: P1-102 Empirical Evaluation Manager
+  worker: P1-102 Baseline Experiment Worker
+  independent_reviewers:
+    - P1-102 Fresh CTO Reviewer
+    - P1-102 Fresh Security Reviewer
+    - P1-102 Fresh Quality Reviewer
+allowlisted_paths:
+  - evaluation-harness/environment/p1-102-reproducible-baseline
+  - evaluation-harness/harness/p1-102-reproducible-baseline
+  - evaluation-harness/recording/p1-102-reproducible-baseline
+  - evaluation-harness/replay/p1-102-reproducible-baseline
+  - evaluation-harness/evaluator/p1-102-reproducible-baseline
+  - evaluation-harness/fixtures/p1-102-reproducible-baseline
+  - scripts/verify-p1-102-reproducible-baseline.sh
+  - docs/aios/tasks/P1-102_REPRODUCIBLE_EMPIRICAL_B0_B1_B2_BASELINE_REPORT.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+  - Makefile
+write_scope:
+  worker:
+    - evaluation-harness/environment/p1-102-reproducible-baseline
+    - evaluation-harness/harness/p1-102-reproducible-baseline
+    - evaluation-harness/recording/p1-102-reproducible-baseline
+    - evaluation-harness/replay/p1-102-reproducible-baseline
+  quality:
+    - evaluation-harness/evaluator/p1-102-reproducible-baseline
+    - evaluation-harness/fixtures/p1-102-reproducible-baseline
+  integration:
+    - scripts/verify-p1-102-reproducible-baseline.sh
+    - docs/aios/tasks/P1-102_REPRODUCIBLE_EMPIRICAL_B0_B1_B2_BASELINE_REPORT.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+    - Makefile
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+  - docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
+  - docs/aios/tasks/P1-070_OFFLINE_SCHEDULED_MATRIX_VTSR_AND_FALSE_SUCCESS_EXPERIMENT.yaml
+  - docs/aios/tasks/P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE.yaml
+  - evaluation-harness/datasets/p1-representative-task-dataset-v1
+  - evaluation-harness/adapters/p1-097-minimal-documented
+  - evaluation-harness/harness/p1-101-accepted-shared-trace
+  - evaluation-harness/recording/p1-101-accepted-shared-trace
+  - evaluation-harness/replay/p1-101-accepted-shared-trace
+dependencies:
+  - ACCEPTED_CANONICAL_P1_035_REPRESENTATIVE_TASK_DATASET
+  - ACCEPTED_CANONICAL_P1_070_COUNTING_AND_FALSE_SUCCESS_CHARACTERIZATION
+  - FOUNDER_ACCEPTED_CANONICAL_P1_099_B0_B1_B2_ADAPTERS
+  - ACCEPTED_CANONICAL_P1_101_SHARED_OBSERVABLE_TRACE
+historical_isolation:
+  accepted_canonical_inputs_readable: true
+  rejected_task_candidate_fixture_test_oracle_or_engineering_asset_reuse_allowed: false
+external_effects:
+  network: true
+  provider: true
+  secret: true
+  remote: false
+  production: false
+  public: false
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-102-reproducible-empirical-baseline-20260724/FOUNDER_ROUTE_ACTIVATION_PROJECTION.md
+  sha256: 045b363c456399b0872fdd2d24ef43970fee6ee0f588a7caec1d7c30970fa7ec
+  byte_length: 5029
+  authorization_token: AUTHORIZE_P1_EXACT_ADAPTER_RESIDUAL_ACCEPTANCE_AND_REMAINING_EXIT_GATE_CONTINUOUS_ROUTE_V1
+governing_founder_packet:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-adapter-residual-remaining-exit-route-20260724/FOUNDER_P1_EXACT_ADAPTER_RESIDUAL_ACCEPTANCE_AND_REMAINING_EXIT_GATE_CONTINUOUS_ROUTE_V1.md
+  sha256: 0f55f7adc7188a3705fc54f4bacb7ca33af6bbfada0b81690c7c65a3628a3a01
+  byte_length: 12018
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+founder_reserved_profile:
+  schema_version: "2.0"
+  profile_id: P1_102_BOUNDED_LOOPBACK_EMPIRICAL_BASELINE_V1
+  decision_basis: EXACT_GOVERNING_FOUNDER_PACKET_SECTION_7_TASK_2
+  route_id: P1_EXACT_ADAPTER_RESIDUAL_ACCEPTANCE_AND_REMAINING_EXIT_GATE_CONTINUOUS_ROUTE_V1
+  task_id: AIOS-P1-102_REPRODUCIBLE_EMPIRICAL_B0_B1_B2_BASELINE_REPORT
+  transport:
+    scheme: http
+    host: 127.0.0.1
+    port: 8787
+    base_path: /v1
+    completion_path: /v1/chat/completions
+    api_format: OPENAI_COMPATIBLE_CHAT_COMPLETIONS
+    method: POST
+    follow_redirects: false
+    use_proxy: false
+    dns_resolution: false
+    fallback_endpoint_allowed: false
+    expected_peer_address: 127.0.0.1
+    expected_peer_port: 8787
+  model:
+    requested_model: gpt-5.6-luna
+    substitution_allowed: false
+    provider_provenance: FOUNDER_ATTESTED_OPENAI_COMPATIBLE_LOCAL_GATEWAY_MODEL_NOT_INDEPENDENTLY_VERIFIED
+  secret:
+    allowed_sources:
+      - LOCAL_PROCESS_ENV
+      - CONTROLLED_TEMPORARY_SECRET_FILE
+    persist: false
+    prohibited_sinks:
+      - REPOSITORY
+      - EVIDENCE
+      - LOG
+      - TRACE
+      - PROMPT
+      - REVIEW
+      - VAULT
+  call_limits:
+    provider_requests_max: 144
+    automatic_retry_max: 0
+  token_limits:
+    input_tokens_max: 3000000
+    output_tokens_max: 300000
+  monetary_limits:
+    currency: USD
+    max_spend: 25
+    unavailable_metering_status: UNKNOWN_GATEWAY_METERING_UNAVAILABLE
+  egress:
+    restricted_source_allowed: false
+  external_effects:
+    network: true
+    provider: true
+    secret: true
+    remote: false
+    production: false
+    public: false
+  claim_limits:
+    direct_openai_provenance_proven: false
+    adapter_conformance_is_model_performance: false
+    remote: false
+    production: false
+    public: false
+experiment_freeze:
+  configurations:
+    - B0_DIRECT_MODEL
+    - B1_SIMPLE_TOOL_AGENT
+    - B2_CURRENT_SOURCELENS
+  minimum_preregistered_repetitions_per_configuration: 2
+  frozen_comparability:
+    - accepted representative Task Dataset identity and task split
+    - one Environment Snapshot identity
+    - one Evaluator identity
+    - one counting rule
+    - one outcome taxonomy
+    - one metric and exclusion specification
+  retained_outcomes:
+    - eligible success
+    - eligible failure
+    - timeout
+    - invalid
+    - exclusion
+  required_measures:
+    - aggregate metrics
+    - Valid Task Success Rate
+    - false-success count and rate
+    - unsafe-action count
+    - Evidence completeness
+    - latency
+    - exact Provider call count
+    - exact input-token count
+    - exact output-token count
+    - monetary cost or exact UNKNOWN_GATEWAY_METERING_UNAVAILABLE
+    - failure taxonomy
+    - limitations
+    - reproduction command
+provider_execution_rules:
+  - Resolve and connect only to literal 127.0.0.1 port 8787 with no DNS, proxy, redirect or fallback.
+  - Use only POST /v1/chat/completions and exact model identifier gpt-5.6-luna.
+  - Do not send restricted source bytes, tests, reference patches, evaluator bytes, Truth, governance, hidden material or Secrets.
+  - Read the API Key only from the local process environment or a controlled temporary Secret file.
+  - Never persist, hash, echo, log or retain the API Key in repository or Evidence.
+  - Perform zero automatic Provider retries, including after ambiguous send or timeout.
+  - Enforce request, input-token, output-token and USD caps before each call.
+  - Record Provider provenance only as Founder-attested and not independently verified.
+  - If currency metering is unavailable, report exact calls, tokens and latency and use UNKNOWN_GATEWAY_METERING_UNAVAILABLE.
+acceptance_criteria:
+  - The experiment specification, dataset split, Environment Snapshot, Evaluator, counting rule, metrics and exclusions are frozen before the first Provider call.
+  - B0, B1 and B2 each retain at least two preregistered independent repetitions.
+  - All preregistered success, failure, timeout, invalid and exclusion outcomes remain present in raw Evidence and aggregates.
+  - Raw results and the stable aggregate report are reproducible from the retained non-secret inputs and receipts.
+  - VTSR, false-success, unsafe-action, Evidence-completeness, latency, exact calls and exact token counts are independently recomputable.
+  - No result-dependent metric, task, run, exclusion or Gate change occurs.
+  - Provider requests are at most 144, input tokens at most 3000000, output tokens at most 300000, spend at most USD 25 and automatic retries equal zero.
+  - Restricted source egress, remote, production and public effects equal zero.
+  - The report keeps adapter conformance separate from empirical model performance and keeps Provider provenance unverified.
+  - One exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS on the same bytes and Evidence.
+  - The reviewed exact tree equals the canonical integrated tree.
+  - Exactly one post-integration canonical make verify invocation passes.
+required_evidence:
+  - Exact governing Founder packet, activation projection, Contract, authority, Goal and activation-parent identities.
+  - Accepted canonical dataset, adapters, observable trace, Environment Snapshot, Evaluator and counting-rule identities.
+  - Frozen experiment specification and pre-call manifest.
+  - Raw response-derived results with no Secret or restricted source bytes.
+  - Exact per-call latency and token accounting with request count and zero-retry receipts.
+  - Complete outcome ledger, aggregate report, replay and reproduction receipts.
+  - Provider provenance and monetary-metering limitation statement.
+  - Exact candidate commit, tree, diff/hash manifest and recoverable Evidence tag.
+  - Fresh CTO, Security and Quality reviews of the same candidate and Evidence.
+  - Reviewed-tree versus integrated-tree equality and one canonical make verify result.
+rollback:
+  strategy: DISPOSABLE_FIXTURE_CLEANUP_AND_NON_DESTRUCTIVE_GIT_REVERT_AFTER_CANONICAL_INTEGRATION
+  forbidden:
+    - git reset
+    - git clean
+    - destructive history rewrite
+stop_conditions:
+  - Accepted canonical input, Goal, route packet, profile or activation identity drifts.
+  - A rejected engineering lineage is required.
+  - A required write path exceeds this Contract.
+  - Provider or Secret is unavailable inside the exact authorized local boundary.
+  - A request would exceed the call, token or monetary cap.
+  - A restricted-source, Secret, remote, production or public effect is observed.
+  - The single same-Task code-only repair is exhausted.
+  - The same normalized root cause repeats in adjacent implementation iterations.
+  - Any final Reviewer, reviewed/integrated equality check or canonical make verify returns NON_PASS.
+  - Evidence is overwritten or deleted, or the Phase boundary changes.
+claim_boundary: >-
+  Reproducible bounded empirical B0/B1/B2 baseline on the accepted P1 dataset
+  using only the Founder-attested OpenAI-compatible loopback gateway. This does
+  not prove direct OpenAI provenance, model superiority, production readiness,
+  P1 exit, P2/P3 entry, remote capability, public capability, hostile-principal
+  security or strong isolation.

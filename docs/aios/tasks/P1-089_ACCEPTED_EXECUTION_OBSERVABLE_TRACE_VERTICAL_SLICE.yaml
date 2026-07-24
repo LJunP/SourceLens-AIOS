@@ -4,9 +4,39 @@ task_id: AIOS-P1-089_ACCEPTED_EXECUTION_OBSERVABLE_TRACE_VERTICAL_SLICE
 task_slot: 1
 phase: P1
 route_id: P1_ACCEPTED_EXECUTION_OBSERVABLE_TRACE_ENGINEERING_ROUTE_V1
-status: AUTHORIZED_ACTIVE
+status: TERMINAL_FINAL_SECURITY_TARGET_NON_PASS
 execution_authority: FOUNDER_PHASE_GATE_DELEGATED
 title: Accepted Execution Observable Trace Vertical Slice
+terminal_result:
+  recorded_at_utc: "2026-07-24T02:11:40Z"
+  final_review_cycle: COMPLETE_ONE_OF_ONE
+  target_verdicts:
+    cto: PASS
+    security: NON_PASS
+    quality: PASS
+  blocking_finding_id: SECURITY-P1-089-001
+  normalized_root_cause: P1089.SECURITY.OWNED_ROOT.PHYSICAL_INVENTORY_NOT_VERIFIED
+  candidate_commit: 0310696ed0cbac13489d85d8557cb14b0d0bc4e7
+  candidate_tree: 967f9c1d172d05cee7e4d3d133df0254faa25718
+  candidate_manifest_sha256: 27437c28b1c82bada2740a92a0e3091f809a8fb0599b348d4e9b5cc0bb67e048
+  candidate_manifest_erratum_sha256: ae29b69a675f2622b77a04f256da3983c3d354a85933d83705e10c3ac3970235
+  formal_execution_manifest_sha256: 8e5162782729fa7c790b7c6d672663536a13356227fafa9790792fd524a53285
+  final_reviews:
+    cto:
+      sha256: 7f169910dbc9cab0867e274936a506951279107d67121806e1b7c4d5f745d647
+      byte_length: 8665
+    security:
+      sha256: 4e2fd572da63ad08403adfa4480d9326e869aa5c7b64e5e0e39782daf83824e9
+      byte_length: 6889
+    quality:
+      sha256: f1b2df027b1b0f5285c6392ed619f2ade83c5aa24bba74cf9720c20cab38a17a
+      byte_length: 8166
+  candidate_integrated: false
+  canonical_make_verify_invocations: 0
+  capability_accepted: false
+  capability_credit: 0
+  strict_p1_completion_after_task: 4_COMPLETE_0_PARTIAL_4_NOT_COMPLETE_50_PERCENT
+  repair_retry_successor_or_replacement_allowed: false
 task_spec_ref:
   path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-observable-trace-route-proposal-20260724/FOUNDER_P1_ACCEPTED_EXECUTION_OBSERVABLE_TRACE_ENGINEERING_ROUTE_V1.md
   sha256: ac7c09fe37aa4e67a82db7a2082e7e2f8c78715682ee4c016fb72b57695b7b21

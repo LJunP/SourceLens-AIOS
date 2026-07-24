@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-24T10:02:33Z"
-verification_scope: P1_101_TASK_GATE_PASS_STRICT_75_PERCENT_AND_P1_102_ACTIVATION
+last_verified_at: "2026-07-24T10:33:21Z"
+verification_scope: P1_102_TERMINAL_IMPLEMENTATION_REPAIR_EXHAUSTED_NON_PASS_STRICT_75_PERCENT
 
 authority:
   founder: Human Founder
@@ -37,7 +37,7 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: AIOS-P1-102_REPRODUCIBLE_EMPIRICAL_B0_B1_B2_BASELINE_REPORT
+  current_task_authority: NONE
   note: >-
     The Founder-approved long-term Goal remains ACTIVE with the exact
     Founder-installed identity. P1-099 remains terminal with its Quality
@@ -46,8 +46,11 @@ goal:
     paths matched the reviewed candidate, and the single canonical make verify
     passed. P1-101 then completed six real B0/B1/B2 positive runs, its complete
     negative matrix, fresh CTO/Security/Quality PASS, exact integration and one
-    canonical make verify PASS. OBSERVABLE_TRACE is accepted, strict P1
-    completion is 6/8 (75%), and P1-102 is active.
+    canonical make verify PASS. OBSERVABLE_TRACE is accepted and strict P1
+    completion is 6/8 (75%). P1-102 then consumed its initial implementation
+    and sole code-only repair, stopped before candidate freeze on a second
+    distinct rollback root cause, and accepted no new capability. P1-103 is
+    ineligible and the current route is terminal at the Founder P1 Phase Gate.
 
 project:
   name: SourceLens AIOS
@@ -59,8 +62,8 @@ project:
   p1_entry_status: AUTHORIZED
   phase_execution_status: ACTIVE
   p1_execution_status: ACTIVE
-  p1_engineering_status: P1_102_REPRODUCIBLE_EMPIRICAL_B0_B1_B2_BASELINE_REPORT_ACTIVE
-  current_route_execution_status: EXECUTING_TASK_2_OF_3
+  p1_engineering_status: P1_102_TERMINAL_IMPLEMENTATION_REPAIR_EXHAUSTED_NON_PASS
+  current_route_execution_status: TERMINAL_TASK_2_NON_PASS_FOUNDER_P1_PHASE_GATE
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -1568,9 +1571,9 @@ current_phase_route:
   route_id: P1_EXACT_ADAPTER_RESIDUAL_ACCEPTANCE_AND_REMAINING_EXIT_GATE_CONTINUOUS_ROUTE_V1
   status: ACTIVE
   authority_object_status: FOUNDER_PHASE_GATE_AUTHORITY_ACTIVE
-  execution_status: EXECUTING_TASK_2_OF_3
-  founder_phase_route_decision_required: false
-  scheduling_status: ACTIVE_TASK_2
+  execution_status: TERMINAL_TASK_2_NON_PASS
+  founder_phase_route_decision_required: true
+  scheduling_status: NO_ELIGIBLE_TASK_ROUTE_TERMINAL
   phase: P1
   phase_entry_status: AUTHORIZED
   authorization_token: AUTHORIZE_P1_EXACT_ADAPTER_RESIDUAL_ACCEPTANCE_AND_REMAINING_EXIT_GATE_CONTINUOUS_ROUTE_V1
@@ -1606,7 +1609,7 @@ current_phase_route:
     version: "1.1"
     changed: false
     strict_status_at_activation: 5_COMPLETE_0_PARTIAL_3_NOT_COMPLETE_62_5_PERCENT
-    status: ADAPTERS_AND_OBSERVABLE_TRACE_ACCEPTED_P1_102_BASELINE_ACTIVE
+    status: ADAPTERS_AND_OBSERVABLE_TRACE_ACCEPTED_P1_102_TERMINAL_NO_BASELINE_CREDIT
   envelope:
     max_engineering_tasks: 3
     max_engineering_hours: 44
@@ -1741,6 +1744,10 @@ current_phase_route:
       head: 5722bba04dbc00bdb75aabde8e6811ce8ae150e3
       branch: codex/p1-099-exact-nonowned-recovery
       status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-102-reproducible-empirical-baseline
+      head: 789d502b3c5e73ae551bdd6ba77003767e4d5e43
+      branch: codex/p1-102-reproducible-empirical-baseline
+      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
   accepted_inputs:
     p1_035:
       task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
@@ -1807,21 +1814,21 @@ current_phase_route:
     - task_slot: 2
       task_id: AIOS-P1-102_REPRODUCIBLE_EMPIRICAL_B0_B1_B2_BASELINE_REPORT
       component: REPRODUCIBLE_BASELINE_REPORT
-      status: ACTIVE
+      status: TERMINAL_IMPLEMENTATION_REPAIR_EXHAUSTED_NON_PASS
       engineering_hours: 28
       calendar_days: 8
       strict_p1_credit_on_pass: 1
     - task_slot: 3
       task_id: AIOS-P1-103_FIRST_P2_CONTEXT_EXPERIMENT_PREREGISTRATION
       component: FIRST_P2_CONTEXT_ENGINE_EXPERIMENT_PREREGISTRATION
-      status: ELIGIBLE_AFTER_TASK_2_PASS
+      status: INELIGIBLE_ROUTE_TERMINAL
       engineering_hours: 4
       calendar_days: 2
       strict_p1_credit_on_pass: 1
   first_task:
     task_id: AIOS-P1-102_REPRODUCIBLE_EMPIRICAL_B0_B1_B2_BASELINE_REPORT
     task_slot: 2
-    status: ACTIVE
+    status: TERMINAL_IMPLEMENTATION_REPAIR_EXHAUSTED_NON_PASS
     contract_path: docs/aios/tasks/P1-102_REPRODUCIBLE_EMPIRICAL_B0_B1_B2_BASELINE_REPORT.yaml
     contract_sha256: 0cd92d370810529e9a36146819140dc5e9d98b515c2ce3d943765acd6bb5c98f
     contract_byte_length: 12247
@@ -1840,7 +1847,7 @@ current_phase_route:
   projected_second_task:
     task_id: AIOS-P1-102_REPRODUCIBLE_EMPIRICAL_B0_B1_B2_BASELINE_REPORT
     task_slot: 2
-    status: ACTIVE
+    status: TERMINAL_IMPLEMENTATION_REPAIR_EXHAUSTED_NON_PASS
     max_engineering_hours: 28
     max_calendar_days: 8
     max_implementation_iterations: 2
@@ -1852,7 +1859,7 @@ current_phase_route:
   projected_third_task:
     task_id: AIOS-P1-103_FIRST_P2_CONTEXT_EXPERIMENT_PREREGISTRATION
     task_slot: 3
-    status: ELIGIBLE_AFTER_TASK_2_PASS
+    status: INELIGIBLE_ROUTE_TERMINAL
     max_engineering_hours: 4
     max_calendar_days: 2
     max_implementation_iterations: 2
@@ -1863,18 +1870,19 @@ current_phase_route:
   route_execution_accounting:
     maximum_engineering_tasks: 3
     task_slots_consumed: 2
-    active_task_id: AIOS-P1-102_REPRODUCIBLE_EMPIRICAL_B0_B1_B2_BASELINE_REPORT
+    active_task_id: NONE
     scheduled_task_ids:
       - AIOS-P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE
       - AIOS-P1-102_REPRODUCIBLE_EMPIRICAL_B0_B1_B2_BASELINE_REPORT
-    terminal_task_ids: []
+    terminal_task_ids:
+      - AIOS-P1-102_REPRODUCIBLE_EMPIRICAL_B0_B1_B2_BASELINE_REPORT
     accepted_task_ids:
       - AIOS-P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE
     maximum_engineering_hours: 44
-    engineering_hours_authorized_current_task: 28
-    status: EXECUTING_TASK_2_OF_3
+    engineering_hours_authorized_current_task: 0
+    status: TERMINAL_TASK_2_NON_PASS
   claim_boundary: EXACT_FOUNDER_ACCEPTED_CANONICAL_ADAPTERS_THEN_OBSERVABLE_TRACE_EMPIRICAL_BASELINE_AND_P2_PREREGISTRATION_ONLY_NO_P2_EXECUTION_P3_PRODUCTION_PUBLIC_REMOTE_OR_HOSTILE_PRINCIPAL_CLAIM
-  next_eligible_action: EXECUTE_P1_102_EMPIRICAL_BASELINE_TASK_GATE
+  next_eligible_action: FOUNDER_P1_PHASE_GATE_AFTER_P1_102_TERMINAL_NON_PASS
 
 phase_delegation:
   status: ACTIVE_PHASE_ROUTE_EXECUTION
@@ -2092,7 +2100,7 @@ mandatory_exit_capability_recovery:
     B0_B1_B2_COMPATIBILITY_ADAPTERS: ACCEPTED_FOUNDER_EXACT_RESIDUAL_INTEGRATION_P1_099
     OBSERVABLE_TRACE: ACCEPTED_P1_101_COOPERATIVE_LOCAL
     EVALUATOR_DISAGREEMENT_AND_FALSE_SUCCESS_CHARACTERIZATION: ACCEPTED_P1_070_COOPERATIVE_LOCAL
-    REPRODUCIBLE_BASELINE_REPORT: MISSING_P1_102_ACTIVE
+    REPRODUCIBLE_BASELINE_REPORT: MISSING_P1_102_TERMINAL_IMPLEMENTATION_REPAIR_EXHAUSTED_NON_PASS
   capability_attempt_ledger:
     VERSIONED_REPRESENTATIVE_TASK_DATASET:
       status: ACCEPTED
@@ -2361,12 +2369,22 @@ mandatory_exit_capability_recovery:
         terminal_receipt_sha256: 9ba4e02038ca1bcaaeb2e7d179d1d83dda66009fdd11824c620e416c0c833179
         rewritten_or_reused: false
     REPRODUCIBLE_BASELINE_REPORT:
-      status: ACTIVE
+      status: TERMINAL_IMPLEMENTATION_REPAIR_EXHAUSTED_NON_PASS
       task_id: AIOS-P1-102_REPRODUCIBLE_EMPIRICAL_B0_B1_B2_BASELINE_REPORT
       route_id: P1_EXACT_ADAPTER_RESIDUAL_ACCEPTANCE_AND_REMAINING_EXIT_GATE_CONTINUOUS_ROUTE_V1
       task_slot: 2
       contract_sha256: 0cd92d370810529e9a36146819140dc5e9d98b515c2ce3d943765acd6bb5c98f
       provider_provenance: FOUNDER_ATTESTED_OPENAI_COMPATIBLE_LOCAL_GATEWAY_MODEL_NOT_INDEPENDENTLY_VERIFIED
+      implementation_iterations_used: 2
+      code_only_repairs_used: 1
+      completed_run_records: 5
+      confirmed_completed_provider_calls: 5
+      exact_upstream_request_count: UNKNOWN_WITHIN_5_TO_6
+      initial_normalized_root_cause: P1102.PREFLIGHT.ACCEPTED_B2_AUXILIARY_INPUT_SET_INCLUDES_UNDECLARED_RESPONSE_FORMAT
+      terminal_normalized_root_cause: P1102.ROLLBACK.MATERIALIZED_MODE_NORMALIZATION_NOT_REFLECTED_IN_EXPECTED_INVENTORY
+      candidate_count: 0
+      final_review_cycles: 0
+      terminal_receipt_sha256: f8b73f37e0d9680d792e603ecca3ba9ef0ad058f8b4e24eef74a74148631936e
       capability_accepted: false
       capability_credit: 0
   integrated_capability_routes:
@@ -2869,69 +2887,55 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: FOUNDER_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE_DECISION_AFTER_P1_079_TERMINAL
 active_work:
-  current_task: AIOS-P1-102_REPRODUCIBLE_EMPIRICAL_B0_B1_B2_BASELINE_REPORT
-  current_task_status: ACTIVE
+  current_task: NONE
+  current_task_status: NONE
   current_task_contract:
-    path: docs/aios/tasks/P1-102_REPRODUCIBLE_EMPIRICAL_B0_B1_B2_BASELINE_REPORT.yaml
-    sha256: 0cd92d370810529e9a36146819140dc5e9d98b515c2ce3d943765acd6bb5c98f
-    byte_length: 12247
-  current_task_contract_sha256: 0cd92d370810529e9a36146819140dc5e9d98b515c2ce3d943765acd6bb5c98f
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-102-reproducible-empirical-baseline-20260724/authority/PHASE_DELEGATED_TASK_AUTHORITY.yaml
-  current_execution_authorization_sha256: cdafa5d9e3627b5032f84474a1824a0b653d9ff88ac99824da61e98da3a5aa77
+    path: null
+    sha256: null
+    byte_length: null
+  current_task_contract_sha256: null
+  current_execution_authorization: null
+  current_execution_authorization_sha256: null
   authority_record:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-102-reproducible-empirical-baseline-20260724/authority/PHASE_DELEGATED_TASK_AUTHORITY.yaml
-    sha256: cdafa5d9e3627b5032f84474a1824a0b653d9ff88ac99824da61e98da3a5aa77
-    byte_length: 5013
-  execution_nonce: a7dfb6b35a13095838c42a351ee685b4a38a88afbb26479ce73f1fee3874e98f
-  execution_nonce_status: ACTIVE
-  authorization_id: PHASE-DELEGATED-P1-102-806d41ea-6af0-45ee-a2a0-74e01db5caaa
-  activation_parent_commit: 633f9daf133bf616cd293fb343058e2efba2a3ed
-  activation_parent_tree: 999f37f93692a045d455adf0ea503947ed5555a5
-  task_resource_state: ACTIVE_SINGLE_BRANCH_WORKTREE_AND_EVIDENCE_ROOT
-  task_branch: codex/p1-102-reproducible-empirical-baseline
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-102-reproducible-empirical-baseline
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-102-reproducible-empirical-baseline-20260724
-  allowlisted_paths:
-    - evaluation-harness/environment/p1-102-reproducible-baseline
-    - evaluation-harness/harness/p1-102-reproducible-baseline
-    - evaluation-harness/recording/p1-102-reproducible-baseline
-    - evaluation-harness/replay/p1-102-reproducible-baseline
-    - evaluation-harness/evaluator/p1-102-reproducible-baseline
-    - evaluation-harness/fixtures/p1-102-reproducible-baseline
-    - scripts/verify-p1-102-reproducible-baseline.sh
-    - docs/aios/tasks/P1-102_REPRODUCIBLE_EMPIRICAL_B0_B1_B2_BASELINE_REPORT.yaml
-    - docs/aios/truth/project_state.yaml
-    - docs/PROJECT_CODE_MAP.md
-    - Makefile
+    path: null
+    sha256: null
+    byte_length: null
+  execution_nonce: null
+  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
+  authorization_id: null
+  activation_parent_commit: null
+  activation_parent_tree: null
+  task_resource_state: NONE_PHASE_ACTIVE
+  task_branch: null
+  task_worktree: null
+  execution_evidence_root: null
+  allowlisted_paths: []
   budget:
-    engineering_hours: 28
-    calendar_days: 8
-    implementation_iterations: 2
-    candidates: 1
+    engineering_hours: null
+    calendar_days: null
+    implementation_iterations: null
+    candidates: null
   roles:
-    owner: P1-102 Empirical Evaluation Manager
-    worker: P1-102 Baseline Experiment Worker
-    independent_reviewers:
-      - P1-102 Fresh CTO Reviewer
-      - P1-102 Fresh Security Reviewer
-      - P1-102 Fresh Quality Reviewer
+    owner: null
+    worker: null
+    independent_reviewers: []
   external_effects:
-    network: true
-    provider: true
-    secret: true
+    network: false
+    provider: false
+    secret: false
     remote: false
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-102-reproducible-empirical-baseline-20260724/FOUNDER_ROUTE_ACTIVATION_PROJECTION.md
-  founder_reserved_authorization_sha256: 045b363c456399b0872fdd2d24ef43970fee6ee0f588a7caec1d7c30970fa7ec
+  founder_reserved_authorization: null
+  founder_reserved_authorization_sha256: null
   founder_decision_required: false
   founder_decision_required_scope: NONE_WITHIN_ACTIVE_PHASE_ENVELOPE
   escalation_reason: null
   user_action_required: NONE
-  phase_route_decision_required: false
-  phase_route_user_action_required: NONE
-  next_eligible_action: EXECUTE_P1_102_EMPIRICAL_BASELINE_TASK_GATE
+  phase_route_decision_required: true
+  phase_route_user_action_required: FOUNDER_P1_PHASE_GATE
+  next_eligible_action: FOUNDER_P1_PHASE_GATE_AFTER_P1_102_TERMINAL_NON_PASS
   last_accepted_task:
     task_id: AIOS-P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE
     status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
@@ -2940,13 +2944,13 @@ active_work:
     integration_receipt_sha256: 962d6978bbc2d5b7b7b6065f502075587caf5c5d996582361eb7ea823d48a539
     capability_credit: 1
   last_terminal_task:
-    task_id: AIOS-P1-099_EXACT_NONOWNED_CLASSIFICATION_RECOVERY_AND_ADAPTER_GATE
-    status: TERMINAL_FINAL_QUALITY_TARGET_NON_PASS
-    terminal_contract_sha256: f8b462d2dceaae4dba287786d18444d328866b832441f7ae05ddfc74fc888f40
-    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-099-one-shot-exact-snapshot-recovery/terminal/P1_099_TERMINAL_RECEIPT.json
-    terminal_receipt_sha256: 2e0a48774845e10bc12cb51725b819cace0a4080602f56b3318dbe9382426217
-    candidate_count: 1
-    final_review_cycles: 1
+    task_id: AIOS-P1-102_REPRODUCIBLE_EMPIRICAL_B0_B1_B2_BASELINE_REPORT
+    status: TERMINAL_IMPLEMENTATION_REPAIR_EXHAUSTED_NON_PASS
+    terminal_contract_sha256: 0cd92d370810529e9a36146819140dc5e9d98b515c2ce3d943765acd6bb5c98f
+    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-102-reproducible-empirical-baseline-20260724/terminal/P1_102_TERMINAL_RECEIPT.json
+    terminal_receipt_sha256: f8b73f37e0d9680d792e603ecca3ba9ef0ad058f8b4e24eef74a74148631936e
+    candidate_count: 0
+    final_review_cycles: 0
     capability_credit: 0
 
 superseded_pre_delegation_authorizations:
@@ -2965,6 +2969,63 @@ superseded_pre_delegation_authorizations:
     note: The engineering objective may be selected independently by Master, but these pre-delegation bytes require a routine per-Task Founder Gate and cannot be activated under the current authority model.
 
 task_history:
+  aios_p1_102:
+    task_id: AIOS-P1-102_REPRODUCIBLE_EMPIRICAL_B0_B1_B2_BASELINE_REPORT
+    route_id: P1_EXACT_ADAPTER_RESIDUAL_ACCEPTANCE_AND_REMAINING_EXIT_GATE_CONTINUOUS_ROUTE_V1
+    status: TERMINAL_IMPLEMENTATION_REPAIR_EXHAUSTED_NON_PASS
+    classification: PARTIAL_EMPIRICAL_EXECUTION_STOPPED_BEFORE_CANDIDATE_ON_DISTINCT_ROLLBACK_ROOT
+    contract: docs/aios/tasks/P1-102_REPRODUCIBLE_EMPIRICAL_B0_B1_B2_BASELINE_REPORT.yaml
+    task_contract_sha256: 0cd92d370810529e9a36146819140dc5e9d98b515c2ce3d943765acd6bb5c98f
+    task_contract_byte_length: 12247
+    authority_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-102-reproducible-empirical-baseline-20260724/authority/PHASE_DELEGATED_TASK_AUTHORITY.yaml
+    authority_record_sha256: cdafa5d9e3627b5032f84474a1824a0b653d9ff88ac99824da61e98da3a5aa77
+    authority_record_byte_length: 5013
+    activation_commit: 9950ab2e526526b18aa72e5e5cb21e05df1ba02f
+    activation_tree: 11c3494913c366ab9b39b6a37ff42a7ecc510151
+    canonical_authority_test_alignment_commit: b9cc39f595f45c75402ae5bbefd59a4b9822f78c
+    implementation_iterations_used: 2
+    code_only_repairs_used: 1
+    first_iteration:
+      status: NON_PASS_PRE_PROVIDER
+      reason_code: SHARED_ACCEPTED_P0_ANALYZER_BUILD_FAILURE
+      observed_internal_reason_code: B2_INPUT_REJECTED
+      normalized_root_cause: P1102.PREFLIGHT.ACCEPTED_B2_AUXILIARY_INPUT_SET_INCLUDES_UNDECLARED_RESPONSE_FORMAT
+      provider_requests: 0
+      failure_receipt_sha256: e1763cb94f452bd5c243dbe1e806d06f05bca5e578c174d00aa1812c7e384a3c
+    sole_code_only_repair: REMOVE_UNDECLARED_RESPONSE_FORMAT_FROM_ACCEPTED_B2_AUXILIARY_REQUEST_ONLY
+    terminal_iteration:
+      status: NON_PASS_ROLLBACK_CLASSIFICATION
+      normalized_root_cause: P1102.ROLLBACK.MATERIALIZED_MODE_NORMALIZATION_NOT_REFLECTED_IN_EXPECTED_INVENTORY
+      scheduled_runs: 36
+      completed_run_records: 5
+      completed_provider_call_receipts: 5
+      interrupted_run_directory_count: 1
+      exact_upstream_request_count: UNKNOWN_WITHIN_5_TO_6
+      confirmed_input_tokens: 1200
+      confirmed_output_tokens: 3604
+      confirmed_latency_ms: 54983.088
+      automatic_retries: 0
+      monetary_cost: UNKNOWN_GATEWAY_METERING_UNAVAILABLE
+      precall_freeze_sha256: 6c131d9ee1e8bc969aa9fbd1b57534f59fa1207b24e6bbc7dc6d6f34cfd4fb55
+      accepted_p0_adapter_result_sha256: 9a195e83b5d57d042d708d568a78144edcf9c6d3d31d02ae45e111a3c46fc479
+    failed_implementation_snapshot_commit: 789d502b3c5e73ae551bdd6ba77003767e4d5e43
+    failed_implementation_snapshot_tree: 316dd77fcd219fe680f15e076f96c2a21a595e57
+    evidence_tag: evidence/p1-102-terminal-implementation-789d502-20260724
+    snapshot_classification: TERMINAL_FAILED_ENGINEERING_BYTES_NOT_A_CANDIDATE
+    candidate_count: 0
+    final_review_cycles_used: 0
+    canonical_full_make_verify_invocations: 0
+    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-102-reproducible-empirical-baseline-20260724/terminal/P1_102_TERMINAL_RECEIPT.json
+    terminal_receipt_sha256: f8b73f37e0d9680d792e603ecca3ba9ef0ad058f8b4e24eef74a74148631936e
+    terminal_receipt_byte_length: 4994
+    secret_temporary_file_removed: true
+    restricted_source_egress_observed: false
+    remote_production_or_public_effect_observed: false
+    accepted_capabilities: []
+    capability_credit: 0
+    strict_p1_completion_after_task: 6_COMPLETE_0_PARTIAL_2_NOT_COMPLETE_75_PERCENT
+    p1_103_entry: INELIGIBLE_ROUTE_TERMINAL
+    claim_boundary: TERMINAL_PARTIAL_P1_102_EMPIRICAL_EXECUTION_EVIDENCE_ONLY_NO_REPRODUCIBLE_BASELINE_REPORT_ACCEPTANCE_MODEL_SUPERIORITY_P1_EXIT_P1_103_P2_P3_PRODUCTION_REMOTE_OR_PUBLIC_CLAIM
   aios_p1_101:
     task_id: AIOS-P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE
     route_id: P1_EXACT_ADAPTER_RESIDUAL_ACCEPTANCE_AND_REMAINING_EXIT_GATE_CONTINUOUS_ROUTE_V1
@@ -5627,9 +5688,9 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: P1_EXACT_ADAPTER_RESIDUAL_ACCEPTANCE_AND_REMAINING_EXIT_GATE_CONTINUOUS_ROUTE_V1_TASK_2_ACTIVE
-  current_task_claim: AIOS-P1-102_REPRODUCIBLE_EMPIRICAL_B0_B1_B2_BASELINE_REPORT
-  real_engineering_progress: P1_101_OBSERVABLE_TRACE_ACCEPTED_AND_CANONICALLY_VERIFIED_STRICT_P1_COMPLETION_75_PERCENT_P1_102_ENGINEERING_ACTIVE
+  current_route_claim: P1_EXACT_ADAPTER_RESIDUAL_ACCEPTANCE_AND_REMAINING_EXIT_GATE_CONTINUOUS_ROUTE_V1_TERMINAL_TASK_2_NON_PASS
+  current_task_claim: NONE
+  real_engineering_progress: P1_101_OBSERVABLE_TRACE_ACCEPTED_AND_CANONICALLY_VERIFIED_STRICT_P1_COMPLETION_75_PERCENT_P1_102_TERMINAL_NO_CAPABILITY_CREDIT
   product_capability_changed: true
   phase_local_allowed:
     - local evaluation foundation engineering under an exact Task Contract
@@ -5680,6 +5741,7 @@ phase_execution_claim:
     - AIOS-P1-095 froze the complete Quality-declared positive artifact sets before Worker source, produced one exact clean-room shared offline B0/B1/B2 candidate, six real positive runs, three exact replay pairs, B1 rollback and two real accepted-P0 scan children. Fresh CTO final review returned TARGET NON_PASS because the mandatory real negative matrix omitted multiple required real fixture and request classes and partly replaced them with synthetic in-memory probes. Security and Quality reviews were cancelled, the candidate was not integrated, canonical make verify was not run, P1-096 is ineligible, no adapter capability or P1 credit was accepted, and the route is terminal without correction, repair, successor, replacement, rereview or engineering-asset reuse.
     - AIOS-P1-099 remains TERMINAL_FINAL_QUALITY_TARGET_NON_PASS and its Quality verdict is not rewritten. The Founder later accepted the exact bounded PRE_EXECUTION versus POST_EXECUTION residual, authorized the unmodified exact candidate once, and the 32 engineering paths were integrated with exact mode/blob equality. The single canonical make verify passed, so B0_B1_B2_COMPATIBILITY_ADAPTERS is accepted by Founder exception and strict P1 completion is 62.5%; P1-101 is a new route Task, not a P1-099 repair, successor or rereview.
     - AIOS-P1-101 built one shared executable trace over the accepted canonical B0/B1/B2 adapters, completed six positive runs and nineteen independently materialized negative cases with zero false accepts, passed fresh CTO/Security/Quality review, integrated the reviewed exact tree and passed one canonical make verify; OBSERVABLE_TRACE is accepted and strict P1 completion is 75%.
+    - AIOS-P1-102 consumed its initial implementation and sole code-only repair. The first iteration stopped before Provider use because an undeclared response-format auxiliary input violated the accepted B2 closed input set. The sole repair closed that root, then the second iteration completed five run records before a distinct materialized-mode rollback comparison root caused systematic ROLLBACK_NON_PASS. No candidate, final review, integration, canonical make verify, reproducible baseline capability or P1 credit exists; P1-103 is ineligible and the route is terminal without a second repair or successor chain.
     - Historical four-slice ordering and attempt routing have no current scheduling authority.
     - Peripheral validators, auxiliary governance tools and work without direct P1 Exit Gate value are ineligible.
   not_authorized_in_current_phase:
@@ -5699,10 +5761,10 @@ phase_execution_claim:
     - canonical main advance outside an accepted task gate
 
 claim_boundary:
-  current_phase_route: P1_EXACT_ADAPTER_RESIDUAL_ACCEPTANCE_AND_REMAINING_EXIT_GATE_CONTINUOUS_ROUTE_V1_TASK_2_ACTIVE
-  current_task: AIOS-P1-102_REPRODUCIBLE_EMPIRICAL_B0_B1_B2_BASELINE_REPORT
-  next_eligible_action: EXECUTE_P1_102_EMPIRICAL_BASELINE_TASK_GATE
-  real_engineering_progress: P1_101_OBSERVABLE_TRACE_ACCEPTED_CANONICAL_VERIFY_PASS_P1_102_ACTIVE_STRICT_P1_COMPLETION_75_PERCENT
+  current_phase_route: P1_EXACT_ADAPTER_RESIDUAL_ACCEPTANCE_AND_REMAINING_EXIT_GATE_CONTINUOUS_ROUTE_V1_TERMINAL_TASK_2_NON_PASS
+  current_task: NONE
+  next_eligible_action: FOUNDER_P1_PHASE_GATE_AFTER_P1_102_TERMINAL_NON_PASS
+  real_engineering_progress: P1_101_OBSERVABLE_TRACE_ACCEPTED_CANONICAL_VERIFY_PASS_P1_102_TERMINAL_NO_CREDIT_STRICT_P1_COMPLETION_75_PERCENT
   product_capability_changed_by_route_activation: true
   p1_099_status: TERMINAL_FINAL_QUALITY_TARGET_NON_PASS
   p1_099_activation_contract_sha256: c23557519704aef85beb2371a844d5bbb11c164b0fca270b900076e9577e44f1
@@ -5728,7 +5790,13 @@ claim_boundary:
   p1_101_integration_tree: 999f37f93692a045d455adf0ea503947ed5555a5
   p1_101_canonical_make_verify: PASS_ONE_INVOCATION
   p1_101_capability_credit: 1
-  p1_102_entry: ACTIVE_ROUTE_TASK_2
+  p1_102_entry: TERMINAL_IMPLEMENTATION_REPAIR_EXHAUSTED_NON_PASS
+  p1_102_terminal_receipt_sha256: f8b73f37e0d9680d792e603ecca3ba9ef0ad058f8b4e24eef74a74148631936e
+  p1_102_failed_snapshot_commit: 789d502b3c5e73ae551bdd6ba77003767e4d5e43
+  p1_102_failed_snapshot_tree: 316dd77fcd219fe680f15e076f96c2a21a595e57
+  p1_102_candidate_count: 0
+  p1_102_capability_credit: 0
+  p1_103_entry: INELIGIBLE_ROUTE_TERMINAL
   p1_097_status: TERMINAL_IMPLEMENTATION_ITERATION_EXHAUSTED_NON_PASS
   p1_097_capability_credit: 0
   p1_095_status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
@@ -5833,7 +5901,7 @@ claim_boundary:
   p1_082_candidate_created: false
   p1_082_accepted_capability: false
   p1_082_capability_credit: 0
-  p1_strict_completion: 4_OF_8_50_PERCENT
+  p1_strict_completion: 6_OF_8_75_PERCENT
   p1_079_status: TERMINAL_PREWORKER_SAFETY_BOUNDARY_NON_PASS
   p1_079_contract_sha256: de48f65c5af4c271920d37efa74e088be33beb2f9a08a75859b2178b446ccc69
   p1_079_contract_reviews: CTO_PASS_SECURITY_PASS_QUALITY_PASS
@@ -6020,7 +6088,7 @@ claim_boundary:
   p1_061_candidate_created: false
   p1_061_candidate_integrated: false
   p1_061_accepted_capability: false
-  current_route_stop_trigger: P1_099_FINAL_QUALITY_TARGET_NON_PASS
+  current_route_stop_trigger: P1_102_IMPLEMENTATION_REPAIR_EXHAUSTED_DISTINCT_ROLLBACK_ROOT
   p1_048_actual_execution_experiment_pack: MASTER_TASK_GATE_ACCEPTED_COMPLETE
   p1_048_formal_run_a: PASS
   p1_048_independent_run_b: PASS
@@ -6081,14 +6149,14 @@ claim_boundary:
   p1_056_formal_run_b: NOT_STARTED
   p1_056_candidate_integrated: false
   p1_056_accepted_capability: false
-  current_route_executable_task_slots: 2_OF_3_ACTIVE_TASK_2
+  current_route_executable_task_slots: 2_OF_3_CONSUMED_ROUTE_TERMINAL_TASK_2_NON_PASS
   prior_experiment_pack_route_executable_task_slots_used: 3_OF_3
   p1_050_claim_boundary: LOCAL_SYNTHETIC_PROVIDER_NEUTRAL_B0_B1_B2_COMPATIBILITY_ADAPTER_EXECUTION_CONFORMANCE_ONLY_NO_EMPIRICAL_BASELINE_PERFORMANCE_VTSR_MODEL_AGENT_INHERITED_SOURCELENS_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
   repository_intelligence_quality: UNKNOWN_NOT_YET_BENCHMARKED
   evaluation_harness: IMPLEMENTED_AND_FOUNDER_GATE_ACCEPTED_CONFORMANCE_ONLY
   harness_conformance: PASS
   b0_adapter_conformance: ACCEPTED_AS_PART_OF_FOUNDER_EXCEPTION_EXACT_B0_B1_B2_ADAPTER_INTEGRATION
-  b0_live_model_performance: UNKNOWN_P1_102_EMPIRICAL_BASELINE_ACTIVE
+  b0_live_model_performance: UNKNOWN_P1_102_TERMINAL_NO_ACCEPTED_BASELINE
   p1_pilot_task_dataset: TERMINAL_STOPPED_NOT_ACCEPTED
   p1_pilot_task_dataset_version: p1-pilot-task-dataset-v0.1
   p1_pilot_task_dataset_claims: 0

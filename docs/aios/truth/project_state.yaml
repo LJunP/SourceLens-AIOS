@@ -1655,7 +1655,7 @@ current_phase_route:
       branch: codex/p1-069-blind-admission-harness
       status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
     - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-076-trusted-outer-verifier
-      head: 35e61f136517b2df4c908b2ba4762cf509deed
+      head: 35e61f136517b4d2bf4c908b2ba4762cf509deed
       branch: codex/p1-076-trusted-outer-verifier
       status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
     - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-078-state-rollback-observable-trace

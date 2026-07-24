@@ -1,0 +1,53 @@
+{
+  "schema_version": "p1-097-execution-descriptor/v1",
+  "descriptor_id": "P1-097-B2-MINIMAL-DOCUMENTED",
+  "adapter_id": "B2",
+  "adapter_version": "p1-097-minimal-documented-v1",
+  "executable": {
+    "path": "evaluation-harness/adapters/p1-097-minimal-documented/b2-entry.mjs",
+    "realpath": "REPOSITORY_ROOT/evaluation-harness/adapters/p1-097-minimal-documented/b2-entry.mjs",
+    "sha256": "42bf0af43141c6951263bff586096189ef93f0cd21154dff97ee163f944dbce2",
+    "byte_length": 22167,
+    "type": "REGULAR_FILE"
+  },
+  "argv": ["/usr/local/bin/node", "EXECUTABLE", "--request", "EXECUTION_REQUEST", "--run-root", "OUTPUT_ROOT", "--sentinel", "TARGET_SENTINEL"],
+  "working_directory": "REPOSITORY_ROOT",
+  "timeout_seconds": 60,
+  "expected_exit_codes": [0],
+  "input_bindings": {
+    "adapter_input": {
+      "path": "evaluation-harness/fixtures/p1-097-minimal-documented/b2-p0-binding.json",
+      "sha256": "1527ae00368edfa1284dccf7eb163ceed2407cd3bed3b241d3a438aa683993e7",
+      "byte_length": 1180
+    },
+    "b2_source_manifest": {
+      "path": "evaluation-harness/fixtures/p1-097-minimal-documented/b2-p0-source-manifest.json",
+      "sha256": "c183f09403b914ced294c9eb87223ff541f6c9bebdf5c6c233a25ece5dbb9f7c",
+      "byte_length": 2561
+    },
+    "response_format": {
+      "path": "evaluation-harness/datasets/p1-representative-task-dataset-v1/shared/response-format.json",
+      "sha256": "6b8ec1d2a6a288e5b908716714589dae963739f2b35a0a29237ff4cbc1355c4b",
+      "byte_length": 306
+    },
+    "task_source_program": {
+      "path": "evaluation-harness/fixtures/p1-097-minimal-documented/b1-finite-program.json",
+      "sha256": "2e4d1306bc3dc34f239370e1938caf12c26eeec96df9bb52a0c51475ac7a882a",
+      "byte_length": 1866
+    }
+  },
+  "limits": {
+    "max_model_tokens": 0,
+    "max_tool_calls": 1,
+    "max_cost_usd": 0
+  },
+  "allowed_tool_classes": ["repository_analysis.scan"],
+  "forbidden_features": ["write", "egress", "remote", "hidden_data", "network"],
+  "requested_effects": {"network": false, "provider": false, "secret": false, "remote": false, "production": false, "public": false},
+  "output_policy": {
+    "atomic_unique_owned_root": true,
+    "preexisting_target_allowed": false,
+    "symlink_component_allowed": false,
+    "nonowned_cleanup_allowed": false
+  }
+}

@@ -1,0 +1,92 @@
+{
+  "schema_version": "1.0",
+  "task_id": "SL-P1-REP-001-RANGE-NORMALIZATION",
+  "dataset_version": "1.0.0",
+  "evaluation_split": "development",
+  "source": {
+    "kind": "synthetic_fixture",
+    "provenance": "Accepted AIOS-P1-035 visible synthetic fixture; P1-097 supplies only an adapter-conformance view.",
+    "license": null,
+    "redistribution": "restricted"
+  },
+  "repository": {
+    "identity": "sourcelens-fixture://p1-representative-tasks/SL-P1-REP-001-RANGE-NORMALIZATION@1.0.0",
+    "base_commit": "68ce8226eff4c5c7230b55b18a4cbea2f8e4a20f",
+    "tree_hash": "900814727113d65f5dad8b63222e14f39b2cf38b",
+    "dirty_state_policy": "clean_immutable_base"
+  },
+  "issue": {
+    "text": "Fix normalizeRange so a reversed numeric range is returned in ascending endpoint order. Preserve already ordered ranges and do not change the public function signature.",
+    "allowed_clarifications": []
+  },
+  "language": ["javascript"],
+  "build_system": ["node-test"],
+  "environment_snapshot_ref": "ENV-SOURCELENS-P1-REP-NODE20-STDLIB-1",
+  "baseline_context": {
+    "artifact_ref": "evaluation-harness/datasets/p1-representative-task-dataset-v1/shared/baseline-context.json",
+    "sha256": "64fab9efd47c193af94e3f7baee67072a32497d35c9dc1aee8a804bf32269cb9",
+    "max_model_tokens": 1024,
+    "ordering": "artifact_order",
+    "response_format_ref": "evaluation-harness/datasets/p1-representative-task-dataset-v1/shared/response-format.json",
+    "response_format_sha256": "6b8ec1d2a6a288e5b908716714589dae963739f2b35a0a29237ff4cbc1355c4b"
+  },
+  "allowed_tools": [
+    "file_listing",
+    "file_read",
+    "lexical_search",
+    "structured_patch",
+    "verification_command",
+    "repository_analysis.scan"
+  ],
+  "network_policy": "none",
+  "allowed_network_hosts": [],
+  "budgets": {
+    "wall_clock_seconds": 60,
+    "max_model_tokens": 1024,
+    "max_tool_calls": 8,
+    "max_cost_usd": 0
+  },
+  "verification": {
+    "evaluator_version": "P1-097-QUALITY-ORACLE/1.0.0",
+    "required_commands": [
+      {
+        "command_id": "issue-test",
+        "role": "issue_specific",
+        "argv": ["/usr/local/bin/node", "--test", "test/issue.test.mjs"],
+        "working_directory": "TASK_REPOSITORY",
+        "timeout_seconds": 10,
+        "expected_exit_codes": [0],
+        "non_secret_environment": {}
+      },
+      {
+        "command_id": "regression-test",
+        "role": "regression",
+        "argv": ["/usr/local/bin/node", "--test", "test/regression.test.mjs"],
+        "working_directory": "TASK_REPOSITORY",
+        "timeout_seconds": 10,
+        "expected_exit_codes": [0],
+        "non_secret_environment": {}
+      }
+    ],
+    "behavioral_assertions": [
+      "Reversed endpoints are normalized into ascending order.",
+      "Already ordered endpoints remain unchanged."
+    ],
+    "scope_policy": "Visible synthetic P1-097 adapter conformance only; no model performance, benchmark, Agent, P2, P3 or production claim."
+  },
+  "forbidden_changes": [
+    "test files",
+    "network or dependency use",
+    "public function signature"
+  ],
+  "required_evidence": [
+    "common RunRecord",
+    "observable action trace",
+    "stable replay projection",
+    "rollback or no-source-mutation receipt"
+  ],
+  "risk_class": "high",
+  "human_approval_required": true,
+  "tags": ["p1-097", "documented-compatibility-adapter", "visible", "synthetic"]
+}
+

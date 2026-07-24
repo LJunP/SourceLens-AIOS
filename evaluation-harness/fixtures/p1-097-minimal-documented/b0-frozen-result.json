@@ -1,0 +1,6 @@
+{
+  "summary": "Normalize reversed range endpoints while preserving already ordered ranges.",
+  "changed_paths": ["src/range.mjs"],
+  "tests": ["node --test test/issue.test.mjs", "node --test test/regression.test.mjs"]
+}
+

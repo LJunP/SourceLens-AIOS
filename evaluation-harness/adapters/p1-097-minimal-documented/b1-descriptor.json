@@ -1,0 +1,43 @@
+{
+  "schema_version": "p1-097-execution-descriptor/v1",
+  "descriptor_id": "P1-097-B1-MINIMAL-DOCUMENTED",
+  "adapter_id": "B1",
+  "adapter_version": "p1-097-minimal-documented-v1",
+  "executable": {
+    "path": "evaluation-harness/adapters/p1-097-minimal-documented/b1-entry.mjs",
+    "realpath": "REPOSITORY_ROOT/evaluation-harness/adapters/p1-097-minimal-documented/b1-entry.mjs",
+    "sha256": "cab355a2df0b93a5146fa01c977924408e4cffdb8ef591b70cebd8afc56f6d6d",
+    "byte_length": 18274,
+    "type": "REGULAR_FILE"
+  },
+  "argv": ["/usr/local/bin/node", "EXECUTABLE", "--request", "EXECUTION_REQUEST", "--run-root", "OUTPUT_ROOT", "--sentinel", "TARGET_SENTINEL"],
+  "working_directory": "REPOSITORY_ROOT",
+  "timeout_seconds": 30,
+  "expected_exit_codes": [0],
+  "input_bindings": {
+    "adapter_input": {
+      "path": "evaluation-harness/fixtures/p1-097-minimal-documented/b1-finite-program.json",
+      "sha256": "2e4d1306bc3dc34f239370e1938caf12c26eeec96df9bb52a0c51475ac7a882a",
+      "byte_length": 1866
+    },
+    "response_format": {
+      "path": "evaluation-harness/datasets/p1-representative-task-dataset-v1/shared/response-format.json",
+      "sha256": "6b8ec1d2a6a288e5b908716714589dae963739f2b35a0a29237ff4cbc1355c4b",
+      "byte_length": 306
+    }
+  },
+  "limits": {
+    "max_model_tokens": 0,
+    "max_tool_calls": 8,
+    "max_cost_usd": 0
+  },
+  "allowed_tool_classes": ["file_listing", "file_read", "lexical_search", "structured_patch", "verification_command"],
+  "forbidden_features": ["sourcelens_graph", "ranker", "memory", "additional_agent", "hidden_data", "network"],
+  "requested_effects": {"network": false, "provider": false, "secret": false, "remote": false, "production": false, "public": false},
+  "output_policy": {
+    "atomic_unique_owned_root": true,
+    "preexisting_target_allowed": false,
+    "symlink_component_allowed": false,
+    "nonowned_cleanup_allowed": false
+  }
+}

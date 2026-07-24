@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "snapshot_id": "ENV-SOURCELENS-P1-REP-NODE20-STDLIB-1",
+  "created_at": "2026-07-24T00:00:00Z",
+  "source": {
+    "repository_identity": "sourcelens-fixture://p1-representative-tasks/SL-P1-REP-001-RANGE-NORMALIZATION@1.0.0",
+    "base_commit": "68ce8226eff4c5c7230b55b18a4cbea2f8e4a20f",
+    "tree_hash": "900814727113d65f5dad8b63222e14f39b2cf38b",
+    "worktree_clean": true
+  },
+  "runtime": {
+    "os": "cooperative-local-offline",
+    "architecture": "host-bound-at-execution",
+    "container_image_digest": "sha256:e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "locale": "C",
+    "timezone": "UTC"
+  },
+  "dependencies": {
+    "lockfiles": [],
+    "toolchains": {
+      "node": "accepted-local-node-runtime",
+      "sourcelens-analyzer": "accepted-p0-analyzer-tree-408d57e9b4926f95ad059ab2675ee88dfc533096"
+    },
+    "caches": [
+      {"name": "dependency-cache", "policy": "disabled", "digest": null}
+    ]
+  },
+  "model": {
+    "model_ref": "P1-097-OFFLINE-PROVIDER-NEUTRAL-RESULT",
+    "provider": "none-offline",
+    "model_id": "frozen-provider-neutral-result",
+    "model_version": "1",
+    "parameters": {
+      "live_model_invoked": false,
+      "provider_invoked": false
+    }
+  },
+  "prompt_version": "P1-097-DOCUMENTED-ADAPTER-PROMPT-1",
+  "policy_version": "P1-097-OFFLINE-POLICY-1",
+  "tools": [
+    {"tool_id": "file_listing", "version": "1", "permission": "observe"},
+    {"tool_id": "file_read", "version": "1", "permission": "observe"},
+    {"tool_id": "lexical_search", "version": "1", "permission": "observe"},
+    {"tool_id": "structured_patch", "version": "1", "permission": "modify_isolated"},
+    {"tool_id": "verification_command", "version": "1", "permission": "execute_isolated"},
+    {"tool_id": "repository_analysis.scan", "version": "P0-tree-408d57e9", "permission": "execute_isolated"}
+  ],
+  "network": {
+    "policy": "none",
+    "allowed_hosts": []
+  },
+  "environment_variables": {
+    "non_secret_values": {
+      "LANG": "C",
+      "LC_ALL": "C",
+      "TZ": "UTC"
+    },
+    "secret_names_present": []
+  },
+  "secret_policy": {
+    "values_retained": false,
+    "redaction_policy_version": "P1-097-NO-SECRETS-1"
+  },
+  "random_seed": 97001
+}
+

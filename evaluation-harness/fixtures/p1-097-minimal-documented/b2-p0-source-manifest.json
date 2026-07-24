@@ -1,0 +1,25 @@
+{
+  "schema_version": "p1-097-b2-p0-source-manifest/v1",
+  "source_root": "analyzer-rust",
+  "accepted_p0_frozen_base_commit": "09cf8dd6a1bcee138b949d117804d652000eb7cc",
+  "accepted_p0_frozen_base_tree": "daa58725d293b954887dbe5b17aab5219b618658",
+  "accepted_p0_checkpoint_commit": "ad6450e418d8f1b4fd5a789f913525a8dd8bdc10",
+  "accepted_p0_checkpoint_tree": "2c0956ae8598547466f691ead21532a026006bf9",
+  "analyzer_tree": "408d57e9b4926f95ad059ab2675ee88dfc533096",
+  "entries": [
+    {"path":"analyzer-rust/.cargo/config.toml","git_blob":"b23105bffd49228ead138750330f325daea352fe","sha256":"7c54472479b960ab847cac45048428d9474adb9500732f6b1f006143194bb063","byte_length":42},
+    {"path":"analyzer-rust/Cargo.lock","git_blob":"d1f45fcfca44901aa968f05613a0a70fdfa94a31","sha256":"87f13338c1ae3a89156d7f001716ca5ad0e2565732ffe4cbf2c637f197569442","byte_length":12179},
+    {"path":"analyzer-rust/Cargo.toml","git_blob":"c253d50ffa94c1e0a2001a1a23cb9481be1189da","sha256":"46521d039b0c76445ae2b2b7f29f84e1637ab59703484c52a484f1bb5e288f4d","byte_length":564},
+    {"path":"analyzer-rust/src/ast_extractor.rs","git_blob":"146291de76529c8dfa890012598bf87aa87360d0","sha256":"dc47871a7bdf0b1288c290e32ff81b9a782c99478ea0dc9c4d868a7ccba4bdc6","byte_length":9789},
+    {"path":"analyzer-rust/src/framework.rs","git_blob":"64767f2996c283b564fde0609b196168e2e58c40","sha256":"f62a202dca1cbb5ecc0c2acb68cd55f2e1a17dd3a2ca847cc9b0b40484d0c945","byte_length":66455},
+    {"path":"analyzer-rust/src/main.rs","git_blob":"515e40aba1d2d0a8e709f085d69274df08e9e6ab","sha256":"f41cf8d124c1e49854f1822543d47cc4c1469be101d61f203f271edc2f034ec4","byte_length":5026},
+    {"path":"analyzer-rust/src/models.rs","git_blob":"dfef29f9079899f8576b8f29cca851f19c6b3755","sha256":"5238b134985eb149f0befed7eecd3ac2c4f0e8e0bc6986af53ff67a72ed83e97","byte_length":6303},
+    {"path":"analyzer-rust/src/reverse.rs","git_blob":"5a8e52c8302c86301cd022eba90bc01a8f83a5f5","sha256":"898407c1964f6d1612043c13e5414eb26fab4a0eff8d09bbed86907886181864","byte_length":38553},
+    {"path":"analyzer-rust/src/scanner.rs","git_blob":"b210a064bed07aa7ceb3d7304360913570acb4f4","sha256":"fddb00ba02f8fc63a045ed7ff25721fe664118478d0843f09a95efef77292212","byte_length":14390},
+    {"path":"analyzer-rust/tests/scan_contract.rs","git_blob":"8d9a3c9b5479f65d05430bd2f82c775327f78b3e","sha256":"62820315c00623d080691ddaa9e8e69ac3a1efc4f48766b52afe734d6b2dc336","byte_length":3490}
+  ],
+  "entry_count": 10,
+  "total_byte_length": 156791,
+  "claim_boundary": "EXACT_ACCEPTED_P0_ANALYZER_SOURCE_IDENTITY_ONLY"
+}
+

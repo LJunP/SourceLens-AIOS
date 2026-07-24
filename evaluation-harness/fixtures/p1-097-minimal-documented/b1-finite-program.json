@@ -1,0 +1,34 @@
+{
+  "schema_version": "p1-097-b1-finite-program/v1",
+  "program_id": "P1-097-B1-REP001-FINITE-PROGRAM",
+  "task_source": "evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template",
+  "allowed_tool_classes": ["file_listing", "file_read", "lexical_search", "structured_patch", "verification_command"],
+  "forbidden_features": ["sourcelens_graph", "ranker", "memory", "additional_agent", "network"],
+  "actions": [
+    {"ordinal":1,"tool_class":"file_listing","relative_path":"."},
+    {"ordinal":2,"tool_class":"file_read","relative_path":"src/range.mjs"},
+    {"ordinal":3,"tool_class":"lexical_search","query":"normalizeRange","relative_path":"src"},
+    {
+      "ordinal":4,
+      "tool_class":"structured_patch",
+      "relative_path":"src/range.mjs",
+      "before_sha256":"1e3de2958c9841bbe785d903b2f5453389c4225359308b539ac2cb3194469d75",
+      "after_sha256":"e8304b77da9b8c33f64ecdc568db7e97297ace72ecb796971bb3f5eda09d9001",
+      "replacement":{
+        "old":"  return { start, end };\n",
+        "new":"  return { start: end, end: start };\n"
+      }
+    },
+    {"ordinal":5,"tool_class":"verification_command","command_id":"issue-test"},
+    {"ordinal":6,"tool_class":"verification_command","command_id":"regression-test"}
+  ],
+  "expected_action_count": 6,
+  "rollback": {
+    "required": true,
+    "pre_tree_source_sha256": "1e3de2958c9841bbe785d903b2f5453389c4225359308b539ac2cb3194469d75",
+    "post_patch_source_sha256": "e8304b77da9b8c33f64ecdc568db7e97297ace72ecb796971bb3f5eda09d9001",
+    "post_rollback_source_sha256": "1e3de2958c9841bbe785d903b2f5453389c4225359308b539ac2cb3194469d75"
+  },
+  "external_effects": {"network":false,"provider":false,"secret":false,"remote":false,"production":false,"public":false},
+  "claim_boundary": "FINITE_COOPERATIVE_LOCAL_B1_TOOL_PROGRAM_ONLY"
+}

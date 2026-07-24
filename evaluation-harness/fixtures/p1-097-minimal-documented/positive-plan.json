@@ -1,0 +1,33 @@
+{
+  "schema_version": "p1-097-quality-positive-plan/v1",
+  "task_id": "AIOS-P1-097_MINIMAL_DOCUMENTED_B0_B1_B2_COMPATIBILITY_ADAPTERS",
+  "task_spec": "evaluation-harness/fixtures/p1-097-minimal-documented/task-spec.json",
+  "environment_snapshot": "evaluation-harness/fixtures/p1-097-minimal-documented/environment-snapshot.json",
+  "runs": [
+    {"case_id":"B0_A","adapter_id":"B0","repetition_id":1,"configuration":"evaluation-harness/fixtures/p1-097-minimal-documented/system-configurations/b0-a.json","pair":"B0"},
+    {"case_id":"B0_B","adapter_id":"B0","repetition_id":2,"configuration":"evaluation-harness/fixtures/p1-097-minimal-documented/system-configurations/b0-b.json","pair":"B0"},
+    {"case_id":"B1_A","adapter_id":"B1","repetition_id":1,"configuration":"evaluation-harness/fixtures/p1-097-minimal-documented/system-configurations/b1-a.json","pair":"B1"},
+    {"case_id":"B1_B","adapter_id":"B1","repetition_id":2,"configuration":"evaluation-harness/fixtures/p1-097-minimal-documented/system-configurations/b1-b.json","pair":"B1"},
+    {"case_id":"B2_A","adapter_id":"B2","repetition_id":1,"configuration":"evaluation-harness/fixtures/p1-097-minimal-documented/system-configurations/b2-a.json","pair":"B2"},
+    {"case_id":"B2_B","adapter_id":"B2","repetition_id":2,"configuration":"evaluation-harness/fixtures/p1-097-minimal-documented/system-configurations/b2-b.json","pair":"B2"}
+  ],
+  "stable_projection_normalization": {
+    "remove_fields": ["run_id", "repetition_id", "started_at", "ended_at", "usage.latency_ms"],
+    "map_system_configuration_id_to": "PAIR_CONFIGURATION",
+    "retain_stochastic_differences": true,
+    "additional_normalization_forbidden": true
+  },
+  "requirements": {
+    "positive_runs": 6,
+    "distinct_run_roots": 6,
+    "distinct_system_configurations": 6,
+    "exact_stable_pairs": 3,
+    "b1_exact_rollback_receipts": 2,
+    "b2_real_repository_analysis_scan_children": 2,
+    "b0_source_mutations": 0,
+    "b2_source_mutations": 0,
+    "external_effects": {"network":false,"provider":false,"secret":false,"remote":false,"production":false,"public":false}
+  },
+  "claim_boundary": "SIX_PROVIDER_NEUTRAL_OFFLINE_DOCUMENTED_COMPATIBILITY_RUNS_ONLY"
+}
+

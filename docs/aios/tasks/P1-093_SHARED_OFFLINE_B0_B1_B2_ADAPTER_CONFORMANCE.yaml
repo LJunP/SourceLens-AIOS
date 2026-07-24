@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P1-093_SHARED_OFFLINE_B0_B1_B2_ADAPTER_CONFORMANCE
 phase: P1
 route_id: P1_SINGLE_AUTHORITY_COMPATIBILITY_CONVERGENCE_THEN_SHARED_ADAPTER_AND_TRACE_ENGINEERING_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_FINAL_QUALITY_TARGET_NON_PASS
 objective: >-
   Build and independently verify one fresh cooperative-local offline compatibility
   layer in which distinct B0 Direct Model, B1 Simple Tool Agent, and B2 Current
@@ -309,3 +309,44 @@ claim_boundary: >-
   This proves neither model performance, baseline benchmark results, VTSR,
   complete P1, P2/P3 readiness, production/public safety, nor hostile-principal
   isolation.
+
+terminal_disposition:
+  recorded_at_utc: "2026-07-24T04:40:54Z"
+  status: TERMINAL_FINAL_QUALITY_TARGET_NON_PASS
+  controlling_review:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-093-shared-offline-adapters-0u7VQtQR/reviews/QUALITY_FINAL_REVIEW.json
+    sha256: 9f10476adc9a9021b914cd3e49eeeb6188c0b44357a2775e48bab23536b4b9dc
+    byte_length: 5228
+    target_verdict: NON_PASS
+  blocking_finding:
+    finding_id: QUALITY-P1-093-001
+    normalized_root_cause: P1093.PHYSICAL_INVENTORY.POSTHOC_SELF_DERIVED_ALLOWLIST_FALSE_ACCEPT
+    summary: >-
+      The candidate derives each runtime allowlist after execution from the
+      same physical inventory later compared by the verifier, so an unexpected
+      pre-manifest file can be absorbed into the declaration and false-accepted.
+  rejected_candidate:
+    commit: 802f23d6d98face797cf5aa27a7b18746fbf5b72
+    tree: 3f79f5e5ab41a42de6fdce79046188fa3630cf2b
+    manifest_sha256: 0488924d622f662f45129891027a44abc5ac7dc01a65058ed64427801d66a7ba
+    evidence_tag: evidence/p1-093-candidate-802f23d
+    integrated: false
+    engineering_asset_reuse_allowed: false
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-093-shared-offline-adapters-0u7VQtQR/terminal/P1_093_TERMINAL_RECEIPT.json
+    sha256: 2e3b8d5cc784221bb272551fdbd5002502e898101c547c649f28186a7b50b91f
+    byte_length: 4621
+  accounting:
+    implementation_iterations_used: 2
+    code_only_repairs_used: 1
+    candidates_used: 1
+    final_review_cycles_used: 1
+    candidate_integrated: false
+    canonical_make_verify: NOT_INVOKED_FINAL_REVIEW_NON_PASS
+    capability_credit: 0
+    strict_p1_completion: 4_OF_8_50_PERCENT
+    p1_094_entry: INELIGIBLE_ROUTE_STOPPED
+  anti_loop:
+    correction_repair_successor_replacement_rereview_allowed: false
+    route_status: TERMINAL_STOPPED_TASK_2_FINAL_QUALITY_NON_PASS
+    next_decision_point: FOUNDER_P1_PHASE_GATE

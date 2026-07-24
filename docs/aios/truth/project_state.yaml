@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-24T03:11:22Z"
-verification_scope: P1_SINGLE_AUTHORITY_COMPATIBILITY_CONVERGENCE_ROUTE_AUTHORIZED_READY
+last_verified_at: "2026-07-24T03:39:19Z"
+verification_scope: P1_092_TASK_GATE_ACCEPTED_P1_093_ELIGIBLE
 
 authority:
   founder: Human Founder
@@ -43,10 +43,11 @@ goal:
     Founder-installed identity. P1-086 and P1-089 remain terminal with no
     capability credit and their failed engineering assets remain excluded.
     P1-090 remains terminal before Quality freeze or Worker source mutation.
-    The Founder has authorized one narrow single-authority compatibility Task
-    followed by fresh shared offline adapter and observable-trace engineering.
-    Current Task is NONE, P1-092 is eligible, and strict P1 completion remains
-    4/8 (50%).
+    P1-092 converged the P1 safety entry on the main authority validator,
+    received three exact-candidate PASS reviews, integrated the reviewed tree
+    exactly and passed the single canonical full verification. It earns no
+    capability credit. Current Task is NONE, P1-093 is eligible, and strict P1
+    completion remains 4/8 (50%).
 
 project:
   name: SourceLens AIOS
@@ -56,10 +57,10 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  phase_execution_status: AUTHORIZED_READY
-  p1_execution_status: AUTHORIZED_READY
-  p1_engineering_status: P1_092_AUTHORIZED_READY
-  current_route_execution_status: AUTHORIZED_READY_TASK_1_ELIGIBLE
+  phase_execution_status: ACTIVE
+  p1_execution_status: ACTIVE
+  p1_engineering_status: P1_092_ACCEPTED_P1_093_ELIGIBLE
+  current_route_execution_status: ACTIVE_TASK_1_ACCEPTED_TASK_2_ELIGIBLE
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -1048,11 +1049,11 @@ historical_formal_phase_route_terminal:
   next_eligible_action: FOUNDER_P1_PHASE_GATE_DECISION_AFTER_P1_079_TERMINAL
 current_phase_route:
   route_id: P1_SINGLE_AUTHORITY_COMPATIBILITY_CONVERGENCE_THEN_SHARED_ADAPTER_AND_TRACE_ENGINEERING_ROUTE_V1
-  status: AUTHORIZED_READY
+  status: ACTIVE
   authority_object_status: FOUNDER_PHASE_GATE_AUTHORITY_CONSUMED_ACTIVE
-  execution_status: AUTHORIZED_READY_TASK_1_ELIGIBLE
+  execution_status: ACTIVE_TASK_1_ACCEPTED_TASK_2_ELIGIBLE
   founder_phase_route_decision_required: false
-  scheduling_status: TASK_1_ELIGIBLE_NOT_ACTIVATED
+  scheduling_status: TASK_2_ELIGIBLE_NOT_ACTIVATED
   phase: P1
   phase_entry_status: AUTHORIZED
   authorization_token: AUTHORIZE_P1_SINGLE_AUTHORITY_COMPATIBILITY_CONVERGENCE_THEN_SHARED_ADAPTER_AND_TRACE_ENGINEERING_ROUTE_V1
@@ -1086,7 +1087,7 @@ current_phase_route:
     version: "1.1"
     changed: false
     strict_status_at_activation: 4_COMPLETE_0_PARTIAL_4_NOT_COMPLETE_50_PERCENT
-    status: UNCHANGED_STRICT_50_PERCENT_ROUTE_AUTHORIZED_READY
+    status: UNCHANGED_STRICT_50_PERCENT_TASK_1_ACCEPTED_TASK_2_ELIGIBLE
   envelope:
     max_engineering_tasks: 3
     max_engineering_hours: 44
@@ -1197,14 +1198,14 @@ current_phase_route:
     - task_slot: 1
       task_id: AIOS-P1-092_SINGLE_AUTHORITY_CONTRACT_COMPATIBILITY_CONVERGENCE
       component: SINGLE_AUTHORITY_CONTRACT_COMPATIBILITY
-      status: ELIGIBLE_NOT_ACTIVATED
+      status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
       engineering_hours: 4
       calendar_days: 2
       strict_p1_credit_on_pass: 0
     - task_slot: 2
       task_id: AIOS-P1-093_SHARED_OFFLINE_B0_B1_B2_ADAPTER_CONFORMANCE
       component: B0_B1_B2_COMPATIBILITY_ADAPTERS
-      status: INELIGIBLE_TASK_1_NOT_ACCEPTED
+      status: ELIGIBLE_NOT_ACTIVATED
       engineering_hours: 22
       calendar_days: 7
       strict_p1_credit_on_pass: 1
@@ -1218,7 +1219,7 @@ current_phase_route:
   first_task:
     task_id: AIOS-P1-092_SINGLE_AUTHORITY_CONTRACT_COMPATIBILITY_CONVERGENCE
     task_slot: 1
-    status: ELIGIBLE_NOT_ACTIVATED
+    status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
     contract_path: docs/aios/tasks/P1-092_SINGLE_AUTHORITY_CONTRACT_COMPATIBILITY_CONVERGENCE.yaml
     max_engineering_hours: 4
     max_calendar_days: 2
@@ -1232,21 +1233,43 @@ current_phase_route:
     capability_projection_on_pass: []
     strict_progress_projection_on_pass: UNCHANGED_4_COMPLETE_0_PARTIAL_4_NOT_COMPLETE_50_PERCENT
     claim_boundary: P1_SINGLE_AUTHORITY_CONTRACT_COMPATIBILITY_CONVERGENCE_ONLY_NO_P1_CAPABILITY_PROGRESS_P2_P3_PRODUCTION_PUBLIC_OR_HOSTILE_PRINCIPAL_CLAIM
-    implementation_iterations_used: 0
-    code_only_repairs_used: 0
-    candidates_used: 0
+    implementation_iterations_used: 2
+    code_only_repairs_used: 1
+    candidates_used: 1
+    reviewed_candidate_commit: d7063c4d5098c50e86ecd8507c63fac316026229
+    reviewed_candidate_tree: dcbbed8429b9d1db3ea9f7f5cdb28c27e34fa0e9
+    integration_commit: 93c3563270316e9e92a58f084f6d28ab12063704
+    integration_tree: dcbbed8429b9d1db3ea9f7f5cdb28c27e34fa0e9
+    reviewed_tree_equals_integrated_tree: true
+    canonical_make_verify: PASS
+    canonical_make_verify_invocations: 1
+    capability_credit: 0
+  active_task:
+    task_id: AIOS-P1-093_SHARED_OFFLINE_B0_B1_B2_ADAPTER_CONFORMANCE
+    task_slot: 2
+    status: ELIGIBLE_NOT_ACTIVATED
+    max_engineering_hours: 22
+    max_calendar_days: 7
+    max_implementation_iterations: 2
+    max_candidates: 1
+    capability_projection_on_pass:
+      - B0_B1_B2_COMPATIBILITY_ADAPTERS
+    strict_progress_projection_on_pass: 5_COMPLETE_0_PARTIAL_3_NOT_COMPLETE_62_5_PERCENT
+    claim_boundary: SHARED_OFFLINE_B0_B1_B2_ADAPTER_CONFORMANCE_ONLY_NO_MODEL_PERFORMANCE_BASELINE_VTSR_COMPLETE_P1_P2_P3_PRODUCTION_PUBLIC_OR_HOSTILE_PRINCIPAL_CLAIM
   route_execution_accounting:
     maximum_engineering_tasks: 3
-    task_slots_consumed: 0
+    task_slots_consumed: 1
     active_task_id: NONE
-    scheduled_task_ids: []
+    scheduled_task_ids:
+      - AIOS-P1-092_SINGLE_AUTHORITY_CONTRACT_COMPATIBILITY_CONVERGENCE
     terminal_task_ids: []
-    accepted_task_ids: []
+    accepted_task_ids:
+      - AIOS-P1-092_SINGLE_AUTHORITY_CONTRACT_COMPATIBILITY_CONVERGENCE
     maximum_engineering_hours: 44
     engineering_hours_authorized_current_task: 0
-    status: READY_TASK_1_ELIGIBLE
+    status: TASK_1_ACCEPTED_TASK_2_ELIGIBLE
   claim_boundary: SINGLE_AUTHORITY_CONVERGENCE_THEN_CLEAN_ROOM_SHARED_OFFLINE_B0_B1_B2_AND_ACCEPTED_OBSERVABLE_TRACE_ROUTE_ONLY_NO_MODEL_PERFORMANCE_VTSR_COMPLETE_P1_P2_P3_PRODUCTION_PUBLIC_OR_HOSTILE_PRINCIPAL_CLAIM
-  next_eligible_action: MASTER_ACTIVATE_FIRST_TASK
+  next_eligible_action: MASTER_ACTIVATE_P1_093
 
 phase_delegation:
   status: ACTIVE
@@ -2244,7 +2267,7 @@ active_work:
   authorization_id: null
   activation_parent_commit: null
   activation_parent_tree: null
-  task_resource_state: NOT_CREATED_ROUTE_READY
+  task_resource_state: NONE_PHASE_ACTIVE
   task_branch: null
   task_worktree: null
   execution_evidence_root: null
@@ -2274,7 +2297,14 @@ active_work:
   user_action_required: NONE
   phase_route_decision_required: false
   phase_route_user_action_required: NONE
-  next_eligible_action: MASTER_ACTIVATE_FIRST_TASK
+  next_eligible_action: MASTER_ACTIVATE_P1_093
+  last_accepted_task:
+    task_id: AIOS-P1-092_SINGLE_AUTHORITY_CONTRACT_COMPATIBILITY_CONVERGENCE
+    status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+    integration_commit: 93c3563270316e9e92a58f084f6d28ab12063704
+    integration_tree: dcbbed8429b9d1db3ea9f7f5cdb28c27e34fa0e9
+    integration_receipt_sha256: af0a26753ff9e20fe651d52d846f993cc755367b9b5b1cab237aa0540fe2bfd7
+    capability_credit: 0
   last_terminal_task:
     task_id: AIOS-P1-090_SHARED_OFFLINE_B0_B1_B2_ADAPTER_CONFORMANCE
     status: TERMINAL_PREWORKER_SAFETY_BOUNDARY_NON_PASS
@@ -2298,6 +2328,43 @@ superseded_pre_delegation_authorizations:
     note: The engineering objective may be selected independently by Master, but these pre-delegation bytes require a routine per-Task Founder Gate and cannot be activated under the current authority model.
 
 task_history:
+  aios_p1_092:
+    task_id: AIOS-P1-092_SINGLE_AUTHORITY_CONTRACT_COMPATIBILITY_CONVERGENCE
+    route_id: P1_SINGLE_AUTHORITY_COMPATIBILITY_CONVERGENCE_THEN_SHARED_ADAPTER_AND_TRACE_ENGINEERING_ROUTE_V1
+    status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+    classification: SINGLE_AUTHORITY_CONTRACT_COMPATIBILITY_CONVERGENCE_ACCEPTED
+    contract: docs/aios/tasks/P1-092_SINGLE_AUTHORITY_CONTRACT_COMPATIBILITY_CONVERGENCE.yaml
+    task_contract_sha256: 59c64d01f4d179a50b6a7e4a906990da61fec5bfc54480da070f578558f9508c
+    task_contract_byte_length: 7191
+    authority_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-092-single-authority-jkpmPj9K/authority/PHASE_DELEGATED_TASK_AUTHORITY.yaml
+    authority_record_sha256: ff5fbd978663989bcc01dbfe00392236a96e4b98ae1a072c0b0fc04352e341bb
+    authority_record_byte_length: 2495
+    activation_commit: b6a198efa80e638fa68786071d0bdc65d6b9ea93
+    implementation_iterations_used: 2
+    code_only_repairs_used: 1
+    final_review_cycles_used: 1
+    reviewed_candidate_commit: d7063c4d5098c50e86ecd8507c63fac316026229
+    reviewed_candidate_tree: dcbbed8429b9d1db3ea9f7f5cdb28c27e34fa0e9
+    candidate_manifest_sha256: 45fe2d6aeabba4e97dcbdd2624be42c1c4a16ec8f3436de5df7b76b36daeaf72
+    evidence_tag: evidence/p1-092-candidate-d7063c4
+    cto_final_review_result: PASS
+    cto_final_review_sha256: e5f20798141b76f25bcb8597752e0ede04f22a53a7f9c936289cde397e662ac1
+    security_final_review_result: PASS
+    security_final_review_sha256: e9f8ce28a4143c4742693bf79f4bd79507d9549b94cf0554738a6d65dd266e6f
+    quality_final_review_result: PASS
+    quality_final_review_sha256: 557bd280b7abb6940e51494e30a6a52f61a82b76437fb41336c624689dee8821
+    accepted_candidate_commit: 93c3563270316e9e92a58f084f6d28ab12063704
+    accepted_candidate_tree: dcbbed8429b9d1db3ea9f7f5cdb28c27e34fa0e9
+    integration_tree_equal_to_reviewed_tree: true
+    canonical_full_make_verify: PASS
+    canonical_full_make_verify_invocations: 1
+    integration_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-092-single-authority-jkpmPj9K/integration/INTEGRATION_RECEIPT.json
+    integration_receipt_sha256: af0a26753ff9e20fe651d52d846f993cc755367b9b5b1cab237aa0540fe2bfd7
+    integration_receipt_byte_length: 1923
+    accepted_capabilities: []
+    capability_credit: 0
+    strict_p1_completion_after_task: 4_COMPLETE_0_PARTIAL_4_NOT_COMPLETE_50_PERCENT
+    claim_boundary: SINGLE_AUTHORITY_CONTRACT_COMPATIBILITY_CONVERGENCE_ONLY_NO_P1_CAPABILITY_PROGRESS_MODEL_PERFORMANCE_BASELINE_VTSR_COMPLETE_P1_P2_P3_PRODUCTION_PUBLIC_OR_HOSTILE_PRINCIPAL_CLAIM
   aios_p1_090:
     task_id: AIOS-P1-090_SHARED_OFFLINE_B0_B1_B2_ADAPTER_CONFORMANCE
     route_id: P1_SHARED_OFFLINE_EXECUTION_ADAPTER_AND_TRACE_ENGINEERING_ROUTE_V1

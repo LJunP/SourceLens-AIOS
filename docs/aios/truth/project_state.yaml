@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-24T12:38:00Z"
-verification_scope: P1_106_DATASET_PARAMETERIZED_PROFILE_RUNTIME_ACTIVE_STRICT_75_PERCENT
+last_verified_at: "2026-07-24T12:56:39Z"
+verification_scope: P1_106_TERMINAL_FINAL_QUALITY_TARGET_NON_PASS_STRICT_75_PERCENT
 
 authority:
   founder: Human Founder
@@ -37,7 +37,7 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: AIOS-P1-106_DATASET_PARAMETERIZED_B0_B1_B2_PROFILE_RUNTIME
+  current_task_authority: NONE
   note: >-
     The Founder-approved long-term Goal remains ACTIVE with the exact
     Founder-installed identity. P1-099 remains terminal with its Quality
@@ -55,11 +55,15 @@ goal:
     requests, but the accepted B1/B2 adapters proved bound only to REP-001 and
     could not support ten required task/profile pairs. P1-104 stopped before
     the Provider matrix and accepted no capability. The Founder has now
-    authorized a new three-Task continuous route. P1-106 is ACTIVE to build
-    the missing dataset-parameterized offline B0/B1/B2 runtime without
+    authorized a new three-Task continuous route. P1-106 built and froze one
+    exact dataset-parameterized offline B0/B1/B2 runtime candidate without
     modifying accepted adapters or reading failed P1-102/P1-104 engineering
-    assets. Strict P1 completion remains 6/8 (75%) until a later capability
-    Gate is actually accepted.
+    assets. Its fresh Quality final review returned TARGET_VERDICT NON_PASS
+    because B2 fresh-run stable projections drifted, six external-effect
+    fields were self-attested rather than independently observed, and raw
+    per-case negative Evidence was not retained. The candidate was not
+    integrated, canonical make verify was not invoked, P1-107/P1-108 did not
+    activate, and strict P1 completion remains 6/8 (75%).
 
 project:
   name: SourceLens AIOS
@@ -71,8 +75,8 @@ project:
   p1_entry_status: AUTHORIZED
   phase_execution_status: ACTIVE
   p1_execution_status: ACTIVE
-  p1_engineering_status: P1_106_DATASET_PARAMETERIZED_PROFILE_RUNTIME_ACTIVE
-  current_route_execution_status: TASK_1_ACTIVE
+  p1_engineering_status: P1_106_TERMINAL_FINAL_QUALITY_TARGET_NON_PASS
+  current_route_execution_status: TERMINAL_TASK_1_FINAL_QUALITY_NON_PASS
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -1593,10 +1597,10 @@ historical_p1_097_phase_route:
 current_phase_route:
   route_id: P1_DATASET_PARAMETERIZED_PROFILE_RUNTIME_AND_REMAINING_EXIT_GATE_CONTINUOUS_ROUTE_V1
   status: ACTIVE
-  authority_object_status: FOUNDER_PHASE_GATE_AUTHORITY_CONSUMED_ACTIVE
-  execution_status: TASK_1_ACTIVE
-  founder_phase_route_decision_required: false
-  scheduling_status: CURRENT_TASK_ACTIVE
+  authority_object_status: FOUNDER_PHASE_GATE_AUTHORITY_CONSUMED_TERMINAL
+  execution_status: TERMINAL_TASK_1_FINAL_QUALITY_NON_PASS
+  founder_phase_route_decision_required: true
+  scheduling_status: NO_ELIGIBLE_TASK_ROUTE_TERMINAL
   phase: P1
   phase_entry_status: AUTHORIZED
   authorization_token: AUTHORIZE_P1_DATASET_PARAMETERIZED_PROFILE_RUNTIME_AND_REMAINING_EXIT_GATE_CONTINUOUS_ROUTE_V1
@@ -1632,7 +1636,7 @@ current_phase_route:
     version: "1.1"
     changed: false
     strict_status_at_activation: 6_COMPLETE_0_PARTIAL_2_NOT_COMPLETE_75_PERCENT
-    status: SIX_OF_EIGHT_ACCEPTED_P1_106_RUNTIME_PREREQUISITE_ACTIVE
+    status: UNCHANGED_SIX_OF_EIGHT_P1_106_TERMINAL_NO_NEW_CAPABILITY
   envelope:
     max_engineering_tasks: 3
     max_engineering_hours: 44
@@ -1837,31 +1841,31 @@ current_phase_route:
     - task_slot: 1
       task_id: AIOS-P1-106_DATASET_PARAMETERIZED_B0_B1_B2_PROFILE_RUNTIME
       component: DATASET_PARAMETERIZED_B0_B1_B2_PROFILE_RUNTIME
-      status: ACTIVE
+      status: TERMINAL_FINAL_QUALITY_TARGET_NON_PASS
       engineering_hours: 12
       calendar_days: 4
       strict_p1_credit_on_pass: 0
     - task_slot: 2
       task_id: AIOS-P1-107_DATASET_PARAMETERIZED_B0_B1_B2_EMPIRICAL_BASELINE
       component: REPRODUCIBLE_BASELINE_REPORT
-      status: ELIGIBLE_AFTER_TASK_1_GATE_PASS
+      status: INELIGIBLE_ROUTE_STOPPED
       engineering_hours: 28
       calendar_days: 8
       strict_p1_credit_on_pass: 1
     - task_slot: 3
       task_id: AIOS-P1-108_FIRST_P2_CONTEXT_EXPERIMENT_PREREGISTRATION
       component: FIRST_P2_CONTEXT_ENGINE_EXPERIMENT_PREREGISTRATION
-      status: ELIGIBLE_AFTER_TASK_2_GATE_PASS
+      status: INELIGIBLE_ROUTE_STOPPED
       engineering_hours: 4
       calendar_days: 2
       strict_p1_credit_on_pass: 1
   first_task:
     task_id: AIOS-P1-106_DATASET_PARAMETERIZED_B0_B1_B2_PROFILE_RUNTIME
     task_slot: 1
-    status: ACTIVE
+    status: TERMINAL_FINAL_QUALITY_TARGET_NON_PASS
     contract_path: docs/aios/tasks/P1-106_DATASET_PARAMETERIZED_B0_B1_B2_PROFILE_RUNTIME.yaml
-    contract_sha256: 9f45255a52da0630e7a9fa75a58efb5a5e7ef2b5524a3e5cfa2f0eb96476bcd2
-    contract_byte_length: 11933
+    contract_sha256: 4f38b545ccecf623ee9c1ec11f8b44cc057d1b607e6e6d7f17bfaed227036c38
+    contract_byte_length: 13574
     max_engineering_hours: 12
     max_calendar_days: 4
     max_implementation_iterations: 2
@@ -1872,10 +1876,32 @@ current_phase_route:
     capability_projection_on_pass: []
     strict_progress_projection_on_pass: 6_COMPLETE_0_PARTIAL_2_NOT_COMPLETE_75_PERCENT
     claim_boundary: DATASET_PARAMETERIZED_COOPERATIVE_LOCAL_OFFLINE_B0_B1_B2_RUNTIME_ONLY
+    implementation_iterations_used: 2
+    code_only_repairs_used: 1
+    candidates_used: 1
+    final_review_cycles_used: 1
+    candidate_commit: 4930896044019114d150ae2041bf9dcd2d059c2e
+    candidate_tree: 021cb212e6564fd148994ccddc15464f80aada49
+    candidate_manifest_sha256: 87b6137ea1895dc009a4edb2c7d7f75730779d7e1980a1faf14a11defd339c72
+    evidence_tag: evidence/p1-106-candidate-4930896-20260724
+    quality_final_target_verdict: NON_PASS
+    quality_final_review_sha256: d18c98515688c59c4fc746969016a0852b054df0cd9e338d759dee1d894b5155
+    blocking_finding_ids:
+      - P1-106-QF-001
+      - P1-106-QF-002
+      - P1-106-QF-003
+    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-106-dataset-parameterized-profile-runtime-20260724/terminal/P1_106_TERMINAL_RECEIPT.json
+    terminal_receipt_sha256: 2aca31dbee5c49d61e98b7584a75bc2ffe900f18e2d70a93ff1d9d987fa17877
+    terminal_receipt_byte_length: 5445
+    candidate_integrated: false
+    canonical_make_verify: NOT_INVOKED_FINAL_REVIEW_NON_PASS
+    canonical_make_verify_invocations: 0
+    accepted_capability_created: false
+    capability_credit: 0
   projected_second_task:
     task_id: AIOS-P1-107_DATASET_PARAMETERIZED_B0_B1_B2_EMPIRICAL_BASELINE
     task_slot: 2
-    status: ELIGIBLE_AFTER_TASK_1_GATE_PASS
+    status: INELIGIBLE_ROUTE_STOPPED
     max_engineering_hours: 28
     max_calendar_days: 8
     max_implementation_iterations: 2
@@ -1887,7 +1913,7 @@ current_phase_route:
   projected_third_task:
     task_id: AIOS-P1-108_FIRST_P2_CONTEXT_EXPERIMENT_PREREGISTRATION
     task_slot: 3
-    status: ELIGIBLE_AFTER_TASK_2_GATE_PASS
+    status: INELIGIBLE_ROUTE_STOPPED
     max_engineering_hours: 4
     max_calendar_days: 2
     max_implementation_iterations: 2
@@ -1899,19 +1925,20 @@ current_phase_route:
   route_execution_accounting:
     maximum_engineering_tasks: 3
     task_slots_consumed: 1
-    active_task_id: AIOS-P1-106_DATASET_PARAMETERIZED_B0_B1_B2_PROFILE_RUNTIME
+    active_task_id: NONE
     scheduled_task_ids:
       - AIOS-P1-106_DATASET_PARAMETERIZED_B0_B1_B2_PROFILE_RUNTIME
-    terminal_task_ids: []
+    terminal_task_ids:
+      - AIOS-P1-106_DATASET_PARAMETERIZED_B0_B1_B2_PROFILE_RUNTIME
     accepted_task_ids: []
     maximum_engineering_hours: 44
-    engineering_hours_authorized_current_task: 12
-    status: TASK_1_ACTIVE
+    engineering_hours_authorized_current_task: 0
+    status: TERMINAL_1_OF_3_TASKS_TASK_1_NON_PASS_TASKS_2_AND_3_INELIGIBLE
   claim_boundary: DATASET_PARAMETERIZED_PROFILE_RUNTIME_THEN_BOUNDED_EMPIRICAL_BASELINE_THEN_OFFLINE_P2_PREREGISTRATION_ONLY_NO_P2_EXECUTION_P3_PRODUCTION_PUBLIC_REMOTE_OR_HOSTILE_PRINCIPAL_CLAIM
-  next_eligible_action: EXECUTE_P1_106_WITHOUT_FOUNDER_ACTION
+  next_eligible_action: FOUNDER_P1_PHASE_GATE
 
 phase_delegation:
-  status: ACTIVE_PHASE_ROUTE_EXECUTION
+  status: ACTIVE_PHASE_AWAITING_FOUNDER_GATE
   model: PHASE_LEVEL_FOUNDER_DELEGATION
   decision_source: FOUNDER_DIRECTIVES_IN_CODEX_THREAD_2026_07_16_AND_2026_07_17
   phase_gate_owner: HUMAN_FOUNDER
@@ -2126,7 +2153,7 @@ mandatory_exit_capability_recovery:
     B0_B1_B2_COMPATIBILITY_ADAPTERS: ACCEPTED_FOUNDER_EXACT_RESIDUAL_INTEGRATION_P1_099
     OBSERVABLE_TRACE: ACCEPTED_P1_101_COOPERATIVE_LOCAL
     EVALUATOR_DISAGREEMENT_AND_FALSE_SUCCESS_CHARACTERIZATION: ACCEPTED_P1_070_COOPERATIVE_LOCAL
-    REPRODUCIBLE_BASELINE_REPORT: MISSING_P1_104_TERMINAL_OFFLINE_PREFLIGHT_ADAPTER_TASK_MATRIX_INCOMPATIBLE_NON_PASS
+    REPRODUCIBLE_BASELINE_REPORT: MISSING_P1_106_RUNTIME_PREREQUISITE_TERMINAL_FINAL_QUALITY_TARGET_NON_PASS
   capability_attempt_ledger:
     VERSIONED_REPRESENTATIVE_TASK_DATASET:
       status: ACCEPTED
@@ -2924,54 +2951,40 @@ historical_active_work_after_p1_079:
   user_action_required: NONE
   phase_route_decision_required: false
   phase_route_user_action_required: NONE
-  next_eligible_action: EXECUTE_P1_106_WITHOUT_FOUNDER_ACTION
+  next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
-  current_task: AIOS-P1-106_DATASET_PARAMETERIZED_B0_B1_B2_PROFILE_RUNTIME
-  current_task_status: ACTIVE
+  current_task: NONE
+  current_task_status: NONE
   current_task_contract:
-    path: docs/aios/tasks/P1-106_DATASET_PARAMETERIZED_B0_B1_B2_PROFILE_RUNTIME.yaml
-    sha256: 9f45255a52da0630e7a9fa75a58efb5a5e7ef2b5524a3e5cfa2f0eb96476bcd2
-    byte_length: 11933
-  current_task_contract_sha256: 9f45255a52da0630e7a9fa75a58efb5a5e7ef2b5524a3e5cfa2f0eb96476bcd2
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-106-dataset-parameterized-profile-runtime-20260724/authority/PHASE_DELEGATED_TASK_AUTHORITY.yaml
-  current_execution_authorization_sha256: a62b1980cd263a8df7b0c38aac77130cdd5e2b9eee945159279f11aec63ae07e
+    path: null
+    sha256: null
+    byte_length: null
+  current_task_contract_sha256: null
+  current_execution_authorization: null
+  current_execution_authorization_sha256: null
   authority_record:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-106-dataset-parameterized-profile-runtime-20260724/authority/PHASE_DELEGATED_TASK_AUTHORITY.yaml
-    sha256: a62b1980cd263a8df7b0c38aac77130cdd5e2b9eee945159279f11aec63ae07e
-    byte_length: 3128
-  execution_nonce: 583c33d63b1738f171ce4c11d0cb913e99c787ce49b07243
-  execution_nonce_status: ACTIVE
-  authorization_id: P1-106-PHASE-DELEGATED-20260724-01
-  activation_parent_commit: 9f08530fa1749bc1ea4eebea006e000bbc1c9545
-  activation_parent_tree: b9e71dd0a5690737bad186632ab41d51bc2685da
-  task_resource_state: CREATED_ACTIVE
-  task_branch: codex/p1-106-dataset-parameterized-profile-runtime
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-106-dataset-parameterized-profile-runtime
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-106-dataset-parameterized-profile-runtime-20260724
-  allowlisted_paths:
-    - evaluation-harness/environment/p1-106-dataset-profile-runtime
-    - evaluation-harness/harness/p1-106-dataset-profile-runtime
-    - evaluation-harness/recording/p1-106-dataset-profile-runtime
-    - evaluation-harness/replay/p1-106-dataset-profile-runtime
-    - evaluation-harness/evaluator/p1-106-dataset-profile-runtime
-    - evaluation-harness/fixtures/p1-106-dataset-profile-runtime
-    - scripts/verify-p1-106-dataset-profile-runtime.sh
-    - docs/aios/tasks/P1-106_DATASET_PARAMETERIZED_B0_B1_B2_PROFILE_RUNTIME.yaml
-    - docs/aios/truth/project_state.yaml
-    - docs/PROJECT_CODE_MAP.md
-    - Makefile
+    path: null
+    sha256: null
+    byte_length: null
+  execution_nonce: null
+  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
+  authorization_id: null
+  activation_parent_commit: null
+  activation_parent_tree: null
+  task_resource_state: NONE_PHASE_ACTIVE
+  task_branch: null
+  task_worktree: null
+  execution_evidence_root: null
+  allowlisted_paths: []
   budget:
-    engineering_hours: 12
-    calendar_days: 4
-    implementation_iterations: 2
-    candidates: 1
+    engineering_hours: null
+    calendar_days: null
+    implementation_iterations: null
+    candidates: null
   roles:
-    owner: P1-106 Profile Runtime Engineering Manager
-    worker: P1-106 Dataset Runtime Worker
-    independent_reviewers:
-      - P1-106 Fresh CTO Reviewer
-      - P1-106 Fresh Security Reviewer
-      - P1-106 Fresh Quality Reviewer
+    owner: null
+    worker: null
+    independent_reviewers: []
   external_effects:
     network: false
     provider: false
@@ -2980,15 +2993,15 @@ active_work:
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-106-dataset-parameterized-profile-runtime-20260724/FOUNDER_P1_DATASET_PARAMETERIZED_PROFILE_RUNTIME_AND_REMAINING_EXIT_GATE_CONTINUOUS_ROUTE_V1.md
-  founder_reserved_authorization_sha256: 8836913c54007d6e090143f2cf77cd55923c6b12f4de9d747d9583e5d46c0690
+  founder_reserved_authorization: null
+  founder_reserved_authorization_sha256: null
   founder_decision_required: false
-  founder_decision_required_scope: NONE_WITHIN_ACTIVE_PHASE_ENVELOPE
+  founder_decision_required_scope: ROUTE_TERMINAL_PHASE_GATE_IS_FOUNDER_RESERVED
   escalation_reason: null
   user_action_required: NONE
-  phase_route_decision_required: false
-  phase_route_user_action_required: NONE
-  next_eligible_action: EXECUTE_P1_106_WITHOUT_FOUNDER_ACTION
+  phase_route_decision_required: true
+  phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
+  next_eligible_action: FOUNDER_P1_PHASE_GATE
   last_accepted_task:
     task_id: AIOS-P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE
     status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
@@ -2997,13 +3010,13 @@ active_work:
     integration_receipt_sha256: 962d6978bbc2d5b7b7b6065f502075587caf5c5d996582361eb7ea823d48a539
     capability_credit: 1
   last_terminal_task:
-    task_id: AIOS-P1-104_PREFLIGHT_FIRST_CLEAN_ROOM_EMPIRICAL_B0_B1_B2_BASELINE
-    status: TERMINAL_OFFLINE_PREFLIGHT_ACCEPTED_ADAPTER_TASK_MATRIX_INCOMPATIBLE_NON_PASS
-    terminal_contract_sha256: 579feebfe52e517902dd639c3a381427b95f880890c68a0f6c34db2d0a63dd63
-    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-104-preflight-first-clean-room-baseline-20260724/terminal/P1_104_TERMINAL_RECEIPT.json
-    terminal_receipt_sha256: 002ee7b60e0ff99886f693297109e7da0afdea68186e342f7e301a8ff0fbf157
-    candidate_count: 0
-    final_review_cycles: 0
+    task_id: AIOS-P1-106_DATASET_PARAMETERIZED_B0_B1_B2_PROFILE_RUNTIME
+    status: TERMINAL_FINAL_QUALITY_TARGET_NON_PASS
+    terminal_contract_sha256: 4f38b545ccecf623ee9c1ec11f8b44cc057d1b607e6e6d7f17bfaed227036c38
+    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-106-dataset-parameterized-profile-runtime-20260724/terminal/P1_106_TERMINAL_RECEIPT.json
+    terminal_receipt_sha256: 2aca31dbee5c49d61e98b7584a75bc2ffe900f18e2d70a93ff1d9d987fa17877
+    candidate_count: 1
+    final_review_cycles: 1
     capability_credit: 0
 
 superseded_pre_delegation_authorizations:
@@ -3022,6 +3035,58 @@ superseded_pre_delegation_authorizations:
     note: The engineering objective may be selected independently by Master, but these pre-delegation bytes require a routine per-Task Founder Gate and cannot be activated under the current authority model.
 
 task_history:
+  aios_p1_106:
+    task_id: AIOS-P1-106_DATASET_PARAMETERIZED_B0_B1_B2_PROFILE_RUNTIME
+    route_id: P1_DATASET_PARAMETERIZED_PROFILE_RUNTIME_AND_REMAINING_EXIT_GATE_CONTINUOUS_ROUTE_V1
+    status: TERMINAL_FINAL_QUALITY_TARGET_NON_PASS
+    classification: REAL_DATASET_PARAMETERIZED_PROFILE_RUNTIME_ENGINEERING_REJECTED_BY_EXACT_CANDIDATE_QUALITY_REVIEW
+    contract: docs/aios/tasks/P1-106_DATASET_PARAMETERIZED_B0_B1_B2_PROFILE_RUNTIME.yaml
+    task_contract_sha256: 4f38b545ccecf623ee9c1ec11f8b44cc057d1b607e6e6d7f17bfaed227036c38
+    task_contract_byte_length: 13574
+    authority_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-106-dataset-parameterized-profile-runtime-20260724/authority/PHASE_DELEGATED_TASK_AUTHORITY.yaml
+    authority_record_sha256: a62b1980cd263a8df7b0c38aac77130cdd5e2b9eee945159279f11aec63ae07e
+    authority_record_byte_length: 3128
+    activation_commit: 89ee7d68ad21c94cee7b74c001b9c7ec6bc0b20a
+    activation_tree: 82bb38b762a4bd6a98317349d18021ab39793a7a
+    implementation_iterations_used: 2
+    code_only_repairs_used: 1
+    candidates_used: 1
+    final_review_cycles_used: 1
+    candidate_commit: 4930896044019114d150ae2041bf9dcd2d059c2e
+    candidate_tree: 021cb212e6564fd148994ccddc15464f80aada49
+    candidate_manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-106-dataset-parameterized-profile-runtime-20260724/candidate-4930896/EXACT_CANDIDATE_MANIFEST.json
+    candidate_manifest_sha256: 87b6137ea1895dc009a4edb2c7d7f75730779d7e1980a1faf14a11defd339c72
+    candidate_manifest_byte_length: 5321
+    evidence_tag: evidence/p1-106-candidate-4930896-20260724
+    formal_matrix_summary_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-106-dataset-parameterized-profile-runtime-20260724/evidence/formal-matrix-v1/P1_106_FORMAL_MATRIX_SUMMARY.json
+    formal_matrix_summary_sha256: c98f0d405fbda7f8a1b674232b767aafad4409bf5bfbef81e04f82f8ce2767c5
+    formal_reported_positive_runs_passed: 18
+    formal_reported_negative_cases_rejected: 21
+    formal_reported_false_accepts: 0
+    quality_final_target_verdict: NON_PASS
+    quality_final_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-106-dataset-parameterized-profile-runtime-20260724/candidate-4930896/reviews/QUALITY_FINAL_REVIEW.json
+    quality_final_review_sha256: d18c98515688c59c4fc746969016a0852b054df0cd9e338d759dee1d894b5155
+    quality_final_review_byte_length: 10815
+    cto_final_review: CANCELLED_AFTER_CONTROLLING_QUALITY_NON_PASS
+    security_final_review: CANCELLED_AFTER_CONTROLLING_QUALITY_NON_PASS
+    terminal_finding_ids:
+      - P1-106-QF-001
+      - P1-106-QF-002
+      - P1-106-QF-003
+    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-106-dataset-parameterized-profile-runtime-20260724/terminal/P1_106_TERMINAL_RECEIPT.json
+    terminal_receipt_sha256: 2aca31dbee5c49d61e98b7584a75bc2ffe900f18e2d70a93ff1d9d987fa17877
+    terminal_receipt_byte_length: 5445
+    candidate_integrated: false
+    canonical_make_verify: NOT_INVOKED_FINAL_REVIEW_NON_PASS
+    canonical_make_verify_invocations: 0
+    accepted_capability_created: false
+    capability_credit: 0
+    strict_p1_completion: 6_OF_8_75_PERCENT
+    p1_107_entry: INELIGIBLE_ROUTE_STOPPED
+    p1_108_entry: INELIGIBLE_ROUTE_STOPPED
+    engineering_asset_reuse_allowed: false
+    correction_repair_successor_replacement_or_rereview_allowed: false
+    claim_boundary: REJECTED_EXACT_DATASET_PARAMETERIZED_OFFLINE_B0_B1_B2_PROFILE_RUNTIME_CANDIDATE_AND_EVIDENCE_ONLY_NO_ACCEPTED_RUNTIME_BASELINE_P1_COMPLETION_P2_P3_PRODUCTION_PUBLIC_OR_INDEPENDENT_ZERO_EXTERNAL_EFFECT_CLAIM
   aios_p1_104:
     task_id: AIOS-P1-104_PREFLIGHT_FIRST_CLEAN_ROOM_EMPIRICAL_B0_B1_B2_BASELINE
     route_id: P1_PREFLIGHT_FIRST_CLEAN_ROOM_EMPIRICAL_BASELINE_AND_PREREGISTRATION_CONTINUOUS_ROUTE_V1

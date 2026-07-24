@@ -1673,7 +1673,7 @@ current_phase_route:
     - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-099-exact-nonowned-classification-recovery
       head: 5722bba04dbc00bdb75aabde8e6811ce8ae150e3
       branch: codex/p1-099-exact-nonowned-recovery
-      status: TERMINAL_FINAL_QUALITY_TARGET_NON_PASS_EVIDENCE_RETAINED_NOT_CURRENT
+      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
   accepted_inputs:
     p1_035:
       task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET

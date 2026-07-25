@@ -1845,6 +1845,10 @@ current_phase_route:
       head: 6d896952da683be83bc372e6ca1e5f72b8636bbf
       branch: codex/p1-109-hermetic-owned-baseline
       status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-111-atomic-baseline
+      head: b2e41b0f40e23b779a6a3d2405fff877cea2b19c
+      branch: codex/p1-111-atomic-baseline
+      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
   accepted_inputs:
     p1_035:
       task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET

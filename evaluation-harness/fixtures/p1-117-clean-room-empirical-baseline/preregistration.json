@@ -1,0 +1,244 @@
+{
+  "schema_version": "p1-117-preregistration/v1",
+  "record_type": "IMMUTABLE_EMPIRICAL_BASELINE_AND_P2_EXPERIMENT_PREREGISTRATION",
+  "status": "FROZEN_BEFORE_SECRET_OR_PROVIDER",
+  "frozen_at": "2026-07-25T11:43:00.551Z",
+  "task_id": "AIOS-P1-117_CLEAN_ROOM_36_RUN_EMPIRICAL_BASELINE_AND_P2_PREREGISTRATION",
+  "route_id": "P1_CLEAN_ROOM_CLOSED_PROFILE_SET_AND_IDENTITY_BOUND_ROLLBACK_THEN_BASELINE_ROUTE_V1",
+  "activation_identity": {
+    "commit": "761da9e8e7ea1f46cdaad48e7cbaa946c543d4dd",
+    "tree": "1dab5e375758d64cd5587029f727246111a8299f"
+  },
+  "goal_identity": {
+    "raw_sha256": "28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1",
+    "raw_byte_length": 19433,
+    "canonicalization": "UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF",
+    "canonical_sha256": "b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a",
+    "canonical_byte_length": 19434
+  },
+  "canonical_authorities": {
+    "truth": {
+      "path": "docs/aios/truth/project_state.yaml",
+      "sha256": "a476e4beab7006814057c537c47db62f4ea0c955ebd8d7119507051ec1ace800",
+      "byte_length": 455283
+    },
+    "task_contract": {
+      "path": "docs/aios/tasks/P1-117_CLEAN_ROOM_36_RUN_EMPIRICAL_BASELINE_AND_P2_PREREGISTRATION.yaml",
+      "sha256": "12887c57ad071c082802ace4d295dfe2147e4682e5d0f55881f7727706e01ba0",
+      "byte_length": 19396
+    },
+    "evaluation_protocol": {
+      "path": "docs/aios/EVALUATION_PROTOCOL.md",
+      "sha256": "da029143561fbb3c213d4a358b25e085542c6cd26ae8150a53cbb5998177eed8",
+      "byte_length": 10127
+    },
+    "baseline_adapter_contract": {
+      "path": "docs/aios/BASELINE_ADAPTER_CONTRACT.md",
+      "sha256": "27a213589699d96a5f41f4b0e293718257c6186720e55b74c3ee29dd9cf5c03c",
+      "byte_length": 5323
+    }
+  },
+  "external_authorities": {
+    "founder_route_packet": {
+      "path": "/Users/lijunpeng/Developer/.sourcelens-audit/p1-116-closed-profile-rollback-route-20260725/FOUNDER_P1_CLEAN_ROOM_CLOSED_PROFILE_SET_AND_IDENTITY_BOUND_ROLLBACK_THEN_BASELINE_ROUTE_V1.md",
+      "sha256": "36faf1f877d47b08355032b4e2ec07c6a4c805be5e51c841e414d8457b92a336",
+      "byte_length": 12026
+    },
+    "direct_entry_correction_packet": {
+      "path": "/Users/lijunpeng/Developer/.sourcelens-audit/p1-116-verifier-ledger-correction-20260725/FOUNDER_ONE_P1_116_VERIFIER_IDENTITY_LEDGER_SECURITY_CORRECTION_AND_DIRECT_P1_117_ENTRY_V1.md",
+      "sha256": "a2d2a6093c5a7c401ce5b8802e8e5ee111bfdfa006200a45410e4967465156ff",
+      "byte_length": 6698
+    },
+    "p1_116_correction_manifest": {
+      "path": "/Users/lijunpeng/Developer/.sourcelens-audit/p1-116-verifier-ledger-correction-20260725/CORRECTED_CANDIDATE_MANIFEST.yaml",
+      "sha256": "f418e28d2fa8426f5139eaf79e7688ccfd37bfb917afc38b3afd5fecf947becb",
+      "byte_length": 3371
+    },
+    "p1_116_cto_review": {
+      "path": "/Users/lijunpeng/Developer/.sourcelens-audit/p1-116-verifier-ledger-correction-20260725/reviews/CTO_FINAL_REVIEW.md",
+      "sha256": "961edb22f71dc15d121f3bf3e9676ba6b4b10635d2452462ce0176cb90390b94",
+      "byte_length": 9736
+    },
+    "p1_116_security_review": {
+      "path": "/Users/lijunpeng/Developer/.sourcelens-audit/p1-116-verifier-ledger-correction-20260725/reviews/SECURITY_FINAL_REVIEW.md",
+      "sha256": "71023b4a89b60d8e77ac2a04c9b0a24917bbfeaeac701529001bb34832792bed",
+      "byte_length": 10956
+    },
+    "p1_116_quality_review": {
+      "path": "/Users/lijunpeng/Developer/.sourcelens-audit/p1-116-verifier-ledger-correction-20260725/reviews/QUALITY_FINAL_REVIEW.md",
+      "sha256": "2c04b4227bf1edce3f1b190dd7f7dc28054e0aadb9b8521a4d3b9e64f010d998",
+      "byte_length": 7812
+    },
+    "p1_117_task_authority": {
+      "path": "/Users/lijunpeng/Developer/.sourcelens-audit/p1-116-closed-profile-rollback-route-20260725/task-2/PHASE_DELEGATED_TASK_AUTHORITY.yaml",
+      "sha256": "e7265bc4bff8cc2397e10738aa91af765903a8a6bbbde956bd53df9fd490bc8c",
+      "byte_length": 6274
+    }
+  },
+  "frozen_artifacts": {
+    "matrix_plan": {
+      "path": "evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/matrix-plan.json",
+      "sha256": "14a7a322626e3e067c40e334f2e20fa9ea0ef704e0a8ea65618bce14f42e49eb",
+      "byte_length": 84535
+    },
+    "safe_disclosures": {
+      "path": "evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/safe-disclosures.json",
+      "sha256": "7f37d431fb5178a21ce385585eab6b29bb0935882dd6e7429d7f135300216ae0",
+      "byte_length": 7587
+    },
+    "response_schema": {
+      "path": "evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/response-schema.json",
+      "sha256": "550ca74981e0e32b37fc02f434fdb0f9c53c0c5f54b4dbba0b204f16f524193f",
+      "byte_length": 539
+    },
+    "response_safe_schema": {
+      "path": "evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/response-safe-schema.json",
+      "sha256": "f1c1e4fe96f9aa3e321ea13ac7c9d43714444a8b0026b1694c0f637370f66630",
+      "byte_length": 1457
+    },
+    "b0_descriptor": {
+      "path": "evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/b0-descriptor.json",
+      "sha256": "28dbae5c94fa6958385b84ed0cf2a6d335f581374b2d40f8c754463695254ed9",
+      "byte_length": 598
+    },
+    "b1_descriptor": {
+      "path": "evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/b1-descriptor.json",
+      "sha256": "a068746f0c7fd6f784a7853219a1620b23a85d9078916f077e1fd66ed35dcb1d",
+      "byte_length": 606
+    },
+    "b2_descriptor": {
+      "path": "evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/b2-descriptor.json",
+      "sha256": "f20c416ea48cc4060b38afe8ef759e6783a1f263978cb934e260a9d2b1495066",
+      "byte_length": 803
+    },
+    "evaluation_oracle": {
+      "path": "evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/evaluation-oracle.json",
+      "sha256": "e5ffb5fe1b5ef0c79b33f495e46e8f0370b44f06c5e4cfe11307d31e9d84101f",
+      "byte_length": 1082
+    },
+    "formal_run_contract": {
+      "path": "evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/formal-run-contract.json",
+      "sha256": "721f510b586d3f85f1091fab60cd0e08f4d2df12495aa66992bfeec2cf806fd0",
+      "byte_length": 9259
+    },
+    "negative_cases": {
+      "path": "evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/negative-cases.json",
+      "sha256": "3b78443aabe3a10e92318ee43cff21e86d770b73c0d6c1a55fc8b17c4a48f373",
+      "byte_length": 8746
+    },
+    "p2_context_preregistration": {
+      "path": "evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/p2-context-engine-preregistration.json",
+      "sha256": "533ba7120cbb370e594b93089f6b6096ede54b9b22d6a36c90d2c71f0ef85b5c",
+      "byte_length": 2641
+    },
+    "independent_evaluator": {
+      "path": "evaluation-harness/evaluator/p1-117-clean-room-empirical-baseline/recompute.mjs",
+      "sha256": "f8efdf67d5f42af733516f402f2de610b4c4fda04b19597f121ca7aa6a0fd38a",
+      "byte_length": 33977
+    },
+    "validator_core": {
+      "path": "evaluation-harness/validators/p1-117-clean-room-empirical-baseline/core.mjs",
+      "sha256": "baf2c346acb750d10b642e925403f03703f984d2dfa5a7671b008d08297768ae",
+      "byte_length": 6994
+    },
+    "disclosure_validator": {
+      "path": "evaluation-harness/validators/p1-117-clean-room-empirical-baseline/disclosure.mjs",
+      "sha256": "d88cdba021ecb393081962867967495c88ca0b19129a00632e5ac600d54c6d16",
+      "byte_length": 11745
+    },
+    "preflight_validator": {
+      "path": "evaluation-harness/validators/p1-117-clean-room-empirical-baseline/preflight.mjs",
+      "sha256": "e6212da2b791a64d4fc9d8834b53af738480da29cebb178545db68e227bc4d86",
+      "byte_length": 30214
+    },
+    "validator_entry": {
+      "path": "evaluation-harness/validators/p1-117-clean-room-empirical-baseline/validate.mjs",
+      "sha256": "8a92cd924e2d7b28d7e531dfe2da8d683fabd35feb2ec7f9a09e603bbd975489",
+      "byte_length": 1289
+    },
+    "validator_self_test": {
+      "path": "evaluation-harness/validators/p1-117-clean-room-empirical-baseline/self-test.mjs",
+      "sha256": "d520502265f82449fed44c32b0615fefb44ba8e81e72dd0ab3b0c9937121b871",
+      "byte_length": 31242
+    },
+    "environment_snapshot_rep001": {
+      "path": "evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/environment-snapshots/rep001.json",
+      "sha256": "39348f892fa7ddf3ec9c03b0d123d4162d5d6693ed90eceecee2ab248474ab45",
+      "byte_length": 2426
+    },
+    "environment_snapshot_rep002": {
+      "path": "evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/environment-snapshots/rep002.json",
+      "sha256": "39e49b92d3860ef13c2935ac1bbbdbeca4007841b68b2b7771b00803ea113adb",
+      "byte_length": 2422
+    },
+    "environment_snapshot_rep003": {
+      "path": "evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/environment-snapshots/rep003.json",
+      "sha256": "17f00138222fd5903a2d940bd2b244c5a1955f7cb123e5758ff12cd4736178c1",
+      "byte_length": 2413
+    },
+    "environment_snapshot_rep004": {
+      "path": "evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/environment-snapshots/rep004.json",
+      "sha256": "f08f63d6ec23fbf8c74edab064ef1dfe35624728f77a5e3b2e0c708f9e91a874",
+      "byte_length": 2447
+    },
+    "environment_snapshot_rep005": {
+      "path": "evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/environment-snapshots/rep005.json",
+      "sha256": "09e9e343f6327d589578fbaaad8693afe5e020f74043eeaa15705109dd97eea2",
+      "byte_length": 2563
+    },
+    "environment_snapshot_rep006": {
+      "path": "evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/environment-snapshots/rep006.json",
+      "sha256": "96999436ef3e89e9908064b733d13f31f58f0bf5e89ca373b7bdd176ff9cafee",
+      "byte_length": 2540
+    }
+  },
+  "experiment": {
+    "research_question": "Across the six accepted visible synthetic tasks, what are the descriptive verified outcomes and failure distributions of the finite safe-disclosure constrained B0, B1 and B2 paths under A/B configurations?",
+    "primary_metric": "VERIFIED_TASK_SUCCESS_RATE",
+    "scheduled_runs": 36,
+    "ordering": "TASK_ASC_THEN_SYSTEM_B0_B1_B2_THEN_VARIANT_A_B",
+    "eligible_denominator": "ALL_36_EXCEPT_ONLY_PREDECLARED_SHARED_INFRASTRUCTURE_INVALID",
+    "ordinary_failure_policy": "PROVIDER_FORMAT_UNKNOWN_OPERATION_WRONG_OPERATION_COMPILER_TEST_TIMEOUT_BUDGET_AND_POLICY_FAILURES_REMAIN_IN_DENOMINATOR",
+    "post_hoc_exclusion": "FORBIDDEN",
+    "contamination_disclosure": "VISIBLE_SYNTHETIC_FINITE_OPERATION_CATALOG_AND_SAFE_METADATA_ARE_DISCLOSED_TO_THE_MODEL",
+    "claim_boundary": "DESCRIPTIVE_FINITE_SAFE_DISCLOSURE_BASELINE_NOT_OPEN_CODING_MODEL_SUPERIORITY_OR_PRODUCTION"
+  },
+  "provider_profile": {
+    "endpoint": "http://127.0.0.1:8787/v1/chat/completions",
+    "model": "gpt-5.6-luna",
+    "provider_requests_exact_planned": 36,
+    "provider_requests_ceiling": 60,
+    "automatic_retries": 0,
+    "input_tokens_reserved": 432000,
+    "input_tokens_ceiling": 500000,
+    "output_tokens_reserved": 73728,
+    "output_tokens_ceiling": 100000,
+    "currency": "USD",
+    "max_spend": 25,
+    "unavailable_cost": {
+      "status": "UNKNOWN_GATEWAY_METERING_UNAVAILABLE",
+      "amount": null
+    },
+    "restricted_source_allowed": false,
+    "remote": false,
+    "production": false,
+    "public": false
+  },
+  "freeze_boundary": {
+    "secret_reads_before_freeze": 0,
+    "provider_requests_before_freeze": 0,
+    "network_connections_before_freeze": 0,
+    "mutation_after_freeze": "FORBIDDEN"
+  },
+  "executable_identity_boundary": "RECEIPT_REQUIRED_AFTER_IMPLEMENTATION_BEFORE_SECRET_OR_PROVIDER",
+  "stop_conditions": [
+    "any frozen identity drifts",
+    "the exact executable identity receipt is absent before Secret or Provider access",
+    "restricted source, tests, reference patches, oracle values or Secret bytes enter Provider payload or Evidence",
+    "request, retry, token or monetary caps are exceeded or cannot fail closed",
+    "a scheduled result is missing, duplicated, reordered or excluded post hoc",
+    "Evidence identity, replay, rollback or aggregate recomputation fails",
+    "a non-loopback, remote, production or public effect occurs"
+  ],
+  "authority_binding_semantics": "EXECUTION_TIME_PRE_PROVIDER_SNAPSHOT_NOT_LIVE_POST_COMPLETION_EQUALITY"
+}

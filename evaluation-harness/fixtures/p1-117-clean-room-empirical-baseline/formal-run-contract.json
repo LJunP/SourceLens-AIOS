@@ -1,0 +1,150 @@
+{
+  "schema_version": "p1-117-formal-run-contract/v1",
+  "record_type": "QUALITY_OWNED_FORMAL_RUN_AND_EVIDENCE_CONTRACT",
+  "run_manifest": {
+    "schema_version": "p1-117-run-manifest/v1",
+    "closed_keys": ["schema_version", "entry", "terminal", "selected_operation_id", "evidence", "accounting", "observed_effects"],
+    "entry_closed_keys": ["slot", "entry_id", "run_id", "task_id", "system", "variant", "repetition_id"],
+    "terminal_closed_keys": ["status", "reason_code", "invalid_run_reason", "post_hoc_excluded"],
+    "allowed_statuses": ["COMPLETED", "FAILED", "TIMED_OUT", "BUDGET_EXHAUSTED", "POLICY_BLOCKED", "INFRASTRUCTURE_INVALID", "ERROR"],
+    "predeclared_invalid_reason_codes": ["SHARED_HARNESS_FAILURE", "ENVIRONMENT_MATERIALIZATION_FAILURE", "EVALUATOR_UNAVAILABLE", "CORRUPT_FIXTURE"],
+    "required_evidence_roles": [
+      "request_safe",
+      "response_safe",
+      "run_record",
+      "trace",
+      "external_truth_binding",
+      "stable_projection",
+      "replay_receipt",
+      "rollback_receipt",
+      "test_receipt"
+    ],
+    "evidence_identity_closed_keys": ["relative_path", "sha256", "byte_length"],
+    "accounting_closed_keys": ["provider_requests", "automatic_retries", "input_tokens", "output_tokens", "latency_ms", "cost", "successful_loopback_connections"],
+    "cost_closed_keys": ["status", "currency", "amount"],
+    "cost_statuses": ["AVAILABLE", "UNKNOWN_GATEWAY_METERING_UNAVAILABLE"],
+    "observed_effect_closed_keys": ["non_loopback_network_connections", "remote", "production", "public", "restricted_source_egress", "secret_sink_writes"]
+  },
+  "environment_snapshot_contract": {
+    "task_scoped_exact_snapshot_count": 6,
+    "shared_task_spec_snapshot_ref": "ENV-SOURCELENS-P1-REP-NODE20-STDLIB-1",
+    "shared_ref_semantics": "ALIAS_ONLY_NOT_GLOBAL_EXACT_IDENTITY",
+    "authoritative_identity": "EACH_TASK_SCOPED_SNAPSHOT_EXACT_SHA256_AND_BYTE_LENGTH",
+    "required_cross_bindings": ["TaskSpec", "dataset manifest task entry", "repository identity", "base_commit", "tree_hash", "source-template exact manifest", "Node executable identity and version", "platform and architecture", "task-local network policy"],
+    "task_local_network_policy": "DENY_ALL",
+    "provider_transport_boundary": "OUTSIDE_TASK_SNAPSHOT_GATED_SEPARATELY",
+    "admission_and_external_truth_binding_required_for_every_run": true
+  },
+  "trace_contract": {
+    "format": "CANONICAL_JSONL",
+    "event_order": ["admission", "execution", "validation", "result", "rollback"],
+    "exact_run_identity_on_every_event": true,
+    "reordering_or_missing_event_rejected": true,
+    "admission_event_requires_materialization_binding": ["task_spec", "environment_snapshot", "dataset_task_binding", "source_template_binding", "source_template_manifest", "wrapper", "configuration"],
+    "b2_execution_event_requires_real_child": {
+      "operation_id": "repository_analysis.scan",
+      "accepted_scanner_binding_required": true,
+      "scanner_pre_call_identity_closed_keys": ["path", "sha256", "byte_length", "type", "dev", "ino", "uid", "gid", "mode", "verification_status"],
+      "scanner_pre_call_identity_revalidated_before_every_invocation": true,
+      "scanner_pre_call_verification_status": "PASS"
+    },
+    "b1_execution_event_requires_local_tool_ledger": {
+      "schema_version": "p1-117-b1-local-tool-ledger/v1",
+      "exact_operation_order": ["file_listing", "lexical_search", "trusted_finite_operation_compiler", "verification_ledger"],
+      "operation_closed_keys": ["sequence", "operation_id", "status", "input_identity", "output_identity", "executable_identity"],
+      "identity_bound_summary_required": true,
+      "declaration_only_status_forbidden": true,
+      "precondition_failure_must_be_explicit": true
+    }
+  },
+  "response_safe_contract": {
+    "accepted": "EXACT_RESPONSE_SCHEMA_JSON_WITH_SELECTED_OPERATION_ID",
+    "rejected_schema_version": "p1-117-provider-response-safe-rejection/v1",
+    "rejected_closed_keys": ["schema_version", "status", "reason_code", "raw_response_sha256", "raw_response_byte_length", "raw_response_retained"],
+    "rejected_raw_body_retained": false,
+    "secret_echo_guard": {
+      "applies_before_http_status_classification": true,
+      "applies_before_raw_response_hash_or_length": true,
+      "non_200_secret_echo_reason": "SECRET_SINK_FORBIDDEN",
+      "secret_hash_or_evidence_creation": "FORBIDDEN"
+    },
+    "ordinary_failed_run_reasons": ["PROVIDER_RESPONSE_SCHEMA_INVALID", "PROVIDER_RESPONSE_NOT_CANONICAL", "UNKNOWN_OPERATION_ID", "PROVIDER_HTTP_NON_PASS", "PROVIDER_TIMEOUT", "PROVIDER_TRANSPORT_ERROR", "PROVIDER_USAGE_INVALID"],
+    "selected_operation_id_for_rejected_response": null
+  },
+  "secret_lifecycle_claim_boundary": {
+    "provider_session_closed": true,
+    "owned_secret_buffer_overwrite_attempted": true,
+    "whole_process_memory_or_header_string_zeroization": "NOT_CLAIMED",
+    "secret_value_hash_or_evidence": "FORBIDDEN"
+  },
+  "ordinary_provider_failure_accounting": {
+    "reserved_provider_request_count": 1,
+    "successful_loopback_connections": "INTEGER_0_OR_1",
+    "observed_input_tokens": "INTEGER_0_TO_12000",
+    "observed_output_tokens": "INTEGER_0_TO_2048",
+    "ambiguous_send_counts_as_request": true,
+    "retry_allowed": false,
+    "http_timeout_transport_or_schema_failure": "FAILED_RUN_IN_36_RUN_DENOMINATOR"
+  },
+  "verification_contract": {
+    "finite_operation_must_exist_in_safe_disclosure": true,
+    "exact_oracle_selection_required_for_success": true,
+    "test_exit_status": "NONNEGATIVE_INTEGER_OR_NULL_IF_TRUSTED_COMPILER_NOT_RUN",
+    "test_nonzero_or_not_run": "ORDINARY_FAILED_RUN_IN_DENOMINATOR",
+    "policy_violations_max": 0,
+    "replay_exact_stable_projection": true,
+    "rollback_status": "PASS_EXACT",
+    "all_required_evidence_identities_must_match": true,
+    "b1_file_listing_and_lexical_search_must_execute_locally": true,
+    "b1_compiler_and_verification_execution_or_explicit_precondition_failure_must_be_identity_bound": true,
+    "b2_scanner_identity_must_be_revalidated_before_each_child_invocation": true
+  },
+  "per_system_caps": {
+    "B0": {"provider_requests_exact": 1, "automatic_retries": 0, "input_tokens_reserved": 12000, "max_output_tokens": 2048},
+    "B1": {"provider_requests_exact": 1, "automatic_retries": 0, "input_tokens_reserved": 12000, "max_output_tokens": 2048},
+    "B2": {"provider_requests_exact": 1, "automatic_retries": 0, "input_tokens_reserved": 12000, "max_output_tokens": 2048}
+  },
+  "aggregate_caps": {
+    "provider_requests_exact_planned": 36,
+    "automatic_retries": 0,
+    "input_tokens_reserved": 432000,
+    "output_tokens_reserved": 73728,
+    "founder_provider_requests_ceiling": 60,
+    "founder_input_tokens_ceiling": 500000,
+    "founder_output_tokens_ceiling": 100000,
+    "currency": "USD",
+    "max_spend": 25,
+    "unknown_cost_semantics": {"status": "UNKNOWN_GATEWAY_METERING_UNAVAILABLE", "currency": "USD", "amount": null},
+    "numeric_zero_substitution_when_unknown": "FORBIDDEN"
+  },
+  "provider_safe_boundary": {
+    "allowed_payload_sources": ["safe-disclosures.json exact selected task and system fields", "response-schema.json exact finite-operation grammar", "B2 exact closed non-content scanner observation"],
+    "forbidden_payload_sources": ["dataset source", "dataset tests", "reference solution patch", "expected operation oracle", "Secret bytes", "authorization header", "scanner raw source-bearing output"],
+    "system_specific_inputs": {
+      "B0": "ISSUE_ONLY_SAFE_PROBLEM_STATEMENT_AND_FINITE_OPERATIONS",
+      "B1": "B0_PLUS_QUALITY_FROZEN_NON_SOURCE_SAFE_TOOL_FACTS",
+      "B2": "B0_PLUS_IDENTITY_BOUND_NON_CONTENT_SCANNER_METRICS_ONLY"
+    },
+    "b2_provider_input": "TRUSTED_LOCAL_COMPILER_EMITS_ONLY_THE_CLOSED_SCANNER_OBSERVATION_SCHEMA_WITH_NO_SOURCE_CONTENT",
+    "provider_response": "STRICT_RESPONSE_SCHEMA_THEN_TRUSTED_FINITE_OPERATION_COMPILER",
+    "request_safe_evidence": "EXACT_CANONICAL_CHAT_COMPLETIONS_BODY_BYTES_WITH_NO_AUTHORIZATION_HEADER_OR_SECRET",
+    "chat_completions_body": {
+      "closed_keys": ["model", "messages", "temperature", "max_tokens", "response_format"],
+      "system_instruction": "EXACT_QUALITY_FROZEN_SYSTEM_INSTRUCTION",
+      "user_content": "EXACT_DISCLOSURE_MJS_PROVIDER_PAYLOAD_CANONICAL_BYTES",
+      "response_format": {"type": "json_object"},
+      "max_tokens": 2048
+    },
+    "free_form_patch_or_unified_diff": "FORBIDDEN",
+    "leakage_validation": "RECONSTRUCT_EXACT_ALLOWED_PAYLOAD_AND_REJECT_SOURCE_TEST_OR_REFERENCE_PATCH_FRAGMENTS",
+    "provider_prompt_retention": "REQUEST_SAFE_REDACTED_EXACT_NONSECRET_BYTES_ONLY"
+  },
+  "aggregation": {
+    "scheduled_run_count": 36,
+    "eligible_denominator": "ALL_SCHEDULED_EXCEPT_ONLY_PREDECLARED_SHARED_INFRASTRUCTURE_INVALID",
+    "ordinary_setup_timeout_budget_policy_or_evidence_failure": "FAILED_RUN",
+    "verified_success": "INDEPENDENT_ORACLE_ACCEPTS_AND_COMPLETE_EVIDENCE_AND_VALID_ROLLBACK_AND_NO_POLICY_VIOLATION",
+    "post_hoc_exclusion": "FORBIDDEN",
+    "report": ["scheduled", "eligible", "verified_successes", "failures", "invalids", "vtsr_fraction", "reason_distribution", "latency", "tokens", "available_cost", "unavailable_cost_count", "finite_safe_disclosure_constraint"]
+  }
+}

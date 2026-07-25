@@ -1,0 +1,15 @@
+{
+  "schema_version": "p1-117-system-descriptor/v1",
+  "descriptor_id": "P1-117-B2-FINITE-SAFE-SCANNER-METRICS",
+  "system": "B2",
+  "wrapper_path": "evaluation-harness/harness/p1-117-clean-room-empirical-baseline/systems/b2.mjs",
+  "disclosure_mode": "SAFE_PROBLEM_OPERATIONS_AND_NONCONTENT_ACCEPTED_SCANNER_METRICS",
+  "provider_requests_per_run": 1,
+  "automatic_retries": 0,
+  "trusted_compiler": "FINITE_PREDECLARED_OPERATION_ID_TO_LOCAL_PATCH",
+  "source_bytes_to_provider": false,
+  "scanner_required": true,
+  "scanner_operation": "repository_analysis.scan",
+  "accepted_scanner_binding_sha256": "06f2501662318d9f9c47e91d923e4cfb844dcb818dc1825ea444aa015e6da54f",
+  "claim_boundary": "FINITE_SAFE_DISCLOSURE_CONSTRAINED_B2_WITH_NONCONTENT_SCANNER_METRICS_NOT_OPEN_CODE_SOURCELENS_PERFORMANCE"
+}

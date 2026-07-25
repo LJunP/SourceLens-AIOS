@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://sourcelens.local/schemas/p1-117-response-safe-v1.json",
+  "title": "P1-117 retained provider response-safe evidence",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "selected_operation_id"],
+      "properties": {
+        "schema_version": {"const": "p1-117-provider-selection/v1"},
+        "selected_operation_id": {"type": "string", "pattern": "^REP00[1-6]_[A-Z0-9_]+$"}
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["schema_version", "status", "reason_code", "raw_response_sha256", "raw_response_byte_length", "raw_response_retained"],
+      "properties": {
+        "schema_version": {"const": "p1-117-provider-response-safe-rejection/v1"},
+        "status": {"const": "REJECTED"},
+        "reason_code": {
+          "enum": [
+            "PROVIDER_RESPONSE_SCHEMA_INVALID",
+            "PROVIDER_RESPONSE_NOT_CANONICAL",
+            "UNKNOWN_OPERATION_ID",
+            "PROVIDER_HTTP_NON_PASS",
+            "PROVIDER_TIMEOUT",
+            "PROVIDER_TRANSPORT_ERROR",
+            "PROVIDER_USAGE_INVALID"
+          ]
+        },
+        "raw_response_sha256": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
+        "raw_response_byte_length": {"type": "integer", "minimum": 0},
+        "raw_response_retained": {"const": false}
+      }
+    }
+  ]
+}

@@ -1,6 +1,6 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-25T11:19:33Z"
+last_verified_at: "2026-07-25T09:51:48Z"
 verification_scope: P1_117_ACTIVE_CLEAN_ROOM_EMPIRICAL_BASELINE_STRICT_75_PERCENT
 
 authority:
@@ -2513,8 +2513,8 @@ current_phase_route:
     task_slot: 2
     status: ACTIVE
     contract_path: docs/aios/tasks/P1-117_CLEAN_ROOM_36_RUN_EMPIRICAL_BASELINE_AND_P2_PREREGISTRATION.yaml
-    contract_sha256: 12887c57ad071c082802ace4d295dfe2147e4682e5d0f55881f7727706e01ba0
-    contract_byte_length: 19396
+    contract_sha256: b1db284a4eb34e416133f3f56edf5a31a9b11055bfba8d172baee6d393d1b9c5
+    contract_byte_length: 18185
     max_engineering_hours: 40
     max_calendar_days: 10
     max_implementation_iterations: 2
@@ -3636,14 +3636,14 @@ active_work:
   current_task_status: ACTIVE
   current_task_contract:
     path: docs/aios/tasks/P1-117_CLEAN_ROOM_36_RUN_EMPIRICAL_BASELINE_AND_P2_PREREGISTRATION.yaml
-    sha256: 12887c57ad071c082802ace4d295dfe2147e4682e5d0f55881f7727706e01ba0
-    byte_length: 19396
-  current_task_contract_sha256: 12887c57ad071c082802ace4d295dfe2147e4682e5d0f55881f7727706e01ba0
+    sha256: b1db284a4eb34e416133f3f56edf5a31a9b11055bfba8d172baee6d393d1b9c5
+    byte_length: 18185
+  current_task_contract_sha256: b1db284a4eb34e416133f3f56edf5a31a9b11055bfba8d172baee6d393d1b9c5
   current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-closed-profile-rollback-route-20260725/task-2/PHASE_DELEGATED_TASK_AUTHORITY.yaml
-  current_execution_authorization_sha256: e7265bc4bff8cc2397e10738aa91af765903a8a6bbbde956bd53df9fd490bc8c
+  current_execution_authorization_sha256: 00b4ca32a71cbfd79c7c688715450bebd213fa4d091b744732d5e38d8a5d42ae
   authority_record:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-closed-profile-rollback-route-20260725/task-2/PHASE_DELEGATED_TASK_AUTHORITY.yaml
-    sha256: e7265bc4bff8cc2397e10738aa91af765903a8a6bbbde956bd53df9fd490bc8c
+    sha256: 00b4ca32a71cbfd79c7c688715450bebd213fa4d091b744732d5e38d8a5d42ae
     byte_length: 6274
   execution_nonce: 968b4c0eb7b3a766f6c838267754caf89c0e0af35c416e3511d67e4098e00d6d
   execution_nonce_status: ACTIVE

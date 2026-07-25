@@ -5,11 +5,10 @@ phase: P1
 route_id: P1_CLEAN_ROOM_CLOSED_PROFILE_SET_AND_IDENTITY_BOUND_ROLLBACK_THEN_BASELINE_ROUTE_V1
 status: ACTIVE
 objective: >-
-  Execute one preregistered, clean-room 36-run B0/B1/B2 finite
-  safe-disclosure typed-operation-selection baseline against the accepted
-  six-task representative dataset, retain independently replayable raw and
-  aggregate Evidence, and freeze the first offline P2 context-engine
-  experiment preregistration without entering P2.
+  Execute one preregistered, clean-room 36-run B0/B1/B2 empirical baseline
+  against the accepted six-task representative dataset, retain independently
+  replayable raw and aggregate Evidence, and freeze the first offline P2
+  context-engine experiment preregistration without entering P2.
 why_now: >-
   P1 already has accepted TaskSpec, Environment Snapshot, adapters, scheduled
   matrix accounting, observable trace and the P1-116 accepted scanner
@@ -196,10 +195,8 @@ frozen_experiment_design:
   research_question: >-
     Across the accepted six-task representative dataset, what are the
     reproducible run-level outcomes, evidence-completeness characteristics and
-    failure distributions when the B0, B1 and B2 P1-117 clean-room wrappers
-    select from a task-specific finite typed-operation catalog using only
-    predeclared safe disclosures under two predeclared configurations and a
-    common evaluator?
+    failure distributions of the accepted B0, B1 and B2 compatibility paths
+    under two predeclared configurations and a common evaluator?
   primary_metric: VERIFIED_TASK_SUCCESS_RATE
   scheduled_run_count: 36
   task_count: 6
@@ -224,9 +221,7 @@ frozen_experiment_design:
     invalid_run_policy: ONLY_PREDECLARED_SHARED_INFRASTRUCTURE_REASON_CODES
     ordinary_setup_timeout_budget_policy_failure: COUNT_AS_FAILED_RUN
   practical_claim_boundary: >-
-    Descriptive finite-selection P1 baseline only. This does not test open
-    coding or prove direct multi-task execution by the previously accepted
-    adapters. No superiority, model-quality, OpenAI-direct,
+    Descriptive P1 baseline only. No superiority, model-quality, OpenAI-direct,
     production-readiness or P2-admission claim.
 preregistration_freeze:
   required_before:
@@ -236,7 +231,6 @@ preregistration_freeze:
     - exact Contract and Task authority
     - exact 36-run matrix and ordering
     - dataset and six TaskSpec identities
-    - six exact task-scoped Environment Snapshot identities with the shared accepted snapshot-id alias explicitly disclosed
     - B0 B1 B2 executable and SystemConfiguration identities
     - accepted P0 B2 scanner artifact and external truth binding
     - environment, model, prompt, policy and response-format identities
@@ -248,8 +242,6 @@ preregistration_freeze:
 architecture_constraints:
   - All inputs derive from accepted canonical assets and the exact Founder packets.
   - No rejected Task engineering asset may be read, compared, copied or reused.
-  - P1-117 uses new task-local clean-room wrappers and a finite typed-operation catalog; it does not modify accepted adapters or claim their direct multi-task execution.
-  - Each accepted TaskSpec is bound to one exact task-scoped Environment Snapshot by full file SHA-256 and byte length; the shared accepted snapshot-id string is only a disclosed alias and never the authoritative identity.
   - The preregistration is exact-byte frozen before any Secret read or Provider request.
   - Every formal run uses one unique run identity and one independently owned disposable output root.
   - Every scheduled run emits a RunRecord even when it fails, times out or reaches a policy or budget stop.
@@ -259,14 +251,13 @@ architecture_constraints:
   - Deterministic fields replay exactly and stochastic differences remain visible rather than normalized away.
   - Request count, token totals and cost accounting are append-only and fail closed at the exact Founder caps.
   - Cost remains UNKNOWN_GATEWAY_METERING_UNAVAILABLE when trustworthy metering is unavailable.
-  - The task-local accounting envelope records unknown cost as status UNKNOWN_GATEWAY_METERING_UNAVAILABLE with currency USD and amount null; conformance to the canonical numeric-cost RunRecord schema is not claimed.
   - Only exact loopback 127.0.0.1 port 8787 egress is permitted; redirects, proxies, DNS and fallback endpoints are forbidden.
   - Secret bytes never enter repository, Evidence, logs, traces, prompts, reviews or Vault.
   - Adapter conformance, sample outcomes and Founder-attested gateway provenance do not prove model performance or OpenAI direct provenance.
 quality_freeze:
   positive_matrix:
     - Six exact accepted TaskSpecs cross-bind to their Environment Snapshots and dataset identities.
-    - B0, B1 and B2 each expose distinct P1-117 clean-room wrapper executable and SystemConfiguration identities.
+    - B0, B1 and B2 each expose distinct accepted executable and SystemConfiguration identities.
     - Each of B0, B1 and B2 executes variants A and B for all six TaskSpecs.
     - All 36 scheduled entries execute independently and remain in the denominator.
     - B2 records a real exact accepted P0 child scanner invocation for every B2 run.
@@ -337,10 +328,8 @@ stop_conditions:
   - Any final Reviewer, reviewed/integrated tree equality check or canonical make verify returns NON_PASS.
   - Evidence is overwritten or deleted, or the P1 Phase boundary changes.
 claim_boundary: >-
-  Cooperative-local preregistered 36-run B0/B1/B2 finite safe-disclosure
-  typed-operation-selection descriptive empirical baseline, complete
-  replayable Evidence and one offline P2 experiment preregistration only; no
-  open-coding or accepted-adapter direct multi-task execution claim, no
-  canonical numeric-cost RunRecord conformance claim, and no model
-  superiority, direct OpenAI provenance, production readiness, P2/P3 entry,
-  remote, production, public, hostile-principal or strong-isolation claim.
+  Cooperative-local preregistered 36-run B0/B1/B2 descriptive empirical
+  baseline, complete replayable Evidence and one offline P2 experiment
+  preregistration only; no model superiority, direct OpenAI provenance,
+  production readiness, P2/P3 entry, remote, production, public,
+  hostile-principal or strong-isolation claim.

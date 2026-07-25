@@ -4,9 +4,9 @@
 
 ## 1. 生成范围
 
-- 纳入逐文件用途索引的文件数：845。
-- 其中源码/脚本/配置/SQL/CSS 类文件数：527。
-- 纳入统计的文本总行数：206664。
+- 纳入逐文件用途索引的文件数：772。
+- 其中源码/脚本/配置/SQL/CSS 类文件数：508。
+- 纳入统计的文本总行数：196751。
 - 排除逐文件展开的本地生成/证据目录：`.git/`、`bin/`、`web-console/node_modules/`、`backend-spring/target/`、`analyzer-rust/target/`、`.sourcelens-runtime/`、`release-evidence/`、前端构建和测试产物。
 - 本地生成物、依赖缓存和历史证据目录不是源码或当前权威；它们必须保持未跟踪并可重建或从封存恢复。
 
@@ -25,12 +25,12 @@
 | `CONTRIBUTING.md` | 1 | 项目根文件或辅助目录。 |
 | `deploy` | 2 | Docker Compose 和环境模板。 |
 | `docs` | 87 | 当前架构、接口、安全、研究与 AIOS 权威文档。 |
-| `evaluation-harness` | 282 | 项目根文件或辅助目录。 |
+| `evaluation-harness` | 210 | 项目根文件或辅助目录。 |
 | `LICENSE` | 1 | 项目根文件或辅助目录。 |
 | `Makefile` | 1 | 项目根文件或辅助目录。 |
 | `README.md` | 1 | 项目根文件或辅助目录。 |
 | `ROADMAP.md` | 1 | 项目根文件或辅助目录。 |
-| `scripts` | 29 | 本地构建、验证、代码地图和最小安全检查。 |
+| `scripts` | 28 | 本地构建、验证、代码地图和最小安全检查。 |
 | `SECURITY.md` | 1 | 项目根文件或辅助目录。 |
 | `SUPPORT.md` | 1 | 项目根文件或辅助目录。 |
 | `web-console` | 72 | React/Vite 前端控制台。 |
@@ -175,7 +175,7 @@
 | `docs/aios/tasks` | 63 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/aios/truth` | 1 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/llm-safety-evals` | 2 | LLM 安全评测用例目录，存放 prompt injection、输出质量和 provider run 模板。 |
-| `evaluation-harness` | 282 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness` | 210 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/adapters` | 10 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/adapters/harness_stub` | 2 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/adapters/offline-b0-finite-typed-v1` | 1 | 项目根文件或辅助目录。子目录。 |
@@ -213,7 +213,7 @@
 | `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/source-template/src` | 2 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/source-template/test` | 2 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/environment` | 4 | 项目根文件或辅助目录。子目录。 |
-| `evaluation-harness/evaluator` | 16 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/evaluator` | 15 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/evaluator/blind-admission-v1` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/evaluator/finite-typed-patch-ir-v1` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/evaluator/offline-b0-complete-evidence-v1` | 1 | 项目根文件或辅助目录。子目录。 |
@@ -221,8 +221,7 @@
 | `evaluation-harness/evaluator/p1-097-minimal-documented` | 3 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/evaluator/p1-101-accepted-shared-trace` | 3 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/evaluator/p1-116-closed-profile-scanner-admission` | 1 | 项目根文件或辅助目录。子目录。 |
-| `evaluation-harness/evaluator/p1-117-clean-room-empirical-baseline` | 1 | 项目根文件或辅助目录。子目录。 |
-| `evaluation-harness/fixtures` | 90 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/fixtures` | 72 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/fixtures/blind-admission-v1` | 5 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/fixtures/environment-snapshot` | 8 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/fixtures/environment-snapshot/source-template` | 2 | 项目根文件或辅助目录。子目录。 |
@@ -239,11 +238,9 @@
 | `evaluation-harness/fixtures/p1-116-closed-profile-scanner-admission` | 4 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/fixtures/p1-116-closed-profile-scanner-admission/source-template` | 2 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/fixtures/p1-116-closed-profile-scanner-admission/source-template/src` | 1 | 项目根文件或辅助目录。子目录。 |
-| `evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline` | 18 | 项目根文件或辅助目录。子目录。 |
-| `evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/environment-snapshots` | 6 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/fixtures/stable-replay-projection-v2` | 2 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/fixtures/visible` | 10 | 项目根文件或辅助目录。子目录。 |
-| `evaluation-harness/harness` | 66 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/harness` | 20 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/harness/blind-admission-v1` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/harness/experiment-pack-reentry-v1` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/harness/finite-typed-patch-ir-v1` | 2 | 项目根文件或辅助目录。子目录。 |
@@ -252,10 +249,7 @@
 | `evaluation-harness/harness/p1-097-minimal-documented` | 3 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/harness/p1-101-accepted-shared-trace` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/harness/p1-116-closed-profile-scanner-admission` | 5 | 项目根文件或辅助目录。子目录。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline` | 46 | 项目根文件或辅助目录。子目录。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations` | 36 | 项目根文件或辅助目录。子目录。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/systems` | 4 | 项目根文件或辅助目录。子目录。 |
-| `evaluation-harness/recording` | 31 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/recording` | 30 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/recording/aios-p1-001-evidence` | 25 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/recording/aios-p1-001-evidence/controlled-failure` | 6 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/recording/aios-p1-001-evidence/positive` | 6 | 项目根文件或辅助目录。子目录。 |
@@ -264,16 +258,13 @@
 | `evaluation-harness/recording/blind-admission-v1` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/recording/p1-097-minimal-documented` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/recording/p1-101-accepted-shared-trace` | 1 | 项目根文件或辅助目录。子目录。 |
-| `evaluation-harness/recording/p1-117-clean-room-empirical-baseline` | 1 | 项目根文件或辅助目录。子目录。 |
-| `evaluation-harness/replay` | 6 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/replay` | 5 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/replay/p1-097-minimal-documented` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/replay/p1-101-accepted-shared-trace` | 1 | 项目根文件或辅助目录。子目录。 |
-| `evaluation-harness/replay/p1-117-clean-room-empirical-baseline` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/replay/stable-replay-projection-v2` | 1 | 项目根文件或辅助目录。子目录。 |
-| `evaluation-harness/validators` | 8 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/validators` | 3 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/validators/blind-admission-v1` | 1 | 项目根文件或辅助目录。子目录。 |
-| `evaluation-harness/validators/p1-117-clean-room-empirical-baseline` | 5 | 项目根文件或辅助目录。子目录。 |
-| `scripts` | 29 | 本地自动化脚本目录，封装启动、校验、代码地图和生成物清理。 |
+| `scripts` | 28 | 本地自动化脚本目录，封装启动、校验、代码地图和生成物清理。 |
 | `web-console` | 72 | React/Vite 前端控制台工程，承载 SourceLens 用户界面和 UI smoke。 |
 | `web-console/src` | 66 | 前端源码根目录。 |
 | `web-console/src/api` | 21 | 前端 API client 层，集中定义后端 HTTP 调用和 TypeScript 响应类型。 |
@@ -1088,7 +1079,6 @@
 | `evaluation-harness/evaluator/p1-101-accepted-shared-trace/run-matrix.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/evaluator/p1-101-accepted-shared-trace/self-test.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/evaluator/p1-116-closed-profile-scanner-admission/run-matrix.mjs` | Node.js 自动化脚本或配置文件。 |
-| `evaluation-harness/evaluator/p1-117-clean-room-empirical-baseline/recompute.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/evaluator/README.md` | Markdown 文档。 |
 | `evaluation-harness/evaluator/schema-validator.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/evaluator/self-test.mjs` | Node.js 自动化脚本或配置文件。 |
@@ -1152,24 +1142,6 @@
 | `evaluation-harness/fixtures/p1-116-closed-profile-scanner-admission/negative-cases.json` | JSON 配置或数据文件。 |
 | `evaluation-harness/fixtures/p1-116-closed-profile-scanner-admission/source-template/package.json` | JSON 配置或数据文件。 |
 | `evaluation-harness/fixtures/p1-116-closed-profile-scanner-admission/source-template/src/example.js` | Node.js 自动化脚本或配置文件。 |
-| `evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/b0-descriptor.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/b1-descriptor.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/b2-descriptor.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/environment-snapshots/rep001.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/environment-snapshots/rep002.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/environment-snapshots/rep003.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/environment-snapshots/rep004.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/environment-snapshots/rep005.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/environment-snapshots/rep006.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/evaluation-oracle.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/formal-run-contract.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/matrix-plan.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/negative-cases.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/p2-context-engine-preregistration.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/preregistration.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/response-safe-schema.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/response-schema.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline/safe-disclosures.json` | JSON 配置或数据文件。 |
 | `evaluation-harness/fixtures/stable-replay-projection-v2/synthetic-pair.json` | JSON 配置或数据文件。 |
 | `evaluation-harness/fixtures/stable-replay-projection-v2/test-cases.json` | JSON 配置或数据文件。 |
 | `evaluation-harness/fixtures/visible/context.json` | JSON 配置或数据文件。 |
@@ -1199,52 +1171,6 @@
 | `evaluation-harness/harness/p1-116-closed-profile-scanner-admission/owned-rollback.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/harness/p1-116-closed-profile-scanner-admission/profile-set.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/harness/p1-116-closed-profile-scanner-admission/scanner-admission.mjs` | Node.js 自动化脚本或配置文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/local-execution.mjs` | Node.js 自动化脚本或配置文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/preflight.mjs` | Node.js 自动化脚本或配置文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/provider-client.mjs` | Node.js 自动化脚本或配置文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/runtime.mjs` | Node.js 自动化脚本或配置文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/scanner.mjs` | Node.js 自动化脚本或配置文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/self-test.mjs` | Node.js 自动化脚本或配置文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-001-rep001-b0-a.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-002-rep001-b0-b.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-003-rep001-b1-a.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-004-rep001-b1-b.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-005-rep001-b2-a.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-006-rep001-b2-b.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-007-rep002-b0-a.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-008-rep002-b0-b.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-009-rep002-b1-a.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-010-rep002-b1-b.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-011-rep002-b2-a.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-012-rep002-b2-b.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-013-rep003-b0-a.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-014-rep003-b0-b.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-015-rep003-b1-a.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-016-rep003-b1-b.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-017-rep003-b2-a.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-018-rep003-b2-b.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-019-rep004-b0-a.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-020-rep004-b0-b.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-021-rep004-b1-a.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-022-rep004-b1-b.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-023-rep004-b2-a.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-024-rep004-b2-b.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-025-rep005-b0-a.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-026-rep005-b0-b.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-027-rep005-b1-a.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-028-rep005-b1-b.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-029-rep005-b2-a.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-030-rep005-b2-b.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-031-rep006-b0-a.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-032-rep006-b0-b.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-033-rep006-b1-a.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-034-rep006-b1-b.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-035-rep006-b2-a.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/system-configurations/p1-117-run-036-rep006-b2-b.json` | JSON 配置或数据文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/systems/b0.mjs` | Node.js 自动化脚本或配置文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/systems/b1.mjs` | Node.js 自动化脚本或配置文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/systems/b2.mjs` | Node.js 自动化脚本或配置文件。 |
-| `evaluation-harness/harness/p1-117-clean-room-empirical-baseline/systems/common.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/harness/README.md` | Markdown 文档。 |
 | `evaluation-harness/harness/run.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/harness/self-test.mjs` | Node.js 自动化脚本或配置文件。 |
@@ -1277,20 +1203,13 @@
 | `evaluation-harness/recording/manifest.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/recording/p1-097-minimal-documented/records.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/recording/p1-101-accepted-shared-trace/trace.mjs` | Node.js 自动化脚本或配置文件。 |
-| `evaluation-harness/recording/p1-117-clean-room-empirical-baseline/trace.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/recording/recorder.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/replay/cli.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/replay/p1-097-minimal-documented/project.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/replay/p1-101-accepted-shared-trace/replay.mjs` | Node.js 自动化脚本或配置文件。 |
-| `evaluation-harness/replay/p1-117-clean-room-empirical-baseline/replay.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/replay/replay.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/replay/stable-replay-projection-v2/project.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/validators/blind-admission-v1/validator.mjs` | Node.js 自动化脚本或配置文件。 |
-| `evaluation-harness/validators/p1-117-clean-room-empirical-baseline/core.mjs` | Node.js 自动化脚本或配置文件。 |
-| `evaluation-harness/validators/p1-117-clean-room-empirical-baseline/disclosure.mjs` | Node.js 自动化脚本或配置文件。 |
-| `evaluation-harness/validators/p1-117-clean-room-empirical-baseline/preflight.mjs` | Node.js 自动化脚本或配置文件。 |
-| `evaluation-harness/validators/p1-117-clean-room-empirical-baseline/self-test.mjs` | Node.js 自动化脚本或配置文件。 |
-| `evaluation-harness/validators/p1-117-clean-room-empirical-baseline/validate.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/validators/task-dataset-self-test.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/validators/task-dataset-validator.mjs` | Node.js 自动化脚本或配置文件。 |
 
@@ -1345,7 +1264,6 @@
 | `scripts/verify-p1-071-stable-replay-projection.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/verify-p1-101-accepted-shared-trace.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/verify-p1-116-closed-profile-scanner-admission.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
-| `scripts/verify-p1-117-clean-room-empirical-baseline.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/verify-p1-environment-snapshot.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/verify-p1-experiment-pack-reentry.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/verify-p1-finite-typed-patch-ir-v1.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |

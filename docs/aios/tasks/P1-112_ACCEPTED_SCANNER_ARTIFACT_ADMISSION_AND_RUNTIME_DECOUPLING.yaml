@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P1-112_ACCEPTED_SCANNER_ARTIFACT_ADMISSION_AND_RUNTIME_DECOUPLING
 phase: P1
 route_id: P1_ACCEPTED_SCANNER_ARTIFACT_ADMISSION_AND_EMPIRICAL_BASELINE_COMPLETION_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
 objective: >-
   Admit one exact scanner executable from accepted P1-101 Evidence, execute a
   real repository_analysis.scan without Cargo build or external effects, and
@@ -218,3 +218,18 @@ claim_boundary: >-
   route-profile compatibility and downstream build decoupling only; no
   empirical baseline, model performance, P1 exit, P2/P3 entry, remote,
   production, public, hostile-principal or strong-isolation claim.
+terminal_disposition:
+  final_target_verdict: NON_PASS
+  final_reviewer: P1-112 Fresh CTO Reviewer
+  blocking_root_causes:
+    - EXTERNAL_EFFECT_OBSERVATION_SELF_ASSERTED_NOT_MEASURED
+    - MANDATORY_RAW_AND_NEGATIVE_EVIDENCE_SET_INCOMPLETE
+  candidate_integrated: false
+  capability_credit: 0
+  task_2_activated: false
+  correction_or_second_review_allowed: false
+  next_decision_point: FOUNDER_P1_PHASE_GATE
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-112-accepted-scanner-artifact-route-20260725/task-1/terminal/P1_112_TERMINAL_RECEIPT.json
+    sha256: 9d3e40af83bbbe27cac80f4582887a27df3f7aa7edea39866717b0b7d2c2b79c
+    byte_length: 3093

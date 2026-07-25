@@ -1,0 +1,336 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P1-121_FOUNDER_SELECTED_PROVIDER_RECORD_BASELINE_AND_PREREGISTRATION
+phase: P1
+route_id: P1_FOUNDER_SELECTED_PROVIDER_RECORD_BINDING_AND_ATOMIC_BASELINE_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Bind exactly one Founder-selected local ZCode Provider record without
+  persisting its Secret, obtain one strict capacity-reserved loopback
+  diagnostic completion, execute all thirty-six predeclared B0/B1/B2 A/B
+  baseline runs, and retain one reproducible baseline report plus one offline
+  P2 context-engine preregistration.
+why_now: >-
+  Six of eight strict P1 Exit Gate capabilities are accepted. The remaining
+  two are the reproducible baseline report and the first P2 experiment
+  preregistration. P1-120 proved the complete offline preflight but stopped
+  before Provider use because endpoint/model-only configuration inference was
+  non-unique. Founder has now selected the complete non-Secret Provider record
+  identity, so one new clean-room Task can directly test the remaining P1 Exit
+  Gate without a governance or transport precursor.
+task_spec_ref: /Users/lijunpeng/Developer/.sourcelens-audit/p1-121-founder-selected-provider-route-20260726/FOUNDER_P1_FOUNDER_SELECTED_PROVIDER_RECORD_BINDING_AND_ATOMIC_BASELINE_ROUTE_V1.md
+baseline_ref:
+  protocol: docs/aios/EVALUATION_PROTOCOL.md
+  adapter_contract: docs/aios/BASELINE_ADAPTER_CONTRACT.md
+  dataset: evaluation-harness/datasets/p1-representative-task-dataset-v1
+  accepted_trace: evaluation-harness/harness/p1-101-accepted-shared-trace
+  accepted_counting_contract: docs/aios/tasks/P1-070_OFFLINE_SCHEDULED_MATRIX_VTSR_AND_FALSE_SUCCESS_EXPERIMENT.yaml
+owner_role: P1-121 Engineering Manager
+worker_role: P1-121 Clean-Room Baseline Worker
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+risk_level: high
+budget:
+  engineering_hours: 40
+  calendar_days: 7
+  implementation_iterations: 3
+  candidates: 1
+roles:
+  owner: P1-121 Engineering Manager
+  worker: P1-121 Clean-Room Baseline Worker
+  independent_reviewers:
+    - P1-121 Fresh CTO Reviewer
+    - P1-121 Fresh Security Reviewer
+    - P1-121 Fresh Quality Reviewer
+allowlisted_paths:
+  - scripts/verify-p1-121-founder-selected-baseline.sh
+  - evaluation-harness/harness/p1-121-founder-selected-baseline
+  - evaluation-harness/recording/p1-121-founder-selected-baseline
+  - evaluation-harness/replay/p1-121-founder-selected-baseline
+  - evaluation-harness/evaluator/p1-121-founder-selected-baseline
+  - evaluation-harness/fixtures/p1-121-founder-selected-baseline
+  - docs/aios/tasks/P1-121_FOUNDER_SELECTED_PROVIDER_RECORD_BASELINE_AND_PREREGISTRATION.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+  - Makefile
+write_scope:
+  worker:
+    - evaluation-harness/harness/p1-121-founder-selected-baseline
+    - evaluation-harness/recording/p1-121-founder-selected-baseline
+    - evaluation-harness/replay/p1-121-founder-selected-baseline
+  quality:
+    - evaluation-harness/evaluator/p1-121-founder-selected-baseline
+    - evaluation-harness/fixtures/p1-121-founder-selected-baseline
+  integration:
+    - scripts/verify-p1-121-founder-selected-baseline.sh
+    - docs/aios/tasks/P1-121_FOUNDER_SELECTED_PROVIDER_RECORD_BASELINE_AND_PREREGISTRATION.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+    - Makefile
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+  - docs/aios/tasks/P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE.yaml
+  - docs/aios/tasks/P1-070_OFFLINE_SCHEDULED_MATRIX_VTSR_AND_FALSE_SUCCESS_EXPERIMENT.yaml
+  - evaluation-harness/adapters/p1-097-minimal-documented
+  - evaluation-harness/harness/p1-101-accepted-shared-trace
+  - evaluation-harness/recording/p1-101-accepted-shared-trace
+  - evaluation-harness/replay/p1-101-accepted-shared-trace
+  - evaluation-harness/evaluator/p1-101-accepted-shared-trace
+  - evaluation-harness/datasets/p1-representative-task-dataset-v1
+  - /Users/lijunpeng/Developer/.sourcelens-audit/p1-120-atomic-capacity-reserved-route-20260725/task-1/P1_120_TERMINAL_RECEIPT.json
+  - /Users/lijunpeng/Library/Application Support/ZCode/rum-electron-store/ZGVmYXVsdA.json
+dependencies:
+  - ACCEPTED_CANONICAL_P1_035_REPRESENTATIVE_TASK_DATASET
+  - ACCEPTED_CANONICAL_P1_070_VTSR_COUNTING_AND_FALSE_SUCCESS_CHARACTERIZATION
+  - FOUNDER_ACCEPTED_P1_099_EXACT_CANONICAL_B0_B1_B2_ADAPTERS
+  - ACCEPTED_CANONICAL_P1_101_SHARED_OBSERVABLE_TRACE
+historical_isolation:
+  p1_120_status: TERMINAL_IMPLEMENTATION_ITERATION_EXHAUSTED_REPEATED_SECRET_BINDING_NON_PASS
+  p1_120_truth_terminal_receipt_and_safe_accounting_readable: true
+  p1_120_rejected_source_fixture_test_diff_manifest_engineering_bytes_readable: false
+  p1_120_rejected_assets_restore_compare_copy_or_reuse_allowed: false
+  other_rejected_engineering_lineage_read_restore_compare_or_reuse_allowed: false
+  accepted_current_canonical_assets_readable_by_invocation: true
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-121-founder-selected-provider-route-20260726/FOUNDER_P1_FOUNDER_SELECTED_PROVIDER_RECORD_BINDING_AND_ATOMIC_BASELINE_ROUTE_V1.md
+  sha256: 804c991e333e0bfc32047395e3c161d8bbf4b9941919880f3fd61cbc4e2befe7
+  byte_length: 9660
+  authorization_token: AUTHORIZE_P1_FOUNDER_SELECTED_PROVIDER_RECORD_BINDING_AND_ATOMIC_BASELINE_ROUTE_V1
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+provider_record_selector:
+  schema_version: "1.0"
+  selector_id: P1_121_FOUNDER_SELECTED_ZCODE_PROVIDER_RECORD_V1
+  route_id: P1_FOUNDER_SELECTED_PROVIDER_RECORD_BINDING_AND_ATOMIC_BASELINE_ROUTE_V1
+  task_id: AIOS-P1-121_FOUNDER_SELECTED_PROVIDER_RECORD_BASELINE_AND_PREREGISTRATION
+  provider_display_name: 本地gpt
+  enabled: true
+  endpoint:
+    scheme: http
+    host: 127.0.0.1
+    port: 8787
+    base_path: /v1
+    completion_path: /v1/chat/completions
+  api_format:
+    display_name: Chat Completions (/chat/completions)
+    normalized: OPENAI_COMPATIBLE_CHAT_COMPLETIONS
+  model: gpt-5.6-luna
+  selection_policy:
+    exact_match_count_required: 1
+    recursive_secret_search_allowed: false
+    arbitrary_first_match_allowed: false
+    cross_provider_fallback_allowed: false
+    endpoint_model_only_inference_allowed: false
+  secret_bridge:
+    source_store: EXISTING_ZCODE_CONFIGURATION
+    child_delivery: LOCAL_PROCESS_ENV
+    persist: false
+    log_hash_or_evidence_allowed: false
+founder_reserved_profile:
+  schema_version: "2.0"
+  profile_id: P1_121_FOUNDER_SELECTED_PROVIDER_RECORD_BASELINE_V1
+  decision_basis: FOUNDER_P1_PHASE_GATE_P1_120_TERMINAL_2026_07_26
+  route_id: P1_FOUNDER_SELECTED_PROVIDER_RECORD_BINDING_AND_ATOMIC_BASELINE_ROUTE_V1
+  task_id: AIOS-P1-121_FOUNDER_SELECTED_PROVIDER_RECORD_BASELINE_AND_PREREGISTRATION
+  transport:
+    scheme: http
+    host: 127.0.0.1
+    port: 8787
+    base_path: /v1
+    completion_path: /v1/chat/completions
+    api_format: OPENAI_COMPATIBLE_CHAT_COMPLETIONS
+    method: POST
+    follow_redirects: false
+    use_proxy: false
+    dns_resolution: false
+    fallback_endpoint_allowed: false
+    expected_peer_address: 127.0.0.1
+    expected_peer_port: 8787
+  model:
+    requested_model: gpt-5.6-luna
+    substitution_allowed: false
+    provider_provenance: FOUNDER_ATTESTED_OPENAI_COMPATIBLE_LOCAL_GATEWAY_MODEL_NOT_INDEPENDENTLY_VERIFIED
+  secret:
+    allowed_sources:
+      - LOCAL_PROCESS_ENV
+      - CONTROLLED_TEMPORARY_SECRET_FILE
+    persist: false
+    prohibited_sinks:
+      - REPOSITORY
+      - EVIDENCE
+      - LOG
+      - TRACE
+      - PROMPT
+      - REVIEW
+      - VAULT
+  call_limits:
+    provider_requests_max: 39
+    automatic_retry_max: 0
+  token_limits:
+    input_tokens_max: 500000
+    output_tokens_max: 100000
+  monetary_limits:
+    currency: USD
+    max_spend: 25
+    unavailable_metering_status: UNKNOWN_GATEWAY_METERING_UNAVAILABLE
+  egress:
+    restricted_source_allowed: false
+  external_effects:
+    network: true
+    provider: true
+    secret: true
+    remote: false
+    production: false
+    public: false
+  claim_limits:
+    direct_openai_provenance_proven: false
+    adapter_conformance_is_model_performance: false
+    remote: false
+    production: false
+    public: false
+external_effects:
+  network: true
+  provider: true
+  secret: true
+  remote: false
+  production: false
+  public: false
+architecture_constraints:
+  - The full Founder-selected non-Secret Provider selector must identify exactly one ZCode record before Secret extraction.
+  - The Secret bridge may deliver only through one child process environment or an owned mode-0600 temporary file.
+  - Secret values and derived hashes must never enter repository, Evidence, logs, traces, prompts, reviews or Vault.
+  - Provider requests may use only the exact loopback peer and completion path; redirects, proxies, DNS and fallback endpoints are forbidden.
+  - Each request must reserve its full conservative token ceiling before Secret access or network effect; reservations are never released or rewritten.
+  - Current accepted adapters and observable-trace assets are invoked from canonical bytes and are not forked or rewritten.
+  - Every B2 formal run must bind one real exact accepted P0 repository_analysis.scan child invocation.
+  - Failed, timed-out, malformed or policy-stopped formal runs remain in the denominator.
+  - Observable traces retain actions and concise rationale only, never hidden chain-of-thought.
+predeclared_matrix:
+  dataset: evaluation-harness/datasets/p1-representative-task-dataset-v1
+  task_ids:
+    - SL-P1-REP-001-RANGE-NORMALIZATION
+    - SL-P1-REP-002-CONFIG-VALIDATION
+    - SL-P1-REP-003-SAFE-PATH-JOIN
+    - SL-P1-REP-004-COMMAND-RESULT-MAPPING
+    - SL-P1-REP-005-PROFILE-DISPLAY-NAME
+    - SL-P1-REP-006-DEDUPE-REFACTOR
+  configurations:
+    - B0
+    - B1
+    - B2
+  repetitions:
+    - A
+    - B
+  scheduled_runs: 36
+  denominator_rule: ALL_SCHEDULED_RUNS_COUNT_NO_POSTHOC_DELETE_REPLACE_OR_COSMETIC_RERUN
+  diagnostics:
+    maximum: 3
+    must_be_distinct: true
+    first_strict_pass_enters_formal_matrix_immediately: true
+  capacity_reservation:
+    per_request_input_tokens: 8192
+    per_request_output_tokens: 2048
+    maximum_total_requests: 39
+    maximum_reserved_input_tokens: 319488
+    maximum_reserved_output_tokens: 79872
+quality_freeze:
+  offline_preflight:
+    - Exact Goal, packet, Contract, profile, selector, accepted canonical inputs and activation identities match.
+    - The selected ZCode configuration path is a regular non-symlink input and no Secret value is emitted.
+    - Complete selector matching, duplicate selector, disabled record, endpoint/model-only ambiguity and missing Secret cases reject before Secret delivery or network.
+    - Atomic reservation rejects request 40, retry, reservation mutation, counter reset, token cap excess and malformed usage.
+    - Loopback peer, path, redirect, proxy, DNS, fallback and response-size boundaries fail closed.
+    - Current accepted B0/B1/B2 adapters, P1-101 observable trace and P1-070 counting inputs match their canonical accepted identities.
+    - Six TaskSpecs by three configurations by two repetitions freeze to exactly thirty-six unique scheduled run IDs.
+    - Every negative case starts from an independent, owned, one-time fixture.
+    - Offline preflight performs zero Secret extraction, Provider requests and network connections.
+  formal_execution:
+    - At most three distinct minimal diagnostics are retained; no automatic retry occurs.
+    - After the first strict diagnostic completion, exactly thirty-six formal requests execute serially without replacement.
+    - Each run retains exact TaskSpec, EnvironmentSnapshot, SystemConfiguration, prompt, request, response, RunRecord and trace identities.
+    - B0 has no tools; B1 exposes only the declared finite local tool boundary; B2 records the real accepted P0 repository_analysis.scan child.
+    - Replay validates deterministic stable projection while raw stochastic differences remain visible.
+    - Rollback returns every disposable run root to its predeclared state.
+    - The independent aggregate reports numerator, denominator, failures, invalids, reason distribution, token usage state, cost state and latency.
+  negative_matrix:
+    - selector identity drift
+    - duplicate matching Provider records
+    - disabled selected Provider
+    - endpoint drift
+    - API format drift
+    - model substitution
+    - Secret missing or Secret sink request
+    - reservation missing, mutation, reset, overflow or request 40
+    - automatic retry request
+    - non-loopback peer, redirect, proxy, DNS or fallback request
+    - request, response, RunRecord, trace or scheduled-run identity drift
+    - formal denominator deletion, replacement, duplicate or reorder
+    - missing or forged B2 repository_analysis.scan child
+    - rollback or replay drift
+    - remote, production or public effect request
+acceptance_criteria:
+  - The complete offline preflight and negative matrix PASS with zero false accepts, zero Secret extraction and zero Provider/network effects.
+  - Exactly one Founder-selected Provider record is selected and its Secret is delivered transiently without disclosure or persistence.
+  - One strict loopback diagnostic completion passes within at most three distinct requests and zero automatic retries.
+  - Exactly thirty-six unique formal B0/B1/B2 A/B runs execute and all remain in the denominator.
+  - Provider request count is at most thirty-nine, all reservations precede Secret/network effects, and total reserved and actual usage remains within caps or is explicitly UNKNOWN where unavailable.
+  - Every B2 run records a real exact accepted P0 repository_analysis.scan child invocation.
+  - RunRecord, observable trace, stable projection, replay, rollback and independent aggregate pass their frozen validators.
+  - False accepts, non-loopback connections, remote, production and public effects equal zero.
+  - A reproducible baseline report contains the exact matrix, reproduction command, raw and aggregate results, failures, uncertainty, cost, limitations and no unsupported provenance or superiority claim.
+  - A P2 context-engine preregistration freezes hypothesis, baseline, treatment, dataset, primary metric, guardrails, stopping rule, budget and no P2 execution.
+  - One exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS on the same bytes.
+  - The reviewed exact tree equals the canonical integrated tree and exactly one canonical make verify invocation passes.
+required_evidence:
+  - Exact Founder packet, Goal, activation parent, Contract, authority, Provider selector and profile identities.
+  - Offline preflight raw cases, aggregate, zero-effect observation and selector redaction receipt.
+  - Append-only reservation and request ledger with no Secret values or hashes.
+  - Diagnostic request/response identity receipts and strict admission results.
+  - Thirty-six raw run directories, requests, redacted responses, RunRecords, traces, stable projections, replay and rollback receipts.
+  - B2 real repository_analysis.scan child receipts.
+  - Independent aggregate, reproducible baseline report and offline P2 preregistration.
+  - One exact candidate commit/tree/manifest, one recoverable Evidence tag and fresh CTO/Security/Quality reviews.
+  - Reviewed-tree/integrated-tree equality and one canonical make verify result.
+rollback:
+  strategy: OWNED_DISPOSABLE_RUN_ROOTS_AND_NON_DESTRUCTIVE_GIT_REVERT_AFTER_CANONICAL_INTEGRATION
+  forbidden:
+    - git reset
+    - git clean
+    - destructive history rewrite
+    - Evidence overwrite or deletion
+stop_conditions:
+  - Goal, packet, selector, profile, accepted canonical input or activation identity drifts.
+  - The complete non-Secret selector does not identify exactly one enabled Provider record.
+  - Secret extraction, delivery or sink boundaries cannot be proved before network use.
+  - A rejected engineering lineage is required.
+  - A required path, external effect or claim exceeds this Contract.
+  - Three distinct diagnostic requests produce no strict completion.
+  - An adjacent implementation iteration repeats the same normalized root cause.
+  - All three implementation iterations are exhausted.
+  - A formal scheduled run is removed, replaced, cosmetically rerun or omitted from the denominator.
+  - Secret leakage, Evidence overwrite/deletion, non-loopback network, remote, production or public effect occurs.
+  - Any final Reviewer, reviewed/integrated equality check or canonical make verify returns NON_PASS.
+forbidden_actions:
+  - Read, restore, compare, copy or reuse any P1-120 rejected engineering byte.
+  - Infer a Secret from endpoint/model-only matching, recursive search, arbitrary first match or cross-Provider fallback.
+  - Persist, print, hash, log, trace, review or import a Secret into repository, Evidence or Vault.
+  - Use a non-loopback peer, redirect, proxy, DNS resolution or fallback endpoint.
+  - Retry a Provider request automatically or exceed the exact request, token, cost, iteration or candidate limits.
+  - Delete, replace, reorder, duplicate or cosmetically rerun a scheduled formal denominator entry.
+  - Modify accepted canonical adapters, hidden assets, evaluator criteria, P1 Objective, P1 Exit Gate or Phase boundary.
+  - Push, modify remote state, enter P2/P3, or produce production/public effects.
+  - Use git reset, git clean, destructive history rewrite, or overwrite/delete retained Evidence.
+claim_boundary: >-
+  One Founder-selected cooperative-local loopback baseline over the exact
+  predeclared B0/B1/B2 matrix plus one offline P2 experiment preregistration.
+  No direct OpenAI provenance, model superiority, P2/P3 entry, production,
+  remote, public, hostile-principal or strong-isolation claim.

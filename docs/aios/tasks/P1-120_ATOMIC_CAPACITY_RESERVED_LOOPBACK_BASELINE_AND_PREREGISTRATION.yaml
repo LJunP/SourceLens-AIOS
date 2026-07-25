@@ -177,13 +177,13 @@ founder_reserved_profile:
     public: false
 founder_reserved_authorization:
   path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-120-atomic-capacity-reserved-route-20260725/FOUNDER_P1_ATOMIC_CAPACITY_RESERVED_LOOPBACK_BASELINE_AND_PREREGISTRATION_ROUTE_V1.md
-  sha256: 9b1841064180c23b72c3638774a9e4fcc3e352041bf23efe9c3a079285c43662
-  byte_length: 7850
+  sha256: 140eee3b086cefef29b63d15b9e51d885ef77fad68c9f4079231d1700763839d
+  byte_length: 7846
   authorization_token: AUTHORIZE_P1_ATOMIC_CAPACITY_RESERVED_LOOPBACK_BASELINE_AND_PREREGISTRATION_ROUTE_V1
 governing_founder_packet:
   path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-120-atomic-capacity-reserved-route-20260725/FOUNDER_P1_ATOMIC_CAPACITY_RESERVED_LOOPBACK_BASELINE_AND_PREREGISTRATION_ROUTE_V1.md
-  sha256: 9b1841064180c23b72c3638774a9e4fcc3e352041bf23efe9c3a079285c43662
-  byte_length: 7850
+  sha256: 140eee3b086cefef29b63d15b9e51d885ef77fad68c9f4079231d1700763839d
+  byte_length: 7846
 goal_identity:
   raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
   raw_byte_length: 19433

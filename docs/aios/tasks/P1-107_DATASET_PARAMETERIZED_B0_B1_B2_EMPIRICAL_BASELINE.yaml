@@ -1,0 +1,269 @@
+schema_version: 1
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P1-107_DATASET_PARAMETERIZED_B0_B1_B2_EMPIRICAL_BASELINE
+phase: P1
+route_id: P1_CLEAN_ROOM_DETERMINISTIC_EVIDENCE_KERNEL_AND_DIRECT_EMPIRICAL_BASELINE_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Build one clean-room deterministic Evidence kernel from accepted canonical
+  assets and use it to execute, retain, replay, independently evaluate, and
+  aggregate the exact 36-run B0/B1/B2 empirical baseline over all six accepted
+  representative tasks.
+why_now: >-
+  Six of eight P1 Exit Gate capabilities are accepted. The missing reproducible
+  baseline report is the highest-value remaining executable P1 increment, and
+  the Founder explicitly authorized combining the deterministic Evidence
+  prerequisite with the empirical matrix rather than creating another
+  prerequisite or governance Task.
+task_spec_ref:
+  dataset_manifest: evaluation-harness/datasets/p1-representative-task-dataset-v1/dataset-manifest.json
+  baseline_contract: docs/aios/BASELINE_ADAPTER_CONTRACT.md
+  evaluation_protocol: docs/aios/EVALUATION_PROTOCOL.md
+accepted_inputs:
+  - AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+  - AIOS-P1-070_OFFLINE_SCHEDULED_MATRIX_VTSR_AND_FALSE_SUCCESS_EXPERIMENT
+  - AIOS-P1-071_STABLE_REPLAY_PROJECTION_AND_EXACT_HARNESS_ADMISSION_VERTICAL_SLICE
+  - FOUNDER_EXACT_RESIDUAL_INTEGRATED_P1_099_B0_B1_B2_COMPATIBILITY_ADAPTERS
+  - AIOS-P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE
+clean_room_boundary:
+  p1_106_terminal_status: TERMINAL_FINAL_QUALITY_TARGET_NON_PASS
+  p1_106_allowed_reads:
+    - CANONICAL_TRUTH
+    - TERMINAL_RECEIPT
+    - QUALITY_FINAL_REVIEW
+  p1_106_forbidden_reads:
+    - CANDIDATE
+    - SOURCE
+    - FIXTURE
+    - TEST
+    - ORACLE
+    - FORMAL_EVIDENCE
+    - FAILED_ENGINEERING_ASSET
+  failed_asset_reuse_allowed: false
+budget:
+  engineering_hours: 32
+  calendar_days: 8
+  implementation_iterations: 2
+  candidates: 1
+roles:
+  owner: P1-107 Engineering Manager Agent
+  worker: P1-107 Evaluation Systems Worker
+  independent_reviewers:
+    - P1-107 CTO Reviewer
+    - P1-107 Security Reviewer
+    - P1-107 Quality and Evaluation Reviewer
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+allowlisted_paths:
+  - evaluation-harness/harness/p1-107-deterministic-evidence-kernel/**
+  - evaluation-harness/recording/p1-107-deterministic-evidence-kernel/**
+  - evaluation-harness/replay/p1-107-deterministic-evidence-kernel/**
+  - evaluation-harness/validators/p1-107-deterministic-evidence-kernel/**
+  - evaluation-harness/evaluator/p1-107-deterministic-evidence-kernel/**
+  - evaluation-harness/fixtures/p1-107-deterministic-evidence-kernel/**
+  - scripts/verify-p1-107-deterministic-empirical-baseline.sh
+  - Makefile
+  - docs/PROJECT_CODE_MAP.md
+external_effects:
+  network: true
+  provider: true
+  secret: true
+  remote: false
+  production: false
+  public: false
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-107-clean-room-deterministic-baseline-20260725/FOUNDER_P1_CLEAN_ROOM_DETERMINISTIC_EVIDENCE_KERNEL_AND_DIRECT_EMPIRICAL_BASELINE_ROUTE_V1.md
+  sha256: 681c9a33536d1ab616b2ea499defb95975d5c5f70c2634fa210543de5cee7c32
+  byte_length: 7843
+  authorization_token: AUTHORIZE_P1_CLEAN_ROOM_DETERMINISTIC_EVIDENCE_KERNEL_AND_DIRECT_EMPIRICAL_BASELINE_ROUTE_V1
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+founder_reserved_profile:
+  schema_version: "2.0"
+  profile_id: P1_107_CLEAN_ROOM_DETERMINISTIC_EVIDENCE_KERNEL_AND_EMPIRICAL_BASELINE_V1
+  decision_basis: EXACT_FOUNDER_ROUTE_AND_RESIDUAL_AUTHORIZATION_AFTER_COMPATIBILITY_INTEGRATION
+  route_id: P1_CLEAN_ROOM_DETERMINISTIC_EVIDENCE_KERNEL_AND_DIRECT_EMPIRICAL_BASELINE_ROUTE_V1
+  task_id: AIOS-P1-107_DATASET_PARAMETERIZED_B0_B1_B2_EMPIRICAL_BASELINE
+  transport:
+    scheme: http
+    host: 127.0.0.1
+    port: 8787
+    base_path: /v1
+    completion_path: /v1/chat/completions
+    api_format: OPENAI_COMPATIBLE_CHAT_COMPLETIONS
+    method: POST
+    follow_redirects: false
+    use_proxy: false
+    dns_resolution: false
+    fallback_endpoint_allowed: false
+    expected_peer_address: 127.0.0.1
+    expected_peer_port: 8787
+  model:
+    requested_model: gpt-5.6-luna
+    substitution_allowed: false
+    provider_provenance: FOUNDER_ATTESTED_OPENAI_COMPATIBLE_LOCAL_GATEWAY_MODEL_NOT_INDEPENDENTLY_VERIFIED
+  secret:
+    allowed_sources:
+      - LOCAL_PROCESS_ENV
+      - CONTROLLED_TEMPORARY_SECRET_FILE
+    persist: false
+    prohibited_sinks:
+      - REPOSITORY
+      - EVIDENCE
+      - LOG
+      - TRACE
+      - PROMPT
+      - REVIEW
+      - VAULT
+  call_limits:
+    provider_requests_max: 72
+    automatic_retry_max: 0
+  token_limits:
+    input_tokens_max: 3000000
+    output_tokens_max: 300000
+  monetary_limits:
+    currency: USD
+    max_spend: 25
+    unavailable_metering_status: UNKNOWN_GATEWAY_METERING_UNAVAILABLE
+  egress:
+    restricted_source_allowed: false
+  external_effects:
+    network: true
+    provider: true
+    secret: true
+    remote: false
+    production: false
+    public: false
+  claim_limits:
+    direct_openai_provenance_proven: false
+    adapter_conformance_is_model_performance: false
+    remote: false
+    production: false
+    public: false
+offline_preflight:
+  must_pass_before_secret_read: true
+  must_pass_before_provider_request: true
+  checks:
+    - PACKET_TRUTH_CONTRACT_AUTHORITY_PROFILE_EXACT_EQUALITY
+    - CANONICAL_AUTHORITY_AND_P1_SAFETY_PASS
+    - ACCEPTED_INPUT_IDENTITIES
+    - DATASET_POPULATION_EXACTLY_SIX
+    - MATRIX_POPULATION_EXACTLY_THIRTY_SIX
+    - B0_B1_B2_EXECUTABLE_AND_SYSTEM_CONFIGURATION_IDENTITIES
+    - PREBUILT_ACCEPTED_P0_ANALYZER_EXECUTABLE_IDENTITY
+    - LOOPBACK_ONLY_TRANSPORT
+    - PROVIDER_REQUEST_LEDGER_ZERO
+    - SECRET_SINK_DENYLIST
+    - OWNED_OUTPUT_ROOT_IDENTITY
+    - NONOWNED_SENTINEL_IDENTITY
+    - RAW_EVIDENCE_CREATE_ONCE_POLICY
+    - NEGATIVE_MATRIX_PREDECLARED
+formal_matrix:
+  task_count: 6
+  systems:
+    - B0
+    - B1
+    - B2
+  independent_repetitions_per_task_system: 2
+  scheduled_runs: 36
+  automatic_retries: 0
+  stable_comparison: DISTINCT_RUN_ROOTS_ONLY
+deterministic_evidence_kernel:
+  raw_fields:
+    - executable_identity
+    - start_and_end_timing
+    - run_id
+    - task_id
+    - system_id
+    - repetition
+    - request_ledger
+    - response_identity
+    - observable_trace
+    - result
+    - rollback
+    - observed_effects
+  stable_projection_policy: PREDECLARED_DETERMINISTIC_FIELDS_ONLY
+  requested_declared_observed_effects_separate: true
+  required_observers:
+    - CHILD_PROCESS_INVENTORY
+    - LOOPBACK_PEER
+    - PROVIDER_REQUEST_LEDGER
+    - OWNED_ROOT_BEFORE_AFTER_IDENTITY
+    - NONOWNED_PATH_CHANGE_OBSERVATION
+  constant_false_is_independent_observation: false
+negative_evidence:
+  per_case_raw_input_retained: true
+  per_case_rejection_output_retained: true
+  per_case_fixture_identity_retained: true
+  per_case_cleanup_receipt_retained: true
+  create_once: true
+  shared_illegal_lineage_reuse: false
+acceptance_criteria:
+  - complete offline preflight PASS before any Secret read or Provider request
+  - packet, Truth, Contract, and authority Founder-reserved profiles are exactly equal
+  - exactly 36 scheduled runs produce 36 terminal retained outcomes
+  - six tasks each have distinct B0, B1, and B2 configurations and two independent runs
+  - all three cross-run stable-projection pairs per task are exact canonical-JSON byte equal
+  - raw stochastic identity is retained and not forced equal
+  - B2 records the exact accepted-P0 analyzer child invocation
+  - every predeclared negative case retains complete raw Evidence and is rejected
+  - false_accepts equals zero
+  - undeclared_executions equals zero
+  - nonowned_mutations equals zero
+  - remote, production, public, and non-loopback effects equal zero
+  - VTSR denominator includes every eligible scheduled run and reports invalid and failure reason counts
+  - one-command replay rebuilds the aggregate report from retained raw Evidence
+  - physical rollback and cleanup receipts verify owned-root restoration
+  - fresh CTO, Security, and Quality TARGET_VERDICT all PASS the same exact candidate
+  - reviewed tree equals integrated tree and one canonical make verify PASS
+required_evidence:
+  - offline preflight receipt with Provider request count zero and Secret read count zero
+  - frozen analyzer executable identity
+  - exact 36-run schedule and run ledger
+  - raw per-run Evidence packages
+  - cross-run stable-projection comparison receipts
+  - raw per-case negative Evidence and cleanup receipts
+  - observed-effect receipts
+  - VTSR aggregate and failure taxonomy
+  - reproduction command and replay receipt
+  - rollback receipts
+  - exact candidate manifest and Evidence tag
+  - fresh CTO, Security, and Quality final reviews
+  - exact integration and canonical make verify receipt
+stop_conditions:
+  - offline preflight cannot pass inside the initial implementation plus one code-only repair
+  - any Secret read or Provider request occurs before offline preflight PASS
+  - Provider requests exceed 72 or any automatic retry occurs
+  - any non-loopback, remote, production, or public effect occurs
+  - any Secret reaches a prohibited sink
+  - a failed or rejected engineering asset is read, compared, restored, or reused
+  - the 36-run schedule, accepted inputs, or frozen claim boundary drifts
+  - false accept, undeclared execution, non-owned mutation, or Evidence overwrite occurs
+  - the same normalized root cause repeats after the sole code-only repair
+  - any fresh final Reviewer TARGET_VERDICT is NON_PASS
+  - reviewed tree differs from integrated tree
+  - canonical make verify is NONPASS
+forbidden_actions:
+  - modify P1-106 or any rejected engineering asset
+  - read P1-106 candidate, source, fixture, test, oracle, or formal Evidence
+  - modify accepted B0/B1/B2 adapter bytes
+  - modify canonical authority or safety validator semantics
+  - use a constant false field as proof of independent effect observation
+  - omit or aggregate away raw negative-case Evidence
+  - self-compare one run as two independent runs
+  - send restricted source, test, reference patch, evaluator, governance, Truth, Secret, or hidden material to Provider
+  - automatic retry or ambiguous-send retry
+  - non-loopback network
+  - remote, production, or public effect
+  - push, pull, fetch, PR, release, dependency download, P2 entry, or P3 entry
+  - successor, replacement, correction, normalization, closure, feasibility, remediation, or governance-precondition Task
+claim_boundary: >-
+  COOPERATIVE_LOCAL_CLEAN_ROOM_DETERMINISTIC_EVIDENCE_KERNEL_AND_BOUNDED_36_RUN_B0_B1_B2_EMPIRICAL_BASELINE_ONLY_NO_MODEL_PROVENANCE_SUPERIORITY_P2_P3_REMOTE_PRODUCTION_PUBLIC_OR_HOSTILE_PRINCIPAL_CLAIM
+rollback:
+  source: disposable Task worktree and owned output roots
+  integration_failure: non-destructive git revert
+  forbidden: reset or clean

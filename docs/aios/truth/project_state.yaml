@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-24T12:56:39Z"
-verification_scope: P1_106_TERMINAL_FINAL_QUALITY_TARGET_NON_PASS_STRICT_75_PERCENT
+last_verified_at: "2026-07-25T01:20:11Z"
+verification_scope: P1_107_CLEAN_ROOM_DETERMINISTIC_EVIDENCE_KERNEL_AND_36_RUN_EMPIRICAL_BASELINE_ACTIVE_STRICT_75_PERCENT
 
 authority:
   founder: Human Founder
@@ -37,7 +37,7 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
+  current_task_authority: AIOS-P1-107_DATASET_PARAMETERIZED_B0_B1_B2_EMPIRICAL_BASELINE
   note: >-
     The Founder-approved long-term Goal remains ACTIVE with the exact
     Founder-installed identity. P1-099 remains terminal with its Quality
@@ -62,8 +62,15 @@ goal:
     because B2 fresh-run stable projections drifted, six external-effect
     fields were self-attested rather than independently observed, and raw
     per-case negative Evidence was not retained. The candidate was not
-    integrated, canonical make verify was not invoked, P1-107/P1-108 did not
-    activate, and strict P1 completion remains 6/8 (75%).
+    integrated and P1-106 remains terminal. The Founder then accepted one
+    exact bounded provider-cap validator coverage residual. The exact
+    compatibility candidate fast-forwarded to canonical main, its reviewed
+    tree matched exactly, and the single canonical make verify passed without
+    changing P1 capability credit. The Founder-authorized clean-room route is
+    now active. P1-107 combines the deterministic Evidence kernel and exact
+    36-run B0/B1/B2 empirical baseline in one engineering Task, with complete
+    offline preflight required before any Secret read or Provider request.
+    Strict P1 completion remains 6/8 (75%) until the complete Task Gate passes.
 
 project:
   name: SourceLens AIOS
@@ -75,8 +82,8 @@ project:
   p1_entry_status: AUTHORIZED
   phase_execution_status: ACTIVE
   p1_execution_status: ACTIVE
-  p1_engineering_status: P1_106_TERMINAL_FINAL_QUALITY_TARGET_NON_PASS
-  current_route_execution_status: TERMINAL_TASK_1_FINAL_QUALITY_NON_PASS
+  p1_engineering_status: P1_107_CLEAN_ROOM_DETERMINISTIC_BASELINE_ACTIVE
+  current_route_execution_status: ACTIVE_TASK_1_ENGINEERING
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -1595,27 +1602,27 @@ historical_p1_097_phase_route:
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 
 current_phase_route:
-  route_id: P1_DATASET_PARAMETERIZED_PROFILE_RUNTIME_AND_REMAINING_EXIT_GATE_CONTINUOUS_ROUTE_V1
+  route_id: P1_CLEAN_ROOM_DETERMINISTIC_EVIDENCE_KERNEL_AND_DIRECT_EMPIRICAL_BASELINE_ROUTE_V1
   status: ACTIVE
-  authority_object_status: FOUNDER_PHASE_GATE_AUTHORITY_CONSUMED_TERMINAL
-  execution_status: TERMINAL_TASK_1_FINAL_QUALITY_NON_PASS
-  founder_phase_route_decision_required: true
-  scheduling_status: NO_ELIGIBLE_TASK_ROUTE_TERMINAL
+  authority_object_status: FOUNDER_PHASE_GATE_AUTHORITY_CONSUMED_ACTIVE
+  execution_status: ACTIVE_TASK_1_ENGINEERING
+  founder_phase_route_decision_required: false
+  scheduling_status: TASK_1_ACTIVE
   phase: P1
   phase_entry_status: AUTHORIZED
-  authorization_token: AUTHORIZE_P1_DATASET_PARAMETERIZED_PROFILE_RUNTIME_AND_REMAINING_EXIT_GATE_CONTINUOUS_ROUTE_V1
+  authorization_token: AUTHORIZE_P1_CLEAN_ROOM_DETERMINISTIC_EVIDENCE_KERNEL_AND_DIRECT_EMPIRICAL_BASELINE_ROUTE_V1
   decision_packet:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-106-dataset-parameterized-profile-runtime-20260724/FOUNDER_P1_DATASET_PARAMETERIZED_PROFILE_RUNTIME_AND_REMAINING_EXIT_GATE_CONTINUOUS_ROUTE_V1.md
-    sha256: 8836913c54007d6e090143f2cf77cd55923c6b12f4de9d747d9583e5d46c0690
-    byte_length: 6729
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-107-clean-room-deterministic-baseline-20260725/FOUNDER_P1_CLEAN_ROOM_DETERMINISTIC_EVIDENCE_KERNEL_AND_DIRECT_EMPIRICAL_BASELINE_ROUTE_V1.md
+    sha256: 681c9a33536d1ab616b2ea499defb95975d5c5f70c2634fa210543de5cee7c32
+    byte_length: 7843
   founder_authorization_source:
-    source: CODEX_THREAD_FOUNDER_DIRECT_MESSAGE_2026_07_24
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-106-dataset-parameterized-profile-runtime-20260724/FOUNDER_P1_DATASET_PARAMETERIZED_PROFILE_RUNTIME_AND_REMAINING_EXIT_GATE_CONTINUOUS_ROUTE_V1.md
-    packet_sha256: 8836913c54007d6e090143f2cf77cd55923c6b12f4de9d747d9583e5d46c0690
-    packet_byte_length: 6729
+    source: CODEX_THREAD_FOUNDER_DIRECT_MESSAGE_2026_07_25
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-107-clean-room-deterministic-baseline-20260725/FOUNDER_P1_CLEAN_ROOM_DETERMINISTIC_EVIDENCE_KERNEL_AND_DIRECT_EMPIRICAL_BASELINE_ROUTE_V1.md
+    packet_sha256: 681c9a33536d1ab616b2ea499defb95975d5c5f70c2634fa210543de5cee7c32
+    packet_byte_length: 7843
   activation_parent:
-    commit: 9f08530fa1749bc1ea4eebea006e000bbc1c9545
-    tree: b9e71dd0a5690737bad186632ab41d51bc2685da
+    commit: 3bc4407c2873cc0b2b1170e1f3fa409b1da21b7e
+    tree: fdd81f87c1d658f1d4cdcc898b29238b50e682cc
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: "1.6"
@@ -1627,20 +1634,20 @@ current_phase_route:
     canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
     canonical_byte_length: 19434
   objective: >-
-    Build the missing dataset-parameterized B0/B1/B2 profile runtime over all
-    six accepted visible synthetic tasks, use it for one bounded reproducible
-    empirical baseline, and then freeze the first offline P2 context-engine
-    experiment preregistration without entering P2.
+    Build one clean-room deterministic Evidence kernel from accepted canonical
+    assets, directly complete the exact 36-run B0/B1/B2 empirical baseline over
+    all six accepted representative tasks, and then freeze the first offline
+    P2 context-engine experiment preregistration without entering P2.
   p1_exit_gate:
     source: docs/aios/EVALUATION_PROTOCOL.md
     version: "1.1"
     changed: false
     strict_status_at_activation: 6_COMPLETE_0_PARTIAL_2_NOT_COMPLETE_75_PERCENT
-    status: UNCHANGED_SIX_OF_EIGHT_P1_106_TERMINAL_NO_NEW_CAPABILITY
+    status: UNCHANGED_SIX_OF_EIGHT_P1_107_ACTIVE_NO_CREDIT_BEFORE_TASK_GATE
   envelope:
-    max_engineering_tasks: 3
-    max_engineering_hours: 44
-    max_calendar_days: 14
+    max_engineering_tasks: 2
+    max_engineering_hours: 36
+    max_calendar_days: 10
     max_active_tasks: 1
     max_task_branches: 1
     max_task_worktrees: 1
@@ -1652,18 +1659,18 @@ current_phase_route:
     p2_entry_authorized: false
     p3_entry_authorized: false
     external_effects:
-      network: false
-      provider: false
-      secret: false
+      network: true
+      provider: true
+      secret: true
       remote: false
       production: false
       public: false
-  historical_p1_104_founder_reserved_profile:
+  founder_reserved_profile:
     schema_version: "2.0"
-    profile_id: P1_104_PREFLIGHT_FIRST_BOUNDED_LOOPBACK_EMPIRICAL_BASELINE_V1
-    decision_basis: EXACT_FOUNDER_PACKET_TASK_1_AFTER_MANDATORY_OFFLINE_PREFLIGHT
-    route_id: P1_PREFLIGHT_FIRST_CLEAN_ROOM_EMPIRICAL_BASELINE_AND_PREREGISTRATION_CONTINUOUS_ROUTE_V1
-    task_id: AIOS-P1-104_PREFLIGHT_FIRST_CLEAN_ROOM_EMPIRICAL_B0_B1_B2_BASELINE
+    profile_id: P1_107_CLEAN_ROOM_DETERMINISTIC_EVIDENCE_KERNEL_AND_EMPIRICAL_BASELINE_V1
+    decision_basis: EXACT_FOUNDER_ROUTE_AND_RESIDUAL_AUTHORIZATION_AFTER_COMPATIBILITY_INTEGRATION
+    route_id: P1_CLEAN_ROOM_DETERMINISTIC_EVIDENCE_KERNEL_AND_DIRECT_EMPIRICAL_BASELINE_ROUTE_V1
+    task_id: AIOS-P1-107_DATASET_PARAMETERIZED_B0_B1_B2_EMPIRICAL_BASELINE
     transport:
       scheme: http
       host: 127.0.0.1
@@ -1696,7 +1703,7 @@ current_phase_route:
         - REVIEW
         - VAULT
     call_limits:
-      provider_requests_max: 144
+      provider_requests_max: 72
       automatic_retry_max: 0
     token_limits:
       input_tokens_max: 3000000
@@ -1732,9 +1739,11 @@ current_phase_route:
     accepted_canonical_p1_099_adapter_bytes_readable: true
     p1_099_terminal_status_rewritten: false
     p1_099_quality_non_pass_rewritten: false
-    p1_102_terminal_truth_and_receipt_metadata_readable: true
-    p1_102_source_fixture_runner_candidate_or_partial_engineering_asset_readable: false
-    p1_102_terminal_status_rewritten: false
+    p1_106_terminal_truth_receipt_and_quality_review_readable: true
+    p1_106_candidate_source_fixture_test_oracle_formal_evidence_or_failed_engineering_asset_readable: false
+    p1_106_terminal_status_rewritten: false
+    provider_cap_quality_non_pass_rewritten: false
+    provider_cap_residual_acceptance_scope: COOPERATIVE_LOCAL_AUTHORITY_VALIDATOR_COMPATIBILITY_ONLY
     other_rejected_task_candidate_fixture_test_oracle_or_engineering_asset_reuse_allowed: false
   additional_write_roots: []
   inherited_worktree_inventory:
@@ -1818,6 +1827,13 @@ current_phase_route:
       task_contract_sha256: 59c64d01f4d179a50b6a7e4a906990da61fec5bfc54480da070f578558f9508c
       accepted_candidate_commit: 93c3563270316e9e92a58f084f6d28ab12063704
       accepted_candidate_tree: dcbbed8429b9d1db3ea9f7f5cdb28c27e34fa0e9
+    p1_101:
+      task_id: AIOS-P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE
+      status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+      task_contract_path: docs/aios/tasks/P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE.yaml
+      task_contract_sha256: bee1b94f438f2d49a88bd99f2662f404470c446f81ba07be341ac5339d20bf15
+      accepted_candidate_commit: 633f9daf133bf616cd293fb343058e2efba2a3ed
+      accepted_candidate_tree: 999f37f93692a045d455adf0ea503947ed5555a5
   founder_exception_integrated_adapter:
     terminal_task_id: AIOS-P1-099_EXACT_NONOWNED_CLASSIFICATION_RECOVERY_AND_ADAPTER_GATE
     terminal_task_status: TERMINAL_FINAL_QUALITY_TARGET_NON_PASS
@@ -1839,81 +1855,51 @@ current_phase_route:
     strict_p1_completion_after_integration: 5_COMPLETE_0_PARTIAL_3_NOT_COMPLETE_62_5_PERCENT
   task_plan:
     - task_slot: 1
-      task_id: AIOS-P1-106_DATASET_PARAMETERIZED_B0_B1_B2_PROFILE_RUNTIME
-      component: DATASET_PARAMETERIZED_B0_B1_B2_PROFILE_RUNTIME
-      status: TERMINAL_FINAL_QUALITY_TARGET_NON_PASS
-      engineering_hours: 12
-      calendar_days: 4
-      strict_p1_credit_on_pass: 0
-    - task_slot: 2
       task_id: AIOS-P1-107_DATASET_PARAMETERIZED_B0_B1_B2_EMPIRICAL_BASELINE
-      component: REPRODUCIBLE_BASELINE_REPORT
-      status: INELIGIBLE_ROUTE_STOPPED
-      engineering_hours: 28
+      component: DETERMINISTIC_EVIDENCE_KERNEL_AND_REPRODUCIBLE_BASELINE_REPORT
+      status: ACTIVE
+      engineering_hours: 32
       calendar_days: 8
       strict_p1_credit_on_pass: 1
-    - task_slot: 3
+    - task_slot: 2
       task_id: AIOS-P1-108_FIRST_P2_CONTEXT_EXPERIMENT_PREREGISTRATION
       component: FIRST_P2_CONTEXT_ENGINE_EXPERIMENT_PREREGISTRATION
-      status: INELIGIBLE_ROUTE_STOPPED
+      status: ELIGIBLE_AFTER_TASK_1_GATE
       engineering_hours: 4
       calendar_days: 2
       strict_p1_credit_on_pass: 1
   first_task:
-    task_id: AIOS-P1-106_DATASET_PARAMETERIZED_B0_B1_B2_PROFILE_RUNTIME
+    task_id: AIOS-P1-107_DATASET_PARAMETERIZED_B0_B1_B2_EMPIRICAL_BASELINE
     task_slot: 1
-    status: TERMINAL_FINAL_QUALITY_TARGET_NON_PASS
-    contract_path: docs/aios/tasks/P1-106_DATASET_PARAMETERIZED_B0_B1_B2_PROFILE_RUNTIME.yaml
-    contract_sha256: 4f38b545ccecf623ee9c1ec11f8b44cc057d1b607e6e6d7f17bfaed227036c38
-    contract_byte_length: 13574
-    max_engineering_hours: 12
-    max_calendar_days: 4
+    status: ACTIVE
+    contract_path: docs/aios/tasks/P1-107_DATASET_PARAMETERIZED_B0_B1_B2_EMPIRICAL_BASELINE.yaml
+    contract_sha256: e6679227b0a800451caf5ae7748eaa52e1f5d18890cca459e91e656fae0ba1ab
+    contract_byte_length: 11095
+    max_engineering_hours: 32
+    max_calendar_days: 8
     max_implementation_iterations: 2
     max_candidates: 1
     accepted_input_ids:
       - p1_035
+      - p1_070
+      - p1_071
       - p1_101
-    capability_projection_on_pass: []
-    strict_progress_projection_on_pass: 6_COMPLETE_0_PARTIAL_2_NOT_COMPLETE_75_PERCENT
-    claim_boundary: DATASET_PARAMETERIZED_COOPERATIVE_LOCAL_OFFLINE_B0_B1_B2_RUNTIME_ONLY
-    implementation_iterations_used: 2
-    code_only_repairs_used: 1
-    candidates_used: 1
-    final_review_cycles_used: 1
-    candidate_commit: 4930896044019114d150ae2041bf9dcd2d059c2e
-    candidate_tree: 021cb212e6564fd148994ccddc15464f80aada49
-    candidate_manifest_sha256: 87b6137ea1895dc009a4edb2c7d7f75730779d7e1980a1faf14a11defd339c72
-    evidence_tag: evidence/p1-106-candidate-4930896-20260724
-    quality_final_target_verdict: NON_PASS
-    quality_final_review_sha256: d18c98515688c59c4fc746969016a0852b054df0cd9e338d759dee1d894b5155
-    blocking_finding_ids:
-      - P1-106-QF-001
-      - P1-106-QF-002
-      - P1-106-QF-003
-    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-106-dataset-parameterized-profile-runtime-20260724/terminal/P1_106_TERMINAL_RECEIPT.json
-    terminal_receipt_sha256: 2aca31dbee5c49d61e98b7584a75bc2ffe900f18e2d70a93ff1d9d987fa17877
-    terminal_receipt_byte_length: 5445
-    candidate_integrated: false
-    canonical_make_verify: NOT_INVOKED_FINAL_REVIEW_NON_PASS
-    canonical_make_verify_invocations: 0
-    accepted_capability_created: false
-    capability_credit: 0
-  projected_second_task:
-    task_id: AIOS-P1-107_DATASET_PARAMETERIZED_B0_B1_B2_EMPIRICAL_BASELINE
-    task_slot: 2
-    status: INELIGIBLE_ROUTE_STOPPED
-    max_engineering_hours: 28
-    max_calendar_days: 8
-    max_implementation_iterations: 2
-    max_candidates: 1
+    accepted_founder_exception_input: P1_099_CANONICAL_B0_B1_B2_COMPATIBILITY_ADAPTERS
     capability_projection_on_pass:
       - REPRODUCIBLE_BASELINE_REPORT
     strict_progress_projection_on_pass: 7_COMPLETE_0_PARTIAL_1_NOT_COMPLETE_87_5_PERCENT
-    external_effects_task_specific_founder_profile_required: true
-  projected_third_task:
+    claim_boundary: COOPERATIVE_LOCAL_CLEAN_ROOM_DETERMINISTIC_EVIDENCE_KERNEL_AND_BOUNDED_36_RUN_B0_B1_B2_EMPIRICAL_BASELINE_ONLY
+    implementation_iterations_used: 0
+    code_only_repairs_used: 0
+    candidates_used: 0
+    final_review_cycles_used: 0
+    offline_preflight_status: NOT_RUN
+    provider_requests_used: 0
+    secret_reads_used: 0
+  projected_second_task:
     task_id: AIOS-P1-108_FIRST_P2_CONTEXT_EXPERIMENT_PREREGISTRATION
-    task_slot: 3
-    status: INELIGIBLE_ROUTE_STOPPED
+    task_slot: 2
+    status: ELIGIBLE_AFTER_TASK_1_GATE
     max_engineering_hours: 4
     max_calendar_days: 2
     max_implementation_iterations: 2
@@ -1923,22 +1909,21 @@ current_phase_route:
     strict_progress_projection_on_pass: 8_COMPLETE_0_PARTIAL_0_NOT_COMPLETE_100_PERCENT
     external_effects_all_false: true
   route_execution_accounting:
-    maximum_engineering_tasks: 3
+    maximum_engineering_tasks: 2
     task_slots_consumed: 1
-    active_task_id: NONE
+    active_task_id: AIOS-P1-107_DATASET_PARAMETERIZED_B0_B1_B2_EMPIRICAL_BASELINE
     scheduled_task_ids:
-      - AIOS-P1-106_DATASET_PARAMETERIZED_B0_B1_B2_PROFILE_RUNTIME
-    terminal_task_ids:
-      - AIOS-P1-106_DATASET_PARAMETERIZED_B0_B1_B2_PROFILE_RUNTIME
+      - AIOS-P1-107_DATASET_PARAMETERIZED_B0_B1_B2_EMPIRICAL_BASELINE
+    terminal_task_ids: []
     accepted_task_ids: []
-    maximum_engineering_hours: 44
-    engineering_hours_authorized_current_task: 0
-    status: TERMINAL_1_OF_3_TASKS_TASK_1_NON_PASS_TASKS_2_AND_3_INELIGIBLE
-  claim_boundary: DATASET_PARAMETERIZED_PROFILE_RUNTIME_THEN_BOUNDED_EMPIRICAL_BASELINE_THEN_OFFLINE_P2_PREREGISTRATION_ONLY_NO_P2_EXECUTION_P3_PRODUCTION_PUBLIC_REMOTE_OR_HOSTILE_PRINCIPAL_CLAIM
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
+    maximum_engineering_hours: 36
+    engineering_hours_authorized_current_task: 32
+    status: ACTIVE_1_OF_2_TASKS
+  claim_boundary: CLEAN_ROOM_DETERMINISTIC_EVIDENCE_KERNEL_THEN_BOUNDED_36_RUN_EMPIRICAL_BASELINE_THEN_OFFLINE_P2_PREREGISTRATION_ONLY_NO_P2_EXECUTION_P3_NONLOOPBACK_REMOTE_PRODUCTION_PUBLIC_OR_HOSTILE_PRINCIPAL_CLAIM
+  next_eligible_action: CONTINUE_CURRENT_TASK
 
 phase_delegation:
-  status: ACTIVE_PHASE_AWAITING_FOUNDER_GATE
+  status: ACTIVE_PHASE_ROUTE_TASK_1_EXECUTING
   model: PHASE_LEVEL_FOUNDER_DELEGATION
   decision_source: FOUNDER_DIRECTIVES_IN_CODEX_THREAD_2026_07_16_AND_2026_07_17
   phase_gate_owner: HUMAN_FOUNDER
@@ -2953,55 +2938,67 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: NONE
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P1-107_DATASET_PARAMETERIZED_B0_B1_B2_EMPIRICAL_BASELINE
+  current_task_status: ACTIVE
   current_task_contract:
-    path: null
-    sha256: null
-    byte_length: null
-  current_task_contract_sha256: null
-  current_execution_authorization: null
-  current_execution_authorization_sha256: null
+    path: docs/aios/tasks/P1-107_DATASET_PARAMETERIZED_B0_B1_B2_EMPIRICAL_BASELINE.yaml
+    sha256: e6679227b0a800451caf5ae7748eaa52e1f5d18890cca459e91e656fae0ba1ab
+    byte_length: 11095
+  current_task_contract_sha256: e6679227b0a800451caf5ae7748eaa52e1f5d18890cca459e91e656fae0ba1ab
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-107-clean-room-deterministic-baseline-20260725/authority/PHASE_DELEGATED_TASK_AUTHORITY.yaml
+  current_execution_authorization_sha256: 8a3b426140a7db99562db0a0ffe12025d64aa7ab5ebceb4ef19ff5a163f61fcc
   authority_record:
-    path: null
-    sha256: null
-    byte_length: null
-  execution_nonce: null
-  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
-  authorization_id: null
-  activation_parent_commit: null
-  activation_parent_tree: null
-  task_resource_state: NONE_PHASE_ACTIVE
-  task_branch: null
-  task_worktree: null
-  execution_evidence_root: null
-  allowlisted_paths: []
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-107-clean-room-deterministic-baseline-20260725/authority/PHASE_DELEGATED_TASK_AUTHORITY.yaml
+    sha256: 8a3b426140a7db99562db0a0ffe12025d64aa7ab5ebceb4ef19ff5a163f61fcc
+    byte_length: 4670
+  execution_nonce: 05bcee53515563601bf98375a54b2c0b9fcb1f352abe86ee81328202307cee77
+  execution_nonce_status: ACTIVE
+  authorization_id: 0181b9deb428e3b8a175b62b356129b00a66b88b437f2ca6d08689e2ee947c1d
+  activation_parent_commit: 3bc4407c2873cc0b2b1170e1f3fa409b1da21b7e
+  activation_parent_tree: fdd81f87c1d658f1d4cdcc898b29238b50e682cc
+  task_resource_state: ACTIVE
+  task_branch: codex/p1-107-deterministic-evidence-baseline
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-107-deterministic-evidence-baseline
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-107-clean-room-deterministic-baseline-20260725/evidence
+  allowlisted_paths:
+    - evaluation-harness/harness/p1-107-deterministic-evidence-kernel/**
+    - evaluation-harness/recording/p1-107-deterministic-evidence-kernel/**
+    - evaluation-harness/replay/p1-107-deterministic-evidence-kernel/**
+    - evaluation-harness/validators/p1-107-deterministic-evidence-kernel/**
+    - evaluation-harness/evaluator/p1-107-deterministic-evidence-kernel/**
+    - evaluation-harness/fixtures/p1-107-deterministic-evidence-kernel/**
+    - scripts/verify-p1-107-deterministic-empirical-baseline.sh
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
   budget:
-    engineering_hours: null
-    calendar_days: null
-    implementation_iterations: null
-    candidates: null
+    engineering_hours: 32
+    calendar_days: 8
+    implementation_iterations: 2
+    candidates: 1
   roles:
-    owner: null
-    worker: null
-    independent_reviewers: []
+    owner: P1-107 Engineering Manager Agent
+    worker: P1-107 Evaluation Systems Worker
+    independent_reviewers:
+      - P1-107 CTO Reviewer
+      - P1-107 Security Reviewer
+      - P1-107 Quality and Evaluation Reviewer
   external_effects:
-    network: false
-    provider: false
-    secret: false
+    network: true
+    provider: true
+    secret: true
     remote: false
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: null
-  founder_reserved_authorization_sha256: null
+  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-107-clean-room-deterministic-baseline-20260725/FOUNDER_P1_CLEAN_ROOM_DETERMINISTIC_EVIDENCE_KERNEL_AND_DIRECT_EMPIRICAL_BASELINE_ROUTE_V1.md
+  founder_reserved_authorization_sha256: 681c9a33536d1ab616b2ea499defb95975d5c5f70c2634fa210543de5cee7c32
   founder_decision_required: false
-  founder_decision_required_scope: ROUTE_TERMINAL_PHASE_GATE_IS_FOUNDER_RESERVED
+  founder_decision_required_scope: NONE_WITHIN_ACTIVE_PHASE_ENVELOPE
   escalation_reason: null
   user_action_required: NONE
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: CONTINUE_CURRENT_TASK
   last_accepted_task:
     task_id: AIOS-P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE
     status: MASTER_TASK_GATE_ACCEPTED_COMPLETE

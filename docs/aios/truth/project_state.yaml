@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-25T17:53:16Z"
-verification_scope: P1_121_TERMINAL_PRE_PROVIDER_SELECTOR_NO_EXACT_MATCH_FOUNDER_P1_PHASE_GATE_STRICT_75_PERCENT
+last_verified_at: "2026-07-26T00:00:00Z"
+verification_scope: P1_122_ONE_SHOT_FOUNDER_SECRET_IMAGE_ROUTE_AUTHORIZED_READY_STRICT_75_PERCENT
 
 authority:
   founder: Human Founder
@@ -167,7 +167,11 @@ goal:
     rejected source and Evidence are retained but non-reusable. No empirical
     run, candidate, final review, baseline report or preregistration was
     accepted, so strict P1 completion remains 6/8 (75%) at the Founder P1
-    Phase Gate.
+    Phase Gate. The Founder has now authorized P1-122 as one independent
+    one-shot clean-room route using the exact Founder-provided local screenshot
+    as the sole Secret source after a complete offline preflight PASS. Route
+    authorization adds no capability credit; strict P1 completion remains 6/8
+    (75%).
 
 project:
   name: SourceLens AIOS
@@ -177,10 +181,10 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  phase_execution_status: ACTIVE
-  p1_execution_status: ACTIVE
-  p1_engineering_status: P1_121_TERMINAL_PRE_PROVIDER_SELECTOR_NO_EXACT_MATCH_NON_PASS
-  current_route_execution_status: TERMINAL_TASK_1_ROUTE_STOPPED
+  phase_execution_status: AUTHORIZED_READY
+  p1_execution_status: AUTHORIZED_READY
+  p1_engineering_status: P1_122_ROUTE_AUTHORIZED_READY
+  current_route_execution_status: AUTHORIZED_READY_TASK_1
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -3034,22 +3038,22 @@ historical_p1_118_phase_route:
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 
 current_phase_route:
-  route_id: P1_FOUNDER_SELECTED_PROVIDER_RECORD_BINDING_AND_ATOMIC_BASELINE_ROUTE_V1
-  status: ACTIVE
-  authority_object_status: FOUNDER_PHASE_GATE_AUTHORITY_CONSUMED_ROUTE_TERMINAL
-  execution_status: TERMINAL_TASK_1_ROUTE_STOPPED
-  founder_phase_route_decision_required: true
-  scheduling_status: NO_ELIGIBLE_TASK_TASK_1_TERMINAL
+  route_id: P1_ONE_SHOT_FOUNDER_PROVIDED_SECRET_IMAGE_BRIDGE_AND_ATOMIC_EXIT_GATE_ROUTE_V1
+  status: AUTHORIZED_READY
+  authority_object_status: FOUNDER_PHASE_GATE_AUTHORITY_AVAILABLE
+  execution_status: AUTHORIZED_READY_TASK_1
+  founder_phase_route_decision_required: false
+  scheduling_status: TASK_1_ELIGIBLE_NOT_ACTIVATED
   phase: P1
   phase_entry_status: AUTHORIZED
-  authorization_token: AUTHORIZE_P1_FOUNDER_SELECTED_PROVIDER_RECORD_BINDING_AND_ATOMIC_BASELINE_ROUTE_V1
+  authorization_token: AUTHORIZE_P1_ONE_SHOT_FOUNDER_PROVIDED_SECRET_IMAGE_BRIDGE_AND_ATOMIC_EXIT_GATE_ROUTE_V1
   decision_packet:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-121-founder-selected-provider-route-20260726/FOUNDER_P1_FOUNDER_SELECTED_PROVIDER_RECORD_BINDING_AND_ATOMIC_BASELINE_ROUTE_V1.md
-    sha256: 804c991e333e0bfc32047395e3c161d8bbf4b9941919880f3fd61cbc4e2befe7
-    byte_length: 9660
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-122-founder-secret-image-route-20260726/FOUNDER_P1_ONE_SHOT_FOUNDER_PROVIDED_SECRET_IMAGE_BRIDGE_AND_ATOMIC_EXIT_GATE_ROUTE_V1.md
+    sha256: fe81a93b24146a8242135577873774cc807a7534ab39d046606a94fa3ee2952b
+    byte_length: 10936
   activation_parent:
-    commit: 10ebd4a988270cb215607359ac0dfe1d971907bc
-    tree: 5db9602326cb33b4000b32a3b1913b566761acbd
+    commit: 2cc92a2f1ea9916c8560790992ea531245c4bb5f
+    tree: 0e3b0d1947e105025d4fae2d670a2253613c31d6
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: "1.6"
@@ -3061,8 +3065,9 @@ current_phase_route:
     canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
     canonical_byte_length: 19434
   objective: >-
-    Bind exactly one Founder-selected ZCode Provider record without persisting
-    its Secret, obtain one strict capacity-reserved loopback diagnostic
+    Consume the exact Founder-provided local screenshot only after complete
+    offline preflight PASS, extract exactly one Secret in local memory without
+    persistence, obtain one strict capacity-reserved loopback diagnostic
     completion, execute all thirty-six predeclared B0/B1/B2 A/B baseline runs,
     and retain one reproducible baseline report plus one offline P2
     context-engine preregistration.
@@ -3086,40 +3091,12 @@ current_phase_route:
       remote: false
       production: false
       public: false
-  provider_record_selector:
-    schema_version: "1.0"
-    selector_id: P1_121_FOUNDER_SELECTED_ZCODE_PROVIDER_RECORD_V1
-    route_id: P1_FOUNDER_SELECTED_PROVIDER_RECORD_BINDING_AND_ATOMIC_BASELINE_ROUTE_V1
-    task_id: AIOS-P1-121_FOUNDER_SELECTED_PROVIDER_RECORD_BASELINE_AND_PREREGISTRATION
-    provider_display_name: 本地gpt
-    enabled: true
-    endpoint:
-      scheme: http
-      host: 127.0.0.1
-      port: 8787
-      base_path: /v1
-      completion_path: /v1/chat/completions
-    api_format:
-      display_name: Chat Completions (/chat/completions)
-      normalized: OPENAI_COMPATIBLE_CHAT_COMPLETIONS
-    model: gpt-5.6-luna
-    selection_policy:
-      exact_match_count_required: 1
-      recursive_secret_search_allowed: false
-      arbitrary_first_match_allowed: false
-      cross_provider_fallback_allowed: false
-      endpoint_model_only_inference_allowed: false
-    secret_bridge:
-      source_store: EXISTING_ZCODE_CONFIGURATION
-      child_delivery: LOCAL_PROCESS_ENV
-      persist: false
-      log_hash_or_evidence_allowed: false
   founder_reserved_profile:
     schema_version: "2.0"
-    profile_id: P1_121_FOUNDER_SELECTED_PROVIDER_RECORD_BASELINE_V1
-    decision_basis: FOUNDER_P1_PHASE_GATE_P1_120_TERMINAL_2026_07_26
-    route_id: P1_FOUNDER_SELECTED_PROVIDER_RECORD_BINDING_AND_ATOMIC_BASELINE_ROUTE_V1
-    task_id: AIOS-P1-121_FOUNDER_SELECTED_PROVIDER_RECORD_BASELINE_AND_PREREGISTRATION
+    profile_id: P1_122_FOUNDER_PROVIDED_SECRET_IMAGE_ATOMIC_BASELINE_V1
+    decision_basis: FOUNDER_P1_PHASE_GATE_P1_121_TERMINAL_2026_07_26
+    route_id: P1_ONE_SHOT_FOUNDER_PROVIDED_SECRET_IMAGE_BRIDGE_AND_ATOMIC_EXIT_GATE_ROUTE_V1
+    task_id: AIOS-P1-122_FOUNDER_PROVIDED_SECRET_IMAGE_ATOMIC_BASELINE_AND_PREREGISTRATION
     transport:
       scheme: http
       host: 127.0.0.1
@@ -3178,10 +3155,10 @@ current_phase_route:
       public: false
   founder_reserved_profiles:
     - schema_version: "2.0"
-      profile_id: P1_121_FOUNDER_SELECTED_PROVIDER_RECORD_BASELINE_V1
-      decision_basis: FOUNDER_P1_PHASE_GATE_P1_120_TERMINAL_2026_07_26
-      route_id: P1_FOUNDER_SELECTED_PROVIDER_RECORD_BINDING_AND_ATOMIC_BASELINE_ROUTE_V1
-      task_id: AIOS-P1-121_FOUNDER_SELECTED_PROVIDER_RECORD_BASELINE_AND_PREREGISTRATION
+      profile_id: P1_122_FOUNDER_PROVIDED_SECRET_IMAGE_ATOMIC_BASELINE_V1
+      decision_basis: FOUNDER_P1_PHASE_GATE_P1_121_TERMINAL_2026_07_26
+      route_id: P1_ONE_SHOT_FOUNDER_PROVIDED_SECRET_IMAGE_BRIDGE_AND_ATOMIC_EXIT_GATE_ROUTE_V1
+      task_id: AIOS-P1-122_FOUNDER_PROVIDED_SECRET_IMAGE_ATOMIC_BASELINE_AND_PREREGISTRATION
       transport:
         scheme: http
         host: 127.0.0.1
@@ -3254,12 +3231,12 @@ current_phase_route:
       accepted_candidate_commit: ee51cc96fedec5cc9ec640c6c0c1c76d5268d6c5
       accepted_candidate_tree: ffae19db6991a77424d0deaa96a1c761348b7b41
   first_task:
-    task_id: AIOS-P1-121_FOUNDER_SELECTED_PROVIDER_RECORD_BASELINE_AND_PREREGISTRATION
+    task_id: AIOS-P1-122_FOUNDER_PROVIDED_SECRET_IMAGE_ATOMIC_BASELINE_AND_PREREGISTRATION
     task_slot: 1
-    status: TERMINAL_FORMAL_PRE_PROVIDER_SELECTOR_NO_EXACT_MATCH_NON_PASS
-    contract_path: docs/aios/tasks/P1-121_FOUNDER_SELECTED_PROVIDER_RECORD_BASELINE_AND_PREREGISTRATION.yaml
-    contract_sha256: 2d7744bd508895aef5c60c02dee5d100867057bd27a89cc173340c2ac920fb7f
-    contract_byte_length: 18168
+    status: ELIGIBLE_NOT_ACTIVATED
+    contract_path: docs/aios/tasks/P1-122_FOUNDER_PROVIDED_SECRET_IMAGE_ATOMIC_BASELINE_AND_PREREGISTRATION.yaml
+    contract_sha256: 1db84c5895748c22ce3d1246a00958647fb2112078608998cdd064c71e2fb2e2
+    contract_byte_length: 11890
     max_engineering_hours: 40
     max_calendar_days: 7
     max_implementation_iterations: 3
@@ -3267,23 +3244,21 @@ current_phase_route:
     strict_p1_credit_on_pass: 2
   task_plan:
     - task_slot: 1
-      task_id: AIOS-P1-121_FOUNDER_SELECTED_PROVIDER_RECORD_BASELINE_AND_PREREGISTRATION
-      status: TERMINAL_FORMAL_PRE_PROVIDER_SELECTOR_NO_EXACT_MATCH_NON_PASS
+      task_id: AIOS-P1-122_FOUNDER_PROVIDED_SECRET_IMAGE_ATOMIC_BASELINE_AND_PREREGISTRATION
+      status: ELIGIBLE_NOT_ACTIVATED
       engineering_hours: 40
       calendar_days: 7
       strict_p1_credit_on_pass: 2
   route_execution_accounting:
     maximum_engineering_tasks: 1
-    task_slots_consumed: 1
+    task_slots_consumed: 0
     active_task_id: null
-    scheduled_task_ids:
-      - AIOS-P1-121_FOUNDER_SELECTED_PROVIDER_RECORD_BASELINE_AND_PREREGISTRATION
-    terminal_task_ids:
-      - AIOS-P1-121_FOUNDER_SELECTED_PROVIDER_RECORD_BASELINE_AND_PREREGISTRATION
+    scheduled_task_ids: []
+    terminal_task_ids: []
     accepted_task_ids: []
     maximum_engineering_hours: 40
     engineering_hours_authorized_current_task: 0
-    status: TERMINAL_TASK_1_ROUTE_STOPPED
+    status: AUTHORIZED_READY_TASK_1
   additional_write_roots: []
   inherited_worktree_inventory:
     - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-063-atomic-offline-b0
@@ -3359,15 +3334,15 @@ current_phase_route:
       branch: codex/p1-121-founder-selected-baseline
       status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
   claim_boundary: >-
-    One Founder-selected cooperative-local loopback baseline over the exact
-    predeclared B0/B1/B2 matrix plus one offline P2 experiment
-    preregistration. No direct OpenAI provenance, model superiority, P2/P3
-    entry, production, remote, public, hostile-principal or strong-isolation
-    claim.
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
+    One Founder-authorized cooperative-local loopback baseline over the exact
+    predeclared B0/B1/B2 matrix using one ephemeral screenshot Secret bridge,
+    plus one offline P2 experiment preregistration. No direct OpenAI
+    provenance, model superiority, P2/P3 entry, production, remote, public,
+    hostile-principal or strong-isolation claim.
+  next_eligible_action: ACTIVATE_P1_122_TASK_1
 
 phase_delegation:
-  status: P1_PHASE_GATE_TASK_NONE
+  status: P1_PHASE_DELEGATED_ROUTE_READY_TASK_NONE
   model: PHASE_LEVEL_FOUNDER_DELEGATION
   decision_source: FOUNDER_DIRECTIVES_IN_CODEX_THREAD_2026_07_16_AND_2026_07_17
   phase_gate_owner: HUMAN_FOUNDER
@@ -4407,7 +4382,7 @@ active_work:
   authorization_id: null
   activation_parent_commit: null
   activation_parent_tree: null
-  task_resource_state: NONE_PHASE_ACTIVE
+  task_resource_state: NOT_CREATED_ROUTE_READY
   task_branch: null
   task_worktree: null
   execution_evidence_root: null
@@ -4435,9 +4410,9 @@ active_work:
   founder_decision_required_scope: NONE_WITHIN_ACTIVE_PHASE_ENVELOPE
   escalation_reason: null
   user_action_required: NONE
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_P1_PHASE_GATE
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: ACTIVATE_P1_122_TASK_1
   last_terminal_task:
     task_id: AIOS-P1-121_FOUNDER_SELECTED_PROVIDER_RECORD_BASELINE_AND_PREREGISTRATION
     status: TERMINAL_FORMAL_PRE_PROVIDER_SELECTOR_NO_EXACT_MATCH_NON_PASS

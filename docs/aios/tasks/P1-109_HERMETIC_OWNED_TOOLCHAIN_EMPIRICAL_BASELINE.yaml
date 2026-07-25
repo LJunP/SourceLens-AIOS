@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P1-109_HERMETIC_OWNED_TOOLCHAIN_EMPIRICAL_BASELINE
 phase: P1
 route_id: P1_HERMETIC_OWNED_TOOLCHAIN_EMPIRICAL_BASELINE_AND_PREREGISTRATION_PHASE_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_PREFREEZE_ARCHITECTURE_AND_INFRASTRUCTURE_NON_PASS
 objective: >-
   Build one Task-owned hermetic offline toolchain and deterministic Evidence
   kernel from accepted canonical assets, pass a fail-closed offline preflight,
@@ -15,6 +15,33 @@ why_now: >-
   Provider use because its offline build mutated non-owned runtime state. This
   clean-room Task isolates every writable runtime path before any Secret read
   or Provider request and directly targets the missing Exit Gate item.
+terminal_outcome:
+  status: TERMINAL_PREFREEZE_ARCHITECTURE_AND_INFRASTRUCTURE_NON_PASS
+  formal_offline_preflight: NOT_RUN
+  formal_matrix: NOT_RUN
+  provider_requests: 0
+  secret_reads: 0
+  candidate_created: false
+  final_reviews_started: false
+  canonical_integration_attempted: false
+  strict_p1_completion_after_terminal: 6_OF_8_75_PERCENT
+  p1_110_eligible: false
+  normalized_root_causes:
+    - P1109.PREFLIGHT.ACCEPTED_ENVIRONMENT_SNAPSHOT_NOT_DATASET_PARAMETERIZED
+    - P1109.PREFLIGHT.RUN_RECORD_COST_SCHEMA_CONFLICT
+    - P1109.PREFLIGHT.B1_B2_SOURCE_EGRESS_CONFLICT
+    - P1109.SANDBOX.MACOS_NODE_GLOBAL_READ_DENY_UNREAPED_EXITING_PROCESS
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-109-hermetic-owned-baseline-20260725/P1_109_TERMINAL_RECEIPT.json
+    sha256: 6f8ae498fd71e8c6eee98603343b31bc07285d4fa69219719237c79f0e1b95ba
+    byte_length: 4351
+  rejected_prefreeze_source_manifest:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-109-hermetic-owned-baseline-20260725/P1_109_REJECTED_PREFREEZE_SOURCE_MANIFEST.json
+    sha256: 14430c97df514efe89d74f16f1ea9e778fbfd2313d396f0d7c76d6fe863e7daf
+    byte_length: 6073
+    file_count: 23
+    aggregate_sha256: e99f0f05147c56ee03dfccdebf825282f507856d2037b515174b9182ab5b49e4
+  next_decision_point: FOUNDER_P1_PHASE_GATE
 task_spec_ref: >-
   /Users/lijunpeng/Developer/.sourcelens-audit/p1-109-hermetic-owned-baseline-20260725/FOUNDER_P1_HERMETIC_OWNED_TOOLCHAIN_EMPIRICAL_BASELINE_AND_PREREGISTRATION_PHASE_ROUTE_V1.md
 owner_role: P1-109 Engineering Manager

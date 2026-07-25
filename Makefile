@@ -1,4 +1,4 @@
-.PHONY: help deps up up-infra down logs logs-backend dev backend backend-jar frontend analyzer verify clean clean-local-generated code-map code-map-check aios-governance-check p1-safety-check p1-harness-check p1-environment-snapshot-check p1-task-dataset-check p1-experiment-pack-reentry-check p1-finite-typed-patch-ir-check p1-offline-b0-complete-evidence-check p1-blind-admission-check p1-stable-replay-projection-check p1-offline-scheduled-matrix-check p1-accepted-shared-trace-check script-check api-design-check db-schema-check dependency-check llm-safety-check mysql-flyway-smoke test-backend test-frontend test-analyzer
+.PHONY: help deps up up-infra down logs logs-backend dev backend backend-jar frontend analyzer verify clean clean-local-generated code-map code-map-check aios-governance-check p1-safety-check p1-harness-check p1-environment-snapshot-check p1-task-dataset-check p1-experiment-pack-reentry-check p1-finite-typed-patch-ir-check p1-offline-b0-complete-evidence-check p1-blind-admission-check p1-stable-replay-projection-check p1-offline-scheduled-matrix-check p1-accepted-shared-trace-check p1-116-closed-profile-scanner-admission-check script-check api-design-check db-schema-check dependency-check llm-safety-check mysql-flyway-smoke test-backend test-frontend test-analyzer
 
 help: ## 显示当前有效命令
 	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-24s\033[0m %s\n", $$1, $$2}'
@@ -39,7 +39,7 @@ analyzer: ## 构建 Rust analyzer
 	mkdir -p bin
 	cp analyzer-rust/target/release/sourcelens-analyzer bin/
 
-verify: p1-harness-check p1-environment-snapshot-check p1-task-dataset-check p1-experiment-pack-reentry-check p1-finite-typed-patch-ir-check p1-offline-b0-complete-evidence-check p1-blind-admission-check p1-stable-replay-projection-check p1-offline-scheduled-matrix-check p1-accepted-shared-trace-check ## 运行当前 P1 开发基线验证
+verify: p1-harness-check p1-environment-snapshot-check p1-task-dataset-check p1-experiment-pack-reentry-check p1-finite-typed-patch-ir-check p1-offline-b0-complete-evidence-check p1-blind-admission-check p1-stable-replay-projection-check p1-offline-scheduled-matrix-check p1-accepted-shared-trace-check p1-116-closed-profile-scanner-admission-check ## 运行当前 P1 开发基线验证
 	./scripts/verify-all.sh
 
 test-backend: ## 运行后端测试
@@ -93,6 +93,9 @@ p1-offline-scheduled-matrix-check: ## 校验 AIOS-P1-070 offline scheduled matri
 
 p1-accepted-shared-trace-check: ## 校验 AIOS-P1-101 accepted B0/B1/B2 shared observable trace
 	./scripts/verify-p1-101-accepted-shared-trace.sh
+
+p1-116-closed-profile-scanner-admission-check: ## 校验 P1-116 闭合 Profile、身份绑定回滚与无网络扫描
+	./scripts/verify-p1-116-closed-profile-scanner-admission.sh
 
 script-check: ## 检查当前 Shell 脚本语法
 	@for script in scripts/*.sh; do bash -n "$$script"; done

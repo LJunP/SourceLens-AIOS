@@ -1,0 +1,16 @@
+{
+  "schema_version": "p1-116-accepted-p0-scanner-binding/v1",
+  "frozen_base_commit": "09cf8dd6a1bcee138b949d117804d652000eb7cc",
+  "frozen_base_tree": "daa58725d293b954887dbe5b17aab5219b618658",
+  "analyzer_subtree": "408d57e9b4926f95ad059ab2675ee88dfc533096",
+  "source_subpath": "analyzer-rust",
+  "cargo_manifest": "analyzer-rust/Cargo.toml",
+  "cargo_lock": "analyzer-rust/Cargo.lock",
+  "scanner_binary_name": "sourcelens-analyzer",
+  "build_mode": "CARGO_BUILD_RELEASE_LOCKED_OFFLINE",
+  "operation": "repository_analysis.scan",
+  "required_scan_result_schema_version": 2,
+  "sandbox_program": "/usr/bin/sandbox-exec",
+  "sandbox_policy": "(version 1)(allow default)(deny network*)",
+  "claim_boundary": "EXACT_ACCEPTED_P0_SOURCE_DERIVED_LOCAL_SCANNER_ARTIFACT_ONLY"
+}

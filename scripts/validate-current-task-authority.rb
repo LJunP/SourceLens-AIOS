@@ -268,6 +268,22 @@ module CurrentTaskAuthority
     fail!("Founder-reserved profile is invalid JSON: #{e.message}")
   end
 
+  def founder_reserved_profiles_from_packet(text)
+    matches = text.scan(
+      /<!-- BEGIN (FOUNDER_[A-Z0-9_]*PROFILE_JSON) -->\s*```json\s*(.*?)\s*```\s*<!-- END \1 -->/m
+    )
+    assert(!matches.empty?, "decision packet must contain at least one Founder-reserved profile")
+    markers = matches.map(&:first)
+    assert(markers.uniq.length == markers.length,
+           "decision packet Founder-reserved profile markers must be unique")
+    matches.map do |marker, bytes|
+      profile = JSON.parse(bytes)
+      hash(profile, "Founder-reserved profile #{marker}")
+    rescue JSON::ParserError => e
+      fail!("Founder-reserved profile #{marker} is invalid JSON: #{e.message}")
+    end
+  end
+
   def validate_founder_reserved_profile_v1(value, route_id, task_id, label)
     profile = exact_keys(
       value,
@@ -592,6 +608,9 @@ module CurrentTaskAuthority
       /Task ID：`(AIOS-P1-[0-9]{3}_[A-Z0-9_]+)`/,
       "first Task ID declaration"
     )
+    task_ids = text.scan(/Task ID：`(AIOS-P1-[0-9]{3}_[A-Z0-9_]+)`/).flatten
+    assert(task_ids.uniq.length == task_ids.length,
+           "decision packet Task IDs must be unique")
     route_budget = one_packet_match(
       text,
       /- maximum engineering Tasks: `(\d+)`\s+- maximum engineering hours: `(\d+)`\s+- maximum calendar days: `(\d+)`/m,
@@ -613,12 +632,28 @@ module CurrentTaskAuthority
                                      "activation parent commit")
     parent_tree = one_packet_match(text, /- canonical tree: `([0-9a-f]{40})`/,
                                    "activation parent tree")
-    founder_reserved_profile = if text.include?("BEGIN FOUNDER_RESERVED_PROFILE_JSON")
-                                 founder_reserved_profile_from_packet(text)
-                               end
+    founder_reserved_profiles = if text.include?("PROFILE_JSON")
+                                  founder_reserved_profiles_from_packet(text)
+                                else
+                                  []
+                                end
+    founder_reserved_profile = founder_reserved_profiles.first
     if founder_reserved_profile
-      validate_founder_reserved_profile(founder_reserved_profile, route_id, first_task_id,
-                                        "decision packet Founder-reserved profile")
+      assert(task_ids.length == Integer(route_budget[0], 10),
+             "decision packet Task declarations must equal the Phase Task envelope")
+      assert(founder_reserved_profiles.length == task_ids.length,
+             "decision packet Founder profile set must equal the declared Task set")
+      founder_reserved_profiles.each_with_index do |profile, index|
+        validate_founder_reserved_profile(
+          profile,
+          route_id,
+          task_ids[index],
+          "decision packet Founder-reserved profile #{index + 1}"
+        )
+      end
+      profile_task_ids = founder_reserved_profiles.map { |profile| profile["task_id"] }
+      assert(profile_task_ids == task_ids,
+             "decision packet Founder profile Task order must equal the declared Task order")
     else
       assert(text.include?("network、Provider、Secret、remote、production、public effects"),
              "offline Phase Gate packet must explicitly prohibit all six external effects")
@@ -640,7 +675,9 @@ module CurrentTaskAuthority
       "max_same_task_repairs" => iteration_count - 1,
       "activation_parent_commit" => parent_commit,
       "activation_parent_tree" => parent_tree,
+      "task_ids" => task_ids,
       "founder_reserved_profile" => founder_reserved_profile,
+      "founder_reserved_profiles" => founder_reserved_profiles,
       "external_effects" => founder_reserved_profile ?
         founder_reserved_profile["external_effects"] : FALSE_EXTERNAL_EFFECTS,
       "text" => text
@@ -806,10 +843,36 @@ module CurrentTaskAuthority
         claims["founder_reserved_profile"],
         "Truth Founder-reserved profile does not equal the exact decision packet"
       )
+      route_profiles = array(
+        route["founder_reserved_profiles"],
+        "current_phase_route.founder_reserved_profiles"
+      )
+      assert(route_profiles.length == claims["founder_reserved_profiles"].length,
+             "Truth Founder profile set does not equal the exact decision packet")
+      validated_route_profiles = route_profiles.each_with_index.map do |profile, index|
+        validate_founder_reserved_profile(
+          profile,
+          route_id,
+          claims["task_ids"][index],
+          "current_phase_route.founder_reserved_profiles[#{index}]"
+        )
+      end
+      validate_exact_profile_binding(
+        validated_route_profiles,
+        claims["founder_reserved_profiles"],
+        "Truth Founder profile set does not equal the exact decision packet"
+      )
+      profile_task_ids = validated_route_profiles.map { |profile| profile["task_id"] }
+      assert(profile_task_ids == claims["task_ids"] && profile_task_ids.uniq.length == profile_task_ids.length,
+             "Truth Founder profile Task set is not closed")
+      assert(validated_route_profiles.all? { |profile| profile["external_effects"] == route_profile["external_effects"] },
+             "Truth Founder profiles must share one exact route external-effect ceiling")
       expected_effects = route_profile["external_effects"]
     else
       assert(!route.key?("founder_reserved_profile") || route["founder_reserved_profile"].nil?,
              "offline route must not invent a Founder-reserved provider profile")
+      assert(!route.key?("founder_reserved_profiles") || route["founder_reserved_profiles"].nil?,
+             "offline route must not invent a Founder-reserved provider profile set")
       expected_effects = claims.fetch("external_effects", FALSE_EXTERNAL_EFFECTS)
     end
     validate_external_effects(envelope["external_effects"], "current_phase_route.envelope.external_effects",
@@ -890,6 +953,15 @@ module CurrentTaskAuthority
     first_task_packet_bindings.each do |key, value|
       assert(first_task[key] == value, "first Task #{key} does not match exact decision packet")
     end
+    task_plan = array(route["task_plan"], "current_phase_route.task_plan")
+    task_plan_ids = task_plan.map.with_index do |descriptor, index|
+      item = hash(descriptor, "current_phase_route.task_plan[#{index}]")
+      assert(item["task_slot"] == index + 1,
+             "current_phase_route.task_plan slots must be contiguous and ordered")
+      string(item["task_id"], "current_phase_route.task_plan[#{index}].task_id")
+    end
+    assert(task_plan_ids == claims["task_ids"] && task_plan_ids.uniq.length == task_plan_ids.length,
+           "current_phase_route.task_plan Task set does not equal the exact decision packet")
     goal = hash(truth["goal"], "goal")
     unless claims["text"].include?(goal["observed_body_sha256"].to_s)
       goal_binding = exact_keys(route["goal_identity"],
@@ -1161,9 +1233,23 @@ module CurrentTaskAuthority
     end
 
     if claims["founder_reserved_profile"]
+      selected_profile = claims["founder_reserved_profiles"].find do |profile|
+        profile["task_id"] == task_id
+      end
+      assert(selected_profile, "active Task has no exact Founder-reserved profile")
+      route_profile = array(
+        route["founder_reserved_profiles"],
+        "current_phase_route.founder_reserved_profiles"
+      ).find { |profile| profile.is_a?(Hash) && profile["task_id"] == task_id }
+      assert(route_profile, "Truth Founder profile set has no active Task profile")
       expected_effects = validate_founder_reserved_profile(
-        route["founder_reserved_profile"], route_id, task_id, "current_phase_route.founder_reserved_profile"
+        route_profile, route_id, task_id, "current_phase_route active Founder-reserved profile"
       )["external_effects"]
+      validate_exact_profile_binding(
+        route_profile,
+        selected_profile,
+        "Truth active Founder-reserved profile does not equal the exact decision packet"
+      )
     else
       expected_effects = claims.fetch("external_effects", FALSE_EXTERNAL_EFFECTS)
     end
@@ -1181,12 +1267,12 @@ module CurrentTaskAuthority
       )
       validate_exact_profile_binding(
         contract_profile,
-        route["founder_reserved_profile"],
+        selected_profile,
         "contract Founder-reserved profile mismatch"
       )
       validate_exact_profile_binding(
         authority_profile,
-        route["founder_reserved_profile"],
+        selected_profile,
         "authority Founder-reserved profile mismatch"
       )
     else

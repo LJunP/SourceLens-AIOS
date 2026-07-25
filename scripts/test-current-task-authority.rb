@@ -466,6 +466,67 @@ class CurrentTaskAuthorityTest
                         "legacy schema v1 compatibility")
   end
 
+  def closed_profile_packet_unit_tests
+    truth = yaml(File.join(SOURCE_REPO, TRUTH_RELATIVE))
+    packet_path = truth.dig("current_phase_route", "decision_packet", "path")
+    packet = File.binread(packet_path).force_encoding(Encoding::UTF_8)
+    claims = CurrentTaskAuthority.packet_claims(packet)
+    expected_tasks = %w[
+      AIOS-P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION
+      AIOS-P1-117_CLEAN_ROOM_36_RUN_EMPIRICAL_BASELINE_AND_P2_PREREGISTRATION
+    ]
+    assert(claims["task_ids"] == expected_tasks, "closed packet Task set drifted")
+    assert(
+      claims["founder_reserved_profiles"].map { |profile| profile["task_id"] } == expected_tasks,
+      "closed packet profile set drifted"
+    )
+    @passes += 1
+    puts "PASS exact closed packet Task/profile set"
+
+    second_block = /
+      <!--\ BEGIN\ FOUNDER_SECOND_TASK_PROFILE_JSON\ -->.*?
+      <!--\ END\ FOUNDER_SECOND_TASK_PROFILE_JSON\ -->
+    /mx
+    missing = packet.sub(second_block, "")
+    begin
+      CurrentTaskAuthority.packet_claims(missing)
+      raise TestFailure, "missing second profile: expected NON_PASS"
+    rescue AuthorityValidationError => e
+      assert(e.message.include?("profile set"), "missing profile reason drifted: #{e.message}")
+      @passes += 1
+      puts "PASS missing second profile rejects"
+    end
+
+    duplicate_task = packet.sub(
+      "Task ID：`AIOS-P1-117_CLEAN_ROOM_36_RUN_EMPIRICAL_BASELINE_AND_P2_PREREGISTRATION`",
+      "Task ID：`AIOS-P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION`"
+    )
+    begin
+      CurrentTaskAuthority.packet_claims(duplicate_task)
+      raise TestFailure, "duplicate Task id: expected NON_PASS"
+    rescue AuthorityValidationError => e
+      assert(e.message.include?("Task IDs must be unique"), "duplicate Task reason drifted: #{e.message}")
+      @passes += 1
+      puts "PASS duplicate Task id rejects"
+    end
+
+    reordered = packet.sub(
+      "Task ID：`AIOS-P1-117_CLEAN_ROOM_36_RUN_EMPIRICAL_BASELINE_AND_P2_PREREGISTRATION`",
+      "Task ID：`AIOS-P1-118_UNDECLARED_PROFILE_ORDER_DRIFT`"
+    )
+    begin
+      CurrentTaskAuthority.packet_claims(reordered)
+      raise TestFailure, "profile order drift: expected NON_PASS"
+    rescue AuthorityValidationError => e
+      assert(
+        e.message.include?("Task id mismatch") || e.message.include?("Task order"),
+        "profile order reason drifted: #{e.message}"
+      )
+      @passes += 1
+      puts "PASS profile Task order drift rejects"
+    end
+  end
+
   def prepare_fixture(sandbox)
     source_truth_path = File.join(SOURCE_REPO, TRUTH_RELATIVE)
     source_truth = yaml(source_truth_path)
@@ -598,6 +659,53 @@ class CurrentTaskAuthorityTest
       profile["call_limits"][call_key] = original_call_limit
       dump_owned_yaml(fixture["truth_path"], truth)
       commit(repo, "test: restore Founder-reserved call budget")
+
+      truth = yaml(fixture["truth_path"])
+      profiles = truth["current_phase_route"]["founder_reserved_profiles"]
+      if profiles.is_a?(Array) && profiles.length > 1
+        removed = profiles.pop
+        dump_owned_yaml(fixture["truth_path"], truth)
+        commit(repo, "test: remove one exact route Task profile")
+        expect_nonpass(repo, "Truth missing Task profile", /Founder profile set/)
+        truth["current_phase_route"]["founder_reserved_profiles"] << removed
+        dump_owned_yaml(fixture["truth_path"], truth)
+        commit(repo, "test: restore exact route Task profile")
+
+        truth = yaml(fixture["truth_path"])
+        truth["current_phase_route"]["founder_reserved_profiles"] <<
+          deep_copy(truth["current_phase_route"]["founder_reserved_profiles"].last)
+        dump_owned_yaml(fixture["truth_path"], truth)
+        commit(repo, "test: duplicate one exact route Task profile")
+        expect_nonpass(repo, "Truth duplicate Task profile", /Founder profile set/)
+        truth["current_phase_route"]["founder_reserved_profiles"].pop
+        dump_owned_yaml(fixture["truth_path"], truth)
+        commit(repo, "test: remove duplicate route Task profile")
+
+        truth = yaml(fixture["truth_path"])
+        truth["current_phase_route"]["founder_reserved_profiles"].reverse!
+        dump_owned_yaml(fixture["truth_path"], truth)
+        commit(repo, "test: reorder route Task profiles")
+        expect_nonpass(repo, "Truth reordered Task profiles", /Task id mismatch|profile set/)
+        truth["current_phase_route"]["founder_reserved_profiles"].reverse!
+        dump_owned_yaml(fixture["truth_path"], truth)
+        commit(repo, "test: restore route Task profile order")
+
+        truth = yaml(fixture["truth_path"])
+        truth["current_phase_route"]["task_plan"] << {
+          "task_slot" => 3,
+          "task_id" => "AIOS-P1-118_UNDECLARED_THIRD_TASK",
+          "status" => "ELIGIBLE_AFTER_TASK_2",
+          "engineering_hours" => 1,
+          "calendar_days" => 1,
+          "strict_p1_credit_on_pass" => 0
+        }
+        dump_owned_yaml(fixture["truth_path"], truth)
+        commit(repo, "test: inject undeclared third Task")
+        expect_nonpass(repo, "undeclared third Task", /task_plan Task set/)
+        truth["current_phase_route"]["task_plan"].pop
+        dump_owned_yaml(fixture["truth_path"], truth)
+        commit(repo, "test: remove undeclared third Task")
+      end
     end
 
     truth = yaml(fixture["truth_path"])
@@ -1051,6 +1159,7 @@ class CurrentTaskAuthorityTest
     sandbox_identity = nil
     begin
       provider_profile_unit_tests
+      closed_profile_packet_unit_tests
       sandbox_stat = File.lstat(sandbox)
       assert(sandbox_stat.directory? && !sandbox_stat.symlink?, "temporary root is not an owned directory")
       sandbox_identity = [sandbox_stat.dev, sandbox_stat.ino]

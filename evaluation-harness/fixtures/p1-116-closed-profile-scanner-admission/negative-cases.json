@@ -1,0 +1,22 @@
+{
+  "schema_version": "p1-116-negative-matrix/v1",
+  "cases": [
+    {"id": "NEG_PROFILE_MISSING", "family": "PROFILE_SET", "expected_reason": "PROFILE_SET_NOT_CLOSED"},
+    {"id": "NEG_PROFILE_EXTRA", "family": "PROFILE_SET", "expected_reason": "PROFILE_SET_NOT_CLOSED"},
+    {"id": "NEG_PROFILE_DUPLICATE", "family": "PROFILE_SET", "expected_reason": "PROFILE_ID_DUPLICATE"},
+    {"id": "NEG_PROFILE_UNKNOWN_TASK", "family": "PROFILE_SET", "expected_reason": "PROFILE_TASK_UNKNOWN"},
+    {"id": "NEG_PROFILE_TASK_IDENTITY_DRIFT", "family": "PROFILE_SET", "expected_reason": "PROFILE_TASK_ORDER_DRIFT"},
+    {"id": "NEG_PROFILE_ORDER", "family": "PROFILE_SET", "expected_reason": "PROFILE_TASK_ORDER_DRIFT"},
+    {"id": "NEG_PROFILE_NIL_FALLBACK", "family": "PROFILE_SET", "expected_reason": "ACTIVE_PROFILE_MISSING"},
+    {"id": "NEG_UNDECLARED_THIRD_TASK", "family": "PROFILE_SET", "expected_reason": "PROFILE_SET_NOT_CLOSED"},
+    {"id": "NEG_OUTPUT_ROOT_PREEXISTS", "family": "ROLLBACK", "expected_reason": "OUTPUT_ROOT_PREEXISTS"},
+    {"id": "NEG_OUTPUT_ROOT_SYMLINK", "family": "ROLLBACK", "expected_reason": "OUTPUT_ROOT_PREEXISTS"},
+    {"id": "NEG_ROOT_IDENTITY_DRIFT", "family": "ROLLBACK", "expected_reason": "ROLLBACK_IDENTITY_DRIFT"},
+    {"id": "NEG_MARKER_IDENTITY_DRIFT", "family": "ROLLBACK", "expected_reason": "ROLLBACK_IDENTITY_DRIFT"},
+    {"id": "NEG_CHILD_IDENTITY_DRIFT", "family": "ROLLBACK", "expected_reason": "ROLLBACK_IDENTITY_DRIFT"},
+    {"id": "NEG_CHILD_SYMLINK", "family": "ROLLBACK", "expected_reason": "ROLLBACK_IDENTITY_DRIFT"},
+    {"id": "NEG_UNEXPECTED_CHILD", "family": "ROLLBACK", "expected_reason": "ROLLBACK_INVENTORY_DRIFT"},
+    {"id": "NEG_NONOWNED_CLEANUP", "family": "ROLLBACK", "expected_reason": "NONOWNED_CLEANUP_FORBIDDEN"}
+  ],
+  "false_accepts_required": 0
+}

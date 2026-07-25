@@ -2934,7 +2934,7 @@ historical_p1_118_phase_route:
     engineering_hours_authorized_current_task: 0
     status: TERMINAL_TASK_1_ROUTE_STOPPED
   additional_write_roots: []
-  inherited_worktree_inventory: &p1_120_inherited_worktree_inventory
+  inherited_worktree_inventory:
     - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-063-atomic-offline-b0
       head: 14a6e1ed7298dd3568b7290ff2f625785521f9c1
       branch: codex/p1-063-atomic-offline-b0
@@ -3060,7 +3060,7 @@ current_phase_route:
       remote: false
       production: false
       public: false
-  founder_reserved_profile: &p1_120_founder_reserved_profile
+  founder_reserved_profile:
     schema_version: "2.0"
     profile_id: P1_120_ATOMIC_CAPACITY_RESERVED_LOOPBACK_BASELINE_V1
     decision_basis: FOUNDER_P1_PHASE_GATE_P1_118_TERMINAL_2026_07_25
@@ -3123,7 +3123,67 @@ current_phase_route:
       production: false
       public: false
   founder_reserved_profiles:
-    - *p1_120_founder_reserved_profile
+    - schema_version: "2.0"
+      profile_id: P1_120_ATOMIC_CAPACITY_RESERVED_LOOPBACK_BASELINE_V1
+      decision_basis: FOUNDER_P1_PHASE_GATE_P1_118_TERMINAL_2026_07_25
+      route_id: P1_ATOMIC_CAPACITY_RESERVED_LOOPBACK_BASELINE_AND_PREREGISTRATION_ROUTE_V1
+      task_id: AIOS-P1-120_ATOMIC_CAPACITY_RESERVED_LOOPBACK_BASELINE_AND_PREREGISTRATION
+      transport:
+        scheme: http
+        host: 127.0.0.1
+        port: 8787
+        base_path: /v1
+        completion_path: /v1/chat/completions
+        api_format: OPENAI_COMPATIBLE_CHAT_COMPLETIONS
+        method: POST
+        follow_redirects: false
+        use_proxy: false
+        dns_resolution: false
+        fallback_endpoint_allowed: false
+        expected_peer_address: 127.0.0.1
+        expected_peer_port: 8787
+      model:
+        requested_model: gpt-5.6-luna
+        substitution_allowed: false
+        provider_provenance: FOUNDER_ATTESTED_OPENAI_COMPATIBLE_LOCAL_GATEWAY_MODEL_NOT_INDEPENDENTLY_VERIFIED
+      secret:
+        allowed_sources:
+          - LOCAL_PROCESS_ENV
+          - CONTROLLED_TEMPORARY_SECRET_FILE
+        persist: false
+        prohibited_sinks:
+          - REPOSITORY
+          - EVIDENCE
+          - LOG
+          - TRACE
+          - PROMPT
+          - REVIEW
+          - VAULT
+      call_limits:
+        provider_requests_max: 39
+        automatic_retry_max: 0
+      token_limits:
+        input_tokens_max: 500000
+        output_tokens_max: 100000
+      monetary_limits:
+        currency: USD
+        max_spend: 25
+        unavailable_metering_status: UNKNOWN_GATEWAY_METERING_UNAVAILABLE
+      egress:
+        restricted_source_allowed: false
+      external_effects:
+        network: true
+        provider: true
+        secret: true
+        remote: false
+        production: false
+        public: false
+      claim_limits:
+        direct_openai_provenance_proven: false
+        adapter_conformance_is_model_performance: false
+        remote: false
+        production: false
+        public: false
   accepted_inputs:
     p1_101:
       task_id: AIOS-P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE
@@ -3170,7 +3230,71 @@ current_phase_route:
     engineering_hours_authorized_current_task: 40
     status: ACTIVE_TASK_1
   additional_write_roots: []
-  inherited_worktree_inventory: *p1_120_inherited_worktree_inventory
+  inherited_worktree_inventory:
+    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-063-atomic-offline-b0
+      head: 14a6e1ed7298dd3568b7290ff2f625785521f9c1
+      branch: codex/p1-063-atomic-offline-b0
+      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-063-direct-engineering-v1
+      head: dab6459efab069466dcdfe53dad3df2de4f55223
+      branch: codex/p1-063-direct-engineering-v1
+      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-064-clean-room-control-plane-verifier-recovery
+      head: e9fa81c96fc1d8726bb2f3814a93e99799726dc1
+      branch: codex/p1-064-clean-room-control-plane-verifier-recovery
+      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-069-blind-admission-harness
+      head: f4b523079cdc2032851867dc24a79bbea32d9be2
+      branch: codex/p1-069-blind-admission-harness
+      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-076-trusted-outer-verifier
+      head: 35e61f136517b4d2bf4c908b2ba4762cf509deed
+      branch: codex/p1-076-trusted-outer-verifier
+      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-078-state-rollback-observable-trace
+      head: 4bf00dab5aa9527b0cfcbc212ac1a88fcb094758
+      branch: codex/p1-078-state-rollback-observable-trace
+      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-079-clean-room-offline-adapter
+      head: 05aaf94291f313deb3916c0fe93f72ce0a442560
+      branch: codex/p1-079-clean-room-offline-adapter
+      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-095-predeclared-shared-adapters
+      head: 3e57c4e5474396acbf91fb440a852174dec8518c
+      branch: codex/p1-095-predeclared-shared-adapters
+      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-099-exact-nonowned-classification-recovery
+      head: 5722bba04dbc00bdb75aabde8e6811ce8ae150e3
+      branch: codex/p1-099-exact-nonowned-recovery
+      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-102-reproducible-empirical-baseline
+      head: 789d502b3c5e73ae551bdd6ba77003767e4d5e43
+      branch: codex/p1-102-reproducible-empirical-baseline
+      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-104-preflight-first-clean-room-baseline
+      head: 5a72000e4cbede6c54a782f02d3f90734e8377f7
+      branch: codex/p1-104-preflight-first-clean-room-baseline
+      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-109-hermetic-owned-baseline
+      head: 6d896952da683be83bc372e6ca1e5f72b8636bbf
+      branch: codex/p1-109-hermetic-owned-baseline
+      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-111-atomic-baseline
+      head: b2e41b0f40e23b779a6a3d2405fff877cea2b19c
+      branch: codex/p1-111-atomic-baseline
+      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-114-observed-no-effect-scanner
+      head: e4acbee25d364ad2160fd89e46648d19eab845a7
+      branch: codex/p1-114-observed-no-effect-scanner
+      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-117-clean-room-empirical-baseline
+      head: cdf4c34d6ca949c1fa5177e4ae915a379b5b99fd
+      branch: codex/p1-117-clean-room-empirical-baseline
+      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-118-shared-loopback-provider
+      head: 911ffafef8b10ac6cd52ef2e590618a2db5c1683
+      branch: codex/p1-118-shared-loopback-provider
+      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
   claim_boundary: >-
     One cooperative-local capacity-reserved loopback transport and one
     complete disclosure-constrained 36-run B0/B1/B2 A/B empirical execution

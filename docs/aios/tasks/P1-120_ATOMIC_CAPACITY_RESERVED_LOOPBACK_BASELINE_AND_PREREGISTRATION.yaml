@@ -1,0 +1,310 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P1-120_ATOMIC_CAPACITY_RESERVED_LOOPBACK_BASELINE_AND_PREREGISTRATION
+phase: P1
+route_id: P1_ATOMIC_CAPACITY_RESERVED_LOOPBACK_BASELINE_AND_PREREGISTRATION_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Build one clean-room capacity-reserved loopback Provider transport, obtain
+  one strict diagnostic completion within at most three distinct requests,
+  execute the complete predeclared 36-run B0/B1/B2 A/B matrix without
+  denominator editing, and retain an independently recomputable reproducible
+  baseline report plus the first P2 context-engine experiment preregistration.
+why_now: >-
+  P1-118 proved that the exact loopback endpoint and model return HTTP 200 but
+  terminally stopped because the observed usage exceeded its conservative
+  request reservation. The remaining P1 Exit Gate requires one bounded atomic
+  Task that reserves capacity before Secret or Provider effect and then
+  directly executes the empirical matrix without another governance or
+  transport precursor.
+task_spec_ref: >-
+  /Users/lijunpeng/Developer/.sourcelens-audit/p1-120-atomic-capacity-reserved-route-20260725/FOUNDER_P1_ATOMIC_CAPACITY_RESERVED_LOOPBACK_BASELINE_AND_PREREGISTRATION_ROUTE_V1.md
+owner_role: P1-120 Engineering Manager
+worker_role: P1-120 Clean-Room Baseline Worker
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+risk_level: high
+budget:
+  engineering_hours: 40
+  calendar_days: 7
+  implementation_iterations: 3
+  candidates: 1
+roles:
+  owner: P1-120 Engineering Manager
+  worker: P1-120 Clean-Room Baseline Worker
+  independent_reviewers:
+    - P1-120 Fresh CTO Reviewer
+    - P1-120 Fresh Security Reviewer
+    - P1-120 Fresh Quality Reviewer
+allowlisted_paths:
+  - scripts/p1-120-capacity-reserved-provider
+  - scripts/verify-p1-120-atomic-baseline.sh
+  - evaluation-harness/harness/p1-120-atomic-baseline
+  - evaluation-harness/recording/p1-120-atomic-baseline
+  - evaluation-harness/replay/p1-120-atomic-baseline
+  - evaluation-harness/evaluator/p1-120-atomic-baseline
+  - evaluation-harness/fixtures/p1-120-atomic-baseline
+  - docs/aios/tasks/P1-120_ATOMIC_CAPACITY_RESERVED_LOOPBACK_BASELINE_AND_PREREGISTRATION.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+  - Makefile
+write_scope:
+  worker:
+    - scripts/p1-120-capacity-reserved-provider
+    - evaluation-harness/harness/p1-120-atomic-baseline
+    - evaluation-harness/recording/p1-120-atomic-baseline
+    - evaluation-harness/replay/p1-120-atomic-baseline
+  quality:
+    - evaluation-harness/evaluator/p1-120-atomic-baseline
+    - evaluation-harness/fixtures/p1-120-atomic-baseline
+  integration:
+    - scripts/verify-p1-120-atomic-baseline.sh
+    - docs/aios/tasks/P1-120_ATOMIC_CAPACITY_RESERVED_LOOPBACK_BASELINE_AND_PREREGISTRATION.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+    - Makefile
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+  - docs/aios/tasks/P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE.yaml
+  - evaluation-harness/adapters/p1-097-minimal-documented
+  - evaluation-harness/harness/p1-097-minimal-documented
+  - evaluation-harness/harness/p1-101-accepted-shared-trace
+  - evaluation-harness/recording/p1-101-accepted-shared-trace
+  - evaluation-harness/replay/p1-101-accepted-shared-trace
+  - evaluation-harness/evaluator/p1-101-accepted-shared-trace
+  - evaluation-harness/datasets/p1-representative-task-dataset-v1
+  - evaluation-harness/harness/offline-scheduled-matrix-v1
+  - evaluation-harness/evaluator/offline-scheduled-matrix-v1
+  - /Users/lijunpeng/Developer/.sourcelens-audit/p1-118-shared-loopback-provider-route-20260725/task-1/P1_118_TERMINAL_RECEIPT.json
+dependencies:
+  - ACCEPTED_CANONICAL_P1_101_SHARED_OBSERVABLE_TRACE
+  - ACCEPTED_CANONICAL_P1_099_B0_B1_B2_ADAPTERS
+  - ACCEPTED_CANONICAL_P1_070_COUNTING_VALIDATOR
+  - ACCEPTED_CANONICAL_P1_035_REPRESENTATIVE_TASK_DATASET
+historical_isolation:
+  p1_118_terminal_receipt_and_safe_accounting_trace_readable: true
+  p1_118_branch_source_diff_fixture_test_manifest_contract_or_engineering_bytes_readable: false
+  other_rejected_engineering_lineage_read_restore_compare_or_reuse_allowed: false
+  accepted_canonical_engineering_assets_allowed: true
+external_effects:
+  network: true
+  provider: true
+  secret: true
+  remote: false
+  production: false
+  public: false
+task_actual_effect_ceiling:
+  diagnostic_provider_requests: 3
+  formal_provider_requests: 36
+  total_provider_requests: 39
+  automatic_retries: 0
+  secret_reads: 1
+  per_request_input_reservation_tokens: 8192
+  per_request_output_reservation_tokens: 2048
+  total_input_tokens: 500000
+  total_output_tokens: 100000
+  monetary_exposure_usd: 25
+  non_loopback_connections: 0
+  remote_effects: 0
+  production_effects: 0
+  public_effects: 0
+founder_reserved_profile:
+  schema_version: "2.0"
+  profile_id: P1_120_ATOMIC_CAPACITY_RESERVED_LOOPBACK_BASELINE_V1
+  decision_basis: FOUNDER_P1_PHASE_GATE_P1_118_TERMINAL_2026_07_25
+  route_id: P1_ATOMIC_CAPACITY_RESERVED_LOOPBACK_BASELINE_AND_PREREGISTRATION_ROUTE_V1
+  task_id: AIOS-P1-120_ATOMIC_CAPACITY_RESERVED_LOOPBACK_BASELINE_AND_PREREGISTRATION
+  transport:
+    scheme: http
+    host: 127.0.0.1
+    port: 8787
+    base_path: /v1
+    completion_path: /v1/chat/completions
+    api_format: OPENAI_COMPATIBLE_CHAT_COMPLETIONS
+    method: POST
+    follow_redirects: false
+    use_proxy: false
+    dns_resolution: false
+    fallback_endpoint_allowed: false
+    expected_peer_address: 127.0.0.1
+    expected_peer_port: 8787
+  model:
+    requested_model: gpt-5.6-luna
+    substitution_allowed: false
+    provider_provenance: FOUNDER_ATTESTED_OPENAI_COMPATIBLE_LOCAL_GATEWAY_MODEL_NOT_INDEPENDENTLY_VERIFIED
+  secret:
+    allowed_sources:
+      - LOCAL_PROCESS_ENV
+      - CONTROLLED_TEMPORARY_SECRET_FILE
+    persist: false
+    prohibited_sinks:
+      - REPOSITORY
+      - EVIDENCE
+      - LOG
+      - TRACE
+      - PROMPT
+      - REVIEW
+      - VAULT
+  call_limits:
+    provider_requests_max: 39
+    automatic_retry_max: 0
+  token_limits:
+    input_tokens_max: 500000
+    output_tokens_max: 100000
+  monetary_limits:
+    currency: USD
+    max_spend: 25
+    unavailable_metering_status: UNKNOWN_GATEWAY_METERING_UNAVAILABLE
+  egress:
+    restricted_source_allowed: false
+  external_effects:
+    network: true
+    provider: true
+    secret: true
+    remote: false
+    production: false
+    public: false
+  claim_limits:
+    direct_openai_provenance_proven: false
+    adapter_conformance_is_model_performance: false
+    remote: false
+    production: false
+    public: false
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-120-atomic-capacity-reserved-route-20260725/FOUNDER_P1_ATOMIC_CAPACITY_RESERVED_LOOPBACK_BASELINE_AND_PREREGISTRATION_ROUTE_V1.md
+  sha256: 9b1841064180c23b72c3638774a9e4fcc3e352041bf23efe9c3a079285c43662
+  byte_length: 7850
+  authorization_token: AUTHORIZE_P1_ATOMIC_CAPACITY_RESERVED_LOOPBACK_BASELINE_AND_PREREGISTRATION_ROUTE_V1
+governing_founder_packet:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-120-atomic-capacity-reserved-route-20260725/FOUNDER_P1_ATOMIC_CAPACITY_RESERVED_LOOPBACK_BASELINE_AND_PREREGISTRATION_ROUTE_V1.md
+  sha256: 9b1841064180c23b72c3638774a9e4fcc3e352041bf23efe9c3a079285c43662
+  byte_length: 7850
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+architecture_constraints:
+  - The real network primitive lives only below scripts/p1-120-capacity-reserved-provider, outside the legacy evaluation-harness direct-network prohibition.
+  - The experiment harness invokes the transport as a bounded child and never owns a direct network primitive.
+  - Before Secret read or network effect, the transport atomically reserves one request, 8192 input tokens and 2048 output tokens against a create-once route ledger.
+  - A reservation is never released or reused after a failed or successful request.
+  - The transport uses the literal loopback address only, disables proxy, redirect, DNS, retry and model substitution, and validates the observed peer address and port.
+  - Provider usage is UNKNOWN when absent; when present, all fields are non-negative integers, totals are consistent and observed usage stays within the reservation.
+  - Only predeclared non-restricted synthetic disclosure bytes may enter a Provider request; repository source, tests, patches, evaluator, Truth, governance and hidden bytes are prohibited.
+  - Provider response content is not treated as executable source, a patch or hidden reasoning and is reduced to bounded safe identities before Evidence retention.
+  - Every formal run first invokes the accepted canonical B0, B1 or B2 adapter; B2 retains its real exact accepted P0 repository_analysis.scan child invocation.
+  - The baseline report describes the exact disclosure-constrained route and must not be presented as a general model-performance or product-readiness result.
+  - The preregistration is frozen before aggregate interpretation and does not enter or execute P2.
+quality_freeze:
+  offline_positive_matrix:
+    - Exact packet, Truth, Contract, authority and active Founder profile identities agree.
+    - Reservation ledger rejects any request that cannot reserve the complete 8192/2048 ceiling before Secret or network effect.
+    - Injected deterministic responses validate without reading Secret or opening a socket.
+    - The accepted B0/B1/B2 adapters execute in six distinct A/B configurations and B2 records a real repository_analysis.scan child.
+    - Stable projection, replay, rollback and independent aggregate are executable.
+  offline_negative_matrix:
+    - non-loopback host, peer or port
+    - wrong completion path or method
+    - redirect, proxy or DNS enabled
+    - model substitution
+    - request 40
+    - retry request
+    - insufficient input or output reservation
+    - reservation mutation, deletion, reorder or reuse
+    - malformed, oversized or non-JSON response
+    - non-integer, negative, inconsistent or over-reservation usage
+    - Secret-like response bytes
+    - restricted source or prohibited sink request
+    - missing, reordered or tampered trace event
+    - unexpected output or child invocation
+    - rollback identity drift
+    - denominator deletion, replacement or rerun
+  diagnostic_sequence:
+    - Use no more than three mutually distinct minimum diagnostic requests.
+    - Stop diagnostics at the first strict HTTP 2xx completion.
+    - Do not repeat a rejected diagnostic request.
+    - Enter the 36-run formal matrix immediately after the first strict diagnostic PASS.
+  formal_matrix:
+    - Exactly six accepted configurations, B0 A/B, B1 A/B and B2 A/B.
+    - Exactly six serial repetitions per configuration for exactly 36 scheduled runs.
+    - Every scheduled run enters the denominator exactly once regardless of outcome.
+    - Exactly one Provider request is attempted per formal run with no retry.
+  execution_semantics:
+    - The complete offline preflight passes before any Secret read or Provider request.
+    - Every negative uses an independent one-time Task-owned fixture.
+    - All pre-effect negatives record Secret reads, target executions and network connections as zero.
+    - One controlled Secret read may serve the complete diagnostic and formal session.
+acceptance_criteria:
+  - Exact packet, Goal, canonical parent, Contract, Truth and authority identities pass both canonical authority and P1 safety entrypoints.
+  - Offline worker self-test and independent negative matrix pass before Secret or Provider use.
+  - At least one of at most three distinct diagnostics produces a strict HTTP 2xx completion from the exact endpoint and model.
+  - Exactly 36 formal B0/B1/B2 A/B runs execute serially and all 36 remain in the denominator.
+  - Provider requests equal diagnostics used plus 36 and do not exceed 39; automatic retries equal zero.
+  - Every request was preceded by an atomic complete 8192/2048 capacity reservation and total reservations remain inside route caps.
+  - Usage is truthfully validated or recorded UNKNOWN, without byte-length or request-max-token substitution.
+  - Every B2 run contains a real invocation of exact accepted P0 repository_analysis.scan.
+  - Safe request/response identity, RunRecord, trace, stable projection, replay, rollback and independent aggregate all pass exact validation.
+  - False accepts, non-loopback connections and remote, production and public effects equal zero.
+  - REPRODUCIBLE_BASELINE_REPORT and P2_CONTEXT_ENGINE_PREREGISTRATION are exact, independently recomputable accepted artifacts.
+  - One exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS on the same bytes and Evidence.
+  - The reviewed exact tree equals the canonical integrated tree.
+  - Exactly one post-integration canonical make verify invocation passes.
+required_evidence:
+  - preactivation authority and safety receipts
+  - frozen offline matrix, disclosure contract, preregistration and executable identities
+  - worker self-test and independent offline negative results
+  - pre-Secret pre-Provider receipt
+  - create-once append-only reservation ledger and independent verification
+  - per-request safe request, safe response, peer, timing, usage and accounting records
+  - all 36 raw run records and traces without denominator editing
+  - exact B0/B1/B2 adapter and B2 repository_analysis.scan child identities
+  - aggregate report, stable projections, replay and rollback receipts
+  - exact candidate manifest and recoverable Evidence tag
+  - fresh CTO, Security and Quality reviews
+  - reviewed-tree integration identity and one canonical make verify receipt
+forbidden_actions:
+  - Read, restore, compare, copy or reuse P1-118 branch source, diff, fixture, test, manifest, Contract or failed engineering bytes.
+  - Read any P1-118 material except its terminal receipt and safe accounting or trace.
+  - Read any other rejected engineering lineage except exact canonical terminal facts.
+  - Read Secret or call Provider before complete offline preflight PASS.
+  - Make more than three diagnostic requests, fewer or more than 36 formal requests, more than 39 total requests or any retry.
+  - Connect to a non-loopback address, follow redirects, use proxies, perform DNS resolution or substitute a model.
+  - Persist Secret or authorization header in repository, Evidence, log, trace, prompt, review or Vault.
+  - Egress repository source, tests, patches, evaluator, Truth, governance or hidden material.
+  - Delete, replace, omit or rerun a scheduled formal result to improve the denominator.
+  - Modify the Long-term Goal, P1 Objective, P1 Exit Gate or Phase boundary.
+  - Enter P2 or P3.
+  - Push, modify remote state, or create production or public effects.
+  - Create a successor, replacement, correction, normalization, closure, feasibility or remediation chain.
+stop_conditions:
+  - Baseline, Goal, packet, Contract, authority, branch, worktree or clean-state identity drift.
+  - Complete offline preflight cannot pass within the three implementation iterations.
+  - A Secret is read or Provider request occurs before offline preflight PASS.
+  - Three mutually distinct diagnostics are consumed without one strict HTTP 2xx completion.
+  - A Secret, authorization header or restricted source reaches a prohibited sink.
+  - Any non-loopback connection, redirect, proxy, DNS, retry, remote, production or public effect occurs.
+  - Same normalized root cause repeats in adjacent implementation iterations.
+  - Required write exceeds the allowlist or changes Phase, Goal, Objective or Exit Gate.
+  - Any fresh final Reviewer returns TARGET_VERDICT NON_PASS.
+  - Reviewed tree differs from integrated tree.
+  - The single canonical make verify returns NONPASS.
+  - Evidence is overwritten, deleted or loses exact identity.
+claim_boundary: >-
+  One cooperative-local capacity-reserved loopback transport and one complete
+  disclosure-constrained 36-run B0/B1/B2 A/B empirical execution with
+  reproducible report and offline P2 preregistration. No direct OpenAI
+  provenance, general model-performance, production-readiness, P2/P3 entry,
+  remote, production, public, hostile-principal or strong-isolation claim.
+status_transition:
+  on_activation: ACTIVE
+  on_candidate_freeze: REVIEW
+  on_three_target_pass_and_canonical_verify_pass: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+  on_stop_condition: TERMINAL_NON_PASS
+  auto_next_on_pass: FOUNDER_P1_EXIT_PHASE_GATE

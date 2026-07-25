@@ -1,0 +1,269 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION
+phase: P1
+route_id: P1_CLEAN_ROOM_CLOSED_PROFILE_SET_AND_IDENTITY_BOUND_ROLLBACK_THEN_BASELINE_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Establish a data-driven closed set between the two route Task descriptors
+  and their exact Founder-reserved profiles, implement creation-time and
+  deletion-time identity-bound rollback for every owned object, and admit the
+  exact accepted P0 scanner artifact through two real operating-system
+  deny-network scans with complete raw Evidence.
+why_now: >-
+  P1-114 stopped with two precise final CTO findings. The Founder has
+  authorized a new clean-room route that corrects those architectural roots
+  without reading or reusing the rejected P1-114 engineering assets, then
+  proceeds directly to the remaining 36-run empirical baseline.
+task_spec_ref: >-
+  /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-closed-profile-rollback-route-20260725/FOUNDER_P1_CLEAN_ROOM_CLOSED_PROFILE_SET_AND_IDENTITY_BOUND_ROLLBACK_THEN_BASELINE_ROUTE_V1.md
+owner_role: P1-116 Engineering Manager
+worker_role: P1-116 Clean-Room Implementation Worker
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+risk_level: high
+budget:
+  engineering_hours: 16
+  calendar_days: 4
+  implementation_iterations: 2
+  candidates: 1
+roles:
+  owner: P1-116 Engineering Manager
+  worker: P1-116 Clean-Room Implementation Worker
+  independent_reviewers:
+    - P1-116 Fresh CTO Reviewer
+    - P1-116 Fresh Security Reviewer
+    - P1-116 Fresh Quality Reviewer
+allowlisted_paths:
+  - evaluation-harness/harness/p1-116-closed-profile-scanner-admission
+  - evaluation-harness/evaluator/p1-116-closed-profile-scanner-admission
+  - evaluation-harness/fixtures/p1-116-closed-profile-scanner-admission
+  - scripts/validate-current-task-authority.rb
+  - scripts/test-current-task-authority.rb
+  - scripts/verify-p1-116-closed-profile-scanner-admission.sh
+  - docs/aios/tasks/P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+  - Makefile
+write_scope:
+  worker:
+    - evaluation-harness/harness/p1-116-closed-profile-scanner-admission
+  quality:
+    - evaluation-harness/evaluator/p1-116-closed-profile-scanner-admission
+    - evaluation-harness/fixtures/p1-116-closed-profile-scanner-admission
+  integration:
+    - scripts/validate-current-task-authority.rb
+    - scripts/test-current-task-authority.rb
+    - scripts/verify-p1-116-closed-profile-scanner-admission.sh
+    - docs/aios/tasks/P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+    - Makefile
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+  - docs/aios/tasks/P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE.yaml
+  - evaluation-harness/adapters/p1-097-minimal-documented
+  - evaluation-harness/harness/p1-097-minimal-documented
+  - evaluation-harness/harness/p1-101-accepted-shared-trace
+  - evaluation-harness/recording/p1-101-accepted-shared-trace
+  - evaluation-harness/replay/p1-101-accepted-shared-trace
+  - /Users/lijunpeng/Developer/.sourcelens-audit/p1-114-observed-no-effect-route-20260725/task-1/reviews/CTO_FINAL_REVIEW.md
+  - /Users/lijunpeng/Developer/.sourcelens-audit/p1-114-observed-no-effect-route-20260725/task-1/terminal/P1_114_TERMINAL_RECEIPT.json
+dependencies:
+  - ACCEPTED_CANONICAL_P1_101_SHARED_OBSERVABLE_TRACE
+  - ACCEPTED_CANONICAL_P1_099_B0_B1_B2_ADAPTERS
+  - ACCEPTED_CANONICAL_P0_REPOSITORY_ANALYSIS_SCAN_BINDING
+historical_isolation:
+  p1_114_terminal_truth_cto_review_and_terminal_receipt_readable: true
+  p1_114_contract_candidate_source_fixture_test_diff_or_engineering_asset_readable: false
+  other_rejected_engineering_lineage_read_restore_compare_or_reuse_allowed: false
+external_effects:
+  network: true
+  provider: true
+  secret: true
+  remote: false
+  production: false
+  public: false
+task_actual_effect_ceiling:
+  successful_network_connections: 0
+  provider_requests: 0
+  secret_reads: 0
+  remote_effects: 0
+  production_effects: 0
+  public_effects: 0
+founder_reserved_profile:
+  schema_version: "2.0"
+  profile_id: P1_116_CLOSED_PROFILE_ROLLBACK_SCANNER_V1
+  decision_basis: FOUNDER_PHASE_GATE_P1_114_TERMINAL_RECOVERY_2026_07_25
+  route_id: P1_CLEAN_ROOM_CLOSED_PROFILE_SET_AND_IDENTITY_BOUND_ROLLBACK_THEN_BASELINE_ROUTE_V1
+  task_id: AIOS-P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION
+  transport:
+    scheme: http
+    host: 127.0.0.1
+    port: 8787
+    base_path: /v1
+    completion_path: /v1/chat/completions
+    api_format: OPENAI_COMPATIBLE_CHAT_COMPLETIONS
+    method: POST
+    follow_redirects: false
+    use_proxy: false
+    dns_resolution: false
+    fallback_endpoint_allowed: false
+    expected_peer_address: 127.0.0.1
+    expected_peer_port: 8787
+  model:
+    requested_model: gpt-5.6-luna
+    substitution_allowed: false
+    provider_provenance: FOUNDER_ATTESTED_OPENAI_COMPATIBLE_LOCAL_GATEWAY_MODEL_NOT_INDEPENDENTLY_VERIFIED
+  secret:
+    allowed_sources:
+      - LOCAL_PROCESS_ENV
+      - CONTROLLED_TEMPORARY_SECRET_FILE
+    persist: false
+    prohibited_sinks:
+      - REPOSITORY
+      - EVIDENCE
+      - LOG
+      - TRACE
+      - PROMPT
+      - REVIEW
+      - VAULT
+  call_limits:
+    provider_requests_max: 60
+    automatic_retry_max: 0
+  token_limits:
+    input_tokens_max: 500000
+    output_tokens_max: 100000
+  monetary_limits:
+    currency: USD
+    max_spend: 25
+    unavailable_metering_status: UNKNOWN_GATEWAY_METERING_UNAVAILABLE
+  egress:
+    restricted_source_allowed: false
+  external_effects:
+    network: true
+    provider: true
+    secret: true
+    remote: false
+    production: false
+    public: false
+  claim_limits:
+    direct_openai_provenance_proven: false
+    adapter_conformance_is_model_performance: false
+    remote: false
+    production: false
+    public: false
+founder_reserved_profiles:
+  - schema_version: "2.0"
+    profile_id: P1_116_CLOSED_PROFILE_ROLLBACK_SCANNER_V1
+    decision_basis: FOUNDER_PHASE_GATE_P1_114_TERMINAL_RECOVERY_2026_07_25
+    route_id: P1_CLEAN_ROOM_CLOSED_PROFILE_SET_AND_IDENTITY_BOUND_ROLLBACK_THEN_BASELINE_ROUTE_V1
+    task_id: AIOS-P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION
+    source_marker: FOUNDER_RESERVED_PROFILE_JSON
+  - schema_version: "2.0"
+    profile_id: P1_117_EMPIRICAL_BASELINE_V1
+    decision_basis: FOUNDER_PHASE_GATE_P1_114_TERMINAL_RECOVERY_2026_07_25
+    route_id: P1_CLEAN_ROOM_CLOSED_PROFILE_SET_AND_IDENTITY_BOUND_ROLLBACK_THEN_BASELINE_ROUTE_V1
+    task_id: AIOS-P1-117_CLEAN_ROOM_36_RUN_EMPIRICAL_BASELINE_AND_P2_PREREGISTRATION
+    source_marker: FOUNDER_SECOND_TASK_PROFILE_JSON
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-closed-profile-rollback-route-20260725/FOUNDER_P1_CLEAN_ROOM_CLOSED_PROFILE_SET_AND_IDENTITY_BOUND_ROLLBACK_THEN_BASELINE_ROUTE_V1.md
+  sha256: 36faf1f877d47b08355032b4e2ec07c6a4c805be5e51c841e414d8457b92a336
+  byte_length: 12026
+  authorization_token: AUTHORIZE_P1_CLEAN_ROOM_CLOSED_PROFILE_SET_AND_IDENTITY_BOUND_ROLLBACK_THEN_BASELINE_ROUTE_V1
+governing_founder_packet:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-closed-profile-rollback-route-20260725/FOUNDER_P1_CLEAN_ROOM_CLOSED_PROFILE_SET_AND_IDENTITY_BOUND_ROLLBACK_THEN_BASELINE_ROUTE_V1.md
+  sha256: 36faf1f877d47b08355032b4e2ec07c6a4c805be5e51c841e414d8457b92a336
+  byte_length: 12026
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+architecture_constraints:
+  - Route task_plan Task IDs and exact Founder profile Task IDs form equal closed sets.
+  - Every declared Task has exactly one exact profile and no undeclared Task can obtain an external-effect path.
+  - Missing, extra, duplicate, unknown, identity-drifted or reordered bindings fail closed before external effects.
+  - No nil, offline-default or third-Task fallback may substitute for an exact Founder profile.
+  - Packet, Truth, Contract and authority bind the active Task to the same exact profile.
+  - Every owned root, marker and deletable object is bound at creation by dev, ino, uid, gid, type, mode and required content hash.
+  - Every cleanup revalidates the exact identity without following symlinks before unlink or rmdir.
+  - Identity drift fails closed without deletion; preexisting objects are never overwritten, renamed or removed.
+  - The accepted P0 scanner is invoked under an operating-system deny-network boundary.
+  - Task 1 must record zero successful network connections, Provider requests and Secret reads.
+quality_freeze:
+  positive_matrix:
+    - Route packet exposes exactly two distinct Task profiles matching the two declared task_plan IDs.
+    - Contract, authority and Truth bind the active Task to its exact full Founder profile.
+    - Two independent real accepted-scanner runs complete under the OS deny-network boundary.
+    - Raw stdout, stderr, command ledger, network observation, output inventory and rollback receipts are retained per run.
+    - Rollback restores every disposable owned root to absent without touching non-owned objects.
+  negative_matrix:
+    - missing Task profile
+    - extra Task profile
+    - duplicate Task profile
+    - unknown Task ID
+    - Task/profile identity drift
+    - profile order drift
+    - nil or offline fallback attempt
+    - undeclared third Task external-effect attempt
+    - preexisting output root
+    - output-root symlink
+    - creation-time root identity drift
+    - creation-time marker identity drift
+    - owned child identity drift
+    - owned child replaced by symlink
+    - unexpected owned-root child
+    - non-owned cleanup attempt
+  execution_semantics:
+    - Every negative case uses an independent one-time fixture.
+    - All identity and profile negatives reject before target execution.
+    - Cleanup identity drift rejects without unlinking or removing the drifted object.
+acceptance_criteria:
+  - Exact packet, Goal, canonical activation parent, Contract, Truth and authority identities pass preactivation validation.
+  - Closed Task/profile set validation passes for exactly P1-116 and P1-117.
+  - Every predeclared profile-set negative rejects with target execution zero.
+  - Two real accepted-scanner runs pass in independently owned disposable roots.
+  - OS-level observation proves successful network connections equal zero for both real scans.
+  - Raw Evidence for both scans and every isolated negative is retained.
+  - Every rollback object is creation-time and deletion-time identity bound.
+  - False accepts, non-owned mutations, target execution on pre-execution negatives and all six unauthorized external effects equal zero.
+  - One exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS on the same bytes.
+  - The reviewed exact tree equals the canonical integrated tree.
+  - Exactly one post-integration canonical make verify invocation passes.
+required_evidence:
+  - Exact Founder packet, Goal, canonical parent, Contract, authority and closed profile-set identities.
+  - Exact accepted P0 analyzer source and scanner artifact identities derived only from canonical accepted bindings.
+  - Two raw scanner stdout/stderr streams, command ledgers and OS network observations.
+  - Creation-time owned-object ledger and deletion-time rollback verification for every owned object.
+  - Independent negative fixtures and raw stable reason codes.
+  - Aggregate matrix summary with false-accept, non-owned mutation, target-execution and six-effect counts.
+  - Exact candidate commit, tree, diff/hash manifest and recoverable Evidence tag.
+  - Fresh CTO, Security and Quality reviews of the same candidate and Evidence bytes.
+  - Reviewed-tree versus integrated-tree equality and one canonical make verify receipt.
+rollback:
+  strategy: IDENTITY_BOUND_OWNED_FIXTURE_CLEANUP_AND_NON_DESTRUCTIVE_GIT_REVERT_AFTER_CANONICAL_INTEGRATION
+  forbidden:
+    - git reset
+    - git clean
+    - destructive history rewrite
+stop_conditions:
+  - Goal, exact packet, canonical identity, accepted input or activation identity drifts.
+  - P1-114 or another rejected engineering asset is required.
+  - A required path exceeds this Contract or an external effect beyond the exact packet is required.
+  - The single same-Task code-only repair is exhausted.
+  - The same normalized root cause repeats in adjacent implementation iterations.
+  - Any final Reviewer, reviewed/integrated equality check or canonical make verify returns NON_PASS.
+  - Evidence is overwritten or deleted, or the Phase boundary changes.
+claim_boundary: >-
+  Cooperative-local closed route Task/profile authority, creation-time and
+  deletion-time identity-bound cleanup, and OS-denied accepted P0 scanner
+  admission with complete raw Evidence only; no Provider execution, model
+  performance, empirical baseline, P1 exit, P2/P3 entry, remote, production,
+  public, hostile-principal or strong-isolation claim.

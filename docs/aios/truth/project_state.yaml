@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-25T16:33:33Z"
-verification_scope: P1_121_FOUNDER_SELECTED_PROVIDER_ROUTE_AUTHORIZED_READY_STRICT_75_PERCENT
+last_verified_at: "2026-07-25T16:36:12Z"
+verification_scope: P1_121_FOUNDER_SELECTED_PROVIDER_BASELINE_ACTIVE_STRICT_75_PERCENT
 
 authority:
   founder: Human Founder
@@ -37,7 +37,7 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
+  current_task_authority: AIOS-P1-121_FOUNDER_SELECTED_PROVIDER_RECORD_BASELINE_AND_PREREGISTRATION
   note: >-
     The Founder-approved long-term Goal remains ACTIVE with the exact
     Founder-installed identity. P1-099 remains terminal with its Quality
@@ -154,9 +154,11 @@ goal:
     at the Founder P1 Phase Gate. Founder has now authorized the independent
     clean-room P1-121 route with the complete non-Secret Provider identity
     `本地gpt`, enabled state, exact loopback endpoint, Chat Completions format
-    and `gpt-5.6-luna` model. P1-121 is eligible but not yet activated; route
-    authorization itself adds no capability credit and strict P1 completion
-    remains 6/8 (75%).
+    and `gpt-5.6-luna` model. Route authorization itself added no capability
+    credit and strict P1 completion remains 6/8 (75%). P1-121 is now active on
+    one isolated branch/worktree
+    with one hash-bound authority. It must complete offline preflight before
+    any Secret or Provider effect and remains the only current Task.
 
 project:
   name: SourceLens AIOS
@@ -166,10 +168,10 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  phase_execution_status: AUTHORIZED_READY
-  p1_execution_status: AUTHORIZED_READY
-  p1_engineering_status: P1_121_AUTHORIZED_READY_NOT_ACTIVATED
-  current_route_execution_status: AUTHORIZED_READY_TASK_NONE
+  phase_execution_status: ACTIVE
+  p1_execution_status: ACTIVE
+  p1_engineering_status: P1_121_ACTIVE_FOUNDER_SELECTED_PROVIDER_BASELINE
+  current_route_execution_status: ACTIVE_TASK_1
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -3024,11 +3026,11 @@ historical_p1_118_phase_route:
 
 current_phase_route:
   route_id: P1_FOUNDER_SELECTED_PROVIDER_RECORD_BINDING_AND_ATOMIC_BASELINE_ROUTE_V1
-  status: AUTHORIZED_READY
-  authority_object_status: FOUNDER_PHASE_GATE_AUTHORITY_BOUND_ROUTE_READY
-  execution_status: AUTHORIZED_READY_TASK_NONE
+  status: ACTIVE
+  authority_object_status: FOUNDER_PHASE_GATE_AUTHORITY_CONSUMED_ROUTE_ACTIVE
+  execution_status: ACTIVE_TASK_1
   founder_phase_route_decision_required: false
-  scheduling_status: TASK_1_ELIGIBLE_NOT_ACTIVATED
+  scheduling_status: TASK_1_ACTIVE
   phase: P1
   phase_entry_status: AUTHORIZED
   authorization_token: AUTHORIZE_P1_FOUNDER_SELECTED_PROVIDER_RECORD_BINDING_AND_ATOMIC_BASELINE_ROUTE_V1
@@ -3245,7 +3247,7 @@ current_phase_route:
   first_task:
     task_id: AIOS-P1-121_FOUNDER_SELECTED_PROVIDER_RECORD_BASELINE_AND_PREREGISTRATION
     task_slot: 1
-    status: ELIGIBLE_NOT_ACTIVATED
+    status: ACTIVE
     contract_path: docs/aios/tasks/P1-121_FOUNDER_SELECTED_PROVIDER_RECORD_BASELINE_AND_PREREGISTRATION.yaml
     contract_sha256: 2d7744bd508895aef5c60c02dee5d100867057bd27a89cc173340c2ac920fb7f
     contract_byte_length: 18168
@@ -3257,20 +3259,21 @@ current_phase_route:
   task_plan:
     - task_slot: 1
       task_id: AIOS-P1-121_FOUNDER_SELECTED_PROVIDER_RECORD_BASELINE_AND_PREREGISTRATION
-      status: ELIGIBLE_NOT_ACTIVATED
+      status: ACTIVE
       engineering_hours: 40
       calendar_days: 7
       strict_p1_credit_on_pass: 2
   route_execution_accounting:
     maximum_engineering_tasks: 1
-    task_slots_consumed: 0
-    active_task_id: null
-    scheduled_task_ids: []
+    task_slots_consumed: 1
+    active_task_id: AIOS-P1-121_FOUNDER_SELECTED_PROVIDER_RECORD_BASELINE_AND_PREREGISTRATION
+    scheduled_task_ids:
+      - AIOS-P1-121_FOUNDER_SELECTED_PROVIDER_RECORD_BASELINE_AND_PREREGISTRATION
     terminal_task_ids: []
     accepted_task_ids: []
     maximum_engineering_hours: 40
-    engineering_hours_authorized_current_task: 0
-    status: AUTHORIZED_READY_TASK_NONE
+    engineering_hours_authorized_current_task: 40
+    status: ACTIVE_TASK_1
   additional_write_roots: []
   inherited_worktree_inventory:
     - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-063-atomic-offline-b0
@@ -3347,10 +3350,10 @@ current_phase_route:
     preregistration. No direct OpenAI provenance, model superiority, P2/P3
     entry, production, remote, public, hostile-principal or strong-isolation
     claim.
-  next_eligible_action: ACTIVATE_P1_121
+  next_eligible_action: EXECUTE_P1_121_WITHIN_PHASE_ENVELOPE
 
 phase_delegation:
-  status: AUTHORIZED_ROUTE_READY_TASK_NONE
+  status: ACTIVE_PHASE_ROUTE_TASK_1
   model: PHASE_LEVEL_FOUNDER_DELEGATION
   decision_source: FOUNDER_DIRECTIVES_IN_CODEX_THREAD_2026_07_16_AND_2026_07_17
   phase_gate_owner: HUMAN_FOUNDER
@@ -4372,55 +4375,68 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: NONE
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P1-121_FOUNDER_SELECTED_PROVIDER_RECORD_BASELINE_AND_PREREGISTRATION
+  current_task_status: ACTIVE
   current_task_contract:
-    path: null
-    sha256: null
-    byte_length: null
-  current_task_contract_sha256: null
-  current_execution_authorization: null
-  current_execution_authorization_sha256: null
+    path: docs/aios/tasks/P1-121_FOUNDER_SELECTED_PROVIDER_RECORD_BASELINE_AND_PREREGISTRATION.yaml
+    sha256: 2d7744bd508895aef5c60c02dee5d100867057bd27a89cc173340c2ac920fb7f
+    byte_length: 18168
+  current_task_contract_sha256: 2d7744bd508895aef5c60c02dee5d100867057bd27a89cc173340c2ac920fb7f
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-121-founder-selected-provider-route-20260726/task-1/authority/PHASE_DELEGATED_TASK_AUTHORITY.yaml
+  current_execution_authorization_sha256: 1f1b791e5c972ebd32e196c1e50bcfb69670a216b2edbc529d0f7d1c0ae70193
   authority_record:
-    path: null
-    sha256: null
-    byte_length: null
-  execution_nonce: null
-  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
-  authorization_id: null
-  activation_parent_commit: null
-  activation_parent_tree: null
-  task_resource_state: NOT_CREATED_ROUTE_READY
-  task_branch: null
-  task_worktree: null
-  execution_evidence_root: null
-  allowlisted_paths: []
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-121-founder-selected-provider-route-20260726/task-1/authority/PHASE_DELEGATED_TASK_AUTHORITY.yaml
+    sha256: 1f1b791e5c972ebd32e196c1e50bcfb69670a216b2edbc529d0f7d1c0ae70193
+    byte_length: 6136
+  execution_nonce: d2df4d53c8a9002f780dc540dc17132ea030657765d619427d695734f4f50791
+  execution_nonce_status: ACTIVE
+  authorization_id: PHASE-DELEGATED-P1-121-AC1B88CF-6500-4188-8E3F-32D04A1E2EFC
+  activation_parent_commit: 10ebd4a988270cb215607359ac0dfe1d971907bc
+  activation_parent_tree: 5db9602326cb33b4000b32a3b1913b566761acbd
+  task_resource_state: ACTIVE_ONE_BRANCH_ONE_WORKTREE
+  task_branch: codex/p1-121-founder-selected-baseline
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-121-founder-selected-baseline
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-121-founder-selected-provider-route-20260726/task-1
+  allowlisted_paths:
+    - scripts/verify-p1-121-founder-selected-baseline.sh
+    - evaluation-harness/harness/p1-121-founder-selected-baseline
+    - evaluation-harness/recording/p1-121-founder-selected-baseline
+    - evaluation-harness/replay/p1-121-founder-selected-baseline
+    - evaluation-harness/evaluator/p1-121-founder-selected-baseline
+    - evaluation-harness/fixtures/p1-121-founder-selected-baseline
+    - docs/aios/tasks/P1-121_FOUNDER_SELECTED_PROVIDER_RECORD_BASELINE_AND_PREREGISTRATION.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+    - Makefile
   budget:
-    engineering_hours: null
-    calendar_days: null
-    implementation_iterations: null
-    candidates: null
+    engineering_hours: 40
+    calendar_days: 7
+    implementation_iterations: 3
+    candidates: 1
   roles:
-    owner: null
-    worker: null
-    independent_reviewers: []
+    owner: P1-121 Engineering Manager
+    worker: P1-121 Clean-Room Baseline Worker
+    independent_reviewers:
+      - P1-121 Fresh CTO Reviewer
+      - P1-121 Fresh Security Reviewer
+      - P1-121 Fresh Quality Reviewer
   external_effects:
-    network: false
-    provider: false
-    secret: false
+    network: true
+    provider: true
+    secret: true
     remote: false
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: null
-  founder_reserved_authorization_sha256: null
+  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-121-founder-selected-provider-route-20260726/FOUNDER_P1_FOUNDER_SELECTED_PROVIDER_RECORD_BINDING_AND_ATOMIC_BASELINE_ROUTE_V1.md
+  founder_reserved_authorization_sha256: 804c991e333e0bfc32047395e3c161d8bbf4b9941919880f3fd61cbc4e2befe7
   founder_decision_required: false
   founder_decision_required_scope: NONE_WITHIN_ACTIVE_PHASE_ENVELOPE
   escalation_reason: null
   user_action_required: NONE
   phase_route_decision_required: false
   phase_route_user_action_required: NONE
-  next_eligible_action: ACTIVATE_P1_121
+  next_eligible_action: EXECUTE_P1_121_WITHIN_PHASE_ENVELOPE
   last_terminal_task:
     task_id: AIOS-P1-120_ATOMIC_CAPACITY_RESERVED_LOOPBACK_BASELINE_AND_PREREGISTRATION
     status: TERMINAL_IMPLEMENTATION_ITERATION_EXHAUSTED_REPEATED_SECRET_BINDING_NON_PASS
@@ -7830,12 +7846,12 @@ phase_execution_claim:
     - canonical main advance outside an accepted task gate
 
 claim_boundary:
-  current_phase_route: P1_FOUNDER_SELECTED_PROVIDER_RECORD_BINDING_AND_ATOMIC_BASELINE_ROUTE_V1_AUTHORIZED_READY
-  current_task: NONE
-  next_eligible_action: ACTIVATE_P1_121
-  real_engineering_progress: P1_101_OBSERVABLE_TRACE_ACCEPTED_P1_120_TERMINAL_NO_CAPABILITY_CREDIT_P1_121_ROUTE_AUTHORIZED_READY_NO_NEW_CAPABILITY_STRICT_P1_COMPLETION_75_PERCENT
+  current_phase_route: P1_FOUNDER_SELECTED_PROVIDER_RECORD_BINDING_AND_ATOMIC_BASELINE_ROUTE_V1_ACTIVE_TASK_1
+  current_task: AIOS-P1-121_FOUNDER_SELECTED_PROVIDER_RECORD_BASELINE_AND_PREREGISTRATION
+  next_eligible_action: EXECUTE_P1_121_WITHIN_PHASE_ENVELOPE
+  real_engineering_progress: P1_101_OBSERVABLE_TRACE_ACCEPTED_P1_120_TERMINAL_NO_CAPABILITY_CREDIT_P1_121_ACTIVE_CLEAN_ROOM_BASELINE_ENGINEERING_STRICT_P1_COMPLETION_75_PERCENT
   product_capability_changed_by_route_activation: false
-  p1_121_status: ELIGIBLE_NOT_ACTIVATED
+  p1_121_status: ACTIVE
   p1_121_provider_selector: FOUNDER_SELECTED_FULL_NON_SECRET_IDENTITY
   p1_121_provider_requests: 0
   p1_121_automatic_retries: 0

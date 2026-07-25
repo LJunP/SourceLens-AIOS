@@ -2960,7 +2960,7 @@ active_work:
     sha256: 6ad1e966c13e185741cfaf051fb1704b6d2974daea8185766bbea0adccfdde05
     byte_length: 4758
   execution_nonce: 85f5e76300fbc3dd5731bad3c66edc7cafc834e2e8781e00266c2bd68376711c
-  execution_nonce_status: ACTIVE_UNIQUE
+  execution_nonce_status: ACTIVE
   authorization_id: PHASE-DELEGATED-P1-109-eab0cf14-2617-4a4f-9f1b-758f91f12330
   activation_parent_commit: c715e2fdd58f026bb3358817e6f7d1f731731930
   activation_parent_tree: 6d2152e1ce1a3e76aa08759cce31374c35d3835c

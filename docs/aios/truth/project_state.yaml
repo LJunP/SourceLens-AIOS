@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-25T08:35:00Z"
-verification_scope: P1_116_ACTIVE_CLEAN_ROOM_ENGINEERING_STRICT_75_PERCENT
+last_verified_at: "2026-07-25T09:51:48Z"
+verification_scope: P1_117_ACTIVE_CLEAN_ROOM_EMPIRICAL_BASELINE_STRICT_75_PERCENT
 
 authority:
   founder: Human Founder
@@ -37,7 +37,7 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: AIOS-P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION
+  current_task_authority: AIOS-P1-117_CLEAN_ROOM_36_RUN_EMPIRICAL_BASELINE_AND_P2_PREREGISTRATION
   note: >-
     The Founder-approved long-term Goal remains ACTIVE with the exact
     Founder-installed identity. P1-099 remains terminal with its Quality
@@ -103,6 +103,22 @@ goal:
     TARGET NON_PASS for undeclared-third-Task profile bypass and insufficient
     creation-time rollback identity binding. The candidate was not integrated,
     P1-115 was not activated, and strict P1 completion remains 6/8 (75%).
+    P1-116 then built the closed Task/profile authority and identity-bound
+    accepted-scanner admission candidate. Its original Quality Review remained
+    NON_PASS because the aggregate summary omitted one non-owned-mutation
+    counter. The Founder accepted only that exact residual. A projected-tree
+    Security Review then found unledgered recursive verifier cleanup, so the
+    projected integration stopped. Under one final bounded correction, the
+    verifier cleanup was replaced by an exact post-producer ownership handoff,
+    full-tree preflight and per-object unlink/rmdir identity checks. Fresh CTO,
+    Security and Quality Reviews all passed the exact corrected tree; canonical
+    integration matched that tree and the single full make verify passed.
+    P1-116 is therefore FOUNDER_RESIDUAL_ACCEPTED_SECURITY_CORRECTED_COMPLETE,
+    while the original Quality NON_PASS remains unchanged. It adds no P1
+    capability credit. P1-117 is now active to execute the preregistered
+    36-run empirical baseline and freeze the first offline P2 experiment
+    preregistration. Strict P1 completion remains 6/8 (75%) until that complete
+    Task Gate passes.
 
 project:
   name: SourceLens AIOS
@@ -114,8 +130,8 @@ project:
   p1_entry_status: AUTHORIZED
   phase_execution_status: ACTIVE
   p1_execution_status: ACTIVE
-  p1_engineering_status: P1_116_ACTIVE_CLEAN_ROOM_ENGINEERING
-  current_route_execution_status: ACTIVE_TASK_1
+  p1_engineering_status: P1_117_ACTIVE_EMPIRICAL_BASELINE_ENGINEERING
+  current_route_execution_status: ACTIVE_TASK_2
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -2231,9 +2247,9 @@ current_phase_route:
   route_id: P1_CLEAN_ROOM_CLOSED_PROFILE_SET_AND_IDENTITY_BOUND_ROLLBACK_THEN_BASELINE_ROUTE_V1
   status: ACTIVE
   authority_object_status: FOUNDER_PHASE_GATE_AUTHORITY_CONSUMED_ROUTE_ACTIVE
-  execution_status: ACTIVE_TASK_1
+  execution_status: ACTIVE_TASK_2
   founder_phase_route_decision_required: false
-  scheduling_status: TASK_1_ACTIVE
+  scheduling_status: TASK_2_ACTIVE
   phase: P1
   phase_entry_status: AUTHORIZED
   authorization_token: AUTHORIZE_P1_CLEAN_ROOM_CLOSED_PROFILE_SET_AND_IDENTITY_BOUND_ROLLBACK_THEN_BASELINE_ROUTE_V1
@@ -2483,7 +2499,7 @@ current_phase_route:
   first_task:
     task_id: AIOS-P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION
     task_slot: 1
-    status: ACTIVE
+    status: FOUNDER_RESIDUAL_ACCEPTED_SECURITY_CORRECTED_COMPLETE
     contract_path: docs/aios/tasks/P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION.yaml
     contract_sha256: 7322f3d3ad36d1c4fd8e64379d7f6bdee230832ae5a7f332b1eb28d0c489ed5d
     contract_byte_length: 13462
@@ -2492,30 +2508,45 @@ current_phase_route:
     max_implementation_iterations: 2
     max_candidates: 1
     strict_p1_credit_on_pass: 0
+  active_task:
+    task_id: AIOS-P1-117_CLEAN_ROOM_36_RUN_EMPIRICAL_BASELINE_AND_P2_PREREGISTRATION
+    task_slot: 2
+    status: ACTIVE
+    contract_path: docs/aios/tasks/P1-117_CLEAN_ROOM_36_RUN_EMPIRICAL_BASELINE_AND_P2_PREREGISTRATION.yaml
+    contract_sha256: b1db284a4eb34e416133f3f56edf5a31a9b11055bfba8d172baee6d393d1b9c5
+    contract_byte_length: 18185
+    max_engineering_hours: 40
+    max_calendar_days: 10
+    max_implementation_iterations: 2
+    max_candidates: 1
+    strict_p1_credit_on_pass: 2
   task_plan:
     - task_slot: 1
       task_id: AIOS-P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION
-      status: ACTIVE
+      status: FOUNDER_RESIDUAL_ACCEPTED_SECURITY_CORRECTED_COMPLETE
       engineering_hours: 16
       calendar_days: 4
       strict_p1_credit_on_pass: 0
     - task_slot: 2
       task_id: AIOS-P1-117_CLEAN_ROOM_36_RUN_EMPIRICAL_BASELINE_AND_P2_PREREGISTRATION
-      status: ELIGIBLE_AFTER_TASK_1_COMPLETE_GATE_PASS
+      status: ACTIVE
       engineering_hours: 40
       calendar_days: 10
       strict_p1_credit_on_pass: 2
   route_execution_accounting:
     maximum_engineering_tasks: 2
-    task_slots_consumed: 1
-    active_task_id: AIOS-P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION
+    task_slots_consumed: 2
+    active_task_id: AIOS-P1-117_CLEAN_ROOM_36_RUN_EMPIRICAL_BASELINE_AND_P2_PREREGISTRATION
     scheduled_task_ids:
       - AIOS-P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION
-    terminal_task_ids: []
-    accepted_task_ids: []
+      - AIOS-P1-117_CLEAN_ROOM_36_RUN_EMPIRICAL_BASELINE_AND_P2_PREREGISTRATION
+    terminal_task_ids:
+      - AIOS-P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION
+    accepted_task_ids:
+      - AIOS-P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION
     maximum_engineering_hours: 56
-    engineering_hours_authorized_current_task: 16
-    status: ACTIVE_TASK_1
+    engineering_hours_authorized_current_task: 40
+    status: ACTIVE_TASK_2
   additional_write_roots:
     - scripts/validate-current-task-authority.rb
     - scripts/test-current-task-authority.rb
@@ -2582,10 +2613,10 @@ current_phase_route:
     admission in Task 1, followed only after Task Gate PASS by a bounded
     36-run baseline and offline P2 preregistration; no P2/P3 entry, remote,
     production or public claim.
-  next_eligible_action: EXECUTE_P1_116_WITHIN_PHASE_ENVELOPE
+  next_eligible_action: EXECUTE_P1_117_WITHIN_PHASE_ENVELOPE
 
 phase_delegation:
-  status: ACTIVE_PHASE_ROUTE_TASK_1
+  status: ACTIVE_PHASE_ROUTE_TASK_2
   model: PHASE_LEVEL_FOUNDER_DELEGATION
   decision_source: FOUNDER_DIRECTIVES_IN_CODEX_THREAD_2026_07_16_AND_2026_07_17
   phase_gate_owner: HUMAN_FOUNDER
@@ -3601,51 +3632,52 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: NONE
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
-  current_task: AIOS-P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION
+  current_task: AIOS-P1-117_CLEAN_ROOM_36_RUN_EMPIRICAL_BASELINE_AND_P2_PREREGISTRATION
   current_task_status: ACTIVE
   current_task_contract:
-    path: docs/aios/tasks/P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION.yaml
-    sha256: 7322f3d3ad36d1c4fd8e64379d7f6bdee230832ae5a7f332b1eb28d0c489ed5d
-    byte_length: 13462
-  current_task_contract_sha256: 7322f3d3ad36d1c4fd8e64379d7f6bdee230832ae5a7f332b1eb28d0c489ed5d
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-closed-profile-rollback-route-20260725/task-1/PHASE_DELEGATED_TASK_AUTHORITY.yaml
-  current_execution_authorization_sha256: 827b9086121e4bfa65bb54ceb266e0350b893bcea7d8d1e123ca3178dedab7f1
+    path: docs/aios/tasks/P1-117_CLEAN_ROOM_36_RUN_EMPIRICAL_BASELINE_AND_P2_PREREGISTRATION.yaml
+    sha256: b1db284a4eb34e416133f3f56edf5a31a9b11055bfba8d172baee6d393d1b9c5
+    byte_length: 18185
+  current_task_contract_sha256: b1db284a4eb34e416133f3f56edf5a31a9b11055bfba8d172baee6d393d1b9c5
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-closed-profile-rollback-route-20260725/task-2/PHASE_DELEGATED_TASK_AUTHORITY.yaml
+  current_execution_authorization_sha256: 00b4ca32a71cbfd79c7c688715450bebd213fa4d091b744732d5e38d8a5d42ae
   authority_record:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-closed-profile-rollback-route-20260725/task-1/PHASE_DELEGATED_TASK_AUTHORITY.yaml
-    sha256: 827b9086121e4bfa65bb54ceb266e0350b893bcea7d8d1e123ca3178dedab7f1
-    byte_length: 5094
-  execution_nonce: 8db2d06ee0a16b4b9c0e460291e250140e0f14d6516c6046faf65582aad8808d
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-closed-profile-rollback-route-20260725/task-2/PHASE_DELEGATED_TASK_AUTHORITY.yaml
+    sha256: 00b4ca32a71cbfd79c7c688715450bebd213fa4d091b744732d5e38d8a5d42ae
+    byte_length: 6274
+  execution_nonce: 968b4c0eb7b3a766f6c838267754caf89c0e0af35c416e3511d67e4098e00d6d
   execution_nonce_status: ACTIVE
-  authorization_id: 8bea6f168d77b7358c9ca2db45486e852fc45d2035f1ae1c74aa62ad8818700b
-  activation_parent_commit: 290523aa31dc3adbddc7875f7a89972cc0dd4aa0
-  activation_parent_tree: 9c7882b67b9a5b39bdb2f1b4548ef049f4180fb0
+  authorization_id: 737576d8073533153bc162d2c638d84895b936bd3216ed42db65a7c41411f179
+  activation_parent_commit: f6c074f5273f9ce4dea53418e54ed4083cb274aa
+  activation_parent_tree: c8b80b129ae3b6e048e49b8927864344b17a43cd
   task_resource_state: ACTIVE_ONE_BRANCH_ONE_WORKTREE
-  task_branch: codex/p1-116-closed-profile-scanner-admission
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-116-closed-profile-scanner-admission
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-closed-profile-rollback-route-20260725/task-1
+  task_branch: codex/p1-117-clean-room-empirical-baseline
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-117-clean-room-empirical-baseline
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-closed-profile-rollback-route-20260725/task-2
   allowlisted_paths:
-    - evaluation-harness/harness/p1-116-closed-profile-scanner-admission
-    - evaluation-harness/evaluator/p1-116-closed-profile-scanner-admission
-    - evaluation-harness/fixtures/p1-116-closed-profile-scanner-admission
-    - scripts/validate-current-task-authority.rb
-    - scripts/test-current-task-authority.rb
-    - scripts/verify-p1-116-closed-profile-scanner-admission.sh
-    - docs/aios/tasks/P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION.yaml
+    - evaluation-harness/harness/p1-117-clean-room-empirical-baseline
+    - evaluation-harness/evaluator/p1-117-clean-room-empirical-baseline
+    - evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline
+    - evaluation-harness/recording/p1-117-clean-room-empirical-baseline
+    - evaluation-harness/replay/p1-117-clean-room-empirical-baseline
+    - evaluation-harness/validators/p1-117-clean-room-empirical-baseline
+    - scripts/verify-p1-117-clean-room-empirical-baseline.sh
+    - docs/aios/tasks/P1-117_CLEAN_ROOM_36_RUN_EMPIRICAL_BASELINE_AND_P2_PREREGISTRATION.yaml
     - docs/aios/truth/project_state.yaml
     - docs/PROJECT_CODE_MAP.md
     - Makefile
   budget:
-    engineering_hours: 16
-    calendar_days: 4
+    engineering_hours: 40
+    calendar_days: 10
     implementation_iterations: 2
     candidates: 1
   roles:
-    owner: P1-116 Engineering Manager
-    worker: P1-116 Clean-Room Implementation Worker
+    owner: P1-117 Engineering Manager
+    worker: P1-117 Empirical Baseline Worker
     independent_reviewers:
-      - P1-116 Fresh CTO Reviewer
-      - P1-116 Fresh Security Reviewer
-      - P1-116 Fresh Quality Reviewer
+      - P1-117 Fresh CTO Reviewer
+      - P1-117 Fresh Security Reviewer
+      - P1-117 Fresh Quality Reviewer
   external_effects:
     network: true
     provider: true
@@ -3662,55 +3694,66 @@ active_work:
   user_action_required: NONE
   phase_route_decision_required: false
   phase_route_user_action_required: NONE
-  next_eligible_action: EXECUTE_P1_116_WITHIN_PHASE_ENVELOPE
+  next_eligible_action: EXECUTE_P1_117_WITHIN_PHASE_ENVELOPE
   last_terminal_task:
-    task_id: AIOS-P1-114_OBSERVED_NO_EFFECT_SCANNER_ADMISSION_AND_RAW_EVIDENCE_GATE
-    status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
+    task_id: AIOS-P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION
+    status: FOUNDER_RESIDUAL_ACCEPTED_SECURITY_CORRECTED_COMPLETE
     terminal_contract:
-      path: docs/aios/tasks/P1-114_OBSERVED_NO_EFFECT_SCANNER_ADMISSION_AND_RAW_EVIDENCE_GATE.yaml
-      sha256: 0ed8c5a19470577aefae57badc84a24bf2c2615a2a10d8456d441bf7a592a367
-      byte_length: 13759
+      path: docs/aios/tasks/P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION.yaml
+      sha256: 7322f3d3ad36d1c4fd8e64379d7f6bdee230832ae5a7f332b1eb28d0c489ed5d
+      byte_length: 13462
     terminal_receipt:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-114-observed-no-effect-route-20260725/task-1/terminal/P1_114_TERMINAL_RECEIPT.json
-      sha256: 278de5c414e8c3549617651bf5d7b3c880a503391b5713bf1f9ff4d6477390fe
-      byte_length: 3070
-    rejected_candidate:
-      commit: e4acbee25d364ad2160fd89e46648d19eab845a7
-      tree: 3a74104c4525b0f30ca6cd52b336a00cb349e0f4
-      evidence_tag: evidence/p1-114-candidate-e4acbee
-    rejected_candidate_manifest:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-114-observed-no-effect-route-20260725/task-1/CANDIDATE_MANIFEST.yaml
-      sha256: 26b64c3257046d74f4c35a1f6858d08aacc5af9d2b6b2a068e0b6901645119f1
-      byte_length: 4263
-      file_count: 12
-    final_cto_review:
-      result: NON_PASS
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-114-observed-no-effect-route-20260725/task-1/reviews/CTO_FINAL_REVIEW.md
-      sha256: 42470d7aa64b52ffd40dce80d0b597809a794dbd57a8d9fcac9c3ddc736a9812
-      byte_length: 7124
-    final_security_review_result: NOT_COMPLETED_AFTER_CTO_STOP_CONDITION
-    final_quality_review:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-verifier-ledger-correction-20260725/P1_116_CORRECTED_INTEGRATION_RECEIPT.json
+      sha256: 10a4d4d14aa7aa8c69011290b4c232f67c46860883e9827c16f20ff0b99f3020
+      byte_length: 3490
+    accepted_corrected_candidate:
+      commit: f6c074f5273f9ce4dea53418e54ed4083cb274aa
+      tree: c8b80b129ae3b6e048e49b8927864344b17a43cd
+      evidence_tag: evidence/p1-116-verifier-ledger-correction-f6c074f
+    corrected_candidate_manifest:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-verifier-ledger-correction-20260725/CORRECTED_CANDIDATE_MANIFEST.yaml
+      sha256: f418e28d2fa8426f5139eaf79e7688ccfd37bfb917afc38b3afd5fecf947becb
+      byte_length: 3371
+    original_quality_review:
+      result: NON_PASS_FOUNDER_RESIDUAL_ACCEPTED_NOT_REWRITTEN
+      normalized_root_cause: P1116.QUALITY.FORMAL_SUMMARY.NONOWNED_MUTATION_COUNT_MISSING
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-closed-profile-rollback-route-20260725/task-1/reviews/QUALITY_FINAL_REVIEW.md
+      sha256: f9a7a6b51ba57ffb0d9e7a8bd5387a04c04233bc9006035cc666fbc540c3c299
+      byte_length: 8317
+    corrected_cto_review:
       result: PASS
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-114-observed-no-effect-route-20260725/task-1/reviews/QUALITY_FINAL_REVIEW.md
-      sha256: 2d9ccde78eaf1f724189931cdfe81177ecf85f818624f2213195996a3510c337
-      byte_length: 6535
-    preserved_branch: codex/p1-114-observed-no-effect-scanner
-    preserved_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-114-observed-no-effect-scanner
-    source_archive_readable_or_reusable: false
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-verifier-ledger-correction-20260725/reviews/CTO_FINAL_REVIEW.md
+      sha256: 961edb22f71dc15d121f3bf3e9676ba6b4b10635d2452462ce0176cb90390b94
+      byte_length: 9736
+    corrected_security_review:
+      result: PASS
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-verifier-ledger-correction-20260725/reviews/SECURITY_FINAL_REVIEW.md
+      sha256: 71023b4a89b60d8e77ac2a04c9b0a24917bbfeaeac701529001bb34832792bed
+      byte_length: 10956
+    corrected_quality_review:
+      result: PASS
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-verifier-ledger-correction-20260725/reviews/QUALITY_FINAL_REVIEW.md
+      sha256: 2c04b4227bf1edce3f1b190dd7f7dc28054e0aadb9b8521a4d3b9e64f010d998
+      byte_length: 7812
+    preserved_branch: codex/p1-116-verifier-ledger-correction
+    preserved_worktree: null
+    accepted_canonical_assets_readable: true
     provider_requests_used: 0
     secret_reads_used: 0
     focused_formal_matrix_run: true
     candidate_created: true
     final_review_cycle_run: true
+    corrected_tree_integrated: true
+    canonical_make_verify_result: PASS
     capability_credit: 0
-    next_task_eligible: false
+    next_task_eligible: true
   last_accepted_task:
-    task_id: AIOS-P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE
-    status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
-    integration_commit: 633f9daf133bf616cd293fb343058e2efba2a3ed
-    integration_tree: 999f37f93692a045d455adf0ea503947ed5555a5
-    integration_receipt_sha256: 962d6978bbc2d5b7b7b6065f502075587caf5c5d996582361eb7ea823d48a539
-    capability_credit: 1
+    task_id: AIOS-P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION
+    status: FOUNDER_RESIDUAL_ACCEPTED_SECURITY_CORRECTED_COMPLETE
+    integration_commit: f6c074f5273f9ce4dea53418e54ed4083cb274aa
+    integration_tree: c8b80b129ae3b6e048e49b8927864344b17a43cd
+    integration_receipt_sha256: 10a4d4d14aa7aa8c69011290b4c232f67c46860883e9827c16f20ff0b99f3020
+    capability_credit: 0
 
 superseded_pre_delegation_authorizations:
   aios_p1_009:
@@ -3728,6 +3771,71 @@ superseded_pre_delegation_authorizations:
     note: The engineering objective may be selected independently by Master, but these pre-delegation bytes require a routine per-Task Founder Gate and cannot be activated under the current authority model.
 
 task_history:
+  aios_p1_116:
+    task_id: AIOS-P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION
+    route_id: P1_CLEAN_ROOM_CLOSED_PROFILE_SET_AND_IDENTITY_BOUND_ROLLBACK_THEN_BASELINE_ROUTE_V1
+    status: FOUNDER_RESIDUAL_ACCEPTED_SECURITY_CORRECTED_COMPLETE
+    classification: REAL_ACCEPTED_SCANNER_ADMISSION_WITH_EXACT_FOUNDER_QUALITY_RESIDUAL_AND_SECURITY_CORRECTION
+    task_contract_path: docs/aios/tasks/P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION.yaml
+    task_contract_sha256: 7322f3d3ad36d1c4fd8e64379d7f6bdee230832ae5a7f332b1eb28d0c489ed5d
+    task_contract_byte_length: 13462
+    activation_authority_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-closed-profile-rollback-route-20260725/task-1/PHASE_DELEGATED_TASK_AUTHORITY.yaml
+    activation_authority_record_sha256: 827b9086121e4bfa65bb54ceb266e0350b893bcea7d8d1e123ca3178dedab7f1
+    activation_authority_record_byte_length: 5094
+    implementation_iterations_used: 2
+    code_only_repairs_used: 1
+    candidates_used: 1
+    original_candidate_commit: 73aa3bc8b867d0444cd0c6848d2919e9f7e8801e
+    original_candidate_tree: d241a6ac0dec60181c6e37601534390e12a4afbf
+    original_candidate_evidence_tag: evidence/p1-116-candidate-73aa3bc
+    original_candidate_manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-closed-profile-rollback-route-20260725/task-1/CANDIDATE_MANIFEST.yaml
+    original_candidate_manifest_sha256: 685853f21308999325178874e9b4637baa88331cdc4209f5007960d31133b135
+    original_candidate_manifest_byte_length: 6473
+    original_quality_target_verdict: NON_PASS
+    original_quality_root_cause: P1116.QUALITY.FORMAL_SUMMARY.NONOWNED_MUTATION_COUNT_MISSING
+    original_quality_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-closed-profile-rollback-route-20260725/task-1/reviews/QUALITY_FINAL_REVIEW.md
+    original_quality_review_sha256: f9a7a6b51ba57ffb0d9e7a8bd5387a04c04233bc9006035cc666fbc540c3c299
+    original_quality_review_byte_length: 8317
+    original_quality_residual_founder_accepted: true
+    original_quality_non_pass_rewritten_as_pass: false
+    projected_candidate_commit: 940973a4af0ab35c921abc4dedd927f379631e3a
+    projected_candidate_tree: d241a6ac0dec60181c6e37601534390e12a4afbf
+    projected_cto_target_verdict: PASS
+    projected_security_target_verdict: NON_PASS
+    projected_security_root_cause: P1116.SECURITY.VERIFIER_CLEANUP.UNLEDGERED_RECURSIVE_DELETION
+    projected_security_review_sha256: 374ed85de21c0eaa18fc23b39ee9e82f88a96520c99913bf5bf9535ffb147cbf
+    projected_integration_terminal_receipt_sha256: 926f1f21526b82c91b217d02d94302e8d339354b2c1b2c11ae08529885603bfd
+    correction_authorization_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-verifier-ledger-correction-20260725/FOUNDER_ONE_P1_116_VERIFIER_IDENTITY_LEDGER_SECURITY_CORRECTION_AND_DIRECT_P1_117_ENTRY_V1.md
+    correction_authorization_sha256: a2d2a6093c5a7c401ce5b8802e8e5ee111bfdfa006200a45410e4967465156ff
+    correction_authorization_byte_length: 6698
+    corrected_candidate_commit: f6c074f5273f9ce4dea53418e54ed4083cb274aa
+    corrected_candidate_tree: c8b80b129ae3b6e048e49b8927864344b17a43cd
+    corrected_candidate_evidence_tag: evidence/p1-116-verifier-ledger-correction-f6c074f
+    corrected_candidate_manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-verifier-ledger-correction-20260725/CORRECTED_CANDIDATE_MANIFEST.yaml
+    corrected_candidate_manifest_sha256: f418e28d2fa8426f5139eaf79e7688ccfd37bfb917afc38b3afd5fecf947becb
+    corrected_candidate_manifest_byte_length: 3371
+    corrected_cto_target_verdict: PASS
+    corrected_cto_review_sha256: 961edb22f71dc15d121f3bf3e9676ba6b4b10635d2452462ce0176cb90390b94
+    corrected_security_target_verdict: PASS
+    corrected_security_review_sha256: 71023b4a89b60d8e77ac2a04c9b0a24917bbfeaeac701529001bb34832792bed
+    corrected_quality_target_verdict: PASS
+    corrected_quality_review_sha256: 2c04b4227bf1edce3f1b190dd7f7dc28054e0aadb9b8521a4d3b9e64f010d998
+    corrected_tree_integrated: true
+    integration_method: EXACT_FAST_FORWARD
+    canonical_make_verify_invocations: 1
+    canonical_make_verify_result: PASS
+    corrected_integration_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-verifier-ledger-correction-20260725/P1_116_CORRECTED_INTEGRATION_RECEIPT.json
+    corrected_integration_receipt_sha256: 10a4d4d14aa7aa8c69011290b4c232f67c46860883e9827c16f20ff0b99f3020
+    corrected_integration_receipt_byte_length: 3490
+    successful_network_connections: 0
+    provider_requests_used: 0
+    secret_reads_used: 0
+    accepted_capabilities: []
+    capability_credit: 0
+    task_2_activated: true
+    strict_p1_completion_after_task: 6_COMPLETE_0_PARTIAL_2_NOT_COMPLETE_75_PERCENT
+    next_decision_point: P1_117_COMPLETE_OR_STOP_CONDITION_P1_PHASE_GATE
+    claim_boundary: FOUNDER_RESIDUAL_ACCEPTED_SECURITY_CORRECTED_SCANNER_ADMISSION_ONLY_NO_EMPIRICAL_BASELINE_P1_EXIT_P2_P3_REMOTE_PRODUCTION_OR_PUBLIC_CLAIM
   aios_p1_114:
     task_id: AIOS-P1-114_OBSERVED_NO_EFFECT_SCANNER_ADMISSION_AND_RAW_EVIDENCE_GATE
     route_id: P1_OBSERVED_NO_EFFECT_SCANNER_ADMISSION_AND_RAW_EVIDENCE_BASELINE_COMPLETION_ROUTE_V1

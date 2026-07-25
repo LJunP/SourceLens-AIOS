@@ -1,0 +1,335 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P1-117_CLEAN_ROOM_36_RUN_EMPIRICAL_BASELINE_AND_P2_PREREGISTRATION
+phase: P1
+route_id: P1_CLEAN_ROOM_CLOSED_PROFILE_SET_AND_IDENTITY_BOUND_ROLLBACK_THEN_BASELINE_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Execute one preregistered, clean-room 36-run B0/B1/B2 empirical baseline
+  against the accepted six-task representative dataset, retain independently
+  replayable raw and aggregate Evidence, and freeze the first offline P2
+  context-engine experiment preregistration without entering P2.
+why_now: >-
+  P1 already has accepted TaskSpec, Environment Snapshot, adapters, scheduled
+  matrix accounting, observable trace and the P1-116 accepted scanner
+  admission. The remaining P1 Exit Gate work is empirical baseline Evidence
+  plus one falsifiable P2 preregistration, so this is the shortest direct path
+  from strict 75 percent to the P1 Phase Gate.
+task_spec_ref: >-
+  /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-closed-profile-rollback-route-20260725/FOUNDER_P1_CLEAN_ROOM_CLOSED_PROFILE_SET_AND_IDENTITY_BOUND_ROLLBACK_THEN_BASELINE_ROUTE_V1.md
+owner_role: P1-117 Engineering Manager
+worker_role: P1-117 Empirical Baseline Worker
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+risk_level: high
+budget:
+  engineering_hours: 40
+  calendar_days: 10
+  implementation_iterations: 2
+  candidates: 1
+roles:
+  owner: P1-117 Engineering Manager
+  worker: P1-117 Empirical Baseline Worker
+  independent_reviewers:
+    - P1-117 Fresh CTO Reviewer
+    - P1-117 Fresh Security Reviewer
+    - P1-117 Fresh Quality Reviewer
+allowlisted_paths:
+  - evaluation-harness/harness/p1-117-clean-room-empirical-baseline
+  - evaluation-harness/evaluator/p1-117-clean-room-empirical-baseline
+  - evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline
+  - evaluation-harness/recording/p1-117-clean-room-empirical-baseline
+  - evaluation-harness/replay/p1-117-clean-room-empirical-baseline
+  - evaluation-harness/validators/p1-117-clean-room-empirical-baseline
+  - scripts/verify-p1-117-clean-room-empirical-baseline.sh
+  - docs/aios/tasks/P1-117_CLEAN_ROOM_36_RUN_EMPIRICAL_BASELINE_AND_P2_PREREGISTRATION.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+  - Makefile
+write_scope:
+  worker:
+    - evaluation-harness/harness/p1-117-clean-room-empirical-baseline
+    - evaluation-harness/recording/p1-117-clean-room-empirical-baseline
+    - evaluation-harness/replay/p1-117-clean-room-empirical-baseline
+  quality:
+    - evaluation-harness/evaluator/p1-117-clean-room-empirical-baseline
+    - evaluation-harness/fixtures/p1-117-clean-room-empirical-baseline
+    - evaluation-harness/validators/p1-117-clean-room-empirical-baseline
+  integration:
+    - scripts/verify-p1-117-clean-room-empirical-baseline.sh
+    - docs/aios/tasks/P1-117_CLEAN_ROOM_36_RUN_EMPIRICAL_BASELINE_AND_P2_PREREGISTRATION.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+    - Makefile
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+  - docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
+  - docs/aios/tasks/P1-070_OFFLINE_SCHEDULED_MATRIX_VTSR_AND_FALSE_SUCCESS_EXPERIMENT.yaml
+  - docs/aios/tasks/P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE.yaml
+  - docs/aios/tasks/P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION.yaml
+  - evaluation-harness/datasets/p1-representative-task-dataset-v1
+  - evaluation-harness/adapters/p1-097-minimal-documented
+  - evaluation-harness/harness/p1-097-minimal-documented
+  - evaluation-harness/evaluator/p1-097-minimal-documented
+  - evaluation-harness/harness/p1-101-accepted-shared-trace
+  - evaluation-harness/recording/p1-101-accepted-shared-trace
+  - evaluation-harness/replay/p1-101-accepted-shared-trace
+  - evaluation-harness/harness/p1-116-closed-profile-scanner-admission
+  - evaluation-harness/fixtures/p1-116-closed-profile-scanner-admission
+dependencies:
+  - ACCEPTED_CANONICAL_P1_035_REPRESENTATIVE_TASK_DATASET
+  - ACCEPTED_CANONICAL_P1_070_SCHEDULED_MATRIX_ACCOUNTING
+  - ACCEPTED_CANONICAL_P1_099_B0_B1_B2_COMPATIBILITY_ADAPTERS
+  - ACCEPTED_CANONICAL_P1_101_SHARED_OBSERVABLE_TRACE
+  - FOUNDER_RESIDUAL_ACCEPTED_SECURITY_CORRECTED_P1_116_SCANNER_ADMISSION
+historical_isolation:
+  p1_116_original_quality_non_pass_and_security_non_pass_remain_historical: true
+  p1_116_corrected_canonical_assets_readable: true
+  rejected_task_candidate_source_fixture_test_or_oracle_reusable: false
+  failed_p1_102_p1_104_p1_106_p1_107_p1_109_p1_111_p1_112_p1_114_assets_readable: false
+  other_rejected_engineering_lineage_read_restore_compare_or_reuse_allowed: false
+external_effects:
+  network: true
+  provider: true
+  secret: true
+  remote: false
+  production: false
+  public: false
+task_actual_effect_ceiling:
+  successful_loopback_network_connections: 60
+  provider_requests: 60
+  automatic_retries: 0
+  secret_reads: 1
+  non_loopback_network_connections: 0
+  remote_effects: 0
+  production_effects: 0
+  public_effects: 0
+founder_reserved_profile:
+  schema_version: "2.0"
+  profile_id: P1_117_EMPIRICAL_BASELINE_V1
+  decision_basis: FOUNDER_PHASE_GATE_P1_114_TERMINAL_RECOVERY_2026_07_25
+  route_id: P1_CLEAN_ROOM_CLOSED_PROFILE_SET_AND_IDENTITY_BOUND_ROLLBACK_THEN_BASELINE_ROUTE_V1
+  task_id: AIOS-P1-117_CLEAN_ROOM_36_RUN_EMPIRICAL_BASELINE_AND_P2_PREREGISTRATION
+  transport:
+    scheme: http
+    host: 127.0.0.1
+    port: 8787
+    base_path: /v1
+    completion_path: /v1/chat/completions
+    api_format: OPENAI_COMPATIBLE_CHAT_COMPLETIONS
+    method: POST
+    follow_redirects: false
+    use_proxy: false
+    dns_resolution: false
+    fallback_endpoint_allowed: false
+    expected_peer_address: 127.0.0.1
+    expected_peer_port: 8787
+  model:
+    requested_model: gpt-5.6-luna
+    substitution_allowed: false
+    provider_provenance: FOUNDER_ATTESTED_OPENAI_COMPATIBLE_LOCAL_GATEWAY_MODEL_NOT_INDEPENDENTLY_VERIFIED
+  secret:
+    allowed_sources:
+      - LOCAL_PROCESS_ENV
+      - CONTROLLED_TEMPORARY_SECRET_FILE
+    persist: false
+    prohibited_sinks:
+      - REPOSITORY
+      - EVIDENCE
+      - LOG
+      - TRACE
+      - PROMPT
+      - REVIEW
+      - VAULT
+  call_limits:
+    provider_requests_max: 60
+    automatic_retry_max: 0
+  token_limits:
+    input_tokens_max: 500000
+    output_tokens_max: 100000
+  monetary_limits:
+    currency: USD
+    max_spend: 25
+    unavailable_metering_status: UNKNOWN_GATEWAY_METERING_UNAVAILABLE
+  egress:
+    restricted_source_allowed: false
+  external_effects:
+    network: true
+    provider: true
+    secret: true
+    remote: false
+    production: false
+    public: false
+  claim_limits:
+    direct_openai_provenance_proven: false
+    adapter_conformance_is_model_performance: false
+    remote: false
+    production: false
+    public: false
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-closed-profile-rollback-route-20260725/FOUNDER_P1_CLEAN_ROOM_CLOSED_PROFILE_SET_AND_IDENTITY_BOUND_ROLLBACK_THEN_BASELINE_ROUTE_V1.md
+  sha256: 36faf1f877d47b08355032b4e2ec07c6a4c805be5e51c841e414d8457b92a336
+  byte_length: 12026
+  authorization_token: AUTHORIZE_P1_CLEAN_ROOM_CLOSED_PROFILE_SET_AND_IDENTITY_BOUND_ROLLBACK_THEN_BASELINE_ROUTE_V1
+governing_founder_packet:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-closed-profile-rollback-route-20260725/FOUNDER_P1_CLEAN_ROOM_CLOSED_PROFILE_SET_AND_IDENTITY_BOUND_ROLLBACK_THEN_BASELINE_ROUTE_V1.md
+  sha256: 36faf1f877d47b08355032b4e2ec07c6a4c805be5e51c841e414d8457b92a336
+  byte_length: 12026
+direct_entry_correction_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-verifier-ledger-correction-20260725/FOUNDER_ONE_P1_116_VERIFIER_IDENTITY_LEDGER_SECURITY_CORRECTION_AND_DIRECT_P1_117_ENTRY_V1.md
+  sha256: a2d2a6093c5a7c401ce5b8802e8e5ee111bfdfa006200a45410e4967465156ff
+  byte_length: 6698
+  authorization_token: AUTHORIZE_ONE_P1_116_VERIFIER_IDENTITY_LEDGER_SECURITY_CORRECTION_AND_DIRECT_P1_117_ENTRY_V1
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+frozen_experiment_design:
+  research_question: >-
+    Across the accepted six-task representative dataset, what are the
+    reproducible run-level outcomes, evidence-completeness characteristics and
+    failure distributions of the accepted B0, B1 and B2 compatibility paths
+    under two predeclared configurations and a common evaluator?
+  primary_metric: VERIFIED_TASK_SUCCESS_RATE
+  scheduled_run_count: 36
+  task_count: 6
+  task_ids:
+    - SL-P1-REP-001-RANGE-NORMALIZATION
+    - SL-P1-REP-002-CONFIG-VALIDATION
+    - SL-P1-REP-003-SAFE-PATH-JOIN
+    - SL-P1-REP-004-COMMAND-RESULT-MAPPING
+    - SL-P1-REP-005-PROFILE-DISPLAY-NAME
+    - SL-P1-REP-006-DEDUPE-REFACTOR
+  systems:
+    - B0_DIRECT_MODEL
+    - B1_SIMPLE_TOOL_AGENT
+    - B2_CURRENT_SOURCELENS
+  variants:
+    - A
+    - B
+  repetitions_per_task_system_variant: 1
+  aggregation:
+    run_level_denominator: ALL_36_SCHEDULED_RUNS
+    task_system_variant_success: INDEPENDENT_EVALUATOR_ACCEPTED_AND_COMPLETE_EVIDENCE
+    invalid_run_policy: ONLY_PREDECLARED_SHARED_INFRASTRUCTURE_REASON_CODES
+    ordinary_setup_timeout_budget_policy_failure: COUNT_AS_FAILED_RUN
+  practical_claim_boundary: >-
+    Descriptive P1 baseline only. No superiority, model-quality, OpenAI-direct,
+    production-readiness or P2-admission claim.
+preregistration_freeze:
+  required_before:
+    - SECRET_READ
+    - PROVIDER_REQUEST
+  must_bind:
+    - exact Contract and Task authority
+    - exact 36-run matrix and ordering
+    - dataset and six TaskSpec identities
+    - B0 B1 B2 executable and SystemConfiguration identities
+    - accepted P0 B2 scanner artifact and external truth binding
+    - environment, model, prompt, policy and response-format identities
+    - evaluator, metric, success, failure and invalid-run semantics
+    - request, token, cost, time and external-effect guardrails
+    - negative matrix and stop conditions
+    - first offline P2 context-engine hypothesis and practical stop condition
+  mutation_after_freeze: FORBIDDEN
+architecture_constraints:
+  - All inputs derive from accepted canonical assets and the exact Founder packets.
+  - No rejected Task engineering asset may be read, compared, copied or reused.
+  - The preregistration is exact-byte frozen before any Secret read or Provider request.
+  - Every formal run uses one unique run identity and one independently owned disposable output root.
+  - Every scheduled run emits a RunRecord even when it fails, times out or reaches a policy or budget stop.
+  - Raw request-safe Evidence excludes Secret, restricted source and authorization headers.
+  - Raw response-safe Evidence, observable trace, external truth binding, stable projection, replay and rollback are retained for every run.
+  - B2 must invoke the exact P1-116 admitted accepted P0 repository_analysis.scan artifact.
+  - Deterministic fields replay exactly and stochastic differences remain visible rather than normalized away.
+  - Request count, token totals and cost accounting are append-only and fail closed at the exact Founder caps.
+  - Cost remains UNKNOWN_GATEWAY_METERING_UNAVAILABLE when trustworthy metering is unavailable.
+  - Only exact loopback 127.0.0.1 port 8787 egress is permitted; redirects, proxies, DNS and fallback endpoints are forbidden.
+  - Secret bytes never enter repository, Evidence, logs, traces, prompts, reviews or Vault.
+  - Adapter conformance, sample outcomes and Founder-attested gateway provenance do not prove model performance or OpenAI direct provenance.
+quality_freeze:
+  positive_matrix:
+    - Six exact accepted TaskSpecs cross-bind to their Environment Snapshots and dataset identities.
+    - B0, B1 and B2 each expose distinct accepted executable and SystemConfiguration identities.
+    - Each of B0, B1 and B2 executes variants A and B for all six TaskSpecs.
+    - All 36 scheduled entries execute independently and remain in the denominator.
+    - B2 records a real exact accepted P0 child scanner invocation for every B2 run.
+    - Every run retains the complete predeclared Evidence set and an identity-bound rollback receipt.
+    - Independent recomputation derives the same aggregate counts from raw run Evidence.
+  negative_matrix:
+    - preregistration missing or mutated
+    - unknown or duplicate matrix entry
+    - missing scheduled run
+    - task dataset identity drift
+    - TaskSpec Environment Snapshot mismatch
+    - executable or SystemConfiguration identity drift
+    - B2 scanner artifact or external truth-binding drift
+    - request count, input token or output token cap exceeded
+    - automatic retry requested
+    - non-loopback, redirect, proxy, DNS or fallback endpoint requested
+    - restricted source or Secret sink requested
+    - missing, reordered or identity-drifted trace event
+    - RunRecord, stable projection or replay mismatch
+    - rollback identity drift or non-owned cleanup attempt
+    - post-hoc run exclusion or result-aware preregistration mutation
+  execution_semantics:
+    - Every negative case uses an independent, one-time, locally owned fixture.
+    - Pre-execution negatives reject with Provider requests and Secret reads equal to zero.
+    - No negative fixture may be repaired and reused as a later test lineage.
+acceptance_criteria:
+  - Exact Goal, route packet, direct-entry correction packet, canonical activation parent, Contract, Truth and authority identities pass preactivation validation.
+  - The P1-116 corrected integration receipt and all three fresh PASS reviews match their exact retained bytes.
+  - An immutable preregistration binds the complete experiment design before any Secret read or Provider request.
+  - Offline preflight validates all 36 scheduled entries, all accepted input identities and the complete negative matrix with zero Provider requests and Secret reads.
+  - Exactly 36 independent formal runs are retained with no missing, duplicate or post-hoc excluded scheduled entry.
+  - Provider requests do not exceed 60, automatic retries equal zero, input tokens do not exceed 500000 and output tokens do not exceed 100000.
+  - Only authorized loopback Provider connections occur; non-loopback, remote, production and public effects equal zero.
+  - Every formal run retains request-safe and response-safe raw Evidence, RunRecord, observable trace, external truth binding, stable projection, replay and rollback.
+  - Every B2 formal run records an actual exact accepted P0 repository_analysis.scan child invocation.
+  - The complete negative matrix rejects every case with false accepts and forbidden external effects equal zero.
+  - Independent recomputation matches raw denominator, numerator, failures, invalids, reason distribution, latency, token and available cost accounting.
+  - One offline P2 context-engine preregistration states a falsifiable hypothesis, baseline, metric, practical effect threshold, budget and stop condition without entering P2.
+  - One exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS on the same bytes and Evidence.
+  - The reviewed exact tree equals the canonical integrated tree and exactly one post-integration canonical make verify invocation passes.
+  - EMPIRICAL_BASELINE_AND_P2_PREREGISTRATION changes from MISSING to ACCEPTED only after the complete Task Gate.
+required_evidence:
+  - Exact Founder packets, Goal, canonical parent, Contract, authority and P1-116 corrected integration identities.
+  - Frozen preregistration plus pre-Secret and pre-Provider timestamped identity receipt.
+  - Exact 36-entry matrix, accepted dataset, TaskSpec, Environment Snapshot, executable, configuration, evaluator and scanner identities.
+  - Per-run request-safe and response-safe raw streams, RunRecord, trace, truth binding, stable projection, replay and rollback receipts.
+  - Append-only request, token, cost, latency and external-effect ledger.
+  - Independent negative fixtures with raw stable reason codes and zero false accepts.
+  - Aggregate baseline report, independent recomputation and one-command reproduction receipt.
+  - Offline P2 context-engine experiment preregistration.
+  - Exact candidate commit, tree, diff/hash manifest and recoverable Evidence tag.
+  - Fresh CTO, Security and Quality reviews of the same candidate and exact formal Evidence.
+  - Reviewed-tree versus integrated-tree equality and one canonical make verify receipt.
+rollback:
+  strategy: IDENTITY_BOUND_DISPOSABLE_RUN_CLEANUP_AND_NON_DESTRUCTIVE_GIT_REVERT_AFTER_CANONICAL_INTEGRATION
+  forbidden:
+    - git reset
+    - git clean
+    - destructive history rewrite
+stop_conditions:
+  - Goal, packet, canonical activation parent, accepted input, Contract, authority or preregistration identity drifts.
+  - A rejected Task engineering asset is required or any required path exceeds this Contract.
+  - Offline preflight cannot validate the complete 36-entry matrix before Secret or Provider use.
+  - Secret bytes enter a prohibited sink or a non-loopback, remote, production or public effect occurs.
+  - Provider request, retry, token or monetary cap is exceeded or cannot fail closed.
+  - The single same-Task code-only repair is exhausted.
+  - The same normalized root cause repeats in adjacent implementation iterations.
+  - Any final Reviewer, reviewed/integrated tree equality check or canonical make verify returns NON_PASS.
+  - Evidence is overwritten or deleted, or the P1 Phase boundary changes.
+claim_boundary: >-
+  Cooperative-local preregistered 36-run B0/B1/B2 descriptive empirical
+  baseline, complete replayable Evidence and one offline P2 experiment
+  preregistration only; no model superiority, direct OpenAI provenance,
+  production readiness, P2/P3 entry, remote, production, public,
+  hostile-principal or strong-isolation claim.

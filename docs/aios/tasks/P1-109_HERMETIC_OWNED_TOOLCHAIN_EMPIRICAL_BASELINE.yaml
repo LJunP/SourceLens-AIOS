@@ -1,0 +1,237 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P1-109_HERMETIC_OWNED_TOOLCHAIN_EMPIRICAL_BASELINE
+phase: P1
+route_id: P1_HERMETIC_OWNED_TOOLCHAIN_EMPIRICAL_BASELINE_AND_PREREGISTRATION_PHASE_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Build one Task-owned hermetic offline toolchain and deterministic Evidence
+  kernel from accepted canonical assets, pass a fail-closed offline preflight,
+  and then execute the exact six-task by three-system by two-repetition
+  empirical baseline with complete replay, rollback and accounting Evidence.
+why_now: >-
+  Strict P1 completion is 75%. The remaining reproducible-baseline capability
+  requires real empirical execution, while the prior Task stopped without
+  Provider use because its offline build mutated non-owned runtime state. This
+  clean-room Task isolates every writable runtime path before any Secret read
+  or Provider request and directly targets the missing Exit Gate item.
+task_spec_ref: >-
+  /Users/lijunpeng/Developer/.sourcelens-audit/p1-109-hermetic-owned-baseline-20260725/FOUNDER_P1_HERMETIC_OWNED_TOOLCHAIN_EMPIRICAL_BASELINE_AND_PREREGISTRATION_PHASE_ROUTE_V1.md
+owner_role: P1-109 Engineering Manager
+worker_role: P1-109 Hermetic Baseline Worker
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+risk_level: high
+budget:
+  engineering_hours: 36
+  calendar_days: 8
+  implementation_iterations: 2
+  candidates: 1
+roles:
+  owner: P1-109 Engineering Manager
+  worker: P1-109 Hermetic Baseline Worker
+  independent_reviewers:
+    - P1-109 Fresh CTO Reviewer
+    - P1-109 Fresh Security Reviewer
+    - P1-109 Fresh Quality Reviewer
+allowlisted_paths:
+  - evaluation-harness/harness/p1-109-hermetic-owned-baseline
+  - evaluation-harness/environment/p1-109-hermetic-owned-baseline
+  - evaluation-harness/recording/p1-109-hermetic-owned-baseline
+  - evaluation-harness/replay/p1-109-hermetic-owned-baseline
+  - evaluation-harness/validators/p1-109-hermetic-owned-baseline
+  - evaluation-harness/evaluator/p1-109-hermetic-owned-baseline
+  - evaluation-harness/fixtures/p1-109-hermetic-owned-baseline
+  - scripts/verify-p1-109-hermetic-empirical-baseline.sh
+  - docs/aios/tasks/P1-109_HERMETIC_OWNED_TOOLCHAIN_EMPIRICAL_BASELINE.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+  - Makefile
+write_scope:
+  worker:
+    - evaluation-harness/harness/p1-109-hermetic-owned-baseline
+    - evaluation-harness/environment/p1-109-hermetic-owned-baseline
+    - evaluation-harness/recording/p1-109-hermetic-owned-baseline
+    - evaluation-harness/replay/p1-109-hermetic-owned-baseline
+  quality:
+    - evaluation-harness/validators/p1-109-hermetic-owned-baseline
+    - evaluation-harness/evaluator/p1-109-hermetic-owned-baseline
+    - evaluation-harness/fixtures/p1-109-hermetic-owned-baseline
+  integration:
+    - scripts/verify-p1-109-hermetic-empirical-baseline.sh
+    - docs/aios/tasks/P1-109_HERMETIC_OWNED_TOOLCHAIN_EMPIRICAL_BASELINE.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+    - Makefile
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+  - evaluation-harness/datasets/p1-representative-task-dataset-v1
+  - evaluation-harness/adapters/p1-097-minimal-documented
+  - evaluation-harness/harness/p1-097-minimal-documented
+  - evaluation-harness/recording/p1-097-minimal-documented
+  - evaluation-harness/replay/p1-097-minimal-documented
+  - evaluation-harness/harness/p1-101-accepted-shared-trace
+  - evaluation-harness/recording/p1-101-accepted-shared-trace
+  - evaluation-harness/replay/p1-101-accepted-shared-trace
+dependencies:
+  - ACCEPTED_CANONICAL_P1_035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+  - ACCEPTED_CANONICAL_P1_070_VTSR_AND_FALSE_SUCCESS_EVIDENCE
+  - ACCEPTED_CANONICAL_P1_071_STABLE_REPLAY_AND_HARNESS_ADMISSION
+  - ACCEPTED_CANONICAL_P1_099_B0_B1_B2_COMPATIBILITY_ADAPTERS
+  - ACCEPTED_CANONICAL_P1_101_SHARED_OBSERVABLE_TRACE
+historical_isolation:
+  p1_107_terminal_truth_and_exact_terminal_receipt_readable: true
+  p1_107_source_archive_fixture_test_oracle_partial_bytes_or_engineering_assets_readable: false
+  p1_107_terminal_status_rewritten: false
+  p1_106_terminal_truth_receipt_or_review_needed: false
+  p1_106_candidate_source_fixture_test_oracle_formal_evidence_or_failed_engineering_assets_readable: false
+  other_rejected_engineering_lineage_read_restore_compare_or_reuse_allowed: false
+external_effects:
+  network: true
+  provider: true
+  secret: true
+  remote: false
+  production: false
+  public: false
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-109-hermetic-owned-baseline-20260725/FOUNDER_P1_HERMETIC_OWNED_TOOLCHAIN_EMPIRICAL_BASELINE_AND_PREREGISTRATION_PHASE_ROUTE_V1.md
+  sha256: 0dc67ee461625f063f535c7c85a1a3f902ed9e39e153ff67bebcbd56df7eb978
+  byte_length: 9449
+  authorization_token: AUTHORIZE_P1_HERMETIC_OWNED_TOOLCHAIN_EMPIRICAL_BASELINE_AND_PREREGISTRATION_PHASE_ROUTE_V1
+governing_founder_packet:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-109-hermetic-owned-baseline-20260725/FOUNDER_P1_HERMETIC_OWNED_TOOLCHAIN_EMPIRICAL_BASELINE_AND_PREREGISTRATION_PHASE_ROUTE_V1.md
+  sha256: 0dc67ee461625f063f535c7c85a1a3f902ed9e39e153ff67bebcbd56df7eb978
+  byte_length: 9449
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+founder_reserved_profile:
+  schema_version: "2.0"
+  profile_id: P1_109_HERMETIC_OWNED_TOOLCHAIN_EMPIRICAL_BASELINE_V1
+  decision_basis: FOUNDER_PHASE_GATE_HERMETIC_OWNED_TOOLCHAIN_ROUTE_2026_07_25
+  route_id: P1_HERMETIC_OWNED_TOOLCHAIN_EMPIRICAL_BASELINE_AND_PREREGISTRATION_PHASE_ROUTE_V1
+  task_id: AIOS-P1-109_HERMETIC_OWNED_TOOLCHAIN_EMPIRICAL_BASELINE
+  transport:
+    scheme: http
+    host: 127.0.0.1
+    port: 8787
+    base_path: /v1
+    completion_path: /v1/chat/completions
+    api_format: OPENAI_COMPATIBLE_CHAT_COMPLETIONS
+    method: POST
+    follow_redirects: false
+    use_proxy: false
+    dns_resolution: false
+    fallback_endpoint_allowed: false
+    expected_peer_address: 127.0.0.1
+    expected_peer_port: 8787
+  model:
+    requested_model: gpt-5.6-luna
+    substitution_allowed: false
+    provider_provenance: FOUNDER_ATTESTED_OPENAI_COMPATIBLE_LOCAL_GATEWAY_MODEL_NOT_INDEPENDENTLY_VERIFIED
+  secret:
+    allowed_sources:
+      - LOCAL_PROCESS_ENV
+      - CONTROLLED_TEMPORARY_SECRET_FILE
+    persist: false
+    prohibited_sinks:
+      - REPOSITORY
+      - EVIDENCE
+      - LOG
+      - TRACE
+      - PROMPT
+      - REVIEW
+      - VAULT
+  call_limits:
+    provider_requests_max: 72
+    automatic_retry_max: 0
+  token_limits:
+    input_tokens_max: 3000000
+    output_tokens_max: 300000
+  monetary_limits:
+    currency: USD
+    max_spend: 25
+    unavailable_metering_status: UNKNOWN_GATEWAY_METERING_UNAVAILABLE
+  egress:
+    restricted_source_allowed: false
+  external_effects:
+    network: true
+    provider: true
+    secret: true
+    remote: false
+    production: false
+    public: false
+  claim_limits:
+    direct_openai_provenance_proven: false
+    adapter_conformance_is_model_performance: false
+    remote: false
+    production: false
+    public: false
+architecture_constraints:
+  - Use accepted canonical assets only and never derive implementation from P1-107 rejected bytes.
+  - Materialize every writable Cargo, target, HOME, temporary and Evidence path under a fresh Task-owned root.
+  - Treat system toolchain and dependency cache only as read-only materialization inputs; runtime resolution may not write or read mutable global package state.
+  - Enforce OS-level denial of writes outside the Task-owned root during offline build, analyzer execution, patched-test execution and cleanup.
+  - Admit model output only through a closed finite typed source-edit IR; free-form shell, path or source mutation is forbidden.
+  - Patched tests execute with network, filesystem-write and child-process creation denied.
+  - Reject Secret-like response bytes before hashing, parsing, logging, tracing or persistence.
+  - B2 Provider context contains only accepted source metadata and excludes tests, reference patches, evaluator, hidden and governance material.
+quality_freeze:
+  offline_preflight:
+    - Exact accepted P0 analyzer source and all required dependency bytes are materialized inside a fresh Task-owned root.
+    - Cargo home, build target, process HOME and temporary directories are all Task-owned.
+    - The complete six-task by three-system by two-repetition schedule is frozen with distinct B0, B1 and B2 SystemConfigurations.
+    - The OS sandbox denies writes outside the owned root, and the predeclared non-owned sentinel inventory is byte and metadata identical before and after.
+    - Secret reads, Provider requests, non-owned mutations and forbidden external effects are all zero.
+    - Physical negative fixtures reject request 73, output overwrite, ancestor and leaf symlinks, ledger tamper, undeclared output and every forbidden Secret sink.
+  formal_matrix:
+    - Execute exactly 36 scheduled runs and issue no more than one Provider request per run with automatic retries equal to zero.
+    - Preserve every outcome, including ordinary model failures, and compute VTSR from all eligible runs without deleting or rewriting failures.
+    - Retain eighteen deterministic A/B stable projection comparisons while preserving true stochastic differences in raw Evidence.
+    - Independently recompute all aggregate metrics, accounting, failure taxonomy, replay and rollback from retained raw records.
+acceptance_criteria:
+  - One complete offline preflight passes before the first Secret read or Provider request.
+  - The complete 36-run schedule executes without retries, missing runs or undeclared executions.
+  - All raw request, response, admission, execution, validation, result, replay and rollback Evidence required by the protocol is retained without Secret material.
+  - Exactly eighteen A/B stable projection pairs are evaluated and all admissible deterministic projections are exact byte equal.
+  - VTSR, false-success classification, token, cost and latency accounting are independently recomputable from retained records.
+  - False accepts, undeclared executions, non-owned mutations and forbidden external effects all equal zero.
+  - One exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS on the same source and Evidence bytes.
+  - The reviewed exact tree equals the canonical integrated tree.
+  - Exactly one post-integration canonical make verify invocation passes.
+required_evidence:
+  - Exact Founder packet, Contract, authority, Goal and activation-parent identities.
+  - Offline preflight receipts, sandbox policy, owned-root inventory and before/after non-owned sentinel identities.
+  - Frozen task, profile, repetition schedule and immutable request ledger.
+  - Raw 36-run request, response and outcome records with redaction-by-rejection rather than post-write cleanup.
+  - Eighteen pair projections, independent recomputation, replay and rollback receipts.
+  - Exact candidate commit, tree, diff/hash manifest and recoverable Evidence tag.
+  - Fresh CTO, Security and Quality reviews of the same candidate and formal Evidence.
+  - Reviewed-tree versus integrated-tree equality and one canonical make verify result.
+rollback:
+  strategy: OWNED_DISPOSABLE_ROOT_REMOVAL_AND_NON_DESTRUCTIVE_GIT_REVERT_AFTER_CANONICAL_INTEGRATION
+  forbidden:
+    - git reset
+    - git clean
+    - destructive history rewrite
+stop_conditions:
+  - Goal, accepted input, Founder packet, profile, Contract, authority or activation-parent identity drifts.
+  - Offline preflight returns NON_PASS or any Secret read or Provider request occurs before it passes.
+  - A rejected engineering lineage, path outside this Contract or permission beyond the exact Founder profile is required.
+  - An infrastructure or safety failure, non-owned mutation, Secret sink, request 73 or forbidden external effect occurs.
+  - The same-Task code-only repair is exhausted or the same normalized root cause repeats in adjacent iterations.
+  - Any final Reviewer, reviewed/integrated equality check or canonical make verify returns NON_PASS.
+  - Evidence is overwritten or deleted, or the P1 Phase boundary changes.
+claim_boundary: >-
+  Cooperative-local hermetic owned-toolchain preflight and bounded 36-run
+  B0/B1/B2 empirical baseline Evidence only; no independent OpenAI provenance,
+  benchmark superiority, P1 exit, P2/P3 entry, non-loopback network, remote,
+  production, public, hostile-principal or strong-isolation claim.

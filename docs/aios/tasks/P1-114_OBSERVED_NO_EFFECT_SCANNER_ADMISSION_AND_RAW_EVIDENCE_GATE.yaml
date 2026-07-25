@@ -1,0 +1,246 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P1-114_OBSERVED_NO_EFFECT_SCANNER_ADMISSION_AND_RAW_EVIDENCE_GATE
+phase: P1
+route_id: P1_OBSERVED_NO_EFFECT_SCANNER_ADMISSION_AND_RAW_EVIDENCE_BASELINE_COMPLETION_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Build one clean-room scanner-artifact admission path that executes the exact
+  accepted P1-101 scanner through an operating-system-enforced no-network
+  boundary and retains the complete create-once raw positive, command-ledger,
+  identity, rollback and independently materialized negative Evidence set.
+why_now: >-
+  P1-112 proved that exact scanner admission removes the Cargo-build blocker,
+  but its final CTO review correctly rejected self-attested external-effect
+  fields and incomplete raw Evidence. These are direct blockers to the
+  reproducible empirical baseline and are addressable without restoring or
+  reusing P1-112 engineering.
+task_spec_ref: /Users/lijunpeng/Developer/.sourcelens-audit/p1-114-observed-no-effect-route-20260725/FOUNDER_P1_OBSERVED_NO_EFFECT_SCANNER_ADMISSION_AND_RAW_EVIDENCE_BASELINE_COMPLETION_ROUTE_V1.md
+owner_role: P1-114 Engineering Manager
+worker_role: P1-114 Clean-Room Scanner Admission Worker
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+risk_level: high
+budget:
+  engineering_hours: 12
+  calendar_days: 4
+  implementation_iterations: 2
+  candidates: 1
+roles:
+  owner: P1-114 Engineering Manager
+  worker: P1-114 Clean-Room Scanner Admission Worker
+  independent_reviewers:
+    - P1-114 Fresh CTO Reviewer
+    - P1-114 Fresh Security Reviewer
+    - P1-114 Fresh Quality Reviewer
+allowlisted_paths:
+  - evaluation-harness/adapters/p1-114-observed-no-effect-scanner
+  - evaluation-harness/evaluator/p1-114-observed-no-effect-scanner
+  - evaluation-harness/fixtures/p1-114-observed-no-effect-scanner
+  - scripts/validate-current-task-authority.rb
+  - scripts/test-current-task-authority.rb
+  - scripts/verify-p1-114-observed-no-effect-scanner.sh
+  - docs/aios/tasks/P1-114_OBSERVED_NO_EFFECT_SCANNER_ADMISSION_AND_RAW_EVIDENCE_GATE.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+  - Makefile
+write_scope:
+  worker:
+    - evaluation-harness/adapters/p1-114-observed-no-effect-scanner
+  quality:
+    - evaluation-harness/evaluator/p1-114-observed-no-effect-scanner
+    - evaluation-harness/fixtures/p1-114-observed-no-effect-scanner
+  integration:
+    - scripts/validate-current-task-authority.rb
+    - scripts/test-current-task-authority.rb
+    - scripts/verify-p1-114-observed-no-effect-scanner.sh
+    - docs/aios/tasks/P1-114_OBSERVED_NO_EFFECT_SCANNER_ADMISSION_AND_RAW_EVIDENCE_GATE.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+    - Makefile
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+  - docs/aios/tasks/P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE.yaml
+  - evaluation-harness/adapters/p1-097-minimal-documented/b2-entry.mjs
+  - evaluation-harness/fixtures/p1-097-minimal-documented/b2-p0-binding.json
+dependencies:
+  - ACCEPTED_CANONICAL_P1_101_OBSERVABLE_TRACE
+  - FOUNDER_ACCEPTED_P1_099_CANONICAL_B0_B1_B2_COMPATIBILITY_ADAPTERS
+  - ACCEPTED_P1_070_VTSR_COUNTING_AND_FALSE_SUCCESS_CHARACTERIZATION
+historical_isolation:
+  p1_112_truth_review_and_terminal_receipt_readable: true
+  p1_112_candidate_source_fixture_test_diff_or_engineering_asset_read_allowed: false
+  other_rejected_engineering_lineage_read_restore_compare_or_reuse_allowed: false
+accepted_scanner_artifact:
+  archive:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-101-accepted-shared-observable-trace-20260724/candidate-14c24cec/evidence/passing-matrix.tar.gz
+    sha256: 524216b91e5b9cf82d5696d64e0f9458dabba9260205404da0fc1c74d4a49b5e
+    byte_length: 226824726
+  member:
+    path: matrix-output/positive/B2_A/worker-output/accepted-run/work/b2-cargo-target/debug/sourcelens-analyzer
+    sha256: d01e9f3ebc5e890b9477fb1405ea752a6d369ea49029d082c69e9d74d03d03ad
+    byte_length: 13121608
+    mode: "0755"
+    format: MACH_O_64_ARM64
+    operation: repository_analysis.scan
+trusted_outer_no_effect_boundary:
+  executable: /usr/bin/sandbox-exec
+  profile_semantics:
+    version: 1
+    default: allow
+    network: deny_all
+  required_negative_control: SOCKET_CONNECT_DENIED_BY_OS_POLICY
+  self_attestation_is_observation: false
+  periodic_socket_polling_is_complete_observation: false
+external_effects:
+  network: true
+  provider: true
+  secret: true
+  remote: false
+  production: false
+  public: false
+actual_task_1_effect_limits:
+  successful_network_connections: 0
+  provider_requests: 0
+  secret_reads: 0
+founder_reserved_profile:
+  schema_version: "2.0"
+  profile_id: P1_114_OBSERVED_NO_EFFECT_SCANNER_ADMISSION_V1
+  decision_basis: FOUNDER_PHASE_GATE_OBSERVED_NO_EFFECT_SCANNER_AND_RAW_EVIDENCE_2026_07_25
+  route_id: P1_OBSERVED_NO_EFFECT_SCANNER_ADMISSION_AND_RAW_EVIDENCE_BASELINE_COMPLETION_ROUTE_V1
+  task_id: AIOS-P1-114_OBSERVED_NO_EFFECT_SCANNER_ADMISSION_AND_RAW_EVIDENCE_GATE
+  transport:
+    scheme: http
+    host: 127.0.0.1
+    port: 8787
+    base_path: /v1
+    completion_path: /v1/chat/completions
+    api_format: OPENAI_COMPATIBLE_CHAT_COMPLETIONS
+    method: POST
+    follow_redirects: false
+    use_proxy: false
+    dns_resolution: false
+    fallback_endpoint_allowed: false
+    expected_peer_address: 127.0.0.1
+    expected_peer_port: 8787
+  model:
+    requested_model: gpt-5.6-luna
+    substitution_allowed: false
+    provider_provenance: FOUNDER_ATTESTED_OPENAI_COMPATIBLE_LOCAL_GATEWAY_MODEL_NOT_INDEPENDENTLY_VERIFIED
+  secret:
+    allowed_sources:
+      - LOCAL_PROCESS_ENV
+      - CONTROLLED_TEMPORARY_SECRET_FILE
+    persist: false
+    prohibited_sinks:
+      - REPOSITORY
+      - EVIDENCE
+      - LOG
+      - TRACE
+      - PROMPT
+      - REVIEW
+      - VAULT
+  call_limits:
+    provider_requests_max: 60
+    automatic_retry_max: 0
+  token_limits:
+    input_tokens_max: 500000
+    output_tokens_max: 100000
+  monetary_limits:
+    currency: USD
+    max_spend: 25
+    unavailable_metering_status: UNKNOWN_GATEWAY_METERING_UNAVAILABLE
+  egress:
+    restricted_source_allowed: false
+  external_effects:
+    network: true
+    provider: true
+    secret: true
+    remote: false
+    production: false
+    public: false
+  claim_limits:
+    direct_openai_provenance_proven: false
+    adapter_conformance_is_model_performance: false
+    remote: false
+    production: false
+    public: false
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-114-observed-no-effect-route-20260725/FOUNDER_P1_OBSERVED_NO_EFFECT_SCANNER_ADMISSION_AND_RAW_EVIDENCE_BASELINE_COMPLETION_ROUTE_V1.md
+  sha256: 445c26db83cef747f2b95d19eb80894c6d02ee3abe7048b3322007d1243cb3fa
+  byte_length: 12569
+  authorization_token: AUTHORIZE_P1_OBSERVED_NO_EFFECT_SCANNER_ADMISSION_AND_RAW_EVIDENCE_BASELINE_COMPLETION_ROUTE_V1
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+architecture_constraints:
+  - Implement from canonical accepted assets without reading P1-112 rejected engineering.
+  - Validate exact archive and member identities before execution.
+  - Never perform general archive extraction into a filesystem tree.
+  - Materialize create-once under one identity-bound owned root.
+  - Execute the scanner only through an outer operating-system network-deny policy.
+  - Retain the outer command ledger and raw stdout/stderr rather than self-attesting external effects.
+  - Preserve every positive and negative raw Evidence artifact create-once.
+  - Do not execute Cargo build in Task 1 or the downstream B2 route.
+  - Route-profile compatibility must remain packet-driven, Task-specific and bounded by the same global caps.
+acceptance_criteria:
+  - Exact packet, Goal, canonical parent, Contract, authority, archive and member identities pass before execution.
+  - The exact outer sandbox executable and profile are identity-bound and deny all network operations.
+  - A socket negative control is denied by the OS policy before a successful connection.
+  - Two real repository_analysis.scan runs succeed through the outer no-network boundary with exact stable projection.
+  - Raw stdout, stderr, command ledger, identities, enforcement receipt and rollback receipt are retained for each positive run.
+  - Every declared negative is independently materialized and retains its raw result and stable reason code.
+  - Archive/member digest, length, type, links, traversal, duplicate, architecture, dependency, executable drift, non-owned output, ownership drift, rollback and external-effect request negatives reject.
+  - Evidence inventory proves every declared artifact present, regular, non-symlink and hash-bound.
+  - No Cargo build, successful network connection, Provider request, Secret read or non-owned mutation occurs.
+  - Current authority remains strict for legacy packets and accepts Task 2 profile only when exact packet, Truth, Contract and authority agree.
+  - One exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS on identical bytes and Evidence.
+  - Reviewed candidate tree equals integrated canonical tree and one canonical make verify passes.
+required_evidence:
+  - Exact preflight identities and sandbox-exec no-network primitive receipt.
+  - Per-positive raw stdout, stderr, command ledger, identities, enforcement and rollback receipts.
+  - Independently materialized raw negative fixtures and result receipts.
+  - Exact stable replay projection.
+  - Complete create-once Evidence inventory and hash manifest.
+  - Authority compatibility golden and mismatch results.
+  - Candidate commit, tree, exact path/hash manifest and recoverable Evidence tag.
+  - Fresh CTO, Security and Quality reviews of the same candidate and Evidence.
+  - Reviewed/integrated tree equality and one canonical make verify receipt.
+rollback:
+  strategy: IDENTITY_BOUND_OWNED_ROOT_CLEANUP_AND_NON_DESTRUCTIVE_GIT_REVERT_AFTER_CANONICAL_INTEGRATION
+  forbidden:
+    - git reset
+    - git clean
+    - destructive history rewrite
+stop_conditions:
+  - Canonical, Goal, packet, accepted archive or exact member identity drifts.
+  - P1-112 or another rejected engineering lineage is required.
+  - Independent operating-system no-network enforcement is unavailable.
+  - The exact scanner cannot execute a real scan through the outer boundary without Cargo build.
+  - A required write exceeds this Contract or a permission must expand.
+  - The single same-Task code-only repair is exhausted.
+  - The same normalized root cause repeats in adjacent implementation iterations.
+  - Any final Reviewer, reviewed/integrated equality check or canonical make verify returns NON_PASS.
+  - Evidence is overwritten or deleted, an unauthorized external effect occurs, or the Phase boundary changes.
+forbidden_actions:
+  - Read, restore, compare or reuse P1-112 rejected engineering assets.
+  - Execute Cargo build for the scanner path.
+  - Persist or log any Secret.
+  - Send a Provider request in Task 1.
+  - Create a successful network connection in Task 1.
+  - Push, modify remote, enter P2/P3, or create production/public effects.
+  - Create a second candidate, correction, successor, replacement or rereview cycle.
+claim_boundary: >-
+  Clean-room exact accepted-scanner admission, operating-system-enforced local
+  no-network execution, complete raw Evidence, stable replay and identity-bound
+  rollback only; no empirical baseline, model performance, P1 exit, P2/P3
+  entry, remote, production, public, hostile-principal or general strong-
+  isolation claim.

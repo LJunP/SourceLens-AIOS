@@ -1,0 +1,293 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P1-111_ATOMIC_CONTRACT_BASELINE_AND_PREREGISTRATION
+phase: P1
+route_id: P1_ATOMIC_SYNTHETIC_DISCLOSURE_CONTRACT_BASELINE_AND_PREREGISTRATION_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Converge the accepted RunRecord and EnvironmentSnapshot contracts with one
+  exact packet-bound synthetic-source disclosure, execute the frozen
+  six-task by three-system by two-repetition empirical baseline, and freeze
+  the first offline P2 context-engine experiment preregistration without
+  entering P2.
+why_now: >-
+  Strict P1 completion is 75%. P1-109 established four concrete pre-provider
+  incompatibilities but produced no reusable engineering result. This
+  clean-room Task addresses those incompatibilities from accepted canonical
+  inputs and directly targets both remaining P1 Exit Gate items in one atomic
+  Gate.
+task_spec_ref: >-
+  /Users/lijunpeng/Developer/.sourcelens-audit/p1-109-hermetic-owned-baseline-20260725/FOUNDER_P1_ATOMIC_SYNTHETIC_DISCLOSURE_CONTRACT_BASELINE_AND_PREREGISTRATION_ROUTE_V1.md
+owner_role: P1-111 Engineering Manager
+worker_role: P1-111 Atomic Baseline Worker
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+risk_level: high
+budget:
+  engineering_hours: 48
+  calendar_days: 13
+  implementation_iterations: 2
+  candidates: 1
+roles:
+  owner: P1-111 Engineering Manager
+  worker: P1-111 Atomic Baseline Worker
+  independent_reviewers:
+    - P1-111 Fresh CTO Reviewer
+    - P1-111 Fresh Security Reviewer
+    - P1-111 Fresh Quality Reviewer
+allowlisted_paths:
+  - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+  - docs/aios/schemas/run-record-v2.schema.json
+  - evaluation-harness/environment/p1-111-atomic-baseline
+  - evaluation-harness/harness/p1-111-atomic-baseline
+  - evaluation-harness/recording/p1-111-atomic-baseline
+  - evaluation-harness/replay/p1-111-atomic-baseline
+  - evaluation-harness/validators/p1-111-atomic-baseline
+  - evaluation-harness/evaluator/p1-111-atomic-baseline
+  - evaluation-harness/fixtures/p1-111-atomic-baseline
+  - scripts/verify-p1-111-atomic-baseline.sh
+  - docs/aios/tasks/P1-111_ATOMIC_CONTRACT_BASELINE_AND_PREREGISTRATION.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+  - Makefile
+write_scope:
+  worker:
+    - evaluation-harness/environment/p1-111-atomic-baseline
+    - evaluation-harness/harness/p1-111-atomic-baseline
+    - evaluation-harness/recording/p1-111-atomic-baseline
+    - evaluation-harness/replay/p1-111-atomic-baseline
+  quality:
+    - evaluation-harness/validators/p1-111-atomic-baseline
+    - evaluation-harness/evaluator/p1-111-atomic-baseline
+    - evaluation-harness/fixtures/p1-111-atomic-baseline
+  integration:
+    - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+    - docs/aios/schemas/run-record-v2.schema.json
+    - scripts/verify-p1-111-atomic-baseline.sh
+    - docs/aios/tasks/P1-111_ATOMIC_CONTRACT_BASELINE_AND_PREREGISTRATION.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+    - Makefile
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+  - evaluation-harness/datasets/p1-representative-task-dataset-v1
+  - evaluation-harness/adapters/p1-097-minimal-documented
+  - evaluation-harness/harness/p1-097-minimal-documented
+  - evaluation-harness/recording/p1-097-minimal-documented
+  - evaluation-harness/replay/p1-097-minimal-documented
+  - evaluation-harness/harness/p1-101-accepted-shared-trace
+  - evaluation-harness/recording/p1-101-accepted-shared-trace
+  - evaluation-harness/replay/p1-101-accepted-shared-trace
+dependencies:
+  - ACCEPTED_CANONICAL_P1_035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+  - ACCEPTED_CANONICAL_P1_070_VTSR_AND_FALSE_SUCCESS_EVIDENCE
+  - ACCEPTED_CANONICAL_P1_071_STABLE_REPLAY_AND_HARNESS_ADMISSION
+  - ACCEPTED_CANONICAL_P1_099_B0_B1_B2_COMPATIBILITY_ADAPTERS
+  - ACCEPTED_CANONICAL_P1_101_SHARED_OBSERVABLE_TRACE
+historical_isolation:
+  p1_109_truth_terminal_contract_receipt_review_and_manifest_readable: true
+  p1_109_rejected_source_fixture_test_oracle_or_engineering_asset_readable: false
+  p1_109_terminal_status_rewritten: false
+  other_rejected_engineering_lineage_read_restore_compare_or_reuse_allowed: false
+external_effects:
+  network: true
+  provider: true
+  secret: true
+  remote: false
+  production: false
+  public: false
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-109-hermetic-owned-baseline-20260725/FOUNDER_P1_ATOMIC_SYNTHETIC_DISCLOSURE_CONTRACT_BASELINE_AND_PREREGISTRATION_ROUTE_V1.md
+  sha256: f91fa5bbcb279547c0208d76418d1d174ba78e3b1bd6cfc6ebca9bf144f0b5f3
+  byte_length: 20572
+  authorization_token: AUTHORIZE_P1_ATOMIC_SYNTHETIC_DISCLOSURE_CONTRACT_BASELINE_AND_PREREGISTRATION_ROUTE_V1
+governing_founder_packet:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-109-hermetic-owned-baseline-20260725/FOUNDER_P1_ATOMIC_SYNTHETIC_DISCLOSURE_CONTRACT_BASELINE_AND_PREREGISTRATION_ROUTE_V1.md
+  sha256: f91fa5bbcb279547c0208d76418d1d174ba78e3b1bd6cfc6ebca9bf144f0b5f3
+  byte_length: 20572
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+founder_reserved_profile:
+  schema_version: "2.0"
+  profile_id: P1_111_ATOMIC_CONTRACT_BASELINE_AND_PREREGISTRATION_V1
+  decision_basis: FOUNDER_PHASE_GATE_ATOMIC_SYNTHETIC_DISCLOSURE_AND_EMPIRICAL_COMPLETION_2026_07_25
+  route_id: P1_ATOMIC_SYNTHETIC_DISCLOSURE_CONTRACT_BASELINE_AND_PREREGISTRATION_ROUTE_V1
+  task_id: AIOS-P1-111_ATOMIC_CONTRACT_BASELINE_AND_PREREGISTRATION
+  transport:
+    scheme: http
+    host: 127.0.0.1
+    port: 8787
+    base_path: /v1
+    completion_path: /v1/chat/completions
+    api_format: OPENAI_COMPATIBLE_CHAT_COMPLETIONS
+    method: POST
+    follow_redirects: false
+    use_proxy: false
+    dns_resolution: false
+    fallback_endpoint_allowed: false
+    expected_peer_address: 127.0.0.1
+    expected_peer_port: 8787
+  model:
+    requested_model: gpt-5.6-luna
+    substitution_allowed: false
+    provider_provenance: FOUNDER_ATTESTED_OPENAI_COMPATIBLE_LOCAL_GATEWAY_MODEL_NOT_INDEPENDENTLY_VERIFIED
+  secret:
+    allowed_sources:
+      - LOCAL_PROCESS_ENV
+      - CONTROLLED_TEMPORARY_SECRET_FILE
+    persist: false
+    prohibited_sinks:
+      - REPOSITORY
+      - EVIDENCE
+      - LOG
+      - TRACE
+      - PROMPT
+      - REVIEW
+      - VAULT
+  call_limits:
+    provider_requests_max: 60
+    automatic_retry_max: 0
+  token_limits:
+    input_tokens_max: 500000
+    output_tokens_max: 100000
+  monetary_limits:
+    currency: USD
+    max_spend: 25
+    unavailable_metering_status: UNKNOWN_GATEWAY_METERING_UNAVAILABLE
+  egress:
+    restricted_source_allowed: false
+  external_effects:
+    network: true
+    provider: true
+    secret: true
+    remote: false
+    production: false
+    public: false
+  claim_limits:
+    direct_openai_provenance_proven: false
+    adapter_conformance_is_model_performance: false
+    remote: false
+    production: false
+    public: false
+exact_synthetic_fixture_disclosure:
+  packet_sha256: f91fa5bbcb279547c0208d76418d1d174ba78e3b1bd6cfc6ebca9bf144f0b5f3
+  classification: PROVIDER_EVALUATION_ALLOWED_SYNTHETIC_FIXTURE
+  ordered_artifacts:
+    - path: tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/src/range.mjs
+      type: file
+      byte_length: 115
+      sha256: 1e3de2958c9841bbe785d903b2f5453389c4225359308b539ac2cb3194469d75
+    - path: tasks/SL-P1-REP-002-CONFIG-VALIDATION/source-template/src/config.mjs
+      type: file
+      byte_length: 265
+      sha256: 75c5d640cd7f70bc7d355761d6d2de15142a6e573b4267c0d19231bf326a2870
+    - path: tasks/SL-P1-REP-003-SAFE-PATH-JOIN/source-template/src/path.mjs
+      type: file
+      byte_length: 123
+      sha256: bf64b55fc410200403bee3b986da5c8824f4d7ec86a2a0ba65e6e9a5fb933f0a
+    - path: tasks/SL-P1-REP-004-COMMAND-RESULT-MAPPING/source-template/src/result.mjs
+      type: file
+      byte_length: 162
+      sha256: 139e4d2048729e2cbfe131587eec5c3d60ca955cc4b6516a203ca162f59ff4ef
+    - path: tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/source-template/src/greeting.mjs
+      type: file
+      byte_length: 140
+      sha256: 2a186fb9ace72d24eb7696d5edd1d63e3d86254b416362b6a3a89ebd7e09ff84
+    - path: tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/source-template/src/profile.mjs
+      type: file
+      byte_length: 92
+      sha256: 00aa57e8f6ecd37eb79af02a7a6e414911b89d04e623dd9c22edeae5796f33f2
+    - path: tasks/SL-P1-REP-006-DEDUPE-REFACTOR/source-template/src/projects.mjs
+      type: file
+      byte_length: 187
+      sha256: ad2a9024b228373904fca35154e660b9bc4f8eeb76a77f41226de432b72ad12c
+    - path: tasks/SL-P1-REP-006-DEDUPE-REFACTOR/source-template/src/users.mjs
+      type: file
+      byte_length: 184
+      sha256: f2ea56b1a50eebe4597174fa019e587b9041574b62ee099c955050b7883020b6
+system_boundaries:
+  B0:
+    source_bytes_allowed: false
+    tool_observations_allowed: false
+    scan_metadata_allowed: false
+    provider_requests_per_run_max: 1
+  B1:
+    exact_disclosed_source_tool_observations_allowed: true
+    finite_tools:
+      - file_list
+      - file_read
+      - lexical_search
+      - closed_structured_patch
+      - task_spec_verification_command
+    provider_requests_per_run_max: 3
+  B2:
+    exact_disclosed_source_context_allowed: true
+    accepted_repository_analysis_scan_required: true
+    provider_requests_per_run_max: 1
+contract_convergence:
+  legacy_run_record_v1_bytes_immutable: true
+  new_run_record_schema: docs/aios/schemas/run-record-v2.schema.json
+  unavailable_cost:
+    cost_usd: null
+    cost_status: UNKNOWN_GATEWAY_METERING_UNAVAILABLE
+  environment_snapshot_count: 6
+  system_configuration_count: 18
+  exact_schedule_slots: 36
+  exact_repetitions_per_task_system_pair: 2
+  common_final_patch_schema_required: true
+quality_freeze:
+  provider_requests_before_complete_offline_preflight: 0
+  secret_reads_before_complete_offline_preflight: 0
+  implementation_iterations_max: 2
+  code_only_repairs_max: 1
+  code_or_prompt_repair_after_first_provider_request: false
+  exact_candidate_count: 1
+  final_review_cycles: 1
+acceptance_criteria:
+  - The exact eight-file packet disclosure matches canonical P1-035 bytes and is bound identically by packet, Truth, Contract and authority.
+  - Six versioned TaskSpecs, six immutable EnvironmentSnapshots and eighteen Task/System combinations pass all accepted contracts without Task-ID special cases.
+  - One complete offline preflight passes with zero Secret reads and zero Provider requests.
+  - Exactly 36 scheduled runs and 18 A/B pairs produce terminal records without selective retry or discarded failure.
+  - False accepts, undeclared executions, non-owned mutations and forbidden external effects all equal zero.
+  - Metrics, accounting, failure taxonomy, stable projections, replay and rollback are independently recomputable from raw retained Evidence.
+  - One offline P2 context-engine preregistration is frozen without executing P2.
+  - One exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS on the same source and Evidence bytes.
+  - The reviewed tree equals the integrated tree and exactly one canonical make verify passes.
+required_evidence:
+  - Exact Founder packet, Contract, authority, Goal and activation-parent identities.
+  - Activation-time inherited-process inventory with exact PID, command, CPU and socket observations.
+  - Exact disclosure manifest, versioned TaskSpecs, six snapshots, eighteen configurations and frozen schedule.
+  - Offline preflight receipt and complete negative matrix.
+  - Raw 36-run request, response, ordered trace, outcome, projection, replay and rollback records.
+  - Independent recomputation report and offline preregistration.
+  - Exact candidate commit, tree, diff/hash manifest, Evidence tag and three fresh reviews.
+rollback:
+  strategy: OWNED_DISPOSABLE_ROOT_REMOVAL_AND_NON_DESTRUCTIVE_GIT_REVERT_AFTER_CANONICAL_INTEGRATION
+  forbidden:
+    - git reset
+    - git clean
+    - destructive history rewrite
+stop_conditions:
+  - Goal, accepted input, Founder packet, disclosure, profile, Contract, authority or activation-parent identity drifts.
+  - Offline preflight returns NON_PASS or any Secret read or Provider request occurs before it passes.
+  - A rejected engineering lineage, path outside this Contract or permission beyond the exact Founder profile is required.
+  - Any inherited P1-109 process PID, command, CPU, socket or side-effect identity drifts.
+  - A safety, Evidence, non-owned mutation, Secret sink, transport or forbidden external-effect failure occurs.
+  - The same-Task repair is exhausted, the same normalized root cause repeats, or any post-provider code or prompt change is required.
+  - Any final Reviewer, reviewed/integrated equality check or canonical make verify returns NON_PASS.
+  - Evidence is overwritten or deleted, or the P1 Phase boundary changes beyond the packet's two exact write roots.
+claim_boundary: >-
+  Cooperative-local exact synthetic-disclosure contract convergence,
+  bounded 36-run B0/B1/B2 empirical baseline and offline P2 preregistration
+  only; no independent OpenAI provenance, benchmark superiority, P2/P3 entry,
+  non-loopback network, remote, production, public, hostile-principal or
+  strong-isolation claim.

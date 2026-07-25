@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P1-111_ATOMIC_CONTRACT_BASELINE_AND_PREREGISTRATION
 phase: P1
 route_id: P1_ATOMIC_SYNTHETIC_DISCLOSURE_CONTRACT_BASELINE_AND_PREREGISTRATION_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_IMPLEMENTATION_ITERATION_EXHAUSTED_NON_PASS
 objective: >-
   Converge the accepted RunRecord and EnvironmentSnapshot contracts with one
   exact packet-bound synthetic-source disclosure, execute the frozen
@@ -16,6 +16,42 @@ why_now: >-
   clean-room Task addresses those incompatibilities from accepted canonical
   inputs and directly targets both remaining P1 Exit Gate items in one atomic
   Gate.
+terminal_outcome:
+  status: TERMINAL_IMPLEMENTATION_ITERATION_EXHAUSTED_NON_PASS
+  implementation_iterations_used: 2
+  code_only_repairs_used: 1
+  normalized_root_causes:
+    - P111.ITERATION1.ACCEPTED_SCAN_TOOLCHAIN_BINDING_MISSING
+    - P111.ITERATION2.SCANNER_BUILD_COMMAND_FAULT
+  final_observed_fault:
+    classification: SAFETY_STOP
+    code: SCANNER_COMMAND_FAULT
+    message: "scanner command failed: build"
+  formal_offline_preflight: NOT_RUN
+  formal_matrix: NOT_RUN
+  provider_requests: 0
+  secret_reads: 0
+  candidate_created: false
+  final_reviews_started: false
+  canonical_integration_attempted: false
+  canonical_make_verify_invocations: 0
+  capability_credit: 0
+  strict_p1_completion_after_terminal: 6_OF_8_75_PERCENT
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-111-atomic-baseline-20260725/terminal/P1_111_TERMINAL_RECEIPT.json
+    sha256: 2b28d60469b8c961a89b10ce76da5210045b2e586e385fb01992a59ba6a5ed1f
+    byte_length: 4772
+  rejected_implementation:
+    commit: b2e41b0f40e23b779a6a3d2405fff877cea2b19c
+    tree: 6e4e09f60bb07862b0249ff438b781b24da3d496
+    evidence_tag: evidence/p1-111-terminal-implementation-b2e41b0-20260725
+    manifest:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-111-atomic-baseline-20260725/terminal/P1_111_REJECTED_IMPLEMENTATION_MANIFEST.json
+      sha256: 06e740f6ba86f6378f0c851450416934abd29ba2caaf7cf62c9fc82462e040d8
+      byte_length: 6579
+      file_count: 57
+    reusable_as_accepted_engineering: false
+  next_decision_point: FOUNDER_P1_PHASE_GATE
 task_spec_ref: >-
   /Users/lijunpeng/Developer/.sourcelens-audit/p1-109-hermetic-owned-baseline-20260725/FOUNDER_P1_ATOMIC_SYNTHETIC_DISCLOSURE_CONTRACT_BASELINE_AND_PREREGISTRATION_ROUTE_V1.md
 owner_role: P1-111 Engineering Manager

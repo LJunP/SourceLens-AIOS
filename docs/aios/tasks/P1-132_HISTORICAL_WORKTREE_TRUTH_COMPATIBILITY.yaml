@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P1-132_HISTORICAL_WORKTREE_TRUTH_COMPATIBILITY
 phase: P1
 route_id: P1_HISTORICAL_WORKTREE_COMPATIBILITY_AND_ACCEPTED_ADAPTER_BOUND_EXIT_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_FINAL_QUALITY_TARGET_NON_PASS
 objective: >-
   Bind the exact registered terminal historical worktree inventory into the
   current route Truth and prove that the existing authority core distinguishes
@@ -133,3 +133,25 @@ claim_boundary: >-
   data-driven terminal historical worktree semantics only. No new P1
   capability, validator security claim, historical asset acceptance, P2/P3
   entry, external effect, remote, production or public claim.
+terminal_result:
+  status: TERMINAL_FINAL_QUALITY_TARGET_NON_PASS
+  normalized_root_cause: P1132.FINAL_QUALITY.PROFILE_SET_COVERAGE_AND_CONTRACT_EVIDENCE_CONTRADICTION
+  candidate_commit: 4a56ef37794aad9ec90bfa5254ce720e4cc13cb4
+  candidate_tree: ea281092e363ef792d5aed5ebf4325922154d7b5
+  candidate_manifest_sha256: db4e123253c06ad3049fd3700231220cd5da1abb79b36b859a71d035cd0a771e
+  final_reviews:
+    cto_target_verdict: PASS
+    cto_review_sha256: ed82843c3de73affe9042dfa6548432c13bb56aec5cff8f74f21200147f6fb89
+    security_target_verdict: PASS
+    security_review_sha256: 338ff33dcc68db52211a5d0a1b7541ba548476a2a703dc33dc3a1287db9046bd
+    quality_target_verdict: NON_PASS
+    quality_review_sha256: 31e337dba63e6662b9c54554cfd7af8f22a00df4ef34b0d0f070549a09657d88
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-132-historical-worktree-compatibility-20260726/task-1/terminal/P1_132_TERMINAL_RECEIPT.json
+    sha256: 13d41781312bd1c23378aa5210dfbbd72a0ba5214772a0f32a04125cdfc6ef7b
+    byte_length: 3744
+  candidate_integrated: false
+  canonical_make_verify_invoked: false
+  task_2_eligible: false
+  strict_p1_completion: 6_OF_8_75_PERCENT
+  correction_or_second_candidate_allowed: false

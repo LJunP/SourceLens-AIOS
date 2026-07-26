@@ -504,6 +504,155 @@ module CurrentTaskAuthority
     profile
   end
 
+  def validate_founder_reserved_profile_v3(value, route_id, task_id, label)
+    profile = exact_keys(
+      value,
+      %w[schema_version profile_id decision_basis route_id task_id transport model secret call_limits token_limits monetary_limits egress effect_partition external_effects claim_limits],
+      label
+    )
+    assert(profile["schema_version"] == "3.0", "#{label} schema version drifted")
+    string(profile["profile_id"], "#{label}.profile_id")
+    assert(profile["decision_basis"].is_a?(String) &&
+           profile["decision_basis"].match?(/\AFOUNDER_PACKET_SHA256:[0-9a-f]{64}\z/),
+           "#{label}.decision_basis must bind the exact Founder packet")
+    assert(profile["route_id"] == route_id, "#{label} route id mismatch")
+    assert(profile["task_id"] == task_id, "#{label} Task id mismatch")
+
+    transport = exact_keys(
+      profile["transport"],
+      %w[scheme host port completion_path api_format method follow_redirects use_proxy dns_resolution fallback_endpoint_allowed expected_peer_address expected_peer_port],
+      "#{label}.transport"
+    )
+    assert(transport == {
+      "scheme" => "http",
+      "host" => "127.0.0.1",
+      "port" => 8787,
+      "completion_path" => "/v1/chat/completions",
+      "api_format" => "OPENAI_COMPATIBLE_CHAT_COMPLETIONS",
+      "method" => "POST",
+      "follow_redirects" => false,
+      "use_proxy" => false,
+      "dns_resolution" => false,
+      "fallback_endpoint_allowed" => false,
+      "expected_peer_address" => "127.0.0.1",
+      "expected_peer_port" => 8787
+    }, "#{label}.transport exceeds the literal operator-owned loopback boundary")
+
+    model = exact_keys(profile["model"], %w[requested_model substitution_allowed provider_provenance],
+                       "#{label}.model")
+    assert(model == {
+      "requested_model" => "gpt-5.6-luna",
+      "substitution_allowed" => false,
+      "provider_provenance" =>
+        "FOUNDER_ATTESTED_OPENAI_COMPATIBLE_LOCAL_GATEWAY_MODEL_NOT_INDEPENDENTLY_VERIFIED"
+    }, "#{label}.model boundary drifted")
+
+    secret = exact_keys(profile["secret"], %w[source entry_sessions persist prohibited_sinks],
+                        "#{label}.secret")
+    assert(secret["source"] == "FOUNDER_OPERATOR_NO_ECHO_TTY",
+           "#{label}.secret source must remain the Founder/operator no-echo TTY")
+    assert(secret["entry_sessions"] == 1, "#{label}.secret entry sessions must equal 1")
+    exact_false(secret["persist"], "#{label}.secret.persist")
+    assert(array(secret["prohibited_sinks"], "#{label}.secret.prohibited_sinks") ==
+           %w[ARGV ENVIRONMENT SHELL_HISTORY REPOSITORY TEMPORARY_PLAINTEXT_FILE EVIDENCE LOG TRACE PROMPT REVIEW VAULT],
+           "#{label}.secret prohibited sinks drifted")
+
+    calls = exact_keys(
+      profile["call_limits"],
+      %w[diagnostic_requests_max formal_requests_exact provider_requests_max automatic_retry_max],
+      "#{label}.call_limits"
+    )
+    assert(calls == {
+      "diagnostic_requests_max" => 3,
+      "formal_requests_exact" => 36,
+      "provider_requests_max" => 39,
+      "automatic_retry_max" => 0
+    }, "#{label}.call limits drifted")
+
+    tokens = exact_keys(profile["token_limits"], %w[input_tokens_max output_tokens_max],
+                        "#{label}.token_limits")
+    assert(tokens == {
+      "input_tokens_max" => 500_000,
+      "output_tokens_max" => 100_000
+    }, "#{label}.token limits drifted")
+
+    money = exact_keys(profile["monetary_limits"],
+                       %w[currency max_spend unavailable_metering_status],
+                       "#{label}.monetary_limits")
+    assert(money == {
+      "currency" => "USD",
+      "max_spend" => 25,
+      "unavailable_metering_status" => "UNKNOWN_GATEWAY_METERING_UNAVAILABLE"
+    }, "#{label}.monetary limits drifted")
+
+    egress = exact_keys(
+      profile["egress"],
+      %w[restricted_source_allowed allowed_artifacts derived_context_policy forbidden_categories],
+      "#{label}.egress"
+    )
+    assert(egress["restricted_source_allowed"] == true,
+           "#{label}.egress must retain the exact restricted synthetic disclosure decision")
+    artifacts = array(egress["allowed_artifacts"], "#{label}.egress.allowed_artifacts")
+    assert(artifacts.length == 16, "#{label}.egress must bind exactly 16 disclosed artifacts")
+    artifact_paths = artifacts.map.with_index do |artifact_value, index|
+      artifact = exact_keys(artifact_value, %w[class byte_length sha256 path],
+                            "#{label}.egress.allowed_artifacts[#{index}]")
+      string(artifact["class"], "#{label}.egress.allowed_artifacts[#{index}].class")
+      bytes = integer(artifact["byte_length"], "#{label}.egress.allowed_artifacts[#{index}].byte_length")
+      assert(bytes.positive?, "#{label}.egress artifact byte length must be positive")
+      digest = string(artifact["sha256"], "#{label}.egress.allowed_artifacts[#{index}].sha256")
+      assert(SHA256_RE.match?(digest), "#{label}.egress artifact SHA-256 is invalid")
+      path = string(artifact["path"], "#{label}.egress.allowed_artifacts[#{index}].path")
+      assert(path.start_with?("evaluation-harness/datasets/p1-representative-task-dataset-v1/"),
+             "#{label}.egress artifact escapes the accepted synthetic dataset")
+      assert(!path.include?("/test/") &&
+             !path.end_with?("/expected-base-failure.json") &&
+             !path.end_with?("/reference-solution.patch"),
+             "#{label}.egress artifact includes a forbidden test, oracle or reference patch")
+      path
+    end
+    assert(artifact_paths.uniq.length == artifact_paths.length,
+           "#{label}.egress artifact paths must be unique")
+    assert(egress["derived_context_policy"] ==
+           "ONLY_SELECT_AND_FRAME_EXACT_ALLOWLISTED_BYTES_WITH_TASK_RELATIVE_PATH_AND_HASH",
+           "#{label}.egress derived-context policy drifted")
+    assert(array(egress["forbidden_categories"], "#{label}.egress.forbidden_categories") ==
+           %w[TEST_BYTES TEST_OUTPUT_OR_ORACLE EXPECTED_FAILURE_ORACLE REFERENCE_SOLUTION_PATCH VALIDATOR_OR_EVALUATOR HIDDEN_OR_POST_RESULT GOVERNANCE_TRUTH_CONTRACT_REVIEW_EVIDENCE OTHER_REPOSITORY_OR_USER_FILE SECRET_CREDENTIAL_TOKEN_AUTHORIZATION_HEADER],
+           "#{label}.egress forbidden categories drifted")
+
+    partition = exact_keys(profile["effect_partition"], %w[canonical_aios operator_launcher],
+                           "#{label}.effect_partition")
+    validate_external_effects(partition["canonical_aios"], "#{label}.effect_partition.canonical_aios",
+                              FALSE_EXTERNAL_EFFECTS)
+    validate_external_effects(partition["operator_launcher"], "#{label}.effect_partition.operator_launcher",
+                              LOCAL_GATEWAY_EXTERNAL_EFFECTS)
+    # Schema v3 deliberately separates the canonical AIOS authority boundary
+    # from the Founder/operator-owned launcher. The active Task, Contract and
+    # phase-delegated authority remain offline; the exact Founder packet is
+    # the only authority for the launcher's bounded effects.
+    validate_external_effects(profile["external_effects"], "#{label}.external_effects",
+                              FALSE_EXTERNAL_EFFECTS)
+
+    claims = exact_keys(
+      profile["claim_limits"],
+      %w[direct_openai_provenance_proven gateway_upstream_behavior upstream_request_count actual_monetary_cost byte_identical_stochastic_resampling hostile_principal_isolation production remote public p2_entry],
+      "#{label}.claim_limits"
+    )
+    assert(claims == {
+      "direct_openai_provenance_proven" => false,
+      "gateway_upstream_behavior" => "UNKNOWN",
+      "upstream_request_count" => "UNKNOWN",
+      "actual_monetary_cost" => "UNKNOWN_UNLESS_TRUSTWORTHY_GATEWAY_EVIDENCE_EXISTS",
+      "byte_identical_stochastic_resampling" => false,
+      "hostile_principal_isolation" => false,
+      "production" => false,
+      "remote" => false,
+      "public" => false,
+      "p2_entry" => false
+    }, "#{label}.claim limits drifted")
+    profile
+  end
+
   def validate_founder_reserved_profile(value, route_id, task_id, label)
     profile = hash(value, label)
     case profile["schema_version"]
@@ -511,6 +660,8 @@ module CurrentTaskAuthority
       validate_founder_reserved_profile_v1(profile, route_id, task_id, label)
     when "2.0"
       validate_founder_reserved_profile_v2(profile, route_id, task_id, label)
+    when "3.0"
+      validate_founder_reserved_profile_v3(profile, route_id, task_id, label)
     else
       fail!("#{label} schema version is unsupported")
     end
@@ -686,6 +837,162 @@ module CurrentTaskAuthority
     fail!("decision packet contains a non-integer Phase envelope")
   end
 
+  def operator_capture_route_packet_claims(text)
+    route_id = one_packet_match(
+      text,
+      /I authorize one new P1 Phase route:\s+`(P1_[A-Z0-9_]+_ROUTE_V1)`/m,
+      "operator-capture Route ID declaration"
+    )
+    first_task_id = one_packet_match(
+      text,
+      /and one engineering Task:\s+`(AIOS-P1-[0-9]{3}_[A-Z0-9_]+)`/m,
+      "operator-capture Task ID declaration"
+    )
+    authorization_token = one_packet_match(
+      text,
+      /`(AUTHORIZE_P1_OPERATOR_OWNED_CREDENTIAL_CAPTURE_AND_OFFLINE_EXIT_GATE_ROUTE_V1)`/,
+      "operator-capture Founder authorization token"
+    )
+    envelope = {
+      "max_engineering_tasks" => Integer(one_packet_match(
+        text, /- maximum engineering Tasks: `(\d+)`/, "maximum engineering Tasks"
+      ), 10),
+      "max_engineering_hours" => Integer(one_packet_match(
+        text, /- maximum engineering hours: `(\d+)`/, "maximum engineering hours"
+      ), 10),
+      "max_calendar_days" => Integer(one_packet_match(
+        text, /- maximum calendar days: `(\d+)`/, "maximum calendar days"
+      ), 10)
+    }
+    parent_commit = one_packet_match(text, /- canonical commit:\s+`([0-9a-f]{40})`/,
+                                     "operator-capture activation parent commit")
+    parent_tree = one_packet_match(text, /- canonical tree:\s+`([0-9a-f]{40})`/,
+                                   "operator-capture activation parent tree")
+    assert(text.include?("initial implementation plus at most one\n  same-Task code-only repair"),
+           "operator-capture implementation iteration declaration drifted")
+    assert(text.include?("- maximum active candidates: `1`"),
+           "operator-capture candidate declaration drifted")
+
+    artifact_rows = text.scan(
+      /^\| ([^|]+?) \| (\d+) \| `([0-9a-f]{64})` \| `([^`]+)` \|$/
+    ).map do |klass, length, digest, path|
+      {
+        "class" => klass.strip,
+        "byte_length" => Integer(length, 10),
+        "sha256" => digest,
+        "path" => path
+      }
+    end
+    assert(artifact_rows.length == 16,
+           "operator-capture packet must contain exactly 16 disclosed artifact identities")
+
+    profile = {
+      "schema_version" => "3.0",
+      "profile_id" => "P1_123_OPERATOR_OWNED_CAPTURE_AND_OFFLINE_EXIT_V1",
+      "decision_basis" => "FOUNDER_PACKET_SHA256:#{sha256(text.b)}",
+      "route_id" => route_id,
+      "task_id" => first_task_id,
+      "transport" => {
+        "scheme" => "http",
+        "host" => "127.0.0.1",
+        "port" => 8787,
+        "completion_path" => "/v1/chat/completions",
+        "api_format" => "OPENAI_COMPATIBLE_CHAT_COMPLETIONS",
+        "method" => "POST",
+        "follow_redirects" => false,
+        "use_proxy" => false,
+        "dns_resolution" => false,
+        "fallback_endpoint_allowed" => false,
+        "expected_peer_address" => "127.0.0.1",
+        "expected_peer_port" => 8787
+      },
+      "model" => {
+        "requested_model" => "gpt-5.6-luna",
+        "substitution_allowed" => false,
+        "provider_provenance" =>
+          "FOUNDER_ATTESTED_OPENAI_COMPATIBLE_LOCAL_GATEWAY_MODEL_NOT_INDEPENDENTLY_VERIFIED"
+      },
+      "secret" => {
+        "source" => "FOUNDER_OPERATOR_NO_ECHO_TTY",
+        "entry_sessions" => 1,
+        "persist" => false,
+        "prohibited_sinks" => %w[
+          ARGV ENVIRONMENT SHELL_HISTORY REPOSITORY TEMPORARY_PLAINTEXT_FILE
+          EVIDENCE LOG TRACE PROMPT REVIEW VAULT
+        ]
+      },
+      "call_limits" => {
+        "diagnostic_requests_max" => 3,
+        "formal_requests_exact" => 36,
+        "provider_requests_max" => 39,
+        "automatic_retry_max" => 0
+      },
+      "token_limits" => {
+        "input_tokens_max" => 500_000,
+        "output_tokens_max" => 100_000
+      },
+      "monetary_limits" => {
+        "currency" => "USD",
+        "max_spend" => 25,
+        "unavailable_metering_status" => "UNKNOWN_GATEWAY_METERING_UNAVAILABLE"
+      },
+      "egress" => {
+        "restricted_source_allowed" => true,
+        "allowed_artifacts" => artifact_rows,
+        "derived_context_policy" =>
+          "ONLY_SELECT_AND_FRAME_EXACT_ALLOWLISTED_BYTES_WITH_TASK_RELATIVE_PATH_AND_HASH",
+        "forbidden_categories" => %w[
+          TEST_BYTES TEST_OUTPUT_OR_ORACLE EXPECTED_FAILURE_ORACLE
+          REFERENCE_SOLUTION_PATCH VALIDATOR_OR_EVALUATOR HIDDEN_OR_POST_RESULT
+          GOVERNANCE_TRUTH_CONTRACT_REVIEW_EVIDENCE OTHER_REPOSITORY_OR_USER_FILE
+          SECRET_CREDENTIAL_TOKEN_AUTHORIZATION_HEADER
+        ]
+      },
+      "effect_partition" => {
+        "canonical_aios" => FALSE_EXTERNAL_EFFECTS.dup,
+        "operator_launcher" => LOCAL_GATEWAY_EXTERNAL_EFFECTS.dup
+      },
+      "external_effects" => FALSE_EXTERNAL_EFFECTS.dup,
+      "claim_limits" => {
+        "direct_openai_provenance_proven" => false,
+        "gateway_upstream_behavior" => "UNKNOWN",
+        "upstream_request_count" => "UNKNOWN",
+        "actual_monetary_cost" => "UNKNOWN_UNLESS_TRUSTWORTHY_GATEWAY_EVIDENCE_EXISTS",
+        "byte_identical_stochastic_resampling" => false,
+        "hostile_principal_isolation" => false,
+        "production" => false,
+        "remote" => false,
+        "public" => false,
+        "p2_entry" => false
+      }
+    }
+    validate_founder_reserved_profile_v3(profile, route_id, first_task_id,
+                                         "operator-capture decision packet profile")
+    {
+      "route_id" => route_id,
+      "first_task_id" => first_task_id,
+      "authorization_token" => authorization_token,
+      "max_engineering_tasks" => envelope["max_engineering_tasks"],
+      "max_engineering_hours" => envelope["max_engineering_hours"],
+      "max_calendar_days" => envelope["max_calendar_days"],
+      "first_task_engineering_hours" => envelope["max_engineering_hours"],
+      "first_task_calendar_days" => envelope["max_calendar_days"],
+      "first_task_implementation_iterations" => 2,
+      "first_task_candidates" => 1,
+      "max_contract_corrections_per_task" => nil,
+      "max_same_task_repairs" => 1,
+      "activation_parent_commit" => parent_commit,
+      "activation_parent_tree" => parent_tree,
+      "task_ids" => [first_task_id],
+      "founder_reserved_profile" => profile,
+      "founder_reserved_profiles" => [profile],
+      "external_effects" => profile["external_effects"],
+      "text" => text
+    }
+  rescue ArgumentError
+    fail!("operator-capture decision packet contains a non-integer envelope")
+  end
+
   def legacy_route_packet_claims(text)
     route_id = one_packet_match(
       text,
@@ -757,7 +1064,9 @@ module CurrentTaskAuthority
   def packet_claims(packet_bytes)
     text = packet_bytes.dup.force_encoding(Encoding::UTF_8)
     assert(text.valid_encoding?, "decision packet must be valid UTF-8")
-    if text.include?("founder_p1_phase_gate_route_decision_packet")
+    if text.include?("AUTHORIZE_P1_OPERATOR_OWNED_CREDENTIAL_CAPTURE_AND_OFFLINE_EXIT_GATE_ROUTE_V1")
+      operator_capture_route_packet_claims(text)
+    elsif text.include?("founder_p1_phase_gate_route_decision_packet")
       phase_gate_route_packet_claims(text)
     elsif text.include?("FOUNDER_PROJECT_LEVEL_ARCHITECTURE_ROUTE_AND_PHASE_REENTRY_DECISION_PACKET")
       project_route_packet_claims(text)

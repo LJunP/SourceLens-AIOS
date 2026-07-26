@@ -464,6 +464,31 @@ class CurrentTaskAuthorityTest
     legacy = v1_profile
     expect_profile_pass(legacy, legacy.fetch("route_id"), legacy.fetch("task_id"),
                         "legacy schema v1 compatibility")
+
+    truth = yaml(File.join(SOURCE_REPO, TRUTH_RELATIVE))
+    packet_path = truth.dig("current_phase_route", "decision_packet", "path")
+    current_claims = CurrentTaskAuthority.packet_claims(File.binread(packet_path))
+    current_profile = current_claims["founder_reserved_profile"]
+    if current_profile && current_profile["schema_version"] == "3.0"
+      expect_profile_pass(
+        current_profile,
+        current_profile.fetch("route_id"),
+        current_profile.fetch("task_id"),
+        "schema v3 operator-owned exact profile"
+      )
+      [
+        [%w[secret source], "LOCAL_PROCESS_ENV", /no-echo TTY/],
+        [%w[call_limits formal_requests_exact], 35, /call limits drifted/],
+        [%w[effect_partition canonical_aios network], true, /exact authorized external-effect map/],
+        [%w[egress derived_context_policy], "ARBITRARY_CONTEXT", /derived-context policy drifted/]
+      ].each do |path, value, pattern|
+        variant = deep_copy(current_profile)
+        cursor = variant
+        path[0...-1].each { |key| cursor = cursor.fetch(key) }
+        cursor[path.last] = value
+        expect_profile_nonpass(variant, "schema v3 rejects #{path.join('.')}:#{value.inspect}", pattern)
+      end
+    end
   end
 
   def closed_profile_packet_unit_tests
@@ -471,59 +496,46 @@ class CurrentTaskAuthorityTest
     packet_path = truth.dig("current_phase_route", "decision_packet", "path")
     packet = File.binread(packet_path).force_encoding(Encoding::UTF_8)
     claims = CurrentTaskAuthority.packet_claims(packet)
-    expected_tasks = %w[
-      AIOS-P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION
-      AIOS-P1-117_CLEAN_ROOM_36_RUN_EMPIRICAL_BASELINE_AND_P2_PREREGISTRATION
-    ]
-    assert(claims["task_ids"] == expected_tasks, "closed packet Task set drifted")
+    expected_tasks = truth.fetch("current_phase_route").fetch("task_plan").map do |descriptor|
+      descriptor.fetch("task_id")
+    end
+    assert(claims["task_ids"] == expected_tasks, "current packet Task set drifted")
     assert(
       claims["founder_reserved_profiles"].map { |profile| profile["task_id"] } == expected_tasks,
-      "closed packet profile set drifted"
+      "current packet profile set drifted"
     )
     @passes += 1
-    puts "PASS exact closed packet Task/profile set"
+    puts "PASS exact current packet Task/profile set"
 
-    second_block = /
-      <!--\ BEGIN\ FOUNDER_SECOND_TASK_PROFILE_JSON\ -->.*?
-      <!--\ END\ FOUNDER_SECOND_TASK_PROFILE_JSON\ -->
-    /mx
-    missing = packet.sub(second_block, "")
-    begin
-      CurrentTaskAuthority.packet_claims(missing)
-      raise TestFailure, "missing second profile: expected NON_PASS"
-    rescue AuthorityValidationError => e
-      assert(e.message.include?("profile set"), "missing profile reason drifted: #{e.message}")
-      @passes += 1
-      puts "PASS missing second profile rejects"
-    end
-
-    duplicate_task = packet.sub(
-      "Task ID：`AIOS-P1-117_CLEAN_ROOM_36_RUN_EMPIRICAL_BASELINE_AND_P2_PREREGISTRATION`",
-      "Task ID：`AIOS-P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION`"
-    )
-    begin
-      CurrentTaskAuthority.packet_claims(duplicate_task)
-      raise TestFailure, "duplicate Task id: expected NON_PASS"
-    rescue AuthorityValidationError => e
-      assert(e.message.include?("Task IDs must be unique"), "duplicate Task reason drifted: #{e.message}")
-      @passes += 1
-      puts "PASS duplicate Task id rejects"
-    end
-
-    reordered = packet.sub(
-      "Task ID：`AIOS-P1-117_CLEAN_ROOM_36_RUN_EMPIRICAL_BASELINE_AND_P2_PREREGISTRATION`",
-      "Task ID：`AIOS-P1-118_UNDECLARED_PROFILE_ORDER_DRIFT`"
-    )
-    begin
-      CurrentTaskAuthority.packet_claims(reordered)
-      raise TestFailure, "profile order drift: expected NON_PASS"
-    rescue AuthorityValidationError => e
-      assert(
-        e.message.include?("Task id mismatch") || e.message.include?("Task order"),
-        "profile order reason drifted: #{e.message}"
-      )
-      @passes += 1
-      puts "PASS profile Task order drift rejects"
+    if packet.include?("AUTHORIZE_P1_OPERATOR_OWNED_CREDENTIAL_CAPTURE_AND_OFFLINE_EXIT_GATE_ROUTE_V1")
+      first_artifact_row = packet.lines.find do |line|
+        line.match?(/^\| [^|]+ \| \d+ \| `[0-9a-f]{64}` \| `[^`]+` \|$/)
+      end
+      assert(first_artifact_row, "operator packet disclosure row missing")
+      missing = packet.sub(first_artifact_row, "")
+      begin
+        CurrentTaskAuthority.packet_claims(missing)
+        raise TestFailure, "missing disclosure artifact: expected NON_PASS"
+      rescue AuthorityValidationError => e
+        assert(e.message.include?("16 disclosed artifact"), "missing disclosure reason drifted: #{e.message}")
+        @passes += 1
+        puts "PASS missing operator disclosure artifact rejects"
+      end
+    elsif packet.include?("PROFILE_JSON")
+      first_block = /
+        <!--\ BEGIN\ FOUNDER_[A-Z0-9_]*PROFILE_JSON\ -->.*?
+        <!--\ END\ FOUNDER_[A-Z0-9_]*PROFILE_JSON\ -->
+      /mx
+      missing = packet.sub(first_block, "")
+      begin
+        CurrentTaskAuthority.packet_claims(missing)
+        raise TestFailure, "missing packet profile: expected NON_PASS"
+      rescue AuthorityValidationError => e
+        assert(e.message.include?("profile") || e.message.include?("external effects"),
+               "missing profile reason drifted: #{e.message}")
+        @passes += 1
+        puts "PASS missing current packet profile rejects"
+      end
     end
   end
 
@@ -646,7 +658,7 @@ class CurrentTaskAuthorityTest
 
       truth = yaml(fixture["truth_path"])
       profile = truth["current_phase_route"]["founder_reserved_profile"]
-      call_key = profile["schema_version"] == "2.0" ? "provider_requests_max" : "source_bearing_max"
+      call_key = profile["schema_version"] == "1.0" ? "source_bearing_max" : "provider_requests_max"
       original_call_limit = profile["call_limits"][call_key]
       profile["call_limits"][call_key] = original_call_limit + 1
       dump_owned_yaml(fixture["truth_path"], truth)
@@ -1070,7 +1082,11 @@ class CurrentTaskAuthorityTest
     original_hours = truth["active_work"]["budget"]["engineering_hours"]
     truth["active_work"]["budget"]["engineering_hours"] = original_hours + 1
     commit_truth(fixture, truth, "test: drift active Task budget")
-    expect_dual_nonpass(fixture, "active budget mismatch", /contract budget engineering_hours mismatch/)
+    expect_dual_nonpass(
+      fixture,
+      "active budget mismatch",
+      /contract budget engineering_hours mismatch|active budget engineering_hours exceeds envelope/
+    )
     truth = yaml(fixture["truth_path"])
     truth["active_work"]["budget"]["engineering_hours"] = original_hours
     commit_truth(fixture, truth, "test: restore active Task budget")

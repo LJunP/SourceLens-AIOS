@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-25T20:04:02Z"
-verification_scope: P1_122_TERMINAL_OFFLINE_PREFLIGHT_NON_PASS_FOUNDER_P1_PHASE_GATE_STRICT_75_PERCENT
+last_verified_at: "2026-07-26T00:17:16Z"
+verification_scope: P1_123_ACTIVE_OPERATOR_OWNED_CAPTURE_G0_PREFLIGHT_STRICT_75_PERCENT
 
 authority:
   founder: Human Founder
@@ -37,7 +37,7 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
+  current_task_authority: AIOS-P1-123_OPERATOR_OWNED_CAPTURE_ADMISSION_AND_P1_EXIT_GATE
   note: >-
     The Founder-approved long-term Goal remains ACTIVE with the exact
     Founder-installed identity. P1-099 remains terminal with its Quality
@@ -182,7 +182,11 @@ goal:
     make verify, baseline report, preregistration or capability credit exists.
     P1-122 and its one-Task route are terminal without correction, retry,
     successor, replacement or another Secret-route chain. Strict P1 completion
-    remains 6/8 (75%) at the Founder P1 Phase Gate.
+    remains 6/8 (75%) at the Founder P1 Phase Gate. The Founder has now
+    authorized P1-123 as one clean-room operator-owned capture route. P1-123 is
+    active at its pre-effect G0 engineering gate; canonical AIOS retains zero
+    network, Provider and Secret authority, and no new capability credit has
+    yet been earned.
 
 project:
   name: SourceLens AIOS
@@ -194,8 +198,8 @@ project:
   p1_entry_status: AUTHORIZED
   phase_execution_status: ACTIVE
   p1_execution_status: ACTIVE
-  p1_engineering_status: P1_122_TERMINAL_OFFLINE_PREFLIGHT_NON_PASS
-  current_route_execution_status: TERMINAL_TASK_1_ROUTE_STOPPED
+  p1_engineering_status: P1_123_ACTIVE_G0_PREFLIGHT
+  current_route_execution_status: ACTIVE_TASK_1_G0_PREFLIGHT
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -3049,22 +3053,22 @@ historical_p1_118_phase_route:
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 
 current_phase_route:
-  route_id: P1_ONE_SHOT_FOUNDER_PROVIDED_SECRET_IMAGE_BRIDGE_AND_ATOMIC_EXIT_GATE_ROUTE_V1
+  route_id: P1_OPERATOR_OWNED_CAPTURE_AND_OFFLINE_BASELINE_EXIT_ROUTE_V1
   status: ACTIVE
-  authority_object_status: FOUNDER_PHASE_GATE_AUTHORITY_CONSUMED_ROUTE_TERMINAL
-  execution_status: TERMINAL_TASK_1_ROUTE_STOPPED
-  founder_phase_route_decision_required: true
-  scheduling_status: NO_ELIGIBLE_TASK_TASK_1_TERMINAL
+  authority_object_status: FOUNDER_PHASE_GATE_AUTHORITY_CONSUMED_ROUTE_ACTIVE
+  execution_status: ACTIVE_TASK_1_G0_PREFLIGHT
+  founder_phase_route_decision_required: false
+  scheduling_status: TASK_1_ACTIVE
   phase: P1
   phase_entry_status: AUTHORIZED
-  authorization_token: AUTHORIZE_P1_ONE_SHOT_FOUNDER_PROVIDED_SECRET_IMAGE_BRIDGE_AND_ATOMIC_EXIT_GATE_ROUTE_V1
+  authorization_token: AUTHORIZE_P1_OPERATOR_OWNED_CREDENTIAL_CAPTURE_AND_OFFLINE_EXIT_GATE_ROUTE_V1
   decision_packet:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-122-founder-secret-image-route-20260726/FOUNDER_P1_ONE_SHOT_FOUNDER_PROVIDED_SECRET_IMAGE_BRIDGE_AND_ATOMIC_EXIT_GATE_ROUTE_V1.md
-    sha256: fe81a93b24146a8242135577873774cc807a7534ab39d046606a94fa3ee2952b
-    byte_length: 10936
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-phase-gate-operator-capture-20260726/FOUNDER_P1_OPERATOR_OWNED_CREDENTIAL_CAPTURE_AND_OFFLINE_EXIT_GATE_ROUTE_V1.md
+    sha256: 78605dcf56c1ba488b6b02496400999cde4563936ce5f9967ee9b5d5409b4233
+    byte_length: 21568
   activation_parent:
-    commit: 2cc92a2f1ea9916c8560790992ea531245c4bb5f
-    tree: 0e3b0d1947e105025d4fae2d670a2253613c31d6
+    commit: 48f2059395ffe97448b1c1936d6ac90e2c018830
+    tree: 4876cd80d13abdb640e9714a23791f84ba82b674
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: "1.6"
@@ -3076,12 +3080,10 @@ current_phase_route:
     canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
     canonical_byte_length: 19434
   objective: >-
-    Consume the exact Founder-provided local screenshot only after complete
-    offline preflight PASS, extract exactly one Secret in local memory without
-    persistence, obtain one strict capacity-reserved loopback diagnostic
-    completion, execute all thirty-six predeclared B0/B1/B2 A/B baseline runs,
-    and retain one reproducible baseline report plus one offline P2
-    context-engine preregistration.
+    Freeze one clean-room 36-cell B0/B1/B2 experiment, obtain one create-once
+    non-Secret bundle through an exact Founder-operated literal-loopback
+    launcher, then perform canonical offline admission, replay, evaluation,
+    baseline reporting and pre-result P2 preregistration without entering P2.
   envelope:
     max_engineering_tasks: 1
     max_engineering_hours: 40
@@ -3091,28 +3093,27 @@ current_phase_route:
     max_task_worktrees: 1
     max_active_candidates: 1
     max_contract_corrections_per_task: 0
-    max_same_task_repairs: 2
+    max_same_task_repairs: 1
     successor_replacement_normalization_closure_feasibility_or_remediation_chain_allowed: false
     p2_entry_authorized: false
     p3_entry_authorized: false
     external_effects:
-      network: true
-      provider: true
-      secret: true
+      network: false
+      provider: false
+      secret: false
       remote: false
       production: false
       public: false
   founder_reserved_profile:
-    schema_version: "2.0"
-    profile_id: P1_122_FOUNDER_PROVIDED_SECRET_IMAGE_ATOMIC_BASELINE_V1
-    decision_basis: FOUNDER_P1_PHASE_GATE_P1_121_TERMINAL_2026_07_26
-    route_id: P1_ONE_SHOT_FOUNDER_PROVIDED_SECRET_IMAGE_BRIDGE_AND_ATOMIC_EXIT_GATE_ROUTE_V1
-    task_id: AIOS-P1-122_FOUNDER_PROVIDED_SECRET_IMAGE_ATOMIC_BASELINE_AND_PREREGISTRATION
+    schema_version: "3.0"
+    profile_id: P1_123_OPERATOR_OWNED_CAPTURE_AND_OFFLINE_EXIT_V1
+    decision_basis: FOUNDER_PACKET_SHA256:78605dcf56c1ba488b6b02496400999cde4563936ce5f9967ee9b5d5409b4233
+    route_id: P1_OPERATOR_OWNED_CAPTURE_AND_OFFLINE_BASELINE_EXIT_ROUTE_V1
+    task_id: AIOS-P1-123_OPERATOR_OWNED_CAPTURE_ADMISSION_AND_P1_EXIT_GATE
     transport:
       scheme: http
       host: 127.0.0.1
       port: 8787
-      base_path: /v1
       completion_path: /v1/chat/completions
       api_format: OPENAI_COMPATIBLE_CHAT_COMPLETIONS
       method: POST
@@ -3127,12 +3128,15 @@ current_phase_route:
       substitution_allowed: false
       provider_provenance: FOUNDER_ATTESTED_OPENAI_COMPATIBLE_LOCAL_GATEWAY_MODEL_NOT_INDEPENDENTLY_VERIFIED
     secret:
-      allowed_sources:
-        - LOCAL_PROCESS_ENV
-        - CONTROLLED_TEMPORARY_SECRET_FILE
+      source: FOUNDER_OPERATOR_NO_ECHO_TTY
+      entry_sessions: 1
       persist: false
       prohibited_sinks:
+        - ARGV
+        - ENVIRONMENT
+        - SHELL_HISTORY
         - REPOSITORY
+        - TEMPORARY_PLAINTEXT_FILE
         - EVIDENCE
         - LOG
         - TRACE
@@ -3140,6 +3144,8 @@ current_phase_route:
         - REVIEW
         - VAULT
     call_limits:
+      diagnostic_requests_max: 3
+      formal_requests_exact: 36
       provider_requests_max: 39
       automatic_retry_max: 0
     token_limits:
@@ -3150,31 +3156,126 @@ current_phase_route:
       max_spend: 25
       unavailable_metering_status: UNKNOWN_GATEWAY_METERING_UNAVAILABLE
     egress:
-      restricted_source_allowed: false
+      restricted_source_allowed: true
+      allowed_artifacts:
+        - class: shared prompt context
+          byte_length: 377
+          sha256: 64fab9efd47c193af94e3f7baee67072a32497d35c9dc1aee8a804bf32269cb9
+          path: evaluation-harness/datasets/p1-representative-task-dataset-v1/shared/baseline-context.json
+        - class: response format
+          byte_length: 306
+          sha256: 6b8ec1d2a6a288e5b908716714589dae963739f2b35a0a29237ff4cbc1355c4b
+          path: evaluation-harness/datasets/p1-representative-task-dataset-v1/shared/response-format.json
+        - class: REP-001 source
+          byte_length: 115
+          sha256: 1e3de2958c9841bbe785d903b2f5453389c4225359308b539ac2cb3194469d75
+          path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/src/range.mjs
+        - class: REP-001 TaskSpec
+          byte_length: 2960
+          sha256: 25de6b6f330e09c076521b42a88d60712637e0fc7de7ab1cfe1f9f5d4c223321
+          path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/task-spec.json
+        - class: REP-002 source
+          byte_length: 265
+          sha256: 75c5d640cd7f70bc7d355761d6d2de15142a6e573b4267c0d19231bf326a2870
+          path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-002-CONFIG-VALIDATION/source-template/src/config.mjs
+        - class: REP-002 TaskSpec
+          byte_length: 2843
+          sha256: f82368198c7c76022852b2d2814f8660219d659db68a7e2771d991ddd63ca3bc
+          path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-002-CONFIG-VALIDATION/task-spec.json
+        - class: REP-003 source
+          byte_length: 123
+          sha256: bf64b55fc410200403bee3b986da5c8824f4d7ec86a2a0ba65e6e9a5fb933f0a
+          path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-003-SAFE-PATH-JOIN/source-template/src/path.mjs
+        - class: REP-003 TaskSpec
+          byte_length: 2858
+          sha256: 09d87107e2da2ba211aae1cf0ee9b773ce4efa0df5e109c793f694069ac67087
+          path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-003-SAFE-PATH-JOIN/task-spec.json
+        - class: REP-004 source
+          byte_length: 162
+          sha256: 139e4d2048729e2cbfe131587eec5c3d60ca955cc4b6516a203ca162f59ff4ef
+          path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-004-COMMAND-RESULT-MAPPING/source-template/src/result.mjs
+        - class: REP-004 TaskSpec
+          byte_length: 2842
+          sha256: f6b4c558c313f1f7716c33646eb587705a1ced8fb00db97a9e00d4c19ad23fe3
+          path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-004-COMMAND-RESULT-MAPPING/task-spec.json
+        - class: REP-005 source
+          byte_length: 140
+          sha256: 2a186fb9ace72d24eb7696d5edd1d63e3d86254b416362b6a3a89ebd7e09ff84
+          path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/source-template/src/greeting.mjs
+        - class: REP-005 source
+          byte_length: 92
+          sha256: 00aa57e8f6ecd37eb79af02a7a6e414911b89d04e623dd9c22edeae5796f33f2
+          path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/source-template/src/profile.mjs
+        - class: REP-005 TaskSpec
+          byte_length: 2890
+          sha256: 19460b7b855fd7a1dade980c7ed4836a7fa97c9a50c3fd3316e9773128cbd723
+          path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/task-spec.json
+        - class: REP-006 source
+          byte_length: 187
+          sha256: ad2a9024b228373904fca35154e660b9bc4f8eeb76a77f41226de432b72ad12c
+          path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/source-template/src/projects.mjs
+        - class: REP-006 source
+          byte_length: 184
+          sha256: f2ea56b1a50eebe4597174fa019e587b9041574b62ee099c955050b7883020b6
+          path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/source-template/src/users.mjs
+        - class: REP-006 TaskSpec
+          byte_length: 2857
+          sha256: 5e7c175f8a7c0204b45a7cba20fb3212a8d7f2d0d2094709d194dd1d3daa57ee
+          path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/task-spec.json
+      derived_context_policy: ONLY_SELECT_AND_FRAME_EXACT_ALLOWLISTED_BYTES_WITH_TASK_RELATIVE_PATH_AND_HASH
+      forbidden_categories:
+        - TEST_BYTES
+        - TEST_OUTPUT_OR_ORACLE
+        - EXPECTED_FAILURE_ORACLE
+        - REFERENCE_SOLUTION_PATCH
+        - VALIDATOR_OR_EVALUATOR
+        - HIDDEN_OR_POST_RESULT
+        - GOVERNANCE_TRUTH_CONTRACT_REVIEW_EVIDENCE
+        - OTHER_REPOSITORY_OR_USER_FILE
+        - SECRET_CREDENTIAL_TOKEN_AUTHORIZATION_HEADER
+    effect_partition:
+      canonical_aios:
+        network: false
+        provider: false
+        secret: false
+        remote: false
+        production: false
+        public: false
+      operator_launcher:
+        network: true
+        provider: true
+        secret: true
+        remote: false
+        production: false
+        public: false
     external_effects:
-      network: true
-      provider: true
-      secret: true
+      network: false
+      provider: false
+      secret: false
       remote: false
       production: false
       public: false
     claim_limits:
       direct_openai_provenance_proven: false
-      adapter_conformance_is_model_performance: false
-      remote: false
+      gateway_upstream_behavior: UNKNOWN
+      upstream_request_count: UNKNOWN
+      actual_monetary_cost: UNKNOWN_UNLESS_TRUSTWORTHY_GATEWAY_EVIDENCE_EXISTS
+      byte_identical_stochastic_resampling: false
+      hostile_principal_isolation: false
       production: false
+      remote: false
       public: false
+      p2_entry: false
   founder_reserved_profiles:
-    - schema_version: "2.0"
-      profile_id: P1_122_FOUNDER_PROVIDED_SECRET_IMAGE_ATOMIC_BASELINE_V1
-      decision_basis: FOUNDER_P1_PHASE_GATE_P1_121_TERMINAL_2026_07_26
-      route_id: P1_ONE_SHOT_FOUNDER_PROVIDED_SECRET_IMAGE_BRIDGE_AND_ATOMIC_EXIT_GATE_ROUTE_V1
-      task_id: AIOS-P1-122_FOUNDER_PROVIDED_SECRET_IMAGE_ATOMIC_BASELINE_AND_PREREGISTRATION
+    - schema_version: "3.0"
+      profile_id: P1_123_OPERATOR_OWNED_CAPTURE_AND_OFFLINE_EXIT_V1
+      decision_basis: FOUNDER_PACKET_SHA256:78605dcf56c1ba488b6b02496400999cde4563936ce5f9967ee9b5d5409b4233
+      route_id: P1_OPERATOR_OWNED_CAPTURE_AND_OFFLINE_BASELINE_EXIT_ROUTE_V1
+      task_id: AIOS-P1-123_OPERATOR_OWNED_CAPTURE_ADMISSION_AND_P1_EXIT_GATE
       transport:
         scheme: http
         host: 127.0.0.1
         port: 8787
-        base_path: /v1
         completion_path: /v1/chat/completions
         api_format: OPENAI_COMPATIBLE_CHAT_COMPLETIONS
         method: POST
@@ -3189,12 +3290,15 @@ current_phase_route:
         substitution_allowed: false
         provider_provenance: FOUNDER_ATTESTED_OPENAI_COMPATIBLE_LOCAL_GATEWAY_MODEL_NOT_INDEPENDENTLY_VERIFIED
       secret:
-        allowed_sources:
-          - LOCAL_PROCESS_ENV
-          - CONTROLLED_TEMPORARY_SECRET_FILE
+        source: FOUNDER_OPERATOR_NO_ECHO_TTY
+        entry_sessions: 1
         persist: false
         prohibited_sinks:
+          - ARGV
+          - ENVIRONMENT
+          - SHELL_HISTORY
           - REPOSITORY
+          - TEMPORARY_PLAINTEXT_FILE
           - EVIDENCE
           - LOG
           - TRACE
@@ -3202,6 +3306,8 @@ current_phase_route:
           - REVIEW
           - VAULT
       call_limits:
+        diagnostic_requests_max: 3
+        formal_requests_exact: 36
         provider_requests_max: 39
         automatic_retry_max: 0
       token_limits:
@@ -3212,20 +3318,116 @@ current_phase_route:
         max_spend: 25
         unavailable_metering_status: UNKNOWN_GATEWAY_METERING_UNAVAILABLE
       egress:
-        restricted_source_allowed: false
+        restricted_source_allowed: true
+        allowed_artifacts:
+          - class: shared prompt context
+            byte_length: 377
+            sha256: 64fab9efd47c193af94e3f7baee67072a32497d35c9dc1aee8a804bf32269cb9
+            path: evaluation-harness/datasets/p1-representative-task-dataset-v1/shared/baseline-context.json
+          - class: response format
+            byte_length: 306
+            sha256: 6b8ec1d2a6a288e5b908716714589dae963739f2b35a0a29237ff4cbc1355c4b
+            path: evaluation-harness/datasets/p1-representative-task-dataset-v1/shared/response-format.json
+          - class: REP-001 source
+            byte_length: 115
+            sha256: 1e3de2958c9841bbe785d903b2f5453389c4225359308b539ac2cb3194469d75
+            path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/source-template/src/range.mjs
+          - class: REP-001 TaskSpec
+            byte_length: 2960
+            sha256: 25de6b6f330e09c076521b42a88d60712637e0fc7de7ab1cfe1f9f5d4c223321
+            path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-001-RANGE-NORMALIZATION/task-spec.json
+          - class: REP-002 source
+            byte_length: 265
+            sha256: 75c5d640cd7f70bc7d355761d6d2de15142a6e573b4267c0d19231bf326a2870
+            path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-002-CONFIG-VALIDATION/source-template/src/config.mjs
+          - class: REP-002 TaskSpec
+            byte_length: 2843
+            sha256: f82368198c7c76022852b2d2814f8660219d659db68a7e2771d991ddd63ca3bc
+            path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-002-CONFIG-VALIDATION/task-spec.json
+          - class: REP-003 source
+            byte_length: 123
+            sha256: bf64b55fc410200403bee3b986da5c8824f4d7ec86a2a0ba65e6e9a5fb933f0a
+            path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-003-SAFE-PATH-JOIN/source-template/src/path.mjs
+          - class: REP-003 TaskSpec
+            byte_length: 2858
+            sha256: 09d87107e2da2ba211aae1cf0ee9b773ce4efa0df5e109c793f694069ac67087
+            path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-003-SAFE-PATH-JOIN/task-spec.json
+          - class: REP-004 source
+            byte_length: 162
+            sha256: 139e4d2048729e2cbfe131587eec5c3d60ca955cc4b6516a203ca162f59ff4ef
+            path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-004-COMMAND-RESULT-MAPPING/source-template/src/result.mjs
+          - class: REP-004 TaskSpec
+            byte_length: 2842
+            sha256: f6b4c558c313f1f7716c33646eb587705a1ced8fb00db97a9e00d4c19ad23fe3
+            path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-004-COMMAND-RESULT-MAPPING/task-spec.json
+          - class: REP-005 source
+            byte_length: 140
+            sha256: 2a186fb9ace72d24eb7696d5edd1d63e3d86254b416362b6a3a89ebd7e09ff84
+            path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/source-template/src/greeting.mjs
+          - class: REP-005 source
+            byte_length: 92
+            sha256: 00aa57e8f6ecd37eb79af02a7a6e414911b89d04e623dd9c22edeae5796f33f2
+            path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/source-template/src/profile.mjs
+          - class: REP-005 TaskSpec
+            byte_length: 2890
+            sha256: 19460b7b855fd7a1dade980c7ed4836a7fa97c9a50c3fd3316e9773128cbd723
+            path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/task-spec.json
+          - class: REP-006 source
+            byte_length: 187
+            sha256: ad2a9024b228373904fca35154e660b9bc4f8eeb76a77f41226de432b72ad12c
+            path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/source-template/src/projects.mjs
+          - class: REP-006 source
+            byte_length: 184
+            sha256: f2ea56b1a50eebe4597174fa019e587b9041574b62ee099c955050b7883020b6
+            path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/source-template/src/users.mjs
+          - class: REP-006 TaskSpec
+            byte_length: 2857
+            sha256: 5e7c175f8a7c0204b45a7cba20fb3212a8d7f2d0d2094709d194dd1d3daa57ee
+            path: evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/task-spec.json
+        derived_context_policy: ONLY_SELECT_AND_FRAME_EXACT_ALLOWLISTED_BYTES_WITH_TASK_RELATIVE_PATH_AND_HASH
+        forbidden_categories:
+          - TEST_BYTES
+          - TEST_OUTPUT_OR_ORACLE
+          - EXPECTED_FAILURE_ORACLE
+          - REFERENCE_SOLUTION_PATCH
+          - VALIDATOR_OR_EVALUATOR
+          - HIDDEN_OR_POST_RESULT
+          - GOVERNANCE_TRUTH_CONTRACT_REVIEW_EVIDENCE
+          - OTHER_REPOSITORY_OR_USER_FILE
+          - SECRET_CREDENTIAL_TOKEN_AUTHORIZATION_HEADER
+      effect_partition:
+        canonical_aios:
+          network: false
+          provider: false
+          secret: false
+          remote: false
+          production: false
+          public: false
+        operator_launcher:
+          network: true
+          provider: true
+          secret: true
+          remote: false
+          production: false
+          public: false
       external_effects:
-        network: true
-        provider: true
-        secret: true
+        network: false
+        provider: false
+        secret: false
         remote: false
         production: false
         public: false
       claim_limits:
         direct_openai_provenance_proven: false
-        adapter_conformance_is_model_performance: false
-        remote: false
+        gateway_upstream_behavior: UNKNOWN
+        upstream_request_count: UNKNOWN
+        actual_monetary_cost: UNKNOWN_UNLESS_TRUSTWORTHY_GATEWAY_EVIDENCE_EXISTS
+        byte_identical_stochastic_resampling: false
+        hostile_principal_isolation: false
         production: false
+        remote: false
         public: false
+        p2_entry: false
   accepted_inputs:
     p1_101:
       task_id: AIOS-P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE
@@ -3242,36 +3444,35 @@ current_phase_route:
       accepted_candidate_commit: ee51cc96fedec5cc9ec640c6c0c1c76d5268d6c5
       accepted_candidate_tree: ffae19db6991a77424d0deaa96a1c761348b7b41
   first_task:
-    task_id: AIOS-P1-122_FOUNDER_PROVIDED_SECRET_IMAGE_ATOMIC_BASELINE_AND_PREREGISTRATION
+    task_id: AIOS-P1-123_OPERATOR_OWNED_CAPTURE_ADMISSION_AND_P1_EXIT_GATE
     task_slot: 1
-    status: TERMINAL_OFFLINE_PREFLIGHT_NON_PASS
-    contract_path: docs/aios/tasks/P1-122_FOUNDER_PROVIDED_SECRET_IMAGE_ATOMIC_BASELINE_AND_PREREGISTRATION.yaml
-    contract_sha256: 1db84c5895748c22ce3d1246a00958647fb2112078608998cdd064c71e2fb2e2
-    contract_byte_length: 11890
+    status: ACTIVE
+    contract_path: docs/aios/tasks/P1-123_OPERATOR_OWNED_CAPTURE_ADMISSION_AND_P1_EXIT_GATE.yaml
+    contract_sha256: 1ca28858203f9516246ccfa83fe43919c5d46b62b1dd563e3670a7249a1079b9
+    contract_byte_length: 21956
     max_engineering_hours: 40
     max_calendar_days: 7
-    max_implementation_iterations: 3
+    max_implementation_iterations: 2
     max_candidates: 1
     strict_p1_credit_on_pass: 2
   task_plan:
     - task_slot: 1
-      task_id: AIOS-P1-122_FOUNDER_PROVIDED_SECRET_IMAGE_ATOMIC_BASELINE_AND_PREREGISTRATION
-      status: TERMINAL_OFFLINE_PREFLIGHT_NON_PASS
+      task_id: AIOS-P1-123_OPERATOR_OWNED_CAPTURE_ADMISSION_AND_P1_EXIT_GATE
+      status: ACTIVE
       engineering_hours: 40
       calendar_days: 7
       strict_p1_credit_on_pass: 2
   route_execution_accounting:
     maximum_engineering_tasks: 1
     task_slots_consumed: 1
-    active_task_id: null
+    active_task_id: AIOS-P1-123_OPERATOR_OWNED_CAPTURE_ADMISSION_AND_P1_EXIT_GATE
     scheduled_task_ids:
-      - AIOS-P1-122_FOUNDER_PROVIDED_SECRET_IMAGE_ATOMIC_BASELINE_AND_PREREGISTRATION
-    terminal_task_ids:
-      - AIOS-P1-122_FOUNDER_PROVIDED_SECRET_IMAGE_ATOMIC_BASELINE_AND_PREREGISTRATION
+      - AIOS-P1-123_OPERATOR_OWNED_CAPTURE_ADMISSION_AND_P1_EXIT_GATE
+    terminal_task_ids: []
     accepted_task_ids: []
     maximum_engineering_hours: 40
-    engineering_hours_authorized_current_task: 0
-    status: TERMINAL_TASK_1_ROUTE_STOPPED
+    engineering_hours_authorized_current_task: 40
+    status: ACTIVE_TASK_1
   additional_write_roots: []
   inherited_worktree_inventory:
     - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-063-atomic-offline-b0
@@ -3351,15 +3552,16 @@ current_phase_route:
       branch: codex/p1-122-founder-secret-image-baseline
       status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
   claim_boundary: >-
-    One Founder-authorized cooperative-local loopback baseline over the exact
-    predeclared B0/B1/B2 matrix using one ephemeral screenshot Secret bridge,
-    plus one offline P2 experiment preregistration. No direct OpenAI
-    provenance, model superiority, P2/P3 entry, production, remote, public,
-    hostile-principal or strong-isolation claim.
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
+    One Founder-authorized cooperative-local operator-owned literal-loopback
+    capture over the exact frozen B0/B1/B2 matrix, followed by canonical
+    offline admission, evaluation, report reproduction and preregistration.
+    Canonical AIOS has zero network, Provider and Secret authority. No direct
+    OpenAI provenance, model superiority, P2/P3 entry, production, remote,
+    public, hostile-principal or strong-isolation claim.
+  next_eligible_action: CONTINUE_CURRENT_TASK_G0_PREFLIGHT
 
 phase_delegation:
-  status: P1_PHASE_GATE_TASK_NONE
+  status: P1_PHASE_ACTIVE_TASK_1_G0_PREFLIGHT
   model: PHASE_LEVEL_FOUNDER_DELEGATION
   decision_source: FOUNDER_DIRECTIVES_IN_CODEX_THREAD_2026_07_16_AND_2026_07_17
   phase_gate_owner: HUMAN_FOUNDER
@@ -4381,38 +4583,55 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: NONE
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P1-123_OPERATOR_OWNED_CAPTURE_ADMISSION_AND_P1_EXIT_GATE
+  current_task_status: ACTIVE
   current_task_contract:
-    path: null
-    sha256: null
-    byte_length: null
-  current_task_contract_sha256: null
-  current_execution_authorization: null
-  current_execution_authorization_sha256: null
+    path: docs/aios/tasks/P1-123_OPERATOR_OWNED_CAPTURE_ADMISSION_AND_P1_EXIT_GATE.yaml
+    sha256: 1ca28858203f9516246ccfa83fe43919c5d46b62b1dd563e3670a7249a1079b9
+    byte_length: 21956
+  current_task_contract_sha256: 1ca28858203f9516246ccfa83fe43919c5d46b62b1dd563e3670a7249a1079b9
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-123-operator-owned-capture-20260726/authority/PHASE_DELEGATED_TASK_AUTHORITY.yaml
+  current_execution_authorization_sha256: 5a01d1072a6f350a634496867e9b27dc87dcc685ac1eeab41890632764f7c7f4
   authority_record:
-    path: null
-    sha256: null
-    byte_length: null
-  execution_nonce: null
-  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
-  authorization_id: null
-  activation_parent_commit: null
-  activation_parent_tree: null
-  task_resource_state: NONE_PHASE_ACTIVE
-  task_branch: null
-  task_worktree: null
-  execution_evidence_root: null
-  allowlisted_paths: []
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-123-operator-owned-capture-20260726/authority/PHASE_DELEGATED_TASK_AUTHORITY.yaml
+    sha256: 5a01d1072a6f350a634496867e9b27dc87dcc685ac1eeab41890632764f7c7f4
+    byte_length: 10574
+  execution_nonce: 30202edaf48217258eee350cfc700f6a69a74ce5999f09a7b132e25bf0f13edf
+  execution_nonce_status: ACTIVE
+  authorization_id: PHASE-DELEGATED-P1-123-4F107C87-5C7C-44EE-AED7-F9050F752E57
+  activation_parent_commit: 48f2059395ffe97448b1c1936d6ac90e2c018830
+  activation_parent_tree: 4876cd80d13abdb640e9714a23791f84ba82b674
+  task_resource_state: ACTIVE_UNIQUE_BRANCH_WORKTREE
+  task_branch: codex/p1-123-operator-owned-capture
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-123-operator-owned-capture
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-123-operator-owned-capture-20260726
+  allowlisted_paths:
+    - evaluation-harness/adapters/p1-123-operator-capture
+    - evaluation-harness/harness/p1-123-operator-capture
+    - evaluation-harness/recording/p1-123-operator-capture
+    - evaluation-harness/replay/p1-123-operator-capture
+    - evaluation-harness/validators/p1-123-operator-capture
+    - evaluation-harness/evaluator/p1-123-operator-capture
+    - evaluation-harness/fixtures/p1-123-operator-capture
+    - scripts/verify-p1-123-operator-capture.sh
+    - scripts/validate-current-task-authority.rb
+    - scripts/test-current-task-authority.rb
+    - docs/aios/tasks/P1-123_OPERATOR_OWNED_CAPTURE_ADMISSION_AND_P1_EXIT_GATE.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+    - Makefile
   budget:
-    engineering_hours: null
-    calendar_days: null
-    implementation_iterations: null
-    candidates: null
+    engineering_hours: 40
+    calendar_days: 7
+    implementation_iterations: 2
+    candidates: 1
   roles:
-    owner: null
-    worker: null
-    independent_reviewers: []
+    owner: P1-123 Engineering Manager
+    worker: P1-123 Clean-Room Baseline Worker
+    independent_reviewers:
+      - P1-123 Fresh CTO Reviewer
+      - P1-123 Fresh Security Reviewer
+      - P1-123 Fresh Quality Reviewer
   external_effects:
     network: false
     provider: false
@@ -4421,116 +4640,15 @@ active_work:
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: null
-  founder_reserved_authorization_sha256: null
+  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-phase-gate-operator-capture-20260726/FOUNDER_P1_OPERATOR_OWNED_CREDENTIAL_CAPTURE_AND_OFFLINE_EXIT_GATE_ROUTE_V1.md
+  founder_reserved_authorization_sha256: 78605dcf56c1ba488b6b02496400999cde4563936ce5f9967ee9b5d5409b4233
   founder_decision_required: false
-  founder_decision_required_scope: NONE_WITHIN_ACTIVE_PHASE_ENVELOPE
+  founder_decision_required_scope: NONE_WITHIN_AUTHORIZED_ROUTE_UNTIL_G0_OPERATOR_ACTION
   escalation_reason: null
   user_action_required: NONE
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_P1_PHASE_GATE
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
-  last_terminal_task:
-    task_id: AIOS-P1-122_FOUNDER_PROVIDED_SECRET_IMAGE_ATOMIC_BASELINE_AND_PREREGISTRATION
-    status: TERMINAL_OFFLINE_PREFLIGHT_NON_PASS
-    terminal_contract:
-      path: docs/aios/tasks/P1-122_FOUNDER_PROVIDED_SECRET_IMAGE_ATOMIC_BASELINE_AND_PREREGISTRATION.yaml
-      sha256: 1db84c5895748c22ce3d1246a00958647fb2112078608998cdd064c71e2fb2e2
-      byte_length: 11890
-    rejected_source:
-      commit: 1cd6c97c1382aa29bab33e8d8c7f57a6415fea6a
-      tree: 6f69042409355fbb4758b4c3dfa043d6115ace3a
-      manifest_sha256: 85e5c0c764829787321c289aeb7d265f16681977b0a37cd83036bffb0573c4e2
-    formal_result:
-      offline_preflight: NON_PASS
-      formal_invocations: 1
-      b0_a_accepted_control_status: PASS
-      b0_a_target_execution_count: 1
-      b0_b_started: false
-      preflight_receipt_created: false
-      screenshot_content_reads: 0
-      screenshot_ocr_attempts: 0
-      secret_extractions: 0
-      secret_deliveries: 0
-      diagnostic_sessions: 0
-      provider_requests: 0
-      automatic_retries: 0
-      successful_loopback_connections: 0
-      strict_accepted_completions: 0
-      formal_runs: 0
-    final_reviews:
-      cto: NOT_STARTED_NO_CANDIDATE
-      security: NOT_STARTED_NO_CANDIDATE
-      quality: NOT_STARTED_NO_CANDIDATE
-    candidate_created: false
-    canonical_make_verify: NOT_RUN_NO_INTEGRATION
-    normalized_root_cause: P1122.PREFLIGHT.ACCEPTED_CONTROL.RELATIVE_TRACE_REF_RESOLVED_AGAINST_PROCESS_CWD
-    terminal_receipt:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-122-founder-secret-image-route-20260726/task-1/P1_122_TERMINAL_RECEIPT.json
-      sha256: 80b5a4c0975ea643df88f469c4b3cffe1d005438a1bea00eb4dde3f5a4a4145f
-      byte_length: 6267
-    capability_credit: 0
-    next_task_eligible: false
-  prior_accepted_task_detail:
-    task_id: AIOS-P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION
-    status: FOUNDER_RESIDUAL_ACCEPTED_SECURITY_CORRECTED_COMPLETE
-    terminal_contract:
-      path: docs/aios/tasks/P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION.yaml
-      sha256: 7322f3d3ad36d1c4fd8e64379d7f6bdee230832ae5a7f332b1eb28d0c489ed5d
-      byte_length: 13462
-    terminal_receipt:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-verifier-ledger-correction-20260725/P1_116_CORRECTED_INTEGRATION_RECEIPT.json
-      sha256: 10a4d4d14aa7aa8c69011290b4c232f67c46860883e9827c16f20ff0b99f3020
-      byte_length: 3490
-    accepted_corrected_candidate:
-      commit: f6c074f5273f9ce4dea53418e54ed4083cb274aa
-      tree: c8b80b129ae3b6e048e49b8927864344b17a43cd
-      evidence_tag: evidence/p1-116-verifier-ledger-correction-f6c074f
-    corrected_candidate_manifest:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-verifier-ledger-correction-20260725/CORRECTED_CANDIDATE_MANIFEST.yaml
-      sha256: f418e28d2fa8426f5139eaf79e7688ccfd37bfb917afc38b3afd5fecf947becb
-      byte_length: 3371
-    original_quality_review:
-      result: NON_PASS_FOUNDER_RESIDUAL_ACCEPTED_NOT_REWRITTEN
-      normalized_root_cause: P1116.QUALITY.FORMAL_SUMMARY.NONOWNED_MUTATION_COUNT_MISSING
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-closed-profile-rollback-route-20260725/task-1/reviews/QUALITY_FINAL_REVIEW.md
-      sha256: f9a7a6b51ba57ffb0d9e7a8bd5387a04c04233bc9006035cc666fbc540c3c299
-      byte_length: 8317
-    corrected_cto_review:
-      result: PASS
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-verifier-ledger-correction-20260725/reviews/CTO_FINAL_REVIEW.md
-      sha256: 961edb22f71dc15d121f3bf3e9676ba6b4b10635d2452462ce0176cb90390b94
-      byte_length: 9736
-    corrected_security_review:
-      result: PASS
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-verifier-ledger-correction-20260725/reviews/SECURITY_FINAL_REVIEW.md
-      sha256: 71023b4a89b60d8e77ac2a04c9b0a24917bbfeaeac701529001bb34832792bed
-      byte_length: 10956
-    corrected_quality_review:
-      result: PASS
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-verifier-ledger-correction-20260725/reviews/QUALITY_FINAL_REVIEW.md
-      sha256: 2c04b4227bf1edce3f1b190dd7f7dc28054e0aadb9b8521a4d3b9e64f010d998
-      byte_length: 7812
-    preserved_branch: codex/p1-116-verifier-ledger-correction
-    preserved_worktree: null
-    accepted_canonical_assets_readable: true
-    provider_requests_used: 0
-    secret_reads_used: 0
-    focused_formal_matrix_run: true
-    candidate_created: true
-    final_review_cycle_run: true
-    corrected_tree_integrated: true
-    canonical_make_verify_result: PASS
-    capability_credit: 0
-    next_task_eligible: true
-  last_accepted_task:
-    task_id: AIOS-P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION
-    status: FOUNDER_RESIDUAL_ACCEPTED_SECURITY_CORRECTED_COMPLETE
-    integration_commit: f6c074f5273f9ce4dea53418e54ed4083cb274aa
-    integration_tree: c8b80b129ae3b6e048e49b8927864344b17a43cd
-    integration_receipt_sha256: 10a4d4d14aa7aa8c69011290b4c232f67c46860883e9827c16f20ff0b99f3020
-    capability_credit: 0
-
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: CONTINUE_CURRENT_TASK_G0_PREFLIGHT
 superseded_pre_delegation_authorizations:
   aios_p1_009:
     task_id: AIOS-P1-009_ENVIRONMENT_SNAPSHOT_REPRODUCIBILITY

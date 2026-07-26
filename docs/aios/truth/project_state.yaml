@@ -8038,9 +8038,9 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: P1_ONE_SHOT_FOUNDER_PROVIDED_SECRET_IMAGE_BRIDGE_AND_ATOMIC_EXIT_GATE_ROUTE_V1_TERMINAL_TASK_1
+  current_route_claim: P1_OPERATOR_OWNED_CAPTURE_AND_OFFLINE_BASELINE_EXIT_ROUTE_V1_TERMINAL_TASK_1
   current_task_claim: NONE_FOUNDER_P1_PHASE_GATE
-  real_engineering_progress: P1_101_OBSERVABLE_TRACE_ACCEPTED_STRICT_P1_COMPLETION_75_PERCENT_P1_122_TERMINAL_NO_CAPABILITY_CREDIT
+  real_engineering_progress: P1_101_OBSERVABLE_TRACE_ACCEPTED_STRICT_P1_COMPLETION_75_PERCENT_P1_123_TERMINAL_NO_CAPABILITY_CREDIT
   product_capability_changed: false
   phase_local_allowed:
     - local evaluation foundation engineering under an exact Task Contract
@@ -8114,11 +8114,25 @@ phase_execution_claim:
     - canonical main advance outside an accepted task gate
 
 claim_boundary:
-  current_phase_route: P1_ONE_SHOT_FOUNDER_PROVIDED_SECRET_IMAGE_BRIDGE_AND_ATOMIC_EXIT_GATE_ROUTE_V1_TERMINAL_TASK_1
+  current_phase_route: P1_OPERATOR_OWNED_CAPTURE_AND_OFFLINE_BASELINE_EXIT_ROUTE_V1_TERMINAL_TASK_1
   current_task: NONE
   next_eligible_action: FOUNDER_P1_PHASE_GATE
-  real_engineering_progress: P1_101_OBSERVABLE_TRACE_ACCEPTED_P1_122_OFFLINE_PREFLIGHT_NON_PASS_NO_SECRET_PROVIDER_NETWORK_EFFECT_NO_CAPABILITY_CREDIT_STRICT_P1_COMPLETION_75_PERCENT
+  real_engineering_progress: P1_101_OBSERVABLE_TRACE_ACCEPTED_P1_123_G0_IMPLEMENTATION_ITERATION_EXHAUSTED_NON_PASS_NO_SECRET_PROVIDER_NETWORK_EFFECT_NO_CAPABILITY_CREDIT_STRICT_P1_COMPLETION_75_PERCENT
   product_capability_changed_by_route_activation: false
+  p1_123_status: TERMINAL_G0_IMPLEMENTATION_ITERATION_EXHAUSTED_NON_PASS
+  p1_123_implementation_iterations_used: 2
+  p1_123_code_only_repairs_used: 1
+  p1_123_launcher_executed: false
+  p1_123_secret_reads: 0
+  p1_123_provider_requests: 0
+  p1_123_network_connections: 0
+  p1_123_candidate_created: false
+  p1_123_normalized_root_cause: P1123.REPLAY.RECEIPT_OBJECT_KEY_ORDER_COMPARISON
+  p1_123_failed_snapshot_commit: 53d1a3c43949c6bed362d75a3b37e29f2db3d254
+  p1_123_failed_snapshot_tree: 1d887be0e02d678c44c3c35784483f140bc176d9
+  p1_123_failed_snapshot_manifest_sha256: 82966e471abb112ee62157db355dd1df1d9fa4417f8a107767e41ab13960b9ac
+  p1_123_terminal_receipt_sha256: 0283e15b892d007c66c8d57465cfb33238867a57a7a621ea8a3c3837781bb569
+  p1_123_capability_credit: 0
   p1_122_status: TERMINAL_OFFLINE_PREFLIGHT_NON_PASS
   p1_122_formal_preflight_invocations: 1
   p1_122_accepted_b0_a_controls: 1

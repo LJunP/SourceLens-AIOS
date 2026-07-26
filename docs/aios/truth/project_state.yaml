@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-26T08:42:55Z"
-verification_scope: P1_133_ACTIVE_ACCEPTED_ADAPTER_BOUND_BASELINE_AND_PREREGISTRATION_STRICT_75_PERCENT
+last_verified_at: "2026-07-26T09:12:55Z"
+verification_scope: P1_133_TERMINAL_IMPLEMENTATION_ITERATION_EXHAUSTED_STRICT_75_PERCENT
 
 authority:
   founder: Human Founder
@@ -37,7 +37,7 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: AIOS-P1-133_ACCEPTED_ADAPTER_BOUND_BASELINE_AND_PREREGISTRATION
+  current_task_authority: NONE
   note: >-
     The Founder-approved long-term Goal remains ACTIVE with the exact
     Founder-installed identity. P1-099 remains terminal with its Quality
@@ -244,6 +244,16 @@ goal:
     accepted only that exact cooperative-local test-coverage residual without
     rewriting Quality as PASS and authorized P1-133 as one direct offline
     accepted-adapter-bound baseline and preregistration engineering Task.
+    P1-133 then consumed its initial implementation and sole code-only repair.
+    Both bounded offline runs completed the accepted 36-cell adapter control
+    matrix, including twelve real accepted-P0 B2 scan children, but stopped
+    before complete captured-result evaluation. Iteration 1 rejected an
+    intentional accepted-adapter negative-fixture symlink as an inventory
+    violation; iteration 2 then stopped on a distinct cell-record variable
+    binding fault. The two-iteration budget is exhausted. No candidate, final
+    review, integration, canonical make verify, baseline report,
+    preregistration acceptance or P1 capability credit exists. Strict P1
+    completion remains 6/8 (75%) at the Founder P1 Phase Gate.
 
 project:
   name: SourceLens AIOS
@@ -253,10 +263,10 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  phase_execution_status: ACTIVE
-  p1_execution_status: ACTIVE
-  p1_engineering_status: P1_133_ACCEPTED_ADAPTER_BOUND_BASELINE_AND_PREREGISTRATION_ACTIVE
-  current_route_execution_status: TASK_1_ACTIVE
+  phase_execution_status: FOUNDER_P1_PHASE_GATE
+  p1_execution_status: FOUNDER_P1_PHASE_GATE
+  p1_engineering_status: P1_133_TERMINAL_IMPLEMENTATION_ITERATION_EXHAUSTED_NON_PASS
+  current_route_execution_status: TERMINAL_TASK_1_NON_PASS
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -3746,11 +3756,11 @@ historical_p1_131_phase_route:
 
 current_phase_route:
   route_id: P1_P1_132_EXACT_TEST_RESIDUAL_ACCEPTANCE_AND_DIRECT_EXIT_ENGINEERING_ROUTE_V1
-  status: ACTIVE
-  authority_object_status: FOUNDER_PHASE_GATE_AUTHORITY_CONSUMED_TASK_ACTIVE
-  execution_status: TASK_1_ACTIVE
-  founder_phase_route_decision_required: false
-  scheduling_status: TASK_1_ACTIVE
+  status: TERMINAL
+  authority_object_status: FOUNDER_PHASE_GATE_AUTHORITY_CONSUMED_ROUTE_TERMINAL
+  execution_status: TERMINAL_TASK_1_NON_PASS
+  founder_phase_route_decision_required: true
+  scheduling_status: NO_ELIGIBLE_TASK_ROUTE_EXHAUSTED
   phase: P1
   phase_entry_status: AUTHORIZED
   authorization_token: AUTHORIZE_P1_132_EXACT_TEST_RESIDUAL_ACCEPTANCE_AND_DIRECT_P1_133_EXIT_ENGINEERING_V1
@@ -3821,7 +3831,7 @@ current_phase_route:
   first_task:
     task_id: AIOS-P1-133_ACCEPTED_ADAPTER_BOUND_BASELINE_AND_PREREGISTRATION
     task_slot: 1
-    status: ACTIVE
+    status: TERMINAL_IMPLEMENTATION_ITERATION_EXHAUSTED_NON_PASS
     contract_path: docs/aios/tasks/P1-133_ACCEPTED_ADAPTER_BOUND_BASELINE_AND_PREREGISTRATION.yaml
     contract_sha256: c76ea38837de31b39d5059888a9ec027b28c24d2d4cfb87d5d048c41484e057e
     contract_byte_length: 12242
@@ -3830,24 +3840,29 @@ current_phase_route:
     max_implementation_iterations: 2
     max_candidates: 1
     strict_p1_credit_on_pass: 2
+    strict_p1_credit_awarded: 0
+    rejected_snapshot_commit: 1a3ede3ddbf5c7f10efec565e848cd18278eddf0
+    rejected_snapshot_tree: 0c48fb3c9cc9f4cf6b33cb500edb57a47480b9bd
+    terminal_receipt_sha256: 81bbd1c64dfbf5f538e2855614c0087d8a9a9ee841b986308e5d68e8b1680dfe
   task_plan:
     - task_slot: 1
       task_id: AIOS-P1-133_ACCEPTED_ADAPTER_BOUND_BASELINE_AND_PREREGISTRATION
-      status: ACTIVE
+      status: TERMINAL_IMPLEMENTATION_ITERATION_EXHAUSTED_NON_PASS
       engineering_hours: 36
       calendar_days: 6
       strict_p1_credit_on_pass: 2
   route_execution_accounting:
     maximum_engineering_tasks: 1
     task_slots_consumed: 1
-    active_task_id: AIOS-P1-133_ACCEPTED_ADAPTER_BOUND_BASELINE_AND_PREREGISTRATION
+    active_task_id: null
     scheduled_task_ids:
       - AIOS-P1-133_ACCEPTED_ADAPTER_BOUND_BASELINE_AND_PREREGISTRATION
-    terminal_task_ids: []
+    terminal_task_ids:
+      - AIOS-P1-133_ACCEPTED_ADAPTER_BOUND_BASELINE_AND_PREREGISTRATION
     accepted_task_ids: []
     maximum_engineering_hours: 36
-    engineering_hours_authorized_current_task: 36
-    status: TASK_1_ACTIVE
+    engineering_hours_authorized_current_task: 0
+    status: TERMINAL_TASK_1_NON_PASS
   additional_write_roots: []
   inherited_worktree_inventory:
     - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-063-atomic-offline-b0
@@ -4176,7 +4191,7 @@ mandatory_exit_capability_recovery:
     B0_B1_B2_COMPATIBILITY_ADAPTERS: ACCEPTED_FOUNDER_EXACT_RESIDUAL_INTEGRATION_P1_099
     OBSERVABLE_TRACE: ACCEPTED_P1_101_COOPERATIVE_LOCAL
     EVALUATOR_DISAGREEMENT_AND_FALSE_SUCCESS_CHARACTERIZATION: ACCEPTED_P1_070_COOPERATIVE_LOCAL
-    REPRODUCIBLE_BASELINE_REPORT: TERMINAL_P1_131_FINAL_REVIEW_TARGET_NON_PASS_NO_CREDIT
+    REPRODUCIBLE_BASELINE_REPORT: TERMINAL_P1_133_IMPLEMENTATION_ITERATION_EXHAUSTED_NON_PASS_NO_CREDIT
   capability_attempt_ledger:
     VERSIONED_REPRESENTATIVE_TASK_DATASET:
       status: ACCEPTED
@@ -4983,52 +4998,38 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: NONE
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
-  current_task: AIOS-P1-133_ACCEPTED_ADAPTER_BOUND_BASELINE_AND_PREREGISTRATION
-  current_task_status: ACTIVE
+  current_task: NONE
+  current_task_status: FOUNDER_P1_PHASE_GATE
   current_task_contract:
-    path: docs/aios/tasks/P1-133_ACCEPTED_ADAPTER_BOUND_BASELINE_AND_PREREGISTRATION.yaml
-    sha256: c76ea38837de31b39d5059888a9ec027b28c24d2d4cfb87d5d048c41484e057e
-    byte_length: 12242
-  current_task_contract_sha256: c76ea38837de31b39d5059888a9ec027b28c24d2d4cfb87d5d048c41484e057e
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-133-accepted-adapter-bound-exit-20260726/task/authority/PHASE_DELEGATED_TASK_AUTHORITY.yaml
-  current_execution_authorization_sha256: d76258668114c080b2eecfa83655195debeca4e227b2f776e45e7cb8a001c0d1
+    path: null
+    sha256: null
+    byte_length: null
+  current_task_contract_sha256: null
+  current_execution_authorization: null
+  current_execution_authorization_sha256: null
   authority_record:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-133-accepted-adapter-bound-exit-20260726/task/authority/PHASE_DELEGATED_TASK_AUTHORITY.yaml
-    sha256: d76258668114c080b2eecfa83655195debeca4e227b2f776e45e7cb8a001c0d1
-    byte_length: 2995
-  execution_nonce: P1-133-NONCE-20260726T084255Z
-  execution_nonce_status: ACTIVE
-  authorization_id: P1-133-AUTH-20260726T084255Z
-  activation_parent_commit: 248d5a9468ab8f5a1b2dd684c16eadfb9de41cba
-  activation_parent_tree: cc132349cd82fbd073b154701695f78bf9ba889b
-  task_resource_state: ACTIVE
-  task_branch: codex/p1-133-accepted-adapter-bound-baseline
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-133-accepted-adapter-bound-baseline
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-133-accepted-adapter-bound-exit-20260726/task/evidence
-  allowlisted_paths:
-    - evaluation-harness/harness/p1-133-accepted-adapter-bound-baseline
-    - evaluation-harness/recording/p1-133-accepted-adapter-bound-baseline
-    - evaluation-harness/replay/p1-133-accepted-adapter-bound-baseline
-    - evaluation-harness/evaluator/p1-133-accepted-adapter-bound-baseline
-    - evaluation-harness/fixtures/p1-133-accepted-adapter-bound-baseline
-    - scripts/verify-p1-133-accepted-adapter-bound-baseline.sh
-    - scripts/test-current-task-authority.rb
-    - docs/aios/tasks/P1-133_ACCEPTED_ADAPTER_BOUND_BASELINE_AND_PREREGISTRATION.yaml
-    - docs/aios/truth/project_state.yaml
-    - docs/PROJECT_CODE_MAP.md
-    - Makefile
+    path: null
+    sha256: null
+    byte_length: null
+  execution_nonce: null
+  execution_nonce_status: NONE
+  authorization_id: null
+  activation_parent_commit: null
+  activation_parent_tree: null
+  task_resource_state: NO_ACTIVE_TASK
+  task_branch: null
+  task_worktree: null
+  execution_evidence_root: null
+  allowlisted_paths: []
   budget:
-    engineering_hours: 36
-    calendar_days: 6
-    implementation_iterations: 2
-    candidates: 1
+    engineering_hours: null
+    calendar_days: null
+    implementation_iterations: null
+    candidates: null
   roles:
-    owner: P1-133 Engineering Manager
-    worker: P1-133 Baseline Composition Worker
-    independent_reviewers:
-      - P1-133 Fresh CTO Reviewer
-      - P1-133 Fresh Security Reviewer
-      - P1-133 Fresh Quality Reviewer
+    owner: null
+    worker: null
+    independent_reviewers: []
   external_effects:
     network: false
     provider: false
@@ -5037,28 +5038,24 @@ active_work:
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-133-accepted-adapter-bound-exit-20260726/founder/FOUNDER_P1_132_EXACT_TEST_RESIDUAL_ACCEPTANCE_AND_DIRECT_P1_133_EXIT_ENGINEERING_V1.md
-  founder_reserved_authorization_sha256: cc690bfbd6d0b2701b0793e1664a2dc3c2a88198b67e92484ccf1ecf6c8f84a7
-  founder_decision_required: false
-  founder_decision_required_scope: NONE_WITHIN_ACTIVE_TASK_ENVELOPE
-  escalation_reason: null
-  user_action_required: NONE
-  phase_route_decision_required: false
-  phase_route_user_action_required: NONE
-  next_eligible_action: EXECUTE_P1_133_WITHIN_ACTIVE_TASK_ENVELOPE
+  founder_reserved_authorization: null
+  founder_reserved_authorization_sha256: null
+  founder_decision_required: true
+  founder_decision_required_scope: P1_PHASE_ROUTE_AFTER_TASK_IMPLEMENTATION_ITERATION_EXHAUSTION
+  escalation_reason: P1_133_IMPLEMENTATION_ITERATION_EXHAUSTED_NON_PASS
+  user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
+  phase_route_decision_required: true
+  phase_route_user_action_required: SELECT_NEXT_P1_ROUTE_OR_STOP_P1
+  next_eligible_action: FOUNDER_P1_PHASE_GATE
   last_terminal_task:
-    task_id: AIOS-P1-132_HISTORICAL_WORKTREE_TRUTH_COMPATIBILITY
-    status: TERMINAL_FINAL_QUALITY_TARGET_NON_PASS
-    normalized_root_cause: P1132.FINAL_QUALITY.PROFILE_SET_COVERAGE_AND_CONTRACT_EVIDENCE_CONTRADICTION
-    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-132-historical-worktree-compatibility-20260726/task-1/terminal/P1_132_TERMINAL_RECEIPT.json
-    terminal_receipt_sha256: 13d41781312bd1c23378aa5210dfbbd72a0ba5214772a0f32a04125cdfc6ef7b
-    candidate_commit: 4a56ef37794aad9ec90bfa5254ce720e4cc13cb4
-    candidate_tree: ea281092e363ef792d5aed5ebf4325922154d7b5
-    candidate_manifest_sha256: db4e123253c06ad3049fd3700231220cd5da1abb79b36b859a71d035cd0a771e
-    cto_review_sha256: ed82843c3de73affe9042dfa6548432c13bb56aec5cff8f74f21200147f6fb89
-    security_review_sha256: 338ff33dcc68db52211a5d0a1b7541ba548476a2a703dc33dc3a1287db9046bd
-    quality_review_sha256: 31e337dba63e6662b9c54554cfd7af8f22a00df4ef34b0d0f070549a09657d88
-    candidate_created: true
+    task_id: AIOS-P1-133_ACCEPTED_ADAPTER_BOUND_BASELINE_AND_PREREGISTRATION
+    status: TERMINAL_IMPLEMENTATION_ITERATION_EXHAUSTED_NON_PASS
+    normalized_root_cause: P1133.ITERATION2.CELL_RECORD_RAW_INPUT_BINDING_VARIABLE_NAME_FAULT
+    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-133-accepted-adapter-bound-exit-20260726/task/terminal/P1_133_TERMINAL_RECEIPT.json
+    terminal_receipt_sha256: 81bbd1c64dfbf5f538e2855614c0087d8a9a9ee841b986308e5d68e8b1680dfe
+    rejected_snapshot_commit: 1a3ede3ddbf5c7f10efec565e848cd18278eddf0
+    rejected_snapshot_tree: 0c48fb3c9cc9f4cf6b33cb500edb57a47480b9bd
+    candidate_created: false
     candidate_integrated: false
     capability_credit: 0
 superseded_pre_delegation_authorizations:
@@ -5077,6 +5074,28 @@ superseded_pre_delegation_authorizations:
     note: The engineering objective may be selected independently by Master, but these pre-delegation bytes require a routine per-Task Founder Gate and cannot be activated under the current authority model.
 
 task_history:
+  aios_p1_133:
+    task_id: AIOS-P1-133_ACCEPTED_ADAPTER_BOUND_BASELINE_AND_PREREGISTRATION
+    route_id: P1_P1_132_EXACT_TEST_RESIDUAL_ACCEPTANCE_AND_DIRECT_EXIT_ENGINEERING_ROUTE_V1
+    status: TERMINAL_IMPLEMENTATION_ITERATION_EXHAUSTED_NON_PASS
+    contract: docs/aios/tasks/P1-133_ACCEPTED_ADAPTER_BOUND_BASELINE_AND_PREREGISTRATION.yaml
+    activation_contract_sha256: c76ea38837de31b39d5059888a9ec027b28c24d2d4cfb87d5d048c41484e057e
+    authority_sha256: d76258668114c080b2eecfa83655195debeca4e227b2f776e45e7cb8a001c0d1
+    implementation_iterations_used: 2
+    code_only_repairs_used: 1
+    first_root_cause: P1133.ITERATION1.ADAPTER_CONTROL_INTENTIONAL_SYMLINK_REJECTED_BY_OUTPUT_INVENTORY
+    terminal_root_cause: P1133.ITERATION2.CELL_RECORD_RAW_INPUT_BINDING_VARIABLE_NAME_FAULT
+    accepted_adapter_positive_controls_per_iteration: 36
+    accepted_adapter_b2_real_scan_children_per_iteration: 12
+    rejected_snapshot_commit: 1a3ede3ddbf5c7f10efec565e848cd18278eddf0
+    rejected_snapshot_tree: 0c48fb3c9cc9f4cf6b33cb500edb57a47480b9bd
+    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-133-accepted-adapter-bound-exit-20260726/task/terminal/P1_133_TERMINAL_RECEIPT.json
+    terminal_receipt_sha256: 81bbd1c64dfbf5f538e2855614c0087d8a9a9ee841b986308e5d68e8b1680dfe
+    candidate_created: false
+    final_reviews_started: false
+    candidate_integrated: false
+    canonical_make_verify: NOT_INVOKED_NO_CANDIDATE_OR_INTEGRATION
+    capability_credit: 0
   aios_p1_129:
     task_id: AIOS-P1-129_EXACT_INPUT_BOUNDARY_SECURITY_MATRIX_COMPLETION
     route_id: P1_BOUNDED_SECURITY_MATRIX_COMPLETION_AND_STANDARD_CAPTURE_EXIT_ROUTE_V1
@@ -8611,6 +8630,7 @@ phase_execution_claim:
     - AIOS-P1-104 completed a new clean-room offline transaction preflight with exact controlled materialization and rollback, zero Secret reads, zero Provider requests and no external effects. The frozen 6-task by 3-profile compatibility check proved that the accepted B1 and B2 adapters each support only REP-001, leaving ten required pairs incompatible. The Task stopped before any Provider matrix, candidate, final review, canonical integration or capability credit; P1-105 is ineligible and the route is terminal at the Founder P1 Phase Gate.
     - AIOS-P1-109 consumed its two pre-freeze implementation iterations and stopped before formal offline preflight, Secret read or Provider use. Exact accepted-contract checking proved one EnvironmentSnapshot matches only REP-001, the numeric RunRecord cost schema conflicts with the Founder-authorized unavailable-metering state, and normative B1/B2 source semantics conflict with the exact restricted-source egress prohibition; a developer-only hardened macOS Node sandbox probe also left four zero-CPU exiting uninterruptible processes. No formal matrix, candidate, final review, integration or P1 capability credit exists; P1-110 is ineligible and the route is terminal at the Founder P1 Phase Gate.
     - AIOS-P1-112 froze one exact accepted-scanner admission candidate and its focused matrix reported two real scans, eleven rejected negatives, zero false accepts and no Cargo build. Fresh CTO final review returned TARGET NON_PASS because external-effect observation was self-asserted rather than measured and the frozen Evidence omitted mandatory raw run, ledger, rollback and isolated negative materials. Security and Quality reviews were stopped, the candidate was not integrated, P1-113 is ineligible, and strict P1 completion remains 75% without a correction or successor chain.
+    - AIOS-P1-133 consumed its initial implementation and sole code-only repair. Each bounded offline attempt completed the accepted P1-129 36-cell adapter control matrix with twelve real accepted-P0 B2 scan children, but iteration 1 stopped when the composite inventory rejected an intentional negative-fixture symlink and iteration 2 stopped on a distinct cell-record raw-input variable binding fault. The two-iteration budget is exhausted; no candidate, final review, integration, canonical make verify, accepted baseline report, accepted preregistration or P1 credit exists. The route is terminal at strict P1 completion 75% without a third repair, correction, successor or replacement.
     - Historical four-slice ordering and attempt routing have no current scheduling authority.
     - Peripheral validators, auxiliary governance tools and work without direct P1 Exit Gate value are ineligible.
   not_authorized_in_current_phase:
@@ -8630,10 +8650,20 @@ phase_execution_claim:
     - canonical main advance outside an accepted task gate
 
 claim_boundary:
-  current_phase_route: P1_HISTORICAL_WORKTREE_COMPATIBILITY_AND_ACCEPTED_ADAPTER_BOUND_EXIT_ROUTE_V1_TERMINAL_TASK_1_NON_PASS
+  current_phase_route: P1_P1_132_EXACT_TEST_RESIDUAL_ACCEPTANCE_AND_DIRECT_EXIT_ENGINEERING_ROUTE_V1_TERMINAL_TASK_1_NON_PASS
   current_task: NONE
   next_eligible_action: FOUNDER_P1_PHASE_GATE
-  real_engineering_progress: P1_132_AUTHORITY_TEST_IMPROVEMENT_REJECTED_FINAL_QUALITY_NO_CREDIT_STRICT_P1_COMPLETION_75_PERCENT
+  real_engineering_progress: P1_133_TWO_BOUNDED_OFFLINE_IMPLEMENTATION_ITERATIONS_TERMINAL_NO_CANDIDATE_NO_CREDIT_STRICT_P1_COMPLETION_75_PERCENT
+  p1_133_status: TERMINAL_IMPLEMENTATION_ITERATION_EXHAUSTED_NON_PASS
+  p1_133_implementation_iterations_used: 2
+  p1_133_code_only_repairs_used: 1
+  p1_133_accepted_adapter_positive_controls_per_iteration: 36
+  p1_133_b2_real_scan_children_per_iteration: 12
+  p1_133_complete_captured_result_evaluation: false
+  p1_133_candidate_created: false
+  p1_133_candidate_integrated: false
+  p1_133_capability_credit: 0
+  p1_133_terminal_receipt_sha256: 81bbd1c64dfbf5f538e2855614c0087d8a9a9ee841b986308e5d68e8b1680dfe
   p1_132_status: TERMINAL_FINAL_QUALITY_TARGET_NON_PASS
   p1_132_candidate_integrated: false
   p1_132_task_2_eligible: false

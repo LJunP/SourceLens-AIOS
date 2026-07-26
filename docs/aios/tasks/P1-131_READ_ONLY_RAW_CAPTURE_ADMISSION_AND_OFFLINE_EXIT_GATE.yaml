@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P1-131_READ_ONLY_RAW_CAPTURE_ADMISSION_AND_OFFLINE_EXIT_GATE
 phase: P1
 route_id: P1_EXACT_RAW_CAPTURE_EVIDENCE_ADMISSION_AND_OFFLINE_EXIT_GATE_COMPLETION_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
 objective: >-
   Independently admit the exact immutable 149-file P1-130 raw capture as
   read-only Evidence, reconstruct all 36 formal B0/B1/B2 outcomes offline, and
@@ -156,3 +156,32 @@ claim_boundary: >-
   preregistration only. No direct OpenAI provenance, model quality, P2/P3
   entry, remote, production, public, hostile-principal or strong-isolation
   claim.
+terminal_result:
+  status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+  candidate_commit: e09b8a927f1962662ebe12f862eeb21935821833
+  candidate_tree: 60b3edca6166c6f8cbcc7641302089db6e362bfe
+  candidate_manifest_sha256: 205a1b90948ebc874b770275017eb8c3e035ded7cf0ec8c1fd36721b9f51bc3f
+  evidence_tag: evidence/p1-131-candidate-e09b8a9-20260726
+  formal_result:
+    scheduled: 36
+    successful: 21
+    failed: 15
+    invalid: 0
+    false_successes: 0
+    vtsr: 21/36
+  final_reviews:
+    cto_target_verdict: NON_PASS
+    cto_review_sha256: 6e99c2b4896e4f66930727968570e1c0db453136d6bc098fc96d55c493abf4ff
+    security_target_verdict: NON_PASS
+    security_review_sha256: fbafffc775e1e00324ae317a2dea6ae985c4d1f3fea7e598cb371db48d99be39
+    quality_status: INTERRUPTED_AFTER_BLOCKING_NON_PASS
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-131-raw-capture-admission-20260726/terminal/P1_131_TERMINAL_RECEIPT.json
+    sha256: 99edc864422f65bc6f0459a240fc0a58f170574d4fb8f9ada3b4dfabfa5a69d6
+    byte_length: 3054
+  candidate_integrated: false
+  canonical_make_verify_invoked: false
+  reproducible_baseline_report_accepted: false
+  p2_context_engine_preregistration_accepted: false
+  strict_p1_completion: 6_OF_8_75_PERCENT
+  repair_or_second_candidate_allowed: false

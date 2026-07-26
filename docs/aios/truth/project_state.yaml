@@ -3114,7 +3114,7 @@ current_phase_route:
     max_task_worktrees: 1
     max_active_candidates: 1
     max_contract_corrections_per_task: 0
-    max_same_task_repairs: 1
+    max_same_task_repairs: 0
     successor_replacement_normalization_closure_feasibility_or_remediation_chain_allowed: false
     p2_entry_authorized: false
     p3_entry_authorized: false

@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P2-001_TASK_CONDITIONED_CONTEXT_SELECTION_VERTICAL_SLICE
 phase: P2
 route_id: P2_REPOSITORY_INTELLIGENCE_VERTICAL_SLICE_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_FINAL_QUALITY_TARGET_RECALL_NON_PASS
 
 objective: >-
   Implement and falsify one real offline task-conditioned repository context
@@ -223,3 +223,42 @@ claim_boundary: >-
   selection vertical-slice evidence only. PASS does not establish general
   ecosystem performance, a trustworthy Agent, P3 readiness, production use,
   remote safety or hostile-principal isolation.
+
+terminal_outcome:
+  normalized_root_cause: P2001.FINAL_QUALITY.TARGET_RECALL_BELOW_FROZEN_THRESHOLD
+  implementation_iterations_used: 2_OF_2
+  same_task_code_only_repairs_used: 1_OF_1
+  initial_candidate_commit: e7aae2c2363ed886e92b6478584aecd1cf77c7f9
+  initial_candidate_tree: 64e882db6d544b562c56ccf14e1a635756c229bf
+  final_candidate_commit: c14fe15d926f6475ca72a79091a803e52c11ddf0
+  final_candidate_tree: ae37d6dc7a4bdd58c4c9640c182e5445f6aac5ae
+  final_candidate_manifest_sha256: b6224e18eda16e941442d135b3a7e5a14cecf765491435d628f577f61059d129
+  evidence_tag: evidence/p2-001-candidate-c14fe15-20260726
+  final_security_target_verdict: PASS
+  final_security_review_sha256: 459241bf8169013e50ab7e888687e48ad0bc6de85d6d1d991f6086abfdd30de6
+  final_quality_target_verdict: NON_PASS
+  final_quality_reason_code: TARGET_RECALL_NON_PASS
+  frozen_baseline_identity: PASS
+  frozen_baseline_hits: 13_OF_24
+  target_hits: 11_OF_24
+  target_recall_at_10: 0.4583333333333333
+  required_target_hits: 18_OF_24
+  required_target_recall_at_10: 0.75
+  absolute_delta: -0.08333333333333333
+  selected_byte_gates: PASS_BOTH_TASKS
+  query_only_p95_gate: PASS
+  replay: PASS_BOTH_TASKS
+  negative_matrix: PASS_14_OF_14_ZERO_FALSE_ACCEPTS
+  external_effects_all_zero: true
+  final_quality_receipt_sha256: 7bb35d6e6c8403c6e1325430a27630b5c968734325b6bf5d8bab39ad5dd32776
+  final_cto_status: INTERRUPTED_AFTER_BLOCKING_QUALITY_NON_PASS
+  candidate_integrated: false
+  canonical_make_verify_invoked: false
+  accepted_capability: false
+  capability_credit: 0
+  p2_002_entry: INELIGIBLE
+  route_status: TERMINAL_EXPLICIT_ROUTE_STOP_CONDITION
+  additional_repair_successor_or_replacement_allowed: false
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-001-context-selection-20260726/task/terminal/P2_001_TERMINAL_RECEIPT.json
+    sha256: 1c57e4bf13a0986da2b3d9b2a47e7454da7a5c7091415fdd21baa5c970e54a8d

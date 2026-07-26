@@ -3777,7 +3777,7 @@ current_phase_route:
     max_task_branches: 1
     max_task_worktrees: 1
     max_active_candidates: 1
-    max_contract_corrections_per_task: 0
+    max_contract_corrections_per_task: 1
     max_same_task_repairs: 1
     successor_replacement_normalization_closure_feasibility_or_remediation_chain_allowed: false
     p2_entry_authorized: false
@@ -3816,8 +3816,8 @@ current_phase_route:
     task_slot: 1
     status: ACTIVE
     contract_path: docs/aios/tasks/P1-132_HISTORICAL_WORKTREE_TRUTH_COMPATIBILITY.yaml
-    contract_sha256: b957bf962c64bdd77ebff09dc3c1139c17dd0ed39b46d7b09df5551a6ea4ed26
-    contract_byte_length: 7227
+    contract_sha256: ba7fdb60be40ed1ec1ae93b682b330d06f9b9dedf7c3c9734be1873064fbd87e
+    contract_byte_length: 7515
     max_engineering_hours: 4
     max_calendar_days: 1
     max_implementation_iterations: 2
@@ -4968,14 +4968,14 @@ active_work:
   current_task_status: ACTIVE
   current_task_contract:
     path: docs/aios/tasks/P1-132_HISTORICAL_WORKTREE_TRUTH_COMPATIBILITY.yaml
-    sha256: b957bf962c64bdd77ebff09dc3c1139c17dd0ed39b46d7b09df5551a6ea4ed26
-    byte_length: 7227
-  current_task_contract_sha256: b957bf962c64bdd77ebff09dc3c1139c17dd0ed39b46d7b09df5551a6ea4ed26
+    sha256: ba7fdb60be40ed1ec1ae93b682b330d06f9b9dedf7c3c9734be1873064fbd87e
+    byte_length: 7515
+  current_task_contract_sha256: ba7fdb60be40ed1ec1ae93b682b330d06f9b9dedf7c3c9734be1873064fbd87e
   current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-132-historical-worktree-compatibility-20260726/task-1/authority/PHASE_DELEGATED_TASK_AUTHORITY.yaml
-  current_execution_authorization_sha256: f16af42531bb28d3d03cc346dd772e846324241b8cec103f5ae82498a915699c
+  current_execution_authorization_sha256: bc7224549d696e6f19302d3af9f494d6460ceafe3c901d51287f66cfd52ff4e5
   authority_record:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-132-historical-worktree-compatibility-20260726/task-1/authority/PHASE_DELEGATED_TASK_AUTHORITY.yaml
-    sha256: f16af42531bb28d3d03cc346dd772e846324241b8cec103f5ae82498a915699c
+    sha256: bc7224549d696e6f19302d3af9f494d6460ceafe3c901d51287f66cfd52ff4e5
     byte_length: 2561
   execution_nonce: a55ae96a336a313abe84e4ea930effb999862822663809ea98e521c0a54615b3
   execution_nonce_status: ACTIVE

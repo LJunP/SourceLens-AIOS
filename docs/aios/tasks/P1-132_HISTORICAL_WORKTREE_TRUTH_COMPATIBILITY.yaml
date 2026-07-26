@@ -90,7 +90,8 @@ architecture_constraints:
   - Historical worktrees remain registered, read-only, terminal, out of scope and unavailable as source or execution authority.
   - An undeclared extra worktree remains a stable authority NON_PASS.
   - Only one active Task branch, worktree and candidate may exist.
-  - Existing validator code must not change when current semantics already satisfy the target.
+  - Existing validator code must not change because current semantics already satisfy the target.
+  - The authority test may change only to require an empty Founder profile set for offline packets while retaining exact Task/profile equality for profile-bearing packets.
 acceptance_criteria:
   - The Founder packet, Goal, canonical parent, Contract and authority identities are exact.
   - Current-route inherited_worktree_inventory exactly equals every registered noncanonical terminal worktree other than the declared active P1-132 worktree.
@@ -98,7 +99,8 @@ acceptance_criteria:
   - Canonical main plus inherited inventory plus the declared P1-132 worktree passes the main authority validator.
   - The P1 safety entry calls the same authority core and passes with identical worktree semantics.
   - The authority test suite proves an undeclared extra worktree remains NON_PASS.
-  - No validator or validator-test source bytes change because the required semantics already exist.
+  - Validator source bytes remain unchanged.
+  - The authority test accepts an empty Founder profile set only for an offline packet and retains exact ordered Task/profile equality for every profile-bearing packet.
   - No historical worktree content is read, modified, deleted, staged or reused.
   - One exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS over the same bytes.
   - Reviewed tree equals integrated tree and one canonical make verify passes.

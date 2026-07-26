@@ -1,0 +1,172 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P2-003_ACCEPTED_REPOSITORY_GRAPH_INDEX_VERTICAL_SLICE
+phase: P2
+route_id: P2_ACCEPTED_REPOSITORY_GRAPH_INDEX_AND_CONTEXT_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Build and falsify one executable offline repository symbol/dependency graph
+  index and query vertical slice from canonical accepted
+  repository_analysis.scan outputs and canonical analyzer assets.
+why_now: >-
+  P2-001 demonstrated that another file-local lexical reranker does not create
+  measured repository-intelligence value. Canonical TypeScript and Rust
+  analysis emits symbols but no relations, so relation extraction and a
+  source-bound graph index are the shortest real engineering prerequisite for
+  graph-conditioned context selection.
+task_spec_ref: /Users/lijunpeng/Developer/.sourcelens-audit/p2-phase-gate-after-p2-001-20260726/proposal/FOUNDER_P2_ACCEPTED_GRAPH_INDEX_AND_CONTEXT_ROUTE_V1.md
+owner_role: P2-003 Engineering Manager
+worker_role: P2-003 Graph Index Worker
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+risk_level: high
+budget:
+  engineering_hours: 24
+  calendar_days: 7
+  implementation_iterations: 2
+  candidates: 1
+roles:
+  owner: P2-003 Engineering Manager
+  worker: P2-003 Graph Index Worker
+  independent_reviewers:
+    - P2-003 Fresh CTO Reviewer
+    - P2-003 Fresh Security Reviewer
+    - P2-003 Fresh Quality Reviewer
+allowlisted_paths:
+  - analyzer-rust
+  - evaluation-harness/datasets/p2-repository-graph-v1
+  - evaluation-harness/evaluator/p2-repository-graph-v1
+  - evaluation-harness/harness/p2-repository-graph-v1
+  - evaluation-harness/replay/p2-repository-graph-v1
+  - scripts/verify-p2-003-repository-graph.sh
+  - scripts/validate-current-task-authority.rb
+  - scripts/test-current-task-authority.rb
+  - docs/aios/tasks/P2-003_ACCEPTED_REPOSITORY_GRAPH_INDEX_VERTICAL_SLICE.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+  - Makefile
+write_scope:
+  worker:
+    - analyzer-rust
+    - evaluation-harness/harness/p2-repository-graph-v1
+    - evaluation-harness/replay/p2-repository-graph-v1
+    - scripts/verify-p2-003-repository-graph.sh
+    - Makefile
+  quality:
+    - evaluation-harness/datasets/p2-repository-graph-v1
+    - evaluation-harness/evaluator/p2-repository-graph-v1
+  integration:
+    - scripts/validate-current-task-authority.rb
+    - scripts/test-current-task-authority.rb
+    - docs/aios/tasks/P2-003_ACCEPTED_REPOSITORY_GRAPH_INDEX_VERTICAL_SLICE.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+    - Makefile
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - canonical accepted repository_analysis.scan assets
+  - canonical analyzer-rust implementation
+  - exact independent P2-003 Quality freeze
+dependencies:
+  - ACCEPTED_CANONICAL_P0_REPOSITORY_ANALYSIS_SCAN
+  - CANONICAL_ANALYZER_RUST
+  - EXACT_P2_003_QUALITY_FREEZE
+historical_isolation:
+  p2_001_status: TERMINAL_FINAL_QUALITY_TARGET_RECALL_NON_PASS
+  p2_001_terminal_receipt_read_allowed: true
+  p2_001_final_reviews_read_allowed: true
+  p2_001_source_fixture_test_diff_candidate_or_implementation_read_allowed: false
+  all_other_rejected_engineering_assets_readable_or_reusable: false
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-phase-gate-after-p2-001-20260726/proposal/FOUNDER_P2_ACCEPTED_GRAPH_INDEX_AND_CONTEXT_ROUTE_V1.md
+  sha256: 7b5ff84dde8f269c1fe9924fd820b74b8169a666223530728d0695e16699cddd
+  byte_length: 8178
+  authorization_token: AUTHORIZE_P2_ACCEPTED_REPOSITORY_GRAPH_INDEX_AND_GRAPH_CONDITIONED_CONTEXT_ROUTE_V1
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+founder_reserved_profile: null
+architecture_constraints:
+  - Use accepted scan symbols, relations and dependency graph as the primary substrate.
+  - Extract real source-bound import, call and type relations from Java, TypeScript and Rust fixtures.
+  - Every internal edge resolves to an indexed symbol; external or unresolved endpoints are explicitly typed.
+  - Emit deterministic file, symbol, relation, span and identity evidence.
+  - Maintain closed input and output inventories with exact byte accounting.
+  - Provide stable projection, independent replay and physical rollback.
+  - Do not build a database, Agent Runtime, model or embedding layer, planner, open shell, new authority framework or strong-isolation system.
+quality_freeze:
+  external_root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-003-repository-graph-index-20260726/quality-freeze-v1
+  status: FROZEN_BEFORE_WORKER_SOURCE_MUTATION
+  required_languages:
+    - Java
+    - TypeScript
+    - Rust
+  required_relation_kinds:
+    - import
+    - call
+    - type
+  required_negative_classes:
+    - TREE_DRIFT
+    - PATH_ESCAPE
+    - SYMLINK
+    - MISSING_SYMBOL
+    - DANGLING_INTERNAL_EDGE
+    - DUPLICATE_IDENTITY
+    - OUTPUT_MUTATION
+    - OUTPUT_REORDER
+acceptance_criteria:
+  - The exact accepted repository_analysis.scan implementation is invoked on each declared representative fixture.
+  - Each Java, TypeScript and Rust fixture yields its frozen required symbols and physical import, call and type relation spans.
+  - Every indexed file, symbol and relation carries exact deterministic identity and source-span evidence.
+  - Every internal relation endpoint resolves to an indexed symbol; external and unresolved references are explicitly classified.
+  - Deterministic ordering, stable projection, fresh replay and rollback all pass.
+  - Closed input and output inventories and exact byte accounting pass.
+  - All eight real-filesystem negative classes reject with stable categories.
+  - False accepts and all six external-effect classes equal zero.
+  - Focused verification and Task-worktree make verify pass before one candidate freeze.
+  - One exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS on the same bytes.
+  - Reviewed tree equals integrated canonical tree and one canonical make verify passes.
+required_evidence:
+  - Exact Founder packet, Goal, activation-parent, Contract and authority identities.
+  - Independent frozen Quality fixture, oracle, output contract and negative matrix identities.
+  - Raw accepted scan outputs plus graph file, symbol, relation and span records.
+  - Positive matrix, graph-integrity, stable projection, replay and rollback receipts.
+  - Eight isolated real-filesystem negative fixtures and zero-effect aggregate.
+  - Exact candidate commit, tree, diff/hash manifest and recoverable Evidence tag.
+  - Fresh CTO, Security and Quality reviews of the same candidate and Evidence bytes.
+  - Reviewed-tree versus integrated-tree equality and one canonical make verify result.
+rollback:
+  strategy: DISPOSABLE_FIXTURE_CLEANUP_AND_NON_DESTRUCTIVE_GIT_REVERT_AFTER_CANONICAL_INTEGRATION
+  forbidden:
+    - git reset
+    - git clean
+    - destructive history rewrite
+stop_conditions:
+  - Canonical start, Goal or Founder packet identity drifts.
+  - Accepted scan or graph assets cannot support the Task without Phase expansion.
+  - The initial implementation and sole same-Task code-only repair are exhausted.
+  - The same normalized root cause repeats in adjacent iterations.
+  - A false accept, Secret, Provider request, network connection or other external effect occurs.
+  - Any final Reviewer returns TARGET_VERDICT NON_PASS.
+  - Reviewed and integrated trees differ or canonical make verify returns NONPASS.
+  - Evidence is overwritten or deleted, or the P2 Objective, Phase boundary or claim boundary changes.
+claim_boundary: >-
+  One cooperative-local offline source-bound repository symbol/dependency graph
+  index and query vertical slice over canonical accepted scan/analyzer assets.
+  No graph-conditioned benchmark credit, P3 entry, database, Agent Runtime,
+  model or embedding, open shell, remote, production, public,
+  hostile-principal or strong-isolation claim.

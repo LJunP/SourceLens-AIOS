@@ -1064,7 +1064,9 @@ module CurrentTaskAuthority
   def packet_claims(packet_bytes)
     text = packet_bytes.dup.force_encoding(Encoding::UTF_8)
     assert(text.valid_encoding?, "decision packet must be valid UTF-8")
-    if text.include?("AUTHORIZE_P1_PARTIAL_EXIT_WITH_DISCLOSED_RESIDUALS_AND_DIRECT_P2_REPOSITORY_INTELLIGENCE_PHASE_ENTRY_V1")
+    if text.include?("AUTHORIZE_P2_ACCEPTED_REPOSITORY_GRAPH_INDEX_AND_GRAPH_CONDITIONED_CONTEXT_ROUTE_V1")
+      p2_graph_route_packet_claims(text)
+    elsif text.include?("AUTHORIZE_P1_PARTIAL_EXIT_WITH_DISCLOSED_RESIDUALS_AND_DIRECT_P2_REPOSITORY_INTELLIGENCE_PHASE_ENTRY_V1")
       p2_repository_intelligence_route_packet_claims(text)
     elsif text.include?("AUTHORIZE_P1_OPERATOR_OWNED_CREDENTIAL_CAPTURE_AND_OFFLINE_EXIT_GATE_ROUTE_V1")
       operator_capture_route_packet_claims(text)
@@ -1075,6 +1077,98 @@ module CurrentTaskAuthority
     else
       legacy_route_packet_claims(text)
     end
+  end
+
+  def p2_graph_route_packet_claims(text)
+    token = "AUTHORIZE_P2_ACCEPTED_REPOSITORY_GRAPH_INDEX_AND_GRAPH_CONDITIONED_CONTEXT_ROUTE_V1"
+    assert(text.scan(token).length == 1,
+           "P2 graph decision packet must contain the exact authorization token once")
+    route_id = one_packet_match(
+      text,
+      /Start one new P2 architecture route:\s+`(P2_[A-Z0-9_]+_ROUTE_V[0-9]+)`/,
+      "P2 graph route id"
+    )
+    parent_commit = one_packet_match(
+      text,
+      /- canonical commit: `([0-9a-f]{40})`/,
+      "P2 graph activation parent commit"
+    )
+    parent_tree = one_packet_match(
+      text,
+      /- canonical tree: `([0-9a-f]{40})`/,
+      "P2 graph activation parent tree"
+    )
+    max_engineering_tasks = Integer(one_packet_match(
+      text, /- maximum engineering Tasks: `([0-9]+)`/, "P2 graph Task envelope"
+    ), 10)
+    max_engineering_hours = Integer(one_packet_match(
+      text, /- maximum engineering hours: `([0-9]+)`/, "P2 graph hour envelope"
+    ), 10)
+    max_calendar_days = Integer(one_packet_match(
+      text, /- maximum calendar days: `([0-9]+)`/, "P2 graph calendar envelope"
+    ), 10)
+    task_sections = text.scan(
+      /^## [0-9]+\. Task [0-9]+\b[^\n]*\n(.*?)(?=^## |\z)/m
+    ).flatten
+    task_budgets = task_sections.map do |section|
+      budget = one_packet_match(
+        section,
+        /Budget:\s+`([0-9]+) engineering hours \/ ([0-9]+) calendar days`/,
+        "P2 graph Task budget"
+      )
+      {
+        "task_id" => one_packet_match(
+          section,
+          /Task ID:\s+`(AIOS-P2-[0-9]{3}_[A-Z0-9_]+)`/,
+          "P2 graph Task id"
+        ),
+        "engineering_hours" => Integer(budget[0], 10),
+        "calendar_days" => Integer(budget[1], 10)
+      }
+    end
+    task_ids = task_budgets.map { |budget| budget["task_id"] }
+    assert(task_ids.length == max_engineering_tasks && task_ids.uniq.length == task_ids.length,
+           "P2 graph decision packet Task set is not closed")
+    assert(task_budgets.sum { |budget| budget["engineering_hours"] } == max_engineering_hours,
+           "P2 graph Task hours do not equal the route envelope")
+    assert(task_budgets.sum { |budget| budget["calendar_days"] } == max_calendar_days,
+           "P2 graph Task days do not equal the route envelope")
+    assert(text.include?("each Task: initial implementation plus at most one same-Task code-only repair"),
+           "P2 graph implementation iteration boundary drifted")
+    assert(text.include?("one exact candidate and one fresh final review cycle per Task"),
+           "P2 graph candidate boundary drifted")
+    assert(text.include?("network, Provider, Secret, remote, production and public effects: all `false`"),
+           "P2 graph external-effect boundary drifted")
+    primary_metric_min_delta = Float(one_packet_match(
+      text,
+      /target recall@10 exceeds the frozen lexical baseline by at least `([0-9]+(?:\.[0-9]+)?)`\s+absolute/,
+      "P2 graph primary metric"
+    ))
+    {
+      "text" => text,
+      "authorization_token" => token,
+      "route_id" => route_id,
+      "activation_parent_commit" => parent_commit,
+      "activation_parent_tree" => parent_tree,
+      "max_engineering_tasks" => max_engineering_tasks,
+      "max_engineering_hours" => max_engineering_hours,
+      "max_calendar_days" => max_calendar_days,
+      "max_same_task_repairs" => 1,
+      "max_contract_corrections_per_task" => 0,
+      "first_task_id" => task_ids.first,
+      "first_task_engineering_hours" => task_budgets.first["engineering_hours"],
+      "first_task_calendar_days" => task_budgets.first["calendar_days"],
+      "first_task_implementation_iterations" => 2,
+      "first_task_candidates" => 1,
+      "task_ids" => task_ids,
+      "task_budgets" => task_budgets,
+      "primary_metric_min_delta" => primary_metric_min_delta,
+      "founder_reserved_profile" => nil,
+      "founder_reserved_profiles" => [],
+      "external_effects" => FALSE_EXTERNAL_EFFECTS
+    }
+  rescue ArgumentError
+    fail!("P2 graph decision packet contains a non-integer Phase envelope")
   end
 
   def p2_repository_intelligence_route_packet_claims(text)

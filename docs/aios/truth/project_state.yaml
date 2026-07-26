@@ -1,6 +1,6 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-26T10:33:51Z"
+last_verified_at: "2026-07-26T10:48:00Z"
 verification_scope: P1_134_TERMINAL_FINAL_CTO_TARGET_NON_PASS_STRICT_75_PERCENT
 
 authority:
@@ -4233,7 +4233,7 @@ mandatory_exit_capability_recovery:
     B0_B1_B2_COMPATIBILITY_ADAPTERS: ACCEPTED_FOUNDER_EXACT_RESIDUAL_INTEGRATION_P1_099
     OBSERVABLE_TRACE: ACCEPTED_P1_101_COOPERATIVE_LOCAL
     EVALUATOR_DISAGREEMENT_AND_FALSE_SUCCESS_CHARACTERIZATION: ACCEPTED_P1_070_COOPERATIVE_LOCAL
-    REPRODUCIBLE_BASELINE_REPORT: TERMINAL_P1_133_IMPLEMENTATION_ITERATION_EXHAUSTED_NON_PASS_NO_CREDIT
+    REPRODUCIBLE_BASELINE_REPORT: TERMINAL_P1_134_FINAL_CTO_TARGET_NON_PASS_NO_CREDIT
   capability_attempt_ledger:
     VERSIONED_REPRESENTATIVE_TASK_DATASET:
       status: ACCEPTED
@@ -4503,34 +4503,34 @@ mandatory_exit_capability_recovery:
         rewritten_or_reused: false
     REPRODUCIBLE_BASELINE_REPORT:
       status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
-      task_id: AIOS-P1-131_READ_ONLY_RAW_CAPTURE_ADMISSION_AND_OFFLINE_EXIT_GATE
-      route_id: P1_EXACT_RAW_CAPTURE_EVIDENCE_ADMISSION_AND_OFFLINE_EXIT_GATE_COMPLETION_ROUTE_V1
+      task_id: AIOS-P1-134_CLEAN_ROOM_PREFLIGHT_GATED_ADAPTER_BOUND_EXIT
+      route_id: P1_CLEAN_ROOM_PREFLIGHT_GATED_ADAPTER_BOUND_EXIT_ROUTE_V1
       task_slot: 1
-      contract_sha256: da0745a69bd1643853d3660899721845681b164f3479b80010cc910dbf87ee33
+      contract_sha256: 028490fe7eee7e0d6b18803ddcb17f0a8602706142a859c7629529e926b6bafc
       implementation_iterations_used: 2
-      code_only_repairs_used: 1
-      g0_status: EXACT_READ_ONLY_ADMITTED
-      normalized_root_cause: P1131.FINAL_REVIEW.ARCHITECTURE_REPLAY_EVIDENCE_AND_EFFECT_BOUNDARY_NON_PASS
+      preflight_status: PASS
+      formal_execution_count: 1
+      normalized_root_cause: P1134.FINAL_CTO.REPORT_PREREG_AND_NEGATIVE_MATRIX_CONTRACT_FAILURE
       scheduled_runs: 36
-      verified_successes: 21
-      retained_failures: 15
+      verified_successes: 15
+      retained_failures: 21
       invalid_runs: 0
       false_successes: 0
-      candidate_commit: e09b8a927f1962662ebe12f862eeb21935821833
-      candidate_tree: 60b3edca6166c6f8cbcc7641302089db6e362bfe
-      candidate_manifest_sha256: 205a1b90948ebc874b770275017eb8c3e035ded7cf0ec8c1fd36721b9f51bc3f
+      real_b2_scan_children: 12
+      candidate_commit: 5951c3ebdd0b9596baf580c6ba14c62a6ef417f3
+      candidate_tree: 1b9234a6bfab4bc599749de99b22aab38b086dac
+      candidate_manifest_sha256: f05fbd7a45402f8c7b3e64d198dfe03c6a06b80383e0f27580f64898d7f71dd4
       cto_target_verdict: NON_PASS
-      cto_review_sha256: 6e99c2b4896e4f66930727968570e1c0db453136d6bc098fc96d55c493abf4ff
-      security_target_verdict: NON_PASS
-      security_review_sha256: fbafffc775e1e00324ae317a2dea6ae985c4d1f3fea7e598cb371db48d99be39
-      quality_review_status: INTERRUPTED_AFTER_BLOCKING_NON_PASS
+      cto_review_sha256: d4379234eccd045b1f139d40badf2cf2d0d1dd75ecb37c96bac6350a6c1e5532
+      security_review_status: INTERRUPTED_AFTER_BLOCKING_CTO_NON_PASS
+      quality_review_status: INTERRUPTED_AFTER_BLOCKING_CTO_NON_PASS
       provider_requests: 0
       automatic_retries: 0
       secret_reads: 0
       network_connections: 0
       candidate_count: 1
       final_review_cycles: 1
-      terminal_receipt_sha256: 99edc864422f65bc6f0459a240fc0a58f170574d4fb8f9ada3b4dfabfa5a69d6
+      terminal_receipt_sha256: 665cb94f5f178993453f283c7f12b6e22d15bc4cc56219e9d961cae25dd67858
       canonical_make_verify: NOT_INVOKED_FINAL_REVIEW_NON_PASS
       capability_accepted: false
       capability_credit: 0

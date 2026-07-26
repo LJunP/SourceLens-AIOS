@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P1-130_STANDARD_CAPTURE_BASELINE_AND_PREREGISTRATION
 phase: P1
 route_id: P1_BOUNDED_SECURITY_MATRIX_COMPLETION_AND_STANDARD_CAPTURE_EXIT_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_CAPTURE_SEAL_PRECONDITION_CONTRADICTION_NON_PASS
 objective: >-
   Build and verify one standard operator-owned no-echo loopback capture path,
   freeze the complete six-Task B0/B1/B2 preregistration and 36-cell denominator,
@@ -201,3 +201,25 @@ claim_boundary: >-
   preregistration only. No direct OpenAI provenance, gateway upstream behavior,
   model quality, P2/P3 entry, remote, production, public, hostile-principal or
   strong-isolation claim.
+terminal_result:
+  normalized_root_cause: P1130.SEAL.VERIFY_REQUIRES_CAPTURE_ROOT_ABSENT_AFTER_CAPTURE_CREATED
+  raw_capture_evidence:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-130-standard-capture-20260726/task-2/operator-capture-v2
+    file_count: 149
+    inventory_digest: f6cc9653ef545ec463e28c53b2cd10fdb65bd66de75ae05fdd3ecf0ed512e1aa
+    diagnostic_requests: 1
+    formal_requests: 36
+    http_200_responses: 37
+    strict_completion_passes: 35
+    usage_boundary_nonpasses: 2
+    sealed: false
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-130-standard-capture-20260726/task-2/terminal/P1_130_TERMINAL_RECEIPT.json
+    sha256: 49a45b4d46e2c2e27646a9d15a516208391d83cd720ed1f2badfd24bc77d8eb6
+    byte_length: 3792
+  candidate_created: false
+  final_reviews_started: false
+  canonical_integration_performed: false
+  capability_credit: 0
+  strict_p1_completion_after: 6_OF_8_75_PERCENT
+  next_eligible_action: FOUNDER_P1_PHASE_GATE

@@ -1,0 +1,147 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P2-005_SCANNER_FIRST_EXACT_REPOSITORY_GRAPH_AUTHORITY
+phase: P2
+route_id: P2_SCANNER_FIRST_EXACT_GRAPH_AUTHORITY_AND_GRAPH_CONDITIONED_CONTEXT_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Build one deterministic source-bound repository graph whose nodes and edges
+  are derived only from real accepted scanner output, with exact internal
+  endpoint resolution and explicit unresolved external references.
+why_now: >-
+  P2-003 proved that a graph reconstructed from Quality fixture expectations is
+  not repository graph authority. This clean-room Task tests the independent
+  scanner-first architecture directly without reading or reusing rejected
+  P2-003 engineering assets.
+task_spec_ref: /Users/lijunpeng/Developer/.sourcelens-audit/p2-scanner-first-route-20260726/proposal/FOUNDER_P2_SCANNER_FIRST_EXACT_GRAPH_ROUTE_V1.md
+owner_role: P2-005 Engineering Manager
+worker_role: P2-005 Scanner Graph Worker
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+risk_level: high
+budget:
+  engineering_hours: 28
+  calendar_days: 7
+  implementation_iterations: 2
+  candidates: 1
+roles:
+  owner: P2-005 Engineering Manager
+  worker: P2-005 Scanner Graph Worker
+  independent_reviewers:
+    - P2-005 Fresh CTO Reviewer
+    - P2-005 Fresh Security Reviewer
+    - P2-005 Fresh Quality Reviewer
+allowlisted_paths:
+  - analyzer-rust/**
+  - docs/aios/tasks/P2-005_SCANNER_FIRST_EXACT_REPOSITORY_GRAPH_AUTHORITY.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+write_scope:
+  worker:
+    - analyzer-rust/**
+  quality:
+    - EXTERNAL_QUALITY_FREEZE_ROOT_ONLY
+  integration:
+    - docs/aios/tasks/P2-005_SCANNER_FIRST_EXACT_REPOSITORY_GRAPH_AUTHORITY.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - analyzer-rust
+historical_isolation:
+  p2_003_truth_terminal_receipt_and_final_reviews_readable: true
+  p2_003_candidate_source_diff_fixture_test_binary_or_implementation_readable: false
+  p2_003_engineering_asset_restore_compare_copy_or_reuse_allowed: false
+  p2_004_activation_allowed: false
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+founder_reserved_profile: null
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-scanner-first-route-20260726/proposal/FOUNDER_P2_SCANNER_FIRST_EXACT_GRAPH_ROUTE_V1.md
+  sha256: 2a1c950e4dedb156fa46fd58cd09d147e1b23a228e4a2fd07f90c11a1b603e48
+  byte_length: 5351
+  authorization_token: AUTHORIZE_P2_SCANNER_FIRST_EXACT_GRAPH_AUTHORITY_AND_GRAPH_CONDITIONED_CONTEXT_ROUTE_V1
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+public_candidate_interface:
+  command_inputs:
+    - repository_root
+    - output_root
+  command_forbidden_inputs:
+    - quality_fixture_spec
+    - expected_symbol_list
+    - expected_relation_list
+    - expected_graph
+    - oracle_answer
+  output_contract:
+    - source_identity
+    - scanner_identity
+    - closed_source_inventory
+    - symbol_nodes
+    - dependency_edges
+    - unresolved_external_endpoints
+    - stable_projection
+    - replay_receipt
+    - rollback_receipt
+architecture_constraints:
+  - Invoke the real accepted repository scanner; do not reconstruct graph facts from Quality expectations.
+  - Every internal node identity binds repository-relative path, symbol kind, exact source span and source content digest.
+  - Resolve an internal relation endpoint only by an exact stable identity or an exact language-qualified symbol mapping.
+  - Never admit substring, suffix, short-name or fuzzy endpoint matches.
+  - Retain a true unresolved reference as EXTERNAL_UNRESOLVED rather than inventing an internal edge.
+  - The graph and stable projection use a closed deterministic inventory and canonical ordering.
+  - Replay reconstructs from frozen source and scanner receipts; rollback is a physical disposable-root check.
+quality_freeze_requirements:
+  - Quality freezes private Java, TypeScript and Rust fixtures and expected answers before Worker source mutation.
+  - The Worker receives only an answer-free public command contract and repository roots.
+  - Positive evaluation covers real import, call and type relations in all three languages.
+  - Negative evaluation covers missing, duplicate, dangling, reorder, mutation, path escape, symlink and oracle leakage.
+acceptance_criteria:
+  - The public candidate command accepts no fixture or expected-answer input.
+  - Java, TypeScript and Rust fixtures are scanned by the real accepted scanner.
+  - All accepted graph nodes and edges are derivable from retained scanner output.
+  - Internal endpoint admission is exact and unresolved true references are explicitly EXTERNAL_UNRESOLVED.
+  - Closed inventory, stable projection, fresh replay and physical rollback all pass.
+  - Every frozen negative rejects with its expected stable reason category.
+  - False accepts and all six external effects equal zero.
+  - One exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS on the same bytes.
+  - The reviewed tree equals the integrated canonical tree and one canonical make verify passes.
+required_evidence:
+  - Exact Founder packet, Goal, Contract, authority and activation parent identities.
+  - Quality freeze timestamp and hash-bound public contract plus private oracle identities.
+  - Raw scanner output, graph output, stable projection, replay and rollback for Java, TypeScript and Rust.
+  - Raw independent negative matrix and aggregate false-accept and external-effect counts.
+  - Exact candidate commit, tree, manifest and recoverable Evidence tag.
+  - Fresh CTO, Security and Quality reviews of the same exact candidate and Evidence.
+rollback:
+  strategy: DISPOSABLE_FIXTURE_CLEANUP_AND_NON_DESTRUCTIVE_GIT_REVERT_AFTER_CANONICAL_INTEGRATION
+  forbidden:
+    - git reset
+    - git clean
+    - destructive history rewrite
+stop_conditions:
+  - Canonical identity, Goal, exact Founder packet or accepted scanner identity drifts.
+  - Any rejected P2-003 engineering asset is required.
+  - A required write exceeds this Contract or any external effect is required.
+  - The one same-Task code-only repair is exhausted.
+  - The same normalized root cause repeats in adjacent implementation iterations.
+  - Any final Reviewer, reviewed/integrated tree comparison or canonical make verify returns NON_PASS.
+  - Evidence is overwritten or deleted, or the P2 Phase boundary changes.
+claim_boundary: >-
+  Cooperative-local offline scanner-derived repository symbol and dependency
+  graph authority for the frozen Java, TypeScript and Rust evaluation only. No
+  broad ecosystem, retrieval superiority, Agent, P3, remote, production,
+  public or hostile-principal claim.

@@ -1064,7 +1064,8 @@ module CurrentTaskAuthority
   def packet_claims(packet_bytes)
     text = packet_bytes.dup.force_encoding(Encoding::UTF_8)
     assert(text.valid_encoding?, "decision packet must be valid UTF-8")
-    if text.include?("AUTHORIZE_P2_ACCEPTED_REPOSITORY_GRAPH_INDEX_AND_GRAPH_CONDITIONED_CONTEXT_ROUTE_V1")
+    if text.include?("AUTHORIZE_P2_ACCEPTED_REPOSITORY_GRAPH_INDEX_AND_GRAPH_CONDITIONED_CONTEXT_ROUTE_V1") ||
+       text.include?("AUTHORIZE_P2_SCANNER_FIRST_EXACT_GRAPH_AUTHORITY_AND_GRAPH_CONDITIONED_CONTEXT_ROUTE_V1")
       p2_graph_route_packet_claims(text)
     elsif text.include?("AUTHORIZE_P1_PARTIAL_EXIT_WITH_DISCLOSED_RESIDUALS_AND_DIRECT_P2_REPOSITORY_INTELLIGENCE_PHASE_ENTRY_V1")
       p2_repository_intelligence_route_packet_claims(text)
@@ -1080,9 +1081,15 @@ module CurrentTaskAuthority
   end
 
   def p2_graph_route_packet_claims(text)
-    token = "AUTHORIZE_P2_ACCEPTED_REPOSITORY_GRAPH_INDEX_AND_GRAPH_CONDITIONED_CONTEXT_ROUTE_V1"
-    assert(text.scan(token).length == 1,
+    supported_tokens = [
+      "AUTHORIZE_P2_ACCEPTED_REPOSITORY_GRAPH_INDEX_AND_GRAPH_CONDITIONED_CONTEXT_ROUTE_V1",
+      "AUTHORIZE_P2_SCANNER_FIRST_EXACT_GRAPH_AUTHORITY_AND_GRAPH_CONDITIONED_CONTEXT_ROUTE_V1"
+    ].freeze
+    present_tokens = supported_tokens.select { |candidate| text.scan(candidate).length == 1 }
+    assert(present_tokens.length == 1 &&
+           supported_tokens.sum { |candidate| text.scan(candidate).length } == 1,
            "P2 graph decision packet must contain the exact authorization token once")
+    token = present_tokens.first
     route_id = one_packet_match(
       text,
       /Start one new P2 architecture route:\s+`(P2_[A-Z0-9_]+_ROUTE_V[0-9]+)`/,

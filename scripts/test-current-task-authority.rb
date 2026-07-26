@@ -507,7 +507,8 @@ class CurrentTaskAuthorityTest
       @passes += 1
       puts "PASS exact current offline packet Task/effect set"
       if packet.include?("AUTHORIZE_P1_PARTIAL_EXIT_WITH_DISCLOSED_RESIDUALS_AND_DIRECT_P2_REPOSITORY_INTELLIGENCE_PHASE_ENTRY_V1") ||
-         packet.include?("AUTHORIZE_P2_ACCEPTED_REPOSITORY_GRAPH_INDEX_AND_GRAPH_CONDITIONED_CONTEXT_ROUTE_V1")
+         packet.include?("AUTHORIZE_P2_ACCEPTED_REPOSITORY_GRAPH_INDEX_AND_GRAPH_CONDITIONED_CONTEXT_ROUTE_V1") ||
+         packet.include?("AUTHORIZE_P2_SCANNER_FIRST_EXACT_GRAPH_AUTHORITY_AND_GRAPH_CONDITIONED_CONTEXT_ROUTE_V1")
         original_task_id = expected_tasks.first
         replacement_task_id = "AIOS-P2-901_DATA_DRIVEN_PACKET_FIXTURE"
         data_driven_packet = packet.sub(original_task_id, replacement_task_id)

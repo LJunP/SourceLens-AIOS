@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
 last_verified_at: "2026-07-26T14:31:00Z"
-verification_scope: P2_003_TERMINAL_FINAL_CTO_TARGET_NON_PASS_FOUNDER_P2_PHASE_GATE
+verification_scope: P2_SCANNER_FIRST_ROUTE_AUTHORIZED_READY_P2_005_ELIGIBLE
 
 authority:
   founder: Human Founder
@@ -308,9 +308,9 @@ project:
   p1_execution_status: PARTIAL_EXIT_WITH_DISCLOSED_RESIDUALS_6_OF_8_75_PERCENT
   p1_engineering_status: PARTIAL_EXIT_P1_134_TERMINAL_FINAL_CTO_TARGET_NON_PASS
   p2_entry_status: AUTHORIZED
-  p2_execution_status: FOUNDER_P2_PHASE_GATE
-  phase_execution_status: PAUSED_AT_FOUNDER_P2_PHASE_GATE
-  current_route_execution_status: TERMINAL_TASK_1_FINAL_CTO_TARGET_NON_PASS
+  p2_execution_status: AUTHORIZED_READY
+  phase_execution_status: AUTHORIZED_READY
+  current_route_execution_status: AUTHORIZED_READY_P2_005_ELIGIBLE
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -3819,22 +3819,22 @@ p1_partial_exit:
     decision_packet_sha256: 2e065f6996cf203ee70f4eeeaf0a121b34f8066741399b25931eb29c3d84df9d
 
 current_phase_route:
-  route_id: P2_ACCEPTED_REPOSITORY_GRAPH_INDEX_AND_CONTEXT_ROUTE_V1
-  status: TERMINAL
-  authority_object_status: TERMINAL_FINAL_REVIEW_NON_PASS
-  execution_status: TERMINAL_TASK_1_FINAL_CTO_TARGET_NON_PASS
-  founder_phase_route_decision_required: true
-  scheduling_status: STOPPED_P2_004_INELIGIBLE
+  route_id: P2_SCANNER_FIRST_EXACT_GRAPH_AUTHORITY_AND_GRAPH_CONDITIONED_CONTEXT_ROUTE_V1
+  status: AUTHORIZED_READY
+  authority_object_status: FOUNDER_AUTHORIZED
+  execution_status: AUTHORIZED_READY_P2_005_ELIGIBLE
+  founder_phase_route_decision_required: false
+  scheduling_status: P2_005_ELIGIBLE_NOT_ACTIVATED
   phase: P2
   phase_entry_status: AUTHORIZED
-  authorization_token: AUTHORIZE_P2_ACCEPTED_REPOSITORY_GRAPH_INDEX_AND_GRAPH_CONDITIONED_CONTEXT_ROUTE_V1
+  authorization_token: AUTHORIZE_P2_SCANNER_FIRST_EXACT_GRAPH_AUTHORITY_AND_GRAPH_CONDITIONED_CONTEXT_ROUTE_V1
   decision_packet:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-phase-gate-after-p2-001-20260726/proposal/FOUNDER_P2_ACCEPTED_GRAPH_INDEX_AND_CONTEXT_ROUTE_V1.md
-    sha256: 7b5ff84dde8f269c1fe9924fd820b74b8169a666223530728d0695e16699cddd
-    byte_length: 8178
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-scanner-first-route-20260726/proposal/FOUNDER_P2_SCANNER_FIRST_EXACT_GRAPH_ROUTE_V1.md
+    sha256: 2a1c950e4dedb156fa46fd58cd09d147e1b23a228e4a2fd07f90c11a1b603e48
+    byte_length: 5351
   activation_parent:
-    commit: cbf4e7bcb41a73a95f02b31148f317c777fd8d8f
-    tree: 9a7fc0948970c79a825ed8a571ef1c9ca40dcf43
+    commit: 1fb4ddcc182e67c7358554e0511ec60e2831cbb6
+    tree: 74a410ebb09bd39afa9d2d33412f3ab03034c89a
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: "1.6"
@@ -3846,10 +3846,10 @@ current_phase_route:
     canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
     canonical_byte_length: 19434
   objective: >-
-    Build an accepted deterministic source-bound repository symbol/dependency
-    graph index from canonical scan/analyzer assets, then evaluate a fresh
-    graph-conditioned context selector without changing the Long-term Goal or
-    entering P3.
+    Build an accepted deterministic source-bound repository graph directly
+    from real scanner output with exact endpoint authority, then evaluate a
+    fresh graph-conditioned context selector without changing the Long-term
+    Goal or entering P3.
   envelope:
     max_engineering_tasks: 2
     max_engineering_hours: 48
@@ -3873,40 +3873,38 @@ current_phase_route:
   accepted_inputs: {}
   accepted_input_ids: []
   first_task:
-    task_id: AIOS-P2-003_ACCEPTED_REPOSITORY_GRAPH_INDEX_VERTICAL_SLICE
+    task_id: AIOS-P2-005_SCANNER_FIRST_EXACT_REPOSITORY_GRAPH_AUTHORITY
     task_slot: 1
-    status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
-    contract_path: docs/aios/tasks/P2-003_ACCEPTED_REPOSITORY_GRAPH_INDEX_VERTICAL_SLICE.yaml
-    contract_sha256: 066deebe47e410468197588785452e3caba7a94fc4d30b4aca7a5471bd87a9d7
-    contract_byte_length: 9452
-    max_engineering_hours: 24
+    status: ELIGIBLE_NOT_ACTIVATED
+    contract_path: docs/aios/tasks/P2-005_SCANNER_FIRST_EXACT_REPOSITORY_GRAPH_AUTHORITY.yaml
+    contract_sha256: 261ccb01dede07a3cd3f13d55ee5f3fbc9acf072e004db6cbc33e76adf266f93
+    contract_byte_length: 7223
+    max_engineering_hours: 28
     max_calendar_days: 7
     max_implementation_iterations: 2
     max_candidates: 1
     p2_capability_claim_on_pass: REPOSITORY_SYMBOL_DEPENDENCY_GRAPH_INDEX
   task_plan:
     - task_slot: 1
-      task_id: AIOS-P2-003_ACCEPTED_REPOSITORY_GRAPH_INDEX_VERTICAL_SLICE
-      status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
-      engineering_hours: 24
+      task_id: AIOS-P2-005_SCANNER_FIRST_EXACT_REPOSITORY_GRAPH_AUTHORITY
+      status: ELIGIBLE_NOT_ACTIVATED
+      engineering_hours: 28
       calendar_days: 7
     - task_slot: 2
-      task_id: AIOS-P2-004_GRAPH_CONDITIONED_CONTEXT_SELECTION_BENCHMARK
-      status: INELIGIBLE_PREDECESSOR_FINAL_REVIEW_NON_PASS
-      engineering_hours: 24
+      task_id: AIOS-P2-006_GRAPH_CONDITIONED_CONTEXT_SELECTION_BENCHMARK
+      status: PENDING_PREDECESSOR_TASK_GATE
+      engineering_hours: 20
       calendar_days: 7
   route_execution_accounting:
     maximum_engineering_tasks: 2
-    task_slots_consumed: 1
+    task_slots_consumed: 0
     active_task_id: null
-    scheduled_task_ids:
-      - AIOS-P2-003_ACCEPTED_REPOSITORY_GRAPH_INDEX_VERTICAL_SLICE
-    terminal_task_ids:
-      - AIOS-P2-003_ACCEPTED_REPOSITORY_GRAPH_INDEX_VERTICAL_SLICE
+    scheduled_task_ids: []
+    terminal_task_ids: []
     accepted_task_ids: []
     maximum_engineering_hours: 48
     engineering_hours_authorized_current_task: 0
-    status: TERMINAL_1_OF_2_TASKS_P2_004_INELIGIBLE
+    status: READY_0_OF_2_TASKS
   additional_write_roots: []
   inherited_worktree_inventory:
     - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-063-atomic-offline-b0
@@ -3998,9 +3996,10 @@ current_phase_route:
       branch: codex/p1-134-preflight-gated-exit
       status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
   claim_boundary: >-
-    Cooperative-local, offline, commit-derived SourceLens repository context
-    selection and benchmark evidence only. No general ecosystem, Agent
-    Runtime, P3, remote, production, public or hostile-principal claim.
+    Cooperative-local, offline, scanner-derived SourceLens repository graph
+    authority and graph-conditioned context benchmark evidence only. No
+    general ecosystem, Agent Runtime, P3, remote, production, public or
+    hostile-principal claim.
   historical_p1_132_founder_residual_acceptance:
     source_task_id: AIOS-P1-132_HISTORICAL_WORKTREE_TRUTH_COMPATIBILITY
     terminal_status_preserved: TERMINAL_FINAL_QUALITY_TARGET_NON_PASS
@@ -4099,10 +4098,10 @@ current_phase_route:
     capability_credit: 0
     p2_004_entry: INELIGIBLE
     terminal_receipt_sha256: 03d6e77477bc6108e82ca8a78cffa2745ca03a9cf19cc519ad88ef2aeb2b4089
-  next_eligible_action: FOUNDER_P2_PHASE_GATE
+  next_eligible_action: ACTIVATE_P2_005
 
 phase_delegation:
-  status: P2_FOUNDER_PHASE_GATE
+  status: P2_PHASE_ROUTE_AUTHORIZED_READY
   model: PHASE_LEVEL_FOUNDER_DELEGATION
   decision_source: FOUNDER_DIRECTIVES_IN_CODEX_THREAD_2026_07_16_AND_2026_07_17
   phase_gate_owner: HUMAN_FOUNDER
@@ -5131,7 +5130,7 @@ active_work:
   authorization_id: null
   activation_parent_commit: null
   activation_parent_tree: null
-  task_resource_state: TERMINAL_RESOURCES_PRESERVED
+  task_resource_state: NOT_CREATED_ROUTE_READY
   task_branch: null
   task_worktree: null
   execution_evidence_root: null
@@ -5155,13 +5154,13 @@ active_work:
   offsite_target: null
   founder_reserved_authorization: null
   founder_reserved_authorization_sha256: null
-  founder_decision_required: true
-  founder_decision_required_scope: P2_PHASE_GATE_AFTER_TERMINAL_FINAL_REVIEW_NON_PASS
-  escalation_reason: P2_003_FINAL_CTO_TARGET_NON_PASS
-  user_action_required: FOUNDER_P2_PHASE_GATE_DECISION
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_P2_PHASE_GATE_DECISION
-  next_eligible_action: FOUNDER_P2_PHASE_GATE
+  founder_decision_required: false
+  founder_decision_required_scope: null
+  escalation_reason: null
+  user_action_required: NONE
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: ACTIVATE_P2_005
   last_terminal_task:
     task_id: AIOS-P2-003_ACCEPTED_REPOSITORY_GRAPH_INDEX_VERTICAL_SLICE
     status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
@@ -8750,9 +8749,9 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: P2_ACCEPTED_REPOSITORY_GRAPH_INDEX_AND_CONTEXT_ROUTE_V1_TERMINAL_TASK_1_FINAL_CTO_TARGET_NON_PASS
-  current_task_claim: NONE_FOUNDER_P2_PHASE_GATE
-  real_engineering_progress: P2_003_REAL_OFFLINE_GRAPH_INDEX_IMPLEMENTED_AND_FALSIFIED_AT_FINAL_CTO_ARCHITECTURE_REVIEW_NO_INTEGRATION_NO_CAPABILITY_CREDIT
+  current_route_claim: P2_SCANNER_FIRST_EXACT_GRAPH_AUTHORITY_AND_GRAPH_CONDITIONED_CONTEXT_ROUTE_V1_AUTHORIZED_READY
+  current_task_claim: NONE_P2_005_ELIGIBLE_NOT_ACTIVATED
+  real_engineering_progress: NEW_ROUTE_AUTHORIZED_NO_NEW_P2_CAPABILITY_CREDIT_P2_005_ACTIVATION_NEXT
   product_capability_changed: false
   phase_local_allowed:
     - local evaluation foundation engineering under an exact Task Contract
@@ -8829,10 +8828,10 @@ phase_execution_claim:
     - canonical main advance outside an accepted task gate
 
 claim_boundary:
-  current_phase_route: P2_ACCEPTED_REPOSITORY_GRAPH_INDEX_AND_CONTEXT_ROUTE_V1_TERMINAL_TASK_1_FINAL_CTO_TARGET_NON_PASS
+  current_phase_route: P2_SCANNER_FIRST_EXACT_GRAPH_AUTHORITY_AND_GRAPH_CONDITIONED_CONTEXT_ROUTE_V1_AUTHORIZED_READY
   current_task: NONE
-  next_eligible_action: FOUNDER_P2_PHASE_GATE
-  real_engineering_progress: P2_003_REAL_OFFLINE_GRAPH_INDEX_IMPLEMENTED_FORMAL_MATRIX_PASS_FINAL_CTO_ARCHITECTURE_NON_PASS_NO_INTEGRATION_NO_CAPABILITY_CREDIT
+  next_eligible_action: ACTIVATE_P2_005
+  real_engineering_progress: NEW_ROUTE_AUTHORIZED_NO_NEW_P2_CAPABILITY_CREDIT_P2_005_ACTIVATION_NEXT
   p2_003_status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
   p2_003_implementation_iterations_used: 2_OF_2
   p2_003_same_task_code_only_repairs_used: 1_OF_1
@@ -8847,7 +8846,7 @@ claim_boundary:
   p2_003_accepted_capability: false
   p2_003_capability_credit: 0
   p2_004_entry: INELIGIBLE
-  p2_current_route_stop_trigger: P2_003_FINAL_CTO_TARGET_NON_PASS
+  p2_current_route_stop_trigger: NONE_ROUTE_ACTIVE
   p2_001_status: TERMINAL_FINAL_QUALITY_TARGET_RECALL_NON_PASS
   p2_001_implementation_iterations_used: 2_OF_2
   p2_001_same_task_code_only_repairs_used: 1_OF_1

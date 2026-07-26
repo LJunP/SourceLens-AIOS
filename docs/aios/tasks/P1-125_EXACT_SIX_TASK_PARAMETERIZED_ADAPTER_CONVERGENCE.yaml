@@ -1,0 +1,186 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P1-125_EXACT_SIX_TASK_PARAMETERIZED_ADAPTER_CONVERGENCE
+phase: P1
+route_id: P1_EXACT_SIX_TASK_PARAMETERIZED_ADAPTER_CONVERGENCE_AND_STANDARD_CAPTURE_EXIT_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Build one new versioned, closed-set and dataset-parameterized B0/B1/B2
+  compatibility adapter composition that executes all six exact accepted
+  representative Tasks twice under one offline harness, with complete identity
+  binding, stable projection, replay, rollback, real accepted-P0 B2 scan
+  children, a complete negative matrix and zero external effects.
+why_now: >-
+  P1 is 75% complete and the only direct path to the retained baseline is
+  blocked by a verified architecture fact: the accepted B1 and B2 adapter
+  version is hard-bound to REP-001 and cannot execute the frozen six-Task
+  matrix. This Task closes that exact architecture gap before any credential,
+  Provider request or network effect.
+task_spec_ref: /Users/lijunpeng/Developer/.sourcelens-audit/p1-six-task-parameterized-route-20260726/FOUNDER_ROUTE_ACTIVATION_PROJECTION.md
+owner_role: P1-125 Engineering Manager
+worker_role: P1-125 Parameterized Adapter Worker
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+risk_level: high
+budget:
+  engineering_hours: 16
+  calendar_days: 4
+  implementation_iterations: 2
+  candidates: 1
+roles:
+  owner: P1-125 Engineering Manager
+  worker: P1-125 Parameterized Adapter Worker
+  independent_reviewers:
+    - P1-125 Fresh CTO Reviewer
+    - P1-125 Fresh Security Reviewer
+    - P1-125 Fresh Quality Reviewer
+allowlisted_paths:
+  - evaluation-harness/adapters/p1-125-six-task-parameterized
+  - evaluation-harness/harness/p1-125-six-task-parameterized
+  - evaluation-harness/recording/p1-125-six-task-parameterized
+  - evaluation-harness/replay/p1-125-six-task-parameterized
+  - evaluation-harness/evaluator/p1-125-six-task-parameterized
+  - evaluation-harness/fixtures/p1-125-six-task-parameterized
+  - scripts/verify-p1-125-six-task-parameterized.sh
+  - docs/aios/tasks/P1-125_EXACT_SIX_TASK_PARAMETERIZED_ADAPTER_CONVERGENCE.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+  - Makefile
+write_scope:
+  worker:
+    - evaluation-harness/adapters/p1-125-six-task-parameterized
+    - evaluation-harness/harness/p1-125-six-task-parameterized
+    - evaluation-harness/recording/p1-125-six-task-parameterized
+    - evaluation-harness/replay/p1-125-six-task-parameterized
+  quality:
+    - evaluation-harness/evaluator/p1-125-six-task-parameterized
+    - evaluation-harness/fixtures/p1-125-six-task-parameterized
+  integration:
+    - scripts/verify-p1-125-six-task-parameterized.sh
+    - docs/aios/tasks/P1-125_EXACT_SIX_TASK_PARAMETERIZED_ADAPTER_CONVERGENCE.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+    - Makefile
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+  - evaluation-harness/datasets/p1-representative-task-dataset-v1
+  - evaluation-harness/adapters/p1-097-minimal-documented
+  - evaluation-harness/harness/p1-097-minimal-documented
+  - evaluation-harness/harness/p1-101-accepted-shared-trace
+  - evaluation-harness/recording/p1-101-accepted-shared-trace
+  - evaluation-harness/replay/p1-101-accepted-shared-trace
+dependencies:
+  - ACCEPTED_CANONICAL_P1_035_REPRESENTATIVE_TASK_DATASET
+  - FOUNDER_ACCEPTED_CANONICAL_P1_099_ADAPTER_BYTES_AS_NARROW_REFERENCE
+  - ACCEPTED_CANONICAL_P1_101_OBSERVABLE_TRACE
+  - ACCEPTED_CANONICAL_P1_070_COUNTING_AND_FALSE_SUCCESS_SEMANTICS
+historical_isolation:
+  p1_124_terminal_status_rewritten: false
+  p1_124_terminal_receipt_readable: true
+  p1_124_cto_contract_review_readable: true
+  p1_124_rejected_contract_readable: false
+  p1_117_through_p1_123_rejected_or_terminal_engineering_assets_readable: false
+  rejected_engineering_lineage_restore_compare_copy_modify_or_reuse_allowed: false
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-six-task-parameterized-route-20260726/FOUNDER_ROUTE_ACTIVATION_PROJECTION.md
+  sha256: c02ebe2776239bcc11b0609b3a2448af35948e2a93ab2674fb9b108030a220b9
+  byte_length: 2286
+  authorization_token: AUTHORIZE_P1_EXACT_SIX_TASK_PARAMETERIZED_ADAPTER_CONVERGENCE_AND_STANDARD_CAPTURE_EXIT_ROUTE_V1
+governing_founder_attachment:
+  path: /Users/lijunpeng/.codex/attachments/cb5119b2-7560-4d2d-baf0-fca35b798ffb/pasted-text.txt
+  sha256: ba83c07f4e896b3bdde90fc3dfc065f52e4b0961d17a28b2fb79f4c6b0fe0023
+  byte_length: 11788
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+architecture_constraints:
+  - Create a new versioned adapter composition; do not modify accepted P1-097 or P1-099 adapter bytes.
+  - The closed Task set is derived from the exact accepted dataset manifest and must equal REP-001 through REP-006.
+  - B1 derives Task identity, source-template identity and verification commands from exact accepted dataset bytes and never hardcodes REP-001 as a universal rule.
+  - B1 retains the exact finite local tool classes and keeps model, network, memory and additional-Agent features disabled.
+  - B2 invokes the exact accepted-P0 repository_analysis.scan for every Task and retains the accepted P0 commit, tree, analyzer subtree and operation identity.
+  - Reference patches, expected failures and post-result or hidden oracle bytes are never execution inputs.
+  - Every positive cell binds TaskSpec, source template, configuration, executable, input, output, RunRecord, trace, replay and rollback identities.
+  - Observable trace records actions and concise rationale only; hidden chain-of-thought is never requested or retained.
+  - Generic runtime semantics are data-driven and contain no P1-125 Task ID, nonce or current-state hardcoding.
+quality_freeze:
+  positive_matrix:
+    task_count: 6
+    adapter_ids: [B0, B1, B2]
+    repetitions_per_task_and_adapter: 2
+    scheduled_cells: 36
+    required_stable_projection_pairs: 18
+    required_real_b2_scan_children: 12
+  negative_matrix:
+    - unknown or undeclared Task
+    - Task ID, TaskSpec, manifest or source-template identity drift
+    - path escape, symlink or non-regular input
+    - B1 action, tool, limit or rollback drift
+    - B2 accepted-P0 binding or scan-child drift
+    - missing, extra, duplicate, reordered or tampered output
+    - undeclared external-effect request
+    - false-success or rollback failure
+  invariants:
+    - Every negative case starts from its own create-once disposable fixture.
+    - Every scheduled positive cell remains in the denominator.
+    - False accepts, non-owned mutations and all six external effects equal zero.
+acceptance_criteria:
+  - The exact accepted dataset manifest yields exactly six unique representative Task IDs in stable order.
+  - All 36 offline positive cells execute through the new versioned composition and produce accepted terminal records.
+  - All 18 deterministic repetition pairs have exact-equal stable projection bytes while raw nondeterministic fields remain visible.
+  - All 12 B2 cells record a real exact accepted-P0 repository_analysis.scan child invocation.
+  - Replay reproduces every stable projection and rejects identity drift.
+  - Rollback returns every disposable source root to its exact declared pre-run identity.
+  - Every predeclared negative case rejects with its stable expected reason category.
+  - False accepts, undeclared executions, non-owned mutations and all six external effects equal zero.
+  - No forbidden historical engineering asset or reference patch is read as an execution input.
+  - The focused verification entry and projected Task-worktree make verify both pass before candidate freeze.
+  - One exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS on the same bytes.
+  - The reviewed exact tree equals the canonical integrated tree.
+  - Exactly one post-integration canonical make verify invocation passes.
+required_evidence:
+  - Exact governing Founder attachment, activation projection, Contract, authority, Goal and activation-parent identities.
+  - Exact accepted dataset manifest and all six TaskSpec identities.
+  - New adapter descriptors, configurations, executable identities and closed Task-set binding.
+  - Raw 36-cell outputs, RunRecords, traces, stable projections, replay and rollback receipts.
+  - Complete isolated negative matrix Evidence and aggregate false-accept, mutation and external-effect counts.
+  - Exact candidate commit, tree, diff/hash manifest and recoverable Evidence tag.
+  - Fresh CTO, Security and Quality reviews of the same candidate and Evidence bytes.
+  - Reviewed-tree versus integrated-tree equality and one canonical make verify result.
+rollback:
+  strategy: DISPOSABLE_FIXTURE_CLEANUP_AND_NON_DESTRUCTIVE_GIT_REVERT_AFTER_CANONICAL_INTEGRATION
+  forbidden:
+    - git reset
+    - git clean
+    - destructive history rewrite
+stop_conditions:
+  - Canonical start, Goal, governing Founder attachment, activation projection or accepted input identity drifts.
+  - A forbidden rejected or terminal engineering asset would have to be read, compared, restored or reused.
+  - The exact six-Task matrix cannot be executed within the declared architecture and write scope.
+  - The single same-Task code-only repair is exhausted.
+  - The same normalized root cause repeats in adjacent implementation iterations.
+  - A Secret, Provider request, network connection or other external effect is required.
+  - Any final Reviewer returns TARGET_VERDICT NON_PASS.
+  - Reviewed and integrated trees differ or canonical make verify returns NONPASS.
+  - Evidence is overwritten or deleted, or the P1 Objective, Exit Gate or Phase boundary changes.
+claim_boundary: >-
+  One closed-set six-Task cooperative-local offline B0/B1/B2 parameterized
+  adapter-conformance composition with real accepted-P0 B2 scans, exact trace,
+  replay and rollback only. No Provider or model-performance baseline, P1
+  completion credit, P2/P3 entry, remote, production, public,
+  hostile-principal or strong-isolation claim.

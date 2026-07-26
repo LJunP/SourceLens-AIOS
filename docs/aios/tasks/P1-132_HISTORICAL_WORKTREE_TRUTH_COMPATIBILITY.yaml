@@ -1,0 +1,133 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P1-132_HISTORICAL_WORKTREE_TRUTH_COMPATIBILITY
+phase: P1
+route_id: P1_HISTORICAL_WORKTREE_COMPATIBILITY_AND_ACCEPTED_ADAPTER_BOUND_EXIT_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Bind the exact registered terminal historical worktree inventory into the
+  current route Truth and prove that the existing authority core distinguishes
+  canonical main, one declared active Task worktree, declared terminal
+  read-only historical worktrees and undeclared extra worktrees without
+  changing validator semantics.
+why_now: >-
+  P1 remains 6/8 complete and the direct accepted-adapter-bound baseline Task
+  must activate without deleting inherited terminal worktrees or weakening the
+  one-active-worktree invariant. The existing validator already implements the
+  required data-driven distinction; the smallest falsifiable change is the
+  missing exact current-route inventory binding.
+task_spec_ref: /Users/lijunpeng/Developer/.sourcelens-audit/p1-132-historical-worktree-compatibility-20260726/founder/FOUNDER_P1_HISTORICAL_WORKTREE_COMPATIBILITY_AND_ACCEPTED_ADAPTER_BOUND_EXIT_ROUTE_V1.md
+owner_role: P1-132 Engineering Manager
+worker_role: P1-132 Truth Inventory Worker
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+risk_level: high
+budget:
+  engineering_hours: 4
+  calendar_days: 1
+  implementation_iterations: 2
+  candidates: 1
+roles:
+  owner: P1-132 Engineering Manager
+  worker: P1-132 Truth Inventory Worker
+  independent_reviewers:
+    - P1-132 Fresh CTO Reviewer
+    - P1-132 Fresh Security Reviewer
+    - P1-132 Fresh Quality Reviewer
+allowlisted_paths:
+  - scripts/validate-current-task-authority.rb
+  - scripts/test-current-task-authority.rb
+  - docs/aios/tasks/P1-132_HISTORICAL_WORKTREE_TRUTH_COMPATIBILITY.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+write_scope:
+  worker:
+    - docs/aios/truth/project_state.yaml
+  conditional_only_if_existing_semantics_are_proven_insufficient:
+    - scripts/validate-current-task-authority.rb
+    - scripts/test-current-task-authority.rb
+  integration:
+    - docs/aios/tasks/P1-132_HISTORICAL_WORKTREE_TRUTH_COMPATIBILITY.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - scripts/validate-current-task-authority.rb
+  - scripts/test-current-task-authority.rb
+dependencies:
+  - CANONICAL_TRUTH_P1_131_TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+  - EXISTING_DATA_DRIVEN_CURRENT_TASK_AUTHORITY_CORE
+historical_isolation:
+  p1_131_status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+  p1_131_candidate_or_engineering_asset_reuse_allowed: false
+  terminal_historical_worktree_assets_readable_or_reusable: false
+  inventory_metadata_source: GIT_WORKTREE_ADMINISTRATIVE_RECORDS_AND_CANONICAL_TRUTH_ONLY
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-132-historical-worktree-compatibility-20260726/founder/FOUNDER_P1_HISTORICAL_WORKTREE_COMPATIBILITY_AND_ACCEPTED_ADAPTER_BOUND_EXIT_ROUTE_V1.md
+  sha256: 784beeb3653bee50d39cd08b561de0651c33d37def4db01fc349b4d506abb49a
+  byte_length: 4562
+  authorization_token: AUTHORIZE_P1_HISTORICAL_WORKTREE_COMPATIBILITY_AND_ACCEPTED_ADAPTER_BOUND_EXIT_ROUTE_V1
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+founder_reserved_profile: null
+architecture_constraints:
+  - The current validator remains the single Task and route accounting semantic core.
+  - Historical worktree identities are data in Truth and are not hardcoded into validator code.
+  - Historical worktrees remain registered, read-only, terminal, out of scope and unavailable as source or execution authority.
+  - An undeclared extra worktree remains a stable authority NON_PASS.
+  - Only one active Task branch, worktree and candidate may exist.
+  - Existing validator code must not change when current semantics already satisfy the target.
+acceptance_criteria:
+  - The Founder packet, Goal, canonical parent, Contract and authority identities are exact.
+  - Current-route inherited_worktree_inventory exactly equals every registered noncanonical terminal worktree other than the declared active P1-132 worktree.
+  - Every inherited record binds absolute path, full HEAD, branch and INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT status.
+  - Canonical main plus inherited inventory plus the declared P1-132 worktree passes the main authority validator.
+  - The P1 safety entry calls the same authority core and passes with identical worktree semantics.
+  - The authority test suite proves an undeclared extra worktree remains NON_PASS.
+  - No validator or validator-test source bytes change because the required semantics already exist.
+  - No historical worktree content is read, modified, deleted, staged or reused.
+  - One exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS over the same bytes.
+  - Reviewed tree equals integrated tree and one canonical make verify passes.
+required_evidence:
+  - Exact Founder packet, Goal, activation-parent, Contract and authority identities.
+  - Git administrative worktree inventory comparison with canonical Truth.
+  - Main authority, P1 safety and complete authority-test outputs.
+  - Diff proving validator and test source bytes are unchanged.
+  - Candidate commit, tree, manifest and recoverable Evidence tag.
+  - Fresh CTO, Security and Quality reviews of the same exact candidate and Evidence.
+  - Reviewed-tree versus integrated-tree equality and one canonical make verify result.
+rollback:
+  strategy: NON_DESTRUCTIVE_GIT_REVERT_AFTER_CANONICAL_INTEGRATION
+  forbidden:
+    - git reset
+    - git clean
+    - destructive history rewrite
+    - historical worktree deletion
+stop_conditions:
+  - Canonical start, Goal, Founder packet or historical worktree administrative identity drifts.
+  - Existing data-driven semantics prove insufficient and any implementation attempt returns NON_PASS.
+  - Any historical worktree content must be read, modified, deleted or reused.
+  - An undeclared extra worktree can pass or more than one active Task resource is allowed.
+  - A Secret, Provider request, network connection or other external effect occurs.
+  - Any final Reviewer returns TARGET_VERDICT NON_PASS.
+  - Reviewed and integrated trees differ or canonical make verify returns NONPASS.
+  - Evidence is overwritten or deleted, or the P1 Objective, Exit Gate or Phase boundary changes.
+claim_boundary: >-
+  Current-route binding and verification of existing cooperative-local,
+  data-driven terminal historical worktree semantics only. No new P1
+  capability, validator security claim, historical asset acceptance, P2/P3
+  entry, external effect, remote, production or public claim.

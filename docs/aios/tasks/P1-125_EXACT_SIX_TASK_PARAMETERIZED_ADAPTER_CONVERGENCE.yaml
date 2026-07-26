@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P1-125_EXACT_SIX_TASK_PARAMETERIZED_ADAPTER_CONVERGENCE
 phase: P1
 route_id: P1_EXACT_SIX_TASK_PARAMETERIZED_ADAPTER_CONVERGENCE_AND_STANDARD_CAPTURE_EXIT_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_FINAL_SECURITY_TARGET_NON_PASS
 objective: >-
   Build one new versioned, closed-set and dataset-parameterized B0/B1/B2
   compatibility adapter composition that executes all six exact accepted
@@ -178,6 +178,31 @@ stop_conditions:
   - Any final Reviewer returns TARGET_VERDICT NON_PASS.
   - Reviewed and integrated trees differ or canonical make verify returns NONPASS.
   - Evidence is overwritten or deleted, or the P1 Objective, Exit Gate or Phase boundary changes.
+terminal_outcome:
+  recorded_at_utc: "2026-07-26T03:12:49Z"
+  target_verdict: NON_PASS
+  normalized_root_cause: SECURITY_P1_125_MANDATORY_INPUT_PATH_NEGATIVE_COVERAGE_INCOMPLETE
+  summary: >-
+    The exact candidate completed all 36 offline positive cells, 18 exact
+    stable pairs, 12 B1 exact rollbacks, 12 real B2 scans, 51 negative cases,
+    zero false accepts and a projected Task-worktree make verify PASS.
+    Fresh Security final review nevertheless returned TARGET_VERDICT NON_PASS
+    because the frozen final negative matrix did not execute the explicitly
+    required INPUT_PATH_ESCAPE and NONREGULAR_INPUT classes. Static guards do
+    not replace the required Gate Evidence.
+  candidate_commit: 9793da77f66b976697b7ce7af97e93ca6743bafa
+  candidate_tree: 5cc9e85dfd465bab4cb45ce93731653d7740f95c
+  candidate_manifest_sha256: 1ee8727b30253867d1719a3a7f379df1a8176d91e2eb467603d0385da3d5b22f
+  security_review_sha256: 2d145080eb9e56b9471b315ce4a55064d97d24bd7ecaf16888ca39e7de27d5ac
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-six-task-parameterized-route-20260726/task-1/terminal/P1_125_TERMINAL_RECEIPT.json
+    sha256: 64e75257c89c2a5d51f2efa27f6d21791f0615525fd57e028935fa294f625f16
+    byte_length: 3974
+  candidate_integrated: false
+  p1_126_activated: false
+  capability_credit: 0
+  strict_p1_completion: "6/8 = 75%"
+  route_status: TERMINAL_AT_FOUNDER_P1_PHASE_GATE
 claim_boundary: >-
   One closed-set six-Task cooperative-local offline B0/B1/B2 parameterized
   adapter-conformance composition with real accepted-P0 B2 scans, exact trace,

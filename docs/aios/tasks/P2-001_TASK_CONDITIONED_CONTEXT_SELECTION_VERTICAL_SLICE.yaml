@@ -1,0 +1,225 @@
+schema_version: 1
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P2-001_TASK_CONDITIONED_CONTEXT_SELECTION_VERTICAL_SLICE
+phase: P2
+route_id: P2_REPOSITORY_INTELLIGENCE_VERTICAL_SLICE_ROUTE_V1
+status: PREPARED_ELIGIBLE_NOT_ACTIVATED
+
+objective: >-
+  Implement and falsify one real offline task-conditioned repository context
+  selector that returns at most ten ranked existing files with symbols,
+  evidence spans, deterministic rationale, identity, latency, selected-byte
+  accounting and replay material.
+
+why_now: >-
+  P1 ended at a disclosed strict 6/8 (75%) partial exit. The Year-one product
+  loop next requires better issue-conditioned repository understanding. The
+  Quality-owned P2 freeze proves that the parent-snapshot lexical baseline is
+  not saturated and that an absolute recall@10 improvement of at least 0.15 is
+  falsifiable without network, Provider, Secret or rejected P1 assets.
+
+task_spec_ref:
+  public_manifest:
+    path: evaluation-harness/datasets/p2-repository-context-v1/public/manifest.json
+    sha256: f12e4a7dcef5051e3148c2b01ddfd5c8ae58d84e07306ab32cf4586d54f79b0f
+  candidate_result_contract:
+    path: evaluation-harness/datasets/p2-repository-context-v1/public/candidate-result-contract.json
+    sha256: d6f06b000f52b3e7bf375129d7e4ef7032f340b94037699e033e029de7f3577a
+  quality_observer_contract:
+    path: evaluation-harness/datasets/p2-repository-context-v1/public/quality-observer-contract.json
+    sha256: ecdb8a2eb7885a6b53a01c27cba6cd10fcac63a4553372eaacd46344e7c202b5
+  quality_freeze:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-001-context-selection-20260726/quality-freeze-v1/quality-freeze-receipt.json
+    sha256: a60cf5d03563c1c412e73f589b2878e09af9f5d0395e003fd78088d777d004c9
+    status: PASS_FOR_WORKER_IMPLEMENTATION_AFTER_CTO_CORRECTION
+
+baseline_ref:
+  configuration:
+    path: evaluation-harness/datasets/p2-repository-context-v1/public/simple-lexical-baseline-spec.json
+    mode: SIMPLE_LEXICAL_V1
+  validation_result:
+    hits: 13
+    oracle_files: 24
+    macro_recall_at_10: 0.5416666666666666
+  theoretical_maximum:
+    hits: 20
+    oracle_files: 24
+    macro_recall_at_10: 0.8333333333333334
+    maximum_absolute_delta: 0.2916666666666667
+
+target_configuration:
+  path: evaluation-harness/datasets/p2-repository-context-v1/public/target-config.json
+  sha256: 1acc73b6fa516896d034225954b34a5340c770dcee43b11ba7f581e8842c307c
+  components:
+    - frozen_simple_lexical_substrate
+    - camel_case_and_symbol_matching
+    - one_hop_relation_or_package_affinity_expansion
+    - deterministic_role_diversity_rerank
+  forbidden_inputs:
+    - git_diff_or_history_during_selection
+    - accepted_change_content
+    - validation_issue_or_oracle_before_sealed_quality_evaluation
+    - model_provider_embedding_or_network
+
+roles:
+  owner: P2-001 Engineering Manager
+  worker: P2-001 Rust Repository Intelligence Worker
+  independent_reviewers:
+    - P2-001 CTO Reviewer
+    - P2-001 Security Reviewer
+    - P2-001 Quality Reviewer
+
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+risk_level: medium
+
+budget:
+  engineering_hours: 24
+  calendar_days: 7
+  implementation_iterations: 2
+  candidates: 1
+
+allowlisted_paths:
+  - analyzer-rust/src/context_selector.rs
+  - analyzer-rust/src/main.rs
+  - analyzer-rust/src/models.rs
+  - analyzer-rust/tests/context_selection_contract.rs
+  - evaluation-harness/harness/p2-repository-context-v1/**
+  - evaluation-harness/replay/p2-repository-context-v1/**
+  - scripts/verify-p2-001-context-selection.sh
+  - Makefile
+  - docs/PROJECT_CODE_MAP.md
+
+write_ownership:
+  worker:
+    - analyzer-rust/src/context_selector.rs
+    - analyzer-rust/src/main.rs
+    - analyzer-rust/src/models.rs
+    - analyzer-rust/tests/context_selection_contract.rs
+    - evaluation-harness/harness/p2-repository-context-v1/**
+    - evaluation-harness/replay/p2-repository-context-v1/**
+    - scripts/verify-p2-001-context-selection.sh
+    - Makefile
+  quality:
+    - evaluation-harness/datasets/p2-repository-context-v1/public/**
+    - evaluation-harness/evaluator/p2-repository-context-v1/**
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p2-001-context-selection-20260726/quality-freeze-v1/**
+  integration:
+    - docs/PROJECT_CODE_MAP.md
+
+read_context:
+  worker_allowed:
+    - analyzer-rust/**
+    - evaluation-harness/datasets/p2-repository-context-v1/public/**
+    - evaluation-harness/evaluator/p2-repository-context-v1/evaluator.mjs
+    - evaluation-harness/evaluator/p2-repository-context-v1/preflight.mjs
+    - docs/aios/STRATEGIC_CONSTITUTION.md
+    - docs/aios/EVALUATION_PROTOCOL.md
+  worker_forbidden:
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p2-001-context-selection-20260726/quality-freeze-v1/validation-task-specs.json
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p2-001-context-selection-20260726/quality-freeze-v1/validation-localization-oracle.json
+    - P1-134 rejected source fixture test candidate diff formal Evidence
+    - any other rejected Task engineering asset
+
+implementation_boundary:
+  executable: sourcelens-analyzer select-context
+  maximum_selected_files: 10
+  accepted_input: regular non-symlink repository snapshot plus public TaskSpec and exact target configuration
+  output:
+    - repository_and_input_identity
+    - ranked_existing_files
+    - selected_symbols
+    - evidence_spans
+    - stable_ranking_rationale
+    - cold_index_and_query_latency
+    - selected_context_bytes
+    - stable_projection_and_replay_receipt
+  excluded_architecture:
+    - Agent_Runtime
+    - planner_or_tool_loop
+    - database
+    - LLM_or_embedding
+    - Provider_or_network
+    - open_shell_product_capability
+
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+
+acceptance_criteria:
+  - public_development_tasks_execute_and_replay_deterministically
+  - quality_sealed_validation_target_hits_at_least_18_of_24
+  - validation_macro_recall_at_10_at_least_0_75
+  - absolute_delta_over_frozen_parent_snapshot_baseline_at_least_0_15
+  - query_only_p95_latency_no_more_than_2x_same_index_baseline
+  - selected_bytes_per_task_no_more_than_1_5x_frozen_baseline
+  - each_result_has_at_most_10_unique_regular_existing_files
+  - replay_mismatch_zero
+  - false_accepts_zero
+  - all_six_external_effects_false
+  - no_validation_contamination_or_rejected_asset_reuse
+
+required_evidence:
+  - exact_source_and_configuration_manifest
+  - worker_development_run_and_replay
+  - quality_sealed_validation_run
+  - baseline_and_target_ranked_outputs
+  - file_symbol_span_rationale_and_byte_accounting
+  - cold_index_query_and_end_to_end_latency
+  - negative_matrix_and_false_accept_accounting
+  - quality_owned_observer_receipt_bound_to_candidate_and_run_projections
+  - stable_projection_and_independent_replay
+  - exact_candidate_manifest
+  - fresh_CTO_Security_Quality_reviews
+
+stop_conditions:
+  - pre_worker_quality_freeze_identity_or_status_drift
+  - validation_contamination
+  - invalid_baseline_or_target_comparison
+  - target_hits_below_18_of_24
+  - false_accept_greater_than_zero
+  - replay_mismatch
+  - any_external_effect
+  - any_rejected_asset_read_or_reuse
+  - two_adjacent_same_normalized_root_cause
+  - implementation_or_review_budget_exhausted
+  - candidate_or_canonical_verification_non_pass
+  - mission_or_phase_expansion_required
+
+forbidden_actions:
+  - modify_frozen_dataset_evaluator_or_oracle_after_worker_start
+  - inspect_validation_issue_or_gold_before_sealed_quality_run
+  - tune_configuration_on_validation_results
+  - change_metric_denominator_threshold_or_top_k
+  - create_successor_replacement_correction_normalization_closure_feasibility_or_remediation_chain
+  - read_restore_compare_copy_or_reuse_P1_134_rejected_engineering_assets
+  - network_provider_secret_remote_production_public_or_push
+  - enter_P3
+
+rollback:
+  task_worktree: remove_only_after_terminal_evidence_or_accepted_integration
+  canonical_integration: non_destructive_git_revert_on_canonical_verify_non_pass
+  evidence: append_only_no_overwrite_or_delete
+
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-partial-exit-p2-entry-20260726/founder/FOUNDER_P1_PARTIAL_EXIT_AND_P2_REPOSITORY_INTELLIGENCE_ENTRY_V1.md
+  sha256: 2e065f6996cf203ee70f4eeeaf0a121b34f8066741399b25931eb29c3d84df9d
+  byte_length: 5077
+  authorization_token: AUTHORIZE_P1_PARTIAL_EXIT_WITH_DISCLOSED_RESIDUALS_AND_DIRECT_P2_REPOSITORY_INTELLIGENCE_PHASE_ENTRY_V1
+
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+
+claim_boundary: >-
+  Cooperative-local, offline, SourceLens-history-derived repository context
+  selection vertical-slice evidence only. PASS does not establish general
+  ecosystem performance, a trustworthy Agent, P3 readiness, production use,
+  remote safety or hostile-principal isolation.

@@ -1,0 +1,43 @@
+{
+  "schema_version": "p2-repository-context-target-config/v1",
+  "configuration_id": "LEXICAL_CAMEL_SYMBOL_RELATION_ROLE_DIVERSITY_V1",
+  "required_components": [
+    "frozen simple lexical baseline substrate",
+    "camel-case and symbol matching",
+    "one-hop relation or package-affinity expansion",
+    "deterministic role-diversity rerank"
+  ],
+  "selection_limit": 10,
+  "target_minimum_hits": 18,
+  "target_minimum_recall_at_10": 0.75,
+  "efficiency_guardrails": {
+    "selected_bytes_maximum_multiple_of_task_baseline": 1.5,
+    "query_p95_latency_maximum_multiple_of_same_index_baseline": 2.0
+  },
+  "forbidden_inputs_or_capabilities": [
+    "git diff",
+    "git history",
+    "accepted commit content",
+    "validation issue or validation oracle before sealed evaluation",
+    "model or provider",
+    "embedding",
+    "network",
+    "secret",
+    "remote effect",
+    "production effect",
+    "public effect"
+  ],
+  "required_properties": [
+    "exact per-file Git blob, SHA-256 and byte-length identity",
+    "symbol names proven by hashed byte spans",
+    "stable typed rationale proven by hashed byte spans",
+    "independently observed cold-index, query and end-to-end latency",
+    "independently observed selected-byte accounting",
+    "closed input inventory bound by a Quality-owned observer receipt",
+    "deterministic stable projection",
+    "exact replay equality",
+    "zero false accepts",
+    "zero external effects",
+    "at most ten distinct regular files per task"
+  ]
+}

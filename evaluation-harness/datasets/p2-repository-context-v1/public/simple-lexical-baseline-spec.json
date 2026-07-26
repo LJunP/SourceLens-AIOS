@@ -1,0 +1,48 @@
+{
+  "schema_version": "p2-simple-lexical-baseline-spec/v1",
+  "candidate_roots": [
+    "Makefile",
+    "analyzer-rust/src/**",
+    "backend-spring/src/main/**",
+    "web-console/src/**",
+    "evaluation-harness/adapters/**",
+    "evaluation-harness/evaluator/**",
+    "evaluation-harness/harness/**",
+    "evaluation-harness/replay/**",
+    "evaluation-harness/validators/**",
+    "scripts/**"
+  ],
+  "excluded_path_components": [
+    "test",
+    "tests",
+    "fixtures",
+    "recording",
+    "datasets",
+    "target",
+    "node_modules"
+  ],
+  "extensions": [
+    ".java", ".rs", ".ts", ".tsx", ".js", ".mjs", ".sh", ".rb", ".py",
+    ".css", ".sql", ".yaml", ".yml", ".toml"
+  ],
+  "tokenization": {
+    "camel_case_split": true,
+    "lowercase": true,
+    "pattern": "[a-z0-9]+",
+    "unique_tokens": true,
+    "minimum_length": 2,
+    "stopwords": [
+      "a", "an", "and", "are", "as", "at", "be", "by", "for", "from",
+      "has", "have", "in", "into", "is", "it", "its", "of", "on", "or",
+      "so", "that", "the", "their", "this", "to", "under", "with", "while",
+      "across", "only"
+    ]
+  },
+  "score": "For each unique issue token: 8 * exact normalized path-segment count + min(3, lowercase body substring count).",
+  "tie_break": "score descending, then UTF-8 relative-path bytes ascending",
+  "selection_limit": 10,
+  "selector_inputs": [
+    "public task issue",
+    "exact frozen parent snapshot"
+  ]
+}

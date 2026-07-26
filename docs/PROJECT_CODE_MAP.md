@@ -4,9 +4,9 @@
 
 ## 1. 生成范围
 
-- 纳入逐文件用途索引的文件数：812。
-- 其中源码/脚本/配置/SQL/CSS 类文件数：521。
-- 纳入统计的文本总行数：207301。
+- 纳入逐文件用途索引的文件数：823。
+- 其中源码/脚本/配置/SQL/CSS 类文件数：523。
+- 纳入统计的文本总行数：208703。
 - 排除逐文件展开的本地生成/证据目录：`.git/`、`bin/`、`web-console/node_modules/`、`backend-spring/target/`、`analyzer-rust/target/`、`.sourcelens-runtime/`、`release-evidence/`、前端构建和测试产物。
 - 本地生成物、依赖缓存和历史证据目录不是源码或当前权威；它们必须保持未跟踪并可重建或从封存恢复。
 
@@ -24,8 +24,8 @@
 | `CODE_OF_CONDUCT.md` | 1 | 项目根文件或辅助目录。 |
 | `CONTRIBUTING.md` | 1 | 项目根文件或辅助目录。 |
 | `deploy` | 2 | Docker Compose 和环境模板。 |
-| `docs` | 99 | 当前架构、接口、安全、研究与 AIOS 权威文档。 |
-| `evaluation-harness` | 237 | 项目根文件或辅助目录。 |
+| `docs` | 100 | 当前架构、接口、安全、研究与 AIOS 权威文档。 |
+| `evaluation-harness` | 247 | 项目根文件或辅助目录。 |
 | `LICENSE` | 1 | 项目根文件或辅助目录。 |
 | `Makefile` | 1 | 项目根文件或辅助目录。 |
 | `README.md` | 1 | 项目根文件或辅助目录。 |
@@ -169,13 +169,13 @@
 | `backend-spring/src/test/resources` | 5 | Spring Boot 后端服务。子目录。 |
 | `backend-spring/src/test/resources/mockito-extensions` | 1 | Spring Boot 后端服务。子目录。 |
 | `deploy` | 2 | 部署配置目录，包含 Docker Compose 和环境变量模板。 |
-| `docs` | 99 | 项目事实源文档目录，覆盖产品、架构、API、数据库、安全、运维、阶段需求、进度和交接。 |
-| `docs/aios` | 87 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
+| `docs` | 100 | 项目事实源文档目录，覆盖产品、架构、API、数据库、安全、运维、阶段需求、进度和交接。 |
+| `docs/aios` | 88 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/aios/schemas` | 4 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
-| `docs/aios/tasks` | 75 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
+| `docs/aios/tasks` | 76 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/aios/truth` | 1 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/llm-safety-evals` | 2 | LLM 安全评测用例目录，存放 prompt injection、输出质量和 provider run 模板。 |
-| `evaluation-harness` | 237 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness` | 247 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/adapters` | 18 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/adapters/harness_stub` | 2 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/adapters/offline-b0-finite-typed-v1` | 1 | 项目根文件或辅助目录。子目录。 |
@@ -185,7 +185,7 @@
 | `evaluation-harness/contracts/blind-admission-v1` | 2 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/contracts/offline-scheduled-matrix-v1` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/contracts/stable-replay-projection-v2` | 2 | 项目根文件或辅助目录。子目录。 |
-| `evaluation-harness/datasets` | 46 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/datasets` | 54 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/datasets/p1-representative-task-dataset-v1` | 46 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/datasets/p1-representative-task-dataset-v1/shared` | 2 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks` | 38 | 项目根文件或辅助目录。子目录。 |
@@ -213,8 +213,11 @@
 | `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/source-template` | 4 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/source-template/src` | 2 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/source-template/test` | 2 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/datasets/p2-repository-context-v1` | 8 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/datasets/p2-repository-context-v1/public` | 8 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/datasets/p2-repository-context-v1/public/development` | 2 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/environment` | 4 | 项目根文件或辅助目录。子目录。 |
-| `evaluation-harness/evaluator` | 16 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/evaluator` | 18 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/evaluator/blind-admission-v1` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/evaluator/finite-typed-patch-ir-v1` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/evaluator/offline-b0-complete-evidence-v1` | 1 | 项目根文件或辅助目录。子目录。 |
@@ -223,6 +226,7 @@
 | `evaluation-harness/evaluator/p1-101-accepted-shared-trace` | 3 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/evaluator/p1-116-closed-profile-scanner-admission` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/evaluator/p1-125-six-task-parameterized` | 1 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/evaluator/p2-repository-context-v1` | 2 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/fixtures` | 85 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/fixtures/blind-admission-v1` | 5 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/fixtures/environment-snapshot` | 8 | 项目根文件或辅助目录。子目录。 |
@@ -1003,6 +1007,7 @@
 | `docs/aios/tasks/P1-132_HISTORICAL_WORKTREE_TRUTH_COMPATIBILITY.yaml` | 项目文档。标题：P1-132_HISTORICAL_WORKTREE_TRUTH_COMPATIBILITY.yaml。 |
 | `docs/aios/tasks/P1-133_ACCEPTED_ADAPTER_BOUND_BASELINE_AND_PREREGISTRATION.yaml` | 项目文档。标题：P1-133_ACCEPTED_ADAPTER_BOUND_BASELINE_AND_PREREGISTRATION.yaml。 |
 | `docs/aios/tasks/P1-134_CLEAN_ROOM_PREFLIGHT_GATED_ADAPTER_BOUND_EXIT.yaml` | 项目文档。标题：P1-134_CLEAN_ROOM_PREFLIGHT_GATED_ADAPTER_BOUND_EXIT.yaml。 |
+| `docs/aios/tasks/P2-001_TASK_CONDITIONED_CONTEXT_SELECTION_VERTICAL_SLICE.yaml` | 项目文档。标题：P2-001_TASK_CONDITIONED_CONTEXT_SELECTION_VERTICAL_SLICE.yaml。 |
 | `docs/aios/truth/project_state.yaml` | 项目文档。标题：project_state.yaml。 |
 | `docs/API_DESIGN.md` | API 设计文档，记录后端接口、请求响应、权限和当前 route inventory。标题：API 设计。 |
 | `docs/ARCHITECTURE.md` | 项目文档。标题：架构设计。 |
@@ -1090,6 +1095,14 @@
 | `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/source-template/test/issue.test.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/source-template/test/regression.test.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/datasets/p1-representative-task-dataset-v1/tasks/SL-P1-REP-006-DEDUPE-REFACTOR/task-spec.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/datasets/p2-repository-context-v1/public/candidate-result-contract.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/datasets/p2-repository-context-v1/public/CLAIMS_AND_GUARDRAILS.md` | Markdown 文档。 |
+| `evaluation-harness/datasets/p2-repository-context-v1/public/development/P2CTX-DEV-001-UI-STYLING.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/datasets/p2-repository-context-v1/public/development/P2CTX-DEV-002-AUTHORITY-CONVERGENCE.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/datasets/p2-repository-context-v1/public/manifest.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/datasets/p2-repository-context-v1/public/quality-observer-contract.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/datasets/p2-repository-context-v1/public/simple-lexical-baseline-spec.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/datasets/p2-repository-context-v1/public/target-config.json` | JSON 配置或数据文件。 |
 | `evaluation-harness/environment/cli.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/environment/README.md` | Markdown 文档。 |
 | `evaluation-harness/environment/self-test.mjs` | Node.js 自动化脚本或配置文件。 |
@@ -1107,6 +1120,8 @@
 | `evaluation-harness/evaluator/p1-101-accepted-shared-trace/self-test.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/evaluator/p1-116-closed-profile-scanner-admission/run-matrix.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/evaluator/p1-125-six-task-parameterized/run-matrix.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/evaluator/p2-repository-context-v1/evaluator.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/evaluator/p2-repository-context-v1/preflight.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/evaluator/README.md` | Markdown 文档。 |
 | `evaluation-harness/evaluator/schema-validator.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/evaluator/self-test.mjs` | Node.js 自动化脚本或配置文件。 |

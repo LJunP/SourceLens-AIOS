@@ -1,0 +1,11 @@
+{
+  "schema_version": "p2-repository-context-public-task/v1",
+  "task_id": "P2CTX-DEV-002-AUTHORITY-CONVERGENCE",
+  "issue": "Make the P1 safety boundary delegate task and route accounting to the single current-task authority core while retaining only non-duplicated safety checks.",
+  "snapshot_commit": "b6a198efa80e638fa68786071d0bdc65d6b9ea93",
+  "snapshot_tree": "3343694f71810e1eaf1cc5b402ea159489d4807a",
+  "selection_limit": 10,
+  "development_oracle_paths": [
+    "scripts/check-p1-safety-boundary.sh"
+  ]
+}

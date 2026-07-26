@@ -14,7 +14,7 @@ module CurrentTaskAuthority
 
   SHA256_RE = /\A[0-9a-f]{64}\z/.freeze
   COMMIT_RE = /\A[0-9a-f]{40}\z/.freeze
-  SAFE_TASK_ID_RE = /\AAIOS-P1-[0-9]{3}(?:_[A-Z0-9_]+)?\z/.freeze
+  SAFE_TASK_ID_RE = /\AAIOS-P[12]-[0-9]{3}(?:_[A-Z0-9_]+)?\z/.freeze
   EXTERNAL_EFFECT_KEYS = %w[network provider secret remote production public].freeze
   FALSE_EXTERNAL_EFFECTS = {
     "network" => false,
@@ -1064,7 +1064,9 @@ module CurrentTaskAuthority
   def packet_claims(packet_bytes)
     text = packet_bytes.dup.force_encoding(Encoding::UTF_8)
     assert(text.valid_encoding?, "decision packet must be valid UTF-8")
-    if text.include?("AUTHORIZE_P1_OPERATOR_OWNED_CREDENTIAL_CAPTURE_AND_OFFLINE_EXIT_GATE_ROUTE_V1")
+    if text.include?("AUTHORIZE_P1_PARTIAL_EXIT_WITH_DISCLOSED_RESIDUALS_AND_DIRECT_P2_REPOSITORY_INTELLIGENCE_PHASE_ENTRY_V1")
+      p2_repository_intelligence_route_packet_claims(text)
+    elsif text.include?("AUTHORIZE_P1_OPERATOR_OWNED_CREDENTIAL_CAPTURE_AND_OFFLINE_EXIT_GATE_ROUTE_V1")
       operator_capture_route_packet_claims(text)
     elsif text.include?("founder_p1_phase_gate_route_decision_packet")
       phase_gate_route_packet_claims(text)
@@ -1073,6 +1075,91 @@ module CurrentTaskAuthority
     else
       legacy_route_packet_claims(text)
     end
+  end
+
+  def p2_repository_intelligence_route_packet_claims(text)
+    token = "AUTHORIZE_P1_PARTIAL_EXIT_WITH_DISCLOSED_RESIDUALS_AND_DIRECT_P2_REPOSITORY_INTELLIGENCE_PHASE_ENTRY_V1"
+    assert(text.scan(token).length == 1, "P2 decision packet must contain the exact authorization token once")
+    route_id = one_packet_match(
+      text,
+      /- route ID: `(P[0-9]_[A-Z0-9_]+_ROUTE_V[0-9]+)`/,
+      "P2 route id"
+    )
+    parent_commit = one_packet_match(
+      text,
+      /- canonical commit: `([0-9a-f]{40})`/,
+      "P2 activation parent commit"
+    )
+    parent_tree = one_packet_match(
+      text,
+      /- canonical tree: `([0-9a-f]{40})`/,
+      "P2 activation parent tree"
+    )
+    max_engineering_tasks = Integer(one_packet_match(
+      text, /- maximum engineering Tasks: `([0-9]+)`/, "P2 Task envelope"
+    ), 10)
+    max_engineering_hours = Integer(one_packet_match(
+      text, /- maximum engineering hours: `([0-9]+)`/, "P2 hour envelope"
+    ), 10)
+    max_calendar_days = Integer(one_packet_match(
+      text, /- maximum calendar days: `([0-9]+)`/, "P2 calendar envelope"
+    ), 10)
+    task_sections = text.scan(/^## [0-9]+\. Task [0-9]+\s*$\n(.*?)(?=^## |\z)/m).flatten
+    task_budgets = task_sections.map do |section|
+      {
+        "task_id" => one_packet_match(
+          section, /- Task ID: `(AIOS-P[0-9]-[0-9]{3}_[A-Z0-9_]+)`/, "P2 Task id"
+        ),
+        "engineering_hours" => Integer(one_packet_match(
+          section, /- budget: `([0-9]+) engineering hours \//, "P2 Task engineering budget"
+        ), 10),
+        "calendar_days" => Integer(one_packet_match(
+          section, /- budget: `[0-9]+ engineering hours \/ ([0-9]+) calendar days`/,
+          "P2 Task calendar budget"
+        ), 10)
+      }
+    end
+    task_ids = task_budgets.map { |budget| budget["task_id"] }
+    assert(task_ids.length == max_engineering_tasks && task_ids.uniq.length == task_ids.length,
+           "P2 decision packet Task set is not closed")
+    assert(task_budgets.sum { |budget| budget["engineering_hours"] } == max_engineering_hours,
+           "P2 Task hours do not equal the route envelope")
+    assert(task_budgets.sum { |budget| budget["calendar_days"] } == max_calendar_days,
+           "P2 Task days do not equal the route envelope")
+    assert(text.include?("each Task: initial implementation plus at most one same-Task code-only repair"),
+           "P2 implementation iteration boundary drifted")
+    assert(text.include?("Each Task may freeze one exact candidate"),
+           "P2 candidate boundary drifted")
+    assert(text.include?("- network, Provider, Secret, remote, production and public effects: `false`"),
+           "P2 external-effect boundary drifted")
+    primary_metric_min_delta = Float(one_packet_match(
+      text,
+      /file-localization recall@10 improves by at least `([0-9]+(?:\.[0-9]+)?)` absolute/,
+      "P2 primary metric"
+    ))
+    {
+      "text" => text,
+      "authorization_token" => token,
+      "route_id" => route_id,
+      "activation_parent_commit" => parent_commit,
+      "activation_parent_tree" => parent_tree,
+      "max_engineering_tasks" => max_engineering_tasks,
+      "max_engineering_hours" => max_engineering_hours,
+      "max_calendar_days" => max_calendar_days,
+      "max_same_task_repairs" => 1,
+      "max_contract_corrections_per_task" => 0,
+      "first_task_id" => task_ids.first,
+      "first_task_engineering_hours" => task_budgets.first["engineering_hours"],
+      "first_task_calendar_days" => task_budgets.first["calendar_days"],
+      "first_task_implementation_iterations" => 2,
+      "first_task_candidates" => 1,
+      "task_ids" => task_ids,
+      "task_budgets" => task_budgets,
+      "primary_metric_min_delta" => primary_metric_min_delta,
+      "founder_reserved_profile" => nil,
+      "founder_reserved_profiles" => [],
+      "external_effects" => FALSE_EXTERNAL_EFFECTS
+    }
   end
 
   def chinese_integer(text)
@@ -1140,7 +1227,9 @@ module CurrentTaskAuthority
     end
     exact_false(envelope["successor_replacement_normalization_closure_feasibility_or_remediation_chain_allowed"],
                 "route envelope correction-chain permission")
-    exact_false(envelope["p2_entry_authorized"], "route envelope P2 entry")
+    expected_p2_entry = project["current_phase"] == "P2"
+    assert(envelope["p2_entry_authorized"] == expected_p2_entry,
+           "route envelope P2 entry must match current phase")
     exact_false(envelope["p3_entry_authorized"], "route envelope P3 entry")
     if claims["founder_reserved_profile"]
       route_profile = validate_founder_reserved_profile(
@@ -1204,7 +1293,17 @@ module CurrentTaskAuthority
     end
 
     accepted = hash(route["accepted_inputs"], "current_phase_route.accepted_inputs")
-    assert(!accepted.empty?, "current_phase_route.accepted_inputs must not be empty")
+    if route.key?("accepted_input_ids")
+      accepted_input_ids = array(route["accepted_input_ids"], "current_phase_route.accepted_input_ids")
+      accepted_input_ids.each_with_index do |input_id, index|
+        string(input_id, "current_phase_route.accepted_input_ids[#{index}]")
+      end
+      assert(accepted.keys.sort == accepted_input_ids.sort &&
+             accepted_input_ids.uniq.length == accepted_input_ids.length,
+             "current_phase_route.accepted_inputs does not equal its closed Truth input set")
+    else
+      assert(!accepted.empty?, "current_phase_route.accepted_inputs must not be empty")
+    end
     accepted.each do |input_id, record_value|
       record = hash(record_value, "accepted input #{input_id}")
       task_id = string(record["task_id"], "accepted input #{input_id}.task_id")
@@ -1237,10 +1336,12 @@ module CurrentTaskAuthority
              "accepted input #{input_id} commit does not bind the declared contract bytes")
       assert(current_contract == historical_contract,
              "accepted input #{input_id} current and accepted-commit contract bytes differ")
-      validate_accepted_contract(current_contract, contract_path, task_id, project["current_phase"],
+      source_phase = record.fetch("source_phase", project["current_phase"])
+      assert(%w[P0 P1 P2].include?(source_phase), "accepted input #{input_id} source phase is invalid")
+      validate_accepted_contract(current_contract, contract_path, task_id, source_phase,
                                  "accepted input #{input_id} current contract")
       validate_accepted_contract(historical_contract, record["task_contract_path"], task_id,
-                                 project["current_phase"], "accepted input #{input_id} accepted-commit contract")
+                                 source_phase, "accepted input #{input_id} accepted-commit contract")
     end
 
     first_task = hash(route["first_task"], "current_phase_route.first_task")
@@ -1267,6 +1368,12 @@ module CurrentTaskAuthority
       item = hash(descriptor, "current_phase_route.task_plan[#{index}]")
       assert(item["task_slot"] == index + 1,
              "current_phase_route.task_plan slots must be contiguous and ordered")
+      packet_budget = claims["task_budgets"].is_a?(Array) ? claims["task_budgets"][index] : nil
+      if packet_budget
+        assert(item["engineering_hours"] == packet_budget["engineering_hours"] &&
+               item["calendar_days"] == packet_budget["calendar_days"],
+               "current_phase_route.task_plan budget does not equal the exact decision packet")
+      end
       string(item["task_id"], "current_phase_route.task_plan[#{index}].task_id")
     end
     assert(task_plan_ids == claims["task_ids"] && task_plan_ids.uniq.length == task_plan_ids.length,
@@ -1322,13 +1429,16 @@ module CurrentTaskAuthority
     between_tasks = route["status"] == "ACTIVE"
     assert(initial_ready || between_tasks, "Task NONE requires a ready or active Phase route")
     if initial_ready
+      phase_status_key = "#{project['current_phase'].downcase}_execution_status"
       assert(project["phase_execution_status"] == "AUTHORIZED_READY" &&
-             project["p1_execution_status"] == "AUTHORIZED_READY", "initial Task NONE requires project AUTHORIZED_READY")
+             project[phase_status_key] == "AUTHORIZED_READY",
+             "initial Task NONE requires project AUTHORIZED_READY")
       assert(first_task["status"] == "ELIGIBLE_NOT_ACTIVATED",
              "initial Task NONE requires an eligible, non-activated first Task")
     else
+      phase_status_key = "#{project['current_phase'].downcase}_execution_status"
       assert(%w[ACTIVE EXECUTING].include?(project["phase_execution_status"]) &&
-             %w[ACTIVE EXECUTING].include?(project["p1_execution_status"]),
+             %w[ACTIVE EXECUTING].include?(project[phase_status_key]),
              "between-Task NONE requires active project execution")
       assert(first_task["status"] != "ACTIVE", "between-Task NONE cannot leave first Task active")
     end
@@ -1425,8 +1535,9 @@ module CurrentTaskAuthority
     assert(route["status"] == "ACTIVE", "active Task requires route ACTIVE")
     assert(%w[ACTIVE EXECUTING].include?(project["phase_execution_status"]),
            "active Task requires active project phase execution")
-    assert(%w[ACTIVE EXECUTING].include?(project["p1_execution_status"]),
-           "active Task requires active P1 execution")
+    phase_status_key = "#{project['current_phase'].downcase}_execution_status"
+    assert(%w[ACTIVE EXECUTING].include?(project[phase_status_key]),
+           "active Task requires active current-phase execution")
     assert(!historical_task_ids(truth).include?(task_id), "active Task id reuses a historical Task id")
 
     contract_identity = identity_from(active["current_task_contract"], active["current_task_contract_sha256"],
@@ -1536,7 +1647,7 @@ module CurrentTaskAuthority
     immutable = array(boundary["immutable_authority_paths"], "phase_boundary.immutable_authority_paths")
     scopes.each do |scope|
       assert(roots.any? { |root_path| scope_within_root?(scope, root_path) },
-             "allowlisted path is outside the P1 role roots: #{scope}")
+             "allowlisted path is outside the current Phase role roots: #{scope}")
       assert(immutable.none? { |path| scope_within_root?(scope, path) || scope_within_root?(path, scope) },
              "allowlisted path overlaps immutable authority: #{scope}")
     end

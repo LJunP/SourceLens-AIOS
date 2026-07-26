@@ -1,0 +1,11 @@
+{
+  "schema_version": "p2-repository-context-public-task/v1",
+  "task_id": "P2CTX-DEV-001-UI-STYLING",
+  "issue": "Improve SourceLens web console primary button readability and dashboard command-card styling.",
+  "snapshot_commit": "77892349578febc43c1c4054081d4c9cfa5c3cfc",
+  "snapshot_tree": "c34240cc6a486d17872a505dda8ef508e41d0364",
+  "selection_limit": 10,
+  "development_oracle_paths": [
+    "web-console/src/styles/app.css"
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "schema_version": "p2-repository-context-quality-observer-contract/v1",
+  "observer_id": "P2CTX-QUALITY-OWNED-PROCESS-BOUNDARY-V1",
+  "receipt_schema": "p2-repository-context-observer-receipt/v1",
+  "claim_boundary": "cooperative-local Quality-owned process observation",
+  "required_closed_input_roles": [
+    "public_contract",
+    "sealed_validation_issue",
+    "snapshot_tree",
+    "quality_only_oracle"
+  ],
+  "selector_visible_roles": [
+    "public_contract",
+    "sealed_validation_issue",
+    "snapshot_tree"
+  ],
+  "quality_only_roles": [
+    "quality_only_oracle"
+  ],
+  "required_independent_observations": [
+    "candidate SHA-256",
+    "closed input inventory SHA-256",
+    "per-run stable projection SHA-256",
+    "cold-index latency",
+    "query latency",
+    "end-to-end latency",
+    "selected bytes",
+    "validation-oracle access",
+    "accepted-change content access",
+    "diff or history commands",
+    "network connect attempts",
+    "Provider requests",
+    "Secret read attempts",
+    "remote writes",
+    "production effects",
+    "public effects"
+  ],
+  "pass_boundary": {
+    "validation_oracle_opened_by_selector": false,
+    "accepted_change_content_opened": false,
+    "diff_or_history_commands": 0,
+    "network_connect_attempts": 0,
+    "provider_requests": 0,
+    "secret_read_attempts": 0,
+    "remote_writes": 0,
+    "production_effects": 0,
+    "public_effects": 0
+  },
+  "warning": "A candidate self-attestation is not accepted as evidence for contamination, latency, byte accounting, or external-effect claims."
+}

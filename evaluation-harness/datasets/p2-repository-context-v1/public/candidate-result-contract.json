@@ -1,0 +1,47 @@
+{
+  "schema_version": "p2-repository-context-candidate-result-contract/v2",
+  "candidate_schema": "p2-repository-context-candidate-result/v2",
+  "required_run_sets": [
+    "baseline_runs",
+    "target_runs",
+    "replay_runs"
+  ],
+  "run_requirements": {
+    "task_identity": "exact frozen task ID and parent snapshot commit",
+    "maximum_ranked_items": 10,
+    "ranked_item_fields": [
+      "rank",
+      "path",
+      "identity",
+      "symbols",
+      "evidence_spans",
+      "stable_rationale"
+    ],
+    "identity_fields": [
+      "git_blob_sha1",
+      "sha256",
+      "byte_length"
+    ],
+    "evidence_span_fields": [
+      "start_byte",
+      "end_byte",
+      "sha256"
+    ],
+    "rationale_kinds": [
+      "lexical",
+      "symbol",
+      "one_hop_relation",
+      "package_affinity",
+      "role_diversity"
+    ],
+    "latency_fields": [
+      "cold_index_ms",
+      "query_ms",
+      "end_to_end_ms"
+    ],
+    "selected_bytes": "exact sum of independently read snapshot blob lengths",
+    "stable_projection": "task identity plus complete ordered ranked items; excludes runtime latency"
+  },
+  "replay_requirement": "target and replay stable projections must be byte-identical for every validation task",
+  "observer_requirement": "A separately supplied Quality-owned observer receipt must hash-bind the complete candidate, closed input inventory, measured latency, selected bytes, output projection, and independently observed process boundary."
+}

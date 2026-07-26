@@ -5,7 +5,7 @@ ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 TRUTH_PATH="${ROOT_DIR}/docs/aios/truth/project_state.yaml"
 
 fail() {
-  echo "P1 SAFETY BOUNDARY FAIL: $*" >&2
+  echo "PHASE SAFETY BOUNDARY FAIL: $*" >&2
   exit 1
 }
 
@@ -30,7 +30,7 @@ run_authority_core() {
   )
 }
 
-check_unique_p1_safety() {
+check_unique_phase_safety() {
   local truth_path="$1"
   ruby -ryaml -rpathname -e '
     def stop!(message)
@@ -71,8 +71,7 @@ check_unique_p1_safety() {
       "production" => false,
       "public" => false
     }
-    forbidden_capabilities = %w[
-      P2_REPOSITORY_INTELLIGENCE_CAPABILITY_CLAIM
+    post_p2_forbidden_capabilities = %w[
       P3_SINGLE_AGENT_RUNTIME
       AGENT_SHELL
       MODEL_INITIATED_CANONICAL_WRITE
@@ -95,23 +94,33 @@ check_unique_p1_safety() {
     mapping!(truth, "Truth")
 
     project = mapping!(truth["project"], "project")
-    stop!("current phase must remain P1") unless project["current_phase"] == "P1"
+    phase = project["current_phase"]
+    stop!("current phase must be P1 or P2") unless %w[P1 P2].include?(phase)
     stop!("P0 must remain complete") unless project["p0_status"] == "COMPLETE"
     stop!("P1 entry must remain authorized") unless project["p1_entry_status"] == "AUTHORIZED"
+    if phase == "P2"
+      stop!("P1 partial-exit status drifted") unless
+        project["p1_execution_status"] == "PARTIAL_EXIT_WITH_DISCLOSED_RESIDUALS_6_OF_8_75_PERCENT"
+      stop!("P2 entry must remain authorized") unless project["p2_entry_status"] == "AUTHORIZED"
+    end
 
     boundary = mapping!(truth["phase_boundary"], "phase_boundary")
-    stop!("phase boundary must remain P1") unless boundary["phase"] == "P1"
+    stop!("phase boundary must equal current phase") unless boundary["phase"] == phase
     task_kinds = sequence!(boundary["allowed_task_kinds"], "phase_boundary.allowed_task_kinds")
-    stop!("P1 task kinds drifted") unless
-      !task_kinds.empty? &&
-      task_kinds.all? { |kind| kind.is_a?(String) && kind.start_with?("EVALUATION_FOUNDATION_") }
+    expected_prefix = phase == "P1" ? "EVALUATION_FOUNDATION_" : "REPOSITORY_INTELLIGENCE_"
+    stop!("#{phase} task kinds drifted") unless
+      !task_kinds.empty? && task_kinds.all? do |kind|
+        kind.is_a?(String) && kind.start_with?(expected_prefix)
+      end
 
     allowed = sequence!(boundary["allowed_capabilities"], "phase_boundary.allowed_capabilities")
-    stop!("P1 admits a deferred capability") unless (allowed & forbidden_capabilities).empty?
+    forbidden_capabilities = post_p2_forbidden_capabilities.dup
+    forbidden_capabilities.unshift("P2_REPOSITORY_INTELLIGENCE_CAPABILITY_CLAIM") if phase == "P1"
+    stop!("#{phase} admits a deferred capability") unless (allowed & forbidden_capabilities).empty?
     deferred = sequence!(boundary["deferred_capabilities"], "phase_boundary.deferred_capabilities")
-    stop!("P1 deferred capability set is incomplete") unless
+    stop!("#{phase} deferred capability set is incomplete") unless
       (forbidden_capabilities - deferred).empty?
-    stop!("P1 default external effects drifted") unless
+    stop!("#{phase} default external effects drifted") unless
       boundary["default_external_effects"] == false_effects
 
     role_roots = mapping!(boundary["role_write_roots"], "phase_boundary.role_write_roots")
@@ -128,7 +137,7 @@ check_unique_p1_safety() {
       end
     end
     repository_roots.uniq!
-    stop!("P1 repository write roots are empty") if repository_roots.empty?
+    stop!("#{phase} repository write roots are empty") if repository_roots.empty?
 
     route = mapping!(truth["current_phase_route"], "current_phase_route")
     route_roots = sequence!(
@@ -137,11 +146,11 @@ check_unique_p1_safety() {
     )
     route_roots.each_with_index do |entry, index|
       path = safe_relative!(entry, "current_phase_route.additional_write_roots[#{index}]")
-      stop!("route write root is outside the P1 boundary: #{path}") unless
+      stop!("route write root is outside the #{phase} boundary: #{path}") unless
         repository_roots.any? { |root| within?(path, root) }
     end
 
-    puts "P1_SAFETY_UNIQUE: PASS"
+    puts "#{phase}_SAFETY_UNIQUE: PASS"
   ' "$truth_path"
 }
 
@@ -165,10 +174,10 @@ fi
 # This is the only Task/route accounting decision. Its exact PASS/NON_PASS
 # output and exit status are intentionally propagated without reinterpretation.
 run_authority_core "$ROOT_DIR"
-check_unique_p1_safety "$TRUTH_PATH"
+check_unique_phase_safety "$TRUTH_PATH"
 
 if [[ $# -gt 0 ]]; then
-  echo "Current P1 route safety validation passed."
+  echo "Current Phase route safety validation passed."
 else
-  echo "P1 basic safety boundary validation passed (current cooperative-local route only)."
+  echo "Phase safety boundary validation passed (current cooperative-local route only)."
 fi

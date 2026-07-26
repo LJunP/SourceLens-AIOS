@@ -15,6 +15,7 @@ SAFETY_VALIDATOR = File.expand_path("check-p1-safety-boundary.sh", __dir__)
 SOURCE_REPO = File.expand_path("..", __dir__)
 TRUTH_RELATIVE = "docs/aios/truth/project_state.yaml"
 POLICY_RELATIVE = "docs/aios/FOUNDER_DELEGATION_POLICY.md"
+P1_READY_GOLDEN_COMMIT = "03542c278ad57b030cb0798483de8c3c19341952"
 
 class TestFailure < StandardError; end
 
@@ -153,7 +154,7 @@ class CurrentTaskAuthorityTest
   def expect_safety_pass(repo, truth_path, label)
     stdout, stderr, status = run_safety(repo, truth_path)
     assert(status.success?, "#{label}: expected safety PASS\n#{stdout}#{stderr}")
-    assert(stdout.include?("Current P1 route safety validation passed."), "#{label}: safety PASS marker missing")
+    assert(stdout.include?("Current Phase route safety validation passed."), "#{label}: safety PASS marker missing")
     @passes += 1
     puts "PASS #{label}"
   end
@@ -500,6 +501,26 @@ class CurrentTaskAuthorityTest
       descriptor.fetch("task_id")
     end
     assert(claims["task_ids"] == expected_tasks, "current packet Task set drifted")
+    if claims["founder_reserved_profiles"].empty?
+      assert(claims["external_effects"] == false_effects,
+             "offline current packet external-effect boundary drifted")
+      @passes += 1
+      puts "PASS exact current offline packet Task/effect set"
+      if packet.include?("AUTHORIZE_P1_PARTIAL_EXIT_WITH_DISCLOSED_RESIDUALS_AND_DIRECT_P2_REPOSITORY_INTELLIGENCE_PHASE_ENTRY_V1")
+        original_task_id = expected_tasks.first
+        replacement_task_id = "AIOS-P2-901_DATA_DRIVEN_PACKET_FIXTURE"
+        data_driven_packet = packet.sub(original_task_id, replacement_task_id)
+        data_driven_claims = CurrentTaskAuthority.packet_claims(data_driven_packet)
+        assert(data_driven_claims["task_ids"].first == replacement_task_id,
+               "P2 packet parser hard-coded the current first Task id")
+        assert(data_driven_claims["task_budgets"].map { |entry| entry["engineering_hours"] }.sum ==
+               data_driven_claims["max_engineering_hours"],
+               "P2 packet parser did not derive the Task budget set")
+        @passes += 1
+        puts "PASS P2 packet Task ids and budgets are data-driven"
+      end
+      return
+    end
     assert(
       claims["founder_reserved_profiles"].map { |profile| profile["task_id"] } == expected_tasks,
       "current packet profile set drifted"
@@ -539,6 +560,96 @@ class CurrentTaskAuthorityTest
     end
   end
 
+  def prepare_p1_ready_golden_fixture(sandbox)
+    source_truth = YAML.load(
+      shell(SOURCE_REPO, "git", "show", "#{P1_READY_GOLDEN_COMMIT}:#{TRUTH_RELATIVE}")
+    )
+    assert(source_truth.dig("project", "current_phase") == "P1",
+           "historical P1 READY golden phase drifted")
+    assert(source_truth.dig("current_phase_route", "status") == "AUTHORIZED_READY",
+           "historical P1 READY golden route drifted")
+    assert(source_truth.dig("active_work", "current_task") == "NONE",
+           "historical P1 READY golden Task state drifted")
+
+    repo = File.join(sandbox, "p1-ready-repo")
+    external = File.join(sandbox, "p1-ready-external")
+    FileUtils.mkdir_p(external)
+    shell(sandbox, "git", "clone", "--quiet", "--no-hardlinks", SOURCE_REPO, repo)
+    shell(repo, "git", "checkout", "--quiet", "-B", "main", P1_READY_GOLDEN_COMMIT)
+    shell(repo, "git", "config", "user.name", "P1 Golden Fixture")
+    shell(repo, "git", "config", "user.email", "p1-golden@example.invalid")
+
+    validator_path = File.join(repo, "scripts/validate-current-task-authority.rb")
+    safety_path = File.join(repo, "scripts/check-p1-safety-boundary.sh")
+    register_owned(validator_path)
+    register_owned(safety_path)
+    rewrite_owned(validator_path, File.binread(VALIDATOR))
+    rewrite_owned(safety_path, File.binread(SAFETY_VALIDATOR))
+
+    packet_identity = source_truth.fetch("current_phase_route").fetch("decision_packet")
+    packet_path = verified_source_copy(
+      packet_identity.fetch("path"),
+      File.join(external, "decision-packet.md"),
+      packet_identity.fetch("sha256"),
+      packet_identity.fetch("byte_length")
+    )
+    goal_path = verified_source_copy(
+      source_truth.fetch("goal").fetch("source_attachment_path"),
+      File.join(external, "goal.txt"),
+      "28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1",
+      19_433
+    )
+    worktree_root = File.join(external, "worktrees")
+    evidence_base = File.join(external, "audit")
+    FileUtils.mkdir_p(worktree_root)
+    FileUtils.mkdir_p(evidence_base)
+
+    truth_path = File.join(repo, TRUTH_RELATIVE)
+    register_owned(truth_path)
+    source_truth["goal"]["source_attachment_path"] = goal_path
+    source_truth["project"]["canonical_repository"] = repo
+    source_truth["project"]["canonical_branch"] = "main"
+    source_truth["project"]["task_worktree_root"] = worktree_root
+    source_truth["project"]["execution_evidence_root_base"] = evidence_base
+    source_truth["current_phase_route"]["decision_packet"]["path"] = packet_path
+    source_truth["current_phase_route"]["inherited_worktree_inventory"] = []
+    dump_owned_yaml(truth_path, source_truth)
+    commit(repo, "test: materialize historical P1 READY golden")
+
+    {
+      "repo" => repo,
+      "external" => external,
+      "truth_path" => truth_path,
+      "policy_path" => File.join(repo, POLICY_RELATIVE),
+      "packet_path" => packet_path,
+      "goal_path" => goal_path,
+      "worktree_root" => worktree_root,
+      "evidence_base" => evidence_base
+    }
+  end
+
+  def p1_ready_and_active_golden_regression_tests(sandbox)
+    fixture = prepare_p1_ready_golden_fixture(sandbox)
+    expect_pass(fixture["repo"], "historical P1 READY_NONE golden")
+    stdout, stderr, status = run_safety(fixture["repo"], fixture["truth_path"])
+    assert(status.success?, "historical P1 READY safety: expected PASS\n#{stdout}#{stderr}")
+    assert(stdout.include?("P1_SAFETY_UNIQUE: PASS"),
+           "historical P1 READY safety marker drifted")
+    @passes += 1
+    puts "PASS historical P1 READY_NONE safety golden"
+
+    active = activate_fixture(fixture)
+    expect_pass(active["repo"], "historical P1 ACTIVE_TASK golden")
+    stdout, stderr, status = run_safety(active["repo"], active["truth_path"])
+    assert(status.success?, "historical P1 ACTIVE safety: expected PASS\n#{stdout}#{stderr}")
+    assert(stdout.include?("P1_SAFETY_UNIQUE: PASS"),
+           "historical P1 ACTIVE safety marker drifted")
+    @passes += 1
+    puts "PASS historical P1 ACTIVE_TASK safety golden"
+    shell(active["repo"], "git", "worktree", "remove", active["task_worktree"])
+    shell(active["repo"], "git", "branch", "-d", active["task_branch"])
+  end
+
   def prepare_fixture(sandbox)
     source_truth_path = File.join(SOURCE_REPO, TRUTH_RELATIVE)
     source_truth = yaml(source_truth_path)
@@ -553,9 +664,15 @@ class CurrentTaskAuthorityTest
 
     truth_path = File.join(repo, TRUTH_RELATIVE)
     policy_path = File.join(repo, POLICY_RELATIVE)
+    validator_path = File.join(repo, "scripts/validate-current-task-authority.rb")
+    safety_path = File.join(repo, "scripts/check-p1-safety-boundary.sh")
     register_owned(truth_path)
     register_owned(policy_path)
+    register_owned(validator_path)
+    register_owned(safety_path)
     rewrite_owned(policy_path, File.binread(File.join(SOURCE_REPO, POLICY_RELATIVE)))
+    rewrite_owned(validator_path, File.binread(VALIDATOR))
+    rewrite_owned(safety_path, File.binread(SAFETY_VALIDATOR))
 
     packet_identity = source_truth.fetch("current_phase_route").fetch("decision_packet")
     packet_source = packet_identity.fetch("path")
@@ -586,7 +703,8 @@ class CurrentTaskAuthorityTest
     truth["project"]["task_worktree_root"] = worktree_root
     truth["project"]["execution_evidence_root_base"] = evidence_base
     truth["project"]["phase_execution_status"] = "AUTHORIZED_READY"
-    truth["project"]["p1_execution_status"] = "AUTHORIZED_READY"
+    phase_status_key = "#{truth.dig('project', 'current_phase').downcase}_execution_status"
+    truth["project"][phase_status_key] = "AUTHORIZED_READY"
     truth["current_phase_route"]["status"] = "AUTHORIZED_READY"
     truth["current_phase_route"]["decision_packet"]["path"] = packet_path
     first_task_id = truth.fetch("current_phase_route").fetch("first_task").fetch("task_id")
@@ -729,7 +847,23 @@ class CurrentTaskAuthorityTest
     dump_owned_yaml(fixture["truth_path"], truth)
     commit(repo, "test: restore remote deny")
 
-    accepted_lineage_tests(fixture)
+    accepted_inputs = yaml(fixture["truth_path"]).dig("current_phase_route", "accepted_inputs")
+    accepted_lineage_tests(fixture) unless accepted_inputs.empty?
+    truth = yaml(fixture["truth_path"])
+    if truth["current_phase_route"].key?("accepted_input_ids")
+      original_ids = deep_copy(truth["current_phase_route"]["accepted_input_ids"])
+      truth["current_phase_route"].delete("accepted_input_ids")
+      dump_owned_yaml(fixture["truth_path"], truth)
+      commit(repo, "test: remove closed accepted-input set declaration")
+      expect_nonpass(repo, "missing closed accepted-input set", /accepted_inputs must not be empty/)
+      truth["current_phase_route"]["accepted_input_ids"] = original_ids + ["UNDECLARED_INPUT"]
+      dump_owned_yaml(fixture["truth_path"], truth)
+      commit(repo, "test: mismatch closed accepted-input set")
+      expect_nonpass(repo, "mismatched closed accepted-input set", /closed Truth input set/)
+      truth["current_phase_route"]["accepted_input_ids"] = original_ids
+      dump_owned_yaml(fixture["truth_path"], truth)
+      commit(repo, "test: restore closed accepted-input set")
+    end
 
     truth = yaml(fixture["truth_path"])
     link_path = File.join(fixture["external"], "decision-packet-link.md")
@@ -828,6 +962,7 @@ class CurrentTaskAuthorityTest
     truth = yaml(truth_path)
     task = truth.fetch("current_phase_route").fetch("first_task")
     task_id = task.fetch("task_id")
+    phase = truth.dig("project", "current_phase")
     route_id = truth.fetch("current_phase_route").fetch("route_id")
     contract_relative = task.fetch("contract_path")
     contract_path = File.join(repo, contract_relative)
@@ -849,7 +984,7 @@ class CurrentTaskAuthorityTest
       "schema_version" => 1,
       "record_type" => "aios_phase_local_task_contract",
       "task_id" => task_id,
-      "phase" => "P1",
+      "phase" => phase,
       "route_id" => route_id,
       "status" => "ACTIVE",
       "objective" => "Run one bounded local-gateway finite-IR fixture task.",
@@ -892,7 +1027,7 @@ class CurrentTaskAuthorityTest
       "schema_version" => 1,
       "record_type" => "aios_phase_delegated_task_authority",
       "task_id" => task_id,
-      "phase" => "P1",
+      "phase" => phase,
       "route_id" => route_id,
       "status" => "ACTIVE",
       "authorization_id" => authorization_id,
@@ -916,7 +1051,7 @@ class CurrentTaskAuthorityTest
 
     truth["goal"]["current_task_authority"] = task_id
     truth["project"]["phase_execution_status"] = "ACTIVE"
-    truth["project"]["p1_execution_status"] = "ACTIVE"
+    truth["project"]["#{phase.downcase}_execution_status"] = "ACTIVE"
     truth["current_phase_route"]["status"] = "ACTIVE"
     truth["current_phase_route"]["first_task"]["status"] = "ACTIVE"
     truth["current_phase_route"]["next_eligible_action"] = "CONTINUE_CURRENT_TASK"
@@ -1113,7 +1248,7 @@ class CurrentTaskAuthorityTest
     commit_truth(fixture, truth, "test: admit deferred capability")
     expect_pass(repo, "authority core does not duplicate deferred-capability policy")
     expect_safety_nonpass(repo, fixture["truth_path"], "safety rejects deferred capability",
-                          /P1 admits a deferred capability/)
+                          /P[12] admits a deferred capability/)
     truth = yaml(fixture["truth_path"])
     truth["phase_boundary"]["allowed_capabilities"].delete("AGENT_SHELL")
     commit_truth(fixture, truth, "test: restore deferred capability boundary")
@@ -1122,10 +1257,10 @@ class CurrentTaskAuthorityTest
 
     truth = yaml(fixture["truth_path"])
     truth["current_phase_route"]["additional_write_roots"] << "outside-p1-owned-root"
-    commit_truth(fixture, truth, "test: add route write root outside P1 boundary")
+    commit_truth(fixture, truth, "test: add route write root outside Phase boundary")
     expect_pass(repo, "authority core leaves P1 write-root policy to safety")
     expect_safety_nonpass(repo, fixture["truth_path"], "safety rejects out-of-bound write root",
-                          /route write root is outside the P1 boundary/)
+                          /route write root is outside the P[12] boundary/)
     truth = yaml(fixture["truth_path"])
     truth["current_phase_route"]["additional_write_roots"].delete("outside-p1-owned-root")
     commit_truth(fixture, truth, "test: restore route write roots")
@@ -1153,7 +1288,8 @@ class CurrentTaskAuthorityTest
     truth = yaml(fixture["truth_path"])
     truth["goal"]["current_task_authority"] = "NONE"
     truth["project"]["phase_execution_status"] = "ACTIVE"
-    truth["project"]["p1_execution_status"] = "ACTIVE"
+    phase = truth.dig("project", "current_phase")
+    truth["project"]["#{phase.downcase}_execution_status"] = "ACTIVE"
     truth["current_phase_route"]["status"] = "ACTIVE"
     truth["current_phase_route"]["first_task"]["status"] = "MASTER_TASK_GATE_ACCEPTED_COMPLETE"
     truth["current_phase_route"]["next_eligible_action"] = "MASTER_SELECT_NEXT_PHASE_LOCAL_TASK"
@@ -1176,6 +1312,7 @@ class CurrentTaskAuthorityTest
     begin
       provider_profile_unit_tests
       closed_profile_packet_unit_tests
+      p1_ready_and_active_golden_regression_tests(sandbox)
       sandbox_stat = File.lstat(sandbox)
       assert(sandbox_stat.directory? && !sandbox_stat.symlink?, "temporary root is not an owned directory")
       sandbox_identity = [sandbox_stat.dev, sandbox_stat.ino]

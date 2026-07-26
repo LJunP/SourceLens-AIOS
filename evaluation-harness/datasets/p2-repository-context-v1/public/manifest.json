@@ -1,0 +1,54 @@
+{
+  "schema_version": "p2-repository-context-public-manifest/v1",
+  "dataset_id": "p2-repository-context-v1",
+  "freeze_id": "P2-001-QUALITY-FREEZE-V1",
+  "development_task_ids": [
+    "P2CTX-DEV-001-UI-STYLING",
+    "P2CTX-DEV-002-AUTHORITY-CONVERGENCE"
+  ],
+  "validation_bindings": [
+    {
+      "task_id": "P2CTX-VAL-001-CONTEXT-RETRIEVAL",
+      "issue_and_identity_source": "validation-task-specs.json",
+      "oracle_source": "validation-localization-oracle.json"
+    },
+    {
+      "task_id": "P2CTX-VAL-002-TOOL-BOUNDARY",
+      "issue_and_identity_source": "validation-task-specs.json",
+      "oracle_source": "validation-localization-oracle.json"
+    }
+  ],
+  "private_bindings": {
+    "validation-task-specs.json": {
+      "byte_length": 1146,
+      "sha256": "1db53d4fd4f905f15648b27bdf9997013c27b87bba90488fb401298814bb8a4e"
+    },
+    "validation-localization-oracle.json": {
+      "byte_length": 2563,
+      "sha256": "0c1c0b92f4c808fbab0556b0a3c75e59ac9dc688a8836a17ff45ba4fd3cf6f44"
+    }
+  },
+  "contract_bindings": {
+    "candidate-result-contract.json": {
+      "byte_length": 1464,
+      "sha256": "d6f06b000f52b3e7bf375129d7e4ef7032f340b94037699e033e029de7f3577a"
+    },
+    "quality-observer-contract.json": {
+      "byte_length": 1557,
+      "sha256": "ecdb8a2eb7885a6b53a01c27cba6cd10fcac63a4553372eaacd46344e7c202b5"
+    }
+  },
+  "validation_visibility": "opaque-id-and-exact-private-file-binding-only",
+  "selection_limit": 10,
+  "baseline_hits": 13,
+  "oracle_count": 24,
+  "baseline_recall_at_10": 0.5416666666666666,
+  "maximum_possible_delta": 0.2916666666666667,
+  "target_minimum_hits": 18,
+  "target_minimum_recall_at_10": 0.75,
+  "query_p95_latency_maximum_multiple_of_same_index_baseline": 2.0,
+  "required_evaluation_inputs": [
+    "candidate-result/v2",
+    "separately supplied Quality-owned observer-receipt/v1"
+  ]
+}

@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P2-003_ACCEPTED_REPOSITORY_GRAPH_INDEX_VERTICAL_SLICE
 phase: P2
 route_id: P2_ACCEPTED_REPOSITORY_GRAPH_INDEX_AND_CONTEXT_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
 objective: >-
   Build and falsify one executable offline repository symbol/dependency graph
   index and query vertical slice from canonical accepted
@@ -170,3 +170,23 @@ claim_boundary: >-
   No graph-conditioned benchmark credit, P3 entry, database, Agent Runtime,
   model or embedding, open shell, remote, production, public,
   hostile-principal or strong-isolation claim.
+terminal_outcome:
+  normalized_root_cause: ACCEPTED_SCAN_DEPENDENCY_GRAPH_DISCARDED_AND_FIXTURE_EXPECTATIONS_USED_AS_GRAPH_AUTHORITY
+  implementation_iterations_used: 2
+  candidate_commit: 5537d2f4a18384a71dc565cb79a6d924e0c47c6d
+  candidate_tree: 4082fb6b0b1988f88016212e8d4e0485fced8115
+  candidate_manifest_sha256: 1ab19e43bfaa42977a1f81674dd0787b83f0f164e20070fe8b1cd95e15a1f17b
+  evidence_tag: evidence/p2-003-candidate-v1
+  formal_quality_target_verdict: PASS
+  final_cto_target_verdict: NON_PASS
+  final_security_target_verdict: PASS
+  final_quality_target_verdict: PASS
+  candidate_integrated: false
+  canonical_make_verify: NOT_INVOKED_NO_ACCEPTED_INTEGRATION
+  accepted_capability: false
+  p2_capability_credit: 0
+  p2_004_entry: INELIGIBLE
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-003-repository-graph-index-20260726/task/terminal/P2_003_TERMINAL_RECEIPT.json
+    byte_length: 2788
+    sha256: 03d6e77477bc6108e82ca8a78cffa2745ca03a9cf19cc519ad88ef2aeb2b4089

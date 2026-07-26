@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "configuration_id": "P1-125-B1-A",
+  "adapter_id": "B1",
+  "adapter_version": "p1-125-six-task-parameterized-v1",
+  "model_ref": "P1-125-OFFLINE-PROVIDER-NEUTRAL-RESULT",
+  "prompt_ref": "P1-125-DOCUMENTED-ADAPTER-PROMPT-1",
+  "policy_ref": "P1-125-OFFLINE-POLICY-1",
+  "response_format_ref": "evaluation-harness/datasets/p1-representative-task-dataset-v1/shared/response-format.json",
+  "loop_limit": 5,
+  "enabled_tools": ["file_listing", "file_read", "lexical_search", "structured_patch", "verification_command"],
+  "feature_flags": {
+    "sourcelens_graph": false,
+    "ranker": false,
+    "memory": false,
+    "additional_agent": false,
+    "network": false
+  },
+  "random_seed": 97101
+}

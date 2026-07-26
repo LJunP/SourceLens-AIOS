@@ -1,0 +1,96 @@
+{
+  "schema_version": "p1-125-program-definitions/v1",
+  "dataset_id": "SOURCELENS-P1-REPRESENTATIVE-TASKS",
+  "dataset_version": "1.0.0",
+  "programs": [
+    {
+      "task_id": "SL-P1-REP-001-RANGE-NORMALIZATION",
+      "read_path": "src/range.mjs",
+      "search_path": "src",
+      "search_query": "normalizeRange",
+      "changes": [
+        {
+          "relative_path": "src/range.mjs",
+          "old": "  return { start, end };\n",
+          "new": "  return { start: end, end: start };\n"
+        }
+      ]
+    },
+    {
+      "task_id": "SL-P1-REP-002-CONFIG-VALIDATION",
+      "read_path": "src/config.mjs",
+      "search_path": "src",
+      "search_query": "ALLOWED_KEYS",
+      "changes": [
+        {
+          "relative_path": "src/config.mjs",
+          "old": "  return { ok: true, mode: config.mode };\n",
+          "new": "  for (const key of Object.keys(config)) {\n    if (!ALLOWED_KEYS.has(key)) throw new Error(`unknown key: ${key}`);\n  }\n  return { ok: true, mode: config.mode };\n"
+        }
+      ]
+    },
+    {
+      "task_id": "SL-P1-REP-003-SAFE-PATH-JOIN",
+      "read_path": "src/path.mjs",
+      "search_path": "src",
+      "search_query": "resolveUnder",
+      "changes": [
+        {
+          "relative_path": "src/path.mjs",
+          "old": "import { resolve } from \"node:path\";\n\nexport function resolveUnder(root, candidate) {\n  return resolve(root, candidate);\n}\n",
+          "new": "import { relative, resolve, sep } from \"node:path\";\n\nexport function resolveUnder(root, candidate) {\n  const resolvedRoot = resolve(root);\n  const resolved = resolve(resolvedRoot, candidate);\n  const rel = relative(resolvedRoot, resolved);\n  if (rel === \"..\" || rel.startsWith(`..${sep}`)) throw new Error(\"path escape\");\n  return resolved;\n}\n"
+        }
+      ]
+    },
+    {
+      "task_id": "SL-P1-REP-004-COMMAND-RESULT-MAPPING",
+      "read_path": "src/result.mjs",
+      "search_path": "src",
+      "search_query": "classifyCommandResult",
+      "changes": [
+        {
+          "relative_path": "src/result.mjs",
+          "old": "  return { status: \"success\", exitCode };\n",
+          "new": "  return { status: exitCode === 0 ? \"success\" : \"failure\", exitCode };\n"
+        }
+      ]
+    },
+    {
+      "task_id": "SL-P1-REP-005-PROFILE-DISPLAY-NAME",
+      "read_path": "src/profile.mjs",
+      "search_path": "src",
+      "search_query": "formatDisplayName",
+      "changes": [
+        {
+          "relative_path": "src/profile.mjs",
+          "old": "  return `${profile.first} ${profile.last}`;\n",
+          "new": "  return `${profile.first.trim()} ${profile.last.trim()}`;\n"
+        }
+      ]
+    },
+    {
+      "task_id": "SL-P1-REP-006-DEDUPE-REFACTOR",
+      "read_path": "src/users.mjs",
+      "search_path": "src",
+      "search_query": "const seen = new Set()",
+      "changes": [
+        {
+          "relative_path": "src/users.mjs",
+          "old": "export function uniqueUserNames(names) {\n  const seen = new Set();\n  return names.filter((name) => {\n    if (seen.has(name)) return false;\n    seen.add(name);\n    return true;\n  });\n}\n",
+          "new": "import { uniqueStable } from \"./unique.mjs\";\n\nexport function uniqueUserNames(names) {\n  return uniqueStable(names);\n}\n"
+        },
+        {
+          "relative_path": "src/projects.mjs",
+          "old": "export function uniqueProjectNames(names) {\n  const seen = new Set();\n  return names.filter((name) => {\n    if (seen.has(name)) return false;\n    seen.add(name);\n    return true;\n  });\n}\n",
+          "new": "import { uniqueStable } from \"./unique.mjs\";\n\nexport function uniqueProjectNames(names) {\n  return uniqueStable(names);\n}\n"
+        },
+        {
+          "relative_path": "src/unique.mjs",
+          "old": null,
+          "new": "export function uniqueStable(values) {\n  const seen = new Set();\n  return values.filter((value) => {\n    if (seen.has(value)) return false;\n    seen.add(value);\n    return true;\n  });\n}\n"
+        }
+      ]
+    }
+  ],
+  "claim_boundary": "EXACT_ACCEPTED_SIX_TASK_FINITE_PROGRAM_DEFINITIONS_ONLY"
+}

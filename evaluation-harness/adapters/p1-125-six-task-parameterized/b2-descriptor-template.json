@@ -1,0 +1,53 @@
+{
+  "schema_version": "p1-125-execution-descriptor/v1",
+  "descriptor_id": "P1-125-B2-DYNAMIC-TASK-TEMPLATE",
+  "adapter_id": "B2",
+  "adapter_version": "p1-125-six-task-parameterized-v1",
+  "executable": {
+    "path": "evaluation-harness/adapters/p1-125-six-task-parameterized/b2-entry.mjs",
+    "realpath": "REPOSITORY_ROOT/evaluation-harness/adapters/p1-125-six-task-parameterized/b2-entry.mjs",
+    "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+    "byte_length": 0,
+    "type": "REGULAR_FILE"
+  },
+  "argv": ["/usr/local/bin/node", "EXECUTABLE", "--request", "EXECUTION_REQUEST", "--run-root", "OUTPUT_ROOT", "--sentinel", "TARGET_SENTINEL"],
+  "working_directory": "REPOSITORY_ROOT",
+  "timeout_seconds": 60,
+  "expected_exit_codes": [0],
+  "input_bindings": {
+    "adapter_input": {
+      "path": "evaluation-harness/fixtures/p1-125-six-task-parameterized/b2-p0-binding.json",
+      "sha256": "f35efa50d9adf11c8ff1d0cb57055a8e3b133b9c3254cbb1cd4f47b35f58c632",
+      "byte_length": 1184
+    },
+    "b2_source_manifest": {
+      "path": "evaluation-harness/fixtures/p1-125-six-task-parameterized/b2-p0-source-manifest.json",
+      "sha256": "a353938a05dea7f88503b63963d7900771da74a010ada747a7121d15df44e075",
+      "byte_length": 2560
+    },
+    "response_format": {
+      "path": "evaluation-harness/datasets/p1-representative-task-dataset-v1/shared/response-format.json",
+      "sha256": "6b8ec1d2a6a288e5b908716714589dae963739f2b35a0a29237ff4cbc1355c4b",
+      "byte_length": 306
+    },
+    "task_source_program": {
+      "path": "DYNAMIC_TASK_BOUND_B1_PROGRAM",
+      "sha256": "0000000000000000000000000000000000000000000000000000000000000000",
+      "byte_length": 0
+    }
+  },
+  "limits": {
+    "max_model_tokens": 0,
+    "max_tool_calls": 1,
+    "max_cost_usd": 0
+  },
+  "allowed_tool_classes": ["repository_analysis.scan"],
+  "forbidden_features": ["write", "egress", "remote", "hidden_data", "network"],
+  "requested_effects": {"network": false, "provider": false, "secret": false, "remote": false, "production": false, "public": false},
+  "output_policy": {
+    "atomic_unique_owned_root": true,
+    "preexisting_target_allowed": false,
+    "symlink_component_allowed": false,
+    "nonowned_cleanup_allowed": false
+  }
+}

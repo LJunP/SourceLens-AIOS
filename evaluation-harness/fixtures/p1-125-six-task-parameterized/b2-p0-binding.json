@@ -1,0 +1,20 @@
+{
+  "schema_version": "p1-125-b2-accepted-p0-binding/v1",
+  "operation": "repository_analysis.scan",
+  "accepted_p0_frozen_base_commit": "09cf8dd6a1bcee138b949d117804d652000eb7cc",
+  "accepted_p0_frozen_base_tree": "daa58725d293b954887dbe5b17aab5219b618658",
+  "accepted_p0_checkpoint_commit": "ad6450e418d8f1b4fd5a789f913525a8dd8bdc10",
+  "accepted_p0_checkpoint_tree": "2c0956ae8598547466f691ead21532a026006bf9",
+  "analyzer_tree_at_frozen_base": "408d57e9b4926f95ad059ab2675ee88dfc533096",
+  "analyzer_tree_at_checkpoint": "408d57e9b4926f95ad059ab2675ee88dfc533096",
+  "analyzer_tree_at_p1_125_activation": "408d57e9b4926f95ad059ab2675ee88dfc533096",
+  "tree_equal_across_authoritative_bindings": true,
+  "source_path": "analyzer-rust",
+  "source_manifest": "evaluation-harness/fixtures/p1-125-six-task-parameterized/b2-p0-source-manifest.json",
+  "entry_source_path": "analyzer-rust/src/main.rs",
+  "required_cli_suffix": ["scan", "--repo-path", "ABSOLUTE_DISPOSABLE_SOURCE_ROOT"],
+  "required_scan_result_schema_version": 2,
+  "network_allowed": false,
+  "canonical_source_mutation_allowed": false,
+  "claim_boundary": "EXACT_ACCEPTED_P0_REPOSITORY_ANALYSIS_SCAN_BINDING_ONLY"
+}

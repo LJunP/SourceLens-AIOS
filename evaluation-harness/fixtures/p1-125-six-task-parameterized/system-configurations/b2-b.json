@@ -1,0 +1,19 @@
+{
+  "schema_version": "1.0",
+  "configuration_id": "P1-125-B2-B",
+  "adapter_id": "B2",
+  "adapter_version": "p1-125-six-task-parameterized-v1",
+  "model_ref": "P1-125-OFFLINE-PROVIDER-NEUTRAL-RESULT",
+  "prompt_ref": "P1-125-DOCUMENTED-ADAPTER-PROMPT-1",
+  "policy_ref": "P1-125-OFFLINE-POLICY-1",
+  "response_format_ref": "evaluation-harness/datasets/p1-representative-task-dataset-v1/shared/response-format.json",
+  "loop_limit": 1,
+  "enabled_tools": ["repository_analysis.scan"],
+  "feature_flags": {
+    "exact_accepted_p0_snapshot": true,
+    "repository_analysis_scan": true,
+    "canonical_source_mutation": false,
+    "network": false
+  },
+  "random_seed": 97201
+}

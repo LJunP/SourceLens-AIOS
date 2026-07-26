@@ -4991,11 +4991,11 @@ active_work:
     byte_length: 12242
   current_task_contract_sha256: c76ea38837de31b39d5059888a9ec027b28c24d2d4cfb87d5d048c41484e057e
   current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-133-accepted-adapter-bound-exit-20260726/task/authority/PHASE_DELEGATED_TASK_AUTHORITY.yaml
-  current_execution_authorization_sha256: 32614bdf6d5b3ec165124363606533bc27c19b07b753a945d29499342aef685a
+  current_execution_authorization_sha256: d76258668114c080b2eecfa83655195debeca4e227b2f776e45e7cb8a001c0d1
   authority_record:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-133-accepted-adapter-bound-exit-20260726/task/authority/PHASE_DELEGATED_TASK_AUTHORITY.yaml
-    sha256: 32614bdf6d5b3ec165124363606533bc27c19b07b753a945d29499342aef685a
-    byte_length: 3010
+    sha256: d76258668114c080b2eecfa83655195debeca4e227b2f776e45e7cb8a001c0d1
+    byte_length: 2995
   execution_nonce: P1-133-NONCE-20260726T084255Z
   execution_nonce_status: ACTIVE
   authorization_id: P1-133-AUTH-20260726T084255Z

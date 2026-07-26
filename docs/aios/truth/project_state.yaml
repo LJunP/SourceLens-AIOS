@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-26T03:12:49Z"
-verification_scope: P1_125_TERMINAL_FINAL_SECURITY_TARGET_NON_PASS_FOUNDER_P1_PHASE_GATE_STRICT_75_PERCENT
+last_verified_at: "2026-07-26T04:30:00Z"
+verification_scope: P1_129_EXACT_INPUT_BOUNDARY_SECURITY_MATRIX_COMPLETION_ACTIVE_STRICT_75_PERCENT
 
 authority:
   founder: Human Founder
@@ -37,7 +37,7 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
+  current_task_authority: AIOS-P1-129_EXACT_INPUT_BOUNDARY_SECURITY_MATRIX_COMPLETION
   note: >-
     The Founder-approved long-term Goal remains ACTIVE with the exact
     Founder-installed identity. P1-099 remains terminal with its Quality
@@ -220,8 +220,8 @@ project:
   p1_entry_status: AUTHORIZED
   phase_execution_status: ACTIVE
   p1_execution_status: ACTIVE
-  p1_engineering_status: P1_125_TERMINAL_FINAL_SECURITY_TARGET_NON_PASS
-  current_route_execution_status: TERMINAL_AT_FOUNDER_P1_PHASE_GATE
+  p1_engineering_status: P1_129_EXACT_INPUT_BOUNDARY_SECURITY_MATRIX_COMPLETION_ACTIVE
+  current_route_execution_status: ACTIVE_TASK_1
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -3075,22 +3075,22 @@ historical_p1_118_phase_route:
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 
 current_phase_route:
-  route_id: P1_EXACT_SIX_TASK_PARAMETERIZED_ADAPTER_CONVERGENCE_AND_STANDARD_CAPTURE_EXIT_ROUTE_V1
+  route_id: P1_BOUNDED_SECURITY_MATRIX_COMPLETION_AND_STANDARD_CAPTURE_EXIT_ROUTE_V1
   status: ACTIVE
-  authority_object_status: FOUNDER_PHASE_GATE_AUTHORITY_CONSUMED_ROUTE_TERMINAL
-  execution_status: TERMINAL_TASK_1_FINAL_SECURITY_TARGET_NON_PASS
-  founder_phase_route_decision_required: true
-  scheduling_status: NO_ELIGIBLE_TASK_ROUTE_TERMINAL
+  authority_object_status: FOUNDER_PHASE_GATE_AUTHORITY_CONSUMED_ROUTE_ACTIVE
+  execution_status: ACTIVE_TASK_1
+  founder_phase_route_decision_required: false
+  scheduling_status: TASK_1_ACTIVE
   phase: P1
   phase_entry_status: AUTHORIZED
-  authorization_token: AUTHORIZE_P1_EXACT_SIX_TASK_PARAMETERIZED_ADAPTER_CONVERGENCE_AND_STANDARD_CAPTURE_EXIT_ROUTE_V1
+  authorization_token: AUTHORIZE_P1_BOUNDED_SECURITY_MATRIX_COMPLETION_AND_STANDARD_CAPTURE_EXIT_ROUTE_V1
   decision_packet:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-six-task-parameterized-route-20260726/FOUNDER_ROUTE_ACTIVATION_PROJECTION.md
-    sha256: c02ebe2776239bcc11b0609b3a2448af35948e2a93ab2674fb9b108030a220b9
-    byte_length: 2286
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-127-phase-gate-20260726/FOUNDER_P1_BOUNDED_SECURITY_MATRIX_COMPLETION_AND_STANDARD_CAPTURE_EXIT_ROUTE_V1.md
+    sha256: 4dec0ac198dfd63d90401ad1377510db469fcabfba1c43db94346f4560768db1
+    byte_length: 7743
   activation_parent:
-    commit: 79e302585f52f6e8de413859a6c6bd285fb027a0
-    tree: 0db1d810a42018deeb587e28f0d5426666c477b4
+    commit: 8c6f6fbe705b85a57f878cdb1ded8aba80460257
+    tree: 7bab4e8d72c3f75be421294916bbfa0022f37703
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: "1.6"
@@ -3102,13 +3102,13 @@ current_phase_route:
     canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
     canonical_byte_length: 19434
   objective: >-
-    First build and accept one new versioned closed-set six-Task parameterized
-    B0/B1/B2 adapter composition, then automatically execute the standard
-    capture baseline and preregistration Task without entering P2.
+    Complete exactly the two missing P1-125 input-boundary security cases over
+    its authorized 30-path snapshot, then automatically execute the standard
+    capture baseline and P2 preregistration without entering P2.
   envelope:
     max_engineering_tasks: 2
-    max_engineering_hours: 48
-    max_calendar_days: 10
+    max_engineering_hours: 40
+    max_calendar_days: 7
     max_active_tasks: 1
     max_task_branches: 1
     max_task_worktrees: 1
@@ -3465,42 +3465,41 @@ current_phase_route:
       accepted_candidate_commit: ee51cc96fedec5cc9ec640c6c0c1c76d5268d6c5
       accepted_candidate_tree: ffae19db6991a77424d0deaa96a1c761348b7b41
   first_task:
-    task_id: AIOS-P1-125_EXACT_SIX_TASK_PARAMETERIZED_ADAPTER_CONVERGENCE
+    task_id: AIOS-P1-129_EXACT_INPUT_BOUNDARY_SECURITY_MATRIX_COMPLETION
     task_slot: 1
-    status: TERMINAL_FINAL_SECURITY_TARGET_NON_PASS
-    contract_path: docs/aios/tasks/P1-125_EXACT_SIX_TASK_PARAMETERIZED_ADAPTER_CONVERGENCE.yaml
-    contract_sha256: a241c108c1c5ee914c1101dadf51fd4aa0b3bcf767876d83a65573a158d1eff4
-    contract_byte_length: 12029
-    max_engineering_hours: 16
-    max_calendar_days: 4
+    status: ACTIVE
+    contract_path: docs/aios/tasks/P1-129_EXACT_INPUT_BOUNDARY_SECURITY_MATRIX_COMPLETION.yaml
+    contract_sha256: faa49aef5ddc2dad08edafc914bf8dab7a19c61618cc169d5c1f9f7ec91e2718
+    contract_byte_length: 9376
+    max_engineering_hours: 6
+    max_calendar_days: 2
     max_implementation_iterations: 2
     max_candidates: 1
     strict_p1_credit_on_pass: 0
   task_plan:
     - task_slot: 1
-      task_id: AIOS-P1-125_EXACT_SIX_TASK_PARAMETERIZED_ADAPTER_CONVERGENCE
-      status: TERMINAL_FINAL_SECURITY_TARGET_NON_PASS
-      engineering_hours: 16
-      calendar_days: 4
+      task_id: AIOS-P1-129_EXACT_INPUT_BOUNDARY_SECURITY_MATRIX_COMPLETION
+      status: ACTIVE
+      engineering_hours: 6
+      calendar_days: 2
       strict_p1_credit_on_pass: 0
     - task_slot: 2
-      task_id: AIOS-P1-126_STANDARD_CAPTURE_BASELINE_AND_PREREGISTRATION
-      status: INELIGIBLE_TASK_1_GATE_NON_PASS
-      engineering_hours: 32
-      calendar_days: 6
+      task_id: AIOS-P1-130_STANDARD_CAPTURE_BASELINE_AND_PREREGISTRATION
+      status: ELIGIBLE_AFTER_TASK_1_GATE_PASS
+      engineering_hours: 34
+      calendar_days: 5
       strict_p1_credit_on_pass: 2
   route_execution_accounting:
     maximum_engineering_tasks: 2
     task_slots_consumed: 1
-    active_task_id: null
+    active_task_id: AIOS-P1-129_EXACT_INPUT_BOUNDARY_SECURITY_MATRIX_COMPLETION
     scheduled_task_ids:
-      - AIOS-P1-125_EXACT_SIX_TASK_PARAMETERIZED_ADAPTER_CONVERGENCE
-    terminal_task_ids:
-      - AIOS-P1-125_EXACT_SIX_TASK_PARAMETERIZED_ADAPTER_CONVERGENCE
+      - AIOS-P1-129_EXACT_INPUT_BOUNDARY_SECURITY_MATRIX_COMPLETION
+    terminal_task_ids: []
     accepted_task_ids: []
-    maximum_engineering_hours: 48
-    engineering_hours_authorized_current_task: 0
-    status: TERMINAL_TASK_1_FINAL_SECURITY_TARGET_NON_PASS
+    maximum_engineering_hours: 40
+    engineering_hours_authorized_current_task: 6
+    status: ACTIVE_TASK_1
   additional_write_roots: []
   inherited_worktree_inventory:
     - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-063-atomic-offline-b0
@@ -3584,14 +3583,14 @@ current_phase_route:
       branch: codex/p1-123-operator-owned-capture
       status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
   claim_boundary: >-
-    The exact cooperative-local offline six-Task parameterized B0/B1/B2
-    candidate is terminal and unaccepted after fresh Security TARGET_VERDICT
-    NON_PASS. P1-126 is ineligible. No Secret, Provider, network, new P1
-    completion credit, P2/P3, remote, production or public claim exists.
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
+    P1-129 may restore only the exact Founder-authorized P1-125 30-path
+    snapshot and add the two missing input-boundary negative cases. P1-125
+    and P1-127 remain terminal. No Secret, Provider, network, new P1 completion
+    credit, P2/P3, remote, production or public claim exists.
+  next_eligible_action: EXECUTE_ACTIVE_TASK
 
 phase_delegation:
-  status: P1_PHASE_GATE_FOUNDER_DECISION_REQUIRED
+  status: ACTIVE_WITHIN_FOUNDER_AUTHORIZED_P1_ROUTE
   model: PHASE_LEVEL_FOUNDER_DELEGATION
   decision_source: FOUNDER_DIRECTIVES_IN_CODEX_THREAD_2026_07_16_AND_2026_07_17
   phase_gate_owner: HUMAN_FOUNDER
@@ -4606,38 +4605,52 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: NONE
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P1-129_EXACT_INPUT_BOUNDARY_SECURITY_MATRIX_COMPLETION
+  current_task_status: ACTIVE
   current_task_contract:
-    path: null
-    sha256: null
-    byte_length: null
-  current_task_contract_sha256: null
-  current_execution_authorization: null
-  current_execution_authorization_sha256: null
+    path: docs/aios/tasks/P1-129_EXACT_INPUT_BOUNDARY_SECURITY_MATRIX_COMPLETION.yaml
+    sha256: faa49aef5ddc2dad08edafc914bf8dab7a19c61618cc169d5c1f9f7ec91e2718
+    byte_length: 9376
+  current_task_contract_sha256: faa49aef5ddc2dad08edafc914bf8dab7a19c61618cc169d5c1f9f7ec91e2718
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-129-input-boundary-matrix-20260726/task-1/authority/PHASE_DELEGATED_TASK_AUTHORITY.yaml
+  current_execution_authorization_sha256: 1677708300e690342301b68b30237d62c992eaeeefe4a9c5418dc9c1cf514c29
   authority_record:
-    path: null
-    sha256: null
-    byte_length: null
-  execution_nonce: null
-  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
-  authorization_id: null
-  activation_parent_commit: null
-  activation_parent_tree: null
-  task_resource_state: NONE_PHASE_ACTIVE
-  task_branch: null
-  task_worktree: null
-  execution_evidence_root: null
-  allowlisted_paths: []
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-129-input-boundary-matrix-20260726/task-1/authority/PHASE_DELEGATED_TASK_AUTHORITY.yaml
+    sha256: 1677708300e690342301b68b30237d62c992eaeeefe4a9c5418dc9c1cf514c29
+    byte_length: 2874
+  execution_nonce: 4118589ed5f93f2f0d67322b95e20e2a4a2717ed4382404843b8f4f3160e35ba
+  execution_nonce_status: ACTIVE
+  authorization_id: PHASE-DELEGATED-P1-129-4BDF1521-7104-45FE-96B7-390935AC2288
+  activation_parent_commit: 8c6f6fbe705b85a57f878cdb1ded8aba80460257
+  activation_parent_tree: 7bab4e8d72c3f75be421294916bbfa0022f37703
+  task_resource_state: CREATED_ACTIVE
+  task_branch: codex/p1-129-input-boundary-matrix
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-129-input-boundary-matrix
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-129-input-boundary-matrix-20260726/task-1
+  allowlisted_paths:
+    - evaluation-harness/adapters/p1-125-six-task-parameterized
+    - evaluation-harness/harness/p1-125-six-task-parameterized
+    - evaluation-harness/recording/p1-125-six-task-parameterized
+    - evaluation-harness/replay/p1-125-six-task-parameterized
+    - evaluation-harness/evaluator/p1-125-six-task-parameterized
+    - evaluation-harness/fixtures/p1-125-six-task-parameterized
+    - scripts/verify-p1-125-six-task-parameterized.sh
+    - docs/aios/tasks/P1-129_EXACT_INPUT_BOUNDARY_SECURITY_MATRIX_COMPLETION.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+    - Makefile
   budget:
-    engineering_hours: null
-    calendar_days: null
-    implementation_iterations: null
-    candidates: null
+    engineering_hours: 6
+    calendar_days: 2
+    implementation_iterations: 2
+    candidates: 1
   roles:
-    owner: null
-    worker: null
-    independent_reviewers: []
+    owner: P1-129 Engineering Manager
+    worker: P1-129 Input Boundary Matrix Worker
+    independent_reviewers:
+      - P1-129 Fresh CTO Reviewer
+      - P1-129 Fresh Security Reviewer
+      - P1-129 Fresh Quality Reviewer
   external_effects:
     network: false
     provider: false
@@ -4646,15 +4659,15 @@ active_work:
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: null
-  founder_reserved_authorization_sha256: null
+  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-127-phase-gate-20260726/FOUNDER_P1_BOUNDED_SECURITY_MATRIX_COMPLETION_AND_STANDARD_CAPTURE_EXIT_ROUTE_V1.md
+  founder_reserved_authorization_sha256: 4dec0ac198dfd63d90401ad1377510db469fcabfba1c43db94346f4560768db1
   founder_decision_required: false
-  founder_decision_required_scope: NONE_FOR_CURRENT_TASK_AUTHORITY
+  founder_decision_required_scope: NONE_WITHIN_EXACT_FOUNDER_ROUTE
   escalation_reason: null
   user_action_required: NONE
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: EXECUTE_ACTIVE_TASK
   last_terminal_task:
     task_id: AIOS-P1-125_EXACT_SIX_TASK_PARAMETERIZED_ADAPTER_CONVERGENCE
     status: TERMINAL_FINAL_SECURITY_TARGET_NON_PASS
@@ -8132,9 +8145,9 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: P1_EXACT_SIX_TASK_PARAMETERIZED_ADAPTER_CONVERGENCE_AND_STANDARD_CAPTURE_EXIT_ROUTE_V1_TERMINAL_TASK_1_FINAL_SECURITY_TARGET_NON_PASS
-  current_task_claim: NONE_FOUNDER_P1_PHASE_GATE
-  real_engineering_progress: P1_101_OBSERVABLE_TRACE_ACCEPTED_STRICT_P1_COMPLETION_75_PERCENT_P1_125_TERMINAL_NO_NEW_CAPABILITY_CREDIT
+  current_route_claim: P1_BOUNDED_SECURITY_MATRIX_COMPLETION_AND_STANDARD_CAPTURE_EXIT_ROUTE_V1_ACTIVE_TASK_1
+  current_task_claim: AIOS_P1_129_EXACT_INPUT_BOUNDARY_SECURITY_MATRIX_COMPLETION_ACTIVE
+  real_engineering_progress: P1_101_OBSERVABLE_TRACE_ACCEPTED_STRICT_P1_COMPLETION_75_PERCENT_P1_129_ACTIVE_NO_NEW_CAPABILITY_CREDIT
   product_capability_changed: false
   phase_local_allowed:
     - local evaluation foundation engineering under an exact Task Contract
@@ -8208,11 +8221,16 @@ phase_execution_claim:
     - canonical main advance outside an accepted task gate
 
 claim_boundary:
-  current_phase_route: P1_EXACT_SIX_TASK_PARAMETERIZED_ADAPTER_CONVERGENCE_AND_STANDARD_CAPTURE_EXIT_ROUTE_V1_TERMINAL_TASK_1_FINAL_SECURITY_TARGET_NON_PASS
-  current_task: NONE
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
-  real_engineering_progress: P1_101_OBSERVABLE_TRACE_ACCEPTED_P1_125_TERMINAL_FINAL_SECURITY_TARGET_NON_PASS_NO_SECRET_PROVIDER_NETWORK_EFFECT_OR_NEW_CAPABILITY_CREDIT_STRICT_P1_COMPLETION_75_PERCENT
+  current_phase_route: P1_BOUNDED_SECURITY_MATRIX_COMPLETION_AND_STANDARD_CAPTURE_EXIT_ROUTE_V1_ACTIVE_TASK_1
+  current_task: AIOS-P1-129_EXACT_INPUT_BOUNDARY_SECURITY_MATRIX_COMPLETION
+  next_eligible_action: EXECUTE_ACTIVE_TASK
+  real_engineering_progress: P1_101_OBSERVABLE_TRACE_ACCEPTED_P1_129_EXACT_SECURITY_MATRIX_COMPLETION_ACTIVE_NO_SECRET_PROVIDER_NETWORK_EFFECT_OR_NEW_CAPABILITY_CREDIT_STRICT_P1_COMPLETION_75_PERCENT
   product_capability_changed_by_route_activation: false
+  p1_129_status: ACTIVE
+  p1_129_authorized_recovery_source_candidate_commit: 9793da77f66b976697b7ce7af97e93ca6743bafa
+  p1_129_authorized_recovery_path_count: 30
+  p1_129_required_new_negative_cases: 2
+  p1_129_capability_credit_on_activation: 0
   p1_125_status: TERMINAL_FINAL_SECURITY_TARGET_NON_PASS
   p1_125_scheduled_cells: 36
   p1_125_external_effects_all_false: true

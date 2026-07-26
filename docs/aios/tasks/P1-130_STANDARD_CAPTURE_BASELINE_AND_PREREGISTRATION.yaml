@@ -1,0 +1,203 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P1-130_STANDARD_CAPTURE_BASELINE_AND_PREREGISTRATION
+phase: P1
+route_id: P1_BOUNDED_SECURITY_MATRIX_COMPLETION_AND_STANDARD_CAPTURE_EXIT_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Build and verify one standard operator-owned no-echo loopback capture path,
+  freeze the complete six-Task B0/B1/B2 preregistration and 36-cell denominator,
+  admit exactly one non-Secret capture bundle, and independently derive the
+  reproducible baseline report plus P2 Context Engine preregistration without
+  entering P2.
+why_now: >-
+  P1-129 closed the final known adapter negative-matrix gap and passed its full
+  Task Gate. The remaining two P1 Exit Gate items are the empirical baseline
+  report and preregistration; this Task directly targets both in one bounded
+  engineering route.
+task_spec_ref: /Users/lijunpeng/Developer/.sourcelens-audit/p1-127-phase-gate-20260726/FOUNDER_P1_BOUNDED_SECURITY_MATRIX_COMPLETION_AND_STANDARD_CAPTURE_EXIT_ROUTE_V1.md
+owner_role: P1-130 Engineering Manager
+worker_role: P1-130 Standard Capture Worker
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+risk_level: high
+budget:
+  engineering_hours: 34
+  calendar_days: 5
+  implementation_iterations: 2
+  candidates: 1
+roles:
+  owner: P1-130 Engineering Manager
+  worker: P1-130 Standard Capture Worker
+  independent_reviewers:
+    - P1-130 Fresh CTO Reviewer
+    - P1-130 Fresh Security Reviewer
+    - P1-130 Fresh Quality Reviewer
+allowlisted_paths:
+  - evaluation-harness/adapters/p1-130-standard-capture
+  - evaluation-harness/environment/p1-130-standard-capture
+  - evaluation-harness/harness/p1-130-standard-capture
+  - evaluation-harness/recording/p1-130-standard-capture
+  - evaluation-harness/replay/p1-130-standard-capture
+  - evaluation-harness/validators/p1-130-standard-capture
+  - evaluation-harness/evaluator/p1-130-standard-capture
+  - evaluation-harness/fixtures/p1-130-standard-capture
+  - scripts/p1-130-operator-capture.sh
+  - scripts/verify-p1-130-standard-capture.sh
+  - docs/aios/tasks/P1-130_STANDARD_CAPTURE_BASELINE_AND_PREREGISTRATION.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+  - Makefile
+write_scope:
+  worker:
+    - evaluation-harness/adapters/p1-130-standard-capture
+    - evaluation-harness/environment/p1-130-standard-capture
+    - evaluation-harness/harness/p1-130-standard-capture
+    - evaluation-harness/recording/p1-130-standard-capture
+    - evaluation-harness/replay/p1-130-standard-capture
+    - evaluation-harness/validators/p1-130-standard-capture
+    - evaluation-harness/evaluator/p1-130-standard-capture
+    - evaluation-harness/fixtures/p1-130-standard-capture
+    - scripts/p1-130-operator-capture.sh
+    - scripts/verify-p1-130-standard-capture.sh
+  integration:
+    - docs/aios/tasks/P1-130_STANDARD_CAPTURE_BASELINE_AND_PREREGISTRATION.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+    - Makefile
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+  - evaluation-harness/datasets/p1-representative-task-dataset-v1
+  - accepted canonical P0 repository_analysis.scan assets
+  - accepted canonical P1-129 B0/B1/B2 adapter assets
+dependencies:
+  - ACCEPTED_CANONICAL_P1_035_REPRESENTATIVE_TASK_DATASET
+  - ACCEPTED_CANONICAL_P1_070_COUNTING_AND_FALSE_SUCCESS_SEMANTICS
+  - ACCEPTED_CANONICAL_P1_101_OBSERVABLE_TRACE
+  - ACCEPTED_CANONICAL_P1_129_SECURITY_MATRIX_COMPLETION
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-127-phase-gate-20260726/FOUNDER_P1_BOUNDED_SECURITY_MATRIX_COMPLETION_AND_STANDARD_CAPTURE_EXIT_ROUTE_V1.md
+  sha256: 4dec0ac198dfd63d90401ad1377510db469fcabfba1c43db94346f4560768db1
+  byte_length: 7743
+  authorization_token: AUTHORIZE_P1_BOUNDED_SECURITY_MATRIX_COMPLETION_AND_STANDARD_CAPTURE_EXIT_ROUTE_V1
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+founder_reserved_profile: null
+canonical_aios_effect_boundary:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+operator_capture_authorization:
+  activation_condition: G0_FRESH_SECURITY_TARGET_VERDICT_PASS
+  launcher_runs_exact: 1
+  endpoint: http://127.0.0.1:8787/v1/chat/completions
+  model: gpt-5.6-luna
+  api_format: OPENAI_COMPATIBLE_CHAT_COMPLETIONS
+  dns: false
+  proxy: false
+  redirect: false
+  fallback: false
+  streaming: false
+  automatic_retries: 0
+  diagnostic_requests_max: 3
+  formal_requests_exact_after_first_strict_diagnostic_pass: 36
+  total_requests_max: 39
+  input_tokens_max: 500000
+  output_tokens_max: 100000
+  currency: USD
+  max_spend: 25
+  secret_source: FOUNDER_OPERATOR_NO_ECHO_TTY
+  secret_allowed_locations:
+    - OPERATOR_PROCESS_MEMORY
+    - CURL_ANONYMOUS_STDIN_CONFIGURATION
+  secret_prohibited_sinks:
+    - ARGV
+    - ENVIRONMENT
+    - SHELL_HISTORY
+    - REPOSITORY
+    - PLAINTEXT_FILE
+    - EVIDENCE
+    - LOG
+    - TRACE
+    - PROMPT
+    - REVIEW
+    - VAULT
+  remote: false
+  production: false
+  public: false
+g0_requirements:
+  - Freeze P2 preregistration, hypotheses and stop conditions before any external effect.
+  - Freeze six exact TaskSpecs, B0/B1/B2 configurations and 36 ordered formal cells.
+  - Freeze request bodies and the synthetic disclosure allowlist.
+  - Freeze denominator, VTSR, failure taxonomy and report schema.
+  - Create an absent create-once capture root with a closed inventory.
+  - Build one Founder/operator-owned no-echo /usr/bin/curl command.
+  - Pass complete offline admission, reproduction and isolated negative fixtures.
+  - Obtain fresh Security TARGET_VERDICT PASS over the exact spool, disclosure, command and offline boundary.
+  - Before G0 PASS, Secret reads, Provider requests, network connections, false accepts and non-owned mutations remain zero.
+formal_execution_requirements:
+  - The first strict diagnostic PASS immediately starts the exact 36-cell formal denominator.
+  - Every scheduled formal cell remains in the denominator; no deletion, substitution or cosmetic rerun is allowed.
+  - Canonical AIOS reads only the non-Secret capture bundle.
+  - Independently recompute RunRecord, trace, stable projection, replay, rollback, aggregate, VTSR and failure taxonomy.
+  - B2 performs real exact accepted P0 repository_analysis.scan child execution.
+  - Preserve actual stochastic differences and UNKNOWN metering when trustworthy usage or cost evidence is absent.
+  - False accepts, non-owned mutations, non-loopback connections, retries, remote, production and public effects equal zero.
+acceptance_criteria:
+  - G0 complete offline preflight and fresh Security review pass before any operator external effect.
+  - One operator launcher run stays within the exact endpoint, model, request, token and monetary ceilings.
+  - One non-Secret capture bundle passes exact identity, closed-inventory and disclosure admission.
+  - Exactly 36 formal cells enter the denominator.
+  - Reproducible baseline report and P2 Context Engine preregistration are complete, falsifiable and bound to raw Evidence.
+  - One exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS on the same bytes.
+  - Reviewed tree equals integrated canonical tree and one canonical make verify passes.
+required_evidence:
+  - Exact Founder packet, Goal, activation parent, Contract and authority identities.
+  - Frozen G0 preregistration, hypotheses, stop conditions, six TaskSpecs, configurations, ordered cells and schemas.
+  - Exact request/disclosure manifest, create-once spool inventory and fresh G0 Security review.
+  - Safe request/response identities without Secret bytes.
+  - All 36 raw formal outcomes, RunRecords, traces, projections, replay, rollback, aggregate, VTSR and failure taxonomy.
+  - Exact candidate commit, tree, diff/hash manifest and recoverable Evidence tag.
+  - Fresh CTO, Security and Quality reviews of the same candidate and Evidence bytes.
+  - Reviewed-tree versus integrated-tree equality and canonical make verify result.
+rollback:
+  strategy: CREATE_ONCE_OWNED_CAPTURE_CLEANUP_AND_NON_DESTRUCTIVE_GIT_REVERT_AFTER_CANONICAL_INTEGRATION
+  forbidden:
+    - git reset
+    - git clean
+    - destructive history rewrite
+stop_conditions:
+  - Canonical start, Goal, Founder packet or accepted P1-129 identity drifts.
+  - G0 cannot pass within the initial implementation and sole code-only repair.
+  - The same normalized root cause repeats in adjacent iterations.
+  - Secret bytes reach any prohibited sink.
+  - Any non-loopback, DNS, proxy, redirect, fallback, retry, excess request, token or monetary effect occurs.
+  - Any Evidence is overwritten or deleted, or any non-owned path is mutated.
+  - The implementation and sole repair are exhausted.
+  - Any final Reviewer returns TARGET_VERDICT NON_PASS.
+  - Reviewed and integrated trees differ or canonical make verify returns NONPASS.
+  - Long-term Goal, P1 Objective, Exit Gate, Phase boundary, remote, production or public permission changes.
+claim_boundary: >-
+  One bounded loopback standard capture and offline empirical baseline plus P2
+  preregistration only. No direct OpenAI provenance, gateway upstream behavior,
+  model quality, P2/P3 entry, remote, production, public, hostile-principal or
+  strong-isolation claim.

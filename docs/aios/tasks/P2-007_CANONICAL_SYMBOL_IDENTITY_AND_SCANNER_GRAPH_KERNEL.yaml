@@ -38,7 +38,6 @@ budget:
 allowlisted_paths:
   - evaluation-harness/harness/p2-007-canonical-symbol-graph/**
   - evaluation-harness/evaluator/p2-007-canonical-symbol-graph/**
-  - evaluation-harness/fixtures/p2-007-canonical-symbol-graph/**
   - evaluation-harness/replay/p2-007-canonical-symbol-graph/**
   - scripts/verify-p2-007-canonical-symbol-graph.sh
   - Makefile
@@ -47,7 +46,6 @@ allowlisted_paths:
 write_ownership:
   worker:
     - evaluation-harness/harness/p2-007-canonical-symbol-graph/**
-    - evaluation-harness/fixtures/p2-007-canonical-symbol-graph/**
     - evaluation-harness/replay/p2-007-canonical-symbol-graph/**
     - scripts/verify-p2-007-canonical-symbol-graph.sh
     - Makefile

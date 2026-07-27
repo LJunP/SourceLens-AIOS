@@ -3877,8 +3877,8 @@ current_phase_route:
     task_slot: 1
     status: ACTIVE
     contract_path: docs/aios/tasks/P2-007_CANONICAL_SYMBOL_IDENTITY_AND_SCANNER_GRAPH_KERNEL.yaml
-    contract_sha256: 8c0654b319ac87d036b9f55afdff6973eb20dbc93cca1ee718f51356f429ea45
-    contract_byte_length: 6920
+    contract_sha256: ab97b454f5374b51e5056fc97cf5744efe08848601b4ecc1dc533ecae8d5743c
+    contract_byte_length: 6788
     max_engineering_hours: 28
     max_calendar_days: 6
     max_implementation_iterations: 2
@@ -3916,8 +3916,7 @@ current_phase_route:
     maximum_engineering_hours: 48
     engineering_hours_authorized_current_task: 28
     status: ACTIVE_1_OF_2_TASKS
-  additional_write_roots:
-    - evaluation-harness/fixtures/p2-007-canonical-symbol-graph/**
+  additional_write_roots: []
   inherited_worktree_inventory:
     - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-063-atomic-offline-b0
       head: 14a6e1ed7298dd3568b7290ff2f625785521f9c1
@@ -5149,15 +5148,15 @@ active_work:
   current_task_status: ACTIVE
   current_task_contract:
     path: docs/aios/tasks/P2-007_CANONICAL_SYMBOL_IDENTITY_AND_SCANNER_GRAPH_KERNEL.yaml
-    sha256: 8c0654b319ac87d036b9f55afdff6973eb20dbc93cca1ee718f51356f429ea45
-    byte_length: 6920
-  current_task_contract_sha256: 8c0654b319ac87d036b9f55afdff6973eb20dbc93cca1ee718f51356f429ea45
+    sha256: ab97b454f5374b51e5056fc97cf5744efe08848601b4ecc1dc533ecae8d5743c
+    byte_length: 6788
+  current_task_contract_sha256: ab97b454f5374b51e5056fc97cf5744efe08848601b4ecc1dc533ecae8d5743c
   current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-007-canonical-symbol-graph-20260727/task-authority.yaml
-  current_execution_authorization_sha256: 8ac5ad2fe647d9dc5fc8aef1eb0e8dfdd9210261ab5cfde99cabe2c682eedf5e
+  current_execution_authorization_sha256: 7987610ab1e3b8991a121b1c20c5aabadd81553bc4fee3530138605583bb6ebd
   authority_record:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-007-canonical-symbol-graph-20260727/task-authority.yaml
-    sha256: 8ac5ad2fe647d9dc5fc8aef1eb0e8dfdd9210261ab5cfde99cabe2c682eedf5e
-    byte_length: 2372
+    sha256: 7987610ab1e3b8991a121b1c20c5aabadd81553bc4fee3530138605583bb6ebd
+    byte_length: 2307
   execution_nonce: 87ba7808e0e874b01634d26b142972b743bab6a09a8b50125e10ace2ee4cfbf1
   execution_nonce_status: ACTIVE
   authorization_id: 9ca3cde98d539c6975ca563b7718e9b9cb958ef28300f1e676c570fdfa120205
@@ -5170,7 +5169,6 @@ active_work:
   allowlisted_paths:
     - evaluation-harness/harness/p2-007-canonical-symbol-graph/**
     - evaluation-harness/evaluator/p2-007-canonical-symbol-graph/**
-    - evaluation-harness/fixtures/p2-007-canonical-symbol-graph/**
     - evaluation-harness/replay/p2-007-canonical-symbol-graph/**
     - scripts/verify-p2-007-canonical-symbol-graph.sh
     - Makefile

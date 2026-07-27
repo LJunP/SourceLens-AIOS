@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P1-147_ACCEPTED_ADAPTER_END_TO_END_BASELINE
 phase: P1
 route_id: P1_CLEAN_ROOM_ACCEPTED_ADAPTER_END_TO_END_BASELINE_AND_STRICT_EXIT_ROUTE_V1
-status: TERMINAL_IMPLEMENTATION_ITERATION_EXHAUSTED_SYNTHETIC_FORMAL_NON_PASS
+status: ACTIVE
 objective: >-
   Build and falsify one clean-room, request-bound 36-cell baseline in which
   every B0, B1 and B2 cell actually composes the accepted canonical adapter,
@@ -196,29 +196,6 @@ stop_conditions:
   - A non-loopback, remote, production or public effect occurs.
   - Any final Reviewer, reviewed/integrated tree equality or canonical make verify is NON_PASS.
   - Phase, P1 Exit Gate or permission boundary changes.
-terminal:
-  recorded_at: "2026-07-27T15:38:12Z"
-  normalized_root_cause: P1147.SYNTHETIC_FORMAL.CLOSED_INVENTORY.ACCEPTED_ADAPTER_NEGATIVE_SYMLINK_RETAINED
-  exact_failure: >-
-    INVENTORY_SYMLINK:
-    adapter-control/negative/NEG_EXECUTABLE_SYMLINK/physical-executable-symlink.mjs
-  stage: FULL_37_REQUEST_SYNTHETIC_FORMAL_REBUILD_AND_VERIFY
-  implementation_iterations_used: 3
-  same_task_repairs_used: 2
-  offline_preflight_status: PASS
-  real_provider_effect_started: false
-  operator_secret_reads: 0
-  formal_provider_requests: 0
-  automatic_retries: 0
-  candidate_created: false
-  final_review_started: false
-  candidate_integrated: false
-  canonical_make_verify: NOT_INVOKED_NO_CANDIDATE
-  capability_credit: 0
-  p1_148_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
-  terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-adapter-end-to-end-exit-20260727/task-1-p1-147/terminal/P1_147_TERMINAL_RECEIPT.json
-  terminal_receipt_sha256: 3b56a7a16c1d4e3afa507860be2066f90a4a370ebe6bd864d8b7d4462ca0fba3
-  terminal_receipt_byte_length: 2623
 claim_boundary: >-
   Cooperative-local loopback accepted-adapter composition and reproducible P1
   baseline research only. No P2 entry, P3, remote, production, public,

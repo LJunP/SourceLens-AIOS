@@ -4212,6 +4212,23 @@ current_phase_route:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-timeboxed-strict-exit-20260727/decision/FOUNDER_P1_TIMEBOXED_ENGINEERING_REPAIR_ROUTE_DECISION.json
     sha256: 79456c2421d67cf14c579355a8bd93d3c725312c83cb1df0b4a24665f9b93652
     byte_length: 2308
+  same_task_effect_budget_amendment:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-timeboxed-strict-exit-20260727/decision/FOUNDER_P1_145_SAME_TASK_DIAGNOSTIC_EFFECT_AMENDMENT_V1.json
+    sha256: 2a82c65b300a917f8e690788911474f074d5e9a1a5bd0da8311aa67b2e65a367
+    byte_length: 2111
+    authorization_token: AUTHORIZE_ONE_P1_145_SAME_TASK_TRANSPORT_REPAIR_DIAGNOSTIC_REPLAY_AND_DIRECT_EXIT_CONTINUATION_V1
+    diagnostic_provider_requests_max: 2
+    formal_provider_requests_exact: 36
+    total_provider_requests_max: 38
+    operator_secret_reads_max: 2
+    automatic_retries_max: 0
+    first_failed_diagnostic:
+      execution_id: P1-145-abb7927a8fcf4e8b595016907a2ee9a5
+      evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-timeboxed-strict-exit-20260727/task-1-p1-145/formal-execution-v1
+      evidence_inventory_sha256: 31c1e81e12760a64de0629d63119e835e3675af467dfc45ca78ec5e0205d7bb3
+      failure_sha256: a29c4ca6e00ae1e45e1e3f34242a3201d6c3e853e3485ee9f98961efdcbb9547
+      formal_provider_requests_executed: 0
+    replay_formal_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-timeboxed-strict-exit-20260727/task-1-p1-145/formal-execution-v2
   activation_parent:
     commit: 3aed8c418e26ca81dbcc1ec8687aac13d5bd22f9
     tree: d48395d5b94ab3aeaffd84700ef6ae6bac166050
@@ -5875,15 +5892,15 @@ active_work:
   current_task_status: ACTIVE
   current_task_contract:
     path: docs/aios/tasks/P1-145_TIMEBOXED_REQUEST_BOUND_BASELINE.yaml
-    sha256: 505803c211e294b2d7e52adeaca5268670014ccdc55504c53ba7f608f0b17068
-    byte_length: 9450
-  current_task_contract_sha256: 505803c211e294b2d7e52adeaca5268670014ccdc55504c53ba7f608f0b17068
+    sha256: ee329c0c7a64716f40ef93977ae3161f0517a55dc2b98986b0df02812d253222
+    byte_length: 10091
+  current_task_contract_sha256: ee329c0c7a64716f40ef93977ae3161f0517a55dc2b98986b0df02812d253222
   current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-timeboxed-strict-exit-20260727/task-1-p1-145/authority/TASK_AUTHORITY.yaml
-  current_execution_authorization_sha256: f59eaa3f51fbb0e694a8cc0d7e6f02c5041a1380de8b984e41805ed6597cf5d2
+  current_execution_authorization_sha256: 93e2959718b95ee4430961a8023cfc9570330b1e324549ab445c5d7a10654aca
   authority_record:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-timeboxed-strict-exit-20260727/task-1-p1-145/authority/TASK_AUTHORITY.yaml
-    sha256: f59eaa3f51fbb0e694a8cc0d7e6f02c5041a1380de8b984e41805ed6597cf5d2
-    byte_length: 2592
+    sha256: 93e2959718b95ee4430961a8023cfc9570330b1e324549ab445c5d7a10654aca
+    byte_length: 3503
   execution_nonce: 1171c2a11acdb0c12b3187ab5e4101cc
   execution_nonce_status: ACTIVE
   authorization_id: AUTH-P1-145-TIMEBOXED-BASELINE-20260727
@@ -5926,6 +5943,23 @@ active_work:
   offsite_target: null
   founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-timeboxed-strict-exit-20260727/decision/FOUNDER_P1_TIMEBOXED_ENGINEERING_REPAIR_ROUTE_DECISION.json
   founder_reserved_authorization_sha256: 79456c2421d67cf14c579355a8bd93d3c725312c83cb1df0b4a24665f9b93652
+  founder_effect_budget_amendment:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-timeboxed-strict-exit-20260727/decision/FOUNDER_P1_145_SAME_TASK_DIAGNOSTIC_EFFECT_AMENDMENT_V1.json
+    sha256: 2a82c65b300a917f8e690788911474f074d5e9a1a5bd0da8311aa67b2e65a367
+    byte_length: 2111
+    authorization_token: AUTHORIZE_ONE_P1_145_SAME_TASK_TRANSPORT_REPAIR_DIAGNOSTIC_REPLAY_AND_DIRECT_EXIT_CONTINUATION_V1
+  provider_effect_budget:
+    diagnostic_provider_requests_max: 2
+    diagnostic_provider_requests_used: 1
+    formal_provider_requests_exact: 36
+    formal_provider_requests_used: 0
+    total_provider_requests_max: 38
+    total_provider_requests_used: 1
+    operator_secret_reads_max: 2
+    operator_secret_reads_used: 1
+    automatic_retries_max: 0
+    automatic_retries_used: 0
+    next_formal_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-timeboxed-strict-exit-20260727/task-1-p1-145/formal-execution-v2
   founder_decision_required: false
   founder_decision_required_scope: null
   escalation_reason: null

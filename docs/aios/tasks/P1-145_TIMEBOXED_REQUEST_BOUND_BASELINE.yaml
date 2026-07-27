@@ -98,6 +98,11 @@ governing_founder_packet:
   path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-timeboxed-strict-exit-20260727/decision/FOUNDER_P1_TIMEBOXED_ENGINEERING_REPAIR_ENVELOPE_AND_STRICT_EXIT_ROUTE_V1.md
   sha256: 081df74180e48749d3ae58863fffc0e64949993aecde800bf6d4888b9d6e6d43
   byte_length: 2995
+founder_effect_budget_amendment:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-timeboxed-strict-exit-20260727/decision/FOUNDER_P1_145_SAME_TASK_DIAGNOSTIC_EFFECT_AMENDMENT_V1.json
+  sha256: 2a82c65b300a917f8e690788911474f074d5e9a1a5bd0da8311aa67b2e65a367
+  byte_length: 2111
+  authorization_token: AUTHORIZE_ONE_P1_145_SAME_TASK_TRANSPORT_REPAIR_DIAGNOSTIC_REPLAY_AND_DIRECT_EXIT_CONTINUATION_V1
 goal_identity:
   raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
   raw_byte_length: 19433
@@ -107,15 +112,15 @@ goal_identity:
 provider_limits:
   endpoint: http://127.0.0.1:8787/v1/chat/completions
   model: gpt-5.6-luna
-  diagnostic_provider_requests_max: 1
+  diagnostic_provider_requests_max: 2
   formal_provider_requests_exact: 36
-  total_provider_requests_max: 37
+  total_provider_requests_max: 38
   automatic_retries_max: 0
   currency: USD
   max_spend: 25
 secret_boundary:
   input: OPERATOR_OWNED_NO_ECHO_AFTER_COMPLETE_OFFLINE_PREFLIGHT_PASS
-  reads_max: 1
+  reads_max: 2
   persisted: false
   authorization_header_or_hash_persisted: false
   repository_evidence_log_trace_prompt_review_or_vault_sink_allowed: false
@@ -137,13 +142,13 @@ quality_freeze:
     - Observer, filesystem, request/response, inventory and cross-binding negatives all reject.
     - False accepts, Secret reads and Provider requests equal zero.
   formal_execution:
-    - The diagnostic result and all 36 formal cells have request-bound receipts.
-    - Exactly 36 formal Provider requests execute after one strict diagnostic.
+    - The retained failed diagnostic, the one authorized strict replay diagnostic and all 36 formal cells have request-bound receipts.
+    - Exactly 36 formal Provider requests execute after the authorized replay diagnostic produces one strict completion.
     - All formal cells remain in the denominator without rerun or replacement.
     - The report is reconstructed from frozen receipts and independently verified.
 acceptance_criteria:
-  - Complete offline preflight passes before the sole Secret read and first Provider request.
-  - One strict loopback diagnostic HTTP 2xx completion is durably retained.
+  - Complete offline preflight passes before each of the two authorized Secret reads and diagnostic Provider requests.
+  - The first failed diagnostic remains immutable and one strict replay diagnostic HTTP 2xx completion is durably retained.
   - Exactly 36 formal Provider requests execute with zero automatic retries.
   - The reproducible report satisfies Evaluation Protocol v1.1 and is rebuilt from frozen request/response receipts.
   - False accepts, Secret persistence and unauthorized external effects equal zero.
@@ -168,7 +173,7 @@ stop_conditions:
   - P1-143 rejected engineering or another rejected lineage would be required.
   - The same normalized root cause occurs in adjacent implementation iterations.
   - Task 1 consumes 40 engineering hours or 6 calendar days.
-  - Formal execution is NON_PASS or would require a rerun.
+  - The second authorized diagnostic is NON_PASS, the formal matrix is NON_PASS, or the formal matrix would require a rerun.
   - Secret bytes enter repository, Evidence, logs, traces, prompts, reviews or Vault.
   - A non-loopback, remote, production or public effect occurs.
   - Any final Reviewer, reviewed/integrated equality check or canonical make verify is NON_PASS.

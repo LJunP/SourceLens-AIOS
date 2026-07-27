@@ -4489,6 +4489,10 @@ current_phase_route:
       head: ffb3b3e4e55bafed8195c82488c86c430ee8f50b
       branch: codex/p1-143-durable-loopback-baseline
       status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-145-timeboxed-baseline
+      head: 83fdbe685de5fd1ff66b3337f48395840ac71255
+      branch: codex/p1-145-timeboxed-baseline
+      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
   claim_boundary: "Cooperative-local clean-room request-bound loopback baseline report and exact report-bound P2 preregistration only. No non-loopback, remote, production, public, P2-entry, P3-entry, hostile-principal, model-generalization or production-readiness claim."
   historical_p2_hold:
     prior_phase: P2
@@ -4559,7 +4563,24 @@ current_phase_route:
     rejected_source_manifest_sha256: 043295d65792a98d135922a4d2fee4879b151e222d2d09f347c660b9b31694f2
     terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-durable-loopback-observer-exit-20260727/task-1-p1-143/terminal/P1_143_TERMINAL_RECEIPT.json
     terminal_receipt_sha256: 95952c528baea135579a2ba8a8453abd4f6e66ef148a2287aa08d00f2ba0ec1d
-  next_eligible_action: EXECUTE_AIOS_P1_145_TIMEBOXED_REQUEST_BOUND_BASELINE
+  terminal_p1_145_result:
+    status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
+    normalized_root_cause: P1145.FINAL_CTO.BASELINE_ARTIFACT_ARCHITECTURE_AND_PROVENANCE_NON_CONFORMANT
+    candidate_commit: 83fdbe685de5fd1ff66b3337f48395840ac71255
+    candidate_tree: 6a5dfefc6d0410c4b182aa0c9abbccaa85a1ca0f
+    candidate_manifest_sha256: 555657eedc1ad4223128372d0b28f9da0c9de58d838428358ed8ca2ab63117fd
+    formal_execution_count: 1
+    formal_cells: 36
+    strict_provider_completions: 36
+    verified_successes: 0
+    final_cto_target_verdict: NON_PASS
+    final_cto_review_sha256: 0d4866eed02a17eeddc197cb1323cf43d06d785307b8e089fe42de9bfafc5675
+    candidate_integrated: false
+    capability_credit: 0
+    p1_146_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
+    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-timeboxed-strict-exit-20260727/task-1-p1-145/terminal/P1_145_TERMINAL_RECEIPT.json
+    terminal_receipt_sha256: 5898a16da27ad277d56e56eae35070cae709fc45fa875e96847739957e983d7e
+  next_eligible_action: FOUNDER_P1_PHASE_GATE
 
 historical_p2_phase_route:
   route_id: P2_CANONICAL_SYMBOL_IDENTITY_GRAPH_KERNEL_AND_CONTEXT_BENCHMARK_CONTINUOUS_ROUTE_V1

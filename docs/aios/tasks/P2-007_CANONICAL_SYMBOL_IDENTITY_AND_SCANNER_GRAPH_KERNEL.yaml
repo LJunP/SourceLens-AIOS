@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P2-007_CANONICAL_SYMBOL_IDENTITY_AND_SCANNER_GRAPH_KERNEL
 phase: P2
 route_id: P2_CANONICAL_SYMBOL_IDENTITY_GRAPH_KERNEL_AND_CONTEXT_BENCHMARK_CONTINUOUS_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
 
 objective: >-
   Build and falsify one clean-room, scanner-derived canonical symbol identity
@@ -186,3 +186,26 @@ claim_boundary: >-
   dependency graph evidence only. PASS does not establish general ecosystem
   coverage, P3 readiness, production use, remote safety or hostile-principal
   isolation.
+
+terminal_outcome:
+  status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+  normalized_root_cause: P2007.FINAL_REVIEW.CANONICAL_IDENTITY_ENDPOINT_AUTHORITY_AND_EVIDENCE_BOUNDARY_NON_PASS
+  implementation_iterations_used: 2_OF_2
+  code_only_repairs_used: 1_OF_1
+  candidate_commit: 83d682016075213ad0e881f3a59e2f6e6b33318c
+  candidate_tree: 65583ddce97fe732827d0ecc187fd896ea22860d
+  candidate_manifest_sha256: 002c60b41a4f215176193a31cfb3e0b9fbb276436791dcce5ed9c93337ef5469
+  formal_execution_count: 1
+  formal_suite_result_sha256: c8af6c3526430e18b6306ba03786463988c0f61cfaa3d460ab4f2b52d9c8a8e3
+  cto_target_verdict: NON_PASS
+  cto_review_sha256: 123996613642be5bae861bcf32dbc964da8f9bcac8994dadddbb27fe6512a968
+  security_target_verdict: NON_PASS
+  security_review_sha256: ee89fab75f754ef5422b534270746bad4346d6b23e14bbfb4990c167118464be
+  quality_target_verdict: NON_PASS
+  quality_review_sha256: 6c04ee8f3654e00029f0ac75604ab2233c5e40a2a53123214f117419a5d58e86
+  terminal_receipt_sha256: 93763238615ad69d40b70898053faa49dcaa7653cc0e8539c372d833be14abb6
+  candidate_integrated: false
+  canonical_make_verify: NOT_INVOKED_REVIEW_STOP_CONDITION
+  accepted_capability: false
+  capability_credit: 0
+  p2_008_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS

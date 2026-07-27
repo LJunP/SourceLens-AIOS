@@ -1295,8 +1295,8 @@ module CurrentTaskAuthority
       task_repairs = integer(task["max_same_task_repairs"],
                              "structured decision Task max_same_task_repairs")
       assert(task_repairs >= 0, "structured decision Task max_same_task_repairs must be non-negative")
-      assert(task_repairs == max_repairs,
-             "structured decision Task repair budget does not equal route envelope")
+      assert(task_repairs <= max_repairs,
+             "structured decision Task repair budget exceeds route envelope maximum")
       assert(task["max_implementation_iterations"] == task_repairs + 1,
              "structured decision Task implementation iterations must equal initial plus repairs")
       assert(task["max_candidates"] == envelope["max_active_candidates"],
@@ -1306,6 +1306,8 @@ module CurrentTaskAuthority
     task_ids = task_budgets.map { |task| task["task_id"] }
     assert(task_ids.uniq.length == task_ids.length,
            "structured Founder route decision Task ids must be unique")
+    assert(task_budgets.map { |task| task["max_same_task_repairs"] }.max == max_repairs,
+           "structured decision route repair ceiling must equal the maximum Task repair budget")
     assert(task_budgets.sum { |task| task["engineering_hours"] } == envelope["max_engineering_hours"],
            "structured Founder route decision Task engineering budgets do not equal route envelope")
     assert(task_budgets.sum { |task| task["calendar_days"] } == envelope["max_calendar_days"],

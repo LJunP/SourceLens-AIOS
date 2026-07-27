@@ -418,11 +418,33 @@ class CurrentTaskAuthorityTest
     expect_decision_nonpass(canonical_json(task_budget), "structured decision Task budget mismatch",
                             /engineering budgets do not equal route envelope/)
 
-    task_repair = deep_copy(decision)
-    task_repair["ordered_tasks"][0]["max_same_task_repairs"] = 0
-    task_repair["ordered_tasks"][0]["max_implementation_iterations"] = 1
-    expect_decision_nonpass(canonical_json(task_repair), "structured decision Task repair mismatch",
-                            /repair budget does not equal route envelope/)
+    task_specific_repairs = deep_copy(decision)
+    task_specific_repairs["envelope"]["max_same_task_repairs_per_task"] = 8
+    task_specific_repairs["ordered_tasks"][0]["max_same_task_repairs"] = 8
+    task_specific_repairs["ordered_tasks"][0]["max_implementation_iterations"] = 9
+    task_specific_repairs["ordered_tasks"][1]["max_same_task_repairs"] = 2
+    task_specific_repairs["ordered_tasks"][1]["max_implementation_iterations"] = 3
+    task_specific_claims = expect_decision_pass(
+      canonical_json(task_specific_repairs),
+      "structured decision accepts independent Task repair budgets under exact route ceiling"
+    )
+    assert(task_specific_claims["max_same_task_repairs"] == 8,
+           "structured decision route repair ceiling projection drifted")
+    assert(task_specific_claims["task_budgets"].map { |task| task["max_same_task_repairs"] } == [8, 2],
+           "structured decision Task-specific repair budgets drifted")
+
+    task_repair_over = deep_copy(decision)
+    task_repair_over["ordered_tasks"][0]["max_same_task_repairs"] =
+      task_repair_over["envelope"]["max_same_task_repairs_per_task"] + 1
+    task_repair_over["ordered_tasks"][0]["max_implementation_iterations"] =
+      task_repair_over["ordered_tasks"][0]["max_same_task_repairs"] + 1
+    expect_decision_nonpass(canonical_json(task_repair_over), "structured decision Task repair exceeds ceiling",
+                            /repair budget exceeds route envelope maximum/)
+
+    loose_route_ceiling = deep_copy(decision)
+    loose_route_ceiling["envelope"]["max_same_task_repairs_per_task"] += 1
+    expect_decision_nonpass(canonical_json(loose_route_ceiling), "structured decision loose route repair ceiling",
+                            /route repair ceiling must equal the maximum Task repair budget/)
 
     task_candidate = deep_copy(decision)
     task_candidate["ordered_tasks"][0]["max_candidates"] = 2
@@ -725,10 +747,11 @@ class CurrentTaskAuthorityTest
     end
     assert(claims["task_ids"] == expected_tasks, "current packet Task set drifted")
     if claims["founder_reserved_profiles"].empty?
-      assert(claims["external_effects"] == false_effects,
-             "offline current packet external-effect boundary drifted")
+      expected_effects = truth.dig("current_phase_route", "envelope", "external_effects")
+      assert(claims["external_effects"] == expected_effects,
+             "current packet external-effect boundary drifted from Truth")
       @passes += 1
-      puts "PASS exact current offline packet Task/effect set"
+      puts "PASS exact current packet Task/effect set"
       if packet.include?("AUTHORIZE_P1_PARTIAL_EXIT_WITH_DISCLOSED_RESIDUALS_AND_DIRECT_P2_REPOSITORY_INTELLIGENCE_PHASE_ENTRY_V1") ||
          packet.include?("AUTHORIZE_P2_ACCEPTED_REPOSITORY_GRAPH_INDEX_AND_GRAPH_CONDITIONED_CONTEXT_ROUTE_V1") ||
          packet.include?("AUTHORIZE_P2_SCANNER_FIRST_EXACT_GRAPH_AUTHORITY_AND_GRAPH_CONDITIONED_CONTEXT_ROUTE_V1")
@@ -812,9 +835,10 @@ class CurrentTaskAuthorityTest
     rewrite_owned(safety_path, File.binread(SAFETY_VALIDATOR))
 
     packet_identity = source_truth.fetch("current_phase_route").fetch("decision_packet")
+    packet_source = packet_identity.fetch("path")
     packet_path = verified_source_copy(
-      packet_identity.fetch("path"),
-      File.join(external, "decision-packet.md"),
+      packet_source,
+      File.join(external, "decision-packet#{File.extname(packet_source)}"),
       packet_identity.fetch("sha256"),
       packet_identity.fetch("byte_length")
     )
@@ -904,7 +928,7 @@ class CurrentTaskAuthorityTest
     goal_source = source_truth.fetch("goal").fetch("source_attachment_path")
     packet_path = verified_source_copy(
       packet_source,
-      File.join(external, "decision-packet.md"),
+      File.join(external, "decision-packet#{File.extname(packet_source)}"),
       packet_identity.fetch("sha256"),
       packet_identity.fetch("byte_length")
     )
@@ -941,6 +965,8 @@ class CurrentTaskAuthorityTest
     truth["current_phase_route"]["inherited_worktree_inventory"] = []
     truth["current_phase_route"].delete("active_task")
     truth["active_work"] = ready_active_work
+    truth["active_work"]["external_effects"] =
+      deep_copy(truth.dig("current_phase_route", "envelope", "external_effects"))
     dump_owned_yaml(truth_path, truth)
     commit(repo, "test: fixture ready route")
 
@@ -966,6 +992,41 @@ class CurrentTaskAuthorityTest
     create_exclusive(decision_path, decision_bytes)
 
     truth = yaml(fixture["truth_path"])
+    decision_phase = decision.fetch("phase")
+    truth["project"]["current_phase"] = decision_phase
+    truth["project"]["phase_execution_status"] = "AUTHORIZED_READY"
+    truth["project"]["#{decision_phase.downcase}_execution_status"] = "AUTHORIZED_READY"
+    truth["phase_boundary"]["phase"] = decision_phase
+    if decision_phase == "P2"
+      truth["project"]["p1_execution_status"] =
+        "PARTIAL_EXIT_WITH_DISCLOSED_RESIDUALS_6_OF_8_75_PERCENT"
+      truth["project"]["p2_entry_status"] = "AUTHORIZED"
+      truth["phase_boundary"]["allowed_task_kinds"] = %w[
+        REPOSITORY_INTELLIGENCE_ENGINEERING
+        REPOSITORY_INTELLIGENCE_RESEARCH
+      ]
+      truth["phase_boundary"]["allowed_capabilities"] = %w[
+        P2_REPOSITORY_INTELLIGENCE_CAPABILITY_CLAIM
+        TASK_CONDITIONED_CONTEXT_SELECTION
+        REPOSITORY_CONTEXT_BENCHMARK
+        LOCAL_COMMIT_DERIVED_TASK_DATASET
+        DETERMINISTIC_REPLAY
+        EVALUATOR_AND_ORACLE
+        EVIDENCE_MANIFEST
+        FAILURE_TAXONOMY
+        EVALUATION_METRICS
+      ]
+      truth["phase_boundary"]["deferred_capabilities"] = %w[
+        P3_SINGLE_AGENT_RUNTIME
+        AGENT_SHELL
+        MODEL_INITIATED_CANONICAL_WRITE
+        PLATFORM_IDENTITY
+        SUPERVISOR
+        ROOT_CUSTODY
+        STRONG_ISOLATION
+        MULTI_AGENT_RUNTIME
+      ]
+    end
     task_plan = decision.fetch("ordered_tasks").map do |task|
       {
         "task_slot" => task.fetch("task_slot"),
@@ -1167,7 +1228,11 @@ class CurrentTaskAuthorityTest
       truth["current_phase_route"].delete("accepted_input_ids")
       dump_owned_yaml(fixture["truth_path"], truth)
       commit(repo, "test: remove closed accepted-input set declaration")
-      expect_nonpass(repo, "missing closed accepted-input set", /accepted_inputs must not be empty/)
+      if truth["current_phase_route"]["accepted_inputs"].empty?
+        expect_nonpass(repo, "missing closed accepted-input set", /accepted_inputs must not be empty/)
+      else
+        expect_pass(repo, "optional closed accepted-input id set omitted with nonempty accepted inputs")
+      end
       truth["current_phase_route"]["accepted_input_ids"] = original_ids + ["UNDECLARED_INPUT"]
       dump_owned_yaml(fixture["truth_path"], truth)
       commit(repo, "test: mismatch closed accepted-input set")
@@ -1178,7 +1243,10 @@ class CurrentTaskAuthorityTest
     end
 
     truth = yaml(fixture["truth_path"])
-    link_path = File.join(fixture["external"], "decision-packet-link.md")
+    link_path = File.join(
+      fixture["external"],
+      "decision-packet-link#{File.extname(fixture['packet_path'])}"
+    )
     File.symlink(fixture["packet_path"], link_path)
     link_stat = File.lstat(link_path)
     assert(link_stat.symlink?, "failed to create owned symlink fixture")
@@ -1570,6 +1638,48 @@ class CurrentTaskAuthorityTest
     remove_fixture_task_resources(fixture)
   end
 
+  def structured_task_specific_repair_lifecycle_tests(sandbox)
+    decision = JSON.parse(File.binread(STRUCTURED_DECISION_PATH))
+    decision["envelope"]["max_same_task_repairs_per_task"] = 8
+    decision["ordered_tasks"][0]["max_same_task_repairs"] = 8
+    decision["ordered_tasks"][0]["max_implementation_iterations"] = 9
+    decision["ordered_tasks"][1]["max_same_task_repairs"] = 2
+    decision["ordered_tasks"][1]["max_implementation_iterations"] = 3
+    fixture = prepare_structured_fixture(
+      File.join(sandbox, "task-specific-repair-lifecycle"),
+      decision_override: decision
+    )
+    expect_pass(fixture["repo"], "structured Task-specific repair READY Decision to Truth")
+    expect_safety_pass(
+      fixture["repo"],
+      fixture["truth_path"],
+      "structured Task-specific repair READY safety"
+    )
+    fixture = activate_fixture(fixture)
+    expect_pass(fixture["repo"], "structured Task 1 eight-repair ACTIVE Contract and authority")
+    expect_safety_pass(
+      fixture["repo"],
+      fixture["truth_path"],
+      "structured Task 1 eight-repair ACTIVE safety"
+    )
+    gate_evidence = accepted_gate_evidence_for_fixture(fixture)
+    remove_fixture_task_resources(fixture)
+    fixture = transition_to_second_task_ready(
+      fixture,
+      predecessor_status: "MASTER_TASK_GATE_ACCEPTED_COMPLETE",
+      gate_evidence: gate_evidence
+    )
+    expect_pass(fixture["repo"], "structured Task 2 two-repair READY after Task 1 Gate PASS")
+    fixture = activate_fixture(fixture, task_slot: 2)
+    expect_pass(fixture["repo"], "structured Task 2 two-repair ACTIVE Contract and authority")
+    expect_safety_pass(
+      fixture["repo"],
+      fixture["truth_path"],
+      "structured Task 2 two-repair ACTIVE safety"
+    )
+    remove_fixture_task_resources(fixture)
+  end
+
   def structured_external_effect_binding_tests(sandbox)
     decision = JSON.parse(File.binread(STRUCTURED_DECISION_PATH))
     decision["external_effects"]["network"] = true
@@ -1919,7 +2029,7 @@ class CurrentTaskAuthorityTest
     expect_dual_nonpass(
       fixture,
       "active budget mismatch",
-      /contract budget mismatch|active budget engineering_hours exceeds envelope/
+      /contract budget mismatch|active budget engineering_hours exceeds envelope|active Task budget does not equal the structured Founder decision/
     )
     truth = yaml(fixture["truth_path"])
     truth["active_work"]["budget"]["engineering_hours"] = original_hours
@@ -1982,6 +2092,9 @@ class CurrentTaskAuthorityTest
     shell(repo, "git", "branch", "-d", "codex/test-current-authority-extra")
     expect_pass(repo, "active Task after owned extra worktree cleanup")
 
+    current_claims = CurrentTaskAuthority.packet_claims(File.binread(fixture["packet_path"]))
+    structured_gate_evidence =
+      accepted_gate_evidence_for_fixture(fixture) if current_claims["structured_decision"]
     shell(repo, "git", "worktree", "remove", fixture["task_worktree"])
     shell(repo, "git", "branch", "-d", fixture["task_branch"])
     truth = yaml(fixture["truth_path"])
@@ -1991,15 +2104,25 @@ class CurrentTaskAuthorityTest
     truth["project"]["#{phase.downcase}_execution_status"] = "ACTIVE"
     truth["current_phase_route"]["status"] = "ACTIVE"
     truth["current_phase_route"]["first_task"]["status"] = "MASTER_TASK_GATE_ACCEPTED_COMPLETE"
-    truth["current_phase_route"]["next_eligible_action"] = "MASTER_SELECT_NEXT_PHASE_LOCAL_TASK"
     truth["current_phase_route"].delete("active_task")
-    truth["task_history"]["fixture_completed_first_task"] = {
-      "task_id" => fixture["task_id"],
-      "status" => "MASTER_TASK_GATE_ACCEPTED_COMPLETE"
-    }
+    if structured_gate_evidence
+      truth["current_phase_route"]["task_plan"][0]["status"] = "MASTER_TASK_GATE_ACCEPTED_COMPLETE"
+      truth["current_phase_route"]["task_plan"][1]["status"] = "ELIGIBLE_NOT_ACTIVATED"
+      truth["current_phase_route"]["next_eligible_action"] = "MASTER_ACTIVATE_NEXT_TASK"
+      truth["task_history"]["fixture_completed_first_task"] = structured_gate_evidence
+    else
+      truth["current_phase_route"]["next_eligible_action"] = "MASTER_SELECT_NEXT_PHASE_LOCAL_TASK"
+      truth["task_history"]["fixture_completed_first_task"] = {
+        "task_id" => fixture["task_id"],
+        "status" => "MASTER_TASK_GATE_ACCEPTED_COMPLETE"
+      }
+    end
     truth["active_work"] = ready_active_work
     truth["active_work"]["task_resource_state"] = "NONE_PHASE_ACTIVE"
-    truth["active_work"]["next_eligible_action"] = "MASTER_SELECT_NEXT_PHASE_LOCAL_TASK"
+    truth["active_work"]["external_effects"] =
+      deep_copy(truth.dig("current_phase_route", "envelope", "external_effects"))
+    truth["active_work"]["next_eligible_action"] =
+      structured_gate_evidence ? "MASTER_ACTIVATE_NEXT_TASK" : "MASTER_SELECT_NEXT_PHASE_LOCAL_TASK"
     dump_owned_yaml(fixture["truth_path"], truth)
     commit(repo, "test: enter between-Task active Phase idle")
     expect_pass(repo, "between-Task active Phase with Task NONE")
@@ -2016,6 +2139,7 @@ class CurrentTaskAuthorityTest
       structured_route_binding_tests(sandbox)
       structured_automatic_entry_tests(sandbox)
       structured_zero_repair_lifecycle_tests(sandbox)
+      structured_task_specific_repair_lifecycle_tests(sandbox)
       structured_external_effect_binding_tests(sandbox)
       sandbox_stat = File.lstat(sandbox)
       assert(sandbox_stat.directory? && !sandbox_stat.symlink?, "temporary root is not an owned directory")

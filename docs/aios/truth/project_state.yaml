@@ -4258,14 +4258,6 @@ current_phase_route:
       accepted_candidate_commit: 686eda0cd7a93b72ac5e64301479f17e4b096fb0
       accepted_candidate_tree: b2740b44d0051303057deac7d719c27fd6a5578a
       source_phase: P1
-    p1_055:
-      task_id: AIOS-P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE
-      status: FOUNDER_EXCEPTION_ACCEPTED_COMPLETE
-      task_contract_path: docs/aios/tasks/P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE.yaml
-      task_contract_sha256: 150b80d116088489339a850095e8d3ff33dd73e1212b7c617a8becf02c509289
-      accepted_candidate_commit: 4d65d5178e1d5cf0a2852acc844f6f4b12c2fdc0
-      accepted_candidate_tree: 22948c19a83b5c3bf7f9383982e2e092b1840561
-      source_phase: P1
     p1_070:
       task_id: AIOS-P1-070_OFFLINE_SCHEDULED_MATRIX_VTSR_AND_FALSE_SUCCESS_EXPERIMENT
       status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
@@ -4292,10 +4284,19 @@ current_phase_route:
       source_phase: P1
   accepted_input_ids:
     - p1_035
-    - p1_055
     - p1_070
     - p1_101
     - p1_129
+  accepted_substrates:
+    p1_055:
+      task_id: AIOS-P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE
+      status: FOUNDER_EXCEPTION_ACCEPTED_COMPLETE
+      contract_path: docs/aios/tasks/P1-055_FINITE_TYPED_PATCH_IR_COMPILER_CONFORMANCE.yaml
+      contract_sha256: 150b80d116088489339a850095e8d3ff33dd73e1212b7c617a8becf02c509289
+      accepted_candidate_commit: 4d65d5178e1d5cf0a2852acc844f6f4b12c2fdc0
+      accepted_candidate_tree: 22948c19a83b5c3bf7f9383982e2e092b1840561
+      lifecycle_must_not_be_rewritten: true
+      reuse_boundary: FINITE_TYPED_PATCH_IR_V1_ACCEPTED_CANONICAL_INTERFACE_ONLY
   first_task:
     task_id: AIOS-P1-147_ACCEPTED_ADAPTER_END_TO_END_BASELINE
     task_slot: 1

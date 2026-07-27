@@ -1,0 +1,190 @@
+schema_version: 1
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P2-007_CANONICAL_SYMBOL_IDENTITY_AND_SCANNER_GRAPH_KERNEL
+phase: P2
+route_id: P2_CANONICAL_SYMBOL_IDENTITY_GRAPH_KERNEL_AND_CONTEXT_BENCHMARK_CONTINUOUS_ROUTE_V1
+status: ACTIVE
+
+objective: >-
+  Build and falsify one clean-room, scanner-derived canonical symbol identity
+  and repository dependency graph kernel for Java, TypeScript and Rust using
+  only canonical accepted scanner outputs as construction inputs.
+
+why_now: >-
+  P2 requires an accepted repository graph before graph-conditioned context
+  selection can be evaluated. The previous P2-003 and P2-005 engineering
+  assets are terminal and prohibited; this Task therefore starts from clean
+  canonical accepted assets and implements the missing symbol authority
+  directly.
+
+roles:
+  owner: P2-007 Engineering Manager
+  worker: P2-007 Clean-Room Graph Worker
+  independent_reviewers:
+    - P2-007 Fresh CTO Reviewer
+    - P2-007 Fresh Security Reviewer
+    - P2-007 Fresh Quality Reviewer
+
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+risk_level: medium
+
+budget:
+  engineering_hours: 28
+  calendar_days: 6
+  implementation_iterations: 2
+  candidates: 1
+
+allowlisted_paths:
+  - evaluation-harness/harness/p2-007-canonical-symbol-graph/**
+  - evaluation-harness/evaluator/p2-007-canonical-symbol-graph/**
+  - evaluation-harness/fixtures/p2-007-canonical-symbol-graph/**
+  - evaluation-harness/replay/p2-007-canonical-symbol-graph/**
+  - scripts/verify-p2-007-canonical-symbol-graph.sh
+  - Makefile
+  - docs/PROJECT_CODE_MAP.md
+
+write_ownership:
+  worker:
+    - evaluation-harness/harness/p2-007-canonical-symbol-graph/**
+    - evaluation-harness/fixtures/p2-007-canonical-symbol-graph/**
+    - evaluation-harness/replay/p2-007-canonical-symbol-graph/**
+    - scripts/verify-p2-007-canonical-symbol-graph.sh
+    - Makefile
+  quality:
+    - evaluation-harness/evaluator/p2-007-canonical-symbol-graph/**
+  integration:
+    - docs/PROJECT_CODE_MAP.md
+
+read_context:
+  allowed:
+    - analyzer-rust/**
+    - evaluation-harness/harness/**
+    - evaluation-harness/evaluator/**
+    - evaluation-harness/fixtures/**
+    - evaluation-harness/replay/**
+    - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+    - docs/aios/EVALUATION_PROTOCOL.md
+    - docs/aios/STRATEGIC_CONSTITUTION.md
+  prohibited:
+    - P2-003 rejected source diff fixture test candidate private oracle or engineering implementation
+    - P2-005 rejected source diff fixture test candidate private oracle or engineering implementation
+    - any other rejected Task engineering asset
+
+implementation_boundary:
+  input_authority: canonical_accepted_scanner_output_only
+  supported_languages:
+    - Java
+    - TypeScript
+    - Rust
+  canonical_identity:
+    Java:
+      - package
+      - type
+      - member
+    TypeScript:
+      - module
+      - exported_or_local_declaration
+    Rust:
+      - crate
+      - module
+      - type
+      - function
+  required_relations:
+    - IMPORT
+    - CALL
+    - TYPE
+  unresolved_external_endpoint: EXTERNAL_UNRESOLVED
+  prohibited_endpoint_authority:
+    - substring_matching
+    - basename_matching
+    - fuzzy_name_matching
+  formal_execution_maximum: 1
+  code_only_repairs_maximum: 1
+  candidate_maximum: 1
+
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+
+acceptance_criteria:
+  - real_canonical_accepted_scanner_invocation
+  - Java_TypeScript_Rust_canonical_qualified_symbol_identity
+  - IMPORT_CALL_TYPE_relations_with_exact_canonical_endpoints
+  - unresolved_real_external_references_marked_EXTERNAL_UNRESOLVED
+  - node_and_edge_closed_schema_canonical_order_and_content_identity
+  - identical_source_and_configuration_produce_exact_deterministic_identity
+  - exact_replay_from_frozen_scanner_inputs
+  - stable_projection_closed_inventory_and_real_filesystem_rollback
+  - duplicate_missing_dangling_reorder_mutation_path_escape_symlink_and_oracle_leakage_rejected
+  - specific_semantic_errors_precede_generic_output_identity_mismatch
+  - false_accepts_zero
+  - all_six_external_effects_false
+  - one_formal_execution_only
+  - fresh_CTO_Security_Quality_TARGET_VERDICT_PASS
+  - reviewed_integrated_tree_equality_and_one_canonical_make_verify_PASS
+
+required_evidence:
+  - accepted_scanner_input_identity_and_invocation_receipt
+  - Java_TypeScript_Rust_positive_preflight_records
+  - canonical_nodes_edges_and_content_identity
+  - negative_matrix_records_and_false_accept_accounting
+  - exact_replay_stable_projection_closed_inventory_and_rollback_receipts
+  - OS_level_external_effect_observation
+  - sole_formal_execution_receipt
+  - exact_candidate_manifest
+  - fresh_CTO_Security_Quality_reviews
+  - canonical_integration_and_verify_receipt
+
+stop_conditions:
+  - active_authority_or_safety_non_pass_before_source_write
+  - accepted_scanner_identity_or_invocation_drift
+  - prohibited_rejected_asset_read_or_reuse
+  - implementation_iterations_exhausted
+  - adjacent_same_normalized_root_cause
+  - formal_execution_non_pass
+  - false_accept_greater_than_zero
+  - any_external_effect
+  - final_reviewer_non_pass
+  - reviewed_integrated_tree_mismatch
+  - canonical_make_verify_non_pass
+  - phase_scope_permission_or_critical_residual_expansion
+
+forbidden_actions:
+  - use_fixture_oracle_or_expected_result_to_construct_graph_output
+  - use_substring_basename_or_fuzzy_endpoint_matching_as_authority
+  - rerun_replace_or_beautify_formal_execution
+  - create_successor_replacement_correction_normalization_closure_feasibility_or_remediation_chain
+  - read_restore_compare_copy_modify_or_reuse_P2_003_or_P2_005_rejected_engineering_assets
+  - network_provider_secret_remote_production_public_or_push
+  - enter_P3
+
+rollback:
+  task_worktree: remove_only_after_terminal_evidence_or_accepted_integration
+  canonical_integration: non_destructive_git_revert_on_canonical_verify_non_pass
+  evidence: append_only_no_overwrite_or_delete
+
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-structured-decision-authority-20260727/decision/FOUNDER_P2_ROUTE_DECISION.json
+  sha256: 27838e20766d84ccbbae934284331559bbee71224291b9f8ca7277fa0ea3ee5f
+  byte_length: 2240
+  authorization_token: AUTHORIZE_P2_CANONICAL_SYMBOL_IDENTITY_GRAPH_KERNEL_AND_CONTEXT_BENCHMARK_CONTINUOUS_ROUTE_V1
+
+founder_reserved_profile: null
+
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+
+claim_boundary: >-
+  Cooperative-local, offline, canonical-scanner-derived SourceLens symbol and
+  dependency graph evidence only. PASS does not establish general ecosystem
+  coverage, P3 readiness, production use, remote safety or hostile-principal
+  isolation.

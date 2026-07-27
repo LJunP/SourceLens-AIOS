@@ -308,9 +308,9 @@ project:
   p1_execution_status: PARTIAL_EXIT_WITH_DISCLOSED_RESIDUALS_6_OF_8_75_PERCENT
   p1_engineering_status: PARTIAL_EXIT_P1_134_TERMINAL_FINAL_CTO_TARGET_NON_PASS
   p2_entry_status: AUTHORIZED
-  p2_execution_status: FOUNDER_P2_PHASE_GATE
-  phase_execution_status: PAUSED_AT_FOUNDER_P2_PHASE_GATE
-  current_route_execution_status: TERMINAL_TASK_1_FORMAL_QUALITY_NON_PASS
+  p2_execution_status: AUTHORIZED_READY
+  phase_execution_status: AUTHORIZED_READY
+  current_route_execution_status: AUTHORIZED_READY_P2_007_NOT_ACTIVATED
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -3819,22 +3819,22 @@ p1_partial_exit:
     decision_packet_sha256: 2e065f6996cf203ee70f4eeeaf0a121b34f8066741399b25931eb29c3d84df9d
 
 current_phase_route:
-  route_id: P2_SCANNER_FIRST_EXACT_GRAPH_AUTHORITY_AND_GRAPH_CONDITIONED_CONTEXT_ROUTE_V1
-  status: TERMINAL
-  authority_object_status: TERMINAL_FORMAL_QUALITY_NON_PASS
-  execution_status: TERMINAL_TASK_1_FORMAL_QUALITY_NON_PASS
-  founder_phase_route_decision_required: true
-  scheduling_status: STOPPED_P2_006_INELIGIBLE
+  route_id: P2_CANONICAL_SYMBOL_IDENTITY_GRAPH_KERNEL_AND_CONTEXT_BENCHMARK_CONTINUOUS_ROUTE_V1
+  status: AUTHORIZED_READY
+  authority_object_status: FOUNDER_STRUCTURED_DECISION_AUTHORITY_ACCEPTED
+  execution_status: AUTHORIZED_READY_P2_007_NOT_ACTIVATED
+  founder_phase_route_decision_required: false
+  scheduling_status: P2_007_ELIGIBLE_NOT_ACTIVATED
   phase: P2
   phase_entry_status: AUTHORIZED
-  authorization_token: AUTHORIZE_P2_SCANNER_FIRST_EXACT_GRAPH_AUTHORITY_AND_GRAPH_CONDITIONED_CONTEXT_ROUTE_V1
+  authorization_token: AUTHORIZE_P2_CANONICAL_SYMBOL_IDENTITY_GRAPH_KERNEL_AND_CONTEXT_BENCHMARK_CONTINUOUS_ROUTE_V1
   decision_packet:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-scanner-first-route-20260726/proposal/FOUNDER_P2_SCANNER_FIRST_EXACT_GRAPH_ROUTE_V1.md
-    sha256: 2a1c950e4dedb156fa46fd58cd09d147e1b23a228e4a2fd07f90c11a1b603e48
-    byte_length: 5351
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-structured-decision-authority-20260727/decision/FOUNDER_P2_ROUTE_DECISION.json
+    sha256: 27838e20766d84ccbbae934284331559bbee71224291b9f8ca7277fa0ea3ee5f
+    byte_length: 2240
   activation_parent:
-    commit: 1fb4ddcc182e67c7358554e0511ec60e2831cbb6
-    tree: 74a410ebb09bd39afa9d2d33412f3ab03034c89a
+    commit: 8d1aad1a48560ebd8d00aee1560d53dad77219b1
+    tree: 0d02f246789c9afb98638517d7c92de6e0146319
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: "1.6"
@@ -3846,14 +3846,14 @@ current_phase_route:
     canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
     canonical_byte_length: 19434
   objective: >-
-    Build an accepted deterministic source-bound repository graph directly
-    from real scanner output with exact endpoint authority, then evaluate a
-    fresh graph-conditioned context selector without changing the Long-term
-    Goal or entering P3.
+    Build a clean-room scanner-derived canonical symbol identity and repository
+    graph kernel from accepted scanner outputs, then evaluate a new
+    graph-conditioned context selector against the accepted baseline without
+    changing the Long-term Goal or entering P3.
   envelope:
     max_engineering_tasks: 2
     max_engineering_hours: 48
-    max_calendar_days: 14
+    max_calendar_days: 12
     max_active_tasks: 1
     max_task_branches: 1
     max_task_worktrees: 1
@@ -3873,40 +3873,48 @@ current_phase_route:
   accepted_inputs: {}
   accepted_input_ids: []
   first_task:
-    task_id: AIOS-P2-005_SCANNER_FIRST_EXACT_REPOSITORY_GRAPH_AUTHORITY
+    task_id: AIOS-P2-007_CANONICAL_SYMBOL_IDENTITY_AND_SCANNER_GRAPH_KERNEL
     task_slot: 1
-    status: TERMINAL_FORMAL_QUALITY_NON_PASS
-    contract_path: docs/aios/tasks/P2-005_SCANNER_FIRST_EXACT_REPOSITORY_GRAPH_AUTHORITY.yaml
-    contract_sha256: 261ccb01dede07a3cd3f13d55ee5f3fbc9acf072e004db6cbc33e76adf266f93
-    contract_byte_length: 7223
+    status: ELIGIBLE_NOT_ACTIVATED
+    contract_path: docs/aios/tasks/P2-007_CANONICAL_SYMBOL_IDENTITY_AND_SCANNER_GRAPH_KERNEL.yaml
+    contract_sha256: 8c0654b319ac87d036b9f55afdff6973eb20dbc93cca1ee718f51356f429ea45
+    contract_byte_length: 6920
     max_engineering_hours: 28
-    max_calendar_days: 7
+    max_calendar_days: 6
     max_implementation_iterations: 2
     max_candidates: 1
     p2_capability_claim_on_pass: REPOSITORY_SYMBOL_DEPENDENCY_GRAPH_INDEX
   task_plan:
     - task_slot: 1
-      task_id: AIOS-P2-005_SCANNER_FIRST_EXACT_REPOSITORY_GRAPH_AUTHORITY
-      status: TERMINAL_FORMAL_QUALITY_NON_PASS
+      task_id: AIOS-P2-007_CANONICAL_SYMBOL_IDENTITY_AND_SCANNER_GRAPH_KERNEL
+      status: ELIGIBLE_NOT_ACTIVATED
       engineering_hours: 28
-      calendar_days: 7
+      calendar_days: 6
+      max_implementation_iterations: 2
+      max_same_task_repairs: 1
+      max_candidates: 1
     - task_slot: 2
-      task_id: AIOS-P2-006_GRAPH_CONDITIONED_CONTEXT_SELECTION_BENCHMARK
-      status: INELIGIBLE_PREDECESSOR_FORMAL_QUALITY_NON_PASS
+      task_id: AIOS-P2-008_GRAPH_CONDITIONED_CONTEXT_EMPIRICAL_BENCHMARK
+      status: PENDING_PREDECESSOR_TASK_GATE_PASS
       engineering_hours: 20
-      calendar_days: 7
+      calendar_days: 6
+      max_implementation_iterations: 2
+      max_same_task_repairs: 1
+      max_candidates: 1
+  automatic_entry:
+    after_task_id: AIOS-P2-007_CANONICAL_SYMBOL_IDENTITY_AND_SCANNER_GRAPH_KERNEL
+    next_task_id: AIOS-P2-008_GRAPH_CONDITIONED_CONTEXT_EMPIRICAL_BENCHMARK
+    requires_task_gate_pass: true
   route_execution_accounting:
     maximum_engineering_tasks: 2
-    task_slots_consumed: 1
+    task_slots_consumed: 0
     active_task_id: null
-    scheduled_task_ids:
-      - AIOS-P2-005_SCANNER_FIRST_EXACT_REPOSITORY_GRAPH_AUTHORITY
-    terminal_task_ids:
-      - AIOS-P2-005_SCANNER_FIRST_EXACT_REPOSITORY_GRAPH_AUTHORITY
+    scheduled_task_ids: []
+    terminal_task_ids: []
     accepted_task_ids: []
     maximum_engineering_hours: 48
     engineering_hours_authorized_current_task: 0
-    status: TERMINAL_1_OF_2_TASKS_P2_006_INELIGIBLE
+    status: READY_0_OF_2_TASKS
   additional_write_roots: []
   inherited_worktree_inventory:
     - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-063-atomic-offline-b0
@@ -4002,10 +4010,7 @@ current_phase_route:
       branch: codex/p2-005-scanner-first-graph
       status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
   claim_boundary: >-
-    Cooperative-local, offline, scanner-derived SourceLens repository graph
-    authority and graph-conditioned context benchmark evidence only. No
-    general ecosystem, Agent Runtime, P3, remote, production, public or
-    hostile-principal claim.
+    COOPERATIVE_LOCAL_OFFLINE_CANONICAL_SYMBOL_GRAPH_AND_GRAPH_CONDITIONED_CONTEXT_EVALUATION_ONLY_NO_P3_REMOTE_PRODUCTION_PUBLIC_OR_HOSTILE_PRINCIPAL_CLAIM
   historical_p1_132_founder_residual_acceptance:
     source_task_id: AIOS-P1-132_HISTORICAL_WORKTREE_TRUTH_COMPATIBILITY
     terminal_status_preserved: TERMINAL_FINAL_QUALITY_TARGET_NON_PASS
@@ -5136,7 +5141,7 @@ historical_active_work_after_p1_079:
   user_action_required: NONE
   phase_route_decision_required: false
   phase_route_user_action_required: NONE
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
+  next_eligible_action: MASTER_ACTIVATE_FIRST_TASK
 active_work:
   current_task: NONE
   current_task_status: NONE
@@ -5156,7 +5161,7 @@ active_work:
   authorization_id: null
   activation_parent_commit: null
   activation_parent_tree: null
-  task_resource_state: TERMINAL_RESOURCES_PRESERVED
+  task_resource_state: NOT_CREATED_ROUTE_READY
   task_branch: null
   task_worktree: null
   execution_evidence_root: null
@@ -5180,13 +5185,13 @@ active_work:
   offsite_target: null
   founder_reserved_authorization: null
   founder_reserved_authorization_sha256: null
-  founder_decision_required: true
-  founder_decision_required_scope: P2_PHASE_GATE_AFTER_TERMINAL_FORMAL_QUALITY_NON_PASS
-  escalation_reason: P2_005_FORMAL_QUALITY_NON_PASS
-  user_action_required: FOUNDER_P2_PHASE_GATE_DECISION
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_P2_PHASE_GATE_DECISION
-  next_eligible_action: FOUNDER_P2_PHASE_GATE
+  founder_decision_required: false
+  founder_decision_required_scope: NONE_WITHIN_ACTIVE_PHASE_ENVELOPE
+  escalation_reason: null
+  user_action_required: NONE
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: MASTER_ACTIVATE_FIRST_TASK
   last_terminal_task:
     task_id: AIOS-P2-005_SCANNER_FIRST_EXACT_REPOSITORY_GRAPH_AUTHORITY
     status: TERMINAL_FORMAL_QUALITY_NON_PASS

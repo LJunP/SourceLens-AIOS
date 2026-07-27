@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P1-145_TIMEBOXED_REQUEST_BOUND_BASELINE
 phase: P1
 route_id: P1_TIMEBOXED_ENGINEERING_REPAIR_ENVELOPE_AND_STRICT_EXIT_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
 objective: >-
   Build a clean-room request-bound loopback experiment from the accepted
   canonical P1-129 adapters and P1-101 observable trace, execute one diagnostic
@@ -183,3 +183,21 @@ claim_boundary: >-
   report-bound P2 preregistration only. No non-loopback, remote, production,
   public, P2-entry, P3-entry, hostile-principal, model-generalization or
   production-readiness claim.
+terminal_outcome:
+  target_verdict: NON_PASS
+  normalized_root_cause: P1145.FINAL_CTO.BASELINE_ARTIFACT_ARCHITECTURE_AND_PROVENANCE_NON_CONFORMANT
+  candidate_commit: 83fdbe685de5fd1ff66b3337f48395840ac71255
+  candidate_tree: 6a5dfefc6d0410c4b182aa0c9abbccaa85a1ca0f
+  candidate_manifest_sha256: 555657eedc1ad4223128372d0b28f9da0c9de58d838428358ed8ca2ab63117fd
+  cto_review_sha256: 0d4866eed02a17eeddc197cb1323cf43d06d785307b8e089fe42de9bfafc5675
+  security_review_status: CANCELLED_AFTER_BLOCKING_CTO_NON_PASS
+  quality_review_status: CANCELLED_AFTER_BLOCKING_CTO_NON_PASS
+  formal_execution_count: 1
+  formal_cells: 36
+  strict_provider_completions: 36
+  verified_successes: 0
+  accepted_capability: false
+  capability_credit: 0
+  candidate_integrated: false
+  canonical_make_verify: NOT_INVOKED_FINAL_CTO_NON_PASS
+  p1_146_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS

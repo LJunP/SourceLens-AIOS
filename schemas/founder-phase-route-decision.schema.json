@@ -1,0 +1,282 @@
+{
+  "$id": "https://sourcelens.local/schemas/founder-phase-route-decision.schema.json",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "additionalProperties": false,
+  "properties": {
+    "activation_parent": {
+      "additionalProperties": false,
+      "properties": {
+        "commit": {
+          "pattern": "^[0-9a-f]{40}$",
+          "type": "string"
+        },
+        "tree": {
+          "pattern": "^[0-9a-f]{40}$",
+          "type": "string"
+        }
+      },
+      "required": [
+        "commit",
+        "tree"
+      ],
+      "type": "object"
+    },
+    "authorization_token": {
+      "pattern": "^AUTHORIZE_P[12]_[A-Z0-9_]+_ROUTE_V[1-9][0-9]*$",
+      "type": "string"
+    },
+    "automatic_entry": {
+      "additionalProperties": false,
+      "properties": {
+        "after_task_id": {
+          "$ref": "#/$defs/task_id"
+        },
+        "next_task_id": {
+          "$ref": "#/$defs/task_id"
+        },
+        "requires_task_gate_pass": {
+          "const": true
+        }
+      },
+      "required": [
+        "after_task_id",
+        "next_task_id",
+        "requires_task_gate_pass"
+      ],
+      "type": "object"
+    },
+    "claim_boundary": {
+      "minLength": 1,
+      "type": "string"
+    },
+    "envelope": {
+      "additionalProperties": false,
+      "properties": {
+        "max_active_candidates": {
+          "const": 1
+        },
+        "max_active_tasks": {
+          "const": 1
+        },
+        "max_calendar_days": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "max_engineering_hours": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "max_engineering_tasks": {
+          "minimum": 2,
+          "type": "integer"
+        },
+        "max_same_task_repairs_per_task": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "max_task_branches": {
+          "const": 1
+        },
+        "max_task_worktrees": {
+          "const": 1
+        },
+        "p3_entry_authorized": {
+          "const": false
+        }
+      },
+      "required": [
+        "max_active_candidates",
+        "max_active_tasks",
+        "max_calendar_days",
+        "max_engineering_hours",
+        "max_engineering_tasks",
+        "max_same_task_repairs_per_task",
+        "max_task_branches",
+        "max_task_worktrees",
+        "p3_entry_authorized"
+      ],
+      "type": "object"
+    },
+    "external_effects": {
+      "$ref": "#/$defs/external_effects"
+    },
+    "goal_identity": {
+      "additionalProperties": false,
+      "properties": {
+        "canonical_byte_length": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "canonical_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "canonicalization": {
+          "const": "UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF"
+        },
+        "raw_byte_length": {
+          "minimum": 0,
+          "type": "integer"
+        },
+        "raw_sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "canonical_byte_length",
+        "canonical_sha256",
+        "canonicalization",
+        "raw_byte_length",
+        "raw_sha256"
+      ],
+      "type": "object"
+    },
+    "ordered_tasks": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "calendar_days": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "engineering_hours": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "max_candidates": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "max_implementation_iterations": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "max_same_task_repairs": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "task_id": {
+            "$ref": "#/$defs/task_id"
+          },
+          "task_slot": {
+            "minimum": 1,
+            "type": "integer"
+          }
+        },
+        "required": [
+          "calendar_days",
+          "engineering_hours",
+          "max_candidates",
+          "max_implementation_iterations",
+          "max_same_task_repairs",
+          "task_id",
+          "task_slot"
+        ],
+        "type": "object"
+      },
+      "minItems": 2,
+      "type": "array"
+    },
+    "phase": {
+      "enum": [
+        "P1",
+        "P2"
+      ]
+    },
+    "record_type": {
+      "const": "founder_phase_route_decision"
+    },
+    "route_id": {
+      "pattern": "^P[12]_[A-Z0-9_]+_ROUTE_V[1-9][0-9]*$",
+      "type": "string"
+    },
+    "schema_version": {
+      "const": "1.0"
+    },
+    "source_founder_packet_identity": {
+      "additionalProperties": false,
+      "properties": {
+        "authorization_token": {
+          "pattern": "^AUTHORIZE_P[12]_[A-Z0-9_]+_ROUTE_V[1-9][0-9]*$",
+          "type": "string"
+        },
+        "byte_length": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "path": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "authorization_token",
+        "byte_length",
+        "path",
+        "sha256"
+      ],
+      "type": "object"
+    }
+  },
+  "required": [
+    "activation_parent",
+    "authorization_token",
+    "automatic_entry",
+    "claim_boundary",
+    "envelope",
+    "external_effects",
+    "goal_identity",
+    "ordered_tasks",
+    "phase",
+    "record_type",
+    "route_id",
+    "schema_version",
+    "source_founder_packet_identity"
+  ],
+  "title": "Founder Phase Route Decision",
+  "type": "object",
+  "$defs": {
+    "external_effects": {
+      "additionalProperties": false,
+      "properties": {
+        "network": {
+          "type": "boolean"
+        },
+        "production": {
+          "type": "boolean"
+        },
+        "provider": {
+          "type": "boolean"
+        },
+        "public": {
+          "type": "boolean"
+        },
+        "remote": {
+          "type": "boolean"
+        },
+        "secret": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "network",
+        "production",
+        "provider",
+        "public",
+        "remote",
+        "secret"
+      ],
+      "type": "object"
+    },
+    "sha256": {
+      "pattern": "^[0-9a-f]{64}$",
+      "type": "string"
+    },
+    "task_id": {
+      "pattern": "^AIOS-P[12]-[0-9]{3}(?:_[A-Z0-9_]+)?$",
+      "type": "string"
+    }
+  }
+}

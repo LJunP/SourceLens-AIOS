@@ -16,6 +16,13 @@ SOURCE_REPO = File.expand_path("..", __dir__)
 TRUTH_RELATIVE = "docs/aios/truth/project_state.yaml"
 POLICY_RELATIVE = "docs/aios/FOUNDER_DELEGATION_POLICY.md"
 P1_READY_GOLDEN_COMMIT = "03542c278ad57b030cb0798483de8c3c19341952"
+STRUCTURED_DECISION_PATH = File.expand_path(
+  "../.sourcelens-audit/p2-structured-decision-authority-20260727/decision/FOUNDER_P2_ROUTE_DECISION.json",
+  SOURCE_REPO
+)
+STRUCTURED_DECISION_SHA256 = "27838e20766d84ccbbae934284331559bbee71224291b9f8ca7277fa0ea3ee5f"
+STRUCTURED_DECISION_BYTE_LENGTH = 2240
+STRUCTURED_DECISION_SCHEMA = File.join(SOURCE_REPO, "schemas/founder-phase-route-decision.schema.json")
 
 class TestFailure < StandardError; end
 
@@ -226,6 +233,222 @@ class CurrentTaskAuthorityTest
 
   def deep_copy(value)
     Marshal.load(Marshal.dump(value))
+  end
+
+  def recursively_sorted(value)
+    case value
+    when Hash
+      value.keys.sort.to_h { |key| [key, recursively_sorted(value.fetch(key))] }
+    when Array
+      value.map { |item| recursively_sorted(item) }
+    else
+      value
+    end
+  end
+
+  def canonical_json(value)
+    JSON.generate(recursively_sorted(value)) + "\n"
+  end
+
+  def set_path(value, path, replacement)
+    cursor = value
+    path[0...-1].each { |key| cursor = cursor.fetch(key) }
+    cursor[path.last] = replacement
+    value
+  end
+
+  def expect_decision_pass(bytes, label)
+    claims = CurrentTaskAuthority.packet_claims(bytes, STRUCTURED_DECISION_PATH, root: SOURCE_REPO)
+    assert(claims["structured_decision"] == true, "#{label}: structured decision marker missing")
+    @passes += 1
+    puts "PASS #{label}"
+    claims
+  rescue AuthorityValidationError => e
+    raise TestFailure, "#{label}: expected PASS, got #{e.message}"
+  end
+
+  def expect_decision_nonpass(bytes, label, pattern, path: STRUCTURED_DECISION_PATH)
+    CurrentTaskAuthority.packet_claims(bytes, path, root: SOURCE_REPO)
+    raise TestFailure, "#{label}: expected NON_PASS"
+  rescue AuthorityValidationError => e
+    assert(pattern.match?(e.message), "#{label}: expected #{pattern.inspect}, got #{e.message.inspect}")
+    @passes += 1
+    puts "PASS #{label}"
+  end
+
+  def structured_decision_unit_tests(sandbox)
+    stat = File.lstat(STRUCTURED_DECISION_PATH)
+    assert(stat.file? && !stat.symlink?, "canonical structured decision is not a regular file")
+    bytes = File.binread(STRUCTURED_DECISION_PATH)
+    assert(bytes.bytesize == STRUCTURED_DECISION_BYTE_LENGTH,
+           "canonical structured decision byte length drifted")
+    assert(Digest::SHA256.hexdigest(bytes) == STRUCTURED_DECISION_SHA256,
+           "canonical structured decision SHA-256 drifted")
+    schema = JSON.parse(File.binread(STRUCTURED_DECISION_SCHEMA))
+    decision = JSON.parse(bytes)
+    assert(schema["additionalProperties"] == false,
+           "structured decision schema root must be closed")
+    assert(schema.fetch("required").sort == decision.keys.sort,
+           "structured decision schema root key set does not equal the canonical record")
+    assert(schema.dig("properties", "ordered_tasks", "items", "additionalProperties") == false,
+           "structured decision schema Task items must be closed")
+    @passes += 1
+    puts "PASS structured decision JSON Schema is closed and matches the canonical root"
+    claims = expect_decision_pass(bytes, "exact canonical structured Founder decision")
+    assert(claims["task_ids"] == [
+      "AIOS-P2-007_CANONICAL_SYMBOL_IDENTITY_AND_SCANNER_GRAPH_KERNEL",
+      "AIOS-P2-008_GRAPH_CONDITIONED_CONTEXT_EMPIRICAL_BENCHMARK"
+    ], "exact structured decision Task set drifted")
+    expect_decision_nonpass(
+      bytes,
+      "structured decision path extension mismatch",
+      /must use the \.json extension/,
+      path: File.join(sandbox, "founder-route-decision.md")
+    )
+
+    duplicate = bytes.sub(/\A\{/, "{\"phase\":\"P2\",")
+    expect_decision_nonpass(duplicate, "structured decision duplicate JSON key", /duplicate JSON key "phase"/)
+
+    missing = deep_copy(decision)
+    missing.delete("record_type")
+    expect_decision_nonpass(canonical_json(missing), "structured decision missing key", /keys drifted/)
+
+    extra = deep_copy(decision)
+    extra["undeclared"] = false
+    expect_decision_nonpass(canonical_json(extra), "structured decision extra key", /keys drifted/)
+
+    reverse_root = decision.keys.reverse.to_h { |key| [key, decision.fetch(key)] }
+    expect_decision_nonpass(
+      JSON.generate(reverse_root) + "\n",
+      "structured decision noncanonical key order",
+      /recursively key-sorted canonical JSON/
+    )
+
+    [
+      [%w[envelope max_engineering_hours], "48", "structured decision wrong type",
+       /max_engineering_hours must be an integer/],
+      [["authorization_token"], "AUTHORIZE_P2_OTHER_ROUTE_V1", "structured decision token mismatch",
+       /authorization token does not match route_id/],
+      [["phase"], "P3", "structured decision phase mismatch", /phase must be P1 or P2/],
+      [%w[activation_parent tree], "0" * 40, "structured decision parent mismatch",
+       /activation parent\.tree does not match commit/],
+      [%w[goal_identity raw_byte_length], 19_432, "structured decision Goal mismatch",
+       /Goal identity mismatch/],
+      [%w[external_effects remote], "false", "structured decision external effect type",
+       /external_effects\.remote must be boolean/],
+      [%w[envelope p3_entry_authorized], true, "structured decision P3 entry expansion",
+       /p3_entry_authorized must be false/],
+      [%w[automatic_entry next_task_id], "AIOS-P2-999_WRONG_NEXT_TASK",
+       "structured decision automatic entry mismatch", /automatic entry must bind/],
+      [%w[source_founder_packet_identity authorization_token], "AUTHORIZE_P2_OTHER_ROUTE_V1",
+       "structured decision source packet token mismatch", /source packet authorization token mismatch/],
+      [%w[source_founder_packet_identity path], 7, "structured decision source packet path type",
+       /source packet path must be a non-empty string/],
+      [%w[source_founder_packet_identity byte_length], 7562,
+       "structured decision source packet length mismatch", /byte length mismatch/],
+      [%w[source_founder_packet_identity sha256], "0" * 64,
+       "structured decision source packet hash mismatch", /SHA-256 mismatch/]
+    ].each do |path, replacement, label, pattern|
+      variant = set_path(deep_copy(decision), path, replacement)
+      expect_decision_nonpass(canonical_json(variant), label, pattern)
+    end
+
+    empty_source = File.join(sandbox, "empty-founder-source-packet.txt")
+    create_exclusive(empty_source, "")
+    empty_source_decision = deep_copy(decision)
+    empty_source_decision["source_founder_packet_identity"]["path"] = empty_source
+    empty_source_decision["source_founder_packet_identity"]["byte_length"] = 0
+    empty_source_decision["source_founder_packet_identity"]["sha256"] = Digest::SHA256.hexdigest("")
+    expect_decision_nonpass(
+      canonical_json(empty_source_decision),
+      "structured decision rejects schema-invalid zero-length source packet",
+      /source packet byte_length must be positive/
+    )
+
+    data_driven_effects = deep_copy(decision)
+    data_driven_effects["external_effects"]["network"] = true
+    data_driven_effects["external_effects"]["provider"] = true
+    data_driven_effects["external_effects"]["secret"] = true
+    effects_claims = expect_decision_pass(
+      canonical_json(data_driven_effects),
+      "structured decision preserves Founder-declared external effects"
+    )
+    assert(effects_claims["external_effects"] == data_driven_effects["external_effects"],
+           "structured decision external effects were not projected from Decision data")
+
+    zero_repairs = deep_copy(decision)
+    zero_repairs["envelope"]["max_same_task_repairs_per_task"] = 0
+    zero_repairs["ordered_tasks"].each do |task|
+      task["max_same_task_repairs"] = 0
+      task["max_implementation_iterations"] = 1
+    end
+    zero_claims = expect_decision_pass(
+      canonical_json(zero_repairs),
+      "structured decision accepts internally consistent zero-repair budget"
+    )
+    assert(zero_claims["max_same_task_repairs"] == 0,
+           "structured decision zero-repair budget projection drifted")
+
+    route_phase = deep_copy(decision)
+    route_phase["route_id"] =
+      "P1_CANONICAL_SYMBOL_IDENTITY_GRAPH_KERNEL_AND_CONTEXT_BENCHMARK_CONTINUOUS_ROUTE_V1"
+    route_phase["authorization_token"] = "AUTHORIZE_#{route_phase['route_id']}"
+    route_phase["source_founder_packet_identity"]["authorization_token"] = route_phase["authorization_token"]
+    expect_decision_nonpass(canonical_json(route_phase), "structured decision route phase prefix",
+                            /route_id phase prefix mismatch/)
+
+    task_count = deep_copy(decision)
+    task_count["ordered_tasks"].pop
+    expect_decision_nonpass(canonical_json(task_count), "structured decision Task count mismatch",
+                            /Task count does not equal route envelope|requires at least two/)
+
+    duplicate_task = deep_copy(decision)
+    duplicate_task["ordered_tasks"][1]["task_id"] = duplicate_task["ordered_tasks"][0]["task_id"]
+    duplicate_task["automatic_entry"]["next_task_id"] = duplicate_task["ordered_tasks"][0]["task_id"]
+    expect_decision_nonpass(canonical_json(duplicate_task), "structured decision duplicate Task id",
+                            /Task ids must be unique/)
+
+    reordered_tasks = deep_copy(decision)
+    reordered_tasks["ordered_tasks"].reverse!
+    expect_decision_nonpass(canonical_json(reordered_tasks), "structured decision Task order mismatch",
+                            /Task slots must be contiguous and ordered/)
+
+    task_budget = deep_copy(decision)
+    task_budget["ordered_tasks"][0]["engineering_hours"] += 1
+    expect_decision_nonpass(canonical_json(task_budget), "structured decision Task budget mismatch",
+                            /engineering budgets do not equal route envelope/)
+
+    task_repair = deep_copy(decision)
+    task_repair["ordered_tasks"][0]["max_same_task_repairs"] = 0
+    task_repair["ordered_tasks"][0]["max_implementation_iterations"] = 1
+    expect_decision_nonpass(canonical_json(task_repair), "structured decision Task repair mismatch",
+                            /repair budget does not equal route envelope/)
+
+    task_candidate = deep_copy(decision)
+    task_candidate["ordered_tasks"][0]["max_candidates"] = 2
+    expect_decision_nonpass(canonical_json(task_candidate), "structured decision Task candidate mismatch",
+                            /candidate budget does not equal route envelope/)
+
+    source_packet = decision.fetch("source_founder_packet_identity").fetch("path")
+    source_link = File.join(sandbox, "structured-source-packet-link.txt")
+    File.symlink(source_packet, source_link)
+    link_variant = deep_copy(decision)
+    link_variant["source_founder_packet_identity"]["path"] = source_link
+    expect_decision_nonpass(canonical_json(link_variant), "structured decision source packet symlink",
+                            /must not be a symlink/)
+
+    generic = deep_copy(decision)
+    generic["route_id"] = "P2_GENERIC_DATA_DRIVEN_ROUTE_V9"
+    generic["authorization_token"] = "AUTHORIZE_P2_GENERIC_DATA_DRIVEN_ROUTE_V9"
+    generic["source_founder_packet_identity"]["authorization_token"] = generic["authorization_token"]
+    generic["ordered_tasks"][0]["task_id"] = "AIOS-P2-901_GENERIC_FIRST_TASK"
+    generic["ordered_tasks"][1]["task_id"] = "AIOS-P2-902_GENERIC_SECOND_TASK"
+    generic["automatic_entry"]["after_task_id"] = generic["ordered_tasks"][0]["task_id"]
+    generic["automatic_entry"]["next_task_id"] = generic["ordered_tasks"][1]["task_id"]
+    generic_claims = expect_decision_pass(canonical_json(generic),
+                                          "structured decision route and Task semantics are data-driven")
+    assert(generic_claims["first_task_id"] == "AIOS-P2-901_GENERIC_FIRST_TASK",
+           "structured decision parser hard-coded the canonical fixture Task id")
   end
 
   def v2_profile
@@ -733,6 +956,93 @@ class CurrentTaskAuthorityTest
     }
   end
 
+  def prepare_structured_fixture(sandbox, decision_override: nil)
+    fixture_root = File.join(sandbox, "structured")
+    FileUtils.mkdir_p(fixture_root)
+    fixture = prepare_fixture(fixture_root)
+    decision = decision_override || JSON.parse(File.binread(STRUCTURED_DECISION_PATH))
+    decision_bytes = decision_override ? canonical_json(decision) : File.binread(STRUCTURED_DECISION_PATH)
+    decision_path = File.join(fixture["external"], "founder-phase-route-decision.json")
+    create_exclusive(decision_path, decision_bytes)
+
+    truth = yaml(fixture["truth_path"])
+    task_plan = decision.fetch("ordered_tasks").map do |task|
+      {
+        "task_slot" => task.fetch("task_slot"),
+        "task_id" => task.fetch("task_id"),
+        "status" => task.fetch("task_slot") == 1 ? "ELIGIBLE_NOT_ACTIVATED" : "PENDING_PREDECESSOR_TASK_GATE",
+        "engineering_hours" => task.fetch("engineering_hours"),
+        "calendar_days" => task.fetch("calendar_days"),
+        "max_implementation_iterations" => task.fetch("max_implementation_iterations"),
+        "max_same_task_repairs" => task.fetch("max_same_task_repairs"),
+        "max_candidates" => task.fetch("max_candidates")
+      }
+    end
+    first = decision.fetch("ordered_tasks").first
+    truth["current_phase_route"] = {
+      "route_id" => decision.fetch("route_id"),
+      "status" => "AUTHORIZED_READY",
+      "phase" => decision.fetch("phase"),
+      "phase_entry_status" => "AUTHORIZED",
+      "authorization_token" => decision.fetch("authorization_token"),
+      "decision_packet" => {
+        "path" => decision_path,
+        "sha256" => Digest::SHA256.hexdigest(decision_bytes),
+        "byte_length" => decision_bytes.bytesize
+      },
+      "activation_parent" => deep_copy(decision.fetch("activation_parent")),
+      "policy" => deep_copy(truth.dig("authority", "founder_delegation_policy")),
+      "goal_identity" => {
+        "raw_sha256" => decision.dig("goal_identity", "raw_sha256"),
+        "raw_byte_length" => decision.dig("goal_identity", "raw_byte_length"),
+        "canonicalization" => decision.dig("goal_identity", "canonicalization"),
+        "canonical_sha256" => decision.dig("goal_identity", "canonical_sha256"),
+        "canonical_byte_length" => decision.dig("goal_identity", "canonical_byte_length")
+      },
+      "objective" => "Exercise generic structured Founder route-decision authority.",
+      "envelope" => {
+        "max_engineering_tasks" => decision.dig("envelope", "max_engineering_tasks"),
+        "max_engineering_hours" => decision.dig("envelope", "max_engineering_hours"),
+        "max_calendar_days" => decision.dig("envelope", "max_calendar_days"),
+        "max_active_tasks" => decision.dig("envelope", "max_active_tasks"),
+        "max_task_branches" => decision.dig("envelope", "max_task_branches"),
+        "max_task_worktrees" => decision.dig("envelope", "max_task_worktrees"),
+        "max_active_candidates" => decision.dig("envelope", "max_active_candidates"),
+        "max_contract_corrections_per_task" => 0,
+        "max_same_task_repairs" => decision.dig("envelope", "max_same_task_repairs_per_task"),
+        "successor_replacement_normalization_closure_feasibility_or_remediation_chain_allowed" => false,
+        "p2_entry_authorized" => decision.fetch("phase") == "P2",
+        "p3_entry_authorized" => decision.dig("envelope", "p3_entry_authorized"),
+        "external_effects" => deep_copy(decision.fetch("external_effects"))
+      },
+      "accepted_inputs" => {},
+      "accepted_input_ids" => [],
+      "first_task" => {
+        "task_id" => first.fetch("task_id"),
+        "task_slot" => first.fetch("task_slot"),
+        "status" => "ELIGIBLE_NOT_ACTIVATED",
+        "contract_path" => "docs/aios/tasks/P2-007_STRUCTURED_AUTHORITY_FIXTURE.yaml",
+        "max_engineering_hours" => first.fetch("engineering_hours"),
+        "max_calendar_days" => first.fetch("calendar_days"),
+        "max_implementation_iterations" => first.fetch("max_implementation_iterations"),
+        "max_candidates" => first.fetch("max_candidates")
+      },
+      "task_plan" => task_plan,
+      "automatic_entry" => deep_copy(decision.fetch("automatic_entry")),
+      "next_eligible_action" => "MASTER_ACTIVATE_FIRST_TASK",
+      "additional_write_roots" => [],
+      "inherited_worktree_inventory" => [],
+      "claim_boundary" => decision.fetch("claim_boundary")
+    }
+    truth.fetch("task_history").delete_if do |_key, record|
+      record.is_a?(Hash) && decision.fetch("ordered_tasks").any? { |task| task["task_id"] == record["task_id"] }
+    end
+    truth["active_work"]["external_effects"] = deep_copy(decision.fetch("external_effects"))
+    dump_owned_yaml(fixture["truth_path"], truth)
+    commit(fixture["repo"], "test: materialize structured Founder decision route")
+    fixture.merge("packet_path" => decision_path, "structured_decision" => decision)
+  end
+
   def ready_tests(fixture)
     repo = fixture["repo"]
     expect_pass(repo, "ready route with Task NONE")
@@ -958,11 +1268,392 @@ class CurrentTaskAuthorityTest
     expect_pass(repo, "accepted-input lineage restored")
   end
 
-  def activate_fixture(fixture)
+  def structured_route_binding_tests(sandbox)
+    fixture = prepare_structured_fixture(sandbox)
+    repo = fixture["repo"]
+    expect_pass(repo, "structured decision READY_NONE route")
+
+    original = tamper_owned_byte(fixture["packet_path"])
+    expect_nonpass(repo, "structured Decision bytes mismatch", /decision.*SHA-256 mismatch/i)
+    restore_owned_byte(fixture["packet_path"], original)
+
+    truth = yaml(fixture["truth_path"])
+    original_path = truth.dig("current_phase_route", "decision_packet", "path")
+    truth["current_phase_route"]["decision_packet"]["path"] = 7
+    commit_truth(fixture, truth, "test: structured decision path type drift")
+    expect_nonpass(repo, "structured Decision path type mismatch",
+                   /decision_packet\.path must be a non-empty string/)
+    truth = yaml(fixture["truth_path"])
+    truth["current_phase_route"]["decision_packet"]["path"] = original_path
+    commit_truth(fixture, truth, "test: restore structured decision path")
+
+    truth = yaml(fixture["truth_path"])
+    original_length = truth.dig("current_phase_route", "decision_packet", "byte_length")
+    truth["current_phase_route"]["decision_packet"]["byte_length"] = original_length - 1
+    commit_truth(fixture, truth, "test: structured decision length drift")
+    expect_nonpass(repo, "structured Decision length mismatch", /decision packet byte length mismatch/i)
+    truth = yaml(fixture["truth_path"])
+    truth["current_phase_route"]["decision_packet"]["byte_length"] = original_length
+    commit_truth(fixture, truth, "test: restore structured decision length")
+
+    truth = yaml(fixture["truth_path"])
+    original_sha = truth.dig("current_phase_route", "decision_packet", "sha256")
+    truth["current_phase_route"]["decision_packet"]["sha256"] = "0" * 64
+    commit_truth(fixture, truth, "test: structured decision hash drift")
+    expect_nonpass(repo, "structured Decision hash mismatch", /decision packet SHA-256 mismatch/i)
+    truth = yaml(fixture["truth_path"])
+    truth["current_phase_route"]["decision_packet"]["sha256"] = original_sha
+    commit_truth(fixture, truth, "test: restore structured decision hash")
+
+    truth = yaml(fixture["truth_path"])
+    truth["current_phase_route"]["route_id"] = "P2_TRUTH_MISMATCH_ROUTE_V1"
+    commit_truth(fixture, truth, "test: structured Decision Truth route mismatch")
+    expect_nonpass(repo, "structured Decision Truth mismatch", /Truth route id does not match/)
+    truth = yaml(fixture["truth_path"])
+    truth["current_phase_route"]["route_id"] = fixture["structured_decision"].fetch("route_id")
+    commit_truth(fixture, truth, "test: restore structured Truth route")
+
+    truth = yaml(fixture["truth_path"])
+    truth["current_phase_route"]["automatic_entry"]["next_task_id"] = "AIOS-P2-999_WRONG_NEXT"
+    commit_truth(fixture, truth, "test: structured Truth automatic entry mismatch")
+    expect_nonpass(repo, "structured automatic-entry Truth mismatch",
+                   /Truth automatic entry does not match/)
+    truth = yaml(fixture["truth_path"])
+    truth["current_phase_route"]["automatic_entry"] =
+      deep_copy(fixture["structured_decision"].fetch("automatic_entry"))
+    commit_truth(fixture, truth, "test: restore structured Truth automatic entry")
+
+    truth = yaml(fixture["truth_path"])
+    truth["current_phase_route"]["task_plan"][1]["engineering_hours"] += 1
+    commit_truth(fixture, truth, "test: structured Truth task budget mismatch")
+    expect_nonpass(repo, "structured Task budget Truth mismatch",
+                   /task_plan budget does not equal the exact decision packet/)
+    truth = yaml(fixture["truth_path"])
+    truth["current_phase_route"]["task_plan"][1]["engineering_hours"] -= 1
+    commit_truth(fixture, truth, "test: restore structured Truth task budget")
+
+    link_path = File.join(fixture["external"], "structured-decision-link.json")
+    File.symlink(fixture["packet_path"], link_path)
+    truth = yaml(fixture["truth_path"])
+    truth["current_phase_route"]["decision_packet"]["path"] = link_path
+    commit_truth(fixture, truth, "test: structured Decision symlink")
+    expect_nonpass(repo, "structured Decision symlink mismatch", /must not be a symlink/)
+    truth = yaml(fixture["truth_path"])
+    truth["current_phase_route"]["decision_packet"]["path"] = fixture["packet_path"]
+    commit_truth(fixture, truth, "test: restore structured Decision regular path")
+
+    fixture = activate_fixture(fixture)
+    expect_pass(repo, "structured decision ACTIVE_TASK route")
+
+    truth = yaml(fixture["truth_path"])
+    contract = yaml(fixture["contract_path"])
+    authority = yaml(fixture["authority_path"])
+    truth["active_work"]["budget"]["engineering_hours"] -= 1
+    contract["budget"]["engineering_hours"] -= 1
+    authority["budget"]["engineering_hours"] -= 1
+    bind_contract_and_authority_to_truth(fixture, truth, contract, authority)
+    commit_truth(fixture, truth, "test: structured active Task budget mismatch")
+    expect_nonpass(repo, "structured active Task budget mismatch",
+                   /active Task budget does not equal the structured Founder decision/)
+    truth = yaml(fixture["truth_path"])
+    contract = yaml(fixture["contract_path"])
+    authority = yaml(fixture["authority_path"])
+    truth["active_work"]["budget"]["engineering_hours"] += 1
+    contract["budget"]["engineering_hours"] += 1
+    authority["budget"]["engineering_hours"] += 1
+    bind_contract_and_authority_to_truth(fixture, truth, contract, authority)
+    commit_truth(fixture, truth, "test: restore structured active Task budget binding")
+
+    truth = yaml(fixture["truth_path"])
+    contract = yaml(fixture["contract_path"])
+    authority = yaml(fixture["authority_path"])
+    contract["budget"]["undeclared_budget"] = 1
+    bind_contract_and_authority_to_truth(fixture, truth, contract, authority)
+    commit_truth(fixture, truth, "test: structured Contract budget extra key")
+    expect_nonpass(repo, "structured Contract budget extra key", /contract budget mismatch/)
+    truth = yaml(fixture["truth_path"])
+    contract = yaml(fixture["contract_path"])
+    authority = yaml(fixture["authority_path"])
+    contract["budget"].delete("undeclared_budget")
+    bind_contract_and_authority_to_truth(fixture, truth, contract, authority)
+    commit_truth(fixture, truth, "test: restore structured Contract budget closed keyset")
+
+    truth = yaml(fixture["truth_path"])
+    contract = yaml(fixture["contract_path"])
+    authority = yaml(fixture["authority_path"])
+    removed_calendar_days = contract["budget"].delete("calendar_days")
+    bind_contract_and_authority_to_truth(fixture, truth, contract, authority)
+    commit_truth(fixture, truth, "test: structured Contract budget missing key")
+    expect_nonpass(repo, "structured Contract budget missing key", /contract budget mismatch/)
+    truth = yaml(fixture["truth_path"])
+    contract = yaml(fixture["contract_path"])
+    authority = yaml(fixture["authority_path"])
+    contract["budget"]["calendar_days"] = removed_calendar_days
+    bind_contract_and_authority_to_truth(fixture, truth, contract, authority)
+    commit_truth(fixture, truth, "test: restore structured Contract budget missing key")
+
+    truth = yaml(fixture["truth_path"])
+    contract = yaml(fixture["contract_path"])
+    authority = yaml(fixture["authority_path"])
+    contract["budget"]["candidates"] += 1
+    bind_contract_and_authority_to_truth(fixture, truth, contract, authority)
+    commit_truth(fixture, truth, "test: structured Contract budget mutation")
+    expect_nonpass(repo, "structured Contract budget mutation", /contract budget mismatch/)
+    truth = yaml(fixture["truth_path"])
+    contract = yaml(fixture["contract_path"])
+    authority = yaml(fixture["authority_path"])
+    contract["budget"]["candidates"] -= 1
+    bind_contract_and_authority_to_truth(fixture, truth, contract, authority)
+    commit_truth(fixture, truth, "test: restore structured Contract budget mutation")
+
+    truth = yaml(fixture["truth_path"])
+    contract = yaml(fixture["contract_path"])
+    authority = yaml(fixture["authority_path"])
+    contract["founder_reserved_authorization"]["authorization_token"] = "AUTHORIZE_P2_WRONG_ROUTE_V1"
+    bind_contract_and_authority_to_truth(fixture, truth, contract, authority)
+    commit_truth(fixture, truth, "test: structured Contract decision mismatch")
+    expect_nonpass(repo, "structured Contract decision mismatch",
+                   /contract Founder-reserved authorization mismatch/)
+    truth = yaml(fixture["truth_path"])
+    contract = yaml(fixture["contract_path"])
+    authority = yaml(fixture["authority_path"])
+    contract["founder_reserved_authorization"]["authorization_token"] =
+      fixture["structured_decision"].fetch("authorization_token")
+    bind_contract_and_authority_to_truth(fixture, truth, contract, authority)
+    commit_truth(fixture, truth, "test: restore structured Contract decision binding")
+
+    truth = yaml(fixture["truth_path"])
+    authority = yaml(fixture["authority_path"])
+    authority["founder_reserved_authorization"]["sha256"] = "0" * 64
+    bind_authority_to_truth(fixture, truth, authority)
+    commit_truth(fixture, truth, "test: structured authority decision mismatch")
+    expect_nonpass(repo, "structured authority decision mismatch",
+                   /authority record Founder-reserved authorization mismatch/)
+    truth = yaml(fixture["truth_path"])
+    authority = yaml(fixture["authority_path"])
+    authority["founder_reserved_authorization"]["sha256"] = STRUCTURED_DECISION_SHA256
+    bind_authority_to_truth(fixture, truth, authority)
+    commit_truth(fixture, truth, "test: restore structured authority decision binding")
+
+    truth = yaml(fixture["truth_path"])
+    truth["active_work"]["founder_reserved_authorization_sha256"] = "0" * 64
+    commit_truth(fixture, truth, "test: structured active Truth decision mismatch")
+    expect_nonpass(repo, "structured active Truth decision mismatch",
+                   /active Founder-reserved authorization SHA mismatch/)
+    truth = yaml(fixture["truth_path"])
+    truth["active_work"]["founder_reserved_authorization_sha256"] = STRUCTURED_DECISION_SHA256
+    commit_truth(fixture, truth, "test: restore structured active Truth decision binding")
+    expect_pass(repo, "structured Decision Truth Contract authority bindings restored")
+
+    shell(repo, "git", "worktree", "remove", fixture["task_worktree"])
+    shell(repo, "git", "branch", "-d", fixture["task_branch"])
+  end
+
+  def transition_to_second_task_ready(fixture, predecessor_status:, gate_evidence: nil)
+    truth = yaml(fixture["truth_path"])
+    route = truth.fetch("current_phase_route")
+    phase = truth.dig("project", "current_phase")
+    predecessor = route.fetch("task_plan").fetch(0)
+    successor = route.fetch("task_plan").fetch(1)
+    route["status"] = "ACTIVE"
+    route["first_task"]["status"] = predecessor_status
+    predecessor["status"] = predecessor_status
+    successor["status"] = "ELIGIBLE_NOT_ACTIVATED"
+    route.delete("active_task")
+    route["next_eligible_action"] = "MASTER_ACTIVATE_NEXT_TASK"
+    truth["project"]["phase_execution_status"] = "ACTIVE"
+    truth["project"]["#{phase.downcase}_execution_status"] = "ACTIVE"
+    truth["goal"]["current_task_authority"] = "NONE"
+    truth["active_work"] = ready_active_work
+    truth["active_work"]["task_resource_state"] = "NONE_PHASE_ACTIVE"
+    truth["active_work"]["external_effects"] = deep_copy(route.dig("envelope", "external_effects"))
+    truth["active_work"]["next_eligible_action"] = "MASTER_ACTIVATE_NEXT_TASK"
+    truth["task_history"].delete_if do |_key, record|
+      record.is_a?(Hash) && record["task_id"] == predecessor["task_id"]
+    end
+    truth["task_history"]["structured_predecessor_gate"] = gate_evidence if gate_evidence
+    commit_truth(fixture, truth, "test: materialize structured automatic-entry predecessor state")
+    fixture
+  end
+
+  def accepted_gate_evidence_for_fixture(fixture)
+    truth = yaml(fixture["truth_path"])
+    {
+      "task_id" => truth.dig("current_phase_route", "first_task", "task_id"),
+      "route_id" => truth.dig("current_phase_route", "route_id"),
+      "status" => "MASTER_TASK_GATE_ACCEPTED_COMPLETE",
+      "contract" => truth.dig("active_work", "current_task_contract", "path"),
+      "task_contract_sha256" => truth.dig("active_work", "current_task_contract", "sha256"),
+      "accepted_candidate_commit" => shell(fixture["repo"], "git", "rev-parse", "HEAD").strip,
+      "accepted_candidate_tree" => shell(fixture["repo"], "git", "rev-parse", "HEAD^{tree}").strip,
+      "cto_target_verdict" => "PASS",
+      "security_target_verdict" => "PASS",
+      "quality_target_verdict" => "PASS",
+      "reviewed_tree_equals_integrated_tree" => true,
+      "canonical_make_verify" => "PASS"
+    }
+  end
+
+  def remove_fixture_task_resources(fixture)
+    shell(fixture["repo"], "git", "worktree", "remove", fixture["task_worktree"])
+    shell(fixture["repo"], "git", "branch", "-d", fixture["task_branch"])
+  end
+
+  def structured_automatic_entry_tests(sandbox)
+    terminal = prepare_structured_fixture(File.join(sandbox, "terminal-predecessor"))
+    terminal = transition_to_second_task_ready(
+      terminal,
+      predecessor_status: "TERMINAL_NON_PASS"
+    )
+    expect_nonpass(
+      terminal["repo"],
+      "structured Task 2 READY after Task 1 NON_PASS",
+      /predecessor first_task is not Task Gate accepted/
+    )
+    terminal = activate_fixture(terminal, task_slot: 2)
+    expect_nonpass(
+      terminal["repo"],
+      "structured Task 2 ACTIVE after Task 1 NON_PASS",
+      /predecessor first_task is not Task Gate accepted/
+    )
+    remove_fixture_task_resources(terminal)
+
+    missing = prepare_structured_fixture(File.join(sandbox, "missing-gate-evidence"))
+    missing = transition_to_second_task_ready(
+      missing,
+      predecessor_status: "MASTER_TASK_GATE_ACCEPTED_COMPLETE"
+    )
+    expect_nonpass(
+      missing["repo"],
+      "structured Task 2 READY without accepted Gate Evidence",
+      /must map to exactly one top-level task_history record/
+    )
+    missing = activate_fixture(missing, task_slot: 2)
+    expect_nonpass(
+      missing["repo"],
+      "structured Task 2 ACTIVE without accepted Gate Evidence",
+      /must map to exactly one top-level task_history record/
+    )
+    remove_fixture_task_resources(missing)
+
+    accepted = prepare_structured_fixture(File.join(sandbox, "accepted-predecessor"))
+    accepted = activate_fixture(accepted)
+    gate_evidence = accepted_gate_evidence_for_fixture(accepted)
+    remove_fixture_task_resources(accepted)
+    accepted = transition_to_second_task_ready(
+      accepted,
+      predecessor_status: "MASTER_TASK_GATE_ACCEPTED_COMPLETE",
+      gate_evidence: gate_evidence
+    )
+    expect_pass(accepted["repo"], "structured Task 2 READY after exact Task 1 Gate PASS")
+    accepted = activate_fixture(accepted, task_slot: 2)
+    expect_pass(accepted["repo"], "structured Task 2 ACTIVE after exact Task 1 Gate PASS")
+    remove_fixture_task_resources(accepted)
+  end
+
+  def structured_zero_repair_lifecycle_tests(sandbox)
+    decision = JSON.parse(File.binread(STRUCTURED_DECISION_PATH))
+    decision["envelope"]["max_same_task_repairs_per_task"] = 0
+    decision["ordered_tasks"].each do |task|
+      task["max_same_task_repairs"] = 0
+      task["max_implementation_iterations"] = 1
+    end
+    fixture = prepare_structured_fixture(
+      File.join(sandbox, "zero-repair-lifecycle"),
+      decision_override: decision
+    )
+    expect_pass(fixture["repo"], "structured zero-repair READY Decision to Truth")
+    expect_safety_pass(fixture["repo"], fixture["truth_path"], "structured zero-repair READY safety")
+    fixture = activate_fixture(fixture)
+    expect_pass(fixture["repo"], "structured zero-repair ACTIVE Contract and authority")
+    expect_safety_pass(fixture["repo"], fixture["truth_path"], "structured zero-repair ACTIVE safety")
+    remove_fixture_task_resources(fixture)
+  end
+
+  def structured_external_effect_binding_tests(sandbox)
+    decision = JSON.parse(File.binread(STRUCTURED_DECISION_PATH))
+    decision["external_effects"]["network"] = true
+    decision["external_effects"]["provider"] = true
+    decision["external_effects"]["secret"] = true
+    fixture = prepare_structured_fixture(
+      File.join(sandbox, "data-driven-effects"),
+      decision_override: decision
+    )
+    expect_pass(fixture["repo"], "structured Founder effects READY exact binding")
+
+    truth = yaml(fixture["truth_path"])
+    truth["current_phase_route"]["envelope"]["external_effects"]["network"] = false
+    commit_truth(fixture, truth, "test: structured Truth effect drift")
+    expect_nonpass(fixture["repo"], "structured Truth effect drift",
+                   /does not equal the exact authorized external-effect map/)
+    truth = yaml(fixture["truth_path"])
+    truth["current_phase_route"]["envelope"]["external_effects"]["network"] = true
+    commit_truth(fixture, truth, "test: restore structured Truth effect")
+
+    fixture = activate_fixture(fixture)
+    expect_pass(fixture["repo"], "structured Founder effects ACTIVE exact binding")
+
+    truth = yaml(fixture["truth_path"])
+    contract = yaml(fixture["contract_path"])
+    authority = yaml(fixture["authority_path"])
+    contract["external_effects"]["provider"] = false
+    bind_contract_and_authority_to_truth(fixture, truth, contract, authority)
+    commit_truth(fixture, truth, "test: structured Contract effect drift")
+    expect_nonpass(fixture["repo"], "structured Contract effect drift",
+                   /contract external_effects does not equal/)
+    truth = yaml(fixture["truth_path"])
+    contract = yaml(fixture["contract_path"])
+    authority = yaml(fixture["authority_path"])
+    contract["external_effects"]["provider"] = true
+    bind_contract_and_authority_to_truth(fixture, truth, contract, authority)
+    commit_truth(fixture, truth, "test: restore structured Contract effect")
+
+    truth = yaml(fixture["truth_path"])
+    authority = yaml(fixture["authority_path"])
+    authority["external_effects"]["secret"] = false
+    bind_authority_to_truth(fixture, truth, authority)
+    commit_truth(fixture, truth, "test: structured authority effect drift")
+    expect_nonpass(fixture["repo"], "structured authority effect drift",
+                   /authority external_effects does not equal/)
+    truth = yaml(fixture["truth_path"])
+    authority = yaml(fixture["authority_path"])
+    authority["external_effects"]["secret"] = true
+    bind_authority_to_truth(fixture, truth, authority)
+    commit_truth(fixture, truth, "test: restore structured authority effect")
+
+    truth = yaml(fixture["truth_path"])
+    truth["active_work"]["external_effects"]["network"] = false
+    commit_truth(fixture, truth, "test: structured active Truth effect drift")
+    expect_nonpass(fixture["repo"], "structured active Truth effect drift",
+                   /active_work.external_effects does not equal/)
+    truth = yaml(fixture["truth_path"])
+    truth["active_work"]["external_effects"]["network"] = true
+    commit_truth(fixture, truth, "test: restore structured active Truth effect")
+    expect_pass(fixture["repo"], "structured effects Decision Truth Contract authority restored")
+    remove_fixture_task_resources(fixture)
+  end
+
+  def activate_fixture(fixture, task_slot: 1)
     repo = fixture["repo"]
     truth_path = fixture["truth_path"]
     truth = yaml(truth_path)
-    task = truth.fetch("current_phase_route").fetch("first_task")
+    route = truth.fetch("current_phase_route")
+    if task_slot == 1
+      task = route.fetch("first_task")
+    else
+      plan = route.fetch("task_plan").fetch(task_slot - 1)
+      task = {
+        "task_id" => plan.fetch("task_id"),
+        "task_slot" => plan.fetch("task_slot"),
+        "status" => "ACTIVE",
+        "contract_path" => "docs/aios/tasks/#{plan.fetch('task_id').delete_prefix('AIOS-')}.yaml",
+        "max_engineering_hours" => plan.fetch("engineering_hours"),
+        "max_calendar_days" => plan.fetch("calendar_days"),
+        "max_implementation_iterations" => plan.fetch("max_implementation_iterations"),
+        "max_candidates" => plan.fetch("max_candidates")
+      }
+      route["active_task"] = deep_copy(task)
+    end
     task_id = task.fetch("task_id")
     phase = truth.dig("project", "current_phase")
     route_id = truth.fetch("current_phase_route").fetch("route_id")
@@ -1017,14 +1708,15 @@ class CurrentTaskAuthorityTest
     contract_bytes = File.binread(contract_path)
     contract_sha = Digest::SHA256.hexdigest(contract_bytes)
 
-    branch = "codex/test-current-authority-active"
-    worktree = File.join(fixture["worktree_root"], "active")
-    evidence = File.join(fixture["evidence_base"], "active-task")
+    branch = task_slot == 1 ? "codex/test-current-authority-active" :
+      "codex/test-current-authority-active-slot-#{task_slot}"
+    worktree = File.join(fixture["worktree_root"], "active-slot-#{task_slot}")
+    evidence = File.join(fixture["evidence_base"], "active-task-slot-#{task_slot}")
     FileUtils.mkdir_p(evidence)
     authorization_id = Digest::SHA256.hexdigest("#{task_id}:fixture-authority")
     parent_commit = shell(repo, "git", "rev-parse", "HEAD").strip
     parent_tree = shell(repo, "git", "rev-parse", "HEAD^{tree}").strip
-    authority_path = File.join(fixture["external"], "task-authority.yaml")
+    authority_path = File.join(fixture["external"], "task-authority-slot-#{task_slot}.yaml")
     authority = {
       "schema_version" => 1,
       "record_type" => "aios_phase_delegated_task_authority",
@@ -1055,7 +1747,12 @@ class CurrentTaskAuthorityTest
     truth["project"]["phase_execution_status"] = "ACTIVE"
     truth["project"]["#{phase.downcase}_execution_status"] = "ACTIVE"
     truth["current_phase_route"]["status"] = "ACTIVE"
-    truth["current_phase_route"]["first_task"]["status"] = "ACTIVE"
+    if task_slot == 1
+      truth["current_phase_route"]["first_task"]["status"] = "ACTIVE"
+    else
+      truth["current_phase_route"]["active_task"]["status"] = "ACTIVE"
+    end
+    truth["current_phase_route"]["task_plan"][task_slot - 1]["status"] = "ACTIVE"
     truth["current_phase_route"]["next_eligible_action"] = "CONTINUE_CURRENT_TASK"
     truth["active_work"] = {
       "current_task" => task_id,
@@ -1126,7 +1823,7 @@ class CurrentTaskAuthorityTest
     bytes = File.binread(fixture["contract_path"])
     sha = Digest::SHA256.hexdigest(bytes)
     truth["active_work"]["current_task_contract"] = {
-      "path" => truth.dig("current_phase_route", "first_task", "contract_path"),
+      "path" => truth.dig("active_work", "current_task_contract", "path"),
       "sha256" => sha,
       "byte_length" => bytes.bytesize
     }
@@ -1222,7 +1919,7 @@ class CurrentTaskAuthorityTest
     expect_dual_nonpass(
       fixture,
       "active budget mismatch",
-      /contract budget engineering_hours mismatch|active budget engineering_hours exceeds envelope/
+      /contract budget mismatch|active budget engineering_hours exceeds envelope/
     )
     truth = yaml(fixture["truth_path"])
     truth["active_work"]["budget"]["engineering_hours"] = original_hours
@@ -1312,9 +2009,14 @@ class CurrentTaskAuthorityTest
     sandbox = Dir.mktmpdir("sourcelens-current-authority-")
     sandbox_identity = nil
     begin
+      structured_decision_unit_tests(sandbox)
       provider_profile_unit_tests
       closed_profile_packet_unit_tests
       p1_ready_and_active_golden_regression_tests(sandbox)
+      structured_route_binding_tests(sandbox)
+      structured_automatic_entry_tests(sandbox)
+      structured_zero_repair_lifecycle_tests(sandbox)
+      structured_external_effect_binding_tests(sandbox)
       sandbox_stat = File.lstat(sandbox)
       assert(sandbox_stat.directory? && !sandbox_stat.symlink?, "temporary root is not an owned directory")
       sandbox_identity = [sandbox_stat.dev, sandbox_stat.ino]

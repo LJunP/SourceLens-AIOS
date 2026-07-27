@@ -8,6 +8,7 @@ require "pathname"
 require "yaml"
 
 class AuthorityValidationError < StandardError; end
+class DuplicateJsonKeyError < StandardError; end
 
 module CurrentTaskAuthority
   module_function
@@ -15,6 +16,7 @@ module CurrentTaskAuthority
   SHA256_RE = /\A[0-9a-f]{64}\z/.freeze
   COMMIT_RE = /\A[0-9a-f]{40}\z/.freeze
   SAFE_TASK_ID_RE = /\AAIOS-P[12]-[0-9]{3}(?:_[A-Z0-9_]+)?\z/.freeze
+  ROUTE_ID_RE = /\AP[12]_[A-Z0-9_]+_ROUTE_V[1-9][0-9]*\z/.freeze
   EXTERNAL_EFFECT_KEYS = %w[network provider secret remote production public].freeze
   FALSE_EXTERNAL_EFFECTS = {
     "network" => false,
@@ -39,6 +41,14 @@ module CurrentTaskAuthority
   GOAL_RAW_BYTE_LENGTH = 19_433
   GOAL_CANONICAL_SHA256 = "b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a".freeze
   GOAL_CANONICAL_BYTE_LENGTH = 19_434
+
+  class DuplicateRejectingHash < Hash
+    def []=(key, value)
+      raise DuplicateJsonKeyError, key if key?(key)
+
+      super
+    end
+  end
 
   def fail!(message)
     raise AuthorityValidationError, message
@@ -113,15 +123,36 @@ module CurrentTaskAuthority
     fail!("#{label} is invalid YAML: #{e.message}")
   end
 
+  def parse_json(bytes, label)
+    JSON.parse(bytes, object_class: DuplicateRejectingHash)
+  rescue DuplicateJsonKeyError => e
+    fail!("#{label} contains duplicate JSON key #{e.message.inspect}")
+  rescue JSON::ParserError => e
+    fail!("#{label} is invalid JSON: #{e.message}")
+  end
+
   def parse_structured(bytes, path, label)
     if File.extname(path).downcase == ".json"
-      value = JSON.parse(bytes)
+      value = parse_json(bytes, label)
       hash(value, label)
     else
       parse_yaml(bytes, label)
     end
-  rescue JSON::ParserError => e
-    fail!("#{label} is invalid JSON: #{e.message}")
+  end
+
+  def recursively_sorted(value)
+    case value
+    when Hash
+      value.keys.sort.to_h { |key| [key, recursively_sorted(value.fetch(key))] }
+    when Array
+      value.map { |item| recursively_sorted(item) }
+    else
+      value
+    end
+  end
+
+  def canonical_json(value)
+    JSON.generate(recursively_sorted(value)) + "\n"
   end
 
   def sha256(bytes)
@@ -235,6 +266,61 @@ module CurrentTaskAuthority
     status = string(record["status"], "#{label} history status")
     assert(ACCEPTED_GATE_STATUS_RE.match?(status), "#{label} history status is not an exact accepted Gate lifecycle")
     record
+  end
+
+  def validate_structured_predecessor_gate(root, truth, route, first_task, claims, next_task_id, state)
+    return unless claims["structured_decision"]
+
+    automatic_entry = claims["automatic_entry"]
+    predecessor_id = automatic_entry["after_task_id"]
+    expected_next_id = automatic_entry["next_task_id"]
+    return if next_task_id == predecessor_id
+
+    assert(next_task_id == expected_next_id,
+           "structured automatic entry cannot activate an undeclared successor Task")
+    assert(automatic_entry["requires_task_gate_pass"] == true,
+           "structured automatic entry requires predecessor Task Gate PASS")
+    assert(first_task["task_id"] == predecessor_id &&
+           ACCEPTED_GATE_STATUS_RE.match?(first_task["status"].to_s),
+           "structured automatic entry predecessor first_task is not Task Gate accepted")
+
+    task_plan = array(route["task_plan"], "current_phase_route.task_plan")
+    predecessor = task_plan.find { |item| item.is_a?(Hash) && item["task_id"] == predecessor_id }
+    successor = task_plan.find { |item| item.is_a?(Hash) && item["task_id"] == expected_next_id }
+    assert(predecessor && ACCEPTED_GATE_STATUS_RE.match?(predecessor["status"].to_s),
+           "structured automatic entry predecessor task_plan is not Task Gate accepted")
+    expected_successor_status = state == "ACTIVE" ? "ACTIVE" : "ELIGIBLE_NOT_ACTIVATED"
+    assert(successor && successor["status"] == expected_successor_status,
+           "structured automatic entry successor task_plan status mismatch")
+
+    history = accepted_history_record(truth, predecessor_id, "structured automatic entry predecessor")
+    assert(history["route_id"] == route["route_id"],
+           "structured automatic entry predecessor history route mismatch")
+    contract_path_value = history["contract"] || history["contract_path"]
+    contract_path = repo_path(root, contract_path_value,
+                              "structured automatic entry predecessor contract")
+    contract_sha = string(history["task_contract_sha256"],
+                          "structured automatic entry predecessor task_contract_sha256")
+    validate_sha_only(contract_path, contract_sha,
+                      "structured automatic entry predecessor contract")
+    accepted_commit = string(history["accepted_candidate_commit"],
+                             "structured automatic entry predecessor accepted_candidate_commit")
+    accepted_tree = string(history["accepted_candidate_tree"],
+                           "structured automatic entry predecessor accepted_candidate_tree")
+    validate_commit_tree(root, accepted_commit, accepted_tree,
+                         "structured automatic entry predecessor accepted candidate")
+    _out, _err, ancestor_status = git(root, "merge-base", "--is-ancestor",
+                                      accepted_commit, "HEAD", allow_failure: true)
+    assert(ancestor_status.success?,
+           "structured automatic entry predecessor accepted candidate is not canonical")
+    %w[cto_target_verdict security_target_verdict quality_target_verdict].each do |key|
+      assert(history[key] == "PASS",
+             "structured automatic entry predecessor #{key} is not PASS")
+    end
+    assert(history["reviewed_tree_equals_integrated_tree"] == true,
+           "structured automatic entry predecessor reviewed/integrated tree mismatch")
+    assert(history["canonical_make_verify"] == "PASS",
+           "structured automatic entry predecessor canonical make verify is not PASS")
   end
 
   def validate_accepted_contract(bytes, path, task_id, phase, label)
@@ -1061,7 +1147,221 @@ module CurrentTaskAuthority
     fail!("decision packet contains a non-integer Phase envelope")
   end
 
-  def packet_claims(packet_bytes)
+  def founder_phase_route_decision_claims(bytes, decision_path: nil, root: nil)
+    if decision_path
+      assert(File.extname(decision_path).downcase == ".json",
+             "structured Founder route decision path must use the .json extension")
+    end
+    decision = hash(parse_json(bytes, "structured Founder route decision"),
+                    "structured Founder route decision")
+    assert(canonical_json(decision).b == bytes.b,
+           "structured Founder route decision must be recursively key-sorted canonical JSON with one trailing LF")
+    exact_keys(
+      decision,
+      %w[
+        activation_parent authorization_token automatic_entry claim_boundary envelope
+        external_effects goal_identity ordered_tasks phase record_type route_id
+        schema_version source_founder_packet_identity
+      ],
+      "structured Founder route decision"
+    )
+    assert(decision["schema_version"] == "1.0",
+           "structured Founder route decision schema_version must equal 1.0")
+    assert(decision["record_type"] == "founder_phase_route_decision",
+           "structured Founder route decision record_type is unsupported")
+
+    phase = string(decision["phase"], "structured Founder route decision.phase")
+    assert(%w[P1 P2].include?(phase), "structured Founder route decision phase must be P1 or P2")
+    route_id = string(decision["route_id"], "structured Founder route decision.route_id")
+    assert(ROUTE_ID_RE.match?(route_id), "structured Founder route decision route_id has invalid form")
+    assert(route_id.start_with?("#{phase}_"),
+           "structured Founder route decision route_id phase prefix mismatch")
+    authorization_token = string(
+      decision["authorization_token"],
+      "structured Founder route decision.authorization_token"
+    )
+    assert(authorization_token == "AUTHORIZE_#{route_id}",
+           "structured Founder route decision authorization token does not match route_id")
+
+    parent = exact_keys(
+      decision["activation_parent"],
+      %w[commit tree],
+      "structured Founder route decision.activation_parent"
+    )
+    assert(COMMIT_RE.match?(string(parent["commit"], "structured decision activation parent commit")),
+           "structured decision activation parent commit must be a full commit id")
+    assert(COMMIT_RE.match?(string(parent["tree"], "structured decision activation parent tree")),
+           "structured decision activation parent tree must be a full tree id")
+    validate_commit_tree(root, parent["commit"], parent["tree"],
+                         "structured decision activation parent") if root
+
+    source_packet = exact_keys(
+      decision["source_founder_packet_identity"],
+      %w[authorization_token byte_length path sha256],
+      "structured Founder route decision.source_founder_packet_identity"
+    )
+    assert(source_packet["authorization_token"] == authorization_token,
+           "structured Founder source packet authorization token mismatch")
+    source_path = string(source_packet["path"], "structured Founder source packet path")
+    assert(Pathname.new(source_path).absolute?,
+           "structured Founder source packet path must be absolute")
+    assert(integer(source_packet["byte_length"],
+                   "structured Founder source packet byte_length").positive?,
+           "structured Founder source packet byte_length must be positive")
+    validate_identity(source_path, source_packet, "Founder source packet")
+
+    goal_identity = exact_keys(
+      decision["goal_identity"],
+      %w[canonical_byte_length canonical_sha256 canonicalization raw_byte_length raw_sha256],
+      "structured Founder route decision.goal_identity"
+    )
+    expected_goal_identity = {
+      "canonical_byte_length" => GOAL_CANONICAL_BYTE_LENGTH,
+      "canonical_sha256" => GOAL_CANONICAL_SHA256,
+      "canonicalization" => "UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF",
+      "raw_byte_length" => GOAL_RAW_BYTE_LENGTH,
+      "raw_sha256" => GOAL_RAW_SHA256
+    }
+    assert(goal_identity == expected_goal_identity,
+           "structured Founder route decision Goal identity mismatch")
+
+    envelope = exact_keys(
+      decision["envelope"],
+      %w[
+        max_active_candidates max_active_tasks max_calendar_days max_engineering_hours
+        max_engineering_tasks max_same_task_repairs_per_task max_task_branches
+        max_task_worktrees p3_entry_authorized
+      ],
+      "structured Founder route decision.envelope"
+    )
+    %w[
+      max_active_candidates max_active_tasks max_calendar_days max_engineering_hours
+      max_engineering_tasks max_task_branches max_task_worktrees
+    ].each do |key|
+      assert(integer(envelope[key], "structured decision envelope.#{key}").positive?,
+             "structured decision envelope.#{key} must be positive")
+    end
+    max_repairs = integer(
+      envelope["max_same_task_repairs_per_task"],
+      "structured decision envelope.max_same_task_repairs_per_task"
+    )
+    assert(max_repairs >= 0,
+           "structured decision envelope.max_same_task_repairs_per_task must be non-negative")
+    %w[max_active_candidates max_active_tasks max_task_branches max_task_worktrees].each do |key|
+      assert(envelope[key] == 1, "structured decision envelope.#{key} must equal 1")
+    end
+    exact_false(envelope["p3_entry_authorized"],
+                "structured decision envelope.p3_entry_authorized")
+
+    external_effects = exact_keys(
+      decision["external_effects"],
+      EXTERNAL_EFFECT_KEYS,
+      "structured Founder route decision.external_effects"
+    )
+    external_effects.each do |key, value|
+      assert(value == true || value == false,
+             "structured Founder route decision.external_effects.#{key} must be boolean")
+    end
+    claim_boundary = string(
+      decision["claim_boundary"],
+      "structured Founder route decision.claim_boundary"
+    )
+
+    task_values = array(decision["ordered_tasks"],
+                        "structured Founder route decision.ordered_tasks")
+    assert(task_values.length >= 2,
+           "structured Founder route decision requires at least two ordered Tasks for automatic entry")
+    assert(task_values.length == envelope["max_engineering_tasks"],
+           "structured Founder route decision Task count does not equal route envelope")
+    task_budgets = task_values.map.with_index do |value, index|
+      task = exact_keys(
+        value,
+        %w[
+          calendar_days engineering_hours max_candidates max_implementation_iterations
+          max_same_task_repairs task_id task_slot
+        ],
+        "structured Founder route decision.ordered_tasks[#{index}]"
+      )
+      assert(integer(task["task_slot"], "structured decision Task slot") == index + 1,
+             "structured Founder route decision Task slots must be contiguous and ordered")
+      task_id = string(task["task_id"], "structured decision Task id")
+      assert(SAFE_TASK_ID_RE.match?(task_id), "structured decision Task id has invalid form")
+      assert(task_id.start_with?("AIOS-#{phase}-"),
+             "structured Founder route decision Task phase prefix mismatch")
+      %w[calendar_days engineering_hours max_candidates max_implementation_iterations].each do |key|
+        assert(integer(task[key], "structured decision Task #{key}").positive?,
+               "structured decision Task #{key} must be positive")
+      end
+      task_repairs = integer(task["max_same_task_repairs"],
+                             "structured decision Task max_same_task_repairs")
+      assert(task_repairs >= 0, "structured decision Task max_same_task_repairs must be non-negative")
+      assert(task_repairs == max_repairs,
+             "structured decision Task repair budget does not equal route envelope")
+      assert(task["max_implementation_iterations"] == task_repairs + 1,
+             "structured decision Task implementation iterations must equal initial plus repairs")
+      assert(task["max_candidates"] == envelope["max_active_candidates"],
+             "structured decision Task candidate budget does not equal route envelope")
+      task
+    end
+    task_ids = task_budgets.map { |task| task["task_id"] }
+    assert(task_ids.uniq.length == task_ids.length,
+           "structured Founder route decision Task ids must be unique")
+    assert(task_budgets.sum { |task| task["engineering_hours"] } == envelope["max_engineering_hours"],
+           "structured Founder route decision Task engineering budgets do not equal route envelope")
+    assert(task_budgets.sum { |task| task["calendar_days"] } == envelope["max_calendar_days"],
+           "structured Founder route decision Task calendar budgets do not equal route envelope")
+
+    automatic_entry = exact_keys(
+      decision["automatic_entry"],
+      %w[after_task_id next_task_id requires_task_gate_pass],
+      "structured Founder route decision.automatic_entry"
+    )
+    assert(automatic_entry["after_task_id"] == task_ids[0] &&
+           automatic_entry["next_task_id"] == task_ids[1],
+           "structured Founder route decision automatic entry must bind ordered Task 1 to Task 2")
+    assert(automatic_entry["requires_task_gate_pass"] == true,
+           "structured Founder route decision automatic entry requires Task Gate PASS")
+
+    {
+      "structured_decision" => true,
+      "authorization_token" => authorization_token,
+      "route_id" => route_id,
+      "phase" => phase,
+      "activation_parent_commit" => parent["commit"],
+      "activation_parent_tree" => parent["tree"],
+      "max_engineering_tasks" => envelope["max_engineering_tasks"],
+      "max_engineering_hours" => envelope["max_engineering_hours"],
+      "max_calendar_days" => envelope["max_calendar_days"],
+      "max_same_task_repairs" => max_repairs,
+      "max_contract_corrections_per_task" => 0,
+      "first_task_id" => task_ids.first,
+      "first_task_engineering_hours" => task_budgets.first["engineering_hours"],
+      "first_task_calendar_days" => task_budgets.first["calendar_days"],
+      "first_task_implementation_iterations" => task_budgets.first["max_implementation_iterations"],
+      "first_task_candidates" => task_budgets.first["max_candidates"],
+      "task_ids" => task_ids,
+      "task_budgets" => task_budgets,
+      "automatic_entry" => automatic_entry,
+      "claim_boundary" => claim_boundary,
+      "source_founder_packet_identity" => source_packet,
+      "goal_identity" => goal_identity,
+      "founder_reserved_profile" => nil,
+      "founder_reserved_profiles" => [],
+      "external_effects" => external_effects
+    }
+  end
+
+  def packet_claims(packet_bytes, packet_path = nil, root: nil)
+    stripped = packet_bytes.dup.force_encoding(Encoding::BINARY).sub(/\A[[:space:]]+/, "")
+    if File.extname(packet_path.to_s).downcase == ".json" ||
+       stripped.start_with?("{".b) || stripped.start_with?("[".b)
+      return founder_phase_route_decision_claims(
+        packet_bytes,
+        decision_path: packet_path,
+        root: root
+      )
+    end
+
     text = packet_bytes.dup.force_encoding(Encoding::UTF_8)
     assert(text.valid_encoding?, "decision packet must be valid UTF-8")
     if text.include?("AUTHORIZE_P2_ACCEPTED_REPOSITORY_GRAPH_INDEX_AND_GRAPH_CONDITIONED_CONTEXT_ROUTE_V1") ||
@@ -1293,8 +1593,16 @@ module CurrentTaskAuthority
     assert(integer(packet["byte_length"], "current_phase_route.decision_packet.byte_length").positive?,
            "decision packet byte length must be positive")
     packet_bytes = validate_identity(packet_path, packet, "Founder route decision packet")
-    claims = packet_claims(packet_bytes)
+    claims = packet_claims(packet_bytes, packet_path, root: root)
     assert(route_id == claims["route_id"], "Truth route id does not match exact decision packet")
+    if claims["structured_decision"]
+      assert(route["phase"] == claims["phase"],
+             "Truth route phase does not match structured Founder decision")
+      assert(route["automatic_entry"] == claims["automatic_entry"],
+             "Truth automatic entry does not match structured Founder decision")
+      assert(route["claim_boundary"] == claims["claim_boundary"],
+             "Truth claim boundary does not match structured Founder decision")
+    end
     authorization_token = string(route["authorization_token"], "current_phase_route.authorization_token")
     assert(authorization_token == claims["authorization_token"],
            "route authorization token does not match exact decision packet")
@@ -1315,10 +1623,13 @@ module CurrentTaskAuthority
 
     envelope = hash(route["envelope"], "current_phase_route.envelope")
     %w[max_engineering_tasks max_engineering_hours max_calendar_days max_active_tasks
-       max_task_branches max_task_worktrees max_active_candidates max_same_task_repairs].each do |key|
+       max_task_branches max_task_worktrees max_active_candidates].each do |key|
       assert(integer(envelope[key], "current_phase_route.envelope.#{key}") > 0,
              "current_phase_route.envelope.#{key} must be positive")
     end
+    assert(integer(envelope["max_same_task_repairs"],
+                   "current_phase_route.envelope.max_same_task_repairs") >= 0,
+           "current_phase_route.envelope.max_same_task_repairs must be non-negative")
     contract_corrections = integer(envelope["max_contract_corrections_per_task"],
                                    "current_phase_route.envelope.max_contract_corrections_per_task")
     assert(contract_corrections >= 0,
@@ -1381,7 +1692,7 @@ module CurrentTaskAuthority
     end
     assert(envelope["max_same_task_repairs"] == claims["max_same_task_repairs"],
            "route envelope max_same_task_repairs does not match exact decision packet")
-    if claims["max_contract_corrections_per_task"]
+    unless claims["max_contract_corrections_per_task"].nil?
       assert(envelope["max_contract_corrections_per_task"] == claims["max_contract_corrections_per_task"],
              "route envelope max_contract_corrections_per_task does not match exact decision packet")
     else
@@ -1474,13 +1785,31 @@ module CurrentTaskAuthority
         assert(item["engineering_hours"] == packet_budget["engineering_hours"] &&
                item["calendar_days"] == packet_budget["calendar_days"],
                "current_phase_route.task_plan budget does not equal the exact decision packet")
+        if claims["structured_decision"]
+          %w[max_implementation_iterations max_same_task_repairs max_candidates].each do |key|
+            assert(item[key] == packet_budget[key],
+                   "current_phase_route.task_plan #{key} does not equal the structured Founder decision")
+          end
+        end
       end
       string(item["task_id"], "current_phase_route.task_plan[#{index}].task_id")
     end
     assert(task_plan_ids == claims["task_ids"] && task_plan_ids.uniq.length == task_plan_ids.length,
            "current_phase_route.task_plan Task set does not equal the exact decision packet")
     goal = hash(truth["goal"], "goal")
-    unless claims["text"].include?(goal["observed_body_sha256"].to_s)
+    if claims["structured_decision"]
+      goal_binding = exact_keys(route["goal_identity"],
+                                %w[raw_sha256 raw_byte_length canonicalization canonical_sha256 canonical_byte_length],
+                                "current_phase_route.goal_identity")
+      structured_goal = claims["goal_identity"]
+      assert(goal_binding == {
+        "raw_sha256" => structured_goal["raw_sha256"],
+        "raw_byte_length" => structured_goal["raw_byte_length"],
+        "canonicalization" => structured_goal["canonicalization"],
+        "canonical_sha256" => structured_goal["canonical_sha256"],
+        "canonical_byte_length" => structured_goal["canonical_byte_length"]
+      }, "current Phase route Goal identity mismatch")
+    elsif !claims["text"].include?(goal["observed_body_sha256"].to_s)
       goal_binding = exact_keys(route["goal_identity"],
                                 %w[raw_sha256 raw_byte_length canonicalization canonical_sha256 canonical_byte_length],
                                 "current_phase_route.goal_identity")
@@ -1519,7 +1848,7 @@ module CurrentTaskAuthority
     item.each { |key, value| assert(value.nil?, "#{label}.#{key} must be null while Task is NONE") }
   end
 
-  def validate_none_state(truth, route, first_task)
+  def validate_none_state(root, truth, route, first_task, claims)
     goal = hash(truth["goal"], "goal")
     project = hash(truth["project"], "project")
     active = hash(truth["active_work"], "active_work")
@@ -1542,6 +1871,11 @@ module CurrentTaskAuthority
              %w[ACTIVE EXECUTING].include?(project[phase_status_key]),
              "between-Task NONE requires active project execution")
       assert(first_task["status"] != "ACTIVE", "between-Task NONE cannot leave first Task active")
+      validate_structured_predecessor_gate(
+        root, truth, route, first_task, claims,
+        claims.dig("automatic_entry", "next_task_id"),
+        "READY"
+      ) if claims["structured_decision"]
     end
     null_identity(active["current_task_contract"], "active_work.current_task_contract")
     null_identity(active["authority_record"], "active_work.authority_record")
@@ -1566,7 +1900,9 @@ module CurrentTaskAuthority
     assert(roles.keys.sort == %w[independent_reviewers owner worker], "Task NONE roles keys mismatch")
     assert(roles["owner"].nil? && roles["worker"].nil? &&
            array(roles["independent_reviewers"], "Task NONE reviewers").empty?, "Task NONE roles must be empty")
-    validate_external_effects(active["external_effects"], "active_work.external_effects")
+    expected_effects = claims["structured_decision"] ?
+      claims.fetch("external_effects") : FALSE_EXTERNAL_EFFECTS
+    validate_external_effects(active["external_effects"], "active_work.external_effects", expected_effects)
     exact_false(active["founder_decision_required"], "active_work.founder_decision_required")
     assert(active["escalation_reason"].nil?, "Task NONE escalation_reason must be null")
     assert(active["user_action_required"] == "NONE", "Task NONE user_action_required must be NONE")
@@ -1704,7 +2040,40 @@ module CurrentTaskAuthority
                         assert(descriptor["task_id"] == task_id, "route active_task descriptor mismatch")
                         descriptor
                       end
+    assert(claims["task_ids"].include?(task_id),
+           "active Task is outside the exact Founder decision Task set")
+    plan_descriptor = array(route["task_plan"], "current_phase_route.task_plan").find do |item|
+      item.is_a?(Hash) && item["task_id"] == task_id
+    end
+    assert(plan_descriptor, "active Task is absent from the closed route task_plan")
+    validate_structured_predecessor_gate(
+      root, truth, route, first_task, claims, task_id, "ACTIVE"
+    )
+    if claims["structured_decision"]
+      packet_task = claims["task_budgets"].find { |item| item["task_id"] == task_id }
+      assert(packet_task, "active Task has no structured Founder decision descriptor")
+      {
+        "max_engineering_hours" => "engineering_hours",
+        "max_calendar_days" => "calendar_days",
+        "max_implementation_iterations" => "max_implementation_iterations",
+        "max_candidates" => "max_candidates"
+      }.each do |descriptor_key, packet_key|
+        assert(task_descriptor[descriptor_key] == packet_task[packet_key],
+               "active Task #{descriptor_key} does not equal the structured Founder decision")
+      end
+    end
     budget = hash(active["budget"], "active_work.budget")
+    if claims["structured_decision"]
+      packet_task = claims["task_budgets"].find { |item| item["task_id"] == task_id }
+      expected_task_budget = {
+        "engineering_hours" => packet_task["engineering_hours"],
+        "calendar_days" => packet_task["calendar_days"],
+        "implementation_iterations" => packet_task["max_implementation_iterations"],
+        "candidates" => packet_task["max_candidates"]
+      }
+      assert(budget == expected_task_budget,
+             "active Task budget does not equal the structured Founder decision")
+    end
     budget_limits = {
       "engineering_hours" => route.dig("envelope", "max_engineering_hours"),
       "calendar_days" => route.dig("envelope", "max_calendar_days"),
@@ -1716,7 +2085,7 @@ module CurrentTaskAuthority
       assert(value.positive? && value <= integer(limit, "limit for #{key}"), "active budget #{key} exceeds envelope")
     end
     contract_budget = hash(contract_field(contract, "budget"), "contract budget")
-    budget.each { |key, value| assert(contract_budget[key] == value, "contract budget #{key} mismatch") }
+    assert(contract_budget == budget, "contract budget mismatch")
     authority_budget = hash(contract_field(authority_record, "budget"), "authority record budget")
     assert(authority_budget == budget, "authority record budget mismatch")
 
@@ -1932,7 +2301,7 @@ module CurrentTaskAuthority
       assert(!first_task_in_history, "first Task id reuses historical Truth while eligible or active")
     end
     if hash(truth["active_work"], "active_work")["current_task"] == "NONE"
-      validate_none_state(truth, route, first_task)
+      validate_none_state(root, truth, route, first_task, claims)
       "READY_NONE"
     else
       validate_active_state(root, truth, route, route_id, first_task, claims)

@@ -1385,7 +1385,8 @@ historical_p1_092_p1_093_phase_route:
       - P1_090_CANONICAL_TRUTH_TERMINAL_RECEIPT_AND_ERRATUM
     other_failed_task_engineering_assets_allowed_as_design_or_implementation_source: false
     accepted_canonical_engineering_assets_allowed: true
-  additional_write_roots: []
+  additional_write_roots:
+    - evaluation-harness/fixtures/p2-007-canonical-symbol-graph/**
   inherited_worktree_inventory:
     - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-063-atomic-offline-b0
       head: 14a6e1ed7298dd3568b7290ff2f625785521f9c1

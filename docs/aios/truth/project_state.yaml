@@ -5949,10 +5949,10 @@ active_work:
     byte_length: 12035
   current_task_contract_sha256: 5ce112663718e3bbc68512247a5960edf51fb11a1a730ac8a678972dd2db215a
   current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-adapter-end-to-end-exit-20260727/task-1-p1-147/authority/TASK_AUTHORITY_REENTRY_V2.yaml
-  current_execution_authorization_sha256: 708443e210b394b91c6c66871c1930ace221547ca7006019a39cdeb4fba6f577
+  current_execution_authorization_sha256: 3b0d577a289d9d5a03ab66c936139ad58589a44a5e0eab2c7a68f7f3076a2327
   authority_record:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-adapter-end-to-end-exit-20260727/task-1-p1-147/authority/TASK_AUTHORITY_REENTRY_V2.yaml
-    sha256: 708443e210b394b91c6c66871c1930ace221547ca7006019a39cdeb4fba6f577
+    sha256: 3b0d577a289d9d5a03ab66c936139ad58589a44a5e0eab2c7a68f7f3076a2327
     byte_length: 3066
   execution_nonce: p1-147-reentry-52d5811-20260727-v2
   execution_nonce_status: ACTIVE

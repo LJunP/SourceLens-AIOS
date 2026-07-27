@@ -4129,10 +4129,10 @@ current_phase_route:
     p2_006_entry: INELIGIBLE
     terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-005-scanner-first-graph-20260726/task/terminal/P2_005_TERMINAL_RECEIPT.json
     terminal_receipt_sha256: da61b1353f474140c54e646f13511a8b71b573beeea7d6942b4b9e6d47db71cd
-  next_eligible_action: FOUNDER_P2_PHASE_GATE
+  next_eligible_action: MASTER_ACTIVATE_FIRST_TASK
 
 phase_delegation:
-  status: P2_FOUNDER_PHASE_GATE
+  status: P2_ROUTE_AUTHORIZED_READY
   model: PHASE_LEVEL_FOUNDER_DELEGATION
   decision_source: FOUNDER_DIRECTIVES_IN_CODEX_THREAD_2026_07_16_AND_2026_07_17
   phase_gate_owner: HUMAN_FOUNDER

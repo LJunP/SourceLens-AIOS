@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-27T10:22:00Z"
-verification_scope: P1_141_CLEAN_ROOM_COMPLETION_TOKEN_CALIBRATED_REQUEST_BOUND_BASELINE_ACTIVE
+last_verified_at: "2026-07-27T12:06:33Z"
+verification_scope: P1_141_TERMINAL_FORMAL_EXECUTION_OBSERVER_NON_PASS_P1_PHASE_GATE
 
 authority:
   founder: Human Founder
@@ -37,7 +37,7 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: AIOS-P1-141_COMPLETION_TOKEN_CALIBRATED_REQUEST_BOUND_BASELINE
+  current_task_authority: NONE
   note: >-
     The Founder-approved long-term Goal remains ACTIVE with the exact
     Founder-installed identity. P1-099 remains terminal with its Quality
@@ -333,6 +333,20 @@ goal:
     no candidate or final review exists, P1-140 is ineligible, no capability
     credit was awarded, strict P1 completion remains 6/8 (75%), P2 remains
     held, and the project is at the Founder P1 Phase Gate.
+    P1-141 then passed its clean-room offline preflight, accepted B0/B1/B2
+    adapter, trace, replay and rollback controls, independent evaluator
+    control and 15 isolated negative cases with zero false accepts, Secret
+    reads, Provider requests or network requests. Its one formal execution
+    atomically reserved and bound the first diagnostic request with
+    max_completion_tokens 4096, then reached the HTTP response callback but
+    stopped because the independent lsof predicate did not prove an
+    established loopback-only connection. The transport was destroyed before
+    response status, body, usage or lsof stdout were durably recorded. The
+    exact five-file partial Evidence is preserved, contains no Secret or
+    Authorization-header bytes, and is not a baseline report. No rerun,
+    candidate, final review, integration, capability credit or P1-142 entry
+    occurred. Strict P1 completion remains 6/8 (75%), P2 remains held, and the
+    project is at the Founder P1 Phase Gate.
 
 project:
   name: SourceLens AIOS
@@ -342,12 +356,12 @@ project:
   phase_name: Evaluation Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  p1_execution_status: ACTIVE
-  p1_engineering_status: P1_141_ACTIVE_COMPLETION_TOKEN_CALIBRATED_REQUEST_BOUND_BASELINE_6_OF_8_75_PERCENT
+  p1_execution_status: PHASE_GATE
+  p1_engineering_status: P1_141_TERMINAL_FORMAL_EXECUTION_OBSERVER_NON_PASS_6_OF_8_75_PERCENT
   p2_entry_status: HOLD_PENDING_STRICT_P1_EXIT
   p2_execution_status: HELD_NO_EXECUTION_AUTHORITY
-  phase_execution_status: ACTIVE
-  current_route_execution_status: ACTIVE_P1_141_CLEAN_ROOM_BASELINE
+  phase_execution_status: FOUNDER_PHASE_GATE
+  current_route_execution_status: TERMINAL_P1_141_FORMAL_EXECUTION_OBSERVER_NON_PASS
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -3848,8 +3862,8 @@ p1_partial_exit:
     - REPRODUCIBLE_BASELINE_REPORT
     - P2_CONTEXT_ENGINE_PREREGISTRATION
   terminal_task:
-    task_id: AIOS-P1-135_REPRODUCIBLE_BASELINE_REPORT
-    status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
+    task_id: AIOS-P1-141_COMPLETION_TOKEN_CALIBRATED_REQUEST_BOUND_BASELINE
+    status: TERMINAL_FORMAL_EXECUTION_OBSERVER_NON_PASS
     candidate_integrated: false
     rejected_engineering_assets_reusable: false
   founder_disposition:
@@ -4094,6 +4108,10 @@ historical_p1_139_phase_route:
       head: 6e5f06e704c485f4029afb00fd9b0e94e59b0abb
       branch: codex/p1-139-request-bound-loopback-baseline
       status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-141-completion-token-calibrated-baseline
+      head: 45337ec6a22dfe462568a04cb3f11d81867bce65
+      branch: codex/p1-141-completion-token-calibrated-baseline
+      status: TERMINAL_CURRENT_ROUTE_EVIDENCE_PRESERVED_NOT_CURRENT
   claim_boundary: "Cooperative-local request-bound loopback capture, reproducible P1 baseline reporting, and exact report-bound P2 preregistration only. The Founder one-time exception covers only the P1-137 preworker path-root administrative failure. It does not accept P1-137, alter P1 Exit, enter P2, authorize non-loopback effects, or establish production, remote, public, hostile-principal, or model-generalization claims."
   founder_exact_exception:
     authorization_token: AUTHORIZE_ONE_P1_PREWORKER_PATH_ROOT_EXCEPTION_AND_DIRECT_REQUEST_BOUND_EXIT_REENTRY_V1
@@ -4171,11 +4189,11 @@ historical_p1_139_phase_route:
 
 current_phase_route:
   route_id: P1_CLEAN_ROOM_COMPLETION_TOKEN_CALIBRATION_AND_REQUEST_BOUND_EXIT_ROUTE_V1
-  status: ACTIVE
-  authority_object_status: ACTIVE
-  execution_status: ACTIVE_P1_141
-  founder_phase_route_decision_required: false
-  scheduling_status: TASK_1_ACTIVE
+  status: TERMINAL
+  authority_object_status: TERMINAL_FORMAL_EXECUTION_OBSERVER_NON_PASS
+  execution_status: TERMINAL_P1_141_FORMAL_EXECUTION_OBSERVER_NON_PASS
+  founder_phase_route_decision_required: true
+  scheduling_status: STOPPED_P1_142_INELIGIBLE
   phase: P1
   phase_entry_status: AUTHORIZED
   authorization_token: AUTHORIZE_P1_CLEAN_ROOM_COMPLETION_TOKEN_CALIBRATION_AND_REQUEST_BOUND_EXIT_ROUTE_V1
@@ -4261,7 +4279,7 @@ current_phase_route:
   first_task:
     task_id: AIOS-P1-141_COMPLETION_TOKEN_CALIBRATED_REQUEST_BOUND_BASELINE
     task_slot: 1
-    status: ACTIVE
+    status: TERMINAL_FORMAL_EXECUTION_OBSERVER_NON_PASS
     contract_path: docs/aios/tasks/P1-141_COMPLETION_TOKEN_CALIBRATED_REQUEST_BOUND_BASELINE.yaml
     max_engineering_hours: 40
     max_calendar_days: 6
@@ -4271,7 +4289,7 @@ current_phase_route:
   task_plan:
     - task_slot: 1
       task_id: AIOS-P1-141_COMPLETION_TOKEN_CALIBRATED_REQUEST_BOUND_BASELINE
-      status: ACTIVE
+      status: TERMINAL_FORMAL_EXECUTION_OBSERVER_NON_PASS
       engineering_hours: 40
       calendar_days: 6
       max_implementation_iterations: 3
@@ -4279,7 +4297,7 @@ current_phase_route:
       max_candidates: 1
     - task_slot: 2
       task_id: AIOS-P1-142_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
-      status: PLANNED_REQUIRES_PREDECESSOR_TASK_GATE_PASS
+      status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
       engineering_hours: 8
       calendar_days: 2
       max_implementation_iterations: 3
@@ -4292,14 +4310,15 @@ current_phase_route:
   route_execution_accounting:
     maximum_engineering_tasks: 2
     task_slots_consumed: 1
-    active_task_id: AIOS-P1-141_COMPLETION_TOKEN_CALIBRATED_REQUEST_BOUND_BASELINE
+    active_task_id: NONE
     scheduled_task_ids:
       - AIOS-P1-141_COMPLETION_TOKEN_CALIBRATED_REQUEST_BOUND_BASELINE
-    terminal_task_ids: []
+    terminal_task_ids:
+      - AIOS-P1-141_COMPLETION_TOKEN_CALIBRATED_REQUEST_BOUND_BASELINE
     accepted_task_ids: []
     maximum_engineering_hours: 48
-    engineering_hours_authorized_current_task: 40
-    status: ACTIVE_TASK_1_OF_2
+    engineering_hours_authorized_current_task: 0
+    status: TERMINAL_1_OF_2_TASKS_P1_142_INELIGIBLE
   additional_write_roots: []
   inherited_worktree_inventory:
     - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-063-atomic-offline-b0
@@ -4421,7 +4440,40 @@ current_phase_route:
     terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-request-bound-loopback-exit-20260727/task-1-p1-139/terminal/P1_139_TERMINAL_RECEIPT.json
     terminal_receipt_sha256: 44751b4b312ba8f7282120b83d6bdb0bc2e5a167560e4a2c0f72dd7d1b3b6763
     source_or_engineering_reuse_allowed: false
-  next_eligible_action: CONTINUE_CURRENT_TASK
+  terminal_p1_141_result:
+    status: TERMINAL_FORMAL_EXECUTION_OBSERVER_NON_PASS
+    normalized_root_cause: P1141.DIAGNOSTIC.OS_NETWORK_OBSERVER_STRICT_LSOF_NO_PROOF
+    contract_path: docs/aios/tasks/P1-141_COMPLETION_TOKEN_CALIBRATED_REQUEST_BOUND_BASELINE.yaml
+    contract_sha256: fb7605945fc29574a6f406ed09b80d3d20c3c3f11841c8f4d55540163f722341
+    contract_byte_length: 12572
+    authority_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-completion-token-calibrated-exit-20260727/task-1-p1-141/authority/TASK_AUTHORITY.yaml
+    authority_sha256: 163f67837ad96659c21f79a4016f18196c37e61c2f2719936d1de51f8df1ba6d
+    implementation_commit: 45337ec6a22dfe462568a04cb3f11d81867bce65
+    implementation_tree: 587fe33cbfdc6a8d3e35ce2c092eb37cb7405597
+    implementation_iterations_used: 3
+    same_task_code_only_repairs_used: 2
+    execution_id: P1-141-61c8b85f59c0a321c6e7ab976b135422
+    formal_execution_count: 1
+    diagnostic_provider_requests: 1
+    formal_provider_requests: 0
+    automatic_retries: 0
+    response_receipt_created: false
+    response_status: UNKNOWN_NOT_DURABLY_CAPTURED
+    key_correctness: UNKNOWN_OBSERVER_FAILURE_MASKED_RESPONSE
+    formal_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-completion-token-calibrated-exit-20260727/task-1-p1-141/formal-execution-v1
+    formal_evidence_file_count: 5
+    formal_evidence_total_bytes: 5204
+    formal_evidence_inventory_sha256: d81419095221fa5d59b382cceb261fe53b6fa69fa7299e51d0471e89e8807227
+    secret_pattern_scan: PASS_NO_SECRET_OR_AUTHORIZATION_HEADER_BYTES_FOUND
+    candidate_created: false
+    final_review_started: false
+    candidate_integrated: false
+    canonical_make_verify: NOT_INVOKED_FORMAL_EXECUTION_NON_PASS
+    capability_credit: 0
+    p1_142_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
+    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-completion-token-calibrated-exit-20260727/task-1-p1-141/terminal/P1_141_TERMINAL_RECEIPT.json
+    terminal_receipt_sha256: 1bc6569d4697073c54eb0f3f1f330cf27c0b08da4e067a4a5bfdc2da44b3d81f
+  next_eligible_action: FOUNDER_P1_PHASE_GATE
 
 historical_p2_phase_route:
   route_id: P2_CANONICAL_SYMBOL_IDENTITY_GRAPH_KERNEL_AND_CONTEXT_BENCHMARK_CONTINUOUS_ROUTE_V1
@@ -5779,72 +5831,61 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: NONE
   next_eligible_action: MASTER_ACTIVATE_FIRST_TASK
 active_work:
-  current_task: AIOS-P1-141_COMPLETION_TOKEN_CALIBRATED_REQUEST_BOUND_BASELINE
-  current_task_status: ACTIVE
+  current_task: NONE
+  current_task_status: NONE
   current_task_contract:
-    path: docs/aios/tasks/P1-141_COMPLETION_TOKEN_CALIBRATED_REQUEST_BOUND_BASELINE.yaml
-    sha256: fb7605945fc29574a6f406ed09b80d3d20c3c3f11841c8f4d55540163f722341
-    byte_length: 12572
-  current_task_contract_sha256: fb7605945fc29574a6f406ed09b80d3d20c3c3f11841c8f4d55540163f722341
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-completion-token-calibrated-exit-20260727/task-1-p1-141/authority/TASK_AUTHORITY.yaml
-  current_execution_authorization_sha256: 163f67837ad96659c21f79a4016f18196c37e61c2f2719936d1de51f8df1ba6d
+    path: null
+    sha256: null
+    byte_length: null
+  current_task_contract_sha256: null
+  current_execution_authorization: null
+  current_execution_authorization_sha256: null
   authority_record:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-completion-token-calibrated-exit-20260727/task-1-p1-141/authority/TASK_AUTHORITY.yaml
-    sha256: 163f67837ad96659c21f79a4016f18196c37e61c2f2719936d1de51f8df1ba6d
-    byte_length: 2497
-  execution_nonce: e013450f52d3425d56dc4ef85817ab8903d49fdbdcc675a40029682765381fea
-  execution_nonce_status: ACTIVE
-  authorization_id: c6e11fb342f4267a7f6f3868641e2dbdafed38486866662f6e0cbfc0aa560421
-  activation_parent_commit: d12e19fcb6226ec682733f63959ce6eeb8556c9f
-  activation_parent_tree: 7637c71b272ef1e6606ca470bc504383e34f4062
-  task_resource_state: ACTIVE_ONE_BRANCH_ONE_WORKTREE_ONE_CANDIDATE_MAX
-  task_branch: codex/p1-141-completion-token-calibrated-baseline
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-141-completion-token-calibrated-baseline
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-completion-token-calibrated-exit-20260727/task-1-p1-141
-  allowlisted_paths:
-    - evaluation-harness/harness/p1-141-completion-token-calibrated/**
-    - evaluation-harness/replay/p1-141-completion-token-calibrated/**
-    - evaluation-harness/evaluator/p1-141-completion-token-calibrated/**
-    - evaluation-harness/reports/p1-141-completion-token-calibrated/**
-    - scripts/p1-141-operator-capture.sh
-    - scripts/verify-p1-141-completion-token-calibrated.sh
-    - Makefile
-    - docs/PROJECT_CODE_MAP.md
+    path: null
+    sha256: null
+    byte_length: null
+  execution_nonce: null
+  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
+  authorization_id: null
+  activation_parent_commit: null
+  activation_parent_tree: null
+  task_resource_state: TERMINAL_RESOURCES_PRESERVED
+  task_branch: null
+  task_worktree: null
+  execution_evidence_root: null
+  allowlisted_paths: []
   budget:
-    engineering_hours: 40
-    calendar_days: 6
-    implementation_iterations: 3
-    candidates: 1
+    engineering_hours: null
+    calendar_days: null
+    implementation_iterations: null
+    candidates: null
   roles:
-    owner: P1-141 Engineering Manager
-    worker: P1-141 Clean-Room Baseline Worker
-    independent_reviewers:
-      - P1-141 Fresh CTO Reviewer
-      - P1-141 Fresh Security Reviewer
-      - P1-141 Fresh Quality Reviewer
+    owner: null
+    worker: null
+    independent_reviewers: []
   external_effects:
-    network: true
-    provider: true
-    secret: true
+    network: false
+    provider: false
+    secret: false
     remote: false
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-completion-token-calibrated-exit-20260727/decision/FOUNDER_P1_COMPLETION_TOKEN_CALIBRATION_ROUTE_DECISION.json
-  founder_reserved_authorization_sha256: ff55c069d8f8f431653c8cf24fff647647b0894182465c83b80beebfc3fccb12
-  founder_decision_required: false
-  founder_decision_required_scope: NONE_WITHIN_ACTIVE_PHASE_ENVELOPE
-  escalation_reason: null
-  user_action_required: NONE
-  phase_route_decision_required: false
-  phase_route_user_action_required: NONE
-  next_eligible_action: CONTINUE_CURRENT_TASK
+  founder_reserved_authorization: null
+  founder_reserved_authorization_sha256: null
+  founder_decision_required: true
+  founder_decision_required_scope: P1_PHASE_GATE_AFTER_P1_141_FORMAL_EXECUTION_OBSERVER_NON_PASS
+  escalation_reason: P1_141_FORMAL_EXECUTION_OBSERVER_NON_PASS
+  user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
+  phase_route_decision_required: true
+  phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
+  next_eligible_action: FOUNDER_P1_PHASE_GATE
   last_terminal_task:
-    task_id: AIOS-P1-139_REQUEST_BOUND_LOOPBACK_CAPTURE_AND_BASELINE
-    status: TERMINAL_FORMAL_EXECUTION_NON_PASS
-    normalized_root_cause: P1139.FORMAL.PROVIDER_OUTPUT_USAGE_EXCEEDS_2048_RESERVATION
-    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-request-bound-loopback-exit-20260727/task-1-p1-139/terminal/P1_139_TERMINAL_RECEIPT.json
-    terminal_receipt_sha256: 44751b4b312ba8f7282120b83d6bdb0bc2e5a167560e4a2c0f72dd7d1b3b6763
+    task_id: AIOS-P1-141_COMPLETION_TOKEN_CALIBRATED_REQUEST_BOUND_BASELINE
+    status: TERMINAL_FORMAL_EXECUTION_OBSERVER_NON_PASS
+    normalized_root_cause: P1141.DIAGNOSTIC.OS_NETWORK_OBSERVER_STRICT_LSOF_NO_PROOF
+    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-completion-token-calibrated-exit-20260727/task-1-p1-141/terminal/P1_141_TERMINAL_RECEIPT.json
+    terminal_receipt_sha256: 1bc6569d4697073c54eb0f3f1f330cf27c0b08da4e067a4a5bfdc2da44b3d81f
     rejected_snapshot_commit: null
     rejected_snapshot_tree: null
     candidate_created: false
@@ -5866,6 +5907,55 @@ superseded_pre_delegation_authorizations:
     note: The engineering objective may be selected independently by Master, but these pre-delegation bytes require a routine per-Task Founder Gate and cannot be activated under the current authority model.
 
 task_history:
+  aios_p1_141:
+    task_id: AIOS-P1-141_COMPLETION_TOKEN_CALIBRATED_REQUEST_BOUND_BASELINE
+    route_id: P1_CLEAN_ROOM_COMPLETION_TOKEN_CALIBRATION_AND_REQUEST_BOUND_EXIT_ROUTE_V1
+    status: TERMINAL_FORMAL_EXECUTION_OBSERVER_NON_PASS
+    contract: docs/aios/tasks/P1-141_COMPLETION_TOKEN_CALIBRATED_REQUEST_BOUND_BASELINE.yaml
+    activation_contract_sha256: fb7605945fc29574a6f406ed09b80d3d20c3c3f11841c8f4d55540163f722341
+    activation_contract_byte_length: 12572
+    authority_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-completion-token-calibrated-exit-20260727/task-1-p1-141/authority/TASK_AUTHORITY.yaml
+    authority_sha256: 163f67837ad96659c21f79a4016f18196c37e61c2f2719936d1de51f8df1ba6d
+    activation_commit: cf1cf6b74730a462568a04cb3f11d81867bce65
+    activation_tree: 453dce78816276ea10080647e3407ce53d21edff
+    implementation_commit: 45337ec6a22dfe462568a04cb3f11d81867bce65
+    implementation_tree: 587fe33cbfdc6a8d3e35ce2c092eb37cb7405597
+    implementation_iterations_used: 3
+    code_only_repairs_used: 2
+    offline_preflight_status: PASS
+    offline_preflight_false_accepts: 0
+    offline_preflight_network_requests: 0
+    offline_preflight_provider_requests: 0
+    offline_preflight_secret_reads: 0
+    formal_execution_count: 1
+    execution_id: P1-141-61c8b85f59c0a321c6e7ab976b135422
+    diagnostic_provider_requests: 1
+    formal_provider_requests: 0
+    automatic_retries: 0
+    response_receipt_created: false
+    response_status: UNKNOWN_NOT_DURABLY_CAPTURED
+    key_correctness: UNKNOWN_OBSERVER_FAILURE_MASKED_RESPONSE
+    normalized_root_cause: P1141.DIAGNOSTIC.OS_NETWORK_OBSERVER_STRICT_LSOF_NO_PROOF
+    formal_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-completion-token-calibrated-exit-20260727/task-1-p1-141/formal-execution-v1
+    formal_evidence_file_count: 5
+    formal_evidence_total_bytes: 5204
+    formal_evidence_inventory_sha256: d81419095221fa5d59b382cceb261fe53b6fa69fa7299e51d0471e89e8807227
+    candidate_created: false
+    final_review_started: false
+    candidate_integrated: false
+    canonical_make_verify: NOT_INVOKED_FORMAL_EXECUTION_NON_PASS
+    accepted_capability: false
+    capability_credit: 0
+    p1_142_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
+    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-completion-token-calibrated-exit-20260727/task-1-p1-141/terminal/P1_141_TERMINAL_RECEIPT.json
+    terminal_receipt_sha256: 1bc6569d4697073c54eb0f3f1f330cf27c0b08da4e067a4a5bfdc2da44b3d81f
+    external_effects:
+      network: true
+      provider: true
+      secret: true
+      remote: false
+      production: false
+      public: false
   aios_p1_139:
     task_id: AIOS-P1-139_REQUEST_BOUND_LOOPBACK_CAPTURE_AND_BASELINE
     route_id: P1_PREWORKER_PATH_ROOT_EXCEPTION_AND_DIRECT_REQUEST_BOUND_EXIT_REENTRY_ROUTE_V1

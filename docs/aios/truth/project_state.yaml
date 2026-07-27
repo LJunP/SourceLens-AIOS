@@ -4108,10 +4108,6 @@ historical_p1_139_phase_route:
       head: 6e5f06e704c485f4029afb00fd9b0e94e59b0abb
       branch: codex/p1-139-request-bound-loopback-baseline
       status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
-    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-141-completion-token-calibrated-baseline
-      head: 45337ec6a22dfe462568a04cb3f11d81867bce65
-      branch: codex/p1-141-completion-token-calibrated-baseline
-      status: TERMINAL_CURRENT_ROUTE_EVIDENCE_PRESERVED_NOT_CURRENT
   claim_boundary: "Cooperative-local request-bound loopback capture, reproducible P1 baseline reporting, and exact report-bound P2 preregistration only. The Founder one-time exception covers only the P1-137 preworker path-root administrative failure. It does not accept P1-137, alter P1 Exit, enter P2, authorize non-loopback effects, or establish production, remote, public, hostile-principal, or model-generalization claims."
   founder_exact_exception:
     authorization_token: AUTHORIZE_ONE_P1_PREWORKER_PATH_ROOT_EXCEPTION_AND_DIRECT_REQUEST_BOUND_EXIT_REENTRY_V1
@@ -4424,6 +4420,10 @@ current_phase_route:
     - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-139-request-bound-loopback-baseline
       head: 6e5f06e704c485f4029afb00fd9b0e94e59b0abb
       branch: codex/p1-139-request-bound-loopback-baseline
+      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-141-completion-token-calibrated-baseline
+      head: 45337ec6a22dfe462568a04cb3f11d81867bce65
+      branch: codex/p1-141-completion-token-calibrated-baseline
       status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
   claim_boundary: "Cooperative-local request-bound loopback capture, reproducible P1 baseline reporting and exact report-bound P2 preregistration only. P1-139 remains terminal and non-reusable. This route does not enter P2 or P3 and establishes no production, remote, public, hostile-principal or model-generalization claim."
   historical_p2_hold:

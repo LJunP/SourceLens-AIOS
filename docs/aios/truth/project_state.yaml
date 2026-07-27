@@ -5879,11 +5879,11 @@ active_work:
     byte_length: 9450
   current_task_contract_sha256: 505803c211e294b2d7e52adeaca5268670014ccdc55504c53ba7f608f0b17068
   current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-timeboxed-strict-exit-20260727/task-1-p1-145/authority/TASK_AUTHORITY.yaml
-  current_execution_authorization_sha256: 5ab34ccef627784abb4186e8980e9e33350ce333f33860ecb2ba73114fdc5986
+  current_execution_authorization_sha256: f59eaa3f51fbb0e694a8cc0d7e6f02c5041a1380de8b984e41805ed6597cf5d2
   authority_record:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-timeboxed-strict-exit-20260727/task-1-p1-145/authority/TASK_AUTHORITY.yaml
-    sha256: 5ab34ccef627784abb4186e8980e9e33350ce333f33860ecb2ba73114fdc5986
-    byte_length: 2354
+    sha256: f59eaa3f51fbb0e694a8cc0d7e6f02c5041a1380de8b984e41805ed6597cf5d2
+    byte_length: 2592
   execution_nonce: 1171c2a11acdb0c12b3187ab5e4101cc
   execution_nonce_status: ACTIVE
   authorization_id: AUTH-P1-145-TIMEBOXED-BASELINE-20260727

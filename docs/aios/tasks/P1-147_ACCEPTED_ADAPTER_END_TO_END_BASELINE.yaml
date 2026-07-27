@@ -24,7 +24,7 @@ founder_gate: RESERVED_DECISIONS_ONLY
 budget:
   engineering_hours: 48
   calendar_days: 8
-  implementation_iterations: 3
+  implementation_iterations: 9
   candidates: 1
 roles:
   owner: P1-147 Engineering Manager
@@ -85,10 +85,24 @@ historical_isolation:
   p1_145_candidate_source_diff_fixture_test_rebuild_verifier_formal_evidence_read_restore_compare_or_reuse_allowed: false
   other_rejected_engineering_lineage_read_restore_compare_or_reuse_allowed: false
 founder_reserved_authorization:
-  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-adapter-end-to-end-exit-20260727/decision/FOUNDER_P1_CLEAN_ROOM_ACCEPTED_ADAPTER_END_TO_END_ROUTE_DECISION.json
-  sha256: 0a11a4dc68b1df629edefe6cb8487aeaca2176506c21272b11603b8d5b6ec681
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-adapter-end-to-end-exit-20260727/decision/FOUNDER_P1_CLEAN_ROOM_ACCEPTED_ADAPTER_END_TO_END_ROUTE_DECISION_TASK_SPECIFIC_REPAIRS_V2.json
+  sha256: 401b832db14c8021a9085c1da7fbefc4d5f472c886d21c6ba085f16c123a34bf
   byte_length: 2353
   authorization_token: AUTHORIZE_P1_CLEAN_ROOM_ACCEPTED_ADAPTER_END_TO_END_BASELINE_AND_STRICT_EXIT_ROUTE_V1
+repair_accounting_correction:
+  founder_decision_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-adapter-end-to-end-exit-20260727/decision/FOUNDER_P1_TASK_SPECIFIC_REPAIR_ACCOUNTING_CORRECTION_AND_P1_147_DIRECT_REENTRY_V1.md
+  founder_decision_sha256: 1469e8d372ad84c6b674992fe19468aeeda78a8866eedab3a191d6a0bcce9523
+  founder_decision_byte_length: 3244
+  authorization_token: AUTHORIZE_ONE_P1_TASK_SPECIFIC_REPAIR_ACCOUNTING_COMPATIBILITY_CORRECTION_AND_P1_147_DIRECT_REENTRY_V1
+  route_repair_ceiling: 8
+  task_repair_maximum: 8
+  repairs_used_before_reentry: 2
+  repairs_remaining_at_reentry: 6
+  superseded_terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-adapter-end-to-end-exit-20260727/task-1-p1-147/terminal/P1_147_TERMINAL_RECEIPT.json
+    sha256: 3b56a7a16c1d4e3afa507860be2066f90a4a370ebe6bd864d8b7d4462ca0fba3
+    byte_length: 2623
+    status: PRESERVED_SUPERSEDED_BY_FOUNDER_REPAIR_ACCOUNTING_CORRECTION
 governing_founder_packet:
   path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-adapter-end-to-end-exit-20260727/decision/FOUNDER_P1_CLEAN_ROOM_ACCEPTED_ADAPTER_END_TO_END_BASELINE_AND_STRICT_EXIT_ROUTE_V1.md
   sha256: d1dacdce048fa40a43ce8df4547d8e9a03202821c0b65a8223890068553d7b96
@@ -190,7 +204,7 @@ stop_conditions:
   - Canonical parent, Goal, Founder decision, accepted-input or Contract identity drifts.
   - P1-145 or another rejected engineering lineage would be required.
   - The same normalized root cause occurs in adjacent implementation iterations.
-  - Three total implementation iterations, 48 engineering hours or 8 calendar days are exhausted.
+  - Nine total implementation iterations, 48 engineering hours or 8 calendar days are exhausted.
   - Diagnostic is NON_PASS, formal execution is NON_PASS, or formal matrix rerun would be required.
   - Secret bytes enter repository, Evidence, logs, traces, prompts, reviews or Vault.
   - A non-loopback, remote, production or public effect occurs.

@@ -38,7 +38,6 @@ allowlisted_paths:
   - evaluation-harness/replay/p1-147-accepted-adapter-e2e
   - evaluation-harness/reports/p1-147-accepted-adapter-e2e
   - evaluation-harness/evaluator/p1-147-accepted-adapter-e2e
-  - evaluation-harness/fixtures/p1-147-accepted-adapter-e2e
   - scripts/p1-147-operator-capture.sh
   - scripts/verify-p1-147-accepted-adapter-e2e.sh
   - docs/aios/tasks/P1-147_ACCEPTED_ADAPTER_END_TO_END_BASELINE.yaml
@@ -50,7 +49,6 @@ write_scope:
     - evaluation-harness/harness/p1-147-accepted-adapter-e2e
     - evaluation-harness/replay/p1-147-accepted-adapter-e2e
     - evaluation-harness/reports/p1-147-accepted-adapter-e2e
-    - evaluation-harness/fixtures/p1-147-accepted-adapter-e2e
   quality:
     - evaluation-harness/evaluator/p1-147-accepted-adapter-e2e
   integration:

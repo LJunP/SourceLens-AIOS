@@ -5935,15 +5935,15 @@ active_work:
   current_task_status: ACTIVE
   current_task_contract:
     path: docs/aios/tasks/P1-147_ACCEPTED_ADAPTER_END_TO_END_BASELINE.yaml
-    sha256: 38bb8739f652e635307942b113c9adc66f805c6803d19bffdc445e576c8abebb
-    byte_length: 11165
-  current_task_contract_sha256: 38bb8739f652e635307942b113c9adc66f805c6803d19bffdc445e576c8abebb
+    sha256: de324d45df49b951fe0c3bdac7ac530dc0f4724b10a3a14556a915ffc5c4c556
+    byte_length: 11043
+  current_task_contract_sha256: de324d45df49b951fe0c3bdac7ac530dc0f4724b10a3a14556a915ffc5c4c556
   current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-adapter-end-to-end-exit-20260727/task-1-p1-147/authority/TASK_AUTHORITY.yaml
-  current_execution_authorization_sha256: 04c7753dcf0435a36908ad0aec2e24b463db7746b79c8c8eed32cd48b074941b
+  current_execution_authorization_sha256: b156f9fbcef54a607ba746f19054239f2004d18e8ab2fefaf1030db32a459e60
   authority_record:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-adapter-end-to-end-exit-20260727/task-1-p1-147/authority/TASK_AUTHORITY.yaml
-    sha256: 04c7753dcf0435a36908ad0aec2e24b463db7746b79c8c8eed32cd48b074941b
-    byte_length: 2508
+    sha256: b156f9fbcef54a607ba746f19054239f2004d18e8ab2fefaf1030db32a459e60
+    byte_length: 2448
   execution_nonce: p1-147-activation-bc5d158-20260727-v1
   execution_nonce_status: ACTIVE
   authorization_id: P1-147-PHASE-DELEGATED-AUTHORITY-V1
@@ -5958,7 +5958,6 @@ active_work:
     - evaluation-harness/replay/p1-147-accepted-adapter-e2e
     - evaluation-harness/reports/p1-147-accepted-adapter-e2e
     - evaluation-harness/evaluator/p1-147-accepted-adapter-e2e
-    - evaluation-harness/fixtures/p1-147-accepted-adapter-e2e
     - scripts/p1-147-operator-capture.sh
     - scripts/verify-p1-147-accepted-adapter-e2e.sh
     - docs/aios/tasks/P1-147_ACCEPTED_ADAPTER_END_TO_END_BASELINE.yaml

@@ -37,7 +37,7 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
+  current_task_authority: AIOS-P1-135_REPRODUCIBLE_BASELINE_REPORT
   note: >-
     The Founder-approved long-term Goal remains ACTIVE with the exact
     Founder-installed identity. P1-099 remains terminal with its Quality
@@ -316,12 +316,12 @@ project:
   phase_name: Evaluation Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  p1_execution_status: AUTHORIZED_READY
-  p1_engineering_status: STRICT_EXIT_REENTRY_READY_6_OF_8_75_PERCENT
+  p1_execution_status: ACTIVE
+  p1_engineering_status: P1_135_REPRODUCIBLE_BASELINE_REPORT_ACTIVE_6_OF_8_75_PERCENT
   p2_entry_status: HOLD_PENDING_STRICT_P1_EXIT
   p2_execution_status: HELD_NO_EXECUTION_AUTHORITY
-  phase_execution_status: AUTHORIZED_READY
-  current_route_execution_status: AUTHORIZED_READY
+  phase_execution_status: ACTIVE
+  current_route_execution_status: ACTIVE_TASK_1_OF_2
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -3832,11 +3832,11 @@ p1_partial_exit:
 
 current_phase_route:
   route_id: P1_STRICT_EXIT_COMPLETION_REENTRY_AND_HOLD_P2_ROUTE_V1
-  status: AUTHORIZED_READY
-  authority_object_status: FOUNDER_PHASE_ROUTE_DECISION_BOUND
-  execution_status: AUTHORIZED_READY
+  status: ACTIVE
+  authority_object_status: PHASE_DELEGATED_TASK_AUTHORITY_ACTIVE
+  execution_status: ACTIVE_TASK_1_OF_2
   founder_phase_route_decision_required: false
-  scheduling_status: FIRST_TASK_ELIGIBLE
+  scheduling_status: TASK_1_ACTIVE
   phase: P1
   phase_entry_status: AUTHORIZED
   authorization_token: AUTHORIZE_P1_STRICT_EXIT_COMPLETION_REENTRY_AND_HOLD_P2_ROUTE_V1
@@ -3922,7 +3922,7 @@ current_phase_route:
   first_task:
     task_id: AIOS-P1-135_REPRODUCIBLE_BASELINE_REPORT
     task_slot: 1
-    status: ELIGIBLE_NOT_ACTIVATED
+    status: ACTIVE
     contract_path: docs/aios/tasks/P1-135_REPRODUCIBLE_BASELINE_REPORT.yaml
     max_engineering_hours: 32
     max_calendar_days: 6
@@ -3932,7 +3932,7 @@ current_phase_route:
   task_plan:
     - task_slot: 1
       task_id: AIOS-P1-135_REPRODUCIBLE_BASELINE_REPORT
-      status: ELIGIBLE_NOT_ACTIVATED
+      status: ACTIVE
       engineering_hours: 32
       calendar_days: 6
       max_implementation_iterations: 2
@@ -3952,14 +3952,15 @@ current_phase_route:
     requires_task_gate_pass: true
   route_execution_accounting:
     maximum_engineering_tasks: 2
-    task_slots_consumed: 0
-    active_task_id: null
-    scheduled_task_ids: []
+    task_slots_consumed: 1
+    active_task_id: AIOS-P1-135_REPRODUCIBLE_BASELINE_REPORT
+    scheduled_task_ids:
+      - AIOS-P1-135_REPRODUCIBLE_BASELINE_REPORT
     terminal_task_ids: []
     accepted_task_ids: []
     maximum_engineering_hours: 48
-    engineering_hours_authorized_current_task: 0
-    status: READY_0_OF_2_TASKS
+    engineering_hours_authorized_current_task: 32
+    status: ACTIVE_TASK_1_OF_2
   additional_write_roots:
     - evaluation-harness/reports
   inherited_worktree_inventory:
@@ -4067,7 +4068,7 @@ current_phase_route:
     p2_execution_authorized: false
     p2_assets_reusable_by_current_route: false
     resume_condition: FOUNDER_P1_EXIT_GATE_AFTER_STRICT_8_OF_8
-  next_eligible_action: MASTER_ACTIVATE_FIRST_TASK
+  next_eligible_action: EXECUTE_P1_135_WITHIN_TASK_AUTHORITY
 
 historical_p2_phase_route:
   route_id: P2_CANONICAL_SYMBOL_IDENTITY_GRAPH_KERNEL_AND_CONTEXT_BENCHMARK_CONTINUOUS_ROUTE_V1
@@ -4410,7 +4411,7 @@ historical_p2_phase_route:
   next_eligible_action: FOUNDER_P2_PHASE_GATE
 
 phase_delegation:
-  status: P1_STRICT_EXIT_ROUTE_AUTHORIZED_READY_P2_HELD
+  status: P1_STRICT_EXIT_ROUTE_ACTIVE_P2_HELD
   model: PHASE_LEVEL_FOUNDER_DELEGATION
   decision_source: FOUNDER_DIRECTIVES_IN_CODEX_THREAD_2026_07_16_AND_2026_07_17
   phase_gate_owner: HUMAN_FOUNDER
@@ -5425,38 +5426,48 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: NONE
   next_eligible_action: MASTER_ACTIVATE_FIRST_TASK
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P1-135_REPRODUCIBLE_BASELINE_REPORT
+  current_task_status: ACTIVE
   current_task_contract:
-    path: null
-    sha256: null
-    byte_length: null
-  current_task_contract_sha256: null
-  current_execution_authorization: null
-  current_execution_authorization_sha256: null
+    path: docs/aios/tasks/P1-135_REPRODUCIBLE_BASELINE_REPORT.yaml
+    sha256: cbb40fede0d954af1a67a5b416143d252ee298279745996dde0ecffca4ba1438
+    byte_length: 7901
+  current_task_contract_sha256: cbb40fede0d954af1a67a5b416143d252ee298279745996dde0ecffca4ba1438
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-strict-exit-reentry-20260727/task-1-p1-135/TASK_AUTHORITY.yaml
+  current_execution_authorization_sha256: 4b8bb277fbde5d4d6ff1174b8532fa0a145bff5f061dff3eedc2a2d6d94ef40e
   authority_record:
-    path: null
-    sha256: null
-    byte_length: null
-  execution_nonce: null
-  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
-  authorization_id: null
-  activation_parent_commit: null
-  activation_parent_tree: null
-  task_resource_state: NOT_CREATED_ROUTE_READY
-  task_branch: null
-  task_worktree: null
-  execution_evidence_root: null
-  allowlisted_paths: []
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-strict-exit-reentry-20260727/task-1-p1-135/TASK_AUTHORITY.yaml
+    sha256: 4b8bb277fbde5d4d6ff1174b8532fa0a145bff5f061dff3eedc2a2d6d94ef40e
+    byte_length: 2296
+  execution_nonce: df277703bf8d4dc842c804ab603b006fb7de322dc8eafec258f6f4a282093315
+  execution_nonce_status: ACTIVE
+  authorization_id: 61d27884ca38ec965a7dfe9bb6f3951b596b265d35e877591cf258afda9f24ba
+  activation_parent_commit: 8911341fb85f611e3e8dad1bc5cec26c5711c771
+  activation_parent_tree: f42570a9ba14335fbe978d83bf3cca477ed2cb60
+  task_resource_state: CREATED_ACTIVE
+  task_branch: codex/p1-135-reproducible-baseline
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-135-reproducible-baseline
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-strict-exit-reentry-20260727/task-1-p1-135
+  allowlisted_paths:
+    - evaluation-harness/harness/p1-135-reproducible-baseline/**
+    - evaluation-harness/evaluator/p1-135-reproducible-baseline/**
+    - evaluation-harness/replay/p1-135-reproducible-baseline/**
+    - evaluation-harness/reports/p1-135-reproducible-baseline/**
+    - scripts/verify-p1-135-reproducible-baseline.sh
+    - Makefile
+    - docs/PROJECT_CODE_MAP.md
   budget:
-    engineering_hours: null
-    calendar_days: null
-    implementation_iterations: null
-    candidates: null
+    engineering_hours: 32
+    calendar_days: 6
+    implementation_iterations: 2
+    candidates: 1
   roles:
-    owner: null
-    worker: null
-    independent_reviewers: []
+    owner: P1-135 Engineering Manager
+    worker: P1-135 Clean-Room Baseline Worker
+    independent_reviewers:
+      - P1-135 Fresh CTO Reviewer
+      - P1-135 Fresh Security Reviewer
+      - P1-135 Fresh Quality Reviewer
   external_effects:
     network: false
     provider: false
@@ -5465,15 +5476,15 @@ active_work:
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: null
-  founder_reserved_authorization_sha256: null
+  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-strict-exit-reentry-20260727/decision/FOUNDER_P1_STRICT_EXIT_ROUTE_DECISION.json
+  founder_reserved_authorization_sha256: ae4aed77fb43ff8f4da4165d42235677e3e312d0abfc1a534c735069ea576154
   founder_decision_required: false
   founder_decision_required_scope: NONE_WITHIN_ACTIVE_PHASE_ENVELOPE
   escalation_reason: null
   user_action_required: NONE
   phase_route_decision_required: false
   phase_route_user_action_required: NONE
-  next_eligible_action: MASTER_ACTIVATE_FIRST_TASK
+  next_eligible_action: EXECUTE_P1_135_WITHIN_TASK_AUTHORITY
   last_terminal_task:
     task_id: AIOS-P2-007_CANONICAL_SYMBOL_IDENTITY_AND_SCANNER_GRAPH_KERNEL
     status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
@@ -9129,9 +9140,9 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: P1_STRICT_EXIT_COMPLETION_REENTRY_AND_HOLD_P2_ROUTE_V1_AUTHORIZED_READY
-  current_task_claim: NONE_FIRST_TASK_ELIGIBLE_NOT_ACTIVATED
-  real_engineering_progress: ROUTE_REALIGNED_TO_P1_NO_CAPABILITY_CREDIT_P1_REMAINS_6_OF_8
+  current_route_claim: P1_STRICT_EXIT_COMPLETION_REENTRY_AND_HOLD_P2_ROUTE_V1_ACTIVE_TASK_1_OF_2
+  current_task_claim: AIOS_P1_135_REPRODUCIBLE_BASELINE_REPORT_ACTIVE
+  real_engineering_progress: P1_135_ENGINEERING_AUTHORITY_ACTIVE_NO_CAPABILITY_CREDIT_YET_P1_REMAINS_6_OF_8
   product_capability_changed: false
   phase_local_allowed:
     - local evaluation foundation engineering under an exact Task Contract

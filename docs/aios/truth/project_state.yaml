@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
 last_verified_at: "2026-07-28T15:29:13Z"
-verification_scope: P1_156_FORMAL_MATRIX_TRANSPORT_TIMEOUT_TERMINAL_SYNC
+verification_scope: P1_158_COMPACT_TYPED_PATCH_IR_ROUTE_ACTIVATION
 
 authority:
   founder: Human Founder
@@ -37,7 +37,7 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
+  current_task_authority: AIOS-P1-158_COMPACT_TYPED_PATCH_IR_REQUEST_BOUND_BASELINE
   note: >-
     The Founder-approved long-term Goal remains ACTIVE with the exact
     Founder-installed identity. P1-099 remains terminal with its Quality
@@ -447,12 +447,12 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  p1_execution_status: FOUNDER_PHASE_GATE_REQUIRED
-  p1_engineering_status: P1_156_TERMINAL_FORMAL_MATRIX_TRANSPORT_TIMEOUT_NON_PASS
+  p1_execution_status: ACTIVE
+  p1_engineering_status: P1_158_COMPACT_TYPED_PATCH_IR_BASELINE_ACTIVE
   p2_entry_status: HOLD_PENDING_STRICT_P1_EXIT
   p2_execution_status: HOLD_PENDING_STRICT_P1_EXIT
-  phase_execution_status: FOUNDER_PHASE_GATE_REQUIRED
-  current_route_execution_status: P1_ACCEPTED_SPINE_CHAT_COMPLETIONS_ROUTE_TERMINAL_TASK_1_NON_PASS
+  phase_execution_status: ACTIVE
+  current_route_execution_status: ACTIVE_TASK_1_P1_158
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -4270,48 +4270,26 @@ historical_p1_139_phase_route:
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 
 current_phase_route:
-  route_id: P1_ACCEPTED_SPINE_CHAT_COMPLETIONS_ONLY_BASELINE_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
-  status: TERMINAL_TASK_1_FORMAL_MATRIX_NON_PASS
-  authority_object_status: FOUNDER_DIRECTIVE_CONSUMED_TERMINAL
-  execution_status: TERMINAL_TASK_1_FORMAL_MATRIX_NON_PASS
-  founder_phase_route_decision_required: true
-  scheduling_status: TERMINAL_TASK_1_TASK_2_INELIGIBLE
+  route_id: P1_COMPACT_TYPED_PATCH_IR_FAILURE_TOLERANT_BASELINE_AND_STRICT_EXIT_ROUTE_V1
+  status: ACTIVE
+  authority_object_status: FOUNDER_DIRECTIVE_CONSUMED_ACTIVE
+  execution_status: ACTIVE_TASK_1
+  founder_phase_route_decision_required: false
+  scheduling_status: ACTIVE_TASK_1
   phase: P1
   phase_entry_status: AUTHORIZED
-  authorization_token: AUTHORIZE_P1_ACCEPTED_SPINE_CHAT_COMPLETIONS_ONLY_BASELINE_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
+  authorization_token: AUTHORIZE_P1_COMPACT_TYPED_PATCH_IR_FAILURE_TOLERANT_BASELINE_AND_STRICT_EXIT_ROUTE_V1
   decision_packet:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-spine-chat-completions-strict-exit-20260728/decision/FOUNDER_P1_ACCEPTED_SPINE_CHAT_COMPLETIONS_ONLY_ROUTE_DECISION_V1_1.json
-    sha256: 3d0f3caffd27a13ebf35be4de7174f6f59da9a38200069b64e300c56f15da0c2
-    byte_length: 4666
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-compact-typed-ir-failure-tolerant-exit-20260728/decision/FOUNDER_P1_COMPACT_TYPED_PATCH_IR_FAILURE_TOLERANT_ROUTE_DECISION_V1_1.json
+    sha256: 02b306010e70c8024cbb0f6979a7ae548ca3407efc8a3991e0c3c4f4d40ec873
+    byte_length: 4520
   original_founder_packet:
-    path: /Users/lijunpeng/.codex/attachments/058e207a-ae74-45be-9296-064e3cace552/pasted-text.txt
-    sha256: 4fa094647e4a9b66b68a590fe60d1c6b6549b3ceb2fa4c2ff668d9c2106cd1c9
-    byte_length: 13015
-  continuation_authorization:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-spine-chat-completions-strict-exit-20260728/decision/P1_156_DIAGNOSTIC_TIMEOUT_RECOVERY_DECISION_V1.json
-    sha256: 603e8bf69d1188409f8ec73b1775644311db3e594643f51970356c69159f82ad
-    byte_length: 2479
-    authorization_token: AUTHORIZE_ONE_P1_156_DIAGNOSTIC_TIMEOUT_RECOVERY_SECRET_READ_AND_DIRECT_FORMAL_REENTRY_V1
-    preserved_v1:
-      evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-spine-chat-completions-strict-exit-20260728/task-1-p1-156/formal-execution-v1
-      inventory_sha256: ce9eb8717bf32ca4171685e5c9efe7a86198e6b827eca08c828e681c1af793ff
-      diagnostic_provider_requests: 1
-      operator_secret_reads: 1
-      formal_provider_requests: 0
-    v2:
-      evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-spine-chat-completions-strict-exit-20260728/task-1-p1-156/formal-execution-v2
-      diagnostic_provider_requests_max: 2
-      operator_secret_reads_max: 1
-      formal_provider_requests_exact: 36
-    route_cumulative:
-      diagnostic_provider_requests_max: 3
-      operator_secret_reads_max: 2
-      formal_provider_requests_exact: 36
-      provider_requests_max: 39
-      automatic_retries_max: 0
+    path: /Users/lijunpeng/.codex/attachments/35d100e8-73ac-479f-af27-a5098ee253cf/pasted-text.txt
+    sha256: 1eda7d93971f75395d5453d91b4b708bcd84f0f07573b6a27e4ec3204b79a3e1
+    byte_length: 8444
   activation_parent:
-    commit: af10b8b77d3a47cc590101df35f2cd800fb521ec
-    tree: 70afc2ec2f71eec5fb4b92bebd6153a36732e76a
+    commit: 34a513085e25a9064a3c98b1481d3656ef7f2d0a
+    tree: 3208ca4401f1e0f4a3f4d22eab5e21cd460d1d2e
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: "1.7"
@@ -4323,10 +4301,10 @@ current_phase_route:
     canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
     canonical_byte_length: 19434
   objective: >-
-    Use the accepted canonical P1-149 execution spine to create one
-    Chat Completions-only request-bound 36-cell reproducible baseline report,
-    then freeze an exact report-bound P2 context-engine preregistration while
-    P2 remains held until strict P1 Exit.
+    Use accepted canonical P1 assets to execute one compact typed-Patch-IR,
+    request-bound and failure-tolerant 36-cell Chat Completions baseline,
+    independently rebuild and verify the report, then freeze an exact
+    report-bound P2 context-engine preregistration while P2 remains held.
   envelope:
     max_engineering_tasks: 2
     max_engineering_hours: 56
@@ -4349,9 +4327,9 @@ current_phase_route:
       public: false
   founder_reserved_profile:
     schema_version: "4.0"
-    profile_id: P1_156_ACCEPTED_SPINE_CHAT_COMPLETIONS_PROVIDER_V1
-    route_id: P1_ACCEPTED_SPINE_CHAT_COMPLETIONS_ONLY_BASELINE_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
-    task_id: AIOS-P1-156_ACCEPTED_SPINE_CHAT_COMPLETIONS_BASELINE
+    profile_id: P1_158_COMPACT_TYPED_PATCH_IR_PROVIDER_V1
+    route_id: P1_COMPACT_TYPED_PATCH_IR_FAILURE_TOLERANT_BASELINE_AND_STRICT_EXIT_ROUTE_V1
+    task_id: AIOS-P1-158_COMPACT_TYPED_PATCH_IR_REQUEST_BOUND_BASELINE
     transport:
       scheme: http
       host: 127.0.0.1
@@ -4370,9 +4348,9 @@ current_phase_route:
       substitution_allowed: false
       provider_provenance: FOUNDER_ATTESTED_OPENAI_COMPATIBLE_LOCAL_GATEWAY_MODEL_NOT_INDEPENDENTLY_VERIFIED
     call_limits:
-      diagnostic_requests_max: 3
+      diagnostic_requests_max: 0
       formal_requests_exact: 36
-      provider_requests_max: 39
+      provider_requests_max: 36
       automatic_retry_max: 0
     monetary_limits:
       currency: USD
@@ -4411,12 +4389,12 @@ current_phase_route:
       remote: false
       production: false
       public: false
-    decision_basis: FOUNDER_PACKET_SHA256:575b897deae9450d431db6e28beb5c5fcd8a033c1d9d20e45b03d09f957ac633
+    decision_basis: FOUNDER_PACKET_SHA256:1eda7d93971f75395d5453d91b4b708bcd84f0f07573b6a27e4ec3204b79a3e1
   founder_reserved_profiles:
     - schema_version: "4.0"
-      profile_id: P1_156_ACCEPTED_SPINE_CHAT_COMPLETIONS_PROVIDER_V1
-      route_id: P1_ACCEPTED_SPINE_CHAT_COMPLETIONS_ONLY_BASELINE_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
-      task_id: AIOS-P1-156_ACCEPTED_SPINE_CHAT_COMPLETIONS_BASELINE
+      profile_id: P1_158_COMPACT_TYPED_PATCH_IR_PROVIDER_V1
+      route_id: P1_COMPACT_TYPED_PATCH_IR_FAILURE_TOLERANT_BASELINE_AND_STRICT_EXIT_ROUTE_V1
+      task_id: AIOS-P1-158_COMPACT_TYPED_PATCH_IR_REQUEST_BOUND_BASELINE
       transport:
         scheme: http
         host: 127.0.0.1
@@ -4435,9 +4413,9 @@ current_phase_route:
         substitution_allowed: false
         provider_provenance: FOUNDER_ATTESTED_OPENAI_COMPATIBLE_LOCAL_GATEWAY_MODEL_NOT_INDEPENDENTLY_VERIFIED
       call_limits:
-        diagnostic_requests_max: 3
+        diagnostic_requests_max: 0
         formal_requests_exact: 36
-        provider_requests_max: 39
+        provider_requests_max: 36
         automatic_retry_max: 0
       monetary_limits:
         currency: USD
@@ -4476,7 +4454,7 @@ current_phase_route:
         remote: false
         production: false
         public: false
-      decision_basis: FOUNDER_PACKET_SHA256:575b897deae9450d431db6e28beb5c5fcd8a033c1d9d20e45b03d09f957ac633
+      decision_basis: FOUNDER_PACKET_SHA256:1eda7d93971f75395d5453d91b4b708bcd84f0f07573b6a27e4ec3204b79a3e1
   accepted_inputs:
     p1_035:
       task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
@@ -4525,10 +4503,10 @@ current_phase_route:
     - p1_129
     - p1_149
   first_task:
-    task_id: AIOS-P1-156_ACCEPTED_SPINE_CHAT_COMPLETIONS_BASELINE
+    task_id: AIOS-P1-158_COMPACT_TYPED_PATCH_IR_REQUEST_BOUND_BASELINE
     task_slot: 1
-    status: TERMINAL_FORMAL_MATRIX_TRANSPORT_TIMEOUT_NON_PASS
-    contract_path: docs/aios/tasks/P1-156_ACCEPTED_SPINE_CHAT_COMPLETIONS_BASELINE.yaml
+    status: ACTIVE
+    contract_path: docs/aios/tasks/P1-158_COMPACT_TYPED_PATCH_IR_REQUEST_BOUND_BASELINE.yaml
     max_engineering_hours: 48
     max_calendar_days: 8
     max_implementation_iterations: 5
@@ -4536,8 +4514,8 @@ current_phase_route:
     p1_capability_claim_on_pass: REPRODUCIBLE_BASELINE_REPORT
   task_plan:
     - task_slot: 1
-      task_id: AIOS-P1-156_ACCEPTED_SPINE_CHAT_COMPLETIONS_BASELINE
-      status: TERMINAL_FORMAL_MATRIX_TRANSPORT_TIMEOUT_NON_PASS
+      task_id: AIOS-P1-158_COMPACT_TYPED_PATCH_IR_REQUEST_BOUND_BASELINE
+      status: ACTIVE
       engineering_hours: 48
       calendar_days: 8
       max_implementation_iterations: 5
@@ -4551,8 +4529,8 @@ current_phase_route:
         production: false
         public: false
     - task_slot: 2
-      task_id: AIOS-P1-157_REPORT_BOUND_P2_CONTEXT_ENGINE_PREREGISTRATION
-      status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
+      task_id: AIOS-P1-159_REPORT_BOUND_P2_CONTEXT_ENGINE_PREREGISTRATION
+      status: PENDING_PREDECESSOR_TASK_GATE
       engineering_hours: 8
       calendar_days: 2
       max_implementation_iterations: 2
@@ -4566,25 +4544,24 @@ current_phase_route:
         production: false
         public: false
   automatic_entry:
-    after_task_id: AIOS-P1-156_ACCEPTED_SPINE_CHAT_COMPLETIONS_BASELINE
-    next_task_id: AIOS-P1-157_REPORT_BOUND_P2_CONTEXT_ENGINE_PREREGISTRATION
+    after_task_id: AIOS-P1-158_COMPACT_TYPED_PATCH_IR_REQUEST_BOUND_BASELINE
+    next_task_id: AIOS-P1-159_REPORT_BOUND_P2_CONTEXT_ENGINE_PREREGISTRATION
     requires_task_gate_pass: true
   automatic_entries:
-    - after_task_id: AIOS-P1-156_ACCEPTED_SPINE_CHAT_COMPLETIONS_BASELINE
-      next_task_id: AIOS-P1-157_REPORT_BOUND_P2_CONTEXT_ENGINE_PREREGISTRATION
+    - after_task_id: AIOS-P1-158_COMPACT_TYPED_PATCH_IR_REQUEST_BOUND_BASELINE
+      next_task_id: AIOS-P1-159_REPORT_BOUND_P2_CONTEXT_ENGINE_PREREGISTRATION
       requires_task_gate_pass: true
   route_execution_accounting:
     maximum_engineering_tasks: 2
     task_slots_consumed: 1
-    active_task_id: null
+    active_task_id: AIOS-P1-158_COMPACT_TYPED_PATCH_IR_REQUEST_BOUND_BASELINE
     scheduled_task_ids:
-      - AIOS-P1-156_ACCEPTED_SPINE_CHAT_COMPLETIONS_BASELINE
-    terminal_task_ids:
-      - AIOS-P1-156_ACCEPTED_SPINE_CHAT_COMPLETIONS_BASELINE
+      - AIOS-P1-158_COMPACT_TYPED_PATCH_IR_REQUEST_BOUND_BASELINE
+    terminal_task_ids: []
     accepted_task_ids: []
     maximum_engineering_hours: 56
-    engineering_hours_authorized_current_task: 0
-    status: TERMINAL_TASK_1_NON_PASS_TASK_2_INELIGIBLE
+    engineering_hours_authorized_current_task: 48
+    status: ACTIVE_TASK_1
   terminal_p1_156_outcome:
     task_id: AIOS-P1-156_ACCEPTED_SPINE_CHAT_COMPLETIONS_BASELINE
     status: TERMINAL_FORMAL_MATRIX_TRANSPORT_TIMEOUT_NON_PASS
@@ -4757,8 +4734,8 @@ current_phase_route:
       head: 4d100e6eb481abedbaabb35991e1af7a1f1319c3
       branch: codex/p2-009-canonical-scan-graph-kernel
       status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
-  claim_boundary: COOPERATIVE_LOCAL_ACCEPTED_P1_149_SPINE_CHAT_COMPLETIONS_ONLY_REQUEST_BOUND_BASELINE_AND_REPORT_BOUND_PREREGISTRATION_STRICT_P1_EXIT_ONLY_NO_RESPONSES_API_P2_ENTRY_P3_REMOTE_PRODUCTION_PUBLIC_HOSTILE_PRINCIPAL_OR_PRODUCTION_READINESS_CLAIM
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
+  claim_boundary: COOPERATIVE_LOCAL_COMPACT_TYPED_PATCH_IR_FAILURE_TOLERANT_36_CELL_BASELINE_AND_REPORT_BOUND_PREREGISTRATION_STRICT_P1_EXIT_ONLY_NO_P2_P3_REMOTE_PRODUCTION_PUBLIC_HOSTILE_PRINCIPAL_OR_PRODUCTION_READINESS_CLAIM
+  next_eligible_action: COMPLETE_P1_158_TASK_GATE
 
 historical_p2_009_phase_route_after_strict_recovery:
   schema_version: strict-phase-recovery-hold/v1
@@ -5870,9 +5847,9 @@ historical_p2_phase_route:
   next_eligible_action: FOUNDER_P2_PHASE_GATE
 
 phase_delegation:
-  status: P1_STRICT_SEQUENCE_RECOVERY_READY_FOR_PHASE_LOCAL_TASK_SELECTION
+  status: P1_158_FOUNDER_AUTHORIZED_ROUTE_ACTIVE
   model: PHASE_LEVEL_FOUNDER_DELEGATION
-  decision_source: FOUNDER_STRICT_PHASE_SEQUENCE_AND_KNOWLEDGE_SYNC_DIRECTIVE_2026_07_28
+  decision_source: AUTHORIZE_P1_COMPACT_TYPED_PATCH_IR_FAILURE_TOLERANT_BASELINE_AND_STRICT_EXIT_ROUTE_V1
   phase_gate_owner: HUMAN_FOUNDER
   task_selection_owner: MASTER_CEO_AGENT
   task_authorization_owner: MASTER_CEO_AGENT_WITHIN_CURRENT_PHASE_ENVELOPE
@@ -7558,56 +7535,69 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: NONE
   next_eligible_action: CONTINUE_CURRENT_TASK
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P1-158_COMPACT_TYPED_PATCH_IR_REQUEST_BOUND_BASELINE
+  current_task_status: ACTIVE
   current_task_contract:
-    path: null
-    sha256: null
-    byte_length: null
-  current_task_contract_sha256: null
-  current_execution_authorization: null
-  current_execution_authorization_sha256: null
+    path: docs/aios/tasks/P1-158_COMPACT_TYPED_PATCH_IR_REQUEST_BOUND_BASELINE.yaml
+    sha256: b7ec167461173f93d9f3da15c5368d30a48c38997896667833586a40833ff94d
+    byte_length: 12239
+  current_task_contract_sha256: b7ec167461173f93d9f3da15c5368d30a48c38997896667833586a40833ff94d
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-compact-typed-ir-failure-tolerant-exit-20260728/task-1-p1-158/authority/TASK_AUTHORITY.yaml
+  current_execution_authorization_sha256: cd90e8104fd73dd3d7c9a29a0b6c744747a4bf4569ddfb0c524b9906ef79dc5e
   authority_record:
-    path: null
-    sha256: null
-    byte_length: null
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-compact-typed-ir-failure-tolerant-exit-20260728/task-1-p1-158/authority/TASK_AUTHORITY.yaml
+    sha256: cd90e8104fd73dd3d7c9a29a0b6c744747a4bf4569ddfb0c524b9906ef79dc5e
+    byte_length: 4493
   continuation_authorization: null
-  execution_nonce: null
-  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
-  authorization_id: null
-  activation_parent_commit: null
-  activation_parent_tree: null
-  task_resource_state: PRESERVED_TERMINAL_OUTSIDE_ACTIVE_WORK
-  task_branch: null
-  task_worktree: null
-  execution_evidence_root: null
-  allowlisted_paths: []
+  execution_nonce: fca86a93a3d6250184a79c6d84a3ec57daeea7e8e009aa4c5fd1f8afb7b4d1b8
+  execution_nonce_status: ACTIVE
+  authorization_id: ea61ffc25d0a21165c6efea8da66207b2b6b7fe6ea1b9661d4340475e27e6e01
+  activation_parent_commit: 34a513085e25a9064a3c98b1481d3656ef7f2d0a
+  activation_parent_tree: 3208ca4401f1e0f4a3f4d22eab5e21cd460d1d2e
+  task_resource_state: ACTIVE_SINGLE_TASK_RESOURCES
+  task_branch: codex/p1-158-compact-typed-ir-baseline
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-158-compact-typed-ir-baseline
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-compact-typed-ir-failure-tolerant-exit-20260728/task-1-p1-158
+  allowlisted_paths:
+    - evaluation-harness/harness/p1-158-compact-typed-ir-baseline
+    - evaluation-harness/replay/p1-158-compact-typed-ir-baseline
+    - evaluation-harness/evaluator/p1-158-compact-typed-ir-baseline
+    - evaluation-harness/reports/p1-158-compact-typed-ir-baseline
+    - scripts/p1-158-operator-capture.sh
+    - scripts/verify-p1-158-compact-typed-ir-baseline.sh
+    - docs/aios/tasks/P1-158_COMPACT_TYPED_PATCH_IR_REQUEST_BOUND_BASELINE.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+    - Makefile
   budget:
-    engineering_hours: null
-    calendar_days: null
-    implementation_iterations: null
-    candidates: null
+    engineering_hours: 48
+    calendar_days: 8
+    implementation_iterations: 5
+    candidates: 1
   roles:
-    owner: null
-    worker: null
-    independent_reviewers: []
+    owner: P1-158 Engineering Manager
+    worker: P1-158 Compact Baseline Worker
+    independent_reviewers:
+      - P1-158 Fresh CTO Reviewer
+      - P1-158 Fresh Security Reviewer
+      - P1-158 Fresh Quality Reviewer
   external_effects:
-    network: false
-    provider: false
-    secret: false
+    network: true
+    provider: true
+    secret: true
     remote: false
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: null
-  founder_reserved_authorization_sha256: null
-  founder_decision_required: true
-  founder_decision_required_scope: P1_PHASE_GATE_AFTER_FORMAL_MATRIX_NON_PASS
-  escalation_reason: P1156.FORMAL.FORMAL_003.TRANSPORT_TIMEOUT
-  user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
+  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-compact-typed-ir-failure-tolerant-exit-20260728/decision/FOUNDER_P1_COMPACT_TYPED_PATCH_IR_FAILURE_TOLERANT_ROUTE_DECISION_V1_1.json
+  founder_reserved_authorization_sha256: 02b306010e70c8024cbb0f6979a7ae548ca3407efc8a3991e0c3c4f4d40ec873
+  founder_decision_required: false
+  founder_decision_required_scope: NONE_WITHIN_ACTIVE_PHASE_ENVELOPE
+  escalation_reason: null
+  user_action_required: NONE_UNTIL_OFFLINE_PREFLIGHT_PASS_THEN_OPERATOR_NO_ECHO_SECRET
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: COMPLETE_P1_158_TASK_GATE
   last_terminal_task:
     task_id: AIOS-P1-156_ACCEPTED_SPINE_CHAT_COMPLETIONS_BASELINE
     status: TERMINAL_FORMAL_MATRIX_TRANSPORT_TIMEOUT_NON_PASS

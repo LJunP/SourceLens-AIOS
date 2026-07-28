@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P1-158_COMPACT_TYPED_PATCH_IR_REQUEST_BOUND_BASELINE
 phase: P1
 route_id: P1_COMPACT_TYPED_PATCH_IR_FAILURE_TOLERANT_BASELINE_AND_STRICT_EXIT_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_FORMAL_EXECUTION_ARTIFACT_LIMIT_MISMATCH_NON_PASS
 objective: >-
   Use only accepted canonical P1 assets to execute one compact typed-Patch-IR,
   request-bound and failure-tolerant 36-cell Chat Completions baseline, then
@@ -264,6 +264,57 @@ forbidden_actions:
   - Modify ZCode, Codex Tools, LaunchAgent, system proxy, ports or user software configuration.
   - Enter P2 or P3.
   - Push or modify a remote.
+terminal_outcome:
+  terminated_at: "2026-07-28T17:24:29Z"
+  status: TERMINAL_FORMAL_EXECUTION_ARTIFACT_LIMIT_MISMATCH_NON_PASS
+  normalized_root_cause: P1158.FORMAL.FORMAL_001.RESPONSE_AND_EVIDENCE_WRITER_LIMIT_MISMATCH
+  reason_detail: >-
+    Offline preflight passed with zero Secret reads, zero Provider requests and
+    zero false accepts. The sole authorized formal execution then created the
+    exact 36-cell plan and the request plus request receipt for formal-001.
+    The Provider returned a response larger than the inherited accepted
+    Evidence writer's 1 MiB artifact ceiling but within the P1-158 transport's
+    2 MiB response ceiling. Persisting that response therefore raised the
+    uncaught ARTIFACT_INVALID "artifact exceeds byte limit" error before a
+    response or failure receipt could be written. This was an implementation
+    limit mismatch that incorrectly promoted an ordinary cell outcome to a
+    matrix abort. One Provider request and the sole allowed no-echo Secret read
+    were consumed. Completing the fixed 36-cell matrix would now require a
+    forbidden second formal execution and second Secret read, so the Task is
+    terminal without a candidate, review, integration or capability credit.
+  implementation:
+    commit: 2d8185c6ac556f3ec77eb50a0a7d264ab121b1fc
+    tree: f889ead6d92a1fd42a13f6a62f29386a2fe306ba
+    implementation_iterations_used: 2
+    same_task_repairs_used: 1
+  formal_execution:
+    root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-compact-typed-ir-failure-tolerant-exit-20260728/task-1-p1-158/formal-execution-v1
+    planned_cells: 36
+    request_receipts_created: 1
+    response_receipts_created: 0
+    failure_receipts_created: 0
+    provider_requests_consumed: 1
+    operator_secret_reads_consumed: 1
+    automatic_retries: 0
+    file_count: 4
+    total_bytes: 9865
+    inventory_sha256: 36116150221b51f9fd283aa793c29db6e1b13db02d1484620f4baff3cd452764
+    formal_rerun_allowed: false
+  security_observation:
+    secret_pattern_scan_matches: 0
+    non_loopback_connections_observed: 0
+    remote_effects: 0
+    production_effects: 0
+    public_effects: 0
+  task_gate: NON_PASS
+  accepted_capability: false
+  capability_credit: 0
+  strict_p1_completion: 6_OF_8_75_PERCENT
+  p1_159_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
+  candidate_created: false
+  final_review: NOT_STARTED_NO_COMPLETE_FORMAL_MATRIX
+  canonical_make_verify: NOT_INVOKED_NO_ACCEPTED_CANDIDATE
+  required_disposition: STOP_AT_FOUNDER_P1_PHASE_GATE_NO_RERUN_RETRY_SUCCESSOR_REPLACEMENT_OR_CORRECTION_CHAIN
 claim_boundary: >-
   Cooperative-local compact typed-Patch-IR failure-tolerant baseline research
   only. No direct OpenAI provenance, gateway upstream behavior, positive model

@@ -458,12 +458,12 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  p1_execution_status: ACTIVE
-  p1_engineering_status: P1_158_COMPACT_TYPED_PATCH_IR_BASELINE_ACTIVE
+  p1_execution_status: FOUNDER_P1_PHASE_GATE
+  p1_engineering_status: P1_158_TERMINAL_FORMAL_EXECUTION_ARTIFACT_LIMIT_MISMATCH_NON_PASS
   p2_entry_status: HOLD_PENDING_STRICT_P1_EXIT
   p2_execution_status: HOLD_PENDING_STRICT_P1_EXIT
-  phase_execution_status: ACTIVE
-  current_route_execution_status: ACTIVE_TASK_1_P1_158
+  phase_execution_status: FOUNDER_P1_PHASE_GATE
+  current_route_execution_status: TERMINAL_TASK_1_P1_158
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -4783,7 +4783,7 @@ current_phase_route:
       branch: codex/p2-009-canonical-scan-graph-kernel
       status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
   claim_boundary: COOPERATIVE_LOCAL_COMPACT_TYPED_PATCH_IR_FAILURE_TOLERANT_36_CELL_BASELINE_AND_REPORT_BOUND_PREREGISTRATION_STRICT_P1_EXIT_ONLY_NO_P2_P3_REMOTE_PRODUCTION_PUBLIC_HOSTILE_PRINCIPAL_OR_PRODUCTION_READINESS_CLAIM
-  next_eligible_action: COMPLETE_P1_158_TASK_GATE
+  next_eligible_action: FOUNDER_P1_PHASE_GATE
 
 historical_p2_009_phase_route_after_strict_recovery:
   schema_version: strict-phase-recovery-hold/v1
@@ -5895,7 +5895,7 @@ historical_p2_phase_route:
   next_eligible_action: FOUNDER_P2_PHASE_GATE
 
 phase_delegation:
-  status: P1_158_FOUNDER_AUTHORIZED_ROUTE_ACTIVE
+  status: P1_158_ROUTE_TERMINAL_FOUNDER_P1_PHASE_GATE
   model: PHASE_LEVEL_FOUNDER_DELEGATION
   decision_source: AUTHORIZE_P1_COMPACT_TYPED_PATCH_IR_FAILURE_TOLERANT_BASELINE_AND_STRICT_EXIT_ROUTE_V1
   phase_gate_owner: HUMAN_FOUNDER
@@ -7575,13 +7575,13 @@ historical_active_work_after_p1_079:
   offsite_target: null
   founder_reserved_authorization: null
   founder_reserved_authorization_sha256: null
-  founder_decision_required: false
-  founder_decision_required_scope: NONE_WITHIN_ACTIVE_PHASE_ENVELOPE
-  escalation_reason: null
-  user_action_required: NONE
-  phase_route_decision_required: false
-  phase_route_user_action_required: NONE
-  next_eligible_action: CONTINUE_CURRENT_TASK
+  founder_decision_required: true
+  founder_decision_required_scope: P1_PHASE_GATE_AFTER_P1_158_TERMINAL_FORMAL_EXECUTION_NON_PASS
+  escalation_reason: P1_158_FORMAL_MATRIX_CANNOT_BE_COMPLETED_WITHOUT_FORBIDDEN_SECOND_EXECUTION_AND_SECRET_READ
+  user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
+  phase_route_decision_required: true
+  phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
+  next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
   current_task: NONE
   current_task_status: NONE

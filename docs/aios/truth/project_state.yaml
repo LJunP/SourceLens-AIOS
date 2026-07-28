@@ -7321,7 +7321,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260728-P1-156-TERMINAL-FORMAL-TIMEOUT
+  latest_event_id: FKS-20260729-P1-156-P1-158-TERMINAL-IMPORTED-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -7531,6 +7531,84 @@ founder_knowledge_sync:
         path: null
         byte_length: null
         sha256: null
+    - event_id: FKS-20260729-P1-156-P1-158-TERMINAL-CANDIDATE-V1
+      trigger_type: LEARNING_ARTIFACT_CANDIDATE_FROZEN
+      occurred_at_utc: "2026-07-28T17:29:00Z"
+      source_commit: cce94237e62434e66d2c46436b89d1379305687b
+      source_tree: 6bd080d382052b815cec1f718dc6253523f2bf35
+      previous_event_sha256: 6bb466ae51c9aa8dad6215360140b3c100467c85097c6a0f3650b05760215dff
+      event_sha256: 3f41f91a152c1b29925122715831aa3f4b5fab537411cecafd5bce573d3f84c9
+      status: PENDING_REVIEW
+      rationale: Exact Learning Artifact records the P1-156 and P1-158 terminal facts, the cross-layer response-cap mismatch, strict no-rerun boundary, unchanged P1 75% state and P2 hold.
+      engineering_blocking: false
+      artifact:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-strict-exit-terminal-knowledge-20260729/knowledge/P1_156_AND_P1_158_FOUNDER_LEARNING_ARTIFACT.md
+        byte_length: 5611
+        sha256: 1c60ba51e416170563f86d6384aec00c1cf34cf4596fcea33e77972914487c04
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+    - event_id: FKS-20260729-P1-156-P1-158-TERMINAL-REVIEW-PASS-V1
+      trigger_type: INDEPENDENT_KNOWLEDGE_REVIEW_COMPLETED
+      occurred_at_utc: "2026-07-28T17:31:00Z"
+      source_commit: cce94237e62434e66d2c46436b89d1379305687b
+      source_tree: 6bd080d382052b815cec1f718dc6253523f2bf35
+      previous_event_sha256: 3f41f91a152c1b29925122715831aa3f4b5fab537411cecafd5bce573d3f84c9
+      event_sha256: 35891f4a6b3d22f6d059040b069633e86e03e91db411609c0664387f324f1cb8
+      status: REVIEWED_PASS_PENDING_IMPORT
+      rationale: Fresh independent Knowledge Reviewer returned PASS and authorized only the exact 5611-byte Artifact for Vault import.
+      engineering_blocking: false
+      artifact:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-strict-exit-terminal-knowledge-20260729/knowledge/P1_156_AND_P1_158_FOUNDER_LEARNING_ARTIFACT.md
+        byte_length: 5611
+        sha256: 1c60ba51e416170563f86d6384aec00c1cf34cf4596fcea33e77972914487c04
+      review:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-strict-exit-terminal-knowledge-20260729/knowledge/KNOWLEDGE_REVIEW_V1.json
+        byte_length: 1577
+        sha256: 08a90871609d5f6bde6a53066eab92a048e3c706fb3389bfbf5068f395c416c2
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+    - event_id: FKS-20260729-P1-156-P1-158-TERMINAL-IMPORTED-V1
+      trigger_type: EXACT_KNOWLEDGE_ARTIFACT_IMPORTED
+      occurred_at_utc: "2026-07-28T17:35:00Z"
+      source_commit: cce94237e62434e66d2c46436b89d1379305687b
+      source_tree: 6bd080d382052b815cec1f718dc6253523f2bf35
+      previous_event_sha256: 35891f4a6b3d22f6d059040b069633e86e03e91db411609c0664387f324f1cb8
+      event_sha256: 85fab43f142e33c06d647257486850f9fae88eb29a2c5ca181ea7b597ce2cbe3
+      status: IMPORTED
+      rationale: The exact independently reviewed P1-156 and P1-158 terminal learning Artifact was imported into the Founder Knowledge Vault with byte-for-byte equality.
+      engineering_blocking: false
+      artifact:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-strict-exit-terminal-knowledge-20260729/knowledge/P1_156_AND_P1_158_FOUNDER_LEARNING_ARTIFACT.md
+        byte_length: 5611
+        sha256: 1c60ba51e416170563f86d6384aec00c1cf34cf4596fcea33e77972914487c04
+      review:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-strict-exit-terminal-knowledge-20260729/knowledge/KNOWLEDGE_REVIEW_V1.json
+        byte_length: 1577
+        sha256: 08a90871609d5f6bde6a53066eab92a048e3c706fb3389bfbf5068f395c416c2
+      vault_import:
+        path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/05-Failures-and-Lessons/AIOS-P1-156-P1-158/2026-07-29-P1-156与P1-158终态复盘.md
+        byte_length: 5611
+        sha256: 1c60ba51e416170563f86d6384aec00c1cf34cf4596fcea33e77972914487c04
+      receipt:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-strict-exit-terminal-knowledge-20260729/knowledge/KNOWLEDGE_IMPORT_RECEIPT_V1.json
+        byte_length: 1435
+        sha256: d85e35523dc9d05d1b16426c7c2b802720dd1dbe7044fd61f4a00cc2875d760b
 
 historical_active_work_after_p1_079:
   current_task: NONE

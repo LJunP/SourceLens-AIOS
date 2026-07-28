@@ -4,9 +4,9 @@
 
 ## 1. 生成范围
 
-- 纳入逐文件用途索引的文件数：845。
+- 纳入逐文件用途索引的文件数：846。
 - 其中源码/脚本/配置/SQL/CSS 类文件数：532。
-- 纳入统计的文本总行数：217998。
+- 纳入统计的文本总行数：218290。
 - 排除逐文件展开的本地生成/证据目录：`.git/`、`bin/`、`web-console/node_modules/`、`backend-spring/target/`、`analyzer-rust/target/`、`.sourcelens-runtime/`、`release-evidence/`、前端构建和测试产物。
 - 本地生成物、依赖缓存和历史证据目录不是源码或当前权威；它们必须保持未跟踪并可重建或从封存恢复。
 
@@ -24,7 +24,7 @@
 | `CODE_OF_CONDUCT.md` | 1 | 项目根文件或辅助目录。 |
 | `CONTRIBUTING.md` | 1 | 项目根文件或辅助目录。 |
 | `deploy` | 2 | Docker Compose 和环境模板。 |
-| `docs` | 112 | 当前架构、接口、安全、研究与 AIOS 权威文档。 |
+| `docs` | 113 | 当前架构、接口、安全、研究与 AIOS 权威文档。 |
 | `evaluation-harness` | 255 | 项目根文件或辅助目录。 |
 | `LICENSE` | 1 | 项目根文件或辅助目录。 |
 | `Makefile` | 1 | 项目根文件或辅助目录。 |
@@ -170,10 +170,10 @@
 | `backend-spring/src/test/resources` | 5 | Spring Boot 后端服务。子目录。 |
 | `backend-spring/src/test/resources/mockito-extensions` | 1 | Spring Boot 后端服务。子目录。 |
 | `deploy` | 2 | 部署配置目录，包含 Docker Compose 和环境变量模板。 |
-| `docs` | 112 | 项目事实源文档目录，覆盖产品、架构、API、数据库、安全、运维、阶段需求、进度和交接。 |
-| `docs/aios` | 100 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
+| `docs` | 113 | 项目事实源文档目录，覆盖产品、架构、API、数据库、安全、运维、阶段需求、进度和交接。 |
+| `docs/aios` | 101 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/aios/schemas` | 4 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
-| `docs/aios/tasks` | 88 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
+| `docs/aios/tasks` | 89 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/aios/truth` | 1 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/llm-safety-evals` | 2 | LLM 安全评测用例目录，存放 prompt injection、输出质量和 provider run 模板。 |
 | `evaluation-harness` | 255 | 项目根文件或辅助目录。子目录。 |
@@ -1021,6 +1021,7 @@
 | `docs/aios/tasks/P1-147_ACCEPTED_ADAPTER_END_TO_END_BASELINE.yaml` | 项目文档。标题：P1-147_ACCEPTED_ADAPTER_END_TO_END_BASELINE.yaml。 |
 | `docs/aios/tasks/P1-149_ACCEPTED_EXECUTION_SPINE_CONVERGENCE.yaml` | 项目文档。标题：P1-149_ACCEPTED_EXECUTION_SPINE_CONVERGENCE.yaml。 |
 | `docs/aios/tasks/P1-150_REQUEST_BOUND_REPRODUCIBLE_BASELINE.yaml` | 项目文档。标题：P1-150_REQUEST_BOUND_REPRODUCIBLE_BASELINE.yaml。 |
+| `docs/aios/tasks/P1-152_BOUNDED_LOOPBACK_REQUEST_CONTRACT_BASELINE.yaml` | 项目文档。标题：P1-152_BOUNDED_LOOPBACK_REQUEST_CONTRACT_BASELINE.yaml。 |
 | `docs/aios/tasks/P2-001_TASK_CONDITIONED_CONTEXT_SELECTION_VERTICAL_SLICE.yaml` | 项目文档。标题：P2-001_TASK_CONDITIONED_CONTEXT_SELECTION_VERTICAL_SLICE.yaml。 |
 | `docs/aios/tasks/P2-003_ACCEPTED_REPOSITORY_GRAPH_INDEX_VERTICAL_SLICE.yaml` | 项目文档。标题：P2-003_ACCEPTED_REPOSITORY_GRAPH_INDEX_VERTICAL_SLICE.yaml。 |
 | `docs/aios/tasks/P2-005_SCANNER_FIRST_EXACT_REPOSITORY_GRAPH_AUTHORITY.yaml` | 项目文档。标题：P2-005_SCANNER_FIRST_EXACT_REPOSITORY_GRAPH_AUTHORITY.yaml。 |

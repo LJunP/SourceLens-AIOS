@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-28T06:14:39Z"
-verification_scope: P1_150_TERMINAL_DIAGNOSTIC_HTTP_400_REQUEST_CONTRACT_NON_PASS_P1_PHASE_GATE
+last_verified_at: "2026-07-28T06:45:00Z"
+verification_scope: P1_152_BOUNDED_LOOPBACK_REQUEST_CONTRACT_BASELINE_ACTIVE
 
 authority:
   founder: Human Founder
@@ -37,7 +37,7 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
+  current_task_authority: AIOS-P1-152_BOUNDED_LOOPBACK_REQUEST_CONTRACT_BASELINE
   note: >-
     The Founder-approved long-term Goal remains ACTIVE with the exact
     Founder-installed identity. P1-099 remains terminal with its Quality
@@ -399,12 +399,12 @@ project:
   phase_name: Evaluation Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  p1_execution_status: STOPPED_AT_FOUNDER_P1_PHASE_GATE
-  p1_engineering_status: P1_150_TERMINAL_NO_NEW_CAPABILITY_6_OF_8_75_PERCENT
+  p1_execution_status: ACTIVE
+  p1_engineering_status: P1_152_ACTIVE_REQUEST_CONTRACT_BASELINE_6_OF_8_75_PERCENT
   p2_entry_status: HOLD_PENDING_STRICT_P1_EXIT
   p2_execution_status: HELD_NO_EXECUTION_AUTHORITY
-  phase_execution_status: STOPPED_AT_FOUNDER_P1_PHASE_GATE
-  current_route_execution_status: TERMINAL_P1_150_DIAGNOSTIC_HTTP_400_REQUEST_CONTRACT_NON_PASS_P1_151_INELIGIBLE
+  phase_execution_status: ACTIVE
+  current_route_execution_status: ACTIVE_P1_152_BOUNDED_LOOPBACK_REQUEST_CONTRACT_BASELINE
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -3997,11 +3997,20 @@ historical_p1_139_phase_route:
       accepted_candidate_commit: a772dc5d350ec6b38a84e430b01f75628429aa7b
       accepted_candidate_tree: 905dd694922ba9a2b452d15c93dc17cefc9e53c1
       source_phase: P1
+    p1_149:
+      task_id: AIOS-P1-149_ACCEPTED_EXECUTION_SPINE_CONVERGENCE
+      status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+      task_contract_path: docs/aios/tasks/P1-149_ACCEPTED_EXECUTION_SPINE_CONVERGENCE.yaml
+      task_contract_sha256: a0b1fa43e0b9221c03f67ea3fe66bd86a563600102a1a2019a650f6bb0a6a86d
+      accepted_candidate_commit: 88600ee18848e0d2c6d7f2012d0f548021062720
+      accepted_candidate_tree: 34a16c8177bc0f72fd35a0510429ed1979f72fb3
+      source_phase: P1
   accepted_input_ids:
     - p1_035
     - p1_070
     - p1_101
     - p1_129
+    - p1_149
   first_task:
     task_id: AIOS-P1-139_REQUEST_BOUND_LOOPBACK_CAPTURE_AND_BASELINE
     task_slot: 1
@@ -4227,22 +4236,22 @@ historical_p1_139_phase_route:
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 
 current_phase_route:
-  route_id: P1_ACCEPTED_PATCH_COMPILER_TRACE_EVALUATOR_CONVERGENCE_AND_STRICT_EXIT_ROUTE_V1
-  status: TERMINAL_TASK_2_NON_PASS
-  authority_object_status: FOUNDER_PHASE_ENTRY_AUTHORITY_CONSUMED_ROUTE_TERMINAL
-  execution_status: TERMINAL_P1_150_DIAGNOSTIC_HTTP_400_REQUEST_CONTRACT_NON_PASS_P1_151_INELIGIBLE
-  founder_phase_route_decision_required: true
-  scheduling_status: STOPPED_AT_FOUNDER_P1_PHASE_GATE
+  route_id: P1_BOUNDED_LOOPBACK_REQUEST_CONTRACT_NEGOTIATION_SCHEMA_COMPATIBLE_REISSUE_AND_STRICT_EXIT_ROUTE_V1
+  status: ACTIVE
+  authority_object_status: FOUNDER_PHASE_ENTRY_AUTHORITY_ACTIVE
+  execution_status: ACTIVE_P1_152_BOUNDED_LOOPBACK_REQUEST_CONTRACT_BASELINE
+  founder_phase_route_decision_required: false
+  scheduling_status: ONE_ACTIVE_TASK
   phase: P1
   phase_entry_status: AUTHORIZED
-  authorization_token: AUTHORIZE_P1_ACCEPTED_PATCH_COMPILER_TRACE_EVALUATOR_CONVERGENCE_AND_STRICT_EXIT_ROUTE_V1
+  authorization_token: AUTHORIZE_P1_BOUNDED_LOOPBACK_REQUEST_CONTRACT_NEGOTIATION_SCHEMA_COMPATIBLE_REISSUE_AND_STRICT_EXIT_ROUTE_V1
   decision_packet:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-execution-spine-strict-exit-20260728/decision/FOUNDER_P1_ACCEPTED_EXECUTION_SPINE_ROUTE_DECISION_V1_1.json
-    sha256: cb929f24582cc00a2829e0c2bd306d20e14eeca0e8d040cb9dc861b1323b2895
-    byte_length: 5103
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-loopback-request-contract-strict-exit-20260728/decision/FOUNDER_P1_BOUNDED_LOOPBACK_REQUEST_CONTRACT_NEGOTIATION_SCHEMA_COMPATIBLE_REISSUE_ROUTE_DECISION_V1_1.json
+    sha256: 71df729e122a9aa0e80a9452395d3472c9d23ad521651e075467c991667c171a
+    byte_length: 4737
   activation_parent:
-    commit: 5aa5de8d016720f11005d659d6d5395b2ff7d1da
-    tree: c8a472ee58c93f9c47a6d7f9ce5540b791d438e7
+    commit: a971551f01c88f4c9d9d1a196713dd795f1add32
+    tree: e38de1ad5e9aeb78d91787248b4ebf9910d89607
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: "1.6"
@@ -4254,13 +4263,13 @@ current_phase_route:
     canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
     canonical_byte_length: 19434
   objective: >-
-    Converge one accepted patch-compiler-trace-evaluator execution spine, use it
-    for one request-bound 36-cell reproducible baseline, then freeze one exact
-    report-bound P2 Context Engine preregistration without entering P2.
+    Negotiate one bounded data-driven loopback request contract over accepted
+    P1-149, execute one request-bound 36-cell reproducible baseline, then freeze
+    one exact report-bound P2 Context Engine preregistration without entering P2.
   envelope:
-    max_engineering_tasks: 3
-    max_engineering_hours: 64
-    max_calendar_days: 12
+    max_engineering_tasks: 2
+    max_engineering_hours: 48
+    max_calendar_days: 8
     max_active_tasks: 1
     max_task_branches: 1
     max_task_worktrees: 1
@@ -4326,17 +4335,17 @@ current_phase_route:
       lifecycle_must_not_be_rewritten: true
       reuse_boundary: FINITE_TYPED_PATCH_IR_V1_ACCEPTED_CANONICAL_INTERFACE_ONLY
   first_task:
-    task_id: AIOS-P1-149_ACCEPTED_EXECUTION_SPINE_CONVERGENCE
+    task_id: AIOS-P1-152_BOUNDED_LOOPBACK_REQUEST_CONTRACT_BASELINE
     task_slot: 1
-    status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
-    contract_path: docs/aios/tasks/P1-149_ACCEPTED_EXECUTION_SPINE_CONVERGENCE.yaml
-    contract_sha256: a0b1fa43e0b9221c03f67ea3fe66bd86a563600102a1a2019a650f6bb0a6a86d
-    contract_byte_length: 9118
-    max_engineering_hours: 24
-    max_calendar_days: 4
+    status: ACTIVE
+    contract_path: docs/aios/tasks/P1-152_BOUNDED_LOOPBACK_REQUEST_CONTRACT_BASELINE.yaml
+    contract_sha256: 9a0599b1dd088f27ee99b596407cc0ab7fc1838d5be143cbb73ed01e685d2765
+    contract_byte_length: 11022
+    max_engineering_hours: 40
+    max_calendar_days: 6
     max_implementation_iterations: 5
     max_candidates: 1
-    p1_capability_claim_on_pass: NONE_EXECUTION_SPINE_FOUNDATION
+    p1_capability_claim_on_pass: REPRODUCIBLE_BASELINE_REPORT_ACCEPTED_STRICT_P1_7_OF_8
   terminal_task:
     task_id: AIOS-P1-150_REQUEST_BOUND_REPRODUCIBLE_BASELINE
     task_slot: 2
@@ -4351,24 +4360,9 @@ current_phase_route:
     strict_p1_credit_on_pass: 1
   task_plan:
     - task_slot: 1
-      task_id: AIOS-P1-149_ACCEPTED_EXECUTION_SPINE_CONVERGENCE
-      status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
-      engineering_hours: 24
-      calendar_days: 4
-      max_implementation_iterations: 5
-      max_same_task_repairs: 4
-      max_candidates: 1
-      external_effects:
-        network: false
-        provider: false
-        secret: false
-        remote: false
-        production: false
-        public: false
-    - task_slot: 2
-      task_id: AIOS-P1-150_REQUEST_BOUND_REPRODUCIBLE_BASELINE
-      status: TERMINAL_DIAGNOSTIC_HTTP_400_REQUEST_CONTRACT_NON_PASS
-      engineering_hours: 32
+      task_id: AIOS-P1-152_BOUNDED_LOOPBACK_REQUEST_CONTRACT_BASELINE
+      status: ACTIVE
+      engineering_hours: 40
       calendar_days: 6
       max_implementation_iterations: 5
       max_same_task_repairs: 4
@@ -4380,9 +4374,9 @@ current_phase_route:
         remote: false
         production: false
         public: false
-    - task_slot: 3
-      task_id: AIOS-P1-151_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
-      status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
+    - task_slot: 2
+      task_id: AIOS-P1-153_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+      status: PENDING_PREDECESSOR_TASK_GATE
       engineering_hours: 8
       calendar_days: 2
       max_implementation_iterations: 3
@@ -4396,22 +4390,83 @@ current_phase_route:
         production: false
         public: false
   automatic_entry:
-    after_task_id: AIOS-P1-149_ACCEPTED_EXECUTION_SPINE_CONVERGENCE
-    next_task_id: AIOS-P1-150_REQUEST_BOUND_REPRODUCIBLE_BASELINE
+    after_task_id: AIOS-P1-152_BOUNDED_LOOPBACK_REQUEST_CONTRACT_BASELINE
+    next_task_id: AIOS-P1-153_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
     requires_task_gate_pass: true
   automatic_entries:
-    - after_task_id: AIOS-P1-149_ACCEPTED_EXECUTION_SPINE_CONVERGENCE
-      next_task_id: AIOS-P1-150_REQUEST_BOUND_REPRODUCIBLE_BASELINE
+    - after_task_id: AIOS-P1-152_BOUNDED_LOOPBACK_REQUEST_CONTRACT_BASELINE
+      next_task_id: AIOS-P1-153_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
       requires_task_gate_pass: true
-    - after_task_id: AIOS-P1-150_REQUEST_BOUND_REPRODUCIBLE_BASELINE
-      next_task_id: AIOS-P1-151_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
-      requires_task_gate_pass: true
-  founder_reserved_profile: null
+  founder_reserved_profile:
+    schema_version: "4.0"
+    profile_id: P1_152_BOUNDED_REQUEST_CONTRACT_BASELINE_PROVIDER_V1
+    route_id: P1_BOUNDED_LOOPBACK_REQUEST_CONTRACT_NEGOTIATION_SCHEMA_COMPATIBLE_REISSUE_AND_STRICT_EXIT_ROUTE_V1
+    task_id: AIOS-P1-152_BOUNDED_LOOPBACK_REQUEST_CONTRACT_BASELINE
+    transport:
+      scheme: http
+      host: 127.0.0.1
+      port: 8787
+      completion_path: /v1/chat/completions
+      method: POST
+      expected_peer_address: 127.0.0.1
+      expected_peer_port: 8787
+      dns_resolution: false
+      use_proxy: false
+      follow_redirects: false
+      fallback_endpoint_allowed: false
+      api_format: OPENAI_COMPATIBLE_CHAT_COMPLETIONS
+    model:
+      requested_model: gpt-5.6-luna
+      substitution_allowed: false
+      provider_provenance: FOUNDER_ATTESTED_OPENAI_COMPATIBLE_LOCAL_GATEWAY_MODEL_NOT_INDEPENDENTLY_VERIFIED
+    call_limits:
+      diagnostic_requests_max: 2
+      formal_requests_exact: 36
+      provider_requests_max: 38
+      automatic_retry_max: 0
+    monetary_limits:
+      currency: USD
+      max_spend: 25
+      unavailable_metering_status: UNKNOWN_GATEWAY_METERING_UNAVAILABLE
+    secret:
+      source: FOUNDER_OPERATOR_NO_ECHO_TTY
+      entry_sessions: 1
+      persist: false
+      prohibited_sinks:
+        - ARGV
+        - ENVIRONMENT
+        - SHELL_HISTORY
+        - REPOSITORY
+        - TEMPORARY_PLAINTEXT_FILE
+        - EVIDENCE
+        - LOG
+        - TRACE
+        - PROMPT
+        - REVIEW
+        - VAULT
+    external_effects:
+      network: true
+      provider: true
+      secret: true
+      remote: false
+      production: false
+      public: false
+    claim_limits:
+      upstream_request_count: UNKNOWN
+      gateway_upstream_behavior: UNKNOWN
+      actual_monetary_cost: UNKNOWN_UNLESS_TRUSTWORTHY_GATEWAY_EVIDENCE_EXISTS
+      direct_openai_provenance_proven: false
+      hostile_principal_isolation: false
+      p2_entry: false
+      remote: false
+      production: false
+      public: false
+    decision_basis: FOUNDER_PACKET_SHA256:4039bf8563f705c48f50148d5f1deb42e6d2e525a9fea52035cfca9c0e63de85
   founder_reserved_profiles:
     - schema_version: "4.0"
-      profile_id: P1_150_REQUEST_BOUND_BASELINE_PROVIDER_V1
-      route_id: P1_ACCEPTED_PATCH_COMPILER_TRACE_EVALUATOR_CONVERGENCE_AND_STRICT_EXIT_ROUTE_V1
-      task_id: AIOS-P1-150_REQUEST_BOUND_REPRODUCIBLE_BASELINE
+      profile_id: P1_152_BOUNDED_REQUEST_CONTRACT_BASELINE_PROVIDER_V1
+      route_id: P1_BOUNDED_LOOPBACK_REQUEST_CONTRACT_NEGOTIATION_SCHEMA_COMPATIBLE_REISSUE_AND_STRICT_EXIT_ROUTE_V1
+      task_id: AIOS-P1-152_BOUNDED_LOOPBACK_REQUEST_CONTRACT_BASELINE
       transport:
         scheme: http
         host: 127.0.0.1
@@ -4430,9 +4485,9 @@ current_phase_route:
         substitution_allowed: false
         provider_provenance: FOUNDER_ATTESTED_OPENAI_COMPATIBLE_LOCAL_GATEWAY_MODEL_NOT_INDEPENDENTLY_VERIFIED
       call_limits:
-        diagnostic_requests_max: 1
+        diagnostic_requests_max: 2
         formal_requests_exact: 36
-        provider_requests_max: 37
+        provider_requests_max: 38
         automatic_retry_max: 0
       monetary_limits:
         currency: USD
@@ -4471,22 +4526,18 @@ current_phase_route:
         remote: false
         production: false
         public: false
-      decision_basis: FOUNDER_PACKET_SHA256:cb360d444e98691365f54f8117206f8361411f365a205e5370c4f28ffe62745f
+      decision_basis: FOUNDER_PACKET_SHA256:4039bf8563f705c48f50148d5f1deb42e6d2e525a9fea52035cfca9c0e63de85
   route_execution_accounting:
-    maximum_engineering_tasks: 3
-    task_slots_consumed: 2
-    active_task_id: null
+    maximum_engineering_tasks: 2
+    task_slots_consumed: 1
+    active_task_id: AIOS-P1-152_BOUNDED_LOOPBACK_REQUEST_CONTRACT_BASELINE
     scheduled_task_ids:
-      - AIOS-P1-149_ACCEPTED_EXECUTION_SPINE_CONVERGENCE
-      - AIOS-P1-150_REQUEST_BOUND_REPRODUCIBLE_BASELINE
-    terminal_task_ids:
-      - AIOS-P1-149_ACCEPTED_EXECUTION_SPINE_CONVERGENCE
-      - AIOS-P1-150_REQUEST_BOUND_REPRODUCIBLE_BASELINE
-    accepted_task_ids:
-      - AIOS-P1-149_ACCEPTED_EXECUTION_SPINE_CONVERGENCE
-    maximum_engineering_hours: 64
-    engineering_hours_authorized_current_task: 0
-    status: TERMINAL_TASK_2_NON_PASS_TASK_3_INELIGIBLE
+      - AIOS-P1-152_BOUNDED_LOOPBACK_REQUEST_CONTRACT_BASELINE
+    terminal_task_ids: []
+    accepted_task_ids: []
+    maximum_engineering_hours: 48
+    engineering_hours_authorized_current_task: 40
+    status: ACTIVE_TASK_1
   terminal_p1_150_outcome:
     task_id: AIOS-P1-150_REQUEST_BOUND_REPRODUCIBLE_BASELINE
     status: TERMINAL_DIAGNOSTIC_HTTP_400_REQUEST_CONTRACT_NON_PASS
@@ -4678,7 +4729,7 @@ current_phase_route:
       head: 64ca4317c3365cae2a36e0cc45c5e47914f0a349
       branch: codex/p1-150-request-bound-baseline
       status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
-  claim_boundary: COOPERATIVE_LOCAL_ACCEPTED_PATCH_COMPILER_TRACE_EVALUATOR_CONVERGENCE_REQUEST_BOUND_LOOPBACK_BASELINE_AND_REPORT_BOUND_PREREGISTRATION_ONLY_NO_P2_ENTRY_P3_REMOTE_PRODUCTION_PUBLIC_HOSTILE_PRINCIPAL_OR_PRODUCTION_READINESS_CLAIM
+  claim_boundary: COOPERATIVE_LOCAL_BOUNDED_LOOPBACK_REQUEST_CONTRACT_NEGOTIATION_ACCEPTED_EXECUTION_SPINE_BASELINE_AND_REPORT_BOUND_PREREGISTRATION_ONLY_NO_P2_ENTRY_P3_REMOTE_PRODUCTION_PUBLIC_HOSTILE_PRINCIPAL_MODEL_PROVENANCE_OR_PRODUCTION_READINESS_CLAIM
   historical_p2_hold:
     prior_phase: P2
     prior_route_status: TERMINAL_P2_007_FINAL_REVIEW_TARGET_NON_PASS
@@ -6145,54 +6196,66 @@ historical_active_work_after_p1_079:
   user_action_required: NONE
   phase_route_decision_required: false
   phase_route_user_action_required: NONE
-  next_eligible_action: MASTER_ACTIVATE_FIRST_TASK
+  next_eligible_action: CONTINUE_CURRENT_TASK
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P1-152_BOUNDED_LOOPBACK_REQUEST_CONTRACT_BASELINE
+  current_task_status: ACTIVE
   current_task_contract:
-    path: null
-    sha256: null
-    byte_length: null
-  current_task_contract_sha256: null
-  current_execution_authorization: null
-  current_execution_authorization_sha256: null
+    path: docs/aios/tasks/P1-152_BOUNDED_LOOPBACK_REQUEST_CONTRACT_BASELINE.yaml
+    sha256: 9a0599b1dd088f27ee99b596407cc0ab7fc1838d5be143cbb73ed01e685d2765
+    byte_length: 11022
+  current_task_contract_sha256: 9a0599b1dd088f27ee99b596407cc0ab7fc1838d5be143cbb73ed01e685d2765
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-loopback-request-contract-strict-exit-20260728/task-1-p1-152/authority/TASK_AUTHORITY.yaml
+  current_execution_authorization_sha256: 8df72f66b0879197df8e71b23baa4a0713045b808ac904cf93b6d995d3f1a440
   authority_record:
-    path: null
-    sha256: null
-    byte_length: null
-  execution_nonce: null
-  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
-  authorization_id: null
-  activation_parent_commit: null
-  activation_parent_tree: null
-  task_resource_state: TERMINAL_RESOURCES_PRESERVED
-  task_branch: null
-  task_worktree: null
-  execution_evidence_root: null
-  allowlisted_paths: []
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-loopback-request-contract-strict-exit-20260728/task-1-p1-152/authority/TASK_AUTHORITY.yaml
+    sha256: 8df72f66b0879197df8e71b23baa4a0713045b808ac904cf93b6d995d3f1a440
+    byte_length: 4530
+  execution_nonce: 7e1149316c376766fadb8d50725a4a947356dffb2c56a66f415f3df9a697bf25
+  execution_nonce_status: ACTIVE
+  authorization_id: 41d8cbdbc577c3e6f3ac2e31cd56691d929b3084935cd3209bc919c5990e6835
+  activation_parent_commit: a971551f01c88f4c9d9d1a196713dd795f1add32
+  activation_parent_tree: e38de1ad5e9aeb78d91787248b4ebf9910d89607
+  task_resource_state: ACTIVE
+  task_branch: codex/p1-152-request-contract-baseline
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-152-request-contract-baseline
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-loopback-request-contract-strict-exit-20260728/task-1-p1-152
+  allowlisted_paths:
+    - evaluation-harness/harness/p1-152-request-contract-baseline
+    - evaluation-harness/replay/p1-152-request-contract-baseline
+    - evaluation-harness/evaluator/p1-152-request-contract-baseline
+    - scripts/verify-p1-152-request-contract-baseline.sh
+    - scripts/p1-152-operator-capture.sh
+    - docs/aios/tasks/P1-152_BOUNDED_LOOPBACK_REQUEST_CONTRACT_BASELINE.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+    - Makefile
   budget:
-    engineering_hours: null
-    calendar_days: null
-    implementation_iterations: null
-    candidates: null
+    engineering_hours: 40
+    calendar_days: 6
+    implementation_iterations: 5
+    candidates: 1
   roles:
-    owner: null
-    worker: null
-    independent_reviewers: []
+    owner: P1-152 Engineering Manager
+    worker: P1-152 Request Contract Worker
+    independent_reviewers:
+      - P1-152 Fresh CTO Reviewer
+      - P1-152 Fresh Security Reviewer
+      - P1-152 Fresh Quality Reviewer
   external_effects:
-    network: false
-    provider: false
-    secret: false
+    network: true
+    provider: true
+    secret: true
     remote: false
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: null
-  founder_reserved_authorization_sha256: null
-  founder_decision_required: true
-  founder_decision_required_scope: P1_PHASE_GATE_AFTER_P1_150_DIAGNOSTIC_HTTP_400_REQUEST_CONTRACT_NON_PASS
-  escalation_reason: P1_150_DIAGNOSTIC_HTTP_400_REQUEST_CONTRACT_NON_PASS
-  user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
+  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-loopback-request-contract-strict-exit-20260728/decision/FOUNDER_P1_BOUNDED_LOOPBACK_REQUEST_CONTRACT_NEGOTIATION_SCHEMA_COMPATIBLE_REISSUE_ROUTE_DECISION_V1_1.json
+  founder_reserved_authorization_sha256: 71df729e122a9aa0e80a9452395d3472c9d23ad521651e075467c991667c171a
+  founder_decision_required: false
+  founder_decision_required_scope: NONE_WITHIN_ACTIVE_PHASE_ENVELOPE
+  escalation_reason: null
+  user_action_required: NONE
   phase_route_decision_required: true
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE

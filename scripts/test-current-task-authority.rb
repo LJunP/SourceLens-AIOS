@@ -17,6 +17,7 @@ SOURCE_REPO = File.expand_path("..", __dir__)
 TRUTH_RELATIVE = "docs/aios/truth/project_state.yaml"
 POLICY_RELATIVE = "docs/aios/FOUNDER_DELEGATION_POLICY.md"
 P1_READY_GOLDEN_COMMIT = "03542c278ad57b030cb0798483de8c3c19341952"
+STRUCTURED_ROUTE_GOLDEN_COMMIT = "b939567d35c2da497848d5772009fc5eaf6f5c02"
 STRUCTURED_DECISION_PATH = File.expand_path(
   "../.sourcelens-audit/p2-structured-decision-authority-20260727/decision/FOUNDER_P2_ROUTE_DECISION.json",
   SOURCE_REPO
@@ -1269,7 +1270,7 @@ class CurrentTaskAuthorityTest
   def prepare_fixture(sandbox)
     source_head = shell(SOURCE_REPO, "git", "rev-parse", "HEAD").strip
     source_truth = YAML.load(
-      shell(SOURCE_REPO, "git", "show", "#{source_head}:#{TRUTH_RELATIVE}")
+      shell(SOURCE_REPO, "git", "show", "#{STRUCTURED_ROUTE_GOLDEN_COMMIT}:#{TRUTH_RELATIVE}")
     )
     current_policy_bytes = File.binread(File.join(SOURCE_REPO, POLICY_RELATIVE))
     current_policy_sha = Digest::SHA256.hexdigest(current_policy_bytes)

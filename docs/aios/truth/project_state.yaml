@@ -6795,7 +6795,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC-IMPORTED-V4
+  latest_event_id: FKS-20260728-P1-EXIT-FEASIBILITY-ASSESSMENT-IMPORTED-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -6901,6 +6901,84 @@ founder_knowledge_sync:
         path: /Users/lijunpeng/Developer/.sourcelens-audit/founder-rules-alignment-20260728/knowledge/KNOWLEDGE_IMPORT_RECEIPT_V4.json
         byte_length: 1555
         sha256: 16dce620847369a7ac0a9483e1a9779001cb3fb08c83f90240656f983f15ede1
+    - event_id: FKS-20260728-P1-EXIT-FEASIBILITY-ASSESSMENT-CANDIDATE-V1
+      trigger_type: LEARNING_ARTIFACT_CANDIDATE_FROZEN
+      occurred_at_utc: "2026-07-28T12:34:16Z"
+      source_commit: edf7737044650bf80a274f9391dbe932b921f21f
+      source_tree: 50e55eff0cb663d0d595659719d5330d79b7369b
+      previous_event_sha256: 18fc66d93c452772112c493d7f55e45fbcc76ad0f38824c5b2f72f4ba84673e7
+      event_sha256: 84b12fbfe2f1736ee700f77c489d50ff2d95ad4c74d30f955184a3a3026bf515
+      status: PENDING_REVIEW
+      rationale: Frozen P1 Exit feasibility assessment records the exact two missing P1 Gate items, historical root causes, accepted P1-149 spine, runtime unknowns and a strict no-skip completion route for independent review.
+      engineering_blocking: false
+      artifact:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/founder-p1-exit-feasibility-20260728/knowledge/FOUNDER_P1_EXIT_FEASIBILITY_ASSESSMENT_V1.md
+        byte_length: 8737
+        sha256: 571a865bc47bb0676f44c83585bc813dfc87e11fdd82d84b30e14c7f3fb7ce0d
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+    - event_id: FKS-20260728-P1-EXIT-FEASIBILITY-ASSESSMENT-REVIEW-PASS-V1
+      trigger_type: INDEPENDENT_KNOWLEDGE_REVIEW_COMPLETED
+      occurred_at_utc: "2026-07-28T12:35:47Z"
+      source_commit: edf7737044650bf80a274f9391dbe932b921f21f
+      source_tree: 50e55eff0cb663d0d595659719d5330d79b7369b
+      previous_event_sha256: 84b12fbfe2f1736ee700f77c489d50ff2d95ad4c74d30f955184a3a3026bf515
+      event_sha256: 83b2c0726935bd567c5571f0b8690cbfba667170917dde73c4c2a7cd9bf22507
+      status: REVIEWED_PASS_PENDING_IMPORT
+      rationale: Fresh independent Knowledge Review PASS authorizes only the exact P1 Exit feasibility assessment bytes for Founder Knowledge Vault import.
+      engineering_blocking: false
+      artifact:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/founder-p1-exit-feasibility-20260728/knowledge/FOUNDER_P1_EXIT_FEASIBILITY_ASSESSMENT_V1.md
+        byte_length: 8737
+        sha256: 571a865bc47bb0676f44c83585bc813dfc87e11fdd82d84b30e14c7f3fb7ce0d
+      review:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/founder-p1-exit-feasibility-20260728/knowledge/KNOWLEDGE_REVIEW_V1.json
+        byte_length: 3400
+        sha256: b418144e4f89b64093811c147c5083af8da50b5478e33c5695b8ed7f516f59a7
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+    - event_id: FKS-20260728-P1-EXIT-FEASIBILITY-ASSESSMENT-IMPORTED-V1
+      trigger_type: EXACT_KNOWLEDGE_ARTIFACT_IMPORTED
+      occurred_at_utc: "2026-07-28T12:36:57Z"
+      source_commit: edf7737044650bf80a274f9391dbe932b921f21f
+      source_tree: 50e55eff0cb663d0d595659719d5330d79b7369b
+      previous_event_sha256: 83b2c0726935bd567c5571f0b8690cbfba667170917dde73c4c2a7cd9bf22507
+      event_sha256: 864c9f38c8b62e197fe774afcb1c50076e16e63ca4fb577ddcd161f7baa22839
+      status: IMPORTED
+      rationale: The independently reviewed P1 Exit feasibility assessment was imported into the exact Founder Knowledge Vault with byte-for-byte equality and a recoverable receipt.
+      engineering_blocking: false
+      artifact:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/founder-p1-exit-feasibility-20260728/knowledge/FOUNDER_P1_EXIT_FEASIBILITY_ASSESSMENT_V1.md
+        byte_length: 8737
+        sha256: 571a865bc47bb0676f44c83585bc813dfc87e11fdd82d84b30e14c7f3fb7ce0d
+      review:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/founder-p1-exit-feasibility-20260728/knowledge/KNOWLEDGE_REVIEW_V1.json
+        byte_length: 3400
+        sha256: b418144e4f89b64093811c147c5083af8da50b5478e33c5695b8ed7f516f59a7
+      vault_import:
+        path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/06-Decision-Records/2026-07-28-P1剩余两项可完成性评估与严格收口路线.md
+        byte_length: 8737
+        sha256: 571a865bc47bb0676f44c83585bc813dfc87e11fdd82d84b30e14c7f3fb7ce0d
+      receipt:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/founder-p1-exit-feasibility-20260728/knowledge/KNOWLEDGE_IMPORT_RECEIPT_V1.json
+        byte_length: 1555
+        sha256: 6805ee33c7f25ccdeec1f2d25c1625b54b099feb0b099c178155a254e8fcdb6a
 
 historical_active_work_after_p1_079:
   current_task: NONE

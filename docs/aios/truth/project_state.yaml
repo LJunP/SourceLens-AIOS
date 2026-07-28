@@ -7296,7 +7296,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260728-P1-EXIT-FEASIBILITY-ASSESSMENT-IMPORTED-V1
+  latest_event_id: FKS-20260728-P1-156-TERMINAL-FORMAL-TIMEOUT
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -7480,6 +7480,32 @@ founder_knowledge_sync:
         path: /Users/lijunpeng/Developer/.sourcelens-audit/founder-p1-exit-feasibility-20260728/knowledge/KNOWLEDGE_IMPORT_RECEIPT_V1.json
         byte_length: 1555
         sha256: 6805ee33c7f25ccdeec1f2d25c1625b54b099feb0b099c178155a254e8fcdb6a
+    - event_id: FKS-20260728-P1-156-TERMINAL-FORMAL-TIMEOUT
+      trigger_type: CANONICAL_TASK_TERMINAL_STOP
+      occurred_at_utc: "2026-07-28T15:29:13Z"
+      source_commit: 4f1b81b7e091d97f862e25d81811b5dce817331e
+      source_tree: d8006054c205fb9203d0f4d1b64238bd05628833
+      previous_event_sha256: 864c9f38c8b62e197fe774afcb1c50076e16e63ca4fb577ddcd161f7baa22839
+      event_sha256: 6bb466ae51c9aa8dad6215360140b3c100467c85097c6a0f3650b05760215dff
+      status: PENDING_CANDIDATE
+      rationale: P1-156 terminally stopped after formal-003 loopback transport timeout; exact partial Evidence is preserved, P1 remains 75%, P1-157 is ineligible and the project returned to the Founder P1 Phase Gate.
+      engineering_blocking: false
+      artifact:
+        path: null
+        byte_length: null
+        sha256: null
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
 
 historical_active_work_after_p1_079:
   current_task: NONE

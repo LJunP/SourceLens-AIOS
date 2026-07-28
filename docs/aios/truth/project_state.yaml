@@ -4674,6 +4674,10 @@ current_phase_route:
       head: b0cee7f5db14cddfb247ac162cfdc94a13099432
       branch: codex/p1-147-accepted-adapter-e2e
       status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-150-request-bound-baseline
+      head: 64ca4317c3365cae2a36e0cc45c5e47914f0a349
+      branch: codex/p1-150-request-bound-baseline
+      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
   claim_boundary: COOPERATIVE_LOCAL_ACCEPTED_PATCH_COMPILER_TRACE_EVALUATOR_CONVERGENCE_REQUEST_BOUND_LOOPBACK_BASELINE_AND_REPORT_BOUND_PREREGISTRATION_ONLY_NO_P2_ENTRY_P3_REMOTE_PRODUCTION_PUBLIC_HOSTILE_PRINCIPAL_OR_PRODUCTION_READINESS_CLAIM
   historical_p2_hold:
     prior_phase: P2

@@ -35,7 +35,7 @@ module CurrentTaskAuthority
     "public" => false
   }.freeze
   ACTIVE_STATUSES = %w[ACTIVE AUTHORIZED_ACTIVE EXECUTING].freeze
-  AUTHORIZED_ROUTE_STATUSES = %w[AUTHORIZED_READY ACTIVE].freeze
+  AUTHORIZED_ROUTE_STATUSES = %w[AUTHORIZED_READY ACTIVE PHASE_GATE_READY].freeze
   ACCEPTED_GATE_STATUS_RE = /\A(?:FOUNDER_GATE|MASTER_TASK_GATE)_ACCEPTED_COMPLETE\z/.freeze
   GOAL_RAW_SHA256 = "28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1".freeze
   GOAL_RAW_BYTE_LENGTH = 19_433
@@ -268,59 +268,164 @@ module CurrentTaskAuthority
     record
   end
 
+  def validate_accepted_gate_history(root, truth, route, task_id, label)
+    history = accepted_history_record(truth, task_id, label)
+    assert(history["route_id"] == route["route_id"],
+           "#{label} history route mismatch")
+    contract_path_value = history["contract"] || history["contract_path"]
+    contract_path = repo_path(root, contract_path_value, "#{label} contract")
+    contract_sha = string(
+      history["task_contract_sha256"],
+      "#{label} task_contract_sha256"
+    )
+    current_contract = validate_sha_only(contract_path, contract_sha, "#{label} contract")
+    current_contract_record = validate_accepted_contract(
+      current_contract,
+      contract_path,
+      task_id,
+      route["phase"],
+      "#{label} current contract"
+    )
+    assert(contract_field(current_contract_record, "route_id") == route["route_id"],
+           "#{label} current contract route mismatch")
+    accepted_commit = string(
+      history["accepted_candidate_commit"],
+      "#{label} accepted_candidate_commit"
+    )
+    accepted_tree = string(
+      history["accepted_candidate_tree"],
+      "#{label} accepted_candidate_tree"
+    )
+    validate_commit_tree(root, accepted_commit, accepted_tree, "#{label} accepted candidate")
+    _out, _err, ancestor_status = git(
+      root,
+      "merge-base",
+      "--is-ancestor",
+      accepted_commit,
+      "HEAD",
+      allow_failure: true
+    )
+    assert(ancestor_status.success?, "#{label} accepted candidate is not canonical")
+    historical_contract, _historical_contract_error, historical_contract_status = git(
+      root,
+      "show",
+      "#{accepted_commit}:#{contract_path_value}",
+      allow_failure: true
+    )
+    assert(historical_contract_status.success?,
+           "#{label} accepted commit does not contain the declared contract path")
+    assert(sha256(historical_contract) == contract_sha,
+           "#{label} accepted commit does not bind the declared contract bytes")
+    assert(historical_contract == current_contract,
+           "#{label} current and accepted-commit contract bytes differ")
+    historical_contract_record = validate_accepted_contract(
+      historical_contract,
+      contract_path_value,
+      task_id,
+      route["phase"],
+      "#{label} accepted-commit contract"
+    )
+    assert(contract_field(historical_contract_record, "route_id") == route["route_id"],
+           "#{label} accepted-commit contract route mismatch")
+    %w[cto_target_verdict security_target_verdict quality_target_verdict].each do |key|
+      assert(history[key] == "PASS", "#{label} #{key} is not PASS")
+    end
+    assert(history["reviewed_tree_equals_integrated_tree"] == true,
+           "#{label} reviewed/integrated tree mismatch")
+    assert(history["canonical_make_verify"] == "PASS",
+           "#{label} canonical make verify is not PASS")
+    history
+  end
+
   def validate_structured_predecessor_gate(root, truth, route, first_task, claims, next_task_id, state)
     return unless claims["structured_decision"]
+    return if next_task_id == claims["task_ids"].first
 
-    automatic_entry = claims["automatic_entry"]
+    next_index = claims["task_ids"].index(next_task_id)
+    assert(next_index && next_index.positive?,
+           "structured automatic entry cannot activate an undeclared successor Task")
+    automatic_entry = claims.fetch("automatic_entries").find do |entry|
+      entry["next_task_id"] == next_task_id
+    end
+    assert(automatic_entry,
+           "structured automatic entry cannot activate an undeclared successor Task")
     predecessor_id = automatic_entry["after_task_id"]
     expected_next_id = automatic_entry["next_task_id"]
-    return if next_task_id == predecessor_id
-
-    assert(next_task_id == expected_next_id,
-           "structured automatic entry cannot activate an undeclared successor Task")
+    assert(predecessor_id == claims["task_ids"][next_index - 1] &&
+           expected_next_id == next_task_id,
+           "structured automatic entry is not the exact adjacent predecessor edge")
     assert(automatic_entry["requires_task_gate_pass"] == true,
            "structured automatic entry requires predecessor Task Gate PASS")
-    assert(first_task["task_id"] == predecessor_id &&
-           ACCEPTED_GATE_STATUS_RE.match?(first_task["status"].to_s),
-           "structured automatic entry predecessor first_task is not Task Gate accepted")
 
     task_plan = array(route["task_plan"], "current_phase_route.task_plan")
-    predecessor = task_plan.find { |item| item.is_a?(Hash) && item["task_id"] == predecessor_id }
     successor = task_plan.find { |item| item.is_a?(Hash) && item["task_id"] == expected_next_id }
-    assert(predecessor && ACCEPTED_GATE_STATUS_RE.match?(predecessor["status"].to_s),
-           "structured automatic entry predecessor task_plan is not Task Gate accepted")
     expected_successor_status = state == "ACTIVE" ? "ACTIVE" : "ELIGIBLE_NOT_ACTIVATED"
     assert(successor && successor["status"] == expected_successor_status,
            "structured automatic entry successor task_plan status mismatch")
 
-    history = accepted_history_record(truth, predecessor_id, "structured automatic entry predecessor")
-    assert(history["route_id"] == route["route_id"],
-           "structured automatic entry predecessor history route mismatch")
-    contract_path_value = history["contract"] || history["contract_path"]
-    contract_path = repo_path(root, contract_path_value,
-                              "structured automatic entry predecessor contract")
-    contract_sha = string(history["task_contract_sha256"],
-                          "structured automatic entry predecessor task_contract_sha256")
-    validate_sha_only(contract_path, contract_sha,
-                      "structured automatic entry predecessor contract")
-    accepted_commit = string(history["accepted_candidate_commit"],
-                             "structured automatic entry predecessor accepted_candidate_commit")
-    accepted_tree = string(history["accepted_candidate_tree"],
-                           "structured automatic entry predecessor accepted_candidate_tree")
-    validate_commit_tree(root, accepted_commit, accepted_tree,
-                         "structured automatic entry predecessor accepted candidate")
-    _out, _err, ancestor_status = git(root, "merge-base", "--is-ancestor",
-                                      accepted_commit, "HEAD", allow_failure: true)
-    assert(ancestor_status.success?,
-           "structured automatic entry predecessor accepted candidate is not canonical")
-    %w[cto_target_verdict security_target_verdict quality_target_verdict].each do |key|
-      assert(history[key] == "PASS",
-             "structured automatic entry predecessor #{key} is not PASS")
+    claims["task_ids"].take(next_index).each_with_index do |accepted_task_id, index|
+      descriptor = task_plan.fetch(index)
+      assert(descriptor.is_a?(Hash) && descriptor["task_id"] == accepted_task_id &&
+             ACCEPTED_GATE_STATUS_RE.match?(descriptor["status"].to_s),
+             "structured automatic entry accepted task_plan prefix is incomplete")
+      if index.zero?
+        assert(first_task["task_id"] == accepted_task_id &&
+               first_task["status"] == descriptor["status"],
+               "structured automatic entry first_task does not equal its task_plan state")
+      end
+
+      validate_accepted_gate_history(
+        root,
+        truth,
+        route,
+        accepted_task_id,
+        "structured automatic entry accepted prefix Task #{index + 1}"
+      )
     end
-    assert(history["reviewed_tree_equals_integrated_tree"] == true,
-           "structured automatic entry predecessor reviewed/integrated tree mismatch")
-    assert(history["canonical_make_verify"] == "PASS",
-           "structured automatic entry predecessor canonical make verify is not PASS")
+  end
+
+  def validate_structured_task_state_vector(route, first_task, claims, target_task_id:, target_state:)
+    return unless claims["structured_decision"]
+
+    task_plan = array(route["task_plan"], "current_phase_route.task_plan")
+    assert(task_plan.length == claims["task_ids"].length,
+           "structured route task_plan length drifted")
+    target_index = if target_state == "COMPLETE"
+                     task_plan.length
+                   else
+                     claims["task_ids"].index(target_task_id)
+                   end
+    assert(target_index, "structured route state vector target Task is undeclared")
+    task_plan.each_with_index do |descriptor, index|
+      item = hash(descriptor, "current_phase_route.task_plan[#{index}]")
+      assert(item["task_id"] == claims["task_ids"][index],
+             "structured route state vector Task order drifted")
+      expected = if index < target_index
+                   :accepted
+                 elsif index == target_index
+                   target_state
+                 else
+                   "PENDING_PREDECESSOR_TASK_GATE"
+                 end
+      if expected == :accepted
+        assert(ACCEPTED_GATE_STATUS_RE.match?(item["status"].to_s),
+               "structured route state vector accepted prefix is incomplete")
+      else
+        assert(item["status"] == expected,
+               "structured route state vector status mismatch at Task #{index + 1}")
+      end
+    end
+    assert(first_task["task_id"] == claims["task_ids"].first &&
+           first_task["status"] == task_plan.first["status"],
+           "structured route first_task and task_plan state diverged")
+    active_count = task_plan.count { |item| item.is_a?(Hash) && item["status"] == "ACTIVE" }
+    eligible_count = task_plan.count do |item|
+      item.is_a?(Hash) && item["status"] == "ELIGIBLE_NOT_ACTIVATED"
+    end
+    expected_active = target_state == "ACTIVE" ? 1 : 0
+    expected_eligible = target_state == "ELIGIBLE_NOT_ACTIVATED" ? 1 : 0
+    assert(active_count == expected_active && eligible_count == expected_eligible,
+           "structured route state vector active/eligible cardinality drifted")
   end
 
   def validate_accepted_contract(bytes, path, task_id, phase, label)
@@ -739,6 +844,146 @@ module CurrentTaskAuthority
     profile
   end
 
+  def validate_founder_reserved_profile_v4(value, route_id, task_id, label)
+    profile = exact_keys(
+      value,
+      %w[
+        schema_version profile_id decision_basis route_id task_id transport model
+        secret call_limits monetary_limits external_effects claim_limits
+      ],
+      label
+    )
+    assert(profile["schema_version"] == "4.0", "#{label} schema version drifted")
+    string(profile["profile_id"], "#{label}.profile_id")
+    assert(profile["decision_basis"].is_a?(String) &&
+           profile["decision_basis"].match?(/\AFOUNDER_PACKET_SHA256:[0-9a-f]{64}\z/),
+           "#{label}.decision_basis must bind the exact Founder packet")
+    assert(profile["route_id"] == route_id, "#{label} route id mismatch")
+    assert(profile["task_id"] == task_id, "#{label} Task id mismatch")
+
+    transport = exact_keys(
+      profile["transport"],
+      %w[
+        scheme host port completion_path api_format method follow_redirects
+        use_proxy dns_resolution fallback_endpoint_allowed expected_peer_address
+        expected_peer_port
+      ],
+      "#{label}.transport"
+    )
+    assert(transport == {
+      "scheme" => "http",
+      "host" => "127.0.0.1",
+      "port" => 8787,
+      "completion_path" => "/v1/chat/completions",
+      "api_format" => "OPENAI_COMPATIBLE_CHAT_COMPLETIONS",
+      "method" => "POST",
+      "follow_redirects" => false,
+      "use_proxy" => false,
+      "dns_resolution" => false,
+      "fallback_endpoint_allowed" => false,
+      "expected_peer_address" => "127.0.0.1",
+      "expected_peer_port" => 8787
+    }, "#{label}.transport exceeds the literal operator-owned loopback boundary")
+
+    model = exact_keys(
+      profile["model"],
+      %w[requested_model substitution_allowed provider_provenance],
+      "#{label}.model"
+    )
+    string(model["requested_model"], "#{label}.model.requested_model")
+    exact_false(model["substitution_allowed"], "#{label}.model.substitution_allowed")
+    assert(
+      model["provider_provenance"] ==
+        "FOUNDER_ATTESTED_OPENAI_COMPATIBLE_LOCAL_GATEWAY_MODEL_NOT_INDEPENDENTLY_VERIFIED",
+      "#{label}.model provider provenance must remain Founder-attested and independently unverified"
+    )
+
+    secret = exact_keys(
+      profile["secret"],
+      %w[source entry_sessions persist prohibited_sinks],
+      "#{label}.secret"
+    )
+    assert(secret["source"] == "FOUNDER_OPERATOR_NO_ECHO_TTY",
+           "#{label}.secret source must remain the Founder/operator no-echo TTY")
+    assert(secret["entry_sessions"] == 1, "#{label}.secret entry sessions must equal 1")
+    exact_false(secret["persist"], "#{label}.secret.persist")
+    assert(array(secret["prohibited_sinks"], "#{label}.secret.prohibited_sinks") ==
+           %w[
+             ARGV ENVIRONMENT SHELL_HISTORY REPOSITORY TEMPORARY_PLAINTEXT_FILE
+             EVIDENCE LOG TRACE PROMPT REVIEW VAULT
+           ],
+           "#{label}.secret prohibited sinks drifted")
+
+    calls = exact_keys(
+      profile["call_limits"],
+      %w[diagnostic_requests_max formal_requests_exact provider_requests_max automatic_retry_max],
+      "#{label}.call_limits"
+    )
+    diagnostic_requests = integer(
+      calls["diagnostic_requests_max"],
+      "#{label}.call_limits.diagnostic_requests_max"
+    )
+    formal_requests = integer(
+      calls["formal_requests_exact"],
+      "#{label}.call_limits.formal_requests_exact"
+    )
+    provider_requests = integer(
+      calls["provider_requests_max"],
+      "#{label}.call_limits.provider_requests_max"
+    )
+    assert(diagnostic_requests.between?(0, 3),
+           "#{label}.call limits drifted: diagnostic_requests_max must be in 0..3")
+    assert(formal_requests.between?(1, 144),
+           "#{label}.call limits drifted: formal_requests_exact must be in 1..144")
+    assert(provider_requests.between?(1, 144),
+           "#{label}.call limits drifted: provider_requests_max must be in 1..144")
+    assert(provider_requests == diagnostic_requests + formal_requests,
+           "#{label}.call limits must reserve the exact diagnostic plus formal request total")
+    assert(calls["automatic_retry_max"] == 0,
+           "#{label}.call limits drifted: automatic_retry_max must equal 0")
+
+    monetary = exact_keys(
+      profile["monetary_limits"],
+      %w[currency max_spend unavailable_metering_status],
+      "#{label}.monetary_limits"
+    )
+    assert(monetary["currency"] == "USD",
+           "#{label}.monetary limits drifted: currency must equal USD")
+    max_spend = monetary["max_spend"]
+    finite_spend = max_spend.is_a?(Numeric) && (!max_spend.respond_to?(:finite?) || max_spend.finite?)
+    assert(finite_spend && max_spend.between?(0, 25),
+           "#{label}.monetary limits drifted: max_spend must be numeric in 0..25")
+    assert(monetary["unavailable_metering_status"] == "UNKNOWN_GATEWAY_METERING_UNAVAILABLE",
+           "#{label}.monetary limits drifted: unavailable metering status changed")
+
+    validate_external_effects(
+      profile["external_effects"],
+      "#{label}.external_effects",
+      LOCAL_GATEWAY_EXTERNAL_EFFECTS
+    )
+    claims = exact_keys(
+      profile["claim_limits"],
+      %w[
+        direct_openai_provenance_proven gateway_upstream_behavior
+        upstream_request_count actual_monetary_cost hostile_principal_isolation
+        production remote public p2_entry
+      ],
+      "#{label}.claim_limits"
+    )
+    assert(claims == {
+      "direct_openai_provenance_proven" => false,
+      "gateway_upstream_behavior" => "UNKNOWN",
+      "upstream_request_count" => "UNKNOWN",
+      "actual_monetary_cost" => "UNKNOWN_UNLESS_TRUSTWORTHY_GATEWAY_EVIDENCE_EXISTS",
+      "hostile_principal_isolation" => false,
+      "production" => false,
+      "remote" => false,
+      "public" => false,
+      "p2_entry" => false
+    }, "#{label}.claim limits drifted")
+    profile
+  end
+
   def validate_founder_reserved_profile(value, route_id, task_id, label)
     profile = hash(value, label)
     case profile["schema_version"]
@@ -748,6 +993,8 @@ module CurrentTaskAuthority
       validate_founder_reserved_profile_v2(profile, route_id, task_id, label)
     when "3.0"
       validate_founder_reserved_profile_v3(profile, route_id, task_id, label)
+    when "4.0"
+      validate_founder_reserved_profile_v4(profile, route_id, task_id, label)
     else
       fail!("#{label} schema version is unsupported")
     end
@@ -763,6 +1010,83 @@ module CurrentTaskAuthority
     assert(matches.length == 1, "decision packet must contain exactly one #{label}")
     match = matches.first
     match.is_a?(Array) && match.length == 1 ? match.first : match
+  end
+
+  def source_founder_packet_v4_profile_claims(packet_bytes, expected_authorization_token, label)
+    text = packet_bytes.dup.force_encoding(Encoding::UTF_8)
+    assert(text.valid_encoding?, "#{label} must be valid UTF-8")
+    authorization_token = one_packet_match(
+      text,
+      /^authorization_token=([A-Z0-9_]+)$/,
+      "#{label} authorization_token declaration"
+    )
+    assert(authorization_token == expected_authorization_token,
+           "#{label} authorization token does not match the structured decision")
+    task_sections = text.scan(
+      /^[0-9]+\. Task ([0-9]+)强制语义\s*\n(.*?)(?=^[0-9]+\. |\z)/m
+    )
+    provider_sections = task_sections.select do |_slot, body|
+      body.scan(/^- endpoint:\s*$/).length == 1
+    end
+    assert(provider_sections.length == 1,
+           "#{label} must contain exactly one Provider profile Task section")
+    task_slot, profile_text = provider_sections.first
+    endpoint = one_packet_match(
+      profile_text,
+      /^- endpoint:\s*\n  ([^\r\n]+)$/,
+      "#{label} endpoint declaration"
+    )
+    model = one_packet_match(
+      profile_text,
+      /^- model:\s*\n  ([^\r\n]+)$/,
+      "#{label} model declaration"
+    )
+    diagnostic_requests = one_packet_match(
+      profile_text,
+      /^- diagnostic Provider requests maximum: ([0-9]+)$/,
+      "#{label} diagnostic Provider request ceiling"
+    )
+    formal_requests = one_packet_match(
+      profile_text,
+      /^- formal Provider requests: exactly ([0-9]+)$/,
+      "#{label} formal Provider request count"
+    )
+    provider_requests = one_packet_match(
+      profile_text,
+      /^- total Provider requests maximum: ([0-9]+)$/,
+      "#{label} total Provider request ceiling"
+    )
+    automatic_retries = one_packet_match(
+      profile_text,
+      /^- automatic retries: ([0-9]+)$/,
+      "#{label} automatic retry ceiling"
+    )
+    monetary = one_packet_match(
+      profile_text,
+      /^- monetary exposure maximum: ([A-Z]{3}) ([0-9]+(?:\.[0-9]+)?)$/,
+      "#{label} monetary exposure ceiling"
+    )
+    one_packet_match(
+      profile_text,
+      /^- Secret仅允许operator-owned no-echo读取一次；$/,
+      "#{label} operator-owned no-echo Secret declaration"
+    )
+    task_slot_number = Integer(task_slot, 10)
+    assert(task_slot_number.positive?, "#{label} Provider profile Task slot must be positive")
+    {
+      "endpoint" => endpoint,
+      "model" => model,
+      "task_slot" => task_slot_number,
+      "diagnostic_requests_max" => Integer(diagnostic_requests, 10),
+      "formal_requests_exact" => Integer(formal_requests, 10),
+      "provider_requests_max" => Integer(provider_requests, 10),
+      "automatic_retry_max" => Integer(automatic_retries, 10),
+      "currency" => monetary[0],
+      "max_spend" => Float(monetary[1]),
+      "secret_entry_sessions" => 1
+    }
+  rescue ArgumentError
+    fail!("#{label} contains an invalid numeric profile declaration")
   end
 
   def project_route_packet_claims(text)
@@ -1156,17 +1480,23 @@ module CurrentTaskAuthority
                     "structured Founder route decision")
     assert(canonical_json(decision).b == bytes.b,
            "structured Founder route decision must be recursively key-sorted canonical JSON with one trailing LF")
+    schema_version = string(
+      decision["schema_version"],
+      "structured Founder route decision.schema_version"
+    )
+    assert(%w[1.0 1.1].include?(schema_version),
+           "structured Founder route decision schema_version must equal 1.0 or 1.1")
+    root_keys = %w[
+      activation_parent authorization_token automatic_entry claim_boundary envelope
+      external_effects goal_identity ordered_tasks phase record_type route_id
+      schema_version source_founder_packet_identity
+    ]
+    root_keys << "automatic_entries" if schema_version == "1.1"
     exact_keys(
       decision,
-      %w[
-        activation_parent authorization_token automatic_entry claim_boundary envelope
-        external_effects goal_identity ordered_tasks phase record_type route_id
-        schema_version source_founder_packet_identity
-      ],
+      root_keys,
       "structured Founder route decision"
     )
-    assert(decision["schema_version"] == "1.0",
-           "structured Founder route decision schema_version must equal 1.0")
     assert(decision["record_type"] == "founder_phase_route_decision",
            "structured Founder route decision record_type is unsupported")
 
@@ -1208,7 +1538,7 @@ module CurrentTaskAuthority
     assert(integer(source_packet["byte_length"],
                    "structured Founder source packet byte_length").positive?,
            "structured Founder source packet byte_length must be positive")
-    validate_identity(source_path, source_packet, "Founder source packet")
+    source_packet_bytes = validate_identity(source_path, source_packet, "Founder source packet")
 
     goal_identity = exact_keys(
       decision["goal_identity"],
@@ -1274,12 +1604,14 @@ module CurrentTaskAuthority
     assert(task_values.length == envelope["max_engineering_tasks"],
            "structured Founder route decision Task count does not equal route envelope")
     task_budgets = task_values.map.with_index do |value, index|
+      task_keys = %w[
+        calendar_days engineering_hours max_candidates max_implementation_iterations
+        max_same_task_repairs task_id task_slot
+      ]
+      task_keys.concat(%w[external_effects founder_reserved_profile]) if schema_version == "1.1"
       task = exact_keys(
         value,
-        %w[
-          calendar_days engineering_hours max_candidates max_implementation_iterations
-          max_same_task_repairs task_id task_slot
-        ],
+        task_keys,
         "structured Founder route decision.ordered_tasks[#{index}]"
       )
       assert(integer(task["task_slot"], "structured decision Task slot") == index + 1,
@@ -1301,6 +1633,40 @@ module CurrentTaskAuthority
              "structured decision Task implementation iterations must equal initial plus repairs")
       assert(task["max_candidates"] == envelope["max_active_candidates"],
              "structured decision Task candidate budget does not equal route envelope")
+      if schema_version == "1.1"
+        task_effects = exact_keys(
+          task["external_effects"],
+          EXTERNAL_EFFECT_KEYS,
+          "structured Founder route decision.ordered_tasks[#{index}].external_effects"
+        )
+        task_effects.each do |key, effect|
+          assert(effect == true || effect == false,
+                 "structured Founder route decision Task #{index + 1} external_effects.#{key} must be boolean")
+        end
+        task_profile = task["founder_reserved_profile"]
+        if task_effects == LOCAL_GATEWAY_EXTERNAL_EFFECTS
+          assert(task_profile.is_a?(Hash),
+                 "structured Founder route decision Provider Task requires an exact Founder-reserved profile")
+          validated_profile = validate_founder_reserved_profile_v4(
+            task_profile,
+            route_id,
+            task_id,
+            "structured Founder route decision.ordered_tasks[#{index}].founder_reserved_profile"
+          )
+          assert(
+            validated_profile["decision_basis"] ==
+              "FOUNDER_PACKET_SHA256:#{source_packet['sha256']}",
+            "structured Founder route decision Provider profile does not bind the exact source packet"
+          )
+          assert(validated_profile["external_effects"] == task_effects,
+                 "structured Founder route decision Provider profile effects mismatch")
+        else
+          assert(task_effects == FALSE_EXTERNAL_EFFECTS,
+                 "structured Founder route decision Task effects must be offline or exact local-gateway effects")
+          assert(task_profile.nil?,
+                 "structured Founder route decision offline Task must not carry a Founder-reserved profile")
+        end
+      end
       task
     end
     task_ids = task_budgets.map { |task| task["task_id"] }
@@ -1323,9 +1689,91 @@ module CurrentTaskAuthority
            "structured Founder route decision automatic entry must bind ordered Task 1 to Task 2")
     assert(automatic_entry["requires_task_gate_pass"] == true,
            "structured Founder route decision automatic entry requires Task Gate PASS")
+    automatic_entries = if schema_version == "1.1"
+                          entries = array(
+                            decision["automatic_entries"],
+                            "structured Founder route decision.automatic_entries"
+                          ).map.with_index do |value, index|
+                            entry = exact_keys(
+                              value,
+                              %w[after_task_id next_task_id requires_task_gate_pass],
+                              "structured Founder route decision.automatic_entries[#{index}]"
+                            )
+                            assert(entry["after_task_id"] == task_ids[index] &&
+                                   entry["next_task_id"] == task_ids[index + 1],
+                                   "structured Founder route decision automatic entries must bind every adjacent Task")
+                            assert(entry["requires_task_gate_pass"] == true,
+                                   "structured Founder route decision automatic entry requires Task Gate PASS")
+                            entry
+                          end
+                          assert(entries.length == task_ids.length - 1,
+                                 "structured Founder route decision automatic entry count must equal Task count minus one")
+                          assert(entries.first == automatic_entry,
+                                 "structured Founder route decision first automatic entry projection mismatch")
+                          entries
+                        else
+                          [automatic_entry]
+                        end
+    task_effects = if schema_version == "1.1"
+                     task_budgets.to_h do |task|
+                       [task["task_id"], task.fetch("external_effects")]
+                     end
+                   else
+                     task_ids.to_h { |task_id| [task_id, external_effects] }
+                   end
+    founder_reserved_profiles = if schema_version == "1.1"
+                                  task_budgets.map do |task|
+                                    task["founder_reserved_profile"]
+                                  end.compact
+                                else
+                                  []
+                                end
+    if schema_version == "1.1" && !founder_reserved_profiles.empty?
+      assert(founder_reserved_profiles.length == 1,
+             "structured Founder route decision supports exactly one source-bound Provider profile")
+      source_profile = source_founder_packet_v4_profile_claims(
+        source_packet_bytes,
+        authorization_token,
+        "Founder source packet"
+      )
+      profile = founder_reserved_profiles.first
+      source_profile_task = task_budgets.fetch(source_profile["task_slot"] - 1) do
+        fail!("Founder source packet Provider profile Task slot is outside the structured Task set")
+      end
+      assert(profile["task_id"] == source_profile_task["task_id"],
+             "structured Founder Provider profile Task does not equal the source Founder packet Task slot")
+      transport = profile.fetch("transport")
+      endpoint = "#{transport.fetch('scheme')}://#{transport.fetch('host')}:#{transport.fetch('port')}" \
+                 "#{transport.fetch('completion_path')}"
+      assert(endpoint == source_profile["endpoint"],
+             "structured Founder Provider endpoint does not equal the source Founder packet")
+      assert(profile.dig("model", "requested_model") == source_profile["model"],
+             "structured Founder Provider model does not equal the source Founder packet")
+      expected_calls = {
+        "diagnostic_requests_max" => source_profile["diagnostic_requests_max"],
+        "formal_requests_exact" => source_profile["formal_requests_exact"],
+        "provider_requests_max" => source_profile["provider_requests_max"],
+        "automatic_retry_max" => source_profile["automatic_retry_max"]
+      }
+      assert(profile["call_limits"] == expected_calls,
+             "structured Founder Provider request limits do not equal the source Founder packet")
+      assert(profile.dig("monetary_limits", "currency") == source_profile["currency"] &&
+             profile.dig("monetary_limits", "max_spend").to_f == source_profile["max_spend"],
+             "structured Founder Provider monetary limit does not equal the source Founder packet")
+      assert(profile.dig("secret", "entry_sessions") == source_profile["secret_entry_sessions"],
+             "structured Founder Provider Secret entry count does not equal the source Founder packet")
+    end
+    if schema_version == "1.1"
+      projected_route_effects = EXTERNAL_EFFECT_KEYS.to_h do |key|
+        [key, task_effects.values.any? { |effects| effects[key] }]
+      end
+      assert(projected_route_effects == external_effects,
+             "structured Founder route external effects must equal the union of Task effect ceilings")
+    end
 
     {
       "structured_decision" => true,
+      "structured_decision_version" => schema_version,
       "authorization_token" => authorization_token,
       "route_id" => route_id,
       "phase" => phase,
@@ -1344,11 +1792,14 @@ module CurrentTaskAuthority
       "task_ids" => task_ids,
       "task_budgets" => task_budgets,
       "automatic_entry" => automatic_entry,
+      "automatic_entries" => automatic_entries,
+      "task_effects" => task_effects,
       "claim_boundary" => claim_boundary,
       "source_founder_packet_identity" => source_packet,
       "goal_identity" => goal_identity,
-      "founder_reserved_profile" => nil,
-      "founder_reserved_profiles" => [],
+      "founder_reserved_profile" =>
+        founder_reserved_profiles.find { |profile| profile["task_id"] == task_ids.first },
+      "founder_reserved_profiles" => founder_reserved_profiles,
       "external_effects" => external_effects
     }
   end
@@ -1602,6 +2053,10 @@ module CurrentTaskAuthority
              "Truth route phase does not match structured Founder decision")
       assert(route["automatic_entry"] == claims["automatic_entry"],
              "Truth automatic entry does not match structured Founder decision")
+      if claims["structured_decision_version"] == "1.1"
+        assert(route["automatic_entries"] == claims["automatic_entries"],
+               "Truth automatic entries do not match structured Founder decision")
+      end
       assert(route["claim_boundary"] == claims["claim_boundary"],
              "Truth claim boundary does not match structured Founder decision")
     end
@@ -1645,7 +2100,57 @@ module CurrentTaskAuthority
     assert(envelope["p2_entry_authorized"] == expected_p2_entry,
            "route envelope P2 entry must match current phase")
     exact_false(envelope["p3_entry_authorized"], "route envelope P3 entry")
-    if claims["founder_reserved_profile"]
+    if claims["structured_decision_version"] == "1.1"
+      expected_profiles = claims.fetch("founder_reserved_profiles")
+      route_profiles = array(
+        route.fetch("founder_reserved_profiles", []),
+        "current_phase_route.founder_reserved_profiles"
+      )
+      assert(route_profiles.length == expected_profiles.length,
+             "Truth Founder profile set does not equal the exact structured decision")
+      validated_route_profiles = route_profiles.map.with_index do |profile, index|
+        profile_task_id = string(
+          hash(profile, "current_phase_route.founder_reserved_profiles[#{index}]")["task_id"],
+          "current_phase_route.founder_reserved_profiles[#{index}].task_id"
+        )
+        assert(claims["task_ids"].include?(profile_task_id),
+               "Truth Founder profile Task is outside the structured decision")
+        validate_founder_reserved_profile(
+          profile,
+          route_id,
+          profile_task_id,
+          "current_phase_route.founder_reserved_profiles[#{index}]"
+        )
+      end
+      validate_exact_profile_binding(
+        validated_route_profiles,
+        expected_profiles,
+        "Truth Founder profile set does not equal the exact structured decision"
+      )
+      profile_task_ids = validated_route_profiles.map { |profile| profile["task_id"] }
+      assert(profile_task_ids.uniq.length == profile_task_ids.length,
+             "Truth Founder profile Task set contains duplicates")
+      expected_primary = expected_profiles.find do |profile|
+        profile["task_id"] == claims["first_task_id"]
+      end
+      if expected_primary
+        route_primary = validate_founder_reserved_profile(
+          route["founder_reserved_profile"],
+          route_id,
+          claims["first_task_id"],
+          "current_phase_route.founder_reserved_profile"
+        )
+        validate_exact_profile_binding(
+          route_primary,
+          expected_primary,
+          "Truth primary Founder profile does not equal the exact structured decision"
+        )
+      else
+        assert(!route.key?("founder_reserved_profile") || route["founder_reserved_profile"].nil?,
+               "structured offline first Task must not invent a primary Founder profile")
+      end
+      expected_effects = claims.fetch("external_effects")
+    elsif claims["founder_reserved_profile"]
       route_profile = validate_founder_reserved_profile(
         route["founder_reserved_profile"], route_id, claims["first_task_id"],
         "current_phase_route.founder_reserved_profile"
@@ -1792,6 +2297,10 @@ module CurrentTaskAuthority
             assert(item[key] == packet_budget[key],
                    "current_phase_route.task_plan #{key} does not equal the structured Founder decision")
           end
+          if claims["structured_decision_version"] == "1.1"
+            assert(item["external_effects"] == packet_budget["external_effects"],
+                   "current_phase_route.task_plan external effects do not equal the structured Founder decision")
+          end
         end
       end
       string(item["task_id"], "current_phase_route.task_plan[#{index}].task_id")
@@ -1859,7 +2368,9 @@ module CurrentTaskAuthority
            "active_work must express Task NONE")
     initial_ready = route["status"] == "AUTHORIZED_READY"
     between_tasks = route["status"] == "ACTIVE"
-    assert(initial_ready || between_tasks, "Task NONE requires a ready or active Phase route")
+    route_complete = route["status"] == "PHASE_GATE_READY"
+    assert(initial_ready || between_tasks || route_complete,
+           "Task NONE requires a ready, active or Phase-Gate-ready route")
     if initial_ready
       phase_status_key = "#{project['current_phase'].downcase}_execution_status"
       assert(project["phase_execution_status"] == "AUTHORIZED_READY" &&
@@ -1867,18 +2378,62 @@ module CurrentTaskAuthority
              "initial Task NONE requires project AUTHORIZED_READY")
       assert(first_task["status"] == "ELIGIBLE_NOT_ACTIVATED",
              "initial Task NONE requires an eligible, non-activated first Task")
-    else
+      validate_structured_task_state_vector(
+        route,
+        first_task,
+        claims,
+        target_task_id: first_task["task_id"],
+        target_state: "ELIGIBLE_NOT_ACTIVATED"
+      )
+    elsif between_tasks
       phase_status_key = "#{project['current_phase'].downcase}_execution_status"
       assert(%w[ACTIVE EXECUTING].include?(project["phase_execution_status"]) &&
              %w[ACTIVE EXECUTING].include?(project[phase_status_key]),
              "between-Task NONE requires active project execution")
       assert(first_task["status"] != "ACTIVE", "between-Task NONE cannot leave first Task active")
+      eligible = array(route["task_plan"], "current_phase_route.task_plan").select do |item|
+        item.is_a?(Hash) && item["status"] == "ELIGIBLE_NOT_ACTIVATED"
+      end
+      assert(eligible.length == 1,
+             "between-Task NONE requires exactly one eligible next Task")
+      validate_structured_task_state_vector(
+        route,
+        first_task,
+        claims,
+        target_task_id: eligible.first["task_id"],
+        target_state: "ELIGIBLE_NOT_ACTIVATED"
+      )
       validate_structured_predecessor_gate(
         root, truth, route, first_task, claims,
-        claims.dig("automatic_entry", "next_task_id"),
+        eligible.first["task_id"],
         "READY"
       ) if claims["structured_decision"]
+    else
+      phase_status_key = "#{project['current_phase'].downcase}_execution_status"
+      assert(project["phase_execution_status"] == "STOPPED_AT_FOUNDER_PHASE_GATE" &&
+             project[phase_status_key] == "STOPPED_AT_FOUNDER_PHASE_GATE",
+             "completed route requires project Founder Phase Gate status")
+      assert(route["next_eligible_action"] == "FOUNDER_PHASE_GATE",
+             "completed route next eligible action must be FOUNDER_PHASE_GATE")
+      validate_structured_task_state_vector(
+        route,
+        first_task,
+        claims,
+        target_task_id: nil,
+        target_state: "COMPLETE"
+      )
+      claims["task_ids"].each do |accepted_task_id|
+        validate_accepted_gate_history(
+          root,
+          truth,
+          route,
+          accepted_task_id,
+          "completed structured route accepted Task"
+        )
+      end
     end
+    assert(!route.key?("active_task") || route["active_task"].nil?,
+           "Task NONE route must not retain an active_task descriptor")
     null_identity(active["current_task_contract"], "active_work.current_task_contract")
     null_identity(active["authority_record"], "active_work.authority_record")
     %w[current_task_contract_sha256 current_execution_authorization
@@ -1890,7 +2445,13 @@ module CurrentTaskAuthority
     end
     assert(active["execution_nonce_status"] == "NOT_APPLICABLE_TASK_NONE",
            "Task NONE execution_nonce_status mismatch")
-    expected_resource_state = initial_ready ? "NOT_CREATED_ROUTE_READY" : "NONE_PHASE_ACTIVE"
+    expected_resource_state = if initial_ready
+                                "NOT_CREATED_ROUTE_READY"
+                              elsif route_complete
+                                "NONE_PHASE_GATE_READY"
+                              else
+                                "NONE_PHASE_ACTIVE"
+                              end
     assert(active["task_resource_state"] == expected_resource_state, "Task NONE resource state mismatch")
     assert(array(active["allowlisted_paths"], "active_work.allowlisted_paths").empty?,
            "Task NONE allowlisted_paths must be empty")
@@ -1902,12 +2463,26 @@ module CurrentTaskAuthority
     assert(roles.keys.sort == %w[independent_reviewers owner worker], "Task NONE roles keys mismatch")
     assert(roles["owner"].nil? && roles["worker"].nil? &&
            array(roles["independent_reviewers"], "Task NONE reviewers").empty?, "Task NONE roles must be empty")
-    expected_effects = claims["structured_decision"] ?
-      claims.fetch("external_effects") : FALSE_EXTERNAL_EFFECTS
+    expected_effects = if claims["structured_decision_version"] == "1.1"
+                         FALSE_EXTERNAL_EFFECTS
+                       elsif claims["structured_decision"]
+                         claims.fetch("external_effects")
+                       else
+                         FALSE_EXTERNAL_EFFECTS
+                       end
     validate_external_effects(active["external_effects"], "active_work.external_effects", expected_effects)
-    exact_false(active["founder_decision_required"], "active_work.founder_decision_required")
-    assert(active["escalation_reason"].nil?, "Task NONE escalation_reason must be null")
-    assert(active["user_action_required"] == "NONE", "Task NONE user_action_required must be NONE")
+    if route_complete
+      assert(active["founder_decision_required"] == true,
+             "completed route requires Founder Phase Gate decision")
+      assert(active["escalation_reason"].nil?,
+             "completed route escalation_reason must remain null")
+      assert(active["user_action_required"] == "FOUNDER_PHASE_GATE_DECISION",
+             "completed route user_action_required mismatch")
+    else
+      exact_false(active["founder_decision_required"], "active_work.founder_decision_required")
+      assert(active["escalation_reason"].nil?, "Task NONE escalation_reason must be null")
+      assert(active["user_action_required"] == "NONE", "Task NONE user_action_required must be NONE")
+    end
     string(active["next_eligible_action"], "active_work.next_eligible_action")
     assert(active["next_eligible_action"] == route["next_eligible_action"], "next eligible action mismatch")
   end
@@ -2036,6 +2611,8 @@ module CurrentTaskAuthority
     assert(ancestor_status.success?, "active Task activation parent must be an ancestor of canonical HEAD")
 
     task_descriptor = if task_id == first_task["task_id"]
+                        assert(!route.key?("active_task") || route["active_task"].nil?,
+                               "first Task must not retain a separate active_task descriptor")
                         first_task
                       else
                         descriptor = hash(route["active_task"], "current_phase_route.active_task")
@@ -2048,6 +2625,20 @@ module CurrentTaskAuthority
       item.is_a?(Hash) && item["task_id"] == task_id
     end
     assert(plan_descriptor, "active Task is absent from the closed route task_plan")
+    assert(task_descriptor["status"] == "ACTIVE" &&
+           task_descriptor["status"] == plan_descriptor["status"],
+           "route active_task descriptor status must equal ACTIVE task_plan state")
+    assert(task_descriptor["task_slot"] == plan_descriptor["task_slot"],
+           "route active_task descriptor slot does not equal task_plan")
+    assert(task_descriptor["contract_path"] == contract_identity["path"],
+           "route active_task descriptor contract path mismatch")
+    validate_structured_task_state_vector(
+      route,
+      first_task,
+      claims,
+      target_task_id: task_id,
+      target_state: "ACTIVE"
+    )
     validate_structured_predecessor_gate(
       root, truth, route, first_task, claims, task_id, "ACTIVE"
     )
@@ -2124,11 +2715,10 @@ module CurrentTaskAuthority
              "allowlisted path overlaps immutable authority: #{scope}")
     end
 
-    if claims["founder_reserved_profile"]
-      selected_profile = claims["founder_reserved_profiles"].find do |profile|
-        profile["task_id"] == task_id
-      end
-      assert(selected_profile, "active Task has no exact Founder-reserved profile")
+    selected_profile = claims.fetch("founder_reserved_profiles", []).find do |profile|
+      profile["task_id"] == task_id
+    end
+    if selected_profile
       route_profile = array(
         route["founder_reserved_profiles"],
         "current_phase_route.founder_reserved_profiles"
@@ -2143,13 +2733,17 @@ module CurrentTaskAuthority
         "Truth active Founder-reserved profile does not equal the exact decision packet"
       )
     else
-      expected_effects = claims.fetch("external_effects", FALSE_EXTERNAL_EFFECTS)
+      expected_effects = if claims["structured_decision_version"] == "1.1"
+                           claims.fetch("task_effects").fetch(task_id)
+                         else
+                           claims.fetch("external_effects", FALSE_EXTERNAL_EFFECTS)
+                         end
     end
     validate_external_effects(active["external_effects"], "active_work.external_effects", expected_effects)
     validate_external_effects(contract_field(contract, "external_effects"), "contract external_effects", expected_effects)
     validate_external_effects(contract_field(authority_record, "external_effects"), "authority external_effects",
                               expected_effects)
-    if claims["founder_reserved_profile"]
+    if selected_profile
       contract_profile = validate_founder_reserved_profile(
         contract_field(contract, "founder_reserved_profile"), route_id, task_id, "contract Founder-reserved profile"
       )
@@ -2304,7 +2898,7 @@ module CurrentTaskAuthority
     end
     if hash(truth["active_work"], "active_work")["current_task"] == "NONE"
       validate_none_state(root, truth, route, first_task, claims)
-      "READY_NONE"
+      route["status"] == "PHASE_GATE_READY" ? "PHASE_GATE_READY" : "READY_NONE"
     else
       validate_active_state(root, truth, route, route_id, first_task, claims)
       "ACTIVE_TASK"

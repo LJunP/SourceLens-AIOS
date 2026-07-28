@@ -2,6 +2,76 @@
   "$id": "https://sourcelens.local/schemas/founder-phase-route-decision.schema.json",
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "additionalProperties": false,
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "schema_version": {
+            "const": "1.1"
+          }
+        },
+        "required": [
+          "schema_version"
+        ]
+      },
+      "then": {
+        "properties": {
+          "ordered_tasks": {
+            "items": {
+              "required": [
+                "calendar_days",
+                "engineering_hours",
+                "external_effects",
+                "founder_reserved_profile",
+                "max_candidates",
+                "max_implementation_iterations",
+                "max_same_task_repairs",
+                "task_id",
+                "task_slot"
+              ]
+            }
+          }
+        },
+        "required": [
+          "automatic_entries"
+        ]
+      },
+      "else": {
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "automatic_entries"
+              ]
+            },
+            {
+              "properties": {
+                "ordered_tasks": {
+                  "contains": {
+                    "anyOf": [
+                      {
+                        "required": [
+                          "external_effects"
+                        ]
+                      },
+                      {
+                        "required": [
+                          "founder_reserved_profile"
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              "required": [
+                "ordered_tasks"
+              ]
+            }
+          ]
+        }
+      }
+    }
+  ],
   "properties": {
     "activation_parent": {
       "additionalProperties": false,
@@ -44,6 +114,30 @@
         "requires_task_gate_pass"
       ],
       "type": "object"
+    },
+    "automatic_entries": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "after_task_id": {
+            "$ref": "#/$defs/task_id"
+          },
+          "next_task_id": {
+            "$ref": "#/$defs/task_id"
+          },
+          "requires_task_gate_pass": {
+            "const": true
+          }
+        },
+        "required": [
+          "after_task_id",
+          "next_task_id",
+          "requires_task_gate_pass"
+        ],
+        "type": "object"
+      },
+      "minItems": 1,
+      "type": "array"
     },
     "claim_boundary": {
       "minLength": 1,
@@ -142,6 +236,19 @@
             "minimum": 1,
             "type": "integer"
           },
+          "external_effects": {
+            "$ref": "#/$defs/external_effects"
+          },
+          "founder_reserved_profile": {
+            "oneOf": [
+              {
+                "type": "null"
+              },
+              {
+                "$ref": "#/$defs/founder_reserved_profile_v4"
+              }
+            ]
+          },
           "max_candidates": {
             "minimum": 1,
             "type": "integer"
@@ -190,7 +297,10 @@
       "type": "string"
     },
     "schema_version": {
-      "const": "1.0"
+      "enum": [
+        "1.0",
+        "1.1"
+      ]
     },
     "source_founder_packet_identity": {
       "additionalProperties": false,
@@ -267,6 +377,249 @@
         "public",
         "remote",
         "secret"
+      ],
+      "type": "object"
+    },
+    "founder_reserved_profile_v4": {
+      "additionalProperties": false,
+      "properties": {
+        "call_limits": {
+          "additionalProperties": false,
+          "properties": {
+            "automatic_retry_max": {
+              "const": 0
+            },
+            "diagnostic_requests_max": {
+              "maximum": 3,
+              "minimum": 0,
+              "type": "integer"
+            },
+            "formal_requests_exact": {
+              "maximum": 144,
+              "minimum": 1,
+              "type": "integer"
+            },
+            "provider_requests_max": {
+              "maximum": 144,
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "automatic_retry_max",
+            "diagnostic_requests_max",
+            "formal_requests_exact",
+            "provider_requests_max"
+          ],
+          "type": "object"
+        },
+        "claim_limits": {
+          "additionalProperties": false,
+          "properties": {
+            "actual_monetary_cost": {
+              "const": "UNKNOWN_UNLESS_TRUSTWORTHY_GATEWAY_EVIDENCE_EXISTS"
+            },
+            "direct_openai_provenance_proven": {
+              "const": false
+            },
+            "gateway_upstream_behavior": {
+              "const": "UNKNOWN"
+            },
+            "hostile_principal_isolation": {
+              "const": false
+            },
+            "p2_entry": {
+              "const": false
+            },
+            "production": {
+              "const": false
+            },
+            "public": {
+              "const": false
+            },
+            "remote": {
+              "const": false
+            },
+            "upstream_request_count": {
+              "const": "UNKNOWN"
+            }
+          },
+          "required": [
+            "actual_monetary_cost",
+            "direct_openai_provenance_proven",
+            "gateway_upstream_behavior",
+            "hostile_principal_isolation",
+            "p2_entry",
+            "production",
+            "public",
+            "remote",
+            "upstream_request_count"
+          ],
+          "type": "object"
+        },
+        "decision_basis": {
+          "pattern": "^FOUNDER_PACKET_SHA256:[0-9a-f]{64}$",
+          "type": "string"
+        },
+        "external_effects": {
+          "$ref": "#/$defs/external_effects"
+        },
+        "model": {
+          "additionalProperties": false,
+          "properties": {
+            "provider_provenance": {
+              "const": "FOUNDER_ATTESTED_OPENAI_COMPATIBLE_LOCAL_GATEWAY_MODEL_NOT_INDEPENDENTLY_VERIFIED"
+            },
+            "requested_model": {
+              "minLength": 1,
+              "type": "string"
+            },
+            "substitution_allowed": {
+              "const": false
+            }
+          },
+          "required": [
+            "provider_provenance",
+            "requested_model",
+            "substitution_allowed"
+          ],
+          "type": "object"
+        },
+        "monetary_limits": {
+          "additionalProperties": false,
+          "properties": {
+            "currency": {
+              "const": "USD"
+            },
+            "max_spend": {
+              "maximum": 25,
+              "minimum": 0,
+              "type": "number"
+            },
+            "unavailable_metering_status": {
+              "const": "UNKNOWN_GATEWAY_METERING_UNAVAILABLE"
+            }
+          },
+          "required": [
+            "currency",
+            "max_spend",
+            "unavailable_metering_status"
+          ],
+          "type": "object"
+        },
+        "profile_id": {
+          "minLength": 1,
+          "type": "string"
+        },
+        "route_id": {
+          "pattern": "^P[12]_[A-Z0-9_]+_ROUTE_V[1-9][0-9]*$",
+          "type": "string"
+        },
+        "schema_version": {
+          "const": "4.0"
+        },
+        "secret": {
+          "additionalProperties": false,
+          "properties": {
+            "entry_sessions": {
+              "const": 1
+            },
+            "persist": {
+              "const": false
+            },
+            "prohibited_sinks": {
+              "items": {
+                "type": "string"
+              },
+              "minItems": 1,
+              "type": "array",
+              "uniqueItems": true
+            },
+            "source": {
+              "const": "FOUNDER_OPERATOR_NO_ECHO_TTY"
+            }
+          },
+          "required": [
+            "entry_sessions",
+            "persist",
+            "prohibited_sinks",
+            "source"
+          ],
+          "type": "object"
+        },
+        "task_id": {
+          "$ref": "#/$defs/task_id"
+        },
+        "transport": {
+          "additionalProperties": false,
+          "properties": {
+            "api_format": {
+              "const": "OPENAI_COMPATIBLE_CHAT_COMPLETIONS"
+            },
+            "completion_path": {
+              "const": "/v1/chat/completions"
+            },
+            "dns_resolution": {
+              "const": false
+            },
+            "expected_peer_address": {
+              "const": "127.0.0.1"
+            },
+            "expected_peer_port": {
+              "const": 8787
+            },
+            "fallback_endpoint_allowed": {
+              "const": false
+            },
+            "follow_redirects": {
+              "const": false
+            },
+            "host": {
+              "const": "127.0.0.1"
+            },
+            "method": {
+              "const": "POST"
+            },
+            "port": {
+              "const": 8787
+            },
+            "scheme": {
+              "const": "http"
+            },
+            "use_proxy": {
+              "const": false
+            }
+          },
+          "required": [
+            "api_format",
+            "completion_path",
+            "dns_resolution",
+            "expected_peer_address",
+            "expected_peer_port",
+            "fallback_endpoint_allowed",
+            "follow_redirects",
+            "host",
+            "method",
+            "port",
+            "scheme",
+            "use_proxy"
+          ],
+          "type": "object"
+        }
+      },
+      "required": [
+        "call_limits",
+        "claim_limits",
+        "decision_basis",
+        "external_effects",
+        "model",
+        "monetary_limits",
+        "profile_id",
+        "route_id",
+        "schema_version",
+        "secret",
+        "task_id",
+        "transport"
       ],
       "type": "object"
     },

@@ -4912,6 +4912,10 @@ historical_p2_009_terminal_route:
       head: 1f653418ee04ebde0c19e15a58e329cf2f401cff
       branch: codex/p1-154-project-local-chat-baseline
       status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P2-009-canonical-scan-graph-kernel
+      head: 4d100e6eb481abedbaabb35991e1af7a1f1319c3
+      branch: codex/p2-009-canonical-scan-graph-kernel
+      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
   claim_boundary: COOPERATIVE_LOCAL_OFFLINE_CANONICAL_SCAN_GRAPH_INDEX_AND_GRAPH_CONDITIONED_CONTEXT_BENCHMARK_ONLY_P1_PARTIAL_EXIT_REMAINS_6_OF_8_NO_P3_NETWORK_PROVIDER_SECRET_REMOTE_PRODUCTION_PUBLIC_HOSTILE_PRINCIPAL_OR_PRODUCTION_READINESS_CLAIM
   p1_partial_exit:
     status: PARTIAL_EXIT_WITH_DISCLOSED_RESIDUALS_6_OF_8_75_PERCENT

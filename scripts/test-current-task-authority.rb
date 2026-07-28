@@ -12,6 +12,7 @@ require_relative "validate-current-task-authority"
 
 VALIDATOR = File.expand_path("validate-current-task-authority.rb", __dir__)
 SAFETY_VALIDATOR = File.expand_path("check-p1-safety-boundary.sh", __dir__)
+GOVERNANCE_VALIDATOR = File.expand_path("validate-aios-governance.sh", __dir__)
 SOURCE_REPO = File.expand_path("..", __dir__)
 TRUTH_RELATIVE = "docs/aios/truth/project_state.yaml"
 POLICY_RELATIVE = "docs/aios/FOUNDER_DELEGATION_POLICY.md"
@@ -1063,7 +1064,13 @@ class CurrentTaskAuthorityTest
                         "legacy schema v1 compatibility")
 
     truth = yaml(File.join(SOURCE_REPO, TRUTH_RELATIVE))
-    packet_path = truth.dig("current_phase_route", "decision_packet", "path")
+    executable_route = if truth.dig("current_phase_route", "schema_version") ==
+                          "strict-phase-recovery-hold/v1"
+                         truth.fetch("historical_p2_009_terminal_route")
+                       else
+                         truth.fetch("current_phase_route")
+                       end
+    packet_path = executable_route.dig("decision_packet", "path")
     current_claims = CurrentTaskAuthority.packet_claims(File.binread(packet_path))
     current_profile = current_claims["founder_reserved_profile"]
     if current_profile && current_profile["schema_version"] == "3.0"
@@ -1090,15 +1097,21 @@ class CurrentTaskAuthorityTest
 
   def closed_profile_packet_unit_tests
     truth = yaml(File.join(SOURCE_REPO, TRUTH_RELATIVE))
-    packet_path = truth.dig("current_phase_route", "decision_packet", "path")
+    executable_route = if truth.dig("current_phase_route", "schema_version") ==
+                          "strict-phase-recovery-hold/v1"
+                         truth.fetch("historical_p2_009_terminal_route")
+                       else
+                         truth.fetch("current_phase_route")
+                       end
+    packet_path = executable_route.dig("decision_packet", "path")
     packet = File.binread(packet_path).force_encoding(Encoding::UTF_8)
     claims = CurrentTaskAuthority.packet_claims(packet)
-    expected_tasks = truth.fetch("current_phase_route").fetch("task_plan").map do |descriptor|
+    expected_tasks = executable_route.fetch("task_plan").map do |descriptor|
       descriptor.fetch("task_id")
     end
     assert(claims["task_ids"] == expected_tasks, "current packet Task set drifted")
     if claims["founder_reserved_profiles"].empty?
-      expected_effects = truth.dig("current_phase_route", "envelope", "external_effects")
+      expected_effects = executable_route.dig("envelope", "external_effects")
       assert(claims["external_effects"] == expected_effects,
              "current packet external-effect boundary drifted from Truth")
       @passes += 1
@@ -1180,10 +1193,13 @@ class CurrentTaskAuthorityTest
 
     validator_path = File.join(repo, "scripts/validate-current-task-authority.rb")
     safety_path = File.join(repo, "scripts/check-p1-safety-boundary.sh")
+    governance_path = File.join(repo, "scripts/validate-aios-governance.sh")
     register_owned(validator_path)
     register_owned(safety_path)
+    register_owned(governance_path)
     rewrite_owned(validator_path, File.binread(VALIDATOR))
     rewrite_owned(safety_path, File.binread(SAFETY_VALIDATOR))
+    rewrite_owned(governance_path, File.binread(GOVERNANCE_VALIDATOR))
 
     packet_identity = source_truth.fetch("current_phase_route").fetch("decision_packet")
     packet_source = packet_identity.fetch("path")
@@ -1251,9 +1267,16 @@ class CurrentTaskAuthorityTest
   end
 
   def prepare_fixture(sandbox)
-    source_truth_path = File.join(SOURCE_REPO, TRUTH_RELATIVE)
-    source_truth = yaml(source_truth_path)
     source_head = shell(SOURCE_REPO, "git", "rev-parse", "HEAD").strip
+    source_truth = YAML.load(
+      shell(SOURCE_REPO, "git", "show", "#{source_head}:#{TRUTH_RELATIVE}")
+    )
+    current_policy_bytes = File.binread(File.join(SOURCE_REPO, POLICY_RELATIVE))
+    current_policy_sha = Digest::SHA256.hexdigest(current_policy_bytes)
+    source_truth["authority"]["founder_delegation_policy"]["version"] = "1.7"
+    source_truth["authority"]["founder_delegation_policy"]["sha256"] = current_policy_sha
+    source_truth["current_phase_route"]["policy"]["version"] = "1.7"
+    source_truth["current_phase_route"]["policy"]["sha256"] = current_policy_sha
     repo = File.join(sandbox, "repo")
     external = File.join(sandbox, "external")
     FileUtils.mkdir_p(external)
@@ -1266,13 +1289,16 @@ class CurrentTaskAuthorityTest
     policy_path = File.join(repo, POLICY_RELATIVE)
     validator_path = File.join(repo, "scripts/validate-current-task-authority.rb")
     safety_path = File.join(repo, "scripts/check-p1-safety-boundary.sh")
+    governance_path = File.join(repo, "scripts/validate-aios-governance.sh")
     register_owned(truth_path)
     register_owned(policy_path)
     register_owned(validator_path)
     register_owned(safety_path)
-    rewrite_owned(policy_path, File.binread(File.join(SOURCE_REPO, POLICY_RELATIVE)))
+    register_owned(governance_path)
+    rewrite_owned(policy_path, current_policy_bytes)
     rewrite_owned(validator_path, File.binread(VALIDATOR))
     rewrite_owned(safety_path, File.binread(SAFETY_VALIDATOR))
+    rewrite_owned(governance_path, File.binread(GOVERNANCE_VALIDATOR))
 
     packet_identity = source_truth.fetch("current_phase_route").fetch("decision_packet")
     packet_source = packet_identity.fetch("path")

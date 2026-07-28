@@ -30,8 +30,38 @@ run_authority_core() {
   )
 }
 
+run_phase_predecessor_core() {
+  local repo_root="$1"
+  local truth_path="$2"
+  local mode="$3"
+  local validator="${repo_root}/scripts/validate-aios-governance.sh"
+  [[ -f "$validator" && ! -L "$validator" ]] ||
+    fail "strict phase predecessor validator missing, non-regular, or symlinked"
+  if [[ "$mode" == "TEST_FIXTURE" ]]; then
+    has_strict_ledger="$(
+      ruby -ryaml -e '
+        truth = YAML.safe_load(File.binread(ARGV.fetch(0)), permitted_classes: [], permitted_symbols: [], aliases: false)
+        puts truth.is_a?(Hash) && truth["strict_phase_gate_ledger"].is_a?(Hash) ? "yes" : "no"
+      ' "$truth_path"
+    )"
+    [[ "$has_strict_ledger" == "yes" ]] || return 0
+  fi
+  read -r phase task_id < <(
+    ruby -ryaml -e '
+      truth = YAML.safe_load(File.binread(ARGV.fetch(0)), permitted_classes: [], permitted_symbols: [], aliases: false)
+      puts "#{truth.fetch("project").fetch("current_phase")} #{truth.fetch("active_work").fetch("current_task")}"
+    ' "$truth_path"
+  )
+  if [[ "$mode" == "CANONICAL_ONLY" ]]; then
+    "$validator" --check-phase-predecessor-state "$truth_path" "$phase" "$task_id" STATE_AUDIT
+  else
+    "$validator" --test-phase-predecessor-fixture "$truth_path" "$phase" "$task_id" STATE_AUDIT
+  fi
+}
+
 check_unique_phase_safety() {
   local truth_path="$1"
+  local validation_mode="$2"
   ruby -ryaml -rpathname -e '
     def stop!(message)
       abort("P1_SAFETY_UNIQUE: NON_PASS #{message}")
@@ -94,13 +124,25 @@ check_unique_phase_safety() {
     mapping!(truth, "Truth")
 
     project = mapping!(truth["project"], "project")
+    validation_mode = ARGV.fetch(1)
     phase = project["current_phase"]
     stop!("current phase must be P1 or P2") unless %w[P1 P2].include?(phase)
     stop!("P0 must remain complete") unless project["p0_status"] == "COMPLETE"
     stop!("P1 entry must remain authorized") unless project["p1_entry_status"] == "AUTHORIZED"
     if phase == "P2"
-      stop!("P1 partial-exit status drifted") unless
-        project["p1_execution_status"] == "PARTIAL_EXIT_WITH_DISCLOSED_RESIDUALS_6_OF_8_75_PERCENT"
+      strict_ledger = truth["strict_phase_gate_ledger"]
+      if validation_mode == "TEST_FIXTURE" && !strict_ledger.is_a?(Hash)
+        stop!("legacy P2 fixture P1 status drifted") unless
+          project["p1_execution_status"] == "PARTIAL_EXIT_WITH_DISCLOSED_RESIDUALS_6_OF_8_75_PERCENT"
+      else
+        p1 = mapping!(truth.dig("strict_phase_gate_ledger", "phases", "P1"), "strict P1 Gate")
+        p1_items = mapping!(p1["required_items"], "strict P1 required items")
+        stop!("P1 is not strict 8/8 COMPLETE before P2") unless
+          p1["status"] == "COMPLETE" &&
+          p1_items.length == 8 &&
+          p1_items.values.all? { |item| item.is_a?(Hash) && item["status"] == "ACCEPTED" } &&
+          project["p1_execution_status"] == "COMPLETE_STRICT_8_OF_8_100_PERCENT"
+      end
       stop!("P2 entry must remain authorized") unless project["p2_entry_status"] == "AUTHORIZED"
     end
 
@@ -151,7 +193,7 @@ check_unique_phase_safety() {
     end
 
     puts "#{phase}_SAFETY_UNIQUE: PASS"
-  ' "$truth_path"
+  ' "$truth_path" "$validation_mode"
 }
 
 command -v ruby >/dev/null 2>&1 || fail "ruby is required"
@@ -162,6 +204,7 @@ if [[ $# -gt 0 ]]; then
     fail "unsupported arguments"
   TRUTH_PATH="$2"
   ROOT_DIR="$(repo_root_for_truth "$TRUTH_PATH")"
+  PHASE_CHECK_MODE="TEST_FIXTURE"
 else
   [[ -f "$TRUTH_PATH" && ! -L "$TRUTH_PATH" ]] ||
     fail "canonical Truth missing, non-regular, or symlinked"
@@ -169,12 +212,14 @@ else
     grep -E '(^|/)\.sourcelens-audit(/|$)' || true)"
   [[ -z "$tracked_audit_paths" ]] ||
     fail "external Evidence material leaked into Git: ${tracked_audit_paths}"
+  PHASE_CHECK_MODE="CANONICAL_ONLY"
 fi
 
 # This is the only Task/route accounting decision. Its exact PASS/NON_PASS
 # output and exit status are intentionally propagated without reinterpretation.
+run_phase_predecessor_core "$ROOT_DIR" "$TRUTH_PATH" "$PHASE_CHECK_MODE"
 run_authority_core "$ROOT_DIR"
-check_unique_phase_safety "$TRUTH_PATH"
+check_unique_phase_safety "$TRUTH_PATH" "$PHASE_CHECK_MODE"
 
 if [[ $# -gt 0 ]]; then
   echo "Current Phase route safety validation passed."

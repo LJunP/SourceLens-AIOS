@@ -4,9 +4,9 @@
 
 ## 1. 生成范围
 
-- 纳入逐文件用途索引的文件数：848。
+- 纳入逐文件用途索引的文件数：850。
 - 其中源码/脚本/配置/SQL/CSS 类文件数：532。
-- 纳入统计的文本总行数：219173。
+- 纳入统计的文本总行数：220796。
 - 排除逐文件展开的本地生成/证据目录：`.git/`、`bin/`、`web-console/node_modules/`、`backend-spring/target/`、`analyzer-rust/target/`、`.sourcelens-runtime/`、`release-evidence/`、前端构建和测试产物。
 - 本地生成物、依赖缓存和历史证据目录不是源码或当前权威；它们必须保持未跟踪并可重建或从封存恢复。
 
@@ -31,7 +31,7 @@
 | `README.md` | 1 | 项目根文件或辅助目录。 |
 | `ROADMAP.md` | 1 | 项目根文件或辅助目录。 |
 | `schemas` | 1 | 项目根文件或辅助目录。 |
-| `scripts` | 30 | 本地构建、验证、代码地图和最小安全检查。 |
+| `scripts` | 32 | 本地构建、验证、代码地图和最小安全检查。 |
 | `SECURITY.md` | 1 | 项目根文件或辅助目录。 |
 | `SUPPORT.md` | 1 | 项目根文件或辅助目录。 |
 | `web-console` | 72 | React/Vite 前端控制台。 |
@@ -280,7 +280,7 @@
 | `evaluation-harness/validators` | 3 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/validators/blind-admission-v1` | 1 | 项目根文件或辅助目录。子目录。 |
 | `schemas` | 1 | 项目根文件或辅助目录。子目录。 |
-| `scripts` | 30 | 本地自动化脚本目录，封装启动、校验、代码地图和生成物清理。 |
+| `scripts` | 32 | 本地自动化脚本目录，封装启动、校验、代码地图和生成物清理。 |
 | `web-console` | 72 | React/Vite 前端控制台工程，承载 SourceLens 用户界面和 UI smoke。 |
 | `web-console/src` | 66 | 前端源码根目录。 |
 | `web-console/src/api` | 21 | 前端 API client 层，集中定义后端 HTTP 调用和 TypeScript 响应类型。 |
@@ -1346,6 +1346,8 @@
 | `scripts/run-backend-dev.sh` | 本地后端启动脚本，处理 env、端口占用、健康复用和稳定 jar runtime。 |
 | `scripts/run-backend-jar-dev.sh` | 本地后端启动脚本，处理 env、端口占用、健康复用和稳定 jar runtime。 |
 | `scripts/test-current-task-authority.rb` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
+| `scripts/test-founder-knowledge-sync.rb` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
+| `scripts/test-strict-phase-gates.rb` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/validate-aios-governance.sh` | 静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。 |
 | `scripts/validate-api-design.mjs` | 静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。 |
 | `scripts/validate-artifact-quality.mjs` | 静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。 |

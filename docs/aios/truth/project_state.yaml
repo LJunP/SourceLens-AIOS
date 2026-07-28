@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-28T09:33:11Z"
-verification_scope: P2_009_TERMINAL_FINAL_SECURITY_TARGET_NON_PASS_P2_PHASE_GATE
+last_verified_at: "2026-07-28T10:34:27Z"
+verification_scope: FOUNDER_STRICT_PHASE_SEQUENCE_RECOVERY_AND_KNOWLEDGE_SYNC_RULE_ALIGNMENT
 
 authority:
   founder: Human Founder
@@ -17,8 +17,8 @@ authority:
     status: FROZEN
   founder_delegation_policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
-    version: "1.6"
-    sha256: 4cee36f00b6686c75ed8f4d2811e4615ef98120c3f5e9be3e30b4fc5b2c1793c
+    version: "1.7"
+    sha256: 2417cc5fbd96677ea518ccfa66d0d1adc5f48d92e4d24ef23b9ffc85d47aed72
     status: FOUNDER_DIRECTIVE_ACTIVE
   evaluation_protocol:
     path: docs/aios/EVALUATION_PROTOCOL.md
@@ -421,21 +421,28 @@ goal:
     verifier enforcement and non-normal path handling. The candidate remains
     preserved but unaccepted, contributes no P2 capability credit, P2-010 is
     ineligible, and the project is now stopped at the Founder P2 Phase Gate.
+    The Founder then rejected phase skipping as a valid execution policy.
+    Canonical scheduling is corrected back to P1 with its exact 6/8 (75%)
+    completion and two missing Exit Gate items unchanged. The terminal P2-009
+    route remains historical Evidence with no scheduling authority; P2 is
+    HOLD_PENDING_STRICT_P1_EXIT. No P2 engineering may resume until P1 is
+    strict 8/8, its Founder Phase Gate is PASS, and a later P2 route passes the
+    exact next-Phase predecessor precheck.
 
 project:
   name: SourceLens AIOS
   positioning: Trustworthy autonomous-agent infrastructure research platform using software engineering as the first validation environment.
   year_one_outcome: Build and scientifically evaluate one trustworthy software-engineering Agent.
-  current_phase: P2
-  phase_name: Repository Intelligence
+  current_phase: P1
+  phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
   p1_execution_status: PARTIAL_EXIT_WITH_DISCLOSED_RESIDUALS_6_OF_8_75_PERCENT
   p1_engineering_status: PARTIAL_EXIT_P1_154_TERMINAL_TWO_CAPABILITIES_MISSING
-  p2_entry_status: AUTHORIZED
-  p2_execution_status: STOPPED_AT_FOUNDER_P2_PHASE_GATE
-  phase_execution_status: STOPPED_AT_FOUNDER_P2_PHASE_GATE
-  current_route_execution_status: TERMINAL_P2_009_FINAL_SECURITY_TARGET_NON_PASS_P2_010_INELIGIBLE
+  p2_entry_status: HOLD_PENDING_STRICT_P1_EXIT
+  p2_execution_status: HOLD_PENDING_STRICT_P1_EXIT
+  phase_execution_status: READY_FOR_P1_EXIT_TASK_SELECTION
+  current_route_execution_status: STRICT_PHASE_RECOVERY_HOLD_READY_FOR_P1_TASK_SELECTION
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -1826,20 +1833,6 @@ historical_p1_097_phase_route:
       task_contract_sha256: 59c64d01f4d179a50b6a7e4a906990da61fec5bfc54480da070f578558f9508c
       accepted_candidate_commit: 93c3563270316e9e92a58f084f6d28ab12063704
       accepted_candidate_tree: dcbbed8429b9d1db3ea9f7f5cdb28c27e34fa0e9
-    p1_101:
-      task_id: AIOS-P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE
-      status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
-      task_contract_path: docs/aios/tasks/P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE.yaml
-      task_contract_sha256: bee1b94f438f2d49a88bd99f2662f404470c446f81ba07be341ac5339d20bf15
-      accepted_candidate_commit: 14c24cec4e69970e59632f1c29bacf140ebdaf02
-      accepted_candidate_tree: 999f37f93692a045d455adf0ea503947ed5555a5
-    p1_101:
-      task_id: AIOS-P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE
-      status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
-      task_contract_path: docs/aios/tasks/P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE.yaml
-      task_contract_sha256: bee1b94f438f2d49a88bd99f2662f404470c446f81ba07be341ac5339d20bf15
-      accepted_candidate_commit: 633f9daf133bf616cd293fb343058e2efba2a3ed
-      accepted_candidate_tree: 999f37f93692a045d455adf0ea503947ed5555a5
     p1_101:
       task_id: AIOS-P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE
       status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
@@ -4267,6 +4260,33 @@ historical_p1_139_phase_route:
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 
 current_phase_route:
+  schema_version: strict-phase-recovery-hold/v1
+  route_id: P1_STRICT_SEQUENCE_RECOVERY_PENDING_TASK_SELECTION
+  status: AUTHORIZED_READY
+  execution_status: STRICT_PHASE_RECOVERY_HOLD_READY_FOR_P1_TASK_SELECTION
+  scheduling_status: READY_FOR_P1_EXIT_TASK_SELECTION
+  phase: P1
+  phase_entry_status: AUTHORIZED
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: "1.7"
+    sha256: 2417cc5fbd96677ea518ccfa66d0d1adc5f48d92e4d24ef23b9ffc85d47aed72
+  founder_phase_route_decision_required: false
+  next_eligible_action: SELECT_HIGHEST_VALUE_P1_EXIT_TASK
+  missing_exit_items:
+    - REPRODUCIBLE_BASELINE_REPORT
+    - P2_CONTEXT_ENGINE_PREREGISTRATION
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false
+  additional_write_roots: []
+  inherited_worktree_inventory_source: historical_p2_009_terminal_route
+
+historical_p2_009_terminal_route:
   route_id: P2_PARTIAL_P1_EXIT_WITH_DISCLOSED_RESIDUALS_AND_REPOSITORY_INTELLIGENCE_ENGINEERING_ROUTE_V1
   status: TERMINAL_TASK_1_NON_PASS
   authority_object_status: FOUNDER_PHASE_ENTRY_AUTHORITY_CONSUMED_ROUTE_TERMINAL
@@ -4285,8 +4305,8 @@ current_phase_route:
     tree: 6447045edc4061eb985a54653da8c35a04c28c76
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
-    version: "1.6"
-    sha256: 4cee36f00b6686c75ed8f4d2811e4615ef98120c3f5e9be3e30b4fc5b2c1793c
+    version: "1.7"
+    sha256: 2417cc5fbd96677ea518ccfa66d0d1adc5f48d92e4d24ef23b9ffc85d47aed72
   goal_identity:
     raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
     raw_byte_length: 19433
@@ -5345,9 +5365,9 @@ historical_p2_phase_route:
   next_eligible_action: FOUNDER_P2_PHASE_GATE
 
 phase_delegation:
-  status: P2_PHASE_GATE_READY_P1_PARTIAL_EXIT_ACCEPTED
+  status: P1_STRICT_SEQUENCE_RECOVERY_READY_FOR_PHASE_LOCAL_TASK_SELECTION
   model: PHASE_LEVEL_FOUNDER_DELEGATION
-  decision_source: FOUNDER_DIRECTIVES_IN_CODEX_THREAD_2026_07_16_AND_2026_07_17
+  decision_source: FOUNDER_STRICT_PHASE_SEQUENCE_AND_KNOWLEDGE_SYNC_DIRECTIVE_2026_07_28
   phase_gate_owner: HUMAN_FOUNDER
   task_selection_owner: MASTER_CEO_AGENT
   task_authorization_owner: MASTER_CEO_AGENT_WITHIN_CURRENT_PHASE_ENVELOPE
@@ -6222,15 +6242,17 @@ mandatory_exit_capability_recovery:
   claim_boundary: This recovery authorization removes a permanent capability ban only for P1 Exit Gate requirements; it does not accept historical Tasks or authorize external effects, P2, P3, benchmark claims or production use.
 
 phase_boundary:
-  phase: P2
+  phase: P1
   allowed_task_kinds:
-    - REPOSITORY_INTELLIGENCE_ENGINEERING
-    - REPOSITORY_INTELLIGENCE_RESEARCH
+    - EVALUATION_FOUNDATION_ENGINEERING
+    - EVALUATION_FOUNDATION_EMPIRICAL_BASELINE_RESEARCH
+    - EVALUATION_FOUNDATION_P2_CONTEXT_ENGINE_PREREGISTRATION
   allowed_capabilities:
-    - P2_REPOSITORY_INTELLIGENCE_CAPABILITY_CLAIM
-    - TASK_CONDITIONED_CONTEXT_SELECTION
-    - REPOSITORY_CONTEXT_BENCHMARK
-    - LOCAL_COMMIT_DERIVED_TASK_DATASET
+    - REPRODUCIBLE_BASELINE_REPORT
+    - P2_CONTEXT_ENGINE_PREREGISTRATION
+    - VERSIONED_REPRESENTATIVE_TASK_DATASET
+    - B0_B1_B2_COMPATIBILITY_ADAPTERS
+    - OBSERVABLE_TRACE
     - DETERMINISTIC_REPLAY
     - EVALUATOR_AND_ORACLE
     - EVIDENCE_MANIFEST
@@ -6241,6 +6263,7 @@ phase_boundary:
       - analyzer-rust
       - evaluation-harness/harness
       - evaluation-harness/replay
+      - evaluation-harness/reports
     quality:
       - evaluation-harness/evaluator
       - evaluation-harness/datasets
@@ -6282,6 +6305,7 @@ phase_boundary:
   founder_reserved_risk_levels:
     - critical
   deferred_capabilities:
+    - P2_REPOSITORY_INTELLIGENCE_CAPABILITY_CLAIM
     - P3_SINGLE_AGENT_RUNTIME
     - AGENT_SHELL
     - MODEL_INITIATED_CANONICAL_WRITE
@@ -6305,6 +6329,574 @@ p0_baseline:
   frozen_base: 09cf8dd6a1bcee138b949d117804d652000eb7cc
   status: ACCEPTED_HISTORICAL_BASELINE
   online_verification_status: ARCHIVED_NOT_ON_ACTIVE_PATH
+
+strict_phase_gate_ledger:
+  schema_version: "1.0"
+  trust_model: COOPERATIVE_LOCAL_EXACT_IDENTITY_WITHOUT_HOSTILE_PRINCIPAL_OR_CRYPTOGRAPHIC_ATTESTATION_CLAIM
+  phase_route_authority:
+    path: docs/aios/STRATEGIC_CONSTITUTION.md
+    version: "2.3"
+    section: "## 9. Phase route"
+    section_byte_length: 1869
+    section_sha256: e636781630de5fb8d726b9d66f5520785753724fee942d7f06f1e08d8faad21a
+  sequence:
+    - P0
+    - P1
+    - P2
+    - P3
+    - P4
+    - P5
+    - P6
+    - P7
+    - P8
+    - P9
+    - P10
+    - P11
+    - P12
+  rule: A later Phase is schedulable only after every predecessor has a closed required-item set, all required items are ACCEPTED, and an exact Founder Phase Gate record is PASS.
+  phases:
+    P0:
+      status: COMPLETE
+      required_item_ids:
+        - CANONICAL_STATE
+        - MIGRATION_LEDGER
+        - BASELINE_PROTOCOL
+        - REVIEWABLE_WORKTREE_PLAN
+      required_items:
+        CANONICAL_STATE:
+          status: ACCEPTED
+          evidence_ref: P0_FOUNDER_PHASE_GATE
+        MIGRATION_LEDGER:
+          status: ACCEPTED
+          evidence_ref: P0_FOUNDER_PHASE_GATE
+        BASELINE_PROTOCOL:
+          status: ACCEPTED
+          evidence_ref: P0_FOUNDER_PHASE_GATE
+        REVIEWABLE_WORKTREE_PLAN:
+          status: ACCEPTED
+          evidence_ref: P0_FOUNDER_PHASE_GATE
+      founder_phase_gate:
+        status: PASS
+        decision_id: SOURCE-LENS-AIOS-P0-FOUNDER-GATE-20260711T125610Z
+        storage: GIT_BLOB
+        commit: 225f8b5c5d2fb361eeef271d5d8336bae555be74
+        path: docs/aios/P0_GATE.md
+        byte_length: 10374
+        sha256: 785b92e78c3926c7a1ae9de8063815dd60703140b6ca3ff2e8944e3547efd4d1
+        accepted_checkpoint_commit: ad6450e418d8f1b4fd5a789f913525a8dd8bdc10
+        accepted_checkpoint_tree: 2c0956ae8598547466f691ead21532a026006bf9
+    P1:
+      status: INCOMPLETE
+      exit_gate_authority:
+        path: docs/aios/EVALUATION_PROTOCOL.md
+        version: "1.1"
+        section: "## 12. P1 exit gate"
+        section_byte_length: 567
+        section_sha256: 69dade6cd7e28a289004a799e1534909b59e8ab9007b3ababfb3172c77bccba3
+      required_item_ids:
+        - VERSIONED_TASKSPEC_AND_REPRESENTATIVE_TASK_SET
+        - REPRODUCIBLE_ENVIRONMENT_SNAPSHOTS
+        - REQUIRED_OBSERVABLE_ACTION_TRACES
+        - B0_B1_B2_COMMON_HARNESS_OR_COMPATIBILITY_ADAPTERS
+        - HIDDEN_SET_ACCESS_SEPARATION
+        - EVALUATOR_DISAGREEMENT_AND_FALSE_SUCCESS_CHARACTERIZATION
+        - REPRODUCIBLE_BASELINE_REPORT
+        - P2_CONTEXT_ENGINE_PREREGISTRATION
+      required_items:
+        VERSIONED_TASKSPEC_AND_REPRESENTATIVE_TASK_SET:
+          status: ACCEPTED
+          task_history_key: aios_p1_035
+          task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+          acceptance_commit: ee71139fcf1c7cb935a6c77e085dd30e9c9a528a
+          acceptance_tree: e48e871087e27d3a8db610f82e53329d541dd90e
+          gate_evidence:
+            receipt_type: LEGACY_P1_035_TASK_GATE_RECEIPT
+            path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-035-versioned-representative-task-dataset/gate/TASK_GATE_RECEIPT.json
+            byte_length: 994
+            sha256: 808b1ab6bd04184754118638cb44ffab03932c7a9e4ce80a181a20f022c6578a
+        REPRODUCIBLE_ENVIRONMENT_SNAPSHOTS:
+          status: ACCEPTED
+          task_history_key: aios_p1_011
+          task_id: AIOS-P1-011_ENVIRONMENT_SNAPSHOT_CAPTURE_AND_REPLAY
+          acceptance_commit: e468112c0a4671cf88e14d31be0ad29f690d1679
+          acceptance_tree: 8ccad4459d10685566d0f3d538d0f01ff2b0db1d
+          gate_evidence:
+            receipt_type: LEGACY_P1_011_MASTER_GATE_DECISION
+            path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-011-environment-snapshot-execution-20260716T125500Z/iteration-2/MASTER_TASK_GATE_DECISION.json
+            byte_length: 1410
+            sha256: 3a2c14da9dba10a47f34d40b932d07c568cd8f44a8028b3d35dfe81e5c118249
+        REQUIRED_OBSERVABLE_ACTION_TRACES:
+          status: ACCEPTED
+          task_history_key: aios_p1_101
+          task_id: AIOS-P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE
+          acceptance_commit: 633f9daf133bf616cd293fb343058e2efba2a3ed
+          acceptance_tree: 999f37f93692a045d455adf0ea503947ed5555a5
+          gate_evidence:
+            receipt_type: LEGACY_CANONICAL_INTEGRATION_RECEIPT
+            path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-101-accepted-shared-observable-trace-20260724/integration/P1_101_INTEGRATION_RECEIPT.json
+            byte_length: 2416
+            sha256: 962d6978bbc2d5b7b7b6065f502075587caf5c5d996582361eb7ea823d48a539
+        B0_B1_B2_COMMON_HARNESS_OR_COMPATIBILITY_ADAPTERS:
+          status: ACCEPTED
+          task_history_key: aios_p1_099
+          task_id: AIOS-P1-099_EXACT_NONOWNED_CLASSIFICATION_RECOVERY_AND_ADAPTER_GATE
+          acceptance_commit: d933f9ef0ad2171be9321ef0b2d6a47366932031
+          acceptance_tree: bd93a2530b6a6314ead2993c2bb2ac13068966c6
+          gate_evidence:
+            receipt_type: LEGACY_P1_099_FOUNDER_EXCEPTION_INTEGRATION_RECEIPT
+            path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-101-accepted-shared-observable-trace-20260724/integration/P1_099_FOUNDER_EXCEPTION_INTEGRATION_RECEIPT.json
+            byte_length: 1924
+            sha256: 6da11faec32229ab91d48c414e75bcd7d15a08d28013e61218a2a14197146d76
+        HIDDEN_SET_ACCESS_SEPARATION:
+          status: ACCEPTED
+          task_history_key: aios_p1_071
+          task_id: AIOS-P1-071_STABLE_REPLAY_PROJECTION_AND_EXACT_HARNESS_ADMISSION_VERTICAL_SLICE
+          acceptance_commit: 2da6a314249c9ea98f3cc3134e6afe00e4c28db0
+          acceptance_tree: 68d0605dbd94bf1003f36b51fe74b6f4ca082032
+          gate_evidence:
+            receipt_type: LEGACY_CANONICAL_INTEGRATION_RECEIPT
+            path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-071-stable-replay-projection-xu6z1Nqn/integration/P1_071_CANONICAL_INTEGRATION_RECEIPT.json
+            byte_length: 4142
+            sha256: ac3f52f90d6a18d21fa31a413ead9d038adf7e32d731d5e8bf68bf5b8eabac5c
+        EVALUATOR_DISAGREEMENT_AND_FALSE_SUCCESS_CHARACTERIZATION:
+          status: ACCEPTED
+          task_history_key: aios_p1_070
+          task_id: AIOS-P1-070_OFFLINE_SCHEDULED_MATRIX_VTSR_AND_FALSE_SUCCESS_EXPERIMENT
+          acceptance_commit: ee51cc96fedec5cc9ec640c6c0c1c76d5268d6c5
+          acceptance_tree: ffae19db6991a77424d0deaa96a1c761348b7b41
+          gate_evidence:
+            receipt_type: LEGACY_CANONICAL_INTEGRATION_RECEIPT
+            path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-070-offline-scheduled-matrix-TS8DyWZw/integration/P1_070_CANONICAL_INTEGRATION_RECEIPT.json
+            byte_length: 5452
+            sha256: 1ef325fff26daf804a69e3e3743f152fb92368425cca7430616fe358f8404bc1
+        REPRODUCIBLE_BASELINE_REPORT:
+          status: MISSING
+          task_history_key: null
+          task_id: null
+          acceptance_commit: null
+          acceptance_tree: null
+          gate_evidence:
+            receipt_type: null
+            path: null
+            byte_length: null
+            sha256: null
+        P2_CONTEXT_ENGINE_PREREGISTRATION:
+          status: MISSING
+          task_history_key: null
+          task_id: null
+          acceptance_commit: null
+          acceptance_tree: null
+          gate_evidence:
+            receipt_type: null
+            path: null
+            byte_length: null
+            sha256: null
+      derived_completion:
+        completed: 6
+        total: 8
+        percent: 75
+      founder_phase_gate:
+        status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
+        decision_id: null
+        path: null
+        byte_length: null
+        sha256: null
+    P2:
+      status: INCOMPLETE
+      exit_gate_authority:
+        source: STRICT_PHASE_ROUTE_AUTHORITY
+        required_exit_evidence: Context benchmark beats simple retrieval baselines
+      required_item_ids:
+        - CONTEXT_BENCHMARK_BEATS_SIMPLE_RETRIEVAL_BASELINES
+      required_items:
+        CONTEXT_BENCHMARK_BEATS_SIMPLE_RETRIEVAL_BASELINES:
+          status: MISSING
+          task_history_key: null
+          task_id: null
+          acceptance_commit: null
+          acceptance_tree: null
+          gate_evidence:
+            receipt_type: null
+            path: null
+            byte_length: null
+            sha256: null
+      founder_phase_gate:
+        status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
+        decision_id: null
+        path: null
+        byte_length: null
+        sha256: null
+    P3:
+      status: INCOMPLETE
+      exit_gate_authority:
+        source: STRICT_PHASE_ROUTE_AUTHORITY
+        required_exit_evidence: Resume, isolation, permission and trace tests
+      required_item_ids:
+        - RESUME_ISOLATION_PERMISSION_AND_TRACE_TESTS
+      required_items:
+        RESUME_ISOLATION_PERMISSION_AND_TRACE_TESTS:
+          status: MISSING
+          task_history_key: null
+          task_id: null
+          acceptance_commit: null
+          acceptance_tree: null
+          gate_evidence:
+            receipt_type: null
+            path: null
+            byte_length: null
+            sha256: null
+      founder_phase_gate:
+        status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
+        decision_id: null
+        path: null
+        byte_length: null
+        sha256: null
+    P4:
+      status: INCOMPLETE
+      exit_gate_authority:
+        source: STRICT_PHASE_ROUTE_AUTHORITY
+        required_exit_evidence: Verified patches on controlled real tasks
+      required_item_ids:
+        - VERIFIED_PATCHES_ON_CONTROLLED_REAL_TASKS
+      required_items:
+        VERIFIED_PATCHES_ON_CONTROLLED_REAL_TASKS:
+          status: MISSING
+          task_history_key: null
+          task_id: null
+          acceptance_commit: null
+          acceptance_tree: null
+          gate_evidence:
+            receipt_type: null
+            path: null
+            byte_length: null
+            sha256: null
+      founder_phase_gate:
+        status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
+        decision_id: null
+        path: null
+        byte_length: null
+        sha256: null
+    P5:
+      status: INCOMPLETE
+      exit_gate_authority:
+        source: STRICT_PHASE_ROUTE_AUTHORITY
+        required_exit_evidence: Adversarial and failure-recovery evidence
+      required_item_ids:
+        - ADVERSARIAL_AND_FAILURE_RECOVERY_EVIDENCE
+      required_items:
+        ADVERSARIAL_AND_FAILURE_RECOVERY_EVIDENCE:
+          status: MISSING
+          task_history_key: null
+          task_id: null
+          acceptance_commit: null
+          acceptance_tree: null
+          gate_evidence:
+            receipt_type: null
+            path: null
+            byte_length: null
+            sha256: null
+      founder_phase_gate:
+        status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
+        decision_id: null
+        path: null
+        byte_length: null
+        sha256: null
+    P6:
+      status: INCOMPLETE
+      exit_gate_authority:
+        source: STRICT_PHASE_ROUTE_AUTHORITY
+        required_exit_evidence: Reproducible benchmark report
+      required_item_ids:
+        - REPRODUCIBLE_BENCHMARK_REPORT
+      required_items:
+        REPRODUCIBLE_BENCHMARK_REPORT:
+          status: MISSING
+          task_history_key: null
+          task_id: null
+          acceptance_commit: null
+          acceptance_tree: null
+          gate_evidence:
+            receipt_type: null
+            path: null
+            byte_length: null
+            sha256: null
+      founder_phase_gate:
+        status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
+        decision_id: null
+        path: null
+        byte_length: null
+        sha256: null
+    P7:
+      status: INCOMPLETE
+      exit_gate_authority:
+        source: STRICT_PHASE_ROUTE_AUTHORITY
+        required_exit_evidence: A/B or ablation evidence of practical improvement
+      required_item_ids:
+        - AB_OR_ABLATION_PRACTICAL_IMPROVEMENT_EVIDENCE
+      required_items:
+        AB_OR_ABLATION_PRACTICAL_IMPROVEMENT_EVIDENCE:
+          status: MISSING
+          task_history_key: null
+          task_id: null
+          acceptance_commit: null
+          acceptance_tree: null
+          gate_evidence:
+            receipt_type: null
+            path: null
+            byte_length: null
+            sha256: null
+      founder_phase_gate:
+        status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
+        decision_id: null
+        path: null
+        byte_length: null
+        sha256: null
+    P8:
+      status: INCOMPLETE
+      exit_gate_authority:
+        source: STRICT_PHASE_ROUTE_AUTHORITY
+        required_exit_evidence: Multi-Agent retained only if it wins on a declared tradeoff
+      required_item_ids:
+        - MULTI_AGENT_WINS_DECLARED_TRADEOFF
+      required_items:
+        MULTI_AGENT_WINS_DECLARED_TRADEOFF:
+          status: MISSING
+          task_history_key: null
+          task_id: null
+          acceptance_commit: null
+          acceptance_tree: null
+          gate_evidence:
+            receipt_type: null
+            path: null
+            byte_length: null
+            sha256: null
+      founder_phase_gate:
+        status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
+        decision_id: null
+        path: null
+        byte_length: null
+        sha256: null
+    P9:
+      status: INCOMPLETE
+      exit_gate_authority:
+        source: STRICT_PHASE_ROUTE_AUTHORITY
+        required_exit_evidence: Governed organization experiments
+      required_item_ids:
+        - GOVERNED_ORGANIZATION_EXPERIMENTS
+      required_items:
+        GOVERNED_ORGANIZATION_EXPERIMENTS:
+          status: MISSING
+          task_history_key: null
+          task_id: null
+          acceptance_commit: null
+          acceptance_tree: null
+          gate_evidence:
+            receipt_type: null
+            path: null
+            byte_length: null
+            sha256: null
+      founder_phase_gate:
+        status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
+        decision_id: null
+        path: null
+        byte_length: null
+        sha256: null
+    P10:
+      status: INCOMPLETE
+      exit_gate_authority:
+        source: STRICT_PHASE_ROUTE_AUTHORITY
+        required_exit_evidence: Second implementation can use the platform
+      required_item_ids:
+        - SECOND_IMPLEMENTATION_USES_PLATFORM
+      required_items:
+        SECOND_IMPLEMENTATION_USES_PLATFORM:
+          status: MISSING
+          task_history_key: null
+          task_id: null
+          acceptance_commit: null
+          acceptance_tree: null
+          gate_evidence:
+            receipt_type: null
+            path: null
+            byte_length: null
+            sha256: null
+      founder_phase_gate:
+        status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
+        decision_id: null
+        path: null
+        byte_length: null
+        sha256: null
+    P11:
+      status: INCOMPLETE
+      exit_gate_authority:
+        source: STRICT_PHASE_ROUTE_AUTHORITY
+        required_exit_evidence: Evidence from a second domain
+      required_item_ids:
+        - SECOND_DOMAIN_EVIDENCE
+      required_items:
+        SECOND_DOMAIN_EVIDENCE:
+          status: MISSING
+          task_history_key: null
+          task_id: null
+          acceptance_commit: null
+          acceptance_tree: null
+          gate_evidence:
+            receipt_type: null
+            path: null
+            byte_length: null
+            sha256: null
+      founder_phase_gate:
+        status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
+        decision_id: null
+        path: null
+        byte_length: null
+        sha256: null
+    P12:
+      status: INCOMPLETE
+      exit_gate_authority:
+        source: STRICT_PHASE_ROUTE_AUTHORITY
+        required_exit_evidence: Long-term outcome, not a current commitment
+      required_item_ids:
+        - LONG_TERM_OUTCOME_FORMALLY_ACCEPTED
+      required_items:
+        LONG_TERM_OUTCOME_FORMALLY_ACCEPTED:
+          status: MISSING
+          task_history_key: null
+          task_id: null
+          acceptance_commit: null
+          acceptance_tree: null
+          gate_evidence:
+            receipt_type: null
+            path: null
+            byte_length: null
+            sha256: null
+      founder_phase_gate:
+        status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
+        decision_id: null
+        path: null
+        byte_length: null
+        sha256: null
+
+founder_knowledge_sync:
+  schema_version: "1.0"
+  trust_model: COOPERATIVE_LOCAL_APPEND_CHAIN_WITH_CANONICAL_GIT_HISTORY_NO_HOSTILE_PRINCIPAL_OR_EXTERNAL_CHECKPOINT_CLAIM
+  vault_path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault
+  non_authoritative: true
+  engineering_blocking: false
+  allowed_statuses:
+    - PENDING_CANDIDATE
+    - PENDING_REVIEW
+    - REVIEWED_PASS_PENDING_IMPORT
+    - NON_PASS
+    - IMPORTED
+    - OUTDATED
+    - NO_MATERIAL_KNOWLEDGE_DELTA
+  latest_event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC-IMPORTED-V4
+  events:
+    - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
+      trigger_type: FOUNDER_RULE_CORRECTION
+      occurred_at_utc: "2026-07-28T10:34:27Z"
+      source_commit: b939567d35c2da497848d5772009fc5eaf6f5c02
+      source_tree: 0a68f69dda70bec84e01929d1cc12a288060fa11
+      previous_event_sha256: null
+      event_sha256: 5f03a65ee0f7836ec00e4b4d5040efe025c0d9e386839abb18fb2500cfbddf2f
+      status: PENDING_CANDIDATE
+      rationale: Founder required strict no-skip phase execution and continuous Obsidian knowledge synchronization.
+      engineering_blocking: false
+      artifact:
+        path: null
+        byte_length: null
+        sha256: null
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+    - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC-CANDIDATE-V4
+      trigger_type: LEARNING_ARTIFACT_CANDIDATE_FROZEN
+      occurred_at_utc: "2026-07-28T11:49:52Z"
+      source_commit: b939567d35c2da497848d5772009fc5eaf6f5c02
+      source_tree: 0a68f69dda70bec84e01929d1cc12a288060fa11
+      previous_event_sha256: 5f03a65ee0f7836ec00e4b4d5040efe025c0d9e386839abb18fb2500cfbddf2f
+      event_sha256: ba6070f9b36e805f1fc1a0d7065d7d16cfc68bd9a1930e8ba2873368747e0b92
+      status: PENDING_REVIEW
+      rationale: Frozen V4 learning Artifact records the strict phase sequence correction and continuous Founder Knowledge synchronization rules for independent review.
+      engineering_blocking: false
+      artifact:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/founder-rules-alignment-20260728/knowledge/FOUNDER_LEARNING_ARTIFACT_CANDIDATE_V4.md
+        byte_length: 5584
+        sha256: 45d762b1e04ca4e315a08bb1a6e618ac95307cb315631506126bbcc8ab269800
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+    - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC-REVIEW-PASS-V4
+      trigger_type: INDEPENDENT_KNOWLEDGE_REVIEW_COMPLETED
+      occurred_at_utc: "2026-07-28T11:53:53Z"
+      source_commit: b939567d35c2da497848d5772009fc5eaf6f5c02
+      source_tree: 0a68f69dda70bec84e01929d1cc12a288060fa11
+      previous_event_sha256: ba6070f9b36e805f1fc1a0d7065d7d16cfc68bd9a1930e8ba2873368747e0b92
+      event_sha256: 1bb9053bdedcf75878a4484f5e95995b497bfa869cb1eae8b63b556b0ad0b419
+      status: REVIEWED_PASS_PENDING_IMPORT
+      rationale: Fresh independent Knowledge Review PASS authorizes only the exact V4 Artifact bytes for Founder Knowledge Vault import.
+      engineering_blocking: false
+      artifact:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/founder-rules-alignment-20260728/knowledge/FOUNDER_LEARNING_ARTIFACT_CANDIDATE_V4.md
+        byte_length: 5584
+        sha256: 45d762b1e04ca4e315a08bb1a6e618ac95307cb315631506126bbcc8ab269800
+      review:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/founder-rules-alignment-20260728/knowledge/KNOWLEDGE_REVIEW_V4.json
+        byte_length: 2761
+        sha256: d62b496159c564786bdba461144e70b78982ca24ccc44d075a5e44b5ab809dba
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+    - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC-IMPORTED-V4
+      trigger_type: EXACT_KNOWLEDGE_ARTIFACT_IMPORTED
+      occurred_at_utc: "2026-07-28T11:56:12Z"
+      source_commit: b939567d35c2da497848d5772009fc5eaf6f5c02
+      source_tree: 0a68f69dda70bec84e01929d1cc12a288060fa11
+      previous_event_sha256: 1bb9053bdedcf75878a4484f5e95995b497bfa869cb1eae8b63b556b0ad0b419
+      event_sha256: 18fc66d93c452772112c493d7f55e45fbcc76ad0f38824c5b2f72f4ba84673e7
+      status: IMPORTED
+      rationale: The independently reviewed V4 Artifact was imported into the exact Founder Knowledge Vault with byte-for-byte equality and a recoverable receipt.
+      engineering_blocking: false
+      artifact:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/founder-rules-alignment-20260728/knowledge/FOUNDER_LEARNING_ARTIFACT_CANDIDATE_V4.md
+        byte_length: 5584
+        sha256: 45d762b1e04ca4e315a08bb1a6e618ac95307cb315631506126bbcc8ab269800
+      review:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/founder-rules-alignment-20260728/knowledge/KNOWLEDGE_REVIEW_V4.json
+        byte_length: 2761
+        sha256: d62b496159c564786bdba461144e70b78982ca24ccc44d075a5e44b5ab809dba
+      vault_import:
+        path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/06-Decision-Records/2026-07-28-严格阶段顺序与Knowledge同步规则.md
+        byte_length: 5584
+        sha256: 45d762b1e04ca4e315a08bb1a6e618ac95307cb315631506126bbcc8ab269800
+      receipt:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/founder-rules-alignment-20260728/knowledge/KNOWLEDGE_IMPORT_RECEIPT_V4.json
+        byte_length: 1555
+        sha256: 16dce620847369a7ac0a9483e1a9779001cb3fb08c83f90240656f983f15ede1
 
 historical_active_work_after_p1_079:
   current_task: NONE
@@ -6375,7 +6967,7 @@ active_work:
   authorization_id: null
   activation_parent_commit: null
   activation_parent_tree: null
-  task_resource_state: NONE_PHASE_GATE_READY
+  task_resource_state: NONE_PHASE_ACTIVE
   task_branch: null
   task_worktree: null
   execution_evidence_root: null
@@ -6399,13 +6991,13 @@ active_work:
   offsite_target: null
   founder_reserved_authorization: null
   founder_reserved_authorization_sha256: null
-  founder_decision_required: true
-  founder_decision_required_scope: FOUNDER_P2_PHASE_GATE
-  escalation_reason: P2_009_FINAL_SECURITY_TARGET_NON_PASS
-  user_action_required: FOUNDER_PHASE_GATE_DECISION
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_P2_PHASE_GATE_DECISION
-  next_eligible_action: FOUNDER_P2_PHASE_GATE
+  founder_decision_required: false
+  founder_decision_required_scope: NONE_WITHIN_ACTIVE_P1_PHASE
+  escalation_reason: null
+  user_action_required: NONE
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: SELECT_HIGHEST_VALUE_P1_EXIT_TASK
   last_terminal_task:
     task_id: AIOS-P2-009_CANONICAL_SCAN_GRAPH_INDEX_KERNEL
     status: TERMINAL_FINAL_SECURITY_TARGET_NON_PASS
@@ -10967,8 +11559,6 @@ claim_boundary:
   p1_102_candidate_count: 0
   p1_102_capability_credit: 0
   p1_103_entry: INELIGIBLE_ROUTE_TERMINAL
-  p1_104_entry: ACTIVE_ROUTE_TASK_1
-  p1_105_entry: ELIGIBLE_AFTER_P1_104_COMPLETE_TASK_GATE_PASS
   p1_097_status: TERMINAL_IMPLEMENTATION_ITERATION_EXHAUSTED_NON_PASS
   p1_097_capability_credit: 0
   p1_095_status: TERMINAL_FINAL_CTO_TARGET_NON_PASS

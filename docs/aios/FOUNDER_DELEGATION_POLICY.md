@@ -1,8 +1,8 @@
 # SourceLens AIOS Founder Delegation Policy
 
-- Version: `1.6`
+- Version: `1.7`
 - Status: `FOUNDER_DIRECTIVE_ACTIVE`
-- Effective date: 2026-07-19
+- Effective date: 2026-07-28
 - Scope: current Founder-authorized Phase and its bounded local engineering Tasks
 
 ## 1. Purpose
@@ -152,3 +152,49 @@ PR、release、P2/P3 entry、Agent Shell、model-initiated canonical write、Sup
 Strong Isolation、Full Trust Runtime 和 Multi-Agent Runtime 均未授权。除 exact 外部权限、critical
 residual risk、两个独立实际工程 Task 的同一架构根因、envelope exhaustion 或 P1 Phase Gate 外，
 Master 必须在 envelope 内持续自主推进。
+
+## 7. Strict Phase Sequence and Founder Knowledge Synchronization
+
+Founder 于 2026-07-28 明确要求固定阶段路线严格顺序执行。具体 Task、Route 或实现
+路径失败，不等于对应 Phase Objective 或 Exit Gate 已完成，也不得授权后一 Phase
+开始执行。
+
+强制顺序规则：
+
+- 调度 Phase `Pn` 前，所有 `P0...P(n-1)` 必须由 canonical Truth 记录为严格
+  `COMPLETE`，对应 Evaluation/Exit Gate 的每个必需项均已 `ACCEPTED`，不存在
+  `MISSING`、`PARTIAL`、`NON_PASS` 或未处置必需项，并具有 Founder Phase Gate
+  记录；
+- `partial exit`、`residual acceptance`、Task/Route 终态、预算耗尽和 anti-loop
+  不得替代未完成 Exit Gate；它们可以终止一个实现路线，但不能让后一 Phase 获得
+  调度权；
+- 如果 Founder 希望在 Exit Gate 未完成时改变阶段顺序，必须明确修改适用的战略或
+  Exit Gate 权威，而不能通过普通 Route、Task、残余风险接受或状态标签隐式绕过；
+- 普通实现失败应在仍有效的同一 Task 预算内修复；Task 已终态或实现假设失效时，
+  Master 必须在同一 Phase 选择不恢复失败 lineage 的独立实现方法或最小工程 Task；
+- Phase/Route/Task 资源创建前必须完成数据驱动的 predecessor Gate 检查。检查依据
+  必须来自 canonical Truth、绑定的 Evaluation/Exit Gate、已接受 Task Gate Evidence
+  和 Founder Phase Gate，不得信任自报 `PASS`、字符串前缀或任意非空 Evidence 引用；
+- 检查 NON_PASS 时，即使 current Task 为 `NONE`，后一 Phase 也必须保持 `HOLD`，
+  禁止创建其 branch、worktree、candidate 或工程 Evidence。唯一允许的调度方向是
+  返回最早尚未完成的 Phase。
+
+Founder Knowledge Vault 采用非阻塞、事件驱动同步：
+
+- canonical Task 接受或终态停止、Phase/Route/Gate 变化、影响目标/范围/权限/风险的
+  Founder 决定、Research Artifact 接受或可复用根因确认，都会立即产生一个 Knowledge
+  sync event；
+- canonical Truth 的 `founder_knowledge_sync` 是同步状态的非权威观察账本；每个触发
+  事件、状态及 Artifact/Review/Vault/receipt 身份必须闭合记录并通过治理校验；
+- sync event 和 candidate/review/import 状态必须可观察并在 Founder 状态汇报中披露，
+  但 candidate 创建、Knowledge Review 或 Vault import 均不是工程 Task 激活、Task Gate
+  或 Phase Gate 的前置条件；
+- 合法状态为 `PENDING_CANDIDATE`、`PENDING_REVIEW`、
+  `REVIEWED_PASS_PENDING_IMPORT`、`NON_PASS`、`IMPORTED`、`OUTDATED` 或
+  `NO_MATERIAL_KNOWLEDGE_DELTA`。任何非 `IMPORTED` 状态不得表述为已同步；
+- 只有独立 Knowledge Reviewer 对 exact Artifact bytes 返回 PASS 后，才可导入同一
+  bytes，并以不可覆盖 receipt 绑定 source event、commit/tree、Truth、Artifact、Review、
+  import path/hash/length 和 bytes equality；
+- Knowledge 同步延迟、Review NON_PASS 或无实质知识增量不得阻塞工程，但必须保留真实
+  状态并在后续状态汇报中持续可见；Vault 永远不获得 Truth、Evidence、Task authority
+  或 Gate authority。

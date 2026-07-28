@@ -2844,7 +2844,16 @@ module CurrentTaskAuthority
     active = hash(truth["active_work"], "active_work")
     records = worktrees(root)
     route = hash(truth["current_phase_route"], "current_phase_route")
-    inherited = array(route.fetch("inherited_worktree_inventory", []),
+    inherited_source = if route["schema_version"] == "strict-phase-recovery-hold/v1"
+                         source_key = string(
+                           route["inherited_worktree_inventory_source"],
+                           "current_phase_route.inherited_worktree_inventory_source"
+                         )
+                         hash(truth[source_key], source_key)
+                       else
+                         route
+                       end
+    inherited = array(inherited_source.fetch("inherited_worktree_inventory", []),
                       "current_phase_route.inherited_worktree_inventory")
     inherited_records = inherited.map.with_index do |value, index|
       record = exact_keys(value, %w[path head branch status],
@@ -2883,6 +2892,68 @@ module CurrentTaskAuthority
     assert(lineage_status.success?, "active Task worktree does not descend from its declared activation parent")
   end
 
+  def validate_phase_recovery_hold(truth)
+    project = hash(truth["project"], "project")
+    route = exact_keys(
+      truth["current_phase_route"],
+      %w[
+        schema_version route_id status execution_status scheduling_status phase
+        phase_entry_status policy founder_phase_route_decision_required
+        next_eligible_action missing_exit_items external_effects additional_write_roots
+        inherited_worktree_inventory_source
+      ],
+      "current_phase_route strict recovery hold"
+    )
+    assert(route["schema_version"] == "strict-phase-recovery-hold/v1",
+           "strict recovery route schema drift")
+    assert(route["route_id"] == "P1_STRICT_SEQUENCE_RECOVERY_PENDING_TASK_SELECTION",
+           "strict recovery route id drift")
+    assert(route["status"] == "AUTHORIZED_READY" &&
+           route["execution_status"] == "STRICT_PHASE_RECOVERY_HOLD_READY_FOR_P1_TASK_SELECTION" &&
+           route["scheduling_status"] == "READY_FOR_P1_EXIT_TASK_SELECTION",
+           "strict recovery route lifecycle drift")
+    assert(project["current_phase"] == "P1" && route["phase"] == "P1" &&
+           route["phase_entry_status"] == "AUTHORIZED",
+           "strict recovery route is not aligned to P1")
+    assert(project["p1_execution_status"] == "PARTIAL_EXIT_WITH_DISCLOSED_RESIDUALS_6_OF_8_75_PERCENT" &&
+           project["p2_entry_status"] == "HOLD_PENDING_STRICT_P1_EXIT" &&
+           project["p2_execution_status"] == "HOLD_PENDING_STRICT_P1_EXIT",
+           "strict recovery project state drift")
+    assert(route["founder_phase_route_decision_required"] == false &&
+           route["next_eligible_action"] == "SELECT_HIGHEST_VALUE_P1_EXIT_TASK",
+           "strict recovery scheduling authority drift")
+    validate_external_effects(
+      route["external_effects"],
+      "strict recovery external effects",
+      FALSE_EXTERNAL_EFFECTS
+    )
+    assert(route["additional_write_roots"] == [], "strict recovery may not grant write roots")
+    ledger = hash(truth["strict_phase_gate_ledger"], "strict_phase_gate_ledger")
+    p1 = hash(hash(ledger["phases"], "strict_phase_gate_ledger.phases")["P1"], "strict P1 Gate")
+    items = hash(p1["required_items"], "strict P1 required items")
+    missing = items.each_with_object([]) do |(item_id, item), result|
+      result << item_id unless item.is_a?(Hash) && item["status"] == "ACCEPTED"
+    end
+    assert(p1["status"] == "INCOMPLETE" && !missing.empty?,
+           "strict recovery hold requires a dynamically incomplete P1 Gate")
+    assert(route["missing_exit_items"] == missing, "strict recovery route missing-item projection drift")
+    active = hash(truth["active_work"], "active_work")
+    assert(active["current_task"] == "NONE" && active["current_task_status"] == "NONE",
+           "strict recovery hold requires Task NONE")
+    goal = hash(truth["goal"], "goal")
+    assert(goal["current_task_authority"] == "NONE",
+           "strict recovery hold requires Goal Task authority NONE")
+    historical = hash(
+      truth[route["inherited_worktree_inventory_source"]],
+      route["inherited_worktree_inventory_source"]
+    )
+    assert(historical["phase"] == "P2" &&
+           historical["status"] == "TERMINAL_TASK_1_NON_PASS" &&
+           historical["scheduling_status"] == "STOPPED_AT_FOUNDER_P2_PHASE_GATE",
+           "historical P2 terminal route boundary drift")
+    "READY_NONE"
+  end
+
   def validate!
     root = git(Dir.pwd, "rev-parse", "--show-toplevel").first.strip
     truth_path = File.join(root, "docs/aios/truth/project_state.yaml")
@@ -2891,6 +2962,9 @@ module CurrentTaskAuthority
     validate_repository_and_worktrees(root, truth)
     validate_goal(truth)
     validate_authority_documents(root, truth)
+    route = hash(truth["current_phase_route"], "current_phase_route")
+    return validate_phase_recovery_hold(truth) if
+      route["schema_version"] == "strict-phase-recovery-hold/v1"
     route, route_id, first_task, _accepted, claims = validate_route(root, truth)
     first_task_in_history = historical_task_ids(truth).include?(first_task["task_id"])
     if %w[ELIGIBLE_NOT_ACTIVATED ACTIVE].include?(first_task["status"])

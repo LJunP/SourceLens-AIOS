@@ -1,0 +1,140 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P2-009_CANONICAL_SCAN_GRAPH_INDEX_KERNEL
+phase: P2
+route_id: P2_PARTIAL_P1_EXIT_WITH_DISCLOSED_RESIDUALS_AND_REPOSITORY_INTELLIGENCE_ENGINEERING_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Build and falsify one executable offline graph-index kernel that transforms
+  canonical SourceLens scan-result schema v2 bytes into deterministic,
+  repository-root-independent file, symbol and relation identities with
+  explicit internal, external and unresolved endpoint classification.
+why_now: >-
+  P1 is explicitly closed at 6/8 with disclosed residuals and P2 is now
+  authorized. Repository intelligence is the primary year-one product moat.
+  The smallest real P2 increment is a deterministic graph kernel over current
+  canonical scanner output; graph-conditioned context selection depends on it.
+task_spec_ref: /Users/lijunpeng/Developer/.sourcelens-audit/p2-partial-exit-repository-intelligence-20260728/decision/FOUNDER_P2_PARTIAL_EXIT_REPOSITORY_INTELLIGENCE_ROUTE_DECISION_V1_1.json
+budget:
+  engineering_hours: 24
+  calendar_days: 6
+  implementation_iterations: 4
+  candidates: 1
+roles:
+  owner: P2-009 Engineering Manager
+  worker: P2-009 Rust Repository Graph Worker
+  independent_reviewers:
+    - P2-009 Fresh CTO Reviewer
+    - P2-009 Fresh Security Reviewer
+    - P2-009 Fresh Quality Reviewer
+allowlisted_paths:
+  - analyzer-rust/src
+  - analyzer-rust/tests
+  - scripts/verify-p2-009-canonical-scan-graph-kernel.sh
+  - docs/aios/tasks/P2-009_CANONICAL_SCAN_GRAPH_INDEX_KERNEL.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+  - Makefile
+write_scope:
+  worker:
+    - analyzer-rust/src
+    - analyzer-rust/tests
+  quality:
+    - analyzer-rust/tests
+  integration:
+    - scripts/verify-p2-009-canonical-scan-graph-kernel.sh
+    - docs/aios/tasks/P2-009_CANONICAL_SCAN_GRAPH_INDEX_KERNEL.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+    - Makefile
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - analyzer-rust/Cargo.toml
+  - analyzer-rust/Cargo.lock
+  - analyzer-rust/src/main.rs
+  - analyzer-rust/src/models.rs
+  - analyzer-rust/src/scanner.rs
+  - analyzer-rust/src/reverse.rs
+  - analyzer-rust/src/ast_extractor.rs
+  - analyzer-rust/tests/scan_contract.rs
+canonical_input_boundary:
+  allowed:
+    - canonical main source at activation parent
+    - current analyzer scan-result schema v2
+    - accepted canonical P0/P1 scanner, dataset and trace interfaces
+  forbidden:
+    - P2-003 rejected engineering assets
+    - P2-005 rejected engineering assets
+    - P2-007 rejected engineering assets
+    - any other rejected P2 source, candidate, fixture, test, diff or implementation
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-partial-exit-repository-intelligence-20260728/decision/FOUNDER_P2_PARTIAL_EXIT_REPOSITORY_INTELLIGENCE_ROUTE_DECISION_V1_1.json
+  sha256: a74997432e5bd42edc7e9021ddbd82634acce61ddb280be0124b95c4da0e4a39
+  byte_length: 2880
+  authorization_token: AUTHORIZE_P2_PARTIAL_P1_EXIT_WITH_DISCLOSED_RESIDUALS_AND_REPOSITORY_INTELLIGENCE_ENGINEERING_ROUTE_V1
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+architecture_constraints:
+  - The kernel consumes scan-result schema v2 and never trusts repo_path as canonical identity.
+  - Canonical file identity binds normalized repository-relative path and exact content SHA-256.
+  - Canonical symbol identity binds file identity, language-independent symbol kind, name and exact source line span.
+  - Graph nodes and edges are sorted deterministically and reject duplicate canonical identities.
+  - Relation endpoints are classified as INTERNAL, EXTERNAL or UNRESOLVED without inventing internal authority.
+  - Input paths must be normalized regular files inside the declared repository identity; path escape and symlink traversal fail closed.
+  - The CLI is offline, read-only and writes its result only to stdout or a caller-owned explicit output file.
+  - No historical rejected P2 implementation or test oracle is read or reused.
+implementation_outputs:
+  - analyzer-rust/src/graph_index.rs
+  - analyzer-rust graph-index CLI subcommand
+  - deterministic Rust unit and integration tests
+  - one-command Task verifier
+acceptance_criteria:
+  - Java, TypeScript and Rust representative scan-result fixtures produce deterministic canonical graph bytes.
+  - Repeating the same input from different absolute repository roots produces exactly identical graph identities and bytes.
+  - Every internal edge resolves to exactly one canonical symbol node.
+  - External and unresolved endpoints remain explicitly typed and never become fabricated internal nodes.
+  - Duplicate identities, ambiguous endpoints, missing content digests, invalid spans, path escape, symlink input and tampered file identity are rejected.
+  - Node and edge order remains stable across input order permutations.
+  - Existing analyzer scan contract and full analyzer Rust tests pass.
+  - Network, Provider, Secret, remote, production and public effects remain zero.
+  - One exact candidate receives independent CTO, Security and Quality TARGET_VERDICT PASS.
+  - Reviewed tree equals integrated tree and one canonical make verify passes.
+required_evidence:
+  - Exact Founder decision, Goal, Contract, authority and activation identities.
+  - Test logs for positive languages, root independence, ordering and the complete negative matrix.
+  - Exact candidate manifest and independent review receipts.
+  - Reviewed/integrated tree equality and canonical verification receipt.
+rollback:
+  strategy: TASK_BRANCH_ABANDON_BEFORE_INTEGRATION_AND_NON_DESTRUCTIVE_GIT_REVERT_AFTER_INTEGRATION
+stop_conditions:
+  - Canonical identity, Goal or clean activation parent drifts.
+  - Any rejected P2 engineering asset is read or reused.
+  - An implementation iteration exceeds allowlisted paths or external-effect boundaries.
+  - Adjacent implementation iterations repeat the same normalized root cause.
+  - Four implementation iterations, 24 engineering hours or 6 calendar days are exhausted.
+  - Final review, reviewed/integrated tree equality or canonical make verify is NON_PASS.
+  - Evidence is overwritten or deleted, or Phase, permission or claim boundaries expand.
+forbidden_actions:
+  - Modify authority validator, parser, schema, Long-term Goal or P1 historical facts.
+  - Read or reuse rejected P2 engineering source, candidate, fixture, test, diff or implementation.
+  - Add network, Provider, Secret, remote, production or public effects.
+  - Enter P3, push or modify a remote.
+  - Create a successor, replacement, correction, normalization, closure, feasibility or remediation chain.
+claim_boundary: >-
+  Cooperative-local offline canonical scan-result graph-index engineering only.
+  No graph-conditioned benchmark result, P3 entry, external effect,
+  hostile-principal isolation, production-readiness or product superiority claim.

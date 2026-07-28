@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P2-009_CANONICAL_SCAN_GRAPH_INDEX_KERNEL
 phase: P2
 route_id: P2_PARTIAL_P1_EXIT_WITH_DISCLOSED_RESIDUALS_AND_REPOSITORY_INTELLIGENCE_ENGINEERING_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_FINAL_SECURITY_TARGET_NON_PASS
 objective: >-
   Build and falsify one executable offline graph-index kernel that transforms
   canonical SourceLens scan-result schema v2 bytes into deterministic,
@@ -138,3 +138,23 @@ claim_boundary: >-
   Cooperative-local offline canonical scan-result graph-index engineering only.
   No graph-conditioned benchmark result, P3 entry, external effect,
   hostile-principal isolation, production-readiness or product superiority claim.
+terminal_result:
+  normalized_root_cause: P2009.FINAL_SECURITY.FAIL_CLOSED_IDENTITY_PATH_AND_OFFLINE_VERIFIER_BOUNDARIES_NON_PASS
+  implementation_iterations_used: 4
+  same_task_repairs_used: 3
+  adjacent_normalized_root_cause_repeated: false
+  task_verifier: PASS
+  rust_tests: 7_OF_7_PASS
+  candidate_commit: 4d100e6eb481abedbaabb35991e1af7a1f1319c3
+  candidate_tree: 547d0813752d35832449605d66962249c9520505
+  candidate_manifest_sha256: 950ac999c7ca045bb1ea773bc06bba88b70c389d1e13f1918ee236530a020aab
+  security_target_verdict: NON_PASS
+  security_review_sha256: a5a352900f84cc77bace8887f77af57bdf0db80a81aee111a6cd27c24b0c0d8f
+  cto_review_status: INTERRUPTED_AFTER_BLOCKING_SECURITY_NON_PASS
+  quality_review_status: INTERRUPTED_AFTER_BLOCKING_SECURITY_NON_PASS
+  candidate_integrated: false
+  capability_credit: 0
+  p2_010_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
+  canonical_make_verify: NOT_INVOKED_FINAL_SECURITY_NON_PASS
+  terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-partial-exit-repository-intelligence-20260728/task-1-p2-009/terminal/P2_009_TERMINAL_RECEIPT.json
+  terminal_receipt_sha256: 6b04ece71355c6f1ade60c3856e5638b232f88d3e6bc7f915e1b8c6dcfb0891a

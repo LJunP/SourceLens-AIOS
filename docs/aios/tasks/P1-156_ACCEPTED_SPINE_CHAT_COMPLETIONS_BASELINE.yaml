@@ -171,7 +171,7 @@ founder_reserved_profile:
     remote: false
     production: false
     public: false
-  decision_basis: FOUNDER_PACKET_SHA256:4fa094647e4a9b66b68a590fe60d1c6b6549b3ceb2fa4c2ff668d9c2106cd1c9
+  decision_basis: FOUNDER_PACKET_SHA256:575b897deae9450d431db6e28beb5c5fcd8a033c1d9d20e45b03d09f957ac633
 provider_usage_caps:
   input_tokens_max: 1500000
   output_tokens_max: 300000

@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P1-150_REQUEST_BOUND_REPRODUCIBLE_BASELINE
 phase: P1
 route_id: P1_ACCEPTED_PATCH_COMPILER_TRACE_EVALUATOR_CONVERGENCE_AND_STRICT_EXIT_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_DIAGNOSTIC_HTTP_400_REQUEST_CONTRACT_NON_PASS
 objective: >-
   Use the accepted canonical P1-149 execution spine to perform one
   request-bound 36-cell B0/B1/B2 formal baseline, retain closed raw Evidence,
@@ -266,3 +266,73 @@ claim_boundary: >-
   accepted canonical P1-149 execution spine only. No model superiority,
   generalization, P1 Exit, P2/P3 entry, remote, production, public,
   hostile-principal, strong-isolation or production-readiness claim.
+terminal_outcome:
+  status: TERMINAL_DIAGNOSTIC_HTTP_400_REQUEST_CONTRACT_NON_PASS
+  observed_at_utc: "2026-07-28T06:08:03.690Z"
+  normalized_root_cause: P1150.DIAGNOSTIC.HTTP_400.MISSING_TEXT_FORMAT_TYPE_REQUEST_CONTRACT_INCOMPATIBLE
+  operator_key_error_proven: false
+  offline_preflight:
+    status: PASS
+    false_accepts: 0
+    secret_reads: 0
+    provider_requests: 0
+    accepted_p1_129_positive_runs: 36
+    accepted_p1_129_negative_cases: 53
+    accepted_p1_129_b2_real_scan_children: 12
+    synthetic_cells: 36
+    completed_spines: 36
+    held_open_lsof_calibration: PASS
+  implementation:
+    source_commit: 64ca4317c3365cae2a36e0cc45c5e47914f0a349
+    source_tree: f8889836233add1c1d2e6d486006fba69ee22f6e
+    source_status: PRESERVED_UNACCEPTED
+    candidate_frozen: false
+    final_reviews_started: false
+    integrated: false
+    canonical_make_verify: NOT_INVOKED_DIAGNOSTIC_STOP_CONDITION
+  diagnostic:
+    execution_id: P1-150-70e5b3df5cbe9f31c778f81c6f5a8bb6
+    endpoint: http://127.0.0.1:8787/v1/chat/completions
+    model: gpt-5.6-luna
+    provider_requests: 1
+    automatic_retries: 0
+    operator_secret_reads: 1
+    request_receipt_sha256: 950d18fb2d4335f49649a22cec25680ab3c201b62dc43e4d72c74e078b0bba5a
+    response_receipt_sha256: 547b1a85e2189bf99351bf8e3204b6df31cbc7c4d558ba11bb40c2f84471a5ef
+    raw_http_response_sha256: 018383d9640b1e0736868486694aca0642d96b0bc64da63ac0225836a5ced62e
+    http_status: 400
+    completion_status: INVALID
+    peer_address: 127.0.0.1
+    peer_port: 8787
+    loopback_observer: PASS
+    non_loopback_connections: 0
+    provider_error:
+      type: invalid_request_error
+      code: missing_required_parameter
+      param: text.format.type
+      message: "Missing required parameter: 'text.format.type'."
+    usage_status: INVALID
+    reservation:
+      input_tokens: 32768
+      output_tokens: 4096
+      status: RESERVED_BEFORE_EFFECT
+  formal_execution:
+    scheduled_cells_executed: 0
+    formal_provider_requests: 0
+    rerun_allowed: false
+    report_artifacts_created: 0
+  formal_evidence:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-execution-spine-strict-exit-20260728/task-2-p1-150/formal-execution-v1
+    file_count: 1250
+    total_byte_length: 3154216
+    canonical_inventory_byte_length: 205805
+    canonical_inventory_sha256: e5567e30c4312b25b1f0f0b0e0d61d7a0539be9d00df55f641fb06a15ae933b0
+  accepted_capability: false
+  capability_credit: 0
+  strict_p1_completion_after_task: 6_COMPLETE_0_PARTIAL_2_NOT_COMPLETE_75_PERCENT
+  p1_151_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
+  required_disposition: FOUNDER_P1_PHASE_GATE
+  forbidden_followups:
+    - rerun P1-150 diagnostic or formal matrix
+    - create a P1-150 correction, successor, replacement, normalization, closure, feasibility or remediation chain
+    - activate P1-151

@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P1-156_ACCEPTED_SPINE_CHAT_COMPLETIONS_BASELINE
 phase: P1
 route_id: P1_ACCEPTED_SPINE_CHAT_COMPLETIONS_ONLY_BASELINE_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_FORMAL_MATRIX_TRANSPORT_TIMEOUT_NON_PASS
 objective: >-
   Use the canonical accepted P1-149 execution spine to perform one
   request-bound 36-cell Chat Completions-only baseline, retain a closed raw
@@ -26,6 +26,35 @@ budget:
   calendar_days: 8
   implementation_iterations: 5
   candidates: 1
+implementation_accounting:
+  initial_implementation_completed: true
+  same_task_repairs_used: 4
+  same_task_repairs_remaining: 0
+  normalized_root_causes:
+    - P1156.PREFLIGHT.REQUEST_CELL_FIELD_MAPPING
+    - P1156.PREFLIGHT.ACCEPTED_CONTROL_CHILD_TOOLCHAIN_ENVIRONMENT
+    - P1156.PREFLIGHT.P1_101_REPLAY_STATUS_LITERAL_ALIGNMENT
+    - P1156.DIAGNOSTIC.FULL_TASK_PAYLOAD_AND_120_SECOND_TIMEOUT
+  adjacent_duplicate_root_cause: false
+terminal_result:
+  normalized_root_cause: P1156.FORMAL.FORMAL_003.TRANSPORT_TIMEOUT
+  formal_matrix_started: true
+  formal_matrix_completed: false
+  formal_cells_planned: 36
+  formal_cells_completed: 2
+  formal_provider_requests: 3
+  diagnostic_provider_requests_route_cumulative: 2
+  operator_secret_reads_route_cumulative: 2
+  automatic_retries: 0
+  failure_cell: formal-003
+  failure_reason_code: TRANSPORT_TIMEOUT
+  formal_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-spine-chat-completions-strict-exit-20260728/task-1-p1-156/formal-execution-v2
+  candidate_created: false
+  final_reviews_started: false
+  candidate_integrated: false
+  canonical_make_verify: NOT_INVOKED_FORMAL_MATRIX_STOP_CONDITION
+  capability_credit: 0
+  p1_157_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
 roles:
   owner: P1-156 Engineering Manager
   worker: P1-156 Baseline Worker

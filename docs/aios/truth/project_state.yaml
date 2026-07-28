@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-28T10:34:27Z"
-verification_scope: FOUNDER_STRICT_PHASE_SEQUENCE_RECOVERY_AND_KNOWLEDGE_SYNC_RULE_ALIGNMENT
+last_verified_at: "2026-07-28T15:29:13Z"
+verification_scope: P1_156_FORMAL_MATRIX_TRANSPORT_TIMEOUT_TERMINAL_SYNC
 
 authority:
   founder: Human Founder
@@ -37,7 +37,7 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: AIOS-P1-156_ACCEPTED_SPINE_CHAT_COMPLETIONS_BASELINE
+  current_task_authority: NONE
   note: >-
     The Founder-approved long-term Goal remains ACTIVE with the exact
     Founder-installed identity. P1-099 remains terminal with its Quality
@@ -427,7 +427,17 @@ goal:
     route remains historical Evidence with no scheduling authority; P2 is
     HOLD_PENDING_STRICT_P1_EXIT. No P2 engineering may resume until P1 is
     strict 8/8, its Founder Phase Gate is PASS, and a later P2 route passes the
-    exact next-Phase predecessor precheck.
+    exact next-Phase predecessor precheck. P1-156 then passed its complete
+    offline preflight with zero Secret reads, zero Provider requests and zero
+    false accepts. Its v2 execution obtained one strict HTTP 200 diagnostic
+    completion, completed two of thirty-six formal cells and issued the third
+    formal request. The third request reached the exact loopback transport but
+    timed out without a response after the authorized 600-second limit. The
+    single formal matrix is therefore terminal NON_PASS and may not be rerun.
+    Exact partial Evidence is preserved without Secret or Authorization-header
+    material; no candidate, final review, integration, baseline capability,
+    P1-157 entry or P1 progress credit exists. Strict P1 remains 6/8 (75%),
+    P2 remains held, and the project is at the Founder P1 Phase Gate.
 
 project:
   name: SourceLens AIOS
@@ -437,12 +447,12 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  p1_execution_status: ACTIVE
-  p1_engineering_status: P1_156_ACTIVE
+  p1_execution_status: FOUNDER_PHASE_GATE_REQUIRED
+  p1_engineering_status: P1_156_TERMINAL_FORMAL_MATRIX_TRANSPORT_TIMEOUT_NON_PASS
   p2_entry_status: HOLD_PENDING_STRICT_P1_EXIT
   p2_execution_status: HOLD_PENDING_STRICT_P1_EXIT
-  phase_execution_status: ACTIVE
-  current_route_execution_status: P1_ACCEPTED_SPINE_CHAT_COMPLETIONS_ROUTE_ACTIVE
+  phase_execution_status: FOUNDER_PHASE_GATE_REQUIRED
+  current_route_execution_status: P1_ACCEPTED_SPINE_CHAT_COMPLETIONS_ROUTE_TERMINAL_TASK_1_NON_PASS
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -4261,11 +4271,11 @@ historical_p1_139_phase_route:
 
 current_phase_route:
   route_id: P1_ACCEPTED_SPINE_CHAT_COMPLETIONS_ONLY_BASELINE_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
-  status: ACTIVE
-  authority_object_status: FOUNDER_DIRECTIVE_ACTIVE
-  execution_status: ACTIVE_TASK_1
-  founder_phase_route_decision_required: false
-  scheduling_status: ACTIVE_TASK_1
+  status: TERMINAL_TASK_1_FORMAL_MATRIX_NON_PASS
+  authority_object_status: FOUNDER_DIRECTIVE_CONSUMED_TERMINAL
+  execution_status: TERMINAL_TASK_1_FORMAL_MATRIX_NON_PASS
+  founder_phase_route_decision_required: true
+  scheduling_status: TERMINAL_TASK_1_TASK_2_INELIGIBLE
   phase: P1
   phase_entry_status: AUTHORIZED
   authorization_token: AUTHORIZE_P1_ACCEPTED_SPINE_CHAT_COMPLETIONS_ONLY_BASELINE_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
@@ -4517,7 +4527,7 @@ current_phase_route:
   first_task:
     task_id: AIOS-P1-156_ACCEPTED_SPINE_CHAT_COMPLETIONS_BASELINE
     task_slot: 1
-    status: ACTIVE
+    status: TERMINAL_FORMAL_MATRIX_TRANSPORT_TIMEOUT_NON_PASS
     contract_path: docs/aios/tasks/P1-156_ACCEPTED_SPINE_CHAT_COMPLETIONS_BASELINE.yaml
     max_engineering_hours: 48
     max_calendar_days: 8
@@ -4527,7 +4537,7 @@ current_phase_route:
   task_plan:
     - task_slot: 1
       task_id: AIOS-P1-156_ACCEPTED_SPINE_CHAT_COMPLETIONS_BASELINE
-      status: ACTIVE
+      status: TERMINAL_FORMAL_MATRIX_TRANSPORT_TIMEOUT_NON_PASS
       engineering_hours: 48
       calendar_days: 8
       max_implementation_iterations: 5
@@ -4542,7 +4552,7 @@ current_phase_route:
         public: false
     - task_slot: 2
       task_id: AIOS-P1-157_REPORT_BOUND_P2_CONTEXT_ENGINE_PREREGISTRATION
-      status: PENDING_PREDECESSOR_TASK_GATE
+      status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
       engineering_hours: 8
       calendar_days: 2
       max_implementation_iterations: 2
@@ -4566,14 +4576,44 @@ current_phase_route:
   route_execution_accounting:
     maximum_engineering_tasks: 2
     task_slots_consumed: 1
-    active_task_id: AIOS-P1-156_ACCEPTED_SPINE_CHAT_COMPLETIONS_BASELINE
+    active_task_id: null
     scheduled_task_ids:
       - AIOS-P1-156_ACCEPTED_SPINE_CHAT_COMPLETIONS_BASELINE
-    terminal_task_ids: []
+    terminal_task_ids:
+      - AIOS-P1-156_ACCEPTED_SPINE_CHAT_COMPLETIONS_BASELINE
     accepted_task_ids: []
     maximum_engineering_hours: 56
-    engineering_hours_authorized_current_task: 48
-    status: ACTIVE_TASK_1
+    engineering_hours_authorized_current_task: 0
+    status: TERMINAL_TASK_1_NON_PASS_TASK_2_INELIGIBLE
+  terminal_p1_156_outcome:
+    task_id: AIOS-P1-156_ACCEPTED_SPINE_CHAT_COMPLETIONS_BASELINE
+    status: TERMINAL_FORMAL_MATRIX_TRANSPORT_TIMEOUT_NON_PASS
+    normalized_root_cause: P1156.FORMAL.FORMAL_003.TRANSPORT_TIMEOUT
+    terminal_contract_sha256: a58c8f118d0e8a28aa5b828ae6d14dd27a18b07b28b3ae7d1565db602846f398
+    terminal_contract_byte_length: 14717
+    authority_record_sha256: dbad5e974684d6dc0097e264ebfb1b101824bd3d0df4bba7f66b9e92be8605e0
+    authority_record_byte_length: 6252
+    implementation_commit: 69250513fa5c6798a826df71cba714d1635e2482
+    implementation_tree: 40857df0c5b52aed72a06e5fbc663d1276edd0e1
+    formal_matrix_started: true
+    formal_cells_planned: 36
+    formal_cells_completed: 2
+    formal_provider_requests: 3
+    diagnostic_provider_requests_route_cumulative: 2
+    operator_secret_reads_route_cumulative: 2
+    automatic_retries: 0
+    failure_cell: formal-003
+    formal_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-spine-chat-completions-strict-exit-20260728/task-1-p1-156/formal-execution-v2
+    formal_evidence_inventory_sha256: 7db89af2f4d86e60e1a1c7e3b8fd44c1703c1849f46867a51674e6f2cf6137f7
+    candidate_created: false
+    final_reviews_started: false
+    candidate_integrated: false
+    canonical_make_verify: NOT_INVOKED_FORMAL_MATRIX_STOP_CONDITION
+    capability_credit: 0
+    p1_157_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
+    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-spine-chat-completions-strict-exit-20260728/task-1-p1-156/terminal/P1_156_TERMINAL_RECEIPT.json
+    terminal_receipt_sha256: 7b187d24385db17690dae6e12d04eddbedb51e30af5f9dcdd6c43e7549374d12
+    terminal_receipt_byte_length: 3679
   additional_write_roots: []
   inherited_worktree_inventory_source: CANONICAL_GIT_WORKTREE_LIST
   inherited_worktree_inventory:
@@ -4701,6 +4741,10 @@ current_phase_route:
       head: 1f653418ee04ebde0c19e15a58e329cf2f401cff
       branch: codex/p1-154-project-local-chat-baseline
       status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-156-chat-completions-baseline
+      head: 63ea2145cf6b28eac20e917459af6eee6da12453
+      branch: codex/p1-156-chat-completions-baseline
+      status: TERMINAL_FORMAL_MATRIX_TRANSPORT_TIMEOUT_NON_PASS_NOT_CURRENT
     - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P2-005-scanner-first-graph
       head: d1cf1874724c81221ea88b7171a5643239aa69c0
       branch: codex/p2-005-scanner-first-graph
@@ -4714,7 +4758,7 @@ current_phase_route:
       branch: codex/p2-009-canonical-scan-graph-kernel
       status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
   claim_boundary: COOPERATIVE_LOCAL_ACCEPTED_P1_149_SPINE_CHAT_COMPLETIONS_ONLY_REQUEST_BOUND_BASELINE_AND_REPORT_BOUND_PREREGISTRATION_STRICT_P1_EXIT_ONLY_NO_RESPONSES_API_P2_ENTRY_P3_REMOTE_PRODUCTION_PUBLIC_HOSTILE_PRINCIPAL_OR_PRODUCTION_READINESS_CLAIM
-  next_eligible_action: CONTINUE_CURRENT_TASK
+  next_eligible_action: FOUNDER_P1_PHASE_GATE
 
 historical_p2_009_phase_route_after_strict_recovery:
   schema_version: strict-phase-recovery-hold/v1
@@ -7488,89 +7532,67 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: NONE
   next_eligible_action: CONTINUE_CURRENT_TASK
 active_work:
-  current_task: AIOS-P1-156_ACCEPTED_SPINE_CHAT_COMPLETIONS_BASELINE
-  current_task_status: ACTIVE
+  current_task: NONE
+  current_task_status: NONE
   current_task_contract:
-    path: docs/aios/tasks/P1-156_ACCEPTED_SPINE_CHAT_COMPLETIONS_BASELINE.yaml
-    sha256: ad509461aa27e2281ebcb6efd26da4ab39fde152d6188cc96b8f7ea78504886a
-    byte_length: 13427
-  current_task_contract_sha256: ad509461aa27e2281ebcb6efd26da4ab39fde152d6188cc96b8f7ea78504886a
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-spine-chat-completions-strict-exit-20260728/task-1-p1-156/authority/TASK_AUTHORITY.yaml
-  current_execution_authorization_sha256: 753284cacc605c990f93fe19d4606885e734cee0753f3e466a4a41f0db636881
+    path: null
+    sha256: null
+    byte_length: null
+  current_task_contract_sha256: null
+  current_execution_authorization: null
+  current_execution_authorization_sha256: null
   authority_record:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-spine-chat-completions-strict-exit-20260728/task-1-p1-156/authority/TASK_AUTHORITY.yaml
-    sha256: 753284cacc605c990f93fe19d4606885e734cee0753f3e466a4a41f0db636881
-    byte_length: 5684
-  continuation_authorization:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-spine-chat-completions-strict-exit-20260728/decision/P1_156_DIAGNOSTIC_TIMEOUT_RECOVERY_DECISION_V1.json
-    sha256: 603e8bf69d1188409f8ec73b1775644311db3e594643f51970356c69159f82ad
-    byte_length: 2479
-    authorization_token: AUTHORIZE_ONE_P1_156_DIAGNOSTIC_TIMEOUT_RECOVERY_SECRET_READ_AND_DIRECT_FORMAL_REENTRY_V1
-    prior_diagnostic_provider_requests: 1
-    remaining_diagnostic_provider_requests_max: 2
-    prior_operator_secret_reads: 1
-    remaining_operator_secret_reads_max: 1
-    prior_formal_provider_requests: 0
-    remaining_formal_provider_requests_exact: 36
-    route_provider_requests_max: 39
-    automatic_retries_max: 0
-  execution_nonce: 35648be5ab3540ad31ac1916b3e91510d573c29f04cb3d92c71ec83421600ca7
-  execution_nonce_status: ACTIVE
-  authorization_id: 1454a2da69178348551038ce8438fbbaa1d7fefa6d4f92ca1b378a99deb5c646
-  activation_parent_commit: 689251a773861f675476100a2a483df5a273dea4
-  activation_parent_tree: 6d6f41e9d767d4c772572b7b9ed7880fe1d9132b
-  task_resource_state: CREATED_ACTIVE
-  task_branch: codex/p1-156-chat-completions-baseline
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-156-chat-completions-baseline
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-spine-chat-completions-strict-exit-20260728/task-1-p1-156
-  allowlisted_paths:
-    - evaluation-harness/harness/p1-156-chat-completions-baseline
-    - evaluation-harness/replay/p1-156-chat-completions-baseline
-    - evaluation-harness/evaluator/p1-156-chat-completions-baseline
-    - scripts/p1-156-operator-capture.sh
-    - scripts/verify-p1-156-chat-completions-baseline.sh
-    - docs/aios/tasks/P1-156_ACCEPTED_SPINE_CHAT_COMPLETIONS_BASELINE.yaml
-    - docs/aios/truth/project_state.yaml
-    - docs/PROJECT_CODE_MAP.md
-    - Makefile
+    path: null
+    sha256: null
+    byte_length: null
+  continuation_authorization: null
+  execution_nonce: null
+  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
+  authorization_id: null
+  activation_parent_commit: null
+  activation_parent_tree: null
+  task_resource_state: PRESERVED_TERMINAL_OUTSIDE_ACTIVE_WORK
+  task_branch: null
+  task_worktree: null
+  execution_evidence_root: null
+  allowlisted_paths: []
   budget:
-    engineering_hours: 48
-    calendar_days: 8
-    implementation_iterations: 5
-    candidates: 1
+    engineering_hours: null
+    calendar_days: null
+    implementation_iterations: null
+    candidates: null
   roles:
-    owner: P1-156 Engineering Manager
-    worker: P1-156 Baseline Worker
-    independent_reviewers:
-      - P1-156 Fresh CTO Reviewer
-      - P1-156 Fresh Security Reviewer
-      - P1-156 Fresh Quality Reviewer
+    owner: null
+    worker: null
+    independent_reviewers: []
   external_effects:
-    network: true
-    provider: true
-    secret: true
+    network: false
+    provider: false
+    secret: false
     remote: false
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-spine-chat-completions-strict-exit-20260728/decision/FOUNDER_P1_ACCEPTED_SPINE_CHAT_COMPLETIONS_ONLY_ROUTE_DECISION_V1_1.json
-  founder_reserved_authorization_sha256: 3d0f3caffd27a13ebf35be4de7174f6f59da9a38200069b64e300c56f15da0c2
-  founder_decision_required: false
-  founder_decision_required_scope: NONE_WITHIN_ACTIVE_P1_PHASE
-  escalation_reason: null
-  user_action_required: NONE
-  phase_route_decision_required: false
-  phase_route_user_action_required: NONE
-  next_eligible_action: CONTINUE_CURRENT_TASK
+  founder_reserved_authorization: null
+  founder_reserved_authorization_sha256: null
+  founder_decision_required: true
+  founder_decision_required_scope: P1_PHASE_GATE_AFTER_FORMAL_MATRIX_NON_PASS
+  escalation_reason: P1156.FORMAL.FORMAL_003.TRANSPORT_TIMEOUT
+  user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
+  phase_route_decision_required: true
+  phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
+  next_eligible_action: FOUNDER_P1_PHASE_GATE
   last_terminal_task:
-    task_id: AIOS-P2-009_CANONICAL_SCAN_GRAPH_INDEX_KERNEL
-    status: TERMINAL_FINAL_SECURITY_TARGET_NON_PASS
-    normalized_root_cause: P2009.FINAL_SECURITY.FAIL_CLOSED_IDENTITY_PATH_AND_OFFLINE_VERIFIER_BOUNDARIES_NON_PASS
-    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-partial-exit-repository-intelligence-20260728/task-1-p2-009/terminal/P2_009_TERMINAL_RECEIPT.json
-    terminal_receipt_sha256: 6b04ece71355c6f1ade60c3856e5638b232f88d3e6bc7f915e1b8c6dcfb0891a
-    implementation_commit: 4d100e6eb481abedbaabb35991e1af7a1f1319c3
-    implementation_tree: 547d0813752d35832449605d66962249c9520505
-    candidate_created: true
+    task_id: AIOS-P1-156_ACCEPTED_SPINE_CHAT_COMPLETIONS_BASELINE
+    status: TERMINAL_FORMAL_MATRIX_TRANSPORT_TIMEOUT_NON_PASS
+    normalized_root_cause: P1156.FORMAL.FORMAL_003.TRANSPORT_TIMEOUT
+    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-spine-chat-completions-strict-exit-20260728/task-1-p1-156/terminal/P1_156_TERMINAL_RECEIPT.json
+    terminal_receipt_sha256: 7b187d24385db17690dae6e12d04eddbedb51e30af5f9dcdd6c43e7549374d12
+    implementation_commit: 69250513fa5c6798a826df71cba714d1635e2482
+    implementation_tree: 40857df0c5b52aed72a06e5fbc663d1276edd0e1
+    terminal_sync_commit: 63ea2145cf6b28eac20e917459af6eee6da12453
+    terminal_sync_tree: 239b81362b0369cfe6050247965e5bcc28edcdc6
+    candidate_created: false
     candidate_integrated: false
     capability_credit: 0
 superseded_pre_delegation_authorizations:
@@ -7589,6 +7611,45 @@ superseded_pre_delegation_authorizations:
     note: The engineering objective may be selected independently by Master, but these pre-delegation bytes require a routine per-Task Founder Gate and cannot be activated under the current authority model.
 
 task_history:
+  aios_p1_156:
+    task_id: AIOS-P1-156_ACCEPTED_SPINE_CHAT_COMPLETIONS_BASELINE
+    route_id: P1_ACCEPTED_SPINE_CHAT_COMPLETIONS_ONLY_BASELINE_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
+    status: TERMINAL_FORMAL_MATRIX_TRANSPORT_TIMEOUT_NON_PASS
+    classification: TERMINAL_FORMAL_CELL_TRANSPORT_TIMEOUT_NO_BASELINE_CAPABILITY
+    contract: docs/aios/tasks/P1-156_ACCEPTED_SPINE_CHAT_COMPLETIONS_BASELINE.yaml
+    terminal_contract_sha256: a58c8f118d0e8a28aa5b828ae6d14dd27a18b07b28b3ae7d1565db602846f398
+    terminal_contract_byte_length: 14717
+    authority_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-spine-chat-completions-strict-exit-20260728/task-1-p1-156/authority/TASK_AUTHORITY.yaml
+    authority_record_sha256: dbad5e974684d6dc0097e264ebfb1b101824bd3d0df4bba7f66b9e92be8605e0
+    authority_record_byte_length: 6252
+    implementation_branch: codex/p1-156-chat-completions-baseline
+    implementation_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-156-chat-completions-baseline
+    implementation_commit: 69250513fa5c6798a826df71cba714d1635e2482
+    implementation_tree: 40857df0c5b52aed72a06e5fbc663d1276edd0e1
+    implementation_iterations_used: 5
+    same_task_repairs_used: 4
+    adjacent_normalized_root_cause_repetition: false
+    final_normalized_root_cause: P1156.FORMAL.FORMAL_003.TRANSPORT_TIMEOUT
+    formal_matrix_started: true
+    formal_cells_planned: 36
+    formal_cells_completed: 2
+    formal_provider_requests: 3
+    diagnostic_provider_requests_route_cumulative: 2
+    operator_secret_reads_route_cumulative: 2
+    automatic_retries: 0
+    failure_cell: formal-003
+    formal_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-spine-chat-completions-strict-exit-20260728/task-1-p1-156/formal-execution-v2
+    formal_evidence_inventory_sha256: 7db89af2f4d86e60e1a1c7e3b8fd44c1703c1849f46867a51674e6f2cf6137f7
+    candidate_created: false
+    final_reviews_started: false
+    candidate_integrated: false
+    canonical_make_verify: NOT_INVOKED_FORMAL_MATRIX_STOP_CONDITION
+    accepted_capability: false
+    capability_credit: 0
+    p1_157_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
+    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-spine-chat-completions-strict-exit-20260728/task-1-p1-156/terminal/P1_156_TERMINAL_RECEIPT.json
+    terminal_receipt_sha256: 7b187d24385db17690dae6e12d04eddbedb51e30af5f9dcdd6c43e7549374d12
+    terminal_receipt_byte_length: 3679
   aios_p2_009:
     task_id: AIOS-P2-009_CANONICAL_SCAN_GRAPH_INDEX_KERNEL
     route_id: P2_PARTIAL_P1_EXIT_WITH_DISCLOSED_RESIDUALS_AND_REPOSITORY_INTELLIGENCE_ENGINEERING_ROUTE_V1

@@ -101,6 +101,28 @@ founder_reserved_authorization:
   sha256: 3d0f3caffd27a13ebf35be4de7174f6f59da9a38200069b64e300c56f15da0c2
   byte_length: 4666
   authorization_token: AUTHORIZE_P1_ACCEPTED_SPINE_CHAT_COMPLETIONS_ONLY_BASELINE_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
+continuation_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-spine-chat-completions-strict-exit-20260728/decision/P1_156_DIAGNOSTIC_TIMEOUT_RECOVERY_DECISION_V1.json
+  sha256: 603e8bf69d1188409f8ec73b1775644311db3e594643f51970356c69159f82ad
+  byte_length: 2479
+  authorization_token: AUTHORIZE_ONE_P1_156_DIAGNOSTIC_TIMEOUT_RECOVERY_SECRET_READ_AND_DIRECT_FORMAL_REENTRY_V1
+  preserved_v1:
+    evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-spine-chat-completions-strict-exit-20260728/task-1-p1-156/formal-execution-v1
+    inventory_sha256: ce9eb8717bf32ca4171685e5c9efe7a86198e6b827eca08c828e681c1af793ff
+    diagnostic_provider_requests: 1
+    operator_secret_reads: 1
+    formal_provider_requests: 0
+  v2:
+    evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-spine-chat-completions-strict-exit-20260728/task-1-p1-156/formal-execution-v2
+    diagnostic_provider_requests_max: 2
+    operator_secret_reads_max: 1
+    formal_provider_requests_exact: 36
+  route_cumulative:
+    diagnostic_provider_requests_max: 3
+    operator_secret_reads_max: 2
+    formal_provider_requests_exact: 36
+    provider_requests_max: 39
+    automatic_retries_max: 0
 goal_identity:
   raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
   raw_byte_length: 19433

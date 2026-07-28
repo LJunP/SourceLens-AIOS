@@ -37,7 +37,7 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
+  current_task_authority: AIOS-P1-149_ACCEPTED_EXECUTION_SPINE_CONVERGENCE
   note: >-
     The Founder-approved long-term Goal remains ACTIVE with the exact
     Founder-installed identity. P1-099 remains terminal with its Quality
@@ -386,12 +386,12 @@ project:
   phase_name: Evaluation Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  p1_execution_status: AUTHORIZED_READY
-  p1_engineering_status: P1_149_ROUTE_READY_NO_NEW_CAPABILITY_6_OF_8_75_PERCENT
+  p1_execution_status: ACTIVE
+  p1_engineering_status: P1_149_ACTIVE_NO_NEW_CAPABILITY_6_OF_8_75_PERCENT
   p2_entry_status: HOLD_PENDING_STRICT_P1_EXIT
   p2_execution_status: HELD_NO_EXECUTION_AUTHORITY
-  phase_execution_status: AUTHORIZED_READY
-  current_route_execution_status: READY_P1_149_ACCEPTED_EXECUTION_SPINE_CONVERGENCE
+  phase_execution_status: ACTIVE
+  current_route_execution_status: ACTIVE_P1_149_ACCEPTED_EXECUTION_SPINE_CONVERGENCE
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -4215,11 +4215,11 @@ historical_p1_139_phase_route:
 
 current_phase_route:
   route_id: P1_ACCEPTED_PATCH_COMPILER_TRACE_EVALUATOR_CONVERGENCE_AND_STRICT_EXIT_ROUTE_V1
-  status: AUTHORIZED_READY
-  authority_object_status: FOUNDER_PHASE_ENTRY_AUTHORITY_BOUND
-  execution_status: READY_P1_149
+  status: ACTIVE
+  authority_object_status: FOUNDER_PHASE_ENTRY_AUTHORITY_CONSUMED_TASK_1_ACTIVE
+  execution_status: ACTIVE_P1_149
   founder_phase_route_decision_required: false
-  scheduling_status: P1_149_ELIGIBLE_NOT_ACTIVATED
+  scheduling_status: P1_149_ACTIVE
   phase: P1
   phase_entry_status: AUTHORIZED
   authorization_token: AUTHORIZE_P1_ACCEPTED_PATCH_COMPILER_TRACE_EVALUATOR_CONVERGENCE_AND_STRICT_EXIT_ROUTE_V1
@@ -4315,8 +4315,10 @@ current_phase_route:
   first_task:
     task_id: AIOS-P1-149_ACCEPTED_EXECUTION_SPINE_CONVERGENCE
     task_slot: 1
-    status: ELIGIBLE_NOT_ACTIVATED
+    status: ACTIVE
     contract_path: docs/aios/tasks/P1-149_ACCEPTED_EXECUTION_SPINE_CONVERGENCE.yaml
+    contract_sha256: a0b1fa43e0b9221c03f67ea3fe66bd86a563600102a1a2019a650f6bb0a6a86d
+    contract_byte_length: 9118
     max_engineering_hours: 24
     max_calendar_days: 4
     max_implementation_iterations: 5
@@ -4325,7 +4327,7 @@ current_phase_route:
   task_plan:
     - task_slot: 1
       task_id: AIOS-P1-149_ACCEPTED_EXECUTION_SPINE_CONVERGENCE
-      status: ELIGIBLE_NOT_ACTIVATED
+      status: ACTIVE
       engineering_hours: 24
       calendar_days: 4
       max_implementation_iterations: 5
@@ -4447,14 +4449,15 @@ current_phase_route:
       decision_basis: FOUNDER_PACKET_SHA256:cb360d444e98691365f54f8117206f8361411f365a205e5370c4f28ffe62745f
   route_execution_accounting:
     maximum_engineering_tasks: 3
-    task_slots_consumed: 0
-    active_task_id: null
-    scheduled_task_ids: []
+    task_slots_consumed: 1
+    active_task_id: AIOS-P1-149_ACCEPTED_EXECUTION_SPINE_CONVERGENCE
+    scheduled_task_ids:
+      - AIOS-P1-149_ACCEPTED_EXECUTION_SPINE_CONVERGENCE
     terminal_task_ids: []
     accepted_task_ids: []
     maximum_engineering_hours: 64
-    engineering_hours_authorized_current_task: 0
-    status: READY_TASK_1_ELIGIBLE
+    engineering_hours_authorized_current_task: 24
+    status: ACTIVE_TASK_1
   prior_terminal_p1_145_outcome:
     task_id: AIOS-P1-145_TIMEBOXED_REQUEST_BOUND_BASELINE
     status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
@@ -4715,7 +4718,7 @@ current_phase_route:
     terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-adapter-end-to-end-exit-20260727/task-1-p1-147/terminal/P1_147_FINAL_CTO_TERMINAL_RECEIPT_V2.json
     terminal_receipt_sha256: 92ed5d2845ab73f284d4dc66c57c3977138c80ca3d7b7c1d64c8b8011bf140f8
     terminal_receipt_byte_length: 2589
-  next_eligible_action: MASTER_ACTIVATE_FIRST_TASK
+  next_eligible_action: CONTINUE_CURRENT_TASK
 
 historical_p2_phase_route:
   route_id: P2_CANONICAL_SYMBOL_IDENTITY_GRAPH_KERNEL_AND_CONTEXT_BENCHMARK_CONTINUOUS_ROUTE_V1
@@ -5058,7 +5061,7 @@ historical_p2_phase_route:
   next_eligible_action: FOUNDER_P2_PHASE_GATE
 
 phase_delegation:
-  status: P1_PHASE_ROUTE_AUTHORIZED_READY_P2_HELD
+  status: P1_PHASE_ROUTE_ACTIVE_P2_HELD
   model: PHASE_LEVEL_FOUNDER_DELEGATION
   decision_source: FOUNDER_DIRECTIVES_IN_CODEX_THREAD_2026_07_16_AND_2026_07_17
   phase_gate_owner: HUMAN_FOUNDER
@@ -6074,38 +6077,49 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: NONE
   next_eligible_action: MASTER_ACTIVATE_FIRST_TASK
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P1-149_ACCEPTED_EXECUTION_SPINE_CONVERGENCE
+  current_task_status: ACTIVE
   current_task_contract:
-    path: null
-    sha256: null
-    byte_length: null
-  current_task_contract_sha256: null
-  current_execution_authorization: null
-  current_execution_authorization_sha256: null
+    path: docs/aios/tasks/P1-149_ACCEPTED_EXECUTION_SPINE_CONVERGENCE.yaml
+    sha256: a0b1fa43e0b9221c03f67ea3fe66bd86a563600102a1a2019a650f6bb0a6a86d
+    byte_length: 9118
+  current_task_contract_sha256: a0b1fa43e0b9221c03f67ea3fe66bd86a563600102a1a2019a650f6bb0a6a86d
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-execution-spine-strict-exit-20260728/task-1-p1-149/authority/TASK_AUTHORITY.yaml
+  current_execution_authorization_sha256: 7be43be43c9ba3e80d2fdf3452d8bc17b787f9574460fa3cfd692fdd7160f108
   authority_record:
-    path: null
-    sha256: null
-    byte_length: null
-  execution_nonce: null
-  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
-  authorization_id: null
-  activation_parent_commit: null
-  activation_parent_tree: null
-  task_resource_state: NOT_CREATED_ROUTE_READY
-  task_branch: null
-  task_worktree: null
-  execution_evidence_root: null
-  allowlisted_paths: []
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-execution-spine-strict-exit-20260728/task-1-p1-149/authority/TASK_AUTHORITY.yaml
+    sha256: 7be43be43c9ba3e80d2fdf3452d8bc17b787f9574460fa3cfd692fdd7160f108
+    byte_length: 2456
+  execution_nonce: bb1a01de433cc25df9456501628f91132872f04dac9e403da65245de6394c216
+  execution_nonce_status: ACTIVE
+  authorization_id: d99fd46d92181980d3b743e0bc23c8d85e1f10e4e5ee70c234f33f9c372a1589
+  activation_parent_commit: 85afbbf4ee828ab4f569810d43f951841a82c1cd
+  activation_parent_tree: e94f8117db318d7b2506edc9536c9c3510c68cc2
+  task_resource_state: ACTIVE
+  task_branch: codex/p1-149-accepted-execution-spine
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-149-accepted-execution-spine
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-execution-spine-strict-exit-20260728/task-1-p1-149
+  allowlisted_paths:
+    - evaluation-harness/harness/p1-149-accepted-execution-spine
+    - evaluation-harness/replay/p1-149-accepted-execution-spine
+    - evaluation-harness/evaluator/p1-149-accepted-execution-spine
+    - scripts/verify-p1-149-accepted-execution-spine.sh
+    - docs/aios/tasks/P1-149_ACCEPTED_EXECUTION_SPINE_CONVERGENCE.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+    - Makefile
   budget:
-    engineering_hours: null
-    calendar_days: null
-    implementation_iterations: null
-    candidates: null
+    engineering_hours: 24
+    calendar_days: 4
+    implementation_iterations: 5
+    candidates: 1
   roles:
-    owner: null
-    worker: null
-    independent_reviewers: []
+    owner: P1-149 Engineering Manager
+    worker: P1-149 Execution Spine Worker
+    independent_reviewers:
+      - P1-149 Fresh CTO Reviewer
+      - P1-149 Fresh Security Reviewer
+      - P1-149 Fresh Quality Reviewer
   external_effects:
     network: false
     provider: false
@@ -6114,15 +6128,15 @@ active_work:
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: null
-  founder_reserved_authorization_sha256: null
+  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-accepted-execution-spine-strict-exit-20260728/decision/FOUNDER_P1_ACCEPTED_EXECUTION_SPINE_ROUTE_DECISION_V1_1.json
+  founder_reserved_authorization_sha256: cb929f24582cc00a2829e0c2bd306d20e14eeca0e8d040cb9dc861b1323b2895
   founder_decision_required: false
   founder_decision_required_scope: NONE_WITHIN_ACTIVE_PHASE_ENVELOPE
   escalation_reason: null
   user_action_required: NONE
   phase_route_decision_required: false
   phase_route_user_action_required: NONE
-  next_eligible_action: MASTER_ACTIVATE_FIRST_TASK
+  next_eligible_action: CONTINUE_CURRENT_TASK
 superseded_pre_delegation_authorizations:
   aios_p1_009:
     task_id: AIOS-P1-009_ENVIRONMENT_SNAPSHOT_REPRODUCIBILITY

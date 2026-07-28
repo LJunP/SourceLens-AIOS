@@ -6090,7 +6090,7 @@ historical_active_work_after_p1_079:
   user_action_required: NONE
   phase_route_decision_required: false
   phase_route_user_action_required: NONE
-  next_eligible_action: CONTINUE_CURRENT_TASK
+  next_eligible_action: MASTER_ACTIVATE_FIRST_TASK
 active_work:
   current_task: AIOS-P1-150_REQUEST_BOUND_REPRODUCIBLE_BASELINE
   current_task_status: ACTIVE

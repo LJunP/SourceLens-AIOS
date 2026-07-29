@@ -7381,7 +7381,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260729-P1-160-TERMINAL-FINAL-REVIEW-NONPASS-V1
+  latest_event_id: FKS-20260729-P1-160-TERMINAL-KNOWLEDGE-IMPORTED-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -7695,6 +7695,84 @@ founder_knowledge_sync:
         path: null
         byte_length: null
         sha256: null
+    - event_id: FKS-20260729-P1-160-TERMINAL-KNOWLEDGE-CANDIDATE-V1
+      trigger_type: LEARNING_ARTIFACT_CANDIDATE_FROZEN
+      occurred_at_utc: "2026-07-29T08:53:22Z"
+      source_commit: ef5b8b29930b22a0048190d43eabb803ed84ee76
+      source_tree: 378239671b0a80cd25669ebea74b3259b1b01b51
+      previous_event_sha256: 7efc9ea9e849c395cfe77bb28c66789f65df812b8ce9bd7363c4346c911ac64d
+      event_sha256: a0da132d6747135bc1a37bd1c123fcaf4b56090529c752313e433a73b5ad881e
+      status: PENDING_REVIEW
+      rationale: Exact P1-160 Founder Learning Artifact candidate was frozen for fresh independent Knowledge Review; this non-authoritative sync remains nonblocking.
+      engineering_blocking: false
+      artifact:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-stream-safe-strict-exit-20260729/task-1-p1-160/knowledge/P1_160_FOUNDER_LEARNING_ARTIFACT.md
+        byte_length: 5184
+        sha256: e5330723602baca9d10821a722a81299ed7957cd47619b5be8f701ab1027c94a
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+    - event_id: FKS-20260729-P1-160-TERMINAL-KNOWLEDGE-REVIEW-PASS-V1
+      trigger_type: INDEPENDENT_KNOWLEDGE_REVIEW_COMPLETED
+      occurred_at_utc: "2026-07-29T08:54:21Z"
+      source_commit: ef5b8b29930b22a0048190d43eabb803ed84ee76
+      source_tree: 378239671b0a80cd25669ebea74b3259b1b01b51
+      previous_event_sha256: a0da132d6747135bc1a37bd1c123fcaf4b56090529c752313e433a73b5ad881e
+      event_sha256: 0a161cacbf622d35cc55f62ce6a4244a1b8df70ff92d31de65fe4674e2203b09
+      status: REVIEWED_PASS_PENDING_IMPORT
+      rationale: Fresh independent Knowledge Reviewer returned PASS and authorized only the exact 5184-byte P1-160 Artifact for Founder Knowledge Vault import.
+      engineering_blocking: false
+      artifact:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-stream-safe-strict-exit-20260729/task-1-p1-160/knowledge/P1_160_FOUNDER_LEARNING_ARTIFACT.md
+        byte_length: 5184
+        sha256: e5330723602baca9d10821a722a81299ed7957cd47619b5be8f701ab1027c94a
+      review:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-stream-safe-strict-exit-20260729/task-1-p1-160/knowledge/KNOWLEDGE_REVIEW_V1.json
+        byte_length: 2520
+        sha256: c935e62b912018aaa2034f660121300c8f4979ad3a9a0f3b27c35e16d75268db
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+    - event_id: FKS-20260729-P1-160-TERMINAL-KNOWLEDGE-IMPORTED-V1
+      trigger_type: EXACT_KNOWLEDGE_ARTIFACT_IMPORTED
+      occurred_at_utc: "2026-07-29T09:03:13Z"
+      source_commit: ef5b8b29930b22a0048190d43eabb803ed84ee76
+      source_tree: 378239671b0a80cd25669ebea74b3259b1b01b51
+      previous_event_sha256: 0a161cacbf622d35cc55f62ce6a4244a1b8df70ff92d31de65fe4674e2203b09
+      event_sha256: 3fdf32560d496410750473a9f187062ffa079eb7e426c6165747e802740bd061
+      status: IMPORTED
+      rationale: The exact independently reviewed P1-160 terminal learning Artifact was imported into the Founder Knowledge Vault with byte-for-byte equality.
+      engineering_blocking: false
+      artifact:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-stream-safe-strict-exit-20260729/task-1-p1-160/knowledge/P1_160_FOUNDER_LEARNING_ARTIFACT.md
+        byte_length: 5184
+        sha256: e5330723602baca9d10821a722a81299ed7957cd47619b5be8f701ab1027c94a
+      review:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-stream-safe-strict-exit-20260729/task-1-p1-160/knowledge/KNOWLEDGE_REVIEW_V1.json
+        byte_length: 2520
+        sha256: c935e62b912018aaa2034f660121300c8f4979ad3a9a0f3b27c35e16d75268db
+      vault_import:
+        path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/05-Failures-and-Lessons/AIOS-P1-160/2026-07-29-P1-160终态复盘.md
+        byte_length: 5184
+        sha256: e5330723602baca9d10821a722a81299ed7957cd47619b5be8f701ab1027c94a
+      receipt:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-stream-safe-strict-exit-20260729/task-1-p1-160/knowledge/KNOWLEDGE_IMPORT_RECEIPT_V1.json
+        byte_length: 1821
+        sha256: fe256b5bb1133e4c2c113f233118d74f747a8105fd0ee5edefcdc6d52f823a14
 
 historical_active_work_after_p1_079:
   current_task: NONE

@@ -4547,7 +4547,7 @@ current_phase_route:
         public: false
     - task_slot: 2
       task_id: AIOS-P1-161_REPORT_BOUND_P2_CONTEXT_ENGINE_PREREGISTRATION
-      status: BLOCKED_PREDECESSOR_TASK_GATE_PENDING
+      status: PENDING_PREDECESSOR_TASK_GATE
       engineering_hours: 8
       calendar_days: 2
       max_implementation_iterations: 2

@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P1-160_STREAM_SAFE_RESPONSE_EVIDENCE_BASELINE
 phase: P1
 route_id: P1_CLEAN_ROOM_STREAM_SAFE_RESPONSE_EVIDENCE_AND_STRICT_EXIT_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
 objective: >-
   Build and execute one clean-room request-bound 36-cell Chat Completions
   baseline whose response transport, raw Evidence spool and independent
@@ -27,6 +27,35 @@ budget:
   calendar_days: 8
   implementation_iterations: 4
   candidates: 1
+terminal_result:
+  normalized_root_cause: P1160.FINAL_REVIEW.ACCEPTED_ADAPTER_EXECUTION_AND_INDEPENDENT_EVIDENCE_SECURITY_SEMANTICS_NON_PASS
+  candidate_commit: ffa4c7decc64128a70e317ef53bed999ba4dbc01
+  candidate_tree: 68c94c65d620f527866814e881c89f537f9de275
+  candidate_manifest_sha256: 45887119946f41763bfe4e61948ebf2deedbdf1b20959e1261842a6a3a8672c7
+  evidence_tag: evidence/p1-160-candidate-ffa4c7d-20260729
+  formal_matrix_status: PASS_ENGINEERING_EXECUTION_ONLY
+  formal_cells_planned: 36
+  formal_cells_completed: 36
+  formal_provider_requests: 36
+  operator_secret_reads: 1
+  automatic_retries: 0
+  denominator: 36
+  verified_successes: 0
+  vtsr: 0
+  evidence_manifest_sha256: 964c8dc8037f6d2cc29a90425981a4ab13307f1e31a2168bce137360e151fd7b
+  report_sha256: 3c71c99069f70ef5828a789bfa78b31191ab8c4d404013b5e336e3ec327d3063
+  independent_verifier_receipt_sha256: eb22165c6b1b20e7bb85f3463ae8eefb293890de5636850d52fd5fd659f9d73a
+  cto_target_verdict: NON_PASS
+  cto_review_sha256: f399857d8577d39d0b31e1182134ae340a12a125b94de0972274c4f1cea1ebea
+  security_target_verdict: NON_PASS
+  security_review_sha256: 463bfd1daf2b4f5129b5b3368cec6e96e996acb4252e76e57028f96628783e36
+  quality_target_verdict: NON_PASS
+  quality_review_sha256: cf106f19be8f51a28a8358b1b60a78b1dd1cac41b687201cb07761187e01b410
+  terminal_receipt_sha256: 04dbda8b8c82ed1ac8fcad4e92bf2713ade4bf71a00a53b7e6334084089d6792
+  candidate_integrated: false
+  canonical_make_verify: NOT_INVOKED_FINAL_REVIEW_STOP_CONDITION
+  capability_credit: 0
+  p1_161_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
 roles:
   owner: P1-160 Engineering Manager
   worker: P1-160 Stream-Safe Baseline Worker

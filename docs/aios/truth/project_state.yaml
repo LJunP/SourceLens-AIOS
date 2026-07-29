@@ -4829,7 +4829,7 @@ current_phase_route:
     - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-160-stream-safe-baseline
       head: ffa4c7decc64128a70e317ef53bed999ba4dbc01
       branch: codex/p1-160-stream-safe-baseline
-      status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS_NOT_CURRENT
+      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
     - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P2-005-scanner-first-graph
       head: d1cf1874724c81221ea88b7171a5643239aa69c0
       branch: codex/p2-005-scanner-first-graph

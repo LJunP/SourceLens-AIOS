@@ -1,0 +1,206 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P1-165_FAIL_CLOSED_RESPONSE_ADMISSION_AND_RAW_EVIDENCE_KERNEL
+phase: P1
+route_id: P1_CLEAN_ROOM_FAIL_CLOSED_RESPONSE_ADMISSION_KERNEL_AND_STRICT_EXIT_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Build and accept one provider-neutral, fail-closed response-admission and raw
+  OS Evidence kernel. The kernel must close every predictable local response,
+  observer, identity, filesystem, Secret-reflection, taxonomy and liveness
+  failure before any later Task may read a Secret or call a Provider.
+why_now: >-
+  Strict P1 remains 6/8 (75%) and P2 is held. P1-162 terminated after fresh
+  final reviews identified incomplete transport-completeness persistence,
+  observer, closed-keyset, critical-taxonomy, liveness and maximal Patch-IR
+  coverage. This clean-room Task closes those classes offline without reading
+  or reusing rejected P1-162 engineering.
+task_spec_ref: /Users/lijunpeng/Developer/.sourcelens-audit/p1-fail-closed-response-admission-strict-exit-20260729/decision/FOUNDER_P1_CLEAN_ROOM_FAIL_CLOSED_RESPONSE_ADMISSION_KERNEL_AND_STRICT_EXIT_ROUTE_DECISION_V1_1.json
+owner_role: P1-165 Engineering Manager
+worker_role: P1-165 Response Admission Worker
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+risk_level: high
+budget:
+  engineering_hours: 32
+  calendar_days: 5
+  implementation_iterations: 5
+  candidates: 1
+roles:
+  owner: P1-165 Engineering Manager
+  worker: P1-165 Response Admission Worker
+  independent_reviewers:
+    - P1-165 Fresh CTO Reviewer
+    - P1-165 Fresh Security Reviewer
+    - P1-165 Fresh Quality Reviewer
+allowlisted_paths:
+  - evaluation-harness/harness/p1-165-fail-closed-response-admission
+  - evaluation-harness/evaluator/p1-165-fail-closed-response-admission
+  - evaluation-harness/fixtures/p1-165-fail-closed-response-admission
+  - scripts/verify-p1-165-fail-closed-response-admission.sh
+  - docs/aios/tasks/P1-165_FAIL_CLOSED_RESPONSE_ADMISSION_AND_RAW_EVIDENCE_KERNEL.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+  - Makefile
+write_scope:
+  worker:
+    - evaluation-harness/harness/p1-165-fail-closed-response-admission
+  quality:
+    - evaluation-harness/evaluator/p1-165-fail-closed-response-admission
+    - evaluation-harness/fixtures/p1-165-fail-closed-response-admission
+  integration:
+    - scripts/verify-p1-165-fail-closed-response-admission.sh
+    - docs/aios/tasks/P1-165_FAIL_CLOSED_RESPONSE_ADMISSION_AND_RAW_EVIDENCE_KERNEL.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+    - Makefile
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+  - docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
+  - docs/aios/tasks/P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE.yaml
+  - docs/aios/tasks/P1-129_EXACT_INPUT_BOUNDARY_SECURITY_MATRIX_COMPLETION.yaml
+  - docs/aios/tasks/P1-149_ACCEPTED_EXECUTION_SPINE_CONVERGENCE.yaml
+  - evaluation-harness/datasets/p1-representative-task-dataset-v1
+  - evaluation-harness/adapters/p1-125-six-task-parameterized
+  - evaluation-harness/harness/p1-125-six-task-parameterized
+  - evaluation-harness/evaluator/p1-125-six-task-parameterized
+  - evaluation-harness/harness/p1-149-accepted-execution-spine
+  - evaluation-harness/replay/p1-149-accepted-execution-spine
+  - evaluation-harness/evaluator/p1-149-accepted-execution-spine
+  - evaluation-harness/recording/p1-101-accepted-shared-trace
+  - evaluation-harness/replay/p1-101-accepted-shared-trace
+dependencies:
+  - ACCEPTED_CANONICAL_P1_035_REPRESENTATIVE_TASK_DATASET
+  - ACCEPTED_CANONICAL_P1_101_OBSERVABLE_TRACE_AND_REPLAY
+  - ACCEPTED_CANONICAL_P1_129_B0_B1_B2_COMPATIBILITY_CONTROLS
+  - ACCEPTED_CANONICAL_P1_149_EXECUTION_SPINE
+historical_isolation:
+  p1_162_status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+  p1_162_rejected_engineering_readable_or_reusable: false
+  permitted_p1_162_reads:
+    - canonical Truth
+    - terminal receipt
+    - final CTO review
+    - final Security review
+    - final Quality review
+    - independently reviewed Founder Learning Artifact
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-fail-closed-response-admission-strict-exit-20260729/decision/FOUNDER_P1_CLEAN_ROOM_FAIL_CLOSED_RESPONSE_ADMISSION_KERNEL_AND_STRICT_EXIT_ROUTE_DECISION_V1_1.json
+  sha256: c9d11c6dbec9809c49b9d241055aa9f32f884fab69587797bc534cbb99eb6a41
+  byte_length: 5132
+  authorization_token: AUTHORIZE_P1_CLEAN_ROOM_FAIL_CLOSED_RESPONSE_ADMISSION_KERNEL_AND_STRICT_EXIT_ROUTE_V1
+founder_reserved_profile: null
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+architecture_constraints:
+  - The production helper is versioned and data-driven; tests may not replace it with labels, Worker aggregates or self-reported PASS fields.
+  - Response bytes remain only in a unique owned transient quarantine until one closed decision validates exact request, cell, Task, profile, repetition, context, transport, observer, usage and Evidence identities.
+  - Request, context, observation and transport records use closed exact keysets and reject extra, missing, duplicate, ambiguous or contradictory fields.
+  - Transport completion requires consistent HTTP framing plus EOF or terminal-event semantics; incomplete, truncated, early-close, missing terminal, duplicate terminal and post-terminal bytes fail closed.
+  - Response size is bounded by Contract data and validated while streaming, before durable response persistence.
+  - OWNED_CALIBRATION permits only a Task-owned ephemeral loopback server and client and never represents Provider or formal transport.
+  - FORMAL_LOOPBACK semantics bind exact peer 127.0.0.1:8787 but Task 1 uses semantic fixtures only; real gateway availability remains a Task 2 diagnostic question.
+  - Raw OS observer Evidence binds command, PID, FD, peer, stdout, stderr, exit status and timestamps and is independently reconstructed.
+  - Exact Secret-byte reflection scanning covers plain, prefix, suffix, cross-chunk, split-boundary and binary forms; neither sentinel nor its hash may enter retained Evidence.
+  - Usage is UNKNOWN when absent; when present it must use consistent non-negative integers and may not be fabricated as zero.
+  - Admission and later cell closure are separate stages so adapter, P1-149 and P1-101 identities cannot circularly authorize response persistence.
+  - Ordinary Provider completion, JSON, Patch-IR, compiler, oracle and test failures are FAILED research data rather than infrastructure INVALID.
+  - Critical path, symlink, hardlink, create-once, identity, Evidence-write, Secret, peer and observer errors retain exact reason codes across helper, process and wrapper boundaries.
+  - Independent evaluation reads raw Evidence only and does not trust Worker success, usage, effect, peer, observer, cell-result or aggregate fields.
+  - No Secret read, Provider request, non-owned network connection or user-software mutation is permitted.
+quality_freeze:
+  synthetic_cells: 36
+  b0_cells: 12
+  b1_cells: 12
+  b2_cells: 12
+  accepted_p1_149_execution_spines: 36
+  accepted_p1_101_replays: 36
+  real_b2_repository_analysis_scan_children: 12
+  output_token_boundaries:
+    - 2047
+    - 2048
+    - 2049
+  false_accepts_max: 0
+  persistence_before_admission_max: 0
+  unsafe_failure_receipts_max: 0
+  provider_requests: 0
+  secret_reads: 0
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false
+acceptance_criteria:
+  - Canonical authority, strict phase predecessor and P1 safety pass before Worker source mutation.
+  - Exact accepted-input identities for P1-035, P1-101, P1-129 and P1-149 are verified from canonical bytes and accepted Git ancestry.
+  - Real owned held-open loopback calibration proves valid observer PASS and rejects missing, forged, NON_PASS, wrong PID, wrong FD, wrong port, wrong peer, non-loopback, cross-binding and mutated stdout or stderr.
+  - Response boundaries cover zero, cap minus one, exact cap, cap plus one, incomplete, truncated, multi-chunk, missing terminal, duplicate terminal and post-terminal bytes.
+  - Secret-reflection cases cover exact, prefix, suffix, cross-chunk, split-boundary and binary sentinels without retaining sentinel bytes or hashes.
+  - Real-filesystem tests cover owned-root preexistence, path escape, symlink, hardlink, create-once, missing identity, mutation, closed-inventory missing or extra, reorder, duplicate, cross-binding and Evidence-write failure.
+  - Production critical reason codes propagate unchanged through helper, child process and wrapper boundaries.
+  - Usage boundaries preserve UNKNOWN and validate integer and total consistency.
+  - Exact output-token usage 2047 and 2048 are admitted, 2049 is rejected, and the 2048 case completes compiler, owned-copy apply, oracle/tests and rollback.
+  - Exactly 36 synthetic cells run across B0, B1 and B2; B2 produces twelve real accepted P0 repository_analysis.scan child invocations.
+  - All 36 cells traverse accepted P1-149 and P1-101 replay/rollback paths and preserve causal adapter identities.
+  - Reference-answer scanning reports zero leaks.
+  - Bounded concurrency proves create-once and accounting without duplicate or missing slots.
+  - Worker, observer and Evidence-writer stalls are independently detected with observable progress receipts.
+  - Independent raw-only evaluation reconstructs every admission, effect, taxonomy, denominator, verified-success and VTSR claim.
+  - All negative matrices produce zero false accepts, zero unsafe persistence and zero unauthorized external effects.
+  - One exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS on the same candidate and raw preflight Evidence.
+  - Reviewed tree equals integrated canonical tree and one canonical make verify passes.
+  - This Task grants no P1 Exit capability credit and cannot enter P1-166 before its complete Task Gate.
+required_evidence:
+  - Exact Founder reissue, structured Decision, Goal, activation parent, Contract and authority identities.
+  - Accepted-input identity receipt for P1-035, P1-101, P1-129 and P1-149.
+  - Raw transport, observer, admission, filesystem, Secret-reflection, taxonomy, liveness and concurrency matrices.
+  - Synthetic 36-cell plan, adapter actions, P1-149 artifacts and P1-101 trace/replay/rollback receipts.
+  - Raw-only independent evaluator result, closed inventory and reproduction command.
+  - Task-worktree make verify receipt.
+  - Candidate commit, tree, exact diff/hash manifest and recoverable Evidence tag.
+  - Fresh CTO, Security and Quality reviews of the same candidate and preflight bytes.
+  - Reviewed-tree versus integrated-tree equality and canonical make verify result.
+rollback:
+  strategy: OWNED_DISPOSABLE_ROOT_CLEANUP_AND_NON_DESTRUCTIVE_GIT_REVERT_AFTER_CANONICAL_INTEGRATION
+  forbidden:
+    - git reset
+    - git clean
+    - destructive history rewrite
+stop_conditions:
+  - Canonical start, Goal, Founder decision, accepted-input or activation-parent identity drifts.
+  - Any P1-162 rejected source, candidate, diff, fixture, test, evaluator, formal response or implementation is read or reused.
+  - The same normalized root cause repeats in adjacent implementation iterations.
+  - Initial implementation plus four same-Task repairs are exhausted.
+  - Any Secret read, Provider request, non-owned network effect or user-software mutation occurs.
+  - Secret reflection, non-loopback, path escape, Evidence damage, permission expansion or actual budget overrun occurs.
+  - Any final Reviewer returns TARGET_VERDICT NON_PASS.
+  - Reviewed and integrated trees differ or canonical make verify returns NONPASS.
+forbidden_actions:
+  - Read, recover, compare or reuse P1-162 rejected source, candidate, diff, fixture, test, evaluator, formal response or implementation.
+  - Modify accepted P1-035, P1-101, P1-129 or P1-149 semantics.
+  - Read a Secret, call a Provider, connect to a non-owned network peer or mutate user software.
+  - Create a successor, replacement, correction, normalization, closure, feasibility or remediation Task.
+  - Enter P1-166 before the full P1-165 Task Gate.
+  - Enter P2 or P3, push or modify a remote, production or public system.
+claim_boundary: >-
+  Cooperative-local provider-neutral P1 response-admission and raw OS Evidence
+  kernel only. No model-performance, baseline-report, P1 Exit, P2/P3 entry,
+  production, public, direct-upstream-provenance or hostile-principal claim.

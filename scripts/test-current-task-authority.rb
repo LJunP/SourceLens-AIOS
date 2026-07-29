@@ -1134,8 +1134,11 @@ class CurrentTaskAuthorityTest
       end
       return
     end
+    expected_profile_tasks = executable_route.fetch("task_plan").select do |descriptor|
+      descriptor.dig("external_effects", "provider") == true
+    end.map { |descriptor| descriptor.fetch("task_id") }
     assert(
-      claims["founder_reserved_profiles"].map { |profile| profile["task_id"] } == expected_tasks,
+      claims["founder_reserved_profiles"].map { |profile| profile["task_id"] } == expected_profile_tasks,
       "current packet profile set drifted"
     )
     @passes += 1

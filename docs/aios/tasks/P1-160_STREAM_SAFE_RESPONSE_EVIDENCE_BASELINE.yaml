@@ -96,7 +96,7 @@ external_effects:
   public: false
 founder_reserved_authorization:
   path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-stream-safe-strict-exit-20260729/decision/FOUNDER_P1_CLEAN_ROOM_STREAM_SAFE_RESPONSE_EVIDENCE_AND_STRICT_EXIT_ROUTE_DECISION_V1_1.json
-  sha256: 8f15458faa809883b27b4300ca6053049045d64cc2cfeda7e2f1d461d9cf00c9
+  sha256: fbc7c9829fd71e3fa0b4e96278f201b7c892672e06ccb5ea71733613fcda9f49
   byte_length: 4620
   authorization_token: AUTHORIZE_P1_CLEAN_ROOM_STREAM_SAFE_RESPONSE_EVIDENCE_AND_STRICT_EXIT_ROUTE_V1
 goal_identity:
@@ -169,7 +169,7 @@ founder_reserved_profile:
     remote: false
     production: false
     public: false
-  decision_basis: FOUNDER_PACKET_SHA256:808d36aa3612fdf2edad7b16790aa085bf826a22dc778e4acac3af511be45d80
+  decision_basis: FOUNDER_PACKET_SHA256:0937e4053172395d89a25a32e965a235904acd8da8c2275d9e95a02afabf8d65
 architecture_constraints:
   - Use exactly one data-driven response byte ceiling shared by transport, create-once raw spool, inventory and independent verifier.
   - The selected response byte ceiling is 4194304 bytes; transport, spool and verifier must reject only bytes above that same value.

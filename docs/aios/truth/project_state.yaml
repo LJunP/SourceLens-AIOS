@@ -4298,12 +4298,12 @@ current_phase_route:
   authorization_token: AUTHORIZE_P1_CLEAN_ROOM_STREAM_SAFE_RESPONSE_EVIDENCE_AND_STRICT_EXIT_ROUTE_V1
   decision_packet:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-stream-safe-strict-exit-20260729/decision/FOUNDER_P1_CLEAN_ROOM_STREAM_SAFE_RESPONSE_EVIDENCE_AND_STRICT_EXIT_ROUTE_DECISION_V1_1.json
-    sha256: 8f15458faa809883b27b4300ca6053049045d64cc2cfeda7e2f1d461d9cf00c9
+    sha256: fbc7c9829fd71e3fa0b4e96278f201b7c892672e06ccb5ea71733613fcda9f49
     byte_length: 4620
   original_founder_packet:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-stream-safe-strict-exit-20260729/decision/FOUNDER_P1_CLEAN_ROOM_STREAM_SAFE_RESPONSE_EVIDENCE_AND_STRICT_EXIT_ROUTE_V1.md
-    sha256: 808d36aa3612fdf2edad7b16790aa085bf826a22dc778e4acac3af511be45d80
-    byte_length: 7125
+    sha256: 0937e4053172395d89a25a32e965a235904acd8da8c2275d9e95a02afabf8d65
+    byte_length: 7559
   activation_parent:
     commit: 8de886964bcb2ab2307b84a6b15688a8c90e1c03
     tree: e221ef59fbd7231a6c320ac89ca13421ab5fc8d3
@@ -4406,7 +4406,7 @@ current_phase_route:
       remote: false
       production: false
       public: false
-    decision_basis: FOUNDER_PACKET_SHA256:808d36aa3612fdf2edad7b16790aa085bf826a22dc778e4acac3af511be45d80
+    decision_basis: FOUNDER_PACKET_SHA256:0937e4053172395d89a25a32e965a235904acd8da8c2275d9e95a02afabf8d65
   founder_reserved_profiles:
     - schema_version: "4.0"
       profile_id: P1_160_STREAM_SAFE_PROVIDER_V1
@@ -4471,7 +4471,7 @@ current_phase_route:
         remote: false
         production: false
         public: false
-      decision_basis: FOUNDER_PACKET_SHA256:808d36aa3612fdf2edad7b16790aa085bf826a22dc778e4acac3af511be45d80
+      decision_basis: FOUNDER_PACKET_SHA256:0937e4053172395d89a25a32e965a235904acd8da8c2275d9e95a02afabf8d65
   accepted_inputs:
     p1_035:
       task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
@@ -7670,14 +7670,14 @@ active_work:
   current_task_status: ACTIVE
   current_task_contract:
     path: docs/aios/tasks/P1-160_STREAM_SAFE_RESPONSE_EVIDENCE_BASELINE.yaml
-    sha256: 820b08f07344d15cb68743ddd9b00a5990c87f479670c1f3bb9dd7511c172b67
+    sha256: c5f6b0a6f7d3ca404621f13f68679ef60689e1a2e58e2de8e95aa3c49e7e2988
     byte_length: 12587
-  current_task_contract_sha256: 820b08f07344d15cb68743ddd9b00a5990c87f479670c1f3bb9dd7511c172b67
+  current_task_contract_sha256: c5f6b0a6f7d3ca404621f13f68679ef60689e1a2e58e2de8e95aa3c49e7e2988
   current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-stream-safe-strict-exit-20260729/task-1-p1-160/authority/TASK_AUTHORITY.yaml
-  current_execution_authorization_sha256: 643ad1e28cc95d66dbde6c64e3603aa30a747df8b78c23cd71f22c008e9e50f0
+  current_execution_authorization_sha256: e3a43c9a71e7046a54fa4b615e4a74d860003a8e746ced993d7d165dfea73e48
   authority_record:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-stream-safe-strict-exit-20260729/task-1-p1-160/authority/TASK_AUTHORITY.yaml
-    sha256: 643ad1e28cc95d66dbde6c64e3603aa30a747df8b78c23cd71f22c008e9e50f0
+    sha256: e3a43c9a71e7046a54fa4b615e4a74d860003a8e746ced993d7d165dfea73e48
     byte_length: 4334
   continuation_authorization: null
   execution_nonce: cf2b136dafb666e82814ddda334af78d9efe9092d4858ee9862c5f3a7ed51c7d
@@ -7720,7 +7720,7 @@ active_work:
     public: false
   offsite_target: null
   founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-stream-safe-strict-exit-20260729/decision/FOUNDER_P1_CLEAN_ROOM_STREAM_SAFE_RESPONSE_EVIDENCE_AND_STRICT_EXIT_ROUTE_DECISION_V1_1.json
-  founder_reserved_authorization_sha256: 8f15458faa809883b27b4300ca6053049045d64cc2cfeda7e2f1d461d9cf00c9
+  founder_reserved_authorization_sha256: fbc7c9829fd71e3fa0b4e96278f201b7c892672e06ccb5ea71733613fcda9f49
   founder_decision_required: false
   founder_decision_required_scope: null
   escalation_reason: null

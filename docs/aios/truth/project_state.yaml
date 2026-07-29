@@ -37,7 +37,7 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
+  current_task_authority: AIOS-P1-162_PREFORMAL_ACCEPTED_ADAPTER_COMPOSITION_AND_EVIDENCE_FREEZE
   note: >-
     P1-160 completed its sole 36-cell formal execution and its implementation-
     defined independent verifier with 36 Provider requests, one no-echo Secret
@@ -477,12 +477,12 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  p1_execution_status: AUTHORIZED_READY
-  p1_engineering_status: P1_162_PREFORMAL_ADAPTER_COMPOSITION_ROUTE_READY
+  p1_execution_status: ACTIVE
+  p1_engineering_status: P1_162_PREFORMAL_ADAPTER_COMPOSITION_ACTIVE
   p2_entry_status: HOLD_PENDING_STRICT_P1_EXIT
   p2_execution_status: HOLD_PENDING_STRICT_P1_EXIT
-  phase_execution_status: AUTHORIZED_READY
-  current_route_execution_status: P1_PREFORMAL_ADAPTER_COMPOSITION_ROUTE_READY
+  phase_execution_status: ACTIVE
+  current_route_execution_status: P1_PREFORMAL_ADAPTER_COMPOSITION_TASK_1_ACTIVE
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -4847,11 +4847,11 @@ historical_p1_160_phase_route:
 
 current_phase_route:
   route_id: P1_PREFORMAL_ACCEPTED_ADAPTER_COMPOSITION_FREEZE_AND_BOUNDED_STRICT_EXIT_ROUTE_V1
-  status: AUTHORIZED_READY
-  authority_object_status: FOUNDER_DIRECTIVE_CONSUMED_ROUTE_READY
-  execution_status: AUTHORIZED_READY
+  status: ACTIVE
+  authority_object_status: FOUNDER_DIRECTIVE_CONSUMED_TASK_ACTIVE
+  execution_status: ACTIVE_TASK_1
   founder_phase_route_decision_required: false
-  scheduling_status: FIRST_TASK_ELIGIBLE_NOT_ACTIVATED
+  scheduling_status: TASK_1_ACTIVE
   phase: P1
   phase_entry_status: AUTHORIZED
   authorization_token: AUTHORIZE_P1_PREFORMAL_ACCEPTED_ADAPTER_COMPOSITION_FREEZE_AND_BOUNDED_STRICT_EXIT_ROUTE_V1
@@ -5017,7 +5017,7 @@ current_phase_route:
   first_task:
     task_id: AIOS-P1-162_PREFORMAL_ACCEPTED_ADAPTER_COMPOSITION_AND_EVIDENCE_FREEZE
     task_slot: 1
-    status: ELIGIBLE_NOT_ACTIVATED
+    status: ACTIVE
     contract_path: docs/aios/tasks/P1-162_PREFORMAL_ACCEPTED_ADAPTER_COMPOSITION_AND_EVIDENCE_FREEZE.yaml
     max_engineering_hours: 24
     max_calendar_days: 4
@@ -5027,7 +5027,7 @@ current_phase_route:
   task_plan:
     - task_slot: 1
       task_id: AIOS-P1-162_PREFORMAL_ACCEPTED_ADAPTER_COMPOSITION_AND_EVIDENCE_FREEZE
-      status: ELIGIBLE_NOT_ACTIVATED
+      status: ACTIVE
       engineering_hours: 24
       calendar_days: 4
       max_implementation_iterations: 5
@@ -5227,7 +5227,7 @@ current_phase_route:
       head: 4d100e6eb481abedbaabb35991e1af7a1f1319c3
       branch: codex/p2-009-canonical-scan-graph-kernel
       status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
-  next_eligible_action: ACTIVATE_AIOS_P1_162
+  next_eligible_action: EXECUTE_AIOS_P1_162
 
 historical_p2_009_phase_route_after_strict_recovery:
   schema_version: strict-phase-recovery-hold/v1
@@ -6339,9 +6339,9 @@ historical_p2_phase_route:
   next_eligible_action: FOUNDER_P2_PHASE_GATE
 
 phase_delegation:
-  status: P1_160_STREAM_SAFE_ROUTE_TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+  status: P1_162_PREFORMAL_ADAPTER_COMPOSITION_ACTIVE
   model: PHASE_LEVEL_FOUNDER_DELEGATION
-  decision_source: AUTHORIZE_P1_CLEAN_ROOM_STREAM_SAFE_RESPONSE_EVIDENCE_AND_STRICT_EXIT_ROUTE_V1
+  decision_source: AUTHORIZE_P1_PREFORMAL_ACCEPTED_ADAPTER_COMPOSITION_FREEZE_AND_BOUNDED_STRICT_EXIT_ROUTE_V1
   phase_gate_owner: HUMAN_FOUNDER
   task_selection_owner: MASTER_CEO_AGENT
   task_authorization_owner: MASTER_CEO_AGENT_WITHIN_CURRENT_PHASE_ENVELOPE
@@ -6374,7 +6374,7 @@ phase_delegation:
     ordinary_repairs_stay_in_same_task: true
     successor_replacement_correction_chain_allowed: false
     task_id_hardcoding_in_current_authority_validator_allowed: false
-    maximum_same_task_bounded_contract_repairs: 1
+    maximum_same_task_bounded_contract_repairs: 4
     historical_execution_lineage_reuse_allowed: false
     mandatory_exit_capability_permanent_ban_from_historical_stop: false
     peripheral_work_before_exit_capabilities_allowed: false
@@ -8209,39 +8209,50 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P1-162_PREFORMAL_ACCEPTED_ADAPTER_COMPOSITION_AND_EVIDENCE_FREEZE
+  current_task_status: ACTIVE
   current_task_contract:
-    path: null
-    sha256: null
-    byte_length: null
-  current_task_contract_sha256: null
-  current_execution_authorization: null
-  current_execution_authorization_sha256: null
+    path: docs/aios/tasks/P1-162_PREFORMAL_ACCEPTED_ADAPTER_COMPOSITION_AND_EVIDENCE_FREEZE.yaml
+    sha256: b9047c9ae99d557a42d9a0e59762a64923875b692d52bbe62ced3a7d6e45332c
+    byte_length: 12460
+  current_task_contract_sha256: b9047c9ae99d557a42d9a0e59762a64923875b692d52bbe62ced3a7d6e45332c
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-preformal-adapter-composition-20260729/task-1-p1-162/authority/TASK_AUTHORITY.yaml
+  current_execution_authorization_sha256: 09c5904c9f79bdf84f21e18f6ababeba6e0a2cb8d19ad136c77d193fba424afd
   authority_record:
-    path: null
-    sha256: null
-    byte_length: null
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-preformal-adapter-composition-20260729/task-1-p1-162/authority/TASK_AUTHORITY.yaml
+    sha256: 09c5904c9f79bdf84f21e18f6ababeba6e0a2cb8d19ad136c77d193fba424afd
+    byte_length: 2569
   continuation_authorization: null
-  execution_nonce: null
-  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
-  authorization_id: null
-  activation_parent_commit: null
-  activation_parent_tree: null
-  task_resource_state: NOT_CREATED_ROUTE_READY
-  task_branch: null
-  task_worktree: null
-  execution_evidence_root: null
-  allowlisted_paths: []
+  execution_nonce: 3f73f2caf0945342373981dae279adb3e79d28e60591f1bce8791ddc3a8ab94e
+  execution_nonce_status: ACTIVE
+  authorization_id: 437b2afee70d3699c8849d8f65664300cbf57fa11b7907532592a047542b7864
+  activation_parent_commit: cea249fa871aae1b2d9d815531b694e61cd7fa76
+  activation_parent_tree: 2ee326ddd7269ae7b45fb1128639738bdbbe39be
+  task_resource_state: ACTIVE_UNIQUE_BRANCH_WORKTREE
+  task_branch: codex/p1-162-preformal-adapter-composition
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-162-preformal-adapter-composition
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-preformal-adapter-composition-20260729/task-1-p1-162
+  allowlisted_paths:
+    - evaluation-harness/harness/p1-162-preformal-adapter-composition
+    - evaluation-harness/replay/p1-162-preformal-adapter-composition
+    - evaluation-harness/evaluator/p1-162-preformal-adapter-composition
+    - scripts/verify-p1-162-preformal-adapter-composition.sh
+    - docs/aios/tasks/P1-162_PREFORMAL_ACCEPTED_ADAPTER_COMPOSITION_AND_EVIDENCE_FREEZE.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+    - Makefile
   budget:
-    engineering_hours: null
-    calendar_days: null
-    implementation_iterations: null
-    candidates: null
+    engineering_hours: 24
+    calendar_days: 4
+    implementation_iterations: 5
+    candidates: 1
   roles:
-    owner: null
-    worker: null
-    independent_reviewers: []
+    owner: P1-162 Engineering Manager
+    worker: P1-162 Profile Composition Worker
+    independent_reviewers:
+      - P1-162 Fresh CTO Reviewer
+      - P1-162 Fresh Security Reviewer
+      - P1-162 Fresh Quality Reviewer
   external_effects:
     network: false
     provider: false
@@ -8250,15 +8261,15 @@ active_work:
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: null
-  founder_reserved_authorization_sha256: null
+  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-preformal-adapter-composition-20260729/decision/FOUNDER_P1_PREFORMAL_ACCEPTED_ADAPTER_COMPOSITION_FREEZE_AND_BOUNDED_STRICT_EXIT_ROUTE_DECISION_V1_1.json
+  founder_reserved_authorization_sha256: 7e1b52962618fead205df531ec671080adb2df5198626b6da9de7dd6f6f3b897
   founder_decision_required: false
   founder_decision_required_scope: null
   escalation_reason: null
   user_action_required: NONE
   phase_route_decision_required: false
   phase_route_user_action_required: NONE
-  next_eligible_action: ACTIVATE_AIOS_P1_162
+  next_eligible_action: EXECUTE_AIOS_P1_162
   last_terminal_task:
     task_id: AIOS-P1-160_STREAM_SAFE_RESPONSE_EVIDENCE_BASELINE
     status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS

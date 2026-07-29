@@ -36,7 +36,6 @@ roles:
 allowlisted_paths:
   - evaluation-harness/harness/p1-165-fail-closed-response-admission
   - evaluation-harness/evaluator/p1-165-fail-closed-response-admission
-  - evaluation-harness/fixtures/p1-165-fail-closed-response-admission
   - scripts/verify-p1-165-fail-closed-response-admission.sh
   - docs/aios/tasks/P1-165_FAIL_CLOSED_RESPONSE_ADMISSION_AND_RAW_EVIDENCE_KERNEL.yaml
   - docs/aios/truth/project_state.yaml
@@ -47,7 +46,6 @@ write_scope:
     - evaluation-harness/harness/p1-165-fail-closed-response-admission
   quality:
     - evaluation-harness/evaluator/p1-165-fail-closed-response-admission
-    - evaluation-harness/fixtures/p1-165-fail-closed-response-admission
   integration:
     - scripts/verify-p1-165-fail-closed-response-admission.sh
     - docs/aios/tasks/P1-165_FAIL_CLOSED_RESPONSE_ADMISSION_AND_RAW_EVIDENCE_KERNEL.yaml

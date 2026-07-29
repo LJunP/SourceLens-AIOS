@@ -8744,15 +8744,15 @@ active_work:
   current_task_status: ACTIVE
   current_task_contract:
     path: docs/aios/tasks/P1-165_FAIL_CLOSED_RESPONSE_ADMISSION_AND_RAW_EVIDENCE_KERNEL.yaml
-    sha256: 5c67d2a392d93264c5e9a8737651b21dffc2e91c0c02e2eb1a2cbbf0e9df149c
-    byte_length: 13055
-  current_task_contract_sha256: 5c67d2a392d93264c5e9a8737651b21dffc2e91c0c02e2eb1a2cbbf0e9df149c
+    sha256: 0cd31d6f021412c57f5366ab8b734c2062ba61b6a53a130f46edab82a9dbcf7d
+    byte_length: 12913
+  current_task_contract_sha256: 0cd31d6f021412c57f5366ab8b734c2062ba61b6a53a130f46edab82a9dbcf7d
   current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-fail-closed-response-admission-strict-exit-20260729/task-1-p1-165/authority/TASK_AUTHORITY.yaml
-  current_execution_authorization_sha256: d5dd357cc55d77b86c4e40babb488c274fb7407669cd7340623346e3e6c12ad2
+  current_execution_authorization_sha256: 2e223e9e02e53d9b77ccd0a5b8e2f064a0a20e6dbafc845ae8c918f52fbde031
   authority_record:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-fail-closed-response-admission-strict-exit-20260729/task-1-p1-165/authority/TASK_AUTHORITY.yaml
-    sha256: d5dd357cc55d77b86c4e40babb488c274fb7407669cd7340623346e3e6c12ad2
-    byte_length: 2579
+    sha256: 2e223e9e02e53d9b77ccd0a5b8e2f064a0a20e6dbafc845ae8c918f52fbde031
+    byte_length: 2509
   continuation_authorization: null
   execution_nonce: 7afee38794cae19c34801e840d42579cdfcfc2abc9d4ed1b940354df6a5c6640
   execution_nonce_status: ACTIVE
@@ -8766,7 +8766,6 @@ active_work:
   allowlisted_paths:
     - evaluation-harness/harness/p1-165-fail-closed-response-admission
     - evaluation-harness/evaluator/p1-165-fail-closed-response-admission
-    - evaluation-harness/fixtures/p1-165-fail-closed-response-admission
     - scripts/verify-p1-165-fail-closed-response-admission.sh
     - docs/aios/tasks/P1-165_FAIL_CLOSED_RESPONSE_ADMISSION_AND_RAW_EVIDENCE_KERNEL.yaml
     - docs/aios/truth/project_state.yaml

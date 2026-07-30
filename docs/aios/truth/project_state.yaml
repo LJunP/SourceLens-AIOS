@@ -8867,7 +8867,7 @@ active_work:
     byte_length: 2516
   continuation_authorization: null
   execution_nonce: 2a4a1ecb7ce1b02c5bfb73fdf60535b6c2da9b09825e17da3ace1c693d03bfc3
-  execution_nonce_status: ACTIVE_UNIQUE
+  execution_nonce_status: ACTIVE
   authorization_id: 187fead430611419bece7c1d5d5ca96262fd4beddae2ddef24a4f1b6ee05fe99
   activation_parent_commit: f49625f3799ca62a10b6565db0d132877188c8e2
   activation_parent_tree: 89ae105945d8bb17b65d5339bcd072e16a54523e

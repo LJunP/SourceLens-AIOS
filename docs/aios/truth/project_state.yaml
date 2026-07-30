@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-30T03:41:04Z"
-verification_scope: P1_168_EXACT_RESPONSE_ADMISSION_MATRIX_RECOVERY_ACTIVE
+last_verified_at: "2026-07-30T07:54:40Z"
+verification_scope: P1_168_FINAL_REPAIR_CONTINUATION_AUTHORIZED
 
 authority:
   founder: Human Founder
@@ -8865,7 +8865,25 @@ active_work:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-p1-165-snapshot-recovery-strict-exit-20260730/task-1-p1-168/authority/TASK_AUTHORITY.yaml
     sha256: 48c57f94e26a365339f4ed6b3285086f7b2dee61ed9d923c664551ae5d625292
     byte_length: 2516
-  continuation_authorization: null
+  continuation_authorization:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-p1-165-snapshot-recovery-strict-exit-20260730/decision/P1_168_FINAL_REPAIR_CONTINUATION_AUTHORITY_V1.json
+    sha256: 93e650265a8b6c4e7a282f4112d32c8e6965ca8edc58675853bd7cd744466af5
+    byte_length: 6339
+    authorization_token: AUTHORIZE_ONE_P1_168_EXACT_V2_MANIFEST_SHA_LITERAL_CORRECTION_AND_DIRECT_STRICT_EXIT_CONTINUATION_V1
+    status: ACTIVE_ONE_SHOT
+    base_budget:
+      implementation_iterations: 5
+      same_task_repairs: 4
+      exhausted: true
+    founder_increment:
+      implementation_iterations: 1
+      same_task_repairs: 1
+    effective_budget:
+      implementation_iterations: 6
+      same_task_repairs: 5
+    only_new_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-p1-165-snapshot-recovery-strict-exit-20260730/task-1-p1-168/preflight/complete-matrix-v5
+    generic_authority_validator_native_enforcement: false
+    independent_outer_gate_required: true
   execution_nonce: 2a4a1ecb7ce1b02c5bfb73fdf60535b6c2da9b09825e17da3ace1c693d03bfc3
   execution_nonce_status: ACTIVE
   authorization_id: 187fead430611419bece7c1d5d5ca96262fd4beddae2ddef24a4f1b6ee05fe99

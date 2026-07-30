@@ -1,4 +1,4 @@
-.PHONY: help deps up up-infra down logs logs-backend dev backend backend-jar frontend analyzer verify clean clean-local-generated code-map code-map-check aios-governance-check p1-safety-check p1-harness-check p1-environment-snapshot-check p1-task-dataset-check p1-experiment-pack-reentry-check p1-finite-typed-patch-ir-check p1-offline-b0-complete-evidence-check p1-blind-admission-check p1-stable-replay-projection-check p1-offline-scheduled-matrix-check p1-accepted-shared-trace-check p1-116-closed-profile-scanner-admission-check p1-125-six-task-parameterized-check p1-accepted-execution-spine-check script-check api-design-check db-schema-check dependency-check llm-safety-check mysql-flyway-smoke test-backend test-frontend test-analyzer
+.PHONY: help deps up up-infra down logs logs-backend dev backend backend-jar frontend analyzer verify clean clean-local-generated code-map code-map-check aios-governance-check p1-safety-check p1-harness-check p1-environment-snapshot-check p1-task-dataset-check p1-experiment-pack-reentry-check p1-finite-typed-patch-ir-check p1-offline-b0-complete-evidence-check p1-blind-admission-check p1-stable-replay-projection-check p1-offline-scheduled-matrix-check p1-accepted-shared-trace-check p1-116-closed-profile-scanner-admission-check p1-125-six-task-parameterized-check p1-accepted-execution-spine-check p1-fail-closed-response-admission-check script-check api-design-check db-schema-check dependency-check llm-safety-check mysql-flyway-smoke test-backend test-frontend test-analyzer
 
 help: ## 显示当前有效命令
 	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-24s\033[0m %s\n", $$1, $$2}'
@@ -39,7 +39,7 @@ analyzer: ## 构建 Rust analyzer
 	mkdir -p bin
 	cp analyzer-rust/target/release/sourcelens-analyzer bin/
 
-verify: p1-harness-check p1-environment-snapshot-check p1-task-dataset-check p1-experiment-pack-reentry-check p1-finite-typed-patch-ir-check p1-offline-b0-complete-evidence-check p1-blind-admission-check p1-stable-replay-projection-check p1-offline-scheduled-matrix-check p1-accepted-shared-trace-check p1-accepted-execution-spine-check ## 运行当前 P1 开发基线验证
+verify: p1-harness-check p1-environment-snapshot-check p1-task-dataset-check p1-experiment-pack-reentry-check p1-finite-typed-patch-ir-check p1-offline-b0-complete-evidence-check p1-blind-admission-check p1-stable-replay-projection-check p1-offline-scheduled-matrix-check p1-accepted-shared-trace-check p1-accepted-execution-spine-check p1-fail-closed-response-admission-check ## 运行当前 P1 开发基线验证
 	./scripts/verify-all.sh
 
 test-backend: ## 运行后端测试
@@ -113,6 +113,9 @@ p1-125-six-task-parameterized-check: ## 校验 P1-129 补齐安全矩阵后的�
 
 p1-accepted-execution-spine-check: ## 校验 P1-149 accepted Patch compiler、trace、rollback 与独立 evaluator execution spine
 	./scripts/verify-p1-149-accepted-execution-spine.sh
+
+p1-fail-closed-response-admission-check: ## 校验 P1-165 fail-closed response admission 与 raw-only independent evaluation
+	./scripts/verify-p1-165-fail-closed-response-admission.sh
 
 script-check: ## 检查当前 Shell 脚本语法
 	@for script in scripts/*.sh; do bash -n "$$script"; done

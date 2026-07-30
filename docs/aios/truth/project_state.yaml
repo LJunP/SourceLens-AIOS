@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-30T03:36:47Z"
-verification_scope: P1_168_EXACT_SNAPSHOT_BOUND_ROUTE_READY
+last_verified_at: "2026-07-30T03:41:04Z"
+verification_scope: P1_168_EXACT_RESPONSE_ADMISSION_MATRIX_RECOVERY_ACTIVE
 
 authority:
   founder: Human Founder
@@ -37,7 +37,7 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
+  current_task_authority: AIOS-P1-168_EXACT_RESPONSE_ADMISSION_MATRIX_RECOVERY_AND_GATE
   note: >-
     The Founder authorized the exact P1-165 snapshot-bound admission-kernel
     recovery route from canonical commit/tree
@@ -45,8 +45,8 @@ goal:
     e2cdacf685f57d3e03d0fd8af4cf339ede4b677c. P1-165 remains terminal
     NON_PASS and contributes no capability credit. Only its exact manifest-bound
     nine-file snapshot may be used as the unaccepted P1-168 engineering seed;
-    all other rejected assets remain prohibited. P1-168 is eligible for
-    zero-Provider offline activation, strict P1 remains 6/8 (75%), P2 remains
+    all other rejected assets remain prohibited. P1-168 is the sole active
+    zero-Provider offline Task, strict P1 remains 6/8 (75%), P2 remains
     HOLD_PENDING_STRICT_P1_EXIT, and the Long-term Goal remains ACTIVE.
     P1-165 consumed its initial implementation plus four same-Task repairs
     across five distinct offline implementation iterations and stopped before Quality
@@ -515,12 +515,12 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  p1_execution_status: AUTHORIZED_READY
-  p1_engineering_status: P1_168_EXACT_RESPONSE_ADMISSION_MATRIX_RECOVERY_ROUTE_READY
+  p1_execution_status: ACTIVE
+  p1_engineering_status: P1_168_EXACT_RESPONSE_ADMISSION_MATRIX_RECOVERY_ACTIVE
   p2_entry_status: HOLD_PENDING_STRICT_P1_EXIT
   p2_execution_status: HOLD_PENDING_STRICT_P1_EXIT
-  phase_execution_status: AUTHORIZED_READY
-  current_route_execution_status: P1_EXACT_SNAPSHOT_BOUND_ADMISSION_RECOVERY_ROUTE_READY
+  phase_execution_status: ACTIVE
+  current_route_execution_status: ACTIVE_TASK_1
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -5269,11 +5269,11 @@ historical_p1_162_phase_route:
 
 current_phase_route:
   route_id: P1_EXACT_P1_165_SNAPSHOT_BOUND_ADMISSION_KERNEL_RECOVERY_AND_STRICT_EXIT_ROUTE_V1
-  status: AUTHORIZED_READY
-  authority_object_status: FOUNDER_DIRECTIVE_CONSUMED_ROUTE_READY
-  execution_status: AUTHORIZED_READY
+  status: ACTIVE
+  authority_object_status: FOUNDER_DIRECTIVE_CONSUMED_TASK_ACTIVE
+  execution_status: ACTIVE_TASK_1
   founder_phase_route_decision_required: false
-  scheduling_status: FIRST_TASK_ELIGIBLE_NOT_ACTIVATED
+  scheduling_status: TASK_1_ACTIVE
   phase: P1
   phase_entry_status: AUTHORIZED
   authorization_token: AUTHORIZE_P1_EXACT_P1_165_SNAPSHOT_BOUND_ADMISSION_KERNEL_RECOVERY_AND_STRICT_EXIT_ROUTE_V1
@@ -5465,7 +5465,7 @@ current_phase_route:
   first_task:
     task_id: AIOS-P1-168_EXACT_RESPONSE_ADMISSION_MATRIX_RECOVERY_AND_GATE
     task_slot: 1
-    status: ELIGIBLE_NOT_ACTIVATED
+    status: ACTIVE
     contract_path: docs/aios/tasks/P1-168_EXACT_RESPONSE_ADMISSION_MATRIX_RECOVERY_AND_GATE.yaml
     max_engineering_hours: 20
     max_calendar_days: 4
@@ -5475,7 +5475,7 @@ current_phase_route:
   task_plan:
     - task_slot: 1
       task_id: AIOS-P1-168_EXACT_RESPONSE_ADMISSION_MATRIX_RECOVERY_AND_GATE
-      status: ELIGIBLE_NOT_ACTIVATED
+      status: ACTIVE
       engineering_hours: 20
       calendar_days: 4
       max_implementation_iterations: 5
@@ -5688,7 +5688,7 @@ current_phase_route:
       head: 4d100e6eb481abedbaabb35991e1af7a1f1319c3
       branch: codex/p2-009-canonical-scan-graph-kernel
       status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
-  next_eligible_action: ACTIVATE_AIOS_P1_168
+  next_eligible_action: EXECUTE_AIOS_P1_168
 
 historical_p2_009_phase_route_after_strict_recovery:
   schema_version: strict-phase-recovery-hold/v1
@@ -8852,39 +8852,49 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P1-168_EXACT_RESPONSE_ADMISSION_MATRIX_RECOVERY_AND_GATE
+  current_task_status: ACTIVE
   current_task_contract:
-    path: null
-    sha256: null
-    byte_length: null
-  current_task_contract_sha256: null
-  current_execution_authorization: null
-  current_execution_authorization_sha256: null
+    path: docs/aios/tasks/P1-168_EXACT_RESPONSE_ADMISSION_MATRIX_RECOVERY_AND_GATE.yaml
+    sha256: f959e5f58cace3e795d481454ad9863d0a9195e336bd0eda7d79baf458f10c87
+    byte_length: 14548
+  current_task_contract_sha256: f959e5f58cace3e795d481454ad9863d0a9195e336bd0eda7d79baf458f10c87
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-p1-165-snapshot-recovery-strict-exit-20260730/task-1-p1-168/authority/TASK_AUTHORITY.yaml
+  current_execution_authorization_sha256: 48c57f94e26a365339f4ed6b3285086f7b2dee61ed9d923c664551ae5d625292
   authority_record:
-    path: null
-    sha256: null
-    byte_length: null
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-p1-165-snapshot-recovery-strict-exit-20260730/task-1-p1-168/authority/TASK_AUTHORITY.yaml
+    sha256: 48c57f94e26a365339f4ed6b3285086f7b2dee61ed9d923c664551ae5d625292
+    byte_length: 2516
   continuation_authorization: null
-  execution_nonce: null
-  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
-  authorization_id: null
-  activation_parent_commit: null
-  activation_parent_tree: null
-  task_resource_state: NOT_CREATED_ROUTE_READY
-  task_branch: null
-  task_worktree: null
-  execution_evidence_root: null
-  allowlisted_paths: []
+  execution_nonce: 2a4a1ecb7ce1b02c5bfb73fdf60535b6c2da9b09825e17da3ace1c693d03bfc3
+  execution_nonce_status: ACTIVE_UNIQUE
+  authorization_id: 187fead430611419bece7c1d5d5ca96262fd4beddae2ddef24a4f1b6ee05fe99
+  activation_parent_commit: f49625f3799ca62a10b6565db0d132877188c8e2
+  activation_parent_tree: 89ae105945d8bb17b65d5339bcd072e16a54523e
+  task_resource_state: ACTIVE_UNIQUE_BRANCH_WORKTREE
+  task_branch: codex/p1-168-exact-response-admission-recovery
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-168-exact-response-admission-recovery
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-p1-165-snapshot-recovery-strict-exit-20260730/task-1-p1-168
+  allowlisted_paths:
+    - evaluation-harness/evaluator/p1-165-fail-closed-response-admission
+    - evaluation-harness/harness/p1-165-fail-closed-response-admission
+    - scripts/verify-p1-165-fail-closed-response-admission.sh
+    - docs/aios/tasks/P1-168_EXACT_RESPONSE_ADMISSION_MATRIX_RECOVERY_AND_GATE.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+    - Makefile
   budget:
-    engineering_hours: null
-    calendar_days: null
-    implementation_iterations: null
-    candidates: null
+    engineering_hours: 20
+    calendar_days: 4
+    implementation_iterations: 5
+    candidates: 1
   roles:
-    owner: null
-    worker: null
-    independent_reviewers: []
+    owner: P1-168 Engineering Manager
+    worker: P1-168 Exact Recovery Worker
+    independent_reviewers:
+      - P1-168 Fresh CTO Reviewer
+      - P1-168 Fresh Security Reviewer
+      - P1-168 Fresh Quality Reviewer
   external_effects:
     network: false
     provider: false
@@ -8893,15 +8903,19 @@ active_work:
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: null
-  founder_reserved_authorization_sha256: null
+  founder_reserved_authorization:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-p1-165-snapshot-recovery-strict-exit-20260730/decision/FOUNDER_P1_EXACT_P1_165_SNAPSHOT_BOUND_ADMISSION_KERNEL_RECOVERY_AND_STRICT_EXIT_ROUTE_DECISION_V1_1.json
+    sha256: f50bd2ce0242bc02acdc30655cf1d68d7bdc5763161985b7d0774085c9739dfd
+    byte_length: 5191
+    authorization_token: AUTHORIZE_P1_EXACT_P1_165_SNAPSHOT_BOUND_ADMISSION_KERNEL_RECOVERY_AND_STRICT_EXIT_ROUTE_V1
+  founder_reserved_authorization_sha256: f50bd2ce0242bc02acdc30655cf1d68d7bdc5763161985b7d0774085c9739dfd
   founder_decision_required: false
   founder_decision_required_scope: null
   escalation_reason: null
   user_action_required: NONE
   phase_route_decision_required: false
   phase_route_user_action_required: NONE
-  next_eligible_action: ACTIVATE_AIOS_P1_168
+  next_eligible_action: EXECUTE_AIOS_P1_168
   last_terminal_task:
     task_id: AIOS-P1-165_FAIL_CLOSED_RESPONSE_ADMISSION_AND_RAW_EVIDENCE_KERNEL
     status: TERMINAL_IMPLEMENTATION_ITERATION_EXHAUSTED_PREFREEZE_NON_PASS

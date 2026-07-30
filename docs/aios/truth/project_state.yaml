@@ -8903,11 +8903,7 @@ active_work:
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-p1-165-snapshot-recovery-strict-exit-20260730/decision/FOUNDER_P1_EXACT_P1_165_SNAPSHOT_BOUND_ADMISSION_KERNEL_RECOVERY_AND_STRICT_EXIT_ROUTE_DECISION_V1_1.json
-    sha256: f50bd2ce0242bc02acdc30655cf1d68d7bdc5763161985b7d0774085c9739dfd
-    byte_length: 5191
-    authorization_token: AUTHORIZE_P1_EXACT_P1_165_SNAPSHOT_BOUND_ADMISSION_KERNEL_RECOVERY_AND_STRICT_EXIT_ROUTE_V1
+  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-p1-165-snapshot-recovery-strict-exit-20260730/decision/FOUNDER_P1_EXACT_P1_165_SNAPSHOT_BOUND_ADMISSION_KERNEL_RECOVERY_AND_STRICT_EXIT_ROUTE_DECISION_V1_1.json
   founder_reserved_authorization_sha256: f50bd2ce0242bc02acdc30655cf1d68d7bdc5763161985b7d0774085c9739dfd
   founder_decision_required: false
   founder_decision_required_scope: null

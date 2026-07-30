@@ -8754,33 +8754,33 @@ founder_knowledge_sync:
       source_commit: a6a15dff1c06a6cef20427ece3b21de084ad0fcf
       source_tree: 6ebcdf3843e4efaca9ffe2239aaa610d87780348
       previous_event_sha256: bc9715ef16a0e1e13e8740c9b9b110fa0584f33c5ce2a6a2c261a5ebb02ec909
-      event_sha256: 18cfeab3a8df66dc6cda4bb32bcea16b29f17095508ffbdde9801a8bf8fefff1
-      status: PENDING_CANDIDATE
+      event_sha256: ce4ed02554017424847d40e518b506a3a2a1b24f01264ce208c8b5b3b9866954
+      status: IMPORTED
       rationale: P1-165 exhausted its initial implementation plus four same-Task repairs before quality freeze during five distinct offline implementation iterations. No candidate, Provider request, Secret read, capability credit or P1 Exit-Gate progress exists; strict P1 remains 75%, P2 remains held, and the reusable lessons require an independently reviewed Founder Learning Artifact.
       engineering_blocking: false
       artifact:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-p1-165-snapshot-recovery-strict-exit-20260730/task-1-p1-168/knowledge/P1_165_TERMINAL_LEARNING_ARTIFACT_CANDIDATE_V1.md
+        byte_length: 6780
+        sha256: 167dd93985bebaf83709e31c5efc3474bb6613ef44f409fac25d03c592f91706
       review:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-p1-165-snapshot-recovery-strict-exit-20260730/task-1-p1-168/knowledge/P1_165_TERMINAL_KNOWLEDGE_REVIEW_V1.json
+        byte_length: 6184
+        sha256: 696649bfaf5f2b0289e4d888a669b3f8c407d830480a555c55cacb4ef678275c
       vault_import:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/05-Failures-and-Lessons/AIOS-P1-165/P1-165-terminal-admission-kernel-lessons-v1.md
+        byte_length: 6780
+        sha256: 167dd93985bebaf83709e31c5efc3474bb6613ef44f409fac25d03c592f91706
       receipt:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-p1-165-snapshot-recovery-strict-exit-20260730/task-1-p1-168/knowledge/P1_165_TERMINAL_KNOWLEDGE_IMPORT_RECEIPT_VALIDATOR_V1.json
+        byte_length: 1664
+        sha256: 565b69507f18ea9a7345d996ac10238cd29c9acc87250d2569febc6db79fa5ab
     - event_id: FKS-20260730-P1-168-ROUTE-AUTHORIZED-V1
       trigger_type: FOUNDER_ROUTE_DECISION
       occurred_at_utc: "2026-07-30T03:36:47Z"
       source_commit: f8091859b5e7dfdfabcdebe609fdd412c77f43d4
       source_tree: e2cdacf685f57d3e03d0fd8af4cf339ede4b677c
-      previous_event_sha256: 18cfeab3a8df66dc6cda4bb32bcea16b29f17095508ffbdde9801a8bf8fefff1
-      event_sha256: 5303d8d1eb6e53b4a6f5944ade0b4024682f751260439babbd448325769fd354
+      previous_event_sha256: ce4ed02554017424847d40e518b506a3a2a1b24f01264ce208c8b5b3b9866954
+      event_sha256: 402daa5104f49a3f7c17c3d70714ddcbb046931beee0c978dbc425743723d995
       status: PENDING_CANDIDATE
       rationale: The Founder authorized the exact P1-165 snapshot-bound P1-168 recovery route; P1 remains 6/8 (75%), P2 remains held, P1-165 remains terminal, and only the exact manifest-bound nine-file snapshot is eligible as an unaccepted engineering seed.
       engineering_blocking: false

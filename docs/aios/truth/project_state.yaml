@@ -8226,7 +8226,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260730-P1-168-ROUTE-AUTHORIZED-V1
+  latest_event_id: FKS-20260730-P1-168-TERMINAL-CANONICAL-VERIFY-NON-PASS-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -8800,6 +8800,32 @@ founder_knowledge_sync:
         path: null
         byte_length: null
         sha256: null
+    - event_id: FKS-20260730-P1-168-TERMINAL-CANONICAL-VERIFY-NON-PASS-V1
+      trigger_type: TASK_TERMINAL_STOP
+      occurred_at_utc: "2026-07-30T08:25:41Z"
+      source_commit: a00ce8886d7eba47092bf9260b246009a7874ad3
+      source_tree: 9a21a1386d069d46976de82a2fb1f56c71599477
+      previous_event_sha256: 402daa5104f49a3f7c17c3d70714ddcbb046931beee0c978dbc425743723d995
+      event_sha256: 4be13b3b1512a05684127f578a2c1f6957fb6a55627e8075dac1c59c61bd7212
+      status: PENDING_CANDIDATE
+      rationale: P1-168 v5 and all three fresh final reviews passed, but the one allowed canonical make verify returned ATOMIC_COMMIT_RECEIPT_INVALID; the exact integration was non-destructively reverted, strict P1 remains 6/8 (75%), P1-169 and P1-170 are ineligible, and the Task is terminal without another repair or rerun.
+      engineering_blocking: false
+      artifact:
+        path: null
+        byte_length: null
+        sha256: null
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-p1-165-snapshot-recovery-strict-exit-20260730/task-1-p1-168/terminal/P1_168_TERMINAL_CANONICAL_MAKE_VERIFY_NON_PASS_RECEIPT.json
+        byte_length: 5536
+        sha256: 4be13b3b1512a05684127f578a2c1f6957fb6a55627e8075dac1c59c61bd7212
 
 historical_active_work_after_p1_079:
   current_task: NONE
@@ -8852,67 +8878,39 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
-  current_task: AIOS-P1-168_EXACT_RESPONSE_ADMISSION_MATRIX_RECOVERY_AND_GATE
-  current_task_status: ACTIVE
+  current_task: NONE
+  current_task_status: NONE
   current_task_contract:
-    path: docs/aios/tasks/P1-168_EXACT_RESPONSE_ADMISSION_MATRIX_RECOVERY_AND_GATE.yaml
-    sha256: f959e5f58cace3e795d481454ad9863d0a9195e336bd0eda7d79baf458f10c87
-    byte_length: 14548
-  current_task_contract_sha256: f959e5f58cace3e795d481454ad9863d0a9195e336bd0eda7d79baf458f10c87
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-p1-165-snapshot-recovery-strict-exit-20260730/task-1-p1-168/authority/TASK_AUTHORITY.yaml
-  current_execution_authorization_sha256: 48c57f94e26a365339f4ed6b3285086f7b2dee61ed9d923c664551ae5d625292
+    path: null
+    sha256: null
+    byte_length: null
+  current_task_contract_sha256: null
+  current_execution_authorization: null
+  current_execution_authorization_sha256: null
   authority_record:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-p1-165-snapshot-recovery-strict-exit-20260730/task-1-p1-168/authority/TASK_AUTHORITY.yaml
-    sha256: 48c57f94e26a365339f4ed6b3285086f7b2dee61ed9d923c664551ae5d625292
-    byte_length: 2516
-  continuation_authorization:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-p1-165-snapshot-recovery-strict-exit-20260730/decision/P1_168_FINAL_REPAIR_CONTINUATION_AUTHORITY_V1.json
-    sha256: 93e650265a8b6c4e7a282f4112d32c8e6965ca8edc58675853bd7cd744466af5
-    byte_length: 6339
-    authorization_token: AUTHORIZE_ONE_P1_168_EXACT_V2_MANIFEST_SHA_LITERAL_CORRECTION_AND_DIRECT_STRICT_EXIT_CONTINUATION_V1
-    status: ACTIVE_ONE_SHOT
-    base_budget:
-      implementation_iterations: 5
-      same_task_repairs: 4
-      exhausted: true
-    founder_increment:
-      implementation_iterations: 1
-      same_task_repairs: 1
-    effective_budget:
-      implementation_iterations: 6
-      same_task_repairs: 5
-    only_new_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-p1-165-snapshot-recovery-strict-exit-20260730/task-1-p1-168/preflight/complete-matrix-v5
-    generic_authority_validator_native_enforcement: false
-    independent_outer_gate_required: true
-  execution_nonce: 2a4a1ecb7ce1b02c5bfb73fdf60535b6c2da9b09825e17da3ace1c693d03bfc3
-  execution_nonce_status: ACTIVE
-  authorization_id: 187fead430611419bece7c1d5d5ca96262fd4beddae2ddef24a4f1b6ee05fe99
-  activation_parent_commit: f49625f3799ca62a10b6565db0d132877188c8e2
-  activation_parent_tree: 89ae105945d8bb17b65d5339bcd072e16a54523e
-  task_resource_state: ACTIVE_UNIQUE_BRANCH_WORKTREE
-  task_branch: codex/p1-168-exact-response-admission-recovery
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-168-exact-response-admission-recovery
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-p1-165-snapshot-recovery-strict-exit-20260730/task-1-p1-168
-  allowlisted_paths:
-    - evaluation-harness/evaluator/p1-165-fail-closed-response-admission
-    - evaluation-harness/harness/p1-165-fail-closed-response-admission
-    - scripts/verify-p1-165-fail-closed-response-admission.sh
-    - docs/aios/tasks/P1-168_EXACT_RESPONSE_ADMISSION_MATRIX_RECOVERY_AND_GATE.yaml
-    - docs/aios/truth/project_state.yaml
-    - docs/PROJECT_CODE_MAP.md
-    - Makefile
+    path: null
+    sha256: null
+    byte_length: null
+  continuation_authorization: null
+  execution_nonce: null
+  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
+  authorization_id: null
+  activation_parent_commit: null
+  activation_parent_tree: null
+  task_resource_state: PRESERVED_TERMINAL_OUTSIDE_ACTIVE_WORK
+  task_branch: null
+  task_worktree: null
+  execution_evidence_root: null
+  allowlisted_paths: []
   budget:
-    engineering_hours: 20
-    calendar_days: 4
-    implementation_iterations: 5
-    candidates: 1
+    engineering_hours: null
+    calendar_days: null
+    implementation_iterations: null
+    candidates: null
   roles:
-    owner: P1-168 Engineering Manager
-    worker: P1-168 Exact Recovery Worker
-    independent_reviewers:
-      - P1-168 Fresh CTO Reviewer
-      - P1-168 Fresh Security Reviewer
-      - P1-168 Fresh Quality Reviewer
+    owner: null
+    worker: null
+    independent_reviewers: []
   external_effects:
     network: false
     provider: false
@@ -8921,37 +8919,40 @@ active_work:
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-p1-165-snapshot-recovery-strict-exit-20260730/decision/FOUNDER_P1_EXACT_P1_165_SNAPSHOT_BOUND_ADMISSION_KERNEL_RECOVERY_AND_STRICT_EXIT_ROUTE_DECISION_V1_1.json
-  founder_reserved_authorization_sha256: f50bd2ce0242bc02acdc30655cf1d68d7bdc5763161985b7d0774085c9739dfd
-  founder_decision_required: false
-  founder_decision_required_scope: null
-  escalation_reason: null
-  user_action_required: NONE
-  phase_route_decision_required: false
-  phase_route_user_action_required: NONE
-  next_eligible_action: EXECUTE_AIOS_P1_168
+  founder_reserved_authorization: null
+  founder_reserved_authorization_sha256: null
+  founder_decision_required: true
+  founder_decision_required_scope: P1_PHASE_GATE_AFTER_P1_168_CANONICAL_MAKE_VERIFY_NON_PASS
+  escalation_reason: P1168.CANONICAL_VERIFY.ATOMIC_COMMIT_RECEIPT_INVALID
+  user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
+  phase_route_decision_required: true
+  phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
+  next_eligible_action: FOUNDER_P1_PHASE_GATE
   last_terminal_task:
-    task_id: AIOS-P1-165_FAIL_CLOSED_RESPONSE_ADMISSION_AND_RAW_EVIDENCE_KERNEL
-    status: TERMINAL_IMPLEMENTATION_ITERATION_EXHAUSTED_PREFREEZE_NON_PASS
-    normalized_root_cause: P1165.MATRIX.USAGE_OUTPUT_2048_FULL_SPINE.VARIANT_NAN
-    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-fail-closed-response-admission-strict-exit-20260729/task-1-p1-165/terminal/P1_165_TERMINAL_RECEIPT.json
-    terminal_receipt_sha256: a24cd4bcb193abfdc616052548c27b21c03be90783c19d26b98bc6af7bd23557
-    terminal_receipt_byte_length: 7984
-    rejected_implementation_manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-fail-closed-response-admission-strict-exit-20260729/task-1-p1-165/terminal/P1_165_REJECTED_IMPLEMENTATION_MANIFEST.json
-    rejected_implementation_manifest_sha256: 503792deea315469e896c1f99a1ccf59c12faaad38f603ae4ef698449308035e
-    rejected_implementation_archive_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-fail-closed-response-admission-strict-exit-20260729/task-1-p1-165/terminal/P1_165_REJECTED_IMPLEMENTATION_SNAPSHOT.tar
-    rejected_implementation_archive_sha256: b59c14fac717964bbfeb1bb5c734970048626049933fa0f1ea59a3442e61b67d
-    implementation_base_commit: a6a15dff1c06a6cef20427ece3b21de084ad0fcf
-    implementation_base_tree: 6ebcdf3843e4efaca9ffe2239aaa610d87780348
-    implementation_branch: codex/p1-165-fail-closed-response-admission
-    implementation_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-165-fail-closed-response-admission
-    implementation_iterations_used: 5_OF_5
-    same_task_repairs_used: 4_OF_4
-    quality_freeze_created: false
-    candidate_created: false
-    final_reviews_started: false
+    task_id: AIOS-P1-168_EXACT_RESPONSE_ADMISSION_MATRIX_RECOVERY_AND_GATE
+    status: TERMINAL_CANONICAL_MAKE_VERIFY_NON_PASS
+    normalized_root_cause: P1168.CANONICAL_VERIFY.ATOMIC_COMMIT_RECEIPT_INVALID
+    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-p1-165-snapshot-recovery-strict-exit-20260730/task-1-p1-168/terminal/P1_168_TERMINAL_CANONICAL_MAKE_VERIFY_NON_PASS_RECEIPT.json
+    terminal_receipt_sha256: 4be13b3b1512a05684127f578a2c1f6957fb6a55627e8075dac1c59c61bd7212
+    terminal_receipt_byte_length: 5536
+    candidate_commit: 29229e95aa57c50d79c55db0447438608d42be5b
+    candidate_tree: 181f828e21b168a8038869cc790b3f7b1b209608
+    candidate_manifest_sha256: 83b473bfd77285523bc783b0e7be90875b78fe01a1424baca0d73add9d9d0e23
+    candidate_evidence_tag: evidence/p1-168-candidate-29229e9-20260730
+    implementation_branch: codex/p1-168-exact-response-admission-recovery
+    implementation_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-168-exact-response-admission-recovery
+    implementation_iterations_used: 6_OF_6
+    same_task_repairs_used: 5_OF_5
+    quality_freeze_created: true
+    candidate_created: true
+    final_reviews_started: true
+    final_reviews_all_target_pass: true
     candidate_integrated: false
-    canonical_make_verify: NOT_INVOKED_NO_CANDIDATE_OR_INTEGRATION
+    reviewed_tree_equal_integrated_tree: true
+    integration_commit: e9fc4321d194fb956bc9caca8ffcbf026e2bbc0a
+    canonical_make_verify: NON_PASS_ATOMIC_COMMIT_RECEIPT_INVALID
+    revert_commit: a00ce8886d7eba47092bf9260b246009a7874ad3
+    pre_integration_tree_restored: true
     provider_requests: 0
     secret_reads: 0
     capability_credit: 0
@@ -8971,6 +8972,70 @@ superseded_pre_delegation_authorizations:
     note: The engineering objective may be selected independently by Master, but these pre-delegation bytes require a routine per-Task Founder Gate and cannot be activated under the current authority model.
 
 task_history:
+  aios_p1_168:
+    task_id: AIOS-P1-168_EXACT_RESPONSE_ADMISSION_MATRIX_RECOVERY_AND_GATE
+    route_id: P1_EXACT_P1_165_SNAPSHOT_BOUND_ADMISSION_KERNEL_RECOVERY_AND_STRICT_EXIT_ROUTE_V1
+    status: TERMINAL_CANONICAL_MAKE_VERIFY_NON_PASS
+    classification: TERMINAL_POST_INTEGRATION_CANONICAL_VERIFY_NON_PASS_REVERTED_NO_P1_CAPABILITY
+    contract: docs/aios/tasks/P1-168_EXACT_RESPONSE_ADMISSION_MATRIX_RECOVERY_AND_GATE.yaml
+    activation_contract_sha256: f959e5f58cace3e795d481454ad9863d0a9195e336bd0eda7d79baf458f10c87
+    activation_contract_byte_length: 14548
+    authority_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-p1-165-snapshot-recovery-strict-exit-20260730/task-1-p1-168/authority/TASK_AUTHORITY.yaml
+    authority_record_sha256: 48c57f94e26a365339f4ed6b3285086f7b2dee61ed9d923c664551ae5d625292
+    authority_record_byte_length: 2516
+    final_continuation_authorization_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-p1-165-snapshot-recovery-strict-exit-20260730/decision/P1_168_FINAL_REPAIR_CONTINUATION_AUTHORITY_V1.json
+    final_continuation_authorization_sha256: 93e650265a8b6c4e7a282f4112d32c8e6965ca8edc58675853bd7cd744466af5
+    final_continuation_authorization_byte_length: 6339
+    implementation_branch: codex/p1-168-exact-response-admission-recovery
+    implementation_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-168-exact-response-admission-recovery
+    implementation_iterations_used: 6_OF_6
+    same_task_repairs_used: 5_OF_5
+    final_authorized_repair: EXACT_V2_MANIFEST_SHA_LITERAL_CORRECTION
+    v5_wrapper_status: PASS
+    v5_independent_evaluator_status: PASS
+    v5_matrix_cases: 99_OF_99_PASS
+    v5_false_accepts: 0
+    v5_provider_requests: 0
+    v5_secret_reads: 0
+    v5_external_effects_all_false: true
+    v5_manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-p1-165-snapshot-recovery-strict-exit-20260730/task-1-p1-168/preflight/complete-matrix-v5/RAW_EVIDENCE_MANIFEST.json
+    v5_manifest_sha256: e382b838707bcabcff0bd40d03f044c67e20b94f3df11b8e0e62d295e66c9b41
+    v5_atomic_receipt_sha256: f06a86ee262d6d7d3654c7191a93e3d729a7b2d59970140cc879b80fd0cc323c
+    candidate_commit: 29229e95aa57c50d79c55db0447438608d42be5b
+    candidate_tree: 181f828e21b168a8038869cc790b3f7b1b209608
+    candidate_manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-p1-165-snapshot-recovery-strict-exit-20260730/task-1-p1-168/candidate-29229e9/candidate-manifest.json
+    candidate_manifest_sha256: 83b473bfd77285523bc783b0e7be90875b78fe01a1424baca0d73add9d9d0e23
+    candidate_manifest_byte_length: 7060
+    candidate_evidence_tag: evidence/p1-168-candidate-29229e9-20260730
+    cto_target_verdict: PASS
+    cto_review_sha256: ec2803f9720cf8c84501ef9f092cf70c911ec6d3e6c422a52972e0b81d2c07d6
+    security_target_verdict: PASS
+    security_review_sha256: 6dd839145a1880860d6bea50f6434b292904e7b0efc4d2a3a8528c7af83c8e5d
+    quality_target_verdict: PASS
+    quality_review_sha256: 018b0bcc26d9a9a9da207947281ef8a5219edc2006dc2158a9ca50b500f4b074
+    integration_commit: e9fc4321d194fb956bc9caca8ffcbf026e2bbc0a
+    integrated_tree: 181f828e21b168a8038869cc790b3f7b1b209608
+    reviewed_integrated_tree_equal: true
+    canonical_make_verify_invocations: 1
+    canonical_make_verify_status: NON_PASS
+    canonical_make_verify_reason_code: ATOMIC_COMMIT_RECEIPT_INVALID
+    normalized_root_cause: P1168.CANONICAL_VERIFY.ATOMIC_COMMIT_RECEIPT_INVALID
+    revert_commit: a00ce8886d7eba47092bf9260b246009a7874ad3
+    revert_strategy: NON_DESTRUCTIVE_GIT_REVERT
+    pre_integration_tree_restored: true
+    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-p1-165-snapshot-recovery-strict-exit-20260730/task-1-p1-168/terminal/P1_168_TERMINAL_CANONICAL_MAKE_VERIFY_NON_PASS_RECEIPT.json
+    terminal_receipt_sha256: 4be13b3b1512a05684127f578a2c1f6957fb6a55627e8075dac1c59c61bd7212
+    terminal_receipt_byte_length: 5536
+    accepted_capability: false
+    capability_credit: 0
+    strict_p1_completion_after_task: 6_COMPLETE_0_PARTIAL_2_NOT_COMPLETE_75_PERCENT
+    p1_169_entry: INELIGIBLE_P1_168_CANONICAL_MAKE_VERIFY_NON_PASS
+    p1_170_entry: INELIGIBLE_PREDECESSOR_NOT_ACCEPTED
+    p2_status: HOLD_PENDING_STRICT_P1_EXIT
+    additional_p1_168_repair_or_rerun_allowed: false
+    successor_replacement_normalization_closure_feasibility_or_remediation_chain_allowed: false
+    next_eligible_action: FOUNDER_P1_PHASE_GATE
+    claim_boundary: TERMINAL_P1_168_POST_INTEGRATION_CANONICAL_VERIFY_NON_PASS_WITH_EXACT_CANDIDATE_AND_REVIEWS_PRESERVED_NO_ACCEPTED_KERNEL_BASELINE_REPORT_PREREGISTRATION_P1_CREDIT_P1_169_P1_170_P2_PROVIDER_SECRET_PRODUCTION_REMOTE_OR_PUBLIC_CLAIM
   aios_p1_165:
     task_id: AIOS-P1-165_FAIL_CLOSED_RESPONSE_ADMISSION_AND_RAW_EVIDENCE_KERNEL
     route_id: P1_CLEAN_ROOM_FAIL_CLOSED_RESPONSE_ADMISSION_KERNEL_AND_STRICT_EXIT_ROUTE_V1

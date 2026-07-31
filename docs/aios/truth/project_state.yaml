@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-31T18:58:07Z"
-verification_scope: P1_171_TERMINAL_FINAL_CTO_TARGET_NON_PASS
+last_verified_at: "2026-07-31T19:15:49Z"
+verification_scope: P1_171_TERMINAL_KNOWLEDGE_IMPORTED
 
 authority:
   founder: Human Founder
@@ -8216,7 +8216,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260801-P1-171-TERMINAL-CTO-NONPASS-V1
+  latest_event_id: FKS-20260801-P1-171-TERMINAL-KNOWLEDGE-IMPORTED-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -8955,6 +8955,96 @@ founder_knowledge_sync:
         path: null
         byte_length: null
         sha256: null
+    - event_id: FKS-20260801-P1-171-TERMINAL-KNOWLEDGE-CANDIDATE-V1
+      trigger_type: LEARNING_ARTIFACT_CANDIDATE_CREATED
+      occurred_at_utc: "2026-07-31T19:09:46Z"
+      source_commit: 890b6956f696b2bc0872a59608706b8767bd5b21
+      source_tree: 512f196ad93d1052f54d719ce4c8ef089f387ec3
+      previous_event_sha256: 867191547c207f418d363a562db8685f0843c216f0ceb1d0c37a9c70b27da732
+      event_sha256: e779437a3d440e3f8b4a948ec82c256d317f353f5b129453a796ea302d7aa9da
+      status: PENDING_REVIEW
+      rationale: >-
+        The exact P1-171 terminal Learning Artifact candidate separates FACT,
+        INFERENCE and UNKNOWN and records the fresh CTO blockers without
+        granting repair, reuse, Gate or capability authority; import remains
+        prohibited until an independent Knowledge Review passes exact bytes.
+      engineering_blocking: false
+      artifact:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-independent-hermetic-evidence-spine-strict-exit-20260801/task-1-p1-171/knowledge/P1_171_TERMINAL_FINAL_CTO_NON_PASS_LEARNING_ARTIFACT_V1.md
+        byte_length: 7329
+        sha256: 47be4fbae44cc026c83e9f15d2233c1a777448d6248af9b214ad9937b8e91666
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+    - event_id: FKS-20260801-P1-171-TERMINAL-KNOWLEDGE-REVIEW-PASS-V1
+      trigger_type: INDEPENDENT_KNOWLEDGE_REVIEW_PASS
+      occurred_at_utc: "2026-07-31T19:13:35Z"
+      source_commit: 890b6956f696b2bc0872a59608706b8767bd5b21
+      source_tree: 512f196ad93d1052f54d719ce4c8ef089f387ec3
+      previous_event_sha256: e779437a3d440e3f8b4a948ec82c256d317f353f5b129453a796ea302d7aa9da
+      event_sha256: 64bee122288ced20dd628366ab82f43a4274c8f3eb0d926679648f5e34e51d75
+      status: REVIEWED_PASS_PENDING_IMPORT
+      rationale: >-
+        A fresh independent Knowledge Reviewer passed the exact P1-171
+        Learning Artifact bytes for Founder-learning usefulness, factual
+        separation, authority boundaries and Secret screening; authorization
+        covers exact-bytes Vault import only and has no engineering effect.
+      engineering_blocking: false
+      artifact:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-independent-hermetic-evidence-spine-strict-exit-20260801/task-1-p1-171/knowledge/P1_171_TERMINAL_FINAL_CTO_NON_PASS_LEARNING_ARTIFACT_V1.md
+        byte_length: 7329
+        sha256: 47be4fbae44cc026c83e9f15d2233c1a777448d6248af9b214ad9937b8e91666
+      review:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-independent-hermetic-evidence-spine-strict-exit-20260801/task-1-p1-171/knowledge/P1_171_TERMINAL_KNOWLEDGE_REVIEW_V1.json
+        byte_length: 3926
+        sha256: f2f28c97c4053f8e6abfa92e30bb97096499179dd1effaa2f332cd8d1f02ea1a
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+    - event_id: FKS-20260801-P1-171-TERMINAL-KNOWLEDGE-IMPORTED-V1
+      trigger_type: EXACT_KNOWLEDGE_ARTIFACT_IMPORTED
+      occurred_at_utc: "2026-07-31T19:15:49Z"
+      source_commit: 890b6956f696b2bc0872a59608706b8767bd5b21
+      source_tree: 512f196ad93d1052f54d719ce4c8ef089f387ec3
+      previous_event_sha256: 64bee122288ced20dd628366ab82f43a4274c8f3eb0d926679648f5e34e51d75
+      event_sha256: 1a1d0ca4e7eb81175a4eeb0b952087474d8636f17a877c71ed0d79d31cba8363
+      status: IMPORTED
+      rationale: >-
+        The independently reviewed P1-171 terminal Learning Artifact was
+        imported into the Founder Knowledge Vault with exact byte equality;
+        the import preserves CTO NON_PASS, strict P1 at 75 percent and P2
+        HOLD and has no Truth-authority, Gate, engineering or capability effect.
+      engineering_blocking: false
+      artifact:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-independent-hermetic-evidence-spine-strict-exit-20260801/task-1-p1-171/knowledge/P1_171_TERMINAL_FINAL_CTO_NON_PASS_LEARNING_ARTIFACT_V1.md
+        byte_length: 7329
+        sha256: 47be4fbae44cc026c83e9f15d2233c1a777448d6248af9b214ad9937b8e91666
+      review:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-independent-hermetic-evidence-spine-strict-exit-20260801/task-1-p1-171/knowledge/P1_171_TERMINAL_KNOWLEDGE_REVIEW_V1.json
+        byte_length: 3926
+        sha256: f2f28c97c4053f8e6abfa92e30bb97096499179dd1effaa2f332cd8d1f02ea1a
+      vault_import:
+        path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/05-Failures-and-Lessons/AIOS-P1-171/2026-08-01-P1-171-fresh-CTO终态复盘.md
+        byte_length: 7329
+        sha256: 47be4fbae44cc026c83e9f15d2233c1a777448d6248af9b214ad9937b8e91666
+      receipt:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-independent-hermetic-evidence-spine-strict-exit-20260801/task-1-p1-171/knowledge/P1_171_TERMINAL_KNOWLEDGE_IMPORT_RECEIPT_V1.json
+        byte_length: 1683
+        sha256: 6c3a39392b22f1b955b31fcedaf7062f7d407356a00c36affbd207d10c47c3b6
 
 historical_active_work_after_p1_079:
   current_task: NONE

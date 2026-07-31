@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-07-30T08:54:35Z"
-verification_scope: P1_168_TERMINAL_PHASE_GATE_AND_FOUNDER_KNOWLEDGE_SYNC_IMPORTED
+last_verified_at: "2026-07-31T18:05:41Z"
+verification_scope: P1_171_HERMETIC_EVIDENCE_KERNEL_ROUTE_ACTIVATION
 
 authority:
   founder: Human Founder
@@ -37,8 +37,15 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
+  current_task_authority: AIOS-P1-171_HERMETIC_PARENT_INDEPENDENT_EVIDENCE_KERNEL
   note: >-
+    Founder authorized the independent hermetic Evidence-spine route from exact
+    canonical commit/tree 77579452e8f7efd79581ccbfa86a0ce009fac550 /
+    75327e6fafdbba76379df74d7acf4b5d1870d8de. P1-171 is the sole active
+    clean-room offline Task. It does not read or reuse P1-165/P1-168 rejected
+    engineering, does not read a Secret or call a Provider, and earns no P1
+    capability credit. Strict P1 remains 6/8 (75%), P2 remains
+    HOLD_PENDING_STRICT_P1_EXIT, and the Long-term Goal remains ACTIVE.
     P1-168 completed its exact authorized v5 run with wrapper and independent
     evaluator PASS, 99/99 matrix cases, zero false accepts, zero Provider
     requests, zero Secret reads and all three fresh final reviewers PASS. The
@@ -516,12 +523,12 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  p1_execution_status: PHASE_GATE_REQUIRED
-  p1_engineering_status: P1_168_TERMINAL_CANONICAL_MAKE_VERIFY_NON_PASS
+  p1_execution_status: ACTIVE
+  p1_engineering_status: P1_171_ACTIVE_HERMETIC_EVIDENCE_KERNEL
   p2_entry_status: HOLD_PENDING_STRICT_P1_EXIT
   p2_execution_status: HOLD_PENDING_STRICT_P1_EXIT
-  phase_execution_status: STOPPED_AT_P1_PHASE_GATE
-  current_route_execution_status: TERMINAL_TASK_1_CANONICAL_MAKE_VERIFY_NON_PASS
+  phase_execution_status: ACTIVE
+  current_route_execution_status: ACTIVE_TASK_1_P1_171
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -5269,26 +5276,26 @@ historical_p1_162_phase_route:
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 
 current_phase_route:
-  route_id: P1_EXACT_P1_165_SNAPSHOT_BOUND_ADMISSION_KERNEL_RECOVERY_AND_STRICT_EXIT_ROUTE_V1
-  status: TERMINAL_TASK_1_CANONICAL_MAKE_VERIFY_NON_PASS
-  authority_object_status: FOUNDER_DIRECTIVE_CONSUMED_ROUTE_TERMINAL
-  execution_status: TERMINAL_STOP_CONDITION
-  founder_phase_route_decision_required: true
-  scheduling_status: STOPPED_BEFORE_TASK_2
+  route_id: P1_INDEPENDENT_HERMETIC_EVIDENCE_SPINE_AND_STRICT_EXIT_ROUTE_V1
+  status: ACTIVE
+  authority_object_status: FOUNDER_DIRECTIVE_ACTIVE
+  execution_status: ACTIVE_TASK_1
+  founder_phase_route_decision_required: false
+  scheduling_status: EXECUTING_TASK_1
   phase: P1
   phase_entry_status: AUTHORIZED
-  authorization_token: AUTHORIZE_P1_EXACT_P1_165_SNAPSHOT_BOUND_ADMISSION_KERNEL_RECOVERY_AND_STRICT_EXIT_ROUTE_V1
+  authorization_token: AUTHORIZE_P1_INDEPENDENT_HERMETIC_EVIDENCE_SPINE_AND_STRICT_EXIT_ROUTE_V1
   decision_packet:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-p1-165-snapshot-recovery-strict-exit-20260730/decision/FOUNDER_P1_EXACT_P1_165_SNAPSHOT_BOUND_ADMISSION_KERNEL_RECOVERY_AND_STRICT_EXIT_ROUTE_DECISION_V1_1.json
-    sha256: f50bd2ce0242bc02acdc30655cf1d68d7bdc5763161985b7d0774085c9739dfd
-    byte_length: 5191
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-independent-hermetic-evidence-spine-strict-exit-20260801/decision/FOUNDER_P1_INDEPENDENT_HERMETIC_EVIDENCE_SPINE_AND_STRICT_EXIT_ROUTE_DECISION_V1_1.json
+    sha256: 5f30e8809a0a144fb9c6fa58ee09957f0e9ccec454e5f215dbdd1572987bfde3
+    byte_length: 5079
   original_founder_packet:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-p1-165-snapshot-recovery-strict-exit-20260730/decision/FOUNDER_P1_EXACT_P1_165_SNAPSHOT_BOUND_ADMISSION_KERNEL_RECOVERY_AND_STRICT_EXIT_ROUTE_SCHEMA_COMPATIBLE_REISSUE_V1.md
-    sha256: 0d95ef4d86700b91434097715541130693942ad1072334e9d759a720acda0e29
-    byte_length: 8434
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-independent-hermetic-evidence-spine-strict-exit-20260801/decision/FOUNDER_P1_INDEPENDENT_HERMETIC_EVIDENCE_SPINE_AND_STRICT_EXIT_ROUTE_SCHEMA_COMPATIBLE_REISSUE_V1.md
+    sha256: 4495133c77dae59e48d11a73a928e93d03b0c73ae406b88a5e236061fd421c78
+    byte_length: 5640
   activation_parent:
-    commit: f8091859b5e7dfdfabcdebe609fdd412c77f43d4
-    tree: e2cdacf685f57d3e03d0fd8af4cf339ede4b677c
+    commit: 77579452e8f7efd79581ccbfa86a0ce009fac550
+    tree: 75327e6fafdbba76379df74d7acf4b5d1870d8de
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: "1.7"
@@ -5300,22 +5307,21 @@ current_phase_route:
     canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
     canonical_byte_length: 19434
   objective: >-
-    Recover only the exact manifest-bound P1-165 nine-file snapshot as an
-    unaccepted P1-168 seed, accept a provider-neutral typed response-admission
-    matrix kernel, then execute one accepted-kernel-bound 36-cell loopback
-    baseline and freeze an exact report-bound P2 preregistration while P2
-    remains held.
-  claim_boundary: COOPERATIVE_LOCAL_EXACT_P1_165_SNAPSHOT_BOUND_RESPONSE_ADMISSION_RECOVERY_ONE_BOUNDED_36_CELL_BASELINE_AND_REPORT_BOUND_PREREGISTRATION_ONLY
+    Establish a clean-room parent-independent and fail-closed Evidence
+    admission/finalization kernel, then execute one accepted-kernel-bound
+    36-cell loopback baseline and freeze an exact report-bound P2
+    preregistration while P2 remains held.
+  claim_boundary: COOPERATIVE_LOCAL_HERMETIC_PARENT_INDEPENDENT_EVIDENCE_ADMISSION_ONE_BOUNDED_36_CELL_BASELINE_AND_REPORT_BOUND_PREREGISTRATION_ONLY
   envelope:
     max_engineering_tasks: 3
     max_engineering_hours: 64
-    max_calendar_days: 10
+    max_calendar_days: 12
     max_active_tasks: 1
     max_task_branches: 1
     max_task_worktrees: 1
     max_active_candidates: 1
     max_contract_corrections_per_task: 0
-    max_same_task_repairs: 5
+    max_same_task_repairs: 3
     successor_replacement_normalization_closure_feasibility_or_remediation_chain_allowed: false
     p2_entry_authorized: false
     p3_entry_authorized: false
@@ -5328,10 +5334,10 @@ current_phase_route:
       public: false
   founder_reserved_profiles:
     - schema_version: "4.0"
-      profile_id: P1_169_ACCEPTED_KERNEL_BOUND_REPRODUCIBLE_BASELINE_REPORT_V1
-      decision_basis: FOUNDER_PACKET_SHA256:0d95ef4d86700b91434097715541130693942ad1072334e9d759a720acda0e29
-      route_id: P1_EXACT_P1_165_SNAPSHOT_BOUND_ADMISSION_KERNEL_RECOVERY_AND_STRICT_EXIT_ROUTE_V1
-      task_id: AIOS-P1-169_ACCEPTED_KERNEL_BOUND_REPRODUCIBLE_BASELINE_REPORT
+      profile_id: P1_172_ACCEPTED_KERNEL_BOUND_REPRODUCIBLE_BASELINE_REPORT_V1
+      decision_basis: FOUNDER_PACKET_SHA256:4495133c77dae59e48d11a73a928e93d03b0c73ae406b88a5e236061fd421c78
+      route_id: P1_INDEPENDENT_HERMETIC_EVIDENCE_SPINE_AND_STRICT_EXIT_ROUTE_V1
+      task_id: AIOS-P1-172_ACCEPTED_KERNEL_BOUND_REPRODUCIBLE_BASELINE_REPORT
       transport:
         scheme: http
         host: 127.0.0.1
@@ -5366,9 +5372,9 @@ current_phase_route:
           - REVIEW
           - VAULT
       call_limits:
-        diagnostic_requests_max: 3
+        diagnostic_requests_max: 1
         formal_requests_exact: 36
-        provider_requests_max: 39
+        provider_requests_max: 37
         automatic_retry_max: 0
       monetary_limits:
         currency: USD
@@ -5429,58 +5435,24 @@ current_phase_route:
     - p1_101
     - p1_129
     - p1_149
-  exact_snapshot_reuse_exception:
-    source_task_id: AIOS-P1-165_FAIL_CLOSED_RESPONSE_ADMISSION_AND_RAW_EVIDENCE_KERNEL
-    source_task_terminal_status: TERMINAL_IMPLEMENTATION_ITERATION_EXHAUSTED_PREFREEZE_NON_PASS
-    source_task_accepted: false
-    authorized_target_task_id: AIOS-P1-168_EXACT_RESPONSE_ADMISSION_MATRIX_RECOVERY_AND_GATE
-    accepted_input: false
-    engineering_seed_status: EXACT_MANIFEST_BOUND_UNACCEPTED_STARTING_POINT_ONLY
-    terminal_receipt:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-fail-closed-response-admission-strict-exit-20260729/task-1-p1-165/terminal/P1_165_TERMINAL_RECEIPT.json
-      sha256: a24cd4bcb193abfdc616052548c27b21c03be90783c19d26b98bc6af7bd23557
-      byte_length: 7984
-      immutable: true
-    rejected_implementation_manifest:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-fail-closed-response-admission-strict-exit-20260729/task-1-p1-165/terminal/P1_165_REJECTED_IMPLEMENTATION_MANIFEST.json
-      sha256: 503792deea315469e896c1f99a1ccf59c12faaad38f603ae4ef698449308035e
-      byte_length: 3017
-      file_count: 9
-      total_file_bytes: 812469
-      inventory_sha256: 20747cbbef9d271a91dd6bbdf3c01abe2c9d6208ed349a255596cb048711e8ef
-    exact_snapshot_archive:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-fail-closed-response-admission-strict-exit-20260729/task-1-p1-165/terminal/P1_165_REJECTED_IMPLEMENTATION_SNAPSHOT.tar
-      sha256: b59c14fac717964bbfeb1bb5c734970048626049933fa0f1ea59a3442e61b67d
-      byte_length: 844288
-    recovery_rules:
-      restore_manifest_paths_only: true
-      restore_other_archive_entries: false
-      normalized_relative_paths_required: true
-      regular_files_only: true
-      symlink_hardlink_device_fifo_allowed: false
-      path_traversal_allowed: false
-      restore_uid_gid_mtime_xattr_acl: false
-      post_restore_closed_inventory_required: true
-      path_mode_length_sha256_exact_match_required: true
-      other_rejected_assets_read_or_reuse_allowed: false
   first_task:
-    task_id: AIOS-P1-168_EXACT_RESPONSE_ADMISSION_MATRIX_RECOVERY_AND_GATE
+    task_id: AIOS-P1-171_HERMETIC_PARENT_INDEPENDENT_EVIDENCE_KERNEL
     task_slot: 1
-    status: TERMINAL_CANONICAL_MAKE_VERIFY_NON_PASS
-    contract_path: docs/aios/tasks/P1-168_EXACT_RESPONSE_ADMISSION_MATRIX_RECOVERY_AND_GATE.yaml
+    status: ACTIVE
+    contract_path: docs/aios/tasks/P1-171_HERMETIC_PARENT_INDEPENDENT_EVIDENCE_KERNEL.yaml
     max_engineering_hours: 20
     max_calendar_days: 4
-    max_implementation_iterations: 6
+    max_implementation_iterations: 4
     max_candidates: 1
     p1_capability_claim_on_pass: NONE_ADMISSION_KERNEL_ONLY
   task_plan:
     - task_slot: 1
-      task_id: AIOS-P1-168_EXACT_RESPONSE_ADMISSION_MATRIX_RECOVERY_AND_GATE
-      status: TERMINAL_CANONICAL_MAKE_VERIFY_NON_PASS
+      task_id: AIOS-P1-171_HERMETIC_PARENT_INDEPENDENT_EVIDENCE_KERNEL
+      status: ACTIVE
       engineering_hours: 20
       calendar_days: 4
-      max_implementation_iterations: 6
-      max_same_task_repairs: 5
+      max_implementation_iterations: 4
+      max_same_task_repairs: 3
       max_candidates: 1
       external_effects:
         network: false
@@ -5490,12 +5462,12 @@ current_phase_route:
         production: false
         public: false
     - task_slot: 2
-      task_id: AIOS-P1-169_ACCEPTED_KERNEL_BOUND_REPRODUCIBLE_BASELINE_REPORT
-      status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
+      task_id: AIOS-P1-172_ACCEPTED_KERNEL_BOUND_REPRODUCIBLE_BASELINE_REPORT
+      status: PENDING_PREDECESSOR_TASK_GATE
       engineering_hours: 36
-      calendar_days: 5
-      max_implementation_iterations: 5
-      max_same_task_repairs: 4
+      calendar_days: 6
+      max_implementation_iterations: 4
+      max_same_task_repairs: 3
       max_candidates: 1
       external_effects:
         network: true
@@ -5505,12 +5477,12 @@ current_phase_route:
         production: false
         public: false
     - task_slot: 3
-      task_id: AIOS-P1-170_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
-      status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
+      task_id: AIOS-P1-173_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+      status: PENDING_PREDECESSOR_TASK_GATE
       engineering_hours: 8
-      calendar_days: 1
-      max_implementation_iterations: 3
-      max_same_task_repairs: 2
+      calendar_days: 2
+      max_implementation_iterations: 2
+      max_same_task_repairs: 1
       max_candidates: 1
       external_effects:
         network: false
@@ -5520,7 +5492,7 @@ current_phase_route:
         production: false
         public: false
   task_specific_constraints:
-    p1_169:
+    p1_172:
       total_input_tokens_max: 500000
       total_output_tokens_max: 100000
       per_request_input_reservation_max: 8192
@@ -5529,15 +5501,15 @@ current_phase_route:
       repairs_allowed_only_before_formal_matrix: true
       authority_core_native_enforcement_claimed: false
   automatic_entry:
-    after_task_id: AIOS-P1-168_EXACT_RESPONSE_ADMISSION_MATRIX_RECOVERY_AND_GATE
-    next_task_id: AIOS-P1-169_ACCEPTED_KERNEL_BOUND_REPRODUCIBLE_BASELINE_REPORT
+    after_task_id: AIOS-P1-171_HERMETIC_PARENT_INDEPENDENT_EVIDENCE_KERNEL
+    next_task_id: AIOS-P1-172_ACCEPTED_KERNEL_BOUND_REPRODUCIBLE_BASELINE_REPORT
     requires_task_gate_pass: true
   automatic_entries:
-    - after_task_id: AIOS-P1-168_EXACT_RESPONSE_ADMISSION_MATRIX_RECOVERY_AND_GATE
-      next_task_id: AIOS-P1-169_ACCEPTED_KERNEL_BOUND_REPRODUCIBLE_BASELINE_REPORT
+    - after_task_id: AIOS-P1-171_HERMETIC_PARENT_INDEPENDENT_EVIDENCE_KERNEL
+      next_task_id: AIOS-P1-172_ACCEPTED_KERNEL_BOUND_REPRODUCIBLE_BASELINE_REPORT
       requires_task_gate_pass: true
-    - after_task_id: AIOS-P1-169_ACCEPTED_KERNEL_BOUND_REPRODUCIBLE_BASELINE_REPORT
-      next_task_id: AIOS-P1-170_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+    - after_task_id: AIOS-P1-172_ACCEPTED_KERNEL_BOUND_REPRODUCIBLE_BASELINE_REPORT
+      next_task_id: AIOS-P1-173_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
       requires_task_gate_pass: true
   additional_write_roots: []
   inherited_worktree_inventory:
@@ -5689,7 +5661,7 @@ current_phase_route:
       head: 4d100e6eb481abedbaabb35991e1af7a1f1319c3
       branch: codex/p2-009-canonical-scan-graph-kernel
       status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
+  next_eligible_action: CONTINUE_CURRENT_TASK
 
 historical_p2_009_phase_route_after_strict_recovery:
   schema_version: strict-phase-recovery-hold/v1
@@ -6801,9 +6773,9 @@ historical_p2_phase_route:
   next_eligible_action: FOUNDER_P2_PHASE_GATE
 
 phase_delegation:
-  status: P1_PHASE_GATE_REQUIRED_AFTER_P1_165_IMPLEMENTATION_ITERATION_EXHAUSTED_PREFREEZE_NON_PASS
+  status: ACTIVE_P1_171_UNDER_FOUNDER_AUTHORIZED_THREE_TASK_ROUTE
   model: PHASE_LEVEL_FOUNDER_DELEGATION
-  decision_source: AUTHORIZE_P1_CLEAN_ROOM_FAIL_CLOSED_RESPONSE_ADMISSION_KERNEL_AND_STRICT_EXIT_ROUTE_V1
+  decision_source: AUTHORIZE_P1_INDEPENDENT_HERMETIC_EVIDENCE_SPINE_AND_STRICT_EXIT_ROUTE_V1
   phase_gate_owner: HUMAN_FOUNDER
   task_selection_owner: MASTER_CEO_AGENT
   task_authorization_owner: MASTER_CEO_AGENT_WITHIN_CURRENT_PHASE_ENVELOPE
@@ -8227,7 +8199,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260730-P1-168-TERMINAL-KNOWLEDGE-IMPORTED-V1
+  latest_event_id: FKS-20260801-P1-171-ROUTE-AUTHORIZED-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -8905,6 +8877,32 @@ founder_knowledge_sync:
         path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-p1-165-snapshot-recovery-strict-exit-20260730/task-1-p1-168/knowledge/P1_168_TERMINAL_KNOWLEDGE_IMPORT_RECEIPT_V1.json
         byte_length: 1673
         sha256: abc86ed70e7b572f6e2b112d188e6e627380a3a77c237b51bdde6fc3bf998ed7
+    - event_id: FKS-20260801-P1-171-ROUTE-AUTHORIZED-V1
+      trigger_type: FOUNDER_ROUTE_DECISION
+      occurred_at_utc: "2026-07-31T18:05:41Z"
+      source_commit: 77579452e8f7efd79581ccbfa86a0ce009fac550
+      source_tree: 75327e6fafdbba76379df74d7acf4b5d1870d8de
+      previous_event_sha256: 8ceb17473612a47073056e4a8ba337b6f590b606e7a3f845e9dff3a698af89e1
+      event_sha256: 518302601170b064f1de6fa1698481e6a2d83c23c9b7fc7b1456dea9045906ca
+      status: PENDING_CANDIDATE
+      rationale: Founder authorized the independent hermetic Evidence-spine route; P1-171 is the sole offline clean-room Task, strict P1 remains 6/8 (75%), P2 remains held, and the route decision creates a non-blocking Founder Knowledge sync candidate without engineering or capability credit.
+      engineering_blocking: false
+      artifact:
+        path: null
+        byte_length: null
+        sha256: null
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
 
 historical_active_work_after_p1_079:
   current_task: NONE
@@ -8957,39 +8955,50 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P1-171_HERMETIC_PARENT_INDEPENDENT_EVIDENCE_KERNEL
+  current_task_status: ACTIVE
   current_task_contract:
-    path: null
-    sha256: null
-    byte_length: null
-  current_task_contract_sha256: null
-  current_execution_authorization: null
-  current_execution_authorization_sha256: null
+    path: docs/aios/tasks/P1-171_HERMETIC_PARENT_INDEPENDENT_EVIDENCE_KERNEL.yaml
+    sha256: 2248c918a962675d1b34c8958cae768dbd09b55fb85b88183fb980b42bee11e5
+    byte_length: 9564
+  current_task_contract_sha256: 2248c918a962675d1b34c8958cae768dbd09b55fb85b88183fb980b42bee11e5
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-independent-hermetic-evidence-spine-strict-exit-20260801/task-1-p1-171/authority/P1_171_PHASE_DELEGATED_TASK_AUTHORITY_V1.yaml
+  current_execution_authorization_sha256: 5e2bb50f67ce318a70c0ae62e06cb7f4d920449467385ce1efd5976bf27588b1
   authority_record:
-    path: null
-    sha256: null
-    byte_length: null
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-independent-hermetic-evidence-spine-strict-exit-20260801/task-1-p1-171/authority/P1_171_PHASE_DELEGATED_TASK_AUTHORITY_V1.yaml
+    sha256: 5e2bb50f67ce318a70c0ae62e06cb7f4d920449467385ce1efd5976bf27588b1
+    byte_length: 2505
   continuation_authorization: null
-  execution_nonce: null
-  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
-  authorization_id: null
-  activation_parent_commit: null
-  activation_parent_tree: null
-  task_resource_state: PRESERVED_TERMINAL_OUTSIDE_ACTIVE_WORK
-  task_branch: null
-  task_worktree: null
-  execution_evidence_root: null
-  allowlisted_paths: []
+  execution_nonce: dd8016201783ecc421abf9be4d08413bdc91ea1d319997db10067105c8794578
+  execution_nonce_status: ACTIVE
+  authorization_id: 4bdc6568cd9a03b2e56185de0c9c55649eac8822fa29f899025677bf702f731b
+  activation_parent_commit: 77579452e8f7efd79581ccbfa86a0ce009fac550
+  activation_parent_tree: 75327e6fafdbba76379df74d7acf4b5d1870d8de
+  task_resource_state: ACTIVE
+  task_branch: codex/p1-171-hermetic-evidence-kernel
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-171-hermetic-evidence-kernel
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-independent-hermetic-evidence-spine-strict-exit-20260801/task-1-p1-171/evidence
+  allowlisted_paths:
+    - evaluation-harness/harness/p1-171-hermetic-evidence-kernel
+    - evaluation-harness/replay/p1-171-hermetic-evidence-kernel
+    - evaluation-harness/evaluator/p1-171-hermetic-evidence-kernel
+    - scripts/verify-p1-171-hermetic-evidence-kernel.sh
+    - docs/aios/tasks/P1-171_HERMETIC_PARENT_INDEPENDENT_EVIDENCE_KERNEL.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+    - Makefile
   budget:
-    engineering_hours: null
-    calendar_days: null
-    implementation_iterations: null
-    candidates: null
+    engineering_hours: 20
+    calendar_days: 4
+    implementation_iterations: 4
+    candidates: 1
   roles:
-    owner: null
-    worker: null
-    independent_reviewers: []
+    owner: P1-171 Engineering Manager
+    worker: P1-171 Hermetic Evidence Kernel Worker
+    independent_reviewers:
+      - P1-171 Fresh CTO Reviewer
+      - P1-171 Fresh Security Reviewer
+      - P1-171 Fresh Quality Reviewer
   external_effects:
     network: false
     provider: false
@@ -8998,15 +9007,15 @@ active_work:
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: null
-  founder_reserved_authorization_sha256: null
-  founder_decision_required: true
-  founder_decision_required_scope: P1_PHASE_GATE_AFTER_P1_168_CANONICAL_MAKE_VERIFY_NON_PASS
-  escalation_reason: P1168.CANONICAL_VERIFY.ATOMIC_COMMIT_RECEIPT_INVALID
-  user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
+  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-independent-hermetic-evidence-spine-strict-exit-20260801/decision/FOUNDER_P1_INDEPENDENT_HERMETIC_EVIDENCE_SPINE_AND_STRICT_EXIT_ROUTE_DECISION_V1_1.json
+  founder_reserved_authorization_sha256: 5f30e8809a0a144fb9c6fa58ee09957f0e9ccec454e5f215dbdd1572987bfde3
+  founder_decision_required: false
+  founder_decision_required_scope: null
+  escalation_reason: null
+  user_action_required: NONE
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: CONTINUE_CURRENT_TASK
   last_terminal_task:
     task_id: AIOS-P1-168_EXACT_RESPONSE_ADMISSION_MATRIX_RECOVERY_AND_GATE
     status: TERMINAL_CANONICAL_MAKE_VERIFY_NON_PASS

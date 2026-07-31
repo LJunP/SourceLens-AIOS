@@ -5526,6 +5526,10 @@ current_phase_route:
       requires_task_gate_pass: true
   additional_write_roots: []
   inherited_worktree_inventory:
+    - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-171-hermetic-evidence-kernel
+      head: f416c216a45ca41fb1e8dd5c9bfc66583b686a12
+      branch: codex/p1-171-hermetic-evidence-kernel
+      status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
     - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-165-fail-closed-response-admission
       head: a6a15dff1c06a6cef20427ece3b21de084ad0fcf
       branch: codex/p1-165-fail-closed-response-admission

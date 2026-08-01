@@ -9325,15 +9325,15 @@ active_work:
   current_task_status: ACTIVE
   current_task_contract:
     path: docs/aios/tasks/P1-176_CLEAN_ROOM_ACCEPTED_SPINE_REPRODUCIBLE_BASELINE.yaml
-    sha256: 5815231f679f8ffd2661294aa405db616c8b6e96cb318e28a84d75cac9412e1f
-    byte_length: 13073
-  current_task_contract_sha256: 5815231f679f8ffd2661294aa405db616c8b6e96cb318e28a84d75cac9412e1f
+    sha256: 96bdb723b9993993b6f6d762ac4fe8b106a0ecd41fac2a5660a195de861a7ca7
+    byte_length: 12953
+  current_task_contract_sha256: 96bdb723b9993993b6f6d762ac4fe8b106a0ecd41fac2a5660a195de861a7ca7
   current_execution_authorization: "/Users/lijunpeng/Developer/.sourcelens-audit/p1-balance-verified-clean-room-strict-exit-20260801/task-1-p1-176/authority/P1_176_PHASE_DELEGATED_TASK_AUTHORITY_V1.yaml"
-  current_execution_authorization_sha256: ffe923f1ae61147101a91a7d491e1f4c82afb4b2bc480c553eeec325d4e8f0ac
+  current_execution_authorization_sha256: 1f1db8d6e4f006fbf11bc6710a26cea391b3d3ccbbb70d709148e99a50d7ddca
   authority_record:
     path: "/Users/lijunpeng/Developer/.sourcelens-audit/p1-balance-verified-clean-room-strict-exit-20260801/task-1-p1-176/authority/P1_176_PHASE_DELEGATED_TASK_AUTHORITY_V1.yaml"
-    sha256: ffe923f1ae61147101a91a7d491e1f4c82afb4b2bc480c553eeec325d4e8f0ac
-    byte_length: 4389
+    sha256: 1f1db8d6e4f006fbf11bc6710a26cea391b3d3ccbbb70d709148e99a50d7ddca
+    byte_length: 4330
   continuation_authorization: null
   execution_nonce: 550f54afa546d53c01fd9316a9b0489880b23f8cbc3ff05dc9277e295a6af04c
   execution_nonce_status: ACTIVE
@@ -9347,7 +9347,6 @@ active_work:
   allowlisted_paths:
   - evaluation-harness/harness/p1-176-clean-room-baseline
   - evaluation-harness/evaluator/p1-176-clean-room-baseline
-  - evaluation-harness/fixtures/p1-176-clean-room-baseline
   - scripts/verify-p1-176-clean-room-baseline.sh
   - scripts/p1-176-operator-capture.sh
   - docs/aios/tasks/P1-176_CLEAN_ROOM_ACCEPTED_SPINE_REPRODUCIBLE_BASELINE.yaml

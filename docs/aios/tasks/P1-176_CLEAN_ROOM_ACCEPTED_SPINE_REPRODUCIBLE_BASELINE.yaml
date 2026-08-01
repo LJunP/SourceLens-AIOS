@@ -37,7 +37,6 @@ roles:
 allowlisted_paths:
   - evaluation-harness/harness/p1-176-clean-room-baseline
   - evaluation-harness/evaluator/p1-176-clean-room-baseline
-  - evaluation-harness/fixtures/p1-176-clean-room-baseline
   - scripts/verify-p1-176-clean-room-baseline.sh
   - scripts/p1-176-operator-capture.sh
   - docs/aios/tasks/P1-176_CLEAN_ROOM_ACCEPTED_SPINE_REPRODUCIBLE_BASELINE.yaml
@@ -47,7 +46,6 @@ allowlisted_paths:
 write_scope:
   worker:
     - evaluation-harness/harness/p1-176-clean-room-baseline
-    - evaluation-harness/fixtures/p1-176-clean-room-baseline
     - scripts/p1-176-operator-capture.sh
   quality:
     - evaluation-harness/evaluator/p1-176-clean-room-baseline

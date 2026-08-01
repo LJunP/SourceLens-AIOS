@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-01T07:22:06Z"
-verification_scope: P1_174_TERMINAL_DIAGNOSTIC_HTTP_401_CREDENTIAL_REJECTION_NON_PASS
+last_verified_at: "2026-08-01T08:01:48Z"
+verification_scope: P1_176_BALANCE_VERIFIED_CLEAN_ROOM_BASELINE_ACTIVATION
 
 authority:
   founder: Human Founder
@@ -37,8 +37,18 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
+  current_task_authority: AIOS-P1-176_CLEAN_ROOM_ACCEPTED_SPINE_REPRODUCIBLE_BASELINE
   note: >-
+    Founder confirmed the prior HTTP 401 was caused by an empty local-gateway
+    account balance and instructed the project to try again after restoring the
+    balance. A separate one-request credential-readiness probe then returned
+    strict HTTP 200 Chat Completions from the exact loopback endpoint/model,
+    with zero retry, no Secret reflection and no formal matrix. P1-174 remains
+    terminal and its engineering lineage is not reused. P1-176 is a new
+    clean-room Task built only from canonical accepted assets; it must complete
+    the full offline pre-formal Gate before one no-echo Secret read and the sole
+    36-cell matrix. Strict P1 remains 6/8 (75%), P2 remains
+    HOLD_PENDING_STRICT_P1_EXIT, and the Long-term Goal remains ACTIVE.
     P1-174 completed its full offline pre-formal Gate with thirty-six synthetic
     cells, twenty-two negative cases, zero false accepts, zero Provider
     requests and zero Secret reads. Its sole authorized diagnostic reached the
@@ -556,12 +566,12 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  p1_execution_status: FOUNDER_PHASE_GATE_REQUIRED
-  p1_engineering_status: P1_174_TERMINAL_DIAGNOSTIC_HTTP_401_CREDENTIAL_REJECTION_NON_PASS
+  p1_execution_status: ACTIVE
+  p1_engineering_status: P1_176_ACTIVE_CLEAN_ROOM_ACCEPTED_SPINE_REPRODUCIBLE_BASELINE
   p2_entry_status: HOLD_PENDING_STRICT_P1_EXIT
   p2_execution_status: HOLD_PENDING_STRICT_P1_EXIT
-  phase_execution_status: STOPPED_AT_P1_PHASE_GATE
-  current_route_execution_status: TERMINAL_TASK_1_DIAGNOSTIC_HTTP_401_CREDENTIAL_REJECTION_NON_PASS
+  phase_execution_status: ACTIVE
+  current_route_execution_status: ACTIVE_TASK_1_P1_176
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -5309,26 +5319,26 @@ historical_p1_162_phase_route:
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 
 current_phase_route:
-  route_id: P1_TYPED_EVIDENCE_TRANSACTION_BOUND_BASELINE_AND_STRICT_EXIT_ROUTE_V1
-  status: TERMINAL_TASK_1_DIAGNOSTIC_HTTP_401_CREDENTIAL_REJECTION_NON_PASS
-  authority_object_status: FOUNDER_DIRECTIVE_CONSUMED_ROUTE_TERMINAL
-  execution_status: TERMINAL_STOP_CONDITION
-  founder_phase_route_decision_required: true
-  scheduling_status: STOPPED_BEFORE_TASK_2
+  route_id: P1_BALANCE_VERIFIED_CLEAN_ROOM_BASELINE_AND_STRICT_EXIT_ROUTE_V1
+  status: ACTIVE
+  authority_object_status: FOUNDER_DIRECTIVE_ACTIVE
+  execution_status: ACTIVE
+  founder_phase_route_decision_required: false
+  scheduling_status: TASK_1_ACTIVE
   phase: P1
   phase_entry_status: AUTHORIZED
-  authorization_token: AUTHORIZE_P1_TYPED_EVIDENCE_TRANSACTION_BOUND_BASELINE_AND_STRICT_EXIT_ROUTE_V1
+  authorization_token: AUTHORIZE_P1_BALANCE_VERIFIED_CLEAN_ROOM_BASELINE_AND_STRICT_EXIT_ROUTE_V1
   decision_packet:
-    path: "/Users/lijunpeng/Developer/.sourcelens-audit/p1-typed-evidence-transaction-strict-exit-20260801/decision/FOUNDER_P1_TYPED_EVIDENCE_TRANSACTION_BOUND_BASELINE_AND_STRICT_EXIT_ROUTE_DECISION_V1_1.json"
-    sha256: d04bf685512f5c1aa3686c6847418cca623f48ed9bba929b0c4f99c1243ddf1e
-    byte_length: 4537
+    path: "/Users/lijunpeng/Developer/.sourcelens-audit/p1-balance-verified-clean-room-strict-exit-20260801/decision/FOUNDER_P1_BALANCE_VERIFIED_CLEAN_ROOM_STRICT_EXIT_DECISION_V1_1.json"
+    sha256: 8e5d25891eb90087c0eb61639e649a1f0820b0cb20c615f0bcb2e9a2f8bfe1c5
+    byte_length: 4444
   original_founder_packet:
-    path: "/Users/lijunpeng/Developer/.sourcelens-audit/p1-typed-evidence-transaction-strict-exit-20260801/decision/FOUNDER_P1_TYPED_EVIDENCE_TRANSACTION_BOUND_BASELINE_AND_STRICT_EXIT_ROUTE_PACKET_V1.md"
-    sha256: cec6aa68cd9fd1c10ec6309ec06639fca8ffc7cf004ed27442cb96335bce23f9
-    byte_length: 6593
+    path: "/Users/lijunpeng/Developer/.sourcelens-audit/p1-balance-verified-clean-room-strict-exit-20260801/decision/FOUNDER_P1_BALANCE_VERIFIED_CLEAN_ROOM_STRICT_EXIT_PACKET_V1.md"
+    sha256: 6e6eaffa37e70f4791e65c2d598dfe74c0cf58b6c1d763ac859f0d93daee5f10
+    byte_length: 7853
   activation_parent:
-    commit: 8b38ec74f976160c0c75503ba21c2ffaaea54b43
-    tree: 6585b7170549bf5ef45cb50aa3da7c17dcb0a3d8
+    commit: d73b51a9e58e413f6de9b13092ed6661b106b853
+    tree: 9f32f12a2cdbe98429be3153094d95b7932e4162
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: '1.7'
@@ -5339,18 +5349,18 @@ current_phase_route:
     canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
     canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
     canonical_byte_length: 19434
-  objective: Build one typed, object-ledger-bound and independently evaluated Evidence transaction, execute the sole authorized 36-cell request-bound baseline, and then freeze an exact report-bound P2 preregistration while P2 remains held.
-  claim_boundary: COOPERATIVE_LOCAL_TYPED_EVIDENCE_TRANSACTION_ONE_BOUNDED_36_CELL_BASELINE_AND_REPORT_BOUND_PREREGISTRATION_ONLY
+  objective: Build one answer-leakage-free clean-room B0/B1/B2 profile bridge from canonical accepted assets, execute the sole authorized 36-cell request-bound baseline, and then freeze an exact report-bound P2 preregistration while P2 remains held.
+  claim_boundary: COOPERATIVE_LOCAL_BALANCE_VERIFIED_ONE_SHOT_36_CELL_BASELINE_AND_REPORT_BOUND_PREREGISTRATION_ONLY
   envelope:
     max_engineering_tasks: 2
-    max_engineering_hours: 64
-    max_calendar_days: 12
+    max_engineering_hours: 48
+    max_calendar_days: 8
     max_active_tasks: 1
     max_task_branches: 1
     max_task_worktrees: 1
     max_active_candidates: 1
     max_contract_corrections_per_task: 0
-    max_same_task_repairs: 4
+    max_same_task_repairs: 3
     successor_replacement_normalization_closure_feasibility_or_remediation_chain_allowed: false
     p2_entry_authorized: false
     p3_entry_authorized: false
@@ -5364,9 +5374,9 @@ current_phase_route:
   founder_reserved_profile:
     call_limits:
       automatic_retry_max: 0
-      diagnostic_requests_max: 1
+      diagnostic_requests_max: 0
       formal_requests_exact: 36
-      provider_requests_max: 37
+      provider_requests_max: 36
     claim_limits:
       actual_monetary_cost: UNKNOWN_UNLESS_TRUSTWORTHY_GATEWAY_EVIDENCE_EXISTS
       direct_openai_provenance_proven: false
@@ -5377,7 +5387,7 @@ current_phase_route:
       public: false
       remote: false
       upstream_request_count: UNKNOWN
-    decision_basis: FOUNDER_PACKET_SHA256:cec6aa68cd9fd1c10ec6309ec06639fca8ffc7cf004ed27442cb96335bce23f9
+    decision_basis: FOUNDER_PACKET_SHA256:6e6eaffa37e70f4791e65c2d598dfe74c0cf58b6c1d763ac859f0d93daee5f10
     external_effects:
       network: true
       production: false
@@ -5393,8 +5403,8 @@ current_phase_route:
       currency: USD
       max_spend: 25
       unavailable_metering_status: UNKNOWN_GATEWAY_METERING_UNAVAILABLE
-    profile_id: P1_174_TYPED_EVIDENCE_TRANSACTION_BOUND_REPRODUCIBLE_BASELINE_V1
-    route_id: P1_TYPED_EVIDENCE_TRANSACTION_BOUND_BASELINE_AND_STRICT_EXIT_ROUTE_V1
+    profile_id: P1_176_CLEAN_ROOM_ACCEPTED_SPINE_REPRODUCIBLE_BASELINE_V1
+    route_id: P1_BALANCE_VERIFIED_CLEAN_ROOM_BASELINE_AND_STRICT_EXIT_ROUTE_V1
     schema_version: '4.0'
     secret:
       entry_sessions: 1
@@ -5412,7 +5422,7 @@ current_phase_route:
       - REVIEW
       - VAULT
       source: FOUNDER_OPERATOR_NO_ECHO_TTY
-    task_id: AIOS-P1-174_TYPED_EVIDENCE_TRANSACTION_BOUND_REPRODUCIBLE_BASELINE
+    task_id: AIOS-P1-176_CLEAN_ROOM_ACCEPTED_SPINE_REPRODUCIBLE_BASELINE
     transport:
       api_format: OPENAI_COMPATIBLE_CHAT_COMPLETIONS
       completion_path: "/v1/chat/completions"
@@ -5429,9 +5439,9 @@ current_phase_route:
   founder_reserved_profiles:
   - call_limits:
       automatic_retry_max: 0
-      diagnostic_requests_max: 1
+      diagnostic_requests_max: 0
       formal_requests_exact: 36
-      provider_requests_max: 37
+      provider_requests_max: 36
     claim_limits:
       actual_monetary_cost: UNKNOWN_UNLESS_TRUSTWORTHY_GATEWAY_EVIDENCE_EXISTS
       direct_openai_provenance_proven: false
@@ -5442,7 +5452,7 @@ current_phase_route:
       public: false
       remote: false
       upstream_request_count: UNKNOWN
-    decision_basis: FOUNDER_PACKET_SHA256:cec6aa68cd9fd1c10ec6309ec06639fca8ffc7cf004ed27442cb96335bce23f9
+    decision_basis: FOUNDER_PACKET_SHA256:6e6eaffa37e70f4791e65c2d598dfe74c0cf58b6c1d763ac859f0d93daee5f10
     external_effects:
       network: true
       production: false
@@ -5458,8 +5468,8 @@ current_phase_route:
       currency: USD
       max_spend: 25
       unavailable_metering_status: UNKNOWN_GATEWAY_METERING_UNAVAILABLE
-    profile_id: P1_174_TYPED_EVIDENCE_TRANSACTION_BOUND_REPRODUCIBLE_BASELINE_V1
-    route_id: P1_TYPED_EVIDENCE_TRANSACTION_BOUND_BASELINE_AND_STRICT_EXIT_ROUTE_V1
+    profile_id: P1_176_CLEAN_ROOM_ACCEPTED_SPINE_REPRODUCIBLE_BASELINE_V1
+    route_id: P1_BALANCE_VERIFIED_CLEAN_ROOM_BASELINE_AND_STRICT_EXIT_ROUTE_V1
     schema_version: '4.0'
     secret:
       entry_sessions: 1
@@ -5477,7 +5487,7 @@ current_phase_route:
       - REVIEW
       - VAULT
       source: FOUNDER_OPERATOR_NO_ECHO_TTY
-    task_id: AIOS-P1-174_TYPED_EVIDENCE_TRANSACTION_BOUND_REPRODUCIBLE_BASELINE
+    task_id: AIOS-P1-176_CLEAN_ROOM_ACCEPTED_SPINE_REPRODUCIBLE_BASELINE
     transport:
       api_format: OPENAI_COMPATIBLE_CHAT_COMPLETIONS
       completion_path: "/v1/chat/completions"
@@ -5530,23 +5540,23 @@ current_phase_route:
   - p1_129
   - p1_149
   first_task:
-    task_id: AIOS-P1-174_TYPED_EVIDENCE_TRANSACTION_BOUND_REPRODUCIBLE_BASELINE
+    task_id: AIOS-P1-176_CLEAN_ROOM_ACCEPTED_SPINE_REPRODUCIBLE_BASELINE
     task_slot: 1
-    status: TERMINAL_DIAGNOSTIC_HTTP_401_CREDENTIAL_REJECTION_NON_PASS
-    contract_path: docs/aios/tasks/P1-174_TYPED_EVIDENCE_TRANSACTION_BOUND_REPRODUCIBLE_BASELINE.yaml
-    max_engineering_hours: 56
-    max_calendar_days: 10
-    max_implementation_iterations: 5
+    status: ACTIVE
+    contract_path: docs/aios/tasks/P1-176_CLEAN_ROOM_ACCEPTED_SPINE_REPRODUCIBLE_BASELINE.yaml
+    max_engineering_hours: 40
+    max_calendar_days: 6
+    max_implementation_iterations: 4
     max_candidates: 1
     p1_capability_claim_on_pass: REPRODUCIBLE_BASELINE_REPORT
   task_plan:
   - task_slot: 1
-    task_id: AIOS-P1-174_TYPED_EVIDENCE_TRANSACTION_BOUND_REPRODUCIBLE_BASELINE
-    status: TERMINAL_DIAGNOSTIC_HTTP_401_CREDENTIAL_REJECTION_NON_PASS
-    engineering_hours: 56
-    calendar_days: 10
-    max_implementation_iterations: 5
-    max_same_task_repairs: 4
+    task_id: AIOS-P1-176_CLEAN_ROOM_ACCEPTED_SPINE_REPRODUCIBLE_BASELINE
+    status: ACTIVE
+    engineering_hours: 40
+    calendar_days: 6
+    max_implementation_iterations: 4
+    max_same_task_repairs: 3
     max_candidates: 1
     external_effects:
       network: true
@@ -5556,8 +5566,8 @@ current_phase_route:
       remote: false
       secret: true
   - task_slot: 2
-    task_id: AIOS-P1-175_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
-    status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
+    task_id: AIOS-P1-177_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+    status: INELIGIBLE_PREDECESSOR_PENDING_TASK_GATE
     engineering_hours: 8
     calendar_days: 2
     max_implementation_iterations: 2
@@ -5571,27 +5581,27 @@ current_phase_route:
       remote: false
       secret: false
   task_specific_constraints:
-    p1_174:
+    p1_176:
       total_input_tokens_max: 500000
       total_output_tokens_max: 100000
       per_request_input_reservation_max: 8192
       per_request_output_tokens_max: 2048
       per_response_raw_bytes_max: 4194304
-      diagnostic_provider_requests_max: 1
+      diagnostic_provider_requests_max: 0
       formal_provider_requests_exact: 36
-      provider_requests_total_max: 37
+      provider_requests_total_max: 36
       formal_matrix_runs_exact: 1
       repairs_allowed_only_before_formal_matrix: true
       authority_core_native_enforcement_claimed: false
   automatic_entry:
-    after_task_id: AIOS-P1-174_TYPED_EVIDENCE_TRANSACTION_BOUND_REPRODUCIBLE_BASELINE
-    next_task_id: AIOS-P1-175_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+    after_task_id: AIOS-P1-176_CLEAN_ROOM_ACCEPTED_SPINE_REPRODUCIBLE_BASELINE
+    next_task_id: AIOS-P1-177_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
     requires_task_gate_pass: true
   automatic_entries:
-  - after_task_id: AIOS-P1-174_TYPED_EVIDENCE_TRANSACTION_BOUND_REPRODUCIBLE_BASELINE
-    next_task_id: AIOS-P1-175_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+  - after_task_id: AIOS-P1-176_CLEAN_ROOM_ACCEPTED_SPINE_REPRODUCIBLE_BASELINE
+    next_task_id: AIOS-P1-177_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
     requires_task_gate_pass: true
-  terminal_p1_174_outcome:
+  historical_terminal_p1_174_outcome:
     task_id: AIOS-P1-174_TYPED_EVIDENCE_TRANSACTION_BOUND_REPRODUCIBLE_BASELINE
     status: TERMINAL_DIAGNOSTIC_HTTP_401_CREDENTIAL_REJECTION_NON_PASS
     normalized_root_cause: P1174.DIAGNOSTIC.HTTP_401.CREDENTIAL_REJECTED_BEFORE_FORMAL_MATRIX
@@ -5790,12 +5800,12 @@ current_phase_route:
     branch: codex/p2-009-canonical-scan-graph-kernel
     status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
   phase_predecessor_check:
-    path: "/Users/lijunpeng/Developer/.sourcelens-audit/p1-typed-evidence-transaction-strict-exit-20260801/preflight/PHASE_PREDECESSOR_CHECK_V1.json"
-    sha256: a7a9efd3ee3711d6178786e4564eb1035ed23d2f3c027424d9bb995f53c4703e
-    byte_length: 1194
+    path: "/Users/lijunpeng/Developer/.sourcelens-audit/p1-balance-verified-clean-room-strict-exit-20260801/preflight/PHASE_PREDECESSOR_CHECK_V1.json"
+    sha256: 32e33ddf4939e8152b87f4c712daa0433632391ab7896447fbf3ff2c831b23a5
+    byte_length: 1276
     status: PASS_CONTINUE_CURRENT_P1_ONLY
     p2_resource_creation_authorized: false
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
+  next_eligible_action: CONTINUE_CURRENT_TASK
 
 historical_p2_009_phase_route_after_strict_recovery:
   schema_version: strict-phase-recovery-hold/v1
@@ -8333,7 +8343,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260801-P1-174-TERMINAL-HTTP-401-V1
+  latest_event_id: FKS-20260801-P1-176-ROUTE-ACTIVATED-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -9226,6 +9236,39 @@ founder_knowledge_sync:
         path: null
         byte_length: null
         sha256: null
+    - event_id: FKS-20260801-P1-176-ROUTE-ACTIVATED-V1
+      trigger_type: FOUNDER_ROUTE_DECISION
+      occurred_at_utc: "2026-08-01T08:01:48Z"
+      source_commit: d73b51a9e58e413f6de9b13092ed6661b106b853
+      source_tree: 9f32f12a2cdbe98429be3153094d95b7932e4162
+      previous_event_sha256: 812b0b1b3bd5ec965d80663e4192ee8a9ae6219db08a750112a415ca103348e6
+      event_sha256: 9a5b5baad2ef4eef28bb5479e84698a9e0a60a263b44d4b2bf1b115f4635fcb1
+      status: PENDING_CANDIDATE
+      rationale: >-
+        Founder reported the local-gateway balance restored and instructed a
+        new attempt; an independent one-request readiness probe then returned
+        strict loopback HTTP 200 without Secret reflection. P1-174 remains
+        terminal and non-reusable. P1-176 is a new clean-room Task from
+        canonical accepted assets, strict P1 remains 6/8 (75%), P2 remains
+        held, and this non-blocking event queues the reusable separation of
+        credential readiness from formal capability Evidence.
+      engineering_blocking: false
+      artifact:
+        path: null
+        byte_length: null
+        sha256: null
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
 
 historical_active_work_after_p1_079:
   current_task: NONE
@@ -9278,56 +9321,68 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P1-176_CLEAN_ROOM_ACCEPTED_SPINE_REPRODUCIBLE_BASELINE
+  current_task_status: ACTIVE
   current_task_contract:
-    path: null
-    sha256: null
-    byte_length: null
-  current_task_contract_sha256: null
-  current_execution_authorization: null
-  current_execution_authorization_sha256: null
+    path: docs/aios/tasks/P1-176_CLEAN_ROOM_ACCEPTED_SPINE_REPRODUCIBLE_BASELINE.yaml
+    sha256: 5815231f679f8ffd2661294aa405db616c8b6e96cb318e28a84d75cac9412e1f
+    byte_length: 13073
+  current_task_contract_sha256: 5815231f679f8ffd2661294aa405db616c8b6e96cb318e28a84d75cac9412e1f
+  current_execution_authorization: "/Users/lijunpeng/Developer/.sourcelens-audit/p1-balance-verified-clean-room-strict-exit-20260801/task-1-p1-176/authority/P1_176_PHASE_DELEGATED_TASK_AUTHORITY_V1.yaml"
+  current_execution_authorization_sha256: ffe923f1ae61147101a91a7d491e1f4c82afb4b2bc480c553eeec325d4e8f0ac
   authority_record:
-    path: null
-    sha256: null
-    byte_length: null
+    path: "/Users/lijunpeng/Developer/.sourcelens-audit/p1-balance-verified-clean-room-strict-exit-20260801/task-1-p1-176/authority/P1_176_PHASE_DELEGATED_TASK_AUTHORITY_V1.yaml"
+    sha256: ffe923f1ae61147101a91a7d491e1f4c82afb4b2bc480c553eeec325d4e8f0ac
+    byte_length: 4389
   continuation_authorization: null
-  execution_nonce: null
-  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
-  authorization_id: null
-  activation_parent_commit: null
-  activation_parent_tree: null
-  task_resource_state: PRESERVED_TERMINAL_OUTSIDE_ACTIVE_WORK
-  task_branch: null
-  task_worktree: null
-  execution_evidence_root: null
-  allowlisted_paths: []
+  execution_nonce: 550f54afa546d53c01fd9316a9b0489880b23f8cbc3ff05dc9277e295a6af04c
+  execution_nonce_status: ACTIVE
+  authorization_id: 75e4624702fdce72f0db224dd421ff125cfad43e983a78a92db6f756d9826773
+  activation_parent_commit: d73b51a9e58e413f6de9b13092ed6661b106b853
+  activation_parent_tree: 9f32f12a2cdbe98429be3153094d95b7932e4162
+  task_resource_state: ACTIVE
+  task_branch: codex/p1-176-clean-room-baseline
+  task_worktree: "/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-176-clean-room-baseline"
+  execution_evidence_root: "/Users/lijunpeng/Developer/.sourcelens-audit/p1-balance-verified-clean-room-strict-exit-20260801/task-1-p1-176/evidence"
+  allowlisted_paths:
+  - evaluation-harness/harness/p1-176-clean-room-baseline
+  - evaluation-harness/evaluator/p1-176-clean-room-baseline
+  - evaluation-harness/fixtures/p1-176-clean-room-baseline
+  - scripts/verify-p1-176-clean-room-baseline.sh
+  - scripts/p1-176-operator-capture.sh
+  - docs/aios/tasks/P1-176_CLEAN_ROOM_ACCEPTED_SPINE_REPRODUCIBLE_BASELINE.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+  - Makefile
   budget:
-    engineering_hours: null
-    calendar_days: null
-    implementation_iterations: null
-    candidates: null
+    engineering_hours: 40
+    calendar_days: 6
+    implementation_iterations: 4
+    candidates: 1
   roles:
-    owner: null
-    worker: null
-    independent_reviewers: []
+    owner: P1-176 Engineering Manager
+    worker: P1-176 Clean-Room Baseline Worker
+    independent_reviewers:
+    - P1-176 Fresh CTO Reviewer
+    - P1-176 Fresh Security Reviewer
+    - P1-176 Fresh Quality Reviewer
   external_effects:
-    network: false
-    provider: false
-    secret: false
+    network: true
+    provider: true
+    secret: true
     remote: false
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: null
-  founder_reserved_authorization_sha256: null
-  founder_decision_required: true
-  founder_decision_required_scope: P1_PHASE_GATE_AFTER_P1_174_DIAGNOSTIC_HTTP_401_CREDENTIAL_REJECTION_NON_PASS
-  escalation_reason: P1174.DIAGNOSTIC.HTTP_401.CREDENTIAL_REJECTED_BEFORE_FORMAL_MATRIX
-  user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
+  founder_reserved_authorization: "/Users/lijunpeng/Developer/.sourcelens-audit/p1-balance-verified-clean-room-strict-exit-20260801/decision/FOUNDER_P1_BALANCE_VERIFIED_CLEAN_ROOM_STRICT_EXIT_DECISION_V1_1.json"
+  founder_reserved_authorization_sha256: 8e5d25891eb90087c0eb61639e649a1f0820b0cb20c615f0bcb2e9a2f8bfe1c5
+  founder_decision_required: false
+  founder_decision_required_scope: null
+  escalation_reason: null
+  user_action_required: NONE
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: CONTINUE_CURRENT_TASK
   last_terminal_task:
     task_id: AIOS-P1-174_TYPED_EVIDENCE_TRANSACTION_BOUND_REPRODUCIBLE_BASELINE
     status: TERMINAL_DIAGNOSTIC_HTTP_401_CREDENTIAL_REJECTION_NON_PASS

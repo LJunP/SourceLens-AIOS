@@ -8295,7 +8295,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260801-P1-178-TERMINAL-FINAL-REVIEW-NON-PASS-V1
+  latest_event_id: FKS-20260801-P1-178-TERMINAL-KNOWLEDGE-IMPORTED-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -9318,6 +9318,95 @@ founder_knowledge_sync:
         path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-provider-neutral-kernel-strict-exit-20260801/task-1-p1-178/terminal/P1_178_TERMINAL_FINAL_REVIEW_TARGET_NON_PASS_RECEIPT_V1.json
         byte_length: 2617
         sha256: c8f0653aa6e4e9effa141e011f69d64a70650ceb87a27105f8d6c3dd5fd06da5
+
+    - event_id: FKS-20260801-P1-178-TERMINAL-LEARNING-CANDIDATE-V1
+      trigger_type: LEARNING_ARTIFACT_CANDIDATE_FROZEN
+      occurred_at_utc: '2026-08-01T12:56:21Z'
+      source_commit: 25c443833d9284bc4e10ac75878d0b760b68db08
+      source_tree: 999f7d63395807a6d68713aaba4a42c1a208873b
+      previous_event_sha256: 5b03696f72e6052a2666805ae2dbc4298e2a8a85a416ee395a8279e517941959
+      event_sha256: 55be13ceb28e7a6b964e372fc35bd30aaee176c3d92583d898b377c0585d1571
+      status: PENDING_REVIEW
+      rationale: >-
+        The exact P1-178 terminal learning Artifact separates verified facts,
+        inferences and unknowns and freezes reusable engineering lessons without
+        granting Task, Gate or capability authority.
+      engineering_blocking: false
+      artifact:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-provider-neutral-kernel-strict-exit-20260801/task-1-p1-178/knowledge/P1_178_FOUNDER_LEARNING_ARTIFACT_CANDIDATE_V1.md
+        byte_length: 5225
+        sha256: 1ac7d865d4b001786907a944aa980196b3cd3e849b3b0807ee962b4bf79e359f
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+
+    - event_id: FKS-20260801-P1-178-TERMINAL-KNOWLEDGE-REVIEW-PASS-V1
+      trigger_type: INDEPENDENT_KNOWLEDGE_REVIEW_COMPLETED
+      occurred_at_utc: '2026-08-01T13:01:15Z'
+      source_commit: 25c443833d9284bc4e10ac75878d0b760b68db08
+      source_tree: 999f7d63395807a6d68713aaba4a42c1a208873b
+      previous_event_sha256: 55be13ceb28e7a6b964e372fc35bd30aaee176c3d92583d898b377c0585d1571
+      event_sha256: 9348a3559b67012f584412faa76475bd7a166b192736c51a8ff2bc948fca9861
+      status: REVIEWED_PASS_PENDING_IMPORT
+      rationale: >-
+        Fresh independent Knowledge Review PASS authorizes only the exact P1-178
+        terminal Learning Artifact bytes for Founder Knowledge Vault import.
+      engineering_blocking: false
+      artifact:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-provider-neutral-kernel-strict-exit-20260801/task-1-p1-178/knowledge/P1_178_FOUNDER_LEARNING_ARTIFACT_CANDIDATE_V1.md
+        byte_length: 5225
+        sha256: 1ac7d865d4b001786907a944aa980196b3cd3e849b3b0807ee962b4bf79e359f
+      review:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-provider-neutral-kernel-strict-exit-20260801/task-1-p1-178/knowledge/P1_178_KNOWLEDGE_REVIEW_V1.json
+        byte_length: 3066
+        sha256: 2f8359544afce744892e81094a4038ad1562c6e73c669887e48db44dc1d6acd4
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+
+    - event_id: FKS-20260801-P1-178-TERMINAL-KNOWLEDGE-IMPORTED-V1
+      trigger_type: EXACT_KNOWLEDGE_ARTIFACT_IMPORTED
+      occurred_at_utc: '2026-08-01T13:04:56Z'
+      source_commit: 25c443833d9284bc4e10ac75878d0b760b68db08
+      source_tree: 999f7d63395807a6d68713aaba4a42c1a208873b
+      previous_event_sha256: 9348a3559b67012f584412faa76475bd7a166b192736c51a8ff2bc948fca9861
+      event_sha256: b4e6a04fdb9bb14953441f2a52cbbf7349e03d257f7bb864a423bf3a402b9f46
+      status: IMPORTED
+      rationale: >-
+        The independently reviewed P1-178 terminal Learning Artifact was imported
+        into the exact Founder Knowledge Vault with byte-for-byte equality and a
+        recoverable receipt.
+      engineering_blocking: false
+      artifact:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-provider-neutral-kernel-strict-exit-20260801/task-1-p1-178/knowledge/P1_178_FOUNDER_LEARNING_ARTIFACT_CANDIDATE_V1.md
+        byte_length: 5225
+        sha256: 1ac7d865d4b001786907a944aa980196b3cd3e849b3b0807ee962b4bf79e359f
+      review:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-provider-neutral-kernel-strict-exit-20260801/task-1-p1-178/knowledge/P1_178_KNOWLEDGE_REVIEW_V1.json
+        byte_length: 3066
+        sha256: 2f8359544afce744892e81094a4038ad1562c6e73c669887e48db44dc1d6acd4
+      vault_import:
+        path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/06-Decision-Records/2026-08-01-P1-178-provider-neutral-kernel-review-lessons.md
+        byte_length: 5225
+        sha256: 1ac7d865d4b001786907a944aa980196b3cd3e849b3b0807ee962b4bf79e359f
+      receipt:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-provider-neutral-kernel-strict-exit-20260801/task-1-p1-178/knowledge/P1_178_KNOWLEDGE_IMPORT_RECEIPT_V1.json
+        byte_length: 1309
+        sha256: 20f9ec163ac8caf57a55cc3f61ae59a738d38614354dd139f7aaeca7cd62df92
 
 historical_active_work_after_p1_079:
   current_task: NONE

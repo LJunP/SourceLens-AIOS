@@ -9780,7 +9780,7 @@ active_work:
     sha256: a9cc18a6b9455ea026b4dbc275ba290413a6211b76e5b2c3e1bf9da6c69d98e1
     byte_length: 3653
   execution_nonce: cd208f64bbfa3c21317c04254f2ae24bf2e6d98a4cc4b1e9d7c5e45fd2535216
-  execution_nonce_status: ACTIVE_UNIQUE
+  execution_nonce_status: ACTIVE
   authorization_id: ed781233bec65c457131bed44e8ec3916003ad9303030444b6c413acda1aa47f
   activation_parent_commit: ca506e392d6e34658bc3ccf4a0c963c4d805278d
   activation_parent_tree: 49aff543882ed25b2be396627897d9246cd2dcf3
@@ -14569,7 +14569,6 @@ claim_boundary:
   p1_184_capability_credit: 0
   p1_185_entry: PENDING_PREDECESSOR_TASK_GATE
   p1_186_entry: PENDING_PREDECESSOR_TASK_GATE
-  p2_status: HOLD_PENDING_STRICT_P1_EXIT
   p1_178_status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
   p1_178_candidate_commit: 44c5b6f15cf26ce48e042e9247e038c204f7d778
   p1_178_candidate_tree: 642f40041fd1b8919cbff27e40c170f762bbcb1a

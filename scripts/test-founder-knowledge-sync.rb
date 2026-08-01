@@ -11,7 +11,6 @@ require "yaml"
 ROOT = File.expand_path("..", __dir__)
 TRUTH = File.join(ROOT, "docs/aios/truth/project_state.yaml")
 VALIDATOR = File.join(ROOT, "scripts/validate-aios-governance.sh")
-VAULT_ROOT = "/Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault"
 
 def identity(path)
   bytes = File.binread(path)
@@ -39,39 +38,6 @@ def event_sha(event)
   )
 end
 
-def write_review(path, artifact, verdict)
-  scope = {
-    "current_canonical_file_consistency" => "PASS",
-    "domain_scoped_authority_boundary" => "PASS",
-    "exact_bytes_import_boundary" => "PASS",
-    "fact_inference_unknown_separation" => verdict == "PASS" ? "PASS" : "NON_PASS",
-    "founder_learning_usefulness" => "PASS",
-    "secret_and_restricted_source_screen" => "PASS"
-  }
-  review = {
-    "schema_version" => "founder-knowledge-review/v2",
-    "reviewer_identity" => "Independent Knowledge State Fixture Reviewer",
-    "reviewer_independence" => "INDEPENDENT_NON_IMPLEMENTER",
-    "reviewed_at_utc" => "2026-07-28T11:30:00Z",
-    "target_verdict" => verdict,
-    "candidate" => artifact.merge("exact_identity_verified" => true),
-    "review_scope" => scope,
-    "findings" => verdict == "PASS" ? [] : ["fixture NON_PASS"],
-    "verified_facts" => ["fixture identity verified"],
-    "import_authorization" => {
-      "authorized" => verdict == "PASS",
-      "authorized_candidate_path" => artifact.fetch("path"),
-      "authorized_sha256" => artifact.fetch("sha256"),
-      "authorized_byte_length" => artifact.fetch("byte_length"),
-      "exact_bytes_only" => true,
-      "normalization_or_edit_before_import_allowed" => false,
-      "authorization_scope" =>
-        "Founder Knowledge Vault learning import only; no Truth, Git, Evidence, Task authority, Gate or capability effect."
-    }
-  }
-  File.binwrite(path, JSON.pretty_generate(review) + "\n")
-end
-
 def run_fixture(path, expected_pass)
   stdout, stderr, status = Open3.capture3(
     VALIDATOR, "--test-knowledge-sync-fixture", path, chdir: ROOT
@@ -87,105 +53,246 @@ truth = YAML.safe_load(
   permitted_symbols: [],
   aliases: false
 )
-base_event = truth.fetch("founder_knowledge_sync").fetch("events").first
-source_commit = base_event.fetch("source_commit")
-source_tree = base_event.fetch("source_tree")
+def deep_copy(value)
+  Marshal.load(Marshal.dump(value))
+end
 
-audit_root = Dir.mktmpdir("founder-knowledge-sync-", "/private/tmp")
-vault_root = Dir.mktmpdir("codex-knowledge-sync-", VAULT_ROOT)
+def compatibility_entry(truth, compatibility_type)
+  truth.fetch("founder_knowledge_sync")
+    .fetch("inherited_knowledge_compatibility")
+    .fetch("entries")
+    .find { |entry| entry.fetch("compatibility_type") == compatibility_type }
+end
+
+def rehash_events!(truth)
+  sync = truth.fetch("founder_knowledge_sync")
+  residual = compatibility_entry(
+    truth, "EVENT_HASH_AND_PRE_CANDIDATE_RECEIPT_RESIDUAL"
+  )
+  previous = nil
+  sync.fetch("events").each do |event|
+    event["previous_event_sha256"] = previous
+    if residual.fetch("event_ids").include?(event.fetch("event_id"))
+      residual["calculated_event_sha256"] = event_sha(event)
+    else
+      event["event_sha256"] = event_sha(event)
+    end
+    previous = event.fetch("event_sha256")
+  end
+  sync["latest_event_id"] = sync.fetch("events").last.fetch("event_id")
+end
+
+def write_truth_fixture(root, label, fixture)
+  fixture_root = File.join(root, label)
+  Dir.mkdir(fixture_root)
+  path = File.join(fixture_root, "project_state.yaml")
+  File.binwrite(path, YAML.dump(fixture))
+  path
+end
+
+def run_truth_case(root, label, fixture, expected_pass = false)
+  run_fixture(write_truth_fixture(root, label, fixture), expected_pass)
+end
+
+def replace_compatibility_object!(truth, compatibility_type, object_path)
+  object_identity = identity(object_path)
+  entry = compatibility_entry(truth, compatibility_type)
+  entry["object"] = object_identity.merge("file_type" => "REGULAR_FILE_NON_SYMLINK")
+  field = compatibility_type == "FOUNDER_KNOWLEDGE_IMPORT_RECEIPT_V1" ? "receipt" : "review"
+  entry.fetch("event_ids").each do |event_id|
+    event = truth.fetch("founder_knowledge_sync").fetch("events")
+      .find { |candidate| candidate.fetch("event_id") == event_id }
+    event[field] = object_identity
+  end
+  rehash_events!(truth)
+end
+
+def write_json_fixture(root, label, object)
+  path = File.join(root, "#{label}.json")
+  File.binwrite(path, JSON.pretty_generate(object) + "\n")
+  path
+end
+
+audit_root = Dir.mktmpdir("founder-knowledge-compatibility-", "/private/tmp")
+negative_cases = 0
 begin
-  artifact_path = File.join(audit_root, "artifact.md")
-  File.binwrite(
-    artifact_path,
-    "# FACT\nStrict phase state test.\n\n# INFERENCE\nNone.\n\n# UNKNOWN\nNone.\n"
+  run_fixture(TRUTH, true)
+
+  fixture = deep_copy(truth)
+  fixture.fetch("founder_knowledge_sync").delete("inherited_knowledge_compatibility")
+  run_truth_case(audit_root, "DECLARATION_MISSING", fixture)
+  negative_cases += 1
+
+  fixture = deep_copy(truth)
+  fixture.dig("founder_knowledge_sync", "inherited_knowledge_compatibility")["unexpected"] = false
+  run_truth_case(audit_root, "DECLARATION_EXTRA", fixture)
+  negative_cases += 1
+
+  fixture = deep_copy(truth)
+  fixture.dig("founder_knowledge_sync", "inherited_knowledge_compatibility", "entries").reverse!
+  run_truth_case(audit_root, "DECLARATION_REORDER", fixture)
+  negative_cases += 1
+
+  fixture = deep_copy(truth)
+  entries = fixture.dig("founder_knowledge_sync", "inherited_knowledge_compatibility", "entries")
+  entries << deep_copy(entries.last)
+  run_truth_case(audit_root, "DECLARATION_FIFTH_ENTRY", fixture)
+  negative_cases += 1
+
+  fixture = deep_copy(truth)
+  fixture.dig("founder_knowledge_sync", "inherited_knowledge_compatibility", "founder_packet", "sha256").sub!(/\A./, "0")
+  run_truth_case(audit_root, "PACKET_IDENTITY_DRIFT", fixture)
+  negative_cases += 1
+
+  fixture = deep_copy(truth)
+  compatibility_entry(fixture, "FOUNDER_KNOWLEDGE_REVIEW_V1").dig("object")["file_type"] = "SYMLINK"
+  run_truth_case(audit_root, "OBJECT_TYPE_DRIFT", fixture)
+  negative_cases += 1
+
+  fixture = deep_copy(truth)
+  compatibility_entry(fixture, "FOUNDER_KNOWLEDGE_REVIEW_V1")["object_schema_version"] = "founder-knowledge-review/v2"
+  run_truth_case(audit_root, "SCHEMA_DRIFT", fixture)
+  negative_cases += 1
+
+  fixture = deep_copy(truth)
+  compatibility_entry(fixture, "FOUNDER_KNOWLEDGE_REVIEW_V1")["event_ids"] = [
+    fixture.dig("founder_knowledge_sync", "events").first.fetch("event_id"),
+    fixture.dig("founder_knowledge_sync", "events").last.fetch("event_id")
+  ]
+  run_truth_case(audit_root, "UNRELATED_EVENT_INJECTION", fixture)
+  negative_cases += 1
+
+  fixture = deep_copy(truth)
+  compatibility_entry(fixture, "EVENT_HASH_AND_PRE_CANDIDATE_RECEIPT_RESIDUAL")["stored_event_sha256"] = "0" * 64
+  run_truth_case(audit_root, "STORED_EVENT_HASH_DRIFT", fixture)
+  negative_cases += 1
+
+  fixture = deep_copy(truth)
+  compatibility_entry(fixture, "EVENT_HASH_AND_PRE_CANDIDATE_RECEIPT_RESIDUAL")["calculated_event_sha256"] = "0" * 64
+  run_truth_case(audit_root, "CALCULATED_EVENT_HASH_DRIFT", fixture)
+  negative_cases += 1
+
+  %w[path byte_length sha256].each do |field|
+    fixture = deep_copy(truth)
+    object = compatibility_entry(fixture, "FOUNDER_KNOWLEDGE_REVIEW_V1").fetch("object")
+    object[field] = if field == "path"
+                      File.join(audit_root, "missing-review.json")
+                    elsif field == "byte_length"
+                      object.fetch(field) + 1
+                    else
+                      "0" * 64
+                    end
+    run_truth_case(audit_root, "OBJECT_#{field.upcase}_DRIFT", fixture)
+    negative_cases += 1
+  end
+
+  duplicate_yaml_root = File.join(audit_root, "DECLARATION_DUPLICATE_YAML_KEY")
+  Dir.mkdir(duplicate_yaml_root)
+  duplicate_yaml = File.binread(TRUTH).sub(
+    "  inherited_knowledge_compatibility:\n    schema_version: \"1.0\"\n",
+    "  inherited_knowledge_compatibility:\n    schema_version: \"1.0\"\n    schema_version: \"1.0\"\n"
   )
-  artifact = identity(artifact_path)
+  duplicate_yaml_path = File.join(duplicate_yaml_root, "project_state.yaml")
+  File.binwrite(duplicate_yaml_path, duplicate_yaml)
+  run_fixture(duplicate_yaml_path, false)
+  negative_cases += 1
 
-  snapshot_bytes, snapshot_stderr, snapshot_status = Open3.capture3(
-    "git", "-C", ROOT, "show", "#{source_commit}:docs/aios/truth/project_state.yaml"
+  fixture = deep_copy(truth)
+  review_event = fixture.fetch("founder_knowledge_sync").fetch("events").find do |event|
+    event.fetch("event_id") == "FKS-20260801-P1-178-TERMINAL-KNOWLEDGE-REVIEW-PASS-V1"
+  end
+  review_event["status"] = "NON_PASS"
+  rehash_events!(fixture)
+  run_truth_case(audit_root, "EVENT_STATUS_DRIFT", fixture)
+  negative_cases += 1
+
+  fixture = deep_copy(truth)
+  import_event = fixture.fetch("founder_knowledge_sync").fetch("events").last
+  import_event.dig("vault_import", "sha256").sub!(/\A./, "0")
+  rehash_events!(fixture)
+  run_truth_case(audit_root, "VAULT_IDENTITY_DRIFT", fixture)
+  negative_cases += 1
+
+  fixture = deep_copy(truth)
+  review_event = fixture.fetch("founder_knowledge_sync").fetch("events").find do |event|
+    event.fetch("event_id") == "FKS-20260801-P1-178-TERMINAL-KNOWLEDGE-REVIEW-PASS-V1"
+  end
+  review_event.dig("artifact", "sha256").sub!(/\A./, "0")
+  rehash_events!(fixture)
+  run_truth_case(audit_root, "ARTIFACT_IDENTITY_DRIFT", fixture)
+  negative_cases += 1
+
+  p1_165_review_path = compatibility_entry(
+    truth, "ALTERNATE_FOUNDER_KNOWLEDGE_REVIEW_V2"
+  ).dig("object", "path")
+  fixture = deep_copy(truth)
+  p1_165_review = JSON.parse(File.binread(p1_165_review_path))
+  p1_165_review["unexpected"] = false
+  mutated_path = write_json_fixture(audit_root, "p1-165-review-extra", p1_165_review)
+  replace_compatibility_object!(fixture, "ALTERNATE_FOUNDER_KNOWLEDGE_REVIEW_V2", mutated_path)
+  run_truth_case(audit_root, "P1_165_REVIEW_OUTER_KEY_DRIFT", fixture)
+  negative_cases += 1
+
+  p1_178_review_path = compatibility_entry(
+    truth, "FOUNDER_KNOWLEDGE_REVIEW_V1"
+  ).dig("object", "path")
+  fixture = deep_copy(truth)
+  p1_178_review = JSON.parse(File.binread(p1_178_review_path))
+  p1_178_review["knowledge_verdict"] = "NON_PASS"
+  mutated_path = write_json_fixture(audit_root, "p1-178-review-verdict", p1_178_review)
+  replace_compatibility_object!(fixture, "FOUNDER_KNOWLEDGE_REVIEW_V1", mutated_path)
+  run_truth_case(audit_root, "P1_178_REVIEW_VERDICT_DRIFT", fixture)
+  negative_cases += 1
+
+  fixture = deep_copy(truth)
+  p1_178_review = JSON.parse(File.binread(p1_178_review_path))
+  p1_178_review.fetch("authorization")["unexpected"] = false
+  mutated_path = write_json_fixture(audit_root, "p1-178-review-nested-extra", p1_178_review)
+  replace_compatibility_object!(fixture, "FOUNDER_KNOWLEDGE_REVIEW_V1", mutated_path)
+  run_truth_case(audit_root, "P1_178_REVIEW_NESTED_KEY_DRIFT", fixture)
+  negative_cases += 1
+
+  fixture = deep_copy(truth)
+  duplicate_review_path = File.join(audit_root, "p1-178-review-duplicate.json")
+  duplicate_review = File.binread(p1_178_review_path).sub(
+    "{\n", "{\n  \"schema_version\": \"founder-knowledge-review/v1\",\n"
   )
-  raise snapshot_stderr unless snapshot_status.success?
-  snapshot_path = File.join(audit_root, "truth-snapshot.yaml")
-  File.binwrite(snapshot_path, snapshot_bytes)
+  File.binwrite(duplicate_review_path, duplicate_review)
+  replace_compatibility_object!(fixture, "FOUNDER_KNOWLEDGE_REVIEW_V1", duplicate_review_path)
+  run_truth_case(audit_root, "P1_178_REVIEW_DUPLICATE_JSON_KEY", fixture)
+  negative_cases += 1
 
-  review_path = File.join(audit_root, "review-pass.json")
-  write_review(review_path, artifact, "PASS")
-  review = identity(review_path)
-  import_path = File.join(vault_root, "artifact.md")
-  FileUtils.cp(artifact_path, import_path, preserve: true)
-  vault_import = identity(import_path)
+  p1_178_receipt_path = compatibility_entry(
+    truth, "FOUNDER_KNOWLEDGE_IMPORT_RECEIPT_V1"
+  ).dig("object", "path")
+  fixture = deep_copy(truth)
+  p1_178_receipt = JSON.parse(File.binread(p1_178_receipt_path))
+  p1_178_receipt["bytes_equal"] = false
+  mutated_path = write_json_fixture(audit_root, "p1-178-receipt-bytes-equal", p1_178_receipt)
+  replace_compatibility_object!(fixture, "FOUNDER_KNOWLEDGE_IMPORT_RECEIPT_V1", mutated_path)
+  run_truth_case(audit_root, "P1_178_RECEIPT_BYTES_EQUAL_DRIFT", fixture)
+  negative_cases += 1
 
-  imported_event_id = "FKS-20260728-KNOWLEDGE-STATE-IMPORTED-TEST"
-  receipt_path = File.join(audit_root, "receipt.json")
-  receipt = {
-    "schema_version" => "founder-knowledge-import-receipt/v1",
-    "event_id" => imported_event_id,
-    "source_commit" => source_commit,
-    "source_tree" => source_tree,
-    "truth_sha256" => Digest::SHA256.hexdigest(snapshot_bytes),
-    "truth_snapshot" => identity(snapshot_path),
-    "artifact" => artifact,
-    "review" => review.merge("verdict" => "PASS"),
-    "vault_import" => vault_import,
-    "exact_bytes_equal" => true,
-    "recorded_at_utc" => "2026-07-28T11:31:00Z"
-  }
-  File.binwrite(receipt_path, JSON.pretty_generate(receipt) + "\n")
-  imported_event = {
-    "event_id" => imported_event_id,
-    "trigger_type" => "TEST_FIXTURE",
-    "occurred_at_utc" => "2026-07-28T11:29:00Z",
-    "source_commit" => source_commit,
-    "source_tree" => source_tree,
-    "previous_event_sha256" => base_event.fetch("event_sha256"),
-    "event_sha256" => nil,
-    "status" => "IMPORTED",
-    "rationale" => "Positive imported state fixture.",
-    "engineering_blocking" => false,
-    "artifact" => artifact,
-    "review" => review,
-    "vault_import" => vault_import,
-    "receipt" => identity(receipt_path)
-  }
-  imported_event["event_sha256"] = event_sha(imported_event)
-  imported_truth = Marshal.load(Marshal.dump(truth))
-  imported_truth["founder_knowledge_sync"]["events"] = [base_event, imported_event]
-  imported_truth["founder_knowledge_sync"]["latest_event_id"] = imported_event_id
-  imported_truth_path = File.join(audit_root, "imported-truth.yaml")
-  File.binwrite(imported_truth_path, YAML.dump(imported_truth))
-  run_fixture(imported_truth_path, true)
+  p1_168_receipt_path = compatibility_entry(
+    truth, "EVENT_HASH_AND_PRE_CANDIDATE_RECEIPT_RESIDUAL"
+  ).dig("object", "path")
+  fixture = deep_copy(truth)
+  p1_168_receipt = JSON.parse(File.binread(p1_168_receipt_path))
+  p1_168_receipt["status"] = "PASS"
+  mutated_path = write_json_fixture(audit_root, "p1-168-terminal-status", p1_168_receipt)
+  compatibility_entry(fixture, "EVENT_HASH_AND_PRE_CANDIDATE_RECEIPT_RESIDUAL")["object"] =
+    identity(mutated_path).merge("file_type" => "REGULAR_FILE_NON_SYMLINK")
+  run_truth_case(audit_root, "P1_168_TERMINAL_STATUS_DRIFT", fixture)
+  negative_cases += 1
 
-  nonpass_review_path = File.join(audit_root, "review-nonpass.json")
-  write_review(nonpass_review_path, artifact, "NON_PASS")
-  nonpass_event_id = "FKS-20260728-KNOWLEDGE-STATE-NONPASS-TEST"
-  nonpass_event = imported_event.merge(
-    "event_id" => nonpass_event_id,
-    "status" => "NON_PASS",
-    "rationale" => "Positive NON_PASS state fixture.",
-    "review" => identity(nonpass_review_path),
-    "vault_import" => {"path" => nil, "byte_length" => nil, "sha256" => nil},
-    "receipt" => {"path" => nil, "byte_length" => nil, "sha256" => nil},
-    "event_sha256" => nil
-  )
-  nonpass_event["event_sha256"] = event_sha(nonpass_event)
-  nonpass_truth = Marshal.load(Marshal.dump(truth))
-  nonpass_truth["founder_knowledge_sync"]["events"] = [base_event, nonpass_event]
-  nonpass_truth["founder_knowledge_sync"]["latest_event_id"] = nonpass_event_id
-  nonpass_truth_path = File.join(audit_root, "nonpass-truth.yaml")
-  File.binwrite(nonpass_truth_path, YAML.dump(nonpass_truth))
-  run_fixture(nonpass_truth_path, true)
+  outside_fixture = deep_copy(truth)
+  outside_event = outside_fixture.fetch("founder_knowledge_sync").fetch("events").last
+  outside_event["vault_import"] = identity(p1_178_review_path)
+  rehash_events!(outside_fixture)
+  run_truth_case(audit_root, "OUTSIDE_VAULT_IMPORT", outside_fixture)
+  negative_cases += 1
 
-  outside_truth = Marshal.load(Marshal.dump(imported_truth))
-  outside_import = identity(artifact_path)
-  outside_event = outside_truth["founder_knowledge_sync"]["events"].last
-  outside_event["vault_import"] = outside_import
-  outside_event["event_sha256"] = event_sha(outside_event)
-  outside_truth_path = File.join(audit_root, "outside-vault-truth.yaml")
-  File.binwrite(outside_truth_path, YAML.dump(outside_truth))
-  run_fixture(outside_truth_path, false)
-
-  puts "FOUNDER_KNOWLEDGE_SYNC_TESTS: PASS imported=1 nonpass=1 outside_vault_rejected=1"
+  puts "FOUNDER_KNOWLEDGE_SYNC_TESTS: PASS exact_compatibility_objects=4 negative_cases=#{negative_cases} canonical_vault_writes=0"
 ensure
   FileUtils.remove_entry_secure(audit_root) if File.exist?(audit_root)
-  FileUtils.remove_entry_secure(vault_root) if File.exist?(vault_root)
 end

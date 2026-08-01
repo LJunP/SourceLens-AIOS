@@ -8287,6 +8287,88 @@ founder_knowledge_sync:
   vault_path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault
   non_authoritative: true
   engineering_blocking: false
+  inherited_knowledge_compatibility:
+    schema_version: "1.0"
+    status: FOUNDER_AUTHORIZED_EXACT_CLOSED_COMPATIBILITY
+    authorization_token: AUTHORIZE_P1_ONE_FINAL_COMPLETE_INHERITED_KNOWLEDGE_COMPATIBILITY_THEN_SEALED_INPUT_CAPSULE_AND_STRICT_EXIT_ROUTE_V1
+    route_id: P1_ONE_FINAL_COMPLETE_INHERITED_KNOWLEDGE_COMPATIBILITY_THEN_SEALED_INPUT_CAPSULE_AND_STRICT_EXIT_ROUTE_V1
+    activation_parent:
+      commit: b1e56a437516b8790aeb4b72329623ab1c8c5a5f
+      tree: 3309017f055e760ba229fa2e8d364377961f3254
+    founder_packet:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-complete-knowledge-compat-sealed-input-strict-exit-20260801/founder-phase-gate-draft/FOUNDER_P1_COMPLETE_KNOWLEDGE_COMPAT_SEALED_INPUT_STRICT_EXIT_PACKET_V1.md
+      byte_length: 22913
+      sha256: ffc01220c450c418c29449ddf06131ff50d0fe823fff8acfd40cccf2b32b5f43
+    structured_decision:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-complete-knowledge-compat-sealed-input-strict-exit-20260801/founder-phase-gate-draft/FOUNDER_P1_COMPLETE_KNOWLEDGE_COMPAT_SEALED_INPUT_STRICT_EXIT_DECISION_V1.json
+      byte_length: 5232
+      sha256: c3737aa26d74729f03252ffad0248543d36f743c947fda715138026e7bf9bcec
+    entries:
+      - compatibility_type: EVENT_HASH_AND_PRE_CANDIDATE_RECEIPT_RESIDUAL
+        anomaly_type: STORED_EVENT_HASH_EQUALS_RETAINED_TERMINAL_RECEIPT_SHA_AND_PRE_CANDIDATE_RECEIPT_RETAINED
+        event_ids:
+          - FKS-20260730-P1-168-TERMINAL-CANONICAL-VERIFY-NON-PASS-V1
+        object:
+          path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-p1-165-snapshot-recovery-strict-exit-20260730/task-1-p1-168/terminal/P1_168_TERMINAL_CANONICAL_MAKE_VERIFY_NON_PASS_RECEIPT.json
+          byte_length: 5536
+          sha256: 4be13b3b1512a05684127f578a2c1f6957fb6a55627e8075dac1c59c61bd7212
+          file_type: REGULAR_FILE_NON_SYMLINK
+        object_schema_version: p1-168-terminal-receipt/v1
+        stored_event_sha256: 4be13b3b1512a05684127f578a2c1f6957fb6a55627e8075dac1c59c61bd7212
+        calculated_event_sha256: f0777f6e9403bd2bbd9a574c5c28be95c0d3855f600849d241027239a660f9cd
+        founder_packet:
+          path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-complete-knowledge-compat-sealed-input-strict-exit-20260801/founder-phase-gate-draft/FOUNDER_P1_COMPLETE_KNOWLEDGE_COMPAT_SEALED_INPUT_STRICT_EXIT_PACKET_V1.md
+          byte_length: 22913
+          sha256: ffc01220c450c418c29449ddf06131ff50d0fe823fff8acfd40cccf2b32b5f43
+      - compatibility_type: ALTERNATE_FOUNDER_KNOWLEDGE_REVIEW_V2
+        anomaly_type: EXACT_LEGACY_CLOSED_V2_REVIEW_KEYSET
+        event_ids:
+          - FKS-20260730-P1-165-TERMINAL-ITERATION-EXHAUSTED-V1
+        object:
+          path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-p1-165-snapshot-recovery-strict-exit-20260730/task-1-p1-168/knowledge/P1_165_TERMINAL_KNOWLEDGE_REVIEW_V1.json
+          byte_length: 6184
+          sha256: 696649bfaf5f2b0289e4d888a669b3f8c407d830480a555c55cacb4ef678275c
+          file_type: REGULAR_FILE_NON_SYMLINK
+        object_schema_version: founder-knowledge-review/v2
+        stored_event_sha256: null
+        calculated_event_sha256: null
+        founder_packet:
+          path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-complete-knowledge-compat-sealed-input-strict-exit-20260801/founder-phase-gate-draft/FOUNDER_P1_COMPLETE_KNOWLEDGE_COMPAT_SEALED_INPUT_STRICT_EXIT_PACKET_V1.md
+          byte_length: 22913
+          sha256: ffc01220c450c418c29449ddf06131ff50d0fe823fff8acfd40cccf2b32b5f43
+      - compatibility_type: FOUNDER_KNOWLEDGE_REVIEW_V1
+        anomaly_type: EXACT_LEGACY_V1_REVIEW_SCHEMA
+        event_ids:
+          - FKS-20260801-P1-178-TERMINAL-KNOWLEDGE-REVIEW-PASS-V1
+          - FKS-20260801-P1-178-TERMINAL-KNOWLEDGE-IMPORTED-V1
+        object:
+          path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-provider-neutral-kernel-strict-exit-20260801/task-1-p1-178/knowledge/P1_178_KNOWLEDGE_REVIEW_V1.json
+          byte_length: 3066
+          sha256: 2f8359544afce744892e81094a4038ad1562c6e73c669887e48db44dc1d6acd4
+          file_type: REGULAR_FILE_NON_SYMLINK
+        object_schema_version: founder-knowledge-review/v1
+        stored_event_sha256: null
+        calculated_event_sha256: null
+        founder_packet:
+          path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-complete-knowledge-compat-sealed-input-strict-exit-20260801/founder-phase-gate-draft/FOUNDER_P1_COMPLETE_KNOWLEDGE_COMPAT_SEALED_INPUT_STRICT_EXIT_PACKET_V1.md
+          byte_length: 22913
+          sha256: ffc01220c450c418c29449ddf06131ff50d0fe823fff8acfd40cccf2b32b5f43
+      - compatibility_type: FOUNDER_KNOWLEDGE_IMPORT_RECEIPT_V1
+        anomaly_type: EXACT_LEGACY_V1_IMPORT_RECEIPT_SCHEMA
+        event_ids:
+          - FKS-20260801-P1-178-TERMINAL-KNOWLEDGE-IMPORTED-V1
+        object:
+          path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-provider-neutral-kernel-strict-exit-20260801/task-1-p1-178/knowledge/P1_178_KNOWLEDGE_IMPORT_RECEIPT_V1.json
+          byte_length: 1309
+          sha256: 20f9ec163ac8caf57a55cc3f61ae59a738d38614354dd139f7aaeca7cd62df92
+          file_type: REGULAR_FILE_NON_SYMLINK
+        object_schema_version: "1.0"
+        stored_event_sha256: null
+        calculated_event_sha256: null
+        founder_packet:
+          path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-complete-knowledge-compat-sealed-input-strict-exit-20260801/founder-phase-gate-draft/FOUNDER_P1_COMPLETE_KNOWLEDGE_COMPAT_SEALED_INPUT_STRICT_EXIT_PACKET_V1.md
+          byte_length: 22913
+          sha256: ffc01220c450c418c29449ddf06131ff50d0fe823fff8acfd40cccf2b32b5f43
   allowed_statuses:
     - PENDING_CANDIDATE
     - PENDING_REVIEW

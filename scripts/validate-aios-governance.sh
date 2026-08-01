@@ -733,7 +733,7 @@ check_founder_knowledge_sync_state() {
     sync = truth.fetch("founder_knowledge_sync")
     expected_sync_keys = %w[
       allowed_statuses engineering_blocking events latest_event_id non_authoritative
-      schema_version trust_model vault_path
+      inherited_knowledge_compatibility schema_version trust_model vault_path
     ]
     abort "Founder Knowledge sync ledger is not closed" unless sync.keys.sort == expected_sync_keys.sort
     statuses = %w[
@@ -768,6 +768,24 @@ check_founder_knowledge_sync_state() {
       end
     end
 
+    exact_keys = lambda do |value, keys, label|
+      abort "#{label} is not a closed object" unless
+        value.is_a?(Hash) && value.keys.sort == keys.sort
+      value
+    end
+
+    duplicate_rejecting_hash = Class.new(Hash) do
+      def []=(key, value)
+        raise "duplicate JSON key: #{key}" if key?(key)
+        super
+      end
+    end
+    parse_closed_json = lambda do |bytes, label|
+      JSON.parse(bytes, object_class: duplicate_rejecting_hash)
+    rescue JSON::ParserError, RuntimeError => error
+      abort "#{label} JSON is invalid or ambiguous: #{error.message}"
+    end
+
     validate_identity = lambda do |identity, label, allow_null|
       abort "#{label} identity is not closed" unless identity.is_a?(Hash) &&
         identity.keys.sort == %w[byte_length path sha256]
@@ -793,9 +811,586 @@ check_founder_knowledge_sync_state() {
       bytes
     end
 
+    compatibility = exact_keys.call(
+      sync["inherited_knowledge_compatibility"],
+      %w[
+        activation_parent authorization_token entries founder_packet route_id
+        schema_version status structured_decision
+      ],
+      "Founder Knowledge inherited compatibility declaration"
+    )
+    abort "Founder Knowledge inherited compatibility declaration schema drift" unless
+      compatibility["schema_version"] == "1.0" &&
+      compatibility["status"] == "FOUNDER_AUTHORIZED_EXACT_CLOSED_COMPATIBILITY"
+    authorization_token = compatibility["authorization_token"]
+    route_id = compatibility["route_id"]
+    abort "Founder Knowledge inherited compatibility authorization invalid" unless
+      authorization_token.is_a?(String) &&
+      route_id.is_a?(String) &&
+      authorization_token == "AUTHORIZE_#{route_id}" &&
+      route_id.match?(/\AP1_[A-Z0-9_]+_ROUTE_V[1-9][0-9]*\z/)
+    activation_parent = exact_keys.call(
+      compatibility["activation_parent"], %w[commit tree],
+      "Founder Knowledge inherited compatibility activation parent"
+    )
+    abort "Founder Knowledge inherited compatibility parent identity invalid" unless
+      activation_parent.values.all? { |value| value.is_a?(String) && value.match?(/\A[0-9a-f]{40}\z/) }
+    actual_parent_tree = `git -C #{repo_root.to_s.shellescape} show -s --format=%T #{activation_parent["commit"].shellescape} 2>/dev/null`.strip
+    abort "Founder Knowledge inherited compatibility parent commit/tree mismatch" unless
+      $?.success? && actual_parent_tree == activation_parent["tree"]
+    system("git", "-C", repo_root.to_s, "merge-base", "--is-ancestor", activation_parent["commit"], "HEAD",
+           out: File::NULL, err: File::NULL)
+    abort "Founder Knowledge inherited compatibility parent is not canonical ancestry" unless $?.success?
+
+    founder_packet = exact_keys.call(
+      compatibility["founder_packet"], %w[byte_length path sha256],
+      "Founder Knowledge inherited compatibility Founder packet"
+    )
+    structured_decision_identity = exact_keys.call(
+      compatibility["structured_decision"], %w[byte_length path sha256],
+      "Founder Knowledge inherited compatibility structured decision"
+    )
+    founder_packet_bytes = validate_identity.call(
+      founder_packet, "Founder Knowledge inherited compatibility Founder packet", false
+    )
+    structured_decision_bytes = validate_identity.call(
+      structured_decision_identity,
+      "Founder Knowledge inherited compatibility structured decision", false
+    )
+    if deep_validation
+      packet_text = founder_packet_bytes.dup.force_encoding("UTF-8")
+      abort "Founder Knowledge inherited compatibility Founder packet encoding invalid" unless
+        packet_text.valid_encoding?
+      token_declarations = packet_text.scan(/^authorization_token=([A-Z0-9_]+)$/).flatten
+      all_authorization_tokens = packet_text.scan(/\bAUTHORIZE_[A-Z0-9_]+\b/)
+      abort "Founder Knowledge inherited compatibility Founder packet authorization is ambiguous" unless
+        token_declarations == [authorization_token] && all_authorization_tokens == [authorization_token]
+      decision = parse_closed_json.call(
+        structured_decision_bytes,
+        "Founder Knowledge inherited compatibility structured decision"
+      )
+      expected_decision_keys = %w[
+        activation_parent authorization_token automatic_entries automatic_entry claim_boundary
+        envelope external_effects goal_identity ordered_tasks phase record_type route_id
+        schema_version source_founder_packet_identity
+      ]
+      exact_keys.call(decision, expected_decision_keys,
+                      "Founder Knowledge inherited compatibility structured decision")
+      abort "Founder Knowledge inherited compatibility structured decision is not canonical JSON" unless
+        JSON.generate(canonicalize.call(decision)).b + "\n" == structured_decision_bytes.b
+      source_packet_identity = exact_keys.call(
+        decision["source_founder_packet_identity"],
+        %w[authorization_token byte_length path sha256],
+        "Founder Knowledge inherited compatibility structured source packet"
+      )
+      abort "Founder Knowledge inherited compatibility structured decision binding mismatch" unless
+        decision["schema_version"] == "1.1" &&
+        decision["record_type"] == "founder_phase_route_decision" &&
+        decision["phase"] == "P1" &&
+        decision["authorization_token"] == authorization_token &&
+        decision["route_id"] == route_id &&
+        decision["activation_parent"] == activation_parent &&
+        source_packet_identity == founder_packet.merge("authorization_token" => authorization_token)
+    end
+
+    compatibility_entries = compatibility["entries"]
+    expected_compatibility_types = %w[
+      EVENT_HASH_AND_PRE_CANDIDATE_RECEIPT_RESIDUAL
+      ALTERNATE_FOUNDER_KNOWLEDGE_REVIEW_V2
+      FOUNDER_KNOWLEDGE_REVIEW_V1
+      FOUNDER_KNOWLEDGE_IMPORT_RECEIPT_V1
+    ]
+    abort "Founder Knowledge inherited compatibility entry set is not closed" unless
+      compatibility_entries.is_a?(Array) &&
+      compatibility_entries.length == 4 &&
+      compatibility_entries.map { |entry| entry["compatibility_type"] } == expected_compatibility_types
+    expected_schema_by_type = {
+      "EVENT_HASH_AND_PRE_CANDIDATE_RECEIPT_RESIDUAL" => "p1-168-terminal-receipt/v1",
+      "ALTERNATE_FOUNDER_KNOWLEDGE_REVIEW_V2" => "founder-knowledge-review/v2",
+      "FOUNDER_KNOWLEDGE_REVIEW_V1" => "founder-knowledge-review/v1",
+      "FOUNDER_KNOWLEDGE_IMPORT_RECEIPT_V1" => "1.0"
+    }
+    expected_anomaly_by_type = {
+      "EVENT_HASH_AND_PRE_CANDIDATE_RECEIPT_RESIDUAL" =>
+        "STORED_EVENT_HASH_EQUALS_RETAINED_TERMINAL_RECEIPT_SHA_AND_PRE_CANDIDATE_RECEIPT_RETAINED",
+      "ALTERNATE_FOUNDER_KNOWLEDGE_REVIEW_V2" => "EXACT_LEGACY_CLOSED_V2_REVIEW_KEYSET",
+      "FOUNDER_KNOWLEDGE_REVIEW_V1" => "EXACT_LEGACY_V1_REVIEW_SCHEMA",
+      "FOUNDER_KNOWLEDGE_IMPORT_RECEIPT_V1" => "EXACT_LEGACY_V1_IMPORT_RECEIPT_SCHEMA"
+    }
+    compatibility_objects = {}
+    event_by_id = events.to_h { |event| [event["event_id"], event] }
+    compatibility_entries.each do |entry|
+      exact_keys.call(
+        entry,
+        %w[
+          anomaly_type calculated_event_sha256 compatibility_type event_ids founder_packet
+          object object_schema_version stored_event_sha256
+        ],
+        "Founder Knowledge inherited compatibility entry"
+      )
+      compatibility_type = entry["compatibility_type"]
+      abort "Founder Knowledge inherited compatibility type unsupported" unless
+        expected_schema_by_type.key?(compatibility_type)
+      abort "Founder Knowledge inherited compatibility anomaly drift" unless
+        entry["anomaly_type"] == expected_anomaly_by_type.fetch(compatibility_type)
+      abort "Founder Knowledge inherited compatibility schema drift" unless
+        entry["object_schema_version"] == expected_schema_by_type.fetch(compatibility_type)
+      abort "Founder Knowledge inherited compatibility packet projection drift" unless
+        entry["founder_packet"] == founder_packet
+      event_ids_for_entry = entry["event_ids"]
+      expected_event_count = compatibility_type == "FOUNDER_KNOWLEDGE_REVIEW_V1" ? 2 : 1
+      abort "Founder Knowledge inherited compatibility event set invalid" unless
+        event_ids_for_entry.is_a?(Array) &&
+        event_ids_for_entry.length == expected_event_count &&
+        event_ids_for_entry.uniq == event_ids_for_entry &&
+        event_ids_for_entry.all? { |event_id| event_id.is_a?(String) && event_id.match?(/\AFKS-[A-Z0-9-]+\z/) }
+      object = exact_keys.call(
+        entry["object"], %w[byte_length file_type path sha256],
+        "Founder Knowledge inherited compatibility object"
+      )
+      abort "Founder Knowledge inherited compatibility object type drift" unless
+        object["file_type"] == "REGULAR_FILE_NON_SYMLINK"
+      object_identity = object.reject { |key, _value| key == "file_type" }
+      if deep_validation
+        packet_bound_literals = event_ids_for_entry + [
+          object["path"], object["byte_length"].to_s, object["sha256"]
+        ]
+        packet_bound_literals.concat(
+          [entry["stored_event_sha256"], entry["calculated_event_sha256"]].compact
+        )
+        abort "Founder Knowledge inherited compatibility entry is not bound by the exact Founder packet" unless
+          packet_bound_literals.all? { |literal| founder_packet_bytes.include?("`#{literal}`") }
+      end
+      object_bytes = validate_identity.call(
+        object_identity,
+        "Founder Knowledge inherited compatibility #{compatibility_type} object", false
+      )
+      if deep_validation
+        object_json = parse_closed_json.call(
+          object_bytes,
+          "Founder Knowledge inherited compatibility #{compatibility_type} object"
+        )
+        abort "Founder Knowledge inherited compatibility object schema mismatch" unless
+          object_json["schema_version"] == entry["object_schema_version"]
+        compatibility_objects[compatibility_type] = object_json
+      end
+      event_ids_for_entry.each do |event_id|
+        event = event_by_id[event_id]
+        abort "Founder Knowledge inherited compatibility references an unknown event" unless event
+        expected_event_identity = case compatibility_type
+                                  when "EVENT_HASH_AND_PRE_CANDIDATE_RECEIPT_RESIDUAL",
+                                       "FOUNDER_KNOWLEDGE_IMPORT_RECEIPT_V1"
+                                    event["receipt"]
+                                  else
+                                    event["review"]
+                                  end
+        abort "Founder Knowledge inherited compatibility object/event binding mismatch" unless
+          expected_event_identity == object_identity
+      end
+      if compatibility_type == "EVENT_HASH_AND_PRE_CANDIDATE_RECEIPT_RESIDUAL"
+        event = event_by_id.fetch(event_ids_for_entry.first)
+        calculated_event_sha = Digest::SHA256.hexdigest(
+          JSON.generate(canonicalize.call(event.reject { |key, _value| key == "event_sha256" }))
+        )
+        abort "Founder Knowledge inherited event residual hash binding mismatch" unless
+          event["status"] == "PENDING_CANDIDATE" &&
+          event["event_sha256"] == entry["stored_event_sha256"] &&
+          event.dig("receipt", "sha256") == entry["stored_event_sha256"] &&
+          calculated_event_sha == entry["calculated_event_sha256"] &&
+          entry["stored_event_sha256"].is_a?(String) &&
+          entry["stored_event_sha256"].match?(/\A[0-9a-f]{64}\z/) &&
+          entry["calculated_event_sha256"].is_a?(String) &&
+          entry["calculated_event_sha256"].match?(/\A[0-9a-f]{64}\z/) &&
+          entry["stored_event_sha256"] != entry["calculated_event_sha256"]
+      else
+        abort "Founder Knowledge inherited schema compatibility retained event hashes" unless
+          entry["stored_event_sha256"].nil? && entry["calculated_event_sha256"].nil?
+      end
+    end
+    compatibility_for_event = lambda do |event_id, compatibility_type|
+      compatibility_entries.find do |entry|
+        entry["compatibility_type"] == compatibility_type && entry["event_ids"].include?(event_id)
+      end
+    end
+
+    validate_reference_identity = lambda do |identity, label|
+      exact_keys.call(identity, %w[byte_length path sha256], label)
+      path = identity["path"]
+      abort "#{label} path invalid" unless path.is_a?(String) && !path.empty?
+      pathname = Pathname.new(path)
+      resolved = if pathname.absolute?
+                   abort "#{label} path is not normalized" unless pathname.cleanpath.to_s == path
+                   pathname
+                 else
+                   abort "#{label} relative path is not normalized" unless pathname.cleanpath.to_s == path
+                   candidate = repo_root.join(pathname).cleanpath
+                   abort "#{label} relative path escapes repository" unless
+                     candidate.to_s.start_with?(repo_root.to_s + File::SEPARATOR)
+                   candidate
+                 end
+      abort "#{label} identity values invalid" unless
+        identity["byte_length"].is_a?(Integer) && identity["byte_length"] >= 0 &&
+        identity["sha256"].is_a?(String) && identity["sha256"].match?(/\A[0-9a-f]{64}\z/)
+      next "".b unless deep_validation
+      abort "#{label} must be a non-symlink regular file" unless resolved.file? && !resolved.symlink?
+      abort "#{label} resolves through a symlink" unless resolved.realpath.to_s == resolved.cleanpath.to_s
+      bytes = resolved.binread
+      abort "#{label} byte length mismatch" unless bytes.bytesize == identity["byte_length"]
+      abort "#{label} SHA-256 mismatch" unless Digest::SHA256.hexdigest(bytes) == identity["sha256"]
+      bytes
+    end
+
+    validate_git_blob_identity = lambda do |commit, tree, identity, label|
+      abort "#{label} commit/tree invalid" unless
+        commit.is_a?(String) && commit.match?(/\A[0-9a-f]{40}\z/) &&
+        tree.is_a?(String) && tree.match?(/\A[0-9a-f]{40}\z/)
+      actual_tree = `git -C #{repo_root.to_s.shellescape} show -s --format=%T #{commit.shellescape} 2>/dev/null`.strip
+      abort "#{label} commit/tree mismatch" unless $?.success? && actual_tree == tree
+      exact_keys.call(identity, %w[byte_length path sha256], "#{label} identity")
+      path = identity["path"]
+      abort "#{label} Git path invalid" unless
+        path.is_a?(String) && !Pathname.new(path).absolute? && Pathname.new(path).cleanpath.to_s == path
+      bytes = `git -C #{repo_root.to_s.shellescape} show #{commit.shellescape}:#{path.shellescape} 2>/dev/null`.b
+      abort "#{label} Git blob lookup failed" unless $?.success?
+      abort "#{label} byte length mismatch" unless bytes.bytesize == identity["byte_length"]
+      abort "#{label} SHA-256 mismatch" unless Digest::SHA256.hexdigest(bytes) == identity["sha256"]
+      bytes
+    end
+
+    validate_p1_168_terminal_receipt = lambda do |receipt, event|
+      exact_keys.call(
+        receipt,
+        %w[
+          candidate canonical_integration claim_boundary classification exact_failure
+          fresh_final_reviews normalized_root_cause recorded_at_utc route_id schema_version
+          status task_id terminal_effect v5_pre_freeze_gate
+        ],
+        "#{event["event_id"]} retained terminal receipt"
+      )
+      abort "#{event["event_id"]} retained terminal receipt root semantics drift" unless
+        receipt["schema_version"] == "p1-168-terminal-receipt/v1" &&
+        receipt["status"] == "TERMINAL_CANONICAL_MAKE_VERIFY_NON_PASS" &&
+        receipt["classification"] ==
+          "TERMINAL_POST_INTEGRATION_CANONICAL_VERIFY_NON_PASS_REVERTED_NO_P1_CAPABILITY" &&
+        receipt["task_id"] == "AIOS-P1-168_EXACT_RESPONSE_ADMISSION_MATRIX_RECOVERY_AND_GATE" &&
+        receipt["route_id"] == "P1_EXACT_P1_165_SNAPSHOT_BOUND_ADMISSION_KERNEL_RECOVERY_AND_STRICT_EXIT_ROUTE_V1" &&
+        receipt["recorded_at_utc"].is_a?(String) &&
+        receipt["recorded_at_utc"].match?(/\A20[0-9]{2}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z\z/) &&
+        receipt["normalized_root_cause"] == "P1168.CANONICAL_VERIFY.ATOMIC_COMMIT_RECEIPT_INVALID" &&
+        receipt["claim_boundary"].is_a?(String) && !receipt["claim_boundary"].empty?
+      failure = exact_keys.call(
+        receipt["exact_failure"],
+        %w[
+          command exit_status failing_target independent_evaluator_status invocation_count
+          message preflight_status reason_code reported_preflight_atomic_receipt_sha256
+          reported_preflight_external_effects_all_false reported_preflight_false_accepts
+          reported_preflight_gate_envelope_sha256 reported_preflight_matrix_cases
+          reported_preflight_provider_requests reported_preflight_secret_reads
+          reported_preflight_source_bundle_sha256 stdout_was_observed_directly_not_persisted_as_a_separate_file
+          transient_evidence_root_reported_by_process transient_root_exists_after_process
+        ],
+        "#{event["event_id"]} retained terminal failure"
+      )
+      abort "#{event["event_id"]} retained terminal failure semantics drift" unless
+        failure["command"] == ["make", "-j1", "verify"] &&
+        failure["invocation_count"] == 1 && failure["exit_status"] == 2 &&
+        failure["failing_target"] == "p1-fail-closed-response-admission-check" &&
+        failure["preflight_status"] == "PASS" &&
+        failure["independent_evaluator_status"] == "NON_PASS" &&
+        failure["reason_code"] == "ATOMIC_COMMIT_RECEIPT_INVALID" &&
+        failure["reported_preflight_matrix_cases"] == 99 &&
+        failure["reported_preflight_false_accepts"] == 0 &&
+        failure["reported_preflight_provider_requests"] == 0 &&
+        failure["reported_preflight_secret_reads"] == 0 &&
+        failure["reported_preflight_external_effects_all_false"] == true &&
+        failure["transient_root_exists_after_process"] == false &&
+        failure["stdout_was_observed_directly_not_persisted_as_a_separate_file"] == true
+      candidate = exact_keys.call(
+        receipt["candidate"],
+        %w[accepted commit evidence_tag evidence_tag_object manifest_byte_length manifest_path manifest_sha256 preserved tree],
+        "#{event["event_id"]} retained candidate summary"
+      )
+      abort "#{event["event_id"]} retained candidate summary drift" unless
+        candidate["commit"].is_a?(String) && candidate["commit"].match?(/\A[0-9a-f]{40}\z/) &&
+        candidate["tree"].is_a?(String) && candidate["tree"].match?(/\A[0-9a-f]{40}\z/) &&
+        candidate["manifest_byte_length"].is_a?(Integer) && candidate["manifest_byte_length"].positive? &&
+        candidate["manifest_sha256"].is_a?(String) && candidate["manifest_sha256"].match?(/\A[0-9a-f]{64}\z/) &&
+        candidate["preserved"] == true && candidate["accepted"] == false
+      gate = exact_keys.call(
+        receipt["v5_pre_freeze_gate"],
+        %w[
+          atomic_commit_receipt_sha256 external_effects_all_false false_accepts
+          independent_evaluator_status matrix_cases_passed matrix_cases_total
+          provider_requests raw_evidence_manifest_sha256 secret_reads wrapper_status
+        ],
+        "#{event["event_id"]} retained pre-freeze Gate"
+      )
+      abort "#{event["event_id"]} retained pre-freeze Gate drift" unless
+        gate["wrapper_status"] == "PASS" && gate["independent_evaluator_status"] == "PASS" &&
+        gate["matrix_cases_passed"] == 99 && gate["matrix_cases_total"] == 99 &&
+        gate["false_accepts"] == 0 && gate["provider_requests"] == 0 && gate["secret_reads"] == 0 &&
+        gate["external_effects_all_false"] == true
+      reviews = exact_keys.call(
+        receipt["fresh_final_reviews"], %w[candidate_manifest_sha256 cto quality security],
+        "#{event["event_id"]} retained final reviews"
+      )
+      %w[cto security quality].each do |role|
+        row = exact_keys.call(
+          reviews[role], %w[byte_length path sha256 target_verdict],
+          "#{event["event_id"]} retained #{role} review"
+        )
+        abort "#{event["event_id"]} retained #{role} verdict drift" unless row["target_verdict"] == "PASS"
+        validate_reference_identity.call(
+          row.reject { |key, _value| key == "target_verdict" },
+          "#{event["event_id"]} retained #{role} review"
+        )
+      end
+      integration = exact_keys.call(
+        receipt["canonical_integration"],
+        %w[
+          integrated_tree integration_commit pre_integration_commit pre_integration_tree
+          pre_integration_tree_restored reset_or_clean_used revert_commit revert_strategy
+          revert_tree reviewed_integrated_tree_equal reviewed_tree
+        ],
+        "#{event["event_id"]} retained canonical integration"
+      )
+      abort "#{event["event_id"]} retained canonical integration drift" unless
+        integration["reviewed_integrated_tree_equal"] == true &&
+        integration["reviewed_tree"] == integration["integrated_tree"] &&
+        integration["pre_integration_tree_restored"] == true &&
+        integration["revert_tree"] == integration["pre_integration_tree"] &&
+        integration["revert_strategy"] == "NON_DESTRUCTIVE_GIT_REVERT" &&
+        integration["reset_or_clean_used"] == false
+      effect = exact_keys.call(
+        receipt["terminal_effect"],
+        %w[
+          accepted_capability additional_p1_168_repair_or_rerun_allowed candidate_integrated_as_accepted
+          capability_credit next_eligible_action p1_169_entry p1_170_entry p2_status
+          strict_p1_completion successor_replacement_normalization_closure_feasibility_or_remediation_chain_allowed
+        ],
+        "#{event["event_id"]} retained terminal effect"
+      )
+      abort "#{event["event_id"]} retained terminal effect drift" unless
+        effect["candidate_integrated_as_accepted"] == false && effect["accepted_capability"] == false &&
+        effect["capability_credit"] == 0 && effect["strict_p1_completion"] == "6_OF_8_75_PERCENT" &&
+        effect["p2_status"] == "HOLD_PENDING_STRICT_P1_EXIT" &&
+        effect["next_eligible_action"] == "FOUNDER_P1_PHASE_GATE" &&
+        effect["additional_p1_168_repair_or_rerun_allowed"] == false &&
+        effect["successor_replacement_normalization_closure_feasibility_or_remediation_chain_allowed"] == false
+    end
+
+    validate_alternate_v2_review = lambda do |review, event|
+      exact_keys.call(
+        review,
+        %w[
+          blocking_findings candidate fact_findings import_authorization inference_findings
+          non_blocking_observations reviewed_at_utc reviewer_identity reviewer_independence
+          review_inputs review_scope schema_version target_verdict unknown_findings
+        ],
+        "#{event["event_id"]} alternate Knowledge Review v2"
+      )
+      abort "#{event["event_id"]} alternate Knowledge Review root drift" unless
+        review["schema_version"] == "founder-knowledge-review/v2" &&
+        review["target_verdict"] == "PASS" &&
+        review["reviewer_identity"].is_a?(String) && !review["reviewer_identity"].strip.empty? &&
+        review["reviewer_independence"] == "INDEPENDENT_NON_IMPLEMENTER_NON_VAULT_IMPORTER" &&
+        review["reviewed_at_utc"].is_a?(String) &&
+        review["reviewed_at_utc"].match?(/\A20[0-9]{2}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z\z/)
+      candidate = exact_keys.call(
+        review["candidate"], %w[byte_length exact_identity_verified file_type mode path sha256],
+        "#{event["event_id"]} alternate Knowledge Review candidate"
+      )
+      abort "#{event["event_id"]} alternate Knowledge Review candidate drift" unless
+        candidate.reject { |key, _value| %w[exact_identity_verified file_type mode].include?(key) } == event["artifact"] &&
+        candidate["exact_identity_verified"] == true &&
+        candidate["file_type"] == "REGULAR_FILE_NON_SYMLINK" && candidate["mode"] == "0400"
+      if deep_validation
+        candidate_stat = File.stat(candidate["path"])
+        abort "#{event["event_id"]} alternate Knowledge Review candidate mode drift" unless
+          format("%04o", candidate_stat.mode & 0o7777) == candidate["mode"]
+      end
+      scope = exact_keys.call(
+        review["review_scope"],
+        %w[
+          canonical_truth_consistency exact_bytes_import_boundary fact_inference_unknown_separation
+          founder_long_term_learning_value p1_165_terminal_receipt_consistency
+          p1_168_contract_boundary_consistency p1_progress_and_p2_hold_accuracy
+          secret_and_restricted_material_screen unaccepted_seed_claim_boundary
+        ],
+        "#{event["event_id"]} alternate Knowledge Review scope"
+      )
+      abort "#{event["event_id"]} alternate Knowledge Review scope drift" unless
+        scope.values.all? { |value| value == "PASS" }
+      inputs = exact_keys.call(
+        review["review_inputs"],
+        %w[
+          canonical_truth p1_165_terminal_receipt p1_168_contract
+          p1_168_founder_packet_identity_only rejected_engineering_bytes_read
+          rejected_worktree_read snapshot_payload_read
+        ],
+        "#{event["event_id"]} alternate Knowledge Review inputs"
+      )
+      abort "#{event["event_id"]} alternate Knowledge Review read boundary drift" unless
+        inputs["canonical_truth"] == "docs/aios/truth/project_state.yaml" &&
+        inputs["rejected_engineering_bytes_read"] == false &&
+        inputs["rejected_worktree_read"] == false && inputs["snapshot_payload_read"] == false
+      validate_reference_identity.call(inputs["p1_165_terminal_receipt"],
+                                       "#{event["event_id"]} P1-165 terminal receipt")
+      validate_reference_identity.call(inputs["p1_168_contract"],
+                                       "#{event["event_id"]} P1-168 Contract")
+      validate_reference_identity.call(inputs["p1_168_founder_packet_identity_only"],
+                                       "#{event["event_id"]} P1-168 Founder packet")
+      %w[fact_findings inference_findings unknown_findings non_blocking_observations].each do |key|
+        abort "#{event["event_id"]} alternate Knowledge Review #{key} invalid" unless
+          review[key].is_a?(Array) && !review[key].empty? &&
+          review[key].all? { |value| value.is_a?(String) && !value.strip.empty? }
+      end
+      abort "#{event["event_id"]} alternate Knowledge Review blocking findings drift" unless
+        review["blocking_findings"] == []
+      authorization = exact_keys.call(
+        review["import_authorization"],
+        %w[
+          authorization_scope authorized authorized_byte_length authorized_candidate_path
+          authorized_sha256 exact_bytes_only normalization_or_edit_before_import_allowed
+        ],
+        "#{event["event_id"]} alternate Knowledge Review import authorization"
+      )
+      abort "#{event["event_id"]} alternate Knowledge Review import authorization drift" unless
+        authorization["authorized"] == true &&
+        authorization["authorized_candidate_path"] == event.dig("artifact", "path") &&
+        authorization["authorized_byte_length"] == event.dig("artifact", "byte_length") &&
+        authorization["authorized_sha256"] == event.dig("artifact", "sha256") &&
+        authorization["exact_bytes_only"] == true &&
+        authorization["normalization_or_edit_before_import_allowed"] == false &&
+        authorization["authorization_scope"].is_a?(String) &&
+        authorization["authorization_scope"].start_with?("Founder Knowledge Vault learning import only;")
+      review
+    end
+
+    validate_v1_review = lambda do |review, event|
+      exact_keys.call(
+        review,
+        %w[
+          artifact authorization checks knowledge_verdict record_type review_basis review_scope
+          reviewed_at_utc reviewer_role schema_version source_event
+        ],
+        "#{event["event_id"]} Knowledge Review v1"
+      )
+      abort "#{event["event_id"]} Knowledge Review v1 root drift" unless
+        review["schema_version"] == "founder-knowledge-review/v1" &&
+        review["record_type"] == "founder_knowledge_independent_review" &&
+        review["knowledge_verdict"] == "PASS" && review["artifact"] == event["artifact"] &&
+        review["review_scope"] ==
+          "EXACT_LEARNING_ARTIFACT_BYTES_AND_ALLOWED_CANONICAL_TRUTH_TERMINAL_RECEIPT_AND_FINAL_REVIEWS_ONLY" &&
+        review["reviewer_role"] == "FRESH_INDEPENDENT_FOUNDER_KNOWLEDGE_REVIEWER" &&
+        review["reviewed_at_utc"].is_a?(String) &&
+        review["reviewed_at_utc"].match?(/\A20[0-9]{2}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z\z/) &&
+        event_by_id.key?(review["source_event"])
+      authorization = exact_keys.call(
+        review["authorization"],
+        %w[
+          exact_bytes_only review_non_authoritative vault_import_authorized
+          vault_import_condition vault_import_must_be_create_once
+          vault_import_must_verify_exact_bytes_equality vault_path
+        ],
+        "#{event["event_id"]} Knowledge Review v1 authorization"
+      )
+      abort "#{event["event_id"]} Knowledge Review v1 authorization drift" unless
+        authorization["exact_bytes_only"] == true &&
+        authorization["review_non_authoritative"] == true &&
+        authorization["vault_import_authorized"] == true &&
+        authorization["vault_import_must_be_create_once"] == true &&
+        authorization["vault_import_must_verify_exact_bytes_equality"] == true &&
+        authorization["vault_path"] == sync["vault_path"]
+      checks = exact_keys.call(
+        review["checks"],
+        %w[
+          ability_or_route_claim_not_fabricated fact_inference_unknown_separation
+          founder_long_term_reuse_value no_rejected_engineering_bytes_or_restricted_source_embedded
+          no_secret_credential_token_or_authorization_material
+          no_truth_evidence_authority_gate_or_capability_impersonation
+          p1_178_candidate_and_review_identity p1_and_p2_state_claims terminal_and_truth_identity
+        ],
+        "#{event["event_id"]} Knowledge Review v1 checks"
+      )
+      abort "#{event["event_id"]} Knowledge Review v1 checks drift" unless
+        checks.values.all? { |value| value.is_a?(String) && value.start_with?("PASS") }
+      basis = exact_keys.call(
+        review["review_basis"], %w[canonical final_reviews terminal_receipt truth],
+        "#{event["event_id"]} Knowledge Review v1 basis"
+      )
+      canonical = exact_keys.call(basis["canonical"], %w[commit tree],
+                                  "#{event["event_id"]} Knowledge Review v1 canonical")
+      reviews = exact_keys.call(basis["final_reviews"], %w[cto quality security],
+                                "#{event["event_id"]} Knowledge Review v1 final reviews")
+      reviews.each do |role, row|
+        exact_keys.call(row, %w[byte_length path sha256 target_verdict],
+                        "#{event["event_id"]} Knowledge Review v1 #{role} review")
+        abort "#{event["event_id"]} Knowledge Review v1 #{role} verdict drift" unless
+          row["target_verdict"] == "NON_PASS"
+        validate_reference_identity.call(
+          row.reject { |key, _value| key == "target_verdict" },
+          "#{event["event_id"]} Knowledge Review v1 #{role} review"
+        )
+      end
+      terminal_receipt = exact_keys.call(
+        basis["terminal_receipt"], %w[byte_length path sha256 status],
+        "#{event["event_id"]} Knowledge Review v1 terminal receipt"
+      )
+      abort "#{event["event_id"]} Knowledge Review v1 terminal status drift" unless
+        terminal_receipt["status"] == "TERMINAL_FINAL_REVIEW_TARGET_NON_PASS"
+      validate_reference_identity.call(
+        terminal_receipt.reject { |key, _value| key == "status" },
+        "#{event["event_id"]} Knowledge Review v1 terminal receipt"
+      )
+      validate_git_blob_identity.call(
+        canonical["commit"], canonical["tree"], basis["truth"],
+        "#{event["event_id"]} Knowledge Review v1 historical Truth"
+      )
+      review
+    end
+
+    validate_v1_import_receipt = lambda do |receipt, event, artifact_bytes, import_bytes|
+      exact_keys.call(
+        receipt,
+        %w[
+          artifact bytes_equal canonical imported_at record_type review schema_version
+          source_event status vault_import
+        ],
+        "#{event["event_id"]} Knowledge import receipt v1"
+      )
+      abort "#{event["event_id"]} Knowledge import receipt v1 root drift" unless
+        receipt["schema_version"] == "1.0" &&
+        receipt["record_type"] == "founder_knowledge_import_receipt" &&
+        receipt["status"] == "IMPORTED" && receipt["bytes_equal"] == true &&
+        receipt["artifact"] == event["artifact"] &&
+        receipt["review"] == event["review"].merge("verdict" => "PASS") &&
+        receipt["vault_import"] == event["vault_import"] &&
+        receipt["imported_at"].is_a?(String) &&
+        receipt["imported_at"].match?(/\A20[0-9]{2}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z\z/) &&
+        event_by_id.key?(receipt["source_event"]) && artifact_bytes == import_bytes
+      canonical = exact_keys.call(
+        receipt["canonical"], %w[commit tree truth],
+        "#{event["event_id"]} Knowledge import receipt v1 canonical"
+      )
+      validate_git_blob_identity.call(
+        canonical["commit"], canonical["tree"], canonical["truth"],
+        "#{event["event_id"]} Knowledge import receipt v1 historical Truth"
+      )
+      receipt
+    end
+
     validate_knowledge_review = lambda do |review_bytes, event, expected_verdict|
       next unless deep_validation
-      review = JSON.parse(review_bytes)
+      review = parse_closed_json.call(review_bytes, "#{event["event_id"]} Knowledge Review")
+      if compatibility_for_event.call(event["event_id"], "ALTERNATE_FOUNDER_KNOWLEDGE_REVIEW_V2")
+        abort "#{event["event_id"]} alternate Knowledge Review verdict drift" unless expected_verdict == "PASS"
+        next validate_alternate_v2_review.call(review, event)
+      end
+      if compatibility_for_event.call(event["event_id"], "FOUNDER_KNOWLEDGE_REVIEW_V1")
+        abort "#{event["event_id"]} Knowledge Review v1 verdict drift" unless expected_verdict == "PASS"
+        next validate_v1_review.call(review, event)
+      end
       expected_review_keys = %w[
         candidate findings import_authorization reviewed_at_utc reviewer_identity
         reviewer_independence review_scope schema_version target_verdict verified_facts
@@ -865,10 +1460,16 @@ check_founder_knowledge_sync_state() {
       calculated_event_sha = Digest::SHA256.hexdigest(
         JSON.generate(canonicalize.call(event.reject { |key, _value| key == "event_sha256" }))
       )
+      event_hash_residual = compatibility_for_event.call(
+        event_id, "EVENT_HASH_AND_PRE_CANDIDATE_RECEIPT_RESIDUAL"
+      )
       abort "Founder Knowledge sync event hash drift" unless
         event["event_sha256"].is_a?(String) &&
         event["event_sha256"].match?(/\A[0-9a-f]{64}\z/) &&
-        event["event_sha256"] == calculated_event_sha
+        (event["event_sha256"] == calculated_event_sha ||
+          (event_hash_residual &&
+           event["event_sha256"] == event_hash_residual["stored_event_sha256"] &&
+           calculated_event_sha == event_hash_residual["calculated_event_sha256"]))
       if index.zero?
         abort "Founder Knowledge genesis event hash drift" unless
           event["event_sha256"] == "5f03a65ee0f7836ec00e4b4d5040efe025c0d9e386839abb18fb2500cfbddf2f"
@@ -900,6 +1501,9 @@ check_founder_knowledge_sync_state() {
       )
       import_bytes = validate_identity.call(event["vault_import"], "#{event_id} Vault import", status != "IMPORTED")
       receipt_bytes = validate_identity.call(event["receipt"], "#{event_id} receipt", status != "IMPORTED")
+      validate_p1_168_terminal_receipt.call(
+        compatibility_objects.fetch("EVENT_HASH_AND_PRE_CANDIDATE_RECEIPT_RESIDUAL"), event
+      ) if deep_validation && event_hash_residual
       unless event["vault_import"].values.all?(&:nil?)
         vault_root = Pathname.new(sync["vault_path"]).cleanpath
         import_path = Pathname.new(event.dig("vault_import", "path")).cleanpath
@@ -908,9 +1512,16 @@ check_founder_knowledge_sync_state() {
       end
 
       if status == "PENDING_CANDIDATE" || status == "NO_MATERIAL_KNOWLEDGE_DELTA"
-        abort "#{event_id} pre-candidate state retains downstream identities" unless
+        pre_candidate_valid =
           event["artifact"].values.all?(&:nil?) && event["review"].values.all?(&:nil?) &&
-          event["vault_import"].values.all?(&:nil?) && event["receipt"].values.all?(&:nil?)
+          event["vault_import"].values.all?(&:nil?) &&
+          if event_hash_residual
+            !event["receipt"].values.any?(&:nil?) &&
+              event["receipt"] == event_hash_residual["object"].reject { |key, _value| key == "file_type" }
+          else
+            event["receipt"].values.all?(&:nil?)
+          end
+        abort "#{event_id} pre-candidate state retains downstream identities" unless pre_candidate_valid
       elsif status == "PENDING_REVIEW"
         abort "#{event_id} pending-review state retains downstream identities" unless
           !event["artifact"].values.any?(&:nil?) &&
@@ -935,7 +1546,11 @@ check_founder_knowledge_sync_state() {
           deep_validation && artifact_bytes != import_bytes
         validate_knowledge_review.call(review_bytes, event, "PASS")
         next unless deep_validation
-        receipt = JSON.parse(receipt_bytes)
+        receipt = parse_closed_json.call(receipt_bytes, "#{event_id} import receipt")
+        if compatibility_for_event.call(event_id, "FOUNDER_KNOWLEDGE_IMPORT_RECEIPT_V1")
+          validate_v1_import_receipt.call(receipt, event, artifact_bytes, import_bytes)
+          next
+        end
         expected_receipt_keys = %w[
           artifact event_id exact_bytes_equal recorded_at_utc review schema_version
           source_commit source_tree truth_sha256 truth_snapshot vault_import

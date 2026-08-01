@@ -1,0 +1,91 @@
+---
+schema_version: 1
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P1-181_SEALED_INPUT_CAPSULE_AND_CAUSAL_EVIDENCE_KERNEL
+phase: P1
+route_id: P1_ONE_FINAL_COMPLETE_INHERITED_KNOWLEDGE_COMPATIBILITY_THEN_SEALED_INPUT_CAPSULE_AND_STRICT_EXIT_ROUTE_V1
+status: ACTIVE
+objective: Build one clean-room sealed-input capsule and causal Evidence kernel with
+  answer-free generation and trusted post-execution evaluation planes.
+why_now: This offline kernel is the last engineering prerequisite before the one-shot
+  baseline report and strict P1 Exit artifacts.
+budget:
+  engineering_hours: 28
+  calendar_days: 5
+  implementation_iterations: 5
+  candidates: 1
+implementation_control:
+  maximum_same_task_repairs: 4
+  maximum_implementation_iterations: 5
+  maximum_candidates: 1
+roles:
+  owner: Master Agent
+  worker: P1-181 Implementation Worker
+  independent_reviewers:
+  - CTO Agent
+  - Security Agent
+  - Quality and Evaluation Agent
+allowlisted_paths:
+- evaluation-harness/harness/p1-181-sealed-input-causal-kernel/**
+- evaluation-harness/replay/p1-181-sealed-input-causal-kernel/**
+- evaluation-harness/evaluator/p1-181-sealed-input-causal-kernel/**
+- scripts/verify-p1-181-sealed-input-causal-kernel.sh
+- docs/aios/tasks/P1-181_SEALED_INPUT_CAPSULE_AND_CAUSAL_EVIDENCE_KERNEL.yaml
+- docs/aios/truth/project_state.yaml
+- docs/PROJECT_CODE_MAP.md
+- Makefile
+external_effects:
+  network: false
+  production: false
+  provider: false
+  public: false
+  remote: false
+  secret: false
+founder_reserved_authorization:
+  path: "/Users/lijunpeng/Developer/.sourcelens-audit/p1-complete-knowledge-compat-sealed-input-strict-exit-20260801/founder-phase-gate-draft/FOUNDER_P1_COMPLETE_KNOWLEDGE_COMPAT_SEALED_INPUT_STRICT_EXIT_DECISION_V1.json"
+  sha256: c3737aa26d74729f03252ffad0248543d36f743c947fda715138026e7bf9bcec
+  byte_length: 5232
+  authorization_token: AUTHORIZE_P1_ONE_FINAL_COMPLETE_INHERITED_KNOWLEDGE_COMPATIBILITY_THEN_SEALED_INPUT_CAPSULE_AND_STRICT_EXIT_ROUTE_V1
+goal_identity:
+  canonical_byte_length: 19434
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  raw_byte_length: 19433
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+founder_reserved_profile: 
+acceptance_criteria:
+- generation plane receives only a create-once content-addressed answer-free sealed
+  capsule
+- trusted evaluator starts only after Worker exit and output identity freeze
+- B0 B1 and B2 closed schemas and causal predecessor bindings fail closed
+- B2 independently proves twelve exact accepted P0 repository_analysis.scan children
+- object ledger and descriptor-anchored cleanup reject path link metadata inventory
+  and ownership drift
+- thirty-six-cell synthetic full pipeline and all negative matrices pass with zero
+  false accepts
+- fresh canonical-equivalent topologies pass with zero residual locks or undeclared
+  staging
+- Provider requests Secret reads and all six external effects remain zero
+required_evidence:
+- pre-freeze CTO Security and Quality audits
+- sealed capsule identities and generation-plane read-denial probes
+- causal chain receipts and independent B2 dereference receipts
+- object ledger and closed inventory
+- thirty-six-cell synthetic matrix and negative matrix receipts
+- fresh-topology cleanup receipts
+- one exact candidate manifest and fresh final reviews
+stop_conditions:
+- same normalized root cause repeats in adjacent implementation iterations
+- implementation or repair budget is exhausted
+- answer asset or undeclared repository read becomes visible to the generation plane
+- any Provider Secret network remote production or public effect occurs
+- any pre-freeze or final independent reviewer returns NON_PASS
+- reviewed tree differs from integrated tree or canonical make verify is NONPASS
+forbidden_actions:
+- read restore compare or reuse rejected P1-165 P1-168 P1-171 P1-174 P1-176 or P1-178
+  engineering assets
+- trust Worker self-reported success cleanup observer or evaluator verdicts
+- use ambient cwd HOME inherited descriptors search or glob as authority
+- create a successor replacement correction normalization closure feasibility or remediation
+  chain
+- enter P2 or invoke Provider network Secret remote production or public effects

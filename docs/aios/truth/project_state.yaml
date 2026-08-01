@@ -8385,7 +8385,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260801-P1-181-TERMINAL-REPEATED-ROOT-CAUSE-V1
+  latest_event_id: FKS-20260801-P1-181-TERMINAL-KNOWLEDGE-IMPORTED-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -9588,6 +9588,96 @@ founder_knowledge_sync:
         path: null
         byte_length: null
         sha256: null
+
+    - event_id: FKS-20260801-P1-181-TERMINAL-KNOWLEDGE-CANDIDATE-V1
+      trigger_type: LEARNING_ARTIFACT_CANDIDATE_FROZEN
+      occurred_at_utc: '2026-08-01T17:32:32Z'
+      source_commit: 0dda01233836e9aab9a178c027ca95ad9214c363
+      source_tree: 41eecf0c5306b9d60138ddef867a3fd6fe0e7113
+      previous_event_sha256: d1bb80d1794f32de7543a9df1260db6db27dd28ed2652f4805e116f6e28d432d
+      event_sha256: 464acf80821120c2c93b4e1be57c043c6a9983d3d1752f4feba2757648548a1b
+      status: PENDING_REVIEW
+      rationale: >-
+        The exact P1-181 terminal Learning Artifact freezes reusable lessons
+        about deterministic semantic receipts and the anti-loop stop without
+        granting Task, Gate or capability authority.
+      engineering_blocking: false
+      artifact:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-complete-knowledge-compat-sealed-input-strict-exit-20260801/task-1-p1-181/knowledge/P1_181_FOUNDER_LEARNING_ARTIFACT_CANDIDATE_V1.md
+        byte_length: 4986
+        sha256: 9752abae2bcdc9cf4a387f80113b4b2737fbd74582de1948c3fdf3c1af7c3a90
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+
+    - event_id: FKS-20260801-P1-181-TERMINAL-KNOWLEDGE-REVIEW-PASS-V1
+      trigger_type: INDEPENDENT_KNOWLEDGE_REVIEW_COMPLETED
+      occurred_at_utc: '2026-08-01T17:35:35Z'
+      source_commit: 0dda01233836e9aab9a178c027ca95ad9214c363
+      source_tree: 41eecf0c5306b9d60138ddef867a3fd6fe0e7113
+      previous_event_sha256: 464acf80821120c2c93b4e1be57c043c6a9983d3d1752f4feba2757648548a1b
+      event_sha256: b9ecc307d5bdfc09a8311ab8f19c4eb5cdd2dc7b04934a3dee63266a54381cd9
+      status: REVIEWED_PASS_PENDING_IMPORT
+      rationale: >-
+        A fresh independent Knowledge Reviewer returned PASS for the exact
+        P1-181 terminal Learning Artifact bytes and authorized only exact-byte
+        Founder Knowledge Vault import.
+      engineering_blocking: false
+      artifact:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-complete-knowledge-compat-sealed-input-strict-exit-20260801/task-1-p1-181/knowledge/P1_181_FOUNDER_LEARNING_ARTIFACT_CANDIDATE_V1.md
+        byte_length: 4986
+        sha256: 9752abae2bcdc9cf4a387f80113b4b2737fbd74582de1948c3fdf3c1af7c3a90
+      review:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-complete-knowledge-compat-sealed-input-strict-exit-20260801/task-1-p1-181/knowledge/P1_181_KNOWLEDGE_REVIEW_V1.json
+        byte_length: 3505
+        sha256: f9e16f039722a349d0be7ecfe3c15529a3e8ce7efb255be267d48fac4ad04a15
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+
+    - event_id: FKS-20260801-P1-181-TERMINAL-KNOWLEDGE-IMPORTED-V1
+      trigger_type: EXACT_KNOWLEDGE_ARTIFACT_IMPORTED
+      occurred_at_utc: '2026-08-01T17:37:32Z'
+      source_commit: 0dda01233836e9aab9a178c027ca95ad9214c363
+      source_tree: 41eecf0c5306b9d60138ddef867a3fd6fe0e7113
+      previous_event_sha256: b9ecc307d5bdfc09a8311ab8f19c4eb5cdd2dc7b04934a3dee63266a54381cd9
+      event_sha256: 4c9edcd90efac0ab0ddaf1a2080f342368916181a296b50e4825139ea2153ad4
+      status: IMPORTED
+      rationale: >-
+        The independently reviewed P1-181 terminal Learning Artifact was
+        imported create-once into the configured Founder Knowledge Vault with
+        exact byte equality and a bound import receipt.
+      engineering_blocking: false
+      artifact:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-complete-knowledge-compat-sealed-input-strict-exit-20260801/task-1-p1-181/knowledge/P1_181_FOUNDER_LEARNING_ARTIFACT_CANDIDATE_V1.md
+        byte_length: 4986
+        sha256: 9752abae2bcdc9cf4a387f80113b4b2737fbd74582de1948c3fdf3c1af7c3a90
+      review:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-complete-knowledge-compat-sealed-input-strict-exit-20260801/task-1-p1-181/knowledge/P1_181_KNOWLEDGE_REVIEW_V1.json
+        byte_length: 3505
+        sha256: f9e16f039722a349d0be7ecfe3c15529a3e8ce7efb255be267d48fac4ad04a15
+      vault_import:
+        path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/06-Decision-Records/2026-08-01-P1-181-repeated-nondeterministic-test-output-lessons.md
+        byte_length: 4986
+        sha256: 9752abae2bcdc9cf4a387f80113b4b2737fbd74582de1948c3fdf3c1af7c3a90
+      receipt:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-complete-knowledge-compat-sealed-input-strict-exit-20260801/task-1-p1-181/knowledge/P1_181_KNOWLEDGE_IMPORT_RECEIPT_V1.json
+        byte_length: 1540
+        sha256: 733b50fcbb87f74ff73faa26eaceec955df9c2ed9d83c290fbbd9689f3c58d20
 
 historical_active_work_after_p1_079:
   current_task: NONE

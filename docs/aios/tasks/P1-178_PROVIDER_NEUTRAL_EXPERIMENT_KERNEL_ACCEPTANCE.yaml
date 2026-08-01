@@ -1,0 +1,212 @@
+schema_version: "1.0"
+record_type: aios_task_contract
+task_id: AIOS-P1-178_PROVIDER_NEUTRAL_EXPERIMENT_KERNEL_ACCEPTANCE
+phase: P1
+route_id: P1_ACCEPTED_PROVIDER_NEUTRAL_EXPERIMENT_KERNEL_THEN_ONE_SHOT_BASELINE_AND_STRICT_EXIT_ROUTE_V1
+task_slot: 1
+status: ACTIVE
+
+objective: >-
+  Build and independently accept one provider-neutral experiment kernel that preserves
+  the real B0, B1 and B2 profile boundaries, prevents answer-bearing inputs from
+  reaching the formal Worker, performs fail-closed Evidence transactions, and gives
+  an independent evaluator enough raw Evidence to reconstruct every outcome without
+  trusting Worker verdict fields.
+
+why_now: >-
+  Strict P1 is 6/8 (75%). P1-176 stopped without capability credit after late
+  independent pre-formal reviews exposed profile, answer-separation, object-ownership,
+  observer-binding, accounting-finalization and Evidence-truthfulness defects. A fully
+  offline accepted kernel is the smallest falsifiable prerequisite to a safe one-shot
+  baseline and directly advances the two remaining P1 Exit items without restoring
+  the rejected P1-176 lineage.
+
+task_spec_ref:
+  founder_packet_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-provider-neutral-kernel-strict-exit-20260801/founder-phase-gate-draft/FOUNDER_P1_PROVIDER_NEUTRAL_KERNEL_STRICT_EXIT_PACKET_V1.md
+  founder_packet_sha256: f61eda1f9c727772cc2cce9338be3dbda32b6ee64acb46ade2ef99ee7f4f0be3
+  structured_decision_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-provider-neutral-kernel-strict-exit-20260801/founder-phase-gate-draft/FOUNDER_P1_PROVIDER_NEUTRAL_KERNEL_STRICT_EXIT_DECISION_V1.json
+  structured_decision_sha256: 638bba54da743571fd064bc7f0245b849612a11687bc7cfc834a991630b4cf11
+
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-provider-neutral-kernel-strict-exit-20260801/founder-phase-gate-draft/FOUNDER_P1_PROVIDER_NEUTRAL_KERNEL_STRICT_EXIT_DECISION_V1.json
+  sha256: 638bba54da743571fd064bc7f0245b849612a11687bc7cfc834a991630b4cf11
+  byte_length: 5136
+  authorization_token: AUTHORIZE_P1_ACCEPTED_PROVIDER_NEUTRAL_EXPERIMENT_KERNEL_THEN_ONE_SHOT_BASELINE_AND_STRICT_EXIT_ROUTE_V1
+
+founder_reserved_profile: null
+
+budget:
+  engineering_hours: 24
+  calendar_days: 4
+  implementation_iterations: 4
+  candidates: 1
+
+repair_accounting:
+  initial_implementation: 1
+  maximum_same_task_repairs: 3
+  implementation_iterations_used: 0
+  same_task_repairs_used: 0
+  formal_execution_started: false
+
+roles:
+  owner: P1-178 Engineering Manager
+  worker: P1-178 Provider-Neutral Kernel Worker
+  independent_reviewers:
+    - P1-178 Fresh CTO Reviewer
+    - P1-178 Fresh Security Reviewer
+    - P1-178 Fresh Quality Reviewer
+
+risk_level: high
+
+accepted_inputs:
+  - id: P1-035
+    purpose: versioned representative Task dataset
+    contract_path: docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
+    accepted_candidate_commit: 686eda0cd7a93b72ac5e64301479f17e4b096fb0
+    accepted_candidate_tree: b2740b44d0051303057deac7d719c27fd6a5578a
+  - id: P1-099
+    purpose: accepted B0/B1/B2 compatibility adapters
+    acceptance_commit: d933f9ef0ad2171be9321ef0b2d6a47366932031
+    acceptance_tree: bd93a2530b6a6314ead2993c2bb2ac13068966c6
+  - id: P1-101
+    purpose: accepted observable trace and replay
+    contract_path: docs/aios/tasks/P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE.yaml
+    accepted_candidate_commit: 633f9daf133bf616cd293fb343058e2efba2a3ed
+    accepted_candidate_tree: 999f37f93692a045d455adf0ea503947ed5555a5
+  - id: P1-129
+    purpose: accepted exact input-boundary adapter security controls
+    contract_path: docs/aios/tasks/P1-129_EXACT_INPUT_BOUNDARY_SECURITY_MATRIX_COMPLETION.yaml
+    accepted_candidate_commit: a772dc5d350ec6b38a84e430b01f75628429aa7b
+    accepted_candidate_tree: 905dd694922ba9a2b452d15c93dc17cefc9e53c1
+  - id: P1-149
+    purpose: accepted finite typed Patch IR execution spine
+    contract_path: docs/aios/tasks/P1-149_ACCEPTED_EXECUTION_SPINE_CONVERGENCE.yaml
+    accepted_candidate_commit: 88600ee18848e0d2c6d7f2012d0f548021062720
+    accepted_candidate_tree: 34a16c8177bc0f72fd35a0510429ed1979f72fb3
+
+read_context:
+  - docs/aios/BASELINE_ADAPTER_CONTRACT.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/schemas/run-record-v2.schema.json
+  - evaluation-harness/datasets/p1-representative-task-dataset-v1
+  - evaluation-harness/adapters/p1-097-minimal-documented
+  - evaluation-harness/harness/p1-101-accepted-shared-trace
+  - evaluation-harness/harness/p1-149-accepted-execution-spine
+  - evaluation-harness/evaluator/p1-149-accepted-execution-spine
+
+historical_non_reuse_boundary:
+  task_id: AIOS-P1-176_CLEAN_ROOM_ACCEPTED_SPINE_REPRODUCIBLE_BASELINE
+  terminal_status: TERMINAL_FORMAL_EXECUTION_ABORTED_AFTER_LATE_PREFORMAL_REVIEW_NON_PASS
+  allowed_reads:
+    - docs/aios/truth/project_state.yaml
+    - /Users/lijunpeng/Developer/.sourcelens-audit/p1-balance-verified-clean-room-strict-exit-20260801/task-1-p1-176/terminal/P1_176_TERMINAL_LATE_PREFORMAL_REVIEW_ABORTED_FORMAL_RECEIPT.json
+  forbidden_reads:
+    - P1-176 source
+    - P1-176 fixtures
+    - P1-176 tests
+    - P1-176 formal Evidence
+    - P1-176 implementation
+  reuse_allowed: false
+
+allowlisted_paths:
+  - evaluation-harness/harness/p1-178-provider-neutral-kernel
+  - evaluation-harness/evaluator/p1-178-provider-neutral-kernel
+  - scripts/verify-p1-178-provider-neutral-kernel.sh
+  - docs/aios/tasks/P1-178_PROVIDER_NEUTRAL_EXPERIMENT_KERNEL_ACCEPTANCE.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+  - Makefile
+
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+
+required_semantics:
+  profiles:
+    B0: issue plus exact bounded issue-only context; no tools, repository source, graph, memory or iterative execution
+    B1: finite list/read/lexical selection only; no graph, SourceLens scan context or answer-bearing material
+    B2: exact accepted P0 repository_analysis.scan context only, with exact child invocation identity
+  answer_separation:
+    - formal Worker process has no readable path to reference-solution.patch
+    - formal Worker process has no readable path to answer-bearing P1-129 finite programs
+    - admission is allowlist-derived and checked before process execution
+    - negative controls prove full and partial answer artifacts are rejected
+  evidence_transactions:
+    - every created object is recorded at creation with relative path, type, fd, dev, inode and creation nonce
+    - finalization and cleanup compare the exact ledger identity before mutation
+    - unowned, substituted, hardlinked, symlinked, cross-device, missing, extra and reordered objects fail closed
+    - no path-based chmod or cleanup operation may follow a substituted path
+    - critical abort atomically closes accounting, Evidence inventory and all 36 denominator slots
+  request_limits:
+    - the serialized request is conservatively proven below 8192 input tokens before any effect
+    - requested output is at most 2048 tokens before any effect
+  observer_binding:
+    - observer evidence binds cell, request receipt SHA-256, worker PID, socket tuple, effect slot and unique nonce
+    - independent evaluation rejects replay, duplication, cross-cell binding and process drift
+  parsing:
+    - duplicate JSON keys are rejected before semantic parsing
+    - all externally consumed JSON objects use closed keysets where declared
+  effects:
+    - authorized observed effects are distinct from unauthorized effects
+    - Task 1 has no network, Provider or Secret effects
+  evaluation:
+    - independent evaluator reconstructs exclusively from raw Evidence
+    - evaluator never trusts Worker verdict, success, policy or effect summary fields
+
+acceptance_criteria:
+  - B0, B1 and B2 produce observably distinct, exact profile-bound inputs across a complete 36-cell synthetic matrix.
+  - Every synthetic cell traverses the accepted finite Patch IR compiler, disposable repository apply, P1-101 trace/replay, oracle/tests and rollback path.
+  - B2 produces twelve exact accepted P0 repository_analysis.scan child invocations; B0 and B1 produce none.
+  - Formal Worker read roots exclude all reference solutions and answer-bearing programs, and the negative matrix proves both full and partial answer leakage fail closed.
+  - Object-ledger, TOCTOU, symlink, hardlink, cross-device, mutation, missing, extra, reorder and cleanup ownership cases have zero false accepts.
+  - Duplicate-key, cap-boundary, observer replay/cross-binding, critical-abort and effect-truthfulness cases have zero false accepts.
+  - The same kernel passes in multiple fresh owned parent topologies, including a /private/tmp canonical-like root, and leaves no undeclared staging or lock residue.
+  - Provider requests, Secret reads and all six external effects are zero.
+  - One exact candidate is frozen and fresh CTO, Security and Quality TARGET_VERDICT values are all PASS on the same bytes.
+  - Reviewed tree equals integrated tree and the single canonical make verify invocation passes.
+
+required_evidence:
+  - exact source manifest and candidate tree identity
+  - 36-cell synthetic plan and per-cell raw receipts
+  - profile-input and answer-separation receipts
+  - object creation ledger and atomic finalization receipts
+  - negative-matrix raw receipts and aggregate with false_accepts=0
+  - multi-parent topology receipts and residue inventory
+  - independent evaluator reconstruction receipt
+  - fresh CTO, Security and Quality reviews of the same exact candidate
+  - integration receipt and one canonical make verify receipt
+
+stop_conditions:
+  - adjacent implementation iterations produce the same normalized root cause
+  - four total implementation iterations are exhausted
+  - a required change leaves the allowlisted paths or P1 boundary
+  - any Provider request, Secret read, network, remote, production or public effect occurs
+  - the sole candidate receives any final Reviewer TARGET_VERDICT other than PASS
+  - reviewed and integrated trees differ
+  - canonical make verify is NONPASS
+  - Evidence is overwritten, deleted or cannot be independently reconstructed
+
+forbidden_actions:
+  - read, restore, copy, compare or reuse P1-176 source, fixtures, tests, formal Evidence or implementation
+  - create a successor, replacement, correction, normalization, closure, feasibility or remediation chain
+  - modify authority, parser or validator semantics
+  - change Long-term Goal, P1 Objective, P1 Exit Gate or P2 HOLD
+  - read a Secret or call a Provider
+  - modify ZCode, Codex Tools, LaunchAgent, proxy, port or user software
+  - push or modify a remote
+
+claim_boundary: >-
+  Accepted cooperative-local provider-neutral experiment-kernel conformance only.
+  No Provider result, model performance, reproducible baseline report, P1 completion,
+  P2 entry, production, public, remote, hostile-principal or strong-isolation claim.

@@ -9291,7 +9291,7 @@ founder_knowledge_sync:
       source_commit: fb4c131d14d951dc5a851b8224660799a49be1d7
       source_tree: d32169a221396ef3d8a7928089960a8b10944cd0
       previous_event_sha256: a983d0baa9f43493f53f36821345cf08811e4909674de1faf14b890726550e61
-      event_sha256: 5b03696f72e6052a2666805ae2dbc4298e2a8a85a416ee395a8279e517941959
+      event_sha256: 8c93082fbd6eab2e50819dcd6709dc3e1b7d2d47fb9af903d16ac3c6e2439275
       status: PENDING_CANDIDATE
       rationale: >-
         P1-178 froze one offline provider-neutral kernel candidate after a
@@ -9315,17 +9315,17 @@ founder_knowledge_sync:
         byte_length: null
         sha256: null
       receipt:
-        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-provider-neutral-kernel-strict-exit-20260801/task-1-p1-178/terminal/P1_178_TERMINAL_FINAL_REVIEW_TARGET_NON_PASS_RECEIPT_V1.json
-        byte_length: 2617
-        sha256: c8f0653aa6e4e9effa141e011f69d64a70650ceb87a27105f8d6c3dd5fd06da5
+        path: null
+        byte_length: null
+        sha256: null
 
     - event_id: FKS-20260801-P1-178-TERMINAL-LEARNING-CANDIDATE-V1
       trigger_type: LEARNING_ARTIFACT_CANDIDATE_FROZEN
       occurred_at_utc: '2026-08-01T12:56:21Z'
       source_commit: 25c443833d9284bc4e10ac75878d0b760b68db08
       source_tree: 999f7d63395807a6d68713aaba4a42c1a208873b
-      previous_event_sha256: 5b03696f72e6052a2666805ae2dbc4298e2a8a85a416ee395a8279e517941959
-      event_sha256: 55be13ceb28e7a6b964e372fc35bd30aaee176c3d92583d898b377c0585d1571
+      previous_event_sha256: 8c93082fbd6eab2e50819dcd6709dc3e1b7d2d47fb9af903d16ac3c6e2439275
+      event_sha256: c62e162e85fd4616d18824f3ac2a2925061ba053a213384424d71524d29e9767
       status: PENDING_REVIEW
       rationale: >-
         The exact P1-178 terminal learning Artifact separates verified facts,
@@ -9354,8 +9354,8 @@ founder_knowledge_sync:
       occurred_at_utc: '2026-08-01T13:01:15Z'
       source_commit: 25c443833d9284bc4e10ac75878d0b760b68db08
       source_tree: 999f7d63395807a6d68713aaba4a42c1a208873b
-      previous_event_sha256: 55be13ceb28e7a6b964e372fc35bd30aaee176c3d92583d898b377c0585d1571
-      event_sha256: 9348a3559b67012f584412faa76475bd7a166b192736c51a8ff2bc948fca9861
+      previous_event_sha256: c62e162e85fd4616d18824f3ac2a2925061ba053a213384424d71524d29e9767
+      event_sha256: 16b7cedd6fa6faab6937af64210b5f8e4a31acdf36c0f81f4462ce9f631705f1
       status: REVIEWED_PASS_PENDING_IMPORT
       rationale: >-
         Fresh independent Knowledge Review PASS authorizes only the exact P1-178
@@ -9383,8 +9383,8 @@ founder_knowledge_sync:
       occurred_at_utc: '2026-08-01T13:04:56Z'
       source_commit: 25c443833d9284bc4e10ac75878d0b760b68db08
       source_tree: 999f7d63395807a6d68713aaba4a42c1a208873b
-      previous_event_sha256: 9348a3559b67012f584412faa76475bd7a166b192736c51a8ff2bc948fca9861
-      event_sha256: b4e6a04fdb9bb14953441f2a52cbbf7349e03d257f7bb864a423bf3a402b9f46
+      previous_event_sha256: 16b7cedd6fa6faab6937af64210b5f8e4a31acdf36c0f81f4462ce9f631705f1
+      event_sha256: 9c213be0a298b793bfbafd2b6fc5283553232442be8c31147020b36e52fad167
       status: IMPORTED
       rationale: >-
         The independently reviewed P1-178 terminal Learning Artifact was imported

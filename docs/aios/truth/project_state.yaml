@@ -5636,7 +5636,7 @@ current_phase_route:
   - path: "/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-174-typed-evidence-baseline"
     head: c3ae92fd3b9716b740154bb1508f2e7579419bac
     branch: codex/p1-174-typed-evidence-baseline
-    status: TERMINAL_DIAGNOSTIC_HTTP_401_CREDENTIAL_REJECTION_NON_PASS_NOT_CURRENT
+    status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
   - path: "/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-171-hermetic-evidence-kernel"
     head: f416c216a45ca41fb1e8dd5c9bfc66583b686a12
     branch: codex/p1-171-hermetic-evidence-kernel

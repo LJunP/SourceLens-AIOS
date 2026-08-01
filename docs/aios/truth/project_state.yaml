@@ -5661,6 +5661,10 @@ current_phase_route:
     terminal_receipt_byte_length: 5227
   additional_write_roots: []
   inherited_worktree_inventory:
+  - path: "/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-176-clean-room-baseline"
+    head: 1997a21a9975664518f766e059b934038bfbb88e
+    branch: codex/p1-176-clean-room-baseline
+    status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
   - path: "/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-174-typed-evidence-baseline"
     head: c3ae92fd3b9716b740154bb1508f2e7579419bac
     branch: codex/p1-174-typed-evidence-baseline

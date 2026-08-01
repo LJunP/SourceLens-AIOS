@@ -4,7 +4,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P1-181_SEALED_INPUT_CAPSULE_AND_CAUSAL_EVIDENCE_KERNEL
 phase: P1
 route_id: P1_ONE_FINAL_COMPLETE_INHERITED_KNOWLEDGE_COMPATIBILITY_THEN_SEALED_INPUT_CAPSULE_AND_STRICT_EXIT_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_REPEATED_NORMALIZED_ROOT_CAUSE_NON_PASS
 objective: Build one clean-room sealed-input capsule and causal Evidence kernel with
   answer-free generation and trusted post-execution evaluation planes.
 why_now: This offline kernel is the last engineering prerequisite before the one-shot
@@ -89,3 +89,16 @@ forbidden_actions:
 - create a successor replacement correction normalization closure feasibility or remediation
   chain
 - enter P2 or invoke Provider network Secret remote production or public effects
+terminal_outcome:
+  classification: TERMINAL_ADJACENT_REPEATED_NORMALIZED_ROOT_CAUSE_BEFORE_CANDIDATE_FREEZE
+  normalized_root_cause: P1181.INDEPENDENT_TEST_OUTPUT.NONDETERMINISTIC_TAP_FIELDS
+  implementation_iterations_observed: 2
+  candidate_created: false
+  final_reviews_started: false
+  candidate_integrated: false
+  canonical_make_verify: NOT_INVOKED_NO_CANDIDATE
+  provider_requests: 0
+  secret_reads: 0
+  p1_capability_credit: 0
+  p1_182_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
+  p1_183_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS

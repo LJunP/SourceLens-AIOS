@@ -5598,6 +5598,10 @@ current_phase_route:
   - p1_149
   additional_write_roots: []
   inherited_worktree_inventory:
+  - path: "/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-181-sealed-input-causal-kernel"
+    head: b13846958be6b903543a778beba838121b4ac43a
+    branch: codex/p1-181-sealed-input-causal-kernel
+    status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
   - path: "/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-178-provider-neutral-kernel"
     head: 44c5b6f15cf26ce48e042e9247e038c204f7d778
     branch: codex/p1-178-provider-neutral-kernel

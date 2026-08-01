@@ -5503,8 +5503,8 @@ current_phase_route:
     contract_path: docs/aios/tasks/P1-184_DETERMINISTIC_SEMANTIC_RECEIPT_KERNEL.yaml
     max_engineering_hours: 16
     max_calendar_days: 3
-    contract_sha256: 8c134f9faa6486f784ec640a78e788dfa0ae1df3fe6fc5915df8f4d2948318f4
-    contract_byte_length: 8866
+    contract_sha256: 8ee5fd2f1b44e14d3ba7ad76a1216b6863acadd598790d22b21db09d0199120a
+    contract_byte_length: 8748
     p1_capability_claim_on_pass: NONE_KERNEL_PREREQUISITE_ONLY
   task_plan:
   - task_slot: 1
@@ -9770,15 +9770,15 @@ active_work:
   current_task_status: ACTIVE
   current_task_contract:
     path: docs/aios/tasks/P1-184_DETERMINISTIC_SEMANTIC_RECEIPT_KERNEL.yaml
-    sha256: 8c134f9faa6486f784ec640a78e788dfa0ae1df3fe6fc5915df8f4d2948318f4
-    byte_length: 8866
-  current_task_contract_sha256: 8c134f9faa6486f784ec640a78e788dfa0ae1df3fe6fc5915df8f4d2948318f4
+    sha256: 8ee5fd2f1b44e14d3ba7ad76a1216b6863acadd598790d22b21db09d0199120a
+    byte_length: 8748
+  current_task_contract_sha256: 8ee5fd2f1b44e14d3ba7ad76a1216b6863acadd598790d22b21db09d0199120a
   current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-deterministic-semantic-receipt-strict-exit-20260802/task-1-p1-184/authority/TASK_AUTHORITY_V1.yaml
-  current_execution_authorization_sha256: a9cc18a6b9455ea026b4dbc275ba290413a6211b76e5b2c3e1bf9da6c69d98e1
+  current_execution_authorization_sha256: 6ece49c3f9103a60ff6a9a96f1e860201b8c387043a17d7aac6ba77a79cd2c56
   authority_record:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-deterministic-semantic-receipt-strict-exit-20260802/task-1-p1-184/authority/TASK_AUTHORITY_V1.yaml
-    sha256: a9cc18a6b9455ea026b4dbc275ba290413a6211b76e5b2c3e1bf9da6c69d98e1
-    byte_length: 3653
+    sha256: 6ece49c3f9103a60ff6a9a96f1e860201b8c387043a17d7aac6ba77a79cd2c56
+    byte_length: 3595
   execution_nonce: cd208f64bbfa3c21317c04254f2ae24bf2e6d98a4cc4b1e9d7c5e45fd2535216
   execution_nonce_status: ACTIVE
   authorization_id: ed781233bec65c457131bed44e8ec3916003ad9303030444b6c413acda1aa47f
@@ -9789,7 +9789,6 @@ active_work:
   task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-184-deterministic-semantic-receipt
   execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-deterministic-semantic-receipt-strict-exit-20260802/task-1-p1-184/evidence
   allowlisted_paths:
-    - evaluation-harness/lib/deterministic-semantic-receipt
     - evaluation-harness/harness/p1-184-deterministic-semantic-receipt
     - evaluation-harness/evaluator/p1-184-deterministic-semantic-receipt
     - scripts/verify-p1-184-deterministic-semantic-receipt-kernel.sh

@@ -32,7 +32,6 @@ roles:
     - P1-184 Fresh Security Reviewer
     - P1-184 Fresh Quality Reviewer
 allowlisted_paths:
-  - evaluation-harness/lib/deterministic-semantic-receipt
   - evaluation-harness/harness/p1-184-deterministic-semantic-receipt
   - evaluation-harness/evaluator/p1-184-deterministic-semantic-receipt
   - scripts/verify-p1-184-deterministic-semantic-receipt-kernel.sh
@@ -41,7 +40,6 @@ allowlisted_paths:
   - docs/PROJECT_CODE_MAP.md
 write_scope:
   worker:
-    - evaluation-harness/lib/deterministic-semantic-receipt
     - evaluation-harness/harness/p1-184-deterministic-semantic-receipt
   quality:
     - evaluation-harness/evaluator/p1-184-deterministic-semantic-receipt

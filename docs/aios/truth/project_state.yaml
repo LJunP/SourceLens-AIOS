@@ -605,7 +605,7 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  p1_execution_status: ACTIVE
+  p1_execution_status: STOPPED_AT_FOUNDER_P1_PHASE_GATE
   p1_engineering_status: P1_181_TERMINAL_REPEATED_NORMALIZED_ROOT_CAUSE_NON_PASS
   p2_entry_status: HOLD_PENDING_STRICT_P1_EXIT
   p2_execution_status: HOLD_PENDING_STRICT_P1_EXIT
@@ -9643,10 +9643,10 @@ active_work:
   current_task: NONE
   current_task_status: NONE
   current_task_contract:
-    path: docs/aios/tasks/P1-181_SEALED_INPUT_CAPSULE_AND_CAUSAL_EVIDENCE_KERNEL.yaml
-    sha256: f97761267d26b5c3fd8372bc2bdbd267225cb4075e108daf479ea01212c4da04
-    byte_length: 4899
-  current_task_contract_sha256: f97761267d26b5c3fd8372bc2bdbd267225cb4075e108daf479ea01212c4da04
+    path: null
+    sha256: null
+    byte_length: null
+  current_task_contract_sha256: null
   current_execution_authorization: null
   current_execution_authorization_sha256: null
   authority_record:
@@ -9654,11 +9654,11 @@ active_work:
     sha256: null
     byte_length: null
   execution_nonce: null
-  execution_nonce_status: RETIRED_TERMINAL_TASK
+  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
   authorization_id: null
   activation_parent_commit: null
   activation_parent_tree: null
-  task_resource_state: TERMINAL_PRESERVED_BRANCH_AND_WORKTREE_NOT_ACTIVE
+  task_resource_state: NONE_TERMINAL_STOP_CONDITION
   task_branch: null
   task_worktree: null
   execution_evidence_root: null

@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-02T09:35:45Z"
-verification_scope: P1_193_ROUTE_AUTHORIZED_AND_ACTIVE
+last_verified_at: "2026-08-02T10:31:45Z"
+verification_scope: P1_193_TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
 
 authority:
   founder: Human Founder
@@ -37,8 +37,23 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: AIOS-P1-193_SINGLE_READ_IMMUTABLE_EVIDENCE_TRANSACTION
+  current_task_authority: NONE
   note: >-
+    P1-193 froze exact offline candidate commit/tree
+    6345a6e8d5bd60eac26ce48acd0e03cd208e1bd6 /
+    428bea9b99d2c3f96f9cbe8c1cbca36ff46c0ea3 after its implementation-defined
+    focused matrix and Task-worktree make verify passed. Fresh CTO, Security
+    and Quality final reviews each returned TARGET_VERDICT NON_PASS. Security
+    reproduced a receipt-identity tamper false accept and found that the
+    evaluator reopens Evidence paths while claiming zero reopens; CTO and
+    Quality also found that required raw negative, topology, cleanup and
+    independently instrumented read-counter proof is incomplete. The exact
+    route Stop Condition fired. The candidate was not integrated, canonical
+    make verify after review was not invoked, no Provider or Secret was used,
+    and no capability credit was awarded. P1-194 and P1-195 are ineligible,
+    strict P1 remains 6/8 (75%), P2 remains HOLD_PENDING_STRICT_P1_EXIT, and
+    the next action is the Founder P1 Phase Gate without a correction,
+    successor or replacement chain.
     Founder authorized the single-read immutable Evidence transaction strict
     P1 Exit route from exact canonical commit/tree
     cbebe3a8a135b36fb3f9a1eeb7bbc7357a79dc58 /
@@ -679,12 +694,12 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  p1_execution_status: ACTIVE
-  p1_engineering_status: P1_193_ACTIVE
+  p1_execution_status: AT_FOUNDER_P1_PHASE_GATE
+  p1_engineering_status: P1_193_TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
   p2_entry_status: HOLD_PENDING_STRICT_P1_EXIT
   p2_execution_status: HOLD_PENDING_STRICT_P1_EXIT
-  phase_execution_status: ACTIVE
-  current_route_execution_status: ACTIVE_TASK_1_P1_193
+  phase_execution_status: STOPPED_AT_FOUNDER_P1_PHASE_GATE
+  current_route_execution_status: TERMINAL_TASK_1_P1_193_FINAL_REVIEW_NON_PASS
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -5433,11 +5448,11 @@ historical_p1_162_phase_route:
 
 current_phase_route:
   route_id: P1_SINGLE_READ_IMMUTABLE_EVIDENCE_TRANSACTION_AND_STRICT_EXIT_ROUTE_V1
-  status: ACTIVE
-  authority_object_status: FOUNDER_DIRECTIVE_ACTIVE
-  execution_status: ACTIVE_TASK_1_P1_193
-  founder_phase_route_decision_required: false
-  scheduling_status: ACTIVE_ONE_TASK
+  status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+  authority_object_status: FOUNDER_DIRECTIVE_CONSUMED_TERMINAL
+  execution_status: TERMINAL_TASK_1_FINAL_REVIEW_NON_PASS
+  founder_phase_route_decision_required: true
+  scheduling_status: TERMINAL_NO_ELIGIBLE_SUCCESSOR
   phase: P1
   phase_entry_status: AUTHORIZED
   authorization_token: AUTHORIZE_P1_SINGLE_READ_IMMUTABLE_EVIDENCE_TRANSACTION_AND_STRICT_EXIT_ROUTE_V1
@@ -5556,7 +5571,7 @@ current_phase_route:
   first_task:
     task_slot: 1
     task_id: AIOS-P1-193_SINGLE_READ_IMMUTABLE_EVIDENCE_TRANSACTION
-    status: ACTIVE
+    status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
     engineering_hours: 16
     calendar_days: 3
     max_implementation_iterations: 4
@@ -5572,13 +5587,13 @@ current_phase_route:
     contract_path: docs/aios/tasks/P1-193_SINGLE_READ_IMMUTABLE_EVIDENCE_TRANSACTION.yaml
     max_engineering_hours: 16
     max_calendar_days: 3
-    contract_sha256: aed02a385b498d043919c4202262a01eb22f88b6a2ca6fa8b696d2da41559aaf
-    contract_byte_length: 8713
+    contract_sha256: 405d521dfb9f898a06ed0432734a901f9a4a06186d6d9523b87cb718396cb25e
+    contract_byte_length: 9777
     p1_capability_claim_on_pass: NONE_KERNEL_PREREQUISITE_ONLY
   task_plan:
     - task_slot: 1
       task_id: AIOS-P1-193_SINGLE_READ_IMMUTABLE_EVIDENCE_TRANSACTION
-      status: ACTIVE
+      status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
       engineering_hours: 16
       calendar_days: 3
       max_implementation_iterations: 4
@@ -5593,7 +5608,7 @@ current_phase_route:
         secret: false
     - task_slot: 2
       task_id: AIOS-P1-194_SINGLE_READ_TRANSACTION_BOUND_REPRODUCIBLE_BASELINE
-      status: PENDING_PREDECESSOR_TASK_GATE
+      status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
       engineering_hours: 32
       calendar_days: 5
       max_implementation_iterations: 4
@@ -5608,7 +5623,7 @@ current_phase_route:
         secret: true
     - task_slot: 3
       task_id: AIOS-P1-195_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
-      status: PENDING_PREDECESSOR_TASK_GATE
+      status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
       engineering_hours: 8
       calendar_days: 2
       max_implementation_iterations: 2
@@ -5632,7 +5647,7 @@ current_phase_route:
     - after_task_id: AIOS-P1-194_SINGLE_READ_TRANSACTION_BOUND_REPRODUCIBLE_BASELINE
       next_task_id: AIOS-P1-195_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
       requires_task_gate_pass: true
-  next_eligible_action: EXECUTE_ACTIVE_P1_193
+  next_eligible_action: FOUNDER_P1_PHASE_GATE
   accepted_inputs:
     p1_035:
       task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
@@ -5673,6 +5688,10 @@ current_phase_route:
     - p1_149
   additional_write_roots: []
   inherited_worktree_inventory:
+  - path: "/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-193-single-read-transaction"
+    head: 6345a6e8d5bd60eac26ce48acd0e03cd208e1bd6
+    branch: codex/p1-193-single-read-transaction
+    status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
   - path: "/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-190-descriptor-relative-kernel"
     head: e83b236b105e03c015cd8e3227e9182c433ef6b5
     branch: codex/p1-190-descriptor-relative-kernel
@@ -8878,7 +8897,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260802-P1-193-FOUNDER-ROUTE-AUTHORIZED-V1
+  latest_event_id: FKS-20260802-P1-193-TERMINAL-FINAL-REVIEW-NON-PASS-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -10408,6 +10427,33 @@ founder_knowledge_sync:
         byte_length: null
         sha256: null
 
+    - event_id: FKS-20260802-P1-193-TERMINAL-FINAL-REVIEW-NON-PASS-V1
+      trigger_type: TASK_TERMINAL_STOP
+      occurred_at_utc: '2026-08-02T10:31:45Z'
+      source_commit: 90d3cb91e130ce1b737dfff185f27375cdf17056
+      source_tree: 0da11d08fefc618a726f3c43f5f9de34bd998224
+      previous_event_sha256: 05a3d62d67825022d5c1feecc68a965cc5ec9e499aa6e4a8715768d4a9f806ec
+      event_sha256: 3f57bc759fb123b1d944fb0a4fca7c0ef8943713877e24b6b8ce62ba16c1d265
+      status: PENDING_CANDIDATE
+      rationale: P1-193 stopped at its one-candidate final Gate after fresh CTO, Security and Quality each returned TARGET_VERDICT NON_PASS on the exact candidate. The candidate remains preserved and unintegrated; no canonical make verify after review, P1 capability credit, P1-194/P1-195 entry or P2 entry exists. Strict P1 remains 6/8 at 75 percent, P2 remains held, and a terminal Founder learning Artifact is pending as a nonblocking side channel.
+      engineering_blocking: false
+      artifact:
+        path: null
+        byte_length: null
+        sha256: null
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+
 historical_active_work_after_p1_079:
   current_task: NONE
   current_task_status: NONE
@@ -10459,48 +10505,38 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
-  current_task: AIOS-P1-193_SINGLE_READ_IMMUTABLE_EVIDENCE_TRANSACTION
-  current_task_status: ACTIVE
+  current_task: NONE
+  current_task_status: NONE
   current_task_contract:
-    path: docs/aios/tasks/P1-193_SINGLE_READ_IMMUTABLE_EVIDENCE_TRANSACTION.yaml
-    sha256: aed02a385b498d043919c4202262a01eb22f88b6a2ca6fa8b696d2da41559aaf
-    byte_length: 8713
-  current_task_contract_sha256: aed02a385b498d043919c4202262a01eb22f88b6a2ca6fa8b696d2da41559aaf
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-single-read-immutable-evidence-strict-exit-20260802/task-1-p1-193/authority/TASK_AUTHORITY.yaml
-  current_execution_authorization_sha256: ace9410ab4d46de2bf02e424fde10c334945e24bb97b36373f378b68b4b393a2
+    path: null
+    sha256: null
+    byte_length: null
+  current_task_contract_sha256: null
+  current_execution_authorization: null
+  current_execution_authorization_sha256: null
   authority_record:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-single-read-immutable-evidence-strict-exit-20260802/task-1-p1-193/authority/TASK_AUTHORITY.yaml
-    sha256: ace9410ab4d46de2bf02e424fde10c334945e24bb97b36373f378b68b4b393a2
-    byte_length: 2453
-  execution_nonce: 15d0ea4ced8d1b44e2289f56531a9e0143f2c7050a74cb0ff9dbfe7d520dc47f
-  execution_nonce_status: ACTIVE
-  authorization_id: d9a658f475a27f8d4ed8646117e8948ee2fa539be590771f64b11b01b09bfee3
-  activation_parent_commit: cbebe3a8a135b36fb3f9a1eeb7bbc7357a79dc58
-  activation_parent_tree: d6120e3b7ca748df43f23383dbe9435afd21b3f2
-  task_resource_state: CREATED_ACTIVE
-  task_branch: codex/p1-193-single-read-transaction
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-193-single-read-transaction
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-single-read-immutable-evidence-strict-exit-20260802/task-1-p1-193
-  allowlisted_paths:
-    - evaluation-harness/harness/p1-193-single-read-immutable-evidence
-    - evaluation-harness/evaluator/p1-193-single-read-immutable-evidence
-    - scripts/verify-p1-193-single-read-immutable-evidence.sh
-    - docs/aios/tasks/P1-193_SINGLE_READ_IMMUTABLE_EVIDENCE_TRANSACTION.yaml
-    - docs/aios/truth/project_state.yaml
-    - docs/PROJECT_CODE_MAP.md
-    - Makefile
+    path: null
+    sha256: null
+    byte_length: null
+  execution_nonce: null
+  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
+  authorization_id: null
+  activation_parent_commit: null
+  activation_parent_tree: null
+  task_resource_state: NOT_CREATED_ROUTE_TERMINAL
+  task_branch: null
+  task_worktree: null
+  execution_evidence_root: null
+  allowlisted_paths: []
   budget:
-    engineering_hours: 16
-    calendar_days: 3
-    implementation_iterations: 4
-    candidates: 1
+    engineering_hours: null
+    calendar_days: null
+    implementation_iterations: null
+    candidates: null
   roles:
-    owner: P1-193 Engineering Manager
-    worker: P1-193 Evidence Transaction Worker
-    independent_reviewers:
-      - P1-193 Fresh CTO Reviewer
-      - P1-193 Fresh Security Reviewer
-      - P1-193 Fresh Quality Reviewer
+    owner: null
+    worker: null
+    independent_reviewers: []
   external_effects:
     network: false
     provider: false
@@ -10509,15 +10545,15 @@ active_work:
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-single-read-immutable-evidence-strict-exit-20260802/founder-phase-gate/FOUNDER_P1_SINGLE_READ_IMMUTABLE_EVIDENCE_TRANSACTION_STRICT_EXIT_DECISION_V1.json
-  founder_reserved_authorization_sha256: 2c7eb2c41ae76814c5223da56a7face45fc5ceb0e9397118bf9e96eecc8c8e75
-  founder_decision_required: false
-  founder_decision_required_scope: null
-  escalation_reason: null
-  user_action_required: NONE
-  phase_route_decision_required: false
-  phase_route_user_action_required: NONE
-  next_eligible_action: EXECUTE_ACTIVE_P1_193
+  founder_reserved_authorization: null
+  founder_reserved_authorization_sha256: null
+  founder_decision_required: true
+  founder_decision_required_scope: P1_PHASE_GATE_AFTER_P1_193_TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+  escalation_reason: P1193_FINAL_REVIEW_SINGLE_READ_RECEIPT_AND_RAW_PROOF_FAIL_OPEN
+  user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
+  phase_route_decision_required: true
+  phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
+  next_eligible_action: FOUNDER_P1_PHASE_GATE
 
 historical_p1_190_terminal_active_work:
   current_task: NONE
@@ -10570,6 +10606,58 @@ historical_p1_190_terminal_active_work:
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 task_history:
+  aios_p1_193:
+    task_id: AIOS-P1-193_SINGLE_READ_IMMUTABLE_EVIDENCE_TRANSACTION
+    route_id: P1_SINGLE_READ_IMMUTABLE_EVIDENCE_TRANSACTION_AND_STRICT_EXIT_ROUTE_V1
+    status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+    classification: TERMINAL_EXACT_CANDIDATE_THREE_REVIEW_TARGET_NON_PASS
+    contract: docs/aios/tasks/P1-193_SINGLE_READ_IMMUTABLE_EVIDENCE_TRANSACTION.yaml
+    terminal_contract_sha256: 405d521dfb9f898a06ed0432734a901f9a4a06186d6d9523b87cb718396cb25e
+    terminal_contract_byte_length: 9777
+    authority_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-single-read-immutable-evidence-strict-exit-20260802/task-1-p1-193/authority/TASK_AUTHORITY.yaml
+    authority_record_sha256: ace9410ab4d46de2bf02e424fde10c334945e24bb97b36373f378b68b4b393a2
+    authority_record_byte_length: 2453
+    implementation_branch: codex/p1-193-single-read-transaction
+    implementation_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-193-single-read-transaction
+    candidate_commit: 6345a6e8d5bd60eac26ce48acd0e03cd208e1bd6
+    candidate_tree: 428bea9b99d2c3f96f9cbe8c1cbca36ff46c0ea3
+    task_worktree_clean: true
+    candidate_manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-single-read-immutable-evidence-strict-exit-20260802/task-1-p1-193/candidate-v1/CANDIDATE_MANIFEST.json
+    candidate_manifest_sha256: e3a2eea335c576299552cc7f56919024a7e37d1636b0c8179f6568a698c9042d
+    candidate_manifest_byte_length: 3827
+    tracked_binary_diff_sha256: 1af03b8479ea1ac4a0f16c329e29c25cec7e129099d59b17f9eaeb87bdf6e210
+    tracked_binary_diff_byte_length: 65768
+    evidence_tag: evidence/p1-193-single-read-immutable-evidence-candidate-v1
+    focused_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-single-read-immutable-evidence-strict-exit-20260802/task-1-p1-193/pre-freeze-v3
+    focused_evidence_file_count: 8
+    focused_evidence_total_bytes: 10055
+    focused_raw_manifest_sha256: cef8fc19ca94ee8c38d832bb58cf7868a0bbd66eeb2d72d61c04785a0d594363
+    implementation_defined_focused_gate: PASS
+    implementation_defined_task_worktree_make_verify: PASS
+    normalized_root_cause: P1193.FINAL_REVIEW.SINGLE_READ_RECEIPT_AND_RAW_PROOF_FAIL_OPEN
+    final_cto_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-single-read-immutable-evidence-strict-exit-20260802/task-1-p1-193/reviews/CTO_REVIEW.json
+    final_cto_review_sha256: 17fdc44f99816a613b15499f26979a770a9948b1155ed6342f33dd143d67e06b
+    final_cto_review_byte_length: 5434
+    final_cto_target_verdict: NON_PASS
+    final_security_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-single-read-immutable-evidence-strict-exit-20260802/task-1-p1-193/reviews/SECURITY_REVIEW.json
+    final_security_review_sha256: 290d41835ae2497825d361c94749853781c26fe13e2b9992f78d2c12e9d25125
+    final_security_review_byte_length: 13101
+    final_security_target_verdict: NON_PASS
+    final_quality_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-single-read-immutable-evidence-strict-exit-20260802/task-1-p1-193/reviews/QUALITY_REVIEW.json
+    final_quality_review_sha256: 9a961b911b2e10e458e0c0fce090787c92a6cb9d6ccbe2be90d23809becad822
+    final_quality_review_byte_length: 6925
+    final_quality_target_verdict: NON_PASS
+    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-single-read-immutable-evidence-strict-exit-20260802/task-1-p1-193/terminal/P1_193_TERMINAL_FINAL_REVIEW_TARGET_NON_PASS_RECEIPT.json
+    terminal_receipt_sha256: 66378219c288564de4713560826953748955ec1d3bb8f2b490edb6ed5803a509
+    terminal_receipt_byte_length: 5491
+    candidate_integrated: false
+    canonical_make_verify: NOT_INVOKED_FINAL_REVIEW_STOP_CONDITION
+    provider_requests: 0
+    secret_reads: 0
+    accepted_capability: false
+    capability_credit: 0
+    p1_194_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
+    p1_195_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
   aios_p1_190:
     task_id: AIOS-P1-190_DESCRIPTOR_RELATIVE_EVIDENCE_OBJECT_KERNEL
     route_id: P1_DESCRIPTOR_RELATIVE_OBJECT_IDENTITY_KERNEL_AND_STRICT_EXIT_ROUTE_V1
@@ -15455,10 +15543,26 @@ phase_execution_claim:
     - canonical main advance outside an accepted task gate
 
 claim_boundary:
-  current_phase_route: P1_DESCRIPTOR_RELATIVE_OBJECT_IDENTITY_KERNEL_AND_STRICT_EXIT_ROUTE_V1_TERMINAL_CTO_NON_PASS
+  current_phase_route: P1_SINGLE_READ_IMMUTABLE_EVIDENCE_TRANSACTION_AND_STRICT_EXIT_ROUTE_V1_TERMINAL_FINAL_REVIEW_NON_PASS
   current_task: NONE
   next_eligible_action: FOUNDER_P1_PHASE_GATE
-  real_engineering_progress: P1_190_EXACT_CANDIDATE_REVIEWED_NON_PASS_NOT_INTEGRATED_NO_P1_CAPABILITY_CREDIT
+  real_engineering_progress: P1_193_EXACT_CANDIDATE_THREE_FRESH_REVIEWS_NON_PASS_NOT_INTEGRATED_NO_P1_CAPABILITY_CREDIT
+  p1_193_status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+  p1_193_candidate_commit: 6345a6e8d5bd60eac26ce48acd0e03cd208e1bd6
+  p1_193_candidate_tree: 428bea9b99d2c3f96f9cbe8c1cbca36ff46c0ea3
+  p1_193_focused_gate: PASS_IMPLEMENTATION_DEFINED
+  p1_193_task_worktree_make_verify: PASS_IMPLEMENTATION_DEFINED
+  p1_193_normalized_root_cause: P1193.FINAL_REVIEW.SINGLE_READ_RECEIPT_AND_RAW_PROOF_FAIL_OPEN
+  p1_193_final_cto_target_verdict: NON_PASS
+  p1_193_final_security_target_verdict: NON_PASS
+  p1_193_final_quality_target_verdict: NON_PASS
+  p1_193_candidate_integrated: false
+  p1_193_canonical_make_verify: NOT_INVOKED_FINAL_REVIEW_STOP_CONDITION
+  p1_193_provider_requests: 0
+  p1_193_secret_reads: 0
+  p1_193_capability_credit: 0
+  p1_194_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
+  p1_195_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
   p1_190_status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
   p1_190_candidate_commit: e83b236b105e03c015cd8e3227e9182c433ef6b5
   p1_190_candidate_tree: b466c86d5f83beff445fa3b3ff679821afdf0fd4

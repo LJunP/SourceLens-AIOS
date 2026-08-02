@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P1-193_SINGLE_READ_IMMUTABLE_EVIDENCE_TRANSACTION
 phase: P1
 route_id: P1_SINGLE_READ_IMMUTABLE_EVIDENCE_TRANSACTION_AND_STRICT_EXIT_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
 objective: >-
   Build one deterministic, fail-closed Evidence transaction that opens and
   reads each admitted input exactly once, binds pre/post typed descriptor
@@ -179,3 +179,22 @@ claim_boundary: >-
   No baseline report, P1 capability credit, Provider/model result, P2/P3 entry,
   remote, production, public, hostile-principal, strong-isolation or
   production-readiness claim.
+terminal_result:
+  status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+  normalized_root_cause: P1193.FINAL_REVIEW.SINGLE_READ_RECEIPT_AND_RAW_PROOF_FAIL_OPEN
+  candidate_commit: 6345a6e8d5bd60eac26ce48acd0e03cd208e1bd6
+  candidate_tree: 428bea9b99d2c3f96f9cbe8c1cbca36ff46c0ea3
+  candidate_integrated: false
+  final_cto_target_verdict: NON_PASS
+  final_security_target_verdict: NON_PASS
+  final_quality_target_verdict: NON_PASS
+  canonical_make_verify_after_review: NOT_INVOKED_FINAL_REVIEW_STOP_CONDITION
+  p1_194_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
+  p1_195_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
+  capability_credit: 0
+  strict_p1_completion: 6_OF_8_75_PERCENT
+  p2_status: HOLD_PENDING_STRICT_P1_EXIT
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-single-read-immutable-evidence-strict-exit-20260802/task-1-p1-193/terminal/P1_193_TERMINAL_FINAL_REVIEW_TARGET_NON_PASS_RECEIPT.json
+    byte_length: 5491
+    sha256: 66378219c288564de4713560826953748955ec1d3bb8f2b490edb6ed5803a509

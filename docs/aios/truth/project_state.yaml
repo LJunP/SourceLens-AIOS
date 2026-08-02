@@ -10387,7 +10387,7 @@ founder_knowledge_sync:
       source_commit: cbebe3a8a135b36fb3f9a1eeb7bbc7357a79dc58
       source_tree: d6120e3b7ca748df43f23383dbe9435afd21b3f2
       previous_event_sha256: 0942d5ac18de8010f01fe4216ca7b229cbc2112f95ac4459d4c0f3cb748bd517
-      event_sha256: 10a4234b944fa6c674cef6f3ec3a56111f7c7d7add67cd62a2626089e5c3bbed
+      event_sha256: dd062e8114cc88e9b60a31b65ee09caf4b4d7c07e3189c41db44d4dea8aae267
       status: PENDING_CANDIDATE
       rationale: Founder authorized one bounded P1 route that directly closes the single-read Evidence transaction boundary before the one-shot baseline and report-bound preregistration. The event is non-blocking, adds no capability credit, keeps strict P1 at 6/8, and keeps P2 held.
       engineering_blocking: false

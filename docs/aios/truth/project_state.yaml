@@ -5443,7 +5443,71 @@ current_phase_route:
       public: false
       remote: false
       secret: true
-  founder_reserved_profile: null
+  founder_reserved_profile:
+    call_limits:
+      automatic_retry_max: 0
+      diagnostic_requests_max: 1
+      formal_requests_exact: 36
+      provider_requests_max: 37
+    claim_limits:
+      actual_monetary_cost: UNKNOWN_UNLESS_TRUSTWORTHY_GATEWAY_EVIDENCE_EXISTS
+      direct_openai_provenance_proven: false
+      gateway_upstream_behavior: UNKNOWN
+      hostile_principal_isolation: false
+      p2_entry: false
+      production: false
+      public: false
+      remote: false
+      upstream_request_count: UNKNOWN
+    decision_basis: FOUNDER_PACKET_SHA256:f92df5cbbbc771eb37d273d7c150f001ce93b7c98441925d7194c03b4f8e647c
+    external_effects:
+      network: true
+      production: false
+      provider: true
+      public: false
+      remote: false
+      secret: true
+    model:
+      provider_provenance: FOUNDER_ATTESTED_OPENAI_COMPATIBLE_LOCAL_GATEWAY_MODEL_NOT_INDEPENDENTLY_VERIFIED
+      requested_model: gpt-5.6-luna
+      substitution_allowed: false
+    monetary_limits:
+      currency: USD
+      max_spend: 25
+      unavailable_metering_status: UNKNOWN_GATEWAY_METERING_UNAVAILABLE
+    profile_id: P1_187_INVENTORY_FIRST_RAW_EVIDENCE_BASELINE_V1
+    route_id: P1_INVENTORY_FIRST_RAW_EVIDENCE_TRANSACTION_BASELINE_AND_STRICT_EXIT_ROUTE_V1
+    schema_version: '4.0'
+    secret:
+      entry_sessions: 1
+      persist: false
+      prohibited_sinks:
+      - ARGV
+      - ENVIRONMENT
+      - SHELL_HISTORY
+      - REPOSITORY
+      - TEMPORARY_PLAINTEXT_FILE
+      - EVIDENCE
+      - LOG
+      - TRACE
+      - PROMPT
+      - REVIEW
+      - VAULT
+      source: FOUNDER_OPERATOR_NO_ECHO_TTY
+    task_id: AIOS-P1-187_INVENTORY_FIRST_RAW_EVIDENCE_BASELINE_REPORT
+    transport:
+      api_format: OPENAI_COMPATIBLE_CHAT_COMPLETIONS
+      completion_path: "/v1/chat/completions"
+      dns_resolution: false
+      expected_peer_address: 127.0.0.1
+      expected_peer_port: 8787
+      fallback_endpoint_allowed: false
+      follow_redirects: false
+      host: 127.0.0.1
+      method: POST
+      port: 8787
+      scheme: http
+      use_proxy: false
   founder_reserved_profiles:
   - call_limits:
       automatic_retry_max: 0

@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-02T14:39:19Z"
-verification_scope: P1_196_TERMINAL_PREFORMAL_REVIEW_TARGET_NON_PASS
+last_verified_at: "2026-08-02T14:59:48Z"
+verification_scope: P1_196_TERMINAL_PREFORMAL_REVIEW_TARGET_NON_PASS_AND_KNOWLEDGE_IMPORTED
 
 authority:
   founder: Human Founder
@@ -8972,7 +8972,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260802-P1-196-FOUNDER-ROUTE-AUTHORIZED-V1
+  latest_event_id: FKS-20260802-P1-196-TERMINAL-PREFORMAL-REVIEW-NON-PASS-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -10535,11 +10535,8 @@ founder_knowledge_sync:
       source_commit: dcc9df17ac9b47185ebc88ba2045c528a528f5c9
       source_tree: c27aa4a5a554f1ba158221091e2a632dfe12cb31
       previous_event_sha256: dfe5b2108e8967484e904e13d916fe51cc996d56a2ad50f13244e50231c19de7
-      status: PENDING_CANDIDATE
-      rationale: Founder authorized the preformal-reviewed cooperative-local P1 strict
-        Exit route. P1-196 is eligible but not yet activated, strict P1 remains 6/8 at
-        75 percent, P2 remains held, no Secret or Provider effect exists, and the non-blocking
-        Founder Knowledge sync event is registered without capability credit.
+      status: NO_MATERIAL_KNOWLEDGE_DELTA
+      rationale: Founder authorized the preformal-reviewed cooperative-local P1 strict Exit route, but the route authorization alone added no reusable learning beyond the existing strict-sequence, preformal-first and no-capability-credit rules. Before a standalone authorization Artifact was warranted, P1-196 reached a terminal preformal review result; that later event now carries the independently reviewed and imported reusable lesson. This authorization event therefore has no separate material Knowledge delta and does not block engineering.
       engineering_blocking: false
       artifact:
         path: null
@@ -10557,7 +10554,34 @@ founder_knowledge_sync:
         path: null
         byte_length: null
         sha256: null
-      event_sha256: 001cdb83abc0d4e3b0e185d32a95d4e733ee44fb61af6fd43ac07db49456c610
+      event_sha256: 92411a63ef7f428bbba1c2b037194bfcff47367d70398b1643a0dc27f0e8c98b
+
+    - event_id: FKS-20260802-P1-196-TERMINAL-PREFORMAL-REVIEW-NON-PASS-V1
+      trigger_type: TASK_TERMINAL_STOP
+      occurred_at_utc: '2026-08-02T14:39:19Z'
+      source_commit: 285ec784eacd07d005c155a11bbd668efa16b1c4
+      source_tree: 7f6bb5de5da6508684a26f6a1686e158203d0013
+      previous_event_sha256: 92411a63ef7f428bbba1c2b037194bfcff47367d70398b1643a0dc27f0e8c98b
+      status: IMPORTED
+      rationale: P1-196 stopped before any formal Gate, Secret read or Provider request after fresh Quality independently reproduced an unexpected experiment-definition field accepted by the independent evaluator and returned TARGET_VERDICT NON_PASS. CTO and Security returned PASS, but all three PASS were mandatory. The exact source and preformal Evidence remain preserved and unintegrated; P1-197 is ineligible, strict P1 remains 6/8 at 75 percent and P2 remains held. The exact terminal Learning Artifact received independent Knowledge Review PASS and was imported create-once into the Founder Knowledge Vault with exact byte equality. The first Review file is preserved as a schema-invalid attempt because it added one extra vault_target key; the exact V2 mechanical reissue removes only that key and is the authoritative closed Review bound here. Knowledge sync adds no capability credit.
+      engineering_blocking: false
+      artifact:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-preformal-reviewed-baseline-strict-exit-20260802/task-1-p1-196/knowledge/P1_196_TERMINAL_FOUNDER_LEARNING_ARTIFACT_CANDIDATE_V1.md
+        byte_length: 3940
+        sha256: 0c9e5da0f3ef9fb7f7a07c637e04d4c1dcece9454739e23057732f3538156fb6
+      review:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-preformal-reviewed-baseline-strict-exit-20260802/task-1-p1-196/knowledge/P1_196_TERMINAL_KNOWLEDGE_REVIEW_V2.json
+        byte_length: 3795
+        sha256: ee4ca026a4d179b915ae24d27131a262284b23dbe6d3b66f22604254907750a3
+      vault_import:
+        path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/06-Decision-Records/2026-08-02-P1-196-preformal-evidence-schema-lessons.md
+        byte_length: 3940
+        sha256: 0c9e5da0f3ef9fb7f7a07c637e04d4c1dcece9454739e23057732f3538156fb6
+      receipt:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-preformal-reviewed-baseline-strict-exit-20260802/task-1-p1-196/knowledge/P1_196_TERMINAL_KNOWLEDGE_IMPORT_RECEIPT_V2.json
+        byte_length: 1659
+        sha256: 97a73fff4f236f5cdce81f28c89f913937a1efff7e03959a410e81101a28c461
+      event_sha256: c4bf724410eafe1eeee8b449cbaa891772b6422fc5e2dcd8992d3b535ac02718
 
 historical_active_work_after_p1_079:
   current_task: NONE

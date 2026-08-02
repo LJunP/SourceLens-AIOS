@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-02T08:19:26Z"
-verification_scope: P1_190_TERMINAL_FINAL_CTO_TARGET_NON_PASS
+last_verified_at: "2026-08-02T09:08:08Z"
+verification_scope: P1_190_TERMINAL_KNOWLEDGE_V2_REVIEWED_PASS_PENDING_IMPORT
 
 authority:
   founder: Human Founder
@@ -8453,7 +8453,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260802-P1-190-TERMINAL-KNOWLEDGE-PENDING-V1
+  latest_event_id: FKS-20260802-P1-190-TERMINAL-KNOWLEDGE-V2-PENDING-REVIEW
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -9908,18 +9908,45 @@ founder_knowledge_sync:
       source_commit: 391819c1d06c608e906ce3a25a114bdf444095ce
       source_tree: 50b4bf85390c11a8fe03610256bf7c9c3fa25041
       previous_event_sha256: 9f180bf300aadaed2ab93734420ae92bc4ac2dae3a63a264bdfa913bc383a0c5
-      event_sha256: dcfe814779160e837f6a114044ed68b1327902d45dba427876ab3264386313c5
-      status: PENDING_REVIEW
-      rationale: P1-190 stopped at its one-candidate final Gate after fresh CTO TARGET_VERDICT NON_PASS identified a missing per-read pre/post typed object identity and raw receipt boundary. The exact 7308-byte Founder Learning Artifact candidate is frozen and awaits independent Knowledge Review; no Provider or Secret was used, strict P1 remains 6/8 at 75 percent, and P2 remains held.
+      event_sha256: f3385550c0ce6cbc3c577842699a8b5df7e591aa5dc4adfe141e1f4467ded306
+      status: NON_PASS
+      rationale: P1-190 stopped at its one-candidate final Gate after fresh CTO TARGET_VERDICT NON_PASS identified the missing per-read pre/post typed object identity and raw receipt boundary. The exact 7308-byte v1 Learning Artifact received independent Knowledge NON_PASS for an unbound historical Truth identity and one unsupported cleanup-detail claim; the original Review and a schema-compatible same-verdict record are preserved, no Vault import occurred, engineering is not blocked, strict P1 remains 6/8 at 75 percent, and P2 remains held.
       engineering_blocking: false
       artifact:
         path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-descriptor-relative-object-identity-strict-exit-20260802/task-1-p1-190/knowledge/P1_190_TERMINAL_FOUNDER_LEARNING_ARTIFACT_CANDIDATE_V1.md
         byte_length: 7308
         sha256: 38a163645586e550f69ccf26457022d43a93f1a73dd4af984934a645023e7ba7
       review:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-descriptor-relative-object-identity-strict-exit-20260802/task-1-p1-190/knowledge/P1_190_TERMINAL_KNOWLEDGE_REVIEW_V1_SCHEMA_COMPATIBLE.json
+        byte_length: 3534
+        sha256: ee16599a1494bda65ee2d0a5955f70ff23b48e91ee15a066b2d388f77e7e8321
+      vault_import:
         path: null
         byte_length: null
         sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+
+    - event_id: FKS-20260802-P1-190-TERMINAL-KNOWLEDGE-V2-PENDING-REVIEW
+      trigger_type: TASK_TERMINAL_STOP
+      occurred_at_utc: '2026-08-02T08:59:38Z'
+      source_commit: f810578511c66d28d6bbf1c1c07776f502bb02f3
+      source_tree: 0491f690c49276c1cc0de295a3fb4b588e1bdfa5
+      previous_event_sha256: f3385550c0ce6cbc3c577842699a8b5df7e591aa5dc4adfe141e1f4467ded306
+      event_sha256: 312c593c638529422cf45a140d35adcfcc587d6d51999a4775ee4daef9aa584a
+      status: REVIEWED_PASS_PENDING_IMPORT
+      rationale: The v1 terminal Learning Artifact and both NON_PASS Review records remain immutable and unimported. The exact 8234-byte v2 candidate narrows the unsupported cleanup claim, binds an immutable canonical Truth snapshot, and received independent Knowledge Review PASS for exact-byte Vault import only; engineering remains unblocked, strict P1 remains 6/8 and P2 remains held.
+      engineering_blocking: false
+      artifact:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-descriptor-relative-object-identity-strict-exit-20260802/task-1-p1-190/knowledge/P1_190_TERMINAL_FOUNDER_LEARNING_ARTIFACT_CANDIDATE_V2.md
+        byte_length: 8234
+        sha256: a2baebf0479be2372688baf4cd14eaae78cd9959d1d6c1caba2ea9e988b9feed
+      review:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-descriptor-relative-object-identity-strict-exit-20260802/task-1-p1-190/knowledge/P1_190_TERMINAL_KNOWLEDGE_REVIEW_V2.json
+        byte_length: 4365
+        sha256: dd5fa90578291bbfe62dc917ed76badf88a4dc25445309758620d6c05627b938
       vault_import:
         path: null
         byte_length: null

@@ -5613,7 +5613,7 @@ current_phase_route:
       secret: true
   - task_slot: 2
     task_id: AIOS-P1-188_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
-    status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
+    status: PENDING_PREDECESSOR_TASK_GATE
     engineering_hours: 8
     calendar_days: 2
     max_implementation_iterations: 2

@@ -5662,6 +5662,10 @@ current_phase_route:
   - p1_149
   additional_write_roots: []
   inherited_worktree_inventory:
+  - path: "/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-190-descriptor-relative-kernel"
+    head: e83b236b105e03c015cd8e3227e9182c433ef6b5
+    branch: codex/p1-190-descriptor-relative-kernel
+    status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
   - path: "/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-181-sealed-input-causal-kernel"
     head: b13846958be6b903543a778beba838121b4ac43a
     branch: codex/p1-181-sealed-input-causal-kernel

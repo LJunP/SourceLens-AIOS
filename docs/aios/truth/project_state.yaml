@@ -9908,14 +9908,14 @@ founder_knowledge_sync:
       source_commit: 391819c1d06c608e906ce3a25a114bdf444095ce
       source_tree: 50b4bf85390c11a8fe03610256bf7c9c3fa25041
       previous_event_sha256: 9f180bf300aadaed2ab93734420ae92bc4ac2dae3a63a264bdfa913bc383a0c5
-      event_sha256: a516056b84240111a21f11cb90f7c44b419fcf9805ea805577c9db264150d9ef
-      status: PENDING_CANDIDATE
-      rationale: P1-190 stopped at its one-candidate final Gate after fresh CTO TARGET_VERDICT NON_PASS identified a missing per-read pre/post typed object identity and raw receipt boundary. The candidate was not integrated, no Provider or Secret was used, strict P1 remains 6/8 at 75 percent, P2 remains held, and a Founder Learning Artifact is queued without blocking engineering.
+      event_sha256: dcfe814779160e837f6a114044ed68b1327902d45dba427876ab3264386313c5
+      status: PENDING_REVIEW
+      rationale: P1-190 stopped at its one-candidate final Gate after fresh CTO TARGET_VERDICT NON_PASS identified a missing per-read pre/post typed object identity and raw receipt boundary. The exact 7308-byte Founder Learning Artifact candidate is frozen and awaits independent Knowledge Review; no Provider or Secret was used, strict P1 remains 6/8 at 75 percent, and P2 remains held.
       engineering_blocking: false
       artifact:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-descriptor-relative-object-identity-strict-exit-20260802/task-1-p1-190/knowledge/P1_190_TERMINAL_FOUNDER_LEARNING_ARTIFACT_CANDIDATE_V1.md
+        byte_length: 7308
+        sha256: 38a163645586e550f69ccf26457022d43a93f1a73dd4af984934a645023e7ba7
       review:
         path: null
         byte_length: null

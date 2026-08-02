@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-02T03:48:51Z"
-verification_scope: P1_187_TERMINAL_PREFORMAL_CTO_TARGET_NON_PASS
+last_verified_at: "2026-08-02T06:51:49Z"
+verification_scope: P1_190_DESCRIPTOR_RELATIVE_EVIDENCE_OBJECT_KERNEL_ROUTE_ACTIVATED
 
 authority:
   founder: Human Founder
@@ -37,8 +37,19 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
+  current_task_authority: AIOS-P1-190_DESCRIPTOR_RELATIVE_EVIDENCE_OBJECT_KERNEL
   note: >-
+    Founder authorized the descriptor-relative object identity strict P1 Exit
+    route from exact canonical commit/tree
+    660a54ff3592fa90a1c4fa7178d4a0a2f9499705 /
+    f5bd39a484f1ca50aeb9b0803f528f858f137fe0. P1-190 is the sole active
+    offline Task. It must hold trusted directory and Evidence object handles
+    through verification and consumption, reject namespace and inode
+    substitution, pass four-topology adversarial verification, and receive
+    fresh CTO, Security and Quality PASS before integration. This activation
+    adds no P1 capability credit: strict P1 remains 6/8 (75%), the baseline
+    report and P2 preregistration remain MISSING, and P2 remains
+    HOLD_PENDING_STRICT_P1_EXIT.
     P1-187 froze exact offline candidate commit/tree
     d970a6efd2c45175d6e58ecf1cbedff0d74adab2 /
     95bbff8010d910fe351a6d1dc8970f13d5e8d109 after its implementation-defined
@@ -643,12 +654,12 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  p1_execution_status: AT_FOUNDER_P1_PHASE_GATE
-  p1_engineering_status: P1_187_TERMINAL_PREFORMAL_CTO_TARGET_NON_PASS
+  p1_execution_status: ACTIVE
+  p1_engineering_status: P1_190_ACTIVE_DESCRIPTOR_RELATIVE_EVIDENCE_OBJECT_KERNEL
   p2_entry_status: HOLD_PENDING_STRICT_P1_EXIT
   p2_execution_status: HOLD_PENDING_STRICT_P1_EXIT
-  phase_execution_status: STOPPED_AT_FOUNDER_P1_PHASE_GATE
-  current_route_execution_status: TERMINAL_TASK_1_P1_187_PREFORMAL_CTO_NON_PASS
+  phase_execution_status: ACTIVE
+  current_route_execution_status: ACTIVE_TASK_1_P1_190
   canonical_branch: main
   canonical_repository: /Users/lijunpeng/Developer/SourceLens-AIOS
   task_worktree_root: /Users/lijunpeng/Developer/.sourcelens-worktrees
@@ -5396,26 +5407,26 @@ historical_p1_162_phase_route:
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 
 current_phase_route:
-  route_id: P1_INVENTORY_FIRST_RAW_EVIDENCE_TRANSACTION_BASELINE_AND_STRICT_EXIT_ROUTE_V1
-  status: TERMINAL_PREFORMAL_CTO_TARGET_NON_PASS
-  authority_object_status: FOUNDER_DIRECTIVE_CONSUMED_TERMINAL
-  execution_status: TERMINAL_TASK_1_PREFORMAL_REVIEW_NON_PASS
-  founder_phase_route_decision_required: true
-  scheduling_status: TERMINAL_NO_ELIGIBLE_SUCCESSOR
+  route_id: P1_DESCRIPTOR_RELATIVE_OBJECT_IDENTITY_KERNEL_AND_STRICT_EXIT_ROUTE_V1
+  status: ACTIVE
+  authority_object_status: FOUNDER_DIRECTIVE_ACTIVE
+  execution_status: ACTIVE_TASK_1
+  founder_phase_route_decision_required: false
+  scheduling_status: ACTIVE_TASK_1_ONLY
   phase: P1
   phase_entry_status: AUTHORIZED
-  authorization_token: AUTHORIZE_P1_INVENTORY_FIRST_RAW_EVIDENCE_TRANSACTION_BASELINE_AND_STRICT_EXIT_ROUTE_V1
+  authorization_token: AUTHORIZE_P1_DESCRIPTOR_RELATIVE_OBJECT_IDENTITY_KERNEL_AND_STRICT_EXIT_ROUTE_V1
   decision_packet:
-    path: "/Users/lijunpeng/Developer/.sourcelens-audit/p1-inventory-first-raw-evidence-strict-exit-20260802/founder-phase-gate-draft/FOUNDER_P1_INVENTORY_FIRST_RAW_EVIDENCE_STRICT_EXIT_DECISION_DRAFT_V1.json"
-    sha256: f63d3f3c968e40cb311cf6df58f2d71d7c50c18da9379eff4003c628ae44804b
-    byte_length: 4522
+    path: "/Users/lijunpeng/Developer/.sourcelens-audit/p1-descriptor-relative-object-identity-strict-exit-20260802/founder-phase-gate/FOUNDER_P1_DESCRIPTOR_RELATIVE_OBJECT_IDENTITY_STRICT_EXIT_DECISION_V1.json"
+    sha256: 5b6703cbddf6cc69bb452b68ca341182d168ffc9949f1788caf38f01b93b0b82
+    byte_length: 5027
   original_founder_packet:
-    path: "/Users/lijunpeng/Developer/.sourcelens-audit/p1-inventory-first-raw-evidence-strict-exit-20260802/founder-phase-gate-draft/FOUNDER_P1_INVENTORY_FIRST_RAW_EVIDENCE_STRICT_EXIT_ROUTE_DRAFT_V1.md"
-    sha256: f92df5cbbbc771eb37d273d7c150f001ce93b7c98441925d7194c03b4f8e647c
-    byte_length: 7145
+    path: "/Users/lijunpeng/Developer/.sourcelens-audit/p1-descriptor-relative-object-identity-strict-exit-20260802/founder-phase-gate/FOUNDER_P1_DESCRIPTOR_RELATIVE_OBJECT_IDENTITY_STRICT_EXIT_ROUTE_V1.md"
+    sha256: c9e43ba0200807c4c73eae7ef5acf88374f42e1b88d0e1303a1e5ef7208186fb
+    byte_length: 7651
   activation_parent:
-    commit: b6844da943e6f19e8f43fc22a950a684f19af0c5
-    tree: f148707a8b25be83c01193f3e943112f6e79a292
+    commit: 660a54ff3592fa90a1c4fa7178d4a0a2f9499705
+    tree: f5bd39a484f1ca50aeb9b0803f528f858f137fe0
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: '1.7'
@@ -5426,20 +5437,20 @@ current_phase_route:
     canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
     raw_byte_length: 19433
     raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
-  objective: Build one inventory-first raw Evidence transaction, complete one
-    request-bound 36-cell baseline report, then bind one exact P2 preregistration
-    while P2 remains held.
-  claim_boundary: COOPERATIVE_LOCAL_INVENTORY_FIRST_RAW_EVIDENCE_TRANSACTION_ONE_SHOT_36_CELL_BASELINE_AND_REPORT_BOUND_PREREGISTRATION_ONLY
+  objective: Build one descriptor-relative Evidence object identity kernel,
+    complete one descriptor-bound 36-cell baseline report, then bind one exact
+    P2 preregistration while P2 remains held.
+  claim_boundary: COOPERATIVE_LOCAL_DESCRIPTOR_RELATIVE_OBJECT_IDENTITY_KERNEL_ONE_SHOT_36_CELL_BASELINE_AND_REPORT_BOUND_PREREGISTRATION_ONLY
   envelope:
-    max_engineering_tasks: 2
-    max_engineering_hours: 56
-    max_calendar_days: 10
+    max_engineering_tasks: 3
+    max_engineering_hours: 72
+    max_calendar_days: 14
     max_active_tasks: 1
     max_task_branches: 1
     max_task_worktrees: 1
     max_active_candidates: 1
     max_contract_corrections_per_task: 0
-    max_same_task_repairs: 5
+    max_same_task_repairs: 6
     successor_replacement_normalization_closure_feasibility_or_remediation_chain_allowed: false
     p2_entry_authorized: false
     p3_entry_authorized: false
@@ -5466,7 +5477,7 @@ current_phase_route:
       public: false
       remote: false
       upstream_request_count: UNKNOWN
-    decision_basis: FOUNDER_PACKET_SHA256:f92df5cbbbc771eb37d273d7c150f001ce93b7c98441925d7194c03b4f8e647c
+    decision_basis: FOUNDER_PACKET_SHA256:c9e43ba0200807c4c73eae7ef5acf88374f42e1b88d0e1303a1e5ef7208186fb
     external_effects:
       network: true
       production: false
@@ -5482,8 +5493,8 @@ current_phase_route:
       currency: USD
       max_spend: 25
       unavailable_metering_status: UNKNOWN_GATEWAY_METERING_UNAVAILABLE
-    profile_id: P1_187_INVENTORY_FIRST_RAW_EVIDENCE_BASELINE_V1
-    route_id: P1_INVENTORY_FIRST_RAW_EVIDENCE_TRANSACTION_BASELINE_AND_STRICT_EXIT_ROUTE_V1
+    profile_id: P1_191_DESCRIPTOR_BOUND_BASELINE_V1
+    route_id: P1_DESCRIPTOR_RELATIVE_OBJECT_IDENTITY_KERNEL_AND_STRICT_EXIT_ROUTE_V1
     schema_version: '4.0'
     secret:
       entry_sessions: 1
@@ -5501,7 +5512,7 @@ current_phase_route:
       - REVIEW
       - VAULT
       source: FOUNDER_OPERATOR_NO_ECHO_TTY
-    task_id: AIOS-P1-187_INVENTORY_FIRST_RAW_EVIDENCE_BASELINE_REPORT
+    task_id: AIOS-P1-191_DESCRIPTOR_BOUND_REPRODUCIBLE_BASELINE_REPORT
     transport:
       api_format: OPENAI_COMPATIBLE_CHAT_COMPLETIONS
       completion_path: "/v1/chat/completions"
@@ -5531,7 +5542,7 @@ current_phase_route:
       public: false
       remote: false
       upstream_request_count: UNKNOWN
-    decision_basis: FOUNDER_PACKET_SHA256:f92df5cbbbc771eb37d273d7c150f001ce93b7c98441925d7194c03b4f8e647c
+    decision_basis: FOUNDER_PACKET_SHA256:c9e43ba0200807c4c73eae7ef5acf88374f42e1b88d0e1303a1e5ef7208186fb
     external_effects:
       network: true
       production: false
@@ -5547,8 +5558,8 @@ current_phase_route:
       currency: USD
       max_spend: 25
       unavailable_metering_status: UNKNOWN_GATEWAY_METERING_UNAVAILABLE
-    profile_id: P1_187_INVENTORY_FIRST_RAW_EVIDENCE_BASELINE_V1
-    route_id: P1_INVENTORY_FIRST_RAW_EVIDENCE_TRANSACTION_BASELINE_AND_STRICT_EXIT_ROUTE_V1
+    profile_id: P1_191_DESCRIPTOR_BOUND_BASELINE_V1
+    route_id: P1_DESCRIPTOR_RELATIVE_OBJECT_IDENTITY_KERNEL_AND_STRICT_EXIT_ROUTE_V1
     schema_version: '4.0'
     secret:
       entry_sessions: 1
@@ -5566,7 +5577,7 @@ current_phase_route:
       - REVIEW
       - VAULT
       source: FOUNDER_OPERATOR_NO_ECHO_TTY
-    task_id: AIOS-P1-187_INVENTORY_FIRST_RAW_EVIDENCE_BASELINE_REPORT
+    task_id: AIOS-P1-191_DESCRIPTOR_BOUND_REPRODUCIBLE_BASELINE_REPORT
     transport:
       api_format: OPENAI_COMPATIBLE_CHAT_COMPLETIONS
       completion_path: "/v1/chat/completions"
@@ -5582,12 +5593,12 @@ current_phase_route:
       use_proxy: false
   first_task:
     task_slot: 1
-    task_id: AIOS-P1-187_INVENTORY_FIRST_RAW_EVIDENCE_BASELINE_REPORT
-    status: TERMINAL_PREFORMAL_CTO_TARGET_NON_PASS
-    engineering_hours: 48
-    calendar_days: 8
-    max_implementation_iterations: 6
-    max_same_task_repairs: 5
+    task_id: AIOS-P1-190_DESCRIPTOR_RELATIVE_EVIDENCE_OBJECT_KERNEL
+    status: ACTIVE
+    engineering_hours: 24
+    calendar_days: 5
+    max_implementation_iterations: 7
+    max_same_task_repairs: 6
     max_candidates: 1
     external_effects:
       network: false
@@ -5596,20 +5607,35 @@ current_phase_route:
       public: false
       remote: false
       secret: false
-    contract_path: docs/aios/tasks/P1-187_INVENTORY_FIRST_RAW_EVIDENCE_BASELINE_REPORT.yaml
-    max_engineering_hours: 48
-    max_calendar_days: 8
-    contract_sha256: 2a1eaba95a355a83ac121631c8984b774885015a23671fae7d72afc1f21caa5d
-    contract_byte_length: 13945
-    p1_capability_claim_on_pass: REPRODUCIBLE_BASELINE_REPORT
+    contract_path: docs/aios/tasks/P1-190_DESCRIPTOR_RELATIVE_EVIDENCE_OBJECT_KERNEL.yaml
+    max_engineering_hours: 24
+    max_calendar_days: 5
+    contract_sha256: 27232f0a0fcf7fa2b739b82912f272b67597f76d5e49126e6ebe7bcb0afc6cb6
+    contract_byte_length: 10153
+    p1_capability_claim_on_pass: NONE_KERNEL_PREREQUISITE_ONLY
   task_plan:
   - task_slot: 1
-    task_id: AIOS-P1-187_INVENTORY_FIRST_RAW_EVIDENCE_BASELINE_REPORT
-    status: TERMINAL_PREFORMAL_CTO_TARGET_NON_PASS
-    engineering_hours: 48
-    calendar_days: 8
-    max_implementation_iterations: 6
-    max_same_task_repairs: 5
+    task_id: AIOS-P1-190_DESCRIPTOR_RELATIVE_EVIDENCE_OBJECT_KERNEL
+    status: ACTIVE
+    engineering_hours: 24
+    calendar_days: 5
+    max_implementation_iterations: 7
+    max_same_task_repairs: 6
+    max_candidates: 1
+    external_effects:
+      network: false
+      production: false
+      provider: false
+      public: false
+      remote: false
+      secret: false
+  - task_slot: 2
+    task_id: AIOS-P1-191_DESCRIPTOR_BOUND_REPRODUCIBLE_BASELINE_REPORT
+    status: PENDING_PREDECESSOR_TASK_GATE
+    engineering_hours: 40
+    calendar_days: 7
+    max_implementation_iterations: 7
+    max_same_task_repairs: 6
     max_candidates: 1
     external_effects:
       network: true
@@ -5618,13 +5644,13 @@ current_phase_route:
       public: false
       remote: false
       secret: true
-  - task_slot: 2
-    task_id: AIOS-P1-188_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
-    status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
+  - task_slot: 3
+    task_id: AIOS-P1-192_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+    status: PENDING_PREDECESSOR_TASK_GATE
     engineering_hours: 8
     calendar_days: 2
-    max_implementation_iterations: 2
-    max_same_task_repairs: 1
+    max_implementation_iterations: 3
+    max_same_task_repairs: 2
     max_candidates: 1
     external_effects:
       network: false
@@ -5634,14 +5660,17 @@ current_phase_route:
       remote: false
       secret: false
   automatic_entry:
-    after_task_id: AIOS-P1-187_INVENTORY_FIRST_RAW_EVIDENCE_BASELINE_REPORT
-    next_task_id: AIOS-P1-188_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+    after_task_id: AIOS-P1-190_DESCRIPTOR_RELATIVE_EVIDENCE_OBJECT_KERNEL
+    next_task_id: AIOS-P1-191_DESCRIPTOR_BOUND_REPRODUCIBLE_BASELINE_REPORT
     requires_task_gate_pass: true
   automatic_entries:
-  - after_task_id: AIOS-P1-187_INVENTORY_FIRST_RAW_EVIDENCE_BASELINE_REPORT
-    next_task_id: AIOS-P1-188_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+  - after_task_id: AIOS-P1-190_DESCRIPTOR_RELATIVE_EVIDENCE_OBJECT_KERNEL
+    next_task_id: AIOS-P1-191_DESCRIPTOR_BOUND_REPRODUCIBLE_BASELINE_REPORT
     requires_task_gate_pass: true
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
+  - after_task_id: AIOS-P1-191_DESCRIPTOR_BOUND_REPRODUCIBLE_BASELINE_REPORT
+    next_task_id: AIOS-P1-192_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+    requires_task_gate_pass: true
+  next_eligible_action: EXECUTE_ACTIVE_TASK
   accepted_inputs:
     p1_035:
       task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
@@ -6961,9 +6990,9 @@ historical_p2_phase_route:
   next_eligible_action: FOUNDER_P2_PHASE_GATE
 
 phase_delegation:
-  status: ACTIVE_P1_187_UNDER_FOUNDER_AUTHORIZED_STRICT_EXIT_ROUTE
+  status: ACTIVE_P1_190_UNDER_FOUNDER_AUTHORIZED_STRICT_EXIT_ROUTE
   model: PHASE_LEVEL_FOUNDER_DELEGATION
-  decision_source: AUTHORIZE_P1_INVENTORY_FIRST_RAW_EVIDENCE_TRANSACTION_BASELINE_AND_STRICT_EXIT_ROUTE_V1
+  decision_source: AUTHORIZE_P1_DESCRIPTOR_RELATIVE_OBJECT_IDENTITY_KERNEL_AND_STRICT_EXIT_ROUTE_V1
   phase_gate_owner: HUMAN_FOUNDER
   task_selection_owner: MASTER_CEO_AGENT
   task_authorization_owner: MASTER_CEO_AGENT_WITHIN_CURRENT_PHASE_ENVELOPE
@@ -8469,7 +8498,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260802-P1-187-TERMINAL-KNOWLEDGE-IMPORTED-V1
+  latest_event_id: FKS-20260802-P1-190-ROUTE-ACTIVATED-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -9891,6 +9920,33 @@ founder_knowledge_sync:
         byte_length: 1630
         sha256: a8fb927699fd494b36913c15e346143ae7cdadb3948101c826fec7c9b60537ac
 
+    - event_id: FKS-20260802-P1-190-ROUTE-ACTIVATED-V1
+      trigger_type: FOUNDER_ROUTE_AUTHORIZED
+      occurred_at_utc: '2026-08-02T06:51:49Z'
+      source_commit: 660a54ff3592fa90a1c4fa7178d4a0a2f9499705
+      source_tree: f5bd39a484f1ca50aeb9b0803f528f858f137fe0
+      previous_event_sha256: 4bd2d458f314eef2e88111f9a63f0ef93da788dd5446c1061d024691b98b0b42
+      event_sha256: 35f409bc01c68eddb5a38c2d13612b7c0695ece1d651e46b20473a5b1888e2a1
+      status: PENDING_CANDIDATE
+      rationale: Founder authorized the descriptor-relative object identity strict P1 Exit route. P1-190 is the sole active offline Task, strict P1 remains 6/8 at 75 percent, P2 remains held, and this non-blocking Knowledge sync event adds no capability credit.
+      engineering_blocking: false
+      artifact:
+        path: null
+        byte_length: null
+        sha256: null
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+
 historical_active_work_after_p1_079:
   current_task: NONE
   current_task_status: NONE
@@ -9942,38 +9998,49 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P1-190_DESCRIPTOR_RELATIVE_EVIDENCE_OBJECT_KERNEL
+  current_task_status: ACTIVE
   current_task_contract:
-    path: null
-    sha256: null
-    byte_length: null
-  current_task_contract_sha256: null
-  current_execution_authorization: null
-  current_execution_authorization_sha256: null
+    path: docs/aios/tasks/P1-190_DESCRIPTOR_RELATIVE_EVIDENCE_OBJECT_KERNEL.yaml
+    sha256: 27232f0a0fcf7fa2b739b82912f272b67597f76d5e49126e6ebe7bcb0afc6cb6
+    byte_length: 10153
+  current_task_contract_sha256: 27232f0a0fcf7fa2b739b82912f272b67597f76d5e49126e6ebe7bcb0afc6cb6
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-descriptor-relative-object-identity-strict-exit-20260802/task-1-p1-190/authority/TASK_AUTHORITY.yaml
+  current_execution_authorization_sha256: 277ab53332df819bd3d1d87f1b7a0a6129bedf473e1ee4cbde6a13d8f4c2b2a5
   authority_record:
-    path: null
-    sha256: null
-    byte_length: null
-  execution_nonce: null
-  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
-  authorization_id: null
-  activation_parent_commit: null
-  activation_parent_tree: null
-  task_resource_state: NOT_CREATED_ROUTE_TERMINAL
-  task_branch: null
-  task_worktree: null
-  execution_evidence_root: null
-  allowlisted_paths: []
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-descriptor-relative-object-identity-strict-exit-20260802/task-1-p1-190/authority/TASK_AUTHORITY.yaml
+    sha256: 277ab53332df819bd3d1d87f1b7a0a6129bedf473e1ee4cbde6a13d8f4c2b2a5
+    byte_length: 3660
+  execution_nonce: 82af232bb642f2ce634d3d16007a91a34f1dee86710561925c0a0d2d6d2b6f78
+  execution_nonce_status: ACTIVE
+  authorization_id: 9573cd51407e35905fa5e8fe518a6374d90a1c9c6b983aa97c3b570dbe09c049
+  activation_parent_commit: 660a54ff3592fa90a1c4fa7178d4a0a2f9499705
+  activation_parent_tree: f5bd39a484f1ca50aeb9b0803f528f858f137fe0
+  task_resource_state: CREATED_ACTIVE
+  task_branch: codex/p1-190-descriptor-relative-kernel
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-190-descriptor-relative-kernel
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-descriptor-relative-object-identity-strict-exit-20260802/task-1-p1-190
+  allowlisted_paths:
+    - evaluation-harness/native/p1-190-descriptor-object-kernel
+    - evaluation-harness/harness/p1-190-descriptor-object-kernel
+    - evaluation-harness/evaluator/p1-190-descriptor-object-kernel
+    - scripts/verify-p1-190-descriptor-object-kernel.sh
+    - docs/aios/tasks/P1-190_DESCRIPTOR_RELATIVE_EVIDENCE_OBJECT_KERNEL.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+    - Makefile
   budget:
-    engineering_hours: null
-    calendar_days: null
-    implementation_iterations: null
-    candidates: null
+    engineering_hours: 24
+    calendar_days: 5
+    implementation_iterations: 7
+    candidates: 1
   roles:
-    owner: null
-    worker: null
-    independent_reviewers: []
+    owner: P1-190 Engineering Manager
+    worker: P1-190 Descriptor-Relative Kernel Worker
+    independent_reviewers:
+      - P1-190 Fresh CTO Reviewer
+      - P1-190 Fresh Security Reviewer
+      - P1-190 Fresh Quality Reviewer
   external_effects:
     network: false
     production: false
@@ -9982,15 +10049,15 @@ active_work:
     remote: false
     secret: false
   offsite_target: null
-  founder_reserved_authorization: null
-  founder_reserved_authorization_sha256: null
-  founder_decision_required: true
-  founder_decision_required_scope: P1_PHASE_GATE_AFTER_P1_187_TERMINAL_PREFORMAL_CTO_TARGET_NON_PASS
-  escalation_reason: P1187_INVENTORY_FIRST_READ_AFTER_VERIFY_TOCTOU_IDENTITY_BYPASS
-  user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
+  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-descriptor-relative-object-identity-strict-exit-20260802/founder-phase-gate/FOUNDER_P1_DESCRIPTOR_RELATIVE_OBJECT_IDENTITY_STRICT_EXIT_DECISION_V1.json
+  founder_reserved_authorization_sha256: 5b6703cbddf6cc69bb452b68ca341182d168ffc9949f1788caf38f01b93b0b82
+  founder_decision_required: false
+  founder_decision_required_scope: null
+  escalation_reason: null
+  user_action_required: NONE
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: EXECUTE_ACTIVE_TASK
 task_history:
   aios_p1_187:
     task_id: AIOS-P1-187_INVENTORY_FIRST_RAW_EVIDENCE_BASELINE_REPORT

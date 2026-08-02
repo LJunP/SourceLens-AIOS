@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-02T11:39:53Z"
-verification_scope: P1_196_PHASE_DELEGATED_TASK_ACTIVATION
+last_verified_at: "2026-08-02T14:39:19Z"
+verification_scope: P1_196_TERMINAL_PREFORMAL_REVIEW_TARGET_NON_PASS
 
 authority:
   founder: Human Founder
@@ -37,8 +37,23 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: AIOS-P1-196_PREFORMAL_REVIEWED_COOPERATIVE_LOCAL_BASELINE_REPORT
+  current_task_authority: NONE
   note: >-
+    P1-196 completed three fresh topology rehearsals plus one synthetic formal
+    rehearsal from exact source commit/tree de7edd0f8e21a78d852c75f4e51ea1b132b43915 /
+    80b62de2a5d8fb8c53ced2e4b3a5871dd226469d: 144 synthetic cells, zero
+    Provider requests, zero Secret reads, and the Worker matrix reported zero
+    false accepts. Fresh CTO and Security preformal reviews returned PASS, but
+    fresh Quality independently reproduced an unexpected top-level
+    experiment-definition field that the independent evaluator accepted after
+    the raw manifest was coherently rebuilt. Quality therefore returned
+    TARGET_VERDICT NON_PASS with normalized root cause
+    P1196.PREFORMAL.RAW_EVIDENCE_SCHEMA.EXPERIMENT_DEFINITION_EXTRA_FIELD_FALSE_ACCEPT.
+    The exact route Stop Condition fired before any preformal Gate, Key read,
+    Provider request, formal 36-cell execution, candidate, integration or P1
+    capability credit. P1-197 is ineligible, strict P1 remains 6/8 (75%), P2
+    remains HOLD_PENDING_STRICT_P1_EXIT, and the next action is the Founder P1
+    Phase Gate without a correction, successor or replacement chain.
     P1-196 is the sole active Task under the preformal-reviewed cooperative-local
     strict P1 Exit route. Three fresh 36-cell topology rehearsals and fresh
     independent CTO, Security and Quality preformal PASS are mandatory before
@@ -706,12 +721,12 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  p1_execution_status: ACTIVE
-  p1_engineering_status: P1_196_ACTIVE_PREFORMAL_ENGINEERING
+  p1_execution_status: AT_FOUNDER_P1_PHASE_GATE
+  p1_engineering_status: P1_196_TERMINAL_PREFORMAL_REVIEW_TARGET_NON_PASS
   p2_entry_status: HOLD_PENDING_STRICT_P1_EXIT
   p2_execution_status: HOLD_PENDING_STRICT_P1_EXIT
-  phase_execution_status: ACTIVE
-  current_route_execution_status: ACTIVE_P1_196_PREFORMAL_ENGINEERING
+  phase_execution_status: STOPPED_AT_FOUNDER_P1_PHASE_GATE
+  current_route_execution_status: TERMINAL_P1_196_PREFORMAL_REVIEW_TARGET_NON_PASS
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -5459,11 +5474,11 @@ historical_p1_162_phase_route:
 
 current_phase_route:
   route_id: P1_PREFORMAL_REVIEWED_COOPERATIVE_LOCAL_BASELINE_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
-  status: ACTIVE
-  authority_object_status: PHASE_DELEGATED_TASK_AUTHORITY_ACTIVE
-  execution_status: ACTIVE_P1_196_PREFORMAL_ENGINEERING
-  founder_phase_route_decision_required: false
-  scheduling_status: P1_196_ACTIVE
+  status: TERMINAL_PREFORMAL_REVIEW_TARGET_NON_PASS
+  authority_object_status: FOUNDER_DIRECTIVE_CONSUMED_TERMINAL
+  execution_status: TERMINAL_TASK_1_PREFORMAL_REVIEW_TARGET_NON_PASS
+  founder_phase_route_decision_required: true
+  scheduling_status: TERMINAL_NO_ELIGIBLE_SUCCESSOR
   phase: P1
   phase_entry_status: AUTHORIZED
   authorization_token: AUTHORIZE_P1_PREFORMAL_REVIEWED_COOPERATIVE_LOCAL_BASELINE_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
@@ -5645,7 +5660,7 @@ current_phase_route:
   first_task:
     task_slot: 1
     task_id: AIOS-P1-196_PREFORMAL_REVIEWED_COOPERATIVE_LOCAL_BASELINE_REPORT
-    status: ACTIVE
+    status: TERMINAL_PREFORMAL_REVIEW_TARGET_NON_PASS
     engineering_hours: 40
     calendar_days: 6
     max_implementation_iterations: 7
@@ -5659,15 +5674,15 @@ current_phase_route:
       remote: false
       secret: true
     contract_path: docs/aios/tasks/P1-196_PREFORMAL_REVIEWED_COOPERATIVE_LOCAL_BASELINE_REPORT.yaml
-    contract_sha256: 126141e47718b1b37e74ef8f6f9cf40930cc947f7a8aa4b9d5f3d27ff3d099ea
-    contract_byte_length: 8004
+    contract_sha256: 3801b5392dacbefc5761dfe219d3ec5bc2a47f98f7dfe135e4eeef46f98fab25
+    contract_byte_length: 9377
     max_engineering_hours: 40
     max_calendar_days: 6
     p1_capability_claim_on_pass: REPRODUCIBLE_BASELINE_REPORT
   task_plan:
   - task_slot: 1
     task_id: AIOS-P1-196_PREFORMAL_REVIEWED_COOPERATIVE_LOCAL_BASELINE_REPORT
-    status: ACTIVE
+    status: TERMINAL_PREFORMAL_REVIEW_TARGET_NON_PASS
     engineering_hours: 40
     calendar_days: 6
     max_implementation_iterations: 7
@@ -5682,7 +5697,7 @@ current_phase_route:
       secret: true
   - task_slot: 2
     task_id: AIOS-P1-197_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
-    status: PENDING_PREDECESSOR_TASK_GATE
+    status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
     engineering_hours: 8
     calendar_days: 2
     max_implementation_iterations: 2
@@ -5703,7 +5718,7 @@ current_phase_route:
   - after_task_id: AIOS-P1-196_PREFORMAL_REVIEWED_COOPERATIVE_LOCAL_BASELINE_REPORT
     next_task_id: AIOS-P1-197_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
     requires_task_gate_pass: true
-  next_eligible_action: EXECUTE_AIOS_P1_196_PREFORMAL_REVIEWED_COOPERATIVE_LOCAL_BASELINE_REPORT
+  next_eligible_action: FOUNDER_P1_PHASE_GATE
   accepted_inputs:
     p1_035:
       task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
@@ -5744,6 +5759,10 @@ current_phase_route:
     - p1_149
   additional_write_roots: []
   inherited_worktree_inventory:
+  - path: "/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-196-preformal-reviewed-baseline"
+    head: de7edd0f8e21a78d852c75f4e51ea1b132b43915
+    branch: codex/p1-196-preformal-reviewed-baseline
+    status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
   - path: "/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-193-single-read-transaction"
     head: 6345a6e8d5bd60eac26ce48acd0e03cd208e1bd6
     branch: codex/p1-193-single-read-transaction
@@ -10539,6 +10558,7 @@ founder_knowledge_sync:
         byte_length: null
         sha256: null
       event_sha256: 001cdb83abc0d4e3b0e185d32a95d4e733ee44fb61af6fd43ac07db49456c610
+
 historical_active_work_after_p1_079:
   current_task: NONE
   current_task_status: NONE
@@ -10590,68 +10610,55 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
-  current_task: AIOS-P1-196_PREFORMAL_REVIEWED_COOPERATIVE_LOCAL_BASELINE_REPORT
-  current_task_status: ACTIVE
+  current_task: NONE
+  current_task_status: NONE
   current_task_contract:
-    path: docs/aios/tasks/P1-196_PREFORMAL_REVIEWED_COOPERATIVE_LOCAL_BASELINE_REPORT.yaml
-    sha256: 126141e47718b1b37e74ef8f6f9cf40930cc947f7a8aa4b9d5f3d27ff3d099ea
-    byte_length: 8004
-  current_task_contract_sha256: 126141e47718b1b37e74ef8f6f9cf40930cc947f7a8aa4b9d5f3d27ff3d099ea
-  current_execution_authorization: "/Users/lijunpeng/Developer/.sourcelens-audit/p1-preformal-reviewed-baseline-strict-exit-20260802/task-1-p1-196/authority/TASK_AUTHORITY.yaml"
-  current_execution_authorization_sha256: eec3c631796f5851b0d1ce1d8070b066c17b5249e6e88626f98395c762310798
+    path: null
+    sha256: null
+    byte_length: null
+  current_task_contract_sha256: null
+  current_execution_authorization: null
+  current_execution_authorization_sha256: null
   authority_record:
-    path: "/Users/lijunpeng/Developer/.sourcelens-audit/p1-preformal-reviewed-baseline-strict-exit-20260802/task-1-p1-196/authority/TASK_AUTHORITY.yaml"
-    sha256: eec3c631796f5851b0d1ce1d8070b066c17b5249e6e88626f98395c762310798
-    byte_length: 4737
-  execution_nonce: f41c03f2c8594b9c7f26f39885e7ccff5c5dc984c90c2ca3913012f36594ee0b
-  execution_nonce_status: ACTIVE
-  authorization_id: PHASE_DELEGATED_P1_196_V1
-  activation_parent_commit: 931ba9e172dfaf7816db725055409f5b6305c49b
-  activation_parent_tree: 28d92c9fb7db545f0b416d592fd955405854cebb
-  task_resource_state: CREATED_ACTIVE
-  task_branch: codex/p1-196-preformal-reviewed-baseline
-  task_worktree: "/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-196-preformal-reviewed-baseline"
-  execution_evidence_root: "/Users/lijunpeng/Developer/.sourcelens-audit/p1-preformal-reviewed-baseline-strict-exit-20260802/task-1-p1-196/evidence"
-  allowlisted_paths:
-  - evaluation-harness/harness/p1-196-preformal-reviewed-baseline
-  - evaluation-harness/replay/p1-196-preformal-reviewed-baseline
-  - evaluation-harness/evaluator/p1-196-preformal-reviewed-baseline
-  - evaluation-harness/reports/p1-196-preformal-reviewed-baseline
-  - scripts/p1-196-operator-capture.sh
-  - scripts/verify-p1-196-preformal-reviewed-baseline.sh
-  - docs/aios/tasks/P1-196_PREFORMAL_REVIEWED_COOPERATIVE_LOCAL_BASELINE_REPORT.yaml
-  - docs/aios/truth/project_state.yaml
-  - docs/PROJECT_CODE_MAP.md
-  - Makefile
+    path: null
+    sha256: null
+    byte_length: null
+  execution_nonce: null
+  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
+  authorization_id: null
+  activation_parent_commit: null
+  activation_parent_tree: null
+  task_resource_state: NOT_CREATED_ROUTE_TERMINAL
+  task_branch: null
+  task_worktree: null
+  execution_evidence_root: null
+  allowlisted_paths: []
   budget:
-    engineering_hours: 40
-    calendar_days: 6
-    implementation_iterations: 7
-    candidates: 1
+    engineering_hours: null
+    calendar_days: null
+    implementation_iterations: null
+    candidates: null
   roles:
-    owner: P1-196 Engineering Manager
-    worker: P1-196 Cooperative-Local Baseline Worker
-    independent_reviewers:
-    - P1-196 Fresh CTO Reviewer
-    - P1-196 Fresh Security Reviewer
-    - P1-196 Fresh Quality Reviewer
+    owner: null
+    worker: null
+    independent_reviewers: []
   external_effects:
-    network: true
-    provider: true
-    secret: true
+    network: false
+    provider: false
+    secret: false
     remote: false
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: "/Users/lijunpeng/Developer/.sourcelens-audit/p1-preformal-reviewed-baseline-strict-exit-20260802/founder-phase-gate-draft/FOUNDER_P1_PREFORMAL_REVIEWED_BASELINE_STRICT_EXIT_ROUTE_V1.structured-decision.json"
-  founder_reserved_authorization_sha256: 669c62d2e810757903fe36197739d7e0bad5c7be1638ec6e182981e7abb6984f
-  founder_decision_required: false
-  founder_decision_required_scope: NONE
-  escalation_reason: null
-  user_action_required: NONE
-  phase_route_decision_required: false
-  phase_route_user_action_required: NONE
-  next_eligible_action: EXECUTE_AIOS_P1_196_PREFORMAL_REVIEWED_COOPERATIVE_LOCAL_BASELINE_REPORT
+  founder_reserved_authorization: null
+  founder_reserved_authorization_sha256: null
+  founder_decision_required: true
+  founder_decision_required_scope: P1_PHASE_ROUTE
+  escalation_reason: P1_196_TERMINAL_PREFORMAL_REVIEW_TARGET_NON_PASS
+  user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
+  phase_route_decision_required: true
+  phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
+  next_eligible_action: FOUNDER_P1_PHASE_GATE
 historical_p1_190_terminal_active_work:
   current_task: NONE
   current_task_status: NONE
@@ -15640,10 +15647,31 @@ phase_execution_claim:
     - canonical main advance outside an accepted task gate
 
 claim_boundary:
-  current_phase_route: P1_SINGLE_READ_IMMUTABLE_EVIDENCE_TRANSACTION_AND_STRICT_EXIT_ROUTE_V1_TERMINAL_FINAL_REVIEW_NON_PASS
+  current_phase_route: P1_PREFORMAL_REVIEWED_COOPERATIVE_LOCAL_BASELINE_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1_TERMINAL_PREFORMAL_REVIEW_TARGET_NON_PASS
   current_task: NONE
   next_eligible_action: FOUNDER_P1_PHASE_GATE
-  real_engineering_progress: P1_193_EXACT_CANDIDATE_THREE_FRESH_REVIEWS_NON_PASS_NOT_INTEGRATED_NO_P1_CAPABILITY_CREDIT
+  real_engineering_progress: P1_196_THREE_TOPOLOGY_REHEARSALS_AND_SYNTHETIC_FORMAL_REHEARSAL_COMPLETE_FRESH_QUALITY_FALSE_ACCEPT_NON_PASS_NO_FORMAL_GATE_NO_PROVIDER_NO_P1_CAPABILITY_CREDIT
+  p1_196_status: TERMINAL_PREFORMAL_REVIEW_TARGET_NON_PASS
+  p1_196_reviewed_source_commit: de7edd0f8e21a78d852c75f4e51ea1b132b43915
+  p1_196_reviewed_source_tree: 80b62de2a5d8fb8c53ced2e4b3a5871dd226469d
+  p1_196_preformal_topology_rehearsals: 3
+  p1_196_preformal_topology_cells: 108
+  p1_196_synthetic_formal_cells: 36
+  p1_196_total_synthetic_cells: 144
+  p1_196_worker_matrix_false_accepts: 0
+  p1_196_normalized_root_cause: P1196.PREFORMAL.RAW_EVIDENCE_SCHEMA.EXPERIMENT_DEFINITION_EXTRA_FIELD_FALSE_ACCEPT
+  p1_196_final_cto_preformal_target_verdict: PASS
+  p1_196_final_security_preformal_target_verdict: PASS
+  p1_196_final_quality_preformal_target_verdict: NON_PASS
+  p1_196_preformal_gate_created: false
+  p1_196_formal_execution_started: false
+  p1_196_candidate_created: false
+  p1_196_candidate_integrated: false
+  p1_196_canonical_make_verify: NOT_INVOKED_PREFORMAL_REVIEW_STOP_CONDITION
+  p1_196_provider_requests: 0
+  p1_196_secret_reads: 0
+  p1_196_capability_credit: 0
+  p1_197_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
   p1_193_status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
   p1_193_candidate_commit: 6345a6e8d5bd60eac26ce48acd0e03cd208e1bd6
   p1_193_candidate_tree: 428bea9b99d2c3f96f9cbe8c1cbca36ff46c0ea3

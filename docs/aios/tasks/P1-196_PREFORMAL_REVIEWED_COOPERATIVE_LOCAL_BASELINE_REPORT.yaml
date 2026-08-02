@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P1-196_PREFORMAL_REVIEWED_COOPERATIVE_LOCAL_BASELINE_REPORT
 phase: P1
 route_id: P1_PREFORMAL_REVIEWED_COOPERATIVE_LOCAL_BASELINE_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_PREFORMAL_REVIEW_TARGET_NON_PASS
 objective: >-
   Build and preformal-review a cooperative-local, exact-input-bound baseline
   execution path from accepted canonical P1 assets; only after three fresh
@@ -201,3 +201,31 @@ next_on_complete:
   task_id: AIOS-P1-197_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
   requires_complete_task_gate_pass: true
   p2_entry_authorized: false
+terminal_result:
+  status: TERMINAL_PREFORMAL_REVIEW_TARGET_NON_PASS
+  normalized_root_cause: P1196.PREFORMAL.RAW_EVIDENCE_SCHEMA.EXPERIMENT_DEFINITION_EXTRA_FIELD_FALSE_ACCEPT
+  reviewed_source_commit: de7edd0f8e21a78d852c75f4e51ea1b132b43915
+  reviewed_source_tree: 80b62de2a5d8fb8c53ced2e4b3a5871dd226469d
+  preformal_topology_rehearsals: 3
+  preformal_topology_cells: 108
+  synthetic_formal_cells: 36
+  total_synthetic_cells: 144
+  final_cto_preformal_target_verdict: PASS
+  final_security_preformal_target_verdict: PASS
+  final_quality_preformal_target_verdict: NON_PASS
+  preformal_gate_created: false
+  formal_execution_started: false
+  diagnostic_provider_requests: 0
+  formal_provider_requests: 0
+  secret_reads: 0
+  candidate_created: false
+  candidate_integrated: false
+  canonical_make_verify_after_review: NOT_INVOKED_PREFORMAL_REVIEW_STOP_CONDITION
+  p1_197_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
+  capability_credit: 0
+  strict_p1_completion: 6_OF_8_75_PERCENT
+  p2_status: HOLD_PENDING_STRICT_P1_EXIT
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-preformal-reviewed-baseline-strict-exit-20260802/task-1-p1-196/terminal/P1_196_TERMINAL_PREFORMAL_REVIEW_TARGET_NON_PASS_RECEIPT.json
+    byte_length: 4799
+    sha256: 47ec42f5c739f4aa74de58f206d9b4c01e15100500621297f614e88d0198f3d4

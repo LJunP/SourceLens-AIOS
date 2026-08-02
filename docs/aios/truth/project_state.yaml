@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-02T09:08:08Z"
-verification_scope: P1_190_TERMINAL_KNOWLEDGE_V2_REVIEWED_PASS_PENDING_IMPORT
+last_verified_at: "2026-08-02T09:11:32Z"
+verification_scope: P1_190_TERMINAL_KNOWLEDGE_V2_IMPORTED
 
 authority:
   founder: Human Founder
@@ -9935,9 +9935,9 @@ founder_knowledge_sync:
       source_commit: f810578511c66d28d6bbf1c1c07776f502bb02f3
       source_tree: 0491f690c49276c1cc0de295a3fb4b588e1bdfa5
       previous_event_sha256: f3385550c0ce6cbc3c577842699a8b5df7e591aa5dc4adfe141e1f4467ded306
-      event_sha256: 312c593c638529422cf45a140d35adcfcc587d6d51999a4775ee4daef9aa584a
-      status: REVIEWED_PASS_PENDING_IMPORT
-      rationale: The v1 terminal Learning Artifact and both NON_PASS Review records remain immutable and unimported. The exact 8234-byte v2 candidate narrows the unsupported cleanup claim, binds an immutable canonical Truth snapshot, and received independent Knowledge Review PASS for exact-byte Vault import only; engineering remains unblocked, strict P1 remains 6/8 and P2 remains held.
+      event_sha256: 0942d5ac18de8010f01fe4216ca7b229cbc2112f95ac4459d4c0f3cb748bd517
+      status: IMPORTED
+      rationale: The v1 terminal Learning Artifact and both NON_PASS Review records remain immutable and unimported. The exact 8234-byte v2 candidate narrowed the unsupported cleanup claim, bound an immutable canonical Truth snapshot, received independent Knowledge Review PASS, and was imported into the Founder Knowledge Vault with exact byte equality and a closed receipt. Knowledge sync adds no capability credit, strict P1 remains 6/8, and P2 remains held.
       engineering_blocking: false
       artifact:
         path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-descriptor-relative-object-identity-strict-exit-20260802/task-1-p1-190/knowledge/P1_190_TERMINAL_FOUNDER_LEARNING_ARTIFACT_CANDIDATE_V2.md
@@ -9948,13 +9948,13 @@ founder_knowledge_sync:
         byte_length: 4365
         sha256: dd5fa90578291bbfe62dc917ed76badf88a4dc25445309758620d6c05627b938
       vault_import:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/06-Decision-Records/2026-08-02-P1-190-per-read-identity-lessons.md
+        byte_length: 8234
+        sha256: a2baebf0479be2372688baf4cd14eaae78cd9959d1d6c1caba2ea9e988b9feed
       receipt:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-descriptor-relative-object-identity-strict-exit-20260802/task-1-p1-190/knowledge/P1_190_TERMINAL_KNOWLEDGE_IMPORT_RECEIPT_V2.json
+        byte_length: 1680
+        sha256: c2e90662289ff35125ad913023d12da7aea732014bfd1d11e17de411eaf67d90
 
 historical_active_work_after_p1_079:
   current_task: NONE

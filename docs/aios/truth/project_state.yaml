@@ -10387,18 +10387,18 @@ founder_knowledge_sync:
       source_commit: cbebe3a8a135b36fb3f9a1eeb7bbc7357a79dc58
       source_tree: d6120e3b7ca748df43f23383dbe9435afd21b3f2
       previous_event_sha256: 0942d5ac18de8010f01fe4216ca7b229cbc2112f95ac4459d4c0f3cb748bd517
-      event_sha256: dd062e8114cc88e9b60a31b65ee09caf4b4d7c07e3189c41db44d4dea8aae267
-      status: PENDING_CANDIDATE
-      rationale: Founder authorized one bounded P1 route that directly closes the single-read Evidence transaction boundary before the one-shot baseline and report-bound preregistration. The event is non-blocking, adds no capability credit, keeps strict P1 at 6/8, and keeps P2 held.
+      event_sha256: 05a3d62d67825022d5c1feecc68a965cc5ec9e499aa6e4a8715768d4a9f806ec
+      status: NON_PASS
+      rationale: Independent Knowledge Review returned NON_PASS because the Artifact labeled pre-write canonical cleanliness as an immutable FACT without a retained pre-write worktree-state Evidence object. The exact Artifact and Review remain preserved and unimported. This non-blocking result adds no capability credit, does not alter the engineering route, keeps strict P1 at 6/8, and keeps P2 held.
       engineering_blocking: false
       artifact:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-single-read-immutable-evidence-strict-exit-20260802/knowledge/P1_193_ROUTE_FOUNDER_LEARNING_ARTIFACT_CANDIDATE_V1.md
+        byte_length: 4942
+        sha256: 220dac156cd91f025fbc56418074239870313ab5b4f69caf94b8ec3fd6864050
       review:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-single-read-immutable-evidence-strict-exit-20260802/knowledge/P1_193_ROUTE_KNOWLEDGE_REVIEW_V1.json
+        byte_length: 4809
+        sha256: dc6d050815284e16144ec2d551a8e8d854b4c603020a7f1136a1c18dc06653e9
       vault_import:
         path: null
         byte_length: null

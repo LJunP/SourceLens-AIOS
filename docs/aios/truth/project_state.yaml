@@ -9862,26 +9862,26 @@ founder_knowledge_sync:
       source_commit: 660a54ff3592fa90a1c4fa7178d4a0a2f9499705
       source_tree: f5bd39a484f1ca50aeb9b0803f528f858f137fe0
       previous_event_sha256: 4bd2d458f314eef2e88111f9a63f0ef93da788dd5446c1061d024691b98b0b42
-      event_sha256: 35f409bc01c68eddb5a38c2d13612b7c0695ece1d651e46b20473a5b1888e2a1
-      status: PENDING_CANDIDATE
-      rationale: Founder authorized the descriptor-relative object identity strict P1 Exit route. P1-190 is the sole active offline Task, strict P1 remains 6/8 at 75 percent, P2 remains held, and this non-blocking Knowledge sync event adds no capability credit.
+      event_sha256: f643e6e414110e65f90d52312e8b6d25891b28d85ddf7c33b7567c26f11a4004
+      status: IMPORTED
+      rationale: Founder authorized the descriptor-relative object identity strict P1 Exit route. P1-190 is the sole active offline Task, strict P1 remains 6/8 at 75 percent, P2 remains held, and the reviewed route-activation learning Artifact is imported with exact byte equality. Knowledge sync adds no capability credit.
       engineering_blocking: false
       artifact:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-descriptor-relative-object-identity-strict-exit-20260802/task-1-p1-190/knowledge/P1_190_ROUTE_ACTIVATION_FOUNDER_LEARNING_ARTIFACT_CANDIDATE_V2.md
+        byte_length: 8737
+        sha256: 5c4cf3cdd38a76188425c92aace8f7343ca5dcdb792cff1279292d9b8c0c94ce
       review:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-descriptor-relative-object-identity-strict-exit-20260802/task-1-p1-190/knowledge/P1_190_ROUTE_ACTIVATION_KNOWLEDGE_REVIEW_V2.json
+        byte_length: 5633
+        sha256: dff53661c1fd042b48d98573a02bcc852f1b45b1e8963fac2c8c429cb7053b0e
       vault_import:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/06-Decision-Records/2026-08-02-P1-190-descriptor-relative-object-identity-route.md
+        byte_length: 8737
+        sha256: 5c4cf3cdd38a76188425c92aace8f7343ca5dcdb792cff1279292d9b8c0c94ce
       receipt:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-descriptor-relative-object-identity-strict-exit-20260802/task-1-p1-190/knowledge/P1_190_ROUTE_ACTIVATION_KNOWLEDGE_IMPORT_RECEIPT_V1.json
+        byte_length: 1675
+        sha256: 38c0595e0132bd9239f265e604978609dde42a4c478b5bc634e1cefe0072d67c
 
 historical_active_work_after_p1_079:
   current_task: NONE

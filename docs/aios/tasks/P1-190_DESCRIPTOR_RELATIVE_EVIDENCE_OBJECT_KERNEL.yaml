@@ -34,7 +34,6 @@ roles:
     - P1-190 Fresh Security Reviewer
     - P1-190 Fresh Quality Reviewer
 allowlisted_paths:
-  - evaluation-harness/native/p1-190-descriptor-object-kernel
   - evaluation-harness/harness/p1-190-descriptor-object-kernel
   - evaluation-harness/evaluator/p1-190-descriptor-object-kernel
   - scripts/verify-p1-190-descriptor-object-kernel.sh
@@ -44,7 +43,6 @@ allowlisted_paths:
   - Makefile
 write_scope:
   worker:
-    - evaluation-harness/native/p1-190-descriptor-object-kernel
     - evaluation-harness/harness/p1-190-descriptor-object-kernel
   quality:
     - evaluation-harness/evaluator/p1-190-descriptor-object-kernel

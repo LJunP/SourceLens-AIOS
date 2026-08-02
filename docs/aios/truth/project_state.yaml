@@ -5546,8 +5546,8 @@ current_phase_route:
     contract_path: docs/aios/tasks/P1-190_DESCRIPTOR_RELATIVE_EVIDENCE_OBJECT_KERNEL.yaml
     max_engineering_hours: 24
     max_calendar_days: 5
-    contract_sha256: 27232f0a0fcf7fa2b739b82912f272b67597f76d5e49126e6ebe7bcb0afc6cb6
-    contract_byte_length: 10153
+    contract_sha256: 1297418a48fab30c0a139bfdaa959abd9b34b17c828fdde6d1928dee34aeae1b
+    contract_byte_length: 10027
     p1_capability_claim_on_pass: NONE_KERNEL_PREREQUISITE_ONLY
   task_plan:
   - task_slot: 1
@@ -9938,15 +9938,15 @@ active_work:
   current_task_status: ACTIVE
   current_task_contract:
     path: docs/aios/tasks/P1-190_DESCRIPTOR_RELATIVE_EVIDENCE_OBJECT_KERNEL.yaml
-    sha256: 27232f0a0fcf7fa2b739b82912f272b67597f76d5e49126e6ebe7bcb0afc6cb6
-    byte_length: 10153
-  current_task_contract_sha256: 27232f0a0fcf7fa2b739b82912f272b67597f76d5e49126e6ebe7bcb0afc6cb6
+    sha256: 1297418a48fab30c0a139bfdaa959abd9b34b17c828fdde6d1928dee34aeae1b
+    byte_length: 10027
+  current_task_contract_sha256: 1297418a48fab30c0a139bfdaa959abd9b34b17c828fdde6d1928dee34aeae1b
   current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-descriptor-relative-object-identity-strict-exit-20260802/task-1-p1-190/authority/TASK_AUTHORITY.yaml
-  current_execution_authorization_sha256: 277ab53332df819bd3d1d87f1b7a0a6129bedf473e1ee4cbde6a13d8f4c2b2a5
+  current_execution_authorization_sha256: d64ad4c37da896c35e217bcf56cd52d67d67db734fa9b38fda65b3f04cafb3a4
   authority_record:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-descriptor-relative-object-identity-strict-exit-20260802/task-1-p1-190/authority/TASK_AUTHORITY.yaml
-    sha256: 277ab53332df819bd3d1d87f1b7a0a6129bedf473e1ee4cbde6a13d8f4c2b2a5
-    byte_length: 3660
+    sha256: d64ad4c37da896c35e217bcf56cd52d67d67db734fa9b38fda65b3f04cafb3a4
+    byte_length: 3598
   execution_nonce: 82af232bb642f2ce634d3d16007a91a34f1dee86710561925c0a0d2d6d2b6f78
   execution_nonce_status: ACTIVE
   authorization_id: 9573cd51407e35905fa5e8fe518a6374d90a1c9c6b983aa97c3b570dbe09c049
@@ -9957,7 +9957,6 @@ active_work:
   task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-190-descriptor-relative-kernel
   execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-descriptor-relative-object-identity-strict-exit-20260802/task-1-p1-190
   allowlisted_paths:
-    - evaluation-harness/native/p1-190-descriptor-object-kernel
     - evaluation-harness/harness/p1-190-descriptor-object-kernel
     - evaluation-harness/evaluator/p1-190-descriptor-object-kernel
     - scripts/verify-p1-190-descriptor-object-kernel.sh

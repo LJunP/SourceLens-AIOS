@@ -49,7 +49,11 @@ goal:
     frozen inventory had already been verified. The route Stop Condition fired;
     Security and Quality review were cancelled, no Secret or Provider was used,
     the formal matrix never started, the candidate was not integrated, and no
-    capability credit was awarded. P1-188 is ineligible, strict P1 remains 6/8
+    capability credit was awarded. After terminal synchronization, Master
+    mistakenly invoked make verify; current authority rejected the terminal
+    route as non-executable, partial offline checks were interrupted, and no
+    complete make-verify verdict or Gate effect exists. P1-188 is ineligible,
+    strict P1 remains 6/8
     (75%), P2 remains HOLD_PENDING_STRICT_P1_EXIT, and the only next action is
     the Founder P1 Phase Gate without a correction or successor chain.
     P1-184 completed its focused implementation Gate and pre-freeze full make
@@ -10025,7 +10029,10 @@ task_history:
     terminal_receipt_sha256: 389838c90136dbbe9a14ca0c3261432a824017c9f236ee895fb88d65bdd3ed2a
     terminal_receipt_byte_length: 2537
     candidate_integrated: false
-    canonical_make_verify_after_review: NOT_INVOKED_REVIEWER_NON_PASS
+    canonical_make_verify_after_review: MISTAKEN_POST_TERMINAL_INVOCATION_INTERRUPTED_NO_COMPLETE_VERDICT
+    post_terminal_validation_attempt_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-inventory-first-raw-evidence-strict-exit-20260802/task-1-p1-187/terminal/P1_187_POST_TERMINAL_VALIDATION_ATTEMPT_RECEIPT_V1.json
+    post_terminal_validation_attempt_receipt_sha256: a58f7198f24dda71aaa8af8b6bc6f50be68baadac6a51cb011f5bff0f3fa64cd
+    post_terminal_validation_attempt_receipt_byte_length: 1500
     provider_requests: 0
     secret_reads: 0
     formal_matrix_started: false

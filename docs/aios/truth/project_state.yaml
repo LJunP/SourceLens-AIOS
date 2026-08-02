@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-02T10:31:45Z"
-verification_scope: P1_193_TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+last_verified_at: "2026-08-02T10:47:17Z"
+verification_scope: P1_193_TERMINAL_KNOWLEDGE_IMPORTED
 
 authority:
   founder: Human Founder
@@ -10430,29 +10430,29 @@ founder_knowledge_sync:
     - event_id: FKS-20260802-P1-193-TERMINAL-FINAL-REVIEW-NON-PASS-V1
       trigger_type: TASK_TERMINAL_STOP
       occurred_at_utc: '2026-08-02T10:31:45Z'
-      source_commit: 90d3cb91e130ce1b737dfff185f27375cdf17056
-      source_tree: 0da11d08fefc618a726f3c43f5f9de34bd998224
+      source_commit: f6875599b0085827acf166d48d07cfceeda7735f
+      source_tree: b63cbffac0cf81753a4ac6e23f0924a3093853c3
       previous_event_sha256: 05a3d62d67825022d5c1feecc68a965cc5ec9e499aa6e4a8715768d4a9f806ec
-      event_sha256: 3f57bc759fb123b1d944fb0a4fca7c0ef8943713877e24b6b8ce62ba16c1d265
-      status: PENDING_CANDIDATE
-      rationale: P1-193 stopped at its one-candidate final Gate after fresh CTO, Security and Quality each returned TARGET_VERDICT NON_PASS on the exact candidate. The candidate remains preserved and unintegrated; no canonical make verify after review, P1 capability credit, P1-194/P1-195 entry or P2 entry exists. Strict P1 remains 6/8 at 75 percent, P2 remains held, and a terminal Founder learning Artifact is pending as a nonblocking side channel.
+      event_sha256: dfe5b2108e8967484e904e13d916fe51cc996d56a2ad50f13244e50231c19de7
+      status: IMPORTED
+      rationale: P1-193 stopped at its one-candidate final Gate after fresh CTO, Security and Quality each returned TARGET_VERDICT NON_PASS on the exact candidate. The candidate remains preserved and unintegrated; no canonical make verify after review, P1 capability credit, P1-194/P1-195 entry or P2 entry exists. The exact terminal Learning Artifact received independent Knowledge Review PASS and was imported create-once into the Founder Knowledge Vault with exact byte equality. Knowledge sync adds no capability credit; strict P1 remains 6/8 at 75 percent and P2 remains held.
       engineering_blocking: false
       artifact:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-single-read-immutable-evidence-strict-exit-20260802/task-1-p1-193/knowledge/P1_193_TERMINAL_FOUNDER_LEARNING_ARTIFACT_CANDIDATE_V1.md
+        byte_length: 6311
+        sha256: 384575b8e61281811aa04fce500b83bbebff3ca4eef2da247b44a744bf59623c
       review:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-single-read-immutable-evidence-strict-exit-20260802/task-1-p1-193/knowledge/P1_193_TERMINAL_KNOWLEDGE_REVIEW_V1.json
+        byte_length: 3267
+        sha256: e597ee4c5b718c3a4427b03bc9c2a2691ba3a0a737acedacffe8b28e14082ba3
       vault_import:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/06-Decision-Records/2026-08-02-P1-193-single-read-transaction-lessons.md
+        byte_length: 6311
+        sha256: 384575b8e61281811aa04fce500b83bbebff3ca4eef2da247b44a744bf59623c
       receipt:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-single-read-immutable-evidence-strict-exit-20260802/task-1-p1-193/knowledge/P1_193_TERMINAL_KNOWLEDGE_IMPORT_RECEIPT_V1.json
+        byte_length: 1662
+        sha256: a36286aeeac1e6fe8f1db51d8c3c6aa16b14df2a5e15be38d37de2b373508734
 
 historical_active_work_after_p1_079:
   current_task: NONE

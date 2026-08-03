@@ -5689,7 +5689,7 @@ current_phase_route:
       remote: false
       secret: true
     contract_path: docs/aios/tasks/P1-198_TYPED_RAW_EVIDENCE_SCHEMA_BOUND_REPRODUCIBLE_BASELINE.yaml
-    contract_sha256: 3718b0d812fe8af61874436f83fa80b33143e10fb14023d3ded7776c69f1b164
+    contract_sha256: 6c3b97c07f4bdd15c8aa1e1d2b596d911d4b6495d8b06239b5ed93d6adfc5a8b
     contract_byte_length: 13002
     max_engineering_hours: 48
     max_calendar_days: 8
@@ -8987,7 +8987,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260803-P1-198-PREFORMAL-CYCLE-1-NON-PASS-V1
+  latest_event_id: FKS-20260803-P1-198-PREFORMAL-CYCLE-2-NON-PASS-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -10679,6 +10679,33 @@ founder_knowledge_sync:
         sha256: null
       event_sha256: 45041c86fa6ca317c646c50534a8269217d306a6ddb6e7425aea1263bb28c4ba
 
+    - event_id: FKS-20260803-P1-198-PREFORMAL-CYCLE-2-NON-PASS-V1
+      trigger_type: PREFORMAL_REVIEW_OUTCOME
+      occurred_at_utc: '2026-08-03T07:21:55Z'
+      source_commit: 2fba441216274a4ff28949843e1dcd383cc653e5
+      source_tree: ca66c1bcb530f34b8873d9ae635676f67522f470
+      previous_event_sha256: 45041c86fa6ca317c646c50534a8269217d306a6ddb6e7425aea1263bb28c4ba
+      status: PENDING_CANDIDATE
+      rationale: The second same-cycle preformal snapshot received CTO PASS, Security NON_PASS and Quality NON_PASS before any Secret read or Provider request. The exact reviews bind CTO SHA-256 b2eee6278d24de4fc355652faa513dc4e9edc6280d3ef4f6204e0cf6ea926195, Security SHA-256 863037570a0a58d5b39be6a36a9afa1201f4dfd962cc806366312f3e12f238fa and Quality SHA-256 c5fd86bb839b9217a4b853308135b8e76e87c0b6be227086bb7e4502835a4988. The reusable findings concern strict raw OS-observer parsing, exact Secret rejection before persistence, semantic request and formal-envelope binding, unambiguous usage accounting and owned-root failure cleanup. The bounded same-Task repair remains engineering work; Knowledge synchronization is non-authoritative and non-blocking.
+      engineering_blocking: false
+      artifact:
+        path: null
+        byte_length: null
+        sha256: null
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+      event_sha256: 0bc143d66247ecb54176e14d7375265f96c9af2387c1e485739e28b37bd63742
+
 historical_active_work_after_p1_079:
   current_task: NONE
   current_task_status: NONE
@@ -10734,14 +10761,14 @@ active_work:
   current_task_status: ACTIVE
   current_task_contract:
     path: docs/aios/tasks/P1-198_TYPED_RAW_EVIDENCE_SCHEMA_BOUND_REPRODUCIBLE_BASELINE.yaml
-    sha256: 3718b0d812fe8af61874436f83fa80b33143e10fb14023d3ded7776c69f1b164
+    sha256: 6c3b97c07f4bdd15c8aa1e1d2b596d911d4b6495d8b06239b5ed93d6adfc5a8b
     byte_length: 13002
-  current_task_contract_sha256: 3718b0d812fe8af61874436f83fa80b33143e10fb14023d3ded7776c69f1b164
+  current_task_contract_sha256: 6c3b97c07f4bdd15c8aa1e1d2b596d911d4b6495d8b06239b5ed93d6adfc5a8b
   current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-atomic-knowledge-typed-raw-evidence-strict-exit-20260803/task-1-p1-198/authority/TASK_AUTHORITY.yaml
-  current_execution_authorization_sha256: 18552fe6000fc6fe76f05bfdea94f7abbf11446cbce9403166b71900caa662ea
+  current_execution_authorization_sha256: 77c5449cc287183a0de62d6365b8d3eb28cfd1a7d93b740b7e01839a3a7c1345
   authority_record:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-atomic-knowledge-typed-raw-evidence-strict-exit-20260803/task-1-p1-198/authority/TASK_AUTHORITY.yaml
-    sha256: 18552fe6000fc6fe76f05bfdea94f7abbf11446cbce9403166b71900caa662ea
+    sha256: 77c5449cc287183a0de62d6365b8d3eb28cfd1a7d93b740b7e01839a3a7c1345
     byte_length: 4613
   execution_nonce: 668203cb9895a46c5f93f9a1f0e9d620668ea81def1e01b8286579d9545511fd
   execution_nonce_status: ACTIVE
@@ -10769,9 +10796,9 @@ active_work:
     implementation_iterations: 9
     candidates: 1
   implementation_progress:
-    implementation_iterations_used: 2
-    same_task_repairs_used: 1
-    preformal_review_cycles_used: 1
+    implementation_iterations_used: 3
+    same_task_repairs_used: 2
+    preformal_review_cycles_used: 2
     formal_execution_started: false
     provider_requests: 0
     secret_reads: 0

@@ -10728,29 +10728,29 @@ founder_knowledge_sync:
     - event_id: FKS-20260803-P1-198-TERMINAL-PREFORMAL-SECURITY-NON-PASS-V1
       trigger_type: TASK_TERMINAL_OUTCOME
       occurred_at_utc: '2026-08-03T08:04:41Z'
-      source_commit: b02542afcb9172c1f981aaa164ce6b645849dc9c
-      source_tree: 9a980d789f884b2ac91d6dde11dea7731c76c791
+      source_commit: 0be42e475fb17dd80c14129e3c62969a867d90a8
+      source_tree: f3715aeb496d21e66ed54710d628a7b06de3edec
       previous_event_sha256: 0bc143d66247ecb54176e14d7375265f96c9af2387c1e485739e28b37bd63742
-      status: PENDING_CANDIDATE
-      rationale: P1-198 cycle 3 completed the exact offline preformal matrix with 216 synthetic cells, 12 independent reconstructions, zero Provider requests and zero Secret reads. Fresh CTO and Quality returned PASS, but fresh Security reproduced observer command/raw causal-binding and failed-response usage-downgrade false accepts and returned TARGET_VERDICT NON_PASS. The route stopped before any preformal Gate, live formal execution, candidate, integration or capability credit; strict P1 remains 75 percent and P2 remains held. A concise Learning Artifact should preserve the two reusable verifier-design lessons without becoming an engineering prerequisite. The Vault is therefore observably pending and this non-authoritative sync does not block the Founder P1 Phase Gate.
+      status: IMPORTED
+      rationale: P1-198 cycle 3 completed the exact offline preformal matrix with 216 synthetic cells, 12 independent reconstructions, zero Provider requests and zero Secret reads. Fresh CTO and Quality returned PASS, but fresh Security reproduced observer command/raw causal-binding and failed-response usage-downgrade false accepts and returned TARGET_VERDICT NON_PASS. The route stopped before any preformal Gate, live formal execution, candidate, integration or capability credit; strict P1 remains 75 percent and P2 remains held. The exact terminal Learning Artifact received independent Knowledge Review PASS and was imported create-once into the Founder Knowledge Vault with exact byte equality. Knowledge sync is non-authoritative, adds no capability credit and does not block the Founder P1 Phase Gate.
       engineering_blocking: false
       artifact:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-atomic-knowledge-typed-raw-evidence-strict-exit-20260803/task-1-p1-198/knowledge/P1_198_TERMINAL_FOUNDER_LEARNING_ARTIFACT_CANDIDATE_V1.md
+        byte_length: 5187
+        sha256: 54d3d15f90eda0ae2f5449871d9645872397cc67dc0980a025485b919f250eaa
       review:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-atomic-knowledge-typed-raw-evidence-strict-exit-20260803/task-1-p1-198/knowledge/P1_198_TERMINAL_KNOWLEDGE_REVIEW_V1.json
+        byte_length: 4635
+        sha256: ea545f50aba7aa4e9629be38d9e42475e16a2da106b8ba942a47c6158d2e16d6
       vault_import:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/06-Decision-Records/2026-08-03-P1-198-evidence-causal-binding-and-usage-semantics.md
+        byte_length: 5187
+        sha256: 54d3d15f90eda0ae2f5449871d9645872397cc67dc0980a025485b919f250eaa
       receipt:
-        path: null
-        byte_length: null
-        sha256: null
-      event_sha256: 0e644b62184846bf9f58c60b70bff840a23ff54e609cb8b21872891a09f38e9f
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-atomic-knowledge-typed-raw-evidence-strict-exit-20260803/task-1-p1-198/knowledge/P1_198_TERMINAL_KNOWLEDGE_IMPORT_RECEIPT_V1.json
+        byte_length: 1695
+        sha256: 5779b4c5326eb03e76e8ba1a77d7f77ee9c534c4976e907e7f7e0463ff3dbac2
+      event_sha256: 6028a0c4cb72bd3aa2723b323c86052bc9a284321999400f1fc52cb7eb0664a6
 
 historical_active_work_after_p1_079:
   current_task: NONE

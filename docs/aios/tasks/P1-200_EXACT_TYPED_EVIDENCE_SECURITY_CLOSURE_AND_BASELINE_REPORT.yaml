@@ -25,10 +25,11 @@ budget:
 repair_accounting:
   initial_implementation: 1
   maximum_same_task_repairs: 1
-  implementation_iterations_used: 0
-  same_task_repairs_used: 0
-  fresh_preformal_review_cycles_maximum: 1
-  fresh_preformal_review_cycles_used: 0
+  implementation_iterations_used: 2
+  same_task_repairs_used: 1
+  fresh_preformal_review_cycles_maximum: 2
+  fresh_preformal_review_cycles_used: 2
+  current_usable_preformal_gate_cycles: 1
   formal_execution_started: false
   provider_requests: 0
   secret_reads: 0
@@ -110,6 +111,15 @@ founder_reserved_authorization:
   sha256: fed58c9dfad7e3ea174984e5e08989f1267609db59bd9dcd22cb3817d2bd8069
   byte_length: 4580
   authorization_token: AUTHORIZE_P1_EXACT_P1_198_SECURITY_CLOSURE_AND_ONE_SHOT_STRICT_EXIT_ROUTE_V3
+founder_same_task_amendment:
+  path: /Users/lijunpeng/.codex/attachments/40ac4fe7-9dfd-4832-84fe-841858167afb/pasted-text.txt
+  sha256: 6b80d50ec132102ee379521a9aef8a0ebfacc9fb21813c2917e4a7b05f812576
+  byte_length: 8458
+  authorization_token: AUTHORIZE_ONE_P1_200_OWNED_ADAPTER_NEGATIVE_FIXTURE_ISOLATION_REPAIR_AND_REPLACEMENT_PREFORMAL_GATE_THEN_DIRECT_STRICT_EXIT_CONTINUATION_V1
+  parent_authorization_token: AUTHORIZE_P1_EXACT_P1_198_SECURITY_CLOSURE_AND_ONE_SHOT_STRICT_EXIT_ROUTE_V3
+  normalized_root_cause: P1200.PREFORMAL.PREPARE.ACCEPTED_ADAPTER_NEGATIVE_SYMLINK_INVENTORY_CONFLICT
+  prior_preformal_gate_status: PRESERVED_READ_ONLY_SUPERSEDED_FOR_NEW_SOURCE_BYTES
+  replacement_preformal_cycle: 2
 goal_identity:
   raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
   raw_byte_length: 19433
@@ -188,7 +198,8 @@ architecture_constraints:
   - Only JSON decoding failure may downgrade failed-response usage to UNKNOWN; any parsed alias conflict, invalid number, total inconsistency, reservation breach or route-cap breach must remain a stable NON_PASS.
   - Do not refactor or expand beyond the two frozen Security findings and their direct executable tests.
 preformal_gate:
-  fresh_review_cycles_exact: 1
+  fresh_review_cycles_exact: 2
+  current_usable_gate_cycles_exact: 1
   synthetic_cells_exact: 36
   fixed_denominator_exact: 36
   false_accepts_maximum: 0

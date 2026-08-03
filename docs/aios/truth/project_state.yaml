@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-03T08:04:41Z"
-verification_scope: P1_198_TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS_NO_SECRET_OR_PROVIDER_EFFECT
+last_verified_at: "2026-08-03T09:10:54Z"
+verification_scope: P1_200_ROUTE_AUTHORIZED_READY_EXACT_P1_198_SECURITY_CLOSURE_NO_SECRET_OR_PROVIDER_EFFECT
 
 authority:
   founder: Human Founder
@@ -39,6 +39,15 @@ goal:
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
   current_task_authority: NONE
   note: >-
+    Founder authorized the exact P1-198 snapshot-bound two-finding Security
+    closure and one-shot strict P1 Exit route V3 from canonical commit/tree
+    60288f5e8fb7d664b3489cb1e5bfd2a5f53f888a /
+    d78f58dbc25e39458faf1ec18cc14230cc71984a. The exact Founder packet and
+    canonical structured Decision are identity-bound; P1-200 is eligible but
+    not yet active. This authorization does not rewrite P1-198 or its Security
+    NON_PASS, does not add P1 capability credit, and does not authorize P2.
+    Strict P1 remains 6/8 (75%), both remaining Exit items remain MISSING, P2
+    remains HOLD_PENDING_STRICT_P1_EXIT, and no Secret or Provider effect exists.
     P1-198 cycle 3 completed the exact offline preformal snapshot at source
     commit/tree 162cdaa10864a2782f101e87976293add1194109 /
     00d2fc3842bcdce4c374a7a668ffcb69f98e8839: 216 synthetic cells, 12
@@ -751,12 +760,12 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  p1_execution_status: ACTIVE
-  p1_engineering_status: P1_198_ACTIVE_PREFORMAL_IMPLEMENTATION
+  p1_execution_status: AUTHORIZED_READY
+  p1_engineering_status: P1_200_ELIGIBLE_NOT_ACTIVATED
   p2_entry_status: HOLD_PENDING_STRICT_P1_EXIT
   p2_execution_status: HOLD_PENDING_STRICT_P1_EXIT
-  phase_execution_status: ACTIVE
-  current_route_execution_status: ACTIVE_P1_198_PREFORMAL_IMPLEMENTATION
+  phase_execution_status: AUTHORIZED_READY
+  current_route_execution_status: READY_FOR_P1_200_ACTIVATION
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -5503,26 +5512,26 @@ historical_p1_162_phase_route:
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 
 current_phase_route:
-  route_id: P1_ATOMIC_KNOWLEDGE_TEST_DETERMINISM_AND_TYPED_RAW_EVIDENCE_BASELINE_STRICT_EXIT_ROUTE_V1
-  status: TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS
-  authority_object_status: FOUNDER_DIRECTIVE_CONSUMED_TERMINAL
-  execution_status: TERMINAL_TASK_1_PREFORMAL_SECURITY_TARGET_NON_PASS
-  founder_phase_route_decision_required: true
-  scheduling_status: TERMINAL_NO_ELIGIBLE_SUCCESSOR
+  route_id: P1_EXACT_P1_198_SECURITY_CLOSURE_AND_ONE_SHOT_STRICT_EXIT_ROUTE_V3
+  status: AUTHORIZED_READY
+  authority_object_status: FOUNDER_DIRECTIVE_ACTIVE
+  execution_status: READY_TASK_1
+  founder_phase_route_decision_required: false
+  scheduling_status: READY_FOR_TASK_1_ACTIVATION
   phase: P1
   phase_entry_status: AUTHORIZED
-  authorization_token: AUTHORIZE_P1_ATOMIC_KNOWLEDGE_TEST_DETERMINISM_AND_TYPED_RAW_EVIDENCE_BASELINE_STRICT_EXIT_ROUTE_V1
+  authorization_token: AUTHORIZE_P1_EXACT_P1_198_SECURITY_CLOSURE_AND_ONE_SHOT_STRICT_EXIT_ROUTE_V3
   decision_packet:
-    path: "/Users/lijunpeng/Developer/.sourcelens-audit/p1-preformal-reviewed-baseline-strict-exit-20260802/founder-phase-gate/FOUNDER_P1_TYPED_RAW_EVIDENCE_SCHEMA_BASELINE_STRICT_EXIT_ROUTE_V1.structured-decision.json"
-    sha256: 5e282eacaf75f02ae46521b4be04ba2e130df789e0c807fd6b5ae163cf9df453
-    byte_length: 4642
+    path: "/Users/lijunpeng/Developer/.sourcelens-audit/p1-atomic-knowledge-typed-raw-evidence-strict-exit-20260803/founder-phase-gate-draft/FOUNDER_P1_EXACT_P1_198_SECURITY_CLOSURE_AND_STRICT_EXIT_ROUTE_V3.structured-decision.json"
+    sha256: fed58c9dfad7e3ea174984e5e08989f1267609db59bd9dcd22cb3817d2bd8069
+    byte_length: 4580
   original_founder_packet:
-    path: "/Users/lijunpeng/Developer/.sourcelens-audit/p1-preformal-reviewed-baseline-strict-exit-20260802/founder-phase-gate/FOUNDER_P1_TYPED_RAW_EVIDENCE_SCHEMA_BASELINE_STRICT_EXIT_ROUTE_V1.md"
-    sha256: b2628d79ade6ff3e3672e0088ad501a6610b071ac53a04687f56538cf2b08833
-    byte_length: 11929
+    path: "/Users/lijunpeng/Developer/.sourcelens-audit/p1-atomic-knowledge-typed-raw-evidence-strict-exit-20260803/founder-phase-gate-draft/FOUNDER_P1_EXACT_P1_198_SECURITY_CLOSURE_AND_STRICT_EXIT_ROUTE_V3.md"
+    sha256: 112294a6d0e391874661731107f0f21ef42b50a09dbae89ca7e15e45b0222464
+    byte_length: 9681
   activation_parent:
-    commit: cd9cc0c2208e2845ac19a22211bf2c3002b83765
-    tree: 30e8a3eb500c7172f4d2d0cbb2ad3a23c63d8175
+    commit: 60288f5e8fb7d664b3489cb1e5bfd2a5f53f888a
+    tree: d78f58dbc25e39458faf1ec18cc14230cc71984a
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: '1.7'
@@ -5533,20 +5542,20 @@ current_phase_route:
     canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
     raw_byte_length: 19433
     raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
-  objective: Complete the exact remaining P1 Exit capabilities through one typed,
-    closed-schema raw-Evidence 36-cell reproducible baseline report and one exact
-    report-bound P2 preregistration without reusing rejected engineering assets.
-  claim_boundary: COOPERATIVE_LOCAL_TYPED_CLOSED_RAW_EVIDENCE_REPRODUCIBLE_RESEARCH_ARTIFACT_ONLY_NO_REJECTED_ASSET_REUSE_P2_P3_REMOTE_PRODUCTION_OR_PUBLIC_CLAIM
+  objective: Close exactly the two P1-198 Security findings from the exact reviewed
+    source snapshot, then complete one request-bound 36-cell reproducible baseline
+    report and one exact report-bound P2 preregistration without entering P2.
+  claim_boundary: COOPERATIVE_LOCAL_EXACT_TYPED_RAW_EVIDENCE_SECURITY_CLOSURE_AND_REPRODUCIBLE_BASELINE_ONLY_NO_P2_P3_REMOTE_PRODUCTION_OR_PUBLIC_CLAIM
   envelope:
     max_engineering_tasks: 2
-    max_engineering_hours: 56
-    max_calendar_days: 10
+    max_engineering_hours: 32
+    max_calendar_days: 6
     max_active_tasks: 1
     max_task_branches: 1
     max_task_worktrees: 1
     max_active_candidates: 1
     max_contract_corrections_per_task: 0
-    max_same_task_repairs: 8
+    max_same_task_repairs: 1
     successor_replacement_normalization_closure_feasibility_or_remediation_chain_allowed: false
     p2_entry_authorized: false
     p3_entry_authorized: false
@@ -5573,7 +5582,7 @@ current_phase_route:
       public: false
       remote: false
       upstream_request_count: UNKNOWN
-    decision_basis: FOUNDER_PACKET_SHA256:b2628d79ade6ff3e3672e0088ad501a6610b071ac53a04687f56538cf2b08833
+    decision_basis: FOUNDER_PACKET_SHA256:112294a6d0e391874661731107f0f21ef42b50a09dbae89ca7e15e45b0222464
     external_effects:
       network: true
       production: false
@@ -5589,8 +5598,8 @@ current_phase_route:
       currency: USD
       max_spend: 25
       unavailable_metering_status: UNKNOWN_GATEWAY_METERING_UNAVAILABLE
-    profile_id: P1_198_EXACT_LOOPBACK_PROVIDER_PROFILE_V4
-    route_id: P1_ATOMIC_KNOWLEDGE_TEST_DETERMINISM_AND_TYPED_RAW_EVIDENCE_BASELINE_STRICT_EXIT_ROUTE_V1
+    profile_id: P1_200_EXACT_SECURITY_CLOSURE_LOCAL_GATEWAY_PROFILE_V4
+    route_id: P1_EXACT_P1_198_SECURITY_CLOSURE_AND_ONE_SHOT_STRICT_EXIT_ROUTE_V3
     schema_version: '4.0'
     secret:
       entry_sessions: 1
@@ -5608,7 +5617,7 @@ current_phase_route:
       - REVIEW
       - VAULT
       source: FOUNDER_OPERATOR_NO_ECHO_TTY
-    task_id: AIOS-P1-198_TYPED_RAW_EVIDENCE_SCHEMA_BOUND_REPRODUCIBLE_BASELINE
+    task_id: AIOS-P1-200_EXACT_TYPED_EVIDENCE_SECURITY_CLOSURE_AND_BASELINE_REPORT
     transport:
       api_format: OPENAI_COMPATIBLE_CHAT_COMPLETIONS
       completion_path: "/v1/chat/completions"
@@ -5638,7 +5647,7 @@ current_phase_route:
       public: false
       remote: false
       upstream_request_count: UNKNOWN
-    decision_basis: FOUNDER_PACKET_SHA256:b2628d79ade6ff3e3672e0088ad501a6610b071ac53a04687f56538cf2b08833
+    decision_basis: FOUNDER_PACKET_SHA256:112294a6d0e391874661731107f0f21ef42b50a09dbae89ca7e15e45b0222464
     external_effects:
       network: true
       production: false
@@ -5654,8 +5663,8 @@ current_phase_route:
       currency: USD
       max_spend: 25
       unavailable_metering_status: UNKNOWN_GATEWAY_METERING_UNAVAILABLE
-    profile_id: P1_198_EXACT_LOOPBACK_PROVIDER_PROFILE_V4
-    route_id: P1_ATOMIC_KNOWLEDGE_TEST_DETERMINISM_AND_TYPED_RAW_EVIDENCE_BASELINE_STRICT_EXIT_ROUTE_V1
+    profile_id: P1_200_EXACT_SECURITY_CLOSURE_LOCAL_GATEWAY_PROFILE_V4
+    route_id: P1_EXACT_P1_198_SECURITY_CLOSURE_AND_ONE_SHOT_STRICT_EXIT_ROUTE_V3
     schema_version: '4.0'
     secret:
       entry_sessions: 1
@@ -5673,7 +5682,7 @@ current_phase_route:
       - REVIEW
       - VAULT
       source: FOUNDER_OPERATOR_NO_ECHO_TTY
-    task_id: AIOS-P1-198_TYPED_RAW_EVIDENCE_SCHEMA_BOUND_REPRODUCIBLE_BASELINE
+    task_id: AIOS-P1-200_EXACT_TYPED_EVIDENCE_SECURITY_CLOSURE_AND_BASELINE_REPORT
     transport:
       api_format: OPENAI_COMPATIBLE_CHAT_COMPLETIONS
       completion_path: "/v1/chat/completions"
@@ -5689,12 +5698,12 @@ current_phase_route:
       use_proxy: false
   first_task:
     task_slot: 1
-    task_id: AIOS-P1-198_TYPED_RAW_EVIDENCE_SCHEMA_BOUND_REPRODUCIBLE_BASELINE
-    status: TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS
-    engineering_hours: 48
-    calendar_days: 8
-    max_implementation_iterations: 9
-    max_same_task_repairs: 8
+    task_id: AIOS-P1-200_EXACT_TYPED_EVIDENCE_SECURITY_CLOSURE_AND_BASELINE_REPORT
+    status: ELIGIBLE_NOT_ACTIVATED
+    engineering_hours: 24
+    calendar_days: 4
+    max_implementation_iterations: 2
+    max_same_task_repairs: 1
     max_candidates: 1
     external_effects:
       network: true
@@ -5703,20 +5712,18 @@ current_phase_route:
       public: false
       remote: false
       secret: true
-    contract_path: docs/aios/tasks/P1-198_TYPED_RAW_EVIDENCE_SCHEMA_BOUND_REPRODUCIBLE_BASELINE.yaml
-    contract_sha256: d07e8a5aa8f1a89cab09f1bf08280a3e75e166bd26487844bb9e6769c6592ff8
-    contract_byte_length: 14651
-    max_engineering_hours: 48
-    max_calendar_days: 8
+    contract_path: docs/aios/tasks/P1-200_EXACT_TYPED_EVIDENCE_SECURITY_CLOSURE_AND_BASELINE_REPORT.yaml
+    max_engineering_hours: 24
+    max_calendar_days: 4
     p1_capability_claim_on_pass: REPRODUCIBLE_BASELINE_REPORT
   task_plan:
   - task_slot: 1
-    task_id: AIOS-P1-198_TYPED_RAW_EVIDENCE_SCHEMA_BOUND_REPRODUCIBLE_BASELINE
-    status: TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS
-    engineering_hours: 48
-    calendar_days: 8
-    max_implementation_iterations: 9
-    max_same_task_repairs: 8
+    task_id: AIOS-P1-200_EXACT_TYPED_EVIDENCE_SECURITY_CLOSURE_AND_BASELINE_REPORT
+    status: ELIGIBLE_NOT_ACTIVATED
+    engineering_hours: 24
+    calendar_days: 4
+    max_implementation_iterations: 2
+    max_same_task_repairs: 1
     max_candidates: 1
     external_effects:
       network: true
@@ -5726,12 +5733,12 @@ current_phase_route:
       remote: false
       secret: true
   - task_slot: 2
-    task_id: AIOS-P1-199_ACCEPTED_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
-    status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
+    task_id: AIOS-P1-201_ACCEPTED_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+    status: PENDING_PREDECESSOR_TASK_GATE
     engineering_hours: 8
     calendar_days: 2
-    max_implementation_iterations: 3
-    max_same_task_repairs: 2
+    max_implementation_iterations: 2
+    max_same_task_repairs: 1
     max_candidates: 1
     external_effects:
       network: false
@@ -5741,14 +5748,14 @@ current_phase_route:
       remote: false
       secret: false
   automatic_entry:
-    after_task_id: AIOS-P1-198_TYPED_RAW_EVIDENCE_SCHEMA_BOUND_REPRODUCIBLE_BASELINE
-    next_task_id: AIOS-P1-199_ACCEPTED_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+    after_task_id: AIOS-P1-200_EXACT_TYPED_EVIDENCE_SECURITY_CLOSURE_AND_BASELINE_REPORT
+    next_task_id: AIOS-P1-201_ACCEPTED_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
     requires_task_gate_pass: true
   automatic_entries:
-  - after_task_id: AIOS-P1-198_TYPED_RAW_EVIDENCE_SCHEMA_BOUND_REPRODUCIBLE_BASELINE
-    next_task_id: AIOS-P1-199_ACCEPTED_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+  - after_task_id: AIOS-P1-200_EXACT_TYPED_EVIDENCE_SECURITY_CLOSURE_AND_BASELINE_REPORT
+    next_task_id: AIOS-P1-201_ACCEPTED_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
     requires_task_gate_pass: true
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
+  next_eligible_action: MASTER_ACTIVATE_FIRST_TASK
   accepted_inputs:
     p1_035:
       task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
@@ -9006,7 +9013,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260803-P1-198-TERMINAL-PREFORMAL-SECURITY-NON-PASS-V1
+  latest_event_id: FKS-20260803-P1-200-FOUNDER-ROUTE-AUTHORIZED-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -10752,6 +10759,33 @@ founder_knowledge_sync:
         sha256: 5779b4c5326eb03e76e8ba1a77d7f77ee9c534c4976e907e7f7e0463ff3dbac2
       event_sha256: 6028a0c4cb72bd3aa2723b323c86052bc9a284321999400f1fc52cb7eb0664a6
 
+    - event_id: FKS-20260803-P1-200-FOUNDER-ROUTE-AUTHORIZED-V1
+      trigger_type: FOUNDER_DECISION
+      occurred_at_utc: '2026-08-03T09:10:54Z'
+      source_commit: 60288f5e8fb7d664b3489cb1e5bfd2a5f53f888a
+      source_tree: d78f58dbc25e39458faf1ec18cc14230cc71984a
+      previous_event_sha256: 6028a0c4cb72bd3aa2723b323c86052bc9a284321999400f1fc52cb7eb0664a6
+      status: NO_MATERIAL_KNOWLEDGE_DELTA
+      rationale: Founder authorized the exact P1-198 snapshot-bound two-finding Security closure and one-shot strict P1 Exit route V3. The durable causal-binding and failed-response usage lessons are already captured by the exact imported P1-198 terminal Learning Artifact; route authorization adds no distinct long-term learning or P1 capability credit. P1-200 is eligible but not active, no Secret read or Provider request exists, strict P1 remains 6/8 at 75 percent and P2 remains held. Later Task and Gate outcomes remain independent Knowledge-sync triggers.
+      engineering_blocking: false
+      artifact:
+        path: null
+        byte_length: null
+        sha256: null
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+      event_sha256: 7d5703650884a679ac3e6a179b3c1ad19e01559cd68fd7646ee6d3732b56ee77
+
 historical_active_work_after_p1_079:
   current_task: NONE
   current_task_status: NONE
@@ -10821,7 +10855,7 @@ active_work:
   authorization_id: null
   activation_parent_commit: null
   activation_parent_tree: null
-  task_resource_state: NOT_CREATED_ROUTE_TERMINAL
+  task_resource_state: NOT_CREATED_ROUTE_READY
   task_branch: null
   task_worktree: null
   execution_evidence_root: null
@@ -10845,13 +10879,13 @@ active_work:
   offsite_target: null
   founder_reserved_authorization: null
   founder_reserved_authorization_sha256: null
-  founder_decision_required: true
-  founder_decision_required_scope: P1_PHASE_ROUTE
-  escalation_reason: P1_198_TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS
-  user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
+  founder_decision_required: false
+  founder_decision_required_scope: null
+  escalation_reason: null
+  user_action_required: NONE
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: MASTER_ACTIVATE_FIRST_TASK
 historical_p1_190_terminal_active_work:
   current_task: NONE
   current_task_status: NONE
@@ -15759,9 +15793,9 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: P1_ACCEPTED_PROVIDER_NEUTRAL_EXPERIMENT_KERNEL_THEN_ONE_SHOT_BASELINE_AND_STRICT_EXIT_ROUTE_V1_TERMINAL_TASK_1_FINAL_REVIEW_TARGET_NON_PASS
-  current_task_claim: NONE_AT_FOUNDER_P1_PHASE_GATE
-  real_engineering_progress: P1_178_OFFLINE_KERNEL_CANDIDATE_REJECTED_BY_THREE_FINAL_TARGET_VERDICTS_NO_INTEGRATION_NO_P1_CAPABILITY_CREDIT
+  current_route_claim: P1_EXACT_P1_198_SECURITY_CLOSURE_AND_ONE_SHOT_STRICT_EXIT_ROUTE_V3_AUTHORIZED_READY
+  current_task_claim: P1_200_ELIGIBLE_NOT_ACTIVATED
+  real_engineering_progress: P1_198_EXACT_SNAPSHOT_SALVAGE_AUTHORIZED_FOR_TWO_SECURITY_FIXES_ONLY_NO_NEW_P1_CAPABILITY_CREDIT
   product_capability_changed: false
   phase_local_allowed:
     - local evaluation foundation engineering under an exact Task Contract
@@ -15840,10 +15874,18 @@ phase_execution_claim:
     - canonical main advance outside an accepted task gate
 
 claim_boundary:
-  current_phase_route: P1_ATOMIC_KNOWLEDGE_TEST_DETERMINISM_AND_TYPED_RAW_EVIDENCE_BASELINE_STRICT_EXIT_ROUTE_V1_TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS
+  current_phase_route: P1_EXACT_P1_198_SECURITY_CLOSURE_AND_ONE_SHOT_STRICT_EXIT_ROUTE_V3_AUTHORIZED_READY
   current_task: NONE
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
-  real_engineering_progress: P1_198_CYCLE_3_216_CELL_TYPED_RAW_EVIDENCE_REHEARSAL_COMPLETE_FRESH_SECURITY_TWO_COHERENT_FALSE_ACCEPTS_NON_PASS_NO_PREFORMAL_GATE_NO_PROVIDER_NO_P1_CAPABILITY_CREDIT
+  next_eligible_action: MASTER_ACTIVATE_FIRST_TASK
+  real_engineering_progress: P1_198_CYCLE_3_EXACT_SNAPSHOT_AUTHORIZED_AS_P1_200_STARTING_BYTES_FOR_TWO_SECURITY_FINDINGS_ONLY_NO_SECRET_NO_PROVIDER_NO_P1_CAPABILITY_CREDIT
+  p1_200_status: ELIGIBLE_NOT_ACTIVATED
+  p1_200_authorization_token: AUTHORIZE_P1_EXACT_P1_198_SECURITY_CLOSURE_AND_ONE_SHOT_STRICT_EXIT_ROUTE_V3
+  p1_200_founder_packet_sha256: 112294a6d0e391874661731107f0f21ef42b50a09dbae89ca7e15e45b0222464
+  p1_200_structured_decision_sha256: fed58c9dfad7e3ea174984e5e08989f1267609db59bd9dcd22cb3817d2bd8069
+  p1_200_allowed_security_finding_1: SECURITY-P1-198-C3-001_OBSERVER_COMMAND_RAW_CAUSAL_BINDING_FALSE_ACCEPT
+  p1_200_allowed_security_finding_2: SECURITY-P1-198-C3-002_FAILED_RESPONSE_USAGE_INVALID_DOWNGRADED_TO_UNKNOWN
+  p1_200_capability_credit: 0
+  p1_201_entry: PENDING_PREDECESSOR_TASK_GATE
   p1_198_status: TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS
   p1_198_reviewed_source_commit: 162cdaa10864a2782f101e87976293add1194109
   p1_198_reviewed_source_tree: 00d2fc3842bcdce4c374a7a668ffcb69f98e8839

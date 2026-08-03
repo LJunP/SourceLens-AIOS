@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P1-200_EXACT_TYPED_EVIDENCE_SECURITY_CLOSURE_AND_BASELINE_REPORT
 phase: P1
 route_id: P1_EXACT_P1_198_SECURITY_CLOSURE_AND_ONE_SHOT_STRICT_EXIT_ROUTE_V3
-status: ACTIVE
+status: TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS
 objective: >-
   Recover the exact Founder-authorized P1-198 reviewed engineering snapshot,
   close only its two frozen Security findings, pass one fresh preformal Gate,
@@ -256,3 +256,40 @@ claim_boundary: >-
   Cooperative-local exact typed raw-Evidence Security closure and reproducible
   baseline Artifact only. No P2/P3 entry, hostile-principal isolation, direct
   OpenAI provenance, remote, production, public or production-readiness claim.
+terminal_result:
+  status: TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS
+  normalized_root_cause: P1200.PREFORMAL.SECURITY.FORMAL_EXECUTOR_FAILED_RESPONSE_USAGE_UNKNOWN_FAIL_OPEN
+  reviewed_source_commit: bcbd5c5b5c4caf7e5e06a577959ff1d8b9a87df4
+  reviewed_source_tree: 2380c2cef8f0aecac56f37518fc0bc168dd5b9c7
+  reviewed_preformal_cycle: 5
+  preformal_synthetic_cells: 216
+  accepted_p1_129_adapter_runs: 216
+  p1_149_execution_spines: 209
+  p1_101_replays: 209
+  independent_reconstructions: 12
+  typed_raw_negative_cases: 42
+  formal_envelope_negative_cases: 21
+  worker_matrix_false_accepts: 0
+  final_cto_preformal_target_verdict: PASS
+  final_security_preformal_target_verdict: NON_PASS
+  final_quality_preformal_target_verdict: PASS
+  security_blocking_finding: SECURITY-P1-200-C5-001
+  stop_condition: FRESH_SECURITY_TARGET_VERDICT_NON_PASS_AND_ADJACENT_SAME_NORMALIZED_ROOT_CAUSE
+  preformal_gate_created: false
+  diagnostic_started: false
+  formal_execution_started: false
+  diagnostic_provider_requests: 0
+  formal_provider_requests: 0
+  secret_reads: 0
+  founder_supplied_secret_used: false
+  candidate_created: false
+  candidate_integrated: false
+  canonical_make_verify_after_review: NOT_INVOKED_PREFORMAL_REVIEW_STOP_CONDITION
+  p1_201_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
+  capability_credit: 0
+  strict_p1_completion: 6_OF_8_75_PERCENT
+  p2_status: HOLD_PENDING_STRICT_P1_EXIT
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-exact-p1-198-security-closure-strict-exit-20260803/task-1-p1-200/terminal/P1_200_TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS_RECEIPT.json
+    byte_length: 5906
+    sha256: 3a591e39b78c4943f617ac899ffcdcdb371700a8511f54c4aa357c885cded4b2

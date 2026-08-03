@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P1-198_TYPED_RAW_EVIDENCE_SCHEMA_BOUND_REPRODUCIBLE_BASELINE
 phase: P1
 route_id: P1_ATOMIC_KNOWLEDGE_TEST_DETERMINISM_AND_TYPED_RAW_EVIDENCE_BASELINE_STRICT_EXIT_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS
 objective: >-
   Build a task-local, typed and closed-schema raw-Evidence production,
   admission and independent reconstruction path from accepted canonical P1
@@ -30,7 +30,7 @@ repair_accounting:
   maximum_same_task_repairs: 8
   implementation_iterations_used: 3
   same_task_repairs_used: 2
-  preformal_review_cycles_used: 2
+  preformal_review_cycles_used: 3
   formal_execution_started: false
   provider_requests: 0
   secret_reads: 0
@@ -249,3 +249,36 @@ claim_boundary: >-
   only. No rejected-asset reuse, hostile-principal isolation, direct OpenAI
   provenance, P2/P3 entry, remote, production, public or production-readiness
   claim.
+terminal_result:
+  status: TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS
+  normalized_root_cause: P1198.PREFORMAL.SECURITY.OBSERVER_CAUSAL_BINDING_AND_FAILED_USAGE_FALSE_ACCEPT
+  reviewed_source_commit: 162cdaa10864a2782f101e87976293add1194109
+  reviewed_source_tree: 00d2fc3842bcdce4c374a7a668ffcb69f98e8839
+  preformal_review_cycles_used: 3
+  preformal_synthetic_cells: 216
+  independent_reconstructions: 12
+  typed_raw_negative_cases: 42
+  formal_envelope_negative_cases: 12
+  worker_matrix_false_accepts: 0
+  final_cto_preformal_target_verdict: PASS
+  final_security_preformal_target_verdict: NON_PASS
+  final_quality_preformal_target_verdict: PASS
+  security_blocking_findings:
+    - SECURITY-P1-198-C3-001_OBSERVER_COMMAND_RAW_CAUSAL_BINDING_FALSE_ACCEPT
+    - SECURITY-P1-198-C3-002_FAILED_RESPONSE_USAGE_INVALID_DOWNGRADED_TO_UNKNOWN
+  preformal_gate_created: false
+  formal_execution_started: false
+  diagnostic_provider_requests: 0
+  formal_provider_requests: 0
+  secret_reads: 0
+  candidate_created: false
+  candidate_integrated: false
+  canonical_make_verify_after_review: NOT_INVOKED_PREFORMAL_REVIEW_STOP_CONDITION
+  p1_199_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
+  capability_credit: 0
+  strict_p1_completion: 6_OF_8_75_PERCENT
+  p2_status: HOLD_PENDING_STRICT_P1_EXIT
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-atomic-knowledge-typed-raw-evidence-strict-exit-20260803/task-1-p1-198/terminal/P1_198_TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS_RECEIPT.json
+    byte_length: 6180
+    sha256: 1d20a7624c10e8c7493b1bbb705e0d11b60428a61910a1c341104d4922857f12

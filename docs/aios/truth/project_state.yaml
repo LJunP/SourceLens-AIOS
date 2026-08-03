@@ -10747,10 +10747,10 @@ founder_knowledge_sync:
         byte_length: null
         sha256: null
       receipt:
-        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-atomic-knowledge-typed-raw-evidence-strict-exit-20260803/task-1-p1-198/terminal/P1_198_TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS_RECEIPT.json
-        byte_length: 6180
-        sha256: 1d20a7624c10e8c7493b1bbb705e0d11b60428a61910a1c341104d4922857f12
-      event_sha256: 2732168d916f52430baf19bab8d2f82c4e9d17c494fbafb088248559e7eac601
+        path: null
+        byte_length: null
+        sha256: null
+      event_sha256: 0e644b62184846bf9f58c60b70bff840a23ff54e609cb8b21872891a09f38e9f
 
 historical_active_work_after_p1_079:
   current_task: NONE

@@ -25,6 +25,15 @@ budget:
   calendar_days: 8
   implementation_iterations: 9
   candidates: 1
+repair_accounting:
+  initial_implementation: 1
+  maximum_same_task_repairs: 8
+  implementation_iterations_used: 2
+  same_task_repairs_used: 1
+  preformal_review_cycles_used: 1
+  formal_execution_started: false
+  provider_requests: 0
+  secret_reads: 0
 roles:
   owner: P1-198 Engineering Manager
   worker: P1-198 Typed Evidence Worker

@@ -5689,8 +5689,8 @@ current_phase_route:
       remote: false
       secret: true
     contract_path: docs/aios/tasks/P1-198_TYPED_RAW_EVIDENCE_SCHEMA_BOUND_REPRODUCIBLE_BASELINE.yaml
-    contract_sha256: 466c0b14fe7abceeceac8efb8102296a46f1b52f2928fa7a126dabb59f0ca925
-    contract_byte_length: 12751
+    contract_sha256: 3718b0d812fe8af61874436f83fa80b33143e10fb14023d3ded7776c69f1b164
+    contract_byte_length: 13002
     max_engineering_hours: 48
     max_calendar_days: 8
     p1_capability_claim_on_pass: REPRODUCIBLE_BASELINE_REPORT
@@ -8987,7 +8987,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260803-P1-198-TASK-ACTIVATED-V1
+  latest_event_id: FKS-20260803-P1-198-PREFORMAL-CYCLE-1-NON-PASS-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -10652,6 +10652,33 @@ founder_knowledge_sync:
         sha256: null
       event_sha256: 68193d4a4ddd989a918bc02f7fdc0e6e66d3c285a9f61837818b8a715d4dafb2
 
+    - event_id: FKS-20260803-P1-198-PREFORMAL-CYCLE-1-NON-PASS-V1
+      trigger_type: PREFORMAL_REVIEW_OUTCOME
+      occurred_at_utc: '2026-08-03T05:52:01Z'
+      source_commit: b3f22f2fed4e5b0339bb63ebc2d1ab3d832eef88
+      source_tree: e9734762ef3a678d0c5d86a08c58d7fe64732a87
+      previous_event_sha256: 68193d4a4ddd989a918bc02f7fdc0e6e66d3c285a9f61837818b8a715d4dafb2
+      status: PENDING_CANDIDATE
+      rationale: The first same-cycle fresh CTO, Security and Quality preformal reviews all returned TARGET_VERDICT NON_PASS before any Secret read or Provider request. The reusable findings are causal adapter-to-response binding, fixed-denominator terminal failure retention, exact diagnostic admission, same-snapshot Gate cross-binding, closed formal-envelope verification, exact matrix and loopback observation, and diagnostic-inclusive complete or partial usage accounting. A later Learning Artifact must preserve these facts together with the bounded same-Task repair result; this pending Knowledge work is non-authoritative and does not block P1-198 engineering.
+      engineering_blocking: false
+      artifact:
+        path: null
+        byte_length: null
+        sha256: null
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+      event_sha256: 45041c86fa6ca317c646c50534a8269217d306a6ddb6e7425aea1263bb28c4ba
+
 historical_active_work_after_p1_079:
   current_task: NONE
   current_task_status: NONE
@@ -10707,14 +10734,14 @@ active_work:
   current_task_status: ACTIVE
   current_task_contract:
     path: docs/aios/tasks/P1-198_TYPED_RAW_EVIDENCE_SCHEMA_BOUND_REPRODUCIBLE_BASELINE.yaml
-    sha256: 466c0b14fe7abceeceac8efb8102296a46f1b52f2928fa7a126dabb59f0ca925
-    byte_length: 12751
-  current_task_contract_sha256: 466c0b14fe7abceeceac8efb8102296a46f1b52f2928fa7a126dabb59f0ca925
+    sha256: 3718b0d812fe8af61874436f83fa80b33143e10fb14023d3ded7776c69f1b164
+    byte_length: 13002
+  current_task_contract_sha256: 3718b0d812fe8af61874436f83fa80b33143e10fb14023d3ded7776c69f1b164
   current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-atomic-knowledge-typed-raw-evidence-strict-exit-20260803/task-1-p1-198/authority/TASK_AUTHORITY.yaml
-  current_execution_authorization_sha256: 722752cb0076a5f65bf554591a3c5d584a7bdf26f9a58ba8adbca4a164b10f01
+  current_execution_authorization_sha256: 18552fe6000fc6fe76f05bfdea94f7abbf11446cbce9403166b71900caa662ea
   authority_record:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-atomic-knowledge-typed-raw-evidence-strict-exit-20260803/task-1-p1-198/authority/TASK_AUTHORITY.yaml
-    sha256: 722752cb0076a5f65bf554591a3c5d584a7bdf26f9a58ba8adbca4a164b10f01
+    sha256: 18552fe6000fc6fe76f05bfdea94f7abbf11446cbce9403166b71900caa662ea
     byte_length: 4613
   execution_nonce: 668203cb9895a46c5f93f9a1f0e9d620668ea81def1e01b8286579d9545511fd
   execution_nonce_status: ACTIVE
@@ -10741,6 +10768,13 @@ active_work:
     calendar_days: 8
     implementation_iterations: 9
     candidates: 1
+  implementation_progress:
+    implementation_iterations_used: 2
+    same_task_repairs_used: 1
+    preformal_review_cycles_used: 1
+    formal_execution_started: false
+    provider_requests: 0
+    secret_reads: 0
   roles:
     owner: P1-198 Engineering Manager
     worker: P1-198 Typed Evidence Worker

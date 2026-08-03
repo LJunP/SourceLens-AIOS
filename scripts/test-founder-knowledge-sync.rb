@@ -57,6 +57,12 @@ def deep_copy(value)
   Marshal.load(Marshal.dump(value))
 end
 
+def mutate_sha256_first_nibble!(sha256)
+  original = sha256.dup
+  sha256.sub!(/\A./, sha256.start_with?("0") ? "1" : "0")
+  raise "SHA-256 negative fixture mutation was a no-op" if sha256 == original
+end
+
 def compatibility_entry(truth, compatibility_type)
   truth.fetch("founder_knowledge_sync")
     .fetch("inherited_knowledge_compatibility")
@@ -208,7 +214,7 @@ begin
 
   fixture = deep_copy(truth)
   import_event = fixture.fetch("founder_knowledge_sync").fetch("events").last
-  import_event.dig("vault_import", "sha256").sub!(/\A./, "0")
+  mutate_sha256_first_nibble!(import_event.dig("vault_import", "sha256"))
   rehash_events!(fixture)
   run_truth_case(audit_root, "VAULT_IDENTITY_DRIFT", fixture)
   negative_cases += 1
@@ -217,7 +223,7 @@ begin
   review_event = fixture.fetch("founder_knowledge_sync").fetch("events").find do |event|
     event.fetch("event_id") == "FKS-20260801-P1-178-TERMINAL-KNOWLEDGE-REVIEW-PASS-V1"
   end
-  review_event.dig("artifact", "sha256").sub!(/\A./, "0")
+  mutate_sha256_first_nibble!(review_event.dig("artifact", "sha256"))
   rehash_events!(fixture)
   run_truth_case(audit_root, "ARTIFACT_IDENTITY_DRIFT", fixture)
   negative_cases += 1

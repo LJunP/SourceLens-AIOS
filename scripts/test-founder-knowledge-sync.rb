@@ -213,7 +213,10 @@ begin
   negative_cases += 1
 
   fixture = deep_copy(truth)
-  import_event = fixture.fetch("founder_knowledge_sync").fetch("events").last
+  import_event = fixture.fetch("founder_knowledge_sync").fetch("events").reverse.find do |event|
+    event.fetch("status") == "IMPORTED" && event.dig("vault_import", "sha256").is_a?(String)
+  end
+  raise "no imported Knowledge event with Vault SHA-256" unless import_event
   mutate_sha256_first_nibble!(import_event.dig("vault_import", "sha256"))
   rehash_events!(fixture)
   run_truth_case(audit_root, "VAULT_IDENTITY_DRIFT", fixture)

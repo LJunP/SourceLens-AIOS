@@ -5789,6 +5789,10 @@ current_phase_route:
     - p1_149
   additional_write_roots: []
   inherited_worktree_inventory:
+  - path: "/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-198-typed-raw-evidence-baseline"
+    head: 162cdaa10864a2782f101e87976293add1194109
+    branch: codex/p1-198-typed-raw-evidence-baseline
+    status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
   - path: "/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-196-preformal-reviewed-baseline"
     head: de7edd0f8e21a78d852c75f4e51ea1b132b43915
     branch: codex/p1-196-preformal-reviewed-baseline

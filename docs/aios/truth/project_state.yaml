@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-03T19:56:56Z"
-verification_scope: P1_200_TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS_NO_SECRET_OR_PROVIDER_EFFECT
+last_verified_at: "2026-08-03T20:15:07Z"
+verification_scope: P1_200_TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS_AND_TERMINAL_WORKTREE_DECLARED_NO_SECRET_OR_PROVIDER_EFFECT
 
 authority:
   founder: Human Founder
@@ -5846,6 +5846,10 @@ current_phase_route:
     - p1_149
   additional_write_roots: []
   inherited_worktree_inventory:
+  - path: "/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-200-exact-security-closure-baseline"
+    head: bcbd5c5b5c4caf7e5e06a577959ff1d8b9a87df4
+    branch: codex/p1-200-exact-security-closure-baseline
+    status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
   - path: "/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-198-typed-raw-evidence-baseline"
     head: 162cdaa10864a2782f101e87976293add1194109
     branch: codex/p1-198-typed-raw-evidence-baseline

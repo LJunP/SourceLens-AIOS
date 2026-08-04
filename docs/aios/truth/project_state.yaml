@@ -11245,7 +11245,7 @@ active_work:
     sha256: 823d2435e2379b816ea9d8a25070babf8636e9217832ea60a4ecc3d86743c800
     byte_length: 4476
   execution_nonce: 642ba99f1d4fe3d0ba4894b31fd0aa0633feb1ba5b6eb752a00daf659351d97c
-  execution_nonce_status: ACTIVE_UNIQUE
+  execution_nonce_status: ACTIVE
   authorization_id: 110877d4a2f8cc3a9c2f807d6a6e58de3fb90d3092e7ad090be15880cb9ed622
   activation_parent_commit: 5133b6fe8ecb0405f86b46a9a072f96e77cdb45d
   activation_parent_tree: 5b88996339244d42f3955bb77a4cc01464823621

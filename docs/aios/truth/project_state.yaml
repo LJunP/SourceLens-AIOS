@@ -11315,8 +11315,8 @@ founder_knowledge_sync:
       source_commit: a73621de1716eb084909dc8da3b6d84238a7de8d
       source_tree: b081b2f7ba6013319316371dcaab317d4425fc04
       previous_event_sha256: 47c0bcc0f8e9df70f51ce423568a3d61e358b144e3e1a5c01f90f463ef11d53f
-      status: REVIEWED_PASS_PENDING_IMPORT
-      rationale: The one authorized P1-207 postformal consumer correction preserved the completed 36-cell formal Evidence, added no Provider request or Secret read, received fresh CTO, Security and Quality PASS, and was integrated with exact reviewed-tree equality. The one canonical make verify then returned NON_PASS because the generic P1 harness rejected the Task-authorized loopback transport source for containing node:http. The integration was reverted non-destructively, no baseline capability credit was awarded, strict P1 remains 6/8 at 75 percent, P1-208 is ineligible and P2 remains held. Knowledge Artifact V1 and its NON_PASS Review are preserved. Corrected V2 exact bytes received independent Knowledge Review PASS and await receipt-bound Vault import synchronization. Knowledge synchronization does not alter the engineering Stop Condition.
+      status: IMPORTED
+      rationale: The one authorized P1-207 postformal consumer correction preserved the completed 36-cell formal Evidence, added no Provider request or Secret read, received fresh CTO, Security and Quality PASS, and was integrated with exact reviewed-tree equality. The one canonical make verify then returned NON_PASS because the generic P1 harness rejected the Task-authorized loopback transport source for containing node:http. The integration was reverted non-destructively, no baseline capability credit was awarded, strict P1 remains 6/8 at 75 percent, P1-208 is ineligible and P2 remains held. Knowledge Artifact V1 and its NON_PASS Review are preserved. Corrected V2 exact bytes received independent Knowledge Review PASS and were imported byte-identically into the Founder Knowledge Vault with a create-once receipt. Knowledge synchronization does not alter the engineering Stop Condition.
       engineering_blocking: false
       artifact:
         path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-cooperative-local-research-exit-20260804/task-1-p1-207/knowledge/P1_207_POSTFORMAL_CANONICAL_VERIFY_LEARNING_ARTIFACT_CANDIDATE_V2.md
@@ -11327,14 +11327,14 @@ founder_knowledge_sync:
         byte_length: 5319
         sha256: 902ca9172f29b8eb61167f6166abc8befe7d069006dc84750fd8947b0bb3dd29
       vault_import:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/05-Failures-and-Lessons/AIOS-P1-207/2026-08-05-P1-207-canonical-gate-alignment-lessons.md
+        byte_length: 4391
+        sha256: 760369efd1947deb5bac9ace018e7eb4c2bfabeffbeabef8c9677b43fe1b5a00
       receipt:
-        path: null
-        byte_length: null
-        sha256: null
-      event_sha256: 71825116e0d915e0411c0ee7da8c5dcc72171ed30898e2cf7e1095fb26da8dba
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-cooperative-local-research-exit-20260804/task-1-p1-207/knowledge/P1_207_POSTFORMAL_CANONICAL_VERIFY_KNOWLEDGE_IMPORT_RECEIPT_V2.json
+        byte_length: 1738
+        sha256: 448017f97746694a7b59ab9a77efbb3ea8d8450e0d07dcbc26a525256379ea78
+      event_sha256: ff39cff0f22c5bdafd97af7829406cd6f3c5cedf5d8d1bcd808c2aae3ece9cce
 
 historical_active_work_after_p1_079:
   current_task: NONE

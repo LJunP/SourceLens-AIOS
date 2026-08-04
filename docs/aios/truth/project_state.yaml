@@ -4958,8 +4958,8 @@ historical_p1_160_phase_route:
       status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
       engineering_hours: 8
       calendar_days: 2
-      max_implementation_iterations: 4
-      max_same_task_repairs: 3
+      max_implementation_iterations: 2
+      max_same_task_repairs: 1
       max_candidates: 1
       external_effects:
         network: false
@@ -5853,8 +5853,8 @@ current_phase_route:
       status: PENDING_PREDECESSOR_TASK_GATE
       engineering_hours: 8
       calendar_days: 2
-      max_implementation_iterations: 2
-      max_same_task_repairs: 1
+      max_implementation_iterations: 4
+      max_same_task_repairs: 3
       max_candidates: 1
       external_effects:
         network: false

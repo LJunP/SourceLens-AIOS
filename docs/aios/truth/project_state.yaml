@@ -873,7 +873,7 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  p1_execution_status: P1_207_ACTIVE
+  p1_execution_status: ACTIVE
   p1_engineering_status: P1_207_MINIMUM_COOPERATIVE_LOCAL_REPRODUCIBLE_BASELINE_ACTIVE
   p2_entry_status: HOLD_PENDING_STRICT_P1_EXIT
   p2_execution_status: HOLD_PENDING_STRICT_P1_EXIT

@@ -5659,7 +5659,7 @@ current_phase_route:
     Build one minimum cooperative-local reproducible research artifact from
     accepted canonical P1 assets, then freeze one exact report-bound P2 context
     preregistration without entering P2.
-  claim_boundary: COOPERATIVE_LOCAL_REPRODUCIBLE_RESEARCH_ARTIFACT_ONLY_NO_HOSTILE_PRINCIPAL_STRONG_ISOLATION_TRUST_RUNTIME_P2_P3_REMOTE_PRODUCTION_OR_PUBLIC_CLAIM
+  claim_boundary: COOPERATIVE_LOCAL_REPRODUCIBLE_RESEARCH_ARTIFACT_ONLY_NO_HOSTILE_PRINCIPAL_TRUSTED_CLOCK_STRONG_ISOLATION_PRODUCTION_REMOTE_PUBLIC_P2_OR_P3_CLAIM
   envelope:
     max_engineering_tasks: 2
     max_engineering_hours: 40

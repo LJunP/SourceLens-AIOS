@@ -5873,10 +5873,6 @@ current_phase_route:
     - p1_149
   additional_write_roots: []
   inherited_worktree_inventory:
-  - path: "/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-202-typed-provider-response-transaction"
-    head: 2f2dae87cc379e053fafc98b2d577867b2414228
-    branch: codex/p1-202-typed-provider-response-transaction
-    status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
   - path: "/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-200-exact-security-closure-baseline"
     head: bcbd5c5b5c4caf7e5e06a577959ff1d8b9a87df4
     branch: codex/p1-200-exact-security-closure-baseline

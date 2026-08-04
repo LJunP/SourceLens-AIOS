@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P1-207_MINIMUM_COOPERATIVE_LOCAL_REPRODUCIBLE_BASELINE
 phase: P1
 route_id: P1_MINIMUM_COOPERATIVE_LOCAL_RESEARCH_ARTIFACT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_CANONICAL_MAKE_VERIFY_NON_PASS_REVERTED
 objective: >-
   Build and independently falsify one minimum cooperative-local research
   pipeline from accepted canonical P1 assets, then—only after the complete
@@ -45,7 +45,7 @@ founder_same_task_security_correction_amendment:
   sha256: 01394c8c06af65b524456622cdb2ffcc3f57e898e549686f7af2cedc4c74f300
   byte_length: 3890
   authorization_token: AUTHORIZE_ONE_P1_207_EXACT_EFFECT_GATE_CONSUMER_SECURITY_CORRECTION_AND_DIRECT_MINIMUM_RESEARCH_EXIT_CONTINUATION_V1
-  status: ACTIVE_ONE_CORRECTION_NOT_YET_COMMITTED
+  status: SUPERSEDED_BY_POSTFORMAL_CONSUMER_CORRECTION_TERMINAL_OUTCOME
   exact_correction_base:
     commit: 2c26a0e378f218af9f13628123ed8cee3780d85e
     tree: b63600e9034de4646a91bb42662cdf1b7a143aca
@@ -55,6 +55,22 @@ founder_same_task_security_correction_amendment:
   second_correction_allowed: false
   prior_security_non_pass_retained: true
   prior_terminal_receipt_retained: true
+founder_postformal_consumer_correction:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-cooperative-local-research-exit-20260804/founder-phase-gate/FOUNDER_P1_207_POSTFORMAL_TRANSITIVE_CONTROL_BINDING_CORRECTION_V1.md
+  sha256: 8e7f40a46ef5d6f65f1b751885d8537b0db86e129033874a2d7436bbf496f543
+  byte_length: 4652
+  authorization_token: AUTHORIZE_ONE_P1_207_POSTFORMAL_TRANSITIVE_CONTROL_BINDING_CORRECTION_AND_DIRECT_STRICT_EXIT_CONTINUATION_V1
+  status: CONSUMED_TERMINAL_CANONICAL_MAKE_VERIFY_NON_PASS
+  exact_execution_candidate:
+    commit: eeb331666ae1e81e3c6cfc2eeab65fdb7f95d818
+    tree: 4e055228a253a0d145553d6380c71defdbd9981a
+  corrected_postformal_candidate:
+    commit: a0f8b554a73ab6c404fd593b5ad2eaf1183244d7
+    tree: c360ec895476ae6de6952480146018dd92b181ab
+  maximum_postformal_corrections: 1
+  second_postformal_correction_allowed: false
+  formal_matrix_rerun_allowed: false
+  additional_provider_or_secret_effect_allowed: false
 goal_identity:
   raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
   raw_byte_length: 19433
@@ -280,6 +296,45 @@ preserved_prior_terminal_outcome:
   p2_status: HOLD_PENDING_STRICT_P1_EXIT
   historical_truth_effect: RETAINED_NOT_REWRITTEN_AS_PASS
   current_authority_superseded_by: AUTHORIZE_ONE_P1_207_EXACT_EFFECT_GATE_CONSUMER_SECURITY_CORRECTION_AND_DIRECT_MINIMUM_RESEARCH_EXIT_CONTINUATION_V1
+current_terminal_outcome:
+  terminal_at_utc: "2026-08-04T18:00:15Z"
+  status: TERMINAL_CANONICAL_MAKE_VERIFY_NON_PASS_REVERTED
+  stop_condition: CANONICAL_MAKE_VERIFY_NONPASS
+  normalized_root_cause: P1207.POSTFORMAL.CANONICAL_VERIFY.GENERIC_P1_HARNESS_REJECTS_TASK_AUTHORIZED_LOOPBACK_TRANSPORT_SOURCE
+  exact_execution_candidate:
+    commit: eeb331666ae1e81e3c6cfc2eeab65fdb7f95d818
+    tree: 4e055228a253a0d145553d6380c71defdbd9981a
+  corrected_candidate:
+    commit: a0f8b554a73ab6c404fd593b5ad2eaf1183244d7
+    tree: c360ec895476ae6de6952480146018dd92b181ab
+    manifest_sha256: 2fb5fc3e524cc321f93eb8d403b08e0c6428f6f247db53002c36ca4a8f528364
+    recoverable_evidence_tag: evidence/p1-207-postformal-corrected-candidate-v1
+  formal_evidence:
+    manifest_sha256: 31e439cc3e3a993916fffd836d6883722e4570719d6a93c5b38b6a29c703504f
+    run_receipt_sha256: 5352b9071bffa4c1952f1c1388af8c05f9726d03fefb85e23e1164ff544fe227
+    status: PRESERVED_IMMUTABLE_NOT_RERUN
+    taxonomy: SUCCESSFUL_0_FAILED_28_INVALID_8_EXCLUDED_0
+  postformal_task_gate_sha256: 33e9f15c5678a01d10e835b0e032e08db7f8bcec6f714c00ba040f9d5b02450b
+  fresh_final_reviews:
+    cto_sha256: 0890526ce37128b3d54109ecc944191c1f1dd6394d1a11cfd494a387ecd2cbce
+    security_sha256: 5cd54d25f159e0923fd647962d4f673a687ba4c348f7823e15e2251dcc2a01d4
+    quality_sha256: e1d89481b0c67ab1656b6822ad09c81b7bade2b9fe920aff2a4e0266c55235c8
+    target_verdicts: ALL_PASS
+  integration:
+    integrated_commit: a0f8b554a73ab6c404fd593b5ad2eaf1183244d7
+    reviewed_tree_equal: true
+    canonical_make_verify: NON_PASS_ONE_INVOCATION
+    revert_commit: a73621de1716eb084909dc8da3b6d84238a7de8d
+    reverted_tree: b081b2f7ba6013319316371dcaab317d4425fc04
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-cooperative-local-research-exit-20260804/task-1-p1-207/POSTFORMAL_CANONICAL_VERIFY_NON_PASS_RECEIPT.json
+    sha256: badb7e48115504b25943c8d2b221c9c279dd33d6e0cc4dccea9bf3c32cda8b54
+    byte_length: 3317
+  accepted_capability: false
+  capability_credit: 0
+  p1_208_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
+  strict_p1_completion: 6_OF_8_75_PERCENT
+  p2_status: HOLD_PENDING_STRICT_P1_EXIT
 forbidden_actions:
   - Read, restore, compare or reuse P1-205 or any other rejected engineering asset.
   - Build a new authority, parser, validator, security platform, Trust Runtime or strong-isolation subsystem.

@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-03T20:15:07Z"
-verification_scope: P1_200_TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS_AND_TERMINAL_WORKTREE_DECLARED_NO_SECRET_OR_PROVIDER_EFFECT
+last_verified_at: "2026-08-04T01:14:41Z"
+verification_scope: P1_TYPED_PROVIDER_RESPONSE_TRANSACTION_ROUTE_AUTHORIZED_READY_NO_SECRET_OR_PROVIDER_EFFECT
 
 authority:
   founder: Human Founder
@@ -39,6 +39,15 @@ goal:
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
   current_task_authority: NONE
   note: >-
+    Founder authorized the exact typed Provider response transaction and
+    one-shot strict P1 Exit route from clean canonical commit/tree
+    abc6f22899d1ae152c578f9e5fd3d7db0c7b13bc /
+    8a464609bcb7e46c907c73e8f1575045aac06175. The exact source packet and
+    schema-compatible structured Decision are identity-bound. P1-202 is
+    eligible but not yet active; it is an offline clean-room transaction-kernel
+    Task with zero Secret reads, zero Provider requests and no external effects.
+    Strict P1 remains 6/8 (75%), both remaining Exit items remain MISSING and P2
+    remains HOLD_PENDING_STRICT_P1_EXIT.
     P1-200 cycle 5 completed its frozen offline preformal matrix at exact source
     commit/tree bcbd5c5b5c4caf7e5e06a577959ff1d8b9a87df4 /
     2380c2cef8f0aecac56f37518fc0bc168dd5b9c7: 216 synthetic cells, 12
@@ -789,12 +798,12 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  p1_execution_status: STOPPED_AT_FOUNDER_PHASE_GATE
-  p1_engineering_status: P1_200_TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS
+  p1_execution_status: AUTHORIZED_READY
+  p1_engineering_status: P1_202_ELIGIBLE_NOT_ACTIVATED
   p2_entry_status: HOLD_PENDING_STRICT_P1_EXIT
   p2_execution_status: HOLD_PENDING_STRICT_P1_EXIT
-  phase_execution_status: STOPPED_AT_FOUNDER_PHASE_GATE
-  current_route_execution_status: TERMINAL_TASK_1_PREFORMAL_SECURITY_TARGET_NON_PASS
+  phase_execution_status: AUTHORIZED_READY
+  current_route_execution_status: AUTHORIZED_READY_TASK_1_ELIGIBLE
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -5541,24 +5550,24 @@ historical_p1_162_phase_route:
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 
 current_phase_route:
-  route_id: P1_EXACT_P1_198_SECURITY_CLOSURE_AND_ONE_SHOT_STRICT_EXIT_ROUTE_V3
-  status: TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS
-  authority_object_status: FOUNDER_DIRECTIVE_CONSUMED_TERMINAL
-  execution_status: TERMINAL_TASK_1_PREFORMAL_SECURITY_TARGET_NON_PASS
-  founder_phase_route_decision_required: true
-  scheduling_status: TERMINAL_NO_ELIGIBLE_SUCCESSOR
+  route_id: P1_TYPED_PROVIDER_RESPONSE_TRANSACTION_AND_ONE_SHOT_STRICT_EXIT_ROUTE_V1
+  status: AUTHORIZED_READY
+  authority_object_status: FOUNDER_DIRECTIVE_CONSUMED_ROUTE_READY
+  execution_status: AUTHORIZED_READY_TASK_1_ELIGIBLE
+  founder_phase_route_decision_required: false
+  scheduling_status: READY_FOR_MASTER_TASK_1_ACTIVATION
   phase: P1
   phase_entry_status: AUTHORIZED
-  authorization_token: AUTHORIZE_P1_EXACT_P1_198_SECURITY_CLOSURE_AND_ONE_SHOT_STRICT_EXIT_ROUTE_V3
+  authorization_token: AUTHORIZE_P1_TYPED_PROVIDER_RESPONSE_TRANSACTION_AND_ONE_SHOT_STRICT_EXIT_ROUTE_V1
   decision_packet:
-    path: "/Users/lijunpeng/Developer/.sourcelens-audit/p1-atomic-knowledge-typed-raw-evidence-strict-exit-20260803/founder-phase-gate-draft/FOUNDER_P1_EXACT_P1_198_SECURITY_CLOSURE_AND_STRICT_EXIT_ROUTE_V3.structured-decision.json"
-    sha256: fed58c9dfad7e3ea174984e5e08989f1267609db59bd9dcd22cb3817d2bd8069
-    byte_length: 4580
+    path: "/Users/lijunpeng/Developer/.sourcelens-audit/p1-typed-provider-response-transaction-strict-exit-20260804/founder-phase-gate-draft/FOUNDER_P1_TYPED_PROVIDER_RESPONSE_TRANSACTION_AND_ONE_SHOT_STRICT_EXIT_ROUTE_V1.structured-decision.json"
+    sha256: 9e5a91047a2f303d744714b5152dbaac4bea86adc15e4117bd7d74b54c1742ef
+    byte_length: 5099
   original_founder_packet:
-    path: "/Users/lijunpeng/Developer/.sourcelens-audit/p1-atomic-knowledge-typed-raw-evidence-strict-exit-20260803/founder-phase-gate-draft/FOUNDER_P1_EXACT_P1_198_SECURITY_CLOSURE_AND_STRICT_EXIT_ROUTE_V3.md"
-    sha256: 112294a6d0e391874661731107f0f21ef42b50a09dbae89ca7e15e45b0222464
-    byte_length: 9681
-  same_task_amendment:
+    path: "/Users/lijunpeng/Developer/.sourcelens-audit/p1-typed-provider-response-transaction-strict-exit-20260804/founder-phase-gate-draft/FOUNDER_P1_TYPED_PROVIDER_RESPONSE_TRANSACTION_AND_ONE_SHOT_STRICT_EXIT_ROUTE_V1.md"
+    sha256: bbcbfad0bb5ff774c12677749f63726821b3f33a7d5300ba53d72307abeec6cf
+    byte_length: 9069
+  historical_p1_200_same_task_amendment:
     path: /Users/lijunpeng/.codex/attachments/40ac4fe7-9dfd-4832-84fe-841858167afb/pasted-text.txt
     sha256: 6b80d50ec132102ee379521a9aef8a0ebfacc9fb21813c2917e4a7b05f812576
     byte_length: 8458
@@ -5578,8 +5587,8 @@ current_phase_route:
     observed_terminal_target_verdict: NON_PASS
     observed_terminal_normalized_root_cause: P1200.PREFORMAL.SECURITY.FORMAL_EXECUTOR_FAILED_RESPONSE_USAGE_UNKNOWN_FAIL_OPEN
   activation_parent:
-    commit: 60288f5e8fb7d664b3489cb1e5bfd2a5f53f888a
-    tree: d78f58dbc25e39458faf1ec18cc14230cc71984a
+    commit: abc6f22899d1ae152c578f9e5fd3d7db0c7b13bc
+    tree: 8a464609bcb7e46c907c73e8f1575045aac06175
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: '1.7'
@@ -5590,20 +5599,21 @@ current_phase_route:
     canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
     raw_byte_length: 19433
     raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
-  objective: Close exactly the two P1-198 Security findings from the exact reviewed
-    source snapshot, then complete one request-bound 36-cell reproducible baseline
-    report and one exact report-bound P2 preregistration without entering P2.
-  claim_boundary: COOPERATIVE_LOCAL_EXACT_TYPED_RAW_EVIDENCE_SECURITY_CLOSURE_AND_REPRODUCIBLE_BASELINE_ONLY_NO_P2_P3_REMOTE_PRODUCTION_OR_PUBLIC_CLAIM
+  objective: Build an independent typed Provider response transaction kernel,
+    then use only its accepted canonical implementation for one request-bound
+    36-cell baseline report and one exact report-bound P2 preregistration without
+    entering P2.
+  claim_boundary: COOPERATIVE_LOCAL_TYPED_PROVIDER_RESPONSE_TRANSACTION_AND_STRICT_P1_EXIT_ONLY_NO_P2_P3_REMOTE_PRODUCTION_OR_PUBLIC_CLAIM
   envelope:
-    max_engineering_tasks: 2
-    max_engineering_hours: 32
-    max_calendar_days: 6
+    max_engineering_tasks: 3
+    max_engineering_hours: 56
+    max_calendar_days: 10
     max_active_tasks: 1
     max_task_branches: 1
     max_task_worktrees: 1
     max_active_candidates: 1
     max_contract_corrections_per_task: 0
-    max_same_task_repairs: 1
+    max_same_task_repairs: 3
     successor_replacement_normalization_closure_feasibility_or_remediation_chain_allowed: false
     p2_entry_authorized: false
     p3_entry_authorized: false
@@ -5614,71 +5624,7 @@ current_phase_route:
       public: false
       remote: false
       secret: true
-  founder_reserved_profile:
-    call_limits:
-      automatic_retry_max: 0
-      diagnostic_requests_max: 1
-      formal_requests_exact: 36
-      provider_requests_max: 37
-    claim_limits:
-      actual_monetary_cost: UNKNOWN_UNLESS_TRUSTWORTHY_GATEWAY_EVIDENCE_EXISTS
-      direct_openai_provenance_proven: false
-      gateway_upstream_behavior: UNKNOWN
-      hostile_principal_isolation: false
-      p2_entry: false
-      production: false
-      public: false
-      remote: false
-      upstream_request_count: UNKNOWN
-    decision_basis: FOUNDER_PACKET_SHA256:112294a6d0e391874661731107f0f21ef42b50a09dbae89ca7e15e45b0222464
-    external_effects:
-      network: true
-      production: false
-      provider: true
-      public: false
-      remote: false
-      secret: true
-    model:
-      provider_provenance: FOUNDER_ATTESTED_OPENAI_COMPATIBLE_LOCAL_GATEWAY_MODEL_NOT_INDEPENDENTLY_VERIFIED
-      requested_model: gpt-5.6-luna
-      substitution_allowed: false
-    monetary_limits:
-      currency: USD
-      max_spend: 25
-      unavailable_metering_status: UNKNOWN_GATEWAY_METERING_UNAVAILABLE
-    profile_id: P1_200_EXACT_SECURITY_CLOSURE_LOCAL_GATEWAY_PROFILE_V4
-    route_id: P1_EXACT_P1_198_SECURITY_CLOSURE_AND_ONE_SHOT_STRICT_EXIT_ROUTE_V3
-    schema_version: '4.0'
-    secret:
-      entry_sessions: 1
-      persist: false
-      prohibited_sinks:
-      - ARGV
-      - ENVIRONMENT
-      - SHELL_HISTORY
-      - REPOSITORY
-      - TEMPORARY_PLAINTEXT_FILE
-      - EVIDENCE
-      - LOG
-      - TRACE
-      - PROMPT
-      - REVIEW
-      - VAULT
-      source: FOUNDER_OPERATOR_NO_ECHO_TTY
-    task_id: AIOS-P1-200_EXACT_TYPED_EVIDENCE_SECURITY_CLOSURE_AND_BASELINE_REPORT
-    transport:
-      api_format: OPENAI_COMPATIBLE_CHAT_COMPLETIONS
-      completion_path: "/v1/chat/completions"
-      dns_resolution: false
-      expected_peer_address: 127.0.0.1
-      expected_peer_port: 8787
-      fallback_endpoint_allowed: false
-      follow_redirects: false
-      host: 127.0.0.1
-      method: POST
-      port: 8787
-      scheme: http
-      use_proxy: false
+  founder_reserved_profile: null
   founder_reserved_profiles:
   - call_limits:
       automatic_retry_max: 0
@@ -5695,7 +5641,7 @@ current_phase_route:
       public: false
       remote: false
       upstream_request_count: UNKNOWN
-    decision_basis: FOUNDER_PACKET_SHA256:112294a6d0e391874661731107f0f21ef42b50a09dbae89ca7e15e45b0222464
+    decision_basis: FOUNDER_PACKET_SHA256:bbcbfad0bb5ff774c12677749f63726821b3f33a7d5300ba53d72307abeec6cf
     external_effects:
       network: true
       production: false
@@ -5711,8 +5657,8 @@ current_phase_route:
       currency: USD
       max_spend: 25
       unavailable_metering_status: UNKNOWN_GATEWAY_METERING_UNAVAILABLE
-    profile_id: P1_200_EXACT_SECURITY_CLOSURE_LOCAL_GATEWAY_PROFILE_V4
-    route_id: P1_EXACT_P1_198_SECURITY_CLOSURE_AND_ONE_SHOT_STRICT_EXIT_ROUTE_V3
+    profile_id: P1_203_TYPED_TRANSACTION_LOCAL_GATEWAY_PROFILE_V1
+    route_id: P1_TYPED_PROVIDER_RESPONSE_TRANSACTION_AND_ONE_SHOT_STRICT_EXIT_ROUTE_V1
     schema_version: '4.0'
     secret:
       entry_sessions: 1
@@ -5730,7 +5676,7 @@ current_phase_route:
       - REVIEW
       - VAULT
       source: FOUNDER_OPERATOR_NO_ECHO_TTY
-    task_id: AIOS-P1-200_EXACT_TYPED_EVIDENCE_SECURITY_CLOSURE_AND_BASELINE_REPORT
+    task_id: AIOS-P1-203_TYPED_TRANSACTION_BOUND_REPRODUCIBLE_BASELINE_REPORT
     transport:
       api_format: OPENAI_COMPATIBLE_CHAT_COMPLETIONS
       completion_path: "/v1/chat/completions"
@@ -5746,34 +5692,49 @@ current_phase_route:
       use_proxy: false
   first_task:
     task_slot: 1
-    task_id: AIOS-P1-200_EXACT_TYPED_EVIDENCE_SECURITY_CLOSURE_AND_BASELINE_REPORT
-    status: TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS
-    engineering_hours: 24
-    calendar_days: 4
-    max_implementation_iterations: 2
-    max_same_task_repairs: 1
+    task_id: AIOS-P1-202_TYPED_PROVIDER_RESPONSE_TRANSACTION_KERNEL
+    status: ELIGIBLE_NOT_ACTIVATED
+    engineering_hours: 16
+    calendar_days: 3
+    max_implementation_iterations: 4
+    max_same_task_repairs: 3
     max_candidates: 1
     external_effects:
-      network: true
+      network: false
       production: false
-      provider: true
+      provider: false
       public: false
       remote: false
-      secret: true
-    contract_path: docs/aios/tasks/P1-200_EXACT_TYPED_EVIDENCE_SECURITY_CLOSURE_AND_BASELINE_REPORT.yaml
-    contract_sha256: 67587b19c9cf649c010aa7f50a2cdd130e597f915c459834218c858895b4a623
-    contract_byte_length: 15076
-    max_engineering_hours: 24
-    max_calendar_days: 4
-    p1_capability_claim_on_pass: REPRODUCIBLE_BASELINE_REPORT
+      secret: false
+    contract_path: docs/aios/tasks/P1-202_TYPED_PROVIDER_RESPONSE_TRANSACTION_KERNEL.yaml
+    contract_sha256: 7f66de3f4fb924b1f9e567a546c314f46e9a52a38e7f53612fd1998c174245a0
+    contract_byte_length: 9724
+    max_engineering_hours: 16
+    max_calendar_days: 3
+    p1_capability_claim_on_pass: NONE_PREREQUISITE_ONLY
   task_plan:
   - task_slot: 1
-    task_id: AIOS-P1-200_EXACT_TYPED_EVIDENCE_SECURITY_CLOSURE_AND_BASELINE_REPORT
-    status: TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS
-    engineering_hours: 24
-    calendar_days: 4
-    max_implementation_iterations: 2
-    max_same_task_repairs: 1
+    task_id: AIOS-P1-202_TYPED_PROVIDER_RESPONSE_TRANSACTION_KERNEL
+    status: ELIGIBLE_NOT_ACTIVATED
+    engineering_hours: 16
+    calendar_days: 3
+    max_implementation_iterations: 4
+    max_same_task_repairs: 3
+    max_candidates: 1
+    external_effects:
+      network: false
+      production: false
+      provider: false
+      public: false
+      remote: false
+      secret: false
+  - task_slot: 2
+    task_id: AIOS-P1-203_TYPED_TRANSACTION_BOUND_REPRODUCIBLE_BASELINE_REPORT
+    status: PENDING_PREDECESSOR_TASK_GATE
+    engineering_hours: 32
+    calendar_days: 5
+    max_implementation_iterations: 3
+    max_same_task_repairs: 2
     max_candidates: 1
     external_effects:
       network: true
@@ -5782,9 +5743,9 @@ current_phase_route:
       public: false
       remote: false
       secret: true
-  - task_slot: 2
-    task_id: AIOS-P1-201_ACCEPTED_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
-    status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
+  - task_slot: 3
+    task_id: AIOS-P1-204_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+    status: PENDING_PREDECESSOR_TASK_GATE
     engineering_hours: 8
     calendar_days: 2
     max_implementation_iterations: 2
@@ -5798,14 +5759,17 @@ current_phase_route:
       remote: false
       secret: false
   automatic_entry:
-    after_task_id: AIOS-P1-200_EXACT_TYPED_EVIDENCE_SECURITY_CLOSURE_AND_BASELINE_REPORT
-    next_task_id: AIOS-P1-201_ACCEPTED_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+    after_task_id: AIOS-P1-202_TYPED_PROVIDER_RESPONSE_TRANSACTION_KERNEL
+    next_task_id: AIOS-P1-203_TYPED_TRANSACTION_BOUND_REPRODUCIBLE_BASELINE_REPORT
     requires_task_gate_pass: true
   automatic_entries:
-  - after_task_id: AIOS-P1-200_EXACT_TYPED_EVIDENCE_SECURITY_CLOSURE_AND_BASELINE_REPORT
-    next_task_id: AIOS-P1-201_ACCEPTED_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+  - after_task_id: AIOS-P1-202_TYPED_PROVIDER_RESPONSE_TRANSACTION_KERNEL
+    next_task_id: AIOS-P1-203_TYPED_TRANSACTION_BOUND_REPRODUCIBLE_BASELINE_REPORT
     requires_task_gate_pass: true
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
+  - after_task_id: AIOS-P1-203_TYPED_TRANSACTION_BOUND_REPRODUCIBLE_BASELINE_REPORT
+    next_task_id: AIOS-P1-204_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+    requires_task_gate_pass: true
+  next_eligible_action: MASTER_ACTIVATE_FIRST_TASK
   accepted_inputs:
     p1_035:
       task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
@@ -7559,9 +7523,9 @@ historical_p2_phase_route:
   next_eligible_action: FOUNDER_P2_PHASE_GATE
 
 phase_delegation:
-  status: ACTIVE_P1_193_SINGLE_READ_IMMUTABLE_EVIDENCE_TRANSACTION
+  status: AUTHORIZED_READY_P1_202_TYPED_PROVIDER_RESPONSE_TRANSACTION_KERNEL
   model: PHASE_LEVEL_FOUNDER_DELEGATION
-  decision_source: AUTHORIZE_P1_SINGLE_READ_IMMUTABLE_EVIDENCE_TRANSACTION_AND_STRICT_EXIT_ROUTE_V1
+  decision_source: AUTHORIZE_P1_TYPED_PROVIDER_RESPONSE_TRANSACTION_AND_ONE_SHOT_STRICT_EXIT_ROUTE_V1
   phase_gate_owner: HUMAN_FOUNDER
   task_selection_owner: MASTER_CEO_AGENT
   task_authorization_owner: MASTER_CEO_AGENT_WITHIN_CURRENT_PHASE_ENVELOPE
@@ -7594,7 +7558,7 @@ phase_delegation:
     ordinary_repairs_stay_in_same_task: true
     successor_replacement_correction_chain_allowed: false
     task_id_hardcoding_in_current_authority_validator_allowed: false
-    maximum_same_task_bounded_contract_repairs: 4
+    maximum_same_task_bounded_contract_repairs: 3
     historical_execution_lineage_reuse_allowed: false
     mandatory_exit_capability_permanent_ban_from_historical_stop: false
     peripheral_work_before_exit_capabilities_allowed: false
@@ -9067,7 +9031,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260804-P1-200-TERMINAL-PREFORMAL-SECURITY-NON-PASS-V1
+  latest_event_id: FKS-20260804-P1-202-FOUNDER-ROUTE-AUTHORIZED-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -10921,6 +10885,33 @@ founder_knowledge_sync:
         sha256: 550f5af396572ff20295e34e23f7f21781f59719be07b0b19365a2f8ebfa9af5
       event_sha256: 8779d247522922bdbb0abca2c15c207924e7574733490d599d8b59584206e239
 
+    - event_id: FKS-20260804-P1-202-FOUNDER-ROUTE-AUTHORIZED-V1
+      trigger_type: FOUNDER_DECISION
+      occurred_at_utc: '2026-08-04T01:14:41Z'
+      source_commit: abc6f22899d1ae152c578f9e5fd3d7db0c7b13bc
+      source_tree: 8a464609bcb7e46c907c73e8f1575045aac06175
+      previous_event_sha256: 8779d247522922bdbb0abca2c15c207924e7574733490d599d8b59584206e239
+      status: PENDING_CANDIDATE
+      rationale: Founder authorized a three-Task strict P1 Exit route that first builds an independent offline typed Provider response transaction kernel, then permits one transaction-bound local-loopback baseline and one exact report-bound preregistration. The route directly addresses the reusable failed-response usage-accounting lesson without reading or reusing rejected P1-200/P1-198 engineering assets. P1-202 is eligible with zero external effects; strict P1 remains 6/8 at 75 percent and P2 remains held. Knowledge synchronization is non-blocking and adds no capability credit.
+      engineering_blocking: false
+      artifact:
+        path: null
+        byte_length: null
+        sha256: null
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+      event_sha256: 3020137605428815cbea17faf0c24c8604ce0bb235557aa3663bcb5deedda3fe
+
 historical_active_work_after_p1_079:
   current_task: NONE
   current_task_status: NONE
@@ -10990,7 +10981,7 @@ active_work:
   authorization_id: null
   activation_parent_commit: null
   activation_parent_tree: null
-  task_resource_state: NOT_CREATED_ROUTE_TERMINAL
+  task_resource_state: NOT_CREATED_ROUTE_READY
   task_branch: null
   task_worktree: null
   execution_evidence_root: null
@@ -11014,13 +11005,13 @@ active_work:
   offsite_target: null
   founder_reserved_authorization: null
   founder_reserved_authorization_sha256: null
-  founder_decision_required: true
-  founder_decision_required_scope: P1_PHASE_ROUTE
-  escalation_reason: P1_200_TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS
-  user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
+  founder_decision_required: false
+  founder_decision_required_scope: NONE
+  escalation_reason: null
+  user_action_required: NONE
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: MASTER_ACTIVATE_FIRST_TASK
 historical_p1_190_terminal_active_work:
   current_task: NONE
   current_task_status: NONE

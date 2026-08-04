@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-04T03:06:21Z"
-verification_scope: P1_202_TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS_NO_INTEGRATION_NO_SECRET_OR_PROVIDER_EFFECT
+last_verified_at: "2026-08-04T04:01:45Z"
+verification_scope: P1_205_EXACT_NUMERIC_ONE_SHOT_ROUTE_AUTHORIZED_READY_NO_SECRET_OR_PROVIDER_EFFECT
 
 authority:
   founder: Human Founder
@@ -39,6 +39,15 @@ goal:
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
   current_task_authority: NONE
   note: >-
+    Founder authorized the exact preformal-reviewed exact-numeric one-shot
+    transaction-bound strict P1 Exit route from clean canonical commit/tree
+    38ad4b57173baeb86f8f9660f727906ce2ed6607 /
+    e024faf27b126d18214e270eba983ee1c020f79b. The exact Founder packet and
+    structured Decision are identity-bound. P1-205 is eligible but not yet
+    active; it must remain fully synthetic with zero Secret and Provider effects
+    until one frozen preformal candidate receives fresh CTO, Security and
+    Quality PASS. Strict P1 remains 6/8 (75 percent), both remaining Exit items
+    remain MISSING and P2 remains HOLD_PENDING_STRICT_P1_EXIT.
     P1-202 froze one exact candidate at commit/tree
     2f2dae87cc379e053fafc98b2d577867b2414228 /
     27653f3ecc3ec90e082a5c74aa0c2f6f6a111ab3 after its implementation-defined
@@ -824,12 +833,12 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  p1_execution_status: ACTIVE
-  p1_engineering_status: P1_202_ACTIVE
+  p1_execution_status: AUTHORIZED_READY
+  p1_engineering_status: P1_205_ELIGIBLE_NOT_ACTIVATED
   p2_entry_status: HOLD_PENDING_STRICT_P1_EXIT
   p2_execution_status: HOLD_PENDING_STRICT_P1_EXIT
-  phase_execution_status: ACTIVE
-  current_route_execution_status: ACTIVE_TASK_1_P1_202
+  phase_execution_status: AUTHORIZED_READY
+  current_route_execution_status: AUTHORIZED_READY_TASK_1_P1_205_ELIGIBLE
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -5576,226 +5585,254 @@ historical_p1_162_phase_route:
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 
 current_phase_route:
-  route_id: P1_TYPED_PROVIDER_RESPONSE_TRANSACTION_AND_ONE_SHOT_STRICT_EXIT_ROUTE_V1
-  status: TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS
-  authority_object_status: FOUNDER_DIRECTIVE_CONSUMED_ROUTE_TERMINAL
-  execution_status: TERMINAL_TASK_1_FINAL_CTO_SECURITY_TARGET_NON_PASS
-  founder_phase_route_decision_required: true
-  scheduling_status: TERMINAL_TASK_1
+  route_id: P1_PREFORMAL_REVIEWED_EXACT_NUMERIC_ONE_SHOT_TRANSACTION_BASELINE_AND_STRICT_EXIT_ROUTE_V1
+  status: AUTHORIZED_READY
+  authority_object_status: FOUNDER_DIRECTIVE_CONSUMED_ROUTE_READY
+  execution_status: AUTHORIZED_READY_TASK_1_ELIGIBLE
+  founder_phase_route_decision_required: false
+  scheduling_status: READY_FOR_MASTER_TASK_1_ACTIVATION
   phase: P1
   phase_entry_status: AUTHORIZED
-  authorization_token: AUTHORIZE_P1_TYPED_PROVIDER_RESPONSE_TRANSACTION_AND_ONE_SHOT_STRICT_EXIT_ROUTE_V1
+  authorization_token: AUTHORIZE_P1_PREFORMAL_REVIEWED_EXACT_NUMERIC_ONE_SHOT_TRANSACTION_BASELINE_AND_STRICT_EXIT_ROUTE_V1
   decision_packet:
-    path: "/Users/lijunpeng/Developer/.sourcelens-audit/p1-typed-provider-response-transaction-strict-exit-20260804/founder-phase-gate-draft/FOUNDER_P1_TYPED_PROVIDER_RESPONSE_TRANSACTION_AND_ONE_SHOT_STRICT_EXIT_ROUTE_V1.structured-decision.json"
-    sha256: 9e5a91047a2f303d744714b5152dbaac4bea86adc15e4117bd7d74b54c1742ef
-    byte_length: 5099
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-preformal-reviewed-exact-numeric-one-shot-strict-exit-20260804/founder-phase-gate-draft/FOUNDER_P1_PREFORMAL_REVIEWED_EXACT_NUMERIC_ONE_SHOT_TRANSACTION_BASELINE_AND_STRICT_EXIT_ROUTE_V1.structured-decision.json
+    sha256: 776b08453223e10a71ad3456a6af2aa69786234cc80940498d8f4429458424f7
+    byte_length: 4677
   original_founder_packet:
-    path: "/Users/lijunpeng/Developer/.sourcelens-audit/p1-typed-provider-response-transaction-strict-exit-20260804/founder-phase-gate-draft/FOUNDER_P1_TYPED_PROVIDER_RESPONSE_TRANSACTION_AND_ONE_SHOT_STRICT_EXIT_ROUTE_V1.md"
-    sha256: bbcbfad0bb5ff774c12677749f63726821b3f33a7d5300ba53d72307abeec6cf
-    byte_length: 9069
-  historical_p1_200_same_task_amendment:
-    path: /Users/lijunpeng/.codex/attachments/40ac4fe7-9dfd-4832-84fe-841858167afb/pasted-text.txt
-    sha256: 6b80d50ec132102ee379521a9aef8a0ebfacc9fb21813c2917e4a7b05f812576
-    byte_length: 8458
-    authorization_token: AUTHORIZE_ONE_P1_200_OWNED_ADAPTER_NEGATIVE_FIXTURE_ISOLATION_REPAIR_AND_REPLACEMENT_PREFORMAL_GATE_THEN_DIRECT_STRICT_EXIT_CONTINUATION_V1
-    parent_authorization_token: AUTHORIZE_P1_EXACT_P1_198_SECURITY_CLOSURE_AND_ONE_SHOT_STRICT_EXIT_ROUTE_V3
-    normalized_root_cause: P1200.PREFORMAL.PREPARE.ACCEPTED_ADAPTER_NEGATIVE_SYMLINK_INVENTORY_CONFLICT
-    implementation_iterations_used: 2
-    same_task_repairs_used: 1
-    preformal_review_cycles_used: 2
-    current_usable_preformal_gate_cycles: 1
-    formal_execution_started: false
-    provider_requests: 0
-    secret_reads: 0
-    observed_terminal_preformal_cycle: 5
-    observed_terminal_source_commit: bcbd5c5b5c4caf7e5e06a577959ff1d8b9a87df4
-    observed_terminal_source_tree: 2380c2cef8f0aecac56f37518fc0bc168dd5b9c7
-    observed_terminal_target_verdict: NON_PASS
-    observed_terminal_normalized_root_cause: P1200.PREFORMAL.SECURITY.FORMAL_EXECUTOR_FAILED_RESPONSE_USAGE_UNKNOWN_FAIL_OPEN
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-preformal-reviewed-exact-numeric-one-shot-strict-exit-20260804/founder-phase-gate-draft/FOUNDER_P1_PREFORMAL_REVIEWED_EXACT_NUMERIC_ONE_SHOT_TRANSACTION_BASELINE_AND_STRICT_EXIT_ROUTE_V1.md
+    sha256: 42512cf7ddc028e8dd42a6c1cc041f8015399fcf8a2d1cb2fa0a65ccc0d8c28a
+    byte_length: 10971
   activation_parent:
-    commit: abc6f22899d1ae152c578f9e5fd3d7db0c7b13bc
-    tree: 8a464609bcb7e46c907c73e8f1575045aac06175
+    commit: 38ad4b57173baeb86f8f9660f727906ce2ed6607
+    tree: e024faf27b126d18214e270eba983ee1c020f79b
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
-    version: '1.7'
+    version: "1.7"
     sha256: 2417cc5fbd96677ea518ccfa66d0d1adc5f48d92e4d24ef23b9ffc85d47aed72
   goal_identity:
-    canonical_byte_length: 19434
-    canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
-    canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
-    raw_byte_length: 19433
     raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
-  objective: Build an independent typed Provider response transaction kernel,
-    then use only its accepted canonical implementation for one request-bound
-    36-cell baseline report and one exact report-bound P2 preregistration without
-    entering P2.
-  claim_boundary: COOPERATIVE_LOCAL_TYPED_PROVIDER_RESPONSE_TRANSACTION_AND_STRICT_P1_EXIT_ONLY_NO_P2_P3_REMOTE_PRODUCTION_OR_PUBLIC_CLAIM
+    raw_byte_length: 19433
+    canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+    canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+    canonical_byte_length: 19434
+  objective: >-
+    Build one clean-room exact-numeric, externally request-bound, atomic one-shot
+    transaction baseline path, complete the single authorized 36-cell formal
+    execution and reproducible report, then freeze one exact report-bound P2
+    preregistration without entering P2.
+  claim_boundary: COOPERATIVE_LOCAL_PREFORMAL_REVIEWED_EXACT_NUMERIC_ONE_SHOT_TRANSACTION_BOUND_BASELINE_AND_STRICT_P1_EXIT_ONLY_NO_P2_P3_REMOTE_PRODUCTION_OR_PUBLIC_CLAIM
   envelope:
-    max_engineering_tasks: 3
-    max_engineering_hours: 56
-    max_calendar_days: 10
+    max_engineering_tasks: 2
+    max_engineering_hours: 52
+    max_calendar_days: 9
     max_active_tasks: 1
     max_task_branches: 1
     max_task_worktrees: 1
     max_active_candidates: 1
     max_contract_corrections_per_task: 0
-    max_same_task_repairs: 3
+    max_same_task_repairs: 4
     successor_replacement_normalization_closure_feasibility_or_remediation_chain_allowed: false
     p2_entry_authorized: false
     p3_entry_authorized: false
     external_effects:
       network: true
-      production: false
       provider: true
-      public: false
-      remote: false
       secret: true
-  founder_reserved_profile: null
-  founder_reserved_profiles:
-  - call_limits:
-      automatic_retry_max: 0
+      remote: false
+      production: false
+      public: false
+  founder_reserved_profile:
+    schema_version: "4.0"
+    profile_id: P1_205_EXACT_NUMERIC_ONE_SHOT_LOCAL_GATEWAY_PROFILE_V1
+    decision_basis: FOUNDER_PACKET_SHA256:42512cf7ddc028e8dd42a6c1cc041f8015399fcf8a2d1cb2fa0a65ccc0d8c28a
+    route_id: P1_PREFORMAL_REVIEWED_EXACT_NUMERIC_ONE_SHOT_TRANSACTION_BASELINE_AND_STRICT_EXIT_ROUTE_V1
+    task_id: AIOS-P1-205_EXACT_NUMERIC_ONE_SHOT_TRANSACTION_BOUND_BASELINE
+    transport:
+      scheme: http
+      host: 127.0.0.1
+      port: 8787
+      completion_path: /v1/chat/completions
+      api_format: OPENAI_COMPATIBLE_CHAT_COMPLETIONS
+      method: POST
+      follow_redirects: false
+      use_proxy: false
+      dns_resolution: false
+      fallback_endpoint_allowed: false
+      expected_peer_address: 127.0.0.1
+      expected_peer_port: 8787
+    model:
+      requested_model: gpt-5.6-luna
+      substitution_allowed: false
+      provider_provenance: FOUNDER_ATTESTED_OPENAI_COMPATIBLE_LOCAL_GATEWAY_MODEL_NOT_INDEPENDENTLY_VERIFIED
+    secret:
+      source: FOUNDER_OPERATOR_NO_ECHO_TTY
+      entry_sessions: 1
+      persist: false
+      prohibited_sinks:
+        - ARGV
+        - ENVIRONMENT
+        - SHELL_HISTORY
+        - REPOSITORY
+        - TEMPORARY_PLAINTEXT_FILE
+        - EVIDENCE
+        - LOG
+        - TRACE
+        - PROMPT
+        - REVIEW
+        - VAULT
+    call_limits:
       diagnostic_requests_max: 1
       formal_requests_exact: 36
       provider_requests_max: 37
-    claim_limits:
-      actual_monetary_cost: UNKNOWN_UNLESS_TRUSTWORTHY_GATEWAY_EVIDENCE_EXISTS
-      direct_openai_provenance_proven: false
-      gateway_upstream_behavior: UNKNOWN
-      hostile_principal_isolation: false
-      p2_entry: false
-      production: false
-      public: false
-      remote: false
-      upstream_request_count: UNKNOWN
-    decision_basis: FOUNDER_PACKET_SHA256:bbcbfad0bb5ff774c12677749f63726821b3f33a7d5300ba53d72307abeec6cf
-    external_effects:
-      network: true
-      production: false
-      provider: true
-      public: false
-      remote: false
-      secret: true
-    model:
-      provider_provenance: FOUNDER_ATTESTED_OPENAI_COMPATIBLE_LOCAL_GATEWAY_MODEL_NOT_INDEPENDENTLY_VERIFIED
-      requested_model: gpt-5.6-luna
-      substitution_allowed: false
+      automatic_retry_max: 0
     monetary_limits:
       currency: USD
       max_spend: 25
       unavailable_metering_status: UNKNOWN_GATEWAY_METERING_UNAVAILABLE
-    profile_id: P1_203_TYPED_TRANSACTION_LOCAL_GATEWAY_PROFILE_V1
-    route_id: P1_TYPED_PROVIDER_RESPONSE_TRANSACTION_AND_ONE_SHOT_STRICT_EXIT_ROUTE_V1
-    schema_version: '4.0'
-    secret:
-      entry_sessions: 1
-      persist: false
-      prohibited_sinks:
-      - ARGV
-      - ENVIRONMENT
-      - SHELL_HISTORY
-      - REPOSITORY
-      - TEMPORARY_PLAINTEXT_FILE
-      - EVIDENCE
-      - LOG
-      - TRACE
-      - PROMPT
-      - REVIEW
-      - VAULT
-      source: FOUNDER_OPERATOR_NO_ECHO_TTY
-    task_id: AIOS-P1-203_TYPED_TRANSACTION_BOUND_REPRODUCIBLE_BASELINE_REPORT
-    transport:
-      api_format: OPENAI_COMPATIBLE_CHAT_COMPLETIONS
-      completion_path: "/v1/chat/completions"
-      dns_resolution: false
-      expected_peer_address: 127.0.0.1
-      expected_peer_port: 8787
-      fallback_endpoint_allowed: false
-      follow_redirects: false
-      host: 127.0.0.1
-      method: POST
-      port: 8787
-      scheme: http
-      use_proxy: false
+    external_effects:
+      network: true
+      provider: true
+      secret: true
+      remote: false
+      production: false
+      public: false
+    claim_limits:
+      direct_openai_provenance_proven: false
+      gateway_upstream_behavior: UNKNOWN
+      upstream_request_count: UNKNOWN
+      actual_monetary_cost: UNKNOWN_UNLESS_TRUSTWORTHY_GATEWAY_EVIDENCE_EXISTS
+      hostile_principal_isolation: false
+      production: false
+      remote: false
+      public: false
+      p2_entry: false
+  founder_reserved_profiles:
+    - schema_version: "4.0"
+      profile_id: P1_205_EXACT_NUMERIC_ONE_SHOT_LOCAL_GATEWAY_PROFILE_V1
+      decision_basis: FOUNDER_PACKET_SHA256:42512cf7ddc028e8dd42a6c1cc041f8015399fcf8a2d1cb2fa0a65ccc0d8c28a
+      route_id: P1_PREFORMAL_REVIEWED_EXACT_NUMERIC_ONE_SHOT_TRANSACTION_BASELINE_AND_STRICT_EXIT_ROUTE_V1
+      task_id: AIOS-P1-205_EXACT_NUMERIC_ONE_SHOT_TRANSACTION_BOUND_BASELINE
+      transport:
+        scheme: http
+        host: 127.0.0.1
+        port: 8787
+        completion_path: /v1/chat/completions
+        api_format: OPENAI_COMPATIBLE_CHAT_COMPLETIONS
+        method: POST
+        follow_redirects: false
+        use_proxy: false
+        dns_resolution: false
+        fallback_endpoint_allowed: false
+        expected_peer_address: 127.0.0.1
+        expected_peer_port: 8787
+      model:
+        requested_model: gpt-5.6-luna
+        substitution_allowed: false
+        provider_provenance: FOUNDER_ATTESTED_OPENAI_COMPATIBLE_LOCAL_GATEWAY_MODEL_NOT_INDEPENDENTLY_VERIFIED
+      secret:
+        source: FOUNDER_OPERATOR_NO_ECHO_TTY
+        entry_sessions: 1
+        persist: false
+        prohibited_sinks:
+          - ARGV
+          - ENVIRONMENT
+          - SHELL_HISTORY
+          - REPOSITORY
+          - TEMPORARY_PLAINTEXT_FILE
+          - EVIDENCE
+          - LOG
+          - TRACE
+          - PROMPT
+          - REVIEW
+          - VAULT
+      call_limits:
+        diagnostic_requests_max: 1
+        formal_requests_exact: 36
+        provider_requests_max: 37
+        automatic_retry_max: 0
+      monetary_limits:
+        currency: USD
+        max_spend: 25
+        unavailable_metering_status: UNKNOWN_GATEWAY_METERING_UNAVAILABLE
+      external_effects:
+        network: true
+        provider: true
+        secret: true
+        remote: false
+        production: false
+        public: false
+      claim_limits:
+        direct_openai_provenance_proven: false
+        gateway_upstream_behavior: UNKNOWN
+        upstream_request_count: UNKNOWN
+        actual_monetary_cost: UNKNOWN_UNLESS_TRUSTWORTHY_GATEWAY_EVIDENCE_EXISTS
+        hostile_principal_isolation: false
+        production: false
+        remote: false
+        public: false
+        p2_entry: false
   first_task:
     task_slot: 1
-    task_id: AIOS-P1-202_TYPED_PROVIDER_RESPONSE_TRANSACTION_KERNEL
-    status: TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS
-    engineering_hours: 16
-    calendar_days: 3
-    max_implementation_iterations: 4
-    max_same_task_repairs: 3
-    max_candidates: 1
-    external_effects:
-      network: false
-      production: false
-      provider: false
-      public: false
-      remote: false
-      secret: false
-    contract_path: docs/aios/tasks/P1-202_TYPED_PROVIDER_RESPONSE_TRANSACTION_KERNEL.yaml
-    contract_sha256: 2979ef46ecd8e83be4e80064754878d8f0061e90113f498b052fff94533842a8
-    contract_byte_length: 10951
-    max_engineering_hours: 16
-    max_calendar_days: 3
-    p1_capability_claim_on_pass: NONE_PREREQUISITE_ONLY
-  task_plan:
-  - task_slot: 1
-    task_id: AIOS-P1-202_TYPED_PROVIDER_RESPONSE_TRANSACTION_KERNEL
-    status: TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS
-    engineering_hours: 16
-    calendar_days: 3
-    max_implementation_iterations: 4
-    max_same_task_repairs: 3
-    max_candidates: 1
-    external_effects:
-      network: false
-      production: false
-      provider: false
-      public: false
-      remote: false
-      secret: false
-  - task_slot: 2
-    task_id: AIOS-P1-203_TYPED_TRANSACTION_BOUND_REPRODUCIBLE_BASELINE_REPORT
-    status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
-    engineering_hours: 32
-    calendar_days: 5
-    max_implementation_iterations: 3
-    max_same_task_repairs: 2
+    task_id: AIOS-P1-205_EXACT_NUMERIC_ONE_SHOT_TRANSACTION_BOUND_BASELINE
+    status: ELIGIBLE_NOT_ACTIVATED
+    engineering_hours: 44
+    calendar_days: 7
+    max_engineering_hours: 44
+    max_calendar_days: 7
+    max_implementation_iterations: 5
+    max_same_task_repairs: 4
     max_candidates: 1
     external_effects:
       network: true
-      production: false
       provider: true
-      public: false
-      remote: false
       secret: true
-  - task_slot: 3
-    task_id: AIOS-P1-204_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
-    status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
-    engineering_hours: 8
-    calendar_days: 2
-    max_implementation_iterations: 2
-    max_same_task_repairs: 1
-    max_candidates: 1
-    external_effects:
-      network: false
-      production: false
-      provider: false
-      public: false
       remote: false
-      secret: false
+      production: false
+      public: false
+    contract_path: docs/aios/tasks/P1-205_EXACT_NUMERIC_ONE_SHOT_TRANSACTION_BOUND_BASELINE.yaml
+    contract_sha256: eb24fa2768d16f2a79317ebc4958b45ce70192eb80d03e382750556178307363
+    contract_byte_length: 14149
+    p1_capability_claim_on_pass: REPRODUCIBLE_BASELINE_REPORT
+  task_plan:
+    - task_slot: 1
+      task_id: AIOS-P1-205_EXACT_NUMERIC_ONE_SHOT_TRANSACTION_BOUND_BASELINE
+      status: ELIGIBLE_NOT_ACTIVATED
+      engineering_hours: 44
+      calendar_days: 7
+      max_implementation_iterations: 5
+      max_same_task_repairs: 4
+      max_candidates: 1
+      external_effects:
+        network: true
+        provider: true
+        secret: true
+        remote: false
+        production: false
+        public: false
+    - task_slot: 2
+      task_id: AIOS-P1-206_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+      status: PENDING_PREDECESSOR_TASK_GATE
+      engineering_hours: 8
+      calendar_days: 2
+      max_implementation_iterations: 2
+      max_same_task_repairs: 1
+      max_candidates: 1
+      external_effects:
+        network: false
+        provider: false
+        secret: false
+        remote: false
+        production: false
+        public: false
   automatic_entry:
-    after_task_id: AIOS-P1-202_TYPED_PROVIDER_RESPONSE_TRANSACTION_KERNEL
-    next_task_id: AIOS-P1-203_TYPED_TRANSACTION_BOUND_REPRODUCIBLE_BASELINE_REPORT
+    after_task_id: AIOS-P1-205_EXACT_NUMERIC_ONE_SHOT_TRANSACTION_BOUND_BASELINE
+    next_task_id: AIOS-P1-206_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
     requires_task_gate_pass: true
   automatic_entries:
-  - after_task_id: AIOS-P1-202_TYPED_PROVIDER_RESPONSE_TRANSACTION_KERNEL
-    next_task_id: AIOS-P1-203_TYPED_TRANSACTION_BOUND_REPRODUCIBLE_BASELINE_REPORT
-    requires_task_gate_pass: true
-  - after_task_id: AIOS-P1-203_TYPED_TRANSACTION_BOUND_REPRODUCIBLE_BASELINE_REPORT
-    next_task_id: AIOS-P1-204_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
-    requires_task_gate_pass: true
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
+    - after_task_id: AIOS-P1-205_EXACT_NUMERIC_ONE_SHOT_TRANSACTION_BOUND_BASELINE
+      next_task_id: AIOS-P1-206_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+      requires_task_gate_pass: true
+  next_eligible_action: MASTER_ACTIVATE_FIRST_TASK
   accepted_inputs:
     p1_035:
       task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
@@ -7553,9 +7590,9 @@ historical_p2_phase_route:
   next_eligible_action: FOUNDER_P2_PHASE_GATE
 
 phase_delegation:
-  status: TERMINAL_P1_202_FINAL_CTO_SECURITY_TARGET_NON_PASS
+  status: AUTHORIZED_READY_P1_205_EXACT_NUMERIC_ONE_SHOT_TRANSACTION_BOUND_BASELINE
   model: PHASE_LEVEL_FOUNDER_DELEGATION
-  decision_source: AUTHORIZE_P1_TYPED_PROVIDER_RESPONSE_TRANSACTION_AND_ONE_SHOT_STRICT_EXIT_ROUTE_V1
+  decision_source: AUTHORIZE_P1_PREFORMAL_REVIEWED_EXACT_NUMERIC_ONE_SHOT_TRANSACTION_BASELINE_AND_STRICT_EXIT_ROUTE_V1
   phase_gate_owner: HUMAN_FOUNDER
   task_selection_owner: MASTER_CEO_AGENT
   task_authorization_owner: MASTER_CEO_AGENT_WITHIN_CURRENT_PHASE_ENVELOPE
@@ -9061,7 +9098,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260804-P1-202-TERMINAL-FINAL-CTO-SECURITY-NON-PASS-V1
+  latest_event_id: FKS-20260804-P1-205-FOUNDER-ROUTE-AUTHORIZED-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -10996,6 +11033,33 @@ founder_knowledge_sync:
         sha256: null
       event_sha256: ed21d8702a044c8239048ffae9b6dc0e7a36e81520195d7660bfef3426094a59
 
+    - event_id: FKS-20260804-P1-205-FOUNDER-ROUTE-AUTHORIZED-V1
+      trigger_type: FOUNDER_PHASE_ROUTE_DECISION
+      occurred_at_utc: '2026-08-04T04:01:45Z'
+      source_commit: 38ad4b57173baeb86f8f9660f727906ce2ed6607
+      source_tree: e024faf27b126d18214e270eba983ee1c020f79b
+      previous_event_sha256: ed21d8702a044c8239048ffae9b6dc0e7a36e81520195d7660bfef3426094a59
+      status: NO_MATERIAL_KNOWLEDGE_DELTA
+      rationale: Founder authorized the exact P1-205/P1-206 strict-exit route from the clean terminal P1-202 baseline. The decision keeps P1 at 6/8 (75 percent), P2 held, freezes one preformal-reviewed clean-room engineering Task followed by one report-bound preregistration Task, and permits local loopback Provider/Secret use only after three fresh preformal PASS reviews. This event records the route decision and permission boundary; it introduces no additional reusable engineering conclusion beyond the exact Founder packet, so no separate Learning Artifact is warranted before execution evidence exists.
+      engineering_blocking: false
+      artifact:
+        path: null
+        byte_length: null
+        sha256: null
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+      event_sha256: c950671f0e643c0054e2f1a7942291a4283316e3abdebfc34ec0d6b94c11f66a
+
 historical_active_work_after_p1_079:
   current_task: NONE
   current_task_status: NONE
@@ -11065,7 +11129,7 @@ active_work:
   authorization_id: null
   activation_parent_commit: null
   activation_parent_tree: null
-  task_resource_state: NOT_CREATED_ROUTE_TERMINAL
+  task_resource_state: NOT_CREATED_ROUTE_READY
   task_branch: null
   task_worktree: null
   execution_evidence_root: null
@@ -11089,13 +11153,13 @@ active_work:
   offsite_target: null
   founder_reserved_authorization: null
   founder_reserved_authorization_sha256: null
-  founder_decision_required: true
-  founder_decision_required_scope: P1_PHASE_GATE_AFTER_P1_202_TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS
-  escalation_reason: P1202_FINAL_REVIEW_TYPED_TRANSACTION_NUMERIC_IDENTITY_REPLAY_AND_PARSER_FAIL_OPEN
-  user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
+  founder_decision_required: false
+  founder_decision_required_scope: NONE
+  escalation_reason: null
+  user_action_required: NONE
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: MASTER_ACTIVATE_FIRST_TASK
 historical_p1_190_terminal_active_work:
   current_task: NONE
   current_task_status: NONE

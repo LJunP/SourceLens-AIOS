@@ -45,7 +45,7 @@ founder_same_task_security_correction_amendment:
   sha256: 01394c8c06af65b524456622cdb2ffcc3f57e898e549686f7af2cedc4c74f300
   byte_length: 3890
   authorization_token: AUTHORIZE_ONE_P1_207_EXACT_EFFECT_GATE_CONSUMER_SECURITY_CORRECTION_AND_DIRECT_MINIMUM_RESEARCH_EXIT_CONTINUATION_V1
-  status: CONSUMED_EXECUTION_CANDIDATE_AND_FORMAL_MATRIX_PASS
+  status: ACTIVE_ONE_CORRECTION_NOT_YET_COMMITTED
   exact_correction_base:
     commit: 2c26a0e378f218af9f13628123ed8cee3780d85e
     tree: b63600e9034de4646a91bb42662cdf1b7a143aca
@@ -55,48 +55,6 @@ founder_same_task_security_correction_amendment:
   second_correction_allowed: false
   prior_security_non_pass_retained: true
   prior_terminal_receipt_retained: true
-founder_postformal_consumer_correction:
-  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-cooperative-local-research-exit-20260804/founder-phase-gate/FOUNDER_P1_207_POSTFORMAL_TRANSITIVE_CONTROL_BINDING_CORRECTION_V1.md
-  sha256: 8e7f40a46ef5d6f65f1b751885d8537b0db86e129033874a2d7436bbf496f543
-  byte_length: 4652
-  authorization_token: AUTHORIZE_ONE_P1_207_POSTFORMAL_TRANSITIVE_CONTROL_BINDING_CORRECTION_AND_DIRECT_STRICT_EXIT_CONTINUATION_V1
-  status: ACTIVE_ONE_POSTFORMAL_CONSUMER_CORRECTION
-  exact_execution_candidate:
-    commit: eeb331666ae1e81e3c6cfc2eeab65fdb7f95d818
-    tree: 4e055228a253a0d145553d6380c71defdbd9981a
-  exact_root_cause: P1207.POSTFORMAL.EVALUATOR.LOCAL_DUPLICATE_ACCEPTED_CONTROL_PATH_MISSING
-  maximum_postformal_corrections: 1
-  maximum_corrected_postformal_candidates: 1
-  second_postformal_correction_allowed: false
-  secret_reads_allowed: 0
-  provider_requests_allowed: 0
-  formal_matrix_rerun_allowed: false
-  prefreeze_consumer_implementation_observation:
-    status: CLOSED_BEFORE_CANDIDATE_FREEZE
-    observation: >-
-      Exact formal diagnostic response bytes contain optional Provider usage
-      detail objects while the frozen response receipt intentionally stores the
-      validated prompt/completion/total counter triplet. The postformal
-      consumer now validates the raw counters and their sum, then compares the
-      normalized triplet without trusting or persisting optional metadata.
-    provider_requests: 0
-    secret_reads: 0
-    formal_evidence_modified: false
-formal_execution_outcome:
-  status: PASS_READ_ONLY_PRESERVED
-  evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-cooperative-local-research-exit-20260804/task-1-p1-207/evidence/formal-execution-v1
-  evidence_manifest_sha256: 31e439cc3e3a993916fffd836d6883722e4570719d6a93c5b38b6a29c703504f
-  evidence_manifest_byte_length: 31196
-  run_receipt_sha256: 5352b9071bffa4c1952f1c1388af8c05f9726d03fefb85e23e1164ff544fe227
-  run_receipt_byte_length: 745
-  denominator: 36
-  provider_requests: 37
-  automatic_retries: 0
-  taxonomy:
-    successful: 0
-    failed: 28
-    invalid: 8
-    excluded: 0
 goal_identity:
   raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
   raw_byte_length: 19433

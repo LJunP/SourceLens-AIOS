@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P1-207_MINIMUM_COOPERATIVE_LOCAL_REPRODUCIBLE_BASELINE
 phase: P1
 route_id: P1_MINIMUM_COOPERATIVE_LOCAL_RESEARCH_ARTIFACT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
-status: TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS
+status: ACTIVE
 objective: >-
   Build and independently falsify one minimum cooperative-local research
   pipeline from accepted canonical P1 assets, then—only after the complete
@@ -40,6 +40,21 @@ founder_reserved_authorization:
   sha256: ee39561b6184599c8eea055cce648a88a30018f0478aa62902d96976b1e0a380
   byte_length: 4646
   authorization_token: AUTHORIZE_P1_MINIMUM_COOPERATIVE_LOCAL_RESEARCH_ARTIFACT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
+founder_same_task_security_correction_amendment:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-cooperative-local-research-exit-20260804/founder-phase-gate/FOUNDER_P1_207_EXACT_EFFECT_GATE_CONSUMER_SECURITY_CORRECTION_AMENDMENT_V1.md
+  sha256: 01394c8c06af65b524456622cdb2ffcc3f57e898e549686f7af2cedc4c74f300
+  byte_length: 3890
+  authorization_token: AUTHORIZE_ONE_P1_207_EXACT_EFFECT_GATE_CONSUMER_SECURITY_CORRECTION_AND_DIRECT_MINIMUM_RESEARCH_EXIT_CONTINUATION_V1
+  status: ACTIVE_ONE_CORRECTION_NOT_YET_COMMITTED
+  exact_correction_base:
+    commit: 2c26a0e378f218af9f13628123ed8cee3780d85e
+    tree: b63600e9034de4646a91bb42662cdf1b7a143aca
+  exact_root_cause: P1207.PREFORMAL.EFFECT_GATE.SUPERFICIAL_PASS_ARTIFACTS_ACCEPTED
+  maximum_correction_commits: 1
+  maximum_corrected_candidates: 1
+  second_correction_allowed: false
+  prior_security_non_pass_retained: true
+  prior_terminal_receipt_retained: true
 goal_identity:
   raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
   raw_byte_length: 19433
@@ -235,7 +250,7 @@ stop_conditions:
   - Evidence is overwritten or deleted, or a non-loopback, remote, production or public effect occurs.
   - A final Reviewer returns NON_PASS, reviewed and integrated trees differ, or canonical make verify returns NONPASS.
   - The P1 Objective, Exit Gate, Phase boundary, scope, budget or permissions change.
-terminal_outcome:
+preserved_prior_terminal_outcome:
   terminal_at_utc: "2026-08-04T08:34:01Z"
   stop_condition: ANY_PREFORMAL_REVIEWER_TARGET_VERDICT_NON_PASS
   normalized_root_cause: P1207.PREFORMAL.EFFECT_GATE.SUPERFICIAL_PASS_ARTIFACTS_ACCEPTED
@@ -263,11 +278,13 @@ terminal_outcome:
   p1_208_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
   strict_p1_completion: 6_OF_8_75_PERCENT
   p2_status: HOLD_PENDING_STRICT_P1_EXIT
+  historical_truth_effect: RETAINED_NOT_REWRITTEN_AS_PASS
+  current_authority_superseded_by: AUTHORIZE_ONE_P1_207_EXACT_EFFECT_GATE_CONSUMER_SECURITY_CORRECTION_AND_DIRECT_MINIMUM_RESEARCH_EXIT_CONTINUATION_V1
 forbidden_actions:
   - Read, restore, compare or reuse P1-205 or any other rejected engineering asset.
   - Build a new authority, parser, validator, security platform, Trust Runtime or strong-isolation subsystem.
   - Treat documentation, Review, hash, manifest or governance synchronization as P1 capability progress.
-  - Create a successor, replacement, correction, normalization, closure, feasibility or remediation chain.
+  - Create a successor, replacement, second correction, normalization, closure, feasibility or remediation chain.
   - Enter P2 or P3, push or modify a remote, or produce remote, production or public effects.
   - Rerun, replace, omit or cosmetically improve any formal matrix cell.
 rollback: >-

@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-04T08:34:01Z"
-verification_scope: P1_207_TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS_NO_GATE_NO_SECRET_NO_PROVIDER_NO_INTEGRATION
+last_verified_at: "2026-08-04T09:21:16Z"
+verification_scope: P1_207_FOUNDER_AUTHORIZED_ONE_EXACT_EFFECT_GATE_CONSUMER_SECURITY_CORRECTION_ACTIVE
 
 authority:
   founder: Human Founder
@@ -37,8 +37,20 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
+  current_task_authority: AIOS-P1-207_MINIMUM_COOPERATIVE_LOCAL_REPRODUCIBLE_BASELINE
   note: >-
+    Founder authorized one and only one same-Task Security correction from the
+    exact preserved P1-207 candidate to close
+    P1207.PREFORMAL.EFFECT_GATE.SUPERFICIAL_PASS_ARTIFACTS_ACCEPTED. The prior
+    Security NON_PASS and terminal receipt remain true Evidence and are not
+    rewritten as PASS. P1-207 is the unique active Task only for this exact
+    correction; a second correction or corrected candidate is forbidden. No
+    Secret or Provider effect is permitted until a fresh 36-cell rehearsal,
+    full Gate negative matrix and fresh CTO, Security and Quality preformal
+    reviews all PASS on the same corrected exact bytes. Strict P1 remains 6/8
+    at 75 percent and P2 remains HOLD_PENDING_STRICT_P1_EXIT. The following
+    P1-207 terminal paragraph is retained historical chronology superseded for
+    current scheduling only by the exact Founder amendment.
     P1-207 completed one clean exact offline candidate and a 36-cell synthetic
     rehearsal with raw-Evidence-only rebuild, fourteen independent negative
     cases, zero false accepts and zero Secret, Provider or network effects.
@@ -887,12 +899,12 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  p1_execution_status: FOUNDER_P1_PHASE_GATE
-  p1_engineering_status: P1_207_TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS
+  p1_execution_status: ACTIVE
+  p1_engineering_status: P1_207_EXACT_EFFECT_GATE_CONSUMER_SECURITY_CORRECTION_ACTIVE
   p2_entry_status: HOLD_PENDING_STRICT_P1_EXIT
   p2_execution_status: HOLD_PENDING_STRICT_P1_EXIT
-  phase_execution_status: FOUNDER_P1_PHASE_GATE
-  current_route_execution_status: ROUTE_TERMINAL_P1_207_PREFORMAL_SECURITY_TARGET_NON_PASS
+  phase_execution_status: ACTIVE
+  current_route_execution_status: ROUTE_ACTIVE_TASK_1_P1_207_SECURITY_CORRECTION
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -5640,11 +5652,11 @@ historical_p1_162_phase_route:
 
 current_phase_route:
   route_id: P1_MINIMUM_COOPERATIVE_LOCAL_RESEARCH_ARTIFACT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
-  status: TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS
-  authority_object_status: FOUNDER_DIRECTIVE_CONSUMED_ROUTE_TERMINAL
-  execution_status: TERMINAL_TASK_1_P1_207_PREFORMAL_SECURITY_TARGET_NON_PASS
-  founder_phase_route_decision_required: true
-  scheduling_status: ROUTE_TERMINAL_FOUNDER_P1_PHASE_GATE
+  status: ACTIVE
+  authority_object_status: FOUNDER_SAME_TASK_SECURITY_CORRECTION_AMENDMENT_CONSUMED_ACTIVE_TASK
+  execution_status: ACTIVE_TASK_1_P1_207_EXACT_EFFECT_GATE_CONSUMER_SECURITY_CORRECTION
+  founder_phase_route_decision_required: false
+  scheduling_status: ACTIVE_TASK_IN_PROGRESS
   phase: P1
   phase_entry_status: AUTHORIZED
   authorization_token: AUTHORIZE_P1_MINIMUM_COOPERATIVE_LOCAL_RESEARCH_ARTIFACT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
@@ -5827,7 +5839,7 @@ current_phase_route:
   first_task:
     task_slot: 1
     task_id: AIOS-P1-207_MINIMUM_COOPERATIVE_LOCAL_REPRODUCIBLE_BASELINE
-    status: TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS
+    status: ACTIVE
     engineering_hours: 32
     calendar_days: 6
     max_engineering_hours: 32
@@ -5843,13 +5855,13 @@ current_phase_route:
       production: false
       public: false
     contract_path: docs/aios/tasks/P1-207_MINIMUM_COOPERATIVE_LOCAL_REPRODUCIBLE_BASELINE.yaml
-    contract_sha256: 90525cb324b138a5a1d838ea12978dc1e237aad4efb1b9d9f4fbb7756ec9b1f6
-    contract_byte_length: 14692
+    contract_sha256: 658c5a474b014f83d98abbf40c82019973db55383a6bf7e04fef700ecc35d5de
+    contract_byte_length: 15819
     p1_capability_claim_on_pass: REPRODUCIBLE_BASELINE_REPORT
   task_plan:
     - task_slot: 1
       task_id: AIOS-P1-207_MINIMUM_COOPERATIVE_LOCAL_REPRODUCIBLE_BASELINE
-      status: TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS
+      status: ACTIVE
       engineering_hours: 32
       calendar_days: 6
       max_implementation_iterations: 4
@@ -5864,7 +5876,7 @@ current_phase_route:
         public: false
     - task_slot: 2
       task_id: AIOS-P1-208_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
-      status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
+      status: PENDING_PREDECESSOR_TASK_GATE
       engineering_hours: 8
       calendar_days: 2
       max_implementation_iterations: 4
@@ -5885,7 +5897,7 @@ current_phase_route:
     - after_task_id: AIOS-P1-207_MINIMUM_COOPERATIVE_LOCAL_REPRODUCIBLE_BASELINE
       next_task_id: AIOS-P1-208_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
       requires_task_gate_pass: true
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
+  next_eligible_action: CONTINUE_CURRENT_TASK
   accepted_inputs:
     p1_035:
       task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
@@ -5925,11 +5937,20 @@ current_phase_route:
     - p1_129
     - p1_149
   additional_write_roots: []
+  same_task_security_correction_amendment:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-cooperative-local-research-exit-20260804/founder-phase-gate/FOUNDER_P1_207_EXACT_EFFECT_GATE_CONSUMER_SECURITY_CORRECTION_AMENDMENT_V1.md
+    sha256: 01394c8c06af65b524456622cdb2ffcc3f57e898e549686f7af2cedc4c74f300
+    byte_length: 3890
+    authorization_token: AUTHORIZE_ONE_P1_207_EXACT_EFFECT_GATE_CONSUMER_SECURITY_CORRECTION_AND_DIRECT_MINIMUM_RESEARCH_EXIT_CONTINUATION_V1
+    exact_correction_base_commit: 2c26a0e378f218af9f13628123ed8cee3780d85e
+    exact_correction_base_tree: b63600e9034de4646a91bb42662cdf1b7a143aca
+    exact_root_cause: P1207.PREFORMAL.EFFECT_GATE.SUPERFICIAL_PASS_ARTIFACTS_ACCEPTED
+    maximum_correction_commits: 1
+    maximum_corrected_candidates: 1
+    second_correction_allowed: false
+    prior_security_non_pass_retained: true
+    prior_terminal_receipt_retained: true
   inherited_worktree_inventory:
-  - path: "/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-207-minimum-cooperative-baseline"
-    head: 2c26a0e378f218af9f13628123ed8cee3780d85e
-    branch: codex/p1-207-minimum-cooperative-baseline
-    status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
   - path: "/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-205-exact-numeric-one-shot-baseline"
     head: 5ca0e03af1c3a2b66ebdaef0e2085704f72087a4
     branch: codex/p1-205-exact-numeric-one-shot-baseline
@@ -7647,7 +7668,7 @@ historical_p2_phase_route:
   next_eligible_action: FOUNDER_P2_PHASE_GATE
 
 phase_delegation:
-  status: FOUNDER_P1_PHASE_GATE_AFTER_P1_207_TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS
+  status: ACTIVE_P1_207_ONE_EXACT_EFFECT_GATE_CONSUMER_SECURITY_CORRECTION
   model: PHASE_LEVEL_FOUNDER_DELEGATION
   decision_source: AUTHORIZE_P1_MINIMUM_COOPERATIVE_LOCAL_RESEARCH_ARTIFACT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
   phase_gate_owner: HUMAN_FOUNDER
@@ -9155,7 +9176,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260804-P1-207-TERMINAL-PREFORMAL-SECURITY-NON-PASS-V1
+  latest_event_id: FKS-20260804-P1-207-ONE-SECURITY-CORRECTION-AUTHORIZED-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -11225,6 +11246,33 @@ founder_knowledge_sync:
         sha256: dd54ba32f995d202db73e6839bb4117bbc83e1b6fc9422ce9620490d0776f033
       event_sha256: a1ff5e6b693257b1f8d3b02a59145b5b2542b43c62d69cbb188a78881e5581a3
 
+    - event_id: FKS-20260804-P1-207-ONE-SECURITY-CORRECTION-AUTHORIZED-V1
+      trigger_type: FOUNDER_SAME_TASK_SECURITY_CORRECTION_DECISION
+      occurred_at_utc: '2026-08-04T09:21:16Z'
+      source_commit: 463f65edf8dc7147517c91a5431c697c22d09457
+      source_tree: 719575a3c884066cfddd4a638fa32cba2d530956
+      previous_event_sha256: a1ff5e6b693257b1f8d3b02a59145b5b2542b43c62d69cbb188a78881e5581a3
+      status: NO_MATERIAL_KNOWLEDGE_DELTA
+      rationale: Founder retained the exact P1-207 Security NON_PASS and terminal receipt while authorizing one and only one same-Task correction for the already imported superficial-PASS effect-Gate root cause. The decision reopens bounded engineering scheduling but adds no reusable lesson beyond the byte-identical P1-207 terminal Artifact already imported into the Founder Knowledge Vault. A new Knowledge Artifact is therefore not warranted until the corrected exact candidate reaches a fresh review or terminal outcome. Knowledge synchronization remains nonblocking and adds no P1 capability credit.
+      engineering_blocking: false
+      artifact:
+        path: null
+        byte_length: null
+        sha256: null
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+      event_sha256: 47c0bcc0f8e9df70f51ce423568a3d61e358b144e3e1a5c01f90f463ef11d53f
+
 historical_active_work_after_p1_079:
   current_task: NONE
   current_task_status: NONE
@@ -11276,55 +11324,65 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P1-207_MINIMUM_COOPERATIVE_LOCAL_REPRODUCIBLE_BASELINE
+  current_task_status: ACTIVE
   current_task_contract:
-    path: null
-    sha256: null
-    byte_length: null
-  current_task_contract_sha256: null
-  current_execution_authorization: null
-  current_execution_authorization_sha256: null
+    path: docs/aios/tasks/P1-207_MINIMUM_COOPERATIVE_LOCAL_REPRODUCIBLE_BASELINE.yaml
+    sha256: 658c5a474b014f83d98abbf40c82019973db55383a6bf7e04fef700ecc35d5de
+    byte_length: 15819
+  current_task_contract_sha256: 658c5a474b014f83d98abbf40c82019973db55383a6bf7e04fef700ecc35d5de
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-cooperative-local-research-exit-20260804/task-1-p1-207/authority/TASK_AUTHORITY_SECURITY_CORRECTION_V1.yaml
+  current_execution_authorization_sha256: ff62c158a106801ac148218e36c865cdbea201a97b1be0a37d05d268db5d34f4
   authority_record:
-    path: null
-    sha256: null
-    byte_length: null
-  execution_nonce: null
-  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
-  authorization_id: null
-  activation_parent_commit: null
-  activation_parent_tree: null
-  task_resource_state: NOT_CREATED_ROUTE_TERMINAL
-  task_branch: null
-  task_worktree: null
-  execution_evidence_root: null
-  allowlisted_paths: []
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-cooperative-local-research-exit-20260804/task-1-p1-207/authority/TASK_AUTHORITY_SECURITY_CORRECTION_V1.yaml
+    sha256: ff62c158a106801ac148218e36c865cdbea201a97b1be0a37d05d268db5d34f4
+    byte_length: 5291
+  execution_nonce: 0870f737299b5169d4689683977e7e105a6a3e4031f8eaf57530e14d3a85b13b
+  execution_nonce_status: ACTIVE
+  authorization_id: e9ad63415691fc6afaaee3dceea185747c10b9d06b328275725e0c002b8dee63
+  activation_parent_commit: 5133b6fe8ecb0405f86b46a9a072f96e77cdb45d
+  activation_parent_tree: 5b88996339244d42f3955bb77a4cc01464823621
+  task_resource_state: ACTIVE_ONE_EXACT_EFFECT_GATE_CONSUMER_SECURITY_CORRECTION
+  task_branch: codex/p1-207-minimum-cooperative-baseline
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-207-minimum-cooperative-baseline
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-cooperative-local-research-exit-20260804/task-1-p1-207/evidence
+  allowlisted_paths:
+    - evaluation-harness/harness/p1-207-minimum-cooperative-baseline/**
+    - evaluation-harness/evaluator/p1-207-minimum-cooperative-baseline/**
+    - scripts/p1-207-operator-capture.sh
+    - scripts/verify-p1-207-minimum-cooperative-baseline.sh
+    - docs/aios/tasks/P1-207_MINIMUM_COOPERATIVE_LOCAL_REPRODUCIBLE_BASELINE.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
   budget:
-    engineering_hours: null
-    calendar_days: null
-    implementation_iterations: null
-    candidates: null
+    engineering_hours: 32
+    calendar_days: 6
+    implementation_iterations: 4
+    candidates: 1
   roles:
-    owner: null
-    worker: null
-    independent_reviewers: []
+    owner: Master CEO Agent
+    worker: P1-207 Separated Implementation Team
+    independent_reviewers:
+      - CTO Agent
+      - Security Agent
+      - Quality and Evaluation Agent
   external_effects:
-    network: false
-    provider: false
-    secret: false
+    network: true
+    provider: true
+    secret: true
     remote: false
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: null
-  founder_reserved_authorization_sha256: null
-  founder_decision_required: true
-  founder_decision_required_scope: P1_PHASE_GATE_AFTER_P1_207_TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS
-  escalation_reason: P1207_PREFORMAL_EFFECT_GATE_SUPERFICIAL_PASS_ARTIFACTS_ACCEPTED
-  user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
+  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-cooperative-local-research-exit-20260804/founder-phase-gate/FOUNDER_P1_MINIMUM_COOPERATIVE_LOCAL_RESEARCH_ARTIFACT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1.structured-decision.json
+  founder_reserved_authorization_sha256: ee39561b6184599c8eea055cce648a88a30018f0478aa62902d96976b1e0a380
+  founder_decision_required: false
+  founder_decision_required_scope: null
+  escalation_reason: null
+  user_action_required: NONE
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: CONTINUE_CURRENT_TASK
 historical_p1_190_terminal_active_work:
   current_task: NONE
   current_task_status: NONE
@@ -11377,7 +11435,7 @@ historical_p1_190_terminal_active_work:
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 task_history:
   aios_p1_207:
-    task_id: AIOS-P1-207_MINIMUM_COOPERATIVE_LOCAL_REPRODUCIBLE_BASELINE
+    same_task_id: AIOS-P1-207_MINIMUM_COOPERATIVE_LOCAL_REPRODUCIBLE_BASELINE
     route_id: P1_MINIMUM_COOPERATIVE_LOCAL_RESEARCH_ARTIFACT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
     status: TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS
     classification: TERMINAL_EXACT_CANDIDATE_PREFORMAL_SECURITY_TARGET_NON_PASS
@@ -16410,9 +16468,9 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: P1_MINIMUM_COOPERATIVE_LOCAL_RESEARCH_ARTIFACT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1_TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS
-  current_task_claim: NONE_P1_207_TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS
-  real_engineering_progress: P1_207_EXACT_OFFLINE_CANDIDATE_AND_36_CELL_REHEARSAL_PASS_BUT_FRESH_SECURITY_TARGET_NON_PASS_NO_GATE_NO_INTEGRATION_NO_SECRET_NO_PROVIDER_NO_P1_CAPABILITY_CREDIT
+  current_route_claim: P1_MINIMUM_COOPERATIVE_LOCAL_RESEARCH_ARTIFACT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1_ACTIVE_ONE_SECURITY_CORRECTION
+  current_task_claim: AIOS_P1_207_EXACT_EFFECT_GATE_CONSUMER_SECURITY_CORRECTION_ACTIVE
+  real_engineering_progress: P1_207_FOUNDER_AUTHORIZED_ONE_EXACT_EFFECT_GATE_CONSUMER_CORRECTION_NOT_YET_COMMITTED_NO_NEW_P1_CAPABILITY_CREDIT
   product_capability_changed: false
   phase_local_allowed:
     - local evaluation foundation engineering under an exact Task Contract
@@ -16491,11 +16549,11 @@ phase_execution_claim:
     - canonical main advance outside an accepted task gate
 
 claim_boundary:
-  current_phase_route: P1_MINIMUM_COOPERATIVE_LOCAL_RESEARCH_ARTIFACT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1_TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS
-  current_task: NONE
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
-  real_engineering_progress: P1_207_EXACT_OFFLINE_CANDIDATE_AND_36_CELL_REHEARSAL_PASS_BUT_FRESH_SECURITY_TARGET_NON_PASS_NO_GATE_NO_INTEGRATION_NO_SECRET_NO_PROVIDER_NO_P1_CAPABILITY_CREDIT
-  p1_207_status: TERMINAL_PREFORMAL_SECURITY_TARGET_NON_PASS
+  current_phase_route: P1_MINIMUM_COOPERATIVE_LOCAL_RESEARCH_ARTIFACT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1_ACTIVE_ONE_SECURITY_CORRECTION
+  current_task: AIOS-P1-207_MINIMUM_COOPERATIVE_LOCAL_REPRODUCIBLE_BASELINE
+  next_eligible_action: CONTINUE_CURRENT_TASK
+  real_engineering_progress: P1_207_FOUNDER_AUTHORIZED_ONE_EXACT_EFFECT_GATE_CONSUMER_CORRECTION_NOT_YET_COMMITTED_NO_NEW_P1_CAPABILITY_CREDIT
+  p1_207_status: ACTIVE_ONE_EXACT_EFFECT_GATE_CONSUMER_SECURITY_CORRECTION
   p1_207_authorization_token: AUTHORIZE_P1_MINIMUM_COOPERATIVE_LOCAL_RESEARCH_ARTIFACT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
   p1_207_founder_packet_sha256: a2a2894e778b7fbbace9c2bb70926908405214fd4b0c94cfeb2ddec23420f8cc
   p1_207_structured_decision_sha256: ee39561b6184599c8eea055cce648a88a30018f0478aa62902d96976b1e0a380
@@ -16519,8 +16577,13 @@ claim_boundary:
   p1_207_provider_requests: 0
   p1_207_secret_reads: 0
   p1_207_terminal_receipt_sha256: 9094af72ef443490ad38c4fc7e2ddf869d574f84152abe79a30c49692391c864
+  p1_207_security_correction_authorization_token: AUTHORIZE_ONE_P1_207_EXACT_EFFECT_GATE_CONSUMER_SECURITY_CORRECTION_AND_DIRECT_MINIMUM_RESEARCH_EXIT_CONTINUATION_V1
+  p1_207_security_correction_packet_sha256: 01394c8c06af65b524456622cdb2ffcc3f57e898e549686f7af2cedc4c74f300
+  p1_207_maximum_correction_commits: 1
+  p1_207_maximum_corrected_candidates: 1
+  p1_207_second_correction_allowed: false
   p1_207_capability_credit: 0
-  p1_208_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
+  p1_208_entry: PENDING_PREDECESSOR_TASK_GATE
   p1_205_status: TERMINAL_PREFORMAL_REVIEW_TARGET_NON_PASS
   p1_205_authorization_token: AUTHORIZE_P1_PREFORMAL_REVIEWED_EXACT_NUMERIC_ONE_SHOT_TRANSACTION_BASELINE_AND_STRICT_EXIT_ROUTE_V1
   p1_205_founder_packet_sha256: 42512cf7ddc028e8dd42a6c1cc041f8015399fcf8a2d1cb2fa0a65ccc0d8c28a

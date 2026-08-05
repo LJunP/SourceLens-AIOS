@@ -37,7 +37,7 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
+  current_task_authority: AIOS-P1-209_IMMUTABLE_FORMAL_EVIDENCE_REPORT_ADMISSION
   note: >-
     P1-207 completed its single authorized postformal consumer correction
     without rereading a Secret, calling the Provider or rerunning the formal
@@ -916,12 +916,12 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  p1_execution_status: STOPPED_AT_P1_PHASE_GATE
-  p1_engineering_status: P1_207_TERMINAL_CANONICAL_MAKE_VERIFY_NON_PASS_REVERTED
+  p1_execution_status: ACTIVE
+  p1_engineering_status: P1_209_IMMUTABLE_FORMAL_EVIDENCE_REPORT_ADMISSION_ACTIVE
   p2_entry_status: HOLD_PENDING_STRICT_P1_EXIT
   p2_execution_status: HOLD_PENDING_STRICT_P1_EXIT
-  phase_execution_status: STOPPED_AT_FOUNDER_P1_PHASE_GATE
-  current_route_execution_status: ROUTE_TERMINAL_P1_207_CANONICAL_MAKE_VERIFY_NON_PASS_REVERTED
+  phase_execution_status: ACTIVE
+  current_route_execution_status: ACTIVE_TASK_1_P1_209
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -5668,26 +5668,26 @@ historical_p1_162_phase_route:
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 
 current_phase_route:
-  route_id: P1_MINIMUM_COOPERATIVE_LOCAL_RESEARCH_ARTIFACT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
-  status: TERMINAL_CANONICAL_MAKE_VERIFY_NON_PASS_REVERTED
-  authority_object_status: FOUNDER_POSTFORMAL_CONSUMER_CORRECTION_CONSUMED_TERMINAL
-  execution_status: TERMINAL_TASK_1_P1_207_CANONICAL_MAKE_VERIFY_NON_PASS_REVERTED
-  founder_phase_route_decision_required: true
-  scheduling_status: STOPPED_AT_FOUNDER_P1_PHASE_GATE
+  route_id: P1_IMMUTABLE_FORMAL_EVIDENCE_REPORT_ADMISSION_AND_STRICT_EXIT_ROUTE_V1
+  status: ACTIVE
+  authority_object_status: FOUNDER_DECISION_BOUND_AND_TASK_1_ACTIVE
+  execution_status: ACTIVE_TASK_1_P1_209
+  founder_phase_route_decision_required: false
+  scheduling_status: ACTIVE_TASK_1_P1_209
   phase: P1
   phase_entry_status: AUTHORIZED
-  authorization_token: AUTHORIZE_P1_MINIMUM_COOPERATIVE_LOCAL_RESEARCH_ARTIFACT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
+  authorization_token: AUTHORIZE_P1_IMMUTABLE_FORMAL_EVIDENCE_REPORT_ADMISSION_AND_STRICT_EXIT_ROUTE_V1
   decision_packet:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-cooperative-local-research-exit-20260804/founder-phase-gate/FOUNDER_P1_MINIMUM_COOPERATIVE_LOCAL_RESEARCH_ARTIFACT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1.structured-decision.json
-    sha256: ee39561b6184599c8eea055cce648a88a30018f0478aa62902d96976b1e0a380
-    byte_length: 4646
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-immutable-formal-evidence-report-admission-strict-exit-20260805/founder-phase-gate/FOUNDER_P1_IMMUTABLE_FORMAL_EVIDENCE_REPORT_ADMISSION_AND_STRICT_EXIT_ROUTE_V1.structured-decision.json
+    sha256: 529a838bea505d16780aa553e814bc2f7de4dc87941e6f2b736ce70b9d3047fd
+    byte_length: 2803
   original_founder_packet:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-cooperative-local-research-exit-20260804/founder-phase-gate/FOUNDER_P1_MINIMUM_COOPERATIVE_LOCAL_RESEARCH_ARTIFACT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1.md
-    sha256: a2a2894e778b7fbbace9c2bb70926908405214fd4b0c94cfeb2ddec23420f8cc
-    byte_length: 4634
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-immutable-formal-evidence-report-admission-strict-exit-20260805/founder-phase-gate/FOUNDER_P1_IMMUTABLE_FORMAL_EVIDENCE_REPORT_ADMISSION_AND_STRICT_EXIT_ROUTE_V1.md
+    sha256: ce55648ebc974f724a484deb726ea96cbe6184e1f7debbe51f63e75eb5d75550
+    byte_length: 5787
   activation_parent:
-    commit: 5133b6fe8ecb0405f86b46a9a072f96e77cdb45d
-    tree: 5b88996339244d42f3955bb77a4cc01464823621
+    commit: 8da8e158875d8fd2d01a9648e1507592243ac143
+    tree: b9d3e8ea505de353a8fe7ce488318927471975c0
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: "1.7"
@@ -5699,205 +5699,77 @@ current_phase_route:
     canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
     canonical_byte_length: 19434
   objective: >-
-    Build one minimum cooperative-local reproducible research artifact from
-    accepted canonical P1 assets, then freeze one exact report-bound P2 context
-    preregistration without entering P2.
-  claim_boundary: COOPERATIVE_LOCAL_REPRODUCIBLE_RESEARCH_ARTIFACT_ONLY_NO_HOSTILE_PRINCIPAL_TRUSTED_CLOCK_STRONG_ISOLATION_PRODUCTION_REMOTE_PUBLIC_P2_OR_P3_CLAIM
+    Admit the exact immutable P1-207 formal raw Evidence with a new pure-offline
+    deterministic evaluator and report rebuilder, then bind the accepted report
+    to one P2 context preregistration without entering P2.
+  claim_boundary: COOPERATIVE_LOCAL_IMMUTABLE_FORMAL_EVIDENCE_REPORT_ADMISSION_ONLY_NO_FORMAL_RERUN_SECRET_NETWORK_PROVIDER_P2_P3_REMOTE_PRODUCTION_PUBLIC_OR_HOSTILE_PRINCIPAL_CLAIM
   envelope:
     max_engineering_tasks: 2
-    max_engineering_hours: 40
-    max_calendar_days: 8
+    max_engineering_hours: 24
+    max_calendar_days: 5
     max_active_tasks: 1
     max_task_branches: 1
     max_task_worktrees: 1
     max_active_candidates: 1
     max_contract_corrections_per_task: 0
-    max_same_task_repairs: 3
+    max_same_task_repairs: 2
     successor_replacement_normalization_closure_feasibility_or_remediation_chain_allowed: false
     p2_entry_authorized: false
     p3_entry_authorized: false
     external_effects:
-      network: true
-      provider: true
-      secret: true
+      network: false
+      provider: false
+      secret: false
       remote: false
       production: false
       public: false
-  founder_reserved_profile:
-    schema_version: "4.0"
-    profile_id: P1_207_MINIMUM_COOPERATIVE_LOCAL_RESEARCH_ARTIFACT_LOCAL_GATEWAY_PROFILE_V1
-    decision_basis: FOUNDER_PACKET_SHA256:a2a2894e778b7fbbace9c2bb70926908405214fd4b0c94cfeb2ddec23420f8cc
-    route_id: P1_MINIMUM_COOPERATIVE_LOCAL_RESEARCH_ARTIFACT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
-    task_id: AIOS-P1-207_MINIMUM_COOPERATIVE_LOCAL_REPRODUCIBLE_BASELINE
-    transport:
-      scheme: http
-      host: 127.0.0.1
-      port: 8787
-      completion_path: /v1/chat/completions
-      api_format: OPENAI_COMPATIBLE_CHAT_COMPLETIONS
-      method: POST
-      follow_redirects: false
-      use_proxy: false
-      dns_resolution: false
-      fallback_endpoint_allowed: false
-      expected_peer_address: 127.0.0.1
-      expected_peer_port: 8787
-    model:
-      requested_model: gpt-5.6-luna
-      substitution_allowed: false
-      provider_provenance: FOUNDER_ATTESTED_OPENAI_COMPATIBLE_LOCAL_GATEWAY_MODEL_NOT_INDEPENDENTLY_VERIFIED
-    secret:
-      source: FOUNDER_OPERATOR_NO_ECHO_TTY
-      entry_sessions: 1
-      persist: false
-      prohibited_sinks:
-        - ARGV
-        - ENVIRONMENT
-        - SHELL_HISTORY
-        - REPOSITORY
-        - TEMPORARY_PLAINTEXT_FILE
-        - EVIDENCE
-        - LOG
-        - TRACE
-        - PROMPT
-        - REVIEW
-        - VAULT
-    call_limits:
-      diagnostic_requests_max: 1
-      formal_requests_exact: 36
-      provider_requests_max: 37
-      automatic_retry_max: 0
-    monetary_limits:
-      currency: USD
-      max_spend: 25
-      unavailable_metering_status: UNKNOWN_GATEWAY_METERING_UNAVAILABLE
-    external_effects:
-      network: true
-      provider: true
-      secret: true
-      remote: false
-      production: false
-      public: false
-    claim_limits:
-      direct_openai_provenance_proven: false
-      gateway_upstream_behavior: UNKNOWN
-      upstream_request_count: UNKNOWN
-      actual_monetary_cost: UNKNOWN_UNLESS_TRUSTWORTHY_GATEWAY_EVIDENCE_EXISTS
-      hostile_principal_isolation: false
-      production: false
-      remote: false
-      public: false
-      p2_entry: false
-  founder_reserved_profiles:
-    - schema_version: "4.0"
-      profile_id: P1_207_MINIMUM_COOPERATIVE_LOCAL_RESEARCH_ARTIFACT_LOCAL_GATEWAY_PROFILE_V1
-      decision_basis: FOUNDER_PACKET_SHA256:a2a2894e778b7fbbace9c2bb70926908405214fd4b0c94cfeb2ddec23420f8cc
-      route_id: P1_MINIMUM_COOPERATIVE_LOCAL_RESEARCH_ARTIFACT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
-      task_id: AIOS-P1-207_MINIMUM_COOPERATIVE_LOCAL_REPRODUCIBLE_BASELINE
-      transport:
-        scheme: http
-        host: 127.0.0.1
-        port: 8787
-        completion_path: /v1/chat/completions
-        api_format: OPENAI_COMPATIBLE_CHAT_COMPLETIONS
-        method: POST
-        follow_redirects: false
-        use_proxy: false
-        dns_resolution: false
-        fallback_endpoint_allowed: false
-        expected_peer_address: 127.0.0.1
-        expected_peer_port: 8787
-      model:
-        requested_model: gpt-5.6-luna
-        substitution_allowed: false
-        provider_provenance: FOUNDER_ATTESTED_OPENAI_COMPATIBLE_LOCAL_GATEWAY_MODEL_NOT_INDEPENDENTLY_VERIFIED
-      secret:
-        source: FOUNDER_OPERATOR_NO_ECHO_TTY
-        entry_sessions: 1
-        persist: false
-        prohibited_sinks:
-          - ARGV
-          - ENVIRONMENT
-          - SHELL_HISTORY
-          - REPOSITORY
-          - TEMPORARY_PLAINTEXT_FILE
-          - EVIDENCE
-          - LOG
-          - TRACE
-          - PROMPT
-          - REVIEW
-          - VAULT
-      call_limits:
-        diagnostic_requests_max: 1
-        formal_requests_exact: 36
-        provider_requests_max: 37
-        automatic_retry_max: 0
-      monetary_limits:
-        currency: USD
-        max_spend: 25
-        unavailable_metering_status: UNKNOWN_GATEWAY_METERING_UNAVAILABLE
-      external_effects:
-        network: true
-        provider: true
-        secret: true
-        remote: false
-        production: false
-        public: false
-      claim_limits:
-        direct_openai_provenance_proven: false
-        gateway_upstream_behavior: UNKNOWN
-        upstream_request_count: UNKNOWN
-        actual_monetary_cost: UNKNOWN_UNLESS_TRUSTWORTHY_GATEWAY_EVIDENCE_EXISTS
-        hostile_principal_isolation: false
-        production: false
-        remote: false
-        public: false
-        p2_entry: false
+  founder_reserved_profile: null
+  founder_reserved_profiles: []
   first_task:
     task_slot: 1
-    task_id: AIOS-P1-207_MINIMUM_COOPERATIVE_LOCAL_REPRODUCIBLE_BASELINE
-    status: TERMINAL_CANONICAL_MAKE_VERIFY_NON_PASS_REVERTED
-    engineering_hours: 32
-    calendar_days: 6
-    max_engineering_hours: 32
-    max_calendar_days: 6
-    max_implementation_iterations: 4
-    max_same_task_repairs: 3
+    task_id: AIOS-P1-209_IMMUTABLE_FORMAL_EVIDENCE_REPORT_ADMISSION
+    status: ACTIVE
+    engineering_hours: 18
+    calendar_days: 4
+    max_engineering_hours: 18
+    max_calendar_days: 4
+    max_implementation_iterations: 3
+    max_same_task_repairs: 2
     max_candidates: 1
     external_effects:
-      network: true
-      provider: true
-      secret: true
+      network: false
+      provider: false
+      secret: false
       remote: false
       production: false
       public: false
-    contract_path: docs/aios/tasks/P1-207_MINIMUM_COOPERATIVE_LOCAL_REPRODUCIBLE_BASELINE.yaml
-    contract_sha256: b37e3d04d46a26c196466d4e376ae29ed2360ca9e59207fdcdf023379b80abf4
-    contract_byte_length: 19034
+    contract_path: docs/aios/tasks/P1-209_IMMUTABLE_FORMAL_EVIDENCE_REPORT_ADMISSION.yaml
+    contract_sha256: 6e6c8bf0dda1512ab3b062414b2dc70f837a0220b1ed59987ce7cf4d25d81e31
+    contract_byte_length: 8442
     p1_capability_claim_on_pass: REPRODUCIBLE_BASELINE_REPORT
   task_plan:
     - task_slot: 1
-      task_id: AIOS-P1-207_MINIMUM_COOPERATIVE_LOCAL_REPRODUCIBLE_BASELINE
-      status: TERMINAL_CANONICAL_MAKE_VERIFY_NON_PASS_REVERTED
-      engineering_hours: 32
-      calendar_days: 6
-      max_implementation_iterations: 4
-      max_same_task_repairs: 3
+      task_id: AIOS-P1-209_IMMUTABLE_FORMAL_EVIDENCE_REPORT_ADMISSION
+      status: ACTIVE
+      engineering_hours: 18
+      calendar_days: 4
+      max_implementation_iterations: 3
+      max_same_task_repairs: 2
       max_candidates: 1
       external_effects:
-        network: true
-        provider: true
-        secret: true
+        network: false
+        provider: false
+        secret: false
         remote: false
         production: false
         public: false
     - task_slot: 2
-      task_id: AIOS-P1-208_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
-      status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
-      engineering_hours: 8
-      calendar_days: 2
-      max_implementation_iterations: 4
-      max_same_task_repairs: 3
+      task_id: AIOS-P1-210_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+      status: PENDING_PREDECESSOR_TASK_GATE
+      engineering_hours: 6
+      calendar_days: 1
+      max_implementation_iterations: 2
+      max_same_task_repairs: 1
       max_candidates: 1
       external_effects:
         network: false
@@ -5907,14 +5779,14 @@ current_phase_route:
         production: false
         public: false
   automatic_entry:
-    after_task_id: AIOS-P1-207_MINIMUM_COOPERATIVE_LOCAL_REPRODUCIBLE_BASELINE
-    next_task_id: AIOS-P1-208_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+    after_task_id: AIOS-P1-209_IMMUTABLE_FORMAL_EVIDENCE_REPORT_ADMISSION
+    next_task_id: AIOS-P1-210_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
     requires_task_gate_pass: true
   automatic_entries:
-    - after_task_id: AIOS-P1-207_MINIMUM_COOPERATIVE_LOCAL_REPRODUCIBLE_BASELINE
-      next_task_id: AIOS-P1-208_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+    - after_task_id: AIOS-P1-209_IMMUTABLE_FORMAL_EVIDENCE_REPORT_ADMISSION
+      next_task_id: AIOS-P1-210_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
       requires_task_gate_pass: true
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
+  next_eligible_action: EXECUTE_ACTIVE_TASK_AIOS_P1_209
   accepted_inputs:
     p1_035:
       task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
@@ -11336,6 +11208,33 @@ founder_knowledge_sync:
         sha256: 448017f97746694a7b59ab9a77efbb3ea8d8450e0d07dcbc26a525256379ea78
       event_sha256: e65bebfab10881df8aa7dd2a396a948a56ed4475ac3850fe3b9f0b547c46e10c
 
+    - event_id: FKS-20260805-P1-209-ROUTE-AUTHORIZED-AND-TASK-ACTIVATED-V1
+      trigger_type: FOUNDER_PHASE_ROUTE_DECISION_AND_TASK_ACTIVATION
+      occurred_at_utc: '2026-08-04T23:59:37Z'
+      source_commit: 8da8e158875d8fd2d01a9648e1507592243ac143
+      source_tree: b9d3e8ea505de353a8fe7ce488318927471975c0
+      previous_event_sha256: e65bebfab10881df8aa7dd2a396a948a56ed4475ac3850fe3b9f0b547c46e10c
+      status: NO_MATERIAL_KNOWLEDGE_DELTA
+      rationale: Founder authorized a fresh pure-offline P1-209 report-admission Task and report-bound P1-210 preregistration Task using the exact immutable P1-207 formal raw Evidence without rerunning the experiment, reading a Secret, calling a Provider or reusing rejected P1-207 implementation assets. The decision restores strict sequential P1 work while retaining P1 at 6/8 and P2 on hold. It adds no reusable lesson beyond the already imported P1-207 terminal learning until the new evaluator produces tested engineering results, so no additional Learning Artifact is warranted at activation.
+      engineering_blocking: false
+      artifact:
+        path: null
+        byte_length: null
+        sha256: null
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+      event_sha256: f4e0a5d1d33825b914ec25fa8bea0f97b906a8ddbe14e40d10356cb3cf59c977
+
 historical_active_work_after_p1_079:
   current_task: NONE
   current_task_status: NONE
@@ -11387,38 +11286,46 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P1-209_IMMUTABLE_FORMAL_EVIDENCE_REPORT_ADMISSION
+  current_task_status: ACTIVE
   current_task_contract:
-    path: null
-    sha256: null
-    byte_length: null
-  current_task_contract_sha256: null
-  current_execution_authorization: null
-  current_execution_authorization_sha256: null
+    path: docs/aios/tasks/P1-209_IMMUTABLE_FORMAL_EVIDENCE_REPORT_ADMISSION.yaml
+    sha256: 6e6c8bf0dda1512ab3b062414b2dc70f837a0220b1ed59987ce7cf4d25d81e31
+    byte_length: 8442
+  current_task_contract_sha256: 6e6c8bf0dda1512ab3b062414b2dc70f837a0220b1ed59987ce7cf4d25d81e31
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-immutable-formal-evidence-report-admission-strict-exit-20260805/task-1-p1-209/authority/TASK_AUTHORITY.yaml
+  current_execution_authorization_sha256: 78b79ae1b0d8672c293de765bee3cfcbd8a4a93f6d38696004b0b3d6081f6e4f
   authority_record:
-    path: null
-    sha256: null
-    byte_length: null
-  execution_nonce: null
-  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
-  authorization_id: null
-  activation_parent_commit: null
-  activation_parent_tree: null
-  task_resource_state: NOT_CREATED_ROUTE_TERMINAL
-  task_branch: null
-  task_worktree: null
-  execution_evidence_root: null
-  allowlisted_paths: []
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-immutable-formal-evidence-report-admission-strict-exit-20260805/task-1-p1-209/authority/TASK_AUTHORITY.yaml
+    sha256: 78b79ae1b0d8672c293de765bee3cfcbd8a4a93f6d38696004b0b3d6081f6e4f
+    byte_length: 2433
+  execution_nonce: 479abbd431368b769d4b2c69eb95797cd0a87cb3ef003797228f015687fe58c5
+  execution_nonce_status: ACTIVE
+  authorization_id: 32a7f5fbe682348d628c5adbea2db4806baa054759a2f178d3fa9192e611dc2f
+  activation_parent_commit: 8da8e158875d8fd2d01a9648e1507592243ac143
+  activation_parent_tree: b9d3e8ea505de353a8fe7ce488318927471975c0
+  task_resource_state: ACTIVE_UNIQUE_BRANCH_WORKTREE_AND_EVIDENCE_ROOT
+  task_branch: codex/p1-209-immutable-formal-evidence-admission
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-209-immutable-formal-evidence-admission
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-immutable-formal-evidence-report-admission-strict-exit-20260805/task-1-p1-209/evidence
+  allowlisted_paths:
+    - evaluation-harness/evaluator/p1-209-immutable-formal-evidence-admission/**
+    - scripts/verify-p1-209-immutable-formal-evidence-admission.sh
+    - docs/aios/tasks/P1-209_IMMUTABLE_FORMAL_EVIDENCE_REPORT_ADMISSION.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
   budget:
-    engineering_hours: null
-    calendar_days: null
-    implementation_iterations: null
-    candidates: null
+    engineering_hours: 18
+    calendar_days: 4
+    implementation_iterations: 3
+    candidates: 1
   roles:
-    owner: null
-    worker: null
-    independent_reviewers: []
+    owner: Master CEO Agent
+    worker: P1-209 Clean-Room Evaluator Implementation Agent
+    independent_reviewers:
+      - CTO Agent
+      - Security Agent
+      - Quality and Evaluation Agent
   external_effects:
     network: false
     provider: false
@@ -11427,15 +11334,15 @@ active_work:
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: null
-  founder_reserved_authorization_sha256: null
-  founder_decision_required: true
-  founder_decision_required_scope: P1_PHASE_GATE_AFTER_P1_207_TERMINAL_CANONICAL_MAKE_VERIFY_NON_PASS
-  escalation_reason: P1207_POSTFORMAL_CANONICAL_VERIFY_GENERIC_P1_HARNESS_REJECTS_TASK_AUTHORIZED_LOOPBACK_TRANSPORT_SOURCE
-  user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
+  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-immutable-formal-evidence-report-admission-strict-exit-20260805/founder-phase-gate/FOUNDER_P1_IMMUTABLE_FORMAL_EVIDENCE_REPORT_ADMISSION_AND_STRICT_EXIT_ROUTE_V1.structured-decision.json
+  founder_reserved_authorization_sha256: 529a838bea505d16780aa553e814bc2f7de4dc87941e6f2b736ce70b9d3047fd
+  founder_decision_required: false
+  founder_decision_required_scope: null
+  escalation_reason: null
+  user_action_required: NONE
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: EXECUTE_ACTIVE_TASK_AIOS_P1_209
 historical_p1_190_terminal_active_work:
   current_task: NONE
   current_task_status: NONE

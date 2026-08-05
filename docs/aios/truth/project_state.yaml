@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-05T17:50:10Z"
-verification_scope: P2_011_TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+last_verified_at: "2026-08-05T18:06:02Z"
+verification_scope: P2_011_TERMINAL_FINAL_REVIEW_NON_PASS_AND_KNOWLEDGE_IMPORTED
 
 authority:
   founder: Human Founder
@@ -12441,35 +12441,34 @@ founder_knowledge_sync:
     - event_id: FKS-20260806-P2-011-TERMINAL-FINAL-REVIEW-NON-PASS-V1
       trigger_type: TASK_TERMINAL_STOP_CONDITION
       occurred_at_utc: "2026-08-05T17:50:10Z"
-      source_commit: 58a8b4c160fc4a54b15ecfa4e886d9650938e5c6
-      source_tree: 5ffad7fbf6ab4d31298808cab4c28c3eaa89fc24
+      source_commit: a6b0b63fa053d106e98283e362568f9ff3906b39
+      source_tree: 498a7d8c4ff3ba8ca8dddbfcf8449ba8624f3446
       previous_event_sha256: ce2ddd7ff82d05230f0f3f66bc4d381169e66582800b5284ebec6ef03cada35e
-      status: PENDING_CANDIDATE
+      status: IMPORTED
       rationale: >-
-        P2-011 froze one exact graph-kernel candidate and its local targeted
-        matrix passed, but fresh CTO, Security and Quality Reviews independently
-        reproduced real-scanner contract incompatibility and identity false
-        accepts. The candidate was not integrated, P2-012 was not started and
-        the Route stopped at the Founder P2 Phase Gate. A concise reusable
-        learning artifact is pending and remains non-blocking.
+        Fresh Knowledge Review passed for the exact P2-011 terminal learning
+        artifact, and the same 3,930 bytes were imported into the Founder
+        Knowledge Vault with a hash-bound receipt. This non-authoritative sync
+        preserves the rejected candidate and all terminal findings, adds no P2
+        capability credit, and does not unblock P2-012.
       engineering_blocking: false
       artifact:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-strict-entry-repository-intelligence-20260806/task-1-p2-011/knowledge/P2_011_TERMINAL_LEARNING_ARTIFACT_CANDIDATE_V1.md
+        byte_length: 3930
+        sha256: 98f4c3b83b71a777f631599920a75a7117c3ef375e3c2af5624f508a2a58ade6
       review:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-strict-entry-repository-intelligence-20260806/task-1-p2-011/knowledge/P2_011_TERMINAL_KNOWLEDGE_REVIEW_V2.json
+        byte_length: 1962
+        sha256: d314589bdad56c7bc6aeefab7167bbde2fdd4697f0d9658f2799cf250f700a6d
       vault_import:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/05-Failures-and-Lessons/AIOS-P2-011/2026-08-06-P2-011-scanner-producer-contract-first.md
+        byte_length: 3930
+        sha256: 98f4c3b83b71a777f631599920a75a7117c3ef375e3c2af5624f508a2a58ade6
       receipt:
-        path: null
-        byte_length: null
-        sha256: null
-      event_sha256: 92bcd166c262e1ed69774de561120482c10dd902ad8468c10de2615a86ba852d
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-strict-entry-repository-intelligence-20260806/task-1-p2-011/knowledge/P2_011_TERMINAL_KNOWLEDGE_IMPORT_RECEIPT_V2.json
+        byte_length: 1660
+        sha256: 801e2cdb76ae4ba51f743e0cbe62e04afc9ace45b02d863b23f9e7d41f8c3966
+      event_sha256: 7c6a4def789dcaa3a91b8185d3dbb011fd5bd596af5140e3a69041bbe0341b79
 
 historical_active_work_after_p1_079:
   current_task: NONE

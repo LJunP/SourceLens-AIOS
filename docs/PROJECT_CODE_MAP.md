@@ -4,9 +4,9 @@
 
 ## 1. 生成范围
 
-- 纳入逐文件用途索引的文件数：876。
-- 其中源码/脚本/配置/SQL/CSS 类文件数：532。
-- 纳入统计的文本总行数：234016。
+- 纳入逐文件用途索引的文件数：882。
+- 其中源码/脚本/配置/SQL/CSS 类文件数：537。
+- 纳入统计的文本总行数：234881。
 - 排除逐文件展开的本地生成/证据目录：`.git/`、`bin/`、`web-console/node_modules/`、`backend-spring/target/`、`analyzer-rust/target/`、`.sourcelens-runtime/`、`release-evidence/`、前端构建和测试产物。
 - 本地生成物、依赖缓存和历史证据目录不是源码或当前权威；它们必须保持未跟踪并可重建或从封存恢复。
 
@@ -25,13 +25,13 @@
 | `CONTRIBUTING.md` | 1 | 项目根文件或辅助目录。 |
 | `deploy` | 2 | Docker Compose 和环境模板。 |
 | `docs` | 141 | 当前架构、接口、安全、研究与 AIOS 权威文档。 |
-| `evaluation-harness` | 255 | 项目根文件或辅助目录。 |
+| `evaluation-harness` | 260 | 项目根文件或辅助目录。 |
 | `LICENSE` | 1 | 项目根文件或辅助目录。 |
 | `Makefile` | 1 | 项目根文件或辅助目录。 |
 | `README.md` | 1 | 项目根文件或辅助目录。 |
 | `ROADMAP.md` | 1 | 项目根文件或辅助目录。 |
 | `schemas` | 1 | 项目根文件或辅助目录。 |
-| `scripts` | 32 | 本地构建、验证、代码地图和最小安全检查。 |
+| `scripts` | 33 | 本地构建、验证、代码地图和最小安全检查。 |
 | `SECURITY.md` | 1 | 项目根文件或辅助目录。 |
 | `SUPPORT.md` | 1 | 项目根文件或辅助目录。 |
 | `web-console` | 72 | React/Vite 前端控制台。 |
@@ -176,7 +176,7 @@
 | `docs/aios/tasks` | 117 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/aios/truth` | 1 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/llm-safety-evals` | 2 | LLM 安全评测用例目录，存放 prompt injection、输出质量和 provider run 模板。 |
-| `evaluation-harness` | 255 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness` | 260 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/adapters` | 18 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/adapters/harness_stub` | 2 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/adapters/offline-b0-finite-typed-v1` | 1 | 项目根文件或辅助目录。子目录。 |
@@ -218,7 +218,7 @@
 | `evaluation-harness/datasets/p2-repository-context-v1/public` | 8 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/datasets/p2-repository-context-v1/public/development` | 2 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/environment` | 4 | 项目根文件或辅助目录。子目录。 |
-| `evaluation-harness/evaluator` | 19 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/evaluator` | 23 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/evaluator/blind-admission-v1` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/evaluator/finite-typed-patch-ir-v1` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/evaluator/offline-b0-complete-evidence-v1` | 1 | 项目根文件或辅助目录。子目录。 |
@@ -228,6 +228,7 @@
 | `evaluation-harness/evaluator/p1-116-closed-profile-scanner-admission` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/evaluator/p1-125-six-task-parameterized` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/evaluator/p1-149-accepted-execution-spine` | 1 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/evaluator/p1-217-single-process-report` | 4 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/evaluator/p2-repository-context-v1` | 2 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/fixtures` | 85 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/fixtures/blind-admission-v1` | 5 | 项目根文件或辅助目录。子目录。 |
@@ -277,10 +278,12 @@
 | `evaluation-harness/replay/p1-125-six-task-parameterized` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/replay/p1-149-accepted-execution-spine` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/replay/stable-replay-projection-v2` | 1 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/reports` | 1 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/reports/p1-217-single-process-report` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/validators` | 3 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/validators/blind-admission-v1` | 1 | 项目根文件或辅助目录。子目录。 |
 | `schemas` | 1 | 项目根文件或辅助目录。子目录。 |
-| `scripts` | 32 | 本地自动化脚本目录，封装启动、校验、代码地图和生成物清理。 |
+| `scripts` | 33 | 本地自动化脚本目录，封装启动、校验、代码地图和生成物清理。 |
 | `web-console` | 72 | React/Vite 前端控制台工程，承载 SourceLens 用户界面和 UI smoke。 |
 | `web-console/src` | 66 | 前端源码根目录。 |
 | `web-console/src/api` | 21 | 前端 API client 层，集中定义后端 HTTP 调用和 TypeScript 响应类型。 |
@@ -1167,6 +1170,10 @@
 | `evaluation-harness/evaluator/p1-116-closed-profile-scanner-admission/run-matrix.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/evaluator/p1-125-six-task-parameterized/run-matrix.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/evaluator/p1-149-accepted-execution-spine/evaluate.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/evaluator/p1-217-single-process-report/cli.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/evaluator/p1-217-single-process-report/core.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/evaluator/p1-217-single-process-report/independent-verifier.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/evaluator/p1-217-single-process-report/test.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/evaluator/p2-repository-context-v1/evaluator.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/evaluator/p2-repository-context-v1/preflight.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/evaluator/README.md` | Markdown 文档。 |
@@ -1324,6 +1331,7 @@
 | `evaluation-harness/replay/p1-149-accepted-execution-spine/replay.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/replay/replay.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/replay/stable-replay-projection-v2/project.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/reports/p1-217-single-process-report/README.md` | Markdown 文档。 |
 | `evaluation-harness/validators/blind-admission-v1/validator.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/validators/task-dataset-self-test.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/validators/task-dataset-validator.mjs` | Node.js 自动化脚本或配置文件。 |
@@ -1389,6 +1397,7 @@
 | `scripts/verify-p1-116-closed-profile-scanner-admission.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/verify-p1-125-six-task-parameterized.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/verify-p1-149-accepted-execution-spine.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
+| `scripts/verify-p1-217-single-process-report.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/verify-p1-environment-snapshot.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/verify-p1-experiment-pack-reentry.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/verify-p1-finite-typed-patch-ir-v1.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |

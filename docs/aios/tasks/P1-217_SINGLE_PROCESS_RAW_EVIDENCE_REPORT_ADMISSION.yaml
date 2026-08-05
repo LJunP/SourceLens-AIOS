@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P1-217_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_ADMISSION
 phase: P1
 route_id: P1_MINIMUM_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_FINAL_QUALITY_TARGET_NON_PASS
 objective: >-
   Clean-room implement a minimum single-process pure-offline report admission
   and rebuilder that reads only the immutable P1-207 raw Evidence closed
@@ -208,3 +208,35 @@ claim_boundary: >-
   only. No post-preflight parent-substitution defense, hostile-principal,
   production custody, strong isolation, Provider/model, P2/P3 entry, remote,
   production or public claim.
+terminal_outcome:
+  stopped_at_utc: "2026-08-05T06:15:47Z"
+  stop_condition: ANY_FINAL_REVIEWER_TARGET_VERDICT_NON_PASS
+  normalized_root_cause: P1217.FINAL_QUALITY.INDEPENDENT_VERIFIER.PARTIAL_REPORT_CONTRACT_VALIDATION
+  candidate_commit: 9d4f5587abef27d84f5df69627fafff75c676b6b
+  candidate_tree: f766cc1f9f9fe15f0e231e1aec3c359e34a3e5df
+  candidate_manifest:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-1-p1-217/candidate/P1_217_CANDIDATE_MANIFEST.json
+    sha256: c8fa0c650ed620e06d9435475d2aff6310c4f3abcf3c1c03602491e9b50ed1e5
+    byte_length: 2236
+  final_reviews:
+    cto: INTERRUPTED_AFTER_QUALITY_STOP_CONDITION
+    security: INTERRUPTED_AFTER_QUALITY_STOP_CONDITION
+    quality:
+      target_verdict: NON_PASS
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-1-p1-217/reviews/final-cycle-1/QUALITY_REVIEW.json
+      sha256: 72d4b3870734cb42c0c26b3a800cfddc1f235e498720176c9db8acbdccf1c0ce
+      byte_length: 3305
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-1-p1-217/terminal/P1_217_TERMINAL_FINAL_QUALITY_TARGET_NON_PASS_RECEIPT.json
+    sha256: d476d529cab912ad77eca9a01a248ee9210a717f306d18110d8f6f62e61f1955
+    byte_length: 2919
+  candidate_integrated: false
+  canonical_make_verify: NOT_INVOKED_FINAL_REVIEW_STOP_CONDITION
+  immutable_p1_207_formal_evidence_modified: false
+  provider_requests: 0
+  secret_reads: 0
+  capability_credit: 0
+  reproducible_baseline_report_status: MISSING
+  p1_218_status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS_ROUTE_TERMINAL
+  strict_p1_completion: 6_OF_8_75_PERCENT
+  p2_status: HOLD_PENDING_STRICT_P1_EXIT

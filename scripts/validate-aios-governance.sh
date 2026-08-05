@@ -387,6 +387,7 @@ check_phase_predecessor_activation() {
     accepted_history_statuses = %w[
       MASTER_TASK_GATE_ACCEPTED_COMPLETE
       FOUNDER_EXCEPTION_ACCEPTED_COMPLETE
+      FOUNDER_GATE_ACCEPTED_COMPLETE
       FOUNDER_RESIDUAL_ACCEPTED_COMPLETE
       FOUNDER_RESIDUAL_ACCEPTED_SECURITY_CORRECTED_COMPLETE
     ]
@@ -529,6 +530,103 @@ check_phase_predecessor_activation() {
           history["status"] == "TERMINAL_FINAL_QUALITY_TARGET_NON_PASS" &&
           history.dig("founder_exception_integration", "integration_commit") == item["acceptance_commit"] &&
           history.dig("founder_exception_integration", "integration_tree") == item["acceptance_tree"]
+      when "FOUNDER_DOCUMENTATION_SCOPE_RESIDUAL_ACCEPTANCE_INTEGRATION_RECEIPT"
+        expected_receipt_keys = %w[
+          accepted_report engineering_gate external_effects founder_residual_acceptance
+          fresh_final_reviews integration phase_effect recorded_at_utc reviewed_candidate
+          route_id schema_version status task_id
+        ]
+        abort "Founder residual Gate receipt is not closed: #{item_id}" unless
+          receipt.keys.sort == expected_receipt_keys.sort
+        abort "Founder residual Gate receipt identity mismatch: #{item_id}" unless
+          receipt["schema_version"] == "p1-217-founder-residual-integration-receipt/v1" &&
+          receipt["status"] == "FOUNDER_GATE_ACCEPTED_COMPLETE" &&
+          receipt["task_id"] == task_id_value &&
+          receipt["route_id"] == history["route_id"] &&
+          history["status"] == "FOUNDER_GATE_ACCEPTED_COMPLETE"
+
+        reviewed = receipt.fetch("reviewed_candidate")
+        abort "Founder residual reviewed candidate is not closed: #{item_id}" unless
+          reviewed.is_a?(Hash) && reviewed.keys.sort == %w[commit evidence_tag manifest tree]
+        reviewed_manifest = reviewed.fetch("manifest")
+        verify_file.call(reviewed_manifest)
+        abort "Founder residual reviewed candidate binding mismatch: #{item_id}" unless
+          reviewed["commit"] == history["reviewed_candidate_commit"] &&
+          reviewed["tree"] == history["reviewed_candidate_tree"] &&
+          reviewed_manifest == {
+            "path" => history["candidate_manifest_path"],
+            "byte_length" => history["candidate_manifest_byte_length"],
+            "sha256" => history["candidate_manifest_sha256"]
+          }
+
+        residual = receipt.fetch("founder_residual_acceptance")
+        expected_residual_keys = %w[
+          accepted_residual authorization_token byte_length candidate_bytes_modified_after_review
+          capability_credit_from_residual_acceptance path quality_non_pass_preserved
+          quality_non_pass_rewritten_as_pass sha256
+        ]
+        abort "Founder residual acceptance is not closed: #{item_id}" unless
+          residual.is_a?(Hash) && residual.keys.sort == expected_residual_keys.sort
+        decision_bytes = verify_file.call(residual.slice("path", "byte_length", "sha256"))
+        decision_text = decision_bytes.dup.force_encoding("UTF-8")
+        token_lines = decision_text.lines.map(&:strip).select { |line| line.start_with?("authorization_token=") }
+        abort "Founder residual authorization is not exact and anchored: #{item_id}" unless
+          decision_text.valid_encoding? &&
+          token_lines == ["authorization_token=#{residual.fetch("authorization_token")}"] &&
+          residual["authorization_token"] == history.dig("founder_residual_acceptance", "decision", "authorization_token") &&
+          residual["path"] == history.dig("founder_residual_acceptance", "decision", "path") &&
+          residual["byte_length"] == history.dig("founder_residual_acceptance", "decision", "byte_length") &&
+          residual["sha256"] == history.dig("founder_residual_acceptance", "decision", "sha256") &&
+          residual["accepted_residual"] == "EXACT_DOCUMENTATION_ONLY_README_OUTSIDE_PRIOR_CORRECTION_ALLOWLIST" &&
+          residual["quality_non_pass_preserved"] == true &&
+          residual["quality_non_pass_rewritten_as_pass"] == false &&
+          residual["candidate_bytes_modified_after_review"] == false &&
+          residual["capability_credit_from_residual_acceptance"] == 0
+
+        reviews = receipt.fetch("fresh_final_reviews")
+        abort "Founder residual review set is not closed: #{item_id}" unless
+          reviews.is_a?(Hash) && reviews.keys.sort == %w[cto quality security]
+        expected_review_verdicts = {"cto" => "PASS", "security" => "PASS", "quality" => "NON_PASS"}
+        expected_review_verdicts.each do |role, verdict|
+          review_identity = reviews.fetch(role)
+          expected_keys = %w[byte_length path sha256 target_verdict]
+          expected_keys << "sole_blocker" if role == "quality"
+          abort "Founder residual Review identity is not closed: #{item_id}/#{role}" unless
+            review_identity.is_a?(Hash) && review_identity.keys.sort == expected_keys.sort
+          review = JSON.parse(verify_file.call(review_identity.slice("path", "byte_length", "sha256")))
+          abort "Founder residual Review binding mismatch: #{item_id}/#{role}" unless
+            review_identity["target_verdict"] == verdict &&
+            review_identity["path"] == history.fetch("#{role}_review_path") &&
+            review_identity["byte_length"] == history.fetch("#{role}_review_byte_length") &&
+            review_identity["sha256"] == history.fetch("#{role}_review_sha256") &&
+            review["TARGET_VERDICT"] == verdict &&
+            review["task_id"] == task_id_value &&
+            review.dig("candidate", "commit") == reviewed["commit"] &&
+            review.dig("candidate", "tree") == reviewed["tree"]
+        end
+        abort "Founder residual Quality blocker drift: #{item_id}" unless
+          reviews.dig("quality", "sole_blocker") == "DOCUMENTATION_PATH_OUTSIDE_PRIOR_EXACT_CORRECTION_ALLOWLIST"
+
+        report = receipt.fetch("accepted_report")
+        verify_file.call(report)
+        integration = receipt.fetch("integration")
+        abort "Founder residual integration or report binding mismatch: #{item_id}" unless
+          report == history["accepted_report"] &&
+          integration["commit"] == item["acceptance_commit"] &&
+          integration["tree"] == item["acceptance_tree"] &&
+          integration["reviewed_tree_equals_integrated_tree"] == true &&
+          integration["canonical_make_verify"] == "PASS" &&
+          integration["canonical_make_verify_invocations"] == 1 &&
+          history["accepted_candidate_commit"] == item["acceptance_commit"] &&
+          history["accepted_candidate_tree"] == item["acceptance_tree"] &&
+          history["quality_target_verdict"] == "NON_PASS" &&
+          history.dig("founder_residual_acceptance", "review_non_pass_preserved") == true &&
+          history.dig("founder_residual_acceptance", "review_non_pass_rewritten_as_pass") == false
+        abort "Founder residual Gate external effects are not closed: #{item_id}" unless
+          receipt.fetch("external_effects") == {
+            "network" => false, "provider" => false, "secret" => false,
+            "remote" => false, "production" => false, "public" => false
+          }
       else
         abort "unsupported Gate receipt type: #{receipt_type.inspect}"
       end

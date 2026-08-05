@@ -4531,13 +4531,12 @@ historical_p1_131_phase_route:
 p1_partial_exit:
   status: STRICT_EXIT_REENTRY_AUTHORIZED_P2_HELD
   strict_completion:
-    completed: 6
+    completed: 7
     total: 8
-    percent: 75
+    percent: 87.5
   phase_pass_claimed: false
   completion_100_percent_claimed: false
   missing_exit_items:
-    - REPRODUCIBLE_BASELINE_REPORT
     - P2_CONTEXT_ENGINE_PREREGISTRATION
   terminal_task:
     task_id: AIOS-P1-141_COMPLETION_TOKEN_CALIBRATED_REQUEST_BOUND_BASELINE
@@ -9481,7 +9480,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260805-P1-217-COMPLETE-REPORT-CORRECTION-AUTHORIZED-V1
+  latest_event_id: FKS-20260805-P1-217-FOUNDER-RESIDUAL-ACCEPTED-INTEGRATED-P1-218-ACTIVATED-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION

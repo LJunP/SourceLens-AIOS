@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-05T01:12:27Z"
-verification_scope: P1_209_FINAL_REVIEW_TARGET_NON_PASS_TERMINAL
+last_verified_at: "2026-08-05T02:00:00Z"
+verification_scope: P1_211_PHASE_DELEGATED_TASK_ACTIVATION
 
 authority:
   founder: Human Founder
@@ -37,8 +37,19 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
+  current_task_authority: AIOS-P1-211_PHYSICAL_TOPOLOGY_BOUND_IMMUTABLE_EVIDENCE_ADMISSION
   note: >-
+    Founder authorized the fresh clean-room physical-topology-bound immutable
+    Evidence admission route. P1-211 is the unique active Task and may only
+    read the exact immutable P1-207 raw formal Evidence while writing to a
+    physically separate owned output root. It cannot read or reuse P1-209
+    rejected engineering assets, rerun the formal experiment, read a Secret or
+    produce network, Provider, remote, production or public effects. Strict P1
+    remains 6/8 at 75 percent and P2 remains HOLD_PENDING_STRICT_P1_EXIT until
+    the report and preregistration Gates are both accepted. The activation
+    itself earns no capability credit. All paragraphs below this sentence are
+    retained historical chronology only and have no current Task, Route or
+    scheduling authority.
     P1-209 built and froze one pure-offline report-admission candidate and
     deterministically reconstructed the immutable P1-207 formal Evidence as a
     truthful 0/36 report candidate without a Secret, Provider, network effect or
@@ -930,12 +941,12 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  p1_execution_status: HOLD_AT_FOUNDER_P1_PHASE_GATE
-  p1_engineering_status: P1_209_TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+  p1_execution_status: ACTIVE
+  p1_engineering_status: P1_211_ACTIVE_PHYSICAL_TOPOLOGY_BOUND_IMMUTABLE_EVIDENCE_ADMISSION
   p2_entry_status: HOLD_PENDING_STRICT_P1_EXIT
   p2_execution_status: HOLD_PENDING_STRICT_P1_EXIT
-  phase_execution_status: HOLD_AT_FOUNDER_P1_PHASE_GATE
-  current_route_execution_status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+  phase_execution_status: ACTIVE
+  current_route_execution_status: ACTIVE_P1_211_PHYSICAL_TOPOLOGY_BOUND_IMMUTABLE_EVIDENCE_ADMISSION
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -5682,26 +5693,26 @@ historical_p1_162_phase_route:
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 
 current_phase_route:
-  route_id: P1_IMMUTABLE_FORMAL_EVIDENCE_REPORT_ADMISSION_AND_STRICT_EXIT_ROUTE_V1
-  status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
-  authority_object_status: TERMINAL_STOP_CONDITION_REACHED
-  execution_status: TERMINAL_TASK_1_P1_209_FINAL_REVIEW_TARGET_NON_PASS
-  founder_phase_route_decision_required: true
-  scheduling_status: HOLD_AT_FOUNDER_P1_PHASE_GATE
+  route_id: P1_CLEAN_ROOM_PHYSICAL_TOPOLOGY_BOUND_IMMUTABLE_EVIDENCE_ADMISSION_AND_STRICT_EXIT_ROUTE_V1
+  status: ACTIVE
+  authority_object_status: PHASE_DELEGATED_TASK_AUTHORITY_ACTIVE
+  execution_status: ACTIVE_TASK_1_P1_211_PHYSICAL_TOPOLOGY_BOUND_IMMUTABLE_EVIDENCE_ADMISSION
+  founder_phase_route_decision_required: false
+  scheduling_status: P1_211_ACTIVE
   phase: P1
   phase_entry_status: AUTHORIZED
-  authorization_token: AUTHORIZE_P1_IMMUTABLE_FORMAL_EVIDENCE_REPORT_ADMISSION_AND_STRICT_EXIT_ROUTE_V1
+  authorization_token: AUTHORIZE_P1_CLEAN_ROOM_PHYSICAL_TOPOLOGY_BOUND_IMMUTABLE_EVIDENCE_ADMISSION_AND_STRICT_EXIT_ROUTE_V1
   decision_packet:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-immutable-formal-evidence-report-admission-strict-exit-20260805/founder-phase-gate/FOUNDER_P1_IMMUTABLE_FORMAL_EVIDENCE_REPORT_ADMISSION_AND_STRICT_EXIT_ROUTE_V1.structured-decision.json
-    sha256: 529a838bea505d16780aa553e814bc2f7de4dc87941e6f2b736ce70b9d3047fd
-    byte_length: 2803
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-clean-room-physical-topology-bound-strict-exit-20260805/founder-phase-gate/FOUNDER_P1_CLEAN_ROOM_PHYSICAL_TOPOLOGY_BOUND_IMMUTABLE_EVIDENCE_ADMISSION_AND_STRICT_EXIT_ROUTE_V1.structured-decision.json
+    sha256: 05f374039b24b5d4ee7bb89a478bdd58dfed92e74a44fbd8820696ba74fc0084
+    byte_length: 2986
   original_founder_packet:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-immutable-formal-evidence-report-admission-strict-exit-20260805/founder-phase-gate/FOUNDER_P1_IMMUTABLE_FORMAL_EVIDENCE_REPORT_ADMISSION_AND_STRICT_EXIT_ROUTE_V1.md
-    sha256: ce55648ebc974f724a484deb726ea96cbe6184e1f7debbe51f63e75eb5d75550
-    byte_length: 5787
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-clean-room-physical-topology-bound-strict-exit-20260805/founder-phase-gate/FOUNDER_P1_CLEAN_ROOM_PHYSICAL_TOPOLOGY_BOUND_IMMUTABLE_EVIDENCE_ADMISSION_AND_STRICT_EXIT_ROUTE_V1.md
+    sha256: 2eeacacf0aad2303039384da3dbec8689339c4d381332ffe030fdabd69335e26
+    byte_length: 5086
   activation_parent:
-    commit: 8da8e158875d8fd2d01a9648e1507592243ac143
-    tree: b9d3e8ea505de353a8fe7ce488318927471975c0
+    commit: 53127cb6cb96b842945d0628171f549bc58a5d09
+    tree: a78c5901e0543719feb7bddaf6994972fbb5866a
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: "1.7"
@@ -5713,10 +5724,11 @@ current_phase_route:
     canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
     canonical_byte_length: 19434
   objective: >-
-    Admit the exact immutable P1-207 formal raw Evidence with a new pure-offline
-    deterministic evaluator and report rebuilder, then bind the accepted report
-    to one P2 context preregistration without entering P2.
-  claim_boundary: COOPERATIVE_LOCAL_IMMUTABLE_FORMAL_EVIDENCE_REPORT_ADMISSION_ONLY_NO_FORMAL_RERUN_SECRET_NETWORK_PROVIDER_P2_P3_REMOTE_PRODUCTION_PUBLIC_OR_HOSTILE_PRINCIPAL_CLAIM
+    Establish a clean-room, pure-offline and physical-topology-bound evaluator
+    and report rebuilder for the exact immutable P1-207 raw formal Evidence,
+    accept the reproducible report, then bind it to one P2 preregistration
+    without entering P2.
+  claim_boundary: COOPERATIVE_LOCAL_PURE_OFFLINE_PHYSICAL_TOPOLOGY_BOUND_IMMUTABLE_FORMAL_EVIDENCE_REPORT_ADMISSION_AND_REPORT_BOUND_PREREGISTRATION_ONLY_NO_P1_209_ENGINEERING_REUSE_FORMAL_RERUN_SECRET_NETWORK_PROVIDER_REMOTE_PRODUCTION_PUBLIC_P2_OR_P3_ENTRY
   envelope:
     max_engineering_tasks: 2
     max_engineering_hours: 24
@@ -5741,8 +5753,8 @@ current_phase_route:
   founder_reserved_profiles: []
   first_task:
     task_slot: 1
-    task_id: AIOS-P1-209_IMMUTABLE_FORMAL_EVIDENCE_REPORT_ADMISSION
-    status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+    task_id: AIOS-P1-211_PHYSICAL_TOPOLOGY_BOUND_IMMUTABLE_EVIDENCE_ADMISSION
+    status: ACTIVE
     engineering_hours: 18
     calendar_days: 4
     max_engineering_hours: 18
@@ -5757,14 +5769,14 @@ current_phase_route:
       remote: false
       production: false
       public: false
-    contract_path: docs/aios/tasks/P1-209_IMMUTABLE_FORMAL_EVIDENCE_REPORT_ADMISSION.yaml
-    contract_sha256: 466c7250be38336ee3382389c647e4b420e64a8ef36156b2699ec3128b9a67cb
-    contract_byte_length: 10569
+    contract_path: docs/aios/tasks/P1-211_PHYSICAL_TOPOLOGY_BOUND_IMMUTABLE_EVIDENCE_ADMISSION.yaml
+    contract_sha256: a752fa316ddce710af53565dadd96718540f915aeef352c16be6e0a62de95925
+    contract_byte_length: 7087
     p1_capability_claim_on_pass: REPRODUCIBLE_BASELINE_REPORT
   task_plan:
     - task_slot: 1
-      task_id: AIOS-P1-209_IMMUTABLE_FORMAL_EVIDENCE_REPORT_ADMISSION
-      status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+      task_id: AIOS-P1-211_PHYSICAL_TOPOLOGY_BOUND_IMMUTABLE_EVIDENCE_ADMISSION
+      status: ACTIVE
       engineering_hours: 18
       calendar_days: 4
       max_implementation_iterations: 3
@@ -5778,8 +5790,8 @@ current_phase_route:
         production: false
         public: false
     - task_slot: 2
-      task_id: AIOS-P1-210_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
-      status: BLOCKED_PREDECESSOR_TASK_GATE_ROUTE_TERMINAL
+      task_id: AIOS-P1-212_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+      status: BLOCKED_PREDECESSOR_TASK_GATE
       engineering_hours: 6
       calendar_days: 1
       max_implementation_iterations: 2
@@ -5793,15 +5805,15 @@ current_phase_route:
         production: false
         public: false
   automatic_entry:
-    after_task_id: AIOS-P1-209_IMMUTABLE_FORMAL_EVIDENCE_REPORT_ADMISSION
-    next_task_id: AIOS-P1-210_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+    after_task_id: AIOS-P1-211_PHYSICAL_TOPOLOGY_BOUND_IMMUTABLE_EVIDENCE_ADMISSION
+    next_task_id: AIOS-P1-212_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
     requires_task_gate_pass: true
   automatic_entries:
-    - after_task_id: AIOS-P1-209_IMMUTABLE_FORMAL_EVIDENCE_REPORT_ADMISSION
-      next_task_id: AIOS-P1-210_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+    - after_task_id: AIOS-P1-211_PHYSICAL_TOPOLOGY_BOUND_IMMUTABLE_EVIDENCE_ADMISSION
+      next_task_id: AIOS-P1-212_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
       requires_task_gate_pass: true
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
-  terminal_outcome:
+  next_eligible_action: EXECUTE_AIOS_P1_211_PHYSICAL_TOPOLOGY_BOUND_IMMUTABLE_EVIDENCE_ADMISSION
+  historical_p1_209_terminal_outcome:
     stopped_at_utc: '2026-08-05T01:12:27Z'
     stop_condition: ANY_FRESH_FINAL_REVIEWER_TARGET_VERDICT_NON_PASS
     candidate_commit: 787c05eb150db42d531a70178017bff466321a01
@@ -9128,7 +9140,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260805-P1-209-FINAL-REVIEW-NON-PASS-V1
+  latest_event_id: FKS-20260805-P1-211-ROUTE-AUTHORIZED-AND-TASK-ACTIVATED-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -11306,6 +11318,33 @@ founder_knowledge_sync:
         sha256: d2e99167f3f87ce4c0593ab08482266fa3258a8941a0b9fa673e1e63f5f7a903
       event_sha256: 27018eaf3eab5f0277c0974d77112c9708c201de5896ec7738452f28be87cf16
 
+    - event_id: FKS-20260805-P1-211-ROUTE-AUTHORIZED-AND-TASK-ACTIVATED-V1
+      trigger_type: FOUNDER_PHASE_ROUTE_DECISION_AND_TASK_ACTIVATION
+      occurred_at_utc: '2026-08-05T02:36:27Z'
+      source_commit: 53127cb6cb96b842945d0628171f549bc58a5d09
+      source_tree: a78c5901e0543719feb7bddaf6994972fbb5866a
+      previous_event_sha256: 27018eaf3eab5f0277c0974d77112c9708c201de5896ec7738452f28be87cf16
+      status: NO_MATERIAL_KNOWLEDGE_DELTA
+      rationale: Founder authorized a fresh pure-offline P1-211 physical-topology-bound immutable Evidence admission Task and report-bound P1-212 preregistration Task. The exact P1-209 topology root cause is already independently reviewed and imported in the Founder Knowledge Vault. Activation adds no tested reusable lesson, does not rerun the formal experiment, read a Secret, call a Provider or add P1 capability credit, so no new Learning Artifact is warranted until P1-211 produces reviewed engineering results or terminates.
+      engineering_blocking: false
+      artifact:
+        path: null
+        byte_length: null
+        sha256: null
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+      event_sha256: e016803c7ee58320bfac92dffa32cdd015d570925cfbb5369835625f3cea8d0e
+
 historical_active_work_after_p1_079:
   current_task: NONE
   current_task_status: NONE
@@ -11357,38 +11396,47 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P1-211_PHYSICAL_TOPOLOGY_BOUND_IMMUTABLE_EVIDENCE_ADMISSION
+  current_task_status: ACTIVE
   current_task_contract:
-    path: null
-    sha256: null
-    byte_length: null
-  current_task_contract_sha256: null
-  current_execution_authorization: null
-  current_execution_authorization_sha256: null
+    path: docs/aios/tasks/P1-211_PHYSICAL_TOPOLOGY_BOUND_IMMUTABLE_EVIDENCE_ADMISSION.yaml
+    sha256: a752fa316ddce710af53565dadd96718540f915aeef352c16be6e0a62de95925
+    byte_length: 7087
+  current_task_contract_sha256: a752fa316ddce710af53565dadd96718540f915aeef352c16be6e0a62de95925
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-clean-room-physical-topology-bound-strict-exit-20260805/task-1-p1-211/authority/TASK_AUTHORITY.yaml
+  current_execution_authorization_sha256: 73a74676eb3ad780e33d94a65db4eb9be046e7dd11139befecc1587e0e6f1eb9
   authority_record:
-    path: null
-    sha256: null
-    byte_length: null
-  execution_nonce: null
-  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
-  authorization_id: null
-  activation_parent_commit: null
-  activation_parent_tree: null
-  task_resource_state: NOT_CREATED_ROUTE_TERMINAL_EVIDENCE_PRESERVED
-  task_branch: null
-  task_worktree: null
-  execution_evidence_root: null
-  allowlisted_paths: []
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-clean-room-physical-topology-bound-strict-exit-20260805/task-1-p1-211/authority/TASK_AUTHORITY.yaml
+    sha256: 73a74676eb3ad780e33d94a65db4eb9be046e7dd11139befecc1587e0e6f1eb9
+    byte_length: 3154
+  execution_nonce: d4e0bf542f24dccb26001a91db6fd8f56de6ceb02d60fffdd457f3111d294247
+  execution_nonce_status: ACTIVE
+  authorization_id: PHASE_DELEGATED_P1_211_V1
+  activation_parent_commit: 53127cb6cb96b842945d0628171f549bc58a5d09
+  activation_parent_tree: a78c5901e0543719feb7bddaf6994972fbb5866a
+  task_resource_state: CREATED_ACTIVE
+  task_branch: codex/p1-211-physical-topology-bound-admission
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-211-physical-topology-bound-admission
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-clean-room-physical-topology-bound-strict-exit-20260805/task-1-p1-211/evidence
+  allowlisted_paths:
+    - evaluation-harness/evaluator/p1-211-physical-topology-bound-admission
+    - evaluation-harness/reports/p1-211-physical-topology-bound-admission
+    - scripts/verify-p1-211-physical-topology-bound-admission.sh
+    - docs/aios/tasks/P1-211_PHYSICAL_TOPOLOGY_BOUND_IMMUTABLE_EVIDENCE_ADMISSION.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
   budget:
-    engineering_hours: null
-    calendar_days: null
-    implementation_iterations: null
-    candidates: null
+    engineering_hours: 18
+    calendar_days: 4
+    implementation_iterations: 3
+    candidates: 1
   roles:
-    owner: null
-    worker: null
-    independent_reviewers: []
+    owner: P1-211 Engineering Manager
+    worker: P1-211 Clean-Room Evidence Admission Worker
+    independent_reviewers:
+      - P1-211 Fresh CTO Reviewer
+      - P1-211 Fresh Security Reviewer
+      - P1-211 Fresh Quality Reviewer
   external_effects:
     network: false
     provider: false
@@ -11397,15 +11445,15 @@ active_work:
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: null
-  founder_reserved_authorization_sha256: null
-  founder_decision_required: true
-  founder_decision_required_scope: P1_PHASE_GATE_AFTER_P1_209_TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
-  escalation_reason: P1_209_FRESH_CTO_AND_SECURITY_TARGET_NON_PASS_STOP_CONDITION
-  user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
+  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-clean-room-physical-topology-bound-strict-exit-20260805/founder-phase-gate/FOUNDER_P1_CLEAN_ROOM_PHYSICAL_TOPOLOGY_BOUND_IMMUTABLE_EVIDENCE_ADMISSION_AND_STRICT_EXIT_ROUTE_V1.structured-decision.json
+  founder_reserved_authorization_sha256: 05f374039b24b5d4ee7bb89a478bdd58dfed92e74a44fbd8820696ba74fc0084
+  founder_decision_required: false
+  founder_decision_required_scope: NONE
+  escalation_reason: null
+  user_action_required: NONE
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: EXECUTE_AIOS_P1_211_PHYSICAL_TOPOLOGY_BOUND_IMMUTABLE_EVIDENCE_ADMISSION
 historical_p1_190_terminal_active_work:
   current_task: NONE
   current_task_status: NONE
@@ -16588,10 +16636,16 @@ phase_execution_claim:
     - canonical main advance outside an accepted task gate
 
 claim_boundary:
-  current_phase_route: P1_IMMUTABLE_FORMAL_EVIDENCE_REPORT_ADMISSION_AND_STRICT_EXIT_ROUTE_V1_TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
-  current_task: NONE
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
-  real_engineering_progress: P1_209_OFFLINE_REPORT_CANDIDATE_RECONSTRUCTED_BUT_FINAL_CTO_AND_SECURITY_NON_PASS_NO_CAPABILITY_CREDIT
+  current_phase_route: P1_CLEAN_ROOM_PHYSICAL_TOPOLOGY_BOUND_IMMUTABLE_EVIDENCE_ADMISSION_AND_STRICT_EXIT_ROUTE_V1_ACTIVE
+  current_task: AIOS-P1-211_PHYSICAL_TOPOLOGY_BOUND_IMMUTABLE_EVIDENCE_ADMISSION
+  next_eligible_action: EXECUTE_AIOS_P1_211_PHYSICAL_TOPOLOGY_BOUND_IMMUTABLE_EVIDENCE_ADMISSION
+  real_engineering_progress: P1_211_ACTIVE_CLEAN_ROOM_PHYSICAL_TOPOLOGY_BOUND_IMMUTABLE_EVIDENCE_ADMISSION_NO_CAPABILITY_CREDIT_YET
+  p1_211_status: ACTIVE
+  p1_211_authorization_token: AUTHORIZE_P1_CLEAN_ROOM_PHYSICAL_TOPOLOGY_BOUND_IMMUTABLE_EVIDENCE_ADMISSION_AND_STRICT_EXIT_ROUTE_V1
+  p1_211_founder_packet_sha256: 2eeacacf0aad2303039384da3dbec8689339c4d381332ffe030fdabd69335e26
+  p1_211_structured_decision_sha256: 05f374039b24b5d4ee7bb89a478bdd58dfed92e74a44fbd8820696ba74fc0084
+  p1_211_formal_rerun_allowed: false
+  p1_211_secret_provider_network_allowed: false
   p1_209_status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
   p1_209_authorization_token: AUTHORIZE_P1_IMMUTABLE_FORMAL_EVIDENCE_REPORT_ADMISSION_AND_STRICT_EXIT_ROUTE_V1
   p1_209_founder_packet_sha256: ce55648ebc974f724a484deb726ea96cbe6184e1f7debbe51f63e75eb5d75550

@@ -1,0 +1,159 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P1-211_PHYSICAL_TOPOLOGY_BOUND_IMMUTABLE_EVIDENCE_ADMISSION
+phase: P1
+route_id: P1_CLEAN_ROOM_PHYSICAL_TOPOLOGY_BOUND_IMMUTABLE_EVIDENCE_ADMISSION_AND_STRICT_EXIT_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Build a clean-room, pure-offline evaluator and report rebuilder that admits
+  the exact immutable P1-207 raw formal Evidence only after proving physical
+  separation between the input and output roots, then reconstruct the truthful
+  36-cell REPRODUCIBLE_BASELINE_REPORT without using a historical report as an
+  input, oracle or expected answer.
+why_now: >-
+  Strict P1 remains 6/8 (75%) and P2 remains held. The immutable formal run is
+  already complete; the highest-value remaining action is to admit those raw
+  bytes safely and truthfully, close the reproducible report Gate, and preserve
+  the formal experiment without another Secret read or Provider request.
+risk_level: high
+budget:
+  engineering_hours: 18
+  calendar_days: 4
+  implementation_iterations: 3
+  candidates: 1
+roles:
+  owner: P1-211 Engineering Manager
+  worker: P1-211 Clean-Room Evidence Admission Worker
+  independent_reviewers:
+    - P1-211 Fresh CTO Reviewer
+    - P1-211 Fresh Security Reviewer
+    - P1-211 Fresh Quality Reviewer
+allowlisted_paths:
+  - evaluation-harness/evaluator/p1-211-physical-topology-bound-admission
+  - evaluation-harness/reports/p1-211-physical-topology-bound-admission
+  - scripts/verify-p1-211-physical-topology-bound-admission.sh
+  - docs/aios/tasks/P1-211_PHYSICAL_TOPOLOGY_BOUND_IMMUTABLE_EVIDENCE_ADMISSION.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+write_scope:
+  worker:
+    - evaluation-harness/reports/p1-211-physical-topology-bound-admission
+  quality:
+    - evaluation-harness/evaluator/p1-211-physical-topology-bound-admission
+  integration:
+    - scripts/verify-p1-211-physical-topology-bound-admission.sh
+    - docs/aios/tasks/P1-211_PHYSICAL_TOPOLOGY_BOUND_IMMUTABLE_EVIDENCE_ADMISSION.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
+  - docs/aios/tasks/P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE.yaml
+  - docs/aios/tasks/P1-129_EXACT_INPUT_BOUNDARY_SECURITY_MATRIX_COMPLETION.yaml
+  - docs/aios/tasks/P1-149_ACCEPTED_EXECUTION_SPINE_CONVERGENCE.yaml
+  - /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-cooperative-local-research-exit-20260804/task-1-p1-207/evidence/formal-execution-v1
+dependencies:
+  - ACCEPTED_CANONICAL_P1_035_REPRESENTATIVE_TASK_DATASET
+  - ACCEPTED_CANONICAL_P1_101_OBSERVABLE_TRACE_AND_REPLAY
+  - ACCEPTED_CANONICAL_P1_129_B0_B1_B2_ADAPTERS
+  - ACCEPTED_CANONICAL_P1_149_EXECUTION_SPINE
+  - EXACT_IMMUTABLE_P1_207_RAW_FORMAL_EVIDENCE
+historical_isolation:
+  p1_209_status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+  p1_209_rejected_engineering_readable_or_reusable: false
+  permitted_p1_209_reads:
+    - canonical Truth
+    - terminal receipt
+    - final CTO Review
+    - final Security Review
+  p1_209_candidate_commit: 787c05eb150db42d531a70178017bff466321a01
+  p1_209_candidate_tree: b743a35f7b089575e2a2a3ecb4e0ea049a870b18
+immutable_formal_input:
+  root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-cooperative-local-research-exit-20260804/task-1-p1-207/evidence/formal-execution-v1
+  evidence_manifest:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-cooperative-local-research-exit-20260804/task-1-p1-207/evidence/formal-execution-v1/EVIDENCE_MANIFEST.json
+    sha256: 31e439cc3e3a993916fffd836d6883722e4570719d6a93c5b38b6a29c703504f
+    byte_length: 31196
+  run_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-cooperative-local-research-exit-20260804/task-1-p1-207/evidence/formal-execution-v1/RUN_RECEIPT.json
+    sha256: 5352b9071bffa4c1952f1c1388af8c05f9726d03fefb85e23e1164ff544fe227
+    byte_length: 745
+  formal_rerun_allowed: false
+required_reconstructed_result:
+  denominator: 36
+  successful: 0
+  failed: 28
+  invalid: 8
+  excluded: 0
+physical_topology_gate:
+  validate_before_input_read_or_parse: true
+  validate_before_output_write_or_create: true
+  component_boundary_comparison_required: true
+  input_output_equal_forbidden: true
+  input_output_ancestor_or_descendant_forbidden_both_directions: true
+  existing_ancestor_symlink_or_non_directory_forbidden: true
+  nonexistent_output_nearest_existing_ancestor_validation_required: true
+  immutable_input_closed_inventory_revalidation_after_output: true
+required_negative_cases:
+  - OUTPUT_EQUALS_INPUT
+  - OUTPUT_DESCENDANT_OF_INPUT
+  - OUTPUT_ANCESTOR_OF_INPUT
+  - INPUT_ANCESTOR_SYMLINK_SUBSTITUTION
+  - OUTPUT_ANCESTOR_SYMLINK_SUBSTITUTION
+  - PATH_MUTATION
+  - MISSING
+  - EXTRA
+  - DUPLICATE
+  - REORDER
+  - CROSS_BINDING
+  - HARDLINK
+  - STALE_REPORT
+  - GENERATED_REPORT_AS_INPUT
+claim_boundary: COOPERATIVE_LOCAL_PURE_OFFLINE_PHYSICAL_TOPOLOGY_BOUND_IMMUTABLE_FORMAL_EVIDENCE_REPORT_ADMISSION_ONLY_NO_P1_209_ENGINEERING_REUSE_FORMAL_RERUN_SECRET_NETWORK_PROVIDER_REMOTE_PRODUCTION_PUBLIC_P2_OR_P3_ENTRY
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-clean-room-physical-topology-bound-strict-exit-20260805/founder-phase-gate/FOUNDER_P1_CLEAN_ROOM_PHYSICAL_TOPOLOGY_BOUND_IMMUTABLE_EVIDENCE_ADMISSION_AND_STRICT_EXIT_ROUTE_V1.structured-decision.json
+  sha256: 05f374039b24b5d4ee7bb89a478bdd58dfed92e74a44fbd8820696ba74fc0084
+  byte_length: 2986
+  authorization_token: AUTHORIZE_P1_CLEAN_ROOM_PHYSICAL_TOPOLOGY_BOUND_IMMUTABLE_EVIDENCE_ADMISSION_AND_STRICT_EXIT_ROUTE_V1
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+founder_reserved_profile: null
+test_accounting:
+  total_test_count_recorded_separately: true
+  negative_test_count_recorded_separately: true
+  counts_must_equal_executed_cases: true
+review_gate:
+  candidate_count_maximum: 1
+  fresh_reviewers:
+    - CTO
+    - Security
+    - Quality
+  all_target_verdicts_required: PASS
+  reviewed_integrated_tree_equality_required: true
+  canonical_make_verify_invocations_after_integration: 1
+stop_conditions:
+  - SAME_NORMALIZED_ROOT_CAUSE_REPEATS_IN_ADJACENT_ITERATIONS
+  - IMPLEMENTATION_REPAIR_BUDGET_EXHAUSTED
+  - FINAL_REVIEWER_NON_PASS
+  - REVIEWED_INTEGRATED_TREE_MISMATCH
+  - CANONICAL_MAKE_VERIFY_NONPASS
+  - IMMUTABLE_INPUT_MUTATION_OR_EXTERNAL_EFFECT
+next_on_complete:
+  task_id: AIOS-P1-212_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+  requires_complete_task_gate_pass: true
+  p2_entry_authorized: false

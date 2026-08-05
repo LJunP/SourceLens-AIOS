@@ -56,6 +56,8 @@ begin
   # has entered P2. Isolate that lifecycle from the live Phase and active Task
   # instead of implicitly assuming canonical current_phase == P1.
   truth.fetch("project")["current_phase"] = "P1"
+  truth.fetch("project")["p2_entry_status"] = "HOLD_PENDING_FOUNDER_PHASE_ENTRY"
+  truth.fetch("project")["p2_execution_status"] = "HOLD_PENDING_FOUNDER_PHASE_ENTRY"
   truth.fetch("current_phase_route")["phase"] = "P1"
   truth.fetch("goal")["current_task_authority"] = "NONE"
   truth.fetch("active_work")["current_task"] = "NONE"

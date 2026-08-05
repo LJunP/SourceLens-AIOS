@@ -2019,6 +2019,50 @@ class CurrentTaskAuthorityTest
     }
   end
 
+  def founder_residual_gate_evidence_for_fixture(fixture)
+    evidence = accepted_gate_evidence_for_fixture(fixture)
+    decision_path = File.join(fixture["external"], "founder-residual-acceptance.md")
+    decision_bytes = <<~TEXT
+      # Founder residual acceptance fixture
+
+      authorization_token=AUTHORIZE_TEST_DOCUMENTATION_ONLY_RESIDUAL_V1
+    TEXT
+    create_exclusive(decision_path, decision_bytes)
+    review_path = File.join(fixture["external"], "quality-non-pass-review.json")
+    review_bytes = canonical_json(
+      "schema_version" => "test-review/v1",
+      "role" => "quality",
+      "target_verdict" => "NON_PASS"
+    )
+    create_exclusive(review_path, review_bytes)
+    evidence.merge(
+      "status" => "FOUNDER_GATE_ACCEPTED_COMPLETE",
+      "quality_target_verdict" => "NON_PASS",
+      "quality_review_path" => review_path,
+      "quality_review_sha256" => Digest::SHA256.hexdigest(review_bytes),
+      "quality_review_byte_length" => review_bytes.bytesize,
+      "founder_residual_acceptance" => {
+        "acceptance_scope" => "DOCUMENTATION_ONLY_OUTSIDE_CORRECTION_ALLOWLIST",
+        "capability_acceptance_authorized" => true,
+        "candidate_bytes_modified" => false,
+        "decision" => {
+          "authorization_token" => "AUTHORIZE_TEST_DOCUMENTATION_ONLY_RESIDUAL_V1",
+          "byte_length" => decision_bytes.bytesize,
+          "path" => decision_path,
+          "sha256" => Digest::SHA256.hexdigest(decision_bytes)
+        },
+        "preserved_non_pass_review" => {
+          "byte_length" => review_bytes.bytesize,
+          "path" => review_path,
+          "sha256" => Digest::SHA256.hexdigest(review_bytes)
+        },
+        "preserved_non_pass_role" => "quality",
+        "review_non_pass_preserved" => true,
+        "review_non_pass_rewritten_as_pass" => false
+      }
+    )
+  end
+
   def remove_fixture_task_resources(fixture)
     shell(fixture["repo"], "git", "worktree", "remove", fixture["task_worktree"])
     shell(fixture["repo"], "git", "branch", "-d", fixture["task_branch"])
@@ -2074,6 +2118,34 @@ class CurrentTaskAuthorityTest
     accepted = activate_fixture(accepted, task_slot: 2)
     expect_pass(accepted["repo"], "structured Task 2 ACTIVE after exact Task 1 Gate PASS")
     remove_fixture_task_resources(accepted)
+
+    residual = prepare_structured_fixture(File.join(sandbox, "founder-residual-gate"))
+    residual = activate_fixture(residual)
+    gate_evidence = founder_residual_gate_evidence_for_fixture(residual)
+    remove_fixture_task_resources(residual)
+    residual = transition_to_second_task_ready(
+      residual,
+      predecessor_status: "FOUNDER_GATE_ACCEPTED_COMPLETE",
+      gate_evidence: gate_evidence
+    )
+    expect_pass(residual["repo"], "structured Task 2 READY after exact Founder residual Gate")
+
+    truth = yaml(residual["truth_path"])
+    record = truth.fetch("task_history").fetch("structured_predecessor_gate")
+    record.fetch("founder_residual_acceptance")["review_non_pass_rewritten_as_pass"] = true
+    dump_owned_yaml(residual["truth_path"], truth)
+    commit(residual["repo"], "test: reject rewritten Reviewer NON_PASS")
+    expect_nonpass(
+      residual["repo"],
+      "Founder residual cannot rewrite Reviewer NON_PASS",
+      /cannot rewrite Reviewer NON_PASS as PASS/
+    )
+    record.fetch("founder_residual_acceptance")["review_non_pass_rewritten_as_pass"] = false
+    dump_owned_yaml(residual["truth_path"], truth)
+    commit(residual["repo"], "test: restore preserved Reviewer NON_PASS")
+    residual = activate_fixture(residual, task_slot: 2)
+    expect_pass(residual["repo"], "structured Task 2 ACTIVE after exact Founder residual Gate")
+    remove_fixture_task_resources(residual)
   end
 
   def structured_zero_repair_lifecycle_tests(sandbox)

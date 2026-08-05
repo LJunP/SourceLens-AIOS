@@ -327,14 +327,80 @@ module CurrentTaskAuthority
     )
     assert(contract_field(historical_contract_record, "route_id") == route["route_id"],
            "#{label} accepted-commit contract route mismatch")
-    %w[cto_target_verdict security_target_verdict quality_target_verdict].each do |key|
-      assert(history[key] == "PASS", "#{label} #{key} is not PASS")
+    verdict_keys = %w[cto_target_verdict security_target_verdict quality_target_verdict]
+    unless verdict_keys.all? { |key| history[key] == "PASS" }
+      validate_founder_residual_gate_acceptance(history, verdict_keys, label)
     end
     assert(history["reviewed_tree_equals_integrated_tree"] == true,
            "#{label} reviewed/integrated tree mismatch")
     assert(history["canonical_make_verify"] == "PASS",
            "#{label} canonical make verify is not PASS")
     history
+  end
+
+  def validate_founder_residual_gate_acceptance(history, verdict_keys, label)
+    assert(history["status"] == "FOUNDER_GATE_ACCEPTED_COMPLETE",
+           "#{label} Reviewer NON_PASS requires an exact Founder Gate acceptance")
+    residual = exact_keys(
+      history["founder_residual_acceptance"],
+      %w[
+        acceptance_scope capability_acceptance_authorized candidate_bytes_modified
+        decision preserved_non_pass_review preserved_non_pass_role
+        review_non_pass_preserved review_non_pass_rewritten_as_pass
+      ],
+      "#{label} founder_residual_acceptance"
+    )
+    assert(residual["acceptance_scope"] == "DOCUMENTATION_ONLY_OUTSIDE_CORRECTION_ALLOWLIST",
+           "#{label} Founder residual scope is not the bounded documentation-only scope")
+    assert(residual["capability_acceptance_authorized"] == true,
+           "#{label} Founder residual does not authorize capability acceptance")
+    assert(residual["candidate_bytes_modified"] == false,
+           "#{label} Founder residual cannot authorize modified candidate bytes")
+    assert(residual["review_non_pass_preserved"] == true,
+           "#{label} Founder residual must preserve the Reviewer NON_PASS")
+    assert(residual["review_non_pass_rewritten_as_pass"] == false,
+           "#{label} Founder residual cannot rewrite Reviewer NON_PASS as PASS")
+
+    role = string(residual["preserved_non_pass_role"],
+                  "#{label} founder_residual_acceptance.preserved_non_pass_role")
+    verdict_key = "#{role}_target_verdict"
+    assert(verdict_keys.include?(verdict_key),
+           "#{label} Founder residual preserved Reviewer role is invalid")
+    assert(history[verdict_key] == "NON_PASS",
+           "#{label} Founder residual does not preserve the exact Reviewer NON_PASS")
+    assert((verdict_keys - [verdict_key]).all? { |key| history[key] == "PASS" },
+           "#{label} Founder residual requires exactly one preserved Reviewer NON_PASS")
+
+    review = exact_keys(
+      residual["preserved_non_pass_review"],
+      %w[byte_length path sha256],
+      "#{label} founder_residual_acceptance.preserved_non_pass_review"
+    )
+    review_path = string(review["path"], "#{label} preserved NON_PASS Review path")
+    assert(Pathname.new(review_path).absolute?,
+           "#{label} preserved NON_PASS Review path must be absolute")
+    validate_identity(review_path, review, "#{label} preserved NON_PASS Review")
+    assert(history["#{role}_review_path"] == review_path &&
+           history["#{role}_review_sha256"] == review["sha256"] &&
+           history["#{role}_review_byte_length"] == review["byte_length"],
+           "#{label} preserved NON_PASS Review identity does not equal Task history")
+
+    decision = exact_keys(
+      residual["decision"],
+      %w[authorization_token byte_length path sha256],
+      "#{label} founder_residual_acceptance.decision"
+    )
+    decision_path = string(decision["path"], "#{label} Founder residual decision path")
+    assert(Pathname.new(decision_path).absolute?,
+           "#{label} Founder residual decision path must be absolute")
+    decision_bytes = validate_identity(decision_path, decision, "#{label} Founder residual decision")
+    decision_text = decision_bytes.dup.force_encoding(Encoding::UTF_8)
+    assert(decision_text.valid_encoding?, "#{label} Founder residual decision is not valid UTF-8")
+    declarations = decision_text.scan(/^authorization_token=([A-Z0-9_]+)$/)
+    token = string(decision["authorization_token"],
+                   "#{label} Founder residual decision authorization_token")
+    assert(declarations == [[token]],
+           "#{label} Founder residual decision must contain exactly one matching anchored authorization_token")
   end
 
   def validate_structured_predecessor_gate(root, truth, route, first_task, claims, next_task_id, state)

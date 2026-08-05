@@ -1,0 +1,145 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P1-218_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+phase: P1
+route_id: P1_MINIMUM_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
+status: ACTIVE
+classification: EVALUATION_FOUNDATION_ENGINEERING
+objective: >-
+  Create and independently verify one closed, machine-readable preregistration
+  for the first future P2 context-engine experiment, bound to the exact accepted
+  P1-217 reproducible baseline report without executing P2.
+why_now: >-
+  REPRODUCIBLE_BASELINE_REPORT is accepted. The only remaining strict P1 Exit
+  item is an exact report-bound preregistration that freezes the future P2
+  hypothesis, metric, baseline, sample, exclusions, uncertainty and stop rules.
+task_spec_ref: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/founder-phase-gate/FOUNDER_P1_MINIMUM_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1.structured-decision.json
+owner_role: P1-218 Engineering Manager
+worker_role: P1-218 Preregistration Worker
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+risk_level: medium
+budget:
+  engineering_hours: 4
+  calendar_days: 1
+  implementation_iterations: 3
+  candidates: 1
+roles:
+  owner: P1-218 Engineering Manager
+  worker: P1-218 Preregistration Worker
+  independent_reviewers:
+    - P1-218 Fresh CTO Reviewer
+    - P1-218 Fresh Security Reviewer
+    - P1-218 Fresh Quality Reviewer
+allowlisted_paths:
+  - evaluation-harness/reports/p1-218-report-bound-preregistration
+  - evaluation-harness/evaluator/p1-218-report-bound-preregistration
+  - scripts/verify-p1-218-report-bound-preregistration.sh
+  - docs/aios/tasks/P1-218_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+write_scope:
+  worker:
+    - evaluation-harness/reports/p1-218-report-bound-preregistration
+  quality:
+    - evaluation-harness/evaluator/p1-218-report-bound-preregistration
+  integration:
+    - scripts/verify-p1-218-report-bound-preregistration.sh
+    - docs/aios/tasks/P1-218_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+accepted_report:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-1-p1-217/correction-evidence-v1/report-output/REPRODUCIBLE_BASELINE_REPORT.json
+  byte_length: 12815
+  sha256: 27abd4d655b9eabd13f29bb15f84edc97b7b3d884daefe837e49846ba64a6657
+  acceptance_commit: 630ddcf4659daca287825bb8e2382deaa962606c
+  acceptance_tree: d5c4c85247141dcb0308add95969991913735ea9
+  acceptance_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-1-p1-217/integration/P1_217_FOUNDER_RESIDUAL_ACCEPTANCE_INTEGRATION_RECEIPT.json
+    byte_length: 4469
+    sha256: 44a7e048abda825754bfc22e2558062db55a49156e0e4004b7dac097e4c9b008
+  taxonomy:
+    denominator: 36
+    successful: 0
+    failed: 28
+    invalid: 8
+    excluded: 0
+founder_residual_acceptance:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/founder-phase-gate/FOUNDER_P1_217_EXACT_DOCUMENTATION_SCOPE_RESIDUAL_ACCEPTANCE_AND_INTEGRATION_THEN_P1_218_V1.md
+  byte_length: 5614
+  sha256: 33cf4bd2cd6a57e85656438d3a7f7294858cd5bc6e513490ebd38516954f7ead
+  authorization_token: AUTHORIZE_P1_217_EXACT_DOCUMENTATION_SCOPE_RESIDUAL_ACCEPTANCE_REVIEWED_INTEGRATION_AND_DIRECT_P1_218_V1
+  quality_non_pass_preserved: true
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+founder_reserved_profile: null
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/founder-phase-gate/FOUNDER_P1_MINIMUM_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1.structured-decision.json
+  sha256: 837f2c45424074ee9e93c99a249227ff24aeb84c5504b17d8a31006b6a40746d
+  byte_length: 3039
+  authorization_token: AUTHORIZE_P1_MINIMUM_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+architecture_constraints:
+  - Bind the accepted P1-217 report by exact path, byte length, SHA-256, acceptance commit and tree.
+  - Freeze the future experiment before any P2 implementation or execution.
+  - Treat the accepted zero-of-thirty-six P1 result as a truthful baseline artifact, not as evidence that a P2 context strategy will improve performance.
+  - Use a closed schema and reject missing, extra, duplicate, mutated, stale or cross-bound identities.
+  - Do not read or reuse rejected P2 engineering assets.
+  - Do not enter P2 or create Provider, Secret, network, remote, production or public effects.
+required_preregistration_fields:
+  - hypothesis
+  - primary_metric
+  - baseline
+  - sample
+  - exclusion_rules
+  - uncertainty_method
+  - stop_conditions
+quality_freeze:
+  positive_cases:
+    - Exact accepted P1-217 report and acceptance identities pass.
+    - The complete preregistration validates and canonicalizes deterministically.
+    - Independent reconstruction produces byte-identical stable projection.
+  negative_cases:
+    - accepted report path, length, hash, commit or tree drift
+    - acceptance receipt drift
+    - missing, extra or duplicate preregistration field
+    - hypothesis, metric, baseline, sample, exclusion, uncertainty or stop-condition mutation
+    - P2 execution or external-effect request
+  required_false_accepts: 0
+acceptance_criteria:
+  - The exact accepted report and P1-217 acceptance receipt identities validate before preregistration parsing.
+  - The preregistration freezes every required field in a closed machine-readable contract.
+  - Independent verification rebuilds the same semantic projection without trusting a Worker PASS field.
+  - All negative cases reject with zero false accepts.
+  - No P2 experiment is executed and all six external effects remain false.
+  - One exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS.
+  - Reviewed tree equals integrated canonical tree and one canonical make verify passes after integration.
+rollback:
+  strategy: OWNED_OUTPUT_REMOVAL_BEFORE_FREEZE_AND_NON_DESTRUCTIVE_GIT_REVERT_AFTER_CANONICAL_INTEGRATION
+  forbidden:
+    - git reset
+    - git clean
+    - destructive history rewrite
+stop_conditions:
+  - Accepted report, acceptance receipt, Goal, route Decision, Contract or clean canonical identity drifts.
+  - A write exceeds this Contract or an external effect is required.
+  - Any final Reviewer, reviewed/integrated tree equality check or canonical make verify returns NONPASS.
+  - P2 execution or a Phase/Exit-Gate boundary change is required.
+knowledge_sync:
+  mode: EVENT_DRIVEN_NON_BLOCKING
+  task_accept_or_terminal_event_required: true
+  capability_credit: 0
+claim_boundary: >-
+  Exact accepted P1-217 report-bound P2 context-engine experiment
+  preregistration only. No P2 execution, Provider, model, network, Secret,
+  remote, production, public or product-capability claim.

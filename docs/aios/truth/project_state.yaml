@@ -37,7 +37,7 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: AIOS-P1-217_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_ADMISSION
+  current_task_authority: AIOS-P1-218_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
   note: >-
     Founder authorized one and only one exact-candidate-bound P1-217 correction
     for complete closed report-contract verification. The prior Quality NON_PASS,
@@ -1050,11 +1050,11 @@ project:
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
   p1_execution_status: ACTIVE
-  p1_engineering_status: P1_217_ACTIVE_COMPLETE_REPORT_CONTRACT_CORRECTION
+  p1_engineering_status: P1_218_ACTIVE_REPORT_BOUND_PREREGISTRATION
   p2_entry_status: HOLD_PENDING_STRICT_P1_EXIT
   p2_execution_status: HOLD_PENDING_STRICT_P1_EXIT
   phase_execution_status: ACTIVE
-  current_route_execution_status: ACTIVE_TASK_1_P1_217_CORRECTION
+  current_route_execution_status: ACTIVE_TASK_2_P1_218
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -5803,10 +5803,10 @@ historical_p1_162_phase_route:
 current_phase_route:
   route_id: P1_MINIMUM_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
   status: ACTIVE
-  authority_object_status: FOUNDER_CORRECTION_DECISION_CONSUMED_TASK_1_ACTIVE
-  execution_status: ACTIVE_TASK_1_P1_217_COMPLETE_REPORT_CONTRACT_CORRECTION
+  authority_object_status: FOUNDER_RESIDUAL_DECISION_CONSUMED_TASK_2_ACTIVE
+  execution_status: ACTIVE_TASK_2_P1_218_REPORT_BOUND_PREREGISTRATION
   founder_phase_route_decision_required: false
-  scheduling_status: TASK_1_ACTIVE_CORRECTION
+  scheduling_status: TASK_2_ACTIVE
   phase: P1
   phase_entry_status: AUTHORIZED
   authorization_token: AUTHORIZE_P1_MINIMUM_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
@@ -5862,7 +5862,7 @@ current_phase_route:
   first_task:
     task_slot: 1
     task_id: AIOS-P1-217_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_ADMISSION
-    status: ACTIVE
+    status: FOUNDER_GATE_ACCEPTED_COMPLETE
     engineering_hours: 12
     calendar_days: 3
     max_engineering_hours: 12
@@ -5884,7 +5884,7 @@ current_phase_route:
   task_plan:
     - task_slot: 1
       task_id: AIOS-P1-217_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_ADMISSION
-      status: ACTIVE
+      status: FOUNDER_GATE_ACCEPTED_COMPLETE
       engineering_hours: 12
       calendar_days: 3
       max_implementation_iterations: 3
@@ -5899,7 +5899,7 @@ current_phase_route:
         public: false
     - task_slot: 2
       task_id: AIOS-P1-218_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
-      status: PENDING_PREDECESSOR_TASK_GATE
+      status: ACTIVE
       engineering_hours: 4
       calendar_days: 1
       max_implementation_iterations: 3
@@ -5912,6 +5912,28 @@ current_phase_route:
         remote: false
         production: false
         public: false
+  active_task:
+    task_slot: 2
+    task_id: AIOS-P1-218_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+    status: ACTIVE
+    engineering_hours: 4
+    calendar_days: 1
+    max_engineering_hours: 4
+    max_calendar_days: 1
+    max_implementation_iterations: 3
+    max_same_task_repairs: 2
+    max_candidates: 1
+    external_effects:
+      network: false
+      provider: false
+      secret: false
+      remote: false
+      production: false
+      public: false
+    contract_path: docs/aios/tasks/P1-218_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION.yaml
+    contract_sha256: 1e85bd4dd3342249c266271eeb7327cc4d6dd51ed0e5d9472e041fb59b5c8746
+    contract_byte_length: 7458
+    p1_capability_claim_on_pass: P2_CONTEXT_ENGINE_PREREGISTRATION
   automatic_entry:
     after_task_id: AIOS-P1-217_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_ADMISSION
     next_task_id: AIOS-P1-218_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
@@ -5920,7 +5942,27 @@ current_phase_route:
     - after_task_id: AIOS-P1-217_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_ADMISSION
       next_task_id: AIOS-P1-218_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
       requires_task_gate_pass: true
-  next_eligible_action: EXECUTE_AIOS_P1_217_COMPLETE_REPORT_CONTRACT_CORRECTION
+  next_eligible_action: EXECUTE_AIOS_P1_218_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+  founder_p1_217_residual_acceptance_and_integration:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/founder-phase-gate/FOUNDER_P1_217_EXACT_DOCUMENTATION_SCOPE_RESIDUAL_ACCEPTANCE_AND_INTEGRATION_THEN_P1_218_V1.md
+    sha256: 33cf4bd2cd6a57e85656438d3a7f7294858cd5bc6e513490ebd38516954f7ead
+    byte_length: 5614
+    authorization_token: AUTHORIZE_P1_217_EXACT_DOCUMENTATION_SCOPE_RESIDUAL_ACCEPTANCE_REVIEWED_INTEGRATION_AND_DIRECT_P1_218_V1
+    quality_target_verdict_preserved: NON_PASS
+    quality_non_pass_rewritten_as_pass: false
+    candidate_bytes_modified_after_review: false
+    accepted_report:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-1-p1-217/correction-evidence-v1/report-output/REPRODUCIBLE_BASELINE_REPORT.json
+      byte_length: 12815
+      sha256: 27abd4d655b9eabd13f29bb15f84edc97b7b3d884daefe837e49846ba64a6657
+    integration:
+      commit: 630ddcf4659daca287825bb8e2382deaa962606c
+      tree: d5c4c85247141dcb0308add95969991913735ea9
+      canonical_make_verify: PASS_ONE_INVOCATION
+    receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-1-p1-217/integration/P1_217_FOUNDER_RESIDUAL_ACCEPTANCE_INTEGRATION_RECEIPT.json
+      byte_length: 4469
+      sha256: 44a7e048abda825754bfc22e2558062db55a49156e0e4004b7dac097e4c9b008
   founder_p1_217_complete_report_contract_correction:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/founder-phase-gate/FOUNDER_P1_217_COMPLETE_REPORT_CONTRACT_VERIFICATION_CORRECTION_AND_CONTINUATION_V1.md
     sha256: ed41ef073cd6d3017284b6c5a8b7b256661b1d2b0bf02df2d0776eadc2dd5664
@@ -9032,16 +9074,16 @@ strict_phase_gate_ledger:
             byte_length: 5452
             sha256: 1ef325fff26daf804a69e3e3743f152fb92368425cca7430616fe358f8404bc1
         REPRODUCIBLE_BASELINE_REPORT:
-          status: MISSING
-          task_history_key: null
-          task_id: null
-          acceptance_commit: null
-          acceptance_tree: null
+          status: ACCEPTED
+          task_history_key: aios_p1_217
+          task_id: AIOS-P1-217_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_ADMISSION
+          acceptance_commit: 630ddcf4659daca287825bb8e2382deaa962606c
+          acceptance_tree: d5c4c85247141dcb0308add95969991913735ea9
           gate_evidence:
-            receipt_type: null
-            path: null
-            byte_length: null
-            sha256: null
+            receipt_type: FOUNDER_DOCUMENTATION_SCOPE_RESIDUAL_ACCEPTANCE_INTEGRATION_RECEIPT
+            path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-1-p1-217/integration/P1_217_FOUNDER_RESIDUAL_ACCEPTANCE_INTEGRATION_RECEIPT.json
+            byte_length: 4469
+            sha256: 44a7e048abda825754bfc22e2558062db55a49156e0e4004b7dac097e4c9b008
         P2_CONTEXT_ENGINE_PREREGISTRATION:
           status: MISSING
           task_history_key: null
@@ -9054,9 +9096,9 @@ strict_phase_gate_ledger:
             byte_length: null
             sha256: null
       derived_completion:
-        completed: 6
+        completed: 7
         total: 8
-        percent: 75
+        percent: 87.5
       founder_phase_gate:
         status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
         decision_id: null
@@ -11856,6 +11898,33 @@ founder_knowledge_sync:
         sha256: null
       event_sha256: 4aabd697bf77cbb92b3b98ae44cc92d2e53509dd8e88be9e0767448123bf8c35
 
+    - event_id: FKS-20260805-P1-217-FOUNDER-RESIDUAL-ACCEPTED-INTEGRATED-P1-218-ACTIVATED-V1
+      trigger_type: FOUNDER_DECISION_TASK_ACCEPTANCE_AND_SUCCESSOR_ACTIVATION
+      occurred_at_utc: "2026-08-05T08:05:00Z"
+      source_commit: 630ddcf4659daca287825bb8e2382deaa962606c
+      source_tree: d5c4c85247141dcb0308add95969991913735ea9
+      previous_event_sha256: 4aabd697bf77cbb92b3b98ae44cc92d2e53509dd8e88be9e0767448123bf8c35
+      status: PENDING_CANDIDATE
+      rationale: Founder accepted the exact documentation-only allowlist residual without rewriting the preserved Quality NON_PASS, integrated the unchanged reviewed P1-217 tree, and the single canonical make verify passed. REPRODUCIBLE_BASELINE_REPORT is now accepted as the truthful zero-of-thirty-six research artifact, strict P1 is seven of eight at 87.5 percent, P1-218 is active, and P2 remains held. The accepted negative baseline and bounded residual decision are material Founder learning and are queued for non-blocking exact Artifact review and Vault import.
+      engineering_blocking: false
+      artifact:
+        path: null
+        byte_length: null
+        sha256: null
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+      event_sha256: c0e14cffd23e3d3f811def8f78a9dc4ea0add05e2a01213c70b372fc9d3c257d
+
 historical_active_work_after_p1_079:
   current_task: NONE
   current_task_status: NONE
@@ -11907,47 +11976,47 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
-  current_task: AIOS-P1-217_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_ADMISSION
+  current_task: AIOS-P1-218_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
   current_task_status: ACTIVE
   current_task_contract:
-    path: docs/aios/tasks/P1-217_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_ADMISSION.yaml
-    sha256: addb752c770f48a8d7fecad332299d5f68c1461ad29220c65d07b360ed09d6e6
-    byte_length: 15551
-  current_task_contract_sha256: addb752c770f48a8d7fecad332299d5f68c1461ad29220c65d07b360ed09d6e6
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-1-p1-217/authority/TASK_AUTHORITY_CORRECTION_REENTRY_V1.yaml
-  current_execution_authorization_sha256: f373afe4cc15f1b524aeb73bace798d03e8ecc2ce2342ff6a9a8bd9b69bd0c3d
+    path: docs/aios/tasks/P1-218_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION.yaml
+    sha256: 1e85bd4dd3342249c266271eeb7327cc4d6dd51ed0e5d9472e041fb59b5c8746
+    byte_length: 7458
+  current_task_contract_sha256: 1e85bd4dd3342249c266271eeb7327cc4d6dd51ed0e5d9472e041fb59b5c8746
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-2-p1-218/authority/TASK_AUTHORITY.yaml
+  current_execution_authorization_sha256: 0c87478549d8e41503941690fd91955e6778827805d67fa9b1bc27f77d5fb74e
   authority_record:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-1-p1-217/authority/TASK_AUTHORITY_CORRECTION_REENTRY_V1.yaml
-    sha256: f373afe4cc15f1b524aeb73bace798d03e8ecc2ce2342ff6a9a8bd9b69bd0c3d
-    byte_length: 2944
-  execution_nonce: c00d9b3501c3374d06b5e019abb4c96d1c21b059c1d738d748b5aa7c32f0400e
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-2-p1-218/authority/TASK_AUTHORITY.yaml
+    sha256: 0c87478549d8e41503941690fd91955e6778827805d67fa9b1bc27f77d5fb74e
+    byte_length: 2730
+  execution_nonce: d3b887ecc7d20a0228765afa3259268e330caa0ba0496062aac0cf8deb6f7463
   execution_nonce_status: ACTIVE
-  authorization_id: AUTH-P1-217-COMPLETE-REPORT-CONTRACT-CORRECTION-V1
-  activation_parent_commit: 77f91557f1689c8c9fdb768286aa239c05fa7808
-  activation_parent_tree: 6f8b1f9180bc739f3fd7dc29ed46e37f93a38751
+  authorization_id: AUTH-P1-218-REPORT-BOUND-PREREGISTRATION-V1
+  activation_parent_commit: 630ddcf4659daca287825bb8e2382deaa962606c
+  activation_parent_tree: d5c4c85247141dcb0308add95969991913735ea9
   task_resource_state: ACTIVE_UNIQUE_BRANCH_WORKTREE_EVIDENCE_ROOT
-  task_branch: codex/p1-217-single-process-report
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-217-single-process-report
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-1-p1-217
+  task_branch: codex/p1-218-report-bound-preregistration
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-218-report-bound-preregistration
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-2-p1-218
   allowlisted_paths:
-    - evaluation-harness/evaluator/p1-217-single-process-report
-    - evaluation-harness/reports/p1-217-single-process-report
-    - scripts/verify-p1-217-single-process-report.sh
-    - docs/aios/tasks/P1-217_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_ADMISSION.yaml
+    - evaluation-harness/evaluator/p1-218-report-bound-preregistration
+    - evaluation-harness/reports/p1-218-report-bound-preregistration
+    - scripts/verify-p1-218-report-bound-preregistration.sh
+    - docs/aios/tasks/P1-218_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION.yaml
     - docs/aios/truth/project_state.yaml
     - docs/PROJECT_CODE_MAP.md
   budget:
-    engineering_hours: 12
-    calendar_days: 3
+    engineering_hours: 4
+    calendar_days: 1
     implementation_iterations: 3
     candidates: 1
   roles:
-    owner: P1-217 Engineering Manager
-    worker: P1-217 Report Admission Worker
+    owner: P1-218 Engineering Manager
+    worker: P1-218 Preregistration Worker
     independent_reviewers:
-      - P1-217 Fresh CTO Reviewer
-      - P1-217 Fresh Security Reviewer
-      - P1-217 Fresh Quality Reviewer
+      - P1-218 Fresh CTO Reviewer
+      - P1-218 Fresh Security Reviewer
+      - P1-218 Fresh Quality Reviewer
   external_effects:
     network: false
     provider: false
@@ -11964,7 +12033,7 @@ active_work:
   user_action_required: NONE
   phase_route_decision_required: false
   phase_route_user_action_required: NONE
-  next_eligible_action: EXECUTE_AIOS_P1_217_COMPLETE_REPORT_CONTRACT_CORRECTION
+  next_eligible_action: EXECUTE_AIOS_P1_218_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
 historical_p1_190_terminal_active_work:
   current_task: NONE
   current_task_status: NONE
@@ -12016,6 +12085,63 @@ historical_p1_190_terminal_active_work:
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 task_history:
+  aios_p1_217:
+    task_id: AIOS-P1-217_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_ADMISSION
+    route_id: P1_MINIMUM_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
+    status: FOUNDER_GATE_ACCEPTED_COMPLETE
+    classification: EXACT_REVIEWED_ENGINEERING_ACCEPTED_WITH_FOUNDER_DOCUMENTATION_SCOPE_RESIDUAL
+    contract: docs/aios/tasks/P1-217_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_ADMISSION.yaml
+    task_contract_sha256: addb752c770f48a8d7fecad332299d5f68c1461ad29220c65d07b360ed09d6e6
+    task_contract_byte_length: 15551
+    accepted_candidate_commit: 630ddcf4659daca287825bb8e2382deaa962606c
+    accepted_candidate_tree: d5c4c85247141dcb0308add95969991913735ea9
+    reviewed_candidate_commit: 14158adeabb70cab59075883961e02a1ac5b631f
+    reviewed_candidate_tree: d5c4c85247141dcb0308add95969991913735ea9
+    candidate_manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-1-p1-217/candidate-correction-v1/P1_217_CORRECTED_CANDIDATE_MANIFEST.json
+    candidate_manifest_sha256: edcdb4021f4df7cc6a5cc8c9b5cec7948d1ae751400a0abfc099f8501ae28361
+    candidate_manifest_byte_length: 5818
+    cto_target_verdict: PASS
+    cto_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-1-p1-217/reviews/final-correction-cycle-1/CTO_REVIEW.json
+    cto_review_sha256: 580c9b29b78ed472dfc23e000aad15d01ec155883933042c52d8d1ac6a115444
+    cto_review_byte_length: 4617
+    security_target_verdict: PASS
+    security_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-1-p1-217/reviews/final-correction-cycle-1/SECURITY_REVIEW.json
+    security_review_sha256: 1b9a48bd6584a81c84eeb41de952aa57f417db723caf1647bed069905104eaba
+    security_review_byte_length: 4881
+    quality_target_verdict: NON_PASS
+    quality_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-1-p1-217/reviews/final-correction-cycle-1/QUALITY_REVIEW.json
+    quality_review_sha256: 3ac0d51e86c0d74e6fe13e1372bbc345e552f16b9bc220b177e89cc5ecff9726
+    quality_review_byte_length: 4068
+    reviewed_tree_equals_integrated_tree: true
+    canonical_make_verify: PASS
+    canonical_make_verify_invocations: 1
+    accepted_report:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-1-p1-217/correction-evidence-v1/report-output/REPRODUCIBLE_BASELINE_REPORT.json
+      byte_length: 12815
+      sha256: 27abd4d655b9eabd13f29bb15f84edc97b7b3d884daefe837e49846ba64a6657
+    task_gate_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-1-p1-217/integration/P1_217_FOUNDER_RESIDUAL_ACCEPTANCE_INTEGRATION_RECEIPT.json
+      byte_length: 4469
+      sha256: 44a7e048abda825754bfc22e2558062db55a49156e0e4004b7dac097e4c9b008
+    founder_residual_acceptance:
+      acceptance_scope: DOCUMENTATION_ONLY_OUTSIDE_CORRECTION_ALLOWLIST
+      capability_acceptance_authorized: true
+      candidate_bytes_modified: false
+      decision:
+        authorization_token: AUTHORIZE_P1_217_EXACT_DOCUMENTATION_SCOPE_RESIDUAL_ACCEPTANCE_REVIEWED_INTEGRATION_AND_DIRECT_P1_218_V1
+        byte_length: 5614
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/founder-phase-gate/FOUNDER_P1_217_EXACT_DOCUMENTATION_SCOPE_RESIDUAL_ACCEPTANCE_AND_INTEGRATION_THEN_P1_218_V1.md
+        sha256: 33cf4bd2cd6a57e85656438d3a7f7294858cd5bc6e513490ebd38516954f7ead
+      preserved_non_pass_review:
+        byte_length: 4068
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-1-p1-217/reviews/final-correction-cycle-1/QUALITY_REVIEW.json
+        sha256: 3ac0d51e86c0d74e6fe13e1372bbc345e552f16b9bc220b177e89cc5ecff9726
+      preserved_non_pass_role: quality
+      review_non_pass_preserved: true
+      review_non_pass_rewritten_as_pass: false
+    capability_credit: 1
+    strict_p1_completion_after_task: 7_OF_8_87_5_PERCENT
+    p2_status: HOLD_PENDING_STRICT_P1_EXIT
   aios_p1_207:
     same_task_id: AIOS-P1-207_MINIMUM_COOPERATIVE_LOCAL_REPRODUCIBLE_BASELINE
     route_id: P1_MINIMUM_COOPERATIVE_LOCAL_RESEARCH_ARTIFACT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
@@ -17454,7 +17580,11 @@ claim_boundary:
   p1_160_canonical_make_verify: NOT_INVOKED_FINAL_REVIEW_STOP_CONDITION
   p1_160_capability_credit: 0
   p1_161_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
-  strict_p1_completion: 6_OF_8_75_PERCENT
+  strict_p1_completion: 7_OF_8_87_5_PERCENT
+  p1_217_status: FOUNDER_GATE_ACCEPTED_COMPLETE
+  p1_217_quality_target_verdict_preserved: NON_PASS
+  p1_217_canonical_make_verify: PASS_ONE_INVOCATION
+  p1_218_status: ACTIVE
   p2_status: HOLD_PENDING_STRICT_P1_EXIT
   p1_152_status: TERMINAL_TWO_DIAGNOSTICS_NO_STRICT_2XX_COMPLETION
   p1_152_diagnostic_provider_requests: 2

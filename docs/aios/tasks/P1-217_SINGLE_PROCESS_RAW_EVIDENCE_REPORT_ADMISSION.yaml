@@ -1,0 +1,210 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P1-217_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_ADMISSION
+phase: P1
+route_id: P1_MINIMUM_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Clean-room implement a minimum single-process pure-offline report admission
+  and rebuilder that reads only the immutable P1-207 raw Evidence closed
+  inventory, independently reconstructs and verifies the truthful 36/0/28/8/0
+  taxonomy, and emits one unique create-once reproducible baseline report.
+why_now: >-
+  REPRODUCIBLE_BASELINE_REPORT is the first of the two remaining strict P1 Exit
+  items. The Provider experiment is already complete and immutable; the
+  remaining work is a narrow offline admission and research-report acceptance
+  path, not another Provider run or filesystem security platform.
+task_spec_ref: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/founder-phase-gate/FOUNDER_P1_MINIMUM_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1.structured-decision.json
+owner_role: P1-217 Engineering Manager
+worker_role: P1-217 Report Admission Worker
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+risk_level: high
+budget:
+  engineering_hours: 12
+  calendar_days: 3
+  implementation_iterations: 3
+  candidates: 1
+roles:
+  owner: P1-217 Engineering Manager
+  worker: P1-217 Report Admission Worker
+  independent_reviewers:
+    - P1-217 Fresh CTO Reviewer
+    - P1-217 Fresh Security Reviewer
+    - P1-217 Fresh Quality Reviewer
+allowlisted_paths:
+  - evaluation-harness/evaluator/p1-217-single-process-report
+  - evaluation-harness/reports/p1-217-single-process-report
+  - scripts/verify-p1-217-single-process-report.sh
+  - docs/aios/tasks/P1-217_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_ADMISSION.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+write_scope:
+  worker:
+    - evaluation-harness/reports/p1-217-single-process-report
+  quality:
+    - evaluation-harness/evaluator/p1-217-single-process-report
+  integration:
+    - scripts/verify-p1-217-single-process-report.sh
+    - docs/aios/tasks/P1-217_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_ADMISSION.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - immutable P1-207 raw formal Evidence closed inventory only
+dependencies:
+  - ACCEPTED_CANONICAL_P1_SPECIFICATIONS
+  - IMMUTABLE_P1_207_RAW_FORMAL_EVIDENCE
+  - ACCEPTED_CANONICAL_P1_070_COUNTING_AND_FALSE_SUCCESS_CHARACTERIZATION
+immutable_raw_evidence:
+  root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-cooperative-local-research-exit-20260804/task-1-p1-207/evidence/formal-execution-v1
+  root_role: FORMAL_RAW_EVIDENCE
+  manifest:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-cooperative-local-research-exit-20260804/task-1-p1-207/evidence/formal-execution-v1/EVIDENCE_MANIFEST.json
+    byte_length: 31196
+    sha256: 31e439cc3e3a993916fffd836d6883722e4570719d6a93c5b38b6a29c703504f
+  run_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-cooperative-local-research-exit-20260804/task-1-p1-207/evidence/formal-execution-v1/RUN_RECEIPT.json
+    byte_length: 745
+    sha256: 5352b9071bffa4c1952f1c1388af8c05f9726d03fefb85e23e1164ff544fe227
+  manifest_entry_count: 191
+  expected_taxonomy:
+    denominator: 36
+    successful: 0
+    failed: 28
+    invalid: 8
+    excluded: 0
+  generated_outputs_excluded_from_input:
+    - EVIDENCE_MANIFEST.json
+    - report/REPORT_REBUILD_RECEIPT.json
+    - report/REPRODUCIBLE_BASELINE_REPORT.json
+    - reviews/INDEPENDENT_EVALUATOR_RECEIPT.json
+historical_isolation:
+  p1_215_status: TERMINAL_FINAL_SECURITY_TARGET_NON_PASS
+  p1_215_security_finding: SECURITY-P1-215-001
+  p1_215_rejected_source_candidate_fixture_test_or_implementation_read_restore_fix_or_reuse_allowed: false
+  immutable_p1_207_formal_evidence_modify_append_delete_or_rerun_allowed: false
+execution_boundary:
+  concurrency_model: SINGLE_PROCESS_NO_CONCURRENT_FILESYSTEM_MUTATOR
+  trust_model: COOPERATIVE_LOCAL
+  input_output_physical_separation_required: true
+  output_root_preexisting_allowed: false
+  output_root_symlink_allowed: false
+  output_ownership: UNIQUE_OWNED_CREATE_ONCE
+  input_pre_post_closed_inventory_and_hash_equality_required: true
+  generated_report_as_input_or_oracle_allowed: false
+  out_of_claim:
+    - post-preflight parent substitution defense
+    - hostile-principal security
+    - production-grade Evidence custody
+    - strong isolation
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+founder_reserved_profile: null
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/founder-phase-gate/FOUNDER_P1_MINIMUM_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1.structured-decision.json
+  sha256: 837f2c45424074ee9e93c99a249227ff24aeb84c5504b17d8a31006b6a40746d
+  byte_length: 3039
+  authorization_token: AUTHORIZE_P1_MINIMUM_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+architecture_constraints:
+  - Implement from canonical accepted specifications; do not read or reuse P1-215 rejected engineering.
+  - Use the immutable P1-207 manifest as the closed raw input inventory and reject generated report or review outputs as inputs.
+  - Validate every admitted path as a contained regular non-symlink file with exact byte length and SHA-256 before parsing.
+  - Derive every cell classification from its manifest-bound terminal receipt; never trust a historical generated report or expected-answer fixture.
+  - Verify request, terminal and available response/transport cross-bindings needed for the declared classification.
+  - Recompute and compare the entire admitted input inventory before and after output creation.
+  - Create one output root and its declared files with exclusive create-once semantics in one process.
+  - Keep the implementation narrow; do not build an authority, parser, validator or filesystem security platform Task.
+quality_freeze:
+  positive_matrix:
+    - Exact P1-207 manifest and run receipt identities pass.
+    - All 191 admitted raw entries pass path, type, length and SHA-256 validation.
+    - Exactly 36 unique formal cell terminals are reconstructed.
+    - Taxonomy closes as denominator 36, successful 0, failed 28, invalid 8 and excluded 0.
+    - Independent evaluator derives the same report without trusting Worker success fields or generated reports.
+    - Input inventory and hashes remain byte-identical before and after output creation.
+  negative_matrix:
+    - input/output exact overlap
+    - output descendant of input
+    - input descendant of output
+    - preexisting output root
+    - output-root symlink
+    - input symlink
+    - manifest missing entry
+    - manifest extra entry
+    - manifest duplicate path
+    - manifest reorder
+    - manifest byte-length mutation
+    - manifest SHA-256 mutation
+    - missing raw file
+    - raw file mutation
+    - request/terminal cross-binding drift
+    - duplicate cell ID
+    - missing cell terminal
+    - invalid taxonomy mutation
+    - generated report injected as raw input
+    - generated report used as oracle
+  required_counts:
+    reconstructed_cells: 36
+    false_accepts: 0
+    provider_requests: 0
+    secret_reads: 0
+acceptance_criteria:
+  - The exact immutable P1-207 manifest and run receipt identities match this Contract.
+  - Input and output roots are physically separate and the output root is absent and non-symlink before execution.
+  - The complete closed raw inventory is validated before parsing and remains exact after report creation.
+  - The report is reconstructed solely from raw Evidence and truthfully records 36/0/28/8/0.
+  - Failure classification and cross-binding checks are independently re-executed from exact raw bytes.
+  - No generated report, historical report, Worker success field or expected-answer fixture is used as input or oracle.
+  - All predeclared negative cases reject and false accepts equal zero.
+  - Provider requests, Secret reads and all six external effects equal zero.
+  - One exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS on the same bytes and Evidence.
+  - Reviewed tree equals integrated canonical tree and exactly one canonical make verify passes after integration.
+required_evidence:
+  - Exact Founder packet, structured Decision, Goal, activation parent, Contract and authority identities.
+  - Immutable P1-207 manifest and run receipt identity verification.
+  - Full admitted raw inventory and pre/post equality receipt.
+  - Raw per-cell reconstruction and failure-taxonomy receipt.
+  - Reproducible report candidate and independent evaluator receipt.
+  - Complete negative matrix with zero false accepts and zero external effects.
+  - Exact candidate commit, tree, diff/hash manifest and recoverable Evidence tag.
+  - Fresh CTO, Security and Quality reviews of the same candidate and Evidence bytes.
+rollback:
+  strategy: OWNED_DISPOSABLE_OUTPUT_REMOVAL_BEFORE_FREEZE_AND_NON_DESTRUCTIVE_GIT_REVERT_AFTER_CANONICAL_INTEGRATION
+  forbidden:
+    - git reset
+    - git clean
+    - destructive history rewrite
+stop_conditions:
+  - Canonical activation parent, Goal, Founder packet, Contract or immutable P1-207 input identity drifts.
+  - P1-215 rejected engineering is required or accessed.
+  - Actual input mutation, path overlap, symlink, Secret leakage or incorrect research conclusion occurs.
+  - A required write exceeds this Contract or an external effect is required.
+  - The same normalized root cause repeats in adjacent iterations or the two same-Task repairs are exhausted.
+  - Any final Reviewer, reviewed/integrated equality check or canonical make verify returns NONPASS.
+  - The P1 Objective, Exit Gate, Phase boundary or Founder-approved residual boundary changes.
+knowledge_sync:
+  mode: EVENT_DRIVEN_NON_BLOCKING
+  task_accept_or_terminal_event_required: true
+  capability_credit: 0
+claim_boundary: >-
+  Cooperative-local, single-process and no-concurrent-filesystem-mutator raw
+  P1-207 Evidence report admission and exact 36/0/28/8/0 research conclusion
+  only. No post-preflight parent-substitution defense, hostile-principal,
+  production custody, strong isolation, Provider/model, P2/P3 entry, remote,
+  production or public claim.

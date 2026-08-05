@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-05T05:47:44Z"
-verification_scope: P1_217_ROUTE_AUTHORIZED_READY
+last_verified_at: "2026-08-05T05:53:58Z"
+verification_scope: P1_217_ACTIVE_TASK_AUTHORITY
 
 authority:
   founder: Human Founder
@@ -37,8 +37,19 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
+  current_task_authority: AIOS-P1-217_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_ADMISSION
   note: >-
+    P1-217 is now the unique active Task on branch/worktree
+    codex/p1-217-single-process-report /
+    /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-217-single-process-report,
+    activated from exact clean route-ready canonical parent
+    77f91557f1689c8c9fdb768286aa239c05fa7808 /
+    6f8b1f9180bc739f3fd7dc29ed46e37f93a38751. It is a pure-offline,
+    single-process clean-room report admission Task with zero Secret, Provider
+    and network effects. Strict P1 remains 6/8 at 75 percent and P2 remains
+    HOLD_PENDING_STRICT_P1_EXIT until the complete reviewed Task Gate accepts
+    the report. The following route-ready paragraph remains immutable activation
+    chronology and has no separate scheduling authority.
     Founder authorized the minimum single-process raw-Evidence report and
     preregistration strict P1 Exit route from exact clean canonical commit/tree
     d381480f5a0550bf3a6977eb496198949786b3b2 /
@@ -1010,12 +1021,12 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  p1_execution_status: AUTHORIZED_READY
-  p1_engineering_status: P1_217_ELIGIBLE_NOT_ACTIVATED
+  p1_execution_status: ACTIVE
+  p1_engineering_status: P1_217_ACTIVE_IMPLEMENTATION
   p2_entry_status: HOLD_PENDING_STRICT_P1_EXIT
   p2_execution_status: HOLD_PENDING_STRICT_P1_EXIT
-  phase_execution_status: AUTHORIZED_READY
-  current_route_execution_status: AUTHORIZED_READY_P1_217_ELIGIBLE
+  phase_execution_status: ACTIVE
+  current_route_execution_status: ACTIVE_TASK_1_P1_217
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -5763,11 +5774,11 @@ historical_p1_162_phase_route:
 
 current_phase_route:
   route_id: P1_MINIMUM_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
-  status: AUTHORIZED_READY
-  authority_object_status: FOUNDER_DECISION_CONSUMED_ROUTE_READY
-  execution_status: READY_TASK_1_NOT_ACTIVATED
+  status: ACTIVE
+  authority_object_status: FOUNDER_DECISION_CONSUMED_TASK_1_ACTIVE
+  execution_status: ACTIVE_TASK_1_P1_217_IMPLEMENTATION
   founder_phase_route_decision_required: false
-  scheduling_status: TASK_1_ELIGIBLE_NOT_ACTIVATED
+  scheduling_status: TASK_1_ACTIVE
   phase: P1
   phase_entry_status: AUTHORIZED
   authorization_token: AUTHORIZE_P1_MINIMUM_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
@@ -5823,7 +5834,7 @@ current_phase_route:
   first_task:
     task_slot: 1
     task_id: AIOS-P1-217_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_ADMISSION
-    status: ELIGIBLE_NOT_ACTIVATED
+    status: ACTIVE
     engineering_hours: 12
     calendar_days: 3
     max_engineering_hours: 12
@@ -5838,14 +5849,14 @@ current_phase_route:
       remote: false
       production: false
       public: false
-    contract_path: null
-    contract_sha256: null
-    contract_byte_length: null
+    contract_path: docs/aios/tasks/P1-217_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_ADMISSION.yaml
+    contract_sha256: 1b9969765a927ff88bba90c305e16afd2ab7393e115283592a65544e831adaa6
+    contract_byte_length: 10978
     p1_capability_claim_on_pass: REPRODUCIBLE_BASELINE_REPORT
   task_plan:
     - task_slot: 1
       task_id: AIOS-P1-217_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_ADMISSION
-      status: ELIGIBLE_NOT_ACTIVATED
+      status: ACTIVE
       engineering_hours: 12
       calendar_days: 3
       max_implementation_iterations: 3
@@ -5881,7 +5892,7 @@ current_phase_route:
     - after_task_id: AIOS-P1-217_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_ADMISSION
       next_task_id: AIOS-P1-218_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
       requires_task_gate_pass: true
-  next_eligible_action: ACTIVATE_AIOS_P1_217_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_ADMISSION
+  next_eligible_action: EXECUTE_AIOS_P1_217_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_ADMISSION
   terminal_p1_215_outcome:
     stopped_at_utc: "2026-08-05T05:13:21Z"
     stop_condition: ANY_FINAL_REVIEWER_TARGET_VERDICT_NON_PASS
@@ -11759,38 +11770,47 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P1-217_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_ADMISSION
+  current_task_status: ACTIVE
   current_task_contract:
-    path: null
-    sha256: null
-    byte_length: null
-  current_task_contract_sha256: null
-  current_execution_authorization: null
-  current_execution_authorization_sha256: null
+    path: docs/aios/tasks/P1-217_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_ADMISSION.yaml
+    sha256: 1b9969765a927ff88bba90c305e16afd2ab7393e115283592a65544e831adaa6
+    byte_length: 10978
+  current_task_contract_sha256: 1b9969765a927ff88bba90c305e16afd2ab7393e115283592a65544e831adaa6
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-1-p1-217/authority/TASK_AUTHORITY.yaml
+  current_execution_authorization_sha256: c823e53acc9222a597387e60a1a6849c6761ec9c3d978b4e4c84fd5e7080470f
   authority_record:
-    path: null
-    sha256: null
-    byte_length: null
-  execution_nonce: null
-  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
-  authorization_id: null
-  activation_parent_commit: null
-  activation_parent_tree: null
-  task_resource_state: NOT_CREATED_ROUTE_READY
-  task_branch: null
-  task_worktree: null
-  execution_evidence_root: null
-  allowlisted_paths: []
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-1-p1-217/authority/TASK_AUTHORITY.yaml
+    sha256: c823e53acc9222a597387e60a1a6849c6761ec9c3d978b4e4c84fd5e7080470f
+    byte_length: 2849
+  execution_nonce: 3d9d741a33531c496fea64b00e50616445d8502c5cb35f93612d2e09cdd3cc96
+  execution_nonce_status: ACTIVE
+  authorization_id: AUTH-P1-217-SINGLE-PROCESS-RAW-EVIDENCE-REPORT-V1
+  activation_parent_commit: 77f91557f1689c8c9fdb768286aa239c05fa7808
+  activation_parent_tree: 6f8b1f9180bc739f3fd7dc29ed46e37f93a38751
+  task_resource_state: ACTIVE_UNIQUE_BRANCH_WORKTREE_EVIDENCE_ROOT
+  task_branch: codex/p1-217-single-process-report
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-217-single-process-report
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-1-p1-217
+  allowlisted_paths:
+    - evaluation-harness/evaluator/p1-217-single-process-report
+    - evaluation-harness/reports/p1-217-single-process-report
+    - scripts/verify-p1-217-single-process-report.sh
+    - docs/aios/tasks/P1-217_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_ADMISSION.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
   budget:
-    engineering_hours: null
-    calendar_days: null
-    implementation_iterations: null
-    candidates: null
+    engineering_hours: 12
+    calendar_days: 3
+    implementation_iterations: 3
+    candidates: 1
   roles:
-    owner: null
-    worker: null
-    independent_reviewers: []
+    owner: P1-217 Engineering Manager
+    worker: P1-217 Report Admission Worker
+    independent_reviewers:
+      - P1-217 Fresh CTO Reviewer
+      - P1-217 Fresh Security Reviewer
+      - P1-217 Fresh Quality Reviewer
   external_effects:
     network: false
     provider: false
@@ -11798,16 +11818,16 @@ active_work:
     remote: false
     production: false
     public: false
-  offsite_target: null
-  founder_reserved_authorization: null
-  founder_reserved_authorization_sha256: null
+  offsite_target: NOT_AUTHORIZED
+  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/founder-phase-gate/FOUNDER_P1_MINIMUM_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1.structured-decision.json
+  founder_reserved_authorization_sha256: 837f2c45424074ee9e93c99a249227ff24aeb84c5504b17d8a31006b6a40746d
   founder_decision_required: false
   founder_decision_required_scope: null
   escalation_reason: null
   user_action_required: NONE
   phase_route_decision_required: false
   phase_route_user_action_required: NONE
-  next_eligible_action: ACTIVATE_AIOS_P1_217_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_ADMISSION
+  next_eligible_action: EXECUTE_AIOS_P1_217_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_ADMISSION
 historical_p1_190_terminal_active_work:
   current_task: NONE
   current_task_status: NONE

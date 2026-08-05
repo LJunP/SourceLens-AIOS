@@ -2,7 +2,7 @@ schema_version: task-contract/v3
 task_id: AIOS-P1-215_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION
 phase: P1
 route_id: P1_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION_AND_STRICT_EXIT_ROUTE_V1
-status: READY
+status: ACTIVE
 objective: >-
   Build a clean-room pure-offline report admission and rebuilder whose caller-owned
   append-only creation journal guarantees identity-bound reverse rollback after any

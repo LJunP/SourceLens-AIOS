@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-05T08:42:54Z"
-verification_scope: P1_218_TERMINAL_FINAL_CTO_TARGET_NON_PASS
+last_verified_at: "2026-08-05T08:49:31Z"
+verification_scope: P1_218_TERMINAL_AND_FOUNDER_KNOWLEDGE_SYNC_IMPORTED
 
 authority:
   founder: Human Founder
@@ -9515,7 +9515,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260805-P1-218-TERMINAL-FINAL-CTO-NON-PASS-V1
+  latest_event_id: FKS-20260805-P1-218-DATASET-MEMBERSHIP-LESSON-IMPORTED-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -11989,6 +11989,33 @@ founder_knowledge_sync:
         byte_length: null
         sha256: null
       event_sha256: 3770c4c9f0548f8b638fe7e2aaced45a31c7580dddbb074b1bbbf4589dce431a
+
+    - event_id: FKS-20260805-P1-218-DATASET-MEMBERSHIP-LESSON-IMPORTED-V1
+      trigger_type: FOUNDER_KNOWLEDGE_ARTIFACT_IMPORTED
+      occurred_at_utc: "2026-08-05T08:49:31Z"
+      source_commit: f0b523ea3f54b3f30b118bf54448f3bfd4c61de6
+      source_tree: b34e35d8df4891dbeef59b6e0775e5121a3f8788
+      previous_event_sha256: 3770c4c9f0548f8b638fe7e2aaced45a31c7580dddbb074b1bbbf4589dce431a
+      status: IMPORTED
+      rationale: The independently reviewed P1-218 learning Artifact records that a self-consistent preregistration is insufficient unless its sample is verified against the exact external dataset manifest. The exact reviewed bytes were imported byte-identically into the Founder Knowledge Vault. This sync preserves the CTO NON_PASS, adds no engineering capability credit, keeps strict P1 at seven of eight and keeps P2 held.
+      engineering_blocking: false
+      artifact:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-2-p1-218/knowledge/P1_218_DATASET_MEMBERSHIP_BINDING_LEARNING_ARTIFACT_CANDIDATE_V1.md
+        byte_length: 3044
+        sha256: 0623f187b739002a8ef3eb4171abec8a968590b2332d0bd340ca97234ff3302d
+      review:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-2-p1-218/knowledge/P1_218_DATASET_MEMBERSHIP_BINDING_KNOWLEDGE_REVIEW_V1.json
+        byte_length: 3449
+        sha256: 300560060ad590bed2ec72f2adf6a7f0d40e3ac625ef3981d3edf95b5d6c1c3a
+      vault_import:
+        path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/05-Failures-and-Lessons/AIOS-P1-218/2026-08-05-P1-218-dataset-membership-binding.md
+        byte_length: 3044
+        sha256: 0623f187b739002a8ef3eb4171abec8a968590b2332d0bd340ca97234ff3302d
+      receipt:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-2-p1-218/knowledge/P1_218_DATASET_MEMBERSHIP_BINDING_KNOWLEDGE_IMPORT_RECEIPT_V1.json
+        byte_length: 1704
+        sha256: 309a74a10e68939c6e17c7de493bc54422665690dddd61c58aa3ccacde26654a
+      event_sha256: 821c7c23dcdec9d766cc9aa5904f61c8c53e460a8cefaeeff920b383e95506aa
 
 historical_active_work_after_p1_079:
   current_task: NONE

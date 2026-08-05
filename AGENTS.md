@@ -27,6 +27,16 @@
 
 继承的旧 SourceLens 工作区只读，不得修改、暂存、stash、reset、clean 或删除。
 
+## 工作区、分支与磁盘卫生（强制执行）
+
+- canonical topology 默认只能保留正式 `main` 和至多一个当前 active Task 的短生命周期 branch/worktree。Task 集成完成或终态停止后，必须在不阻塞下一项真实工程的前提下及时回收对应本地 branch/worktree；不得让历史 Task 分支和 worktree 无期限累积。
+- 每次 Task 激活前、重型 build/matrix 后、Task 终态或集成后以及 Phase Gate 前，必须旁路执行一次轻量卫生审查：检查 `git status`、local branches、`git worktree list`、`.sourcelens-worktrees`、`.sourcelens-audit` 及仓库内生成目录的数量和占用。发现异常增长时在当前执行窗口内处置，不另建治理 Task，不申请逐项 Founder 权限，也不把清理计为工程进度。
+- `.sourcelens-worktrees` 只允许保存当前 Task 的临时开发副本，不是项目核心或长期 Evidence Store。clean 且已集成/终态的历史 worktree和对应本地 branch可直接清理；dirty worktree不得为了清理而伪造提交，必须先制作可校验、内容寻址的精确差异快照或确认已有等价 Evidence，再删除副本。不得自动删除remote branch、tag或改写Git历史。
+- `.sourcelens-audit` 只允许保存需要保留的原始 Evidence、Review、receipt、manifest和恢复快照；禁止长期保存 `target`、`b2-cargo-target`、`node_modules`、`.gradle`、`.m2`、临时编译输出及其他可再生缓存。此类缓存一经识别，必须按“精确清单 → 同卷隔离 → 与风险成比例的验证 → 删除”的单次流程及时清理；验证失败则恢复隔离内容并报告，不得反复清理/恢复形成循环。
+- 清理只能自动作用于明确归属、可再生、非symlink的缓存和临时副本。canonical source、未保存的用户改动、真实 Evidence、Vault、Secret、不可重建Artifact以及范围不明的目录不得自动删除；任何不可逆的重要资产删除仍属于Founder保留事项。
+- 新工程不得把本机绝对 `.sourcelens-audit` 或 `.sourcelens-worktrees` 路径作为产品运行核心。外部Artifact应通过可配置root、稳定Artifact ID、relative path、byte length和SHA-256绑定；历史合同中的绝对路径只作为历史事实保留，不得静默改写。
+- 每次完成实质清理后只生成一份简洁receipt，记录精确目标、清单哈希、释放容量、验证结果、Git clean状态和可恢复性。清理维护不得扩张为Review、correction、successor或治理文档链。
+
 ## Phase 级 Founder Delegation（强制执行）
 
 这是一条执行规则，不是建议。`Master Execution Protocol v1.0` 第 2、5、9 节已经规定 Founder 不管理日常 Worker 工作，Master 只升级 Founder 保留决策；所有 Agent 必须按下列方式落实，不得退回逐文件、逐命令或逐 Task 的 Founder 审批模式。

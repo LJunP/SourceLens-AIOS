@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P1-217_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_ADMISSION
 phase: P1
 route_id: P1_MINIMUM_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_FINAL_CORRECTION_QUALITY_TARGET_NON_PASS
 objective: >-
   Clean-room implement a minimum single-process pure-offline report admission
   and rebuilder that reads only the immutable P1-207 raw Evidence closed
@@ -120,7 +120,7 @@ founder_correction_authorization:
   sha256: ed41ef073cd6d3017284b6c5a8b7b256661b1d2b0bf02df2d0776eadc2dd5664
   byte_length: 3934
   authorization_token: AUTHORIZE_ONE_P1_217_COMPLETE_REPORT_CONTRACT_VERIFICATION_CORRECTION_AND_DIRECT_STRICT_EXIT_CONTINUATION_V1
-  status: ACTIVE_ONE_FINAL_EXACT_CANDIDATE_BOUND_CORRECTION
+  status: CONSUMED_TERMINAL_FRESH_QUALITY_NON_PASS
   canonical_start:
     commit: 23f27f9d1b97ace39f0138dcac41bcc59b903ecf
     tree: bb79948dc124bce3439f8f24d5894668feaf5850
@@ -131,8 +131,8 @@ founder_correction_authorization:
   preserved_quality_non_pass_sha256: 72d4b3870734cb42c0c26b3a800cfddc1f235e498720176c9db8acbdccf1c0ce
   preserved_terminal_receipt_sha256: d476d529cab912ad77eca9a01a248ee9210a717f306d18110d8f6f62e61f1955
   normalized_root_cause: P1217.FINAL_QUALITY.INDEPENDENT_VERIFIER.PARTIAL_REPORT_CONTRACT_VALIDATION
-  correction_commits_remaining: 1
-  corrected_candidates_remaining: 1
+  correction_commits_remaining: 0
+  corrected_candidates_remaining: 0
   second_correction_allowed: false
 goal_identity:
   raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
@@ -247,7 +247,7 @@ claim_boundary: >-
   only. No post-preflight parent-substitution defense, hostile-principal,
   production custody, strong isolation, Provider/model, P2/P3 entry, remote,
   production or public claim.
-terminal_outcome:
+prior_terminal_outcome:
   stopped_at_utc: "2026-08-05T06:15:47Z"
   stop_condition: ANY_FINAL_REVIEWER_TARGET_VERDICT_NON_PASS
   normalized_root_cause: P1217.FINAL_QUALITY.INDEPENDENT_VERIFIER.PARTIAL_REPORT_CONTRACT_VALIDATION
@@ -281,3 +281,61 @@ terminal_outcome:
   p2_status: HOLD_PENDING_STRICT_P1_EXIT
   preserved_as_historical_fact: true
   superseded_for_current_scheduling_only_by_founder_correction: AUTHORIZE_ONE_P1_217_COMPLETE_REPORT_CONTRACT_VERIFICATION_CORRECTION_AND_DIRECT_STRICT_EXIT_CONTINUATION_V1
+terminal_outcome:
+  stopped_at_utc: "2026-08-05T07:29:19Z"
+  status: TERMINAL_FINAL_CORRECTION_QUALITY_TARGET_NON_PASS
+  stop_condition: ANY_FRESH_FINAL_REVIEWER_TARGET_VERDICT_NON_PASS
+  normalized_root_cause: P1217.FINAL_CORRECTION.QUALITY.ALLOWLIST.OUT_OF_SCOPE_REPORT_README
+  corrected_candidate:
+    commit: 14158adeabb70cab59075883961e02a1ac5b631f
+    tree: d5c4c85247141dcb0308add95969991913735ea9
+    manifest:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-1-p1-217/candidate-correction-v1/P1_217_CORRECTED_CANDIDATE_MANIFEST.json
+      sha256: edcdb4021f4df7cc6a5cc8c9b5cec7948d1ae751400a0abfc099f8501ae28361
+      byte_length: 5818
+    tracked_binary_diff_sha256: 921d3e49d781b77ba4d9996dc308b919ded300640fe083d4363d999d52fa1e03
+    recoverable_evidence_tag: evidence/p1-217-complete-report-contract-corrected-v1
+  engineering_verification:
+    target_positive_cases: 1
+    target_negative_cases: 38
+    complete_report_contract_negative_cases: 18
+    quality_independent_field_mutation_cases: 588
+    false_accepts: 0
+    complete_report_contract_root_cause_closed: true
+    taxonomy:
+      denominator: 36
+      successful: 0
+      failed: 28
+      invalid: 8
+      excluded: 0
+  final_reviews:
+    cto:
+      target_verdict: PASS
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-1-p1-217/reviews/final-correction-cycle-1/CTO_REVIEW.json
+      sha256: 580c9b29b78ed472dfc23e000aad15d01ec155883933042c52d8d1ac6a115444
+      byte_length: 4617
+    security:
+      target_verdict: PASS
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-1-p1-217/reviews/final-correction-cycle-1/SECURITY_REVIEW.json
+      sha256: 1b9a48bd6584a81c84eeb41de952aa57f417db723caf1647bed069905104eaba
+      byte_length: 4881
+    quality:
+      target_verdict: NON_PASS
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-1-p1-217/reviews/final-correction-cycle-1/QUALITY_REVIEW.json
+      sha256: 3ac0d51e86c0d74e6fe13e1372bbc345e552f16b9bc220b177e89cc5ecff9726
+      byte_length: 4068
+      blocking_finding: evaluation-harness/reports/p1-217-single-process-report/README.md was outside the exact Founder packet allowlist.
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-1-p1-217/terminal/P1_217_TERMINAL_FINAL_CORRECTION_QUALITY_TARGET_NON_PASS_RECEIPT.json
+    sha256: a9e3b6e678ff49e6aed42edf7db00969c8cf361a4c43bd0df7a48ecbd2d0bfaa
+    byte_length: 4547
+  candidate_integrated: false
+  canonical_make_verify: NOT_INVOKED_FINAL_REVIEW_STOP_CONDITION
+  immutable_p1_207_formal_evidence_modified: false
+  provider_requests: 0
+  secret_reads: 0
+  capability_credit: 0
+  reproducible_baseline_report_status: MISSING
+  p1_218_status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS_ROUTE_TERMINAL
+  strict_p1_completion: 6_OF_8_75_PERCENT
+  p2_status: HOLD_PENDING_STRICT_P1_EXIT

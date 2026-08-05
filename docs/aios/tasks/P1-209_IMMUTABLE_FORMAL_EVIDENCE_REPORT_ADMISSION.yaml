@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P1-209_IMMUTABLE_FORMAL_EVIDENCE_REPORT_ADMISSION
 phase: P1
 route_id: P1_IMMUTABLE_FORMAL_EVIDENCE_REPORT_ADMISSION_AND_STRICT_EXIT_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
 objective: >-
   Build a fresh pure-offline deterministic evaluator and report rebuilder that
   independently admits the exact immutable P1-207 formal raw Evidence, produces
@@ -155,3 +155,41 @@ next_task_on_full_gate_pass: AIOS-P1-210_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
 capability_credit_on_full_gate_pass:
   REPRODUCIBLE_BASELINE_REPORT: ACCEPTED
   strict_p1_completion: 7_OF_8_87_5_PERCENT
+terminal_outcome:
+  status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+  stopped_at_utc: '2026-08-05T01:12:27Z'
+  stop_condition: ANY_FRESH_FINAL_REVIEWER_TARGET_VERDICT_NON_PASS
+  candidate:
+    commit: 787c05eb150db42d531a70178017bff466321a01
+    tree: b743a35f7b089575e2a2a3ecb4e0ea049a870b18
+    manifest:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-immutable-formal-evidence-report-admission-strict-exit-20260805/task-1-p1-209/candidate/CANDIDATE_MANIFEST.json
+      sha256: 9737fdaae78137f605e8abc960e2e272a65f586e8834fed36a54e33111991abe
+      byte_length: 5481
+    recoverable_evidence_tag: evidence/p1-209-final-review-non-pass-v1
+    integrated: false
+  reviews:
+    cto:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-immutable-formal-evidence-report-admission-strict-exit-20260805/task-1-p1-209/reviews/final-cycle-1/CTO_REVIEW.json
+      sha256: 36888c031aeebbb7977ad75b9e3d8d31db8fe20963f2da48f5b6683b86964c96
+      byte_length: 8739
+      target_verdict: NON_PASS
+    security:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-immutable-formal-evidence-report-admission-strict-exit-20260805/task-1-p1-209/reviews/final-cycle-1/SECURITY_REVIEW.json
+      sha256: 5e5bd0449ef5add677eee5b3cbde178dba815e5ccc7bc92eee8b7a2d724ed064
+      byte_length: 11372
+      target_verdict: NON_PASS
+    quality:
+      status: INTERRUPTED_AFTER_CTO_AND_SECURITY_STOP_CONDITION
+  normalized_root_causes:
+    - P1209.FINAL.SECURITY.OUTPUT_ROOT_DESCENDANT_MUTATES_IMMUTABLE_INPUT
+    - P1209.FINAL.SECURITY.INPUT_ROOT_ANCESTOR_SYMLINK_NOT_REJECTED
+    - P1209.FINAL.CTO.CANDIDATE_MANIFEST_NEGATIVE_TEST_COUNT_MISSTATED
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-immutable-formal-evidence-report-admission-strict-exit-20260805/task-1-p1-209/terminal/TERMINAL_RECEIPT.json
+    sha256: b53ee92a49ad70d3092c77b0052391d2054baceef358477c69dac33e1602b2f4
+    byte_length: 4757
+  capability_credit: 0
+  strict_p1_completion: 6_OF_8_75_PERCENT
+  next_task_status: BLOCKED_PREDECESSOR_TASK_GATE
+  next_eligible_action: FOUNDER_P1_PHASE_GATE

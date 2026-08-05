@@ -5951,6 +5951,10 @@ current_phase_route:
     second_correction_allowed: false
     formal_matrix_rerun_allowed: false
   inherited_worktree_inventory:
+  - path: "/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-211-physical-topology-bound-admission"
+    head: 067a82c1635119585ee2c9267dc8d94a10ce49c1
+    branch: codex/p1-211-physical-topology-bound-admission
+    status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
   - path: "/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-209-immutable-formal-evidence-admission"
     head: 787c05eb150db42d531a70178017bff466321a01
     branch: codex/p1-209-immutable-formal-evidence-admission

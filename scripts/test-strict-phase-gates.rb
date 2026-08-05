@@ -52,6 +52,13 @@ begin
     permitted_symbols: [],
     aliases: false
   )
+  # This matrix exercises the P1 -> P2 boundary even after canonical execution
+  # has entered P2. Isolate that lifecycle from the live Phase and active Task
+  # instead of implicitly assuming canonical current_phase == P1.
+  truth.fetch("project")["current_phase"] = "P1"
+  truth.fetch("current_phase_route")["phase"] = "P1"
+  truth.fetch("goal")["current_task_authority"] = "NONE"
+  truth.fetch("active_work")["current_task"] = "NONE"
   commit, commit_stderr, commit_status = Open3.capture3("git", "-C", ROOT, "rev-parse", "HEAD")
   raise commit_stderr unless commit_status.success?
   commit = commit.strip

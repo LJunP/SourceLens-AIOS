@@ -37,6 +37,7 @@ allowlisted_paths:
   - analyzer-rust/tests/p2_graph_kernel.rs
   - analyzer-rust/tests/fixtures/p2-011
   - scripts/verify-p2-011-canonical-scan-graph-kernel.sh
+  - scripts/test-strict-phase-gates.rb
   - scripts/verify-all.sh
   - Makefile
   - docs/aios/tasks/P2-011_CLEAN_ROOM_CANONICAL_SCAN_GRAPH_INDEX_KERNEL.yaml
@@ -49,6 +50,7 @@ write_scope:
     - analyzer-rust/tests/fixtures/p2-011
   integration:
     - scripts/verify-p2-011-canonical-scan-graph-kernel.sh
+    - scripts/test-strict-phase-gates.rb
     - scripts/verify-all.sh
     - Makefile
     - docs/aios/tasks/P2-011_CLEAN_ROOM_CANONICAL_SCAN_GRAPH_INDEX_KERNEL.yaml

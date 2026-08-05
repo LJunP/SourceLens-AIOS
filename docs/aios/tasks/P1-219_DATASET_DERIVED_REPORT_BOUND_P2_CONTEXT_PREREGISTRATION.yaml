@@ -1,0 +1,191 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P1-219_DATASET_DERIVED_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+phase: P1
+route_id: P1_DATASET_DERIVED_PREREGISTRATION_AND_STRICT_EXIT_ROUTE_V1
+status: READY
+objective: >-
+  Generate and independently verify one report-bound P2 context-engine
+  preregistration whose complete ordered sample is derived directly from the
+  exact canonical P1-035 dataset manifest, without executing P2 or releasing
+  the P2 hold.
+why_now: >-
+  P2_CONTEXT_ENGINE_PREREGISTRATION is the only missing strict P1 Exit item.
+  P1-217 already accepted the immutable baseline report, while P1-218 proved
+  that self-consistent handwritten sample identities are insufficient. This
+  Task closes that exact external-truth-binding gap from accepted inputs only.
+task_spec_ref: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/founder-phase-gate-draft/FOUNDER_P1_DATASET_DERIVED_PREREGISTRATION_STRICT_EXIT_ROUTE_SCHEMA_COMPATIBLE_EXECUTION_PROJECTION_V1.md
+owner_role: P1-219 Engineering Manager
+worker_role: P1-219 Preregistration Worker
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: P1_EXIT_GATE_AFTER_TASK_ACCEPTANCE
+risk_level: high
+budget:
+  engineering_hours: 8
+  calendar_days: 2
+  implementation_iterations: 3
+  candidates: 1
+roles:
+  owner: P1-219 Engineering Manager
+  worker: P1-219 Preregistration Worker
+  independent_reviewers:
+    - P1-219 Fresh CTO Reviewer
+    - P1-219 Fresh Security Reviewer
+    - P1-219 Fresh Quality Reviewer
+allowlisted_paths:
+  - evaluation-harness/evaluator/p1-219-dataset-derived-preregistration
+  - evaluation-harness/reports/p1-219-dataset-derived-preregistration
+  - scripts/verify-p1-219-dataset-derived-preregistration.sh
+  - docs/aios/tasks/P1-219_DATASET_DERIVED_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+write_scope:
+  worker:
+    - evaluation-harness/reports/p1-219-dataset-derived-preregistration
+  quality:
+    - evaluation-harness/evaluator/p1-219-dataset-derived-preregistration
+  integration:
+    - scripts/verify-p1-219-dataset-derived-preregistration.sh
+    - docs/aios/tasks/P1-219_DATASET_DERIVED_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - exact accepted P1-217 report only
+  - exact canonical P1-035 dataset manifest only
+dependencies:
+  - AIOS-P1-217_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_ADMISSION
+  - AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+historical_isolation:
+  p1_218_status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
+  p1_218_root_cause: P1218.FINAL_CTO.SAMPLE.IDENTITY_NOT_BOUND_TO_EXACT_DATASET_MEMBERSHIP
+  p1_218_rejected_source_candidate_fixture_test_verifier_or_artifact_read_restore_compare_copy_or_reuse_allowed: false
+accepted_report:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-1-p1-217/correction-evidence-v1/report-output/REPRODUCIBLE_BASELINE_REPORT.json
+  byte_length: 12815
+  sha256: 27abd4d655b9eabd13f29bb15f84edc97b7b3d884daefe837e49846ba64a6657
+  acceptance_commit: 630ddcf4659daca287825bb8e2382deaa962606c
+  acceptance_tree: d5c4c85247141dcb0308add95969991913735ea9
+dataset_manifest:
+  path: evaluation-harness/datasets/p1-representative-task-dataset-v1/dataset-manifest.json
+  byte_length: 15313
+  sha256: 22f252319ed066655b05142a391709741703e01fbb4d6b5ebfbbcb6acd782be6
+  accepted_task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+sample_derivation:
+  authority: EXACT_DATASET_MANIFEST_TASKS_ARRAY
+  ordered: true
+  complete: true
+  unique: true
+  handwritten_task_id_constants_as_authority_allowed: false
+  artifact_self_report_as_oracle_allowed: false
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+founder_reserved_profile: null
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/founder-phase-gate-draft/FOUNDER_P1_DATASET_DERIVED_PREREGISTRATION_STRICT_EXIT_ROUTE_SCHEMA_COMPATIBLE_EXECUTION_PROJECTION_V1.md
+  sha256: ccbe2c0e72c1d9d108ed8774de01298df4ed1af67446a4f2b2f4711cbb338efe
+  byte_length: 2967
+  authorization_token: AUTHORIZE_P1_DATASET_DERIVED_PREREGISTRATION_AND_STRICT_EXIT_ROUTE_V1
+source_founder_packet:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/founder-phase-gate-draft/FOUNDER_P1_DATASET_DERIVED_PREREGISTRATION_STRICT_EXIT_ROUTE_V1.md
+  sha256: 6beee126ee4338f46330970e247641ef8f72038b5dcd8a21f8535d19caf880b7
+  byte_length: 4951
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+architecture_constraints:
+  - Validate exact accepted report and dataset identities before creating any Artifact.
+  - Derive the complete ordered unique sample directly from dataset_manifest.tasks.
+  - Bind the preregistration to the accepted report path, SHA-256, acceptance commit and acceptance tree.
+  - Freeze the future P2 hypothesis, primary metric, baseline, sample, exclusion rules, uncertainty method and Stop Conditions.
+  - Independent verification must reread both external authorities and independently derive expected sample membership and order.
+  - Do not execute a P2 experiment, release the P2 hold or create a P2 Task.
+  - Do not build an authority, parser, validator or Evidence-platform prerequisite.
+quality_freeze:
+  positive_matrix:
+    - Exact accepted P1-217 report identity passes before output creation.
+    - Exact canonical P1-035 dataset manifest identity passes before output creation.
+    - Generated sample exactly equals the complete ordered unique dataset tasks array.
+    - Independent verifier derives the same sample without trusting Artifact sample declarations.
+    - Preregistration binds report path, byte length, SHA-256, acceptance commit and acceptance tree.
+    - Hypothesis, primary metric, baseline, sample, exclusions, uncertainty and Stop Conditions are complete and closed.
+    - P2 remains HOLD and no P2 experiment is executed.
+  negative_matrix:
+    - sample missing member
+    - sample extra member
+    - sample member substitution
+    - sample reorder
+    - sample duplicate
+    - cross-dataset binding
+    - dataset path drift
+    - dataset byte-length drift
+    - dataset SHA-256 drift
+    - dataset type drift
+    - dataset symlink
+    - report path drift
+    - report byte-length drift
+    - report SHA-256 drift
+    - report type drift
+    - report symlink
+    - report acceptance commit drift
+    - report acceptance tree drift
+    - self-consistent Artifact with external dataset mismatch
+    - missing mandatory preregistration field
+    - extra top-level preregistration field
+    - P2 execution or HOLD-release claim
+  required_counts:
+    positive_cases: 1
+    false_accepts: 0
+    provider_requests: 0
+    secret_reads: 0
+acceptance_criteria:
+  - Both exact input identities match before Artifact creation.
+  - The Artifact sample equals the complete ordered unique canonical dataset set.
+  - The independent verifier re-derives sample membership and order from the exact dataset manifest.
+  - The Artifact binds the exact accepted report path, byte length, SHA-256, acceptance commit and acceptance tree.
+  - All required future P2 research fields are frozen without executing P2.
+  - All negative cases reject and false accepts equal zero.
+  - Provider requests, Secret reads and all six external effects equal zero.
+  - One exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS on the same bytes.
+  - Reviewed tree equals integrated canonical tree and exactly one canonical make verify passes after integration.
+required_evidence:
+  - Exact Founder source packet and schema-compatible execution projection identities.
+  - Exact Goal, activation parent, Contract and Task authority identities.
+  - Input identity preflight receipt.
+  - Generated preregistration Artifact and independent verification receipt.
+  - Positive and negative matrix receipt with zero false accepts and external effects.
+  - Exact candidate commit, tree, diff/hash manifest and recoverable Evidence tag.
+  - Fresh CTO, Security and Quality reviews of the same candidate and Evidence bytes.
+rollback:
+  strategy: OWNED_OUTPUT_REMOVAL_BEFORE_FREEZE_AND_NON_DESTRUCTIVE_GIT_REVERT_AFTER_CANONICAL_INTEGRATION
+  forbidden:
+    - git reset
+    - git clean
+    - destructive history rewrite
+stop_conditions:
+  - Canonical activation parent, Goal, Founder packet, Contract, accepted report or dataset identity drifts.
+  - Any P1-218 rejected engineering asset is required or accessed.
+  - A required write exceeds this Contract or an external effect is required.
+  - The same normalized root cause repeats in adjacent iterations or two pre-freeze repairs are exhausted.
+  - Any final Reviewer, reviewed/integrated equality check or canonical make verify returns NONPASS.
+  - P2 execution, P2 HOLD release, P3 entry or Phase/Exit Gate change is required.
+knowledge_sync:
+  mode: EVENT_DRIVEN_NON_BLOCKING
+  task_accept_or_terminal_event_required: true
+  capability_credit_before_full_gate: 0
+claim_boundary: >-
+  Exact accepted-report and canonical-dataset-bound offline preregistration only.
+  No P2 experiment or entry, no P2 HOLD release, no Provider, Secret, network,
+  remote, production, public, hostile-principal or production-readiness claim.

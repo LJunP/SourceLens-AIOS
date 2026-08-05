@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P2-011_CLEAN_ROOM_CANONICAL_SCAN_GRAPH_INDEX_KERNEL
 phase: P2
 route_id: P2_STRICT_PHASE_ENTRY_ATOMIC_HISTORICAL_WORKTREE_RECONCILIATION_AND_REPOSITORY_INTELLIGENCE_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
 objective: >-
   Build a clean-room, deterministic and executable repository graph kernel from
   exact canonical scanner output, with repository-root-independent symbol
@@ -178,6 +178,42 @@ stop_conditions:
 knowledge_sync:
   mode: EVENT_DRIVEN_NON_BLOCKING
   task_accept_or_terminal_event_required: true
+  capability_credit: 0
+terminal_outcome:
+  stopped_at_utc: "2026-08-05T17:50:10Z"
+  stop_condition: ANY_FINAL_REVIEWER_TARGET_VERDICT_NON_PASS
+  normalized_root_cause: P2011.FINAL.REAL_SCANNER_CONTRACT_AND_IDENTITY_FALSE_ACCEPTS
+  candidate_commit: 0f2bd729729a250288e5625785180163abc3f53b
+  candidate_tree: 8aa9c835c1a32cf54f0335fe728721f90f74aba5
+  candidate_manifest:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-strict-entry-repository-intelligence-20260806/task-1-p2-011/candidate-v1/P2_011_CANDIDATE_MANIFEST.json
+    byte_length: 3494
+    sha256: 6a14430e7413904c2e59c85eef7e9e99ffe1d1f8f24cd415338b0bd0c7489c5d
+  final_reviews:
+    cto:
+      target_verdict: NON_PASS
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-strict-entry-repository-intelligence-20260806/task-1-p2-011/reviews/final-cycle-1/CTO_REVIEW.json
+      byte_length: 2033
+      sha256: 9a368c28e8cf1b47b83bcec46a360d5b0e976af3061e100c86755d86be953d63
+    security:
+      target_verdict: NON_PASS
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-strict-entry-repository-intelligence-20260806/task-1-p2-011/reviews/final-cycle-1/SECURITY_REVIEW.json
+      byte_length: 2687
+      sha256: bf03a80926c1c86cd40dfd86ffa8eae11d6a1ba13f003c593f1f8ca6632331c0
+    quality:
+      target_verdict: NON_PASS
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-strict-entry-repository-intelligence-20260806/task-1-p2-011/reviews/final-cycle-1/QUALITY_REVIEW.json
+      byte_length: 2046
+      sha256: ca0862cd974d15999d6dadf362ae91f7cf9eeafa30ddeae148c2abb2f58bc26c
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-strict-entry-repository-intelligence-20260806/task-1-p2-011/terminal/P2_011_TERMINAL_RECEIPT.json
+    byte_length: 3406
+    sha256: e205e6fcf86e10aeeccc37aebd8cb6f950dcf6e0eb0650c82d84f5f04052a630
+  candidate_integrated: false
+  canonical_make_verify: NOT_INVOKED_FINAL_REVIEW_STOP_CONDITION
+  capability_credit: 0
+  p2_012_status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS_ROUTE_TERMINAL
+  preserved_as_historical_evidence: true
   capability_credit_before_full_gate: 0
 claim_boundary: >-
   Offline canonical repository graph-kernel engineering only. No rejected P2

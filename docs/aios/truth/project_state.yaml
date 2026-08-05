@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-05T17:22:58Z"
-verification_scope: P2_STRICT_PHASE_ENTRY_AND_P2_011_ACTIVE
+last_verified_at: "2026-08-05T17:50:10Z"
+verification_scope: P2_011_TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
 
 authority:
   founder: Human Founder
@@ -37,8 +37,21 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: AIOS-P2-011_CLEAN_ROOM_CANONICAL_SCAN_GRAPH_INDEX_KERNEL
+  current_task_authority: NONE
   note: >-
+    P2-011 froze one exact nine-path graph-kernel candidate after its local
+    targeted matrix reported Java, TypeScript and Rust coverage, five passing
+    tests and zero false accepts. Fresh CTO, Security and Quality Reviews all
+    returned TARGET_VERDICT NON_PASS on the same exact commit/tree. Independent
+    real-scanner and negative checks proved incompatible relation semantics,
+    repository-root leakage through symbol metadata, fabricated invocation and
+    output-directory identity false accepts, ancestor-symlink acceptance, and
+    hard-coded zero-false-accept receipts. The candidate was not integrated,
+    canonical make verify was not run, no P2 capability credit was awarded and
+    P2-012 was not started. The authorized Route is terminal at the Founder P2
+    Phase Gate without a correction, successor or replacement. All paragraphs
+    below this sentence are retained historical chronology only and have no
+    current Task, Route or scheduling authority.
     Founder authorized strict P2 Phase Entry after exact P1 8/8 completion and
     Founder Exit Gate PASS. P2-011 is the unique active clean-room engineering
     Task on the repository-intelligence critical path. The new P2 route carries
@@ -1097,9 +1110,9 @@ project:
   p1_execution_status: COMPLETE_STRICT_8_OF_8_100_PERCENT
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
-  p2_execution_status: ACTIVE
-  phase_execution_status: ACTIVE
-  current_route_execution_status: ACTIVE_TASK
+  p2_execution_status: STOPPED_AT_FOUNDER_P2_PHASE_GATE
+  phase_execution_status: STOPPED_AT_FOUNDER_P2_PHASE_GATE
+  current_route_execution_status: TERMINAL_TASK_1_FINAL_REVIEW_TARGET_NON_PASS
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -5846,11 +5859,11 @@ historical_p1_162_phase_route:
 current_phase_route:
   schema_version: "1.1"
   route_id: P2_STRICT_PHASE_ENTRY_ATOMIC_HISTORICAL_WORKTREE_RECONCILIATION_AND_REPOSITORY_INTELLIGENCE_ROUTE_V1
-  status: ACTIVE
-  authority_object_status: PHASE_DELEGATED_TASK_AUTHORITY_ACTIVE
-  execution_status: ACTIVE_TASK
-  founder_phase_route_decision_required: false
-  scheduling_status: ACTIVE_TASK
+  status: TERMINAL_TASK_1_FINAL_REVIEW_TARGET_NON_PASS
+  authority_object_status: TERMINAL_NO_ACTIVE_TASK
+  execution_status: TERMINAL_TASK_1_FINAL_REVIEW_TARGET_NON_PASS
+  founder_phase_route_decision_required: true
+  scheduling_status: STOPPED_AT_FOUNDER_P2_PHASE_GATE
   phase: P2
   phase_entry_status: AUTHORIZED
   authorization_token: AUTHORIZE_P2_STRICT_PHASE_ENTRY_ATOMIC_HISTORICAL_WORKTREE_RECONCILIATION_AND_REPOSITORY_INTELLIGENCE_ROUTE_V1
@@ -5952,7 +5965,7 @@ current_phase_route:
   first_task:
     task_slot: 1
     task_id: AIOS-P2-011_CLEAN_ROOM_CANONICAL_SCAN_GRAPH_INDEX_KERNEL
-    status: ACTIVE
+    status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
     engineering_hours: 24
     calendar_days: 6
     max_engineering_hours: 24
@@ -5968,13 +5981,13 @@ current_phase_route:
       production: false
       public: false
     contract_path: docs/aios/tasks/P2-011_CLEAN_ROOM_CANONICAL_SCAN_GRAPH_INDEX_KERNEL.yaml
-    contract_sha256: 0cfa55d76f386366560aa1e73ca01aeaad4f70ebbbccdfec74ca0e642d8216ad
-    contract_byte_length: 8895
+    contract_sha256: b230f1dbeddc5cbb6dd997310ed781a39b56ec2d0b3809f82fa788716f585076
+    contract_byte_length: 11004
     p2_capability_claim_on_pass: CANONICAL_SCAN_GRAPH_INDEX_KERNEL
   task_plan:
     - task_slot: 1
       task_id: AIOS-P2-011_CLEAN_ROOM_CANONICAL_SCAN_GRAPH_INDEX_KERNEL
-      status: ACTIVE
+      status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
       engineering_hours: 24
       calendar_days: 6
       max_implementation_iterations: 4
@@ -5989,7 +6002,7 @@ current_phase_route:
         public: false
     - task_slot: 2
       task_id: AIOS-P2-012_GRAPH_CONDITIONED_CONTEXT_SELECTION_BENCHMARK
-      status: PENDING_PREDECESSOR_TASK_GATE
+      status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS_ROUTE_TERMINAL
       engineering_hours: 16
       calendar_days: 4
       max_implementation_iterations: 4
@@ -6012,7 +6025,7 @@ current_phase_route:
       requires_task_gate_pass: true
   additional_write_roots: []
   inherited_worktree_inventory: []
-  next_eligible_action: COMPLETE_P2_011_TASK_GATE
+  next_eligible_action: FOUNDER_P2_PHASE_GATE
 
 historical_p1_exit_phase_route:
   route_id: P1_DATASET_DERIVED_PREREGISTRATION_AND_STRICT_EXIT_ROUTE_V1
@@ -9751,7 +9764,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260806-P2-PHASE-ENTRY-AND-P2-011-ACTIVATION-V1
+  latest_event_id: FKS-20260806-P2-011-TERMINAL-FINAL-REVIEW-NON-PASS-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -12425,6 +12438,39 @@ founder_knowledge_sync:
         sha256: null
       event_sha256: ce2ddd7ff82d05230f0f3f66bc4d381169e66582800b5284ebec6ef03cada35e
 
+    - event_id: FKS-20260806-P2-011-TERMINAL-FINAL-REVIEW-NON-PASS-V1
+      trigger_type: TASK_TERMINAL_STOP_CONDITION
+      occurred_at_utc: "2026-08-05T17:50:10Z"
+      source_commit: 58a8b4c160fc4a54b15ecfa4e886d9650938e5c6
+      source_tree: 5ffad7fbf6ab4d31298808cab4c28c3eaa89fc24
+      previous_event_sha256: ce2ddd7ff82d05230f0f3f66bc4d381169e66582800b5284ebec6ef03cada35e
+      status: PENDING_CANDIDATE
+      rationale: >-
+        P2-011 froze one exact graph-kernel candidate and its local targeted
+        matrix passed, but fresh CTO, Security and Quality Reviews independently
+        reproduced real-scanner contract incompatibility and identity false
+        accepts. The candidate was not integrated, P2-012 was not started and
+        the Route stopped at the Founder P2 Phase Gate. A concise reusable
+        learning artifact is pending and remains non-blocking.
+      engineering_blocking: false
+      artifact:
+        path: null
+        byte_length: null
+        sha256: null
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+      event_sha256: 92bcd166c262e1ed69774de561120482c10dd902ad8468c10de2615a86ba852d
+
 historical_active_work_after_p1_079:
   current_task: NONE
   current_task_status: NONE
@@ -12476,51 +12522,38 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
-  current_task: AIOS-P2-011_CLEAN_ROOM_CANONICAL_SCAN_GRAPH_INDEX_KERNEL
-  current_task_status: ACTIVE
+  current_task: NONE
+  current_task_status: NONE
   current_task_contract:
-    path: docs/aios/tasks/P2-011_CLEAN_ROOM_CANONICAL_SCAN_GRAPH_INDEX_KERNEL.yaml
-    sha256: 0cfa55d76f386366560aa1e73ca01aeaad4f70ebbbccdfec74ca0e642d8216ad
-    byte_length: 8895
-  current_task_contract_sha256: 0cfa55d76f386366560aa1e73ca01aeaad4f70ebbbccdfec74ca0e642d8216ad
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-strict-entry-repository-intelligence-20260806/task-1-p2-011/authority/P2_011_TASK_AUTHORITY.json
-  current_execution_authorization_sha256: f3bbfc71ddec5c22840c0b95ea9a5107dd1b7b8700bae2afa53af95eea28cbb6
+    path: null
+    sha256: null
+    byte_length: null
+  current_task_contract_sha256: null
+  current_execution_authorization: null
+  current_execution_authorization_sha256: null
   authority_record:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-strict-entry-repository-intelligence-20260806/task-1-p2-011/authority/P2_011_TASK_AUTHORITY.json
-    sha256: f3bbfc71ddec5c22840c0b95ea9a5107dd1b7b8700bae2afa53af95eea28cbb6
-    byte_length: 2813
-  execution_nonce: c502f0678ec404c677d07d5d982ce195
-  execution_nonce_status: ACTIVE
-  authorization_id: AIOS-P2-011-PHASE-DELEGATED-AUTHORITY-V1
-  activation_parent_commit: 293f54e469737c240a393db4dbdeea6d808efab2
-  activation_parent_tree: 017219320cdc17832a3553d9b401ebda9e8005c0
-  task_resource_state: CREATED_ACTIVE
-  task_branch: codex/p2-011-canonical-scan-graph-kernel
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P2-011-canonical-scan-graph-kernel
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-strict-entry-repository-intelligence-20260806/task-1-p2-011/evidence
-  allowlisted_paths:
-    - analyzer-rust/src/bin/sourcelens-graph.rs
-    - analyzer-rust/tests/p2_graph_kernel.rs
-    - analyzer-rust/tests/fixtures/p2-011
-    - scripts/verify-p2-011-canonical-scan-graph-kernel.sh
-    - scripts/test-strict-phase-gates.rb
-    - scripts/verify-all.sh
-    - Makefile
-    - docs/aios/tasks/P2-011_CLEAN_ROOM_CANONICAL_SCAN_GRAPH_INDEX_KERNEL.yaml
-    - docs/aios/truth/project_state.yaml
-    - docs/PROJECT_CODE_MAP.md
+    path: null
+    sha256: null
+    byte_length: null
+  execution_nonce: null
+  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
+  authorization_id: null
+  activation_parent_commit: null
+  activation_parent_tree: null
+  task_resource_state: NONE_ROUTE_TERMINAL
+  task_branch: null
+  task_worktree: null
+  execution_evidence_root: null
+  allowlisted_paths: []
   budget:
-    engineering_hours: 24
-    calendar_days: 6
-    implementation_iterations: 4
-    candidates: 1
+    engineering_hours: null
+    calendar_days: null
+    implementation_iterations: null
+    candidates: null
   roles:
-    owner: P2-011 Engineering Manager
-    worker: P2-011 Graph Kernel Worker
-    independent_reviewers:
-      - P2-011 Fresh CTO Reviewer
-      - P2-011 Fresh Security Reviewer
-      - P2-011 Fresh Quality Reviewer
+    owner: null
+    worker: null
+    independent_reviewers: []
   external_effects:
     network: false
     provider: false
@@ -12529,15 +12562,15 @@ active_work:
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-strict-entry-repository-intelligence-20260806/decision/FOUNDER_P2_STRICT_PHASE_ROUTE_DECISION_V1.json
-  founder_reserved_authorization_sha256: 21049b260817ef9f92c94b43525340222b9bc690ce032dfb1afae4a8e6cafbbe
-  founder_decision_required: false
-  founder_decision_required_scope: null
-  escalation_reason: null
-  user_action_required: NONE
-  phase_route_decision_required: false
-  phase_route_user_action_required: NONE
-  next_eligible_action: COMPLETE_P2_011_TASK_GATE
+  founder_reserved_authorization: null
+  founder_reserved_authorization_sha256: null
+  founder_decision_required: true
+  founder_decision_required_scope: P2_PHASE_GATE_AFTER_P2_011_TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+  escalation_reason: P2011_FINAL_REAL_SCANNER_CONTRACT_AND_IDENTITY_FALSE_ACCEPTS
+  user_action_required: FOUNDER_P2_PHASE_GATE_DECISION
+  phase_route_decision_required: true
+  phase_route_user_action_required: FOUNDER_P2_PHASE_GATE_DECISION
+  next_eligible_action: FOUNDER_P2_PHASE_GATE
 historical_p1_190_terminal_active_work:
   current_task: NONE
   current_task_status: NONE
@@ -12589,6 +12622,51 @@ historical_p1_190_terminal_active_work:
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 task_history:
+  aios_p2_011:
+    task_id: AIOS-P2-011_CLEAN_ROOM_CANONICAL_SCAN_GRAPH_INDEX_KERNEL
+    route_id: P2_STRICT_PHASE_ENTRY_ATOMIC_HISTORICAL_WORKTREE_RECONCILIATION_AND_REPOSITORY_INTELLIGENCE_ROUTE_V1
+    status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+    classification: TERMINAL_EXACT_CANDIDATE_REAL_SCANNER_CONTRACT_AND_IDENTITY_FALSE_ACCEPTS
+    contract: docs/aios/tasks/P2-011_CLEAN_ROOM_CANONICAL_SCAN_GRAPH_INDEX_KERNEL.yaml
+    terminal_contract_sha256: b230f1dbeddc5cbb6dd997310ed781a39b56ec2d0b3809f82fa788716f585076
+    terminal_contract_byte_length: 11004
+    authority_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-strict-entry-repository-intelligence-20260806/task-1-p2-011/authority/P2_011_TASK_AUTHORITY.json
+    authority_record_sha256: f3bbfc71ddec5c22840c0b95ea9a5107dd1b7b8700bae2afa53af95eea28cbb6
+    authority_record_byte_length: 2813
+    implementation_branch: codex/p2-011-canonical-scan-graph-kernel
+    implementation_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P2-011-canonical-scan-graph-kernel
+    candidate_commit: 0f2bd729729a250288e5625785180163abc3f53b
+    candidate_tree: 8aa9c835c1a32cf54f0335fe728721f90f74aba5
+    task_worktree_clean: true
+    candidate_manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-strict-entry-repository-intelligence-20260806/task-1-p2-011/candidate-v1/P2_011_CANDIDATE_MANIFEST.json
+    candidate_manifest_sha256: 6a14430e7413904c2e59c85eef7e9e99ffe1d1f8f24cd415338b0bd0c7489c5d
+    candidate_manifest_byte_length: 3494
+    tracked_binary_diff_sha256: 7ba0af2b23da04a616560597763a25221d421fdd6c19adefa3f2bc7c8ad83a4f
+    recoverable_evidence_tag: evidence/p2-011-canonical-scan-graph-kernel-v1
+    targeted_verification_status: PASS_BEFORE_INDEPENDENT_FALSE_ACCEPT_CHECKS
+    targeted_tests_passed: 5
+    targeted_tests_failed: 0
+    targeted_reported_false_accepts: 0
+    cto_target_verdict: NON_PASS
+    cto_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-strict-entry-repository-intelligence-20260806/task-1-p2-011/reviews/final-cycle-1/CTO_REVIEW.json
+    cto_review_sha256: 9a368c28e8cf1b47b83bcec46a360d5b0e976af3061e100c86755d86be953d63
+    cto_review_byte_length: 2033
+    security_target_verdict: NON_PASS
+    security_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-strict-entry-repository-intelligence-20260806/task-1-p2-011/reviews/final-cycle-1/SECURITY_REVIEW.json
+    security_review_sha256: bf03a80926c1c86cd40dfd86ffa8eae11d6a1ba13f003c593f1f8ca6632331c0
+    security_review_byte_length: 2687
+    quality_target_verdict: NON_PASS
+    quality_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-strict-entry-repository-intelligence-20260806/task-1-p2-011/reviews/final-cycle-1/QUALITY_REVIEW.json
+    quality_review_sha256: ca0862cd974d15999d6dadf362ae91f7cf9eeafa30ddeae148c2abb2f58bc26c
+    quality_review_byte_length: 2046
+    normalized_root_cause: P2011.FINAL.REAL_SCANNER_CONTRACT_AND_IDENTITY_FALSE_ACCEPTS
+    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-strict-entry-repository-intelligence-20260806/task-1-p2-011/terminal/P2_011_TERMINAL_RECEIPT.json
+    terminal_receipt_sha256: e205e6fcf86e10aeeccc37aebd8cb6f950dcf6e0eb0650c82d84f5f04052a630
+    terminal_receipt_byte_length: 3406
+    candidate_integrated: false
+    canonical_make_verify: NOT_INVOKED_FINAL_REVIEW_STOP_CONDITION
+    capability_credit: 0
+    p2_012_status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS_ROUTE_TERMINAL
   aios_p1_218:
     task_id: AIOS-P1-218_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
     route_id: P1_MINIMUM_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
@@ -17782,15 +17860,16 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: P1_DATASET_DERIVED_PREREGISTRATION_AND_STRICT_EXIT_ROUTE_V1_PHASE_GATE_READY
-  current_task_claim: NONE_P1_EXIT_GATE_READY_STRICT_8_OF_8
-  real_engineering_progress: P1_STRICT_8_OF_8_P2_CONTEXT_ENGINE_PREREGISTRATION_ACCEPTED_P2_STILL_HELD
-  product_capability_changed: true
+  current_route_claim: P2_STRICT_PHASE_ENTRY_ATOMIC_HISTORICAL_WORKTREE_RECONCILIATION_AND_REPOSITORY_INTELLIGENCE_ROUTE_V1_TERMINAL_TASK_1_FINAL_REVIEW_NON_PASS
+  current_task_claim: NONE_P2_PHASE_GATE_AFTER_P2_011_TERMINAL_NON_PASS
+  real_engineering_progress: P1_COMPLETE_P2_ENTERED_P2_011_ZERO_ACCEPTED_P2_CAPABILITY_P2_012_NOT_STARTED
+  product_capability_changed: false
   phase_local_allowed:
-    - local evaluation foundation engineering under an exact Task Contract
+    - local repository-intelligence engineering under an exact Task Contract
     - synthetic fixtures, deterministic tests, replay, Evidence, rollback and independent review
     - local canonical main integration after Master Task Gate
   historical_terminal_rules:
+    - AIOS-P2-011 froze one exact nine-path deterministic graph-kernel candidate and passed its five-test targeted matrix, but fresh CTO, Security and Quality all returned TARGET_VERDICT NON_PASS. Independent checks proved real scanner relation semantics were incompatible with the consumer, absolute repository roots could enter canonical symbol identity, fabricated scanner invocation and wrong output-directory identities were accepted, static ancestor symlinks were accepted, and the reported zero-false-accept result was hard-coded. The candidate was not integrated, canonical make verify was not invoked, no P2 capability credit was accepted, P2-012 is ineligible, and the Route is terminal at the Founder P2 Phase Gate without correction, successor or replacement.
     - AIOS-P1-209 froze one pure-offline deterministic report-admission candidate and reconstructed the immutable P1-207 raw Evidence as a truthful 0/36 report candidate without Secret, Provider, network or formal rerun. Fresh CTO and Security both returned TARGET_VERDICT NON_PASS because the CLI could create an output root below the immutable input after admission, the input-root ancestor chain was not protected against symlink substitution, and the candidate manifest misstated the negative-test count. The candidate was not integrated, canonical make verify was not run, P1-210 is ineligible, no Exit artifact or P1 credit was accepted, and the route is terminal without a second candidate, correction, successor or replacement.
     - P1_RUN_KERNEL_FIRST_ARCHITECTURE_ROUTE_V1 is HISTORICAL_EXHAUSTED_NO_SCHEDULING_AUTHORITY; its failed Task and rejected Quality, Review and Evidence assets cannot be read, recovered or reused by the current route.
     - P1-011 remains accepted only within its historical narrow conformance claim and is retired as a current runtime input; only its accepted schema may be reused by a clean-room implementation.

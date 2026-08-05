@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-05T04:21:00Z"
-verification_scope: P1_213_FINAL_SECURITY_TARGET_NON_PASS_ROUTE_TERMINAL
+last_verified_at: "2026-08-05T04:43:32Z"
+verification_scope: P1_215_TRANSACTIONAL_OUTPUT_HIERARCHY_ROUTE_AUTHORIZED_READY
 
 authority:
   founder: Human Founder
@@ -39,6 +39,18 @@ goal:
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
   current_task_authority: NONE
   note: >-
+    Founder authorized the transactional output-hierarchy strict P1 Exit route
+    from exact clean canonical commit/tree
+    98d7507371d05bd39c37aab1a2c01bb29ddebb73 /
+    f289cde3f732ce8834af0f3c1226d2ece0f07128. P1-215 is eligible but not yet
+    activated. It must implement a caller-owned append-only creation journal
+    from canonical accepted specifications, prove reverse identity-bound rollback
+    and zero filesystem delta for late hierarchy/finalization failures, and
+    rebuild the truthful immutable P1-207 raw result without a formal rerun,
+    Secret, Provider or network effect. Strict P1 remains 6/8 at 75 percent and
+    P2 remains HOLD_PENDING_STRICT_P1_EXIT until the full Task Gate accepts the
+    report. The following P1-213 terminal paragraph remains immutable historical
+    chronology and has no current scheduling or implementation authority.
     P1-213 froze one exact pure-offline candidate and deterministically
     reconstructed the immutable P1-207 raw formal Evidence as the truthful
     0/36 report candidate without formal rerun, Secret, Provider or network.
@@ -960,12 +972,12 @@ project:
   phase_name: Agent Evaluation and Research Foundation
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
-  p1_execution_status: ACTIVE
-  p1_engineering_status: P1_213_PHYSICAL_OBJECT_IDENTITY_REPORT_ADMISSION_ACTIVE
+  p1_execution_status: AUTHORIZED_READY
+  p1_engineering_status: P1_215_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION_ELIGIBLE
   p2_entry_status: HOLD_PENDING_STRICT_P1_EXIT
   p2_execution_status: HOLD_PENDING_STRICT_P1_EXIT
-  phase_execution_status: ACTIVE
-  current_route_execution_status: ACTIVE_P1_213_PHYSICAL_OBJECT_IDENTITY_REPORT_ADMISSION
+  phase_execution_status: AUTHORIZED_READY
+  current_route_execution_status: AUTHORIZED_READY_P1_215_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -5712,26 +5724,26 @@ historical_p1_162_phase_route:
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 
 current_phase_route:
-  route_id: P1_PHYSICAL_OBJECT_IDENTITY_REPORT_ADMISSION_AND_STRICT_EXIT_ROUTE_V1
-  status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
-  authority_object_status: PHASE_DELEGATED_TASK_AUTHORITY_TERMINAL
-  execution_status: TERMINAL_TASK_1_P1_213_FINAL_REVIEW_TARGET_NON_PASS
-  founder_phase_route_decision_required: true
-  scheduling_status: NO_ELIGIBLE_TASK_ROUTE_TERMINAL
+  route_id: P1_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION_AND_STRICT_EXIT_ROUTE_V1
+  status: AUTHORIZED_READY
+  authority_object_status: FOUNDER_AUTHORIZED_ROUTE_READY
+  execution_status: ROUTE_AUTHORIZED_TASK_1_ELIGIBLE_NOT_ACTIVATED
+  founder_phase_route_decision_required: false
+  scheduling_status: READY_FOR_TASK_1_ACTIVATION
   phase: P1
   phase_entry_status: AUTHORIZED
-  authorization_token: AUTHORIZE_P1_PHYSICAL_OBJECT_IDENTITY_REPORT_ADMISSION_AND_STRICT_EXIT_ROUTE_V1
+  authorization_token: AUTHORIZE_P1_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION_AND_STRICT_EXIT_ROUTE_V1
   decision_packet:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-physical-object-identity-strict-exit-20260805/founder-phase-gate/FOUNDER_P1_PHYSICAL_OBJECT_IDENTITY_REPORT_ADMISSION_AND_STRICT_EXIT_ROUTE_V1.structured-decision.json
-    sha256: decb7d5ee77af7ad94d5e9c2903567ddbaf8aded252377fefc6d8106489515bf
-    byte_length: 2882
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-transactional-output-hierarchy-strict-exit-20260805/founder-phase-gate/FOUNDER_P1_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION_AND_STRICT_EXIT_ROUTE_V1.structured-decision.json
+    sha256: 1b1535b67c11b3cc366e4737440f0fb46a729cecd4aaab2739e4f1ed06150d20
+    byte_length: 2939
   original_founder_packet:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-physical-object-identity-strict-exit-20260805/founder-phase-gate/FOUNDER_P1_PHYSICAL_OBJECT_IDENTITY_REPORT_ADMISSION_AND_STRICT_EXIT_ROUTE_V1.md
-    sha256: b987e8f6cbe2195e118f46a01db1aceac0b06c93c1746e2186965bc507188293
-    byte_length: 5164
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-transactional-output-hierarchy-strict-exit-20260805/founder-phase-gate/FOUNDER_P1_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION_AND_STRICT_EXIT_ROUTE_V1.md
+    sha256: f036d39a6079a013eca9d728a208ce7f985ee033dfe1272a0e1036850da66b6a
+    byte_length: 4616
   activation_parent:
-    commit: 0f90760c7f428bb5ea37e3562c7df172f4a9ffb8
-    tree: aec2f6d7b66ef3015967e9252a694f6bc829630a
+    commit: 98d7507371d05bd39c37aab1a2c01bb29ddebb73
+    tree: f289cde3f732ce8834af0f3c1226d2ece0f07128
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: "1.7"
@@ -5743,15 +5755,15 @@ current_phase_route:
     canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
     canonical_byte_length: 19434
   objective: >-
-    Establish a pure-offline report admission and rebuilder using physical
-    filesystem object identity as topology authority, accept the reproducible
-    report from immutable P1-207 raw Evidence, then bind it to one P2
-    preregistration without entering P2.
-  claim_boundary: COOPERATIVE_LOCAL_PURE_OFFLINE_PHYSICAL_OBJECT_IDENTITY_IMMUTABLE_P1_207_RAW_EVIDENCE_REPORT_ADMISSION_AND_REPORT_BOUND_P2_PREREGISTRATION_ONLY_NO_P1_209_OR_P1_211_REJECTED_ENGINEERING_REUSE_FORMAL_RERUN_SECRET_NETWORK_PROVIDER_REMOTE_PRODUCTION_PUBLIC_P2_OR_P3_ENTRY
+    Establish a pure-offline report admission and rebuilder using a caller-owned
+    transactional creation journal with identity-bound reverse rollback, accept
+    the reproducible report from immutable P1-207 raw Evidence, then bind it to
+    one P2 preregistration without entering P2.
+  claim_boundary: COOPERATIVE_LOCAL_PURE_OFFLINE_TRANSACTIONAL_CALLER_OWNED_CREATION_JOURNAL_IMMUTABLE_P1_207_RAW_EVIDENCE_REPORT_ADMISSION_AND_REPORT_BOUND_P2_PREREGISTRATION_ONLY_NO_P1_213_REJECTED_ENGINEERING_REUSE_FORMAL_RERUN_SECRET_NETWORK_PROVIDER_REMOTE_PRODUCTION_PUBLIC_P2_OR_P3_ENTRY
   envelope:
     max_engineering_tasks: 2
-    max_engineering_hours: 28
-    max_calendar_days: 6
+    max_engineering_hours: 24
+    max_calendar_days: 5
     max_active_tasks: 1
     max_task_branches: 1
     max_task_worktrees: 1
@@ -5772,12 +5784,12 @@ current_phase_route:
   founder_reserved_profiles: []
   first_task:
     task_slot: 1
-    task_id: AIOS-P1-213_PHYSICAL_OBJECT_IDENTITY_REPORT_ADMISSION
-    status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
-    engineering_hours: 22
-    calendar_days: 5
-    max_engineering_hours: 22
-    max_calendar_days: 5
+    task_id: AIOS-P1-215_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION
+    status: ELIGIBLE_NOT_ACTIVATED
+    engineering_hours: 18
+    calendar_days: 4
+    max_engineering_hours: 18
+    max_calendar_days: 4
     max_implementation_iterations: 3
     max_same_task_repairs: 2
     max_candidates: 1
@@ -5788,16 +5800,16 @@ current_phase_route:
       remote: false
       production: false
       public: false
-    contract_path: docs/aios/tasks/P1-213_PHYSICAL_OBJECT_IDENTITY_REPORT_ADMISSION.yaml
-    contract_sha256: 16c73c01e369327860b0f38c43c0b9da71ba605b12eab8d260ec0fc612da607d
-    contract_byte_length: 7699
+    contract_path: docs/aios/tasks/P1-215_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION.yaml
+    contract_sha256: 8c8876a54a31ed7dbbd6bb6e7ed0b204bda40cd7da3bf0b672f01832b9d65388
+    contract_byte_length: 7971
     p1_capability_claim_on_pass: REPRODUCIBLE_BASELINE_REPORT
   task_plan:
     - task_slot: 1
-      task_id: AIOS-P1-213_PHYSICAL_OBJECT_IDENTITY_REPORT_ADMISSION
-      status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
-      engineering_hours: 22
-      calendar_days: 5
+      task_id: AIOS-P1-215_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION
+      status: ELIGIBLE_NOT_ACTIVATED
+      engineering_hours: 18
+      calendar_days: 4
       max_implementation_iterations: 3
       max_same_task_repairs: 2
       max_candidates: 1
@@ -5809,8 +5821,8 @@ current_phase_route:
         production: false
         public: false
     - task_slot: 2
-      task_id: AIOS-P1-214_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
-      status: BLOCKED_PREDECESSOR_TASK_GATE_ROUTE_TERMINAL
+      task_id: AIOS-P1-216_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+      status: PENDING_PREDECESSOR_TASK_GATE
       engineering_hours: 6
       calendar_days: 1
       max_implementation_iterations: 2
@@ -5824,14 +5836,14 @@ current_phase_route:
         production: false
         public: false
   automatic_entry:
-    after_task_id: AIOS-P1-213_PHYSICAL_OBJECT_IDENTITY_REPORT_ADMISSION
-    next_task_id: AIOS-P1-214_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+    after_task_id: AIOS-P1-215_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION
+    next_task_id: AIOS-P1-216_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
     requires_task_gate_pass: true
   automatic_entries:
-    - after_task_id: AIOS-P1-213_PHYSICAL_OBJECT_IDENTITY_REPORT_ADMISSION
-      next_task_id: AIOS-P1-214_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+    - after_task_id: AIOS-P1-215_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION
+      next_task_id: AIOS-P1-216_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
       requires_task_gate_pass: true
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
+  next_eligible_action: ACTIVATE_AIOS_P1_215_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION
   terminal_p1_213_outcome:
     stopped_at_utc: "2026-08-05T04:11:02Z"
     stop_condition: ANY_FRESH_FINAL_REVIEWER_TARGET_VERDICT_NON_PASS
@@ -7737,9 +7749,9 @@ historical_p2_phase_route:
   next_eligible_action: FOUNDER_P2_PHASE_GATE
 
 phase_delegation:
-  status: STOPPED_AT_FOUNDER_P1_PHASE_GATE_AFTER_P1_207_CANONICAL_VERIFY_NON_PASS
+  status: ACTIVE_P1_TRANSACTIONAL_OUTPUT_HIERARCHY_STRICT_EXIT_ROUTE
   model: PHASE_LEVEL_FOUNDER_DELEGATION
-  decision_source: AUTHORIZE_P1_MINIMUM_COOPERATIVE_LOCAL_RESEARCH_ARTIFACT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
+  decision_source: AUTHORIZE_P1_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION_AND_STRICT_EXIT_ROUTE_V1
   phase_gate_owner: HUMAN_FOUNDER
   task_selection_owner: MASTER_CEO_AGENT
   task_authorization_owner: MASTER_CEO_AGENT_WITHIN_CURRENT_PHASE_ENVELOPE
@@ -9245,7 +9257,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260805-P1-213-FINAL-SECURITY-NON-PASS-V1
+  latest_event_id: FKS-20260805-P1-215-ROUTE-AUTHORIZATION-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -11531,6 +11543,33 @@ founder_knowledge_sync:
         sha256: 09bb14223c1934a58e07022ccbf7de0d3e86bbcbeddb44a78a679fe35ae438b9
       event_sha256: 2d53fcb5fb799ffed5bfd3c185ce6a6513e1dd25c0602ebad000d645ea3d5284
 
+    - event_id: FKS-20260805-P1-215-ROUTE-AUTHORIZATION-V1
+      trigger_type: FOUNDER_ROUTE_DECISION
+      occurred_at_utc: '2026-08-05T04:43:32Z'
+      source_commit: 98d7507371d05bd39c37aab1a2c01bb29ddebb73
+      source_tree: f289cde3f732ce8834af0f3c1226d2ece0f07128
+      previous_event_sha256: 2d53fcb5fb799ffed5bfd3c185ce6a6513e1dd25c0602ebad000d645ea3d5284
+      status: NO_MATERIAL_KNOWLEDGE_DELTA
+      rationale: The Founder authorized one bounded pure-offline transactional output-hierarchy report-admission route that directly operationalizes the already imported P1-213 partial-creation cleanup lesson. The exact Route and Task budgets, permissions, anti-loop boundary and strict P1/P2 hold state are recorded in canonical Truth and the Founder packet. No additional durable learning beyond that existing reviewed Vault lesson is established before implementation Evidence exists.
+      engineering_blocking: false
+      artifact:
+        path: null
+        byte_length: null
+        sha256: null
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+      event_sha256: 07135e799805886df01d6e3e0b668b6c259201b91b28e1b6beccb3f614eab246
+
 historical_active_work_after_p1_079:
   current_task: NONE
   current_task_status: NONE
@@ -11600,7 +11639,7 @@ active_work:
   authorization_id: null
   activation_parent_commit: null
   activation_parent_tree: null
-  task_resource_state: NOT_CREATED_ROUTE_TERMINAL
+  task_resource_state: NOT_CREATED_ROUTE_READY
   task_branch: null
   task_worktree: null
   execution_evidence_root: null
@@ -11624,13 +11663,13 @@ active_work:
   offsite_target: null
   founder_reserved_authorization: null
   founder_reserved_authorization_sha256: null
-  founder_decision_required: true
-  founder_decision_required_scope: P1_PHASE_GATE_AFTER_P1_213_FINAL_SECURITY_TARGET_NON_PASS
-  escalation_reason: P1_213_FRESH_SECURITY_TARGET_NON_PASS
-  user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
+  founder_decision_required: false
+  founder_decision_required_scope: null
+  escalation_reason: null
+  user_action_required: NONE
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: ACTIVATE_AIOS_P1_215_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION
 historical_p1_190_terminal_active_work:
   current_task: NONE
   current_task_status: NONE

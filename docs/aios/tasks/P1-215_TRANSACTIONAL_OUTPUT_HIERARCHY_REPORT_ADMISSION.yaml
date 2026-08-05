@@ -1,0 +1,152 @@
+schema_version: task-contract/v3
+task_id: AIOS-P1-215_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION
+phase: P1
+route_id: P1_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION_AND_STRICT_EXIT_ROUTE_V1
+status: READY
+objective: >-
+  Build a clean-room pure-offline report admission and rebuilder whose caller-owned
+  append-only creation journal guarantees identity-bound reverse rollback after any
+  partial hierarchy or finalization failure, then reconstruct the truthful P1-207
+  0-of-36 research report without modifying or rerunning the formal Evidence.
+why_now: >-
+  Strict P1 remains 6/8 because REPRODUCIBLE_BASELINE_REPORT is MISSING. P1-213
+  terminally proved that a locally accumulated creation list can be lost when a
+  deeper mkdir throws after an earlier owned component was created. The smallest
+  falsifiable engineering action is an independent clean-room transaction design
+  with caller-owned journal state and explicit late-failure zero-delta tests.
+task_spec_ref:
+  kind: FOUNDER_AUTHORIZED_STRICT_P1_EXIT_TASK
+  immutable_p1_207_formal_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-cooperative-local-research-exit-20260804/task-1-p1-207/evidence/formal-execution-v1
+  evidence_manifest:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-cooperative-local-research-exit-20260804/task-1-p1-207/evidence/formal-execution-v1/EVIDENCE_MANIFEST.json
+    byte_length: 31196
+    sha256: 31e439cc3e3a993916fffd836d6883722e4570719d6a93c5b38b6a29c703504f
+  run_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-cooperative-local-research-exit-20260804/task-1-p1-207/evidence/formal-execution-v1/RUN_RECEIPT.json
+    byte_length: 745
+    sha256: 5352b9071bffa4c1952f1c1388af8c05f9726d03fefb85e23e1164ff544fe227
+owner_role: CTO Agent P1-215
+worker_role: Evaluation Engineering Worker P1-215
+roles:
+  owner: CTO Agent P1-215
+  worker: Evaluation Engineering Worker P1-215
+  independent_reviewers:
+    - Fresh CTO Reviewer P1-215
+    - Fresh Security Reviewer P1-215
+    - Fresh Quality Reviewer P1-215
+write_scope:
+  - evaluation-harness/evaluator/p1-215-transactional-output-hierarchy/**
+  - scripts/verify-p1-215-transactional-output-hierarchy.sh
+  - docs/aios/tasks/P1-215_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+allowlisted_paths:
+  - evaluation-harness/evaluator/p1-215-transactional-output-hierarchy/**
+  - scripts/verify-p1-215-transactional-output-hierarchy.sh
+  - docs/aios/tasks/P1-215_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+read_context:
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/truth/project_state.yaml
+  - schemas/founder-phase-route-decision.schema.json
+  - immutable P1-207 raw formal Evidence exact identities only
+dependencies:
+  - canonical accepted P1 assets declared in current route Truth
+  - immutable P1-207 raw formal Evidence
+risk_level: high
+baseline_ref:
+  evidence_manifest_sha256: 31e439cc3e3a993916fffd836d6883722e4570719d6a93c5b38b6a29c703504f
+  run_receipt_sha256: 5352b9071bffa4c1952f1c1388af8c05f9726d03fefb85e23e1164ff544fe227
+  expected_taxonomy:
+    denominator: 36
+    successful: 0
+    failed: 28
+    invalid: 8
+    excluded: 0
+budget:
+  engineering_hours: 18
+  calendar_days: 4
+  implementation_iterations: 3
+  candidates: 1
+same_task_repairs_max: 2
+repair_boundary: PRE_FREEZE_ONLY
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-transactional-output-hierarchy-strict-exit-20260805/founder-phase-gate/FOUNDER_P1_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION_AND_STRICT_EXIT_ROUTE_V1.structured-decision.json
+  sha256: 1b1535b67c11b3cc366e4737440f0fb46a729cecd4aaab2739e4f1ed06150d20
+  byte_length: 2939
+  authorization_token: AUTHORIZE_P1_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION_AND_STRICT_EXIT_ROUTE_V1
+founder_reserved_profile: null
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+acceptance_criteria:
+  - Caller owns one append-only creation journal before any output mutation.
+  - Every owned object is journaled with path, type, device, inode and creation order.
+  - Any failure reverses the journal before propagation and rollback is idempotent.
+  - Rollback removes only objects created by this invocation whose identity still matches.
+  - Exact path, ancestor, descendant, case-fold, Unicode-normalization, device/inode, symlink and hardlink aliases fail closed.
+  - ENAMETOOLONG, permission denial, non-directory ancestor, identity drift and rename failure prove zero filesystem delta.
+  - All destructive tests use unique owned disposable copies and clean them after PASS or NON_PASS.
+  - The immutable P1-207 input remains byte-identical before and after every execution.
+  - The report is rebuilt only from immutable raw Evidence and records 36/0/28/8/0 exactly.
+  - Generated reports are never admitted as input or expected-answer oracles.
+  - Provider requests, Secret reads, network, remote, production and public effects remain zero.
+  - One exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS.
+required_evidence:
+  - complete pre-freeze positive and destructive negative matrix receipt
+  - per-rejection before/after filesystem snapshot equality proof
+  - transaction journal and rollback identity receipts
+  - immutable P1-207 pre/post closed-inventory equality receipt
+  - raw-Evidence-only report reconstruction receipt
+  - exact candidate manifest and tree identity
+  - fresh CTO, Security and Quality final reviews
+  - reviewed/integrated tree equality receipt
+  - one canonical make verify receipt after integration
+independent_reviewer:
+  - Fresh CTO Reviewer P1-215
+  - Fresh Security Reviewer P1-215
+  - Fresh Quality Reviewer P1-215
+stop_conditions:
+  - Any final Reviewer TARGET_VERDICT NON_PASS.
+  - A second candidate or post-freeze correction would be required.
+  - A rejected path produces non-zero filesystem delta.
+  - Immutable P1-207 Evidence changes or a formal rerun would be required.
+  - Provider, Secret, network, remote, production or public effect occurs.
+  - Reviewed and integrated tree differ.
+  - Canonical make verify returns NONPASS.
+  - Phase, Exit Gate or permission boundary changes.
+forbidden_actions:
+  - Read, restore, compare, copy or reuse P1-213 rejected engineering assets.
+  - Modify, supplement, delete or rerun P1-207 immutable formal Evidence.
+  - Create an authority, parser, validator or Evidence-platform pretask.
+  - Create a successor, replacement, correction, normalization, closure, feasibility or remediation chain.
+  - Freeze a second candidate or conduct a review-correction cycle.
+  - Read a Secret or call any Provider or network endpoint.
+  - Enter P2 or P3.
+  - Push or modify a remote.
+claim_boundary: >-
+  Cooperative-local pure-offline transactional report admission and deterministic
+  reconstruction of the immutable P1-207 raw formal result only. This Task does not
+  claim hostile-principal isolation, production security, a new formal experiment,
+  P2 execution or product readiness.
+rollback: >-
+  Before candidate freeze, discard only Task-owned disposable fixtures and revert
+  Task-owned source changes within the Task worktree. After reviewed integration,
+  any canonical verification failure uses non-destructive git revert; reset and clean
+  are forbidden.

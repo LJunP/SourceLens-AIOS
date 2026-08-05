@@ -492,129 +492,6 @@ check_phase_predecessor_activation() {
           accepted_history_statuses.include?(history["status"]) &&
           history["accepted_candidate_commit"] == item["acceptance_commit"] &&
           history["accepted_candidate_tree"] == item["acceptance_tree"]
-      when "P1_219_EXACT_REVIEWED_BLOB_EXIT_READY_ADMISSION_RECEIPT_V1"
-        expected_receipt_keys = %w[
-          external_effects founder_authorization_token frozen_node20 original_reviews
-          p2_experiment_executed p2_hold_released phase preserved_terminal_receipt
-          record_type required_item_id reviewed_candidate reviewed_engineering_blobs
-          route_id schema_version status targeted_verification task_id
-        ]
-        abort "P1-219 exact admission receipt is not closed" unless
-          receipt.keys.sort == expected_receipt_keys.sort
-        abort "P1-219 exact admission receipt identity mismatch" unless
-          phase_id == "P1" &&
-          item_id == "P2_CONTEXT_ENGINE_PREREGISTRATION" &&
-          task_id_value == "AIOS-P1-219_DATASET_DERIVED_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION" &&
-          receipt["schema_version"] == "p1-219-exact-reviewed-blob-admission-receipt/v1" &&
-          receipt["record_type"] == "sourcelens_aios_p1_219_exact_reviewed_blob_admission_receipt" &&
-          receipt["status"] == "AUTHORIZED_FOR_EXACT_READMISSION_PENDING_FRESH_FINAL_REVIEW_AND_CANONICAL_VERIFY" &&
-          receipt["phase"] == phase_id && receipt["task_id"] == task_id_value &&
-          receipt["required_item_id"] == item_id &&
-          receipt["route_id"] == history["route_id"] &&
-          receipt["founder_authorization_token"] ==
-            "AUTHORIZE_ONE_P1_EXIT_GATE_READY_STATE_COMPATIBILITY_AND_EXACT_P1_219_INTEGRATION_V1" &&
-          receipt["p2_experiment_executed"] == false && receipt["p2_hold_released"] == false &&
-          receipt["external_effects"] == {
-            "network" => false, "provider" => false, "secret" => false,
-            "remote" => false, "production" => false, "public" => false
-          }
-
-        reviewed = receipt.fetch("reviewed_candidate")
-        abort "P1-219 reviewed candidate is not closed" unless
-          reviewed.is_a?(Hash) && reviewed.keys.sort == %w[commit manifest tree]
-        abort "P1-219 reviewed candidate identity drift" unless
-          reviewed["commit"] == item["acceptance_commit"] &&
-          reviewed["tree"] == item["acceptance_tree"] &&
-          reviewed["commit"] == "231bf0eca104f66d3a0343b4ff7e3bc00420905e" &&
-          reviewed["tree"] == "09be4786161a9b9c13716941bd2659d9a084a5c4"
-        manifest_bytes = verify_file.call(reviewed.fetch("manifest"))
-        manifest = JSON.parse(manifest_bytes)
-        abort "P1-219 reviewed manifest binding drift" unless
-          reviewed["manifest"] == {
-            "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p1-dataset-derived-preregistration-strict-exit-20260805/task-1-p1-219/candidate-v1/P1_219_CANDIDATE_MANIFEST.json",
-            "byte_length" => 3028,
-            "sha256" => "1c84d75030d75082c2ace3dfc34dc0f58257f2ee6014d32455d6a3fa42e5a008"
-          } &&
-          manifest.dig("candidate", "commit") == reviewed["commit"] &&
-          manifest.dig("candidate", "tree") == reviewed["tree"]
-
-        expected_blobs = [
-          ["evaluation-harness/evaluator/p1-219-dataset-derived-preregistration/generate.mjs", "100755", "3d05a7594660aa2acacff967c7b16ed43e274cfb", 954, "55eb3f86b3129678057af87d484d6aab2d67f024b0d503c69ad7c99603917d04"],
-          ["evaluation-harness/evaluator/p1-219-dataset-derived-preregistration/lib.mjs", "100644", "8422ef61e8fa5d76467699db1282d08214accb22", 9428, "13c5fb7f65b0d86db80e14e2b226a5bc5f86ca9bb1d1552c6369351bba392a88"],
-          ["evaluation-harness/evaluator/p1-219-dataset-derived-preregistration/test.mjs", "100755", "519b95faacb83d3d0d83a58b49622fadea86afae", 7032, "f8bbbe6fa80e48f4f8852ff72aea3a7852fe72bbd9a6c0dc8822ef4d8f2a0058"],
-          ["evaluation-harness/evaluator/p1-219-dataset-derived-preregistration/verify.mjs", "100755", "adf80bcf20e3a5591091d7938f4390bd2589c904", 474, "624fdfdb2e5fea2267264341b4f671a3a47d373c5bb8b434395046074ddd016a"],
-          ["evaluation-harness/reports/p1-219-dataset-derived-preregistration/P2_CONTEXT_ENGINE_PREREGISTRATION.json", "100644", "dfc74420fa5dfb2d50aac5110556d6e6a9df5dc4", 6531, "4a5976b0bdffb5646fcab2b22c53216ff3d09dceb454082474953fe41482156f"],
-          ["scripts/verify-p1-219-dataset-derived-preregistration.sh", "100755", "7d0ba764d9e76d4f0abe357dcb8336b97134fec7", 664, "c705cd49e0df6067cbc782da2a49431edeb6036f8bfdb45371d7fbd0d325a53d"]
-        ].map do |path, mode, blob, byte_length, sha256|
-          {"path" => path, "mode" => mode, "git_blob_sha1" => blob,
-           "byte_length" => byte_length, "sha256" => sha256}
-        end
-        abort "P1-219 reviewed engineering blob inventory drift" unless
-          receipt["reviewed_engineering_blobs"] == expected_blobs
-        expected_blobs.each do |blob|
-          bytes = verify_repository_file.call(blob.slice("path", "byte_length", "sha256"))
-          current_path = repo_root.join(blob["path"])
-          current_mode = (current_path.stat.mode & 0o111).zero? ? "100644" : "100755"
-          current_blob = git_capture.call("hash-object", "--", blob["path"]).strip
-          reviewed_entry = git_capture.call("ls-tree", reviewed["commit"], "--", blob["path"]).strip.split
-          abort "P1-219 current blob identity drift: #{blob['path']}" unless
-            current_mode == blob["mode"] && current_blob == blob["git_blob_sha1"] &&
-            Digest::SHA1.hexdigest("blob #{bytes.bytesize}\0".b + bytes) == blob["git_blob_sha1"]
-          abort "P1-219 reviewed candidate blob identity drift: #{blob['path']}" unless
-            reviewed_entry[0] == blob["mode"] && reviewed_entry[2] == blob["git_blob_sha1"]
-        end
-
-        reviews = receipt.fetch("original_reviews")
-        abort "P1-219 original review set is not closed" unless
-          reviews.is_a?(Hash) && reviews.keys.sort == %w[cto quality security]
-        expected_roles = {"cto" => "CTO", "security" => "SECURITY", "quality" => "QUALITY"}
-        reviews.each do |role, identity|
-          abort "P1-219 original Review identity is not closed: #{role}" unless
-            identity.is_a?(Hash) && identity.keys.sort == %w[byte_length path sha256 target_verdict]
-          review = JSON.parse(verify_file.call(identity.slice("path", "byte_length", "sha256")))
-          candidate_fields = %w[candidate exact_candidate].select { |field| review[field].is_a?(Hash) }
-          abort "P1-219 original Review candidate binding is ambiguous: #{role}" unless candidate_fields.length == 1
-          review_candidate = review.fetch(candidate_fields.fetch(0))
-          abort "P1-219 original Review binding drift: #{role}" unless
-            identity["target_verdict"] == "PASS" &&
-            review["target_verdict"] == "PASS" && review["role"] == expected_roles.fetch(role) &&
-            review_candidate["commit"] == reviewed["commit"] &&
-            review_candidate["tree"] == reviewed["tree"] &&
-            review.dig("candidate_manifest", "sha256") == reviewed.dig("manifest", "sha256")
-        end
-
-        terminal = receipt.fetch("preserved_terminal_receipt")
-        terminal_bytes = verify_file.call(terminal)
-        terminal_record = JSON.parse(terminal_bytes)
-        abort "P1-219 preserved terminal receipt drift" unless
-          terminal_record["task_id"] == task_id_value &&
-          terminal_record["status"] == "TERMINAL_CANONICAL_MAKE_VERIFY_NON_PASS"
-
-        node20 = receipt.fetch("frozen_node20")
-        node_path = Pathname.new(node20.fetch("path"))
-        abort "P1-219 frozen Node 20 identity is not closed" unless
-          node20.keys.sort == %w[byte_length path sha256 version] &&
-          node_path.file? && !node_path.symlink? && node_path.realpath == node_path.cleanpath
-        node_bytes = node_path.binread
-        node_version, node_stderr, node_status = Open3.capture3(node_path.to_s, "--version")
-        abort "P1-219 frozen Node 20 identity drift: #{node_stderr.strip}" unless
-          node_status.success? && node_version.strip == node20["version"] &&
-          node20 == {
-            "path" => "/usr/local/bin/node", "version" => "v20.17.0",
-            "byte_length" => 193262272,
-            "sha256" => "c5548e7a991a5c90170a29843ffc46df4643e29141f3cbb035f60295cf2bc882"
-          } && node_bytes.bytesize == node20["byte_length"] &&
-          Digest::SHA256.hexdigest(node_bytes) == node20["sha256"]
-
-        abort "P1-219 targeted verification projection drift" unless
-          receipt["targeted_verification"] == {
-            "status" => "PASS", "positive_cases" => 1, "negative_cases" => 22,
-            "false_accepts" => 0, "provider_requests" => 0, "secret_reads" => 0
-          }
-        abort "P1-219 accepted history status mismatch" unless
-          accepted_history_statuses.include?(history["status"]) &&
-          history["accepted_candidate_commit"] == item["acceptance_commit"] &&
-          history["accepted_candidate_tree"] == item["acceptance_tree"]
       when "LEGACY_P1_035_TASK_GATE_RECEIPT"
         abort "legacy P1-035 receipt used for another Gate item" unless
           phase_id == "P1" && item_id == "VERSIONED_TASKSPEC_AND_REPRESENTATIVE_TASK_SET"
@@ -762,7 +639,7 @@ check_phase_predecessor_activation() {
       expected_gate_keys = %w[byte_length decision_id path sha256 status]
       abort "#{phase_id} Founder Phase Gate record is not closed" unless
         gate.is_a?(Hash) && gate.keys.sort == expected_gate_keys
-      if phase_record["status"] == "INCOMPLETE"
+      if phase_record["status"] != "COMPLETE"
         abort "#{phase_id} incomplete Founder Gate identity must remain null" unless gate == {
           "status" => "NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS",
           "decision_id" => nil,
@@ -772,19 +649,6 @@ check_phase_predecessor_activation() {
         }
         next
       end
-
-      if phase_record["status"] == "EXIT_GATE_READY"
-        abort "#{phase_id} Exit-Gate-ready Founder decision identity must remain null" unless gate == {
-          "status" => "ELIGIBLE_AWAITING_FOUNDER_DECISION",
-          "decision_id" => nil,
-          "path" => nil,
-          "byte_length" => nil,
-          "sha256" => nil
-        }
-        next
-      end
-
-      abort "#{phase_id} Gate lifecycle status is invalid" unless phase_record["status"] == "COMPLETE"
 
       abort "#{phase_id} Founder Phase Gate is not PASS" unless gate["status"] == "PASS"
       receipt = JSON.parse(verify_file.call(gate.slice("path", "byte_length", "sha256")))
@@ -848,8 +712,7 @@ check_phase_predecessor_activation() {
     end
     abort "P1 missing-item projection drift" unless truth.dig("p1_partial_exit", "missing_exit_items") == missing_ids
     if missing_ids.empty?
-      expected_p1_status = p1.dig("founder_phase_gate", "status") == "PASS" ? "COMPLETE" : "EXIT_GATE_READY"
-      abort "P1 all-accepted Gate lifecycle status drift" unless p1["status"] == expected_p1_status
+      abort "P1 ledger must be COMPLETE when all required items are accepted" unless p1["status"] == "COMPLETE"
     else
       abort "P1 incomplete ledger status drift" unless p1["status"] == "INCOMPLETE"
     end

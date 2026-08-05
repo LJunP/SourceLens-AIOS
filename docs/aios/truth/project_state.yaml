@@ -12005,8 +12005,8 @@ founder_knowledge_sync:
         sha256: 0623f187b739002a8ef3eb4171abec8a968590b2332d0bd340ca97234ff3302d
       review:
         path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-2-p1-218/knowledge/P1_218_DATASET_MEMBERSHIP_BINDING_KNOWLEDGE_REVIEW_V1.json
-        byte_length: 3449
-        sha256: 300560060ad590bed2ec72f2adf6a7f0d40e3ac625ef3981d3edf95b5d6c1c3a
+        byte_length: 3418
+        sha256: d6a0f6465057f2e8c4e04de47607e91181b5d225cb039c8853010a8334e9bf47
       vault_import:
         path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/05-Failures-and-Lessons/AIOS-P1-218/2026-08-05-P1-218-dataset-membership-binding.md
         byte_length: 3044
@@ -12014,8 +12014,8 @@ founder_knowledge_sync:
       receipt:
         path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-2-p1-218/knowledge/P1_218_DATASET_MEMBERSHIP_BINDING_KNOWLEDGE_IMPORT_RECEIPT_V1.json
         byte_length: 1704
-        sha256: 309a74a10e68939c6e17c7de493bc54422665690dddd61c58aa3ccacde26654a
-      event_sha256: 821c7c23dcdec9d766cc9aa5904f61c8c53e460a8cefaeeff920b383e95506aa
+        sha256: 3c6e3231c30196f63b026e303614c097eb291e97b0e001f5985989a72eb818ac
+      event_sha256: 7eb5c29669f806e4b9b1052620185af041b5704c8cd41f161e96651e4c25eb7f
 
 historical_active_work_after_p1_079:
   current_task: NONE

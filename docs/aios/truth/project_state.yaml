@@ -9184,7 +9184,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260805-P1-211-ROUTE-AUTHORIZED-AND-TASK-ACTIVATED-V1
+  latest_event_id: FKS-20260805-P1-211-FINAL-REVIEW-NON-PASS-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -11388,6 +11388,33 @@ founder_knowledge_sync:
         byte_length: null
         sha256: null
       event_sha256: e016803c7ee58320bfac92dffa32cdd015d570925cfbb5369835625f3cea8d0e
+
+    - event_id: FKS-20260805-P1-211-FINAL-REVIEW-NON-PASS-V1
+      trigger_type: TASK_TERMINAL_OUTCOME
+      occurred_at_utc: '2026-08-05T03:22:13Z'
+      source_commit: 4ee876bf6b085a9abf455b8de27c1c2ad293c525
+      source_tree: b943dbdefcb2d8f840118ce32d422b4c8a104ecc
+      previous_event_sha256: e016803c7ee58320bfac92dffa32cdd015d570925cfbb5369835625f3cea8d0e
+      status: IMPORTED
+      rationale: P1-211 froze one exact pure-offline candidate and deterministically reconstructed the immutable P1-207 formal raw Evidence as a truthful zero-of-thirty-six report candidate without a formal rerun, Secret, Provider or network effect. Fresh CTO and Security Reviews returned TARGET NON_PASS because a case-folded macOS path alias allowed output writes inside the immutable input before later rejection, and Security also reproduced an external-hardlink alias false accept; fresh Quality returned PASS but could not override the blocking verdicts. The candidate was not integrated, canonical make verify was not run, P1-212 was not activated, strict P1 remains six of eight at 75 percent and P2 remains held. The reusable physical identity boundary lesson was independently reviewed PASS and imported byte-identically into the Founder Knowledge Vault; this synchronization does not alter the engineering Stop Condition or add capability credit.
+      engineering_blocking: false
+      artifact:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-clean-room-physical-topology-bound-strict-exit-20260805/task-1-p1-211/knowledge/P1_211_PHYSICAL_IDENTITY_BOUNDARY_LEARNING_ARTIFACT_CANDIDATE_V1.md
+        byte_length: 5191
+        sha256: 006c00edfd64c4be89fa3b7f7ddf4db91ebc841dd0ab552ef0fe265beb845ae9
+      review:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-clean-room-physical-topology-bound-strict-exit-20260805/task-1-p1-211/knowledge/P1_211_PHYSICAL_IDENTITY_BOUNDARY_KNOWLEDGE_REVIEW_V1.json
+        byte_length: 2927
+        sha256: bd4c3f8c0b264176576ee5e0bd6c38d430e0d0053aefec78f7afb7bbfe74a94e
+      vault_import:
+        path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/05-Failures-and-Lessons/AIOS-P1-211/2026-08-05-P1-211-physical-identity-boundary-lessons.md
+        byte_length: 5191
+        sha256: 006c00edfd64c4be89fa3b7f7ddf4db91ebc841dd0ab552ef0fe265beb845ae9
+      receipt:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-clean-room-physical-topology-bound-strict-exit-20260805/task-1-p1-211/knowledge/P1_211_PHYSICAL_IDENTITY_BOUNDARY_KNOWLEDGE_IMPORT_RECEIPT_V1.json
+        byte_length: 1714
+        sha256: 036e6c54c39d6f8675c53ac27514551b11afd61aea8e0698a3e9b2b8d5d98954
+      event_sha256: d44caa35be334a83b0cf5f93d948c81446a65e088bfbe1f19251a8967a5671b7
 
 historical_active_work_after_p1_079:
   current_task: NONE

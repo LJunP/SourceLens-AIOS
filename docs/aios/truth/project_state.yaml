@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-05T13:11:38Z"
-verification_scope: P1_STRICT_FOUNDER_EXIT_GATE_PASS_AND_P2_HOLD
+last_verified_at: "2026-08-05T13:37:49Z"
+verification_scope: P1_STRICT_EXIT_GATE_PASS_KNOWLEDGE_IMPORTED_AND_P2_HOLD
 
 authority:
   founder: Human Founder
@@ -12191,32 +12191,33 @@ founder_knowledge_sync:
       source_commit: bcb08e03aced00cb12a87a8a679ec331c004a0d7
       source_tree: 8f8d0cddb5ae3706c4138a6d29f1b255add890e2
       previous_event_sha256: ef43bd1d31e08363072888e66cef890d5787bc20e8a48b70a6fe506b4769d9e3
-      status: PENDING_CANDIDATE
+      status: IMPORTED
       rationale: >-
         Founder approved the strict P1 Exit Gate after all eight required items
         were ACCEPTED and the exact reviewed P1-219 tree passed the single
         complete canonical verification. P1 is now COMPLETE at strict 8/8 while
-        P2 remains held pending a separate Founder Phase-entry decision. A
-        concise reusable Learning Artifact for the phase-boundary decision is
-        pending and non-blocking.
+        P2 remains held pending a separate Founder Phase-entry decision. The
+        exact reusable Learning Artifact for this phase-boundary decision passed
+        independent Knowledge Review and was imported unchanged into the
+        Founder Knowledge Vault without acquiring Truth, Gate or Task authority.
       engineering_blocking: false
       artifact:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-strict-exit-gate-20260805/knowledge/P1_STRICT_EXIT_GATE_LEARNING_ARTIFACT_CANDIDATE_V1.md
+        byte_length: 3463
+        sha256: e3189d385d4cb90a375b9bf0b87028f77240521567bee66e8c32a82e2bf4c649
       review:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-strict-exit-gate-20260805/knowledge/P1_STRICT_EXIT_GATE_KNOWLEDGE_REVIEW_V1.json
+        byte_length: 3592
+        sha256: d5564818b37567e0a6edfc93f991587b46730aa4501b83e32e4d22ce60ea08d9
       vault_import:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/06-Decision-Records/2026-08-05-P1-strict-exit-gate-and-separate-P2-entry.md
+        byte_length: 3463
+        sha256: e3189d385d4cb90a375b9bf0b87028f77240521567bee66e8c32a82e2bf4c649
       receipt:
-        path: null
-        byte_length: null
-        sha256: null
-      event_sha256: 1ae4845fe0dc46e74ad1836b5165814bb9abee9239c70fcb28be6868adc1db9b
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-strict-exit-gate-20260805/knowledge/P1_STRICT_EXIT_GATE_KNOWLEDGE_IMPORT_RECEIPT_V2.json
+        byte_length: 1550
+        sha256: 220b751ab8877ab0f0f3e0363ede11973c8c825f258e26a9cc57d295eadac79a
+      event_sha256: 99b30cbc2c4088a02ce1e227879299d03de7f5222a7b33220eae2216e48cc173
 
 historical_active_work_after_p1_079:
   current_task: NONE

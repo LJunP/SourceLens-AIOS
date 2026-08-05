@@ -1,6 +1,6 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-05T04:20:00Z"
+last_verified_at: "2026-08-05T04:21:00Z"
 verification_scope: P1_213_FINAL_SECURITY_TARGET_NON_PASS_ROUTE_TERMINAL
 
 authority:
@@ -9245,7 +9245,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260805-P1-213-ROUTE-ACTIVATION-V1
+  latest_event_id: FKS-20260805-P1-213-FINAL-SECURITY-NON-PASS-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -11503,6 +11503,33 @@ founder_knowledge_sync:
         byte_length: null
         sha256: null
       event_sha256: 5aea0aa3b0a9284f8fc96f25fe21ef74f6453f73c1b9f5b7a2a5be98367e8b78
+
+    - event_id: FKS-20260805-P1-213-FINAL-SECURITY-NON-PASS-V1
+      trigger_type: TASK_TERMINAL_OUTCOME
+      occurred_at_utc: '2026-08-05T04:21:00Z'
+      source_commit: d36bcff01f1cb5880e0d1b63f6544b29188331ee
+      source_tree: 6125fa2546fd0e83cf68678f77dd3b97d3b6513a
+      previous_event_sha256: 5aea0aa3b0a9284f8fc96f25fe21ef74f6453f73c1b9f5b7a2a5be98367e8b78
+      status: IMPORTED
+      rationale: P1-213 froze one exact pure-offline candidate and reconstructed the immutable P1-207 raw formal Evidence as a truthful zero-of-thirty-six report candidate without formal rerun, Secret, Provider or network effect. Fresh CTO Review returned TARGET PASS, but fresh Security Review returned TARGET NON_PASS because an owned deterministic fixture proved that a late ENAMETOOLONG failure leaves an earlier directory created by the same invocation, violating the zero-filesystem-delta and cleanup ownership Gate. Quality Review was interrupted after the Security Stop Condition. The candidate was not integrated, canonical make verify was not run, P1-214 was not activated, strict P1 remains six of eight at 75 percent and P2 remains held. The reusable partial-creation cleanup ownership lesson was independently reviewed PASS and imported byte-identically into the Founder Knowledge Vault; this synchronization does not alter the engineering Stop Condition or add capability credit.
+      engineering_blocking: false
+      artifact:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-physical-object-identity-strict-exit-20260805/task-1-p1-213/knowledge/P1_213_PARTIAL_HIERARCHY_CLEANUP_LEARNING_ARTIFACT_CANDIDATE_V1.md
+        byte_length: 4098
+        sha256: b833c15d38c5eca6f6d3e60ea4b245e91886b80eb05ff62fd2cd294b091ab3c4
+      review:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-physical-object-identity-strict-exit-20260805/task-1-p1-213/knowledge/P1_213_PARTIAL_HIERARCHY_CLEANUP_KNOWLEDGE_REVIEW_SCHEMA_COMPATIBLE_V2.json
+        byte_length: 3264
+        sha256: ec254aaa78cfa9225ce0ad95333967a5060e06259d2eb314b190da7056e3a3c3
+      vault_import:
+        path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/05-Failures-and-Lessons/AIOS-P1-213/2026-08-05-P1-213-partial-hierarchy-cleanup-lessons.md
+        byte_length: 4098
+        sha256: b833c15d38c5eca6f6d3e60ea4b245e91886b80eb05ff62fd2cd294b091ab3c4
+      receipt:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-physical-object-identity-strict-exit-20260805/task-1-p1-213/knowledge/P1_213_PARTIAL_HIERARCHY_CLEANUP_KNOWLEDGE_IMPORT_RECEIPT_V1.json
+        byte_length: 1701
+        sha256: 09bb14223c1934a58e07022ccbf7de0d3e86bbcbeddb44a78a679fe35ae438b9
+      event_sha256: 2d53fcb5fb799ffed5bfd3c185ce6a6513e1dd25c0602ebad000d645ea3d5284
 
 historical_active_work_after_p1_079:
   current_task: NONE

@@ -6232,6 +6232,10 @@ current_phase_route:
     second_correction_allowed: false
     formal_matrix_rerun_allowed: false
   inherited_worktree_inventory:
+  - path: "/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-217-single-process-report"
+    head: 14158adeabb70cab59075883961e02a1ac5b631f
+    branch: codex/p1-217-single-process-report
+    status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
   - path: "/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-215-transactional-output-hierarchy"
     head: 59846664a7afff936564a086f07c7c2a11a739c8
     branch: codex/p1-215-transactional-output-hierarchy

@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-05T09:51:34Z"
-verification_scope: P1_219_TERMINAL_AND_FOUNDER_KNOWLEDGE_SYNC_IMPORTED
+last_verified_at: "2026-08-05T11:34:58Z"
+verification_scope: P1_219_EXACT_READMISSION_AND_P1_EXIT_GATE_READY
 
 authority:
   founder: Human Founder
@@ -39,17 +39,14 @@ goal:
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
   current_task_authority: NONE
   note: >-
-    P1-219 completed its exact dataset-derived preregistration implementation,
-    one-positive/twenty-two-negative targeted matrix and fresh CTO, Security and
-    Quality reviews with all three TARGET_VERDICT values PASS. The reviewed
-    tree was integrated exactly, but the one authorized canonical make verify
-    returned NON_PASS in the inherited P1-070 golden-runner check rather than
-    the P1-219 targeted check. The integration was immediately reverted with a
-    non-destructive Git revert to the exact activation tree. P1-219 is terminal,
-    P2_CONTEXT_ENGINE_PREREGISTRATION remains MISSING, strict P1 remains 7/8 at
-    87.5 percent and P2 remains HOLD_PENDING_STRICT_P1_EXIT. No second
-    candidate, correction, review cycle or verification rerun is allowed under
-    the consumed Route. The project is stopped at the Founder P1 Phase Gate.
+    Founder authorized one atomic Exit-Gate-ready lifecycle compatibility and
+    exact P1-219 reviewed-blob readmission. The original terminal NON_PASS,
+    non-destructive revert and three original PASS reviews remain unchanged.
+    The exact six reviewed engineering blobs are readmitted without byte drift,
+    the dataset-derived preregistration is ACCEPTED, and strict P1 is 8/8 at
+    100 percent in EXIT_GATE_READY state. No Founder P1 Phase Gate PASS is
+    claimed or fabricated. P2 remains HOLD_PENDING_FOUNDER_PHASE_ENTRY and no
+    P2 Task, experiment, branch, worktree or Evidence has been created.
     All paragraphs below this sentence are retained historical chronology only
     and have no current Task, Route or scheduling authority.
     Founder authorized the one-Task dataset-derived preregistration strict P1
@@ -1090,11 +1087,11 @@ project:
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
   p1_execution_status: STOPPED_AT_FOUNDER_PHASE_GATE
-  p1_engineering_status: P1_219_TERMINAL_CANONICAL_MAKE_VERIFY_NON_PASS
-  p2_entry_status: HOLD_PENDING_STRICT_P1_EXIT
-  p2_execution_status: HOLD_PENDING_STRICT_P1_EXIT
+  p1_engineering_status: P1_EXIT_GATE_READY_STRICT_8_OF_8_100_PERCENT
+  p2_entry_status: HOLD_PENDING_FOUNDER_PHASE_ENTRY
+  p2_execution_status: HOLD_PENDING_FOUNDER_PHASE_ENTRY
   phase_execution_status: STOPPED_AT_FOUNDER_PHASE_GATE
-  current_route_execution_status: TERMINAL_TASK_1_P1_219_CANONICAL_MAKE_VERIFY_NON_PASS
+  current_route_execution_status: P1_EXIT_GATE_READY_AWAITING_FOUNDER_PHASE_GATE
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -4569,19 +4566,18 @@ historical_p1_131_phase_route:
   next_eligible_action: P2_PHASE_ENTRY_AUTHORIZED
 
 p1_partial_exit:
-  status: STRICT_EXIT_BLOCKED_AT_FOUNDER_P1_PHASE_GATE
+  status: EXIT_GATE_READY_AWAITING_FOUNDER_PHASE_GATE
   strict_completion:
-    completed: 7
+    completed: 8
     total: 8
-    percent: 87.5
+    percent: 100
   phase_pass_claimed: false
-  completion_100_percent_claimed: false
-  missing_exit_items:
-    - P2_CONTEXT_ENGINE_PREREGISTRATION
+  completion_100_percent_claimed: true
+  missing_exit_items: []
   terminal_task:
-    task_id: AIOS-P1-218_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
-    status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
-    candidate_integrated: false
+    task_id: AIOS-P1-219_DATASET_DERIVED_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+    status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+    candidate_integrated: true
     rejected_engineering_assets_reusable: false
   founder_disposition:
     authorization_token: AUTHORIZE_P1_PARTIAL_EXIT_WITH_DISCLOSED_RESIDUALS_AND_DIRECT_P2_REPOSITORY_INTELLIGENCE_PHASE_ENTRY_V1
@@ -5841,9 +5837,9 @@ historical_p1_162_phase_route:
 
 current_phase_route:
   route_id: P1_DATASET_DERIVED_PREREGISTRATION_AND_STRICT_EXIT_ROUTE_V1
-  status: TERMINAL
-  authority_object_status: TERMINAL_TASK_1_CANONICAL_MAKE_VERIFY_NON_PASS
-  execution_status: TERMINAL_TASK_1_P1_219_CANONICAL_MAKE_VERIFY_NON_PASS
+  status: PHASE_GATE_READY
+  authority_object_status: P1_EXIT_GATE_READY_AWAITING_FOUNDER_PHASE_GATE
+  execution_status: P1_EXIT_GATE_READY_STRICT_8_OF_8_100_PERCENT
   founder_phase_route_decision_required: true
   scheduling_status: STOPPED_AT_FOUNDER_P1_PHASE_GATE
   phase: P1
@@ -5899,7 +5895,7 @@ current_phase_route:
   first_task:
     task_slot: 1
     task_id: AIOS-P1-219_DATASET_DERIVED_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
-    status: TERMINAL_CANONICAL_MAKE_VERIFY_NON_PASS
+    status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
     engineering_hours: 8
     calendar_days: 2
     max_engineering_hours: 8
@@ -5915,13 +5911,13 @@ current_phase_route:
       production: false
       public: false
     contract_path: docs/aios/tasks/P1-219_DATASET_DERIVED_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION.yaml
-    contract_sha256: ad2b690cd33d6b941e3c4cf5bb41e7d6c36975eea2869473dcb4ee7887d14685
-    contract_byte_length: 9951
+    contract_sha256: 0814e0a5764783da7746c71d6240693ae09936c190d0fcbe0c184125ee2f748d
+    contract_byte_length: 9918
     p1_capability_claim_on_pass: P2_CONTEXT_ENGINE_PREREGISTRATION
   task_plan:
     - task_slot: 1
       task_id: AIOS-P1-219_DATASET_DERIVED_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
-      status: TERMINAL_CANONICAL_MAKE_VERIFY_NON_PASS
+      status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
       engineering_hours: 8
       calendar_days: 2
       max_implementation_iterations: 3
@@ -5934,7 +5930,7 @@ current_phase_route:
         remote: false
         production: false
         public: false
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
+  next_eligible_action: FOUNDER_PHASE_GATE
   terminal_p1_219_outcome:
     stopped_at_utc: "2026-08-05T09:38:24Z"
     stop_condition: CANONICAL_MAKE_VERIFY_NONPASS
@@ -5997,6 +5993,25 @@ current_phase_route:
     strict_p1_completion: 7_OF_8_87_5_PERCENT
     p2_status: HOLD_PENDING_STRICT_P1_EXIT
     second_candidate_or_correction_allowed: false
+  founder_exit_state_compatibility_and_exact_readmission:
+    authorization_token: AUTHORIZE_ONE_P1_EXIT_GATE_READY_STATE_COMPATIBILITY_AND_EXACT_P1_219_INTEGRATION_V1
+    exact_reviewed_candidate_commit: 231bf0eca104f66d3a0343b4ff7e3bc00420905e
+    exact_reviewed_candidate_tree: 09be4786161a9b9c13716941bd2659d9a084a5c4
+    exact_reviewed_engineering_blob_count: 6
+    engineering_blob_bytes_modified: false
+    prior_terminal_receipt_preserved: true
+    frozen_node20:
+      path: /usr/local/bin/node
+      version: v20.17.0
+      byte_length: 193262272
+      sha256: c5548e7a991a5c90170a29843ffc46df4643e29141f3cbb035f60295cf2bc882
+    admission_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-dataset-derived-preregistration-strict-exit-20260805/task-1-p1-219/integration-v2/P1_219_EXACT_REVIEWED_BLOB_ADMISSION_RECEIPT.json
+      byte_length: 4951
+      sha256: 7bb5d3cc8aa65517df41b0aa883b6680b0276566cb82b48bd217b9da53eed72a
+    projected_success_state: EXIT_GATE_READY_STRICT_8_OF_8_100_PERCENT
+    founder_phase_gate_pass_claimed: false
+    p2_hold_status: HOLD_PENDING_FOUNDER_PHASE_ENTRY
   terminal_p1_218_outcome:
     stopped_at_utc: "2026-08-05T08:36:58Z"
     stop_condition: ANY_FINAL_REVIEWER_TARGET_VERDICT_NON_PASS
@@ -9077,7 +9092,7 @@ strict_phase_gate_ledger:
         accepted_checkpoint_commit: ad6450e418d8f1b4fd5a789f913525a8dd8bdc10
         accepted_checkpoint_tree: 2c0956ae8598547466f691ead21532a026006bf9
     P1:
-      status: INCOMPLETE
+      status: EXIT_GATE_READY
       exit_gate_authority:
         path: docs/aios/EVALUATION_PROTOCOL.md
         version: "1.1"
@@ -9172,22 +9187,22 @@ strict_phase_gate_ledger:
             byte_length: 4469
             sha256: 44a7e048abda825754bfc22e2558062db55a49156e0e4004b7dac097e4c9b008
         P2_CONTEXT_ENGINE_PREREGISTRATION:
-          status: MISSING
-          task_history_key: null
-          task_id: null
-          acceptance_commit: null
-          acceptance_tree: null
+          status: ACCEPTED
+          task_history_key: aios_p1_219
+          task_id: AIOS-P1-219_DATASET_DERIVED_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+          acceptance_commit: 231bf0eca104f66d3a0343b4ff7e3bc00420905e
+          acceptance_tree: 09be4786161a9b9c13716941bd2659d9a084a5c4
           gate_evidence:
-            receipt_type: null
-            path: null
-            byte_length: null
-            sha256: null
+            receipt_type: P1_219_EXACT_REVIEWED_BLOB_EXIT_READY_ADMISSION_RECEIPT_V1
+            path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-dataset-derived-preregistration-strict-exit-20260805/task-1-p1-219/integration-v2/P1_219_EXACT_REVIEWED_BLOB_ADMISSION_RECEIPT.json
+            byte_length: 4951
+            sha256: 7bb5d3cc8aa65517df41b0aa883b6680b0276566cb82b48bd217b9da53eed72a
       derived_completion:
-        completed: 7
+        completed: 8
         total: 8
-        percent: 87.5
+        percent: 100
       founder_phase_gate:
-        status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
+        status: ELIGIBLE_AWAITING_FOUNDER_DECISION
         decision_id: null
         path: null
         byte_length: null
@@ -9564,7 +9579,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260805-P1-219-TERMINAL-CANONICAL-VERIFY-NON-PASS-KNOWLEDGE-IMPORTED-V1
+  latest_event_id: FKS-20260805-P1-219-EXIT-GATE-READY-KNOWLEDGE-PENDING-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -12137,6 +12152,40 @@ founder_knowledge_sync:
         sha256: 8716da40e6727c3720c579576d95cbd4f79437b8bf6d06c813a2e5e2d27833d2
       event_sha256: 2360524d0d67a80dcb4804acf5d6ae30f4ef61816d6f10d85123b41514911ef2
 
+    - event_id: FKS-20260805-P1-219-EXIT-GATE-READY-KNOWLEDGE-PENDING-V1
+      trigger_type: FOUNDER_EXIT_STATE_COMPATIBILITY_AND_TASK_ACCEPTANCE_DECISION
+      occurred_at_utc: "2026-08-05T11:34:58Z"
+      source_commit: 97d04a569c81af520d7022373dfefa60a1c78c41
+      source_tree: a61b5cf520b995995d5dab8652fe851ad6d30558
+      previous_event_sha256: 2360524d0d67a80dcb4804acf5d6ae30f4ef61816d6f10d85123b41514911ef2
+      status: PENDING_CANDIDATE
+      rationale: >-
+        Founder authorized an explicit three-state P1 Gate lifecycle that
+        separates incomplete capability work, strict 8/8 Exit-Gate readiness
+        and a later exact Founder Phase Gate PASS. The same decision authorizes
+        exact-byte P1-219 engineering readmission while preserving the original
+        terminal NON_PASS and keeping P2 held. A concise reusable Learning
+        Artifact about this no-skip state boundary is pending and remains
+        non-blocking for engineering and the Founder P1 Phase Gate.
+      engineering_blocking: false
+      artifact:
+        path: null
+        byte_length: null
+        sha256: null
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+      event_sha256: ef43bd1d31e08363072888e66cef890d5787bc20e8a48b70a6fe506b4769d9e3
+
 historical_active_work_after_p1_079:
   current_task: NONE
   current_task_status: NONE
@@ -12231,12 +12280,12 @@ active_work:
   founder_reserved_authorization: null
   founder_reserved_authorization_sha256: null
   founder_decision_required: true
-  founder_decision_required_scope: P1_PHASE_GATE_AFTER_P1_219_TERMINAL_CANONICAL_MAKE_VERIFY_NON_PASS
-  escalation_reason: P1219.CANONICAL_VERIFY.INHERITED_P1_070_GOLDEN_RUNNER_NON_PASS
-  user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
+  founder_decision_required_scope: P1_EXIT_GATE_READY_AFTER_STRICT_8_OF_8_ACCEPTED
+  escalation_reason: null
+  user_action_required: FOUNDER_PHASE_GATE_DECISION
   phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
+  phase_route_user_action_required: FOUNDER_PHASE_GATE_DECISION
+  next_eligible_action: FOUNDER_PHASE_GATE
 historical_p1_190_terminal_active_work:
   current_task: NONE
   current_task_status: NONE
@@ -12331,6 +12380,50 @@ task_history:
     p2_context_engine_preregistration_status: MISSING
     strict_p1_completion_after_task: 7_OF_8_87_5_PERCENT
     p2_status: HOLD_PENDING_STRICT_P1_EXIT
+  aios_p1_219:
+    task_id: AIOS-P1-219_DATASET_DERIVED_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+    route_id: P1_DATASET_DERIVED_PREREGISTRATION_AND_STRICT_EXIT_ROUTE_V1
+    status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+    classification: EXACT_REVIEWED_ENGINEERING_BLOBS_READMITTED_WITH_EXIT_GATE_READY_STATE_COMPATIBILITY
+    contract: docs/aios/tasks/P1-219_DATASET_DERIVED_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION.yaml
+    task_contract_sha256: 0814e0a5764783da7746c71d6240693ae09936c190d0fcbe0c184125ee2f748d
+    task_contract_byte_length: 9918
+    accepted_candidate_commit: 231bf0eca104f66d3a0343b4ff7e3bc00420905e
+    accepted_candidate_tree: 09be4786161a9b9c13716941bd2659d9a084a5c4
+    reviewed_candidate_commit: 231bf0eca104f66d3a0343b4ff7e3bc00420905e
+    reviewed_candidate_tree: 09be4786161a9b9c13716941bd2659d9a084a5c4
+    candidate_manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-dataset-derived-preregistration-strict-exit-20260805/task-1-p1-219/candidate-v1/P1_219_CANDIDATE_MANIFEST.json
+    candidate_manifest_sha256: 1c84d75030d75082c2ace3dfc34dc0f58257f2ee6014d32455d6a3fa42e5a008
+    candidate_manifest_byte_length: 3028
+    cto_target_verdict: PASS
+    cto_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-dataset-derived-preregistration-strict-exit-20260805/task-1-p1-219/reviews/final-cycle-1/CTO_REVIEW.json
+    cto_review_sha256: 233b28a45fd38e6f53932bd382373fe10b126f97bf98205832fd6cc9b3570d1f
+    cto_review_byte_length: 3734
+    security_target_verdict: PASS
+    security_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-dataset-derived-preregistration-strict-exit-20260805/task-1-p1-219/reviews/final-cycle-1/SECURITY_REVIEW.json
+    security_review_sha256: 8772b859205b9126d7b404f1ad852e7846396af7d5f18556404e2105fe673f65
+    security_review_byte_length: 5092
+    quality_target_verdict: PASS
+    quality_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-dataset-derived-preregistration-strict-exit-20260805/task-1-p1-219/reviews/final-cycle-1/QUALITY_REVIEW.json
+    quality_review_sha256: 971e1a167530ce7a3108a5f98db34edccc0da20d97021c0393c58360bce3f4cb
+    quality_review_byte_length: 3286
+    reviewed_tree_equals_integrated_tree: true
+    canonical_make_verify: PASS
+    canonical_make_verify_invocations: 1
+    task_gate_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-dataset-derived-preregistration-strict-exit-20260805/task-1-p1-219/integration-v2/P1_219_EXACT_REVIEWED_BLOB_ADMISSION_RECEIPT.json
+      byte_length: 4951
+      sha256: 7bb5d3cc8aa65517df41b0aa883b6680b0276566cb82b48bd217b9da53eed72a
+    preserved_terminal_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-dataset-derived-preregistration-strict-exit-20260805/task-1-p1-219/terminal/P1_219_TERMINAL_CANONICAL_MAKE_VERIFY_NON_PASS_RECEIPT.json
+      byte_length: 2743
+      sha256: 4d23649b215932b09023d8f7d3a7a0a7c37e9177887a846a2513e021f959a35c
+    exact_reviewed_engineering_blob_count: 6
+    strict_phase_state: EXIT_GATE_READY
+    founder_phase_gate_pass_claimed: false
+    capability_credit: 1
+    strict_p1_completion_after_task: 8_OF_8_100_PERCENT
+    p2_status: HOLD_PENDING_FOUNDER_PHASE_ENTRY
   aios_p1_217:
     task_id: AIOS-P1-217_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_ADMISSION
     route_id: P1_MINIMUM_SINGLE_PROCESS_RAW_EVIDENCE_REPORT_AND_PREREGISTRATION_STRICT_EXIT_ROUTE_V1
@@ -17437,10 +17530,10 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: P1_DATASET_DERIVED_PREREGISTRATION_AND_STRICT_EXIT_ROUTE_V1_TERMINAL
-  current_task_claim: NONE_P1_219_TERMINAL_CANONICAL_MAKE_VERIFY_NON_PASS
-  real_engineering_progress: P1_STRICT_7_OF_8_P1_219_TARGET_AND_THREE_REVIEWS_PASS_BUT_GLOBAL_CANONICAL_VERIFY_NON_PASS_REVERTED_NO_CAPABILITY_CREDIT
-  product_capability_changed: false
+  current_route_claim: P1_DATASET_DERIVED_PREREGISTRATION_AND_STRICT_EXIT_ROUTE_V1_PHASE_GATE_READY
+  current_task_claim: NONE_P1_EXIT_GATE_READY_STRICT_8_OF_8
+  real_engineering_progress: P1_STRICT_8_OF_8_P2_CONTEXT_ENGINE_PREREGISTRATION_ACCEPTED_P2_STILL_HELD
+  product_capability_changed: true
   phase_local_allowed:
     - local evaluation foundation engineering under an exact Task Contract
     - synthetic fixtures, deterministic tests, replay, Evidence, rollback and independent review
@@ -17521,18 +17614,18 @@ phase_execution_claim:
 claim_boundary:
   current_phase_route: P1_DATASET_DERIVED_PREREGISTRATION_AND_STRICT_EXIT_ROUTE_V1
   current_task: NONE
-  next_eligible_action: FOUNDER_P1_PHASE_GATE
-  real_engineering_progress: P1_219_TERMINAL_CANONICAL_MAKE_VERIFY_NON_PASS_REVERTED_STRICT_P1_7_OF_8_87_5_PERCENT
-  p1_219_status: TERMINAL_CANONICAL_MAKE_VERIFY_NON_PASS
+  next_eligible_action: FOUNDER_PHASE_GATE
+  real_engineering_progress: P1_219_EXACT_REVIEWED_BLOBS_READMITTED_STRICT_P1_8_OF_8_100_PERCENT_EXIT_GATE_READY
+  p1_219_status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
   p1_219_candidate_commit: 231bf0eca104f66d3a0343b4ff7e3bc00420905e
   p1_219_candidate_tree: 09be4786161a9b9c13716941bd2659d9a084a5c4
   p1_219_candidate_manifest_sha256: 1c84d75030d75082c2ace3dfc34dc0f58257f2ee6014d32455d6a3fa42e5a008
   p1_219_all_fresh_reviewers_pass: true
-  p1_219_canonical_make_verify: NON_PASS_ONE_INVOCATION
+  p1_219_canonical_make_verify: PASS_ONE_FROZEN_NODE20_INVOCATION
   p1_219_non_destructive_revert_commit: fd6fe3c14658dada9698f22371aee4dfa7f94d22
   p1_219_terminal_receipt_sha256: 4d23649b215932b09023d8f7d3a7a0a7c37e9177887a846a2513e021f959a35c
-  p1_219_capability_credit: 0
-  p2_context_engine_preregistration_status: MISSING
+  p1_219_capability_credit: 1
+  p2_context_engine_preregistration_status: ACCEPTED
   p1_213_status: HISTORICAL_TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
   p1_213_authorization_token: AUTHORIZE_P1_PHYSICAL_OBJECT_IDENTITY_REPORT_ADMISSION_AND_STRICT_EXIT_ROUTE_V1
   p1_213_founder_packet_sha256: b987e8f6cbe2195e118f46a01db1aceac0b06c93c1746e2186965bc507188293
@@ -17836,12 +17929,12 @@ claim_boundary:
   p1_160_canonical_make_verify: NOT_INVOKED_FINAL_REVIEW_STOP_CONDITION
   p1_160_capability_credit: 0
   p1_161_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
-  strict_p1_completion: 7_OF_8_87_5_PERCENT
+  strict_p1_completion: 8_OF_8_100_PERCENT
   p1_217_status: FOUNDER_GATE_ACCEPTED_COMPLETE
   p1_217_quality_target_verdict_preserved: NON_PASS
   p1_217_canonical_make_verify: PASS_ONE_INVOCATION
   p1_218_status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
-  p2_status: HOLD_PENDING_STRICT_P1_EXIT
+  p2_status: HOLD_PENDING_FOUNDER_PHASE_ENTRY
   p1_152_status: TERMINAL_TWO_DIAGNOSTICS_NO_STRICT_2XX_COMPLETION
   p1_152_diagnostic_provider_requests: 2
   p1_152_formal_provider_requests: 0

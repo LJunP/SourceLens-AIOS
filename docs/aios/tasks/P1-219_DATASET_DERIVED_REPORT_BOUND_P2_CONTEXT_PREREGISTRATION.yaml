@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P1-219_DATASET_DERIVED_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
 phase: P1
 route_id: P1_DATASET_DERIVED_PREREGISTRATION_AND_STRICT_EXIT_ROUTE_V1
-status: TERMINAL_CANONICAL_MAKE_VERIFY_NON_PASS
+status: ACTIVE
 objective: >-
   Generate and independently verify one report-bound P2 context-engine
   preregistration whose complete ordered sample is derived directly from the

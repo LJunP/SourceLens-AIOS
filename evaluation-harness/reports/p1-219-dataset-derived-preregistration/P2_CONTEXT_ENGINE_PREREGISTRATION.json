@@ -1,0 +1,138 @@
+{
+  "schema_version": "p1-219-dataset-derived-preregistration/v1",
+  "artifact_type": "P2_CONTEXT_ENGINE_PREREGISTRATION",
+  "task_id": "AIOS-P1-219_DATASET_DERIVED_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION",
+  "report_binding": {
+    "path": "/Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-single-process-report-strict-exit-20260805/task-1-p1-217/correction-evidence-v1/report-output/REPRODUCIBLE_BASELINE_REPORT.json",
+    "byte_length": 12815,
+    "sha256": "27abd4d655b9eabd13f29bb15f84edc97b7b3d884daefe837e49846ba64a6657",
+    "acceptance_commit": "630ddcf4659daca287825bb8e2382deaa962606c",
+    "acceptance_tree": "d5c4c85247141dcb0308add95969991913735ea9"
+  },
+  "dataset_binding": {
+    "path": "evaluation-harness/datasets/p1-representative-task-dataset-v1/dataset-manifest.json",
+    "byte_length": 15313,
+    "sha256": "22f252319ed066655b05142a391709741703e01fbb4d6b5ebfbbcb6acd782be6",
+    "dataset_id": "SOURCELENS-P1-REPRESENTATIVE-TASKS",
+    "dataset_version": "1.0.0",
+    "task_count": 6
+  },
+  "sample_derivation": {
+    "authority": "EXACT_DATASET_MANIFEST_TASKS_ARRAY",
+    "complete": true,
+    "ordered": true,
+    "unique": true,
+    "handwritten_task_id_constants_used_as_authority": false
+  },
+  "sample": [
+    {
+      "task_id": "SL-P1-REP-001-RANGE-NORMALIZATION",
+      "split": "development",
+      "archetype": "bounded_logic_bug_fix",
+      "task_spec_path": "tasks/SL-P1-REP-001-RANGE-NORMALIZATION/task-spec.json",
+      "base_commit": "68ce8226eff4c5c7230b55b18a4cbea2f8e4a20f",
+      "tree_hash": "900814727113d65f5dad8b63222e14f39b2cf38b",
+      "assertion_id": "REP001_NEGATIVE_RANGE_ORDER"
+    },
+    {
+      "task_id": "SL-P1-REP-002-CONFIG-VALIDATION",
+      "split": "development",
+      "archetype": "input_contract_validation",
+      "task_spec_path": "tasks/SL-P1-REP-002-CONFIG-VALIDATION/task-spec.json",
+      "base_commit": "10ad29f28c4358759711f78021b5ee897658f913",
+      "tree_hash": "e8611a442b405a9cc5180d2675b090618ea66d5b",
+      "assertion_id": "REP002_REJECT_UNKNOWN_KEYS"
+    },
+    {
+      "task_id": "SL-P1-REP-003-SAFE-PATH-JOIN",
+      "split": "development",
+      "archetype": "path_containment_security_fix",
+      "task_spec_path": "tasks/SL-P1-REP-003-SAFE-PATH-JOIN/task-spec.json",
+      "base_commit": "10c8d9177404a85d845e7f4f207ac61cbd2538fc",
+      "tree_hash": "9a0d83cb86ce3aaed0def3d480542800641eb18e",
+      "assertion_id": "REP003_REJECT_PARENT_ESCAPE"
+    },
+    {
+      "task_id": "SL-P1-REP-004-COMMAND-RESULT-MAPPING",
+      "split": "development",
+      "archetype": "deterministic_error_handling",
+      "task_spec_path": "tasks/SL-P1-REP-004-COMMAND-RESULT-MAPPING/task-spec.json",
+      "base_commit": "289d81fede3e4ee8c3ad2b08cb8ed67135531705",
+      "tree_hash": "4a0632cad019bfc6302ec32096bf0d3ee05ac366",
+      "assertion_id": "REP004_PRESERVE_NONZERO_EXIT"
+    },
+    {
+      "task_id": "SL-P1-REP-005-PROFILE-DISPLAY-NAME",
+      "split": "validation",
+      "archetype": "multi_file_behavior_change",
+      "task_spec_path": "tasks/SL-P1-REP-005-PROFILE-DISPLAY-NAME/task-spec.json",
+      "base_commit": "bd50586883fda10c974bd6944c502945019da99e",
+      "tree_hash": "152201a4e29bca172c713b0669d807e3b0fc4fb3",
+      "assertion_id": "REP005_FORMAT_NAME_ACROSS_MODULES"
+    },
+    {
+      "task_id": "SL-P1-REP-006-DEDUPE-REFACTOR",
+      "split": "validation",
+      "archetype": "behavior_preserving_refactor",
+      "task_spec_path": "tasks/SL-P1-REP-006-DEDUPE-REFACTOR/task-spec.json",
+      "base_commit": "dd71c92a04693e60f1cb30d577107205411cbed3",
+      "tree_hash": "78327e74c83aed97eddcc7485dcf985865c2b815",
+      "assertion_id": "REP006_DEDUPE_PRESERVES_ORDER"
+    }
+  ],
+  "preregistration": {
+    "scope": "FUTURE_P2_CONTEXT_ENGINE_EXPERIMENT_ONLY",
+    "hypothesis": "For the complete ordered P1-035 task sample and an identical context-byte budget, graph-conditioned context selection will increase task-relevant evidence recall relative to the deterministic lexical baseline without increasing forbidden-context admission.",
+    "primary_metric": {
+      "id": "TASK_RELEVANT_EVIDENCE_RECALL_AT_FIXED_CONTEXT_BYTE_BUDGET",
+      "unit": "RATIO_0_TO_1",
+      "direction": "HIGHER_IS_BETTER",
+      "aggregation": "MACRO_MEAN_ACROSS_COMPLETE_ORDERED_TASK_SAMPLE",
+      "numerator": "task-relevant evidence units admitted into the selected context",
+      "denominator": "all task-relevant evidence units declared by the frozen task oracle"
+    },
+    "baseline": {
+      "id": "DETERMINISTIC_LEXICAL_RETRIEVAL_V1",
+      "definition": "Rank admissible source units by normalized task-query token overlap, then break ties by canonical repository-relative path and source span."
+    },
+    "comparison": {
+      "design": "PAIRED_WITHIN_TASK_EQUAL_CONTEXT_BYTE_BUDGET",
+      "treatment": "GRAPH_CONDITIONED_CONTEXT_SELECTION",
+      "control": "DETERMINISTIC_LEXICAL_RETRIEVAL_V1",
+      "denominator_policy": "ALL_DATASET_TASKS_REMAIN_IN_THE_DENOMINATOR"
+    },
+    "exclusion_rules": [
+      "No task may be excluded after outcome observation.",
+      "A run with identity drift, missing oracle data or budget mismatch is INVALID and remains in the denominator.",
+      "An external-effect request or dataset mutation stops the experiment; it does not remove a task from the denominator."
+    ],
+    "uncertainty_method": {
+      "primary_interval": "PAIRED_TASK_LEVEL_PERCENTILE_BOOTSTRAP_95_PERCENT",
+      "bootstrap_resamples": 10000,
+      "deterministic_seed_source": "DATASET_MANIFEST_SHA256_FIRST_16_HEX",
+      "sensitivity_analysis": "EXACT_TWO_SIDED_SIGN_FLIP_RANDOMIZATION_OVER_ALL_TASK_LEVEL_PAIRED_DIFFERENCES"
+    },
+    "stop_conditions": [
+      "accepted report or dataset identity drift",
+      "sample differs from the complete ordered unique dataset tasks array",
+      "treatment and control context byte budgets differ",
+      "task-relevant evidence oracle cannot be frozen before outcome inspection",
+      "a scheduled task or invalid result is removed from the denominator",
+      "network, Provider, Secret, remote, production or public effect is requested during this P1 Task",
+      "P2 Phase entry is not separately authorized after strict P1 Exit"
+    ]
+  },
+  "p2_state": {
+    "status": "HOLD_PENDING_STRICT_P1_EXIT_AND_FOUNDER_P2_ENTRY",
+    "p2_experiment_executed": false,
+    "p2_entry_authorized": false
+  },
+  "external_effects": {
+    "network": false,
+    "provider": false,
+    "secret": false,
+    "remote": false,
+    "production": false,
+    "public": false
+  }
+}

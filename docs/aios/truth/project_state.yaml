@@ -37,7 +37,7 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: ROUTE_READY_P1_219_NOT_YET_ACTIVE
+  current_task_authority: NONE
   note: >-
     Founder authorized the one-Task dataset-derived preregistration strict P1
     Exit route from exact clean canonical commit/tree

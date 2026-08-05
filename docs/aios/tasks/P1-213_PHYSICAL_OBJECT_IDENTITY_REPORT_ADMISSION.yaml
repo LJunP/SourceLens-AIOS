@@ -1,0 +1,156 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P1-213_PHYSICAL_OBJECT_IDENTITY_REPORT_ADMISSION
+phase: P1
+route_id: P1_PHYSICAL_OBJECT_IDENTITY_REPORT_ADMISSION_AND_STRICT_EXIT_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Build a new pure-offline report admission and rebuilder whose topology
+  authority is physical filesystem object identity, admit the exact immutable
+  P1-207 raw formal Evidence without modifying it, and reconstruct the truthful
+  36-cell REPRODUCIBLE_BASELINE_REPORT.
+why_now: >-
+  Strict P1 remains 6/8 (75%) and P2 is held. The formal experiment is already
+  frozen, so the highest-value remaining action is to close the report Gate
+  from immutable raw Evidence without another Provider run or historical
+  rejected implementation reuse.
+risk_level: high
+budget:
+  engineering_hours: 22
+  calendar_days: 5
+  implementation_iterations: 3
+  candidates: 1
+roles:
+  owner: P1-213 Engineering Manager
+  worker: P1-213 Physical Object Identity Worker
+  independent_reviewers:
+    - P1-213 Fresh CTO Reviewer
+    - P1-213 Fresh Security Reviewer
+    - P1-213 Fresh Quality Reviewer
+allowlisted_paths:
+  - evaluation-harness/evaluator/p1-213-physical-object-identity-admission
+  - scripts/verify-p1-213-physical-object-identity-admission.sh
+  - docs/aios/tasks/P1-213_PHYSICAL_OBJECT_IDENTITY_REPORT_ADMISSION.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+write_scope:
+  worker: []
+  quality:
+    - evaluation-harness/evaluator/p1-213-physical-object-identity-admission
+  integration:
+    - scripts/verify-p1-213-physical-object-identity-admission.sh
+    - docs/aios/tasks/P1-213_PHYSICAL_OBJECT_IDENTITY_REPORT_ADMISSION.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - accepted canonical P1 specifications and accepted P1 assets
+  - /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-cooperative-local-research-exit-20260804/task-1-p1-207/evidence/formal-execution-v1
+dependencies:
+  - ACCEPTED_CANONICAL_P1_SPECIFICATIONS
+  - EXACT_IMMUTABLE_P1_207_RAW_FORMAL_EVIDENCE
+historical_isolation:
+  p1_209_status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+  p1_211_status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+  rejected_engineering_readable_or_reusable: false
+  permitted_historical_reads:
+    - canonical Truth
+    - terminal receipts
+    - final Reviews
+immutable_formal_input:
+  root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-cooperative-local-research-exit-20260804/task-1-p1-207/evidence/formal-execution-v1
+  evidence_manifest:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-cooperative-local-research-exit-20260804/task-1-p1-207/evidence/formal-execution-v1/EVIDENCE_MANIFEST.json
+    sha256: 31e439cc3e3a993916fffd836d6883722e4570719d6a93c5b38b6a29c703504f
+    byte_length: 31196
+  run_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-minimum-cooperative-local-research-exit-20260804/task-1-p1-207/evidence/formal-execution-v1/RUN_RECEIPT.json
+    sha256: 5352b9071bffa4c1952f1c1388af8c05f9726d03fefb85e23e1164ff544fe227
+    byte_length: 745
+  formal_rerun_allowed: false
+required_reconstructed_result:
+  denominator: 36
+  successful: 0
+  failed: 28
+  invalid: 8
+  excluded: 0
+physical_object_identity_gate:
+  validate_before_any_filesystem_delta: true
+  lstat_and_realpath_all_existing_ancestors: true
+  device_and_inode_authoritative: true
+  input_output_equal_or_overlap_forbidden: true
+  physical_alias_forbidden: true
+  case_fold_alias_forbidden: true
+  unicode_normalization_alias_forbidden: true
+  input_regular_file_link_count_must_equal_one: true
+  symlink_hardlink_non_directory_ancestor_and_identity_drift_forbidden: true
+  rejected_cases_must_prove_zero_filesystem_delta: true
+  minimal_child_environment_required: true
+  child_process_forbidden_unless_necessary: true
+required_negative_cases:
+  - EXACT_PATH_EQUALITY
+  - OUTPUT_DESCENDANT_OF_INPUT
+  - OUTPUT_ANCESTOR_OF_INPUT
+  - MACOS_CASE_FOLD_ALIAS
+  - UNICODE_NORMALIZATION_ALIAS
+  - DEVICE_INODE_ANCESTOR_OVERLAP
+  - INPUT_ANCESTOR_SYMLINK_SUBSTITUTION
+  - OUTPUT_ANCESTOR_SYMLINK_SUBSTITUTION
+  - EXTERNAL_HARDLINK_ALIAS
+  - MISSING
+  - EXTRA
+  - MUTATION
+  - DUPLICATE
+  - REORDER
+  - CROSS_BINDING
+  - REJECTED_CASE_ZERO_FILESYSTEM_DELTA
+  - MINIMAL_CHILD_ENVIRONMENT
+  - GENERATED_REPORT_AS_INPUT
+claim_boundary: COOPERATIVE_LOCAL_PURE_OFFLINE_PHYSICAL_OBJECT_IDENTITY_REPORT_ADMISSION_ONLY_NO_P1_209_OR_P1_211_ENGINEERING_REUSE_FORMAL_RERUN_SECRET_NETWORK_PROVIDER_REMOTE_PRODUCTION_PUBLIC_P2_OR_P3_ENTRY
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-physical-object-identity-strict-exit-20260805/founder-phase-gate/FOUNDER_P1_PHYSICAL_OBJECT_IDENTITY_REPORT_ADMISSION_AND_STRICT_EXIT_ROUTE_V1.structured-decision.json
+  sha256: decb7d5ee77af7ad94d5e9c2903567ddbaf8aded252377fefc6d8106489515bf
+  byte_length: 2882
+  authorization_token: AUTHORIZE_P1_PHYSICAL_OBJECT_IDENTITY_REPORT_ADMISSION_AND_STRICT_EXIT_ROUTE_V1
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+founder_reserved_profile: null
+test_accounting:
+  total_test_count_recorded_separately: true
+  negative_test_count_recorded_separately: true
+  counts_must_equal_executed_cases: true
+review_gate:
+  candidate_count_maximum: 1
+  fresh_reviewers:
+    - CTO
+    - Security
+    - Quality
+  all_target_verdicts_required: PASS
+  reviewed_integrated_tree_equality_required: true
+  canonical_make_verify_invocations_after_integration: 1
+stop_conditions:
+  - SAME_NORMALIZED_ROOT_CAUSE_REPEATS_IN_ADJACENT_ITERATIONS
+  - IMPLEMENTATION_REPAIR_BUDGET_EXHAUSTED
+  - FINAL_REVIEWER_NON_PASS
+  - REVIEWED_INTEGRATED_TREE_MISMATCH
+  - CANONICAL_MAKE_VERIFY_NONPASS
+  - IMMUTABLE_INPUT_MUTATION_OR_EXTERNAL_EFFECT
+next_on_complete:
+  task_id: AIOS-P1-214_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+  requires_complete_task_gate_pass: true
+  p2_entry_authorized: false

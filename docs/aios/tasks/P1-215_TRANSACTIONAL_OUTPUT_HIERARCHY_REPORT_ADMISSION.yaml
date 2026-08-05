@@ -2,7 +2,7 @@ schema_version: task-contract/v3
 task_id: AIOS-P1-215_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION
 phase: P1
 route_id: P1_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION_AND_STRICT_EXIT_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_FINAL_SECURITY_TARGET_NON_PASS
 objective: >-
   Build a clean-room pure-offline report admission and rebuilder whose caller-owned
   append-only creation journal guarantees identity-bound reverse rollback after any
@@ -150,3 +150,36 @@ rollback: >-
   Task-owned source changes within the Task worktree. After reviewed integration,
   any canonical verification failure uses non-destructive git revert; reset and clean
   are forbidden.
+terminal_outcome:
+  terminal_at: "2026-08-05T05:13:21Z"
+  stop_condition: ANY_FINAL_REVIEWER_TARGET_VERDICT_NON_PASS
+  normalized_root_cause: P1215.FINAL.OUTPUT_HIERARCHY.POST_PREFLIGHT_PARENT_IDENTITY_SUBSTITUTION_ACCEPTED
+  exact_candidate:
+    commit: 59846664a7afff936564a086f07c7c2a11a739c8
+    tree: e913bf0cfe6c114c26012e60e021592539dfa5a7
+    manifest:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-transactional-output-hierarchy-strict-exit-20260805/task-1-p1-215/candidate/P1_215_EXACT_CANDIDATE_MANIFEST_V1.json
+      byte_length: 4612
+      sha256: 0012ee68a9ae40a336289681b58277e01069d5044d0a575254ad638c1b144080
+    implementation_iterations_used: 3
+    same_task_repairs_used: 2
+    candidate_integrated: false
+  final_reviews:
+    cto: INTERRUPTED_AFTER_SECURITY_STOP_CONDITION
+    security:
+      target_verdict: NON_PASS
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-transactional-output-hierarchy-strict-exit-20260805/task-1-p1-215/reviews/final-cycle-1/SECURITY_REVIEW.json
+      byte_length: 6487
+      sha256: be0e6caefb9074932a577c947c84f10045d66f01c315b24280d9b961a39f407b
+    quality: INTERRUPTED_AFTER_SECURITY_STOP_CONDITION
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-transactional-output-hierarchy-strict-exit-20260805/task-1-p1-215/terminal/P1_215_TERMINAL_FINAL_SECURITY_TARGET_NON_PASS_RECEIPT.json
+    byte_length: 3329
+    sha256: 2e16a78ce04ca26d6dce2e3dd6d9d7ea0dabb23ef006f2cde3a41a6028b85dea
+  candidate_integrated: false
+  canonical_make_verify: NOT_INVOKED_FINAL_REVIEW_STOP_CONDITION
+  capability_credit: 0
+  reproducible_baseline_report: MISSING
+  p1_216_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
+  strict_p1_completion: 6_OF_8_75_PERCENT
+  p2_status: HOLD_PENDING_STRICT_P1_EXIT

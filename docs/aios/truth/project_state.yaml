@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-05T04:46:08Z"
-verification_scope: P1_215_TRANSACTIONAL_OUTPUT_HIERARCHY_TASK_ACTIVE
+last_verified_at: "2026-08-05T05:16:21Z"
+verification_scope: P1_215_TERMINAL_FINAL_SECURITY_TARGET_NON_PASS
 
 authority:
   founder: Human Founder
@@ -37,8 +37,23 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: AIOS-P1-215_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION
+  current_task_authority: NONE
   note: >-
+    P1-215 used its full pre-freeze implementation allowance, froze one exact
+    pure-offline candidate and passed its declared 26-test pre-freeze matrix.
+    Fresh Security Review returned TARGET NON_PASS after an independent owned
+    fixture replaced a validated output parent pathname after preflight: later
+    path-based writes followed the replacement, the evaluator returned PASS and
+    the originally journal-owned directory remained abandoned at its renamed
+    path. This violates the explicit identity-drift, path-substitution and
+    zero-filesystem-delta Task Gate. CTO and Quality Reviews were interrupted
+    immediately after the Security Stop Condition. The candidate was not
+    integrated, canonical make verify was not run, REPRODUCIBLE_BASELINE_REPORT
+    remains MISSING, P1-216 is ineligible, strict P1 remains 6/8 at 75 percent
+    and P2 remains HOLD_PENDING_STRICT_P1_EXIT. The route is terminal at the
+    Founder P1 Phase Gate without a second candidate, correction, successor or
+    replacement. All paragraphs below this sentence are retained historical
+    chronology only and have no current Task, Route or scheduling authority.
     P1-215 is now the unique active Task on branch/worktree
     codex/p1-215-transactional-output-hierarchy /
     /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-215-transactional-output-hierarchy,
@@ -984,11 +999,11 @@ project:
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
   p1_execution_status: ACTIVE
-  p1_engineering_status: P1_215_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION_ACTIVE
+  p1_engineering_status: P1_215_TERMINAL_FINAL_SECURITY_TARGET_NON_PASS
   p2_entry_status: HOLD_PENDING_STRICT_P1_EXIT
   p2_execution_status: HOLD_PENDING_STRICT_P1_EXIT
-  phase_execution_status: ACTIVE
-  current_route_execution_status: ACTIVE_P1_215_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION
+  phase_execution_status: P1_PHASE_GATE_REQUIRED_AFTER_P1_215_TERMINAL_NON_PASS
+  current_route_execution_status: TERMINAL_P1_215_FINAL_SECURITY_TARGET_NON_PASS
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -5736,11 +5751,11 @@ historical_p1_162_phase_route:
 
 current_phase_route:
   route_id: P1_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION_AND_STRICT_EXIT_ROUTE_V1
-  status: ACTIVE
-  authority_object_status: PHASE_DELEGATED_TASK_AUTHORITY_ACTIVE
-  execution_status: ACTIVE_TASK_1_P1_215_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION
-  founder_phase_route_decision_required: false
-  scheduling_status: TASK_1_ACTIVE
+  status: TERMINAL_FINAL_SECURITY_TARGET_NON_PASS
+  authority_object_status: CONSUMED_TERMINAL_FINAL_REVIEW_STOP_CONDITION
+  execution_status: TERMINAL_TASK_1_P1_215_FINAL_SECURITY_TARGET_NON_PASS
+  founder_phase_route_decision_required: true
+  scheduling_status: ROUTE_TERMINAL_TASK_2_INELIGIBLE
   phase: P1
   phase_entry_status: AUTHORIZED
   authorization_token: AUTHORIZE_P1_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION_AND_STRICT_EXIT_ROUTE_V1
@@ -5796,7 +5811,7 @@ current_phase_route:
   first_task:
     task_slot: 1
     task_id: AIOS-P1-215_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION
-    status: ACTIVE
+    status: TERMINAL_FINAL_SECURITY_TARGET_NON_PASS
     engineering_hours: 18
     calendar_days: 4
     max_engineering_hours: 18
@@ -5812,13 +5827,13 @@ current_phase_route:
       production: false
       public: false
     contract_path: docs/aios/tasks/P1-215_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION.yaml
-    contract_sha256: d061b56ecd61e16677301099db9d346f64abd5598989c9140ec51d5d867ef253
-    contract_byte_length: 7972
+    contract_sha256: eed4499530f64dc6337ef0f40bfc58974a1bec2fea67b90b8e6c3b9261ae3bb6
+    contract_byte_length: 9796
     p1_capability_claim_on_pass: REPRODUCIBLE_BASELINE_REPORT
   task_plan:
     - task_slot: 1
       task_id: AIOS-P1-215_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION
-      status: ACTIVE
+      status: TERMINAL_FINAL_SECURITY_TARGET_NON_PASS
       engineering_hours: 18
       calendar_days: 4
       max_implementation_iterations: 3
@@ -5833,7 +5848,7 @@ current_phase_route:
         public: false
     - task_slot: 2
       task_id: AIOS-P1-216_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
-      status: PENDING_PREDECESSOR_TASK_GATE
+      status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS_ROUTE_TERMINAL
       engineering_hours: 6
       calendar_days: 1
       max_implementation_iterations: 2
@@ -5854,7 +5869,49 @@ current_phase_route:
     - after_task_id: AIOS-P1-215_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION
       next_task_id: AIOS-P1-216_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
       requires_task_gate_pass: true
-  next_eligible_action: EXECUTE_AIOS_P1_215_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION
+  next_eligible_action: FOUNDER_P1_PHASE_GATE
+  terminal_p1_215_outcome:
+    stopped_at_utc: "2026-08-05T05:13:21Z"
+    stop_condition: ANY_FINAL_REVIEWER_TARGET_VERDICT_NON_PASS
+    normalized_root_cause: P1215.FINAL.OUTPUT_HIERARCHY.POST_PREFLIGHT_PARENT_IDENTITY_SUBSTITUTION_ACCEPTED
+    exact_candidate:
+      commit: 59846664a7afff936564a086f07c7c2a11a739c8
+      tree: e913bf0cfe6c114c26012e60e021592539dfa5a7
+      manifest:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-transactional-output-hierarchy-strict-exit-20260805/task-1-p1-215/candidate/P1_215_EXACT_CANDIDATE_MANIFEST_V1.json
+        byte_length: 4612
+        sha256: 0012ee68a9ae40a336289681b58277e01069d5044d0a575254ad638c1b144080
+      implementation_iterations_used: 3
+      same_task_repairs_used: 2
+    prefreeze_result:
+      matrix_status: PASS
+      test_count: 26
+      negative_test_count: 23
+      false_accepts_reported: 0
+      matrix_receipt_sha256: 2b062361fdf2017e5d9b9fa53a4bcb8a3006ef5c383be9b3899b743c5fec069e
+      report_sha256: 1f5b00641dc8bd5e4347a63e9e65483a1d4ce02bdb8fefc7d25d27312bb8e0f1
+      rebuild_receipt_sha256: 2ab3910053a6fb23bf26d0cb2e1b8291216bc818388132c0e446f9af72e8a3b8
+    final_reviews:
+      cto: INTERRUPTED_AFTER_SECURITY_STOP_CONDITION
+      security:
+        target_verdict: NON_PASS
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-transactional-output-hierarchy-strict-exit-20260805/task-1-p1-215/reviews/final-cycle-1/SECURITY_REVIEW.json
+        byte_length: 6487
+        sha256: be0e6caefb9074932a577c947c84f10045d66f01c315b24280d9b961a39f407b
+      quality: INTERRUPTED_AFTER_SECURITY_STOP_CONDITION
+    terminal_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-transactional-output-hierarchy-strict-exit-20260805/task-1-p1-215/terminal/P1_215_TERMINAL_FINAL_SECURITY_TARGET_NON_PASS_RECEIPT.json
+      byte_length: 3329
+      sha256: 2e16a78ce04ca26d6dce2e3dd6d9d7ea0dabb23ef006f2cde3a41a6028b85dea
+    candidate_integrated: false
+    canonical_make_verify: NOT_INVOKED_FINAL_REVIEW_STOP_CONDITION
+    immutable_p1_207_formal_evidence_modified: false
+    formal_experiment_rerun: false
+    capability_credit: 0
+    reproducible_baseline_report_status: MISSING
+    p1_216_status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS_ROUTE_TERMINAL
+    strict_p1_completion: 6_OF_8_75_PERCENT
+    p2_status: HOLD_PENDING_STRICT_P1_EXIT
   terminal_p1_213_outcome:
     stopped_at_utc: "2026-08-05T04:11:02Z"
     stop_condition: ANY_FRESH_FINAL_REVIEWER_TARGET_VERDICT_NON_PASS
@@ -6027,6 +6084,10 @@ current_phase_route:
     second_correction_allowed: false
     formal_matrix_rerun_allowed: false
   inherited_worktree_inventory:
+  - path: "/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-215-transactional-output-hierarchy"
+    head: 59846664a7afff936564a086f07c7c2a11a739c8
+    branch: codex/p1-215-transactional-output-hierarchy
+    status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
   - path: "/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-213-physical-object-identity-admission"
     head: 7862d7c2c00d702996c6d63c06d742ffb756855d
     branch: codex/p1-213-physical-object-identity-admission
@@ -7760,7 +7821,7 @@ historical_p2_phase_route:
   next_eligible_action: FOUNDER_P2_PHASE_GATE
 
 phase_delegation:
-  status: ACTIVE_P1_TRANSACTIONAL_OUTPUT_HIERARCHY_STRICT_EXIT_ROUTE
+  status: P1_TRANSACTIONAL_OUTPUT_HIERARCHY_ROUTE_TERMINAL_FOUNDER_PHASE_GATE_REQUIRED
   model: PHASE_LEVEL_FOUNDER_DELEGATION
   decision_source: AUTHORIZE_P1_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION_AND_STRICT_EXIT_ROUTE_V1
   phase_gate_owner: HUMAN_FOUNDER
@@ -9268,7 +9329,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260805-P1-215-ROUTE-AUTHORIZATION-V1
+  latest_event_id: FKS-20260805-P1-215-FINAL-SECURITY-NON-PASS-KNOWLEDGE-IMPORTED-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -11581,6 +11642,33 @@ founder_knowledge_sync:
         sha256: null
       event_sha256: 07135e799805886df01d6e3e0b668b6c259201b91b28e1b6beccb3f614eab246
 
+    - event_id: FKS-20260805-P1-215-FINAL-SECURITY-NON-PASS-KNOWLEDGE-IMPORTED-V1
+      trigger_type: TASK_TERMINAL_OUTCOME
+      occurred_at_utc: "2026-08-05T05:24:00Z"
+      source_commit: 21c53547afce15556d2e9808c733ea55f3967956
+      source_tree: 0ba2c48129d05270acb9ea3de45abc8ac06ee8d7
+      previous_event_sha256: 07135e799805886df01d6e3e0b668b6c259201b91b28e1b6beccb3f614eab246
+      status: IMPORTED
+      rationale: P1-215 exhausted its pre-freeze implementation allowance, froze one exact pure-offline candidate and passed its declared matrix, but fresh Security returned TARGET NON_PASS because a post-preflight parent-directory substitution was accepted and left the original journal-owned directory abandoned. CTO and Quality reviews were interrupted, the candidate was not integrated, canonical make verify was not run, P1-216 was not activated, strict P1 remains six of eight at 75 percent and P2 remains held. The exact reusable lesson was independently reviewed PASS and imported byte-identically into the Founder Knowledge Vault without engineering, Gate, capability or permission effect.
+      engineering_blocking: false
+      artifact:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-transactional-output-hierarchy-strict-exit-20260805/task-1-p1-215/knowledge/P1_215_POST_PREFLIGHT_PARENT_IDENTITY_LEARNING_ARTIFACT_CANDIDATE_V1.md
+        byte_length: 5063
+        sha256: 63abb5127c671e20a52a3a435eabb976f928164a328ce208c7b64d7dc69e896f
+      review:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-transactional-output-hierarchy-strict-exit-20260805/task-1-p1-215/knowledge/P1_215_POST_PREFLIGHT_PARENT_IDENTITY_KNOWLEDGE_REVIEW_SCHEMA_COMPATIBLE_V2.json
+        byte_length: 2377
+        sha256: c3611a338abc2292771fa1bb10f3bdf6a611d7fcafe3139d5c2e5f22cd8c7ffb
+      vault_import:
+        path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/05-Failures-and-Lessons/AIOS-P1-215/2026-08-05-P1-215-post-preflight-parent-identity-substitution.md
+        byte_length: 5063
+        sha256: 63abb5127c671e20a52a3a435eabb976f928164a328ce208c7b64d7dc69e896f
+      receipt:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-transactional-output-hierarchy-strict-exit-20260805/task-1-p1-215/knowledge/P1_215_POST_PREFLIGHT_PARENT_IDENTITY_KNOWLEDGE_IMPORT_RECEIPT_VALIDATOR_V1.json
+        byte_length: 1758
+        sha256: 4eb6903540dd06a15e3637084645113fefff9d499a6b05f7fc4f886f6c3c7865
+      event_sha256: d70cb49e82b3720bfe5897f28fa4a84287ef9fb4f0deed5c0830def6d1bf2be4
+
 historical_active_work_after_p1_079:
   current_task: NONE
   current_task_status: NONE
@@ -11632,46 +11720,38 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
-  current_task: AIOS-P1-215_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION
-  current_task_status: ACTIVE
+  current_task: NONE
+  current_task_status: NONE
   current_task_contract:
-    path: docs/aios/tasks/P1-215_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION.yaml
-    sha256: d061b56ecd61e16677301099db9d346f64abd5598989c9140ec51d5d867ef253
-    byte_length: 7972
-  current_task_contract_sha256: d061b56ecd61e16677301099db9d346f64abd5598989c9140ec51d5d867ef253
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-transactional-output-hierarchy-strict-exit-20260805/task-1-p1-215/authority/P1_215_TASK_AUTHORITY.json
-  current_execution_authorization_sha256: 2efadc1697ba35bc7d56f63fcd30e1ae34bcfb97ff300aaa5483f6cd2eb2c8b3
+    path: null
+    sha256: null
+    byte_length: null
+  current_task_contract_sha256: null
+  current_execution_authorization: null
+  current_execution_authorization_sha256: null
   authority_record:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-transactional-output-hierarchy-strict-exit-20260805/task-1-p1-215/authority/P1_215_TASK_AUTHORITY.json
-    sha256: 2efadc1697ba35bc7d56f63fcd30e1ae34bcfb97ff300aaa5483f6cd2eb2c8b3
-    byte_length: 2684
-  execution_nonce: 905842ad0bd361c0d2769dac9b20d243
-  execution_nonce_status: ACTIVE
-  authorization_id: P1-215-TRANSACTIONAL-OUTPUT-HIERARCHY-AUTH-V1
-  activation_parent_commit: f7b806a07576d1769680e55cd8d79a6158adb28e
-  activation_parent_tree: c53d919ec673027c80499dbbbe94e380268afd42
-  task_resource_state: CREATED_ACTIVE
-  task_branch: codex/p1-215-transactional-output-hierarchy
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P1-215-transactional-output-hierarchy
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p1-transactional-output-hierarchy-strict-exit-20260805/task-1-p1-215
-  allowlisted_paths:
-    - evaluation-harness/evaluator/p1-215-transactional-output-hierarchy/**
-    - scripts/verify-p1-215-transactional-output-hierarchy.sh
-    - docs/aios/tasks/P1-215_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION.yaml
-    - docs/aios/truth/project_state.yaml
-    - docs/PROJECT_CODE_MAP.md
+    path: null
+    sha256: null
+    byte_length: null
+  execution_nonce: null
+  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
+  authorization_id: null
+  activation_parent_commit: null
+  activation_parent_tree: null
+  task_resource_state: PRESERVED_TERMINAL_NOT_ACTIVE
+  task_branch: null
+  task_worktree: null
+  execution_evidence_root: null
+  allowlisted_paths: []
   budget:
-    engineering_hours: 18
-    calendar_days: 4
-    implementation_iterations: 3
-    candidates: 1
+    engineering_hours: null
+    calendar_days: null
+    implementation_iterations: null
+    candidates: null
   roles:
-    owner: CTO Agent P1-215
-    worker: Evaluation Engineering Worker P1-215
-    independent_reviewers:
-      - Fresh CTO Reviewer P1-215
-      - Fresh Security Reviewer P1-215
-      - Fresh Quality Reviewer P1-215
+    owner: null
+    worker: null
+    independent_reviewers: []
   external_effects:
     network: false
     provider: false
@@ -11680,15 +11760,15 @@ active_work:
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p1-transactional-output-hierarchy-strict-exit-20260805/founder-phase-gate/FOUNDER_P1_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION_AND_STRICT_EXIT_ROUTE_V1.structured-decision.json
-  founder_reserved_authorization_sha256: 1b1535b67c11b3cc366e4737440f0fb46a729cecd4aaab2739e4f1ed06150d20
-  founder_decision_required: false
-  founder_decision_required_scope: null
-  escalation_reason: null
-  user_action_required: NONE
-  phase_route_decision_required: false
-  phase_route_user_action_required: NONE
-  next_eligible_action: EXECUTE_AIOS_P1_215_TRANSACTIONAL_OUTPUT_HIERARCHY_REPORT_ADMISSION
+  founder_reserved_authorization: null
+  founder_reserved_authorization_sha256: null
+  founder_decision_required: true
+  founder_decision_required_scope: P1_PHASE_GATE_AFTER_P1_215_TERMINAL_FINAL_SECURITY_TARGET_NON_PASS
+  escalation_reason: P1215_FINAL_OUTPUT_HIERARCHY_POST_PREFLIGHT_PARENT_IDENTITY_SUBSTITUTION_ACCEPTED
+  user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
+  phase_route_decision_required: true
+  phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
+  next_eligible_action: FOUNDER_P1_PHASE_GATE
 historical_p1_190_terminal_active_work:
   current_task: NONE
   current_task_status: NONE

@@ -1,0 +1,241 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P2-036_SINGLE_TRANSACTION_DECLARATION_CLOSED_JAVA_GRAPH_KERNEL
+phase: P2
+route_id: P2_SINGLE_TRANSACTION_DECLARATION_CLOSED_JAVA_GRAPH_AND_OFFLINE_CONTEXT_BENCHMARK_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Build one clean-room product-code Java graph kernel whose declaration table,
+  relation resolution, edge admission and graph finalization are one typed
+  transaction, so every committed INTERNAL edge binds exactly one declaration
+  admitted by that transaction and replay re-establishes the same semantic
+  closure from raw facts.
+why_now: >-
+  P2 still lacks an accepted repository-intelligence graph capability and its
+  Exit Gate requires a real graph-conditioned context benchmark. P2-036 is the
+  smallest independently falsifiable predecessor: it closes declarations and
+  edges together instead of treating canonical bytes or hashes as proof that
+  relation targets exist and are correct.
+task_spec_ref: /Users/lijunpeng/Developer/.sourcelens-audit/p2-single-transaction-java-graph-context-20260806/decision/FOUNDER_P2_SINGLE_TRANSACTION_DECLARATION_CLOSED_JAVA_GRAPH_AND_OFFLINE_CONTEXT_BENCHMARK_ROUTE_V1.structured-decision.json
+owner_role: P2-036 Engineering Manager
+worker_role: P2-036 Transactional Java Graph Worker
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: P2_PHASE_GATE_AFTER_ROUTE_COMPLETION_OR_STOP_CONDITION
+risk_level: high
+budget:
+  engineering_hours: 30
+  calendar_days: 7
+  implementation_iterations: 4
+  candidates: 1
+repair_budget:
+  same_task_repairs_max: 3
+  adjacent_repeated_normalized_root_cause_allowed: false
+roles:
+  owner: P2-036 Engineering Manager
+  worker: P2-036 Transactional Java Graph Worker
+  independent_reviewers:
+    - P2-036 Fresh CTO Reviewer
+    - P2-036 Fresh Security Reviewer
+    - P2-036 Fresh Quality Reviewer
+allowlisted_paths:
+  - backend-spring/src/main/java/com/sourcelens/module/analysis/graph/transaction
+  - backend-spring/src/test/java/com/sourcelens/module/analysis/graph/transaction
+  - evaluation-harness/harness/p2-036-single-transaction-java-graph
+  - evaluation-harness/evaluator/p2-036-single-transaction-java-graph
+  - scripts/verify-p2-036-single-transaction-java-graph.sh
+  - docs/aios/tasks/P2-036_SINGLE_TRANSACTION_DECLARATION_CLOSED_JAVA_GRAPH_KERNEL.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+write_scope:
+  worker:
+    - backend-spring/src/main/java/com/sourcelens/module/analysis/graph/transaction
+    - backend-spring/src/test/java/com/sourcelens/module/analysis/graph/transaction
+    - evaluation-harness/harness/p2-036-single-transaction-java-graph
+  quality:
+    - evaluation-harness/evaluator/p2-036-single-transaction-java-graph
+  integration:
+    - scripts/verify-p2-036-single-transaction-java-graph.sh
+    - docs/aios/tasks/P2-036_SINGLE_TRANSACTION_DECLARATION_CLOSED_JAVA_GRAPH_KERNEL.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - exact accepted canonical P1 scanner source, tests and scan contracts only
+  - exact accepted canonical P1-035 dataset identity only
+  - P2-033 canonical Truth, terminal receipt, fresh CTO Review and imported Founder Knowledge Artifact only
+dependencies:
+  - P1_STRICT_EXIT_GATE_PASS
+  - ACCEPTED_CANONICAL_P1_SCANNER
+historical_isolation:
+  p2_033_status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
+  p2_033_normalized_root_cause: P2033.FINAL.CTO.REPLAY.SEMANTIC_TARGET_CROSS_BINDING_ACCEPTED
+  p2_033_rejected_source_candidate_fixture_test_matrix_evaluator_or_implementation_read_restore_compare_copy_or_reuse_allowed: false
+  other_rejected_p2_engineering_read_restore_compare_copy_or_reuse_allowed: false
+accepted_input_identities:
+  java_ast_parser:
+    path: backend-spring/src/main/java/com/sourcelens/module/analysis/service/JavaAstParser.java
+    byte_length: 47476
+    sha256: 36ef3842c89da6c53b65729eafac6605c8a1dcbcea6213ed561102ec754fe1ec
+  backend_pom:
+    path: backend-spring/pom.xml
+    byte_length: 6897
+    sha256: bea269c14297d2568e64b6ad2742da2d46ca0c7c35416c302fb37288d380b51e
+  p1_dataset_manifest:
+    path: evaluation-harness/datasets/p1-representative-task-dataset-v1/dataset-manifest.json
+    byte_length: 15313
+    sha256: 22f252319ed066655b05142a391709741703e01fbb4d6b5ebfbbcb6acd782be6
+  compatibility_rule: ACCEPTED_INPUT_BYTES_MUST_REMAIN_EXACT
+typed_transaction_contract:
+  stages:
+    - ADMIT_SOURCE_AND_EXTERNAL_INPUT_IDENTITIES
+    - PARSE_RAW_DECLARATION_AND_RELATION_FACTS
+    - CLOSE_DECLARATION_TABLE
+    - RESOLVE_TYPED_RELATION_TARGETS
+    - ADMIT_EDGES
+    - VERIFY_NODE_EDGE_SEMANTIC_CLOSURE
+    - CANONICAL_SERIALIZE
+  declaration_kinds:
+    - CLASS
+    - INTERFACE
+    - ENUM
+    - RECORD
+    - ANNOTATION
+    - LOCAL_CLASS
+  relation_kinds:
+    - EXTENDS
+    - IMPLEMENTS
+  target_classifications:
+    - INTERNAL
+    - EXTERNAL
+    - UNRESOLVED
+    - AMBIGUOUS
+  fail_closed_rules:
+    - INTERNAL requires exactly one declaration admitted by the same transaction.
+    - EXTERNAL requires exactly one symbol in the exact closed attested external inventory.
+    - UNRESOLVED and AMBIGUOUS carry no target identity.
+    - Source kind, target kind and relation kind must satisfy the closed compatibility table.
+    - Source span, lexical owner chain, local ordinal and binary name must bind one declaration fact.
+    - Canonical serialization is unavailable until semantic closure passes.
+    - Replay rebuilds declaration and external indices from raw admitted facts before re-resolving every relation.
+external_symbol_inventory_contract:
+  schema_version: p2-036-attested-external-symbol-inventory/v1
+  closed_top_level_keys:
+    - schema_version
+    - inventory_id
+    - symbols
+  closed_symbol_keys:
+    - source_qualified_name
+    - binary_name
+    - kind
+    - artifact_id
+    - origin_sha256
+  exact_input_binding:
+    - path
+    - type
+    - byte_length
+    - sha256
+  rules:
+    - Inventory and symbol keys are closed and duplicate binary identities reject.
+    - Wildcard imports define only search scopes and never prove target existence.
+    - External classification requires one exact attested match after Java resolution precedence.
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+founder_reserved_profile: null
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-single-transaction-java-graph-context-20260806/decision/FOUNDER_P2_SINGLE_TRANSACTION_DECLARATION_CLOSED_JAVA_GRAPH_AND_OFFLINE_CONTEXT_BENCHMARK_ROUTE_V1.structured-decision.json
+  sha256: 1c2ef544e9b612ca369467ac44289ecf85090e01a31b3b0e25fc90b300e77e74
+  byte_length: 3153
+  authorization_token: AUTHORIZE_P2_SINGLE_TRANSACTION_DECLARATION_CLOSED_JAVA_GRAPH_AND_OFFLINE_CONTEXT_BENCHMARK_ROUTE_V1
+source_founder_packet:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-attested-java-symbol-resolution-graph-context-20260806/founder-phase-gate/FOUNDER_P2_SINGLE_TRANSACTION_DECLARATION_CLOSED_JAVA_GRAPH_ROUTE_V1.md
+  sha256: 837d8e1cea2344b488d51067e5c26b8ed14d2608bb7c99a46f6eb48989a99836
+  byte_length: 7056
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+architecture_constraints:
+  - Reimplement from accepted canonical specifications and inputs; do not inspect or reuse rejected P2 engineering.
+  - Keep declaration indexing, resolution, edge admission and finalization inside one typed transaction boundary.
+  - Use product-code JavaParser facts; comments, strings and file names cannot create declarations or relations.
+  - Use repository-relative source identities and binary dollar owner chains without root, timestamp or nonce leakage.
+  - Do not modify the accepted JavaAstParser or backend pom bytes.
+  - Do not build a full Java compiler, generic classpath authority, governance system or Evidence platform.
+quality_freeze:
+  positive_matrix:
+    - Nested, local, interface, enum, record and annotation declarations receive exact stable source and binary identities.
+    - INTERNAL EXTENDS and IMPLEMENTS targets resolve to exactly one declaration in the same transaction.
+    - Exact attested explicit and wildcard external matches resolve EXTERNAL; zero and multiple matches remain targetless.
+    - Lexical member, explicit import, same-package, attested implicit, wildcard and qualified lookup precedence is deterministic.
+    - Three physically independent repository roots produce byte-exact graph and replay outputs.
+    - Replay re-admits raw declarations, relations and external inventory before rebuilding semantic closure.
+    - Accepted P1 scanner source and backend pom stay byte-exact and targeted scanner regressions pass.
+  negative_matrix:
+    - canonical reserialization with missing INTERNAL target
+    - canonical reserialization with another existing but wrong INTERNAL target
+    - duplicate declaration producing a non-unique target
+    - INTERNAL edge changed to unattested EXTERNAL
+    - UNRESOLVED or AMBIGUOUS carrying target identity
+    - incompatible source kind, target kind or relation kind
+    - source span, owner chain, local ordinal or binary-name cross-binding
+    - declaration delete, append or reorder without synchronized edges
+    - external inventory mutation, duplicate, missing, path drift, symlink or hash drift
+    - comment or string pseudo-declaration
+    - root path, timestamp or nonce identity leakage
+    - canonical bytes valid while semantic closure is false
+    - nonzero external-effect observation
+  required_counts:
+    physical_repository_roots: 3
+    false_accepts: 0
+    provider_requests: 0
+    secret_reads: 0
+acceptance_criteria:
+  - All declarations and relations satisfy the closed typed transaction contract.
+  - Every INTERNAL edge binds exactly one same-transaction declaration and every EXTERNAL edge binds one exact attested external symbol.
+  - All targetless and semantic-attack cases fail closed with zero false accepts.
+  - Three physical roots and raw-fact replay produce byte-exact deterministic graph output.
+  - Accepted scanner and pom identities remain byte-exact and targeted regressions pass offline.
+  - Independent consumer re-derives declaration indices, relation targets, semantic closure, deterministic graph and zero external effects from raw Evidence.
+  - Provider requests, Secret reads and all six external effects equal zero.
+  - One exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS on the same bytes and Evidence.
+  - Reviewed tree equals integrated canonical tree and exactly one canonical make verify passes after integration.
+required_evidence:
+  - Exact Founder packet, structured decision, Goal, activation parent, Contract and Task authority identities.
+  - Accepted scanner, pom, source manifest and external inventory identities.
+  - Raw declaration and relation facts, closed indices, resolved edges and canonical graph from three roots.
+  - Worker matrix and independent consumer receipts with semantic attack results and zero false accepts.
+  - Exact candidate commit, tree, diff/hash manifest and recoverable Evidence tag.
+  - Fresh CTO, Security and Quality Reviews of the same candidate and Evidence bytes.
+rollback:
+  strategy: OWNED_FIXTURE_CLEANUP_BEFORE_FREEZE_AND_NON_DESTRUCTIVE_GIT_REVERT_AFTER_CANONICAL_INTEGRATION
+  forbidden:
+    - git reset
+    - git clean
+    - destructive history rewrite
+stop_conditions:
+  - Canonical activation parent, Goal, Founder packet, Contract or accepted input identity drifts.
+  - Any rejected P2 engineering asset is required or accessed.
+  - A required write exceeds this Contract or an external effect is required.
+  - The same normalized root cause repeats in adjacent iterations or three same-Task repairs are exhausted.
+  - Any final Reviewer, reviewed/integrated equality check or canonical make verify returns NONPASS.
+  - P3 entry, push, Phase boundary change or critical residual-risk acceptance is required.
+knowledge_sync:
+  mode: EVENT_DRIVEN_NON_BLOCKING
+  task_accept_or_terminal_event_required: true
+  capability_credit_before_full_gate: 0
+claim_boundary: >-
+  Offline, clean-room, single-transaction declaration-closed Java canonical
+  graph construction and raw-fact replay only. No complete compiler, generic
+  classpath authority, Provider, Secret, network, remote, production, public,
+  P3, hostile-principal or production-readiness claim.

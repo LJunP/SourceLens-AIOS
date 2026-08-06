@@ -6103,7 +6103,7 @@ current_phase_route:
       production: false
       public: false
     contract_path: docs/aios/tasks/P2-023_RAW_EVIDENCE_BOUND_JAVA_GRAPH_VERTICAL_SLICE.yaml
-    contract_sha256: ea263bf108da83cd62334adb97ed2a5a39bfdd0213ea9a33f9795d102eee0c9f
+    contract_sha256: a29c396918f5c5b61efb2ccd2ed8e1e14ca8f81530bfe1f50fa9ba9190ae01b8
     contract_byte_length: 13216
     p2_capability_claim_on_pass: RAW_EVIDENCE_BOUND_JAVA_CANONICAL_GRAPH_VERTICAL_SLICE
   task_plan:
@@ -13713,14 +13713,14 @@ active_work:
   current_task_status: ACTIVE
   current_task_contract:
     path: docs/aios/tasks/P2-023_RAW_EVIDENCE_BOUND_JAVA_GRAPH_VERTICAL_SLICE.yaml
-    sha256: ea263bf108da83cd62334adb97ed2a5a39bfdd0213ea9a33f9795d102eee0c9f
+    sha256: a29c396918f5c5b61efb2ccd2ed8e1e14ca8f81530bfe1f50fa9ba9190ae01b8
     byte_length: 13216
-  current_task_contract_sha256: ea263bf108da83cd62334adb97ed2a5a39bfdd0213ea9a33f9795d102eee0c9f
+  current_task_contract_sha256: a29c396918f5c5b61efb2ccd2ed8e1e14ca8f81530bfe1f50fa9ba9190ae01b8
   current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-raw-evidence-java-graph-context-20260806/task-1-p2-023/authority/P2_023_PHASE_DELEGATED_TASK_AUTHORITY_V1.yaml
-  current_execution_authorization_sha256: c1bdd160f37528063b1ad8656f90f222b8e38e66ebf0722e3d8ce4eeffaf9119
+  current_execution_authorization_sha256: d6e93d06ce93403328416cb888203db190f21d48c7ed50d34c66c8e20d43aa87
   authority_record:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-raw-evidence-java-graph-context-20260806/task-1-p2-023/authority/P2_023_PHASE_DELEGATED_TASK_AUTHORITY_V1.yaml
-    sha256: c1bdd160f37528063b1ad8656f90f222b8e38e66ebf0722e3d8ce4eeffaf9119
+    sha256: d6e93d06ce93403328416cb888203db190f21d48c7ed50d34c66c8e20d43aa87
     byte_length: 2463
   execution_nonce: 25f413e4-dff5-4559-a1fc-2649bceec027
   execution_nonce_status: ACTIVE
@@ -13734,7 +13734,7 @@ active_work:
   allowlisted_paths:
     - evaluation-harness/harness/p2-023-raw-evidence-java-graph
     - evaluation-harness/evaluator/p2-023-raw-evidence-java-graph
-    - evaluation-harness/fixtures/p2-023-raw-evidence-java-graph
+    - evaluation-harness/datasets/p2-023-raw-evidence-java-graph
     - evaluation-harness/replay/p2-023-raw-evidence-java-graph
     - scripts/verify-p2-023-raw-evidence-java-graph.sh
     - docs/aios/tasks/P2-023_RAW_EVIDENCE_BOUND_JAVA_GRAPH_VERTICAL_SLICE.yaml

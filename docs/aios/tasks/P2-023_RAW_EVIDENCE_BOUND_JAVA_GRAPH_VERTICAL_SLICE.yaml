@@ -69,7 +69,7 @@ founder_reserved_profile: null
 allowlisted_paths:
   - evaluation-harness/harness/p2-023-raw-evidence-java-graph
   - evaluation-harness/evaluator/p2-023-raw-evidence-java-graph
-  - evaluation-harness/fixtures/p2-023-raw-evidence-java-graph
+  - evaluation-harness/datasets/p2-023-raw-evidence-java-graph
   - evaluation-harness/replay/p2-023-raw-evidence-java-graph
   - scripts/verify-p2-023-raw-evidence-java-graph.sh
   - docs/aios/tasks/P2-023_RAW_EVIDENCE_BOUND_JAVA_GRAPH_VERTICAL_SLICE.yaml

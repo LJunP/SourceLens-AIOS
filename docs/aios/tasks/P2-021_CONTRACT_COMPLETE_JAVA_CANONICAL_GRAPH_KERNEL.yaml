@@ -3,7 +3,7 @@ record_type: aios_task_contract
 task_id: AIOS-P2-021_CONTRACT_COMPLETE_JAVA_CANONICAL_GRAPH_KERNEL
 phase: P2
 route_id: P2_CLEAN_ROOM_CONTRACT_COMPLETE_JAVA_GRAPH_AND_OFFLINE_CONTEXT_BENCHMARK_ROUTE_V1
-status: TERMINAL_IMPLEMENTATION_ITERATION_EXHAUSTED_NON_PASS
+status: ACTIVE
 objective: >-
   Build a clean-room, executable and independently verifiable Java-first
   canonical scan-to-graph kernel from accepted canonical scanner output, with
@@ -33,10 +33,25 @@ goal_identity:
   canonical_byte_length: 19434
 
 founder_reserved_authorization:
-  path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/decision/FOUNDER_P2_CLEAN_ROOM_CONTRACT_COMPLETE_JAVA_GRAPH_CONTEXT_ROUTE_DECISION_V1.json
-  sha256: 284b8faf97a5d39d5cdbe545ae7fc22d94d3d5a6cf7b18cfa981fd9b8b8600f1
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/decision/FOUNDER_P2_021_PHYSICAL_ROOT_EXCEPTION_PROJECTED_ROUTE_DECISION_V2.json
+  sha256: bde034f871cea6366dec49e31629ec7767562cc027f909fab8f16a177602894f
   byte_length: 2984
   authorization_token: AUTHORIZE_P2_CLEAN_ROOM_CONTRACT_COMPLETE_JAVA_GRAPH_AND_OFFLINE_CONTEXT_BENCHMARK_ROUTE_V1
+
+founder_exception_reentry:
+  exception_authorization_token: AUTHORIZE_ONE_P2_021_EXACT_VERIFIER_CLONE_PHYSICAL_ROOT_CORRECTION_AND_FINAL_MATRIX_REENTRY_V1
+  exception_authority_path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/task-1-p2-021/authority/P2_021_EXACT_VERIFIER_CLONE_PHYSICAL_ROOT_REENTRY_AUTHORITY_V1.yaml
+  canonical_start_commit: 0b31dc5c04f2e6913362cbc4f2147c83f449d158
+  canonical_start_tree: d85f98f68881ddf06d6c3e98f545260eff99dc61
+  preserved_implementation_commit: e8104ea010f88f2fcb2a938c88dfb8a28e84f6ef
+  preserved_implementation_tree: 6af6e9d080f52421813cea0b91f3d41e79f10057
+  preserved_evidence_tag: evidence/p2-021-terminal-implementation-v1
+  tracked_binary_diff_sha256: 29474335f39af51f6071cf3120e63e58613eaedac5d1dfd897cd7f3d4397d7d3
+  only_engineering_change: evaluation-harness/harness/p2-021-contract-complete-java-graph/run-matrix.mjs
+  physical_fixture_parent: /private/tmp
+  complete_matrix_runs_remaining: 1
+  candidates_remaining: 1
+  final_review_cycles_remaining: 1
 
 roles:
   owner: P2_021_MASTER_CEO_TASK_OWNER
@@ -51,9 +66,9 @@ founder_gate: RESERVED_DECISIONS_ONLY
 budget:
   engineering_hours: 20
   calendar_days: 4
-  implementation_iterations: 3
+  implementation_iterations: 4
   candidates: 1
-same_task_repairs_max: 2
+same_task_repairs_max: 3
 contract_corrections_max: 0
 
 external_effects:
@@ -66,15 +81,18 @@ external_effects:
 founder_reserved_profile: null
 
 allowlisted_paths:
-  - analyzer-rust/src/lib.rs
-  - analyzer-rust/src/bin/sourcelens-graph.rs
-  - analyzer-rust/src/graph/**
   - evaluation-harness/harness/p2-021-contract-complete-java-graph/**
-  - evaluation-harness/evaluator/p2-021-contract-complete-java-graph/**
-  - scripts/verify-p2-021-contract-complete-java-graph.sh
   - docs/aios/tasks/P2-021_CONTRACT_COMPLETE_JAVA_CANONICAL_GRAPH_KERNEL.yaml
   - docs/PROJECT_CODE_MAP.md
+
+preserved_implementation_restore_paths:
   - Makefile
+  - analyzer-rust/src/lib.rs
+  - analyzer-rust/src/bin/sourcelens-graph.rs
+  - analyzer-rust/src/graph/mod.rs
+  - evaluation-harness/evaluator/p2-021-contract-complete-java-graph/verify.mjs
+  - evaluation-harness/harness/p2-021-contract-complete-java-graph/run-matrix.mjs
+  - scripts/verify-p2-021-contract-complete-java-graph.sh
 
 read_context:
   - docs/aios/STRATEGIC_CONSTITUTION.md
@@ -171,7 +189,8 @@ rollback:
 
 stop_conditions:
   - same normalized root cause repeats in adjacent allowed implementation iterations
-  - implementation iteration or repair budget is exhausted
+  - the one Founder-exception final implementation iteration returns NON_PASS
+  - another implementation repair or matrix rerun is required
   - offline verification requires network or dependency download
   - any rejected P2 engineering asset would need to be read or reused
   - any scope, Phase, permission or external-effect expansion is required
@@ -194,7 +213,7 @@ forbidden_actions:
 next_action_on_pass: AUTO_ACTIVATE_AIOS_P2_022_JAVA_GRAPH_CONDITIONED_CONTEXT_OFFLINE_BENCHMARK
 next_action_on_non_pass: TERMINAL_STOP_ROUTE_AT_FOUNDER_P2_PHASE_GATE
 
-terminal_outcome:
+historical_terminal_outcome_preserved:
   status: TERMINAL_IMPLEMENTATION_ITERATION_EXHAUSTED_NON_PASS
   implementation_iterations_used: 3
   same_task_repairs_used: 2

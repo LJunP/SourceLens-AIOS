@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P2-036_SINGLE_TRANSACTION_DECLARATION_CLOSED_JAVA_GRAPH_KERNEL
 phase: P2
 route_id: P2_SINGLE_TRANSACTION_DECLARATION_CLOSED_JAVA_GRAPH_AND_OFFLINE_CONTEXT_BENCHMARK_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
 objective: >-
   Build one clean-room product-code Java graph kernel whose declaration table,
   relation resolution, edge admission and graph finalization are one typed
@@ -22,6 +22,32 @@ worker_role: P2-036 Transactional Java Graph Worker
 task_gate_owner: MASTER_CEO_AGENT
 founder_gate: P2_PHASE_GATE_AFTER_ROUTE_COMPLETION_OR_STOP_CONDITION
 risk_level: high
+terminal_result:
+  classification: TERMINAL_EXACT_CANDIDATE_FINAL_REVIEW_STOP_CONDITION
+  occurred_at_utc: "2026-08-06T16:23:47Z"
+  candidate_commit: b7cfab17821df7d720005e5d2c4538db15a625b8
+  candidate_tree: b9b67c7ff0ce0283bde8821c90ba5713811f10a8
+  candidate_manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-single-transaction-java-graph-context-20260806/task-1-p2-036/candidate/P2_036_EXACT_CANDIDATE_MANIFEST_V1.json
+  candidate_manifest_sha256: 06590645b097ddc3dbd1c06e9dfd85878c3e1e589c7392dd0a8fb6edc766d038
+  declared_matrix_status: PASS
+  final_cto_review_status: INTERRUPTED_AFTER_SECURITY_AND_QUALITY_STOP_CONDITION
+  final_security_target_verdict: NON_PASS
+  final_security_review_sha256: 2f796ab9fabb63a1f0e037cb9c9e9566aa093d4e3c93d6dfa74e769f3a06860e
+  final_quality_target_verdict: NON_PASS
+  final_quality_review_sha256: 0ab2fc8d0c475c97478cdafb7b1a840666a9f838faeedb70e46c27c137c552eb
+  normalized_root_causes:
+    - P2036.FINAL.QUALIFIED_TARGET_EXPLICIT_IMPORT_CROSS_BINDING
+    - P2036.FINAL.EXTERNAL_INVENTORY_EXACT_PATH_REPLAY_DRIFT_ACCEPTED
+    - P2036.FINAL.COMPILATION_UNIT_CONTEXT_NOT_BOUND_TO_SOURCE_BYTES
+    - P2036.FINAL.EXTERNAL_EFFECT_AND_EVALUATOR_RECEIPT_AUTHENTICITY_GAP
+  candidate_integrated: false
+  canonical_make_verify: NOT_INVOKED_FINAL_REVIEW_NON_PASS
+  accepted_capability: false
+  capability_credit: 0
+  p2_037_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
+  terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-single-transaction-java-graph-context-20260806/task-1-p2-036/terminal/P2_036_TERMINAL_FINAL_REVIEW_NON_PASS_RECEIPT_V1.json
+  terminal_receipt_sha256: 66a7d7bfec7b28da55c6d1a3eab869e555964f746573e766335c4e56654427d9
+  terminal_receipt_byte_length: 3549
 budget:
   engineering_hours: 30
   calendar_days: 7

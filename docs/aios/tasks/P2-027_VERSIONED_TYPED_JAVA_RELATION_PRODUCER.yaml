@@ -1,0 +1,181 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P2-027_VERSIONED_TYPED_JAVA_RELATION_PRODUCER
+phase: P2
+route_id: P2_VERSIONED_SCANNER_RELATION_PRODUCER_ATTESTED_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Add an explicitly versioned, opt-in typed Java relation producer to the
+  canonical accepted scanner while preserving the default P1 scan-result v2
+  bytes and semantics. The producer must emit truthful, deterministic source,
+  target, span, category, resolution and duplicate/conflict evidence for later
+  externally attested graph construction.
+why_now: >-
+  Canonical scanner relations currently lack enough semantic information to
+  distinguish internal, external, unresolved, ambiguous and duplicate targets.
+  Building the P2 graph consumer first would force it to infer facts the
+  producer did not record. Producer-first versioning closes that actual
+  engineering gap without reusing any rejected P2 implementation.
+task_spec_ref: /Users/lijunpeng/Developer/.sourcelens-audit/p2-versioned-scanner-relation-graph-context-20260806/decision/FOUNDER_P2_VERSIONED_SCANNER_RELATION_PRODUCER_ATTESTED_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1.structured-decision.json
+owner_role: P2-027 Engineering Manager
+worker_role: P2-027 Scanner Relation Producer Worker
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: P2_PHASE_GATE_AFTER_ROUTE_COMPLETION_OR_STOP_CONDITION
+risk_level: high
+budget:
+  engineering_hours: 18
+  calendar_days: 4
+  implementation_iterations: 4
+  candidates: 1
+roles:
+  owner: P2-027 Engineering Manager
+  worker: P2-027 Scanner Relation Producer Worker
+  independent_reviewers:
+    - P2-027 Fresh CTO Reviewer
+    - P2-027 Fresh Security Reviewer
+    - P2-027 Fresh Quality Reviewer
+allowlisted_paths:
+  - analyzer-rust
+  - evaluation-harness/harness/p2-027-versioned-java-relations
+  - evaluation-harness/evaluator/p2-027-versioned-java-relations
+  - evaluation-harness/datasets/p2-027-versioned-java-relations
+  - scripts/verify-p2-027-versioned-typed-java-relations.sh
+  - docs/aios/tasks/P2-027_VERSIONED_TYPED_JAVA_RELATION_PRODUCER.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+write_scope:
+  worker:
+    - analyzer-rust
+    - evaluation-harness/harness/p2-027-versioned-java-relations
+    - evaluation-harness/datasets/p2-027-versioned-java-relations
+  quality:
+    - evaluation-harness/evaluator/p2-027-versioned-java-relations
+  integration:
+    - scripts/verify-p2-027-versioned-typed-java-relations.sh
+    - docs/aios/tasks/P2-027_VERSIONED_TYPED_JAVA_RELATION_PRODUCER.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - canonical accepted scanner source and accepted P1 scanner contracts only
+  - P2-025 canonical Truth, terminal receipt, final CTO Review and reviewed Knowledge Artifact only
+dependencies:
+  - P1_STRICT_EXIT_GATE_PASS
+historical_isolation:
+  p2_025_status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
+  p2_025_rejected_source_candidate_fixture_test_matrix_evaluator_or_implementation_read_restore_compare_copy_or_reuse_allowed: false
+  inherited_roots:
+    - REAL_SCANNER_EXTERNAL_AND_DUPLICATE_CLASSIFICATION_NOT_DEMONSTRATED
+    - NEGATIVE_FIXTURE_STALE_SOURCE_ROOT_PREEMPTS_TARGET_ASSERTIONS
+    - CONTRACT_SANDBOX_ARGV_AND_ACTUAL_DIRECT_ARGV_DRIFT
+    - SCANNER_AUTHORITY_NOT_EXTERNALLY_BOUND_TO_CONSUMER
+    - RAW_EFFECT_OBSERVER_STDERR_AND_LIFECYCLE_INCOMPLETE
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+founder_reserved_profile: null
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-versioned-scanner-relation-graph-context-20260806/decision/FOUNDER_P2_VERSIONED_SCANNER_RELATION_PRODUCER_ATTESTED_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1.structured-decision.json
+  sha256: 0ffca3f7e7a4c14f2a9adfd6f92af9202b2edf99d73b3492d0304b7847f3b895
+  byte_length: 3570
+  authorization_token: AUTHORIZE_P2_VERSIONED_SCANNER_RELATION_PRODUCER_ATTESTED_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
+source_founder_packet:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-versioned-scanner-relation-graph-context-20260806/decision/FOUNDER_P2_VERSIONED_SCANNER_RELATION_PRODUCER_ATTESTED_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1.md
+  sha256: 045ce504fb2103165348cb30adbbb145c397b42ef2fdf294c025002e66b5ed17
+  byte_length: 7870
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+architecture_constraints:
+  - Preserve the default accepted P1 scan-result v2 interface and behavior.
+  - Expose typed relation output only through an explicit versioned opt-in interface.
+  - Every relation binds source symbol identity, original target spelling, source span, relation category, resolution status and duplicate/conflict state.
+  - Resolution status is exactly one of INTERNAL, EXTERNAL, UNRESOLVED or AMBIGUOUS and is derived from parsed declarations/imports, not from filename guessing.
+  - Duplicate/conflict cases are preserved as truthful records rather than silently deduplicated.
+  - Run real Java fixtures in at least two physically independent repository roots.
+  - Bind exact scanner binary, build receipt, argv vector, process exit, stdout, stderr and raw effect observations.
+  - Deterministic replay must be byte-exact and repository-root independent.
+  - Do not build the graph kernel, context benchmark, authority system, parser, validator, governance pretask or Evidence platform.
+quality_freeze:
+  positive_matrix:
+    - Default P1 scan result remains schema v2 and byte-compatible for a frozen representative fixture.
+    - Versioned typed-relation output covers internal, external, unresolved, ambiguous, duplicate and conflict cases.
+    - Two physical roots produce byte-identical normalized typed-relation output.
+    - Exact scanner binary, build, argv, stdout, stderr and process lifecycle identities are recorded.
+    - Provider, Secret and six external-effect counts are independently reconstructed as zero.
+  negative_matrix:
+    - unsupported relation schema version
+    - missing source symbol identity
+    - target spelling mutation
+    - source span mutation
+    - invalid relation category
+    - invalid resolution status
+    - missing duplicate or conflict record
+    - path substitution
+    - scanner binary identity drift
+    - argv mutation
+    - stdout or stderr mutation
+    - process exit mutation
+    - replay reorder
+    - replay duplicate
+    - replay missing record
+    - symlink fixture root
+  required_counts:
+    physical_repository_roots_minimum: 2
+    internal_relations_minimum: 1
+    external_relations_minimum: 1
+    unresolved_relations_minimum: 1
+    ambiguous_relations_minimum: 1
+    duplicate_or_conflict_relations_minimum: 1
+    false_accepts: 0
+    provider_requests: 0
+    secret_reads: 0
+acceptance_criteria:
+  - Default accepted P1 scanner behavior remains compatible and independently tested.
+  - Versioned typed Java relation output records every required semantic field and truthful resolution class.
+  - Real cases for every required class are nonzero in frozen Evidence.
+  - Two physically independent roots reproduce byte-identical normalized results.
+  - All negative cases reject at their intended assertion and false accepts equal zero.
+  - Scanner provenance and zero external effects are independently reconstructable from raw Evidence.
+  - One exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS on the same bytes.
+  - Reviewed tree equals integrated canonical tree and exactly one canonical make verify passes after integration.
+required_evidence:
+  - Exact Founder source packet, structured decision, Goal, activation parent, Contract and Task authority identities.
+  - Default scan compatibility receipt and typed relation schema receipt.
+  - Two-root real scanner execution receipts including exact binary, build, argv, exit, stdout and stderr identities.
+  - Complete positive and negative matrix with intended reason codes and zero false accepts.
+  - Deterministic replay and repository-root-independence receipts.
+  - Exact candidate commit, tree, diff/hash manifest and recoverable Evidence tag.
+  - Fresh CTO, Security and Quality reviews of the same candidate and Evidence bytes.
+rollback:
+  strategy: OWNED_OUTPUT_REMOVAL_BEFORE_FREEZE_AND_NON_DESTRUCTIVE_GIT_REVERT_AFTER_CANONICAL_INTEGRATION
+  forbidden:
+    - git reset
+    - git clean
+    - destructive history rewrite
+stop_conditions:
+  - Canonical activation parent, Goal, Founder packet, Contract or accepted scanner identity drifts.
+  - Any rejected P2 engineering asset is required or accessed.
+  - A required write exceeds this Contract or any external effect is required.
+  - The same normalized root cause repeats in adjacent iterations or three same-Task repairs are exhausted.
+  - Any final Reviewer, reviewed/integrated equality check or canonical make verify returns NONPASS.
+  - Graph construction, benchmark execution, P3 entry or Phase boundary change is required before P2-027 acceptance.
+knowledge_sync:
+  mode: EVENT_DRIVEN_NON_BLOCKING
+  task_accept_or_terminal_event_required: true
+  capability_credit_before_full_gate: 0
+claim_boundary: >-
+  Versioned opt-in typed Java relation production from canonical accepted scanner
+  source only. No graph or benchmark capability claim, no rejected P2 engineering
+  reuse, and no network, Provider, Secret, remote, production, public or P3 entry.

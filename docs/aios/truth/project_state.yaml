@@ -14337,10 +14337,10 @@ founder_knowledge_sync:
     - event_id: FKS-20260806-P2-036-TERMINAL-FINAL-REVIEW-NON-PASS-V1
       trigger_type: TASK_TERMINAL_STOP
       occurred_at_utc: "2026-08-06T16:23:47Z"
-      source_commit: 17376c21a1a8e64826942a78ccb414ea5725354e
-      source_tree: e4850f3a9a132f0464c4c438d239d4a47174c215
+      source_commit: 56d3a663d5d16761292d5539f8cc948e0ab63c4e
+      source_tree: 230e8b50ea78a85c48027e4a048d43ed803cd11c
       previous_event_sha256: 137dca3cb7bf0c49d8bfb5312f443f1bbc36c4dda020a8aa3227a445aa2d793b
-      status: PENDING_CANDIDATE
+      status: IMPORTED
       rationale: >-
         P2-036 stopped at the exact final review gate. Fresh Security and
         Quality reviewers independently reproduced qualified-target
@@ -14353,22 +14353,22 @@ founder_knowledge_sync:
         queued for non-blocking Founder Knowledge review and Vault import.
       engineering_blocking: false
       artifact:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-single-transaction-java-graph-context-20260806/task-1-p2-036/knowledge/P2_036_FINAL_REVIEW_NON_PASS_LEARNING_ARTIFACT_V1.md
+        byte_length: 4681
+        sha256: d0600499bf47b2f8a9d287435362d29cecb0beccb1d0c06ba8a7d8a8530cc2f8
       review:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-single-transaction-java-graph-context-20260806/task-1-p2-036/knowledge/P2_036_FINAL_REVIEW_NON_PASS_KNOWLEDGE_REVIEW_V1.json
+        byte_length: 3567
+        sha256: 6e2ce25116b25d59139d338409c37620abfbc742b19f0b7131757d40c81a2ff5
       vault_import:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/05-Failures-and-Lessons/AIOS-P2-036/2026-08-06-P2-036-final-review-non-pass-semantic-evidence-lessons.md
+        byte_length: 4681
+        sha256: d0600499bf47b2f8a9d287435362d29cecb0beccb1d0c06ba8a7d8a8530cc2f8
       receipt:
-        path: null
-        byte_length: null
-        sha256: null
-      event_sha256: bfe0951f422aee215fc0b76368c006cf985e17dcf9181ff74d72e65b9006dc88
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-single-transaction-java-graph-context-20260806/task-1-p2-036/knowledge/P2_036_FINAL_REVIEW_NON_PASS_KNOWLEDGE_IMPORT_RECEIPT_V1.json
+        byte_length: 1683
+        sha256: 26aee7a9f7eec650827bea74939f6769aff09a2109eace109f4353a44dc7f5d4
+      event_sha256: 54c776372484d84f28923c53ec241f4cacc423b6a955525e86c3ae2084bd1a35
 
 historical_active_work_after_p1_079:
   current_task: NONE

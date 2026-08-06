@@ -1,0 +1,193 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P2-016_LANGUAGE_SCOPED_PRODUCER_RELATION_CONTRACT_AND_TRUTHFUL_CASE_LEDGER
+phase: P2
+route_id: P2_LANGUAGE_SCOPED_PRODUCER_RELATION_CONTRACT_AND_TRUTHFUL_CASE_LEDGER_THEN_GRAPH_KERNEL_AND_CONTEXT_BENCHMARK_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Build a backward-compatible scanner-native typed relation projection whose
+  INTERNAL classification is proved by language-scoped producer evidence, and
+  produce a structured case ledger from which every test count, false accept
+  and external-effect summary is mechanically derived.
+why_now: >-
+  P2 cannot build a trustworthy canonical graph from relation bytes that can
+  cross-bind repository-wide same names, leak repository roots, fabricate
+  locations or traverse repository symlinks. P2-016 is the smallest independent
+  producer-layer task that closes those semantics before graph construction.
+task_spec_ref: /Users/lijunpeng/Developer/.sourcelens-audit/p2-language-scoped-producer-graph-benchmark-20260806/decision/FOUNDER_P2_LANGUAGE_SCOPED_PRODUCER_GRAPH_BENCHMARK_ROUTE_DECISION_V1.json
+owner_role: P2-016 Engineering Manager
+worker_role: P2-016 Scanner Relation Worker
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+risk_level: high
+budget:
+  engineering_hours: 28
+  calendar_days: 5
+  implementation_iterations: 4
+  candidates: 1
+roles:
+  owner: P2-016 Engineering Manager
+  worker: P2-016 Scanner Relation Worker
+  independent_reviewers:
+    - P2-016 Fresh CTO Reviewer
+    - P2-016 Fresh Security Reviewer
+    - P2-016 Fresh Quality Reviewer
+allowlisted_paths:
+  - analyzer-rust/src/main.rs
+  - analyzer-rust/src/models.rs
+  - analyzer-rust/src/reverse.rs
+  - analyzer-rust/src/scanner.rs
+  - analyzer-rust/tests/p2_016_language_scoped_relations.rs
+  - evaluation-harness/evaluator/p2-016-language-scoped-relations
+  - scripts/verify-p2-016-language-scoped-relations.sh
+  - Makefile
+  - docs/aios/tasks/P2-016_LANGUAGE_SCOPED_PRODUCER_RELATION_CONTRACT_AND_TRUTHFUL_CASE_LEDGER.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+write_scope:
+  worker:
+    - analyzer-rust/src/main.rs
+    - analyzer-rust/src/models.rs
+    - analyzer-rust/src/reverse.rs
+    - analyzer-rust/src/scanner.rs
+    - analyzer-rust/tests/p2_016_language_scoped_relations.rs
+  quality:
+    - evaluation-harness/evaluator/p2-016-language-scoped-relations
+  integration:
+    - scripts/verify-p2-016-language-scoped-relations.sh
+    - Makefile
+    - docs/aios/tasks/P2-016_LANGUAGE_SCOPED_PRODUCER_RELATION_CONTRACT_AND_TRUTHFUL_CASE_LEDGER.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - canonical accepted scanner source and accepted P0/P1 assets only
+  - P2-013 canonical Truth, terminal receipt, final Reviews and reviewed Knowledge Artifact only
+dependencies:
+  - P1_COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
+  - ACCEPTED_CANONICAL_SCANNER
+  - ACCEPTED_CANONICAL_P1_DATASET_TRACE_AND_EVALUATION_ASSETS
+historical_isolation:
+  p2_013_status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+  p2_013_rejected_source_candidate_fixture_test_diff_verifier_or_implementation_read_restore_compare_copy_or_reuse_allowed: false
+  other_rejected_p2_engineering_asset_reuse_allowed: false
+  allowed_historical_inputs:
+    - canonical Truth
+    - terminal receipts
+    - fresh final Reviews
+    - reviewed Founder Knowledge Artifacts
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+founder_reserved_profile: null
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-language-scoped-producer-graph-benchmark-20260806/decision/FOUNDER_P2_LANGUAGE_SCOPED_PRODUCER_GRAPH_BENCHMARK_ROUTE_DECISION_V1.json
+  sha256: 516f60c3ad61fa36a41a344db30fa12c96ef54e8834371d5ec4bac8b73828f9a
+  byte_length: 3662
+  authorization_token: AUTHORIZE_P2_LANGUAGE_SCOPED_PRODUCER_RELATION_CONTRACT_AND_TRUTHFUL_CASE_LEDGER_THEN_GRAPH_KERNEL_AND_CONTEXT_BENCHMARK_ROUTE_V1
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+architecture_constraints:
+  - Preserve the accepted scan result contract and expose typed relation projection as a backward-compatible additive field.
+  - Java INTERNAL resolution requires package, import, qualified-name and visible-scope producer proof.
+  - TypeScript distinguishes relative workspace imports from bare package imports; a bare import cannot bind by repository-wide same name.
+  - Rust INTERNAL resolution follows crate, self, super, module and use-path producer semantics.
+  - Repository-wide same-name lookup is never sufficient evidence for INTERNAL classification.
+  - Unproved endpoints remain explicitly EXTERNAL or UNRESOLVED rather than being promoted to INTERNAL.
+  - Embedded absolute repository roots are rejected before projection and relation identity construction.
+  - Zero-byte or source-location-free inputs use UNKNOWN location and never fabricate KNOWN_START line one.
+  - Repository symlinks escaping the root are rejected before reads or projection.
+  - Java, TypeScript and Rust each pass exact two-root relocation and replay-mutation rejection.
+  - Every summary is mechanically derived from a closed structured case ledger; no PASS, count, false-accept or effect value is hard-coded.
+quality_freeze:
+  positive_matrix:
+    - Java same-package, explicit-import and fully-qualified internal targets resolve with producer proof.
+    - TypeScript relative workspace imports resolve while bare package imports remain external unless a declared workspace mapping proves otherwise.
+    - Rust crate, self, super and module paths resolve to exact internal producers.
+    - Java, TypeScript and Rust projections are byte-identical across two repository roots.
+    - Exact typed projection replay reproduces the same bytes.
+    - Existing scan result consumers remain backward compatible.
+  negative_matrix:
+    - Java unimported same-name symbol in a different package
+    - Java ambiguous wildcard or duplicate producer
+    - TypeScript bare package import with a repository-local same-name class
+    - TypeScript ambiguous relative target
+    - Rust unresolved crate or module path
+    - embedded absolute repository root in target reference
+    - zero-byte source with fabricated known line
+    - repository-relative symlink escaping the root
+    - path escape and source identity drift
+    - projection mutation, missing entry, extra entry, duplicate entry and reorder
+    - ledger expected/actual mutation and summary/count drift
+    - hard-coded PASS, zero-false-accept or external-effect summary inconsistent with cases
+  required_ledger_fields:
+    - case_id
+    - language
+    - fixture_identity
+    - source_identity
+    - expected_classification
+    - actual_classification
+    - command
+    - exit_status
+    - observed_output_identity
+    - rejection_reason
+    - external_effects
+  required_counts:
+    languages: 3
+    false_accepts: 0
+    provider_requests: 0
+    secret_reads: 0
+acceptance_criteria:
+  - The typed projection is produced by the real canonical scanner for Java, TypeScript and Rust fixtures.
+  - INTERNAL classification is backed by exact language-scoped producer evidence and never repository-wide same-name matching.
+  - Absolute-root leakage, fabricated location and repository-symlink escape cases reject with zero false accepts.
+  - All three languages pass two-root relocation, exact replay and projection-mutation rejection.
+  - A closed structured case ledger records every positive and negative case and mechanically derives all summary fields.
+  - Existing scan contract regression remains PASS and no historical rejected P2 engineering asset is read or reused.
+  - Provider requests, Secret reads and all six external effects equal zero.
+  - One exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS on the same bytes and Evidence.
+  - Reviewed tree equals integrated canonical tree and exactly one canonical make verify passes after integration.
+required_evidence:
+  - Exact Founder token, structured Decision, Goal, activation parent, Contract and authority identities.
+  - Real scanner outputs for Java, TypeScript and Rust positive and negative fixtures.
+  - Closed structured case ledger and mechanically derived summary receipt.
+  - Two-root relocation, exact replay and replay-mutation rejection Evidence for each language.
+  - Symlink escape, zero-byte, embedded-root, ambiguous and same-name cross-binding negative Evidence.
+  - Existing scan-contract regression output.
+  - Exact candidate commit, tree, tracked diff/hash manifest and recoverable Evidence tag.
+  - Fresh CTO, Security and Quality reviews of the same candidate and exact Evidence.
+rollback:
+  strategy: DISPOSABLE_FIXTURE_CLEANUP_BEFORE_FREEZE_AND_NON_DESTRUCTIVE_GIT_REVERT_AFTER_CANONICAL_INTEGRATION
+  forbidden:
+    - git reset
+    - git clean
+    - destructive history rewrite
+stop_conditions:
+  - Canonical activation parent, Goal, Founder token, structured Decision, Contract or authority identity drifts.
+  - P1 strict predecessor Gate becomes incomplete or P2 Phase Entry becomes unauthorized.
+  - Any rejected P2 engineering source, candidate, fixture, test, diff, verifier or implementation is required, read or reused.
+  - A write exceeds this Contract, an external effect is required or the P2/P3 Phase boundary changes.
+  - The same normalized root cause repeats in adjacent iterations or the three same-Task repairs are exhausted.
+  - Any final Reviewer, reviewed/integrated equality check or canonical make verify returns NONPASS.
+knowledge_sync:
+  mode: EVENT_DRIVEN_NON_BLOCKING
+  founder_route_decision_event_required: true
+  task_accept_or_terminal_event_required: true
+  capability_credit_before_task_gate: 0
+claim_boundary: >-
+  Offline language-scoped producer relation semantics, truthful structured case
+  ledger and backward-compatible scanner-native typed projection only. No graph
+  kernel, context benchmark, rejected P2 asset reuse, network, Provider, Secret,
+  remote, production, public or P3 claim.

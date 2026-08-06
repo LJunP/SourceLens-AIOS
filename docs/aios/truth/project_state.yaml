@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-06T06:05:59Z"
-verification_scope: P2_021_FOUNDER_EXCEPTION_FINAL_PHYSICAL_ROOT_REENTRY_SYNC
+last_verified_at: "2026-08-06T06:42:00Z"
+verification_scope: P2_021_TERMINAL_FINAL_SECURITY_TARGET_NON_PASS_SYNC
 
 authority:
   founder: Human Founder
@@ -37,8 +37,18 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: AIOS-P2-021_CONTRACT_COMPLETE_JAVA_CANONICAL_GRAPH_KERNEL
+  current_task_authority: NONE
   note: >-
+    The Founder-authorized exact P2-021 physical-root correction and the one
+    final complete matrix both executed. The matrix passed, but fresh CTO and
+    Security Reviews returned TARGET_VERDICT NON_PASS for candidate-provenance,
+    reconstructable raw negative Evidence and external-effect observation
+    gaps. The candidate remains unintegrated, canonical make verify was not
+    invoked, P2-022 was not started and no P2 capability credit was added. The
+    Route is stopped at the Founder P2 Phase Gate with all exact Evidence and
+    Reviews preserved. All paragraphs below this sentence are retained
+    historical chronology only and have no current Task, Route or scheduling
+    authority.
     Founder authorized one exact P2-021 same-Task exception after the preserved
     terminal implementation exhausted its original iteration budget. The only
     new engineering change is the verifier-negative clone parent: it must use
@@ -1208,9 +1218,9 @@ project:
   p1_execution_status: COMPLETE_STRICT_8_OF_8_100_PERCENT
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
-  p2_execution_status: ACTIVE
-  phase_execution_status: ACTIVE
-  current_route_execution_status: ACTIVE_TASK_1_FOUNDER_EXCEPTION_FINAL_ITERATION
+  p2_execution_status: STOPPED_AT_FOUNDER_PHASE_GATE
+  phase_execution_status: STOPPED_AT_FOUNDER_PHASE_GATE
+  current_route_execution_status: TERMINAL_TASK_1_FINAL_SECURITY_TARGET_NON_PASS
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -5957,11 +5967,11 @@ historical_p1_162_phase_route:
 current_phase_route:
   schema_version: "1.1"
   route_id: P2_CLEAN_ROOM_CONTRACT_COMPLETE_JAVA_GRAPH_AND_OFFLINE_CONTEXT_BENCHMARK_ROUTE_V1
-  status: ACTIVE
-  authority_object_status: ACTIVE_TASK_AUTHORITY_ISSUED
-  execution_status: ACTIVE_TASK_1_FOUNDER_EXCEPTION_FINAL_ITERATION
-  founder_phase_route_decision_required: false
-  scheduling_status: ACTIVE_TASK_1
+  status: TERMINAL_TASK_1_FINAL_SECURITY_TARGET_NON_PASS
+  authority_object_status: TERMINAL_NO_ACTIVE_TASK
+  execution_status: TERMINAL_TASK_1_FINAL_SECURITY_TARGET_NON_PASS
+  founder_phase_route_decision_required: true
+  scheduling_status: STOPPED_AT_FOUNDER_P2_PHASE_GATE
   phase: P2
   phase_entry_status: AUTHORIZED
   authorization_token: AUTHORIZE_P2_CLEAN_ROOM_CONTRACT_COMPLETE_JAVA_GRAPH_AND_OFFLINE_CONTEXT_BENCHMARK_ROUTE_V1
@@ -6068,7 +6078,7 @@ current_phase_route:
   first_task:
     task_slot: 1
     task_id: AIOS-P2-021_CONTRACT_COMPLETE_JAVA_CANONICAL_GRAPH_KERNEL
-    status: ACTIVE
+    status: TERMINAL_FINAL_SECURITY_TARGET_NON_PASS
     engineering_hours: 20
     calendar_days: 4
     max_engineering_hours: 20
@@ -6084,13 +6094,13 @@ current_phase_route:
       production: false
       public: false
     contract_path: docs/aios/tasks/P2-021_CONTRACT_COMPLETE_JAVA_CANONICAL_GRAPH_KERNEL.yaml
-    contract_sha256: 3298835ecbbfe4372637240a227d7ef6d82b1886bf943d0bda28bf3d3ae9fe8e
-    contract_byte_length: 11676
+    contract_sha256: e80f640c53eba5b552d269e7e864cacbe332ef4acc7e8517d0681e44feec5263
+    contract_byte_length: 12990
     p2_capability_claim_on_pass: CONTRACT_COMPLETE_JAVA_CANONICAL_GRAPH_KERNEL
   task_plan:
     - task_slot: 1
       task_id: AIOS-P2-021_CONTRACT_COMPLETE_JAVA_CANONICAL_GRAPH_KERNEL
-      status: ACTIVE
+      status: TERMINAL_FINAL_SECURITY_TARGET_NON_PASS
       engineering_hours: 20
       calendar_days: 4
       max_implementation_iterations: 4
@@ -6105,7 +6115,7 @@ current_phase_route:
         public: false
     - task_slot: 2
       task_id: AIOS-P2-022_JAVA_GRAPH_CONDITIONED_CONTEXT_OFFLINE_BENCHMARK
-      status: PENDING_PREDECESSOR_TASK_GATE
+      status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS_ROUTE_TERMINAL
       engineering_hours: 12
       calendar_days: 3
       max_implementation_iterations: 3
@@ -6154,10 +6164,33 @@ current_phase_route:
     preserved_evidence_tag: evidence/p2-021-terminal-implementation-v1
     only_engineering_change: evaluation-harness/harness/p2-021-contract-complete-java-graph/run-matrix.mjs
     physical_fixture_parent: /private/tmp
-    remaining_complete_matrix_runs: 1
-    remaining_candidates: 1
-    remaining_final_review_cycles: 1
-  next_eligible_action: RUN_P2_021_ONE_FINAL_COMPLETE_MATRIX
+    remaining_complete_matrix_runs: 0
+    remaining_candidates: 0
+    remaining_final_review_cycles: 0
+    final_matrix_status: PASS
+    final_review_status: TERMINAL_CTO_AND_SECURITY_TARGET_NON_PASS
+  terminal_result:
+    task_id: AIOS-P2-021_CONTRACT_COMPLETE_JAVA_CANONICAL_GRAPH_KERNEL
+    status: TERMINAL_FINAL_SECURITY_TARGET_NON_PASS
+    normalized_root_cause: P2021.FINAL.REVIEW.PROVENANCE_RAW_NEGATIVE_AND_EXTERNAL_EFFECT_OBSERVATION_GAPS
+    complete_matrix_status: PASS
+    complete_matrix_runs_used: 1
+    candidate_commit: 61a4d6f714b05dcb83fae83b3326e1e04a9d3da8
+    candidate_tree: 1ae5a1b051e618a45f72702f1c4405b08fda5d69
+    candidate_manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/task-1-p2-021/candidate/final-physical-root-v1/P2_021_CANDIDATE_MANIFEST_V1.json
+    candidate_manifest_sha256: 2aa321f88c22411686f653bc15d5ec8c053decb53f058f59418a7ddf66d7c9fd
+    candidate_manifest_byte_length: 2667
+    cto_target_verdict: NON_PASS
+    security_target_verdict: NON_PASS
+    quality_review_status: INTERRUPTED_AFTER_TERMINAL_REVIEW_NON_PASS
+    candidate_integrated: false
+    canonical_make_verify: NOT_INVOKED_FINAL_REVIEW_NON_PASS
+    capability_credit: 0
+    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/task-1-p2-021/terminal/P2_021_TERMINAL_FINAL_SECURITY_TARGET_NON_PASS_RECEIPT_V2.json
+    terminal_receipt_sha256: f6e2ce1203b36d04526b2b4fba80ce4b53a6dd5802a55b458e73e17638bf8357
+    terminal_receipt_byte_length: 3227
+    p2_022_status: NOT_STARTED_PREDECESSOR_TASK_GATE_NON_PASS
+  next_eligible_action: FOUNDER_P2_PHASE_GATE
 
 historical_p2_016_phase_route:
   schema_version: "1.1"
@@ -10527,7 +10560,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260806-P2-021-FOUNDER-PHYSICAL-ROOT-REENTRY-V1
+  latest_event_id: FKS-20260806-P2-021-TERMINAL-FINAL-SECURITY-NON-PASS-V2
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -13547,6 +13580,41 @@ founder_knowledge_sync:
         sha256: null
       event_sha256: c4fe5d0ef7c64fde7dfee331e47999f768c9d38e19149ff9aff79449cb917423
 
+    - event_id: FKS-20260806-P2-021-TERMINAL-FINAL-SECURITY-NON-PASS-V2
+      trigger_type: TASK_TERMINAL_FINAL_REVIEW_NON_PASS
+      occurred_at_utc: "2026-08-06T06:42:00Z"
+      source_commit: c6132e878d5e2bcde83b3063810be319f1e02e09
+      source_tree: 5b2bf83478263843bfcb49cbc1a7d2d78bf7463d
+      previous_event_sha256: c4fe5d0ef7c64fde7dfee331e47999f768c9d38e19149ff9aff79449cb917423
+      status: PENDING_CANDIDATE
+      rationale: >-
+        The exact Founder-authorized /private/tmp correction and single final
+        matrix passed, but fresh CTO and Security Reviews returned TARGET
+        NON_PASS. The reusable finding is that a worker-produced negative-case
+        ledger and constant-zero effect summary cannot substitute for raw,
+        independently reconstructable case Evidence or exact candidate
+        commit/tree provenance binding. The candidate remains unintegrated,
+        P2-022 remains unstarted, all external effects stayed false, and no P2
+        capability credit was added. This Knowledge event is non-blocking.
+      engineering_blocking: false
+      artifact:
+        path: null
+        byte_length: null
+        sha256: null
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+      event_sha256: 874e4168d3a2735138fb17391f557cb583905ca3ab3c652e36c267aa1653d08a
+
 historical_active_work_after_p1_079:
   current_task: NONE
   current_task_status: NONE
@@ -13598,43 +13666,38 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
-  current_task: AIOS-P2-021_CONTRACT_COMPLETE_JAVA_CANONICAL_GRAPH_KERNEL
-  current_task_status: ACTIVE
+  current_task: NONE
+  current_task_status: NONE
   current_task_contract:
-    path: docs/aios/tasks/P2-021_CONTRACT_COMPLETE_JAVA_CANONICAL_GRAPH_KERNEL.yaml
-    sha256: 3298835ecbbfe4372637240a227d7ef6d82b1886bf943d0bda28bf3d3ae9fe8e
-    byte_length: 11676
-  current_task_contract_sha256: 3298835ecbbfe4372637240a227d7ef6d82b1886bf943d0bda28bf3d3ae9fe8e
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/task-1-p2-021/authority/P2_021_EXACT_VERIFIER_CLONE_PHYSICAL_ROOT_REENTRY_AUTHORITY_V1.yaml
-  current_execution_authorization_sha256: 2bed204bc2a2192b0e5f32acd2ac4fcbaae27f9fe4b7dc727d0ea494d554742b
+    path: null
+    sha256: null
+    byte_length: null
+  current_task_contract_sha256: null
+  current_execution_authorization: null
+  current_execution_authorization_sha256: null
   authority_record:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/task-1-p2-021/authority/P2_021_EXACT_VERIFIER_CLONE_PHYSICAL_ROOT_REENTRY_AUTHORITY_V1.yaml
-    sha256: 2bed204bc2a2192b0e5f32acd2ac4fcbaae27f9fe4b7dc727d0ea494d554742b
-    byte_length: 6187
-  execution_nonce: P2-021-EXACT-PHYSICAL-ROOT-FINAL-V1
-  execution_nonce_status: ACTIVE
-  authorization_id: P2_021_EXACT_VERIFIER_CLONE_PHYSICAL_ROOT_REENTRY_AUTHORITY_V1
-  activation_parent_commit: 0b31dc5c04f2e6913362cbc4f2147c83f449d158
-  activation_parent_tree: d85f98f68881ddf06d6c3e98f545260eff99dc61
-  task_resource_state: CREATED_ACTIVE
-  task_branch: codex/p2-021-exact-physical-root-final
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P2-021-exact-physical-root-final
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/task-1-p2-021/evidence
-  allowlisted_paths:
-    - evaluation-harness/harness/p2-021-contract-complete-java-graph/run-matrix.mjs
-    - docs/PROJECT_CODE_MAP.md
+    path: null
+    sha256: null
+    byte_length: null
+  execution_nonce: null
+  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
+  authorization_id: null
+  activation_parent_commit: null
+  activation_parent_tree: null
+  task_resource_state: NOT_CREATED_ROUTE_TERMINAL
+  task_branch: null
+  task_worktree: null
+  execution_evidence_root: null
+  allowlisted_paths: []
   budget:
-    engineering_hours: 20
-    calendar_days: 4
-    implementation_iterations: 4
-    candidates: 1
+    engineering_hours: null
+    calendar_days: null
+    implementation_iterations: null
+    candidates: null
   roles:
-    owner: P2_021_MASTER_CEO_TASK_OWNER
-    worker: P2_021_GRAPH_KERNEL_IMPLEMENTATION_WORKER
-    independent_reviewers:
-      - P2_021_FRESH_CTO_REVIEWER
-      - P2_021_FRESH_SECURITY_REVIEWER
-      - P2_021_FRESH_QUALITY_REVIEWER
+    owner: null
+    worker: null
+    independent_reviewers: []
   external_effects:
     network: false
     provider: false
@@ -13643,15 +13706,15 @@ active_work:
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/decision/FOUNDER_P2_021_PHYSICAL_ROOT_EXCEPTION_PROJECTED_ROUTE_DECISION_V2.json
-  founder_reserved_authorization_sha256: bde034f871cea6366dec49e31629ec7767562cc027f909fab8f16a177602894f
-  founder_decision_required: false
-  founder_decision_required_scope: null
-  escalation_reason: null
-  user_action_required: NONE
-  phase_route_decision_required: false
-  phase_route_user_action_required: NONE
-  next_eligible_action: RUN_P2_021_ONE_FINAL_COMPLETE_MATRIX
+  founder_reserved_authorization: null
+  founder_reserved_authorization_sha256: null
+  founder_decision_required: true
+  founder_decision_required_scope: P2_PHASE_GATE_AFTER_P2_021_TERMINAL_FINAL_SECURITY_TARGET_NON_PASS
+  escalation_reason: P2_021_FINAL_REVIEW_PROVENANCE_RAW_NEGATIVE_AND_EXTERNAL_EFFECT_OBSERVATION_GAPS
+  user_action_required: FOUNDER_P2_PHASE_GATE_DECISION
+  phase_route_decision_required: true
+  phase_route_user_action_required: FOUNDER_P2_PHASE_GATE_DECISION
+  next_eligible_action: FOUNDER_P2_PHASE_GATE
 historical_p1_190_terminal_active_work:
   current_task: NONE
   current_task_status: NONE
@@ -13703,6 +13766,51 @@ historical_p1_190_terminal_active_work:
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 task_history:
+  aios_p2_021:
+    task_id: AIOS-P2-021_CONTRACT_COMPLETE_JAVA_CANONICAL_GRAPH_KERNEL
+    route_id: P2_CLEAN_ROOM_CONTRACT_COMPLETE_JAVA_GRAPH_AND_OFFLINE_CONTEXT_BENCHMARK_ROUTE_V1
+    status: TERMINAL_FINAL_SECURITY_TARGET_NON_PASS
+    classification: TERMINAL_EXACT_CANDIDATE_FINAL_REVIEW_STOP_CONDITION
+    contract: docs/aios/tasks/P2-021_CONTRACT_COMPLETE_JAVA_CANONICAL_GRAPH_KERNEL.yaml
+    terminal_contract_sha256: e80f640c53eba5b552d269e7e864cacbe332ef4acc7e8517d0681e44feec5263
+    terminal_contract_byte_length: 12990
+    authority_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/task-1-p2-021/authority/P2_021_EXACT_VERIFIER_CLONE_PHYSICAL_ROOT_REENTRY_AUTHORITY_V1.yaml
+    authority_record_sha256: 2bed204bc2a2192b0e5f32acd2ac4fcbaae27f9fe4b7dc727d0ea494d554742b
+    authority_record_byte_length: 6187
+    implementation_branch: codex/p2-021-exact-physical-root-final
+    implementation_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P2-021-exact-physical-root-final
+    candidate_commit: 61a4d6f714b05dcb83fae83b3326e1e04a9d3da8
+    candidate_tree: 1ae5a1b051e618a45f72702f1c4405b08fda5d69
+    task_worktree_clean: true
+    candidate_manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/task-1-p2-021/candidate/final-physical-root-v1/P2_021_CANDIDATE_MANIFEST_V1.json
+    candidate_manifest_sha256: 2aa321f88c22411686f653bc15d5ec8c053decb53f058f59418a7ddf66d7c9fd
+    candidate_manifest_byte_length: 2667
+    tracked_binary_diff_sha256: 4271f2c9ee4b48cd93b83e5da9b94da6e0a71069c883db6a08cc2f4bbd7dfcb3
+    formal_evidence_manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/task-1-p2-021/evidence/final-physical-root-matrix-v1/EVIDENCE_MANIFEST.json
+    formal_evidence_manifest_sha256: 55d0a2ecfd6086323d212e26e0705a94f772d0c56e12b5c731ae515380150548
+    formal_evidence_manifest_byte_length: 6514
+    complete_matrix_status: PASS
+    complete_matrix_runs_used: 1
+    false_accepts: 0
+    external_effects_all_zero: true
+    normalized_root_cause: P2021.FINAL.REVIEW.PROVENANCE_RAW_NEGATIVE_AND_EXTERNAL_EFFECT_OBSERVATION_GAPS
+    final_cto_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/task-1-p2-021/reviews/final-physical-root-cycle-1/CTO_REVIEW.json
+    final_cto_review_sha256: f14585581c6823ec72bcf9a4177d94b89c1d0fa4e53ffc266ce9a8f8d74c975e
+    final_cto_review_byte_length: 3973
+    final_cto_target_verdict: NON_PASS
+    final_security_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/task-1-p2-021/reviews/final-physical-root-cycle-1/SECURITY_REVIEW.json
+    final_security_review_sha256: e6b705a0ab1b8a38cf2af7486ef94d2f738e6b7ebca4f20dc0984658a6ffce00
+    final_security_review_byte_length: 5391
+    final_security_target_verdict: NON_PASS
+    final_quality_review: INTERRUPTED_AFTER_TERMINAL_REVIEW_NON_PASS
+    candidate_integrated: false
+    canonical_make_verify: NOT_INVOKED_FINAL_REVIEW_STOP_CONDITION
+    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/task-1-p2-021/terminal/P2_021_TERMINAL_FINAL_SECURITY_TARGET_NON_PASS_RECEIPT_V2.json
+    terminal_receipt_sha256: f6e2ce1203b36d04526b2b4fba80ce4b53a6dd5802a55b458e73e17638bf8357
+    terminal_receipt_byte_length: 3227
+    accepted_capability: false
+    capability_credit: 0
+    p2_022_entry: NOT_STARTED_PREDECESSOR_TASK_GATE_NON_PASS
   aios_p2_019:
     task_id: AIOS-P2-019_JAVA_CANONICAL_SCAN_TO_GRAPH_VERTICAL_SLICE
     route_id: P2_JAVA_FIRST_CANONICAL_GRAPH_VERTICAL_SLICE_AND_OFFLINE_CONTEXT_PROBE_ROUTE_V1

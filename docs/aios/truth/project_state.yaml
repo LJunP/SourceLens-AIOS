@@ -10176,6 +10176,8 @@ phase_boundary:
   role_write_roots:
     worker:
       - analyzer-rust
+      - backend-spring/src/main/java/com/sourcelens/module/analysis/graph
+      - backend-spring/src/test/java/com/sourcelens/module/analysis/graph
       - evaluation-harness/harness
       - evaluation-harness/replay
       - evaluation-harness/reports
@@ -10787,7 +10789,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260806-P2-ATTESTED-JAVA-SYMBOL-RESOLUTION-ROUTE-AUTHORIZED-V1
+  latest_event_id: FKS-20260806-P2-033-TASK-ACTIVATED-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION

@@ -13952,7 +13952,7 @@ founder_knowledge_sync:
       source_commit: f6782175e5c5d545e2e2a6d81faff34e9ae29b34
       source_tree: c6905207ccaa9ca569bd391cea26da382833b7e0
       previous_event_sha256: 714be7f79d9a90b96c8fd6f37f5af2b85bc3f635fe39c466a2fea9378a2c22ac
-      status: PENDING_CANDIDATE
+      status: IMPORTED
       rationale: >-
         P2-027 final worker and independent-consumer matrix passed, but fresh
         CTO and Quality Reviews returned TARGET NON_PASS. Independent review
@@ -13963,22 +13963,22 @@ founder_knowledge_sync:
         started and P2 capability credit remains zero.
       engineering_blocking: false
       artifact:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-versioned-scanner-relation-graph-context-20260806/task-1-p2-027/knowledge/P2_027_FINAL_REVIEW_NON_PASS_LEARNING_ARTIFACT_V1.md
+        byte_length: 4269
+        sha256: 219faff23223d04e44234eed9a1240ae8350fe3bd40f110fcf48115b3006a6f6
       review:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-versioned-scanner-relation-graph-context-20260806/task-1-p2-027/knowledge/P2_027_FINAL_REVIEW_NON_PASS_KNOWLEDGE_REVIEW_V1.json
+        byte_length: 4188
+        sha256: 7a7bdb49573401b9e5001e192293cf38f6e130c6ce1d16c190de47b77c64fecc
       vault_import:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/05-Failures-and-Lessons/AIOS-P2-027/2026-08-06-P2-027-final-review-non-pass-lessons.md
+        byte_length: 4269
+        sha256: 219faff23223d04e44234eed9a1240ae8350fe3bd40f110fcf48115b3006a6f6
       receipt:
-        path: null
-        byte_length: null
-        sha256: null
-      event_sha256: 67226b7838909aae4799cb169ee90ff911fef7266761202453601e1b52f58e0c
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-versioned-scanner-relation-graph-context-20260806/task-1-p2-027/knowledge/P2_027_FINAL_REVIEW_NON_PASS_KNOWLEDGE_IMPORT_RECEIPT_V1.json
+        byte_length: 1691
+        sha256: 10b4b240213d21935f23929cd51af60935023d99fad27c92acb058bceb68cee9
+      event_sha256: 2977f9a621fcba6d79b40b66af0c5b2b38a6e4b7d76cc2611e24f4f335e98181
 
 historical_active_work_after_p1_079:
   current_task: NONE

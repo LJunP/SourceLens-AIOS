@@ -5975,8 +5975,8 @@ current_phase_route:
     byte_length: 92
   founder_exception_authorization:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/task-1-p2-021/authority/P2_021_EXACT_VERIFIER_CLONE_PHYSICAL_ROOT_REENTRY_AUTHORITY_V1.yaml
-    sha256: 6ea7d206817eae0fa07a3f036b71cb3b2379cdfa07e1081090b9a627463ada94
-    byte_length: 6188
+    sha256: ce4380391bdbe47135d26deb048f921b55c65b324c8d84f4b7489d94588d5d87
+    byte_length: 6158
     authorization_token: AUTHORIZE_ONE_P2_021_EXACT_VERIFIER_CLONE_PHYSICAL_ROOT_CORRECTION_AND_FINAL_MATRIX_REENTRY_V1
   activation_parent:
     commit: 03e486af792f08d0500ac350d1e0ad9435e36940
@@ -13606,11 +13606,11 @@ active_work:
     byte_length: 11647
   current_task_contract_sha256: 0802befe7f8dae3a6f859c668340d068185c9e214a1a272119682b02e5c1a6ed
   current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/task-1-p2-021/authority/P2_021_EXACT_VERIFIER_CLONE_PHYSICAL_ROOT_REENTRY_AUTHORITY_V1.yaml
-  current_execution_authorization_sha256: 6ea7d206817eae0fa07a3f036b71cb3b2379cdfa07e1081090b9a627463ada94
+  current_execution_authorization_sha256: ce4380391bdbe47135d26deb048f921b55c65b324c8d84f4b7489d94588d5d87
   authority_record:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/task-1-p2-021/authority/P2_021_EXACT_VERIFIER_CLONE_PHYSICAL_ROOT_REENTRY_AUTHORITY_V1.yaml
-    sha256: 6ea7d206817eae0fa07a3f036b71cb3b2379cdfa07e1081090b9a627463ada94
-    byte_length: 6188
+    sha256: ce4380391bdbe47135d26deb048f921b55c65b324c8d84f4b7489d94588d5d87
+    byte_length: 6158
   execution_nonce: P2-021-EXACT-PHYSICAL-ROOT-FINAL-V1
   execution_nonce_status: ACTIVE
   authorization_id: P2_021_EXACT_VERIFIER_CLONE_PHYSICAL_ROOT_REENTRY_AUTHORITY_V1
@@ -13619,7 +13619,7 @@ active_work:
   task_resource_state: CREATED_ACTIVE
   task_branch: codex/p2-021-exact-physical-root-final
   task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P2-021-exact-physical-root-final
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/task-1-p2-021/evidence/final-physical-root-matrix-v1
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/task-1-p2-021/evidence
   allowlisted_paths:
     - evaluation-harness/harness/p2-021-contract-complete-java-graph/run-matrix.mjs
   budget:

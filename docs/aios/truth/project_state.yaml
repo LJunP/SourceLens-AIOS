@@ -1261,9 +1261,9 @@ project:
   p1_execution_status: COMPLETE_STRICT_8_OF_8_100_PERCENT
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
-  p2_execution_status: ACTIVE
-  phase_execution_status: ACTIVE
-  current_route_execution_status: ACTIVE_TASK_1_P2_027
+  p2_execution_status: STOPPED_AT_FOUNDER_PHASE_GATE
+  phase_execution_status: STOPPED_AT_FOUNDER_PHASE_GATE
+  current_route_execution_status: TERMINAL_P2_027_FINAL_REVIEW_TARGET_NON_PASS
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -10718,7 +10718,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260806-P2-VERSIONED-RELATION-PRODUCER-ROUTE-AUTHORIZED-V1
+  latest_event_id: FKS-20260806-P2-027-TERMINAL-FINAL-REVIEW-NON-PASS-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION

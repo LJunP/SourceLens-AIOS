@@ -6058,7 +6058,7 @@ current_phase_route:
         production: false
         public: false
     - task_slot: 2
-      task_id: AIOS-P2-020_JAVA_GRAPH_CONDITIONED_CONTEXT_PROBE
+      task_id: AIOS-P2-020_JAVA_GRAPH_CONDITIONED_CONTEXT_OFFLINE_PROBE
       status: PENDING_PREDECESSOR_TASK_GATE
       engineering_hours: 12
       calendar_days: 3
@@ -6074,11 +6074,11 @@ current_phase_route:
         public: false
   automatic_entry:
     after_task_id: AIOS-P2-019_JAVA_CANONICAL_SCAN_TO_GRAPH_VERTICAL_SLICE
-    next_task_id: AIOS-P2-020_JAVA_GRAPH_CONDITIONED_CONTEXT_PROBE
+    next_task_id: AIOS-P2-020_JAVA_GRAPH_CONDITIONED_CONTEXT_OFFLINE_PROBE
     requires_task_gate_pass: true
   automatic_entries:
     - after_task_id: AIOS-P2-019_JAVA_CANONICAL_SCAN_TO_GRAPH_VERTICAL_SLICE
-      next_task_id: AIOS-P2-020_JAVA_GRAPH_CONDITIONED_CONTEXT_PROBE
+      next_task_id: AIOS-P2-020_JAVA_GRAPH_CONDITIONED_CONTEXT_OFFLINE_PROBE
       requires_task_gate_pass: true
   additional_write_roots: []
   inherited_worktree_inventory: []

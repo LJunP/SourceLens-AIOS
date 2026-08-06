@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-06T08:02:40Z"
-verification_scope: P2_023_TERMINAL_FINAL_SECURITY_TARGET_NON_PASS
+last_verified_at: "2026-08-06T08:19:48Z"
+verification_scope: P2_023_TERMINAL_FINAL_SECURITY_TARGET_NON_PASS_AND_KNOWLEDGE_IMPORTED
 
 authority:
   founder: Human Founder
@@ -13704,7 +13704,7 @@ founder_knowledge_sync:
       source_commit: 921391069757ebe0e60fd58d240225555098a362
       source_tree: f16aa5e5672847a45871526a5d857c195598a876
       previous_event_sha256: d81138bbb342f98d4c73ec8aa66826aa8d14dc37b15e766caaa17f31548cbffb
-      status: PENDING_REVIEW
+      status: IMPORTED
       rationale: >-
         P2-023 completed its exact final matrix and independent verifier, but
         fresh Security Review returned TARGET NON_PASS because the final
@@ -13720,18 +13720,18 @@ founder_knowledge_sync:
         byte_length: 2897
         sha256: d4bb61f1ca0ce3b4d42366fdc5034123911eb51dd2f7e7e4f92516d76ecd87b1
       review:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-raw-evidence-java-graph-context-20260806/task-1-p2-023/knowledge/P2_023_FINAL_SECURITY_NON_PASS_KNOWLEDGE_REVIEW_V1.json
+        byte_length: 1954
+        sha256: 83c6dc53677f6d5b5533585694cf372d32ac74247c7d5385e141326c6ef0057e
       vault_import:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/05-Failures-and-Lessons/AIOS-P2-023/2026-08-06-P2-023-final-security-non-pass-lessons.md
+        byte_length: 2897
+        sha256: d4bb61f1ca0ce3b4d42366fdc5034123911eb51dd2f7e7e4f92516d76ecd87b1
       receipt:
-        path: null
-        byte_length: null
-        sha256: null
-      event_sha256: 80d611b096a6210b8c7ae4fca9dc23fd83396dddd8945803067b289de9d9b510
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-raw-evidence-java-graph-context-20260806/task-1-p2-023/knowledge/P2_023_FINAL_SECURITY_NON_PASS_KNOWLEDGE_IMPORT_RECEIPT_V1.json
+        byte_length: 1523
+        sha256: bbe0d6cd820ebd395a15cad87c703a33958194cea32bbbc9226263796a642f9c
+      event_sha256: 141cbd39f7fbfa4a3685485c0cd261b299640e50b1e394807f5645d61913d1e2
 
 historical_active_work_after_p1_079:
   current_task: NONE

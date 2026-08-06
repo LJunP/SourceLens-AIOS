@@ -35,8 +35,8 @@ goal_identity:
 
 founder_reserved_authorization:
   path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-raw-evidence-java-graph-context-20260806/decision/FOUNDER_P2_RAW_EVIDENCE_JAVA_GRAPH_ROUTE_DECISION_V1.json
-  sha256: c7884b9056ef60d20b27f9d2ae18401bf43600da690c162f3bf3372c8f182991
-  byte_length: 3507
+  sha256: c0574d2b5f3d2e4bac2c4e491ba6e4237fb6f7bcc6daf380679efa1ca5070973
+  byte_length: 2920
   authorization_token: AUTHORIZE_P2_CLEAN_ROOM_RAW_EVIDENCE_BOUND_JAVA_GRAPH_KERNEL_AND_CONTEXT_BENCHMARK_ROUTE_V1
 
 roles:

@@ -5986,8 +5986,8 @@ current_phase_route:
   authorization_token: AUTHORIZE_P2_CLEAN_ROOM_RAW_EVIDENCE_BOUND_JAVA_GRAPH_KERNEL_AND_CONTEXT_BENCHMARK_ROUTE_V1
   decision_packet:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-raw-evidence-java-graph-context-20260806/decision/FOUNDER_P2_RAW_EVIDENCE_JAVA_GRAPH_ROUTE_DECISION_V1.json
-    sha256: c7884b9056ef60d20b27f9d2ae18401bf43600da690c162f3bf3372c8f182991
-    byte_length: 3507
+    sha256: c0574d2b5f3d2e4bac2c4e491ba6e4237fb6f7bcc6daf380679efa1ca5070973
+    byte_length: 2920
   original_founder_packet:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-raw-evidence-java-graph-context-20260806/decision/FOUNDER_P2_CLEAN_ROOM_RAW_EVIDENCE_BOUND_JAVA_GRAPH_CONTEXT_ROUTE_V1.md
     sha256: 71f0c9b6806c80e70e07aabd1a64f86bfc6285628287f71b4af3f18bebb1c343
@@ -6103,7 +6103,7 @@ current_phase_route:
       production: false
       public: false
     contract_path: docs/aios/tasks/P2-023_RAW_EVIDENCE_BOUND_JAVA_GRAPH_VERTICAL_SLICE.yaml
-    contract_sha256: 8128eed49cb4d6f96d31cce770a570ceef9fdf76932e55a216adc85a500f84ce
+    contract_sha256: ea263bf108da83cd62334adb97ed2a5a39bfdd0213ea9a33f9795d102eee0c9f
     contract_byte_length: 13216
     p2_capability_claim_on_pass: RAW_EVIDENCE_BOUND_JAVA_CANONICAL_GRAPH_VERTICAL_SLICE
   task_plan:
@@ -13713,14 +13713,14 @@ active_work:
   current_task_status: ACTIVE
   current_task_contract:
     path: docs/aios/tasks/P2-023_RAW_EVIDENCE_BOUND_JAVA_GRAPH_VERTICAL_SLICE.yaml
-    sha256: 8128eed49cb4d6f96d31cce770a570ceef9fdf76932e55a216adc85a500f84ce
+    sha256: ea263bf108da83cd62334adb97ed2a5a39bfdd0213ea9a33f9795d102eee0c9f
     byte_length: 13216
-  current_task_contract_sha256: 8128eed49cb4d6f96d31cce770a570ceef9fdf76932e55a216adc85a500f84ce
+  current_task_contract_sha256: ea263bf108da83cd62334adb97ed2a5a39bfdd0213ea9a33f9795d102eee0c9f
   current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-raw-evidence-java-graph-context-20260806/task-1-p2-023/authority/P2_023_PHASE_DELEGATED_TASK_AUTHORITY_V1.yaml
-  current_execution_authorization_sha256: 955a2698ec181e6083ad0ff9cb4aed5519ed4d5a431b57e09fc94c65832d71d7
+  current_execution_authorization_sha256: c1bdd160f37528063b1ad8656f90f222b8e38e66ebf0722e3d8ce4eeffaf9119
   authority_record:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-raw-evidence-java-graph-context-20260806/task-1-p2-023/authority/P2_023_PHASE_DELEGATED_TASK_AUTHORITY_V1.yaml
-    sha256: 955a2698ec181e6083ad0ff9cb4aed5519ed4d5a431b57e09fc94c65832d71d7
+    sha256: c1bdd160f37528063b1ad8656f90f222b8e38e66ebf0722e3d8ce4eeffaf9119
     byte_length: 2463
   execution_nonce: 25f413e4-dff5-4559-a1fc-2649bceec027
   execution_nonce_status: ACTIVE
@@ -13761,7 +13761,7 @@ active_work:
     public: false
   offsite_target: null
   founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-raw-evidence-java-graph-context-20260806/decision/FOUNDER_P2_RAW_EVIDENCE_JAVA_GRAPH_ROUTE_DECISION_V1.json
-  founder_reserved_authorization_sha256: c7884b9056ef60d20b27f9d2ae18401bf43600da690c162f3bf3372c8f182991
+  founder_reserved_authorization_sha256: c0574d2b5f3d2e4bac2c4e491ba6e4237fb6f7bcc6daf380679efa1ca5070973
   founder_decision_required: false
   founder_decision_required_scope: null
   escalation_reason: null

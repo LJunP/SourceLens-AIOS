@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-06T09:13:32Z"
-verification_scope: P2_025_TERMINAL_FINAL_CTO_TARGET_NON_PASS
+last_verified_at: "2026-08-06T09:27:49Z"
+verification_scope: P2_025_TERMINAL_FINAL_CTO_NON_PASS_KNOWLEDGE_IMPORTED
 
 authority:
   founder: Human Founder
@@ -39,19 +39,18 @@ goal:
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
   current_task_authority: NONE
   note: >-
-    Founder authorized the new clean-room consumer-first attested-scanner Java
-    graph and offline context-benchmark Route from exact canonical commit/tree
-    45888f32bf5d835ed1e96488efc04ce4dc7a5a91 /
-    95d697df46e550d1b2c3825908889ec207254545. P2-025 is eligible for immediate
-    activation; it must perform external manifest identity validation, complete
-    regular-object closed-inventory admission, exact accepted-scanner and argv
-    attestation, raw external-effect reconstruction, two-root deterministic Java
-    graph projection and the complete three-root-cause negative matrix. P2-026
-    remains predecessor-gated, all external effects remain false, rejected P2
-    engineering is not reusable and this route synchronization adds no P2
-    capability credit. All paragraphs below this sentence are retained
-    historical chronology only and have no current Task, Route or scheduling
-    authority.
+    P2-025 completed one exact worker and independent-consumer matrix, but fresh
+    CTO Review returned TARGET NON_PASS for five material engineering gaps:
+    real accepted-scanner Evidence did not demonstrate external or duplicate
+    classification, relocated negative fixtures were rejected by stale source
+    roots before target assertions, actual argv drifted from the sandbox
+    Contract, scanner authority was not externally bound to the consumer, and
+    raw effect observation was incomplete. Its candidate is preserved but not
+    integrated, P2-026 was not started, P2 capability credit remains zero, the
+    current Task is NONE and P2 is stopped at the Founder Phase Gate. The exact
+    reusable lessons are independently reviewed and imported into the Founder
+    Knowledge Vault. All paragraphs below this sentence are retained historical
+    chronology only and have no current Task, Route or scheduling authority.
     P2-023 completed its exact final worker matrix and independent verifier,
     but the fresh Security Reviewer returned TARGET_VERDICT NON_PASS for three
     independently material gaps: accepted-scanner identity and argv were not
@@ -13822,7 +13821,7 @@ founder_knowledge_sync:
       source_commit: 357ff5709f92bebcf3a1840caca1d45ab818491b
       source_tree: 72a7ec2f7528432f6cd9150cd2e702cac0945a9c
       previous_event_sha256: 32b14b206e18462f9ebdb79f4aab9f158c38794439bb9b9cb165d4a325f8f5ac
-      status: PENDING_CANDIDATE
+      status: IMPORTED
       rationale: >-
         P2-025 froze one exact candidate and produced a worker and
         independent-consumer matrix PASS, but fresh CTO Review returned TARGET
@@ -13832,26 +13831,27 @@ founder_knowledge_sync:
         drifted from the sandbox Contract, scanner authority was not externally
         bound to the consumer, and raw effect observation was incomplete. The
         candidate remains unintegrated, P2-026 remains unstarted and no P2
-        capability credit was added. This non-blocking event queues the reusable
-        lessons for Knowledge review.
+        capability credit was added. The independently reviewed exact Learning
+        Artifact was imported byte-for-byte into the Founder Knowledge Vault;
+        this Knowledge event remains non-blocking.
       engineering_blocking: false
       artifact:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-consumer-first-attested-java-graph-context-20260806/task-1-p2-025/knowledge/P2_025_FINAL_CTO_NON_PASS_LEARNING_ARTIFACT_V1.md
+        byte_length: 4476
+        sha256: bfd2094fd0d8b4275b424eebc83624794db51e46e8ab90e71d4b5d68cb843c99
       review:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-consumer-first-attested-java-graph-context-20260806/task-1-p2-025/knowledge/P2_025_FINAL_CTO_NON_PASS_KNOWLEDGE_REVIEW_V1.json
+        byte_length: 4035
+        sha256: 9142eb9f3281499542408e75cb9fd7c8f91873b1ebd4a75feb4f15f252fbfa86
       vault_import:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/05-Failures-and-Lessons/AIOS-P2-025/2026-08-06-P2-025-final-cto-non-pass-lessons.md
+        byte_length: 4476
+        sha256: bfd2094fd0d8b4275b424eebc83624794db51e46e8ab90e71d4b5d68cb843c99
       receipt:
-        path: null
-        byte_length: null
-        sha256: null
-      event_sha256: d24db347cc172da46ec20b271fe3c351da8be2a5a3e191fcb3d306e1089d0c1c
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-consumer-first-attested-java-graph-context-20260806/task-1-p2-025/knowledge/P2_025_FINAL_CTO_NON_PASS_KNOWLEDGE_IMPORT_RECEIPT_V1.json
+        byte_length: 1545
+        sha256: 1260e7ee6bdaec56cdd69443b42310661e1abd93f27f75beaab543216ca0a85e
+      event_sha256: 4b0a5ddecfe7befb818c68253623691307d0e1cd16fb063a47d216d8d823ce49
 
 historical_active_work_after_p1_079:
   current_task: NONE

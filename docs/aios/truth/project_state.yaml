@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-06T04:18:48Z"
-verification_scope: P2_019_TERMINAL_FINAL_REVIEW_TARGET_NON_PASS_SYNC
+last_verified_at: "2026-08-06T04:31:35Z"
+verification_scope: P2_019_TERMINAL_KNOWLEDGE_REVIEW_AND_VAULT_IMPORT_SYNC
 
 authority:
   founder: Human Founder
@@ -13354,36 +13354,37 @@ founder_knowledge_sync:
     - event_id: FKS-20260806-P2-019-TERMINAL-FINAL-REVIEW-NON-PASS-V1
       trigger_type: TASK_TERMINAL_FINAL_REVIEW_NON_PASS
       occurred_at_utc: "2026-08-06T04:18:48Z"
-      source_commit: c282ce58fb9d9d9e4d7af38a0a4eca8a143847e8
-      source_tree: 39aa0262ea61ab9085694d2026e5b4d03791578d
+      source_commit: aae1b7ae936b25a5eb90afb9c8cfac0fe79c3c15
+      source_tree: 99ac16304e2ee17b452efc07e74c7740641c60eb
       previous_event_sha256: 0d5c21d16056f81b81e219434637627549716acb00c08cea5fe0a105aac1d0fb
-      status: PENDING_CANDIDATE
+      status: IMPORTED
       rationale: >-
-        P2-019 stopped after all three fresh final Reviewers returned TARGET
-        NON_PASS. Reusable lessons are to close every frozen Contract negative
-        case, force offline builds rather than self-report network=false,
-        validate Evidence paths before any read, and independently derive
-        scanner provenance, negative verdicts and effect summaries from frozen
-        bytes. The candidate was not integrated, P2-020 was not started and no
-        P2 capability credit was awarded. This Knowledge event is non-blocking.
+        Fresh independent Knowledge Review passed for the exact P2-019
+        terminal learning artifact, and the same 7,923 bytes were imported
+        into the Founder Knowledge Vault with a hash-bound receipt. The
+        non-authoritative lesson separates working real-scanner deterministic
+        graph mechanics from missing Contract cases, non-fail-closed offline
+        execution and self-attesting Evidence-consumer behavior. The candidate
+        remains unintegrated, P2-020 remains unstarted and no P2 capability
+        credit is added.
       engineering_blocking: false
       artifact:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-java-first-graph-context-20260806/task-1-p2-019/knowledge/P2_019_TERMINAL_LEARNING_ARTIFACT_CANDIDATE_V1.md
+        byte_length: 7923
+        sha256: fc49d9b3940badbb57a1d6966240f38f35a8bce1e6c56ca7de319d6446097ef1
       review:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-java-first-graph-context-20260806/task-1-p2-019/knowledge/P2_019_TERMINAL_KNOWLEDGE_REVIEW_SCHEMA_COMPATIBLE_V2.json
+        byte_length: 3962
+        sha256: 6412f9126004bbf3c508f6a964f2d74c2fd6e36038dac1a97d27dc23b800df36
       vault_import:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/05-Failures-and-Lessons/AIOS-P2-019/2026-08-06-P2-019-java-graph-task-gate-lessons.md
+        byte_length: 7923
+        sha256: fc49d9b3940badbb57a1d6966240f38f35a8bce1e6c56ca7de319d6446097ef1
       receipt:
-        path: null
-        byte_length: null
-        sha256: null
-      event_sha256: b7343431d831accf83e1d00dd8879e7702df727ec3f5ed84381542c7b687b407
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-java-first-graph-context-20260806/task-1-p2-019/knowledge/P2_019_TERMINAL_KNOWLEDGE_IMPORT_RECEIPT_SCHEMA_COMPATIBLE_V2.json
+        byte_length: 1634
+        sha256: 20994891c550ef95b0d089292d59fdbb5bfbfe1edd067869260af5251b812f25
+      event_sha256: 1036efbfd672f9703b225f09a91c22ddfe122ec3fd845a570bf17b14d27e5e16
 
 historical_active_work_after_p1_079:
   current_task: NONE

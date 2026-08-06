@@ -1132,9 +1132,9 @@ project:
   p1_execution_status: COMPLETE_STRICT_8_OF_8_100_PERCENT
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
-  p2_execution_status: ACTIVE
-  phase_execution_status: ACTIVE
-  current_route_execution_status: ACTIVE_TASK_1
+  p2_execution_status: PHASE_GATE_TASK_NONE_AFTER_P2_013_TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+  phase_execution_status: STOPPED_AT_FOUNDER_P2_PHASE_GATE
+  current_route_execution_status: TERMINAL_TASK_1_FINAL_REVIEW_TARGET_NON_PASS
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -12756,40 +12756,36 @@ founder_knowledge_sync:
     - event_id: FKS-20260806-P2-013-TERMINAL-FINAL-REVIEW-NON-PASS-V1
       trigger_type: TASK_TERMINAL_STOP_CONDITION
       occurred_at_utc: "2026-08-06T01:50:46Z"
-      source_commit: 8a378c71dedacb5285f992aa67be249fc14f4bb9
-      source_tree: 45e367f7aa390283d208799fd4f49b69bf86fdae
+      source_commit: a919f2c4a5e01545424170bf7cad69d484fa9850
+      source_tree: dbdc0116d1ccba4b733b363bec7a90081151278e
       previous_event_sha256: 0c7d183ed96f6ccb4a755e35e820627cae7bc202881b3f14850117f61e00cb03
-      status: PENDING_CANDIDATE
+      status: IMPORTED
       rationale: >-
-        P2-013 froze one exact scanner-native typed-relation candidate after its
-        implemented tests passed, but fresh CTO, Security and Quality final
-        Reviewers all returned TARGET_VERDICT NON_PASS. Independent checks
-        proved producer-resolution cross-binding, embedded absolute-root
-        leakage, invalid synthetic location, repository-symlink path escape,
-        missing replay-mutation coverage and hard-coded zero-false-accept
-        Evidence. The candidate was not integrated, canonical make verify was
-        not run, P2-014 and P2-015 were not started, and the Route stopped at
-        the Founder P2 Phase Gate without capability credit or a correction
-        chain. A concise reusable learning artifact is pending as a non-blocking
-        Knowledge synchronization item.
+        Fresh Knowledge Review passed for the exact P2-013 terminal learning
+        artifact, and the same 4,581 bytes were imported into the Founder
+        Knowledge Vault with a hash-bound receipt. This non-authoritative sync
+        preserves the rejected candidate, terminal findings and reusable
+        producer-semantics and Evidence-truthfulness lessons. It adds no P2
+        capability credit, does not unblock P2-014 or P2-015, and does not
+        acquire Truth, Gate, Task or scheduling authority.
       engineering_blocking: false
       artifact:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-scanner-native-graph-benchmark-20260806/task-1-p2-013/knowledge/P2_013_TERMINAL_LEARNING_ARTIFACT_CANDIDATE_V1.md
+        byte_length: 4581
+        sha256: 7aec1275bc8975e20f3e29058ac36d71e86a9ea6f8cdfca6b95d217c5c775ee1
       review:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-scanner-native-graph-benchmark-20260806/task-1-p2-013/knowledge/P2_013_TERMINAL_KNOWLEDGE_REVIEW_V1.json
+        byte_length: 2153
+        sha256: f263f20d7f4c0a14b13d97e75c55d878ab9722cafe2adfb588e06d8892d01a26
       vault_import:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/05-Failures-and-Lessons/AIOS-P2-013/2026-08-06-P2-013-producer-semantics-and-evidence-truth.md
+        byte_length: 4581
+        sha256: 7aec1275bc8975e20f3e29058ac36d71e86a9ea6f8cdfca6b95d217c5c775ee1
       receipt:
-        path: null
-        byte_length: null
-        sha256: null
-      event_sha256: c32e8687fcbe9826a6b8d6ea9bdab52c739ae6c4e2223156ddeb562d7de831f5
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-scanner-native-graph-benchmark-20260806/task-1-p2-013/knowledge/P2_013_TERMINAL_KNOWLEDGE_IMPORT_RECEIPT_V1.json
+        byte_length: 1643
+        sha256: 3fc448be731af4a82a41623064b183f4a417795bb9dd48595d4b343c120eaaae
+      event_sha256: cd82642dcffc8a97db9b8ccd8308077f3edeb4e0d1f382aab609c51fa0b043d2
 
 historical_active_work_after_p1_079:
   current_task: NONE

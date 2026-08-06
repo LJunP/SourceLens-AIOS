@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P2-019_JAVA_CANONICAL_SCAN_TO_GRAPH_VERTICAL_SLICE
 phase: P2
 route_id: P2_JAVA_FIRST_CANONICAL_GRAPH_VERTICAL_SLICE_AND_OFFLINE_CONTEXT_PROBE_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
 objective: >-
   Build an executable Java-only scan-to-graph vertical slice that consumes the
   accepted canonical scanner JSON without changing scanner semantics and emits
@@ -162,6 +162,32 @@ knowledge_sync:
   founder_route_decision_event_required: true
   task_accept_or_terminal_event_required: true
   capability_credit_before_task_gate: 0
+terminal_result:
+  classification: TERMINAL_EXACT_CANDIDATE_FINAL_REVIEW_TARGET_NON_PASS
+  candidate_commit: fa1a35117b7cb694acd079fac6743ab9dd9a399d
+  candidate_tree: d0c3a9b85b5aa4da59085ffbbda65a7b9dfa524a
+  candidate_integrated: false
+  canonical_make_verify: NOT_INVOKED_FINAL_REVIEW_STOP_CONDITION
+  capability_credit: 0
+  next_task_status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS_ROUTE_TERMINAL
+  final_reviews:
+    cto:
+      verdict: NON_PASS
+      sha256: 31e190e535800595da9858d52697f09a0a06ea537098de263d9646b5403fe551
+    security:
+      verdict: NON_PASS
+      sha256: 2a984b81a7a5f2a8072784c097d100794c6254287db58706ef00e907ff579bff
+    quality:
+      verdict: NON_PASS
+      sha256: 8be77459c638bcbcd8a3196fa844bd5860aabccb68c45240b2c081e0eae269a1
+  normalized_root_causes:
+    - P2019.CTO.NEGATIVE_MATRIX.UNIMPORTED_CROSS_PACKAGE_SAME_NAME_CASE_MISSING
+    - P2019.CTO.OFFLINE_BOUNDARY.CARGO_BUILD_NETWORK_NOT_FAIL_CLOSED
+    - P2019.SECURITY.EXTERNAL_EFFECT_BOUNDARY_AND_EVIDENCE_CONSUMER_NOT_FAIL_CLOSED
+    - P2019.QUALITY.NEGATIVE_MATRIX.MANDATORY_CASES_MISSING
+    - P2019.QUALITY.INDEPENDENT_VERIFIER.NEGATIVE_LEDGER_SELF_ATTESTATION
+    - P2019.QUALITY.CONTROL_SUMMARIES.NOT_INDEPENDENTLY_DERIVED
+    - P2019.QUALITY.SCANNER_PROVENANCE.NOT_CONSUMED_BY_FINAL_VERIFIER
 claim_boundary: >-
   Offline Java-only canonical scan-to-graph vertical-slice engineering and its
   exact replay/evidence contract. No accepted multi-language graph, context

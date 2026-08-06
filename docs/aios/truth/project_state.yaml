@@ -13418,12 +13418,12 @@ active_work:
     implementation_iterations: 3
     candidates: 1
   roles:
-    owner: Master
-    worker: P2-019 Java Graph Worker
+    owner: P2-019 Engineering Manager
+    worker: P2-019 Java Graph Kernel Worker
     independent_reviewers:
-      - CTO Reviewer
-      - Security Reviewer
-      - Quality Reviewer
+      - P2-019 Fresh CTO Reviewer
+      - P2-019 Fresh Security Reviewer
+      - P2-019 Fresh Quality Reviewer
   external_effects:
     network: false
     provider: false

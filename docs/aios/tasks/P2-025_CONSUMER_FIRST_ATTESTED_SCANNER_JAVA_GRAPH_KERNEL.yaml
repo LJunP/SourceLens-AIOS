@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P2-025_CONSUMER_FIRST_ATTESTED_SCANNER_JAVA_GRAPH_KERNEL
 phase: P2
 route_id: P2_CONSUMER_FIRST_ATTESTED_SCANNER_EVIDENCE_JAVA_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
 objective: >-
   Build a clean-room consumer-first Java canonical graph kernel that admits a
   closed regular-object Evidence package before semantic reads, independently
@@ -189,3 +189,29 @@ forbidden_actions:
   - Start P2-026 before the complete P2-025 Task Gate PASS.
   - Create a successor, replacement, correction, normalization, closure, feasibility or remediation chain.
   - Push, modify remotes, enter P3 or produce external effects.
+terminal_outcome:
+  candidate_commit: ad4cade991e7e2a5a7b635662fd67b5adc56f6a0
+  candidate_tree: 50d26d9dca236d03619573a8df068b4ace9e0e3f
+  candidate_manifest:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-consumer-first-attested-java-graph-context-20260806/task-1-p2-025/candidate/P2_025_EXACT_CANDIDATE_MANIFEST.json
+    byte_length: 4500
+    sha256: a28d3a1baa6971b0199030a999eb9459c2533610e863181a256eb9fe599310ed
+  evidence_manifest:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-consumer-first-attested-java-graph-context-20260806/task-1-p2-025/evidence/final-matrix-v2/EVIDENCE_MANIFEST.json
+    byte_length: 11832
+    sha256: 13496a8d121cdacc83df3c0e4525f772ce85fe9a12407815c52a649a0dcd338f
+  cto_review:
+    target_verdict: NON_PASS
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-consumer-first-attested-java-graph-context-20260806/task-1-p2-025/reviews/final-cycle-1/CTO_REVIEW.json
+    byte_length: 10271
+    sha256: c6753261f032918a1662d8c8bb25c2245530f78bb857de49c33fabc7a2567272
+  security_review_status: INTERRUPTED_AFTER_CTO_TARGET_NON_PASS
+  quality_review_status: INTERRUPTED_AFTER_CTO_TARGET_NON_PASS
+  candidate_integrated: false
+  canonical_make_verify: NOT_INVOKED_FINAL_CTO_TARGET_NON_PASS
+  p2_capability_credit: 0
+  p2_026_status: NOT_STARTED_PREDECESSOR_TASK_GATE_NON_PASS
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-consumer-first-attested-java-graph-context-20260806/task-1-p2-025/terminal/P2_025_TERMINAL_FINAL_CTO_TARGET_NON_PASS_RECEIPT.json
+    byte_length: 2959
+    sha256: b8de3092860eddc19fa6cb44ba31f0ee46e3a83e63047e82a0e09dec339db3ac

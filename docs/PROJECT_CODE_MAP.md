@@ -6,7 +6,7 @@
 
 - 纳入逐文件用途索引的文件数：897。
 - 其中源码/脚本/配置/SQL/CSS 类文件数：542。
-- 纳入统计的文本总行数：240001。
+- 纳入统计的文本总行数：240013。
 - 排除逐文件展开的本地生成/证据目录：`.git/`、`bin/`、`web-console/node_modules/`、`backend-spring/target/`、`analyzer-rust/target/`、`.sourcelens-runtime/`、`release-evidence/`、前端构建和测试产物。
 - 本地生成物、依赖缓存和历史证据目录不是源码或当前权威；它们必须保持未跟踪并可重建或从封存恢复。
 

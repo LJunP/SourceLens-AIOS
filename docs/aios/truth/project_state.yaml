@@ -14213,10 +14213,10 @@ founder_knowledge_sync:
     - event_id: FKS-20260806-P2-033-TERMINAL-CTO-NON-PASS-V1
       trigger_type: TASK_TERMINAL_STOP
       occurred_at_utc: "2026-08-06T14:29:00Z"
-      source_commit: 94c33a2cae34d3df7fabb98e69b419603d0e3172
-      source_tree: faa99c7f5c6dd035ca86b71a0588298d42815bb6
+      source_commit: ce7de59edb4cb512b967616a89051419d1da951e
+      source_tree: 94a807c8ce03edd5a10b2578b5ee4f92cfa9d510
       previous_event_sha256: 84ce1b1596a48f60cfd6c48772ee80a2ebf355c42258f5618c631eccbd2a90b1
-      status: PENDING_CANDIDATE
+      status: IMPORTED
       rationale: >-
         P2-033 stopped at the exact final CTO review gate because canonical
         replay accepted an INTERNAL relation whose target was absent from the
@@ -14227,22 +14227,22 @@ founder_knowledge_sync:
         non-blocking Founder Knowledge review and Vault import.
       engineering_blocking: false
       artifact:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-attested-java-symbol-resolution-graph-context-20260806/task-1-p2-033/knowledge/P2_033_FINAL_CTO_NON_PASS_LEARNING_ARTIFACT_V1.md
+        byte_length: 3916
+        sha256: e7cc8f4066e653f15dc122db4b8f15468c48329f63c2e18c42179cdf0e499603
       review:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-attested-java-symbol-resolution-graph-context-20260806/task-1-p2-033/knowledge/P2_033_FINAL_CTO_NON_PASS_KNOWLEDGE_REVIEW_V1.json
+        byte_length: 3339
+        sha256: 4e14a1ad06670321ed7c858f36191253cba1f2bc85f159c87ade5c71349cf099
       vault_import:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/05-Failures-and-Lessons/AIOS-P2-033/2026-08-06-P2-033-final-cto-non-pass-semantic-replay-lessons.md
+        byte_length: 3916
+        sha256: e7cc8f4066e653f15dc122db4b8f15468c48329f63c2e18c42179cdf0e499603
       receipt:
-        path: null
-        byte_length: null
-        sha256: null
-      event_sha256: a58ed3934bd36790eebc6f78a66674faa0ad68d74c0c83cbec5558dfaf7ec8c0
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-attested-java-symbol-resolution-graph-context-20260806/task-1-p2-033/knowledge/P2_033_FINAL_CTO_NON_PASS_KNOWLEDGE_IMPORT_RECEIPT_V1.json
+        byte_length: 1687
+        sha256: fcdabe158e7d17392c94f1fbb9e1493a2d12c0c6ec0da65a31817e52d231fd2e
+      event_sha256: de760d2b8e6d3d1bdccc56a33b71aef272a3e867841f77c4fb43ab7bad5f2553
 
 historical_active_work_after_p1_079:
   current_task: NONE

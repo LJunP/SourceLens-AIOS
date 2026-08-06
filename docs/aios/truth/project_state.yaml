@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-06T14:29:00Z"
-verification_scope: P2_033_TERMINAL_FINAL_CTO_TARGET_NON_PASS
+last_verified_at: "2026-08-06T15:22:11Z"
+verification_scope: P2_SINGLE_TRANSACTION_DECLARATION_CLOSED_JAVA_GRAPH_ROUTE_AUTHORIZED_READY
 
 authority:
   founder: Human Founder
@@ -39,7 +39,16 @@ goal:
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
   current_task_authority: NONE
   note: >-
-    P2-033 is TERMINAL_FINAL_CTO_TARGET_NON_PASS. Its exact candidate passed
+    Founder authorized a new clean-room single-transaction declaration-closed
+    Java graph and offline context benchmark Route. P2-036 is eligible but not
+    yet activated; P2-037 remains predecessor-gated. Declaration admission,
+    relation resolution, edge admission, semantic closure and finalization must
+    occur in one typed transaction, and replay must rebuild those semantics from
+    raw facts. Rejected P2 engineering remains non-reusable, all six external
+    effects remain false and Route authorization adds no P2 capability credit.
+    All paragraphs below this sentence are retained historical chronology only
+    and have no current Task, Route or scheduling authority. P2-033 is
+    TERMINAL_FINAL_CTO_TARGET_NON_PASS. Its exact candidate passed
     the worker matrix and independent evaluator, and Quality returned PASS,
     but the fresh CTO Reviewer proved that canonical replay accepts an INTERNAL
     relation whose target is absent from the admitted declaration set. The
@@ -1290,9 +1299,9 @@ project:
   p1_execution_status: COMPLETE_STRICT_8_OF_8_100_PERCENT
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
-  p2_execution_status: ACTIVE
-  phase_execution_status: ACTIVE
-  current_route_execution_status: ACTIVE_TASK_1
+  p2_execution_status: AUTHORIZED_READY
+  phase_execution_status: AUTHORIZED_READY
+  current_route_execution_status: AUTHORIZED_READY
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -6038,31 +6047,31 @@ historical_p1_162_phase_route:
 
 current_phase_route:
   schema_version: "1.1"
-  route_id: P2_CLEAN_ROOM_ATTESTED_JAVA_SYMBOL_RESOLUTION_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
-  status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
-  authority_object_status: TERMINAL_TASK_AUTHORITY_RECORD
-  execution_status: TERMINAL_TASK_1_FINAL_CTO_TARGET_NON_PASS
-  founder_phase_route_decision_required: true
-  scheduling_status: STOPPED_AT_FOUNDER_P2_PHASE_GATE
+  route_id: P2_SINGLE_TRANSACTION_DECLARATION_CLOSED_JAVA_GRAPH_AND_OFFLINE_CONTEXT_BENCHMARK_ROUTE_V1
+  status: AUTHORIZED_READY
+  authority_object_status: READY_NO_ACTIVE_TASK
+  execution_status: AUTHORIZED_READY
+  founder_phase_route_decision_required: false
+  scheduling_status: READY_FOR_P2_036_ACTIVATION
   phase: P2
   phase_entry_status: AUTHORIZED
-  authorization_token: AUTHORIZE_P2_CLEAN_ROOM_ATTESTED_JAVA_SYMBOL_RESOLUTION_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
+  authorization_token: AUTHORIZE_P2_SINGLE_TRANSACTION_DECLARATION_CLOSED_JAVA_GRAPH_AND_OFFLINE_CONTEXT_BENCHMARK_ROUTE_V1
   decision_packet:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-attested-java-symbol-resolution-graph-context-20260806/decision/FOUNDER_P2_CLEAN_ROOM_ATTESTED_JAVA_SYMBOL_RESOLUTION_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1.structured-decision.json
-    sha256: ff56fec0907d2a9d9dce598821857b1f31d54d2c017d5d55b21291177fcc7f55
-    byte_length: 3616
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-single-transaction-java-graph-context-20260806/decision/FOUNDER_P2_SINGLE_TRANSACTION_DECLARATION_CLOSED_JAVA_GRAPH_AND_OFFLINE_CONTEXT_BENCHMARK_ROUTE_V1.structured-decision.json
+    sha256: 1c2ef544e9b612ca369467ac44289ecf85090e01a31b3b0e25fc90b300e77e74
+    byte_length: 3153
   original_founder_packet:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-attested-java-symbol-resolution-graph-context-20260806/decision/FOUNDER_P2_CLEAN_ROOM_ATTESTED_JAVA_SYMBOL_RESOLUTION_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1.md
-    sha256: 11c23a60ae4cd4196578f78e4c97b20bf5b0bd87fcb7dd9206013058f76d1951
-    byte_length: 6823
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-attested-java-symbol-resolution-graph-context-20260806/founder-phase-gate/FOUNDER_P2_SINGLE_TRANSACTION_DECLARATION_CLOSED_JAVA_GRAPH_ROUTE_V1.md
+    sha256: 837d8e1cea2344b488d51067e5c26b8ed14d2608bb7c99a46f6eb48989a99836
+    byte_length: 7056
   historical_p2_021_founder_exception_authorization:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/task-1-p2-021/authority/P2_021_EXACT_VERIFIER_CLONE_PHYSICAL_ROOT_REENTRY_AUTHORITY_V1.yaml
     sha256: 2bed204bc2a2192b0e5f32acd2ac4fcbaae27f9fe4b7dc727d0ea494d554742b
     byte_length: 6187
     authorization_token: AUTHORIZE_ONE_P2_021_EXACT_VERIFIER_CLONE_PHYSICAL_ROOT_CORRECTION_AND_FINAL_MATRIX_REENTRY_V1
   activation_parent:
-    commit: e2e1b86eccf33d04207c175c472e46c27bc7eec0
-    tree: 7bfe118798ffb9e0cff30a460c7a4745005b1b16
+    commit: cef0a8b72d71744b6a9607782b3a7829a652e108
+    tree: 4090b1d0186b75810d79f010f95c1567073debf8
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: "1.7"
@@ -6074,15 +6083,15 @@ current_phase_route:
     canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
     canonical_byte_length: 19434
   objective: >-
-    Establish a clean-room, parser-native, lexical-scope-aware and externally
-    attested Java symbol identity and relation resolver, then build its accepted
-    canonical graph and compare graph-conditioned context selection against a
-    lexical baseline.
-  claim_boundary: OFFLINE_CLEAN_ROOM_ATTESTED_JAVA_SYMBOL_IDENTITY_AND_RELATION_RESOLUTION_THEN_CANONICAL_GRAPH_THEN_GRAPH_CONDITIONED_CONTEXT_BENCHMARK_ONLY_ACCEPTED_P1_SCANNER_AND_DATASET_INPUTS_NO_REJECTED_P2_ENGINEERING_REUSE_NO_COMPLETE_JAVA_COMPILER_GENERIC_CLASSPATH_AUTHORITY_OR_EVIDENCE_PLATFORM_NO_NETWORK_PROVIDER_SECRET_REMOTE_PRODUCTION_PUBLIC_PUSH_OR_P3_ENTRY
+    Establish a clean-room single-transaction declaration-closed Java canonical
+    graph kernel, then compare graph-conditioned context selection against a
+    lexical baseline using only the accepted integrated kernel and accepted P1
+    dataset assets.
+  claim_boundary: OFFLINE_CLEAN_ROOM_SINGLE_TRANSACTION_DECLARATION_CLOSED_JAVA_CANONICAL_GRAPH_KERNEL_THEN_ACCEPTED_GRAPH_CONDITIONED_CONTEXT_BENCHMARK_ONLY_ACCEPTED_CANONICAL_P1_SCANNER_JAVAPARSER_AND_DATASET_INPUTS_NO_REJECTED_P2_ENGINEERING_REUSE_NO_AUTHORITY_PARSER_VALIDATOR_GOVERNANCE_OR_EVIDENCE_PLATFORM_PRETASK_NO_NETWORK_PROVIDER_SECRET_REMOTE_PRODUCTION_PUBLIC_PUSH_OR_P3_ENTRY
   envelope:
-    max_engineering_tasks: 3
-    max_engineering_hours: 60
-    max_calendar_days: 14
+    max_engineering_tasks: 2
+    max_engineering_hours: 44
+    max_calendar_days: 10
     max_active_tasks: 1
     max_task_branches: 1
     max_task_worktrees: 1
@@ -6150,16 +6159,15 @@ current_phase_route:
     - p1_219
   first_task:
     task_slot: 1
-    task_id: AIOS-P2-033_ATTESTED_JAVA_SYMBOL_IDENTITY_AND_RELATION_RESOLUTION_KERNEL
-    status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
-    engineering_hours: 28
-    calendar_days: 6
-    max_engineering_hours: 28
-    max_calendar_days: 6
+    task_id: AIOS-P2-036_SINGLE_TRANSACTION_DECLARATION_CLOSED_JAVA_GRAPH_KERNEL
+    status: ELIGIBLE_NOT_ACTIVATED
+    engineering_hours: 30
+    calendar_days: 7
+    max_engineering_hours: 30
+    max_calendar_days: 7
     max_implementation_iterations: 4
     max_same_task_repairs: 3
     max_candidates: 1
-    contract_path: docs/aios/tasks/P2-033_ATTESTED_JAVA_SYMBOL_IDENTITY_AND_RELATION_RESOLUTION_KERNEL.yaml
     external_effects:
       network: false
       provider: false
@@ -6167,17 +6175,16 @@ current_phase_route:
       remote: false
       production: false
       public: false
-    p2_capability_claim_on_pass: ATTESTED_JAVA_SYMBOL_IDENTITY_AND_RELATION_RESOLUTION_KERNEL
+    p2_capability_claim_on_pass: SINGLE_TRANSACTION_DECLARATION_CLOSED_JAVA_GRAPH_KERNEL
   task_plan:
     - task_slot: 1
-      task_id: AIOS-P2-033_ATTESTED_JAVA_SYMBOL_IDENTITY_AND_RELATION_RESOLUTION_KERNEL
-      status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
-      engineering_hours: 28
-      calendar_days: 6
+      task_id: AIOS-P2-036_SINGLE_TRANSACTION_DECLARATION_CLOSED_JAVA_GRAPH_KERNEL
+      status: ELIGIBLE_NOT_ACTIVATED
+      engineering_hours: 30
+      calendar_days: 7
       max_implementation_iterations: 4
       max_same_task_repairs: 3
       max_candidates: 1
-      contract_path: docs/aios/tasks/P2-033_ATTESTED_JAVA_SYMBOL_IDENTITY_AND_RELATION_RESOLUTION_KERNEL.yaml
       external_effects:
         network: false
         provider: false
@@ -6186,24 +6193,9 @@ current_phase_route:
         production: false
         public: false
     - task_slot: 2
-      task_id: AIOS-P2-034_ATTESTED_JAVA_CANONICAL_GRAPH_KERNEL
-      status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
-      engineering_hours: 20
-      calendar_days: 5
-      max_implementation_iterations: 4
-      max_same_task_repairs: 3
-      max_candidates: 1
-      external_effects:
-        network: false
-        provider: false
-        secret: false
-        remote: false
-        production: false
-        public: false
-    - task_slot: 3
-      task_id: AIOS-P2-035_ACCEPTED_GRAPH_CONDITIONED_CONTEXT_OFFLINE_BENCHMARK
-      status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
-      engineering_hours: 12
+      task_id: AIOS-P2-037_ACCEPTED_DECLARATION_CLOSED_GRAPH_CONTEXT_OFFLINE_BENCHMARK
+      status: PENDING_PREDECESSOR_TASK_GATE
+      engineering_hours: 14
       calendar_days: 3
       max_implementation_iterations: 4
       max_same_task_repairs: 3
@@ -6216,15 +6208,12 @@ current_phase_route:
         production: false
         public: false
   automatic_entry:
-    after_task_id: AIOS-P2-033_ATTESTED_JAVA_SYMBOL_IDENTITY_AND_RELATION_RESOLUTION_KERNEL
-    next_task_id: AIOS-P2-034_ATTESTED_JAVA_CANONICAL_GRAPH_KERNEL
+    after_task_id: AIOS-P2-036_SINGLE_TRANSACTION_DECLARATION_CLOSED_JAVA_GRAPH_KERNEL
+    next_task_id: AIOS-P2-037_ACCEPTED_DECLARATION_CLOSED_GRAPH_CONTEXT_OFFLINE_BENCHMARK
     requires_task_gate_pass: true
   automatic_entries:
-    - after_task_id: AIOS-P2-033_ATTESTED_JAVA_SYMBOL_IDENTITY_AND_RELATION_RESOLUTION_KERNEL
-      next_task_id: AIOS-P2-034_ATTESTED_JAVA_CANONICAL_GRAPH_KERNEL
-      requires_task_gate_pass: true
-    - after_task_id: AIOS-P2-034_ATTESTED_JAVA_CANONICAL_GRAPH_KERNEL
-      next_task_id: AIOS-P2-035_ACCEPTED_GRAPH_CONDITIONED_CONTEXT_OFFLINE_BENCHMARK
+    - after_task_id: AIOS-P2-036_SINGLE_TRANSACTION_DECLARATION_CLOSED_JAVA_GRAPH_KERNEL
+      next_task_id: AIOS-P2-037_ACCEPTED_DECLARATION_CLOSED_GRAPH_CONTEXT_OFFLINE_BENCHMARK
       requires_task_gate_pass: true
   terminal_p2_033_result:
     task_id: AIOS-P2-033_ATTESTED_JAVA_SYMBOL_IDENTITY_AND_RELATION_RESOLUTION_KERNEL
@@ -6447,7 +6436,7 @@ current_phase_route:
     terminal_receipt_sha256: f6e2ce1203b36d04526b2b4fba80ce4b53a6dd5802a55b458e73e17638bf8357
     terminal_receipt_byte_length: 3227
     p2_022_status: NOT_STARTED_PREDECESSOR_TASK_GATE_NON_PASS
-  next_eligible_action: FOUNDER_P2_PHASE_GATE
+  next_eligible_action: ACTIVATE_AIOS_P2_036_SINGLE_TRANSACTION_DECLARATION_CLOSED_JAVA_GRAPH_KERNEL
 
 historical_p2_016_phase_route:
   schema_version: "1.1"
@@ -9316,9 +9305,9 @@ historical_p2_phase_route:
   next_eligible_action: FOUNDER_P2_PHASE_GATE
 
 phase_delegation:
-  status: STOPPED_P2_033_FINAL_CTO_TARGET_NON_PASS_AT_FOUNDER_P2_PHASE_GATE
+  status: ACTIVE_P2_SINGLE_TRANSACTION_DECLARATION_CLOSED_JAVA_GRAPH_ROUTE
   model: PHASE_LEVEL_FOUNDER_DELEGATION
-  decision_source: AUTHORIZE_P2_CLEAN_ROOM_ATTESTED_JAVA_SYMBOL_RESOLUTION_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
+  decision_source: AUTHORIZE_P2_SINGLE_TRANSACTION_DECLARATION_CLOSED_JAVA_GRAPH_AND_OFFLINE_CONTEXT_BENCHMARK_ROUTE_V1
   phase_gate_owner: HUMAN_FOUNDER
   task_selection_owner: MASTER_CEO_AGENT
   task_authorization_owner: MASTER_CEO_AGENT_WITHIN_CURRENT_PHASE_ENVELOPE
@@ -10819,7 +10808,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260806-P2-033-TERMINAL-CTO-NON-PASS-V1
+  latest_event_id: FKS-20260806-P2-SINGLE-TRANSACTION-JAVA-GRAPH-ROUTE-AUTHORIZED-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -14243,6 +14232,40 @@ founder_knowledge_sync:
         byte_length: 1687
         sha256: fcdabe158e7d17392c94f1fbb9e1493a2d12c0c6ec0da65a31817e52d231fd2e
       event_sha256: de760d2b8e6d3d1bdccc56a33b71aef272a3e867841f77c4fb43ab7bad5f2553
+    - event_id: FKS-20260806-P2-SINGLE-TRANSACTION-JAVA-GRAPH-ROUTE-AUTHORIZED-V1
+      trigger_type: FOUNDER_PHASE_ROUTE_DECISION
+      occurred_at_utc: "2026-08-06T15:22:11Z"
+      source_commit: cef0a8b72d71744b6a9607782b3a7829a652e108
+      source_tree: 4090b1d0186b75810d79f010f95c1567073debf8
+      previous_event_sha256: de760d2b8e6d3d1bdccc56a33b71aef272a3e867841f77c4fb43ab7bad5f2553
+      status: PENDING_CANDIDATE
+      rationale: >-
+        Founder authorized a new clean-room single-transaction P2 Route that
+        closes Java declarations before edge admission, requires INTERNAL
+        targets to bind a unique declaration in the same typed transaction,
+        rebuilds semantic closure from raw facts during replay and then runs an
+        offline graph-conditioned context benchmark. P2-033 remains terminal
+        and non-reusable; P2-036 is eligible, P2-037 remains predecessor-gated,
+        all six external effects remain false and Route authorization adds no
+        P2 capability credit.
+      engineering_blocking: false
+      artifact:
+        path: null
+        byte_length: null
+        sha256: null
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+      event_sha256: ed20e895d024ff0ce61535e1ba1efea89837c99f0058298fb4fb33f9581bf872
 
 historical_active_work_after_p1_079:
   current_task: NONE
@@ -14313,7 +14336,7 @@ active_work:
   authorization_id: null
   activation_parent_commit: null
   activation_parent_tree: null
-  task_resource_state: NOT_CREATED_ROUTE_TERMINAL
+  task_resource_state: NOT_CREATED_ROUTE_READY
   task_branch: null
   task_worktree: null
   execution_evidence_root: null
@@ -14337,13 +14360,13 @@ active_work:
   offsite_target: null
   founder_reserved_authorization: null
   founder_reserved_authorization_sha256: null
-  founder_decision_required: true
-  founder_decision_required_scope: P2_PHASE_GATE_AFTER_P2_033_TERMINAL_FINAL_CTO_TARGET_NON_PASS
-  escalation_reason: P2033_FINAL_CTO_REPLAY_SEMANTIC_TARGET_CROSS_BINDING_ACCEPTED
-  user_action_required: FOUNDER_P2_PHASE_GATE_DECISION
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_P2_PHASE_GATE_DECISION
-  next_eligible_action: FOUNDER_P2_PHASE_GATE
+  founder_decision_required: false
+  founder_decision_required_scope: null
+  escalation_reason: null
+  user_action_required: NONE
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: ACTIVATE_AIOS_P2_036_SINGLE_TRANSACTION_DECLARATION_CLOSED_JAVA_GRAPH_KERNEL
 historical_p1_190_terminal_active_work:
   current_task: NONE
   current_task_status: NONE

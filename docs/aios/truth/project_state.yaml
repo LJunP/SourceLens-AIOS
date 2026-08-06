@@ -10786,13 +10786,13 @@ founder_knowledge_sync:
       source_tree: 0a68f69dda70bec84e01929d1cc12a288060fa11
       previous_event_sha256: null
       event_sha256: 5f03a65ee0f7836ec00e4b4d5040efe025c0d9e386839abb18fb2500cfbddf2f
-      status: PENDING_REVIEW
+      status: PENDING_CANDIDATE
       rationale: Founder required strict no-skip phase execution and continuous Obsidian knowledge synchronization.
       engineering_blocking: false
       artifact:
-        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-parser-native-java-semantic-graph-context-20260806/task-1-p2-030/knowledge/P2_030_FINAL_CTO_NON_PASS_LEARNING_ARTIFACT_V1.md
-        byte_length: 4708
-        sha256: 51249a8146541707224b7da707b0aca2b0134440123f57b54bd0834675f7f999
+        path: null
+        byte_length: null
+        sha256: null
       review:
         path: null
         byte_length: null
@@ -14076,7 +14076,7 @@ founder_knowledge_sync:
       source_commit: 885b4e07c63309a18d95dc92e0cc978894fd5322
       source_tree: 9e7138adbe317410155b7adf7fb9837d1e09091a
       previous_event_sha256: 550e945fc7b807e2df5d8cb41fea869a79c69a92ac4bd967461b3a501a8ecfa9
-      status: PENDING_CANDIDATE
+      status: PENDING_REVIEW
       rationale: >-
         P2-030 froze one exact parser-native Java relation candidate and its
         declared worker/independent matrix passed, but the fresh CTO Reviewer
@@ -14087,9 +14087,9 @@ founder_knowledge_sync:
         Route stopped at the Founder P2 Phase Gate without a correction chain.
       engineering_blocking: false
       artifact:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-parser-native-java-semantic-graph-context-20260806/task-1-p2-030/knowledge/P2_030_FINAL_CTO_NON_PASS_LEARNING_ARTIFACT_V1.md
+        byte_length: 4708
+        sha256: 51249a8146541707224b7da707b0aca2b0134440123f57b54bd0834675f7f999
       review:
         path: null
         byte_length: null
@@ -14102,7 +14102,7 @@ founder_knowledge_sync:
         path: null
         byte_length: null
         sha256: null
-      event_sha256: b3d1c6ea12c3347a4eef17257ab16c2ee0d1478572c9189d58cd6f36472753c4
+      event_sha256: cc9a51ca921b96880efd1bcc391eccc0eb2b0d55a9208ce4d1adb3739f84ccfc
 
 historical_active_work_after_p1_079:
   current_task: NONE

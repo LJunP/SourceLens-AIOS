@@ -13457,34 +13457,35 @@ founder_knowledge_sync:
       source_commit: 39b3fb92416d283a605aecba8c91bdb3954a8692
       source_tree: c4a9cf66475b8c593f267fc7d5d991002bb08d8f
       previous_event_sha256: ad8213911af5f47728e5bea42b7f2a130d44019d485fcde5c778d8bebdf64350
-      status: PENDING_CANDIDATE
+      status: IMPORTED
       rationale: >-
         P2-021 exhausted its exact initial-plus-two-repair budget without a
-        candidate freeze. The final failure was a verifier-negative fixture
-        topology mismatch: Node selected the macOS /var symlink alias for its
-        temporary clone while the new admission kernel correctly rejects
+        candidate freeze. A fresh independent Knowledge Review passed the exact
+        terminal learning Artifact, and the same 4,465 bytes were imported into
+        the Founder Knowledge Vault with a hash-bound receipt. The imported
+        lesson records that Node selected the macOS /var symlink alias for the
+        verifier's temporary clone while the admission kernel correctly rejects
         symlink ancestors. The exact unintegrated implementation and terminal
-        receipt are preserved, P2-022 remains unstarted, and no P2 capability
-        credit was added. This reusable path-topology lesson is queued for
-        non-blocking Knowledge synchronization.
+        receipt remain preserved, P2-022 remains unstarted, and no P2 capability
+        credit was added.
       engineering_blocking: false
       artifact:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/task-1-p2-021/knowledge/P2_021_TERMINAL_LEARNING_ARTIFACT_CANDIDATE_V1.md
+        byte_length: 4465
+        sha256: 2885908c3b205b4cced97dfbfdd954ded0a73185f2ac29ccde6dfc32993be936
       review:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/task-1-p2-021/knowledge/P2_021_TERMINAL_KNOWLEDGE_REVIEW_SCHEMA_COMPATIBLE_V2.json
+        byte_length: 4091
+        sha256: 0efe3b5364892a707a5f26363a37743b3710e21a62be2c914c67c13aa71a9618
       vault_import:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/05-Failures-and-Lessons/AIOS-P2-021/2026-08-06-P2-021-macos-temp-topology-and-verifier-fixture.md
+        byte_length: 4465
+        sha256: 2885908c3b205b4cced97dfbfdd954ded0a73185f2ac29ccde6dfc32993be936
       receipt:
-        path: null
-        byte_length: null
-        sha256: null
-      event_sha256: a999fa2842ef9fac0378b399ee1b5207053bb29218cefb009ba137d0785f115f
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/task-1-p2-021/knowledge/P2_021_TERMINAL_KNOWLEDGE_IMPORT_RECEIPT_V1.json
+        byte_length: 1680
+        sha256: f9f860baf3f12786dbc60d7898a234572a9679c37f9276b562f5b832fd34ac67
+      event_sha256: e34bd240a36bd1951c4f8609e3fb9a5bd63cd31529d4e7060c9d7d831949b68d
 
 historical_active_work_after_p1_079:
   current_task: NONE

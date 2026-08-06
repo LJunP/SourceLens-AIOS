@@ -1,0 +1,260 @@
+schema_version: "1.0"
+record_type: aios_task_contract
+task_id: AIOS-P2-023_RAW_EVIDENCE_BOUND_JAVA_GRAPH_VERTICAL_SLICE
+phase: P2
+route_id: P2_CLEAN_ROOM_RAW_EVIDENCE_BOUND_JAVA_GRAPH_KERNEL_AND_CONTEXT_BENCHMARK_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Build one clean-room Java canonical scan-to-graph vertical slice from the
+  exact accepted P0 scanner artifact, with repository-root-independent symbol
+  identity, truthful relation classification, deterministic replay and a raw
+  Evidence contract that an independent consumer can rederive without trusting
+  Worker-authored PASS fields or ledgers.
+why_now: >-
+  P2 still lacks an accepted repository graph kernel. P2-021 is terminal and
+  non-reusable, but its reviewed Knowledge Artifact identified a precise
+  evidence-contract gap: candidate provenance, per-case raw negative Evidence
+  and external-effect observations were not independently reconstructable.
+  This Task closes those gaps from accepted canonical assets before any
+  context-selection benchmark is allowed to start.
+task_spec_ref: >-
+  /Users/lijunpeng/Developer/.sourcelens-audit/p2-raw-evidence-java-graph-context-20260806/decision/FOUNDER_P2_RAW_EVIDENCE_JAVA_GRAPH_ROUTE_DECISION_V1.json
+claim_boundary: >-
+  Offline clean-room raw-Evidence-bound Java scan-to-graph vertical slice only.
+  No rejected P2 engineering reuse, scanner semantic modification, context
+  benchmark result, network, Provider, Secret, remote, production, public or
+  P3 claim.
+risk_level: high
+
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-raw-evidence-java-graph-context-20260806/decision/FOUNDER_P2_RAW_EVIDENCE_JAVA_GRAPH_ROUTE_DECISION_V1.json
+  sha256: c7884b9056ef60d20b27f9d2ae18401bf43600da690c162f3bf3372c8f182991
+  byte_length: 3507
+  authorization_token: AUTHORIZE_P2_CLEAN_ROOM_RAW_EVIDENCE_BOUND_JAVA_GRAPH_KERNEL_AND_CONTEXT_BENCHMARK_ROUTE_V1
+
+roles:
+  owner: P2_023_MASTER_CEO_TASK_OWNER
+  worker: P2_023_CLEAN_ROOM_GRAPH_WORKER
+  independent_reviewers:
+    - P2_023_FRESH_CTO_REVIEWER
+    - P2_023_FRESH_SECURITY_REVIEWER
+    - P2_023_FRESH_QUALITY_REVIEWER
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+
+budget:
+  engineering_hours: 20
+  calendar_days: 5
+  implementation_iterations: 3
+  candidates: 1
+same_task_repairs_max: 2
+contract_corrections_max: 0
+
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+founder_reserved_profile: null
+
+allowlisted_paths:
+  - evaluation-harness/harness/p2-023-raw-evidence-java-graph
+  - evaluation-harness/evaluator/p2-023-raw-evidence-java-graph
+  - evaluation-harness/fixtures/p2-023-raw-evidence-java-graph
+  - evaluation-harness/replay/p2-023-raw-evidence-java-graph
+  - scripts/verify-p2-023-raw-evidence-java-graph.sh
+  - docs/aios/tasks/P2-023_RAW_EVIDENCE_BOUND_JAVA_GRAPH_VERTICAL_SLICE.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+
+read_context:
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/tasks/P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION.yaml
+  - evaluation-harness/harness/p1-116-closed-profile-scanner-admission
+  - evaluation-harness/fixtures/p1-116-closed-profile-scanner-admission/accepted-p0-binding.json
+  - exact accepted P1-116 scanner-build receipt and scanner binary
+  - accepted canonical P0/P1 scanner, dataset, trace and evaluation assets
+  - P2-021 canonical Truth, terminal receipt, final Reviews and reviewed Knowledge Artifact only
+
+forbidden_read_or_reuse:
+  - P2-021 candidate source, diff, fixture, test, matrix, evaluator or implementation
+  - P2-022 assets
+  - P2-019, P2-016, P2-013, P2-011, P2-009, P2-007, P2-005, P2-003 or other rejected P2 engineering assets
+  - any historical rejected candidate branch or worktree source tree
+
+dependencies:
+  - P0 COMPLETE
+  - P1 COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
+  - accepted P1-116 exact scanner artifact and repository_analysis.scan binding
+  - accepted P1 dataset, trace and evaluation assets bound in canonical Truth
+
+accepted_scanner_binding:
+  binding:
+    path: evaluation-harness/fixtures/p1-116-closed-profile-scanner-admission/accepted-p0-binding.json
+    byte_length: 777
+    sha256: 06f2501662318d9f9c47e91d923e4cfb844dcb818dc1825ea444aa015e6da54f
+  build_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-closed-profile-rollback-route-20260725/task-1/formal-evidence-v1/accepted-scanner-build/accepted-scanner-build.json
+    byte_length: 2057
+    sha256: 8782c88fb96f93c3fecb5a480b12393d3426d4673262413cb9d403a8f7c8acb1
+  scanner:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-closed-profile-rollback-route-20260725/task-1/formal-evidence-v1/accepted-scanner-build/cargo-target/release/sourcelens-analyzer
+    byte_length: 6700944
+    sha256: 8b12ba44aaeb57dc5fbb55695f6c89233106b6b1ce661a38c03be3ec7a74f1dd
+    operation: repository_analysis.scan
+    required_scan_result_schema_version: 2
+
+evidence_contract:
+  candidate_provenance:
+    - candidate commit and tree are captured after source freeze and must equal the reviewed exact bytes
+    - source manifest binds every changed repository path by type, byte length and SHA-256
+    - Evidence manifest binds the exact source manifest and exact candidate commit/tree
+    - stale, same-Task prior-candidate and cross-candidate provenance must reject
+  raw_negative_case_contract:
+    - every case uses a unique owned disposable fixture root
+    - every case persists exact input fixture, mutation descriptor, raw stdout, raw stderr, exit status and verifier receipt
+    - aggregate negative ledger is derived from raw case receipts and is never an oracle
+    - missing, extra, duplicate, reordered, mutated or cross-bound case objects must reject
+  external_effect_contract:
+    - each target execution persists exact command, argv, process exit and sandbox policy identity
+    - network observation persists raw observer stdout, stderr, exit status and observed sockets
+    - Provider and Secret counts are derived from the closed command and input inventory, not Worker constants
+    - aggregate six-effect summary is independently reconstructed from raw observation receipts
+  containment_and_identity:
+    - validate every manifest path for containment, lstat regular type, non-symlink, byte length and SHA-256 before reading
+    - reject absolute-path escape, parent escape, wrong root, symlink, non-regular input, mutation and identity drift before semantic parsing
+
+implementation_requirements:
+  - invoke the exact accepted scanner artifact on two physically distinct Java repository roots under OS deny-network policy
+  - retain raw scanner command, stdout, stderr, exit and socket-observer Evidence for both roots
+  - consume only scanner JSON schema version 2 and preserve exact admitted raw bytes
+  - derive repository-root-independent canonical file and symbol identities
+  - bind every symbol and relation to exact file identity and source span
+  - classify every relation endpoint as resolved_internal, external or unresolved
+  - resolve Java relations only when package, import, declaration and span Evidence supports the binding
+  - deterministically order nodes, edges, classifications and serialized output
+  - produce byte-identical graph output from both physical roots
+  - produce byte-identical exact replay from frozen admitted scanner bytes
+  - avoid new dependencies and avoid any network-capable build step
+  - independent verifier must rederive provenance, graph semantics, case verdicts, counts and external effects from raw bytes
+  - Worker-authored PASS, counts, ledgers, provenance or effect summaries are never sufficient proof
+
+mandatory_positive_cases:
+  - exact accepted-scanner identity admission
+  - real accepted scanner invocation on Java root A
+  - real accepted scanner invocation on physically distinct Java root B
+  - repository-root-independent byte-identical graph projection
+  - byte-identical exact replay
+  - same-package resolved internal Java call
+  - imported cross-package resolved internal Java call
+  - external Java endpoint classification
+  - unresolved Java endpoint classification
+  - exact source-span and symbol-identity binding
+
+mandatory_negative_cases:
+  - unimported cross-package same-name symbol cross-binding
+  - ambiguous wildcard-import same-name binding
+  - fabricated symbol span
+  - relation source span outside source file
+  - internal endpoint changed to external or unresolved
+  - external endpoint changed to internal
+  - unresolved endpoint changed to internal
+  - scanner stdout mutation
+  - scanner receipt missing
+  - scanner receipt duplicate
+  - evidence manifest reorder
+  - unexpected extra Evidence object
+  - path escape
+  - wrong-root substitution
+  - symlink input
+  - non-regular input
+  - byte-length drift
+  - SHA-256 drift
+  - candidate commit drift
+  - candidate tree drift
+  - source manifest drift
+  - stale same-Task candidate binding
+  - cross-candidate binding
+  - raw negative stdout missing
+  - raw negative stderr missing
+  - raw negative exit-status mutation
+  - aggregate ledger drift
+  - false-accept summary drift
+  - external-effect summary drift
+  - forged zero-network observation
+  - Provider-count drift
+  - Secret-count drift
+
+acceptance_criteria:
+  - all mandatory positive and negative cases execute from fresh owned disposable roots
+  - at least two real accepted scanner invocations are proven by raw receipts
+  - two-root projection and exact replay are byte-identical
+  - all graph identities are repository-root-independent and source-span-bound
+  - every relation endpoint classification is data-derived and independently checked
+  - every negative verdict and aggregate count is reconstructable from per-case raw Evidence
+  - candidate commit, tree, source manifest and Evidence manifest are exact and mutually bound
+  - targeted false accepts equal 0
+  - network, Provider, Secret, remote, production and public effects equal 0
+  - no rejected P2 engineering asset is read, restored, copied, compared or reused
+  - one exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS on the same bytes
+  - reviewed tree equals integrated canonical tree and one canonical make verify passes
+
+required_evidence:
+  - exact Founder packet, structured Decision, Goal, activation parent, Contract and Task authority identities
+  - exact accepted scanner binding, build receipt, binary identity and raw invocation receipts
+  - two admitted raw scanner outputs and their closed inventories
+  - deterministic graph outputs, stable projection comparison and replay receipt
+  - per-case raw negative fixture, mutation, stdout, stderr, exit and verdict receipts
+  - raw OS observer receipts and independently reconstructed six-effect summary
+  - exact candidate commit, tree, source manifest, Evidence manifest, diff/hash manifest and recoverable Evidence tag
+  - independent verifier package and receipt
+  - fresh CTO, Security and Quality Reviews of the same candidate and Evidence bytes
+
+rollback:
+  strategy: OWNED_DISPOSABLE_FIXTURE_CLEANUP_AND_NON_DESTRUCTIVE_GIT_REVERT_AFTER_INTEGRATION_ONLY
+  source_mutation_before_integration: task_worktree_only
+  canonical_reset_or_clean_allowed: false
+
+stop_conditions:
+  - same normalized root cause repeats in adjacent allowed implementation iterations
+  - three total implementation iterations or two same-Task repairs are exhausted
+  - offline execution requires network or a dependency download
+  - any rejected P2 engineering asset would need to be read or reused
+  - any scope, Phase, permission or external-effect expansion is required
+  - Evidence is overwritten, deleted, cross-bound or cannot be independently reconstructed
+  - any fresh final Reviewer returns TARGET_VERDICT NON_PASS
+  - reviewed and integrated trees differ
+  - canonical make verify returns NONPASS
+
+forbidden_actions:
+  - modify accepted scanner semantics
+  - read or reuse rejected P2 engineering assets
+  - network, Provider, Secret, remote, production or public effect
+  - dependency download
+  - P3 entry
+  - push, PR, release or remote mutation
+  - second candidate, second final review cycle or post-freeze correction
+  - successor, replacement, normalization, closure, feasibility or remediation chain
+  - use documentation, hashes, Reviews or governance synchronization as P2 capability credit
+
+knowledge_sync:
+  mode: EVENT_DRIVEN_NON_BLOCKING
+  route_activation_event_status: PENDING_CANDIDATE
+  task_accept_or_terminal_event_required: true
+  capability_credit_before_full_gate: 0
+
+next_action_on_pass: AUTO_ACTIVATE_AIOS_P2_024_ACCEPTED_JAVA_GRAPH_CONTEXT_OFFLINE_BENCHMARK
+next_action_on_non_pass: TERMINAL_STOP_ROUTE_AT_FOUNDER_P2_PHASE_GATE

@@ -35,8 +35,6 @@ roles:
     - P2-030 Fresh Security Reviewer
     - P2-030 Fresh Quality Reviewer
 allowlisted_paths:
-  - backend-spring/src/main/java/com/sourcelens/module/analysis/semantic
-  - backend-spring/src/test/java/com/sourcelens/module/analysis/semantic
   - evaluation-harness/harness/p2-030-parser-native-java-relations
   - evaluation-harness/evaluator/p2-030-parser-native-java-relations
   - scripts/verify-p2-030-parser-native-java-relations.sh
@@ -46,8 +44,6 @@ allowlisted_paths:
   - Makefile
 write_scope:
   worker:
-    - backend-spring/src/main/java/com/sourcelens/module/analysis/semantic
-    - backend-spring/src/test/java/com/sourcelens/module/analysis/semantic
     - evaluation-harness/harness/p2-030-parser-native-java-relations
   quality:
     - evaluation-harness/evaluator/p2-030-parser-native-java-relations
@@ -84,6 +80,7 @@ parser_dependency:
   coordinate: com.github.javaparser:javaparser-core:3.26.1
   source: EXISTING_CANONICAL_BACKEND_DEPENDENCY
   new_java_parser_dependency_allowed: false
+  backend_spring_source_write_required: false
 compatibility_boundary:
   default_p1_scan_result_v2_bytes_and_semantics_must_remain_exact: true
   semantic_relations_interface: VERSIONED_OPT_IN_ONLY

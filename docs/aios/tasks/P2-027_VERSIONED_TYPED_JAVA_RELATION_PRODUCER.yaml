@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P2-027_VERSIONED_TYPED_JAVA_RELATION_PRODUCER
 phase: P2
 route_id: P2_VERSIONED_SCANNER_RELATION_PRODUCER_ATTESTED_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
 objective: >-
   Add an explicitly versioned, opt-in typed Java relation producer to the
   canonical accepted scanner while preserving the default P1 scan-result v2
@@ -171,6 +171,35 @@ stop_conditions:
   - The same normalized root cause repeats in adjacent iterations or three same-Task repairs are exhausted.
   - Any final Reviewer, reviewed/integrated equality check or canonical make verify returns NONPASS.
   - Graph construction, benchmark execution, P3 entry or Phase boundary change is required before P2-027 acceptance.
+terminal_result:
+  status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+  candidate_commit: b0aa3e4e7515559e4a0349c2fb9d5e5bd0367dd9
+  candidate_tree: a7d0326ab98b1ee912888102ed5101e45fbd93bd
+  candidate_manifest:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-versioned-scanner-relation-graph-context-20260806/task-1-p2-027/candidate/P2_027_EXACT_CANDIDATE_MANIFEST.json
+    sha256: a37fb4d7c919a34e952338276d1c8c5db91297902788ef382fd02c5c340d51af
+    byte_length: 5618
+  cto_review:
+    verdict: NON_PASS
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-versioned-scanner-relation-graph-context-20260806/task-1-p2-027/reviews/P2_027_FRESH_CTO_REVIEW.json
+    sha256: 81ecd8c66b2ff71cc3a17a7957220fc46f549d393de333e69887b3a53f95207a
+    byte_length: 5315
+  quality_review:
+    verdict: NON_PASS
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-versioned-scanner-relation-graph-context-20260806/task-1-p2-027/reviews/P2_027_FRESH_QUALITY_REVIEW.json
+    sha256: 77ace878175facd665dea6639ce9146d2f5757b9ae7bfcf22b0cf3cb6df4a88d
+    byte_length: 7025
+  security_review_status: INTERRUPTED_AFTER_CTO_TARGET_NON_PASS
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-versioned-scanner-relation-graph-context-20260806/task-1-p2-027/terminal/P2_027_TERMINAL_RECEIPT.json
+    sha256: 8187d69e51f5cc0b83247bd72bad696295a7386ed57622d556150c30fa94f3cb
+    byte_length: 3175
+  normalized_root_causes:
+    - P2027.CTO.TYPED_JAVA_RELATION.LEXICAL_FALSE_FACTS
+    - P2027.QUALITY.INDEPENDENT_NEGATIVE_MATRIX_AND_COMPATIBILITY_EVIDENCE_INCOMPLETE
+  candidate_integrated: false
+  canonical_make_verify_run: false
+  p2_capability_credit: 0
 knowledge_sync:
   mode: EVENT_DRIVEN_NON_BLOCKING
   task_accept_or_terminal_event_required: true

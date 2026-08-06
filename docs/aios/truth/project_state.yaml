@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-06T01:19:08Z"
-verification_scope: P2_SCANNER_NATIVE_GRAPH_BENCHMARK_ROUTE_AND_P2_013_ACTIVATION
+last_verified_at: "2026-08-06T01:50:46Z"
+verification_scope: P2_013_TERMINAL_FINAL_REVIEW_TARGET_NON_PASS_AND_ROUTE_STOP
 
 authority:
   founder: Human Founder
@@ -37,13 +37,29 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: AIOS-P2-013_SCANNER_NATIVE_TYPED_RELATION_PROJECTION
+  current_task_authority: NONE
   note: >-
+    P2-013 froze one exact nine-path scanner-native typed-relation candidate.
+    Its implemented Rust unit, integration and scan-contract regression tests
+    passed, but all three fresh final Reviewers returned TARGET_VERDICT
+    NON_PASS on the same exact commit/tree. Independent real-scanner checks
+    proved repository-wide same-name relation cross-binding, embedded absolute
+    root leakage, fabricated line-one location for an empty source and a static
+    repository-symlink path escape. Review also proved that the targeted
+    verifier hard-coded PASS and zero-false-accept claims and omitted the
+    required replay-mutation Gate. The candidate was not integrated, canonical
+    make verify was not run, no P2 capability credit was awarded, and P2-014
+    and P2-015 were not started. The Route is terminal at the Founder P2 Phase
+    Gate without a correction, successor or replacement. The exact candidate,
+    manifest, reviews, terminal receipt and Evidence tag are retained as
+    recoverable historical Evidence. All paragraphs below this sentence are
+    retained historical chronology only and have no current Task, Route or
+    scheduling authority.
     Founder authorized the scanner-native typed relation projection, canonical
-    graph kernel and graph-conditioned context benchmark Route. P2-013 is the
-    only active Task. P2-014 and P2-015 remain pending behind exact predecessor
-    Task Gates and have no branch, worktree, candidate or engineering Evidence.
-    This activation adds no P2 capability credit and preserves all P2-011
+    graph kernel and graph-conditioned context benchmark Route. P2-013 was the
+    only active Task. P2-014 and P2-015 remained pending behind exact predecessor
+    Task Gates and had no branch, worktree, candidate or engineering Evidence.
+    This activation added no P2 capability credit and preserved all P2-011
     terminal facts and rejected engineering isolation.
     P2-011 froze one exact nine-path graph-kernel candidate after its local
     targeted matrix reported Java, TypeScript and Rust coverage, five passing
@@ -5865,11 +5881,11 @@ historical_p1_162_phase_route:
 current_phase_route:
   schema_version: "1.1"
   route_id: P2_SCANNER_NATIVE_TYPED_RELATION_PROJECTION_GRAPH_KERNEL_AND_CONTEXT_BENCHMARK_ROUTE_V1
-  status: ACTIVE
-  authority_object_status: ACTIVE_TASK_AUTHORITY
-  execution_status: EXECUTING_TASK_1
-  founder_phase_route_decision_required: false
-  scheduling_status: ACTIVE_TASK
+  status: TERMINAL_TASK_1_FINAL_REVIEW_TARGET_NON_PASS
+  authority_object_status: TERMINAL_NO_ACTIVE_TASK
+  execution_status: TERMINAL_TASK_1_FINAL_REVIEW_TARGET_NON_PASS
+  founder_phase_route_decision_required: true
+  scheduling_status: STOPPED_AT_FOUNDER_P2_PHASE_GATE
   phase: P2
   phase_entry_status: AUTHORIZED
   authorization_token: AUTHORIZE_P2_SCANNER_NATIVE_TYPED_RELATION_PROJECTION_GRAPH_KERNEL_AND_CONTEXT_BENCHMARK_ROUTE_V1
@@ -5972,7 +5988,7 @@ current_phase_route:
   first_task:
     task_slot: 1
     task_id: AIOS-P2-013_SCANNER_NATIVE_TYPED_RELATION_PROJECTION
-    status: ACTIVE
+    status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
     engineering_hours: 18
     calendar_days: 4
     max_engineering_hours: 18
@@ -5988,13 +6004,13 @@ current_phase_route:
       production: false
       public: false
     contract_path: docs/aios/tasks/P2-013_SCANNER_NATIVE_TYPED_RELATION_PROJECTION.yaml
-    contract_sha256: 40696e491e3ee6ef381403155969c001f92569c010941ba0fd269784c95b2910
-    contract_byte_length: 9714
+    contract_sha256: 1de63e6b9a658199e6621c97cdaa66ed35c4542b4744b67d3c9bf23c0c9dca7e
+    contract_byte_length: 12196
     p2_capability_claim_on_pass: SCANNER_NATIVE_TYPED_RELATION_PROJECTION
   task_plan:
     - task_slot: 1
       task_id: AIOS-P2-013_SCANNER_NATIVE_TYPED_RELATION_PROJECTION
-      status: ACTIVE
+      status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
       engineering_hours: 18
       calendar_days: 4
       max_implementation_iterations: 4
@@ -6009,7 +6025,7 @@ current_phase_route:
         public: false
     - task_slot: 2
       task_id: AIOS-P2-014_TYPED_SCAN_CANONICAL_GRAPH_KERNEL
-      status: PENDING_PREDECESSOR_TASK_GATE
+      status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS_ROUTE_TERMINAL
       engineering_hours: 22
       calendar_days: 4
       max_implementation_iterations: 4
@@ -6024,7 +6040,7 @@ current_phase_route:
         public: false
     - task_slot: 3
       task_id: AIOS-P2-015_GRAPH_CONDITIONED_CONTEXT_SELECTION_BENCHMARK
-      status: PENDING_PREDECESSOR_TASK_GATE
+      status: INELIGIBLE_PREDECESSOR_ROUTE_TERMINAL
       engineering_hours: 16
       calendar_days: 4
       max_implementation_iterations: 4
@@ -6050,7 +6066,42 @@ current_phase_route:
       requires_task_gate_pass: true
   additional_write_roots: []
   inherited_worktree_inventory: []
-  next_eligible_action: CONTINUE_ACTIVE_TASK
+  next_eligible_action: FOUNDER_P2_PHASE_GATE
+  terminal_p2_013_outcome:
+    task_id: AIOS-P2-013_SCANNER_NATIVE_TYPED_RELATION_PROJECTION
+    status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+    normalized_root_cause: P2013.FINAL.PRODUCER_RESOLUTION_AND_EVIDENCE_FALSE_ACCEPTS
+    candidate_commit: a30f1efbdbdbca0afa2bef85e5218a58a3a15a26
+    candidate_tree: d1ade19942166d5740f073d9862e06e6ebb2bbbe
+    candidate_manifest:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-scanner-native-graph-benchmark-20260806/task-1-p2-013/candidate-v1/P2_013_CANDIDATE_MANIFEST.json
+      byte_length: 3138
+      sha256: 2e2557580b511345e54e98db38f3c6251c32b1e5020b1c9cfc6f00cd794c09b8
+    reviews:
+      cto:
+        target_verdict: NON_PASS
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-scanner-native-graph-benchmark-20260806/task-1-p2-013/reviews/final-cycle-1/CTO_REVIEW.json
+        byte_length: 2291
+        sha256: bc7067101016a2f077243c2c7dabda7c0dc0a18ca3e571cabd5b6dee95a9e1db
+      security:
+        target_verdict: NON_PASS
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-scanner-native-graph-benchmark-20260806/task-1-p2-013/reviews/final-cycle-1/SECURITY_REVIEW.json
+        byte_length: 2981
+        sha256: f5641c4640b0be293e56ccd4206e692bfa9798dfa21aca3ea67b728193fe4518
+      quality:
+        target_verdict: NON_PASS
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-scanner-native-graph-benchmark-20260806/task-1-p2-013/reviews/final-cycle-1/QUALITY_REVIEW.json
+        byte_length: 2320
+        sha256: fc00d27011d62cb4b774c9adc51326111d1267ffc0dbffb453455fcdae003c76
+    terminal_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-scanner-native-graph-benchmark-20260806/task-1-p2-013/terminal/P2_013_TERMINAL_RECEIPT.json
+      byte_length: 3456
+      sha256: f4ed66dbd18a083871dddf1c0329cce5912471e1d303dd0b8d449c0e992883f3
+    candidate_integrated: false
+    canonical_make_verify: NOT_INVOKED_FINAL_REVIEW_STOP_CONDITION
+    capability_credit: 0
+    p2_014_status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS_ROUTE_TERMINAL
+    p2_015_status: INELIGIBLE_PREDECESSOR_ROUTE_TERMINAL
 
 historical_p2_011_phase_route:
   schema_version: "1.1"
@@ -9960,7 +10011,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260806-P2-SCANNER-NATIVE-GRAPH-BENCHMARK-ROUTE-AUTHORIZED-V1
+  latest_event_id: FKS-20260806-P2-013-TERMINAL-FINAL-REVIEW-NON-PASS-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -12702,6 +12753,44 @@ founder_knowledge_sync:
         sha256: null
       event_sha256: 0c7d183ed96f6ccb4a755e35e820627cae7bc202881b3f14850117f61e00cb03
 
+    - event_id: FKS-20260806-P2-013-TERMINAL-FINAL-REVIEW-NON-PASS-V1
+      trigger_type: TASK_TERMINAL_STOP_CONDITION
+      occurred_at_utc: "2026-08-06T01:50:46Z"
+      source_commit: 8a378c71dedacb5285f992aa67be249fc14f4bb9
+      source_tree: 45e367f7aa390283d208799fd4f49b69bf86fdae
+      previous_event_sha256: 0c7d183ed96f6ccb4a755e35e820627cae7bc202881b3f14850117f61e00cb03
+      status: PENDING_CANDIDATE
+      rationale: >-
+        P2-013 froze one exact scanner-native typed-relation candidate after its
+        implemented tests passed, but fresh CTO, Security and Quality final
+        Reviewers all returned TARGET_VERDICT NON_PASS. Independent checks
+        proved producer-resolution cross-binding, embedded absolute-root
+        leakage, invalid synthetic location, repository-symlink path escape,
+        missing replay-mutation coverage and hard-coded zero-false-accept
+        Evidence. The candidate was not integrated, canonical make verify was
+        not run, P2-014 and P2-015 were not started, and the Route stopped at
+        the Founder P2 Phase Gate without capability credit or a correction
+        chain. A concise reusable learning artifact is pending as a non-blocking
+        Knowledge synchronization item.
+      engineering_blocking: false
+      artifact:
+        path: null
+        byte_length: null
+        sha256: null
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+      event_sha256: c32e8687fcbe9826a6b8d6ea9bdab52c739ae6c4e2223156ddeb562d7de831f5
+
 historical_active_work_after_p1_079:
   current_task: NONE
   current_task_status: NONE
@@ -12753,53 +12842,38 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
-  current_task: AIOS-P2-013_SCANNER_NATIVE_TYPED_RELATION_PROJECTION
-  current_task_status: ACTIVE
+  current_task: NONE
+  current_task_status: NONE
   current_task_contract:
-    path: docs/aios/tasks/P2-013_SCANNER_NATIVE_TYPED_RELATION_PROJECTION.yaml
-    sha256: 40696e491e3ee6ef381403155969c001f92569c010941ba0fd269784c95b2910
-    byte_length: 9714
-  current_task_contract_sha256: 40696e491e3ee6ef381403155969c001f92569c010941ba0fd269784c95b2910
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-scanner-native-graph-benchmark-20260806/task-1-p2-013/authority/P2_013_TASK_AUTHORITY.json
-  current_execution_authorization_sha256: 7cedfbd52a82ba236a2518edc564841590e072bf91a737e7aae77bd404b1dc2b
+    path: null
+    sha256: null
+    byte_length: null
+  current_task_contract_sha256: null
+  current_execution_authorization: null
+  current_execution_authorization_sha256: null
   authority_record:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-scanner-native-graph-benchmark-20260806/task-1-p2-013/authority/P2_013_TASK_AUTHORITY.json
-    sha256: 7cedfbd52a82ba236a2518edc564841590e072bf91a737e7aae77bd404b1dc2b
-    byte_length: 2552
-  execution_nonce: 90bf237b22afb7a6086177cfa8fe0ec5
-  execution_nonce_status: ACTIVE
-  authorization_id: AIOS-P2-013-PHASE-DELEGATED-AUTHORITY-V1
-  activation_parent_commit: a0115a38b5239b3457797023922da4959f096a61
-  activation_parent_tree: 54a4965554be8b8e4009a3f6cc9c7426b3dedac6
-  task_resource_state: CREATED_SINGLE_ACTIVE_TASK
-  task_branch: codex/p2-013-scanner-native-relation-projection
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P2-013-scanner-native-relation-projection
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-scanner-native-graph-benchmark-20260806/task-1-p2-013/evidence
-  allowlisted_paths:
-    - analyzer-rust/src/models.rs
-    - analyzer-rust/src/relation_projection.rs
-    - analyzer-rust/src/main.rs
-    - analyzer-rust/src/ast_extractor.rs
-    - analyzer-rust/tests/p2_relation_projection.rs
-    - analyzer-rust/tests/fixtures/p2-013
-    - scripts/verify-p2-013-scanner-native-relation-projection.sh
-    - scripts/verify-all.sh
-    - Makefile
-    - docs/aios/tasks/P2-013_SCANNER_NATIVE_TYPED_RELATION_PROJECTION.yaml
-    - docs/aios/truth/project_state.yaml
-    - docs/PROJECT_CODE_MAP.md
+    path: null
+    sha256: null
+    byte_length: null
+  execution_nonce: null
+  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
+  authorization_id: null
+  activation_parent_commit: null
+  activation_parent_tree: null
+  task_resource_state: NOT_CREATED_ROUTE_TERMINAL
+  task_branch: null
+  task_worktree: null
+  execution_evidence_root: null
+  allowlisted_paths: []
   budget:
-    engineering_hours: 18
-    calendar_days: 4
-    implementation_iterations: 4
-    candidates: 1
+    engineering_hours: null
+    calendar_days: null
+    implementation_iterations: null
+    candidates: null
   roles:
-    owner: P2-013 Engineering Manager
-    worker: P2-013 Scanner Contract Worker
-    independent_reviewers:
-      - P2-013 Fresh CTO Reviewer
-      - P2-013 Fresh Security Reviewer
-      - P2-013 Fresh Quality Reviewer
+    owner: null
+    worker: null
+    independent_reviewers: []
   external_effects:
     network: false
     provider: false
@@ -12808,15 +12882,15 @@ active_work:
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-scanner-native-graph-benchmark-20260806/decision/FOUNDER_P2_SCANNER_NATIVE_GRAPH_BENCHMARK_ROUTE_DECISION_V1.json
-  founder_reserved_authorization_sha256: 03130b4146fd36000724271ebe4b2320516d715c40c2758ef7f9455a8079290f
-  founder_decision_required: false
-  founder_decision_required_scope: null
-  escalation_reason: null
-  user_action_required: NONE
-  phase_route_decision_required: false
-  phase_route_user_action_required: NONE
-  next_eligible_action: CONTINUE_ACTIVE_TASK
+  founder_reserved_authorization: null
+  founder_reserved_authorization_sha256: null
+  founder_decision_required: true
+  founder_decision_required_scope: P2_PHASE_GATE_AFTER_P2_013_TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+  escalation_reason: P2_013_FINAL_REVIEW_PROVED_PRODUCER_RESOLUTION_AND_EVIDENCE_FALSE_ACCEPTS
+  user_action_required: FOUNDER_P2_PHASE_GATE_DECISION
+  phase_route_decision_required: true
+  phase_route_user_action_required: FOUNDER_P2_PHASE_GATE_DECISION
+  next_eligible_action: FOUNDER_P2_PHASE_GATE
 historical_p1_190_terminal_active_work:
   current_task: NONE
   current_task_status: NONE

@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P2-013_SCANNER_NATIVE_TYPED_RELATION_PROJECTION
 phase: P2
 route_id: P2_SCANNER_NATIVE_TYPED_RELATION_PROJECTION_GRAPH_KERNEL_AND_CONTEXT_BENCHMARK_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
 objective: >-
   Extend the accepted canonical scanner output with a backward-compatible,
   scanner-native typed relation projection that binds every projected symbol
@@ -178,6 +178,47 @@ knowledge_sync:
   mode: EVENT_DRIVEN_NON_BLOCKING
   task_accept_or_terminal_event_required: true
   capability_credit: 0
+terminal_outcome:
+  stopped_at_utc: "2026-08-06T01:50:46Z"
+  stop_condition: ANY_FINAL_REVIEWER_TARGET_VERDICT_NON_PASS
+  normalized_root_cause: P2013.FINAL.PRODUCER_RESOLUTION_AND_EVIDENCE_FALSE_ACCEPTS
+  candidate_commit: a30f1efbdbdbca0afa2bef85e5218a58a3a15a26
+  candidate_tree: d1ade19942166d5740f073d9862e06e6ebb2bbbe
+  candidate_manifest:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-scanner-native-graph-benchmark-20260806/task-1-p2-013/candidate-v1/P2_013_CANDIDATE_MANIFEST.json
+    byte_length: 3138
+    sha256: 2e2557580b511345e54e98db38f3c6251c32b1e5020b1c9cfc6f00cd794c09b8
+  targeted_verification_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-scanner-native-graph-benchmark-20260806/task-1-p2-013/evidence/P2_013_TARGETED_VERIFICATION_RECEIPT.json
+    byte_length: 942
+    sha256: e16cbf9a189b76cf07e0cde4788c84c38e81f7ea8eada48f7ce75ef436e8e8d4
+    status: PASS_REPORTED_BUT_FINAL_REVIEW_PROVED_INCOMPLETE_AND_FALSE_ACCEPTS
+  final_reviews:
+    cto:
+      target_verdict: NON_PASS
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-scanner-native-graph-benchmark-20260806/task-1-p2-013/reviews/final-cycle-1/CTO_REVIEW.json
+      byte_length: 2291
+      sha256: bc7067101016a2f077243c2c7dabda7c0dc0a18ca3e571cabd5b6dee95a9e1db
+    security:
+      target_verdict: NON_PASS
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-scanner-native-graph-benchmark-20260806/task-1-p2-013/reviews/final-cycle-1/SECURITY_REVIEW.json
+      byte_length: 2981
+      sha256: f5641c4640b0be293e56ccd4206e692bfa9798dfa21aca3ea67b728193fe4518
+    quality:
+      target_verdict: NON_PASS
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-scanner-native-graph-benchmark-20260806/task-1-p2-013/reviews/final-cycle-1/QUALITY_REVIEW.json
+      byte_length: 2320
+      sha256: fc00d27011d62cb4b774c9adc51326111d1267ffc0dbffb453455fcdae003c76
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-scanner-native-graph-benchmark-20260806/task-1-p2-013/terminal/P2_013_TERMINAL_RECEIPT.json
+    byte_length: 3456
+    sha256: f4ed66dbd18a083871dddf1c0329cce5912471e1d303dd0b8d449c0e992883f3
+  candidate_integrated: false
+  canonical_make_verify: NOT_INVOKED_FINAL_REVIEW_STOP_CONDITION
+  capability_credit: 0
+  p2_014_status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS_ROUTE_TERMINAL
+  p2_015_status: INELIGIBLE_PREDECESSOR_ROUTE_TERMINAL
+  preserved_as_historical_evidence: true
 claim_boundary: >-
   Offline scanner-native typed relation projection only. No canonical graph
   acceptance, benchmark result, rejected P2 asset reuse, Provider, Secret,

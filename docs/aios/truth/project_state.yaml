@@ -13390,11 +13390,11 @@ active_work:
     byte_length: 9432
   current_task_contract_sha256: 7585a61406d84028d1a3f1e7e1df53e13d8054a15441e67a1ba1d1e63062e0ee
   current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-java-first-graph-context-20260806/task-1-p2-019/authority/P2_019_PHASE_DELEGATED_TASK_AUTHORITY_V1.yaml
-  current_execution_authorization_sha256: ee1a1fb033b8be3395e8892c74ae26fe600284b822fd54ca9ee6db2a20e3d3ed
+  current_execution_authorization_sha256: 6985e32c7f5bcc6b3b6ada7995b1e53a456881578c237ec5fb5abf9760f9cd2b
   authority_record:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-java-first-graph-context-20260806/task-1-p2-019/authority/P2_019_PHASE_DELEGATED_TASK_AUTHORITY_V1.yaml
-    sha256: ee1a1fb033b8be3395e8892c74ae26fe600284b822fd54ca9ee6db2a20e3d3ed
-    byte_length: 2835
+    sha256: 6985e32c7f5bcc6b3b6ada7995b1e53a456881578c237ec5fb5abf9760f9cd2b
+    byte_length: 3090
   execution_nonce: 542e42c8-46f1-46f4-809d-28b0fcc974c8
   execution_nonce_status: ACTIVE
   authorization_id: P2-019-PHASE-DELEGATED-AUTHORITY-V1

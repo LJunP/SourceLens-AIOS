@@ -13094,7 +13094,7 @@ active_work:
   task_resource_state: CREATED_SINGLE_ACTIVE_TASK
   task_branch: codex/p2-016-language-scoped-producer-relations
   task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P2-016-language-scoped-producer-relations
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-language-scoped-producer-graph-benchmark-20260806/task-1-p2-016/evidence
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-language-scoped-producer-graph-benchmark-20260806/task-1-p2-016
   allowlisted_paths:
     - analyzer-rust/src/main.rs
     - analyzer-rust/src/models.rs

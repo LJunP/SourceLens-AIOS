@@ -5975,8 +5975,8 @@ current_phase_route:
     byte_length: 92
   founder_exception_authorization:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/task-1-p2-021/authority/P2_021_EXACT_VERIFIER_CLONE_PHYSICAL_ROOT_REENTRY_AUTHORITY_V1.yaml
-    sha256: ce4380391bdbe47135d26deb048f921b55c65b324c8d84f4b7489d94588d5d87
-    byte_length: 6158
+    sha256: 2bed204bc2a2192b0e5f32acd2ac4fcbaae27f9fe4b7dc727d0ea494d554742b
+    byte_length: 6187
     authorization_token: AUTHORIZE_ONE_P2_021_EXACT_VERIFIER_CLONE_PHYSICAL_ROOT_CORRECTION_AND_FINAL_MATRIX_REENTRY_V1
   activation_parent:
     commit: 03e486af792f08d0500ac350d1e0ad9435e36940
@@ -6084,8 +6084,8 @@ current_phase_route:
       production: false
       public: false
     contract_path: docs/aios/tasks/P2-021_CONTRACT_COMPLETE_JAVA_CANONICAL_GRAPH_KERNEL.yaml
-    contract_sha256: 0802befe7f8dae3a6f859c668340d068185c9e214a1a272119682b02e5c1a6ed
-    contract_byte_length: 11647
+    contract_sha256: 3298835ecbbfe4372637240a227d7ef6d82b1886bf943d0bda28bf3d3ae9fe8e
+    contract_byte_length: 11676
     p2_capability_claim_on_pass: CONTRACT_COMPLETE_JAVA_CANONICAL_GRAPH_KERNEL
   task_plan:
     - task_slot: 1
@@ -13602,15 +13602,15 @@ active_work:
   current_task_status: ACTIVE
   current_task_contract:
     path: docs/aios/tasks/P2-021_CONTRACT_COMPLETE_JAVA_CANONICAL_GRAPH_KERNEL.yaml
-    sha256: 0802befe7f8dae3a6f859c668340d068185c9e214a1a272119682b02e5c1a6ed
-    byte_length: 11647
-  current_task_contract_sha256: 0802befe7f8dae3a6f859c668340d068185c9e214a1a272119682b02e5c1a6ed
+    sha256: 3298835ecbbfe4372637240a227d7ef6d82b1886bf943d0bda28bf3d3ae9fe8e
+    byte_length: 11676
+  current_task_contract_sha256: 3298835ecbbfe4372637240a227d7ef6d82b1886bf943d0bda28bf3d3ae9fe8e
   current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/task-1-p2-021/authority/P2_021_EXACT_VERIFIER_CLONE_PHYSICAL_ROOT_REENTRY_AUTHORITY_V1.yaml
-  current_execution_authorization_sha256: ce4380391bdbe47135d26deb048f921b55c65b324c8d84f4b7489d94588d5d87
+  current_execution_authorization_sha256: 2bed204bc2a2192b0e5f32acd2ac4fcbaae27f9fe4b7dc727d0ea494d554742b
   authority_record:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/task-1-p2-021/authority/P2_021_EXACT_VERIFIER_CLONE_PHYSICAL_ROOT_REENTRY_AUTHORITY_V1.yaml
-    sha256: ce4380391bdbe47135d26deb048f921b55c65b324c8d84f4b7489d94588d5d87
-    byte_length: 6158
+    sha256: 2bed204bc2a2192b0e5f32acd2ac4fcbaae27f9fe4b7dc727d0ea494d554742b
+    byte_length: 6187
   execution_nonce: P2-021-EXACT-PHYSICAL-ROOT-FINAL-V1
   execution_nonce_status: ACTIVE
   authorization_id: P2_021_EXACT_VERIFIER_CLONE_PHYSICAL_ROOT_REENTRY_AUTHORITY_V1
@@ -13622,6 +13622,7 @@ active_work:
   execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/task-1-p2-021/evidence
   allowlisted_paths:
     - evaluation-harness/harness/p2-021-contract-complete-java-graph/run-matrix.mjs
+    - docs/PROJECT_CODE_MAP.md
   budget:
     engineering_hours: 20
     calendar_days: 4

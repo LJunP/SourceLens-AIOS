@@ -82,6 +82,7 @@ founder_reserved_profile: null
 
 allowlisted_paths:
   - evaluation-harness/harness/p2-021-contract-complete-java-graph/run-matrix.mjs
+  - docs/PROJECT_CODE_MAP.md
 
 preserved_implementation_restore_paths:
   - Makefile

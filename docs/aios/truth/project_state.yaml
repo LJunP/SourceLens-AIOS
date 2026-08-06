@@ -1142,7 +1142,7 @@ project:
   p1_execution_status: COMPLETE_STRICT_8_OF_8_100_PERCENT
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
-  p2_execution_status: ACTIVE_TASK_P2_016_LANGUAGE_SCOPED_PRODUCER_RELATIONS
+  p2_execution_status: ACTIVE
   phase_execution_status: ACTIVE
   current_route_execution_status: EXECUTING_TASK_1
   canonical_branch: main

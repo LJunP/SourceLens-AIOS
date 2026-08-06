@@ -1,0 +1,190 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P2-038_SOURCE_DERIVED_JAVA_RESOLUTION_TRUTH_KERNEL
+phase: P2
+route_id: P2_SOURCE_DERIVED_SEMANTIC_TRUTH_CAUSAL_EVIDENCE_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Build a clean-room Java resolution truth kernel that derives package,
+  imports, declarations, owner chains, source spans and EXTENDS/IMPLEMENTS
+  facts only from exact admitted source bytes, resolves qualified and
+  unqualified targets with fail-closed precedence, and produces independently
+  reproducible typed semantic facts.
+why_now: >-
+  P2-036 proved that declaration closure alone is insufficient when the
+  compilation-unit context is not bound to source bytes, qualified targets can
+  be hijacked by same-simple-name imports, and external-inventory path drift is
+  accepted. P2-038 isolates and closes those source-of-truth defects before any
+  graph transaction or context benchmark can be trusted.
+task_spec_ref: /Users/lijunpeng/Developer/.sourcelens-audit/p2-source-derived-semantic-truth-causal-evidence-graph-context-20260807/decision/FOUNDER_P2_SOURCE_DERIVED_SEMANTIC_TRUTH_CAUSAL_EVIDENCE_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1.structured-decision.json
+owner_role: P2-038 Engineering Manager
+worker_role: P2-038 Source-Derived Java Resolution Worker
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+risk_level: high
+budget:
+  engineering_hours: 14
+  calendar_days: 4
+  implementation_iterations: 4
+  candidates: 1
+roles:
+  owner: P2-038 Engineering Manager
+  worker: P2-038 Source-Derived Java Resolution Worker
+  independent_reviewers:
+    - P2-038 Fresh CTO Reviewer
+    - P2-038 Fresh Security Reviewer
+    - P2-038 Fresh Quality Reviewer
+allowlisted_paths:
+  - backend-spring/src/main/java/com/sourcelens/module/analysis/graph/resolution
+  - backend-spring/src/test/java/com/sourcelens/module/analysis/graph/resolution
+  - evaluation-harness/harness/p2-038-source-derived-java-resolution
+  - evaluation-harness/evaluator/p2-038-source-derived-java-resolution
+  - scripts/verify-p2-038-source-derived-java-resolution.sh
+  - docs/aios/tasks/P2-038_SOURCE_DERIVED_JAVA_RESOLUTION_TRUTH_KERNEL.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+write_scope:
+  worker:
+    - backend-spring/src/main/java/com/sourcelens/module/analysis/graph/resolution
+    - backend-spring/src/test/java/com/sourcelens/module/analysis/graph/resolution
+    - evaluation-harness/harness/p2-038-source-derived-java-resolution
+  quality:
+    - evaluation-harness/evaluator/p2-038-source-derived-java-resolution
+  integration:
+    - scripts/verify-p2-038-source-derived-java-resolution.sh
+    - docs/aios/tasks/P2-038_SOURCE_DERIVED_JAVA_RESOLUTION_TRUTH_KERNEL.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - backend-spring/pom.xml
+  - canonical accepted JavaParser dependency and accepted P1 input contracts only
+  - P2-036 terminal receipt, final Reviews and imported Knowledge Artifact only
+dependencies:
+  - P1_STRICT_EXIT_GATE_PASS
+  - CANONICAL_ACCEPTED_JAVAPARSER_DEPENDENCY
+  - AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+historical_isolation:
+  p2_036_status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+  rejected_p2_engineering_source_candidate_fixture_test_matrix_evaluator_or_implementation_read_restore_compare_copy_or_reuse_allowed: false
+  allowed_historical_inputs:
+    - canonical Truth
+    - P2-036 terminal receipt
+    - P2-036 final Reviews
+    - reviewed and imported P2-036 Founder Knowledge Artifact
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+founder_reserved_profile: null
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-source-derived-semantic-truth-causal-evidence-graph-context-20260807/decision/FOUNDER_P2_SOURCE_DERIVED_SEMANTIC_TRUTH_CAUSAL_EVIDENCE_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1.structured-decision.json
+  sha256: fdda93490a2d6f379285aba0e3ec5878aa083a7e62ac0d5a7edec2a1505697be
+  byte_length: 3545
+  authorization_token: AUTHORIZE_P2_SOURCE_DERIVED_SEMANTIC_TRUTH_CAUSAL_EVIDENCE_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
+source_founder_packet:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-single-transaction-java-graph-context-20260806/founder-phase-gate-draft/FOUNDER_P2_SOURCE_DERIVED_SEMANTIC_TRUTH_CAUSAL_EVIDENCE_GRAPH_AND_CONTEXT_ROUTE_V1.md
+  sha256: 117151a9af31f2eaafb0a68f622a1ffa3953111e57f54897d63c1e923a1a9fc7
+  byte_length: 6676
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+architecture_constraints:
+  - Admit a closed source inventory before parsing any Java semantic object.
+  - Bind every source entry by normalized repository-relative path, regular-file type, byte length and SHA-256.
+  - Parse the exact admitted bytes in memory with the canonical accepted JavaParser dependency.
+  - Derive package, imports, declarations, lexical owner chain, exact source span and EXTENDS/IMPLEMENTS facts from those bytes.
+  - Resolve qualified targets only by exact qualified identity; explicit or wildcard imports must never rewrite a qualified target.
+  - Resolve unqualified targets with data-driven lexical, explicit-import, same-package, attested-java.lang and wildcard precedence.
+  - Treat duplicate or ambiguous candidates as typed ambiguity and never invent an INTERNAL or EXTERNAL identity.
+  - Bind external inventory entries by path, regular-file type, byte length and SHA-256 under one closed inventory.
+  - Product replay and independent consumer must independently rederive the same typed facts from the exact admitted inputs.
+  - Do not build the P2-039 graph transaction or run the P2-040 benchmark in this Task.
+adversarial_prefreeze_gate:
+  positive_matrix:
+    - exact qualified same-repository target
+    - lexical nested declaration target
+    - exact single-type explicit import target
+    - exact same-package target
+    - attested java.lang target
+    - unique wildcard-import target from external inventory
+    - EXTENDS and IMPLEMENTS facts with exact source spans
+    - two physical repository roots produce byte-exact stable semantic projection
+  mandatory_negative_matrix:
+    - qualified target with colliding same-simple-name explicit import
+    - qualified target with colliding wildcard import
+    - source bytes changed while package and import claims stay stale
+    - compilation-unit path changed while source bytes stay stale
+    - external inventory relative path drift
+    - external inventory type drift
+    - external inventory byte-length drift
+    - external inventory SHA-256 drift
+    - external inventory missing entry
+    - external inventory extra entry
+    - duplicate declaration identity
+    - ambiguous explicit imports
+    - ambiguous wildcard imports
+    - missing lexical owner
+    - source manifest reorder
+    - source manifest duplicate
+    - source path escape
+    - source symlink
+    - source mutation after admission
+    - product and independent-consumer verdict disagreement
+  required_results:
+    false_accepts: 0
+    provider_requests: 0
+    secret_reads: 0
+    external_effects_all_false: true
+acceptance_criteria:
+  - Exact admitted source bytes are the only authority for package, import, declaration, owner, span and relation facts.
+  - Qualified targets cannot be hijacked by same-simple-name explicit or wildcard imports.
+  - Unqualified resolution precedence is deterministic, data-driven and fail-closed on ambiguity.
+  - External inventory path, type, byte length, SHA-256 and closed membership are validated before use.
+  - The product and independent consumer agree on every positive and negative semantic case.
+  - A small adversarial semantic probe and the complete targeted matrix pass before candidate freeze.
+  - Two physical repository roots yield byte-exact stable semantic projections and replay.
+  - False accepts, Provider requests, Secret reads and all six external effects equal zero.
+  - One exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS on the same bytes.
+  - Reviewed tree equals integrated canonical tree and exactly one canonical make verify passes after integration.
+required_evidence:
+  - Exact Founder packet, structured decision, Goal, activation parent, Contract and Task authority identities.
+  - Closed source and external-inventory manifests with exact path, type, byte length and SHA-256.
+  - Raw parser facts and stable semantic projection for all positive cases.
+  - Per-attack raw inputs, product result and independent-consumer result for every negative case.
+  - Adversarial semantic probe receipt and complete targeted matrix receipt.
+  - Raw command, exit status, stdout and stderr receipts proving the offline execution boundary.
+  - Exact candidate commit, tree, diff/hash manifest and recoverable Evidence tag.
+  - Fresh CTO, Security and Quality reviews of the same candidate and Evidence bytes.
+rollback:
+  strategy: OWNED_OUTPUT_REMOVAL_BEFORE_FREEZE_AND_NON_DESTRUCTIVE_GIT_REVERT_AFTER_CANONICAL_INTEGRATION
+  forbidden:
+    - git reset
+    - git clean
+    - destructive history rewrite
+stop_conditions:
+  - Canonical activation parent, Goal, Founder packet, structured decision, Contract or accepted dependency identity drifts.
+  - Any rejected P2 engineering asset is required, read, restored, compared, copied or reused.
+  - A required write exceeds this Contract or any external effect is required.
+  - The same normalized root cause repeats in adjacent iterations or three same-Task repairs are exhausted.
+  - The adversarial prefreeze gate, final Reviewer, tree equality or canonical make verify returns NONPASS.
+  - A second candidate, correction, successor, replacement or Phase-boundary change is required.
+knowledge_sync:
+  mode: EVENT_DRIVEN_NON_BLOCKING
+  task_accept_or_terminal_event_required: true
+  capability_credit_before_full_gate: 0
+claim_boundary: >-
+  Source-derived Java resolution truth kernel only. No graph capability credit,
+  context benchmark, Provider, Secret, network, remote, production, public,
+  hostile-principal, complete Java compiler, generic classpath authority or P3
+  claim.

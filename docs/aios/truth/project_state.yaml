@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-06T10:18:25Z"
-verification_scope: P2_027_TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+last_verified_at: "2026-08-06T11:39:18Z"
+verification_scope: P2_030_PARSER_NATIVE_JAVA_SEMANTIC_RELATION_PRODUCER_ACTIVE
 
 authority:
   founder: Human Founder
@@ -37,9 +37,18 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
+  current_task_authority: AIOS-P2-030_PARSER_NATIVE_JAVA_SEMANTIC_RELATION_PRODUCER
   note: >-
-    P2-027 completed one exact worker and independent-consumer matrix, but fresh
+    Founder authorized the parser-native Java semantic relation producer,
+    attested graph and offline context benchmark Route. P2-030 is the unique
+    active Task and uses the existing canonical JavaParser dependency to replace
+    lexical relation inference with AST-native facts while preserving the
+    accepted default P1 scan path. P2-031 and P2-032 remain predecessor-gated,
+    all six external effects remain false and Route activation adds no P2
+    capability credit. P2-027 remains terminal and non-reusable. All paragraphs
+    below this sentence are retained historical chronology only and have no
+    current Task, Route or scheduling authority. P2-027 completed one exact
+    worker and independent-consumer matrix, but fresh
     CTO and Quality Reviews returned TARGET NON_PASS. Independent review proved
     that the lexical Java producer can emit comment/string pseudo syntax as
     declarations or EXTENDS relations and can bind a nested class relation to
@@ -1261,9 +1270,9 @@ project:
   p1_execution_status: COMPLETE_STRICT_8_OF_8_100_PERCENT
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
-  p2_execution_status: STOPPED_AT_FOUNDER_PHASE_GATE
-  phase_execution_status: STOPPED_AT_FOUNDER_PHASE_GATE
-  current_route_execution_status: TERMINAL_P2_027_FINAL_REVIEW_TARGET_NON_PASS
+  p2_execution_status: ACTIVE
+  phase_execution_status: ACTIVE
+  current_route_execution_status: ACTIVE_P2_030_PARSER_NATIVE_JAVA_SEMANTIC_RELATION_PRODUCER
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -6009,31 +6018,31 @@ historical_p1_162_phase_route:
 
 current_phase_route:
   schema_version: "1.1"
-  route_id: P2_VERSIONED_SCANNER_RELATION_PRODUCER_ATTESTED_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
-  status: TERMINAL_TASK_1_FINAL_REVIEW_TARGET_NON_PASS
-  authority_object_status: TERMINAL_NO_ACTIVE_TASK_AUTHORITY
-  execution_status: TERMINAL_P2_027_FINAL_REVIEW_TARGET_NON_PASS
-  founder_phase_route_decision_required: true
-  scheduling_status: STOPPED_AT_FOUNDER_P2_PHASE_GATE
+  route_id: P2_PARSER_NATIVE_JAVA_SEMANTIC_RELATION_PRODUCER_ATTESTED_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
+  status: ACTIVE
+  authority_object_status: PHASE_DELEGATED_TASK_AUTHORITY_ACTIVE
+  execution_status: ACTIVE_TASK_1_P2_030
+  founder_phase_route_decision_required: false
+  scheduling_status: EXECUTING_P2_030
   phase: P2
   phase_entry_status: AUTHORIZED
-  authorization_token: AUTHORIZE_P2_VERSIONED_SCANNER_RELATION_PRODUCER_ATTESTED_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
+  authorization_token: AUTHORIZE_P2_PARSER_NATIVE_JAVA_SEMANTIC_RELATION_PRODUCER_ATTESTED_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
   decision_packet:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-versioned-scanner-relation-graph-context-20260806/decision/FOUNDER_P2_VERSIONED_SCANNER_RELATION_PRODUCER_ATTESTED_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1.structured-decision.json
-    sha256: 0ffca3f7e7a4c14f2a9adfd6f92af9202b2edf99d73b3492d0304b7847f3b895
-    byte_length: 3570
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-parser-native-java-semantic-graph-context-20260806/decision/FOUNDER_P2_PARSER_NATIVE_JAVA_SEMANTIC_RELATION_PRODUCER_ATTESTED_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1.structured-decision.json
+    sha256: 8bf0a3fa8626237b92afe6c9d0ac770f9ce17ca07797caa3125d2916b863c7f1
+    byte_length: 3649
   original_founder_packet:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-versioned-scanner-relation-graph-context-20260806/decision/FOUNDER_P2_VERSIONED_SCANNER_RELATION_PRODUCER_ATTESTED_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1.md
-    sha256: 045ce504fb2103165348cb30adbbb145c397b42ef2fdf294c025002e66b5ed17
-    byte_length: 7870
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-parser-native-java-semantic-graph-context-20260806/decision/FOUNDER_P2_PARSER_NATIVE_JAVA_SEMANTIC_RELATION_PRODUCER_ATTESTED_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1.md
+    sha256: a5a41479ab038eb91ac125bf58f809d84b387085116f032110635308afcf60d3
+    byte_length: 8576
   historical_p2_021_founder_exception_authorization:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/task-1-p2-021/authority/P2_021_EXACT_VERIFIER_CLONE_PHYSICAL_ROOT_REENTRY_AUTHORITY_V1.yaml
     sha256: 2bed204bc2a2192b0e5f32acd2ac4fcbaae27f9fe4b7dc727d0ea494d554742b
     byte_length: 6187
     authorization_token: AUTHORIZE_ONE_P2_021_EXACT_VERIFIER_CLONE_PHYSICAL_ROOT_CORRECTION_AND_FINAL_MATRIX_REENTRY_V1
   activation_parent:
-    commit: 5c2b0179307352df5193f54224f05b73b1ee284d
-    tree: 7741286388b2f7ef4bd62113f1a15f991e8a6e0f
+    commit: 40691a88dc2de4be81797ca53f8672588bc5c1e6
+    tree: 1a4ee7dca720ce35c49740acac6f432f3e148512
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: "1.7"
@@ -6045,13 +6054,14 @@ current_phase_route:
     canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
     canonical_byte_length: 19434
   objective: >-
-    Preserve accepted P1 scanner compatibility while producing versioned typed
-    Java relations, then build an externally attested canonical graph kernel
-    and compare graph-conditioned context selection against a lexical baseline.
-  claim_boundary: OFFLINE_VERSIONED_SCANNER_RELATION_PRODUCER_THEN_EXTERNALLY_ATTESTED_JAVA_CANONICAL_GRAPH_KERNEL_THEN_ACCEPTED_GRAPH_CONTEXT_BENCHMARK_ONLY_P1_SCANNER_COMPATIBLE_NO_REJECTED_P2_ENGINEERING_REUSE_NO_AUTHORITY_PARSER_VALIDATOR_GOVERNANCE_OR_EVIDENCE_PLATFORM_PRETASK_NO_NETWORK_PROVIDER_SECRET_REMOTE_PRODUCTION_PUBLIC_OR_P3_ENTRY
+    Preserve accepted P1 scanner compatibility while producing parser-native
+    Java semantic relations, then build an externally attested canonical graph
+    kernel and compare graph-conditioned context selection against a lexical
+    baseline.
+  claim_boundary: OFFLINE_PARSER_NATIVE_JAVA_SEMANTIC_RELATION_PRODUCER_THEN_EXTERNALLY_ATTESTED_CANONICAL_GRAPH_KERNEL_THEN_ACCEPTED_GRAPH_CONTEXT_BENCHMARK_ONLY_P1_SCANNER_COMPATIBLE_NO_REJECTED_P2_ENGINEERING_REUSE_NO_AUTHORITY_PARSER_VALIDATOR_GOVERNANCE_OR_EVIDENCE_PLATFORM_PRETASK_NO_NETWORK_PROVIDER_SECRET_REMOTE_PRODUCTION_PUBLIC_OR_P3_ENTRY
   envelope:
     max_engineering_tasks: 3
-    max_engineering_hours: 56
+    max_engineering_hours: 60
     max_calendar_days: 14
     max_active_tasks: 1
     max_task_branches: 1
@@ -6120,12 +6130,12 @@ current_phase_route:
     - p1_219
   first_task:
     task_slot: 1
-    task_id: AIOS-P2-027_VERSIONED_TYPED_JAVA_RELATION_PRODUCER
-    status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
-    engineering_hours: 18
-    calendar_days: 4
-    max_engineering_hours: 18
-    max_calendar_days: 4
+    task_id: AIOS-P2-030_PARSER_NATIVE_JAVA_SEMANTIC_RELATION_PRODUCER
+    status: ACTIVE
+    engineering_hours: 24
+    calendar_days: 5
+    max_engineering_hours: 24
+    max_calendar_days: 5
     max_implementation_iterations: 4
     max_same_task_repairs: 3
     max_candidates: 1
@@ -6136,16 +6146,16 @@ current_phase_route:
       remote: false
       production: false
       public: false
-    contract_path: docs/aios/tasks/P2-027_VERSIONED_TYPED_JAVA_RELATION_PRODUCER.yaml
-    contract_sha256: 435d3e18bff0224a0c1aee7bc386e27915a8137e3cdcdabd10457243e8073368
-    contract_byte_length: 11576
-    p2_capability_claim_on_pass: VERSIONED_TYPED_JAVA_RELATION_PRODUCER
+    contract_path: docs/aios/tasks/P2-030_PARSER_NATIVE_JAVA_SEMANTIC_RELATION_PRODUCER.yaml
+    contract_sha256: a5b87fc4e02f6c35754c304d02e2cbced5f0f18b9f9c75c025ca5fac3c7756cd
+    contract_byte_length: 11804
+    p2_capability_claim_on_pass: PARSER_NATIVE_JAVA_SEMANTIC_RELATION_PRODUCER
   task_plan:
     - task_slot: 1
-      task_id: AIOS-P2-027_VERSIONED_TYPED_JAVA_RELATION_PRODUCER
-      status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
-      engineering_hours: 18
-      calendar_days: 4
+      task_id: AIOS-P2-030_PARSER_NATIVE_JAVA_SEMANTIC_RELATION_PRODUCER
+      status: ACTIVE
+      engineering_hours: 24
+      calendar_days: 5
       max_implementation_iterations: 4
       max_same_task_repairs: 3
       max_candidates: 1
@@ -6157,10 +6167,10 @@ current_phase_route:
         production: false
         public: false
     - task_slot: 2
-      task_id: AIOS-P2-028_EXTERNALLY_ATTESTED_JAVA_CANONICAL_GRAPH_KERNEL
-      status: BLOCKED_PREDECESSOR_TASK_GATE_NON_PASS
-      engineering_hours: 24
-      calendar_days: 6
+      task_id: AIOS-P2-031_ATTESTED_PARSER_NATIVE_JAVA_CANONICAL_GRAPH_KERNEL
+      status: PENDING_PREDECESSOR_TASK_GATE
+      engineering_hours: 22
+      calendar_days: 5
       max_implementation_iterations: 4
       max_same_task_repairs: 3
       max_candidates: 1
@@ -6172,8 +6182,8 @@ current_phase_route:
         production: false
         public: false
     - task_slot: 3
-      task_id: AIOS-P2-029_ACCEPTED_GRAPH_CONDITIONED_CONTEXT_OFFLINE_BENCHMARK
-      status: BLOCKED_ROUTE_TERMINAL
+      task_id: AIOS-P2-032_ACCEPTED_GRAPH_CONDITIONED_CONTEXT_OFFLINE_BENCHMARK
+      status: PENDING_PREDECESSOR_TASK_GATE
       engineering_hours: 14
       calendar_days: 4
       max_implementation_iterations: 4
@@ -6187,15 +6197,15 @@ current_phase_route:
         production: false
         public: false
   automatic_entry:
-    after_task_id: AIOS-P2-027_VERSIONED_TYPED_JAVA_RELATION_PRODUCER
-    next_task_id: AIOS-P2-028_EXTERNALLY_ATTESTED_JAVA_CANONICAL_GRAPH_KERNEL
+    after_task_id: AIOS-P2-030_PARSER_NATIVE_JAVA_SEMANTIC_RELATION_PRODUCER
+    next_task_id: AIOS-P2-031_ATTESTED_PARSER_NATIVE_JAVA_CANONICAL_GRAPH_KERNEL
     requires_task_gate_pass: true
   automatic_entries:
-    - after_task_id: AIOS-P2-027_VERSIONED_TYPED_JAVA_RELATION_PRODUCER
-      next_task_id: AIOS-P2-028_EXTERNALLY_ATTESTED_JAVA_CANONICAL_GRAPH_KERNEL
+    - after_task_id: AIOS-P2-030_PARSER_NATIVE_JAVA_SEMANTIC_RELATION_PRODUCER
+      next_task_id: AIOS-P2-031_ATTESTED_PARSER_NATIVE_JAVA_CANONICAL_GRAPH_KERNEL
       requires_task_gate_pass: true
-    - after_task_id: AIOS-P2-028_EXTERNALLY_ATTESTED_JAVA_CANONICAL_GRAPH_KERNEL
-      next_task_id: AIOS-P2-029_ACCEPTED_GRAPH_CONDITIONED_CONTEXT_OFFLINE_BENCHMARK
+    - after_task_id: AIOS-P2-031_ATTESTED_PARSER_NATIVE_JAVA_CANONICAL_GRAPH_KERNEL
+      next_task_id: AIOS-P2-032_ACCEPTED_GRAPH_CONDITIONED_CONTEXT_OFFLINE_BENCHMARK
       requires_task_gate_pass: true
   terminal_p2_027_result:
     task_id: AIOS-P2-027_VERSIONED_TYPED_JAVA_RELATION_PRODUCER
@@ -6294,7 +6304,8 @@ current_phase_route:
     terminal_receipt_sha256: 0c5105afb4a451037e86ccdc1625596731dd5b29215425e29a5e456c43aa2b89
     terminal_receipt_byte_length: 2660
     p2_024_status: NOT_STARTED_PREDECESSOR_TASK_GATE_NON_PASS
-  additional_write_roots: []
+  additional_write_roots:
+    - backend-spring
   inherited_worktree_inventory: []
   historical_p2_021_terminal_result_preserved:
     task_id: AIOS-P2-021_CONTRACT_COMPLETE_JAVA_CANONICAL_GRAPH_KERNEL
@@ -6348,7 +6359,7 @@ current_phase_route:
     terminal_receipt_sha256: f6e2ce1203b36d04526b2b4fba80ce4b53a6dd5802a55b458e73e17638bf8357
     terminal_receipt_byte_length: 3227
     p2_022_status: NOT_STARTED_PREDECESSOR_TASK_GATE_NON_PASS
-  next_eligible_action: EXECUTE_AIOS_P2_027_VERSIONED_TYPED_JAVA_RELATION_PRODUCER
+  next_eligible_action: EXECUTE_AIOS_P2_030_PARSER_NATIVE_JAVA_SEMANTIC_RELATION_PRODUCER
 
 historical_p2_016_phase_route:
   schema_version: "1.1"
@@ -10718,7 +10729,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260806-P2-027-TERMINAL-FINAL-REVIEW-NON-PASS-V1
+  latest_event_id: FKS-20260806-P2-PARSER-NATIVE-JAVA-ROUTE-AUTHORIZED-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -13979,6 +13990,38 @@ founder_knowledge_sync:
         byte_length: 1691
         sha256: 10b4b240213d21935f23929cd51af60935023d99fad27c92acb058bceb68cee9
       event_sha256: 2977f9a621fcba6d79b40b66af0c5b2b38a6e4b7d76cc2611e24f4f335e98181
+    - event_id: FKS-20260806-P2-PARSER-NATIVE-JAVA-ROUTE-AUTHORIZED-V1
+      trigger_type: FOUNDER_P2_PHASE_ROUTE_DECISION_AND_TASK_ACTIVATION
+      occurred_at_utc: "2026-08-06T11:39:18Z"
+      source_commit: 40691a88dc2de4be81797ca53f8672588bc5c1e6
+      source_tree: 1a4ee7dca720ce35c49740acac6f432f3e148512
+      previous_event_sha256: 2977f9a621fcba6d79b40b66af0c5b2b38a6e4b7d76cc2611e24f4f335e98181
+      status: PENDING_CANDIDATE
+      rationale: >-
+        Founder authorized a new clean-room parser-native P2 route that uses the
+        canonical JavaParser dependency to establish truthful Java semantic
+        relations before an attested graph kernel and offline context benchmark.
+        P2-027 remains terminal and non-reusable; P2-030 is the only active Task,
+        P2-031/P2-032 remain predecessor-gated, all external effects remain false
+        and no P2 capability credit is added by activation.
+      engineering_blocking: false
+      artifact:
+        path: null
+        byte_length: null
+        sha256: null
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+      event_sha256: 550e945fc7b807e2df5d8cb41fea869a79c69a92ac4bd967461b3a501a8ecfa9
 
 historical_active_work_after_p1_079:
   current_task: NONE
@@ -14031,38 +14074,50 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P2-030_PARSER_NATIVE_JAVA_SEMANTIC_RELATION_PRODUCER
+  current_task_status: ACTIVE
   current_task_contract:
-    path: null
-    sha256: null
-    byte_length: null
-  current_task_contract_sha256: null
-  current_execution_authorization: null
-  current_execution_authorization_sha256: null
+    path: docs/aios/tasks/P2-030_PARSER_NATIVE_JAVA_SEMANTIC_RELATION_PRODUCER.yaml
+    sha256: a5b87fc4e02f6c35754c304d02e2cbced5f0f18b9f9c75c025ca5fac3c7756cd
+    byte_length: 11804
+  current_task_contract_sha256: a5b87fc4e02f6c35754c304d02e2cbced5f0f18b9f9c75c025ca5fac3c7756cd
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-parser-native-java-semantic-graph-context-20260806/task-1-p2-030/authority/P2_030_PHASE_DELEGATED_TASK_AUTHORITY_V1.yaml
+  current_execution_authorization_sha256: 5024a6daf6fceca5bb512b1fe1420cc59df44fed7bfb497757ab5682ac0574d8
   authority_record:
-    path: null
-    sha256: null
-    byte_length: null
-  execution_nonce: null
-  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
-  authorization_id: null
-  activation_parent_commit: null
-  activation_parent_tree: null
-  task_resource_state: NOT_CREATED_ROUTE_TERMINAL
-  task_branch: null
-  task_worktree: null
-  execution_evidence_root: null
-  allowlisted_paths: []
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-parser-native-java-semantic-graph-context-20260806/task-1-p2-030/authority/P2_030_PHASE_DELEGATED_TASK_AUTHORITY_V1.yaml
+    sha256: 5024a6daf6fceca5bb512b1fe1420cc59df44fed7bfb497757ab5682ac0574d8
+    byte_length: 2646
+  execution_nonce: 1d5a669b-1482-46c7-9313-d0eedfab4d06
+  execution_nonce_status: ACTIVE
+  authorization_id: P2-030-PHASE-DELEGATED-AUTHORITY-V1
+  activation_parent_commit: 40691a88dc2de4be81797ca53f8672588bc5c1e6
+  activation_parent_tree: 1a4ee7dca720ce35c49740acac6f432f3e148512
+  task_resource_state: CREATED_ACTIVE
+  task_branch: codex/p2-030-parser-native-java-relations
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P2-030-parser-native-java-relations
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-parser-native-java-semantic-graph-context-20260806/task-1-p2-030
+  allowlisted_paths:
+    - backend-spring/src/main/java/com/sourcelens/module/analysis/semantic
+    - backend-spring/src/test/java/com/sourcelens/module/analysis/semantic
+    - evaluation-harness/harness/p2-030-parser-native-java-relations
+    - evaluation-harness/evaluator/p2-030-parser-native-java-relations
+    - scripts/verify-p2-030-parser-native-java-relations.sh
+    - docs/aios/tasks/P2-030_PARSER_NATIVE_JAVA_SEMANTIC_RELATION_PRODUCER.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+    - Makefile
   budget:
-    engineering_hours: null
-    calendar_days: null
-    implementation_iterations: null
-    candidates: null
+    engineering_hours: 24
+    calendar_days: 5
+    implementation_iterations: 4
+    candidates: 1
   roles:
-    owner: null
-    worker: null
-    independent_reviewers: []
+    owner: P2-030 Engineering Manager
+    worker: P2-030 Java Semantic Relations Worker
+    independent_reviewers:
+      - P2-030 Fresh CTO Reviewer
+      - P2-030 Fresh Security Reviewer
+      - P2-030 Fresh Quality Reviewer
   external_effects:
     network: false
     provider: false
@@ -14071,15 +14126,15 @@ active_work:
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: null
-  founder_reserved_authorization_sha256: null
-  founder_decision_required: true
-  founder_decision_required_scope: P2_PHASE_GATE_AFTER_P2_027_FINAL_REVIEW_TARGET_NON_PASS
-  escalation_reason: P2_027_FINAL_CTO_AND_QUALITY_TARGET_NON_PASS
-  user_action_required: FOUNDER_P2_PHASE_GATE_DECISION
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_P2_PHASE_GATE_DECISION
-  next_eligible_action: FOUNDER_P2_PHASE_GATE
+  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-parser-native-java-semantic-graph-context-20260806/decision/FOUNDER_P2_PARSER_NATIVE_JAVA_SEMANTIC_RELATION_PRODUCER_ATTESTED_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1.structured-decision.json
+  founder_reserved_authorization_sha256: 8bf0a3fa8626237b92afe6c9d0ac770f9ce17ca07797caa3125d2916b863c7f1
+  founder_decision_required: false
+  founder_decision_required_scope: NONE
+  escalation_reason: null
+  user_action_required: NONE
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: EXECUTE_AIOS_P2_030_PARSER_NATIVE_JAVA_SEMANTIC_RELATION_PRODUCER
 historical_p1_190_terminal_active_work:
   current_task: NONE
   current_task_status: NONE

@@ -14092,8 +14092,8 @@ founder_knowledge_sync:
         sha256: 51249a8146541707224b7da707b0aca2b0134440123f57b54bd0834675f7f999
       review:
         path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-parser-native-java-semantic-graph-context-20260806/task-1-p2-030/knowledge/P2_030_FINAL_CTO_NON_PASS_KNOWLEDGE_REVIEW_V1.json
-        byte_length: 4482
-        sha256: 11fc8c1dca8d58208ae4e251f61bdde2d45f5395aed0179ce25344fe04cfa651
+        byte_length: 4461
+        sha256: fa7bddb8d8caacb5e1cef106d873b154daf09082a4b454242445f6e2f96eeeb0
       vault_import:
         path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/05-Failures-and-Lessons/AIOS-P2-030/2026-08-06-P2-030-final-cto-non-pass-lessons.md
         byte_length: 4708
@@ -14101,8 +14101,8 @@ founder_knowledge_sync:
       receipt:
         path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-parser-native-java-semantic-graph-context-20260806/task-1-p2-030/knowledge/P2_030_FINAL_CTO_NON_PASS_KNOWLEDGE_IMPORT_RECEIPT_V1.json
         byte_length: 1682
-        sha256: 480a38c6e62969391b39ef2e4298bacdd7129df951814c277b87225356201a85
-      event_sha256: c69ef0a0e5f1efe77974612a03ff963ccd5c52cbac8bcfd2f4cb3b9f0a613e1e
+        sha256: 8316e673341e4a67bec38687713dee7de4ddfeccc7a87139e2b8e66069c4cdc2
+      event_sha256: ae85b95d7612b6bc302f611abeb194bd5092a1f039cea7a6d5846e94f4e04bcd
 
 historical_active_work_after_p1_079:
   current_task: NONE

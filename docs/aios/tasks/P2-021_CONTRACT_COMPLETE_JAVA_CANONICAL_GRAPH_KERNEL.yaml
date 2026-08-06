@@ -3,7 +3,7 @@ record_type: aios_task_contract
 task_id: AIOS-P2-021_CONTRACT_COMPLETE_JAVA_CANONICAL_GRAPH_KERNEL
 phase: P2
 route_id: P2_CLEAN_ROOM_CONTRACT_COMPLETE_JAVA_GRAPH_AND_OFFLINE_CONTEXT_BENCHMARK_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_IMPLEMENTATION_ITERATION_EXHAUSTED_NON_PASS
 objective: >-
   Build a clean-room, executable and independently verifiable Java-first
   canonical scan-to-graph kernel from accepted canonical scanner output, with
@@ -193,3 +193,20 @@ forbidden_actions:
 
 next_action_on_pass: AUTO_ACTIVATE_AIOS_P2_022_JAVA_GRAPH_CONDITIONED_CONTEXT_OFFLINE_BENCHMARK
 next_action_on_non_pass: TERMINAL_STOP_ROUTE_AT_FOUNDER_P2_PHASE_GATE
+
+terminal_outcome:
+  status: TERMINAL_IMPLEMENTATION_ITERATION_EXHAUSTED_NON_PASS
+  implementation_iterations_used: 3
+  same_task_repairs_used: 2
+  normalized_root_cause: P2021.ITERATION_3.VERIFIER_NEGATIVE.DISPOSABLE_PARENT_USES_MACOS_VAR_SYMLINK_ALIAS
+  preserved_implementation_commit: e8104ea010f88f2fcb2a938c88dfb8a28e84f6ef
+  preserved_implementation_tree: 6af6e9d080f52421813cea0b91f3d41e79f10057
+  candidate_frozen: false
+  final_reviews_invoked: false
+  canonical_make_verify: NOT_INVOKED_TASK_GATE_NON_PASS
+  p2_capability_credit: 0
+  p2_022_status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS_ROUTE_TERMINAL
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/task-1-p2-021/terminal/P2_021_TERMINAL_IMPLEMENTATION_ITERATION_EXHAUSTED_NON_PASS_RECEIPT.json
+    sha256: 11940fc1f31e6c8a3f93b2fb7ef5050dc08a78c91290c442b4f58a553b60bcfb
+    byte_length: 2814

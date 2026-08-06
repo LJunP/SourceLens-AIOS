@@ -1,0 +1,195 @@
+schema_version: "1.0"
+record_type: aios_task_contract
+task_id: AIOS-P2-021_CONTRACT_COMPLETE_JAVA_CANONICAL_GRAPH_KERNEL
+phase: P2
+route_id: P2_CLEAN_ROOM_CONTRACT_COMPLETE_JAVA_GRAPH_AND_OFFLINE_CONTEXT_BENCHMARK_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Build a clean-room, executable and independently verifiable Java-first
+  canonical scan-to-graph kernel from accepted canonical scanner output, with
+  repository-root-independent identities, complete endpoint classification,
+  deterministic replay and a fail-closed raw-Evidence consumer.
+why_now: >-
+  P2 requires a real repository-intelligence graph before graph-conditioned
+  context selection can be measured. The prior P2-019 candidate is terminal
+  and non-reusable, but its canonical terminal Reviews established four
+  requirements that this independent Task must satisfy from first principles:
+  complete Contract negatives, offline-frozen toolchain execution, path
+  containment before reads and independent derivation from raw receipts.
+task_spec_ref: >-
+  Founder route decision
+  /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/decision/FOUNDER_P2_CLEAN_ROOM_CONTRACT_COMPLETE_JAVA_GRAPH_CONTEXT_ROUTE_DECISION_V1.json
+claim_boundary: >-
+  Offline Java-first canonical scan-to-graph kernel only. No scanner semantic
+  modification, rejected P2 engineering reuse, context-benchmark result,
+  network, Provider, Secret, remote, production, public or P3 claim.
+risk_level: high
+
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/decision/FOUNDER_P2_CLEAN_ROOM_CONTRACT_COMPLETE_JAVA_GRAPH_CONTEXT_ROUTE_DECISION_V1.json
+  sha256: 284b8faf97a5d39d5cdbe545ae7fc22d94d3d5a6cf7b18cfa981fd9b8b8600f1
+  byte_length: 2984
+  authorization_token: AUTHORIZE_P2_CLEAN_ROOM_CONTRACT_COMPLETE_JAVA_GRAPH_AND_OFFLINE_CONTEXT_BENCHMARK_ROUTE_V1
+
+roles:
+  owner: P2_021_MASTER_CEO_TASK_OWNER
+  worker: P2_021_GRAPH_KERNEL_IMPLEMENTATION_WORKER
+  independent_reviewers:
+    - P2_021_FRESH_CTO_REVIEWER
+    - P2_021_FRESH_SECURITY_REVIEWER
+    - P2_021_FRESH_QUALITY_REVIEWER
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+
+budget:
+  engineering_hours: 20
+  calendar_days: 4
+  implementation_iterations: 3
+  candidates: 1
+same_task_repairs_max: 2
+contract_corrections_max: 0
+
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+founder_reserved_profile: null
+
+allowlisted_paths:
+  - analyzer-rust/src/lib.rs
+  - analyzer-rust/src/bin/sourcelens-graph.rs
+  - analyzer-rust/src/graph/**
+  - evaluation-harness/harness/p2-021-contract-complete-java-graph/**
+  - evaluation-harness/evaluator/p2-021-contract-complete-java-graph/**
+  - scripts/verify-p2-021-contract-complete-java-graph.sh
+  - docs/aios/tasks/P2-021_CONTRACT_COMPLETE_JAVA_CANONICAL_GRAPH_KERNEL.yaml
+  - docs/PROJECT_CODE_MAP.md
+  - Makefile
+
+read_context:
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/truth/project_state.yaml
+  - schemas/founder-phase-route-decision.schema.json
+  - analyzer-rust/Cargo.toml
+  - analyzer-rust/Cargo.lock
+  - analyzer-rust/src/**
+  - accepted canonical P0/P1 scanner, dataset, trace and evaluation assets
+  - P2-019 canonical Truth, terminal receipt, final Reviews and reviewed Knowledge Artifact only
+
+forbidden_read_or_reuse:
+  - P2-019 candidate source, diff, fixture, test, matrix, evaluator or implementation
+  - P2-020 assets
+  - P2-016, P2-013, P2-011, P2-009, P2-007, P2-005, P2-003 or other rejected P2 engineering assets
+  - any historical rejected candidate branch or worktree source tree
+
+dependencies:
+  - P0 COMPLETE
+  - P1 COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
+  - accepted canonical scanner implementation and scan contract
+  - accepted P1 dataset, trace and evaluation assets bound in canonical Truth
+
+implementation_requirements:
+  - consume real accepted canonical scanner JSON without modifying scanner semantics
+  - derive repository-root-independent canonical file and symbol identities
+  - bind symbols and relations to exact file identity and source spans
+  - classify every relation endpoint as resolved_internal, external or unresolved
+  - deterministically order nodes, edges and serialized output
+  - produce byte-identical output from two distinct canonical repository roots
+  - produce byte-identical exact replay from frozen admitted scanner bytes
+  - use no new dependency and execute Cargo verification with --locked --offline
+  - fail before candidate freeze if the offline dependency cache is incomplete
+  - verify every manifest-declared path for containment, type, non-symlink, length and SHA-256 before reading it
+  - derive scanner provenance, graph counts, negative verdicts, false accepts and external effects from raw receipts and raw bytes
+  - never accept Worker-authored PASS, count, provenance or effect summaries as independent proof
+
+mandatory_positive_cases:
+  - real accepted scanner invocation on Java fixture root A
+  - real accepted scanner invocation on physically distinct Java fixture root B
+  - root-independent byte-identical graph projection
+  - byte-identical exact replay
+  - resolved cross-file Java call
+  - external Java endpoint classification
+  - unresolved Java endpoint classification
+
+mandatory_negative_cases:
+  - unimported cross-package same-name Java symbol must not cross-bind
+  - distinct raw scanner-output mutation must be rejected
+  - incorrect graph summary count must be rejected
+  - missing raw scanner receipt must be rejected
+  - extra raw Evidence object must be rejected
+  - duplicate or reordered identity record must be rejected
+  - path escape and wrong-root substitution must be rejected before read
+  - symlink and non-regular input must be rejected before read
+  - byte-length and SHA-256 drift must be rejected
+  - stale and cross-candidate provenance must be rejected
+  - ambiguous, external and unresolved endpoint category drift must be rejected
+  - incorrect zero-false-accept summary must be rejected
+  - incorrect external-effect summary must be rejected
+
+acceptance_criteria:
+  - all mandatory positive and negative cases execute from fresh owned disposable roots
+  - at least two real accepted scanner invocations are proven by raw command receipts
+  - two-root projection and exact replay are byte-identical
+  - all graph identities are repository-root-independent and source-span-bound
+  - independent verifier reads no unvalidated manifest-declared path
+  - independent verifier re-derives all target counts, verdicts, provenance and effects
+  - targeted false accepts equal 0
+  - network, Provider, Secret, remote, production and public effects equal 0
+  - no rejected P2 engineering asset is read, restored, copied, compared or reused
+  - one exact candidate is frozen only after the full matrix passes
+  - fresh CTO, Security and Quality TARGET_VERDICT values all equal PASS
+
+required_evidence:
+  - exact source manifest and tracked binary diff identity
+  - locked offline Cargo command receipt and toolchain identity
+  - raw accepted-scanner command, stdout and stderr receipts for both roots
+  - admitted scanner-input manifests
+  - graph outputs and stable-projection comparison receipt
+  - exact replay output and byte-equality receipt
+  - per-case raw negative Evidence and independently derived verdict ledger
+  - independent verifier package and receipt
+  - closed Evidence inventory with path, type, byte length and SHA-256
+  - fresh CTO, Security and Quality Reviews of the same exact candidate
+
+rollback:
+  strategy: disposable_roots_plus_non_destructive_git_revert_after_integration_only
+  source_mutation_before_integration: task_worktree_only
+  canonical_reset_or_clean_allowed: false
+
+stop_conditions:
+  - same normalized root cause repeats in adjacent allowed implementation iterations
+  - implementation iteration or repair budget is exhausted
+  - offline verification requires network or dependency download
+  - any rejected P2 engineering asset would need to be read or reused
+  - any scope, Phase, permission or external-effect expansion is required
+  - Evidence is overwritten, deleted, cross-bound or cannot be independently reconstructed
+  - any fresh final Reviewer returns TARGET_VERDICT NON_PASS
+  - reviewed and integrated trees differ
+  - canonical make verify returns NONPASS
+
+forbidden_actions:
+  - modify accepted scanner semantics
+  - read or reuse rejected P2 engineering assets
+  - network, Provider, Secret, remote, production or public effect
+  - dependency download or non-offline Cargo verification
+  - P3 entry
+  - push, PR, release or remote mutation
+  - second candidate, second final review cycle or post-freeze correction
+  - successor, replacement, normalization, closure, feasibility or remediation chain
+  - use documentation, hashes, Reviews or governance synchronization as P2 capability credit
+
+next_action_on_pass: AUTO_ACTIVATE_AIOS_P2_022_JAVA_GRAPH_CONDITIONED_CONTEXT_OFFLINE_BENCHMARK
+next_action_on_non_pass: TERMINAL_STOP_ROUTE_AT_FOUNDER_P2_PHASE_GATE

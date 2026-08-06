@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-06T04:31:35Z"
-verification_scope: P2_019_TERMINAL_KNOWLEDGE_REVIEW_AND_VAULT_IMPORT_SYNC
+last_verified_at: "2026-08-06T04:49:18Z"
+verification_scope: P2_021_ROUTE_AUTHORIZED_READY_PRE_TASK_ACTIVATION
 
 authority:
   founder: Human Founder
@@ -39,6 +39,16 @@ goal:
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
   current_task_authority: NONE
   note: >-
+    Founder authorized the clean-room contract-complete Java graph and offline
+    context benchmark route. P2-021 is eligible but not yet activated; P2-022
+    remains pending the complete P2-021 Task Gate. The new Task is bound to a
+    complete negative matrix, offline-frozen Rust toolchain behavior,
+    containment-before-read input admission and independent raw-Evidence
+    derivation. No rejected P2 engineering source, candidate, fixture, test,
+    diff or implementation is reusable. This route-ready synchronization adds
+    no P2 capability credit. All paragraphs below this sentence are retained
+    historical chronology only and have no current Task, Route or scheduling
+    authority.
     P2-019 is TERMINAL_FINAL_REVIEW_TARGET_NON_PASS. The exact candidate and
     implementation Evidence remain preserved and unintegrated. Its real
     accepted scanner runs, deterministic two-root graph and replay passed, but
@@ -1178,9 +1188,9 @@ project:
   p1_execution_status: COMPLETE_STRICT_8_OF_8_100_PERCENT
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
-  p2_execution_status: STOPPED_AT_FOUNDER_PHASE_GATE
-  phase_execution_status: STOPPED_AT_FOUNDER_PHASE_GATE
-  current_route_execution_status: TERMINAL_TASK_1_FINAL_REVIEW_TARGET_NON_PASS
+  p2_execution_status: AUTHORIZED_READY
+  phase_execution_status: AUTHORIZED_READY
+  current_route_execution_status: AUTHORIZED_READY
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -5926,26 +5936,26 @@ historical_p1_162_phase_route:
 
 current_phase_route:
   schema_version: "1.1"
-  route_id: P2_JAVA_FIRST_CANONICAL_GRAPH_VERTICAL_SLICE_AND_OFFLINE_CONTEXT_PROBE_ROUTE_V1
-  status: TERMINAL_TASK_1_FINAL_REVIEW_TARGET_NON_PASS
-  authority_object_status: TERMINAL_NO_ACTIVE_TASK
-  execution_status: TERMINAL_TASK_1_FINAL_REVIEW_TARGET_NON_PASS
-  founder_phase_route_decision_required: true
-  scheduling_status: STOPPED_AT_FOUNDER_P2_PHASE_GATE
+  route_id: P2_CLEAN_ROOM_CONTRACT_COMPLETE_JAVA_GRAPH_AND_OFFLINE_CONTEXT_BENCHMARK_ROUTE_V1
+  status: AUTHORIZED_READY
+  authority_object_status: READY_NO_ACTIVE_TASK
+  execution_status: AUTHORIZED_READY
+  founder_phase_route_decision_required: false
+  scheduling_status: READY_FOR_FIRST_TASK_ACTIVATION
   phase: P2
   phase_entry_status: AUTHORIZED
-  authorization_token: AUTHORIZE_P2_JAVA_FIRST_CANONICAL_GRAPH_VERTICAL_SLICE_AND_OFFLINE_CONTEXT_PROBE_ROUTE_V1
+  authorization_token: AUTHORIZE_P2_CLEAN_ROOM_CONTRACT_COMPLETE_JAVA_GRAPH_AND_OFFLINE_CONTEXT_BENCHMARK_ROUTE_V1
   decision_packet:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-java-first-graph-context-20260806/decision/FOUNDER_P2_JAVA_FIRST_GRAPH_CONTEXT_ROUTE_DECISION_V1.json
-    sha256: e648ea698a7fbeec19bc4b07cb115442419d68428b5bf7637278121be3dc8974
-    byte_length: 2864
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/decision/FOUNDER_P2_CLEAN_ROOM_CONTRACT_COMPLETE_JAVA_GRAPH_CONTEXT_ROUTE_DECISION_V1.json
+    sha256: 284b8faf97a5d39d5cdbe545ae7fc22d94d3d5a6cf7b18cfa981fd9b8b8600f1
+    byte_length: 2984
   original_founder_packet:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-java-first-graph-context-20260806/decision/FOUNDER_P2_JAVA_FIRST_GRAPH_CONTEXT_AUTHORIZATION_V1.txt
-    sha256: 863afbb26892200a1daa3a1018679e4457911ab9df2e3305079e77864a35d200
-    byte_length: 110
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/decision/FOUNDER_P2_CLEAN_ROOM_CONTRACT_COMPLETE_JAVA_GRAPH_CONTEXT_AUTHORIZATION_V1.txt
+    sha256: 88cf9b425ed6b411d9ff4950a66a854b91d3d7702998423aebe38069538d6f09
+    byte_length: 92
   activation_parent:
-    commit: 41a7980b11f2a8bb0552625e887ca6a8af1dd553
-    tree: bd42df5292334b2e1eb5ef3e48acf633397d1630
+    commit: 03e486af792f08d0500ac350d1e0ad9435e36940
+    tree: 8b84fff97392d817ce582a06a1ecd6d944ba6ad0
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: "1.7"
@@ -5957,10 +5967,10 @@ current_phase_route:
     canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
     canonical_byte_length: 19434
   objective: >-
-    Build the smallest real Java-first canonical scan-to-graph vertical slice
-    from accepted scanner output, then use the accepted graph in a bounded
-    offline graph-conditioned context probe against a lexical baseline.
-  claim_boundary: OFFLINE_JAVA_FIRST_CANONICAL_SCAN_TO_GRAPH_VERTICAL_SLICE_AND_GRAPH_CONDITIONED_CONTEXT_PROBE_ONLY_NO_P2_016_OR_OTHER_REJECTED_P2_ENGINEERING_REUSE_NO_SCANNER_SEMANTIC_MODIFICATION_NO_NETWORK_PROVIDER_SECRET_REMOTE_PRODUCTION_PUBLIC_OR_P3_ENTRY
+    Build a clean-room contract-complete Java canonical graph kernel from
+    accepted scanner output, then compare graph-conditioned context selection
+    against a lexical baseline using only the accepted kernel.
+  claim_boundary: OFFLINE_CLEAN_ROOM_CONTRACT_COMPLETE_JAVA_CANONICAL_SCAN_TO_GRAPH_KERNEL_AND_GRAPH_CONDITIONED_CONTEXT_BENCHMARK_ONLY_NO_REJECTED_P2_ENGINEERING_REUSE_NO_SCANNER_SEMANTIC_MODIFICATION_NO_AUTHORITY_PARSER_VALIDATOR_OR_EVIDENCE_PLATFORM_PRETASK_NO_NETWORK_PROVIDER_SECRET_REMOTE_PRODUCTION_PUBLIC_OR_P3_ENTRY
   envelope:
     max_engineering_tasks: 2
     max_engineering_hours: 32
@@ -6032,8 +6042,8 @@ current_phase_route:
     - p1_219
   first_task:
     task_slot: 1
-    task_id: AIOS-P2-019_JAVA_CANONICAL_SCAN_TO_GRAPH_VERTICAL_SLICE
-    status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+    task_id: AIOS-P2-021_CONTRACT_COMPLETE_JAVA_CANONICAL_GRAPH_KERNEL
+    status: ELIGIBLE_NOT_ACTIVATED
     engineering_hours: 20
     calendar_days: 4
     max_engineering_hours: 20
@@ -6048,14 +6058,14 @@ current_phase_route:
       remote: false
       production: false
       public: false
-    contract_path: docs/aios/tasks/P2-019_JAVA_CANONICAL_SCAN_TO_GRAPH_VERTICAL_SLICE.yaml
-    contract_sha256: 14423a97a2fb9e5f481d9ad0075992e0d22c944bed7582376552347426f15765
-    contract_byte_length: 10756
-    p2_capability_claim_on_pass: JAVA_CANONICAL_SCAN_TO_GRAPH_VERTICAL_SLICE
+    contract_path: docs/aios/tasks/P2-021_CONTRACT_COMPLETE_JAVA_CANONICAL_GRAPH_KERNEL.yaml
+    contract_sha256: 3c7c16ac452e552424d0ac1700b6a9a2124c0c8ea04f960118a5503ab58e474f
+    contract_byte_length: 9521
+    p2_capability_claim_on_pass: CONTRACT_COMPLETE_JAVA_CANONICAL_GRAPH_KERNEL
   task_plan:
     - task_slot: 1
-      task_id: AIOS-P2-019_JAVA_CANONICAL_SCAN_TO_GRAPH_VERTICAL_SLICE
-      status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+      task_id: AIOS-P2-021_CONTRACT_COMPLETE_JAVA_CANONICAL_GRAPH_KERNEL
+      status: ELIGIBLE_NOT_ACTIVATED
       engineering_hours: 20
       calendar_days: 4
       max_implementation_iterations: 3
@@ -6069,8 +6079,8 @@ current_phase_route:
         production: false
         public: false
     - task_slot: 2
-      task_id: AIOS-P2-020_JAVA_GRAPH_CONDITIONED_CONTEXT_OFFLINE_PROBE
-      status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS_ROUTE_TERMINAL
+      task_id: AIOS-P2-022_JAVA_GRAPH_CONDITIONED_CONTEXT_OFFLINE_BENCHMARK
+      status: PENDING_PREDECESSOR_TASK_GATE
       engineering_hours: 12
       calendar_days: 3
       max_implementation_iterations: 3
@@ -6084,25 +6094,16 @@ current_phase_route:
         production: false
         public: false
   automatic_entry:
-    after_task_id: AIOS-P2-019_JAVA_CANONICAL_SCAN_TO_GRAPH_VERTICAL_SLICE
-    next_task_id: AIOS-P2-020_JAVA_GRAPH_CONDITIONED_CONTEXT_OFFLINE_PROBE
+    after_task_id: AIOS-P2-021_CONTRACT_COMPLETE_JAVA_CANONICAL_GRAPH_KERNEL
+    next_task_id: AIOS-P2-022_JAVA_GRAPH_CONDITIONED_CONTEXT_OFFLINE_BENCHMARK
     requires_task_gate_pass: true
   automatic_entries:
-    - after_task_id: AIOS-P2-019_JAVA_CANONICAL_SCAN_TO_GRAPH_VERTICAL_SLICE
-      next_task_id: AIOS-P2-020_JAVA_GRAPH_CONDITIONED_CONTEXT_OFFLINE_PROBE
+    - after_task_id: AIOS-P2-021_CONTRACT_COMPLETE_JAVA_CANONICAL_GRAPH_KERNEL
+      next_task_id: AIOS-P2-022_JAVA_GRAPH_CONDITIONED_CONTEXT_OFFLINE_BENCHMARK
       requires_task_gate_pass: true
   additional_write_roots: []
   inherited_worktree_inventory: []
-  terminal_result:
-    task_id: AIOS-P2-019_JAVA_CANONICAL_SCAN_TO_GRAPH_VERTICAL_SLICE
-    status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
-    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-java-first-graph-context-20260806/task-1-p2-019/terminal/P2_019_TERMINAL_FINAL_REVIEW_TARGET_NON_PASS_RECEIPT.json
-    terminal_receipt_sha256: cf6ffe0a12b7d737666baae6188f094d7d7925163151a15c0f3cb9bc8a09d3c4
-    terminal_receipt_byte_length: 4424
-    candidate_integrated: false
-    canonical_make_verify: NOT_INVOKED_FINAL_REVIEW_STOP_CONDITION
-    capability_credit: 0
-  next_eligible_action: FOUNDER_P2_PHASE_GATE
+  next_eligible_action: MASTER_ACTIVATE_FIRST_TASK
 
 historical_p2_016_phase_route:
   schema_version: "1.1"
@@ -13455,7 +13456,7 @@ active_work:
   authorization_id: null
   activation_parent_commit: null
   activation_parent_tree: null
-  task_resource_state: NOT_CREATED_ROUTE_TERMINAL
+  task_resource_state: NOT_CREATED_ROUTE_READY
   task_branch: null
   task_worktree: null
   execution_evidence_root: null
@@ -13479,13 +13480,13 @@ active_work:
   offsite_target: null
   founder_reserved_authorization: null
   founder_reserved_authorization_sha256: null
-  founder_decision_required: true
-  founder_decision_required_scope: P2_PHASE_GATE_AFTER_P2_019_TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
-  escalation_reason: P2_019_FINAL_REVIEWS_PROVED_CONTRACT_COVERAGE_OFFLINE_BOUNDARY_AND_INDEPENDENT_EVIDENCE_CONSUMER_GAPS
-  user_action_required: FOUNDER_P2_PHASE_GATE_DECISION
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_P2_PHASE_GATE_DECISION
-  next_eligible_action: FOUNDER_P2_PHASE_GATE
+  founder_decision_required: false
+  founder_decision_required_scope: null
+  escalation_reason: null
+  user_action_required: NONE
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: MASTER_ACTIVATE_FIRST_TASK
 historical_p1_190_terminal_active_work:
   current_task: NONE
   current_task_status: NONE

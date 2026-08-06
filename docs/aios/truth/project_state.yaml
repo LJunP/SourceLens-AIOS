@@ -10786,13 +10786,13 @@ founder_knowledge_sync:
       source_tree: 0a68f69dda70bec84e01929d1cc12a288060fa11
       previous_event_sha256: null
       event_sha256: 5f03a65ee0f7836ec00e4b4d5040efe025c0d9e386839abb18fb2500cfbddf2f
-      status: PENDING_CANDIDATE
+      status: PENDING_REVIEW
       rationale: Founder required strict no-skip phase execution and continuous Obsidian knowledge synchronization.
       engineering_blocking: false
       artifact:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-parser-native-java-semantic-graph-context-20260806/task-1-p2-030/knowledge/P2_030_FINAL_CTO_NON_PASS_LEARNING_ARTIFACT_V1.md
+        byte_length: 4708
+        sha256: 51249a8146541707224b7da707b0aca2b0134440123f57b54bd0834675f7f999
       review:
         path: null
         byte_length: null
@@ -14099,10 +14099,10 @@ founder_knowledge_sync:
         byte_length: null
         sha256: null
       receipt:
-        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-parser-native-java-semantic-graph-context-20260806/task-1-p2-030/terminal/P2_030_TERMINAL_FINAL_CTO_TARGET_NON_PASS_RECEIPT.json
-        byte_length: 2543
-        sha256: c49a9035ad928719f3cc29e3877fd88b60768614c9fc13a51656dea6572a3991
-      event_sha256: ed0cc7e1afbec4d3a9bf59fba87cd945cb1b1d1fe0d190bc8d021a818715ec80
+        path: null
+        byte_length: null
+        sha256: null
+      event_sha256: b3d1c6ea12c3347a4eef17257ab16c2ee0d1478572c9189d58cd6f36472753c4
 
 historical_active_work_after_p1_079:
   current_task: NONE

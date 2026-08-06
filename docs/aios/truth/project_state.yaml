@@ -13432,8 +13432,8 @@ active_work:
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-java-first-graph-context-20260806/decision/FOUNDER_P2_JAVA_FIRST_GRAPH_CONTEXT_AUTHORIZATION_V1.txt
-  founder_reserved_authorization_sha256: 863afbb26892200a1daa3a1018679e4457911ab9df2e3305079e77864a35d200
+  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-java-first-graph-context-20260806/decision/FOUNDER_P2_JAVA_FIRST_GRAPH_CONTEXT_ROUTE_DECISION_V1.json
+  founder_reserved_authorization_sha256: e648ea698a7fbeec19bc4b07cb115442419d68428b5bf7637278121be3dc8974
   founder_decision_required: false
   founder_decision_required_scope: null
   escalation_reason: null

@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P2-038_SOURCE_DERIVED_JAVA_RESOLUTION_TRUTH_KERNEL
 phase: P2
 route_id: P2_SOURCE_DERIVED_SEMANTIC_TRUTH_CAUSAL_EVIDENCE_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
 objective: >-
   Build a clean-room Java resolution truth kernel that derives package,
   imports, declarations, owner chains, source spans and EXTENDS/IMPLEMENTS
@@ -188,3 +188,33 @@ claim_boundary: >-
   context benchmark, Provider, Secret, network, remote, production, public,
   hostile-principal, complete Java compiler, generic classpath authority or P3
   claim.
+terminal_result:
+  recorded_at_utc: "2026-08-06T18:00:42Z"
+  classification: TERMINAL_EXACT_CANDIDATE_FINAL_CTO_STOP_CONDITION
+  candidate_commit: 0201e2c291f01ee0ffe4c675b3d0b60ca5e49a1f
+  candidate_tree: d5143b7b16277050a3a52e0b1ae2a5c06dbacd1a
+  candidate_manifest:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-source-derived-semantic-truth-causal-evidence-graph-context-20260807/task-1-p2-038/candidate/final-v1/P2_038_EXACT_CANDIDATE_MANIFEST_V1.json
+    sha256: f58edde3811363635a575410fa8f24f37b5512fc58204d2beca51eb16b60d8bc
+    byte_length: 3997
+  prefreeze_evidence_manifest:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-source-derived-semantic-truth-causal-evidence-graph-context-20260807/task-1-p2-038/evidence/prefreeze-final-v1/EVIDENCE_MANIFEST.json
+    sha256: ca1ef7b06ff5cb9d2a66b6eebcfc1ce8c97cb5c744c6928336f88bf6302fc335
+    byte_length: 3358
+  final_cto_target_verdict: NON_PASS
+  final_cto_review_sha256: cae68799545b74b7e4d3b779061af8806c8eff020c44b7356af1a871f35e403b
+  final_quality_target_verdict: PASS
+  final_quality_review_sha256: ea15a06ba964d184db715bdf9a76b99a322162a8db1f915f6930bf9eff3b35bc
+  final_security_status: INTERRUPTED_AFTER_CTO_STOP_CONDITION
+  normalized_root_causes:
+    - P2038.FINAL.CTO.LEXICAL_SHADOWING_FALSE_AMBIGUITY
+    - P2038.FINAL.CTO.RAW_SEMANTIC_CASE_EVIDENCE_NOT_RETAINED
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-source-derived-semantic-truth-causal-evidence-graph-context-20260807/task-1-p2-038/terminal/P2_038_TERMINAL_FINAL_CTO_NON_PASS_RECEIPT_V1.json
+    sha256: d01c66d8aef4183f3b3f4d8004d4f8cb078f2aadd06b65ed8a9811984375d7f2
+    byte_length: 2974
+  candidate_integrated: false
+  canonical_make_verify: NOT_INVOKED_FINAL_CTO_TARGET_NON_PASS
+  p2_039_started: false
+  p2_040_started: false
+  capability_credit: 0

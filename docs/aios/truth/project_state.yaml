@@ -14502,29 +14502,29 @@ founder_knowledge_sync:
     - event_id: FKS-20260807-P2-038-TERMINAL-FINAL-CTO-NON-PASS-V1
       trigger_type: TASK_TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
       occurred_at_utc: "2026-08-06T18:00:42Z"
-      source_commit: 21c0f9cd7b8d1154be9a26696d005e7bf5554623
-      source_tree: 1a54b8e9050a2d85e9f3c112ac316564d2cd144b
+      source_commit: da2d2bf003c9b2c4a1089f8a0c36dfab965cc449
+      source_tree: 288099e85d18b5b1b9032a7f16c509a7ca05c228
       previous_event_sha256: 2a3f6c30ec5943f0e55b95b9a393504d9142e8eab3f51dc5129c0d3f9db3c772
-      status: PENDING_CANDIDATE
+      status: IMPORTED
       rationale: P2-038 stopped at fresh CTO review after the exact candidate passed worker and independent matrices. Review proved that valid nested Java lexical shadowing is falsely classified as ambiguity and that the frozen Evidence lacks Contract-required per-case raw semantic artifacts. The candidate remains preserved and unintegrated, Security review was interrupted, P2-039 and P2-040 were not started, canonical make verify was not invoked and P2 capability credit remains zero.
       engineering_blocking: false
       artifact:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-source-derived-semantic-truth-causal-evidence-graph-context-20260807/task-1-p2-038/knowledge/P2_038_FINAL_CTO_NON_PASS_LEARNING_ARTIFACT_V1.md
+        byte_length: 5321
+        sha256: 08fad74a695615646fdb5a8cb5a75637fef8449620270cbebfb9dc608ae874a0
       review:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-source-derived-semantic-truth-causal-evidence-graph-context-20260807/task-1-p2-038/knowledge/P2_038_FINAL_CTO_NON_PASS_KNOWLEDGE_REVIEW_V3.json
+        byte_length: 4726
+        sha256: ced4cd2bf09eefe4546b3c66a15e91c984430d9fa02c18446ddc21135b4062b9
       vault_import:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/05-Failures-and-Lessons/AIOS-P2-038/2026-08-07-P2-038-final-cto-non-pass-lexical-shadowing-evidence-lessons.md
+        byte_length: 5321
+        sha256: 08fad74a695615646fdb5a8cb5a75637fef8449620270cbebfb9dc608ae874a0
       receipt:
-        path: null
-        byte_length: null
-        sha256: null
-      event_sha256: f87cfa2e20a517e8c1250e440795d0f25d42a2e9683b2ae08cd0b69813a2037c
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-source-derived-semantic-truth-causal-evidence-graph-context-20260807/task-1-p2-038/knowledge/P2_038_FINAL_CTO_NON_PASS_KNOWLEDGE_IMPORT_RECEIPT_V1.json
+        byte_length: 1746
+        sha256: 8072f60ed300cc9264ff02c5fb6123989e5544355f8aa9d7a11c67de5a24de34
+      event_sha256: 66f9bdbf47ffbbe5423a19064451fb278a53982a21618daa07dd6126b5c9fb2f
 
 historical_active_work_after_p1_079:
   current_task: NONE

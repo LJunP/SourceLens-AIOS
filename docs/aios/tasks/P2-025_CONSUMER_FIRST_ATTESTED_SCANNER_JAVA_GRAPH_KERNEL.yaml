@@ -1,0 +1,191 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P2-025_CONSUMER_FIRST_ATTESTED_SCANNER_JAVA_GRAPH_KERNEL
+phase: P2
+route_id: P2_CONSUMER_FIRST_ATTESTED_SCANNER_EVIDENCE_JAVA_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Build a clean-room consumer-first Java canonical graph kernel that admits a
+  closed regular-object Evidence package before semantic reads, independently
+  attests the accepted scanner and exact invocation from raw observations, and
+  produces repository-root-independent deterministic graph bytes with zero
+  false accepts or external effects.
+why_now: >-
+  P1 is strictly complete and the Founder has entered P2. P2-023 proved that a
+  worker PASS can remain unsafe when the consumer does not bind the accepted
+  scanner, parses semantic objects before closed-manifest admission, or treats
+  constant zero summaries as raw effect Evidence. This independent clean-room
+  Task addresses those three architecture requirements directly without using
+  any rejected P2 engineering bytes.
+task_spec_ref: /Users/lijunpeng/Developer/.sourcelens-audit/p2-consumer-first-attested-java-graph-context-20260806/decision/FOUNDER_P2_CONSUMER_FIRST_ATTESTED_SCANNER_JAVA_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1.md
+owner_role: P2-025 Engineering Manager
+worker_role: P2-025 Clean-Room Java Graph Worker
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+risk_level: high
+budget:
+  engineering_hours: 26
+  calendar_days: 6
+  implementation_iterations: 4
+  candidates: 1
+roles:
+  owner: P2-025 Engineering Manager
+  worker: P2-025 Clean-Room Java Graph Worker
+  independent_reviewers:
+    - P2-025 Fresh CTO Reviewer
+    - P2-025 Fresh Security Reviewer
+    - P2-025 Fresh Quality Reviewer
+allowlisted_paths:
+  - evaluation-harness/harness/p2-025-consumer-first-attested-java-graph
+  - evaluation-harness/evaluator/p2-025-consumer-first-attested-java-graph
+  - evaluation-harness/datasets/p2-025-consumer-first-attested-java-graph
+  - evaluation-harness/replay/p2-025-consumer-first-attested-java-graph
+  - scripts/verify-p2-025-consumer-first-attested-java-graph.sh
+  - docs/aios/tasks/P2-025_CONSUMER_FIRST_ATTESTED_SCANNER_JAVA_GRAPH_KERNEL.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+  - Makefile
+write_scope:
+  worker:
+    - evaluation-harness/harness/p2-025-consumer-first-attested-java-graph
+    - evaluation-harness/datasets/p2-025-consumer-first-attested-java-graph
+    - evaluation-harness/replay/p2-025-consumer-first-attested-java-graph
+  quality:
+    - evaluation-harness/evaluator/p2-025-consumer-first-attested-java-graph
+  integration:
+    - scripts/verify-p2-025-consumer-first-attested-java-graph.sh
+    - docs/aios/tasks/P2-025_CONSUMER_FIRST_ATTESTED_SCANNER_JAVA_GRAPH_KERNEL.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+    - Makefile
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/tasks/P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION.yaml
+  - docs/aios/tasks/P1-129_EXACT_INPUT_BOUNDARY_SECURITY_MATRIX_COMPLETION.yaml
+  - evaluation-harness/fixtures/p1-116-closed-profile-scanner-admission/accepted-p0-binding.json
+  - /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-closed-profile-rollback-route-20260725/task-1/formal-evidence-v1/accepted-scanner-build/accepted-scanner-build.json
+  - /Users/lijunpeng/Developer/.sourcelens-audit/p2-raw-evidence-java-graph-context-20260806/task-1-p2-023/P2_023_TERMINAL_RECEIPT.json
+  - /Users/lijunpeng/Developer/.sourcelens-audit/p2-raw-evidence-java-graph-context-20260806/task-1-p2-023/reviews/final-cycle-1/SECURITY_REVIEW.json
+  - /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/05-Failures-and-Lessons/AIOS-P2-023/2026-08-06-P2-023-final-security-non-pass-lessons.md
+dependencies:
+  - P1_STRICT_8_OF_8_FOUNDER_GATE_PASS
+  - ACCEPTED_CANONICAL_P1_116_SCANNER_ADMISSION
+  - ACCEPTED_CANONICAL_P1_129_ADAPTER_CONTROL
+historical_isolation:
+  p2_023_truth_terminal_receipt_security_review_and_reviewed_knowledge_readable: true
+  p2_023_contract_source_candidate_fixture_test_matrix_evaluator_or_engineering_readable: false
+  other_rejected_p2_engineering_read_restore_compare_or_reuse_allowed: false
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+founder_reserved_profile: null
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-consumer-first-attested-java-graph-context-20260806/decision/FOUNDER_P2_CONSUMER_FIRST_ATTESTED_SCANNER_JAVA_GRAPH_ROUTE_DECISION_V1.json
+  sha256: 0ef1176c01d546815a2a4841645f1c73c9c6afaa143b290859c7caf6d22ab9ba
+  byte_length: 3044
+  authorization_token: AUTHORIZE_P2_CONSUMER_FIRST_ATTESTED_SCANNER_EVIDENCE_JAVA_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+accepted_scanner:
+  binding:
+    path: evaluation-harness/fixtures/p1-116-closed-profile-scanner-admission/accepted-p0-binding.json
+    byte_length: 777
+    sha256: 06f2501662318d9f9c47e91d923e4cfb844dcb818dc1825ea444aa015e6da54f
+  build_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-closed-profile-rollback-route-20260725/task-1/formal-evidence-v1/accepted-scanner-build/accepted-scanner-build.json
+    byte_length: 2057
+    sha256: 8782c88fb96f93c3fecb5a480b12393d3426d4673262413cb9d403a8f7c8acb1
+  binary:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-closed-profile-rollback-route-20260725/task-1/formal-evidence-v1/accepted-scanner-build/cargo-target/release/sourcelens-analyzer
+    realpath: /Users/lijunpeng/Developer/.sourcelens-audit/p1-116-closed-profile-rollback-route-20260725/task-1/formal-evidence-v1/accepted-scanner-build/cargo-target/release/sourcelens-analyzer
+    byte_length: 6700944
+    sha256: 8b12ba44aaeb57dc5fbb55695f6c89233106b6b1ce661a38c03be3ec7a74f1dd
+    type: REGULAR_EXECUTABLE_FILE
+  operation: repository_analysis.scan
+  exact_argv_shape:
+    - /usr/bin/sandbox-exec
+    - -p
+    - "(version 1)(allow default)(deny network*)"
+    - ACCEPTED_SCANNER_ABSOLUTE_PATH
+    - scan
+    - --repo-path
+    - SOURCE_ROOT_REALPATH
+claim_boundary: >-
+  Cooperative-local, pure-offline, clean-room consumer-first Evidence
+  admission and Java graph projection. It does not claim hostile-principal
+  isolation, trusted clock, production custody, Provider execution or P3.
+architecture_constraints:
+  - External expected manifest identity is known before the consumer reads the manifest bytes.
+  - Manifest identity and complete regular-object closed inventory admission finish before any semantic object is parsed.
+  - Negative link and nonregular cases are represented only by regular typed descriptors or regular archives.
+  - Accepted scanner binding, build receipt and binary are revalidated from exact bytes by the independent consumer.
+  - Raw process Evidence binds one exact argv vector, exact scanner path, operation, source root identity, stdout, stderr and exit status.
+  - Provider, Secret and all external-effect counts are derived from closed raw inputs and OS observations, never copied from a worker summary.
+  - Java symbol identity is repository-root-independent and graph bytes and replay are deterministic across two physical roots.
+quality_freeze:
+  positive_matrix:
+    - Two physically independent Java repositories are scanned by the exact accepted scanner.
+    - Both admitted packages produce byte-identical graph projection and replay.
+    - Internal, external, unresolved, ambiguous and duplicate relations are explicitly classified.
+    - Independent consumer rederives scanner invocation and all six zero external effects.
+  negative_matrix:
+    - top-level manifest path, type, length or SHA drift
+    - semantic read before full inventory admission
+    - real symlink or hardlink in admitted inventory
+    - typed symlink and hardlink descriptor handling
+    - scanner binding, build receipt or binary mutation
+    - scanner realpath, executable type or exact argv drift
+    - source root realpath, device or inode drift
+    - stdout, stderr, exit status or process-tree mutation
+    - observed socket stdout or stderr mutation
+    - Provider or Secret input injection
+    - repository-root identity leakage
+    - internal, external, unresolved or ambiguous relation mutation
+    - duplicate, missing, reorder, path substitution, identity drift and tamper
+acceptance_criteria:
+  - Canonical authority and P2 safety entry pass before engineering writes.
+  - Complete clean-room implementation and independent consumer matrix pass from a fresh owned root.
+  - At least two physical repository roots produce byte-exact graph and replay bytes.
+  - All mandatory negative classes reject with false_accepts equal to zero.
+  - Independent derivation records network, provider, secret, remote, production and public as zero.
+  - One exact candidate is frozen and fresh CTO, Security and Quality reviewers return TARGET_VERDICT PASS on the same bytes.
+  - Reviewed tree integrates exactly and one canonical make verify passes.
+required_evidence:
+  - source and candidate manifests
+  - external expected Evidence-manifest identity
+  - complete closed inventory and admission receipt
+  - accepted scanner binding, build receipt and binary attestations
+  - two raw scanner process receipts with stdout and stderr
+  - raw process tree, environment, socket observation and filesystem write inventories
+  - two exact graph projections and replay receipts
+  - per-case raw negative Evidence and independent verifier receipt
+  - fresh CTO, Security and Quality Reviews
+rollback:
+  strategy: DISPOSABLE_OWNED_ROOT_AND_NON_DESTRUCTIVE_CANONICAL_REVERT
+  evidence_preservation: true
+stop_conditions:
+  - Any use of P2-023 or other rejected P2 engineering bytes.
+  - Adjacent implementation iterations hit the same normalized root cause.
+  - Four total implementation iterations or the single candidate budget are exhausted.
+  - Any final Reviewer returns TARGET_VERDICT NON_PASS.
+  - Reviewed and integrated trees differ or canonical make verify is NONPASS.
+  - Any network, Provider, Secret, remote, production, public or P3 effect occurs.
+  - Route budget, Phase objective, permission or major risk boundary changes.
+forbidden_actions:
+  - Read, restore, copy, compare or reuse rejected P2 engineering assets.
+  - Create an authority, parser, validator, governance or Evidence-platform pretask.
+  - Start P2-026 before the complete P2-025 Task Gate PASS.
+  - Create a successor, replacement, correction, normalization, closure, feasibility or remediation chain.
+  - Push, modify remotes, enter P3 or produce external effects.

@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-06T02:40:16Z"
-verification_scope: P2_LANGUAGE_SCOPED_PRODUCER_ROUTE_AUTHORIZATION_AND_P2_016_ACTIVATION
+last_verified_at: "2026-08-06T03:22:30Z"
+verification_scope: P2_016_TERMINAL_FINAL_QUALITY_TARGET_NON_PASS_SYNC
 
 authority:
   founder: Human Founder
@@ -37,15 +37,29 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: AIOS-P2-016_LANGUAGE_SCOPED_PRODUCER_RELATION_CONTRACT_AND_TRUTHFUL_CASE_LEDGER
+  current_task_authority: NONE
   note: >-
+    P2-016 is TERMINAL_FINAL_QUALITY_TARGET_NON_PASS. The exact candidate and
+    final 35-case matrix remain preserved and unintegrated. Targeted tests and
+    reported counts passed, but the fresh Quality Reviewer proved three
+    Task-Gate gaps: Java/Rust lacked per-language exact replay and mutation
+    rejection Evidence; the independent verifier self-attested evaluator
+    CONTROL_RECORD values instead of rederiving all semantics from raw bytes;
+    and the negative matrix did not independently reject incorrect zero-false-
+    accept or external-effect summaries. CTO and Security reviews were stopped
+    immediately after the Quality Stop Condition. No P2 capability credit was
+    awarded, canonical make verify was not invoked, and P2-017/P2-018 were not
+    started. The route is terminal at the Founder P2 Phase Gate, with no second
+    candidate, correction, successor or replacement. All paragraphs below this
+    sentence are retained historical chronology only and have no current Task,
+    Route or scheduling authority.
     Founder authorized a new independent P2 producer-semantics route after
-    P2-013 terminal final-review NON_PASS. P2-016 is the only active Task and
-    starts from accepted canonical scanner source without reading or reusing
-    P2-013 or any other rejected P2 engineering asset. It must establish
+    P2-013 terminal final-review NON_PASS. P2-016 was the only active Task and
+    started from accepted canonical scanner source without reading or reusing
+    P2-013 or any other rejected P2 engineering asset. It had to establish
     language-scoped Java, TypeScript and Rust relation resolution plus a closed
     truthful case ledger before P2-017 graph construction or P2-018 context
-    benchmarking can start. The route is offline and grants no Provider,
+    benchmarking could start. The route was offline and granted no Provider,
     Secret, network, remote, production, public or P3 effect. All paragraphs
     below this sentence are retained historical chronology only and have no
     current Task, Route or scheduling authority.
@@ -5891,11 +5905,11 @@ historical_p1_162_phase_route:
 current_phase_route:
   schema_version: "1.1"
   route_id: P2_LANGUAGE_SCOPED_PRODUCER_RELATION_CONTRACT_AND_TRUTHFUL_CASE_LEDGER_THEN_GRAPH_KERNEL_AND_CONTEXT_BENCHMARK_ROUTE_V1
-  status: ACTIVE
-  authority_object_status: ACTIVE_TASK_AUTHORITY
-  execution_status: EXECUTING_TASK_1
-  founder_phase_route_decision_required: false
-  scheduling_status: ACTIVE_TASK
+  status: TERMINAL_TASK_1_FINAL_QUALITY_TARGET_NON_PASS
+  authority_object_status: TERMINAL_NO_ACTIVE_TASK
+  execution_status: TERMINAL_TASK_1_FINAL_QUALITY_TARGET_NON_PASS
+  founder_phase_route_decision_required: true
+  scheduling_status: STOPPED_AT_FOUNDER_P2_PHASE_GATE
   phase: P2
   phase_entry_status: AUTHORIZED
   authorization_token: AUTHORIZE_P2_LANGUAGE_SCOPED_PRODUCER_RELATION_CONTRACT_AND_TRUTHFUL_CASE_LEDGER_THEN_GRAPH_KERNEL_AND_CONTEXT_BENCHMARK_ROUTE_V1
@@ -5998,7 +6012,7 @@ current_phase_route:
   first_task:
     task_slot: 1
     task_id: AIOS-P2-016_LANGUAGE_SCOPED_PRODUCER_RELATION_CONTRACT_AND_TRUTHFUL_CASE_LEDGER
-    status: ACTIVE
+    status: TERMINAL_FINAL_QUALITY_TARGET_NON_PASS
     engineering_hours: 28
     calendar_days: 5
     max_engineering_hours: 28
@@ -6014,13 +6028,13 @@ current_phase_route:
       production: false
       public: false
     contract_path: docs/aios/tasks/P2-016_LANGUAGE_SCOPED_PRODUCER_RELATION_CONTRACT_AND_TRUTHFUL_CASE_LEDGER.yaml
-    contract_sha256: 955029efcc6f050b55735f7aafe9e29290ee1a368e333de5b657f154c32ce9a6
-    contract_byte_length: 10556
+    contract_sha256: 3e29415830ca40450121f2b1eb88968912b6ca1aa918fc161395834b35085a98
+    contract_byte_length: 11234
     p2_capability_claim_on_pass: SCANNER_NATIVE_LANGUAGE_SCOPED_TYPED_RELATION_PROJECTION_AND_TRUTHFUL_CASE_LEDGER
   task_plan:
     - task_slot: 1
       task_id: AIOS-P2-016_LANGUAGE_SCOPED_PRODUCER_RELATION_CONTRACT_AND_TRUTHFUL_CASE_LEDGER
-      status: ACTIVE
+      status: TERMINAL_FINAL_QUALITY_TARGET_NON_PASS
       engineering_hours: 28
       calendar_days: 5
       max_implementation_iterations: 4
@@ -6035,7 +6049,7 @@ current_phase_route:
         public: false
     - task_slot: 2
       task_id: AIOS-P2-017_ACCEPTED_TYPED_PROJECTION_CANONICAL_GRAPH_KERNEL
-      status: PENDING_PREDECESSOR_TASK_GATE
+      status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS_ROUTE_TERMINAL
       engineering_hours: 20
       calendar_days: 4
       max_implementation_iterations: 4
@@ -6050,7 +6064,7 @@ current_phase_route:
         public: false
     - task_slot: 3
       task_id: AIOS-P2-018_GRAPH_CONDITIONED_CONTEXT_SELECTION_BENCHMARK
-      status: PENDING_PREDECESSOR_TASK_GATE
+      status: INELIGIBLE_PREDECESSOR_ROUTE_TERMINAL
       engineering_hours: 12
       calendar_days: 3
       max_implementation_iterations: 4
@@ -6076,7 +6090,52 @@ current_phase_route:
       requires_task_gate_pass: true
   additional_write_roots: []
   inherited_worktree_inventory: []
-  next_eligible_action: CONTINUE_ACTIVE_TASK
+  next_eligible_action: FOUNDER_P2_PHASE_GATE
+  terminal_p2_016_outcome:
+    task_id: AIOS-P2-016_LANGUAGE_SCOPED_PRODUCER_RELATION_CONTRACT_AND_TRUTHFUL_CASE_LEDGER
+    status: TERMINAL_FINAL_QUALITY_TARGET_NON_PASS
+    normalized_root_cause: P2016.FINAL.QUALITY.EVIDENCE_REPRODUCTION_AND_COVERAGE_GAPS
+    implementation_iterations_used: 4
+    same_task_repairs_used: 3
+    candidate_commit: 76b5dad0561651013958c97eb50919c2edb96272
+    candidate_tree: e826049c37fa8e94f238b6f08306c479ed673510
+    candidate_manifest:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-language-scoped-producer-graph-benchmark-20260806/task-1-p2-016/candidate/P2_016_CANDIDATE_MANIFEST_V1.json
+      byte_length: 3111
+      sha256: 6c5938ea255d89fff9e1aef57b1a508a0474d80e5ba146458f1ee8dc42a5471d
+    tracked_binary_diff_sha256: 29a733792172b48e04481602ab3b70ce2346c12354fd6bc2a5204a4b195c6f47
+    recoverable_evidence_tag: evidence/p2-016-language-scoped-producer-relations-candidate-v1
+    final_evidence:
+      root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-language-scoped-producer-graph-benchmark-20260806/task-1-p2-016/evidence/implementation-iteration-4
+      case_ledger_sha256: 2043d0f49529a2edff36fa654ee50b1989cca59a76177582050e39f55eb21e9d
+      evidence_manifest_sha256: 95e25255dab90e3b9cef007e9de504fedaee133fb3b7e291c113a54cf7f86c4a
+      evaluator_receipt_sha256: c29d569a2c67d0260b54d3e33000307822e2a3957280682b3b2a2d677eed9bca
+      independent_verifier_receipt_sha256: c5a2c1684c6554f680dffec835d3ad24643acc83c8ccfe91ef1b74fad2c5b617
+      reported_total_cases: 35
+      reported_mismatches: 0
+      reported_false_accepts: 0
+    reviews:
+      cto:
+        status: INTERRUPTED_AFTER_QUALITY_STOP_CONDITION
+        target_verdict: null
+      security:
+        status: INTERRUPTED_AFTER_QUALITY_STOP_CONDITION
+        target_verdict: null
+      quality:
+        status: COMPLETE
+        target_verdict: NON_PASS
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-language-scoped-producer-graph-benchmark-20260806/task-1-p2-016/reviews/final-cycle-1/QUALITY_REVIEW.json
+        byte_length: 3493
+        sha256: ef8d16590ea218435e2882906a65ea79168325cf8bf7cb52268da9a0fd383a9e
+    terminal_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-language-scoped-producer-graph-benchmark-20260806/task-1-p2-016/terminal/P2_016_TERMINAL_FINAL_QUALITY_TARGET_NON_PASS_RECEIPT.json
+      byte_length: 3675
+      sha256: 55e0b40bc097c0bf13b77d5337c19d46aa9a60107b277c2c7f029693de3dbe45
+    candidate_integrated: false
+    canonical_make_verify: NOT_INVOKED_FINAL_REVIEW_STOP_CONDITION
+    capability_credit: 0
+    p2_017_status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS_ROUTE_TERMINAL
+    p2_018_status: INELIGIBLE_PREDECESSOR_ROUTE_TERMINAL
 
 historical_p2_013_phase_route:
   schema_version: "1.1"
@@ -10211,7 +10270,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260806-P2-LANGUAGE-SCOPED-PRODUCER-GRAPH-BENCHMARK-ROUTE-AUTHORIZED-V1
+  latest_event_id: FKS-20260806-P2-016-TERMINAL-FINAL-QUALITY-NON-PASS-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -13022,6 +13081,40 @@ founder_knowledge_sync:
         sha256: null
       event_sha256: 47bbd122dc825062d3b8055180651ed6ee9c090bf2fb57cdba0301a55c744d94
 
+    - event_id: FKS-20260806-P2-016-TERMINAL-FINAL-QUALITY-NON-PASS-V1
+      trigger_type: TASK_TERMINAL_FINAL_REVIEW_NON_PASS
+      occurred_at_utc: "2026-08-06T03:22:30Z"
+      source_commit: 54b829886d2abfb593bed5f214db736cae9dd719
+      source_tree: 314b8007de856118c3ab2b86c80ca9ec34efe23a
+      previous_event_sha256: 47bbd122dc825062d3b8055180651ed6ee9c090bf2fb57cdba0301a55c744d94
+      status: PENDING_CANDIDATE
+      rationale: >-
+        P2-016 stopped at the first fresh final Quality TARGET NON_PASS without
+        candidate integration, correction, successor or downstream Task
+        activation. The reusable lessons are to require per-language replay and
+        mutation Evidence, independently rederive control semantics from raw
+        bytes, and exercise false-accept and external-effect summary drift in
+        the negative matrix. This Knowledge event is non-blocking and adds no
+        P2 capability credit.
+      engineering_blocking: false
+      artifact:
+        path: null
+        byte_length: null
+        sha256: null
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+      event_sha256: 0e4f7230d69b33ee74c84f81b83004c39704493da94f937c7698eac032182bd0
+
 historical_active_work_after_p1_079:
   current_task: NONE
   current_task_status: NONE
@@ -13073,52 +13166,38 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
-  current_task: AIOS-P2-016_LANGUAGE_SCOPED_PRODUCER_RELATION_CONTRACT_AND_TRUTHFUL_CASE_LEDGER
-  current_task_status: ACTIVE
+  current_task: NONE
+  current_task_status: NONE
   current_task_contract:
-    path: docs/aios/tasks/P2-016_LANGUAGE_SCOPED_PRODUCER_RELATION_CONTRACT_AND_TRUTHFUL_CASE_LEDGER.yaml
-    sha256: 955029efcc6f050b55735f7aafe9e29290ee1a368e333de5b657f154c32ce9a6
-    byte_length: 10556
-  current_task_contract_sha256: 955029efcc6f050b55735f7aafe9e29290ee1a368e333de5b657f154c32ce9a6
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-language-scoped-producer-graph-benchmark-20260806/task-1-p2-016/authority/P2_016_PHASE_DELEGATED_TASK_AUTHORITY_V1.yaml
-  current_execution_authorization_sha256: dcf5eb66e8da724910d6e84af56a42523f642a486d2439e9e5192e1ae1019d79
+    path: null
+    sha256: null
+    byte_length: null
+  current_task_contract_sha256: null
+  current_execution_authorization: null
+  current_execution_authorization_sha256: null
   authority_record:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-language-scoped-producer-graph-benchmark-20260806/task-1-p2-016/authority/P2_016_PHASE_DELEGATED_TASK_AUTHORITY_V1.yaml
-    sha256: dcf5eb66e8da724910d6e84af56a42523f642a486d2439e9e5192e1ae1019d79
-    byte_length: 2659
-  execution_nonce: ca32c2e2-3764-45b2-85a9-e3dff69915b4
-  execution_nonce_status: ACTIVE
-  authorization_id: P2-016-PHASE-DELEGATED-AUTHORITY-V1
-  activation_parent_commit: 3c0d0ea67990215ebe4a346ffa3bd9f6777f1f88
-  activation_parent_tree: f7b8810a84f9e3c2a8b86ec12baf38ead4aaa9fa
-  task_resource_state: CREATED_SINGLE_ACTIVE_TASK
-  task_branch: codex/p2-016-language-scoped-producer-relations
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P2-016-language-scoped-producer-relations
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-language-scoped-producer-graph-benchmark-20260806/task-1-p2-016
-  allowlisted_paths:
-    - analyzer-rust/src/main.rs
-    - analyzer-rust/src/models.rs
-    - analyzer-rust/src/reverse.rs
-    - analyzer-rust/src/scanner.rs
-    - analyzer-rust/tests/p2_016_language_scoped_relations.rs
-    - evaluation-harness/evaluator/p2-016-language-scoped-relations
-    - scripts/verify-p2-016-language-scoped-relations.sh
-    - Makefile
-    - docs/aios/tasks/P2-016_LANGUAGE_SCOPED_PRODUCER_RELATION_CONTRACT_AND_TRUTHFUL_CASE_LEDGER.yaml
-    - docs/aios/truth/project_state.yaml
-    - docs/PROJECT_CODE_MAP.md
+    path: null
+    sha256: null
+    byte_length: null
+  execution_nonce: null
+  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
+  authorization_id: null
+  activation_parent_commit: null
+  activation_parent_tree: null
+  task_resource_state: NOT_CREATED_ROUTE_TERMINAL
+  task_branch: null
+  task_worktree: null
+  execution_evidence_root: null
+  allowlisted_paths: []
   budget:
-    engineering_hours: 28
-    calendar_days: 5
-    implementation_iterations: 4
-    candidates: 1
+    engineering_hours: null
+    calendar_days: null
+    implementation_iterations: null
+    candidates: null
   roles:
-    owner: P2-016 Engineering Manager
-    worker: P2-016 Scanner Relation Worker
-    independent_reviewers:
-      - P2-016 Fresh CTO Reviewer
-      - P2-016 Fresh Security Reviewer
-      - P2-016 Fresh Quality Reviewer
+    owner: null
+    worker: null
+    independent_reviewers: []
   external_effects:
     network: false
     provider: false
@@ -13127,15 +13206,15 @@ active_work:
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-language-scoped-producer-graph-benchmark-20260806/decision/FOUNDER_P2_LANGUAGE_SCOPED_PRODUCER_GRAPH_BENCHMARK_ROUTE_DECISION_V1.json
-  founder_reserved_authorization_sha256: 516f60c3ad61fa36a41a344db30fa12c96ef54e8834371d5ec4bac8b73828f9a
-  founder_decision_required: false
-  founder_decision_required_scope: null
-  escalation_reason: null
-  user_action_required: NONE
-  phase_route_decision_required: false
-  phase_route_user_action_required: NONE
-  next_eligible_action: CONTINUE_ACTIVE_TASK
+  founder_reserved_authorization: null
+  founder_reserved_authorization_sha256: null
+  founder_decision_required: true
+  founder_decision_required_scope: P2_PHASE_GATE_AFTER_P2_016_TERMINAL_FINAL_QUALITY_TARGET_NON_PASS
+  escalation_reason: P2_016_FINAL_QUALITY_PROVED_EVIDENCE_REPRODUCTION_AND_COVERAGE_GAPS
+  user_action_required: FOUNDER_P2_PHASE_GATE_DECISION
+  phase_route_decision_required: true
+  phase_route_user_action_required: FOUNDER_P2_PHASE_GATE_DECISION
+  next_eligible_action: FOUNDER_P2_PHASE_GATE
 historical_p1_190_terminal_active_work:
   current_task: NONE
   current_task_status: NONE
@@ -13187,6 +13266,52 @@ historical_p1_190_terminal_active_work:
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 task_history:
+  aios_p2_016:
+    task_id: AIOS-P2-016_LANGUAGE_SCOPED_PRODUCER_RELATION_CONTRACT_AND_TRUTHFUL_CASE_LEDGER
+    route_id: P2_LANGUAGE_SCOPED_PRODUCER_RELATION_CONTRACT_AND_TRUTHFUL_CASE_LEDGER_THEN_GRAPH_KERNEL_AND_CONTEXT_BENCHMARK_ROUTE_V1
+    status: TERMINAL_FINAL_QUALITY_TARGET_NON_PASS
+    classification: TERMINAL_EXACT_CANDIDATE_EVIDENCE_REPRODUCTION_AND_COVERAGE_GAPS
+    contract: docs/aios/tasks/P2-016_LANGUAGE_SCOPED_PRODUCER_RELATION_CONTRACT_AND_TRUTHFUL_CASE_LEDGER.yaml
+    terminal_contract_sha256: 3e29415830ca40450121f2b1eb88968912b6ca1aa918fc161395834b35085a98
+    terminal_contract_byte_length: 11234
+    authority_record_path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-language-scoped-producer-graph-benchmark-20260806/task-1-p2-016/authority/P2_016_PHASE_DELEGATED_TASK_AUTHORITY_V1.yaml
+    authority_record_sha256: dcf5eb66e8da724910d6e84af56a42523f642a486d2439e9e5192e1ae1019d79
+    authority_record_byte_length: 2659
+    implementation_branch: codex/p2-016-language-scoped-producer-relations
+    implementation_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P2-016-language-scoped-producer-relations
+    implementation_iterations_used: 4
+    same_task_repairs_used: 3
+    candidate_commit: 76b5dad0561651013958c97eb50919c2edb96272
+    candidate_tree: e826049c37fa8e94f238b6f08306c479ed673510
+    task_worktree_clean: true
+    candidate_manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-language-scoped-producer-graph-benchmark-20260806/task-1-p2-016/candidate/P2_016_CANDIDATE_MANIFEST_V1.json
+    candidate_manifest_sha256: 6c5938ea255d89fff9e1aef57b1a508a0474d80e5ba146458f1ee8dc42a5471d
+    candidate_manifest_byte_length: 3111
+    tracked_binary_diff_sha256: 29a733792172b48e04481602ab3b70ce2346c12354fd6bc2a5204a4b195c6f47
+    recoverable_evidence_tag: evidence/p2-016-language-scoped-producer-relations-candidate-v1
+    targeted_verification_status: PASS_BEFORE_FINAL_QUALITY_EVIDENCE_COMPLETENESS_REVIEW
+    targeted_total_cases: 35
+    targeted_mismatches: 0
+    targeted_false_accepts: 0
+    cto_target_verdict: INTERRUPTED_AFTER_QUALITY_STOP_CONDITION
+    security_target_verdict: INTERRUPTED_AFTER_QUALITY_STOP_CONDITION
+    quality_target_verdict: NON_PASS
+    quality_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-language-scoped-producer-graph-benchmark-20260806/task-1-p2-016/reviews/final-cycle-1/QUALITY_REVIEW.json
+    quality_review_sha256: ef8d16590ea218435e2882906a65ea79168325cf8bf7cb52268da9a0fd383a9e
+    quality_review_byte_length: 3493
+    normalized_root_cause: P2016.FINAL.QUALITY.EVIDENCE_REPRODUCTION_AND_COVERAGE_GAPS
+    blocking_findings:
+      - P2016.QUALITY.REPLAY_MUTATION.PER_LANGUAGE_COVERAGE_MISSING
+      - P2016.QUALITY.INDEPENDENT_VERIFIER.CONTROL_SELF_ATTESTATION
+      - P2016.QUALITY.NEGATIVE_MATRIX.SUMMARY_CONTROLS_INCOMPLETE
+    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-language-scoped-producer-graph-benchmark-20260806/task-1-p2-016/terminal/P2_016_TERMINAL_FINAL_QUALITY_TARGET_NON_PASS_RECEIPT.json
+    terminal_receipt_sha256: 55e0b40bc097c0bf13b77d5337c19d46aa9a60107b277c2c7f029693de3dbe45
+    terminal_receipt_byte_length: 3675
+    candidate_integrated: false
+    canonical_make_verify: NOT_INVOKED_FINAL_REVIEW_STOP_CONDITION
+    capability_credit: 0
+    p2_017_status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS_ROUTE_TERMINAL
+    p2_018_status: INELIGIBLE_PREDECESSOR_ROUTE_TERMINAL
   aios_p2_011:
     task_id: AIOS-P2-011_CLEAN_ROOM_CANONICAL_SCAN_GRAPH_INDEX_KERNEL
     route_id: P2_STRICT_PHASE_ENTRY_ATOMIC_HISTORICAL_WORKTREE_RECONCILIATION_AND_REPOSITORY_INTELLIGENCE_ROUTE_V1

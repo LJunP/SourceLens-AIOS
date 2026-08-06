@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P2-016_LANGUAGE_SCOPED_PRODUCER_RELATION_CONTRACT_AND_TRUTHFUL_CASE_LEDGER
 phase: P2
 route_id: P2_LANGUAGE_SCOPED_PRODUCER_RELATION_CONTRACT_AND_TRUTHFUL_CASE_LEDGER_THEN_GRAPH_KERNEL_AND_CONTEXT_BENCHMARK_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_FINAL_QUALITY_TARGET_NON_PASS
 objective: >-
   Build a backward-compatible scanner-native typed relation projection whose
   INTERNAL classification is proved by language-scoped producer evidence, and
@@ -186,6 +186,19 @@ knowledge_sync:
   founder_route_decision_event_required: true
   task_accept_or_terminal_event_required: true
   capability_credit_before_task_gate: 0
+terminal_outcome:
+  normalized_root_cause: P2016.FINAL.QUALITY.EVIDENCE_REPRODUCTION_AND_COVERAGE_GAPS
+  implementation_iterations_used: 4
+  same_task_repairs_used: 3
+  candidate_commit: 76b5dad0561651013958c97eb50919c2edb96272
+  candidate_tree: e826049c37fa8e94f238b6f08306c479ed673510
+  candidate_integrated: false
+  quality_target_verdict: NON_PASS
+  cto_review_status: INTERRUPTED_AFTER_QUALITY_STOP_CONDITION
+  security_review_status: INTERRUPTED_AFTER_QUALITY_STOP_CONDITION
+  canonical_make_verify: NOT_INVOKED_FINAL_REVIEW_STOP_CONDITION
+  capability_credit: 0
+  next_task_status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS_ROUTE_TERMINAL
 claim_boundary: >-
   Offline language-scoped producer relation semantics, truthful structured case
   ledger and backward-compatible scanner-native typed projection only. No graph

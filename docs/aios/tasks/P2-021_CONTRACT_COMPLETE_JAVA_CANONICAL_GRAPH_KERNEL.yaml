@@ -81,9 +81,7 @@ external_effects:
 founder_reserved_profile: null
 
 allowlisted_paths:
-  - evaluation-harness/harness/p2-021-contract-complete-java-graph/**
-  - docs/aios/tasks/P2-021_CONTRACT_COMPLETE_JAVA_CANONICAL_GRAPH_KERNEL.yaml
-  - docs/PROJECT_CODE_MAP.md
+  - evaluation-harness/harness/p2-021-contract-complete-java-graph/run-matrix.mjs
 
 preserved_implementation_restore_paths:
   - Makefile

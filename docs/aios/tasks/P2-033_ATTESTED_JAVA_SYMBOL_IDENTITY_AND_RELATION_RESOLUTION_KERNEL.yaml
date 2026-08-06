@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P2-033_ATTESTED_JAVA_SYMBOL_IDENTITY_AND_RELATION_RESOLUTION_KERNEL
 phase: P2
 route_id: P2_CLEAN_ROOM_ATTESTED_JAVA_SYMBOL_RESOLUTION_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
 objective: >-
   Build a clean-room, parser-native Java declaration index and relation resolver
   that assigns repository-root-independent source and binary identities, resolves
@@ -20,6 +20,24 @@ worker_role: P2-033 Java Resolution Worker
 task_gate_owner: MASTER_CEO_AGENT
 founder_gate: P2_PHASE_GATE_AFTER_ROUTE_COMPLETION_OR_STOP_CONDITION
 risk_level: high
+terminal_result:
+  classification: TERMINAL_EXACT_CANDIDATE_FINAL_CTO_STOP_CONDITION
+  occurred_at_utc: "2026-08-06T14:29:00Z"
+  candidate_commit: 1c5130035dec2b4de75d7b69234136011ebaab68
+  candidate_tree: fd1cde306538385e43cad63c673c1d429c8890bc
+  candidate_manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-attested-java-symbol-resolution-graph-context-20260806/task-1-p2-033/candidate/P2_033_EXACT_CANDIDATE_MANIFEST_V1.json
+  candidate_manifest_sha256: a0eb80d7b28137ac89ec8075ddfeeeb85bae01c6ab965c8d181c38b3082debe1
+  final_cto_target_verdict: NON_PASS
+  final_cto_review_sha256: c31350e33c76bcb73e1b2c68283de8cad70ada1cc1c22091afc384c1d2c73815
+  final_quality_target_verdict: PASS
+  final_quality_review_sha256: a5960ba5fe01133ea3668f4ae6fd148d5f17f9a5236dcf8297e82031a430151c
+  final_security_review_status: INTERRUPTED_AFTER_CTO_STOP_CONDITION
+  normalized_root_cause: P2033.FINAL.CTO.REPLAY.SEMANTIC_TARGET_CROSS_BINDING_ACCEPTED
+  candidate_integrated: false
+  canonical_make_verify: NOT_INVOKED_REVIEW_STOP_CONDITION
+  accepted_capability: false
+  capability_credit: 0
+  p2_034_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
 budget:
   engineering_hours: 28
   calendar_days: 6

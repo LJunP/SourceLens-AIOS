@@ -13586,7 +13586,7 @@ founder_knowledge_sync:
       source_commit: c6132e878d5e2bcde83b3063810be319f1e02e09
       source_tree: 5b2bf83478263843bfcb49cbc1a7d2d78bf7463d
       previous_event_sha256: c4fe5d0ef7c64fde7dfee331e47999f768c9d38e19149ff9aff79449cb917423
-      status: PENDING_CANDIDATE
+      status: IMPORTED
       rationale: >-
         The exact Founder-authorized /private/tmp correction and single final
         matrix passed, but fresh CTO and Security Reviews returned TARGET
@@ -13598,22 +13598,22 @@ founder_knowledge_sync:
         capability credit was added. This Knowledge event is non-blocking.
       engineering_blocking: false
       artifact:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/task-1-p2-021/knowledge/P2_021_FINAL_SECURITY_NON_PASS_LEARNING_ARTIFACT_CANDIDATE_V2.md
+        byte_length: 3494
+        sha256: f3d18e20feec114d61f05c1745b20942fd10969fb0d0d9f2fdd923ae786e623c
       review:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/task-1-p2-021/knowledge/P2_021_FINAL_SECURITY_NON_PASS_KNOWLEDGE_REVIEW_DEEP_SCHEMA_COMPATIBLE_V4.json
+        byte_length: 3820
+        sha256: e96bfe992d39297190a6f2626d3c889aec2e918cb8d43a3d1f717891546ba615
       vault_import:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/05-Failures-and-Lessons/AIOS-P2-021/2026-08-06-P2-021-final-candidate-evidence-contract-lessons.md
+        byte_length: 3494
+        sha256: f3d18e20feec114d61f05c1745b20942fd10969fb0d0d9f2fdd923ae786e623c
       receipt:
-        path: null
-        byte_length: null
-        sha256: null
-      event_sha256: 874e4168d3a2735138fb17391f557cb583905ca3ab3c652e36c267aa1653d08a
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/task-1-p2-021/knowledge/P2_021_FINAL_SECURITY_NON_PASS_KNOWLEDGE_IMPORT_RECEIPT_V2.json
+        byte_length: 1725
+        sha256: 07268b861ed354e95544b7cb49c27c34325d89db5a03dd14113a3be54bb83832
+      event_sha256: af43c64deb01f7abd47fbfea00b17df1f7d069f7322681c3691c57394c917607
 
 historical_active_work_after_p1_079:
   current_task: NONE

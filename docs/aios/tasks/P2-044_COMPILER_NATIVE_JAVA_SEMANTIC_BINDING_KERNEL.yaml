@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P2-044_COMPILER_NATIVE_JAVA_SEMANTIC_BINDING_KERNEL
 phase: P2
 route_id: P2_COMPILER_NATIVE_JAVA_SEMANTIC_BINDING_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_PREFREEZE_INDEPENDENT_EVALUATOR_NON_PASS
 objective: >-
   Build a clean-room compiler-native Java semantic-binding kernel whose
   resolution authority is actual JDK compiler attribution, independently
@@ -183,3 +183,23 @@ claim_boundary: >-
   Offline cooperative-local compiler-native Java semantic binding only. No graph,
   benchmark, Provider, Secret, network, remote, production, public, P3,
   hostile-principal or production-readiness claim.
+terminal_result:
+  recorded_at: "2026-08-07T04:34:20Z"
+  normalized_root_cause: P2044.PREFREEZE.EVIDENCE.ROOT2_RAW_SOURCE_SET_NOT_CLOSED
+  implementation_iterations_used: 4_OF_4
+  same_task_repairs_used: 3_OF_3
+  worker_matrix_status: PASS
+  independent_evaluator_status: NON_PASS
+  independent_evaluator_reason_code: ROOT2_RAW_SOURCE_SET_NOT_CLOSED
+  candidate_frozen: false
+  final_reviews_started: false
+  canonical_integration_started: false
+  canonical_make_verify_started: false
+  accepted_capability: false
+  p2_capability_credit: 0
+  p2_045_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
+  p2_046_entry: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
+  preserved_implementation_commit: b911d87d709b6ebf42f7756afe80d7749aa16916
+  preserved_implementation_tree: 7d50ef71b5f4ecde8ff4f2421aeb072246a9dd5e
+  evidence_tag: evidence/p2-044-prefreeze-evaluator-non-pass-v1
+  terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-compiler-native-java-semantic-graph-context-20260807/task-1-p2-044/terminal/P2_044_TERMINAL_PREFREEZE_EVALUATOR_NON_PASS_RECEIPT_V1.json

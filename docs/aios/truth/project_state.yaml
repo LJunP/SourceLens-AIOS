@@ -14647,26 +14647,26 @@ founder_knowledge_sync:
       source_commit: 1a1205afa7449d9b1b2f6a365cfe6fb50f76abc5
       source_tree: 570d3cd64884725f1f398fa24af1f55358959d90
       previous_event_sha256: c1705959984c5a622aff44087873f30310fe37491870c9980c061c22ce1ae743
-      status: PENDING_CANDIDATE
+      status: IMPORTED
       rationale: P2-041 completed its frozen worker matrix and independent evaluator, but fresh CTO and Security Reviews reproduced material Java-resolution, javac-oracle identity, hardlink admission, child-environment and raw external-effect Evidence defects. The exact candidate remains preserved and unintegrated, canonical make verify was not invoked, P2-042 and P2-043 were not started, and P2 capability credit remains zero.
       engineering_blocking: false
       artifact:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-javac-oracle-lexical-precedence-graph-context-20260807/task-1-p2-041/knowledge/P2_041_TERMINAL_FINAL_REVIEW_NON_PASS_LEARNING_ARTIFACT_V1.md
+        byte_length: 4030
+        sha256: f82e0fe61f16f05590b350aea5f4ef791dfb5f8e083685ea7b1fb222b0fd92e6
       review:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-javac-oracle-lexical-precedence-graph-context-20260807/task-1-p2-041/knowledge/P2_041_TERMINAL_FINAL_REVIEW_NON_PASS_KNOWLEDGE_REVIEW_V1.json
+        byte_length: 4978
+        sha256: 92badc88b7f36fa739b4cb79cac7c32b2d3dfdc9e712ee4d495403d6292026e5
       vault_import:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/05-Failures-and-Lessons/AIOS-P2-041/2026-08-07-P2-041-final-review-non-pass-java-resolution-oracle-lessons.md
+        byte_length: 4030
+        sha256: f82e0fe61f16f05590b350aea5f4ef791dfb5f8e083685ea7b1fb222b0fd92e6
       receipt:
-        path: null
-        byte_length: null
-        sha256: null
-      event_sha256: a97dbe0f149ecc8351d283f019c252813ce1ed353847752b2a97f44c9c2357f1
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-javac-oracle-lexical-precedence-graph-context-20260807/task-1-p2-041/knowledge/P2_041_TERMINAL_FINAL_REVIEW_NON_PASS_KNOWLEDGE_IMPORT_RECEIPT_V1.json
+        byte_length: 1719
+        sha256: f904b64772c03c99770557169a531ddbbe9289d65f223148c0199b365e8dae7d
+      event_sha256: 4de17614ac961dd1e62ab48cbb3bbf0357132fd4ccb482cfacbf4ac08e07721b
 
 historical_active_work_after_p1_079:
   current_task: NONE

@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-07T04:34:20Z"
-verification_scope: P2_044_TERMINAL_PREFREEZE_INDEPENDENT_EVALUATOR_NON_PASS
+last_verified_at: "2026-08-07T08:10:00Z"
+verification_scope: P2_047_EVIDENCE_TRANSACTION_FIRST_COMPILER_NATIVE_JAVA_GRAPH_VERTICAL_SLICE_ACTIVATION
 
 authority:
   founder: Human Founder
@@ -37,7 +37,7 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
+  current_task_authority: AIOS-P2-047_EVIDENCE_TRANSACTION_FIRST_COMPILER_NATIVE_JAVA_GRAPH_VERTICAL_SLICE
   note: >-
     P2-044 is TERMINAL_PREFREEZE_INDEPENDENT_EVALUATOR_NON_PASS after using all
     four authorized implementation iterations. The worker matrix passed, but
@@ -1357,9 +1357,9 @@ project:
   p1_execution_status: COMPLETE_STRICT_8_OF_8_100_PERCENT
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
-  p2_execution_status: STOPPED_AT_FOUNDER_PHASE_GATE
-  phase_execution_status: STOPPED_AT_FOUNDER_PHASE_GATE
-  current_route_execution_status: TERMINAL_PREFREEZE_INDEPENDENT_EVALUATOR_NON_PASS
+  p2_execution_status: ACTIVE
+  phase_execution_status: ACTIVE
+  current_route_execution_status: ACTIVE_P2_047
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -6105,6 +6105,184 @@ historical_p1_162_phase_route:
 
 current_phase_route:
   schema_version: "1.1"
+  route_id: P2_EVIDENCE_TRANSACTION_FIRST_COMPILER_NATIVE_JAVA_GRAPH_VERTICAL_SLICE_AND_CONTEXT_BENCHMARK_ROUTE_V1
+  status: ACTIVE
+  authority_object_status: ACTIVE_TASK_AUTHORITY_ISSUED
+  execution_status: ACTIVE
+  founder_phase_route_decision_required: false
+  scheduling_status: EXECUTING_P2_047
+  phase: P2
+  phase_entry_status: AUTHORIZED
+  authorization_token: AUTHORIZE_P2_EVIDENCE_TRANSACTION_FIRST_COMPILER_NATIVE_JAVA_GRAPH_VERTICAL_SLICE_AND_CONTEXT_BENCHMARK_ROUTE_V1
+  decision_packet:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-evidence-transaction-first-java-graph-context-20260807/decision/FOUNDER_P2_EVIDENCE_TRANSACTION_FIRST_COMPILER_NATIVE_JAVA_GRAPH_VERTICAL_SLICE_AND_CONTEXT_BENCHMARK_ROUTE_V1.structured-decision.json
+    sha256: 55d09cda8ef5d005ac2de18a53161992508450c65ceee905e0e164e5c9916186
+    byte_length: 3079
+  original_founder_packet:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-evidence-transaction-first-java-graph-context-20260807/decision/FOUNDER_P2_EVIDENCE_TRANSACTION_FIRST_COMPILER_NATIVE_JAVA_GRAPH_VERTICAL_SLICE_AND_CONTEXT_BENCHMARK_ROUTE_V1.md
+    sha256: b2fad99eb0d93ac1b8a1cf4ee9d95e71b905f794429c6ff47a1548fcf2b2ac05
+    byte_length: 7810
+  activation_parent:
+    commit: 5adfe326bbf357df756e1d740c2e0a524a9b892d
+    tree: 14261ed259cf6c3b39306c39bfe2de8a0e6728a1
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: "1.7"
+    sha256: 2417cc5fbd96677ea518ccfa66d0d1adc5f48d92e4d24ef23b9ffc85d47aed72
+  goal_identity:
+    raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+    raw_byte_length: 19433
+    canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+    canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+    canonical_byte_length: 19434
+  objective: >-
+    Establish one Evidence-transaction-first compiler-native Java canonical
+    graph vertical slice and then compare graph-conditioned context selection
+    against the accepted simple lexical retrieval baseline.
+  claim_boundary: OFFLINE_CLEAN_ROOM_EVIDENCE_TRANSACTION_FIRST_COMPILER_NATIVE_JAVA_GRAPH_VERTICAL_SLICE_THEN_ACCEPTED_GRAPH_CONTEXT_BENCHMARK_ONLY_NO_REJECTED_P2_ENGINEERING_REUSE_NO_NETWORK_PROVIDER_SECRET_REMOTE_PRODUCTION_PUBLIC_PUSH_OR_P3_ENTRY
+  envelope:
+    max_engineering_tasks: 2
+    max_engineering_hours: 48
+    max_calendar_days: 10
+    max_active_tasks: 1
+    max_task_branches: 1
+    max_task_worktrees: 1
+    max_active_candidates: 1
+    max_contract_corrections_per_task: 0
+    max_same_task_repairs: 3
+    successor_replacement_normalization_closure_feasibility_or_remediation_chain_allowed: false
+    p2_entry_authorized: true
+    p3_entry_authorized: false
+    external_effects:
+      network: false
+      provider: false
+      secret: false
+      remote: false
+      production: false
+      public: false
+  founder_reserved_profile: null
+  founder_reserved_profiles: []
+  accepted_inputs:
+    p1_035:
+      task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+      status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+      task_contract_path: docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
+      task_contract_sha256: acec5432aacd6476693db62bdb52ee326c467f17b691860688fe952f7ffbdc33
+      accepted_candidate_commit: 686eda0cd7a93b72ac5e64301479f17e4b096fb0
+      accepted_candidate_tree: b2740b44d0051303057deac7d719c27fd6a5578a
+      source_phase: P1
+    p1_101:
+      task_id: AIOS-P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE
+      status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+      task_contract_path: docs/aios/tasks/P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE.yaml
+      task_contract_sha256: bee1b94f438f2d49a88bd99f2662f404470c446f81ba07be341ac5339d20bf15
+      accepted_candidate_commit: 633f9daf133bf616cd293fb343058e2efba2a3ed
+      accepted_candidate_tree: 999f37f93692a045d455adf0ea503947ed5555a5
+      source_phase: P1
+    p1_129:
+      task_id: AIOS-P1-129_EXACT_INPUT_BOUNDARY_SECURITY_MATRIX_COMPLETION
+      status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+      task_contract_path: docs/aios/tasks/P1-129_EXACT_INPUT_BOUNDARY_SECURITY_MATRIX_COMPLETION.yaml
+      task_contract_sha256: faa49aef5ddc2dad08edafc914bf8dab7a19c61618cc169d5c1f9f7ec91e2718
+      accepted_candidate_commit: a772dc5d350ec6b38a84e430b01f75628429aa7b
+      accepted_candidate_tree: 905dd694922ba9a2b452d15c93dc17cefc9e53c1
+      source_phase: P1
+    p1_149:
+      task_id: AIOS-P1-149_ACCEPTED_EXECUTION_SPINE_CONVERGENCE
+      status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+      task_contract_path: docs/aios/tasks/P1-149_ACCEPTED_EXECUTION_SPINE_CONVERGENCE.yaml
+      task_contract_sha256: a0b1fa43e0b9221c03f67ea3fe66bd86a563600102a1a2019a650f6bb0a6a86d
+      accepted_candidate_commit: 88600ee18848e0d2c6d7f2012d0f548021062720
+      accepted_candidate_tree: 34a16c8177bc0f72fd35a0510429ed1979f72fb3
+      source_phase: P1
+    p1_219:
+      task_id: AIOS-P1-219_DATASET_DERIVED_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+      status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+      task_contract_path: docs/aios/tasks/P1-219_DATASET_DERIVED_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION.yaml
+      task_contract_sha256: 0814e0a5764783da7746c71d6240693ae09936c190d0fcbe0c184125ee2f748d
+      accepted_candidate_commit: 231bf0eca104f66d3a0343b4ff7e3bc00420905e
+      accepted_candidate_tree: 09be4786161a9b9c13716941bd2659d9a084a5c4
+      source_phase: P1
+  accepted_input_ids:
+    - p1_035
+    - p1_101
+    - p1_129
+    - p1_149
+    - p1_219
+  first_task:
+    task_slot: 1
+    task_id: AIOS-P2-047_EVIDENCE_TRANSACTION_FIRST_COMPILER_NATIVE_JAVA_GRAPH_VERTICAL_SLICE
+    status: ACTIVE
+    engineering_hours: 30
+    calendar_days: 6
+    max_engineering_hours: 30
+    max_calendar_days: 6
+    max_implementation_iterations: 4
+    max_same_task_repairs: 3
+    max_candidates: 1
+    contract_path: docs/aios/tasks/P2-047_EVIDENCE_TRANSACTION_FIRST_COMPILER_NATIVE_JAVA_GRAPH_VERTICAL_SLICE.yaml
+    external_effects:
+      network: false
+      provider: false
+      secret: false
+      remote: false
+      production: false
+      public: false
+    p2_capability_claim_on_pass: COMPILER_NATIVE_JAVA_CANONICAL_GRAPH_VERTICAL_SLICE_ACCEPTED_NO_CONTEXT_BENCHMARK_CREDIT
+  task_plan:
+    - task_slot: 1
+      task_id: AIOS-P2-047_EVIDENCE_TRANSACTION_FIRST_COMPILER_NATIVE_JAVA_GRAPH_VERTICAL_SLICE
+      status: ACTIVE
+      engineering_hours: 30
+      calendar_days: 6
+      max_engineering_hours: 30
+      max_calendar_days: 6
+      max_implementation_iterations: 4
+      max_same_task_repairs: 3
+      max_candidates: 1
+      contract_path: docs/aios/tasks/P2-047_EVIDENCE_TRANSACTION_FIRST_COMPILER_NATIVE_JAVA_GRAPH_VERTICAL_SLICE.yaml
+      external_effects:
+        network: false
+        provider: false
+        secret: false
+        remote: false
+        production: false
+        public: false
+    - task_slot: 2
+      task_id: AIOS-P2-048_ACCEPTED_JAVA_GRAPH_CONTEXT_OFFLINE_BENCHMARK
+      status: PENDING_PREDECESSOR_TASK_GATE
+      engineering_hours: 18
+      calendar_days: 4
+      max_engineering_hours: 18
+      max_calendar_days: 4
+      max_implementation_iterations: 4
+      max_same_task_repairs: 3
+      max_candidates: 1
+      external_effects:
+        network: false
+        provider: false
+        secret: false
+        remote: false
+        production: false
+        public: false
+  automatic_entry:
+    after_task_id: AIOS-P2-047_EVIDENCE_TRANSACTION_FIRST_COMPILER_NATIVE_JAVA_GRAPH_VERTICAL_SLICE
+    next_task_id: AIOS-P2-048_ACCEPTED_JAVA_GRAPH_CONTEXT_OFFLINE_BENCHMARK
+    requires_task_gate_pass: true
+  automatic_entries:
+    - after_task_id: AIOS-P2-047_EVIDENCE_TRANSACTION_FIRST_COMPILER_NATIVE_JAVA_GRAPH_VERTICAL_SLICE
+      next_task_id: AIOS-P2-048_ACCEPTED_JAVA_GRAPH_CONTEXT_OFFLINE_BENCHMARK
+      requires_task_gate_pass: true
+  inherited_knowledge_residual:
+    task_id: AIOS-P2-041_JAVAC_ORACLE_LEXICAL_PRECEDENCE_AND_CASE_EVIDENCE_KERNEL
+    status: FOUNDER_ACCEPTED_INHERITED_NON_ENGINEERING_RESIDUAL
+    historical_review_mutation_allowed: false
+    engineering_blocking: false
+  inherited_worktree_inventory: []
+  next_eligible_action: EXECUTE_ACTIVE_P2_047_TASK
+
+historical_p2_044_phase_route:
+  schema_version: "1.1"
   route_id: P2_COMPILER_NATIVE_JAVA_SEMANTIC_BINDING_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
   status: TERMINAL_PREFREEZE_INDEPENDENT_EVALUATOR_NON_PASS
   authority_object_status: TERMINAL_NO_ACTIVE_TASK
@@ -9527,9 +9705,9 @@ historical_p2_phase_route:
   next_eligible_action: FOUNDER_P2_PHASE_GATE
 
 phase_delegation:
-  status: TERMINAL_P2_COMPILER_NATIVE_JAVA_SEMANTIC_BINDING_GRAPH_CONTEXT_ROUTE_AT_FOUNDER_GATE
+  status: ACTIVE_P2_EVIDENCE_TRANSACTION_FIRST_COMPILER_NATIVE_JAVA_GRAPH_CONTEXT_ROUTE
   model: PHASE_LEVEL_FOUNDER_DELEGATION
-  decision_source: AUTHORIZE_P2_COMPILER_NATIVE_JAVA_SEMANTIC_BINDING_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
+  decision_source: AUTHORIZE_P2_EVIDENCE_TRANSACTION_FIRST_COMPILER_NATIVE_JAVA_GRAPH_VERTICAL_SLICE_AND_CONTEXT_BENCHMARK_ROUTE_V1
   phase_gate_owner: HUMAN_FOUNDER
   task_selection_owner: MASTER_CEO_AGENT
   task_authorization_owner: MASTER_CEO_AGENT_WITHIN_CURRENT_PHASE_ENVELOPE
@@ -14843,6 +15021,66 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
+  current_task: AIOS-P2-047_EVIDENCE_TRANSACTION_FIRST_COMPILER_NATIVE_JAVA_GRAPH_VERTICAL_SLICE
+  current_task_status: ACTIVE
+  current_task_contract:
+    path: docs/aios/tasks/P2-047_EVIDENCE_TRANSACTION_FIRST_COMPILER_NATIVE_JAVA_GRAPH_VERTICAL_SLICE.yaml
+    sha256: 9445301017a59bf78f22a59baf5e47cb27322ccc1c442df09df9c17f17a8f60b
+    byte_length: 10645
+  current_task_contract_sha256: 9445301017a59bf78f22a59baf5e47cb27322ccc1c442df09df9c17f17a8f60b
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-evidence-transaction-first-java-graph-context-20260807/task-1-p2-047/authority/P2_047_PHASE_DELEGATED_TASK_AUTHORITY_V1.yaml
+  current_execution_authorization_sha256: 1da6bfe4df56b895be22291af80be06145018f0b8d2bc8933661dca10c06cb6f
+  authority_record:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-evidence-transaction-first-java-graph-context-20260807/task-1-p2-047/authority/P2_047_PHASE_DELEGATED_TASK_AUTHORITY_V1.yaml
+    sha256: 1da6bfe4df56b895be22291af80be06145018f0b8d2bc8933661dca10c06cb6f
+    byte_length: 2567
+  execution_nonce: c51599c9-222e-4981-9d9a-08f461d36ee6
+  execution_nonce_status: ACTIVE
+  authorization_id: P2-047-PHASE-DELEGATED-AUTHORITY-V1
+  activation_parent_commit: 5adfe326bbf357df756e1d740c2e0a524a9b892d
+  activation_parent_tree: 14261ed259cf6c3b39306c39bfe2de8a0e6728a1
+  task_resource_state: CREATED_ACTIVE
+  task_branch: codex/p2-047-evidence-transaction-java-graph
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P2-047-evidence-transaction-java-graph
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-evidence-transaction-first-java-graph-context-20260807/task-1-p2-047
+  allowlisted_paths:
+    - evaluation-harness/harness/p2-047-evidence-transaction-java-graph
+    - evaluation-harness/evaluator/p2-047-evidence-transaction-java-graph
+    - scripts/verify-p2-047-evidence-transaction-java-graph.sh
+    - docs/aios/tasks/P2-047_EVIDENCE_TRANSACTION_FIRST_COMPILER_NATIVE_JAVA_GRAPH_VERTICAL_SLICE.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+  budget:
+    engineering_hours: 30
+    calendar_days: 6
+    implementation_iterations: 4
+    candidates: 1
+  roles:
+    owner: MASTER_CEO_AGENT
+    worker: P2_047_ENGINEERING_WORKER
+    independent_reviewers:
+      - CTO
+      - SECURITY
+      - QUALITY
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false
+  offsite_target: null
+  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-evidence-transaction-first-java-graph-context-20260807/decision/FOUNDER_P2_EVIDENCE_TRANSACTION_FIRST_COMPILER_NATIVE_JAVA_GRAPH_VERTICAL_SLICE_AND_CONTEXT_BENCHMARK_ROUTE_V1.structured-decision.json
+  founder_reserved_authorization_sha256: 55d09cda8ef5d005ac2de18a53161992508450c65ceee905e0e164e5c9916186
+  founder_decision_required: false
+  founder_decision_required_scope: null
+  escalation_reason: null
+  user_action_required: NONE
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: EXECUTE_ACTIVE_P2_047_TASK
+
+historical_active_work_after_p2_044:
   current_task: NONE
   current_task_status: NONE
   current_task_contract:
@@ -20511,9 +20749,9 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: P2_STRICT_PHASE_ENTRY_ATOMIC_HISTORICAL_WORKTREE_RECONCILIATION_AND_REPOSITORY_INTELLIGENCE_ROUTE_V1_TERMINAL_TASK_1_FINAL_REVIEW_NON_PASS
-  current_task_claim: NONE_P2_PHASE_GATE_AFTER_P2_011_TERMINAL_NON_PASS
-  real_engineering_progress: P1_COMPLETE_P2_ENTERED_P2_011_ZERO_ACCEPTED_P2_CAPABILITY_P2_012_NOT_STARTED
+  current_route_claim: P2_EVIDENCE_TRANSACTION_FIRST_COMPILER_NATIVE_JAVA_GRAPH_VERTICAL_SLICE_AND_CONTEXT_BENCHMARK_ROUTE_V1_ACTIVE
+  current_task_claim: AIOS_P2_047_ACTIVE
+  real_engineering_progress: P1_COMPLETE_P2_047_ACTIVE_ZERO_ACCEPTED_P2_CAPABILITY_P2_048_PREDECESSOR_GATED
   product_capability_changed: false
   phase_local_allowed:
     - local repository-intelligence engineering under an exact Task Contract
@@ -20594,10 +20832,10 @@ phase_execution_claim:
     - canonical main advance outside an accepted task gate
 
 claim_boundary:
-  current_phase_route: P1_DATASET_DERIVED_PREREGISTRATION_AND_STRICT_EXIT_ROUTE_V1
-  current_task: NONE
-  next_eligible_action: FOUNDER_PHASE_GATE
-  real_engineering_progress: P1_219_EXACT_REVIEWED_BLOBS_READMITTED_STRICT_P1_8_OF_8_100_PERCENT_EXIT_GATE_READY
+  current_phase_route: P2_EVIDENCE_TRANSACTION_FIRST_COMPILER_NATIVE_JAVA_GRAPH_VERTICAL_SLICE_AND_CONTEXT_BENCHMARK_ROUTE_V1
+  current_task: AIOS-P2-047_EVIDENCE_TRANSACTION_FIRST_COMPILER_NATIVE_JAVA_GRAPH_VERTICAL_SLICE
+  next_eligible_action: EXECUTE_ACTIVE_P2_047_TASK
+  real_engineering_progress: P1_COMPLETE_P2_047_ACTIVE_ZERO_ACCEPTED_P2_CAPABILITY_P2_048_PREDECESSOR_GATED
   p1_219_status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
   p1_219_candidate_commit: 231bf0eca104f66d3a0343b4ff7e3bc00420905e
   p1_219_candidate_tree: 09be4786161a9b9c13716941bd2659d9a084a5c4

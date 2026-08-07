@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-07T03:04:42Z"
-verification_scope: P2_041_TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+last_verified_at: "2026-08-07T04:00:22Z"
+verification_scope: P2_044_COMPILER_NATIVE_JAVA_SEMANTIC_BINDING_TASK_ACTIVATION
 
 authority:
   founder: Human Founder
@@ -37,9 +37,17 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
+  current_task_authority: AIOS-P2-044_COMPILER_NATIVE_JAVA_SEMANTIC_BINDING_KERNEL
   note: >-
-    P2-041 is TERMINAL_FINAL_REVIEW_TARGET_NON_PASS. Its frozen worker matrix
+    Founder authorized the clean-room compiler-native Java semantic binding,
+    declaration-closed graph transaction and offline context benchmark Route.
+    P2-044 is the unique active Task and uses actual JDK compiler attribution;
+    P2-045/P2-046 remain predecessor-gated. The frozen Java, javac and javap
+    identities match, all six external effects remain false, P2-041 remains
+    terminal and non-reusable, and activation adds no P2 capability credit. All
+    paragraphs below this sentence are retained historical chronology only and
+    have no current Task, Route or scheduling authority. P2-041 is
+    TERMINAL_FINAL_REVIEW_TARGET_NON_PASS. Its frozen worker matrix
     and independent evaluator passed, and Quality returned PASS, but fresh CTO
     and Security Reviews independently reproduced material Java-resolution,
     javac-oracle identity and product-admission defects. The exact candidate is
@@ -1340,9 +1348,9 @@ project:
   p1_execution_status: COMPLETE_STRICT_8_OF_8_100_PERCENT
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
-  p2_execution_status: STOPPED_AT_FOUNDER_PHASE_GATE
-  phase_execution_status: STOPPED_AT_FOUNDER_PHASE_GATE
-  current_route_execution_status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+  p2_execution_status: ACTIVE_P2_044_COMPILER_NATIVE_JAVA_BINDING
+  phase_execution_status: ACTIVE_ENGINEERING_TASK
+  current_route_execution_status: ACTIVE_TASK_1_OF_3
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -6088,31 +6096,31 @@ historical_p1_162_phase_route:
 
 current_phase_route:
   schema_version: "1.1"
-  route_id: P2_JAVAC_ORACLE_LEXICAL_PRECEDENCE_PER_CASE_EVIDENCE_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
-  status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
-  authority_object_status: TERMINAL_NO_ACTIVE_TASK
-  execution_status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
-  founder_phase_route_decision_required: true
-  scheduling_status: STOPPED_AT_FOUNDER_P2_PHASE_GATE
+  route_id: P2_COMPILER_NATIVE_JAVA_SEMANTIC_BINDING_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
+  status: ACTIVE
+  authority_object_status: ACTIVE_TASK_AUTHORITY
+  execution_status: ACTIVE_TASK_1_OF_3
+  founder_phase_route_decision_required: false
+  scheduling_status: ACTIVE_P2_044_COMPILER_NATIVE_JAVA_BINDING
   phase: P2
   phase_entry_status: AUTHORIZED
-  authorization_token: AUTHORIZE_P2_JAVAC_ORACLE_LEXICAL_PRECEDENCE_PER_CASE_EVIDENCE_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
+  authorization_token: AUTHORIZE_P2_COMPILER_NATIVE_JAVA_SEMANTIC_BINDING_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
   decision_packet:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-javac-oracle-lexical-precedence-graph-context-20260807/decision/FOUNDER_P2_JAVAC_ORACLE_LEXICAL_PRECEDENCE_PER_CASE_EVIDENCE_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1.structured-decision.json
-    sha256: 584c1cca4f9bd179e4131c1b3834180671bdcb57aee6e99d0be1bf3c05470f87
-    byte_length: 3588
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-compiler-native-java-semantic-graph-context-20260807/decision/FOUNDER_P2_COMPILER_NATIVE_JAVA_SEMANTIC_BINDING_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1.structured-decision.json
+    sha256: 19abcf4d61b9631ea36dbcce81f31e1cb22380b49d655f45e997252d1a2d02bf
+    byte_length: 3468
   original_founder_packet:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-javac-oracle-lexical-precedence-graph-context-20260807/decision/FOUNDER_P2_JAVAC_ORACLE_LEXICAL_PRECEDENCE_PER_CASE_EVIDENCE_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1.md
-    sha256: fe759a7c5c18ea33600b776011a3a863b7bcb427b4506b9cd4ac9f00d417ca68
-    byte_length: 6108
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-compiler-native-java-semantic-graph-context-20260807/decision/FOUNDER_P2_COMPILER_NATIVE_JAVA_SEMANTIC_BINDING_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1.md
+    sha256: 4982dbca58543bf3488f6f4bb7045101f866c661504c574faeee5396addc3fb3
+    byte_length: 6613
   historical_p2_021_founder_exception_authorization:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/task-1-p2-021/authority/P2_021_EXACT_VERIFIER_CLONE_PHYSICAL_ROOT_REENTRY_AUTHORITY_V1.yaml
     sha256: 2bed204bc2a2192b0e5f32acd2ac4fcbaae27f9fe4b7dc727d0ea494d554742b
     byte_length: 6187
     authorization_token: AUTHORIZE_ONE_P2_021_EXACT_VERIFIER_CLONE_PHYSICAL_ROOT_CORRECTION_AND_FINAL_MATRIX_REENTRY_V1
   activation_parent:
-    commit: 901366566b4e3215f429f736cdf93322e22e19d1
-    tree: 730425403d3688d8bd5d2a61a311208ee5ca19b3
+    commit: f65928cca5de8fcc8901e3689a26d0e6b57cc4da
+    tree: 4e6efb7db11b84cf8b58f88bc1c9fbadad42212d
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: "1.7"
@@ -6124,21 +6132,21 @@ current_phase_route:
     canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
     canonical_byte_length: 19434
   objective: >-
-    Establish javac-oracle-bound Java lexical resolution precedence with
-    closed per-case raw semantic Evidence, then build a declaration-closed
-    deterministic graph transaction and compare graph-conditioned context
-    selection against the lexical baseline using accepted canonical assets.
-  claim_boundary: OFFLINE_CLEAN_ROOM_JAVAC_ORACLE_BOUND_JAVA_LEXICAL_PRECEDENCE_AND_PER_CASE_RAW_SEMANTIC_EVIDENCE_THEN_DECLARATION_CLOSED_GRAPH_TRANSACTION_THEN_ACCEPTED_GRAPH_CONTEXT_BENCHMARK_ONLY_ACCEPTED_CANONICAL_ASSETS_NO_REJECTED_P2_ENGINEERING_REUSE_NO_NETWORK_PROVIDER_SECRET_REMOTE_PRODUCTION_PUBLIC_PUSH_OR_P3_ENTRY
+    Establish compiler-native Java semantic binding from actual JDK compiler
+    attribution with independently verified javac and classfile/javap Evidence,
+    then build a declaration-closed deterministic graph transaction and compare
+    graph-conditioned context selection against a lexical baseline.
+  claim_boundary: OFFLINE_CLEAN_ROOM_COMPILER_NATIVE_JAVA_SEMANTIC_BINDING_THEN_DECLARATION_CLOSED_GRAPH_TRANSACTION_THEN_ACCEPTED_GRAPH_CONTEXT_BENCHMARK_ONLY_ACCEPTED_CANONICAL_ASSETS_NO_REJECTED_P2_ENGINEERING_REUSE_NO_NETWORK_PROVIDER_SECRET_REMOTE_PRODUCTION_PUBLIC_PUSH_OR_P3_ENTRY
   envelope:
     max_engineering_tasks: 3
-    max_engineering_hours: 44
+    max_engineering_hours: 48
     max_calendar_days: 10
     max_active_tasks: 1
     max_task_branches: 1
     max_task_worktrees: 1
     max_active_candidates: 1
     max_contract_corrections_per_task: 0
-    max_same_task_repairs: 2
+    max_same_task_repairs: 3
     successor_replacement_normalization_closure_feasibility_or_remediation_chain_allowed: false
     p2_entry_authorized: true
     p3_entry_authorized: false
@@ -6200,16 +6208,16 @@ current_phase_route:
     - p1_219
   first_task:
     task_slot: 1
-    task_id: AIOS-P2-041_JAVAC_ORACLE_LEXICAL_PRECEDENCE_AND_CASE_EVIDENCE_KERNEL
-    status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
-    engineering_hours: 10
-    calendar_days: 2
-    max_engineering_hours: 10
-    max_calendar_days: 2
-    max_implementation_iterations: 3
-    max_same_task_repairs: 2
+    task_id: AIOS-P2-044_COMPILER_NATIVE_JAVA_SEMANTIC_BINDING_KERNEL
+    status: ACTIVE
+    engineering_hours: 18
+    calendar_days: 4
+    max_engineering_hours: 18
+    max_calendar_days: 4
+    max_implementation_iterations: 4
+    max_same_task_repairs: 3
     max_candidates: 1
-    contract_path: docs/aios/tasks/P2-041_JAVAC_ORACLE_LEXICAL_PRECEDENCE_AND_CASE_EVIDENCE_KERNEL.yaml
+    contract_path: docs/aios/tasks/P2-044_COMPILER_NATIVE_JAVA_SEMANTIC_BINDING_KERNEL.yaml
     external_effects:
       network: false
       provider: false
@@ -6217,17 +6225,17 @@ current_phase_route:
       remote: false
       production: false
       public: false
-    p2_capability_claim_on_pass: JAVAC_ORACLE_LEXICAL_PRECEDENCE_AND_CASE_EVIDENCE_KERNEL_NO_GRAPH_OR_BENCHMARK_CREDIT
+    p2_capability_claim_on_pass: COMPILER_NATIVE_JAVA_SEMANTIC_BINDING_KERNEL_NO_GRAPH_OR_BENCHMARK_CREDIT
   task_plan:
     - task_slot: 1
-      task_id: AIOS-P2-041_JAVAC_ORACLE_LEXICAL_PRECEDENCE_AND_CASE_EVIDENCE_KERNEL
-      status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
-      engineering_hours: 10
-      calendar_days: 2
-      max_implementation_iterations: 3
-      max_same_task_repairs: 2
+      task_id: AIOS-P2-044_COMPILER_NATIVE_JAVA_SEMANTIC_BINDING_KERNEL
+      status: ACTIVE
+      engineering_hours: 18
+      calendar_days: 4
+      max_implementation_iterations: 4
+      max_same_task_repairs: 3
       max_candidates: 1
-      contract_path: docs/aios/tasks/P2-041_JAVAC_ORACLE_LEXICAL_PRECEDENCE_AND_CASE_EVIDENCE_KERNEL.yaml
+      contract_path: docs/aios/tasks/P2-044_COMPILER_NATIVE_JAVA_SEMANTIC_BINDING_KERNEL.yaml
       external_effects:
         network: false
         provider: false
@@ -6236,12 +6244,12 @@ current_phase_route:
         production: false
         public: false
     - task_slot: 2
-      task_id: AIOS-P2-042_DECLARATION_CLOSED_JAVA_GRAPH_TRANSACTION
-      status: NOT_STARTED_PREDECESSOR_TASK_GATE_NON_PASS
-      engineering_hours: 22
-      calendar_days: 5
-      max_implementation_iterations: 3
-      max_same_task_repairs: 2
+      task_id: AIOS-P2-045_DECLARATION_CLOSED_JAVA_GRAPH_TRANSACTION
+      status: NOT_STARTED_PREDECESSOR_TASK_GATE_PENDING
+      engineering_hours: 18
+      calendar_days: 4
+      max_implementation_iterations: 4
+      max_same_task_repairs: 3
       max_candidates: 1
       external_effects:
         network: false
@@ -6251,12 +6259,12 @@ current_phase_route:
         production: false
         public: false
     - task_slot: 3
-      task_id: AIOS-P2-043_GRAPH_CONDITIONED_CONTEXT_OFFLINE_BENCHMARK
-      status: NOT_STARTED_PREDECESSOR_TASK_GATE_NON_PASS
+      task_id: AIOS-P2-046_COMPILER_BOUND_GRAPH_CONTEXT_OFFLINE_BENCHMARK
+      status: NOT_STARTED_PREDECESSOR_TASK_GATE_PENDING
       engineering_hours: 12
-      calendar_days: 3
-      max_implementation_iterations: 3
-      max_same_task_repairs: 2
+      calendar_days: 2
+      max_implementation_iterations: 4
+      max_same_task_repairs: 3
       max_candidates: 1
       external_effects:
         network: false
@@ -6266,15 +6274,15 @@ current_phase_route:
         production: false
         public: false
   automatic_entry:
-    after_task_id: AIOS-P2-041_JAVAC_ORACLE_LEXICAL_PRECEDENCE_AND_CASE_EVIDENCE_KERNEL
-    next_task_id: AIOS-P2-042_DECLARATION_CLOSED_JAVA_GRAPH_TRANSACTION
+    after_task_id: AIOS-P2-044_COMPILER_NATIVE_JAVA_SEMANTIC_BINDING_KERNEL
+    next_task_id: AIOS-P2-045_DECLARATION_CLOSED_JAVA_GRAPH_TRANSACTION
     requires_task_gate_pass: true
   automatic_entries:
-    - after_task_id: AIOS-P2-041_JAVAC_ORACLE_LEXICAL_PRECEDENCE_AND_CASE_EVIDENCE_KERNEL
-      next_task_id: AIOS-P2-042_DECLARATION_CLOSED_JAVA_GRAPH_TRANSACTION
+    - after_task_id: AIOS-P2-044_COMPILER_NATIVE_JAVA_SEMANTIC_BINDING_KERNEL
+      next_task_id: AIOS-P2-045_DECLARATION_CLOSED_JAVA_GRAPH_TRANSACTION
       requires_task_gate_pass: true
-    - after_task_id: AIOS-P2-042_DECLARATION_CLOSED_JAVA_GRAPH_TRANSACTION
-      next_task_id: AIOS-P2-043_GRAPH_CONDITIONED_CONTEXT_OFFLINE_BENCHMARK
+    - after_task_id: AIOS-P2-045_DECLARATION_CLOSED_JAVA_GRAPH_TRANSACTION
+      next_task_id: AIOS-P2-046_COMPILER_BOUND_GRAPH_CONTEXT_OFFLINE_BENCHMARK
       requires_task_gate_pass: true
   terminal_p2_041_result:
     task_id: AIOS-P2-041_JAVAC_ORACLE_LEXICAL_PRECEDENCE_AND_CASE_EVIDENCE_KERNEL
@@ -9481,9 +9489,9 @@ historical_p2_phase_route:
   next_eligible_action: FOUNDER_P2_PHASE_GATE
 
 phase_delegation:
-  status: ACTIVE_P2_JAVAC_ORACLE_LEXICAL_PRECEDENCE_GRAPH_CONTEXT_ROUTE
+  status: ACTIVE_P2_COMPILER_NATIVE_JAVA_SEMANTIC_BINDING_GRAPH_CONTEXT_ROUTE
   model: PHASE_LEVEL_FOUNDER_DELEGATION
-  decision_source: AUTHORIZE_P2_JAVAC_ORACLE_LEXICAL_PRECEDENCE_PER_CASE_EVIDENCE_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
+  decision_source: AUTHORIZE_P2_COMPILER_NATIVE_JAVA_SEMANTIC_BINDING_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
   phase_gate_owner: HUMAN_FOUNDER
   task_selection_owner: MASTER_CEO_AGENT
   task_authorization_owner: MASTER_CEO_AGENT_WITHIN_CURRENT_PHASE_ENVELOPE
@@ -14667,6 +14675,58 @@ founder_knowledge_sync:
         byte_length: 1719
         sha256: f904b64772c03c99770557169a531ddbbe9289d65f223148c0199b365e8dae7d
       event_sha256: 4de17614ac961dd1e62ab48cbb3bbf0357132fd4ccb482cfacbf4ac08e07721b
+    - event_id: FKS-20260807-P2-COMPILER-NATIVE-JAVA-ROUTE-AUTHORIZED-V1
+      trigger_type: FOUNDER_PHASE_ROUTE_DECISION
+      occurred_at_utc: "2026-08-07T04:00:22Z"
+      source_commit: f65928cca5de8fcc8901e3689a26d0e6b57cc4da
+      source_tree: 4e6efb7db11b84cf8b58f88bc1c9fbadad42212d
+      previous_event_sha256: 4de17614ac961dd1e62ab48cbb3bbf0357132fd4ccb482cfacbf4ac08e07721b
+      status: PENDING_CANDIDATE
+      rationale: Founder authorized a clean-room P2 Route that establishes compiler-native Java semantic binding from actual JDK attribution, then builds a declaration-closed graph transaction and finally runs an offline graph-conditioned context benchmark. P2-041 remains terminal and non-reusable, all six external effects remain false, and Route authorization adds no P2 capability credit.
+      engineering_blocking: false
+      artifact:
+        path: null
+        byte_length: null
+        sha256: null
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+      event_sha256: 26eae024545ac61b971d6ce2aa673e02b254630389ffa96a0762f9b3860eb250
+    - event_id: FKS-20260807-P2-044-TASK-ACTIVATED-V1
+      trigger_type: TASK_ACTIVATION
+      occurred_at_utc: "2026-08-07T04:00:22Z"
+      source_commit: f65928cca5de8fcc8901e3689a26d0e6b57cc4da
+      source_tree: 4e6efb7db11b84cf8b58f88bc1c9fbadad42212d
+      previous_event_sha256: 26eae024545ac61b971d6ce2aa673e02b254630389ffa96a0762f9b3860eb250
+      status: PENDING_CANDIDATE
+      rationale: P2-044 was activated as the unique Task to implement compiler-native Java semantic binding with exact JDK toolchain identity, closed semantic-input admission, independent javac and classfile/javap verification, two-root replay and raw-derived zero external effects. P2-045 and P2-046 remain predecessor-gated and activation grants no P2 capability credit.
+      engineering_blocking: false
+      artifact:
+        path: null
+        byte_length: null
+        sha256: null
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+      event_sha256: 6942eb40deb2163073a3ceff5b79a2b580d8c575dbbcfba90374c38a30331b4c
 
 historical_active_work_after_p1_079:
   current_task: NONE
@@ -14719,38 +14779,51 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P2-044_COMPILER_NATIVE_JAVA_SEMANTIC_BINDING_KERNEL
+  current_task_status: ACTIVE
   current_task_contract:
-    path: null
-    sha256: null
-    byte_length: null
-  current_task_contract_sha256: null
-  current_execution_authorization: null
-  current_execution_authorization_sha256: null
+    path: docs/aios/tasks/P2-044_COMPILER_NATIVE_JAVA_SEMANTIC_BINDING_KERNEL.yaml
+    sha256: de6b30977113a1ba74c7f75787773e61b73d7f4c9cc81536bdcc547df974c5e5
+    byte_length: 10220
+  current_task_contract_sha256: de6b30977113a1ba74c7f75787773e61b73d7f4c9cc81536bdcc547df974c5e5
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-compiler-native-java-semantic-graph-context-20260807/task-1-p2-044/authority/P2_044_PHASE_DELEGATED_TASK_AUTHORITY_V1.yaml
+  current_execution_authorization_sha256: 640be6df0c6f9cfb54296debdec1af4fdff0eb75c9fdf3bba81c47e5b220e438
   authority_record:
-    path: null
-    sha256: null
-    byte_length: null
-  execution_nonce: null
-  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
-  authorization_id: null
-  activation_parent_commit: null
-  activation_parent_tree: null
-  task_resource_state: NOT_CREATED_ROUTE_TERMINAL
-  task_branch: null
-  task_worktree: null
-  execution_evidence_root: null
-  allowlisted_paths: []
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-compiler-native-java-semantic-graph-context-20260807/task-1-p2-044/authority/P2_044_PHASE_DELEGATED_TASK_AUTHORITY_V1.yaml
+    sha256: 640be6df0c6f9cfb54296debdec1af4fdff0eb75c9fdf3bba81c47e5b220e438
+    byte_length: 2720
+  execution_nonce: a2e412e4-cef5-4856-8c6d-190bbd3b3032
+  execution_nonce_status: ACTIVE_UNIQUE
+  authorization_id: P2-044-PHASE-DELEGATED-AUTHORITY-V1
+  activation_parent_commit: f65928cca5de8fcc8901e3689a26d0e6b57cc4da
+  activation_parent_tree: 4e6efb7db11b84cf8b58f88bc1c9fbadad42212d
+  task_resource_state: CREATED_ACTIVE
+  task_branch: codex/p2-044-compiler-native-java-binding
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P2-044-compiler-native-java-binding
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-compiler-native-java-semantic-graph-context-20260807/task-1-p2-044
+  allowlisted_paths:
+    - backend-spring/src/main/java/com/sourcelens/module/analysis/compiler
+    - backend-spring/src/test/java/com/sourcelens/module/analysis/compiler
+    - evaluation-harness/contracts/p2-044-compiler-native-java-binding
+    - evaluation-harness/fixtures/p2-044-compiler-native-java-binding
+    - evaluation-harness/harness/p2-044-compiler-native-java-binding
+    - evaluation-harness/evaluator/p2-044-compiler-native-java-binding
+    - scripts/verify-p2-044-compiler-native-java-binding.sh
+    - docs/aios/tasks/P2-044_COMPILER_NATIVE_JAVA_SEMANTIC_BINDING_KERNEL.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
   budget:
-    engineering_hours: null
-    calendar_days: null
-    implementation_iterations: null
-    candidates: null
+    engineering_hours: 18
+    calendar_days: 4
+    implementation_iterations: 4
+    candidates: 1
   roles:
-    owner: null
-    worker: null
-    independent_reviewers: []
+    owner: P2-044 Engineering Manager
+    worker: P2-044 Compiler-Native Kernel Worker
+    independent_reviewers:
+      - P2-044 Fresh CTO Reviewer
+      - P2-044 Fresh Security Reviewer
+      - P2-044 Fresh Quality Reviewer
   external_effects:
     network: false
     provider: false
@@ -14759,15 +14832,15 @@ active_work:
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: null
-  founder_reserved_authorization_sha256: null
-  founder_decision_required: true
-  founder_decision_required_scope: P2_PHASE_GATE_AFTER_P2_041_TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
-  escalation_reason: P2_041_FRESH_CTO_AND_SECURITY_TARGET_NON_PASS_WITH_REAL_SEMANTIC_AND_ADMISSION_DEFECTS
-  user_action_required: FOUNDER_P2_PHASE_GATE_DECISION
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_P2_PHASE_GATE_DECISION
-  next_eligible_action: FOUNDER_P2_PHASE_GATE
+  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-compiler-native-java-semantic-graph-context-20260807/decision/FOUNDER_P2_COMPILER_NATIVE_JAVA_SEMANTIC_BINDING_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1.structured-decision.json
+  founder_reserved_authorization_sha256: 19abcf4d61b9631ea36dbcce81f31e1cb22380b49d655f45e997252d1a2d02bf
+  founder_decision_required: false
+  founder_decision_required_scope: null
+  escalation_reason: null
+  user_action_required: NONE
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: EXECUTE_P2_044_COMPILER_NATIVE_JAVA_SEMANTIC_BINDING_KERNEL
 historical_p1_190_terminal_active_work:
   current_task: NONE
   current_task_status: NONE

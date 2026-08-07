@@ -1,0 +1,187 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P2-049_INDEPENDENT_SEMANTIC_PAYLOAD_PROVENANCE_SEPARATED_JAVA_GRAPH
+phase: P2
+route_id: P2_INDEPENDENT_SEMANTIC_PAYLOAD_PROVENANCE_SEPARATION_JAVA_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Build a clean-room compiler-native Java graph kernel whose repository-root-
+  independent semantic payload is byte-exact across two physical source roots
+  while a separate provenance envelope truthfully preserves each root-specific
+  execution and filesystem identity.
+why_now: >-
+  P2 still has no accepted repository graph capability. The preceding P2-047
+  path stopped because graph semantics and physical provenance were mixed and
+  the independent consumer could not reconstruct the full claim from raw
+  inputs. This Task separates those two authorities and makes the consumer
+  derive all accepted facts independently before any context benchmark.
+task_spec_ref: /Users/lijunpeng/Developer/.sourcelens-audit/p2-independent-semantic-payload-provenance-java-graph-context-20260807/decision/FOUNDER_P2_INDEPENDENT_SEMANTIC_PAYLOAD_PROVENANCE_SEPARATION_JAVA_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1.structured-decision.json
+owner_role: P2-049 Engineering Manager
+worker_role: P2-049 Java Graph Producer
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: P2_PHASE_GATE_AFTER_ROUTE_COMPLETION_OR_STOP_CONDITION
+risk_level: high
+budget:
+  engineering_hours: 26
+  calendar_days: 6
+  implementation_iterations: 4
+  candidates: 1
+roles:
+  owner: P2-049 Engineering Manager
+  worker: P2-049 Java Graph Producer
+  independent_reviewers:
+    - P2-049 Fresh CTO Reviewer
+    - P2-049 Fresh Security Reviewer
+    - P2-049 Fresh Quality Reviewer
+allowlisted_paths:
+  - evaluation-harness/harness/p2-049-semantic-payload-java-graph
+  - evaluation-harness/evaluator/p2-049-semantic-payload-java-graph
+  - scripts/verify-p2-049-semantic-payload-java-graph.sh
+  - docs/aios/tasks/P2-049_INDEPENDENT_SEMANTIC_PAYLOAD_PROVENANCE_SEPARATED_JAVA_GRAPH.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+write_scope:
+  worker:
+    - evaluation-harness/harness/p2-049-semantic-payload-java-graph
+  quality:
+    - evaluation-harness/evaluator/p2-049-semantic-payload-java-graph
+  integration:
+    - scripts/verify-p2-049-semantic-payload-java-graph.sh
+    - docs/aios/tasks/P2-049_INDEPENDENT_SEMANTIC_PAYLOAD_PROVENANCE_SEPARATED_JAVA_GRAPH.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - evaluation-harness/datasets/p2-repository-context-v1/public
+  - accepted canonical P1-035 dataset assets
+  - accepted canonical P1-101 trace and replay assets
+  - accepted canonical P1-129 adapter controls
+  - accepted canonical P1-149 execution spine
+  - accepted canonical P1-219 P2 preregistration
+dependencies:
+  - P1_STRICT_EXIT_GATE_PASS
+  - AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+  - AIOS-P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE
+  - AIOS-P1-129_EXACT_INPUT_BOUNDARY_SECURITY_MATRIX_COMPLETION
+  - AIOS-P1-149_ACCEPTED_EXECUTION_SPINE_CONVERGENCE
+  - AIOS-P1-219_DATASET_DERIVED_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+historical_isolation:
+  p2_047_status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
+  p2_047_root_cause: P2047.FINAL.CTO.CANONICAL_GRAPH_AND_RAW_CLAIM_RECONSTRUCTION_NON_PASS
+  p2_047_candidate_commit: 08d923864c30c626ad79b7b313300e123cfa4abc
+  p2_047_candidate_tree: ad64966274067d4619eb380aaef7454bd9025a61
+  p2_047_rejected_source_candidate_fixture_test_matrix_consumer_oracle_or_implementation_read_restore_compare_copy_or_reuse_allowed: false
+  p2_041_knowledge_review_schema_residual: FOUNDER_ACCEPTED_INHERITED_NON_ENGINEERING_RESIDUAL
+  historical_knowledge_bytes_mutation_allowed: false
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+founder_reserved_profile: null
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-independent-semantic-payload-provenance-java-graph-context-20260807/decision/FOUNDER_P2_INDEPENDENT_SEMANTIC_PAYLOAD_PROVENANCE_SEPARATION_JAVA_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1.structured-decision.json
+  sha256: df2dd20a43c48c290a830bbbc16bdae38a69a375720d0fbbcf7e00c1186bc5ea
+  byte_length: 3066
+  authorization_token: AUTHORIZE_P2_INDEPENDENT_SEMANTIC_PAYLOAD_PROVENANCE_SEPARATION_JAVA_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
+source_founder_packet:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-independent-semantic-payload-provenance-java-graph-context-20260807/decision/FOUNDER_P2_INDEPENDENT_SEMANTIC_PAYLOAD_PROVENANCE_SEPARATION_JAVA_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1.md
+  sha256: 30acefaf2ba55d4a19ed578e5d74c0e733fcbad7438978e173cf95ba82a57329
+  byte_length: 6298
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+architecture_constraints:
+  - Reimplement from accepted canonical specifications and assets without accessing or reusing rejected P2 engineering bytes.
+  - Keep the canonical semantic payload free of repository role, absolute path, device, inode, execution id, timestamp and runtime provenance.
+  - Bind each semantic payload SHA-256 in a separate root-specific provenance envelope containing source-root realpath, device, inode, scanner and compiler identities and raw receipts.
+  - Produce byte-identical semantic payloads from two physically independent repository roots while retaining their distinct provenance identities.
+  - Admit the external transaction manifest by exact path, type, non-symlink, byte length and SHA-256 before parsing any semantic content.
+  - Complete a regular-file-and-directory-only closed inventory before reading admitted raw source, javac, javap, process or observer receipts.
+  - Make the independent consumer derive nodes, edges, source spans, endpoint classes and counts only from admitted raw source, javac and javap outputs and raw receipts.
+  - The independent consumer must not import the Worker module, Worker case table, expected relations, expected endpoints, expected success fields or a Worker-authored oracle.
+  - Preserve a raw input, exact mutation, consumer output and stable rejection reason for every negative case.
+  - Keep false accepts and all six external effects at zero.
+quality_freeze:
+  positive_matrix:
+    - explicit import compiler-native resolution
+    - same-package compiler-native resolution
+    - wildcard import compiler-native resolution
+    - fully-qualified compiler-native resolution
+    - nested lexical nearest-declaration resolution
+    - inherited nested-type hiding resolution
+    - deterministic node, edge, endpoint and source-span projection
+    - two physical roots produce byte-identical semantic payloads
+    - two physical roots retain distinct truthful provenance envelopes
+    - independent consumer reconstructs the complete graph claim without Worker modules or expected answers
+  negative_matrix:
+    - external transaction manifest identity drift
+    - closed inventory missing or extra entry
+    - inventory reorder or duplicate
+    - symlink or hardlink object
+    - cross-transaction binding
+    - argv tail mutation
+    - source-root identity mutation
+    - source-span mutation
+    - graph node or edge mutation
+    - Provider or Secret input injection
+    - stale compiler or scanner identity
+    - missing raw source or compiler receipt
+    - Worker self-reported PASS without independent raw proof
+  required_counts:
+    physical_repository_roots: 2
+    positive_semantic_cases_minimum: 6
+    false_accepts: 0
+    provider_requests: 0
+    secret_reads: 0
+acceptance_criteria:
+  - The executable producer and independent consumer complete the full positive and negative matrix from fresh owned roots.
+  - Every admitted object is bound by exact relative path, regular type, byte length and SHA-256 under one externally bound transaction manifest.
+  - The canonical semantic payload excludes all root-specific provenance fields and is byte-identical across two physical roots.
+  - Each provenance envelope separately binds the exact semantic payload and truthfully retains its different physical root and execution identity.
+  - The independent consumer reconstructs nodes, relations, endpoints, spans and aggregate counts from admitted raw Evidence only.
+  - Every declared negative case rejects with preserved raw proof and false accepts equal zero.
+  - Provider requests, Secret reads and all six external effects equal zero.
+  - One exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS on the same candidate and Evidence bytes.
+  - Reviewed tree equals integrated canonical tree and one canonical make verify passes after integration.
+required_evidence:
+  - Exact Founder packet, structured decision, Goal, activation parent, Contract and Task authority identities.
+  - Externally bound top-level transaction manifest and regular-only closed inventories.
+  - Raw Java sources, javac and javap outputs, executable identities, argv, minimal environment and process receipts.
+  - Two root-independent byte-exact semantic payloads and two root-specific provenance envelopes.
+  - Independent consumer positive and negative receipts with zero false accepts and independently reconstructed external-effect counts.
+  - Exact candidate commit, tree, tracked diff hash, manifest and recoverable Evidence tag.
+  - Fresh CTO, Security and Quality reviews of the same candidate and Evidence bytes.
+rollback:
+  strategy: OWNED_DISPOSABLE_ROOT_CLEANUP_BEFORE_FREEZE_AND_NON_DESTRUCTIVE_GIT_REVERT_AFTER_CANONICAL_INTEGRATION
+  forbidden:
+    - git reset
+    - git clean
+    - destructive history rewrite
+stop_conditions:
+  - Canonical activation parent, Goal, Founder packet, Contract or accepted input identity drifts.
+  - Any rejected P2 engineering asset is required or accessed.
+  - A required write exceeds this Contract or any external effect is required.
+  - The same normalized root cause repeats in adjacent iterations or three same-Task repairs are exhausted.
+  - Independent reconstruction cannot derive the complete graph claim from admitted raw Evidence without Worker expectations.
+  - Any final Reviewer, reviewed/integrated equality check or canonical make verify returns NONPASS.
+  - P3 entry, push, remote modification, Phase change or permission expansion is required.
+knowledge_sync:
+  mode: EVENT_DRIVEN_NON_BLOCKING
+  task_accept_or_terminal_event_required: true
+  capability_credit_before_full_gate: 0
+claim_boundary: >-
+  Offline cooperative-local clean-room compiler-native Java graph vertical
+  slice with root-independent semantic payload and separately attested physical
+  provenance only. No context-benchmark superiority, P2 Exit, P3, Provider,
+  Secret, network, remote, production, public, hostile-principal or production-
+  readiness claim.

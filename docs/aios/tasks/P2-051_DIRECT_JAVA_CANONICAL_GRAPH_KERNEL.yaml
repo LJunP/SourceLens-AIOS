@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P2-051_DIRECT_JAVA_CANONICAL_GRAPH_KERNEL
 phase: P2
 route_id: P2_DIRECT_JAVA_GRAPH_KERNEL_AND_CONTEXT_VALUE_BENCHMARK_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
 objective: >-
   Build a clean-room accepted-scanner-bound Java canonical graph kernel with
   repository-root-independent symbol identity, deterministic byte-exact replay,
@@ -171,6 +171,36 @@ knowledge_sync:
   route_activation_event_required: true
   task_accept_or_terminal_event_required: true
   capability_credit: 0
+terminal_outcome:
+  terminal_status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
+  candidate_commit: e090957836eb27875677f6fbc0f835669e493efc
+  candidate_tree: 0b4e41305efb117847fb2f1265ee13943b127d3d
+  candidate_manifest:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-direct-java-graph-context-value-20260807/task-1-p2-051/candidate/CANDIDATE_MANIFEST.json
+    byte_length: 4520
+    sha256: 773fb971df206672146e351c4eb1c37a0b3dfb31e7991378d9f0069b887e40b4
+  formal_evidence_manifest:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-direct-java-graph-context-value-20260807/task-1-p2-051/evidence/formal-v1/EVIDENCE_MANIFEST.json
+    byte_length: 95898
+    sha256: fb1026a6f860627708beb666d81d9f97988e9b9c7aeacab264cbad1cd22dd3f1
+  final_cto_review:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-direct-java-graph-context-value-20260807/task-1-p2-051/reviews/final-v1/CTO_REVIEW.json
+    byte_length: 5204
+    sha256: 97b172f569a3507bbc831c132053c8b5234bc5d52c392a2c9d902d2ce7bd7aeb
+    target_verdict: NON_PASS
+  normalized_root_cause: P2051.CTO.JAVA_REFERENCE.COMPILER_ORACLE_MISMATCH
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-direct-java-graph-context-value-20260807/task-1-p2-051/terminal/P2_051_TERMINAL_RECEIPT.json
+    byte_length: 2620
+    sha256: fb54bcb9315e433030aac18bf4ee45f64bccb2ccedf4d3a011af4c5d1f1f259f
+  implementation_iterations_used: 1
+  same_task_repairs_used: 0
+  candidates_used: 1
+  candidate_integrated: false
+  canonical_make_verify_invoked: false
+  p2_052_started: false
+  p2_capability_credit: 0
+  next_founder_decision_point: P2_PHASE_GATE
 claim_boundary: >-
   Cooperative-local offline accepted-scanner-bound replayable Java canonical
   graph kernel only. No rejected P2 engineering reuse, context benchmark claim,

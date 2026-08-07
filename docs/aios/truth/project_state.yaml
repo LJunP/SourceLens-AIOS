@@ -14972,8 +14972,8 @@ founder_knowledge_sync:
     - event_id: FKS-20260807-P2-047-TERMINAL-FINAL-CTO-NON-PASS-V1
       trigger_type: TASK_TERMINAL_FINAL_CTO_TARGET_NON_PASS
       occurred_at_utc: "2026-08-07T07:29:50Z"
-      source_commit: 08d923864c30c626ad79b7b313300e123cfa4abc
-      source_tree: ad64966274067d4619eb380aaef7454bd9025a61
+      source_commit: 9383445e6bb1a81e542563e7f630b6d425831d9a
+      source_tree: de7addb7838094d47e975faa7659b6b30012f544
       previous_event_sha256: 2baaa9a55003b32709d1b8382c8329b55eb5871088f4ddf49eca785d8a4c55ee
       status: IMPORTED
       rationale: >-
@@ -15003,10 +15003,10 @@ founder_knowledge_sync:
         byte_length: 5397
         sha256: 83a3b513777f3a4e6a4dcf3221e345ae16cc0db28468bf500510d6811f67f848
       receipt:
-        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-evidence-transaction-first-java-graph-context-20260807/task-1-p2-047/knowledge/P2_047_TERMINAL_FINAL_CTO_TARGET_NON_PASS_KNOWLEDGE_IMPORT_RECEIPT_V1.json
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-evidence-transaction-first-java-graph-context-20260807/task-1-p2-047/knowledge/P2_047_TERMINAL_FINAL_CTO_TARGET_NON_PASS_KNOWLEDGE_IMPORT_RECEIPT_V2.json
         byte_length: 1734
-        sha256: f2d4bf36c83a55a9b55d1e74fa36659c6788754c6403e54838ef8df9b1ae4046
-      event_sha256: 4c0d6cdf4f5f3e86fc54af3e7896feae57890626b98b6e7a42cc59f4f45ea3ba
+        sha256: e61fcbe6b074d8adbfc2231e14a76d9fcd497371e7c6e6731252e6f5b3f2c3ad
+      event_sha256: 51acf802b0a3dbc61c1a6d8c2522e1be55a6bc7ae0c45d78436599dde50382f4
 
 historical_active_work_after_p1_079:
   current_task: NONE

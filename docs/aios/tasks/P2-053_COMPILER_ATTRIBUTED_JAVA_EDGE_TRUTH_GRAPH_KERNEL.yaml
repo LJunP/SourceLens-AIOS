@@ -1,0 +1,207 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P2-053_COMPILER_ATTRIBUTED_JAVA_EDGE_TRUTH_GRAPH_KERNEL
+phase: P2
+route_id: P2_COMPILER_ATTRIBUTED_JAVA_EDGE_TRUTH_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Build and independently verify one offline, repository-root-independent Java
+  canonical graph kernel whose edge truth comes from Java Compiler API
+  attribution rather than name matching, labels or worker self-report.
+why_now: >-
+  P2 capability credit remains zero. The previous clean-room path produced a
+  deterministic graph but fresh CTO review proved that call owners, receiver
+  types, overloads and comment references contradicted the frozen compiler
+  oracle. This independent Task closes that exact semantic gap without reading
+  or reusing rejected P2 engineering assets.
+task_spec_ref: /Users/lijunpeng/Developer/.sourcelens-audit/p2-compiler-attributed-java-edge-truth-context-20260807/decision/FOUNDER_P2_COMPILER_ATTRIBUTED_JAVA_EDGE_TRUTH_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1.md
+owner_role: P2-053 Engineering Manager
+worker_role: P2-053 Compiler Attribution Worker
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: P2_PHASE_GATE_AFTER_ROUTE_COMPLETION_OR_STOP
+risk_level: high
+budget:
+  engineering_hours: 26
+  calendar_days: 6
+  implementation_iterations: 4
+  candidates: 1
+roles:
+  owner: P2-053 Engineering Manager
+  worker: P2-053 Compiler Attribution Worker
+  independent_reviewers:
+    - P2-053 Fresh CTO Reviewer
+    - P2-053 Fresh Security Reviewer
+    - P2-053 Fresh Quality Reviewer
+allowlisted_paths:
+  - backend-spring/src/main/java/com/sourcelens/module/analysis/graph/compiler
+  - backend-spring/src/test/java/com/sourcelens/module/analysis/graph/compiler
+  - evaluation-harness/harness/p2-053-compiler-attributed-java-graph
+  - evaluation-harness/replay/p2-053-compiler-attributed-java-graph
+  - evaluation-harness/evaluator/p2-053-compiler-attributed-java-graph
+  - evaluation-harness/reports/p2-053-compiler-attributed-java-graph
+  - scripts/verify-p2-053-compiler-attributed-java-graph.sh
+  - scripts/test-founder-knowledge-sync.rb
+  - docs/aios/tasks/P2-053_COMPILER_ATTRIBUTED_JAVA_EDGE_TRUTH_GRAPH_KERNEL.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+write_scope:
+  worker:
+    - backend-spring/src/main/java/com/sourcelens/module/analysis/graph/compiler
+    - evaluation-harness/harness/p2-053-compiler-attributed-java-graph
+    - evaluation-harness/replay/p2-053-compiler-attributed-java-graph
+  quality:
+    - backend-spring/src/test/java/com/sourcelens/module/analysis/graph/compiler
+    - evaluation-harness/evaluator/p2-053-compiler-attributed-java-graph
+    - evaluation-harness/reports/p2-053-compiler-attributed-java-graph
+  integration:
+    - scripts/verify-p2-053-compiler-attributed-java-graph.sh
+    - scripts/test-founder-knowledge-sync.rb
+    - docs/aios/tasks/P2-053_COMPILER_ATTRIBUTED_JAVA_EDGE_TRUTH_GRAPH_KERNEL.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - canonical accepted P1 scanner, dataset, trace and evaluation assets only
+  - P2-051 canonical Truth, terminal receipt, CTO Review and reviewed Knowledge Artifact only
+dependencies:
+  - AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+  - AIOS-P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE
+  - AIOS-P1-129_EXACT_INPUT_BOUNDARY_SECURITY_MATRIX_COMPLETION
+  - AIOS-P1-149_ACCEPTED_EXECUTION_SPINE_CONVERGENCE
+  - AIOS-P1-219_DATASET_DERIVED_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+historical_isolation:
+  p2_051_status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
+  p2_051_normalized_root_cause: P2051.CTO.JAVA_REFERENCE.COMPILER_ORACLE_MISMATCH
+  p2_051_rejected_source_candidate_fixture_test_matrix_evaluator_or_implementation_read_restore_compare_copy_or_reuse_allowed: false
+  all_other_rejected_p2_engineering_asset_reuse_allowed: false
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+founder_reserved_profile: null
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-compiler-attributed-java-edge-truth-context-20260807/decision/FOUNDER_P2_COMPILER_ATTRIBUTED_JAVA_EDGE_TRUTH_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1.structured-decision.json
+  sha256: 78b099a1cd472fd22e3f7a96397d81770b0613413e5a165a7768a8e86e196d47
+  byte_length: 2966
+  authorization_token: AUTHORIZE_P2_COMPILER_ATTRIBUTED_JAVA_EDGE_TRUTH_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
+source_founder_packet:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-compiler-attributed-java-edge-truth-context-20260807/decision/FOUNDER_P2_COMPILER_ATTRIBUTED_JAVA_EDGE_TRUTH_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1.md
+  sha256: afe4632d223dbdd7e2cd017e07149aaa4eefb9a82d2dee0312477117db7b22ef
+  byte_length: 7575
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+architecture_constraints:
+  - Use JavacTask, Trees, TreePathScanner, Element and TypeMirror as edge-truth authorities.
+  - Bind each method call to caller, receiver type, resolved ExecutableElement, declaring owner, parameter types, return type and stable descriptor.
+  - Bind field references and extends or implements edges to attributed compiler symbols.
+  - Distinguish inherited, interface dispatch, overloaded, external JDK, unresolved and compiler-rejected cases truthfully.
+  - Do not use regular expressions, unqualified-name matching, fixture labels or worker self-report as edge truth.
+  - Attach documentation references only from directly adjacent source spans proven by compiler source positions.
+  - Preserve repository-root-independent semantic bytes while retaining root-specific provenance outside the semantic projection.
+  - Run the exact same positive corpus from two physically distinct repository roots.
+  - Retain complete raw positive and negative transactions sufficient for independent rebuild and replay.
+  - Keep Provider, Secret and all six external effects at zero.
+legacy_knowledge_compatibility:
+  event_id: FKS-20260807-P2-041-TERMINAL-FINAL-REVIEW-NON-PASS-V1
+  legacy_review_sha256: 92badc88b7f36fa739b4cb79cac7c32b2d3dfdc9e712ee4d495403d6292026e5
+  legacy_review_byte_length: 4978
+  permitted_scope: EXACT_EVENT_PATH_HASH_LENGTH_AND_LEGACY_CLOSED_SCHEMA_ONLY
+  generic_skip_allow_all_prefix_or_hash_only_acceptance_allowed: false
+  historical_bytes_mutation_allowed: false
+  independent_governance_task_or_candidate_allowed: false
+quality_freeze:
+  positive_matrix:
+    - worker.run resolves to demo/api/Worker.run with the exact attributed descriptor.
+    - choose("stable") resolves to Service.choose(String) rather than an ambiguous name match.
+    - names.size resolves to java/util/List.size with an external JDK classification.
+    - inheritance and implementation edges bind attributed TypeElement identities.
+    - adjacent documentation references bind only to the declaration they directly precede.
+    - two physically distinct roots produce byte-identical semantic graph projections.
+    - independent oracle and worker graph agree on every edge owner, descriptor and classification.
+    - raw transactions independently rebuild and replay without worker success fields.
+    - the exact inherited P2-041 Knowledge event validates without mutating historical bytes.
+  negative_matrix:
+    - same simple method name on unrelated owners
+    - inherited receiver dispatch
+    - overloaded arity
+    - overloaded parameter type
+    - interface implementation dispatch
+    - unresolved receiver
+    - compiler diagnostic ambiguity
+    - static field owner mismatch
+    - instance field owner mismatch
+    - documentation comment separated by another declaration
+    - source path substitution
+    - source mutation
+    - manifest mutation
+    - scanner executable identity drift
+    - compiler executable identity drift
+    - missing raw stdout
+    - missing raw stderr
+    - missing classfile inventory
+    - raw transaction reorder
+    - semantic graph mutation
+    - provenance injected into semantic projection
+    - symlink input
+    - hardlink input
+    - extra inventory member
+    - missing inventory member
+    - stale replay receipt
+    - superficial legacy Knowledge Review
+  required_counts:
+    physical_repository_roots: 2
+    false_accepts: 0
+    provider_requests: 0
+    secret_reads: 0
+acceptance_criteria:
+  - Full compiler-oracle edge truth matrix passes.
+  - Worker graph agrees byte-for-byte with the independent edge truth projection.
+  - Two-root semantic projections are byte-identical and root provenance remains separate.
+  - Complete raw positive and negative transactions rebuild and replay independently.
+  - Every required root-cause regression is directly covered.
+  - Founder Knowledge sync compatibility test passes only for the exact frozen legacy event.
+  - False accepts, Provider requests, Secret reads and all six external effects equal zero.
+  - One exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS on the same bytes.
+  - Reviewed tree equals integrated canonical tree and one canonical make verify passes after integration.
+required_evidence:
+  - Exact Founder source packet, structured Decision, Goal, activation parent, Contract and Task authority identities.
+  - Compiler and accepted scanner executable path, type, byte length and SHA-256 identities.
+  - Two-root source, manifest, argv, stdout, stderr, diagnostic, classfile and process receipts.
+  - Canonical attributed symbol and edge projections plus exact replay receipts.
+  - Positive and negative matrix receipt with zero false accepts and external effects.
+  - Exact candidate commit, tree, diff/hash manifest and recoverable Evidence tag.
+  - Fresh CTO, Security and Quality Reviews of the same candidate and Evidence bytes.
+rollback:
+  strategy: OWNED_OUTPUT_REMOVAL_BEFORE_FREEZE_AND_NON_DESTRUCTIVE_GIT_REVERT_AFTER_CANONICAL_INTEGRATION
+  forbidden:
+    - git reset
+    - git clean
+    - destructive history rewrite
+stop_conditions:
+  - Canonical activation parent, Goal, Founder packet, Contract or accepted input identity drifts.
+  - Any rejected P2 engineering asset is required, read, restored, compared, copied or reused.
+  - A required write exceeds this Contract or an external effect is required.
+  - The same normalized root cause repeats in adjacent iterations or three same-Task repairs are exhausted.
+  - The compiler oracle and worker graph cannot converge truthfully before candidate freeze.
+  - Any final Reviewer, reviewed/integrated equality check or canonical make verify returns NONPASS.
+  - P3 entry, network, Provider, Secret, remote, production, public, push or Phase-boundary change is required.
+knowledge_sync:
+  mode: EVENT_DRIVEN_NON_BLOCKING
+  task_accept_or_terminal_event_required: true
+  capability_credit_before_full_gate: 0
+claim_boundary: >-
+  Offline clean-room compiler-attributed Java edge-truth graph kernel only,
+  including one exact P2-041 legacy Knowledge Review compatibility. No rejected
+  P2 engineering reuse, context benchmark credit, Provider, Secret, network,
+  remote, production, public, P3 or product-readiness claim.

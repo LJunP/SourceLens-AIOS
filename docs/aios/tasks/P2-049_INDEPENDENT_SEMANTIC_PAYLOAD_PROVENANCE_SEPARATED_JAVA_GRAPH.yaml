@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P2-049_INDEPENDENT_SEMANTIC_PAYLOAD_PROVENANCE_SEPARATED_JAVA_GRAPH
 phase: P2
 route_id: P2_INDEPENDENT_SEMANTIC_PAYLOAD_PROVENANCE_SEPARATION_JAVA_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_FINAL_SECURITY_TARGET_NON_PASS
 objective: >-
   Build a clean-room compiler-native Java graph kernel whose repository-root-
   independent semantic payload is byte-exact across two physical source roots
@@ -179,6 +179,41 @@ knowledge_sync:
   mode: EVENT_DRIVEN_NON_BLOCKING
   task_accept_or_terminal_event_required: true
   capability_credit_before_full_gate: 0
+terminal_result:
+  status: TERMINAL_FINAL_SECURITY_TARGET_NON_PASS
+  stopped_at_utc: "2026-08-07T09:44:49Z"
+  stop_condition: FRESH_FINAL_REVIEWER_TARGET_VERDICT_NON_PASS
+  normalized_root_cause: SECURITY-P2-049-001_NEGATIVE_RAW_TRANSACTION_NOT_BYTE_EXACT_RECONSTRUCTABLE_FROM_FROZEN_EVIDENCE
+  exact_candidate:
+    commit: c01f18b6ef1e063d10de6c41e07ef03f7db85bc7
+    tree: 6b28b86c0d7860d0664ea54aae75220a6e4ff08b
+    parent_commit: 49e8366e192ee818c94ce9c3fda3505a98a09a59
+    manifest_sha256: aed9c060801ffb9634015632b424be3c40c0a4cb783dcb31ba409ada2b53e16a
+    manifest_byte_length: 6059
+    tracked_binary_diff_sha256: 1f7300f515d10973e4efefa263cf206bf9b99461e515dcf2e2466216ae13748a
+    integrated: false
+    recoverable_evidence_tag: evidence/p2-049-candidate-final-v1
+  frozen_evidence:
+    manifest_sha256: 63350653c2238958870b1e5373de7ce96e3dd54389a2c35d21bbe8c6cf469578
+    manifest_byte_length: 100694
+    matrix_receipt_sha256: 6ed677580169108f63b39eba83ec936548419968169e179b51d48cf9d44a2f26
+    positive_matrix: PASS_OBSERVED_NOT_ACCEPTED_TASK_GATE
+    negative_cases_observed_rejected: 26
+    false_accepts: 0
+  final_reviews:
+    security_target_verdict: NON_PASS
+    security_review_sha256: d8ec9d175fed820868e880725baef6bd681f4eb6d8446a4931363a04345bf520
+    security_review_byte_length: 8220
+    cto: INTERRUPTED_AFTER_SECURITY_STOP_CONDITION
+    quality: INTERRUPTED_AFTER_SECURITY_STOP_CONDITION
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-independent-semantic-payload-provenance-java-graph-context-20260807/task-1-p2-049/terminal/P2_049_TERMINAL_FINAL_SECURITY_TARGET_NON_PASS_RECEIPT_V1.json
+    sha256: 97ca1a0576a8b9ac5ac7e8341608c6cbc316cec372d95fd2d0643670bdb657ae
+    byte_length: 3597
+  canonical_make_verify: NOT_INVOKED_NO_ACCEPTED_INTEGRATION
+  p2_capability_credit: 0
+  p2_050_started: false
+  correction_successor_or_replacement_allowed: false
 claim_boundary: >-
   Offline cooperative-local clean-room compiler-native Java graph vertical
   slice with root-independent semantic payload and separately attested physical

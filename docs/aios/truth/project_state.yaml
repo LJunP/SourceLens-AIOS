@@ -14793,7 +14793,7 @@ active_work:
     sha256: 640be6df0c6f9cfb54296debdec1af4fdff0eb75c9fdf3bba81c47e5b220e438
     byte_length: 2720
   execution_nonce: a2e412e4-cef5-4856-8c6d-190bbd3b3032
-  execution_nonce_status: ACTIVE_UNIQUE
+  execution_nonce_status: ACTIVE
   authorization_id: P2-044-PHASE-DELEGATED-AUTHORITY-V1
   activation_parent_commit: f65928cca5de8fcc8901e3689a26d0e6b57cc4da
   activation_parent_tree: 4e6efb7db11b84cf8b58f88bc1c9fbadad42212d

@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P2-053_COMPILER_ATTRIBUTED_JAVA_EDGE_TRUTH_GRAPH_KERNEL
 phase: P2
 route_id: P2_COMPILER_ATTRIBUTED_JAVA_EDGE_TRUTH_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS
 objective: >-
   Build and independently verify one offline, repository-root-independent Java
   canonical graph kernel whose edge truth comes from Java Compiler API
@@ -200,6 +200,48 @@ knowledge_sync:
   mode: EVENT_DRIVEN_NON_BLOCKING
   task_accept_or_terminal_event_required: true
   capability_credit_before_full_gate: 0
+terminal_outcome:
+  terminal_status: TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS
+  candidate_commit: 90fa8e2286eab8357f90fee76bf3a082bb94f39e
+  candidate_tree: 94a2f41eeca41f154f8c6a0b7c29cab1fd579a7d
+  evidence_tag: evidence/p2-053-compiler-attributed-java-graph-v1
+  candidate_manifest:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-compiler-attributed-java-edge-truth-context-20260807/task-1-p2-053/candidate-v1/CANDIDATE_MANIFEST.json
+    byte_length: 8297
+    sha256: a1d367d2e41c36ed2d569da1df32ba707bbeabcbb5eb28c3b005b37d97b3456a
+  formal_evidence_manifest:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-compiler-attributed-java-edge-truth-context-20260807/task-1-p2-053/evidence/iteration-4/EVIDENCE_MANIFEST.json
+    byte_length: 81033
+    sha256: df8071b50cab4390936051a7de4258dd6ebb7db04be96001494ab56d77e9152e
+  final_cto_review:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-compiler-attributed-java-edge-truth-context-20260807/task-1-p2-053/reviews/final-v1/CTO_REVIEW.json
+    byte_length: 8332
+    sha256: 35636160851dd481a4d2c4f847f4f57be2c17ac72b138107170c9f4523df2525
+    target_verdict: NON_PASS
+  final_security_review:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-compiler-attributed-java-edge-truth-context-20260807/task-1-p2-053/reviews/final-v1/SECURITY_REVIEW.json
+    byte_length: 11815
+    sha256: 76b3787ddb77a217b969768ecdd4d84d28e3f1d4764f73ceca6dda723173d46b
+    target_verdict: NON_PASS
+  final_quality_review_status: INTERRUPTED_AFTER_BLOCKING_CTO_AND_SECURITY_NON_PASS
+  normalized_root_causes:
+    - P2053.CTO.COMPILER_ORACLE.SUBSET_ACCEPTS_FABRICATED_EXTRA_EDGE
+    - P2053.CTO.NEGATIVE_RAW_TRANSACTION.NOT_INDEPENDENTLY_REPLAYED
+    - SECURITY-P2-053-001
+    - SECURITY-P2-053-002
+    - SECURITY-P2-053-003
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-compiler-attributed-java-edge-truth-context-20260807/task-1-p2-053/terminal/P2_053_TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS_RECEIPT.json
+    byte_length: 3676
+    sha256: 6c37b0e3ffb64f0385a66f2f894047e8c5d371badca90367cfb53aaf568af9a4
+  implementation_iterations_used: 4
+  same_task_repairs_used: 3
+  candidates_used: 1
+  candidate_integrated: false
+  canonical_make_verify_invoked: false
+  p2_054_started: false
+  p2_capability_credit: 0
+  next_founder_decision_point: P2_PHASE_GATE
 claim_boundary: >-
   Offline clean-room compiler-attributed Java edge-truth graph kernel only,
   including one exact P2-041 legacy Knowledge Review compatibility. No rejected

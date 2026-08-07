@@ -1,0 +1,182 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P2-041_JAVAC_ORACLE_LEXICAL_PRECEDENCE_AND_CASE_EVIDENCE_KERNEL
+phase: P2
+route_id: P2_JAVAC_ORACLE_LEXICAL_PRECEDENCE_PER_CASE_EVIDENCE_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Build a clean-room Java lexical resolution kernel whose precedence and
+  ambiguity decisions are checked against real javac behavior and whose every
+  semantic case is independently reconstructable from closed raw Evidence.
+why_now: >-
+  P2-038 remained unintegrated because independent review proved a false
+  ambiguity for valid nearest-owner lexical shadowing and missing per-case raw
+  Evidence. P2-041 isolates those two root causes before any graph transaction
+  or context benchmark can be trusted.
+task_spec_ref: /Users/lijunpeng/Developer/.sourcelens-audit/p2-javac-oracle-lexical-precedence-graph-context-20260807/decision/FOUNDER_P2_JAVAC_ORACLE_LEXICAL_PRECEDENCE_PER_CASE_EVIDENCE_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1.structured-decision.json
+owner_role: P2-041 Engineering Manager
+worker_role: P2-041 Clean-Room Java Resolution Worker
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+risk_level: high
+budget:
+  engineering_hours: 10
+  calendar_days: 2
+  implementation_iterations: 3
+  candidates: 1
+roles:
+  owner: P2-041 Engineering Manager
+  worker: P2-041 Clean-Room Java Resolution Worker
+  independent_reviewers:
+    - P2-041 Fresh CTO Reviewer
+    - P2-041 Fresh Security Reviewer
+    - P2-041 Fresh Quality Reviewer
+allowlisted_paths:
+  - backend-spring/src/main/java/com/sourcelens/module/analysis/graph/lexical
+  - backend-spring/src/test/java/com/sourcelens/module/analysis/graph/lexical
+  - evaluation-harness/harness/p2-041-javac-oracle-lexical-evidence
+  - evaluation-harness/evaluator/p2-041-javac-oracle-lexical-evidence
+  - scripts/verify-p2-041-javac-oracle-lexical-evidence.sh
+  - docs/aios/tasks/P2-041_JAVAC_ORACLE_LEXICAL_PRECEDENCE_AND_CASE_EVIDENCE_KERNEL.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+write_scope:
+  worker:
+    - backend-spring/src/main/java/com/sourcelens/module/analysis/graph/lexical
+    - backend-spring/src/test/java/com/sourcelens/module/analysis/graph/lexical
+    - evaluation-harness/harness/p2-041-javac-oracle-lexical-evidence
+  quality:
+    - evaluation-harness/evaluator/p2-041-javac-oracle-lexical-evidence
+  integration:
+    - scripts/verify-p2-041-javac-oracle-lexical-evidence.sh
+    - docs/aios/tasks/P2-041_JAVAC_ORACLE_LEXICAL_PRECEDENCE_AND_CASE_EVIDENCE_KERNEL.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - backend-spring/pom.xml
+  - canonical accepted scanner and accepted P1 contracts only
+  - P2-038 canonical Truth, terminal receipt, final CTO Review and reviewed Founder Knowledge Artifact only
+dependencies:
+  - P1_STRICT_EXIT_GATE_PASS
+  - CANONICAL_ACCEPTED_JAVAPARSER_DEPENDENCY
+  - LOCAL_JAVAC_ORACLE
+historical_isolation:
+  p2_038_status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
+  rejected_p2_038_source_candidate_fixture_test_matrix_evaluator_or_implementation_read_restore_compare_copy_or_reuse_allowed: false
+  allowed_historical_inputs:
+    - canonical Truth
+    - P2-038 terminal receipt
+    - P2-038 final CTO Review
+    - reviewed and imported P2-038 Founder Knowledge Artifact
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+founder_reserved_profile: null
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-javac-oracle-lexical-precedence-graph-context-20260807/decision/FOUNDER_P2_JAVAC_ORACLE_LEXICAL_PRECEDENCE_PER_CASE_EVIDENCE_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1.structured-decision.json
+  sha256: 584c1cca4f9bd179e4131c1b3834180671bdcb57aee6e99d0be1bf3c05470f87
+  byte_length: 3588
+  authorization_token: AUTHORIZE_P2_JAVAC_ORACLE_LEXICAL_PRECEDENCE_PER_CASE_EVIDENCE_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
+source_founder_packet:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-javac-oracle-lexical-precedence-graph-context-20260807/decision/FOUNDER_P2_JAVAC_ORACLE_LEXICAL_PRECEDENCE_PER_CASE_EVIDENCE_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1.md
+  sha256: fe759a7c5c18ea33600b776011a3a863b7bcb427b4506b9cd4ac9f00d417ca68
+  byte_length: 6108
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+architecture_constraints:
+  - Admit a closed regular-file source and external-symbol inventory before semantic parsing.
+  - Bind every source and external input by normalized relative path, type, byte length and SHA-256.
+  - Parse only exact admitted Java source bytes using the canonical JavaParser dependency.
+  - Model unqualified lookup as ordered tiers and stop at the first non-empty tier.
+  - Within the lexical tier, choose the nearest enclosing owner depth before detecting ambiguity.
+  - Qualified targets resolve only by exact qualified identity and cannot be rewritten by imports.
+  - Explicit imports precede same-package, attested java.lang and wildcard imports for unqualified targets.
+  - Multiple candidates in the same winning tier are AMBIGUOUS; no candidates are UNRESOLVED.
+  - A missing lexical owner, duplicate declaration or identity drift is a typed fail-closed result.
+  - Every legal Java case is compiled by a real local javac oracle with exact argv, version, exit status, stdout and stderr retained.
+  - Product and independent consumer must derive their results independently from the same closed case input.
+  - Do not build P2-042 graph transactions or run P2-043 benchmarks in this Task.
+prefreeze_gate:
+  mandatory_cases:
+    - nearest nested lexical owner shadows farther owner
+    - same nearest lexical tier has real ambiguity
+    - single-type explicit import precedence
+    - wildcard import precedence
+    - qualified target resists same-simple-name import hijack
+    - missing lexical owner
+    - duplicate declaration
+    - unresolved target
+    - source mutation
+    - source identity drift
+    - external inventory drift
+  per_case_raw_evidence:
+    - exact raw source files and source manifest identity
+    - expected semantic tier and typed expected outcome
+    - product result
+    - independent-consumer result
+    - javac oracle argv, version, exit status, stdout and stderr
+    - typed verdict and reason
+    - every artifact path, byte length and SHA-256 in a closed manifest
+  forbidden_shortcuts:
+    - JUnit name as Evidence
+    - aggregate PASS as per-case proof
+    - worker self-reported success field as authority
+    - one generic expected result shared across cases
+  required_results:
+    false_accepts: 0
+    provider_requests: 0
+    secret_reads: 0
+    external_effects_all_false: true
+acceptance_criteria:
+  - Nearest lexical owner precedence and same-tier ambiguity match real javac behavior.
+  - Qualified and unqualified lookup precedence is deterministic, typed and fail-closed.
+  - Every mandatory case has closed raw Evidence that independently reconstructs product, consumer and javac outcomes.
+  - Source mutation, identity drift and external inventory drift are rejected before use.
+  - The product and independent consumer agree on every case and the javac oracle agrees on every legal Java case.
+  - The complete targeted matrix and independent evaluator pass with zero false accepts.
+  - Provider requests, Secret reads and all six external effects equal zero.
+  - One exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS on the same bytes.
+  - Reviewed tree equals integrated canonical tree and exactly one canonical make verify passes after integration.
+required_evidence:
+  - Exact Founder packet, structured decision, Goal, activation parent, Contract and Task authority identities.
+  - Closed case inventory and per-case raw Evidence manifest.
+  - Exact javac executable identity, version and per-case process receipts.
+  - Product and independent-consumer results for every mandatory case.
+  - Complete matrix and independent evaluator receipts with truthful counts.
+  - Exact candidate commit, tree, diff/hash manifest and recoverable Evidence tag.
+  - Fresh CTO, Security and Quality Reviews of the same candidate and Evidence bytes.
+rollback:
+  strategy: OWNED_OUTPUT_REMOVAL_BEFORE_FREEZE_AND_NON_DESTRUCTIVE_GIT_REVERT_AFTER_CANONICAL_INTEGRATION
+  forbidden:
+    - git reset
+    - git clean
+    - destructive history rewrite
+stop_conditions:
+  - Canonical activation parent, Goal, Founder packet, structured decision, Contract, javac or accepted dependency identity drifts.
+  - Any rejected P2-038 engineering asset is read, restored, compared, copied or reused.
+  - A required write exceeds this Contract or any external effect is required.
+  - The same normalized root cause repeats in adjacent iterations or two same-Task repairs are exhausted.
+  - The prefreeze gate, final Reviewer, tree equality or canonical make verify returns NONPASS.
+  - A second candidate, correction, successor, replacement or Phase-boundary change is required.
+knowledge_sync:
+  mode: EVENT_DRIVEN_NON_BLOCKING
+  task_accept_or_terminal_event_required: true
+  capability_credit_before_full_gate: 0
+claim_boundary: >-
+  Javac-oracle-bound Java lexical precedence and per-case raw semantic Evidence
+  kernel only. No graph or benchmark capability credit, Provider, Secret,
+  network, remote, production, public, hostile-principal, complete Java compiler,
+  generic classpath authority or P3 claim.

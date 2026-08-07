@@ -3,7 +3,7 @@ record_type: aios_phase_local_task_contract
 task_id: AIOS-P2-041_JAVAC_ORACLE_LEXICAL_PRECEDENCE_AND_CASE_EVIDENCE_KERNEL
 phase: P2
 route_id: P2_JAVAC_ORACLE_LEXICAL_PRECEDENCE_PER_CASE_EVIDENCE_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
-status: ACTIVE
+status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
 objective: >-
   Build a clean-room Java lexical resolution kernel whose precedence and
   ambiguity decisions are checked against real javac behavior and whose every
@@ -175,6 +175,48 @@ knowledge_sync:
   mode: EVENT_DRIVEN_NON_BLOCKING
   task_accept_or_terminal_event_required: true
   capability_credit_before_full_gate: 0
+terminal_result:
+  recorded_at_utc: "2026-08-07T03:04:42Z"
+  classification: TERMINAL_EXACT_CANDIDATE_FINAL_REVIEW_STOP_CONDITION
+  candidate_commit: a1019a4178cdf8c313538ce9a3c90584d0faa624
+  candidate_tree: 5bdb0cb9be6827599014e1e1547bdb6dca08551d
+  candidate_manifest:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-javac-oracle-lexical-precedence-graph-context-20260807/task-1-p2-041/candidate/final-v1/P2_041_EXACT_CANDIDATE_MANIFEST_V1.json
+    byte_length: 5959
+    sha256: 26e408069840f29a05acdf2c662abbed83a7f85c812146c77984f6d680e586c3
+  prefreeze_evidence_manifest:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-javac-oracle-lexical-precedence-graph-context-20260807/task-1-p2-041/evidence/prefreeze-final-v1/EVIDENCE_MANIFEST.json
+    byte_length: 61904
+    sha256: 8a9ff4911830ff54f3dfbb6d3074bb63f2867f258981b882a283119206b3b773
+  independent_evaluator_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-javac-oracle-lexical-precedence-graph-context-20260807/task-1-p2-041/evidence/evaluator-prefreeze-final-v1/EVALUATOR_RECEIPT.json
+    byte_length: 6302
+    sha256: 1c05ff4774b806013555d6333323fb10a7b2c6ac5c499bd1cc2b9a66a100103e
+  worker_matrix_status: PASS_13_OF_13
+  independent_evaluator_status: PASS_13_POSITIVE_9_NEGATIVE
+  final_cto_target_verdict: NON_PASS
+  final_cto_review_sha256: 73b8e3f6173a3839933d82991c97b05f02d5de9ca0aae906c7233feab8352e42
+  final_security_target_verdict: NON_PASS
+  final_security_review_sha256: 8a0ccaca63d9af7e69e02ed3b5347f702f3dd285a9222f0c58f1706a3d51b309
+  final_quality_target_verdict: PASS
+  final_quality_review_sha256: f5105b49089e328a23c4d90dbc5e7b1c6682915af2edb21169d221063903eb5d
+  normalized_root_causes:
+    - P2041.FINAL.CTO.JAVA_LANG_AND_WILDCARD_AMBIGUITY_FALSE_RESOLUTION
+    - P2041.FINAL.CTO.INHERITED_MEMBER_TYPE_NEAREST_DECLARATION_HIDING_MISSING
+    - P2041.FINAL.CTO.JAVAC_SUCCESS_ORACLE_RESOLVED_IDENTITY_UNBOUND
+    - P2041.FINAL.SECURITY.PRODUCT_ADMISSION_HARDLINK_FALSE_ACCEPT
+    - P2041.FINAL.SECURITY.CHILD_PROCESS_ENVIRONMENT_UNBOUNDED
+    - P2041.FINAL.SECURITY.EXTERNAL_EFFECT_ZERO_CLAIMS_NOT_RAW_DERIVED
+    - P2041.FINAL.SECURITY.JAVAC_EXECUTABLE_IDENTITY_UNBOUND
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-javac-oracle-lexical-precedence-graph-context-20260807/task-1-p2-041/terminal/P2_041_TERMINAL_FINAL_REVIEW_NON_PASS_RECEIPT_V1.json
+    byte_length: 3612
+    sha256: c94de7e837148d83b51e7ab220612f9c2f9140fe684642aa78b3ebe60aef559c
+  candidate_integrated: false
+  canonical_make_verify: NOT_INVOKED_FINAL_REVIEW_NON_PASS
+  p2_042_started: false
+  p2_043_started: false
+  capability_credit: 0
 claim_boundary: >-
   Javac-oracle-bound Java lexical precedence and per-case raw semantic Evidence
   kernel only. No graph or benchmark capability credit, Provider, Secret,

@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-07T01:35:00Z"
-verification_scope: P2_JAVAC_ORACLE_ROUTE_AUTHORIZED_READY
+last_verified_at: "2026-08-07T03:04:42Z"
+verification_scope: P2_041_TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
 
 authority:
   founder: Human Founder
@@ -37,9 +37,17 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: AIOS-P2-041_JAVAC_ORACLE_LEXICAL_PRECEDENCE_AND_CASE_EVIDENCE_KERNEL
+  current_task_authority: NONE
   note: >-
-    Founder authorized the clean-room javac-oracle lexical precedence,
+    P2-041 is TERMINAL_FINAL_REVIEW_TARGET_NON_PASS. Its frozen worker matrix
+    and independent evaluator passed, and Quality returned PASS, but fresh CTO
+    and Security Reviews independently reproduced material Java-resolution,
+    javac-oracle identity and product-admission defects. The exact candidate is
+    preserved but unintegrated, canonical make verify was not invoked,
+    P2-042/P2-043 were not started and P2 capability credit remains zero. P2 is
+    stopped at the Founder Phase Gate. All paragraphs below this sentence are
+    retained historical chronology only and have no current Task, Route or
+    scheduling authority. Founder authorized the clean-room javac-oracle lexical precedence,
     per-case raw Evidence, declaration-closed graph transaction and offline
     context benchmark Route. P2-041 is now the unique active Task;
     P2-042/P2-043 remain predecessor-gated. P2-038 remains terminal and
@@ -1332,9 +1340,9 @@ project:
   p1_execution_status: COMPLETE_STRICT_8_OF_8_100_PERCENT
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
-  p2_execution_status: ACTIVE
-  phase_execution_status: ACTIVE
-  current_route_execution_status: ACTIVE_TASK_1
+  p2_execution_status: STOPPED_AT_FOUNDER_PHASE_GATE
+  phase_execution_status: STOPPED_AT_FOUNDER_PHASE_GATE
+  current_route_execution_status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -6081,11 +6089,11 @@ historical_p1_162_phase_route:
 current_phase_route:
   schema_version: "1.1"
   route_id: P2_JAVAC_ORACLE_LEXICAL_PRECEDENCE_PER_CASE_EVIDENCE_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
-  status: ACTIVE
-  authority_object_status: ACTIVE_TASK_AUTHORITY_RECORD
-  execution_status: ACTIVE_TASK_1
-  founder_phase_route_decision_required: false
-  scheduling_status: EXECUTING_P2_041
+  status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+  authority_object_status: TERMINAL_NO_ACTIVE_TASK
+  execution_status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+  founder_phase_route_decision_required: true
+  scheduling_status: STOPPED_AT_FOUNDER_P2_PHASE_GATE
   phase: P2
   phase_entry_status: AUTHORIZED
   authorization_token: AUTHORIZE_P2_JAVAC_ORACLE_LEXICAL_PRECEDENCE_PER_CASE_EVIDENCE_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
@@ -6193,7 +6201,7 @@ current_phase_route:
   first_task:
     task_slot: 1
     task_id: AIOS-P2-041_JAVAC_ORACLE_LEXICAL_PRECEDENCE_AND_CASE_EVIDENCE_KERNEL
-    status: ACTIVE
+    status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
     engineering_hours: 10
     calendar_days: 2
     max_engineering_hours: 10
@@ -6213,7 +6221,7 @@ current_phase_route:
   task_plan:
     - task_slot: 1
       task_id: AIOS-P2-041_JAVAC_ORACLE_LEXICAL_PRECEDENCE_AND_CASE_EVIDENCE_KERNEL
-      status: ACTIVE
+      status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
       engineering_hours: 10
       calendar_days: 2
       max_implementation_iterations: 3
@@ -6229,7 +6237,7 @@ current_phase_route:
         public: false
     - task_slot: 2
       task_id: AIOS-P2-042_DECLARATION_CLOSED_JAVA_GRAPH_TRANSACTION
-      status: PENDING_PREDECESSOR_TASK_GATE
+      status: NOT_STARTED_PREDECESSOR_TASK_GATE_NON_PASS
       engineering_hours: 22
       calendar_days: 5
       max_implementation_iterations: 3
@@ -6244,7 +6252,7 @@ current_phase_route:
         public: false
     - task_slot: 3
       task_id: AIOS-P2-043_GRAPH_CONDITIONED_CONTEXT_OFFLINE_BENCHMARK
-      status: PENDING_PREDECESSOR_TASK_GATE
+      status: NOT_STARTED_PREDECESSOR_TASK_GATE_NON_PASS
       engineering_hours: 12
       calendar_days: 3
       max_implementation_iterations: 3
@@ -6268,6 +6276,53 @@ current_phase_route:
     - after_task_id: AIOS-P2-042_DECLARATION_CLOSED_JAVA_GRAPH_TRANSACTION
       next_task_id: AIOS-P2-043_GRAPH_CONDITIONED_CONTEXT_OFFLINE_BENCHMARK
       requires_task_gate_pass: true
+  terminal_p2_041_result:
+    task_id: AIOS-P2-041_JAVAC_ORACLE_LEXICAL_PRECEDENCE_AND_CASE_EVIDENCE_KERNEL
+    status: TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+    classification: TERMINAL_EXACT_CANDIDATE_FINAL_REVIEW_STOP_CONDITION
+    terminal_contract_sha256: 7fe46cf5b87b3f0183ad587bc09abeec443e72c03894f62d732ab0ef758cff38
+    terminal_contract_byte_length: 12606
+    candidate_commit: a1019a4178cdf8c313538ce9a3c90584d0faa624
+    candidate_tree: 5bdb0cb9be6827599014e1e1547bdb6dca08551d
+    candidate_manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-javac-oracle-lexical-precedence-graph-context-20260807/task-1-p2-041/candidate/final-v1/P2_041_EXACT_CANDIDATE_MANIFEST_V1.json
+    candidate_manifest_sha256: 26e408069840f29a05acdf2c662abbed83a7f85c812146c77984f6d680e586c3
+    candidate_manifest_byte_length: 5959
+    tracked_binary_diff_sha256: 1b433f0fa6edf327ea936092520961d0a320a8b50960d57f5686242bd7ec42cb
+    prefreeze_evidence_manifest_path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-javac-oracle-lexical-precedence-graph-context-20260807/task-1-p2-041/evidence/prefreeze-final-v1/EVIDENCE_MANIFEST.json
+    prefreeze_evidence_manifest_sha256: 8a9ff4911830ff54f3dfbb6d3074bb63f2867f258981b882a283119206b3b773
+    prefreeze_evidence_manifest_byte_length: 61904
+    independent_evaluator_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-javac-oracle-lexical-precedence-graph-context-20260807/task-1-p2-041/evidence/evaluator-prefreeze-final-v1/EVALUATOR_RECEIPT.json
+    independent_evaluator_receipt_sha256: 1c05ff4774b806013555d6333323fb10a7b2c6ac5c499bd1cc2b9a66a100103e
+    independent_evaluator_receipt_byte_length: 6302
+    worker_matrix_status: PASS_13_OF_13
+    independent_evaluator_status: PASS_13_POSITIVE_9_NEGATIVE
+    final_cto_target_verdict: NON_PASS
+    final_cto_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-javac-oracle-lexical-precedence-graph-context-20260807/task-1-p2-041/reviews/final-cycle-1/CTO_REVIEW.json
+    final_cto_review_sha256: 73b8e3f6173a3839933d82991c97b05f02d5de9ca0aae906c7233feab8352e42
+    final_security_target_verdict: NON_PASS
+    final_security_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-javac-oracle-lexical-precedence-graph-context-20260807/task-1-p2-041/reviews/final-cycle-1/SECURITY_REVIEW.json
+    final_security_review_sha256: 8a0ccaca63d9af7e69e02ed3b5347f702f3dd285a9222f0c58f1706a3d51b309
+    final_quality_target_verdict: PASS
+    final_quality_review_path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-javac-oracle-lexical-precedence-graph-context-20260807/task-1-p2-041/reviews/final-cycle-1/QUALITY_REVIEW.json
+    final_quality_review_sha256: f5105b49089e328a23c4d90dbc5e7b1c6682915af2edb21169d221063903eb5d
+    normalized_root_causes:
+      - P2041.FINAL.CTO.JAVA_LANG_AND_WILDCARD_AMBIGUITY_FALSE_RESOLUTION
+      - P2041.FINAL.CTO.INHERITED_MEMBER_TYPE_NEAREST_DECLARATION_HIDING_MISSING
+      - P2041.FINAL.CTO.JAVAC_SUCCESS_ORACLE_RESOLVED_IDENTITY_UNBOUND
+      - P2041.FINAL.SECURITY.PRODUCT_ADMISSION_HARDLINK_FALSE_ACCEPT
+      - P2041.FINAL.SECURITY.CHILD_PROCESS_ENVIRONMENT_UNBOUNDED
+      - P2041.FINAL.SECURITY.EXTERNAL_EFFECT_ZERO_CLAIMS_NOT_RAW_DERIVED
+      - P2041.FINAL.SECURITY.JAVAC_EXECUTABLE_IDENTITY_UNBOUND
+    candidate_integrated: false
+    canonical_make_verify: NOT_INVOKED_FINAL_REVIEW_NON_PASS
+    accepted_capability: false
+    capability_credit: 0
+    p2_042_status: NOT_STARTED_PREDECESSOR_TASK_GATE_NON_PASS
+    p2_043_status: NOT_STARTED_PREDECESSOR_TASK_GATE_NON_PASS
+    evidence_tag: evidence/p2-041-javac-oracle-lexical-v1
+    terminal_receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-javac-oracle-lexical-precedence-graph-context-20260807/task-1-p2-041/terminal/P2_041_TERMINAL_FINAL_REVIEW_NON_PASS_RECEIPT_V1.json
+    terminal_receipt_sha256: c94de7e837148d83b51e7ab220612f9c2f9140fe684642aa78b3ebe60aef559c
+    terminal_receipt_byte_length: 3612
   terminal_p2_038_result:
     task_id: AIOS-P2-038_SOURCE_DERIVED_JAVA_RESOLUTION_TRUTH_KERNEL
     status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
@@ -6557,7 +6612,7 @@ current_phase_route:
     terminal_receipt_sha256: f6e2ce1203b36d04526b2b4fba80ce4b53a6dd5802a55b458e73e17638bf8357
     terminal_receipt_byte_length: 3227
     p2_022_status: NOT_STARTED_PREDECESSOR_TASK_GATE_NON_PASS
-  next_eligible_action: EXECUTE_AIOS_P2_041_JAVAC_ORACLE_LEXICAL_PRECEDENCE_AND_CASE_EVIDENCE_KERNEL
+  next_eligible_action: FOUNDER_P2_PHASE_GATE
 
 historical_p2_016_phase_route:
   schema_version: "1.1"
@@ -10929,7 +10984,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260807-P2-041-TASK-ACTIVATED-V1
+  latest_event_id: FKS-20260807-P2-041-TERMINAL-FINAL-REVIEW-NON-PASS-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -14586,6 +14641,32 @@ founder_knowledge_sync:
         byte_length: null
         sha256: null
       event_sha256: c1705959984c5a622aff44087873f30310fe37491870c9980c061c22ce1ae743
+    - event_id: FKS-20260807-P2-041-TERMINAL-FINAL-REVIEW-NON-PASS-V1
+      trigger_type: TASK_TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+      occurred_at_utc: "2026-08-07T03:04:42Z"
+      source_commit: 1a1205afa7449d9b1b2f6a365cfe6fb50f76abc5
+      source_tree: 570d3cd64884725f1f398fa24af1f55358959d90
+      previous_event_sha256: c1705959984c5a622aff44087873f30310fe37491870c9980c061c22ce1ae743
+      status: PENDING_CANDIDATE
+      rationale: P2-041 completed its frozen worker matrix and independent evaluator, but fresh CTO and Security Reviews reproduced material Java-resolution, javac-oracle identity, hardlink admission, child-environment and raw external-effect Evidence defects. The exact candidate remains preserved and unintegrated, canonical make verify was not invoked, P2-042 and P2-043 were not started, and P2 capability credit remains zero.
+      engineering_blocking: false
+      artifact:
+        path: null
+        byte_length: null
+        sha256: null
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+      event_sha256: a97dbe0f149ecc8351d283f019c252813ce1ed353847752b2a97f44c9c2357f1
 
 historical_active_work_after_p1_079:
   current_task: NONE
@@ -14638,49 +14719,38 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
-  current_task: AIOS-P2-041_JAVAC_ORACLE_LEXICAL_PRECEDENCE_AND_CASE_EVIDENCE_KERNEL
-  current_task_status: ACTIVE
+  current_task: NONE
+  current_task_status: NONE
   current_task_contract:
-    path: docs/aios/tasks/P2-041_JAVAC_ORACLE_LEXICAL_PRECEDENCE_AND_CASE_EVIDENCE_KERNEL.yaml
-    sha256: 2f784ff3a67d87d31b3246655e2c7aae1add9df8bc82e0fefc328ecc0a1dc218
-    byte_length: 9913
-  current_task_contract_sha256: 2f784ff3a67d87d31b3246655e2c7aae1add9df8bc82e0fefc328ecc0a1dc218
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-javac-oracle-lexical-precedence-graph-context-20260807/task-1-p2-041/authority/P2_041_PHASE_DELEGATED_TASK_AUTHORITY_V1.yaml
-  current_execution_authorization_sha256: b0595faa1c5932bd3a78cc61392a86150af754e00dcb51c0a8e9048493caadf5
+    path: null
+    sha256: null
+    byte_length: null
+  current_task_contract_sha256: null
+  current_execution_authorization: null
+  current_execution_authorization_sha256: null
   authority_record:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-javac-oracle-lexical-precedence-graph-context-20260807/task-1-p2-041/authority/P2_041_PHASE_DELEGATED_TASK_AUTHORITY_V1.yaml
-    sha256: b0595faa1c5932bd3a78cc61392a86150af754e00dcb51c0a8e9048493caadf5
-    byte_length: 3406
-  execution_nonce: c504e618-205b-4c17-8a37-23f0ee3f2bfe
-  execution_nonce_status: ACTIVE
-  authorization_id: P2-041-PHASE-DELEGATED-AUTHORITY-V1
-  activation_parent_commit: 77f8a2c500f3576af89e09948222b23821eb91bd
-  activation_parent_tree: acbfc8bf8a95994cf6c30d93b981bc84b3a0be9e
-  task_resource_state: CREATED_ACTIVE
-  task_branch: codex/p2-041-javac-oracle-lexical-evidence
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P2-041-javac-oracle-lexical-evidence
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-javac-oracle-lexical-precedence-graph-context-20260807/task-1-p2-041
-  allowlisted_paths:
-    - backend-spring/src/main/java/com/sourcelens/module/analysis/graph/lexical
-    - backend-spring/src/test/java/com/sourcelens/module/analysis/graph/lexical
-    - evaluation-harness/harness/p2-041-javac-oracle-lexical-evidence
-    - evaluation-harness/evaluator/p2-041-javac-oracle-lexical-evidence
-    - scripts/verify-p2-041-javac-oracle-lexical-evidence.sh
-    - docs/aios/tasks/P2-041_JAVAC_ORACLE_LEXICAL_PRECEDENCE_AND_CASE_EVIDENCE_KERNEL.yaml
-    - docs/aios/truth/project_state.yaml
-    - docs/PROJECT_CODE_MAP.md
+    path: null
+    sha256: null
+    byte_length: null
+  execution_nonce: null
+  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
+  authorization_id: null
+  activation_parent_commit: null
+  activation_parent_tree: null
+  task_resource_state: NOT_CREATED_ROUTE_TERMINAL
+  task_branch: null
+  task_worktree: null
+  execution_evidence_root: null
+  allowlisted_paths: []
   budget:
-    engineering_hours: 10
-    calendar_days: 2
-    implementation_iterations: 3
-    candidates: 1
+    engineering_hours: null
+    calendar_days: null
+    implementation_iterations: null
+    candidates: null
   roles:
-    owner: P2-041 Engineering Manager
-    worker: P2-041 Clean-Room Java Resolution Worker
-    independent_reviewers:
-      - P2-041 Fresh CTO Reviewer
-      - P2-041 Fresh Security Reviewer
-      - P2-041 Fresh Quality Reviewer
+    owner: null
+    worker: null
+    independent_reviewers: []
   external_effects:
     network: false
     provider: false
@@ -14689,15 +14759,15 @@ active_work:
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-javac-oracle-lexical-precedence-graph-context-20260807/decision/FOUNDER_P2_JAVAC_ORACLE_LEXICAL_PRECEDENCE_PER_CASE_EVIDENCE_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1.structured-decision.json
-  founder_reserved_authorization_sha256: 584c1cca4f9bd179e4131c1b3834180671bdcb57aee6e99d0be1bf3c05470f87
-  founder_decision_required: false
-  founder_decision_required_scope: null
-  escalation_reason: null
-  user_action_required: NONE
-  phase_route_decision_required: false
-  phase_route_user_action_required: NONE
-  next_eligible_action: EXECUTE_AIOS_P2_041_JAVAC_ORACLE_LEXICAL_PRECEDENCE_AND_CASE_EVIDENCE_KERNEL
+  founder_reserved_authorization: null
+  founder_reserved_authorization_sha256: null
+  founder_decision_required: true
+  founder_decision_required_scope: P2_PHASE_GATE_AFTER_P2_041_TERMINAL_FINAL_REVIEW_TARGET_NON_PASS
+  escalation_reason: P2_041_FRESH_CTO_AND_SECURITY_TARGET_NON_PASS_WITH_REAL_SEMANTIC_AND_ADMISSION_DEFECTS
+  user_action_required: FOUNDER_P2_PHASE_GATE_DECISION
+  phase_route_decision_required: true
+  phase_route_user_action_required: FOUNDER_P2_PHASE_GATE_DECISION
+  next_eligible_action: FOUNDER_P2_PHASE_GATE
 historical_p1_190_terminal_active_work:
   current_task: NONE
   current_task_status: NONE

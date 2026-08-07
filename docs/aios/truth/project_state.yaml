@@ -6159,11 +6159,6 @@ current_phase_route:
       public: false
   founder_reserved_profile: null
   founder_reserved_profiles: []
-  additional_write_roots:
-    - backend-spring/src/main/java/com/sourcelens/module/analysis/compiler
-    - backend-spring/src/test/java/com/sourcelens/module/analysis/compiler
-    - evaluation-harness/contracts/p2-044-compiler-native-java-binding
-    - evaluation-harness/fixtures/p2-044-compiler-native-java-binding
   accepted_inputs:
     p1_035:
       task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
@@ -6568,10 +6563,10 @@ current_phase_route:
     terminal_receipt_byte_length: 2660
     p2_024_status: NOT_STARTED_PREDECESSOR_TASK_GATE_NON_PASS
   additional_write_roots:
-    - backend-spring/src/main/java/com/sourcelens/module/analysis/graph/lexical
-    - backend-spring/src/test/java/com/sourcelens/module/analysis/graph/lexical
-    - evaluation-harness/harness/p2-041-javac-oracle-lexical-evidence
-    - evaluation-harness/evaluator/p2-041-javac-oracle-lexical-evidence
+    - backend-spring/src/main/java/com/sourcelens/module/analysis/compiler
+    - backend-spring/src/test/java/com/sourcelens/module/analysis/compiler
+    - evaluation-harness/contracts/p2-044-compiler-native-java-binding
+    - evaluation-harness/fixtures/p2-044-compiler-native-java-binding
   inherited_worktree_inventory: []
   historical_p2_021_terminal_result_preserved:
     task_id: AIOS-P2-021_CONTRACT_COMPLETE_JAVA_CANONICAL_GRAPH_KERNEL

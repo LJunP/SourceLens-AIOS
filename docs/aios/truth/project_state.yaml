@@ -6159,6 +6159,11 @@ current_phase_route:
       public: false
   founder_reserved_profile: null
   founder_reserved_profiles: []
+  additional_write_roots:
+    - backend-spring/src/main/java/com/sourcelens/module/analysis/compiler
+    - backend-spring/src/test/java/com/sourcelens/module/analysis/compiler
+    - evaluation-harness/contracts/p2-044-compiler-native-java-binding
+    - evaluation-harness/fixtures/p2-044-compiler-native-java-binding
   accepted_inputs:
     p1_035:
       task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET

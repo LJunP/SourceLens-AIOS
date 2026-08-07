@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-06T18:00:42Z"
-verification_scope: P2_038_TERMINAL_FINAL_CTO_TARGET_NON_PASS
+last_verified_at: "2026-08-07T01:35:00Z"
+verification_scope: P2_JAVAC_ORACLE_ROUTE_AUTHORIZED_READY
 
 authority:
   founder: Human Founder
@@ -39,7 +39,14 @@ goal:
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
   current_task_authority: NONE
   note: >-
-    P2-038 is TERMINAL_FINAL_CTO_TARGET_NON_PASS. Its frozen worker and
+    Founder authorized the clean-room javac-oracle lexical precedence,
+    per-case raw Evidence, declaration-closed graph transaction and offline
+    context benchmark Route. P2-041 is eligible but not yet activated;
+    P2-042/P2-043 remain predecessor-gated. P2-038 remains terminal and
+    non-reusable, all six external effects remain false and Route authorization
+    adds no P2 capability credit. All paragraphs below this sentence are
+    retained historical chronology only and have no current Task, Route or
+    scheduling authority. P2-038 is TERMINAL_FINAL_CTO_TARGET_NON_PASS. Its frozen worker and
     independent matrices passed, but fresh CTO review proved that nested Java
     lexical shadowing is falsely classified as ambiguity and that the closed
     Evidence lacks Contract-required per-case raw semantic artifacts. The exact
@@ -1325,9 +1332,9 @@ project:
   p1_execution_status: COMPLETE_STRICT_8_OF_8_100_PERCENT
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
-  p2_execution_status: STOPPED_AT_FOUNDER_PHASE_GATE
-  phase_execution_status: STOPPED_AT_FOUNDER_PHASE_GATE
-  current_route_execution_status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
+  p2_execution_status: AUTHORIZED_READY
+  phase_execution_status: AUTHORIZED_READY
+  current_route_execution_status: AUTHORIZED_READY
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -6073,31 +6080,31 @@ historical_p1_162_phase_route:
 
 current_phase_route:
   schema_version: "1.1"
-  route_id: P2_SOURCE_DERIVED_SEMANTIC_TRUTH_CAUSAL_EVIDENCE_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
-  status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
-  authority_object_status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
-  execution_status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
-  founder_phase_route_decision_required: true
-  scheduling_status: STOPPED_AT_FOUNDER_P2_PHASE_GATE
+  route_id: P2_JAVAC_ORACLE_LEXICAL_PRECEDENCE_PER_CASE_EVIDENCE_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
+  status: AUTHORIZED_READY
+  authority_object_status: READY_NO_ACTIVE_TASK
+  execution_status: AUTHORIZED_READY
+  founder_phase_route_decision_required: false
+  scheduling_status: READY_FOR_P2_041_ACTIVATION
   phase: P2
   phase_entry_status: AUTHORIZED
-  authorization_token: AUTHORIZE_P2_SOURCE_DERIVED_SEMANTIC_TRUTH_CAUSAL_EVIDENCE_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
+  authorization_token: AUTHORIZE_P2_JAVAC_ORACLE_LEXICAL_PRECEDENCE_PER_CASE_EVIDENCE_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
   decision_packet:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-source-derived-semantic-truth-causal-evidence-graph-context-20260807/decision/FOUNDER_P2_SOURCE_DERIVED_SEMANTIC_TRUTH_CAUSAL_EVIDENCE_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1.structured-decision.json
-    sha256: fdda93490a2d6f379285aba0e3ec5878aa083a7e62ac0d5a7edec2a1505697be
-    byte_length: 3545
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-javac-oracle-lexical-precedence-graph-context-20260807/decision/FOUNDER_P2_JAVAC_ORACLE_LEXICAL_PRECEDENCE_PER_CASE_EVIDENCE_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1.structured-decision.json
+    sha256: 584c1cca4f9bd179e4131c1b3834180671bdcb57aee6e99d0be1bf3c05470f87
+    byte_length: 3588
   original_founder_packet:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-single-transaction-java-graph-context-20260806/founder-phase-gate-draft/FOUNDER_P2_SOURCE_DERIVED_SEMANTIC_TRUTH_CAUSAL_EVIDENCE_GRAPH_AND_CONTEXT_ROUTE_V1.md
-    sha256: 117151a9af31f2eaafb0a68f622a1ffa3953111e57f54897d63c1e923a1a9fc7
-    byte_length: 6676
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-javac-oracle-lexical-precedence-graph-context-20260807/decision/FOUNDER_P2_JAVAC_ORACLE_LEXICAL_PRECEDENCE_PER_CASE_EVIDENCE_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1.md
+    sha256: fe759a7c5c18ea33600b776011a3a863b7bcb427b4506b9cd4ac9f00d417ca68
+    byte_length: 6108
   historical_p2_021_founder_exception_authorization:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-contract-complete-java-graph-context-20260806/task-1-p2-021/authority/P2_021_EXACT_VERIFIER_CLONE_PHYSICAL_ROOT_REENTRY_AUTHORITY_V1.yaml
     sha256: 2bed204bc2a2192b0e5f32acd2ac4fcbaae27f9fe4b7dc727d0ea494d554742b
     byte_length: 6187
     authorization_token: AUTHORIZE_ONE_P2_021_EXACT_VERIFIER_CLONE_PHYSICAL_ROOT_CORRECTION_AND_FINAL_MATRIX_REENTRY_V1
   activation_parent:
-    commit: b6504232faeda803a48f6b163b0929a79d47f282
-    tree: b5c047e0f4361116f4726ec0758478f41ac40323
+    commit: 901366566b4e3215f429f736cdf93322e22e19d1
+    tree: 730425403d3688d8bd5d2a61a311208ee5ca19b3
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: "1.7"
@@ -6109,21 +6116,21 @@ current_phase_route:
     canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
     canonical_byte_length: 19434
   objective: >-
-    Establish source-derived Java resolution truth, use it to build a
-    causal-Evidence-bound declaration-closed canonical graph, and compare
-    graph-conditioned context selection against the lexical baseline using only
-    accepted canonical P1 assets.
-  claim_boundary: OFFLINE_CLEAN_ROOM_SOURCE_DERIVED_JAVA_SEMANTIC_TRUTH_THEN_CAUSAL_EVIDENCE_BOUND_DECLARATION_CLOSED_GRAPH_THEN_ACCEPTED_GRAPH_CONTEXT_BENCHMARK_ONLY_ACCEPTED_CANONICAL_P1_ASSETS_NO_REJECTED_P2_ENGINEERING_REUSE_NO_NETWORK_PROVIDER_SECRET_REMOTE_PRODUCTION_PUBLIC_PUSH_OR_P3_ENTRY
+    Establish javac-oracle-bound Java lexical resolution precedence with
+    closed per-case raw semantic Evidence, then build a declaration-closed
+    deterministic graph transaction and compare graph-conditioned context
+    selection against the lexical baseline using accepted canonical assets.
+  claim_boundary: OFFLINE_CLEAN_ROOM_JAVAC_ORACLE_BOUND_JAVA_LEXICAL_PRECEDENCE_AND_PER_CASE_RAW_SEMANTIC_EVIDENCE_THEN_DECLARATION_CLOSED_GRAPH_TRANSACTION_THEN_ACCEPTED_GRAPH_CONTEXT_BENCHMARK_ONLY_ACCEPTED_CANONICAL_ASSETS_NO_REJECTED_P2_ENGINEERING_REUSE_NO_NETWORK_PROVIDER_SECRET_REMOTE_PRODUCTION_PUBLIC_PUSH_OR_P3_ENTRY
   envelope:
     max_engineering_tasks: 3
-    max_engineering_hours: 48
-    max_calendar_days: 12
+    max_engineering_hours: 44
+    max_calendar_days: 10
     max_active_tasks: 1
     max_task_branches: 1
     max_task_worktrees: 1
     max_active_candidates: 1
     max_contract_corrections_per_task: 0
-    max_same_task_repairs: 3
+    max_same_task_repairs: 2
     successor_replacement_normalization_closure_feasibility_or_remediation_chain_allowed: false
     p2_entry_authorized: true
     p3_entry_authorized: false
@@ -6185,16 +6192,15 @@ current_phase_route:
     - p1_219
   first_task:
     task_slot: 1
-    task_id: AIOS-P2-038_SOURCE_DERIVED_JAVA_RESOLUTION_TRUTH_KERNEL
-    status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
-    engineering_hours: 14
-    calendar_days: 4
-    max_engineering_hours: 14
-    max_calendar_days: 4
-    max_implementation_iterations: 4
-    max_same_task_repairs: 3
+    task_id: AIOS-P2-041_JAVAC_ORACLE_LEXICAL_PRECEDENCE_AND_CASE_EVIDENCE_KERNEL
+    status: ELIGIBLE_NOT_ACTIVATED
+    engineering_hours: 10
+    calendar_days: 2
+    max_engineering_hours: 10
+    max_calendar_days: 2
+    max_implementation_iterations: 3
+    max_same_task_repairs: 2
     max_candidates: 1
-    contract_path: docs/aios/tasks/P2-038_SOURCE_DERIVED_JAVA_RESOLUTION_TRUTH_KERNEL.yaml
     external_effects:
       network: false
       provider: false
@@ -6202,17 +6208,16 @@ current_phase_route:
       remote: false
       production: false
       public: false
-    p2_capability_claim_on_pass: SOURCE_DERIVED_JAVA_RESOLUTION_TRUTH_KERNEL_NO_EXIT_GATE_CREDIT
+    p2_capability_claim_on_pass: JAVAC_ORACLE_LEXICAL_PRECEDENCE_AND_CASE_EVIDENCE_KERNEL_NO_GRAPH_OR_BENCHMARK_CREDIT
   task_plan:
     - task_slot: 1
-      task_id: AIOS-P2-038_SOURCE_DERIVED_JAVA_RESOLUTION_TRUTH_KERNEL
-      status: TERMINAL_FINAL_CTO_TARGET_NON_PASS
-      engineering_hours: 14
-      calendar_days: 4
-      max_implementation_iterations: 4
-      max_same_task_repairs: 3
+      task_id: AIOS-P2-041_JAVAC_ORACLE_LEXICAL_PRECEDENCE_AND_CASE_EVIDENCE_KERNEL
+      status: ELIGIBLE_NOT_ACTIVATED
+      engineering_hours: 10
+      calendar_days: 2
+      max_implementation_iterations: 3
+      max_same_task_repairs: 2
       max_candidates: 1
-      contract_path: docs/aios/tasks/P2-038_SOURCE_DERIVED_JAVA_RESOLUTION_TRUTH_KERNEL.yaml
       external_effects:
         network: false
         provider: false
@@ -6221,12 +6226,12 @@ current_phase_route:
         production: false
         public: false
     - task_slot: 2
-      task_id: AIOS-P2-039_CAUSAL_EVIDENCE_BOUND_DECLARATION_CLOSED_JAVA_GRAPH
-      status: NOT_STARTED_PREDECESSOR_TASK_GATE_NON_PASS
+      task_id: AIOS-P2-042_DECLARATION_CLOSED_JAVA_GRAPH_TRANSACTION
+      status: PENDING_PREDECESSOR_TASK_GATE
       engineering_hours: 22
       calendar_days: 5
-      max_implementation_iterations: 4
-      max_same_task_repairs: 3
+      max_implementation_iterations: 3
+      max_same_task_repairs: 2
       max_candidates: 1
       external_effects:
         network: false
@@ -6236,12 +6241,12 @@ current_phase_route:
         production: false
         public: false
     - task_slot: 3
-      task_id: AIOS-P2-040_ACCEPTED_JAVA_GRAPH_CONTEXT_OFFLINE_BENCHMARK
-      status: NOT_STARTED_PREDECESSOR_TASK_GATE_NON_PASS
+      task_id: AIOS-P2-043_GRAPH_CONDITIONED_CONTEXT_OFFLINE_BENCHMARK
+      status: PENDING_PREDECESSOR_TASK_GATE
       engineering_hours: 12
       calendar_days: 3
-      max_implementation_iterations: 4
-      max_same_task_repairs: 3
+      max_implementation_iterations: 3
+      max_same_task_repairs: 2
       max_candidates: 1
       external_effects:
         network: false
@@ -6251,15 +6256,15 @@ current_phase_route:
         production: false
         public: false
   automatic_entry:
-    after_task_id: AIOS-P2-038_SOURCE_DERIVED_JAVA_RESOLUTION_TRUTH_KERNEL
-    next_task_id: AIOS-P2-039_CAUSAL_EVIDENCE_BOUND_DECLARATION_CLOSED_JAVA_GRAPH
+    after_task_id: AIOS-P2-041_JAVAC_ORACLE_LEXICAL_PRECEDENCE_AND_CASE_EVIDENCE_KERNEL
+    next_task_id: AIOS-P2-042_DECLARATION_CLOSED_JAVA_GRAPH_TRANSACTION
     requires_task_gate_pass: true
   automatic_entries:
-    - after_task_id: AIOS-P2-038_SOURCE_DERIVED_JAVA_RESOLUTION_TRUTH_KERNEL
-      next_task_id: AIOS-P2-039_CAUSAL_EVIDENCE_BOUND_DECLARATION_CLOSED_JAVA_GRAPH
+    - after_task_id: AIOS-P2-041_JAVAC_ORACLE_LEXICAL_PRECEDENCE_AND_CASE_EVIDENCE_KERNEL
+      next_task_id: AIOS-P2-042_DECLARATION_CLOSED_JAVA_GRAPH_TRANSACTION
       requires_task_gate_pass: true
-    - after_task_id: AIOS-P2-039_CAUSAL_EVIDENCE_BOUND_DECLARATION_CLOSED_JAVA_GRAPH
-      next_task_id: AIOS-P2-040_ACCEPTED_JAVA_GRAPH_CONTEXT_OFFLINE_BENCHMARK
+    - after_task_id: AIOS-P2-042_DECLARATION_CLOSED_JAVA_GRAPH_TRANSACTION
+      next_task_id: AIOS-P2-043_GRAPH_CONDITIONED_CONTEXT_OFFLINE_BENCHMARK
       requires_task_gate_pass: true
   terminal_p2_038_result:
     task_id: AIOS-P2-038_SOURCE_DERIVED_JAVA_RESOLUTION_TRUTH_KERNEL
@@ -6493,8 +6498,10 @@ current_phase_route:
     terminal_receipt_byte_length: 2660
     p2_024_status: NOT_STARTED_PREDECESSOR_TASK_GATE_NON_PASS
   additional_write_roots:
-    - backend-spring/src/main/java/com/sourcelens/module/analysis/graph
-    - backend-spring/src/test/java/com/sourcelens/module/analysis/graph
+    - backend-spring/src/main/java/com/sourcelens/module/analysis/graph/resolution
+    - backend-spring/src/test/java/com/sourcelens/module/analysis/graph/resolution
+    - evaluation-harness/harness/p2-041-javac-oracle-lexical-evidence
+    - evaluation-harness/evaluator/p2-041-javac-oracle-lexical-evidence
   inherited_worktree_inventory: []
   historical_p2_021_terminal_result_preserved:
     task_id: AIOS-P2-021_CONTRACT_COMPLETE_JAVA_CANONICAL_GRAPH_KERNEL
@@ -6548,7 +6555,7 @@ current_phase_route:
     terminal_receipt_sha256: f6e2ce1203b36d04526b2b4fba80ce4b53a6dd5802a55b458e73e17638bf8357
     terminal_receipt_byte_length: 3227
     p2_022_status: NOT_STARTED_PREDECESSOR_TASK_GATE_NON_PASS
-  next_eligible_action: FOUNDER_P2_PHASE_GATE
+  next_eligible_action: ACTIVATE_AIOS_P2_041_JAVAC_ORACLE_LEXICAL_PRECEDENCE_AND_CASE_EVIDENCE_KERNEL
 
 historical_p2_016_phase_route:
   schema_version: "1.1"
@@ -9417,9 +9424,9 @@ historical_p2_phase_route:
   next_eligible_action: FOUNDER_P2_PHASE_GATE
 
 phase_delegation:
-  status: ACTIVE_P2_SOURCE_DERIVED_SEMANTIC_TRUTH_CAUSAL_EVIDENCE_GRAPH_ROUTE
+  status: ACTIVE_P2_JAVAC_ORACLE_LEXICAL_PRECEDENCE_GRAPH_CONTEXT_ROUTE
   model: PHASE_LEVEL_FOUNDER_DELEGATION
-  decision_source: AUTHORIZE_P2_SOURCE_DERIVED_SEMANTIC_TRUTH_CAUSAL_EVIDENCE_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
+  decision_source: AUTHORIZE_P2_JAVAC_ORACLE_LEXICAL_PRECEDENCE_PER_CASE_EVIDENCE_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
   phase_gate_owner: HUMAN_FOUNDER
   task_selection_owner: MASTER_CEO_AGENT
   task_authorization_owner: MASTER_CEO_AGENT_WITHIN_CURRENT_PHASE_ENVELOPE
@@ -10920,7 +10927,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260807-P2-038-TERMINAL-FINAL-CTO-NON-PASS-V1
+  latest_event_id: FKS-20260807-P2-JAVAC-ORACLE-LEXICAL-ROUTE-AUTHORIZED-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -14525,6 +14532,32 @@ founder_knowledge_sync:
         byte_length: 1746
         sha256: 8072f60ed300cc9264ff02c5fb6123989e5544355f8aa9d7a11c67de5a24de34
       event_sha256: 66f9bdbf47ffbbe5423a19064451fb278a53982a21618daa07dd6126b5c9fb2f
+    - event_id: FKS-20260807-P2-JAVAC-ORACLE-LEXICAL-ROUTE-AUTHORIZED-V1
+      trigger_type: FOUNDER_PHASE_ROUTE_DECISION
+      occurred_at_utc: "2026-08-07T01:45:16Z"
+      source_commit: 901366566b4e3215f429f736cdf93322e22e19d1
+      source_tree: 730425403d3688d8bd5d2a61a311208ee5ca19b3
+      previous_event_sha256: 66f9bdbf47ffbbe5423a19064451fb278a53982a21618daa07dd6126b5c9fb2f
+      status: PENDING_CANDIDATE
+      rationale: Founder authorized a clean-room P2 Route that first establishes javac-oracle-bound lexical precedence with closed per-case raw semantic Evidence, then builds a declaration-closed deterministic graph transaction and finally runs the offline graph-conditioned context benchmark. P2-038 remains terminal and non-reusable; P2-041 is eligible, P2-042/P2-043 remain predecessor-gated, all six external effects remain false and Route authorization adds no P2 capability credit.
+      engineering_blocking: false
+      artifact:
+        path: null
+        byte_length: null
+        sha256: null
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+      event_sha256: ea7d3dfb61e80ecb32394fe1fb22912e1534c59578780374a36e548d64e2f90e
 
 historical_active_work_after_p1_079:
   current_task: NONE
@@ -14595,7 +14628,7 @@ active_work:
   authorization_id: null
   activation_parent_commit: null
   activation_parent_tree: null
-  task_resource_state: NOT_CREATED_ROUTE_TERMINAL
+  task_resource_state: NOT_CREATED_ROUTE_READY
   task_branch: null
   task_worktree: null
   execution_evidence_root: null
@@ -14619,13 +14652,13 @@ active_work:
   offsite_target: null
   founder_reserved_authorization: null
   founder_reserved_authorization_sha256: null
-  founder_decision_required: true
-  founder_decision_required_scope: P2_PHASE_GATE_AFTER_P2_038_TERMINAL_FINAL_CTO_TARGET_NON_PASS
-  escalation_reason: P2038_FINAL_CTO_LEXICAL_SHADOWING_AND_RAW_CASE_EVIDENCE_GAPS
-  user_action_required: FOUNDER_P2_PHASE_GATE_DECISION
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_P2_PHASE_GATE_DECISION
-  next_eligible_action: FOUNDER_P2_PHASE_GATE
+  founder_decision_required: false
+  founder_decision_required_scope: null
+  escalation_reason: null
+  user_action_required: NONE
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: ACTIVATE_AIOS_P2_041_JAVAC_ORACLE_LEXICAL_PRECEDENCE_AND_CASE_EVIDENCE_KERNEL
 historical_p1_190_terminal_active_work:
   current_task: NONE
   current_task_status: NONE

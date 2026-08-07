@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-07T09:44:49Z"
-verification_scope: P2_049_TERMINAL_FINAL_SECURITY_TARGET_NON_PASS
+last_verified_at: "2026-08-07T13:24:52Z"
+verification_scope: P2_051_DIRECT_JAVA_GRAPH_KERNEL_ROUTE_ACTIVATION
 
 authority:
   founder: Human Founder
@@ -37,9 +37,17 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
+  current_task_authority: AIOS-P2-051_DIRECT_JAVA_CANONICAL_GRAPH_KERNEL
   note: >-
-    P2-049 is TERMINAL_FINAL_SECURITY_TARGET_NON_PASS. Its frozen candidate
+    Founder authorized the schema-compatible direct Java graph kernel and
+    context value benchmark Route. P2-051 is the unique active Task and must
+    deliver a real accepted-scanner-bound two-root replayable Java canonical
+    graph with complete raw positive and negative transactions before P2-052
+    may start. All six external effects remain false, rejected P2 engineering
+    remains non-reusable, P3 and the AIOS Console remain prohibited, and this
+    activation adds no P2 capability credit. All paragraphs below this sentence
+    are retained historical chronology only and have no current Task, Route or
+    scheduling authority. P2-049 is TERMINAL_FINAL_SECURITY_TARGET_NON_PASS. Its frozen candidate
     matrix observed two byte-exact semantic payloads across distinct physical
     roots, 26 expected negative rejections, zero false accepts and no external
     effects, but fresh Security review proved that the deleted temporary
@@ -6116,6 +6124,180 @@ historical_p1_162_phase_route:
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 
 current_phase_route:
+  schema_version: "1.1"
+  route_id: P2_DIRECT_JAVA_GRAPH_KERNEL_AND_CONTEXT_VALUE_BENCHMARK_ROUTE_V1
+  status: ACTIVE
+  authority_object_status: PHASE_DELEGATED_TASK_AUTHORITY_ACTIVE
+  execution_status: ACTIVE
+  founder_phase_route_decision_required: true
+  scheduling_status: EXECUTING_TASK_1
+  phase: P2
+  phase_entry_status: AUTHORIZED
+  authorization_token: AUTHORIZE_P2_DIRECT_JAVA_GRAPH_KERNEL_AND_CONTEXT_VALUE_BENCHMARK_ROUTE_V1
+  decision_packet:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-direct-java-graph-context-value-20260807/decision/FOUNDER_P2_DIRECT_JAVA_GRAPH_KERNEL_AND_CONTEXT_VALUE_BENCHMARK_ROUTE_V1.structured-decision.json
+    sha256: 2d130c01e0d351dc6a7ac0f278d61319c464f91dfa48736ee28271529bb48a7a
+    byte_length: 2751
+  original_founder_packet:
+    path: /Users/lijunpeng/.codex/attachments/41b32468-667b-4518-b731-b14e075d7cc7/pasted-text.txt
+    sha256: dbecebe6acadc788e16a317f831d50602bfa825bc5756bfb9dbb0af2976c2638
+    byte_length: 8359
+  activation_parent:
+    commit: 4b40bcaa54d5ed1a0e4f9e8287bb10c4ec58f7f7
+    tree: 2ce3f481d1a22bc95784ba864728077912d94a70
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: "1.7"
+    sha256: 2417cc5fbd96677ea518ccfa66d0d1adc5f48d92e4d24ef23b9ffc85d47aed72
+  goal_identity:
+    raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+    raw_byte_length: 19433
+    canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+    canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+    canonical_byte_length: 19434
+  objective: >-
+    Establish an accepted-scanner-bound replayable Java canonical graph kernel
+    and then measure graph-conditioned context selection against the accepted
+    simple lexical baseline, retaining one versioned explanation contract for
+    a future Founder-authorized AIOS Console.
+  claim_boundary: OFFLINE_CLEAN_ROOM_ACCEPTED_SCANNER_BOUND_REPLAYABLE_JAVA_CANONICAL_GRAPH_KERNEL_THEN_GRAPH_CONDITIONED_CONTEXT_VALUE_BENCHMARK_AND_VERSIONED_EXPLANATION_CONTRACT_ONLY_NO_REJECTED_P2_ENGINEERING_REUSE_NO_NETWORK_PROVIDER_SECRET_REMOTE_PRODUCTION_PUBLIC_PUSH_OR_P3_ENTRY
+  envelope:
+    max_engineering_tasks: 2
+    max_engineering_hours: 40
+    max_calendar_days: 10
+    max_active_tasks: 1
+    max_task_branches: 1
+    max_task_worktrees: 1
+    max_active_candidates: 1
+    max_contract_corrections_per_task: 0
+    max_same_task_repairs: 3
+    successor_replacement_normalization_closure_feasibility_or_remediation_chain_allowed: false
+    p2_entry_authorized: true
+    p3_entry_authorized: false
+    external_effects:
+      network: false
+      provider: false
+      secret: false
+      remote: false
+      production: false
+      public: false
+  founder_reserved_profile: null
+  founder_reserved_profiles: []
+  accepted_inputs:
+    p1_035:
+      task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
+      status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+      task_contract_path: docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
+      task_contract_sha256: acec5432aacd6476693db62bdb52ee326c467f17b691860688fe952f7ffbdc33
+      accepted_candidate_commit: 686eda0cd7a93b72ac5e64301479f17e4b096fb0
+      accepted_candidate_tree: b2740b44d0051303057deac7d719c27fd6a5578a
+      source_phase: P1
+    p1_101:
+      task_id: AIOS-P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE
+      status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+      task_contract_path: docs/aios/tasks/P1-101_ACCEPTED_SHARED_EXECUTION_OBSERVABLE_TRACE.yaml
+      task_contract_sha256: bee1b94f438f2d49a88bd99f2662f404470c446f81ba07be341ac5339d20bf15
+      accepted_candidate_commit: 633f9daf133bf616cd293fb343058e2efba2a3ed
+      accepted_candidate_tree: 999f37f93692a045d455adf0ea503947ed5555a5
+      source_phase: P1
+    p1_129:
+      task_id: AIOS-P1-129_EXACT_INPUT_BOUNDARY_SECURITY_MATRIX_COMPLETION
+      status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+      task_contract_path: docs/aios/tasks/P1-129_EXACT_INPUT_BOUNDARY_SECURITY_MATRIX_COMPLETION.yaml
+      task_contract_sha256: faa49aef5ddc2dad08edafc914bf8dab7a19c61618cc169d5c1f9f7ec91e2718
+      accepted_candidate_commit: a772dc5d350ec6b38a84e430b01f75628429aa7b
+      accepted_candidate_tree: 905dd694922ba9a2b452d15c93dc17cefc9e53c1
+      source_phase: P1
+    p1_149:
+      task_id: AIOS-P1-149_ACCEPTED_EXECUTION_SPINE_CONVERGENCE
+      status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+      task_contract_path: docs/aios/tasks/P1-149_ACCEPTED_EXECUTION_SPINE_CONVERGENCE.yaml
+      task_contract_sha256: a0b1fa43e0b9221c03f67ea3fe66bd86a563600102a1a2019a650f6bb0a6a86d
+      accepted_candidate_commit: 88600ee18848e0d2c6d7f2012d0f548021062720
+      accepted_candidate_tree: 34a16c8177bc0f72fd35a0510429ed1979f72fb3
+      source_phase: P1
+    p1_219:
+      task_id: AIOS-P1-219_DATASET_DERIVED_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
+      status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+      task_contract_path: docs/aios/tasks/P1-219_DATASET_DERIVED_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION.yaml
+      task_contract_sha256: 0814e0a5764783da7746c71d6240693ae09936c190d0fcbe0c184125ee2f748d
+      accepted_candidate_commit: 231bf0eca104f66d3a0343b4ff7e3bc00420905e
+      accepted_candidate_tree: 09be4786161a9b9c13716941bd2659d9a084a5c4
+      source_phase: P1
+  accepted_input_ids:
+    - p1_035
+    - p1_101
+    - p1_129
+    - p1_149
+    - p1_219
+  first_task:
+    task_slot: 1
+    task_id: AIOS-P2-051_DIRECT_JAVA_CANONICAL_GRAPH_KERNEL
+    status: ACTIVE
+    engineering_hours: 26
+    calendar_days: 6
+    max_engineering_hours: 26
+    max_calendar_days: 6
+    max_implementation_iterations: 4
+    max_same_task_repairs: 3
+    max_candidates: 1
+    contract_path: docs/aios/tasks/P2-051_DIRECT_JAVA_CANONICAL_GRAPH_KERNEL.yaml
+    external_effects:
+      network: false
+      provider: false
+      secret: false
+      remote: false
+      production: false
+      public: false
+    p2_capability_claim_on_pass: ACCEPTED_SCANNER_BOUND_REPLAYABLE_JAVA_CANONICAL_GRAPH_KERNEL_NO_CONTEXT_BENCHMARK_CREDIT
+  task_plan:
+    - task_slot: 1
+      task_id: AIOS-P2-051_DIRECT_JAVA_CANONICAL_GRAPH_KERNEL
+      status: ACTIVE
+      engineering_hours: 26
+      calendar_days: 6
+      max_engineering_hours: 26
+      max_calendar_days: 6
+      max_implementation_iterations: 4
+      max_same_task_repairs: 3
+      max_candidates: 1
+      contract_path: docs/aios/tasks/P2-051_DIRECT_JAVA_CANONICAL_GRAPH_KERNEL.yaml
+      external_effects:
+        network: false
+        provider: false
+        secret: false
+        remote: false
+        production: false
+        public: false
+    - task_slot: 2
+      task_id: AIOS-P2-052_GRAPH_CONDITIONED_CONTEXT_VALUE_BENCHMARK
+      status: INELIGIBLE_PREDECESSOR_TASK_GATE_PENDING
+      engineering_hours: 14
+      calendar_days: 4
+      max_engineering_hours: 14
+      max_calendar_days: 4
+      max_implementation_iterations: 4
+      max_same_task_repairs: 3
+      max_candidates: 1
+      external_effects:
+        network: false
+        provider: false
+        secret: false
+        remote: false
+        production: false
+        public: false
+  automatic_entry:
+    after_task_id: AIOS-P2-051_DIRECT_JAVA_CANONICAL_GRAPH_KERNEL
+    next_task_id: AIOS-P2-052_GRAPH_CONDITIONED_CONTEXT_VALUE_BENCHMARK
+    requires_task_gate_pass: true
+  automatic_entries:
+    - after_task_id: AIOS-P2-051_DIRECT_JAVA_CANONICAL_GRAPH_KERNEL
+      next_task_id: AIOS-P2-052_GRAPH_CONDITIONED_CONTEXT_VALUE_BENCHMARK
+      requires_task_gate_pass: true
+  inherited_worktree_inventory: []
+  next_eligible_action: EXECUTE_ACTIVE_P2_051_TASK
+
+historical_p2_049_phase_route:
   schema_version: "1.1"
   route_id: P2_INDEPENDENT_SEMANTIC_PAYLOAD_PROVENANCE_SEPARATION_JAVA_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
   status: TERMINAL_FINAL_SECURITY_TARGET_NON_PASS
@@ -15331,38 +15513,51 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P2-051_DIRECT_JAVA_CANONICAL_GRAPH_KERNEL
+  current_task_status: ACTIVE
   current_task_contract:
-    path: null
-    sha256: null
-    byte_length: null
-  current_task_contract_sha256: null
-  current_execution_authorization: null
-  current_execution_authorization_sha256: null
+    path: docs/aios/tasks/P2-051_DIRECT_JAVA_CANONICAL_GRAPH_KERNEL.yaml
+    sha256: d9fe428aa0a353d9e7a9cb3154b4091280472ae90113270443edc4961fcf64c4
+    byte_length: 9306
+  current_task_contract_sha256: d9fe428aa0a353d9e7a9cb3154b4091280472ae90113270443edc4961fcf64c4
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-direct-java-graph-context-value-20260807/task-1-p2-051/authority/P2_051_PHASE_DELEGATED_TASK_AUTHORITY_V1.yaml
+  current_execution_authorization_sha256: a8ea0cbb2f11f80ecf76bf0249d1077e210b3b2249c43a072a77cef8286b72d9
   authority_record:
-    path: null
-    sha256: null
-    byte_length: null
-  execution_nonce: null
-  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
-  authorization_id: null
-  activation_parent_commit: null
-  activation_parent_tree: null
-  task_resource_state: NOT_CREATED_ROUTE_STOPPED
-  task_branch: null
-  task_worktree: null
-  execution_evidence_root: null
-  allowlisted_paths: []
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-direct-java-graph-context-value-20260807/task-1-p2-051/authority/P2_051_PHASE_DELEGATED_TASK_AUTHORITY_V1.yaml
+    sha256: a8ea0cbb2f11f80ecf76bf0249d1077e210b3b2249c43a072a77cef8286b72d9
+    byte_length: 2693
+  execution_nonce: eb52f7d089d79ee08dc2f57b2ef30b81
+  execution_nonce_status: ACTIVE
+  authorization_id: P2-051-PHASE-DELEGATED-AUTHORITY-V1
+  activation_parent_commit: 4b40bcaa54d5ed1a0e4f9e8287bb10c4ec58f7f7
+  activation_parent_tree: 2ce3f481d1a22bc95784ba864728077912d94a70
+  task_resource_state: CREATED_ACTIVE
+  task_branch: codex/p2-051-direct-java-graph
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P2-051-direct-java-graph
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-direct-java-graph-context-value-20260807/task-1-p2-051/evidence
+  allowlisted_paths:
+    - backend-spring/src/main/java/com/sourcelens/module/analysis/graph
+    - backend-spring/src/test/java/com/sourcelens/module/analysis/graph
+    - evaluation-harness/harness/p2-051-direct-java-graph
+    - evaluation-harness/replay/p2-051-direct-java-graph
+    - evaluation-harness/evaluator/p2-051-direct-java-graph
+    - evaluation-harness/reports/p2-051-direct-java-graph
+    - scripts/verify-p2-051-direct-java-graph.sh
+    - docs/aios/tasks/P2-051_DIRECT_JAVA_CANONICAL_GRAPH_KERNEL.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
   budget:
-    engineering_hours: null
-    calendar_days: null
-    implementation_iterations: null
-    candidates: null
+    engineering_hours: 26
+    calendar_days: 6
+    implementation_iterations: 4
+    candidates: 1
   roles:
-    owner: null
-    worker: null
-    independent_reviewers: []
+    owner: P2-051 Engineering Manager
+    worker: P2-051 Java Graph Worker
+    independent_reviewers:
+      - P2-051 Fresh CTO Reviewer
+      - P2-051 Fresh Security Reviewer
+      - P2-051 Fresh Quality Reviewer
   external_effects:
     network: false
     provider: false
@@ -15371,15 +15566,15 @@ active_work:
     production: false
     public: false
   offsite_target: null
-  founder_reserved_authorization: null
-  founder_reserved_authorization_sha256: null
-  founder_decision_required: true
-  founder_decision_required_scope: P2_PHASE_GATE_AFTER_P2_049_TERMINAL_FINAL_SECURITY_TARGET_NON_PASS
-  escalation_reason: FRESH_FINAL_SECURITY_REVIEW_TARGET_NON_PASS
-  user_action_required: FOUNDER_P2_PHASE_GATE_DECISION
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_P2_PHASE_GATE_DECISION
-  next_eligible_action: FOUNDER_P2_PHASE_GATE
+  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-direct-java-graph-context-value-20260807/decision/FOUNDER_P2_DIRECT_JAVA_GRAPH_KERNEL_AND_CONTEXT_VALUE_BENCHMARK_ROUTE_V1.structured-decision.json
+  founder_reserved_authorization_sha256: 2d130c01e0d351dc6a7ac0f278d61319c464f91dfa48736ee28271529bb48a7a
+  founder_decision_required: false
+  founder_decision_required_scope: null
+  escalation_reason: null
+  user_action_required: NONE
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: EXECUTE_ACTIVE_P2_051_TASK
 
 historical_p2_049_terminal_active_work:
   current_task: AIOS-P2-049_INDEPENDENT_SEMANTIC_PAYLOAD_PROVENANCE_SEPARATED_JAVA_GRAPH

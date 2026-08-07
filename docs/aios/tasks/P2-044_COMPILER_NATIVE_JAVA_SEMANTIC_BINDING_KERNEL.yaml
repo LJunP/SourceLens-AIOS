@@ -32,10 +32,8 @@ roles:
     - P2-044 Fresh Security Reviewer
     - P2-044 Fresh Quality Reviewer
 allowlisted_paths:
-  - backend-spring/src/main/java/com/sourcelens/module/analysis/compiler
-  - backend-spring/src/test/java/com/sourcelens/module/analysis/compiler
-  - evaluation-harness/contracts/p2-044-compiler-native-java-binding
-  - evaluation-harness/fixtures/p2-044-compiler-native-java-binding
+  - backend-spring/src/main/java/com/sourcelens/module/analysis/graph/compiler
+  - backend-spring/src/test/java/com/sourcelens/module/analysis/graph/compiler
   - evaluation-harness/harness/p2-044-compiler-native-java-binding
   - evaluation-harness/evaluator/p2-044-compiler-native-java-binding
   - scripts/verify-p2-044-compiler-native-java-binding.sh
@@ -44,10 +42,8 @@ allowlisted_paths:
   - docs/PROJECT_CODE_MAP.md
 write_scope:
   worker:
-    - backend-spring/src/main/java/com/sourcelens/module/analysis/compiler
-    - backend-spring/src/test/java/com/sourcelens/module/analysis/compiler
-    - evaluation-harness/contracts/p2-044-compiler-native-java-binding
-    - evaluation-harness/fixtures/p2-044-compiler-native-java-binding
+    - backend-spring/src/main/java/com/sourcelens/module/analysis/graph/compiler
+    - backend-spring/src/test/java/com/sourcelens/module/analysis/graph/compiler
     - evaluation-harness/harness/p2-044-compiler-native-java-binding
   quality:
     - evaluation-harness/evaluator/p2-044-compiler-native-java-binding

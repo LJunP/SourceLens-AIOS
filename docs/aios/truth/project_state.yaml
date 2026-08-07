@@ -6563,10 +6563,7 @@ current_phase_route:
     terminal_receipt_byte_length: 2660
     p2_024_status: NOT_STARTED_PREDECESSOR_TASK_GATE_NON_PASS
   additional_write_roots:
-    - backend-spring/src/main/java/com/sourcelens/module/analysis/compiler
-    - backend-spring/src/test/java/com/sourcelens/module/analysis/compiler
-    - evaluation-harness/contracts/p2-044-compiler-native-java-binding
-    - evaluation-harness/fixtures/p2-044-compiler-native-java-binding
+    []
   inherited_worktree_inventory: []
   historical_p2_021_terminal_result_preserved:
     task_id: AIOS-P2-021_CONTRACT_COMPLETE_JAVA_CANONICAL_GRAPH_KERNEL
@@ -14783,15 +14780,15 @@ active_work:
   current_task_status: ACTIVE
   current_task_contract:
     path: docs/aios/tasks/P2-044_COMPILER_NATIVE_JAVA_SEMANTIC_BINDING_KERNEL.yaml
-    sha256: de6b30977113a1ba74c7f75787773e61b73d7f4c9cc81536bdcc547df974c5e5
-    byte_length: 10220
-  current_task_contract_sha256: de6b30977113a1ba74c7f75787773e61b73d7f4c9cc81536bdcc547df974c5e5
+    sha256: f28b03e039e218057cfcd1df18e1cc2cda89a4ab5addab3ffdd8946a956a8b75
+    byte_length: 9966
+  current_task_contract_sha256: f28b03e039e218057cfcd1df18e1cc2cda89a4ab5addab3ffdd8946a956a8b75
   current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-compiler-native-java-semantic-graph-context-20260807/task-1-p2-044/authority/P2_044_PHASE_DELEGATED_TASK_AUTHORITY_V1.yaml
-  current_execution_authorization_sha256: 640be6df0c6f9cfb54296debdec1af4fdff0eb75c9fdf3bba81c47e5b220e438
+  current_execution_authorization_sha256: afba9907e47a6d542c7cec64a5c407fbbee88d0e51b71ad611f48b6ad09d200c
   authority_record:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-compiler-native-java-semantic-graph-context-20260807/task-1-p2-044/authority/P2_044_PHASE_DELEGATED_TASK_AUTHORITY_V1.yaml
-    sha256: 640be6df0c6f9cfb54296debdec1af4fdff0eb75c9fdf3bba81c47e5b220e438
-    byte_length: 2720
+    sha256: afba9907e47a6d542c7cec64a5c407fbbee88d0e51b71ad611f48b6ad09d200c
+    byte_length: 2595
   execution_nonce: a2e412e4-cef5-4856-8c6d-190bbd3b3032
   execution_nonce_status: ACTIVE
   authorization_id: P2-044-PHASE-DELEGATED-AUTHORITY-V1
@@ -14802,10 +14799,8 @@ active_work:
   task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P2-044-compiler-native-java-binding
   execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-compiler-native-java-semantic-graph-context-20260807/task-1-p2-044
   allowlisted_paths:
-    - backend-spring/src/main/java/com/sourcelens/module/analysis/compiler
-    - backend-spring/src/test/java/com/sourcelens/module/analysis/compiler
-    - evaluation-harness/contracts/p2-044-compiler-native-java-binding
-    - evaluation-harness/fixtures/p2-044-compiler-native-java-binding
+    - backend-spring/src/main/java/com/sourcelens/module/analysis/graph/compiler
+    - backend-spring/src/test/java/com/sourcelens/module/analysis/graph/compiler
     - evaluation-harness/harness/p2-044-compiler-native-java-binding
     - evaluation-harness/evaluator/p2-044-compiler-native-java-binding
     - scripts/verify-p2-044-compiler-native-java-binding.sh

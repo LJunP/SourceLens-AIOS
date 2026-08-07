@@ -6252,7 +6252,7 @@ current_phase_route:
         public: false
     - task_slot: 2
       task_id: AIOS-P2-050_ACCEPTED_JAVA_GRAPH_CONTEXT_OFFLINE_BENCHMARK
-      status: NOT_STARTED_PREDECESSOR_TASK_GATE_PENDING
+      status: PENDING_PREDECESSOR_TASK_GATE
       engineering_hours: 14
       calendar_days: 4
       max_engineering_hours: 14

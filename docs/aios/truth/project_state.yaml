@@ -15056,12 +15056,12 @@ active_work:
     implementation_iterations: 4
     candidates: 1
   roles:
-    owner: MASTER_CEO_AGENT
-    worker: P2_047_ENGINEERING_WORKER
+    owner: P2-047 Engineering Manager
+    worker: P2-047 Java Graph Worker
     independent_reviewers:
-      - CTO
-      - SECURITY
-      - QUALITY
+      - P2-047 Fresh CTO Reviewer
+      - P2-047 Fresh Security Reviewer
+      - P2-047 Fresh Quality Reviewer
   external_effects:
     network: false
     provider: false

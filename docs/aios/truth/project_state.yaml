@@ -14995,18 +14995,18 @@ founder_knowledge_sync:
         byte_length: 5397
         sha256: 83a3b513777f3a4e6a4dcf3221e345ae16cc0db28468bf500510d6811f67f848
       review:
-        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-evidence-transaction-first-java-graph-context-20260807/task-1-p2-047/knowledge/P2_047_TERMINAL_FINAL_CTO_TARGET_NON_PASS_KNOWLEDGE_REVIEW_V1.json
-        byte_length: 5219
-        sha256: 2fb951a15606597377d11cc7462ecc33a974ba17bd474b979f8502bad93e0c0e
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-evidence-transaction-first-java-graph-context-20260807/task-1-p2-047/knowledge/P2_047_TERMINAL_FINAL_CTO_TARGET_NON_PASS_KNOWLEDGE_REVIEW_V2.json
+        byte_length: 2589
+        sha256: a5e6b409dece5137b788d5e4b51c06e1fa420803772b2d61d1583cee59967f33
       vault_import:
         path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/05-Failures-and-Lessons/AIOS-P2-047/2026-08-07-P2-047-canonical-projection-evidence-transaction-lessons.md
         byte_length: 5397
         sha256: 83a3b513777f3a4e6a4dcf3221e345ae16cc0db28468bf500510d6811f67f848
       receipt:
-        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-evidence-transaction-first-java-graph-context-20260807/task-1-p2-047/knowledge/P2_047_TERMINAL_FINAL_CTO_TARGET_NON_PASS_KNOWLEDGE_IMPORT_RECEIPT_V2.json
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-evidence-transaction-first-java-graph-context-20260807/task-1-p2-047/knowledge/P2_047_TERMINAL_FINAL_CTO_TARGET_NON_PASS_KNOWLEDGE_IMPORT_RECEIPT_V3.json
         byte_length: 1734
-        sha256: e61fcbe6b074d8adbfc2231e14a76d9fcd497371e7c6e6731252e6f5b3f2c3ad
-      event_sha256: 51acf802b0a3dbc61c1a6d8c2522e1be55a6bc7ae0c45d78436599dde50382f4
+        sha256: 01fe945ba1059a1415415d2e684f294c707c00fe1c9901280ec39262cce4bd34
+      event_sha256: 03aacf45c607381c3151988c6fd1058a3b1d86e01c2d41ebdb06dac947694c57
 
 historical_active_work_after_p1_079:
   current_task: NONE

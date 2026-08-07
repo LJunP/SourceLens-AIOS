@@ -6271,7 +6271,7 @@ current_phase_route:
         public: false
     - task_slot: 2
       task_id: AIOS-P2-052_GRAPH_CONDITIONED_CONTEXT_VALUE_BENCHMARK
-      status: INELIGIBLE_PREDECESSOR_TASK_GATE_PENDING
+      status: PENDING_PREDECESSOR_TASK_GATE
       engineering_hours: 14
       calendar_days: 4
       max_engineering_hours: 14

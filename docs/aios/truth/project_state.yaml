@@ -1349,7 +1349,7 @@ project:
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
   p2_execution_status: ACTIVE_P2_044_COMPILER_NATIVE_JAVA_BINDING
-  phase_execution_status: ACTIVE_ENGINEERING_TASK
+  phase_execution_status: ACTIVE
   current_route_execution_status: ACTIVE_TASK_1_OF_3
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"

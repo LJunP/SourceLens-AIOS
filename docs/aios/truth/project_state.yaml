@@ -1,6 +1,6 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-07T14:25:00Z"
+last_verified_at: "2026-08-07T14:48:05Z"
 verification_scope: P2_051_TERMINAL_FINAL_CTO_TARGET_NON_PASS
 
 authority:
@@ -15667,7 +15667,11 @@ historical_p2_051_terminal_active_work:
   authorization_id: P2-051-PHASE-DELEGATED-AUTHORITY-V1
   activation_parent_commit: 4b40bcaa54d5ed1a0e4f9e8287bb10c4ec58f7f7
   activation_parent_tree: 2ce3f481d1a22bc95784ba864728077912d94a70
-  task_resource_state: TERMINAL_PRESERVED_PENDING_HYGIENE_CLEANUP
+  task_resource_state: TERMINAL_RESOURCES_CLEANED_EVIDENCE_TAG_PRESERVED
+  workspace_cleanup_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-direct-java-graph-context-value-20260807/task-1-p2-051/terminal/P2_051_WORKSPACE_CLEANUP_RECEIPT.json
+    byte_length: 1277
+    sha256: 42c77b931f3e3901d603db7b811f85623a809d19fc9ec1659cece1d25305e034
   task_branch: codex/p2-051-direct-java-graph
   task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P2-051-direct-java-graph
   execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-direct-java-graph-context-value-20260807/task-1-p2-051/evidence

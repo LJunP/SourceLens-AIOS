@@ -6245,7 +6245,7 @@ current_phase_route:
         public: false
     - task_slot: 2
       task_id: AIOS-P2-045_DECLARATION_CLOSED_JAVA_GRAPH_TRANSACTION
-      status: NOT_STARTED_PREDECESSOR_TASK_GATE_PENDING
+      status: PENDING_PREDECESSOR_TASK_GATE
       engineering_hours: 18
       calendar_days: 4
       max_implementation_iterations: 4
@@ -6260,7 +6260,7 @@ current_phase_route:
         public: false
     - task_slot: 3
       task_id: AIOS-P2-046_COMPILER_BOUND_GRAPH_CONTEXT_OFFLINE_BENCHMARK
-      status: NOT_STARTED_PREDECESSOR_TASK_GATE_PENDING
+      status: PENDING_PREDECESSOR_TASK_GATE
       engineering_hours: 12
       calendar_days: 2
       max_implementation_iterations: 4

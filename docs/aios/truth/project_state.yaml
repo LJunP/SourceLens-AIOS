@@ -12453,7 +12453,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260808-P2-058-TERMINAL-FINAL-QUALITY-NON-PASS-V1
+  latest_event_id: FKS-20260808-P2-058-KNOWLEDGE-CANDIDATE-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -16621,6 +16621,37 @@ founder_knowledge_sync:
         byte_length: null
         sha256: null
       event_sha256: 001b6fb3d15ea5b683e9e71fd980c3c509adff09a78eb3494f23bdc287edf667
+    - event_id: FKS-20260808-P2-058-KNOWLEDGE-CANDIDATE-V1
+      trigger_type: LEARNING_ARTIFACT_CANDIDATE_FROZEN
+      occurred_at_utc: "2026-08-08T17:35:00Z"
+      source_commit: 4a1786cebdd6967de258ec718a16f2f3e6a69c02
+      source_tree: 5b71b7f05abd8aa50502e5f17fd6a6f42ab5d885
+      previous_event_sha256: 001b6fb3d15ea5b683e9e71fd980c3c509adff09a78eb3494f23bdc287edf667
+      status: PENDING_REVIEW
+      rationale: >-
+        A non-authoritative Learning Artifact candidate now records the exact
+        P2-058 terminal facts, the separation between raw numerical value and
+        accepted capability, and the reusable source-binding and raw-observer
+        lessons. It contains no rejected engineering bytes, Secret, authority,
+        Gate or capability effect and awaits fresh independent Knowledge Review.
+      engineering_blocking: false
+      artifact:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-dev-first-context-value-20260808/task-p2-058/knowledge/P2_058_FORMAL_SOURCE_BINDING_AND_OBSERVER_LESSON_V1.md
+        byte_length: 5154
+        sha256: 08eb6f0e43222f76b7cc1c72d9180723f619e50de15e1bf2f971194c311e1fea
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+      event_sha256: 7fe4659b9b43c42bd9654facf6535dc6f33c23a44faaeaf2e226589aa1893afe
 
 historical_active_work_after_p1_079:
   current_task: NONE

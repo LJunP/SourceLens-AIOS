@@ -1,8 +1,8 @@
 # SourceLens AIOS Founder Delegation Policy
 
-- Version: `1.7`
+- Version: `1.8`
 - Status: `FOUNDER_DIRECTIVE_ACTIVE`
-- Effective date: 2026-07-28
+- Effective date: 2026-08-08
 - Scope: current Founder-authorized Phase and its bounded local engineering Tasks
 
 ## 1. Purpose
@@ -79,6 +79,72 @@ remediation 链。Validator 不得把历史 Task ID、nonce、时间窗、offsit
 状态硬编码为未来 Task 的通用前置条件。
 
 正常情况下，Founder 的下一介入点是 Phase Gate。
+
+### 5.1 Delegation Non-Downgrade and Founder Interruption Gate
+
+Phase-level delegation is a higher-level scheduling invariant than any ordinary Route or Task.
+An exact Route packet, Task Contract, Stop Condition, Review, terminal receipt or Truth status
+label may narrow its own implementation scope, but it may not convert an Agent-delegated lifecycle
+event into a Founder-reserved decision. Only an explicit Founder amendment to this policy, the
+applicable Phase Objective/Exit Gate, the persistent Phase envelope, or a reserved permission may
+change that boundary.
+
+`founder_decision_required: true` is valid only for this closed trigger set:
+
+- `PHASE_ENTRY_OR_EXIT`;
+- `MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE`;
+- `MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE`;
+- `NETWORK_PROVIDER_SECRET_REMOTE_PRODUCTION_OR_PUBLIC_EFFECT`;
+- `IRREVERSIBLE_ASSET_REMOVAL`;
+- `MATERIAL_LEGAL_PRIVACY_OR_COMMERCIAL_COMMITMENT`;
+- `CRITICAL_RESIDUAL_RISK_ACCEPTANCE`.
+
+Implementation/test NON_PASS, Reviewer TARGET NON_PASS, same-Task repair exhaustion, Task budget
+exhaustion, candidate abandonment, tree mismatch, canonical verification NONPASS, or loss of an
+automatic successor's eligibility are ordinary Task lifecycle events. They may return a still-valid
+Task to implementation or terminally stop it, but they do not by themselves create a Founder Gate.
+
+A Phase Gate is eligible only after the canonical Phase Exit Gate has all required items accepted
+and its Founder gate is explicitly `ELIGIBLE_AWAITING_FOUNDER_DECISION`. If the Phase remains
+incomplete, no reserved trigger exists and persistent Phase capacity remains, a terminal Task or
+Route must derive:
+
+```yaml
+founder_decision_required: false
+user_action_required: NONE
+next_action_owner: MASTER_CEO_AGENT
+next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
+```
+
+Phase entry authority and Phase execution capacity survive ordinary Route/Task terminalization.
+A Route envelope may end, but it cannot silently consume the Phase scheduler. The canonical state
+must maintain data-driven Phase capacity accounting separate from the current Route, including
+declared task/hour/day capacity, consumed and remaining values, external-effect ceilings and the
+source authority. Continuing beyond that persistent capacity is a reserved material expansion;
+continuing within it is delegated execution.
+
+The Founder directive recorded by
+`FOUNDER_PHASE_DELEGATION_CONTINUITY_AMENDMENT_2026_08_08` explicitly permits Master to reallocate
+unused task-specific capacity to one new independent Task inside the same Phase Objective after an
+ordinary terminal outcome makes a predeclared later Task ineligible. This is scheduling continuity,
+not a numeric/effect expansion or acceptance of the failed lineage. The exact amendment is stored
+outside Git at
+`/Users/lijunpeng/Developer/.sourcelens-audit/founder-delegation-continuity-20260808/decision/FOUNDER_PHASE_DELEGATION_CONTINUITY_AMENDMENT_V1.json`
+and must remain bound by byte length and SHA-256 in canonical Truth. A new Task authorized this way
+must use the closed `phase-delegated-independent-task/v1` route and a one-time phase-delegated Task
+authority; it must not invent or require a new Founder packet or authorization token.
+
+An independent Phase-local Task is not a forbidden successor or replacement when it has a new Task
+ID, nonce, Contract, branch, worktree and Evidence root; does not restore, read, compare, copy or
+reuse rejected lineage; remains inside the same Phase Objective; and fits the remaining Phase
+capacity and permissions. This classification must be validated mechanically rather than inferred
+from a Task name.
+
+Canonical Truth must carry a closed Founder-escalation classification. The Founder decision flag,
+user action and next action are derived projections, not independent claims. Before asking the
+Founder for any new authorization, Master must run the escalation validator. A result of
+`NO_RESERVED_TRIGGER_CONTINUE_PHASE` forbids an authorization request and requires autonomous
+Phase-local continuation.
 
 ## 6. P1 Experiment-Pack Dual-Run Architecture Route
 

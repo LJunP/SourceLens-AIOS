@@ -41,7 +41,7 @@ check_phase_sequence_section() {
   local rules_path="$1"
   local section_header='## 严格阶段顺序与反偏航（强制执行）'
   local canonical_byte_length='2304'
-  local canonical_sha256='a87ccd7bc66140fe91c7bc1c12d9998ff77d08716e6e74ebd19065d640a601b3'
+  local canonical_sha256='978f0bfa2ae792da579e7ebd6c2a5cf693d7e9ccb92be807267b86a912635038'
 
   ruby -rdigest -e '
     rules_path, header, expected_length, expected_sha = ARGV
@@ -1867,6 +1867,9 @@ required_files=(
   docs/aios/EVALUATION_PROTOCOL.md
   scripts/validate-current-task-authority.rb
   scripts/test-current-task-authority.rb
+  scripts/validate-founder-delegation-continuity.rb
+  scripts/test-founder-delegation-continuity.rb
+  scripts/test-phase-delegated-task-authority.rb
 )
 for relative_path in "${required_files[@]}"; do
   [[ -f "${ROOT_DIR}/${relative_path}" && ! -L "${ROOT_DIR}/${relative_path}" ]] \
@@ -1877,6 +1880,10 @@ boundary_markers=(
   '一个长期 Goal、一个当前 Phase、一条关键路径、一个当前 Task。'
   '继承的旧 SourceLens 工作区只读，不得修改、暂存、stash、reset、clean 或删除。'
   'Task Contract、Truth 与 validator 必须数据驱动'
+  'Founder 再授权中断门（强制执行）'
+  '普通 Task lifecycle，不得单独触发 Founder'
+  'NO_RESERVED_TRIGGER_CONTINUE_PHASE'
+  'MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK'
   'P1 不建设 Supervisor、Root Custody、完整 Trust Runtime、强隔离平台或 Multi-Agent Runtime。'
   '严格阶段顺序与反偏航（强制执行）'
   '固定阶段路线必须按 `P0 → P1 → P2 → … → P12` 顺序执行'
@@ -1904,6 +1911,7 @@ check_founder_knowledge_section "$RULES_PATH"
 check_authority_bindings
 check_phase_predecessor_activation
 check_founder_knowledge_sync_state STRUCTURAL_ONLY "$TRUTH_PATH" CANONICAL_ONLY
+ruby "${ROOT_DIR}/scripts/validate-founder-delegation-continuity.rb"
 ruby "${ROOT_DIR}/scripts/validate-current-task-authority.rb"
 
 echo "AIOS current governance validation passed (data-driven current authority only)."

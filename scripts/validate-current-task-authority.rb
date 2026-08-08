@@ -6,6 +6,7 @@ require "json"
 require "open3"
 require "pathname"
 require "yaml"
+require_relative "validate-founder-delegation-continuity"
 
 class AuthorityValidationError < StandardError; end
 class DuplicateJsonKeyError < StandardError; end
@@ -34,6 +35,9 @@ module CurrentTaskAuthority
     "production" => false,
     "public" => false
   }.freeze
+  DELEGATED_TASK_ROUTE_SCHEMA = "phase-delegated-independent-task/v1"
+  DELEGATED_TASK_CONTRACT_TYPE = "aios_phase_delegated_independent_task_contract"
+  DELEGATED_TASK_AUTHORITY_TYPE = "aios_phase_delegated_independent_task_authority"
   ACTIVE_STATUSES = %w[ACTIVE AUTHORIZED_ACTIVE EXECUTING].freeze
   AUTHORIZED_ROUTE_STATUSES = %w[AUTHORIZED_READY ACTIVE PHASE_GATE_READY].freeze
   ACCEPTED_GATE_STATUS_RE = /\A(?:FOUNDER_GATE|MASTER_TASK_GATE)_ACCEPTED_COMPLETE\z/.freeze
@@ -94,22 +98,24 @@ module CurrentTaskAuthority
     before = File.lstat(path)
     assert(!before.symlink?, "#{label} must not be a symlink: #{path}")
     assert(before.file?, "#{label} must be a regular file: #{path}")
+    assert(before.nlink == 1, "#{label} must not be hardlinked: #{path}")
 
     flags = File::RDONLY
     flags |= File::NOFOLLOW if defined?(File::NOFOLLOW)
     bytes = nil
     File.open(path, flags) do |file|
       opened = file.stat
-      assert([opened.dev, opened.ino] == [before.dev, before.ino], "#{label} changed while opening: #{path}")
+      assert([opened.dev, opened.ino, opened.nlink] == [before.dev, before.ino, before.nlink],
+             "#{label} changed while opening: #{path}")
       bytes = file.read
       after = file.stat
-      assert([after.dev, after.ino, after.size, after.mtime.to_f] ==
-             [opened.dev, opened.ino, opened.size, opened.mtime.to_f],
+      assert([after.dev, after.ino, after.nlink, after.size, after.mtime.to_f] ==
+             [opened.dev, opened.ino, opened.nlink, opened.size, opened.mtime.to_f],
              "#{label} changed while reading: #{path}")
     end
     final = File.lstat(path)
-    assert([final.dev, final.ino, final.size, final.mtime.to_f] ==
-           [before.dev, before.ino, before.size, before.mtime.to_f],
+    assert([final.dev, final.ino, final.nlink, final.size, final.mtime.to_f] ==
+           [before.dev, before.ino, before.nlink, before.size, before.mtime.to_f],
            "#{label} changed during validation: #{path}")
     bytes
   rescue Errno::ENOENT, Errno::ELOOP, Errno::ENOTDIR => e
@@ -2604,6 +2610,353 @@ module CurrentTaskAuthority
     list.map.with_index { |entry, index| safe_scope_path(entry, "#{label}[#{index}]") }.uniq.sort
   end
 
+  def phase_delegated_goal_identity(truth)
+    goal = hash(truth["goal"], "goal")
+    {
+      "raw_sha256" => goal["observed_raw_body_sha256"],
+      "raw_byte_length" => goal["observed_raw_body_byte_length"],
+      "canonicalization" => goal["body_canonicalization"],
+      "canonical_sha256" => goal["observed_body_sha256"],
+      "canonical_byte_length" => goal["observed_body_byte_length"]
+    }
+  end
+
+  def phase_delegated_binding(truth, route)
+    envelope = hash(truth["phase_execution_envelope"], "phase_execution_envelope")
+    authority_basis = hash(envelope["authority_basis"], "phase_execution_envelope.authority_basis")
+    control = hash(truth["founder_escalation_control"], "founder_escalation_control")
+    event = hash(control["source_event"], "founder_escalation_control.source_event")
+    ledger = array(envelope["task_ledger"], "phase_execution_envelope.task_ledger")
+    source_entry = ledger.find do |entry|
+      entry.is_a?(Hash) && entry["task_id"] == event["task_id"] && entry["status"] == event["status"]
+    end
+    assert(source_entry, "phase-delegated Task has no exact terminal source ledger entry")
+    reservation = hash(envelope["reserved"], "phase_execution_envelope.reserved")
+    {
+      "policy" => route["policy"],
+      "delegation_amendment" => authority_basis["delegation_amendment"],
+      "source_decision" => authority_basis["source_decision"],
+      "source_terminal_event" => {
+        "task_id" => event["task_id"],
+        "status" => event["status"],
+        "outcome_receipt" => source_entry["outcome_receipt"]
+      },
+      "phase_envelope_snapshot" => {
+        "limits" => envelope["limits"],
+        "consumed" => envelope["consumed"],
+        "reserved" => reservation.slice(
+          "task_id", "route_id", "status", "capacity_source_task_id", "budget"
+        ),
+        "remaining" => envelope["remaining"]
+      },
+      "founder_packet_for_task" => nil
+    }
+  end
+
+  def validate_phase_delegated_contract(root, truth, route, task)
+    identity = exact_keys(task["contract"], %w[path sha256 byte_length],
+                          "phase-delegated Task Contract identity")
+    path = repo_path(root, identity["path"], "phase-delegated Task Contract path")
+    bytes = validate_identity(path, identity, "phase-delegated Task Contract")
+    contract = exact_keys(
+      parse_structured(bytes, path, "phase-delegated Task Contract"),
+      %w[
+        schema_version record_type task_id phase route_id status task_kind capability
+        objective capacity_source_task_id budget max_same_task_repairs roles allowlisted_paths external_effects
+        goal_identity phase_delegation_binding acceptance_criteria required_evidence
+        rollback stop_conditions forbidden_actions claim_boundary
+      ],
+      "phase-delegated Task Contract"
+    )
+    assert(contract["schema_version"] == "1.0" &&
+           contract["record_type"] == DELEGATED_TASK_CONTRACT_TYPE,
+           "phase-delegated Task Contract type drift")
+    %w[task_id status task_kind capability objective capacity_source_task_id budget max_same_task_repairs].each do |key|
+      assert(contract[key] == task[key], "phase-delegated Task Contract #{key} drift")
+    end
+    assert(contract["phase"] == route["phase"] && contract["route_id"] == route["route_id"],
+           "phase-delegated Task Contract Phase or Route drift")
+    assert(contract["goal_identity"] == phase_delegated_goal_identity(truth),
+           "phase-delegated Task Contract Goal identity drift")
+    assert(contract["phase_delegation_binding"] == phase_delegated_binding(truth, route),
+           "phase-delegated Task Contract delegation binding drift")
+    assert(contract["claim_boundary"].is_a?(String) && !contract["claim_boundary"].empty?,
+           "phase-delegated Task Contract claim boundary missing")
+    %w[acceptance_criteria required_evidence stop_conditions forbidden_actions].each do |key|
+      values = array(contract[key], "phase-delegated Task Contract #{key}")
+      assert(!values.empty? && values.all? { |item| item.is_a?(String) && !item.empty? },
+             "phase-delegated Task Contract #{key} is empty or invalid")
+    end
+    assert(contract["rollback"].is_a?(String) && !contract["rollback"].empty?,
+           "phase-delegated Task Contract rollback is missing")
+    [contract, identity]
+  end
+
+  def validate_phase_delegated_common_scope(truth, route, task, contract)
+    budget = exact_keys(task["budget"],
+                        %w[engineering_hours calendar_days implementation_iterations candidates],
+                        "phase-delegated Task budget")
+    assert(contract["budget"] == budget, "phase-delegated Task Contract budget drift")
+    repairs = integer(task["max_same_task_repairs"], "phase-delegated Task repair budget")
+    assert(contract["max_same_task_repairs"] == repairs,
+           "phase-delegated Task Contract repair budget drift")
+    envelope = hash(truth["phase_execution_envelope"], "phase_execution_envelope")
+    source_route_key = string(
+      hash(envelope["authority_basis"], "phase_execution_envelope.authority_basis")["source_route_ref"],
+      "phase execution source Route reference"
+    )
+    source_route = hash(truth[source_route_key], source_route_key)
+    capacity_source = FounderDelegationContinuity.source_capacity_task!(
+      source_route,
+      task["capacity_source_task_id"]
+    )
+    assert(repairs <= budget["implementation_iterations"] - 1,
+           "phase-delegated Task repairs exceed implementation iterations minus one")
+    assert(budget["engineering_hours"] <= capacity_source["engineering_hours"] &&
+           budget["calendar_days"] <= capacity_source["calendar_days"] &&
+           budget["implementation_iterations"] <= capacity_source["max_implementation_iterations"] &&
+           budget["candidates"] <= capacity_source["max_candidates"] &&
+           repairs <= capacity_source["max_same_task_repairs"],
+           "phase-delegated Task exceeds Founder-bound source capacity slot")
+    roles = exact_keys(contract["roles"], %w[owner worker independent_reviewers],
+                       "phase-delegated Task Contract roles")
+    owner = string(roles["owner"], "phase-delegated Task owner")
+    worker = string(roles["worker"], "phase-delegated Task worker")
+    reviewers = array(roles["independent_reviewers"], "phase-delegated Task reviewers")
+    assert(reviewers.length == 3 && reviewers.all? { |reviewer| reviewer.is_a?(String) && !reviewer.empty? },
+           "phase-delegated Task requires exactly three independent reviewers")
+    assert(([owner, worker] + reviewers).uniq.length == 5,
+           "phase-delegated Task role identities must be distinct")
+
+    scopes = normalize_scopes(contract["allowlisted_paths"],
+                              "phase-delegated Task Contract allowlisted_paths")
+    boundary = hash(truth["phase_boundary"], "phase_boundary")
+    roots = flatten_write_roots(boundary["role_write_roots"])
+    immutable = array(boundary["immutable_authority_paths"], "phase_boundary.immutable_authority_paths")
+    scopes.each do |scope|
+      assert(roots.any? { |root_path| scope_within_root?(scope, root_path) },
+             "phase-delegated Task path is outside current Phase roots: #{scope}")
+      assert(immutable.none? { |path| scope_within_root?(scope, path) || scope_within_root?(path, scope) },
+             "phase-delegated Task path overlaps immutable authority: #{scope}")
+    end
+    validate_external_effects(contract["external_effects"],
+                              "phase-delegated Task Contract external_effects",
+                              FALSE_EXTERNAL_EFFECTS)
+    [budget, repairs, roles, scopes]
+  end
+
+  def validate_phase_delegated_none_state(truth, route, task, contract_identity)
+    active = hash(truth["active_work"], "active_work")
+    assert(task["status"] == "ELIGIBLE_NOT_ACTIVATED", "phase-delegated READY Task status drift")
+    assert(hash(truth["goal"], "goal")["current_task_authority"] == "NONE",
+           "phase-delegated READY Task requires Goal authority NONE")
+    assert(active["current_task"] == "NONE" && active["current_task_status"] == "NONE" &&
+           active["task_resource_state"] == "NOT_CREATED_PHASE_DELEGATED_TASK_READY",
+           "phase-delegated READY active_work lifecycle drift")
+    assert(active["current_task_contract"] == contract_identity &&
+           active["current_task_contract_sha256"] == contract_identity["sha256"],
+           "phase-delegated READY Contract identity drift")
+    null_identity(active["authority_record"], "phase-delegated READY authority_record")
+    %w[
+      current_execution_authorization current_execution_authorization_sha256 execution_nonce
+      authorization_id activation_parent_commit activation_parent_tree task_branch task_worktree
+      execution_evidence_root offsite_target founder_reserved_authorization
+      founder_reserved_authorization_sha256
+    ].each do |key|
+      assert(active[key].nil?, "phase-delegated READY active_work.#{key} must be null")
+    end
+    assert(active["execution_nonce_status"] == "NOT_APPLICABLE_TASK_NONE",
+           "phase-delegated READY execution nonce status drift")
+    assert(array(active["allowlisted_paths"], "phase-delegated READY paths").empty?,
+           "phase-delegated READY paths must be empty")
+    active_budget = hash(active["budget"], "phase-delegated READY budget")
+    assert(active_budget.values.all?(&:nil?), "phase-delegated READY budget must be null")
+    active_roles = hash(active["roles"], "phase-delegated READY roles")
+    assert(active_roles["owner"].nil? && active_roles["worker"].nil? &&
+           array(active_roles["independent_reviewers"], "phase-delegated READY reviewers").empty?,
+           "phase-delegated READY roles must be empty")
+    validate_external_effects(active["external_effects"], "phase-delegated READY effects",
+                              FALSE_EXTERNAL_EFFECTS)
+    exact_false(active["founder_decision_required"], "phase-delegated READY Founder decision")
+    exact_false(active["phase_route_decision_required"], "phase-delegated READY Phase decision")
+    assert(active["founder_reserved_authorization"].nil? &&
+           active["founder_reserved_authorization_sha256"].nil? &&
+           active["next_eligible_action"] == route["next_eligible_action"],
+           "phase-delegated READY action or Founder binding drift")
+  end
+
+  def validate_phase_delegated_active_state(root, truth, route, task, contract, contract_identity,
+                                            budget, repairs, roles, scopes)
+    project = hash(truth["project"], "project")
+    active = hash(truth["active_work"], "active_work")
+    task_id = task["task_id"]
+    assert(task["status"] == "ACTIVE" && active["current_task"] == task_id &&
+           ACTIVE_STATUSES.include?(active["current_task_status"]),
+           "phase-delegated ACTIVE Task lifecycle drift")
+    assert(hash(truth["goal"], "goal")["current_task_authority"] == task_id,
+           "phase-delegated ACTIVE Goal authority drift")
+    assert(active["current_task_contract"] == contract_identity &&
+           active["current_task_contract_sha256"] == contract_identity["sha256"],
+           "phase-delegated ACTIVE Contract identity drift")
+
+    authority_identity = exact_keys(active["authority_record"], %w[path sha256 byte_length],
+                                    "phase-delegated authority identity")
+    reservation = hash(truth.dig("phase_execution_envelope", "reserved"),
+                       "phase-delegated active reservation")
+    reserved_authority = exact_keys(
+      reservation["authority"],
+      %w[path sha256 byte_length],
+      "phase-delegated reserved authority identity"
+    )
+    assert(reserved_authority == authority_identity &&
+           active["current_execution_authorization"] == authority_identity["path"] &&
+           active["current_execution_authorization_sha256"] == authority_identity["sha256"],
+           "phase-delegated reserved authority does not equal active authority")
+    authority_path = string(authority_identity["path"], "phase-delegated authority path")
+    assert(Pathname.new(authority_path).absolute?, "phase-delegated authority path must be absolute")
+    assert(File.expand_path(authority_path) == authority_path &&
+           File.realpath(authority_path) == authority_path,
+           "phase-delegated authority path must be canonical and not traverse symlinks")
+    authority_bytes = validate_identity(authority_path, authority_identity, "phase-delegated authority")
+    authority = exact_keys(
+      parse_structured(authority_bytes, authority_path, "phase-delegated authority"),
+      %w[
+        schema_version record_type task_id phase route_id status authorization_id
+        task_contract_sha256 execution_nonce activation_parent branch worktree evidence_root
+        capacity_source_task_id budget max_same_task_repairs roles allowlisted_paths external_effects goal_identity
+        phase_delegation_binding founder_reserved_authorization founder_reserved_profile
+      ],
+      "phase-delegated authority"
+    )
+    assert(authority["schema_version"] == "1.0" &&
+           authority["record_type"] == DELEGATED_TASK_AUTHORITY_TYPE,
+           "phase-delegated authority type drift")
+    assert(authority["task_id"] == task_id && authority["phase"] == route["phase"] &&
+           authority["route_id"] == route["route_id"] && authority["status"] == "ACTIVE",
+           "phase-delegated authority lifecycle drift")
+    assert(authority["task_contract_sha256"] == contract_identity["sha256"],
+           "phase-delegated authority Contract SHA drift")
+    assert(authority["capacity_source_task_id"] == task["capacity_source_task_id"] &&
+           reservation["capacity_source_task_id"] == task["capacity_source_task_id"],
+           "phase-delegated authority capacity source drift")
+    assert(authority["budget"] == budget && authority["max_same_task_repairs"] == repairs &&
+           authority["roles"] == roles &&
+           normalize_scopes(authority["allowlisted_paths"], "phase-delegated authority paths") == scopes,
+           "phase-delegated authority scope drift")
+    assert(authority["goal_identity"] == phase_delegated_goal_identity(truth) &&
+           authority["phase_delegation_binding"] == phase_delegated_binding(truth, route),
+           "phase-delegated authority binding drift")
+    validate_external_effects(authority["external_effects"], "phase-delegated authority effects",
+                              FALSE_EXTERNAL_EFFECTS)
+    assert(authority["founder_reserved_authorization"].nil? && authority["founder_reserved_profile"].nil?,
+           "phase-delegated authority must not invent Founder authorization")
+
+    authorization_id = string(active["authorization_id"], "phase-delegated authorization_id")
+    execution_nonce = string(active["execution_nonce"], "phase-delegated execution_nonce")
+    assert(active["execution_nonce_status"] == "ACTIVE" &&
+           authority["authorization_id"] == authorization_id && authority["execution_nonce"] == execution_nonce,
+           "phase-delegated execution identity drift")
+    assert(active["current_execution_authorization"] == authority_path &&
+           active["current_execution_authorization_sha256"] == authority_identity["sha256"],
+           "phase-delegated authority active_work projection drift")
+
+    parent = exact_keys(authority["activation_parent"], %w[commit tree],
+                        "phase-delegated authority activation_parent")
+    assert(parent["commit"] == active["activation_parent_commit"] &&
+           parent["tree"] == active["activation_parent_tree"],
+           "phase-delegated activation parent projection drift")
+    validate_commit_tree(root, parent["commit"], parent["tree"], "phase-delegated activation parent")
+    _out, _err, ancestor = git(root, "merge-base", "--is-ancestor", parent["commit"], "HEAD",
+                               allow_failure: true)
+    assert(ancestor.success?, "phase-delegated activation parent is not canonical")
+
+    assert(active["budget"] == budget && active["roles"] == roles &&
+           normalize_scopes(active["allowlisted_paths"], "phase-delegated active paths") == scopes,
+           "phase-delegated active_work scope drift")
+    validate_external_effects(active["external_effects"], "phase-delegated active effects",
+                              FALSE_EXTERNAL_EFFECTS)
+    branch = string(active["task_branch"], "phase-delegated task branch")
+    worktree = string(active["task_worktree"], "phase-delegated task worktree")
+    evidence = string(active["execution_evidence_root"], "phase-delegated Evidence root")
+    assert(branch != project["canonical_branch"] && authority["branch"] == branch,
+           "phase-delegated branch identity drift")
+    worktree_base = File.realpath(string(project["task_worktree_root"], "project.task_worktree_root"))
+    evidence_base = File.realpath(string(project["execution_evidence_root_base"],
+                                        "project.execution_evidence_root_base"))
+    worktree_stat = File.lstat(worktree)
+    evidence_stat = File.lstat(evidence)
+    assert(Pathname.new(worktree).absolute? && Pathname.new(evidence).absolute? &&
+           File.expand_path(worktree) == worktree && File.expand_path(evidence) == evidence,
+           "phase-delegated Task resource paths must be canonical absolute paths")
+    assert(worktree_stat.directory? && !worktree_stat.symlink? &&
+           evidence_stat.directory? && !evidence_stat.symlink?,
+           "phase-delegated Task resources must be non-symlink directories")
+    worktree_real = File.realpath(worktree)
+    evidence_real = File.realpath(evidence)
+    assert(worktree_real == worktree && evidence_real == evidence,
+           "phase-delegated Task resource path must not traverse symlinked components")
+    assert(worktree_real.start_with?(worktree_base + File::SEPARATOR) &&
+           evidence_real.start_with?(evidence_base + File::SEPARATOR),
+           "phase-delegated Task resource escapes configured roots")
+    assert(authority["worktree"] == worktree_real && authority["evidence_root"] == evidence_real,
+           "phase-delegated Task resource identity drift")
+
+    historical_active = truth.select do |key, value|
+      key.to_s.start_with?("historical_") && value.is_a?(Hash) &&
+        value["current_task"].is_a?(String) && value["current_task"] != "NONE"
+    end.values
+    historical_active.each do |record|
+      assert(execution_nonce != record["execution_nonce"] &&
+             authorization_id != record["authorization_id"] &&
+             branch != record["task_branch"] &&
+             worktree != record["task_worktree"] &&
+             evidence != record["execution_evidence_root"] &&
+             contract_identity["path"] != record.dig("current_task_contract", "path") &&
+             authority_path != record.dig("authority_record", "path"),
+             "phase-delegated Task reuses historical execution lineage identity")
+      if record["task_worktree"].is_a?(String) && File.exist?(record["task_worktree"])
+        assert(worktree_real != File.realpath(record["task_worktree"]),
+               "phase-delegated Task reuses historical physical worktree")
+      end
+      next unless record["execution_evidence_root"].is_a?(String) &&
+                  File.exist?(record["execution_evidence_root"])
+
+      historical_evidence = File.realpath(record["execution_evidence_root"])
+      overlap = evidence_real == historical_evidence ||
+                evidence_real.start_with?(historical_evidence + File::SEPARATOR) ||
+                historical_evidence.start_with?(evidence_real + File::SEPARATOR)
+      assert(!overlap, "phase-delegated Task Evidence overlaps historical execution lineage")
+    end
+    assert(active["task_resource_state"] == "ACTIVE_UNIQUE_PHASE_DELEGATED" &&
+           active["next_eligible_action"] == "COMPLETE_CURRENT_TASK_GATE",
+           "phase-delegated ACTIVE resource state drift")
+    exact_false(active["founder_decision_required"], "phase-delegated ACTIVE Founder decision")
+    exact_false(active["phase_route_decision_required"], "phase-delegated ACTIVE Phase decision")
+    assert(active["founder_reserved_authorization"].nil? &&
+           active["founder_reserved_authorization_sha256"].nil?,
+           "phase-delegated ACTIVE must not retain Founder packet")
+  rescue Errno::ENOENT, Errno::ELOOP, Errno::ENOTDIR => e
+    fail!("phase-delegated Task resource is unavailable (#{e.class})")
+  end
+
+  def validate_phase_delegated_task(root, truth)
+    disposition = FounderDelegationContinuity.validate_truth!(root: root, truth: truth)
+    assert(disposition == FounderDelegationContinuity::CONTINUE_DISPOSITION,
+           "phase-delegated Task requires autonomous continuation disposition")
+    route = hash(truth["current_phase_route"], "current_phase_route")
+    task = hash(route["selected_task"], "current_phase_route.selected_task")
+    contract, contract_identity = validate_phase_delegated_contract(root, truth, route, task)
+    budget, repairs, roles, scopes = validate_phase_delegated_common_scope(truth, route, task, contract)
+    if hash(truth["active_work"], "active_work")["current_task"] == "NONE"
+      validate_phase_delegated_none_state(truth, route, task, contract_identity)
+      "READY_NONE"
+    else
+      validate_phase_delegated_active_state(root, truth, route, task, contract, contract_identity,
+                                            budget, repairs, roles, scopes)
+      "ACTIVE_TASK"
+    end
+  end
+
   def validate_active_state(root, truth, route, route_id, first_task, claims)
     goal = hash(truth["goal"], "goal")
     project = hash(truth["project"], "project")
@@ -2910,7 +3263,11 @@ module CurrentTaskAuthority
     active = hash(truth["active_work"], "active_work")
     records = worktrees(root)
     route = hash(truth["current_phase_route"], "current_phase_route")
-    inherited_source = if route["schema_version"] == "strict-phase-recovery-hold/v1"
+    inherited_source = if %w[
+      strict-phase-recovery-hold/v1
+      phase-delegated-continuation-hold/v1
+      phase-delegated-independent-task/v1
+    ].include?(route["schema_version"])
                          source_key = string(
                            route["inherited_worktree_inventory_source"],
                            "current_phase_route.inherited_worktree_inventory_source"
@@ -3029,8 +3386,29 @@ module CurrentTaskAuthority
     validate_goal(truth)
     validate_authority_documents(root, truth)
     route = hash(truth["current_phase_route"], "current_phase_route")
+    delegation = truth["phase_delegation"]
+    if delegation.is_a?(Hash) &&
+       delegation["decision_source"].to_s.include?("V1_8_NON_DOWNGRADE_DIRECTIVE")
+      assert(truth["phase_execution_envelope"].is_a?(Hash),
+             "active Phase delegation requires a phase execution envelope")
+      assert([
+        FounderDelegationContinuity::CONTINUATION_ROUTE_SCHEMA,
+        FounderDelegationContinuity::RESERVED_ROUTE_SCHEMA,
+        DELEGATED_TASK_ROUTE_SCHEMA
+      ].include?(route["schema_version"]),
+             "active Phase delegation requires a closed delegated Route schema")
+    end
     return validate_phase_recovery_hold(truth) if
       route["schema_version"] == "strict-phase-recovery-hold/v1"
+    if route["schema_version"] == FounderDelegationContinuity::CONTINUATION_ROUTE_SCHEMA
+      disposition = FounderDelegationContinuity.validate_truth!(root: root, truth: truth)
+      assert(disposition == FounderDelegationContinuity::CONTINUE_DISPOSITION,
+             "delegated continuation hold requires autonomous Phase continuation")
+      return "READY_NONE"
+    end
+    if route["schema_version"] == DELEGATED_TASK_ROUTE_SCHEMA
+      return validate_phase_delegated_task(root, truth)
+    end
     route, route_id, first_task, _accepted, claims = validate_route(root, truth)
     first_task_in_history = historical_task_ids(truth).include?(first_task["task_id"])
     if %w[ELIGIBLE_NOT_ACTIVATED ACTIVE].include?(first_task["status"])

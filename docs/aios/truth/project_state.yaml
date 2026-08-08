@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-08T02:51:59Z"
-verification_scope: P2_055_TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS
+last_verified_at: "2026-08-08T03:39:25Z"
+verification_scope: FOUNDER_DELEGATION_CONTINUITY_V1_8_PHASE_LOCAL_RECOVERY
 
 authority:
   founder: Human Founder
@@ -17,8 +17,8 @@ authority:
     status: FROZEN
   founder_delegation_policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
-    version: "1.7"
-    sha256: 2417cc5fbd96677ea518ccfa66d0d1adc5f48d92e4d24ef23b9ffc85d47aed72
+    version: "1.8"
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
     status: FOUNDER_DIRECTIVE_ACTIVE
   evaluation_protocol:
     path: docs/aios/EVALUATION_PROTOCOL.md
@@ -39,15 +39,21 @@ goal:
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
   current_task_authority: NONE
   note: >-
-    P2-055 is TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS after one exact
+    P2-055 remains TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS after one exact
     candidate received fresh CTO and Security TARGET NON_PASS. The candidate
     and formal Evidence remain preserved and unintegrated, Quality review was
     not completed after the decisive CTO result, canonical make verify was not
     invoked, P2-056 was not started, and P2 capability credit remains zero.
-    Current Task is NONE and the next action is Founder P2 Phase Gate; no
-    correction, successor or replacement chain was created. All paragraphs
-    below this sentence are retained historical chronology only and have no
-    current Task, Route or scheduling authority. P2-053 is
+    Founder Delegation Policy v1.8 now classifies that result as an ordinary
+    Task lifecycle terminal rather than a Founder Phase Gate: P2 is incomplete,
+    the source Route still has one declared Task slot, 14 engineering hours and
+    4 calendar days of unused offline capacity, no Founder-reserved trigger is
+    present, Current Task is NONE, and Master must select a new independent
+    Phase-local Task without reusing P2-055 lineage or asking Founder for
+    routine approval. No correction, successor or replacement chain was
+    created. All paragraphs below this sentence are retained historical
+    chronology only and have no current Task, Route or scheduling authority.
+    P2-053 is
     TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS. Its exact candidate
     produced a real javac-attributed, deterministic two-root Java graph, but
     fresh CTO review proved that its independent oracle accepts fabricated
@@ -1404,7 +1410,7 @@ project:
   p2_entry_status: AUTHORIZED
   p2_execution_status: ACTIVE
   phase_execution_status: ACTIVE
-  current_route_execution_status: ACTIVE_TASK_1
+  current_route_execution_status: PHASE_DELEGATED_CONTINUATION_READY
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -6149,6 +6155,32 @@ historical_p1_162_phase_route:
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 
 current_phase_route:
+  schema_version: phase-delegated-continuation-hold/v1
+  route_id: P2_PHASE_DELEGATED_CONTINUATION_PENDING_TASK_SELECTION
+  status: AUTHORIZED_READY
+  execution_status: PHASE_DELEGATED_CONTINUATION_READY
+  scheduling_status: MASTER_SELECTING_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
+  phase: P2
+  phase_entry_status: AUTHORIZED
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: "1.8"
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  founder_phase_route_decision_required: false
+  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
+  phase_execution_envelope_ref: phase_execution_envelope
+  historical_terminal_route_ref: historical_p2_055_phase_route
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false
+  additional_write_roots: []
+  inherited_worktree_inventory_source: historical_p2_055_phase_route
+
+historical_p2_055_phase_route:
   schema_version: "1.1"
   route_id: P2_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_ORACLE_AND_CONTEXT_VALUE_ROUTE_V1
   status: TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS
@@ -6294,6 +6326,82 @@ current_phase_route:
       requires_task_gate_pass: true
   inherited_worktree_inventory: []
   next_eligible_action: FOUNDER_P2_PHASE_GATE
+
+phase_execution_envelope:
+  schema_version: phase-execution-envelope/v1
+  phase: P2
+  status: ACTIVE_REMAINING_CAPACITY
+  authority_basis:
+    phase_entry_status: AUTHORIZED
+    policy_path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    policy_version: "1.8"
+    policy_sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+    source_route_ref: historical_p2_055_phase_route
+    source_route_id: P2_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_ORACLE_AND_CONTEXT_VALUE_ROUTE_V1
+    source_decision:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-attested-raw-compiler-closed-edge-context-20260808/decision/FOUNDER_P2_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_ORACLE_AND_CONTEXT_VALUE_ROUTE_V1.structured-decision.json
+      sha256: 97526acda7e4524d9760b7aa71aa0e6a6f0e72dc3f4a4af1910b00d4fda7df7c
+      byte_length: 3017
+    delegation_amendment:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/founder-delegation-continuity-20260808/decision/FOUNDER_PHASE_DELEGATION_CONTINUITY_AMENDMENT_V1.json
+      byte_length: 1182
+      sha256: c37634c51b0b7695204c026f9950911c427f544a6ff2e2c2f786facb9a84a52e
+  accounting_basis: DECLARED_TASK_BUDGET_RESERVATION_NOT_WALL_CLOCK
+  limits:
+    engineering_tasks: 2
+    engineering_hours: 40
+    calendar_days: 10
+    active_tasks: 1
+    task_branches: 1
+    task_worktrees: 1
+    active_candidates: 1
+  task_ledger:
+    - task_id: AIOS-P2-055_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_GRAPH_KERNEL
+      route_id: P2_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_ORACLE_AND_CONTEXT_VALUE_ROUTE_V1
+      status: TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS
+      budget:
+        engineering_tasks: 1
+        engineering_hours: 26
+        calendar_days: 6
+      contract:
+        path: docs/aios/tasks/P2-055_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_GRAPH_KERNEL.yaml
+        byte_length: 13274
+        sha256: 6b050bf6a07cc1564ce172f91221edd23d6d8edb44e6f5caa1ded04d7adfedab
+      outcome_receipt:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-attested-raw-compiler-closed-edge-context-20260808/task-1-p2-055/terminal/P2_055_TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS_RECEIPT.json
+        byte_length: 3377
+        sha256: 4361d73594017efaae36c7426032a93f2ff1688162fafe4a422b34b1c8de3675
+  consumed:
+    engineering_tasks: 1
+    engineering_hours: 26
+    calendar_days: 6
+  reserved: null
+  remaining:
+    engineering_tasks: 1
+    engineering_hours: 14
+    calendar_days: 4
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false
+
+founder_escalation_control:
+  schema_version: founder-escalation-control/v1
+  disposition: NO_RESERVED_TRIGGER_CONTINUE_PHASE
+  source_event:
+    kind: TASK_TERMINAL_FINAL_REVIEW_NON_PASS
+    task_id: AIOS-P2-055_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_GRAPH_KERNEL
+    status: TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS
+  reserved_trigger:
+    category: NONE
+    evidence: null
+  phase_gate_status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
+  founder_decision_required: false
+  next_action_owner: MASTER_CEO_AGENT
+  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
 
 historical_p2_053_phase_route:
   schema_version: "1.1"
@@ -10479,9 +10587,9 @@ historical_p2_phase_route:
   next_eligible_action: FOUNDER_P2_PHASE_GATE
 
 phase_delegation:
-  status: STOPPED_P2_COMPILER_ATTRIBUTED_JAVA_EDGE_TRUTH_GRAPH_CONTEXT_ROUTE_AT_FOUNDER_PHASE_GATE
+  status: ACTIVE_P2_PHASE_DELEGATED_CONTINUATION
   model: PHASE_LEVEL_FOUNDER_DELEGATION
-  decision_source: AUTHORIZE_P2_COMPILER_ATTRIBUTED_JAVA_EDGE_TRUTH_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
+  decision_source: FOUNDER_DELEGATION_POLICY_V1_8_NON_DOWNGRADE_DIRECTIVE_2026_08_08
   phase_gate_owner: HUMAN_FOUNDER
   task_selection_owner: MASTER_CEO_AGENT
   task_authorization_owner: MASTER_CEO_AGENT_WITHIN_CURRENT_PHASE_ENVELOPE
@@ -10502,6 +10610,7 @@ phase_delegation:
     - accept_return_or_terminally_stop_tasks_after_independent_review
     - integrate_task_to_local_canonical_main_after_task_gate
     - choose_the_next_independent_phase_local_task_after_task_completion_or_stop
+    - continue_phase_without_founder_reapproval_after_ordinary_task_terminal
   escalation_conditions:
     - founder_reserved_decision_required
     - phase_boundary_or_strategy_conflict
@@ -10511,6 +10620,10 @@ phase_delegation:
   anti_loop:
     routine_founder_task_approval_required: false
     per_file_or_command_approval_required: false
+    route_or_task_may_downgrade_phase_delegation: false
+    reviewer_non_pass_may_trigger_founder_gate: false
+    phase_gate_requires_exit_gate_eligibility: true
+    phase_execution_envelope_survives_route_terminal: true
     ordinary_repairs_stay_in_same_task: true
     successor_replacement_correction_chain_allowed: false
     task_id_hardcoding_in_current_authority_validator_allowed: false
@@ -10518,7 +10631,7 @@ phase_delegation:
     historical_execution_lineage_reuse_allowed: false
     mandatory_exit_capability_permanent_ban_from_historical_stop: false
     peripheral_work_before_exit_capabilities_allowed: false
-  claim_boundary: This policy delegates the exact offline compiler-attributed P2 graph and context-benchmark Route only; it does not delegate Founder-reserved decisions, external effects, P3 entry or product capability claims.
+  claim_boundary: This policy delegates bounded offline P2 Phase-local Task selection and execution within persistent remaining capacity; it does not delegate Founder-reserved decisions, external effects, P3 entry or product capability claims.
 
 mandatory_exit_capability_recovery:
   status: HISTORICAL_POLICY_CONTEXT_SUPERSEDED_BY_LATER_FOUNDER_ROUTES
@@ -16113,7 +16226,7 @@ active_work:
   authorization_id: null
   activation_parent_commit: null
   activation_parent_tree: null
-  task_resource_state: NO_ACTIVE_TASK_ROUTE_TERMINAL_AT_FOUNDER_PHASE_GATE
+  task_resource_state: NOT_CREATED_PHASE_DELEGATED_CONTINUATION_READY
   task_branch: null
   task_worktree: null
   execution_evidence_root: null
@@ -16137,13 +16250,13 @@ active_work:
   offsite_target: null
   founder_reserved_authorization: null
   founder_reserved_authorization_sha256: null
-  founder_decision_required: true
-  founder_decision_required_scope: P2_PHASE_GATE_AFTER_P2_055_TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS
-  escalation_reason: P2_055_ACCEPTED_SCANNER_AUTHORITY_EFFECT_OBSERVATION_CLOSED_INVENTORY_AND_PREFREEZE_GATES_NON_PASS
-  user_action_required: FOUNDER_P2_PHASE_GATE_DECISION
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_P2_PHASE_GATE_DECISION
-  next_eligible_action: FOUNDER_P2_PHASE_GATE
+  founder_decision_required: false
+  founder_decision_required_scope: null
+  escalation_reason: null
+  user_action_required: NONE
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
 
 historical_p2_055_terminal_active_work:
   current_task: AIOS-P2-055_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_GRAPH_KERNEL
@@ -22260,10 +22373,10 @@ phase_execution_claim:
     - canonical main advance outside an accepted task gate
 
 claim_boundary:
-  current_phase_route: P2_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_ORACLE_AND_CONTEXT_VALUE_ROUTE_V1
+  current_phase_route: P2_PHASE_DELEGATED_CONTINUATION_PENDING_TASK_SELECTION
   current_task: NONE
-  next_eligible_action: FOUNDER_P2_PHASE_GATE
-  real_engineering_progress: P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_P2_055_TERMINAL_P2_056_INELIGIBLE
+  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
+  real_engineering_progress: P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_P2_055_TERMINAL_PHASE_DELEGATED_CONTINUATION_READY
   p2_055_status: TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS
   p2_055_candidate_commit: eebb76347ff71a5482b1965e0bf4ac6d4adfa7ca
   p2_055_candidate_tree: f5fb0f22b4a34d4b616214c9bd0bb69b625d2481

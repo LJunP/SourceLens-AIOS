@@ -13,14 +13,21 @@ require_relative "validate-current-task-authority"
 VALIDATOR = File.expand_path("validate-current-task-authority.rb", __dir__)
 SAFETY_VALIDATOR = File.expand_path("check-p1-safety-boundary.sh", __dir__)
 GOVERNANCE_VALIDATOR = File.expand_path("validate-aios-governance.sh", __dir__)
+DELEGATION_VALIDATOR = File.expand_path("validate-founder-delegation-continuity.rb", __dir__)
 SOURCE_REPO = File.expand_path("..", __dir__)
+GIT_COMMON_DIR = begin
+  stdout, stderr, status = Open3.capture3("git", "rev-parse", "--git-common-dir", chdir: SOURCE_REPO)
+  raise "cannot resolve Git common directory: #{stderr}" unless status.success?
+  File.expand_path(stdout.strip, SOURCE_REPO)
+end
+CANONICAL_REPO = File.dirname(GIT_COMMON_DIR)
 TRUTH_RELATIVE = "docs/aios/truth/project_state.yaml"
 POLICY_RELATIVE = "docs/aios/FOUNDER_DELEGATION_POLICY.md"
 P1_READY_GOLDEN_COMMIT = "03542c278ad57b030cb0798483de8c3c19341952"
 STRUCTURED_ROUTE_GOLDEN_COMMIT = "b939567d35c2da497848d5772009fc5eaf6f5c02"
 STRUCTURED_DECISION_PATH = File.expand_path(
   "../.sourcelens-audit/p2-structured-decision-authority-20260727/decision/FOUNDER_P2_ROUTE_DECISION.json",
-  SOURCE_REPO
+  CANONICAL_REPO
 )
 STRUCTURED_DECISION_SHA256 = "27838e20766d84ccbbae934284331559bbee71224291b9f8ca7277fa0ea3ee5f"
 STRUCTURED_DECISION_BYTE_LENGTH = 2240
@@ -244,6 +251,18 @@ class CurrentTaskAuthorityTest
 
   def deep_copy(value)
     Marshal.load(Marshal.dump(value))
+  end
+
+  def executable_route(truth)
+    route = truth.fetch("current_phase_route")
+    if %w[
+      strict-phase-recovery-hold/v1
+      phase-delegated-continuation-hold/v1
+    ].include?(route["schema_version"])
+      truth.fetch(route.fetch("inherited_worktree_inventory_source"))
+    else
+      route
+    end
   end
 
   def recursively_sorted(value)
@@ -1065,12 +1084,7 @@ class CurrentTaskAuthorityTest
                         "legacy schema v1 compatibility")
 
     truth = yaml(File.join(SOURCE_REPO, TRUTH_RELATIVE))
-    executable_route = if truth.dig("current_phase_route", "schema_version") ==
-                          "strict-phase-recovery-hold/v1"
-                         truth.fetch("historical_p2_009_terminal_route")
-                       else
-                         truth.fetch("current_phase_route")
-                       end
+    executable_route = executable_route(truth)
     packet_path = executable_route.dig("decision_packet", "path")
     current_claims = CurrentTaskAuthority.packet_claims(File.binread(packet_path))
     current_profile = current_claims["founder_reserved_profile"]
@@ -1098,12 +1112,7 @@ class CurrentTaskAuthorityTest
 
   def closed_profile_packet_unit_tests
     truth = yaml(File.join(SOURCE_REPO, TRUTH_RELATIVE))
-    executable_route = if truth.dig("current_phase_route", "schema_version") ==
-                          "strict-phase-recovery-hold/v1"
-                         truth.fetch("historical_p2_009_terminal_route")
-                       else
-                         truth.fetch("current_phase_route")
-                       end
+    executable_route = executable_route(truth)
     packet_path = executable_route.dig("decision_packet", "path")
     packet = File.binread(packet_path).force_encoding(Encoding::UTF_8)
     claims = CurrentTaskAuthority.packet_claims(packet)
@@ -1198,12 +1207,19 @@ class CurrentTaskAuthorityTest
     validator_path = File.join(repo, "scripts/validate-current-task-authority.rb")
     safety_path = File.join(repo, "scripts/check-p1-safety-boundary.sh")
     governance_path = File.join(repo, "scripts/validate-aios-governance.sh")
+    delegation_validator_path = File.join(repo, "scripts/validate-founder-delegation-continuity.rb")
     register_owned(validator_path)
     register_owned(safety_path)
     register_owned(governance_path)
     rewrite_owned(validator_path, File.binread(VALIDATOR))
     rewrite_owned(safety_path, File.binread(SAFETY_VALIDATOR))
     rewrite_owned(governance_path, File.binread(GOVERNANCE_VALIDATOR))
+    if File.exist?(delegation_validator_path)
+      register_owned(delegation_validator_path)
+      rewrite_owned(delegation_validator_path, File.binread(DELEGATION_VALIDATOR))
+    else
+      create_exclusive(delegation_validator_path, File.binread(DELEGATION_VALIDATOR))
+    end
 
     packet_identity = source_truth.fetch("current_phase_route").fetch("decision_packet")
     packet_source = packet_identity.fetch("path")
@@ -1277,9 +1293,9 @@ class CurrentTaskAuthorityTest
     )
     current_policy_bytes = File.binread(File.join(SOURCE_REPO, POLICY_RELATIVE))
     current_policy_sha = Digest::SHA256.hexdigest(current_policy_bytes)
-    source_truth["authority"]["founder_delegation_policy"]["version"] = "1.7"
+    source_truth["authority"]["founder_delegation_policy"]["version"] = "1.8"
     source_truth["authority"]["founder_delegation_policy"]["sha256"] = current_policy_sha
-    source_truth["current_phase_route"]["policy"]["version"] = "1.7"
+    source_truth["current_phase_route"]["policy"]["version"] = "1.8"
     source_truth["current_phase_route"]["policy"]["sha256"] = current_policy_sha
     repo = File.join(sandbox, "repo")
     external = File.join(sandbox, "external")

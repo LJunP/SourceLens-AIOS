@@ -69,9 +69,21 @@ Founder 只保留：
 
 正常情况下，Founder 的下一个介入点是 Phase Gate，而不是单个 P1 工程 Task。若无需 Founder 决策，面向 Founder 的状态更新必须明确写：`你现在无需操作，我将在现有授权范围内继续执行。`
 
+## Founder 再授权中断门（强制执行）
+
+- 本节是 Phase 级委托的不可降级执行不变量。普通 Route packet、Task Contract、Stop Condition、Reviewer 结论、terminal receipt、Truth 状态标签或“下一 Founder 决策点”文字，均不得把已委托给 Master 的日常事项重新升级为 Founder 审批。只有 Founder 明确修改本政策、Phase Objective/Exit Gate、Phase envelope 或下列保留权限，才能改变这一分工。
+- `founder_decision_required: true` 只允许由封闭枚举触发：`PHASE_ENTRY_OR_EXIT`、`MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE`、`MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE`、`NETWORK_PROVIDER_SECRET_REMOTE_PRODUCTION_OR_PUBLIC_EFFECT`、`IRREVERSIBLE_ASSET_REMOVAL`、`MATERIAL_LEGAL_PRIVACY_OR_COMMERCIAL_COMMITMENT`、`CRITICAL_RESIDUAL_RISK_ACCEPTANCE`。自由文本、Task ID、根因名称、Reviewer verdict 或 Route terminal 状态不得充当触发器。
+- 以下事件明确属于 Master 管理的普通 Task lifecycle，不得单独触发 Founder：implementation/test NON_PASS、Reviewer TARGET NON_PASS、同 Task repair 耗尽、Task 预算耗尽、candidate 放弃、tree mismatch、canonical verification NONPASS，以及某个预排后继 Task 因 predecessor Gate 未通过而失去资格。
+- Phase Gate 不是“任一 Task/Route 停止点”。只有 canonical Exit Gate 的全部必需项均已 `ACCEPTED`、Founder Gate 状态为 `ELIGIBLE_AWAITING_FOUNDER_DECISION`，或出现上述 exact Founder 保留触发器时，才允许把 next action 指向 Founder。Phase 必需项仍为 `MISSING/PARTIAL/NON_PASS` 时，普通终态后的 next action owner 必须是 `MASTER_CEO_AGENT`。
+- Phase entry 授权和 Phase execution envelope 必须跨普通 Route/Task 终态持续存在；Route terminal 只消费该 Route/Task 的执行身份，不得自动消费 Phase 调度权。只要 Phase 未完成、持久 Phase envelope 仍有任务/小时/日历/权限容量且不存在 Founder 保留触发器，Master 必须选择新的独立 Phase-local Task。
+- 新独立 Task 与被禁止的 successor/replacement 的机械区别是：新 Task 使用全新 Task ID、nonce、branch、worktree、Contract 和 Evidence root；不恢复、读取、比较、复制或复用 rejected lineage；仍直接服务同一 Phase Objective，并受剩余 Phase envelope 约束。满足这些条件的独立 Task 不需要 Founder 再授权。
+- canonical Truth 必须包含封闭的 Founder escalation classification 及持久 Phase envelope accounting；`founder_decision_required`、`user_action_required` 和 `next_eligible_action` 必须从该分类派生，不得手工自报。Validator 必须拒绝“普通 Task 终态 + Phase 未完成 + 尚有 envelope 容量 + Founder Gate”的组合。
+- 上述普通终态组合的 canonical next action 必须精确为 `MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK`；该选择随后必须通过 phase-delegated independent Task authority 路径，而不是伪造新的 Founder packet。
+- 每次面向 Founder 请求授权前，Master 必须先运行 Founder escalation validator。结果为 `NO_RESERVED_TRIGGER_CONTINUE_PHASE` 时禁止生成授权提示词，并必须直接继续工程；只有 validator 给出 exact reserved trigger 时，才允许一次性请求相应 Founder 决策。
+
 ## 严格阶段顺序与反偏航（强制执行）
 
-- 本节落实 `FOUNDER_DELEGATION_POLICY.md` v1.7 的 Founder 指令，只约束执行与调度，不改变各权威文件在各自领域内的权力。
+- 本节落实 `FOUNDER_DELEGATION_POLICY.md` v1.8 的 Founder 指令，只约束执行与调度，不改变各权威文件在各自领域内的权力。
 - 固定阶段路线必须按 `P0 → P1 → P2 → … → P12` 顺序执行。调度或激活后一 Phase 前，必须从 canonical Truth 和对应 Evaluation/Exit Gate 逐项证明前一 Phase 的全部必需项均为 `ACCEPTED/COMPLETE`，不存在 `MISSING`、`PARTIAL`、`NON_PASS` 或未处置的必需项，并且已完成 Founder Phase Gate。
 - `partial exit`、`residual acceptance`、Task/Route 终态、预算耗尽或“避免循环”不得被解释为跳过未完成 Phase 能力的依据。除非 Founder 明确发布新的战略/宪法版本并正式修改该 Phase Objective 或 Exit Gate，否则后一 Phase 必须保持 `HOLD`，当前调度只能回到尚未完成的前一 Phase。
 - 失败的是具体实现路径，不是尚未完成的 Phase 目标。普通失败只在仍有效的同一 Task 和预算内修复；Task 已终态或实现假设失效时，保留真实 Evidence，并在同一 Phase 选择不恢复失败 lineage 的不同实现方法或独立最小工程 Task，直至完成 Exit Gate、触发真实不可接受风险或耗尽 Founder 已批准的 Phase envelope。

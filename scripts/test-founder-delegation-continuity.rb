@@ -88,8 +88,8 @@ base["phase_boundary"] = deep_copy(current_truth.fetch("phase_boundary"))
 Dir.mktmpdir("founder-delegation-continuity-") do |fixtures|
   assertions = 0
 
-  expect_pass(fixtures, "current-exhausted-envelope-founder-hold", current_truth,
-              "FOUNDER_DECISION_REQUIRED")
+  expect_pass(fixtures, "current-active-phase-delegated-task", current_truth,
+              "NO_RESERVED_TRIGGER_CONTINUE_PHASE")
   assertions += 1
 
   truth = deep_copy(current_truth)
@@ -104,7 +104,7 @@ Dir.mktmpdir("founder-delegation-continuity-") do |fixtures|
     }
   )
   expect_non_pass(fixtures, "predeclared-terminal-receipt-substitution", truth,
-                  "predeclared Task terminal receipt identity drift")
+                  "phase execution source Task ledger entry has no immutable Git introduction")
   assertions += 1
 
   expect_pass(fixtures, "ordinary-terminal-continues", base,

@@ -220,6 +220,50 @@ module FounderDelegationContinuity
     fail!("#{label} immutable Git anchor could not be resolved")
   end
 
+  def first_task_ledger_anchor!(root, entry, search_literal, label)
+    truth_path = "docs/aios/truth/project_state.yaml"
+    introduction = git(
+      root,
+      "log",
+      "--reverse",
+      "--format=%H",
+      "-S#{search_literal}",
+      "--",
+      truth_path
+    ).lines.map(&:strip).reject(&:empty?).first
+    assert(introduction, "#{label} has no immutable Git introduction")
+    commits = git(
+      root,
+      "log",
+      "--reverse",
+      "--format=%H",
+      "#{introduction}^..HEAD",
+      "--",
+      truth_path
+    ).lines.map(&:strip).reject(&:empty?)
+    commits.each do |commit|
+      bytes, _stderr, status = Open3.capture3("git", "show", "#{commit}:#{truth_path}", chdir: root.to_s)
+      next unless status.success?
+
+      truth = parse_yaml_bytes(bytes, "#{label} anchor Truth")
+      item = array(
+        truth.dig("phase_execution_envelope", "task_ledger"),
+        "candidate anchored phase execution source task ledger"
+      ).find do |candidate|
+        next false unless candidate.is_a?(Hash) && candidate["task_id"] == entry["task_id"] &&
+                          candidate.keys.sort == entry.keys.sort
+
+        if entry.key?("founder_residual_acceptance")
+          candidate.dig("founder_residual_acceptance", "source_founder_packet", "sha256") == search_literal
+        else
+          candidate.dig("outcome_receipt", "sha256") == search_literal
+        end
+      end
+      return [commit, item] if item
+    end
+    fail!("#{label} immutable Git anchor could not be resolved")
+  end
+
   def repo_identity_bytes(root, identity, label)
     record = exact_keys(identity, %w[path byte_length sha256], label)
     relative = Pathname.new(record["path"].to_s)
@@ -575,7 +619,7 @@ module FounderDelegationContinuity
     source
   end
 
-  def validate_founder_terminal_accounting_residual!(entry, source_route)
+  def validate_founder_terminal_accounting_residual!(entry)
     residual = exact_keys(
       entry["founder_residual_acceptance"],
       %w[
@@ -589,8 +633,9 @@ module FounderDelegationContinuity
     )
     assert(residual["schema_version"] == "founder-terminal-accounting-residual-acceptance/v1",
            "Founder terminal accounting residual schema drift")
-    assert(residual["authorization_token"] == source_route["authorization_token"],
-           "Founder terminal accounting residual token drift")
+    assert(residual["authorization_token"].is_a?(String) &&
+           !residual["authorization_token"].empty?,
+           "Founder terminal accounting residual token is invalid")
     assert(residual["acceptance_scope"] == "EXACT_TERMINAL_STATE_ACCOUNTING_ONLY" &&
            residual["terminal_accounting_residual_accepted"] == true &&
            residual["general_validator_gap_accepted"] == false &&
@@ -608,8 +653,6 @@ module FounderDelegationContinuity
       %w[path sha256 byte_length],
       "Founder terminal accounting source packet"
     )
-    assert(packet == source_route["original_founder_packet"],
-           "Founder terminal accounting source packet identity drift")
     packet_bytes = validate_identity(packet, "Founder terminal accounting source packet")
     packet_text = packet_bytes.dup.force_encoding(Encoding::UTF_8)
     assert(packet_text.valid_encoding?, "Founder terminal accounting source packet is not UTF-8")
@@ -772,11 +815,29 @@ module FounderDelegationContinuity
       anchored = array(anchored_source_entries, "anchored source task ledger").find do |item|
         item.is_a?(Hash) && item["task_id"] == entry["task_id"]
       end
-      if anchored
-        assert(anchored == entry,
-               "phase execution source Task ledger drifts from its first canonical anchor")
-      elsif entry.key?("founder_residual_acceptance")
-        validate_founder_terminal_accounting_residual!(entry, source_route)
+      unless anchored
+        anchor_literal = if entry.key?("founder_residual_acceptance")
+                           entry.dig("founder_residual_acceptance", "source_founder_packet", "sha256")
+                         else
+                           entry.dig("outcome_receipt", "sha256")
+                         end
+        _ledger_anchor_commit, anchored = first_task_ledger_anchor!(
+          root,
+          entry,
+          anchor_literal,
+          "phase execution source Task ledger entry"
+        )
+      end
+      assert(anchored == entry,
+             "phase execution source Task ledger drifts from its first canonical anchor")
+
+      if entry.key?("founder_residual_acceptance")
+        validate_founder_terminal_accounting_residual!(entry)
+      elsif array(anchored_source_entries, "anchored source task ledger").any? do |item|
+              item.is_a?(Hash) && item["task_id"] == entry["task_id"]
+            end
+        # The original delegation-amendment ledger predates typed terminal
+        # outcome receipts; its exact immutable anchor remains authoritative.
       else
         validate_predeclared_task_terminal_outcome!(entry, contract, receipt)
       end

@@ -1,0 +1,138 @@
+schema_version: "1.0"
+record_type: phase_delegated_task_contract
+task_id: AIOS-P2-060_JAVA_RUNTIME_OBSERVED_CONTEXT_VALUE_BENCHMARK
+phase: P2
+route_id: AIOS-P2-060_JAVA_RUNTIME_OBSERVED_CONTEXT_VALUE_BENCHMARK_PHASE_DELEGATED_ROUTE
+status: ACTIVE
+task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
+capability: REPRODUCIBLE_CONTEXT_BENCHMARK
+objective: >-
+  Build one clean-room Java 17 runtime, source-bound and raw-observer-bound
+  context benchmark transaction and determine in one sealed six-task validation
+  whether graph-conditioned context strictly beats the accepted lexical baseline
+  without validation-task regression.
+capacity_source_task_id: AIOS-P2-060_JAVA_RUNTIME_OBSERVED_CONTEXT_VALUE_BENCHMARK
+budget:
+  engineering_hours: 24
+  calendar_days: 6
+  implementation_iterations: 4
+  candidates: 1
+max_same_task_repairs: 3
+roles:
+  owner: P2 Phase Delegated Master P2-060
+  worker: P2-060 Clean Room Java Runtime Worker
+  independent_reviewers:
+    - P2-060 Fresh CTO Reviewer
+    - P2-060 Fresh Security Reviewer
+    - P2-060 Fresh Quality Reviewer
+allowlisted_paths:
+  - evaluation-harness/harness/p2-java-runtime-observed-context-value
+  - evaluation-harness/evaluator/p2-java-runtime-observed-context-value
+  - evaluation-harness/reports/p2-java-runtime-observed-context-value
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+phase_delegation_binding:
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: "1.8"
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  delegation_amendment:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/founder-delegation-continuity-20260808/decision/FOUNDER_PHASE_DELEGATION_CONTINUITY_AMENDMENT_V1.json
+    byte_length: 1182
+    sha256: c37634c51b0b7695204c026f9950911c427f544a6ff2e2c2f786facb9a84a52e
+  source_decision:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-java-runtime-observed-context-value-20260809/task-p2-060/decision/FOUNDER_P2_ONE_FINAL_CLEAN_ROOM_JAVA_RUNTIME_OBSERVED_CONTEXT_VALUE_BENCHMARK_AND_STRICT_P2_EXIT_ROUTE_V1.structured-decision.json
+    sha256: 81e9579db15b77cb4873898059facd10fb78a09a85f5cdbf91bfa8ecef0de647
+    byte_length: 5411
+  source_terminal_event:
+    task_id: AIOS-P2-059_SOURCE_BOUND_OBSERVED_CONTEXT_VALUE_BENCHMARK
+    status: TERMINAL_PRESEALED_ANTI_LOOP_STOP_CONDITION_NON_PASS
+    outcome_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-source-bound-observed-context-value-20260808/task-p2-059/terminal/P2_059_TERMINAL_PRESEALED_ANTI_LOOP_STOP_CONDITION_NON_PASS_RECEIPT.json
+      byte_length: 5542
+      sha256: 24a7eba41786853443f1a89364387faeb57d7878f17ff6c015d4928b6e125c74
+  phase_envelope_snapshot:
+    limits:
+      engineering_tasks: 5
+      engineering_hours: 112
+      calendar_days: 28
+      active_tasks: 1
+      task_branches: 1
+      task_worktrees: 1
+      active_candidates: 1
+    consumed:
+      engineering_tasks: 4
+      engineering_hours: 88
+      calendar_days: 22
+    reserved:
+      task_id: AIOS-P2-060_JAVA_RUNTIME_OBSERVED_CONTEXT_VALUE_BENCHMARK
+      route_id: AIOS-P2-060_JAVA_RUNTIME_OBSERVED_CONTEXT_VALUE_BENCHMARK_PHASE_DELEGATED_ROUTE
+      status: ACTIVE
+      capacity_source_task_id: AIOS-P2-060_JAVA_RUNTIME_OBSERVED_CONTEXT_VALUE_BENCHMARK
+      budget:
+        engineering_tasks: 1
+        engineering_hours: 24
+        calendar_days: 6
+    remaining:
+      engineering_tasks: 0
+      engineering_hours: 0
+      calendar_days: 0
+  founder_packet_for_task: null
+acceptance_criteria:
+  - Quality freezes one exact six-task dataset identity before Worker mutation, exposes only four DEV tasks to Worker and keeps two validation task issues and oracle bytes sealed until candidate freeze.
+  - The formal Worker, orchestrator, observer and independent reconstruction runtime are Java 17 standard-library implementations; Node.js, Hermes and rejected P2 runtime paths are absent from the formal execution closure.
+  - An external expected source manifest binds every formal Worker, Evaluator, orchestrator and observer Git path, blob mode, regular non-symlink type, byte length and SHA-256 before any benchmark input is parsed.
+  - Runtime admission independently reconstructs the actual candidate commit, tree, clean status, source manifest and working bytes through fixed Git executable observations and rejects caller identity claims.
+  - Each actual run preserves raw argv, closed environment, process tree, socket observation, filesystem-write inventory, stdout, stderr and exit status sufficient for an independent consumer to reconstruct six external effects plus Provider and Secret counts.
+  - The lexical baseline executes without importing, loading or invoking graph, symbol or treatment-only logic, and both arms use the same source-unit universe, byte budget and denominator.
+  - Four public DEV tasks achieve graph aggregate recall strictly greater than lexical recall with no per-task regression, zero forbidden context, byte-exact two-root replay, zero false accepts and all reconstructed effects equal to zero before candidate freeze.
+  - Exactly one candidate is frozen and exactly one sealed six-task validation is run; all six tasks remain in the denominator, graph macro recall is strictly greater than lexical macro recall and neither validation task regresses.
+  - Fresh CTO, Security and Quality Reviews all return TARGET_VERDICT PASS on the same exact candidate, sealed result and source identities before integration.
+  - Reviewed and integrated trees are exact-equal and the single canonical make verify returns PASS; only then may the P2 context-benchmark Exit item become ACCEPTED.
+required_evidence:
+  - Quality-owned public DEV freeze, sealed validation capsule and create-once freeze receipt with external identities.
+  - Candidate source manifest reconstructed from Git and working bytes plus fixed Java, Java compiler, Git and observer executable identities.
+  - Raw two-physical-root DEV transactions and independent replay with complete closed inventories and negative-matrix results.
+  - Unique candidate commit/tree/diff/source identity and a create-once candidate-freeze receipt.
+  - Unique sealed six-task raw transaction, independent evaluation report, effect reconstruction and reproduction command.
+  - Fresh exact-candidate CTO, Security and Quality Review receipts.
+  - Exact integration/tree-equality and one canonical make verify receipt if and only if all prior gates PASS.
+rollback: >-
+  Before candidate integration all Task work is isolated to the unique P2-060
+  branch/worktree and external Evidence root. If the Task terminally stops, retain
+  exact receipts and a content-addressed snapshot, then remove the branch/worktree
+  after verifying preservation. If integration verification NONPASSes, use a
+  non-destructive Git revert of the exact integration commit.
+stop_conditions:
+  - A rejected P2 engineering path is read, compared, restored, copied or used as implementation input.
+  - Quality cannot prove the two validation tasks and oracle remained sealed from Worker before candidate freeze.
+  - The Java runtime/source/observer identity or actual Git candidate binding drifts or cannot be independently reconstructed.
+  - The lexical baseline executes graph, symbol or other target-only computation.
+  - DEV does not strictly beat the lexical baseline without per-task regression within four total presealed implementation iterations.
+  - Any false accept, forbidden context, two-root replay drift, undeclared input or externally reconstructed effect is nonzero or UNKNOWN.
+  - A second candidate, second sealed execution or post-sealed repair would be required.
+  - Any fresh final Reviewer returns TARGET_VERDICT NON_PASS.
+  - Reviewed and integrated trees differ or the one canonical make verify is NONPASS.
+forbidden_actions:
+  - Read, restore, compare, copy, execute or reuse any rejected P2 source, candidate, evaluator, fixture, test, formal Evidence or runtime transaction.
+  - Use Node.js or Hermes anywhere in the formal Worker, orchestrator, observer, evaluator or runtime-environment normalization closure.
+  - Access network, Provider, Secret, remote, production or public systems; push, fetch, create a PR, release or deployment; or enter P3.
+  - Modify the accepted dataset, oracle, baseline, metric, byte budget, denominator or validation criteria after observing DEV or sealed results.
+  - Create a successor, replacement, correction, normalization, closure, feasibility, remediation, authority, governance or general Evidence-platform Task.
+claim_boundary: >-
+  At most one offline cooperative-local six-task Java-runtime observed context
+  benchmark may establish a narrowly accepted P2 context-selection value result.
+  Activation, Quality freeze, DEV uplift, hashes, manifests, Knowledge sync or
+  negative Research results do not themselves create P2 capability credit,
+  production custody, hostile-principal security, P2 Exit or P3 authority.

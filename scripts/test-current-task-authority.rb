@@ -1086,7 +1086,7 @@ class CurrentTaskAuthorityTest
     truth = yaml(File.join(SOURCE_REPO, TRUTH_RELATIVE))
     executable_route = executable_route(truth)
     packet_path = executable_route.dig("decision_packet", "path")
-    current_claims = CurrentTaskAuthority.packet_claims(File.binread(packet_path))
+    current_claims = packet_path ? CurrentTaskAuthority.packet_claims(File.binread(packet_path)) : {}
     current_profile = current_claims["founder_reserved_profile"]
     if current_profile && current_profile["schema_version"] == "3.0"
       expect_profile_pass(
@@ -1114,6 +1114,11 @@ class CurrentTaskAuthorityTest
     truth = yaml(File.join(SOURCE_REPO, TRUTH_RELATIVE))
     executable_route = executable_route(truth)
     packet_path = executable_route.dig("decision_packet", "path")
+    unless packet_path
+      @passes += 1
+      puts "PASS current phase-delegated Task requires no direct Founder packet profile"
+      return
+    end
     packet = File.binread(packet_path).force_encoding(Encoding::UTF_8)
     claims = CurrentTaskAuthority.packet_claims(packet)
     expected_tasks = executable_route.fetch("task_plan").map do |descriptor|

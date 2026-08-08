@@ -69,19 +69,19 @@ Dir.mktmpdir("founder-delegation-continuity-") do |fixtures|
   truth = deep_copy(base)
   truth["active_work"]["founder_decision_required"] = true
   expect_non_pass(fixtures, "review-non-pass-founder-required", truth,
-                  "active_work ordinary terminal projection drift")
+                  "delegated independent Task must not invent a Founder authorization or action")
   assertions += 1
 
   truth = deep_copy(base)
   truth["current_phase_route"]["founder_phase_route_decision_required"] = true
   expect_non_pass(fixtures, "route-terminal-founder-required", truth,
-                  "delegated continuation route cannot require Founder decision")
+                  "delegated independent Task route cannot require Founder decision")
   assertions += 1
 
   truth = deep_copy(base)
   truth["active_work"]["next_eligible_action"] = "FOUNDER_P2_PHASE_GATE"
   expect_non_pass(fixtures, "ordinary-terminal-next-founder", truth,
-                  "active_work ordinary terminal projection drift")
+                  "delegated independent Task ACTIVE active_work drift")
   assertions += 1
 
   truth = deep_copy(base)
@@ -141,13 +141,13 @@ Dir.mktmpdir("founder-delegation-continuity-") do |fixtures|
   truth = deep_copy(base)
   truth["project"]["current_route_execution_status"] = "STOPPED_AT_FOUNDER_P2_PHASE_GATE"
   expect_non_pass(fixtures, "project-stopped-at-false-founder-gate", truth,
-                  "project Phase continuation status drift")
+                  "delegated independent Task ACTIVE project or Goal projection drift")
   assertions += 1
 
   truth = deep_copy(base)
   truth["active_work"]["current_task"] = "AIOS-P2-999_FAKE_TASK"
   expect_non_pass(fixtures, "active-task-during-selection-hold", truth,
-                  "delegated continuation requires current Task NONE")
+                  "delegated independent Task ACTIVE active_work drift")
   assertions += 1
 
   truth = deep_copy(base)
@@ -175,9 +175,16 @@ Dir.mktmpdir("founder-delegation-continuity-") do |fixtures|
   route["scheduling_status"] = "STOPPED_AT_FOUNDER_RESERVED_DECISION"
   route["founder_phase_route_decision_required"] = true
   route["next_eligible_action"] = "FOUNDER_RESERVED_DECISION"
+  route.delete("source_authority_route_ref")
+  route.delete("preceding_terminal_route_ref")
+  route.delete("selected_task")
+  route["historical_terminal_route_ref"] = "historical_p2_057_phase_route"
+  route["inherited_worktree_inventory_source"] = "historical_p2_057_phase_route"
   truth["project"]["phase_execution_status"] = "STOPPED_AT_FOUNDER_RESERVED_DECISION"
   truth["project"]["current_route_execution_status"] = "FOUNDER_RESERVED_DECISION_REQUIRED"
   active = truth["active_work"]
+  active["current_task"] = "NONE"
+  active["current_task_status"] = "NONE"
   active["task_resource_state"] = "NO_ACTIVE_TASK_FOUNDER_RESERVED_DECISION_HOLD"
   active["founder_decision_required"] = true
   active["founder_decision_required_scope"] = "PHASE_ENTRY_OR_EXIT"
@@ -227,14 +234,12 @@ Dir.mktmpdir("founder-delegation-continuity-") do |fixtures|
   assertions += 1
 
   truth = deep_copy(base)
-  historical = truth.delete("historical_p2_055_phase_route")
-  truth["historical_p2_055_archive_phase_route"] = historical
-  truth["current_phase_route"]["historical_terminal_route_ref"] =
-    "historical_p2_055_archive_phase_route"
-  truth["current_phase_route"]["inherited_worktree_inventory_source"] =
-    "historical_p2_055_archive_phase_route"
+  historical = truth.delete("historical_p2_058_founder_expansion_phase_route")
+  truth["historical_p2_058_archive_phase_route"] = historical
+  truth["current_phase_route"]["source_authority_route_ref"] =
+    "historical_p2_058_archive_phase_route"
   truth["phase_execution_envelope"]["authority_basis"]["source_route_ref"] =
-    "historical_p2_055_archive_phase_route"
+    "historical_p2_058_archive_phase_route"
   expect_pass(fixtures, "data-driven-historical-route-reference", truth,
               "NO_RESERVED_TRIGGER_CONTINUE_PHASE")
   assertions += 1
@@ -341,27 +346,26 @@ Dir.mktmpdir("founder-delegation-continuity-") do |fixtures|
   assertions += 1
 
   truth = deep_copy(base)
-  truth["historical_p2_055_phase_route"]["envelope"]["max_engineering_tasks"] = 3
-  truth["phase_execution_envelope"]["limits"]["engineering_tasks"] = 3
-  truth["phase_execution_envelope"]["remaining"]["engineering_tasks"] = 2
+  truth["historical_p2_058_founder_expansion_phase_route"]["envelope"]["max_engineering_tasks"] = 4
+  truth["phase_execution_envelope"]["limits"]["engineering_tasks"] = 4
+  truth["phase_execution_envelope"]["remaining"]["engineering_tasks"] = 1
   expect_non_pass(fixtures, "self-consistent-source-envelope-expansion", truth,
                   "historical source Route static authority drifts from its first canonical Git anchor")
   assertions += 1
 
   truth = deep_copy(base)
-  historical = truth["historical_p2_055_phase_route"]
-  historical["first_task"]["status"] = "MASTER_TASK_GATE_ACCEPTED_COMPLETE"
-  historical["task_plan"][0]["status"] = "MASTER_TASK_GATE_ACCEPTED_COMPLETE"
-  historical["task_plan"][1]["status"] = "TERMINAL_FINAL_QUALITY_TARGET_NON_PASS"
+  historical = truth["historical_p2_058_founder_expansion_phase_route"]
+  historical["task_plan"][2]["status"] = "TERMINAL_FINAL_QUALITY_TARGET_NON_PASS"
   historical["status"] = "TERMINAL_FINAL_QUALITY_TARGET_NON_PASS"
   historical["execution_status"] = "TERMINAL_FINAL_QUALITY_TARGET_NON_PASS"
   envelope = truth["phase_execution_envelope"]
   envelope["status"] = "EXHAUSTED"
   envelope["consumed"] = {
-    "engineering_tasks" => 2,
-    "engineering_hours" => 40,
-    "calendar_days" => 10
+    "engineering_tasks" => 3,
+    "engineering_hours" => 64,
+    "calendar_days" => 16
   }
+  envelope["reserved"] = nil
   envelope["remaining"] = {
     "engineering_tasks" => 0,
     "engineering_hours" => 0,

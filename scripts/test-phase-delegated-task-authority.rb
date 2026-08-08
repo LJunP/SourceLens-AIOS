@@ -11,9 +11,9 @@ require "yaml"
 
 SOURCE_REPO = File.expand_path("..", __dir__)
 TRUTH_RELATIVE = "docs/aios/truth/project_state.yaml"
-TASK_ID = "AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE"
+TASK_ID = "AIOS-P2-058_DEV_FIRST_GRAPH_CONTEXT_VALUE_BENCHMARK"
 ROUTE_ID = "#{TASK_ID}_PHASE_DELEGATED_ROUTE"
-CONTRACT_RELATIVE = "docs/aios/tasks/P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE.yaml"
+CONTRACT_RELATIVE = "docs/aios/tasks/P2-058_DEV_FIRST_GRAPH_CONTEXT_VALUE_BENCHMARK.yaml"
 FALSE_EFFECTS = {
   "network" => false,
   "provider" => false,
@@ -121,15 +121,15 @@ module PhaseDelegatedAuthorityTest
   def roles
     {
       "owner" => "P2 Phase Delegated Master",
-      "worker" => "P2 Context Value Worker",
+      "worker" => "P2 DEV First Context Value Worker",
       "independent_reviewers" => ["P2 CTO Reviewer", "P2 Security Reviewer", "P2 Quality Reviewer"]
     }
   end
 
   def budget
     {
-      "engineering_hours" => 14,
-      "calendar_days" => 4,
+      "engineering_hours" => 24,
+      "calendar_days" => 6,
       "implementation_iterations" => 4,
       "candidates" => 1
     }
@@ -137,9 +137,9 @@ module PhaseDelegatedAuthorityTest
 
   def allowlisted_paths
     [
-      "evaluation-harness/harness/p2-phase-delegated-context",
-      "evaluation-harness/evaluator/p2-phase-delegated-context",
-      "evaluation-harness/reports/p2-phase-delegated-context"
+      "evaluation-harness/harness/p2-dev-first-context-value",
+      "evaluation-harness/evaluator/p2-dev-first-context-value",
+      "evaluation-harness/reports/p2-dev-first-context-value"
     ]
   end
 
@@ -153,8 +153,8 @@ module PhaseDelegatedAuthorityTest
       "status" => status,
       "task_kind" => "REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH",
       "capability" => "REPRODUCIBLE_CONTEXT_BENCHMARK",
-      "objective" => "Build one clean-room offline graph-to-context value vertical slice without reusing rejected P2 lineage.",
-      "capacity_source_task_id" => "AIOS-P2-056_ACCEPTED_GRAPH_CONTEXT_VALUE_OFFLINE_BENCHMARK",
+      "objective" => "Run one clean-room DEV-first offline graph-context value benchmark without reusing rejected P2 lineage.",
+      "capacity_source_task_id" => TASK_ID,
       "budget" => budget,
       "max_same_task_repairs" => 3,
       "roles" => roles,
@@ -232,8 +232,8 @@ module PhaseDelegatedAuthorityTest
       "status" => "ELIGIBLE_NOT_ACTIVATED",
       "task_kind" => "REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH",
       "capability" => "REPRODUCIBLE_CONTEXT_BENCHMARK",
-      "objective" => "Build one clean-room offline graph-to-context value vertical slice without reusing rejected P2 lineage.",
-      "capacity_source_task_id" => "AIOS-P2-056_ACCEPTED_GRAPH_CONTEXT_VALUE_OFFLINE_BENCHMARK",
+      "objective" => "Run one clean-room DEV-first offline graph-context value benchmark without reusing rejected P2 lineage.",
+      "capacity_source_task_id" => TASK_ID,
       "budget" => budget,
       "max_same_task_repairs" => 3,
       "contract" => nil,
@@ -263,12 +263,12 @@ module PhaseDelegatedAuthorityTest
       "founder_phase_route_decision_required" => false,
       "next_eligible_action" => "MASTER_ACTIVATE_PHASE_DELEGATED_TASK",
       "phase_execution_envelope_ref" => "phase_execution_envelope",
-      "source_authority_route_ref" => "historical_p2_055_phase_route",
-      "preceding_terminal_route_ref" => "historical_p2_055_phase_route",
+      "source_authority_route_ref" => "historical_p2_058_founder_expansion_phase_route",
+      "preceding_terminal_route_ref" => "historical_p2_057_phase_route",
       "selected_task" => task,
       "external_effects" => FALSE_EFFECTS,
       "additional_write_roots" => [],
-      "inherited_worktree_inventory_source" => "historical_p2_055_phase_route"
+      "inherited_worktree_inventory_source" => "historical_p2_057_phase_route"
     }
     envelope = value.fetch("phase_execution_envelope")
     envelope["status"] = "TASK_CAPACITY_RESERVED"
@@ -276,8 +276,8 @@ module PhaseDelegatedAuthorityTest
       "task_id" => TASK_ID,
       "route_id" => ROUTE_ID,
       "status" => "ELIGIBLE_NOT_ACTIVATED",
-      "capacity_source_task_id" => "AIOS-P2-056_ACCEPTED_GRAPH_CONTEXT_VALUE_OFFLINE_BENCHMARK",
-      "budget" => { "engineering_tasks" => 1, "engineering_hours" => 14, "calendar_days" => 4 },
+      "capacity_source_task_id" => TASK_ID,
+      "budget" => { "engineering_tasks" => 1, "engineering_hours" => 24, "calendar_days" => 6 },
       "contract" => nil,
       "authority" => nil
     }
@@ -314,14 +314,14 @@ module PhaseDelegatedAuthorityTest
     contract_identity = write_contract(repo, value, "ACTIVE")
     task["contract"] = contract_identity
     value.dig("phase_execution_envelope", "reserved")["contract"] = contract_identity
-    task_branch = "codex/p2-057-phase-delegated-context"
-    task_worktree = File.join(fixture.fetch("worktree_root"), "p2-057")
+    task_branch = "codex/p2-058-dev-first-context-value"
+    task_worktree = File.join(fixture.fetch("worktree_root"), "p2-058")
     command(repo, "git", "worktree", "add", "--quiet", "-b", task_branch, task_worktree,
             fixture.dig("ready_identity", "commit"))
-    FileUtils.mkdir_p(File.join(fixture.fetch("evidence_root"), "p2-057"))
-    evidence = File.realpath(File.join(fixture.fetch("evidence_root"), "p2-057"))
-    authorization_id = "PHASE-DELEGATED-P2-057-AUTHORITY-V1"
-    nonce = "P2-057-PHASE-DELEGATED-NONCE-V1"
+    FileUtils.mkdir_p(File.join(fixture.fetch("evidence_root"), "p2-058"))
+    evidence = File.realpath(File.join(fixture.fetch("evidence_root"), "p2-058"))
+    authorization_id = "PHASE-DELEGATED-P2-058-AUTHORITY-V1"
+    nonce = "P2-058-PHASE-DELEGATED-NONCE-V1"
     authority = {
       "schema_version" => "1.0",
       "record_type" => "aios_phase_delegated_independent_task_authority",
@@ -336,7 +336,7 @@ module PhaseDelegatedAuthorityTest
       "branch" => task_branch,
       "worktree" => File.realpath(task_worktree),
       "evidence_root" => evidence,
-      "capacity_source_task_id" => "AIOS-P2-056_ACCEPTED_GRAPH_CONTEXT_VALUE_OFFLINE_BENCHMARK",
+      "capacity_source_task_id" => TASK_ID,
       "budget" => budget,
       "max_same_task_repairs" => 3,
       "roles" => roles,
@@ -347,7 +347,7 @@ module PhaseDelegatedAuthorityTest
       "founder_reserved_authorization" => nil,
       "founder_reserved_profile" => nil
     }
-    authority_path = File.join(fixture.fetch("evidence_root"), "P2_057_PHASE_DELEGATED_AUTHORITY.json")
+    authority_path = File.join(fixture.fetch("evidence_root"), "P2_058_PHASE_DELEGATED_AUTHORITY.json")
     File.binwrite(authority_path, JSON.generate(authority))
     authority_identity = identity(authority_path)
     value.dig("phase_execution_envelope", "reserved")["authority"] = authority_identity

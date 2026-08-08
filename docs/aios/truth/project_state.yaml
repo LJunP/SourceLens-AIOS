@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-09T02:02:41+08:00"
-verification_scope: P2_059_NONBLOCKING_FOUNDER_KNOWLEDGE_REVIEW_AND_EXACT_VAULT_IMPORT
+last_verified_at: "2026-08-08T22:28:13Z"
+verification_scope: P2_060_PRESEALED_ANTI_LOOP_STOP_TERMINAL_ACCOUNTING_AND_PHASE_ENVELOPE_EXHAUSTION
 
 authority:
   founder: Human Founder
@@ -37,16 +37,30 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: AIOS-P2-060_JAVA_RUNTIME_OBSERVED_CONTEXT_VALUE_BENCHMARK
+  current_task_authority: NONE
   note: >-
-    P2-060 is the unique active clean-room Java-runtime observed context value
-    benchmark under the Founder-expanded five-Task, one-hundred-twelve-hour,
-    twenty-eight-day P2 envelope. It is bound to one candidate and one sealed
-    six-task validation, forbids all rejected P2 engineering reuse and all
-    Node/Hermes formal runtime use, keeps every external effect false, adds no
-    capability credit at activation and does not authorize P3. All paragraphs
-    below this sentence are retained historical chronology only and have no
-    current Task, Route or scheduling authority.
+    P2-060 is TERMINAL_PRESEALED_ANTI_LOOP_STOP_CONDITION_NON_PASS. Its two
+    unique formal DEV transactions each completed sixteen Java-runtime observed
+    runs and independently reconstructed graph macro recall
+    0.9166666666666666 versus lexical 0.875, with zero per-task regression,
+    false accepts, forbidden context, external effects or unknown observations.
+    The independent evaluator nevertheless rejected v1 on claim-boundary
+    literal drift and, after the final same-Task presealed repair, rejected v2
+    on expected-source-manifest status literal drift. These are adjacent
+    failures in normalized root cause
+    P2060.FORMAL.PRODUCER_CONSUMER_SCHEMA_LITERAL_DRIFT, so anti-loop and repair
+    limits stopped the Task before candidate designation, sealed validation,
+    final Reviews, integration or canonical make verify. Raw value observations
+    remain preserved Research Evidence but are not an accepted DEV result and
+    create no P2 capability credit. Rejected engineering is preserved in one
+    verified Git bundle and is forbidden as future engineering input. The exact
+    five-Task, one-hundred-twelve-hour, twenty-eight-day P2 envelope is
+    exhausted, current Task is NONE, P3 remains held and the only next action is
+    the Founder-reserved Phase envelope/route decision. No third DEV attempt,
+    second candidate, correction, successor, replacement, normalization,
+    closure, feasibility or remediation chain was created. All paragraphs below
+    this sentence are retained historical chronology only and have no current
+    Task, Route or scheduling authority.
     P2-059 is TERMINAL_PRESEALED_ANTI_LOOP_STOP_CONDITION_NON_PASS. Public DEV
     value prevalidation independently reconstructed graph macro recall
     0.7083333333333333 versus lexical 0.5833333333333333, but no official DEV
@@ -1424,8 +1438,8 @@ project:
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
   p2_execution_status: ACTIVE
-  phase_execution_status: ACTIVE
-  current_route_execution_status: ACTIVE_PHASE_DELEGATED_TASK
+  phase_execution_status: STOPPED_AT_FOUNDER_RESERVED_DECISION
+  current_route_execution_status: FOUNDER_RESERVED_DECISION_REQUIRED
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -6170,11 +6184,37 @@ historical_p1_162_phase_route:
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 
 current_phase_route:
+  schema_version: founder-reserved-decision-hold/v1
+  route_id: P2_FOUNDER_RESERVED_DECISION_HOLD
+  status: FOUNDER_RESERVED_DECISION_REQUIRED
+  execution_status: FOUNDER_RESERVED_DECISION_REQUIRED
+  scheduling_status: STOPPED_AT_FOUNDER_RESERVED_DECISION
+  phase: P2
+  phase_entry_status: AUTHORIZED
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: "1.8"
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  founder_phase_route_decision_required: true
+  next_eligible_action: FOUNDER_RESERVED_DECISION
+  phase_execution_envelope_ref: phase_execution_envelope
+  historical_terminal_route_ref: historical_p2_060_phase_route
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false
+  additional_write_roots: []
+  inherited_worktree_inventory_source: historical_p2_060_phase_route
+
+historical_p2_060_phase_route:
   schema_version: phase-delegated-independent-task/v1
   route_id: AIOS-P2-060_JAVA_RUNTIME_OBSERVED_CONTEXT_VALUE_BENCHMARK_PHASE_DELEGATED_ROUTE
-  status: ACTIVE
-  execution_status: ACTIVE
-  scheduling_status: ACTIVE_PHASE_DELEGATED_TASK
+  status: TERMINAL_PRESEALED_ANTI_LOOP_STOP_CONDITION_NON_PASS
+  execution_status: TERMINAL_PRESEALED_ANTI_LOOP_STOP_CONDITION_NON_PASS
+  scheduling_status: TERMINAL_PRESEALED_ANTI_LOOP_STOP_CONDITION_NON_PASS
   phase: P2
   phase_entry_status: AUTHORIZED
   policy:
@@ -6182,13 +6222,13 @@ current_phase_route:
     version: '1.8'
     sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
   founder_phase_route_decision_required: false
-  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
+  next_eligible_action: FOUNDER_RESERVED_DECISION
   phase_execution_envelope_ref: phase_execution_envelope
   source_authority_route_ref: historical_p2_060_founder_expansion_phase_route
   preceding_terminal_route_ref: historical_p2_059_phase_route
   selected_task:
     task_id: AIOS-P2-060_JAVA_RUNTIME_OBSERVED_CONTEXT_VALUE_BENCHMARK
-    status: ACTIVE
+    status: TERMINAL_PRESEALED_ANTI_LOOP_STOP_CONDITION_NON_PASS
     task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
     capability: REPRODUCIBLE_CONTEXT_BENCHMARK
     objective: Build one clean-room Java 17 runtime, source-bound and raw-observer-bound
@@ -6204,8 +6244,8 @@ current_phase_route:
     max_same_task_repairs: 3
     contract:
       path: docs/aios/tasks/P2-060_JAVA_RUNTIME_OBSERVED_CONTEXT_VALUE_BENCHMARK.yaml
-      sha256: 6a9b2f1a55b0cdcf1298979de79d15339f2ef500ba0f63f4c81d0cbfb2785491
-      byte_length: 9348
+      sha256: 2311fe802a84d686760cb93e1b0f6ba56d2e562ca00f2204ae654677998cce72
+      byte_length: 10159
     independence:
       new_task_id: true
       new_execution_nonce: true
@@ -7068,7 +7108,7 @@ historical_p2_060_founder_expansion_phase_route:
       public: false
   - task_slot: 5
     task_id: AIOS-P2-060_JAVA_RUNTIME_OBSERVED_CONTEXT_VALUE_BENCHMARK
-    status: ACTIVE
+    status: TERMINAL_PRESEALED_ANTI_LOOP_STOP_CONDITION_NON_PASS
     engineering_hours: 24
     calendar_days: 6
     max_engineering_hours: 24
@@ -7102,11 +7142,11 @@ historical_p2_060_founder_expansion_phase_route:
     next_task_id: AIOS-P2-060_JAVA_RUNTIME_OBSERVED_CONTEXT_VALUE_BENCHMARK
     requires_task_gate_pass: false
   inherited_worktree_inventory: []
-  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
+  next_eligible_action: FOUNDER_RESERVED_DECISION
 phase_execution_envelope:
   schema_version: phase-execution-envelope/v1
   phase: P2
-  status: TASK_CAPACITY_RESERVED
+  status: EXHAUSTED
   authority_basis:
     phase_entry_status: AUTHORIZED
     policy_path: docs/aios/FOUNDER_DELEGATION_POLICY.md
@@ -7219,27 +7259,26 @@ phase_execution_envelope:
       path: "/Users/lijunpeng/Developer/.sourcelens-audit/p2-source-bound-observed-context-value-20260808/task-p2-059/terminal/P2_059_TERMINAL_PRESEALED_ANTI_LOOP_STOP_CONDITION_NON_PASS_RECEIPT.json"
       byte_length: 5542
       sha256: 24a7eba41786853443f1a89364387faeb57d7878f17ff6c015d4928b6e125c74
-  consumed:
-    engineering_tasks: 4
-    engineering_hours: 88
-    calendar_days: 22
-  reserved:
-    task_id: AIOS-P2-060_JAVA_RUNTIME_OBSERVED_CONTEXT_VALUE_BENCHMARK
+  - task_id: AIOS-P2-060_JAVA_RUNTIME_OBSERVED_CONTEXT_VALUE_BENCHMARK
     route_id: AIOS-P2-060_JAVA_RUNTIME_OBSERVED_CONTEXT_VALUE_BENCHMARK_PHASE_DELEGATED_ROUTE
-    status: ACTIVE
-    capacity_source_task_id: AIOS-P2-060_JAVA_RUNTIME_OBSERVED_CONTEXT_VALUE_BENCHMARK
+    status: TERMINAL_PRESEALED_ANTI_LOOP_STOP_CONDITION_NON_PASS
     budget:
       engineering_tasks: 1
       engineering_hours: 24
       calendar_days: 6
     contract:
       path: docs/aios/tasks/P2-060_JAVA_RUNTIME_OBSERVED_CONTEXT_VALUE_BENCHMARK.yaml
-      sha256: 6a9b2f1a55b0cdcf1298979de79d15339f2ef500ba0f63f4c81d0cbfb2785491
-      byte_length: 9348
-    authority:
-      path: "/Users/lijunpeng/Developer/.sourcelens-audit/p2-java-runtime-observed-context-value-20260809/task-p2-060/authority/P2_060_PHASE_DELEGATED_TASK_AUTHORITY_V1.json"
-      sha256: 3e56f8369732ef1cf3aa8963d4d521818b2ed0c33172dec47fdc0b5f9f097f56
-      byte_length: 4726
+      byte_length: 10159
+      sha256: 2311fe802a84d686760cb93e1b0f6ba56d2e562ca00f2204ae654677998cce72
+    outcome_receipt:
+      path: "/Users/lijunpeng/Developer/.sourcelens-audit/p2-java-runtime-observed-context-value-20260809/task-p2-060/terminal/P2_060_TERMINAL_PRESEALED_ANTI_LOOP_STOP_CONDITION_NON_PASS_RECEIPT.json"
+      byte_length: 7878
+      sha256: 6c686b523ac3be84a69def285c9a9207ed459e139e8bca0dd3fc6f645e843c10
+  consumed:
+    engineering_tasks: 5
+    engineering_hours: 112
+    calendar_days: 28
+  reserved: null
   remaining:
     engineering_tasks: 0
     engineering_hours: 0
@@ -7253,18 +7292,21 @@ phase_execution_envelope:
     public: false
 founder_escalation_control:
   schema_version: founder-escalation-control/v1
-  disposition: NO_RESERVED_TRIGGER_CONTINUE_PHASE
+  disposition: FOUNDER_DECISION_REQUIRED
   source_event:
-    kind: TASK_TERMINAL_IMPLEMENTATION_NON_PASS
-    task_id: AIOS-P2-059_SOURCE_BOUND_OBSERVED_CONTEXT_VALUE_BENCHMARK
-    status: TERMINAL_PRESEALED_ANTI_LOOP_STOP_CONDITION_NON_PASS
+    kind: PHASE_ENVELOPE_EXPANSION_REQUIRED
+    task_id: null
+    status: PENDING_FOUNDER_RESERVED_DECISION
   reserved_trigger:
-    category: NONE
+    category: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
     evidence:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-java-runtime-observed-context-value-20260809/task-p2-060/terminal/P2_060_PHASE_ENVELOPE_EXHAUSTED_FOUNDER_DECISION_EVIDENCE_V1.json
+      byte_length: 2593
+      sha256: 9de9008ccbfb2a2535b07fbd529d9fb8e4d915fe7a1f472b6b18aa89d0f9b4b4
   phase_gate_status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
-  founder_decision_required: false
-  next_action_owner: MASTER_CEO_AGENT
-  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
+  founder_decision_required: true
+  next_action_owner: HUMAN_FOUNDER
+  next_eligible_action: FOUNDER_RESERVED_DECISION
 historical_p2_053_phase_route:
   schema_version: "1.1"
   route_id: P2_COMPILER_ATTRIBUTED_JAVA_EDGE_TRUTH_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
@@ -12957,7 +12999,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260809-P2-060-FOUNDER-EXPANSION-ACTIVATED-V1
+  latest_event_id: FKS-20260809-P2-060-PRESEALED-ANTI-LOOP-TERMINAL-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -17419,6 +17461,43 @@ founder_knowledge_sync:
         byte_length: null
         sha256: null
       event_sha256: 67c338aa70b8c3c815baacf39d742ef0ab6b5bbd37e727b5489bd08ff36a6127
+    - event_id: FKS-20260809-P2-060-PRESEALED-ANTI-LOOP-TERMINAL-V1
+      trigger_type: TASK_TERMINAL_AND_PHASE_ENVELOPE_EXHAUSTED
+      occurred_at_utc: "2026-08-08T22:28:13Z"
+      source_commit: 8cb46c13c8b28e8741235b9eeb419d6f988fc56a
+      source_tree: db9bbdfe6fc594cef08945f1ab6629d063167000
+      previous_event_sha256: 67c338aa70b8c3c815baacf39d742ef0ab6b5bbd37e727b5489bd08ff36a6127
+      status: PENDING_CANDIDATE
+      rationale: >-
+        P2-060 completed two unique sixteen-run Java-runtime DEV transactions,
+        and raw independent reconstruction observed a strict graph uplift with
+        no per-task regression, false accept, forbidden context or external
+        effect. Both transactions nevertheless failed independent admission on
+        adjacent producer/consumer schema-literal drift; the final presealed
+        repair and anti-loop boundary therefore stopped the Task before
+        candidate, sealed validation, final Reviews, integration or capability
+        credit. Exact raw transactions and rejected engineering are preserved
+        as non-reusable Evidence, the five-Task P2 envelope is exhausted and the
+        reusable schema-contract lesson is queued for nonblocking Knowledge
+        review.
+      engineering_blocking: false
+      artifact:
+        path: null
+        byte_length: null
+        sha256: null
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+      event_sha256: 5313cfb1d5cec74c092dbdb06563088329bdde8eaffad4729f021faa88e12cce
 
 historical_active_work_after_p1_079:
   current_task: NONE
@@ -17471,13 +17550,64 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
+  current_task: NONE
+  current_task_status: NONE
+  current_task_contract:
+    path: null
+    sha256: null
+    byte_length: null
+  current_task_contract_sha256: null
+  current_execution_authorization: null
+  current_execution_authorization_sha256: null
+  authority_record:
+    path: null
+    sha256: null
+    byte_length: null
+  execution_nonce: null
+  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
+  authorization_id: null
+  activation_parent_commit: null
+  activation_parent_tree: null
+  task_resource_state: NO_ACTIVE_TASK_FOUNDER_RESERVED_DECISION_HOLD
+  task_branch: null
+  task_worktree: null
+  execution_evidence_root: null
+  allowlisted_paths: []
+  budget:
+    engineering_hours: null
+    calendar_days: null
+    implementation_iterations: null
+    candidates: null
+  roles:
+    owner: null
+    worker: null
+    independent_reviewers: []
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false
+  offsite_target: null
+  founder_reserved_authorization: null
+  founder_reserved_authorization_sha256: null
+  founder_decision_required: true
+  founder_decision_required_scope: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+  escalation_reason: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+  user_action_required: FOUNDER_RESERVED_DECISION
+  phase_route_decision_required: true
+  phase_route_user_action_required: FOUNDER_RESERVED_DECISION
+  next_eligible_action: FOUNDER_RESERVED_DECISION
+
+historical_p2_060_terminal_active_work:
   current_task: AIOS-P2-060_JAVA_RUNTIME_OBSERVED_CONTEXT_VALUE_BENCHMARK
-  current_task_status: ACTIVE
+  current_task_status: TERMINAL_PRESEALED_ANTI_LOOP_STOP_CONDITION_NON_PASS
   current_task_contract:
     path: docs/aios/tasks/P2-060_JAVA_RUNTIME_OBSERVED_CONTEXT_VALUE_BENCHMARK.yaml
-    sha256: 6a9b2f1a55b0cdcf1298979de79d15339f2ef500ba0f63f4c81d0cbfb2785491
-    byte_length: 9348
-  current_task_contract_sha256: 6a9b2f1a55b0cdcf1298979de79d15339f2ef500ba0f63f4c81d0cbfb2785491
+    sha256: 2311fe802a84d686760cb93e1b0f6ba56d2e562ca00f2204ae654677998cce72
+    byte_length: 10159
+  current_task_contract_sha256: 2311fe802a84d686760cb93e1b0f6ba56d2e562ca00f2204ae654677998cce72
   current_execution_authorization: "/Users/lijunpeng/Developer/.sourcelens-audit/p2-java-runtime-observed-context-value-20260809/task-p2-060/authority/P2_060_PHASE_DELEGATED_TASK_AUTHORITY_V1.json"
   current_execution_authorization_sha256: 3e56f8369732ef1cf3aa8963d4d521818b2ed0c33172dec47fdc0b5f9f097f56
   authority_record:
@@ -17485,11 +17615,11 @@ active_work:
     sha256: 3e56f8369732ef1cf3aa8963d4d521818b2ed0c33172dec47fdc0b5f9f097f56
     byte_length: 4726
   execution_nonce: a07486d5bcf630d761b536e52c8c00e2c4b62ab91f75db84
-  execution_nonce_status: ACTIVE
+  execution_nonce_status: CONSUMED_TERMINAL
   authorization_id: P2-060-PHASE-DELEGATED-AUTHORITY-V1-20260809
   activation_parent_commit: c0bcbf4123bbc651e79affa3ac4df9e03fde6200
   activation_parent_tree: 2c2f0459e4ed7565664b41febe7140d2c6e3a4c4
-  task_resource_state: ACTIVE_UNIQUE_PHASE_DELEGATED
+  task_resource_state: TERMINAL_PRESERVED_REJECTED_SNAPSHOT
   task_branch: codex/p2-060-java-runtime-observed-context-value
   task_worktree: "/Users/lijunpeng/Developer/.sourcelens-worktrees/p2-060-java-runtime-observed-context-value"
   execution_evidence_root: "/Users/lijunpeng/Developer/.sourcelens-audit/p2-java-runtime-observed-context-value-20260809/task-p2-060"
@@ -17525,7 +17655,7 @@ active_work:
   user_action_required: NONE
   phase_route_decision_required: false
   phase_route_user_action_required: NONE
-  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
+  next_eligible_action: TERMINAL_PRESERVED_NO_RETRY
 historical_p2_059_terminal_active_work:
   current_task: AIOS-P2-059_SOURCE_BOUND_OBSERVED_CONTEXT_VALUE_BENCHMARK
   current_task_status: TERMINAL_PRESEALED_ANTI_LOOP_STOP_CONDITION_NON_PASS
@@ -23729,9 +23859,9 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: P2_057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE_ACTIVE
-  current_task_claim: AIOS_P2_057_ACTIVE_OFFLINE_GRAPH_TO_CONTEXT_VALUE_VERTICAL_SLICE
-  real_engineering_progress: P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_P2_057_ACTIVE_PHASE_DELEGATED_ENGINEERING
+  current_route_claim: P2_FOUNDER_RESERVED_DECISION_HOLD
+  current_task_claim: NONE
+  real_engineering_progress: P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_P2_060_TERMINAL_PRESEALED_ANTI_LOOP_STOP_AND_PHASE_ENVELOPE_EXHAUSTED
   product_capability_changed: false
   phase_local_allowed:
     - local repository-intelligence engineering under an exact Task Contract
@@ -23815,7 +23945,7 @@ claim_boundary:
   current_phase_route: P2_FOUNDER_RESERVED_DECISION_HOLD
   current_task: NONE
   next_eligible_action: FOUNDER_RESERVED_DECISION
-  real_engineering_progress: P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_P2_059_TERMINAL_PRESEALED_ANTI_LOOP_STOP_AND_PHASE_ENVELOPE_EXHAUSTED
+  real_engineering_progress: P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_P2_060_TERMINAL_PRESEALED_ANTI_LOOP_STOP_AND_PHASE_ENVELOPE_EXHAUSTED
   p2_057_status: TERMINAL_FORMAL_EVALUATOR_INPUT_CONTRACT_NON_PASS
   p2_057_candidate_commit: b267dfe2d5b6975750ba4b59f625f7256260940f
   p2_057_candidate_tree: 33d1c86f78cdd0ff1e0e40fd2b7946a0b8c23682
@@ -23849,8 +23979,19 @@ claim_boundary:
   p2_059_official_dev_runs: 0
   p2_059_candidate_frozen: false
   p2_059_sealed_runs: 0
-  p2_phase_envelope_limits: 4_TASKS_88_ENGINEERING_HOURS_22_CALENDAR_DAYS
-  p2_phase_envelope_consumed: 4_TASKS_88_ENGINEERING_HOURS_22_CALENDAR_DAYS
+  p2_060_status: TERMINAL_PRESEALED_ANTI_LOOP_STOP_CONDITION_NON_PASS
+  p2_060_capability_credit: 0
+  p2_060_contract_sha256: 2311fe802a84d686760cb93e1b0f6ba56d2e562ca00f2204ae654677998cce72
+  p2_060_authority_sha256: 3e56f8369732ef1cf3aa8963d4d521818b2ed0c33172dec47fdc0b5f9f097f56
+  p2_060_terminal_receipt_sha256: 6c686b523ac3be84a69def285c9a9207ed459e139e8bca0dd3fc6f645e843c10
+  p2_060_formal_dev_transactions: 2
+  p2_060_accepted_dev_reports: 0
+  p2_060_raw_lexical_macro_recall: 0.875
+  p2_060_raw_graph_macro_recall: 0.9166666666666666
+  p2_060_candidate_frozen: false
+  p2_060_sealed_runs: 0
+  p2_phase_envelope_limits: 5_TASKS_112_ENGINEERING_HOURS_28_CALENDAR_DAYS
+  p2_phase_envelope_consumed: 5_TASKS_112_ENGINEERING_HOURS_28_CALENDAR_DAYS
   p2_phase_envelope_reserved: NONE
   founder_reserved_trigger: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
   p2_055_status: TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS

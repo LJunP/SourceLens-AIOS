@@ -826,6 +826,179 @@ module FounderDelegationContinuity
       return
     end
 
+    if receipt["schema_version"] == "phase-delegated-presealed-formal-admission-stop-terminal-receipt/v1"
+      exact_keys(
+        receipt,
+        %w[
+          schema_version task_id route_id status recorded_at activation_parent
+          canonical_before_terminal_sync rejected_engineering stop_condition quality_freeze
+          formal_dev_execution candidate sealed_validation final_reviews preservation
+          capability_credit canonical_make_verify next_action forbidden_continuations
+          authorization_effects
+        ],
+        "phase-delegated presealed formal admission stop terminal receipt"
+      )
+      rejected = exact_keys(
+        receipt["rejected_engineering"],
+        %w[commit tree parent branch candidate_designated integrated],
+        "phase-delegated rejected engineering identity"
+      )
+      assert(rejected.values_at("commit", "tree", "parent").all? do |value|
+               value.to_s.match?(/\A[0-9a-f]{40}\z/)
+             end && rejected["branch"].to_s.start_with?("codex/") &&
+             rejected["candidate_designated"] == false && rejected["integrated"] == false,
+             "phase-delegated rejected engineering claim drift")
+
+      candidate = exact_keys(
+        receipt["candidate"],
+        %w[created commit tree source_manifest_created integrated],
+        "phase-delegated presealed formal admission stop candidate"
+      )
+      assert(candidate == {
+               "created" => false,
+               "commit" => nil,
+               "tree" => nil,
+               "source_manifest_created" => false,
+               "integrated" => false
+             },
+             "phase-delegated formal admission stop cannot claim a candidate")
+      assert(outcome["candidate_commit"].nil? && outcome["candidate_tree"].nil? &&
+             outcome["sealed_formal_value_result"] == "NOT_STARTED_PRESEALED_STOP_CONDITION",
+             "phase-delegated formal admission stop candidate projection drift")
+
+      stop = exact_keys(
+        receipt["stop_condition"],
+        %w[kind normalized_root_cause attempts same_task_repairs_consumed additional_repairs_forbidden_by_anti_loop],
+        "phase-delegated formal admission anti-loop stop"
+      )
+      attempts = array(stop["attempts"], "phase-delegated formal admission attempts")
+      assert(stop["kind"] == "ADJACENT_NORMALIZED_ROOT_CAUSE_REPEAT" &&
+             stop["normalized_root_cause"].to_s.match?(/\AP[0-9]+\.[A-Z0-9_.]+\z/) &&
+             attempts.length == 2 && stop["same_task_repairs_consumed"].is_a?(Integer) &&
+             stop["same_task_repairs_consumed"].positive? &&
+             stop["additional_repairs_forbidden_by_anti_loop"] == true,
+             "phase-delegated formal admission anti-loop stop drift")
+      seen_reasons = []
+      attempts.each_with_index do |value, index|
+        attempt = exact_keys(
+          value,
+          %w[
+            attempt status reason_code implementation_commit implementation_tree
+            expected_literal actual_literal transaction execution_receipt
+            transaction_runs evaluation_exit evaluation_report_created
+          ],
+          "phase-delegated formal admission attempt[#{index}]"
+        )
+        assert(attempt["status"] == "NON_PASS" &&
+               attempt["reason_code"].to_s.match?(/\A[A-Z0-9_]+\z/) &&
+               attempt["implementation_commit"].to_s.match?(/\A[0-9a-f]{40}\z/) &&
+               attempt["implementation_tree"].to_s.match?(/\A[0-9a-f]{40}\z/) &&
+               !attempt["expected_literal"].to_s.empty? && !attempt["actual_literal"].to_s.empty? &&
+               attempt["expected_literal"] != attempt["actual_literal"] &&
+               attempt["transaction_runs"] == 16 && attempt["evaluation_exit"] != 0 &&
+               attempt["evaluation_report_created"] == false,
+               "phase-delegated formal admission attempt is not a real fail-closed result")
+        validate_identity(
+          exact_keys(attempt["transaction"], %w[path byte_length sha256],
+                     "phase-delegated formal admission transaction"),
+          "phase-delegated formal admission transaction"
+        )
+        validate_identity(
+          exact_keys(attempt["execution_receipt"], %w[path byte_length sha256],
+                     "phase-delegated formal admission execution receipt"),
+          "phase-delegated formal admission execution receipt"
+        )
+        seen_reasons << attempt["reason_code"]
+      end
+      assert(seen_reasons.uniq.length == 2 &&
+             attempts[0]["implementation_commit"] != attempts[1]["implementation_commit"],
+             "phase-delegated formal admission attempts are not distinct adjacent failures")
+
+      quality = exact_keys(
+        receipt["quality_freeze"],
+        %w[pre_dev_source_manifest_v1 pre_dev_source_manifest_v2 formal_sealed_validation_runs],
+        "phase-delegated formal admission Quality freeze"
+      )
+      %w[pre_dev_source_manifest_v1 pre_dev_source_manifest_v2].each do |key|
+        validate_identity(
+          exact_keys(quality[key], %w[path byte_length sha256],
+                     "phase-delegated formal admission #{key}"),
+          "phase-delegated formal admission #{key}"
+        )
+      end
+      assert(quality["formal_sealed_validation_runs"] == 0,
+             "phase-delegated formal admission stop cannot claim sealed execution")
+
+      official = exact_keys(
+        receipt["formal_dev_execution"],
+        %w[attempts completed_raw_transactions accepted_evaluation_reports latest_raw_reconstruction official_dev_status capability_credit],
+        "phase-delegated formal DEV execution"
+      )
+      raw = exact_keys(
+        official["latest_raw_reconstruction"],
+        %w[
+          runs root_replay_pairs_passed lexical_macro_recall graph_macro_recall
+          graph_strictly_greater per_task_regressions false_accepts forbidden_context
+          baseline_isolation network provider secret remote production public unknown
+        ],
+        "phase-delegated formal DEV raw reconstruction"
+      )
+      assert(official["attempts"] == 2 && official["completed_raw_transactions"] == 2 &&
+             official["accepted_evaluation_reports"] == 0 &&
+             official["official_dev_status"] == "NON_PASS_ADMISSION_NO_ACCEPTED_REPORT" &&
+             official["capability_credit"] == 0 && raw["runs"] == 16 &&
+             raw["root_replay_pairs_passed"] == 8 && raw["graph_strictly_greater"] == true &&
+             raw["graph_macro_recall"].is_a?(Numeric) && raw["lexical_macro_recall"].is_a?(Numeric) &&
+             raw["graph_macro_recall"] > raw["lexical_macro_recall"] &&
+             raw["per_task_regressions"] == 0 && raw["false_accepts"] == 0 &&
+             raw["forbidden_context"] == 0 && raw["baseline_isolation"] == "PASS" &&
+             %w[network provider secret remote production public unknown].all? { |key| raw[key] == 0 },
+             "phase-delegated formal DEV raw result projection drift")
+
+      sealed = exact_keys(receipt["sealed_validation"], %w[started runs reruns result],
+                          "phase-delegated formal admission sealed validation")
+      assert(sealed == { "started" => false, "runs" => 0, "reruns" => 0,
+                         "result" => "NOT_AVAILABLE" },
+             "phase-delegated formal admission stop cannot claim sealed validation")
+      reviews = exact_keys(receipt["final_reviews"], %w[cto security quality],
+                           "phase-delegated formal admission final reviews")
+      assert(reviews.values.all? { |value| value == "NOT_STARTED_CANDIDATE_ABSENT" } &&
+             outcome["cto_review"] == reviews["cto"] &&
+             outcome["security_review"] == reviews["security"] &&
+             outcome["quality_review"] == reviews["quality"],
+             "phase-delegated formal admission Review projection drift")
+      preservation = exact_keys(
+        receipt["preservation"],
+        %w[
+          rejected_engineering_bundle formal_dev_v1_execution_receipt
+          formal_dev_v2_execution_receipt formal_dev_v2_raw_reconstruction_report
+          reuse_as_engineering_input
+        ],
+        "phase-delegated formal admission preservation"
+      )
+      preservation.reject { |key, _value| key == "reuse_as_engineering_input" }.each do |key, identity|
+        validate_identity(
+          exact_keys(identity, %w[path byte_length sha256],
+                     "phase-delegated formal admission preservation #{key}"),
+          "phase-delegated formal admission preservation #{key}"
+        )
+      end
+      assert(preservation["reuse_as_engineering_input"] == false &&
+             receipt["capability_credit"] == 0 &&
+             receipt["canonical_make_verify"].to_s.start_with?("NOT_INVOKED") &&
+             receipt["next_action"] == "FOUNDER_RESERVED_DECISION_PHASE_ENVELOPE_EXHAUSTED" &&
+             array(receipt["forbidden_continuations"],
+                   "phase-delegated formal admission forbidden continuations").sort ==
+               %w[
+                 CANONICAL_MAKE_VERIFY CANDIDATE_FREEZE CLOSURE CORRECTION FEASIBILITY
+                 FINAL_REVIEW INTEGRATION NORMALIZATION REMEDIATION REPLACEMENT
+                 SEALED_VALIDATION SECOND_SAME_TASK_SCHEMA_REPAIR SUCCESSOR
+                 THIRD_FORMAL_DEV_ATTEMPT
+               ].sort && receipt["authorization_effects"] == FALSE_EXTERNAL_EFFECTS,
+             "phase-delegated formal admission stop claim boundary drift")
+      return
+    end
+
     candidate = exact_keys(
       receipt["candidate"],
       %w[commit tree source_manifest integrated],
@@ -1115,7 +1288,8 @@ module FounderDelegationContinuity
       %w[schema_version category phase source_event source_route_id condition supporting_evidence],
       "Founder reserved trigger evidence"
     )
-    assert(evidence["schema_version"] == "founder-reserved-trigger-evidence/v1",
+    assert(%w[founder-reserved-trigger-evidence/v1 founder-reserved-trigger-evidence/v2]
+             .include?(evidence["schema_version"]),
            "Founder reserved trigger evidence schema drift")
     assert(evidence["category"] == trigger["category"] && evidence["phase"] == phase,
            "Founder reserved trigger Evidence category or Phase drift")
@@ -1124,23 +1298,29 @@ module FounderDelegationContinuity
     assert(evidence["source_route_id"] == historical_route["route_id"],
            "Founder reserved trigger Evidence source Route drift")
 
-    condition = exact_keys(
-      evidence["condition"],
-      %w[
-        phase_route_change material_scope_or_permission_expansion requested_budget
-        requested_external_effects irreversible_asset_action
-        material_legal_privacy_commercial_commitment critical_residual_risk_acceptance
-      ],
-      "Founder reserved trigger condition"
-    )
-    requested_budget = exact_keys(
-      condition["requested_budget"],
-      %w[engineering_tasks engineering_hours calendar_days],
-      "Founder reserved trigger requested budget"
-    )
-    requested_budget.each do |key, value|
-      assert(value.is_a?(Integer) && value >= 0,
-             "Founder reserved trigger requested budget #{key} is invalid")
+    condition_keys = %w[
+      phase_route_change material_scope_or_permission_expansion requested_budget
+      requested_external_effects irreversible_asset_action
+      material_legal_privacy_commercial_commitment critical_residual_risk_acceptance
+    ]
+    condition_keys << "requested_budget_status" if evidence["schema_version"] == "founder-reserved-trigger-evidence/v2"
+    condition = exact_keys(evidence["condition"], condition_keys,
+                           "Founder reserved trigger condition")
+    requested_budget = nil
+    if evidence["schema_version"] == "founder-reserved-trigger-evidence/v1"
+      requested_budget = exact_keys(
+        condition["requested_budget"],
+        %w[engineering_tasks engineering_hours calendar_days],
+        "Founder reserved trigger requested budget"
+      )
+      requested_budget.each do |key, value|
+        assert(value.is_a?(Integer) && value >= 0,
+               "Founder reserved trigger requested budget #{key} is invalid")
+      end
+    else
+      assert(condition["requested_budget"].nil? &&
+             condition["requested_budget_status"] == "NOT_PROPOSED_FOUNDER_DECIDES_IF_P2_CONTINUES",
+             "exhausted Phase decision Evidence must not invent a new Founder budget")
     end
     requested_effects = exact_keys(
       condition["requested_external_effects"],
@@ -1161,9 +1341,20 @@ module FounderDelegationContinuity
     end
 
     limits = mapping(phase_envelope["limits"], "phase execution envelope limits")
-    budget_expands = requested_budget.any? do |key, value|
-      value > limits.fetch(key)
-    end
+    budget_expands = if requested_budget
+                       requested_budget.any? do |key, value|
+                         value > limits.fetch(key)
+                       end
+                     else
+                       consumed = mapping(phase_envelope["consumed"],
+                                          "phase execution envelope consumed")
+                       remaining = mapping(phase_envelope["remaining"],
+                                           "phase execution envelope remaining")
+                       %w[engineering_tasks engineering_hours calendar_days].all? do |key|
+                         limits.fetch(key) == consumed.fetch(key) && remaining.fetch(key).zero?
+                       end && phase_envelope["status"] == "EXHAUSTED" &&
+                         phase_envelope["reserved"].nil?
+                     end
     effect_expands = requested_effects.values.any?(true)
     signals = {
       "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE" => condition["phase_route_change"],

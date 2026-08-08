@@ -94,6 +94,32 @@ Dir.mktmpdir("founder-delegation-continuity-") do |fixtures|
   assertions += 1
 
   truth = deep_copy(current_truth)
+  trigger = JSON.parse(File.binread(
+    truth.dig("founder_escalation_control", "reserved_trigger", "evidence", "path")
+  ))
+  trigger["condition"]["requested_budget"] = {
+    "engineering_tasks" => 6,
+    "engineering_hours" => 136,
+    "calendar_days" => 34
+  }
+  truth["founder_escalation_control"]["reserved_trigger"]["evidence"] =
+    write_json_identity(fixtures, "agent-invented-next-budget.json", trigger)
+  expect_non_pass(fixtures, "exhausted-phase-cannot-invent-next-founder-budget", truth,
+                  "exhausted Phase decision Evidence must not invent a new Founder budget")
+  assertions += 1
+
+  truth = deep_copy(current_truth)
+  trigger = JSON.parse(File.binread(
+    truth.dig("founder_escalation_control", "reserved_trigger", "evidence", "path")
+  ))
+  trigger["supporting_evidence"].pop
+  truth["founder_escalation_control"]["reserved_trigger"]["evidence"] =
+    write_json_identity(fixtures, "missing-terminal-ledger-support.json", trigger)
+  expect_non_pass(fixtures, "exhausted-phase-must-bind-all-terminal-receipts", truth,
+                  "Founder budget expansion trigger must bind every consumed Task outcome receipt")
+  assertions += 1
+
+  truth = deep_copy(current_truth)
   terminal_entry = truth.fetch("phase_execution_envelope").fetch("task_ledger").last
   terminal_entry["outcome_receipt"] = write_json_identity(
     fixtures,

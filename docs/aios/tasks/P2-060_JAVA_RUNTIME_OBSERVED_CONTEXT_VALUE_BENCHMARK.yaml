@@ -3,7 +3,7 @@ record_type: aios_phase_delegated_independent_task_contract
 task_id: AIOS-P2-060_JAVA_RUNTIME_OBSERVED_CONTEXT_VALUE_BENCHMARK
 phase: P2
 route_id: AIOS-P2-060_JAVA_RUNTIME_OBSERVED_CONTEXT_VALUE_BENCHMARK_PHASE_DELEGATED_ROUTE
-status: ACTIVE
+status: TERMINAL_PRESEALED_ANTI_LOOP_STOP_CONDITION_NON_PASS
 task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
 capability: REPRODUCIBLE_CONTEXT_BENCHMARK
 objective: >-
@@ -136,3 +136,18 @@ claim_boundary: >-
   Activation, Quality freeze, DEV uplift, hashes, manifests, Knowledge sync or
   negative Research results do not themselves create P2 capability credit,
   production custody, hostile-principal security, P2 Exit or P3 authority.
+terminal_outcome:
+  status: TERMINAL_PRESEALED_ANTI_LOOP_STOP_CONDITION_NON_PASS
+  candidate_commit: null
+  candidate_tree: null
+  sealed_formal_value_result: NOT_STARTED_PRESEALED_STOP_CONDITION
+  cto_review: NOT_STARTED_CANDIDATE_ABSENT
+  security_review: NOT_STARTED_CANDIDATE_ABSENT
+  quality_review: NOT_STARTED_CANDIDATE_ABSENT
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-java-runtime-observed-context-value-20260809/task-p2-060/terminal/P2_060_TERMINAL_PRESEALED_ANTI_LOOP_STOP_CONDITION_NON_PASS_RECEIPT.json
+    byte_length: 7878
+    sha256: 6c686b523ac3be84a69def285c9a9207ed459e139e8bca0dd3fc6f645e843c10
+  capability_credit: 0
+  candidate_integrated: false
+  canonical_make_verify: NOT_INVOKED_PRESEALED_STOP_CONDITION

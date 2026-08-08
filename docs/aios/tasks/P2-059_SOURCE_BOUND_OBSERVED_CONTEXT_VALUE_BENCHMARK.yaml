@@ -1,0 +1,140 @@
+schema_version: "1.0"
+record_type: aios_phase_delegated_independent_task_contract
+task_id: AIOS-P2-059_SOURCE_BOUND_OBSERVED_CONTEXT_VALUE_BENCHMARK
+phase: P2
+route_id: AIOS-P2-059_SOURCE_BOUND_OBSERVED_CONTEXT_VALUE_BENCHMARK_PHASE_DELEGATED_ROUTE
+status: ACTIVE
+task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
+capability: REPRODUCIBLE_CONTEXT_BENCHMARK
+objective: >-
+  Build one clean-room DEV-first context benchmark transaction whose actual
+  Worker, Evaluator and orchestrator source bytes and raw external-effect
+  observations are independently bound, then determine in one sealed six-task
+  validation whether graph-conditioned context strictly beats the accepted
+  lexical baseline without validation regression.
+capacity_source_task_id: AIOS-P2-059_SOURCE_BOUND_OBSERVED_CONTEXT_VALUE_BENCHMARK
+budget:
+  engineering_hours: 24
+  calendar_days: 6
+  implementation_iterations: 4
+  candidates: 1
+max_same_task_repairs: 3
+roles:
+  owner: P2 Phase Delegated Master
+  worker: P2 Source Bound Observed Context Value Worker
+  independent_reviewers:
+    - P2 Source Bound Observed Context Value CTO Reviewer
+    - P2 Source Bound Observed Context Value Security Reviewer
+    - P2 Source Bound Observed Context Value Quality Reviewer
+allowlisted_paths:
+  - evaluation-harness/harness/p2-source-bound-observed-context-value
+  - evaluation-harness/evaluator/p2-source-bound-observed-context-value
+  - evaluation-harness/reports/p2-source-bound-observed-context-value
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+phase_delegation_binding:
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: "1.8"
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  delegation_amendment:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/founder-delegation-continuity-20260808/decision/FOUNDER_PHASE_DELEGATION_CONTINUITY_AMENDMENT_V1.json
+    byte_length: 1182
+    sha256: c37634c51b0b7695204c026f9950911c427f544a6ff2e2c2f786facb9a84a52e
+  source_decision:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-source-bound-observed-context-value-20260808/task-p2-059/decision/FOUNDER_P2_ONE_CLEAN_ROOM_SOURCE_BOUND_OBSERVED_CONTEXT_VALUE_BENCHMARK_AND_STRICT_P2_EXIT_ROUTE_V1.structured-decision.json
+    sha256: 0543c6228dbe59bb7b7bf9aace57be8abe337a8b8a26bafbdf29e8f83ae59adc
+    byte_length: 4996
+  source_terminal_event:
+    task_id: AIOS-P2-058_DEV_FIRST_GRAPH_CONTEXT_VALUE_BENCHMARK
+    status: TERMINAL_FINAL_QUALITY_TARGET_NON_PASS
+    outcome_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-dev-first-context-value-20260808/task-p2-058/terminal/P2_058_TERMINAL_FINAL_QUALITY_TARGET_NON_PASS_RECEIPT.json
+      byte_length: 3840
+      sha256: 72197c0a3670580ff7b6168c7e2f7da0ad9d0edff9414a241a91f9d1eb12aa49
+  phase_envelope_snapshot:
+    limits:
+      engineering_tasks: 4
+      engineering_hours: 88
+      calendar_days: 22
+      active_tasks: 1
+      task_branches: 1
+      task_worktrees: 1
+      active_candidates: 1
+    consumed:
+      engineering_tasks: 3
+      engineering_hours: 64
+      calendar_days: 16
+    reserved:
+      task_id: AIOS-P2-059_SOURCE_BOUND_OBSERVED_CONTEXT_VALUE_BENCHMARK
+      route_id: AIOS-P2-059_SOURCE_BOUND_OBSERVED_CONTEXT_VALUE_BENCHMARK_PHASE_DELEGATED_ROUTE
+      status: ACTIVE
+      capacity_source_task_id: AIOS-P2-059_SOURCE_BOUND_OBSERVED_CONTEXT_VALUE_BENCHMARK
+      budget:
+        engineering_tasks: 1
+        engineering_hours: 24
+        calendar_days: 6
+    remaining:
+      engineering_tasks: 0
+      engineering_hours: 0
+      calendar_days: 0
+  founder_packet_for_task: null
+acceptance_criteria:
+  - Quality freezes one exact six-task dataset identity with four public DEV tasks and two sealed validation tasks before Worker implementation.
+  - Actual Worker, Evaluator and orchestrator source bytes are externally bound by path, regular-file type, byte length and SHA-256 before the sealed transaction starts.
+  - The execution receipt independently reconstructs the real Git candidate, source manifest and runtime source identities rather than trusting caller-provided candidate strings.
+  - Every formal run preserves raw bounded argv, environment, owned process tree, socket observation, filesystem write inventory and exit status sufficient to reconstruct all six zero-effect claims.
+  - Lexical baseline and graph treatment use the same source-unit universe, context byte budget, denominator and independently admitted raw transaction.
+  - Baseline query timing executes no graph, symbol or other treatment-only computation.
+  - The four-task DEV pilot strictly beats the lexical baseline with equal per-task budget, zero forbidden context, byte-exact replay, zero false accepts, zero external effects and two-root equality before candidate freeze.
+  - The only sealed six-task validation strictly beats the lexical baseline on the primary metric and does not regress the validation split.
+required_evidence:
+  - Exact accepted P1 dataset, preregistration and scanner identities plus a Quality-owned six-task freeze and externally bound sealed oracle capsule.
+  - Closed source manifests for actual Worker, Evaluator and orchestrator bytes, plus runtime reconstruction against the candidate Git tree.
+  - Four-task public DEV pilot Evidence from two physical repository roots with exact baseline and treatment byte budgets.
+  - One candidate-freeze receipt proving validation issue and oracle bytes were unavailable to Worker before freeze.
+  - One sealed six-task raw transaction, exact replay, complete denominator and independently rebuilt benchmark report.
+  - Task-local raw observer receipts and negative controls for process, socket, write-inventory and effect-claim drift.
+  - Negative matrix for baseline contamination, undeclared evaluator input, mutation, missing, duplicate, reorder, cross-binding, forbidden context and source-identity drift.
+  - One exact candidate and one fresh CTO, Security and Quality final review cycle.
+rollback: >-
+  Remove only the owned disposable P2-059 worktree and generated P2-059
+  Evidence; after canonical integration use non-destructive git revert if
+  rollback is required.
+stop_conditions:
+  - The four-task DEV treatment does not strictly beat the lexical baseline within the four authorized implementation iterations.
+  - The same normalized root cause repeats in adjacent implementation iterations.
+  - Validation oracle or expected output is required to guide Worker implementation.
+  - Baseline identity, equal-budget accounting or two-root replay drifts.
+  - Target-only computation enters the baseline timing path.
+  - Actual executing source bytes or Git candidate identity cannot be independently bound before sealed validation.
+  - Raw observer Evidence cannot independently reconstruct all six zero external-effect claims.
+  - Any undeclared evaluator input or network, Provider, Secret, remote, production or public effect occurs.
+  - The single sealed result does not strictly beat baseline, regresses validation, or would require a rerun or second candidate.
+  - Any final Reviewer, tree equality check or canonical make verify is NON_PASS.
+forbidden_actions:
+  - Read, compare, copy or reuse P2-058 source, candidate, evaluator, fixture, test or formal Evidence as engineering input.
+  - Read or reuse any other rejected P2 engineering lineage.
+  - Read sealed validation issue, oracle or expected output before candidate freeze.
+  - Use a historical baseline-result file as evaluator input or expected answer.
+  - Accept caller-asserted candidate or source identity without reconstructing it from Git and exact source bytes.
+  - Represent external effects with literal booleans unsupported by raw Task-local observations.
+  - Create an authority, parser, validator, governance, Evidence-platform, successor, replacement, correction, normalization, closure, feasibility or remediation Task.
+  - Rerun, replace or beautify the single sealed validation.
+  - Enter P3, push a remote, or make production or public claims.
+claim_boundary: >-
+  One cooperative-local offline DEV-first source-bound observed context value
+  benchmark only; no P2 Phase completion, production-readiness, UI, model,
+  remote or public capability claim follows unless the exact six-task Task Gate
+  is accepted.

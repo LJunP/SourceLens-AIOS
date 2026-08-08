@@ -1,0 +1,121 @@
+schema_version: "1.0"
+record_type: aios_phase_delegated_independent_task_contract
+task_id: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE
+phase: P2
+route_id: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE_PHASE_DELEGATED_ROUTE
+status: ELIGIBLE_NOT_ACTIVATED
+task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
+capability: REPRODUCIBLE_CONTEXT_BENCHMARK
+objective: >-
+  Build one clean-room offline graph-to-context value vertical slice from
+  accepted canonical P1 scanner, dataset and evaluation assets without reading,
+  comparing, copying or reusing rejected P2 engineering lineage.
+capacity_source_task_id: AIOS-P2-056_ACCEPTED_GRAPH_CONTEXT_VALUE_OFFLINE_BENCHMARK
+budget:
+  engineering_hours: 14
+  calendar_days: 4
+  implementation_iterations: 4
+  candidates: 1
+max_same_task_repairs: 3
+roles:
+  owner: P2 Phase Delegated Master
+  worker: P2 Context Value Worker
+  independent_reviewers:
+    - P2 Context Value CTO Reviewer
+    - P2 Context Value Security Reviewer
+    - P2 Context Value Quality Reviewer
+allowlisted_paths:
+  - evaluation-harness/harness/p2-phase-delegated-context
+  - evaluation-harness/evaluator/p2-phase-delegated-context
+  - evaluation-harness/reports/p2-phase-delegated-context
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+phase_delegation_binding:
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: "1.8"
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  delegation_amendment:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/founder-delegation-continuity-20260808/decision/FOUNDER_PHASE_DELEGATION_CONTINUITY_AMENDMENT_V1.json
+    byte_length: 1182
+    sha256: c37634c51b0b7695204c026f9950911c427f544a6ff2e2c2f786facb9a84a52e
+  source_decision:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-attested-raw-compiler-closed-edge-context-20260808/decision/FOUNDER_P2_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_ORACLE_AND_CONTEXT_VALUE_ROUTE_V1.structured-decision.json
+    sha256: 97526acda7e4524d9760b7aa71aa0e6a6f0e72dc3f4a4af1910b00d4fda7df7c
+    byte_length: 3017
+  source_terminal_event:
+    task_id: AIOS-P2-055_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_GRAPH_KERNEL
+    status: TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS
+    outcome_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-attested-raw-compiler-closed-edge-context-20260808/task-1-p2-055/terminal/P2_055_TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS_RECEIPT.json
+      byte_length: 3377
+      sha256: 4361d73594017efaae36c7426032a93f2ff1688162fafe4a422b34b1c8de3675
+  phase_envelope_snapshot:
+    limits:
+      engineering_tasks: 2
+      engineering_hours: 40
+      calendar_days: 10
+      active_tasks: 1
+      task_branches: 1
+      task_worktrees: 1
+      active_candidates: 1
+    consumed:
+      engineering_tasks: 1
+      engineering_hours: 26
+      calendar_days: 6
+    reserved:
+      task_id: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE
+      route_id: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE_PHASE_DELEGATED_ROUTE
+      status: ELIGIBLE_NOT_ACTIVATED
+      capacity_source_task_id: AIOS-P2-056_ACCEPTED_GRAPH_CONTEXT_VALUE_OFFLINE_BENCHMARK
+      budget:
+        engineering_tasks: 1
+        engineering_hours: 14
+        calendar_days: 4
+    remaining:
+      engineering_tasks: 0
+      engineering_hours: 0
+      calendar_days: 0
+  founder_packet_for_task: null
+acceptance_criteria:
+  - The selector and lexical baseline run only on accepted canonical inputs and are reproducible offline.
+  - Graph-conditioned selection uses measured graph relations rather than labels or hard-coded validation answers.
+  - The frozen comparison reports the predefined recall-at-10 metric, byte budget, latency, uncertainty and complete failure taxonomy.
+  - Candidate and replay projections are byte-exact deterministic with zero false accepts and zero external effects.
+  - Independent evaluation reconstructs results from frozen raw run Evidence and does not trust Worker PASS fields.
+required_evidence:
+  - Exact accepted input, dataset, scanner, source snapshot and configuration identities.
+  - Raw lexical-baseline and graph-conditioned run outputs with deterministic replay.
+  - Closed input and output inventories plus independent metric reconstruction.
+  - Negative matrix for contamination, mutation, missing, duplicate, reorder and graph-binding drift.
+  - One exact candidate and risk-proportional CTO, Security and Quality reviews.
+rollback: >-
+  Remove only the owned disposable Task worktree and generated Task Evidence;
+  after canonical integration use non-destructive git revert if rollback is required.
+stop_conditions:
+  - The Phase capacity, objective, permission boundary or accepted input identity changes.
+  - Any rejected P2 engineering lineage is read, compared, copied or reused.
+  - Any network, Provider, Secret, remote, production or public effect occurs.
+  - The same normalized root cause repeats in adjacent implementation iterations.
+  - The implementation or candidate budget is exhausted.
+forbidden_actions:
+  - Read or reuse rejected P2 engineering source, candidate, fixture, matrix, evaluator, test or implementation.
+  - Create a Founder packet or governance predecessor for this ordinary Task.
+  - Read validation issue or oracle bytes before sealed independent evaluation.
+  - Use Git history, accepted-change content, a model, embedding, network, Provider or Secret as selector input.
+  - Enter P3, push a remote, or make production or public claims.
+claim_boundary: >-
+  One cooperative-local offline repository-context value vertical slice only;
+  no P2 Phase completion, production-readiness, UI, model-quality, remote or
+  public capability claim follows from this Task alone.

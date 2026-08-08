@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-08T04:31:00Z"
-verification_scope: P2_057_PHASE_DELEGATED_ACTIVE_AUTHORITY
+last_verified_at: "2026-08-08T11:20:00Z"
+verification_scope: P2_057_EXACT_TERMINAL_RESIDUAL_ACCEPTANCE_AND_P2_058_PHASE_DELEGATED_ACTIVATION
 
 authority:
   founder: Human Founder
@@ -37,18 +37,19 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE
+  current_task_authority: AIOS-P2-058_DEV_FIRST_GRAPH_CONTEXT_VALUE_BENCHMARK
   note: >-
-    P2-057 is the single active phase-delegated independent Task. It consumes
-    the unused P2-056 capacity slot under Founder Delegation Policy v1.8 and the
-    exact delegation amendment, without a new Founder packet or any numeric or
-    external-effect expansion. Its objective is one clean-room offline
-    graph-to-context value vertical slice built only from accepted canonical P1
-    assets; rejected P2 engineering lineage remains unread and non-reusable.
-    P2 capability credit remains zero until the real Task Gate passes. P2-055
-    remains TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS with its candidate and
-    formal Evidence preserved and unintegrated. No correction, successor or
-    replacement chain was created. All paragraphs below this sentence are
+    Founder accepted only the exact cooperative-local P2-057 terminal-state
+    accounting residual, preserved its formal evaluator input-contract
+    NON_PASS, Security NON_PASS, zero capability credit and zero reruns, and
+    expanded the P2 Phase envelope to three Tasks, sixty-four engineering hours
+    and sixteen calendar days. P2-058 is now the single active phase-delegated
+    independent Task with one new twenty-four-hour, six-day capacity slot. It
+    must execute one clean-room DEV-first offline graph-context value benchmark
+    from accepted canonical P0/P1 assets without reading or reusing rejected P2
+    engineering lineage. P2 capability credit remains zero until the real
+    P2-058 Task Gate passes. No P2-057 correction, successor, replacement or
+    remediation chain was created. All paragraphs below this sentence are
     retained historical chronology only and have no current Task, Route or
     scheduling authority.
     P2-053 is
@@ -6154,7 +6155,7 @@ historical_p1_162_phase_route:
 
 current_phase_route:
   schema_version: phase-delegated-independent-task/v1
-  route_id: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE_PHASE_DELEGATED_ROUTE
+  route_id: AIOS-P2-058_DEV_FIRST_GRAPH_CONTEXT_VALUE_BENCHMARK_PHASE_DELEGATED_ROUTE
   status: ACTIVE
   execution_status: ACTIVE
   scheduling_status: ACTIVE_PHASE_DELEGATED_TASK
@@ -6167,11 +6168,71 @@ current_phase_route:
   founder_phase_route_decision_required: false
   next_eligible_action: COMPLETE_CURRENT_TASK_GATE
   phase_execution_envelope_ref: phase_execution_envelope
+  source_authority_route_ref: historical_p2_058_founder_expansion_phase_route
+  preceding_terminal_route_ref: historical_p2_057_phase_route
+  selected_task:
+    task_id: AIOS-P2-058_DEV_FIRST_GRAPH_CONTEXT_VALUE_BENCHMARK
+    status: ACTIVE
+    task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
+    capability: REPRODUCIBLE_CONTEXT_BENCHMARK_VALUE
+    objective: >-
+      Build one clean-room DEV-first offline graph-conditioned context selector
+      and determine in one sealed validation whether it strictly beats the
+      accepted lexical baseline on the complete six-task sample under an equal
+      byte budget.
+    capacity_source_task_id: AIOS-P2-058_DEV_FIRST_GRAPH_CONTEXT_VALUE_BENCHMARK
+    budget:
+      engineering_hours: 24
+      calendar_days: 6
+      implementation_iterations: 4
+      candidates: 1
+    max_same_task_repairs: 3
+    contract:
+      path: docs/aios/tasks/P2-058_DEV_FIRST_GRAPH_CONTEXT_VALUE_BENCHMARK.yaml
+      sha256: 48ffebf57950ab3ecc0fd24dbfb99a4fe29b9771b3fde2293b67da660004921c
+      byte_length: 7367
+    independence:
+      new_task_id: true
+      new_execution_nonce: true
+      new_branch: true
+      new_worktree: true
+      new_contract: true
+      new_evidence_root: true
+      rejected_lineage_read: false
+      rejected_lineage_compare: false
+      rejected_lineage_copy: false
+      same_phase_objective: true
+      successor_or_replacement: false
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false
+  additional_write_roots: []
+  inherited_worktree_inventory_source: historical_p2_057_phase_route
+
+historical_p2_057_phase_route:
+  schema_version: phase-delegated-independent-task/v1
+  route_id: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE_PHASE_DELEGATED_ROUTE
+  status: TERMINAL_FORMAL_EVALUATOR_INPUT_CONTRACT_NON_PASS
+  execution_status: TERMINAL_FORMAL_EVALUATOR_INPUT_CONTRACT_NON_PASS
+  scheduling_status: TERMINAL_FORMAL_EVALUATOR_INPUT_CONTRACT_NON_PASS
+  phase: P2
+  phase_entry_status: AUTHORIZED
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: "1.8"
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  founder_phase_route_decision_required: false
+  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
+  phase_execution_envelope_ref: phase_execution_envelope
   source_authority_route_ref: historical_p2_055_phase_route
   preceding_terminal_route_ref: historical_p2_055_phase_route
   selected_task:
     task_id: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE
-    status: ACTIVE
+    status: TERMINAL_FORMAL_EVALUATOR_INPUT_CONTRACT_NON_PASS
     task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
     capability: REPRODUCIBLE_CONTEXT_BENCHMARK
     objective: >-
@@ -6187,20 +6248,27 @@ current_phase_route:
     max_same_task_repairs: 3
     contract:
       path: docs/aios/tasks/P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE.yaml
-      sha256: 6dcc8f33362d536a1c427e9a9e92d136533b594548c37986ce166bb0f1b8d640
-      byte_length: 6110
-    independence:
-      new_task_id: true
-      new_execution_nonce: true
-      new_branch: true
-      new_worktree: true
-      new_contract: true
-      new_evidence_root: true
-      rejected_lineage_read: false
-      rejected_lineage_compare: false
-      rejected_lineage_copy: false
-      same_phase_objective: true
-      successor_or_replacement: false
+      sha256: 4fef8b297c96767c8eddc316ba3e7da2ed722b115c75e0b53df898b38eff96dd
+      byte_length: 6153
+  task_plan:
+    - task_slot: 1
+      task_id: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE
+      status: TERMINAL_FORMAL_EVALUATOR_INPUT_CONTRACT_NON_PASS
+      engineering_hours: 14
+      calendar_days: 4
+      max_engineering_hours: 14
+      max_calendar_days: 4
+      max_implementation_iterations: 4
+      max_same_task_repairs: 3
+      max_candidates: 1
+      contract_path: docs/aios/tasks/P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE.yaml
+      external_effects:
+        network: false
+        provider: false
+        secret: false
+        remote: false
+        production: false
+        public: false
   external_effects:
     network: false
     provider: false
@@ -6358,6 +6426,155 @@ historical_p2_055_phase_route:
   inherited_worktree_inventory: []
   next_eligible_action: FOUNDER_P2_PHASE_GATE
 
+historical_p2_058_founder_expansion_phase_route:
+  schema_version: "1.1"
+  route_id: P2_057_EXACT_TERMINAL_FACT_RESIDUAL_ACCEPTANCE_PHASE_ENVELOPE_EXPANSION_AND_DIRECT_P2_058_VALUE_BENCHMARK_V1
+  status: FOUNDER_EXPANDED_PHASE_CAPACITY_SOURCE
+  authority_object_status: ACTIVE_PHASE_CAPACITY_SOURCE
+  execution_status: FOUNDER_EXPANDED_PHASE_CAPACITY_SOURCE
+  founder_phase_route_decision_required: false
+  scheduling_status: P2_058_PHASE_DELEGATED_ACTIVE
+  phase: P2
+  phase_entry_status: AUTHORIZED
+  authorization_token: AUTHORIZE_P2_057_EXACT_TERMINAL_FACT_RESIDUAL_ACCEPTANCE_PHASE_ENVELOPE_EXPANSION_AND_DIRECT_P2_058_VALUE_BENCHMARK_V1
+  decision_packet:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-dev-first-context-value-20260808/task-p2-058/decision/FOUNDER_P2_057_EXACT_TERMINAL_FACT_RESIDUAL_ACCEPTANCE_PHASE_ENVELOPE_EXPANSION_AND_DIRECT_P2_058_VALUE_BENCHMARK_V1.structured-decision.json
+    sha256: a2e5d332af0612918ff6f72e17cc3b5a185b44c8f465c54b0e4e530dc2d4611f
+    byte_length: 3651
+  original_founder_packet:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-dev-first-context-value-20260808/task-p2-058/decision/FOUNDER_P2_057_EXACT_TERMINAL_FACT_RESIDUAL_ACCEPTANCE_PHASE_ENVELOPE_EXPANSION_AND_DIRECT_P2_058_VALUE_BENCHMARK_V1.md
+    sha256: 1b16f3a9403784f2943df89f5292cfcc9bf69a346114de2b3d0a47f66fff5734
+    byte_length: 5989
+  activation_parent:
+    commit: 951488987ef6cc6be99a53bd3545e205c3e62d03
+    tree: 02f62469968e4303219f3c019881b25b9f03e89a
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: "1.8"
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  goal_identity:
+    raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+    raw_byte_length: 19433
+    canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+    canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+    canonical_byte_length: 19434
+  objective: >-
+    Preserve the exact zero-credit P2-057 formal execution terminal outcome
+    under the disclosed cooperative-local accounting residual, expand the P2
+    Phase envelope to three Tasks, sixty-four engineering hours and sixteen
+    calendar days, and execute one clean-room DEV-first P2-058 graph-context
+    value benchmark.
+  claim_boundary: EXACT_P2_057_FORMAL_EXECUTION_TERMINAL_NON_PASS_WITH_DISCLOSED_COOPERATIVE_LOCAL_ACCOUNTING_RESIDUAL_ONLY_P2_CAPABILITY_ZERO_THEN_ONE_CLEAN_ROOM_DEV_FIRST_P2_058_GRAPH_CONTEXT_VALUE_BENCHMARK_NO_REJECTED_P2_ENGINEERING_REUSE_NO_NETWORK_PROVIDER_SECRET_REMOTE_PRODUCTION_PUBLIC_PUSH_OR_P3_ENTRY
+  envelope:
+    max_engineering_tasks: 3
+    max_engineering_hours: 64
+    max_calendar_days: 16
+    max_active_tasks: 1
+    max_task_branches: 1
+    max_task_worktrees: 1
+    max_active_candidates: 1
+    max_contract_corrections_per_task: 0
+    max_same_task_repairs: 3
+    successor_replacement_normalization_closure_feasibility_or_remediation_chain_allowed: false
+    p2_entry_authorized: true
+    p3_entry_authorized: false
+    external_effects:
+      network: false
+      provider: false
+      secret: false
+      remote: false
+      production: false
+      public: false
+  founder_reserved_profile: null
+  founder_reserved_profiles: []
+  first_task:
+    task_slot: 1
+    task_id: AIOS-P2-055_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_GRAPH_KERNEL
+    status: TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS
+    engineering_hours: 26
+    calendar_days: 6
+    max_engineering_hours: 26
+    max_calendar_days: 6
+    max_implementation_iterations: 4
+    max_same_task_repairs: 3
+    max_candidates: 1
+    contract_path: docs/aios/tasks/P2-055_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_GRAPH_KERNEL.yaml
+    external_effects:
+      network: false
+      provider: false
+      secret: false
+      remote: false
+      production: false
+      public: false
+  task_plan:
+    - task_slot: 1
+      task_id: AIOS-P2-055_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_GRAPH_KERNEL
+      status: TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS
+      engineering_hours: 26
+      calendar_days: 6
+      max_engineering_hours: 26
+      max_calendar_days: 6
+      max_implementation_iterations: 4
+      max_same_task_repairs: 3
+      max_candidates: 1
+      contract_path: docs/aios/tasks/P2-055_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_GRAPH_KERNEL.yaml
+      external_effects:
+        network: false
+        provider: false
+        secret: false
+        remote: false
+        production: false
+        public: false
+    - task_slot: 2
+      task_id: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE
+      status: TERMINAL_FORMAL_EVALUATOR_INPUT_CONTRACT_NON_PASS
+      engineering_hours: 14
+      calendar_days: 4
+      max_engineering_hours: 14
+      max_calendar_days: 4
+      max_implementation_iterations: 4
+      max_same_task_repairs: 3
+      max_candidates: 1
+      contract_path: docs/aios/tasks/P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE.yaml
+      external_effects:
+        network: false
+        provider: false
+        secret: false
+        remote: false
+        production: false
+        public: false
+    - task_slot: 3
+      task_id: AIOS-P2-058_DEV_FIRST_GRAPH_CONTEXT_VALUE_BENCHMARK
+      status: ACTIVE
+      engineering_hours: 24
+      calendar_days: 6
+      max_engineering_hours: 24
+      max_calendar_days: 6
+      max_implementation_iterations: 4
+      max_same_task_repairs: 3
+      max_candidates: 1
+      contract_path: docs/aios/tasks/P2-058_DEV_FIRST_GRAPH_CONTEXT_VALUE_BENCHMARK.yaml
+      external_effects:
+        network: false
+        provider: false
+        secret: false
+        remote: false
+        production: false
+        public: false
+  automatic_entry:
+    after_task_id: AIOS-P2-055_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_GRAPH_KERNEL
+    next_task_id: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE
+    requires_task_gate_pass: false
+  automatic_entries:
+    - after_task_id: AIOS-P2-055_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_GRAPH_KERNEL
+      next_task_id: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE
+      requires_task_gate_pass: false
+    - after_task_id: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE
+      next_task_id: AIOS-P2-058_DEV_FIRST_GRAPH_CONTEXT_VALUE_BENCHMARK
+      requires_task_gate_pass: false
+  inherited_worktree_inventory: []
+  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
+
 phase_execution_envelope:
   schema_version: phase-execution-envelope/v1
   phase: P2
@@ -6367,21 +6584,21 @@ phase_execution_envelope:
     policy_path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     policy_version: "1.8"
     policy_sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
-    source_route_ref: historical_p2_055_phase_route
-    source_route_id: P2_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_ORACLE_AND_CONTEXT_VALUE_ROUTE_V1
+    source_route_ref: historical_p2_058_founder_expansion_phase_route
+    source_route_id: P2_057_EXACT_TERMINAL_FACT_RESIDUAL_ACCEPTANCE_PHASE_ENVELOPE_EXPANSION_AND_DIRECT_P2_058_VALUE_BENCHMARK_V1
     source_decision:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-attested-raw-compiler-closed-edge-context-20260808/decision/FOUNDER_P2_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_ORACLE_AND_CONTEXT_VALUE_ROUTE_V1.structured-decision.json
-      sha256: 97526acda7e4524d9760b7aa71aa0e6a6f0e72dc3f4a4af1910b00d4fda7df7c
-      byte_length: 3017
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-dev-first-context-value-20260808/task-p2-058/decision/FOUNDER_P2_057_EXACT_TERMINAL_FACT_RESIDUAL_ACCEPTANCE_PHASE_ENVELOPE_EXPANSION_AND_DIRECT_P2_058_VALUE_BENCHMARK_V1.structured-decision.json
+      sha256: a2e5d332af0612918ff6f72e17cc3b5a185b44c8f465c54b0e4e530dc2d4611f
+      byte_length: 3651
     delegation_amendment:
       path: /Users/lijunpeng/Developer/.sourcelens-audit/founder-delegation-continuity-20260808/decision/FOUNDER_PHASE_DELEGATION_CONTINUITY_AMENDMENT_V1.json
       byte_length: 1182
       sha256: c37634c51b0b7695204c026f9950911c427f544a6ff2e2c2f786facb9a84a52e
   accounting_basis: DECLARED_TASK_BUDGET_RESERVATION_NOT_WALL_CLOCK
   limits:
-    engineering_tasks: 2
-    engineering_hours: 40
-    calendar_days: 10
+    engineering_tasks: 3
+    engineering_hours: 64
+    calendar_days: 16
     active_tasks: 1
     task_branches: 1
     task_worktrees: 1
@@ -6402,27 +6619,72 @@ phase_execution_envelope:
         path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-attested-raw-compiler-closed-edge-context-20260808/task-1-p2-055/terminal/P2_055_TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS_RECEIPT.json
         byte_length: 3377
         sha256: 4361d73594017efaae36c7426032a93f2ff1688162fafe4a422b34b1c8de3675
+    - task_id: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE
+      route_id: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE_PHASE_DELEGATED_ROUTE
+      status: TERMINAL_FORMAL_EVALUATOR_INPUT_CONTRACT_NON_PASS
+      capacity_source_task_id: AIOS-P2-056_ACCEPTED_GRAPH_CONTEXT_VALUE_OFFLINE_BENCHMARK
+      budget:
+        engineering_tasks: 1
+        engineering_hours: 14
+        calendar_days: 4
+      contract:
+        path: docs/aios/tasks/P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE.yaml
+        byte_length: 6153
+        sha256: 4fef8b297c96767c8eddc316ba3e7da2ed722b115c75e0b53df898b38eff96dd
+      outcome_receipt:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-phase-delegated-context-value-20260808/task-p2-057/terminal/P2_057_TERMINAL_FORMAL_EVALUATOR_INPUT_CONTRACT_NON_PASS_RECEIPT.json
+        byte_length: 4209
+        sha256: a2598001e83dd71c5730eec2c2f2c4277a4fab1594923c152bc94e57172e4b6f
+      founder_residual_acceptance:
+        schema_version: founder-terminal-accounting-residual-acceptance/v1
+        authorization_token: AUTHORIZE_P2_057_EXACT_TERMINAL_FACT_RESIDUAL_ACCEPTANCE_PHASE_ENVELOPE_EXPANSION_AND_DIRECT_P2_058_VALUE_BENCHMARK_V1
+        acceptance_scope: EXACT_TERMINAL_STATE_ACCOUNTING_ONLY
+        source_founder_packet:
+          path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-dev-first-context-value-20260808/task-p2-058/decision/FOUNDER_P2_057_EXACT_TERMINAL_FACT_RESIDUAL_ACCEPTANCE_PHASE_ENVELOPE_EXPANSION_AND_DIRECT_P2_058_VALUE_BENCHMARK_V1.md
+          byte_length: 5989
+          sha256: 1b16f3a9403784f2943df89f5292cfcc9bf69a346114de2b3d0a47f66fff5734
+        preserved_security_review:
+          path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-phase-delegated-context-value-20260808/task-p2-057/reviews/terminal-sync-v2/SECURITY_REVIEW.json
+          byte_length: 8541
+          sha256: 619531cfd6471ef2d0e7995a009f733729d0e6a63444d446d3c3f8f5efc9c9f5
+        terminal_receipt:
+          path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-phase-delegated-context-value-20260808/task-p2-057/terminal/P2_057_TERMINAL_FORMAL_EVALUATOR_INPUT_CONTRACT_NON_PASS_RECEIPT.json
+          byte_length: 4209
+          sha256: a2598001e83dd71c5730eec2c2f2c4277a4fab1594923c152bc94e57172e4b6f
+        capability_credit: 0
+        formal_reruns: 0
+        terminal_accounting_residual_accepted: true
+        general_validator_gap_accepted: false
+        rejected_terminal_sync_candidate_accepted: false
+        security_review_rewritten_as_pass: false
+        production_security_claimed: false
+        claim_boundary: >-
+          Founder accepts only the exact cooperative-local terminal state
+          accounting residual for the preserved P2-057 formal execution; this
+          neither accepts the rejected terminal-sync candidate nor upgrades its
+          Security Review, validator guarantees, production security or P2
+          capability credit.
   consumed:
-    engineering_tasks: 1
-    engineering_hours: 26
-    calendar_days: 6
+    engineering_tasks: 2
+    engineering_hours: 40
+    calendar_days: 10
   reserved:
-    task_id: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE
-    route_id: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE_PHASE_DELEGATED_ROUTE
+    task_id: AIOS-P2-058_DEV_FIRST_GRAPH_CONTEXT_VALUE_BENCHMARK
+    route_id: AIOS-P2-058_DEV_FIRST_GRAPH_CONTEXT_VALUE_BENCHMARK_PHASE_DELEGATED_ROUTE
     status: ACTIVE
-    capacity_source_task_id: AIOS-P2-056_ACCEPTED_GRAPH_CONTEXT_VALUE_OFFLINE_BENCHMARK
+    capacity_source_task_id: AIOS-P2-058_DEV_FIRST_GRAPH_CONTEXT_VALUE_BENCHMARK
     budget:
       engineering_tasks: 1
-      engineering_hours: 14
-      calendar_days: 4
+      engineering_hours: 24
+      calendar_days: 6
     contract:
-      path: docs/aios/tasks/P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE.yaml
-      sha256: 6dcc8f33362d536a1c427e9a9e92d136533b594548c37986ce166bb0f1b8d640
-      byte_length: 6110
+      path: docs/aios/tasks/P2-058_DEV_FIRST_GRAPH_CONTEXT_VALUE_BENCHMARK.yaml
+      sha256: 48ffebf57950ab3ecc0fd24dbfb99a4fe29b9771b3fde2293b67da660004921c
+      byte_length: 7367
     authority:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-phase-delegated-context-value-20260808/task-p2-057/authority/P2_057_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
-      sha256: f1288b6f128b87cbfc788ec6aef91f3e98163171306ac45650448af0401f817c
-      byte_length: 4733
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-dev-first-context-value-20260808/task-p2-058/authority/P2_058_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
+      sha256: 17fb1a536f9bbcefbdb730991cbca9429e6a15049afadd7b06d8f3c707d4bffb
+      byte_length: 4738
   remaining:
     engineering_tasks: 0
     engineering_hours: 0
@@ -6439,9 +6701,9 @@ founder_escalation_control:
   schema_version: founder-escalation-control/v1
   disposition: NO_RESERVED_TRIGGER_CONTINUE_PHASE
   source_event:
-    kind: TASK_TERMINAL_FINAL_REVIEW_NON_PASS
-    task_id: AIOS-P2-055_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_GRAPH_KERNEL
-    status: TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS
+    kind: TASK_TERMINAL_IMPLEMENTATION_NON_PASS
+    task_id: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE
+    status: TERMINAL_FORMAL_EVALUATOR_INPUT_CONTRACT_NON_PASS
   reserved_trigger:
     category: NONE
     evidence: null
@@ -12142,7 +12404,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260808-P2-057-TASK-ACTIVATED-V1
+  latest_event_id: FKS-20260808-P2-057-TERMINAL-RESIDUAL-ACCEPTED-P2-058-ACTIVATED-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -16240,6 +16502,40 @@ founder_knowledge_sync:
         byte_length: null
         sha256: null
       event_sha256: 548fd33bb03853854bfda12524b7baa7240325508fe1e416020871fe618a21fe
+    - event_id: FKS-20260808-P2-057-TERMINAL-RESIDUAL-ACCEPTED-P2-058-ACTIVATED-V1
+      trigger_type: FOUNDER_PHASE_ENVELOPE_DECISION_TASK_TERMINAL_AND_TASK_ACTIVATION
+      occurred_at_utc: "2026-08-08T11:20:00Z"
+      source_commit: 951488987ef6cc6be99a53bd3545e205c3e62d03
+      source_tree: 02f62469968e4303219f3c019881b25b9f03e89a
+      previous_event_sha256: 548fd33bb03853854bfda12524b7baa7240325508fe1e416020871fe618a21fe
+      status: NON_PASS
+      rationale: >-
+        Founder accepted only the exact cooperative-local P2-057 terminal-state
+        accounting residual while preserving its formal evaluator input-contract
+        NON_PASS, Security NON_PASS, zero capability credit and zero reruns. The
+        P2 Phase envelope was expanded to three Tasks, sixty-four engineering
+        hours and sixteen calendar days, and P2-058 became the unique clean-room
+        DEV-first active Task. The first P2-057 Learning Artifact candidate and
+        its independent Knowledge Review remain NON_PASS and were not imported;
+        Knowledge synchronization is non-authoritative and non-blocking.
+      engineering_blocking: false
+      artifact:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-phase-delegated-context-value-20260808/task-p2-057/knowledge/P2_057_TERMINAL_FAILURE_AND_VALIDATOR_RESIDUAL_LESSON_V1.md
+        byte_length: 4881
+        sha256: 56cddc7060800398407ce149d826f4ab080f25494b13a321a44a75334aa19e08
+      review:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-phase-delegated-context-value-20260808/task-p2-057/knowledge/P2_057_KNOWLEDGE_REVIEW_V1.json
+        byte_length: 6279
+        sha256: 0fbd66ccfd3f356fbc7d6d9112da6073256ac42bffe6cac8f78b92d7d87ba82a
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+      event_sha256: abdca43f382a3bc93c6bcd531118c30b8933565b293d3e2f1f0333a29d64cf43
 
 historical_active_work_after_p1_079:
   current_task: NONE
@@ -16292,13 +16588,70 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
-  current_task: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE
+  current_task: AIOS-P2-058_DEV_FIRST_GRAPH_CONTEXT_VALUE_BENCHMARK
   current_task_status: ACTIVE
   current_task_contract:
+    path: docs/aios/tasks/P2-058_DEV_FIRST_GRAPH_CONTEXT_VALUE_BENCHMARK.yaml
+    sha256: 48ffebf57950ab3ecc0fd24dbfb99a4fe29b9771b3fde2293b67da660004921c
+    byte_length: 7367
+  current_task_contract_sha256: 48ffebf57950ab3ecc0fd24dbfb99a4fe29b9771b3fde2293b67da660004921c
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-dev-first-context-value-20260808/task-p2-058/authority/P2_058_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
+  current_execution_authorization_sha256: 17fb1a536f9bbcefbdb730991cbca9429e6a15049afadd7b06d8f3c707d4bffb
+  authority_record:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-dev-first-context-value-20260808/task-p2-058/authority/P2_058_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
+    sha256: 17fb1a536f9bbcefbdb730991cbca9429e6a15049afadd7b06d8f3c707d4bffb
+    byte_length: 4738
+  execution_nonce: 8c72c984fc9d39d02beecf611ccd552100037613f9e795f1
+  execution_nonce_status: ACTIVE
+  authorization_id: P2-058-PHASE-DELEGATED-AUTHORITY-V1-20260808
+  activation_parent_commit: 951488987ef6cc6be99a53bd3545e205c3e62d03
+  activation_parent_tree: 02f62469968e4303219f3c019881b25b9f03e89a
+  task_resource_state: ACTIVE_UNIQUE_PHASE_DELEGATED
+  task_branch: codex/p2-058-dev-first-context-value
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-058-dev-first-context-value
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-dev-first-context-value-20260808/task-p2-058
+  allowlisted_paths:
+    - evaluation-harness/harness/p2-dev-first-context-value
+    - evaluation-harness/evaluator/p2-dev-first-context-value
+    - evaluation-harness/reports/p2-dev-first-context-value
+  budget:
+    engineering_hours: 24
+    calendar_days: 6
+    implementation_iterations: 4
+    candidates: 1
+  roles:
+    owner: P2 Phase Delegated Master
+    worker: P2 DEV First Context Value Worker
+    independent_reviewers:
+      - P2 DEV First Context Value CTO Reviewer
+      - P2 DEV First Context Value Security Reviewer
+      - P2 DEV First Context Value Quality Reviewer
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false
+  offsite_target: null
+  founder_reserved_authorization: null
+  founder_reserved_authorization_sha256: null
+  founder_decision_required: false
+  founder_decision_required_scope: null
+  escalation_reason: null
+  user_action_required: NONE
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
+
+historical_p2_057_terminal_active_work:
+  current_task: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE
+  current_task_status: TERMINAL_FORMAL_EVALUATOR_INPUT_CONTRACT_NON_PASS
+  current_task_contract:
     path: docs/aios/tasks/P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE.yaml
-    sha256: 6dcc8f33362d536a1c427e9a9e92d136533b594548c37986ce166bb0f1b8d640
-    byte_length: 6110
-  current_task_contract_sha256: 6dcc8f33362d536a1c427e9a9e92d136533b594548c37986ce166bb0f1b8d640
+    sha256: 4fef8b297c96767c8eddc316ba3e7da2ed722b115c75e0b53df898b38eff96dd
+    byte_length: 6153
+  current_task_contract_sha256: 4fef8b297c96767c8eddc316ba3e7da2ed722b115c75e0b53df898b38eff96dd
   current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-phase-delegated-context-value-20260808/task-p2-057/authority/P2_057_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
   current_execution_authorization_sha256: f1288b6f128b87cbfc788ec6aef91f3e98163171306ac45650448af0401f817c
   authority_record:
@@ -16306,11 +16659,11 @@ active_work:
     sha256: f1288b6f128b87cbfc788ec6aef91f3e98163171306ac45650448af0401f817c
     byte_length: 4733
   execution_nonce: 159d73986710b39d8e9e574e7ac0ac95904a5776feba5d05
-  execution_nonce_status: ACTIVE
+  execution_nonce_status: CONSUMED_TERMINAL
   authorization_id: P2-057-PHASE-DELEGATED-AUTHORITY-V1-20260808
   activation_parent_commit: 677bb9fe6ceba07c08b3e3e9433cd87827f15aa7
   activation_parent_tree: 4382f2824d470f0227a38756ef5f56c3d955077c
-  task_resource_state: ACTIVE_UNIQUE_PHASE_DELEGATED
+  task_resource_state: TERMINAL_PRESERVED_REJECTED_BUNDLE
   task_branch: codex/p2-057-phase-delegated-context
   task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-057-phase-delegated-context
   execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-phase-delegated-context-value-20260808/task-p2-057
@@ -16346,7 +16699,7 @@ active_work:
   user_action_required: NONE
   phase_route_decision_required: false
   phase_route_user_action_required: NONE
-  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
+  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
 
 historical_p2_055_terminal_active_work:
   current_task: AIOS-P2-055_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_GRAPH_KERNEL
@@ -22463,11 +22816,25 @@ phase_execution_claim:
     - canonical main advance outside an accepted task gate
 
 claim_boundary:
-  current_phase_route: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE_PHASE_DELEGATED_ROUTE
-  current_task: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE
+  current_phase_route: AIOS-P2-058_DEV_FIRST_GRAPH_CONTEXT_VALUE_BENCHMARK_PHASE_DELEGATED_ROUTE
+  current_task: AIOS-P2-058_DEV_FIRST_GRAPH_CONTEXT_VALUE_BENCHMARK
   next_eligible_action: COMPLETE_CURRENT_TASK_GATE
-  real_engineering_progress: P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_P2_057_ACTIVE_PHASE_DELEGATED_ENGINEERING
-  p2_057_status: ACTIVE
+  real_engineering_progress: P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_P2_057_TERMINAL_NON_PASS_P2_058_ACTIVE_DEV_FIRST_ENGINEERING
+  p2_057_status: TERMINAL_FORMAL_EVALUATOR_INPUT_CONTRACT_NON_PASS
+  p2_057_candidate_commit: b267dfe2d5b6975750ba4b59f625f7256260940f
+  p2_057_candidate_tree: 33d1c86f78cdd0ff1e0e40fd2b7946a0b8c23682
+  p2_057_terminal_receipt_sha256: a2598001e83dd71c5730eec2c2f2c4277a4fab1594923c152bc94e57172e4b6f
+  p2_057_formal_evidence_file_count: 829
+  p2_057_formal_evidence_total_bytes: 14798623
+  p2_057_formal_evidence_inventory_sha256: 7d1e82b3255dc5f42743b0568f8d47cbacbbe95d01c2f0db0651ea47da175583
+  p2_057_completed_raw_runs: 6
+  p2_057_formal_reruns: 0
+  p2_057_capability_credit: 0
+  p2_058_status: ACTIVE
+  p2_phase_envelope_limits: 3_TASKS_64_ENGINEERING_HOURS_16_CALENDAR_DAYS
+  p2_phase_envelope_consumed: 2_TASKS_40_ENGINEERING_HOURS_10_CALENDAR_DAYS
+  p2_phase_envelope_reserved: P2_058_ONE_TASK_24_ENGINEERING_HOURS_6_CALENDAR_DAYS
+  founder_reserved_trigger: NONE
   p2_055_status: TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS
   p2_055_candidate_commit: eebb76347ff71a5482b1965e0bf4ac6d4adfa7ca
   p2_055_candidate_tree: f5fb0f22b4a34d4b616214c9bd0bb69b625d2481

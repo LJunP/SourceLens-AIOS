@@ -1,0 +1,130 @@
+schema_version: "1.0"
+record_type: aios_phase_delegated_independent_task_contract
+task_id: AIOS-P2-058_DEV_FIRST_GRAPH_CONTEXT_VALUE_BENCHMARK
+phase: P2
+route_id: AIOS-P2-058_DEV_FIRST_GRAPH_CONTEXT_VALUE_BENCHMARK_PHASE_DELEGATED_ROUTE
+status: ACTIVE
+task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
+capability: REPRODUCIBLE_CONTEXT_BENCHMARK_VALUE
+objective: >-
+  Build one clean-room DEV-first offline graph-conditioned context selector and
+  determine in one sealed validation whether it strictly beats the accepted
+  lexical baseline on the complete six-task sample under an equal byte budget.
+capacity_source_task_id: AIOS-P2-058_DEV_FIRST_GRAPH_CONTEXT_VALUE_BENCHMARK
+budget:
+  engineering_hours: 24
+  calendar_days: 6
+  implementation_iterations: 4
+  candidates: 1
+max_same_task_repairs: 3
+roles:
+  owner: P2 Phase Delegated Master
+  worker: P2 DEV First Context Value Worker
+  independent_reviewers:
+    - P2 DEV First Context Value CTO Reviewer
+    - P2 DEV First Context Value Security Reviewer
+    - P2 DEV First Context Value Quality Reviewer
+allowlisted_paths:
+  - evaluation-harness/harness/p2-dev-first-context-value
+  - evaluation-harness/evaluator/p2-dev-first-context-value
+  - evaluation-harness/reports/p2-dev-first-context-value
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+phase_delegation_binding:
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: "1.8"
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  delegation_amendment:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/founder-delegation-continuity-20260808/decision/FOUNDER_PHASE_DELEGATION_CONTINUITY_AMENDMENT_V1.json
+    byte_length: 1182
+    sha256: c37634c51b0b7695204c026f9950911c427f544a6ff2e2c2f786facb9a84a52e
+  source_decision:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-dev-first-context-value-20260808/task-p2-058/decision/FOUNDER_P2_057_EXACT_TERMINAL_FACT_RESIDUAL_ACCEPTANCE_PHASE_ENVELOPE_EXPANSION_AND_DIRECT_P2_058_VALUE_BENCHMARK_V1.structured-decision.json
+    sha256: a2e5d332af0612918ff6f72e17cc3b5a185b44c8f465c54b0e4e530dc2d4611f
+    byte_length: 3651
+  source_terminal_event:
+    task_id: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE
+    status: TERMINAL_FORMAL_EVALUATOR_INPUT_CONTRACT_NON_PASS
+    outcome_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-phase-delegated-context-value-20260808/task-p2-057/terminal/P2_057_TERMINAL_FORMAL_EVALUATOR_INPUT_CONTRACT_NON_PASS_RECEIPT.json
+      byte_length: 4209
+      sha256: a2598001e83dd71c5730eec2c2f2c4277a4fab1594923c152bc94e57172e4b6f
+  phase_envelope_snapshot:
+    limits:
+      engineering_tasks: 3
+      engineering_hours: 64
+      calendar_days: 16
+      active_tasks: 1
+      task_branches: 1
+      task_worktrees: 1
+      active_candidates: 1
+    consumed:
+      engineering_tasks: 2
+      engineering_hours: 40
+      calendar_days: 10
+    reserved:
+      task_id: AIOS-P2-058_DEV_FIRST_GRAPH_CONTEXT_VALUE_BENCHMARK
+      route_id: AIOS-P2-058_DEV_FIRST_GRAPH_CONTEXT_VALUE_BENCHMARK_PHASE_DELEGATED_ROUTE
+      status: ACTIVE
+      capacity_source_task_id: AIOS-P2-058_DEV_FIRST_GRAPH_CONTEXT_VALUE_BENCHMARK
+      budget:
+        engineering_tasks: 1
+        engineering_hours: 24
+        calendar_days: 6
+    remaining:
+      engineering_tasks: 0
+      engineering_hours: 0
+      calendar_days: 0
+  founder_packet_for_task: null
+acceptance_criteria:
+  - Quality freezes one six-task dataset identity with four public DEV tasks and two sealed validation tasks before Worker implementation.
+  - Lexical baseline and graph treatment use the same source-unit universe, context byte budget, denominator and independently admitted raw transaction.
+  - Baseline query timing excludes graph, symbol and every other target-only computation.
+  - The four-task DEV pilot strictly beats the lexical baseline with equal per-task budget, zero forbidden context, byte-exact replay and two-root equality before candidate freeze.
+  - The only sealed six-task validation strictly beats the lexical baseline on the primary metric and does not regress the validation split.
+  - Independent evaluation reconstructs baseline, treatment, metrics and external effects from frozen raw Evidence without trusting Worker success fields or a historical baseline-result file.
+required_evidence:
+  - Exact accepted P1 dataset, preregistration, scanner and source snapshot identities plus one externally bound six-task oracle manifest.
+  - Four-task public DEV pilot Evidence from two physical repository roots with exact baseline and treatment byte budgets.
+  - One candidate-freeze receipt proving validation issue and oracle bytes were unavailable to Worker before freeze.
+  - One sealed six-task raw transaction, exact replay, complete denominator and independently rebuilt benchmark report.
+  - Negative matrix for baseline contamination, undeclared evaluator input, mutation, missing, duplicate, reorder, cross-binding, forbidden context and external effects.
+  - One exact candidate and one fresh CTO, Security and Quality final review cycle.
+rollback: >-
+  Remove only the owned disposable P2-058 worktree and generated P2-058
+  Evidence; after canonical integration use non-destructive git revert if
+  rollback is required.
+stop_conditions:
+  - The four-task DEV treatment does not strictly beat the lexical baseline within the four authorized implementation iterations.
+  - The same normalized root cause repeats in adjacent implementation iterations.
+  - Validation oracle or expected output is required to guide Worker implementation.
+  - Baseline identity, equal-budget accounting or two-root replay drifts.
+  - Target-only computation enters the baseline timing path.
+  - Any undeclared evaluator input or network, Provider, Secret, remote, production or public effect occurs.
+  - The single sealed result does not strictly beat baseline, regresses validation, or would require a rerun or second candidate.
+  - Any final Reviewer, tree equality check or canonical make verify is NON_PASS.
+forbidden_actions:
+  - Read, compare, copy or reuse P2-057 source, candidate, evaluator, fixture, test or formal Evidence as engineering input.
+  - Read or reuse any other rejected P2 engineering lineage.
+  - Read sealed validation issue, oracle or expected output before candidate freeze.
+  - Use a historical baseline-result file as evaluator input or expected answer.
+  - Create an authority, parser, validator, governance, Evidence-platform, successor, replacement, correction, normalization, closure, feasibility or remediation Task.
+  - Rerun, replace or beautify the single sealed validation.
+  - Enter P3, push a remote, or make production or public claims.
+claim_boundary: >-
+  One cooperative-local offline DEV-first graph-conditioned context value
+  benchmark only; no P2 Phase completion, production-readiness, UI, model,
+  remote or public capability claim follows unless the exact six-task Task Gate
+  is accepted.

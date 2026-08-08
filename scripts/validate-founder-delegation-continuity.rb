@@ -575,6 +575,68 @@ module FounderDelegationContinuity
     source
   end
 
+  def validate_founder_terminal_accounting_residual!(entry, source_route)
+    residual = exact_keys(
+      entry["founder_residual_acceptance"],
+      %w[
+        schema_version authorization_token acceptance_scope source_founder_packet
+        preserved_security_review terminal_receipt capability_credit formal_reruns
+        terminal_accounting_residual_accepted general_validator_gap_accepted
+        rejected_terminal_sync_candidate_accepted security_review_rewritten_as_pass
+        production_security_claimed claim_boundary
+      ],
+      "phase execution Founder terminal accounting residual acceptance"
+    )
+    assert(residual["schema_version"] == "founder-terminal-accounting-residual-acceptance/v1",
+           "Founder terminal accounting residual schema drift")
+    assert(residual["authorization_token"] == source_route["authorization_token"],
+           "Founder terminal accounting residual token drift")
+    assert(residual["acceptance_scope"] == "EXACT_TERMINAL_STATE_ACCOUNTING_ONLY" &&
+           residual["terminal_accounting_residual_accepted"] == true &&
+           residual["general_validator_gap_accepted"] == false &&
+           residual["rejected_terminal_sync_candidate_accepted"] == false &&
+           residual["security_review_rewritten_as_pass"] == false &&
+           residual["production_security_claimed"] == false,
+           "Founder terminal accounting residual claim boundary drift")
+    assert(residual["capability_credit"] == 0 && residual["formal_reruns"] == 0,
+           "Founder terminal accounting residual cannot create capability or rerun credit")
+    assert(residual["claim_boundary"].is_a?(String) && !residual["claim_boundary"].empty?,
+           "Founder terminal accounting residual claim boundary missing")
+
+    packet = exact_keys(
+      residual["source_founder_packet"],
+      %w[path sha256 byte_length],
+      "Founder terminal accounting source packet"
+    )
+    assert(packet == source_route["original_founder_packet"],
+           "Founder terminal accounting source packet identity drift")
+    packet_bytes = validate_identity(packet, "Founder terminal accounting source packet")
+    packet_text = packet_bytes.dup.force_encoding(Encoding::UTF_8)
+    assert(packet_text.valid_encoding?, "Founder terminal accounting source packet is not UTF-8")
+    declaration = "authorization_token=#{residual['authorization_token']}"
+    assert(packet_text.lines.count { |line| line.chomp == declaration } == 1,
+           "Founder terminal accounting authorization token is not uniquely anchored")
+
+    terminal_receipt = exact_keys(
+      residual["terminal_receipt"],
+      %w[path sha256 byte_length],
+      "Founder terminal accounting terminal receipt"
+    )
+    assert(terminal_receipt == entry["outcome_receipt"],
+           "Founder terminal accounting receipt identity drift")
+    validate_identity(terminal_receipt, "Founder terminal accounting terminal receipt")
+
+    review_identity = exact_keys(
+      residual["preserved_security_review"],
+      %w[path sha256 byte_length],
+      "Founder terminal accounting preserved Security Review"
+    )
+    review = parse_bound_json(review_identity, "Founder terminal accounting preserved Security Review")
+    assert(review["task_id"] == entry["task_id"] && review["target_verdict"] == "NON_PASS",
+           "Founder terminal accounting does not preserve the exact Security NON_PASS")
+    residual
+  end
+
   def validate_consumed_task_ledger!(root, ledger, source_route, phase, anchored_source_entries)
     entries = array(ledger, "phase execution task ledger")
     ids = entries.map { |entry| mapping(entry, "phase execution task ledger entry")["task_id"] }
@@ -592,11 +654,10 @@ module FounderDelegationContinuity
            "phase execution task ledger consumes an ineligible source Route Task")
 
     entries.each_with_index do |value, index|
-      entry = exact_keys(
-        value,
-        %w[task_id route_id status budget contract outcome_receipt],
-        "phase execution task ledger[#{index}]"
-      )
+      candidate = mapping(value, "phase execution task ledger[#{index}]")
+      expected_entry_keys = %w[task_id route_id status budget contract outcome_receipt]
+      expected_entry_keys << "founder_residual_acceptance" if candidate.key?("founder_residual_acceptance")
+      entry = exact_keys(candidate, expected_entry_keys, "phase execution task ledger[#{index}]")
       assert(entry["task_id"].to_s.match?(/\AAIOS-P(?:0|[1-9]|1[0-2])-[0-9]{3}_[A-Z0-9_]+\z/),
              "phase execution task ledger Task id is invalid")
       assert(entry["route_id"].is_a?(String) && !entry["route_id"].empty?,
@@ -636,8 +697,14 @@ module FounderDelegationContinuity
       anchored = array(anchored_source_entries, "anchored source task ledger").find do |item|
         item.is_a?(Hash) && item["task_id"] == entry["task_id"]
       end
-      assert(anchored == entry,
-             "phase execution source Task ledger drifts from its first canonical anchor")
+      if anchored
+        assert(anchored == entry,
+               "phase execution source Task ledger drifts from its first canonical anchor")
+      else
+        assert(entry.key?("founder_residual_acceptance"),
+               "unanchored consumed Task requires exact Founder terminal residual acceptance")
+        validate_founder_terminal_accounting_residual!(entry, source_route)
+      end
       assert(entry["route_id"] == source_route["route_id"] && source_task["status"] == entry["status"] &&
              source_task["engineering_hours"] == budget["engineering_hours"] &&
              source_task["calendar_days"] == budget["calendar_days"],

@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-08T01:27:21Z"
-verification_scope: P2_055_FOUNDER_ROUTE_ACTIVATION
+last_verified_at: "2026-08-08T02:51:59Z"
+verification_scope: P2_055_TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS
 
 authority:
   founder: Human Founder
@@ -37,17 +37,17 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: AIOS-P2-055_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_GRAPH_KERNEL
+  current_task_authority: NONE
   note: >-
-    Founder authorized the attested raw compiler observation, closed edge oracle
-    and context value Route. P2-055 is the unique active Task; it must first
-    prove accepted-scanner raw process identity, compiler-attributed per-edge
-    truth, a closed bidirectional edge oracle, portable independently replayed
-    transactions and independently reconstructed zero effects. P2-056 remains
-    predecessor-gated, all six external effects remain false, and activation
-    adds no P2 capability credit. P2-053 remains terminal and non-reusable. All
-    paragraphs below this sentence are retained historical chronology only and
-    have no current Task, Route or scheduling authority. P2-053 is
+    P2-055 is TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS after one exact
+    candidate received fresh CTO and Security TARGET NON_PASS. The candidate
+    and formal Evidence remain preserved and unintegrated, Quality review was
+    not completed after the decisive CTO result, canonical make verify was not
+    invoked, P2-056 was not started, and P2 capability credit remains zero.
+    Current Task is NONE and the next action is Founder P2 Phase Gate; no
+    correction, successor or replacement chain was created. All paragraphs
+    below this sentence are retained historical chronology only and have no
+    current Task, Route or scheduling authority. P2-053 is
     TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS. Its exact candidate
     produced a real javac-attributed, deterministic two-root Java graph, but
     fresh CTO review proved that its independent oracle accepts fabricated
@@ -6151,11 +6151,11 @@ historical_p1_162_phase_route:
 current_phase_route:
   schema_version: "1.1"
   route_id: P2_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_ORACLE_AND_CONTEXT_VALUE_ROUTE_V1
-  status: ACTIVE
-  authority_object_status: ACTIVE
-  execution_status: ACTIVE_TASK_1
-  founder_phase_route_decision_required: false
-  scheduling_status: ACTIVE_TASK_1
+  status: TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS
+  authority_object_status: TERMINAL_TASK_AUTHORITY_CONSUMED
+  execution_status: TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS
+  founder_phase_route_decision_required: true
+  scheduling_status: STOPPED_AT_FOUNDER_P2_PHASE_GATE
   phase: P2
   phase_entry_status: AUTHORIZED
   authorization_token: AUTHORIZE_P2_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_ORACLE_AND_CONTEXT_VALUE_ROUTE_V1
@@ -6231,7 +6231,7 @@ current_phase_route:
   first_task:
     task_slot: 1
     task_id: AIOS-P2-055_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_GRAPH_KERNEL
-    status: ACTIVE
+    status: TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS
     engineering_hours: 26
     calendar_days: 6
     max_engineering_hours: 26
@@ -6251,7 +6251,7 @@ current_phase_route:
   task_plan:
     - task_slot: 1
       task_id: AIOS-P2-055_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_GRAPH_KERNEL
-      status: ACTIVE
+      status: TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS
       engineering_hours: 26
       calendar_days: 6
       max_engineering_hours: 26
@@ -6269,7 +6269,7 @@ current_phase_route:
         public: false
     - task_slot: 2
       task_id: AIOS-P2-056_ACCEPTED_GRAPH_CONTEXT_VALUE_OFFLINE_BENCHMARK
-      status: PENDING_PREDECESSOR_TASK_GATE
+      status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
       engineering_hours: 14
       calendar_days: 4
       max_engineering_hours: 14
@@ -6293,7 +6293,7 @@ current_phase_route:
       next_task_id: AIOS-P2-056_ACCEPTED_GRAPH_CONTEXT_VALUE_OFFLINE_BENCHMARK
       requires_task_gate_pass: true
   inherited_worktree_inventory: []
-  next_eligible_action: P2_055_ENGINEERING_PILOT_THEN_FULL_MATRIX
+  next_eligible_action: FOUNDER_P2_PHASE_GATE
 
 historical_p2_053_phase_route:
   schema_version: "1.1"
@@ -11982,7 +11982,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260808-P2-055-ROUTE-ACTIVATED-V1
+  latest_event_id: FKS-20260808-P2-055-TERMINAL-CTO-SECURITY-NON-PASS-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -16012,6 +16012,37 @@ founder_knowledge_sync:
         byte_length: null
         sha256: null
       event_sha256: e1d2a1817cddcf4f6e5fd7c62d6e3ef54726e9d3ec7e98e886db010935faa932
+    - event_id: FKS-20260808-P2-055-TERMINAL-CTO-SECURITY-NON-PASS-V1
+      trigger_type: TASK_TERMINAL_STOP_CONDITION
+      occurred_at_utc: "2026-08-08T02:51:59Z"
+      source_commit: ef823fc089340c1084ab06d378079f703a4da140
+      source_tree: 638052d070781af504d4403d0251e1c23bf9610f
+      previous_event_sha256: e1d2a1817cddcf4f6e5fd7c62d6e3ef54726e9d3ec7e98e886db010935faa932
+      status: PENDING_REVIEW
+      rationale: >-
+        P2-055 stopped after fresh CTO and Security TARGET NON_PASS. The exact
+        candidate and formal Evidence are preserved but unintegrated; P2-056
+        was not started, P2 capability credit remains zero, and the learning
+        Artifact records external authority, closed semantic input and
+        lifecycle effect-observation lessons without blocking engineering.
+      engineering_blocking: false
+      artifact:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-attested-raw-compiler-closed-edge-context-20260808/task-1-p2-055/knowledge/P2_055_ACCEPTED_SCANNER_AUTHORITY_AND_EFFECT_OBSERVATION_LESSON_V1.md
+        byte_length: 2779
+        sha256: acc5a0c6d804006a645a8f511314708e95bdc09102958c9dfa40c32383103aca
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+      event_sha256: 3d9c2dbca5216c07e15457074419b9a4947d9d5313888d8588e827f6e0709ee3
 
 historical_active_work_after_p1_079:
   current_task: NONE
@@ -16064,13 +16095,64 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
+  current_task: NONE
+  current_task_status: NONE
+  current_task_contract:
+    path: null
+    sha256: null
+    byte_length: null
+  current_task_contract_sha256: null
+  current_execution_authorization: null
+  current_execution_authorization_sha256: null
+  authority_record:
+    path: null
+    sha256: null
+    byte_length: null
+  execution_nonce: null
+  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
+  authorization_id: null
+  activation_parent_commit: null
+  activation_parent_tree: null
+  task_resource_state: NO_ACTIVE_TASK_ROUTE_TERMINAL_AT_FOUNDER_PHASE_GATE
+  task_branch: null
+  task_worktree: null
+  execution_evidence_root: null
+  allowlisted_paths: []
+  budget:
+    engineering_hours: null
+    calendar_days: null
+    implementation_iterations: null
+    candidates: null
+  roles:
+    owner: null
+    worker: null
+    independent_reviewers: []
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false
+  offsite_target: null
+  founder_reserved_authorization: null
+  founder_reserved_authorization_sha256: null
+  founder_decision_required: true
+  founder_decision_required_scope: P2_PHASE_GATE_AFTER_P2_055_TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS
+  escalation_reason: P2_055_ACCEPTED_SCANNER_AUTHORITY_EFFECT_OBSERVATION_CLOSED_INVENTORY_AND_PREFREEZE_GATES_NON_PASS
+  user_action_required: FOUNDER_P2_PHASE_GATE_DECISION
+  phase_route_decision_required: true
+  phase_route_user_action_required: FOUNDER_P2_PHASE_GATE_DECISION
+  next_eligible_action: FOUNDER_P2_PHASE_GATE
+
+historical_p2_055_terminal_active_work:
   current_task: AIOS-P2-055_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_GRAPH_KERNEL
-  current_task_status: ACTIVE
+  current_task_status: TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS
   current_task_contract:
     path: docs/aios/tasks/P2-055_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_GRAPH_KERNEL.yaml
-    sha256: a8706845fc57856e02030af9e5c87f11a9f61e709990d73abb48d95d8ef97212
-    byte_length: 11688
-  current_task_contract_sha256: a8706845fc57856e02030af9e5c87f11a9f61e709990d73abb48d95d8ef97212
+    sha256: 6b050bf6a07cc1564ce172f91221edd23d6d8edb44e6f5caa1ded04d7adfedab
+    byte_length: 13274
+  current_task_contract_sha256: 6b050bf6a07cc1564ce172f91221edd23d6d8edb44e6f5caa1ded04d7adfedab
   current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-attested-raw-compiler-closed-edge-context-20260808/task-1-p2-055/authority/P2_055_PHASE_DELEGATED_TASK_AUTHORITY_V1.yaml
   current_execution_authorization_sha256: 191a63c3776621823d1803a4a739bf4ef4b93df2f0ca787bedde39bcdb655806
   authority_record:
@@ -16078,11 +16160,15 @@ active_work:
     sha256: 191a63c3776621823d1803a4a739bf4ef4b93df2f0ca787bedde39bcdb655806
     byte_length: 2789
   execution_nonce: 3679ca69d4f4073008b22b2297ddd629d086bd91be03caab
-  execution_nonce_status: ACTIVE
+  execution_nonce_status: CONSUMED_TERMINAL
   authorization_id: 2545bc864d3d317fe0ed61a56b273c6ec141675e970fc1d7688ca9467ef470d4
   activation_parent_commit: c3aa4e3c8db4441b19e42a4f936bb409ffdc7847
   activation_parent_tree: 80a852b147eee8dd0b584ba284b3b6ead0c43402
-  task_resource_state: ACTIVE_SINGLE_TASK_SINGLE_BRANCH_SINGLE_WORKTREE
+  task_resource_state: TERMINAL_RESOURCES_CLEANED_EVIDENCE_TAG_PRESERVED
+  workspace_cleanup_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-attested-raw-compiler-closed-edge-context-20260808/task-1-p2-055/terminal/P2_055_WORKSPACE_CLEANUP_RECEIPT.json
+    byte_length: 1376
+    sha256: cb9ac0c3186df67806a61b261f524d2a356ee7598ab85151945cbb8dcbaec7b6
   task_branch: codex/p2-055-attested-compiler-graph
   task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P2-055-attested-compiler-graph
   execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-attested-raw-compiler-closed-edge-context-20260808/task-1-p2-055/evidence
@@ -16120,13 +16206,13 @@ active_work:
   offsite_target: null
   founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-attested-raw-compiler-closed-edge-context-20260808/decision/FOUNDER_P2_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_ORACLE_AND_CONTEXT_VALUE_ROUTE_V1.structured-decision.json
   founder_reserved_authorization_sha256: 97526acda7e4524d9760b7aa71aa0e6a6f0e72dc3f4a4af1910b00d4fda7df7c
-  founder_decision_required: false
-  founder_decision_required_scope: null
-  escalation_reason: null
-  user_action_required: NONE
-  phase_route_decision_required: false
-  phase_route_user_action_required: NONE
-  next_eligible_action: P2_055_ENGINEERING_PILOT_THEN_FULL_MATRIX
+  founder_decision_required: true
+  founder_decision_required_scope: P2_PHASE_GATE_AFTER_P2_055_TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS
+  escalation_reason: P2_055_ACCEPTED_SCANNER_AUTHORITY_EFFECT_OBSERVATION_CLOSED_INVENTORY_AND_PREFREEZE_GATES_NON_PASS
+  user_action_required: FOUNDER_P2_PHASE_GATE_DECISION
+  phase_route_decision_required: true
+  phase_route_user_action_required: FOUNDER_P2_PHASE_GATE_DECISION
+  next_eligible_action: FOUNDER_P2_PHASE_GATE
 
 historical_p2_053_terminal_active_work:
   current_task: AIOS-P2-053_COMPILER_ATTRIBUTED_JAVA_EDGE_TRUTH_GRAPH_KERNEL
@@ -22175,12 +22261,25 @@ phase_execution_claim:
 
 claim_boundary:
   current_phase_route: P2_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_ORACLE_AND_CONTEXT_VALUE_ROUTE_V1
-  current_task: AIOS-P2-055_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_GRAPH_KERNEL
-  next_eligible_action: P2_055_ENGINEERING_PILOT_THEN_FULL_MATRIX
-  real_engineering_progress: P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_P2_055_ACTIVE_P2_056_PREDECESSOR_GATED
-  p2_055_status: ACTIVE
+  current_task: NONE
+  next_eligible_action: FOUNDER_P2_PHASE_GATE
+  real_engineering_progress: P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_P2_055_TERMINAL_P2_056_INELIGIBLE
+  p2_055_status: TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS
+  p2_055_candidate_commit: eebb76347ff71a5482b1965e0bf4ac6d4adfa7ca
+  p2_055_candidate_tree: f5fb0f22b4a34d4b616214c9bd0bb69b625d2481
+  p2_055_candidate_manifest_sha256: 111d9a848a87e99fdd157791dc0982bd6124371bb3bb38d916bb9a9d85f30c7c
+  p2_055_evidence_manifest_sha256: 22904055fd37bee5e3f873db9f390a77c43fb6032b7aefb9d2f518350729eca6
+  p2_055_matrix_summary_sha256: cf30596c3b613e44748a1f5db80e527f5c84e1c1e8760042111cd860dac1784a
+  p2_055_cto_review_target_verdict: NON_PASS
+  p2_055_cto_review_sha256: d174f17fefd39cc09e7b541efa4c10b280c1cca259f1c2d46e0358e75d063f03
+  p2_055_security_review_target_verdict: NON_PASS
+  p2_055_security_review_sha256: e5416c74fa2bded8210e378390036d40fcfe65aa12c2c94ee445a0542926a60e
+  p2_055_quality_review_status: NOT_COMPLETED_AFTER_DECISIVE_CTO_NON_PASS
+  p2_055_candidate_integrated: false
+  p2_055_canonical_make_verify: NOT_INVOKED_FINAL_REVIEW_STOP_CONDITION
+  p2_055_terminal_receipt_sha256: 4361d73594017efaae36c7426032a93f2ff1688162fafe4a422b34b1c8de3675
   p2_055_capability_credit: 0
-  p2_056_status: PENDING_PREDECESSOR_TASK_GATE
+  p2_056_status: INELIGIBLE_PREDECESSOR_TASK_GATE_NON_PASS
   p2_053_status: TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS
   p2_053_candidate_commit: 90fa8e2286eab8357f90fee76bf3a082bb94f39e
   p2_053_candidate_tree: 94a2f41eeca41f154f8c6a0b7c29cab1fd579a7d

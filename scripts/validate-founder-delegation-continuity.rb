@@ -2,7 +2,6 @@
 # frozen_string_literal: true
 
 require "digest"
-require "find"
 require "json"
 require "open3"
 require "pathname"
@@ -238,103 +237,6 @@ module FounderDelegationContinuity
     bytes
   end
 
-  def repo_identity_bytes_at_commit(root, commit, identity, label)
-    record = exact_keys(identity, %w[path byte_length sha256], label)
-    relative = Pathname.new(record["path"].to_s)
-    assert(!relative.absolute?, "#{label} path must be repository-relative")
-    clean = relative.cleanpath
-    assert(clean.to_s == relative.to_s && clean.to_s != "." && !clean.to_s.start_with?("../"),
-           "#{label} path is unsafe")
-    assert(commit.to_s.match?(/\A[0-9a-f]{40}\z/), "#{label} anchor commit is invalid")
-    bytes, stderr, status = Open3.capture3(
-      "git", "show", "#{commit}:#{clean}", chdir: root.to_s
-    )
-    assert(status.success?, "#{label} is absent from its active anchor: #{stderr.strip}")
-    assert(bytes.bytesize == record["byte_length"], "#{label} byte length mismatch")
-    assert(Digest::SHA256.hexdigest(bytes) == record["sha256"], "#{label} SHA-256 mismatch")
-    bytes
-  end
-
-  def recursively_sorted(value)
-    case value
-    when Hash
-      value.keys.sort.to_h { |key| [key, recursively_sorted(value.fetch(key))] }
-    when Array
-      value.map { |item| recursively_sorted(item) }
-    else
-      value
-    end
-  end
-
-  def closed_regular_file_inventory(root_path, label)
-    root = Pathname.new(root_path.to_s)
-    assert(root.absolute?, "#{label} root must be absolute")
-    before_root = root.lstat
-    assert(before_root.directory? && !before_root.symlink?,
-           "#{label} root must be a non-symlink directory")
-    assert(root.realpath == root.cleanpath, "#{label} root resolves through a symlink")
-    entries = []
-    Find.find(root.to_s) do |path_string|
-      next if path_string == root.to_s
-
-      path = Pathname.new(path_string)
-      stat = path.lstat
-      if stat.directory?
-        next
-      end
-      assert(stat.file? && !stat.symlink?, "#{label} contains a non-regular object")
-      assert(stat.nlink == 1, "#{label} contains a hardlinked file")
-      relative = path.relative_path_from(root).to_s
-      utf8_relative = relative.dup.force_encoding("UTF-8")
-      assert(utf8_relative.valid_encoding?, "#{label} contains a non-UTF-8 path")
-      assert(path.realpath.to_s.start_with?(root.to_s + File::SEPARATOR),
-             "#{label} file escapes its root")
-
-      flags = File::RDONLY
-      flags |= File::NOFOLLOW if defined?(File::NOFOLLOW)
-      bytes = nil
-      File.open(path.to_s, flags) do |file|
-        opened = file.stat
-        assert([opened.dev, opened.ino, opened.nlink, opened.size, opened.mtime.to_f] ==
-               [stat.dev, stat.ino, stat.nlink, stat.size, stat.mtime.to_f],
-               "#{label} file identity changed while opening")
-        bytes = file.read
-        after = file.stat
-        assert([after.dev, after.ino, after.nlink, after.size, after.mtime.to_f] ==
-               [opened.dev, opened.ino, opened.nlink, opened.size, opened.mtime.to_f],
-               "#{label} file changed while reading")
-      end
-      final = path.lstat
-      assert([final.dev, final.ino, final.nlink, final.size, final.mtime.to_f] ==
-             [stat.dev, stat.ino, stat.nlink, stat.size, stat.mtime.to_f],
-             "#{label} file changed during inventory")
-      entries << {
-        "path" => utf8_relative,
-        "type" => "REGULAR_FILE",
-        "byte_length" => bytes.bytesize,
-        "sha256" => Digest::SHA256.hexdigest(bytes)
-      }
-    end
-    after_root = root.lstat
-    assert([after_root.dev, after_root.ino] == [before_root.dev, before_root.ino],
-           "#{label} root identity changed during inventory")
-    entries.sort_by { |entry| entry.fetch("path").b }
-  rescue Errno::ENOENT, Errno::ELOOP, Errno::ENOTDIR => e
-    fail!("#{label} is unavailable (#{e.class})")
-  end
-
-  def validate_closed_formal_inventory!(forensic, label)
-    first = closed_regular_file_inventory(forensic["evidence_root"], label)
-    second = closed_regular_file_inventory(forensic["evidence_root"], label)
-    assert(first == second, "#{label} changed between closed inventory passes")
-    canonical = JSON.pretty_generate(recursively_sorted(first)) + "\n"
-    assert(first.length == forensic["file_count"], "#{label} file count mismatch")
-    assert(first.sum { |entry| entry.fetch("byte_length") } == forensic["total_bytes"],
-           "#{label} total bytes mismatch")
-    assert(Digest::SHA256.hexdigest(canonical) == forensic["canonical_inventory_sha256"],
-           "#{label} canonical inventory SHA-256 mismatch")
-  end
-
   def validate_identity(identity, label)
     record = exact_keys(identity, %w[path byte_length sha256], label)
     path = Pathname.new(record["path"].to_s)
@@ -363,299 +265,6 @@ module FounderDelegationContinuity
     fail!("#{label} JSON is invalid: #{e.message}")
   rescue FounderDelegationDuplicateJsonKeyError => e
     fail!("#{label} contains duplicate JSON key: #{e.message}")
-  end
-
-  def parse_json_bytes(bytes, label)
-    value = JSON.parse(
-      bytes,
-      object_class: FounderDelegationClosedJsonHash,
-      array_class: Array,
-      create_additions: false
-    )
-    mapping(value, label)
-  rescue JSON::ParserError => e
-    fail!("#{label} JSON is invalid: #{e.message}")
-  rescue FounderDelegationDuplicateJsonKeyError => e
-    fail!("#{label} contains duplicate JSON key: #{e.message}")
-  end
-
-  def evidence_bytes(root_path, relative_path, label)
-    root = Pathname.new(root_path.to_s)
-    assert(root.absolute?, "#{label} root must be absolute")
-    assert(root.lstat.directory? && !root.symlink?, "#{label} root must be a non-symlink directory")
-    assert(root.realpath == root.cleanpath, "#{label} root resolves through a symlink")
-    relative = Pathname.new(relative_path.to_s)
-    assert(!relative.absolute? && relative.cleanpath.to_s == relative.to_s &&
-           relative.to_s != "." && !relative.to_s.start_with?("../"),
-           "#{label} path is unsafe")
-    path = root.join(relative)
-    stat = path.lstat
-    assert(stat.file? && !stat.symlink?, "#{label} must be a non-symlink regular file")
-    assert(stat.nlink == 1, "#{label} must not be hardlinked")
-    assert(path.realpath.to_s.start_with?(root.realpath.to_s + File::SEPARATOR),
-           "#{label} escapes its Evidence root")
-    bytes = path.binread
-    final = path.lstat
-    assert([final.dev, final.ino, final.nlink, final.size, final.mtime.to_f] ==
-           [stat.dev, stat.ino, stat.nlink, stat.size, stat.mtime.to_f],
-           "#{label} changed while reading")
-    bytes
-  rescue Errno::ENOENT, Errno::ELOOP, Errno::ENOTDIR => e
-    fail!("#{label} is unavailable (#{e.class})")
-  end
-
-  def evidence_json(root_path, relative_path, label)
-    parse_json_bytes(evidence_bytes(root_path, relative_path, label), label)
-  end
-
-  def validate_candidate_identity!(root, candidate, authority, label)
-    record = exact_keys(
-      candidate,
-      %w[commit tree parent_commit tracked_binary_diff_sha256 integrated],
-      "#{label} candidate"
-    )
-    %w[commit tree parent_commit].each do |key|
-      assert(record[key].to_s.match?(/\A[0-9a-f]{40}\z/),
-             "#{label} candidate #{key} is invalid")
-    end
-    assert(record["tracked_binary_diff_sha256"].to_s.match?(/\A[0-9a-f]{64}\z/),
-           "#{label} candidate diff identity is invalid")
-    assert(record["integrated"] == false, "#{label} rejected candidate may not be integrated")
-    commit_type = git(root, "cat-file", "-t", record["commit"]).strip
-    assert(commit_type == "commit", "#{label} candidate commit object is invalid")
-    assert(git(root, "rev-parse", "#{record['commit']}^{tree}").strip == record["tree"],
-           "#{label} candidate tree drift")
-    assert(git(root, "rev-parse", "#{record['commit']}^").strip == record["parent_commit"],
-           "#{label} candidate parent drift")
-    assert(record["parent_commit"] == authority.dig("activation_parent", "commit"),
-           "#{label} candidate parent drifts from delegated authority")
-    diff = git(root, "diff", "--binary", "--full-index", record["parent_commit"], record["commit"])
-    assert(Digest::SHA256.hexdigest(diff) == record["tracked_binary_diff_sha256"],
-           "#{label} candidate binary diff drift")
-    record
-  end
-
-  def validate_formal_run_transaction!(formal_root, candidate_result, observer, task_id, mode)
-    run_id = "#{mode}-#{task_id}"
-    run_prefix = "runs/#{task_id}/#{mode}"
-    observation = evidence_json(
-      formal_root,
-      "#{run_prefix}/quality-observation.json",
-      "delegated terminal formal run #{run_id} observation"
-    )
-    exact_keys(
-      observation,
-      %w[
-        effects exit_status input_state_sha256 mode observed_processes observer_samples
-        process_sample_count raw_manifest raw_stable_projection run_id sandbox
-        scanner_sandbox_binding schema_version selector_argv selector_cwd selector_env signal
-        static_worker_audit task_id wall_ms worker_argv
-      ],
-      "delegated terminal formal run #{run_id} observation"
-    )
-    assert(observation["schema_version"] == "p2-057-quality-run-observation/v1" &&
-           observation["task_id"] == task_id && observation["mode"] == mode &&
-           observation["run_id"] == run_id && observation["exit_status"] == 0 &&
-           observation["signal"].nil?,
-           "delegated terminal formal run #{run_id} lifecycle drift")
-    effects = exact_keys(
-      observation["effects"],
-      %w[
-        accepted_change_content_opened diff_or_history_commands network_connect_attempts
-        production_effects provider_requests public_effects remote_writes secret_read_attempts
-        validation_oracle_opened_by_selector
-      ],
-      "delegated terminal formal run #{run_id} effects"
-    )
-    assert(effects == {
-      "accepted_change_content_opened" => false,
-      "diff_or_history_commands" => 0,
-      "network_connect_attempts" => 0,
-      "production_effects" => 0,
-      "provider_requests" => 0,
-      "public_effects" => 0,
-      "remote_writes" => 0,
-      "secret_read_attempts" => 0,
-      "validation_oracle_opened_by_selector" => false
-    }, "delegated terminal formal run #{run_id} effects are not independently zero")
-    assert(observation["process_sample_count"].is_a?(Integer) &&
-           observation["process_sample_count"].positive? &&
-           array(observation["observed_processes"], "delegated terminal observed processes").any? &&
-           observation.dig("sandbox", "network_policy") == "DENY_NETWORK_ALL",
-           "delegated terminal formal run #{run_id} observer boundary drift")
-
-    raw_manifest_bytes = evidence_bytes(
-      formal_root,
-      "#{run_prefix}/raw-evidence/RAW_MANIFEST.json",
-      "delegated terminal formal run #{run_id} raw manifest"
-    )
-    stable_bytes = evidence_bytes(
-      formal_root,
-      "#{run_prefix}/raw-evidence/stable-projection.json",
-      "delegated terminal formal run #{run_id} stable projection"
-    )
-    raw_manifest_identity = exact_keys(
-      observation["raw_manifest"], %w[byte_length sha256],
-      "delegated terminal formal run #{run_id} raw manifest identity"
-    )
-    stable_identity = exact_keys(
-      observation["raw_stable_projection"], %w[byte_length sha256],
-      "delegated terminal formal run #{run_id} stable projection identity"
-    )
-    assert(raw_manifest_bytes.bytesize == raw_manifest_identity["byte_length"] &&
-           Digest::SHA256.hexdigest(raw_manifest_bytes) == raw_manifest_identity["sha256"],
-           "delegated terminal formal run #{run_id} raw manifest identity drift")
-    assert(stable_bytes.bytesize == stable_identity["byte_length"] &&
-           Digest::SHA256.hexdigest(stable_bytes) == stable_identity["sha256"],
-           "delegated terminal formal run #{run_id} stable projection identity drift")
-    raw_manifest = parse_json_bytes(raw_manifest_bytes, "delegated terminal formal run raw manifest")
-    assert(raw_manifest["schema_version"] == "p2-057-raw-manifest/v1" &&
-           raw_manifest["task_id"].to_s.match?(/\AAIOS-P2-[0-9]{3}_[A-Z0-9_]+\z/) &&
-           raw_manifest["entry_count"] == array(raw_manifest["entries"], "raw manifest entries").length,
-           "delegated terminal formal run #{run_id} raw manifest schema drift")
-
-    before_input = evidence_bytes(formal_root, "#{run_prefix}/input-state.before.json",
-                                  "delegated terminal formal run #{run_id} input before")
-    after_input = evidence_bytes(formal_root, "#{run_prefix}/input-state.after.json",
-                                 "delegated terminal formal run #{run_id} input after")
-    before_repo = evidence_bytes(formal_root, "#{run_prefix}/repository-status.before.bin",
-                                 "delegated terminal formal run #{run_id} repository before")
-    after_repo = evidence_bytes(formal_root, "#{run_prefix}/repository-status.after.bin",
-                                "delegated terminal formal run #{run_id} repository after")
-    assert(before_input == after_input && before_repo == after_repo,
-           "delegated terminal formal run #{run_id} mutated an admitted input or repository")
-
-    result = array(candidate_result.fetch("#{mode}_runs"), "candidate #{mode} runs").find do |item|
-      item.is_a?(Hash) && item["task_id"] == task_id && item["run_id"] == run_id
-    end
-    assert(result, "delegated terminal formal run #{run_id} is missing from candidate result")
-    exact_keys(result, %w[metrics ranked_items run_id snapshot_commit stable_projection_sha256 task_id],
-               "delegated terminal formal candidate run #{run_id}")
-    observed = array(observer["run_observations"], "formal observer run observations").find do |item|
-      item.is_a?(Hash) && item["task_id"] == task_id && item["run_id"] == run_id
-    end
-    assert(observed && observed["result_projection_sha256"] == stable_identity["sha256"] &&
-           result["stable_projection_sha256"] == stable_identity["sha256"] &&
-           observed["provider_requests"] == 0 && observed["secret_read_attempts"] == 0 &&
-           observed["network_connect_attempts"] == 0 && observed["remote_writes"] == 0 &&
-           observed["production_effects"] == 0 && observed["public_effects"] == 0 &&
-           observed["diff_or_history_commands"] == 0 &&
-           observed["validation_oracle_opened_by_selector"] == false &&
-           observed["accepted_change_content_opened"] == false,
-           "delegated terminal formal run #{run_id} observer or result binding drift")
-  end
-
-  def validate_terminal_receipt_and_formal_evidence!(root, receipt, entry, authority)
-    exact_keys(
-      receipt,
-      %w[
-        schema_version task_id route_id phase terminal_status accepted_capability_created
-        capability_credit p2_accepted_capability_progress candidate public_prefreeze
-        formal_execution normalized_root_cause root_cause_evidence
-        failure_diagnostic_research_artifact stop_decision knowledge_sync created_at
-      ],
-      "delegated consumed Task outcome receipt"
-    )
-    assert(receipt["schema_version"] == "p2-057-terminal-receipt/v1",
-           "delegated consumed Task outcome receipt schema drift")
-    validate_candidate_identity!(root, receipt["candidate"], authority,
-                                 "delegated consumed Task")
-    formal = exact_keys(
-      receipt["formal_execution"],
-      %w[
-        evidence_root exit_status reason_code message automatic_retries formal_runs formal_reruns
-        scheduled_runs completed_runs raw_run_reconstruction target_replay quality_receipt_present
-        quality_manifest_present independent_value_evaluation_present value_result
-        postformal_read_only_snapshot external_effects
-      ],
-      "delegated consumed Task formal execution"
-    )
-    assert(formal["exit_status"] == 2 && formal["reason_code"] == "BASELINE_IDENTITY_MISMATCH" &&
-           formal["automatic_retries"] == 0 && formal["formal_runs"] == 1 &&
-           formal["formal_reruns"] == 0 && formal["scheduled_runs"] == 6 &&
-           formal["completed_runs"] == 6 && formal["raw_run_reconstruction"] == "PASS" &&
-           formal["target_replay"] == "PASS_BYTE_EXACT" &&
-           formal["quality_receipt_present"] == false &&
-           formal["quality_manifest_present"] == false &&
-           formal["independent_value_evaluation_present"] == false &&
-           formal["value_result"] == "UNKNOWN_EVALUATION_INVALID" &&
-           formal["external_effects"] == FALSE_EXTERNAL_EFFECTS,
-           "delegated consumed Task formal failure lifecycle drift")
-
-    authority_root = Pathname.new(authority["evidence_root"].to_s)
-    formal_root = Pathname.new(formal["evidence_root"].to_s)
-    assert(authority_root.absolute? && authority_root.lstat.directory? && !authority_root.symlink? &&
-           authority_root.realpath == authority_root.cleanpath,
-           "delegated consumed Task authority Evidence root is not physical and canonical")
-    assert(formal_root.absolute? && formal_root.lstat.directory? && !formal_root.symlink? &&
-           formal_root.realpath == formal_root.cleanpath &&
-           formal_root.to_s.start_with?(authority_root.to_s + File::SEPARATOR),
-           "delegated consumed Task formal Evidence is outside its delegated authority root")
-    assert(formal_root.to_s == entry.dig("formal_forensic", "evidence_root"),
-           "delegated consumed Task formal Evidence root binding drift")
-
-    candidate_bytes = evidence_bytes(formal_root, "candidate-result.json",
-                                     "delegated terminal candidate result")
-    candidate_result = parse_json_bytes(candidate_bytes, "delegated terminal candidate result")
-    exact_keys(candidate_result,
-               %w[baseline_runs configuration_id freeze_id replay_runs schema_version target_runs],
-               "delegated terminal candidate result")
-    assert(candidate_result["schema_version"] == "p2-repository-context-candidate-result/v2" &&
-           %w[baseline target replay].all? do |mode|
-             array(candidate_result["#{mode}_runs"], "candidate #{mode} runs").length == 2
-           end,
-           "delegated terminal candidate result run set drift")
-    observer = evidence_json(formal_root, "accepted-observer-receipt.json",
-                             "delegated terminal accepted observer receipt")
-    exact_keys(
-      observer,
-      %w[
-        candidate_sha256 closed_input_inventory closed_input_inventory_sha256 freeze_id
-        observer_id observer_policy_sha256 run_observations schema_version
-      ],
-      "delegated terminal accepted observer receipt"
-    )
-    assert(observer["schema_version"] == "p2-repository-context-observer-receipt/v1" &&
-           observer["candidate_sha256"].to_s.match?(/\A[0-9a-f]{64}\z/) &&
-           array(observer["run_observations"], "formal observer run observations").length == 6,
-           "delegated terminal accepted observer binding drift")
-
-    tasks = %w[P2CTX-VAL-001-CONTEXT-RETRIEVAL P2CTX-VAL-002-TOOL-BOUNDARY]
-    tasks.product(%w[baseline target replay]).each do |task_id, mode|
-      validate_formal_run_transaction!(formal_root, candidate_result, observer, task_id, mode)
-    end
-    tasks.each do |task_id|
-      target = candidate_result["target_runs"].find { |run| run["task_id"] == task_id }
-      replay = candidate_result["replay_runs"].find { |run| run["task_id"] == task_id }
-      assert(target && replay && target["stable_projection_sha256"] == replay["stable_projection_sha256"],
-             "delegated terminal target/replay identity drift for #{task_id}")
-    end
-
-    guardrails = evidence_json(formal_root, "public-prefreeze-guardrails.json",
-                               "delegated terminal public prefreeze guardrails")
-    assert(guardrails["schema_version"] == "p2-057-public-prefreeze-guardrails/v1" &&
-           guardrails["status"] == "PASS" && guardrails["failed_guardrails"] == [],
-           "delegated terminal public prefreeze guardrails drift")
-    controls = evidence_json(formal_root, "controls/sandbox-negative-controls.json",
-                             "delegated terminal sandbox negative controls")
-    assert(controls["schema_version"] == "p2-057-quality-sandbox-negative-controls/v1" &&
-           controls["status"] == "PASS" && controls["negative_cases"] == 3 &&
-           controls["false_accepts"] == 0,
-           "delegated terminal sandbox negative controls drift")
-    socket = evidence_json(formal_root, "controls/socket-denial.json",
-                           "delegated terminal socket denial control")
-    assert(socket["schema_version"] == "p2-057-quality-socket-denial-control/v1" &&
-           socket["status"] == "PASS_DENIED" && socket["exit_status"] != 0,
-           "delegated terminal socket denial control drift")
-    process = evidence_json(formal_root, "controls/process-isolation.json",
-                            "delegated terminal process isolation control")
-    assert(process["schema_version"] == "p2-057-quality-process-isolation-control/v1" &&
-           process["status"] == "PASS_UNRELATED_PROCESS_COMMAND_NOT_RETAINED" &&
-           process["canary_retained_in_evidence"] == false && process["sample_count"].to_i.positive?,
-           "delegated terminal process isolation control drift")
-    formal
-  rescue Errno::ENOENT, Errno::ELOOP, Errno::ENOTDIR => e
-    fail!("delegated consumed Task formal Evidence topology is unavailable (#{e.class})")
   end
 
   def validate_policy!(root, truth)
@@ -966,162 +575,6 @@ module FounderDelegationContinuity
     source
   end
 
-  def delegated_active_anchor!(root, task_id)
-    first_truth_anchor!(root, task_id, "delegated consumed Task ACTIVE lifecycle") do |candidate|
-      route = candidate["current_phase_route"]
-      route.is_a?(Hash) && route["schema_version"] == DELEGATED_TASK_ROUTE_SCHEMA &&
-        route.dig("selected_task", "task_id") == task_id &&
-        route.dig("selected_task", "status") == "ACTIVE" &&
-        candidate.dig("active_work", "current_task") == task_id &&
-        candidate.dig("active_work", "current_task_status") == "ACTIVE"
-    end
-  end
-
-  def validate_terminal_contract_static_fields!(active_contract, terminal_contract)
-    assert(active_contract["status"] == "ACTIVE" && !active_contract.key?("terminal_outcome"),
-           "delegated consumed Task ACTIVE Contract lifecycle drift")
-    ignored = %w[status terminal_outcome]
-    assert(active_contract.reject { |key, _value| ignored.include?(key) } ==
-           terminal_contract.reject { |key, _value| ignored.include?(key) },
-           "delegated consumed Task terminal Contract static fields drift from first ACTIVE anchor")
-  end
-
-  def validate_delegated_terminal_ledger_entry!(root, entry, source_route, phase,
-                                                 claimed_capacity_sources)
-    assert(entry["status"].to_s.start_with?("TERMINAL_") &&
-           entry["status"].to_s.include?("NON_PASS"),
-           "delegated consumed Task must be terminal NON_PASS")
-    assert(entry["capability_credit"] == 0,
-           "delegated consumed Task may record only zero capability credit")
-
-    capacity_source_id = entry["capacity_source_task_id"]
-    capacity_source = source_capacity_task!(source_route, capacity_source_id)
-    assert(!capacity_source["status"].to_s.start_with?("TERMINAL_") &&
-           !capacity_source["status"].to_s.include?("ACCEPTED"),
-           "delegated consumed Task capacity source was already consumed by its source Route")
-    assert(!claimed_capacity_sources.include?(capacity_source_id),
-           "delegated consumed Task capacity source is consumed more than once")
-    claimed_capacity_sources << capacity_source_id
-
-    budget = exact_keys(
-      entry["budget"],
-      %w[engineering_tasks engineering_hours calendar_days],
-      "delegated consumed Task budget"
-    )
-    assert(budget == {
-      "engineering_tasks" => 1,
-      "engineering_hours" => capacity_source["engineering_hours"],
-      "calendar_days" => capacity_source["calendar_days"]
-    }, "delegated consumed Task budget does not exactly consume its source capacity slot")
-
-    anchor_commit, anchor_truth = delegated_active_anchor!(root, entry["task_id"])
-    anchor_route = mapping(anchor_truth["current_phase_route"], "delegated active anchor Route")
-    anchor_task = mapping(anchor_route["selected_task"], "delegated active anchor Task")
-    anchor_active = mapping(anchor_truth["active_work"], "delegated active anchor active_work")
-    anchor_reservation = mapping(anchor_truth.dig("phase_execution_envelope", "reserved"),
-                                 "delegated active anchor reservation")
-    binding = exact_keys(
-      entry["activation_binding"],
-      %w[first_active_anchor_commit contract authority task_branch task_worktree evidence_root],
-      "delegated consumed Task activation binding"
-    )
-    assert(binding["first_active_anchor_commit"] == anchor_commit,
-           "delegated consumed Task first ACTIVE anchor commit drift")
-    assert(anchor_route["route_id"] == entry["route_id"] &&
-           anchor_task["task_id"] == entry["task_id"] &&
-           anchor_task["capacity_source_task_id"] == capacity_source_id &&
-           anchor_reservation["capacity_source_task_id"] == capacity_source_id,
-           "delegated consumed Task ACTIVE anchor capacity or Route binding drift")
-    assert(binding["contract"] == anchor_task["contract"] &&
-           binding["contract"] == anchor_active["current_task_contract"],
-           "delegated consumed Task ACTIVE Contract binding drift")
-    assert(binding["authority"] == anchor_reservation["authority"] &&
-           binding["authority"] == anchor_active["authority_record"],
-           "delegated consumed Task ACTIVE authority binding drift")
-    authority = parse_bound_json(
-      binding["authority"],
-      "delegated consumed Task ACTIVE authority"
-    )
-    exact_keys(
-      authority,
-      %w[
-        schema_version record_type task_id phase route_id status authorization_id
-        task_contract_sha256 execution_nonce activation_parent branch worktree evidence_root
-        capacity_source_task_id budget max_same_task_repairs roles allowlisted_paths
-        external_effects goal_identity phase_delegation_binding founder_reserved_authorization
-        founder_reserved_profile
-      ],
-      "delegated consumed Task ACTIVE authority"
-    )
-    assert(authority["schema_version"] == "1.0" &&
-           authority["record_type"] == "aios_phase_delegated_independent_task_authority" &&
-           authority["task_id"] == entry["task_id"] && authority["phase"] == phase &&
-           authority["route_id"] == entry["route_id"] && authority["status"] == "ACTIVE" &&
-           authority["branch"] == binding["task_branch"] &&
-           authority["worktree"] == binding["task_worktree"] &&
-           authority["evidence_root"] == binding["evidence_root"] &&
-           authority["capacity_source_task_id"] == capacity_source_id &&
-           authority["external_effects"] == FALSE_EXTERNAL_EFFECTS,
-           "delegated consumed Task ACTIVE authority semantic binding drift")
-    assert(binding["task_branch"] == anchor_active["task_branch"] &&
-           binding["task_worktree"] == anchor_active["task_worktree"] &&
-           binding["evidence_root"] == anchor_active["execution_evidence_root"],
-           "delegated consumed Task ACTIVE branch/worktree/Evidence binding drift")
-
-    active_contract_bytes = repo_identity_bytes_at_commit(
-      root,
-      anchor_commit,
-      binding["contract"],
-      "delegated consumed Task ACTIVE Contract"
-    )
-    active_contract = parse_yaml_bytes(
-      active_contract_bytes,
-      "delegated consumed Task ACTIVE Contract"
-    )
-    contract_bytes = repo_identity_bytes(root, entry["contract"],
-                                         "delegated consumed Task terminal Contract")
-    contract = parse_yaml_bytes(contract_bytes, "delegated consumed Task terminal Contract")
-    assert(contract["task_id"] == entry["task_id"] && contract["phase"] == phase &&
-           contract["route_id"] == entry["route_id"] && contract["status"] == entry["status"],
-           "delegated consumed Task terminal Contract lifecycle drift")
-    validate_terminal_contract_static_fields!(active_contract, contract)
-    terminal = exact_keys(
-      contract["terminal_outcome"],
-      %w[accepted_capability_created capability_credit outcome_receipt formal_forensic],
-      "delegated consumed Task Contract terminal outcome"
-    )
-    assert(terminal["accepted_capability_created"] == false && terminal["capability_credit"] == 0 &&
-           terminal["outcome_receipt"] == entry["outcome_receipt"] &&
-           terminal["formal_forensic"] == entry["formal_forensic"],
-           "delegated consumed Task Contract terminal outcome binding drift")
-
-    receipt = parse_bound_json(entry["outcome_receipt"], "delegated consumed Task outcome receipt")
-    receipt_status = receipt["terminal_status"] || receipt["outcome_status"] || receipt["status"]
-    assert(receipt["task_id"] == entry["task_id"] && receipt["route_id"] == entry["route_id"] &&
-           receipt["phase"] == phase && receipt_status == entry["status"],
-           "delegated consumed Task outcome receipt lifecycle drift")
-    assert(receipt["accepted_capability_created"] == false && receipt["capability_credit"] == 0,
-           "delegated consumed Task outcome receipt may not claim capability credit")
-    formal = validate_terminal_receipt_and_formal_evidence!(root, receipt, entry, authority)
-    forensic = exact_keys(
-      entry["formal_forensic"],
-      %w[evidence_root file_count total_bytes canonical_inventory_sha256],
-      "delegated consumed Task formal forensic identity"
-    )
-    snapshot = mapping(formal["postformal_read_only_snapshot"],
-                       "delegated consumed Task formal snapshot")
-    assert(forensic["evidence_root"] == formal["evidence_root"] &&
-           forensic["file_count"] == snapshot["file_count"] &&
-           forensic["total_bytes"] == snapshot["total_bytes"] &&
-           forensic["canonical_inventory_sha256"] == snapshot["canonical_inventory_sha256"],
-           "delegated consumed Task formal forensic identity drift")
-    assert(forensic["file_count"].is_a?(Integer) && forensic["file_count"].positive? &&
-           forensic["total_bytes"].is_a?(Integer) && forensic["total_bytes"].positive? &&
-           forensic["canonical_inventory_sha256"].to_s.match?(/\A[0-9a-f]{64}\z/),
-           "delegated consumed Task formal forensic identity is invalid")
-    validate_closed_formal_inventory!(forensic, "delegated consumed Task formal Evidence")
-  end
-
   def validate_consumed_task_ledger!(root, ledger, source_route, phase, anchored_source_entries)
     entries = array(ledger, "phase execution task ledger")
     ids = entries.map { |entry| mapping(entry, "phase execution task ledger entry")["task_id"] }
@@ -1138,17 +591,10 @@ module FounderDelegationContinuity
     assert((ids & source_ineligible_ids).empty?,
            "phase execution task ledger consumes an ineligible source Route Task")
 
-    claimed_capacity_sources = []
     entries.each_with_index do |value, index|
-      raw_entry = mapping(value, "phase execution task ledger[#{index}]")
-      source_task = source_tasks.find { |task| task["task_id"] == raw_entry["task_id"] }
-      delegated = source_task.nil?
       entry = exact_keys(
-        raw_entry,
-        delegated ? %w[
-          task_id route_id status capacity_source_task_id budget activation_binding contract
-          outcome_receipt formal_forensic capability_credit
-        ] : %w[task_id route_id status budget contract outcome_receipt],
+        value,
+        %w[task_id route_id status budget contract outcome_receipt],
         "phase execution task ledger[#{index}]"
       )
       assert(entry["task_id"].to_s.match?(/\AAIOS-P(?:0|[1-9]|1[0-2])-[0-9]{3}_[A-Z0-9_]+\z/),
@@ -1168,17 +614,6 @@ module FounderDelegationContinuity
              budget["calendar_days"].is_a?(Integer) && budget["calendar_days"].positive?,
              "phase execution task ledger budget is invalid")
 
-      if delegated
-        validate_delegated_terminal_ledger_entry!(
-          root,
-          entry,
-          source_route,
-          phase,
-          claimed_capacity_sources
-        )
-        next
-      end
-
       contract_bytes = repo_identity_bytes(root, entry["contract"], "phase execution consumed Task Contract")
       contract = parse_yaml_bytes(contract_bytes, "phase execution consumed Task Contract")
       assert(contract["task_id"] == entry["task_id"] && contract["phase"] == phase &&
@@ -1195,6 +630,9 @@ module FounderDelegationContinuity
              receipt_status == entry["status"],
              "phase execution Task outcome receipt lifecycle drift")
 
+      source_task = source_tasks.find { |task| task["task_id"] == entry["task_id"] }
+      assert(source_task,
+             "phase execution ledger only accepts anchored source Route consumed Tasks")
       anchored = array(anchored_source_entries, "anchored source task ledger").find do |item|
         item.is_a?(Hash) && item["task_id"] == entry["task_id"]
       end
@@ -1397,9 +835,6 @@ module FounderDelegationContinuity
     end
 
     limits = mapping(phase_envelope["limits"], "phase execution envelope limits")
-    consumed = mapping(phase_envelope["consumed"], "phase execution envelope consumed")
-    assert(requested_budget.all? { |key, value| value >= consumed.fetch(key) },
-           "Founder reserved trigger requested total budget is below consumed capacity")
     budget_expands = requested_budget.any? do |key, value|
       value > limits.fetch(key)
     end
@@ -1780,83 +1215,6 @@ module FounderDelegationContinuity
            "delegated independent Task requires active P2 Phase execution")
   end
 
-  def validate_delegated_terminal_route_projection!(truth, historical_route, phase_envelope, control)
-    route = exact_keys(
-      historical_route,
-      %w[
-        schema_version route_id status execution_status scheduling_status phase phase_entry_status
-        task_id capacity_source_task_id contract outcome_receipt formal_forensic
-        accepted_capability_created capability_credit inherited_worktree_inventory
-      ],
-      "historical delegated terminal Route"
-    )
-    assert(route["schema_version"] == DELEGATED_TASK_ROUTE_SCHEMA &&
-           route["status"].to_s.start_with?("TERMINAL_") &&
-           route["status"].to_s.include?("NON_PASS") &&
-           route["execution_status"] == route["status"] &&
-           route["accepted_capability_created"] == false && route["capability_credit"] == 0,
-           "historical delegated terminal Route lifecycle or capability drift")
-    entries = array(phase_envelope["task_ledger"], "phase execution task ledger").select do |entry|
-      entry.is_a?(Hash) && entry["task_id"] == route["task_id"]
-    end
-    assert(entries.length == 1, "historical delegated terminal Route ledger binding is missing or ambiguous")
-    entry = entries.first
-    assert(route["route_id"] == entry["route_id"] && route["status"] == entry["status"] &&
-           route["capacity_source_task_id"] == entry["capacity_source_task_id"] &&
-           route["contract"] == entry["contract"] &&
-           route["outcome_receipt"] == entry["outcome_receipt"] &&
-           route["formal_forensic"] == entry["formal_forensic"] &&
-           route["capability_credit"] == entry["capability_credit"],
-           "historical delegated terminal Route drifts from validated terminal ledger")
-    receipt = parse_bound_json(entry["outcome_receipt"], "historical delegated terminal receipt")
-    candidate = exact_keys(
-      receipt["candidate"],
-      %w[commit tree parent_commit tracked_binary_diff_sha256 integrated],
-      "historical delegated terminal candidate"
-    )
-    inherited = array(route["inherited_worktree_inventory"],
-                      "historical delegated terminal worktree inventory")
-    assert(inherited.length == 1, "historical delegated terminal worktree inventory is not unique")
-    worktree = exact_keys(inherited.first, %w[path head branch status],
-                          "historical delegated terminal worktree")
-    binding = entry["activation_binding"]
-    assert(worktree["path"] == binding["task_worktree"] &&
-           worktree["branch"] == binding["task_branch"] &&
-           worktree["head"] == candidate["commit"] &&
-           worktree["status"] == "INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT",
-           "historical delegated terminal worktree projection drift")
-
-    claim = mapping(truth["claim_boundary"], "claim_boundary")
-    task_match = route["task_id"].to_s.match(/\AAIOS-(P(?:0|[1-9]|1[0-2]))-([0-9]{3})_/)
-    assert(task_match, "historical delegated terminal Task id cannot project claim boundary")
-    prefix = "#{task_match[1].downcase}_#{task_match[2]}"
-    expected = {
-      "current_phase_route" => truth.dig("current_phase_route", "route_id"),
-      "current_task" => truth.dig("active_work", "current_task"),
-      "next_eligible_action" => truth.dig("active_work", "next_eligible_action"),
-      "#{prefix}_status" => entry["status"],
-      "#{prefix}_terminal_receipt_sha256" => entry.dig("outcome_receipt", "sha256"),
-      "#{prefix}_formal_inventory_sha256" =>
-        entry.dig("formal_forensic", "canonical_inventory_sha256"),
-      "#{prefix}_capability_credit" => entry["capability_credit"],
-      "#{task_match[1].downcase}_phase_envelope_status" => phase_envelope["status"],
-      "#{task_match[1].downcase}_phase_envelope_consumed_tasks" =>
-        phase_envelope.dig("consumed", "engineering_tasks"),
-      "#{task_match[1].downcase}_phase_envelope_consumed_engineering_hours" =>
-        phase_envelope.dig("consumed", "engineering_hours"),
-      "#{task_match[1].downcase}_phase_envelope_consumed_calendar_days" =>
-        phase_envelope.dig("consumed", "calendar_days"),
-      "founder_reserved_trigger" => control.dig("reserved_trigger", "category")
-    }
-    expected.each do |key, value|
-      assert(claim[key] == value, "claim_boundary terminal projection drift: #{key}")
-    end
-    expected_progress =
-      "P1_COMPLETE_#{task_match[1]}_ZERO_ACCEPTED_CAPABILITY_#{prefix.upcase}_#{entry['status']}"
-    assert(claim["real_engineering_progress"] == expected_progress,
-           "claim_boundary real engineering progress drift")
-  end
-
   def validate_reserved_state!(truth, policy, historical_route_ref, phase_envelope, control)
     project = mapping(truth["project"], "project")
     route = exact_keys(
@@ -1907,15 +1265,6 @@ module FounderDelegationContinuity
            active["phase_route_user_action_required"] == "FOUNDER_RESERVED_DECISION" &&
            active["next_eligible_action"] == "FOUNDER_RESERVED_DECISION",
            "active_work Founder reserved decision projection drift")
-    historical_route = mapping(truth[historical_route_ref], historical_route_ref)
-    if historical_route["schema_version"] == DELEGATED_TASK_ROUTE_SCHEMA
-      validate_delegated_terminal_route_projection!(
-        truth,
-        historical_route,
-        phase_envelope,
-        control
-      )
-    end
   end
 
   def validate_non_transition_state!(truth)

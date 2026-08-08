@@ -50,31 +50,6 @@ module PhaseDelegatedAuthorityTest
     )
   end
 
-  def latest_truth_for_route_schema(schema)
-    stdout, stderr, status = Open3.capture3(
-      "git", "log", "--format=%H", "--", TRUTH_RELATIVE,
-      chdir: SOURCE_REPO
-    )
-    assert(status.success?, "cannot enumerate canonical Truth history: #{stderr}")
-    stdout.lines.map(&:strip).reject(&:empty?).each do |commit_id|
-      bytes, _show_stderr, show_status = Open3.capture3(
-        "git", "show", "#{commit_id}:#{TRUTH_RELATIVE}", chdir: SOURCE_REPO
-      )
-      next unless show_status.success?
-      value = YAML.safe_load(
-        bytes,
-        permitted_classes: [],
-        permitted_symbols: [],
-        aliases: false
-      )
-      return value if value.dig("current_phase_route", "schema_version") == schema
-    rescue Psych::Exception
-      next
-    end
-    raise PhaseDelegatedAuthorityTestFailure,
-          "no canonical Truth anchor found for Route schema #{schema}"
-  end
-
   def write_truth(repo, value)
     alias_free = JSON.parse(JSON.generate(value))
     File.binwrite(File.join(repo, TRUTH_RELATIVE), YAML.dump(alias_free))
@@ -461,11 +436,6 @@ module PhaseDelegatedAuthorityTest
       command(repo, "git", "config", "user.email", "phase-delegated-test@local.invalid")
       command(repo, "git", "config", "user.name", "Phase Delegated Authority Test")
       command(repo, "git", "branch", "-M", "main")
-      write_truth(
-        repo,
-        latest_truth_for_route_schema("phase-delegated-continuation-hold/v1")
-      )
-      commit(repo, "test: restore data-driven delegated continuation anchor")
       fixture = make_ready(repo, sandbox)
       assertions += expect_authority(repo, "phase-delegated READY full authority", "READY_NONE")
       assertions += expect_safety(repo, "phase-delegated READY full safety")
@@ -514,7 +484,7 @@ module PhaseDelegatedAuthorityTest
       }
       commit_truth(repo, mutated, "test: self-report delegated terminal ledger entry")
       assertions += expect_nonpass(repo, "phase-delegated terminal ledger self-report",
-                                   /keys are not closed|ledger only accepts anchored source Route consumed Tasks/)
+                                   /ledger only accepts anchored source Route consumed Tasks/)
       FileUtils.rm_f(fake_contract_path)
       commit_truth(repo, active_truth, "test: restore anchored source-only ledger")
 

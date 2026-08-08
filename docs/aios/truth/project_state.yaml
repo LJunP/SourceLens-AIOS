@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-08T04:26:00Z"
-verification_scope: P2_057_PHASE_DELEGATED_READY_SELECTION
+last_verified_at: "2026-08-08T04:31:00Z"
+verification_scope: P2_057_PHASE_DELEGATED_ACTIVE_AUTHORITY
 
 authority:
   founder: Human Founder
@@ -37,22 +37,20 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
+  current_task_authority: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE
   note: >-
-    P2-055 remains TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS after one exact
-    candidate received fresh CTO and Security TARGET NON_PASS. The candidate
-    and formal Evidence remain preserved and unintegrated, Quality review was
-    not completed after the decisive CTO result, canonical make verify was not
-    invoked, P2-056 was not started, and P2 capability credit remains zero.
-    Founder Delegation Policy v1.8 now classifies that result as an ordinary
-    Task lifecycle terminal rather than a Founder Phase Gate: P2 is incomplete,
-    the source Route still has one declared Task slot, 14 engineering hours and
-    4 calendar days of unused offline capacity, no Founder-reserved trigger is
-    present, Current Task is NONE, and Master must select a new independent
-    Phase-local Task without reusing P2-055 lineage or asking Founder for
-    routine approval. No correction, successor or replacement chain was
-    created. All paragraphs below this sentence are retained historical
-    chronology only and have no current Task, Route or scheduling authority.
+    P2-057 is the single active phase-delegated independent Task. It consumes
+    the unused P2-056 capacity slot under Founder Delegation Policy v1.8 and the
+    exact delegation amendment, without a new Founder packet or any numeric or
+    external-effect expansion. Its objective is one clean-room offline
+    graph-to-context value vertical slice built only from accepted canonical P1
+    assets; rejected P2 engineering lineage remains unread and non-reusable.
+    P2 capability credit remains zero until the real Task Gate passes. P2-055
+    remains TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS with its candidate and
+    formal Evidence preserved and unintegrated. No correction, successor or
+    replacement chain was created. All paragraphs below this sentence are
+    retained historical chronology only and have no current Task, Route or
+    scheduling authority.
     P2-053 is
     TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS. Its exact candidate
     produced a real javac-attributed, deterministic two-root Java graph, but
@@ -1410,7 +1408,7 @@ project:
   p2_entry_status: AUTHORIZED
   p2_execution_status: ACTIVE
   phase_execution_status: ACTIVE
-  current_route_execution_status: PHASE_DELEGATED_TASK_READY
+  current_route_execution_status: ACTIVE_PHASE_DELEGATED_TASK
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -6157,9 +6155,9 @@ historical_p1_162_phase_route:
 current_phase_route:
   schema_version: phase-delegated-independent-task/v1
   route_id: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE_PHASE_DELEGATED_ROUTE
-  status: AUTHORIZED_READY
-  execution_status: PHASE_DELEGATED_TASK_READY
-  scheduling_status: READY_FOR_MASTER_ACTIVATION
+  status: ACTIVE
+  execution_status: ACTIVE
+  scheduling_status: ACTIVE_PHASE_DELEGATED_TASK
   phase: P2
   phase_entry_status: AUTHORIZED
   policy:
@@ -6167,13 +6165,13 @@ current_phase_route:
     version: "1.8"
     sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
   founder_phase_route_decision_required: false
-  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
+  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
   phase_execution_envelope_ref: phase_execution_envelope
   source_authority_route_ref: historical_p2_055_phase_route
   preceding_terminal_route_ref: historical_p2_055_phase_route
   selected_task:
     task_id: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE
-    status: ELIGIBLE_NOT_ACTIVATED
+    status: ACTIVE
     task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
     capability: REPRODUCIBLE_CONTEXT_BENCHMARK
     objective: >-
@@ -6189,8 +6187,8 @@ current_phase_route:
     max_same_task_repairs: 3
     contract:
       path: docs/aios/tasks/P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE.yaml
-      sha256: b475682f69407439067854872832884fa97d6ec26bbb14859f0499fa709a22a2
-      byte_length: 6142
+      sha256: 6dcc8f33362d536a1c427e9a9e92d136533b594548c37986ce166bb0f1b8d640
+      byte_length: 6110
     independence:
       new_task_id: true
       new_execution_nonce: true
@@ -6411,7 +6409,7 @@ phase_execution_envelope:
   reserved:
     task_id: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE
     route_id: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE_PHASE_DELEGATED_ROUTE
-    status: ELIGIBLE_NOT_ACTIVATED
+    status: ACTIVE
     capacity_source_task_id: AIOS-P2-056_ACCEPTED_GRAPH_CONTEXT_VALUE_OFFLINE_BENCHMARK
     budget:
       engineering_tasks: 1
@@ -6419,9 +6417,12 @@ phase_execution_envelope:
       calendar_days: 4
     contract:
       path: docs/aios/tasks/P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE.yaml
-      sha256: b475682f69407439067854872832884fa97d6ec26bbb14859f0499fa709a22a2
-      byte_length: 6142
-    authority: null
+      sha256: 6dcc8f33362d536a1c427e9a9e92d136533b594548c37986ce166bb0f1b8d640
+      byte_length: 6110
+    authority:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-phase-delegated-context-value-20260808/task-p2-057/authority/P2_057_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
+      sha256: f1288b6f128b87cbfc788ec6aef91f3e98163171306ac45650448af0401f817c
+      byte_length: 4733
   remaining:
     engineering_tasks: 0
     engineering_hours: 0
@@ -16254,38 +16255,44 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE
+  current_task_status: ACTIVE
   current_task_contract:
     path: docs/aios/tasks/P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE.yaml
-    sha256: b475682f69407439067854872832884fa97d6ec26bbb14859f0499fa709a22a2
-    byte_length: 6142
-  current_task_contract_sha256: b475682f69407439067854872832884fa97d6ec26bbb14859f0499fa709a22a2
-  current_execution_authorization: null
-  current_execution_authorization_sha256: null
+    sha256: 6dcc8f33362d536a1c427e9a9e92d136533b594548c37986ce166bb0f1b8d640
+    byte_length: 6110
+  current_task_contract_sha256: 6dcc8f33362d536a1c427e9a9e92d136533b594548c37986ce166bb0f1b8d640
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-phase-delegated-context-value-20260808/task-p2-057/authority/P2_057_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
+  current_execution_authorization_sha256: f1288b6f128b87cbfc788ec6aef91f3e98163171306ac45650448af0401f817c
   authority_record:
-    path: null
-    sha256: null
-    byte_length: null
-  execution_nonce: null
-  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
-  authorization_id: null
-  activation_parent_commit: null
-  activation_parent_tree: null
-  task_resource_state: NOT_CREATED_PHASE_DELEGATED_TASK_READY
-  task_branch: null
-  task_worktree: null
-  execution_evidence_root: null
-  allowlisted_paths: []
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-phase-delegated-context-value-20260808/task-p2-057/authority/P2_057_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
+    sha256: f1288b6f128b87cbfc788ec6aef91f3e98163171306ac45650448af0401f817c
+    byte_length: 4733
+  execution_nonce: 159d73986710b39d8e9e574e7ac0ac95904a5776feba5d05
+  execution_nonce_status: ACTIVE
+  authorization_id: P2-057-PHASE-DELEGATED-AUTHORITY-V1-20260808
+  activation_parent_commit: 677bb9fe6ceba07c08b3e3e9433cd87827f15aa7
+  activation_parent_tree: 4382f2824d470f0227a38756ef5f56c3d955077c
+  task_resource_state: ACTIVE_UNIQUE_PHASE_DELEGATED
+  task_branch: codex/p2-057-phase-delegated-context
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-057-phase-delegated-context
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-phase-delegated-context-value-20260808/task-p2-057
+  allowlisted_paths:
+    - evaluation-harness/harness/p2-phase-delegated-context
+    - evaluation-harness/evaluator/p2-phase-delegated-context
+    - evaluation-harness/reports/p2-phase-delegated-context
   budget:
-    engineering_hours: null
-    calendar_days: null
-    implementation_iterations: null
-    candidates: null
+    engineering_hours: 14
+    calendar_days: 4
+    implementation_iterations: 4
+    candidates: 1
   roles:
-    owner: null
-    worker: null
-    independent_reviewers: []
+    owner: P2 Phase Delegated Master
+    worker: P2 Context Value Worker
+    independent_reviewers:
+      - P2 Context Value CTO Reviewer
+      - P2 Context Value Security Reviewer
+      - P2 Context Value Quality Reviewer
   external_effects:
     network: false
     provider: false
@@ -16302,7 +16309,7 @@ active_work:
   user_action_required: NONE
   phase_route_decision_required: false
   phase_route_user_action_required: NONE
-  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
+  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
 
 historical_p2_055_terminal_active_work:
   current_task: AIOS-P2-055_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_GRAPH_KERNEL
@@ -22336,9 +22343,9 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: P2_057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE_READY
-  current_task_claim: NONE_READY_FOR_MASTER_ACTIVATION
-  real_engineering_progress: P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_P2_057_SELECTED_CAPACITY_RESERVED_NOT_YET_ACTIVE
+  current_route_claim: P2_057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE_ACTIVE
+  current_task_claim: AIOS_P2_057_ACTIVE_OFFLINE_GRAPH_TO_CONTEXT_VALUE_VERTICAL_SLICE
+  real_engineering_progress: P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_P2_057_ACTIVE_PHASE_DELEGATED_ENGINEERING
   product_capability_changed: false
   phase_local_allowed:
     - local repository-intelligence engineering under an exact Task Contract
@@ -22420,10 +22427,10 @@ phase_execution_claim:
 
 claim_boundary:
   current_phase_route: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE_PHASE_DELEGATED_ROUTE
-  current_task: NONE
-  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
-  real_engineering_progress: P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_P2_057_SELECTED_CAPACITY_RESERVED_NOT_YET_ACTIVE
-  p2_057_status: ELIGIBLE_NOT_ACTIVATED
+  current_task: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE
+  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
+  real_engineering_progress: P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_P2_057_ACTIVE_PHASE_DELEGATED_ENGINEERING
+  p2_057_status: ACTIVE
   p2_055_status: TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS
   p2_055_candidate_commit: eebb76347ff71a5482b1965e0bf4ac6d4adfa7ca
   p2_055_candidate_tree: f5fb0f22b4a34d4b616214c9bd0bb69b625d2481

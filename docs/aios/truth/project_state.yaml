@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-09T01:12:23+08:00"
-verification_scope: P2_059_PRESEALED_ANTI_LOOP_STOP_TERMINAL_ACCOUNTING_AND_PHASE_ENVELOPE_EXHAUSTION
+last_verified_at: "2026-08-09T01:51:31+08:00"
+verification_scope: P2_059_NONBLOCKING_FOUNDER_KNOWLEDGE_ARTIFACT_CANDIDATE_REGISTRATION
 
 authority:
   founder: Human Founder
@@ -12702,7 +12702,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260809-P2-059-PRESEALED-ANTI-LOOP-TERMINAL-V1
+  latest_event_id: FKS-20260809-P2-059-KNOWLEDGE-CANDIDATE-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -17030,6 +17030,40 @@ founder_knowledge_sync:
         byte_length: null
         sha256: null
       event_sha256: 34e53d4a277d1bf77e569595ea386c69d44cd1bc5d15ec60ac9dc581b4146e51
+    - event_id: FKS-20260809-P2-059-KNOWLEDGE-CANDIDATE-V1
+      trigger_type: LEARNING_ARTIFACT_CANDIDATE_FROZEN
+      occurred_at_utc: "2026-08-08T17:50:35Z"
+      source_commit: 2b22f7d2a789e60d724872a7bd94283f7a093feb
+      source_tree: 0dfcc423ff0cc8d70a013c410bb45efdb2b8f9ab
+      previous_event_sha256: 34e53d4a277d1bf77e569595ea386c69d44cd1bc5d15ec60ac9dc581b4146e51
+      status: PENDING_REVIEW
+      rationale: >-
+        A non-authoritative Founder Learning Artifact candidate was frozen from
+        canonical P2-059 terminal facts. It records the distinction between raw
+        process-creation environment and runtime-observed macOS Node state, the
+        exact-sandbox calibration lesson, and why the adjacent-root anti-loop
+        rule correctly stopped the Task. It embeds no rejected engineering
+        source, private validation oracle, Secret or authorization token and
+        has no Task, Gate, capability or Phase effect. Independent Knowledge
+        Review and any Vault import remain pending and nonblocking.
+      engineering_blocking: false
+      artifact:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-source-bound-observed-context-value-20260808/task-p2-059/knowledge/P2_059_MACOS_NODE_CLOSED_ENVIRONMENT_NORMALIZATION_ANTI_LOOP_LESSON_V1.md
+        byte_length: 6136
+        sha256: be9ee140579109f6daf097c3bceefc5e445227debcaead90fa52bed382291346
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+      event_sha256: a65f24206b8b61efd9165d5c481a6e3df7148128afea03a2581bf7ee0db5f641
 
 historical_active_work_after_p1_079:
   current_task: NONE

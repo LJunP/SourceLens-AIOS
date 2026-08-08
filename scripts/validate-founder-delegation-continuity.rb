@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require "digest"
+require "find"
 require "json"
 require "open3"
 require "pathname"
@@ -235,6 +236,103 @@ module FounderDelegationContinuity
     assert(bytes.bytesize == record["byte_length"], "#{label} byte length mismatch")
     assert(Digest::SHA256.hexdigest(bytes) == record["sha256"], "#{label} SHA-256 mismatch")
     bytes
+  end
+
+  def repo_identity_bytes_at_commit(root, commit, identity, label)
+    record = exact_keys(identity, %w[path byte_length sha256], label)
+    relative = Pathname.new(record["path"].to_s)
+    assert(!relative.absolute?, "#{label} path must be repository-relative")
+    clean = relative.cleanpath
+    assert(clean.to_s == relative.to_s && clean.to_s != "." && !clean.to_s.start_with?("../"),
+           "#{label} path is unsafe")
+    assert(commit.to_s.match?(/\A[0-9a-f]{40}\z/), "#{label} anchor commit is invalid")
+    bytes, stderr, status = Open3.capture3(
+      "git", "show", "#{commit}:#{clean}", chdir: root.to_s
+    )
+    assert(status.success?, "#{label} is absent from its active anchor: #{stderr.strip}")
+    assert(bytes.bytesize == record["byte_length"], "#{label} byte length mismatch")
+    assert(Digest::SHA256.hexdigest(bytes) == record["sha256"], "#{label} SHA-256 mismatch")
+    bytes
+  end
+
+  def recursively_sorted(value)
+    case value
+    when Hash
+      value.keys.sort.to_h { |key| [key, recursively_sorted(value.fetch(key))] }
+    when Array
+      value.map { |item| recursively_sorted(item) }
+    else
+      value
+    end
+  end
+
+  def closed_regular_file_inventory(root_path, label)
+    root = Pathname.new(root_path.to_s)
+    assert(root.absolute?, "#{label} root must be absolute")
+    before_root = root.lstat
+    assert(before_root.directory? && !before_root.symlink?,
+           "#{label} root must be a non-symlink directory")
+    assert(root.realpath == root.cleanpath, "#{label} root resolves through a symlink")
+    entries = []
+    Find.find(root.to_s) do |path_string|
+      next if path_string == root.to_s
+
+      path = Pathname.new(path_string)
+      stat = path.lstat
+      if stat.directory?
+        next
+      end
+      assert(stat.file? && !stat.symlink?, "#{label} contains a non-regular object")
+      assert(stat.nlink == 1, "#{label} contains a hardlinked file")
+      relative = path.relative_path_from(root).to_s
+      utf8_relative = relative.dup.force_encoding("UTF-8")
+      assert(utf8_relative.valid_encoding?, "#{label} contains a non-UTF-8 path")
+      assert(path.realpath.to_s.start_with?(root.to_s + File::SEPARATOR),
+             "#{label} file escapes its root")
+
+      flags = File::RDONLY
+      flags |= File::NOFOLLOW if defined?(File::NOFOLLOW)
+      bytes = nil
+      File.open(path.to_s, flags) do |file|
+        opened = file.stat
+        assert([opened.dev, opened.ino, opened.nlink, opened.size, opened.mtime.to_f] ==
+               [stat.dev, stat.ino, stat.nlink, stat.size, stat.mtime.to_f],
+               "#{label} file identity changed while opening")
+        bytes = file.read
+        after = file.stat
+        assert([after.dev, after.ino, after.nlink, after.size, after.mtime.to_f] ==
+               [opened.dev, opened.ino, opened.nlink, opened.size, opened.mtime.to_f],
+               "#{label} file changed while reading")
+      end
+      final = path.lstat
+      assert([final.dev, final.ino, final.nlink, final.size, final.mtime.to_f] ==
+             [stat.dev, stat.ino, stat.nlink, stat.size, stat.mtime.to_f],
+             "#{label} file changed during inventory")
+      entries << {
+        "path" => utf8_relative,
+        "type" => "REGULAR_FILE",
+        "byte_length" => bytes.bytesize,
+        "sha256" => Digest::SHA256.hexdigest(bytes)
+      }
+    end
+    after_root = root.lstat
+    assert([after_root.dev, after_root.ino] == [before_root.dev, before_root.ino],
+           "#{label} root identity changed during inventory")
+    entries.sort_by { |entry| entry.fetch("path").b }
+  rescue Errno::ENOENT, Errno::ELOOP, Errno::ENOTDIR => e
+    fail!("#{label} is unavailable (#{e.class})")
+  end
+
+  def validate_closed_formal_inventory!(forensic, label)
+    first = closed_regular_file_inventory(forensic["evidence_root"], label)
+    second = closed_regular_file_inventory(forensic["evidence_root"], label)
+    assert(first == second, "#{label} changed between closed inventory passes")
+    canonical = JSON.pretty_generate(recursively_sorted(first)) + "\n"
+    assert(first.length == forensic["file_count"], "#{label} file count mismatch")
+    assert(first.sum { |entry| entry.fetch("byte_length") } == forensic["total_bytes"],
+           "#{label} total bytes mismatch")
+    assert(Digest::SHA256.hexdigest(canonical) == forensic["canonical_inventory_sha256"],
+           "#{label} canonical inventory SHA-256 mismatch")
   end
 
   def validate_identity(identity, label)
@@ -575,6 +673,142 @@ module FounderDelegationContinuity
     source
   end
 
+  def delegated_active_anchor!(root, task_id)
+    first_truth_anchor!(root, task_id, "delegated consumed Task ACTIVE lifecycle") do |candidate|
+      route = candidate["current_phase_route"]
+      route.is_a?(Hash) && route["schema_version"] == DELEGATED_TASK_ROUTE_SCHEMA &&
+        route.dig("selected_task", "task_id") == task_id &&
+        route.dig("selected_task", "status") == "ACTIVE" &&
+        candidate.dig("active_work", "current_task") == task_id &&
+        candidate.dig("active_work", "current_task_status") == "ACTIVE"
+    end
+  end
+
+  def validate_terminal_contract_static_fields!(active_contract, terminal_contract)
+    assert(active_contract["status"] == "ACTIVE" && !active_contract.key?("terminal_outcome"),
+           "delegated consumed Task ACTIVE Contract lifecycle drift")
+    ignored = %w[status terminal_outcome]
+    assert(active_contract.reject { |key, _value| ignored.include?(key) } ==
+           terminal_contract.reject { |key, _value| ignored.include?(key) },
+           "delegated consumed Task terminal Contract static fields drift from first ACTIVE anchor")
+  end
+
+  def validate_delegated_terminal_ledger_entry!(root, entry, source_route, phase,
+                                                 claimed_capacity_sources)
+    assert(entry["status"].to_s.start_with?("TERMINAL_") &&
+           entry["status"].to_s.include?("NON_PASS"),
+           "delegated consumed Task must be terminal NON_PASS")
+    assert(entry["capability_credit"] == 0,
+           "delegated consumed Task may record only zero capability credit")
+
+    capacity_source_id = entry["capacity_source_task_id"]
+    capacity_source = source_capacity_task!(source_route, capacity_source_id)
+    assert(!capacity_source["status"].to_s.start_with?("TERMINAL_") &&
+           !capacity_source["status"].to_s.include?("ACCEPTED"),
+           "delegated consumed Task capacity source was already consumed by its source Route")
+    assert(!claimed_capacity_sources.include?(capacity_source_id),
+           "delegated consumed Task capacity source is consumed more than once")
+    claimed_capacity_sources << capacity_source_id
+
+    budget = exact_keys(
+      entry["budget"],
+      %w[engineering_tasks engineering_hours calendar_days],
+      "delegated consumed Task budget"
+    )
+    assert(budget == {
+      "engineering_tasks" => 1,
+      "engineering_hours" => capacity_source["engineering_hours"],
+      "calendar_days" => capacity_source["calendar_days"]
+    }, "delegated consumed Task budget does not exactly consume its source capacity slot")
+
+    anchor_commit, anchor_truth = delegated_active_anchor!(root, entry["task_id"])
+    anchor_route = mapping(anchor_truth["current_phase_route"], "delegated active anchor Route")
+    anchor_task = mapping(anchor_route["selected_task"], "delegated active anchor Task")
+    anchor_active = mapping(anchor_truth["active_work"], "delegated active anchor active_work")
+    anchor_reservation = mapping(anchor_truth.dig("phase_execution_envelope", "reserved"),
+                                 "delegated active anchor reservation")
+    binding = exact_keys(
+      entry["activation_binding"],
+      %w[first_active_anchor_commit contract authority task_branch task_worktree evidence_root],
+      "delegated consumed Task activation binding"
+    )
+    assert(binding["first_active_anchor_commit"] == anchor_commit,
+           "delegated consumed Task first ACTIVE anchor commit drift")
+    assert(anchor_route["route_id"] == entry["route_id"] &&
+           anchor_task["task_id"] == entry["task_id"] &&
+           anchor_task["capacity_source_task_id"] == capacity_source_id &&
+           anchor_reservation["capacity_source_task_id"] == capacity_source_id,
+           "delegated consumed Task ACTIVE anchor capacity or Route binding drift")
+    assert(binding["contract"] == anchor_task["contract"] &&
+           binding["contract"] == anchor_active["current_task_contract"],
+           "delegated consumed Task ACTIVE Contract binding drift")
+    assert(binding["authority"] == anchor_reservation["authority"] &&
+           binding["authority"] == anchor_active["authority_record"],
+           "delegated consumed Task ACTIVE authority binding drift")
+    validate_identity(binding["authority"], "delegated consumed Task ACTIVE authority")
+    assert(binding["task_branch"] == anchor_active["task_branch"] &&
+           binding["task_worktree"] == anchor_active["task_worktree"] &&
+           binding["evidence_root"] == anchor_active["execution_evidence_root"],
+           "delegated consumed Task ACTIVE branch/worktree/Evidence binding drift")
+
+    active_contract_bytes = repo_identity_bytes_at_commit(
+      root,
+      anchor_commit,
+      binding["contract"],
+      "delegated consumed Task ACTIVE Contract"
+    )
+    active_contract = parse_yaml_bytes(
+      active_contract_bytes,
+      "delegated consumed Task ACTIVE Contract"
+    )
+    contract_bytes = repo_identity_bytes(root, entry["contract"],
+                                         "delegated consumed Task terminal Contract")
+    contract = parse_yaml_bytes(contract_bytes, "delegated consumed Task terminal Contract")
+    assert(contract["task_id"] == entry["task_id"] && contract["phase"] == phase &&
+           contract["route_id"] == entry["route_id"] && contract["status"] == entry["status"],
+           "delegated consumed Task terminal Contract lifecycle drift")
+    validate_terminal_contract_static_fields!(active_contract, contract)
+    terminal = exact_keys(
+      contract["terminal_outcome"],
+      %w[accepted_capability_created capability_credit outcome_receipt formal_forensic],
+      "delegated consumed Task Contract terminal outcome"
+    )
+    assert(terminal["accepted_capability_created"] == false && terminal["capability_credit"] == 0 &&
+           terminal["outcome_receipt"] == entry["outcome_receipt"] &&
+           terminal["formal_forensic"] == entry["formal_forensic"],
+           "delegated consumed Task Contract terminal outcome binding drift")
+
+    receipt = parse_bound_json(entry["outcome_receipt"], "delegated consumed Task outcome receipt")
+    receipt_status = receipt["terminal_status"] || receipt["outcome_status"] || receipt["status"]
+    assert(receipt["task_id"] == entry["task_id"] && receipt["route_id"] == entry["route_id"] &&
+           receipt["phase"] == phase && receipt_status == entry["status"],
+           "delegated consumed Task outcome receipt lifecycle drift")
+    assert(receipt["accepted_capability_created"] == false && receipt["capability_credit"] == 0,
+           "delegated consumed Task outcome receipt may not claim capability credit")
+    formal = mapping(receipt["formal_execution"], "delegated consumed Task formal execution")
+    assert(formal["formal_runs"] == 1 && formal["formal_reruns"] == 0 &&
+           formal["automatic_retries"] == 0 &&
+           formal["external_effects"] == FALSE_EXTERNAL_EFFECTS,
+           "delegated consumed Task formal lifecycle or effects drift")
+    forensic = exact_keys(
+      entry["formal_forensic"],
+      %w[evidence_root file_count total_bytes canonical_inventory_sha256],
+      "delegated consumed Task formal forensic identity"
+    )
+    snapshot = mapping(formal["postformal_read_only_snapshot"],
+                       "delegated consumed Task formal snapshot")
+    assert(forensic["evidence_root"] == formal["evidence_root"] &&
+           forensic["file_count"] == snapshot["file_count"] &&
+           forensic["total_bytes"] == snapshot["total_bytes"] &&
+           forensic["canonical_inventory_sha256"] == snapshot["canonical_inventory_sha256"],
+           "delegated consumed Task formal forensic identity drift")
+    assert(forensic["file_count"].is_a?(Integer) && forensic["file_count"].positive? &&
+           forensic["total_bytes"].is_a?(Integer) && forensic["total_bytes"].positive? &&
+           forensic["canonical_inventory_sha256"].to_s.match?(/\A[0-9a-f]{64}\z/),
+           "delegated consumed Task formal forensic identity is invalid")
+    validate_closed_formal_inventory!(forensic, "delegated consumed Task formal Evidence")
+  end
+
   def validate_consumed_task_ledger!(root, ledger, source_route, phase, anchored_source_entries)
     entries = array(ledger, "phase execution task ledger")
     ids = entries.map { |entry| mapping(entry, "phase execution task ledger entry")["task_id"] }
@@ -591,10 +825,17 @@ module FounderDelegationContinuity
     assert((ids & source_ineligible_ids).empty?,
            "phase execution task ledger consumes an ineligible source Route Task")
 
+    claimed_capacity_sources = []
     entries.each_with_index do |value, index|
+      raw_entry = mapping(value, "phase execution task ledger[#{index}]")
+      source_task = source_tasks.find { |task| task["task_id"] == raw_entry["task_id"] }
+      delegated = source_task.nil?
       entry = exact_keys(
-        value,
-        %w[task_id route_id status budget contract outcome_receipt],
+        raw_entry,
+        delegated ? %w[
+          task_id route_id status capacity_source_task_id budget activation_binding contract
+          outcome_receipt formal_forensic capability_credit
+        ] : %w[task_id route_id status budget contract outcome_receipt],
         "phase execution task ledger[#{index}]"
       )
       assert(entry["task_id"].to_s.match?(/\AAIOS-P(?:0|[1-9]|1[0-2])-[0-9]{3}_[A-Z0-9_]+\z/),
@@ -614,6 +855,17 @@ module FounderDelegationContinuity
              budget["calendar_days"].is_a?(Integer) && budget["calendar_days"].positive?,
              "phase execution task ledger budget is invalid")
 
+      if delegated
+        validate_delegated_terminal_ledger_entry!(
+          root,
+          entry,
+          source_route,
+          phase,
+          claimed_capacity_sources
+        )
+        next
+      end
+
       contract_bytes = repo_identity_bytes(root, entry["contract"], "phase execution consumed Task Contract")
       contract = parse_yaml_bytes(contract_bytes, "phase execution consumed Task Contract")
       assert(contract["task_id"] == entry["task_id"] && contract["phase"] == phase &&
@@ -630,9 +882,6 @@ module FounderDelegationContinuity
              receipt_status == entry["status"],
              "phase execution Task outcome receipt lifecycle drift")
 
-      source_task = source_tasks.find { |task| task["task_id"] == entry["task_id"] }
-      assert(source_task,
-             "phase execution ledger only accepts anchored source Route consumed Tasks")
       anchored = array(anchored_source_entries, "anchored source task ledger").find do |item|
         item.is_a?(Hash) && item["task_id"] == entry["task_id"]
       end
@@ -835,6 +1084,9 @@ module FounderDelegationContinuity
     end
 
     limits = mapping(phase_envelope["limits"], "phase execution envelope limits")
+    consumed = mapping(phase_envelope["consumed"], "phase execution envelope consumed")
+    assert(requested_budget.all? { |key, value| value >= consumed.fetch(key) },
+           "Founder reserved trigger requested total budget is below consumed capacity")
     budget_expands = requested_budget.any? do |key, value|
       value > limits.fetch(key)
     end

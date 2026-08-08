@@ -3,7 +3,7 @@ record_type: aios_phase_delegated_independent_task_contract
 task_id: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE
 phase: P2
 route_id: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE_PHASE_DELEGATED_ROUTE
-status: ACTIVE
+status: TERMINAL_FORMAL_EVALUATOR_INPUT_CONTRACT_NON_PASS
 task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
 capability: REPRODUCIBLE_CONTEXT_BENCHMARK
 objective: >-
@@ -119,3 +119,15 @@ claim_boundary: >-
   One cooperative-local offline repository-context value vertical slice only;
   no P2 Phase completion, production-readiness, UI, model-quality, remote or
   public capability claim follows from this Task alone.
+terminal_outcome:
+  accepted_capability_created: false
+  capability_credit: 0
+  outcome_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-phase-delegated-context-value-20260808/task-p2-057/terminal/P2_057_TERMINAL_FORMAL_EVALUATOR_INPUT_CONTRACT_NON_PASS_RECEIPT.json
+    byte_length: 4209
+    sha256: a2598001e83dd71c5730eec2c2f2c4277a4fab1594923c152bc94e57172e4b6f
+  formal_forensic:
+    evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-phase-delegated-context-value-20260808/task-p2-057/evidence/sealed-formal-v1
+    file_count: 829
+    total_bytes: 14798623
+    canonical_inventory_sha256: 7d1e82b3255dc5f42743b0568f8d47cbacbbe95d01c2f0db0651ea47da175583

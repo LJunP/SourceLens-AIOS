@@ -16018,7 +16018,7 @@ founder_knowledge_sync:
       source_commit: ef823fc089340c1084ab06d378079f703a4da140
       source_tree: 638052d070781af504d4403d0251e1c23bf9610f
       previous_event_sha256: e1d2a1817cddcf4f6e5fd7c62d6e3ef54726e9d3ec7e98e886db010935faa932
-      status: PENDING_REVIEW
+      status: IMPORTED
       rationale: >-
         P2-055 stopped after fresh CTO and Security TARGET NON_PASS. The exact
         candidate and formal Evidence are preserved but unintegrated; P2-056
@@ -16031,18 +16031,18 @@ founder_knowledge_sync:
         byte_length: 2779
         sha256: acc5a0c6d804006a645a8f511314708e95bdc09102958c9dfa40c32383103aca
       review:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-attested-raw-compiler-closed-edge-context-20260808/task-1-p2-055/knowledge/P2_055_KNOWLEDGE_REVIEW_V1.json
+        byte_length: 3972
+        sha256: c3377856248b2effb791a1f849c02987d187aa8b2cac3fa1ebb1442dab2cf734
       vault_import:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/05-Failures-and-Lessons/AIOS-P2-055/2026-08-08-P2-055-accepted-scanner-authority-and-effect-observation-lesson.md
+        byte_length: 2779
+        sha256: acc5a0c6d804006a645a8f511314708e95bdc09102958c9dfa40c32383103aca
       receipt:
-        path: null
-        byte_length: null
-        sha256: null
-      event_sha256: 3d9c2dbca5216c07e15457074419b9a4947d9d5313888d8588e827f6e0709ee3
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-attested-raw-compiler-closed-edge-context-20260808/task-1-p2-055/knowledge/P2_055_TERMINAL_KNOWLEDGE_IMPORT_RECEIPT_V1.json
+        byte_length: 1598
+        sha256: 650de01369f13cce86d979f84e280d81a4c764be9eac6b011bacc60e0655b264
+      event_sha256: 9147935f666a9fa685a64933f8ec0ddd57d49d0183ce88bf5054f2055d35f954
 
 historical_active_work_after_p1_079:
   current_task: NONE

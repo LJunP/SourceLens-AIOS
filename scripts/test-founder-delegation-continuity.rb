@@ -88,8 +88,8 @@ base["phase_boundary"] = deep_copy(current_truth.fetch("phase_boundary"))
 Dir.mktmpdir("founder-delegation-continuity-") do |fixtures|
   assertions = 0
 
-  expect_pass(fixtures, "current-active-phase-delegated-task", current_truth,
-              "NO_RESERVED_TRIGGER_CONTINUE_PHASE")
+  expect_pass(fixtures, "current-presealed-terminal-envelope-exhausted", current_truth,
+              "FOUNDER_DECISION_REQUIRED")
   assertions += 1
 
   truth = deep_copy(current_truth)

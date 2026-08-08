@@ -703,6 +703,129 @@ module FounderDelegationContinuity
            outcome["canonical_make_verify"].to_s.start_with?("NOT_INVOKED"),
            "predeclared terminal Task cannot create capability, integration or verification credit")
 
+    if receipt["schema_version"] == "phase-delegated-presealed-stop-terminal-receipt/v1"
+      exact_keys(
+        receipt,
+        %w[
+          schema_version task_id route_id status recorded_at activation_parent
+          canonical_before_terminal_sync stop_condition quality_freeze
+          public_dev_prevalidation official_dev_execution candidate sealed_validation
+          final_reviews preservation capability_credit canonical_make_verify next_action
+          forbidden_continuations authorization_effects
+        ],
+        "phase-delegated presealed stop terminal receipt"
+      )
+      candidate = exact_keys(
+        receipt["candidate"],
+        %w[created commit tree source_manifest_created integrated],
+        "phase-delegated presealed stop candidate"
+      )
+      assert(candidate == {
+               "created" => false,
+               "commit" => nil,
+               "tree" => nil,
+               "source_manifest_created" => false,
+               "integrated" => false
+             },
+             "phase-delegated presealed stop cannot claim a candidate")
+      assert(outcome["candidate_commit"].nil? && outcome["candidate_tree"].nil? &&
+             outcome["sealed_formal_value_result"] == "NOT_STARTED_PRESEALED_STOP_CONDITION",
+             "phase-delegated presealed stop candidate or sealed projection drift")
+
+      stop = exact_keys(
+        receipt["stop_condition"],
+        %w[kind normalized_root_cause attempts same_task_repairs_consumed additional_repairs_forbidden_by_anti_loop],
+        "phase-delegated presealed stop condition"
+      )
+      attempts = array(stop["attempts"], "phase-delegated presealed stop attempts")
+      assert(stop["kind"] == "ADJACENT_NORMALIZED_ROOT_CAUSE_REPEAT" &&
+             stop["normalized_root_cause"].is_a?(String) &&
+             !stop["normalized_root_cause"].empty? && attempts.length == 2 &&
+             stop["same_task_repairs_consumed"].is_a?(Integer) &&
+             stop["same_task_repairs_consumed"].positive? &&
+             stop["additional_repairs_forbidden_by_anti_loop"] == true,
+             "phase-delegated presealed anti-loop stop condition drift")
+      attempts.each_with_index do |attempt, index|
+        expected_attempt_keys = %w[
+          attempt status reason_code raw_execve_environment
+          worker_stderr_byte_length worker_stderr_sha256
+          observer_raw_byte_length observer_raw_sha256
+        ]
+        expected_attempt_keys << "observed_value" if index == 1
+        attempt = exact_keys(
+          attempt, expected_attempt_keys,
+          "phase-delegated presealed stop attempt"
+        )
+        assert(attempt["status"] == "NON_PASS" &&
+               attempt["reason_code"].is_a?(String) && !attempt["reason_code"].empty? &&
+               attempt["raw_execve_environment"] == "EXACT_FROZEN_FOUR_KEYS" &&
+               attempt["worker_stderr_byte_length"].is_a?(Integer) &&
+               attempt["worker_stderr_byte_length"].positive? &&
+               attempt["worker_stderr_sha256"].to_s.match?(/\A[0-9a-f]{64}\z/) &&
+               attempt["observer_raw_byte_length"].is_a?(Integer) &&
+               attempt["observer_raw_byte_length"].positive? &&
+               attempt["observer_raw_sha256"].to_s.match?(/\A[0-9a-f]{64}\z/),
+               "phase-delegated presealed stop attempt is not a real fail-closed result")
+      end
+
+      official = exact_keys(
+        receipt["official_dev_execution"],
+        %w[runs evidence_root evidence_root_status external_effects_claim],
+        "phase-delegated presealed official DEV execution"
+      )
+      assert(official["runs"] == 0 && official["evidence_root_status"] == "ABSENT" &&
+             official["external_effects_claim"] == "NOT_MADE_OFFICIAL_TRANSACTION_ABSENT" &&
+             Pathname.new(official["evidence_root"]).absolute? &&
+             !File.exist?(official["evidence_root"]) && !File.symlink?(official["evidence_root"]),
+             "phase-delegated presealed stop must precede official DEV Evidence")
+      sealed = exact_keys(
+        receipt["sealed_validation"],
+        %w[started runs reruns result],
+        "phase-delegated presealed sealed validation"
+      )
+      assert(sealed == { "started" => false, "runs" => 0, "reruns" => 0,
+                         "result" => "NOT_AVAILABLE" },
+             "phase-delegated presealed stop cannot claim sealed execution")
+
+      reviews = exact_keys(receipt["final_reviews"], %w[cto security quality],
+                           "phase-delegated presealed final reviews")
+      assert(outcome["cto_review"] == reviews["cto"] &&
+             outcome["security_review"] == reviews["security"] &&
+             outcome["quality_review"] == reviews["quality"] &&
+             reviews.values.all? { |value| value == "NOT_STARTED_CANDIDATE_ABSENT" },
+             "phase-delegated presealed stop Review projection drift")
+      preservation = exact_keys(
+        receipt["preservation"],
+        %w[
+          rejected_engineering_snapshot rejected_engineering_file_manifest
+          temp_runtime_failure_snapshot temp_runtime_failure_file_manifest
+          reuse_as_engineering_input
+        ],
+        "phase-delegated presealed preservation"
+      )
+      preservation.reject { |key, _value| key == "reuse_as_engineering_input" }.each do |key, identity|
+        validate_identity(
+          exact_keys(identity, %w[path byte_length sha256],
+                     "phase-delegated presealed preservation #{key}"),
+          "phase-delegated presealed preservation #{key}"
+        )
+      end
+      assert(preservation["reuse_as_engineering_input"] == false &&
+             receipt["capability_credit"] == 0 &&
+             receipt["canonical_make_verify"].to_s.start_with?("NOT_INVOKED") &&
+             receipt["next_action"] == "FOUNDER_RESERVED_DECISION_PHASE_ENVELOPE_EXHAUSTED" &&
+             array(receipt["forbidden_continuations"],
+                   "phase-delegated presealed forbidden continuations").sort ==
+               %w[
+                 CANDIDATE_FREEZE CLOSURE CORRECTION FEASIBILITY NORMALIZATION
+                 OFFICIAL_DEV_EXECUTION REMEDIATION REPLACEMENT RUN_4
+                 SEALED_VALIDATION SECOND_ENVIRONMENT_CONTRACT_REPAIR SUCCESSOR
+               ].sort &&
+             receipt["authorization_effects"] == FALSE_EXTERNAL_EFFECTS,
+             "phase-delegated presealed stop claim boundary drift")
+      return
+    end
+
     candidate = exact_keys(
       receipt["candidate"],
       %w[commit tree source_manifest integrated],

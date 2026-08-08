@@ -6204,8 +6204,8 @@ current_phase_route:
     max_same_task_repairs: 3
     contract:
       path: docs/aios/tasks/P2-060_JAVA_RUNTIME_OBSERVED_CONTEXT_VALUE_BENCHMARK.yaml
-      sha256: 55b7bfbf096308778768098d5798cf6db74a0adb220285b7babdcb6b8151731c
-      byte_length: 9331
+      sha256: 6a9b2f1a55b0cdcf1298979de79d15339f2ef500ba0f63f4c81d0cbfb2785491
+      byte_length: 9348
     independence:
       new_task_id: true
       new_execution_nonce: true
@@ -7234,12 +7234,12 @@ phase_execution_envelope:
       calendar_days: 6
     contract:
       path: docs/aios/tasks/P2-060_JAVA_RUNTIME_OBSERVED_CONTEXT_VALUE_BENCHMARK.yaml
-      sha256: 55b7bfbf096308778768098d5798cf6db74a0adb220285b7babdcb6b8151731c
-      byte_length: 9331
+      sha256: 6a9b2f1a55b0cdcf1298979de79d15339f2ef500ba0f63f4c81d0cbfb2785491
+      byte_length: 9348
     authority:
       path: "/Users/lijunpeng/Developer/.sourcelens-audit/p2-java-runtime-observed-context-value-20260809/task-p2-060/authority/P2_060_PHASE_DELEGATED_TASK_AUTHORITY_V1.json"
-      sha256: 32ab8a152e822ff90edd74673cd6a9d0947f7de7cd86aae07493c089ae54190e
-      byte_length: 4709
+      sha256: 3e56f8369732ef1cf3aa8963d4d521818b2ed0c33172dec47fdc0b5f9f097f56
+      byte_length: 4726
   remaining:
     engineering_tasks: 0
     engineering_hours: 0
@@ -17440,15 +17440,15 @@ active_work:
   current_task_status: ACTIVE
   current_task_contract:
     path: docs/aios/tasks/P2-060_JAVA_RUNTIME_OBSERVED_CONTEXT_VALUE_BENCHMARK.yaml
-    sha256: 55b7bfbf096308778768098d5798cf6db74a0adb220285b7babdcb6b8151731c
-    byte_length: 9331
-  current_task_contract_sha256: 55b7bfbf096308778768098d5798cf6db74a0adb220285b7babdcb6b8151731c
+    sha256: 6a9b2f1a55b0cdcf1298979de79d15339f2ef500ba0f63f4c81d0cbfb2785491
+    byte_length: 9348
+  current_task_contract_sha256: 6a9b2f1a55b0cdcf1298979de79d15339f2ef500ba0f63f4c81d0cbfb2785491
   current_execution_authorization: "/Users/lijunpeng/Developer/.sourcelens-audit/p2-java-runtime-observed-context-value-20260809/task-p2-060/authority/P2_060_PHASE_DELEGATED_TASK_AUTHORITY_V1.json"
-  current_execution_authorization_sha256: 32ab8a152e822ff90edd74673cd6a9d0947f7de7cd86aae07493c089ae54190e
+  current_execution_authorization_sha256: 3e56f8369732ef1cf3aa8963d4d521818b2ed0c33172dec47fdc0b5f9f097f56
   authority_record:
     path: "/Users/lijunpeng/Developer/.sourcelens-audit/p2-java-runtime-observed-context-value-20260809/task-p2-060/authority/P2_060_PHASE_DELEGATED_TASK_AUTHORITY_V1.json"
-    sha256: 32ab8a152e822ff90edd74673cd6a9d0947f7de7cd86aae07493c089ae54190e
-    byte_length: 4709
+    sha256: 3e56f8369732ef1cf3aa8963d4d521818b2ed0c33172dec47fdc0b5f9f097f56
+    byte_length: 4726
   execution_nonce: a07486d5bcf630d761b536e52c8c00e2c4b62ab91f75db84
   execution_nonce_status: ACTIVE
   authorization_id: P2-060-PHASE-DELEGATED-AUTHORITY-V1-20260809

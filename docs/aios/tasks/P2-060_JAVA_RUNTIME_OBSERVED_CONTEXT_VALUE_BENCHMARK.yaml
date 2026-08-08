@@ -1,5 +1,5 @@
 schema_version: "1.0"
-record_type: phase_delegated_task_contract
+record_type: aios_phase_delegated_independent_task_contract
 task_id: AIOS-P2-060_JAVA_RUNTIME_OBSERVED_CONTEXT_VALUE_BENCHMARK
 phase: P2
 route_id: AIOS-P2-060_JAVA_RUNTIME_OBSERVED_CONTEXT_VALUE_BENCHMARK_PHASE_DELEGATED_ROUTE

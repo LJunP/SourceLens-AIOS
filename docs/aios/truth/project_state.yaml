@@ -12453,7 +12453,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260808-P2-058-KNOWLEDGE-CANDIDATE-V1
+  latest_event_id: FKS-20260808-P2-058-KNOWLEDGE-IMPORTED-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -16652,6 +16652,66 @@ founder_knowledge_sync:
         byte_length: null
         sha256: null
       event_sha256: 7fe4659b9b43c42bd9654facf6535dc6f33c23a44faaeaf2e226589aa1893afe
+    - event_id: FKS-20260808-P2-058-KNOWLEDGE-REVIEW-PASS-V1
+      trigger_type: INDEPENDENT_KNOWLEDGE_REVIEW_COMPLETED
+      occurred_at_utc: "2026-08-08T13:57:40Z"
+      source_commit: edd767187767d5b2624d41ad11c1cb5cf22c69dd
+      source_tree: bb6a36394511e2bd39cabcf8fcd6343dbbfeff1a
+      previous_event_sha256: 7fe4659b9b43c42bd9654facf6535dc6f33c23a44faaeaf2e226589aa1893afe
+      status: REVIEWED_PASS_PENDING_IMPORT
+      rationale: >-
+        Fresh independent Knowledge Review verified the exact P2-058 Learning
+        Artifact as factually current, correctly bounded, free of Secret and
+        restricted source content, and useful for Founder learning; only
+        exact-byte non-authoritative Vault import is authorized.
+      engineering_blocking: false
+      artifact:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-dev-first-context-value-20260808/task-p2-058/knowledge/P2_058_FORMAL_SOURCE_BINDING_AND_OBSERVER_LESSON_V1.md
+        byte_length: 5154
+        sha256: 08eb6f0e43222f76b7cc1c72d9180723f619e50de15e1bf2f971194c311e1fea
+      review:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-dev-first-context-value-20260808/task-p2-058/knowledge/P2_058_KNOWLEDGE_REVIEW_V2.json
+        byte_length: 3045
+        sha256: ffee43c2f2ee8b6bff732f05f9dc0edc178d5c425b5523d49a21a6c7c374f75c
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+      event_sha256: 613e5f01246c28bf69ebfb088c0fb589c47265b02ba12de5324f65c3fec40e7f
+    - event_id: FKS-20260808-P2-058-KNOWLEDGE-IMPORTED-V1
+      trigger_type: REVIEWED_LEARNING_ARTIFACT_IMPORTED
+      occurred_at_utc: "2026-08-08T14:01:32Z"
+      source_commit: edd767187767d5b2624d41ad11c1cb5cf22c69dd
+      source_tree: bb6a36394511e2bd39cabcf8fcd6343dbbfeff1a
+      previous_event_sha256: 613e5f01246c28bf69ebfb088c0fb589c47265b02ba12de5324f65c3fec40e7f
+      status: IMPORTED
+      rationale: >-
+        The exact reviewed P2-058 Learning Artifact bytes were imported
+        create-once into the Founder Knowledge Vault with byte equality
+        verified; the import remains non-authoritative, nonblocking and has no
+        Task, Gate or capability effect.
+      engineering_blocking: false
+      artifact:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-dev-first-context-value-20260808/task-p2-058/knowledge/P2_058_FORMAL_SOURCE_BINDING_AND_OBSERVER_LESSON_V1.md
+        byte_length: 5154
+        sha256: 08eb6f0e43222f76b7cc1c72d9180723f619e50de15e1bf2f971194c311e1fea
+      review:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-dev-first-context-value-20260808/task-p2-058/knowledge/P2_058_KNOWLEDGE_REVIEW_V2.json
+        byte_length: 3045
+        sha256: ffee43c2f2ee8b6bff732f05f9dc0edc178d5c425b5523d49a21a6c7c374f75c
+      vault_import:
+        path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/05-Failures-and-Lessons/AIOS-P2-058/2026-08-08-P2-058-formal-source-binding-and-observer-lesson.md
+        byte_length: 5154
+        sha256: 08eb6f0e43222f76b7cc1c72d9180723f619e50de15e1bf2f971194c311e1fea
+      receipt:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-dev-first-context-value-20260808/task-p2-058/knowledge/P2_058_KNOWLEDGE_IMPORT_RECEIPT_V1.json
+        byte_length: 1596
+        sha256: 7c29dc965bd9a83e3a73aca441f98d4a110ee2dd1bcfd7550b54691f1c890d01
+      event_sha256: b2f2a43556f16402956364cf01e04c035e154c635d14c4a05cf4ce044f159941
 
 historical_active_work_after_p1_079:
   current_task: NONE

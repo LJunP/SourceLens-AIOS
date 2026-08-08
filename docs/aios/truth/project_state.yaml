@@ -6209,28 +6209,23 @@ current_phase_route:
   founder_reserved_profile: null
   founder_reserved_profiles: []
   accepted_inputs:
-    p1_116:
-      task_id: AIOS-P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION
-      status: FOUNDER_RESIDUAL_ACCEPTED_SECURITY_CORRECTED_COMPLETE
-      task_contract_path: docs/aios/tasks/P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION.yaml
-      task_contract_sha256: 7322f3d3ad36d1c4fd8e64379d7f6bdee230832ae5a7f332b1eb28d0c489ed5d
-      corrected_candidate_commit: f6c074f5273f9ce4dea53418e54ed4083cb274aa
-      corrected_candidate_tree: c8b80b129ae3b6e048e49b8927864344b17a43cd
-      source_phase: P1
     p1_035:
       task_id: AIOS-P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET
       status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
       task_contract_path: docs/aios/tasks/P1-035_VERSIONED_REPRESENTATIVE_TASK_DATASET.yaml
       task_contract_sha256: acec5432aacd6476693db62bdb52ee326c467f17b691860688fe952f7ffbdc33
+      accepted_candidate_commit: 686eda0cd7a93b72ac5e64301479f17e4b096fb0
+      accepted_candidate_tree: b2740b44d0051303057deac7d719c27fd6a5578a
       source_phase: P1
     p1_219:
       task_id: AIOS-P1-219_DATASET_DERIVED_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION
       status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
       task_contract_path: docs/aios/tasks/P1-219_DATASET_DERIVED_REPORT_BOUND_P2_CONTEXT_PREREGISTRATION.yaml
       task_contract_sha256: 0814e0a5764783da7746c71d6240693ae09936c190d0fcbe0c184125ee2f748d
+      accepted_candidate_commit: 231bf0eca104f66d3a0343b4ff7e3bc00420905e
+      accepted_candidate_tree: 09be4786161a9b9c13716941bd2659d9a084a5c4
       source_phase: P1
   accepted_input_ids:
-    - p1_116
     - p1_035
     - p1_219
   first_task:

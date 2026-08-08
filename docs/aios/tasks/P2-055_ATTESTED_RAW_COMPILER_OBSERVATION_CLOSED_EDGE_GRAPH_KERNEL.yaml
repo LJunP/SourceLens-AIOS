@@ -1,0 +1,195 @@
+schema_version: 2
+record_type: aios_phase_local_task_contract
+task_id: AIOS-P2-055_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_GRAPH_KERNEL
+phase: P2
+route_id: P2_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_ORACLE_AND_CONTEXT_VALUE_ROUTE_V1
+status: ACTIVE
+objective: >-
+  Build one clean-room Java canonical graph kernel whose scanner provenance is
+  bound to the accepted P1 scanner, whose semantic edges are closed against raw
+  compiler-attributed observations, and whose positive and negative transactions
+  are portable and independently replayable from frozen bytes.
+why_now: >-
+  P2 capability progress remains 0%. P2-053 showed that endpoint-label coverage,
+  self-reported effect fields and non-replayed temporary negative fixtures cannot
+  establish truthful Java graph semantics. The shortest falsifiable engineering
+  path is therefore an attested scanner plus a bijective per-edge compiler oracle
+  before any context-value benchmark is allowed to start.
+task_spec_ref: /Users/lijunpeng/Developer/.sourcelens-audit/p2-attested-raw-compiler-closed-edge-context-20260808/decision/FOUNDER_P2_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_ORACLE_AND_CONTEXT_VALUE_ROUTE_V1.structured-decision.json
+owner_role: P2-055 Engineering Manager
+worker_role: P2-055 Compiler Observation Graph Worker
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+risk_level: high
+budget:
+  engineering_hours: 26
+  calendar_days: 6
+  implementation_iterations: 4
+  candidates: 1
+roles:
+  owner: P2-055 Engineering Manager
+  worker: P2-055 Compiler Observation Graph Worker
+  independent_reviewers:
+    - P2-055 Fresh CTO Reviewer
+    - P2-055 Fresh Security Reviewer
+    - P2-055 Fresh Quality Reviewer
+allowlisted_paths:
+  - backend-spring/src/main/java/com/sourcelens/module/analysis/graph/attested
+  - backend-spring/src/test/java/com/sourcelens/module/analysis/graph/attested
+  - evaluation-harness/harness/p2-055-attested-compiler-graph
+  - evaluation-harness/replay/p2-055-attested-compiler-graph
+  - evaluation-harness/evaluator/p2-055-attested-compiler-graph
+  - evaluation-harness/reports/p2-055-attested-compiler-graph
+  - scripts/verify-p2-055-attested-compiler-graph.sh
+  - docs/aios/tasks/P2-055_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_GRAPH_KERNEL.yaml
+  - docs/aios/truth/project_state.yaml
+  - docs/PROJECT_CODE_MAP.md
+  - Makefile
+write_scope:
+  worker:
+    - backend-spring/src/main/java/com/sourcelens/module/analysis/graph/attested
+    - backend-spring/src/test/java/com/sourcelens/module/analysis/graph/attested
+    - evaluation-harness/harness/p2-055-attested-compiler-graph
+    - evaluation-harness/replay/p2-055-attested-compiler-graph
+  quality:
+    - evaluation-harness/evaluator/p2-055-attested-compiler-graph
+    - evaluation-harness/reports/p2-055-attested-compiler-graph
+  integration:
+    - scripts/verify-p2-055-attested-compiler-graph.sh
+    - docs/aios/tasks/P2-055_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_GRAPH_KERNEL.yaml
+    - docs/aios/truth/project_state.yaml
+    - docs/PROJECT_CODE_MAP.md
+    - Makefile
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/tasks/P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION.yaml
+  - evaluation-harness/harness/p1-116-closed-profile-scanner-admission
+  - evaluation-harness/fixtures/p1-116-closed-profile-scanner-admission
+dependencies:
+  - ACCEPTED_CANONICAL_P1_116_SCANNER_ADMISSION
+  - ACCEPTED_CANONICAL_P1_DATASET_AND_EVALUATION_ASSETS
+historical_isolation:
+  p2_053_status: TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS
+  p2_053_rejected_engineering_readable_or_reusable: false
+  permitted_historical_reads:
+    - canonical Truth
+    - terminal receipt
+    - final CTO review
+    - final Security review
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+founder_reserved_authorization:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-attested-raw-compiler-closed-edge-context-20260808/decision/FOUNDER_P2_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_ORACLE_AND_CONTEXT_VALUE_ROUTE_V1.structured-decision.json
+  sha256: 97526acda7e4524d9760b7aa71aa0e6a6f0e72dc3f4a4af1910b00d4fda7df7c
+  byte_length: 3017
+  authorization_token: AUTHORIZE_P2_ATTESTED_RAW_COMPILER_OBSERVATION_CLOSED_EDGE_ORACLE_AND_CONTEXT_VALUE_ROUTE_V1
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+founder_reserved_profile: null
+accepted_scanner_binding:
+  task_id: AIOS-P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION
+  status: FOUNDER_RESIDUAL_ACCEPTED_SECURITY_CORRECTED_COMPLETE
+  task_contract_path: docs/aios/tasks/P1-116_CLOSED_TASK_PROFILE_SET_AND_IDENTITY_BOUND_SCANNER_ADMISSION.yaml
+  task_contract_sha256: 7322f3d3ad36d1c4fd8e64379d7f6bdee230832ae5a7f332b1eb28d0c489ed5d
+  task_contract_byte_length: 13462
+  corrected_candidate_commit: f6c074f5273f9ce4dea53418e54ed4083cb274aa
+  corrected_candidate_tree: c8b80b129ae3b6e048e49b8927864344b17a43cd
+architecture_constraints:
+  - The accepted scanner must be invoked through canonical accepted P1-116 assets and independently bound by executable realpath, type, byte length, SHA-256, exact argv, operation, source root identity, exit status, stdout and stderr.
+  - No semantic payload may be parsed before the top-level transaction manifest and complete closed inventory pass external identity admission.
+  - Java semantic truth must come from raw compiler-attributed observations produced by JDK compiler APIs or an equivalent exact compiler oracle, never lexical name matching or Worker labels.
+  - The graph-to-observation relation is a closed bijection over every in-scope semantic edge: no graph-only edge, observation-only edge, duplicate mapping or ambiguous mapping is accepted.
+  - Every compiler observation binds source path, source span, enclosing symbol, edge kind, resolved owner, receiver type, selected overload descriptor and target symbol identity where applicable.
+  - Every positive and negative case freezes one self-contained portable raw transaction without references to deleted temporary roots or machine-specific fixture identity.
+  - The independent evaluator reconstructs or executes every frozen transaction and never trusts RESULT.json rejection, graph edge labels or aggregate PASS fields.
+  - External-effect conclusions are reconstructed from frozen raw argv and environment, process tree, socket observer stdout and stderr, filesystem write inventory and process exit.
+  - Provider and Secret counts are derived from closed raw observations and remain zero.
+  - At least two physically distinct repository roots produce byte-exact equal canonical graph projections and replay.
+  - A minimal pilot must prove scanner attestation, one compiler-attributed edge, the closed oracle and one portable negative replay before the full matrix.
+pilot_gate:
+  independent_task: false
+  governance_gate: false
+  capability_credit: 0
+  required_checks:
+    - accepted scanner raw process attestation
+    - one exact compiler-attributed semantic edge
+    - one closed forward and reverse edge-oracle match
+    - one portable negative transaction independently replayed
+quality_freeze:
+  physical_repository_roots_min: 2
+  graph_projection_exact_equal: true
+  graph_replay_exact_equal: true
+  graph_edge_to_observation_cardinality: ONE_TO_ONE
+  observation_to_graph_edge_cardinality: ONE_TO_ONE
+  portable_negative_transactions_required: true
+  independent_negative_replay_required: true
+  false_accepts_max: 0
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false
+acceptance_criteria:
+  - The pilot passes all four frozen checks before the full matrix runs.
+  - Accepted scanner invocation and executable identity are proven from raw process Evidence rather than labels or substring checks.
+  - Every in-scope Java semantic graph edge has exactly one matching raw compiler observation and every observation has exactly one matching graph edge.
+  - Fabricated extra, missing, duplicate, wrong receiver, wrong overload, wrong owner and ambiguous or unresolved misclassification cases reject.
+  - Every positive and negative raw transaction is frozen, self-contained, portable and independently replayed from frozen bytes.
+  - External effects, Provider and Secret zero values are reconstructed from raw observations with zero false accepts.
+  - Two physical repository roots produce byte-exact deterministic graph projection and replay.
+  - Focused verification and Task-worktree make verify pass before the single candidate freeze.
+  - One exact candidate receives fresh CTO, Security and Quality TARGET_VERDICT PASS on the same bytes and Evidence.
+  - Reviewed tree equals integrated canonical tree and one canonical make verify passes.
+required_evidence:
+  - Exact Founder decision, Goal, activation parent, Contract and authority identities.
+  - Accepted scanner build and executable identity plus raw argv, environment, process, stdout, stderr and exit receipts.
+  - Per-edge compiler-attributed raw observations and exact graph mappings.
+  - Closed forward and reverse edge-oracle receipts for both physical roots.
+  - Portable raw positive and negative transaction packages with independent replay receipts.
+  - Raw socket observation and filesystem write inventories with independently reconstructed zero-effect aggregate.
+  - Pilot receipt, full matrix receipt, deterministic projection and replay identities.
+  - Exact candidate commit, tree, diff manifest and recoverable Evidence tag.
+  - Fresh CTO, Security and Quality reviews of the same candidate and frozen Evidence.
+  - Reviewed-tree versus integrated-tree equality and one canonical make verify result.
+rollback:
+  strategy: OWNED_DISPOSABLE_FIXTURE_CLEANUP_AND_NON_DESTRUCTIVE_GIT_REVERT_AFTER_CANONICAL_INTEGRATION
+  forbidden:
+    - git reset
+    - git clean
+    - destructive history rewrite
+stop_conditions:
+  - Canonical start, Goal, Founder decision, accepted scanner or activation-parent identity drifts.
+  - Any P2-053 rejected engineering asset is read or reused as an implementation input.
+  - The same normalized root cause repeats in adjacent implementation iterations.
+  - Initial implementation plus three same-Task repairs are exhausted.
+  - Any external effect occurs.
+  - Any final Reviewer returns TARGET_VERDICT NON_PASS.
+  - Reviewed and integrated trees differ or canonical make verify returns NONPASS.
+  - Evidence is overwritten or deleted, or the P2 Objective, Phase boundary or permissions change.
+forbidden_actions:
+  - Read or reuse P2-053 rejected source, candidate, fixture, matrix, evaluator, test or implementation.
+  - Accept endpoint-label coverage, Worker self-report or RESULT.json rejected fields as semantic proof.
+  - Read a Secret, call a Provider or access a network.
+  - Enter P3.
+  - Push or modify a remote.
+  - Create a successor, replacement, correction, normalization, closure, feasibility or remediation chain.
+claim_boundary: >-
+  Cooperative-local offline accepted-scanner-attested Java semantic graph-kernel
+  engineering only. No context-benchmark effect, P2 Phase Gate, P3, remote,
+  production, public, hostile-principal, strong-isolation or production-readiness
+  claim is made by this Task.

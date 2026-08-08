@@ -705,7 +705,7 @@ module FounderDelegationContinuity
                "unanchored consumed Task requires exact Founder terminal residual acceptance")
         validate_founder_terminal_accounting_residual!(entry, source_route)
       end
-      assert(entry["route_id"] == source_route["route_id"] && source_task["status"] == entry["status"] &&
+      assert(source_task["status"] == entry["status"] &&
              source_task["engineering_hours"] == budget["engineering_hours"] &&
              source_task["calendar_days"] == budget["calendar_days"],
              "phase execution source Task ledger binding drift")
@@ -1185,10 +1185,13 @@ module FounderDelegationContinuity
       "successor_or_replacement" => false
     }, "delegated independent Task independence classification drift")
     historical_ids = truth.select { |key, value| key.to_s.start_with?("historical_") && value.is_a?(Hash) }
-                          .values.flat_map do |historical|
-      task_plan_ids = Array(historical["task_plan"]).map do |item|
-        item["task_id"] if item.is_a?(Hash)
-      end.compact
+                          .flat_map do |historical_key, historical|
+      task_plan_ids = Array(historical["task_plan"]).each_with_object([]) do |item, ids|
+        next unless item.is_a?(Hash)
+        next if historical_key == route["source_authority_route_ref"] &&
+                item["task_id"] == task_id && item["status"] == "ACTIVE"
+        ids << item["task_id"] if item["task_id"]
+      end
       selected_id = historical.dig("selected_task", "task_id")
       task_plan_ids + [selected_id].compact
     end

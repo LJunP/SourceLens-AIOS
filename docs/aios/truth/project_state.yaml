@@ -6174,7 +6174,7 @@ current_phase_route:
     task_id: AIOS-P2-058_DEV_FIRST_GRAPH_CONTEXT_VALUE_BENCHMARK
     status: ACTIVE
     task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
-    capability: REPRODUCIBLE_CONTEXT_BENCHMARK_VALUE
+    capability: REPRODUCIBLE_CONTEXT_BENCHMARK
     objective: >-
       Build one clean-room DEV-first offline graph-conditioned context selector
       and determine in one sealed validation whether it strictly beats the
@@ -6189,8 +6189,8 @@ current_phase_route:
     max_same_task_repairs: 3
     contract:
       path: docs/aios/tasks/P2-058_DEV_FIRST_GRAPH_CONTEXT_VALUE_BENCHMARK.yaml
-      sha256: 48ffebf57950ab3ecc0fd24dbfb99a4fe29b9771b3fde2293b67da660004921c
-      byte_length: 7367
+      sha256: 681c0311a3bc09b5444f9be64b0602798085330e59bf359e518bbb7728ec0b62
+      byte_length: 7361
     independence:
       new_task_id: true
       new_execution_nonce: true
@@ -6622,7 +6622,6 @@ phase_execution_envelope:
     - task_id: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE
       route_id: AIOS-P2-057_PHASE_DELEGATED_CONTEXT_VALUE_VERTICAL_SLICE_PHASE_DELEGATED_ROUTE
       status: TERMINAL_FORMAL_EVALUATOR_INPUT_CONTRACT_NON_PASS
-      capacity_source_task_id: AIOS-P2-056_ACCEPTED_GRAPH_CONTEXT_VALUE_OFFLINE_BENCHMARK
       budget:
         engineering_tasks: 1
         engineering_hours: 14
@@ -6679,11 +6678,11 @@ phase_execution_envelope:
       calendar_days: 6
     contract:
       path: docs/aios/tasks/P2-058_DEV_FIRST_GRAPH_CONTEXT_VALUE_BENCHMARK.yaml
-      sha256: 48ffebf57950ab3ecc0fd24dbfb99a4fe29b9771b3fde2293b67da660004921c
-      byte_length: 7367
+      sha256: 681c0311a3bc09b5444f9be64b0602798085330e59bf359e518bbb7728ec0b62
+      byte_length: 7361
     authority:
       path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-dev-first-context-value-20260808/task-p2-058/authority/P2_058_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
-      sha256: 17fb1a536f9bbcefbdb730991cbca9429e6a15049afadd7b06d8f3c707d4bffb
+      sha256: 4272653b2a10a55edec6321772bf44c90fa96038193810ab673958d0d813cdf1
       byte_length: 4738
   remaining:
     engineering_tasks: 0
@@ -16592,14 +16591,14 @@ active_work:
   current_task_status: ACTIVE
   current_task_contract:
     path: docs/aios/tasks/P2-058_DEV_FIRST_GRAPH_CONTEXT_VALUE_BENCHMARK.yaml
-    sha256: 48ffebf57950ab3ecc0fd24dbfb99a4fe29b9771b3fde2293b67da660004921c
-    byte_length: 7367
-  current_task_contract_sha256: 48ffebf57950ab3ecc0fd24dbfb99a4fe29b9771b3fde2293b67da660004921c
+    sha256: 681c0311a3bc09b5444f9be64b0602798085330e59bf359e518bbb7728ec0b62
+    byte_length: 7361
+  current_task_contract_sha256: 681c0311a3bc09b5444f9be64b0602798085330e59bf359e518bbb7728ec0b62
   current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-dev-first-context-value-20260808/task-p2-058/authority/P2_058_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
-  current_execution_authorization_sha256: 17fb1a536f9bbcefbdb730991cbca9429e6a15049afadd7b06d8f3c707d4bffb
+  current_execution_authorization_sha256: 4272653b2a10a55edec6321772bf44c90fa96038193810ab673958d0d813cdf1
   authority_record:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-dev-first-context-value-20260808/task-p2-058/authority/P2_058_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
-    sha256: 17fb1a536f9bbcefbdb730991cbca9429e6a15049afadd7b06d8f3c707d4bffb
+    sha256: 4272653b2a10a55edec6321772bf44c90fa96038193810ab673958d0d813cdf1
     byte_length: 4738
   execution_nonce: 8c72c984fc9d39d02beecf611ccd552100037613f9e795f1
   execution_nonce_status: ACTIVE

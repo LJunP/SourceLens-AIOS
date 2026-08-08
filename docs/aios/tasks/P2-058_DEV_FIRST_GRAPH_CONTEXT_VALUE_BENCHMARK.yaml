@@ -5,7 +5,7 @@ phase: P2
 route_id: AIOS-P2-058_DEV_FIRST_GRAPH_CONTEXT_VALUE_BENCHMARK_PHASE_DELEGATED_ROUTE
 status: ACTIVE
 task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
-capability: REPRODUCIBLE_CONTEXT_BENCHMARK_VALUE
+capability: REPRODUCIBLE_CONTEXT_BENCHMARK
 objective: >-
   Build one clean-room DEV-first offline graph-conditioned context selector and
   determine in one sealed validation whether it strictly beats the accepted

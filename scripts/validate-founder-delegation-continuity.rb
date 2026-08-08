@@ -637,6 +637,81 @@ module FounderDelegationContinuity
     residual
   end
 
+  def validate_predeclared_task_terminal_outcome!(entry, contract, receipt)
+    outcome = exact_keys(
+      contract["terminal_outcome"],
+      %w[
+        status candidate_commit candidate_tree sealed_formal_value_result cto_review
+        security_review quality_review terminal_receipt capability_credit
+        candidate_integrated canonical_make_verify
+      ],
+      "predeclared Task terminal outcome"
+    )
+    assert(outcome["status"] == entry["status"],
+           "predeclared Task terminal outcome status drift")
+    terminal_receipt = exact_keys(
+      outcome["terminal_receipt"],
+      %w[path byte_length sha256],
+      "predeclared Task terminal receipt"
+    )
+    assert(terminal_receipt == entry["outcome_receipt"],
+           "predeclared Task terminal receipt identity drift")
+    assert(outcome["capability_credit"] == 0 && outcome["candidate_integrated"] == false &&
+           outcome["canonical_make_verify"].to_s.start_with?("NOT_INVOKED"),
+           "predeclared terminal Task cannot create capability, integration or verification credit")
+
+    candidate = exact_keys(
+      receipt["candidate"],
+      %w[commit tree source_manifest integrated],
+      "predeclared Task terminal candidate"
+    )
+    assert(candidate["commit"] == outcome["candidate_commit"] &&
+           candidate["tree"] == outcome["candidate_tree"] &&
+           candidate["integrated"] == false && receipt["capability_credit"] == 0,
+           "predeclared Task terminal candidate or capability projection drift")
+    validate_identity(
+      exact_keys(candidate["source_manifest"], %w[path byte_length sha256],
+                 "predeclared Task candidate source manifest"),
+      "predeclared Task candidate source manifest"
+    )
+
+    reviews = exact_keys(receipt["final_reviews"], %w[cto security quality],
+                         "predeclared Task final reviews")
+    verdicts = {}
+    bound_non_pass = 0
+    reviews.each do |role, value|
+      review_record = mapping(value, "predeclared Task final #{role} review")
+      allowed_keys = review_record.key?("path") ? %w[path byte_length sha256 verdict] : %w[verdict]
+      review_record = exact_keys(review_record, allowed_keys,
+                                 "predeclared Task final #{role} review")
+      verdicts[role] = review_record["verdict"]
+      next unless review_record.key?("path")
+
+      review = parse_bound_json(
+        review_record.slice("path", "byte_length", "sha256"),
+        "predeclared Task final #{role} review"
+      )
+      target_verdict = review["TARGET_VERDICT"] || review["target_verdict"]
+      assert(review["task_id"] == entry["task_id"] &&
+             review["review_role"].to_s.downcase == role &&
+             target_verdict == review_record["verdict"],
+             "predeclared Task final Review lifecycle drift")
+      reviewed_candidate = review["candidate"] || review["target"]
+      reviewed_candidate = mapping(reviewed_candidate, "predeclared Task reviewed candidate")
+      reviewed_commit = reviewed_candidate["commit"] || reviewed_candidate["candidate_commit"]
+      reviewed_tree = reviewed_candidate["tree"] || reviewed_candidate["candidate_tree"]
+      assert(reviewed_commit == candidate["commit"] && reviewed_tree == candidate["tree"],
+             "predeclared Task final Review candidate binding drift")
+      bound_non_pass += 1 if target_verdict == "NON_PASS"
+    end
+    assert(bound_non_pass.positive?,
+           "predeclared terminal Task requires a hash-bound final Reviewer NON_PASS")
+    assert(outcome["cto_review"] == verdicts["cto"] &&
+           outcome["security_review"] == verdicts["security"] &&
+           outcome["quality_review"] == verdicts["quality"],
+           "predeclared Task terminal Review projection drift")
+  end
+
   def validate_consumed_task_ledger!(root, ledger, source_route, phase, anchored_source_entries)
     entries = array(ledger, "phase execution task ledger")
     ids = entries.map { |entry| mapping(entry, "phase execution task ledger entry")["task_id"] }
@@ -700,10 +775,10 @@ module FounderDelegationContinuity
       if anchored
         assert(anchored == entry,
                "phase execution source Task ledger drifts from its first canonical anchor")
-      else
-        assert(entry.key?("founder_residual_acceptance"),
-               "unanchored consumed Task requires exact Founder terminal residual acceptance")
+      elsif entry.key?("founder_residual_acceptance")
         validate_founder_terminal_accounting_residual!(entry, source_route)
+      else
+        validate_predeclared_task_terminal_outcome!(entry, contract, receipt)
       end
       assert(source_task["status"] == entry["status"] &&
              source_task["engineering_hours"] == budget["engineering_hours"] &&

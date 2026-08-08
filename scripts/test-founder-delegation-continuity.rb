@@ -52,15 +52,60 @@ def expect_non_pass(root, name, truth, expected_fragment)
   raise "#{name} failed for the wrong reason\n#{combined}" unless combined.include?(expected_fragment)
 end
 
-base = YAML.safe_load(
+current_truth = YAML.safe_load(
   File.binread(TRUTH),
   permitted_classes: [],
   permitted_symbols: [],
   aliases: false
 )
 
+route_literal = "AIOS-P2-058_DEV_FIRST_GRAPH_CONTEXT_VALUE_BENCHMARK_PHASE_DELEGATED_ROUTE"
+commits, stderr, status = Open3.capture3(
+  "git", "log", "--reverse", "--format=%H", "--",
+  "docs/aios/truth/project_state.yaml", chdir: ROOT
+)
+raise "cannot resolve delegated active Truth history: #{stderr}" unless status.success?
+active_truths = commits.lines.map(&:strip).reject(&:empty?).each_with_object([]) do |commit, values|
+  bytes, _show_stderr, show_status = Open3.capture3(
+    "git", "show", "#{commit}:docs/aios/truth/project_state.yaml", chdir: ROOT
+  )
+  next unless show_status.success?
+  begin
+    candidate = YAML.safe_load(bytes, permitted_classes: [], permitted_symbols: [], aliases: false)
+  rescue Psych::BadAlias, Psych::SyntaxError
+    next
+  end
+  route = candidate["current_phase_route"]
+  values << candidate if route.is_a?(Hash) && route["route_id"] == route_literal && route["status"] == "ACTIVE"
+end
+base = active_truths.last
+raise "delegated active Truth anchor is missing" unless base
+base.fetch("phase_execution_envelope").fetch("task_ledger").each do |entry|
+  entry.delete("capacity_source_task_id")
+end
+base["phase_boundary"] = deep_copy(current_truth.fetch("phase_boundary"))
+
 Dir.mktmpdir("founder-delegation-continuity-") do |fixtures|
   assertions = 0
+
+  expect_pass(fixtures, "current-exhausted-envelope-founder-hold", current_truth,
+              "FOUNDER_DECISION_REQUIRED")
+  assertions += 1
+
+  truth = deep_copy(current_truth)
+  terminal_entry = truth.fetch("phase_execution_envelope").fetch("task_ledger").last
+  terminal_entry["outcome_receipt"] = write_json_identity(
+    fixtures,
+    "superficial-predeclared-terminal-receipt.json",
+    {
+      "task_id" => terminal_entry["task_id"],
+      "route_id" => terminal_entry["route_id"],
+      "status" => terminal_entry["status"]
+    }
+  )
+  expect_non_pass(fixtures, "predeclared-terminal-receipt-substitution", truth,
+                  "predeclared Task terminal receipt identity drift")
+  assertions += 1
 
   expect_pass(fixtures, "ordinary-terminal-continues", base,
               "NO_RESERVED_TRIGGER_CONTINUE_PHASE")

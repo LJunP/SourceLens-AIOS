@@ -71,6 +71,31 @@ module PhaseDelegatedAuthorityTest
     assert(status.empty?, "fixture repository is dirty after commit")
   end
 
+  def restore_delegated_active_anchor(repo)
+    commits = command(
+      repo, "git", "log", "--reverse", "--format=%H", "--", TRUTH_RELATIVE
+    ).first.lines.map(&:strip).reject(&:empty?)
+    active = commits.each_with_object([]) do |commit_id, values|
+      bytes, _stderr, status = command(
+        repo, "git", "show", "#{commit_id}:#{TRUTH_RELATIVE}", allow_failure: true
+      )
+      next unless status.success?
+      begin
+        candidate = YAML.safe_load(bytes, permitted_classes: [], permitted_symbols: [], aliases: false)
+      rescue Psych::BadAlias, Psych::SyntaxError
+        next
+      end
+      route = candidate["current_phase_route"]
+      values << candidate if route.is_a?(Hash) && route["route_id"] == ROUTE_ID && route["status"] == "ACTIVE"
+    end.last
+    assert(active, "delegated active Truth anchor is missing")
+    active.fetch("phase_execution_envelope").fetch("task_ledger").each do |entry|
+      entry.delete("capacity_source_task_id")
+    end
+    write_truth(repo, active)
+    commit(repo, "test: restore immutable delegated active Truth fixture")
+  end
+
   def head_identity(repo)
     commit = command(repo, "git", "rev-parse", "HEAD").first.strip
     tree = command(repo, "git", "show", "-s", "--format=%T", commit).first.strip
@@ -436,6 +461,7 @@ module PhaseDelegatedAuthorityTest
       command(repo, "git", "config", "user.email", "phase-delegated-test@local.invalid")
       command(repo, "git", "config", "user.name", "Phase Delegated Authority Test")
       command(repo, "git", "branch", "-M", "main")
+      restore_delegated_active_anchor(repo)
       fixture = make_ready(repo, sandbox)
       assertions += expect_authority(repo, "phase-delegated READY full authority", "READY_NONE")
       assertions += expect_safety(repo, "phase-delegated READY full safety")

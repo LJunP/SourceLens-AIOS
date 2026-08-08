@@ -3406,6 +3406,12 @@ module CurrentTaskAuthority
              "delegated continuation hold requires autonomous Phase continuation")
       return "READY_NONE"
     end
+    if route["schema_version"] == FounderDelegationContinuity::RESERVED_ROUTE_SCHEMA
+      disposition = FounderDelegationContinuity.validate_truth!(root: root, truth: truth)
+      assert(disposition == FounderDelegationContinuity::FOUNDER_DISPOSITION,
+             "Founder reserved hold requires an exact reserved trigger")
+      return "FOUNDER_RESERVED_DECISION"
+    end
     if route["schema_version"] == DELEGATED_TASK_ROUTE_SCHEMA
       return validate_phase_delegated_task(root, truth)
     end

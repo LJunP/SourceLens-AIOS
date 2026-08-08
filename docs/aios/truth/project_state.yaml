@@ -6269,7 +6269,7 @@ current_phase_route:
         public: false
     - task_slot: 2
       task_id: AIOS-P2-056_ACCEPTED_GRAPH_CONTEXT_VALUE_OFFLINE_BENCHMARK
-      status: NOT_STARTED_PREDECESSOR_TASK_GATE_PENDING
+      status: PENDING_PREDECESSOR_TASK_GATE
       engineering_hours: 14
       calendar_days: 4
       max_engineering_hours: 14
@@ -22180,7 +22180,7 @@ claim_boundary:
   real_engineering_progress: P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_P2_055_ACTIVE_P2_056_PREDECESSOR_GATED
   p2_055_status: ACTIVE
   p2_055_capability_credit: 0
-  p2_056_status: NOT_STARTED_PREDECESSOR_TASK_GATE_PENDING
+  p2_056_status: PENDING_PREDECESSOR_TASK_GATE
   p2_053_status: TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS
   p2_053_candidate_commit: 90fa8e2286eab8357f90fee76bf3a082bb94f39e
   p2_053_candidate_tree: 94a2f41eeca41f154f8c6a0b7c29cab1fd579a7d

@@ -255,7 +255,10 @@ class CurrentTaskAuthorityTest
 
   def executable_route(truth)
     route = truth.fetch("current_phase_route")
-    if %w[
+    if route["schema_version"] == FounderDelegationContinuity::RESERVED_ROUTE_SCHEMA
+      source_ref = truth.dig("phase_execution_envelope", "authority_basis", "source_route_ref")
+      truth.fetch(source_ref)
+    elsif %w[
       strict-phase-recovery-hold/v1
       phase-delegated-continuation-hold/v1
     ].include?(route["schema_version"])

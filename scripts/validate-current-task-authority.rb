@@ -3267,6 +3267,7 @@ module CurrentTaskAuthority
       strict-phase-recovery-hold/v1
       phase-delegated-continuation-hold/v1
       phase-delegated-independent-task/v1
+      founder-reserved-decision-hold/v1
     ].include?(route["schema_version"])
                          source_key = string(
                            route["inherited_worktree_inventory_source"],
@@ -3405,6 +3406,15 @@ module CurrentTaskAuthority
       assert(disposition == FounderDelegationContinuity::CONTINUE_DISPOSITION,
              "delegated continuation hold requires autonomous Phase continuation")
       return "READY_NONE"
+    end
+    if route["schema_version"] == FounderDelegationContinuity::RESERVED_ROUTE_SCHEMA
+      disposition = FounderDelegationContinuity.validate_truth!(root: root, truth: truth)
+      assert(disposition == FounderDelegationContinuity::FOUNDER_DISPOSITION,
+             "Founder reserved hold requires an exact reserved trigger")
+      assert(hash(truth["active_work"], "active_work")["current_task"] == "NONE" &&
+             hash(truth["goal"], "goal")["current_task_authority"] == "NONE",
+             "Founder reserved hold cannot retain current Task authority")
+      return "FOUNDER_RESERVED_DECISION"
     end
     if route["schema_version"] == DELEGATED_TASK_ROUTE_SCHEMA
       return validate_phase_delegated_task(root, truth)

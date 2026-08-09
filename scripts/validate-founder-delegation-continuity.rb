@@ -25,12 +25,18 @@ module FounderDelegationContinuity
   POLICY_VERSION = "1.8"
   CONTINUATION_ROUTE_SCHEMA = "phase-delegated-continuation-hold/v1"
   RESERVED_ROUTE_SCHEMA = "founder-reserved-decision-hold/v1"
+  STRATEGIC_HOLD_ROUTE_SCHEMA = "founder-resolved-strategic-hold/v1"
   DELEGATED_TASK_ROUTE_SCHEMA = "phase-delegated-independent-task/v1"
   DELEGATION_AMENDMENT_SCHEMA = "founder-phase-delegation-amendment/v1"
   DELEGATION_AMENDMENT_ID = "FOUNDER_PHASE_DELEGATION_CONTINUITY_AMENDMENT_2026_08_08"
   CONTINUE_ACTION = "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK"
   CONTINUE_DISPOSITION = "NO_RESERVED_TRIGGER_CONTINUE_PHASE"
   FOUNDER_DISPOSITION = "FOUNDER_DECISION_REQUIRED"
+  STRATEGIC_HOLD_DISPOSITION = "FOUNDER_RESERVED_DECISION_RESOLVED_STRATEGIC_HOLD"
+  STRATEGIC_HOLD_STATUS = "TERMINAL_RESEARCH_NON_PASS_STRATEGIC_HOLD"
+  STRATEGIC_HOLD_ACTION = "NO_ENGINEERING_ACTION_STRATEGIC_HOLD"
+  STRATEGIC_HOLD_DECISION_SCHEMA =
+    "founder-p2-terminal-research-non-pass-strategic-hold-decision/v1"
   FALSE_EXTERNAL_EFFECTS = {
     "network" => false,
     "provider" => false,
@@ -1384,13 +1390,143 @@ module FounderDelegationContinuity
     evidence
   end
 
-  def validate_control!(truth, phase, phase_gate_status, phase_complete, historical_route, phase_envelope)
-    control = exact_keys(
-      truth["founder_escalation_control"],
-      %w[schema_version disposition source_event reserved_trigger phase_gate_status founder_decision_required next_action_owner next_eligible_action],
-      "founder_escalation_control"
+  def validate_strategic_hold_decision!(root, truth, resolution, phase, phase_gate_status,
+                                        phase_envelope)
+    resolution = exact_keys(
+      resolution,
+      %w[status authorization_token packet structured_decision],
+      "Founder strategic-hold resolution"
     )
-    assert(control["schema_version"] == "founder-escalation-control/v1",
+    assert(resolution["status"] == "FOUNDER_DECISION_RECORDED",
+           "Founder strategic-hold resolution status drift")
+    assert(resolution["authorization_token"] ==
+           "AUTHORIZE_P2_TERMINAL_RESEARCH_NON_PASS_AND_STRATEGIC_HOLD_V1",
+           "Founder strategic-hold authorization token drift")
+    packet_identity = exact_keys(
+      resolution["packet"], %w[path byte_length sha256],
+      "Founder strategic-hold packet"
+    )
+    validate_identity(packet_identity, "Founder strategic-hold packet")
+    decision_identity = exact_keys(
+      resolution["structured_decision"], %w[path byte_length sha256],
+      "Founder strategic-hold structured decision"
+    )
+    decision = parse_bound_json(decision_identity, "Founder strategic-hold structured decision")
+    exact_keys(
+      decision,
+      %w[schema_version decision_id authorization_token accepted_at_utc canonical_start goal phase decision phase_envelope phase_exit_gate prohibited_engineering_chains external_effects packet],
+      "Founder strategic-hold structured decision"
+    )
+    assert(decision["schema_version"] == STRATEGIC_HOLD_DECISION_SCHEMA,
+           "Founder strategic-hold structured decision schema drift")
+    assert(decision["decision_id"] ==
+           "FOUNDER_P2_TERMINAL_RESEARCH_NON_PASS_AND_STRATEGIC_HOLD_2026_08_09" &&
+           decision["authorization_token"] == resolution["authorization_token"],
+           "Founder strategic-hold structured decision identity drift")
+    assert(decision["accepted_at_utc"].is_a?(String) &&
+           decision["accepted_at_utc"].match?(/\A\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z\z/),
+           "Founder strategic-hold decision timestamp is invalid")
+
+    start = exact_keys(decision["canonical_start"], %w[commit tree main_clean],
+                       "Founder strategic-hold canonical start")
+    assert(start["commit"].to_s.match?(/\A[0-9a-f]{40}\z/) &&
+           start["tree"].to_s.match?(/\A[0-9a-f]{40}\z/) && start["main_clean"] == true,
+           "Founder strategic-hold canonical start identity drift")
+    assert(git(root, "rev-parse", "#{start["commit"]}^{tree}").strip == start["tree"],
+           "Founder strategic-hold canonical start tree drift")
+    _out, _err, ancestor = Open3.capture3(
+      "git", "merge-base", "--is-ancestor", start["commit"], "HEAD", chdir: root.to_s
+    )
+    assert(ancestor.success?, "Founder strategic-hold canonical start is not an ancestor")
+
+    goal = exact_keys(decision["goal"], %w[status canonical_sha256 canonical_byte_length],
+                      "Founder strategic-hold Goal")
+    truth_goal = mapping(truth["goal"], "goal")
+    assert(goal == {
+      "status" => "ACTIVE",
+      "canonical_sha256" => truth_goal["observed_body_sha256"],
+      "canonical_byte_length" => truth_goal["observed_body_byte_length"]
+    }, "Founder strategic-hold Goal identity drift")
+    assert(decision["phase"] == phase && phase == "P2",
+           "Founder strategic-hold Phase drift")
+
+    disposition = exact_keys(
+      decision["decision"],
+      %w[disposition current_task p2_capability_progress_percent envelope_expanded new_task_authorized p3_entry_authorized remote_write_authorized engineering_action_eligible next_founder_intervention],
+      "Founder strategic-hold disposition"
+    )
+    assert(disposition == {
+      "disposition" => STRATEGIC_HOLD_STATUS,
+      "current_task" => "NONE",
+      "p2_capability_progress_percent" => 0,
+      "envelope_expanded" => false,
+      "new_task_authorized" => false,
+      "p3_entry_authorized" => false,
+      "remote_write_authorized" => false,
+      "engineering_action_eligible" => false,
+      "next_founder_intervention" =>
+        "EXPLICIT_NEW_STRATEGY_CONSTITUTION_P2_OBJECTIVE_EXIT_GATE_OR_PHASE_ROUTE_DECISION"
+    }, "Founder strategic-hold disposition drift")
+
+    decision_envelope = exact_keys(
+      decision["phase_envelope"], %w[status limits consumed remaining reserved],
+      "Founder strategic-hold Phase envelope"
+    )
+    %w[limits consumed remaining].each do |key|
+      exact_keys(decision_envelope[key], %w[engineering_tasks engineering_hours calendar_days],
+                 "Founder strategic-hold Phase envelope #{key}")
+    end
+    expected_envelope = {
+      "status" => phase_envelope["status"],
+      "limits" => mapping(phase_envelope["limits"], "phase execution envelope limits").slice(
+        "engineering_tasks", "engineering_hours", "calendar_days"
+      ),
+      "consumed" => phase_envelope["consumed"],
+      "remaining" => phase_envelope["remaining"],
+      "reserved" => phase_envelope["reserved"]
+    }
+    assert(decision_envelope == expected_envelope && decision_envelope["status"] == "EXHAUSTED",
+           "Founder strategic-hold Phase envelope drift")
+
+    exit_gate = exact_keys(
+      decision["phase_exit_gate"],
+      %w[status missing_required_item missing_required_item_status phase_complete],
+      "Founder strategic-hold Phase Exit Gate"
+    )
+    required_item = "CONTEXT_BENCHMARK_BEATS_SIMPLE_RETRIEVAL_BASELINES"
+    ledger_item = truth.dig("strict_phase_gate_ledger", "phases", phase, "required_items", required_item)
+    assert(exit_gate == {
+      "status" => phase_gate_status,
+      "missing_required_item" => required_item,
+      "missing_required_item_status" => mapping(ledger_item, "P2 required Exit item")["status"],
+      "phase_complete" => false
+    } && phase_gate_status == "NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS",
+           "Founder strategic-hold Phase Exit Gate drift")
+    assert(array(decision["prohibited_engineering_chains"],
+                 "Founder strategic-hold prohibited chains") == %w[
+                   P2_061 SUCCESSOR REPLACEMENT CORRECTION NORMALIZATION CLOSURE FEASIBILITY REMEDIATION
+                 ], "Founder strategic-hold prohibited chain drift")
+    assert(exact_keys(decision["external_effects"], FALSE_EXTERNAL_EFFECTS.keys,
+                      "Founder strategic-hold external effects") == FALSE_EXTERNAL_EFFECTS,
+           "Founder strategic-hold external effect drift")
+    assert(exact_keys(decision["packet"], %w[path byte_length sha256],
+                      "Founder strategic-hold packet binding") == packet_identity,
+           "Founder strategic-hold packet binding drift")
+    decision_identity
+  end
+
+  def validate_control!(truth, phase, phase_gate_status, phase_complete, historical_route,
+                        phase_envelope, root: Pathname.new(`git rev-parse --show-toplevel`.strip))
+    control = mapping(truth["founder_escalation_control"], "founder_escalation_control")
+    strategic_hold = control["schema_version"] == "founder-escalation-control/v2"
+    control_keys = %w[
+      schema_version disposition source_event reserved_trigger phase_gate_status
+      founder_decision_required next_action_owner next_eligible_action
+    ]
+    control_keys << "resolution" if strategic_hold
+    exact_keys(control, control_keys, "founder_escalation_control")
+    assert(%w[founder-escalation-control/v1 founder-escalation-control/v2]
+             .include?(control["schema_version"]),
            "Founder escalation control schema drift")
     assert(control["phase_gate_status"] == phase_gate_status,
            "Founder escalation control Phase Gate projection drift")
@@ -1408,6 +1544,31 @@ module FounderDelegationContinuity
              "ordinary terminal event status drift")
       assert(event["status"].to_s.start_with?("TERMINAL_") && event["status"].to_s.include?("NON_PASS"),
              "ordinary terminal event is not a terminal NON_PASS")
+    end
+
+    if strategic_hold
+      assert(trigger["category"] ==
+             "MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE",
+             "Founder strategic hold must resolve the exact exhausted-envelope trigger")
+      assert(event == {
+        "kind" => "PHASE_ENVELOPE_EXPANSION_REQUIRED",
+        "task_id" => nil,
+        "status" => "PENDING_FOUNDER_RESERVED_DECISION"
+      }, "Founder strategic hold source event drift")
+      assert(phase_envelope["status"] == "EXHAUSTED" && phase_envelope["reserved"].nil?,
+             "Founder strategic hold requires exact exhausted unreserved accounting")
+      validate_reserved_trigger_evidence!(
+        trigger, event, phase, historical_route, phase_envelope
+      )
+      validate_strategic_hold_decision!(
+        root, truth, control["resolution"], phase, phase_gate_status, phase_envelope
+      )
+      assert(control["disposition"] == STRATEGIC_HOLD_DISPOSITION &&
+             control["founder_decision_required"] == false &&
+             control["next_action_owner"] == "NONE" &&
+             control["next_eligible_action"] == STRATEGIC_HOLD_ACTION,
+             "Founder strategic-hold control projection drift")
+      return control
     end
 
     if trigger["category"] == "NONE"
@@ -1787,6 +1948,67 @@ module FounderDelegationContinuity
            "active_work Founder reserved decision projection drift")
   end
 
+  def validate_strategic_hold_state!(truth, policy, historical_route_ref, phase_envelope, control)
+    project = mapping(truth["project"], "project")
+    route = exact_keys(
+      truth["current_phase_route"],
+      %w[schema_version route_id status execution_status scheduling_status phase phase_entry_status policy founder_phase_route_decision_required next_eligible_action phase_execution_envelope_ref historical_terminal_route_ref founder_decision external_effects additional_write_roots inherited_worktree_inventory_source],
+      "current_phase_route Founder strategic hold"
+    )
+    assert(route["schema_version"] == STRATEGIC_HOLD_ROUTE_SCHEMA,
+           "Founder resolved hold requires the exact strategic-hold schema")
+    assert(route["route_id"] == "#{route["phase"]}_TERMINAL_RESEARCH_NON_PASS_STRATEGIC_HOLD" &&
+           route["status"] == STRATEGIC_HOLD_STATUS &&
+           route["execution_status"] == STRATEGIC_HOLD_STATUS &&
+           route["scheduling_status"] == "FOUNDER_RESOLVED_NO_ENGINEERING_ACTION",
+           "Founder strategic-hold route lifecycle drift")
+    assert(route["phase"] == project["current_phase"] && route["phase_entry_status"] == "AUTHORIZED",
+           "Founder strategic-hold Phase drift")
+    assert(route["policy"] == policy.slice("path", "version", "sha256"),
+           "Founder strategic-hold policy binding drift")
+    assert(route["founder_phase_route_decision_required"] == false &&
+           route["next_eligible_action"] == STRATEGIC_HOLD_ACTION,
+           "Founder strategic-hold next action drift")
+    assert(route["phase_execution_envelope_ref"] == "phase_execution_envelope" &&
+           route["historical_terminal_route_ref"] == historical_route_ref &&
+           route["inherited_worktree_inventory_source"] == historical_route_ref,
+           "Founder strategic-hold historical reference drift")
+    decision_identity = exact_keys(
+      route["founder_decision"], %w[path byte_length sha256],
+      "Founder strategic-hold Route decision"
+    )
+    assert(decision_identity == control.dig("resolution", "structured_decision"),
+           "Founder strategic-hold Route decision binding drift")
+    validate_identity(decision_identity, "Founder strategic-hold Route decision")
+    assert(route["external_effects"] == FALSE_EXTERNAL_EFFECTS && route["additional_write_roots"] == [],
+           "Founder strategic hold may not grant effects or write roots")
+    assert(phase_envelope["status"] == "EXHAUSTED" && phase_envelope["reserved"].nil? &&
+           mapping(phase_envelope["remaining"], "phase execution envelope remaining").values.all?(&:zero?),
+           "Founder strategic hold requires exhausted zero-remaining capacity")
+
+    assert(project["p2_execution_status"] == STRATEGIC_HOLD_STATUS &&
+           project["phase_execution_status"] == STRATEGIC_HOLD_STATUS &&
+           project["current_route_execution_status"] == STRATEGIC_HOLD_STATUS,
+           "project Founder strategic-hold status drift")
+    active = mapping(truth["active_work"], "active_work")
+    assert(active["current_task"] == "NONE" && active["current_task_status"] == "NONE" &&
+           active["task_resource_state"] == "NO_ACTIVE_TASK_FOUNDER_RESOLVED_STRATEGIC_HOLD",
+           "Founder strategic hold requires Task NONE")
+    assert(active["founder_reserved_authorization"] == decision_identity["path"] &&
+           active["founder_reserved_authorization_sha256"] == decision_identity["sha256"],
+           "Founder strategic-hold active authorization drift")
+    assert(active["founder_decision_required"] == false &&
+           active["founder_decision_required_scope"].nil? &&
+           active["escalation_reason"].nil? &&
+           active["user_action_required"] == "NONE" &&
+           active["phase_route_decision_required"] == false &&
+           active["phase_route_user_action_required"] == "NONE" &&
+           active["next_eligible_action"] == STRATEGIC_HOLD_ACTION,
+           "active_work Founder strategic-hold projection drift")
+    assert(mapping(truth["goal"], "goal")["current_task_authority"] == "NONE",
+           "Founder strategic hold must not grant Goal Task authority")
+  end
+
   def validate_non_transition_state!(truth)
     route = mapping(truth["current_phase_route"], "current_phase_route")
     active = mapping(truth["active_work"], "active_work")
@@ -1827,7 +2049,8 @@ module FounderDelegationContinuity
     end
 
     route = mapping(truth["current_phase_route"], "current_phase_route")
-    unless [CONTINUATION_ROUTE_SCHEMA, RESERVED_ROUTE_SCHEMA, DELEGATED_TASK_ROUTE_SCHEMA].include?(route["schema_version"])
+    unless [CONTINUATION_ROUTE_SCHEMA, RESERVED_ROUTE_SCHEMA, STRATEGIC_HOLD_ROUTE_SCHEMA,
+            DELEGATED_TASK_ROUTE_SCHEMA].include?(route["schema_version"])
       assert(!truth["phase_execution_envelope"].is_a?(Hash),
              "active Phase delegation envelope requires a closed delegated Route schema")
       return validate_non_transition_state!(truth)
@@ -1854,7 +2077,8 @@ module FounderDelegationContinuity
       phase_gate_status,
       phase_complete,
       historical_route,
-      phase_envelope
+      phase_envelope,
+      root: root
     )
     if route["schema_version"] == DELEGATED_TASK_ROUTE_SCHEMA
       validate_delegated_task_state!(
@@ -1870,6 +2094,14 @@ module FounderDelegationContinuity
         truth,
         policy,
         historical_route,
+        historical_route_ref,
+        phase_envelope,
+        control
+      )
+    elsif control["disposition"] == STRATEGIC_HOLD_DISPOSITION
+      validate_strategic_hold_state!(
+        truth,
+        policy,
         historical_route_ref,
         phase_envelope,
         control

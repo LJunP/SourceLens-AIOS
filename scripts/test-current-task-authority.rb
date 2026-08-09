@@ -258,6 +258,7 @@ class CurrentTaskAuthorityTest
     if %w[
       strict-phase-recovery-hold/v1
       phase-delegated-continuation-hold/v1
+      founder-resolved-strategic-hold/v1
     ].include?(route["schema_version"])
       truth.fetch(route.fetch("inherited_worktree_inventory_source"))
     else
@@ -1210,9 +1211,9 @@ class CurrentTaskAuthorityTest
     shell(repo, "git", "config", "user.email", "p1-golden@example.invalid")
 
     validator_path = File.join(repo, "scripts/validate-current-task-authority.rb")
+    delegation_validator_path = File.join(repo, "scripts/validate-founder-delegation-continuity.rb")
     safety_path = File.join(repo, "scripts/check-p1-safety-boundary.sh")
     governance_path = File.join(repo, "scripts/validate-aios-governance.sh")
-    delegation_validator_path = File.join(repo, "scripts/validate-founder-delegation-continuity.rb")
     register_owned(validator_path)
     register_owned(safety_path)
     register_owned(governance_path)
@@ -1313,15 +1314,18 @@ class CurrentTaskAuthorityTest
     truth_path = File.join(repo, TRUTH_RELATIVE)
     policy_path = File.join(repo, POLICY_RELATIVE)
     validator_path = File.join(repo, "scripts/validate-current-task-authority.rb")
+    delegation_validator_path = File.join(repo, "scripts/validate-founder-delegation-continuity.rb")
     safety_path = File.join(repo, "scripts/check-p1-safety-boundary.sh")
     governance_path = File.join(repo, "scripts/validate-aios-governance.sh")
     register_owned(truth_path)
     register_owned(policy_path)
     register_owned(validator_path)
+    register_owned(delegation_validator_path)
     register_owned(safety_path)
     register_owned(governance_path)
     rewrite_owned(policy_path, current_policy_bytes)
     rewrite_owned(validator_path, File.binread(VALIDATOR))
+    rewrite_owned(delegation_validator_path, File.binread(DELEGATION_VALIDATOR))
     rewrite_owned(safety_path, File.binread(SAFETY_VALIDATOR))
     rewrite_owned(governance_path, File.binread(GOVERNANCE_VALIDATOR))
 

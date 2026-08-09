@@ -39,6 +39,14 @@ def write_json_identity(root, name, value)
   identity_for(path)
 end
 
+def bind_strategic_decision(truth, identity)
+  truth.fetch("founder_escalation_control").fetch("resolution")["structured_decision"] =
+    deep_copy(identity)
+  truth.fetch("current_phase_route")["founder_decision"] = deep_copy(identity)
+  truth.fetch("active_work")["founder_reserved_authorization"] = identity.fetch("path")
+  truth.fetch("active_work")["founder_reserved_authorization_sha256"] = identity.fetch("sha256")
+end
+
 def expect_pass(root, name, truth, expected)
   stdout, stderr, status = run_fixture(root, name, truth)
   raise "#{name} unexpectedly failed\n#{stdout}#{stderr}" unless status.success?
@@ -92,6 +100,56 @@ Dir.mktmpdir("founder-delegation-continuity-") do |fixtures|
   expect_pass(fixtures, "current-canonical-delegation-disposition", current_truth,
               current_disposition)
   assertions += 1
+
+  if current_truth.dig("current_phase_route", "schema_version") ==
+     FounderDelegationContinuity::STRATEGIC_HOLD_ROUTE_SCHEMA
+    decision_path = current_truth.dig(
+      "founder_escalation_control", "resolution", "structured_decision", "path"
+    )
+    decision = JSON.parse(File.binread(decision_path))
+
+    truth = deep_copy(current_truth)
+    variant = deep_copy(decision)
+    variant["decision"]["p3_entry_authorized"] = true
+    bind_strategic_decision(
+      truth, write_json_identity(fixtures, "strategic-hold-p3-entry.json", variant)
+    )
+    expect_non_pass(fixtures, "strategic-hold-cannot-enter-p3", truth,
+                    "Founder strategic-hold disposition drift")
+    assertions += 1
+
+    truth = deep_copy(current_truth)
+    variant = deep_copy(decision)
+    variant["phase_envelope"]["limits"]["engineering_tasks"] = 6
+    bind_strategic_decision(
+      truth, write_json_identity(fixtures, "strategic-hold-envelope-expansion.json", variant)
+    )
+    expect_non_pass(fixtures, "strategic-hold-cannot-expand-envelope", truth,
+                    "Founder strategic-hold Phase envelope drift")
+    assertions += 1
+
+    truth = deep_copy(current_truth)
+    variant = deep_copy(decision)
+    variant["phase_exit_gate"]["missing_required_item_status"] = "ACCEPTED"
+    bind_strategic_decision(
+      truth, write_json_identity(fixtures, "strategic-hold-false-exit.json", variant)
+    )
+    expect_non_pass(fixtures, "strategic-hold-cannot-complete-exit-gate", truth,
+                    "Founder strategic-hold Phase Exit Gate drift")
+    assertions += 1
+
+    truth = deep_copy(current_truth)
+    truth["founder_escalation_control"]["founder_decision_required"] = true
+    expect_non_pass(fixtures, "strategic-hold-cannot-repeat-founder-prompt", truth,
+                    "Founder strategic-hold control projection drift")
+    assertions += 1
+
+    truth = deep_copy(current_truth)
+    truth["active_work"]["next_eligible_action"] = "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK"
+    expect_non_pass(fixtures, "strategic-hold-cannot-schedule-engineering", truth,
+                    "active_work Founder strategic-hold projection drift")
+    assertions += 1
+  end
 
   truth = deep_copy(current_truth)
   trigger = JSON.parse(File.binread(

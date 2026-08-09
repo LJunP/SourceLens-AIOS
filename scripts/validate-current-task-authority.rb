@@ -3394,6 +3394,7 @@ module CurrentTaskAuthority
       assert([
         FounderDelegationContinuity::CONTINUATION_ROUTE_SCHEMA,
         FounderDelegationContinuity::RESERVED_ROUTE_SCHEMA,
+        FounderDelegationContinuity::STRATEGIC_HOLD_ROUTE_SCHEMA,
         DELEGATED_TASK_ROUTE_SCHEMA
       ].include?(route["schema_version"]),
              "active Phase delegation requires a closed delegated Route schema")
@@ -3411,6 +3412,12 @@ module CurrentTaskAuthority
       assert(disposition == FounderDelegationContinuity::FOUNDER_DISPOSITION,
              "Founder reserved hold requires an exact reserved trigger")
       return "FOUNDER_RESERVED_DECISION"
+    end
+    if route["schema_version"] == FounderDelegationContinuity::STRATEGIC_HOLD_ROUTE_SCHEMA
+      disposition = FounderDelegationContinuity.validate_truth!(root: root, truth: truth)
+      assert(disposition == FounderDelegationContinuity::STRATEGIC_HOLD_DISPOSITION,
+             "Founder strategic hold requires an exact resolved decision")
+      return "FOUNDER_RESOLVED_STRATEGIC_HOLD"
     end
     if route["schema_version"] == DELEGATED_TASK_ROUTE_SCHEMA
       return validate_phase_delegated_task(root, truth)

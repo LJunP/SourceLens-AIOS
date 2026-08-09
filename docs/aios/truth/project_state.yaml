@@ -7581,7 +7581,7 @@ founder_escalation_control:
   schema_version: founder-escalation-control/v1
   disposition: NO_RESERVED_TRIGGER_CONTINUE_PHASE
   source_event:
-    kind: TASK_TERMINAL_PRESEALED_ANTI_LOOP_STOP_CONDITION_NON_PASS
+    kind: TASK_TERMINAL_REPAIR_BUDGET_EXHAUSTED
     task_id: AIOS-P2-060_JAVA_RUNTIME_OBSERVED_CONTEXT_VALUE_BENCHMARK
     status: TERMINAL_PRESEALED_ANTI_LOOP_STOP_CONDITION_NON_PASS
   reserved_trigger:

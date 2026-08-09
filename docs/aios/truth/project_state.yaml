@@ -7583,8 +7583,8 @@ phase_execution_envelope:
       byte_length: 10132
     authority:
       path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/task-p2-061/authority/P2_061_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
-      sha256: abe0c17ce64555ae0d96bed376d9a5683489f9e90048dc8ecf54d82eecd0429a
-      byte_length: 5396
+      sha256: 5e486d86ed8cda3dfec569c016452aed0e5e2af88f9af80d9a488499a8d6ed19
+      byte_length: 5408
   remaining:
     engineering_tasks: 2
     engineering_hours: 64
@@ -18011,11 +18011,11 @@ active_work:
     byte_length: 10132
   current_task_contract_sha256: eed3231a52b3ffd26227ae3efef6cbed4b73b5bc6b7bd478eb005ed5cf5c4767
   current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/task-p2-061/authority/P2_061_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
-  current_execution_authorization_sha256: abe0c17ce64555ae0d96bed376d9a5683489f9e90048dc8ecf54d82eecd0429a
+  current_execution_authorization_sha256: 5e486d86ed8cda3dfec569c016452aed0e5e2af88f9af80d9a488499a8d6ed19
   authority_record:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/task-p2-061/authority/P2_061_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
-    sha256: abe0c17ce64555ae0d96bed376d9a5683489f9e90048dc8ecf54d82eecd0429a
-    byte_length: 5396
+    sha256: 5e486d86ed8cda3dfec569c016452aed0e5e2af88f9af80d9a488499a8d6ed19
+    byte_length: 5408
   execution_nonce: 349cc33b-9d0f-4b3d-8f2b-011151f924c6
   execution_nonce_status: ACTIVE
   authorization_id: 23041eae-30df-4334-951d-8c15b8a263b2

@@ -1505,8 +1505,8 @@ project:
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
   p2_execution_status: ENVELOPE_EXHAUSTED_EXIT_GATE_MISSING_AWAITING_FOUNDER_DECISION
-  phase_execution_status: HOLD_RESERVED_TRIGGER_FOUNDER_DECISION_REQUIRED
-  current_route_execution_status: TERMINAL_PHASE_ENVELOPE_EXHAUSTED_WITHOUT_EXIT_GATE
+  phase_execution_status: STOPPED_AT_FOUNDER_RESERVED_DECISION
+  current_route_execution_status: FOUNDER_RESERVED_DECISION_REQUIRED
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -6251,6 +6251,32 @@ historical_p1_162_phase_route:
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 
 current_phase_route:
+  schema_version: founder-reserved-decision-hold/v1
+  route_id: P2_FOUNDER_RESERVED_DECISION_HOLD
+  status: FOUNDER_RESERVED_DECISION_REQUIRED
+  execution_status: FOUNDER_RESERVED_DECISION_REQUIRED
+  scheduling_status: STOPPED_AT_FOUNDER_RESERVED_DECISION
+  phase: P2
+  phase_entry_status: AUTHORIZED
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: "1.8"
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  founder_phase_route_decision_required: true
+  next_eligible_action: FOUNDER_RESERVED_DECISION
+  phase_execution_envelope_ref: phase_execution_envelope
+  historical_terminal_route_ref: historical_p2_063_phase_route
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false
+  additional_write_roots: []
+  inherited_worktree_inventory_source: historical_p2_063_phase_route
+
+historical_p2_063_phase_route:
   schema_version: phase-delegated-independent-task/v1
   route_id: AIOS-P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE_PHASE_DELEGATED_ROUTE
   status: TERMINAL_REPAIR3_SAME_NORMALIZED_ROOT_CTO_SECURITY_TARGET_NON_PASS
@@ -18360,7 +18386,7 @@ historical_active_work_after_p1_079:
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
   current_task: NONE
-  current_task_status: NONE_P2_ENVELOPE_EXHAUSTED
+  current_task_status: NONE
   current_task_contract:
     path: null
     sha256: null
@@ -18377,7 +18403,7 @@ active_work:
   authorization_id: null
   activation_parent_commit: null
   activation_parent_tree: null
-  task_resource_state: NONE_P2_ENVELOPE_EXHAUSTED
+  task_resource_state: NO_ACTIVE_TASK_FOUNDER_RESERVED_DECISION_HOLD
   task_branch: null
   task_worktree: null
   execution_evidence_root: null
@@ -18400,11 +18426,11 @@ active_work:
   founder_reserved_authorization_sha256: null
   founder_decision_required: true
   founder_decision_required_scope: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
-  escalation_reason: P2_ENVELOPE_EXHAUSTED_WITH_REQUIRED_EXIT_ITEM_MISSING
-  user_action_required: FOUNDER_P2_STRATEGIC_DECISION
+  escalation_reason: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+  user_action_required: FOUNDER_RESERVED_DECISION
   phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_P2_STRATEGIC_DECISION
-  next_eligible_action: FOUNDER_DECIDE_P2_ENVELOPE_OR_PHASE_OBJECTIVE
+  phase_route_user_action_required: FOUNDER_RESERVED_DECISION
+  next_eligible_action: FOUNDER_RESERVED_DECISION
 
 historical_p2_063_terminal_active_work:
   current_task: AIOS-P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE

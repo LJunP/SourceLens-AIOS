@@ -6289,8 +6289,8 @@ current_phase_route:
     max_same_task_repairs: 3
     contract:
       path: docs/aios/tasks/P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE.yaml
-      sha256: 7ab5a102b84a9b3136a5f7ff6f3359a11112ded831df3a5cd9390baca4ac1abb
-      byte_length: 12876
+      sha256: 5ebd943659dc5e7fde1f07c61daa4bacbb8efd99be630b6d2394bad15e38079c
+      byte_length: 12198
     independence:
       new_task_id: true
       new_execution_nonce: true
@@ -7811,12 +7811,12 @@ phase_execution_envelope:
       calendar_days: 8
     contract:
       path: docs/aios/tasks/P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE.yaml
-      byte_length: 12876
-      sha256: 7ab5a102b84a9b3136a5f7ff6f3359a11112ded831df3a5cd9390baca4ac1abb
+      byte_length: 12198
+      sha256: 5ebd943659dc5e7fde1f07c61daa4bacbb8efd99be630b6d2394bad15e38079c
     outcome_receipt:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/task-p2-063/terminal/P2_063_TERMINAL_REPAIR3_SAME_ROOT_CAUSE_CTO_SECURITY_NON_PASS_RECEIPT.json
-      byte_length: 4427
-      sha256: 6a9b11b08de07e20a715e20af7e525920fc7bcacd4b4054391f2da0bc3ebf79a
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/task-p2-063/terminal-sync-v2/P2_063_TERMINAL_REPAIR3_CTO_TARGET_NON_PASS_RECEIPT_V2.json
+      byte_length: 2735
+      sha256: c576a99f66ee34315fce24607b1731f6d3ef2cb20400c0d5c918159195bcdd19
   consumed:
     engineering_tasks: 8
     engineering_hours: 208
@@ -7862,7 +7862,7 @@ founder_escalation_control:
       limits: 8_TASKS_208_ENGINEERING_HOURS_52_CALENDAR_DAYS
       consumed: 8_TASKS_208_ENGINEERING_HOURS_52_CALENDAR_DAYS
       remaining: 0_TASKS_0_ENGINEERING_HOURS_0_CALENDAR_DAYS
-      terminal_receipt_sha256: 6a9b11b08de07e20a715e20af7e525920fc7bcacd4b4054391f2da0bc3ebf79a
+      terminal_receipt_sha256: c576a99f66ee34315fce24607b1731f6d3ef2cb20400c0d5c918159195bcdd19
   phase_gate_status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
   founder_decision_required: true
   next_action_owner: HUMAN_FOUNDER
@@ -18428,8 +18428,8 @@ historical_p2_063_terminal_active_work:
   current_task_status: TERMINAL_REPAIR3_SAME_NORMALIZED_ROOT_CTO_SECURITY_TARGET_NON_PASS
   current_task_contract:
     path: docs/aios/tasks/P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE.yaml
-    sha256: 7ab5a102b84a9b3136a5f7ff6f3359a11112ded831df3a5cd9390baca4ac1abb
-    byte_length: 12876
+    sha256: 5ebd943659dc5e7fde1f07c61daa4bacbb8efd99be630b6d2394bad15e38079c
+    byte_length: 12198
   authority_record:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/task-p2-063/authority/P2_063_PHASE_DELEGATED_TASK_AUTHORITY_V3.json
     sha256: 6cbcc751205b4870dc85994cf5753648858dfd38298d060253b89f6c1b48f6b3
@@ -18440,9 +18440,9 @@ historical_p2_063_terminal_active_work:
   activation_parent_commit: 2ec3b762c1a621eeb720bf9e03b7d5c5a0270491
   activation_parent_tree: ee3ca1f73ec392c9d2d3daea239600b8f41407df
   terminal_receipt:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/task-p2-063/terminal/P2_063_TERMINAL_REPAIR3_SAME_ROOT_CAUSE_CTO_SECURITY_NON_PASS_RECEIPT.json
-    byte_length: 4427
-    sha256: 6a9b11b08de07e20a715e20af7e525920fc7bcacd4b4054391f2da0bc3ebf79a
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/task-p2-063/terminal-sync-v2/P2_063_TERMINAL_REPAIR3_CTO_TARGET_NON_PASS_RECEIPT_V2.json
+    byte_length: 2735
+    sha256: c576a99f66ee34315fce24607b1731f6d3ef2cb20400c0d5c918159195bcdd19
   final_review:
     verdict: NON_PASS
     normalized_root_cause: EXACT_NO_GRAPH_TRANSACTIONAL_FALLBACK_DRIFT
@@ -24942,7 +24942,7 @@ claim_boundary:
   real_engineering_progress: P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_P2_063_REPAIR3_SAME_ROOT_CTO_SECURITY_NON_PASS_ENVELOPE_EXHAUSTED
   p2_063_status: TERMINAL_REPAIR3_SAME_NORMALIZED_ROOT_CTO_SECURITY_TARGET_NON_PASS
   p2_063_normalized_root_cause: EXACT_NO_GRAPH_TRANSACTIONAL_FALLBACK_DRIFT
-  p2_063_terminal_receipt_sha256: 6a9b11b08de07e20a715e20af7e525920fc7bcacd4b4054391f2da0bc3ebf79a
+  p2_063_terminal_receipt_sha256: c576a99f66ee34315fce24607b1731f6d3ef2cb20400c0d5c918159195bcdd19
   p2_063_final_review_verdict: NON_PASS
   p2_063_final_review_sha256: ae04d9a2d2de230d5a864e961af143d5eb79cec9e672e009c7c24ad706323e9e
   p2_063_focused_tests: 378_PASS

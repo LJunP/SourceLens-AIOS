@@ -143,27 +143,16 @@ claim_boundary: >-
   not themselves create capability credit.
 terminal_outcome:
   status: TERMINAL_REPAIR3_SAME_NORMALIZED_ROOT_CTO_SECURITY_TARGET_NON_PASS
-  normalized_root_cause: EXACT_NO_GRAPH_TRANSACTIONAL_FALLBACK_DRIFT
-  same_task_repairs_consumed: 3
   candidate_commit: null
   candidate_tree: null
-  formal_dev_transactions: 0
-  sealed_validation_runs: 0
-  cto_security_review: TARGET_VERDICT_NON_PASS
-  quality_candidate_review: NOT_STARTED_AFTER_DECISIVE_CTO_SECURITY_NON_PASS
+  sealed_formal_value_result: NOT_STARTED_FINAL_REVIEW_NON_PASS
+  cto_review: NON_PASS
+  security_review: NOT_STARTED_AFTER_DECISIVE_CTO_NON_PASS
+  quality_review: NOT_STARTED_AFTER_DECISIVE_CTO_NON_PASS
   terminal_receipt:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/task-p2-063/terminal/P2_063_TERMINAL_REPAIR3_SAME_ROOT_CAUSE_CTO_SECURITY_NON_PASS_RECEIPT.json
-    byte_length: 4427
-    sha256: 6a9b11b08de07e20a715e20af7e525920fc7bcacd4b4054391f2da0bc3ebf79a
-  source_snapshot_manifest:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/task-p2-063/terminal/P2_063_SOURCE_SNAPSHOT_MANIFEST.json
-    byte_length: 3561
-    sha256: 46ee776efdfab59f0c48dc95ec7ed52992cd4c909afac7349992cb18e9780b5d
-  final_review_receipt:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/task-p2-063/terminal/P2_063_FRESH_CTO_SECURITY_TARGET_NON_PASS_RECEIPT.json
-    byte_length: 2239
-    sha256: ae04d9a2d2de230d5a864e961af143d5eb79cec9e672e009c7c24ad706323e9e
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/task-p2-063/terminal-sync-v2/P2_063_TERMINAL_REPAIR3_CTO_TARGET_NON_PASS_RECEIPT_V2.json
+    byte_length: 2735
+    sha256: c576a99f66ee34315fce24607b1731f6d3ef2cb20400c0d5c918159195bcdd19
   capability_credit: 0
   candidate_integrated: false
   canonical_make_verify: NOT_INVOKED_FINAL_REVIEW_STOP
-  rerun_or_repair_permitted: false

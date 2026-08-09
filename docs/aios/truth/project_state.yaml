@@ -7837,16 +7837,15 @@ founder_escalation_control:
   schema_version: founder-escalation-control/v1
   disposition: RESERVED_TRIGGER_REQUIRES_FOUNDER_DECISION
   source_event:
-    kind: PHASE_ENVELOPE_EXHAUSTED_AFTER_TASK_TERMINAL
-    task_id: AIOS-P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE
-    status: TERMINAL_REPAIR3_SAME_NORMALIZED_ROOT_CTO_SECURITY_TARGET_NON_PASS
+    kind: PHASE_ENVELOPE_EXPANSION_REQUIRED
+    task_id: null
+    status: PENDING_FOUNDER_RESERVED_DECISION
   reserved_trigger:
     category: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
     evidence:
-      limits: 8_TASKS_208_ENGINEERING_HOURS_52_CALENDAR_DAYS
-      consumed: 8_TASKS_208_ENGINEERING_HOURS_52_CALENDAR_DAYS
-      remaining: 0_TASKS_0_ENGINEERING_HOURS_0_CALENDAR_DAYS
-      terminal_receipt_sha256: c576a99f66ee34315fce24607b1731f6d3ef2cb20400c0d5c918159195bcdd19
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/phase-envelope-exhaustion/P2_ENVELOPE_EXHAUSTION_RESERVED_TRIGGER_EVIDENCE_V1.json
+      byte_length: 3273
+      sha256: 2874955a8f5fd158dcc16c920c449401905b31547e15155409d453182a2b6a4e
   phase_gate_status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
   founder_decision_required: true
   next_action_owner: HUMAN_FOUNDER

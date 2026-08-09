@@ -7869,9 +7869,9 @@ founder_escalation_control:
   reserved_trigger:
     category: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
     evidence:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/phase-envelope-exhaustion-v2/P2_ENVELOPE_EXHAUSTION_RESERVED_TRIGGER_EVIDENCE_V2.json
-      byte_length: 3312
-      sha256: a79d3672920b19722a8927a24a10c3220a3b3c18b21e7e4d403560f568e4e4c3
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/phase-envelope-exhaustion-v3/P2_ENVELOPE_EXHAUSTION_RESERVED_TRIGGER_EVIDENCE_V3.json
+      byte_length: 3318
+      sha256: 2500532b5f7c37ec116b0509b647cfa7e95b5d56c4b4a06f5b1e726b2cdc08d7
   phase_gate_status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
   founder_decision_required: true
   next_action_owner: HUMAN_FOUNDER

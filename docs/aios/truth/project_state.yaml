@@ -7644,7 +7644,7 @@ historical_p2_060_founder_expansion_phase_route:
 phase_execution_envelope:
   schema_version: phase-execution-envelope/v1
   phase: P2
-  status: TASK_CAPACITY_RESERVED
+  status: EXHAUSTED
   authority_basis:
     phase_entry_status: AUTHORIZED
     policy_path: docs/aios/FOUNDER_DELEGATION_POLICY.md

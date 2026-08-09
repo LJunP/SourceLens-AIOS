@@ -7609,7 +7609,7 @@ founder_escalation_control:
   phase_gate_status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
   founder_decision_required: false
   next_action_owner: MASTER_CEO_AGENT
-  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
+  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
 historical_p2_053_phase_route:
   schema_version: "1.1"
   route_id: P2_COMPILER_ATTRIBUTED_JAVA_EDGE_TRUTH_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1

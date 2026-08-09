@@ -7821,23 +7821,7 @@ phase_execution_envelope:
     engineering_tasks: 8
     engineering_hours: 208
     calendar_days: 52
-  reserved:
-    task_id: null
-    route_id: null
-    status: NONE_ENVELOPE_EXHAUSTED
-    capacity_source_task_id: null
-    budget:
-      engineering_tasks: 0
-      engineering_hours: 0
-      calendar_days: 0
-    contract:
-      path: null
-      sha256: null
-      byte_length: null
-    authority:
-      path: null
-      sha256: null
-      byte_length: null
+  reserved: null
   remaining:
     engineering_tasks: 0
     engineering_hours: 0

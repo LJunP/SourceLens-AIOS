@@ -1,0 +1,144 @@
+schema_version: "1.0"
+record_type: aios_phase_delegated_independent_task_contract
+task_id: AIOS-P2-061_PRODUCT_GRAPH_NEIGHBOR_CONTEXT_SELECTION_VERTICAL_SLICE
+phase: P2
+route_id: AIOS-P2-061_PRODUCT_GRAPH_NEIGHBOR_CONTEXT_SELECTION_VERTICAL_SLICE_PHASE_DELEGATED_ROUTE
+status: ACTIVE
+task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
+capability: GRAPH_CONDITIONED_CONTEXT_SELECTION
+objective: >-
+  Implement one bounded repository-context selector in the real Code QA product
+  path that can recover direct same-scan graph neighbors absent from the initial
+  lexical candidate pool, then prove with an independently frozen equal-budget
+  DEV and out-of-sample validation benchmark whether it beats deterministic
+  lexical retrieval without product regression.
+capacity_source_task_id: AIOS-P2-061_PRODUCT_GRAPH_NEIGHBOR_CONTEXT_SELECTION_VERTICAL_SLICE
+budget:
+  engineering_hours: 32
+  calendar_days: 8
+  implementation_iterations: 4
+  candidates: 1
+max_same_task_repairs: 3
+roles:
+  owner: P2 Product Value First Master P2-061
+  worker: P2-061 Backend Product Context Worker
+  independent_reviewers:
+    - P2-061 Fresh CTO Reviewer
+    - P2-061 Fresh Security Reviewer
+    - P2-061 Fresh Quality Reviewer
+allowlisted_paths:
+  - backend-spring/src/main/java/com/sourcelens/module/agent/service/RepositoryContextSelectionService.java
+  - backend-spring/src/main/java/com/sourcelens/module/agent/controller/CodeQaController.java
+  - backend-spring/src/main/java/com/sourcelens/module/agent/dto/CodeQaRetrievalPlan.java
+  - backend-spring/src/main/java/com/sourcelens/module/analysis/service/CodeChunkService.java
+  - backend-spring/src/test/java/com/sourcelens/RepositoryContextSelectionServiceTest.java
+  - backend-spring/src/test/java/com/sourcelens/CodeQaControllerTest.java
+  - backend-spring/src/test/java/com/sourcelens/CodeChunkServiceTest.java
+  - evaluation-harness/evaluator/p2-product-context-selector
+  - evaluation-harness/datasets/p2-product-context-selector
+  - evaluation-harness/reports/p2-product-context-selector
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+phase_delegation_binding:
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: "1.8"
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  delegation_amendment:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/founder-delegation-continuity-20260808/decision/FOUNDER_PHASE_DELEGATION_CONTINUITY_AMENDMENT_V1.json
+    byte_length: 1182
+    sha256: c37634c51b0b7695204c026f9950911c427f544a6ff2e2c2f786facb9a84a52e
+  source_decision:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/decision/FOUNDER_P2_STRATEGIC_HOLD_RELEASE_PRODUCT_VALUE_FIRST_AUTONOMOUS_PHASE_ROUTE_V1.structured-decision.json
+    sha256: c4632f07ad9f8d9bb290ce406a6a4514bd022512fd5290874a3df2e54abd0215
+    byte_length: 7285
+  source_terminal_event:
+    task_id: AIOS-P2-060_JAVA_RUNTIME_OBSERVED_CONTEXT_VALUE_BENCHMARK
+    status: TERMINAL_PRESEALED_ANTI_LOOP_STOP_CONDITION_NON_PASS
+    outcome_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-java-runtime-observed-context-value-20260809/task-p2-060/terminal/P2_060_TERMINAL_PRESEALED_ANTI_LOOP_STOP_CONDITION_NON_PASS_RECEIPT.json
+      byte_length: 7878
+      sha256: 6c686b523ac3be84a69def285c9a9207ed459e139e8bca0dd3fc6f645e843c10
+  phase_envelope_snapshot:
+    limits:
+      engineering_tasks: 8
+      engineering_hours: 208
+      calendar_days: 52
+      active_tasks: 1
+      task_branches: 1
+      task_worktrees: 1
+      active_candidates: 1
+    consumed:
+      engineering_tasks: 5
+      engineering_hours: 112
+      calendar_days: 28
+    reserved:
+      task_id: AIOS-P2-061_PRODUCT_GRAPH_NEIGHBOR_CONTEXT_SELECTION_VERTICAL_SLICE
+      route_id: AIOS-P2-061_PRODUCT_GRAPH_NEIGHBOR_CONTEXT_SELECTION_VERTICAL_SLICE_PHASE_DELEGATED_ROUTE
+      status: ACTIVE
+      capacity_source_task_id: AIOS-P2-061_PRODUCT_GRAPH_NEIGHBOR_CONTEXT_SELECTION_VERTICAL_SLICE
+      budget:
+        engineering_tasks: 1
+        engineering_hours: 32
+        calendar_days: 8
+    remaining:
+      engineering_tasks: 2
+      engineering_hours: 64
+      calendar_days: 16
+  founder_packet_for_task: null
+acceptance_criteria:
+  - Quality freezes the exact accepted P1 six-task dataset identity, ordered source-unit universe, relevant-neutral-forbidden oracle, 512-byte canonical context budget and deterministic lexical control before Worker product mutation.
+  - The real Code QA product path delegates repository-context selection to one bounded service while preserving the existing request, citation, retrieval mode and PRIMARY versus ADJACENT_CONTEXT response semantics.
+  - A direct graph neighbor absent from the initial lexical candidate pool can be recovered only from the same scan through exact repository-relative path and valid span matching; graph failure deterministically falls back to the original lexical selection.
+  - Control and treatment use the same source-unit universe, 512 UTF-8 byte budget, six-task denominator and independent Quality evaluator; the lexical control never loads graph, oracle or treatment-only logic.
+  - Public DEV treatment macro recall is strictly greater than lexical control with no per-task regression, zero forbidden context, zero false accepts and byte-exact stable projection across two physical roots before the unique candidate is frozen.
+  - One out-of-sample validation run on the frozen candidate yields treatment macro recall strictly greater than control, at least one additional relevant unit, no per-task regression and zero forbidden context.
+  - Same-scan, canonical path, symbol uniqueness, relation allowlist, span, content hash, one-hop fan-out, chunk count and byte budget controls reject cross-scan, ambiguous, malformed and oversized graph additions.
+  - Existing Code QA regression tests and Task-local selector tests pass offline without Provider, Secret, network, remote, production or public effects.
+  - Fresh CTO, Security and Quality Reviews all return TARGET_VERDICT PASS on the same exact candidate and benchmark result before integration.
+  - Reviewed and integrated trees are exact-equal and one canonical make verify passes; only then may the P2 context benchmark Exit item become ACCEPTED.
+required_evidence:
+  - Quality-owned pre-Worker dataset, source-unit, oracle, control, budget and out-of-sample split freeze identities.
+  - Product unit and controller integration tests covering graph-neighbor uplift, lexical fallback, path and scan containment, relation and symbol ambiguity, budget and UTF-8 accounting.
+  - Independent DEV and one-shot validation raw results with equal-universe/equal-budget reconstruction, two-root replay, forbidden-context and false-accept matrices.
+  - Exact candidate commit, tree, diff and allowlisted source identities plus offline command, exit, stdout, stderr and bounded cooperative-local effect observations.
+  - Fresh exact-candidate CTO, Security and Quality Review receipts and, only after all PASS, integration tree equality plus canonical make verify receipt.
+rollback: >-
+  Before integration all work remains on the unique P2-061 branch/worktree and
+  external Evidence root. A terminal NON_PASS preserves exact Evidence and a
+  content-addressed diff before the branch/worktree is removed. An integrated
+  regression is rolled back by a non-destructive revert of the unique integration
+  commit; no data migration or backfill is involved.
+stop_conditions:
+  - Any rejected P2 engineering source, candidate, evaluator, fixture, test or formal Evidence is read, compared, restored, copied or reused.
+  - Quality cannot freeze the six-task universe, oracle, 512-byte budget, denominator and out-of-sample boundary before Worker product mutation.
+  - DEV fails to strictly beat lexical control, regresses any task, admits forbidden context or produces a false accept within four total implementation iterations.
+  - The product slice requires analyzer, parser, graph producer, database schema, migration or Provider changes.
+  - Candidate, source universe, oracle, budget, denominator or evaluator identity drifts, or two physical roots do not replay byte-exactly.
+  - One-shot validation does not strictly beat control, regresses any task, admits forbidden context or would require post-validation repair or a second candidate.
+  - Any external effect is nonzero or UNKNOWN, any final Reviewer returns TARGET_VERDICT NON_PASS, or canonical tree equality or make verify fails.
+  - The same normalized root cause occurs in two adjacent implementation iterations or the Task budget is exhausted.
+forbidden_actions:
+  - Read, restore, compare, copy, execute or reuse rejected P2 engineering lineage.
+  - Modify analyzer-rust, parser, graph producer, database schema or migrations; create an authority, governance, parser or general Evidence platform.
+  - Read out-of-sample oracle bytes before candidate freeze or tune the selector, universe, budget, denominator or acceptance threshold after observing validation.
+  - Access network, Provider, Secret, remote, production or public systems; push, fetch, create a PR, release, deploy or enter P3.
+  - Create a successor, replacement, correction, normalization, closure, feasibility or remediation chain for this Task.
+claim_boundary: >-
+  A PASS may establish only an offline cooperative-local product-path context
+  selection value result on the exact accepted six-task benchmark and exact
+  candidate. It does not establish immutable repository custody, hostile-principal
+  security, kernel-complete observation, production readiness, Founder P2 Phase
+  Gate approval or P3 entry. Activation, documents, hashes and DEV feasibility do
+  not themselves create capability credit.

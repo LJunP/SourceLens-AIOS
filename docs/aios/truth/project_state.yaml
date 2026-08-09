@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-09T08:11:06Z"
-verification_scope: P2_062_FORMAL_DEV_ADAPTER_INVOCATION_TERMINAL_AND_DIRECT_P2_063_ACTIVATION
+last_verified_at: "2026-08-09T13:53:26Z"
+verification_scope: P2_063_REPAIR3_SAME_ROOT_CTO_SECURITY_NON_PASS_TERMINAL_AND_P2_ENVELOPE_EXHAUSTION
 
 authority:
   founder: Human Founder
@@ -37,26 +37,37 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: AIOS-P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE
+  current_task_authority: NONE
   note: >-
-    P2-062 is TERMINAL_FORMAL_DEV_INPUT_ADAPTER_INVOCATION_SCHEMA_NON_PASS.
-    Its Quality-first Java direct-call freeze and pre-formal DEV checks remain
+    P2-063 is
+    TERMINAL_REPAIR3_SAME_NORMALIZED_ROOT_CTO_SECURITY_TARGET_NON_PASS.
+    Its implementation compiled and passed 378 focused tests, the existing
+    twenty-two-case retrieval guardrail and the full 965-test backend suite, but
+    fresh final review reproduced the same normalized exact-no-graph
+    transactional fallback drift: an actual-render budget rejection recomputed
+    the no-graph baseline instead of reusing the already frozen projection.
+    The same review also proved malformed duplicate-symbol and noncanonical
+    evidence-path false-accepts. Contract stop conditions and the three-repair
+    ceiling therefore prohibit another repair, candidate, formal DEV, sealed
+    validation or integration. Exact unaccepted source bytes and the review are
+    preserved in the terminal Evidence root; no capability credit was created.
+    The Founder product-value-first P2 envelope is now fully consumed at eight
+    Tasks, two-hundred-eight engineering hours and fifty-two calendar days.
+    CONTEXT_BENCHMARK_BEATS_SIMPLE_RETRIEVAL_BASELINES remains MISSING, strict
+    P2 progress remains zero percent, P3 remains HOLD and all external effects
+    remain false. The exact reserved trigger is
+    MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE, so no
+    new P2 Task is eligible without one Founder strategic decision. All
+    paragraphs below this sentence are retained historical chronology only and
+    have no current Task, Route or scheduling authority. P2-062 is
+    TERMINAL_FORMAL_DEV_INPUT_ADAPTER_INVOCATION_SCHEMA_NON_PASS. Its
+    Quality-first Java direct-call freeze and pre-formal DEV checks remain
     historical facts only. The unique create-once formal DEV transaction
     started exactly once, but its first subprocess received a direct task object
     while the frozen endpoint harness required a top-level task wrapper; it
     exited before any endpoint response or formal metric. No rerun, candidate,
     sealed validation, final Review, integration, canonical make verify or
-    capability credit occurred. The rejected P2-062 source, candidate,
-    evaluator, fixture, test and formal Evidence bytes are closed and cannot be
-    implementation inputs. Under the still-active Founder product-value-first
-    envelope, Master directly activated the materially distinct
-    AIOS-P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE.
-    P2-063 uses accepted canonical product bytes and a fresh independently
-    frozen constructor-dependency oracle to evaluate a same-scan DEPENDS_ON
-    symbol-neighborhood context pack in the real Code QA endpoint. P2 remains at
-    zero accepted capability, P3 remains HOLD and all external effects remain
-    false. All paragraphs below this sentence are retained historical chronology
-    only and have no current Task, Route or scheduling authority. P2-061 is
+    capability credit occurred. P2-061 is
     TERMINAL_PREFREEZE_PRODUCT_DATASET_COMPATIBILITY_NON_PASS after
     two independent pre-Worker checks proved that all twenty source artifacts in
     the exact accepted six-task P1 sample are .mjs while the current real Code QA
@@ -1493,9 +1504,9 @@ project:
   p1_execution_status: COMPLETE_STRICT_8_OF_8_100_PERCENT
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
-  p2_execution_status: ACTIVE
-  phase_execution_status: ACTIVE
-  current_route_execution_status: ACTIVE_PHASE_DELEGATED_TASK
+  p2_execution_status: ENVELOPE_EXHAUSTED_EXIT_GATE_MISSING_AWAITING_FOUNDER_DECISION
+  phase_execution_status: HOLD_RESERVED_TRIGGER_FOUNDER_DECISION_REQUIRED
+  current_route_execution_status: TERMINAL_PHASE_ENVELOPE_EXHAUSTED_WITHOUT_EXIT_GATE
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -6242,23 +6253,23 @@ historical_p1_162_phase_route:
 current_phase_route:
   schema_version: phase-delegated-independent-task/v1
   route_id: AIOS-P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE_PHASE_DELEGATED_ROUTE
-  status: ACTIVE
-  execution_status: ACTIVE
-  scheduling_status: ACTIVE_PHASE_DELEGATED_TASK
+  status: TERMINAL_REPAIR3_SAME_NORMALIZED_ROOT_CTO_SECURITY_TARGET_NON_PASS
+  execution_status: TERMINAL_REPAIR3_SAME_NORMALIZED_ROOT_CTO_SECURITY_TARGET_NON_PASS
+  scheduling_status: TERMINAL_PHASE_ENVELOPE_EXHAUSTED
   phase: P2
   phase_entry_status: AUTHORIZED
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: "1.8"
     sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
-  founder_phase_route_decision_required: false
-  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
+  founder_phase_route_decision_required: true
+  next_eligible_action: FOUNDER_DECIDE_P2_ENVELOPE_OR_PHASE_OBJECTIVE
   phase_execution_envelope_ref: phase_execution_envelope
   source_authority_route_ref: historical_p2_product_value_first_founder_expansion_phase_route
   preceding_terminal_route_ref: historical_p2_062_phase_route
   selected_task:
     task_id: AIOS-P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE
-    status: ACTIVE
+    status: TERMINAL_REPAIR3_SAME_NORMALIZED_ROOT_CTO_SECURITY_TARGET_NON_PASS
     task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
     capability: GRAPH_CONDITIONED_CONTEXT_SELECTION
     objective: >-
@@ -6278,8 +6289,8 @@ current_phase_route:
     max_same_task_repairs: 3
     contract:
       path: docs/aios/tasks/P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE.yaml
-      sha256: 0dd56b3978899cd4eabc89eca434bc7093fff9c553e38b9db820ff48b208433a
-      byte_length: 11388
+      sha256: 7ab5a102b84a9b3136a5f7ff6f3359a11112ded831df3a5cd9390baca4ac1abb
+      byte_length: 12876
     independence:
       new_task_id: true
       new_execution_nonce: true
@@ -7262,11 +7273,11 @@ historical_p2_058_founder_expansion_phase_route:
 historical_p2_product_value_first_founder_expansion_phase_route:
   schema_version: "1.1"
   route_id: P2_PRODUCT_VALUE_FIRST_REPOSITORY_CONTEXT_ROUTE_V1
-  status: FOUNDER_EXPANDED_PHASE_CAPACITY_SOURCE
-  authority_object_status: ACTIVE_PHASE_CAPACITY_SOURCE
-  execution_status: FOUNDER_EXPANDED_PHASE_CAPACITY_SOURCE
-  founder_phase_route_decision_required: false
-  scheduling_status: P2_061_PHASE_DELEGATED_ACTIVE
+  status: TERMINAL_PHASE_ENVELOPE_EXHAUSTED_WITHOUT_EXIT_GATE
+  authority_object_status: EXHAUSTED_PHASE_CAPACITY_SOURCE
+  execution_status: TERMINAL_PHASE_ENVELOPE_EXHAUSTED_WITHOUT_EXIT_GATE
+  founder_phase_route_decision_required: true
+  scheduling_status: FOUNDER_STRATEGIC_DECISION_REQUIRED
   phase: P2
   phase_entry_status: AUTHORIZED
   authorization_token: AUTHORIZE_P2_STRATEGIC_HOLD_RELEASE_PRODUCT_VALUE_FIRST_AUTONOMOUS_PHASE_ROUTE_V1
@@ -7418,7 +7429,7 @@ historical_p2_product_value_first_founder_expansion_phase_route:
       external_effects: {network: false, provider: false, secret: false, remote: false, production: false, public: false}
     - task_slot: 8
       task_id: AIOS-P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE
-      status: ACTIVE
+      status: TERMINAL_REPAIR3_SAME_NORMALIZED_ROOT_CTO_SECURITY_TARGET_NON_PASS
       engineering_hours: 32
       calendar_days: 8
       max_engineering_hours: 32
@@ -7441,7 +7452,7 @@ historical_p2_product_value_first_founder_expansion_phase_route:
     - {after_task_id: AIOS-P2-061_PRODUCT_GRAPH_NEIGHBOR_CONTEXT_SELECTION_VERTICAL_SLICE, next_task_id: AIOS-P2-062_PRODUCT_PATH_CHANGE_IMPACT_CONTEXT_SELECTOR_VALUE_SLICE, requires_task_gate_pass: false}
     - {after_task_id: AIOS-P2-062_PRODUCT_PATH_CHANGE_IMPACT_CONTEXT_SELECTOR_VALUE_SLICE, next_task_id: AIOS-P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE, requires_task_gate_pass: false}
   inherited_worktree_inventory: []
-  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
+  next_eligible_action: FOUNDER_DECIDE_P2_ENVELOPE_OR_PHASE_OBJECTIVE
 
 historical_p2_060_founder_expansion_phase_route:
   schema_version: '1.1'
@@ -7791,27 +7802,42 @@ phase_execution_envelope:
       path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/task-p2-062/terminal/P2_062_TERMINAL_FORMAL_DEV_INPUT_ADAPTER_INVOCATION_SCHEMA_NON_PASS_RECEIPT.json
       byte_length: 3824
       sha256: 112249a412c5c5a9dbf8c2afb68fa14da549b14d58eb8d6ac36a77d779654d87
-  consumed:
-    engineering_tasks: 7
-    engineering_hours: 176
-    calendar_days: 44
-  reserved:
-    task_id: AIOS-P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE
+  - task_id: AIOS-P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE
     route_id: AIOS-P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE_PHASE_DELEGATED_ROUTE
-    status: ACTIVE
-    capacity_source_task_id: AIOS-P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE
+    status: TERMINAL_REPAIR3_SAME_NORMALIZED_ROOT_CTO_SECURITY_TARGET_NON_PASS
     budget:
       engineering_tasks: 1
       engineering_hours: 32
       calendar_days: 8
     contract:
       path: docs/aios/tasks/P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE.yaml
-      sha256: 0dd56b3978899cd4eabc89eca434bc7093fff9c553e38b9db820ff48b208433a
-      byte_length: 11388
+      byte_length: 12876
+      sha256: 7ab5a102b84a9b3136a5f7ff6f3359a11112ded831df3a5cd9390baca4ac1abb
+    outcome_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/task-p2-063/terminal/P2_063_TERMINAL_REPAIR3_SAME_ROOT_CAUSE_CTO_SECURITY_NON_PASS_RECEIPT.json
+      byte_length: 4427
+      sha256: 6a9b11b08de07e20a715e20af7e525920fc7bcacd4b4054391f2da0bc3ebf79a
+  consumed:
+    engineering_tasks: 8
+    engineering_hours: 208
+    calendar_days: 52
+  reserved:
+    task_id: null
+    route_id: null
+    status: NONE_ENVELOPE_EXHAUSTED
+    capacity_source_task_id: null
+    budget:
+      engineering_tasks: 0
+      engineering_hours: 0
+      calendar_days: 0
+    contract:
+      path: null
+      sha256: null
+      byte_length: null
     authority:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/task-p2-063/authority/P2_063_PHASE_DELEGATED_TASK_AUTHORITY_V3.json
-      sha256: 6cbcc751205b4870dc85994cf5753648858dfd38298d060253b89f6c1b48f6b3
-      byte_length: 5298
+      path: null
+      sha256: null
+      byte_length: null
   remaining:
     engineering_tasks: 0
     engineering_hours: 0
@@ -7825,18 +7851,22 @@ phase_execution_envelope:
     public: false
 founder_escalation_control:
   schema_version: founder-escalation-control/v1
-  disposition: NO_RESERVED_TRIGGER_CONTINUE_PHASE
+  disposition: RESERVED_TRIGGER_REQUIRES_FOUNDER_DECISION
   source_event:
-    kind: TASK_TERMINAL_IMPLEMENTATION_NON_PASS
-    task_id: AIOS-P2-062_PRODUCT_PATH_CHANGE_IMPACT_CONTEXT_SELECTOR_VALUE_SLICE
-    status: TERMINAL_FORMAL_DEV_INPUT_ADAPTER_INVOCATION_SCHEMA_NON_PASS
+    kind: PHASE_ENVELOPE_EXHAUSTED_AFTER_TASK_TERMINAL
+    task_id: AIOS-P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE
+    status: TERMINAL_REPAIR3_SAME_NORMALIZED_ROOT_CTO_SECURITY_TARGET_NON_PASS
   reserved_trigger:
-    category: NONE
-    evidence: null
+    category: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+    evidence:
+      limits: 8_TASKS_208_ENGINEERING_HOURS_52_CALENDAR_DAYS
+      consumed: 8_TASKS_208_ENGINEERING_HOURS_52_CALENDAR_DAYS
+      remaining: 0_TASKS_0_ENGINEERING_HOURS_0_CALENDAR_DAYS
+      terminal_receipt_sha256: 6a9b11b08de07e20a715e20af7e525920fc7bcacd4b4054391f2da0bc3ebf79a
   phase_gate_status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
-  founder_decision_required: false
-  next_action_owner: MASTER_CEO_AGENT
-  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
+  founder_decision_required: true
+  next_action_owner: HUMAN_FOUNDER
+  next_eligible_action: FOUNDER_DECIDE_P2_ENVELOPE_OR_PHASE_OBJECTIVE
 historical_p2_053_phase_route:
   schema_version: "1.1"
   route_id: P2_COMPILER_ATTRIBUTED_JAVA_EDGE_TRUTH_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
@@ -13540,7 +13570,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260809-P2-062-TERMINAL-P2-063-ACTIVATION-V1
+  latest_event_id: FKS-20260809-P2-063-TERMINAL-P2-ENVELOPE-EXHAUSTED-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -18255,6 +18285,45 @@ founder_knowledge_sync:
         byte_length: null
         sha256: null
       event_sha256: 1591ed791bd06dc9394c493da9163862abcd9df0d95fde1de7cdd5271cf86eee
+    - event_id: FKS-20260809-P2-063-TERMINAL-P2-ENVELOPE-EXHAUSTED-V1
+      trigger_type: TASK_TERMINAL_AND_PHASE_ENVELOPE_EXHAUSTED
+      occurred_at_utc: "2026-08-09T13:53:26Z"
+      source_commit: a7aecce62fa23d87705ecce9bebdc463cb884bff
+      source_tree: 39934848533be707a07e4e1e9412844e39678eab
+      previous_event_sha256: 1591ed791bd06dc9394c493da9163862abcd9df0d95fde1de7cdd5271cf86eee
+      status: PENDING_CANDIDATE
+      rationale: >-
+        P2-063 terminally stopped after fresh CTO and Security review reproduced
+        the same normalized exact-no-graph transactional fallback drift after
+        the third same-Task repair. Passing focused and full backend tests did
+        not close the independently constructed failure transaction or the
+        malformed duplicate and noncanonical path false-accepts. No candidate,
+        formal DEV, sealed validation, integration or capability credit exists.
+        The persistent P2 envelope is now fully consumed while the sole Exit
+        item remains MISSING, which triggers one Founder strategic decision.
+        The reusable lesson is that a failure fallback must reuse one immutable
+        baseline projection, uniqueness must count raw identities before
+        validity filtering, and canonical inputs must be rejected before any
+        normalization. Knowledge synchronization is non-authoritative and
+        nonblocking.
+      engineering_blocking: false
+      artifact:
+        path: null
+        byte_length: null
+        sha256: null
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+      event_sha256: 0d38d6ebfb2a9659fc1bcb195f0cc2dd0bce03701d9894bfad43e0bb43a62a94
 
 historical_active_work_after_p1_079:
   current_task: NONE
@@ -18307,48 +18376,35 @@ historical_active_work_after_p1_079:
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 active_work:
-  current_task: AIOS-P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE
-  current_task_status: ACTIVE
+  current_task: NONE
+  current_task_status: NONE_P2_ENVELOPE_EXHAUSTED
   current_task_contract:
-    path: docs/aios/tasks/P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE.yaml
-    sha256: 0dd56b3978899cd4eabc89eca434bc7093fff9c553e38b9db820ff48b208433a
-    byte_length: 11388
-  current_task_contract_sha256: 0dd56b3978899cd4eabc89eca434bc7093fff9c553e38b9db820ff48b208433a
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/task-p2-063/authority/P2_063_PHASE_DELEGATED_TASK_AUTHORITY_V3.json
-  current_execution_authorization_sha256: 6cbcc751205b4870dc85994cf5753648858dfd38298d060253b89f6c1b48f6b3
+    path: null
+    sha256: null
+    byte_length: null
+  current_task_contract_sha256: null
+  current_execution_authorization: null
+  current_execution_authorization_sha256: null
   authority_record:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/task-p2-063/authority/P2_063_PHASE_DELEGATED_TASK_AUTHORITY_V3.json
-    sha256: 6cbcc751205b4870dc85994cf5753648858dfd38298d060253b89f6c1b48f6b3
-    byte_length: 5298
-  execution_nonce: c101588b-7b00-4c61-9f65-b93911231f46
-  execution_nonce_status: ACTIVE
-  authorization_id: 80a6d05d-227b-4ca5-bbe4-622ed7bff6c6
-  activation_parent_commit: 2ec3b762c1a621eeb720bf9e03b7d5c5a0270491
-  activation_parent_tree: ee3ca1f73ec392c9d2d3daea239600b8f41407df
-  task_resource_state: ACTIVE_UNIQUE_PHASE_DELEGATED
-  task_branch: codex/p2-063-java-dependency-neighborhood
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-063-java-dependency-neighborhood
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/task-p2-063/evidence
-  allowlisted_paths:
-    - backend-spring/src/main/java/com/sourcelens/module/agent/service/JavaDependencyNeighborhoodContextService.java
-    - backend-spring/src/main/java/com/sourcelens/module/agent/controller/CodeQaController.java
-    - backend-spring/src/main/java/com/sourcelens/module/agent/dto/CodeQaRetrievalPlan.java
-    - backend-spring/src/main/java/com/sourcelens/module/analysis/service/CodeChunkService.java
-    - backend-spring/src/test/java/com/sourcelens/JavaDependencyNeighborhoodContextServiceTest.java
-    - backend-spring/src/test/java/com/sourcelens/CodeQaControllerTest.java
-    - backend-spring/src/test/java/com/sourcelens/CodeChunkServiceTest.java
+    path: null
+    sha256: null
+    byte_length: null
+  execution_nonce: null
+  execution_nonce_status: CONSUMED_TERMINAL
+  authorization_id: null
+  activation_parent_commit: null
+  activation_parent_tree: null
+  task_resource_state: NONE_P2_ENVELOPE_EXHAUSTED
+  task_branch: null
+  task_worktree: null
+  execution_evidence_root: null
+  allowlisted_paths: []
   budget:
-    engineering_hours: 32
-    calendar_days: 8
-    implementation_iterations: 4
-    candidates: 1
-  roles:
-    owner: P2 Product Value First Master P2-063
-    worker: P2-063 Backend Java Dependency Neighborhood Worker
-    independent_reviewers:
-      - P2-063 Fresh CTO Reviewer
-      - P2-063 Fresh Security Reviewer
-      - P2-063 Fresh Quality Reviewer
+    engineering_hours: 0
+    calendar_days: 0
+    implementation_iterations: 0
+    candidates: 0
+  roles: {}
   external_effects:
     network: false
     provider: false
@@ -18359,13 +18415,59 @@ active_work:
   offsite_target: null
   founder_reserved_authorization: null
   founder_reserved_authorization_sha256: null
-  founder_decision_required: false
-  founder_decision_required_scope: null
-  escalation_reason: null
-  user_action_required: NONE
-  phase_route_decision_required: false
-  phase_route_user_action_required: NONE
-  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
+  founder_decision_required: true
+  founder_decision_required_scope: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+  escalation_reason: P2_ENVELOPE_EXHAUSTED_WITH_REQUIRED_EXIT_ITEM_MISSING
+  user_action_required: FOUNDER_P2_STRATEGIC_DECISION
+  phase_route_decision_required: true
+  phase_route_user_action_required: FOUNDER_P2_STRATEGIC_DECISION
+  next_eligible_action: FOUNDER_DECIDE_P2_ENVELOPE_OR_PHASE_OBJECTIVE
+
+historical_p2_063_terminal_active_work:
+  current_task: AIOS-P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE
+  current_task_status: TERMINAL_REPAIR3_SAME_NORMALIZED_ROOT_CTO_SECURITY_TARGET_NON_PASS
+  current_task_contract:
+    path: docs/aios/tasks/P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE.yaml
+    sha256: 7ab5a102b84a9b3136a5f7ff6f3359a11112ded831df3a5cd9390baca4ac1abb
+    byte_length: 12876
+  authority_record:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/task-p2-063/authority/P2_063_PHASE_DELEGATED_TASK_AUTHORITY_V3.json
+    sha256: 6cbcc751205b4870dc85994cf5753648858dfd38298d060253b89f6c1b48f6b3
+    byte_length: 5298
+  execution_nonce: c101588b-7b00-4c61-9f65-b93911231f46
+  execution_nonce_status: CONSUMED_TERMINAL
+  authorization_id: 80a6d05d-227b-4ca5-bbe4-622ed7bff6c6
+  activation_parent_commit: 2ec3b762c1a621eeb720bf9e03b7d5c5a0270491
+  activation_parent_tree: ee3ca1f73ec392c9d2d3daea239600b8f41407df
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/task-p2-063/terminal/P2_063_TERMINAL_REPAIR3_SAME_ROOT_CAUSE_CTO_SECURITY_NON_PASS_RECEIPT.json
+    byte_length: 4427
+    sha256: 6a9b11b08de07e20a715e20af7e525920fc7bcacd4b4054391f2da0bc3ebf79a
+  final_review:
+    verdict: NON_PASS
+    normalized_root_cause: EXACT_NO_GRAPH_TRANSACTIONAL_FALLBACK_DRIFT
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/task-p2-063/terminal/P2_063_FRESH_CTO_SECURITY_TARGET_NON_PASS_RECEIPT.json
+    byte_length: 2239
+    sha256: ae04d9a2d2de230d5a864e961af143d5eb79cec9e672e009c7c24ad706323e9e
+  source_snapshot_manifest:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/task-p2-063/terminal/P2_063_SOURCE_SNAPSHOT_MANIFEST.json
+    byte_length: 3561
+    sha256: 46ee776efdfab59f0c48dc95ec7ed52992cd4c909afac7349992cb18e9780b5d
+  formal_dev_transactions: 0
+  candidate_created: false
+  sealed_validation_runs: 0
+  candidate_integrated: false
+  capability_credit: 0
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false
+  founder_decision_required: true
+  founder_decision_required_scope: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+  next_eligible_action: FOUNDER_DECIDE_P2_ENVELOPE_OR_PHASE_OBJECTIVE
 
 historical_p2_062_terminal_active_work:
   current_task: AIOS-P2-062_PRODUCT_PATH_CHANGE_IMPACT_CONTEXT_SELECTOR_VALUE_SLICE
@@ -24752,8 +24854,8 @@ historical_lineages:
 
 phase_execution_claim:
   current_route_claim: P2_PRODUCT_VALUE_FIRST_REPOSITORY_CONTEXT_ROUTE_V1
-  current_task_claim: AIOS-P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE_ACTIVE
-  real_engineering_progress: P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_P2_062_FORMAL_DEV_ADAPTER_NON_PASS_P2_063_PRODUCT_ENGINEERING_ACTIVE
+  current_task_claim: NONE_P2_ENVELOPE_EXHAUSTED
+  real_engineering_progress: P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_P2_063_REPAIR3_SAME_ROOT_CTO_SECURITY_NON_PASS_ENVELOPE_EXHAUSTED
   product_capability_changed: false
   phase_local_allowed:
     - REAL_CODE_QA_PRODUCT_PATH_REPOSITORY_CONTEXT_SELECTOR
@@ -24835,9 +24937,21 @@ phase_execution_claim:
 
 claim_boundary:
   current_phase_route: P2_PRODUCT_VALUE_FIRST_REPOSITORY_CONTEXT_ROUTE_V1
-  current_task: AIOS-P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE
-  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
-  real_engineering_progress: P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_P2_062_FORMAL_DEV_ADAPTER_NON_PASS_P2_063_PRODUCT_ENGINEERING_ACTIVE
+  current_task: NONE
+  next_eligible_action: FOUNDER_DECIDE_P2_ENVELOPE_OR_PHASE_OBJECTIVE
+  real_engineering_progress: P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_P2_063_REPAIR3_SAME_ROOT_CTO_SECURITY_NON_PASS_ENVELOPE_EXHAUSTED
+  p2_063_status: TERMINAL_REPAIR3_SAME_NORMALIZED_ROOT_CTO_SECURITY_TARGET_NON_PASS
+  p2_063_normalized_root_cause: EXACT_NO_GRAPH_TRANSACTIONAL_FALLBACK_DRIFT
+  p2_063_terminal_receipt_sha256: 6a9b11b08de07e20a715e20af7e525920fc7bcacd4b4054391f2da0bc3ebf79a
+  p2_063_final_review_verdict: NON_PASS
+  p2_063_final_review_sha256: ae04d9a2d2de230d5a864e961af143d5eb79cec9e672e009c7c24ad706323e9e
+  p2_063_focused_tests: 378_PASS
+  p2_063_existing_retrieval_guardrail: 22_CASES_PASS
+  p2_063_full_backend_tests: 965_TESTS_0_FAILURE_0_ERROR_1_SKIPPED
+  p2_063_formal_dev_transactions: 0
+  p2_063_candidate_created: false
+  p2_063_sealed_validation_runs: 0
+  p2_063_capability_credit: 0
   p2_062_status: TERMINAL_FORMAL_DEV_INPUT_ADAPTER_INVOCATION_SCHEMA_NON_PASS
   p2_062_formal_dev_transactions: 1
   p2_062_formal_endpoint_attempts: 1
@@ -24902,9 +25016,9 @@ claim_boundary:
   p2_060_candidate_frozen: false
   p2_060_sealed_runs: 0
   p2_phase_envelope_limits: 8_TASKS_208_ENGINEERING_HOURS_52_CALENDAR_DAYS
-  p2_phase_envelope_consumed: 7_TASKS_176_ENGINEERING_HOURS_44_CALENDAR_DAYS
-  p2_phase_envelope_reserved: 1_TASK_32_ENGINEERING_HOURS_8_CALENDAR_DAYS_FOR_P2_063
-  founder_reserved_trigger: NONE
+  p2_phase_envelope_consumed: 8_TASKS_208_ENGINEERING_HOURS_52_CALENDAR_DAYS
+  p2_phase_envelope_reserved: NONE
+  founder_reserved_trigger: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
   p2_055_status: TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS
   p2_055_candidate_commit: eebb76347ff71a5482b1965e0bf4ac6d4adfa7ca
   p2_055_candidate_tree: f5fb0f22b4a34d4b616214c9bd0bb69b625d2481

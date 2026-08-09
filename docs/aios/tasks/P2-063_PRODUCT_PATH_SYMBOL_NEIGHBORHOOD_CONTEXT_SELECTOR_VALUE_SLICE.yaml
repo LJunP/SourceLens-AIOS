@@ -1,0 +1,142 @@
+record_type: aios_phase_delegated_independent_task_contract
+task_id: AIOS-P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE
+phase: P2
+route_id: AIOS-P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE_PHASE_DELEGATED_ROUTE
+status: ACTIVE
+task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
+capability: GRAPH_CONDITIONED_CONTEXT_SELECTION
+objective: >-
+  Add one bounded Java constructor-dependency symbol-neighborhood context pack
+  to the real Code QA product path, consuming only current persisted same-scan
+  DEPENDS_ON relations so a project-owned dependency definition absent from two
+  simple retrieval controls can become citeable PRIMARY context under an
+  eight-chunk, 8192 UTF-8 byte budget; independently prove value on a fresh
+  pre-frozen Java DEV and one-shot out-of-sample validation sample.
+capacity_source_task_id: AIOS-P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE
+budget:
+  engineering_hours: 32
+  calendar_days: 8
+  implementation_iterations: 4
+  candidates: 1
+max_same_task_repairs: 3
+roles:
+  owner: P2 Product Value First Master P2-063
+  worker: P2-063 Backend Java Dependency Neighborhood Worker
+  independent_reviewers:
+    - P2-063 Fresh CTO Reviewer
+    - P2-063 Fresh Security Reviewer
+    - P2-063 Fresh Quality Reviewer
+allowlisted_paths:
+  - backend-spring/src/main/java/com/sourcelens/module/agent/service/JavaDependencyNeighborhoodContextService.java
+  - backend-spring/src/main/java/com/sourcelens/module/agent/controller/CodeQaController.java
+  - backend-spring/src/main/java/com/sourcelens/module/agent/dto/CodeQaRetrievalPlan.java
+  - backend-spring/src/main/java/com/sourcelens/module/analysis/service/CodeChunkService.java
+  - backend-spring/src/test/java/com/sourcelens/JavaDependencyNeighborhoodContextServiceTest.java
+  - backend-spring/src/test/java/com/sourcelens/CodeQaControllerTest.java
+  - backend-spring/src/test/java/com/sourcelens/CodeChunkServiceTest.java
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+phase_delegation_binding:
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: "1.8"
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  delegation_amendment:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/founder-delegation-continuity-20260808/decision/FOUNDER_PHASE_DELEGATION_CONTINUITY_AMENDMENT_V1.json
+    byte_length: 1182
+    sha256: c37634c51b0b7695204c026f9950911c427f544a6ff2e2c2f786facb9a84a52e
+  source_decision:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/decision/FOUNDER_P2_STRATEGIC_HOLD_RELEASE_PRODUCT_VALUE_FIRST_AUTONOMOUS_PHASE_ROUTE_V1.structured-decision.json
+    sha256: c4632f07ad9f8d9bb290ce406a6a4514bd022512fd5290874a3df2e54abd0215
+    byte_length: 7285
+  source_terminal_event:
+    task_id: AIOS-P2-062_PRODUCT_PATH_CHANGE_IMPACT_CONTEXT_SELECTOR_VALUE_SLICE
+    status: TERMINAL_FORMAL_DEV_INPUT_ADAPTER_INVOCATION_SCHEMA_NON_PASS
+    outcome_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/task-p2-062/terminal/P2_062_TERMINAL_FORMAL_DEV_INPUT_ADAPTER_INVOCATION_SCHEMA_NON_PASS_RECEIPT.json
+      byte_length: 3824
+      sha256: 112249a412c5c5a9dbf8c2afb68fa14da549b14d58eb8d6ac36a77d779654d87
+  phase_envelope_snapshot:
+    limits:
+      engineering_tasks: 8
+      engineering_hours: 208
+      calendar_days: 52
+      active_tasks: 1
+      task_branches: 1
+      task_worktrees: 1
+      active_candidates: 1
+    consumed:
+      engineering_tasks: 7
+      engineering_hours: 176
+      calendar_days: 44
+    reserved:
+      task_id: AIOS-P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE
+      route_id: AIOS-P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE_PHASE_DELEGATED_ROUTE
+      status: ACTIVE
+      capacity_source_task_id: AIOS-P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE
+      budget:
+        engineering_tasks: 1
+        engineering_hours: 32
+        calendar_days: 8
+    remaining:
+      engineering_tasks: 0
+      engineering_hours: 0
+      calendar_days: 0
+  founder_packet_for_task: null
+acceptance_criteria:
+  - Before Worker product mutation, fresh Quality freezes at least twelve unambiguous project-owned Java constructor-dependency tasks from the exact activation-parent product source, with eight public DEV tasks and four feature-domain-disjoint sealed validation tasks.
+  - The oracle is derived only from exact source spans and independently compiled classfile constructor or field type facts; graph, retrieval, candidate and historical P2 outputs cannot select tasks, define relevance or tune queries.
+  - All arms use the same exact production-Java source-unit universe, twelve-task denominator, maximum eight chunks and maximum 8192 UTF-8 rendered bytes; invalid tasks remain in the denominator with zero recall.
+  - Controls are deterministic lexical token-overlap retrieval and the exact-parent Code QA retrieval path with embeddings null and graph disabled; their selection paths cannot load treatment or oracle logic.
+  - The real POST /api/projects/{projectId}/qa path can add one same-scan project-owned dependency definition absent from both controls as citeable PRIMARY context with an auditable JAVA_DEPENDENCY_NEIGHBORHOOD_CONTEXT_V1 reason.
+  - Product admission accepts only a unique exact anchored source class, one unique DEPENDS_ON edge and one unique target class and chunk; cross-scan, other relation types, external targets, duplicate rows, ambiguous symbols, invalid paths or spans and over-budget additions fail closed to exact no-graph behavior.
+  - DEV treatment macro recall is at least 0.10 above the stronger control, with no task regression, zero forbidden context and zero false accepts, before the unique candidate is frozen.
+  - One sealed validation on the unchanged unique candidate has macro recall at least 0.10 above the stronger control, at least three of four positive paired deltas, no negative paired delta and at least one relevant dependency definition recovered that both controls miss.
+  - Full-sample treatment macro recall is at least 0.10 above the stronger control and macro precision is no more than 0.02 below it; two distinct physical roots produce byte-exact stable projections.
+  - Targeted product tests, the existing twenty-two-case Code QA regression guardrail and independent negative matrix pass offline; fresh CTO, Security and Quality Reviews all PASS the same candidate before exact local integration and one canonical make verify.
+required_evidence:
+  - Quality-first receipt binding activation parent, clean product source manifest, Java toolchain, offline compile transaction, class inventory, raw constructor/type inventory, eligible dependency inventory, deterministic sample, oracle, public DEV projection, sealed validation identity, both controls, evaluator, budgets and negative controls.
+  - Product unit and controller integration tests covering same-scan dependency uplift, exact no-graph fallback, retrieval-plan reason, citation semantics, path and scan containment, relation and symbol uniqueness, duplicate admission and UTF-8 byte and chunk limits.
+  - Independent DEV and one-shot validation raw results reconstructing both controls and treatment from the same frozen inputs, complete denominator, paired metrics, false accepts, forbidden context, precision and two-root replay.
+  - Exact candidate commit, tree, diff and allowlisted product source identities plus offline command, exit, stdout, stderr and cooperative-local zero-effect observations.
+  - Fresh exact-candidate CTO, Security and Quality Review receipts and, only after all PASS, exact integration tree equality plus the single canonical make verify receipt.
+rollback: >-
+  Before integration all product changes remain on the unique P2-063 branch and
+  worktree, with Quality and evaluation Evidence under the external Task root.
+  A terminal NON_PASS preserves exact Evidence and a content-addressed diff before
+  worktree removal. An integrated regression is rolled back by a non-destructive
+  revert of the unique integration commit; no database migration is involved.
+stop_conditions:
+  - Quality-first freeze cannot derive at least twelve eligible unambiguous project-owned constructor-dependency tasks or cannot bind the source, toolchain, universe, controls, oracle, split, budget, denominator and evaluator before Worker mutation.
+  - Any rejected P2 engineering source, candidate, evaluator, fixture, test or formal Evidence is read, restored, compared, copied or reused.
+  - The implementation requires analyzer, parser, graph producer, file filter, database schema, migration, CodeQaRetrievalService, Web, Agent Runtime or P3 changes.
+  - DEV fails its uplift, no-regression, false-accept, forbidden-context or deterministic-replay criteria within four total implementation iterations, or the same normalized root cause occurs twice.
+  - Worker reads sealed validation before candidate freeze, or candidate, source universe, oracle, split, budget, denominator, controls or evaluator identity drifts.
+  - One-shot validation misses any acceptance threshold, admits a false or forbidden context, needs post-validation repair or would require a second candidate.
+  - Any external effect is nonzero or UNKNOWN, any final Reviewer returns TARGET_VERDICT NON_PASS, or exact integration tree equality or canonical make verify fails.
+forbidden_actions:
+  - Read, restore, compare, copy, execute or reuse any rejected P2 engineering lineage, including P2-062 source, candidate, evaluator, fixture, test or formal Evidence bytes.
+  - Modify analyzer-rust, JavaAstParser, JavaFallbackAnalyzer, CodeChunkFileFilter, graph producer, database schema or migration, CodeQaRetrievalService, Web, Agent Runtime, generic validator, governance or Evidence-platform product code.
+  - Read sealed validation issue or oracle bytes before candidate freeze, or select tasks and relevance from graph, retrieval, candidate or historical P2 outputs.
+  - Tune the source universe, oracle, split, queries, budget, denominator, controls, threshold or evaluator after observing validation.
+  - Access network, Provider, Secret, remote, production or public systems; push, fetch, create a PR, release, deploy or enter P3.
+  - Create a successor, replacement, correction, normalization, closure, feasibility or remediation chain for this Task.
+claim_boundary: >-
+  A PASS may establish only an offline cooperative-local current-canonical Java
+  constructor-dependency symbol-neighborhood context-selection value result for
+  the exact frozen sample and candidate. It does not establish Java semantic
+  completeness, arbitrary-repository generalization, hostile-principal security,
+  kernel-complete observation, production readiness, Founder P2 Phase Gate
+  approval or P3 entry. Activation, documents, hashes and DEV feasibility do
+  not themselves create capability credit.

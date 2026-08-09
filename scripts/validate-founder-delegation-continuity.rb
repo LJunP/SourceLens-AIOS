@@ -47,6 +47,32 @@ module FounderDelegationContinuity
     "production" => false,
     "public" => false
   }.freeze
+  PRE_CANDIDATE_TERMINAL_RECEIPT_ADAPTERS = {
+    "phase-delegated-pre-candidate-dev-iteration-exhausted-terminal-receipt/v1" => {
+      "formal_dev_repeat_count" => 3,
+      "run_receipt_schema" => "p2-064-formal-dev-repeat-003-terminal-run-receipt/v1",
+      "full_inventory_schema" => "p2-064-formal-dev-repeat-003-full-file-inventory/v1",
+      "full_inventory_projection" => {
+        "file_count" => 453,
+        "directory_count" => 212,
+        "symlink_count" => 0,
+        "aggregate_regular_file_bytes" => 3_212_007,
+        "file_projection_sha256" =>
+          "0901133df7485bf8087d937d2b3f65629144b95cbe85d75f76f928dd7e0e148d",
+        "directory_projection_sha256" =>
+          "40d3b7ab3c68a9afcb11dbc12bb34d002076d49c78470ecc35ecd293d1944564",
+        "run_root" => "/private/tmp/p2-064-dev-adapter-preflight/formal-dev-repeat-003"
+      }.freeze,
+      "quality_receipt_schema" => "p2-064-quality-terminal-non-pass-receipt/v1",
+      "terminal_review_schema" => "p2-064-independent-terminal-task-review-receipt/v1",
+      "snapshot_manifest_schema" => "p2-064-terminal-product-dirty-snapshot-manifest/v1",
+      "patch_replay_schema" => "p2-064-terminal-product-dirty-patch-replay-verification/v1",
+      "quality_capability_credit_path" =>
+        %w[capability_and_phase_effect p2_064_capability_credit].freeze,
+      "review_capability_credit_path" =>
+        %w[product_review_and_capability_boundary p2_064_capability_credit].freeze
+    }.freeze
+  }.freeze
   RESERVED_TRIGGERS = %w[
     PHASE_ENTRY_OR_EXIT
     MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
@@ -186,6 +212,34 @@ module FounderDelegationContinuity
     stdout, stderr, status = Open3.capture3("git", *arguments, chdir: root.to_s)
     assert(status.success?, "Git command failed: git #{arguments.join(' ')}: #{stderr.strip}")
     stdout
+  end
+
+  def commit_tree_identity!(root, value, label)
+    identity = exact_keys(value, %w[commit tree], label)
+    commit = identity["commit"].to_s
+    tree = identity["tree"].to_s
+    assert(commit.match?(/\A[0-9a-f]{40}\z/) && tree.match?(/\A[0-9a-f]{40}\z/),
+           "#{label} Git identity is invalid")
+    _stdout, _stderr, exists = Open3.capture3(
+      "git", "cat-file", "-e", "#{commit}^{commit}", chdir: root.to_s
+    )
+    assert(exists.success?, "#{label} commit does not exist")
+    actual_tree = git(root, "rev-parse", "#{commit}^{tree}").strip
+    assert(actual_tree == tree, "#{label} tree does not match its commit")
+    identity
+  end
+
+  def assert_git_ancestor!(root, ancestor, descendant, label)
+    _stdout, _stderr, status = Open3.capture3(
+      "git", "merge-base", "--is-ancestor", ancestor, descendant, chdir: root.to_s
+    )
+    assert(status.success?, "#{label} ancestor relation does not hold")
+  end
+
+  def value_at_path(value, path)
+    array(path, "schema adapter field path").reduce(value) do |current, key|
+      current.is_a?(Hash) ? current[key] : nil
+    end
   end
 
   def parse_yaml_bytes(bytes, label)
@@ -770,9 +824,14 @@ module FounderDelegationContinuity
              decision_envelope["max_same_task_repairs_per_task"] == new_task["max_same_task_repairs"],
              "single-Task expansion envelope delta does not equal its only new Task")
       route_new_tasks = array(historical_route["task_plan"], "single-Task expansion route Task plan")
+      route_task_status = route_new_tasks.first["status"].to_s
+      route_task_consumed = route_task_status.start_with?("TERMINAL_") ||
+                            route_task_status.include?("ACCEPTED")
       assert(route_new_tasks.length == 1 && route_new_tasks.first["task_id"] == new_task_ids.first &&
-             %w[ELIGIBLE_NOT_ACTIVATED ACTIVE].include?(route_new_tasks.first["status"]),
-             "single-Task expansion source capacity must be its only READY or ACTIVE Task")
+             (%w[ELIGIBLE_NOT_ACTIVATED ACTIVE].include?(route_task_status) || route_task_consumed),
+             "single-Task expansion source capacity must be its only READY, ACTIVE or consumed Task")
+      assert(historical_route["first_task"] == route_new_tasks.first,
+             "single-Task expansion first Task must exactly equal its sole Task plan entry including lifecycle")
     end
     decision
   end
@@ -849,7 +908,8 @@ module FounderDelegationContinuity
     residual
   end
 
-  def validate_predeclared_task_terminal_outcome!(root, entry, contract, receipt)
+  def validate_predeclared_task_terminal_outcome!(root, entry, contract, receipt,
+                                                   ledger_anchor_commit:)
     outcome = exact_keys(
       contract["terminal_outcome"],
       %w[
@@ -871,6 +931,666 @@ module FounderDelegationContinuity
     assert(outcome["capability_credit"] == 0 && outcome["candidate_integrated"] == false &&
            outcome["canonical_make_verify"].to_s.start_with?("NOT_INVOKED"),
            "predeclared terminal Task cannot create capability, integration or verification credit")
+
+    adapter = PRE_CANDIDATE_TERMINAL_RECEIPT_ADAPTERS[receipt["schema_version"]]
+    if adapter
+      exact_keys(
+        receipt,
+        %w[
+          activation_parent authorization_effects candidate canonical_before_terminal_sync
+          canonical_make_verify capability_credit claim_boundary evidence_bindings
+          execution_accounting forbidden_continuations held_validation independent_terminal_review
+          next_action outcome prior_product_review recorded_at_utc route_id run003_unknowns
+          schema_version task_id terminal_status
+        ],
+        "phase-delegated pre-candidate DEV iteration-exhausted terminal receipt"
+      )
+      canonical_sources = array(
+        contract["dependencies"], "pre-candidate terminal Contract dependencies"
+      ).select { |dependency| dependency.is_a?(Hash) && dependency["kind"] == "CANONICAL_SOURCE" }
+      assert(canonical_sources.length == 1,
+             "pre-candidate terminal Contract must contain exactly one CANONICAL_SOURCE")
+      canonical_source = exact_keys(
+        canonical_sources.first,
+        %w[kind identity],
+        "pre-candidate terminal Contract CANONICAL_SOURCE"
+      )
+      activation_parent = commit_tree_identity!(
+        root,
+        receipt["activation_parent"],
+        "pre-candidate terminal activation parent"
+      )
+      contract_activation_parent = commit_tree_identity!(
+        root,
+        canonical_source["identity"],
+        "pre-candidate terminal Contract CANONICAL_SOURCE"
+      )
+      assert(activation_parent == contract_activation_parent,
+             "pre-candidate terminal activation parent drifts from the Contract CANONICAL_SOURCE")
+      canonical_before = commit_tree_identity!(
+        root,
+        receipt["canonical_before_terminal_sync"],
+        "pre-candidate canonical-before-terminal-sync"
+      )
+      assert_git_ancestor!(
+        root,
+        activation_parent["commit"],
+        canonical_before["commit"],
+        "pre-candidate activation-parent to canonical-before-terminal-sync"
+      )
+      assert(ledger_anchor_commit.to_s.match?(/\A[0-9a-f]{40}\z/),
+             "pre-candidate terminal ledger introduction anchor is missing")
+      resolved_anchor, resolved_entry = first_task_ledger_anchor!(
+        root,
+        entry,
+        entry.dig("outcome_receipt", "sha256"),
+        "pre-candidate terminal ledger entry"
+      )
+      assert(resolved_anchor == ledger_anchor_commit && resolved_entry == entry,
+             "pre-candidate terminal ledger entry introduction anchor drift")
+      anchor_parents = git(
+        root, "rev-list", "--parents", "-n", "1", ledger_anchor_commit
+      ).split
+      assert(anchor_parents.length == 2 && anchor_parents.first == ledger_anchor_commit,
+             "pre-candidate terminal-sync candidate must have exactly one parent")
+      assert(anchor_parents.last == canonical_before["commit"] &&
+             git(root, "rev-parse", "#{ledger_anchor_commit}^^{tree}").strip ==
+               canonical_before["tree"],
+             "pre-candidate canonical-before identity is not the exact terminal-sync candidate parent")
+      assert(receipt["terminal_status"] == entry["status"],
+             "pre-candidate DEV iteration-exhausted terminal status drift")
+      assert(receipt["authorization_effects"] == FALSE_EXTERNAL_EFFECTS &&
+             receipt["capability_credit"] == 0 &&
+             receipt["canonical_make_verify"] == "NOT_INVOKED_TERMINAL_PRE_CANDIDATE_NON_PASS" &&
+             !receipt["claim_boundary"].to_s.empty?,
+             "pre-candidate DEV iteration-exhausted claim boundary drift")
+
+      candidate = exact_keys(
+        receipt["candidate"], %w[commit created frozen integrated tree],
+        "pre-candidate DEV iteration-exhausted candidate"
+      )
+      assert(candidate == {
+               "commit" => nil,
+               "created" => false,
+               "frozen" => false,
+               "integrated" => false,
+               "tree" => nil
+             },
+             "pre-candidate DEV iteration-exhausted receipt cannot claim a candidate")
+      assert(outcome["candidate_commit"].nil? && outcome["candidate_tree"].nil? &&
+             outcome["sealed_formal_value_result"] == "NOT_STARTED_CANDIDATE_ABSENT" &&
+             outcome["cto_review"] == "NOT_STARTED_CANDIDATE_ABSENT" &&
+             outcome["security_review"] == "NOT_STARTED_CANDIDATE_ABSENT" &&
+             outcome["quality_review"] == "NOT_STARTED_CANDIDATE_ABSENT" &&
+             outcome["canonical_make_verify"] == receipt["canonical_make_verify"],
+             "pre-candidate DEV iteration-exhausted Contract outcome projection drift")
+
+      accounting = exact_keys(
+        receipt["execution_accounting"],
+        %w[
+          admissible_dev_transactions candidate_limit candidates_created_or_frozen
+          control_or_treatment_outcomes formal_dev_repeat_count held_entries_opened
+          held_identity_or_content_reads held_validation_runs implementation_iterations_authorized
+          implementation_iterations_consumed implementation_iterations_remaining
+          independent_evaluator_invocations matrix_records metric_comparisons metric_verdicts
+          mockmvc_perform_count quality_repairs_authorized quality_repairs_classification
+          quality_repairs_consumed quality_repairs_remaining run003_child_exit_code
+          run003_init_sent_count run003_run_request_count run003_valid_ready_count
+        ],
+        "pre-candidate DEV iteration-exhausted accounting"
+      )
+      contract_budget = mapping(contract["budget"], "pre-candidate terminal Contract budget")
+      repairs = mapping(contract["repair_accounting"],
+                        "pre-candidate terminal Contract repair accounting")
+      assert(accounting["implementation_iterations_authorized"] ==
+               contract_budget["implementation_iterations"] &&
+             accounting["implementation_iterations_consumed"] ==
+               accounting["implementation_iterations_authorized"] &&
+             accounting["implementation_iterations_remaining"] == 0 &&
+             accounting["candidate_limit"] == contract_budget["candidates"] &&
+             accounting["candidates_created_or_frozen"] == 0 &&
+             accounting["quality_repairs_authorized"] == repairs["authorized"] &&
+             accounting["quality_repairs_consumed"] == repairs["used"] &&
+             accounting["quality_repairs_remaining"] == repairs["remaining"] &&
+             accounting["quality_repairs_classification"] == repairs["classification"],
+             "pre-candidate DEV iteration or repair budget accounting drift")
+      assert(accounting["admissible_dev_transactions"] == 0 &&
+             accounting["matrix_records"] == 0 &&
+             accounting["independent_evaluator_invocations"] == 0 &&
+             accounting["metric_comparisons"] == 0 && accounting["metric_verdicts"] == 0 &&
+             accounting["mockmvc_perform_count"] == 0 &&
+             accounting["held_entries_opened"] == 0 &&
+             accounting["held_identity_or_content_reads"] == 0 &&
+             accounting["held_validation_runs"] == 0 &&
+             accounting["control_or_treatment_outcomes"] == { "A0" => 0, "B0" => 0, "B1" => 0 } &&
+             accounting["formal_dev_repeat_count"] == adapter["formal_dev_repeat_count"] &&
+             accounting["run003_child_exit_code"].is_a?(Integer) &&
+             !accounting["run003_child_exit_code"].zero? &&
+             accounting["run003_init_sent_count"] == 1 &&
+             accounting["run003_valid_ready_count"] == 0 &&
+             accounting["run003_run_request_count"] == 0,
+             "pre-candidate DEV iteration-exhausted execution counters drift")
+
+      held = exact_keys(
+        receipt["held_validation"],
+        %w[candidate_prerequisite_met content_read identity_read opened outcome_read run_count status],
+        "pre-candidate DEV iteration-exhausted held validation"
+      )
+      assert(held == {
+               "candidate_prerequisite_met" => false,
+               "content_read" => false,
+               "identity_read" => false,
+               "opened" => false,
+               "outcome_read" => false,
+               "run_count" => 0,
+               "status" => "NOT_OPENED_NOT_RUN_UNCOMPUTED"
+             },
+             "pre-candidate DEV iteration-exhausted receipt cannot claim held validation")
+
+      terminal = exact_keys(
+        receipt["outcome"],
+        %w[
+          candidate_integrated dev_gate held_validation_result independent_terminal_review
+          p2_capability_progress_percent p2_exit_item_status p3_status
+          terminal_lifecycle_event_kind
+        ],
+        "pre-candidate DEV iteration-exhausted outcome"
+      )
+      assert(terminal == {
+               "candidate_integrated" => false,
+               "dev_gate" => "NON_PASS_NO_ADMISSIBLE_DEV_MATRIX",
+               "held_validation_result" => "NOT_OPENED_NOT_RUN_UNCOMPUTED",
+               "independent_terminal_review" => "NON_PASS",
+               "p2_capability_progress_percent" => 0,
+               "p2_exit_item_status" => "MISSING",
+               "p3_status" => "HOLD",
+               "terminal_lifecycle_event_kind" => "TASK_TERMINAL_TASK_BUDGET_EXHAUSTED"
+             },
+             "pre-candidate DEV iteration-exhausted Phase outcome drift")
+      next_action = exact_keys(
+        receipt["next_action"],
+        %w[action founder_decision_required owner reason selected_task_id],
+        "pre-candidate DEV iteration-exhausted next action"
+      )
+      assert(next_action["action"] == "FOUNDER_RESERVED_DECISION" &&
+             next_action["founder_decision_required"] == true &&
+             next_action["owner"] == "HUMAN_FOUNDER" &&
+             next_action["selected_task_id"].nil? &&
+             !next_action["reason"].to_s.empty?,
+             "pre-candidate DEV iteration-exhausted next action drift")
+
+      unknowns = exact_keys(
+        receipt["run003_unknowns"],
+        %w[chunk_and_save exact_child_fatal spring_application_context_successfully_returned],
+        "pre-candidate DEV iteration-exhausted unknowns"
+      )
+      assert(unknowns.values.all? { |value| value.to_s.start_with?("UNKNOWN") },
+             "pre-candidate DEV iteration-exhausted UNKNOWN boundary drift")
+      forbidden = array(receipt["forbidden_continuations"],
+                        "pre-candidate DEV iteration-exhausted forbidden continuations")
+      assert(%w[
+               AUTOMATIC_NEW_P2_TASK CANDIDATE_FREEZE CONTRACT_CORRECTION
+               FURTHER_IMPLEMENTATION_ITERATION FURTHER_SAME_TASK_REPAIR HELD_VALIDATION
+               P3_ENTRY REPLACEMENT SUCCESSOR V5_OR_FORMAL_DEV_RERUN
+             ].all? { |value| forbidden.include?(value) },
+             "pre-candidate DEV iteration-exhausted forbidden continuations drift")
+
+      evidence = exact_keys(
+        receipt["evidence_bindings"],
+        %w[
+          formal_dev_repeat_002_quality_adjudication
+          formal_dev_repeat_003_full_file_inventory formal_dev_repeat_003_matrix
+          formal_dev_repeat_003_terminal_quality_non_pass
+          formal_dev_repeat_003_terminal_receipt independent_adapter_review_pass_v4
+          independent_terminal_task_review iteration1_product_review
+          product_dirty_delta_patch product_dirty_patch_replay_verification
+          product_dirty_snapshot_files product_dirty_snapshot_manifest
+        ],
+        "pre-candidate DEV iteration-exhausted Evidence bindings"
+      )
+      evidence.each do |key, identity|
+        next if key == "product_dirty_snapshot_files"
+        validate_identity(
+          exact_keys(identity, %w[path byte_length sha256],
+                     "pre-candidate DEV Evidence #{key}"),
+          "pre-candidate DEV Evidence #{key}"
+        )
+      end
+      full_inventory = parse_bound_json(
+        evidence["formal_dev_repeat_003_full_file_inventory"],
+        "pre-candidate DEV run003 full file inventory"
+      )
+      exact_keys(
+        full_inventory,
+        %w[
+          aggregate_regular_file_bytes directory_count directory_projection_sha256
+          file_count file_projection_sha256 files run_root schema_version status symlink_count
+        ],
+        "pre-candidate DEV run003 full file inventory"
+      )
+      inventory_projection = adapter["full_inventory_projection"]
+      inventory_binding_projection = inventory_projection.reject { |key, _value| key == "run_root" }
+      assert(full_inventory["schema_version"] == adapter["full_inventory_schema"] &&
+             full_inventory["status"] == "TERMINAL_RUN_ROOT_READ_ONLY_FROZEN" &&
+             full_inventory.slice(*inventory_projection.keys) == inventory_projection,
+             "pre-candidate DEV run003 full inventory projection drift")
+      inventory_files = array(
+        full_inventory["files"], "pre-candidate DEV run003 full inventory files"
+      ).map.with_index do |row, index|
+        record = exact_keys(
+          row,
+          %w[relative_path byte_length sha256 mode nlink],
+          "pre-candidate DEV run003 full inventory file[#{index}]"
+        )
+        relative_path = record["relative_path"]
+        assert(relative_path.is_a?(String) && !relative_path.empty? &&
+               relative_path.valid_encoding? && !relative_path.include?("\0"),
+               "pre-candidate DEV run003 full inventory file[#{index}] path is invalid")
+        relative = Pathname.new(relative_path)
+        clean = relative.cleanpath
+        assert(!relative.absolute? && clean.to_s == relative_path &&
+               relative_path != "." && relative_path != ".." &&
+               !relative_path.start_with?("../") && !relative_path.end_with?("/"),
+               "pre-candidate DEV run003 full inventory file[#{index}] path is unsafe")
+        assert(record["byte_length"].is_a?(Integer) && record["byte_length"] >= 0 &&
+               record["sha256"].is_a?(String) &&
+               record["sha256"].match?(/\A[0-9a-f]{64}\z/) &&
+               record["mode"].is_a?(String) && record["mode"].match?(/\A0[0-7]{3}\z/) &&
+               record["nlink"].is_a?(Integer) && record["nlink"] == 1,
+               "pre-candidate DEV run003 full inventory file[#{index}] identity is invalid")
+        record
+      end
+      inventory_relative_paths = inventory_files.map { |row| row["relative_path"] }
+      assert(inventory_files.length == full_inventory["file_count"] &&
+             inventory_relative_paths.uniq.length == inventory_relative_paths.length,
+             "pre-candidate DEV run003 full inventory file identities are not unique and complete")
+      inventory_byte_sum = inventory_files.sum { |row| row["byte_length"] }
+      assert(inventory_byte_sum == full_inventory["aggregate_regular_file_bytes"],
+             "pre-candidate DEV run003 full inventory aggregate byte sum drift")
+      inventory_file_projection = Digest::SHA256.hexdigest(JSON.generate(inventory_files))
+      assert(inventory_file_projection == full_inventory["file_projection_sha256"],
+             "pre-candidate DEV run003 full inventory file projection drift")
+      matrix_basename = File.basename(evidence.dig("formal_dev_repeat_003_matrix", "path").to_s)
+      inventory_matrix_rows = inventory_files.select do |row|
+        row["relative_path"] == matrix_basename
+      end
+      assert(inventory_matrix_rows.length == 1,
+             "pre-candidate DEV run003 full inventory matrix identity is missing or ambiguous")
+      inventory_matrix = inventory_matrix_rows.first
+      assert(inventory_matrix == {
+               "relative_path" => matrix_basename,
+               "byte_length" => evidence.dig("formal_dev_repeat_003_matrix", "byte_length"),
+               "sha256" => evidence.dig("formal_dev_repeat_003_matrix", "sha256"),
+               "mode" => "0600",
+               "nlink" => 1
+             } && inventory_matrix["byte_length"] == 0 &&
+             inventory_matrix["sha256"] == Digest::SHA256.hexdigest(""),
+             "pre-candidate DEV run003 full inventory matrix projection drift")
+      snapshot_files = array(evidence["product_dirty_snapshot_files"],
+                             "pre-candidate DEV dirty snapshot files")
+      assert(snapshot_files.length == 4,
+             "pre-candidate DEV dirty snapshot must contain exactly four files")
+      snapshot_identity_keys = snapshot_files.map do |identity|
+        [identity["path"], identity["byte_length"], identity["sha256"]]
+      end
+      assert(snapshot_identity_keys.uniq.length == snapshot_identity_keys.length,
+             "pre-candidate DEV dirty snapshot identities must be unique")
+      snapshot_files.each_with_index do |identity, index|
+        validate_identity(
+          exact_keys(identity, %w[path byte_length sha256],
+                     "pre-candidate DEV dirty snapshot file[#{index}]"),
+          "pre-candidate DEV dirty snapshot file[#{index}]"
+        )
+      end
+      snapshot_master_projection = snapshot_files.map do |identity|
+        relative = identity["path"].split("/product/dirty-snapshot/", 2)[1]
+        assert(relative.is_a?(String) && !relative.empty?,
+               "pre-candidate DEV dirty snapshot identity is outside the frozen snapshot root")
+        {
+          "relative_path" => relative,
+          "byte_length" => identity["byte_length"],
+          "sha256" => identity["sha256"],
+          "final_installed_path" => identity["path"]
+        }
+      end.sort_by { |row| row["relative_path"] }
+      assert(snapshot_master_projection.map { |row| row["relative_path"] }.uniq.length == 4,
+             "pre-candidate DEV dirty snapshot relative paths must be unique")
+
+      run = parse_bound_json(
+        evidence["formal_dev_repeat_003_terminal_receipt"],
+        "pre-candidate DEV run003 terminal receipt"
+      )
+      exact_keys(
+        run,
+        %w[
+          schema_version task_id created_at_utc status terminal run_root exact_v4_bindings
+          run_inputs_and_preflight observed_execution matrix terminal_accounting
+          epistemic_boundary mutation_counters
+        ],
+        "pre-candidate DEV run003 terminal receipt"
+      )
+      observed = mapping(run["observed_execution"], "pre-candidate DEV run003 observation")
+      run_matrix = mapping(run["matrix"], "pre-candidate DEV run003 matrix")
+      run_root = exact_keys(
+        run["run_root"],
+        %w[path preservation_policy full_file_inventory session_root session_root_regular_file_count],
+        "pre-candidate DEV run003 root"
+      )
+      run_inventory = exact_keys(
+        run_root["full_file_inventory"],
+        %w[
+          path byte_length sha256 file_count directory_count symlink_count
+          aggregate_regular_file_bytes file_projection_sha256 directory_projection_sha256
+        ],
+        "pre-candidate DEV run003 full inventory binding"
+      )
+      run_accounting = mapping(run["terminal_accounting"],
+                               "pre-candidate DEV run003 terminal accounting")
+      assert(run["schema_version"] == adapter["run_receipt_schema"] &&
+             run["task_id"] == entry["task_id"] && run["terminal"] == true &&
+             run_root["path"] == full_inventory["run_root"] &&
+             run_root["preservation_policy"] == "READ_ONLY_DO_NOT_MODIFY_DELETE_OR_RERUN" &&
+             run_inventory.slice("byte_length", "sha256") ==
+               evidence["formal_dev_repeat_003_full_file_inventory"].slice("byte_length", "sha256") &&
+             run_inventory.slice(*inventory_binding_projection.keys) ==
+               inventory_binding_projection &&
+             run_inventory["file_projection_sha256"] == full_inventory["file_projection_sha256"] &&
+             run_inventory["directory_projection_sha256"] ==
+               full_inventory["directory_projection_sha256"] &&
+             observed["child_exit_code"] == accounting["run003_child_exit_code"] &&
+             observed["init_sent_count"] == accounting["run003_init_sent_count"] &&
+             observed["valid_ready_count"] == 0 && observed["run_request_count"] == 0 &&
+             observed["mockmvc_perform_count"] == 0 &&
+             observed["evaluator_invocation_count"] == 0 &&
+             observed["admissible_dev_transaction_count"] == 0 &&
+             observed["metric_comparison_count"] == 0 && observed["metric_verdict_count"] == 0 &&
+             run_matrix.slice("relative_path", "byte_length", "sha256", "mode", "nlink") ==
+               inventory_matrix &&
+             run_matrix["byte_length"] == 0 && run_matrix["line_count"] == 0 &&
+             run_matrix["record_count"] == 0 && run_matrix["admissible"] == false &&
+             run_accounting["implementation_iterations_consumed"] ==
+               accounting["implementation_iterations_consumed"] &&
+             run_accounting["implementation_iterations_remaining"] == 0 &&
+             run_accounting["quality_repairs_remaining"] == 0 &&
+             run_accounting["candidate_frozen"] == false &&
+             run_accounting["held_opened_or_executed"] == false &&
+             run_accounting["v5_allowed"] == false && run_accounting["rerun_allowed"] == false,
+             "pre-candidate DEV run003 lifecycle drift")
+
+      quality = parse_bound_json(
+        evidence["formal_dev_repeat_003_terminal_quality_non_pass"],
+        "pre-candidate DEV terminal Quality receipt"
+      )
+      quality_authority = mapping(
+        quality["authoritative_bindings"], "pre-candidate DEV terminal Quality authority bindings"
+      )
+      quality_prior = exact_keys(
+        quality_authority["prior_quality_iteration2_adjudication"],
+        %w[path byte_length sha256 binding_rule],
+        "pre-candidate DEV terminal Quality iteration2 authority"
+      )
+      quality_run = mapping(quality["run003"], "pre-candidate DEV terminal Quality run003")
+      quality_matrix = exact_keys(
+        quality_run["matrix"],
+        %w[path byte_length line_count record_count mode nlink sha256],
+        "pre-candidate DEV terminal Quality matrix"
+      )
+      quality_adapter_review = exact_keys(
+        quality_run["v4_independent_adapter_review"],
+        %w[path byte_length mode sha256 verdict blocking_root_count closed_root],
+        "pre-candidate DEV terminal Quality adapter Review"
+      )
+      assert(quality["schema_version"] == adapter["quality_receipt_schema"] &&
+             quality["task_id"] == entry["task_id"] && quality["route_id"] == entry["route_id"] &&
+             quality["verdict"] == "NON_PASS" && quality["status"] == entry["status"] &&
+             quality["terminal"] == true &&
+             quality_prior.slice("byte_length", "sha256") ==
+               evidence["formal_dev_repeat_002_quality_adjudication"].slice("byte_length", "sha256") &&
+             quality_run["run_root"] == full_inventory["run_root"] &&
+             quality_run["run_root_file_count"] == full_inventory["file_count"] &&
+             quality_matrix.slice("path", "byte_length", "sha256", "mode", "nlink") == {
+               "path" => inventory_matrix["relative_path"],
+               "byte_length" => inventory_matrix["byte_length"],
+               "sha256" => inventory_matrix["sha256"],
+               "mode" => inventory_matrix["mode"],
+               "nlink" => inventory_matrix["nlink"]
+             } && quality_matrix["line_count"] == 0 && quality_matrix["record_count"] == 0 &&
+             quality_adapter_review.slice("byte_length", "sha256") ==
+               evidence["independent_adapter_review_pass_v4"].slice("byte_length", "sha256") &&
+             quality_adapter_review["verdict"] == "PASS" &&
+             quality["terminal_lifecycle_event_kind"] ==
+               terminal["terminal_lifecycle_event_kind"] &&
+             quality.dig("closed_counters", "implementation_iterations", "used") ==
+               accounting["implementation_iterations_consumed"] &&
+             quality.dig("closed_counters", "dev", "admissible_transactions") == 0 &&
+             quality.dig("closed_counters", "held_validation", "runs") == 0 &&
+             value_at_path(quality, adapter["quality_capability_credit_path"]) == 0,
+             "pre-candidate DEV terminal Quality lifecycle drift")
+
+      review_binding = exact_keys(
+        receipt["independent_terminal_review"], %w[identity target_verdict],
+        "pre-candidate DEV independent terminal Review binding"
+      )
+      review_identity = exact_keys(
+        review_binding["identity"], %w[path byte_length sha256],
+        "pre-candidate DEV independent terminal Review identity"
+      )
+      assert(review_identity == evidence["independent_terminal_task_review"] &&
+             review_binding["target_verdict"] == "NON_PASS",
+             "pre-candidate DEV independent terminal Review binding drift")
+      review = parse_bound_json(review_identity, "pre-candidate DEV independent terminal Review")
+      review_authority = mapping(
+        review["authority_bindings"], "pre-candidate DEV independent terminal Review authority"
+      )
+      review_iteration2_quality = exact_keys(
+        review_authority["iteration2_quality_authority"],
+        %w[path byte_length sha256 binding_rule],
+        "pre-candidate DEV independent terminal Review iteration2 Quality"
+      )
+      review_terminal_quality = exact_keys(
+        review_authority["run003_terminal_quality_receipt"],
+        %w[path byte_length mode sha256 verdict status],
+        "pre-candidate DEV independent terminal Review terminal Quality"
+      )
+      review_run = mapping(
+        review["exact_run003_bindings"], "pre-candidate DEV independent terminal Review run003"
+      )
+      review_inventory = exact_keys(
+        review_run["full_file_inventory"],
+        %w[
+          path byte_length mode sha256 file_count directory_count symlink_count
+          aggregate_regular_file_bytes file_projection_sha256 directory_projection_sha256
+          independently_recomputed_current_exact_match
+        ],
+        "pre-candidate DEV independent terminal Review full inventory"
+      )
+      review_run_receipt = exact_keys(
+        review_run["run_terminal_receipt"],
+        %w[path byte_length mode sha256],
+        "pre-candidate DEV independent terminal Review run receipt"
+      )
+      review_matrix = exact_keys(
+        review_run["matrix"],
+        %w[relative_path byte_length mode nlink sha256 line_count record_count admissible],
+        "pre-candidate DEV independent terminal Review matrix"
+      )
+      review_adapter = exact_keys(
+        review_run["v4_review"],
+        %w[relative_path byte_length sha256 exact_equal_to_frozen_source],
+        "pre-candidate DEV independent terminal Review adapter child"
+      )
+      review_product = exact_keys(
+        review.dig("product_review_and_capability_boundary", "iteration1_product_review"),
+        %w[path byte_length mode sha256 target_verdict scope],
+        "pre-candidate DEV independent terminal Review product child"
+      )
+      assert(review["schema_version"] == adapter["terminal_review_schema"] &&
+             review["task_id"] == entry["task_id"] && review["route_id"] == entry["route_id"] &&
+             review["target_verdict"] == "NON_PASS" &&
+             review_iteration2_quality.slice("byte_length", "sha256") ==
+               evidence["formal_dev_repeat_002_quality_adjudication"].slice("byte_length", "sha256") &&
+             review_terminal_quality.slice("byte_length", "sha256") ==
+               evidence["formal_dev_repeat_003_terminal_quality_non_pass"].slice("byte_length", "sha256") &&
+             review_terminal_quality["verdict"] == "NON_PASS" &&
+             review_terminal_quality["status"] == entry["status"] &&
+             review_run["run_root"] == full_inventory["run_root"] &&
+             review_inventory.slice("byte_length", "sha256") ==
+               evidence["formal_dev_repeat_003_full_file_inventory"].slice("byte_length", "sha256") &&
+             review_inventory.slice(*inventory_binding_projection.keys) ==
+               inventory_binding_projection &&
+             review_inventory["file_projection_sha256"] ==
+               full_inventory["file_projection_sha256"] &&
+             review_inventory["directory_projection_sha256"] ==
+               full_inventory["directory_projection_sha256"] &&
+             review_inventory["independently_recomputed_current_exact_match"] == true &&
+             review_run_receipt.slice("byte_length", "sha256") ==
+               evidence["formal_dev_repeat_003_terminal_receipt"].slice("byte_length", "sha256") &&
+             review_matrix == run_matrix &&
+             review_adapter.slice("byte_length", "sha256") ==
+               evidence["independent_adapter_review_pass_v4"].slice("byte_length", "sha256") &&
+             review_adapter["exact_equal_to_frozen_source"] == true &&
+             review_product.slice("byte_length", "sha256") ==
+               evidence["iteration1_product_review"].slice("byte_length", "sha256") &&
+             review_product["target_verdict"] == "PASS" &&
+             review.dig("run003_execution_assessment", "admissible_dev_transaction_count") == 0 &&
+             review.dig("lifecycle_accounting", "implementation_iterations_consumed") ==
+               accounting["implementation_iterations_consumed"] &&
+             review.dig("lifecycle_accounting", "candidates_created_or_frozen") == 0 &&
+             review.dig("lifecycle_accounting", "held_validation_runs") == 0 &&
+             value_at_path(review, adapter["review_capability_credit_path"]) == 0,
+             "pre-candidate DEV independent terminal Review lifecycle drift")
+
+      prior_review = exact_keys(
+        receipt["prior_product_review"], %w[capability_credit identity scope verdict],
+        "pre-candidate DEV prior product Review"
+      )
+      assert(prior_review["identity"] == evidence["iteration1_product_review"] &&
+             prior_review["verdict"] == "PASS" && prior_review["capability_credit"] == 0 &&
+             !prior_review["scope"].to_s.empty?,
+             "pre-candidate DEV prior product Review boundary drift")
+
+      snapshot = parse_bound_json(
+        evidence["product_dirty_snapshot_manifest"],
+        "pre-candidate DEV product dirty snapshot manifest"
+      )
+      snapshot_rows = array(
+        snapshot["files"], "pre-candidate DEV snapshot manifest files"
+      ).map.with_index do |row, index|
+        record = exact_keys(
+          row,
+          %w[relative_path git_status tracked_at_active dirty active_base snapshot patch_replay],
+          "pre-candidate DEV snapshot manifest file[#{index}]"
+        )
+        dirty = exact_keys(
+          record["dirty"], %w[byte_length sha256 git_blob_sha1 mode nlink],
+          "pre-candidate DEV snapshot manifest dirty file[#{index}]"
+        )
+        snapshot_identity = exact_keys(
+          record["snapshot"], %w[path byte_length sha256 exact_dirty_bytes_equal],
+          "pre-candidate DEV snapshot manifest snapshot file[#{index}]"
+        )
+        replay_identity = exact_keys(
+          record["patch_replay"], %w[path byte_length sha256 exact_dirty_bytes_equal],
+          "pre-candidate DEV snapshot manifest replay file[#{index}]"
+        )
+        {
+          "relative_path" => record["relative_path"],
+          "dirty" => dirty,
+          "snapshot" => snapshot_identity,
+          "patch_replay" => replay_identity
+        }
+      end
+      snapshot_content_projection = snapshot_rows.map do |row|
+        {
+          "relative_path" => row["relative_path"],
+          "byte_length" => row.dig("dirty", "byte_length"),
+          "sha256" => row.dig("dirty", "sha256")
+        }
+      end.sort_by { |row| row["relative_path"] }
+      master_content_projection = snapshot_master_projection.map do |row|
+        row.slice("relative_path", "byte_length", "sha256")
+      end
+      assert(snapshot["schema_version"] == adapter["snapshot_manifest_schema"] &&
+             snapshot["task_id"] == entry["task_id"] &&
+             snapshot.dig("dirty_worktree", "dirty_path_count") == 4 &&
+             snapshot.dig("dirty_worktree", "no_other_dirty_paths") == true &&
+             snapshot.dig("patch", "sha256") == evidence.dig("product_dirty_delta_patch", "sha256") &&
+             snapshot.dig("patch", "byte_length") ==
+               evidence.dig("product_dirty_delta_patch", "byte_length") &&
+             snapshot.dig("patch", "git_apply_check").to_s.start_with?("PASS") &&
+             snapshot.dig("patch", "replay_exact_dirty_bytes") == true &&
+             snapshot.dig("snapshot", "file_count") == 4 &&
+             snapshot.dig("snapshot", "all_exact_dirty_bytes") == true &&
+             snapshot_rows.length == 4 &&
+             snapshot_rows.map { |row| row["relative_path"] }.uniq.length == 4 &&
+             snapshot_content_projection == master_content_projection &&
+             snapshot_rows.all? do |row|
+               dirty = row["dirty"]
+               row["snapshot"].slice("byte_length", "sha256") ==
+                 dirty.slice("byte_length", "sha256") &&
+                 row["snapshot"]["exact_dirty_bytes_equal"] == true &&
+                 row["patch_replay"].slice("byte_length", "sha256") ==
+                   dirty.slice("byte_length", "sha256") &&
+                 row["patch_replay"]["exact_dirty_bytes_equal"] == true &&
+                 dirty["mode"] == "0644" && dirty["nlink"] == 1
+             end,
+             "pre-candidate DEV product dirty snapshot manifest drift")
+
+      review_dirty = mapping(
+        review["dirty_delta_snapshot_binding"],
+        "pre-candidate DEV independent terminal Review dirty snapshot binding"
+      )
+      review_dirty_paths = array(
+        review_dirty["paths"],
+        "pre-candidate DEV independent terminal Review dirty snapshot paths"
+      ).map.with_index do |row, index|
+        exact_keys(
+          row, %w[git_status relative_path byte_length mode sha256],
+          "pre-candidate DEV independent terminal Review dirty path[#{index}]"
+        )
+      end
+      review_dirty_projection = review_dirty_paths.map do |row|
+        row.slice("relative_path", "byte_length", "sha256")
+      end.sort_by { |row| row["relative_path"] }
+      assert(review_dirty["head"] == canonical_before["commit"] &&
+             review_dirty["tree"] == canonical_before["tree"] &&
+             review_dirty["activation_parent_commit"] == activation_parent["commit"] &&
+             review_dirty["activation_parent_tree"] == activation_parent["tree"] &&
+             review_dirty["dirty_path_count"] == 4 &&
+             review_dirty_paths.map { |row| row["relative_path"] }.uniq.length == 4 &&
+             review_dirty_paths.all? { |row| row["mode"] == "0644" } &&
+             review_dirty_projection == master_content_projection,
+             "pre-candidate DEV independent terminal Review dirty snapshot identity drift")
+
+      replay = parse_bound_json(
+        evidence["product_dirty_patch_replay_verification"],
+        "pre-candidate DEV product dirty patch replay verification"
+      )
+      replay_rows = array(replay["files"], "pre-candidate DEV patch replay files").map.with_index do |row, index|
+        exact_keys(
+          row,
+          %w[byte_length exact_snapshot_bytes_equal final_installed_path relative_path sha256],
+          "pre-candidate DEV patch replay file[#{index}]"
+        )
+      end
+      replay_projection = replay_rows.map do |row|
+        row.slice("relative_path", "byte_length", "sha256", "final_installed_path")
+      end.sort_by { |row| row["relative_path"] }
+      assert(replay["schema_version"] ==
+               adapter["patch_replay_schema"] &&
+             replay["task_id"] == entry["task_id"] && replay["status"] == "PASS" &&
+             replay["base_commit"] == receipt.dig("canonical_before_terminal_sync", "commit") &&
+             replay["base_tree"] == receipt.dig("canonical_before_terminal_sync", "tree") &&
+             replay.dig("patch", "sha256") == evidence.dig("product_dirty_delta_patch", "sha256") &&
+             replay.dig("patch", "byte_length") == evidence.dig("product_dirty_delta_patch", "byte_length") &&
+             replay.dig("patch", "git_apply_check").to_s.start_with?("PASS") &&
+             replay_rows.length == 4 &&
+             replay_rows.map { |row| row["relative_path"] }.uniq.length == 4 &&
+             replay_rows.all? { |row| row["exact_snapshot_bytes_equal"] == true } &&
+             replay_projection == snapshot_master_projection,
+             "pre-candidate DEV product dirty patch replay drift")
+      return
+    end
 
     if receipt["schema_version"] ==
        "phase-delegated-preworker-start-safety-stop-terminal-receipt/v1"
@@ -1474,28 +2194,53 @@ module FounderDelegationContinuity
            "predeclared Task terminal Review projection drift")
   end
 
+  def validate_single_task_expansion_ledger!(root, entries, source_tasks, source_decision)
+    return [] unless source_decision["schema_version"] == "1.2"
+
+    ids = array(entries, "single-Task expansion phase execution Task ledger").map do |entry|
+      mapping(entry, "single-Task expansion phase execution Task ledger entry")["task_id"]
+    end
+    assert(ids.uniq.length == ids.length,
+           "phase execution task ledger contains duplicate Task ids")
+    tasks = array(source_tasks, "single-Task expansion source Tasks")
+    new_task_ids = array(source_decision["new_task_ids"], "single-Task expansion new Task ids")
+    assert(tasks.length == 1 && new_task_ids.length == 1 &&
+           tasks.first["task_id"] == new_task_ids.first,
+           "single-Task expansion source Task set is not exact")
+    parent_truth = truth_at_commit(
+      root,
+      source_decision.dig("activation_parent", "commit"),
+      "single-Task expansion activation parent"
+    )
+    parent_entries = array(
+      parent_truth.dig("phase_execution_envelope", "task_ledger"),
+      "single-Task expansion activation-parent Task ledger"
+    )
+    assert(entries.first(parent_entries.length) == parent_entries,
+           "single-Task expansion prior ledger prefix drifts from activation-parent accounting")
+    suffix = entries.drop(parent_entries.length)
+    source_status = mapping(tasks.first, "single-Task expansion source Task")["status"].to_s
+    source_consumed = source_status.start_with?("TERMINAL_") || source_status.include?("ACCEPTED")
+    if source_consumed
+      assert(suffix.length == 1 && suffix.first.is_a?(Hash) &&
+             suffix.first["task_id"] == new_task_ids.first,
+             "single-Task expansion consumed source Task requires exactly one sole new ledger suffix")
+    else
+      assert(suffix.empty?,
+             "single-Task expansion READY or ACTIVE source Task cannot appear in the consumed ledger")
+    end
+    parent_entries
+  end
+
   def validate_consumed_task_ledger!(root, ledger, source_route, phase, anchored_source_entries,
                                      source_decision)
     entries = array(ledger, "phase execution task ledger")
     ids = entries.map { |entry| mapping(entry, "phase execution task ledger entry")["task_id"] }
     assert(ids.uniq.length == ids.length, "phase execution task ledger contains duplicate Task ids")
     source_tasks = array(source_route["task_plan"], "source Route task plan")
-    prior_ledger = if source_decision["schema_version"] == "1.2"
-                     parent_truth = truth_at_commit(
-                       root,
-                       source_decision.dig("activation_parent", "commit"),
-                       "single-Task expansion activation parent"
-                     )
-                     parent_entries = array(
-                       parent_truth.dig("phase_execution_envelope", "task_ledger"),
-                       "single-Task expansion activation-parent Task ledger"
-                     )
-                     assert(entries == parent_entries,
-                            "single-Task expansion prior ledger drifts from activation-parent accounting")
-                     parent_entries
-                   else
-                     []
-                   end
+    prior_ledger = validate_single_task_expansion_ledger!(
+      root, entries, source_tasks, source_decision
+    )
     source_consumed = source_tasks.select do |task|
       status = mapping(task, "source Route Task")["status"].to_s
       status.start_with?("TERMINAL_") || status.include?("ACCEPTED")
@@ -1549,6 +2294,7 @@ module FounderDelegationContinuity
       prior_entry = prior_ledger.find { |item| item.is_a?(Hash) && item["task_id"] == entry["task_id"] }
       assert(source_task || prior_entry == entry,
              "phase execution ledger only accepts source Tasks or exact hash-bound prior accounting")
+      ledger_anchor_commit = nil
       anchored = array(anchored_source_entries, "anchored source task ledger").find do |item|
         item.is_a?(Hash) && item["task_id"] == entry["task_id"]
       end
@@ -1558,7 +2304,7 @@ module FounderDelegationContinuity
                          else
                            entry.dig("outcome_receipt", "sha256")
                          end
-        _ledger_anchor_commit, anchored = first_task_ledger_anchor!(
+        ledger_anchor_commit, anchored = first_task_ledger_anchor!(
           root,
           entry,
           anchor_literal,
@@ -1576,7 +2322,13 @@ module FounderDelegationContinuity
         # The original delegation-amendment ledger predates typed terminal
         # outcome receipts; its exact immutable anchor remains authoritative.
       else
-        validate_predeclared_task_terminal_outcome!(root, entry, contract, receipt)
+        validate_predeclared_task_terminal_outcome!(
+          root,
+          entry,
+          contract,
+          receipt,
+          ledger_anchor_commit: ledger_anchor_commit
+        )
       end
       if source_task
         assert(source_task["status"] == entry["status"] &&

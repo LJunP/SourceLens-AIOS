@@ -39,6 +39,76 @@ def write_json_identity(root, name, value)
   identity_for(path)
 end
 
+def synchronously_rebind_terminal_inventory(fixtures, receipt, fixture_prefix)
+  evidence = receipt.fetch("evidence_bindings")
+  full_inventory = JSON.parse(File.binread(
+    evidence.fetch("formal_dev_repeat_003_full_file_inventory").fetch("path")
+  ))
+  yield full_inventory
+  inventory_identity = write_json_identity(
+    fixtures, "#{fixture_prefix}-inventory.json", full_inventory
+  )
+
+  run_receipt = JSON.parse(File.binread(
+    evidence.fetch("formal_dev_repeat_003_terminal_receipt").fetch("path")
+  ))
+  run_root = run_receipt.fetch("run_root")
+  run_root["path"] = full_inventory.fetch("run_root")
+  run_inventory = run_root.fetch("full_file_inventory")
+  run_inventory["path"] = inventory_identity["path"]
+  run_inventory["byte_length"] = inventory_identity["byte_length"]
+  run_inventory["sha256"] = inventory_identity["sha256"]
+  %w[
+    file_count directory_count symlink_count aggregate_regular_file_bytes
+    file_projection_sha256 directory_projection_sha256
+  ].each { |key| run_inventory[key] = full_inventory.fetch(key) }
+  run_identity = write_json_identity(
+    fixtures, "#{fixture_prefix}-run-receipt.json", run_receipt
+  )
+
+  quality = JSON.parse(File.binread(
+    evidence.fetch("formal_dev_repeat_003_terminal_quality_non_pass").fetch("path")
+  ))
+  quality.fetch("run003")["run_root"] = full_inventory.fetch("run_root")
+  quality_identity = write_json_identity(
+    fixtures, "#{fixture_prefix}-quality-receipt.json", quality
+  )
+
+  review = JSON.parse(File.binread(
+    evidence.fetch("independent_terminal_task_review").fetch("path")
+  ))
+  review_run = review.fetch("exact_run003_bindings")
+  review_run["run_root"] = full_inventory.fetch("run_root")
+  review_inventory = review_run.fetch("full_file_inventory")
+  review_inventory["path"] = inventory_identity["path"]
+  review_inventory["byte_length"] = inventory_identity["byte_length"]
+  review_inventory["sha256"] = inventory_identity["sha256"]
+  %w[
+    file_count directory_count symlink_count aggregate_regular_file_bytes
+    file_projection_sha256 directory_projection_sha256
+  ].each { |key| review_inventory[key] = full_inventory.fetch(key) }
+  review_run_receipt = review_run.fetch("run_terminal_receipt")
+  review_run_receipt["path"] = run_identity["path"]
+  review_run_receipt["byte_length"] = run_identity["byte_length"]
+  review_run_receipt["sha256"] = run_identity["sha256"]
+  review_quality = review.fetch("authority_bindings").fetch(
+    "run003_terminal_quality_receipt"
+  )
+  review_quality["path"] = quality_identity["path"]
+  review_quality["byte_length"] = quality_identity["byte_length"]
+  review_quality["sha256"] = quality_identity["sha256"]
+  review_identity = write_json_identity(
+    fixtures, "#{fixture_prefix}-independent-review.json", review
+  )
+
+  evidence["formal_dev_repeat_003_full_file_inventory"] = inventory_identity
+  evidence["formal_dev_repeat_003_terminal_receipt"] = run_identity
+  evidence["formal_dev_repeat_003_terminal_quality_non_pass"] = quality_identity
+  evidence["independent_terminal_task_review"] = review_identity
+  receipt.fetch("independent_terminal_review")["identity"] = deep_copy(review_identity)
+  receipt
+end
+
 def bind_strategic_decision(truth, identity)
   truth.fetch("founder_escalation_control").fetch("resolution")["structured_decision"] =
     deep_copy(identity)
@@ -58,6 +128,19 @@ def expect_non_pass(root, name, truth, expected_fragment)
   raise "#{name} unexpectedly passed\n#{stdout}#{stderr}" if status.success?
   combined = stdout + stderr
   raise "#{name} failed for the wrong reason\n#{combined}" unless combined.include?(expected_fragment)
+end
+
+def expect_method_non_pass(name, expected_fragment)
+  yield
+  raise "#{name} unexpectedly passed"
+rescue FounderDelegationContinuityError => e
+  raise "#{name} failed for the wrong reason\n#{e.message}" unless e.message.include?(expected_fragment)
+end
+
+def expect_method_pass(name)
+  yield
+rescue StandardError => e
+  raise "#{name} unexpectedly failed\n#{e.class}: #{e.message}"
 end
 
 current_truth = YAML.safe_load(
@@ -101,12 +184,424 @@ reserved_base = historical_truths.reverse.find do |candidate|
 end
 raise "Founder reserved Truth anchor is missing" unless reserved_base
 
+terminal_schema = FounderDelegationContinuity::PRE_CANDIDATE_TERMINAL_RECEIPT_ADAPTERS.keys.fetch(0)
+terminal_contract_path = File.join(
+  ROOT, "docs/aios/tasks/P2-064_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT.yaml"
+)
+terminal_contract_identity = identity_for(terminal_contract_path)
+terminal_fixture_truth = ([current_truth] + historical_truths.reverse).find do |candidate|
+  Array(candidate.dig("phase_execution_envelope", "task_ledger")).any? do |entry|
+    next false unless entry.is_a?(Hash) &&
+                      entry.dig("contract", "sha256") == terminal_contract_identity["sha256"] &&
+                      entry.dig("contract", "byte_length") == terminal_contract_identity["byte_length"]
+    receipt_path = entry.dig("outcome_receipt", "path")
+    next false unless receipt_path.is_a?(String) && File.file?(receipt_path)
+
+    JSON.parse(File.binread(receipt_path))["schema_version"] == terminal_schema
+  rescue JSON::ParserError
+    false
+  end
+end
+raise "durable pre-candidate terminal fixture is missing" unless terminal_fixture_truth
+terminal_entry = terminal_fixture_truth.fetch("phase_execution_envelope").fetch("task_ledger").find do |entry|
+  entry.is_a?(Hash) && entry.dig("contract", "sha256") == terminal_contract_identity["sha256"] &&
+    File.file?(entry.dig("outcome_receipt", "path").to_s) &&
+    JSON.parse(File.binread(entry.dig("outcome_receipt", "path")))["schema_version"] == terminal_schema
+end
+raise "durable pre-candidate terminal ledger entry is missing" unless terminal_entry
+terminal_receipt = JSON.parse(File.binread(terminal_entry.dig("outcome_receipt", "path")))
+terminal_contract = YAML.safe_load(
+  File.binread(terminal_contract_path),
+  permitted_classes: [], permitted_symbols: [], aliases: false
+)
+terminal_source_route_ref = terminal_fixture_truth.dig(
+  "phase_execution_envelope", "authority_basis", "source_route_ref"
+)
+terminal_source_route = terminal_fixture_truth.fetch(terminal_source_route_ref)
+terminal_source_decision = JSON.parse(File.binread(terminal_source_route.dig("decision_packet", "path")))
+terminal_anchor_commit, = FounderDelegationContinuity.first_task_ledger_anchor!(
+  ROOT,
+  terminal_entry,
+  terminal_entry.dig("outcome_receipt", "sha256"),
+  "durable pre-candidate terminal fixture"
+)
+active_fixture_truth = FounderDelegationContinuity.truth_at_commit(
+  ROOT,
+  terminal_receipt.dig("canonical_before_terminal_sync", "commit"),
+  "durable single-Task ACTIVE fixture"
+)
+active_source_route_ref = active_fixture_truth.dig(
+  "phase_execution_envelope", "authority_basis", "source_route_ref"
+)
+active_source_route = active_fixture_truth.fetch(active_source_route_ref)
+
 Dir.mktmpdir("founder-delegation-continuity-") do |fixtures|
   assertions = 0
 
   current_disposition = current_truth.fetch("founder_escalation_control").fetch("disposition")
   expect_pass(fixtures, "current-canonical-delegation-disposition", current_truth,
               current_disposition)
+  assertions += 1
+
+  active_ledger = active_fixture_truth.fetch("phase_execution_envelope").fetch("task_ledger")
+  terminal_ledger = terminal_fixture_truth.fetch("phase_execution_envelope").fetch("task_ledger")
+
+  expect_method_pass("single-task-expansion-active-zero-suffix-pass") do
+    prior = FounderDelegationContinuity.validate_single_task_expansion_ledger!(
+      ROOT, active_ledger, active_source_route.fetch("task_plan"), terminal_source_decision
+    )
+    raise "ACTIVE fixture prior prefix drift" unless prior == active_ledger
+  end
+  assertions += 1
+
+  expect_method_pass("single-task-expansion-terminal-one-suffix-pass") do
+    prior = FounderDelegationContinuity.validate_single_task_expansion_ledger!(
+      ROOT, terminal_ledger, terminal_source_route.fetch("task_plan"), terminal_source_decision
+    )
+    raise "terminal fixture suffix drift" unless terminal_ledger.length == prior.length + 1
+  end
+  assertions += 1
+
+  expect_pass(
+    fixtures,
+    "frozen-single-task-expansion-terminal-one-suffix",
+    terminal_fixture_truth,
+    terminal_fixture_truth.dig("founder_escalation_control", "disposition")
+  )
+  assertions += 1
+
+  ledger = deep_copy(terminal_ledger)
+  ledger.pop
+  expect_method_non_pass("single-task-expansion-terminal-suffix-required",
+                         "consumed source Task requires exactly one sole new ledger suffix") do
+    FounderDelegationContinuity.validate_single_task_expansion_ledger!(
+      ROOT, ledger, terminal_source_route.fetch("task_plan"), terminal_source_decision
+    )
+  end
+  assertions += 1
+
+  ledger = deep_copy(terminal_ledger)
+  ledger << deep_copy(ledger.last)
+  expect_method_non_pass("single-task-expansion-duplicate-suffix-rejected",
+                         "phase execution task ledger contains duplicate Task ids") do
+    FounderDelegationContinuity.validate_single_task_expansion_ledger!(
+      ROOT, ledger, terminal_source_route.fetch("task_plan"), terminal_source_decision
+    )
+  end
+  assertions += 1
+
+  ledger = deep_copy(terminal_ledger)
+  extra = deep_copy(ledger.last)
+  extra["task_id"] = "AIOS-P2-999_UNAUTHORIZED_SECOND_TASK"
+  ledger << extra
+  expect_method_non_pass("single-task-expansion-second-suffix-rejected",
+                         "consumed source Task requires exactly one sole new ledger suffix") do
+    FounderDelegationContinuity.validate_single_task_expansion_ledger!(
+      ROOT, ledger, terminal_source_route.fetch("task_plan"), terminal_source_decision
+    )
+  end
+  assertions += 1
+
+  ledger = deep_copy(terminal_ledger)
+  ledger.first["status"] = "TERMINAL_PREFIX_DRIFT_NON_PASS"
+  expect_method_non_pass("single-task-expansion-prefix-drift-rejected",
+                         "prior ledger prefix drifts from activation-parent accounting") do
+    FounderDelegationContinuity.validate_single_task_expansion_ledger!(
+      ROOT, ledger, terminal_source_route.fetch("task_plan"), terminal_source_decision
+    )
+  end
+  assertions += 1
+
+  ledger = deep_copy(active_ledger)
+  ledger << deep_copy(terminal_ledger.last)
+  expect_method_non_pass("single-task-expansion-active-source-cannot-be-consumed",
+                         "READY or ACTIVE source Task cannot appear in the consumed ledger") do
+    FounderDelegationContinuity.validate_single_task_expansion_ledger!(
+      ROOT, ledger, active_source_route.fetch("task_plan"), terminal_source_decision
+    )
+  end
+  assertions += 1
+
+  route = deep_copy(terminal_source_route)
+  route.fetch("first_task")["status"] = "ACTIVE"
+  expect_method_non_pass("single-task-expansion-first-task-lifecycle-drift",
+                         "first Task must exactly equal its sole Task plan entry including lifecycle") do
+    FounderDelegationContinuity.validate_source_route_authority!(ROOT, route)
+  end
+  assertions += 1
+
+  expect_method_pass("terminal-receipt-exact-baseline") do
+    FounderDelegationContinuity.validate_predeclared_task_terminal_outcome!(
+      ROOT,
+      terminal_entry,
+      terminal_contract,
+      terminal_receipt,
+      ledger_anchor_commit: terminal_anchor_commit
+    )
+  end
+  assertions += 1
+
+  receipt = deep_copy(terminal_receipt)
+  receipt.fetch("candidate")["created"] = true
+  expect_method_non_pass("terminal-receipt-cannot-invent-candidate",
+                         "cannot claim a candidate") do
+    FounderDelegationContinuity.validate_predeclared_task_terminal_outcome!(
+      ROOT, terminal_entry, terminal_contract, receipt,
+      ledger_anchor_commit: terminal_anchor_commit
+    )
+  end
+  assertions += 1
+
+  receipt = deep_copy(terminal_receipt)
+  receipt.fetch("held_validation")["opened"] = true
+  expect_method_non_pass("terminal-receipt-cannot-invent-held-validation",
+                         "cannot claim held validation") do
+    FounderDelegationContinuity.validate_predeclared_task_terminal_outcome!(
+      ROOT, terminal_entry, terminal_contract, receipt,
+      ledger_anchor_commit: terminal_anchor_commit
+    )
+  end
+  assertions += 1
+
+  receipt = deep_copy(terminal_receipt)
+  receipt.fetch("independent_terminal_review")["target_verdict"] = "PASS"
+  expect_method_non_pass("terminal-receipt-cannot-rewrite-independent-review",
+                         "independent terminal Review binding drift") do
+    FounderDelegationContinuity.validate_predeclared_task_terminal_outcome!(
+      ROOT, terminal_entry, terminal_contract, receipt,
+      ledger_anchor_commit: terminal_anchor_commit
+    )
+  end
+  assertions += 1
+
+  receipt = deep_copy(terminal_receipt)
+  receipt.fetch("outcome")["p2_capability_progress_percent"] = 100
+  expect_method_non_pass("terminal-receipt-cannot-invent-capability-progress",
+                         "Phase outcome drift") do
+    FounderDelegationContinuity.validate_predeclared_task_terminal_outcome!(
+      ROOT, terminal_entry, terminal_contract, receipt,
+      ledger_anchor_commit: terminal_anchor_commit
+    )
+  end
+  assertions += 1
+
+  contract = deep_copy(terminal_contract)
+  contract.fetch("terminal_outcome")["quality_review"] = "NON_PASS"
+  expect_method_non_pass("terminal-contract-candidate-quality-must-remain-not-started",
+                         "Contract outcome projection drift") do
+    FounderDelegationContinuity.validate_predeclared_task_terminal_outcome!(
+      ROOT, terminal_entry, contract, terminal_receipt,
+      ledger_anchor_commit: terminal_anchor_commit
+    )
+  end
+  assertions += 1
+
+  contract = deep_copy(terminal_contract)
+  canonical_source = contract.fetch("dependencies").find do |dependency|
+    dependency["kind"] == "CANONICAL_SOURCE"
+  end
+  contract.fetch("dependencies") << deep_copy(canonical_source)
+  expect_method_non_pass("terminal-contract-canonical-source-must-be-unique",
+                         "exactly one CANONICAL_SOURCE") do
+    FounderDelegationContinuity.validate_predeclared_task_terminal_outcome!(
+      ROOT, terminal_entry, contract, terminal_receipt,
+      ledger_anchor_commit: terminal_anchor_commit
+    )
+  end
+  assertions += 1
+
+  receipt = deep_copy(terminal_receipt)
+  receipt["activation_parent"] = deep_copy(receipt.fetch("canonical_before_terminal_sync"))
+  expect_method_non_pass("terminal-activation-parent-must-equal-contract-source",
+                         "drifts from the Contract CANONICAL_SOURCE") do
+    FounderDelegationContinuity.validate_predeclared_task_terminal_outcome!(
+      ROOT, terminal_entry, terminal_contract, receipt,
+      ledger_anchor_commit: terminal_anchor_commit
+    )
+  end
+  assertions += 1
+
+  receipt = deep_copy(terminal_receipt)
+  receipt.fetch("canonical_before_terminal_sync")["tree"] = "0" * 40
+  expect_method_non_pass("terminal-canonical-before-tree-must-be-exact",
+                         "tree does not match its commit") do
+    FounderDelegationContinuity.validate_predeclared_task_terminal_outcome!(
+      ROOT, terminal_entry, terminal_contract, receipt,
+      ledger_anchor_commit: terminal_anchor_commit
+    )
+  end
+  assertions += 1
+
+  receipt = deep_copy(terminal_receipt)
+  receipt.fetch("canonical_before_terminal_sync")["commit"] = "f" * 40
+  receipt.fetch("canonical_before_terminal_sync")["tree"] = "0" * 40
+  expect_method_non_pass("terminal-canonical-before-commit-must-exist",
+                         "commit does not exist") do
+    FounderDelegationContinuity.validate_predeclared_task_terminal_outcome!(
+      ROOT, terminal_entry, terminal_contract, receipt,
+      ledger_anchor_commit: terminal_anchor_commit
+    )
+  end
+  assertions += 1
+
+  root_commit = `git rev-list --max-parents=0 HEAD`.lines.first.to_s.strip
+  root_tree = `git rev-parse #{root_commit}^{tree}`.strip
+  receipt = deep_copy(terminal_receipt)
+  receipt["canonical_before_terminal_sync"] = { "commit" => root_commit, "tree" => root_tree }
+  expect_method_non_pass("terminal-canonical-before-must-descend-from-activation-parent",
+                         "ancestor relation does not hold") do
+    FounderDelegationContinuity.validate_predeclared_task_terminal_outcome!(
+      ROOT, terminal_entry, terminal_contract, receipt,
+      ledger_anchor_commit: terminal_anchor_commit
+    )
+  end
+  assertions += 1
+
+  expect_method_non_pass("terminal-entry-introduction-anchor-must-be-exact",
+                         "ledger entry introduction anchor drift") do
+    FounderDelegationContinuity.validate_predeclared_task_terminal_outcome!(
+      ROOT, terminal_entry, terminal_contract, terminal_receipt,
+      ledger_anchor_commit: terminal_receipt.dig("canonical_before_terminal_sync", "commit")
+    )
+  end
+  assertions += 1
+
+  receipt = deep_copy(terminal_receipt)
+  receipt.fetch("execution_accounting")["formal_dev_repeat_count"] = 999
+  expect_method_non_pass("terminal-formal-dev-repeat-count-must-be-exact",
+                         "execution counters drift") do
+    FounderDelegationContinuity.validate_predeclared_task_terminal_outcome!(
+      ROOT, terminal_entry, terminal_contract, receipt,
+      ledger_anchor_commit: terminal_anchor_commit
+    )
+  end
+  assertions += 1
+
+  receipt = deep_copy(terminal_receipt)
+  receipt.fetch("evidence_bindings")["formal_dev_repeat_003_matrix"] =
+    write_json_identity(fixtures, "DEV_PRODUCT_MOCKMVC_MATRIX.json", {})
+  expect_method_non_pass("terminal-full-inventory-matrix-projection-must-be-exact",
+                         "full inventory matrix projection drift") do
+    FounderDelegationContinuity.validate_predeclared_task_terminal_outcome!(
+      ROOT, terminal_entry, terminal_contract, receipt,
+      ledger_anchor_commit: terminal_anchor_commit
+    )
+  end
+  assertions += 1
+
+  receipt = deep_copy(terminal_receipt)
+  synchronously_rebind_terminal_inventory(
+    fixtures, receipt, "terminal-inventory-non-matrix-projection-drift"
+  ) do |full_inventory|
+    non_matrix_row = full_inventory.fetch("files").find do |row|
+      row["relative_path"] != "DEV_PRODUCT_MOCKMVC_MATRIX.json"
+    end
+    non_matrix_row["sha256"] = "0" * 64
+    full_inventory["file_projection_sha256"] =
+      Digest::SHA256.hexdigest(JSON.generate(full_inventory.fetch("files")))
+  end
+  expect_method_non_pass("terminal-full-inventory-frozen-projection-must-be-exact",
+                         "full inventory projection drift") do
+    FounderDelegationContinuity.validate_predeclared_task_terminal_outcome!(
+      ROOT, terminal_entry, terminal_contract, receipt,
+      ledger_anchor_commit: terminal_anchor_commit
+    )
+  end
+  assertions += 1
+
+  receipt = deep_copy(terminal_receipt)
+  synchronously_rebind_terminal_inventory(
+    fixtures, receipt, "terminal-inventory-directory-projection-drift"
+  ) do |full_inventory|
+    full_inventory["directory_projection_sha256"] = "0" * 64
+  end
+  expect_method_non_pass("terminal-full-inventory-directory-projection-must-be-frozen",
+                         "full inventory projection drift") do
+    FounderDelegationContinuity.validate_predeclared_task_terminal_outcome!(
+      ROOT, terminal_entry, terminal_contract, receipt,
+      ledger_anchor_commit: terminal_anchor_commit
+    )
+  end
+  assertions += 1
+
+  receipt = deep_copy(terminal_receipt)
+  synchronously_rebind_terminal_inventory(
+    fixtures, receipt, "terminal-inventory-run-root-drift"
+  ) do |full_inventory|
+    full_inventory["run_root"] =
+      "/private/tmp/p2-064-dev-adapter-preflight/formal-dev-repeat-003-drift"
+  end
+  expect_method_non_pass("terminal-full-inventory-run-root-must-be-frozen",
+                         "full inventory projection drift") do
+    FounderDelegationContinuity.validate_predeclared_task_terminal_outcome!(
+      ROOT, terminal_entry, terminal_contract, receipt,
+      ledger_anchor_commit: terminal_anchor_commit
+    )
+  end
+  assertions += 1
+
+  receipt = deep_copy(terminal_receipt)
+  synchronously_rebind_terminal_inventory(
+    fixtures, receipt, "terminal-inventory-non-matrix-aggregate-drift"
+  ) do |full_inventory|
+    non_matrix_row = full_inventory.fetch("files").find do |row|
+      row["relative_path"] != "DEV_PRODUCT_MOCKMVC_MATRIX.json"
+    end
+    non_matrix_row["byte_length"] += 1
+  end
+  expect_method_non_pass("terminal-full-inventory-non-matrix-byte-sum-must-be-exact",
+                         "full inventory aggregate byte sum drift") do
+    FounderDelegationContinuity.validate_predeclared_task_terminal_outcome!(
+      ROOT, terminal_entry, terminal_contract, receipt,
+      ledger_anchor_commit: terminal_anchor_commit
+    )
+  end
+  assertions += 1
+
+  receipt = deep_copy(terminal_receipt)
+  snapshots = receipt.dig("evidence_bindings", "product_dirty_snapshot_files")
+  snapshots[1] = deep_copy(snapshots[0])
+  expect_method_non_pass("terminal-dirty-snapshot-identities-must-be-unique",
+                         "dirty snapshot identities must be unique") do
+    FounderDelegationContinuity.validate_predeclared_task_terminal_outcome!(
+      ROOT, terminal_entry, terminal_contract, receipt,
+      ledger_anchor_commit: terminal_anchor_commit
+    )
+  end
+  assertions += 1
+
+  receipt = deep_copy(terminal_receipt)
+  quality = JSON.parse(File.binread(
+    receipt.dig("evidence_bindings", "formal_dev_repeat_003_terminal_quality_non_pass", "path")
+  ))
+  quality.dig("run003", "matrix")["sha256"] = "0" * 64
+  quality_identity = write_json_identity(fixtures, "terminal-quality-child-drift.json", quality)
+  receipt.fetch("evidence_bindings")["formal_dev_repeat_003_terminal_quality_non_pass"] =
+    quality_identity
+  expect_method_non_pass("terminal-quality-child-identities-must-be-exact",
+                         "terminal Quality lifecycle drift") do
+    FounderDelegationContinuity.validate_predeclared_task_terminal_outcome!(
+      ROOT, terminal_entry, terminal_contract, receipt,
+      ledger_anchor_commit: terminal_anchor_commit
+    )
+  end
+  assertions += 1
+
+  receipt = deep_copy(terminal_receipt)
+  review = JSON.parse(File.binread(
+    receipt.dig("evidence_bindings", "independent_terminal_task_review", "path")
+  ))
+  review.dig("exact_run003_bindings", "run_terminal_receipt")["sha256"] = "0" * 64
+  review_identity = write_json_identity(fixtures, "terminal-review-child-drift.json", review)
+  receipt.fetch("evidence_bindings")["independent_terminal_task_review"] = review_identity
+  receipt.fetch("independent_terminal_review")["identity"] = deep_copy(review_identity)
+  expect_method_non_pass("terminal-review-child-identities-must-be-exact",
+                         "independent terminal Review lifecycle drift") do
+    FounderDelegationContinuity.validate_predeclared_task_terminal_outcome!(
+      ROOT, terminal_entry, terminal_contract, receipt,
+      ledger_anchor_commit: terminal_anchor_commit
+    )
+  end
   assertions += 1
 
   if current_truth.dig("current_phase_route", "schema_version") ==

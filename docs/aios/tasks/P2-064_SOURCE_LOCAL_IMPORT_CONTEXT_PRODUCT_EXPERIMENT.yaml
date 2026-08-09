@@ -3,7 +3,7 @@ record_type: aios_phase_delegated_independent_task_contract
 task_id: AIOS-P2-064_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT
 phase: P2
 route_id: AIOS-P2-064_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT_PHASE_DELEGATED_ROUTE
-status: ACTIVE
+status: TERMINAL_FORMAL_DEV_CHILD_EXIT_BEFORE_READY_ITERATION2_EXHAUSTED_NON_PASS
 task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
 capability: REPRODUCIBLE_CONTEXT_BENCHMARK
 objective: >-
@@ -79,6 +79,22 @@ independent_reviewer:
 protocol_status_mapping:
   ELIGIBLE_NOT_ACTIVATED: ready
   ACTIVE: in_progress
+  TERMINAL_FORMAL_DEV_CHILD_EXIT_BEFORE_READY_ITERATION2_EXHAUSTED_NON_PASS: stopped
+terminal_outcome:
+  status: TERMINAL_FORMAL_DEV_CHILD_EXIT_BEFORE_READY_ITERATION2_EXHAUSTED_NON_PASS
+  candidate_commit: null
+  candidate_tree: null
+  sealed_formal_value_result: NOT_STARTED_CANDIDATE_ABSENT
+  cto_review: NOT_STARTED_CANDIDATE_ABSENT
+  security_review: NOT_STARTED_CANDIDATE_ABSENT
+  quality_review: NOT_STARTED_CANDIDATE_ABSENT
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-one-final-source-local-import-context-20260809/task-p2-064/evidence/terminal/P2_064_TERMINAL_MASTER_LEDGER_OUTCOME_RECEIPT.json
+    byte_length: 9212
+    sha256: a1118703f5086ae27f93e259aea2d301aa6ddc24299fd675d3029f223c6de7f2
+  capability_credit: 0
+  candidate_integrated: false
+  canonical_make_verify: NOT_INVOKED_TERMINAL_PRE_CANDIDATE_NON_PASS
 task_gate_owner: MASTER_CEO_AGENT
 founder_gate: RESERVED_DECISIONS_ONLY
 capacity_source_task_id: AIOS-P2-064_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT

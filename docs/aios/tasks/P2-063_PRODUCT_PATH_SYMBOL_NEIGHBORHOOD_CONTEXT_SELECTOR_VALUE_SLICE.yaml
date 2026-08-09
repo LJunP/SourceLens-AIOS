@@ -1,3 +1,4 @@
+schema_version: "1.0"
 record_type: aios_phase_delegated_independent_task_contract
 task_id: AIOS-P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE
 phase: P2

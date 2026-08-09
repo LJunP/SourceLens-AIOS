@@ -6278,8 +6278,8 @@ current_phase_route:
     max_same_task_repairs: 3
     contract:
       path: docs/aios/tasks/P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE.yaml
-      sha256: 3c0a2368a698bbc0b5f922c8271a40f1a64acbf2c1c7bb7a5ccd4c1f0fc7188d
-      byte_length: 11366
+      sha256: 0dd56b3978899cd4eabc89eca434bc7093fff9c553e38b9db820ff48b208433a
+      byte_length: 11388
     independence:
       new_task_id: true
       new_execution_nonce: true
@@ -7806,11 +7806,11 @@ phase_execution_envelope:
       calendar_days: 8
     contract:
       path: docs/aios/tasks/P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE.yaml
-      sha256: 3c0a2368a698bbc0b5f922c8271a40f1a64acbf2c1c7bb7a5ccd4c1f0fc7188d
-      byte_length: 11366
+      sha256: 0dd56b3978899cd4eabc89eca434bc7093fff9c553e38b9db820ff48b208433a
+      byte_length: 11388
     authority:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/task-p2-063/authority/P2_063_PHASE_DELEGATED_TASK_AUTHORITY_V2.json
-      sha256: df88d40613e47203e4f0c83e91dc475a6934116529026aa98ca8e010c3cae4e8
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/task-p2-063/authority/P2_063_PHASE_DELEGATED_TASK_AUTHORITY_V3.json
+      sha256: 6cbcc751205b4870dc85994cf5753648858dfd38298d060253b89f6c1b48f6b3
       byte_length: 5298
   remaining:
     engineering_tasks: 0
@@ -18311,14 +18311,14 @@ active_work:
   current_task_status: ACTIVE
   current_task_contract:
     path: docs/aios/tasks/P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE.yaml
-    sha256: 3c0a2368a698bbc0b5f922c8271a40f1a64acbf2c1c7bb7a5ccd4c1f0fc7188d
-    byte_length: 11366
-  current_task_contract_sha256: 3c0a2368a698bbc0b5f922c8271a40f1a64acbf2c1c7bb7a5ccd4c1f0fc7188d
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/task-p2-063/authority/P2_063_PHASE_DELEGATED_TASK_AUTHORITY_V2.json
-  current_execution_authorization_sha256: df88d40613e47203e4f0c83e91dc475a6934116529026aa98ca8e010c3cae4e8
+    sha256: 0dd56b3978899cd4eabc89eca434bc7093fff9c553e38b9db820ff48b208433a
+    byte_length: 11388
+  current_task_contract_sha256: 0dd56b3978899cd4eabc89eca434bc7093fff9c553e38b9db820ff48b208433a
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/task-p2-063/authority/P2_063_PHASE_DELEGATED_TASK_AUTHORITY_V3.json
+  current_execution_authorization_sha256: 6cbcc751205b4870dc85994cf5753648858dfd38298d060253b89f6c1b48f6b3
   authority_record:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/task-p2-063/authority/P2_063_PHASE_DELEGATED_TASK_AUTHORITY_V2.json
-    sha256: df88d40613e47203e4f0c83e91dc475a6934116529026aa98ca8e010c3cae4e8
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/task-p2-063/authority/P2_063_PHASE_DELEGATED_TASK_AUTHORITY_V3.json
+    sha256: 6cbcc751205b4870dc85994cf5753648858dfd38298d060253b89f6c1b48f6b3
     byte_length: 5298
   execution_nonce: c101588b-7b00-4c61-9f65-b93911231f46
   execution_nonce_status: ACTIVE

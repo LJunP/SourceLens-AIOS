@@ -834,6 +834,135 @@ module FounderDelegationContinuity
       return
     end
 
+    if receipt["schema_version"] == "phase-delegated-formal-dev-terminal-nonpass-receipt/v1"
+      exact_keys(
+        receipt,
+        %w[
+          schema_version task_id route_id terminal_status recorded_at_utc
+          activation_parent canonical_before_terminal_sync formal_dev failure
+          source_identity outcome external_effects next_action claim_boundary
+        ],
+        "phase-delegated formal DEV terminal NON_PASS receipt"
+      )
+      assert(receipt["terminal_status"] == entry["status"],
+             "phase-delegated formal DEV terminal status drift")
+
+      formal = exact_keys(
+        receipt["formal_dev"],
+        %w[
+          root terminal_receipt manifest root_index closed_inventory
+          completed_subprocess_runs endpoint_call_attempt_count
+          endpoint_response_count denominator_completed metrics_status
+          rerun_permitted
+        ],
+        "phase-delegated formal DEV terminal execution"
+      )
+      formal_receipt = exact_keys(
+        formal["terminal_receipt"], %w[path byte_length sha256],
+        "phase-delegated formal DEV inner terminal receipt"
+      )
+      validate_identity(formal_receipt, "phase-delegated formal DEV inner terminal receipt")
+      manifest = exact_keys(
+        formal["manifest"], %w[byte_length payload_rows sha256],
+        "phase-delegated formal DEV manifest projection"
+      )
+      root_index = exact_keys(
+        formal["root_index"], %w[byte_length entries sha256],
+        "phase-delegated formal DEV root index projection"
+      )
+      inventory = exact_keys(
+        formal["closed_inventory"],
+        %w[file_count total_bytes manifest_rows_verified root_index_rows_verified],
+        "phase-delegated formal DEV closed inventory"
+      )
+      assert(Pathname.new(formal["root"]).absolute? && File.directory?(formal["root"]) &&
+             manifest["byte_length"].is_a?(Integer) && manifest["byte_length"].positive? &&
+             manifest["payload_rows"].is_a?(Integer) && manifest["payload_rows"].positive? &&
+             manifest["sha256"].to_s.match?(/\A[0-9a-f]{64}\z/) &&
+             root_index["byte_length"].is_a?(Integer) && root_index["byte_length"].positive? &&
+             root_index["entries"].is_a?(Integer) && root_index["entries"].positive? &&
+             root_index["sha256"].to_s.match?(/\A[0-9a-f]{64}\z/) &&
+             inventory["file_count"].is_a?(Integer) && inventory["file_count"].positive? &&
+             inventory["total_bytes"].is_a?(Integer) && inventory["total_bytes"].positive? &&
+             inventory["manifest_rows_verified"] == manifest["payload_rows"] &&
+             inventory["root_index_rows_verified"] == root_index["entries"],
+             "phase-delegated formal DEV inventory projection drift")
+      assert(formal["completed_subprocess_runs"] == 1 &&
+             formal["endpoint_call_attempt_count"] == 1 &&
+             formal["endpoint_response_count"] == 0 &&
+             formal["denominator_completed"] == 0 &&
+             formal["metrics_status"] == "ABSENT_NOT_COMPUTED" &&
+             formal["rerun_permitted"] == false,
+             "phase-delegated formal DEV terminal run accounting drift")
+
+      failure = exact_keys(
+        receipt["failure"],
+        %w[
+          stage fact product_metric_failure initial_nonpass_receipt_sha256
+          partial_run_ledger_sha256 stderr_sha256 stdout_sha256
+        ],
+        "phase-delegated formal DEV failure"
+      )
+      assert(failure["stage"] == "HARNESS_INPUT_ADAPTER_INVOCATION_SCHEMA" &&
+             !failure["fact"].to_s.empty? && failure["product_metric_failure"] == false &&
+             %w[
+               initial_nonpass_receipt_sha256 partial_run_ledger_sha256
+               stderr_sha256 stdout_sha256
+             ].all? { |key| failure[key].to_s.match?(/\A[0-9a-f]{64}\z/) },
+             "phase-delegated formal DEV failure projection drift")
+      source = exact_keys(
+        receipt["source_identity"],
+        %w[source_manifest_sha256 canonical_diff_sha256 pre_post_source_and_git_status_exact],
+        "phase-delegated formal DEV source identity"
+      )
+      assert(source["source_manifest_sha256"].to_s.match?(/\A[0-9a-f]{64}\z/) &&
+             source["canonical_diff_sha256"].to_s.match?(/\A[0-9a-f]{64}\z/) &&
+             source["pre_post_source_and_git_status_exact"] == true,
+             "phase-delegated formal DEV source identity drift")
+
+      terminal = exact_keys(
+        receipt["outcome"],
+        %w[
+          dev_gate candidate_created sealed_read sealed_decrypted sealed_evaluated
+          final_reviews_started candidate_integrated canonical_make_verify
+          capability_credit
+        ],
+        "phase-delegated formal DEV outcome"
+      )
+      assert(terminal == {
+               "dev_gate" => "NON_PASS",
+               "candidate_created" => false,
+               "sealed_read" => false,
+               "sealed_decrypted" => false,
+               "sealed_evaluated" => false,
+               "final_reviews_started" => false,
+               "candidate_integrated" => false,
+               "canonical_make_verify" => "NOT_INVOKED_FORMAL_DEV_STOP",
+               "capability_credit" => 0
+             } && receipt["external_effects"] == FALSE_EXTERNAL_EFFECTS,
+             "phase-delegated formal DEV terminal outcome drift")
+      assert(outcome["candidate_commit"].nil? && outcome["candidate_tree"].nil? &&
+             outcome["sealed_formal_value_result"] == "NOT_STARTED_AFTER_FORMAL_DEV_NON_PASS" &&
+             outcome["cto_review"] == "NOT_STARTED_AFTER_FORMAL_DEV_NON_PASS" &&
+             outcome["security_review"] == "NOT_STARTED_AFTER_FORMAL_DEV_NON_PASS" &&
+             outcome["quality_review"] == "NOT_STARTED_AFTER_FORMAL_DEV_NON_PASS" &&
+             outcome["capability_credit"] == 0 && outcome["candidate_integrated"] == false &&
+             outcome["canonical_make_verify"] == terminal["canonical_make_verify"],
+             "phase-delegated formal DEV Contract outcome projection drift")
+      next_action = exact_keys(
+        receipt["next_action"],
+        %w[founder_decision_required owner action selected_task_id],
+        "phase-delegated formal DEV next action"
+      )
+      assert(next_action["founder_decision_required"] == false &&
+             next_action["owner"] == "MASTER_CEO_AGENT" &&
+             next_action["action"] == CONTINUE_ACTION &&
+             next_action["selected_task_id"].to_s.match?(/\AAIOS-P2-[0-9]{3}_[A-Z0-9_]+\z/) &&
+             !receipt["claim_boundary"].to_s.empty?,
+             "phase-delegated formal DEV next action or claim boundary drift")
+      return
+    end
+
     if receipt["schema_version"] == "phase-delegated-presealed-stop-terminal-receipt/v1"
       exact_keys(
         receipt,

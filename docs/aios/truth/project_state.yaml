@@ -6354,6 +6354,25 @@ historical_p2_062_phase_route:
       rejected_lineage_copy: false
       same_phase_objective: true
       successor_or_replacement: false
+  task_plan:
+    - task_slot: 1
+      task_id: AIOS-P2-062_PRODUCT_PATH_CHANGE_IMPACT_CONTEXT_SELECTOR_VALUE_SLICE
+      status: TERMINAL_FORMAL_DEV_INPUT_ADAPTER_INVOCATION_SCHEMA_NON_PASS
+      engineering_hours: 32
+      calendar_days: 8
+      max_engineering_hours: 32
+      max_calendar_days: 8
+      max_implementation_iterations: 4
+      max_same_task_repairs: 3
+      max_candidates: 1
+      contract_path: docs/aios/tasks/P2-062_PRODUCT_PATH_CHANGE_IMPACT_CONTEXT_SELECTOR_VALUE_SLICE.yaml
+      external_effects:
+        network: false
+        provider: false
+        secret: false
+        remote: false
+        production: false
+        public: false
   external_effects:
     network: false
     provider: false

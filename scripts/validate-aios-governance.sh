@@ -172,7 +172,7 @@ check_phase_predecessor_activation() {
     target_task = requested_task == "CURRENT" ? task_id : requested_task
     allowed_resource_actions = %w[
       STATE_AUDIT ROUTE_ACTIVATION TASK_ACTIVATION BRANCH_CREATE WORKTREE_CREATE
-      CANDIDATE_CREATE ENGINEERING_EVIDENCE_CREATE
+      CANDIDATE_CREATE ENGINEERING_EVIDENCE_CREATE TASK_AUTHORITY_CREATE
     ]
     abort "unsupported phase-sequence resource action" unless allowed_resource_actions.include?(resource_action)
     route_activation_precheck = resource_action == "ROUTE_ACTIVATION" &&
@@ -188,22 +188,96 @@ check_phase_predecessor_activation() {
     elsif !%w[STATE_AUDIT ROUTE_ACTIVATION].include?(resource_action)
       abort "Task-scoped resource creation requires an explicit target Task"
     end
+    preactivation_delegated_resource = false
     if resource_action == "STATE_AUDIT"
       abort "state audit target Task does not equal canonical current Task" unless target_task == task_id
     elsif resource_action == "ROUTE_ACTIVATION"
       abort "route activation precheck requires Task NONE" unless task_id == "NONE" && target_task == "NONE"
-    elsif resource_action == "TASK_ACTIVATION"
-      abort "Task activation requires canonical Task NONE" unless task_id == "NONE"
-      planned_ids = Array(truth.dig("current_phase_route", "task_plan")).each_with_object([]) do |item, ids|
-        ids << item["task_id"] if item.is_a?(Hash) && item["task_id"]
-      end
-      abort "Task activation target is not in the exact current route plan" unless planned_ids.include?(target_task)
     else
+      current_route = truth.fetch("current_phase_route")
+      planned_ids = if current_route["schema_version"] == "phase-delegated-independent-task/v1"
+                      abort "delegated independent route must not carry a legacy task_plan" if
+                        current_route.key?("task_plan")
+                      selected_task = current_route["selected_task"]
+                      abort "delegated independent route requires exactly one selected Task" unless
+                        selected_task.is_a?(Hash) && selected_task["task_id"].is_a?(String)
+                      [selected_task["task_id"]]
+                    else
+                      Array(current_route["task_plan"]).each_with_object([]) do |item, ids|
+                        ids << item["task_id"] if item.is_a?(Hash) && item["task_id"]
+                      end
+                    end
+      abort "current route executable Task set is not closed" unless
+        !planned_ids.empty? && planned_ids.uniq.length == planned_ids.length
+      if %w[
+        BRANCH_CREATE WORKTREE_CREATE ENGINEERING_EVIDENCE_CREATE TASK_AUTHORITY_CREATE
+      ].include?(resource_action) &&
+         current_route["schema_version"] == "phase-delegated-independent-task/v1" &&
+         task_id == "NONE" && planned_ids == [target_task]
+        selected_task = current_route.fetch("selected_task")
+        reservation = truth.dig("phase_execution_envelope", "reserved")
+        ready_active = truth.fetch("active_work")
+        preactivation_delegated_resource =
+          current_route["status"] == "AUTHORIZED_READY" &&
+          current_route["execution_status"] == "PHASE_DELEGATED_TASK_READY" &&
+          current_route["scheduling_status"] == "READY_FOR_MASTER_ACTIVATION" &&
+          current_route["next_eligible_action"] == "MASTER_ACTIVATE_PHASE_DELEGATED_TASK" &&
+          selected_task["status"] == "ELIGIBLE_NOT_ACTIVATED" &&
+          reservation.is_a?(Hash) &&
+          reservation["task_id"] == target_task &&
+          reservation["route_id"] == current_route["route_id"] &&
+          reservation["status"] == "ELIGIBLE_NOT_ACTIVATED" &&
+          reservation["authority"].nil? &&
+          ready_active["task_resource_state"] == "NOT_CREATED_PHASE_DELEGATED_TASK_READY" &&
+          ready_active["current_execution_authorization"].nil? &&
+          ready_active["task_branch"].nil? && ready_active["task_worktree"].nil? &&
+          ready_active["execution_evidence_root"].nil?
+        abort "delegated READY resource precheck requires the exact unactivated reservation" unless
+          preactivation_delegated_resource
+      end
+    end
+    if resource_action == "TASK_ACTIVATION"
+      abort "Task activation requires canonical Task NONE" unless task_id == "NONE"
+      abort "Task activation target is not in the exact current route plan" unless planned_ids.include?(target_task)
+    elsif resource_action == "TASK_AUTHORITY_CREATE"
+      abort "Task authority creation requires the exact delegated READY reservation" unless
+        preactivation_delegated_resource
+    elsif preactivation_delegated_resource
+      # Branch, worktree and Evidence are created only after this exact READY reservation check.
+    elsif resource_action == "CANDIDATE_CREATE"
       abort "Task resource target does not equal the active canonical Task" unless
         task_id != "NONE" && target_task == task_id
-      planned_ids = Array(truth.dig("current_phase_route", "task_plan")).each_with_object([]) do |item, ids|
-        ids << item["task_id"] if item.is_a?(Hash) && item["task_id"]
-      end
+      abort "active Task is not in the exact current route plan" unless planned_ids.include?(target_task)
+      selected_task = current_route["selected_task"]
+      reservation = truth.dig("phase_execution_envelope", "reserved")
+      active_authority = active["authority_record"]
+      closed_active_authority = active_authority.is_a?(Hash) &&
+        active_authority.keys.sort == %w[byte_length path sha256] &&
+        active_authority["path"].is_a?(String) && !active_authority["path"].empty? &&
+        active_authority["byte_length"].is_a?(Integer) && active_authority["byte_length"].positive? &&
+        active_authority["sha256"].is_a?(String) &&
+        active_authority["sha256"].match?(/\A[0-9a-f]{64}\z/)
+      exact_active_candidate_projection =
+        current_route["schema_version"] == "phase-delegated-independent-task/v1" &&
+        current_route["status"] == "ACTIVE" && current_route["execution_status"] == "ACTIVE" &&
+        current_route["scheduling_status"] == "ACTIVE_PHASE_DELEGATED_TASK" &&
+        selected_task.is_a?(Hash) && selected_task["task_id"] == target_task &&
+        selected_task["status"] == "ACTIVE" && reservation.is_a?(Hash) &&
+        reservation["task_id"] == target_task && reservation["route_id"] == current_route["route_id"] &&
+        reservation["status"] == "ACTIVE" && closed_active_authority &&
+        reservation["authority"] == active_authority &&
+        active["current_task_status"] == "ACTIVE" &&
+        active["task_resource_state"] == "ACTIVE_UNIQUE_PHASE_DELEGATED" &&
+        active["current_execution_authorization"] == active_authority["path"] &&
+        active["current_execution_authorization_sha256"] == active_authority["sha256"] &&
+        [active["task_branch"], active["task_worktree"], active["execution_evidence_root"]].all? do |value|
+          value.is_a?(String) && !value.empty?
+        end
+      abort "candidate creation requires the exact phase-delegated ACTIVE projection" unless
+        exact_active_candidate_projection
+    elsif !%w[STATE_AUDIT ROUTE_ACTIVATION].include?(resource_action)
+      abort "Task resource target does not equal the active canonical Task" unless
+        task_id != "NONE" && target_task == task_id
       abort "active Task is not in the exact current route plan" unless planned_ids.include?(target_task)
     end
 

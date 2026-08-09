@@ -30,6 +30,8 @@ module FounderDelegationContinuity
   DELEGATION_AMENDMENT_SCHEMA = "founder-phase-delegation-amendment/v1"
   DELEGATION_AMENDMENT_ID = "FOUNDER_PHASE_DELEGATION_CONTINUITY_AMENDMENT_2026_08_08"
   CONTINUE_ACTION = "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK"
+  SINGLE_TASK_READY_EVENT = "FOUNDER_EXPANDED_SINGLE_TASK_READY"
+  SINGLE_TASK_ACTIVE_EVENT = "FOUNDER_EXPANDED_SINGLE_TASK_ACTIVE"
   CONTINUE_DISPOSITION = "NO_RESERVED_TRIGGER_CONTINUE_PHASE"
   FOUNDER_DISPOSITION = "FOUNDER_DECISION_REQUIRED"
   STRATEGIC_HOLD_DISPOSITION = "FOUNDER_RESERVED_DECISION_RESOLVED_STRATEGIC_HOLD"
@@ -196,6 +198,29 @@ module FounderDelegationContinuity
     fail!("#{label} YAML is invalid: #{e.message}")
   end
 
+  def truth_at_commit(root, commit, label)
+    assert(commit.to_s.match?(/\A[0-9a-f]{40}\z/), "#{label} commit identity is invalid")
+    bytes, stderr, status = Open3.capture3(
+      "git", "show", "#{commit}:docs/aios/truth/project_state.yaml", chdir: root.to_s
+    )
+    assert(status.success?, "#{label} Truth cannot be read: #{stderr.strip}")
+    parse_yaml_bytes(bytes, "#{label} Truth")
+  end
+
+  def canonical_json_projection(value)
+    recursively_sorted = lambda do |item|
+      case item
+      when Hash
+        item.keys.sort.to_h { |key| [key, recursively_sorted.call(item[key])] }
+      when Array
+        item.map { |child| recursively_sorted.call(child) }
+      else
+        item
+      end
+    end
+    JSON.generate(recursively_sorted.call(value))
+  end
+
   def route_by_id(truth, route_id)
     candidates = truth.each_value.select do |value|
       value.is_a?(Hash) && value["route_id"] == route_id
@@ -300,6 +325,39 @@ module FounderDelegationContinuity
     assert(bytes.bytesize == record["byte_length"], "#{label} byte length mismatch")
     assert(Digest::SHA256.hexdigest(bytes) == record["sha256"], "#{label} SHA-256 mismatch")
     bytes
+  end
+
+  def validate_repair_accounting!(value, authorized_repair_capacity, remaining_repairs, label)
+    accounting = exact_keys(
+      value,
+      %w[authorized used remaining classification receipt],
+      label
+    )
+    authorized = integer(accounting["authorized"], "#{label}.authorized")
+    used = integer(accounting["used"], "#{label}.used")
+    remaining = integer(accounting["remaining"], "#{label}.remaining")
+    assert(authorized >= 0 && authorized <= authorized_repair_capacity &&
+           used >= 0 && remaining >= 0 && used + remaining == authorized &&
+           remaining == remaining_repairs,
+           "#{label} must conserve its bounded same-Task repair allowance and project the exact remaining budget")
+    classification = accounting["classification"]
+    assert(classification.is_a?(String) && !classification.strip.empty?,
+           "#{label} classification must be a non-empty string")
+    receipt = exact_keys(
+      accounting["receipt"],
+      %w[relative_path byte_length sha256],
+      "#{label}.receipt"
+    )
+    relative = Pathname.new(receipt["relative_path"].to_s)
+    clean = relative.cleanpath
+    assert(!relative.absolute? && clean.to_s == relative.to_s &&
+           clean.to_s != "." && clean.to_s != ".." &&
+           !clean.to_s.start_with?("../") && !clean.to_s.end_with?("/"),
+           "#{label} receipt path is not a safe TASK_EVIDENCE_ROOT-relative path")
+    assert(receipt["byte_length"].is_a?(Integer) && receipt["byte_length"].positive? &&
+           receipt["sha256"].to_s.match?(/\A[0-9a-f]{64}\z/),
+           "#{label} receipt identity is invalid")
+    accounting
   end
 
   def parse_bound_json(identity, label)
@@ -487,9 +545,13 @@ module FounderDelegationContinuity
       "activation_parent" => route["activation_parent"],
       "goal_identity" => route["goal_identity"],
       "objective" => route["objective"],
+      "claim_boundary" => route["claim_boundary"],
       "envelope" => route["envelope"],
       "founder_reserved_profile" => route["founder_reserved_profile"],
       "founder_reserved_profiles" => route["founder_reserved_profiles"],
+      "exact_reserved_trigger" => route["exact_reserved_trigger"],
+      "prior_consumed_envelope" => route["prior_consumed_envelope"],
+      "new_task_ids" => route["new_task_ids"],
       "automatic_entry" => route["automatic_entry"],
       "automatic_entries" => route["automatic_entries"],
       "task_plan" => array(route["task_plan"], "source Route task plan").map do |task|
@@ -513,18 +575,18 @@ module FounderDelegationContinuity
       historical_route["decision_packet"],
       "phase execution envelope source decision"
     )
-    exact_keys(
-      decision,
-      %w[
-        activation_parent authorization_token automatic_entries automatic_entry claim_boundary
-        envelope external_effects goal_identity ordered_tasks phase record_type route_id
-        schema_version source_founder_packet_identity
-      ],
-      "phase execution envelope source decision"
-    )
+    decision_schema = decision["schema_version"]
+    decision_keys = %w[
+      activation_parent authorization_token automatic_entries automatic_entry claim_boundary
+      envelope external_effects goal_identity ordered_tasks phase record_type route_id
+      schema_version source_founder_packet_identity
+    ]
+    decision_keys.concat(%w[exact_reserved_trigger new_task_ids prior_consumed_envelope]) if
+      decision_schema == "1.2"
+    exact_keys(decision, decision_keys, "phase execution envelope source decision")
     assert(decision["record_type"] == "founder_phase_route_decision" &&
-           decision["schema_version"] == "1.1",
-           "phase execution envelope requires a structured Founder route decision v1.1")
+           %w[1.1 1.2].include?(decision_schema),
+           "phase execution envelope requires a structured Founder route decision v1.1 or v1.2")
     assert(decision["phase"] == historical_route["phase"] &&
            decision["route_id"] == historical_route["route_id"] &&
            decision["authorization_token"] == historical_route["authorization_token"],
@@ -534,6 +596,18 @@ module FounderDelegationContinuity
     assert(decision["automatic_entry"] == historical_route["automatic_entry"] &&
            decision["automatic_entries"] == historical_route["automatic_entries"],
            "source Route automatic-entry semantics drift from structured Founder decision")
+    if decision_schema == "1.2"
+      assert(decision["exact_reserved_trigger"] ==
+               "MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE" &&
+             historical_route["exact_reserved_trigger"] == decision["exact_reserved_trigger"],
+             "single-Task expansion exact reserved trigger drift")
+      assert(decision["automatic_entry"].nil? && decision["automatic_entries"] == [],
+             "single-Task expansion decision must have no automatic successor")
+      assert(decision["new_task_ids"] == historical_route["new_task_ids"],
+             "source Route new Task set drifts from structured Founder decision")
+      assert(decision["prior_consumed_envelope"] == historical_route["prior_consumed_envelope"],
+             "source Route prior consumed accounting drifts from structured Founder decision")
+    end
     assert(decision["claim_boundary"] == historical_route["claim_boundary"] &&
            decision["goal_identity"] == historical_route["goal_identity"],
            "source Route claim or Goal binding drifts from structured Founder decision")
@@ -611,6 +685,95 @@ module FounderDelegationContinuity
     end
     assert(route_tasks == decision_tasks,
            "historical route Task plan drifts from structured Founder decision")
+
+    if decision_schema == "1.2"
+      new_task_ids = array(decision["new_task_ids"], "structured Founder new Task ids")
+      assert(new_task_ids.length == 1 && new_task_ids.uniq.length == 1,
+             "single-Task expansion decision must authorize exactly one new Task")
+      task_ids = decision_tasks.map { |task| task["task_id"] }
+      assert(task_ids == new_task_ids && decision_tasks.length == 1 &&
+             decision_tasks.first["task_slot"] == 1,
+             "single-Task expansion decision must contain only one route-local Task")
+
+      parent_truth = truth_at_commit(
+        root,
+        decision.dig("activation_parent", "commit"),
+        "single-Task expansion activation parent"
+      )
+      parent_envelope = mapping(
+        parent_truth["phase_execution_envelope"],
+        "single-Task expansion activation-parent envelope"
+      )
+      parent_limits = exact_keys(
+        parent_envelope["limits"],
+        %w[engineering_tasks engineering_hours calendar_days active_tasks task_branches task_worktrees active_candidates],
+        "single-Task expansion activation-parent limits"
+      )
+      parent_consumed = exact_keys(
+        parent_envelope["consumed"],
+        %w[engineering_tasks engineering_hours calendar_days],
+        "single-Task expansion activation-parent consumed"
+      )
+      parent_remaining = exact_keys(
+        parent_envelope["remaining"],
+        %w[engineering_tasks engineering_hours calendar_days],
+        "single-Task expansion activation-parent remaining"
+      )
+      assert(parent_envelope["phase"] == historical_route["phase"] &&
+             parent_envelope["status"] == "EXHAUSTED" && parent_envelope["reserved"].nil? &&
+             parent_remaining.values.all?(&:zero?) &&
+             parent_consumed == parent_limits.slice("engineering_tasks", "engineering_hours", "calendar_days"),
+             "single-Task expansion requires an exact exhausted activation-parent envelope")
+      parent_control = mapping(
+        parent_truth["founder_escalation_control"],
+        "single-Task expansion activation-parent Founder control"
+      )
+      assert(parent_control.dig("reserved_trigger", "category") ==
+               decision["exact_reserved_trigger"] &&
+             parent_control["founder_decision_required"] == true,
+             "single-Task expansion does not resolve the exact activation-parent reserved trigger")
+      parent_source_ref = parent_envelope.dig("authority_basis", "source_route_ref")
+      parent_source_route = mapping(
+        parent_truth[parent_source_ref],
+        "single-Task expansion activation-parent source Route"
+      )
+      prior = exact_keys(
+        decision["prior_consumed_envelope"],
+        %w[
+          source_route_id consumed task_ledger_entry_count task_ledger_canonicalization
+          task_ledger_canonical_byte_length task_ledger_canonical_sha256
+        ],
+        "single-Task expansion prior consumed envelope"
+      )
+      prior_consumed = exact_keys(
+        prior["consumed"],
+        %w[engineering_tasks engineering_hours calendar_days],
+        "single-Task expansion prior consumed totals"
+      )
+      parent_ledger = array(
+        parent_envelope["task_ledger"],
+        "single-Task expansion activation-parent Task ledger"
+      )
+      parent_ledger_bytes = canonical_json_projection(parent_ledger).b
+      assert(prior["source_route_id"] == parent_source_route["route_id"] &&
+             prior_consumed == parent_consumed &&
+             prior["task_ledger_entry_count"] == parent_ledger.length &&
+             prior["task_ledger_canonicalization"] == "RECURSIVE_KEY_SORT_COMPACT_JSON_UTF8" &&
+             prior["task_ledger_canonical_byte_length"] == parent_ledger_bytes.bytesize &&
+             prior["task_ledger_canonical_sha256"] == Digest::SHA256.hexdigest(parent_ledger_bytes),
+             "single-Task expansion prior consumed envelope is not hash-bound to activation-parent accounting")
+
+      new_task = decision_tasks.first
+      assert(decision_envelope["max_engineering_tasks"] == parent_limits["engineering_tasks"] + 1 &&
+             decision_envelope["max_engineering_hours"] == parent_limits["engineering_hours"] + new_task["engineering_hours"] &&
+             decision_envelope["max_calendar_days"] == parent_limits["calendar_days"] + new_task["calendar_days"] &&
+             decision_envelope["max_same_task_repairs_per_task"] == new_task["max_same_task_repairs"],
+             "single-Task expansion envelope delta does not equal its only new Task")
+      route_new_tasks = array(historical_route["task_plan"], "single-Task expansion route Task plan")
+      assert(route_new_tasks.length == 1 && route_new_tasks.first["task_id"] == new_task_ids.first &&
+             %w[ELIGIBLE_NOT_ACTIVATED ACTIVE].include?(route_new_tasks.first["status"]),
+             "single-Task expansion source capacity must be its only READY or ACTIVE Task")
+    end
     decision
   end
 
@@ -1311,11 +1474,28 @@ module FounderDelegationContinuity
            "predeclared Task terminal Review projection drift")
   end
 
-  def validate_consumed_task_ledger!(root, ledger, source_route, phase, anchored_source_entries)
+  def validate_consumed_task_ledger!(root, ledger, source_route, phase, anchored_source_entries,
+                                     source_decision)
     entries = array(ledger, "phase execution task ledger")
     ids = entries.map { |entry| mapping(entry, "phase execution task ledger entry")["task_id"] }
     assert(ids.uniq.length == ids.length, "phase execution task ledger contains duplicate Task ids")
     source_tasks = array(source_route["task_plan"], "source Route task plan")
+    prior_ledger = if source_decision["schema_version"] == "1.2"
+                     parent_truth = truth_at_commit(
+                       root,
+                       source_decision.dig("activation_parent", "commit"),
+                       "single-Task expansion activation parent"
+                     )
+                     parent_entries = array(
+                       parent_truth.dig("phase_execution_envelope", "task_ledger"),
+                       "single-Task expansion activation-parent Task ledger"
+                     )
+                     assert(entries == parent_entries,
+                            "single-Task expansion prior ledger drifts from activation-parent accounting")
+                     parent_entries
+                   else
+                     []
+                   end
     source_consumed = source_tasks.select do |task|
       status = mapping(task, "source Route Task")["status"].to_s
       status.start_with?("TERMINAL_") || status.include?("ACCEPTED")
@@ -1366,8 +1546,9 @@ module FounderDelegationContinuity
              "phase execution Task outcome receipt lifecycle drift")
 
       source_task = source_tasks.find { |task| task["task_id"] == entry["task_id"] }
-      assert(source_task,
-             "phase execution ledger only accepts anchored source Route consumed Tasks")
+      prior_entry = prior_ledger.find { |item| item.is_a?(Hash) && item["task_id"] == entry["task_id"] }
+      assert(source_task || prior_entry == entry,
+             "phase execution ledger only accepts source Tasks or exact hash-bound prior accounting")
       anchored = array(anchored_source_entries, "anchored source task ledger").find do |item|
         item.is_a?(Hash) && item["task_id"] == entry["task_id"]
       end
@@ -1397,15 +1578,20 @@ module FounderDelegationContinuity
       else
         validate_predeclared_task_terminal_outcome!(root, entry, contract, receipt)
       end
-      assert(source_task["status"] == entry["status"] &&
-             source_task["engineering_hours"] == budget["engineering_hours"] &&
-             source_task["calendar_days"] == budget["calendar_days"],
-             "phase execution source Task ledger binding drift")
+      if source_task
+        assert(source_task["status"] == entry["status"] &&
+               source_task["engineering_hours"] == budget["engineering_hours"] &&
+               source_task["calendar_days"] == budget["calendar_days"],
+               "phase execution source Task ledger binding drift")
+      else
+        assert(prior_entry == entry,
+               "phase execution prior consumed Task ledger binding drift")
+      end
     end
     entries
   end
 
-  def validate_phase_envelope!(root, truth, source_route, phase, policy)
+  def validate_phase_envelope!(root, truth, source_route, phase, policy, source_decision)
     envelope = exact_keys(
       truth["phase_execution_envelope"],
       %w[
@@ -1475,7 +1661,8 @@ module FounderDelegationContinuity
       envelope["task_ledger"],
       source_route,
       phase,
-      anchored_source_entries
+      anchored_source_entries,
+      source_decision
     )
     expected_consumed = {
       "engineering_tasks" => ledger.sum { |entry| entry.dig("budget", "engineering_tasks") },
@@ -1788,8 +1975,29 @@ module FounderDelegationContinuity
                        "Founder escalation source_event")
     trigger = exact_keys(control["reserved_trigger"], %w[category evidence],
                          "Founder escalation reserved_trigger")
-    if ORDINARY_TERMINAL_EVENTS.include?(event["kind"])
-      matching_tasks = array(historical_route["task_plan"], "historical route task plan").select do |task|
+    current_route = mapping(truth["current_phase_route"], "current_phase_route")
+    source_route_ref = phase_envelope.dig("authority_basis", "source_route_ref")
+    source_route = mapping(truth[source_route_ref], "phase execution source Route")
+    single_task_projection =
+      source_route["schema_version"] == "1.2" &&
+      current_route["schema_version"] == DELEGATED_TASK_ROUTE_SCHEMA &&
+      %w[ELIGIBLE_NOT_ACTIVATED ACTIVE].include?(current_route.dig("selected_task", "status"))
+    if single_task_projection
+      task_status = current_route.dig("selected_task", "status")
+      assert(event == {
+        "kind" => task_status == "ACTIVE" ? SINGLE_TASK_ACTIVE_EVENT : SINGLE_TASK_READY_EVENT,
+        "task_id" => current_route.dig("selected_task", "task_id"),
+        "status" => task_status
+      }, "single-Task Founder expansion control does not project the exact READY or ACTIVE Task")
+    elsif ORDINARY_TERMINAL_EVENTS.include?(event["kind"])
+      historical_tasks = if historical_route["task_plan"].is_a?(Array)
+                           historical_route["task_plan"]
+                         elsif historical_route["selected_task"].is_a?(Hash)
+                           [historical_route["selected_task"]]
+                         else
+                           fail!("ordinary terminal historical route has no closed Task descriptor")
+                         end
+      matching_tasks = historical_tasks.select do |task|
         task.is_a?(Hash) && task["task_id"] == event["task_id"]
       end
       assert(matching_tasks.length == 1, "ordinary terminal event Task identity drift")
@@ -1827,17 +2035,25 @@ module FounderDelegationContinuity
 
     if trigger["category"] == "NONE"
       assert(trigger["evidence"].nil?, "no reserved trigger may not carry evidence")
-      assert(ORDINARY_TERMINAL_EVENTS.include?(event["kind"]),
-             "no-trigger continuation requires an ordinary terminal lifecycle event")
       assert(!phase_complete, "completed Phase cannot use ordinary continuation disposition")
       assert(control["disposition"] == CONTINUE_DISPOSITION,
-             "ordinary terminal lifecycle must continue inside the Phase")
+             "no-trigger lifecycle must continue inside the Phase")
       assert(control["founder_decision_required"] == false,
-             "ordinary terminal lifecycle cannot require Founder decision")
+             "no-trigger lifecycle cannot require Founder decision")
       assert(control["next_action_owner"] == "MASTER_CEO_AGENT",
-             "ordinary terminal lifecycle next action owner must be Master")
-      assert(control["next_eligible_action"] == CONTINUE_ACTION,
-             "ordinary terminal lifecycle next action drift")
+             "no-trigger lifecycle next action owner must be Master")
+      if single_task_projection
+        expected_action = current_route.dig("selected_task", "status") == "ACTIVE" ?
+          "COMPLETE_CURRENT_TASK_GATE" : "MASTER_ACTIVATE_PHASE_DELEGATED_TASK"
+        assert(control["next_eligible_action"] == expected_action &&
+               control["next_eligible_action"] == current_route["next_eligible_action"],
+               "single-Task Founder expansion control next action does not match the exact Task lifecycle")
+      else
+        assert(ORDINARY_TERMINAL_EVENTS.include?(event["kind"]),
+               "no-trigger continuation requires an ordinary terminal lifecycle event")
+        assert(control["next_eligible_action"] == CONTINUE_ACTION,
+               "ordinary terminal lifecycle next action drift")
+      end
       return control
     end
 
@@ -1975,12 +2191,19 @@ module FounderDelegationContinuity
     assert(route["external_effects"] == FALSE_EXTERNAL_EFFECTS && route["additional_write_roots"] == [],
            "delegated independent Task route may not expand effects or write roots")
 
+    source_route = mapping(
+      truth[phase_envelope.dig("authority_basis", "source_route_ref")],
+      "delegated independent Task source Route"
+    )
+    task_keys = %w[
+      task_id status task_kind capability objective capacity_source_task_id budget max_same_task_repairs
+      contract independence
+    ]
+    task_keys << "repair_accounting" if route["selected_task"].is_a?(Hash) &&
+                                                route["selected_task"].key?("repair_accounting")
     task = exact_keys(
       route["selected_task"],
-      %w[
-        task_id status task_kind capability objective capacity_source_task_id budget max_same_task_repairs
-        contract independence
-      ],
+      task_keys,
       "delegated independent Task descriptor"
     )
     task_id = task["task_id"]
@@ -1995,11 +2218,14 @@ module FounderDelegationContinuity
            "delegated Task capability is outside the current Phase")
     assert(task["objective"].is_a?(String) && !task["objective"].empty?,
            "delegated independent Task objective missing")
-    source_route = mapping(
-      truth[phase_envelope.dig("authority_basis", "source_route_ref")],
-      "delegated independent Task source Route"
-    )
     capacity_source = source_capacity_task!(source_route, task["capacity_source_task_id"])
+    if source_route["schema_version"] == "1.2"
+      assert(capacity_source["status"] == task["status"],
+             "single-Task source capacity lifecycle does not equal the delegated Task")
+      assert(source_route["first_task"] == capacity_source &&
+             array(source_route["task_plan"], "single-Task source Route task plan").length == 1,
+             "single-Task source capacity does not equal its only first Task")
+    end
     assert(!capacity_source["status"].to_s.start_with?("TERMINAL_") &&
            !capacity_source["status"].to_s.include?("ACCEPTED"),
            "delegated independent Task capacity source is already consumed")
@@ -2022,6 +2248,14 @@ module FounderDelegationContinuity
            max_repairs <= capacity_source["max_same_task_repairs"] &&
            max_repairs <= truth.dig("phase_delegation", "anti_loop", "maximum_same_task_bounded_contract_repairs"),
            "delegated Task same-Task repair budget exceeds Phase delegation")
+    if task.key?("repair_accounting")
+      validate_repair_accounting!(
+        task["repair_accounting"],
+        capacity_source["max_same_task_repairs"],
+        max_repairs,
+        "delegated independent Task repair_accounting"
+      )
+    end
     assert(budget["engineering_hours"] <= capacity_source["engineering_hours"] &&
            budget["calendar_days"] <= capacity_source["calendar_days"] &&
            budget["implementation_iterations"] <= capacity_source["max_implementation_iterations"] &&
@@ -2053,8 +2287,10 @@ module FounderDelegationContinuity
                           .flat_map do |historical_key, historical|
       task_plan_ids = Array(historical["task_plan"]).each_with_object([]) do |item, ids|
         next unless item.is_a?(Hash)
+        source_task_status = source_route["schema_version"] == "1.2" ?
+          task["status"] : "ACTIVE"
         next if historical_key == route["source_authority_route_ref"] &&
-                item["task_id"] == task_id && item["status"] == "ACTIVE"
+                item["task_id"] == task_id && item["status"] == source_task_status
         ids << item["task_id"] if item["task_id"]
       end
       selected_id = historical.dig("selected_task", "task_id")
@@ -2323,8 +2559,10 @@ module FounderDelegationContinuity
     source_route_ref = truth.dig("phase_execution_envelope", "authority_basis", "source_route_ref")
     assert(source_route_ref.is_a?(String), "phase execution envelope source Route reference missing")
     source_route = mapping(truth[source_route_ref], source_route_ref)
-    validate_source_route_authority!(root, source_route)
-    phase_envelope = validate_phase_envelope!(root, truth, source_route, phase, policy)
+    source_decision = validate_source_route_authority!(root, source_route)
+    phase_envelope = validate_phase_envelope!(
+      root, truth, source_route, phase, policy, source_decision
+    )
     control = validate_control!(
       truth,
       phase,

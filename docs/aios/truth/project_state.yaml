@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-09T13:53:26Z"
-verification_scope: P2_063_REPAIR3_SAME_ROOT_CTO_SECURITY_NON_PASS_TERMINAL_AND_P2_ENVELOPE_EXHAUSTION
+last_verified_at: "2026-08-09T17:33:41Z"
+verification_scope: P2_064_ONE_FINAL_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT_READY
 
 authority:
   founder: Human Founder
@@ -39,27 +39,38 @@ goal:
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
   current_task_authority: NONE
   note: >-
-    P2-063 is
-    TERMINAL_REPAIR3_SAME_NORMALIZED_ROOT_CTO_SECURITY_TARGET_NON_PASS.
-    Its implementation compiled and passed 378 focused tests, the existing
+    Founder decision
+    AUTHORIZE_P2_ONE_FINAL_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT_ROUTE_V1
+    resolves the exact exhausted-envelope reserved trigger without changing the
+    Long-term Goal, Constitution, P2 Objective or Exit Gate. The cumulative P2
+    envelope is expanded from eight Tasks, two-hundred-eight engineering hours
+    and fifty-two calendar days to nine Tasks, two-hundred-forty engineering
+    hours and sixty calendar days. Master has reserved the only new Task,
+    AIOS-P2-064_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT, on one exact
+    READY Contract. The sole Quality prefreeze repair was consumed to replace
+    an OOS-contaminated baseline identity; repair accounting is closed at
+    one authorized, one used and zero remaining, while the superseded baseline
+    remains NON_PASS and non-installable. The Task is ELIGIBLE_NOT_ACTIVATED;
+    no nonce, branch, worktree, Evidence root or one-time authority exists yet.
+    P2-064 may add
+    only a fail-closed source-local Java explicit-import and same-package context
+    capability to the real Code QA product path and evaluate it against equal-
+    budget B0 and B1 controls on the frozen JAVA-CTX-v1 DEV and independently
+    held validation sets. It has two implementation iterations, one same-Task
+    repair and one candidate; no automatic successor exists. All historical P2
+    NON_PASS facts and zero accepted capability remain unchanged.
+    CONTEXT_BENCHMARK_BEATS_SIMPLE_RETRIEVAL_BASELINES remains MISSING, strict P2
+    progress remains zero percent, P3 remains HOLD and all external effects
+    remain false. READY reservation is authority state, not engineering or
+    capability progress. All paragraphs below this sentence are retained
+    historical chronology only and have no current Task, Route or scheduling
+    authority. P2-063 is
+    TERMINAL_REPAIR3_SAME_NORMALIZED_ROOT_CTO_SECURITY_TARGET_NON_PASS. Its
+    implementation compiled and passed 378 focused tests, the existing
     twenty-two-case retrieval guardrail and the full 965-test backend suite, but
     fresh final review reproduced the same normalized exact-no-graph
-    transactional fallback drift: an actual-render budget rejection recomputed
-    the no-graph baseline instead of reusing the already frozen projection.
-    The same review also proved malformed duplicate-symbol and noncanonical
-    evidence-path false-accepts. Contract stop conditions and the three-repair
-    ceiling therefore prohibit another repair, candidate, formal DEV, sealed
-    validation or integration. Exact unaccepted source bytes and the review are
-    preserved in the terminal Evidence root; no capability credit was created.
-    The Founder product-value-first P2 envelope is now fully consumed at eight
-    Tasks, two-hundred-eight engineering hours and fifty-two calendar days.
-    CONTEXT_BENCHMARK_BEATS_SIMPLE_RETRIEVAL_BASELINES remains MISSING, strict
-    P2 progress remains zero percent, P3 remains HOLD and all external effects
-    remain false. The exact reserved trigger is
-    MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE, so no
-    new P2 Task is eligible without one Founder strategic decision. All
-    paragraphs below this sentence are retained historical chronology only and
-    have no current Task, Route or scheduling authority. P2-062 is
+    transactional fallback drift. No candidate, formal DEV, sealed validation,
+    integration or capability credit exists. P2-062 is
     TERMINAL_FORMAL_DEV_INPUT_ADAPTER_INVOCATION_SCHEMA_NON_PASS. Its
     Quality-first Java direct-call freeze and pre-formal DEV checks remain
     historical facts only. The unique create-once formal DEV transaction
@@ -1504,9 +1515,9 @@ project:
   p1_execution_status: COMPLETE_STRICT_8_OF_8_100_PERCENT
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
-  p2_execution_status: ENVELOPE_EXHAUSTED_EXIT_GATE_MISSING_AWAITING_FOUNDER_DECISION
-  phase_execution_status: STOPPED_AT_FOUNDER_RESERVED_DECISION
-  current_route_execution_status: FOUNDER_RESERVED_DECISION_REQUIRED
+  p2_execution_status: ACTIVE
+  phase_execution_status: ACTIVE
+  current_route_execution_status: PHASE_DELEGATED_TASK_READY
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -6251,21 +6262,66 @@ historical_p1_162_phase_route:
   next_eligible_action: FOUNDER_P1_PHASE_GATE
 
 current_phase_route:
-  schema_version: founder-reserved-decision-hold/v1
-  route_id: P2_FOUNDER_RESERVED_DECISION_HOLD
-  status: FOUNDER_RESERVED_DECISION_REQUIRED
-  execution_status: FOUNDER_RESERVED_DECISION_REQUIRED
-  scheduling_status: STOPPED_AT_FOUNDER_RESERVED_DECISION
+  schema_version: phase-delegated-independent-task/v1
+  route_id: AIOS-P2-064_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT_PHASE_DELEGATED_ROUTE
+  status: AUTHORIZED_READY
+  execution_status: PHASE_DELEGATED_TASK_READY
+  scheduling_status: READY_FOR_MASTER_ACTIVATION
   phase: P2
   phase_entry_status: AUTHORIZED
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: "1.8"
     sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
-  founder_phase_route_decision_required: true
-  next_eligible_action: FOUNDER_RESERVED_DECISION
+  founder_phase_route_decision_required: false
+  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
   phase_execution_envelope_ref: phase_execution_envelope
-  historical_terminal_route_ref: historical_p2_063_phase_route
+  source_authority_route_ref: historical_p2_one_final_source_local_import_context_founder_expansion_phase_route
+  preceding_terminal_route_ref: historical_p2_063_phase_route
+  selected_task:
+    task_id: AIOS-P2-064_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT
+    status: ELIGIBLE_NOT_ACTIVATED
+    task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
+    capability: REPRODUCIBLE_CONTEXT_BENCHMARK
+    objective: >-
+      Add one minimal fail-closed source-local Java explicit-import and
+      same-package context capability to the real SourceLens Code QA product
+      path, then determine on a frozen JAVA-CTX-v1 DEV and independent
+      out-of-sample validation set whether it beats deterministic lexical and
+      same-file-adjacent controls under an identical eight-chunk and 8192 UTF-8
+      byte budget.
+    capacity_source_task_id: AIOS-P2-064_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT
+    budget:
+      engineering_hours: 32
+      calendar_days: 8
+      implementation_iterations: 2
+      candidates: 1
+    max_same_task_repairs: 0
+    repair_accounting:
+      authorized: 1
+      used: 1
+      remaining: 0
+      classification: QUALITY_PREFREEZE_OOS_REPAIR
+      receipt:
+        relative_path: quality-freeze/receipts/JAVA_CTX_V1_V1_OOS_NONPASS_SUPERSESSION.json
+        byte_length: 2324
+        sha256: 727a6df2bf07de7f1fa1ee86e1c549439eba6c95bb9a7a5eb2ff4136185ee748
+    contract:
+      path: docs/aios/tasks/P2-064_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT.yaml
+      sha256: 7fd1eae5289252d3f480e596fbe7bcf2daf120e5b3cf0cc39b08933d709d9db1
+      byte_length: 12614
+    independence:
+      new_task_id: true
+      new_execution_nonce: true
+      new_branch: true
+      new_worktree: true
+      new_contract: true
+      new_evidence_root: true
+      rejected_lineage_read: false
+      rejected_lineage_compare: false
+      rejected_lineage_copy: false
+      same_phase_objective: true
+      successor_or_replacement: false
   external_effects:
     network: false
     provider: false
@@ -7296,6 +7352,110 @@ historical_p2_058_founder_expansion_phase_route:
   inherited_worktree_inventory: []
   next_eligible_action: FOUNDER_RESERVED_DECISION
 
+historical_p2_one_final_source_local_import_context_founder_expansion_phase_route:
+  schema_version: "1.2"
+  route_id: P2_ONE_FINAL_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT_ROUTE_V1
+  status: FOUNDER_EXPANDED_PHASE_CAPACITY_SOURCE
+  authority_object_status: ACTIVE_PHASE_CAPACITY_SOURCE
+  execution_status: FOUNDER_EXPANDED_PHASE_CAPACITY_SOURCE
+  founder_phase_route_decision_required: false
+  scheduling_status: P2_064_PHASE_DELEGATED_READY
+  phase: P2
+  phase_entry_status: AUTHORIZED
+  authorization_token: AUTHORIZE_P2_ONE_FINAL_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT_ROUTE_V1
+  decision_packet:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-one-final-source-local-import-context-20260809/task-p2-064/decision/FOUNDER_P2_ONE_FINAL_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT_ROUTE_V1.structured-decision.json
+    sha256: ecb9525fcd0a8b76a9792beaa15dc02609dd03e1f96ff88034cfcf5afca79a8a
+    byte_length: 2840
+  original_founder_packet:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-one-final-source-local-import-context-20260809/task-p2-064/decision/FOUNDER_P2_ONE_FINAL_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT_ROUTE_V1.md
+    sha256: a61cb1e2e2dea7a2d181da6af46d1c42c519d73a8624c311542f42b024864567
+    byte_length: 5532
+  activation_parent:
+    commit: ddfaeb8afcbbad824edee883a15a9f24074acc37
+    tree: fe7c7fd46b64e985655e3dcc8ba9cd061d5cf69f
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: "1.8"
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  goal_identity:
+    raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+    raw_byte_length: 19433
+    canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+    canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+    canonical_byte_length: 19434
+  objective: >-
+    Execute exactly one final product experiment that adds fail-closed
+    source-local Java import and package context to the real Code QA path and
+    tests whether it beats equal-budget simple retrieval controls on frozen DEV
+    and independent out-of-sample validation Tasks.
+  claim_boundary: ONE_FINAL_OFFLINE_COOPERATIVE_LOCAL_SOURCE_LOCAL_JAVA_IMPORT_AND_PACKAGE_CONTEXT_PRODUCT_EXPERIMENT_ON_THE_REAL_CODE_QA_PATH_WITH_JAVA_CTX_V1_EQUAL_BUDGET_CONTROLS_AND_ONE_INDEPENDENT_OUT_OF_SAMPLE_VALIDATION_NO_REJECTED_P2_LINEAGE_NO_AUTOMATIC_SUCCESSOR_NO_NETWORK_PROVIDER_SECRET_REMOTE_PRODUCTION_PUBLIC_PUSH_OR_P3_ENTRY
+  exact_reserved_trigger: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+  prior_consumed_envelope:
+    source_route_id: P2_PRODUCT_VALUE_FIRST_REPOSITORY_CONTEXT_ROUTE_V1
+    consumed:
+      engineering_tasks: 8
+      engineering_hours: 208
+      calendar_days: 52
+    task_ledger_entry_count: 8
+    task_ledger_canonicalization: RECURSIVE_KEY_SORT_COMPACT_JSON_UTF8
+    task_ledger_canonical_byte_length: 8281
+    task_ledger_canonical_sha256: 09a5f615c5dc295d4c647649439d8d7ec045438ebf1c4e09832f976fdbec6e8c
+  envelope:
+    max_engineering_tasks: 9
+    max_engineering_hours: 240
+    max_calendar_days: 60
+    max_active_tasks: 1
+    max_task_branches: 1
+    max_task_worktrees: 1
+    max_active_candidates: 1
+    max_contract_corrections_per_task: 0
+    max_same_task_repairs: 1
+    successor_replacement_normalization_closure_feasibility_or_remediation_chain_allowed: false
+    p2_entry_authorized: true
+    p3_entry_authorized: false
+    external_effects:
+      network: false
+      provider: false
+      secret: false
+      remote: false
+      production: false
+      public: false
+  founder_reserved_profile: null
+  founder_reserved_profiles: []
+  new_task_ids:
+    - AIOS-P2-064_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT
+  first_task:
+    task_slot: 1
+    task_id: AIOS-P2-064_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT
+    status: ELIGIBLE_NOT_ACTIVATED
+    engineering_hours: 32
+    calendar_days: 8
+    max_engineering_hours: 32
+    max_calendar_days: 8
+    max_implementation_iterations: 2
+    max_same_task_repairs: 1
+    max_candidates: 1
+    contract_path: docs/aios/tasks/P2-064_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT.yaml
+    external_effects: {network: false, provider: false, secret: false, remote: false, production: false, public: false}
+  task_plan:
+    - task_slot: 1
+      task_id: AIOS-P2-064_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT
+      status: ELIGIBLE_NOT_ACTIVATED
+      engineering_hours: 32
+      calendar_days: 8
+      max_engineering_hours: 32
+      max_calendar_days: 8
+      max_implementation_iterations: 2
+      max_same_task_repairs: 1
+      max_candidates: 1
+      contract_path: docs/aios/tasks/P2-064_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT.yaml
+      external_effects: {network: false, provider: false, secret: false, remote: false, production: false, public: false}
+  automatic_entry: null
+  automatic_entries: []
+  inherited_worktree_inventory: []
+  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
+
 historical_p2_product_value_first_founder_expansion_phase_route:
   schema_version: "1.1"
   route_id: P2_PRODUCT_VALUE_FIRST_REPOSITORY_CONTEXT_ROUTE_V1
@@ -7670,27 +7830,27 @@ historical_p2_060_founder_expansion_phase_route:
 phase_execution_envelope:
   schema_version: phase-execution-envelope/v1
   phase: P2
-  status: EXHAUSTED
+  status: TASK_CAPACITY_RESERVED
   authority_basis:
     phase_entry_status: AUTHORIZED
     policy_path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     policy_version: '1.8'
     policy_sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
-    source_route_ref: historical_p2_product_value_first_founder_expansion_phase_route
-    source_route_id: P2_PRODUCT_VALUE_FIRST_REPOSITORY_CONTEXT_ROUTE_V1
+    source_route_ref: historical_p2_one_final_source_local_import_context_founder_expansion_phase_route
+    source_route_id: P2_ONE_FINAL_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT_ROUTE_V1
     source_decision:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/decision/FOUNDER_P2_STRATEGIC_HOLD_RELEASE_PRODUCT_VALUE_FIRST_AUTONOMOUS_PHASE_ROUTE_V1.structured-decision.json
-      sha256: c4632f07ad9f8d9bb290ce406a6a4514bd022512fd5290874a3df2e54abd0215
-      byte_length: 7285
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-one-final-source-local-import-context-20260809/task-p2-064/decision/FOUNDER_P2_ONE_FINAL_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT_ROUTE_V1.structured-decision.json
+      sha256: ecb9525fcd0a8b76a9792beaa15dc02609dd03e1f96ff88034cfcf5afca79a8a
+      byte_length: 2840
     delegation_amendment:
       path: "/Users/lijunpeng/Developer/.sourcelens-audit/founder-delegation-continuity-20260808/decision/FOUNDER_PHASE_DELEGATION_CONTINUITY_AMENDMENT_V1.json"
       byte_length: 1182
       sha256: c37634c51b0b7695204c026f9950911c427f544a6ff2e2c2f786facb9a84a52e
   accounting_basis: DECLARED_TASK_BUDGET_RESERVATION_NOT_WALL_CLOCK
   limits:
-    engineering_tasks: 8
-    engineering_hours: 208
-    calendar_days: 52
+    engineering_tasks: 9
+    engineering_hours: 240
+    calendar_days: 60
     active_tasks: 1
     task_branches: 1
     task_worktrees: 1
@@ -7847,7 +8007,20 @@ phase_execution_envelope:
     engineering_tasks: 8
     engineering_hours: 208
     calendar_days: 52
-  reserved: null
+  reserved:
+    task_id: AIOS-P2-064_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT
+    route_id: AIOS-P2-064_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT_PHASE_DELEGATED_ROUTE
+    status: ELIGIBLE_NOT_ACTIVATED
+    capacity_source_task_id: AIOS-P2-064_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT
+    budget:
+      engineering_tasks: 1
+      engineering_hours: 32
+      calendar_days: 8
+    contract:
+      path: docs/aios/tasks/P2-064_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT.yaml
+      byte_length: 12614
+      sha256: 7fd1eae5289252d3f480e596fbe7bcf2daf120e5b3cf0cc39b08933d709d9db1
+    authority: null
   remaining:
     engineering_tasks: 0
     engineering_hours: 0
@@ -7861,21 +8034,18 @@ phase_execution_envelope:
     public: false
 founder_escalation_control:
   schema_version: founder-escalation-control/v1
-  disposition: FOUNDER_DECISION_REQUIRED
+  disposition: NO_RESERVED_TRIGGER_CONTINUE_PHASE
   source_event:
-    kind: PHASE_ENVELOPE_EXPANSION_REQUIRED
-    task_id: null
-    status: PENDING_FOUNDER_RESERVED_DECISION
+    kind: FOUNDER_EXPANDED_SINGLE_TASK_READY
+    task_id: AIOS-P2-064_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT
+    status: ELIGIBLE_NOT_ACTIVATED
   reserved_trigger:
-    category: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
-    evidence:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/phase-envelope-exhaustion-v3/P2_ENVELOPE_EXHAUSTION_RESERVED_TRIGGER_EVIDENCE_V3.json
-      byte_length: 3318
-      sha256: 2500532b5f7c37ec116b0509b647cfa7e95b5d56c4b4a06f5b1e726b2cdc08d7
+    category: NONE
+    evidence: null
   phase_gate_status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
-  founder_decision_required: true
-  next_action_owner: HUMAN_FOUNDER
-  next_eligible_action: FOUNDER_RESERVED_DECISION
+  founder_decision_required: false
+  next_action_owner: MASTER_CEO_AGENT
+  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
 historical_p2_053_phase_route:
   schema_version: "1.1"
   route_id: P2_COMPILER_ATTRIBUTED_JAVA_EDGE_TRUTH_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
@@ -12960,12 +13130,14 @@ phase_boundary:
       - backend-spring/src/main/java/com/sourcelens/module/agent/service/RepositoryContextSelectionService.java
       - backend-spring/src/main/java/com/sourcelens/module/agent/service/JavaDirectCallContextService.java
       - backend-spring/src/main/java/com/sourcelens/module/agent/service/JavaDependencyNeighborhoodContextService.java
+      - backend-spring/src/main/java/com/sourcelens/module/agent/service/SourceLocalJavaImportContextService.java
       - backend-spring/src/main/java/com/sourcelens/module/agent/controller/CodeQaController.java
       - backend-spring/src/main/java/com/sourcelens/module/agent/dto/CodeQaRetrievalPlan.java
       - backend-spring/src/main/java/com/sourcelens/module/analysis/service/CodeChunkService.java
       - backend-spring/src/test/java/com/sourcelens/RepositoryContextSelectionServiceTest.java
       - backend-spring/src/test/java/com/sourcelens/JavaDirectCallContextServiceTest.java
       - backend-spring/src/test/java/com/sourcelens/JavaDependencyNeighborhoodContextServiceTest.java
+      - backend-spring/src/test/java/com/sourcelens/SourceLocalJavaImportContextServiceTest.java
       - backend-spring/src/test/java/com/sourcelens/CodeQaControllerTest.java
       - backend-spring/src/test/java/com/sourcelens/CodeChunkServiceTest.java
       - evaluation-harness/harness
@@ -12976,6 +13148,7 @@ phase_boundary:
       - evaluation-harness/datasets
     integration:
       - scripts
+      - schemas/founder-phase-route-decision.schema.json
       - docs/aios/tasks
       - docs/aios/BASELINE_ADAPTER_CONTRACT.md
       - docs/aios/schemas/run-record-v2.schema.json
@@ -12989,7 +13162,6 @@ phase_boundary:
     - docs/aios/MASTER_EXECUTION_PROTOCOL.md
     - docs/aios/FOUNDER_DELEGATION_POLICY.md
     - docs/aios/EVALUATION_PROTOCOL.md
-    - scripts/validate-aios-governance.sh
   allowed_independent_reviewers:
     - CTO Agent
     - Security Agent
@@ -13579,7 +13751,7 @@ founder_knowledge_sync:
     - IMPORTED
     - OUTDATED
     - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260809-P2-063-TERMINAL-P2-ENVELOPE-EXHAUSTED-V1
+  latest_event_id: FKS-20260809-P2-064-ONE-FINAL-READY-V1
   events:
     - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
       trigger_type: FOUNDER_RULE_CORRECTION
@@ -18333,7 +18505,48 @@ founder_knowledge_sync:
         byte_length: 1558
         sha256: 3ba8de3b6fb2aec965a6824c19d6bda7f371830d2af091a1b8ef8b83de26131c
       event_sha256: 6db04e6c843c93dea6486677818f63462584961e655d07dc23cc50ea81b73e8c
-
+    - event_id: FKS-20260809-P2-064-ONE-FINAL-READY-V1
+      trigger_type: FOUNDER_PHASE_ENVELOPE_EXPANSION_AND_TASK_READY
+      occurred_at_utc: "2026-08-09T15:12:05Z"
+      source_commit: ddfaeb8afcbbad824edee883a15a9f24074acc37
+      source_tree: fe7c7fd46b64e985655e3dcc8ba9cd061d5cf69f
+      previous_event_sha256: 6db04e6c843c93dea6486677818f63462584961e655d07dc23cc50ea81b73e8c
+      status: PENDING_CANDIDATE
+      rationale: >-
+        Founder resolved the exact P2 exhausted-envelope trigger by authorizing
+        one final source-local Java import and package-context product
+        experiment. The persistent P2 accounting limit is now nine Tasks,
+        two-hundred-forty engineering hours and sixty calendar days, while the
+        new Route contains exactly one Task, one candidate and no automatic
+        successor. The sole Quality prefreeze repair replaced a contaminated
+        OOS identity before installation; accounting is exactly one authorized,
+        one used and zero remaining, and the current Contract binds only the
+        full-binding-audited corrected core. Master froze one exact READY
+        Contract and reserved P2-064 as ELIGIBLE_NOT_ACTIVATED without a nonce,
+        branch, worktree,
+        Evidence root or Task authority. Historical NON_PASS facts,
+        zero accepted P2 capability, the unchanged P2 Exit item and P3 HOLD
+        remain true. READY reservation is authority state only and creates no
+        product or capability credit. Knowledge synchronization is
+        non-authoritative and nonblocking.
+      engineering_blocking: false
+      artifact:
+        path: null
+        byte_length: null
+        sha256: null
+      review:
+        path: null
+        byte_length: null
+        sha256: null
+      vault_import:
+        path: null
+        byte_length: null
+        sha256: null
+      receipt:
+        path: null
+        byte_length: null
+        sha256: null
+      event_sha256: 1418ecd8f6349690a30cddff151e0e4bd03e51dcd306d6845a6b7a7ea10348f7
 historical_active_work_after_p1_079:
   current_task: NONE
   current_task_status: NONE
@@ -18388,10 +18601,10 @@ active_work:
   current_task: NONE
   current_task_status: NONE
   current_task_contract:
-    path: null
-    sha256: null
-    byte_length: null
-  current_task_contract_sha256: null
+    path: docs/aios/tasks/P2-064_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT.yaml
+    sha256: 7fd1eae5289252d3f480e596fbe7bcf2daf120e5b3cf0cc39b08933d709d9db1
+    byte_length: 12614
+  current_task_contract_sha256: 7fd1eae5289252d3f480e596fbe7bcf2daf120e5b3cf0cc39b08933d709d9db1
   current_execution_authorization: null
   current_execution_authorization_sha256: null
   authority_record:
@@ -18399,21 +18612,24 @@ active_work:
     sha256: null
     byte_length: null
   execution_nonce: null
-  execution_nonce_status: CONSUMED_TERMINAL
+  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
   authorization_id: null
   activation_parent_commit: null
   activation_parent_tree: null
-  task_resource_state: NO_ACTIVE_TASK_FOUNDER_RESERVED_DECISION_HOLD
+  task_resource_state: NOT_CREATED_PHASE_DELEGATED_TASK_READY
   task_branch: null
   task_worktree: null
   execution_evidence_root: null
   allowlisted_paths: []
   budget:
-    engineering_hours: 0
-    calendar_days: 0
-    implementation_iterations: 0
-    candidates: 0
-  roles: {}
+    engineering_hours: null
+    calendar_days: null
+    implementation_iterations: null
+    candidates: null
+  roles:
+    owner: null
+    worker: null
+    independent_reviewers: []
   external_effects:
     network: false
     provider: false
@@ -18424,13 +18640,13 @@ active_work:
   offsite_target: null
   founder_reserved_authorization: null
   founder_reserved_authorization_sha256: null
-  founder_decision_required: true
-  founder_decision_required_scope: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
-  escalation_reason: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
-  user_action_required: FOUNDER_RESERVED_DECISION
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_RESERVED_DECISION
-  next_eligible_action: FOUNDER_RESERVED_DECISION
+  founder_decision_required: false
+  founder_decision_required_scope: null
+  escalation_reason: null
+  user_action_required: NONE
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
 
 historical_p2_063_terminal_active_work:
   current_task: AIOS-P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE
@@ -24862,9 +25078,9 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: P2_PRODUCT_VALUE_FIRST_REPOSITORY_CONTEXT_ROUTE_V1
-  current_task_claim: NONE_P2_ENVELOPE_EXHAUSTED
-  real_engineering_progress: P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_P2_063_REPAIR3_SAME_ROOT_CTO_SECURITY_NON_PASS_ENVELOPE_EXHAUSTED
+  current_route_claim: AIOS-P2-064_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT_PHASE_DELEGATED_ROUTE
+  current_task_claim: NONE
+  real_engineering_progress: P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_P2_063_HISTORICAL_NON_PASS_P2_064_READY_RESERVATION_ONLY_NO_TASK_RESOURCES_PRODUCT_OR_CAPABILITY_CREDIT
   product_capability_changed: false
   phase_local_allowed:
     - REAL_CODE_QA_PRODUCT_PATH_REPOSITORY_CONTEXT_SELECTOR
@@ -24945,10 +25161,10 @@ phase_execution_claim:
     - canonical main advance outside an accepted task gate
 
 claim_boundary:
-  current_phase_route: P2_PRODUCT_VALUE_FIRST_REPOSITORY_CONTEXT_ROUTE_V1
+  current_phase_route: AIOS-P2-064_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT_PHASE_DELEGATED_ROUTE
   current_task: NONE
-  next_eligible_action: FOUNDER_DECIDE_P2_ENVELOPE_OR_PHASE_OBJECTIVE
-  real_engineering_progress: P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_P2_063_REPAIR3_SAME_ROOT_CTO_SECURITY_NON_PASS_ENVELOPE_EXHAUSTED
+  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
+  real_engineering_progress: P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_P2_063_HISTORICAL_NON_PASS_P2_064_READY_RESERVATION_ONLY_NO_TASK_RESOURCES_PRODUCT_OR_CAPABILITY_CREDIT
   p2_063_status: TERMINAL_REPAIR3_SAME_NORMALIZED_ROOT_CTO_SECURITY_TARGET_NON_PASS
   p2_063_normalized_root_cause: EXACT_NO_GRAPH_TRANSACTIONAL_FALLBACK_DRIFT
   p2_063_terminal_receipt_sha256: c576a99f66ee34315fce24607b1731f6d3ef2cb20400c0d5c918159195bcdd19

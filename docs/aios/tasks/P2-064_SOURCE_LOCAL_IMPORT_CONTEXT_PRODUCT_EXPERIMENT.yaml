@@ -1,0 +1,225 @@
+schema_version: "1.0"
+record_type: aios_phase_delegated_independent_task_contract
+task_id: AIOS-P2-064_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT
+phase: P2
+route_id: AIOS-P2-064_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT_PHASE_DELEGATED_ROUTE
+status: ELIGIBLE_NOT_ACTIVATED
+task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
+capability: REPRODUCIBLE_CONTEXT_BENCHMARK
+objective: >-
+  Add one minimal fail-closed source-local Java explicit-import and same-package
+  context capability to the real SourceLens Code QA product path, then determine
+  on a frozen JAVA-CTX-v1 DEV and independent out-of-sample validation set
+  whether it beats deterministic lexical and same-file-adjacent controls under
+  an identical eight-chunk and 8192 UTF-8 byte budget.
+why_now: >-
+  P2 remains at zero accepted capability with its sole Exit item missing, the
+  prior 8-Task envelope is exactly exhausted, and the Founder has authorized
+  exactly one final offline product experiment with no automatic successor.
+  Source-local explicit-import and same-package context is the smallest
+  independent real-product hypothesis that can still directly falsify or
+  satisfy the unchanged P2 context-value objective inside that final capacity.
+task_spec_ref:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-one-final-source-local-import-context-20260809/task-p2-064/decision/FOUNDER_P2_ONE_FINAL_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT_ROUTE_V1.md
+  sha256: a61cb1e2e2dea7a2d181da6af46d1c42c519d73a8624c311542f42b024864567
+  byte_length: 5532
+owner_role: P2-064 Product Value Master
+worker_role: P2-064 Source Local Import Context Worker
+write_scope:
+  - backend-spring/src/main/java/com/sourcelens/module/agent/controller/CodeQaController.java
+  - backend-spring/src/main/java/com/sourcelens/module/agent/service/SourceLocalJavaImportContextService.java
+  - backend-spring/src/test/java/com/sourcelens/CodeQaControllerTest.java
+  - backend-spring/src/test/java/com/sourcelens/SourceLocalJavaImportContextServiceTest.java
+  - evaluation-harness/harness/p2-source-local-java-import-context
+  - evaluation-harness/replay/p2-source-local-java-import-context
+  - evaluation-harness/reports/p2-source-local-java-import-context
+  - evaluation-harness/evaluator/p2-source-local-java-import-context
+  - evaluation-harness/datasets/p2-source-local-java-import-context
+  - schemas/founder-phase-route-decision.schema.json
+  - scripts/validate-founder-delegation-continuity.rb
+  - scripts/validate-current-task-authority.rb
+  - scripts/validate-aios-governance.sh
+  - scripts/test-current-task-authority.rb
+  - scripts/test-phase-delegated-task-authority.rb
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - /Users/lijunpeng/Developer/.sourcelens-audit/p2-one-final-source-local-import-context-20260809/task-p2-064/decision/FOUNDER_P2_ONE_FINAL_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT_ROUTE_V1.md
+  - TASK_EVIDENCE_ROOT/quality-freeze/public/JAVA_CTX_V1_NORMATIVE_CORE.json
+dependencies:
+  - kind: CANONICAL_SOURCE
+    identity:
+      commit: ddfaeb8afcbbad824edee883a15a9f24074acc37
+      tree: fe7c7fd46b64e985655e3dcc8ba9cd061d5cf69f
+  - kind: BASELINE_ARTIFACT
+    identity:
+      artifact_id: JAVA_CTX_V1_NORMATIVE_CORE_V2_3
+      relative_path: quality-freeze/public/JAVA_CTX_V1_NORMATIVE_CORE.json
+      byte_length: 25829
+      sha256: e7ff33ad7b9df53026a301ccfc59fb0e772326132a4ab8f471731ddc6b9bdd58
+      baseline_ids:
+        - B0
+        - B1
+risk_level: high
+baseline_ref:
+  artifact_id: JAVA_CTX_V1_NORMATIVE_CORE_V2_3
+  relative_path: quality-freeze/public/JAVA_CTX_V1_NORMATIVE_CORE.json
+  byte_length: 25829
+  sha256: e7ff33ad7b9df53026a301ccfc59fb0e772326132a4ab8f471731ddc6b9bdd58
+  baseline_ids:
+    - B0
+    - B1
+independent_reviewer:
+  - P2-064 CTO Reviewer
+  - P2-064 Security Reviewer
+  - P2-064 Quality and Evaluation Reviewer
+protocol_status_mapping:
+  ELIGIBLE_NOT_ACTIVATED: ready
+  ACTIVE: in_progress
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+capacity_source_task_id: AIOS-P2-064_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT
+budget:
+  engineering_hours: 32
+  calendar_days: 8
+  implementation_iterations: 2
+  candidates: 1
+max_same_task_repairs: 0
+repair_accounting:
+  authorized: 1
+  used: 1
+  remaining: 0
+  classification: QUALITY_PREFREEZE_OOS_REPAIR
+  receipt:
+    relative_path: quality-freeze/receipts/JAVA_CTX_V1_V1_OOS_NONPASS_SUPERSESSION.json
+    byte_length: 2324
+    sha256: 727a6df2bf07de7f1fa1ee86e1c549439eba6c95bb9a7a5eb2ff4136185ee748
+roles:
+  owner: P2-064 Product Value Master
+  worker: P2-064 Source Local Import Context Worker
+  independent_reviewers:
+    - P2-064 CTO Reviewer
+    - P2-064 Security Reviewer
+    - P2-064 Quality and Evaluation Reviewer
+allowlisted_paths:
+  - backend-spring/src/main/java/com/sourcelens/module/agent/controller/CodeQaController.java
+  - backend-spring/src/main/java/com/sourcelens/module/agent/service/SourceLocalJavaImportContextService.java
+  - backend-spring/src/test/java/com/sourcelens/CodeQaControllerTest.java
+  - backend-spring/src/test/java/com/sourcelens/SourceLocalJavaImportContextServiceTest.java
+  - evaluation-harness/harness/p2-source-local-java-import-context
+  - evaluation-harness/replay/p2-source-local-java-import-context
+  - evaluation-harness/reports/p2-source-local-java-import-context
+  - evaluation-harness/evaluator/p2-source-local-java-import-context
+  - evaluation-harness/datasets/p2-source-local-java-import-context
+  - schemas/founder-phase-route-decision.schema.json
+  - scripts/validate-founder-delegation-continuity.rb
+  - scripts/validate-current-task-authority.rb
+  - scripts/validate-aios-governance.sh
+  - scripts/test-current-task-authority.rb
+  - scripts/test-phase-delegated-task-authority.rb
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+phase_delegation_binding:
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: "1.8"
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  delegation_amendment:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/founder-delegation-continuity-20260808/decision/FOUNDER_PHASE_DELEGATION_CONTINUITY_AMENDMENT_V1.json
+    byte_length: 1182
+    sha256: c37634c51b0b7695204c026f9950911c427f544a6ff2e2c2f786facb9a84a52e
+  source_decision:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-one-final-source-local-import-context-20260809/task-p2-064/decision/FOUNDER_P2_ONE_FINAL_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT_ROUTE_V1.structured-decision.json
+    byte_length: 2840
+    sha256: ecb9525fcd0a8b76a9792beaa15dc02609dd03e1f96ff88034cfcf5afca79a8a
+  source_terminal_event:
+    task_id: AIOS-P2-063_PRODUCT_PATH_SYMBOL_NEIGHBORHOOD_CONTEXT_SELECTOR_VALUE_SLICE
+    status: TERMINAL_REPAIR3_SAME_NORMALIZED_ROOT_CTO_SECURITY_TARGET_NON_PASS
+    outcome_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/task-p2-063/terminal-sync-v2/P2_063_TERMINAL_REPAIR3_CTO_TARGET_NON_PASS_RECEIPT_V2.json
+      byte_length: 2735
+      sha256: c576a99f66ee34315fce24607b1731f6d3ef2cb20400c0d5c918159195bcdd19
+  phase_envelope_snapshot:
+    limits:
+      engineering_tasks: 9
+      engineering_hours: 240
+      calendar_days: 60
+      active_tasks: 1
+      task_branches: 1
+      task_worktrees: 1
+      active_candidates: 1
+    consumed:
+      engineering_tasks: 8
+      engineering_hours: 208
+      calendar_days: 52
+    reserved:
+      task_id: AIOS-P2-064_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT
+      route_id: AIOS-P2-064_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT_PHASE_DELEGATED_ROUTE
+      status: ELIGIBLE_NOT_ACTIVATED
+      capacity_source_task_id: AIOS-P2-064_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT
+      budget:
+        engineering_tasks: 1
+        engineering_hours: 32
+        calendar_days: 8
+    remaining:
+      engineering_tasks: 0
+      engineering_hours: 0
+      calendar_days: 0
+  founder_packet_for_task: null
+acceptance_criteria:
+  - JAVA-CTX-v1 uses exactly four public DEV Tasks and six Quality-held validation Tasks over the activation-parent 216 Java files and 934 source chunks.
+  - B0 is deterministic lexical, B1 is deterministic lexical plus same-file adjacent, and A0 is B1 plus one-hop fail-closed source-local explicit-import or same-package context.
+  - Every Task uses the same source-unit universe and a maximum of eight chunks and 8192 UTF-8 bytes for B0, B1 and A0.
+  - A0 macro oracle-span recall exceeds both B0 and B1 by at least 0.15 absolute on DEV and separately on validation.
+  - All six validation Tasks have a strictly positive A0 paired delta against both B0 and B1.
+  - False accepts, forbidden context, budget violations, oracle leakage, excluded Tasks and external effects are all zero.
+  - Two fresh physical roots produce byte-identical ranking, path, span, reason and selected-context byte projections.
+  - A0 p95 latency is no greater than two times B1 p95 latency under the same harness.
+  - Focused product tests, the existing twenty-two-case retrieval regression and the full backend test suite pass.
+  - Independent CTO, Security and Quality reviews all return TARGET PASS for the same unique candidate.
+required_evidence:
+  - Exact JAVA-CTX-v1 source-universe manifest with 216 Java files, 934 chunks, stable ordering, byte lengths and SHA-256 identities.
+  - Quality-created DEV and hidden validation Task records, oracle records, denominator, counting rules and separation receipt.
+  - Closed B0, B1 and A0 run records for every admitted Task with budget and latency measurements.
+  - One unique candidate identity and proof that validation executed exactly once only after DEV admission.
+  - Fresh-root replay comparison, focused product tests, twenty-two-case regression and complete backend test receipts.
+  - Independent CTO, Security and Quality TARGET verdicts bound to the exact candidate and Evidence inventory.
+rollback: >-
+  Revert only the P2-064 candidate commit from the Task branch or local canonical
+  integration, remove no historical assets, retain all create-once Evidence and
+  return the Code QA product path to the activation-parent behavior.
+stop_conditions:
+  - DEV does not strictly beat both controls under the frozen acceptance thresholds.
+  - Validation does not reproduce the strict advantage or any validation Task regresses against either control.
+  - Source universe, budget, denominator, Evaluator or counting rule drifts.
+  - Any false accept, forbidden context, budget violation, oracle leakage, regression, determinism failure, rollback failure or source-identity failure occurs.
+  - The same normalized root cause recurs after the only allowed same-Task repair.
+  - Two implementation iterations, one candidate, 32 engineering hours or eight calendar days are exhausted.
+  - Independent final review or canonical verification is NON_PASS.
+  - Completion would require rejected P2 lineage, a second P2 Task, expanded permissions or any external effect.
+forbidden_actions:
+  - Read, restore, compare, copy or reuse any rejected P2 engineering, candidate, test, fixture, Evaluator, Evidence or Review lineage.
+  - Create any successor, replacement, correction, normalization, closure, feasibility or remediation Task or chain.
+  - Modify graph producers, analyzer-rust, JavaAstParser, database schema, migrations, general parsers, authority platforms, Evidence platforms, Supervisor, Root Custody, Trust Runtime or future-Phase infrastructure.
+  - Change P1-219 accepted bytes, the Long-term Goal, Strategic Constitution, P2 Objective, P2 Exit Gate or P3 HOLD.
+  - Use network, Provider, Secret, remote, production, public release, fetch, push or pull-request effects.
+claim_boundary: >-
+  This Contract authorizes one offline cooperative-local product experiment and
+  one independent out-of-sample validation only. It proves no hostile-principal,
+  kernel-complete, production, public, P3 or general repository-intelligence
+  claim, and it creates P2 capability credit only after every frozen Task and
+  Phase Exit criterion is independently accepted.

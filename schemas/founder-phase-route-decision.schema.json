@@ -16,7 +16,14 @@
       },
       "then": {
         "properties": {
+          "automatic_entry": {
+            "type": "object"
+          },
+          "automatic_entries": {
+            "minItems": 1
+          },
           "ordered_tasks": {
+            "minItems": 2,
             "items": {
               "required": [
                 "calendar_days",
@@ -34,14 +41,116 @@
         },
         "required": [
           "automatic_entries"
+        ],
+        "not": {
+          "anyOf": [
+            {
+              "required": [
+                "new_task_ids"
+              ]
+            },
+            {
+              "required": [
+                "prior_consumed_envelope"
+              ]
+            },
+            {
+              "required": [
+                "exact_reserved_trigger"
+              ]
+            }
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "schema_version": {
+            "const": "1.2"
+          }
+        },
+        "required": [
+          "schema_version"
         ]
       },
-      "else": {
+      "then": {
+        "properties": {
+          "automatic_entries": {
+            "maxItems": 0
+          },
+          "automatic_entry": {
+            "type": "null"
+          },
+          "exact_reserved_trigger": {
+            "const": "MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE"
+          },
+          "ordered_tasks": {
+            "maxItems": 1,
+            "minItems": 1,
+            "items": {
+              "required": [
+                "calendar_days",
+                "engineering_hours",
+                "external_effects",
+                "founder_reserved_profile",
+                "max_candidates",
+                "max_implementation_iterations",
+                "max_same_task_repairs",
+                "task_id",
+                "task_slot"
+              ]
+            }
+          }
+        },
+        "required": [
+          "automatic_entries",
+          "exact_reserved_trigger",
+          "new_task_ids",
+          "prior_consumed_envelope"
+        ]
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "schema_version": {
+            "const": "1.0"
+          }
+        },
+        "required": [
+          "schema_version"
+        ]
+      },
+      "then": {
+        "properties": {
+          "automatic_entry": {
+            "type": "object"
+          },
+          "ordered_tasks": {
+            "minItems": 2
+          }
+        },
         "not": {
           "anyOf": [
             {
               "required": [
                 "automatic_entries"
+              ]
+            },
+            {
+              "required": [
+                "new_task_ids"
+              ]
+            },
+            {
+              "required": [
+                "prior_consumed_envelope"
+              ]
+            },
+            {
+              "required": [
+                "exact_reserved_trigger"
               ]
             },
             {
@@ -96,24 +205,31 @@
       "type": "string"
     },
     "automatic_entry": {
-      "additionalProperties": false,
-      "properties": {
-        "after_task_id": {
-          "$ref": "#/$defs/task_id"
+      "oneOf": [
+        {
+          "additionalProperties": false,
+          "properties": {
+            "after_task_id": {
+              "$ref": "#/$defs/task_id"
+            },
+            "next_task_id": {
+              "$ref": "#/$defs/task_id"
+            },
+            "requires_task_gate_pass": {
+              "const": true
+            }
+          },
+          "required": [
+            "after_task_id",
+            "next_task_id",
+            "requires_task_gate_pass"
+          ],
+          "type": "object"
         },
-        "next_task_id": {
-          "$ref": "#/$defs/task_id"
-        },
-        "requires_task_gate_pass": {
-          "const": true
+        {
+          "type": "null"
         }
-      },
-      "required": [
-        "after_task_id",
-        "next_task_id",
-        "requires_task_gate_pass"
-      ],
-      "type": "object"
+      ]
     },
     "automatic_entries": {
       "items": {
@@ -136,7 +252,6 @@
         ],
         "type": "object"
       },
-      "minItems": 1,
       "type": "array"
     },
     "claim_boundary": {
@@ -193,6 +308,10 @@
     },
     "external_effects": {
       "$ref": "#/$defs/external_effects"
+    },
+    "exact_reserved_trigger": {
+      "const": "MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE",
+      "type": "string"
     },
     "goal_identity": {
       "additionalProperties": false,
@@ -280,14 +399,78 @@
         ],
         "type": "object"
       },
-      "minItems": 2,
+      "minItems": 1,
       "type": "array"
+    },
+    "new_task_ids": {
+      "items": {
+        "$ref": "#/$defs/task_id"
+      },
+      "maxItems": 1,
+      "minItems": 1,
+      "type": "array",
+      "uniqueItems": true
     },
     "phase": {
       "enum": [
         "P1",
         "P2"
       ]
+    },
+    "prior_consumed_envelope": {
+      "additionalProperties": false,
+      "properties": {
+        "consumed": {
+          "additionalProperties": false,
+          "properties": {
+            "calendar_days": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "engineering_hours": {
+              "minimum": 1,
+              "type": "integer"
+            },
+            "engineering_tasks": {
+              "minimum": 1,
+              "type": "integer"
+            }
+          },
+          "required": [
+            "calendar_days",
+            "engineering_hours",
+            "engineering_tasks"
+          ],
+          "type": "object"
+        },
+        "source_route_id": {
+          "pattern": "^P[12]_[A-Z0-9_]+_ROUTE_V[1-9][0-9]*$",
+          "type": "string"
+        },
+        "task_ledger_canonical_byte_length": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "task_ledger_canonical_sha256": {
+          "$ref": "#/$defs/sha256"
+        },
+        "task_ledger_canonicalization": {
+          "const": "RECURSIVE_KEY_SORT_COMPACT_JSON_UTF8"
+        },
+        "task_ledger_entry_count": {
+          "minimum": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "consumed",
+        "source_route_id",
+        "task_ledger_canonical_byte_length",
+        "task_ledger_canonical_sha256",
+        "task_ledger_canonicalization",
+        "task_ledger_entry_count"
+      ],
+      "type": "object"
     },
     "record_type": {
       "const": "founder_phase_route_decision"
@@ -299,7 +482,8 @@
     "schema_version": {
       "enum": [
         "1.0",
-        "1.1"
+        "1.1",
+        "1.2"
       ]
     },
     "source_founder_packet_identity": {

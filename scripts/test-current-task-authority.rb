@@ -149,6 +149,19 @@ class CurrentTaskAuthorityTest
     Open3.capture3("bash", SAFETY_VALIDATOR, "--check-current-p1-route", truth_path, chdir: repo)
   end
 
+  def run_phase_predecessor_fixture(truth_path, phase, task_id, action)
+    Open3.capture3(
+      "bash",
+      GOVERNANCE_VALIDATOR,
+      "--test-phase-predecessor-fixture",
+      truth_path,
+      phase,
+      task_id,
+      action,
+      chdir: SOURCE_REPO
+    )
+  end
+
   def expect_pass(repo, label)
     stdout, stderr, status = run_validator(repo)
     assert(status.success?, "#{label}: expected PASS\n#{stdout}#{stderr}")
@@ -488,19 +501,34 @@ class CurrentTaskAuthorityTest
            "structured decision schema root key set does not equal the canonical record")
     assert(schema.dig("properties", "ordered_tasks", "items", "additionalProperties") == false,
            "structured decision schema Task items must be closed")
-    version_branch = schema.fetch("allOf").fetch(0)
+    version_branches = schema.fetch("allOf")
+    version_branch = version_branches.fetch(0)
     assert(version_branch.dig("if", "properties", "schema_version", "const") == "1.1",
            "structured decision schema does not discriminate v1.1")
     assert(version_branch.dig("then", "required") == ["automatic_entries"],
            "structured decision schema does not require v1.1 automatic_entries")
+    assert(version_branch.dig("then", "properties", "automatic_entry", "type") == "object",
+           "structured decision schema permits a null v1.1 automatic_entry")
     v1_1_task_required = version_branch.dig(
       "then", "properties", "ordered_tasks", "items", "required"
     )
     assert(v1_1_task_required.include?("external_effects") &&
            v1_1_task_required.include?("founder_reserved_profile"),
            "structured decision schema does not require v1.1 Task effects and profile fields")
-    assert(version_branch.dig("else", "not", "anyOf").is_a?(Array),
-           "structured decision schema does not exclude v1.1-only fields from v1.0")
+    single_task_branch = version_branches.fetch(1)
+    assert(single_task_branch.dig("if", "properties", "schema_version", "const") == "1.2",
+           "structured decision schema does not discriminate v1.2")
+    assert(single_task_branch.dig("then", "required").sort ==
+           %w[automatic_entries exact_reserved_trigger new_task_ids prior_consumed_envelope],
+           "structured decision schema does not require the v1.2 new Task set")
+    assert(single_task_branch.dig("then", "properties", "automatic_entry", "type") == "null" &&
+           single_task_branch.dig("then", "properties", "automatic_entries", "maxItems") == 0,
+           "structured decision schema does not prohibit a v1.2 automatic successor")
+    legacy_branch = version_branches.fetch(2)
+    assert(legacy_branch.dig("if", "properties", "schema_version", "const") == "1.0" &&
+           legacy_branch.dig("then", "properties", "automatic_entry", "type") == "object" &&
+           legacy_branch.dig("then", "not", "anyOf").is_a?(Array),
+           "structured decision schema does not preserve the v1.0 automatic-entry boundary")
     @passes += 1
     puts "PASS structured decision JSON Schema is closed and matches the canonical root"
     claims = expect_decision_pass(bytes, "exact canonical structured Founder decision")
@@ -844,6 +872,602 @@ class CurrentTaskAuthorityTest
       "structured decision v1.0 rejects v1.1 Task effects",
       /keys drifted/
     )
+
+    v1_null_automatic_entry = JSON.parse(File.binread(STRUCTURED_DECISION_PATH))
+    v1_null_automatic_entry["automatic_entry"] = nil
+    expect_decision_nonpass(
+      canonical_json(v1_null_automatic_entry),
+      "structured decision v1.0 rejects null automatic entry",
+      /automatic_entry must be a mapping/
+    )
+
+    v1_1_null_automatic_entry = deep_copy(v1_1)
+    v1_1_null_automatic_entry["automatic_entry"] = nil
+    expect_decision_nonpass(
+      canonical_json(v1_1_null_automatic_entry),
+      "structured decision v1.1 rejects null automatic entry",
+      /automatic_entry must be a mapping/
+    )
+  end
+
+  def structured_v1_2_decision(sandbox)
+    parent_commit = "ddfaeb8afcbbad824edee883a15a9f24074acc37"
+    parent_tree = shell(SOURCE_REPO, "git", "show", "-s", "--format=%T", parent_commit).strip
+    parent_truth = YAML.safe_load(
+      shell(SOURCE_REPO, "git", "show", "#{parent_commit}:#{TRUTH_RELATIVE}"),
+      permitted_classes: [],
+      permitted_symbols: [],
+      aliases: false
+    )
+    parent_envelope = parent_truth.fetch("phase_execution_envelope")
+    prior_ledger = parent_envelope.fetch("task_ledger")
+    prior_ledger_bytes = JSON.generate(recursively_sorted(prior_ledger))
+    route_id = "P2_ONE_FINAL_RUNTIME_VALIDATOR_COMPATIBILITY_ROUTE_V1"
+    token = "AUTHORIZE_#{route_id}"
+    packet_bytes = <<~PACKET
+      Founder structured v1.2 runtime-validator fixture
+
+      authorization_token=#{token}
+    PACKET
+    packet_path = File.join(sandbox, "structured-v1-2-source-packet.md")
+    create_exclusive(packet_path, packet_bytes)
+    legacy = JSON.parse(File.binread(STRUCTURED_DECISION_PATH))
+    task_id = "AIOS-P2-064_RUNTIME_VALIDATOR_COMPATIBILITY"
+    {
+      "schema_version" => "1.2",
+      "record_type" => "founder_phase_route_decision",
+      "route_id" => route_id,
+      "authorization_token" => token,
+      "phase" => "P2",
+      "activation_parent" => {
+        "commit" => parent_commit,
+        "tree" => parent_tree
+      },
+      "source_founder_packet_identity" => {
+        "authorization_token" => token,
+        "byte_length" => packet_bytes.bytesize,
+        "path" => packet_path,
+        "sha256" => Digest::SHA256.hexdigest(packet_bytes)
+      },
+      "goal_identity" => deep_copy(legacy.fetch("goal_identity")),
+      "claim_boundary" => "ONE_NEW_OFFLINE_TASK_WITH_PRIOR_PHASE_ENVELOPE_ACCOUNTING_AND_NO_AUTOMATIC_SUCCESSOR",
+      "exact_reserved_trigger" =>
+        "MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE",
+      "prior_consumed_envelope" => {
+        "source_route_id" => parent_envelope.dig("authority_basis", "source_route_id"),
+        "consumed" => deep_copy(parent_envelope.fetch("consumed")),
+        "task_ledger_entry_count" => prior_ledger.length,
+        "task_ledger_canonicalization" => "RECURSIVE_KEY_SORT_COMPACT_JSON_UTF8",
+        "task_ledger_canonical_byte_length" => prior_ledger_bytes.bytesize,
+        "task_ledger_canonical_sha256" => Digest::SHA256.hexdigest(prior_ledger_bytes)
+      },
+      "envelope" => {
+        "max_engineering_tasks" => parent_envelope.dig("consumed", "engineering_tasks") + 1,
+        "max_engineering_hours" => parent_envelope.dig("consumed", "engineering_hours") + 32,
+        "max_calendar_days" => parent_envelope.dig("consumed", "calendar_days") + 8,
+        "max_active_tasks" => 1,
+        "max_task_branches" => 1,
+        "max_task_worktrees" => 1,
+        "max_active_candidates" => 1,
+        "max_same_task_repairs_per_task" => 1,
+        "p3_entry_authorized" => false
+      },
+      "ordered_tasks" => [
+        {
+          "task_slot" => 1,
+          "task_id" => task_id,
+          "engineering_hours" => 32,
+          "calendar_days" => 8,
+          "max_implementation_iterations" => 2,
+          "max_same_task_repairs" => 1,
+          "max_candidates" => 1,
+          "external_effects" => false_effects,
+          "founder_reserved_profile" => nil
+        }
+      ],
+      "new_task_ids" => [task_id],
+      "automatic_entry" => nil,
+      "automatic_entries" => [],
+      "external_effects" => false_effects
+    }
+  end
+
+  def structured_v1_2_unit_tests(sandbox)
+    decision = structured_v1_2_decision(sandbox)
+    claims = expect_decision_pass(
+      canonical_json(decision),
+      "structured decision v1.2 accepts one new Task with hash-bound prior accounting"
+    )
+    assert(claims["task_ids"] == decision["new_task_ids"] &&
+           claims["automatic_entry"].nil? && claims["automatic_entries"] == [] &&
+           claims["prior_consumed_envelope"] == decision["prior_consumed_envelope"],
+           "structured decision v1.2 claim projection drifted")
+
+    missing_trigger = deep_copy(decision)
+    missing_trigger.delete("exact_reserved_trigger")
+    expect_decision_nonpass(
+      canonical_json(missing_trigger),
+      "structured decision v1.2 rejects a missing exact reserved trigger",
+      /keys drifted/
+    )
+
+    wrong_trigger = deep_copy(decision)
+    wrong_trigger["exact_reserved_trigger"] = "PHASE_ENTRY_OR_EXIT"
+    expect_decision_nonpass(
+      canonical_json(wrong_trigger),
+      "structured decision v1.2 rejects a wrong exact reserved trigger",
+      /exact reserved trigger drift/
+    )
+
+    legacy_trigger = JSON.parse(File.binread(STRUCTURED_DECISION_PATH))
+    legacy_trigger["exact_reserved_trigger"] =
+      "MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE"
+    expect_decision_nonpass(
+      canonical_json(legacy_trigger),
+      "structured decision v1.0 rejects exact reserved trigger injection",
+      /keys drifted/
+    )
+
+    v1_1_trigger = structured_v1_1_decision(sandbox)
+    v1_1_trigger["exact_reserved_trigger"] =
+      "MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE"
+    expect_decision_nonpass(
+      canonical_json(v1_1_trigger),
+      "structured decision v1.1 rejects exact reserved trigger injection",
+      /keys drifted/
+    )
+
+    second_task = deep_copy(decision)
+    duplicate = deep_copy(second_task["ordered_tasks"].first)
+    duplicate["task_id"] = "AIOS-P2-065_UNAUTHORIZED_SECOND_TASK"
+    duplicate["task_slot"] = 2
+    second_task["ordered_tasks"] << duplicate
+    second_task["new_task_ids"] << duplicate["task_id"]
+    expect_decision_nonpass(
+      canonical_json(second_task),
+      "structured decision v1.2 rejects a second new Task",
+      /requires exactly one newly authorized Task/
+    )
+
+    linked = deep_copy(decision)
+    linked["automatic_entry"] = {
+      "after_task_id" => linked["ordered_tasks"].first["task_id"],
+      "next_task_id" => "AIOS-P2-065_UNAUTHORIZED_SECOND_TASK",
+      "requires_task_gate_pass" => true
+    }
+    linked["automatic_entries"] = [deep_copy(linked["automatic_entry"])]
+    expect_decision_nonpass(
+      canonical_json(linked),
+      "structured decision v1.2 rejects a non-null automatic successor",
+      /automatic_entry must be null/
+    )
+
+    ledger_drift = deep_copy(decision)
+    ledger_drift["prior_consumed_envelope"]["task_ledger_canonical_sha256"] = "0" * 64
+    expect_decision_nonpass(
+      canonical_json(ledger_drift),
+      "structured decision v1.2 rejects prior ledger identity drift",
+      /Task ledger SHA-256 does not equal activation parent/
+    )
+
+    cumulative_drift = deep_copy(decision)
+    cumulative_drift["envelope"]["max_engineering_tasks"] += 1
+    expect_decision_nonpass(
+      canonical_json(cumulative_drift),
+      "structured decision v1.2 rejects cumulative envelope drift",
+      /cumulative Task envelope does not equal prior plus new/
+    )
+
+    cumulative_hours_drift = deep_copy(decision)
+    cumulative_hours_drift["envelope"]["max_engineering_hours"] += 1
+    expect_decision_nonpass(
+      canonical_json(cumulative_hours_drift),
+      "structured decision v1.2 rejects cumulative hour drift",
+      /cumulative engineering hours do not equal prior plus new/
+    )
+
+    cumulative_days_drift = deep_copy(decision)
+    cumulative_days_drift["envelope"]["max_calendar_days"] += 1
+    expect_decision_nonpass(
+      canonical_json(cumulative_days_drift),
+      "structured decision v1.2 rejects cumulative calendar drift",
+      /cumulative calendar days do not equal prior plus new/
+    )
+
+    cumulative_slot = deep_copy(decision)
+    cumulative_slot["ordered_tasks"].first["task_slot"] = 9
+    expect_decision_nonpass(
+      canonical_json(cumulative_slot),
+      "structured decision v1.2 requires route-local Task slot one",
+      /Task slots must be contiguous and ordered/
+    )
+
+    inherited_repair_ceiling = deep_copy(decision)
+    inherited_repair_ceiling["envelope"]["max_same_task_repairs_per_task"] = 3
+    expect_decision_nonpass(
+      canonical_json(inherited_repair_ceiling),
+      "structured decision v1.2 rejects inherited historical repair ceiling",
+      /route repair ceiling must equal the maximum Task repair budget/
+    )
+  end
+
+  def delegated_predecessor_route_plan_tests(sandbox)
+    fixture_task_id = "AIOS-P2-998_DELEGATED_ROUTE_PLAN_FIXTURE"
+    truth = yaml(File.join(SOURCE_REPO, TRUTH_RELATIVE))
+    truth["project"]["current_phase"] = "P2"
+    truth["active_work"]["current_task"] = fixture_task_id
+    truth["current_phase_route"] = {
+      "schema_version" => "phase-delegated-independent-task/v1",
+      "phase" => "P2",
+      "selected_task" => { "task_id" => fixture_task_id }
+    }
+    positive_path = File.join(sandbox, "delegated-predecessor-positive.yaml")
+    create_exclusive(positive_path, YAML.dump(truth))
+    stdout, stderr, status = run_phase_predecessor_fixture(
+      positive_path, "P2", fixture_task_id, "BRANCH_CREATE"
+    )
+    assert(status.success?, "delegated predecessor positive fixture failed: #{stdout}#{stderr}")
+    @passes += 1
+    puts "PASS predecessor checker accepts delegated selected_task as the sole route plan"
+
+    stdout, stderr, status = run_phase_predecessor_fixture(
+      positive_path, "P2", fixture_task_id, "UNKNOWN_RESOURCE_ACTION"
+    )
+    assert(!status.success? && (stdout + stderr).include?("unsupported phase-sequence resource action"),
+           "predecessor checker accepted an unknown resource action")
+    @passes += 1
+    puts "PASS predecessor checker rejects unknown resource action"
+
+    ready = deep_copy(truth)
+    ready["active_work"]["current_task"] = "NONE"
+    ready["active_work"]["task_resource_state"] =
+      "NOT_CREATED_PHASE_DELEGATED_TASK_READY"
+    ready["active_work"]["current_execution_authorization"] = nil
+    ready["active_work"]["task_branch"] = nil
+    ready["active_work"]["task_worktree"] = nil
+    ready["active_work"]["execution_evidence_root"] = nil
+    ready["current_phase_route"].merge!(
+      "route_id" => "#{fixture_task_id}_PHASE_DELEGATED_ROUTE",
+      "status" => "AUTHORIZED_READY",
+      "execution_status" => "PHASE_DELEGATED_TASK_READY",
+      "scheduling_status" => "READY_FOR_MASTER_ACTIVATION",
+      "next_eligible_action" => "MASTER_ACTIVATE_PHASE_DELEGATED_TASK"
+    )
+    ready["current_phase_route"]["selected_task"]["status"] =
+      "ELIGIBLE_NOT_ACTIVATED"
+    ready["phase_execution_envelope"]["reserved"] = {
+      "task_id" => fixture_task_id,
+      "route_id" => "#{fixture_task_id}_PHASE_DELEGATED_ROUTE",
+      "status" => "ELIGIBLE_NOT_ACTIVATED",
+      "authority" => nil
+    }
+    ready_path = File.join(sandbox, "delegated-predecessor-ready-resources.yaml")
+    create_exclusive(ready_path, YAML.dump(ready))
+    %w[
+      BRANCH_CREATE WORKTREE_CREATE ENGINEERING_EVIDENCE_CREATE TASK_AUTHORITY_CREATE
+    ].each do |action|
+      stdout, stderr, status = run_phase_predecessor_fixture(
+        ready_path, "P2", fixture_task_id, action
+      )
+      assert(status.success?,
+             "delegated READY #{action} predecessor fixture failed: #{stdout}#{stderr}")
+      @passes += 1
+      puts "PASS predecessor checker accepts delegated READY #{action} before resource creation"
+    end
+    stdout, stderr, status = run_phase_predecessor_fixture(
+      ready_path, "P2", fixture_task_id, "CANDIDATE_CREATE"
+    )
+    assert(!status.success? &&
+           (stdout + stderr).include?("Task resource target does not equal the active canonical Task"),
+           "delegated READY predecessor checker accepted candidate creation")
+    @passes += 1
+    puts "PASS predecessor checker rejects delegated READY candidate creation"
+
+    ready_authority_injection = deep_copy(ready)
+    ready_authority_injection["phase_execution_envelope"]["reserved"]["authority"] = {
+      "path" => "/private/tmp/unauthorized.json",
+      "byte_length" => 1,
+      "sha256" => "0" * 64
+    }
+    ready_authority_path = File.join(
+      sandbox,
+      "delegated-predecessor-ready-authority-injection.yaml"
+    )
+    create_exclusive(ready_authority_path, YAML.dump(ready_authority_injection))
+    stdout, stderr, status = run_phase_predecessor_fixture(
+      ready_authority_path, "P2", fixture_task_id, "ENGINEERING_EVIDENCE_CREATE"
+    )
+    assert(!status.success? &&
+           (stdout + stderr).include?("exact unactivated reservation"),
+           "delegated READY predecessor checker accepted pre-created authority")
+    @passes += 1
+    puts "PASS predecessor checker rejects delegated READY pre-created authority"
+
+    mismatch = deep_copy(truth)
+    mismatch["current_phase_route"]["selected_task"]["task_id"] =
+      "AIOS-P2-997_DIFFERENT_SELECTED_TASK"
+    mismatch_path = File.join(sandbox, "delegated-predecessor-selected-mismatch.yaml")
+    create_exclusive(mismatch_path, YAML.dump(mismatch))
+    stdout, stderr, status = run_phase_predecessor_fixture(
+      mismatch_path, "P2", fixture_task_id, "BRANCH_CREATE"
+    )
+    assert(!status.success? && (stdout + stderr).include?("active Task is not in the exact current route plan"),
+           "delegated predecessor checker accepted a selected_task mismatch")
+    @passes += 1
+    puts "PASS predecessor checker rejects delegated selected_task mismatch"
+
+    legacy_injection = deep_copy(mismatch)
+    legacy_injection["current_phase_route"]["task_plan"] = [{ "task_id" => fixture_task_id }]
+    legacy_injection_path = File.join(sandbox, "delegated-predecessor-legacy-plan-injection.yaml")
+    create_exclusive(legacy_injection_path, YAML.dump(legacy_injection))
+    stdout, stderr, status = run_phase_predecessor_fixture(
+      legacy_injection_path, "P2", fixture_task_id, "BRANCH_CREATE"
+    )
+    assert(!status.success? &&
+           (stdout + stderr).include?("delegated independent route must not carry a legacy task_plan"),
+           "delegated predecessor checker accepted a legacy task_plan injection")
+    @passes += 1
+    puts "PASS predecessor checker rejects delegated legacy task_plan injection"
+  end
+
+  def phase_delegated_policy_and_projection_unit_tests
+    contract = yaml(
+      File.join(
+        SOURCE_REPO,
+        "docs/aios/tasks/P2-064_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT.yaml"
+      )
+    )
+    CurrentTaskAuthority.validate_phase_delegated_contract_policy_fields(contract)
+    @passes += 1
+    puts "PASS phase-delegated Contract carries exact v1.8 Gate ownership fields"
+
+    CurrentTaskAuthority.validate_phase_delegated_baseline_ids(
+      { "schema_version" => "1.2" },
+      %w[CONTROL_NO_CONTEXT CONTROL_SOURCE_LOCAL_IMPORT_CONTEXT]
+    )
+    @passes += 1
+    puts "PASS phase-delegated v1.2 baseline accepts non-Java control identities"
+    CurrentTaskAuthority.validate_phase_delegated_baseline_ids(
+      { "schema_version" => "1.0" },
+      %w[B0_DETERMINISTIC_LEXICAL B1_DETERMINISTIC_LEXICAL_PLUS_SAME_FILE_ADJACENT]
+    )
+    @passes += 1
+    puts "PASS phase-delegated v1.0 baseline preserves legacy B0 and B1 controls"
+    begin
+      CurrentTaskAuthority.validate_phase_delegated_baseline_ids(
+        { "schema_version" => "1.2" },
+        %w[DUPLICATE DUPLICATE]
+      )
+      raise TestFailure, "phase-delegated v1.2 baseline accepted duplicate controls"
+    rescue AuthorityValidationError
+      # Expected fail-closed rejection.
+    end
+    @passes += 1
+    puts "PASS phase-delegated v1.2 baseline rejects duplicate controls"
+
+    repair_accounting = contract.fetch("repair_accounting")
+    FounderDelegationContinuity.validate_repair_accounting!(
+      repair_accounting,
+      1,
+      0,
+      "phase-delegated repair fixture"
+    )
+    @passes += 1
+    puts "PASS phase-delegated repair accounting closes the sole repair"
+
+    partial_repair_accounting = deep_copy(repair_accounting)
+    partial_repair_accounting["authorized"] = 3
+    partial_repair_accounting["used"] = 1
+    partial_repair_accounting["remaining"] = 2
+    partial_repair_accounting["classification"] = "SYNTHETIC_SCHEMA_DISPATCHED_REPAIR"
+    FounderDelegationContinuity.validate_repair_accounting!(
+      partial_repair_accounting,
+      4,
+      2,
+      "phase-delegated partial repair fixture"
+    )
+    @passes += 1
+    puts "PASS phase-delegated repair accounting accepts bounded partial consumption"
+
+    zero_repair_task = { "max_same_task_repairs" => 1 }
+    zero_repair_contract = { "max_same_task_repairs" => 1 }
+    assert(!zero_repair_task.key?("repair_accounting") &&
+           !zero_repair_contract.key?("repair_accounting"),
+           "zero-repair fixture unexpectedly requires accounting")
+    @passes += 1
+    puts "PASS phase-delegated v1.2 zero-use Task may omit repair accounting"
+
+    {
+      "conservation drift" => lambda do |variant|
+        variant["used"] = 0
+      end,
+      "expanded authorization" => lambda do |variant|
+        variant["authorized"] = 2
+        variant["used"] = 2
+      end,
+      "remaining projection drift" => lambda do |variant|
+        variant["used"] = 0
+        variant["remaining"] = 1
+      end,
+      "blank classification" => lambda do |variant|
+        variant["classification"] = " "
+      end,
+      "unsafe receipt path" => lambda do |variant|
+        variant["receipt"]["relative_path"] = "../repair.json"
+      end,
+      "receipt identity drift" => lambda do |variant|
+        variant["receipt"]["sha256"] = "0" * 63
+      end
+    }.each do |label, mutation|
+      variant = deep_copy(repair_accounting)
+      mutation.call(variant)
+      begin
+        FounderDelegationContinuity.validate_repair_accounting!(
+          variant,
+          1,
+          0,
+          "phase-delegated repair fixture"
+        )
+        raise TestFailure, "phase-delegated repair accounting accepted #{label}"
+      rescue FounderDelegationContinuityError
+        # Expected fail-closed rejection.
+      end
+      @passes += 1
+      puts "PASS phase-delegated repair accounting rejects #{label}"
+    end
+
+    repair_receipt = {
+      "aggregate_oos_result" => {},
+      "canonical_or_external_install_performed" => false,
+      "held_outcomes_opened_or_executed" => false,
+      "next_action" => "FRESH_BLIND_SELECTOR_V2",
+      "normalized_root" => "PREFREEZE_OOS_CONTAMINATED_IDENTITY_UNDERBOUND_AND_INTERSECTION",
+      "oos_audit_receipt" => {},
+      "same_task_repair" => {
+        "initial_implementation_iterations_are_not_repairs" => true,
+        "maximum_same_task_repairs" => 1,
+        "no_further_repair_allowance" => true,
+        "remaining_same_task_repairs" => 0,
+        "same_task_repair_used" => 1
+      },
+      "schema_version" => "java-ctx-v1-oos-nonpass-supersession/v1",
+      "sole_repair_scope" => "Synthetic repair receipt fixture.",
+      "source_activation" => {
+        "commit" => "ddfaeb8afcbbad824edee883a15a9f24074acc37",
+        "tree" => "fe7c7fd46b64e985655e3dcc8ba9cd061d5cf69f"
+      },
+      "status" => "PREFREEZE_OOS_IDENTITY_INTERSECTION_NON_PASS_SUPERSEDED_NO_INSTALL_NO_WORKER",
+      "superseded_prefreeze_inventory_v1" => {},
+      "superseded_quality_core_v1" => {},
+      "task_id" => "AIOS-P2-064_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT",
+      "v1_install_allowed" => false,
+      "v1_product_or_validation_execution_allowed" => false,
+      "v1_worker_access_allowed" => false
+    }
+    receipt_task = { "task_id" => repair_receipt.fetch("task_id") }
+    CurrentTaskAuthority.validate_phase_delegated_repair_receipt(
+      JSON.generate(repair_receipt),
+      "synthetic-repair-receipt.json",
+      receipt_task,
+      repair_accounting,
+      CurrentTaskAuthority::FALSE_EXTERNAL_EFFECTS,
+      repair_receipt.fetch("source_activation")
+    )
+    @passes += 1
+    puts "PASS phase-delegated Java receipt adapter projects Task accounting and effects"
+
+    {
+      "unsupported schema" => lambda do |variant|
+        variant["schema_version"] = "unknown-repair-receipt/v1"
+      end,
+      "accounting drift" => lambda do |variant|
+        variant["same_task_repair"]["same_task_repair_used"] = 0
+      end,
+      "task alias" => lambda do |variant|
+        variant["task_id"] = "AIOS-P2-999_REPAIR_ALIAS"
+      end,
+      "effect drift" => lambda do |variant|
+        variant["v1_install_allowed"] = true
+      end,
+      "source activation drift" => lambda do |variant|
+        variant["source_activation"]["commit"] = "0" * 40
+      end
+    }.each do |label, mutation|
+      variant = deep_copy(repair_receipt)
+      mutation.call(variant)
+      begin
+        CurrentTaskAuthority.validate_phase_delegated_repair_receipt(
+          JSON.generate(variant),
+          "synthetic-repair-receipt.json",
+          receipt_task,
+          repair_accounting,
+          CurrentTaskAuthority::FALSE_EXTERNAL_EFFECTS,
+          repair_receipt.fetch("source_activation")
+        )
+        raise TestFailure, "phase-delegated repair receipt adapter accepted #{label}"
+      rescue AuthorityValidationError
+        # Expected fail-closed rejection.
+      end
+      @passes += 1
+      puts "PASS phase-delegated repair receipt adapter rejects #{label}"
+    end
+
+    {
+      "why_now" => ["", /why_now/],
+      "task_gate_owner" => ["HUMAN_FOUNDER", /task_gate_owner/],
+      "founder_gate" => ["PER_TASK_FOUNDER_GATE", /founder_gate/]
+    }.each do |field, (replacement, pattern)|
+      variant = deep_copy(contract)
+      variant[field] = replacement
+      begin
+        CurrentTaskAuthority.validate_phase_delegated_contract_policy_fields(variant)
+        raise TestFailure, "phase-delegated Contract accepted invalid #{field}"
+      rescue AuthorityValidationError => e
+        assert(pattern.match?(e.message), "phase-delegated Contract #{field} failure reason drifted")
+      end
+      @passes += 1
+      puts "PASS phase-delegated Contract rejects invalid #{field}"
+    end
+
+    task_id = "AIOS-P2-998_PROJECTION_FIXTURE"
+    route_id = "#{task_id}_PHASE_DELEGATED_ROUTE"
+    progress = "P2_ZERO_ACCEPTED_CAPABILITY_ACTIVE_AUTHORITY_ONLY"
+    route = {
+      "route_id" => route_id,
+      "next_eligible_action" => "COMPLETE_CURRENT_TASK_GATE"
+    }
+    task = { "task_id" => task_id, "status" => "ACTIVE" }
+    truth = {
+      "phase_execution_claim" => {
+        "current_route_claim" => route_id,
+        "current_task_claim" => task_id,
+        "real_engineering_progress" => progress,
+        "product_capability_changed" => false
+      },
+      "claim_boundary" => {
+        "current_phase_route" => route_id,
+        "current_task" => task_id,
+        "next_eligible_action" => "COMPLETE_CURRENT_TASK_GATE",
+        "real_engineering_progress" => progress
+      },
+      "active_work" => {
+        "current_task" => task_id,
+        "next_eligible_action" => "COMPLETE_CURRENT_TASK_GATE"
+      },
+      "founder_escalation_control" => {
+        "next_eligible_action" => "COMPLETE_CURRENT_TASK_GATE"
+      }
+    }
+    CurrentTaskAuthority.validate_phase_delegated_current_projections(truth, route, task)
+    @passes += 1
+    puts "PASS active phase-delegated current projections are exactly equal"
+
+    {
+      "route" => lambda do |variant|
+        variant["phase_execution_claim"]["current_route_claim"] = "P2_STALE_ROUTE_V1"
+      end,
+      "task" => lambda do |variant|
+        variant["claim_boundary"]["current_task"] = "NONE"
+      end,
+      "action" => lambda do |variant|
+        variant["founder_escalation_control"]["next_eligible_action"] =
+          "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK"
+      end,
+      "progress" => lambda do |variant|
+        variant["claim_boundary"]["real_engineering_progress"] = "STALE"
+      end
+    }.each do |label, mutation|
+      variant = deep_copy(truth)
+      mutation.call(variant)
+      begin
+        CurrentTaskAuthority.validate_phase_delegated_current_projections(variant, route, task)
+        raise TestFailure, "phase-delegated projection validator accepted stale #{label}"
+      rescue AuthorityValidationError
+        # Expected fail-closed rejection.
+      end
+      @passes += 1
+      puts "PASS active phase-delegated projection rejects stale #{label}"
+    end
   end
 
   def v2_profile
@@ -2977,6 +3601,9 @@ class CurrentTaskAuthorityTest
     sandbox_identity = nil
     begin
       structured_decision_unit_tests(sandbox)
+      structured_v1_2_unit_tests(sandbox)
+      delegated_predecessor_route_plan_tests(sandbox)
+      phase_delegated_policy_and_projection_unit_tests
       provider_profile_unit_tests
       closed_profile_packet_unit_tests
       p1_ready_and_active_golden_regression_tests(sandbox)

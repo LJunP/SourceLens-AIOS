@@ -122,6 +122,10 @@ module PhaseDelegatedAuthorityTest
     end
     assert(source_entry, "fixture lacks exact source terminal ledger entry")
     reservation = envelope.fetch("reserved")
+    reserved_snapshot = reservation.slice(
+      "task_id", "route_id", "status", "capacity_source_task_id", "budget"
+    )
+    reserved_snapshot["status"] = "ELIGIBLE_NOT_ACTIVATED"
     {
       "policy" => route.fetch("policy"),
       "delegation_amendment" => envelope.dig("authority_basis", "delegation_amendment"),
@@ -134,9 +138,7 @@ module PhaseDelegatedAuthorityTest
       "phase_envelope_snapshot" => {
         "limits" => envelope.fetch("limits"),
         "consumed" => envelope.fetch("consumed"),
-        "reserved" => reservation.slice(
-          "task_id", "route_id", "status", "capacity_source_task_id", "budget"
-        ),
+        "reserved" => reserved_snapshot,
         "remaining" => envelope.fetch("remaining")
       },
       "founder_packet_for_task" => nil
@@ -168,6 +170,28 @@ module PhaseDelegatedAuthorityTest
     ]
   end
 
+  def source_route(value)
+    value.fetch(value.dig("phase_execution_envelope", "authority_basis", "source_route_ref"))
+  end
+
+  def baseline_ref
+    bytes = "phase-delegated fixture JAVA-CTX baseline\n"
+    {
+      "artifact_id" => "JAVA_CTX_V1_NORMATIVE_CORE",
+      "relative_path" => "freeze/JAVA_CTX_V1_NORMATIVE_CORE.json",
+      "byte_length" => bytes.bytesize,
+      "sha256" => Digest::SHA256.hexdigest(bytes),
+      "baseline_ids" => [
+        "B0_DETERMINISTIC_LEXICAL",
+        "B1_DETERMINISTIC_LEXICAL_PLUS_SAME_FILE_ADJACENT"
+      ]
+    }
+  end
+
+  def baseline_bytes
+    "phase-delegated fixture JAVA-CTX baseline\n"
+  end
+
   def contract(value, status)
     {
       "schema_version" => "1.0",
@@ -179,6 +203,39 @@ module PhaseDelegatedAuthorityTest
       "task_kind" => "REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH",
       "capability" => "REPRODUCIBLE_CONTEXT_BENCHMARK",
       "objective" => "Run one clean-room DEV-first offline graph-context value benchmark without reusing rejected P2 lineage.",
+      "why_now" => "Exercise one bounded Phase-local hypothesis while delegated P2 capacity remains available.",
+      "task_spec_ref" => source_route(value).fetch("original_founder_packet"),
+      "owner_role" => roles.fetch("owner"),
+      "worker_role" => roles.fetch("worker"),
+      "write_scope" => allowlisted_paths,
+      "read_context" => [
+        value.dig("authority", "current_facts"),
+        value.dig("authority", "strategy", "path"),
+        value.dig("authority", "execution_protocol", "path"),
+        value.dig("authority", "founder_delegation_policy", "path"),
+        value.dig("authority", "evaluation_protocol", "path"),
+        source_route(value).dig("original_founder_packet", "path"),
+        "TASK_EVIDENCE_ROOT/#{baseline_ref.fetch('relative_path')}"
+      ],
+      "dependencies" => [
+        {
+          "kind" => "CANONICAL_SOURCE",
+          "identity" => source_route(value).fetch("activation_parent")
+        },
+        {
+          "kind" => "BASELINE_ARTIFACT",
+          "identity" => baseline_ref
+        }
+      ],
+      "risk_level" => "high",
+      "baseline_ref" => baseline_ref,
+      "independent_reviewer" => roles.fetch("independent_reviewers"),
+      "protocol_status_mapping" => {
+        "ELIGIBLE_NOT_ACTIVATED" => "ready",
+        "ACTIVE" => "in_progress"
+      },
+      "task_gate_owner" => "MASTER_CEO_AGENT",
+      "founder_gate" => "RESERVED_DECISIONS_ONLY",
       "capacity_source_task_id" => TASK_ID,
       "budget" => budget,
       "max_same_task_repairs" => 3,
@@ -318,7 +375,8 @@ module PhaseDelegatedAuthorityTest
       "sandbox" => sandbox,
       "worktree_root" => worktree_root,
       "evidence_root" => evidence_root,
-      "ready_identity" => head_identity(repo)
+      "ready_identity" => head_identity(repo),
+      "ready_contract_identity" => contract_identity
     }
   end
 
@@ -345,6 +403,9 @@ module PhaseDelegatedAuthorityTest
             fixture.dig("ready_identity", "commit"))
     FileUtils.mkdir_p(File.join(fixture.fetch("evidence_root"), "p2-058"))
     evidence = File.realpath(File.join(fixture.fetch("evidence_root"), "p2-058"))
+    baseline_path = File.join(evidence, baseline_ref.fetch("relative_path"))
+    FileUtils.mkdir_p(File.dirname(baseline_path))
+    File.binwrite(baseline_path, baseline_bytes)
     authorization_id = "PHASE-DELEGATED-P2-058-AUTHORITY-V1"
     nonce = "P2-058-PHASE-DELEGATED-NONCE-V1"
     authority = {
@@ -356,6 +417,15 @@ module PhaseDelegatedAuthorityTest
       "status" => "ACTIVE",
       "authorization_id" => authorization_id,
       "task_contract_sha256" => contract_identity["sha256"],
+      "contract_lifecycle_transition" => {
+        "schema_version" => "phase-delegated-task-contract-lifecycle-transition/v1",
+        "transition" => "ELIGIBLE_NOT_ACTIVATED_TO_ACTIVE",
+        "classification" =>
+          "AUTHORITY_ACTIVATION_LIFECYCLE_TRANSITION_NOT_CORRECTION_OR_REPAIR",
+        "changed_fields" => ["status"],
+        "ready_contract" => fixture.fetch("ready_contract_identity"),
+        "active_contract" => contract_identity
+      },
       "execution_nonce" => nonce,
       "activation_parent" => fixture.fetch("ready_identity"),
       "branch" => task_branch,
@@ -446,9 +516,49 @@ module PhaseDelegatedAuthorityTest
     1
   end
 
+  def expect_predecessor(repo, label, target_task, action)
+    stdout, stderr, status = command(
+      repo,
+      "bash",
+      "scripts/validate-aios-governance.sh",
+      "--test-phase-predecessor-fixture",
+      File.join(repo, TRUTH_RELATIVE),
+      "CURRENT",
+      target_task,
+      action,
+      allow_failure: true
+    )
+    assert(status.success?, "#{label} unexpectedly failed\n#{stdout}#{stderr}")
+    assert(stdout.include?("Strict phase predecessor fixture validation passed."),
+           "#{label} predecessor marker missing: #{stdout}#{stderr}")
+    puts "PASS #{label}"
+    1
+  end
+
   def commit_truth(repo, value, message)
     write_truth(repo, value)
     commit(repo, message)
+  end
+
+  def bind_ready_contract(repo, value, contract_value)
+    contract_path = File.join(repo, CONTRACT_RELATIVE)
+    File.binwrite(contract_path, YAML.dump(JSON.parse(JSON.generate(contract_value))))
+    contract_identity = identity(contract_path, recorded_path: CONTRACT_RELATIVE)
+    value.dig("current_phase_route", "selected_task")["contract"] = contract_identity
+    value.dig("phase_execution_envelope", "reserved")["contract"] = contract_identity
+    value.dig("active_work")["current_task_contract"] = contract_identity
+    value.dig("active_work")["current_task_contract_sha256"] = contract_identity["sha256"]
+    contract_identity
+  end
+
+  def bind_active_authority(value, authority_path, authority)
+    File.binwrite(authority_path, JSON.generate(authority))
+    authority_identity = identity(authority_path)
+    value.dig("phase_execution_envelope", "reserved")["authority"] = authority_identity
+    value.dig("active_work")["current_execution_authorization_sha256"] =
+      authority_identity["sha256"]
+    value.dig("active_work")["authority_record"] = authority_identity
+    authority_identity
   end
 
   def run
@@ -465,16 +575,240 @@ module PhaseDelegatedAuthorityTest
       fixture = make_ready(repo, sandbox)
       assertions += expect_authority(repo, "phase-delegated READY full authority", "READY_NONE")
       assertions += expect_safety(repo, "phase-delegated READY full safety")
+      assertions += expect_predecessor(repo, "phase-delegated READY TASK_ACTIVATION predecessor",
+                                       TASK_ID, "TASK_ACTIVATION")
+      %w[
+        BRANCH_CREATE WORKTREE_CREATE ENGINEERING_EVIDENCE_CREATE TASK_AUTHORITY_CREATE
+      ].each do |action|
+        assertions += expect_predecessor(
+          repo,
+          "phase-delegated READY #{action} predecessor",
+          TASK_ID,
+          action
+        )
+      end
+      stdout, stderr, status = command(
+        repo,
+        "bash",
+        "scripts/validate-aios-governance.sh",
+        "--test-phase-predecessor-fixture",
+        File.join(repo, TRUTH_RELATIVE),
+        "CURRENT",
+        TASK_ID,
+        "CANDIDATE_CREATE",
+        allow_failure: true
+      )
+      assert(!status.success? &&
+             (stdout + stderr).include?("Task resource target does not equal the active canonical Task"),
+             "phase-delegated READY candidate predecessor unexpectedly passed")
+      assertions += 1
+      puts "PASS phase-delegated READY CANDIDATE_CREATE predecessor rejects preactivation"
+
+      ready_truth = truth(repo)
+      ready_contract_path = File.join(repo, CONTRACT_RELATIVE)
+      ready_contract = YAML.safe_load(
+        File.binread(ready_contract_path),
+        permitted_classes: [],
+        permitted_symbols: [],
+        aliases: false
+      )
+      protocol_field_cases = {
+        "task_spec_ref" => [
+          ->(value) { value["task_spec_ref"]["sha256"] = "0" * 64 },
+          /task_spec_ref/
+        ],
+        "owner_role" => [
+          ->(value) { value["owner_role"] = "HUMAN_FOUNDER" },
+          /owner or worker alias/
+        ],
+        "worker_role" => [
+          ->(value) { value["worker_role"] = "Fixture Master" },
+          /owner or worker alias/
+        ],
+        "write_scope" => [
+          ->(value) { value["write_scope"] = value["write_scope"].drop(1) },
+          /write_scope alias/
+        ],
+        "read_context" => [
+          ->(value) { value["read_context"] = value["read_context"].drop(1) },
+          /read_context is not the closed minimum set/
+        ],
+        "dependencies" => [
+          ->(value) { value["dependencies"] = [] },
+          /dependencies are not the closed source and baseline set/
+        ],
+        "risk_level" => [
+          ->(value) { value["risk_level"] = "unknown" },
+          /risk_level is outside the protocol enum/
+        ],
+        "baseline_ref" => [
+          ->(value) { value["baseline_ref"]["relative_path"] = "../escape.json" },
+          /baseline relative_path is not a safe normalized path/
+        ],
+        "independent_reviewer" => [
+          ->(value) { value["independent_reviewer"] = ["Fixture Worker"] },
+          /independent reviewer alias/
+        ],
+        "protocol_status_mapping" => [
+          ->(value) { value["protocol_status_mapping"]["ACTIVE"] = "ready" },
+          /protocol lifecycle/
+        ]
+      }
+      protocol_field_cases.each do |field, (mutation, pattern)|
+        mutated_contract = Marshal.load(Marshal.dump(ready_contract))
+        mutation.call(mutated_contract)
+        mutated_truth = Marshal.load(Marshal.dump(ready_truth))
+        bind_ready_contract(repo, mutated_truth, mutated_contract)
+        commit_truth(repo, mutated_truth, "test: drift phase-delegated Contract #{field}")
+        assertions += expect_nonpass(repo, "phase-delegated Contract #{field} drift", pattern)
+        bind_ready_contract(repo, ready_truth, ready_contract)
+        commit_truth(repo, ready_truth, "test: restore phase-delegated Contract #{field}")
+      end
 
       fixture = make_active(fixture)
       assertions += expect_authority(repo, "phase-delegated ACTIVE full authority", "ACTIVE_TASK")
       assertions += expect_safety(repo, "phase-delegated ACTIVE full safety")
+      assertions += expect_predecessor(
+        repo,
+        "phase-delegated ACTIVE CANDIDATE_CREATE predecessor",
+        TASK_ID,
+        "CANDIDATE_CREATE"
+      )
+      stdout, stderr, status = command(
+        repo,
+        "bash",
+        "scripts/validate-aios-governance.sh",
+        "--test-phase-predecessor-fixture",
+        File.join(repo, TRUTH_RELATIVE),
+        "CURRENT",
+        TASK_ID,
+        "TASK_AUTHORITY_CREATE",
+        allow_failure: true
+      )
+      assert(!status.success? &&
+             (stdout + stderr).include?("exact delegated READY reservation"),
+             "phase-delegated ACTIVE allowed a second Task authority")
+      assertions += 1
+      puts "PASS phase-delegated ACTIVE rejects TASK_AUTHORITY_CREATE"
+
+      malformed_candidate = truth(repo)
+      malformed_candidate["active_work"]["current_task_status"] = "READY"
+      malformed_candidate_path = File.join(sandbox, "malformed-active-candidate.yaml")
+      File.binwrite(malformed_candidate_path, YAML.dump(malformed_candidate))
+      stdout, stderr, status = command(
+        repo,
+        "bash",
+        "scripts/validate-aios-governance.sh",
+        "--test-phase-predecessor-fixture",
+        malformed_candidate_path,
+        "CURRENT",
+        TASK_ID,
+        "CANDIDATE_CREATE",
+        allow_failure: true
+      )
+      assert(!status.success? &&
+             (stdout + stderr).include?("exact phase-delegated ACTIVE projection"),
+             "malformed non-ACTIVE current Task allowed candidate creation")
+      assertions += 1
+      puts "PASS malformed non-ACTIVE current Task rejects CANDIDATE_CREATE"
 
       original_authority = File.binread(fixture.fetch("authority_path"))
       File.binwrite(fixture.fetch("authority_path"), original_authority + "\n")
       assertions += expect_nonpass(repo, "phase-delegated authority mutation", /byte length mismatch|SHA-256 mismatch/)
       File.binwrite(fixture.fetch("authority_path"), original_authority)
       assertions += expect_authority(repo, "phase-delegated authority mutation restored", "ACTIVE_TASK")
+
+      original_contract = File.binread(File.join(repo, CONTRACT_RELATIVE))
+      active_contract = YAML.safe_load(
+        original_contract,
+        permitted_classes: [],
+        permitted_symbols: [],
+        aliases: false
+      )
+      semantic_drift_contract = Marshal.load(Marshal.dump(active_contract))
+      semantic_drift_contract["why_now"] += " Unauthorized semantic drift."
+      semantic_drift_truth = Marshal.load(Marshal.dump(fixture.fetch("active_truth")))
+      semantic_drift_contract_identity = bind_ready_contract(
+        repo,
+        semantic_drift_truth,
+        semantic_drift_contract
+      )
+      semantic_drift_authority = JSON.parse(original_authority)
+      semantic_drift_authority["task_contract_sha256"] = semantic_drift_contract_identity["sha256"]
+      semantic_drift_authority.dig("contract_lifecycle_transition", "active_contract").replace(
+        semantic_drift_contract_identity
+      )
+      bind_active_authority(
+        semantic_drift_truth,
+        fixture.fetch("authority_path"),
+        semantic_drift_authority
+      )
+      commit_truth(repo, semantic_drift_truth, "test: drift ACTIVE Contract outside status")
+      assertions += expect_nonpass(
+        repo,
+        "phase-delegated READY ACTIVE Contract semantic drift",
+        /differ outside the lifecycle status/
+      )
+      File.binwrite(File.join(repo, CONTRACT_RELATIVE), original_contract)
+      File.binwrite(fixture.fetch("authority_path"), original_authority)
+      commit_truth(repo, fixture.fetch("active_truth"), "test: restore status-only Contract transition")
+
+      wrong_parent = command(
+        repo,
+        "git",
+        "rev-parse",
+        "#{fixture.dig('ready_identity', 'commit')}^"
+      ).first.strip
+      wrong_parent_tree = command(repo, "git", "show", "-s", "--format=%T", wrong_parent).first.strip
+      wrong_parent_truth = Marshal.load(Marshal.dump(fixture.fetch("active_truth")))
+      wrong_parent_authority = JSON.parse(original_authority)
+      wrong_parent_authority["activation_parent"] = {
+        "commit" => wrong_parent,
+        "tree" => wrong_parent_tree
+      }
+      wrong_parent_truth.dig("active_work")["activation_parent_commit"] = wrong_parent
+      wrong_parent_truth.dig("active_work")["activation_parent_tree"] = wrong_parent_tree
+      bind_active_authority(wrong_parent_truth, fixture.fetch("authority_path"), wrong_parent_authority)
+      commit_truth(repo, wrong_parent_truth, "test: bind authority to non-READY parent")
+      assertions += expect_nonpass(
+        repo,
+        "phase-delegated authority rejects non-READY activation parent",
+        /activation parent is not the exact READY Route/
+      )
+      File.binwrite(fixture.fetch("authority_path"), original_authority)
+      commit_truth(repo, fixture.fetch("active_truth"), "test: restore exact READY activation parent")
+
+      alternate_branch = "codex/p2-058-unrelated-lineage"
+      command(
+        fixture.fetch("task_worktree"),
+        "git",
+        "checkout",
+        "--quiet",
+        "-b",
+        alternate_branch,
+        wrong_parent
+      )
+      unrelated_truth = Marshal.load(Marshal.dump(fixture.fetch("active_truth")))
+      unrelated_authority = JSON.parse(original_authority)
+      unrelated_authority["branch"] = alternate_branch
+      unrelated_truth.dig("active_work")["task_branch"] = alternate_branch
+      bind_active_authority(unrelated_truth, fixture.fetch("authority_path"), unrelated_authority)
+      commit_truth(repo, unrelated_truth, "test: move worktree outside READY lineage")
+      assertions += expect_nonpass(
+        repo,
+        "phase-delegated worktree requires exact READY lineage",
+        /active Task worktree does not descend from its declared activation parent/
+      )
+      command(
+        fixture.fetch("task_worktree"),
+        "git",
+        "checkout",
+        "--quiet",
+        fixture.fetch("task_branch")
+      )
+      command(repo, "git", "branch", "-D", alternate_branch)
+      File.binwrite(fixture.fetch("authority_path"), original_authority)
+      commit_truth(repo, fixture.fetch("active_truth"), "test: restore exact READY worktree lineage")
 
       active_truth = fixture.fetch("active_truth")
       mutated = Marshal.load(Marshal.dump(active_truth))
@@ -510,7 +844,7 @@ module PhaseDelegatedAuthorityTest
       }
       commit_truth(repo, mutated, "test: self-report delegated terminal ledger entry")
       assertions += expect_nonpass(repo, "phase-delegated terminal ledger self-report",
-                                   /ledger only accepts anchored source Route consumed Tasks/)
+                                   /ledger only accepts source Tasks or exact hash-bound prior accounting/)
       FileUtils.rm_f(fake_contract_path)
       commit_truth(repo, active_truth, "test: restore anchored source-only ledger")
 

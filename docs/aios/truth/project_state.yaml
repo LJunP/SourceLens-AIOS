@@ -7835,7 +7835,7 @@ phase_execution_envelope:
     public: false
 founder_escalation_control:
   schema_version: founder-escalation-control/v1
-  disposition: RESERVED_TRIGGER_REQUIRES_FOUNDER_DECISION
+  disposition: FOUNDER_DECISION_REQUIRED
   source_event:
     kind: PHASE_ENVELOPE_EXPANSION_REQUIRED
     task_id: null
@@ -7849,7 +7849,7 @@ founder_escalation_control:
   phase_gate_status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
   founder_decision_required: true
   next_action_owner: HUMAN_FOUNDER
-  next_eligible_action: FOUNDER_DECIDE_P2_ENVELOPE_OR_PHASE_OBJECTIVE
+  next_eligible_action: FOUNDER_RESERVED_DECISION
 historical_p2_053_phase_route:
   schema_version: "1.1"
   route_id: P2_COMPILER_ATTRIBUTED_JAVA_EDGE_TRUTH_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1

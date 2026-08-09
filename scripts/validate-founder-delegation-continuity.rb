@@ -686,7 +686,7 @@ module FounderDelegationContinuity
     residual
   end
 
-  def validate_predeclared_task_terminal_outcome!(entry, contract, receipt)
+  def validate_predeclared_task_terminal_outcome!(root, entry, contract, receipt)
     outcome = exact_keys(
       contract["terminal_outcome"],
       %w[
@@ -708,6 +708,131 @@ module FounderDelegationContinuity
     assert(outcome["capability_credit"] == 0 && outcome["candidate_integrated"] == false &&
            outcome["canonical_make_verify"].to_s.start_with?("NOT_INVOKED"),
            "predeclared terminal Task cannot create capability, integration or verification credit")
+
+    if receipt["schema_version"] ==
+       "phase-delegated-preworker-start-safety-stop-terminal-receipt/v1"
+      exact_keys(
+        receipt,
+        %w[
+          schema_version task_id route_id status recorded_at activation_parent
+          canonical_before_terminal_sync stop_condition quality_receipt
+          public_freeze_attempt product_preflight execution final_reviews
+          capability_credit canonical_make_verify next_action forbidden_continuations
+          authorization_effects claim_boundary
+        ],
+        "phase-delegated pre-Worker start-safety terminal receipt"
+      )
+      stop = exact_keys(
+        receipt["stop_condition"],
+        %w[
+          kind normalized_root_cause contract_stop_condition
+          required_change_outside_task_allowlist same_task_repair_applicable
+        ],
+        "phase-delegated pre-Worker start-safety stop condition"
+      )
+      assert(stop["kind"] == "PREWORKER_PRODUCT_DATASET_COMPATIBILITY_NON_PASS" &&
+             stop["normalized_root_cause"].to_s.match?(/\AP[0-9]+\.[A-Z0-9_.]+\z/) &&
+             !stop["contract_stop_condition"].to_s.empty? &&
+             stop["required_change_outside_task_allowlist"] == true &&
+             stop["same_task_repair_applicable"] == false,
+             "phase-delegated pre-Worker start-safety stop condition drift")
+
+      quality_identity = exact_keys(
+        receipt["quality_receipt"], %w[path byte_length sha256],
+        "phase-delegated pre-Worker Quality receipt"
+      )
+      quality = parse_bound_json(quality_identity, "phase-delegated pre-Worker Quality receipt")
+      exact_keys(
+        quality,
+        %w[
+          schema_version record_type task_id created_at_utc create_once status worker_gate
+          normalized_root_cause controlling_finding authority_binding public_freeze_attempt
+          accepted_input_verification current_product_identity verification terminal_accounting
+          external_effects founder_escalation claim_boundary
+        ],
+        "phase-delegated pre-Worker Quality receipt"
+      )
+      assert(quality["task_id"] == entry["task_id"] && quality["create_once"] == true &&
+             quality["status"] == "TERMINAL_PREFREEZE_QUALITY_NON_PASS" &&
+             quality["worker_gate"] == "STOP" &&
+             quality["normalized_root_cause"] == stop["normalized_root_cause"] &&
+             quality.dig("terminal_accounting", "worker_product_mutation") == false &&
+             quality.dig("terminal_accounting", "candidate_absent") == true &&
+             quality.dig("terminal_accounting", "implementation_iterations_used") == 0 &&
+             quality.dig("terminal_accounting", "capability_credit") == 0 &&
+             quality["external_effects"] == FALSE_EXTERNAL_EFFECTS,
+             "phase-delegated pre-Worker Quality receipt lifecycle drift")
+
+      public_identity = exact_keys(
+        receipt["public_freeze_attempt"], %w[path byte_length sha256],
+        "phase-delegated pre-Worker public freeze attempt"
+      )
+      repo_identity_bytes(root, public_identity,
+                          "phase-delegated pre-Worker public freeze attempt")
+      assert(quality["public_freeze_attempt"].slice("path", "byte_length", "sha256") ==
+             public_identity,
+             "phase-delegated pre-Worker public freeze attempt binding drift")
+
+      preflight = exact_keys(
+        receipt["product_preflight"],
+        %w[
+          task_count source_artifact_count mjs_artifact_count non_mjs_artifact_count
+          admissible_code_chunk_count admissible_symbol_count admissible_relation_count
+          same_scan_graph_edge_count product_code_diff_paths
+        ],
+        "phase-delegated pre-Worker product preflight"
+      )
+      assert(preflight == {
+               "task_count" => 6,
+               "source_artifact_count" => 20,
+               "mjs_artifact_count" => 20,
+               "non_mjs_artifact_count" => 0,
+               "admissible_code_chunk_count" => 0,
+               "admissible_symbol_count" => 0,
+               "admissible_relation_count" => 0,
+               "same_scan_graph_edge_count" => 0,
+               "product_code_diff_paths" => []
+             },
+             "phase-delegated pre-Worker product compatibility facts drift")
+
+      execution = exact_keys(
+        receipt["execution"],
+        %w[
+          worker_started product_mutation implementation_iterations_used
+          same_task_repairs_used dev_benchmark_runs validation_runs candidate_created
+          candidate_commit candidate_tree candidate_integrated
+        ],
+        "phase-delegated pre-Worker execution"
+      )
+      assert(execution == {
+               "worker_started" => false,
+               "product_mutation" => false,
+               "implementation_iterations_used" => 0,
+               "same_task_repairs_used" => 0,
+               "dev_benchmark_runs" => 0,
+               "validation_runs" => 0,
+               "candidate_created" => false,
+               "candidate_commit" => nil,
+               "candidate_tree" => nil,
+               "candidate_integrated" => false
+             },
+             "phase-delegated pre-Worker stop cannot claim execution or candidate")
+      reviews = exact_keys(receipt["final_reviews"], %w[cto security quality],
+                           "phase-delegated pre-Worker final reviews")
+      assert(reviews.values.all? { |value| value == "NOT_STARTED_PREFREEZE_STOP" } &&
+             outcome["cto_review"] == reviews["cto"] &&
+             outcome["security_review"] == reviews["security"] &&
+             outcome["quality_review"] == reviews["quality"] &&
+             outcome["candidate_commit"].nil? && outcome["candidate_tree"].nil? &&
+             outcome["sealed_formal_value_result"] == "NOT_STARTED_PREFREEZE_STOP_CONDITION" &&
+             receipt["capability_credit"] == 0 &&
+             receipt["canonical_make_verify"].to_s.start_with?("NOT_INVOKED") &&
+             receipt["next_action"] == CONTINUE_ACTION &&
+             receipt["authorization_effects"] == FALSE_EXTERNAL_EFFECTS &&
+             !receipt["claim_boundary"].to_s.empty?,
+             "phase-delegated pre-Worker terminal claim boundary drift")
+      return
+    end
 
     if receipt["schema_version"] == "phase-delegated-presealed-stop-terminal-receipt/v1"
       exact_keys(
@@ -1141,7 +1266,7 @@ module FounderDelegationContinuity
         # The original delegation-amendment ledger predates typed terminal
         # outcome receipts; its exact immutable anchor remains authoritative.
       else
-        validate_predeclared_task_terminal_outcome!(entry, contract, receipt)
+        validate_predeclared_task_terminal_outcome!(root, entry, contract, receipt)
       end
       assert(source_task["status"] == entry["status"] &&
              source_task["engineering_hours"] == budget["engineering_hours"] &&

@@ -3,7 +3,7 @@ record_type: aios_phase_delegated_independent_task_contract
 task_id: AIOS-P2-061_PRODUCT_GRAPH_NEIGHBOR_CONTEXT_SELECTION_VERTICAL_SLICE
 phase: P2
 route_id: AIOS-P2-061_PRODUCT_GRAPH_NEIGHBOR_CONTEXT_SELECTION_VERTICAL_SLICE_PHASE_DELEGATED_ROUTE
-status: ACTIVE
+status: TERMINAL_PREFREEZE_PRODUCT_DATASET_COMPATIBILITY_NON_PASS
 task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
 capability: GRAPH_CONDITIONED_CONTEXT_SELECTION
 objective: >-
@@ -142,3 +142,18 @@ claim_boundary: >-
   security, kernel-complete observation, production readiness, Founder P2 Phase
   Gate approval or P3 entry. Activation, documents, hashes and DEV feasibility do
   not themselves create capability credit.
+terminal_outcome:
+  status: TERMINAL_PREFREEZE_PRODUCT_DATASET_COMPATIBILITY_NON_PASS
+  candidate_commit: null
+  candidate_tree: null
+  sealed_formal_value_result: NOT_STARTED_PREFREEZE_STOP_CONDITION
+  cto_review: NOT_STARTED_PREFREEZE_STOP
+  security_review: NOT_STARTED_PREFREEZE_STOP
+  quality_review: NOT_STARTED_PREFREEZE_STOP
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-value-first-20260809/task-p2-061/terminal/P2_061_TERMINAL_PREFREEZE_PRODUCT_DATASET_COMPATIBILITY_NON_PASS_RECEIPT.json
+    byte_length: 3466
+    sha256: 3c011b50ebe5c9595c3c75ec53149702c38e0883e0ecd0be3d3aed33057e24dd
+  capability_credit: 0
+  candidate_integrated: false
+  canonical_make_verify: NOT_INVOKED_PREFREEZE_STOP

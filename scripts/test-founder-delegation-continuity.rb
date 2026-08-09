@@ -73,6 +73,7 @@ commits, stderr, status = Open3.capture3(
   "docs/aios/truth/project_state.yaml", chdir: ROOT
 )
 raise "cannot resolve delegated active Truth history: #{stderr}" unless status.success?
+historical_truths = []
 active_truths = commits.lines.map(&:strip).reject(&:empty?).each_with_object([]) do |commit, values|
   bytes, _show_stderr, show_status = Open3.capture3(
     "git", "show", "#{commit}:docs/aios/truth/project_state.yaml", chdir: ROOT
@@ -83,6 +84,7 @@ active_truths = commits.lines.map(&:strip).reject(&:empty?).each_with_object([])
   rescue Psych::BadAlias, Psych::SyntaxError
     next
   end
+  historical_truths << candidate
   route = candidate["current_phase_route"]
   values << candidate if route.is_a?(Hash) && route["route_id"] == route_literal && route["status"] == "ACTIVE"
 end
@@ -92,6 +94,12 @@ base.fetch("phase_execution_envelope").fetch("task_ledger").each do |entry|
   entry.delete("capacity_source_task_id")
 end
 base["phase_boundary"] = deep_copy(current_truth.fetch("phase_boundary"))
+reserved_base = historical_truths.reverse.find do |candidate|
+  candidate.dig("founder_escalation_control", "schema_version") == "founder-escalation-control/v1" &&
+    candidate.dig("founder_escalation_control", "reserved_trigger", "evidence", "path").is_a?(String) &&
+    candidate.dig("phase_execution_envelope", "status") == "EXHAUSTED"
+end
+raise "Founder reserved Truth anchor is missing" unless reserved_base
 
 Dir.mktmpdir("founder-delegation-continuity-") do |fixtures|
   assertions = 0
@@ -151,7 +159,7 @@ Dir.mktmpdir("founder-delegation-continuity-") do |fixtures|
     assertions += 1
   end
 
-  truth = deep_copy(current_truth)
+  truth = deep_copy(reserved_base)
   trigger = JSON.parse(File.binread(
     truth.dig("founder_escalation_control", "reserved_trigger", "evidence", "path")
   ))
@@ -166,7 +174,7 @@ Dir.mktmpdir("founder-delegation-continuity-") do |fixtures|
                   "exhausted Phase decision Evidence must not invent a new Founder budget")
   assertions += 1
 
-  truth = deep_copy(current_truth)
+  truth = deep_copy(reserved_base)
   trigger = JSON.parse(File.binread(
     truth.dig("founder_escalation_control", "reserved_trigger", "evidence", "path")
   ))

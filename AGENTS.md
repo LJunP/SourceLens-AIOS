@@ -37,6 +37,16 @@
 - 新工程不得把本机绝对 `.sourcelens-audit` 或 `.sourcelens-worktrees` 路径作为产品运行核心。外部Artifact应通过可配置root、稳定Artifact ID、relative path、byte length和SHA-256绑定；历史合同中的绝对路径只作为历史事实保留，不得静默改写。
 - 每次完成实质清理后只生成一份简洁receipt，记录精确目标、清单哈希、释放容量、验证结果、Git clean状态和可恢复性。清理维护不得扩张为Review、correction、successor或治理文档链。
 
+## Codex App 可写根与审批降噪（强制执行）
+
+- 每个 Task 激活后、任何 Worker 首次写文件前，Master 必须核对 Codex App 当前 filesystem writable roots 与 authority 绑定的 active worktree、Evidence root。项目/Founder 已授权某项工程，不等于 Codex App 允许 Agent 自行扩大本机文件系统写权限；两者必须明确区分。
+- active worktree 不在 writable roots 内时，子 Agent 禁止逐文件直接编辑该 worktree，也不得让用户为同一普通实现连续批准多个“编辑文件”弹窗。默认流程必须改为：子 Agent 在 writable `/private/tmp` 或其他已声明 writable staging root 形成一个可审查的统一 patch，在临时物化副本应用并完成相称的编译/测试，Master 核对 allowlist 与 diff 后再以单次、不可覆盖的受控操作应用到 active worktree。
+- 若实现规模确实需要多个检查点，最多按“一个已验证检查点 = 一次批量写入授权”分组；不得按文件、hunk、测试类或 Agent 拆成重复授权。发现第二次同类编辑审批弹窗时，执行方必须立即暂停，保存当前状态并切换到 unified-patch/staging 模式，不得继续让用户机械点击。
+- 非 writable 的外部 Evidence root 同样适用集中写入：Quality/Evaluator/Reviewer 只在 `/private/tmp` 完成 create-once stage、closed inventory、hash/mode/symlink 验证；只有 Master 可以在 Gate 边界执行一次最终安装或原子 rename。子 Agent 不得各自发起 escalated external write，也不得为 receipt、manifest、单个 leaf 分别请求审批。
+- 优先复用已经批准且范围足够窄的安全命令规则；禁止为了消除弹窗申请可任意改写文件系统的宽泛长期权限。若客户端提供“仅此 Task/目录/会话允许”的窄范围选项，可提示用户一次选择，但自动执行不得依赖用户必须选择该选项。
+- 不得为了规避 Codex App 沙箱而静默改变 canonical worktree、branch、Task authority 或 Evidence root。路径变更若会改变权威身份，继续使用 staging + unified patch；只有真实权限边界变化才升级 Founder。
+- 状态汇报必须把 `PROJECT_AUTHORIZED`、`APP_FILESYSTEM_APPROVAL_REQUIRED`、`WRITE_NOT_EXECUTED` 三类事实分开，禁止把客户端文件权限弹窗说成 Founder 决策或内部 Gate 授权。
+
 ## Phase 级 Founder Delegation（强制执行）
 
 这是一条执行规则，不是建议。`Master Execution Protocol v1.0` 第 2、5、9 节已经规定 Founder 不管理日常 Worker 工作，Master 只升级 Founder 保留决策；所有 Agent 必须按下列方式落实，不得退回逐文件、逐命令或逐 Task 的 Founder 审批模式。

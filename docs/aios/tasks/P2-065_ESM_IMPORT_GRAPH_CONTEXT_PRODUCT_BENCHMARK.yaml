@@ -3,7 +3,22 @@ record_type: aios_phase_delegated_independent_task_contract
 task_id: AIOS-P2-065_ESM_IMPORT_GRAPH_CONTEXT_PRODUCT_BENCHMARK
 phase: P2
 route_id: AIOS-P2-065_ESM_IMPORT_GRAPH_CONTEXT_PRODUCT_BENCHMARK_PHASE_DELEGATED_ROUTE
-status: ACTIVE
+status: TERMINAL_VALID_BENCHMARK_NEUTRAL_NO_SUPERIORITY_NON_PASS
+terminal_outcome:
+  status: TERMINAL_VALID_BENCHMARK_NEUTRAL_NO_SUPERIORITY_NON_PASS
+  candidate_commit: a14a250e1ccc005d4732d2126ed5393ebd0a3223
+  candidate_tree: b70e22453ced53d4e1adfd522529748276f2d214
+  sealed_formal_value_result: NON_PASS_TREATMENT_MACRO_RECALL_NOT_STRICTLY_GREATER
+  cto_review: NOT_STARTED_TARGET_METRIC_NON_PASS
+  security_review: NOT_STARTED_TARGET_METRIC_NON_PASS
+  quality_review: NON_PASS
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-esm-context-product-20260811/task-p2-065/evidence/terminal/P2_065_TERMINAL_MASTER_LEDGER_OUTCOME_RECEIPT.json
+    byte_length: 3600
+    sha256: 4836413ebd7bdddcd721e5c9d7fe421f0b147a8265dde507d6ea056e725ec338
+  capability_credit: 0
+  candidate_integrated: false
+  canonical_make_verify: NOT_INVOKED_TERMINAL_TARGET_METRIC_NON_PASS
 task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
 capability: GRAPH_CONDITIONED_CONTEXT_SELECTION
 objective: >-

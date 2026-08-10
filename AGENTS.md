@@ -25,6 +25,21 @@
 - FACT、INFERENCE、UNKNOWN 必须分离；文档、实现、测试、Gate 和生产可用不得混同。
 - 触发范围、权限、预算、证据或 Stop Condition 时停止并保留真实结果。
 
+## 长期 Goal 生命周期隔离（强制执行）
+
+- SourceLens 长期 Goal 的默认生命周期是：持续推动项目从当前真实状态走到实际开发完成。Task、Route、实验或 Phase 的 `NON_PASS`、`STOPPED`、`TERMINAL`、预算耗尽、候选放弃、战略 HOLD 或 Founder 保留决策点，都只结束对应层级，绝不自动完成、终止或删除长期 Goal。
+- 必须机械区分四个状态层级：`TASK_LIFECYCLE`、`ROUTE_LIFECYCLE`、`PHASE_LIFECYCLE`、`LONG_TERM_GOAL_LIFECYCLE`。任何下层状态不得通过同名 `terminal`、`complete`、`stop` 或自由文本向上冒泡。状态汇报必须明确指出发生变化的精确层级。
+- canonical Truth 中的项目控制状态与 Codex 运行时长期 Goal 是两个独立控制面。修改、终止或回滚其中一个，不自动授权修改另一个；项目内 Founder decision、结构化 token、receipt、Review 或 Truth 状态不得被解释为调用 `update_goal(status="complete")` 的授权。
+- 调用 `update_goal(status="complete")` 前必须在同一执行窗口完成并保留 `LONG_TERM_GOAL_CLOSURE_AUDIT`，至少逐项证明：
+  1. `PROJECT_ACTUALLY_COMPLETED=true`，且长期 Goal 的全部成功条件已有当前、可重放证据；或用户在最新直接消息中以明确自然语言要求终止整个项目及 Codex 长期 Goal；
+  2. `PHASE_AND_TASK_TERMINAL_NOT_USED_AS_GOAL_COMPLETION=true`；
+  3. `LATEST_USER_INTENT_CONFLICT=false`；
+  4. `CODEX_GOAL_CLOSE_ELIGIBLE=true`。
+  任一项缺失、为 false、UNKNOWN 或仅由旧 token、Agent 生成的授权文本、阶段终态、预算耗尽推断时，禁止关闭长期 Goal。
+- 即使用户粘贴了包含 `TERMINATION`、`STOP` 或 `COMPLETE` 的预格式化 token，只要它与“持续开发直至项目完成”的长期要求存在冲突，就必须先用大白话说明会同时影响哪些层级并取得新的直接确认；不得让 token 的字面含义替代真实意图判断。
+- 项目尚未实际完成时，长期 Goal 必须保持 `active`。若因误操作变为 absent、complete 或 blocked，Master 必须先恢复同一 Goal objective，再以非破坏性、可审计方式纠正项目状态；禁止创建平行 Goal、重写 Git 历史、删除错误 Evidence 或把恢复动作冒充工程进度。
+- 每次 Goal/Phase/Route/Task 终态汇报必须分别列出：`LONG_TERM_GOAL_STATUS`、`CURRENT_PHASE_STATUS`、`CURRENT_TASK_STATUS`、`PROJECT_ACTUAL_COMPLETION`、`CODEX_GOAL_ACTION_TAKEN`。若项目未完成，最后一项只能是 `NONE_KEEP_ACTIVE`。
+
 继承的旧 SourceLens 工作区只读，不得修改、暂存、stash、reset、clean 或删除。
 
 ## 工作区、分支与磁盘卫生（强制执行）

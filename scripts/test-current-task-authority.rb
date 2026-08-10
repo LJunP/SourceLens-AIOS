@@ -32,6 +32,15 @@ STRUCTURED_DECISION_PATH = File.expand_path(
 STRUCTURED_DECISION_SHA256 = "27838e20766d84ccbbae934284331559bbee71224291b9f8ca7277fa0ea3ee5f"
 STRUCTURED_DECISION_BYTE_LENGTH = 2240
 STRUCTURED_DECISION_SCHEMA = File.join(SOURCE_REPO, "schemas/founder-phase-route-decision.schema.json")
+TERMINATION_DECISION_FIXTURE_ENV = "SOURCE_LENS_TERMINATION_DECISION_FIXTURE"
+TERMINATION_HUMAN_FIXTURE_ENV = "SOURCE_LENS_TERMINATION_HUMAN_FIXTURE"
+TERMINATION_FIVE_PATH_ALLOWLIST = %w[
+  docs/aios/truth/project_state.yaml
+  scripts/validate-founder-delegation-continuity.rb
+  scripts/validate-current-task-authority.rb
+  scripts/test-founder-delegation-continuity.rb
+  scripts/test-current-task-authority.rb
+].sort.freeze
 
 class TestFailure < StandardError; end
 
@@ -1916,6 +1925,113 @@ class CurrentTaskAuthorityTest
     shell(active["repo"], "git", "branch", "-d", active["task_branch"])
   end
 
+  def termination_source_path(declared_path, environment_key)
+    return declared_path if declared_path.is_a?(String) && File.file?(declared_path)
+
+    replacement = ENV[environment_key]
+    assert(replacement.is_a?(String) && File.file?(replacement),
+           "#{environment_key} must name the frozen termination Evidence for pre-install tests")
+    replacement
+  end
+
+  def bind_goal_termination_identity(truth, decision_identity, human_identity)
+    truth.fetch("goal")["termination_decision"] = deep_copy(decision_identity)
+    truth.fetch("current_phase_route")["founder_decision"] = deep_copy(decision_identity)
+    resolution = truth.fetch("founder_escalation_control").fetch("resolution")
+    resolution["structured_decision"] = deep_copy(decision_identity)
+    resolution["human_record"] = deep_copy(human_identity)
+    active = truth.fetch("active_work")
+    active["founder_reserved_authorization"] = decision_identity.fetch("path")
+    active["founder_reserved_authorization_sha256"] = decision_identity.fetch("sha256")
+    active["founder_termination_decision"] = deep_copy(decision_identity)
+  end
+
+  def prepare_goal_termination_fixture(sandbox)
+    fixture_root = File.join(sandbox, "goal-termination")
+    repo = File.join(fixture_root, "repo")
+    external = File.join(fixture_root, "external", "founder-decision")
+    FileUtils.mkdir_p(external)
+    shell(fixture_root, "git", "clone", "--quiet", "--no-hardlinks", SOURCE_REPO, repo)
+    shell(repo, "git", "config", "user.name", "Goal Termination Fixture")
+    shell(repo, "git", "config", "user.email", "goal-termination-fixture@example.invalid")
+
+    source_truth = yaml(File.join(SOURCE_REPO, TRUTH_RELATIVE))
+    assert(source_truth.dig("current_phase_route", "schema_version") ==
+             FounderDelegationContinuity::GOAL_TERMINATION_ROUTE_SCHEMA,
+           "current Truth is not the exact Goal-termination candidate")
+    parent_commit = source_truth.dig(
+      "founder_escalation_control", "resolution", "structured_decision"
+    ).then do |identity|
+      source = termination_source_path(identity.fetch("path"), TERMINATION_DECISION_FIXTURE_ENV)
+      JSON.parse(File.binread(source)).dig("binding", "canonical_repository", "commit")
+    end
+    shell(repo, "git", "checkout", "--quiet", "-B", "main", parent_commit)
+
+    TERMINATION_FIVE_PATH_ALLOWLIST.each do |relative|
+      target = File.join(repo, relative)
+      register_owned(target)
+      rewrite_owned(target, File.binread(File.join(SOURCE_REPO, relative)))
+    end
+    truth_path = File.join(repo, TRUTH_RELATIVE)
+    truth = yaml(truth_path)
+    truth.fetch("project")["canonical_repository"] = repo
+    truth.fetch("project")["task_worktree_root"] = File.join(fixture_root, "worktrees")
+    truth.fetch("project")["execution_evidence_root_base"] = File.join(fixture_root, "audit")
+    FileUtils.mkdir_p(truth.dig("project", "task_worktree_root"))
+    FileUtils.mkdir_p(truth.dig("project", "execution_evidence_root_base"))
+
+    declared_decision = truth.dig("current_phase_route", "founder_decision")
+    decision_source = termination_source_path(
+      declared_decision.fetch("path"), TERMINATION_DECISION_FIXTURE_ENV
+    )
+    declared_human = truth.dig("founder_escalation_control", "resolution", "human_record")
+    human_source = termination_source_path(
+      declared_human.fetch("path"), TERMINATION_HUMAN_FIXTURE_ENV
+    )
+    decision_path = verified_source_copy(
+      decision_source,
+      File.join(external, File.basename(declared_decision.fetch("path"))),
+      declared_decision.fetch("sha256"),
+      declared_decision.fetch("byte_length")
+    )
+    human_path = verified_source_copy(
+      human_source,
+      File.join(external, File.basename(declared_human.fetch("path"))),
+      declared_human.fetch("sha256"),
+      declared_human.fetch("byte_length")
+    )
+    decision_identity = declared_decision.merge("path" => decision_path)
+    human_identity = declared_human.merge("path" => human_path)
+    bind_goal_termination_identity(truth, decision_identity, human_identity)
+    dump_owned_yaml(truth_path, truth)
+    commit(repo, "test: materialize exact Founder Goal termination candidate")
+    changed = shell(repo, "git", "diff-tree", "--no-commit-id", "--name-only", "-r", "HEAD")
+              .lines.map(&:strip).reject(&:empty?).sort
+    assert(changed == TERMINATION_FIVE_PATH_ALLOWLIST,
+           "Goal-termination fixture is not the exact five-path candidate")
+    assert(shell(repo, "git", "rev-parse", "HEAD^").strip == parent_commit,
+           "Goal-termination fixture is not the sole direct-parent terminal commit")
+    {"repo" => repo, "truth_path" => truth_path}
+  end
+
+  def goal_termination_tests(sandbox)
+    truth = yaml(File.join(SOURCE_REPO, TRUTH_RELATIVE))
+    if truth.dig("termination_schema_amendment", "status") == "FOUNDER_AUTHORIZED_FINAL"
+      expect_pass_state(
+        SOURCE_REPO,
+        "exact current Founder Goal termination",
+        "PROJECT_TERMINATED_BY_FOUNDER"
+      )
+    else
+      fixture = prepare_goal_termination_fixture(sandbox)
+      expect_nonpass(
+        fixture.fetch("repo"),
+        "pre-authorization Goal termination candidate remains fail-closed",
+        /terminal-schema amendment is not Founder-authorized final/
+      )
+    end
+  end
+
   def prepare_fixture(sandbox)
     source_head = shell(SOURCE_REPO, "git", "rev-parse", "HEAD").strip
     source_truth = YAML.load(
@@ -3607,6 +3723,7 @@ class CurrentTaskAuthorityTest
       provider_profile_unit_tests
       closed_profile_packet_unit_tests
       p1_ready_and_active_golden_regression_tests(sandbox)
+      goal_termination_tests(sandbox)
       structured_route_binding_tests(sandbox)
       structured_automatic_entry_tests(sandbox)
       structured_zero_repair_lifecycle_tests(sandbox)

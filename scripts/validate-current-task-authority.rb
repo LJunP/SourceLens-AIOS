@@ -218,7 +218,15 @@ module CurrentTaskAuthority
 
   def validate_goal(truth)
     goal = hash(truth["goal"], "goal")
-    assert(goal["control_plane_status_observed"] == "ACTIVE", "Goal control plane must be ACTIVE")
+    if truth.dig("current_phase_route", "schema_version") ==
+       FounderDelegationContinuity::GOAL_TERMINATION_ROUTE_SCHEMA
+      assert(goal["control_plane_status_observed"] ==
+               FounderDelegationContinuity::GOAL_TERMINATION_STATUS &&
+             goal["mission_achievement_claimed"] == false,
+             "terminated Goal control plane projection drift")
+    else
+      assert(goal["control_plane_status_observed"] == "ACTIVE", "Goal control plane must be ACTIVE")
+    end
     assert(goal["body_canonicalization"] == "UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF",
            "unsupported Goal canonicalization")
     source = string(goal["source_attachment_path"], "goal.source_attachment_path")
@@ -3857,6 +3865,7 @@ module CurrentTaskAuthority
       strict-phase-recovery-hold/v1
       phase-delegated-continuation-hold/v1
       phase-delegated-independent-task/v1
+      founder-resolved-goal-termination/v1
     ].include?(route["schema_version"])
                          source_key = string(
                            route["inherited_worktree_inventory_source"],
@@ -3985,6 +3994,7 @@ module CurrentTaskAuthority
         FounderDelegationContinuity::CONTINUATION_ROUTE_SCHEMA,
         FounderDelegationContinuity::RESERVED_ROUTE_SCHEMA,
         FounderDelegationContinuity::STRATEGIC_HOLD_ROUTE_SCHEMA,
+        FounderDelegationContinuity::GOAL_TERMINATION_ROUTE_SCHEMA,
         DELEGATED_TASK_ROUTE_SCHEMA
       ].include?(route["schema_version"]),
              "active Phase delegation requires a closed delegated Route schema")
@@ -4008,6 +4018,12 @@ module CurrentTaskAuthority
       assert(disposition == FounderDelegationContinuity::STRATEGIC_HOLD_DISPOSITION,
              "Founder strategic hold requires an exact resolved decision")
       return "FOUNDER_RESOLVED_STRATEGIC_HOLD"
+    end
+    if route["schema_version"] == FounderDelegationContinuity::GOAL_TERMINATION_ROUTE_SCHEMA
+      disposition = FounderDelegationContinuity.validate_truth!(root: root, truth: truth)
+      assert(disposition == FounderDelegationContinuity::GOAL_TERMINATION_DISPOSITION,
+             "Founder Goal termination requires an exact resolved decision")
+      return "PROJECT_TERMINATED_BY_FOUNDER"
     end
     if route["schema_version"] == DELEGATED_TASK_ROUTE_SCHEMA
       return validate_phase_delegated_task(root, truth)

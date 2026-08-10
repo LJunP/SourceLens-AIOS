@@ -26,6 +26,7 @@ module FounderDelegationContinuity
   CONTINUATION_ROUTE_SCHEMA = "phase-delegated-continuation-hold/v1"
   RESERVED_ROUTE_SCHEMA = "founder-reserved-decision-hold/v1"
   STRATEGIC_HOLD_ROUTE_SCHEMA = "founder-resolved-strategic-hold/v1"
+  GOAL_TERMINATION_ROUTE_SCHEMA = "founder-resolved-goal-termination/v1"
   DELEGATED_TASK_ROUTE_SCHEMA = "phase-delegated-independent-task/v1"
   DELEGATION_AMENDMENT_SCHEMA = "founder-phase-delegation-amendment/v1"
   DELEGATION_AMENDMENT_ID = "FOUNDER_PHASE_DELEGATION_CONTINUITY_AMENDMENT_2026_08_08"
@@ -39,6 +40,92 @@ module FounderDelegationContinuity
   STRATEGIC_HOLD_ACTION = "NO_ENGINEERING_ACTION_STRATEGIC_HOLD"
   STRATEGIC_HOLD_DECISION_SCHEMA =
     "founder-p2-terminal-research-non-pass-strategic-hold-decision/v1"
+  GOAL_TERMINATION_CONTROL_SCHEMA = "founder-escalation-control/v3"
+  GOAL_TERMINATION_DECISION_SCHEMA = "founder-long-term-goal-termination-decision/v1"
+  GOAL_TERMINATION_DISPOSITION = "FOUNDER_RESOLVED_GOAL_TERMINATION"
+  GOAL_TERMINATION_STATUS = "TERMINATED_BY_FOUNDER_AFTER_P2_RESEARCH_NON_PASS"
+  GOAL_TERMINATION_P2_STATUS = "TERMINAL_RESEARCH_NON_PASS_EXIT_GATE_NOT_ACHIEVED"
+  GOAL_TERMINATION_ACTION = "NONE_PROJECT_TERMINATED"
+  GOAL_TERMINATION_AUTHORIZATION_TOKEN =
+    "AUTHORIZE_SOURCE_LENS_CURRENT_LONG_TERM_GOAL_TERMINATION_AFTER_P2_RESEARCH_NON_PASS_V1"
+  GOAL_TERMINATION_DECISION_ID =
+    "SOURCE-LENS-AIOS-CURRENT-LONG-TERM-GOAL-TERMINATION-AFTER-P2-RESEARCH-NON-PASS-20260810"
+  GOAL_TERMINATION_DURABLE_EVIDENCE_ROOT =
+    "/Users/lijunpeng/Developer/.sourcelens-audit/source-lens-current-long-term-goal-termination-20260810/founder-decision"
+  GOAL_TERMINATION_CANONICAL_REPOSITORY =
+    "/Users/lijunpeng/Developer/SourceLens-AIOS"
+  GOAL_TERMINATION_PARENT_KNOWLEDGE_EVENT_COUNT = 161
+  GOAL_TERMINATION_PARENT_COMMIT = "e0a5146aeeff4c2d6ebe6f97f7643feb90f295c4"
+  GOAL_TERMINATION_PARENT_TREE = "92f1d11a7dbae39793635776e2b6cc99983261e4"
+  GOAL_TERMINATION_PARENT_TRUTH_SHA256 =
+    "bc214a1e31380aa64b8da451651e01e8ccfd374a5fda1a842e1a998c2cfdcf04"
+  GOAL_TERMINATION_PARENT_KNOWLEDGE_EVENT_SHA256 =
+    "eae2fd4bdeee7d6836cff714714f9bc1774fd35b06a51a82681350cc92f2ccbb"
+  GOAL_TERMINATION_KNOWLEDGE_EVENT_ID =
+    "FKS-SOURCE-LENS-CURRENT-LONG-TERM-GOAL-TERMINATED-AFTER-P2-RESEARCH-NON-PASS-V1"
+  GOAL_TERMINATION_KNOWLEDGE_EVIDENCE_ROOT =
+    "/Users/lijunpeng/Developer/.sourcelens-audit/source-lens-current-goal-termination-after-p2-research-non-pass-20260810/knowledge"
+  GOAL_TERMINATION_KNOWLEDGE_TRUTH_SNAPSHOT_PATH = File.join(
+    GOAL_TERMINATION_KNOWLEDGE_EVIDENCE_ROOT,
+    "SOURCE_LENS_GOAL_TERMINATION_AFTER_P2_RESEARCH_NON_PASS_PRE_IMPORT_TRUTH_SNAPSHOT.yaml"
+  )
+  GOAL_TERMINATION_KNOWLEDGE_VAULT_IMPORT_PATH =
+    "/Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/05-Failures-and-Lessons/SourceLens-Goal-Termination/2026-08-10-source-lens-goal-termination-after-p2-research-non-pass.md"
+  GOAL_TERMINATION_KNOWLEDGE_VAULT_ROOT =
+    "/Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault"
+  GOAL_TERMINATION_ORIGINAL_DECISION_BYTE_LENGTH = 6_195
+  GOAL_TERMINATION_ORIGINAL_DECISION_SHA256 =
+    "3871911e0edf1be05b673057951779cf3b01b41d92b85b4716f59a7b553dc1f5"
+  GOAL_TERMINATION_ORIGINAL_HUMAN_BYTE_LENGTH = 9_471
+  GOAL_TERMINATION_ORIGINAL_HUMAN_SHA256 =
+    "ed6cfac53016c456d9db85d3371b3cd50b1e582ad5b5c488defa60c8fa0226a9"
+  GOAL_TERMINATION_AMENDMENT_BINDING_SCHEMA =
+    "founder-goal-termination-terminal-schema-amendment-binding/v1"
+  GOAL_TERMINATION_AMENDMENT_DECISION_SCHEMA =
+    "founder-goal-termination-five-path-terminal-schema-amendment-decision/v2"
+  GOAL_TERMINATION_AMENDMENT_AUTHORIZATION_TOKEN =
+    "AUTHORIZE_SOURCE_LENS_GOAL_TERMINATION_FIVE_PATH_TERMINAL_SCHEMA_AMENDMENT_V1"
+  GOAL_TERMINATION_AMENDMENT_AUTHORIZATION_TOKEN_SHA256 =
+    "46e35b1753f18e417ce14c40847d917a9b90ef99a8d5ba8139f320012c7ba503"
+  GOAL_TERMINATION_AMENDMENT_PROPOSAL_BYTE_LENGTH = 7_569
+  GOAL_TERMINATION_AMENDMENT_PROPOSAL_SHA256 =
+    "9a827543a28e4babc0a7153712d05deb9ac8166dc78a07bce56e4c7cda0fa958"
+  GOAL_TERMINATION_ORIGINAL_INVENTORY_BYTE_LENGTH = 3_137
+  GOAL_TERMINATION_ORIGINAL_INVENTORY_SHA256 =
+    "2d9c3fc1899a1ac26431656c34995dbb9558590d072156c81ec8c5b127772072"
+  GOAL_TERMINATION_AMENDMENT_DECISION_FILENAME =
+    "SOURCE_LENS_GOAL_TERMINATION_FIVE_PATH_TERMINAL_SCHEMA_AMENDMENT_V1.structured-decision.json"
+  GOAL_TERMINATION_AMENDMENT_PROPOSAL_FILENAME =
+    "SOURCE_LENS_GOAL_TERMINATION_FIVE_PATH_TERMINAL_SCHEMA_AMENDMENT_V1.md"
+  GOAL_TERMINATION_AMENDMENT_INVENTORY_FILENAME =
+    "SOURCE_LENS_GOAL_TERMINATION_FIVE_PATH_TERMINAL_SCHEMA_AMENDMENT_V1.inventory.json"
+  GOAL_TERMINATION_AMENDMENT_INVENTORY_SCHEMA =
+    "source-lens-goal-termination-amendment-six-file-inventory/v1"
+  GOAL_TERMINATION_AMENDMENT_INVENTORY_ID =
+    "SOURCE-LENS-AIOS-GOAL-TERMINATION-SIX-FILE-AMENDMENT-INVENTORY-V1"
+  GOAL_TERMINATION_ORIGINAL_HUMAN_FILENAME =
+    "FOUNDER_SOURCE_LENS_CURRENT_LONG_TERM_GOAL_TERMINATION_AFTER_P2_RESEARCH_NON_PASS_V1.md"
+  GOAL_TERMINATION_ORIGINAL_DECISION_FILENAME =
+    "FOUNDER_SOURCE_LENS_CURRENT_LONG_TERM_GOAL_TERMINATION_AFTER_P2_RESEARCH_NON_PASS_V1.structured-decision.json"
+  GOAL_TERMINATION_ORIGINAL_INVENTORY_FILENAME = "CLOSED_INVENTORY.json"
+  GOAL_TERMINATION_AMENDMENT_DECISION_ID =
+    "SOURCE-LENS-AIOS-GOAL-TERMINATION-FIVE-PATH-TERMINAL-SCHEMA-AMENDMENT-V1"
+  GOAL_TERMINATION_FIVE_PATH_DECLARATION = %w[
+    docs/aios/truth/project_state.yaml
+    scripts/validate-current-task-authority.rb
+    scripts/test-current-task-authority.rb
+    scripts/validate-founder-delegation-continuity.rb
+    scripts/test-founder-delegation-continuity.rb
+  ].freeze
+  GOAL_TERMINATION_FIVE_PATHS = GOAL_TERMINATION_FIVE_PATH_DECLARATION.sort.freeze
+  GOAL_TERMINATION_SIX_EVIDENCE_FILENAMES = [
+    GOAL_TERMINATION_ORIGINAL_HUMAN_FILENAME,
+    GOAL_TERMINATION_ORIGINAL_DECISION_FILENAME,
+    GOAL_TERMINATION_ORIGINAL_INVENTORY_FILENAME,
+    GOAL_TERMINATION_AMENDMENT_PROPOSAL_FILENAME,
+    GOAL_TERMINATION_AMENDMENT_DECISION_FILENAME,
+    GOAL_TERMINATION_AMENDMENT_INVENTORY_FILENAME
+  ].freeze
   FALSE_EXTERNAL_EFFECTS = {
     "network" => false,
     "provider" => false,
@@ -236,6 +323,15 @@ module FounderDelegationContinuity
     assert(status.success?, "#{label} ancestor relation does not hold")
   end
 
+  def assert_exact_sole_parent!(root, commit, expected_parent, label)
+    parents = git(root, "rev-list", "--parents", "-n", "1", commit).split
+    assert(parents.length == 2 && parents.first == commit,
+           "#{label} must have exactly one parent")
+    assert(parents.last == expected_parent,
+           "#{label} does not have the exact required sole parent")
+    parents.last
+  end
+
   def value_at_path(value, path)
     array(path, "schema adapter field path").reduce(value) do |current, key|
       current.is_a?(Hash) ? current[key] : nil
@@ -379,6 +475,8 @@ module FounderDelegationContinuity
     assert(bytes.bytesize == record["byte_length"], "#{label} byte length mismatch")
     assert(Digest::SHA256.hexdigest(bytes) == record["sha256"], "#{label} SHA-256 mismatch")
     bytes
+  rescue Errno::ENOENT, Errno::ELOOP, Errno::ENOTDIR => e
+    fail!("#{label} is unavailable (#{e.class})")
   end
 
   def validate_repair_accounting!(value, authorized_repair_capacity, remaining_repairs, label)
@@ -416,8 +514,10 @@ module FounderDelegationContinuity
 
   def parse_bound_json(identity, label)
     bytes = validate_identity(identity, label)
+    text = bytes.dup.force_encoding("UTF-8")
+    assert(text.valid_encoding?, "#{label} encoding is invalid")
     value = JSON.parse(
-      bytes,
+      text,
       object_class: FounderDelegationClosedJsonHash,
       array_class: Array,
       create_additions: false
@@ -528,10 +628,17 @@ module FounderDelegationContinuity
       ],
       "phase_delegation"
     )
-    assert([
-      "ACTIVE_#{phase}_PHASE_DELEGATION",
-      "ACTIVE_#{phase}_PHASE_DELEGATED_CONTINUATION"
-    ].include?(delegation["status"]),
+    termination_route = truth.dig("current_phase_route", "schema_version") ==
+      GOAL_TERMINATION_ROUTE_SCHEMA
+    allowed_statuses = if termination_route
+                         ["FOUNDER_TERMINATED_#{phase}_PHASE_DELEGATION_CLOSED"]
+                       else
+                         [
+                           "ACTIVE_#{phase}_PHASE_DELEGATION",
+                           "ACTIVE_#{phase}_PHASE_DELEGATED_CONTINUATION"
+                         ]
+                       end
+    assert(allowed_statuses.include?(delegation["status"]),
            "Phase delegation status drift")
     assert(delegation["model"] == "PHASE_LEVEL_FOUNDER_DELEGATION",
            "Phase delegation model drift")
@@ -2708,18 +2815,1613 @@ module FounderDelegationContinuity
     decision_identity
   end
 
+  def validate_goal_termination_knowledge_review!(event, review_identity, vault_path)
+    review = parse_bound_json(
+      review_identity, "Founder Goal termination independent Knowledge Review"
+    )
+    exact_keys(
+      review,
+      %w[
+        candidate findings import_authorization reviewed_at_utc reviewer_identity
+        reviewer_independence review_scope schema_version target_verdict verified_facts
+      ],
+      "Founder Goal termination independent Knowledge Review"
+    )
+    assert(review["schema_version"] == "founder-knowledge-review/v2" &&
+           review["reviewer_identity"].is_a?(String) &&
+           !review["reviewer_identity"].strip.empty? &&
+           review["reviewer_independence"] == "INDEPENDENT_NON_IMPLEMENTER" &&
+           review["reviewed_at_utc"].to_s.match?(
+             /\A20[0-9]{2}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z\z/
+           ) &&
+           review["target_verdict"] == "PASS" &&
+           review["candidate"] == event["artifact"].merge("exact_identity_verified" => true) &&
+           review["findings"].is_a?(Array) && review["verified_facts"].is_a?(Array),
+           "Founder Goal termination Knowledge Review binding mismatch")
+    scope = exact_keys(
+      review["review_scope"],
+      %w[
+        current_canonical_file_consistency domain_scoped_authority_boundary
+        exact_bytes_import_boundary fact_inference_unknown_separation
+        founder_learning_usefulness secret_and_restricted_source_screen
+      ],
+      "Founder Goal termination Knowledge Review scope"
+    )
+    assert(scope.values.all? { |value| value == "PASS" },
+           "Founder Goal termination Knowledge Review scope is not PASS")
+    authorization = exact_keys(
+      review["import_authorization"],
+      %w[
+        authorized authorized_byte_length authorized_candidate_path authorized_sha256
+        authorization_scope exact_bytes_only normalization_or_edit_before_import_allowed
+      ],
+      "Founder Goal termination Knowledge Review import authorization"
+    )
+    assert(authorization == {
+      "authorized" => true,
+      "authorized_candidate_path" => event.dig("artifact", "path"),
+      "authorized_sha256" => event.dig("artifact", "sha256"),
+      "authorized_byte_length" => event.dig("artifact", "byte_length"),
+      "exact_bytes_only" => true,
+      "normalization_or_edit_before_import_allowed" => false,
+      "authorization_scope" =>
+        "Founder Knowledge Vault learning import only; no Truth, Git, Evidence, Task authority, Gate or capability effect."
+    }, "Founder Goal termination Knowledge Review import authorization drift")
+    assert(Pathname.new(event.dig("vault_import", "path").to_s).cleanpath.to_s.start_with?(
+             Pathname.new(vault_path.to_s).cleanpath.to_s + File::SEPARATOR
+           ),
+           "Founder Goal termination Knowledge Vault import escapes the configured Vault")
+    review
+  end
+
+  def validate_goal_termination_knowledge_receipt!(root, event, receipt_identity,
+                                                   artifact_bytes, vault_bytes)
+    receipt = parse_bound_json(
+      receipt_identity, "Founder Goal termination Knowledge import receipt"
+    )
+    exact_keys(
+      receipt,
+      %w[
+        artifact event_id exact_bytes_equal recorded_at_utc review schema_version
+        source_commit source_tree truth_sha256 truth_snapshot vault_import
+      ],
+      "Founder Goal termination Knowledge import receipt"
+    )
+    assert(receipt["schema_version"] == "founder-knowledge-import-receipt/v1" &&
+           receipt["event_id"] == event["event_id"] &&
+           receipt["source_commit"] == event["source_commit"] &&
+           receipt["source_tree"] == event["source_tree"] &&
+           receipt["recorded_at_utc"].to_s.match?(
+             /\A20[0-9]{2}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z\z/
+           ) &&
+           receipt["truth_sha256"].to_s.match?(/\A[0-9a-f]{64}\z/) &&
+           receipt["artifact"] == event["artifact"] &&
+           receipt["review"] == event["review"].merge("verdict" => "PASS") &&
+           receipt["vault_import"] == event["vault_import"] &&
+           receipt["exact_bytes_equal"] == true && artifact_bytes == vault_bytes,
+           "Founder Goal termination Knowledge import receipt binding mismatch")
+    truth_snapshot_identity = exact_keys(
+      receipt["truth_snapshot"], %w[path byte_length sha256],
+      "Founder Goal termination pre-import Truth snapshot"
+    )
+    truth_snapshot_bytes = validate_identity(
+      truth_snapshot_identity, "Founder Goal termination pre-import Truth snapshot"
+    )
+    assert(receipt["truth_sha256"] == Digest::SHA256.hexdigest(truth_snapshot_bytes),
+           "Founder Goal termination Knowledge receipt Truth SHA-256 drift")
+    canonical_truth, stderr, status = Open3.capture3(
+      "git", "show", "#{event['source_commit']}:docs/aios/truth/project_state.yaml",
+      chdir: root.to_s
+    )
+    assert(status.success?,
+           "Founder Goal termination source Truth cannot be read: #{stderr.strip}")
+    assert(truth_snapshot_bytes == canonical_truth.b,
+           "Founder Goal termination pre-import Truth snapshot is not canonical source Truth")
+    receipt
+  end
+
+  def path_within_root?(path, root)
+    candidate = Pathname.new(path.to_s).cleanpath.to_s
+    boundary = Pathname.new(root.to_s).cleanpath.to_s
+    candidate.start_with?(boundary + File::SEPARATOR)
+  end
+
+  def validate_goal_termination_physical_root!(root)
+    expected = Pathname.new(GOAL_TERMINATION_CANONICAL_REPOSITORY).realpath
+    actual = Pathname.new(root).realpath
+    assert(actual == expected,
+           "Founder Goal-termination validator is not executing from the exact canonical physical repository root")
+    true
+  rescue Errno::ENOENT, Errno::ELOOP, Errno::ENOTDIR => e
+    fail!("Founder Goal-termination canonical physical repository root is unavailable (#{e.class})")
+  end
+
+  def validate_goal_termination_knowledge_append!(root, truth, decision)
+    canonical_start = mapping(
+      decision.dig("binding", "canonical_repository"),
+      "Founder Goal termination canonical repository binding"
+    )
+    assert(canonical_start["commit"] == GOAL_TERMINATION_PARENT_COMMIT &&
+           canonical_start["tree"] == GOAL_TERMINATION_PARENT_TREE,
+           "Founder Goal termination Knowledge parent Git identity drift")
+    parent_truth = truth_at_commit(
+      root, canonical_start["commit"], "Founder Goal termination exact parent"
+    )
+    parent_sync = mapping(
+      parent_truth["founder_knowledge_sync"],
+      "Founder Goal termination parent Knowledge sync"
+    )
+    sync = mapping(truth["founder_knowledge_sync"], "founder_knowledge_sync")
+    static_keys = sync.keys - %w[events latest_event_id]
+    assert(static_keys.sort == (parent_sync.keys - %w[events latest_event_id]).sort &&
+           static_keys.to_h { |key| [key, sync[key]] } ==
+             static_keys.to_h { |key| [key, parent_sync[key]] },
+           "Founder Goal termination Knowledge static metadata drift")
+    parent_events = array(
+      parent_sync["events"], "Founder Goal termination parent Knowledge events"
+    )
+    assert(parent_events.length == GOAL_TERMINATION_PARENT_KNOWLEDGE_EVENT_COUNT,
+           "Founder Goal termination parent Knowledge event count drift")
+    events = array(sync["events"], "Founder Goal termination Knowledge events")
+    assert(events.length == parent_events.length + 1,
+           "Founder Goal termination requires exactly one Knowledge event suffix")
+    assert(events.first(parent_events.length) == parent_events,
+           "Founder Goal termination Knowledge event prefix drifts from the exact parent")
+    event = exact_keys(
+      events.last,
+      %w[
+        event_id trigger_type occurred_at_utc source_commit source_tree
+        previous_event_sha256 status rationale engineering_blocking artifact
+        review vault_import receipt event_sha256
+      ],
+      "Founder Goal termination Knowledge event suffix"
+    )
+    parent_ids = parent_events.map { |entry| mapping(entry, "parent Knowledge event")["event_id"] }
+    assert(!parent_ids.include?(event["event_id"]) && events.map { |entry| entry["event_id"] }.uniq ==
+             events.map { |entry| entry["event_id"] },
+           "Founder Goal termination Knowledge suffix event id is not unique")
+    assert(!parent_events.empty? &&
+           parent_events.last["event_sha256"] ==
+             GOAL_TERMINATION_PARENT_KNOWLEDGE_EVENT_SHA256 &&
+           event["previous_event_sha256"] ==
+             GOAL_TERMINATION_PARENT_KNOWLEDGE_EVENT_SHA256,
+           "Founder Goal termination Knowledge suffix does not extend the exact parent hash")
+    assert(event["event_id"] == GOAL_TERMINATION_KNOWLEDGE_EVENT_ID,
+           "Founder Goal termination Knowledge suffix event identity drift")
+    expected_rationale =
+      "Founder decision #{decision['decision_id']}, authorized by exact token #{GOAL_TERMINATION_AUTHORIZATION_TOKEN} and bound by structured decision SHA-256 #{GOAL_TERMINATION_ORIGINAL_DECISION_SHA256}, terminates the preserved current Long-term Goal without claiming mission achievement. P2 remains INCOMPLETE with its Exit item MISSING and zero accepted capability, the 9/240/60 envelope remains exhausted, P3 remains HOLD, Task is NONE, no next action exists and all external effects remain false."
+    assert(event["trigger_type"] == "FOUNDER_LONG_TERM_GOAL_TERMINATION_DECISION" &&
+           event["occurred_at_utc"] == decision["recorded_at"] &&
+           event["engineering_blocking"] == false && event["rationale"] == expected_rationale,
+           "Founder Goal termination Knowledge suffix static projection drift")
+    calculated_hash = Digest::SHA256.hexdigest(
+      canonical_json_projection(event.reject { |key, _value| key == "event_sha256" })
+    )
+    assert(event["event_sha256"] == calculated_hash,
+           "Founder Goal termination Knowledge suffix hash drift")
+    downstream = %w[artifact review vault_import receipt].map { |key| event[key] }
+    assert(
+      (event["status"] == "PENDING_CANDIDATE" &&
+       downstream.all? { |identity| identity.is_a?(Hash) && identity.values.all?(&:nil?) }) ||
+      (event["status"] == "IMPORTED" &&
+       downstream.all? { |identity| identity.is_a?(Hash) && identity.values.none?(&:nil?) }),
+      "Founder Goal termination Knowledge suffix lifecycle drift"
+    )
+    assert(event["source_commit"] == canonical_start["commit"] &&
+           event["source_tree"] == canonical_start["tree"],
+           "Founder Goal termination Knowledge suffix source is not the exact sole parent")
+    assert(sync["latest_event_id"] == event["event_id"],
+           "Founder Goal termination Knowledge latest-event projection drift")
+    [sync, event, parent_truth]
+  end
+
+  def collect_goal_termination_parent_knowledge_identities(parent_truth)
+    sync = mapping(
+      parent_truth["founder_knowledge_sync"],
+      "Founder Goal termination parent Knowledge sync"
+    )
+    identities = []
+    array(sync["events"], "Founder Goal termination parent Knowledge events").each do |event|
+      %w[artifact review vault_import receipt].each do |key|
+        identity = event[key]
+        identities << identity if identity.is_a?(Hash) &&
+          %w[path byte_length sha256].all? { |field| !identity[field].nil? }
+      end
+      receipt_identity = event["receipt"]
+      next unless receipt_identity.is_a?(Hash) && receipt_identity["path"].is_a?(String) &&
+                  File.file?(receipt_identity["path"])
+
+      receipt = parse_bound_json(
+        receipt_identity, "Founder Goal termination parent Knowledge receipt"
+      )
+      candidates = []
+      candidates << receipt["truth_snapshot"] if receipt["truth_snapshot"].is_a?(Hash)
+      candidates << receipt.dig("canonical", "truth") if receipt.dig("canonical", "truth").is_a?(Hash)
+      candidates.each do |identity|
+        identities << identity if %w[path byte_length sha256].all? do |field|
+          !identity[field].nil?
+        end
+      end
+    end
+    identities
+  end
+
+  def validate_goal_termination_knowledge_freshness!(parent_truth, sync, event, receipt)
+    vault_root = sync["vault_path"]
+    assert(vault_root == GOAL_TERMINATION_KNOWLEDGE_VAULT_ROOT,
+           "Founder Goal termination Knowledge Vault root drift")
+    current = {
+      "artifact" => exact_keys(event["artifact"], %w[path byte_length sha256],
+                                "Founder Goal termination fresh Artifact"),
+      "review" => exact_keys(event["review"], %w[path byte_length sha256],
+                              "Founder Goal termination fresh Review"),
+      "receipt" => exact_keys(event["receipt"], %w[path byte_length sha256],
+                               "Founder Goal termination fresh receipt"),
+      "truth_snapshot" => exact_keys(receipt["truth_snapshot"], %w[path byte_length sha256],
+                                      "Founder Goal termination fresh Truth snapshot"),
+      "vault_import" => exact_keys(event["vault_import"], %w[path byte_length sha256],
+                                    "Founder Goal termination fresh Vault import")
+    }
+    assert(current.values.all? { |identity| identity.values.none?(&:nil?) },
+           "Founder Goal termination Knowledge closeout identity is incomplete")
+    paths = current.transform_values { |identity| Pathname.new(identity["path"]).cleanpath.to_s }
+    assert(paths.values.uniq.length == paths.length,
+           "Founder Goal termination Knowledge closeout paths are not distinct")
+    evidence_keys = %w[artifact review receipt truth_snapshot]
+    assert(evidence_keys.all? { |key| Pathname.new(paths[key]).absolute? } &&
+           Pathname.new(paths["vault_import"]).absolute?,
+           "Founder Goal termination Knowledge closeout paths must be absolute")
+    evidence_roots = evidence_keys.map { |key| Pathname.new(paths[key]).dirname.cleanpath.to_s }.uniq
+    assert(evidence_roots == [GOAL_TERMINATION_KNOWLEDGE_EVIDENCE_ROOT] &&
+           paths["truth_snapshot"] == GOAL_TERMINATION_KNOWLEDGE_TRUTH_SNAPSHOT_PATH &&
+           current.dig("truth_snapshot", "sha256") ==
+             GOAL_TERMINATION_PARENT_TRUTH_SHA256,
+           "Founder Goal termination Knowledge Evidence does not share one exact root")
+    evidence_root = evidence_roots.first
+    roots = [
+      evidence_root, GOAL_TERMINATION_DURABLE_EVIDENCE_ROOT,
+      GOAL_TERMINATION_CANONICAL_REPOSITORY, vault_root
+    ].map { |value| Pathname.new(value).cleanpath.to_s }
+    roots.combination(2).each do |left, right|
+      assert(left != right && !path_within_root?(left, right) && !path_within_root?(right, left),
+             "Founder Goal termination Knowledge, decision, product and Vault roots are not disjoint")
+    end
+    assert(paths["vault_import"] == GOAL_TERMINATION_KNOWLEDGE_VAULT_IMPORT_PATH &&
+           path_within_root?(paths["vault_import"], vault_root),
+           "Founder Goal termination Knowledge import is outside the exact Vault")
+    evidence_keys.each do |key|
+      assert(!path_within_root?(paths[key], vault_root),
+             "Founder Goal termination Knowledge Evidence must remain outside the Vault: #{key}")
+    end
+    parent_identities = collect_goal_termination_parent_knowledge_identities(parent_truth)
+    parent_paths = parent_identities.map { |identity| Pathname.new(identity["path"]).cleanpath.to_s }
+    parent_content_identities = parent_identities.map do |identity|
+      [identity["byte_length"], identity["sha256"]]
+    end
+    current.each do |key, identity|
+      assert(!parent_paths.include?(paths[key]) && !parent_identities.include?(identity) &&
+             !parent_content_identities.include?([identity["byte_length"], identity["sha256"]]),
+             "Founder Goal termination Knowledge closeout reuses a parent identity or path: #{key}")
+    end
+    true
+  end
+
+  def validate_goal_termination_knowledge_event!(root, truth, decision, decision_identity)
+    sync, suffix_event, parent_truth = validate_goal_termination_knowledge_append!(
+      root, truth, decision
+    )
+    events = array(sync["events"], "founder_knowledge_sync.events")
+    event = exact_keys(
+      suffix_event,
+      %w[
+        event_id trigger_type occurred_at_utc source_commit source_tree
+        previous_event_sha256 status rationale engineering_blocking artifact
+        review vault_import receipt event_sha256
+      ],
+      "latest Founder Knowledge sync event"
+    )
+    assert(sync["latest_event_id"] == event["event_id"],
+           "Founder Goal termination Knowledge latest-event projection drift")
+    assert(event["trigger_type"] == "FOUNDER_LONG_TERM_GOAL_TERMINATION_DECISION" &&
+           event["engineering_blocking"] == false,
+           "Founder Goal termination Knowledge event lifecycle drift")
+    assert(event["status"] == "IMPORTED",
+           "Founder Goal termination requires the exact imported Knowledge closeout")
+    calculated_hash = Digest::SHA256.hexdigest(
+      canonical_json_projection(event.reject { |key, _value| key == "event_sha256" })
+    )
+    assert(event["event_sha256"] == calculated_hash,
+           "Founder Goal termination Knowledge event hash drift")
+    knowledge_identities = %w[artifact review vault_import receipt].to_h do |key|
+      [key, exact_keys(event[key], %w[path byte_length sha256],
+                       "Founder Goal termination Knowledge #{key}")]
+    end
+    assert(knowledge_identities.values.all? { |identity| identity.values.none?(&:nil?) },
+           "Founder Goal termination imported Knowledge event is missing downstream identities")
+    bytes = knowledge_identities.transform_values.with_index do |identity, index|
+      validate_identity(identity, "Founder Goal termination imported Knowledge identity[#{index}]")
+    end
+    assert(bytes["artifact"] == bytes["vault_import"],
+           "Founder Goal termination Knowledge Artifact and Vault bytes differ")
+    validate_goal_termination_knowledge_review!(
+      event, knowledge_identities["review"], sync["vault_path"]
+    )
+    receipt = validate_goal_termination_knowledge_receipt!(
+      root, event, knowledge_identities["receipt"], bytes["artifact"], bytes["vault_import"]
+    )
+    validate_goal_termination_knowledge_freshness!(parent_truth, sync, event, receipt)
+    canonical_start = mapping(decision.dig("binding", "canonical_repository"),
+                              "Founder Goal termination canonical repository binding")
+    assert(event["source_commit"] == canonical_start["commit"] &&
+           event["source_tree"] == canonical_start["tree"],
+           "Founder Goal termination Knowledge source identity drift")
+    rationale = event["rationale"].to_s
+    assert(rationale.include?(decision["decision_id"].to_s) &&
+           rationale.include?(GOAL_TERMINATION_AUTHORIZATION_TOKEN) &&
+           rationale.include?(decision_identity["sha256"]),
+           "Founder Goal termination Knowledge event does not bind the exact decision")
+    event
+  end
+
+  def exact_file_mode(path, label)
+    stat = Pathname.new(path).lstat
+    assert(stat.file? && !stat.symlink?, "#{label} must be a non-symlink regular file")
+    format("%04o", stat.mode & 0o777)
+  rescue Errno::ENOENT, Errno::ELOOP, Errno::ENOTDIR => e
+    fail!("#{label} is unavailable (#{e.class})")
+  end
+
+  def validate_goal_termination_original_identity_anchors!(durable_root, decision_identity,
+                                                            human_identity, inventory_identity,
+                                                            proposal_identity)
+    assert(durable_root.to_s == GOAL_TERMINATION_DURABLE_EVIDENCE_ROOT,
+           "Founder Goal-termination durable Evidence root identity drift")
+    assert(decision_identity == {
+      "path" => File.join(
+        GOAL_TERMINATION_DURABLE_EVIDENCE_ROOT,
+        GOAL_TERMINATION_ORIGINAL_DECISION_FILENAME
+      ),
+      "byte_length" => GOAL_TERMINATION_ORIGINAL_DECISION_BYTE_LENGTH,
+      "sha256" => GOAL_TERMINATION_ORIGINAL_DECISION_SHA256
+    }, "Founder Goal-termination original structured decision exact identity drift")
+    assert(human_identity == {
+      "path" => File.join(
+        GOAL_TERMINATION_DURABLE_EVIDENCE_ROOT,
+        GOAL_TERMINATION_ORIGINAL_HUMAN_FILENAME
+      ),
+      "byte_length" => GOAL_TERMINATION_ORIGINAL_HUMAN_BYTE_LENGTH,
+      "sha256" => GOAL_TERMINATION_ORIGINAL_HUMAN_SHA256
+    }, "Founder Goal-termination original human decision exact identity drift")
+    assert(inventory_identity == {
+      "path" => File.join(
+        GOAL_TERMINATION_DURABLE_EVIDENCE_ROOT,
+        GOAL_TERMINATION_ORIGINAL_INVENTORY_FILENAME
+      ),
+      "byte_length" => GOAL_TERMINATION_ORIGINAL_INVENTORY_BYTE_LENGTH,
+      "sha256" => GOAL_TERMINATION_ORIGINAL_INVENTORY_SHA256
+    }, "Founder Goal-termination original closed inventory exact identity drift")
+    assert(proposal_identity == {
+      "path" => File.join(
+        GOAL_TERMINATION_DURABLE_EVIDENCE_ROOT,
+        GOAL_TERMINATION_AMENDMENT_PROPOSAL_FILENAME
+      ),
+      "byte_length" => GOAL_TERMINATION_AMENDMENT_PROPOSAL_BYTE_LENGTH,
+      "sha256" => GOAL_TERMINATION_AMENDMENT_PROPOSAL_SHA256
+    }, "Founder Goal-termination amendment proposal exact identity drift")
+    true
+  end
+
+  def validate_goal_termination_whole_truth_delta!(root, truth, decision, decision_identity,
+                                                    resolution, amendment_binding)
+    canonical_start = mapping(
+      decision.dig("binding", "canonical_repository"),
+      "Founder Goal-termination whole-Truth canonical start"
+    )
+    parent_truth = truth_at_commit(
+      root, canonical_start["commit"], "Founder Goal-termination whole-Truth parent"
+    )
+    expected = Marshal.load(Marshal.dump(parent_truth))
+    facts = mapping(decision["accepted_input_facts"], "Founder Goal-termination accepted facts")
+    outcome = mapping(decision["decision"], "Founder Goal-termination decision outcome")
+    human_identity = exact_keys(
+      resolution["human_record"], %w[path byte_length sha256],
+      "Founder Goal-termination whole-Truth human decision"
+    )
+    decision_identity = exact_keys(
+      decision_identity, %w[path byte_length sha256],
+      "Founder Goal-termination whole-Truth structured decision"
+    )
+    amendment_binding = exact_keys(
+      amendment_binding,
+      %w[
+        schema_version status required_authorization_token authorization_token proposal
+        structured_amendment amendment_inventory
+      ],
+      "Founder Goal-termination whole-Truth amendment binding"
+    )
+
+    expected.fetch("active_work").merge!(
+      "execution_nonce_status" => "NOT_APPLICABLE_PROJECT_TERMINATED",
+      "task_resource_state" => "NO_ACTIVE_TASK_PROJECT_TERMINATED_BY_FOUNDER",
+      "founder_reserved_authorization" => decision_identity["path"],
+      "founder_reserved_authorization_sha256" => decision_identity["sha256"],
+      "founder_termination_decision" => decision_identity,
+      "termination_schema_amendment_ref" => "termination_schema_amendment",
+      "founder_decision_required" => false,
+      "founder_decision_required_scope" => nil,
+      "escalation_reason" => nil,
+      "user_action_required" => "NONE",
+      "phase_route_decision_required" => false,
+      "phase_route_user_action_required" => "NONE",
+      "next_eligible_action" => GOAL_TERMINATION_ACTION
+    )
+    expected.fetch("claim_boundary").merge!(
+      "current_phase_route" => "P2_FOUNDER_RESOLVED_GOAL_TERMINATION",
+      "next_eligible_action" => GOAL_TERMINATION_ACTION,
+      "goal_status" => outcome["goal_terminal_status"],
+      "mission_achievement_claimed" => outcome["mission_achievement_claimed"],
+      "replacement_goal_created" => outcome["replacement_goal_created"],
+      "future_restart_requires_new_explicit_founder_goal" =>
+        outcome["future_restart_requires_new_explicit_founder_goal"],
+      "p2_strict_status" => facts["p2_strict_status"],
+      "p2_required_exit_item_status" => facts["p2_required_exit_item_status"],
+      "p2_accepted_capability_credit" => facts["p2_accepted_capability_credit"],
+      "p3_status" => facts["p3_status"],
+      "project_termination_claim" => decision["claim_boundary"]
+    )
+    expected.fetch("current_phase_route").merge!(
+      "schema_version" => GOAL_TERMINATION_ROUTE_SCHEMA,
+      "route_id" => "P2_FOUNDER_RESOLVED_GOAL_TERMINATION",
+      "status" => outcome["goal_terminal_status"],
+      "execution_status" => outcome["goal_terminal_status"],
+      "scheduling_status" => "FOUNDER_TERMINATED_PROJECT_NO_SCHEDULING_AUTHORITY",
+      "founder_phase_route_decision_required" => false,
+      "next_eligible_action" => GOAL_TERMINATION_ACTION,
+      "founder_decision" => decision_identity,
+      "terminal_schema_amendment_ref" => "termination_schema_amendment"
+    )
+    expected.fetch("founder_escalation_control").merge!(
+      "schema_version" => GOAL_TERMINATION_CONTROL_SCHEMA,
+      "disposition" => GOAL_TERMINATION_DISPOSITION,
+      "founder_decision_required" => false,
+      "next_action_owner" => "NONE",
+      "next_eligible_action" => GOAL_TERMINATION_ACTION,
+      "resolution" => {
+        "status" => "FOUNDER_DECISION_RECORDED_PROJECT_TERMINATED",
+        "authorization_token" => GOAL_TERMINATION_AUTHORIZATION_TOKEN,
+        "terminal_schema_amendment_ref" => "termination_schema_amendment",
+        "human_record" => human_identity,
+        "structured_decision" => decision_identity
+      }
+    )
+    note_prefix =
+      "Founder decision #{GOAL_TERMINATION_AUTHORIZATION_TOKEN} terminates the exact preserved Long-term Goal identity without claiming that the mission, P2 Objective or P2 Exit Gate was achieved. P2 remains INCOMPLETE with its only required Exit item MISSING, accepted P2 capability credit remains zero, the exact nine-Task/two-hundred-forty-hour/sixty-day envelope remains exhausted with zero remaining capacity, P3 remains HOLD, current Task is NONE and no project action is eligible. The resolved termination decision creates no network, Provider, Secret, remote, production or public effect. All paragraphs below this sentence are retained historical chronology only and have no current Task, Route or scheduling authority. "
+    expected.fetch("goal").merge!(
+      "identity_status" =>
+        "FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_PRESERVED_AFTER_TERMINATION",
+      "control_plane_status_observed" => outcome["goal_terminal_status"],
+      "termination_decision" => decision_identity,
+      "termination_schema_amendment_ref" => "termination_schema_amendment",
+      "mission_achievement_claimed" => outcome["mission_achievement_claimed"],
+      "replacement_goal_created" => outcome["replacement_goal_created"],
+      "future_restart_requires_new_explicit_founder_goal" =>
+        outcome["future_restart_requires_new_explicit_founder_goal"],
+      "note" => note_prefix + parent_truth.dig("goal", "note").to_s
+    )
+    expected["last_verified_at"] = decision["recorded_at"]
+    expected.fetch("phase_delegation").merge!(
+      "status" => "FOUNDER_TERMINATED_P2_PHASE_DELEGATION_CLOSED",
+      "claim_boundary" =>
+        "The historical P2 Phase delegation policy remains identity-bound, but the Founder-resolved termination closes all current Goal, Phase, Route and Task scheduling authority; it does not claim P2 completion, P3 entry, product capability, mission achievement or any external effect."
+    )
+    expected.fetch("phase_execution_claim").merge!(
+      "current_route_claim" => "P2_FOUNDER_RESOLVED_GOAL_TERMINATION",
+      "current_task_claim" => "NONE_PROJECT_TERMINATED",
+      "mission_achievement_claimed" => outcome["mission_achievement_claimed"],
+      "p2_accepted_capability_credit" => facts["p2_accepted_capability_credit"],
+      "p3_status" => facts["p3_status"],
+      "phase_local_allowed" => []
+    )
+    expected.fetch("project").merge!(
+      "phase_execution_status" => outcome["goal_terminal_status"],
+      "current_route_execution_status" => outcome["goal_terminal_status"],
+      "p2_execution_status" => GOAL_TERMINATION_P2_STATUS,
+      "p2_accepted_capability_credit" => facts["p2_accepted_capability_credit"],
+      "p3_status" => facts["p3_status"],
+      "p3_entry_status" => "HOLD_NOT_AUTHORIZED"
+    )
+    sync, event, knowledge_parent = validate_goal_termination_knowledge_append!(
+      root, truth, decision
+    )
+    assert(knowledge_parent == parent_truth,
+           "Founder Goal-termination Knowledge parent is not the whole-Truth parent")
+    expected_sync = Marshal.load(Marshal.dump(parent_truth.fetch("founder_knowledge_sync")))
+    expected_sync.fetch("events") << Marshal.load(Marshal.dump(event))
+    expected_sync["latest_event_id"] = event["event_id"]
+    expected["founder_knowledge_sync"] = expected_sync
+    expected["termination_schema_amendment"] = Marshal.load(Marshal.dump(amendment_binding))
+    expected["verification_scope"] =
+      "FOUNDER_RESOLVED_CURRENT_LONG_TERM_GOAL_TERMINATION_AFTER_P2_RESEARCH_NON_PASS"
+    assert(expected == truth,
+           "Founder Goal-termination whole-Truth terminal delta drifts from the exact parent plus authorized projection")
+    true
+  end
+
+  def validate_goal_termination_amendment_inventory!(binding, durable_root, identities)
+    inventory_identity = exact_keys(
+      binding["amendment_inventory"], %w[path byte_length sha256],
+      "Founder Goal-termination six-file amendment inventory identity"
+    )
+    assert(inventory_identity["path"] ==
+             durable_root.join(GOAL_TERMINATION_AMENDMENT_INVENTORY_FILENAME).to_s,
+           "Founder Goal-termination amendment inventory durable path drift")
+    inventory_bytes = validate_identity(
+      inventory_identity, "Founder Goal-termination six-file amendment inventory"
+    )
+    assert(exact_file_mode(inventory_identity["path"],
+                           "Founder Goal-termination six-file amendment inventory") == "0400",
+           "Founder Goal-termination amendment inventory mode drift")
+    inventory_text = inventory_bytes.dup.force_encoding("UTF-8")
+    assert(inventory_text.valid_encoding?,
+           "Founder Goal-termination amendment inventory encoding is invalid")
+    assert(!inventory_text.include?("/private/tmp"),
+           "Founder Goal-termination amendment inventory retains a source-stage path")
+    inventory = parse_bound_json(
+      inventory_identity, "Founder Goal-termination six-file amendment inventory"
+    )
+    assert(inventory_bytes == canonical_json_projection(inventory) + "\n",
+           "Founder Goal-termination amendment inventory serialization drift")
+    exact_keys(
+      inventory,
+      %w[
+        closure decision_id durable_root exact_relative_paths external_effects
+        inventory_id payload_entries payload_projection schema_version self_entry
+      ],
+      "Founder Goal-termination six-file amendment inventory"
+    )
+    assert(inventory["schema_version"] == GOAL_TERMINATION_AMENDMENT_INVENTORY_SCHEMA &&
+           inventory["inventory_id"] == GOAL_TERMINATION_AMENDMENT_INVENTORY_ID &&
+           inventory["decision_id"] == GOAL_TERMINATION_AMENDMENT_DECISION_ID &&
+           inventory["durable_root"] == durable_root.to_s &&
+           inventory["exact_relative_paths"] == GOAL_TERMINATION_SIX_EVIDENCE_FILENAMES,
+           "Founder Goal-termination amendment inventory root identity drift")
+    closure = exact_keys(
+      inventory["closure"],
+      %w[create_once exact_path_set file_count hardlinks_allowed overwrite_allowed symlinks_allowed],
+      "Founder Goal-termination amendment inventory closure"
+    )
+    assert(closure == {
+      "create_once" => true,
+      "exact_path_set" => true,
+      "file_count" => 6,
+      "hardlinks_allowed" => false,
+      "overwrite_allowed" => false,
+      "symlinks_allowed" => false
+    }, "Founder Goal-termination amendment inventory closure drift")
+    assert(exact_keys(
+      inventory["external_effects"], FALSE_EXTERNAL_EFFECTS.keys,
+      "Founder Goal-termination amendment inventory external effects"
+    ) == FALSE_EXTERNAL_EFFECTS,
+           "Founder Goal-termination amendment inventory external effect drift")
+
+    roles = {
+      GOAL_TERMINATION_ORIGINAL_HUMAN_FILENAME =>
+        "ORIGINAL_HUMAN_READABLE_TERMINATION_DECISION",
+      GOAL_TERMINATION_ORIGINAL_DECISION_FILENAME =>
+        "ORIGINAL_STRUCTURED_TERMINATION_DECISION",
+      GOAL_TERMINATION_ORIGINAL_INVENTORY_FILENAME =>
+        "ORIGINAL_TERMINATION_DECISION_CLOSED_INVENTORY",
+      GOAL_TERMINATION_AMENDMENT_PROPOSAL_FILENAME =>
+        "FIVE_PATH_TERMINAL_SCHEMA_AMENDMENT_PROPOSAL",
+      GOAL_TERMINATION_AMENDMENT_DECISION_FILENAME =>
+        "FINAL_STRUCTURED_TERMINAL_SCHEMA_AMENDMENT"
+    }
+    expected_payload_paths = GOAL_TERMINATION_SIX_EVIDENCE_FILENAMES.first(5)
+    entries = array(
+      inventory["payload_entries"], "Founder Goal-termination amendment inventory payload"
+    )
+    assert(entries.length == 5,
+           "Founder Goal-termination amendment inventory requires five non-self entries")
+    entries.each_with_index do |entry, index|
+      entry = exact_keys(
+        entry, %w[byte_length mode nlink relative_path role sha256 symlink],
+        "Founder Goal-termination amendment inventory payload[#{index}]"
+      )
+      relative_path = expected_payload_paths[index]
+      identity = identities.fetch(relative_path)
+      assert(entry == {
+        "relative_path" => relative_path,
+        "role" => roles.fetch(relative_path),
+        "byte_length" => identity["byte_length"],
+        "sha256" => identity["sha256"],
+        "mode" => "0400",
+        "nlink" => 1,
+        "symlink" => false
+      }, "Founder Goal-termination amendment inventory payload entry drift")
+    end
+
+    projection_bytes = entries.sort_by { |entry| entry["relative_path"].b }.map do |entry|
+      [
+        entry["relative_path"], entry["byte_length"], entry["sha256"],
+        entry["mode"], entry["nlink"], "false"
+      ].join("\t") + "\n"
+    end.join
+    projection = exact_keys(
+      inventory["payload_projection"], %w[byte_length format sha256],
+      "Founder Goal-termination amendment inventory payload projection"
+    )
+    assert(projection == {
+      "byte_length" => projection_bytes.bytesize,
+      "format" =>
+        "RELATIVE_PATH_TAB_BYTE_LENGTH_TAB_SHA256_TAB_MODE_TAB_NLINK_TAB_SYMLINK_LF",
+      "sha256" => Digest::SHA256.hexdigest(projection_bytes)
+    }, "Founder Goal-termination amendment inventory payload projection drift")
+    self_entry = exact_keys(
+      inventory["self_entry"],
+      %w[mode nlink relative_path role self_identity_policy symlink],
+      "Founder Goal-termination amendment inventory self entry"
+    )
+    assert(self_entry == {
+      "relative_path" => GOAL_TERMINATION_AMENDMENT_INVENTORY_FILENAME,
+      "role" => "SIX_FILE_AMENDMENT_INVENTORY_SELF",
+      "mode" => "0400",
+      "nlink" => 1,
+      "symlink" => false,
+      "self_identity_policy" =>
+        "NO_BYTE_LENGTH_OR_SHA256_IN_SELF_TO_AVOID_CIRCULARITY;FINAL_SELF_IDENTITY_MAY_BE_REPORTED_BY_THE_INVOKING_CONTROLLER_OUT_OF_BAND_BUT_MUST_NOT_CREATE_A_SEVENTH_DURABLE_FILE"
+    }, "Founder Goal-termination amendment inventory self-entry drift")
+
+    root_stat = durable_root.lstat
+    assert(root_stat.directory? && !root_stat.symlink? &&
+           format("%04o", root_stat.mode & 0o777) == "0555",
+           "Founder Goal-termination durable six-file root mode or type drift")
+    assert(Dir.children(durable_root).sort == GOAL_TERMINATION_SIX_EVIDENCE_FILENAMES.sort,
+           "Founder Goal-termination durable root is not the exact six-file closure")
+    GOAL_TERMINATION_SIX_EVIDENCE_FILENAMES.each do |filename|
+      path = durable_root.join(filename)
+      assert(exact_file_mode(path, "Founder Goal-termination durable #{filename}") == "0400",
+             "Founder Goal-termination durable file mode drift: #{filename}")
+      stat = path.lstat
+      assert(stat.nlink == 1,
+             "Founder Goal-termination durable file must not be hardlinked: #{filename}")
+    end
+    inventory_identity
+  rescue Errno::ENOENT, Errno::ELOOP, Errno::ENOTDIR => e
+    fail!("Founder Goal-termination durable six-file root is unavailable (#{e.class})")
+  end
+
+  def validate_goal_termination_schema_amendment_binding!(root, truth, resolution, phase_envelope)
+    binding = exact_keys(
+      truth["termination_schema_amendment"],
+      %w[
+        schema_version status required_authorization_token authorization_token
+        proposal structured_amendment amendment_inventory
+      ],
+      "Founder Goal-termination terminal-schema amendment binding"
+    )
+    assert(binding["schema_version"] == GOAL_TERMINATION_AMENDMENT_BINDING_SCHEMA,
+           "Founder Goal-termination terminal-schema amendment binding schema drift")
+    assert(binding["required_authorization_token"] ==
+             GOAL_TERMINATION_AMENDMENT_AUTHORIZATION_TOKEN,
+           "Founder Goal-termination terminal-schema amendment required token drift")
+    %w[goal active_work].each do |root_key|
+      assert(truth.dig(root_key, "termination_schema_amendment_ref") ==
+               "termination_schema_amendment",
+             "Founder Goal-termination terminal-schema amendment reference drift: #{root_key}")
+    end
+    assert(truth.dig("current_phase_route", "terminal_schema_amendment_ref") ==
+             "termination_schema_amendment",
+           "Founder Goal-termination terminal-schema amendment Route reference drift")
+    assert(resolution["terminal_schema_amendment_ref"] == "termination_schema_amendment",
+           "Founder Goal-termination control amendment reference drift")
+    assert(binding["status"] == "FOUNDER_AUTHORIZED_FINAL" &&
+           binding["authorization_token"] == GOAL_TERMINATION_AMENDMENT_AUTHORIZATION_TOKEN,
+           "Founder Goal-termination terminal-schema amendment is not Founder-authorized final")
+
+    decision_identity = exact_keys(
+      resolution["structured_decision"], %w[path byte_length sha256],
+      "Founder Goal-termination original structured decision"
+    )
+    decision_path = Pathname.new(decision_identity["path"].to_s)
+    assert(decision_path.absolute?,
+           "Founder Goal-termination original decision path must be absolute")
+    durable_root = decision_path.dirname.cleanpath
+    assert(!durable_root.to_s.start_with?("/private/tmp/") && durable_root.to_s != "/private/tmp",
+           "Founder Goal-termination durable Evidence root may not be a source-stage path")
+
+    proposal = exact_keys(
+      binding["proposal"], %w[path byte_length sha256],
+      "Founder Goal-termination terminal-schema amendment proposal"
+    )
+    assert(proposal == {
+      "path" => durable_root.join(GOAL_TERMINATION_AMENDMENT_PROPOSAL_FILENAME).to_s,
+      "byte_length" => GOAL_TERMINATION_AMENDMENT_PROPOSAL_BYTE_LENGTH,
+      "sha256" => GOAL_TERMINATION_AMENDMENT_PROPOSAL_SHA256
+    }, "Founder Goal-termination terminal-schema amendment proposal identity drift")
+    validate_identity(proposal, "Founder Goal-termination terminal-schema amendment proposal")
+
+    amendment_identity = exact_keys(
+      binding["structured_amendment"], %w[path byte_length sha256],
+      "Founder Goal-termination structured terminal-schema amendment"
+    )
+    assert(amendment_identity["path"] ==
+             durable_root.join(GOAL_TERMINATION_AMENDMENT_DECISION_FILENAME).to_s,
+           "Founder Goal-termination structured amendment durable path drift")
+    amendment_bytes = validate_identity(
+      amendment_identity, "Founder Goal-termination structured terminal-schema amendment"
+    )
+    amendment_text = amendment_bytes.dup.force_encoding("UTF-8")
+    assert(amendment_text.valid_encoding?,
+           "Founder Goal-termination structured amendment encoding is invalid")
+    assert(!amendment_text.include?("/private/tmp"),
+           "Founder Goal-termination structured amendment retains a source-stage path")
+    amendment = parse_bound_json(
+      amendment_identity, "Founder Goal-termination structured terminal-schema amendment"
+    )
+    assert(amendment_bytes == canonical_json_projection(amendment) + "\n",
+           "Founder Goal-termination structured amendment serialization drift")
+    exact_keys(
+      amendment,
+      %w[
+        amends_decision authority canonical_start claim_boundary decision_id
+        durable_evidence_root external_effects installation_contract precedence
+        preserved_prohibitions proposal record_status recorded_at_utc
+        required_validation schema_version scope terminal_schema_delta truth_start
+      ],
+      "Founder Goal-termination structured amendment"
+    )
+    assert(amendment["schema_version"] == GOAL_TERMINATION_AMENDMENT_DECISION_SCHEMA &&
+           amendment["decision_id"] == GOAL_TERMINATION_AMENDMENT_DECISION_ID &&
+           amendment["record_status"] == "FOUNDER_AUTHORIZED_FINAL" &&
+           amendment["recorded_at_utc"].to_s.match?(
+             /\A20[0-9]{2}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}Z\z/
+           ),
+           "Founder Goal-termination structured amendment identity drift")
+    assert(amendment["durable_evidence_root"] == durable_root.to_s,
+           "Founder Goal-termination structured amendment durable root drift")
+
+    authority = exact_keys(
+      amendment["authority"], %w[exact_token exact_token_sha256 source],
+      "Founder Goal-termination amendment authority"
+    )
+    assert(authority == {
+      "exact_token" => GOAL_TERMINATION_AMENDMENT_AUTHORIZATION_TOKEN,
+      "exact_token_sha256" => GOAL_TERMINATION_AMENDMENT_AUTHORIZATION_TOKEN_SHA256,
+      "source" => "DIRECT_FOUNDER_MESSAGE_IN_CONTROLLING_CODEX_THREAD"
+    } && Digest::SHA256.hexdigest(authority["exact_token"]) ==
+           GOAL_TERMINATION_AMENDMENT_AUTHORIZATION_TOKEN_SHA256,
+           "Founder Goal-termination amendment exact authorization drift")
+
+    amended = exact_keys(
+      amendment["amends_decision"],
+      %w[
+        original_authorization_token human_readable_decision structured_decision
+        closed_inventory original_decision_superseded_in_whole
+        narrow_field_supersession_applied all_non_superseded_semantics_preserved
+      ],
+      "Founder Goal-termination amendment original-decision binding"
+    )
+    human_identity = exact_keys(
+      resolution["human_record"], %w[path byte_length sha256],
+      "Founder Goal-termination original human decision"
+    )
+    assert(decision_identity["path"] ==
+             durable_root.join(GOAL_TERMINATION_ORIGINAL_DECISION_FILENAME).to_s &&
+           human_identity["path"] ==
+             durable_root.join(GOAL_TERMINATION_ORIGINAL_HUMAN_FILENAME).to_s,
+           "Founder Goal-termination original decision durable path drift")
+    assert(amended["original_authorization_token"] == GOAL_TERMINATION_AUTHORIZATION_TOKEN &&
+           amended["human_readable_decision"] == human_identity &&
+           amended["structured_decision"] == decision_identity &&
+           amended["original_decision_superseded_in_whole"] == false &&
+           amended["narrow_field_supersession_applied"] == true &&
+           amended["all_non_superseded_semantics_preserved"] == true,
+           "Founder Goal-termination amendment original-decision cross-binding drift")
+    inventory_identity = exact_keys(
+      amended["closed_inventory"], %w[path byte_length sha256],
+      "Founder Goal-termination original decision inventory"
+    )
+    assert(inventory_identity == {
+      "path" => durable_root.join(GOAL_TERMINATION_ORIGINAL_INVENTORY_FILENAME).to_s,
+      "byte_length" => GOAL_TERMINATION_ORIGINAL_INVENTORY_BYTE_LENGTH,
+      "sha256" => GOAL_TERMINATION_ORIGINAL_INVENTORY_SHA256
+    }, "Founder Goal-termination original decision inventory identity drift")
+    validate_identity(inventory_identity, "Founder Goal-termination original decision inventory")
+    validate_identity(human_identity, "Founder Goal-termination original human decision")
+
+    original_decision = parse_bound_json(
+      decision_identity, "Founder Goal-termination original structured decision"
+    )
+    original_repository = mapping(
+      original_decision.dig("binding", "canonical_repository"),
+      "Founder Goal-termination original canonical repository"
+    )
+    canonical_start = exact_keys(
+      amendment["canonical_start"], %w[branch commit main_clean tree],
+      "Founder Goal-termination amendment canonical start"
+    )
+    assert(canonical_start == {
+      "branch" => original_repository["branch"],
+      "commit" => original_repository["commit"],
+      "main_clean" => true,
+      "tree" => original_repository["tree"]
+    }, "Founder Goal-termination amendment canonical start drift")
+    commit_tree_identity!(
+      root, canonical_start.slice("commit", "tree"),
+      "Founder Goal-termination amendment canonical start"
+    )
+    head_commit = git(root, "rev-parse", "HEAD").strip
+    assert_exact_sole_parent!(
+      root, head_commit, canonical_start["commit"],
+      "Founder Goal-termination amendment candidate"
+    )
+    changed_paths = git(
+      root, "diff-tree", "--no-commit-id", "--name-only", "-r", "HEAD^", "HEAD"
+    ).lines.map(&:strip).reject(&:empty?).sort
+    assert(changed_paths == GOAL_TERMINATION_FIVE_PATHS,
+           "Founder Goal-termination amendment requires the exact five-path sole commit")
+
+    truth_start = exact_keys(
+      amendment["truth_start"], %w[path byte_length sha256],
+      "Founder Goal-termination amendment Truth start"
+    )
+    assert(truth_start == original_decision.dig("binding", "truth"),
+           "Founder Goal-termination amendment parent Truth binding drift")
+    assert(amendment["proposal"] == proposal,
+           "Founder Goal-termination amendment proposal cross-binding drift")
+
+    scope = exact_keys(
+      amendment["scope"],
+      %w[allowed_change_class canonical_paths max_canonical_commits non_product sixth_path_authorized],
+      "Founder Goal-termination amendment scope"
+    )
+    assert(scope == {
+      "allowed_change_class" =>
+        "DATA_DRIVEN_GOAL_TERMINATION_TERMINAL_SCHEMA_AND_NEGATIVE_FIXTURES_ONLY",
+      "canonical_paths" => GOAL_TERMINATION_FIVE_PATH_DECLARATION,
+      "max_canonical_commits" => 1,
+      "non_product" => true,
+      "sixth_path_authorized" => false
+    }, "Founder Goal-termination amendment five-path scope drift")
+    assert(exact_keys(
+      amendment["external_effects"], FALSE_EXTERNAL_EFFECTS.keys,
+      "Founder Goal-termination amendment external effects"
+    ) == FALSE_EXTERNAL_EFFECTS,
+           "Founder Goal-termination amendment external effect drift")
+
+    required_validation = exact_keys(
+      amendment["required_validation"],
+      %w[requirements results_claimed status],
+      "Founder Goal-termination amendment required validation"
+    )
+    assert(required_validation == {
+      "status" => "REQUIRED_NOT_EXECUTED",
+      "results_claimed" => false,
+      "requirements" => %w[
+        REQUIRE_ONE_CANDIDATE_MAXIMUM
+        REQUIRE_ONE_INDEPENDENT_REVIEW_CYCLE
+        REQUIRE_CURRENT_EXACT_TRUTH_AS_THE_ONLY_NEW_POSITIVE_TERMINAL_CASE
+        REQUIRE_ALL_NEW_SYNTHETIC_FIXTURES_TO_BE_NEGATIVE_AND_FAIL_CLOSED
+        REQUIRE_EXISTING_NON_TERMINAL_FIXTURE_BEHAVIOR_TO_BE_PRESERVED
+        REQUIRE_ALL_FOUR_VALIDATOR_AND_TEST_PROGRAMS_TO_PASS
+        REQUIRE_EXACT_FIVE_PATH_DIFF
+        REQUIRE_CANONICAL_INTEGRITY_TO_PASS
+        REQUIRE_ORIGINAL_TERMINATION_BYTES_UNCHANGED
+        REQUIRE_COMPLETE_SIX_FILE_PRIVATE_STAGE_INDEPENDENT_REVIEW_TO_PASS
+        REQUIRE_DURABLE_CREATE_ONCE_INSTALL_EXACTNESS_TO_PASS
+      ]
+    }, "Founder Goal-termination amendment required-validation drift")
+
+    terminal = exact_keys(
+      amendment["terminal_schema_delta"],
+      %w[
+        active_task_authority control_disposition current_phase current_phase_name
+        current_task data_driven_from_exact_bound_decision founder_decision_required
+        future_restart_requires_new_explicit_founder_goal goal_terminal_status
+        historical_facts_rewritten mission_achievement_claimed negative_fixture_classes
+        new_p2_task_authorized next_engineering_action p2_accepted_capability_credit
+        p2_complete p2_envelope p2_envelope_expansion_authorized
+        p2_exit_item_remains_missing p2_founder_phase_gate p2_pre_decision_execution_state
+        p2_required_exit_item p2_required_exit_item_status p2_strict_status
+        p2_terminal_disposition p3_entry_authorized p3_status phase_capacity_remaining
+        replacement_goal_created route_schema terminal_decision_verdict
+        universal_task_id_nonce_date_or_source_stage_path_hardcoding user_action_required
+      ],
+      "Founder Goal-termination amendment terminal schema"
+    )
+    accepted = mapping(
+      original_decision["accepted_input_facts"],
+      "Founder Goal-termination amendment original accepted facts"
+    )
+    original_outcome = mapping(
+      original_decision["decision"], "Founder Goal-termination amendment original outcome"
+    )
+    terminal_envelope = exact_keys(
+      terminal["p2_envelope"], %w[accounting_basis consumed limits remaining],
+      "Founder Goal-termination amendment terminal envelope"
+    )
+    %w[limits consumed remaining].each do |key|
+      exact_keys(
+        terminal_envelope[key], %w[calendar_days engineering_hours engineering_tasks],
+        "Founder Goal-termination amendment terminal envelope #{key}"
+      )
+    end
+    assert(terminal_envelope == accepted["p2_envelope"],
+           "Founder Goal-termination amendment terminal envelope drift")
+    assert(terminal_envelope["accounting_basis"] == phase_envelope["accounting_basis"] &&
+           %w[limits consumed remaining].all? { |key|
+             mapping(phase_envelope[key], "Founder Goal-termination current envelope #{key}")
+               .slice("engineering_tasks", "engineering_hours", "calendar_days") ==
+               terminal_envelope[key]
+           },
+           "Founder Goal-termination amendment terminal envelope does not match current Truth")
+    assert(terminal == {
+      "route_schema" => GOAL_TERMINATION_ROUTE_SCHEMA,
+      "control_disposition" => GOAL_TERMINATION_DISPOSITION,
+      "terminal_decision_verdict" => original_outcome["verdict"],
+      "goal_terminal_status" => GOAL_TERMINATION_STATUS,
+      "current_phase" => accepted["current_phase"],
+      "current_phase_name" => accepted["current_phase_name"],
+      "current_task" => "NONE",
+      "active_task_authority" => false,
+      "phase_capacity_remaining" => false,
+      "next_engineering_action" => GOAL_TERMINATION_ACTION,
+      "founder_decision_required" => false,
+      "user_action_required" => false,
+      "data_driven_from_exact_bound_decision" => true,
+      "universal_task_id_nonce_date_or_source_stage_path_hardcoding" => false,
+      "p2_pre_decision_execution_state" => accepted["p2_execution_state"],
+      "p2_terminal_disposition" => accepted["p2_terminal_disposition"],
+      "p2_strict_status" => accepted["p2_strict_status"],
+      "p2_required_exit_item" => accepted["p2_required_exit_item"],
+      "p2_required_exit_item_status" => accepted["p2_required_exit_item_status"],
+      "p2_exit_item_remains_missing" => original_outcome["p2_exit_item_remains_missing"],
+      "p2_founder_phase_gate" => accepted["p2_founder_phase_gate"],
+      "p2_accepted_capability_credit" => accepted["p2_accepted_capability_credit"],
+      "p2_complete" => original_outcome["p2_complete"],
+      "p2_envelope_expansion_authorized" =>
+        original_outcome["p2_envelope_expansion_authorized"],
+      "new_p2_task_authorized" => original_outcome["new_p2_task_authorized"],
+      "p2_envelope" => terminal_envelope,
+      "p3_status" => accepted["p3_status"],
+      "p3_entry_authorized" => original_outcome["p3_entry_authorized"],
+      "replacement_goal_created" => original_outcome["replacement_goal_created"],
+      "mission_achievement_claimed" => original_outcome["mission_achievement_claimed"],
+      "future_restart_requires_new_explicit_founder_goal" =>
+        original_outcome["future_restart_requires_new_explicit_founder_goal"],
+      "historical_facts_rewritten" => original_outcome["historical_facts_rewritten"],
+      "negative_fixture_classes" => %w[
+        DECISION_IDENTITY_MISSING_OR_DRIFTED
+        AUTHORIZATION_TOKEN_DRIFTED
+        GOAL_ACTIVE_MISSION_ACHIEVED_OR_REPLACED
+        P2_COMPLETED_EXIT_ACCEPTED_OR_CAPABILITY_NONZERO
+        PHASE_CAPACITY_TASK_AUTHORITY_OR_NEXT_ENGINEERING_ACTION_NONZERO
+        P3_OR_LATER_PHASE_ENTRY
+        ANY_EXTERNAL_EFFECT_TRUE
+        TERMINAL_ROUTE_CONTROL_ACTIVE_WORK_PROJECTION_MISMATCH
+        TERMINAL_SCHEMA_WITHOUT_VALID_EXACT_FOUNDER_DECISION
+      ]
+    }, "Founder Goal-termination amendment terminal-schema projection drift")
+
+    expected_prohibitions = array(
+      original_decision["forbidden_operations"],
+      "Founder Goal-termination original forbidden operations"
+    ) + %w[
+      NO_ORIGINAL_TERMINATION_DECISION_BYTE_MUTATION
+      NO_NEW_OR_REPLACEMENT_GOAL
+      NO_NETWORK_PROVIDER_SECRET_REMOTE_PRODUCTION_OR_PUBLIC_EFFECT
+    ]
+    assert(array(amendment["preserved_prohibitions"],
+                 "Founder Goal-termination amendment preserved prohibitions") ==
+             expected_prohibitions,
+           "Founder Goal-termination amendment preserved-prohibition drift")
+
+    precedence = exact_keys(
+      amendment["precedence"],
+      %w[all_other_original_decision_semantics conflict_rule narrow_supersession scope],
+      "Founder Goal-termination amendment precedence"
+    )
+    assert(precedence["scope"] == "ONE_BOUND_COMMIT_ONLY" &&
+           precedence["all_other_original_decision_semantics"] ==
+             "PRESERVED_UNCHANGED_AND_CONTINUE_TO_CONTROL" &&
+           precedence["conflict_rule"] ==
+             "THIS_AMENDMENT_CONTROLS_ONLY_THE_EXACT_FIVE_PATH_NON_PRODUCT_ONE_COMMIT_SCHEMA_SYNC;THE_ORIGINAL_TERMINATION_DECISION_CONTROLS_EVERY_OTHER_FIELD_SEMANTIC_PROHIBITION_AND_CLAIM_BOUNDARY",
+           "Founder Goal-termination amendment precedence boundary drift")
+    narrow = exact_keys(
+      precedence["narrow_supersession"],
+      %w[
+        applies_only_to_bound_commit effect exact_original_field_paths
+        fail_closed_precedence original_decision_schema original_values replacement_values
+      ],
+      "Founder Goal-termination amendment narrow supersession"
+    )
+    assert(narrow["original_decision_schema"] == GOAL_TERMINATION_DECISION_SCHEMA &&
+           narrow["exact_original_field_paths"] == [
+             "authorized_minimal_sync_scope.canonical_truth_sync.allowed_paths",
+             "authorized_minimal_sync_scope.canonical_truth_sync.truth_only"
+           ] &&
+           narrow["effect"] ==
+             "REPLACES_ONLY_THE_TWO_NAMED_ORIGINAL_SYNC_FIELDS_FOR_THIS_ONE_BOUND_COMMIT",
+           "Founder Goal-termination amendment supersession field boundary drift")
+    original_truth_sync = mapping(
+      original_decision.dig("authorized_minimal_sync_scope", "canonical_truth_sync"),
+      "Founder Goal-termination original Truth sync scope"
+    )
+    assert(exact_keys(
+      narrow["original_values"], %w[allowed_paths truth_only],
+      "Founder Goal-termination amendment original precedence values"
+    ) == {
+      "allowed_paths" => original_truth_sync["allowed_paths"],
+      "truth_only" => original_truth_sync["truth_only"]
+    } && original_truth_sync["allowed_paths"] == ["docs/aios/truth/project_state.yaml"] &&
+           original_truth_sync["truth_only"] == true,
+           "Founder Goal-termination amendment original precedence values drift")
+    assert(exact_keys(
+      narrow["replacement_values"], %w[allowed_paths truth_only],
+      "Founder Goal-termination amendment replacement precedence values"
+    ) == {
+      "allowed_paths" => GOAL_TERMINATION_FIVE_PATH_DECLARATION,
+      "truth_only" => false
+    }, "Founder Goal-termination amendment replacement precedence values drift")
+    applies = exact_keys(
+      narrow["applies_only_to_bound_commit"],
+      %w[
+        allowed_change_class allowed_non_truth_paths canonical_paths maximum_commits
+        non_product parent_commit parent_tree
+      ],
+      "Founder Goal-termination amendment bound-commit precedence"
+    )
+    assert(applies == {
+      "parent_commit" => canonical_start["commit"],
+      "parent_tree" => canonical_start["tree"],
+      "canonical_paths" => GOAL_TERMINATION_FIVE_PATH_DECLARATION,
+      "allowed_non_truth_paths" => GOAL_TERMINATION_FIVE_PATH_DECLARATION.drop(1),
+      "maximum_commits" => 1,
+      "non_product" => true,
+      "allowed_change_class" =>
+        "DATA_DRIVEN_GOAL_TERMINATION_TERMINAL_SCHEMA_AND_NEGATIVE_FIXTURES_ONLY"
+    }, "Founder Goal-termination amendment bound-commit precedence drift")
+    fail_closed = exact_keys(
+      narrow["fail_closed_precedence"],
+      %w[evaluation_for_bound_commit original_condition outside_bound_commit],
+      "Founder Goal-termination amendment fail-closed precedence"
+    )
+    assert(fail_closed == {
+      "original_condition" => "CANONICAL_DIFF_EXCEEDS_TRUTH_ONLY_ALLOWLIST",
+      "evaluation_for_bound_commit" =>
+        "FAIL_CLOSED_UNLESS_THE_DIFF_PATH_SET_IS_EXACTLY_THE_FIVE_REPLACEMENT_ALLOWED_PATHS_AND_EVERY_CHANGE_IS_WITHIN_THE_ALLOWED_CHANGE_CLASS",
+      "outside_bound_commit" =>
+        "ORIGINAL_TRUTH_ONLY_FAIL_CLOSED_CONDITION_CONTINUES_UNCHANGED"
+    }, "Founder Goal-termination amendment fail-closed precedence drift")
+
+    installation = exact_keys(
+      amendment["installation_contract"],
+      %w[
+        atomic_no_replace_publish_required create_once directory_mode_after_publish
+        durable_root durable_root_absence_required durable_root_symlink_rejected
+        exact_file_count exact_relative_paths external_effects file_mode
+        independent_review_required install_only_after_independent_review_pass
+        inventory_schema overwrite_allowed private_stage_required results_claimed
+        source_to_final_requirements status workflow
+      ],
+      "Founder Goal-termination amendment installation contract"
+    )
+    assert(installation["status"] == "REQUIRED_NOT_EXECUTED" &&
+           installation["results_claimed"] == false &&
+           installation["private_stage_required"] == true &&
+           installation["independent_review_required"] == true &&
+           installation["install_only_after_independent_review_pass"] == true &&
+           installation["durable_root"] == durable_root.to_s &&
+           installation["durable_root_absence_required"] == true &&
+           installation["durable_root_symlink_rejected"] == true &&
+           installation["create_once"] == true &&
+           installation["overwrite_allowed"] == false &&
+           installation["atomic_no_replace_publish_required"] == true &&
+           installation["exact_file_count"] == 6 &&
+           installation["exact_relative_paths"] == GOAL_TERMINATION_SIX_EVIDENCE_FILENAMES &&
+           installation["file_mode"] == "0400" &&
+           installation["directory_mode_after_publish"] == "0555" &&
+           installation["inventory_schema"] == GOAL_TERMINATION_AMENDMENT_INVENTORY_SCHEMA,
+           "Founder Goal-termination amendment installation boundary drift")
+    assert(array(
+      installation["workflow"], "Founder Goal-termination amendment installation workflow"
+    ) == %w[
+      CREATE_COMPLETE_SIX_FILE_PRIVATE_STAGE
+      INDEPENDENT_REVIEW_EXACT_PRIVATE_STAGE
+      REQUIRE_INDEPENDENT_REVIEW_PASS
+      REQUIRE_DURABLE_ROOT_LSTAT_ABSENT_AND_NOT_SYMLINK
+      CREATE_HIDDEN_SIBLING_INSTALL_STAGE_WITH_NO_OVERWRITE
+      COPY_EACH_EXACT_SOURCE_OBJECT_CREATE_ONCE
+      VERIFY_SOURCE_TO_HIDDEN_STAGE_BYTES_SHA256_MODE_NLINK_AND_SYMLINK_POLICY
+      FSYNC_FILES_AND_DIRECTORY
+      SET_FINAL_FILE_MODES_0400_AND_DIRECTORY_MODE_0555
+      ATOMIC_NO_REPLACE_RENAME_HIDDEN_STAGE_TO_EXACT_DURABLE_ROOT
+      REOPEN_AND_VERIFY_ALL_SIX_FINAL_OBJECTS_AND_EXACT_PATH_SET
+    ], "Founder Goal-termination amendment installation workflow drift")
+    assert(exact_keys(
+      installation["source_to_final_requirements"],
+      %w[byte_equality byte_length_equality mode_equality nlink regular_file sha256_equality symlink],
+      "Founder Goal-termination amendment source-to-final requirements"
+    ) == {
+      "byte_equality" => "REQUIRED",
+      "byte_length_equality" => "REQUIRED",
+      "sha256_equality" => "REQUIRED",
+      "mode_equality" => "REQUIRED_0400",
+      "nlink" => "REQUIRED_1",
+      "symlink" => "REQUIRED_FALSE",
+      "regular_file" => "REQUIRED_TRUE"
+    }, "Founder Goal-termination amendment source-to-final requirements drift")
+    assert(exact_keys(
+      installation["external_effects"], FALSE_EXTERNAL_EFFECTS.keys,
+      "Founder Goal-termination amendment installation external effects"
+    ) == FALSE_EXTERNAL_EFFECTS,
+           "Founder Goal-termination amendment installation external effect drift")
+
+    assert(amendment["claim_boundary"] ==
+             "NON_PRODUCT_DATA_DRIVEN_GOAL_TERMINATION_SCHEMA_COMPATIBILITY_ONLY_ORIGINAL_TERMINATION_SEMANTICS_PRESERVED_NO_P2_P3_PRODUCT_PRODUCTION_PUBLIC_OR_MISSION_ACHIEVEMENT_CLAIM",
+           "Founder Goal-termination amendment claim boundary drift")
+    validate_goal_termination_original_identity_anchors!(
+      durable_root, decision_identity, human_identity, inventory_identity, proposal
+    )
+    payload_identities = {
+      GOAL_TERMINATION_ORIGINAL_HUMAN_FILENAME => human_identity,
+      GOAL_TERMINATION_ORIGINAL_DECISION_FILENAME => decision_identity,
+      GOAL_TERMINATION_ORIGINAL_INVENTORY_FILENAME => inventory_identity,
+      GOAL_TERMINATION_AMENDMENT_PROPOSAL_FILENAME => proposal,
+      GOAL_TERMINATION_AMENDMENT_DECISION_FILENAME => amendment_identity
+    }
+    amendment_inventory_identity = validate_goal_termination_amendment_inventory!(
+      binding, durable_root, payload_identities
+    )
+    [binding, amendment_identity, amendment_inventory_identity]
+  end
+
+  def validate_goal_termination_decision!(root, truth, resolution, phase, phase_gate_status,
+                                          phase_envelope)
+    resolution = exact_keys(
+      resolution,
+      %w[
+        status authorization_token human_record structured_decision
+        terminal_schema_amendment_ref
+      ],
+      "Founder Goal-termination resolution"
+    )
+    assert(resolution["status"] == "FOUNDER_DECISION_RECORDED_PROJECT_TERMINATED",
+           "Founder Goal-termination resolution status drift")
+    assert(resolution["authorization_token"] == GOAL_TERMINATION_AUTHORIZATION_TOKEN,
+           "Founder Goal-termination authorization token drift")
+
+    decision_identity = exact_keys(
+      resolution["structured_decision"], %w[path byte_length sha256],
+      "Founder Goal-termination structured decision"
+    )
+    decision_bytes = validate_identity(
+      decision_identity, "Founder Goal-termination structured decision"
+    )
+    decision = parse_bound_json(
+      decision_identity, "Founder Goal-termination structured decision"
+    )
+    assert(decision_bytes == JSON.generate(decision) + "\n",
+           "Founder Goal-termination structured decision serialization drift")
+    exact_keys(
+      decision,
+      %w[
+        schema_version serialization_profile decision_id recorded_at status
+        authorization binding accepted_input_facts decision
+        authorized_minimal_sync_scope forbidden_operations external_effects
+        claim_boundary human_readable_record fail_closed_conditions
+      ],
+      "Founder Goal-termination structured decision"
+    )
+    assert(decision["schema_version"] == GOAL_TERMINATION_DECISION_SCHEMA &&
+           decision["serialization_profile"] ==
+             "UTF8_COMPACT_JSON_WITH_EXACTLY_ONE_TRAILING_LF" &&
+           decision["decision_id"] == GOAL_TERMINATION_DECISION_ID &&
+           decision["recorded_at"].to_s.match?(/\A\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z\z/) &&
+           decision["status"] == "FOUNDER_AUTHORIZED_FINAL",
+           "Founder Goal-termination structured decision identity drift")
+    authorization = exact_keys(
+      decision["authorization"], %w[authority source exact_token],
+      "Founder Goal-termination authorization"
+    )
+    assert(authorization == {
+      "authority" => "Human Founder",
+      "source" => "DIRECT_USER_INSTRUCTION_IN_CONTROLLING_CODEX_THREAD",
+      "exact_token" => GOAL_TERMINATION_AUTHORIZATION_TOKEN
+    } && authorization["exact_token"] == resolution["authorization_token"],
+           "Founder Goal-termination exact authorization drift")
+
+    binding = exact_keys(
+      decision["binding"],
+      %w[canonical_repository truth long_term_goal strategic_constitution evaluation_protocol],
+      "Founder Goal-termination binding"
+    )
+    canonical_repository = exact_keys(
+      binding["canonical_repository"], %w[path branch commit tree workspace_status],
+      "Founder Goal-termination canonical repository"
+    )
+    project = mapping(truth["project"], "project")
+    assert(canonical_repository["workspace_status"] == "CLEAN",
+           "Founder Goal-termination canonical repository clean-state drift")
+    commit_tree_identity!(root, canonical_repository.slice("commit", "tree"),
+                          "Founder Goal-termination canonical start")
+    assert_git_ancestor!(root, canonical_repository["commit"], "HEAD",
+                         "Founder Goal-termination canonical start")
+    assert_exact_sole_parent!(
+      root, git(root, "rev-parse", "HEAD").strip, canonical_repository["commit"],
+      "Founder Goal-termination terminal commit"
+    )
+    parent_truth = truth_at_commit(
+      root, canonical_repository["commit"], "Founder Goal-termination bound parent"
+    )
+    parent_project = mapping(parent_truth["project"], "Founder Goal-termination parent project")
+    assert(canonical_repository["path"] == GOAL_TERMINATION_CANONICAL_REPOSITORY &&
+           canonical_repository["path"] == parent_project["canonical_repository"] &&
+           project["canonical_repository"] == canonical_repository["path"] &&
+           canonical_repository["branch"] == parent_project["canonical_branch"] &&
+           project["canonical_branch"] == canonical_repository["branch"],
+           "Founder Goal-termination canonical repository projection drift")
+
+    truth_identity = exact_keys(
+      binding["truth"], %w[path byte_length sha256],
+      "Founder Goal-termination parent Truth"
+    )
+    assert(truth_identity["path"] == "docs/aios/truth/project_state.yaml",
+           "Founder Goal-termination parent Truth path drift")
+    parent_truth_bytes, parent_truth_stderr, parent_truth_status = Open3.capture3(
+      "git", "show", "#{canonical_repository['commit']}:#{truth_identity['path']}",
+      chdir: root.to_s
+    )
+    assert(parent_truth_status.success?,
+           "Founder Goal-termination parent Truth cannot be read: #{parent_truth_stderr.strip}")
+    assert(parent_truth_bytes.bytesize == truth_identity["byte_length"] &&
+           Digest::SHA256.hexdigest(parent_truth_bytes) == truth_identity["sha256"],
+           "Founder Goal-termination parent Truth identity drift")
+
+    goal_binding = exact_keys(
+      binding["long_term_goal"],
+      %w[
+        source_attachment_path input_status raw_byte_length raw_sha256 canonicalization
+        canonical_byte_length canonical_sha256
+      ],
+      "Founder Goal-termination Long-term Goal binding"
+    )
+    current_goal = mapping(truth["goal"], "goal")
+    parent_goal = mapping(parent_truth["goal"], "Founder Goal-termination parent Goal")
+    expected_goal_binding = {
+      "source_attachment_path" => current_goal["source_attachment_path"],
+      "input_status" => "ACTIVE",
+      "raw_byte_length" => current_goal["observed_raw_body_byte_length"],
+      "raw_sha256" => current_goal["observed_raw_body_sha256"],
+      "canonicalization" => current_goal["body_canonicalization"],
+      "canonical_byte_length" => current_goal["observed_body_byte_length"],
+      "canonical_sha256" => current_goal["observed_body_sha256"]
+    }
+    assert(goal_binding == expected_goal_binding,
+           "Founder Goal-termination Long-term Goal identity drift")
+    %w[
+      source_attachment_path observed_raw_body_byte_length observed_raw_body_sha256
+      body_canonicalization observed_body_byte_length observed_body_sha256
+    ].each do |key|
+      assert(current_goal[key] == parent_goal[key],
+             "Founder Goal-termination changed preserved Goal identity: #{key}")
+    end
+    raw_goal = validate_identity(
+      {
+        "path" => goal_binding["source_attachment_path"],
+        "byte_length" => goal_binding["raw_byte_length"],
+        "sha256" => goal_binding["raw_sha256"]
+      },
+      "Founder Goal-termination raw Goal"
+    )
+    normalized_goal = raw_goal.dup.force_encoding("UTF-8")
+    assert(normalized_goal.valid_encoding?,
+           "Founder Goal-termination raw Goal encoding is invalid")
+    normalized_goal = normalized_goal.gsub("\r\n", "\n").gsub("\r", "\n")
+                                     .sub(/\n*\z/, "") + "\n"
+    assert(normalized_goal.bytesize == goal_binding["canonical_byte_length"] &&
+           Digest::SHA256.hexdigest(normalized_goal) == goal_binding["canonical_sha256"],
+           "Founder Goal-termination canonical Goal identity drift")
+
+    {
+      "strategic_constitution" => "strategy",
+      "evaluation_protocol" => "evaluation_protocol"
+    }.each do |decision_key, authority_key|
+      identity = exact_keys(
+        binding[decision_key], %w[path version byte_length sha256],
+        "Founder Goal-termination #{decision_key}"
+      )
+      bytes = repo_identity_bytes(root, identity.slice("path", "byte_length", "sha256"),
+                                  "Founder Goal-termination #{decision_key}")
+      assert(bytes.bytesize == identity["byte_length"] &&
+             truth.dig("authority", authority_key, "path") == identity["path"] &&
+             truth.dig("authority", authority_key, "version").to_s == identity["version"].to_s &&
+             truth.dig("authority", authority_key, "sha256") == identity["sha256"],
+             "Founder Goal-termination #{decision_key} authority drift")
+    end
+
+    accepted = exact_keys(
+      decision["accepted_input_facts"],
+      %w[
+        current_phase current_phase_name current_task p2_execution_state
+        p2_terminal_disposition p2_strict_status p2_required_exit_item
+        p2_required_exit_item_status p2_founder_phase_gate
+        p2_accepted_capability_credit p2_envelope last_task p3_status
+      ],
+      "Founder Goal-termination accepted input facts"
+    )
+    assert(accepted["current_phase"] == phase &&
+           accepted["current_phase_name"] == parent_project["phase_name"] &&
+           accepted["current_task"] == parent_truth.dig("active_work", "current_task") &&
+           accepted["p2_execution_state"] == parent_project["p2_execution_status"],
+           "Founder Goal-termination accepted project facts drift")
+    phase_record = mapping(
+      truth.dig("strict_phase_gate_ledger", "phases", phase),
+      "Founder Goal-termination strict Phase record"
+    )
+    parent_phase_record = mapping(
+      parent_truth.dig("strict_phase_gate_ledger", "phases", phase),
+      "Founder Goal-termination parent strict Phase record"
+    )
+    required_item = accepted["p2_required_exit_item"]
+    assert(accepted["p2_strict_status"] == parent_phase_record["status"] &&
+           accepted["p2_required_exit_item_status"] ==
+             parent_phase_record.dig("required_items", required_item, "status") &&
+           accepted["p2_founder_phase_gate"] ==
+             parent_phase_record.dig("founder_phase_gate", "status") &&
+           phase_record["status"] == accepted["p2_strict_status"] &&
+           phase_record.dig("required_items", required_item, "status") ==
+             accepted["p2_required_exit_item_status"] &&
+           phase_gate_status == accepted["p2_founder_phase_gate"],
+           "Founder Goal-termination strict P2 facts drift")
+    current_required_item = exact_keys(
+      phase_record.dig("required_items", required_item),
+      %w[status task_history_key task_id acceptance_commit acceptance_tree gate_evidence],
+      "Founder Goal-termination required P2 item"
+    )
+    assert(current_required_item["status"] == "MISSING" &&
+           %w[task_history_key task_id acceptance_commit acceptance_tree]
+             .all? { |key| current_required_item[key].nil? },
+           "Founder Goal-termination required P2 item must remain unaccepted")
+    gate_evidence = exact_keys(
+      current_required_item["gate_evidence"],
+      %w[receipt_type path byte_length sha256],
+      "Founder Goal-termination required P2 item Evidence"
+    )
+    assert(gate_evidence.values.all?(&:nil?),
+           "Founder Goal-termination required P2 item Evidence must remain null")
+    founder_phase_gate = exact_keys(
+      phase_record["founder_phase_gate"],
+      %w[status decision_id path byte_length sha256],
+      "Founder Goal-termination P2 Founder Phase Gate"
+    )
+    assert(founder_phase_gate["status"] == "NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS" &&
+           founder_phase_gate.reject { |key, _value| key == "status" }.values.all?(&:nil?),
+           "Founder Goal-termination P2 Founder Gate must remain ineligible")
+    assert(accepted["p2_accepted_capability_credit"] == 0 &&
+           project["p2_accepted_capability_credit"] == 0,
+           "Founder Goal-termination P2 capability credit drift")
+    last_task = exact_keys(
+      accepted["last_task"], %w[task_id status capability_credit],
+      "Founder Goal-termination last Task"
+    )
+    parent_ledger = array(
+      parent_truth.dig("phase_execution_envelope", "task_ledger"),
+      "Founder Goal-termination parent Phase ledger"
+    )
+    assert(!parent_ledger.empty? &&
+           last_task.slice("task_id", "status") ==
+             mapping(parent_ledger.last, "Founder Goal-termination parent last Task")
+               .slice("task_id", "status") &&
+           last_task["capability_credit"] == 0,
+           "Founder Goal-termination last Task facts drift")
+    parent_ledger.each do |entry|
+      match = entry["task_id"].to_s.match(/\AAIOS-#{Regexp.escape(phase)}-([0-9]{3})_/)
+      assert(match, "Founder Goal-termination Phase ledger Task id is invalid")
+      claim_key = "#{phase.downcase}_#{match[1]}_capability_credit"
+      assert(parent_truth.dig("claim_boundary", claim_key) == 0 &&
+             truth.dig("claim_boundary", claim_key) == 0,
+             "Founder Goal-termination historical capability credit drift")
+    end
+    accepted_envelope = exact_keys(
+      accepted["p2_envelope"], %w[accounting_basis limits consumed remaining],
+      "Founder Goal-termination accepted Phase envelope"
+    )
+    assert(accepted_envelope["accounting_basis"] ==
+             parent_truth.dig("phase_execution_envelope", "accounting_basis"),
+           "Founder Goal-termination envelope accounting basis drift")
+    %w[limits consumed remaining].each do |key|
+      expected = mapping(parent_truth.dig("phase_execution_envelope", key),
+                         "Founder Goal-termination parent envelope #{key}")
+                 .slice("engineering_tasks", "engineering_hours", "calendar_days")
+      assert(exact_keys(accepted_envelope[key], expected.keys,
+                        "Founder Goal-termination accepted envelope #{key}") == expected &&
+             mapping(phase_envelope[key], "Founder Goal-termination current envelope #{key}")
+               .slice(*expected.keys) == expected,
+             "Founder Goal-termination Phase envelope #{key} drift")
+    end
+    assert(phase_envelope["status"] == "EXHAUSTED" && phase_envelope["reserved"].nil? &&
+           mapping(phase_envelope["remaining"],
+                   "Founder Goal-termination remaining envelope").values.all?(&:zero?),
+           "Founder Goal-termination requires unchanged exhausted Phase capacity")
+    assert(accepted["p3_status"] == "HOLD" && project["p3_status"] == "HOLD" &&
+           project["p3_entry_status"] == "HOLD_NOT_AUTHORIZED" &&
+           truth.dig("strict_phase_gate_ledger", "phases", "P3", "status") == "INCOMPLETE",
+           "Founder Goal-termination P3 hold drift")
+
+    outcome = exact_keys(
+      decision["decision"],
+      %w[
+        verdict goal_terminal_status mission_achievement_claimed p2_complete
+        p2_exit_item_remains_missing p2_capability_credit
+        p2_envelope_expansion_authorized new_p2_task_authorized
+        p3_entry_authorized replacement_goal_created
+        future_restart_requires_new_explicit_founder_goal historical_facts_rewritten
+      ],
+      "Founder Goal-termination outcome"
+    )
+    assert(outcome == {
+      "verdict" => "TERMINATE_CURRENT_LONG_TERM_GOAL_AFTER_P2_RESEARCH_NON_PASS",
+      "goal_terminal_status" => GOAL_TERMINATION_STATUS,
+      "mission_achievement_claimed" => false,
+      "p2_complete" => false,
+      "p2_exit_item_remains_missing" => true,
+      "p2_capability_credit" => 0,
+      "p2_envelope_expansion_authorized" => false,
+      "new_p2_task_authorized" => false,
+      "p3_entry_authorized" => false,
+      "replacement_goal_created" => false,
+      "future_restart_requires_new_explicit_founder_goal" => true,
+      "historical_facts_rewritten" => false
+    }, "Founder Goal-termination outcome drift")
+    assert(current_goal["control_plane_status_observed"] == outcome["goal_terminal_status"] &&
+           current_goal["mission_achievement_claimed"] == false &&
+           project["p2_execution_status"] == accepted["p2_terminal_disposition"],
+           "Founder Goal-termination current Goal or P2 projection drift")
+
+    scope = exact_keys(
+      decision["authorized_minimal_sync_scope"],
+      %w[
+        external_decision_evidence_install canonical_truth_sync
+        independent_review_and_validation founder_knowledge_sync
+        codex_goal_completion workspace_hygiene
+      ],
+      "Founder Goal-termination authorized sync scope"
+    )
+    install = exact_keys(
+      scope["external_decision_evidence_install"],
+      %w[authorized root_policy overwrite_allowed exact_reviewed_bytes_only],
+      "Founder Goal-termination Evidence install scope"
+    )
+    assert(install["authorized"] == true && install["overwrite_allowed"] == false &&
+           install["exact_reviewed_bytes_only"] == true &&
+           install["root_policy"].to_s.start_with?("ONE_CREATE_ONCE_"),
+           "Founder Goal-termination Evidence install scope drift")
+    truth_sync = exact_keys(
+      scope["canonical_truth_sync"],
+      %w[authorized allowed_paths maximum_commits truth_only required_updates],
+      "Founder Goal-termination Truth sync scope"
+    )
+    assert(truth_sync["authorized"] == true &&
+           truth_sync["allowed_paths"] == ["docs/aios/truth/project_state.yaml"] &&
+           truth_sync["maximum_commits"] == 1 && truth_sync["truth_only"] == true &&
+           array(truth_sync["required_updates"],
+                 "Founder Goal-termination required updates").uniq.length ==
+             truth_sync["required_updates"].length,
+           "Founder Goal-termination Truth sync scope drift")
+    review_scope = exact_keys(
+      scope["independent_review_and_validation"], %w[required fail_closed],
+      "Founder Goal-termination review scope"
+    )
+    assert(review_scope == {"required" => true, "fail_closed" => true},
+           "Founder Goal-termination review scope drift")
+    knowledge_scope = exact_keys(
+      scope["founder_knowledge_sync"],
+      %w[authorized maximum_learning_artifacts exact_reviewed_bytes_import_only non_authoritative],
+      "Founder Goal-termination Knowledge scope"
+    )
+    assert(knowledge_scope == {
+      "authorized" => true,
+      "maximum_learning_artifacts" => 1,
+      "exact_reviewed_bytes_import_only" => true,
+      "non_authoritative" => true
+    }, "Founder Goal-termination Knowledge scope drift")
+    completion_scope = exact_keys(
+      scope["codex_goal_completion"],
+      %w[authorized_after_verified_canonical_sync completion_semantics],
+      "Founder Goal-termination Codex completion scope"
+    )
+    assert(completion_scope == {
+      "authorized_after_verified_canonical_sync" => true,
+      "completion_semantics" => "FOUNDER_TERMINATION_EXECUTED_NOT_MISSION_ACHIEVED"
+    }, "Founder Goal-termination completion semantics drift")
+    hygiene_scope = exact_keys(
+      scope["workspace_hygiene"],
+      %w[authorized non_destructive_only regenerable_temporary_material_only],
+      "Founder Goal-termination hygiene scope"
+    )
+    assert(hygiene_scope == {
+      "authorized" => true,
+      "non_destructive_only" => true,
+      "regenerable_temporary_material_only" => true
+    }, "Founder Goal-termination hygiene scope drift")
+
+    forbidden = array(decision["forbidden_operations"],
+                      "Founder Goal-termination forbidden operations")
+    assert(forbidden.uniq.length == forbidden.length && %w[
+      P3_OR_LATER_PHASE_ENTRY_OR_WORK
+      PRODUCT_TEST_BUILD_RUNTIME_DATASET_OR_EVALUATOR_IMPLEMENTATION_CHANGE
+      HISTORICAL_NON_PASS_REWRITE_OR_CAPABILITY_CREDIT_CREATION
+      PARALLEL_TRUTH_GOAL_CANONICAL_REPOSITORY_MAIN_OR_CURRENT_TASK
+    ].all? { |required| forbidden.include?(required) },
+           "Founder Goal-termination forbidden-operation boundary drift")
+    assert(exact_keys(decision["external_effects"], FALSE_EXTERNAL_EFFECTS.keys,
+                      "Founder Goal-termination external effects") == FALSE_EXTERNAL_EFFECTS,
+           "Founder Goal-termination external effect drift")
+    assert(decision["claim_boundary"].is_a?(String) && !decision["claim_boundary"].empty? &&
+           truth.dig("claim_boundary", "project_termination_claim") == decision["claim_boundary"],
+           "Founder Goal-termination claim boundary drift")
+
+    human_binding = exact_keys(
+      decision["human_readable_record"], %w[relative_path byte_length sha256],
+      "Founder Goal-termination human record binding"
+    )
+    relative_human_path = Pathname.new(human_binding["relative_path"].to_s)
+    assert(!relative_human_path.absolute? &&
+           relative_human_path.cleanpath.to_s == relative_human_path.to_s &&
+           relative_human_path.dirname.to_s == ".",
+           "Founder Goal-termination human record relative path is unsafe")
+    expected_human_identity = {
+      "path" => File.join(File.dirname(decision_identity["path"]), relative_human_path.to_s),
+      "byte_length" => human_binding["byte_length"],
+      "sha256" => human_binding["sha256"]
+    }
+    human_identity = exact_keys(
+      resolution["human_record"], %w[path byte_length sha256],
+      "Founder Goal-termination human record"
+    )
+    assert(human_identity == expected_human_identity,
+           "Founder Goal-termination human record binding drift")
+    validate_identity(human_identity, "Founder Goal-termination human record")
+    fail_closed = array(decision["fail_closed_conditions"],
+                        "Founder Goal-termination fail-closed conditions")
+    assert(fail_closed.sort == %w[
+      BOUND_INPUT_IDENTITY_MISMATCH
+      FINAL_DECISION_PATH_ALREADY_EXISTS
+      INDEPENDENT_REVIEW_NON_PASS
+      VALIDATOR_NON_PASS
+      CANONICAL_DIFF_EXCEEDS_TRUTH_ONLY_ALLOWLIST
+      ANY_EXTERNAL_EFFECT_TRUE
+    ].sort,
+           "Founder Goal-termination fail-closed conditions drift")
+
+    route_identity = truth.dig("current_phase_route", "founder_decision")
+    goal_identity = current_goal["termination_decision"]
+    active_identity = truth.dig("active_work", "founder_termination_decision")
+    [route_identity, goal_identity, active_identity].each_with_index do |identity, index|
+      assert(exact_keys(identity, %w[path byte_length sha256],
+                        "Founder Goal-termination decision cross-binding[#{index}]") ==
+               decision_identity,
+             "Founder Goal-termination decision identity cross-binding drift")
+    end
+    validate_goal_termination_knowledge_event!(root, truth, decision, decision_identity)
+    decision_identity
+  end
+
   def validate_control!(truth, phase, phase_gate_status, phase_complete, historical_route,
                         phase_envelope, root: Pathname.new(`git rev-parse --show-toplevel`.strip))
     control = mapping(truth["founder_escalation_control"], "founder_escalation_control")
     strategic_hold = control["schema_version"] == "founder-escalation-control/v2"
+    goal_termination = control["schema_version"] == GOAL_TERMINATION_CONTROL_SCHEMA
     control_keys = %w[
       schema_version disposition source_event reserved_trigger phase_gate_status
       founder_decision_required next_action_owner next_eligible_action
     ]
-    control_keys << "resolution" if strategic_hold
+    control_keys << "resolution" if strategic_hold || goal_termination
     exact_keys(control, control_keys, "founder_escalation_control")
-    assert(%w[founder-escalation-control/v1 founder-escalation-control/v2]
-             .include?(control["schema_version"]),
+    assert(%w[
+      founder-escalation-control/v1 founder-escalation-control/v2 founder-escalation-control/v3
+    ].include?(control["schema_version"]),
            "Founder escalation control schema drift")
     assert(control["phase_gate_status"] == phase_gate_status,
            "Founder escalation control Phase Gate projection drift")
@@ -2760,28 +4462,57 @@ module FounderDelegationContinuity
              "ordinary terminal event is not a terminal NON_PASS")
     end
 
-    if strategic_hold
+    if strategic_hold || goal_termination
       assert(trigger["category"] ==
              "MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE",
-             "Founder strategic hold must resolve the exact exhausted-envelope trigger")
+             "Founder resolved decision must bind the exact exhausted-envelope trigger")
       assert(event == {
         "kind" => "PHASE_ENVELOPE_EXPANSION_REQUIRED",
         "task_id" => nil,
         "status" => "PENDING_FOUNDER_RESERVED_DECISION"
-      }, "Founder strategic hold source event drift")
+      }, "Founder resolved decision source event drift")
       assert(phase_envelope["status"] == "EXHAUSTED" && phase_envelope["reserved"].nil?,
-             "Founder strategic hold requires exact exhausted unreserved accounting")
+             "Founder resolved decision requires exact exhausted unreserved accounting")
       validate_reserved_trigger_evidence!(
         trigger, event, phase, historical_route, phase_envelope
       )
-      validate_strategic_hold_decision!(
-        root, truth, control["resolution"], phase, phase_gate_status, phase_envelope
-      )
-      assert(control["disposition"] == STRATEGIC_HOLD_DISPOSITION &&
-             control["founder_decision_required"] == false &&
-             control["next_action_owner"] == "NONE" &&
-             control["next_eligible_action"] == STRATEGIC_HOLD_ACTION,
-             "Founder strategic-hold control projection drift")
+      if goal_termination
+        amendment_binding = mapping(
+          truth["termination_schema_amendment"],
+          "Founder Goal-termination terminal-schema amendment binding"
+        )
+        assert(amendment_binding["status"] == "FOUNDER_AUTHORIZED_FINAL" &&
+               amendment_binding["authorization_token"] ==
+                 GOAL_TERMINATION_AMENDMENT_AUTHORIZATION_TOKEN,
+               "Founder Goal-termination terminal-schema amendment is not Founder-authorized final")
+        validate_goal_termination_physical_root!(root)
+        decision_identity = validate_goal_termination_decision!(
+          root, truth, control["resolution"], phase, phase_gate_status, phase_envelope
+        )
+        validate_goal_termination_schema_amendment_binding!(
+          root, truth, control["resolution"], phase_envelope
+        )
+        decision = parse_bound_json(
+          decision_identity, "Founder Goal-termination whole-Truth structured decision"
+        )
+        validate_goal_termination_whole_truth_delta!(
+          root, truth, decision, decision_identity, control["resolution"], amendment_binding
+        )
+        assert(control["disposition"] == GOAL_TERMINATION_DISPOSITION &&
+               control["founder_decision_required"] == false &&
+               control["next_action_owner"] == "NONE" &&
+               control["next_eligible_action"] == GOAL_TERMINATION_ACTION,
+               "Founder Goal-termination control projection drift")
+      else
+        validate_strategic_hold_decision!(
+          root, truth, control["resolution"], phase, phase_gate_status, phase_envelope
+        )
+        assert(control["disposition"] == STRATEGIC_HOLD_DISPOSITION &&
+               control["founder_decision_required"] == false &&
+               control["next_action_owner"] == "NONE" &&
+               control["next_eligible_action"] == STRATEGIC_HOLD_ACTION,
+               "Founder strategic-hold control projection drift")
+      end
       return control
     end
 
@@ -3251,6 +4982,134 @@ module FounderDelegationContinuity
            "Founder strategic hold must not grant Goal Task authority")
   end
 
+  def validate_goal_termination_state!(truth, policy, historical_route_ref, phase_envelope, control)
+    project = mapping(truth["project"], "project")
+    route = exact_keys(
+      truth["current_phase_route"],
+      %w[
+        schema_version route_id status execution_status scheduling_status phase
+        phase_entry_status policy founder_phase_route_decision_required
+        next_eligible_action phase_execution_envelope_ref historical_terminal_route_ref
+        founder_decision external_effects additional_write_roots
+        inherited_worktree_inventory_source terminal_schema_amendment_ref
+      ],
+      "current_phase_route Founder Goal termination"
+    )
+    assert(route["schema_version"] == GOAL_TERMINATION_ROUTE_SCHEMA,
+           "Founder Goal termination requires the exact resolved schema")
+    assert(route["route_id"] == "#{route['phase']}_FOUNDER_RESOLVED_GOAL_TERMINATION" &&
+           route["status"] == GOAL_TERMINATION_STATUS &&
+           route["execution_status"] == GOAL_TERMINATION_STATUS &&
+           route["scheduling_status"] == "FOUNDER_TERMINATED_PROJECT_NO_SCHEDULING_AUTHORITY",
+           "Founder Goal-termination route lifecycle drift")
+    assert(route["phase"] == project["current_phase"] && route["phase_entry_status"] == "AUTHORIZED",
+           "Founder Goal-termination Phase drift")
+    assert(route["policy"] == policy.slice("path", "version", "sha256"),
+           "Founder Goal-termination policy binding drift")
+    assert(route["founder_phase_route_decision_required"] == false &&
+           route["next_eligible_action"] == GOAL_TERMINATION_ACTION,
+           "Founder Goal-termination next action drift")
+    assert(route["phase_execution_envelope_ref"] == "phase_execution_envelope" &&
+           route["historical_terminal_route_ref"] == historical_route_ref &&
+           route["inherited_worktree_inventory_source"] == historical_route_ref,
+           "Founder Goal-termination historical reference drift")
+    decision_identity = exact_keys(
+      route["founder_decision"], %w[path byte_length sha256],
+      "Founder Goal-termination Route decision"
+    )
+    assert(decision_identity == control.dig("resolution", "structured_decision"),
+           "Founder Goal-termination Route decision binding drift")
+    assert(route["terminal_schema_amendment_ref"] == "termination_schema_amendment",
+           "Founder Goal-termination Route amendment binding drift")
+    assert(route["external_effects"] == FALSE_EXTERNAL_EFFECTS &&
+           route["additional_write_roots"] == [],
+           "Founder Goal termination may not grant effects or write roots")
+    assert(phase_envelope["status"] == "EXHAUSTED" && phase_envelope["reserved"].nil? &&
+           mapping(phase_envelope["remaining"],
+                   "Founder Goal-termination Phase remaining").values.all?(&:zero?),
+           "Founder Goal termination requires exhausted zero-remaining capacity")
+
+    assert(project["p2_execution_status"] == GOAL_TERMINATION_P2_STATUS &&
+           project["p2_accepted_capability_credit"] == 0 &&
+           project["p3_status"] == "HOLD" &&
+           project["p3_entry_status"] == "HOLD_NOT_AUTHORIZED" &&
+           project["phase_execution_status"] == GOAL_TERMINATION_STATUS &&
+           project["current_route_execution_status"] == GOAL_TERMINATION_STATUS,
+           "project Founder Goal-termination status drift")
+    active = mapping(truth["active_work"], "active_work")
+    assert(active["current_task"] == "NONE" && active["current_task_status"] == "NONE" &&
+           active["task_resource_state"] == "NO_ACTIVE_TASK_PROJECT_TERMINATED_BY_FOUNDER" &&
+           active["execution_nonce_status"] == "NOT_APPLICABLE_PROJECT_TERMINATED",
+           "Founder Goal termination requires Task NONE")
+    %w[current_task_contract authority_record].each do |key|
+      identity = exact_keys(active[key], %w[path byte_length sha256],
+                            "Founder Goal-termination active_work.#{key}")
+      assert(identity.values.all?(&:nil?),
+             "Founder Goal-termination active_work.#{key} must remain null")
+    end
+    %w[
+      current_task_contract_sha256 current_execution_authorization
+      current_execution_authorization_sha256 execution_nonce authorization_id
+      activation_parent_commit activation_parent_tree task_branch task_worktree
+      execution_evidence_root offsite_target
+    ].each do |key|
+      assert(active[key].nil?,
+             "Founder Goal-termination active_work.#{key} must remain null")
+    end
+    assert(active["allowlisted_paths"] == [] && active["roles"] == {} &&
+           exact_keys(active["budget"],
+                      %w[engineering_hours calendar_days implementation_iterations candidates],
+                      "Founder Goal-termination active_work budget").values.all?(&:zero?),
+           "Founder Goal termination may not retain Task scope or budget")
+    assert(active["founder_reserved_authorization"] == decision_identity["path"] &&
+           active["founder_reserved_authorization_sha256"] == decision_identity["sha256"] &&
+           active["founder_termination_decision"] == decision_identity,
+           "Founder Goal-termination active authorization drift")
+    assert(active["founder_decision_required"] == false &&
+           active["founder_decision_required_scope"].nil? &&
+           active["escalation_reason"].nil? &&
+           active["user_action_required"] == "NONE" &&
+           active["phase_route_decision_required"] == false &&
+           active["phase_route_user_action_required"] == "NONE" &&
+           active["next_eligible_action"] == GOAL_TERMINATION_ACTION,
+           "active_work Founder Goal-termination projection drift")
+    assert(mapping(active["external_effects"], "active_work external effects") ==
+             FALSE_EXTERNAL_EFFECTS,
+           "active_work Founder Goal-termination external effects drift")
+    goal = mapping(truth["goal"], "goal")
+    assert(goal["control_plane_status_observed"] == GOAL_TERMINATION_STATUS &&
+           goal["identity_status"] ==
+             "FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_PRESERVED_AFTER_TERMINATION" &&
+           goal["current_task_authority"] == "NONE" &&
+           goal["mission_achievement_claimed"] == false &&
+           goal["replacement_goal_created"] == false &&
+           goal["future_restart_requires_new_explicit_founder_goal"] == true &&
+           goal["termination_decision"] == decision_identity,
+           "Founder Goal-termination Goal projection drift")
+    execution_claim = mapping(truth["phase_execution_claim"], "phase_execution_claim")
+    assert(execution_claim["current_route_claim"] == route["route_id"] &&
+           execution_claim["current_task_claim"] == GOAL_TERMINATION_ACTION &&
+           execution_claim["product_capability_changed"] == false &&
+           execution_claim["p2_accepted_capability_credit"] == 0 &&
+           execution_claim["p3_status"] == "HOLD" &&
+           execution_claim["mission_achievement_claimed"] == false &&
+           execution_claim["phase_local_allowed"] == [],
+           "Founder Goal-termination execution claim drift")
+    claim = mapping(truth["claim_boundary"], "claim_boundary")
+    assert(claim["current_phase_route"] == route["route_id"] &&
+           claim["current_task"] == "NONE" &&
+           claim["next_eligible_action"] == GOAL_TERMINATION_ACTION &&
+           claim["goal_status"] == GOAL_TERMINATION_STATUS &&
+           claim["mission_achievement_claimed"] == false &&
+           claim["replacement_goal_created"] == false &&
+           claim["future_restart_requires_new_explicit_founder_goal"] == true &&
+           claim["p2_strict_status"] == "INCOMPLETE" &&
+           claim["p2_required_exit_item_status"] == "MISSING" &&
+           claim["p2_accepted_capability_credit"] == 0 &&
+           claim["p3_status"] == "HOLD",
+           "Founder Goal-termination claim-boundary projection drift")
+  end
+
   def validate_non_transition_state!(truth)
     route = mapping(truth["current_phase_route"], "current_phase_route")
     active = mapping(truth["active_work"], "active_work")
@@ -3292,7 +5151,8 @@ module FounderDelegationContinuity
 
     route = mapping(truth["current_phase_route"], "current_phase_route")
     unless [CONTINUATION_ROUTE_SCHEMA, RESERVED_ROUTE_SCHEMA, STRATEGIC_HOLD_ROUTE_SCHEMA,
-            DELEGATED_TASK_ROUTE_SCHEMA].include?(route["schema_version"])
+            GOAL_TERMINATION_ROUTE_SCHEMA, DELEGATED_TASK_ROUTE_SCHEMA]
+           .include?(route["schema_version"])
       assert(!truth["phase_execution_envelope"].is_a?(Hash),
              "active Phase delegation envelope requires a closed delegated Route schema")
       return validate_non_transition_state!(truth)
@@ -3344,6 +5204,14 @@ module FounderDelegationContinuity
       )
     elsif control["disposition"] == STRATEGIC_HOLD_DISPOSITION
       validate_strategic_hold_state!(
+        truth,
+        policy,
+        historical_route_ref,
+        phase_envelope,
+        control
+      )
+    elsif control["disposition"] == GOAL_TERMINATION_DISPOSITION
+      validate_goal_termination_state!(
         truth,
         policy,
         historical_route_ref,

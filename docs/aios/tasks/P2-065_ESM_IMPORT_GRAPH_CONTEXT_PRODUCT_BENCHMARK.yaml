@@ -1,0 +1,222 @@
+schema_version: "1.0"
+record_type: aios_phase_delegated_independent_task_contract
+task_id: AIOS-P2-065_ESM_IMPORT_GRAPH_CONTEXT_PRODUCT_BENCHMARK
+phase: P2
+route_id: AIOS-P2-065_ESM_IMPORT_GRAPH_CONTEXT_PRODUCT_BENCHMARK_PHASE_DELEGATED_ROUTE
+status: ELIGIBLE_NOT_ACTIVATED
+task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
+capability: GRAPH_CONDITIONED_CONTEXT_SELECTION
+objective: >-
+  Admit bounded regular .mjs source through the real SourceLens chunk and scan
+  paths, derive deterministic repository-relative static ESM import and reverse-
+  dependent graph context, use those persisted same-scan relations in the real
+  Code QA selector, and determine on the complete accepted six-task sample
+  whether graph-conditioned selection beats deterministic lexical retrieval
+  under identical within-task UTF-8 byte budgets without increasing forbidden-
+  context admission.
+why_now: >-
+  P2 is the strict current Phase and its only Exit item remains MISSING. Every
+  accepted benchmark task uses .mjs while the current product classifies .mjs
+  as unsupported, emits zero symbols and relations, and cannot retrieve a graph-
+  related chunk outside the lexical candidate pool. This is the smallest real
+  product change that directly tests the frozen P2 hypothesis instead of adding
+  another governance or adapter layer.
+task_spec_ref:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-esm-context-product-20260811/task-p2-065/decision/FOUNDER_P2_065_ESM_CONTEXT_PRODUCT_ENVELOPE_AUTHORIZATION_V1.md
+  byte_length: 3673
+  sha256: 0009947d893dd0196dc73d73ec0d23e7ffc812159ee15a74b374ee7970611734
+owner_role: P2-065 Repository Intelligence Product Master
+worker_role: P2-065 ESM Context Product Worker
+write_scope:
+  - analyzer-rust/src/scanner.rs
+  - analyzer-rust/src/ast_extractor.rs
+  - analyzer-rust/src/reverse.rs
+  - analyzer-rust/tests/esm_import_graph_contract.rs
+  - backend-spring/src/main/java/com/sourcelens/module/analysis/service/CodeChunkFileFilter.java
+  - backend-spring/src/main/java/com/sourcelens/module/analysis/service/CodeChunkService.java
+  - backend-spring/src/main/java/com/sourcelens/module/agent/controller/CodeQaController.java
+  - backend-spring/src/test/java/com/sourcelens/CodeChunkFileFilterTest.java
+  - backend-spring/src/test/java/com/sourcelens/CodeChunkServiceTest.java
+  - backend-spring/src/test/java/com/sourcelens/CodeQaControllerTest.java
+  - evaluation-harness/harness/p2-esm-context-product-benchmark
+  - evaluation-harness/evaluator/p2-esm-context-product-benchmark
+  - evaluation-harness/reports/p2-esm-context-product-benchmark
+  - docs/aios/tasks/P2-065_ESM_IMPORT_GRAPH_CONTEXT_PRODUCT_BENCHMARK.yaml
+  - docs/aios/truth/project_state.yaml
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - /Users/lijunpeng/Developer/.sourcelens-audit/p2-esm-context-product-20260811/task-p2-065/decision/FOUNDER_P2_065_ESM_CONTEXT_PRODUCT_ENVELOPE_AUTHORIZATION_V1.md
+  - TASK_EVIDENCE_ROOT/baseline/P2_CONTEXT_ENGINE_PREREGISTRATION.json
+dependencies:
+  - kind: CANONICAL_SOURCE
+    identity:
+      commit: 8548642a59a9dc57e3ca2b34c131db2eaec6f427
+      tree: 9809762b088c90b875e0e33e2925c12057075b0e
+  - kind: BASELINE_ARTIFACT
+    identity:
+      artifact_id: P1_219_P2_CONTEXT_ENGINE_PREREGISTRATION
+      relative_path: baseline/P2_CONTEXT_ENGINE_PREREGISTRATION.json
+      byte_length: 6531
+      sha256: 4a5976b0bdffb5646fcab2b22c53216ff3d09dceb454082474953fe41482156f
+      baseline_ids:
+        - B0_DETERMINISTIC_LEXICAL_RETRIEVAL_V1
+        - B1_GRAPH_CONDITIONED_CONTEXT_SELECTION
+risk_level: medium
+baseline_ref:
+  artifact_id: P1_219_P2_CONTEXT_ENGINE_PREREGISTRATION
+  relative_path: baseline/P2_CONTEXT_ENGINE_PREREGISTRATION.json
+  byte_length: 6531
+  sha256: 4a5976b0bdffb5646fcab2b22c53216ff3d09dceb454082474953fe41482156f
+  baseline_ids:
+    - B0_DETERMINISTIC_LEXICAL_RETRIEVAL_V1
+    - B1_GRAPH_CONDITIONED_CONTEXT_SELECTION
+independent_reviewer:
+  - P2-065 CTO Reviewer
+  - P2-065 Security Reviewer
+  - P2-065 Quality and Evaluation Reviewer
+protocol_status_mapping:
+  ELIGIBLE_NOT_ACTIVATED: ready
+  ACTIVE: in_progress
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+capacity_source_task_id: AIOS-P2-065_ESM_IMPORT_GRAPH_CONTEXT_PRODUCT_BENCHMARK
+budget:
+  engineering_hours: 32
+  calendar_days: 8
+  implementation_iterations: 2
+  candidates: 1
+max_same_task_repairs: 0
+roles:
+  owner: P2-065 Repository Intelligence Product Master
+  worker: P2-065 ESM Context Product Worker
+  independent_reviewers:
+    - P2-065 CTO Reviewer
+    - P2-065 Security Reviewer
+    - P2-065 Quality and Evaluation Reviewer
+allowlisted_paths:
+  - analyzer-rust/src/scanner.rs
+  - analyzer-rust/src/ast_extractor.rs
+  - analyzer-rust/src/reverse.rs
+  - analyzer-rust/tests/esm_import_graph_contract.rs
+  - backend-spring/src/main/java/com/sourcelens/module/analysis/service/CodeChunkFileFilter.java
+  - backend-spring/src/main/java/com/sourcelens/module/analysis/service/CodeChunkService.java
+  - backend-spring/src/main/java/com/sourcelens/module/agent/controller/CodeQaController.java
+  - backend-spring/src/test/java/com/sourcelens/CodeChunkFileFilterTest.java
+  - backend-spring/src/test/java/com/sourcelens/CodeChunkServiceTest.java
+  - backend-spring/src/test/java/com/sourcelens/CodeQaControllerTest.java
+  - evaluation-harness/harness/p2-esm-context-product-benchmark
+  - evaluation-harness/evaluator/p2-esm-context-product-benchmark
+  - evaluation-harness/reports/p2-esm-context-product-benchmark
+  - docs/aios/tasks/P2-065_ESM_IMPORT_GRAPH_CONTEXT_PRODUCT_BENCHMARK.yaml
+  - docs/aios/truth/project_state.yaml
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+phase_delegation_binding:
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: "1.8"
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  delegation_amendment:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/founder-delegation-continuity-20260808/decision/FOUNDER_PHASE_DELEGATION_CONTINUITY_AMENDMENT_V1.json
+    byte_length: 1182
+    sha256: c37634c51b0b7695204c026f9950911c427f544a6ff2e2c2f786facb9a84a52e
+  source_decision:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-esm-context-product-20260811/task-p2-065/decision/FOUNDER_P2_065_ESM_CONTEXT_PRODUCT_ENVELOPE_AUTHORIZATION_V1.structured-decision.json
+    sha256: c95977b6e57a9bf3bbbd1ea55add358eb12e23c85fc1b15a612a923de49278ae
+    byte_length: 3403
+  source_terminal_event:
+    task_id: AIOS-P2-064_SOURCE_LOCAL_IMPORT_CONTEXT_PRODUCT_EXPERIMENT
+    status: TERMINAL_FORMAL_DEV_CHILD_EXIT_BEFORE_READY_ITERATION2_EXHAUSTED_NON_PASS
+    outcome_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-one-final-source-local-import-context-20260809/task-p2-064/evidence/terminal/P2_064_TERMINAL_MASTER_LEDGER_OUTCOME_RECEIPT.json
+      byte_length: 9212
+      sha256: a1118703f5086ae27f93e259aea2d301aa6ddc24299fd675d3029f223c6de7f2
+  phase_envelope_snapshot:
+    limits:
+      engineering_tasks: 10
+      engineering_hours: 272
+      calendar_days: 68
+      active_tasks: 1
+      task_branches: 1
+      task_worktrees: 1
+      active_candidates: 1
+    consumed:
+      engineering_tasks: 9
+      engineering_hours: 240
+      calendar_days: 60
+    reserved:
+      task_id: AIOS-P2-065_ESM_IMPORT_GRAPH_CONTEXT_PRODUCT_BENCHMARK
+      route_id: AIOS-P2-065_ESM_IMPORT_GRAPH_CONTEXT_PRODUCT_BENCHMARK_PHASE_DELEGATED_ROUTE
+      status: ELIGIBLE_NOT_ACTIVATED
+      capacity_source_task_id: AIOS-P2-065_ESM_IMPORT_GRAPH_CONTEXT_PRODUCT_BENCHMARK
+      budget:
+        engineering_tasks: 1
+        engineering_hours: 32
+        calendar_days: 8
+    remaining:
+      engineering_tasks: 0
+      engineering_hours: 0
+      calendar_days: 0
+  founder_packet_for_task: null
+acceptance_criteria:
+  - Every accepted .mjs fixture is chunked and scanned as JavaScript with deterministic MODULE symbols and static relative ESM relations.
+  - Local import and re-export resolution is repository-relative, root-independent, same-repository, regular-file-only and fail-closed for escape, symlink, absent, ambiguous, external-package and overlong identities.
+  - Persisted ESM relation endpoints both exist in the exact same-scan symbol set and contain no physical repository root.
+  - The real Code QA selector can load a graph-related same-scan chunk by exact normalized file path even when that chunk was absent from lexical candidates.
+  - Rust, focused backend and complete relevant regression tests pass with no forbidden external effect.
+  - Treatment and control use exactly equal within-task UTF-8 byte budgets on every scheduled task and all six accepted tasks remain in the denominator.
+  - Treatment macro task-relevant-evidence recall is strictly greater than deterministic lexical retrieval and no task has a negative paired recall delta.
+  - Forbidden-context admission is not greater than baseline and exact replay, latency, uncertainty and failure taxonomy are retained.
+  - Exactly one post-freeze validation execution is performed and no post-validation tuning occurs.
+  - CTO, Security and Quality and Evaluation independent candidate reviews all return PASS before canonical integration.
+required_evidence:
+  - Exact source commit, tree, Contract, branch, worktree, dependency, toolchain and external-effect identities.
+  - Raw scanner output and deterministic two-root replay for positive and negative ESM fixtures.
+  - Focused and full relevant Rust and Spring test commands with stdout, stderr, exit status and duration.
+  - Frozen task-relevant evidence units, per-task UTF-8 byte budgets and ordered four-development/two-validation split before outcomes.
+  - Raw treatment and control selections, metrics, paired deltas, bootstrap interval, exact sign-flip sensitivity, forbidden-context counts and latency for all six tasks.
+  - Exact one-candidate manifest, rollback evidence and independent CTO, Security and Quality and Evaluation receipts.
+rollback: >-
+  Abandon the Task branch or revert only the exact reviewed P2-065 candidate
+  integration commit. Preserve immutable Evidence; do not modify accepted
+  dataset, preregistration, rejected P2 lineage, P2 Gate facts or the long-term
+  Goal.
+stop_conditions:
+  - Canonical source, Founder decision, accepted preregistration or dataset identity drifts before the corresponding freeze.
+  - Product implementation requires a path, external effect, dependency download, Phase change or permission outside this Contract.
+  - Task-relevant evidence units or byte budgets cannot be frozen before treatment outcome inspection.
+  - Any validation task, failed task or invalid result is removed from the complete six-task denominator.
+  - Treatment and control byte budgets differ within any task or forbidden-context admission exceeds baseline.
+  - The single candidate is frozen, the two implementation iterations are consumed, or a post-validation implementation change is requested.
+  - A high-severity source-identity, path-containment, evaluator-independence, replay or rollback blocker remains open.
+forbidden_actions:
+  - Read, compare, copy, execute or reuse rejected P2 engineering, candidate, held, hidden or evaluator lineage.
+  - Read validation reference-solution patch bytes before the post-freeze validation transaction.
+  - Modify the accepted P1-219 preregistration, accepted dataset manifest, task denominator, oracle, primary metric or Gate threshold after outcomes.
+  - Use regex-only repository-wide guessing as the authority for ESM graph edges.
+  - Persist an absolute repository root, cross-scan edge, missing endpoint or external package as an internal ESM module relation.
+  - Access network, Provider or Secret; write remote, production or public state; push, create a PR or release.
+  - Enter P3, claim P2 completion without accepted Evidence, or terminate the project or long-term Goal because this Task stops.
+claim_boundary: >-
+  One offline cooperative-local P2 product Task may add bounded .mjs admission,
+  parser-derived repository-relative ESM graph context and exact same-scan Code
+  QA retrieval, then compare it with deterministic lexical retrieval on the
+  complete accepted six-task sample under equal UTF-8 byte budgets. Task
+  activation is not capability progress; Task failure cannot terminate P2, the
+  SourceLens project or the active long-term Goal; P3 and all external effects
+  remain unauthorized.

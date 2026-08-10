@@ -18633,10 +18633,10 @@ founder_knowledge_sync:
     - event_id: FKS-20260809-P2-064-TERMINAL-P2-ENVELOPE-EXHAUSTED-V1
       trigger_type: TASK_TERMINAL_AND_PHASE_ENVELOPE_EXHAUSTED
       occurred_at_utc: "2026-08-09T21:08:59Z"
-      source_commit: d200edc46e11edae6e26e22f52139250ec7a906d
-      source_tree: e1a2f4468086d39749f8b8ced7630848150a32e2
+      source_commit: 57db483f615ba25971dd18e41ba993b0ac7094c5
+      source_tree: e2e2bbc3a1ad0e80b8eeb0cfcc8c3513ca598501
       previous_event_sha256: 00c981657e19a41d14d8c80859aa85cb793444f4e6c7fb3dc7451a3e29b68227
-      status: PENDING_CANDIDATE
+      status: IMPORTED
       rationale: >-
         P2-064 exhausted both implementation iterations and its sole Quality
         repair when formal DEV run003 exited before READY with no admissible DEV
@@ -18649,22 +18649,22 @@ founder_knowledge_sync:
         nonblocking Founder Knowledge review.
       engineering_blocking: false
       artifact:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-one-final-source-local-import-context-20260809/task-p2-064/knowledge/P2_064_TERMINAL_LEARNING_ARTIFACT_V1.md
+        byte_length: 5599
+        sha256: a19dc28c1e1a905d9f71c07cac22d4598c5c980ffd5f456cea38ba211a9fe0cf
       review:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-one-final-source-local-import-context-20260809/task-p2-064/knowledge/P2_064_KNOWLEDGE_REVIEW_V1.json
+        byte_length: 4176
+        sha256: 7ff08074de33970f21338fcb19098d97d85e6f03cf1571b0123b3dfcf199a711
       vault_import:
-        path: null
-        byte_length: null
-        sha256: null
+        path: /Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault/05-Failures-and-Lessons/AIOS-P2-064/P2_064_TERMINAL_LEARNING_ARTIFACT_V1.md
+        byte_length: 5599
+        sha256: a19dc28c1e1a905d9f71c07cac22d4598c5c980ffd5f456cea38ba211a9fe0cf
       receipt:
-        path: null
-        byte_length: null
-        sha256: null
-      event_sha256: 48479723884b8dd8d8b0285e44e8d26d943af6f4f5cbd9d442141ec68dbd070d
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-one-final-source-local-import-context-20260809/task-p2-064/knowledge/P2_064_KNOWLEDGE_IMPORT_RECEIPT_V1.json
+        byte_length: 1615
+        sha256: edb30e50264d7836326ef3ec67f21a047d00ce582e09bdf9ea5bd4c385a34518
+      event_sha256: eae2fd4bdeee7d6836cff714714f9bc1774fd35b06a51a82681350cc92f2ccbb
 historical_active_work_after_p1_079:
   current_task: NONE
   current_task_status: NONE

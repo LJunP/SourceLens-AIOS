@@ -27,6 +27,7 @@ module FounderDelegationContinuity
   RESERVED_ROUTE_SCHEMA = "founder-reserved-decision-hold/v1"
   STRATEGIC_HOLD_ROUTE_SCHEMA = "founder-resolved-strategic-hold/v1"
   DELEGATED_TASK_ROUTE_SCHEMA = "phase-delegated-independent-task/v1"
+  DELEGATED_TASK_ID_RE = /\AAIOS-P[12]-[0-9]{3}(?:_[A-Z0-9_]+)?\z/.freeze
   DELEGATION_AMENDMENT_SCHEMA = "founder-phase-delegation-amendment/v1"
   DELEGATION_AMENDMENT_ID = "FOUNDER_PHASE_DELEGATION_CONTINUITY_AMENDMENT_2026_08_08"
   CONTINUE_ACTION = "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK"
@@ -2987,7 +2988,8 @@ module FounderDelegationContinuity
       "delegated independent Task descriptor"
     )
     task_id = task["task_id"]
-    assert(task_id.to_s.match?(/\AAIOS-#{route['phase']}-[0-9]{3}_[A-Z0-9_]+\z/),
+    assert(DELEGATED_TASK_ID_RE.match?(task_id.to_s) &&
+           task_id.to_s.start_with?("AIOS-#{route['phase']}-"),
            "delegated independent Task id is invalid")
     assert(route["route_id"] == "#{task_id}_PHASE_DELEGATED_ROUTE",
            "delegated independent Task Route id drift")

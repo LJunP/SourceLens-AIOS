@@ -92,6 +92,15 @@ module PhaseDelegatedAuthorityTest
     active.fetch("phase_execution_envelope").fetch("task_ledger").each do |entry|
       entry.delete("capacity_source_task_id")
     end
+    p1 = active.fetch("strict_phase_gate_ledger").fetch("phases").fetch("P1")
+    item_ids = p1.fetch("required_item_ids")
+    items = p1.fetch("required_items")
+    assert(item_ids == items.keys && !item_ids.empty?,
+           "delegated active fixture strict P1 Gate ordering or set drift")
+    accepted_count = item_ids.count { |item_id| items.fetch(item_id)["status"] == "ACCEPTED" }
+    percent = (accepted_count * 100) / item_ids.length
+    active.fetch("claim_boundary")["p1_strict_completion"] =
+      "#{accepted_count}_OF_#{item_ids.length}_#{percent}_PERCENT"
     write_truth(repo, active)
     commit(repo, "test: restore immutable delegated active Truth fixture")
   end

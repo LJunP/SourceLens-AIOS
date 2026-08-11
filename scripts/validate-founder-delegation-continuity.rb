@@ -2495,6 +2495,12 @@ module FounderDelegationContinuity
                      end
     assert(envelope["status"] == derived_status,
            "phase execution envelope status does not match reservation and remaining capacity")
+    if source_route["schema_version"] == "1.3"
+      claim_boundary = mapping(truth["claim_boundary"], "claim_boundary")
+      envelope_claim_key = "#{phase.downcase}_phase_envelope_status"
+      assert(claim_boundary[envelope_claim_key] == envelope["status"],
+             "delegated independent Task claim-boundary Phase envelope status drift")
+    end
     assert(envelope["external_effects"] == FALSE_EXTERNAL_EFFECTS,
            "phase execution envelope external effects exceed offline boundary")
     assert(route_envelope["external_effects"] == FALSE_EXTERNAL_EFFECTS,
@@ -3085,13 +3091,6 @@ module FounderDelegationContinuity
            "delegated independent Task reservation binding drift")
     assert(phase_envelope["status"] == "TASK_CAPACITY_RESERVED",
            "delegated independent Task requires exact Phase capacity reservation")
-    if source_route["schema_version"] == "1.3"
-      claim_boundary = mapping(truth["claim_boundary"], "claim_boundary")
-      envelope_claim_key = "#{route.fetch('phase').downcase}_phase_envelope_status"
-      assert(claim_boundary[envelope_claim_key] == phase_envelope["status"],
-             "delegated independent Task claim-boundary Phase envelope status drift")
-    end
-
     active = mapping(truth["active_work"], "active_work")
     assert(control["disposition"] == CONTINUE_DISPOSITION,
            "delegated independent Task requires autonomous continuation disposition")

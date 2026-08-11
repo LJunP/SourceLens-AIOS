@@ -735,7 +735,7 @@ Dir.mktmpdir("founder-delegation-continuity-") do |fixtures|
     }
   )
   expect_non_pass(fixtures, "predeclared-terminal-receipt-substitution", truth,
-                  "single-Task expansion prior ledger prefix drifts from activation-parent accounting")
+                  "phase execution source Task ledger entry has no immutable Git introduction")
   assertions += 1
 
   expect_pass(fixtures, "ordinary-terminal-continues", base,
@@ -809,7 +809,9 @@ Dir.mktmpdir("founder-delegation-continuity-") do |fixtures|
   assertions += 1
 
   truth = deep_copy(current_truth)
-  truth["claim_boundary"]["p2_phase_envelope_status"] = "EXHAUSTED"
+  truth["claim_boundary"]["p2_phase_envelope_status"] =
+    truth.dig("phase_execution_envelope", "status") == "EXHAUSTED" ?
+      "TASK_CAPACITY_RESERVED" : "EXHAUSTED"
   expect_non_pass(fixtures, "claim-boundary-envelope-status-drift", truth,
                   "delegated independent Task claim-boundary Phase envelope status drift")
   assertions += 1

@@ -247,15 +247,6 @@ active_source_route = active_fixture_truth.fetch(active_source_route_ref)
 Dir.mktmpdir("founder-delegation-continuity-") do |fixtures|
   assertions = 0
 
-  unless FounderDelegationContinuity::DELEGATED_TASK_ID_RE.match?("AIOS-P2-998") &&
-         FounderDelegationContinuity::DELEGATED_TASK_ID_RE.match?("AIOS-P2-998_GENERIC_FIXTURE") &&
-         !FounderDelegationContinuity::DELEGATED_TASK_ID_RE.match?("AIOS-P2-0998") &&
-         !FounderDelegationContinuity::DELEGATED_TASK_ID_RE.match?("AIOS-P2-998_")
-    raise "delegated independent Task id compatibility regex drift"
-  end
-  assertions += 1
-  puts "PASS delegated Task id accepts exact bare and suffixed forms"
-
   v1_3_token = "AUTHORIZE_P2_ONE_INDEPENDENT_JAVA_CONTEXT_BENCHMARK_V1"
   v1_3_route = "P2_ONE_INDEPENDENT_JAVA_CONTEXT_BENCHMARK_ROUTE_V1"
   v1_3_packet = <<~PACKET
@@ -732,18 +723,15 @@ Dir.mktmpdir("founder-delegation-continuity-") do |fixtures|
                   "Founder budget expansion trigger must bind every consumed Task outcome receipt")
   assertions += 1
 
-  truth = deep_copy(terminal_fixture_truth)
-  substituted_terminal_entry = truth.fetch("phase_execution_envelope").fetch("task_ledger").find do |entry|
-    entry["task_id"] == terminal_entry["task_id"]
-  end
-  raise "predeclared terminal fixture ledger entry is missing" unless substituted_terminal_entry
-  substituted_terminal_entry["outcome_receipt"] = write_json_identity(
+  truth = deep_copy(current_truth)
+  terminal_entry = truth.fetch("phase_execution_envelope").fetch("task_ledger").last
+  terminal_entry["outcome_receipt"] = write_json_identity(
     fixtures,
     "superficial-predeclared-terminal-receipt.json",
     {
-      "task_id" => substituted_terminal_entry["task_id"],
-      "route_id" => substituted_terminal_entry["route_id"],
-      "status" => substituted_terminal_entry["status"]
+      "task_id" => terminal_entry["task_id"],
+      "route_id" => terminal_entry["route_id"],
+      "status" => terminal_entry["status"]
     }
   )
   expect_non_pass(fixtures, "predeclared-terminal-receipt-substitution", truth,

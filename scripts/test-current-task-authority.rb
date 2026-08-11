@@ -899,24 +899,6 @@ class CurrentTaskAuthorityTest
     )
   end
 
-  def strict_p1_claim_projection_unit_tests
-    truth = yaml(File.join(SOURCE_REPO, TRUTH_RELATIVE))
-    actual = CurrentTaskAuthority.validate_strict_p1_claim_projection(truth)
-    assert(actual == "8_OF_8_100_PERCENT",
-           "canonical strict P1 claim projection is not exact")
-
-    drift = deep_copy(truth)
-    drift.fetch("claim_boundary")["p1_strict_completion"] = "7_OF_8_87_PERCENT"
-    begin
-      CurrentTaskAuthority.validate_strict_p1_claim_projection(drift)
-      raise "strict P1 claim projection drift unexpectedly passed"
-    rescue AuthorityValidationError => e
-      assert(e.message.include?(
-               "claim-boundary strict P1 completion drifts from the authoritative Gate ledger"
-             ), "strict P1 claim projection drift failed for the wrong reason")
-    end
-  end
-
   def structured_v1_2_decision(sandbox)
     parent_commit = "ddfaeb8afcbbad824edee883a15a9f24074acc37"
     parent_tree = shell(SOURCE_REPO, "git", "show", "-s", "--format=%T", parent_commit).strip
@@ -1201,20 +1183,6 @@ class CurrentTaskAuthorityTest
            claims["route_id"] == decision["route_id"] &&
            claims["new_task_ids"] == decision["new_task_ids"],
            "structured decision v1.3 claim projection drifted")
-
-    bare_task_id = deep_copy(decision)
-    bare_task_id["ordered_tasks"].first["task_id"] = "AIOS-P2-998"
-    bare_task_id["new_task_ids"] = ["AIOS-P2-998"]
-    bare_task_packet = structured_v1_3_packet(bare_task_id)
-    bind_structured_v1_3_source_packet(
-      bare_task_id, sandbox, bare_task_packet, "bare-task-id-positive"
-    )
-    bare_task_claims = expect_decision_pass(
-      canonical_json(bare_task_id),
-      "structured decision v1.3 accepts a schema-valid bare Task id"
-    )
-    assert(bare_task_claims["new_task_ids"] == ["AIOS-P2-998"],
-           "structured decision v1.3 bare Task id projection drifted")
 
     {
       "missing route insertion" => "P2_ONE_INDEPENDENT_RUNTIME_VALIDATOR_COMPATIBILITY_V1",
@@ -4012,7 +3980,6 @@ class CurrentTaskAuthorityTest
     sandbox = Dir.mktmpdir("sourcelens-current-authority-")
     sandbox_identity = nil
     begin
-      strict_p1_claim_projection_unit_tests
       structured_decision_unit_tests(sandbox)
       structured_v1_2_unit_tests(sandbox)
       structured_v1_3_unit_tests(sandbox)

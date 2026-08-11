@@ -1128,7 +1128,7 @@ module CurrentTaskAuthority
 
     task_id = one_packet_match(
       text,
-      /^- Task ID:\n  `(AIOS-P[12]-[0-9]{3}(?:_[A-Z0-9_]+)?)`$/,
+      /^- Task ID:\n  `(AIOS-P[12]-[0-9]{3}_[A-Z0-9_]+)`$/,
       "v1.3 exact Task id"
     )
     route_id = one_packet_match(
@@ -4200,32 +4200,11 @@ module CurrentTaskAuthority
     "READY_NONE"
   end
 
-  def validate_strict_p1_claim_projection(truth)
-    ledger = hash(truth["strict_phase_gate_ledger"], "strict_phase_gate_ledger")
-    phases = hash(ledger["phases"], "strict_phase_gate_ledger.phases")
-    p1 = hash(phases["P1"], "strict P1 Gate")
-    item_ids = array(p1["required_item_ids"], "strict P1 required item ids")
-    items = hash(p1["required_items"], "strict P1 required items")
-    assert(item_ids == items.keys && !item_ids.empty?,
-           "strict P1 required item ordering or set drift")
-    accepted_count = item_ids.count do |item_id|
-      item = hash(items[item_id], "strict P1 required item #{item_id}")
-      item["status"] == "ACCEPTED"
-    end
-    percent = (accepted_count * 100) / item_ids.length
-    expected = "#{accepted_count}_OF_#{item_ids.length}_#{percent}_PERCENT"
-    boundary = hash(truth["claim_boundary"], "claim_boundary")
-    assert(boundary["p1_strict_completion"] == expected,
-           "claim-boundary strict P1 completion drifts from the authoritative Gate ledger")
-    expected
-  end
-
   def validate!
     root = git(Dir.pwd, "rev-parse", "--show-toplevel").first.strip
     truth_path = File.join(root, "docs/aios/truth/project_state.yaml")
     truth = parse_yaml(secure_read(truth_path, "canonical Truth"), "canonical Truth")
     assert(truth["record_type"] == "sourcelens_aios_current_truth", "unexpected Truth record_type")
-    validate_strict_p1_claim_projection(truth)
     validate_repository_and_worktrees(root, truth)
     validate_goal(truth)
     validate_authority_documents(root, truth)

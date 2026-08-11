@@ -32,6 +32,8 @@ module FounderDelegationContinuity
   CONTINUE_ACTION = "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK"
   SINGLE_TASK_READY_EVENT = "FOUNDER_EXPANDED_SINGLE_TASK_READY"
   SINGLE_TASK_ACTIVE_EVENT = "FOUNDER_EXPANDED_SINGLE_TASK_ACTIVE"
+  SINGLE_TASK_EXPANSION_DECISION_VERSIONS = %w[1.2 1.3].freeze
+  STRUCTURED_EFFECT_DECISION_VERSIONS = %w[1.1 1.2 1.3].freeze
   CONTINUE_DISPOSITION = "NO_RESERVED_TRIGGER_CONTINUE_PHASE"
   FOUNDER_DISPOSITION = "FOUNDER_DECISION_REQUIRED"
   STRATEGIC_HOLD_DISPOSITION = "FOUNDER_RESERVED_DECISION_RESOLVED_STRATEGIC_HOLD"
@@ -614,6 +616,21 @@ module FounderDelegationContinuity
     }
   end
 
+  def validate_v1_3_authorization_binding!(token, route_id, source_packet_bytes)
+    token_match = /\AAUTHORIZE_(P[12]_[A-Z0-9]+(?:_[A-Z0-9]+)*)_V([1-9][0-9]*)\z/.match(token.to_s)
+    assert(token_match && !token_match[1].end_with?("_ROUTE") &&
+           route_id == "#{token_match[1]}_ROUTE_V#{token_match[2]}",
+           "single-Task expansion v1.3 token-to-Route binding drift")
+    source_text = source_packet_bytes.dup.force_encoding(Encoding::UTF_8)
+    assert(source_text.valid_encoding?, "single-Task expansion v1.3 source packet encoding drift")
+    declared = source_text.scan(/^- Exact authorization token:\n  `([A-Z0-9_]+)`$/).flatten
+    messaged = source_text.scan(/^- Exact Founder message:\n  `([A-Z0-9_]+)；[^`\n]+`$/).flatten
+    assert(declared == [token] && messaged == [token] &&
+           source_text.scan(/AUTHORIZE_[A-Za-z0-9_]+/) == [token, token],
+           "single-Task expansion v1.3 source packet authorization binding drift")
+    true
+  end
+
   def validate_source_route_authority!(root, historical_route)
     route_id = historical_route["route_id"]
     _anchor_commit, anchor_truth = first_truth_anchor!(root, route_id, "Phase source Route") do |candidate|
@@ -636,11 +653,11 @@ module FounderDelegationContinuity
       schema_version source_founder_packet_identity
     ]
     decision_keys.concat(%w[exact_reserved_trigger new_task_ids prior_consumed_envelope]) if
-      decision_schema == "1.2"
+      SINGLE_TASK_EXPANSION_DECISION_VERSIONS.include?(decision_schema)
     exact_keys(decision, decision_keys, "phase execution envelope source decision")
     assert(decision["record_type"] == "founder_phase_route_decision" &&
-           %w[1.1 1.2].include?(decision_schema),
-           "phase execution envelope requires a structured Founder route decision v1.1 or v1.2")
+           STRUCTURED_EFFECT_DECISION_VERSIONS.include?(decision_schema),
+           "phase execution envelope requires a structured Founder route decision v1.1, v1.2 or v1.3")
     assert(decision["phase"] == historical_route["phase"] &&
            decision["route_id"] == historical_route["route_id"] &&
            decision["authorization_token"] == historical_route["authorization_token"],
@@ -650,7 +667,7 @@ module FounderDelegationContinuity
     assert(decision["automatic_entry"] == historical_route["automatic_entry"] &&
            decision["automatic_entries"] == historical_route["automatic_entries"],
            "source Route automatic-entry semantics drift from structured Founder decision")
-    if decision_schema == "1.2"
+    if SINGLE_TASK_EXPANSION_DECISION_VERSIONS.include?(decision_schema)
       assert(decision["exact_reserved_trigger"] ==
                "MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE" &&
              historical_route["exact_reserved_trigger"] == decision["exact_reserved_trigger"],
@@ -675,10 +692,15 @@ module FounderDelegationContinuity
     source_file_identity = source_identity.slice("path", "byte_length", "sha256")
     assert(source_file_identity == historical_route["original_founder_packet"],
            "source Founder packet identity drift")
-    validate_identity(
+    source_packet_bytes = validate_identity(
       source_file_identity,
       "phase execution envelope source Founder packet"
     )
+    if decision_schema == "1.3"
+      validate_v1_3_authorization_binding!(
+        decision["authorization_token"], decision["route_id"], source_packet_bytes
+      )
+    end
 
     decision_envelope = exact_keys(
       decision["envelope"],
@@ -740,7 +762,7 @@ module FounderDelegationContinuity
     assert(route_tasks == decision_tasks,
            "historical route Task plan drifts from structured Founder decision")
 
-    if decision_schema == "1.2"
+    if SINGLE_TASK_EXPANSION_DECISION_VERSIONS.include?(decision_schema)
       new_task_ids = array(decision["new_task_ids"], "structured Founder new Task ids")
       assert(new_task_ids.length == 1 && new_task_ids.uniq.length == 1,
              "single-Task expansion decision must authorize exactly one new Task")
@@ -2195,7 +2217,7 @@ module FounderDelegationContinuity
   end
 
   def validate_single_task_expansion_ledger!(root, entries, source_tasks, source_decision)
-    return [] unless source_decision["schema_version"] == "1.2"
+    return [] unless SINGLE_TASK_EXPANSION_DECISION_VERSIONS.include?(source_decision["schema_version"])
 
     ids = array(entries, "single-Task expansion phase execution Task ledger").map do |entry|
       mapping(entry, "single-Task expansion phase execution Task ledger entry")["task_id"]
@@ -2731,7 +2753,7 @@ module FounderDelegationContinuity
     source_route_ref = phase_envelope.dig("authority_basis", "source_route_ref")
     source_route = mapping(truth[source_route_ref], "phase execution source Route")
     single_task_projection =
-      source_route["schema_version"] == "1.2" &&
+      SINGLE_TASK_EXPANSION_DECISION_VERSIONS.include?(source_route["schema_version"]) &&
       current_route["schema_version"] == DELEGATED_TASK_ROUTE_SCHEMA &&
       %w[ELIGIBLE_NOT_ACTIVATED ACTIVE].include?(current_route.dig("selected_task", "status"))
     if single_task_projection
@@ -2971,7 +2993,7 @@ module FounderDelegationContinuity
     assert(task["objective"].is_a?(String) && !task["objective"].empty?,
            "delegated independent Task objective missing")
     capacity_source = source_capacity_task!(source_route, task["capacity_source_task_id"])
-    if source_route["schema_version"] == "1.2"
+    if SINGLE_TASK_EXPANSION_DECISION_VERSIONS.include?(source_route["schema_version"])
       assert(capacity_source["status"] == task["status"],
              "single-Task source capacity lifecycle does not equal the delegated Task")
       assert(source_route["first_task"] == capacity_source &&
@@ -3039,7 +3061,7 @@ module FounderDelegationContinuity
                           .flat_map do |historical_key, historical|
       task_plan_ids = Array(historical["task_plan"]).each_with_object([]) do |item, ids|
         next unless item.is_a?(Hash)
-        source_task_status = source_route["schema_version"] == "1.2" ?
+        source_task_status = SINGLE_TASK_EXPANSION_DECISION_VERSIONS.include?(source_route["schema_version"]) ?
           task["status"] : "ACTIVE"
         next if historical_key == route["source_authority_route_ref"] &&
                 item["task_id"] == task_id && item["status"] == source_task_status
@@ -3063,6 +3085,12 @@ module FounderDelegationContinuity
            "delegated independent Task reservation binding drift")
     assert(phase_envelope["status"] == "TASK_CAPACITY_RESERVED",
            "delegated independent Task requires exact Phase capacity reservation")
+    if source_route["schema_version"] == "1.3"
+      claim_boundary = mapping(truth["claim_boundary"], "claim_boundary")
+      envelope_claim_key = "#{route.fetch('phase').downcase}_phase_envelope_status"
+      assert(claim_boundary[envelope_claim_key] == phase_envelope["status"],
+             "delegated independent Task claim-boundary Phase envelope status drift")
+    end
 
     active = mapping(truth["active_work"], "active_work")
     assert(control["disposition"] == CONTINUE_DISPOSITION,

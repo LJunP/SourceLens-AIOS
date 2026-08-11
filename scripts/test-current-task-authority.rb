@@ -524,7 +524,16 @@ class CurrentTaskAuthorityTest
     assert(single_task_branch.dig("then", "properties", "automatic_entry", "type") == "null" &&
            single_task_branch.dig("then", "properties", "automatic_entries", "maxItems") == 0,
            "structured decision schema does not prohibit a v1.2 automatic successor")
-    legacy_branch = version_branches.fetch(2)
+    v1_3_branch = version_branches.fetch(2)
+    assert(v1_3_branch.dig("if", "properties", "schema_version", "const") == "1.3",
+           "structured decision schema does not discriminate v1.3")
+    assert(v1_3_branch.dig("then", "required").sort ==
+           %w[automatic_entries exact_reserved_trigger new_task_ids prior_consumed_envelope],
+           "structured decision schema does not require the v1.3 new Task set")
+    assert(v1_3_branch.dig("then", "properties", "automatic_entry", "type") == "null" &&
+           v1_3_branch.dig("then", "properties", "automatic_entries", "maxItems") == 0,
+           "structured decision schema does not prohibit a v1.3 automatic successor")
+    legacy_branch = version_branches.fetch(3)
     assert(legacy_branch.dig("if", "properties", "schema_version", "const") == "1.0" &&
            legacy_branch.dig("then", "properties", "automatic_entry", "type") == "object" &&
            legacy_branch.dig("then", "not", "anyOf").is_a?(Array),
@@ -1091,6 +1100,200 @@ class CurrentTaskAuthorityTest
     )
   end
 
+  def bind_structured_v1_3_source_packet(decision, sandbox, packet_bytes, label)
+    @v1_3_packet_serial = (@v1_3_packet_serial || 0) + 1
+    packet_path = File.join(sandbox, "structured-v1-3-#{@v1_3_packet_serial}-#{label}.md")
+    create_exclusive(packet_path, packet_bytes)
+    decision["source_founder_packet_identity"] = {
+      "authorization_token" => decision.fetch("authorization_token"),
+      "byte_length" => packet_bytes.bytesize,
+      "path" => packet_path,
+      "sha256" => Digest::SHA256.hexdigest(packet_bytes)
+    }
+    decision
+  end
+
+  def structured_v1_3_packet(decision)
+    parent = decision.fetch("activation_parent")
+    task = decision.fetch("ordered_tasks").fetch(0)
+    truth_bytes = shell(SOURCE_REPO, "git", "show", "#{parent.fetch('commit')}:#{TRUTH_RELATIVE}")
+    token = decision.fetch("authorization_token")
+    <<~PACKET
+      # Founder v1.3 exact single-Task expansion fixture
+
+      - Exact authorization token:
+        `#{token}`
+      - Exact Founder message:
+        `#{token}；同意新增 1 个 P2 Task、#{task.fetch('engineering_hours')} 工程小时、#{task.fetch('calendar_days')} 天。`
+
+      ## Canonical source
+
+      - Repository: `#{CANONICAL_REPO}`
+      - Branch: `main`
+      - Commit: `#{parent.fetch('commit')}`
+      - Tree: `#{parent.fetch('tree')}`
+      - Truth SHA-256:
+        `#{Digest::SHA256.hexdigest(truth_bytes)}`
+
+      ## Reserved trigger resolved
+
+      This decision resolves only `MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE`.
+
+      - `#{decision.dig('envelope', 'max_engineering_tasks')} engineering Tasks` maximum;
+      - `#{decision.dig('envelope', 'max_engineering_hours')} engineering hours` maximum;
+      - `#{decision.dig('envelope', 'max_calendar_days')} calendar days` maximum;
+      - zero network, Provider, Secret, remote, production or public effects.
+
+      The incremental reservation is exactly `1 Task / #{task.fetch('engineering_hours')} engineering hours / #{task.fetch('calendar_days')} calendar days`.
+
+      ## Exact Task direction
+
+      - Task ID:
+        `#{task.fetch('task_id')}`
+      - Route ID: `#{decision.fetch('route_id')}`
+      - Product mutation: prohibited. The Task evaluates current canonical Code QA.
+
+      ## Preserved boundaries
+
+      This authorization does not change P3 HOLD, production readiness or public state.
+      It authorizes no second Task, candidate, validation rerun, successor, Phase exit or Long-term Goal completion.
+    PACKET
+  end
+
+  def structured_v1_3_decision(sandbox)
+    v1_3_sandbox = File.join(sandbox, "v1-3-source")
+    FileUtils.mkdir_p(v1_3_sandbox)
+    decision = structured_v1_2_decision(v1_3_sandbox)
+    decision["schema_version"] = "1.3"
+    decision["authorization_token"] =
+      "AUTHORIZE_P2_ONE_INDEPENDENT_RUNTIME_VALIDATOR_COMPATIBILITY_V1"
+    decision["route_id"] =
+      "P2_ONE_INDEPENDENT_RUNTIME_VALIDATOR_COMPATIBILITY_ROUTE_V1"
+    packet = structured_v1_3_packet(decision)
+    bind_structured_v1_3_source_packet(decision, sandbox, packet, "positive")
+  end
+
+  def structured_v1_3_unit_tests(sandbox)
+    decision = structured_v1_3_decision(sandbox)
+    claims = expect_decision_pass(
+      canonical_json(decision),
+      "structured decision v1.3 accepts an exact bijective Founder token binding"
+    )
+    assert(claims["authorization_token"] == decision["authorization_token"] &&
+           claims["route_id"] == decision["route_id"] &&
+           claims["new_task_ids"] == decision["new_task_ids"],
+           "structured decision v1.3 claim projection drifted")
+
+    {
+      "missing route insertion" => "P2_ONE_INDEPENDENT_RUNTIME_VALIDATOR_COMPATIBILITY_V1",
+      "duplicate route insertion" => "P2_ONE_INDEPENDENT_RUNTIME_VALIDATOR_COMPATIBILITY_ROUTE_ROUTE_V1",
+      "version drift" => "P2_ONE_INDEPENDENT_RUNTIME_VALIDATOR_COMPATIBILITY_ROUTE_V2",
+      "phase drift" => "P1_ONE_INDEPENDENT_RUNTIME_VALIDATOR_COMPATIBILITY_ROUTE_V1"
+    }.each do |label, route_id|
+      variant = deep_copy(decision)
+      variant["route_id"] = route_id
+      expect_decision_nonpass(
+        canonical_json(variant),
+        "structured decision v1.3 rejects #{label}",
+        /invalid form|phase prefix mismatch|does not bijectively bind route_id/
+      )
+    end
+
+    {
+      "terminal ROUTE token" => "AUTHORIZE_P2_ONE_INDEPENDENT_RUNTIME_VALIDATOR_COMPATIBILITY_ROUTE_V1",
+      "lowercase token" => "AUTHORIZE_P2_ONE_INDEPENDENT_runtime_VALIDATOR_COMPATIBILITY_V1",
+      "leading-zero version" => "AUTHORIZE_P2_ONE_INDEPENDENT_RUNTIME_VALIDATOR_COMPATIBILITY_V01",
+      "zero version" => "AUTHORIZE_P2_ONE_INDEPENDENT_RUNTIME_VALIDATOR_COMPATIBILITY_V0",
+      "duplicate prefix" => "AUTHORIZE_AUTHORIZE_P2_ONE_INDEPENDENT_RUNTIME_VALIDATOR_COMPATIBILITY_V1"
+    }.each do |label, token|
+      variant = deep_copy(decision)
+      variant["authorization_token"] = token
+      variant["source_founder_packet_identity"]["authorization_token"] = token
+      expect_decision_nonpass(
+        canonical_json(variant),
+        "structured decision v1.3 rejects #{label}",
+        /invalid exact form|already contains a route suffix/
+      )
+    end
+
+    alternate_packet = structured_v1_3_packet(decision).sub(
+      "#{decision['authorization_token']}；",
+      "AUTHORIZE_P2_OTHER_INDEPENDENT_BENCHMARK_V1；"
+    )
+    alternate = bind_structured_v1_3_source_packet(
+      deep_copy(decision), sandbox, alternate_packet, "alternate-token"
+    )
+    expect_decision_nonpass(
+      canonical_json(alternate),
+      "structured decision v1.3 rejects a coherently rehashed alternate packet token",
+      /source packet token binding drift/
+    )
+
+    task_packet = structured_v1_3_packet(decision).sub(
+      decision.dig("ordered_tasks", 0, "task_id"),
+      "AIOS-P2-999_UNAUTHORIZED_PACKET_TASK"
+    )
+    task_drift = bind_structured_v1_3_source_packet(
+      deep_copy(decision), sandbox, task_packet, "task-drift"
+    )
+    expect_decision_nonpass(
+      canonical_json(task_drift),
+      "structured decision v1.3 rejects a coherently rehashed packet Task drift",
+      /source packet Task or Route binding drift/
+    )
+
+    envelope_packet = structured_v1_3_packet(decision).sub(
+      "#{decision.dig('envelope', 'max_engineering_hours')} engineering hours` maximum",
+      "999 engineering hours` maximum"
+    )
+    envelope_drift = bind_structured_v1_3_source_packet(
+      deep_copy(decision), sandbox, envelope_packet, "envelope-drift"
+    )
+    expect_decision_nonpass(
+      canonical_json(envelope_drift),
+      "structured decision v1.3 rejects a coherently rehashed packet envelope drift",
+      /source packet cumulative envelope drift/
+    )
+
+    product_packet = structured_v1_3_packet(decision).sub(
+      "Product mutation: prohibited",
+      "Product mutation: allowed"
+    )
+    product_drift = bind_structured_v1_3_source_packet(
+      deep_copy(decision), sandbox, product_packet, "product-drift"
+    )
+    expect_decision_nonpass(
+      canonical_json(product_drift),
+      "structured decision v1.3 rejects product mutation authority expansion",
+      /product mutation boundary drift/
+    )
+
+    second_task = deep_copy(decision)
+    duplicate = deep_copy(second_task.fetch("ordered_tasks").first)
+    duplicate["task_id"] = "AIOS-P2-999_UNAUTHORIZED_SECOND_TASK"
+    duplicate["task_slot"] = 2
+    second_task["ordered_tasks"] << duplicate
+    second_task["new_task_ids"] << duplicate["task_id"]
+    expect_decision_nonpass(
+      canonical_json(second_task),
+      "structured decision v1.3 rejects a second Task",
+      /requires exactly one newly authorized Task/
+    )
+
+    successor = deep_copy(decision)
+    successor["automatic_entry"] = {
+      "after_task_id" => successor.dig("ordered_tasks", 0, "task_id"),
+      "next_task_id" => "AIOS-P2-999_UNAUTHORIZED_SECOND_TASK",
+      "requires_task_gate_pass" => true
+    }
+    successor["automatic_entries"] = [deep_copy(successor["automatic_entry"])]
+    expect_decision_nonpass(
+      canonical_json(successor),
+      "structured decision v1.3 rejects an automatic successor",
+      /automatic_entry must be null/
+    )
+  end
+
   def delegated_predecessor_route_plan_tests(sandbox)
     fixture_task_id = "AIOS-P2-998_DELEGATED_ROUTE_PLAN_FIXTURE"
     truth = yaml(File.join(SOURCE_REPO, TRUTH_RELATIVE))
@@ -1220,6 +1423,175 @@ class CurrentTaskAuthorityTest
     CurrentTaskAuthority.validate_phase_delegated_contract_policy_fields(contract)
     @passes += 1
     puts "PASS phase-delegated Contract carries exact v1.8 Gate ownership fields"
+
+    ownership_contract = yaml(
+      File.join(
+        SOURCE_REPO,
+        "docs/aios/tasks/P2-066_JAVA_STRUCTURAL_CONTEXT_DISCRIMINATION_BENCHMARK.yaml"
+      )
+    )
+    ownership_roles = ownership_contract.fetch("roles")
+    ownership_scopes = CurrentTaskAuthority.normalize_scopes(
+      ownership_contract.fetch("allowlisted_paths"),
+      "phase-delegated write ownership fixture allowlist"
+    )
+    CurrentTaskAuthority.validate_phase_delegated_write_ownership!(
+      ownership_contract, ownership_roles, ownership_scopes
+    )
+    @passes += 1
+    puts "PASS phase-delegated Contract closes role-specific write ownership"
+
+    CurrentTaskAuthority.validate_phase_delegated_contract_schema_binding!(
+      { "schema_version" => "1.3" }, ownership_contract
+    )
+    @passes += 1
+    puts "PASS Founder v1.3 source requires role-partitioned Contract v1.1"
+
+    downgraded_contract = deep_copy(ownership_contract)
+    downgraded_contract["schema_version"] = "1.0"
+    downgraded_contract.delete("write_ownership")
+    begin
+      CurrentTaskAuthority.validate_phase_delegated_contract_schema_binding!(
+        { "schema_version" => "1.3" }, downgraded_contract
+      )
+      raise TestFailure, "Founder v1.3 source accepted a Contract v1.0 ownership bypass"
+    rescue AuthorityValidationError
+      # Expected fail-closed rejection.
+    end
+    @passes += 1
+    puts "PASS Founder v1.3 source rejects Contract ownership downgrade"
+
+    CurrentTaskAuthority.validate_phase_delegated_contract_schema_binding!(
+      { "schema_version" => "1.2" }, contract
+    )
+    @passes += 1
+    puts "PASS Founder v1.2 source preserves legacy Contract v1.0"
+
+    {
+      "cross-role writes" => lambda do |variant|
+        variant["write_ownership"]["cross_role_write_allowed"] = true
+      end,
+      "role drift" => lambda do |variant|
+        variant["write_ownership"]["worker"]["role"] =
+          variant.dig("roles", "owner")
+      end,
+      "overlapping path" => lambda do |variant|
+        variant["write_ownership"]["independent_reviewers"][2]["write_paths"] <<
+          variant.dig("write_ownership", "worker", "write_paths", 0)
+      end,
+      "incomplete partition" => lambda do |variant|
+        variant["write_ownership"]["owner"]["write_paths"].pop
+      end
+    }.each do |label, mutation|
+      variant = deep_copy(ownership_contract)
+      mutation.call(variant)
+      begin
+        CurrentTaskAuthority.validate_phase_delegated_write_ownership!(
+          variant, variant.fetch("roles"), ownership_scopes
+        )
+        raise TestFailure, "phase-delegated write ownership accepted #{label}"
+      rescue AuthorityValidationError
+        # Expected fail-closed rejection.
+      end
+      @passes += 1
+      puts "PASS phase-delegated write ownership rejects #{label}"
+    end
+
+    ancestor_overlap = deep_copy(ownership_contract)
+    ancestor_overlap["write_ownership"]["owner"]["write_paths"] =
+      ["evaluation-harness"]
+    ancestor_scopes = ancestor_overlap["write_ownership"].values_at(
+      "owner", "worker"
+    ).flat_map { |record| record.fetch("write_paths") } +
+      ancestor_overlap["write_ownership"]["independent_reviewers"].flat_map do |record|
+        record.fetch("write_paths")
+      end
+    begin
+      CurrentTaskAuthority.validate_phase_delegated_write_ownership!(
+        ancestor_overlap,
+        ancestor_overlap.fetch("roles"),
+        ancestor_scopes
+      )
+      raise TestFailure, "phase-delegated write ownership accepted ancestor overlap"
+    rescue AuthorityValidationError => e
+      assert(e.message.include?("ancestor paths overlap"),
+             "phase-delegated ancestor-overlap rejection reason drifted")
+    end
+    @passes += 1
+    puts "PASS phase-delegated write ownership rejects ancestor overlap"
+
+    effective_worker_paths = deep_copy(
+      ownership_contract.dig("write_ownership", "worker", "write_paths")
+    )
+    authority_projection = {
+      "write_ownership" => deep_copy(ownership_contract.fetch("write_ownership")),
+      "effective_worker_write_paths" => deep_copy(effective_worker_paths)
+    }
+    active_projection = deep_copy(authority_projection)
+    CurrentTaskAuthority.validate_phase_delegated_active_write_ownership!(
+      ownership_contract,
+      authority_projection,
+      active_projection,
+      ownership_roles,
+      ownership_scopes
+    )
+    @passes += 1
+    puts "PASS active authority projects the exact Worker write partition"
+
+    {
+      "missing authority partition" => lambda do |authority, _active|
+        authority.delete("write_ownership")
+      end,
+      "active partition drift" => lambda do |_authority, active|
+        active["write_ownership"]["cross_role_write_allowed"] = true
+      end,
+      "Worker effective-set expansion" => lambda do |authority, active|
+        expanded = ownership_contract.dig("write_ownership", "owner", "write_paths", 0)
+        authority["effective_worker_write_paths"] << expanded
+        active["effective_worker_write_paths"] << expanded
+      end
+    }.each do |label, mutation|
+      authority_variant = deep_copy(authority_projection)
+      active_variant = deep_copy(active_projection)
+      mutation.call(authority_variant, active_variant)
+      begin
+        CurrentTaskAuthority.validate_phase_delegated_active_write_ownership!(
+          ownership_contract,
+          authority_variant,
+          active_variant,
+          ownership_roles,
+          ownership_scopes
+        )
+        raise TestFailure, "active role write ownership accepted #{label}"
+      rescue AuthorityValidationError
+        # Expected fail-closed rejection.
+      end
+      @passes += 1
+      puts "PASS active role write ownership rejects #{label}"
+    end
+
+    phase_boundary = yaml(File.join(SOURCE_REPO, TRUTH_RELATIVE)).fetch("phase_boundary")
+    CurrentTaskAuthority.validate_phase_delegated_role_root_binding!(
+      ownership_contract.fetch("write_ownership"), phase_boundary
+    )
+    @passes += 1
+    puts "PASS role write ownership stays within assigned Phase role roots"
+
+    swapped_roles = deep_copy(ownership_contract.fetch("write_ownership"))
+    worker_path = swapped_roles.dig("worker", "write_paths", 0)
+    quality_path = swapped_roles.dig("independent_reviewers", 2, "write_paths", 0)
+    swapped_roles["worker"]["write_paths"][0] = quality_path
+    swapped_roles["independent_reviewers"][2]["write_paths"][0] = worker_path
+    begin
+      CurrentTaskAuthority.validate_phase_delegated_role_root_binding!(
+        swapped_roles, phase_boundary
+      )
+      raise TestFailure, "role write ownership accepted a Worker/Quality root swap"
+    rescue AuthorityValidationError
+      # Expected fail-closed rejection.
+    end
+    @passes += 1
+    puts "PASS role write ownership rejects Worker/Quality root swap"
 
     CurrentTaskAuthority.validate_phase_delegated_baseline_ids(
       { "schema_version" => "1.2" },
@@ -1413,6 +1785,7 @@ class CurrentTaskAuthorityTest
     route_id = "#{task_id}_PHASE_DELEGATED_ROUTE"
     progress = "P2_ZERO_ACCEPTED_CAPABILITY_ACTIVE_AUTHORITY_ONLY"
     route = {
+      "phase" => "P2",
       "route_id" => route_id,
       "next_eligible_action" => "COMPLETE_CURRENT_TASK_GATE"
     }
@@ -1428,7 +1801,11 @@ class CurrentTaskAuthorityTest
         "current_phase_route" => route_id,
         "current_task" => task_id,
         "next_eligible_action" => "COMPLETE_CURRENT_TASK_GATE",
-        "real_engineering_progress" => progress
+        "real_engineering_progress" => progress,
+        "p2_phase_envelope_status" => "TASK_CAPACITY_RESERVED"
+      },
+      "phase_execution_envelope" => {
+        "status" => "TASK_CAPACITY_RESERVED"
       },
       "active_work" => {
         "current_task" => task_id,
@@ -1455,6 +1832,9 @@ class CurrentTaskAuthorityTest
       end,
       "progress" => lambda do |variant|
         variant["claim_boundary"]["real_engineering_progress"] = "STALE"
+      end,
+      "envelope" => lambda do |variant|
+        variant["claim_boundary"]["p2_phase_envelope_status"] = "EXHAUSTED"
       end
     }.each do |label, mutation|
       variant = deep_copy(truth)
@@ -3602,6 +3982,7 @@ class CurrentTaskAuthorityTest
     begin
       structured_decision_unit_tests(sandbox)
       structured_v1_2_unit_tests(sandbox)
+      structured_v1_3_unit_tests(sandbox)
       delegated_predecessor_route_plan_tests(sandbox)
       phase_delegated_policy_and_projection_unit_tests
       provider_profile_unit_tests

@@ -1,0 +1,246 @@
+schema_version: "1.1"
+record_type: aios_phase_delegated_independent_task_contract
+task_id: AIOS-P2-066_JAVA_STRUCTURAL_CONTEXT_DISCRIMINATION_BENCHMARK
+phase: P2
+route_id: AIOS-P2-066_JAVA_STRUCTURAL_CONTEXT_DISCRIMINATION_BENCHMARK_PHASE_DELEGATED_ROUTE
+status: ELIGIBLE_NOT_ACTIVATED
+task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
+capability: REPRODUCIBLE_CONTEXT_BENCHMARK
+objective: >-
+  Determine, on one pre-frozen twelve-task Java structural-maintenance benchmark,
+  whether the current canonical SourceLens Code QA path with persisted same-scan
+  graph relations selects materially more causally relevant source context than
+  deterministic lexical retrieval and the identical canonical product path with
+  an explicitly empty graph view, under equal UTF-8 byte budgets and without
+  modifying product source.
+why_now: >-
+  P2 is the strict current Phase, its only Exit item remains MISSING and accepted
+  capability credit remains zero. P2-065 was a valid neutral benchmark whose
+  B0 and A0 both achieved recall 1.0; it cannot discriminate incremental graph
+  value. This independent Task uses new source-bound Java cases, freezes the
+  complete public and Quality-private oracle boundary before either product
+  control, and fails closed before A0 unless B0 and B1 demonstrate adequate
+  headroom. The normative sample must be representative repository-maintenance
+  work with source, license, provenance and natural ambiguity; a constructed
+  lexical-confound may be retained only as a non-scoring adversarial subset.
+  The Task evaluates the already accepted canonical product capability and does
+  not restore or reuse any rejected P2-065 engineering lineage.
+task_spec_ref:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-java-structural-context-20260811/task-p2-066/decision/FOUNDER_P2_066_JAVA_STRUCTURAL_CONTEXT_DISCRIMINATION_AUTHORIZATION_V1.md
+  byte_length: 5845
+  sha256: 1ed132a6026c63d3e05fcbd5e1e5e375befa78d7d1b0d2eb3740797540316d93
+owner_role: P2-066 Repository Intelligence Benchmark Master
+worker_role: P2-066 Generic Product-Path Harness Worker
+write_scope:
+  - evaluation-harness/harness/p2-java-structural-context-discrimination
+  - evaluation-harness/replay/p2-java-structural-context-discrimination
+  - evaluation-harness/reports/p2-java-structural-context-discrimination
+  - evaluation-harness/evaluator/p2-java-structural-context-discrimination
+  - evaluation-harness/datasets/p2-java-structural-context-discrimination
+  - docs/aios/tasks/P2-066_JAVA_STRUCTURAL_CONTEXT_DISCRIMINATION_BENCHMARK.yaml
+  - docs/aios/truth/project_state.yaml
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - /Users/lijunpeng/Developer/.sourcelens-audit/p2-java-structural-context-20260811/task-p2-066/decision/FOUNDER_P2_066_JAVA_STRUCTURAL_CONTEXT_DISCRIMINATION_AUTHORIZATION_V1.md
+  - TASK_EVIDENCE_ROOT/baseline/public/QUALITY_FREEZE_CONTRACT.json
+dependencies:
+  - kind: CANONICAL_SOURCE
+    identity:
+      commit: ad705b9627a6f161738f528173ca11ea659ba19d
+      tree: b5dcec881607f07cbb43565d7679edfba0a41afa
+  - kind: BASELINE_ARTIFACT
+    identity:
+      artifact_id: SOURCELENS-P2-066-JAVA-STRUCTURAL-CONTEXT-V5R9
+      relative_path: baseline/public/QUALITY_FREEZE_CONTRACT.json
+      byte_length: 6554
+      sha256: 543dbe31efb65dd18a8c5e1123804fde3883045e9bf8858cb4813c6d14569a80
+      baseline_ids:
+        - B0_DETERMINISTIC_LEXICAL_RETRIEVAL_V5R9
+        - B1_COMPILED_CODE_QA_MOCKMVC_EMPTY_GRAPH_V5R9
+risk_level: high
+baseline_ref:
+  artifact_id: SOURCELENS-P2-066-JAVA-STRUCTURAL-CONTEXT-V5R9
+  relative_path: baseline/public/QUALITY_FREEZE_CONTRACT.json
+  byte_length: 6554
+  sha256: 543dbe31efb65dd18a8c5e1123804fde3883045e9bf8858cb4813c6d14569a80
+  baseline_ids:
+    - B0_DETERMINISTIC_LEXICAL_RETRIEVAL_V5R9
+    - B1_COMPILED_CODE_QA_MOCKMVC_EMPTY_GRAPH_V5R9
+independent_reviewer:
+  - P2-066 Independent CTO Reviewer
+  - P2-066 Independent Security Reviewer
+  - P2-066 Independent Quality and Evaluation Reviewer
+protocol_status_mapping:
+  ELIGIBLE_NOT_ACTIVATED: ready
+  ACTIVE: in_progress
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+capacity_source_task_id: AIOS-P2-066_JAVA_STRUCTURAL_CONTEXT_DISCRIMINATION_BENCHMARK
+budget:
+  engineering_hours: 32
+  calendar_days: 8
+  implementation_iterations: 1
+  candidates: 1
+max_same_task_repairs: 0
+roles:
+  owner: P2-066 Repository Intelligence Benchmark Master
+  worker: P2-066 Generic Product-Path Harness Worker
+  independent_reviewers:
+    - P2-066 Independent CTO Reviewer
+    - P2-066 Independent Security Reviewer
+    - P2-066 Independent Quality and Evaluation Reviewer
+write_ownership:
+  schema_version: role-write-ownership/v1
+  cross_role_write_allowed: false
+  owner:
+    role: P2-066 Repository Intelligence Benchmark Master
+    write_paths:
+      - docs/aios/tasks/P2-066_JAVA_STRUCTURAL_CONTEXT_DISCRIMINATION_BENCHMARK.yaml
+      - docs/aios/truth/project_state.yaml
+  worker:
+    role: P2-066 Generic Product-Path Harness Worker
+    write_paths:
+      - evaluation-harness/harness/p2-java-structural-context-discrimination
+      - evaluation-harness/replay/p2-java-structural-context-discrimination
+      - evaluation-harness/reports/p2-java-structural-context-discrimination
+  independent_reviewers:
+    - role: P2-066 Independent CTO Reviewer
+      write_paths: []
+    - role: P2-066 Independent Security Reviewer
+      write_paths: []
+    - role: P2-066 Independent Quality and Evaluation Reviewer
+      write_paths:
+        - evaluation-harness/evaluator/p2-java-structural-context-discrimination
+        - evaluation-harness/datasets/p2-java-structural-context-discrimination
+allowlisted_paths:
+  - evaluation-harness/harness/p2-java-structural-context-discrimination
+  - evaluation-harness/replay/p2-java-structural-context-discrimination
+  - evaluation-harness/reports/p2-java-structural-context-discrimination
+  - evaluation-harness/evaluator/p2-java-structural-context-discrimination
+  - evaluation-harness/datasets/p2-java-structural-context-discrimination
+  - docs/aios/tasks/P2-066_JAVA_STRUCTURAL_CONTEXT_DISCRIMINATION_BENCHMARK.yaml
+  - docs/aios/truth/project_state.yaml
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+phase_delegation_binding:
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: "1.8"
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  delegation_amendment:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/founder-delegation-continuity-20260808/decision/FOUNDER_PHASE_DELEGATION_CONTINUITY_AMENDMENT_V1.json
+    byte_length: 1182
+    sha256: c37634c51b0b7695204c026f9950911c427f544a6ff2e2c2f786facb9a84a52e
+  source_decision:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-java-structural-context-20260811/task-p2-066/decision/FOUNDER_P2_066_JAVA_STRUCTURAL_CONTEXT_DISCRIMINATION_AUTHORIZATION_V1.structured-decision.json
+    sha256: 88881d8f15779d61744bcbb6c85fb9155518d15bafbd6dbf923409704c6c6a07
+    byte_length: 2966
+  source_terminal_event:
+    task_id: AIOS-P2-065_ESM_IMPORT_GRAPH_CONTEXT_PRODUCT_BENCHMARK
+    status: TERMINAL_VALID_BENCHMARK_NEUTRAL_NO_SUPERIORITY_NON_PASS
+    outcome_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-esm-context-product-20260811/task-p2-065/evidence/terminal/P2_065_TERMINAL_MASTER_LEDGER_OUTCOME_RECEIPT.json
+      byte_length: 3600
+      sha256: 4836413ebd7bdddcd721e5c9d7fe421f0b147a8265dde507d6ea056e725ec338
+  phase_envelope_snapshot:
+    limits:
+      engineering_tasks: 11
+      engineering_hours: 304
+      calendar_days: 76
+      active_tasks: 1
+      task_branches: 1
+      task_worktrees: 1
+      active_candidates: 1
+    consumed:
+      engineering_tasks: 10
+      engineering_hours: 272
+      calendar_days: 68
+    reserved:
+      task_id: AIOS-P2-066_JAVA_STRUCTURAL_CONTEXT_DISCRIMINATION_BENCHMARK
+      route_id: AIOS-P2-066_JAVA_STRUCTURAL_CONTEXT_DISCRIMINATION_BENCHMARK_PHASE_DELEGATED_ROUTE
+      status: ELIGIBLE_NOT_ACTIVATED
+      capacity_source_task_id: AIOS-P2-066_JAVA_STRUCTURAL_CONTEXT_DISCRIMINATION_BENCHMARK
+      budget:
+        engineering_tasks: 1
+        engineering_hours: 32
+        calendar_days: 8
+    remaining:
+      engineering_tasks: 0
+      engineering_hours: 0
+      calendar_days: 0
+  founder_packet_for_task: null
+acceptance_criteria:
+  - The exact twelve-task normative dataset contains eight DEV and four withheld representative Java repository-maintenance cases with hash-bound source, license, provenance, base commit and tree, issue and clarifications, natural lexical ambiguity, language, build, environment snapshot, allowed tools, network, time and cost, tests, regressions, forbidden changes, oracle, evaluator, Evidence, risk and approval fields required by Evaluation Protocol section 2; its queries, source bytes, split, exclusions, causal-relevance records, validation oracles, candidate universe, chunk projection, packing and 4608-byte per-system budgets are sealed before the first normative B0 or B1 output, while every pre-V5R9 draft, rehearsal and control output remains non-normative and is never reused.
+  - All twelve scoring tasks are independent after repository, issue lineage, control-flow, reference-change and patch-similarity deduplication; renamed or templated clones share one statistical unit and therefore cannot satisfy the twelve-task denominator, bootstrap or sign-flip threshold.
+  - B1 and A0 invoke the identical compiled canonical CodeQaController.codeQa MockMvc request path, scanTaskId, CodeChunkService rows, chunking, query, evidence reference, LLM-null and embeddings-disabled state, UTF-8 packer and post-materialization timing window; only the GraphService relation view differs.
+  - A closed product-execution attestation independently binds the compiled test and product source, absolute tool identities, fixed argv and redacted environment, build exit, MockMvc request and response, unique controller invocation, GraphService invocation and row-source counts, H2 driver and database transaction, same-scan persisted row dump, parser-to-persistence provenance and exact process observations; direct retrieval calls, injected edges, cross-scan rows, missing controller or graph calls and forged invocation ids are rejected.
+  - B1 exposes an independently verified empty graph view, while A0 reads only canonical Java-parser rows persisted by CodeGraphPersistenceService into H2 and returned by the canonical GraphService for the same scan; evaluator-owned or injected edges are forbidden.
+  - Before A0, all twelve task-level B0 and twelve task-level B1 system transaction sets are valid and retained, each with exactly two prescribed physical-root replays; the one globally strongest baseline has macro task-relevant-evidence recall at most 0.85, at least six tasks have strongest-baseline recall below 1.0, all oracle units exist in exact source bytes, all causal mutation probes pass, budgets are equal and forbidden context is zero.
+  - If and only if the discrimination gate passes, exactly one A0 system/candidate transaction set is admitted for all twelve tasks, with exactly two prescribed physical-root replays per task and no additional execution or rerun; otherwise the Task terminates NON_DISCRIMINATIVE_BENCHMARK_NON_PASS with zero capability credit and without reading or running A0.
+  - The globally stronger baseline is selected once by macro recall with a deterministic frozen tie-break; no per-task maximum or ensemble is used, and A0 must strictly beat both B0 and B1.
+  - A0 macro recall delta against that baseline is at least 0.15, at least four tasks convert from incomplete to complete evidence, at least six paired task deltas are positive, none are negative, the 10000-resample paired-bootstrap 95-percent lower bound is above zero and the exact two-sided sign-flip p-value is at most 0.05.
+  - Forbidden-context admission is not greater than the global strongest baseline; A0 median post-materialization context-selection latency is at most 2.0 times B1 on the same product execution face; all twelve tasks remain in every denominator.
+  - Raw physical roots remain visible, while the root-independent semantic projection is byte-exact equal across two distinct physical roots; all executions retain closed argv, redacted env, source, graph-row, output, duration, exit and external-effect evidence.
+  - CTO, Security and Quality/Evaluation independently reconstruct the single candidate and all gates from immutable raw Evidence and each returns PASS before any canonical integration or P2 capability credit.
+required_evidence:
+  - Exact canonical source commit/tree, Contract, authorization packet, activation parent, branch, worktree, evidence root, toolchain, argv, redacted environment and all six external-effect identities.
+  - One ACTIVE authority and active_work projection that bind the exact Contract write_ownership partition and reduce the Worker effective write set to harness, replay and reports only; Owner and Quality paths are absent from Worker authority.
+  - The Generic Harness Worker starts in a fresh no-history Agent context whose prompt contains only the sealed public freeze identity, hash-bound canonical product inputs and its exact read/write authority; it does not inherit Master, CTO, Security or Quality conversation state, and a create-once startup receipt records that context boundary before the Worker reads any task input.
+  - Immutable supersession identities and reason-coded NON_PASS receipts for every pre-final-seal draft, including the V5R7 and V5R8 pre-seal Security NON_PASS states and all unsealed V5R9 moving roots, exact B0, B1 and A0 formal execution counts of zero for each, and proof that no prior rehearsal, control output or invalid stage identity is reused as V5R9 formal Evidence; unchanged source bytes may be admitted only after fresh V5R9 closed-inventory, hash and point-of-use verification.
+  - Closed create-once V5R9 public dataset, Quality-custody oracle, causal, product-binding, product-execution attestation, adapter and evaluator inventories, their read-only physical seals and a point-of-use verifier invoked before every B0, B1, A0 and final evaluation transaction.
+  - Twelve source inventories and source-byte hashes, independent issue-to-causal-relevance records, original behavior probes, twelve causal mutants, twenty-four exact evidence anchors and exact before/after behavior or minimal reference-change assertions outside Worker visibility.
+  - Raw B0 and B1 transactions for all twelve tasks, the global comparator choice, complete pre-treatment discrimination calculations and an admission receipt that precedes any A0 execution.
+  - Canonical-JSON, duplicate-key-free raw product-execution transactions that bind the actual physical execution roots, compiled test and product classes, source and tool hashes, fixed argv and redacted environment, build and process exits, MockMvc requests and responses, unique controller and GraphService observations, H2 driver and same-scan persisted-row receipts and independently reconstructed zero external effects.
+  - At most one raw A0 system/candidate transaction set with exactly two prescribed physical-root replays per task, persisted same-scan graph-row identities and source hashes, per-task selections, stable units, UTF-8 packed bytes, metrics, paired deltas, bootstrap samples, sign-flip counts, forbidden-context counts and B1/A0 comparable latency samples.
+  - Exact two-root raw inventories and normalized projection equality, one candidate manifest, product-tree unchanged proof, rollback proof and independent CTO, Security and Quality/Evaluation receipts.
+rollback: >-
+  Abandon only the P2-066 Task branch/worktree and preserve create-once Evidence.
+  If the reviewed non-product harness, evaluator or governance candidate has
+  already been integrated, use a non-destructive Git revert of that exact
+  integration commit. Product source and accepted P2-065 terminal facts remain
+  byte-identical throughout.
+stop_conditions:
+  - Canonical source, Founder decision, V5R9 frozen input identity, source inventory, product binding or any pre-treatment byte drifts before its corresponding transaction.
+  - The normative freeze is not representative repository-maintenance work, omits any Evaluation Protocol TaskSpec field, contains designed query-repetition decoys or randomized target naming that mechanically rigs lexical exclusion, or cannot close Security and CTO product-execution attestation requirements before its first control; no normative B1 or A0 may run on any superseded draft or control lineage.
+  - B0 or B1 is invalid, omitted, rerun or removed; the global strongest baseline exceeds 0.85 macro recall; fewer than six tasks are incomplete; any oracle, causal, equal-budget or zero-forbidden check fails.
+  - B1 and A0 cannot use the same canonical controller path and compiled source with the graph relation view as the sole treatment variable, or A0 graph provenance cannot be proven as persisted same-scan canonical parser output.
+  - Any Worker access reaches validation oracles, causal private records, Quality outputs or A0 outcomes before the permitted freeze boundary.
+  - Any result has an unknown source unit, duplicate unit, path escape, symlink or hardlink, cross-scan row, non-finite or negative duration, unequal byte budget, self-reported effect, open schema or unbound physical root.
+  - A path, dependency, external effect, implementation iteration, candidate, repair, validation rerun, post-outcome tuning or permission outside this Contract is required.
+  - A high-severity source-identity, root-containment, graph-provenance, evaluator-independence, replay, rollback or product-tree-unchanged blocker remains open.
+forbidden_actions:
+  - Restore, read, compare, copy, execute or reuse P2-065 rejected engineering, candidate bundle, hidden or validation content, raw evaluator lineage or implementation assets.
+  - Read validation relation or causal oracles, output or reference-change bytes from the Worker context, or disclose them through Contract, branch, harness, logs or public Evidence.
+  - Reuse a Master, CTO, Security or Quality Agent context as the Generic Harness Worker, or pass any reviewer conversation, validation-custody locator, validation selector, raw validation oracle identity, validation nonce or post-run validation reveal into the Worker prompt; DEV references remain governed by the public development split.
+  - Change, replace, reword, rebudget or refreeze any task, source, query, oracle, split, exclusion, causal-relevance record, candidate universe, packing rule, metric or threshold after the first valid V5 control output.
+  - Run A0 before an independently reconstructed PASS discrimination gate, admit more than one A0 system/candidate set, execute any system/task outside its exact two prescribed physical-root replays, rerun a control, tune after any outcome or remove an invalid or failed task from the denominator.
+  - Compare a direct retrieval service B1 with a controller A0, inject evaluator-owned graph edges, accept cross-scan rows, use graph reachability as its own relevance oracle, enable embeddings/LLM or mix B0 wall-clock latency into the B1/A0 product latency guardrail.
+  - Use a task-provided command, downloader, network, Provider, Secret, remote, production or public capability; push, create a PR, release or modify product source.
+  - Enter P3, claim P2 or Long-term Goal completion, overwrite P2-065 terminal facts, or terminate P2, the SourceLens project or the active Long-term Goal because this Task stops.
+claim_boundary: >-
+  One offline cooperative-local P2 Research Task may build only generic harness,
+  evaluator, dataset, replay and governance support around the unchanged current
+  canonical Java Code QA product; freeze twelve new source-bound Java tasks;
+  compare B0 and graph-disabled B1 before admitting one graph-enabled A0; and
+  claim at most bounded Java structural-maintenance context-discrimination
+  evidence for the exact ad705 SourceLens repository after exact independent
+  review. It does not establish cross-repository or cross-language
+  generalization. Activation, a valid run or a local metric alone is not P2
+  capability credit, product or production readiness, P2 completion, P3 entry
+  or Long-term Goal completion. Task NON_PASS leaves P2 active and returns
+  scheduling to Master subject to the remaining envelope.

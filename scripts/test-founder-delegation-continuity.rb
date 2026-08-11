@@ -190,10 +190,19 @@ terminal_contract_path = File.join(
 )
 terminal_contract_identity = identity_for(terminal_contract_path)
 terminal_fixture_truth = ([current_truth] + historical_truths.reverse).find do |candidate|
+  source_route_ref = candidate.dig(
+    "phase_execution_envelope", "authority_basis", "source_route_ref"
+  )
+  source_route = source_route_ref.is_a?(String) ? candidate[source_route_ref] : nil
+  next false unless source_route.is_a?(Hash)
+
   Array(candidate.dig("phase_execution_envelope", "task_ledger")).any? do |entry|
     next false unless entry.is_a?(Hash) &&
                       entry.dig("contract", "sha256") == terminal_contract_identity["sha256"] &&
                       entry.dig("contract", "byte_length") == terminal_contract_identity["byte_length"]
+    source_tasks = Array(source_route["task_plan"])
+    next false unless source_tasks.length == 1 && source_tasks.first.is_a?(Hash) &&
+                      source_tasks.first["task_id"] == entry["task_id"]
     receipt_path = entry.dig("outcome_receipt", "path")
     next false unless receipt_path.is_a?(String) && File.file?(receipt_path)
 
@@ -237,6 +246,40 @@ active_source_route = active_fixture_truth.fetch(active_source_route_ref)
 
 Dir.mktmpdir("founder-delegation-continuity-") do |fixtures|
   assertions = 0
+
+  v1_3_token = "AUTHORIZE_P2_ONE_INDEPENDENT_JAVA_CONTEXT_BENCHMARK_V1"
+  v1_3_route = "P2_ONE_INDEPENDENT_JAVA_CONTEXT_BENCHMARK_ROUTE_V1"
+  v1_3_packet = <<~PACKET
+    - Exact authorization token:
+      `#{v1_3_token}`
+    - Exact Founder message:
+      `#{v1_3_token}；同意一个受限 P2 Task。`
+  PACKET
+  expect_method_pass("v1-3-exact-token-route-source-packet-pass") do
+    FounderDelegationContinuity.validate_v1_3_authorization_binding!(
+      v1_3_token, v1_3_route, v1_3_packet
+    )
+  end
+  assertions += 1
+
+  expect_method_non_pass("v1-3-route-drift-reject",
+                         "single-Task expansion v1.3 token-to-Route binding drift") do
+    FounderDelegationContinuity.validate_v1_3_authorization_binding!(
+      v1_3_token, "P2_ONE_INDEPENDENT_JAVA_CONTEXT_BENCHMARK_ROUTE_V2", v1_3_packet
+    )
+  end
+  assertions += 1
+
+  alternate_packet = v1_3_packet.sub(
+    "#{v1_3_token}；", "AUTHORIZE_P2_OTHER_CONTEXT_BENCHMARK_V1；"
+  )
+  expect_method_non_pass("v1-3-source-packet-token-drift-reject",
+                         "single-Task expansion v1.3 source packet authorization binding drift") do
+    FounderDelegationContinuity.validate_v1_3_authorization_binding!(
+      v1_3_token, v1_3_route, alternate_packet
+    )
+  end
+  assertions += 1
 
   current_disposition = current_truth.fetch("founder_escalation_control").fetch("disposition")
   expect_pass(fixtures, "current-canonical-delegation-disposition", current_truth,
@@ -692,7 +735,7 @@ Dir.mktmpdir("founder-delegation-continuity-") do |fixtures|
     }
   )
   expect_non_pass(fixtures, "predeclared-terminal-receipt-substitution", truth,
-                  "phase execution source Task ledger entry has no immutable Git introduction")
+                  "single-Task expansion prior ledger prefix drifts from activation-parent accounting")
   assertions += 1
 
   expect_pass(fixtures, "ordinary-terminal-continues", base,
@@ -763,6 +806,12 @@ Dir.mktmpdir("founder-delegation-continuity-") do |fixtures|
   truth["phase_execution_envelope"]["status"] = "EXHAUSTED"
   expect_non_pass(fixtures, "false-envelope-exhaustion", truth,
                   "phase execution envelope status does not match reservation and remaining capacity")
+  assertions += 1
+
+  truth = deep_copy(current_truth)
+  truth["claim_boundary"]["p2_phase_envelope_status"] = "EXHAUSTED"
+  expect_non_pass(fixtures, "claim-boundary-envelope-status-drift", truth,
+                  "delegated independent Task claim-boundary Phase envelope status drift")
   assertions += 1
 
   truth = deep_copy(base)

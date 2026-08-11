@@ -18,6 +18,8 @@ module CurrentTaskAuthority
   COMMIT_RE = /\A[0-9a-f]{40}\z/.freeze
   SAFE_TASK_ID_RE = /\AAIOS-P[12]-[0-9]{3}(?:_[A-Z0-9_]+)?\z/.freeze
   ROUTE_ID_RE = /\AP[12]_[A-Z0-9_]+_ROUTE_V[1-9][0-9]*\z/.freeze
+  SINGLE_TASK_EXPANSION_DECISION_VERSIONS = %w[1.2 1.3].freeze
+  TASK_EFFECT_DECISION_VERSIONS = %w[1.1 1.2 1.3].freeze
   EXTERNAL_EFFECT_KEYS = %w[network provider secret remote production public].freeze
   FALSE_EXTERNAL_EFFECTS = {
     "network" => false,
@@ -1088,6 +1090,93 @@ module CurrentTaskAuthority
     match.is_a?(Array) && match.length == 1 ? match.first : match
   end
 
+  def source_founder_packet_v1_3_claims(packet_bytes, decision, root)
+    text = packet_bytes.dup.force_encoding(Encoding::UTF_8)
+    assert(text.valid_encoding?, "structured Founder route decision v1.3 source packet must be valid UTF-8")
+    declared_token = one_packet_match(
+      text,
+      /^- Exact authorization token:\n  `([A-Z0-9_]+)`$/,
+      "v1.3 exact authorization token declaration"
+    )
+    message_token = one_packet_match(
+      text,
+      /^- Exact Founder message:\n  `([A-Z0-9_]+)；[^`\n]+`$/,
+      "v1.3 exact Founder message"
+    )
+    expected_token = decision.fetch("authorization_token")
+    assert(declared_token == expected_token && message_token == expected_token,
+           "structured Founder route decision v1.3 source packet token binding drift")
+    packet_tokens = text.scan(/AUTHORIZE_[A-Za-z0-9_]+/)
+    assert(packet_tokens == [expected_token, expected_token],
+           "structured Founder route decision v1.3 source packet authorization token occurrences drift")
+
+    parent = decision.fetch("activation_parent")
+    assert(one_packet_match(text, /^- Branch: `([^`]+)`$/, "v1.3 canonical branch") == "main",
+           "structured Founder route decision v1.3 source packet branch drift")
+    assert(one_packet_match(text, /^- Commit: `([0-9a-f]{40})`$/, "v1.3 canonical commit") == parent["commit"],
+           "structured Founder route decision v1.3 source packet commit drift")
+    assert(one_packet_match(text, /^- Tree: `([0-9a-f]{40})`$/, "v1.3 canonical tree") == parent["tree"],
+           "structured Founder route decision v1.3 source packet tree drift")
+    truth_sha = one_packet_match(
+      text,
+      /^- Truth SHA-256:\n  `([0-9a-f]{64})`$/,
+      "v1.3 activation-parent Truth SHA-256"
+    )
+    parent_truth = git(root, "show", "#{parent['commit']}:docs/aios/truth/project_state.yaml").first.b
+    assert(truth_sha == sha256(parent_truth),
+           "structured Founder route decision v1.3 source packet Truth SHA-256 drift")
+
+    task_id = one_packet_match(
+      text,
+      /^- Task ID:\n  `(AIOS-P[12]-[0-9]{3}_[A-Z0-9_]+)`$/,
+      "v1.3 exact Task id"
+    )
+    route_id = one_packet_match(
+      text,
+      /^- Route ID: `(P[12]_[A-Z0-9_]+_ROUTE_V[1-9][0-9]*)`$/,
+      "v1.3 exact Route id"
+    )
+    assert(task_id == decision.dig("ordered_tasks", 0, "task_id") &&
+           route_id == decision.fetch("route_id"),
+           "structured Founder route decision v1.3 source packet Task or Route binding drift")
+
+    cumulative = {
+      "engineering_tasks" => Integer(one_packet_match(
+        text, /- `([0-9]+) engineering Tasks` maximum;/, "v1.3 cumulative Task ceiling"
+      ), 10),
+      "engineering_hours" => Integer(one_packet_match(
+        text, /- `([0-9]+) engineering hours` maximum;/, "v1.3 cumulative hour ceiling"
+      ), 10),
+      "calendar_days" => Integer(one_packet_match(
+        text, /- `([0-9]+) calendar days` maximum;/, "v1.3 cumulative day ceiling"
+      ), 10)
+    }
+    envelope = decision.fetch("envelope")
+    assert(cumulative == {
+      "engineering_tasks" => envelope.fetch("max_engineering_tasks"),
+      "engineering_hours" => envelope.fetch("max_engineering_hours"),
+      "calendar_days" => envelope.fetch("max_calendar_days")
+    }, "structured Founder route decision v1.3 source packet cumulative envelope drift")
+    incremental = one_packet_match(
+      text,
+      /The incremental reservation is exactly `([0-9]+) Task \/ ([0-9]+) engineering hours \/ ([0-9]+)\s+calendar days`\./m,
+      "v1.3 incremental Task envelope"
+    ).map { |value| Integer(value, 10) }
+    task = decision.dig("ordered_tasks", 0)
+    assert(incremental == [1, task.fetch("engineering_hours"), task.fetch("calendar_days")],
+           "structured Founder route decision v1.3 source packet incremental envelope drift")
+    assert(text.scan(/^- Product mutation: prohibited\. The Task evaluates current canonical Code QA\.$/).length == 1,
+           "structured Founder route decision v1.3 source packet product mutation boundary drift")
+    assert(text.scan(/zero network, Provider, Secret, remote, production or public effects\./).length == 1,
+           "structured Founder route decision v1.3 source packet external effect boundary drift")
+    assert(text.scan(/P3 HOLD, production readiness or public state\./).length == 1 &&
+           text.scan(/no second Task,[\s\S]*?Phase exit or Long-term Goal completion\./).length == 1,
+           "structured Founder route decision v1.3 source packet Phase or Goal boundary drift")
+    true
+  rescue ArgumentError
+    fail!("structured Founder route decision v1.3 source packet contains a non-integer envelope")
+  end
+
   def source_founder_packet_v4_profile_claims(packet_bytes, expected_authorization_token, label)
     text = packet_bytes.dup.force_encoding(Encoding::UTF_8)
     assert(text.valid_encoding?, "#{label} must be valid UTF-8")
@@ -1560,16 +1649,16 @@ module CurrentTaskAuthority
       decision["schema_version"],
       "structured Founder route decision.schema_version"
     )
-    assert(%w[1.0 1.1 1.2].include?(schema_version),
-           "structured Founder route decision schema_version must equal 1.0, 1.1 or 1.2")
+    assert(%w[1.0 1.1 1.2 1.3].include?(schema_version),
+           "structured Founder route decision schema_version must equal 1.0, 1.1, 1.2 or 1.3")
     root_keys = %w[
       activation_parent authorization_token automatic_entry claim_boundary envelope
       external_effects goal_identity ordered_tasks phase record_type route_id
       schema_version source_founder_packet_identity
     ]
-    root_keys << "automatic_entries" if %w[1.1 1.2].include?(schema_version)
+    root_keys << "automatic_entries" if TASK_EFFECT_DECISION_VERSIONS.include?(schema_version)
     root_keys.concat(%w[exact_reserved_trigger new_task_ids prior_consumed_envelope]) if
-      schema_version == "1.2"
+      SINGLE_TASK_EXPANSION_DECISION_VERSIONS.include?(schema_version)
     exact_keys(
       decision,
       root_keys,
@@ -1577,7 +1666,7 @@ module CurrentTaskAuthority
     )
     assert(decision["record_type"] == "founder_phase_route_decision",
            "structured Founder route decision record_type is unsupported")
-    if schema_version == "1.2"
+    if SINGLE_TASK_EXPANSION_DECISION_VERSIONS.include?(schema_version)
       assert(decision["exact_reserved_trigger"] ==
              "MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE",
              "structured Founder route decision v1.2 exact reserved trigger drift")
@@ -1593,8 +1682,25 @@ module CurrentTaskAuthority
       decision["authorization_token"],
       "structured Founder route decision.authorization_token"
     )
-    assert(authorization_token == "AUTHORIZE_#{route_id}",
-           "structured Founder route decision authorization token does not match route_id")
+    if schema_version == "1.3"
+      token_match = /\AAUTHORIZE_(P[12]_[A-Z0-9]+(?:_[A-Z0-9]+)*)_V([1-9][0-9]*)\z/.match(
+        authorization_token
+      )
+      assert(token_match,
+             "structured Founder route decision v1.3 authorization token has invalid exact form")
+      token_base = token_match[1]
+      assert(!token_base.end_with?("_ROUTE"),
+             "structured Founder route decision v1.3 authorization token already contains a route suffix")
+      expected_route_id = "#{token_base}_ROUTE_V#{token_match[2]}"
+      assert(route_id == expected_route_id,
+             "structured Founder route decision v1.3 authorization token does not bijectively bind route_id")
+      inverse_token = "AUTHORIZE_#{route_id.sub(/_ROUTE_V([1-9][0-9]*)\z/, '_V\\1')}"
+      assert(inverse_token == authorization_token,
+             "structured Founder route decision v1.3 route_id does not invert to the exact authorization token")
+    else
+      assert(authorization_token == "AUTHORIZE_#{route_id}",
+             "structured Founder route decision authorization token does not match route_id")
+    end
 
     parent = exact_keys(
       decision["activation_parent"],
@@ -1622,6 +1728,9 @@ module CurrentTaskAuthority
                    "structured Founder source packet byte_length").positive?,
            "structured Founder source packet byte_length must be positive")
     source_packet_bytes = validate_identity(source_path, source_packet, "Founder source packet")
+    if schema_version == "1.3"
+      source_founder_packet_v1_3_claims(source_packet_bytes, decision, root)
+    end
 
     goal_identity = exact_keys(
       decision["goal_identity"],
@@ -1682,7 +1791,7 @@ module CurrentTaskAuthority
 
     task_values = array(decision["ordered_tasks"],
                         "structured Founder route decision.ordered_tasks")
-    if schema_version == "1.2"
+    if SINGLE_TASK_EXPANSION_DECISION_VERSIONS.include?(schema_version)
       assert(task_values.length == 1,
              "structured Founder route decision v1.2 requires exactly one newly authorized Task")
     else
@@ -1696,7 +1805,8 @@ module CurrentTaskAuthority
         calendar_days engineering_hours max_candidates max_implementation_iterations
         max_same_task_repairs task_id task_slot
       ]
-      task_keys.concat(%w[external_effects founder_reserved_profile]) if %w[1.1 1.2].include?(schema_version)
+      task_keys.concat(%w[external_effects founder_reserved_profile]) if
+        TASK_EFFECT_DECISION_VERSIONS.include?(schema_version)
       task = exact_keys(
         value,
         task_keys,
@@ -1721,7 +1831,7 @@ module CurrentTaskAuthority
              "structured decision Task implementation iterations must equal initial plus repairs")
       assert(task["max_candidates"] == envelope["max_active_candidates"],
              "structured decision Task candidate budget does not equal route envelope")
-      if %w[1.1 1.2].include?(schema_version)
+      if TASK_EFFECT_DECISION_VERSIONS.include?(schema_version)
         task_effects = exact_keys(
           task["external_effects"],
           EXTERNAL_EFFECT_KEYS,
@@ -1765,7 +1875,7 @@ module CurrentTaskAuthority
 
     prior_consumed_envelope = nil
     new_task_ids = task_ids
-    if schema_version == "1.2"
+    if SINGLE_TASK_EXPANSION_DECISION_VERSIONS.include?(schema_version)
       prior_consumed_envelope = exact_keys(
         decision["prior_consumed_envelope"],
         %w[
@@ -1889,7 +1999,7 @@ module CurrentTaskAuthority
              "structured Founder route decision Task calendar budgets do not equal route envelope")
     end
 
-    automatic_entry = if schema_version == "1.2"
+    automatic_entry = if SINGLE_TASK_EXPANSION_DECISION_VERSIONS.include?(schema_version)
                         assert(decision["automatic_entry"].nil?,
                                "structured Founder route decision v1.2 automatic_entry must be null")
                         nil
@@ -1906,7 +2016,7 @@ module CurrentTaskAuthority
                                "structured Founder route decision automatic entry requires Task Gate PASS")
                         entry
                       end
-    automatic_entries = if schema_version == "1.2"
+    automatic_entries = if SINGLE_TASK_EXPANSION_DECISION_VERSIONS.include?(schema_version)
                           entries = array(
                             decision["automatic_entries"],
                             "structured Founder route decision.automatic_entries"
@@ -1939,21 +2049,21 @@ module CurrentTaskAuthority
                         else
                           [automatic_entry]
                         end
-    task_effects = if %w[1.1 1.2].include?(schema_version)
+    task_effects = if TASK_EFFECT_DECISION_VERSIONS.include?(schema_version)
                      task_budgets.to_h do |task|
                        [task["task_id"], task.fetch("external_effects")]
                      end
                    else
                      task_ids.to_h { |task_id| [task_id, external_effects] }
                    end
-    founder_reserved_profiles = if %w[1.1 1.2].include?(schema_version)
+    founder_reserved_profiles = if TASK_EFFECT_DECISION_VERSIONS.include?(schema_version)
                                   task_budgets.map do |task|
                                     task["founder_reserved_profile"]
                                   end.compact
                                 else
                                   []
                                 end
-    if %w[1.1 1.2].include?(schema_version) && !founder_reserved_profiles.empty?
+    if TASK_EFFECT_DECISION_VERSIONS.include?(schema_version) && !founder_reserved_profiles.empty?
       assert(founder_reserved_profiles.length == 1,
              "structured Founder route decision supports exactly one source-bound Provider profile")
       source_profile = source_founder_packet_v4_profile_claims(
@@ -1988,7 +2098,7 @@ module CurrentTaskAuthority
       assert(profile.dig("secret", "entry_sessions") == source_profile["secret_entry_sessions"],
              "structured Founder Provider Secret entry count does not equal the source Founder packet")
     end
-    if %w[1.1 1.2].include?(schema_version)
+    if TASK_EFFECT_DECISION_VERSIONS.include?(schema_version)
       projected_route_effects = EXTERNAL_EFFECT_KEYS.to_h do |key|
         [key, task_effects.values.any? { |effects| effects[key] }]
       end
@@ -2280,7 +2390,7 @@ module CurrentTaskAuthority
              "Truth route phase does not match structured Founder decision")
       assert(route["automatic_entry"] == claims["automatic_entry"],
              "Truth automatic entry does not match structured Founder decision")
-      if %w[1.1 1.2].include?(claims["structured_decision_version"])
+      if TASK_EFFECT_DECISION_VERSIONS.include?(claims["structured_decision_version"])
         assert(route["automatic_entries"] == claims["automatic_entries"],
                "Truth automatic entries do not match structured Founder decision")
       end
@@ -2327,7 +2437,7 @@ module CurrentTaskAuthority
     assert(envelope["p2_entry_authorized"] == expected_p2_entry,
            "route envelope P2 entry must match current phase")
     exact_false(envelope["p3_entry_authorized"], "route envelope P3 entry")
-    if %w[1.1 1.2].include?(claims["structured_decision_version"])
+    if TASK_EFFECT_DECISION_VERSIONS.include?(claims["structured_decision_version"])
       expected_profiles = claims.fetch("founder_reserved_profiles")
       route_profiles = array(
         route.fetch("founder_reserved_profiles", []),
@@ -2524,7 +2634,7 @@ module CurrentTaskAuthority
             assert(item[key] == packet_budget[key],
                    "current_phase_route.task_plan #{key} does not equal the structured Founder decision")
           end
-          if %w[1.1 1.2].include?(claims["structured_decision_version"])
+          if TASK_EFFECT_DECISION_VERSIONS.include?(claims["structured_decision_version"])
             assert(item["external_effects"] == packet_budget["external_effects"],
                    "current_phase_route.task_plan external effects do not equal the structured Founder decision")
           end
@@ -2690,7 +2800,7 @@ module CurrentTaskAuthority
     assert(roles.keys.sort == %w[independent_reviewers owner worker], "Task NONE roles keys mismatch")
     assert(roles["owner"].nil? && roles["worker"].nil? &&
            array(roles["independent_reviewers"], "Task NONE reviewers").empty?, "Task NONE roles must be empty")
-    expected_effects = if %w[1.1 1.2].include?(claims["structured_decision_version"])
+    expected_effects = if TASK_EFFECT_DECISION_VERSIONS.include?(claims["structured_decision_version"])
                          FALSE_EXTERNAL_EFFECTS
                        elsif claims["structured_decision"]
                          claims.fetch("external_effects")
@@ -2943,6 +3053,7 @@ module CurrentTaskAuthority
       "MASTER_ACTIVATE_PHASE_DELEGATED_TASK"
     phase_claim = hash(truth["phase_execution_claim"], "phase_execution_claim")
     boundary = hash(truth["claim_boundary"], "claim_boundary")
+    envelope = hash(truth["phase_execution_envelope"], "phase_execution_envelope")
     active = hash(truth["active_work"], "active_work")
     control = hash(truth["founder_escalation_control"], "founder_escalation_control")
     assert(phase_claim["current_route_claim"] == route_id &&
@@ -2958,6 +3069,9 @@ module CurrentTaskAuthority
            "current next-action projections do not equal the exact phase-delegated lifecycle")
     assert(phase_claim["real_engineering_progress"] == boundary["real_engineering_progress"],
            "current real-engineering-progress projections drift")
+    envelope_claim_key = "#{route.fetch('phase').downcase}_phase_envelope_status"
+    assert(boundary[envelope_claim_key] == envelope["status"],
+           "current claim-boundary Phase envelope status drifts from the authoritative envelope")
     assert(phase_claim["product_capability_changed"] == false,
            "active authority must not project a product capability change")
     true
@@ -3065,6 +3179,8 @@ module CurrentTaskAuthority
     bytes = validate_identity(path, identity, "phase-delegated Task Contract")
     source_route = hash(truth[route["source_authority_route_ref"]],
                         "phase-delegated source authority Route")
+    parsed_contract = parse_structured(bytes, path, "phase-delegated Task Contract")
+    contract_schema_version = parsed_contract["schema_version"]
     contract_keys = %w[
         schema_version record_type task_id phase route_id status task_kind capability
         objective why_now task_spec_ref owner_role worker_role write_scope read_context
@@ -3074,15 +3190,17 @@ module CurrentTaskAuthority
         goal_identity phase_delegation_binding acceptance_criteria required_evidence
         rollback stop_conditions forbidden_actions claim_boundary
     ]
+    contract_keys << "write_ownership" if contract_schema_version == "1.1"
     contract_keys << "repair_accounting" if task.key?("repair_accounting")
     contract = exact_keys(
-      parse_structured(bytes, path, "phase-delegated Task Contract"),
+      parsed_contract,
       contract_keys,
       "phase-delegated Task Contract"
     )
-    assert(contract["schema_version"] == "1.0" &&
+    assert(%w[1.0 1.1].include?(contract["schema_version"]) &&
            contract["record_type"] == DELEGATED_TASK_CONTRACT_TYPE,
            "phase-delegated Task Contract type drift")
+    validate_phase_delegated_contract_schema_binding!(source_route, contract)
     validate_phase_delegated_contract_policy_fields(contract)
     validate_phase_delegated_protocol_contract_fields(truth, route, contract)
     projected_keys = %w[
@@ -3108,6 +3226,13 @@ module CurrentTaskAuthority
     assert(contract["rollback"].is_a?(String) && !contract["rollback"].empty?,
            "phase-delegated Task Contract rollback is missing")
     [contract, identity]
+  end
+
+  def validate_phase_delegated_contract_schema_binding!(source_route, contract)
+    return contract unless source_route["schema_version"] == "1.3"
+    assert(contract["schema_version"] == "1.1" && contract.key?("write_ownership"),
+           "v1.3 Founder source Route requires a role-partitioned Task Contract v1.1")
+    contract
   end
 
   def validate_phase_delegated_common_scope(truth, route, task, contract)
@@ -3164,7 +3289,10 @@ module CurrentTaskAuthority
 
     scopes = normalize_scopes(contract["allowlisted_paths"],
                               "phase-delegated Task Contract allowlisted_paths")
+    ownership = contract["schema_version"] == "1.1" ?
+      validate_phase_delegated_write_ownership!(contract, roles, scopes) : nil
     boundary = hash(truth["phase_boundary"], "phase_boundary")
+    validate_phase_delegated_role_root_binding!(ownership, boundary) if ownership
     roots = flatten_write_roots(boundary["role_write_roots"])
     immutable = array(boundary["immutable_authority_paths"], "phase_boundary.immutable_authority_paths")
     scopes.each do |scope|
@@ -3177,6 +3305,103 @@ module CurrentTaskAuthority
                               "phase-delegated Task Contract external_effects",
                               FALSE_EXTERNAL_EFFECTS)
     [budget, repairs, roles, scopes]
+  end
+
+  def validate_phase_delegated_write_ownership!(contract, roles, scopes)
+    ownership = exact_keys(
+      contract["write_ownership"],
+      %w[schema_version cross_role_write_allowed owner worker independent_reviewers],
+      "phase-delegated Task Contract write_ownership"
+    )
+    assert(ownership["schema_version"] == "role-write-ownership/v1" &&
+           ownership["cross_role_write_allowed"] == false,
+           "phase-delegated Task write ownership policy drift")
+
+    owner_record = exact_keys(
+      ownership["owner"], %w[role write_paths],
+      "phase-delegated Task owner write ownership"
+    )
+    worker_record = exact_keys(
+      ownership["worker"], %w[role write_paths],
+      "phase-delegated Task worker write ownership"
+    )
+    reviewer_records = array(
+      ownership["independent_reviewers"],
+      "phase-delegated Task reviewer write ownership"
+    ).map do |record|
+      exact_keys(record, %w[role write_paths],
+                 "phase-delegated Task reviewer write ownership record")
+    end
+    assert(owner_record["role"] == roles["owner"] &&
+           worker_record["role"] == roles["worker"] &&
+           reviewer_records.map { |record| record["role"] } == roles["independent_reviewers"],
+           "phase-delegated Task write ownership role projection drift")
+
+    records = [owner_record, worker_record] + reviewer_records
+    path_sets = records.map do |record|
+      declared_paths = array(
+        record["write_paths"],
+        "phase-delegated Task write paths for #{record['role']}"
+      )
+      declared_paths.empty? ? [] : normalize_scopes(
+        declared_paths,
+        "phase-delegated Task write paths for #{record['role']}"
+      )
+    end
+    assert(path_sets.flatten.length == path_sets.flatten.uniq.length,
+           "phase-delegated Task write ownership paths overlap across roles")
+    path_sets.each_with_index do |left_paths, left_index|
+      path_sets.each_with_index do |right_paths, right_index|
+        next unless right_index > left_index
+        left_paths.product(right_paths).each do |left_path, right_path|
+          assert(!scope_within_root?(left_path, right_path) &&
+                 !scope_within_root?(right_path, left_path),
+                 "phase-delegated Task write ownership ancestor paths overlap across roles")
+        end
+      end
+    end
+    assert(path_sets.flatten.sort == scopes.sort,
+           "phase-delegated Task write ownership does not exactly partition the allowlist")
+    ownership
+  end
+
+  def validate_phase_delegated_active_write_ownership!(contract, authority, active, roles, scopes)
+    ownership = validate_phase_delegated_write_ownership!(contract, roles, scopes)
+    worker_paths = normalize_scopes(
+      ownership.dig("worker", "write_paths"),
+      "phase-delegated effective Worker write paths"
+    )
+    assert(authority["write_ownership"] == ownership &&
+           active["write_ownership"] == ownership,
+           "phase-delegated active role write ownership projection drift")
+    assert(normalize_scopes(
+             authority["effective_worker_write_paths"],
+             "phase-delegated authority effective Worker paths"
+           ) == worker_paths &&
+           normalize_scopes(
+             active["effective_worker_write_paths"],
+             "phase-delegated active effective Worker paths"
+           ) == worker_paths,
+           "phase-delegated Worker effective write set exceeds its role partition")
+    ownership
+  end
+
+  def validate_phase_delegated_role_root_binding!(ownership, boundary)
+    role_roots = hash(boundary["role_write_roots"], "phase boundary role_write_roots")
+    bindings = [
+      [ownership["owner"], array(role_roots["integration"], "integration write roots")],
+      [ownership["worker"], array(role_roots["worker"], "Worker write roots")]
+    ]
+    array(ownership["independent_reviewers"], "reviewer ownership records").each do |record|
+      bindings << [record, array(role_roots["quality"], "Quality write roots")]
+    end
+    bindings.each do |record, roots|
+      array(record["write_paths"], "role-owned write paths").each do |path|
+        assert(roots.any? { |root_path| scope_within_root?(path, root_path) },
+               "phase-delegated role write path is outside its assigned Phase role roots")
+      end
+    end
+    ownership
   end
 
   def validate_phase_delegated_none_state(truth, route, task, contract_identity)
@@ -3332,13 +3557,16 @@ module CurrentTaskAuthority
         capacity_source_task_id budget max_same_task_repairs roles allowlisted_paths external_effects goal_identity
         phase_delegation_binding founder_reserved_authorization founder_reserved_profile
     ]
+    authority_keys.concat(%w[write_ownership effective_worker_write_paths]) if
+      contract["schema_version"] == "1.1"
     authority_keys << "repair_accounting" if task.key?("repair_accounting")
     authority = exact_keys(
       parse_structured(authority_bytes, authority_path, "phase-delegated authority"),
       authority_keys,
       "phase-delegated authority"
     )
-    assert(authority["schema_version"] == "1.0" &&
+    expected_authority_schema = contract["schema_version"] == "1.1" ? "1.1" : "1.0"
+    assert(authority["schema_version"] == expected_authority_schema &&
            authority["record_type"] == DELEGATED_TASK_AUTHORITY_TYPE,
            "phase-delegated authority type drift")
     assert(authority["task_id"] == task_id && authority["phase"] == route["phase"] &&
@@ -3353,6 +3581,11 @@ module CurrentTaskAuthority
            authority["roles"] == roles &&
            normalize_scopes(authority["allowlisted_paths"], "phase-delegated authority paths") == scopes,
            "phase-delegated authority scope drift")
+    if contract["schema_version"] == "1.1"
+      validate_phase_delegated_active_write_ownership!(
+        contract, authority, active, roles, scopes
+      )
+    end
     if task.key?("repair_accounting")
       capacity_source = FounderDelegationContinuity.source_capacity_task!(
         source_route,
@@ -3534,7 +3767,7 @@ module CurrentTaskAuthority
       "current_phase_route source authority Route"
     )
     validate_phase_delegated_current_projections(truth, route, task) if
-      source_route["schema_version"] == "1.2"
+      SINGLE_TASK_EXPANSION_DECISION_VERSIONS.include?(source_route["schema_version"])
     contract, contract_identity = validate_phase_delegated_contract(root, truth, route, task)
     budget, repairs, roles, scopes = validate_phase_delegated_common_scope(truth, route, task, contract)
     if hash(truth["active_work"], "active_work")["current_task"] == "NONE"
@@ -3742,7 +3975,7 @@ module CurrentTaskAuthority
         "Truth active Founder-reserved profile does not equal the exact decision packet"
       )
     else
-      expected_effects = if %w[1.1 1.2].include?(claims["structured_decision_version"])
+      expected_effects = if TASK_EFFECT_DECISION_VERSIONS.include?(claims["structured_decision_version"])
                            claims.fetch("task_effects").fetch(task_id)
                          else
                            claims.fetch("external_effects", FALSE_EXTERNAL_EFFECTS)

@@ -1,0 +1,234 @@
+schema_version: "1.1"
+record_type: aios_phase_delegated_independent_task_contract
+task_id: AIOS-P2-067
+phase: P2
+route_id: AIOS-P2-067_PHASE_DELEGATED_ROUTE
+status: ELIGIBLE_NOT_ACTIVATED
+task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
+capability: REPRODUCIBLE_CONTEXT_BENCHMARK
+objective: >-
+  Evaluate whether the unchanged canonical SourceLens POST /api/projects/{projectId}/qa
+  path selects materially more independently-required Java maintenance context than
+  one frozen independent simple lexical baseline on twelve current-source behavior
+  lineages, using external loopback HTTP, file-backed H2 and independently observed
+  evidence without trusting application self-reports.
+why_now: >-
+  P2 remains active and incomplete because its sole required Exit item is missing.
+  The Founder has added exactly one independent 32-hour, 8-day Task and has expressly
+  prohibited any read, comparison, copy, restoration or repair of the P2-066/f94
+  rejected lineage. This fresh black-box design directly tests the missing capability
+  without mutating product source or expanding external permissions.
+task_spec_ref:
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-black-box-java-context-20260811/task-p2-067/decision/FOUNDER_P2_067_BLACK_BOX_JAVA_CONTEXT_BENCHMARK_AUTHORIZATION_V1.md
+  sha256: 26f76ad017af093110a72864fe1edbd28d68843e9991f6f3c2944c42d44fe709
+  byte_length: 2539
+owner_role: MASTER_CEO_AGENT
+worker_role: P2_067_FRESH_NO_HISTORY_BLACK_BOX_HARNESS_WORKER
+write_scope:
+  - docs/aios/tasks/P2-067_INDEPENDENT_BLACK_BOX_JAVA_CONTEXT_BENCHMARK.yaml
+  - docs/aios/truth/project_state.yaml
+  - evaluation-harness/harness/p2-067-black-box-java-context
+  - evaluation-harness/replay/p2-067-black-box-java-context
+  - evaluation-harness/reports/p2-067-black-box-java-context
+  - evaluation-harness/evaluator/p2-067-black-box-java-context
+  - evaluation-harness/datasets/p2-067-black-box-java-context
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - /Users/lijunpeng/Developer/.sourcelens-audit/p2-black-box-java-context-20260811/task-p2-067/decision/FOUNDER_P2_067_BLACK_BOX_JAVA_CONTEXT_BENCHMARK_AUTHORIZATION_V1.md
+  - TASK_EVIDENCE_ROOT/baseline/public/BASELINE_STAGE.json
+dependencies:
+  - kind: CANONICAL_SOURCE
+    identity:
+      commit: 4dfa05eb6af3c062124fbfd7ec6b44246a41e59b
+      tree: a092922aacbf63777b823d5a5284ba111e7d7ee0
+  - kind: BASELINE_ARTIFACT
+    identity:
+      artifact_id: P2-067-QUALITY-PREACTIVATION-BASELINE-V1
+      relative_path: baseline/public/BASELINE_STAGE.json
+      byte_length: 1364
+      sha256: 27cfeec823f7b4195327400378771d430d204381d7c1ef89ade51eecb3174880
+      baseline_ids:
+        - B1_SIMPLE_LEXICAL_V1
+        - A0_CANONICAL_TCP_QA_V1
+risk_level: high
+baseline_ref:
+  artifact_id: P2-067-QUALITY-PREACTIVATION-BASELINE-V1
+  relative_path: baseline/public/BASELINE_STAGE.json
+  byte_length: 1364
+  sha256: 27cfeec823f7b4195327400378771d430d204381d7c1ef89ade51eecb3174880
+  baseline_ids:
+    - B1_SIMPLE_LEXICAL_V1
+    - A0_CANONICAL_TCP_QA_V1
+independent_reviewer:
+  - CTO Agent
+  - Security Agent
+  - Quality and Evaluation Agent
+protocol_status_mapping:
+  ELIGIBLE_NOT_ACTIVATED: ready
+  ACTIVE: in_progress
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+capacity_source_task_id: AIOS-P2-067
+budget:
+  engineering_hours: 32
+  calendar_days: 8
+  implementation_iterations: 2
+  candidates: 1
+max_same_task_repairs: 1
+roles:
+  owner: MASTER_CEO_AGENT
+  worker: P2_067_FRESH_NO_HISTORY_BLACK_BOX_HARNESS_WORKER
+  independent_reviewers:
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent
+allowlisted_paths:
+  - docs/aios/tasks/P2-067_INDEPENDENT_BLACK_BOX_JAVA_CONTEXT_BENCHMARK.yaml
+  - docs/aios/truth/project_state.yaml
+  - evaluation-harness/harness/p2-067-black-box-java-context
+  - evaluation-harness/replay/p2-067-black-box-java-context
+  - evaluation-harness/reports/p2-067-black-box-java-context
+  - evaluation-harness/evaluator/p2-067-black-box-java-context
+  - evaluation-harness/datasets/p2-067-black-box-java-context
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+phase_delegation_binding:
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: "1.8"
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  delegation_amendment:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/founder-delegation-continuity-20260808/decision/FOUNDER_PHASE_DELEGATION_CONTINUITY_AMENDMENT_V1.json
+    byte_length: 1182
+    sha256: c37634c51b0b7695204c026f9950911c427f544a6ff2e2c2f786facb9a84a52e
+  source_decision:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-black-box-java-context-20260811/task-p2-067/decision/FOUNDER_P2_067_BLACK_BOX_JAVA_CONTEXT_BENCHMARK_AUTHORIZATION_V1.structured-decision.json
+    sha256: 1b5a5154211901a49126ec0a1a54e426dacf7e6b1e72c6d1eb7511c70976aef9
+    byte_length: 2857
+  source_terminal_event:
+    task_id: AIOS-P2-066_JAVA_STRUCTURAL_CONTEXT_DISCRIMINATION_BENCHMARK
+    status: TERMINAL_FINAL_CTO_SECURITY_QUALITY_HARNESS_PROVENANCE_NON_PASS
+    outcome_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-java-structural-context-20260811/task-p2-066/evidence/terminal/P2_066_TERMINAL_FINAL_REVIEW_HARNESS_PROVENANCE_NON_PASS_OUTCOME_RECEIPT_V1.json
+      byte_length: 3176
+      sha256: 722e15edf8d154e8215146f938bda31aa957ea145dc43643954a3179be0cd919
+  phase_envelope_snapshot:
+    limits:
+      engineering_tasks: 12
+      engineering_hours: 336
+      calendar_days: 84
+      active_tasks: 1
+      task_branches: 1
+      task_worktrees: 1
+      active_candidates: 1
+    consumed:
+      engineering_tasks: 11
+      engineering_hours: 304
+      calendar_days: 76
+    reserved:
+      task_id: AIOS-P2-067
+      route_id: AIOS-P2-067_PHASE_DELEGATED_ROUTE
+      status: ELIGIBLE_NOT_ACTIVATED
+      capacity_source_task_id: AIOS-P2-067
+      budget:
+        engineering_tasks: 1
+        engineering_hours: 32
+        calendar_days: 8
+    remaining:
+      engineering_tasks: 0
+      engineering_hours: 0
+      calendar_days: 0
+  founder_packet_for_task: null
+acceptance_criteria:
+  - Exact canonical parent 4dfa05eb6af3c062124fbfd7ec6b44246a41e59b and tree a092922aacbf63777b823d5a5284ba111e7d7ee0 remain the source identity and product source bytes remain unchanged.
+  - The public and held baseline roots, twelve current-source behavior lineages, DEV4 HELD8 split, source anchors, oracle commitments, environment, two systems, metrics and full 48-dispatch schedule are frozen before the first formal dispatch.
+  - B1_SIMPLE_LEXICAL_V1 is an independent simple lexical executable with no SourceLens graph, ranker or memory use; A0_CANONICAL_TCP_QA_V1 invokes the unchanged canonical POST /api/projects/{projectId}/qa through an external loopback TCP client to a separately observed Spring JVM.
+  - Each paired cell uses exact-equal source and chunk universe, question bytes, eight context slots and UTF-8 packed byte budget; the only treatment distinction is no SourceLens graph or ranker for B1 versus graph-conditioned canonical context selection for A0.
+  - All twelve tasks and both physical replay roots complete exactly once for 24 logical cells and 48 HTTP dispatches with zero retries, reruns, replacements, post-result tuning or denominator exclusion.
+  - On the eight held tasks A0 records at least six strict wins, zero losses, macro required-unit Recall@8 delta at least 0.15, macro Precision@8 delta at least -0.05, zero forbidden units and an exact one-sided sign test p-value at most 0.015625.
+  - Every A0 held strict win contains at least one independently reconstructed A0-only required unit connected from a common seed by exact committed H2 symbol and relation rows; response provenance fields are not accepted as proof.
+  - Independent observers reconstruct request, response, process, listener, file-H2, transaction, post-run SQL, filesystem and zero-effect facts from raw artifacts, and stable semantic projections are exact-equal across the two physical roots.
+  - CTO, Security and Quality and Evaluation independently return PASS on the same exact candidate and formal Evidence before any bounded P2 capability credit is proposed.
+required_evidence:
+  - Exact Founder packet, structured decision, install inventory and create-once durable authorization install receipt.
+  - Exact public baseline inventory at baseline/public/INVENTORY.sha256 with 1349 bytes and SHA-256 508cf37b1e29de04223d18958c194146c1648d300439e0a1672ebab9e65a7544.
+  - Exact public baseline seal at baseline/public/SEAL.json with 834 bytes and SHA-256 64b449e77cbc2bab0a12203ee9548018839647a03e926b8ae546131b2f17dd9f.
+  - Exact held custody inventory at baseline/quality-custody/INVENTORY.sha256 with 886 bytes and SHA-256 e3e071239995e53a8babebca304df14c8fade80139272430f743b027d0c42649.
+  - Exact held custody seal at baseline/quality-custody/SEAL.json with 529 bytes and SHA-256 56b3fd4e95a6ba8a7ef9e563a65cbf4cedf6587a1831634c2a7bb895d6982cba.
+  - Exact independent Quality baseline Review at reviews/P2_067_QUALITY_PREACTIVATION_BASELINE_REVIEW_V1.json with 2425 bytes and SHA-256 8fad4c92642856af34b4dd00e698969ac520d38aa98473ca6f7b32a67869fc80.
+  - Exact create-once durable source-to-target byte-equality install receipt binding both complete baseline trees and the independent Quality Review.
+  - Exact environment and executable identities for Java, Maven, B1, A0 server, external TCP client, file-H2 driver, independent observer and evaluator.
+  - Exact candidate source inventory proving no product source mutation and no P2-066/f94 rejected-lineage access, comparison, copy, restoration or repair.
+  - Exact two-root formal run inventory containing 48 one-shot dispatches, raw HTTP bytes, OS process and listener observations, file-H2 identities, transaction markers, independent post-run SELECT rows, teardown and zero-effect records.
+  - Exact per-task scores, held aggregate metrics, paired sign test, paired bootstrap interval, invalid-run denominator and graph-edge-to-selected-unit causal reconstruction.
+  - Exact fresh CTO, Security and Quality and Evaluation reviews bound to the one candidate, one formal transaction and immutable Evidence roots.
+rollback: >-
+  Before canonical integration, stop only exact Task-owned child PIDs, verify no listener,
+  H2 lock, undeclared child or out-of-root write remains, preserve create-once Evidence,
+  snapshot any dirty allowed-path delta, then remove only the exact clean Task worktree
+  and branch. If an exact integration publishes but canonical verification fails, create
+  a non-destructive revert of only that integration commit before removing the clean
+  Task branch/worktree. Task NON_PASS terminates only P2-067; P2, the project and the
+  long-term Goal remain ACTIVE.
+stop_conditions:
+  - Any read, comparison, copy, restoration or repair of P2-066, f94 or another rejected or historical Task lineage.
+  - Any product source mutation, new endpoint or DTO, canonical source write by Worker, or write outside the exact role-owned allowlist.
+  - Any Provider, Secret, remote, production, public, DNS, non-loopback bind or non-loopback connect effect; only exact task-owned 127.0.0.1 HTTP is locally permitted and is not an external network effect.
+  - Any use of MockMvc, controller or service direct invocation, same-process pseudo-HTTP or application self-report as formal A0 black-box or provenance evidence.
+  - Any candidate, dataset, oracle, environment, system, metric, gate or schedule drift after the first formal dispatch, including any DEV-result refreeze before HELD.
+  - Any mismatch in paired source universe, question, slot or byte budget; any formal retry, rerun, task replacement, denominator exclusion or shared physical replay root.
+  - Any A0 held loss, fewer than six held strict wins, Recall@8 delta below 0.15, Precision@8 delta below -0.05, forbidden unit, unproved graph contribution, invalid cell or missing raw evidence.
+  - Any exhaustion of two implementation iterations, one same-Task repair, one candidate, 32 engineering hours or 8 calendar days.
+forbidden_actions:
+  - Read, compare, copy, restore, repair, execute or inspect P2-066/f94 rejected engineering lineage, Git objects, worktree, patch, Evidence or outputs.
+  - Mutate backend product source, canonical main directly, another worktree, another Task Evidence root, Vault, Secret, remote, production or public state.
+  - Give the Worker held task selectors, held oracle bytes, custody locators, nonce material or inherited conversation context.
+  - Pass the Master-only phase_delegation_binding.source_terminal_event locator or the full unredacted Contract as a Worker implementation input; the Worker receives only the active authority projection, sealed public baseline and explicit current-code allowlist.
+  - Trust response retrievalPlan, contextRole, evidenceReason, graph flags, Worker manifests, logs or summaries as sole proof of execution, provenance, success or zero external effect.
+  - Call the graph-off canonical /qa arm B1 or claim a normative B1 victory when it still uses SourceLens ranker; B1 in this Contract is only the independent simple lexical executable.
+  - Claim cross-repository or general Java intelligence, production readiness, P2 Exit acceptance, P3 entry, project completion or long-term Goal completion from this Task alone.
+claim_boundary: >-
+  This Task may establish only bounded single-repository current-SourceLens Java
+  context-selection evidence comparing one frozen independent simple lexical baseline
+  with the unchanged canonical /qa path. A complete PASS may propose candidate Evidence
+  for the P2 CONTEXT_BENCHMARK_BEATS_SIMPLE_RETRIEVAL_BASELINES item, but does not by
+  itself accept the P2 Exit Gate, authorize P3, prove general or cross-repository Java
+  intelligence, change product capability, complete the project or close the long-term Goal.
+write_ownership:
+  schema_version: role-write-ownership/v1
+  cross_role_write_allowed: false
+  owner:
+    role: MASTER_CEO_AGENT
+    write_paths:
+      - docs/aios/tasks/P2-067_INDEPENDENT_BLACK_BOX_JAVA_CONTEXT_BENCHMARK.yaml
+      - docs/aios/truth/project_state.yaml
+  worker:
+    role: P2_067_FRESH_NO_HISTORY_BLACK_BOX_HARNESS_WORKER
+    write_paths:
+      - evaluation-harness/harness/p2-067-black-box-java-context
+      - evaluation-harness/replay/p2-067-black-box-java-context
+      - evaluation-harness/reports/p2-067-black-box-java-context
+  independent_reviewers:
+    - role: CTO Agent
+      write_paths: []
+    - role: Security Agent
+      write_paths: []
+    - role: Quality and Evaluation Agent
+      write_paths:
+        - evaluation-harness/evaluator/p2-067-black-box-java-context
+        - evaluation-harness/datasets/p2-067-black-box-java-context

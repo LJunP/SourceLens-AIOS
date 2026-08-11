@@ -6,6 +6,7 @@ require "json"
 require "open3"
 require "pathname"
 require "psych"
+require "time"
 require "yaml"
 
 class FounderDelegationContinuityError < StandardError; end
@@ -931,15 +932,877 @@ module FounderDelegationContinuity
     residual
   end
 
+  def terminal_non_pass_value(review)
+    nested_verdict = review["verdict"].is_a?(Hash) ?
+      review["verdict"]["task_target_verdict"] : nil
+    values = [
+      review["target_verdict"], review["TARGET_VERDICT"], review["status"],
+      review["verdict"].is_a?(String) ? review["verdict"] : nil,
+      nested_verdict
+    ].compact.map(&:to_s)
+    values.find { |value| value == "NON_PASS" || value.end_with?("_NON_PASS") }
+  end
+
+  def terminal_review_role_value(review)
+    [
+      review["review_role"], review.dig("review", "review_role"),
+      review["artifact_type"], review["schema_version"]
+    ].compact.map(&:to_s).join("_").upcase
+  end
+
+  def preactivation_runtime_task_number(task_id)
+    match = task_id.to_s.match(/\AAIOS-P[12]-(\d{3})(?:_[A-Z0-9]+(?:_[A-Z0-9]+)*)?\z/)
+    assert(!match.nil?, "preactivation runtime repair-exhausted Task id is invalid")
+    match[1]
+  end
+
+  def validate_preactivation_runtime_terminal_review!(review, role, task_id)
+    task_number = preactivation_runtime_task_number(task_id)
+    expected_schema = {
+      "cto" => "p2-#{task_number}-cto-terminal-runtime-repair-exhausted-review/v1",
+      "security" => "p2-#{task_number}-security-terminal-runtime-repair-exhausted-review/v1",
+      "quality" => "p2-#{task_number}-quality-terminal-runtime-repair-exhausted-review/v1"
+    }.fetch(role)
+    assert(review["schema_version"] == expected_schema && review["task_id"] == task_id &&
+           review["external_effects"] == FALSE_EXTERNAL_EFFECTS,
+           "preactivation runtime repair-exhausted #{role} Review schema or effect drift")
+
+    case role
+    when "cto"
+      assert(review.dig("review", "review_role") ==
+               "INDEPENDENT_CTO_ARCHITECTURE_REVIEWER" &&
+             review["verdict"] == "NON_PASS" &&
+             review.dig("formal", "execution_authorized") == false &&
+             review.dig("formal", "execution_started") == false &&
+             review.dig("formal", "http_dispatches") == 0 &&
+             review.dig("formal", "logical_cells_executed") == 0,
+             "preactivation runtime repair-exhausted CTO Review binding drift")
+    when "security"
+      assert(review["review_role"] == "INDEPENDENT_SECURITY_REVIEWER" &&
+             review["verdict"] == "TASK_NON_PASS" &&
+             review.dig("formal_execution", "authorized") == false &&
+             review.dig("formal_execution", "formal_dispatch_count") == 0 &&
+             review.dig("formal_execution", "capability_credit") == false,
+             "preactivation runtime repair-exhausted Security Review binding drift")
+    when "quality"
+      verdict = exact_keys(
+        review["verdict"],
+        %w[p0_review_integrity_blockers p1_review_integrity_blockers quality_review_status task_target_verdict terminal_reason],
+        "preactivation runtime repair-exhausted Quality Review verdict"
+      )
+      assert(review["artifact_type"] ==
+               "INDEPENDENT_QUALITY_TERMINAL_RUNTIME_REPAIR_EXHAUSTED_REVIEW" &&
+             verdict["task_target_verdict"] == "NON_PASS" &&
+             verdict["quality_review_status"] == "PASS_TERMINAL_FACT_CLOSURE" &&
+             review.dig("facts", "formal_http_dispatches_completed") == 0 &&
+             review.dig("facts", "formal_logical_cells_completed") == 0 &&
+             review.dig("facts", "capability_credit") == 0 &&
+             review.dig("facts", "p2_credit") == 0 &&
+             review.dig("facts", "canonical_source_mutation") == false,
+             "preactivation runtime repair-exhausted Quality Review binding drift")
+    end
+    true
+  end
+
+  def validate_preactivation_runtime_evidence_install!(record, task_id, canonical_before)
+    task_number = preactivation_runtime_task_number(task_id)
+    assert(record["schema_version"] == "p2-#{task_number}-worker-runtime-install-receipt/v2" &&
+           record["task_id"] == task_id && record["status"] == "PUBLISHED_CREATE_ONCE" &&
+           record["install_case"] == "REAL" && record["install_mode"] == "REAL" &&
+           record["formal_execution_authorized"] == false &&
+           record["external_effects"] == FALSE_EXTERNAL_EFFECTS &&
+           record.dig("canonical", "clean") == true &&
+           record.dig("canonical", "commit") == canonical_before["commit"] &&
+           record.dig("canonical", "tree") == canonical_before["tree"],
+           "preactivation runtime install receipt drift")
+  end
+
+  def validate_preactivation_runtime_observer!(record, task_id)
+    task_number = preactivation_runtime_task_number(task_id)
+    results = array(record["results"], "preactivation runtime observer results")
+    assert(record["schema_version"] == "p2-#{task_number}-security-worker-probe-observer/v1" &&
+           record["task_id"] == task_id && record["status"] == "NON_PASS" &&
+           record["formal_execution_authorized"] == false && record["no_retry"] == true &&
+           record["probe_count_expected"].is_a?(Integer) &&
+           record["probe_count_expected"].positive? &&
+           record["probe_count_executed"] == results.length &&
+           record["unique_probe_count"] == results.map { |value| value["mode"] }.uniq.length &&
+           record["probe_count_executed"].positive? &&
+           record["probe_count_executed"] <= record["probe_count_expected"] &&
+           results.all? { |value| value.is_a?(Hash) && value["pass"] == false },
+           "preactivation runtime independent observer drift")
+    record
+  end
+
+  def validate_preactivation_runtime_postinstall_review!(record, task_id)
+    task_number = preactivation_runtime_task_number(task_id)
+    cleanup = mapping(record["cleanup"], "preactivation runtime postinstall cleanup")
+    assert(record["schema_version"] ==
+             "p2-#{task_number}-security-worker-runtime-postinstall-receipt/v1" &&
+           record["task_id"] == task_id && record["status"] == "NON_PASS" &&
+           record["review_role"] == "INDEPENDENT_SECURITY_EXTERNAL_OBSERVER" &&
+           record["formal_execution_authorized"] == false &&
+           record["external_effects"] == FALSE_EXTERNAL_EFFECTS &&
+           cleanup.values.all? { |value| value == true },
+           "preactivation runtime independent Security postinstall Review drift")
+    record
+  end
+
+  def validate_preactivation_terminal_install_receipt!(identity, entry, receipt, outcome,
+                                                       evidence_identities)
+    install = parse_bound_json(identity, "preactivation terminal Evidence install receipt")
+    exact_keys(
+      install,
+      %w[
+        schema_version task_id execution_mode authoritative_install status publication
+        publication_flags postpublish_verification canonical task_root source_root evidence_root
+        directory_modes file_mode expected_tree installed_files payload_file_count
+        published_file_count formal_http_dispatches_completed formal_logical_cells_completed
+        product_source_mutation external_effects runtime
+      ],
+      "preactivation terminal Evidence install receipt"
+    )
+    task_number = preactivation_runtime_task_number(entry["task_id"])
+    root = File.dirname(File.dirname(outcome.dig("terminal_receipt", "path")))
+    receipt_name = "P2_#{task_number}_TERMINAL_EVIDENCE_INSTALL_RECEIPT_V1.json"
+    assert(identity["path"] == File.join(root, receipt_name),
+           "preactivation terminal Evidence install receipt is outside its durable root")
+    evidence_root = exact_keys(
+      install["evidence_root"], %w[dev ino mode path uid],
+      "preactivation terminal Evidence root"
+    )
+    canonical = exact_keys(
+      install["canonical"], %w[commit dev ino repository tree uid],
+      "preactivation terminal Evidence canonical repository"
+    )
+    task_root = exact_keys(
+      install["task_root"], %w[dev ino mode path uid],
+      "preactivation terminal Evidence Task root"
+    )
+    source_root = exact_keys(
+      install["source_root"],
+      %w[dev directory_count file_count ino inventory mode payload seal uid],
+      "preactivation terminal Evidence source root"
+    )
+    publication_flags = exact_keys(
+      install["publication_flags"],
+      %w[rename_excl rename_nofollow_any renameatx_np same_volume_required],
+      "preactivation terminal Evidence publication flags"
+    )
+    directory_modes = exact_keys(
+      install["directory_modes"], %w[evidence_root sealed_descendants],
+      "preactivation terminal Evidence directory modes"
+    )
+    runtime = exact_keys(
+      install["runtime"],
+      %w[environment git_executable installer ruby_launcher ruby_platform ruby_runtime ruby_version],
+      "preactivation terminal Evidence installer runtime"
+    )
+    runtime_binding = exact_keys(
+      outcome["terminal_evidence_install_runtime_binding"],
+      %w[environment git_executable installer ruby_launcher ruby_platform ruby_runtime ruby_version],
+      "preactivation terminal Evidence Contract runtime binding"
+    )
+    runtime_review_identity = exact_keys(
+      outcome["terminal_evidence_install_runtime_review"], %w[path byte_length sha256],
+      "preactivation terminal Evidence independent runtime Review identity"
+    )
+    runtime_review = exact_keys(
+      parse_bound_json(
+        runtime_review_identity,
+        "preactivation terminal Evidence independent runtime Review"
+      ),
+      %w[review_role runtime schema_version task_id terminal_install_receipt verdict],
+      "preactivation terminal Evidence independent runtime Review"
+    )
+    reviewed_install_identity = exact_keys(
+      runtime_review["terminal_install_receipt"], %w[path byte_length sha256],
+      "preactivation terminal Evidence independently reviewed install receipt"
+    )
+    runtime_environment = exact_keys(
+      runtime["environment"],
+      %w[LANG LC_ALL PATH TMPDIR __CF_USER_TEXT_ENCODING execution_mode],
+      "preactivation terminal Evidence installer environment"
+    )
+    %w[git_executable installer ruby_launcher ruby_runtime].each do |name|
+      executable = exact_keys(
+        runtime[name], %w[byte_length dev ino mode nlink path sha256 uid],
+        "preactivation terminal Evidence #{name}"
+      )
+      assert(Pathname.new(executable["path"].to_s).absolute? &&
+             executable["byte_length"].is_a?(Integer) && executable["byte_length"].positive? &&
+             executable["dev"].is_a?(Integer) && executable["ino"].is_a?(Integer) &&
+             executable["uid"].is_a?(Integer) && executable["nlink"].is_a?(Integer) &&
+             executable["nlink"].positive? && executable["mode"].to_s.match?(/\A[0-7]{4}\z/) &&
+             executable["sha256"].to_s.match?(/\A[0-9a-f]{64}\z/),
+             "preactivation terminal Evidence #{name} identity drift")
+    end
+    assert(runtime == runtime_binding &&
+           runtime_review["schema_version"] ==
+             "p2-#{task_number}-security-terminal-evidence-install-runtime-identity-review/v1" &&
+           runtime_review["task_id"] == entry["task_id"] &&
+           runtime_review["review_role"] == "INDEPENDENT_SECURITY_REVIEWER" &&
+           runtime_review["verdict"] == "PASS_EXACT_RUNTIME_IDENTITY_BINDING_ONLY" &&
+           runtime_review["runtime"] == runtime && reviewed_install_identity == identity &&
+           runtime.dig("git_executable", "path") == "/usr/bin/git" &&
+           runtime.dig("ruby_launcher", "path") == "/usr/bin/ruby" &&
+           runtime.dig("ruby_runtime", "path").to_s.match?(
+             %r{\A/System/Library/Frameworks/Ruby\.framework/Versions/[^/]+/usr/bin/ruby\z}
+           ) &&
+           File.basename(runtime.dig("installer", "path").to_s) ==
+             "install_p2_#{task_number}_terminal_evidence_v1.rb" &&
+           runtime["ruby_version"].to_s.match?(/\A[1-9][0-9]*\.[0-9]+\.[0-9]+\z/),
+           "preactivation terminal Evidence runtime binding drift")
+    assert(install["schema_version"] ==
+             "p2-#{task_number}-terminal-evidence-create-once-install-receipt/v1" &&
+           install["task_id"] == entry["task_id"] && install["execution_mode"] == "REAL" &&
+           install["authoritative_install"] == true &&
+           install["status"] == "PUBLISHED_CREATE_ONCE" &&
+           install["publication"] == "ATOMIC_EXCLUSIVE_WHOLE_EVIDENCE_ROOT_RENAME" &&
+           install["formal_http_dispatches_completed"] == 0 &&
+           install["formal_logical_cells_completed"] == 0 &&
+           install["product_source_mutation"] == false &&
+           install["external_effects"] == FALSE_EXTERNAL_EFFECTS &&
+           evidence_root["path"] == root && evidence_root["mode"] == "0700" &&
+           publication_flags == {
+             "rename_excl" => 4, "rename_nofollow_any" => 16,
+             "renameatx_np" => true, "same_volume_required" => true
+           } &&
+           install["postpublish_verification"] ==
+             "FULL_CLOSED_TREE_INODE_NLINK_MODE_SHA_AND_CANONICAL_REBIND_REQUIRED_BEFORE_SUCCESS" &&
+           directory_modes == { "evidence_root" => "0700", "sealed_descendants" => "0500" } &&
+           install["file_mode"] == "0400" &&
+           canonical["commit"] == receipt.dig("canonical_before_terminal_sync", "commit") &&
+           canonical["tree"] == receipt.dig("canonical_before_terminal_sync", "tree") &&
+           runtime_environment == {
+             "LANG" => "C", "LC_ALL" => "C", "PATH" => "/usr/bin:/bin",
+             "TMPDIR" => "/private/tmp", "__CF_USER_TEXT_ENCODING" => "0x1F5:0x19:0x34",
+             "execution_mode" => "REAL"
+           } && runtime["ruby_platform"].is_a?(String) && !runtime["ruby_platform"].empty? &&
+           runtime["ruby_version"].is_a?(String) && !runtime["ruby_version"].empty?,
+           "preactivation terminal Evidence install receipt authority drift")
+
+    root_stat = File.lstat(root)
+    receipt_stat = File.lstat(identity["path"])
+    canonical_stat = File.lstat(canonical["repository"])
+    task_root_stat = File.lstat(task_root["path"])
+    canonical_tree, canonical_git_stderr, canonical_git_status = Open3.capture3(
+      "/usr/bin/git", "-C", canonical["repository"], "show", "-s", "--format=%T",
+      canonical["commit"]
+    )
+    assert(root_stat.directory? && !root_stat.symlink? &&
+           root_stat.dev == evidence_root["dev"] && root_stat.ino == evidence_root["ino"] &&
+           root_stat.uid == evidence_root["uid"] && format("%04o", root_stat.mode & 0o7777) == "0700",
+           "preactivation terminal Evidence root physical identity drift")
+    assert(canonical_stat.directory? && !canonical_stat.symlink? &&
+           canonical_stat.dev == canonical["dev"] && canonical_stat.ino == canonical["ino"] &&
+           canonical_stat.uid == canonical["uid"] && canonical_git_status.success? &&
+           canonical_tree.strip == canonical["tree"],
+           "preactivation terminal canonical repository physical or Git identity drift: " \
+           "#{canonical_git_stderr.strip}")
+    assert(task_root_stat.directory? && !task_root_stat.symlink? &&
+           task_root_stat.dev == task_root["dev"] && task_root_stat.ino == task_root["ino"] &&
+           task_root_stat.uid == task_root["uid"] && task_root["mode"] == "0700" &&
+           format("%04o", task_root_stat.mode & 0o7777) == "0700" &&
+           File.realpath(File.dirname(root)) == File.realpath(task_root["path"]),
+           "preactivation terminal Task root physical identity drift")
+    assert(receipt_stat.file? && !receipt_stat.symlink? && receipt_stat.nlink == 1 &&
+           format("%04o", receipt_stat.mode & 0o7777) == "0400",
+           "preactivation terminal install receipt physical identity drift")
+
+    expected_tree = exact_keys(
+      install["expected_tree"], %w[directories directory_inodes files],
+      "preactivation terminal Evidence expected tree"
+    )
+    installed_files = mapping(
+      install["installed_files"], "preactivation terminal Evidence installed files"
+    )
+    directory_records = array(
+      expected_tree["directory_inodes"], "preactivation terminal Evidence directory identities"
+    )
+    directory_by_path = directory_records.to_h do |directory|
+      value = exact_keys(directory, %w[dev ino mode path uid],
+                         "preactivation terminal Evidence directory identity")
+      [value["path"], value]
+    end
+    assert(directory_by_path.length == directory_records.length &&
+           expected_tree["directories"].sort == %w[. decision reviews runtime].sort &&
+           directory_by_path.keys.sort == expected_tree["directories"].sort &&
+           expected_tree["files"].sort == (installed_files.keys + [receipt_name]).sort &&
+           install["payload_file_count"] == installed_files.length &&
+           install["published_file_count"] == expected_tree["files"].length,
+           "preactivation terminal Evidence closed tree drift")
+
+    actual_directories = []
+    actual_files = []
+    pending = [[root, "."]]
+    until pending.empty?
+      absolute, relative = pending.pop
+      stat = File.lstat(absolute)
+      assert(stat.directory? && !stat.symlink?,
+             "preactivation terminal Evidence directory is not a nofollow directory")
+      actual_directories << relative
+      directory = directory_by_path[relative]
+      expected_mode = relative == "." ? "0700" : "0500"
+      assert(!directory.nil? && directory["dev"] == stat.dev && directory["ino"] == stat.ino &&
+             directory["uid"] == stat.uid && directory["mode"] == expected_mode &&
+             format("%04o", stat.mode & 0o7777) == expected_mode,
+             "preactivation terminal Evidence directory physical identity drift")
+      Dir.children(absolute).sort.each do |name|
+        child_absolute = File.join(absolute, name)
+        child_relative = relative == "." ? name : File.join(relative, name)
+        child_stat = File.lstat(child_absolute)
+        assert(!child_stat.symlink?, "preactivation terminal Evidence contains a symlink")
+        if child_stat.directory?
+          pending << [child_absolute, child_relative]
+        else
+          assert(child_stat.file? && child_stat.nlink == 1 &&
+                 format("%04o", child_stat.mode & 0o7777) == "0400",
+                 "preactivation terminal Evidence leaf physical identity drift")
+          actual_files << child_relative
+        end
+      end
+    end
+    assert(actual_directories.sort == expected_tree["directories"].sort &&
+           actual_files.sort == expected_tree["files"].sort,
+           "preactivation terminal Evidence actual closed tree drift")
+
+    trigger_paths = installed_files.keys.grep(
+      %r{\Adecision/[^/]*FOUNDER_RESERVED_TRIGGER[^/]*\.json\z}
+    )
+    assert(trigger_paths.length == 1,
+           "preactivation terminal Evidence Founder trigger binding drift")
+    derived_source_roots = []
+    source_inodes = []
+    installed_files.each do |relative, record|
+      relative_path = Pathname.new(relative)
+      assert(!relative_path.absolute? && relative_path.cleanpath.to_s == relative &&
+             !relative_path.each_filename.to_a.include?(".."),
+             "preactivation terminal Evidence relative path escape")
+      installed = exact_keys(
+        record, %w[byte_length bytes_equal sha256 source target],
+        "preactivation terminal installed file #{relative}"
+      )
+      source = exact_keys(
+        installed["source"], %w[dev ino mode nlink path uid],
+        "preactivation terminal installed source #{relative}"
+      )
+      target = exact_keys(
+        installed["target"], %w[dev ino mode nlink path uid],
+        "preactivation terminal installed target #{relative}"
+      )
+      expected_target_path = File.join(root, relative)
+      source_path = source["path"].to_s
+      source_suffix = File::SEPARATOR + relative
+      assert(source_path.end_with?(source_suffix),
+             "preactivation terminal installed source path drift: #{relative}")
+      derived_source_roots << source_path.delete_suffix(source_suffix)
+      source_inodes << [source["dev"], source["ino"]]
+      target_stat = File.lstat(expected_target_path)
+      assert(installed["byte_length"].is_a?(Integer) && installed["byte_length"].positive? &&
+             installed["sha256"].to_s.match?(/\A[0-9a-f]{64}\z/) &&
+             installed["bytes_equal"] == true && source["mode"] == "0400" &&
+             source["nlink"] == 1 && Pathname.new(source_path).absolute? &&
+             Pathname.new(source_path).cleanpath.to_s == source_path &&
+             source["dev"] == source_root["dev"] && source["uid"] == source_root["uid"] &&
+             source["ino"].is_a?(Integer) && source["ino"].positive? &&
+             target["path"] == expected_target_path &&
+             target["mode"] == "0400" && target["nlink"] == 1 &&
+             target_stat.file? && !target_stat.symlink? && target_stat.nlink == 1 &&
+             target["dev"] == target_stat.dev && target["ino"] == target_stat.ino &&
+             target["uid"] == target_stat.uid &&
+             format("%04o", target_stat.mode & 0o7777) == "0400",
+             "preactivation terminal installed file physical identity drift: #{relative}")
+      validate_identity(
+        { "path" => expected_target_path, "byte_length" => installed["byte_length"],
+          "sha256" => installed["sha256"] },
+        "preactivation terminal installed file #{relative}"
+      )
+    end
+
+    assert(derived_source_roots.uniq.length == 1,
+           "preactivation terminal installed sources do not share one root")
+    source_root_path = Pathname.new(derived_source_roots.first)
+    source_payload = mapping(source_root["payload"],
+                             "preactivation terminal Evidence source payload")
+    payload_paths = installed_files.keys - %w[INVENTORY.sha256 SEAL.json]
+    assert(source_root_path.absolute? && source_root_path.cleanpath == source_root_path &&
+           source_root["dev"].is_a?(Integer) && source_root["ino"].is_a?(Integer) &&
+           source_root["ino"].positive? && source_root["uid"].is_a?(Integer) &&
+           source_root["mode"] == "0500" &&
+           source_root["directory_count"] == expected_tree["directories"].length - 1 &&
+           source_root["file_count"] == installed_files.length &&
+           source_inodes.uniq.length == source_inodes.length &&
+           source_payload.keys.sort == payload_paths.sort &&
+           payload_paths.all? { |relative| source_payload[relative] == installed_files[relative]["sha256"] } &&
+           exact_keys(source_root["inventory"], %w[byte_length sha256],
+                      "preactivation terminal Evidence source inventory") ==
+             installed_files["INVENTORY.sha256"].slice("byte_length", "sha256") &&
+           exact_keys(source_root["seal"], %w[byte_length sha256],
+                      "preactivation terminal Evidence source seal") ==
+             installed_files["SEAL.json"].slice("byte_length", "sha256"),
+           "preactivation terminal Evidence source root projection drift")
+
+    evidence_identities.each do |bound_identity|
+      relative = Pathname.new(bound_identity["path"]).relative_path_from(Pathname.new(root)).to_s
+      installed = exact_keys(
+        installed_files[relative], %w[byte_length bytes_equal sha256 source target],
+        "preactivation terminal installed file #{relative}"
+      )
+      assert(installed["byte_length"] == bound_identity["byte_length"] &&
+             installed["sha256"] == bound_identity["sha256"] && installed["bytes_equal"] == true &&
+             installed.dig("target", "path") == bound_identity["path"],
+             "preactivation terminal installed file identity drift: #{relative}")
+    end
+    true
+  rescue ArgumentError, Errno::ENOENT, Errno::ENOTDIR, Errno::ELOOP
+    raise FounderDelegationContinuityError,
+          "preactivation terminal Evidence identity is outside its durable root"
+  end
+
+  def validate_preactivation_runtime_repair_exhausted_payload!(entry, contract, receipt, outcome,
+                                                               truth_chronology:,
+                                                               truth_terminal_event_at:)
+    exact_keys(
+      receipt,
+      %w[
+        schema_version task_id route_id status recorded_at_utc activation_parent
+        canonical_before_terminal_sync runtime_attempts repair_accounting candidate
+        formal_execution final_reviews lifecycle_boundary product_source_mutation
+        capability_credit p2_credit canonical_make_verify next_action external_effects
+        post_review_corrected_bytes_adopted
+      ],
+      "preactivation runtime repair-exhausted terminal receipt"
+    )
+    assert(receipt["task_id"] == entry["task_id"] &&
+           receipt["route_id"] == entry["route_id"] &&
+           receipt["status"] == entry["status"] &&
+           receipt["recorded_at_utc"].to_s.match?(
+             /\A\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z\z/
+           ),
+           "preactivation runtime repair-exhausted lifecycle drift")
+
+    chronology = exact_keys(
+      outcome["terminal_receipt_chronology"],
+      %w[task_id authoritative_terminal_event_at_utc recorded_at_utc_classification chronology_source],
+      "preactivation runtime repair-exhausted terminal receipt chronology"
+    )
+    truth_chronology = exact_keys(
+      truth_chronology,
+      %w[task_id authoritative_terminal_event_at_utc recorded_at_utc_classification chronology_source],
+      "canonical Truth terminal receipt chronology"
+    )
+    begin
+      recorded_at = Time.iso8601(receipt["recorded_at_utc"])
+      authoritative_at = Time.iso8601(chronology["authoritative_terminal_event_at_utc"])
+    rescue ArgumentError
+      fail!("preactivation runtime repair-exhausted terminal chronology is invalid")
+    end
+    assert(chronology == truth_chronology && chronology["task_id"] == entry["task_id"] &&
+           chronology["authoritative_terminal_event_at_utc"] == truth_terminal_event_at &&
+           chronology["recorded_at_utc_classification"] ==
+             "INVALID_FUTURE_METADATA_NOT_CHRONOLOGY" &&
+           chronology["chronology_source"] == "CANONICAL_TRUTH_TERMINAL_EVENT" &&
+           chronology["authoritative_terminal_event_at_utc"].to_s.match?(
+             /\A\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z\z/
+           ) && recorded_at > authoritative_at,
+           "preactivation runtime repair-exhausted terminal chronology drift")
+
+    candidate = exact_keys(
+      receipt["candidate"],
+      %w[created commit tree source_manifest_created integrated],
+      "preactivation runtime repair-exhausted candidate"
+    )
+    assert(candidate == {
+             "created" => false, "commit" => nil, "tree" => nil,
+             "source_manifest_created" => false, "integrated" => false
+           } && outcome["candidate_commit"].nil? && outcome["candidate_tree"].nil? &&
+           outcome["candidate_integrated"] == false,
+           "preactivation runtime repair-exhausted cannot invent a product candidate")
+
+    budget = exact_keys(
+      contract["budget"],
+      %w[engineering_hours calendar_days implementation_iterations candidates],
+      "preactivation runtime repair-exhausted Contract budget"
+    )
+    repair_limit = contract["max_same_task_repairs"]
+    accounting = exact_keys(
+      receipt["repair_accounting"],
+      %w[
+        implementation_iterations_limit implementation_iterations_consumed
+        implementation_iterations_remaining same_task_repairs_limit
+        same_task_repairs_consumed same_task_repairs_remaining exhausted
+      ],
+      "preactivation runtime repair-exhausted accounting"
+    )
+    attempts = array(receipt["runtime_attempts"],
+                     "preactivation runtime repair-exhausted attempts")
+    assert(budget["implementation_iterations"].is_a?(Integer) &&
+           budget["implementation_iterations"].positive? && repair_limit.is_a?(Integer) &&
+           repair_limit >= 0 && attempts.length == budget["implementation_iterations"] &&
+           attempts.length == repair_limit + 1 && accounting == {
+             "implementation_iterations_limit" => budget["implementation_iterations"],
+             "implementation_iterations_consumed" => budget["implementation_iterations"],
+             "implementation_iterations_remaining" => 0,
+             "same_task_repairs_limit" => repair_limit,
+             "same_task_repairs_consumed" => repair_limit,
+             "same_task_repairs_remaining" => 0,
+             "exhausted" => true
+           },
+           "preactivation runtime repair-exhausted accounting does not exhaust Contract limits")
+
+    reviews = exact_keys(receipt["final_reviews"], %w[cto security quality],
+                         "preactivation runtime repair-exhausted final reviews")
+    review_paths = []
+    review_hashes = []
+    final_review_identities = {}
+    final_review_records = {}
+    reviews.each do |role, review_identity|
+      review_record = exact_keys(
+        review_identity, %w[path byte_length sha256 verdict],
+        "preactivation runtime repair-exhausted #{role} review"
+      )
+      assert(review_record["verdict"] == "NON_PASS",
+             "preactivation runtime repair-exhausted Review verdict drift")
+      identity = review_record.slice("path", "byte_length", "sha256")
+      review_paths << identity["path"]
+      review_hashes << identity["sha256"]
+      review = parse_bound_json(
+        identity, "preactivation runtime repair-exhausted #{role} review"
+      )
+      validate_preactivation_runtime_terminal_review!(review, role, entry["task_id"])
+      final_review_identities[role] = identity
+      final_review_records[role] = review
+    end
+    assert(review_paths.uniq.length == reviews.length &&
+           review_hashes.uniq.length == reviews.length,
+           "preactivation runtime repair-exhausted independent Reviews are not distinct")
+
+    all_runtime_evidence_identities = []
+
+    attempts.each_with_index do |value, index|
+      attempt = exact_keys(
+        value,
+        %w[
+          iteration same_task_repair_ordinal status installed executed
+          failure_classification formal_dispatches evidence observations
+        ],
+        "preactivation runtime repair-exhausted attempt[#{index}]"
+      )
+      assert(attempt["iteration"] == index + 1 &&
+             attempt["same_task_repair_ordinal"] == index &&
+             attempt["status"].to_s.start_with?("NON_PASS") &&
+             [true, false].include?(attempt["installed"]) &&
+             [true, false].include?(attempt["executed"]) &&
+             attempt["failure_classification"].to_s.match?(/\AP[0-9]+_[A-Z0-9_]+\z/) &&
+             attempt["formal_dispatches"] == 0,
+             "preactivation runtime repair-exhausted attempt lifecycle drift")
+      observations = array(attempt["observations"],
+                           "preactivation runtime repair-exhausted observations")
+      observation_map = observations.to_h do |observation|
+        value = exact_keys(observation, %w[name value],
+                           "preactivation runtime repair-exhausted observation")
+        [value["name"], value["value"]]
+      end
+      assert(observation_map.length == observations.length,
+             "preactivation runtime repair-exhausted observation names are not unique")
+
+      evidence = array(attempt["evidence"],
+                       "preactivation runtime repair-exhausted attempt evidence")
+      kinds = []
+      evidence_records = {}
+      evidence_identities = {}
+      evidence.each do |binding|
+        binding = exact_keys(binding, %w[kind identity],
+                             "preactivation runtime repair-exhausted evidence binding")
+        kind = binding["kind"].to_s
+        assert(kind.match?(/\A[A-Z0-9_]+\z/),
+               "preactivation runtime repair-exhausted evidence kind is invalid")
+        identity = exact_keys(binding["identity"], %w[path byte_length sha256],
+                              "preactivation runtime repair-exhausted evidence identity")
+        record = parse_bound_json(
+          identity,
+          "preactivation runtime repair-exhausted evidence"
+        )
+        assert(record["task_id"] == entry["task_id"],
+               "preactivation runtime repair-exhausted Evidence Task id drift")
+        kinds << kind
+        evidence_records[kind] = record
+        evidence_identities[kind] = identity
+        all_runtime_evidence_identities << identity
+      end
+      assert(kinds.uniq.length == kinds.length,
+             "preactivation runtime attempt Evidence kinds are not unique")
+      if index.zero?
+        expected_kinds = %w[RUNTIME_INSTALL_RECEIPT INDEPENDENT_OBSERVER INDEPENDENT_SECURITY_REVIEW]
+        assert(kinds.sort == expected_kinds.sort && attempt["installed"] == true &&
+               attempt["executed"] == true,
+               "preactivation initial runtime attempt Evidence set drift")
+        validate_preactivation_runtime_evidence_install!(
+          evidence_records.fetch("RUNTIME_INSTALL_RECEIPT"), entry["task_id"],
+          receipt["canonical_before_terminal_sync"]
+        )
+        observer = validate_preactivation_runtime_observer!(
+          evidence_records.fetch("INDEPENDENT_OBSERVER"), entry["task_id"]
+        )
+        postinstall = validate_preactivation_runtime_postinstall_review!(
+          evidence_records.fetch("INDEPENDENT_SECURITY_REVIEW"), entry["task_id"]
+        )
+        expected_observations = {
+          "probe_count_planned" => observer["probe_count_expected"],
+          "probe_count_executed" => observer["probe_count_executed"],
+          "sandbox_entered" => false,
+          "cleanup_residual_count" => 0
+        }
+        observer_identity = evidence_identities.fetch("INDEPENDENT_OBSERVER")
+        postinstall_observer = exact_keys(
+          postinstall.dig("probe_matrix", "observer_receipt"),
+          %w[path byte_length sha256], "preactivation postinstall observer receipt"
+        )
+        assert(observation_map == expected_observations &&
+               postinstall.dig("first_failure", "classification") ==
+                 attempt["failure_classification"] &&
+               postinstall.dig("probe_matrix", "expected_probe_count") ==
+                 observer["probe_count_expected"] &&
+               postinstall.dig("probe_matrix", "executed_probe_count") ==
+                 observer["probe_count_executed"] &&
+               postinstall.dig("probe_matrix", "no_retry") == true &&
+               postinstall_observer.slice("byte_length", "sha256") ==
+                 observer_identity.slice("byte_length", "sha256"),
+               "preactivation initial runtime observation or failure cross-binding drift")
+        cto = final_review_records.fetch("cto")
+        security = final_review_records.fetch("security")
+        quality = final_review_records.fetch("quality")
+        cto_install = mapping(cto.dig("evidence_bindings", "v1_install_receipt"),
+                              "preactivation CTO v1 install receipt")
+        cto_postinstall = mapping(cto.dig("evidence_bindings", "security_postinstall_review"),
+                                  "preactivation CTO v1 postinstall Review")
+        security_install = mapping(
+          security.dig("v1_immutable_runtime", "real_install_receipt"),
+          "preactivation Security v1 install receipt"
+        )
+        security_observer = mapping(
+          security.dig("v1_immutable_runtime", "probe_observer_receipt"),
+          "preactivation Security v1 probe observer"
+        )
+        security_postinstall = mapping(
+          security.dig("v1_immutable_runtime", "security_postinstall_receipt"),
+          "preactivation Security v1 postinstall receipt"
+        )
+        quality_v1 = mapping(quality.dig("facts", "runtime_v1"),
+                             "preactivation Quality v1 facts")
+        quality_install = mapping(quality_v1["install_receipt"],
+                                  "preactivation Quality v1 install receipt")
+        install_identity = evidence_identities.fetch("RUNTIME_INSTALL_RECEIPT")
+        postinstall_identity = evidence_identities.fetch("INDEPENDENT_SECURITY_REVIEW")
+        assert([cto_install, security_install, quality_install].all? do |value|
+                 value.slice("byte_length", "sha256") ==
+                   install_identity.slice("byte_length", "sha256")
+               end &&
+               [cto_postinstall, security_postinstall].all? do |value|
+                 value.slice("byte_length", "sha256") ==
+                   postinstall_identity.slice("byte_length", "sha256")
+               end &&
+               security_observer.slice("byte_length", "sha256") ==
+                 observer_identity.slice("byte_length", "sha256") &&
+               cto.dig("v1_failure", "probe_count_expected") ==
+                 observer["probe_count_expected"] &&
+               cto.dig("v1_failure", "probe_count_executed") ==
+                 observer["probe_count_executed"] &&
+               cto.dig("v1_failure", "cleanup_residual_count") == 0 &&
+               security.dig("v1_immutable_runtime", "p0", "classification") ==
+                 attempt["failure_classification"] &&
+               security.dig("v1_immutable_runtime", "p0", "probe_count_planned") ==
+                 observer["probe_count_expected"] &&
+               security.dig("v1_immutable_runtime", "p0", "probe_count_executed") ==
+                 observer["probe_count_executed"] &&
+               quality_v1["installed"] == true &&
+               quality_v1["residual_output_count"] == 0 &&
+               quality_v1.dig("first_probe_attempt", "attempted") ==
+                 observer["probe_count_executed"] &&
+               quality_v1.dig("first_probe_attempt", "declared_matrix_size") ==
+                 observer["probe_count_expected"],
+               "preactivation initial runtime independent Review reverse binding drift")
+      else
+        expected_kinds = %w[REVIEWED_RUNTIME_IDENTITY INDEPENDENT_CTO_REVIEW INDEPENDENT_SECURITY_REVIEW INDEPENDENT_QUALITY_REVIEW]
+        assert(kinds.sort == expected_kinds.sort && attempt["installed"] == false &&
+               attempt["executed"] == false,
+               "preactivation repair attempt Evidence set drift")
+        reviewed = exact_keys(
+          evidence_records.fetch("REVIEWED_RUNTIME_IDENTITY"),
+          %w[schema_version task_id status iteration same_task_repair_ordinal installed executed target failure reviewed_tuple independent_reviews post_review_corrected_bytes],
+          "preactivation reviewed runtime repair identity"
+        )
+        target = exact_keys(reviewed["target"], %w[path absent_at_exact_review],
+                            "preactivation reviewed runtime target")
+        corrected = exact_keys(
+          reviewed["post_review_corrected_bytes"],
+          %w[authorization identity reviewed_or_adopted],
+          "preactivation post-review corrected bytes"
+        )
+        failure = exact_keys(
+          reviewed["failure"],
+          %w[classification launcher_embedded_manifest_sha256 actual_manifest_sha256],
+          "preactivation reviewed runtime failure"
+        )
+        reviewed_tuple = exact_keys(
+          reviewed["reviewed_tuple"], %w[profile launcher manifest inventory seal installer],
+          "preactivation reviewed runtime tuple"
+        )
+        reviewed_tuple.each do |name, identity|
+          exact_keys(identity, %w[byte_length sha256],
+                     "preactivation reviewed runtime tuple #{name}")
+          assert(identity["byte_length"].is_a?(Integer) && identity["byte_length"].positive? &&
+                 identity["sha256"].to_s.match?(/\A[0-9a-f]{64}\z/),
+                 "preactivation reviewed runtime tuple #{name} identity drift")
+        end
+        reviewed_reviews = exact_keys(
+          reviewed["independent_reviews"], %w[cto security quality],
+          "preactivation reviewed runtime independent reviews"
+        )
+        reviewed_reviews.each do |role, identity|
+          identity = exact_keys(identity, %w[path byte_length sha256],
+                                "preactivation reviewed runtime #{role} Review")
+          assert(identity == final_review_identities.fetch(role) &&
+                 evidence_identities.fetch("INDEPENDENT_#{role.upcase}_REVIEW") == identity,
+                 "preactivation reviewed runtime #{role} Review cross-binding drift")
+        end
+        assert(reviewed["schema_version"] ==
+                 "phase-delegated-reviewed-runtime-repair-identity/v1" &&
+               reviewed["task_id"] == entry["task_id"] &&
+               reviewed["iteration"] == attempt["iteration"] &&
+               reviewed["same_task_repair_ordinal"] == attempt["same_task_repair_ordinal"] &&
+               reviewed["status"] == attempt["status"] && reviewed["installed"] == false &&
+               reviewed["executed"] == false && target["absent_at_exact_review"] == true &&
+               corrected["reviewed_or_adopted"] == false &&
+               corrected["authorization"] == "UNAUTHORIZED_DO_NOT_INSTALL" &&
+               corrected["identity"] == "UNBOUND_NOT_READ" &&
+               failure["classification"] == attempt["failure_classification"] &&
+               failure["launcher_embedded_manifest_sha256"].to_s.match?(/\A[0-9a-f]{64}\z/) &&
+               failure["actual_manifest_sha256"].to_s.match?(/\A[0-9a-f]{64}\z/) &&
+               failure["launcher_embedded_manifest_sha256"] != failure["actual_manifest_sha256"] &&
+               observation_map == {
+                 "target_absent_at_review" => true,
+                 "launcher_manifest_binding_exact" => false
+               },
+               "preactivation reviewed runtime repair identity drift")
+        cto = final_review_records.fetch("cto")
+        security = final_review_records.fetch("security")
+        quality = final_review_records.fetch("quality")
+        cto_tuple = mapping(cto.dig("v2_reviewed_tuple", "files"),
+                            "preactivation CTO reviewed runtime tuple")
+        security_tuple = mapping(security["v2_reviewed_repair_candidate"],
+                                 "preactivation Security reviewed runtime tuple")
+        quality_v2 = mapping(quality.dig("facts", "runtime_v2"),
+                             "preactivation Quality reviewed runtime tuple")
+        quality_tuple = mapping(quality_v2["tuple"],
+                                "preactivation Quality reviewed runtime files")
+        reviewed_tuple.each do |name, identity|
+          cto_identity = mapping(cto_tuple[name], "preactivation CTO reviewed #{name}")
+          quality_identity = mapping(quality_tuple[name], "preactivation Quality reviewed #{name}")
+          security_identity = case name
+                              when "manifest" then security_tuple["actual_manifest"]
+                              else security_tuple[name]
+                              end
+          security_identity = mapping(
+            security_identity, "preactivation Security reviewed #{name}"
+          )
+          assert([cto_identity, security_identity, quality_identity].all? do |value|
+                   value.slice("byte_length", "sha256") == identity
+                 end,
+                 "preactivation reviewed runtime #{name} reverse Review binding drift")
+        end
+        assert(failure["actual_manifest_sha256"] == reviewed_tuple.dig("manifest", "sha256") &&
+               failure["launcher_embedded_manifest_sha256"] ==
+                 cto.dig("v2_reviewed_tuple", "p0", "launcher_embedded_manifest_sha256") &&
+               failure["actual_manifest_sha256"] ==
+                 cto.dig("v2_reviewed_tuple", "p0", "actual_manifest_sha256") &&
+               failure["classification"] ==
+                 cto.dig("v2_reviewed_tuple", "p0", "classification") &&
+               failure["launcher_embedded_manifest_sha256"] ==
+                 security.dig("v2_reviewed_repair_candidate", "launcher", "embedded_manifest_sha256") &&
+               failure["actual_manifest_sha256"] ==
+                 security.dig("v2_reviewed_repair_candidate", "p0", "actual_manifest_sha256") &&
+               failure["launcher_embedded_manifest_sha256"] ==
+                 security.dig("v2_reviewed_repair_candidate", "p0", "launcher_expected_manifest_sha256") &&
+               security.dig("v2_reviewed_repair_candidate", "installed") == false &&
+               security.dig("v2_reviewed_repair_candidate", "target_absent_at_review") == true &&
+               quality_v2["installed"] == false && quality_v2["executed"] == false &&
+               quality_v2["post_review_corrected_bytes_reviewed"] == false &&
+               failure["launcher_embedded_manifest_sha256"] ==
+                 quality_v2.dig("cto_review", "embedded_manifest_sha256") &&
+               failure["actual_manifest_sha256"] ==
+                 quality_v2.dig("cto_review", "exact_manifest_sha256") &&
+               quality_v2.dig("cto_review", "verdict") == "NON_PASS",
+               "preactivation reviewed runtime failure reverse Review binding drift")
+      end
+    end
+
+    formal = exact_keys(
+      receipt["formal_execution"],
+      %w[authorized http_dispatches logical_cells held_dispatches metrics_computed benchmark_result],
+      "preactivation runtime repair-exhausted formal execution"
+    )
+    assert(formal == {
+             "authorized" => false, "http_dispatches" => 0, "logical_cells" => 0,
+             "held_dispatches" => 0, "metrics_computed" => 0,
+             "benchmark_result" => "NOT_AVAILABLE"
+           } && receipt["capability_credit"] == 0 && receipt["p2_credit"] == 0 &&
+           receipt["product_source_mutation"] == false &&
+           receipt["post_review_corrected_bytes_adopted"] == false &&
+           receipt["canonical_make_verify"] ==
+             "NOT_INVOKED_TERMINAL_PREACTIVATION_RUNTIME_NON_PASS" &&
+           receipt["external_effects"] == FALSE_EXTERNAL_EFFECTS,
+           "preactivation runtime repair-exhausted formal, credit or effect boundary drift")
+
+    lifecycle = exact_keys(
+      receipt["lifecycle_boundary"],
+      %w[task_terminal phase_status project_status long_term_goal_status project_actual_completion p3_status],
+      "preactivation runtime repair-exhausted lifecycle boundary"
+    )
+    assert(lifecycle == {
+             "task_terminal" => true, "phase_status" => "ACTIVE_INCOMPLETE",
+             "project_status" => "ACTIVE", "long_term_goal_status" => "ACTIVE",
+             "project_actual_completion" => false, "p3_status" => "HOLD"
+           } && receipt["next_action"] ==
+             "FOUNDER_RESERVED_DECISION_PHASE_ENVELOPE_EXHAUSTED",
+           "preactivation runtime repair-exhausted Task-only lifecycle drift")
+
+    install_identity = exact_keys(
+      outcome["terminal_evidence_install_receipt"], %w[path byte_length sha256],
+      "preactivation terminal Evidence install receipt identity"
+    )
+    validate_preactivation_terminal_install_receipt!(
+      install_identity, entry, receipt, outcome,
+      [outcome["terminal_receipt"], *final_review_identities.values,
+       *all_runtime_evidence_identities].uniq
+    )
+    assert(outcome["sealed_formal_value_result"] ==
+             "NOT_STARTED_PREACTIVATION_RUNTIME_NON_PASS" &&
+           outcome["cto_review"] == "NON_PASS" &&
+           outcome["security_review"] == "NON_PASS" &&
+           outcome["quality_review"] == "NON_PASS" &&
+           outcome["canonical_make_verify"] == receipt["canonical_make_verify"],
+           "preactivation runtime repair-exhausted Contract outcome projection drift")
+  end
+
   def validate_predeclared_task_terminal_outcome!(root, entry, contract, receipt,
-                                                   ledger_anchor_commit:)
+                                                   ledger_anchor_commit:, truth: nil)
+    outcome_keys = %w[
+      status candidate_commit candidate_tree sealed_formal_value_result cto_review
+      security_review quality_review terminal_receipt capability_credit
+      candidate_integrated canonical_make_verify
+    ]
+    if receipt["schema_version"] ==
+       "phase-delegated-preactivation-runtime-repair-exhausted-terminal-receipt/v1"
+      outcome_keys << "terminal_evidence_install_receipt"
+      outcome_keys << "terminal_receipt_chronology"
+      outcome_keys << "terminal_evidence_install_runtime_binding"
+      outcome_keys << "terminal_evidence_install_runtime_review"
+    end
     outcome = exact_keys(
       contract["terminal_outcome"],
-      %w[
-        status candidate_commit candidate_tree sealed_formal_value_result cto_review
-        security_review quality_review terminal_receipt capability_credit
-        candidate_integrated canonical_make_verify
-      ],
+      outcome_keys,
       "predeclared Task terminal outcome"
     )
     assert(outcome["status"] == entry["status"],
@@ -954,6 +1817,64 @@ module FounderDelegationContinuity
     assert(outcome["capability_credit"] == 0 && outcome["candidate_integrated"] == false &&
            outcome["canonical_make_verify"].to_s.start_with?("NOT_INVOKED"),
            "predeclared terminal Task cannot create capability, integration or verification credit")
+
+    if receipt["schema_version"] ==
+       "phase-delegated-preactivation-runtime-repair-exhausted-terminal-receipt/v1"
+      task_event_token = entry["task_id"].sub(/\AAIOS-/, "")
+      terminal_events = array(
+        truth.dig("founder_knowledge_sync", "events"),
+        "Founder Knowledge terminal event ledger"
+      ).select do |event|
+        event.is_a?(Hash) && event["event_id"].to_s.include?("-#{task_event_token}-") &&
+          event["trigger_type"] == "TASK_TERMINAL_AND_PHASE_ENVELOPE_EXHAUSTED"
+      end
+      assert(terminal_events.length == 1,
+             "preactivation runtime repair-exhausted canonical terminal event is not exact")
+      validate_preactivation_runtime_repair_exhausted_payload!(
+        entry, contract, receipt, outcome,
+        truth_chronology: truth.dig("claim_boundary", "terminal_receipt_chronology"),
+        truth_terminal_event_at: terminal_events.first["occurred_at_utc"]
+      )
+
+      activation_parent = commit_tree_identity!(
+        root, receipt["activation_parent"],
+        "preactivation runtime repair-exhausted activation parent"
+      )
+      canonical_sources = array(
+        contract["dependencies"],
+        "preactivation runtime repair-exhausted Contract dependencies"
+      ).select { |dependency| dependency.is_a?(Hash) && dependency["kind"] == "CANONICAL_SOURCE" }
+      assert(canonical_sources.length == 1,
+             "preactivation runtime repair-exhausted Contract must contain exactly one CANONICAL_SOURCE")
+      source_identity = commit_tree_identity!(
+        root,
+        exact_keys(canonical_sources.first, %w[kind identity],
+                   "preactivation runtime repair-exhausted CANONICAL_SOURCE")["identity"],
+        "preactivation runtime repair-exhausted Contract CANONICAL_SOURCE"
+      )
+      assert(activation_parent == source_identity,
+             "preactivation runtime repair-exhausted activation parent drifts from Contract source")
+
+      canonical_before = commit_tree_identity!(
+        root, receipt["canonical_before_terminal_sync"],
+        "preactivation runtime repair-exhausted canonical-before-terminal-sync"
+      )
+      assert_git_ancestor!(
+        root, activation_parent["commit"], canonical_before["commit"],
+        "preactivation runtime repair-exhausted source to terminal-sync parent"
+      )
+      resolved_anchor, resolved_entry = first_task_ledger_anchor!(
+        root, entry, entry.dig("outcome_receipt", "sha256"),
+        "preactivation runtime repair-exhausted terminal ledger entry"
+      )
+      assert(resolved_anchor == ledger_anchor_commit && resolved_entry == entry,
+             "preactivation runtime repair-exhausted ledger introduction anchor drift")
+      anchor_parents = git(root, "rev-list", "--parents", "-n", "1", ledger_anchor_commit).split
+      assert(anchor_parents.length == 2 && anchor_parents.last == canonical_before["commit"] &&
+             git(root, "rev-parse", "#{ledger_anchor_commit}^^{tree}").strip == canonical_before["tree"],
+             "preactivation runtime repair-exhausted terminal-sync parent drift")
+      return
+    end
 
     adapter = PRE_CANDIDATE_TERMINAL_RECEIPT_ADAPTERS[receipt["schema_version"]]
     if adapter
@@ -2255,8 +3176,8 @@ module FounderDelegationContinuity
     parent_entries
   end
 
-  def validate_consumed_task_ledger!(root, ledger, source_route, phase, anchored_source_entries,
-                                     source_decision)
+  def validate_consumed_task_ledger!(root, truth, ledger, source_route, phase,
+                                     anchored_source_entries, source_decision)
     entries = array(ledger, "phase execution task ledger")
     ids = entries.map { |entry| mapping(entry, "phase execution task ledger entry")["task_id"] }
     assert(ids.uniq.length == ids.length, "phase execution task ledger contains duplicate Task ids")
@@ -2280,7 +3201,7 @@ module FounderDelegationContinuity
       expected_entry_keys = %w[task_id route_id status budget contract outcome_receipt]
       expected_entry_keys << "founder_residual_acceptance" if candidate.key?("founder_residual_acceptance")
       entry = exact_keys(candidate, expected_entry_keys, "phase execution task ledger[#{index}]")
-      assert(entry["task_id"].to_s.match?(/\AAIOS-P(?:0|[1-9]|1[0-2])-[0-9]{3}_[A-Z0-9_]+\z/),
+      assert(DELEGATED_TASK_ID_RE.match?(entry["task_id"].to_s),
              "phase execution task ledger Task id is invalid")
       assert(entry["route_id"].is_a?(String) && !entry["route_id"].empty?,
              "phase execution task ledger Route id is invalid")
@@ -2350,7 +3271,8 @@ module FounderDelegationContinuity
           entry,
           contract,
           receipt,
-          ledger_anchor_commit: ledger_anchor_commit
+          ledger_anchor_commit: ledger_anchor_commit,
+          truth: truth
         )
       end
       if source_task
@@ -2433,12 +3355,40 @@ module FounderDelegationContinuity
     )
     ledger = validate_consumed_task_ledger!(
       root,
+      truth,
       envelope["task_ledger"],
       source_route,
       phase,
       anchored_source_entries,
       source_decision
     )
+    ledger.each do |entry|
+      terminal_receipt = parse_bound_json(
+        entry["outcome_receipt"], "phase execution Task outcome receipt claim projection"
+      )
+      next unless terminal_receipt["schema_version"] ==
+                  "phase-delegated-preactivation-runtime-repair-exhausted-terminal-receipt/v1"
+
+      contract = parse_yaml_bytes(
+        repo_identity_bytes(root, entry["contract"],
+                            "preactivation runtime terminal Contract claim projection"),
+        "preactivation runtime terminal Contract claim projection"
+      )
+      install_identity = exact_keys(
+        contract.dig("terminal_outcome", "terminal_evidence_install_receipt"),
+        %w[path byte_length sha256],
+        "preactivation terminal Evidence install receipt Contract projection"
+      )
+      claim_task = entry["task_id"].downcase.tr("-", "_").sub(/\Aaios_/, "")
+      claim_key = "#{claim_task}_terminal_install_receipt"
+      claim_identity = exact_keys(
+        mapping(truth["claim_boundary"], "claim_boundary")[claim_key],
+        %w[path byte_length sha256],
+        "preactivation terminal Evidence install receipt Truth projection"
+      )
+      assert(claim_identity == install_identity,
+             "preactivation terminal Evidence install receipt Truth projection drift")
+    end
     expected_consumed = {
       "engineering_tasks" => ledger.sum { |entry| entry.dig("budget", "engineering_tasks") },
       "engineering_hours" => ledger.sum { |entry| entry.dig("budget", "engineering_hours") },
@@ -2523,7 +3473,11 @@ module FounderDelegationContinuity
            "Founder reserved trigger Evidence category or Phase drift")
     assert(evidence["source_event"] == event,
            "Founder reserved trigger Evidence source event drift")
-    assert(evidence["source_route_id"] == historical_route["route_id"],
+    exact_source_route_ids = [
+      historical_route["route_id"],
+      phase_envelope.dig("authority_basis", "source_route_id")
+    ].compact.uniq
+    assert(exact_source_route_ids.include?(evidence["source_route_id"]),
            "Founder reserved trigger Evidence source Route drift")
 
     condition_keys = %w[

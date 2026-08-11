@@ -1,8 +1,8 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: '2026-08-11T13:37:09Z'
+last_verified_at: '2026-08-11T18:08:19Z'
 
-verification_scope: P2_067_FOUNDER_AUTHORIZED_PHASE_ENVELOPE_EXPANSION_READY_ONLY_NO_TASK_RESOURCES_OR_FORMAL_EXECUTION
+verification_scope: P2_067_TERMINAL_PREACTIVATION_RUNTIME_REPAIR_EXHAUSTED_NON_PASS_TASK_ONLY_P2_PROJECT_AND_LONG_TERM_GOAL_ACTIVE
 
 authority:
   founder: Human Founder
@@ -39,13 +39,25 @@ goal:
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
   current_task_authority: NONE
-  note: 'Founder decision AUTHORIZE_P2_ONE_INDEPENDENT_BLACK_BOX_JAVA_CONTEXT_BENCHMARK_V1
-    expands the cumulative P2 envelope to twelve Tasks, three-hundred-thirty-six
-    engineering hours and eighty-four calendar days and reserves exactly one fresh
-    Task, AIOS-P2-067. The Task is ELIGIBLE_NOT_ACTIVATED: no nonce, branch, worktree,
-    active authority, Worker execution, formal dispatch, product mutation or capability
-    credit exists. P2, the project and the Long-term Goal remain ACTIVE; P3 remains
-    not eligible. All following paragraphs are retained historical chronology only.
+  note: 'P2-067 is TERMINAL_PREACTIVATION_RUNTIME_REPAIR_EXHAUSTED_NON_PASS.
+    Its initial runtime was installed create-once but stopped before sandbox entry when
+    the host rejected its 1 GiB RLIMIT_AS setting; the sole same-Task repair was then
+    independently rejected before installation because its launcher embedded the wrong
+    manifest identity. Both implementation iterations and the one repair are exhausted.
+    No product candidate, formal HTTP dispatch, metric, product mutation or capability
+    credit exists. The cumulative P2 envelope is exactly consumed at twelve Tasks,
+    three-hundred-thirty-six engineering hours and eighty-four calendar days. P2 remains
+    ACTIVE and incomplete, the project and Long-term Goal remain ACTIVE, P3 remains
+    HOLD, and the only current action is the Founder-reserved Phase envelope decision.
+    Task failure does not terminate P2, the project or the Long-term Goal. All following
+    paragraphs are retained historical chronology only. Founder decision
+    AUTHORIZE_P2_ONE_INDEPENDENT_BLACK_BOX_JAVA_CONTEXT_BENCHMARK_V1 expands the cumulative
+    P2 envelope to twelve Tasks, three-hundred-thirty-six engineering hours and eighty-four
+    calendar days and reserves exactly one fresh Task, AIOS-P2-067. The Task was
+    ELIGIBLE_NOT_ACTIVATED at that event: no nonce, branch, worktree, active authority,
+    Worker execution, formal dispatch, product mutation or capability credit existed.
+    P2, the project and the Long-term Goal remained ACTIVE; P3 remained not eligible.
+    All following paragraphs are retained historical chronology only.
     P2-066 consumed its one implementation iteration and one exact candidate.
     Independent CTO, Security and Quality/Evaluation Reviews all returned NON_PASS
     because the harness did not prove a real H2 transaction followed by an independent
@@ -1376,8 +1388,8 @@ project:
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
   p2_execution_status: ACTIVE
-  phase_execution_status: ACTIVE
-  current_route_execution_status: PHASE_DELEGATED_TASK_READY
+  phase_execution_status: STOPPED_AT_FOUNDER_RESERVED_DECISION
+  current_route_execution_status: FOUNDER_RESERVED_DECISION_REQUIRED
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -6274,11 +6286,11 @@ historical_p2_066_terminal_active_work:
 historical_p2_black_box_java_context_benchmark_founder_expansion_phase_route:
   schema_version: '1.3'
   route_id: P2_ONE_INDEPENDENT_BLACK_BOX_JAVA_CONTEXT_BENCHMARK_ROUTE_V1
-  status: AUTHORIZED_ACTIVE
-  authority_object_status: ACTIVE_SOURCE_CAPACITY
-  execution_status: TASK_CAPACITY_RESERVED
-  founder_phase_route_decision_required: false
-  scheduling_status: READY_FOR_MASTER_ACTIVATION
+  status: TERMINAL_PHASE_ENVELOPE_EXHAUSTED_WITHOUT_EXIT_GATE
+  authority_object_status: EXHAUSTED_PHASE_CAPACITY_SOURCE
+  execution_status: TERMINAL_PHASE_ENVELOPE_EXHAUSTED_WITHOUT_EXIT_GATE
+  founder_phase_route_decision_required: true
+  scheduling_status: FOUNDER_RESERVED_DECISION_REQUIRED
   phase: P2
   phase_entry_status: AUTHORIZED
   authorization_token: AUTHORIZE_P2_ONE_INDEPENDENT_BLACK_BOX_JAVA_CONTEXT_BENCHMARK_V1
@@ -6343,7 +6355,7 @@ historical_p2_black_box_java_context_benchmark_founder_expansion_phase_route:
   first_task:
     task_slot: 1
     task_id: AIOS-P2-067
-    status: ELIGIBLE_NOT_ACTIVATED
+    status: TERMINAL_PREACTIVATION_RUNTIME_REPAIR_EXHAUSTED_NON_PASS
     engineering_hours: 32
     calendar_days: 8
     max_engineering_hours: 32
@@ -6362,7 +6374,7 @@ historical_p2_black_box_java_context_benchmark_founder_expansion_phase_route:
   task_plan:
     - task_slot: 1
       task_id: AIOS-P2-067
-      status: ELIGIBLE_NOT_ACTIVATED
+      status: TERMINAL_PREACTIVATION_RUNTIME_REPAIR_EXHAUSTED_NON_PASS
       engineering_hours: 32
       calendar_days: 8
       max_engineering_hours: 32
@@ -6381,27 +6393,27 @@ historical_p2_black_box_java_context_benchmark_founder_expansion_phase_route:
   automatic_entry:
   automatic_entries: []
   inherited_worktree_inventory: []
-  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
-current_phase_route:
+  next_eligible_action: FOUNDER_RESERVED_DECISION
+historical_p2_067_phase_route:
   schema_version: phase-delegated-independent-task/v1
   route_id: AIOS-P2-067_PHASE_DELEGATED_ROUTE
-  status: AUTHORIZED_READY
-  execution_status: PHASE_DELEGATED_TASK_READY
-  scheduling_status: READY_FOR_MASTER_ACTIVATION
+  status: TERMINAL_PREACTIVATION_RUNTIME_REPAIR_EXHAUSTED_NON_PASS
+  execution_status: TERMINAL_PREACTIVATION_RUNTIME_REPAIR_EXHAUSTED_NON_PASS
+  scheduling_status: TERMINAL_PHASE_ENVELOPE_EXHAUSTED
   phase: P2
   phase_entry_status: AUTHORIZED
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: '1.8'
     sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
-  founder_phase_route_decision_required: false
-  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
+  founder_phase_route_decision_required: true
+  next_eligible_action: FOUNDER_RESERVED_DECISION
   phase_execution_envelope_ref: phase_execution_envelope
   source_authority_route_ref: historical_p2_black_box_java_context_benchmark_founder_expansion_phase_route
   preceding_terminal_route_ref: historical_p2_066_phase_route
   selected_task:
     task_id: AIOS-P2-067
-    status: ELIGIBLE_NOT_ACTIVATED
+    status: TERMINAL_PREACTIVATION_RUNTIME_REPAIR_EXHAUSTED_NON_PASS
     task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
     capability: REPRODUCIBLE_CONTEXT_BENCHMARK
     objective: >-
@@ -6419,8 +6431,8 @@ current_phase_route:
     max_same_task_repairs: 1
     contract:
       path: docs/aios/tasks/P2-067_INDEPENDENT_BLACK_BOX_JAVA_CONTEXT_BENCHMARK.yaml
-      sha256: 77bab411eb654371e4ca6778d1bb0eaf4d4c58749e7885183f53a24b05c7bf9a
-      byte_length: 15300
+      sha256: b1e6ccce9f826592110c201365ac61e1e58d31f4aec3e8aa4acf3692be6f0e28
+      byte_length: 18343
     independence:
       new_task_id: true
       new_execution_nonce: true
@@ -6442,6 +6454,32 @@ current_phase_route:
     public: false
   additional_write_roots: []
   inherited_worktree_inventory_source: historical_p2_066_phase_route
+
+current_phase_route:
+  schema_version: founder-reserved-decision-hold/v1
+  route_id: P2_FOUNDER_RESERVED_DECISION_HOLD
+  status: FOUNDER_RESERVED_DECISION_REQUIRED
+  execution_status: FOUNDER_RESERVED_DECISION_REQUIRED
+  scheduling_status: STOPPED_AT_FOUNDER_RESERVED_DECISION
+  phase: P2
+  phase_entry_status: AUTHORIZED
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: '1.8'
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  founder_phase_route_decision_required: true
+  next_eligible_action: FOUNDER_RESERVED_DECISION
+  phase_execution_envelope_ref: phase_execution_envelope
+  historical_terminal_route_ref: historical_p2_067_phase_route
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false
+  additional_write_roots: []
+  inherited_worktree_inventory_source: historical_p2_067_phase_route
 
 historical_p2_065_phase_route:
   schema_version: phase-delegated-independent-task/v1
@@ -8296,7 +8334,7 @@ historical_p2_060_founder_expansion_phase_route:
 phase_execution_envelope:
   schema_version: phase-execution-envelope/v1
   phase: P2
-  status: TASK_CAPACITY_RESERVED
+  status: EXHAUSTED
   authority_basis:
     phase_entry_status: AUTHORIZED
     policy_path: docs/aios/FOUNDER_DELEGATION_POLICY.md
@@ -8514,24 +8552,26 @@ phase_execution_envelope:
       path: "/Users/lijunpeng/Developer/.sourcelens-audit/p2-java-structural-context-20260811/task-p2-066/evidence/terminal/P2_066_TERMINAL_FINAL_REVIEW_HARNESS_PROVENANCE_NON_PASS_OUTCOME_RECEIPT_V1.json"
       byte_length: 3176
       sha256: 722e15edf8d154e8215146f938bda31aa957ea145dc43643954a3179be0cd919
-  consumed:
-    engineering_tasks: 11
-    engineering_hours: 304
-    calendar_days: 76
-  reserved:
-    task_id: AIOS-P2-067
+  - task_id: AIOS-P2-067
     route_id: AIOS-P2-067_PHASE_DELEGATED_ROUTE
-    status: ELIGIBLE_NOT_ACTIVATED
-    capacity_source_task_id: AIOS-P2-067
+    status: TERMINAL_PREACTIVATION_RUNTIME_REPAIR_EXHAUSTED_NON_PASS
     budget:
       engineering_tasks: 1
       engineering_hours: 32
       calendar_days: 8
     contract:
       path: docs/aios/tasks/P2-067_INDEPENDENT_BLACK_BOX_JAVA_CONTEXT_BENCHMARK.yaml
-      sha256: 77bab411eb654371e4ca6778d1bb0eaf4d4c58749e7885183f53a24b05c7bf9a
-      byte_length: 15300
-    authority:
+      sha256: b1e6ccce9f826592110c201365ac61e1e58d31f4aec3e8aa4acf3692be6f0e28
+      byte_length: 18343
+    outcome_receipt:
+      path: "/Users/lijunpeng/Developer/.sourcelens-audit/p2-black-box-java-context-20260811/task-p2-067/terminal-runtime-repair-exhausted-v1/decision/P2_067_TERMINAL_OUTCOME_RECEIPT_V1.json"
+      byte_length: 5570
+      sha256: 89ce06b88dc863a0ff5ee347b55b0037139b263e3021f9e8e9ac3aaaa949c554
+  consumed:
+    engineering_tasks: 12
+    engineering_hours: 336
+    calendar_days: 84
+  reserved:
   remaining:
     engineering_tasks: 0
     engineering_hours: 0
@@ -8546,18 +8586,21 @@ phase_execution_envelope:
 
 founder_escalation_control:
   schema_version: founder-escalation-control/v1
-  disposition: NO_RESERVED_TRIGGER_CONTINUE_PHASE
+  disposition: FOUNDER_DECISION_REQUIRED
   source_event:
-    kind: FOUNDER_EXPANDED_SINGLE_TASK_READY
-    task_id: AIOS-P2-067
-    status: ELIGIBLE_NOT_ACTIVATED
+    kind: PHASE_ENVELOPE_EXPANSION_REQUIRED
+    task_id:
+    status: PENDING_FOUNDER_RESERVED_DECISION
   reserved_trigger:
-    category: NONE
+    category: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
     evidence:
+      path: "/Users/lijunpeng/Developer/.sourcelens-audit/p2-black-box-java-context-20260811/task-p2-067/terminal-runtime-repair-exhausted-v1/decision/P2_067_FOUNDER_RESERVED_TRIGGER_EVIDENCE_V1.json"
+      byte_length: 4214
+      sha256: 793d74800ce01ab37ede3363ae786a6b8e72de4d7ab5afee12d2e0daea881131
   phase_gate_status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
-  founder_decision_required: false
-  next_action_owner: MASTER_CEO_AGENT
-  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
+  founder_decision_required: true
+  next_action_owner: HUMAN_FOUNDER
+  next_eligible_action: FOUNDER_RESERVED_DECISION
 
 historical_p2_053_phase_route:
   schema_version: "1.1"
@@ -14266,7 +14309,7 @@ founder_knowledge_sync:
   - IMPORTED
   - OUTDATED
   - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260811-P2-067-FOUNDER-ENVELOPE-EXPANSION-AUTHORIZED-V1
+  latest_event_id: FKS-20260812-P2-067-TERMINAL-RUNTIME-REPAIR-EXHAUSTED-V1
   events:
   - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
     trigger_type: FOUNDER_RULE_CORRECTION
@@ -19538,6 +19581,42 @@ founder_knowledge_sync:
       byte_length:
       sha256:
     event_sha256: 6c5d439560ba16f00668100045a5e034d539bc6bb8608c364f2c6f44138b9f41
+  - event_id: FKS-20260812-P2-067-TERMINAL-RUNTIME-REPAIR-EXHAUSTED-V1
+    trigger_type: TASK_TERMINAL_AND_PHASE_ENVELOPE_EXHAUSTED
+    occurred_at_utc: '2026-08-11T18:08:19Z'
+    source_commit: c0fd04bd8651f6660015ad651ba95b58d601e607
+    source_tree: bc553843024cbed32b4ca14d457de6047b5bbdaa
+    previous_event_sha256: 6c5d439560ba16f00668100045a5e034d539bc6bb8608c364f2c6f44138b9f41
+    status: PENDING_CANDIDATE
+    rationale: P2-067 exhausted both implementation iterations and its sole same-Task
+      repair before any formal black-box dispatch. The initial create-once runtime
+      stopped before sandbox entry when the host rejected its RLIMIT_AS setting;
+      the independently reviewed repair remained uninstalled because its launcher
+      embedded a stale manifest identity. No product candidate, product mutation,
+      formal metric or capability credit exists. The reusable lesson is that preactivation
+      runtime resource and self-identity bindings must be executed and independently
+      reviewed before benchmark formalization. P2 remains ACTIVE and incomplete,
+      the cumulative twelve-Task envelope is exhausted, P3 remains HOLD, and the
+      project and Long-term Goal remain ACTIVE. Knowledge processing is non-authoritative
+      and nonblocking.
+    engineering_blocking: false
+    artifact:
+      path:
+      byte_length:
+      sha256:
+    review:
+      path:
+      byte_length:
+      sha256:
+    vault_import:
+      path:
+      byte_length:
+      sha256:
+    receipt:
+      path:
+      byte_length:
+      sha256:
+    event_sha256: 5f396fe49bf2e05e71487983f8032aae535962d150178a7a1561aa2f27e80cd0
 
 historical_active_work_after_p1_079:
   current_task: NONE
@@ -19593,10 +19672,10 @@ active_work:
   current_task: NONE
   current_task_status: NONE
   current_task_contract:
-    path: docs/aios/tasks/P2-067_INDEPENDENT_BLACK_BOX_JAVA_CONTEXT_BENCHMARK.yaml
-    sha256: 77bab411eb654371e4ca6778d1bb0eaf4d4c58749e7885183f53a24b05c7bf9a
-    byte_length: 15300
-  current_task_contract_sha256: 77bab411eb654371e4ca6778d1bb0eaf4d4c58749e7885183f53a24b05c7bf9a
+    path:
+    sha256:
+    byte_length:
+  current_task_contract_sha256:
   current_execution_authorization:
   current_execution_authorization_sha256:
   authority_record:
@@ -19604,24 +19683,21 @@ active_work:
     sha256:
     byte_length:
   execution_nonce:
-  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
+  execution_nonce_status: CONSUMED_TERMINAL
   authorization_id:
   activation_parent_commit:
   activation_parent_tree:
-  task_resource_state: NOT_CREATED_PHASE_DELEGATED_TASK_READY
+  task_resource_state: NO_ACTIVE_TASK_FOUNDER_RESERVED_DECISION_HOLD
   task_branch:
   task_worktree:
   execution_evidence_root:
   allowlisted_paths: []
   budget:
-    engineering_hours:
-    calendar_days:
-    implementation_iterations:
-    candidates:
-  roles:
-    owner:
-    worker:
-    independent_reviewers: []
+    engineering_hours: 0
+    calendar_days: 0
+    implementation_iterations: 0
+    candidates: 0
+  roles: {}
   external_effects:
     network: false
     provider: false
@@ -19632,13 +19708,13 @@ active_work:
   offsite_target:
   founder_reserved_authorization:
   founder_reserved_authorization_sha256:
-  founder_decision_required: false
-  founder_decision_required_scope: NONE
-  escalation_reason: NONE
-  user_action_required: NONE
-  phase_route_decision_required: false
-  phase_route_user_action_required: NONE
-  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
+  founder_decision_required: true
+  founder_decision_required_scope: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+  escalation_reason: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+  user_action_required: FOUNDER_RESERVED_DECISION
+  phase_route_decision_required: true
+  phase_route_user_action_required: FOUNDER_RESERVED_DECISION
+  next_eligible_action: FOUNDER_RESERVED_DECISION
 
 historical_p2_065_terminal_active_work:
   current_task: AIOS-P2-065_ESM_IMPORT_GRAPH_CONTEXT_PRODUCT_BENCHMARK
@@ -26183,9 +26259,9 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: AIOS-P2-067_PHASE_DELEGATED_ROUTE
+  current_route_claim: P2_FOUNDER_RESERVED_DECISION_HOLD
   current_task_claim: NONE
-  real_engineering_progress: P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_P2_067_READY_AUTHORITY_ONLY_NO_WORKER_IMPLEMENTATION_FORMAL_RESULT_PRODUCT_CHANGE_OR_CAPABILITY_CREDIT
+  real_engineering_progress: P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_P2_067_TERMINAL_PREACTIVATION_RUNTIME_REPAIR_EXHAUSTED_NON_PASS_FORMAL_ZERO_PRODUCT_UNCHANGED_CREDIT_ZERO
   product_capability_changed: false
   phase_local_allowed:
   - REAL_CODE_QA_PRODUCT_PATH_REPOSITORY_CONTEXT_SELECTOR
@@ -26512,10 +26588,38 @@ phase_execution_claim:
   - canonical main advance outside an accepted task gate
 
 claim_boundary:
-  current_phase_route: AIOS-P2-067_PHASE_DELEGATED_ROUTE
+  current_phase_route: P2_FOUNDER_RESERVED_DECISION_HOLD
   current_task: NONE
-  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
-  real_engineering_progress: P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_P2_067_READY_AUTHORITY_ONLY_NO_WORKER_IMPLEMENTATION_FORMAL_RESULT_PRODUCT_CHANGE_OR_CAPABILITY_CREDIT
+  next_eligible_action: FOUNDER_RESERVED_DECISION
+  real_engineering_progress: P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_P2_067_TERMINAL_PREACTIVATION_RUNTIME_REPAIR_EXHAUSTED_NON_PASS_FORMAL_ZERO_PRODUCT_UNCHANGED_CREDIT_ZERO
+  p2_067_status: TERMINAL_PREACTIVATION_RUNTIME_REPAIR_EXHAUSTED_NON_PASS
+  p2_067_contract_sha256: b1e6ccce9f826592110c201365ac61e1e58d31f4aec3e8aa4acf3692be6f0e28
+  p2_067_terminal_receipt_sha256: 89ce06b88dc863a0ff5ee347b55b0037139b263e3021f9e8e9ac3aaaa949c554
+  terminal_receipt_chronology:
+    task_id: AIOS-P2-067
+    authoritative_terminal_event_at_utc: '2026-08-11T18:08:19Z'
+    recorded_at_utc_classification: INVALID_FUTURE_METADATA_NOT_CHRONOLOGY
+    chronology_source: CANONICAL_TRUTH_TERMINAL_EVENT
+  p2_067_terminal_install_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-black-box-java-context-20260811/task-p2-067/terminal-runtime-repair-exhausted-v1/P2_067_TERMINAL_EVIDENCE_INSTALL_RECEIPT_V1.json
+    byte_length: 11864
+    sha256: 0706ce499f4127666178121e3a0a91ba9c3979b7cf4a36696158a382d982913d
+  p2_067_terminal_install_runtime_review:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-black-box-java-context-20260811/task-p2-067/terminal-runtime-binding-review-v1/P2_067_SECURITY_TERMINAL_EVIDENCE_INSTALL_RUNTIME_IDENTITY_REVIEW_V1.json
+    byte_length: 1683
+    sha256: b6cbb7fd6d8ff4da95960a6d120fbf6989a46426000252c406fc55fbfc210394
+  p2_067_implementation_iterations: 2_OF_2_EXHAUSTED
+  p2_067_same_task_repairs: 1_OF_1_EXHAUSTED
+  p2_067_runtime_probe_attempts: 1_OF_20_STOPPED_ON_FIRST_FAILURE
+  p2_067_formal_logical_cells: 0
+  p2_067_formal_http_dispatches: 0
+  p2_067_held_dispatches: 0
+  p2_067_metrics_computed: 0
+  p2_067_candidate_created: false
+  p2_067_candidate_integrated: false
+  p2_067_product_source_mutation: false
+  p2_067_capability_credit: 0
+  p2_067_canonical_make_verify: NOT_INVOKED_TERMINAL_PREACTIVATION_RUNTIME_NON_PASS
   p2_065_status: TERMINAL_VALID_BENCHMARK_NEUTRAL_NO_SUPERIORITY_NON_PASS
   p2_065_candidate_commit: a14a250e1ccc005d4732d2126ed5393ebd0a3223
   p2_065_candidate_tree: b70e22453ced53d4e1adfd522529748276f2d214
@@ -26539,7 +26643,7 @@ claim_boundary:
   p2_065_rejected_candidate_preservation_receipt_sha256: 8a96643ed0823c11791471a7249318ce287c6e1f41d087b5bf3863a8b8fd8ac8
   p2_065_canonical_make_verify: NOT_INVOKED_TERMINAL_TARGET_METRIC_NON_PASS
   p2_065_capability_credit: 0
-  p2_phase_envelope_status: TASK_CAPACITY_RESERVED
+  p2_phase_envelope_status: EXHAUSTED
   p2_project_status: ACTIVE
   long_term_goal_status: ACTIVE
   p2_064_status: TERMINAL_FORMAL_DEV_CHILD_EXIT_BEFORE_READY_ITERATION2_EXHAUSTED_NON_PASS
@@ -26636,9 +26740,9 @@ claim_boundary:
   p2_060_candidate_frozen: false
   p2_060_sealed_runs: 0
   p2_phase_envelope_limits: 12_TASKS_336_ENGINEERING_HOURS_84_CALENDAR_DAYS
-  p2_phase_envelope_consumed: 11_TASKS_304_ENGINEERING_HOURS_76_CALENDAR_DAYS
-  p2_phase_envelope_reserved: AIOS_P2_067_1_TASK_32_ENGINEERING_HOURS_8_CALENDAR_DAYS_ELIGIBLE_NOT_ACTIVATED
-  founder_reserved_trigger: NONE
+  p2_phase_envelope_consumed: 12_TASKS_336_ENGINEERING_HOURS_84_CALENDAR_DAYS
+  p2_phase_envelope_reserved: NONE
+  founder_reserved_trigger: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
   p2_055_status: TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS
   p2_055_candidate_commit: eebb76347ff71a5482b1965e0bf4ac6d4adfa7ca
   p2_055_candidate_tree: f5fb0f22b4a34d4b616214c9bd0bb69b625d2481
@@ -27051,7 +27155,7 @@ claim_boundary:
   p2_003_accepted_capability: false
   p2_003_capability_credit: 0
   p2_004_entry: INELIGIBLE
-  p2_current_route_stop_trigger: NONE_P2_067_READY_NOT_STOPPED
+  p2_current_route_stop_trigger: P2_067_TERMINAL_RUNTIME_REPAIR_EXHAUSTED_AND_PHASE_ENVELOPE_EXHAUSTED
   p2_001_status: TERMINAL_FINAL_QUALITY_TARGET_RECALL_NON_PASS
   p2_001_implementation_iterations_used: 2_OF_2
   p2_001_same_task_code_only_repairs_used: 1_OF_1

@@ -311,10 +311,11 @@ module FounderActionHandoff
         assert!(match && operations.drop(1) == profile["operation_tail"],
                 "standard-curl operation is not bound to one exact acquisition version")
         acquisition_version = match[1]
-        token = package.dig("user_request_evidence", "exact_token")
-        token_match = /\AAUTHORIZE_P2_BENCHMARK_SOURCE_ACQUISITION_CLEAN_ROOM_CURATOR_(V[1-9][0-9]*)_STANDARD_CURL_V[1-9][0-9]*\z/.match(token)
+        proposed_tokens = package["copy_ready_text_or_exact_steps"].scan(FOUNDER_AUTHORIZATION_TOKEN)
+        assert!(proposed_tokens.length == 1, "standard-curl handoff must contain one proposed authorization token")
+        token_match = /\AAUTHORIZE_P2_BENCHMARK_SOURCE_ACQUISITION_CLEAN_ROOM_CURATOR_(V[1-9][0-9]*)_STANDARD_CURL_V[1-9][0-9]*\z/.match(proposed_tokens.first)
         assert!(token_match && token_match[1] == acquisition_version,
-                "standard-curl acquisition version does not match the direct-user token")
+                "standard-curl acquisition version does not match the proposed authorization token")
       else
         assert!(grant["operations"] == profile["operations"],
                 "read-only HTTPS operation enum contradicts its exact grant scope")

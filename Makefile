@@ -1,4 +1,4 @@
-.PHONY: help deps up up-infra down logs logs-backend dev backend backend-jar frontend analyzer verify clean clean-local-generated code-map code-map-check aios-governance-check p1-safety-check p1-harness-check p1-environment-snapshot-check p1-task-dataset-check p1-experiment-pack-reentry-check p1-finite-typed-patch-ir-check p1-offline-b0-complete-evidence-check p1-blind-admission-check p1-stable-replay-projection-check p1-offline-scheduled-matrix-check p1-accepted-shared-trace-check p1-116-closed-profile-scanner-admission-check p1-125-six-task-parameterized-check p1-accepted-execution-spine-check script-check api-design-check db-schema-check dependency-check llm-safety-check mysql-flyway-smoke test-backend test-frontend test-analyzer
+.PHONY: help deps up up-infra down logs logs-backend dev backend backend-jar frontend analyzer verify clean clean-local-generated code-map code-map-check aios-governance-check p2-recovery-anti-cycle-check p1-safety-check p1-harness-check p1-environment-snapshot-check p1-task-dataset-check p1-experiment-pack-reentry-check p1-finite-typed-patch-ir-check p1-offline-b0-complete-evidence-check p1-blind-admission-check p1-stable-replay-projection-check p1-offline-scheduled-matrix-check p1-accepted-shared-trace-check p1-116-closed-profile-scanner-admission-check p1-125-six-task-parameterized-check p1-accepted-execution-spine-check script-check api-design-check db-schema-check dependency-check llm-safety-check mysql-flyway-smoke test-backend test-frontend test-analyzer
 
 help: ## 显示当前有效命令
 	@grep -E '^[a-zA-Z0-9_-]+:.*?## .*$$' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "\033[36m%-24s\033[0m %s\n", $$1, $$2}'
@@ -58,12 +58,18 @@ code-map-check: ## 校验代码地图同步性
 	node scripts/generate-project-code-map.mjs --check
 
 aios-governance-check: ## 校验最小当前权威、P1 边界和历史隔离
+	ruby scripts/test-p2-recovery-anti-cycle.rb
+	ruby scripts/validate-p2-recovery-anti-cycle.rb
 	ruby scripts/test-current-task-authority.rb
 	ruby scripts/test-founder-delegation-continuity.rb
 	ruby scripts/test-phase-delegated-task-authority.rb
 	ruby scripts/test-strict-phase-gates.rb
 	ruby scripts/test-founder-knowledge-sync.rb
 	./scripts/validate-aios-governance.sh
+
+p2-recovery-anti-cycle-check: ## 校验 P2 纠偏事实、进度口径和反自循环硬约束
+	ruby scripts/test-p2-recovery-anti-cycle.rb
+	ruby scripts/validate-p2-recovery-anti-cycle.rb
 
 p1-safety-check: ## 校验 P1 cooperative-local 基础安全声明
 	./scripts/check-p1-safety-boundary.sh

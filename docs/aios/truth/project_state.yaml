@@ -1,8 +1,8 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: '2026-08-11T18:08:19Z'
+last_verified_at: '2026-08-12T01:32:46Z'
 
-verification_scope: P2_067_TERMINAL_PREACTIVATION_RUNTIME_REPAIR_EXHAUSTED_NON_PASS_TASK_ONLY_P2_PROJECT_AND_LONG_TERM_GOAL_ACTIVE
+verification_scope: P2_RECOVERY_CORRECTION_ACTIVE_STRICT_GATE_ZERO_DELIVERY_ZERO_GOVERNANCE_CREDIT_ZERO_NO_NEW_TASK_OR_ENVELOPE_P2_PROJECT_AND_LONG_TERM_GOAL_ACTIVE
 
 authority:
   founder: Human Founder
@@ -14309,7 +14309,7 @@ founder_knowledge_sync:
   - IMPORTED
   - OUTDATED
   - NO_MATERIAL_KNOWLEDGE_DELTA
-  latest_event_id: FKS-20260812-P2-067-TERMINAL-RUNTIME-REPAIR-EXHAUSTED-V1
+  latest_event_id: FKS-20260812-P2-RECOVERY-ANTI-CYCLE-CORRECTION-V1
   events:
   - event_id: FKS-20260728-STRICT-PHASE-SEQUENCE-AND-KNOWLEDGE-SYNC
     trigger_type: FOUNDER_RULE_CORRECTION
@@ -19617,6 +19617,40 @@ founder_knowledge_sync:
       byte_length:
       sha256:
     event_sha256: 5f396fe49bf2e05e71487983f8032aae535962d150178a7a1561aa2f27e80cd0
+  - event_id: FKS-20260812-P2-RECOVERY-ANTI-CYCLE-CORRECTION-V1
+    trigger_type: FOUNDER_RULE_CORRECTION
+    occurred_at_utc: '2026-08-12T01:32:46Z'
+    source_commit: 601de9c1301160ea6802d054383a5907e854aee3
+    source_tree: 3a6da44d0396c03feeeae7e115d263b4970fa4a8
+    previous_event_sha256: 5f396fe49bf2e05e71487983f8032aae535962d150178a7a1561aa2f27e80cd0
+    status: PENDING_CANDIDATE
+    rationale: Founder directed an immediate P2 execution correction after twelve
+      consumed Tasks produced zero accepted P2 capability and no product-source
+      change. The correction freezes accepted-value milestones, zero progress credit
+      for governance activity, a three-stage benchmark-to-product-to-formal sequence,
+      bounded candidate, repair and review cycles, and a mechanical Gate Relevance
+      filter. It does not expand the exhausted P2 envelope, activate a new Task,
+      alter the P2 Exit Gate, enter P3 or authorize external effects. P2, the project
+      and the Long-term Goal remain ACTIVE. A reusable Learning Artifact candidate
+      is pending and remains non-authoritative and nonblocking.
+    engineering_blocking: false
+    artifact:
+      path:
+      byte_length:
+      sha256:
+    review:
+      path:
+      byte_length:
+      sha256:
+    vault_import:
+      path:
+      byte_length:
+      sha256:
+    receipt:
+      path:
+      byte_length:
+      sha256:
+    event_sha256: 4bd1fc9788d0daa3fb39b095055e53a4c413d863614571439270d7955c10f4f5
 
 historical_active_work_after_p1_079:
   current_task: NONE
@@ -26586,6 +26620,20 @@ phase_execution_claim:
   - production side effects
   - public capability claims
   - canonical main advance outside an accepted task gate
+
+p2_recovery_control:
+  schema_version: p2-recovery-control/v1
+  status: FOUNDER_CORRECTION_ACTIVE_AWAITING_ENVELOPE_AUTHORIZATION
+  plan:
+    path: docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml
+    byte_length: 7433
+    sha256: cfb383e6b89c84bfe7e574f25a6b2137f5618a7aef0a013814a7abad6d5d24ab
+  strict_gate_percent: 0
+  current_delivery_percent: 0
+  governance_progress_credit: 0
+  accepted_milestones: []
+  task_creation_allowed: false
+  next_eligible_action: FOUNDER_RESERVED_DECISION
 
 claim_boundary:
   current_phase_route: P2_FOUNDER_RESERVED_DECISION_HOLD

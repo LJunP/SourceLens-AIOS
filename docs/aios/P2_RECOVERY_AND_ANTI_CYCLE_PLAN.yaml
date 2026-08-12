@@ -1,0 +1,189 @@
+schema_version: p2-recovery-and-anti-cycle-plan/v1
+status: FOUNDER_CORRECTION_ACTIVE_AWAITING_ENVELOPE_AUTHORIZATION
+
+authority_boundary:
+  changes_phase_objective: false
+  changes_exit_gate: false
+  expands_phase_envelope: false
+  activates_task: false
+  authorizes_external_effects: false
+  creates_engineering_progress_credit: false
+
+baseline:
+  canonical_commit: 601de9c1301160ea6802d054383a5907e854aee3
+  canonical_tree: 3a6da44d0396c03feeeae7e115d263b4970fa4a8
+  p2_entry_activation_parent_commit: 293f54e469737c240a393db4dbdeea6d808efab2
+  p2_entry_activation_parent_tree: 017219320cdc17832a3553d9b401ebda9e8005c0
+  current_phase: P2
+  current_task: NONE
+  strict_exit_gate:
+    accepted: 0
+    total: 1
+    percent: 0
+    missing_item: CONTEXT_BENCHMARK_BEATS_SIMPLE_RETRIEVAL_BASELINES
+  phase_envelope:
+    status: EXHAUSTED
+    limits:
+      engineering_tasks: 12
+      engineering_hours: 336
+      calendar_days: 84
+    consumed:
+      engineering_tasks: 12
+      engineering_hours: 336
+      calendar_days: 84
+    remaining:
+      engineering_tasks: 0
+      engineering_hours: 0
+      calendar_days: 0
+
+drift_diagnosis:
+  strategic_direction_changed: false
+  execution_deviation: SEVERE
+  self_loop_occurred: true
+  self_loop_currently_running: false
+  accepted_p2_capability_count: 0
+  exact_diff_since_p2_entry:
+    product:
+      path_prefixes:
+        - backend-spring/
+        - analyzer-rust/
+        - web-console/
+      changed_files: 0
+      insertions: 0
+      deletions: 0
+    evaluation:
+      path_prefixes:
+        - evaluation-harness/
+      changed_files: 1
+      insertions: 227
+      deletions: 0
+    governance:
+      path_prefixes:
+        - docs/aios/
+        - scripts/
+      changed_files: 39
+      insertions: 32651
+      deletions: 7460
+    other:
+      exact_paths:
+        - AGENTS.md
+        - Makefile
+        - docs/PROJECT_CODE_MAP.md
+        - schemas/founder-phase-route-decision.schema.json
+      changed_files: 4
+      insertions: 377
+      deletions: 34
+
+root_causes:
+  - id: PROOF_INFRASTRUCTURE_PRECEDED_PRODUCT_VALUE
+    statement: Evidence, isolation and governance mechanisms were repeatedly built before the smallest representative product-value experiment was stable.
+  - id: REPRESENTATIVENESS_FROZEN_TOO_LATE
+    statement: Dataset representativeness, baseline semantics and independent unit definitions were challenged after substantial task construction instead of before implementation.
+  - id: ALL_IN_ONE_TASK_SCOPE
+    statement: Multiple tasks combined dataset curation, runtime isolation, product execution, provenance, statistics and final evaluation into one failure surface.
+  - id: REVIEW_FINDINGS_NOT_GATE_RELEVANCE_FILTERED
+    statement: Reviewer findings that did not determine the P2 Exit Gate were allowed to extend preactivation and repair chains.
+  - id: GOVERNANCE_ACTIVITY_MISREAD_AS_PROGRESS
+    statement: Large governance and evidence deltas were observable while accepted P2 capability and product change remained zero.
+  - id: NO_ACCEPTED_MILESTONE_CHECKPOINTS
+    statement: Task succession was driven by terminal task outcomes instead of requiring an accepted delivery milestone before advancing the route.
+
+progress_model:
+  strict_gate:
+    rule: BINARY_ACCEPTED_GATE_ONLY
+    current_percent: 0
+    allowed_percent_values:
+      - 0
+      - 100
+  delivery_milestones:
+    - id: P2_RECOVERY_BASELINE_ACCEPTED
+      percent: 25
+      acceptance: Representative benchmark foundation and an Evaluation-Protocol-conformant simple retrieval baseline are independently accepted.
+    - id: P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED
+      percent: 70
+      acceptance: A nonempty product-source context-selector change strictly beats the accepted baseline on the frozen DEV set without regression.
+    - id: P2_RECOVERY_FORMAL_HELD_MATRIX_COMPLETE
+      percent: 85
+      acceptance: The predeclared held matrix completes once with closed raw evidence, independent evaluation and no dataset, metric or candidate drift.
+    - id: P2_EXIT_GATE_ACCEPTED
+      percent: 100
+      acceptance: CONTEXT_BENCHMARK_BEATS_SIMPLE_RETRIEVAL_BASELINES is ACCEPTED in canonical strict Phase Gate evidence.
+  zero_credit_activities:
+    - governance_document_created
+    - validator_or_schema_created
+    - review_or_receipt_created
+    - evidence_inventory_created
+    - time_or_budget_consumed
+    - task_terminal_non_pass
+    - nonintegrated_candidate
+  current_delivery_percent: 0
+
+recommended_recovery_sequence:
+  authorization_status: PLANNED_NOT_AUTHORIZED
+  proposed_additional_envelope:
+    engineering_tasks: 3
+    engineering_hours: 96
+    calendar_days: 24
+  tasks:
+    - sequence: 1
+      task_id: null
+      role: BENCHMARK_FOUNDATION
+      target_milestone: P2_RECOVERY_BASELINE_ACCEPTED
+      recommended_budget:
+        engineering_hours: 32
+        calendar_days: 8
+      product_mutation_allowed: false
+      required_output: A representative source-bound Java maintenance benchmark with independent baseline, licenses, provenance, exact base identities, reference patches, executable tests, frozen DEV and HELD split, deduplication and held custody.
+    - sequence: 2
+      task_id: null
+      role: PRODUCT_SELECTOR_IMPLEMENTATION
+      target_milestone: P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED
+      recommended_budget:
+        engineering_hours: 32
+        calendar_days: 8
+      product_mutation_allowed: true
+      required_output: A nonempty product-source context-selection delta that passes product tests and independently accepted DEV comparison against the frozen baseline.
+    - sequence: 3
+      task_id: null
+      role: FORMAL_HELD_EVALUATION
+      target_milestone: P2_RECOVERY_FORMAL_HELD_MATRIX_COMPLETE
+      recommended_budget:
+        engineering_hours: 32
+        calendar_days: 8
+      product_mutation_allowed: false
+      required_output: One predeclared held evaluation of the frozen product candidate with no rerun, retuning, task replacement, dataset mutation, oracle mutation or metric mutation.
+
+mechanical_controls:
+  governance_progress_credit: 0
+  task_non_pass_progress_credit: 0
+  max_candidate_generations_per_task: 2
+  max_same_task_repairs: 1
+  max_review_cycles: 2
+  first_review_freezes_complete_p0_p1_set: true
+  second_review_may_only_close_frozen_findings_or_reject_new_regression: true
+  governance_pre_worker_budget_percent_max: 10
+  worker_must_start_by_engineering_hour: 1
+  gate_relevance_required_for_blocker: true
+  blocker_gate_relevance_categories:
+    - EXIT_GATE_VALIDITY
+    - AUTHORITY_OR_EXTERNAL_EFFECT_SAFETY
+    - RESULT_INTEGRITY
+    - PRODUCT_CORRECTNESS
+  product_task_requires_nonempty_product_diff: true
+  benchmark_foundation_precedes_product_implementation: true
+  product_implementation_precedes_formal_evaluation: true
+  formal_task_forbids_product_dataset_or_metric_mutation: true
+  next_sequence_requires_prior_milestone_accepted: true
+  rejected_lineage_reuse_allowed: false
+  successor_replacement_remediation_chain_allowed: false
+  next_p2_task_contract_requires_recovery_binding: true
+  validator_command: ruby scripts/validate-p2-recovery-anti-cycle.rb
+
+current_control:
+  new_task_creation_allowed: false
+  reason: PHASE_ENVELOPE_EXHAUSTED_AWAITING_FOUNDER_EXPANSION
+  next_action_owner: HUMAN_FOUNDER
+  next_eligible_action: FOUNDER_RESERVED_DECISION
+  long_term_goal_must_remain_active: true
+  project_must_remain_active: true
+  p2_must_remain_active_incomplete: true

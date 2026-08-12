@@ -116,6 +116,37 @@ Founder 只保留：
 - 每次状态汇报必须明确列出：当前 Phase、严格完成度、已完成 Gate、缺失 Gate、正在解决的真实工程问题以及下一项最高价值行动。Review、文档、hash、manifest、治理同步或部分实现不得冒充 Phase 进度。
 - 若 Founder 指令与严格阶段依赖存在冲突，Master 必须在任何后一 Phase 写入前显式指出冲突并给出“留在前一 Phase 完成缺失 Gate”的推荐方案；不得仅因指令形式合法而静默跳步。
 
+## Phase 工程价值与反自循环（强制执行）
+
+- Phase 严格进度只来自 canonical Exit Gate 必需项的 `ACCEPTED` Evidence。治理文档、
+  validator、schema、review、receipt、inventory、预算消耗、Task `NON_PASS`、未集成
+  candidate 和工作时长的进度 credit 一律为 `0`。若需要面向管理的过程百分比，只能使用
+  预先冻结、由独立验收触发的 delivery milestone；不得按文档数、审查轮次或已花时间估算。
+- 每个恢复路线必须拆成最多三个价值递进阶段：代表性 benchmark/baseline foundation、
+  product implementation、formal held evaluation。前一 milestone 未独立 `ACCEPTED`，不得
+  激活后一阶段。不得把 dataset、产品实现、运行时隔离、formal 统计和 Phase Gate 全塞进
+  一个 Task。
+- benchmark foundation Task 不得修改产品；product Task 必须产生非空、可测试的产品源码
+  diff；formal evaluation Task 禁止修改产品、dataset、split、oracle、metric、threshold、
+  schedule 或已冻结 candidate。任一正式 dispatch 后不得换题、调参、补跑或 rerun-to-pass。
+- 每个普通工程 Task 最多 `2` 个 candidate generations、`1` 次 same-Task repair、`2` 个
+  review cycles。第一次独立 review 必须一次性冻结完整 P0/P1 finding set；第二次只允许关闭
+  已冻结 finding 或拒绝修复新引入的 regression，不得持续 drip-feed 新的同类设计要求。
+- Reviewer blocker 必须落入封闭 Gate Relevance 类别之一：`EXIT_GATE_VALIDITY`、
+  `AUTHORITY_OR_EXTERNAL_EFFECT_SAFETY`、`RESULT_INTEGRITY`、`PRODUCT_CORRECTNESS`。
+  与当前 Task 输出、P2 Exit Gate、既有安全权限或结果真实性无机械因果关系的改进项只能记为
+  非阻塞 backlog，不得延长 preactivation、repair 或治理链。
+- 普通 Task 的治理与 pre-Worker 准备不得超过预算的 `10%`，Worker 必须在第一个
+  engineering hour 内开始真实实现或可执行 benchmark 工作。无法满足时在首次 write 前终止
+  该 Task，不得用更多治理修复来证明它可以开始。
+- Task `NON_PASS` 后禁止 successor、replacement、normalization、closure、feasibility 或
+  remediation 链。若 Phase 仍需同一能力，只能在剩余/新增合法 envelope 内选择一个完全独立、
+  不读不复用 rejected lineage、且直接瞄准下一未接受 delivery milestone 的 Task。
+- P2 的当前纠偏权威为 `docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml`。创建任何后续 P2
+  Task Contract 前必须运行 `ruby scripts/validate-p2-recovery-anti-cycle.rb`；validator
+  NON_PASS、Phase envelope 未获扩展或上一 milestone 未接受时，禁止创建 Task ID、nonce、
+  branch、worktree、Contract、authority 或工程 Evidence。
+
 ## Founder Knowledge System（常驻规则）
 
 - Founder Knowledge Vault 的唯一精确路径是 `/Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault`。

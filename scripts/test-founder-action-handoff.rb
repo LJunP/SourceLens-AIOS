@@ -214,7 +214,7 @@ draft = <<~MARKDOWN
 MARKDOWN
 assert_pass!("authorization positive", authorization, draft, current_truth)
 
-standard_operation = FounderActionHandoff::STANDARD_CURL_OPERATION
+standard_operation = "一次全新、独立、clean-room V7 benchmark source acquisition using exact system curl"
 standard_budget = FounderActionHandoff::STANDARD_CURL_BUDGET
 standard_exclusions = FounderActionHandoff::STANDARD_CURL_METRIC_EXCLUSIONS
 standard_retry = FounderActionHandoff::STANDARD_CURL_RETRY_POLICY
@@ -232,8 +232,60 @@ standard_authorization = authorization.merge(
     )
   )
 )
+standard_authorization["user_request_evidence"] = authorization["user_request_evidence"].merge(
+  "exact_token" => "AUTHORIZE_P2_BENCHMARK_SOURCE_ACQUISITION_CLEAN_ROOM_CURATOR_V7_STANDARD_CURL_V1"
+)
 standard_draft = draft.sub(copy_text, standard_copy_text)
 assert_pass!("standard-curl authorization positive", standard_authorization, standard_draft, current_truth)
+
+standard_v8_operation = standard_operation.sub(" V7 ", " V8 ")
+standard_v8_copy = standard_copy_text.sub("AUTHORIZE_EXACT_BOUNDED_STANDARD_CURL_NETWORK_V1", "AUTHORIZE_EXACT_BOUNDED_STANDARD_CURL_NETWORK_V8")
+                                      .sub(standard_operation, standard_v8_operation)
+standard_v8 = standard_authorization.merge(
+  "copy_ready_text_or_exact_steps" => standard_v8_copy,
+  "user_request_evidence" => standard_authorization["user_request_evidence"].merge(
+    "exact_token" => "AUTHORIZE_P2_BENCHMARK_SOURCE_ACQUISITION_CLEAN_ROOM_CURATOR_V8_STANDARD_CURL_V1"
+  ),
+  "authorization" => standard_authorization["authorization"].merge(
+    "grant_scope" => standard_authorization.dig("authorization", "grant_scope").merge(
+      "operations" => [standard_v8_operation, method, standard_exclusions, standard_retry, standard_curl_binding]
+    )
+  )
+)
+assert_pass!("standard-curl data-driven V8 positive", standard_v8,
+             standard_draft.sub(standard_copy_text, standard_v8_copy), current_truth)
+
+standard_v8_wrong_token = standard_v8.merge(
+  "user_request_evidence" => standard_v8["user_request_evidence"].merge(
+    "exact_token" => "AUTHORIZE_TEST_EXACT_BOUNDED_NETWORK_V9"
+  )
+)
+assert_reject!("standard-curl operation and token version mismatch", standard_v8_wrong_token,
+               standard_draft.sub(standard_copy_text, standard_v8_copy), current_truth,
+               user_token: "AUTHORIZE_TEST_EXACT_BOUNDED_NETWORK_V9")
+
+standard_v1_operation = standard_operation.sub(" V7 ", " V1 ")
+standard_v1_copy = standard_copy_text.sub(standard_operation, standard_v1_operation)
+standard_v1_wrong_semantic_position = standard_authorization.merge(
+  "copy_ready_text_or_exact_steps" => standard_v1_copy,
+  "authorization" => standard_authorization["authorization"].merge(
+    "grant_scope" => standard_authorization.dig("authorization", "grant_scope").merge(
+      "operations" => [standard_v1_operation, method, standard_exclusions, standard_retry, standard_curl_binding]
+    )
+  )
+)
+assert_reject!("standard-curl token schema suffix cannot impersonate acquisition version",
+               standard_v1_wrong_semantic_position,
+               standard_draft.sub(standard_copy_text, standard_v1_copy), current_truth)
+
+ambiguous_version_token = standard_authorization.merge(
+  "user_request_evidence" => standard_authorization["user_request_evidence"].merge(
+    "exact_token" => "AUTHORIZE_P2_BENCHMARK_SOURCE_ACQUISITION_CLEAN_ROOM_CURATOR_V7_STANDARD_CURL_CURATOR_V8_STANDARD_CURL_V1"
+  )
+)
+assert_reject!("standard-curl token cannot contain multiple acquisition versions",
+               ambiguous_version_token, standard_draft, current_truth,
+               user_token: ambiguous_version_token.dig("user_request_evidence", "exact_token"))
 
 standard_raw_budget_copy = standard_copy_text.sub(standard_budget, budget)
 standard_raw_budget = standard_authorization.merge(

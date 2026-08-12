@@ -37,7 +37,7 @@ module FounderActionHandoff
   READ_ONLY_HTTPS_METHOD = "仅允许无凭据 HTTPS GET/HEAD"
   READ_ONLY_HTTPS_TARGETS = "github.com、api.github.com、codeload.github.com、raw.githubusercontent.com、repo.maven.apache.org、downloads.gradle.org、plugins.gradle.org、plugins-artifacts.gradle.org"
   READ_ONLY_HTTPS_BUDGET = "4,294,967,296 PROCESS_DELIVERED_TCP_STREAM_OCTETS"
-  STANDARD_CURL_OPERATION = "一次全新、独立、clean-room V7 benchmark source acquisition using exact system curl"
+  STANDARD_CURL_OPERATION_PATTERN = /\A一次全新、独立、clean-room (V[1-9][0-9]*) benchmark source acquisition using exact system curl\z/
   STANDARD_CURL_BUDGET = "4,294,967,296 CREATE_ONCE_PERSISTED_HTTP_RESPONSE_BODY_OCTETS"
   STANDARD_CURL_METRIC_EXCLUSIONS = "This budget does not cap or claim DNS, TLS, HTTP header, kernel, wire, or raw TCP octets"
   STANDARD_CURL_RETRY_POLICY = "Retries are disabled"
@@ -49,8 +49,7 @@ module FounderActionHandoff
       "budget_or_external_effects" => READ_ONLY_HTTPS_BUDGET
     },
     "READ_ONLY_HTTPS_ACQUISITION_STANDARD_CURL" => {
-      "operations" => [
-        STANDARD_CURL_OPERATION,
+      "operation_tail" => [
         READ_ONLY_HTTPS_METHOD,
         STANDARD_CURL_METRIC_EXCLUSIONS,
         STANDARD_CURL_RETRY_POLICY,
@@ -302,10 +301,25 @@ module FounderActionHandoff
                 "prospective request may only cover an exact external-effect Founder trigger")
       end
       assert!(FOUNDER_OPERATION_TYPES.include?(authorization["operation_type"]), "Founder operation type invalid")
-      profile = FOUNDER_NETWORK_OPERATION_PROFILES[authorization["operation_type"]]
+      operation_type = authorization["operation_type"]
+      profile = FOUNDER_NETWORK_OPERATION_PROFILES[operation_type]
       assert!(profile, "Founder network operation is not bound to a closed profile")
-      assert!(grant["operations"] == profile["operations"] &&
-              grant["targets"] == profile["targets"] &&
+      if operation_type == "READ_ONLY_HTTPS_ACQUISITION_STANDARD_CURL"
+        operations = grant["operations"]
+        match = operations.is_a?(Array) && operations.first.is_a?(String) &&
+                STANDARD_CURL_OPERATION_PATTERN.match(operations.first)
+        assert!(match && operations.drop(1) == profile["operation_tail"],
+                "standard-curl operation is not bound to one exact acquisition version")
+        acquisition_version = match[1]
+        token = package.dig("user_request_evidence", "exact_token")
+        token_match = /\AAUTHORIZE_P2_BENCHMARK_SOURCE_ACQUISITION_CLEAN_ROOM_CURATOR_(V[1-9][0-9]*)_STANDARD_CURL_V[1-9][0-9]*\z/.match(token)
+        assert!(token_match && token_match[1] == acquisition_version,
+                "standard-curl acquisition version does not match the direct-user token")
+      else
+        assert!(grant["operations"] == profile["operations"],
+                "read-only HTTPS operation enum contradicts its exact grant scope")
+      end
+      assert!(grant["targets"] == profile["targets"] &&
               grant["budget_or_external_effects"] == profile["budget_or_external_effects"],
               "read-only HTTPS operation enum contradicts its exact grant scope")
     else

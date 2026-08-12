@@ -4,9 +4,9 @@
 
 ## 1. 生成范围
 
-- 纳入逐文件用途索引的文件数：927。
+- 纳入逐文件用途索引的文件数：932。
 - 其中源码/脚本/配置/SQL/CSS 类文件数：542。
-- 纳入统计的文本总行数：253198。
+- 纳入统计的文本总行数：253611。
 - 排除逐文件展开的本地生成/证据目录：`.git/`、`bin/`、`web-console/node_modules/`、`backend-spring/target/`、`analyzer-rust/target/`、`.sourcelens-runtime/`、`release-evidence/`、前端构建和测试产物。
 - 本地生成物、依赖缓存和历史证据目录不是源码或当前权威；它们必须保持未跟踪并可重建或从封存恢复。
 
@@ -24,14 +24,14 @@
 | `CODE_OF_CONDUCT.md` | 1 | 项目根文件或辅助目录。 |
 | `CONTRIBUTING.md` | 1 | 项目根文件或辅助目录。 |
 | `deploy` | 2 | Docker Compose 和环境模板。 |
-| `docs` | 174 | 当前架构、接口、安全、研究与 AIOS 权威文档。 |
+| `docs` | 176 | 当前架构、接口、安全、研究与 AIOS 权威文档。 |
 | `evaluation-harness` | 266 | 项目根文件或辅助目录。 |
 | `LICENSE` | 1 | 项目根文件或辅助目录。 |
 | `Makefile` | 1 | 项目根文件或辅助目录。 |
 | `README.md` | 1 | 项目根文件或辅助目录。 |
 | `ROADMAP.md` | 1 | 项目根文件或辅助目录。 |
 | `schemas` | 1 | 项目根文件或辅助目录。 |
-| `scripts` | 39 | 本地构建、验证、代码地图和最小安全检查。 |
+| `scripts` | 42 | 本地构建、验证、代码地图和最小安全检查。 |
 | `SECURITY.md` | 1 | 项目根文件或辅助目录。 |
 | `SUPPORT.md` | 1 | 项目根文件或辅助目录。 |
 | `web-console` | 72 | React/Vite 前端控制台。 |
@@ -170,8 +170,9 @@
 | `backend-spring/src/test/resources` | 5 | Spring Boot 后端服务。子目录。 |
 | `backend-spring/src/test/resources/mockito-extensions` | 1 | Spring Boot 后端服务。子目录。 |
 | `deploy` | 2 | 部署配置目录，包含 Docker Compose 和环境变量模板。 |
-| `docs` | 174 | 项目事实源文档目录，覆盖产品、架构、API、数据库、安全、运维、阶段需求、进度和交接。 |
-| `docs/aios` | 162 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
+| `docs` | 176 | 项目事实源文档目录，覆盖产品、架构、API、数据库、安全、运维、阶段需求、进度和交接。 |
+| `docs/aios` | 164 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
+| `docs/aios/decisions` | 2 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/aios/schemas` | 4 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/aios/tasks` | 149 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/aios/truth` | 1 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
@@ -286,7 +287,7 @@
 | `evaluation-harness/validators` | 3 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/validators/blind-admission-v1` | 1 | 项目根文件或辅助目录。子目录。 |
 | `schemas` | 1 | 项目根文件或辅助目录。子目录。 |
-| `scripts` | 39 | 本地自动化脚本目录，封装启动、校验、代码地图和生成物清理。 |
+| `scripts` | 42 | 本地自动化脚本目录，封装启动、校验、代码地图和生成物清理。 |
 | `web-console` | 72 | React/Vite 前端控制台工程，承载 SourceLens 用户界面和 UI smoke。 |
 | `web-console/src` | 66 | 前端源码根目录。 |
 | `web-console/src/api` | 21 | 前端 API client 层，集中定义后端 HTTP 调用和 TypeScript 响应类型。 |
@@ -933,6 +934,8 @@
 | 文件 | 作用 |
 | --- | --- |
 | `docs/aios/BASELINE_ADAPTER_CONTRACT.md` | 项目文档。标题：SourceLens AIOS Baseline Adapter Contract。 |
+| `docs/aios/decisions/P2_VALUE_FIRST_RECOVERY_ENVELOPE_EXPANSION_DECISION_V1.json` | 项目文档。标题：P2_VALUE_FIRST_RECOVERY_ENVELOPE_EXPANSION_DECISION_V1.json。 |
+| `docs/aios/decisions/P2_VALUE_FIRST_RECOVERY_ENVELOPE_EXPANSION_V1.md` | 项目文档。标题：P2 value-first recovery envelope expansion。 |
 | `docs/aios/EVALUATION_PROTOCOL.md` | 项目文档。标题：SourceLens AIOS Evaluation and Research Protocol。 |
 | `docs/aios/FOUNDER_DELEGATION_POLICY.md` | 项目文档。标题：SourceLens AIOS Founder Delegation Policy。 |
 | `docs/aios/MASTER_EXECUTION_PROTOCOL.md` | 项目文档。标题：SourceLens AIOS Master Execution Protocol。 |
@@ -1422,9 +1425,11 @@
 | `scripts/run-backend-dev.sh` | 本地后端启动脚本，处理 env、端口占用、健康复用和稳定 jar runtime。 |
 | `scripts/run-backend-jar-dev.sh` | 本地后端启动脚本，处理 env、端口占用、健康复用和稳定 jar runtime。 |
 | `scripts/test-current-task-authority.rb` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
+| `scripts/test-founder-action-handoff.rb` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/test-founder-delegation-continuity.rb` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/test-founder-knowledge-sync.rb` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/test-p2-recovery-anti-cycle.rb` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
+| `scripts/test-p2-recovery-envelope-expansion.rb` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/test-phase-delegated-task-authority.rb` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/test-strict-phase-gates.rb` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/validate-aios-governance.sh` | 静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。 |
@@ -1432,6 +1437,7 @@
 | `scripts/validate-artifact-quality.mjs` | 静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。 |
 | `scripts/validate-current-task-authority.rb` | 静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。 |
 | `scripts/validate-db-schema-contract.mjs` | 静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。 |
+| `scripts/validate-founder-action-handoff.rb` | 静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。 |
 | `scripts/validate-founder-delegation-continuity.rb` | 静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。 |
 | `scripts/validate-llm-safety-evals.mjs` | 静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。 |
 | `scripts/validate-p2-recovery-anti-cycle.rb` | 静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。 |

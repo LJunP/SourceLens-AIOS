@@ -64,6 +64,32 @@ check_phase_sequence_section() {
     || fail "strict phase sequence exact section drift"
 }
 
+check_founder_action_handoff_section() {
+  local rules_path="$1"
+  local section_header='## Founder / 用户下一步交付（强制执行）'
+  local canonical_byte_length='3519'
+  local canonical_sha256='63c9f93e4fd1f9ea3c2bd6cf9fa8fe6a11f54068b8e5b70097a96fb9bddfa709'
+
+  ruby -rdigest -e '
+    rules_path, header, expected_length, expected_sha = ARGV
+    header = header.dup.force_encoding("UTF-8")
+    abort "Founder action handoff rules file missing" unless File.file?(rules_path) && !File.symlink?(rules_path)
+    rules = File.binread(rules_path).dup.force_encoding("UTF-8")
+    abort "Founder action handoff document encoding invalid" unless rules.valid_encoding?
+    lines = rules.lines
+    starts = lines.each_index.select { |index| lines[index].sub(/\r?\n\z/, "") == header }
+    abort "Founder action handoff exact section missing or duplicated" unless starts.length == 1
+    start_index = starts.first
+    end_index = ((start_index + 1)...lines.length).find { |index| lines[index].start_with?("## ") }
+    abort "Founder action handoff section must be followed by another H2 section" unless end_index
+    section = lines[start_index...end_index].join
+    canonical = section.gsub(/\r\n?/, "\n").sub(/\n*\z/, "") + "\n"
+    abort "Founder action handoff exact section byte drift" unless
+      canonical.bytesize == Integer(expected_length, 10) && Digest::SHA256.hexdigest(canonical) == expected_sha
+  ' "$rules_path" "$section_header" "$canonical_byte_length" "$canonical_sha256" \
+    || fail "Founder action handoff exact section drift"
+}
+
 check_authority_bindings() {
   ruby -ryaml -rdigest -rpathname -e '
     repo_root = Pathname.new(ARGV.fetch(0)).realpath
@@ -1903,10 +1929,16 @@ if [[ $# -gt 0 ]]; then
     echo "Founder Knowledge System exact section validation passed."
     exit 0
   fi
+  if [[ $# -eq 2 && "$1" == "--check-founder-action-handoff-section" ]]; then
+    check_founder_action_handoff_section "$2"
+    echo "Founder action handoff exact section validation passed."
+    exit 0
+  fi
   if [[ $# -eq 1 && "$1" == "--check-static-rules" ]]; then
     check_phase_sequence_section "$RULES_PATH"
+    check_founder_action_handoff_section "$RULES_PATH"
     check_founder_knowledge_section "$RULES_PATH"
-    echo "Strict phase sequence and Founder Knowledge System static validation passed."
+    echo "Strict phase sequence, Founder action handoff, and Founder Knowledge System static validation passed."
     exit 0
   fi
   if [[ $# -eq 5 && "$1" == "--check-phase-predecessor-state" ]]; then
@@ -1958,6 +1990,13 @@ boundary_markers=(
   '普通 Task lifecycle，不得单独触发 Founder'
   'NO_RESERVED_TRIGGER_CONTINUE_PHASE'
   'MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK'
+  'Founder / 用户下一步交付（强制执行）'
+  'FOUNDER_ACTION_HANDOFF_CHECK'
+  '你现在无需操作，我将在现有授权范围内继续执行。'
+  'RECOMMENDED_SINGLE_ACTION'
+  'COPY_READY_TEXT_OR_EXACT_STEPS'
+  'AGENT_CONTINUATION_AFTER_ACTION'
+  '不得连续发送只有相同状态、没有可执行下一步的回复'
   'P1 不建设 Supervisor、Root Custody、完整 Trust Runtime、强隔离平台或 Multi-Agent Runtime。'
   '严格阶段顺序与反偏航（强制执行）'
   '固定阶段路线必须按 `P0 → P1 → P2 → … → P12` 顺序执行'
@@ -1981,6 +2020,7 @@ for marker in "${boundary_markers[@]}"; do
 done
 
 check_phase_sequence_section "$RULES_PATH"
+check_founder_action_handoff_section "$RULES_PATH"
 check_founder_knowledge_section "$RULES_PATH"
 check_authority_bindings
 check_phase_predecessor_activation

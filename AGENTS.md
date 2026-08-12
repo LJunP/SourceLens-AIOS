@@ -106,6 +106,18 @@ Founder 只保留：
 - 上述普通终态组合的 canonical next action 必须精确为 `MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK`；该选择随后必须通过 phase-delegated independent Task authority 路径，而不是伪造新的 Founder packet。
 - 每次面向 Founder 请求授权前，Master 必须先运行 Founder escalation validator。结果为 `NO_RESERVED_TRIGGER_CONTINUE_PHASE` 时禁止生成授权提示词，并必须直接继续工程；只有 validator 给出 exact reserved trigger 时，才允许一次性请求相应 Founder 决策。
 
+## Founder / 用户下一步交付（强制执行）
+
+- 每次准备结束一个面向 Founder 的回合前，Master 必须完成一次 `FOUNDER_ACTION_HANDOFF_CHECK`。该检查不产生工程或治理进度，只回答四件事：当前是否确实需要用户动作、Agent 为什么不能自行继续、当前事实与权限边界下哪一个动作最优、该动作完成后 Agent 将立即继续什么。
+- `USER_ACTION_REQUIRED=false` 时，最终答复必须明确包含：`你现在无需操作，我将在现有授权范围内继续执行。` 并继续当前可执行工作；禁止附带可选授权提示词、把日常 Task 选择交给 Founder，或只汇报状态后停止。
+- `USER_ACTION_REQUIRED=true` 只允许来自：经机械核验的 Founder reserved trigger、真实 Codex App/OS 审批边界，或仅用户掌握且无法通过已授权只读方式取得的必要输入。最终答复必须开门见山写清“我现在需要你做什么”，并给出当前推荐的一个最优动作、推荐理由、权限与风险边界，以及动作后的继续路径。
+- 最优动作是授权时，Master 必须提供一段可直接复制回复的完整授权文本；禁止只给 token 名称、授权框架、字段清单、`TBD`、占位符或要求 Founder 自行设计边界。生成前必须重新核验并绑定当前 canonical commit/tree、适用计划或 Contract identity、exact reserved trigger、允许与禁止范围、预算或次数、PASS/NON_PASS 生命周期，以及 P2、项目和长期 Goal 的持续状态。任一必要 identity 为 `UNKNOWN` 时，先完成只读核验，不得把核验工作转给 Founder。
+- 最优动作是本机或 UI 操作时，必须给出最短、明确、可执行的 exact steps；必须分别说明项目授权、Codex App 文件系统审批和外部权限，禁止混同。
+- 存在多个可行方案时，Master 必须承担判断责任：主操作只给推荐方案；只有另一方案会实质改变战略、成本或风险时才补充备选并说明不推荐原因。禁止把多选题、模糊问题或风险设计工作退还给 Founder。
+- 每个 `BLOCKED`、`NON_PASS`、`TERMINAL`、Phase/Task 状态汇报和授权拒绝都必须以完整的“下一步”闭合，至少包含：`USER_ACTION_REQUIRED`、`RECOMMENDED_SINGLE_ACTION`、`COPY_READY_TEXT_OR_EXACT_STEPS`、`AGENT_CONTINUATION_AFTER_ACTION`。不得连续发送只有相同状态、没有可执行下一步的回复。
+- 请求用户动作前必须运行适用的 escalation、authority 和 current-state validator。结果为 `NO_RESERVED_TRIGGER_CONTINUE_PHASE` 时原则上禁止请求 Founder 日常授权；若当前需要的是 validator 尚不能表达的 prospective reserved effect，必须把该 validator capability gap 明确标为 `FACT`，用独立、最小、只覆盖 exact reserved effect 的 preflight 证明请求必要性，不得借此扩展其他预算、范围或权限。
+- 任何准备暂停、等待用户或交出控制权的草稿，在发送前必须先生成一个临时 `user-action-handoff/v1` JSON 对象，并运行 `ruby scripts/validate-founder-action-handoff.rb --package <json> --draft <markdown>`；prospective Founder 请求还必须通过独立参数 `--current-user-request-token <exact-current-token>` 绑定用户当前直接消息。校验失败只阻止该草稿发送；不得阻断仍可继续的工程，不得写入 Truth、Evidence 或进度账本，也不得把 `ASSISTANT_PROTOCOL_ERROR` 伪装成用户 blocker。
+
 ## 严格阶段顺序与反偏航（强制执行）
 
 - 本节落实 `FOUNDER_DELEGATION_POLICY.md` v1.8 的 Founder 指令，只约束执行与调度，不改变各权威文件在各自领域内的权力。

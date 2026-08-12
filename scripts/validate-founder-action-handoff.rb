@@ -28,15 +28,42 @@ module FounderActionHandoff
   APP_APPROVAL_VALUES = %w[YES NO UNKNOWN].freeze
   WRITE_VALUES = %w[YES NO NOT_APPLICABLE].freeze
   RECOMMENDED_DECISIONS = %w[APPROVE DENY DEFER].freeze
-  FOUNDER_OPERATION_TYPES = %w[READ_ONLY_HTTPS_ACQUISITION].freeze
+  FOUNDER_OPERATION_TYPES = %w[
+    READ_ONLY_HTTPS_ACQUISITION
+    READ_ONLY_HTTPS_ACQUISITION_STANDARD_CURL
+  ].freeze
   APP_OPERATION_TYPES = %w[APP_FILESYSTEM_BATCH_WRITE].freeze
   READ_ONLY_HTTPS_OPERATION = "一次全新、独立、clean-room V6 benchmark source acquisition"
   READ_ONLY_HTTPS_METHOD = "仅允许无凭据 HTTPS GET/HEAD"
   READ_ONLY_HTTPS_TARGETS = "github.com、api.github.com、codeload.github.com、raw.githubusercontent.com、repo.maven.apache.org、downloads.gradle.org、plugins.gradle.org、plugins-artifacts.gradle.org"
   READ_ONLY_HTTPS_BUDGET = "4,294,967,296 PROCESS_DELIVERED_TCP_STREAM_OCTETS"
+  STANDARD_CURL_OPERATION = "一次全新、独立、clean-room V7 benchmark source acquisition using exact system curl"
+  STANDARD_CURL_BUDGET = "4,294,967,296 CREATE_ONCE_PERSISTED_HTTP_RESPONSE_BODY_OCTETS"
+  STANDARD_CURL_METRIC_EXCLUSIONS = "This budget does not cap or claim DNS, TLS, HTTP header, kernel, wire, or raw TCP octets"
+  STANDARD_CURL_RETRY_POLICY = "Retries are disabled"
+  STANDARD_CURL_IDENTITY_BINDING = "Exact system curl identity must be bound before the first network request"
+  FOUNDER_NETWORK_OPERATION_PROFILES = {
+    "READ_ONLY_HTTPS_ACQUISITION" => {
+      "operations" => [READ_ONLY_HTTPS_OPERATION, READ_ONLY_HTTPS_METHOD],
+      "targets" => [READ_ONLY_HTTPS_TARGETS],
+      "budget_or_external_effects" => READ_ONLY_HTTPS_BUDGET
+    },
+    "READ_ONLY_HTTPS_ACQUISITION_STANDARD_CURL" => {
+      "operations" => [
+        STANDARD_CURL_OPERATION,
+        READ_ONLY_HTTPS_METHOD,
+        STANDARD_CURL_METRIC_EXCLUSIONS,
+        STANDARD_CURL_RETRY_POLICY,
+        STANDARD_CURL_IDENTITY_BINDING
+      ],
+      "targets" => [READ_ONLY_HTTPS_TARGETS],
+      "budget_or_external_effects" => STANDARD_CURL_BUDGET
+    }
+  }.freeze
   PROSPECTIVE_PREFLIGHT = "PROSPECTIVE_RESERVED_EFFECT_REQUIRED_BY_EXACT_USER_REQUEST_AND_NOT_EXPRESSIBLE_BY_CURRENT_OFFLINE_ESCALATION_PROJECTION"
   NO_ACTION_SENTENCE = "你现在无需操作，我将在现有授权范围内继续执行。"
   PLACEHOLDER = /(TBD|TODO|待补|待定|PLACEHOLDER|\{[^}]+\}|<[^>]+>)/i
+  FOUNDER_AUTHORIZATION_TOKEN = /(?<![A-Za-z0-9_])AUTHORIZE_[A-Z0-9_]+(?![A-Za-z0-9_])/
   MARKERS = %w[USER_ACTION_REQUIRED RECOMMENDED_SINGLE_ACTION COPY_READY_TEXT_OR_EXACT_STEPS AGENT_CONTINUATION_AFTER_ACTION].freeze
   SHA256 = /\A[0-9a-f]{64}\z/
   COMMIT = /\A[0-9a-f]{40}\z/
@@ -273,14 +300,14 @@ module FounderActionHandoff
                 "prospective Founder request lacks the independently supplied direct-user request binding")
         assert!(authorization["reserved_trigger"] == "NETWORK_PROVIDER_SECRET_REMOTE_PRODUCTION_OR_PUBLIC_EFFECT",
                 "prospective request may only cover an exact external-effect Founder trigger")
-        assert!(authorization["operation_type"] == "READ_ONLY_HTTPS_ACQUISITION",
-                "prospective network preflight is not bound to the closed operation enum")
-        assert!(grant["operations"] == [READ_ONLY_HTTPS_OPERATION, READ_ONLY_HTTPS_METHOD] &&
-                grant["targets"] == [READ_ONLY_HTTPS_TARGETS] &&
-                grant["budget_or_external_effects"] == READ_ONLY_HTTPS_BUDGET,
-                "read-only HTTPS operation enum contradicts its exact grant scope")
       end
       assert!(FOUNDER_OPERATION_TYPES.include?(authorization["operation_type"]), "Founder operation type invalid")
+      profile = FOUNDER_NETWORK_OPERATION_PROFILES[authorization["operation_type"]]
+      assert!(profile, "Founder network operation is not bound to a closed profile")
+      assert!(grant["operations"] == profile["operations"] &&
+              grant["targets"] == profile["targets"] &&
+              grant["budget_or_external_effects"] == profile["budget_or_external_effects"],
+              "read-only HTTPS operation enum contradicts its exact grant scope")
     else
       assert!(authorization["reserved_trigger"].nil? && authorization["proposal_mode"] == "NOT_APPLICABLE",
               "App approval cannot claim a Founder trigger")
@@ -400,7 +427,7 @@ module FounderActionHandoff
       assert!(text.scan(Regexp.new(Regexp.escape(package["copy_ready_text_or_exact_steps"]))).length == 1,
               "handoff draft must contain exactly one copy-ready action block")
       if package.dig("authorization", "authority_layer") == "FOUNDER_RESERVED"
-        assert!(text.scan(/AUTHORIZE_[A-Z0-9_]+[；;]/).length == 1,
+        assert!(text.scan(FOUNDER_AUTHORIZATION_TOKEN).length == 1,
                 "Founder handoff draft must contain exactly one authorization token")
       end
     end

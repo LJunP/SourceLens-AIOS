@@ -213,6 +213,90 @@ draft = <<~MARKDOWN
   AGENT_CONTINUATION_AFTER_ACTION: #{authorization['agent_continuation_after_action']}
 MARKDOWN
 assert_pass!("authorization positive", authorization, draft, current_truth)
+
+standard_operation = FounderActionHandoff::STANDARD_CURL_OPERATION
+standard_budget = FounderActionHandoff::STANDARD_CURL_BUDGET
+standard_exclusions = FounderActionHandoff::STANDARD_CURL_METRIC_EXCLUSIONS
+standard_retry = FounderActionHandoff::STANDARD_CURL_RETRY_POLICY
+standard_curl_binding = FounderActionHandoff::STANDARD_CURL_IDENTITY_BINDING
+standard_copy_text = <<~TEXT.strip
+  AUTHORIZE_EXACT_BOUNDED_STANDARD_CURL_NETWORK_V1；canonical commit #{canonical['commit']}；tree #{canonical['tree']}；governing artifact #{plan['path']} #{plan['byte_length']} bytes SHA-256 #{plan['sha256']}；trigger #{trigger}；operation type READ_ONLY_HTTPS_ACQUISITION_STANDARD_CURL；operation #{standard_operation}；method #{method}；metric exclusions #{standard_exclusions}；retry policy #{standard_retry}；curl binding #{standard_curl_binding}；target #{target}；duration #{duration}；budget #{standard_budget}；risk #{risk}；deny #{denial}；expiry #{expiry}；PASS #{pass_lifecycle}；NON_PASS #{non_pass_lifecycle}
+TEXT
+standard_authorization = authorization.merge(
+  "copy_ready_text_or_exact_steps" => standard_copy_text,
+  "authorization" => authorization["authorization"].merge(
+    "operation_type" => "READ_ONLY_HTTPS_ACQUISITION_STANDARD_CURL",
+    "grant_scope" => authorization.dig("authorization", "grant_scope").merge(
+      "operations" => [standard_operation, method, standard_exclusions, standard_retry, standard_curl_binding],
+      "budget_or_external_effects" => standard_budget
+    )
+  )
+)
+standard_draft = draft.sub(copy_text, standard_copy_text)
+assert_pass!("standard-curl authorization positive", standard_authorization, standard_draft, current_truth)
+
+standard_raw_budget_copy = standard_copy_text.sub(standard_budget, budget)
+standard_raw_budget = standard_authorization.merge(
+  "copy_ready_text_or_exact_steps" => standard_raw_budget_copy,
+  "authorization" => standard_authorization["authorization"].merge(
+    "grant_scope" => standard_authorization.dig("authorization", "grant_scope").merge(
+      "budget_or_external_effects" => budget
+    )
+  )
+)
+assert_reject!("standard-curl enum with raw-TCP budget contradiction", standard_raw_budget,
+               standard_draft.sub(standard_copy_text, standard_raw_budget_copy), current_truth)
+
+standard_v6_operation_copy = standard_copy_text.sub(standard_operation, operation)
+standard_v6_operation = standard_authorization.merge(
+  "copy_ready_text_or_exact_steps" => standard_v6_operation_copy,
+  "authorization" => standard_authorization["authorization"].merge(
+    "grant_scope" => standard_authorization.dig("authorization", "grant_scope").merge(
+      "operations" => [operation, method, standard_exclusions, standard_retry, standard_curl_binding]
+    )
+  )
+)
+assert_reject!("standard-curl enum with V6 operation", standard_v6_operation,
+               standard_draft.sub(standard_copy_text, standard_v6_operation_copy), current_truth)
+
+non_v7_operation = standard_operation.sub(" V7 ", " V8 ")
+non_v7_operation_copy = standard_copy_text.sub(standard_operation, non_v7_operation)
+non_v7_operation_package = standard_authorization.merge(
+  "copy_ready_text_or_exact_steps" => non_v7_operation_copy,
+  "authorization" => standard_authorization["authorization"].merge(
+    "grant_scope" => standard_authorization.dig("authorization", "grant_scope").merge(
+      "operations" => [non_v7_operation, method, standard_exclusions, standard_retry, standard_curl_binding]
+    )
+  )
+)
+assert_reject!("standard-curl enum with non-V7 operation", non_v7_operation_package,
+               standard_draft.sub(standard_copy_text, non_v7_operation_copy), current_truth)
+
+generic_operation = standard_operation.sub(" V7", "")
+generic_operation_copy = standard_copy_text.sub(standard_operation, generic_operation)
+generic_operation_package = standard_authorization.merge(
+  "copy_ready_text_or_exact_steps" => generic_operation_copy,
+  "authorization" => standard_authorization["authorization"].merge(
+    "grant_scope" => standard_authorization.dig("authorization", "grant_scope").merge(
+      "operations" => [generic_operation, method, standard_exclusions, standard_retry, standard_curl_binding]
+    )
+  )
+)
+assert_reject!("standard-curl enum with generic operation", generic_operation_package,
+               standard_draft.sub(standard_copy_text, generic_operation_copy), current_truth)
+
+standard_without_exclusions_copy = standard_copy_text.sub("；metric exclusions #{standard_exclusions}", "")
+standard_without_exclusions = standard_authorization.merge(
+  "copy_ready_text_or_exact_steps" => standard_without_exclusions_copy,
+  "authorization" => standard_authorization["authorization"].merge(
+    "grant_scope" => standard_authorization.dig("authorization", "grant_scope").merge(
+      "operations" => [standard_operation, method, standard_retry, standard_curl_binding]
+    )
+  )
+)
+assert_reject!("standard-curl scope omits metric exclusions", standard_without_exclusions,
+               standard_draft.sub(standard_copy_text, standard_without_exclusions_copy), current_truth)
+
 assert_reject!("authorization missing copy-ready text", authorization,
                draft.sub(copy_text, "请批准下一步。"), current_truth)
 assert_reject!("authorization placeholder", authorization,
@@ -290,6 +374,14 @@ assert_reject!("authorization production-release second action", authorization,
                draft + "另外，请同时批准生产发布。\n", current_truth)
 assert_reject!("authorization second token", authorization,
                draft + "AUTHORIZE_ANOTHER_ACTION_V1；\n", current_truth)
+assert_reject!("authorization second token before period", authorization,
+               draft + "AUTHORIZE_ANOTHER_ACTION_V1.\n", current_truth)
+assert_reject!("authorization second token in parentheses", authorization,
+               draft + "(AUTHORIZE_ANOTHER_ACTION_V1)\n", current_truth)
+assert_reject!("authorization second token at EOF", authorization,
+               draft + "AUTHORIZE_ANOTHER_ACTION_V1", current_truth)
+assert_reject!("authorization second token in backticks", authorization,
+               draft + "`AUTHORIZE_ANOTHER_ACTION_V1`\n", current_truth)
 duplicate_json = JSON.generate(authorization).sub(/\A\{/, '{"schema_version":"forged",') + "\n"
 assert_raw_reject!("duplicate JSON key", duplicate_json, draft, current_truth)
 

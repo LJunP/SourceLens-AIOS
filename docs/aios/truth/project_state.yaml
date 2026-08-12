@@ -8697,7 +8697,7 @@ founder_escalation_control:
   schema_version: founder-escalation-control/v1
   disposition: NO_RESERVED_TRIGGER_CONTINUE_PHASE
   source_event:
-    kind: FOUNDER_AUTHORIZED_PHASE_ENVELOPE_EXPANSION
+    kind: TASK_TERMINAL_REPAIR_BUDGET_EXHAUSTED
     task_id: AIOS-P2-067
     status: TERMINAL_PREACTIVATION_RUNTIME_REPAIR_EXHAUSTED_NON_PASS
   reserved_trigger:

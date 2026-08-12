@@ -853,12 +853,12 @@ module FounderDelegationContinuity
       )
       assert(plan["path"] == "docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml",
              "cumulative expansion recovery plan path drift")
-      plan_bytes, _plan_error, plan_status = git(
+      plan_bytes = git(
         root,
         "show",
         "#{decision.dig('activation_parent', 'commit')}:#{plan['path']}"
       )
-      assert(plan_status.success? && plan_bytes.bytesize == plan["byte_length"] &&
+      assert(plan_bytes.bytesize == plan["byte_length"] &&
              Digest::SHA256.hexdigest(plan_bytes.b) == plan["sha256"],
              "cumulative expansion recovery plan does not equal activation parent")
       slots = array(decision["capacity_slots"], "cumulative expansion capacity slots").map.with_index do |value, index|

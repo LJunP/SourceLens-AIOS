@@ -19,6 +19,7 @@ module CurrentTaskAuthority
   SAFE_TASK_ID_RE = /\AAIOS-P[12]-[0-9]{3}(?:_[A-Z0-9_]+)?\z/.freeze
   ROUTE_ID_RE = /\AP[12]_[A-Z0-9_]+_ROUTE_V[1-9][0-9]*\z/.freeze
   SINGLE_TASK_EXPANSION_DECISION_VERSIONS = %w[1.2 1.3].freeze
+  CUMULATIVE_CAPACITY_DECISION_VERSIONS = %w[1.4].freeze
   TASK_EFFECT_DECISION_VERSIONS = %w[1.1 1.2 1.3].freeze
   EXTERNAL_EFFECT_KEYS = %w[network provider secret remote production public].freeze
   FALSE_EXTERNAL_EFFECTS = {
@@ -1177,6 +1178,151 @@ module CurrentTaskAuthority
     fail!("structured Founder route decision v1.3 source packet contains a non-integer envelope")
   end
 
+  def source_founder_packet_v1_4_claims(packet_bytes, decision, root)
+    text = packet_bytes.dup.force_encoding(Encoding::UTF_8)
+    assert(text.valid_encoding?,
+           "structured Founder route decision v1.4 source packet must be valid UTF-8")
+    expected_token = decision.fetch("authorization_token")
+    declared_token = one_packet_match(
+      text,
+      /^- Exact authorization token:\n  `([A-Z0-9_]+)`$/,
+      "v1.4 exact authorization token declaration"
+    )
+    message_token = one_packet_match(
+      text,
+      /^- Exact Founder message:\n  `([A-Z0-9_]+)；[^`\n]+`$/,
+      "v1.4 exact Founder message"
+    )
+    assert(declared_token == expected_token && message_token == expected_token &&
+           text.scan(/AUTHORIZE_[A-Za-z0-9_]+/) == [expected_token, expected_token],
+           "structured Founder route decision v1.4 source packet token binding drift")
+
+    parent = decision.fetch("activation_parent")
+    assert(one_packet_match(text, /^- Branch: `([^`]+)`$/, "v1.4 canonical branch") == "main",
+           "structured Founder route decision v1.4 source packet branch drift")
+    assert(one_packet_match(text, /^- Commit: `([0-9a-f]{40})`$/, "v1.4 canonical commit") == parent["commit"] &&
+           one_packet_match(text, /^- Tree: `([0-9a-f]{40})`$/, "v1.4 canonical tree") == parent["tree"],
+           "structured Founder route decision v1.4 source packet parent drift")
+    parent_truth = git(root, "show", "#{parent['commit']}:docs/aios/truth/project_state.yaml").first.b
+    truth_sha = one_packet_match(
+      text, /^- Truth SHA-256:\n  `([0-9a-f]{64})`$/,
+      "v1.4 activation-parent Truth SHA-256"
+    )
+    assert(truth_sha == sha256(parent_truth),
+           "structured Founder route decision v1.4 source packet Truth SHA-256 drift")
+
+    plan = decision.fetch("recovery_plan_identity")
+    assert(one_packet_match(text, /^- Recovery plan: `([^`]+)`$/, "v1.4 recovery plan path") == plan["path"] &&
+           Integer(one_packet_match(text, /^- Recovery plan bytes: `([0-9]+)`$/, "v1.4 recovery plan bytes"), 10) == plan["byte_length"] &&
+           one_packet_match(text, /^- Recovery plan SHA-256: `([0-9a-f]{64})`$/, "v1.4 recovery plan SHA-256") == plan["sha256"],
+           "structured Founder route decision v1.4 source packet recovery plan drift")
+
+    prior = decision.fetch("prior_consumed_envelope").fetch("consumed")
+    envelope = decision.fetch("envelope")
+    prior_values = one_packet_match(
+      text,
+      /The prior consumed envelope is exactly `([0-9]+) Tasks \/ ([0-9]+) engineering hours \/ ([0-9]+) calendar days`\./,
+      "v1.4 prior envelope"
+    ).map { |value| Integer(value, 10) }
+    cumulative_values = one_packet_match(
+      text,
+      /The cumulative envelope is exactly `([0-9]+) Tasks \/ ([0-9]+) engineering hours \/ ([0-9]+) calendar days`\./,
+      "v1.4 cumulative envelope"
+    ).map { |value| Integer(value, 10) }
+    incremental_values = one_packet_match(
+      text,
+      /The incremental capacity is exactly `([0-9]+) Tasks \/ ([0-9]+) engineering hours \/ ([0-9]+) calendar days`\./,
+      "v1.4 incremental envelope"
+    ).map { |value| Integer(value, 10) }
+    slots = decision.fetch("capacity_slots")
+    assert(prior_values == [prior["engineering_tasks"], prior["engineering_hours"], prior["calendar_days"]] &&
+           cumulative_values == [envelope["max_engineering_tasks"], envelope["max_engineering_hours"], envelope["max_calendar_days"]] &&
+           incremental_values == [slots.length, slots.sum { |slot| slot["engineering_hours"] }, slots.sum { |slot| slot["calendar_days"] }],
+           "structured Founder route decision v1.4 source packet envelope drift")
+    assert(text.scan(/Task IDs remain unallocated until the preceding milestone and Task admission pass\./).length == 1,
+           "structured Founder route decision v1.4 source packet preallocation boundary drift")
+    assert(text.scan(/zero network, Provider, Secret, remote, production or public effects\./).length == 1,
+           "structured Founder route decision v1.4 source packet external effect boundary drift")
+    assert(text.scan(/P3 remains HOLD and the SourceLens project and Long-term Goal remain ACTIVE\./).length == 1,
+           "structured Founder route decision v1.4 source packet Phase or Goal boundary drift")
+    true
+  rescue ArgumentError
+    fail!("structured Founder route decision v1.4 source packet contains a non-integer envelope")
+  end
+
+  def validate_v1_4_prior_consumed_envelope(root, decision, parent, phase)
+    assert(root,
+           "structured Founder route decision v1.4 requires a repository root for prior accounting validation")
+    prior = exact_keys(
+      decision["prior_consumed_envelope"],
+      %w[
+        consumed source_route_id task_ledger_canonical_byte_length
+        task_ledger_canonical_sha256 task_ledger_canonicalization task_ledger_entry_count
+      ],
+      "structured Founder route decision.prior_consumed_envelope"
+    )
+    consumed = exact_keys(
+      prior["consumed"],
+      %w[calendar_days engineering_hours engineering_tasks],
+      "structured Founder route decision.prior_consumed_envelope.consumed"
+    )
+    consumed.each do |key, value|
+      assert(integer(value, "structured decision prior consumed #{key}").positive?,
+             "structured decision prior consumed #{key} must be positive")
+    end
+    assert(prior["task_ledger_canonicalization"] == "RECURSIVE_KEY_SORT_COMPACT_JSON_UTF8",
+           "structured decision prior Task ledger canonicalization mismatch")
+    ledger_count = integer(prior["task_ledger_entry_count"],
+                           "structured decision prior Task ledger entry count")
+    ledger_length = integer(prior["task_ledger_canonical_byte_length"],
+                            "structured decision prior Task ledger canonical byte length")
+    ledger_sha = string(prior["task_ledger_canonical_sha256"],
+                        "structured decision prior Task ledger canonical SHA-256")
+    assert(ledger_count.positive? && ledger_length.positive? && SHA256_RE.match?(ledger_sha),
+           "structured decision prior Task ledger identity is invalid")
+
+    parent_truth_bytes = git(root, "show", "#{parent['commit']}:docs/aios/truth/project_state.yaml").first
+    parent_truth = parse_yaml(parent_truth_bytes, "structured decision activation-parent Truth")
+    parent_envelope = hash(parent_truth["phase_execution_envelope"],
+                           "structured decision activation-parent phase_execution_envelope")
+    parent_limits = exact_keys(
+      parent_envelope["limits"],
+      %w[active_candidates active_tasks calendar_days engineering_hours engineering_tasks task_branches task_worktrees],
+      "structured decision activation-parent envelope limits"
+    )
+    parent_consumed = exact_keys(
+      parent_envelope["consumed"],
+      %w[calendar_days engineering_hours engineering_tasks],
+      "structured decision activation-parent envelope consumed"
+    )
+    parent_remaining = exact_keys(
+      parent_envelope["remaining"],
+      %w[calendar_days engineering_hours engineering_tasks],
+      "structured decision activation-parent envelope remaining"
+    )
+    parent_control = hash(parent_truth["founder_escalation_control"],
+                          "structured decision activation-parent Founder control")
+    assert(parent_envelope["phase"] == phase && parent_envelope["status"] == "EXHAUSTED" &&
+           parent_envelope["reserved"].nil? && parent_consumed == parent_limits.slice(
+             "calendar_days", "engineering_hours", "engineering_tasks"
+           ) && parent_remaining.values.all?(&:zero?),
+           "structured decision activation-parent envelope is not exactly exhausted")
+    assert(parent_control.dig("reserved_trigger", "category") == decision["exact_reserved_trigger"] &&
+           parent_control["founder_decision_required"] == true,
+           "structured decision does not resolve the exact activation-parent reserved trigger")
+    assert(prior["source_route_id"] == parent_envelope.dig("authority_basis", "source_route_id") &&
+           consumed == parent_consumed,
+           "structured decision prior consumed envelope does not equal activation parent")
+    parent_ledger = array(parent_envelope["task_ledger"],
+                          "structured decision activation-parent Task ledger")
+    parent_ledger_bytes = JSON.generate(recursively_sorted(parent_ledger)).b
+    assert(ledger_count == parent_ledger.length && ledger_count == consumed["engineering_tasks"] &&
+           ledger_length == parent_ledger_bytes.bytesize &&
+           ledger_sha == sha256(parent_ledger_bytes),
+           "structured decision prior Task ledger identity does not equal activation parent")
+    [prior, consumed, parent_limits]
+  end
+
   def source_founder_packet_v4_profile_claims(packet_bytes, expected_authorization_token, label)
     text = packet_bytes.dup.force_encoding(Encoding::UTF_8)
     assert(text.valid_encoding?, "#{label} must be valid UTF-8")
@@ -1649,16 +1795,19 @@ module CurrentTaskAuthority
       decision["schema_version"],
       "structured Founder route decision.schema_version"
     )
-    assert(%w[1.0 1.1 1.2 1.3].include?(schema_version),
-           "structured Founder route decision schema_version must equal 1.0, 1.1, 1.2 or 1.3")
+    assert(%w[1.0 1.1 1.2 1.3 1.4].include?(schema_version),
+           "structured Founder route decision schema_version must equal 1.0, 1.1, 1.2, 1.3 or 1.4")
     root_keys = %w[
       activation_parent authorization_token automatic_entry claim_boundary envelope
       external_effects goal_identity ordered_tasks phase record_type route_id
       schema_version source_founder_packet_identity
     ]
-    root_keys << "automatic_entries" if TASK_EFFECT_DECISION_VERSIONS.include?(schema_version)
+    root_keys << "automatic_entries" if TASK_EFFECT_DECISION_VERSIONS.include?(schema_version) ||
+                                         CUMULATIVE_CAPACITY_DECISION_VERSIONS.include?(schema_version)
     root_keys.concat(%w[exact_reserved_trigger new_task_ids prior_consumed_envelope]) if
       SINGLE_TASK_EXPANSION_DECISION_VERSIONS.include?(schema_version)
+    root_keys.concat(%w[capacity_slots exact_reserved_trigger prior_consumed_envelope recovery_plan_identity]) if
+      CUMULATIVE_CAPACITY_DECISION_VERSIONS.include?(schema_version)
     exact_keys(
       decision,
       root_keys,
@@ -1666,7 +1815,8 @@ module CurrentTaskAuthority
     )
     assert(decision["record_type"] == "founder_phase_route_decision",
            "structured Founder route decision record_type is unsupported")
-    if SINGLE_TASK_EXPANSION_DECISION_VERSIONS.include?(schema_version)
+    if SINGLE_TASK_EXPANSION_DECISION_VERSIONS.include?(schema_version) ||
+       CUMULATIVE_CAPACITY_DECISION_VERSIONS.include?(schema_version)
       assert(decision["exact_reserved_trigger"] ==
              "MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE",
              "structured Founder route decision v1.2 exact reserved trigger drift")
@@ -1682,21 +1832,21 @@ module CurrentTaskAuthority
       decision["authorization_token"],
       "structured Founder route decision.authorization_token"
     )
-    if schema_version == "1.3"
+    if %w[1.3 1.4].include?(schema_version)
       token_match = /\AAUTHORIZE_(P[12]_[A-Z0-9]+(?:_[A-Z0-9]+)*)_V([1-9][0-9]*)\z/.match(
         authorization_token
       )
       assert(token_match,
-             "structured Founder route decision v1.3 authorization token has invalid exact form")
+             "structured Founder route decision v1.3+ authorization token has invalid exact form")
       token_base = token_match[1]
       assert(!token_base.end_with?("_ROUTE"),
-             "structured Founder route decision v1.3 authorization token already contains a route suffix")
+             "structured Founder route decision v1.3+ authorization token already contains a route suffix")
       expected_route_id = "#{token_base}_ROUTE_V#{token_match[2]}"
       assert(route_id == expected_route_id,
-             "structured Founder route decision v1.3 authorization token does not bijectively bind route_id")
+             "structured Founder route decision v1.3+ authorization token does not bijectively bind route_id")
       inverse_token = "AUTHORIZE_#{route_id.sub(/_ROUTE_V([1-9][0-9]*)\z/, '_V\\1')}"
       assert(inverse_token == authorization_token,
-             "structured Founder route decision v1.3 route_id does not invert to the exact authorization token")
+             "structured Founder route decision v1.3+ route_id does not invert to the exact authorization token")
     else
       assert(authorization_token == "AUTHORIZE_#{route_id}",
              "structured Founder route decision authorization token does not match route_id")
@@ -1722,14 +1872,23 @@ module CurrentTaskAuthority
     assert(source_packet["authorization_token"] == authorization_token,
            "structured Founder source packet authorization token mismatch")
     source_path = string(source_packet["path"], "structured Founder source packet path")
-    assert(Pathname.new(source_path).absolute?,
-           "structured Founder source packet path must be absolute")
     assert(integer(source_packet["byte_length"],
                    "structured Founder source packet byte_length").positive?,
            "structured Founder source packet byte_length must be positive")
-    source_packet_bytes = validate_identity(source_path, source_packet, "Founder source packet")
+    source_packet_bytes = if schema_version == "1.4"
+                            assert(root, "v1.4 Founder source packet requires a repository root")
+                            source_full = repo_path(root, source_path,
+                                                    "structured Founder source packet path")
+                            validate_identity(source_full, source_packet, "Founder source packet")
+                          else
+                            assert(Pathname.new(source_path).absolute?,
+                                   "structured Founder source packet path must be absolute")
+                            validate_identity(source_path, source_packet, "Founder source packet")
+                          end
     if schema_version == "1.3"
       source_founder_packet_v1_3_claims(source_packet_bytes, decision, root)
+    elsif schema_version == "1.4"
+      source_founder_packet_v1_4_claims(source_packet_bytes, decision, root)
     end
 
     goal_identity = exact_keys(
@@ -1788,6 +1947,105 @@ module CurrentTaskAuthority
       decision["claim_boundary"],
       "structured Founder route decision.claim_boundary"
     )
+
+    if schema_version == "1.4"
+      assert(phase == "P2", "structured Founder route decision v1.4 is restricted to P2 recovery")
+      assert(array(decision["ordered_tasks"],
+                   "structured Founder route decision.ordered_tasks").empty?,
+             "structured Founder route decision v1.4 may not preallocate Task ids")
+      assert(decision["automatic_entry"].nil?,
+             "structured Founder route decision v1.4 automatic_entry must be null")
+      automatic_entries = array(decision["automatic_entries"],
+                                "structured Founder route decision.automatic_entries")
+      assert(automatic_entries.empty?,
+             "structured Founder route decision v1.4 prohibits automatic successor links")
+
+      recovery_plan = exact_keys(
+        decision["recovery_plan_identity"],
+        %w[byte_length path sha256],
+        "structured Founder route decision.recovery_plan_identity"
+      )
+      assert(recovery_plan["path"] == "docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml" &&
+             integer(recovery_plan["byte_length"], "recovery plan byte_length").positive? &&
+             SHA256_RE.match?(string(recovery_plan["sha256"], "recovery plan sha256")),
+             "structured Founder route decision recovery plan identity is invalid")
+      recovery_plan_bytes = git(root, "show", "#{parent['commit']}:#{recovery_plan['path']}").first.b
+      assert(recovery_plan_bytes.bytesize == recovery_plan["byte_length"] &&
+             sha256(recovery_plan_bytes) == recovery_plan["sha256"],
+             "structured Founder route decision recovery plan does not equal activation parent")
+
+      prior_consumed_envelope, prior_consumed, =
+        validate_v1_4_prior_consumed_envelope(root, decision, parent, phase)
+      slots = array(decision["capacity_slots"],
+                    "structured Founder route decision.capacity_slots").map.with_index do |value, index|
+        slot = exact_keys(
+          value,
+          %w[
+            calendar_days capacity_slot_id engineering_hours max_candidates
+            max_implementation_iterations max_same_task_repairs milestone_id
+            product_mutation_allowed slot task_id unlock_requirement
+          ],
+          "structured Founder route decision.capacity_slots[#{index}]"
+        )
+        assert(slot["slot"] == index + 1 &&
+               slot["capacity_slot_id"] == "P2_RECOVERY_CAPACITY_SLOT_#{index + 1}" &&
+               slot["task_id"].nil?,
+               "structured Founder route decision capacity slot identity drift")
+        assert(slot["engineering_hours"].is_a?(Integer) && slot["engineering_hours"].positive? &&
+               slot["calendar_days"].is_a?(Integer) && slot["calendar_days"].positive? &&
+               slot["max_candidates"] == 2 && slot["max_implementation_iterations"] == 2 &&
+               slot["max_same_task_repairs"] == 1,
+               "structured Founder route decision capacity slot budget drift")
+        slot
+      end
+      expected_slots = [
+        ["P2_RECOVERY_BASELINE_ACCEPTED", "BENCHMARK_SOURCE_PACK_ADMISSION_ACCEPTED", false],
+        ["P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED", "P2_RECOVERY_BASELINE_ACCEPTED", true],
+        ["P2_RECOVERY_FORMAL_HELD_MATRIX_COMPLETE", "P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED", false]
+      ]
+      assert(slots.length == 3 && slots.each_with_index.all? do |slot, index|
+        [slot["milestone_id"], slot["unlock_requirement"], slot["product_mutation_allowed"]] ==
+          expected_slots[index]
+      end, "structured Founder route decision recovery milestone ordering drift")
+      assert(envelope["max_same_task_repairs_per_task"] == 1 &&
+             envelope["max_engineering_tasks"] == prior_consumed["engineering_tasks"] + slots.length &&
+             envelope["max_engineering_hours"] == prior_consumed["engineering_hours"] + slots.sum { |slot| slot["engineering_hours"] } &&
+             envelope["max_calendar_days"] == prior_consumed["calendar_days"] + slots.sum { |slot| slot["calendar_days"] },
+             "structured Founder route decision v1.4 cumulative envelope does not equal prior plus capacity slots")
+      assert(external_effects == FALSE_EXTERNAL_EFFECTS,
+             "structured Founder route decision v1.4 may not authorize external effects")
+
+      return {
+        "structured_decision" => true,
+        "structured_decision_version" => schema_version,
+        "authorization_token" => authorization_token,
+        "route_id" => route_id,
+        "phase" => phase,
+        "activation_parent_commit" => parent["commit"],
+        "activation_parent_tree" => parent["tree"],
+        "max_engineering_tasks" => envelope["max_engineering_tasks"],
+        "max_engineering_hours" => envelope["max_engineering_hours"],
+        "max_calendar_days" => envelope["max_calendar_days"],
+        "max_same_task_repairs" => 1,
+        "max_contract_corrections_per_task" => 0,
+        "first_task_id" => nil,
+        "task_ids" => [],
+        "task_budgets" => [],
+        "capacity_slots" => slots,
+        "automatic_entry" => nil,
+        "automatic_entries" => automatic_entries,
+        "new_task_ids" => [],
+        "prior_consumed_envelope" => prior_consumed_envelope,
+        "recovery_plan_identity" => recovery_plan,
+        "task_effects" => {},
+        "claim_boundary" => claim_boundary,
+        "source_founder_packet_identity" => source_packet,
+        "goal_identity" => goal_identity,
+        "founder_reserved_profile" => nil,
+        "founder_reserved_profiles" => [],
+        "external_effects" => external_effects
+      }
+    end
 
     task_values = array(decision["ordered_tasks"],
                         "structured Founder route decision.ordered_tasks")

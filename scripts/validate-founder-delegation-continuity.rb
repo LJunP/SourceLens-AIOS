@@ -35,7 +35,8 @@ module FounderDelegationContinuity
   SINGLE_TASK_READY_EVENT = "FOUNDER_EXPANDED_SINGLE_TASK_READY"
   SINGLE_TASK_ACTIVE_EVENT = "FOUNDER_EXPANDED_SINGLE_TASK_ACTIVE"
   SINGLE_TASK_EXPANSION_DECISION_VERSIONS = %w[1.2 1.3].freeze
-  STRUCTURED_EFFECT_DECISION_VERSIONS = %w[1.1 1.2 1.3].freeze
+  CUMULATIVE_CAPACITY_DECISION_VERSIONS = %w[1.4].freeze
+  STRUCTURED_EFFECT_DECISION_VERSIONS = %w[1.1 1.2 1.3 1.4].freeze
   CONTINUE_DISPOSITION = "NO_RESERVED_TRIGGER_CONTINUE_PHASE"
   FOUNDER_DISPOSITION = "FOUNDER_DECISION_REQUIRED"
   STRATEGIC_HOLD_DISPOSITION = "FOUNDER_RESERVED_DECISION_RESOLVED_STRATEGIC_HOLD"
@@ -433,6 +434,26 @@ module FounderDelegationContinuity
     fail!("#{label} contains duplicate JSON key: #{e.message}")
   end
 
+  def bound_identity_bytes(root, identity, label)
+    path = Pathname.new(mapping(identity, label)["path"].to_s)
+    path.absolute? ? validate_identity(identity, label) : repo_identity_bytes(root, identity, label)
+  end
+
+  def parse_bound_json_from_root(root, identity, label)
+    bytes = bound_identity_bytes(root, identity, label)
+    value = JSON.parse(
+      bytes,
+      object_class: FounderDelegationClosedJsonHash,
+      array_class: Array,
+      create_additions: false
+    )
+    mapping(value, label)
+  rescue JSON::ParserError => e
+    fail!("#{label} JSON is invalid: #{e.message}")
+  rescue FounderDelegationDuplicateJsonKeyError => e
+    fail!("#{label} contains duplicate JSON key: #{e.message}")
+  end
+
   def validate_policy!(root, truth)
     authority = mapping(truth["authority"], "authority")
     policy = exact_keys(
@@ -610,6 +631,8 @@ module FounderDelegationContinuity
       "exact_reserved_trigger" => route["exact_reserved_trigger"],
       "prior_consumed_envelope" => route["prior_consumed_envelope"],
       "new_task_ids" => route["new_task_ids"],
+      "capacity_slots" => route["capacity_slots"],
+      "recovery_plan_identity" => route["recovery_plan_identity"],
       "automatic_entry" => route["automatic_entry"],
       "automatic_entries" => route["automatic_entries"],
       "task_plan" => array(route["task_plan"], "source Route task plan").map do |task|
@@ -633,6 +656,40 @@ module FounderDelegationContinuity
     true
   end
 
+  def validate_v1_4_authorization_binding!(root, decision, source_packet_bytes)
+    token = decision["authorization_token"]
+    route_id = decision["route_id"]
+    token_match = /\AAUTHORIZE_(P[12]_[A-Z0-9]+(?:_[A-Z0-9]+)*)_V([1-9][0-9]*)\z/.match(token.to_s)
+    assert(token_match && !token_match[1].end_with?("_ROUTE") &&
+           route_id == "#{token_match[1]}_ROUTE_V#{token_match[2]}",
+           "cumulative expansion v1.4 token-to-Route binding drift")
+    source_text = source_packet_bytes.dup.force_encoding(Encoding::UTF_8)
+    assert(source_text.valid_encoding?, "cumulative expansion v1.4 source packet encoding drift")
+    declared = source_text.scan(/^- Exact authorization token:\n  `([A-Z0-9_]+)`$/).flatten
+    messaged = source_text.scan(/^- Exact Founder message:\n  `([A-Z0-9_]+)；[^`\n]+`$/).flatten
+    assert(declared == [token] && messaged == [token] &&
+           source_text.scan(/AUTHORIZE_[A-Za-z0-9_]+/) == [token, token],
+           "cumulative expansion v1.4 source packet authorization binding drift")
+    parent = mapping(decision["activation_parent"], "cumulative expansion activation parent")
+    assert(source_text.scan(/^- Commit: `([0-9a-f]{40})`$/).flatten == [parent["commit"]] &&
+           source_text.scan(/^- Tree: `([0-9a-f]{40})`$/).flatten == [parent["tree"]],
+           "cumulative expansion v1.4 source packet parent drift")
+    parent_truth = truth_at_commit(root, parent["commit"], "cumulative expansion activation parent")
+    parent_truth_bytes, = git(root, "show", "#{parent['commit']}:docs/aios/truth/project_state.yaml")
+    assert(source_text.scan(/^- Truth SHA-256:\n  `([0-9a-f]{64})`$/).flatten ==
+             [Digest::SHA256.hexdigest(parent_truth_bytes.b)],
+           "cumulative expansion v1.4 source packet Truth identity drift")
+    plan = exact_keys(decision["recovery_plan_identity"], %w[path byte_length sha256],
+                      "cumulative expansion recovery plan identity")
+    assert(source_text.scan(/^- Recovery plan: `([^`]+)`$/).flatten == [plan["path"]] &&
+           source_text.scan(/^- Recovery plan bytes: `([0-9]+)`$/).flatten == [plan["byte_length"].to_s] &&
+           source_text.scan(/^- Recovery plan SHA-256: `([0-9a-f]{64})`$/).flatten == [plan["sha256"]],
+           "cumulative expansion v1.4 source packet recovery plan drift")
+    assert(parent_truth.dig("phase_execution_envelope", "status") == "EXHAUSTED",
+           "cumulative expansion v1.4 activation parent is not exhausted")
+    true
+  end
+
   def validate_source_route_authority!(root, historical_route)
     route_id = historical_route["route_id"]
     _anchor_commit, anchor_truth = first_truth_anchor!(root, route_id, "Phase source Route") do |candidate|
@@ -644,7 +701,8 @@ module FounderDelegationContinuity
     assert(source_route_static_projection(historical_route) == source_route_static_projection(anchor_route),
            "historical source Route static authority drifts from its first canonical Git anchor")
 
-    decision = parse_bound_json(
+    decision = parse_bound_json_from_root(
+      root,
       historical_route["decision_packet"],
       "phase execution envelope source decision"
     )
@@ -656,10 +714,14 @@ module FounderDelegationContinuity
     ]
     decision_keys.concat(%w[exact_reserved_trigger new_task_ids prior_consumed_envelope]) if
       SINGLE_TASK_EXPANSION_DECISION_VERSIONS.include?(decision_schema)
+    decision_keys.concat(%w[capacity_slots exact_reserved_trigger prior_consumed_envelope recovery_plan_identity]) if
+      CUMULATIVE_CAPACITY_DECISION_VERSIONS.include?(decision_schema)
     exact_keys(decision, decision_keys, "phase execution envelope source decision")
     assert(decision["record_type"] == "founder_phase_route_decision" &&
            STRUCTURED_EFFECT_DECISION_VERSIONS.include?(decision_schema),
-           "phase execution envelope requires a structured Founder route decision v1.1, v1.2 or v1.3")
+           "phase execution envelope requires a structured Founder route decision v1.1, v1.2, v1.3 or v1.4")
+    assert(historical_route["schema_version"] == decision_schema,
+           "phase execution source Route schema drifts from structured Founder decision")
     assert(decision["phase"] == historical_route["phase"] &&
            decision["route_id"] == historical_route["route_id"] &&
            decision["authorization_token"] == historical_route["authorization_token"],
@@ -681,6 +743,19 @@ module FounderDelegationContinuity
       assert(decision["prior_consumed_envelope"] == historical_route["prior_consumed_envelope"],
              "source Route prior consumed accounting drifts from structured Founder decision")
     end
+    if CUMULATIVE_CAPACITY_DECISION_VERSIONS.include?(decision_schema)
+      assert(decision["exact_reserved_trigger"] ==
+               "MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE" &&
+             historical_route["exact_reserved_trigger"] == decision["exact_reserved_trigger"],
+             "cumulative expansion exact reserved trigger drift")
+      assert(decision["automatic_entry"].nil? && decision["automatic_entries"] == [] &&
+             historical_route["automatic_entry"].nil? && historical_route["automatic_entries"] == [],
+             "cumulative expansion decision must have no automatic successor")
+      assert(decision["capacity_slots"] == historical_route["capacity_slots"] &&
+             decision["recovery_plan_identity"] == historical_route["recovery_plan_identity"] &&
+             decision["prior_consumed_envelope"] == historical_route["prior_consumed_envelope"],
+             "cumulative expansion source Route capacity binding drift")
+    end
     assert(decision["claim_boundary"] == historical_route["claim_boundary"] &&
            decision["goal_identity"] == historical_route["goal_identity"],
            "source Route claim or Goal binding drifts from structured Founder decision")
@@ -694,7 +769,8 @@ module FounderDelegationContinuity
     source_file_identity = source_identity.slice("path", "byte_length", "sha256")
     assert(source_file_identity == historical_route["original_founder_packet"],
            "source Founder packet identity drift")
-    source_packet_bytes = validate_identity(
+    source_packet_bytes = bound_identity_bytes(
+      root,
       source_file_identity,
       "phase execution envelope source Founder packet"
     )
@@ -702,6 +778,8 @@ module FounderDelegationContinuity
       validate_v1_3_authorization_binding!(
         decision["authorization_token"], decision["route_id"], source_packet_bytes
       )
+    elsif decision_schema == "1.4"
+      validate_v1_4_authorization_binding!(root, decision, source_packet_bytes)
     end
 
     decision_envelope = exact_keys(
@@ -763,6 +841,88 @@ module FounderDelegationContinuity
     end
     assert(route_tasks == decision_tasks,
            "historical route Task plan drifts from structured Founder decision")
+
+    if CUMULATIVE_CAPACITY_DECISION_VERSIONS.include?(decision_schema)
+      assert(decision["phase"] == "P2" && decision_tasks.empty? && route_tasks.empty? &&
+             historical_route["first_task"].nil?,
+             "cumulative expansion v1.4 may not preallocate a Task")
+      plan = exact_keys(
+        decision["recovery_plan_identity"],
+        %w[path byte_length sha256],
+        "cumulative expansion recovery plan identity"
+      )
+      assert(plan["path"] == "docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml",
+             "cumulative expansion recovery plan path drift")
+      plan_bytes, _plan_error, plan_status = git(
+        root,
+        "show",
+        "#{decision.dig('activation_parent', 'commit')}:#{plan['path']}"
+      )
+      assert(plan_status.success? && plan_bytes.bytesize == plan["byte_length"] &&
+             Digest::SHA256.hexdigest(plan_bytes.b) == plan["sha256"],
+             "cumulative expansion recovery plan does not equal activation parent")
+      slots = array(decision["capacity_slots"], "cumulative expansion capacity slots").map.with_index do |value, index|
+        slot = exact_keys(
+          value,
+          %w[
+            calendar_days capacity_slot_id engineering_hours max_candidates
+            max_implementation_iterations max_same_task_repairs milestone_id
+            product_mutation_allowed slot task_id unlock_requirement
+          ],
+          "cumulative expansion capacity slot #{index + 1}"
+        )
+        assert(slot["slot"] == index + 1 &&
+               slot["capacity_slot_id"] == "P2_RECOVERY_CAPACITY_SLOT_#{index + 1}" &&
+               slot["task_id"].nil? && slot["engineering_hours"] == 32 &&
+               slot["calendar_days"] == 8 && slot["max_candidates"] == 2 &&
+               slot["max_implementation_iterations"] == 2 &&
+               slot["max_same_task_repairs"] == 1,
+               "cumulative expansion capacity slot identity or budget drift")
+        slot
+      end
+      expected_slots = [
+        ["P2_RECOVERY_BASELINE_ACCEPTED", "BENCHMARK_SOURCE_PACK_ADMISSION_ACCEPTED", false],
+        ["P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED", "P2_RECOVERY_BASELINE_ACCEPTED", true],
+        ["P2_RECOVERY_FORMAL_HELD_MATRIX_COMPLETE", "P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED", false]
+      ]
+      assert(slots.length == 3 && slots.each_with_index.all? do |slot, index|
+        [slot["milestone_id"], slot["unlock_requirement"], slot["product_mutation_allowed"]] ==
+          expected_slots[index]
+      end, "cumulative expansion milestone ordering drift")
+      prior = exact_keys(
+        decision["prior_consumed_envelope"],
+        %w[
+          consumed source_route_id task_ledger_canonical_byte_length
+          task_ledger_canonical_sha256 task_ledger_canonicalization task_ledger_entry_count
+        ],
+        "cumulative expansion prior consumed envelope"
+      )
+      parent_truth = truth_at_commit(
+        root,
+        decision.dig("activation_parent", "commit"),
+        "cumulative expansion activation parent"
+      )
+      parent_envelope = mapping(parent_truth["phase_execution_envelope"],
+                                "cumulative expansion activation-parent envelope")
+      parent_ledger = array(parent_envelope["task_ledger"],
+                            "cumulative expansion activation-parent ledger")
+      parent_ledger_bytes = canonical_json_projection(parent_ledger).b
+      assert(parent_envelope["status"] == "EXHAUSTED" && parent_envelope["reserved"].nil? &&
+             parent_envelope["remaining"].values.all?(&:zero?) &&
+             prior["consumed"] == parent_envelope["consumed"] &&
+             prior["source_route_id"] == parent_envelope.dig("authority_basis", "source_route_id") &&
+             prior["task_ledger_entry_count"] == parent_ledger.length &&
+             prior["task_ledger_canonicalization"] == "RECURSIVE_KEY_SORT_COMPACT_JSON_UTF8" &&
+             prior["task_ledger_canonical_byte_length"] == parent_ledger_bytes.bytesize &&
+             prior["task_ledger_canonical_sha256"] == Digest::SHA256.hexdigest(parent_ledger_bytes),
+             "cumulative expansion prior accounting is not hash-bound to activation parent")
+      assert(decision_envelope["max_engineering_tasks"] == prior.dig("consumed", "engineering_tasks") + slots.length &&
+             decision_envelope["max_engineering_hours"] == prior.dig("consumed", "engineering_hours") + slots.sum { |slot| slot["engineering_hours"] } &&
+             decision_envelope["max_calendar_days"] == prior.dig("consumed", "calendar_days") + slots.sum { |slot| slot["calendar_days"] } &&
+             decision_envelope["max_same_task_repairs_per_task"] == 1 &&
+             decision["external_effects"] == FALSE_EXTERNAL_EFFECTS,
+             "cumulative expansion envelope does not equal its exact prior plus capacity slots")
+    end
 
     if SINGLE_TASK_EXPANSION_DECISION_VERSIONS.include?(decision_schema)
       new_task_ids = array(decision["new_task_ids"], "structured Founder new Task ids")
@@ -3182,6 +3342,30 @@ module FounderDelegationContinuity
     ids = entries.map { |entry| mapping(entry, "phase execution task ledger entry")["task_id"] }
     assert(ids.uniq.length == ids.length, "phase execution task ledger contains duplicate Task ids")
     source_tasks = array(source_route["task_plan"], "source Route task plan")
+    if CUMULATIVE_CAPACITY_DECISION_VERSIONS.include?(source_decision["schema_version"])
+      assert(source_tasks.empty?, "cumulative capacity source Route may not preallocate Tasks")
+      parent_truth = truth_at_commit(
+        root,
+        source_decision.dig("activation_parent", "commit"),
+        "cumulative capacity activation parent"
+      )
+      parent_entries = array(
+        parent_truth.dig("phase_execution_envelope", "task_ledger"),
+        "cumulative capacity activation-parent Task ledger"
+      )
+      assert(entries == parent_entries,
+             "cumulative capacity expansion may only carry forward the exact immutable prior ledger")
+      entries.each_with_index do |value, index|
+        entry = mapping(value, "cumulative capacity prior ledger[#{index}]")
+        budget = mapping(entry["budget"], "cumulative capacity prior ledger budget")
+        assert(entry["task_id"].is_a?(String) && !entry["task_id"].empty? &&
+               budget["engineering_tasks"] == 1 &&
+               budget["engineering_hours"].is_a?(Integer) && budget["engineering_hours"].positive? &&
+               budget["calendar_days"].is_a?(Integer) && budget["calendar_days"].positive?,
+               "cumulative capacity prior ledger structural projection drift")
+      end
+      return entries
+    end
     prior_ledger = validate_single_task_expansion_ledger!(
       root, entries, source_tasks, source_decision
     )
@@ -3319,7 +3503,8 @@ module FounderDelegationContinuity
            "phase execution envelope authority binding drift")
     assert(authority["source_decision"] == source_route["decision_packet"],
            "phase execution envelope source Decision identity drift")
-    validate_identity(authority["source_decision"], "phase execution envelope source Decision")
+    bound_identity_bytes(root, authority["source_decision"],
+                         "phase execution envelope source Decision")
     validate_delegation_amendment!(root, authority["delegation_amendment"], phase, policy)
     _amendment_anchor_commit, amendment_anchor_truth = first_truth_anchor!(
       root,
@@ -3363,6 +3548,7 @@ module FounderDelegationContinuity
       source_decision
     )
     ledger.each do |entry|
+      next if CUMULATIVE_CAPACITY_DECISION_VERSIONS.include?(source_decision["schema_version"])
       terminal_receipt = parse_bound_json(
         entry["outcome_receipt"], "phase execution Task outcome receipt claim projection"
       )
@@ -3446,7 +3632,7 @@ module FounderDelegationContinuity
                      end
     assert(envelope["status"] == derived_status,
            "phase execution envelope status does not match reservation and remaining capacity")
-    if source_route["schema_version"] == "1.3"
+    if %w[1.3 1.4].include?(source_route["schema_version"])
       claim_boundary = mapping(truth["claim_boundary"], "claim_boundary")
       envelope_claim_key = "#{phase.downcase}_phase_envelope_status"
       assert(claim_boundary[envelope_claim_key] == envelope["status"],

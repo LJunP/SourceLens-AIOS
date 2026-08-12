@@ -193,6 +193,60 @@
       "if": {
         "properties": {
           "schema_version": {
+            "const": "1.4"
+          }
+        },
+        "required": [
+          "schema_version"
+        ]
+      },
+      "then": {
+        "properties": {
+          "authorization_token": {
+            "pattern": "^(?!.*_ROUTE_V)AUTHORIZE_P[12]_[A-Z0-9]+(?:_[A-Z0-9]+)*_V[1-9][0-9]*$"
+          },
+          "automatic_entries": {
+            "maxItems": 0
+          },
+          "automatic_entry": {
+            "type": "null"
+          },
+          "capacity_slots": {
+            "maxItems": 3,
+            "minItems": 1
+          },
+          "exact_reserved_trigger": {
+            "const": "MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE"
+          },
+          "ordered_tasks": {
+            "maxItems": 0
+          },
+          "source_founder_packet_identity": {
+            "properties": {
+              "authorization_token": {
+                "pattern": "^(?!.*_ROUTE_V)AUTHORIZE_P[12]_[A-Z0-9]+(?:_[A-Z0-9]+)*_V[1-9][0-9]*$"
+              }
+            }
+          }
+        },
+        "required": [
+          "automatic_entries",
+          "capacity_slots",
+          "exact_reserved_trigger",
+          "prior_consumed_envelope",
+          "recovery_plan_identity"
+        ],
+        "not": {
+          "required": [
+            "new_task_ids"
+          ]
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "schema_version": {
             "const": "1.0"
           }
         },
@@ -346,6 +400,77 @@
       "minLength": 1,
       "type": "string"
     },
+    "capacity_slots": {
+      "items": {
+        "additionalProperties": false,
+        "properties": {
+          "calendar_days": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "capacity_slot_id": {
+            "pattern": "^P[12]_RECOVERY_CAPACITY_SLOT_[1-9][0-9]*$",
+            "type": "string"
+          },
+          "engineering_hours": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "max_candidates": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "max_implementation_iterations": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "max_same_task_repairs": {
+            "minimum": 0,
+            "type": "integer"
+          },
+          "milestone_id": {
+            "enum": [
+              "P2_RECOVERY_BASELINE_ACCEPTED",
+              "P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED",
+              "P2_RECOVERY_FORMAL_HELD_MATRIX_COMPLETE"
+            ]
+          },
+          "product_mutation_allowed": {
+            "type": "boolean"
+          },
+          "slot": {
+            "minimum": 1,
+            "type": "integer"
+          },
+          "task_id": {
+            "type": "null"
+          },
+          "unlock_requirement": {
+            "enum": [
+              "BENCHMARK_SOURCE_PACK_ADMISSION_ACCEPTED",
+              "P2_RECOVERY_BASELINE_ACCEPTED",
+              "P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED"
+            ]
+          }
+        },
+        "required": [
+          "calendar_days",
+          "capacity_slot_id",
+          "engineering_hours",
+          "max_candidates",
+          "max_implementation_iterations",
+          "max_same_task_repairs",
+          "milestone_id",
+          "product_mutation_allowed",
+          "slot",
+          "task_id",
+          "unlock_requirement"
+        ],
+        "type": "object"
+      },
+      "type": "array",
+      "uniqueItems": true
+    },
     "envelope": {
       "additionalProperties": false,
       "properties": {
@@ -487,7 +612,7 @@
         ],
         "type": "object"
       },
-      "minItems": 1,
+      "minItems": 0,
       "type": "array"
     },
     "new_task_ids": {
@@ -563,6 +688,27 @@
     "record_type": {
       "const": "founder_phase_route_decision"
     },
+    "recovery_plan_identity": {
+      "additionalProperties": false,
+      "properties": {
+        "byte_length": {
+          "minimum": 1,
+          "type": "integer"
+        },
+        "path": {
+          "const": "docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml"
+        },
+        "sha256": {
+          "$ref": "#/$defs/sha256"
+        }
+      },
+      "required": [
+        "byte_length",
+        "path",
+        "sha256"
+      ],
+      "type": "object"
+    },
     "route_id": {
       "pattern": "^P[12]_[A-Z0-9_]+_ROUTE_V[1-9][0-9]*$",
       "type": "string"
@@ -572,7 +718,8 @@
         "1.0",
         "1.1",
         "1.2",
-        "1.3"
+        "1.3",
+        "1.4"
       ]
     },
     "source_founder_packet_identity": {

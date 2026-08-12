@@ -8,6 +8,7 @@ require "optparse"
 require "pathname"
 require "psych"
 require "yaml"
+require_relative "validate-current-task-authority"
 
 module P2RecoveryAntiCycle
   ROOT = File.expand_path("..", __dir__)
@@ -250,7 +251,7 @@ module P2RecoveryAntiCycle
     assert!(control == expected, "P2 current control drift")
   end
 
-  def validate_truth!(truth, plan, plan_bytes)
+  def validate_truth!(truth, plan, plan_bytes, repo_root)
     project = truth.fetch("project")
     goal = truth.fetch("goal")
     route = truth.fetch("current_phase_route")
@@ -260,8 +261,9 @@ module P2RecoveryAntiCycle
     claim = truth.fetch("claim_boundary")
     gate = truth.dig("strict_phase_gate_ledger", "phases", "P2")
     control = exact_keys!(truth.fetch("p2_recovery_control"), %w[
-      accepted_milestones current_delivery_percent governance_progress_credit next_eligible_action
-      plan schema_version status strict_gate_percent task_creation_allowed
+      accepted_milestones benchmark_source_admission_status capacity_slots
+      current_delivery_percent envelope_expansion_decision governance_progress_credit
+      next_eligible_action plan schema_version status strict_gate_percent task_creation_allowed
     ], "Truth P2 recovery control")
     plan_identity = exact_keys!(control.fetch("plan"), %w[byte_length path sha256], "Truth P2 recovery plan identity")
     assert!(plan_identity == {
@@ -275,15 +277,38 @@ module P2RecoveryAntiCycle
     assert!(control["strict_gate_percent"] == 0 && control["current_delivery_percent"] == 0 && control["accepted_milestones"] == [], "Truth created false P2 progress")
     assert!(control["governance_progress_credit"] == 0, "Truth credited governance as P2 progress")
 
-    expected_budget = { "engineering_tasks" => 12, "engineering_hours" => 336, "calendar_days" => 84 }
-    expected_zero = { "engineering_tasks" => 0, "engineering_hours" => 0, "calendar_days" => 0 }
-    assert!(envelope["status"] == "EXHAUSTED" && envelope["limits"].slice(*expected_budget.keys) == expected_budget && envelope["consumed"] == expected_budget && envelope["remaining"] == expected_zero, "Truth P2 envelope drift")
-    assert!(route["status"] == "FOUNDER_RESERVED_DECISION_REQUIRED" && route["next_eligible_action"] == "FOUNDER_RESERVED_DECISION", "Truth current route is not the reserved hold")
-    assert!(escalation["disposition"] == "FOUNDER_DECISION_REQUIRED" && escalation.dig("reserved_trigger", "category") == "MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE", "Truth Founder escalation drift")
+    decision_identity = exact_keys!(control.fetch("envelope_expansion_decision"), %w[byte_length path sha256], "Truth recovery expansion decision identity")
+    decision_path = File.expand_path(decision_identity.fetch("path"), repo_root)
+    assert!(decision_path.start_with?(repo_root + File::SEPARATOR), "Truth recovery expansion decision escapes repository root")
+    decision_stat = File.lstat(decision_path)
+    assert!(decision_stat.file? && !decision_stat.symlink? && decision_stat.nlink == 1, "Truth recovery expansion decision must be a regular nlink1 file")
+    decision_bytes = File.binread(decision_path)
+    assert!(decision_identity["byte_length"] == decision_bytes.bytesize && decision_identity["sha256"] == Digest::SHA256.hexdigest(decision_bytes), "Truth recovery expansion decision identity drift")
+    decision_claims = CurrentTaskAuthority.founder_phase_route_decision_claims(
+      decision_bytes,
+      decision_path: decision_identity.fetch("path"),
+      root: repo_root
+    )
+    assert!(decision_claims["structured_decision_version"] == "1.4", "Truth recovery expansion decision is not v1.4")
+
+    limits = { "engineering_tasks" => 15, "engineering_hours" => 432, "calendar_days" => 108 }
+    consumed = { "engineering_tasks" => 12, "engineering_hours" => 336, "calendar_days" => 84 }
+    remaining = { "engineering_tasks" => 3, "engineering_hours" => 96, "calendar_days" => 24 }
+    assert!(envelope["status"] == "ACTIVE_REMAINING_CAPACITY" && envelope["limits"].slice(*limits.keys) == limits && envelope["consumed"] == consumed && envelope["remaining"] == remaining, "Truth P2 recovery envelope drift")
+    assert!(envelope.dig("authority_basis", "source_route_ref") == "historical_p2_value_first_recovery_envelope_expansion_phase_route" && envelope.dig("authority_basis", "source_route_id") == decision_claims["route_id"] && envelope.dig("authority_basis", "source_decision") == decision_identity, "Truth P2 recovery envelope authority binding drift")
+    assert!(route["status"] == "AUTHORIZED_READY" && route["execution_status"] == "PHASE_DELEGATED_CONTINUATION_READY" && route["next_eligible_action"] == "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK", "Truth current route is not delegated continuation ready")
+    assert!(escalation["disposition"] == "NO_RESERVED_TRIGGER_CONTINUE_PHASE" && escalation.dig("reserved_trigger", "category") == "NONE" && escalation["founder_decision_required"] == false && escalation["next_action_owner"] == "MASTER_CEO_AGENT", "Truth Founder escalation did not return to delegated execution")
     assert!(active["current_task"] == "NONE" && goal["current_task_authority"] == "NONE", "P2 recovery correction may not activate a Task")
-    assert!(claim["p2_phase_envelope_status"] == "EXHAUSTED" && claim["p2_project_status"] == "ACTIVE" && claim["long_term_goal_status"] == "ACTIVE", "Truth lifecycle projection drift")
-    assert!(control["schema_version"] == "p2-recovery-control/v1" && control["status"] == "FOUNDER_CORRECTION_ACTIVE_AWAITING_ENVELOPE_AUTHORIZATION" && control["task_creation_allowed"] == false && control["next_eligible_action"] == "FOUNDER_RESERVED_DECISION", "Truth P2 recovery hold drift")
-    assert!(plan.dig("current_control", "new_task_creation_allowed") == control["task_creation_allowed"], "Plan/Truth task creation control drift")
+    assert!(active["task_resource_state"] == "NOT_CREATED_PHASE_DELEGATED_CONTINUATION_READY" && active["founder_decision_required"] == false && active["next_eligible_action"] == "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK", "Truth active-work recovery projection drift")
+    assert!(claim["p2_phase_envelope_status"] == "ACTIVE_REMAINING_CAPACITY" && claim["p2_project_status"] == "ACTIVE" && claim["long_term_goal_status"] == "ACTIVE", "Truth lifecycle projection drift")
+    assert!(control["schema_version"] == "p2-recovery-control/v1" && control["status"] == "FOUNDER_AUTHORIZED_RECOVERY_CAPACITY_AVAILABLE_BENCHMARK_SOURCE_ADMISSION_REQUIRED" && control["benchmark_source_admission_status"] == "NOT_ACCEPTED_NO_ELIGIBLE_TASK" && control["task_creation_allowed"] == false && control["next_eligible_action"] == "BENCHMARK_SOURCE_PACK_ADMISSION_REQUIRED", "Truth P2 recovery admission hold drift")
+    expected_slots = decision_claims.fetch("capacity_slots").map do |slot|
+      slot.slice("slot", "capacity_slot_id", "task_id", "milestone_id", "unlock_requirement", "engineering_hours", "calendar_days")
+    end
+    assert!(control["capacity_slots"] == expected_slots && control["capacity_slots"].all? { |slot| slot["task_id"].nil? }, "Truth recovery capacity slot projection drift")
+    assert!(project["phase_execution_status"] == "ACTIVE" && project["current_route_execution_status"] == "PHASE_DELEGATED_CONTINUATION_READY", "Truth project recovery execution projection drift")
+    assert!(claim["current_phase_route"] == route["route_id"] && claim["current_task"] == "NONE" && claim["next_eligible_action"] == route["next_eligible_action"], "Truth recovery claim projection drift")
+    assert!(plan.dig("current_control", "new_task_creation_allowed") == false && control["task_creation_allowed"] == false, "Recovery plan baseline and current admission both must prohibit Task creation")
   end
 
   def validate!(truth_path: DEFAULT_TRUTH, plan_path: DEFAULT_PLAN, repo_root: ROOT)
@@ -291,7 +316,7 @@ module P2RecoveryAntiCycle
     plan, plan_bytes = read_yaml!(plan_path, "P2 recovery plan", repo_root)
     truth, = read_yaml!(truth_path, "canonical Truth", repo_root)
     validate_plan!(plan, repo_root)
-    validate_truth!(truth, plan, plan_bytes)
+    validate_truth!(truth, plan, plan_bytes, repo_root)
     true
   end
 end
@@ -309,8 +334,10 @@ if $PROGRAM_NAME == __FILE__
       parser.on("--repo PATH") { |value| options[:repo_root] = File.expand_path(value) }
     end.parse!
     P2RecoveryAntiCycle.validate!(**options)
-    puts "P2_RECOVERY_ANTI_CYCLE: PASS strict_gate=0 delivery=0 task_creation=false"
-  rescue P2RecoveryAntiCycle::ValidationError, KeyError, Psych::Exception => error
+    puts "P2_RECOVERY_ANTI_CYCLE: PASS strict_gate=0 delivery=0 capacity=3 task_creation=false source_admission=false"
+  rescue P2RecoveryAntiCycle::ValidationError, AuthorityValidationError,
+         DuplicateJsonKeyError, JSON::ParserError, KeyError, Psych::Exception,
+         Errno::ENOENT, Errno::ELOOP => error
     warn "P2_RECOVERY_ANTI_CYCLE: NON_PASS #{error.message}"
     exit 1
   end

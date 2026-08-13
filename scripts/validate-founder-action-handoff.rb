@@ -32,6 +32,7 @@ module FounderActionHandoff
     READ_ONLY_HTTPS_ACQUISITION
     READ_ONLY_HTTPS_ACQUISITION_STANDARD_CURL
     READ_ONLY_HTTPS_BENCHMARK_SOURCE_MILESTONE_STANDARD_CURL
+    READ_ONLY_HTTPS_BENCHMARK_SOURCE_MILESTONE_STANDARD_CURL_REISSUE
   ].freeze
   APP_OPERATION_TYPES = %w[APP_FILESYSTEM_BATCH_WRITE].freeze
   READ_ONLY_HTTPS_OPERATION = "一次全新、独立、clean-room V6 benchmark source acquisition"
@@ -51,6 +52,14 @@ module FounderActionHandoff
   MILESTONE_CURL_CONSUMPTION = "Ordinary Route NON_PASS does not consume this capability; the capability ends only on source-admission ACCEPTED, cumulative budget exhaustion, explicit Founder revocation, credential exposure, unauthorized write or external effect, or scope escape"
   MILESTONE_CURL_PASS = "PASS permits only create-once source-pack installation and activation of existing P2 recovery slot 1; it does not grant the 25% milestone"
   MILESTONE_CURL_NON_PASS = "Ordinary Route NON_PASS preserves this capability and returns control to Master for an independent Phase-local route; credential exposure, unauthorized write or external effect, or scope escape terminates the capability without automatic successor authorization"
+  MILESTONE_CURL_REISSUE_OPERATION = "P2 benchmark-source admission milestone capability reissue after exact terminal safety event using exact system curl"
+  MILESTONE_CURL_REISSUE_METHOD = "仅允许无凭据 HTTPS GET/HEAD；普通 independent acquisition Route NON_PASS 不消费本 reissued milestone capability；Maven、Gradle、Git、浏览器及其他子进程永久禁止直接联网"
+  MILESTONE_CURL_REISSUE_TOKEN = "AUTHORIZE_P2_BENCHMARK_SOURCE_ADMISSION_MILESTONE_STANDARD_CURL_CAPABILITY_REISSUE_V2"
+  MILESTONE_CURL_REISSUE_DURATION = "From direct Founder approval until P2 benchmark-source admission is ACCEPTED, the inherited cumulative body budget is exhausted, Founder explicitly revokes the capability, or a terminal safety condition occurs"
+  MILESTONE_CURL_REISSUE_BUDGET = "One inherited non-resettable cumulative 4,294,967,296 CREATE_ONCE_PERSISTED_HTTP_RESPONSE_BODY_OCTETS ceiling shared across original capability V1 and this reissue V2; prior success, failure, ambiguity, outstanding reservations and ordinals remain consumed and cannot be reset"
+  MILESTONE_CURL_REISSUE_CONSUMPTION = "Ordinary Route NON_PASS does not consume this reissued capability; it ends only on source-admission ACCEPTED, inherited cumulative budget exhaustion, explicit Founder revocation, credential exposure, unauthorized write or external effect, scope escape, or direct network access by Maven, Gradle, Git, browser, or any non-curl subprocess"
+  MILESTONE_CURL_REISSUE_PASS = "PASS permits only create-once source-pack installation and activation of existing P2 recovery slot 1; it does not grant the 25% milestone"
+  MILESTONE_CURL_REISSUE_NON_PASS = "Ordinary independent Route NON_PASS preserves this reissued capability and returns control to Master for another independent Phase-local route without a new Founder request; any terminal safety condition ends it without automatic successor authorization"
   FOUNDER_NETWORK_OPERATION_PROFILES = {
     "READ_ONLY_HTTPS_ACQUISITION" => {
       "operations" => [READ_ONLY_HTTPS_OPERATION, READ_ONLY_HTTPS_METHOD],
@@ -82,6 +91,22 @@ module FounderActionHandoff
       "authorization_expiry_or_consumption_rule" => MILESTONE_CURL_CONSUMPTION,
       "pass_lifecycle" => MILESTONE_CURL_PASS,
       "non_pass_lifecycle" => MILESTONE_CURL_NON_PASS
+    },
+    "READ_ONLY_HTTPS_BENCHMARK_SOURCE_MILESTONE_STANDARD_CURL_REISSUE" => {
+      "operations" => [
+        MILESTONE_CURL_REISSUE_OPERATION,
+        MILESTONE_CURL_REISSUE_METHOD,
+        STANDARD_CURL_METRIC_EXCLUSIONS,
+        STANDARD_CURL_RETRY_POLICY,
+        STANDARD_CURL_IDENTITY_BINDING
+      ],
+      "targets" => [READ_ONLY_HTTPS_TARGETS],
+      "budget_or_external_effects" => MILESTONE_CURL_REISSUE_BUDGET,
+      "token" => MILESTONE_CURL_REISSUE_TOKEN,
+      "duration" => MILESTONE_CURL_REISSUE_DURATION,
+      "authorization_expiry_or_consumption_rule" => MILESTONE_CURL_REISSUE_CONSUMPTION,
+      "pass_lifecycle" => MILESTONE_CURL_REISSUE_PASS,
+      "non_pass_lifecycle" => MILESTONE_CURL_REISSUE_NON_PASS
     }
   }.freeze
   PROSPECTIVE_PREFLIGHT = "PROSPECTIVE_RESERVED_EFFECT_REQUIRED_BY_EXACT_USER_REQUEST_AND_NOT_EXPRESSIBLE_BY_CURRENT_OFFLINE_ESCALATION_PROJECTION"
@@ -327,6 +352,10 @@ module FounderActionHandoff
       end
       assert!(FOUNDER_OPERATION_TYPES.include?(authorization["operation_type"]), "Founder operation type invalid")
       operation_type = authorization["operation_type"]
+      if current_user_request_token == MILESTONE_CURL_TOKEN
+        assert!(operation_type == "READ_ONLY_HTTPS_BENCHMARK_SOURCE_MILESTONE_STANDARD_CURL_REISSUE",
+                "a handoff after the exact V1 milestone capability request must use only the closed V2 reissue profile")
+      end
       profile = FOUNDER_NETWORK_OPERATION_PROFILES[operation_type]
       assert!(profile, "Founder network operation is not bound to a closed profile")
       if operation_type == "READ_ONLY_HTTPS_ACQUISITION_STANDARD_CURL"
@@ -345,7 +374,10 @@ module FounderActionHandoff
         assert!(grant["operations"] == profile["operations"],
                 "read-only HTTPS operation enum contradicts its exact grant scope")
       end
-      if operation_type == "READ_ONLY_HTTPS_BENCHMARK_SOURCE_MILESTONE_STANDARD_CURL"
+      if %w[
+        READ_ONLY_HTTPS_BENCHMARK_SOURCE_MILESTONE_STANDARD_CURL
+        READ_ONLY_HTTPS_BENCHMARK_SOURCE_MILESTONE_STANDARD_CURL_REISSUE
+      ].include?(operation_type)
         proposed_tokens = package["copy_ready_text_or_exact_steps"].scan(FOUNDER_AUTHORIZATION_TOKEN)
         assert!(proposed_tokens == [profile["token"]],
                 "milestone-curl handoff must contain the exact non-route capability token")

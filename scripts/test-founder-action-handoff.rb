@@ -256,6 +256,72 @@ milestone_authorization = authorization.merge(
 )
 milestone_draft = standard_draft.sub(standard_copy_text, milestone_copy)
 assert_pass!("milestone-curl authorization positive", milestone_authorization, milestone_draft, current_truth)
+
+reissue_operation = FounderActionHandoff::MILESTONE_CURL_REISSUE_OPERATION
+reissue_method = FounderActionHandoff::MILESTONE_CURL_REISSUE_METHOD
+reissue_copy = <<~TEXT.strip
+  #{FounderActionHandoff::MILESTONE_CURL_REISSUE_TOKEN}；canonical commit #{canonical['commit']}；tree #{canonical['tree']}；governing artifact #{plan['path']} #{plan['byte_length']} bytes SHA-256 #{plan['sha256']}；trigger #{trigger}；operation type READ_ONLY_HTTPS_BENCHMARK_SOURCE_MILESTONE_STANDARD_CURL_REISSUE；operation #{reissue_operation}；method #{reissue_method}；metric exclusions #{standard_exclusions}；retry policy #{standard_retry}；curl binding #{standard_curl_binding}；target #{target}；duration #{FounderActionHandoff::MILESTONE_CURL_REISSUE_DURATION}；budget #{FounderActionHandoff::MILESTONE_CURL_REISSUE_BUDGET}；risk #{risk}；deny #{denial}；expiry #{FounderActionHandoff::MILESTONE_CURL_REISSUE_CONSUMPTION}；PASS #{FounderActionHandoff::MILESTONE_CURL_REISSUE_PASS}；NON_PASS #{FounderActionHandoff::MILESTONE_CURL_REISSUE_NON_PASS}
+TEXT
+reissue_authorization = authorization.merge(
+  "copy_ready_text_or_exact_steps" => reissue_copy,
+  "user_request_evidence" => authorization["user_request_evidence"].merge(
+    "exact_token" => FounderActionHandoff::MILESTONE_CURL_TOKEN
+  ),
+  "authorization" => authorization["authorization"].merge(
+    "operation_type" => "READ_ONLY_HTTPS_BENCHMARK_SOURCE_MILESTONE_STANDARD_CURL_REISSUE",
+    "grant_scope" => authorization.dig("authorization", "grant_scope").merge(
+      "operations" => [reissue_operation, reissue_method, standard_exclusions, standard_retry, standard_curl_binding],
+      "duration" => FounderActionHandoff::MILESTONE_CURL_REISSUE_DURATION,
+      "budget_or_external_effects" => FounderActionHandoff::MILESTONE_CURL_REISSUE_BUDGET
+    ),
+    "authorization_expiry_or_consumption_rule" => FounderActionHandoff::MILESTONE_CURL_REISSUE_CONSUMPTION,
+    "pass_lifecycle" => FounderActionHandoff::MILESTONE_CURL_REISSUE_PASS,
+    "non_pass_lifecycle" => FounderActionHandoff::MILESTONE_CURL_REISSUE_NON_PASS
+  )
+)
+reissue_draft = standard_draft.sub(standard_copy_text, reissue_copy)
+assert_pass!("milestone-curl reissue authorization positive", reissue_authorization, reissue_draft, current_truth)
+assert_reject!("V1 terminal context rejects original milestone V1 profile",
+               milestone_authorization.merge(
+                 "user_request_evidence" => milestone_authorization["user_request_evidence"].merge(
+                   "exact_token" => FounderActionHandoff::MILESTONE_CURL_TOKEN
+                 )
+               ), milestone_draft, current_truth,
+               user_token: FounderActionHandoff::MILESTONE_CURL_TOKEN)
+v13_standard_copy = standard_copy_text.sub("CURATOR_V7_STANDARD_CURL", "CURATOR_V13_STANDARD_CURL")
+                                         .sub(standard_operation, standard_operation.sub(" V7 ", " V13 "))
+v13_standard = standard_authorization.merge(
+  "copy_ready_text_or_exact_steps" => v13_standard_copy,
+  "user_request_evidence" => standard_authorization["user_request_evidence"].merge(
+    "exact_token" => FounderActionHandoff::MILESTONE_CURL_TOKEN
+  ),
+  "authorization" => standard_authorization["authorization"].merge(
+    "grant_scope" => standard_authorization.dig("authorization", "grant_scope").merge(
+      "operations" => [standard_operation.sub(" V7 ", " V13 "), method, standard_exclusions, standard_retry, standard_curl_binding]
+    )
+  )
+)
+assert_reject!("V1 terminal context rejects legacy V13 route profile", v13_standard,
+               standard_draft.sub(standard_copy_text, v13_standard_copy), current_truth,
+               user_token: FounderActionHandoff::MILESTONE_CURL_TOKEN)
+%w[V13 V14].each do |version|
+  route_token_copy = reissue_copy.sub(FounderActionHandoff::MILESTONE_CURL_REISSUE_TOKEN,
+                                      "AUTHORIZE_P2_BENCHMARK_SOURCE_ACQUISITION_CLEAN_ROOM_CURATOR_#{version}_STANDARD_CURL_V1")
+  route_token_package = reissue_authorization.merge("copy_ready_text_or_exact_steps" => route_token_copy)
+  assert_reject!("milestone reissue rejects #{version} route token", route_token_package,
+                 reissue_draft.sub(reissue_copy, route_token_copy), current_truth)
+end
+reissue_per_route_budget = reissue_copy.sub(FounderActionHandoff::MILESTONE_CURL_REISSUE_BUDGET,
+                                             "A fresh 4 GiB body budget per independent Route")
+assert_reject!("milestone reissue rejects per-route budget reset",
+               reissue_authorization.merge(
+                 "copy_ready_text_or_exact_steps" => reissue_per_route_budget,
+                 "authorization" => reissue_authorization["authorization"].merge(
+                   "grant_scope" => reissue_authorization.dig("authorization", "grant_scope").merge(
+                     "budget_or_external_effects" => "A fresh 4 GiB body budget per independent Route"
+                   )
+                 )
+               ), reissue_draft.sub(reissue_copy, reissue_per_route_budget), current_truth)
 milestone_route_token = milestone_authorization.merge(
   "authorization" => milestone_authorization["authorization"].merge(
     "grant_scope" => milestone_authorization.dig("authorization", "grant_scope").merge(

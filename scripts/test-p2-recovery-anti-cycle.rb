@@ -9,6 +9,7 @@ require_relative "validate-p2-recovery-anti-cycle"
 ROOT = P2RecoveryAntiCycle::ROOT
 TRUTH_PATH = P2RecoveryAntiCycle::DEFAULT_TRUTH
 PLAN_PATH = P2RecoveryAntiCycle::DEFAULT_PLAN
+RULES_PATH = P2RecoveryAntiCycle::DEFAULT_RULES
 
 def deep_copy(value)
   Marshal.load(Marshal.dump(value))
@@ -66,6 +67,19 @@ Dir.mktmpdir("p2-recovery-tests-", ROOT) do |root|
     assertions += 1
   end
 
+  run_rules_case = lambda do |label, fragment, before, after|
+    candidate_rules = File.binread(RULES_PATH).sub(before, after)
+    raise "#{label} did not mutate rules" if candidate_rules == File.binread(RULES_PATH)
+    P2RecoveryAntiCycle.validate_source_guardrails_bytes!(candidate_rules)
+    raise "#{label} was falsely accepted"
+  rescue P2RecoveryAntiCycle::ValidationError => error
+    unless error.message.include?(fragment)
+      raise "#{label} rejected for wrong reason: #{error.message.inspect}"
+    end
+  ensure
+    assertions += 1
+  end
+
   run_plan_case.call("gate-fraction", "strict progress is not binary") do |candidate|
     candidate.dig("progress_model", "strict_gate")["current_percent"] = 25
   end
@@ -106,6 +120,53 @@ Dir.mktmpdir("p2-recovery-tests-", ROOT) do |root|
     candidate.dig("drift_diagnosis", "exact_diff_since_p2_entry", "governance")["changed_files"] = 38
   end
 
+  run_rules_case.call(
+    "jdk17-gate-disabled",
+    "P2 source selection guardrails drift",
+    "base_and_fix_jdk17_probe_required: true",
+    "base_and_fix_jdk17_probe_required: false"
+  )
+
+  run_rules_case.call(
+    "authorization-chain-enabled",
+    "P2 source delegation guardrails drift",
+    "numbered_single_route_reauthorization_chain_allowed: false",
+    "numbered_single_route_reauthorization_chain_allowed: true"
+  )
+  run_rules_case.call(
+    "ordinary-route-escalated",
+    "P2 source delegation guardrails drift",
+    "ordinary_route_non_pass_founder_trigger: false",
+    "ordinary_route_non_pass_founder_trigger: true"
+  )
+  run_rules_case.call(
+    "self-report-receipts-enabled",
+    "P2 source selection guardrails drift",
+    "self_report_only_receipts_allowed: false",
+    "self_report_only_receipts_allowed: true"
+  )
+  run_rules_case.call(
+    "terminal-capability-reuse-enabled",
+    "P2 source delegation guardrails drift",
+    "terminal_single_use_capability_reuse_allowed: false",
+    "terminal_single_use_capability_reuse_allowed: true"
+  )
+  run_rules_case.call(
+    "route-nonpass-default-founder",
+    "P2 source delegation guardrails drift",
+    "default_after_route_non_pass: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK",
+    "default_after_route_non_pass: FOUNDER_RESERVED_DECISION"
+  )
+  copied_rules = File.join(root, "AGENTS-copy.md")
+  File.binwrite(copied_rules, File.binread(RULES_PATH))
+  begin
+    P2RecoveryAntiCycle.validate_source_guardrails!(copied_rules, ROOT)
+    raise "noncanonical rules copy was falsely accepted"
+  rescue P2RecoveryAntiCycle::ValidationError => error
+    raise unless error.message.include?("must use canonical AGENTS.md")
+    assertions += 1
+  end
+
   run_truth_case.call("goal-terminal", "Long-term Goal is not active") do |candidate|
     candidate.fetch("goal")["control_plane_status_observed"] = "COMPLETE"
   end
@@ -118,8 +179,8 @@ Dir.mktmpdir("p2-recovery-tests-", ROOT) do |root|
   run_truth_case.call("envelope-capacity-injected", "envelope drift") do |candidate|
     candidate.dig("phase_execution_envelope", "remaining")["engineering_tasks"] = 1
   end
-  run_truth_case.call("founder-hold-bypassed", "current route is not the reserved hold") do |candidate|
-    candidate.fetch("current_phase_route")["next_eligible_action"] = "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK"
+  run_truth_case.call("ordinary-terminal-escalated", "current route is not delegated continuation ready") do |candidate|
+    candidate.fetch("current_phase_route")["next_eligible_action"] = "FOUNDER_RESERVED_DECISION"
   end
 end
 

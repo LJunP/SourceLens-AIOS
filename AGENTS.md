@@ -159,6 +159,78 @@ Founder 只保留：
   NON_PASS、Phase envelope 未获扩展或上一 milestone 未接受时，禁止创建 Task ID、nonce、
   branch、worktree、Contract、authority 或工程 Evidence。
 
+## P2 Benchmark Source 选题与授权反自循环（强制执行）
+
+- P2 benchmark 的本机 Java 执行基线固定为现有 JDK 17。仓库或题目要求 Java 18+ 时，必须在
+  最终集合冻结前淘汰；不得安装更高 JDK、降低上游 compiler release、修改构建参数或把
+  toolchain invalid 留到一次性 admission 后才发现。只有目标子模块在不修改上游 bytes、
+  构建参数、测试、依赖或 selector 的前提下，已由 exact JDK 17 实际离线构建证明独立可达，
+  才可不受根项目较高 release 声明影响。
+- Repository discovery、PR discovery 和 provisional pool 只产生候选，不得直接冻结最终
+  `6 repositories / 12 tasks`。每个最终仓库必须先有恰好两个题同时通过 license、provenance、
+  base/fix identity、archive/diff/test selector、offline dependency closure 和 JDK 17
+  pre-freeze toolchain probe；不得按响应顺序冻结“前六个仓库”。
+- Toolchain probe 只能验证 base 与 fix 在 JDK 17 下的构建可达性，不能执行正式 admission 的
+  base-FAIL/fix-PASS selector，也不能读取 SourceLens 输出或 baseline 分数。最终冻结后仍保持
+  one-shot admission、不得换题、补跑或改 selector 的既有规则。
+- 普通 acquisition Route 的实现、工具链、测试或 Review NON_PASS 不是 Founder trigger。
+  Route 终态后，Master 必须在剩余 Phase envelope 内自主选择不同的独立最小路径，不得把
+  日常选题、仓库替换、工具链兼容筛选或 Reviewer 退回交给 Founder。
+- 新的外部网络能力确实不可缺少时，只允许请求一次与 P2 benchmark-source admission milestone
+  绑定的有界 capability envelope；禁止继续生成 `V13/V14/...` 式“一个 Route 一个 token”的
+  连续再授权链。该 capability 的 host、method、credential、write、body-budget 和生命周期必须
+  一次冻结。规则文字、Agent 草稿或自报字段本身绝不授权网络；任何网络动作仍须由 Founder
+  当前直接授权及其未消费生命周期事实覆盖。已明确 single-use 且终态的旧授权不得静默复用。
+  若当前没有有效网络 capability，Master 的默认动作是先选择无需新增网络的独立 Phase-local
+  工程路径；只有 benchmark-source admission 客观上仍必须新增网络时，才一次性请求 milestone
+  capability，不得因普通 Route NON_PASS 本身请求授权。
+- 最终集合的 freeze 操作必须把实际 pre-freeze Gate 作为同一不可分割流程：先在 exact JDK17/
+  Javac、闭合离线依赖和绑定的 base/fix bytes 上真实执行每题 build command，再核验 6 仓库、
+  12 题、每仓库 2 题及全部 PASS Evidence，最后才 create-once 写 final-freeze artifact。只检查
+  自报 JSON、字符串、manifest 或 receipt 不算 Gate；Gate 未 PASS 时 final-freeze 必须不存在。
+- 选题、下载、治理、Review、receipt、终态和本规则修复的 P2 进度贡献均为 `0`。这套纠正不
+  恢复 V12、不改写任何 terminal Evidence，也不授权新的 DNS/HTTPS；它只约束下一条合法路径。
+
+<!-- P2_BENCHMARK_SOURCE_GUARDRAILS_BEGIN -->
+```yaml
+schema_version: p2-benchmark-source-guardrails/v1
+runtime:
+  java_major: 17
+  newer_java_install_authorized: false
+  build_parameter_override_allowed: false
+selection:
+  final_repository_count: 6
+  final_task_count: 12
+  tasks_per_repository: 2
+  base_and_fix_jdk17_probe_required: true
+  effective_compiler_release_max: 17
+  exact_submodule_exception_requires_observed_jdk17_build: true
+  dependency_closure_before_freeze: true
+  response_order_freeze_allowed: false
+  final_freeze_before_toolchain_probe_allowed: false
+  prefreeze_gate_must_execute_bound_builds: true
+  self_report_only_receipts_allowed: false
+  final_freeze_requires_prefreeze_gate_pass: true
+delegation:
+  rules_do_not_authorize_network: true
+  ordinary_route_non_pass_founder_trigger: false
+  next_independent_route_owner: MASTER_CEO_AGENT
+  default_after_route_non_pass: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
+  numbered_single_route_reauthorization_chain_allowed: false
+  future_network_request_style: PHASE_MILESTONE_SCOPED_BOUNDED_CAPABILITY
+  active_direct_capability_required_for_network: true
+  terminal_single_use_capability_reuse_allowed: false
+  reauthorization_required_only_for:
+    - NO_VALID_NETWORK_CAPABILITY
+    - HOST_METHOD_BUDGET_CREDENTIAL_WRITE_OR_PHASE_SCOPE_EXPANSION
+    - CRITICAL_RESIDUAL_RISK_ACCEPTANCE
+progress:
+  governance_credit: 0
+  acquisition_credit: 0
+  review_receipt_terminal_credit: 0
+```
+<!-- P2_BENCHMARK_SOURCE_GUARDRAILS_END -->
+
 ## Founder Knowledge System（常驻规则）
 
 - Founder Knowledge Vault 的唯一精确路径是 `/Users/lijunpeng/Documents/AIOS-Founder-Knowledge-Vault`。

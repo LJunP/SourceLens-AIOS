@@ -14,6 +14,7 @@ module P2RecoveryAntiCycle
   ROOT = File.expand_path("..", __dir__)
   DEFAULT_TRUTH = File.join(ROOT, "docs/aios/truth/project_state.yaml")
   DEFAULT_PLAN = File.join(ROOT, "docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml")
+  DEFAULT_RULES = File.join(ROOT, "AGENTS.md")
 
   class ValidationError < StandardError; end
 
@@ -70,6 +71,92 @@ module P2RecoveryAntiCycle
     stdout, stderr, status = Open3.capture3("git", "-C", repo_root, *args)
     raise ValidationError, "git #{args.join(' ')} failed: #{stderr}" unless status.success?
     stdout
+  end
+
+  def validate_source_guardrails_bytes!(raw_bytes)
+    text = raw_bytes.dup.force_encoding("UTF-8")
+    assert!(text.valid_encoding?, "P2 source guardrails encoding is invalid")
+    pattern = /<!-- P2_BENCHMARK_SOURCE_GUARDRAILS_BEGIN -->\n```yaml\n(?<yaml>.*?)```\n<!-- P2_BENCHMARK_SOURCE_GUARDRAILS_END -->/m
+    matches = text.to_enum(:scan, pattern).map { Regexp.last_match }
+    assert!(matches.length == 1, "P2 source guardrails block is missing or duplicated")
+    bytes = matches.first[:yaml]
+    reject_duplicate_yaml_keys!(bytes, "P2 source guardrails")
+    guardrails = YAML.safe_load(bytes, permitted_classes: [], permitted_symbols: [], aliases: false)
+    exact_keys!(guardrails, %w[delegation progress runtime schema_version selection], "P2 source guardrails")
+    assert!(guardrails["schema_version"] == "p2-benchmark-source-guardrails/v1", "P2 source guardrails schema drift")
+
+    runtime = exact_keys!(guardrails.fetch("runtime"), %w[
+      build_parameter_override_allowed java_major newer_java_install_authorized
+    ], "P2 source runtime guardrails")
+    assert!(runtime == {
+      "java_major" => 17,
+      "newer_java_install_authorized" => false,
+      "build_parameter_override_allowed" => false
+    }, "P2 source runtime guardrails drift")
+
+    selection = exact_keys!(guardrails.fetch("selection"), %w[
+      base_and_fix_jdk17_probe_required dependency_closure_before_freeze
+      effective_compiler_release_max exact_submodule_exception_requires_observed_jdk17_build
+      final_freeze_requires_prefreeze_gate_pass
+      final_freeze_before_toolchain_probe_allowed final_repository_count final_task_count
+      prefreeze_gate_must_execute_bound_builds response_order_freeze_allowed
+      self_report_only_receipts_allowed tasks_per_repository
+    ], "P2 source selection guardrails")
+    assert!(selection == {
+      "final_repository_count" => 6,
+      "final_task_count" => 12,
+      "tasks_per_repository" => 2,
+      "base_and_fix_jdk17_probe_required" => true,
+      "effective_compiler_release_max" => 17,
+      "exact_submodule_exception_requires_observed_jdk17_build" => true,
+      "dependency_closure_before_freeze" => true,
+      "response_order_freeze_allowed" => false,
+      "final_freeze_before_toolchain_probe_allowed" => false,
+      "prefreeze_gate_must_execute_bound_builds" => true,
+      "self_report_only_receipts_allowed" => false,
+      "final_freeze_requires_prefreeze_gate_pass" => true
+    }, "P2 source selection guardrails drift")
+
+    delegation = exact_keys!(guardrails.fetch("delegation"), %w[
+      active_direct_capability_required_for_network default_after_route_non_pass
+      future_network_request_style next_independent_route_owner
+      numbered_single_route_reauthorization_chain_allowed ordinary_route_non_pass_founder_trigger
+      reauthorization_required_only_for rules_do_not_authorize_network
+      terminal_single_use_capability_reuse_allowed
+    ], "P2 source delegation guardrails")
+    assert!(delegation == {
+      "ordinary_route_non_pass_founder_trigger" => false,
+      "rules_do_not_authorize_network" => true,
+      "next_independent_route_owner" => "MASTER_CEO_AGENT",
+      "default_after_route_non_pass" => "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK",
+      "numbered_single_route_reauthorization_chain_allowed" => false,
+      "future_network_request_style" => "PHASE_MILESTONE_SCOPED_BOUNDED_CAPABILITY",
+      "active_direct_capability_required_for_network" => true,
+      "terminal_single_use_capability_reuse_allowed" => false,
+      "reauthorization_required_only_for" => %w[
+        NO_VALID_NETWORK_CAPABILITY
+        HOST_METHOD_BUDGET_CREDENTIAL_WRITE_OR_PHASE_SCOPE_EXPANSION
+        CRITICAL_RESIDUAL_RISK_ACCEPTANCE
+      ]
+    }, "P2 source delegation guardrails drift")
+
+    progress = exact_keys!(guardrails.fetch("progress"), %w[
+      acquisition_credit governance_credit review_receipt_terminal_credit
+    ], "P2 source progress guardrails")
+    assert!(progress.values.all?(&:zero?), "P2 source guardrail activity gained progress credit")
+    guardrails
+  end
+
+  def validate_source_guardrails!(rules_path, repo_root)
+    assert!(File.expand_path(rules_path) == File.expand_path(DEFAULT_RULES), "production P2 source guardrails must use canonical AGENTS.md")
+    stat = File.lstat(rules_path)
+    assert!(stat.file? && !stat.symlink? && stat.nlink == 1, "P2 source guardrails rules must be a regular nlink1 non-symlink file")
+    real = File.realpath(rules_path)
+    root = File.realpath(repo_root)
+    assert!(real == root || real.start_with?(root + File::SEPARATOR), "P2 source guardrails rules escape repository root")
+    validate_source_guardrails_bytes!(File.binread(rules_path))
+  rescue Errno::ENOENT, Errno::ELOOP => error
+    raise ValidationError, "P2 source guardrails rules are unavailable: #{error.message}"
   end
 
   def validate_plan!(plan, repo_root)
@@ -315,6 +402,7 @@ module P2RecoveryAntiCycle
     repo_root = File.realpath(repo_root)
     plan, plan_bytes = read_yaml!(plan_path, "P2 recovery plan", repo_root)
     truth, = read_yaml!(truth_path, "canonical Truth", repo_root)
+    validate_source_guardrails!(DEFAULT_RULES, repo_root)
     validate_plan!(plan, repo_root)
     validate_truth!(truth, plan, plan_bytes, repo_root)
     true

@@ -126,6 +126,36 @@ Dir.mktmpdir("p2-recovery-tests-", ROOT) do |root|
     "base_and_fix_jdk17_probe_required: true",
     "base_and_fix_jdk17_probe_required: false"
   )
+  run_rules_case.call(
+    "maven-offline-disabled",
+    "P2 source runtime guardrails drift",
+    "build_subprocess_network_mode: FORCE_OFFLINE_BEFORE_SPAWN",
+    "build_subprocess_network_mode: FILE_MIRROR_ASSUMED_OFFLINE"
+  )
+  run_rules_case.call(
+    "build-network-sandbox-disabled",
+    "P2 source runtime guardrails drift",
+    "build_process_network_sandbox: MACOS_SANDBOX_EXEC_DENY_NETWORK_REQUIRED",
+    "build_process_network_sandbox: NONE"
+  )
+  run_rules_case.call(
+    "maven-global-settings-unbound",
+    "P2 source runtime guardrails drift",
+    "tool_install_user_and_explicit_config_preflight_required: true",
+    "tool_install_user_and_explicit_config_preflight_required: false"
+  )
+  run_rules_case.call(
+    "file-repository-self-attested-offline",
+    "P2 source runtime guardrails drift",
+    "file_repository_or_closed_env_alone_proves_offline: false",
+    "file_repository_or_closed_env_alone_proves_offline: true"
+  )
+  run_rules_case.call(
+    "dependency-custody-bypassed",
+    "P2 source runtime guardrails drift",
+    "dependency_bytes_provenance: CONTROLLED_EXACT_CURL_CUSTODY_ONLY",
+    "dependency_bytes_provenance: EXISTING_LOCAL_CACHE_ALLOWED"
+  )
 
   run_rules_case.call(
     "authorization-chain-enabled",

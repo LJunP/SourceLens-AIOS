@@ -173,6 +173,23 @@ Founder 只保留：
 - Toolchain probe 只能验证 base 与 fix 在 JDK 17 下的构建可达性，不能执行正式 admission 的
   base-FAIL/fix-PASS selector，也不能读取 SourceLens 输出或 baseline 分数。最终冻结后仍保持
   one-shot admission、不得换题、补跑或改 selector 的既有规则。
+- Maven、Gradle 或其他构建子进程的“本地仓库”“`file://` mirror”或 closed env 不能单独作为
+  零网络证明。每次启动前必须扫描并记录工具安装级、用户级和显式 settings/init 配置，Maven
+  必须同时使用 `--offline`、显式 `--global-settings`、显式 `--settings` 与 fresh
+  `maven.repo.local`，Gradle 必须同时使用 `--offline --no-daemon` 与 fresh
+  `GRADLE_USER_HOME`；两者只能读取由受控 exact curl 获取并 hash-bound 的依赖 custody。缺少任一
+  离线参数、配置覆盖、custody provenance 或启动前检查时，必须在 spawn 前 NON_PASS。安装级
+  mirror 即使会被项目 settings 覆盖也必须视为风险输入；不得通过一次在线“依赖发现”运行来
+  推导闭包，任何非 exact curl 的 DNS/HTTP(S) 都是 capability terminal safety condition。
+  真实构建进程还必须由 hash-bound 的本机 `/usr/bin/sandbox-exec` 与 exact profile 强制
+  `deny network*`；exact profile 必须把 `(allow default)` 写在前、`(deny network*)` 写在后，
+  并在不访问公网的独立 preflight 中证明恶意构建子进程不能取得 AF_INET/AF_INET6 网络能力。
+  构建插件、测试或 JVM 即使忽略 offline 参数也不得建立 DNS/socket。仅在某题
+  明确获准且已冻结的数字 loopback 测试需要时，才允许另建更窄的 loopback-only profile；当前
+  source admission 默认无该例外。缺少 OS 级 deny-network sandbox 时禁止 spawn。
+  每个真实 build/probe 的 exact cwd、argv、closed env、JDK17、source/POM、安装/用户/项目配置、
+  sandbox profile 与 dependency inventory 必须在 spawn 前由该题 pre-freeze receipt 绑定；不得
+  以通用 launcher、self-report spec 或空 inventory 替代真实构建与 custody 核验。
 - 普通 acquisition Route 的实现、工具链、测试或 Review NON_PASS 不是 Founder trigger。
   Route 终态后，Master 必须在剩余 Phase envelope 内自主选择不同的独立最小路径，不得把
   日常选题、仓库替换、工具链兼容筛选或 Reviewer 退回交给 Founder。
@@ -198,6 +215,19 @@ runtime:
   java_major: 17
   newer_java_install_authorized: false
   build_parameter_override_allowed: false
+  build_subprocess_network_mode: FORCE_OFFLINE_BEFORE_SPAWN
+  build_process_network_sandbox: MACOS_SANDBOX_EXEC_DENY_NETWORK_REQUIRED
+  maven_required_arguments:
+    - --offline
+    - --global-settings
+    - --settings
+    - -Dmaven.repo.local
+  gradle_required_arguments:
+    - --offline
+    - --no-daemon
+  tool_install_user_and_explicit_config_preflight_required: true
+  file_repository_or_closed_env_alone_proves_offline: false
+  dependency_bytes_provenance: CONTROLLED_EXACT_CURL_CUSTODY_ONLY
 selection:
   final_repository_count: 6
   final_task_count: 12

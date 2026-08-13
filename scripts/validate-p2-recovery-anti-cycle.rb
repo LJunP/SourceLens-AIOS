@@ -86,12 +86,22 @@ module P2RecoveryAntiCycle
     assert!(guardrails["schema_version"] == "p2-benchmark-source-guardrails/v1", "P2 source guardrails schema drift")
 
     runtime = exact_keys!(guardrails.fetch("runtime"), %w[
-      build_parameter_override_allowed java_major newer_java_install_authorized
+      build_parameter_override_allowed build_process_network_sandbox build_subprocess_network_mode dependency_bytes_provenance
+      file_repository_or_closed_env_alone_proves_offline gradle_required_arguments java_major
+      maven_required_arguments newer_java_install_authorized
+      tool_install_user_and_explicit_config_preflight_required
     ], "P2 source runtime guardrails")
     assert!(runtime == {
       "java_major" => 17,
       "newer_java_install_authorized" => false,
-      "build_parameter_override_allowed" => false
+      "build_parameter_override_allowed" => false,
+      "build_subprocess_network_mode" => "FORCE_OFFLINE_BEFORE_SPAWN",
+      "build_process_network_sandbox" => "MACOS_SANDBOX_EXEC_DENY_NETWORK_REQUIRED",
+      "maven_required_arguments" => %w[--offline --global-settings --settings -Dmaven.repo.local],
+      "gradle_required_arguments" => %w[--offline --no-daemon],
+      "tool_install_user_and_explicit_config_preflight_required" => true,
+      "file_repository_or_closed_env_alone_proves_offline" => false,
+      "dependency_bytes_provenance" => "CONTROLLED_EXACT_CURL_CUSTODY_ONLY"
     }, "P2 source runtime guardrails drift")
 
     selection = exact_keys!(guardrails.fetch("selection"), %w[

@@ -31,6 +31,7 @@ module FounderActionHandoff
   FOUNDER_OPERATION_TYPES = %w[
     READ_ONLY_HTTPS_ACQUISITION
     READ_ONLY_HTTPS_ACQUISITION_STANDARD_CURL
+    READ_ONLY_HTTPS_BENCHMARK_SOURCE_MILESTONE_STANDARD_CURL
   ].freeze
   APP_OPERATION_TYPES = %w[APP_FILESYSTEM_BATCH_WRITE].freeze
   READ_ONLY_HTTPS_OPERATION = "一次全新、独立、clean-room V6 benchmark source acquisition"
@@ -42,6 +43,14 @@ module FounderActionHandoff
   STANDARD_CURL_METRIC_EXCLUSIONS = "This budget does not cap or claim DNS, TLS, HTTP header, kernel, wire, or raw TCP octets"
   STANDARD_CURL_RETRY_POLICY = "Retries are disabled"
   STANDARD_CURL_IDENTITY_BINDING = "Exact system curl identity must be bound before the first network request"
+  MILESTONE_CURL_OPERATION = "P2 benchmark-source admission milestone using exact system curl"
+  MILESTONE_CURL_METHOD = "仅允许无凭据 HTTPS GET/HEAD；普通 acquisition Route NON_PASS 不消费本 milestone capability"
+  MILESTONE_CURL_TOKEN = "AUTHORIZE_P2_BENCHMARK_SOURCE_ADMISSION_MILESTONE_STANDARD_CURL_CAPABILITY_V1"
+  MILESTONE_CURL_DURATION = "Until P2 benchmark-source admission is ACCEPTED, the cumulative body budget is exhausted, Founder explicitly revokes the capability, or a terminal safety condition occurs"
+  MILESTONE_CURL_BUDGET = "One non-resettable cumulative 4,294,967,296 CREATE_ONCE_PERSISTED_HTTP_RESPONSE_BODY_OCTETS ceiling shared across all independent Routes under this capability"
+  MILESTONE_CURL_CONSUMPTION = "Ordinary Route NON_PASS does not consume this capability; the capability ends only on source-admission ACCEPTED, cumulative budget exhaustion, explicit Founder revocation, credential exposure, unauthorized write or external effect, or scope escape"
+  MILESTONE_CURL_PASS = "PASS permits only create-once source-pack installation and activation of existing P2 recovery slot 1; it does not grant the 25% milestone"
+  MILESTONE_CURL_NON_PASS = "Ordinary Route NON_PASS preserves this capability and returns control to Master for an independent Phase-local route; credential exposure, unauthorized write or external effect, or scope escape terminates the capability without automatic successor authorization"
   FOUNDER_NETWORK_OPERATION_PROFILES = {
     "READ_ONLY_HTTPS_ACQUISITION" => {
       "operations" => [READ_ONLY_HTTPS_OPERATION, READ_ONLY_HTTPS_METHOD],
@@ -57,6 +66,22 @@ module FounderActionHandoff
       ],
       "targets" => [READ_ONLY_HTTPS_TARGETS],
       "budget_or_external_effects" => STANDARD_CURL_BUDGET
+    },
+    "READ_ONLY_HTTPS_BENCHMARK_SOURCE_MILESTONE_STANDARD_CURL" => {
+      "operations" => [
+        MILESTONE_CURL_OPERATION,
+        MILESTONE_CURL_METHOD,
+        STANDARD_CURL_METRIC_EXCLUSIONS,
+        STANDARD_CURL_RETRY_POLICY,
+        STANDARD_CURL_IDENTITY_BINDING
+      ],
+      "targets" => [READ_ONLY_HTTPS_TARGETS],
+      "budget_or_external_effects" => MILESTONE_CURL_BUDGET,
+      "token" => MILESTONE_CURL_TOKEN,
+      "duration" => MILESTONE_CURL_DURATION,
+      "authorization_expiry_or_consumption_rule" => MILESTONE_CURL_CONSUMPTION,
+      "pass_lifecycle" => MILESTONE_CURL_PASS,
+      "non_pass_lifecycle" => MILESTONE_CURL_NON_PASS
     }
   }.freeze
   PROSPECTIVE_PREFLIGHT = "PROSPECTIVE_RESERVED_EFFECT_REQUIRED_BY_EXACT_USER_REQUEST_AND_NOT_EXPRESSIBLE_BY_CURRENT_OFFLINE_ESCALATION_PROJECTION"
@@ -319,6 +344,16 @@ module FounderActionHandoff
       else
         assert!(grant["operations"] == profile["operations"],
                 "read-only HTTPS operation enum contradicts its exact grant scope")
+      end
+      if operation_type == "READ_ONLY_HTTPS_BENCHMARK_SOURCE_MILESTONE_STANDARD_CURL"
+        proposed_tokens = package["copy_ready_text_or_exact_steps"].scan(FOUNDER_AUTHORIZATION_TOKEN)
+        assert!(proposed_tokens == [profile["token"]],
+                "milestone-curl handoff must contain the exact non-route capability token")
+        assert!(grant["duration"] == profile["duration"] &&
+                authorization["authorization_expiry_or_consumption_rule"] == profile["authorization_expiry_or_consumption_rule"] &&
+                authorization["pass_lifecycle"] == profile["pass_lifecycle"] &&
+                authorization["non_pass_lifecycle"] == profile["non_pass_lifecycle"],
+                "milestone-curl lifecycle is not bound to the closed milestone profile")
       end
       assert!(grant["targets"] == profile["targets"] &&
               grant["budget_or_external_effects"] == profile["budget_or_external_effects"],

@@ -235,6 +235,70 @@ standard_authorization = authorization.merge(
 standard_draft = draft.sub(copy_text, standard_copy_text)
 assert_pass!("standard-curl authorization positive", standard_authorization, standard_draft, current_truth)
 
+milestone_operation = FounderActionHandoff::MILESTONE_CURL_OPERATION
+milestone_method = FounderActionHandoff::MILESTONE_CURL_METHOD
+milestone_copy = <<~TEXT.strip
+  #{FounderActionHandoff::MILESTONE_CURL_TOKEN}；canonical commit #{canonical['commit']}；tree #{canonical['tree']}；governing artifact #{plan['path']} #{plan['byte_length']} bytes SHA-256 #{plan['sha256']}；trigger #{trigger}；operation type READ_ONLY_HTTPS_BENCHMARK_SOURCE_MILESTONE_STANDARD_CURL；operation #{milestone_operation}；method #{milestone_method}；metric exclusions #{standard_exclusions}；retry policy #{standard_retry}；curl binding #{standard_curl_binding}；target #{target}；duration #{FounderActionHandoff::MILESTONE_CURL_DURATION}；budget #{FounderActionHandoff::MILESTONE_CURL_BUDGET}；risk #{risk}；deny #{denial}；expiry #{FounderActionHandoff::MILESTONE_CURL_CONSUMPTION}；PASS #{FounderActionHandoff::MILESTONE_CURL_PASS}；NON_PASS #{FounderActionHandoff::MILESTONE_CURL_NON_PASS}
+TEXT
+milestone_authorization = authorization.merge(
+  "copy_ready_text_or_exact_steps" => milestone_copy,
+  "authorization" => authorization["authorization"].merge(
+    "operation_type" => "READ_ONLY_HTTPS_BENCHMARK_SOURCE_MILESTONE_STANDARD_CURL",
+    "grant_scope" => authorization.dig("authorization", "grant_scope").merge(
+      "operations" => [milestone_operation, milestone_method, standard_exclusions, standard_retry, standard_curl_binding],
+      "duration" => FounderActionHandoff::MILESTONE_CURL_DURATION,
+      "budget_or_external_effects" => FounderActionHandoff::MILESTONE_CURL_BUDGET
+    ),
+    "authorization_expiry_or_consumption_rule" => FounderActionHandoff::MILESTONE_CURL_CONSUMPTION,
+    "pass_lifecycle" => FounderActionHandoff::MILESTONE_CURL_PASS,
+    "non_pass_lifecycle" => FounderActionHandoff::MILESTONE_CURL_NON_PASS
+  )
+)
+milestone_draft = standard_draft.sub(standard_copy_text, milestone_copy)
+assert_pass!("milestone-curl authorization positive", milestone_authorization, milestone_draft, current_truth)
+milestone_route_token = milestone_authorization.merge(
+  "authorization" => milestone_authorization["authorization"].merge(
+    "grant_scope" => milestone_authorization.dig("authorization", "grant_scope").merge(
+      "operations" => milestone_authorization.dig("authorization", "grant_scope", "operations").dup.tap { |values| values[0] = "一次全新、独立、clean-room V13 benchmark source acquisition using exact system curl" }
+    )
+  )
+)
+assert_reject!("milestone profile rejects numbered route operation", milestone_route_token, milestone_draft, current_truth)
+%w[V13 V14].each do |version|
+  route_token_copy = milestone_copy.sub(FounderActionHandoff::MILESTONE_CURL_TOKEN, "AUTHORIZE_P2_BENCHMARK_SOURCE_ACQUISITION_CLEAN_ROOM_CURATOR_#{version}_STANDARD_CURL_V1")
+  route_token_package = milestone_authorization.merge("copy_ready_text_or_exact_steps" => route_token_copy)
+  assert_reject!("milestone profile rejects #{version} route token", route_token_package,
+                 milestone_draft.sub(milestone_copy, route_token_copy), current_truth)
+end
+{
+  "milestone profile rejects single-route duration" => ["grant_scope", "duration", "Single-use authorization"],
+  "milestone profile rejects per-route budget reset" => ["grant_scope", "budget_or_external_effects", "4,294,967,296 CREATE_ONCE_PERSISTED_HTTP_RESPONSE_BODY_OCTETS per Route"],
+  "milestone profile rejects route consumption" => ["authorization_expiry_or_consumption_rule", nil, "Consumed by one acquisition attempt"],
+  "milestone profile rejects PASS extension" => ["pass_lifecycle", nil, "PASS continues the capability after P2"],
+  "milestone profile rejects route terminal nonpass" => ["non_pass_lifecycle", nil, "NON_PASS terminates this capability and requires a new route authorization."]
+}.each do |label, (field, nested, value)|
+  mutated_auth = milestone_authorization["authorization"].dup
+  if field == "grant_scope"
+    mutated_auth[field] = mutated_auth[field].merge(nested => value)
+  else
+    mutated_auth[field] = value
+  end
+  original = if field == "grant_scope"
+               nested == "duration" ? FounderActionHandoff::MILESTONE_CURL_DURATION : FounderActionHandoff::MILESTONE_CURL_BUDGET
+             elsif field == "authorization_expiry_or_consumption_rule"
+               FounderActionHandoff::MILESTONE_CURL_CONSUMPTION
+             elsif field == "pass_lifecycle"
+               FounderActionHandoff::MILESTONE_CURL_PASS
+             else
+               FounderActionHandoff::MILESTONE_CURL_NON_PASS
+             end
+  mutated_copy = milestone_copy.sub(
+    original, value
+  )
+  mutated_package = milestone_authorization.merge("authorization" => mutated_auth, "copy_ready_text_or_exact_steps" => mutated_copy)
+  assert_reject!(label, mutated_package, milestone_draft.sub(milestone_copy, mutated_copy), current_truth)
+end
+
 standard_v8_operation = standard_operation.sub(" V7 ", " V8 ")
 standard_v8_copy = standard_copy_text.sub("CURATOR_V7_STANDARD_CURL", "CURATOR_V8_STANDARD_CURL")
                                       .sub(standard_operation, standard_v8_operation)

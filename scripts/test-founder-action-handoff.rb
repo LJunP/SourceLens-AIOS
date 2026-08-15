@@ -51,6 +51,54 @@ def assert_raw_reject!(label, package_bytes, draft, truth_bytes, user_token: nil
   end
 end
 
+def terminal_handoff(receipt_path, receipt_bytes, next_step_user_action_required:, no_auto: true,
+                     interpretation: FounderActionHandoff::TERMINAL_HANDOFF_INTERPRETATION)
+  {
+    "terminal_level" => "ROUTE",
+    "terminal_status" => "TERMINAL_NON_PASS",
+    "receipt_path" => receipt_path,
+    "receipt_byte_length" => receipt_bytes.bytesize,
+    "receipt_sha256" => Digest::SHA256.hexdigest(receipt_bytes),
+    "no_automatic_successor_clause_present" => no_auto,
+    "no_automatic_successor_interpretation" => no_auto ? interpretation : "NOT_APPLICABLE",
+    "next_step_user_action_required" => next_step_user_action_required,
+    "copy_ready_handoff_required" => true,
+    "copy_ready_handoff_suppressed" => false
+  }
+end
+
+def assert_terminal_result!(label, package, draft, truth_bytes, receipt_bytes,
+                            next_step_user_action_required:, expect_pass:, interpretation: FounderActionHandoff::TERMINAL_HANDOFF_INTERPRETATION,
+                            user_token: package.dig("user_request_evidence", "exact_token"))
+  ASSERTIONS[:count] += 1
+  Dir.mktmpdir("founder-terminal-handoff-test") do |root|
+    truth = File.join(root, "truth.yaml")
+    package_path = File.join(root, "package.json")
+    draft_path = File.join(root, "draft.md")
+    receipt_path = File.join(root, "terminal-receipt.json")
+    bound_package = package.merge(
+      "terminal_next_step_handoff" => terminal_handoff(
+        receipt_path, receipt_bytes,
+        next_step_user_action_required: next_step_user_action_required,
+        interpretation: interpretation
+      )
+    )
+    File.binwrite(truth, truth_bytes)
+    File.binwrite(package_path, JSON.generate(bound_package) + "\n")
+    File.binwrite(draft_path, draft)
+    File.binwrite(receipt_path, receipt_bytes)
+    begin
+      FounderActionHandoff.validate!(
+        truth_path: truth, package_path: package_path, draft_path: draft_path, test_fixture: true,
+        current_user_request_token: user_token, terminal_receipt_path: receipt_path
+      )
+      abort "#{label}: expected NON_PASS, got PASS" unless expect_pass
+    rescue FounderActionHandoff::ValidationError, KeyError, TypeError => error
+      abort "#{label}: expected PASS, got #{error.class}: #{error.message}" if expect_pass
+    end
+  end
+end
+
 def truth_bytes(disposition: "NO_RESERVED_TRIGGER_CONTINUE_PHASE", decision: false,
                 trigger: "NONE", owner: "MASTER_CEO_AGENT")
   <<~YAML
@@ -91,15 +139,15 @@ def evidence(disposition: "NO_RESERVED_TRIGGER_CONTINUE_PHASE", decision: false,
   }
 end
 
-def prospective_preflight
+def prospective_preflight(trigger: "NETWORK_PROVIDER_SECRET_REMOTE_PRODUCTION_OR_PUBLIC_EFFECT", effect: "NETWORK")
   policy = identity("docs/aios/FOUNDER_DELEGATION_POLICY.md")
   {
     "status" => "PASS",
     "capability_gap" => FounderActionHandoff::PROSPECTIVE_PREFLIGHT,
     "current_disposition" => "NO_RESERVED_TRIGGER_CONTINUE_PHASE",
     "current_trigger" => "NONE",
-    "requested_trigger" => "NETWORK_PROVIDER_SECRET_REMOTE_PRODUCTION_OR_PUBLIC_EFFECT",
-    "exact_external_effect" => "NETWORK",
+    "requested_trigger" => trigger,
+    "exact_external_effect" => effect,
     "policy_path" => policy["path"],
     "policy_byte_length" => policy["byte_length"],
     "policy_sha256" => policy["sha256"],
@@ -127,7 +175,8 @@ common = {
   "canonical_identity" => FounderActionHandoff.current_git_identity,
   "governing_artifact" => identity(FounderActionHandoff::RECOVERY_PLAN),
   "validator_evidence" => evidence,
-  "user_request_evidence" => nil
+  "user_request_evidence" => nil,
+  "terminal_next_step_handoff" => nil
 }
 
 none = common.merge(
@@ -214,6 +263,25 @@ draft = <<~MARKDOWN
 MARKDOWN
 assert_pass!("authorization positive", authorization, draft, current_truth)
 
+terminal_receipt = JSON.generate(
+  "schema" => "test.route-terminal-receipt/v1",
+  "verdict" => "TERMINAL_NON_PASS",
+  "no_automatic_successor" => true
+) + "\n"
+assert_terminal_result!("terminal no-auto clause still delivers required authorization",
+                        authorization, draft, current_truth, terminal_receipt,
+                        next_step_user_action_required: true, expect_pass: true)
+assert_terminal_result!("terminal reserved next step cannot be silenced as no action",
+                        none, none_draft, current_truth, terminal_receipt,
+                        next_step_user_action_required: true, expect_pass: false, user_token: nil)
+assert_terminal_result!("terminal no-auto clause cannot suppress handoff by interpretation",
+                        authorization, draft, current_truth, terminal_receipt,
+                        next_step_user_action_required: true, expect_pass: false,
+                        interpretation: "NO_AUTOMATIC_SUCCESSOR_SUPPRESSES_NEXT_AUTHORIZATION")
+assert_terminal_result!("terminal Phase-local continuation needs no Founder authorization",
+                        none, none_draft, current_truth, terminal_receipt,
+                        next_step_user_action_required: false, expect_pass: true, user_token: nil)
+
 standard_operation = "一次全新、独立、clean-room V7 benchmark source acquisition using exact system curl"
 standard_budget = FounderActionHandoff::STANDARD_CURL_BUDGET
 standard_exclusions = FounderActionHandoff::STANDARD_CURL_METRIC_EXCLUSIONS
@@ -281,6 +349,57 @@ reissue_authorization = authorization.merge(
 )
 reissue_draft = standard_draft.sub(standard_copy_text, reissue_copy)
 assert_pass!("milestone-curl reissue authorization positive", reissue_authorization, reissue_draft, current_truth)
+
+completion_trigger = "MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE"
+completion_operation = FounderActionHandoff::FINAL_CANDIDATE_COMPLETION_OPERATION
+completion_method = FounderActionHandoff::FINAL_CANDIDATE_COMPLETION_METHOD
+completion_copy = <<~TEXT.strip
+  #{FounderActionHandoff::FINAL_CANDIDATE_COMPLETION_TOKEN}；canonical commit #{canonical['commit']}；tree #{canonical['tree']}；governing artifact #{plan['path']} #{plan['byte_length']} bytes SHA-256 #{plan['sha256']}；trigger #{completion_trigger}；operation type P2_BENCHMARK_SOURCE_FINAL_CANDIDATE_COMPLETION_ENVELOPE；operation #{completion_operation}；method #{completion_method}；metric exclusions #{standard_exclusions}；retry policy #{standard_retry}；curl binding #{standard_curl_binding}；target #{target}；duration #{FounderActionHandoff::FINAL_CANDIDATE_COMPLETION_DURATION}；budget #{FounderActionHandoff::FINAL_CANDIDATE_COMPLETION_BUDGET}；risk #{risk}；deny #{denial}；expiry #{FounderActionHandoff::FINAL_CANDIDATE_COMPLETION_CONSUMPTION}；PASS #{FounderActionHandoff::FINAL_CANDIDATE_COMPLETION_PASS}；NON_PASS #{FounderActionHandoff::FINAL_CANDIDATE_COMPLETION_NON_PASS}
+TEXT
+completion_authorization = authorization.merge(
+  "copy_ready_text_or_exact_steps" => completion_copy,
+  "validator_evidence" => evidence(prospective: prospective_preflight(trigger: completion_trigger, effect: "MATERIAL_SCOPE")),
+  "user_request_evidence" => {
+    "source" => "CURRENT_DIRECT_USER_MESSAGE",
+    "exact_token" => "REQUEST_COMPLETE_NEXT_AUTHORIZATION_HANDOFF",
+    "requested_external_effect" => "MATERIAL_SCOPE"
+  },
+  "authorization" => authorization["authorization"].merge(
+    "operation_type" => "P2_BENCHMARK_SOURCE_FINAL_CANDIDATE_COMPLETION_ENVELOPE",
+    "reserved_trigger" => completion_trigger,
+    "grant_scope" => authorization.dig("authorization", "grant_scope").merge(
+      "operations" => [completion_operation, completion_method, standard_exclusions, standard_retry, standard_curl_binding],
+      "duration" => FounderActionHandoff::FINAL_CANDIDATE_COMPLETION_DURATION,
+      "budget_or_external_effects" => FounderActionHandoff::FINAL_CANDIDATE_COMPLETION_BUDGET
+    ),
+    "authorization_expiry_or_consumption_rule" => FounderActionHandoff::FINAL_CANDIDATE_COMPLETION_CONSUMPTION,
+    "pass_lifecycle" => FounderActionHandoff::FINAL_CANDIDATE_COMPLETION_PASS,
+    "non_pass_lifecycle" => FounderActionHandoff::FINAL_CANDIDATE_COMPLETION_NON_PASS
+  )
+)
+completion_draft = standard_draft.sub(standard_copy_text, completion_copy)
+assert_pass!("final candidate completion envelope positive", completion_authorization, completion_draft,
+             current_truth, user_token: "REQUEST_COMPLETE_NEXT_AUTHORIZATION_HANDOFF")
+completion_reset_budget = "A fresh 5 GiB body budget that resets all prior consumption"
+completion_reset_copy = completion_copy.sub(FounderActionHandoff::FINAL_CANDIDATE_COMPLETION_BUDGET,
+                                             completion_reset_budget)
+assert_reject!("final candidate completion rejects ledger reset",
+               completion_authorization.merge(
+                 "copy_ready_text_or_exact_steps" => completion_reset_copy,
+                 "authorization" => completion_authorization["authorization"].merge(
+                   "grant_scope" => completion_authorization.dig("authorization", "grant_scope").merge(
+                     "budget_or_external_effects" => completion_reset_budget
+                   )
+                 )
+               ), completion_draft.sub(completion_copy, completion_reset_copy), current_truth,
+               user_token: "REQUEST_COMPLETE_NEXT_AUTHORIZATION_HANDOFF")
+completion_route_copy = completion_copy.sub(FounderActionHandoff::FINAL_CANDIDATE_COMPLETION_TOKEN,
+                                             "AUTHORIZE_P2_BENCHMARK_SOURCE_ACQUISITION_CLEAN_ROOM_CURATOR_V145_STANDARD_CURL_V1")
+assert_reject!("final candidate completion rejects numbered Route token",
+               completion_authorization.merge("copy_ready_text_or_exact_steps" => completion_route_copy),
+               completion_draft.sub(completion_copy, completion_route_copy), current_truth,
+               user_token: "REQUEST_COMPLETE_NEXT_AUTHORIZATION_HANDOFF")
+
 assert_reject!("V1 terminal context rejects original milestone V1 profile",
                milestone_authorization.merge(
                  "user_request_evidence" => milestone_authorization["user_request_evidence"].merge(

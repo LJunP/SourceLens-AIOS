@@ -33,6 +33,7 @@ module FounderActionHandoff
     READ_ONLY_HTTPS_ACQUISITION_STANDARD_CURL
     READ_ONLY_HTTPS_BENCHMARK_SOURCE_MILESTONE_STANDARD_CURL
     READ_ONLY_HTTPS_BENCHMARK_SOURCE_MILESTONE_STANDARD_CURL_REISSUE
+    P2_BENCHMARK_SOURCE_FINAL_CANDIDATE_COMPLETION_ENVELOPE
   ].freeze
   APP_OPERATION_TYPES = %w[APP_FILESYSTEM_BATCH_WRITE].freeze
   READ_ONLY_HTTPS_OPERATION = "一次全新、独立、clean-room V6 benchmark source acquisition"
@@ -60,6 +61,14 @@ module FounderActionHandoff
   MILESTONE_CURL_REISSUE_CONSUMPTION = "Ordinary Route NON_PASS does not consume this reissued capability; it ends only on source-admission ACCEPTED, inherited cumulative budget exhaustion, explicit Founder revocation, credential exposure, unauthorized write or external effect, scope escape, or direct network access by Maven, Gradle, Git, browser, or any non-curl subprocess"
   MILESTONE_CURL_REISSUE_PASS = "PASS permits only create-once source-pack installation and activation of existing P2 recovery slot 1; it does not grant the 25% milestone"
   MILESTONE_CURL_REISSUE_NON_PASS = "Ordinary independent Route NON_PASS preserves this reissued capability and returns control to Master for another independent Phase-local route without a new Founder request; any terminal safety condition ends it without automatic successor authorization"
+  FINAL_CANDIDATE_COMPLETION_OPERATION = "Complete P2 benchmark-source admission by using repository ordinals 31..48 and issue/PR ordinals 61..96 to find one new public nonfork JDK17-compatible Java repository with exactly two merged bug-fix PR tasks"
+  FINAL_CANDIDATE_COMPLETION_METHOD = "Use only the existing exact standard-curl 8-host GET/HEAD network boundary; stop candidate search immediately after one two-task repository closes every pre-freeze gate"
+  FINAL_CANDIDATE_COMPLETION_TOKEN = "AUTHORIZE_P2_BENCHMARK_SOURCE_ADMISSION_FINAL_CANDIDATE_COMPLETION_ENVELOPE_V1"
+  FINAL_CANDIDATE_COMPLETION_DURATION = "Until exactly one replacement final candidate reaches a terminal admission/review result, the added ordinals are exhausted, the expanded cumulative body ceiling is exhausted, Founder explicitly revokes the envelope, or a terminal safety condition occurs"
+  FINAL_CANDIDATE_COMPLETION_BUDGET = "Expand the same non-resettable cumulative body ceiling from 4,294,967,296 to 5,368,709,120 CREATE_ONCE_PERSISTED_HTTP_RESPONSE_BODY_OCTETS; inherit SUCCESS actual=849,647,528, FAILURE/AMBIGUOUS=3,277,324,220 and outstanding=0, yielding available=1,241,737,372; no refund, reset or second expansion"
+  FINAL_CANDIDATE_COMPLETION_CONSUMPTION = "This envelope is consumed by one replacement final candidate or exhaustion of repository ordinals 31..48, issue/PR ordinals 61..96, or the expanded cumulative body ceiling; it authorizes no second replacement, further ordinal expansion, fresh budget, or automatic execution of a successor"
+  FINAL_CANDIDATE_COMPLETION_PASS = "PASS permits only installation of the accepted DEV public and HELD custody source packs and activation of existing P2 recovery slot 1; it does not grant the 25% milestone, formal benchmark, product mutation or P3"
+  FINAL_CANDIDATE_COMPLETION_NON_PASS = "NON_PASS ends only this completion envelope and preserves exact terminal Evidence; P2, SourceLens and the long-term Goal remain active, P3 remains HOLD, source admission remains false and progress contribution remains 0; the mandatory next-step copy-ready handoff is still delivered even though no successor may be executed without direct Founder approval"
   FOUNDER_NETWORK_OPERATION_PROFILES = {
     "READ_ONLY_HTTPS_ACQUISITION" => {
       "operations" => [READ_ONLY_HTTPS_OPERATION, READ_ONLY_HTTPS_METHOD],
@@ -107,6 +116,22 @@ module FounderActionHandoff
       "authorization_expiry_or_consumption_rule" => MILESTONE_CURL_REISSUE_CONSUMPTION,
       "pass_lifecycle" => MILESTONE_CURL_REISSUE_PASS,
       "non_pass_lifecycle" => MILESTONE_CURL_REISSUE_NON_PASS
+    },
+    "P2_BENCHMARK_SOURCE_FINAL_CANDIDATE_COMPLETION_ENVELOPE" => {
+      "operations" => [
+        FINAL_CANDIDATE_COMPLETION_OPERATION,
+        FINAL_CANDIDATE_COMPLETION_METHOD,
+        STANDARD_CURL_METRIC_EXCLUSIONS,
+        STANDARD_CURL_RETRY_POLICY,
+        STANDARD_CURL_IDENTITY_BINDING
+      ],
+      "targets" => [READ_ONLY_HTTPS_TARGETS],
+      "budget_or_external_effects" => FINAL_CANDIDATE_COMPLETION_BUDGET,
+      "token" => FINAL_CANDIDATE_COMPLETION_TOKEN,
+      "duration" => FINAL_CANDIDATE_COMPLETION_DURATION,
+      "authorization_expiry_or_consumption_rule" => FINAL_CANDIDATE_COMPLETION_CONSUMPTION,
+      "pass_lifecycle" => FINAL_CANDIDATE_COMPLETION_PASS,
+      "non_pass_lifecycle" => FINAL_CANDIDATE_COMPLETION_NON_PASS
     }
   }.freeze
   PROSPECTIVE_PREFLIGHT = "PROSPECTIVE_RESERVED_EFFECT_REQUIRED_BY_EXACT_USER_REQUEST_AND_NOT_EXPRESSIBLE_BY_CURRENT_OFFLINE_ESCALATION_PROJECTION"
@@ -114,6 +139,11 @@ module FounderActionHandoff
   PLACEHOLDER = /(TBD|TODO|待补|待定|PLACEHOLDER|\{[^}]+\}|<[^>]+>)/i
   FOUNDER_AUTHORIZATION_TOKEN = /(?<![A-Za-z0-9_])AUTHORIZE_[A-Z0-9_]+(?![A-Za-z0-9_])/
   MARKERS = %w[USER_ACTION_REQUIRED RECOMMENDED_SINGLE_ACTION COPY_READY_TEXT_OR_EXACT_STEPS AGENT_CONTINUATION_AFTER_ACTION].freeze
+  TERMINAL_HANDOFF_INTERPRETATION = "EXECUTION_PROHIBITION_ONLY_DOES_NOT_SUPPRESS_COPY_READY_HANDOFF"
+  PROSPECTIVE_TRIGGER_EFFECTS = {
+    "NETWORK_PROVIDER_SECRET_REMOTE_PRODUCTION_OR_PUBLIC_EFFECT" => "NETWORK",
+    "MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE" => "MATERIAL_SCOPE"
+  }.freeze
   SHA256 = /\A[0-9a-f]{64}\z/
   COMMIT = /\A[0-9a-f]{40}\z/
 
@@ -205,6 +235,7 @@ module FounderActionHandoff
       recommended_single_action copy_ready_text_or_exact_steps
       agent_continuation_after_action resume_condition safe_default state_preservation
       canonical_identity governing_artifact validator_evidence user_request_evidence authorization material
+      terminal_next_step_handoff
     ], "handoff package")
     assert!(package["schema_version"] == SCHEMA_VERSION, "handoff schema version mismatch")
     assert!(ACTION_CLASSES.include?(package["action_class"]), "handoff action class invalid")
@@ -243,7 +274,7 @@ module FounderActionHandoff
     if request
       exact_object!(request, %w[source exact_token requested_external_effect], "user request evidence")
       assert!(request["source"] == "CURRENT_DIRECT_USER_MESSAGE" &&
-              request["requested_external_effect"] == "NETWORK",
+              PROSPECTIVE_TRIGGER_EFFECTS.value?(request["requested_external_effect"]),
               "direct user request binding invalid")
       nonempty_string!(request["exact_token"], "direct user request token")
     end
@@ -268,8 +299,7 @@ module FounderActionHandoff
               "prospective preflight status invalid")
       assert!(preflight["current_disposition"] == "NO_RESERVED_TRIGGER_CONTINUE_PHASE" &&
               preflight["current_trigger"] == "NONE" &&
-              preflight["requested_trigger"] == "NETWORK_PROVIDER_SECRET_REMOTE_PRODUCTION_OR_PUBLIC_EFFECT" &&
-              preflight["exact_external_effect"] == "NETWORK" &&
+              PROSPECTIVE_TRIGGER_EFFECTS[preflight["requested_trigger"]] == preflight["exact_external_effect"] &&
               preflight["ordinary_task_failure_is_not_trigger"] == true,
               "prospective preflight scope invalid")
       assert!(preflight["policy_path"] == "docs/aios/FOUNDER_DELEGATION_POLICY.md",
@@ -279,9 +309,64 @@ module FounderActionHandoff
       assert!(preflight["policy_byte_length"] == policy_bytes.bytesize &&
               preflight["policy_sha256"] == Digest::SHA256.hexdigest(policy_bytes),
               "prospective preflight policy identity drift")
-      assert!(policy_bytes.include?(preflight["requested_trigger"]) && policy_bytes.match?(/network/i),
-              "Founder policy does not bind the prospective network effect")
+      assert!(policy_bytes.include?(preflight["requested_trigger"]),
+              "Founder policy does not bind the prospective reserved effect")
     end
+  end
+
+  def validate_terminal_handoff!(package, terminal_receipt_path)
+    handoff = package["terminal_next_step_handoff"]
+    if handoff.nil?
+      assert!(terminal_receipt_path.nil?, "terminal receipt supplied without a terminal handoff binding")
+      return
+    end
+
+    exact_object!(handoff, %w[
+      terminal_level terminal_status receipt_path receipt_byte_length receipt_sha256
+      no_automatic_successor_clause_present no_automatic_successor_interpretation
+      next_step_user_action_required copy_ready_handoff_required copy_ready_handoff_suppressed
+    ], "terminal next-step handoff")
+    assert!(%w[TASK ROUTE PHASE GOAL].include?(handoff["terminal_level"]), "terminal handoff level invalid")
+    nonempty_string!(handoff["terminal_status"], "terminal handoff status")
+    nonempty_string!(handoff["receipt_path"], "terminal handoff receipt path")
+    assert!(handoff["receipt_byte_length"].is_a?(Integer) && handoff["receipt_byte_length"].positive?,
+            "terminal handoff receipt byte length invalid")
+    assert!(handoff["receipt_sha256"].is_a?(String) && handoff["receipt_sha256"].match?(SHA256),
+            "terminal handoff receipt SHA-256 invalid")
+    assert!(terminal_receipt_path.is_a?(String) && !terminal_receipt_path.empty?,
+            "terminal handoff requires an independently supplied terminal receipt")
+    receipt_realpath = Pathname.new(terminal_receipt_path).realpath
+    assert!(receipt_realpath == Pathname.new(handoff["receipt_path"]).realpath,
+            "terminal handoff receipt path drift")
+    receipt_bytes = read_regular!(receipt_realpath, "terminal handoff receipt")
+    assert!(handoff["receipt_byte_length"] == receipt_bytes.bytesize &&
+            handoff["receipt_sha256"] == Digest::SHA256.hexdigest(receipt_bytes),
+            "terminal handoff receipt identity drift")
+    %w[
+      no_automatic_successor_clause_present next_step_user_action_required
+      copy_ready_handoff_required copy_ready_handoff_suppressed
+    ].each do |key|
+      assert!([true, false].include?(handoff[key]), "terminal handoff #{key} must be boolean")
+    end
+    assert!(handoff["copy_ready_handoff_required"] == true && handoff["copy_ready_handoff_suppressed"] == false,
+            "terminal outcome cannot suppress the mandatory next-step handoff")
+    if handoff["no_automatic_successor_clause_present"]
+      assert!(handoff["no_automatic_successor_interpretation"] == TERMINAL_HANDOFF_INTERPRETATION,
+              "no-automatic-successor clause was misinterpreted as suppressing handoff delivery")
+    else
+      assert!(handoff["no_automatic_successor_interpretation"] == "NOT_APPLICABLE",
+              "terminal handoff interpretation must be NOT_APPLICABLE without a no-auto clause")
+    end
+    if handoff["next_step_user_action_required"]
+      assert!(%w[AUTHORIZATION_REQUIRED MATERIAL_REQUIRED].include?(package["action_class"]) &&
+              package["current_state"] == "WAITING_USER",
+              "terminal next step requiring user action cannot be silenced as NONE_CONTINUE")
+    else
+      assert!(package["action_class"] == "NONE_CONTINUE" && package["current_state"] != "WAITING_USER",
+              "terminal next step inside existing authority must continue without a user request")
+    end
+  rescue Errno::ENOENT, Errno::ELOOP => error
+    raise ValidationError, "terminal handoff receipt unavailable: #{error.message}"
   end
 
   def validate_control!(truth, evidence, run_validator:)
@@ -345,9 +430,9 @@ module FounderActionHandoff
                 !current_user_request_token.empty? &&
                 request["source"] == "CURRENT_DIRECT_USER_MESSAGE" &&
                 request["exact_token"] == current_user_request_token &&
-                request["requested_external_effect"] == "NETWORK",
+                request["requested_external_effect"] == evidence.dig("prospective_preflight", "exact_external_effect"),
                 "prospective Founder request lacks the independently supplied direct-user request binding")
-        assert!(authorization["reserved_trigger"] == "NETWORK_PROVIDER_SECRET_REMOTE_PRODUCTION_OR_PUBLIC_EFFECT",
+        assert!(authorization["reserved_trigger"] == evidence.dig("prospective_preflight", "requested_trigger"),
                 "prospective request may only cover an exact external-effect Founder trigger")
       end
       assert!(FOUNDER_OPERATION_TYPES.include?(authorization["operation_type"]), "Founder operation type invalid")
@@ -377,6 +462,7 @@ module FounderActionHandoff
       if %w[
         READ_ONLY_HTTPS_BENCHMARK_SOURCE_MILESTONE_STANDARD_CURL
         READ_ONLY_HTTPS_BENCHMARK_SOURCE_MILESTONE_STANDARD_CURL_REISSUE
+        P2_BENCHMARK_SOURCE_FINAL_CANDIDATE_COMPLETION_ENVELOPE
       ].include?(operation_type)
         proposed_tokens = package["copy_ready_text_or_exact_steps"].scan(FOUNDER_AUTHORIZATION_TOKEN)
         assert!(proposed_tokens == [profile["token"]],
@@ -515,7 +601,8 @@ module FounderActionHandoff
     end
   end
 
-  def validate!(truth_path:, package_path:, draft_path:, test_fixture: false, current_user_request_token: nil)
+  def validate!(truth_path:, package_path:, draft_path:, test_fixture: false, current_user_request_token: nil,
+                terminal_receipt_path: nil)
     validate_truth_path!(truth_path) unless test_fixture
     truth_bytes = read_regular!(truth_path, "canonical Truth")
     truth = YAML.safe_load(truth_bytes, permitted_classes: [], permitted_symbols: [], aliases: false)
@@ -523,6 +610,7 @@ module FounderActionHandoff
     package = parse_json!(read_regular!(package_path, "handoff package"), "handoff package")
     draft = read_regular!(draft_path, "handoff draft")
     validate_common!(package, truth_bytes)
+    validate_terminal_handoff!(package, terminal_receipt_path)
     validate_class!(package, truth, run_validator: !test_fixture,
                     current_user_request_token: current_user_request_token)
     validate_draft!(package, draft)
@@ -537,6 +625,7 @@ if $PROGRAM_NAME == __FILE__
     parser.on("--package PATH") { |path| options[:package_path] = File.expand_path(path) }
     parser.on("--draft PATH") { |path| options[:draft_path] = File.expand_path(path) }
     parser.on("--current-user-request-token TOKEN") { |token| options[:current_user_request_token] = token }
+    parser.on("--terminal-receipt PATH") { |path| options[:terminal_receipt_path] = File.expand_path(path) }
   end.parse!
 
   begin

@@ -353,6 +353,7 @@ assert_pass!("milestone-curl reissue authorization positive", reissue_authorizat
 completion_trigger = "MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE"
 completion_operation = FounderActionHandoff::FINAL_CANDIDATE_COMPLETION_OPERATION
 completion_method = FounderActionHandoff::FINAL_CANDIDATE_COMPLETION_METHOD
+completion_request_token = "每次终态都交付下一步授权"
 completion_copy = <<~TEXT.strip
   #{FounderActionHandoff::FINAL_CANDIDATE_COMPLETION_TOKEN}；canonical commit #{canonical['commit']}；tree #{canonical['tree']}；governing artifact #{plan['path']} #{plan['byte_length']} bytes SHA-256 #{plan['sha256']}；trigger #{completion_trigger}；operation type P2_BENCHMARK_SOURCE_FINAL_CANDIDATE_COMPLETION_ENVELOPE；operation #{completion_operation}；method #{completion_method}；metric exclusions #{standard_exclusions}；retry policy #{standard_retry}；curl binding #{standard_curl_binding}；target #{target}；duration #{FounderActionHandoff::FINAL_CANDIDATE_COMPLETION_DURATION}；budget #{FounderActionHandoff::FINAL_CANDIDATE_COMPLETION_BUDGET}；risk #{risk}；deny #{denial}；expiry #{FounderActionHandoff::FINAL_CANDIDATE_COMPLETION_CONSUMPTION}；PASS #{FounderActionHandoff::FINAL_CANDIDATE_COMPLETION_PASS}；NON_PASS #{FounderActionHandoff::FINAL_CANDIDATE_COMPLETION_NON_PASS}
 TEXT
@@ -361,7 +362,7 @@ completion_authorization = authorization.merge(
   "validator_evidence" => evidence(prospective: prospective_preflight(trigger: completion_trigger, effect: "MATERIAL_SCOPE")),
   "user_request_evidence" => {
     "source" => "CURRENT_DIRECT_USER_MESSAGE",
-    "exact_token" => "REQUEST_COMPLETE_NEXT_AUTHORIZATION_HANDOFF",
+    "exact_token" => completion_request_token,
     "requested_external_effect" => "MATERIAL_SCOPE"
   },
   "authorization" => authorization["authorization"].merge(
@@ -379,7 +380,7 @@ completion_authorization = authorization.merge(
 )
 completion_draft = standard_draft.sub(standard_copy_text, completion_copy)
 assert_pass!("final candidate completion envelope positive", completion_authorization, completion_draft,
-             current_truth, user_token: "REQUEST_COMPLETE_NEXT_AUTHORIZATION_HANDOFF")
+             current_truth, user_token: completion_request_token)
 completion_reset_budget = "A fresh 5 GiB body budget that resets all prior consumption"
 completion_reset_copy = completion_copy.sub(FounderActionHandoff::FINAL_CANDIDATE_COMPLETION_BUDGET,
                                              completion_reset_budget)
@@ -392,13 +393,13 @@ assert_reject!("final candidate completion rejects ledger reset",
                    )
                  )
                ), completion_draft.sub(completion_copy, completion_reset_copy), current_truth,
-               user_token: "REQUEST_COMPLETE_NEXT_AUTHORIZATION_HANDOFF")
+               user_token: completion_request_token)
 completion_route_copy = completion_copy.sub(FounderActionHandoff::FINAL_CANDIDATE_COMPLETION_TOKEN,
                                              "AUTHORIZE_P2_BENCHMARK_SOURCE_ACQUISITION_CLEAN_ROOM_CURATOR_V145_STANDARD_CURL_V1")
 assert_reject!("final candidate completion rejects numbered Route token",
                completion_authorization.merge("copy_ready_text_or_exact_steps" => completion_route_copy),
                completion_draft.sub(completion_copy, completion_route_copy), current_truth,
-               user_token: "REQUEST_COMPLETE_NEXT_AUTHORIZATION_HANDOFF")
+               user_token: completion_request_token)
 
 assert_reject!("V1 terminal context rejects original milestone V1 profile",
                milestone_authorization.merge(

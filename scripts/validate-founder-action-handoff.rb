@@ -429,7 +429,7 @@ module FounderActionHandoff
         assert!(request.is_a?(Hash) && current_user_request_token.is_a?(String) &&
                 !current_user_request_token.empty? &&
                 request["source"] == "CURRENT_DIRECT_USER_MESSAGE" &&
-                request["exact_token"] == current_user_request_token &&
+                request["exact_token"].b == current_user_request_token.b &&
                 request["requested_external_effect"] == evidence.dig("prospective_preflight", "exact_external_effect"),
                 "prospective Founder request lacks the independently supplied direct-user request binding")
         assert!(authorization["reserved_trigger"] == evidence.dig("prospective_preflight", "requested_trigger"),

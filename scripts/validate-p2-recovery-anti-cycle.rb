@@ -9,6 +9,7 @@ require "pathname"
 require "psych"
 require "yaml"
 require_relative "validate-current-task-authority"
+require_relative "validate-p2-benchmark-source-pack"
 
 module P2RecoveryAntiCycle
   ROOT = File.expand_path("..", __dir__)
@@ -360,7 +361,8 @@ module P2RecoveryAntiCycle
     control = exact_keys!(truth.fetch("p2_recovery_control"), %w[
       accepted_milestones benchmark_source_admission_status capacity_slots
       current_delivery_percent envelope_expansion_decision governance_progress_credit
-      next_eligible_action plan schema_version status strict_gate_percent task_creation_allowed
+      next_eligible_action plan schema_version source_admission_decision status
+      strict_gate_percent task_creation_allowed
     ], "Truth P2 recovery control")
     plan_identity = exact_keys!(control.fetch("plan"), %w[byte_length path sha256], "Truth P2 recovery plan identity")
     assert!(plan_identity == {
@@ -388,24 +390,57 @@ module P2RecoveryAntiCycle
     )
     assert!(decision_claims["structured_decision_version"] == "1.4", "Truth recovery expansion decision is not v1.4")
 
+    source_decision_identity = exact_keys!(control.fetch("source_admission_decision"), %w[byte_length path sha256], "Truth source-admission decision identity")
+    source_decision_path = File.expand_path(source_decision_identity.fetch("path"), repo_root)
+    assert!(source_decision_path.start_with?(repo_root + File::SEPARATOR), "Truth source-admission decision escapes repository root")
+    source_decision_stat = File.lstat(source_decision_path)
+    assert!(source_decision_stat.file? && !source_decision_stat.symlink? && source_decision_stat.nlink == 1, "Truth source-admission decision must be a regular nlink1 file")
+    source_decision_bytes = File.binread(source_decision_path)
+    assert!(source_decision_identity["byte_length"] == source_decision_bytes.bytesize && source_decision_identity["sha256"] == Digest::SHA256.hexdigest(source_decision_bytes), "Truth source-admission decision identity drift")
+    source_decision = P2BenchmarkSourcePack.parse_json!(source_decision_bytes, "canonical source-admission decision")
+    exact_keys!(source_decision, %w[
+      artifact_root_contract authorization canonical_parent capability_lifecycle
+      dependency_custody external_effects_after_acceptance formal_source_admission
+      installation_verification installed_at_utc installed_source_pack operation_type
+      progress recovery_plan rejected_lineage_recovered_or_reused reserved_trigger
+      schema_version slot_unlock status
+    ], "canonical source-admission decision")
+    assert!(source_decision["schema_version"] == "p2-benchmark-source-admission-accepted/v1" && source_decision["status"] == "ACCEPTED_SOURCE_PACK_INSTALLED_SLOT_1_ELIGIBLE_NOT_ACTIVATED", "canonical source admission is not accepted and slot1 eligible")
+    assert!(source_decision["authorization"] == P2BenchmarkSourcePack::AUTHORIZATION && source_decision["canonical_parent"] == P2BenchmarkSourcePack::CANONICAL_PARENT && source_decision["recovery_plan"] == {"path" => P2BenchmarkSourcePack::PLAN_IDENTITY["relative_path"], "byte_length" => P2BenchmarkSourcePack::PLAN_IDENTITY["byte_length"], "sha256" => P2BenchmarkSourcePack::PLAN_IDENTITY["sha256"]}, "canonical source-admission authority binding drift")
+    assert!(source_decision["artifact_root_contract"] == {"artifact_id" => P2BenchmarkSourcePack::ARTIFACT_ID, "configuration_environment_variable" => P2BenchmarkSourcePack::ARTIFACT_ROOT_ENV, "all_artifact_paths_are_root_relative" => true, "absolute_path_embedded" => false}, "canonical source-pack root contract drift")
+    expected_pack = {
+      "manifest" => P2BenchmarkSourcePack::INSTALLED_MANIFEST_IDENTITY,
+      "inventory" => P2BenchmarkSourcePack::INSTALLED_INVENTORY_IDENTITY,
+      "seal" => P2BenchmarkSourcePack::INSTALLED_SEAL_IDENTITY
+    }
+    assert!(source_decision["installed_source_pack"] == expected_pack, "canonical installed source-pack identity drift")
+    formal = source_decision.fetch("formal_source_admission")
+    assert!(formal["status"] == "ACCEPTED" && formal["final_result"] == P2BenchmarkSourcePack::FINAL_RESULT_IDENTITY && formal["freeze"] == P2BenchmarkSourcePack::FREEZE_IDENTITY && formal.slice("repositories", "tasks", "source_archives", "dev_tasks", "held_tasks", "formal_processes", "reruns", "result_integrity_non_pass") == {"repositories" => 6, "tasks" => 12, "source_archives" => 24, "dev_tasks" => 8, "held_tasks" => 4, "formal_processes" => 24, "reruns" => 0, "result_integrity_non_pass" => 0}, "canonical formal source-admission facts drift")
+    assert!(source_decision["dependency_custody"] == {"manifest" => P2BenchmarkSourcePack::MAVEN_MANIFEST_IDENTITY, "file_count" => 2_501, "inventory_json_sha256" => "ea4a01e3f5ba2ed70a4ccd1133b5866064e3f2c5a3885610e0cd59e6dcff0b68"}, "canonical dependency custody drift")
+    assert!(source_decision["capability_lifecycle"] == {"status" => "ENDED_ON_SOURCE_ADMISSION_ACCEPTED", "further_network_authorized" => false, "ordinary_route_non_pass_consumed_capability" => false}, "source-admission network capability did not end")
+    assert!(source_decision["slot_unlock"] == {"capacity_slot_id" => "P2_RECOVERY_CAPACITY_SLOT_1", "milestone_id" => "P2_RECOVERY_BASELINE_ACCEPTED", "unlock_requirement" => "BENCHMARK_SOURCE_PACK_ADMISSION_ACCEPTED", "unlock_status" => "SATISFIED", "task_id" => nil, "task_activation_status" => "ELIGIBLE_NOT_ACTIVATED"}, "source admission did not unlock only slot1")
+    assert!(source_decision["progress"] == {"p2_strict_percent" => 0, "p2_delivery_percent" => 0, "accepted_milestones" => [], "governance_progress_credit" => 0, "source_admission_progress_credit" => 0, "p3_status" => "HOLD"} && source_decision["rejected_lineage_recovered_or_reused"] == false, "source admission created false progress or reused rejected lineage")
+    assert!(source_decision.fetch("external_effects_after_acceptance").values.none?, "source admission retained an external effect")
+
     limits = { "engineering_tasks" => 15, "engineering_hours" => 432, "calendar_days" => 108 }
     consumed = { "engineering_tasks" => 12, "engineering_hours" => 336, "calendar_days" => 84 }
     remaining = { "engineering_tasks" => 3, "engineering_hours" => 96, "calendar_days" => 24 }
     assert!(envelope["status"] == "ACTIVE_REMAINING_CAPACITY" && envelope["limits"].slice(*limits.keys) == limits && envelope["consumed"] == consumed && envelope["remaining"] == remaining, "Truth P2 recovery envelope drift")
     assert!(envelope.dig("authority_basis", "source_route_ref") == "historical_p2_value_first_recovery_envelope_expansion_phase_route" && envelope.dig("authority_basis", "source_route_id") == decision_claims["route_id"] && envelope.dig("authority_basis", "source_decision") == decision_identity, "Truth P2 recovery envelope authority binding drift")
-    assert!(route["status"] == "AUTHORIZED_READY" && route["execution_status"] == "PHASE_DELEGATED_CONTINUATION_READY" && route["next_eligible_action"] == "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK", "Truth current route is not delegated continuation ready")
-    assert!(escalation["disposition"] == "NO_RESERVED_TRIGGER_CONTINUE_PHASE" && escalation.dig("reserved_trigger", "category") == "NONE" && escalation["founder_decision_required"] == false && escalation["next_action_owner"] == "MASTER_CEO_AGENT", "Truth Founder escalation did not return to delegated execution")
+    next_action = "MASTER_ACTIVATE_P2_RECOVERY_CAPACITY_SLOT_1_BENCHMARK_FOUNDATION"
+    assert!(route["status"] == "AUTHORIZED_READY" && route["execution_status"] == "PHASE_DELEGATED_CONTINUATION_READY" && route["scheduling_status"] == "MASTER_ACTIVATING_P2_RECOVERY_CAPACITY_SLOT_1" && route["next_eligible_action"] == next_action, "Truth current route is not delegated slot1 activation ready")
+    assert!(escalation["disposition"] == "NO_RESERVED_TRIGGER_CONTINUE_PHASE" && escalation.dig("reserved_trigger", "category") == "NONE" && escalation["founder_decision_required"] == false && escalation["next_action_owner"] == "MASTER_CEO_AGENT" && escalation["next_eligible_action"] == next_action, "Truth Founder escalation did not return to delegated slot1 activation")
     assert!(active["current_task"] == "NONE" && goal["current_task_authority"] == "NONE", "P2 recovery correction may not activate a Task")
-    assert!(active["task_resource_state"] == "NOT_CREATED_PHASE_DELEGATED_CONTINUATION_READY" && active["founder_decision_required"] == false && active["next_eligible_action"] == "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK", "Truth active-work recovery projection drift")
+    assert!(active["task_resource_state"] == "NOT_CREATED_SOURCE_ADMISSION_ACCEPTED_SLOT_1_ELIGIBLE" && active["founder_decision_required"] == false && active["next_eligible_action"] == next_action, "Truth active-work source-admission projection drift")
     assert!(claim["p2_phase_envelope_status"] == "ACTIVE_REMAINING_CAPACITY" && claim["p2_project_status"] == "ACTIVE" && claim["long_term_goal_status"] == "ACTIVE", "Truth lifecycle projection drift")
-    assert!(control["schema_version"] == "p2-recovery-control/v1" && control["status"] == "FOUNDER_AUTHORIZED_RECOVERY_CAPACITY_AVAILABLE_BENCHMARK_SOURCE_ADMISSION_REQUIRED" && control["benchmark_source_admission_status"] == "NOT_ACCEPTED_NO_ELIGIBLE_TASK" && control["task_creation_allowed"] == false && control["next_eligible_action"] == "BENCHMARK_SOURCE_PACK_ADMISSION_REQUIRED", "Truth P2 recovery admission hold drift")
+    assert!(control["schema_version"] == "p2-recovery-control/v1" && control["status"] == "BENCHMARK_SOURCE_ADMISSION_ACCEPTED_SLOT_1_ELIGIBLE_NOT_ACTIVATED" && control["benchmark_source_admission_status"] == "ACCEPTED_SOURCE_PACK_INSTALLED_SLOT_1_ELIGIBLE" && control["task_creation_allowed"] == true && control["next_eligible_action"] == next_action, "Truth P2 recovery source-admission/slot1 state drift")
     expected_slots = decision_claims.fetch("capacity_slots").map do |slot|
       slot.slice("slot", "capacity_slot_id", "task_id", "milestone_id", "unlock_requirement", "engineering_hours", "calendar_days")
     end
     assert!(control["capacity_slots"] == expected_slots && control["capacity_slots"].all? { |slot| slot["task_id"].nil? }, "Truth recovery capacity slot projection drift")
     assert!(project["phase_execution_status"] == "ACTIVE" && project["current_route_execution_status"] == "PHASE_DELEGATED_CONTINUATION_READY", "Truth project recovery execution projection drift")
-    assert!(claim["current_phase_route"] == route["route_id"] && claim["current_task"] == "NONE" && claim["next_eligible_action"] == route["next_eligible_action"], "Truth recovery claim projection drift")
-    assert!(plan.dig("current_control", "new_task_creation_allowed") == false && control["task_creation_allowed"] == false, "Recovery plan baseline and current admission both must prohibit Task creation")
+    assert!(claim["current_phase_route"] == route["route_id"] && claim["current_task"] == "NONE" && claim["next_eligible_action"] == route["next_eligible_action"] && claim["real_engineering_progress"] == "P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_BENCHMARK_SOURCE_ADMISSION_ACCEPTED_SLOT_1_ELIGIBLE_TASK_NONE_DELIVERY_ZERO", "Truth recovery claim projection drift")
+    assert!(plan.dig("current_control", "new_task_creation_allowed") == false && control["task_creation_allowed"] == true, "Recovery plan historical baseline or source-admission unlock drift")
   end
 
   def validate!(truth_path: DEFAULT_TRUTH, plan_path: DEFAULT_PLAN, repo_root: ROOT)
@@ -432,7 +467,7 @@ if $PROGRAM_NAME == __FILE__
       parser.on("--repo PATH") { |value| options[:repo_root] = File.expand_path(value) }
     end.parse!
     P2RecoveryAntiCycle.validate!(**options)
-    puts "P2_RECOVERY_ANTI_CYCLE: PASS strict_gate=0 delivery=0 capacity=3 task_creation=false source_admission=false"
+    puts "P2_RECOVERY_ANTI_CYCLE: PASS strict_gate=0 delivery=0 capacity=3 task_creation=true source_admission=true slot1=eligible_not_activated"
   rescue P2RecoveryAntiCycle::ValidationError, AuthorityValidationError,
          DuplicateJsonKeyError, JSON::ParserError, KeyError, Psych::Exception,
          Errno::ENOENT, Errno::ELOOP => error

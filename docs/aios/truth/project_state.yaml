@@ -7050,9 +7050,9 @@ historical_p2_product_selector_dev_execution_integrity_slot_and_relocked_held_ph
 historical_p2_product_selector_dev_sandbox_stream_lifecycle_slot_and_relocked_held_phase_route:
   schema_version: '1.4'
   route_id: P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SANDBOX_STREAM_LIFECYCLE_SLOT_AND_RELOCKED_HELD_SEQUENCE_ROUTE_V3
-  status: AUTHORIZED_CAPACITY_ACTIVE
-  execution_status: PRODUCT_SELECTOR_DEV_SANDBOX_STREAM_LIFECYCLE_SLOT_ACTIVE_CANDIDATE_AWAITING_INDEPENDENT_REVIEW
-  scheduling_status: ACTIVE_PHASE_DELEGATED_TASK_GATE_REVIEW
+  status: AUTHORIZED_CAPACITY_AVAILABLE
+  execution_status: PRODUCT_SELECTOR_DEV_SANDBOX_STREAM_LIFECYCLE_SLOT_ELIGIBLE_NOT_ACTIVATED
+  scheduling_status: MASTER_SELECTING_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
   phase: P2
   phase_entry_status: AUTHORIZED
   authorization_token: AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SANDBOX_STREAM_LIFECYCLE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V3
@@ -7123,7 +7123,7 @@ historical_p2_product_selector_dev_sandbox_stream_lifecycle_slot_and_relocked_he
   capacity_slots:
   - slot: 1
     capacity_slot_id: P2_RECOVERY_CAPACITY_SLOT_V5_1
-    task_id: AIOS-P2-073_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_SANDBOX_STREAM_LIFECYCLE_DEV
+    task_id:
     milestone_id: P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED
     unlock_requirement: P2_RECOVERY_BASELINE_ACCEPTED
     engineering_hours: 32
@@ -7143,11 +7143,11 @@ historical_p2_product_selector_dev_sandbox_stream_lifecycle_slot_and_relocked_he
     max_same_task_repairs: 1
     max_candidates: 2
     product_mutation_allowed: false
-  first_task: AIOS-P2-073_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_SANDBOX_STREAM_LIFECYCLE_DEV
+  first_task:
   task_plan: []
   automatic_entry:
   automatic_entries: []
-  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
+  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
 
 historical_p2_072_phase_route:
   schema_version: phase-delegated-independent-task/v1

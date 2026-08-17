@@ -1,8 +1,8 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: '2026-08-17T12:50:36Z'
+last_verified_at: '2026-08-17T13:02:03Z'
 
-verification_scope: P2_074_CLEAN_ROOM_PRODUCT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV_TASK_RESERVED_READY_NO_AUTHORITY_BRANCH_WORKTREE_OR_PRODUCT_WRITE_P2_DELIVERY_25_STRICT_0_HELD_RELOCKED_P2_PROJECT_AND_LONG_TERM_GOAL_ACTIVE
+verification_scope: P2_074_CLEAN_ROOM_PRODUCT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV_TASK_ACTIVE_AUTHORITY_BRANCH_WORKTREE_AND_EVIDENCE_ROOT_BOUND_PREACTIVATION_REQUIRED_BEFORE_PRODUCT_WRITE_P2_DELIVERY_25_STRICT_0_HELD_RELOCKED_P2_PROJECT_AND_LONG_TERM_GOAL_ACTIVE
 
 authority:
   founder: Human Founder
@@ -38,7 +38,7 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
+  current_task_authority: AIOS-P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV
   note: 'Founder decision AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V4
     expands the cumulative P2 envelope to twenty Tasks, five-hundred-ninety-two
     engineering hours and one-hundred-forty-eight calendar days while preserving
@@ -1502,7 +1502,7 @@ project:
   p2_entry_status: AUTHORIZED
   p2_execution_status: ACTIVE
   phase_execution_status: ACTIVE
-  current_route_execution_status: PHASE_DELEGATED_TASK_READY
+  current_route_execution_status: ACTIVE_PHASE_DELEGATED_TASK
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -7462,9 +7462,9 @@ historical_p2_073_phase_route:
 current_phase_route:
   schema_version: phase-delegated-independent-task/v1
   route_id: AIOS-P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV_PHASE_DELEGATED_ROUTE
-  status: AUTHORIZED_READY
-  execution_status: PHASE_DELEGATED_TASK_READY
-  scheduling_status: READY_FOR_MASTER_ACTIVATION
+  status: ACTIVE
+  execution_status: ACTIVE
+  scheduling_status: ACTIVE_PHASE_DELEGATED_TASK
   phase: P2
   phase_entry_status: AUTHORIZED
   policy:
@@ -7472,13 +7472,13 @@ current_phase_route:
     version: '1.8'
     sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
   founder_phase_route_decision_required: false
-  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
+  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
   phase_execution_envelope_ref: phase_execution_envelope
   source_authority_route_ref: historical_p2_product_selector_dev_product_path_and_evidence_closure_slot_and_relocked_held_phase_route
   preceding_terminal_route_ref: historical_p2_073_phase_route
   selected_task:
     task_id: AIOS-P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV
-    status: ELIGIBLE_NOT_ACTIVATED
+    status: ACTIVE
     task_kind: REPOSITORY_INTELLIGENCE_GRAPH_ENGINEERING
     capability: GRAPH_CONDITIONED_CONTEXT_SELECTION
     objective: >-
@@ -7497,8 +7497,8 @@ current_phase_route:
     max_same_task_repairs: 1
     contract:
       path: docs/aios/tasks/P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV.yaml
-      sha256: ec37300e7e8a51b377fd6e01aff1895d98c2541779c524b5efff685af80b9279
-      byte_length: 16960
+      sha256: c3a7eebaa5f108263c90167d5c4ac0a6a3c31b80e7a978912c08ea9d35342092
+      byte_length: 16944
     independence:
       new_task_id: true
       new_execution_nonce: true
@@ -9929,17 +9929,20 @@ phase_execution_envelope:
   reserved:
     task_id: AIOS-P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV
     route_id: AIOS-P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV_PHASE_DELEGATED_ROUTE
-    status: ELIGIBLE_NOT_ACTIVATED
+    status: ACTIVE
     capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_V6_1
     contract:
       path: docs/aios/tasks/P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV.yaml
-      sha256: ec37300e7e8a51b377fd6e01aff1895d98c2541779c524b5efff685af80b9279
-      byte_length: 16960
+      sha256: c3a7eebaa5f108263c90167d5c4ac0a6a3c31b80e7a978912c08ea9d35342092
+      byte_length: 16944
     budget:
       engineering_tasks: 1
       engineering_hours: 32
       calendar_days: 8
     authority:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-selector-product-path-evidence-closure-recovery-20260817/task-p2-074/authority/P2_074_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
+      sha256: b3f650a8f9466160db29ca000eb9510b4f048a682324b01065cc6ed58c3ebd2e
+      byte_length: 8218
   remaining:
     engineering_tasks: 1
     engineering_hours: 32
@@ -9956,16 +9959,16 @@ founder_escalation_control:
   schema_version: founder-escalation-control/v1
   disposition: NO_RESERVED_TRIGGER_CONTINUE_PHASE
   source_event:
-    kind: FOUNDER_EXPANDED_SINGLE_TASK_READY
+    kind: FOUNDER_EXPANDED_SINGLE_TASK_ACTIVE
     task_id: AIOS-P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV
-    status: ELIGIBLE_NOT_ACTIVATED
+    status: ACTIVE
   reserved_trigger:
     category: NONE
     evidence:
   phase_gate_status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
   founder_decision_required: false
   next_action_owner: MASTER_CEO_AGENT
-  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
+  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
 
 historical_p2_053_phase_route:
   schema_version: "1.1"
@@ -21296,38 +21299,79 @@ historical_p2_073_terminal_active_work:
   - evaluation-harness/reports/p2-product-selector-sandbox-stream-lifecycle-v1/**
 
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV
+  current_task_status: ACTIVE
   current_task_contract:
     path: docs/aios/tasks/P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV.yaml
-    sha256: ec37300e7e8a51b377fd6e01aff1895d98c2541779c524b5efff685af80b9279
-    byte_length: 16960
-  current_task_contract_sha256: ec37300e7e8a51b377fd6e01aff1895d98c2541779c524b5efff685af80b9279
-  current_execution_authorization:
-  current_execution_authorization_sha256:
+    sha256: c3a7eebaa5f108263c90167d5c4ac0a6a3c31b80e7a978912c08ea9d35342092
+    byte_length: 16944
+  current_task_contract_sha256: c3a7eebaa5f108263c90167d5c4ac0a6a3c31b80e7a978912c08ea9d35342092
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-selector-product-path-evidence-closure-recovery-20260817/task-p2-074/authority/P2_074_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
+  current_execution_authorization_sha256: b3f650a8f9466160db29ca000eb9510b4f048a682324b01065cc6ed58c3ebd2e
   authority_record:
-    path:
-    sha256:
-    byte_length:
-  execution_nonce:
-  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
-  authorization_id:
-  activation_parent_commit:
-  activation_parent_tree:
-  task_resource_state: NOT_CREATED_PHASE_DELEGATED_TASK_READY
-  task_branch:
-  task_worktree:
-  execution_evidence_root:
-  allowlisted_paths: []
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-selector-product-path-evidence-closure-recovery-20260817/task-p2-074/authority/P2_074_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
+    sha256: b3f650a8f9466160db29ca000eb9510b4f048a682324b01065cc6ed58c3ebd2e
+    byte_length: 8218
+  execution_nonce: 10d95536-ba07-4deb-8f59-b5f76361de81
+  execution_nonce_status: ACTIVE
+  authorization_id: 00dc9de9-2748-40b3-9479-7568745fcf73
+  activation_parent_commit: 5383c74da7ab89176fd63c80f8bebea70e12c181
+  activation_parent_tree: 236dae382100ac101c5461f2ff8a1a2eff33ef36
+  task_resource_state: ACTIVE_UNIQUE_PHASE_DELEGATED
+  task_branch: codex/p2-074-clean-room-java-maintenance-context-selector-product-path-evidence-closure-dev
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-074-clean-room-java-maintenance-context-selector-product-path-evidence-closure-dev
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-selector-product-path-evidence-closure-recovery-20260817/task-p2-074
+  allowlisted_paths:
+  - backend-spring/src/main/java/com/sourcelens/module/agent/service/JavaMaintenanceContextSelector.java
+  - backend-spring/src/main/java/com/sourcelens/module/agent/service/CodeQaRetrievalService.java
+  - backend-spring/src/test/java/com/sourcelens/JavaMaintenanceContextSelectorTest.java
+  - backend-spring/src/test/java/com/sourcelens/CodeQaRetrievalServiceTest.java
+  - evaluation-harness/harness/p2-product-selector-product-path-evidence-closure-v1/**
+  - evaluation-harness/replay/p2-product-selector-product-path-evidence-closure-v1/**
+  - evaluation-harness/reports/p2-product-selector-product-path-evidence-closure-v1/**
   budget:
-    engineering_hours:
-    calendar_days:
-    implementation_iterations:
-    candidates:
+    engineering_hours: 32
+    calendar_days: 8
+    implementation_iterations: 2
+    candidates: 2
   roles:
+    owner: P2-074 Master Owner
+    worker: P2-074 Clean-room Product Selector Worker
+    independent_reviewers:
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent
+  write_ownership:
+    schema_version: role-write-ownership/v1
+    cross_role_write_allowed: false
     owner:
+      role: P2-074 Master Owner
+      write_paths: []
     worker:
-    independent_reviewers: []
+      role: P2-074 Clean-room Product Selector Worker
+      write_paths:
+      - backend-spring/src/main/java/com/sourcelens/module/agent/service/JavaMaintenanceContextSelector.java
+      - backend-spring/src/main/java/com/sourcelens/module/agent/service/CodeQaRetrievalService.java
+      - backend-spring/src/test/java/com/sourcelens/JavaMaintenanceContextSelectorTest.java
+      - backend-spring/src/test/java/com/sourcelens/CodeQaRetrievalServiceTest.java
+      - evaluation-harness/harness/p2-product-selector-product-path-evidence-closure-v1/**
+      - evaluation-harness/replay/p2-product-selector-product-path-evidence-closure-v1/**
+      - evaluation-harness/reports/p2-product-selector-product-path-evidence-closure-v1/**
+    independent_reviewers:
+    - role: CTO Agent
+      write_paths: []
+    - role: Security Agent
+      write_paths: []
+    - role: Quality and Evaluation Agent
+      write_paths: []
+  effective_worker_write_paths:
+  - backend-spring/src/main/java/com/sourcelens/module/agent/service/JavaMaintenanceContextSelector.java
+  - backend-spring/src/main/java/com/sourcelens/module/agent/service/CodeQaRetrievalService.java
+  - backend-spring/src/test/java/com/sourcelens/JavaMaintenanceContextSelectorTest.java
+  - backend-spring/src/test/java/com/sourcelens/CodeQaRetrievalServiceTest.java
+  - evaluation-harness/harness/p2-product-selector-product-path-evidence-closure-v1/**
+  - evaluation-harness/replay/p2-product-selector-product-path-evidence-closure-v1/**
+  - evaluation-harness/reports/p2-product-selector-product-path-evidence-closure-v1/**
   external_effects:
     network: false
     provider: false
@@ -21344,7 +21388,7 @@ active_work:
   user_action_required: NONE
   phase_route_decision_required: false
   phase_route_user_action_required: NONE
-  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
+  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
 
 historical_p2_065_terminal_active_work:
   current_task: AIOS-P2-065_ESM_IMPORT_GRAPH_CONTEXT_PRODUCT_BENCHMARK
@@ -27889,9 +27933,9 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: P2_FOUNDER_RESERVED_DECISION_HOLD
-  current_task_claim: NONE
-  real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_073_TERMINAL_PRODUCT_SELECTOR_DEV_PRODUCT_PATH_AUTHORITY_AND_EVIDENCE_NON_PASS_SLOT_V2_3_LOCKED
+  current_route_claim: AIOS-P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV_PHASE_DELEGATED_ROUTE
+  current_task_claim: AIOS-P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV
+  real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_SLOT_V6_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED
   product_capability_changed: false
   phase_local_allowed:
   - REAL_CODE_QA_PRODUCT_PATH_REPOSITORY_CONTEXT_SELECTOR
@@ -28219,7 +28263,7 @@ phase_execution_claim:
 
 p2_recovery_control:
   schema_version: p2-recovery-control/v1
-  status: CLEAN_ROOM_SLOT_V6_1_PRODUCT_SELECTOR_DEV_TASK_RESERVED_READY_SLOT_V2_3_RELOCKED
+  status: CLEAN_ROOM_SLOT_V6_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED
   plan:
     path: docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml
     byte_length: 7433
@@ -28254,13 +28298,13 @@ p2_recovery_control:
   accepted_milestones:
   - P2_RECOVERY_BASELINE_ACCEPTED
   task_creation_allowed: false
-  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
+  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
 
 claim_boundary:
   current_phase_route: AIOS-P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV_PHASE_DELEGATED_ROUTE
-  current_task: NONE
-  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
-  real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_SLOT_V6_1_PRODUCT_SELECTOR_DEV_TASK_READY_SLOT_V2_3_RELOCKED
+  current_task: AIOS-P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV
+  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
+  real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_SLOT_V6_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED
   p2_073_status: TERMINAL_PRODUCT_SELECTOR_DEV_PRODUCT_PATH_AUTHORITY_AND_EVIDENCE_NON_PASS
   p2_073_contract_sha256: 596443aeae6eddd7032af0fec71b5cc3680e533f9ca4b7af03be365e31bc5d73
   p2_073_capacity_source: P2_RECOVERY_CAPACITY_SLOT_V5_1

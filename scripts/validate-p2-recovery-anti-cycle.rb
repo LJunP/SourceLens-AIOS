@@ -391,6 +391,7 @@ module P2RecoveryAntiCycle
       CLEAN_ROOM_SLOT_V5_1_PRODUCT_SELECTOR_DEV_TASK_RESERVED_READY_SLOT_V2_3_RELOCKED
       CLEAN_ROOM_SLOT_V5_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED
       CLEAN_ROOM_SLOT_V5_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
+      CLEAN_ROOM_SLOT_V6_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED
     ].include?(control["status"])
     expected_delivery_percent = baseline_accepted ? 25 : 0
     expected_accepted_milestones = baseline_accepted ? ["P2_RECOVERY_BASELINE_ACCEPTED"] : []
@@ -524,7 +525,9 @@ module P2RecoveryAntiCycle
 
     case control["status"]
     when "CLEAN_ROOM_SLOT_V4_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED",
-         "CLEAN_ROOM_SLOT_V5_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED"
+         "CLEAN_ROOM_SLOT_V5_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED",
+         "CLEAN_ROOM_SLOT_V6_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED"
+      product_path_closure = control["status"].include?("SLOT_V6_1")
       stream_lifecycle = control["status"].include?("SLOT_V5_1")
       next_action = "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK"
       expected_remaining = {
@@ -532,24 +535,41 @@ module P2RecoveryAntiCycle
         "engineering_hours" => 64,
         "calendar_days" => 16
       }
-      assert!(decision_claims["authorization_token"] ==
-                (stream_lifecycle ?
-                  "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SANDBOX_STREAM_LIFECYCLE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V3" :
-                  "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_EXECUTION_INTEGRITY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V2") &&
-              decision_claims["capacity_slots"].map { |slot| slot["capacity_slot_id"] } ==
-                (stream_lifecycle ?
-                  %w[P2_RECOVERY_CAPACITY_SLOT_V5_1 P2_RECOVERY_CAPACITY_SLOT_V2_3] :
-                  %w[P2_RECOVERY_CAPACITY_SLOT_V4_1 P2_RECOVERY_CAPACITY_SLOT_V2_3]),
+      expected_token = if product_path_closure
+                         "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V4"
+                       elsif stream_lifecycle
+                         "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SANDBOX_STREAM_LIFECYCLE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V3"
+                       else
+                         "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_EXECUTION_INTEGRITY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V2"
+                       end
+      expected_capacity_ids = if product_path_closure
+                                %w[P2_RECOVERY_CAPACITY_SLOT_V6_1 P2_RECOVERY_CAPACITY_SLOT_V2_3]
+                              elsif stream_lifecycle
+                                %w[P2_RECOVERY_CAPACITY_SLOT_V5_1 P2_RECOVERY_CAPACITY_SLOT_V2_3]
+                              else
+                                %w[P2_RECOVERY_CAPACITY_SLOT_V4_1 P2_RECOVERY_CAPACITY_SLOT_V2_3]
+                              end
+      assert!(decision_claims["authorization_token"] == expected_token &&
+              decision_claims["capacity_slots"].map { |slot| slot["capacity_slot_id"] } == expected_capacity_ids,
               "Truth Product Selector recovery decision or re-locked HELD identity drift")
-      expected_consumed = stream_lifecycle ?
-        { "engineering_tasks" => 17, "engineering_hours" => 496, "calendar_days" => 124 } :
-        { "engineering_tasks" => 16, "engineering_hours" => 464, "calendar_days" => 116 }
+      expected_consumed = if product_path_closure
+                            { "engineering_tasks" => 18, "engineering_hours" => 528, "calendar_days" => 132 }
+                          elsif stream_lifecycle
+                            { "engineering_tasks" => 17, "engineering_hours" => 496, "calendar_days" => 124 }
+                          else
+                            { "engineering_tasks" => 16, "engineering_hours" => 464, "calendar_days" => 116 }
+                          end
       assert!(envelope["status"] == "ACTIVE_REMAINING_CAPACITY" &&
               envelope["reserved"].nil? && envelope["remaining"] == expected_remaining &&
               envelope["consumed"] == expected_consumed,
               "Truth eligible Product Selector recovery envelope drift")
-      expected_preceding_route = stream_lifecycle ?
-        "historical_p2_072_phase_route" : "historical_p2_071_phase_route"
+      expected_preceding_route = if product_path_closure
+                                   "historical_p2_073_phase_route"
+                                 elsif stream_lifecycle
+                                   "historical_p2_072_phase_route"
+                                 else
+                                   "historical_p2_071_phase_route"
+                                 end
       assert!(route["schema_version"] == "phase-delegated-continuation-hold/v1" &&
               route["status"] == "AUTHORIZED_READY" &&
               route["execution_status"] == "PHASE_DELEGATED_CONTINUATION_READY" &&
@@ -570,9 +590,13 @@ module P2RecoveryAntiCycle
               control["capacity_slots"] == expected_slots &&
               control["capacity_slots"].all? { |slot| slot["task_id"].nil? },
               "Truth eligible Product Selector recovery capacity projection drift")
-      expected_progress = stream_lifecycle ?
-        "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_NEW_PRODUCT_SELECTOR_DEV_SANDBOX_STREAM_LIFECYCLE_SLOT_V5_1_ELIGIBLE_FORMAL_HELD_SLOT_V2_3_RELOCKED" :
-        "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_NEW_PRODUCT_SELECTOR_DEV_EXECUTION_INTEGRITY_SLOT_V4_1_ELIGIBLE_FORMAL_HELD_SLOT_V2_3_RELOCKED"
+      expected_progress = if product_path_closure
+                            "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_NEW_PRODUCT_SELECTOR_DEV_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_SLOT_V6_1_ELIGIBLE_FORMAL_HELD_SLOT_V2_3_RELOCKED"
+                          elsif stream_lifecycle
+                            "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_NEW_PRODUCT_SELECTOR_DEV_SANDBOX_STREAM_LIFECYCLE_SLOT_V5_1_ELIGIBLE_FORMAL_HELD_SLOT_V2_3_RELOCKED"
+                          else
+                            "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_NEW_PRODUCT_SELECTOR_DEV_EXECUTION_INTEGRITY_SLOT_V4_1_ELIGIBLE_FORMAL_HELD_SLOT_V2_3_RELOCKED"
+                          end
       assert!(project["current_route_execution_status"] == "PHASE_DELEGATED_CONTINUATION_READY" &&
               claim["p2_phase_envelope_status"] == "ACTIVE_REMAINING_CAPACITY" &&
               claim["current_task"] == "NONE" &&

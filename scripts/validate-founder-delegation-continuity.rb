@@ -4092,7 +4092,9 @@ module FounderDelegationContinuity
         "CLEAN_ROOM_SLOT_V4_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED" =>
           "historical_p2_071_phase_route",
         "CLEAN_ROOM_SLOT_V5_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED" =>
-          "historical_p2_072_phase_route"
+          "historical_p2_072_phase_route",
+        "CLEAN_ROOM_SLOT_V6_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED" =>
+          "historical_p2_073_phase_route"
       }[cumulative_capacity_ready_status] == current_route["historical_terminal_route_ref"]
     if single_task_projection
       task_status = current_route.dig("selected_task", "status")
@@ -4102,9 +4104,13 @@ module FounderDelegationContinuity
         "status" => task_status
       }, "single-Task Founder expansion control does not project the exact READY or ACTIVE Task")
     elsif cumulative_capacity_ready_projection
-      event_status = cumulative_capacity_ready_status.include?("SLOT_V5_1") ?
-        "PRODUCT_SELECTOR_DEV_SANDBOX_STREAM_LIFECYCLE_SLOT_V5_1_ELIGIBLE_NOT_ACTIVATED" :
-        "PRODUCT_SELECTOR_DEV_EXECUTION_INTEGRITY_SLOT_V4_1_ELIGIBLE_NOT_ACTIVATED"
+      event_status = if cumulative_capacity_ready_status.include?("SLOT_V6_1")
+                       "PRODUCT_SELECTOR_DEV_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_SLOT_V6_1_ELIGIBLE_NOT_ACTIVATED"
+                     elsif cumulative_capacity_ready_status.include?("SLOT_V5_1")
+                       "PRODUCT_SELECTOR_DEV_SANDBOX_STREAM_LIFECYCLE_SLOT_V5_1_ELIGIBLE_NOT_ACTIVATED"
+                     else
+                       "PRODUCT_SELECTOR_DEV_EXECUTION_INTEGRITY_SLOT_V4_1_ELIGIBLE_NOT_ACTIVATED"
+                     end
       assert(event == {
         "kind" => "FOUNDER_PHASE_ENVELOPE_EXPANSION_ACCEPTED",
         "task_id" => nil,

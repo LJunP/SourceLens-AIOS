@@ -671,6 +671,7 @@ module P2RecoveryAntiCycle
       expected_progress = stream_lifecycle ?
         "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_073_TERMINAL_PRODUCT_SELECTOR_DEV_PRODUCT_PATH_AUTHORITY_AND_EVIDENCE_NON_PASS_SLOT_V2_3_LOCKED" :
         "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_072_TERMINAL_PRODUCT_SELECTOR_DEV_REPLAY_EXECUTION_INTEGRITY_NON_PASS_SLOT_V2_3_LOCKED"
+      terminal_slot_label = stream_lifecycle ? "V5_1" : "V4_1"
       expected_slots[0]["task_id"] = task_id
       expected_remaining = {
         "engineering_tasks" => 1,
@@ -683,40 +684,40 @@ module P2RecoveryAntiCycle
               envelope["reserved"].nil? &&
               envelope["remaining"] == expected_remaining &&
               envelope["consumed"] == expected_consumed,
-              "Truth terminal clean-room Product Selector envelope drift")
+              "Truth terminal clean-room Slot #{terminal_slot_label} envelope drift")
       assert!(route["schema_version"] == "founder-reserved-decision-hold/v1" &&
               route["status"] == "FOUNDER_RESERVED_DECISION_REQUIRED" &&
               route["execution_status"] == "FOUNDER_RESERVED_DECISION_REQUIRED" &&
               route["scheduling_status"] == "STOPPED_AT_FOUNDER_RESERVED_DECISION" &&
               route["historical_terminal_route_ref"] == historical_ref &&
               route["next_eligible_action"] == "FOUNDER_RESERVED_DECISION",
-              "Truth terminal clean-room Product Selector Founder hold drift")
+              "Truth terminal clean-room Slot #{terminal_slot_label} Founder hold drift")
       assert!(historical["status"] == terminal_status &&
               historical["execution_status"] == terminal_status &&
               historical.dig("selected_task", "task_id") == task_id &&
               historical.dig("selected_task", "status") == terminal_status &&
               historical.dig("selected_task", "rejected_candidate", "integrated") == false &&
               historical.dig("selected_task", "outcome_receipt") == terminal_receipt,
-              "Truth terminal clean-room Product Selector historical Route drift")
+              "Truth terminal clean-room Slot #{terminal_slot_label} historical Route drift")
       assert!(ledger_entry && ledger_entry["status"] == terminal_status &&
               ledger_entry["outcome_receipt"] == terminal_receipt,
-              "Truth terminal clean-room Product Selector ledger drift")
+              "Truth terminal clean-room Slot #{terminal_slot_label} ledger drift")
       assert!(active["current_task"] == "NONE" &&
               active["task_resource_state"] == "NO_ACTIVE_TASK_FOUNDER_RESERVED_DECISION_HOLD" &&
               active["next_eligible_action"] == "FOUNDER_RESERVED_DECISION" &&
               goal["current_task_authority"] == "NONE",
-              "Truth terminal clean-room Product Selector active-work drift")
+              "Truth terminal clean-room Slot #{terminal_slot_label} active-work drift")
       assert!(control["task_creation_allowed"] == false &&
               control["current_delivery_percent"] == 25 &&
               control["accepted_milestones"] == ["P2_RECOVERY_BASELINE_ACCEPTED"] &&
               control["next_eligible_action"] == "FOUNDER_RESERVED_DECISION" &&
               control["capacity_slots"] == expected_slots,
-              "Truth terminal clean-room Product Selector capacity projection drift")
+              "Truth terminal clean-room Slot #{terminal_slot_label} capacity projection drift")
       assert!(project["current_route_execution_status"] == "FOUNDER_RESERVED_DECISION_REQUIRED" &&
               claim["p2_phase_envelope_status"] == "ACTIVE_REMAINING_CAPACITY" &&
               claim["current_task"] == "NONE" &&
               claim["real_engineering_progress"] == expected_progress,
-              "Truth terminal clean-room Product Selector claim projection drift")
+              "Truth terminal clean-room Slot #{terminal_slot_label} claim projection drift")
     when "CLEAN_ROOM_SLOT_V3_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED"
       next_action = "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK"
       expected_remaining = {

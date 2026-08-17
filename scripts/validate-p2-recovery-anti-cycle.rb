@@ -373,8 +373,11 @@ module P2RecoveryAntiCycle
     assert!(project["current_phase"] == "P2" && project["p2_execution_status"] == "ACTIVE", "Truth P2 is not active")
     assert!(goal["control_plane_status_observed"] == "ACTIVE", "Long-term Goal is not active")
     assert!(gate["status"] == "INCOMPLETE" && gate.dig("required_items", "CONTEXT_BENCHMARK_BEATS_SIMPLE_RETRIEVAL_BASELINES", "status") == "MISSING", "P2 strict Exit Gate is not the expected incomplete gate")
-    baseline_accepted = control["status"] ==
-      "CLEAN_ROOM_SLOT_V2_1_BENCHMARK_FOUNDATION_ACCEPTED_SLOT_V2_2_ELIGIBLE_NOT_ACTIVATED"
+    baseline_accepted = %w[
+      CLEAN_ROOM_SLOT_V2_1_BENCHMARK_FOUNDATION_ACCEPTED_SLOT_V2_2_ELIGIBLE_NOT_ACTIVATED
+      CLEAN_ROOM_SLOT_V2_2_PRODUCT_SELECTOR_DEV_TASK_RESERVED_READY
+      CLEAN_ROOM_SLOT_V2_2_PRODUCT_SELECTOR_DEV_TASK_ACTIVE
+    ].include?(control["status"])
     expected_delivery_percent = baseline_accepted ? 25 : 0
     expected_accepted_milestones = baseline_accepted ? ["P2_RECOVERY_BASELINE_ACCEPTED"] : []
     assert!(control["strict_gate_percent"] == 0 &&
@@ -441,6 +444,8 @@ module P2RecoveryAntiCycle
       SLOT_1_BENCHMARK_FOUNDATION_TASK_TERMINAL_NON_PASS
       CLEAN_ROOM_SLOT_V2_1_BENCHMARK_FOUNDATION_TASK_TERMINAL_NON_PASS
       CLEAN_ROOM_SLOT_V2_1_BENCHMARK_FOUNDATION_ACCEPTED_SLOT_V2_2_ELIGIBLE_NOT_ACTIVATED
+      CLEAN_ROOM_SLOT_V2_2_PRODUCT_SELECTOR_DEV_TASK_RESERVED_READY
+      CLEAN_ROOM_SLOT_V2_2_PRODUCT_SELECTOR_DEV_TASK_ACTIVE
     ].include?(control["status"])
     expected_consumed = consumed.dup
     if terminal_or_accepted_slot_1
@@ -468,6 +473,8 @@ module P2RecoveryAntiCycle
       "AIOS-P2-069_CLEAN_ROOM_RECOVERY_BENCHMARK_FOUNDATION" :
       "AIOS-P2-068_RECOVERY_BENCHMARK_FOUNDATION"
     slot_1_id = decision_claims.fetch("capacity_slots").first.fetch("capacity_slot_id")
+    slot_2_task_id = "AIOS-P2-070_PRODUCT_JAVA_MAINTENANCE_CONTEXT_SELECTOR_DEV"
+    slot_2_id = decision_claims.fetch("capacity_slots").fetch(1).fetch("capacity_slot_id")
     assert!(escalation["disposition"] == "NO_RESERVED_TRIGGER_CONTINUE_PHASE" &&
             escalation.dig("reserved_trigger", "category") == "NONE" &&
             escalation["founder_decision_required"] == false &&
@@ -613,6 +620,56 @@ module P2RecoveryAntiCycle
               claim["real_engineering_progress"] ==
                 "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_SLOT_V2_2_ELIGIBLE_TASK_NONE",
               "Truth accepted clean-room Slot V2_1 claim projection drift")
+    when "CLEAN_ROOM_SLOT_V2_2_PRODUCT_SELECTOR_DEV_TASK_RESERVED_READY",
+         "CLEAN_ROOM_SLOT_V2_2_PRODUCT_SELECTOR_DEV_TASK_ACTIVE"
+      ready = control["status"].end_with?("READY")
+      task_status = ready ? "ELIGIBLE_NOT_ACTIVATED" : "ACTIVE"
+      next_action = ready ? "MASTER_ACTIVATE_PHASE_DELEGATED_TASK" : "COMPLETE_CURRENT_TASK_GATE"
+      expected_resource_state = ready ? "NOT_CREATED_PHASE_DELEGATED_TASK_READY" : "ACTIVE_UNIQUE_PHASE_DELEGATED"
+      expected_route_status = ready ? "AUTHORIZED_READY" : "ACTIVE"
+      expected_route_execution = ready ? "PHASE_DELEGATED_TASK_READY" : "ACTIVE"
+      expected_scheduling = ready ? "READY_FOR_MASTER_ACTIVATION" : "ACTIVE_PHASE_DELEGATED_TASK"
+      expected_project_route = ready ? "PHASE_DELEGATED_TASK_READY" : "ACTIVE_PHASE_DELEGATED_TASK"
+      remaining = { "engineering_tasks" => 1, "engineering_hours" => 32, "calendar_days" => 8 }
+      expected_slots[0]["task_id"] = task_id
+      expected_slots[1]["task_id"] = slot_2_task_id
+      selected = route.fetch("selected_task")
+      reservation = envelope.fetch("reserved")
+      assert!(envelope["status"] == "TASK_CAPACITY_RESERVED" &&
+              envelope["consumed"] == { "engineering_tasks" => 14, "engineering_hours" => 400, "calendar_days" => 100 } &&
+              envelope["remaining"] == remaining,
+              "Truth reserved clean-room Slot V2_2 envelope drift")
+      assert!(selected["task_id"] == slot_2_task_id && selected["status"] == task_status &&
+              selected["capacity_source_task_id"] == slot_2_id,
+              "Truth reserved clean-room Slot V2_2 Task projection drift")
+      assert!(reservation["task_id"] == slot_2_task_id && reservation["route_id"] == route["route_id"] &&
+              reservation["status"] == task_status &&
+              reservation["capacity_source_task_id"] == slot_2_id &&
+              reservation["contract"] == selected["contract"] &&
+              reservation["budget"] == { "engineering_tasks" => 1, "engineering_hours" => 32, "calendar_days" => 8 } &&
+              (ready ? reservation["authority"].nil? : reservation["authority"] == active["authority_record"]),
+              "Truth reserved clean-room Slot V2_2 authority or budget drift")
+      assert!(route["status"] == expected_route_status &&
+              route["execution_status"] == expected_route_execution &&
+              route["scheduling_status"] == expected_scheduling &&
+              route["next_eligible_action"] == next_action,
+              "Truth reserved clean-room Slot V2_2 Route lifecycle drift")
+      assert!(active["current_task"] == (ready ? "NONE" : slot_2_task_id) &&
+              active["task_resource_state"] == expected_resource_state &&
+              goal["current_task_authority"] == (ready ? "NONE" : slot_2_task_id),
+              "Truth reserved clean-room Slot V2_2 active-work lifecycle drift")
+      assert!(control["task_creation_allowed"] == false &&
+              control["current_delivery_percent"] == 25 &&
+              control["accepted_milestones"] == ["P2_RECOVERY_BASELINE_ACCEPTED"] &&
+              control["next_eligible_action"] == next_action &&
+              control["capacity_slots"] == expected_slots,
+              "Truth reserved clean-room Slot V2_2 capacity projection drift")
+      assert!(project["current_route_execution_status"] == expected_project_route &&
+              claim["p2_phase_envelope_status"] == "TASK_CAPACITY_RESERVED" &&
+              claim["current_task"] == (ready ? "NONE" : slot_2_task_id) &&
+              claim["real_engineering_progress"] ==
+                "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_SLOT_V2_2_TASK_#{ready ? 'READY' : 'ACTIVE'}",
+              "Truth reserved clean-room Slot V2_2 claim projection drift")
     when "SLOT_1_BENCHMARK_FOUNDATION_TASK_TERMINAL_NON_PASS"
       terminal_status = "TERMINAL_IMPLEMENTATION_BUDGET_EXHAUSTED_RUNTIME_COMPATIBILITY_NON_PASS"
       next_action = "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK"

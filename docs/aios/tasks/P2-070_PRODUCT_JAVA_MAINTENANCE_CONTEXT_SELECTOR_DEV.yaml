@@ -1,0 +1,217 @@
+schema_version: '1.1'
+record_type: aios_phase_delegated_independent_task_contract
+task_id: AIOS-P2-070_PRODUCT_JAVA_MAINTENANCE_CONTEXT_SELECTOR_DEV
+phase: P2
+route_id: AIOS-P2-070_PRODUCT_JAVA_MAINTENANCE_CONTEXT_SELECTOR_DEV_PHASE_DELEGATED_ROUTE
+status: ELIGIBLE_NOT_ACTIVATED
+task_kind: REPOSITORY_INTELLIGENCE_GRAPH_ENGINEERING
+capability: GRAPH_CONDITIONED_CONTEXT_SELECTION
+objective: >-
+  Implement one deterministic Java maintenance context selector in the real Code QA
+  product path, then compare the exact product candidate against the accepted P2-069
+  B1 baseline on only the frozen eight-task DEV split under the same corpus, query,
+  top-k and UTF-8 byte budget without opening or scoring HELD.
+why_now: >-
+  P2_RECOVERY_BASELINE_ACCEPTED is independently accepted and mechanically unlocks
+  clean-room recovery slot V2_2. The next required delivery milestone is a nonempty
+  product-source selector change that strictly beats the accepted baseline on frozen
+  DEV without regression; formal HELD remains locked until this Task is independently
+  accepted.
+task_spec_ref:
+  path: docs/aios/decisions/P2_CLEAN_ROOM_RECOVERY_RESEQUENCING_AND_MINIMAL_ENVELOPE_EXPANSION_V1.md
+  sha256: a8832c5c180f2a424362fe5e4baf06775212979072e2686c1da6868d1be9b1ee
+  byte_length: 5741
+owner_role: P2-070 Master Owner
+worker_role: P2-070 Product Selector Worker
+write_scope:
+- backend-spring/src/main/java/com/sourcelens/module/agent/service/RepositoryContextSelectionService.java
+- backend-spring/src/main/java/com/sourcelens/module/agent/controller/CodeQaController.java
+- backend-spring/src/test/java/com/sourcelens/RepositoryContextSelectionServiceTest.java
+- backend-spring/src/test/java/com/sourcelens/CodeQaControllerTest.java
+- evaluation-harness/harness/p2-product-selector-dev-v1/**
+- evaluation-harness/replay/p2-product-selector-dev-v1/**
+- evaluation-harness/reports/p2-product-selector-dev-v1/**
+read_context:
+- docs/aios/truth/project_state.yaml
+- docs/aios/STRATEGIC_CONSTITUTION.md
+- docs/aios/MASTER_EXECUTION_PROTOCOL.md
+- docs/aios/FOUNDER_DELEGATION_POLICY.md
+- docs/aios/EVALUATION_PROTOCOL.md
+- docs/aios/decisions/P2_CLEAN_ROOM_RECOVERY_RESEQUENCING_AND_MINIMAL_ENVELOPE_EXPANSION_V1.md
+- TASK_EVIDENCE_ROOT/accepted-p2-069-baseline/B1_RESULTS.json
+dependencies:
+- kind: CANONICAL_SOURCE
+  identity:
+    commit: b76f6ae2e489b30762b0f4d5b1fd658d5fee9261
+    tree: 93924dbb8f87805118c8a682e420e237a5c5b6eb
+- kind: BASELINE_ARTIFACT
+  identity:
+    artifact_id: P2_069_ACCEPTED_B1_DEV_BASELINE_RESULTS
+    relative_path: accepted-p2-069-baseline/B1_RESULTS.json
+    byte_length: 634859
+    sha256: 231a99391726b618cba130474c4ad7ffa348af25afda97968dc0c1745159c0c0
+    baseline_ids:
+    - P2_069_B1_DETERMINISTIC_BM25_ACCEPTED_DEV
+    - P2_070_A0_PRODUCT_JAVA_MAINTENANCE_CONTEXT_SELECTOR_DEV
+risk_level: medium
+baseline_ref:
+  artifact_id: P2_069_ACCEPTED_B1_DEV_BASELINE_RESULTS
+  relative_path: accepted-p2-069-baseline/B1_RESULTS.json
+  byte_length: 634859
+  sha256: 231a99391726b618cba130474c4ad7ffa348af25afda97968dc0c1745159c0c0
+  baseline_ids:
+  - P2_069_B1_DETERMINISTIC_BM25_ACCEPTED_DEV
+  - P2_070_A0_PRODUCT_JAVA_MAINTENANCE_CONTEXT_SELECTOR_DEV
+independent_reviewer:
+- CTO Agent
+- Security Agent
+- Quality and Evaluation Agent
+protocol_status_mapping:
+  ELIGIBLE_NOT_ACTIVATED: ready
+  ACTIVE: in_progress
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_V2_2
+budget:
+  engineering_hours: 32
+  calendar_days: 8
+  implementation_iterations: 2
+  candidates: 2
+max_same_task_repairs: 1
+roles:
+  owner: P2-070 Master Owner
+  worker: P2-070 Product Selector Worker
+  independent_reviewers:
+  - CTO Agent
+  - Security Agent
+  - Quality and Evaluation Agent
+allowlisted_paths:
+- backend-spring/src/main/java/com/sourcelens/module/agent/service/RepositoryContextSelectionService.java
+- backend-spring/src/main/java/com/sourcelens/module/agent/controller/CodeQaController.java
+- backend-spring/src/test/java/com/sourcelens/RepositoryContextSelectionServiceTest.java
+- backend-spring/src/test/java/com/sourcelens/CodeQaControllerTest.java
+- evaluation-harness/harness/p2-product-selector-dev-v1/**
+- evaluation-harness/replay/p2-product-selector-dev-v1/**
+- evaluation-harness/reports/p2-product-selector-dev-v1/**
+write_ownership:
+  schema_version: role-write-ownership/v1
+  cross_role_write_allowed: false
+  owner:
+    role: P2-070 Master Owner
+    write_paths: []
+  worker:
+    role: P2-070 Product Selector Worker
+    write_paths:
+    - backend-spring/src/main/java/com/sourcelens/module/agent/service/RepositoryContextSelectionService.java
+    - backend-spring/src/main/java/com/sourcelens/module/agent/controller/CodeQaController.java
+    - backend-spring/src/test/java/com/sourcelens/RepositoryContextSelectionServiceTest.java
+    - backend-spring/src/test/java/com/sourcelens/CodeQaControllerTest.java
+    - evaluation-harness/harness/p2-product-selector-dev-v1/**
+    - evaluation-harness/replay/p2-product-selector-dev-v1/**
+    - evaluation-harness/reports/p2-product-selector-dev-v1/**
+  independent_reviewers:
+  - role: CTO Agent
+    write_paths: []
+  - role: Security Agent
+    write_paths: []
+  - role: Quality and Evaluation Agent
+    write_paths: []
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+phase_delegation_binding:
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: '1.8'
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  delegation_amendment:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/founder-delegation-continuity-20260808/decision/FOUNDER_PHASE_DELEGATION_CONTINUITY_AMENDMENT_V1.json
+    byte_length: 1182
+    sha256: c37634c51b0b7695204c026f9950911c427f544a6ff2e2c2f786facb9a84a52e
+  source_decision:
+    path: docs/aios/decisions/P2_CLEAN_ROOM_RECOVERY_RESEQUENCING_AND_MINIMAL_ENVELOPE_EXPANSION_DECISION_V1.json
+    sha256: 7f87125dc0fbf1550877de90e30552231aedaa9829eecec85348a9b89c5b225f
+    byte_length: 3418
+  source_terminal_event:
+    task_id: AIOS-P2-069_CLEAN_ROOM_RECOVERY_BENCHMARK_FOUNDATION
+    status: MASTER_TASK_GATE_ACCEPTED_COMPLETE
+    outcome_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-clean-room-recovery-benchmark-foundation-20260817/task-p2-069/canonical-integration/P2_069_CANONICAL_INTEGRATION_AND_ACCEPTED_OUTCOME_RECEIPT_V1.json
+      byte_length: 2130
+      sha256: 78d5ad1af278f5e112c52021a1c8b81da330a14171d238992083a2ab9ae90747
+  phase_envelope_snapshot:
+    limits:
+      engineering_tasks: 16
+      engineering_hours: 464
+      calendar_days: 116
+      active_tasks: 1
+      task_branches: 1
+      task_worktrees: 1
+      active_candidates: 1
+    consumed:
+      engineering_tasks: 14
+      engineering_hours: 400
+      calendar_days: 100
+    reserved:
+      task_id: AIOS-P2-070_PRODUCT_JAVA_MAINTENANCE_CONTEXT_SELECTOR_DEV
+      route_id: AIOS-P2-070_PRODUCT_JAVA_MAINTENANCE_CONTEXT_SELECTOR_DEV_PHASE_DELEGATED_ROUTE
+      status: ELIGIBLE_NOT_ACTIVATED
+      capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_V2_2
+      budget:
+        engineering_tasks: 1
+        engineering_hours: 32
+        calendar_days: 8
+    remaining:
+      engineering_tasks: 1
+      engineering_hours: 32
+      calendar_days: 8
+  founder_packet_for_task:
+acceptance_criteria:
+- The exact accepted P2-069 B1 result and its frozen DEV task cards, corpus identities, query, top-k 10 and 131072-byte UTF-8 budget are hash-bound before any A0 execution.
+- The candidate contains a nonempty product-source selector change wired into the real Code QA product path and focused product tests pass offline.
+- A0 uses only the same eight frozen DEV tasks, queries, production-Java corpus leaves, ground-truth paths, top-k and byte budget as accepted B1; no HELD source, task card, oracle or result is opened.
+- A0 macro recall is strictly greater than accepted B1 macro recall 0.8958333333333333, macro precision is at least 0.15595238095238095, macro reciprocal rank is at least 0.8229166666666666, and no DEV task recall is lower than its accepted B1 value.
+- Two clean A0 DEV replays are byte-exact and independently recomputable from the frozen product candidate, accepted baseline inputs and closed read-set Evidence.
+- Product source, tests and evaluation outputs remain inside the Task allowlist; execution remains offline with sandbox-exec deny-network and zero external effects.
+- CTO, Security and Quality/Evaluation independently accept the exact candidate and Evidence inventory before the Task Gate is accepted.
+required_evidence:
+- Create-once accepted-baseline installation and exact binding of P2-069 B1 results, DEV task cards, benchmark manifest, read-set identity and non-overlap proof.
+- Exact product candidate commit/tree, nonempty product-source diff, changed-file inventory and proof that the selector is wired into the real Code QA path.
+- Focused product unit tests, controller regression tests and exact offline build invocation with environment and sandbox identity.
+- Two independent clean DEV replay transactions containing full per-file scores, selections, byte counts, per-task metrics and macro metrics.
+- Independent comparison against accepted B1 with strict-improvement, lower-bound and per-task no-regression checks.
+- Negative tests for HELD request, baseline drift, corpus drift, symlink input, out-of-root paths, output overwrite, nondeterministic ties and byte-budget overflow.
+- Rollback instructions, canonical verification and three final review records.
+rollback: >-
+  Do not integrate a rejected candidate; preserve its exact candidate and Evidence
+  inventory, retire only the short-lived Task resources through supported lifecycle,
+  and leave canonical main, P2-069 accepted baseline, P2-068 terminal accounting,
+  P2, P3 HOLD and the Long-term Goal unchanged.
+stop_conditions:
+- Stop before product execution if P2-069 accepted baseline identity, frozen DEV inputs, query, corpus, oracle, top-k or byte budget drifts.
+- Stop if any HELD task card, source leaf, PR payload, build result, oracle or result is requested or opened.
+- Stop if any P2-068 rejected branch, worktree, code, benchmark implementation or engineering Evidence is read, compared, copied or reused.
+- Stop if any network, Provider, Secret, remote, production or public effect is requested or observed.
+- Stop if any write escapes the exact Task allowlist or create-once Task Evidence root.
+- Stop when two candidate generations, two implementation iterations, one same-Task repair or two review cycles are exhausted.
+forbidden_actions:
+- Read, compare, copy or reuse P2-068 rejected engineering lineage.
+- Modify the accepted benchmark, DEV or HELD split, query, corpus, ground truth, metric, threshold, schedule, top-k, byte budget or P2-069 baseline.
+- Read or execute HELD, tune on HELD, rerun-to-pass, replace a failed Task or create successor, remediation, normalization or closure chains.
+- Execute Maven, Gradle, JVM tests or any build subprocess with network enabled; all builds must use exact offline settings and sandbox-exec deny-network.
+- Use network, credentials, uploads, Git fetch/clone/push, Provider, remote, production or public release.
+- Delete accepted or terminal Evidence, modify Codex control-plane state, enter P3 or terminate the Long-term Goal.
+claim_boundary: >-
+  This Task may establish only P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED for one exact
+  product candidate on frozen DEV. It does not claim formal HELD performance, the P2
+  Exit Gate, P3 eligibility, production readiness or Long-term Goal completion.

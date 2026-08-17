@@ -21637,10 +21637,10 @@ active_work:
   current_task: NONE
   current_task_status: NONE
   current_task_contract:
-    path:
-    sha256:
-    byte_length:
-  current_task_contract_sha256:
+    path: docs/aios/tasks/P2-075_CLEAN_ROOM_QUERY_ENTITY_COVERAGE_PRODUCT_SELECTOR_ARCHITECTURE_PIVOT_DEV.yaml
+    sha256: 669a4e00219740f95aefd8d6a84e465afc13a601690435ff7a38adcb6cd617df
+    byte_length: 15511
+  current_task_contract_sha256: 669a4e00219740f95aefd8d6a84e465afc13a601690435ff7a38adcb6cd617df
   current_execution_authorization:
   current_execution_authorization_sha256:
   authority_record:
@@ -21648,7 +21648,7 @@ active_work:
     sha256:
     byte_length:
   execution_nonce:
-  execution_nonce_status: NOT_ALLOCATED
+  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
   authorization_id:
   activation_parent_commit:
   activation_parent_tree:
@@ -21662,7 +21662,10 @@ active_work:
     calendar_days:
     implementation_iterations:
     candidates:
-  roles: {}
+  roles:
+    owner:
+    worker:
+    independent_reviewers: []
   external_effects:
     network: false
     provider: false

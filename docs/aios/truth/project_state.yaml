@@ -7084,6 +7084,10 @@ historical_p2_072_phase_route:
       path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-selector-execution-integrity-recovery-20260817/task-p2-072/terminal/P2_072_TERMINAL_PRODUCT_SELECTOR_DEV_REPLAY_EXECUTION_INTEGRITY_NON_PASS_RECEIPT_V1.json
       byte_length: 6064
       sha256: a14509a6e2ff8ce82962f6f4205adef7f1e6fde956f93d9c9331c2276e4ecf05
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-selector-execution-integrity-recovery-20260817/task-p2-072/terminal/P2_072_TERMINAL_PRODUCT_SELECTOR_DEV_REPLAY_EXECUTION_INTEGRITY_NON_PASS_RECEIPT_V1.json
+    byte_length: 6064
+    sha256: a14509a6e2ff8ce82962f6f4205adef7f1e6fde956f93d9c9331c2276e4ecf05
   external_effects:
     network: false
     provider: false
@@ -7093,6 +7097,27 @@ historical_p2_072_phase_route:
     public: false
   additional_write_roots: []
   inherited_worktree_inventory_source: historical_p2_071_phase_route
+  inherited_worktree_inventory:
+  - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-068-recovery-benchmark-foundation
+    head: 275eb00e2c209653ab045bd498d06e7d68e85162
+    branch: codex/p2-068-recovery-benchmark-foundation
+    status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+  - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-069-clean-room-recovery-benchmark-foundation
+    head: ce3be466fcdccba81011185fd0d8ee97e824befa
+    branch: codex/p2-069-clean-room-recovery-benchmark-foundation
+    status: INHERITED_CLOSED_OUT_OF_SCOPE_NOT_CURRENT
+  - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-070-product-java-maintenance-context-selector-dev
+    head: 9e2b30b3159ef6a62cc3ddb8a20c53fbf0625db4
+    branch: codex/p2-070-product-java-maintenance-context-selector-dev
+    status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+  - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-071-clean-room-java-maintenance-context-selector-dev
+    head: 36c2085e1e535cef2e6a27bc7645f062a1d37615
+    branch: codex/p2-071-clean-room-java-maintenance-context-selector-dev
+    status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+  - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-072-clean-room-java-maintenance-context-selector-execution-integrity-dev
+    head: 6dd462f26fcd366be8d4cd4bfba015348508bb97
+    branch: codex/p2-072-clean-room-java-maintenance-context-selector-execution-integrity-dev
+    status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
 
 current_phase_route:
   schema_version: founder-reserved-decision-hold/v1
@@ -27726,7 +27751,7 @@ p2_recovery_control:
     unlock_requirement: P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED
     engineering_hours: 32
     calendar_days: 8
-  benchmark_source_admission_status: ACCEPTED_SOURCE_PACK_INSTALLED_PRODUCT_SELECTOR_DEV_MILESTONE_STILL_MISSING
+  benchmark_source_admission_status: ACCEPTED_SOURCE_PACK_INSTALLED_SLOT_1_ELIGIBLE
   strict_gate_percent: 0
   current_delivery_percent: 25
   governance_progress_credit: 0

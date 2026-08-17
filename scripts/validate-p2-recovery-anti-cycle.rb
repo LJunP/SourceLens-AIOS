@@ -424,23 +424,101 @@ module P2RecoveryAntiCycle
 
     limits = { "engineering_tasks" => 15, "engineering_hours" => 432, "calendar_days" => 108 }
     consumed = { "engineering_tasks" => 12, "engineering_hours" => 336, "calendar_days" => 84 }
-    remaining = { "engineering_tasks" => 3, "engineering_hours" => 96, "calendar_days" => 24 }
-    assert!(envelope["status"] == "ACTIVE_REMAINING_CAPACITY" && envelope["limits"].slice(*limits.keys) == limits && envelope["consumed"] == consumed && envelope["remaining"] == remaining, "Truth P2 recovery envelope drift")
+    assert!(envelope["limits"].slice(*limits.keys) == limits && envelope["consumed"] == consumed,
+            "Truth P2 recovery envelope fixed accounting drift")
     assert!(envelope.dig("authority_basis", "source_route_ref") == "historical_p2_value_first_recovery_envelope_expansion_phase_route" && envelope.dig("authority_basis", "source_route_id") == decision_claims["route_id"] && envelope.dig("authority_basis", "source_decision") == decision_identity, "Truth P2 recovery envelope authority binding drift")
-    next_action = "MASTER_ACTIVATE_P2_RECOVERY_CAPACITY_SLOT_1_BENCHMARK_FOUNDATION"
-    assert!(route["status"] == "AUTHORIZED_READY" && route["execution_status"] == "PHASE_DELEGATED_CONTINUATION_READY" && route["scheduling_status"] == "MASTER_ACTIVATING_P2_RECOVERY_CAPACITY_SLOT_1" && route["next_eligible_action"] == next_action, "Truth current route is not delegated slot1 activation ready")
-    assert!(escalation["disposition"] == "NO_RESERVED_TRIGGER_CONTINUE_PHASE" && escalation.dig("reserved_trigger", "category") == "NONE" && escalation["founder_decision_required"] == false && escalation["next_action_owner"] == "MASTER_CEO_AGENT" && escalation["next_eligible_action"] == next_action, "Truth Founder escalation did not return to delegated slot1 activation")
-    assert!(active["current_task"] == "NONE" && goal["current_task_authority"] == "NONE", "P2 recovery correction may not activate a Task")
-    assert!(active["task_resource_state"] == "NOT_CREATED_SOURCE_ADMISSION_ACCEPTED_SLOT_1_ELIGIBLE" && active["founder_decision_required"] == false && active["next_eligible_action"] == next_action, "Truth active-work source-admission projection drift")
-    assert!(claim["p2_phase_envelope_status"] == "ACTIVE_REMAINING_CAPACITY" && claim["p2_project_status"] == "ACTIVE" && claim["long_term_goal_status"] == "ACTIVE", "Truth lifecycle projection drift")
-    assert!(control["schema_version"] == "p2-recovery-control/v1" && control["status"] == "BENCHMARK_SOURCE_ADMISSION_ACCEPTED_SLOT_1_ELIGIBLE_NOT_ACTIVATED" && control["benchmark_source_admission_status"] == "ACCEPTED_SOURCE_PACK_INSTALLED_SLOT_1_ELIGIBLE" && control["task_creation_allowed"] == true && control["next_eligible_action"] == next_action, "Truth P2 recovery source-admission/slot1 state drift")
+    assert!(control["schema_version"] == "p2-recovery-control/v1" &&
+            control["benchmark_source_admission_status"] == "ACCEPTED_SOURCE_PACK_INSTALLED_SLOT_1_ELIGIBLE",
+            "Truth P2 recovery source-admission projection drift")
     expected_slots = decision_claims.fetch("capacity_slots").map do |slot|
       slot.slice("slot", "capacity_slot_id", "task_id", "milestone_id", "unlock_requirement", "engineering_hours", "calendar_days")
     end
-    assert!(control["capacity_slots"] == expected_slots && control["capacity_slots"].all? { |slot| slot["task_id"].nil? }, "Truth recovery capacity slot projection drift")
-    assert!(project["phase_execution_status"] == "ACTIVE" && project["current_route_execution_status"] == "PHASE_DELEGATED_CONTINUATION_READY", "Truth project recovery execution projection drift")
-    assert!(claim["current_phase_route"] == route["route_id"] && claim["current_task"] == "NONE" && claim["next_eligible_action"] == route["next_eligible_action"] && claim["real_engineering_progress"] == "P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_BENCHMARK_SOURCE_ADMISSION_ACCEPTED_SLOT_1_ELIGIBLE_TASK_NONE_DELIVERY_ZERO", "Truth recovery claim projection drift")
-    assert!(plan.dig("current_control", "new_task_creation_allowed") == false && control["task_creation_allowed"] == true, "Recovery plan historical baseline or source-admission unlock drift")
+    task_id = "AIOS-P2-068_RECOVERY_BENCHMARK_FOUNDATION"
+    assert!(escalation["disposition"] == "NO_RESERVED_TRIGGER_CONTINUE_PHASE" &&
+            escalation.dig("reserved_trigger", "category") == "NONE" &&
+            escalation["founder_decision_required"] == false &&
+            escalation["next_action_owner"] == "MASTER_CEO_AGENT",
+            "Truth Founder escalation must preserve autonomous P2 continuation")
+    assert!(project["phase_execution_status"] == "ACTIVE" &&
+            claim["p2_project_status"] == "ACTIVE" &&
+            claim["long_term_goal_status"] == "ACTIVE",
+            "Truth recovery lifecycle projection drift")
+
+    case control["status"]
+    when "BENCHMARK_SOURCE_ADMISSION_ACCEPTED_SLOT_1_ELIGIBLE_NOT_ACTIVATED"
+      next_action = "MASTER_ACTIVATE_P2_RECOVERY_CAPACITY_SLOT_1_BENCHMARK_FOUNDATION"
+      remaining = { "engineering_tasks" => 3, "engineering_hours" => 96, "calendar_days" => 24 }
+      assert!(envelope["status"] == "ACTIVE_REMAINING_CAPACITY" && envelope["reserved"].nil? &&
+              envelope["remaining"] == remaining,
+              "Truth eligible Slot 1 envelope drift")
+      assert!(route["status"] == "AUTHORIZED_READY" &&
+              route["execution_status"] == "PHASE_DELEGATED_CONTINUATION_READY" &&
+              route["scheduling_status"] == "MASTER_ACTIVATING_P2_RECOVERY_CAPACITY_SLOT_1" &&
+              route["next_eligible_action"] == next_action,
+              "Truth current route is not delegated Slot 1 selection ready")
+      assert!(active["current_task"] == "NONE" && goal["current_task_authority"] == "NONE" &&
+              active["task_resource_state"] == "NOT_CREATED_SOURCE_ADMISSION_ACCEPTED_SLOT_1_ELIGIBLE",
+              "Truth eligible Slot 1 active-work projection drift")
+      assert!(control["task_creation_allowed"] == true && control["next_eligible_action"] == next_action &&
+              control["capacity_slots"] == expected_slots &&
+              control["capacity_slots"].all? { |slot| slot["task_id"].nil? },
+              "Truth eligible Slot 1 capacity projection drift")
+      assert!(project["current_route_execution_status"] == "PHASE_DELEGATED_CONTINUATION_READY" &&
+              claim["p2_phase_envelope_status"] == "ACTIVE_REMAINING_CAPACITY" &&
+              claim["current_task"] == "NONE" &&
+              claim["real_engineering_progress"] == "P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_BENCHMARK_SOURCE_ADMISSION_ACCEPTED_SLOT_1_ELIGIBLE_TASK_NONE_DELIVERY_ZERO",
+              "Truth eligible Slot 1 claim projection drift")
+    when "SLOT_1_BENCHMARK_FOUNDATION_TASK_RESERVED_READY", "SLOT_1_BENCHMARK_FOUNDATION_TASK_ACTIVE"
+      ready = control["status"].end_with?("READY")
+      task_status = ready ? "ELIGIBLE_NOT_ACTIVATED" : "ACTIVE"
+      next_action = ready ? "MASTER_ACTIVATE_PHASE_DELEGATED_TASK" : "COMPLETE_CURRENT_TASK_GATE"
+      expected_resource_state = ready ? "NOT_CREATED_PHASE_DELEGATED_TASK_READY" : "ACTIVE_UNIQUE_PHASE_DELEGATED"
+      expected_route_status = ready ? "AUTHORIZED_READY" : "ACTIVE"
+      expected_route_execution = ready ? "PHASE_DELEGATED_TASK_READY" : "ACTIVE"
+      expected_scheduling = ready ? "READY_FOR_MASTER_ACTIVATION" : "ACTIVE_PHASE_DELEGATED_TASK"
+      expected_project_route = ready ? "PHASE_DELEGATED_TASK_READY" : "ACTIVE_PHASE_DELEGATED_TASK"
+      remaining = { "engineering_tasks" => 2, "engineering_hours" => 64, "calendar_days" => 16 }
+      expected_slots[0]["task_id"] = task_id
+      selected = route.fetch("selected_task")
+      reservation = envelope.fetch("reserved")
+      assert!(envelope["status"] == "TASK_CAPACITY_RESERVED" && envelope["remaining"] == remaining,
+              "Truth reserved Slot 1 envelope drift")
+      assert!(selected["task_id"] == task_id && selected["status"] == task_status &&
+              selected["capacity_source_task_id"] == "P2_RECOVERY_CAPACITY_SLOT_1",
+              "Truth reserved Slot 1 Task projection drift")
+      assert!(reservation["task_id"] == task_id && reservation["route_id"] == route["route_id"] &&
+              reservation["status"] == task_status &&
+              reservation["capacity_source_task_id"] == "P2_RECOVERY_CAPACITY_SLOT_1" &&
+              reservation["contract"] == selected["contract"] &&
+              reservation["budget"] == { "engineering_tasks" => 1, "engineering_hours" => 32, "calendar_days" => 8 } &&
+              (ready ? reservation["authority"].nil? : reservation["authority"] == active["authority_record"]),
+              "Truth reserved Slot 1 authority or budget drift")
+      assert!(route["status"] == expected_route_status && route["execution_status"] == expected_route_execution &&
+              route["scheduling_status"] == expected_scheduling && route["next_eligible_action"] == next_action,
+              "Truth reserved Slot 1 Route lifecycle drift")
+      assert!(active["current_task"] == (ready ? "NONE" : task_id) &&
+              active["task_resource_state"] == expected_resource_state &&
+              goal["current_task_authority"] == (ready ? "NONE" : task_id),
+              "Truth reserved Slot 1 active-work lifecycle drift")
+      assert!(control["task_creation_allowed"] == false && control["next_eligible_action"] == next_action &&
+              control["capacity_slots"] == expected_slots,
+              "Truth reserved Slot 1 capacity projection drift")
+      assert!(project["current_route_execution_status"] == expected_project_route &&
+              claim["p2_phase_envelope_status"] == "TASK_CAPACITY_RESERVED" &&
+              claim["current_task"] == (ready ? "NONE" : task_id) &&
+              claim["real_engineering_progress"] == "P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_BENCHMARK_SOURCE_ADMISSION_ACCEPTED_SLOT_1_#{ready ? 'TASK_READY' : 'TASK_ACTIVE'}_DELIVERY_ZERO",
+              "Truth reserved Slot 1 claim projection drift")
+    else
+      fail!("unsupported P2 recovery control lifecycle #{control['status'].inspect}")
+    end
+    assert!(escalation["next_eligible_action"] == route["next_eligible_action"] &&
+            active["founder_decision_required"] == false &&
+            active["next_eligible_action"] == route["next_eligible_action"] &&
+            claim["current_phase_route"] == route["route_id"] &&
+            claim["next_eligible_action"] == route["next_eligible_action"],
+            "Truth P2 recovery current projections drift")
+    assert!(plan.dig("current_control", "new_task_creation_allowed") == false,
+            "Recovery plan historical baseline was rewritten")
   end
 
   def validate!(truth_path: DEFAULT_TRUTH, plan_path: DEFAULT_PLAN, repo_root: ROOT)
@@ -467,7 +545,7 @@ if $PROGRAM_NAME == __FILE__
       parser.on("--repo PATH") { |value| options[:repo_root] = File.expand_path(value) }
     end.parse!
     P2RecoveryAntiCycle.validate!(**options)
-    puts "P2_RECOVERY_ANTI_CYCLE: PASS strict_gate=0 delivery=0 capacity=3 task_creation=true source_admission=true slot1=eligible_not_activated"
+    puts "P2_RECOVERY_ANTI_CYCLE: PASS strict_gate=0 delivery=0 source_admission=true lifecycle=validated"
   rescue P2RecoveryAntiCycle::ValidationError, AuthorityValidationError,
          DuplicateJsonKeyError, JSON::ParserError, KeyError, Psych::Exception,
          Errno::ENOENT, Errno::ELOOP => error

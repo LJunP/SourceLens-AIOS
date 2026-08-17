@@ -1,0 +1,235 @@
+schema_version: "1.1"
+record_type: aios_phase_delegated_independent_task_contract
+task_id: AIOS-P2-068_RECOVERY_BENCHMARK_FOUNDATION
+phase: P2
+route_id: AIOS-P2-068_RECOVERY_BENCHMARK_FOUNDATION_PHASE_DELEGATED_ROUTE
+status: ELIGIBLE_NOT_ACTIVATED
+task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
+capability: LEXICAL_RETRIEVAL_BASELINE
+objective: >-
+  Convert the accepted six-repository, twelve-task Java source pack into one
+  representative source-bound maintenance benchmark foundation, expose only the
+  eight-task DEV projection to implementation, retain the four-task HELD split in
+  sealed custody, and implement a deterministic simple lexical file-retrieval
+  baseline whose DEV result can be independently replayed and accepted before any
+  product selector work begins.
+why_now: >-
+  P2 remains active at strict progress zero because its only Exit item is missing.
+  The accepted benchmark source pack now satisfies the recovery plan prerequisite
+  for capacity Slot 1. This Task is the smallest value-bearing next step: it creates
+  the representative benchmark and baseline foundation without changing product
+  source, opening HELD outcomes, using network, or recovering rejected P2 lineage.
+task_spec_ref:
+  path: docs/aios/decisions/P2_VALUE_FIRST_RECOVERY_ENVELOPE_EXPANSION_V1.md
+  sha256: 6fe2c2b5b58c4586bc4797a7428bab819d9d29221f91435e41f5fb132a8b684f
+  byte_length: 2366
+owner_role: MASTER_CEO_AGENT
+worker_role: P2_068_BENCHMARK_FOUNDATION_WORKER
+write_scope:
+  - docs/aios/tasks/P2-068_RECOVERY_BENCHMARK_FOUNDATION.yaml
+  - docs/aios/truth/project_state.yaml
+  - scripts/validate-p2-recovery-anti-cycle.rb
+  - scripts/test-p2-recovery-anti-cycle.rb
+  - scripts/validate-founder-delegation-continuity.rb
+  - scripts/validate-current-task-authority.rb
+  - evaluation-harness/harness/p2-recovery-benchmark-foundation
+  - evaluation-harness/replay/p2-recovery-benchmark-foundation
+  - evaluation-harness/reports/p2-recovery-benchmark-foundation
+  - evaluation-harness/evaluator/p2-recovery-benchmark-foundation
+  - evaluation-harness/datasets/p2-recovery-benchmark-foundation
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/decisions/P2_VALUE_FIRST_RECOVERY_ENVELOPE_EXPANSION_V1.md
+  - TASK_EVIDENCE_ROOT/baseline/public/BASELINE_STAGE.json
+dependencies:
+  - kind: CANONICAL_SOURCE
+    identity:
+      commit: 5d75f146db21da0e05b5bd5b47ed23e096dd162d
+      tree: 35274a399dbd1b452fe9c1e4e0753763a0d59d81
+  - kind: BASELINE_ARTIFACT
+    identity:
+      artifact_id: P2_RECOVERY_BENCHMARK_FOUNDATION_BASELINE_STAGE_V1
+      relative_path: baseline/public/BASELINE_STAGE.json
+      byte_length: 2189
+      sha256: 1eb80d2988c60d692a4b89f0007395ce7a4e4266a9ef1dd44bc9bbe9e18732ac
+      baseline_ids:
+        - B0_SOURCE_BOUND_BENCHMARK_FOUNDATION_V1
+        - B1_SIMPLE_LEXICAL_BM25_FILE_V1
+risk_level: high
+baseline_ref:
+  artifact_id: P2_RECOVERY_BENCHMARK_FOUNDATION_BASELINE_STAGE_V1
+  relative_path: baseline/public/BASELINE_STAGE.json
+  byte_length: 2189
+  sha256: 1eb80d2988c60d692a4b89f0007395ce7a4e4266a9ef1dd44bc9bbe9e18732ac
+  baseline_ids:
+    - B0_SOURCE_BOUND_BENCHMARK_FOUNDATION_V1
+    - B1_SIMPLE_LEXICAL_BM25_FILE_V1
+independent_reviewer:
+  - CTO Agent
+  - Security Agent
+  - Quality and Evaluation Agent
+protocol_status_mapping:
+  ELIGIBLE_NOT_ACTIVATED: ready
+  ACTIVE: in_progress
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_1
+budget:
+  engineering_hours: 32
+  calendar_days: 8
+  implementation_iterations: 2
+  candidates: 2
+max_same_task_repairs: 1
+roles:
+  owner: MASTER_CEO_AGENT
+  worker: P2_068_BENCHMARK_FOUNDATION_WORKER
+  independent_reviewers:
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent
+allowlisted_paths:
+  - docs/aios/tasks/P2-068_RECOVERY_BENCHMARK_FOUNDATION.yaml
+  - docs/aios/truth/project_state.yaml
+  - scripts/validate-p2-recovery-anti-cycle.rb
+  - scripts/test-p2-recovery-anti-cycle.rb
+  - scripts/validate-founder-delegation-continuity.rb
+  - scripts/validate-current-task-authority.rb
+  - evaluation-harness/harness/p2-recovery-benchmark-foundation
+  - evaluation-harness/replay/p2-recovery-benchmark-foundation
+  - evaluation-harness/reports/p2-recovery-benchmark-foundation
+  - evaluation-harness/evaluator/p2-recovery-benchmark-foundation
+  - evaluation-harness/datasets/p2-recovery-benchmark-foundation
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+phase_delegation_binding:
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: "1.8"
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  delegation_amendment:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/founder-delegation-continuity-20260808/decision/FOUNDER_PHASE_DELEGATION_CONTINUITY_AMENDMENT_V1.json
+    byte_length: 1182
+    sha256: c37634c51b0b7695204c026f9950911c427f544a6ff2e2c2f786facb9a84a52e
+  source_decision:
+    path: docs/aios/decisions/P2_VALUE_FIRST_RECOVERY_ENVELOPE_EXPANSION_DECISION_V1.json
+    sha256: 813f7b69dccd127a28bb6d4bdc1f45d2a15816a8a02390b28e9f299bf5e5fec2
+    byte_length: 3265
+  source_terminal_event:
+    task_id: AIOS-P2-067
+    status: TERMINAL_PREACTIVATION_RUNTIME_REPAIR_EXHAUSTED_NON_PASS
+    outcome_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-black-box-java-context-20260811/task-p2-067/terminal-runtime-repair-exhausted-v1/decision/P2_067_TERMINAL_OUTCOME_RECEIPT_V1.json
+      byte_length: 5570
+      sha256: 89ce06b88dc863a0ff5ee347b55b0037139b263e3021f9e8e9ac3aaaa949c554
+  phase_envelope_snapshot:
+    limits:
+      engineering_tasks: 15
+      engineering_hours: 432
+      calendar_days: 108
+      active_tasks: 1
+      task_branches: 1
+      task_worktrees: 1
+      active_candidates: 1
+    consumed:
+      engineering_tasks: 12
+      engineering_hours: 336
+      calendar_days: 84
+    reserved:
+      task_id: AIOS-P2-068_RECOVERY_BENCHMARK_FOUNDATION
+      route_id: AIOS-P2-068_RECOVERY_BENCHMARK_FOUNDATION_PHASE_DELEGATED_ROUTE
+      status: ELIGIBLE_NOT_ACTIVATED
+      capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_1
+      budget:
+        engineering_tasks: 1
+        engineering_hours: 32
+        calendar_days: 8
+    remaining:
+      engineering_tasks: 2
+      engineering_hours: 64
+      calendar_days: 16
+  founder_packet_for_task:
+acceptance_criteria:
+  - The exact accepted source-pack manifest, inventory and seal are rehashed through the configured root, with 6 repositories, 12 tasks, exactly 2 tasks per repository, 8 DEV tasks and 4 HELD tasks.
+  - Every task binds Apache-2.0 license evidence, repository and pull-request provenance, exact base and fix commit/tree/archive identities, one executable selector, and the accepted one-shot base-FAIL/fix-PASS admission result.
+  - DEV exposes only its eight task specifications and reference patches; HELD task selectors, queries, gold units, patches and outcomes are excluded from Worker inputs and remain in stable Quality custody.
+  - The benchmark compiler deterministically derives maintenance queries, production-Java gold paths and reference patches from accepted source bytes without reading any rejected P2 lineage.
+  - B1_SIMPLE_LEXICAL_BM25_FILE_V1 indexes only regular src/main/java files from each base archive, uses the frozen query/tokenizer/ranking/top-k contract, and has no SourceLens graph, ranker, memory, product service or held-outcome access.
+  - Two fresh DEV materializations produce byte-identical benchmark manifests, reference patches, ranked outputs, per-task metrics and aggregate semantic projection.
+  - The independent evaluator rejects identity drift, split leakage, archive/path escape, symlink or non-regular input, duplicate task/repository cardinality, metric drift, rank tie nondeterminism, result omission, result substitution and false progress credit.
+  - Fresh CTO, Security and Quality and Evaluation reviews all PASS the same exact foundation candidate before P2_RECOVERY_BASELINE_ACCEPTED receives 25 percent delivery credit or Slot 2 becomes eligible.
+required_evidence:
+  - Exact accepted source-pack, source-admission decision and Slot 1 activation identities.
+  - Exact public DEV projection and separate HELD custody commitment with closed inventories and no Worker-held content.
+  - Exact deterministic source archive materialization and reference-patch inventory for both replay roots.
+  - Exact B1 implementation identity, two-root DEV run outputs, per-task Recall@8, Precision@8 and MRR@8, and aggregate result.
+  - Exact independent evaluator result with negative matrix, zero false accepts and stable semantic projection equality.
+  - Exact candidate source inventory proving zero backend-spring, analyzer-rust and web-console product-source changes.
+  - Exact fresh CTO, Security and Quality and Evaluation reviews bound to the same candidate and Evidence identities.
+rollback: >-
+  Stop only Task-owned local processes, preserve create-once Evidence and any exact
+  allowed-path diff, and do not delete the accepted source pack. Before integration,
+  remove the Task worktree and branch only if clean and only after terminal Evidence
+  is bound. Task NON_PASS ends only Slot 1 Task execution; P2, the project and the
+  long-term Goal remain ACTIVE, P3 remains HOLD, and no rejected lineage becomes reusable.
+stop_conditions:
+  - Any network, Provider, Secret, remote, production, public, non-loopback or external write effect.
+  - Any product-source change under backend-spring, analyzer-rust or web-console.
+  - Any read, comparison, copy, restoration or reuse of rejected or historical P2 engineering lineage.
+  - Any HELD selector, query, gold unit, patch, outcome or custody locator entering Worker inputs, logs or public DEV artifacts.
+  - Any source-pack, split, query, gold, patch, metric, tokenizer, ranker, top-k or schedule drift after candidate freeze.
+  - Any retry or rerun after formal foundation dispatch, or any denominator exclusion or task replacement.
+  - Any exhaustion of two implementation iterations, two candidates, one same-Task repair, two review cycles, 32 engineering hours or 8 calendar days.
+forbidden_actions:
+  - Modify product source, canonical main directly from Worker, another Task worktree, another Task Evidence root, Vault, Codex private control plane, remote, production or public state.
+  - Execute Maven, Gradle, JVM or another build subprocess with network capability; source admission build results are consumed only as immutable Evidence.
+  - Give the Worker the complete accepted source-pack manifest when a DEV-only projection is sufficient.
+  - Use HELD results to tune the benchmark, lexical baseline, metric, query construction, ranking or acceptance threshold.
+  - Claim P2 Exit acceptance, P3 eligibility, production readiness, general Java intelligence, project completion or long-term Goal completion from this Task alone.
+claim_boundary: >-
+  A complete PASS may establish only P2_RECOVERY_BASELINE_ACCEPTED for the exact
+  accepted six-repository, twelve-task source pack and the frozen simple lexical
+  baseline. It does not change product capability, accept the P2 Exit Gate, authorize
+  Slot 2 without independent Task Gate acceptance, enter P3, prove production or
+  general Java intelligence, complete the project, or close the long-term Goal.
+write_ownership:
+  schema_version: role-write-ownership/v1
+  cross_role_write_allowed: false
+  owner:
+    role: MASTER_CEO_AGENT
+    write_paths:
+      - docs/aios/tasks/P2-068_RECOVERY_BENCHMARK_FOUNDATION.yaml
+      - docs/aios/truth/project_state.yaml
+      - scripts/validate-p2-recovery-anti-cycle.rb
+      - scripts/test-p2-recovery-anti-cycle.rb
+      - scripts/validate-founder-delegation-continuity.rb
+      - scripts/validate-current-task-authority.rb
+  worker:
+    role: P2_068_BENCHMARK_FOUNDATION_WORKER
+    write_paths:
+      - evaluation-harness/harness/p2-recovery-benchmark-foundation
+      - evaluation-harness/replay/p2-recovery-benchmark-foundation
+      - evaluation-harness/reports/p2-recovery-benchmark-foundation
+  independent_reviewers:
+    - role: CTO Agent
+      write_paths: []
+    - role: Security Agent
+      write_paths: []
+    - role: Quality and Evaluation Agent
+      write_paths:
+        - evaluation-harness/evaluator/p2-recovery-benchmark-foundation
+        - evaluation-harness/datasets/p2-recovery-benchmark-foundation

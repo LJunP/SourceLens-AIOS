@@ -1021,6 +1021,22 @@ module FounderDelegationContinuity
   end
 
   def source_capacity_task!(source_route, capacity_source_task_id)
+    if source_route["schema_version"] == "1.4"
+      matches = array(source_route["capacity_slots"], "source Route capacity slots").select do |slot|
+        slot.is_a?(Hash) && slot["capacity_slot_id"] == capacity_source_task_id
+      end
+      assert(matches.length == 1, "delegated Task capacity slot is missing or ambiguous")
+      source = mapping(matches.first, "delegated Task capacity slot")
+      assert(source["task_id"].nil?,
+             "Founder-bound capacity slot must not preallocate a Task id")
+      assert(source_route.dig("envelope", "external_effects") == FALSE_EXTERNAL_EFFECTS,
+             "delegated Task capacity slot exceeds the offline Phase boundary")
+      return source.merge(
+        "status" => "AUTHORIZED_CAPACITY_AVAILABLE",
+        "external_effects" => FALSE_EXTERNAL_EFFECTS
+      )
+    end
+
     matches = array(source_route["task_plan"], "source Route task plan").select do |task|
       task.is_a?(Hash) && task["task_id"] == capacity_source_task_id
     end
@@ -3900,7 +3916,8 @@ module FounderDelegationContinuity
     source_route_ref = phase_envelope.dig("authority_basis", "source_route_ref")
     source_route = mapping(truth[source_route_ref], "phase execution source Route")
     single_task_projection =
-      SINGLE_TASK_EXPANSION_DECISION_VERSIONS.include?(source_route["schema_version"]) &&
+      (SINGLE_TASK_EXPANSION_DECISION_VERSIONS.include?(source_route["schema_version"]) ||
+       CUMULATIVE_CAPACITY_DECISION_VERSIONS.include?(source_route["schema_version"])) &&
       current_route["schema_version"] == DELEGATED_TASK_ROUTE_SCHEMA &&
       %w[ELIGIBLE_NOT_ACTIVATED ACTIVE].include?(current_route.dig("selected_task", "status"))
     if single_task_projection
@@ -4159,8 +4176,13 @@ module FounderDelegationContinuity
     budget.each do |key, value|
       assert(value.is_a?(Integer) && value.positive?, "delegated independent Task budget #{key} is invalid")
     end
-    assert(budget["candidates"] == 1,
-           "delegated independent Task candidate budget must equal one")
+    if source_route["schema_version"] == "1.4"
+      assert(budget["candidates"] <= capacity_source["max_candidates"],
+             "delegated independent Task candidate budget exceeds its recovery capacity slot")
+    else
+      assert(budget["candidates"] == 1,
+             "delegated independent Task candidate budget must equal one")
+    end
     max_repairs = integer(task["max_same_task_repairs"], "delegated Task same-Task repair budget")
     assert(max_repairs >= 0,
            "delegated Task same-Task repair budget must not be negative")

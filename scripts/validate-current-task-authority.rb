@@ -3487,9 +3487,9 @@ module CurrentTaskAuthority
   end
 
   def validate_phase_delegated_contract_schema_binding!(source_route, contract)
-    return contract unless source_route["schema_version"] == "1.3"
+    return contract unless %w[1.3 1.4].include?(source_route["schema_version"])
     assert(contract["schema_version"] == "1.1" && contract.key?("write_ownership"),
-           "v1.3 Founder source Route requires a role-partitioned Task Contract v1.1")
+           "v1.3+ Founder source Route requires a role-partitioned Task Contract v1.1")
     contract
   end
 

@@ -38,12 +38,12 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
+  current_task_authority: AIOS-P2-073_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_SANDBOX_STREAM_LIFECYCLE_DEV
   note: 'Founder decision AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SANDBOX_STREAM_LIFECYCLE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V3
     expands the cumulative P2 envelope to nineteen Tasks, five-hundred-sixty engineering
     hours and one-hundred-forty calendar days while preserving seventeen consumed
     Tasks. The new clean-room Product Selector DEV sandbox-stream-lifecycle slot
-    V5_1 is reserved to AIOS-P2-073 but remains not activated; the existing formal HELD slot V2_3 remains
+    V5_1 is activated only for AIOS-P2-073 preactivation work; the existing formal HELD slot V2_3 remains
     locked until P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED is independently accepted.
     Before any Worker product-source write, the exact macOS sandbox-stream lifecycle
     probe must pass and bind the Node-to-JDK17 stdin, EOF, stdout, stderr and normal-exit
@@ -1475,7 +1475,7 @@ project:
   p2_entry_status: AUTHORIZED
   p2_execution_status: ACTIVE
   phase_execution_status: ACTIVE
-  current_route_execution_status: PHASE_DELEGATED_TASK_READY
+  current_route_execution_status: ACTIVE_PHASE_DELEGATED_TASK
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -7235,9 +7235,9 @@ historical_p2_072_phase_route:
 current_phase_route:
   schema_version: phase-delegated-independent-task/v1
   route_id: AIOS-P2-073_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_SANDBOX_STREAM_LIFECYCLE_DEV_PHASE_DELEGATED_ROUTE
-  status: AUTHORIZED_READY
-  execution_status: PHASE_DELEGATED_TASK_READY
-  scheduling_status: READY_FOR_MASTER_ACTIVATION
+  status: ACTIVE
+  execution_status: ACTIVE
+  scheduling_status: ACTIVE_PHASE_DELEGATED_TASK
   phase: P2
   phase_entry_status: AUTHORIZED
   policy:
@@ -7245,13 +7245,13 @@ current_phase_route:
     version: '1.8'
     sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
   founder_phase_route_decision_required: false
-  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
+  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
   phase_execution_envelope_ref: phase_execution_envelope
   source_authority_route_ref: historical_p2_product_selector_dev_sandbox_stream_lifecycle_slot_and_relocked_held_phase_route
   preceding_terminal_route_ref: historical_p2_072_phase_route
   selected_task:
     task_id: AIOS-P2-073_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_SANDBOX_STREAM_LIFECYCLE_DEV
-    status: ELIGIBLE_NOT_ACTIVATED
+    status: ACTIVE
     task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
     capability: GRAPH_CONDITIONED_CONTEXT_SELECTION
     objective: >-
@@ -7269,8 +7269,8 @@ current_phase_route:
     max_same_task_repairs: 1
     contract:
       path: docs/aios/tasks/P2-073_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_SANDBOX_STREAM_LIFECYCLE_DEV.yaml
-      sha256: 993cb900f64af7f76eda3eb2032cc1732de417ed7f5cf093313908fcb1f36e06
-      byte_length: 14521
+      sha256: 596443aeae6eddd7032af0fec71b5cc3680e533f9ca4b7af03be365e31bc5d73
+      byte_length: 14505
     independence:
       new_task_id: true
       new_execution_nonce: true
@@ -9686,7 +9686,7 @@ phase_execution_envelope:
   reserved:
     task_id: AIOS-P2-073_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_SANDBOX_STREAM_LIFECYCLE_DEV
     route_id: AIOS-P2-073_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_SANDBOX_STREAM_LIFECYCLE_DEV_PHASE_DELEGATED_ROUTE
-    status: ELIGIBLE_NOT_ACTIVATED
+    status: ACTIVE
     capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_V5_1
     budget:
       engineering_tasks: 1
@@ -9694,9 +9694,12 @@ phase_execution_envelope:
       calendar_days: 8
     contract:
       path: docs/aios/tasks/P2-073_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_SANDBOX_STREAM_LIFECYCLE_DEV.yaml
-      sha256: 993cb900f64af7f76eda3eb2032cc1732de417ed7f5cf093313908fcb1f36e06
-      byte_length: 14521
+      sha256: 596443aeae6eddd7032af0fec71b5cc3680e533f9ca4b7af03be365e31bc5d73
+      byte_length: 14505
     authority:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-selector-sandbox-stream-lifecycle-recovery-20260817/task-p2-073/authority/P2_073_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
+      sha256: 2c2135f98880cb2958877efc1790d1acca201a66feb4f7e7a179fd0beda26ce4
+      byte_length: 8067
   remaining:
     engineering_tasks: 1
     engineering_hours: 32
@@ -9713,16 +9716,16 @@ founder_escalation_control:
   schema_version: founder-escalation-control/v1
   disposition: NO_RESERVED_TRIGGER_CONTINUE_PHASE
   source_event:
-    kind: FOUNDER_EXPANDED_SINGLE_TASK_READY
+    kind: FOUNDER_EXPANDED_SINGLE_TASK_ACTIVE
     task_id: AIOS-P2-073_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_SANDBOX_STREAM_LIFECYCLE_DEV
-    status: ELIGIBLE_NOT_ACTIVATED
+    status: ACTIVE
   reserved_trigger:
     category: NONE
     evidence:
   phase_gate_status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
   founder_decision_required: false
   next_action_owner: MASTER_CEO_AGENT
-  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
+  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
 
 historical_p2_053_phase_route:
   schema_version: "1.1"
@@ -20961,38 +20964,48 @@ historical_p2_072_terminal_active_work:
   - evaluation-harness/reports/p2-product-selector-execution-integrity-dev-v1/**
 
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P2-073_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_SANDBOX_STREAM_LIFECYCLE_DEV
+  current_task_status: ACTIVE
   current_task_contract:
     path: docs/aios/tasks/P2-073_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_SANDBOX_STREAM_LIFECYCLE_DEV.yaml
-    sha256: 993cb900f64af7f76eda3eb2032cc1732de417ed7f5cf093313908fcb1f36e06
-    byte_length: 14521
-  current_task_contract_sha256: 993cb900f64af7f76eda3eb2032cc1732de417ed7f5cf093313908fcb1f36e06
-  current_execution_authorization:
-  current_execution_authorization_sha256:
+    sha256: 596443aeae6eddd7032af0fec71b5cc3680e533f9ca4b7af03be365e31bc5d73
+    byte_length: 14505
+  current_task_contract_sha256: 596443aeae6eddd7032af0fec71b5cc3680e533f9ca4b7af03be365e31bc5d73
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-selector-sandbox-stream-lifecycle-recovery-20260817/task-p2-073/authority/P2_073_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
+  current_execution_authorization_sha256: 2c2135f98880cb2958877efc1790d1acca201a66feb4f7e7a179fd0beda26ce4
   authority_record:
-    path:
-    sha256:
-    byte_length:
-  execution_nonce:
-  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
-  authorization_id:
-  activation_parent_commit:
-  activation_parent_tree:
-  task_resource_state: NOT_CREATED_PHASE_DELEGATED_TASK_READY
-  task_branch:
-  task_worktree:
-  execution_evidence_root:
-  allowlisted_paths: []
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-selector-sandbox-stream-lifecycle-recovery-20260817/task-p2-073/authority/P2_073_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
+    sha256: 2c2135f98880cb2958877efc1790d1acca201a66feb4f7e7a179fd0beda26ce4
+    byte_length: 8067
+  execution_nonce: 5e768029-4004-47b0-9b22-d296e90dd201
+  execution_nonce_status: ACTIVE
+  authorization_id: 99aac0e6-0805-4cd5-849f-16b3fadb73a5
+  activation_parent_commit: 79c3669339410dd3108e6ceeb293bfc44556dc09
+  activation_parent_tree: 9fdc5811b0703c08e5b8b5d596e3e7412655b07f
+  task_resource_state: ACTIVE_UNIQUE_PHASE_DELEGATED
+  task_branch: codex/p2-073-clean-room-java-maintenance-context-selector-sandbox-stream-lifecycle-dev
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-073-clean-room-java-maintenance-context-selector-sandbox-stream-lifecycle-dev
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-selector-sandbox-stream-lifecycle-recovery-20260817/task-p2-073
+  allowlisted_paths:
+  - backend-spring/src/main/java/com/sourcelens/module/agent/service/JavaMaintenanceContextSelector.java
+  - backend-spring/src/main/java/com/sourcelens/module/agent/service/CodeQaRetrievalService.java
+  - backend-spring/src/test/java/com/sourcelens/JavaMaintenanceContextSelectorTest.java
+  - backend-spring/src/test/java/com/sourcelens/CodeQaRetrievalServiceTest.java
+  - evaluation-harness/harness/p2-product-selector-sandbox-stream-lifecycle-v1/**
+  - evaluation-harness/replay/p2-product-selector-sandbox-stream-lifecycle-v1/**
+  - evaluation-harness/reports/p2-product-selector-sandbox-stream-lifecycle-v1/**
   budget:
-    engineering_hours:
-    calendar_days:
-    implementation_iterations:
-    candidates:
+    engineering_hours: 32
+    calendar_days: 8
+    implementation_iterations: 2
+    candidates: 2
   roles:
-    owner:
-    worker:
-    independent_reviewers: []
+    owner: P2-073 Master Owner
+    worker: P2-073 Clean-room Product Selector Worker
+    independent_reviewers:
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent
   external_effects:
     network: false
     provider: false
@@ -21009,7 +21022,38 @@ active_work:
   user_action_required: NONE
   phase_route_decision_required: false
   phase_route_user_action_required: NONE
-  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
+  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
+  write_ownership:
+    schema_version: role-write-ownership/v1
+    cross_role_write_allowed: false
+    owner:
+      role: P2-073 Master Owner
+      write_paths: []
+    worker:
+      role: P2-073 Clean-room Product Selector Worker
+      write_paths:
+      - backend-spring/src/main/java/com/sourcelens/module/agent/service/JavaMaintenanceContextSelector.java
+      - backend-spring/src/main/java/com/sourcelens/module/agent/service/CodeQaRetrievalService.java
+      - backend-spring/src/test/java/com/sourcelens/JavaMaintenanceContextSelectorTest.java
+      - backend-spring/src/test/java/com/sourcelens/CodeQaRetrievalServiceTest.java
+      - evaluation-harness/harness/p2-product-selector-sandbox-stream-lifecycle-v1/**
+      - evaluation-harness/replay/p2-product-selector-sandbox-stream-lifecycle-v1/**
+      - evaluation-harness/reports/p2-product-selector-sandbox-stream-lifecycle-v1/**
+    independent_reviewers:
+    - role: CTO Agent
+      write_paths: []
+    - role: Security Agent
+      write_paths: []
+    - role: Quality and Evaluation Agent
+      write_paths: []
+  effective_worker_write_paths:
+  - backend-spring/src/main/java/com/sourcelens/module/agent/service/JavaMaintenanceContextSelector.java
+  - backend-spring/src/main/java/com/sourcelens/module/agent/service/CodeQaRetrievalService.java
+  - backend-spring/src/test/java/com/sourcelens/JavaMaintenanceContextSelectorTest.java
+  - backend-spring/src/test/java/com/sourcelens/CodeQaRetrievalServiceTest.java
+  - evaluation-harness/harness/p2-product-selector-sandbox-stream-lifecycle-v1/**
+  - evaluation-harness/replay/p2-product-selector-sandbox-stream-lifecycle-v1/**
+  - evaluation-harness/reports/p2-product-selector-sandbox-stream-lifecycle-v1/**
 
 historical_p2_065_terminal_active_work:
   current_task: AIOS-P2-065_ESM_IMPORT_GRAPH_CONTEXT_PRODUCT_BENCHMARK
@@ -27555,8 +27599,8 @@ historical_lineages:
 
 phase_execution_claim:
   current_route_claim: AIOS-P2-073_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_SANDBOX_STREAM_LIFECYCLE_DEV_PHASE_DELEGATED_ROUTE
-  current_task_claim: NONE
-  real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_SLOT_V5_1_PRODUCT_SELECTOR_DEV_TASK_READY_SLOT_V2_3_RELOCKED
+  current_task_claim: AIOS-P2-073_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_SANDBOX_STREAM_LIFECYCLE_DEV
+  real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_SLOT_V5_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED
   product_capability_changed: false
   phase_local_allowed:
   - REAL_CODE_QA_PRODUCT_PATH_REPOSITORY_CONTEXT_SELECTOR
@@ -27884,7 +27928,7 @@ phase_execution_claim:
 
 p2_recovery_control:
   schema_version: p2-recovery-control/v1
-  status: CLEAN_ROOM_SLOT_V5_1_PRODUCT_SELECTOR_DEV_TASK_RESERVED_READY_SLOT_V2_3_RELOCKED
+  status: CLEAN_ROOM_SLOT_V5_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED
   plan:
     path: docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml
     byte_length: 7433
@@ -27919,15 +27963,15 @@ p2_recovery_control:
   accepted_milestones:
   - P2_RECOVERY_BASELINE_ACCEPTED
   task_creation_allowed: false
-  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
+  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
 
 claim_boundary:
   current_phase_route: AIOS-P2-073_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_SANDBOX_STREAM_LIFECYCLE_DEV_PHASE_DELEGATED_ROUTE
-  current_task: NONE
-  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
-  real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_SLOT_V5_1_PRODUCT_SELECTOR_DEV_TASK_READY_SLOT_V2_3_RELOCKED
-  p2_073_status: ELIGIBLE_NOT_ACTIVATED
-  p2_073_contract_sha256: 993cb900f64af7f76eda3eb2032cc1732de417ed7f5cf093313908fcb1f36e06
+  current_task: AIOS-P2-073_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_SANDBOX_STREAM_LIFECYCLE_DEV
+  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
+  real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_SLOT_V5_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED
+  p2_073_status: ACTIVE
+  p2_073_contract_sha256: 596443aeae6eddd7032af0fec71b5cc3680e533f9ca4b7af03be365e31bc5d73
   p2_073_capacity_source: P2_RECOVERY_CAPACITY_SLOT_V5_1
   p2_073_preactivation_gate_status: REQUIRED_NOT_EXECUTED
   p2_073_product_source_writes: 0

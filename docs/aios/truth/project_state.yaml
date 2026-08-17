@@ -7303,12 +7303,12 @@ historical_p2_product_selector_dev_query_entity_coverage_architecture_pivot_slot
   authorization_token: AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_AND_RELOCKED_HELD_SEQUENCE_V5
   decision_packet:
     path: docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_AND_RELOCKED_HELD_SEQUENCE_DECISION_V5.json
-    sha256: 0b5e8526d544d625cb1b0c329251ce40eef7aa70f57e4f60a5606a24928945cb
+    sha256: fa4ea60a11cc89d793dc9b827f34ef58be242cfc683100a685f0a005d96b6cbc
     byte_length: 3394
   original_founder_packet:
     path: docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_AND_RELOCKED_HELD_SEQUENCE_V5.md
-    sha256: 9133e1d899997f00aa789c147bff007eb1c1ce955329af0c0629abb5ab0adb00
-    byte_length: 8062
+    sha256: f4fa20496c85719d71707714183bb3b16ec3bf44a45821f3c9964e9c7820476d
+    byte_length: 7978
   activation_parent:
     commit: 45fe058f82aa397d4b169f49022fff97db5813de
     tree: 10b7b0f8d2438dcf787f2966c8b2aa2d668e20e6
@@ -9802,7 +9802,7 @@ phase_execution_envelope:
     source_route_id: P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_AND_RELOCKED_HELD_SEQUENCE_ROUTE_V5
     source_decision:
       path: docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_AND_RELOCKED_HELD_SEQUENCE_DECISION_V5.json
-      sha256: 0b5e8526d544d625cb1b0c329251ce40eef7aa70f57e4f60a5606a24928945cb
+      sha256: fa4ea60a11cc89d793dc9b827f34ef58be242cfc683100a685f0a005d96b6cbc
       byte_length: 3394
     delegation_amendment:
       path: "/Users/lijunpeng/Developer/.sourcelens-audit/founder-delegation-continuity-20260808/decision/FOUNDER_PHASE_DELEGATION_CONTINUITY_AMENDMENT_V1.json"
@@ -28511,7 +28511,7 @@ p2_recovery_control:
   envelope_expansion_decision:
     path: docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_AND_RELOCKED_HELD_SEQUENCE_DECISION_V5.json
     byte_length: 3394
-    sha256: 0b5e8526d544d625cb1b0c329251ce40eef7aa70f57e4f60a5606a24928945cb
+    sha256: fa4ea60a11cc89d793dc9b827f34ef58be242cfc683100a685f0a005d96b6cbc
   source_admission_decision:
     path: docs/aios/decisions/P2_BENCHMARK_SOURCE_ADMISSION_ACCEPTED_V1.json
     byte_length: 3500

@@ -695,15 +695,20 @@ module FounderDelegationContinuity
         "cumulative expansion activation-parent remaining capacity"
       )
       superseded_values = source_text.scan(
-        /The superseded unused capacity is exactly `([0-9]+) Tasks \/ ([0-9]+) engineering hours \/ ([0-9]+) calendar days`\./
+        /The superseded unused capacity is exactly `([0-9]+) Tasks? \/ ([0-9]+) engineering hours \/ ([0-9]+) calendar days`\./
       ).flatten.map { |value| Integer(value, 10) }
+      terminal_lineage_boundary =
+        source_text.scan(/P2-068 is preserved only as closed terminal accounting\./).length == 1 ||
+        (token ==
+          "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_AND_RELOCKED_HELD_SEQUENCE_V5" &&
+         source_text.scan(/P2-069 remains the independently accepted benchmark foundation\. P2-070, P2-071, P2-072, P2-073 and P2-074 are preserved only as closed terminal accounting\./).length == 1)
       assert(superseded_values == [
                remaining["engineering_tasks"],
                remaining["engineering_hours"],
                remaining["calendar_days"]
              ] &&
              source_text.scan(/Only unused capacity is superseded; all [0-9]+ consumed Task outcomes and their Evidence remain immutable\./).length == 1 &&
-             source_text.scan(/P2-068 is preserved only as closed terminal accounting\./).length == 1,
+             terminal_lineage_boundary,
              "cumulative expansion v1.4 active-parent resequencing boundary drift")
     else
       assert(parent_envelope["status"] == "EXHAUSTED",

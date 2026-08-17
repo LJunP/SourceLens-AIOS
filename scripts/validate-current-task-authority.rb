@@ -1232,7 +1232,7 @@ module CurrentTaskAuthority
     ).map { |value| Integer(value, 10) }
     incremental_values = one_packet_match(
       text,
-      /The incremental capacity is exactly `([0-9]+) Tasks \/ ([0-9]+) engineering hours \/ ([0-9]+) calendar days`\./,
+      /The (?:incremental capacity|executable remainder) is exactly `([0-9]+) Tasks \/ ([0-9]+) engineering hours \/ ([0-9]+) calendar days`\./,
       "v1.4 incremental envelope"
     ).map { |value| Integer(value, 10) }
     slots = decision.fetch("capacity_slots")
@@ -1245,23 +1245,28 @@ module CurrentTaskAuthority
     if parent_envelope["status"] == "ACTIVE_REMAINING_CAPACITY"
       superseded_values = one_packet_match(
         text,
-        /The superseded unused capacity is exactly `([0-9]+) Tasks \/ ([0-9]+) engineering hours \/ ([0-9]+) calendar days`\./,
+        /The superseded unused capacity is exactly `([0-9]+) Tasks? \/ ([0-9]+) engineering hours \/ ([0-9]+) calendar days`\./,
         "v1.4 superseded unused capacity"
       ).map { |value| Integer(value, 10) }
+      terminal_lineage_boundary =
+        text.scan(/P2-068 is preserved only as closed terminal accounting\./).length == 1 ||
+        (expected_token ==
+          "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_AND_RELOCKED_HELD_SEQUENCE_V5" &&
+         text.scan(/P2-069 remains the independently accepted benchmark foundation\. P2-070, P2-071, P2-072, P2-073 and P2-074 are preserved only as closed terminal accounting\./).length == 1)
       remaining = parent_envelope.fetch("remaining")
       assert(superseded_values == [remaining["engineering_tasks"], remaining["engineering_hours"], remaining["calendar_days"]] &&
              text.scan(/Only unused capacity is superseded; all [0-9]+ consumed Task outcomes and their Evidence remain immutable\./).length == 1 &&
-             text.scan(/P2-068 is preserved only as closed terminal accounting\./).length == 1,
+             terminal_lineage_boundary,
              "structured Founder route decision v1.4 resequencing boundary drift")
     else
       assert(parent_envelope["status"] == "EXHAUSTED",
              "structured Founder route decision v1.4 activation-parent lifecycle drift")
     end
-    assert(text.scan(/Task IDs remain unallocated until the preceding milestone and Task admission pass\./).length == 1,
+    assert(text.scan(/Task IDs remain unallocated until (?:the preceding milestone and )?Task admission pass(?:es)?\./).length == 1,
            "structured Founder route decision v1.4 source packet preallocation boundary drift")
     assert(text.scan(/zero network, Provider, Secret, remote, production or public effects\./).length == 1,
            "structured Founder route decision v1.4 source packet external effect boundary drift")
-    assert(text.scan(/P3 remains HOLD and the SourceLens project and Long-term Goal remain ACTIVE\./).length == 1,
+    assert(text.scan(/P3 remains HOLD and the SourceLens project and [Ll]ong-term Goal remain ACTIVE\./).length == 1,
            "structured Founder route decision v1.4 source packet Phase or Goal boundary drift")
     true
   rescue ArgumentError

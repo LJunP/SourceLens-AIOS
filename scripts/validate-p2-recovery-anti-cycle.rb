@@ -392,6 +392,8 @@ module P2RecoveryAntiCycle
       CLEAN_ROOM_SLOT_V5_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED
       CLEAN_ROOM_SLOT_V5_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
       CLEAN_ROOM_SLOT_V6_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED
+      CLEAN_ROOM_SLOT_V6_1_PRODUCT_SELECTOR_DEV_TASK_RESERVED_READY_SLOT_V2_3_RELOCKED
+      CLEAN_ROOM_SLOT_V6_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED
     ].include?(control["status"])
     expected_delivery_percent = baseline_accepted ? 25 : 0
     expected_accepted_milestones = baseline_accepted ? ["P2_RECOVERY_BASELINE_ACCEPTED"] : []
@@ -605,16 +607,33 @@ module P2RecoveryAntiCycle
     when "CLEAN_ROOM_SLOT_V4_1_PRODUCT_SELECTOR_DEV_TASK_RESERVED_READY_SLOT_V2_3_RELOCKED",
          "CLEAN_ROOM_SLOT_V4_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED",
          "CLEAN_ROOM_SLOT_V5_1_PRODUCT_SELECTOR_DEV_TASK_RESERVED_READY_SLOT_V2_3_RELOCKED",
-         "CLEAN_ROOM_SLOT_V5_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED"
+         "CLEAN_ROOM_SLOT_V5_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED",
+         "CLEAN_ROOM_SLOT_V6_1_PRODUCT_SELECTOR_DEV_TASK_RESERVED_READY_SLOT_V2_3_RELOCKED",
+         "CLEAN_ROOM_SLOT_V6_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED"
+      product_path_closure = control["status"].include?("SLOT_V6_1")
       stream_lifecycle = control["status"].include?("SLOT_V5_1")
       ready = control["status"].include?("RESERVED_READY")
-      task_id_v4 = stream_lifecycle ?
-        "AIOS-P2-073_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_SANDBOX_STREAM_LIFECYCLE_DEV" :
-        "AIOS-P2-072_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_EXECUTION_INTEGRITY_DEV"
-      capacity_slot_id = stream_lifecycle ?
-        "P2_RECOVERY_CAPACITY_SLOT_V5_1" : "P2_RECOVERY_CAPACITY_SLOT_V4_1"
-      preceding_route_ref = stream_lifecycle ?
-        "historical_p2_072_phase_route" : "historical_p2_071_phase_route"
+      task_id_v4 = if product_path_closure
+                     "AIOS-P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV"
+                   elsif stream_lifecycle
+                     "AIOS-P2-073_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_SANDBOX_STREAM_LIFECYCLE_DEV"
+                   else
+                     "AIOS-P2-072_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_EXECUTION_INTEGRITY_DEV"
+                   end
+      capacity_slot_id = if product_path_closure
+                           "P2_RECOVERY_CAPACITY_SLOT_V6_1"
+                         elsif stream_lifecycle
+                           "P2_RECOVERY_CAPACITY_SLOT_V5_1"
+                         else
+                           "P2_RECOVERY_CAPACITY_SLOT_V4_1"
+                         end
+      preceding_route_ref = if product_path_closure
+                              "historical_p2_073_phase_route"
+                            elsif stream_lifecycle
+                              "historical_p2_072_phase_route"
+                            else
+                              "historical_p2_071_phase_route"
+                            end
       task_status = ready ? "ELIGIBLE_NOT_ACTIVATED" : "ACTIVE"
       next_action = ready ? "MASTER_ACTIVATE_PHASE_DELEGATED_TASK" : "COMPLETE_CURRENT_TASK_GATE"
       expected_resource_state = ready ? "NOT_CREATED_PHASE_DELEGATED_TASK_READY" : "ACTIVE_UNIQUE_PHASE_DELEGATED"
@@ -626,9 +645,13 @@ module P2RecoveryAntiCycle
       expected_slots[0]["task_id"] = task_id_v4
       selected = route.fetch("selected_task")
       reservation = envelope.fetch("reserved")
-      expected_consumed = stream_lifecycle ?
-        { "engineering_tasks" => 17, "engineering_hours" => 496, "calendar_days" => 124 } :
-        { "engineering_tasks" => 16, "engineering_hours" => 464, "calendar_days" => 116 }
+      expected_consumed = if product_path_closure
+                            { "engineering_tasks" => 18, "engineering_hours" => 528, "calendar_days" => 132 }
+                          elsif stream_lifecycle
+                            { "engineering_tasks" => 17, "engineering_hours" => 496, "calendar_days" => 124 }
+                          else
+                            { "engineering_tasks" => 16, "engineering_hours" => 464, "calendar_days" => 116 }
+                          end
       assert!(envelope["status"] == "TASK_CAPACITY_RESERVED" &&
               envelope["consumed"] == expected_consumed &&
               envelope["remaining"] == remaining,
@@ -659,7 +682,7 @@ module P2RecoveryAntiCycle
               control["next_eligible_action"] == next_action &&
               control["capacity_slots"] == expected_slots,
               "Truth reserved clean-room Product Selector capacity projection drift")
-      slot_label = stream_lifecycle ? "SLOT_V5_1" : "SLOT_V4_1"
+      slot_label = product_path_closure ? "SLOT_V6_1" : (stream_lifecycle ? "SLOT_V5_1" : "SLOT_V4_1")
       assert!(project["current_route_execution_status"] == expected_project_route &&
               claim["p2_phase_envelope_status"] == "TASK_CAPACITY_RESERVED" &&
               claim["current_task"] == (ready ? "NONE" : task_id_v4) &&

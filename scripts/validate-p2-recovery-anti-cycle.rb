@@ -394,6 +394,7 @@ module P2RecoveryAntiCycle
       CLEAN_ROOM_SLOT_V6_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED
       CLEAN_ROOM_SLOT_V6_1_PRODUCT_SELECTOR_DEV_TASK_RESERVED_READY_SLOT_V2_3_RELOCKED
       CLEAN_ROOM_SLOT_V6_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED
+      CLEAN_ROOM_SLOT_V6_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
     ].include?(control["status"])
     expected_delivery_percent = baseline_accepted ? 25 : 0
     expected_accepted_milestones = baseline_accepted ? ["P2_RECOVERY_BASELINE_ACCEPTED"] : []
@@ -468,6 +469,7 @@ module P2RecoveryAntiCycle
       CLEAN_ROOM_SLOT_V4_1_PRODUCT_SELECTOR_DEV_ACCEPTED_SLOT_V2_3_ELIGIBLE_NOT_ACTIVATED
       CLEAN_ROOM_SLOT_V4_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
       CLEAN_ROOM_SLOT_V5_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
+      CLEAN_ROOM_SLOT_V6_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
     ].include?(control["status"])
     expected_consumed = consumed.dup
     if terminal_or_accepted_slot_1
@@ -504,6 +506,7 @@ module P2RecoveryAntiCycle
       CLEAN_ROOM_SLOT_V3_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
       CLEAN_ROOM_SLOT_V4_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
       CLEAN_ROOM_SLOT_V5_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
+      CLEAN_ROOM_SLOT_V6_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
     ].include?(control["status"])
     if terminal_locked
       assert!(escalation["disposition"] == "FOUNDER_DECISION_REQUIRED" &&
@@ -690,15 +693,31 @@ module P2RecoveryAntiCycle
                 "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_#{slot_label}_PRODUCT_SELECTOR_DEV_TASK_#{ready ? 'READY' : 'ACTIVE'}_SLOT_V2_3_RELOCKED",
               "Truth reserved clean-room Product Selector claim projection drift")
     when "CLEAN_ROOM_SLOT_V4_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED",
-         "CLEAN_ROOM_SLOT_V5_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED"
+         "CLEAN_ROOM_SLOT_V5_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED",
+         "CLEAN_ROOM_SLOT_V6_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED"
+      product_path_closure = control["status"].include?("SLOT_V6_1")
       stream_lifecycle = control["status"].include?("SLOT_V5_1")
-      task_id = stream_lifecycle ?
-        "AIOS-P2-073_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_SANDBOX_STREAM_LIFECYCLE_DEV" :
-        "AIOS-P2-072_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_EXECUTION_INTEGRITY_DEV"
-      terminal_status = stream_lifecycle ?
-        "TERMINAL_PRODUCT_SELECTOR_DEV_PRODUCT_PATH_AUTHORITY_AND_EVIDENCE_NON_PASS" :
-        "TERMINAL_PRODUCT_SELECTOR_DEV_REPLAY_EXECUTION_INTEGRITY_NON_PASS"
-      terminal_receipt = if stream_lifecycle
+      task_id = if product_path_closure
+                  "AIOS-P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV"
+                elsif stream_lifecycle
+                  "AIOS-P2-073_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_SANDBOX_STREAM_LIFECYCLE_DEV"
+                else
+                  "AIOS-P2-072_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_EXECUTION_INTEGRITY_DEV"
+                end
+      terminal_status = if product_path_closure
+                          "TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_AND_BUDGET_NON_PASS"
+                        elsif stream_lifecycle
+                          "TERMINAL_PRODUCT_SELECTOR_DEV_PRODUCT_PATH_AUTHORITY_AND_EVIDENCE_NON_PASS"
+                        else
+                          "TERMINAL_PRODUCT_SELECTOR_DEV_REPLAY_EXECUTION_INTEGRITY_NON_PASS"
+                        end
+      terminal_receipt = if product_path_closure
+                           {
+                             "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p2-product-selector-product-path-evidence-closure-recovery-20260817/task-p2-074/terminal/P2_074_TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_AND_BUDGET_NON_PASS_RECEIPT_V1.json",
+                             "byte_length" => 5454,
+                             "sha256" => "f6cfcc715b40ccf953982cd5d0739baebfe68247b44da3a41be8ef5ef05a0f24"
+                           }
+                         elsif stream_lifecycle
                            {
                              "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p2-product-selector-sandbox-stream-lifecycle-recovery-20260817/task-p2-073/terminal/P2_073_TERMINAL_PRODUCT_SELECTOR_DEV_PRODUCT_PATH_AUTHORITY_AND_EVIDENCE_NON_PASS_RECEIPT_V1.json",
                              "byte_length" => 5267,
@@ -711,14 +730,28 @@ module P2RecoveryAntiCycle
                              "sha256" => "a14509a6e2ff8ce82962f6f4205adef7f1e6fde956f93d9c9331c2276e4ecf05"
                            }
                          end
-      historical_ref = stream_lifecycle ? "historical_p2_073_phase_route" : "historical_p2_072_phase_route"
-      expected_consumed = stream_lifecycle ?
-        { "engineering_tasks" => 18, "engineering_hours" => 528, "calendar_days" => 132 } :
-        { "engineering_tasks" => 17, "engineering_hours" => 496, "calendar_days" => 124 }
-      expected_progress = stream_lifecycle ?
-        "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_073_TERMINAL_PRODUCT_SELECTOR_DEV_PRODUCT_PATH_AUTHORITY_AND_EVIDENCE_NON_PASS_SLOT_V2_3_LOCKED" :
-        "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_072_TERMINAL_PRODUCT_SELECTOR_DEV_REPLAY_EXECUTION_INTEGRITY_NON_PASS_SLOT_V2_3_LOCKED"
-      terminal_slot_label = stream_lifecycle ? "V5_1" : "V4_1"
+      historical_ref = if product_path_closure
+                         "historical_p2_074_phase_route"
+                       elsif stream_lifecycle
+                         "historical_p2_073_phase_route"
+                       else
+                         "historical_p2_072_phase_route"
+                       end
+      expected_consumed = if product_path_closure
+                            { "engineering_tasks" => 19, "engineering_hours" => 560, "calendar_days" => 140 }
+                          elsif stream_lifecycle
+                            { "engineering_tasks" => 18, "engineering_hours" => 528, "calendar_days" => 132 }
+                          else
+                            { "engineering_tasks" => 17, "engineering_hours" => 496, "calendar_days" => 124 }
+                          end
+      expected_progress = if product_path_closure
+                            "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_074_TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_AND_BUDGET_NON_PASS_SLOT_V2_3_LOCKED"
+                          elsif stream_lifecycle
+                            "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_073_TERMINAL_PRODUCT_SELECTOR_DEV_PRODUCT_PATH_AUTHORITY_AND_EVIDENCE_NON_PASS_SLOT_V2_3_LOCKED"
+                          else
+                            "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_072_TERMINAL_PRODUCT_SELECTOR_DEV_REPLAY_EXECUTION_INTEGRITY_NON_PASS_SLOT_V2_3_LOCKED"
+                          end
+      terminal_slot_label = product_path_closure ? "V6_1" : (stream_lifecycle ? "V5_1" : "V4_1")
       expected_slots[0]["task_id"] = task_id
       expected_remaining = {
         "engineering_tasks" => 1,

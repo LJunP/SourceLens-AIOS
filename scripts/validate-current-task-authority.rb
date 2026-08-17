@@ -3329,6 +3329,23 @@ module CurrentTaskAuthority
     gate
   end
 
+  def validate_p2_074_preactivation_gate(contract)
+    gate = exact_keys(
+      contract["preactivation_gate"],
+      %w[
+        required_before_product_source_write exact_authority_roots_before_mkdir
+        os_write_confinement_probe_required compiler_test_replay_negative_fresh_roots_required
+        explicit_classpath_and_sourcepath_required annotation_processing_disabled_or_fully_bound
+        exact_runtime_binary_identity_required complete_source_to_class_identity_required
+        reviewer_manifest_direct_raw_leaf_binding_required product_path_static_and_runtime_binding_required
+      ],
+      "P2-074 preactivation_gate"
+    )
+    assert(gate.values.all? { |value| value == true },
+           "P2-074 preactivation gate requirements must all be true")
+    gate
+  end
+
   def validate_phase_delegated_baseline_ids(source_route, value)
     baseline_ids = array(value, "phase-delegated baseline ids")
     if %w[1.0 1.1].include?(source_route["schema_version"])
@@ -3577,8 +3594,10 @@ module CurrentTaskAuthority
     ]
     contract_keys << "write_ownership" if contract_schema_version == "1.1"
     contract_keys << "repair_accounting" if task.key?("repair_accounting")
-    contract_keys << "preactivation_gate" if parsed_contract["task_id"] ==
-      "AIOS-P2-073_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_SANDBOX_STREAM_LIFECYCLE_DEV"
+    contract_keys << "preactivation_gate" if %w[
+      AIOS-P2-073_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_SANDBOX_STREAM_LIFECYCLE_DEV
+      AIOS-P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV
+    ].include?(parsed_contract["task_id"])
     contract = exact_keys(
       parsed_contract,
       contract_keys,
@@ -3589,7 +3608,13 @@ module CurrentTaskAuthority
            "phase-delegated Task Contract type drift")
     validate_phase_delegated_contract_schema_binding!(source_route, contract)
     validate_phase_delegated_contract_policy_fields(contract)
-    validate_p2_073_preactivation_gate(contract) if contract.key?("preactivation_gate")
+    if parsed_contract["task_id"] ==
+       "AIOS-P2-073_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_SANDBOX_STREAM_LIFECYCLE_DEV"
+      validate_p2_073_preactivation_gate(contract)
+    elsif parsed_contract["task_id"] ==
+          "AIOS-P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV"
+      validate_p2_074_preactivation_gate(contract)
+    end
     validate_phase_delegated_protocol_contract_fields(truth, route, contract)
     projected_keys = %w[
       task_id status task_kind capability objective capacity_source_task_id budget max_same_task_repairs

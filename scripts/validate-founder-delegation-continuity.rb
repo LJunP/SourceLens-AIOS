@@ -888,6 +888,7 @@ module FounderDelegationContinuity
         AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_RECOVERY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V1
         AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_EXECUTION_INTEGRITY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V2
         AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SANDBOX_STREAM_LIFECYCLE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V3
+        AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V4
       ].include?(product_selector_recovery_token)
       expected_product_selector_capacity_ids = case product_selector_recovery_token
                                                when "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_RECOVERY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V1"
@@ -896,6 +897,8 @@ module FounderDelegationContinuity
                                                  %w[P2_RECOVERY_CAPACITY_SLOT_V4_1 P2_RECOVERY_CAPACITY_SLOT_V2_3]
                                                when "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SANDBOX_STREAM_LIFECYCLE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V3"
                                                  %w[P2_RECOVERY_CAPACITY_SLOT_V5_1 P2_RECOVERY_CAPACITY_SLOT_V2_3]
+                                               when "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V4"
+                                                 %w[P2_RECOVERY_CAPACITY_SLOT_V6_1 P2_RECOVERY_CAPACITY_SLOT_V2_3]
                                                end
       slot_generations = []
       slots = array(decision["capacity_slots"], "cumulative expansion capacity slots").map.with_index do |value, index|
@@ -1003,6 +1006,8 @@ module FounderDelegationContinuity
                                                     "CLEAN_ROOM_SLOT_V3_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED"
                                                   when "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SANDBOX_STREAM_LIFECYCLE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V3"
                                                     "CLEAN_ROOM_SLOT_V4_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED"
+                                                  when "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V4"
+                                                    "CLEAN_ROOM_SLOT_V5_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED"
                                                   end
         assert(parent_envelope["status"] == "ACTIVE_REMAINING_CAPACITY" &&
                parent_remaining.values.all?(&:positive?) && slot_generations.first &&

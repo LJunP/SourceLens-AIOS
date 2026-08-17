@@ -6878,7 +6878,7 @@ historical_p2_product_selector_dev_recovery_slot_and_relocked_held_phase_route:
 
 current_phase_route:
   schema_version: phase-delegated-continuation-hold/v1
-  route_id: P2_PRODUCT_SELECTOR_DEV_RECOVERY_CONTINUATION
+  route_id: P2_PHASE_DELEGATED_CONTINUATION_PENDING_TASK_SELECTION
   status: AUTHORIZED_READY
   execution_status: PHASE_DELEGATED_CONTINUATION_READY
   scheduling_status: MASTER_SELECTING_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
@@ -9205,9 +9205,9 @@ founder_escalation_control:
   schema_version: founder-escalation-control/v1
   disposition: NO_RESERVED_TRIGGER_CONTINUE_PHASE
   source_event:
-    kind: FOUNDER_EXPANDED_PRODUCT_SELECTOR_DEV_RECOVERY_CAPACITY_AVAILABLE
-    task_id:
-    status: ELIGIBLE_NOT_ACTIVATED
+    kind: TASK_TERMINAL_TASK_BUDGET_EXHAUSTED
+    task_id: AIOS-P2-070_PRODUCT_JAVA_MAINTENANCE_CONTEXT_SELECTOR_DEV
+    status: TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_AND_REPAIR_NON_PASS
   reserved_trigger:
     category: NONE
     evidence:
@@ -26943,7 +26943,7 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: P2_PRODUCT_SELECTOR_DEV_RECOVERY_CONTINUATION
+  current_route_claim: P2_PHASE_DELEGATED_CONTINUATION_PENDING_TASK_SELECTION
   current_task_claim: NONE
   real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_NEW_PRODUCT_SELECTOR_DEV_RECOVERY_SLOT_V3_1_ELIGIBLE_FORMAL_HELD_SLOT_V2_3_RELOCKED
   product_capability_changed: false
@@ -27311,7 +27311,7 @@ p2_recovery_control:
   next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
 
 claim_boundary:
-  current_phase_route: P2_PRODUCT_SELECTOR_DEV_RECOVERY_CONTINUATION
+  current_phase_route: P2_PHASE_DELEGATED_CONTINUATION_PENDING_TASK_SELECTION
   current_task: NONE
   next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
   real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_NEW_PRODUCT_SELECTOR_DEV_RECOVERY_SLOT_V3_1_ELIGIBLE_FORMAL_HELD_SLOT_V2_3_RELOCKED

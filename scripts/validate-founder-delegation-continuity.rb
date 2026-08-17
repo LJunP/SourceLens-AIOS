@@ -889,6 +889,7 @@ module FounderDelegationContinuity
         AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_EXECUTION_INTEGRITY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V2
         AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SANDBOX_STREAM_LIFECYCLE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V3
         AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V4
+        AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_AND_RELOCKED_HELD_SEQUENCE_V5
       ].include?(product_selector_recovery_token)
       expected_product_selector_capacity_ids = case product_selector_recovery_token
                                                when "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_RECOVERY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V1"
@@ -899,6 +900,8 @@ module FounderDelegationContinuity
                                                  %w[P2_RECOVERY_CAPACITY_SLOT_V5_1 P2_RECOVERY_CAPACITY_SLOT_V2_3]
                                                when "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V4"
                                                  %w[P2_RECOVERY_CAPACITY_SLOT_V6_1 P2_RECOVERY_CAPACITY_SLOT_V2_3]
+                                               when "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_AND_RELOCKED_HELD_SEQUENCE_V5"
+                                                 %w[P2_RECOVERY_CAPACITY_SLOT_V7_1 P2_RECOVERY_CAPACITY_SLOT_V2_3]
                                                end
       slot_generations = []
       slots = array(decision["capacity_slots"], "cumulative expansion capacity slots").map.with_index do |value, index|
@@ -1008,6 +1011,8 @@ module FounderDelegationContinuity
                                                     "CLEAN_ROOM_SLOT_V4_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED"
                                                   when "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V4"
                                                     "CLEAN_ROOM_SLOT_V5_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED"
+                                                  when "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_AND_RELOCKED_HELD_SEQUENCE_V5"
+                                                    "CLEAN_ROOM_SLOT_V6_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED"
                                                   end
         assert(parent_envelope["status"] == "ACTIVE_REMAINING_CAPACITY" &&
                parent_remaining.values.all?(&:positive?) && slot_generations.first &&
@@ -4094,7 +4099,9 @@ module FounderDelegationContinuity
         "CLEAN_ROOM_SLOT_V5_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED" =>
           "historical_p2_072_phase_route",
         "CLEAN_ROOM_SLOT_V6_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED" =>
-          "historical_p2_073_phase_route"
+          "historical_p2_073_phase_route",
+        "CLEAN_ROOM_SLOT_V7_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED" =>
+          "historical_p2_074_phase_route"
       }[cumulative_capacity_ready_status] == current_route["historical_terminal_route_ref"]
     if single_task_projection
       task_status = current_route.dig("selected_task", "status")
@@ -4104,7 +4111,9 @@ module FounderDelegationContinuity
         "status" => task_status
       }, "single-Task Founder expansion control does not project the exact READY or ACTIVE Task")
     elsif cumulative_capacity_ready_projection
-      event_status = if cumulative_capacity_ready_status.include?("SLOT_V6_1")
+      event_status = if cumulative_capacity_ready_status.include?("SLOT_V7_1")
+                       "PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_V7_1_ELIGIBLE_NOT_ACTIVATED"
+                     elsif cumulative_capacity_ready_status.include?("SLOT_V6_1")
                        "PRODUCT_SELECTOR_DEV_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_SLOT_V6_1_ELIGIBLE_NOT_ACTIVATED"
                      elsif cumulative_capacity_ready_status.include?("SLOT_V5_1")
                        "PRODUCT_SELECTOR_DEV_SANDBOX_STREAM_LIFECYCLE_SLOT_V5_1_ELIGIBLE_NOT_ACTIVATED"

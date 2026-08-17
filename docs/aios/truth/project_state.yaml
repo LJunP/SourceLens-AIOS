@@ -39,7 +39,23 @@ goal:
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
   current_task_authority: NONE
-  note: 'P2-074 is TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_AND_BUDGET_NON_PASS. Its exact
+  note: 'Founder decision AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_AND_RELOCKED_HELD_SEQUENCE_V5
+    expands the cumulative P2 envelope to twenty-one Tasks, six-hundred-twenty-four
+    engineering hours and one-hundred-fifty-six calendar days while preserving nineteen
+    consumed Tasks. One new clean-room Product Selector DEV query-entity-coverage architecture-pivot
+    slot V7_1 is eligible but not activated; the existing formal HELD slot V2_3 remains
+    locked until P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED is independently accepted.
+    Before any Worker product-source write, one independently authored materially different
+    selector architecture based on deterministic query intent, package/type/member entity
+    coverage and normalized-path-first budgeted selection must be frozen and mechanically
+    validated. It must use canonical main, the accepted P2-069 DEV inputs and canonical
+    product path without reading rejected P2-070 through P2-074 engineering lineage, must
+    not open HELD, and must preserve authority-bound roots, OS write confinement, fresh
+    compiler/Surefire roots, explicit runtime identities and direct reviewer Evidence
+    closure. This decision creates no engineering or capability credit, P2 delivery remains
+    25%, strict P2 Exit progress remains 0%, P2 and the Long-term Goal remain ACTIVE,
+    and P3 remains HOLD. All following paragraphs are retained historical chronology only.
+    P2-074 is TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_AND_BUDGET_NON_PASS. Its exact
     candidate commit/tree 0c517a6edaaff323f2de649402f6923706325da5/3a6727ab56a4d22813dfcb91a14964d642725027
     is preserved but not integrated. The final eight-task DEV execution improved macro
     precision to 0.2465277777777778 but produced macro recall 0.7916666666666666 and
@@ -1509,8 +1525,8 @@ project:
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
   p2_execution_status: ACTIVE
-  phase_execution_status: STOPPED_AT_FOUNDER_RESERVED_DECISION
-  current_route_execution_status: FOUNDER_RESERVED_DECISION_REQUIRED
+  phase_execution_status: ACTIVE
+  current_route_execution_status: PHASE_DELEGATED_CONTINUATION_READY
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -7276,6 +7292,108 @@ historical_p2_product_selector_dev_product_path_and_evidence_closure_slot_and_re
   automatic_entries: []
   next_eligible_action: FOUNDER_RESERVED_DECISION
 
+historical_p2_product_selector_dev_query_entity_coverage_architecture_pivot_slot_and_relocked_held_phase_route:
+  schema_version: '1.4'
+  route_id: P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_AND_RELOCKED_HELD_SEQUENCE_ROUTE_V5
+  status: AUTHORIZED_CAPACITY_AVAILABLE
+  execution_status: PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_ELIGIBLE_NOT_ACTIVATED
+  scheduling_status: MASTER_SELECTING_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
+  phase: P2
+  phase_entry_status: AUTHORIZED
+  authorization_token: AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_AND_RELOCKED_HELD_SEQUENCE_V5
+  decision_packet:
+    path: docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_AND_RELOCKED_HELD_SEQUENCE_DECISION_V5.json
+    sha256: fa4ea60a11cc89d793dc9b827f34ef58be242cfc683100a685f0a005d96b6cbc
+    byte_length: 3394
+  original_founder_packet:
+    path: docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_AND_RELOCKED_HELD_SEQUENCE_V5.md
+    sha256: f4fa20496c85719d71707714183bb3b16ec3bf44a45821f3c9964e9c7820476d
+    byte_length: 7978
+  activation_parent:
+    commit: 45fe058f82aa397d4b169f49022fff97db5813de
+    tree: 10b7b0f8d2438dcf787f2966c8b2aa2d668e20e6
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: '1.8'
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  goal_identity:
+    raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+    raw_byte_length: 19433
+    canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+    canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+    canonical_byte_length: 19434
+  objective: >-
+    Add exactly one clean-room independent Product Selector DEV
+    query-entity-coverage architecture-pivot slot before the preserved and
+    re-locked formal HELD slot, while preserving the accepted P2-069 baseline
+    and all nineteen consumed Task outcomes as immutable accounting.
+  claim_boundary: P2_ONE_CLEAN_ROOM_PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_AND_RELOCKED_EXISTING_HELD_CAPACITY_ONLY_PRESERVE_19_CONSUMED_ADD_1_NO_TASK_ID_CONTRACT_AUTHORITY_BRANCH_WORKTREE_EVIDENCE_PRODUCT_MUTATION_EXTERNAL_EFFECT_OR_PROGRESS_CREDIT
+  envelope:
+    max_engineering_tasks: 21
+    max_engineering_hours: 624
+    max_calendar_days: 156
+    max_active_tasks: 1
+    max_task_branches: 1
+    max_task_worktrees: 1
+    max_active_candidates: 1
+    max_contract_corrections_per_task: 0
+    max_same_task_repairs: 1
+    successor_replacement_normalization_closure_feasibility_or_remediation_chain_allowed: false
+    p2_entry_authorized: true
+    p3_entry_authorized: false
+    external_effects:
+      network: false
+      provider: false
+      secret: false
+      remote: false
+      production: false
+      public: false
+  founder_reserved_profile:
+  founder_reserved_profiles: []
+  exact_reserved_trigger: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+  prior_consumed_envelope:
+    consumed:
+      calendar_days: 140
+      engineering_hours: 560
+      engineering_tasks: 19
+    source_route_id: P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_SLOT_AND_RELOCKED_HELD_SEQUENCE_ROUTE_V4
+    task_ledger_canonical_byte_length: 17434
+    task_ledger_canonical_sha256: b852ff4bd93ebcd2d59625275b2e65a700d6722a7e5e544b23b13c31c0427d4b
+    task_ledger_canonicalization: RECURSIVE_KEY_SORT_COMPACT_JSON_UTF8
+    task_ledger_entry_count: 19
+  recovery_plan_identity:
+    path: docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml
+    byte_length: 7433
+    sha256: cfb383e6b89c84bfe7e574f25a6b2137f5618a7aef0a013814a7abad6d5d24ab
+  capacity_slots:
+  - slot: 1
+    capacity_slot_id: P2_RECOVERY_CAPACITY_SLOT_V7_1
+    task_id:
+    milestone_id: P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED
+    unlock_requirement: P2_RECOVERY_BASELINE_ACCEPTED
+    engineering_hours: 32
+    calendar_days: 8
+    max_implementation_iterations: 2
+    max_same_task_repairs: 1
+    max_candidates: 2
+    product_mutation_allowed: true
+  - slot: 2
+    capacity_slot_id: P2_RECOVERY_CAPACITY_SLOT_V2_3
+    task_id:
+    milestone_id: P2_RECOVERY_FORMAL_HELD_MATRIX_COMPLETE
+    unlock_requirement: P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED
+    engineering_hours: 32
+    calendar_days: 8
+    max_implementation_iterations: 2
+    max_same_task_repairs: 1
+    max_candidates: 2
+    product_mutation_allowed: false
+  first_task:
+  task_plan: []
+  automatic_entry:
+  automatic_entries: []
+  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
+
 historical_p2_072_phase_route:
   schema_version: phase-delegated-independent-task/v1
   route_id: AIOS-P2-072_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_EXECUTION_INTEGRITY_DEV_PHASE_DELEGATED_ROUTE
@@ -7571,19 +7689,19 @@ historical_p2_074_phase_route:
     status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
 
 current_phase_route:
-  schema_version: founder-reserved-decision-hold/v1
-  route_id: P2_FOUNDER_RESERVED_DECISION_HOLD
-  status: FOUNDER_RESERVED_DECISION_REQUIRED
-  execution_status: FOUNDER_RESERVED_DECISION_REQUIRED
-  scheduling_status: STOPPED_AT_FOUNDER_RESERVED_DECISION
+  schema_version: phase-delegated-continuation-hold/v1
+  route_id: P2_PHASE_DELEGATED_CONTINUATION_PENDING_TASK_SELECTION
+  status: AUTHORIZED_READY
+  execution_status: PHASE_DELEGATED_CONTINUATION_READY
+  scheduling_status: MASTER_SELECTING_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
   phase: P2
   phase_entry_status: AUTHORIZED
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: '1.8'
     sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
-  founder_phase_route_decision_required: true
-  next_eligible_action: FOUNDER_RESERVED_DECISION
+  founder_phase_route_decision_required: false
+  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
   phase_execution_envelope_ref: phase_execution_envelope
   historical_terminal_route_ref: historical_p2_074_phase_route
   external_effects:
@@ -9680,21 +9798,21 @@ phase_execution_envelope:
     policy_path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     policy_version: '1.8'
     policy_sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
-    source_route_ref: historical_p2_product_selector_dev_product_path_and_evidence_closure_slot_and_relocked_held_phase_route
-    source_route_id: P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_SLOT_AND_RELOCKED_HELD_SEQUENCE_ROUTE_V4
+    source_route_ref: historical_p2_product_selector_dev_query_entity_coverage_architecture_pivot_slot_and_relocked_held_phase_route
+    source_route_id: P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_AND_RELOCKED_HELD_SEQUENCE_ROUTE_V5
     source_decision:
-      path: docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_SLOT_AND_RELOCKED_HELD_SEQUENCE_DECISION_V4.json
-      sha256: d572b948f2dc9d95ef291f70d29b1ba1f366e61e35ec6a344751fb758a18c1c8
-      byte_length: 3350
+      path: docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_AND_RELOCKED_HELD_SEQUENCE_DECISION_V5.json
+      sha256: fa4ea60a11cc89d793dc9b827f34ef58be242cfc683100a685f0a005d96b6cbc
+      byte_length: 3394
     delegation_amendment:
       path: "/Users/lijunpeng/Developer/.sourcelens-audit/founder-delegation-continuity-20260808/decision/FOUNDER_PHASE_DELEGATION_CONTINUITY_AMENDMENT_V1.json"
       byte_length: 1182
       sha256: c37634c51b0b7695204c026f9950911c427f544a6ff2e2c2f786facb9a84a52e
   accounting_basis: DECLARED_TASK_BUDGET_RESERVATION_NOT_WALL_CLOCK
   limits:
-    engineering_tasks: 20
-    engineering_hours: 592
-    calendar_days: 148
+    engineering_tasks: 21
+    engineering_hours: 624
+    calendar_days: 156
     active_tasks: 1
     task_branches: 1
     task_worktrees: 1
@@ -10018,9 +10136,9 @@ phase_execution_envelope:
     calendar_days: 140
   reserved:
   remaining:
-    engineering_tasks: 1
-    engineering_hours: 32
-    calendar_days: 8
+    engineering_tasks: 2
+    engineering_hours: 64
+    calendar_days: 16
   external_effects:
     network: false
     provider: false
@@ -10031,21 +10149,18 @@ phase_execution_envelope:
 
 founder_escalation_control:
   schema_version: founder-escalation-control/v1
-  disposition: FOUNDER_DECISION_REQUIRED
+  disposition: NO_RESERVED_TRIGGER_CONTINUE_PHASE
   source_event:
-    kind: PHASE_ENVELOPE_EXPANSION_REQUIRED
+    kind: FOUNDER_PHASE_ENVELOPE_EXPANSION_ACCEPTED
     task_id:
-    status: PENDING_FOUNDER_RESERVED_DECISION
+    status: PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_V7_1_ELIGIBLE_NOT_ACTIVATED
   reserved_trigger:
-    category: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+    category: NONE
     evidence:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-selector-product-path-evidence-closure-recovery-20260817/task-p2-074/terminal/P2_074_FOUNDER_RESERVED_TRIGGER_EVIDENCE_V1.json
-      byte_length: 7245
-      sha256: 1ea89f4ec99abcd3bb119624ad992d8128b96d92527ed94fc3a2620e8a478696
   phase_gate_status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
-  founder_decision_required: true
-  next_action_owner: HUMAN_FOUNDER
-  next_eligible_action: FOUNDER_RESERVED_DECISION
+  founder_decision_required: false
+  next_action_owner: MASTER_CEO_AGENT
+  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
 
 historical_p2_053_phase_route:
   schema_version: "1.1"
@@ -21482,20 +21597,20 @@ active_work:
     sha256:
     byte_length:
   execution_nonce:
-  execution_nonce_status: CONSUMED_TERMINAL
+  execution_nonce_status: NOT_ALLOCATED
   authorization_id:
   activation_parent_commit:
   activation_parent_tree:
-  task_resource_state: NO_ACTIVE_TASK_FOUNDER_RESERVED_DECISION_HOLD
+  task_resource_state: NOT_CREATED_PHASE_DELEGATED_CONTINUATION_READY
   task_branch:
   task_worktree:
   execution_evidence_root:
   allowlisted_paths: []
   budget:
-    engineering_hours: 0
-    calendar_days: 0
-    implementation_iterations: 0
-    candidates: 0
+    engineering_hours:
+    calendar_days:
+    implementation_iterations:
+    candidates:
   roles: {}
   external_effects:
     network: false
@@ -21507,13 +21622,13 @@ active_work:
   offsite_target:
   founder_reserved_authorization:
   founder_reserved_authorization_sha256:
-  founder_decision_required: true
-  founder_decision_required_scope: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
-  escalation_reason: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
-  user_action_required: FOUNDER_RESERVED_DECISION
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_RESERVED_DECISION
-  next_eligible_action: FOUNDER_RESERVED_DECISION
+  founder_decision_required: false
+  founder_decision_required_scope:
+  escalation_reason:
+  user_action_required: NONE
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
 
 historical_p2_065_terminal_active_work:
   current_task: AIOS-P2-065_ESM_IMPORT_GRAPH_CONTEXT_PRODUCT_BENCHMARK
@@ -28388,23 +28503,23 @@ phase_execution_claim:
 
 p2_recovery_control:
   schema_version: p2-recovery-control/v1
-  status: CLEAN_ROOM_SLOT_V6_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
+  status: CLEAN_ROOM_SLOT_V7_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED
   plan:
     path: docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml
     byte_length: 7433
     sha256: cfb383e6b89c84bfe7e574f25a6b2137f5618a7aef0a013814a7abad6d5d24ab
   envelope_expansion_decision:
-    path: docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_SLOT_AND_RELOCKED_HELD_SEQUENCE_DECISION_V4.json
-    byte_length: 3350
-    sha256: d572b948f2dc9d95ef291f70d29b1ba1f366e61e35ec6a344751fb758a18c1c8
+    path: docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_AND_RELOCKED_HELD_SEQUENCE_DECISION_V5.json
+    byte_length: 3394
+    sha256: fa4ea60a11cc89d793dc9b827f34ef58be242cfc683100a685f0a005d96b6cbc
   source_admission_decision:
     path: docs/aios/decisions/P2_BENCHMARK_SOURCE_ADMISSION_ACCEPTED_V1.json
     byte_length: 3500
     sha256: c209604885e6494698e29d0fd9555603b810aa87eac1ae9f8d7778ee9841ec02
   capacity_slots:
   - slot: 1
-    capacity_slot_id: P2_RECOVERY_CAPACITY_SLOT_V6_1
-    task_id: AIOS-P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV
+    capacity_slot_id: P2_RECOVERY_CAPACITY_SLOT_V7_1
+    task_id:
     milestone_id: P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED
     unlock_requirement: P2_RECOVERY_BASELINE_ACCEPTED
     engineering_hours: 32
@@ -28422,14 +28537,14 @@ p2_recovery_control:
   governance_progress_credit: 0
   accepted_milestones:
   - P2_RECOVERY_BASELINE_ACCEPTED
-  task_creation_allowed: false
-  next_eligible_action: FOUNDER_RESERVED_DECISION
+  task_creation_allowed: true
+  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
 
 claim_boundary:
-  current_phase_route: P2_FOUNDER_RESERVED_DECISION_HOLD
+  current_phase_route: P2_PHASE_DELEGATED_CONTINUATION_PENDING_TASK_SELECTION
   current_task: NONE
-  next_eligible_action: FOUNDER_RESERVED_DECISION
-  real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_074_TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_AND_BUDGET_NON_PASS_SLOT_V2_3_LOCKED
+  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
+  real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_NEW_PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_V7_1_ELIGIBLE_FORMAL_HELD_SLOT_V2_3_RELOCKED
   p2_074_status: TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_AND_BUDGET_NON_PASS
   p2_074_contract_sha256: d5b2a2d709329d18377f42aa5e196381697264a7c777ff74d1e2b81acf6bccf5
   p2_074_capacity_source: P2_RECOVERY_CAPACITY_SLOT_V6_1
@@ -28669,11 +28784,11 @@ claim_boundary:
   p2_060_raw_graph_macro_recall: 0.9166666666666666
   p2_060_candidate_frozen: false
   p2_060_sealed_runs: 0
-  p2_phase_envelope_limits: 20_TASKS_592_ENGINEERING_HOURS_148_CALENDAR_DAYS
+  p2_phase_envelope_limits: 21_TASKS_624_ENGINEERING_HOURS_156_CALENDAR_DAYS
   p2_phase_envelope_consumed: 19_TASKS_560_ENGINEERING_HOURS_140_CALENDAR_DAYS
-  p2_phase_envelope_reserved: NONE_EXISTING_FORMAL_HELD_SLOT_LOCKED
-  p2_phase_envelope_remaining: 1_TASK_32_ENGINEERING_HOURS_8_CALENDAR_DAYS_FORMAL_HELD_SLOT_LOCKED
-  founder_reserved_trigger: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+  p2_phase_envelope_reserved: NONE
+  p2_phase_envelope_remaining: 2_TASKS_64_ENGINEERING_HOURS_16_CALENDAR_DAYS_PRODUCT_SELECTOR_DEV_THEN_LOCKED_FORMAL_HELD
+  founder_reserved_trigger: NONE
   p2_055_status: TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS
   p2_055_candidate_commit: eebb76347ff71a5482b1965e0bf4ac6d4adfa7ca
   p2_055_candidate_tree: f5fb0f22b4a34d4b616214c9bd0bb69b625d2481

@@ -1,11 +1,16 @@
 import assert from "node:assert/strict";
+import { mkdir, symlink, writeFile } from "node:fs/promises";
+import path from "node:path";
 import {
   BENCHMARK_SPEC,
   BenchmarkInputError,
   assertIdentity,
+  createOnceFile,
   groundTruthFromFiles,
   isProductionJava,
   rankDocuments,
+  readBoundLeaf,
+  resolveEvidenceBoundRun,
   safeRelative,
   selectDevTasks,
   selectWithinBudget,
@@ -18,6 +23,10 @@ import {
 
 function expectCode(code, operation) {
   assert.throws(operation, (error) => error instanceof BenchmarkInputError && error.code === code);
+}
+
+async function expectAsyncCode(code, operation) {
+  await assert.rejects(operation, (error) => error instanceof BenchmarkInputError && error.code === code);
 }
 
 const baseTask = (id, repository, split) => ({ task_id: id, repository, split });
@@ -86,4 +95,42 @@ function createOnceVirtual(name) {
 createOnceVirtual("candidate/result.json");
 expectCode("OUTPUT_EXISTS", () => createOnceVirtual("candidate/result.json"));
 
-process.stdout.write("P2_CLEAN_ROOM_BASELINE_TESTS: PASS assertions=24\n");
+const scratchRoot = process.argv[2];
+if (scratchRoot) {
+  const root = path.resolve(scratchRoot);
+  await mkdir(root, { recursive: false, mode: 0o700 });
+  const source = path.join(root, "source");
+  const evidence = path.join(root, "evidence");
+  await mkdir(source, { mode: 0o700 });
+  await mkdir(evidence, { mode: 0o700 });
+  await mkdir(path.join(evidence, "runs"), { mode: 0o700 });
+  const target = Buffer.from("bound-target\n");
+  await writeFile(path.join(source, "target.txt"), target, { flag: "wx", mode: 0o600 });
+  await symlink("target.txt", path.join(source, "manifest-link.json"));
+  await expectAsyncCode("SYMLINK_INPUT", () => readBoundLeaf(
+    source,
+    "manifest-link.json",
+    { byte_length: target.length, sha256: sha256(target) },
+    new Map(),
+    "NEGATIVE_SYMLINK_INPUT",
+  ));
+  const createOnceTarget = path.join(root, "create-once.txt");
+  await createOnceFile(createOnceTarget, "first\n");
+  await assert.rejects(() => createOnceFile(createOnceTarget, "overwrite\n"), (error) => error?.code === "EEXIST");
+  const expectedRun = path.join(evidence, "runs", "negative-run");
+  assert.equal((await resolveEvidenceBoundRun(evidence, "negative-run", expectedRun)).outputRoot, expectedRun);
+  await expectAsyncCode("OUTPUT_ROOT_ESCAPE", () => resolveEvidenceBoundRun(
+    evidence, "negative-run", path.join(root, "escaped-run"),
+  ));
+  await createOnceFile(path.join(root, "NEGATIVE_TEST_RECEIPT.json"), stableJson({
+    schema_version: "p2-clean-room-negative-test-receipt/v1",
+    status: "PASS",
+    tests: {
+      real_filesystem_symlink_input_rejected: true,
+      real_filesystem_output_overwrite_rejected: true,
+      evidence_output_root_escape_rejected: true,
+    },
+  }));
+}
+
+process.stdout.write(`P2_CLEAN_ROOM_BASELINE_TESTS: PASS assertions=${scratchRoot ? 28 : 24}\n`);

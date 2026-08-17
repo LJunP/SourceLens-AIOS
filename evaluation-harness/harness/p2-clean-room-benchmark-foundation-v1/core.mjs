@@ -1,6 +1,7 @@
 import { createHash } from "node:crypto";
-import { lstat, readFile, readdir, realpath } from "node:fs/promises";
+import { lstat, open, readFile, realpath } from "node:fs/promises";
 import path from "node:path";
+import { gunzipSync } from "node:zlib";
 
 export const SOURCE_PACK_IDENTITY = Object.freeze({
   artifactId: "P2_BENCHMARK_SOURCE_PACK_V1",
@@ -149,7 +150,7 @@ export function selectDevTasks(manifest, requestedIds = null) {
   return ids.map((id) => validated.byId.get(id));
 }
 
-async function assertRoot(root, label) {
+export async function assertCanonicalDirectory(root, label) {
   const absolute = path.resolve(root);
   const observed = await realpath(absolute);
   if (observed !== absolute) throw new BenchmarkInputError("ROOT_SYMLINK", `${label} is not canonical`);
@@ -160,7 +161,7 @@ async function assertRoot(root, label) {
   return absolute;
 }
 
-async function assertAncestorChain(root, relativePath) {
+export async function assertAncestorChain(root, relativePath) {
   let current = root;
   for (const segment of safeRelative(relativePath).split("/")) {
     current = path.join(current, segment);
@@ -172,79 +173,221 @@ async function assertAncestorChain(root, relativePath) {
 
 export async function readBoundLeaf(root, relativePath, expected, readSet, purpose) {
   const normalized = safeRelative(relativePath, "bound leaf");
-  const absoluteRoot = await assertRoot(root, "source root");
+  const absoluteRoot = await assertCanonicalDirectory(root, "source root");
   const absolute = await assertAncestorChain(absoluteRoot, normalized);
   const stat = await lstat(absolute);
   if (!stat.isFile() || stat.isSymbolicLink()) throw new BenchmarkInputError("LEAF_INVALID", normalized);
   const bytes = await readFile(absolute);
   assertIdentity(bytes, { byteLength: expected.byte_length, sha256: expected.sha256 }, normalized);
-  readSet.set(normalized, {
+  const record = {
     relative_path: normalized,
-    purpose,
+    purposes: [purpose],
     pre_read_expected: { byte_length: expected.byte_length, sha256: expected.sha256 },
     post_read_observed: { byte_length: bytes.length, sha256: sha256(bytes) },
-  });
+  };
+  const prior = readSet.get(normalized);
+  if (prior) {
+    if (stableJson({ ...prior, purposes: [] }) !== stableJson({ ...record, purposes: [] })) {
+      throw new BenchmarkInputError("READ_SET_IDENTITY_CONFLICT", normalized);
+    }
+    record.purposes = [...new Set([...prior.purposes, purpose])].sort();
+  }
+  readSet.set(normalized, record);
   return bytes;
 }
 
-async function walkProductionJava(root, relative = "") {
-  const absolute = relative ? await assertAncestorChain(root, relative) : root;
-  const names = (await readdir(absolute)).sort((a, b) => Buffer.compare(Buffer.from(a), Buffer.from(b)));
-  const results = [];
-  for (const name of names) {
-    const child = relative ? `${relative}/${name}` : name;
-    const normalized = safeRelative(child, "tree leaf");
-    const stat = await lstat(path.join(root, normalized));
-    if (stat.isSymbolicLink()) throw new BenchmarkInputError("SYMLINK_INPUT", normalized);
-    if (stat.isDirectory()) {
-      results.push(...await walkProductionJava(root, normalized));
-    } else if (stat.isFile() && isProductionJava(normalized)) {
-      results.push({ relativePath: normalized, byteLength: stat.size, mode: stat.mode & 0o777 });
-    }
+function tarString(buffer, start, length) {
+  const slice = buffer.subarray(start, start + length);
+  const nul = slice.indexOf(0);
+  return slice.subarray(0, nul < 0 ? slice.length : nul).toString("utf8");
+}
+
+function tarOctal(buffer, start, length, label) {
+  const value = tarString(buffer, start, length).trim().replace(/\0/g, "");
+  if (!/^[0-7]*$/.test(value)) throw new BenchmarkInputError("TAR_HEADER_INVALID", `${label} is not octal`);
+  return value === "" ? 0 : Number.parseInt(value, 8);
+}
+
+function tarChecksum(header) {
+  let sum = 0;
+  for (let index = 0; index < header.length; index += 1) {
+    sum += index >= 148 && index < 156 ? 32 : header[index];
   }
-  return results;
+  return sum;
+}
+
+function parsePax(bytes) {
+  const records = {};
+  let offset = 0;
+  while (offset < bytes.length) {
+    const space = bytes.indexOf(32, offset);
+    if (space < 0) throw new BenchmarkInputError("TAR_PAX_INVALID", "missing record length");
+    const length = Number.parseInt(bytes.subarray(offset, space).toString("ascii"), 10);
+    if (!Number.isSafeInteger(length) || length <= 0 || offset + length > bytes.length) {
+      throw new BenchmarkInputError("TAR_PAX_INVALID", "record length is invalid");
+    }
+    const record = bytes.subarray(space + 1, offset + length - 1).toString("utf8");
+    const equals = record.indexOf("=");
+    if (equals > 0) records[record.slice(0, equals)] = record.slice(equals + 1);
+    offset += length;
+  }
+  return records;
+}
+
+export function productionJavaFromAcceptedArchive(archiveBytes, task) {
+  let tar;
+  try {
+    tar = gunzipSync(archiveBytes);
+  } catch (error) {
+    throw new BenchmarkInputError("ARCHIVE_GZIP_INVALID", `${task.task_id}: ${error.message}`);
+  }
+  const corpus = [];
+  let offset = 0;
+  let pax = {};
+  let longName = null;
+  while (offset + 512 <= tar.length) {
+    const header = tar.subarray(offset, offset + 512);
+    if (header.every((byte) => byte === 0)) break;
+    const expectedChecksum = tarOctal(header, 148, 8, "checksum");
+    if (tarChecksum(header) !== expectedChecksum) {
+      throw new BenchmarkInputError("TAR_CHECKSUM_INVALID", task.task_id);
+    }
+    const size = tarOctal(header, 124, 12, "size");
+    const mode = tarOctal(header, 100, 8, "mode") & 0o777;
+    const type = String.fromCharCode(header[156] || 48);
+    const prefix = tarString(header, 345, 155);
+    const name = tarString(header, 0, 100);
+    const headerPath = prefix ? `${prefix}/${name}` : name;
+    const dataStart = offset + 512;
+    const dataEnd = dataStart + size;
+    if (dataEnd > tar.length) throw new BenchmarkInputError("TAR_TRUNCATED", task.task_id);
+    const data = tar.subarray(dataStart, dataEnd);
+    if (type === "x" || type === "g") {
+      pax = { ...pax, ...parsePax(data) };
+    } else if (type === "L") {
+      longName = data.subarray(0, Math.max(0, data.length - 1)).toString("utf8");
+    } else {
+      const entryPath = safeRelative(longName ?? pax.path ?? headerPath, "archive entry");
+      longName = null;
+      pax = {};
+      if (!["0", "\0", "5"].includes(type)) {
+        throw new BenchmarkInputError("ARCHIVE_SPECIAL_ENTRY_FORBIDDEN", `${task.task_id}:${entryPath}:${type}`);
+      }
+      const root = `${task.base.archive.top_directory}/`;
+      if (type !== "5" && entryPath.startsWith(root)) {
+        const repositoryPath = safeRelative(entryPath.slice(root.length), "repository entry");
+        if (isProductionJava(repositoryPath)) {
+          const bytes = Buffer.from(data);
+          corpus.push({
+            path: repositoryPath,
+            byteLength: bytes.length,
+            sha256: sha256(bytes),
+            mode,
+            tarHeaderChecksum: expectedChecksum,
+            tokens: tokenize(bytes.toString("utf8")),
+          });
+        }
+      }
+    }
+    offset = dataStart + Math.ceil(size / 512) * 512;
+  }
+  corpus.sort((left, right) => Buffer.compare(Buffer.from(left.path), Buffer.from(right.path)));
+  if (corpus.length === 0 || new Set(corpus.map((item) => item.path)).size !== corpus.length) {
+    throw new BenchmarkInputError("EMPTY_OR_DUPLICATE_CORPUS", task.task_id);
+  }
+  return corpus;
 }
 
 export async function loadCorpus(sourceRoot, task, readSet) {
-  const treeRelative = safeRelative(
-    `source-packs/materialized/${task.base.pack_basename}/${task.base.archive.top_directory}`,
-    `${task.task_id} base tree`,
+  const archive = task.base.archive;
+  const archiveBytes = await readBoundLeaf(
+    sourceRoot,
+    archive.relative_path,
+    archive,
+    readSet,
+    `DEV_BASE_ARCHIVE_${task.task_id}`,
   );
-  const sourceRootReal = await assertRoot(sourceRoot, "accepted source root");
-  const treeRoot = await assertAncestorChain(sourceRootReal, treeRelative);
-  const treeStat = await lstat(treeRoot);
-  if (!treeStat.isDirectory() || treeStat.isSymbolicLink()) {
-    throw new BenchmarkInputError("BASE_TREE_INVALID", task.task_id);
-  }
-  const leaves = await walkProductionJava(treeRoot);
-  if (leaves.length === 0) throw new BenchmarkInputError("EMPTY_CORPUS", task.task_id);
-  const corpus = [];
-  for (const leaf of leaves) {
-    const absolute = await assertAncestorChain(treeRoot, leaf.relativePath);
-    const bytes = await readFile(absolute);
-    const observedSha = sha256(bytes);
-    const sourceRelative = `${treeRelative}/${leaf.relativePath}`;
-    readSet.set(sourceRelative, {
-      relative_path: sourceRelative,
-      purpose: `DEV_CORPUS_${task.task_id}`,
+  const corpus = productionJavaFromAcceptedArchive(archiveBytes, task);
+  for (const leaf of corpus) {
+    const logicalPath = `${archive.relative_path}#${leaf.path}`;
+    readSet.set(logicalPath, {
+      relative_path: logicalPath,
+      purposes: [`DEV_CORPUS_${task.task_id}`],
       pre_read_expected: {
-        archive_relative_path: task.base.archive.relative_path,
-        archive_sha256: task.base.archive.sha256,
+        binding: "CONTENT_INSIDE_PREVERIFIED_ACCEPTED_ARCHIVE",
+        archive_relative_path: archive.relative_path,
+        archive_byte_length: archive.byte_length,
+        archive_sha256: archive.sha256,
         archive_tree: task.base.tree,
-        tree_entry: leaf.relativePath,
+        tar_entry: leaf.path,
+        tar_header_checksum: leaf.tarHeaderChecksum,
         byte_length: leaf.byteLength,
+        sha256: leaf.sha256,
         mode: leaf.mode,
       },
-      post_read_observed: { byte_length: bytes.length, sha256: observedSha },
-    });
-    corpus.push({
-      path: leaf.relativePath,
-      byteLength: bytes.length,
-      sha256: observedSha,
-      tokens: tokenize(bytes.toString("utf8")),
+      post_read_observed: { byte_length: leaf.byteLength, sha256: leaf.sha256 },
     });
   }
   return corpus;
+}
+
+export function collectManifestRelativePaths(value, output = []) {
+  if (Array.isArray(value)) {
+    for (const child of value) collectManifestRelativePaths(child, output);
+  } else if (value && typeof value === "object") {
+    for (const [key, child] of Object.entries(value)) {
+      if (key === "relative_path" && typeof child === "string") output.push(safeRelative(child));
+      else collectManifestRelativePaths(child, output);
+    }
+  }
+  return output;
+}
+
+export function heldNonOverlapProof(manifest, readSet) {
+  const heldTasks = manifest.tasks.filter((task) => task.split === "HELD");
+  const forbidden = [...new Set(heldTasks.flatMap((task) => collectManifestRelativePaths(task)))].sort();
+  const opened = [...readSet.keys()].sort();
+  const directIntersection = opened.filter((item) => forbidden.includes(item));
+  const heldPackBasenames = heldTasks.flatMap((task) => [task.base?.pack_basename, task.fix?.pack_basename]).filter(Boolean);
+  const semanticIntersection = opened.filter((item) => heldPackBasenames.some((name) => item.includes(name)));
+  const intersection = [...new Set([...directIntersection, ...semanticIntersection])].sort();
+  if (intersection.length > 0) throw new BenchmarkInputError("HELD_READ_DETECTED", intersection.join(","));
+  return {
+    schema_version: "p2-clean-room-dev-held-leaf-non-overlap/v1",
+    dev_opened_path_count: opened.length,
+    dev_opened_paths_sha256: sha256(Buffer.from(stableJson(opened))),
+    held_forbidden_path_count: forbidden.length,
+    held_forbidden_paths_sha256: sha256(Buffer.from(stableJson(forbidden))),
+    intersection_count: 0,
+    intersection: [],
+    held_source_trees_opened: 0,
+    held_pull_request_file_payloads_opened: 0,
+    held_build_results_opened: 0,
+  };
+}
+
+export async function createOnceFile(filePath, content) {
+  const handle = await open(filePath, "wx", 0o600);
+  try {
+    await handle.writeFile(content);
+  } finally {
+    await handle.close();
+  }
+}
+
+export async function resolveEvidenceBoundRun(evidenceRoot, runId, requestedOutputRoot) {
+  if (!/^[a-z0-9][a-z0-9-]*$/.test(runId)) throw new BenchmarkInputError("RUN_ID_INVALID", runId);
+  const root = await assertCanonicalDirectory(evidenceRoot, "Task Evidence root");
+  const runs = await assertAncestorChain(root, "runs");
+  const runsStat = await lstat(runs);
+  if (!runsStat.isDirectory() || runsStat.isSymbolicLink()) {
+    throw new BenchmarkInputError("OUTPUT_PARENT_INVALID", "runs must be a non-symlink directory");
+  }
+  const expected = path.join(root, "runs", runId);
+  if (path.resolve(requestedOutputRoot) !== expected) {
+    throw new BenchmarkInputError("OUTPUT_ROOT_ESCAPE", "output root is not the exact run descendant");
+  }
+  return { evidenceRoot: root, outputRoot: expected };
 }
 
 export function maintenanceQuery(pr) {
@@ -345,7 +488,7 @@ export function compactRanked(ranked) {
     path: item.path,
     byte_length: item.byteLength,
     sha256: item.sha256,
-    score: Number(item.score.toFixed(12)),
+    score: item.score,
   }));
 }
 

@@ -9558,9 +9558,9 @@ founder_escalation_control:
   reserved_trigger:
     category: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
     evidence:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-selector-execution-integrity-recovery-20260817/task-p2-072/terminal/P2_072_TERMINAL_PRODUCT_SELECTOR_DEV_REPLAY_EXECUTION_INTEGRITY_NON_PASS_RECEIPT_V1.json
-      byte_length: 6064
-      sha256: a14509a6e2ff8ce82962f6f4205adef7f1e6fde956f93d9c9331c2276e4ecf05
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-selector-execution-integrity-recovery-20260817/task-p2-072/terminal/P2_072_FOUNDER_RESERVED_TRIGGER_EVIDENCE_V1.json
+      byte_length: 6510
+      sha256: 460a5e8d53684d65fdf8cc561d533e47f6d8fe92e8529a72d121e5d7ebf090cb
   phase_gate_status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
   founder_decision_required: true
   next_action_owner: HUMAN_FOUNDER

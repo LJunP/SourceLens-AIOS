@@ -20647,11 +20647,14 @@ active_work:
   execution_evidence_root:
   allowlisted_paths: []
   budget:
-    engineering_hours: 0
-    calendar_days: 0
-    implementation_iterations: 0
-    candidates: 0
-  roles: {}
+    engineering_hours:
+    calendar_days:
+    implementation_iterations:
+    candidates:
+  roles:
+    owner:
+    worker:
+    independent_reviewers: []
   external_effects:
     network: false
     provider: false

@@ -1,8 +1,8 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: '2026-08-17T09:04:59Z'
+last_verified_at: '2026-08-17T11:27:17Z'
 
-verification_scope: P2_072_TERMINAL_PRODUCT_SELECTOR_DEV_REPLAY_EXECUTION_INTEGRITY_NON_PASS_SLOT_V2_3_LOCKED_FOUNDER_RESERVED_DECISION_P2_PROJECT_AND_LONG_TERM_GOAL_ACTIVE
+verification_scope: P2_073_CANDIDATE_2_EXECUTION_EVIDENCE_CLOSED_AWAITING_THREE_INDEPENDENT_REVIEWS_PRODUCT_DEV_NOT_YET_ACCEPTED_HELD_LOCKED_P2_PROJECT_AND_LONG_TERM_GOAL_ACTIVE
 
 authority:
   founder: Human Founder
@@ -43,11 +43,21 @@ goal:
     expands the cumulative P2 envelope to nineteen Tasks, five-hundred-sixty engineering
     hours and one-hundred-forty calendar days while preserving seventeen consumed
     Tasks. The new clean-room Product Selector DEV sandbox-stream-lifecycle slot
-    V5_1 is activated only for AIOS-P2-073 preactivation work; the existing formal HELD slot V2_3 remains
+    V5_1 is active only for AIOS-P2-073; the existing formal HELD slot V2_3 remains
     locked until P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED is independently accepted.
-    Before any Worker product-source write, the exact macOS sandbox-stream lifecycle
-    probe must pass and bind the Node-to-JDK17 stdin, EOF, stdout, stderr and normal-exit
-    transcript. This decision creates no engineering or capability credit, P2 delivery
+    The exact preactivation macOS sandbox-stream lifecycle gate passed before every
+    Worker product-source write. Candidate 2 is exact commit/tree
+    567b8c78ee00c7784046b2edf05148c2283cdf64/904946440e89e66bb606b3611cb4de4b342d9310;
+    targeted Surefire is 55/55 PASS, seven real-filesystem negative cases fail closed,
+    and its two sandboxed DEV result files are byte-exact at SHA-256
+    ca72d22a713be775d40498074409bc993677cee9cb8fff9cfa7141eaa2369e00.
+    Frozen DEV macro precision is 0.15595238095238093, recall is
+    0.8958333333333334 and MRR is 0.90625 with no per-task recall regression.
+    HELD was not opened and all external effects remain false. The execution Evidence
+    is closed, but CTO, Security and Quality/Evaluation independent reviews remain
+    pending; therefore the Task Gate and P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED
+    are not yet accepted. This execution creates no current delivery or strict Exit
+    credit: P2 delivery
     remains 25%, strict P2 Exit progress remains 0%, P2 and the Long-term Goal remain
     ACTIVE, and P3 remains HOLD. All following paragraphs are retained historical
     chronology only. P2-072 is TERMINAL_PRODUCT_SELECTOR_DEV_REPLAY_EXECUTION_INTEGRITY_NON_PASS.
@@ -7040,9 +7050,9 @@ historical_p2_product_selector_dev_execution_integrity_slot_and_relocked_held_ph
 historical_p2_product_selector_dev_sandbox_stream_lifecycle_slot_and_relocked_held_phase_route:
   schema_version: '1.4'
   route_id: P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SANDBOX_STREAM_LIFECYCLE_SLOT_AND_RELOCKED_HELD_SEQUENCE_ROUTE_V3
-  status: AUTHORIZED_CAPACITY_AVAILABLE
-  execution_status: PRODUCT_SELECTOR_DEV_SANDBOX_STREAM_LIFECYCLE_SLOT_ELIGIBLE_NOT_ACTIVATED
-  scheduling_status: MASTER_SELECTING_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
+  status: AUTHORIZED_CAPACITY_ACTIVE
+  execution_status: PRODUCT_SELECTOR_DEV_SANDBOX_STREAM_LIFECYCLE_SLOT_ACTIVE_CANDIDATE_AWAITING_INDEPENDENT_REVIEW
+  scheduling_status: ACTIVE_PHASE_DELEGATED_TASK_GATE_REVIEW
   phase: P2
   phase_entry_status: AUTHORIZED
   authorization_token: AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SANDBOX_STREAM_LIFECYCLE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V3
@@ -7113,7 +7123,7 @@ historical_p2_product_selector_dev_sandbox_stream_lifecycle_slot_and_relocked_he
   capacity_slots:
   - slot: 1
     capacity_slot_id: P2_RECOVERY_CAPACITY_SLOT_V5_1
-    task_id:
+    task_id: AIOS-P2-073_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_SANDBOX_STREAM_LIFECYCLE_DEV
     milestone_id: P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED
     unlock_requirement: P2_RECOVERY_BASELINE_ACCEPTED
     engineering_hours: 32
@@ -7133,11 +7143,11 @@ historical_p2_product_selector_dev_sandbox_stream_lifecycle_slot_and_relocked_he
     max_same_task_repairs: 1
     max_candidates: 2
     product_mutation_allowed: false
-  first_task:
+  first_task: AIOS-P2-073_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_SANDBOX_STREAM_LIFECYCLE_DEV
   task_plan: []
   automatic_entry:
   automatic_entries: []
-  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
+  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
 
 historical_p2_072_phase_route:
   schema_version: phase-delegated-independent-task/v1
@@ -7283,6 +7293,28 @@ current_phase_route:
       rejected_lineage_copy: false
       same_phase_objective: true
       successor_or_replacement: false
+    preactivation_gate:
+      status: PASS
+      receipt:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-selector-sandbox-stream-lifecycle-recovery-20260817/task-p2-073/preactivation-v1/P2_073_SANDBOX_STREAM_LIFECYCLE_PREACTIVATION_RECEIPT_V1.json
+        byte_length: 10435
+        sha256: bf0ff48ac369bd1fe4df0a37bb563bd5224e9306b6bdc5da1124ccea177d5b61
+      verification:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-selector-sandbox-stream-lifecycle-recovery-20260817/task-p2-073/preactivation-v1/P2_073_SANDBOX_STREAM_LIFECYCLE_PREACTIVATION_VERIFICATION_V1.json
+        byte_length: 1280
+        sha256: ba5aadcdbba2f0d5cab49efcf8c261f51567626dc42fbf1c90d57e4984239085
+    candidate:
+      generation: 2
+      commit: 567b8c78ee00c7784046b2edf05148c2283cdf64
+      tree: 904946440e89e66bb606b3611cb4de4b342d9310
+      product_source_diff_nonempty: true
+      execution_evidence_status: CLOSED
+      independent_review_status: PENDING
+      task_gate_status: NOT_YET_ACCEPTED
+      evidence_manifest:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-selector-sandbox-stream-lifecycle-recovery-20260817/task-p2-073/candidate-v1/P2_073_EXECUTION_EVIDENCE_MANIFEST_V1.json
+        byte_length: 2488
+        sha256: 0723637401923cbbeb46b1b7b8a2f1363a1b72ef2d9bdb21162213e05c30e740
   external_effects:
     network: false
     provider: false

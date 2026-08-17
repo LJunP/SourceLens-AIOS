@@ -1,0 +1,71 @@
+{
+  "schema_version": "p2-071-accepted-p2-069-dev-baseline-manifest/v1",
+  "artifact_id": "P2_069_ACCEPTED_DEV_BASELINE_FOR_P2_071",
+  "status": "ACCEPTED_INPUT_IMMUTABLE",
+  "accepted_milestone": "P2_RECOVERY_BASELINE_ACCEPTED",
+  "accepted_candidate": {
+    "commit": "ce3be466fcdccba81011185fd0d8ee97e824befa",
+    "tree": "038fcd3113de81ed0547f69dc34dc07f7342f8a9"
+  },
+  "source_root_binding": {
+    "environment_variable": "SOURCELENS_P2_BENCHMARK_SOURCE_ROOT",
+    "paths_are_root_relative": true,
+    "absolute_path_embedded": false
+  },
+  "artifacts": {
+    "accepted_source_pack": {
+      "relative_path": "accepted-p2-069-baseline-v1/SOURCE_PACK.json",
+      "byte_length": 94630,
+      "sha256": "c5f38070b8f0ed445c759f3380769c2dec5493e0f4120f681b9b1cab3fd67884"
+    },
+    "benchmark_manifest": {
+      "relative_path": "accepted-p2-069-baseline-v1/BENCHMARK_MANIFEST.json",
+      "byte_length": 1698,
+      "sha256": "1847e480cd0a2a35f3130b65dc074742ad5669eb4f715bc4066867855680396f"
+    },
+    "dev_task_cards": {
+      "relative_path": "accepted-p2-069-baseline-v1/DEV_TASK_CARDS.json",
+      "byte_length": 520431,
+      "sha256": "c6c5a2655870a6cc8b5310675fa4e31054be48d048702a0939fac81327bb865b"
+    },
+    "b1_results": {
+      "relative_path": "accepted-p2-069-baseline-v1/B1_RESULTS.json",
+      "byte_length": 634859,
+      "sha256": "231a99391726b618cba130474c4ad7ffa348af25afda97968dc0c1745159c0c0"
+    },
+    "accepted_task_gate": {
+      "relative_path": "accepted-p2-069-baseline-v1/P2_069_MASTER_TASK_GATE_ACCEPTED_RECEIPT_V1.json",
+      "byte_length": 5783,
+      "sha256": "c2b2a939e472ae180d85210eb852a360fce99d36402b4ffcf331ca825d5bc4d1"
+    },
+    "canonical_integration": {
+      "relative_path": "accepted-p2-069-baseline-v1/P2_069_CANONICAL_INTEGRATION_AND_ACCEPTED_OUTCOME_RECEIPT_V1.json",
+      "byte_length": 2130,
+      "sha256": "78d5ad1af278f5e112c52021a1c8b81da330a14171d238992083a2ab9ae90747"
+    }
+  },
+  "frozen_dev_universe": {
+    "repository_count": 4,
+    "task_count": 8,
+    "held_task_count": 4,
+    "held_tasks_executed": 0,
+    "top_k": 10,
+    "utf8_byte_budget": 131072,
+    "tokenization": "NFKC_CASEFOLD_CAMEL_AND_ALNUM_V1",
+    "tie_break": "SCORE_DESC_THEN_REPOSITORY_RELATIVE_PATH_ASC_UTF8"
+  },
+  "b1_aggregate": {
+    "macro_precision": 0.15595238095238093,
+    "macro_recall": 0.8958333333333334,
+    "macro_reciprocal_rank": 0.8229166666666666
+  },
+  "acceptance_thresholds": {
+    "macro_precision_min": 0.15595238095238093,
+    "macro_recall_min": 0.8958333333333334,
+    "macro_reciprocal_rank_strictly_greater_than": 0.8229166666666666,
+    "per_task_recall_regression_allowed": false,
+    "baseline_selected_membership_mutation_allowed": false,
+    "held_execution_allowed": false
+  },
+  "claim_boundary": "This manifest freezes only the accepted P2-069 DEV baseline input for one P2-071 Product Selector DEV attempt. It does not authorize HELD access, change the dataset or metric, establish Product Selector acceptance, satisfy the P2 Exit Gate, authorize P3, or close the long-term Goal."
+}

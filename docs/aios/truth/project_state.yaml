@@ -6976,6 +6976,23 @@ historical_p2_071_phase_route:
   unauthorized_local_write_targets_observed: 5
   additional_write_roots: []
   inherited_worktree_inventory_source: historical_p2_070_phase_route
+  inherited_worktree_inventory:
+  - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-068-recovery-benchmark-foundation
+    head: 275eb00e2c209653ab045bd498d06e7d68e85162
+    branch: codex/p2-068-recovery-benchmark-foundation
+    status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+  - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-069-clean-room-recovery-benchmark-foundation
+    head: ce3be466fcdccba81011185fd0d8ee97e824befa
+    branch: codex/p2-069-clean-room-recovery-benchmark-foundation
+    status: INHERITED_CLOSED_OUT_OF_SCOPE_NOT_CURRENT
+  - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-070-product-java-maintenance-context-selector-dev
+    head: 9e2b30b3159ef6a62cc3ddb8a20c53fbf0625db4
+    branch: codex/p2-070-product-java-maintenance-context-selector-dev
+    status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+  - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-071-clean-room-java-maintenance-context-selector-dev
+    head: 36c2085e1e535cef2e6a27bc7645f062a1d37615
+    branch: codex/p2-071-clean-room-java-maintenance-context-selector-dev
+    status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
 
 historical_p2_070_phase_route:
   schema_version: phase-delegated-independent-task/v1

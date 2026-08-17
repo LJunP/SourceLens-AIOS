@@ -15297,6 +15297,7 @@ phase_boundary:
       - backend-spring/src/main/java/com/sourcelens/module/agent/service/JavaDependencyNeighborhoodContextService.java
       - backend-spring/src/main/java/com/sourcelens/module/agent/service/SourceLocalJavaImportContextService.java
       - backend-spring/src/main/java/com/sourcelens/module/agent/service/JavaMaintenanceContextSelector.java
+      - backend-spring/src/main/java/com/sourcelens/module/agent/service/QueryEntityCoverageSelector.java
       - backend-spring/src/main/java/com/sourcelens/module/agent/service/CodeQaRetrievalService.java
       - backend-spring/src/main/java/com/sourcelens/module/agent/controller/CodeQaController.java
       - backend-spring/src/main/java/com/sourcelens/module/agent/dto/CodeQaRetrievalPlan.java
@@ -15307,6 +15308,7 @@ phase_boundary:
       - backend-spring/src/test/java/com/sourcelens/JavaDependencyNeighborhoodContextServiceTest.java
       - backend-spring/src/test/java/com/sourcelens/SourceLocalJavaImportContextServiceTest.java
       - backend-spring/src/test/java/com/sourcelens/JavaMaintenanceContextSelectorTest.java
+      - backend-spring/src/test/java/com/sourcelens/QueryEntityCoverageSelectorTest.java
       - backend-spring/src/test/java/com/sourcelens/CodeQaRetrievalServiceTest.java
       - backend-spring/src/test/java/com/sourcelens/CodeQaControllerTest.java
       - backend-spring/src/test/java/com/sourcelens/CodeChunkFileFilterTest.java

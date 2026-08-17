@@ -7042,8 +7042,8 @@ current_phase_route:
     max_same_task_repairs: 1
     contract:
       path: docs/aios/tasks/P2-072_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_EXECUTION_INTEGRITY_DEV.yaml
-      sha256: f9ced4cb969e4d3eded521848c4c2a4567396bccd31814130187823887eca0c0
-      byte_length: 13472
+      sha256: e5452522b1aaf2a6af8ddeac6ece817f56d941d6082abddcb63252e7c1f33923
+      byte_length: 13203
     independence:
       new_task_id: true
       new_execution_nonce: true
@@ -9452,8 +9452,8 @@ phase_execution_envelope:
       calendar_days: 8
     contract:
       path: docs/aios/tasks/P2-072_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_EXECUTION_INTEGRITY_DEV.yaml
-      sha256: f9ced4cb969e4d3eded521848c4c2a4567396bccd31814130187823887eca0c0
-      byte_length: 13472
+      sha256: e5452522b1aaf2a6af8ddeac6ece817f56d941d6082abddcb63252e7c1f33923
+      byte_length: 13203
     authority:
   remaining:
     engineering_tasks: 1
@@ -20627,9 +20627,9 @@ active_work:
   current_task_status: NONE
   current_task_contract:
     path: docs/aios/tasks/P2-072_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_EXECUTION_INTEGRITY_DEV.yaml
-    sha256: f9ced4cb969e4d3eded521848c4c2a4567396bccd31814130187823887eca0c0
-    byte_length: 13472
-  current_task_contract_sha256: f9ced4cb969e4d3eded521848c4c2a4567396bccd31814130187823887eca0c0
+    sha256: e5452522b1aaf2a6af8ddeac6ece817f56d941d6082abddcb63252e7c1f33923
+    byte_length: 13203
+  current_task_contract_sha256: e5452522b1aaf2a6af8ddeac6ece817f56d941d6082abddcb63252e7c1f33923
   current_execution_authorization:
   current_execution_authorization_sha256:
   authority_record:

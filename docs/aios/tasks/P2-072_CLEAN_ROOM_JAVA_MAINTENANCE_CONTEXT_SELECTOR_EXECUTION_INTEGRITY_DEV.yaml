@@ -36,17 +36,13 @@ read_context:
 - docs/aios/MASTER_EXECUTION_PROTOCOL.md
 - docs/aios/FOUNDER_DELEGATION_POLICY.md
 - docs/aios/EVALUATION_PROTOCOL.md
-- docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml
 - docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_EXECUTION_INTEGRITY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V2.md
-- evaluation-harness/harness/p2-clean-room-benchmark-foundation-v1/**
-- evaluation-harness/replay/p2-clean-room-benchmark-foundation-v1/**
-- evaluation-harness/reports/p2-clean-room-benchmark-foundation-v1/**
-- P2_069_ACCEPTED_EVIDENCE_ROOT/canonical-integration/P2_069_CANONICAL_INTEGRATION_AND_ACCEPTED_OUTCOME_RECEIPT_V1.json
+- TASK_EVIDENCE_ROOT/canonical-integration/P2_069_CANONICAL_INTEGRATION_AND_ACCEPTED_OUTCOME_RECEIPT_V1.json
 dependencies:
 - kind: CANONICAL_SOURCE
   identity:
-    commit: 831a8a7a3d6c0f42a639ba7396c5c73cabf79c80
-    tree: f5410304873177275c34f7500201bb27976ab7aa
+    commit: 6910aaaf657e0cd57732ad48674b7e7de116d1a7
+    tree: 7e26ae26ca99923cbda8854837756dbabbb7a1d4
 - kind: BASELINE_ARTIFACT
   identity:
     artifact_id: P2_069_ACCEPTED_CLEAN_ROOM_BENCHMARK_FOUNDATION

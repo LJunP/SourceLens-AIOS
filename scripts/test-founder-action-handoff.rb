@@ -381,6 +381,65 @@ completion_authorization = authorization.merge(
 completion_draft = standard_draft.sub(standard_copy_text, completion_copy)
 assert_pass!("final candidate completion envelope positive", completion_authorization, completion_draft,
              current_truth, user_token: completion_request_token)
+
+resequence_trigger = "MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE"
+resequence_request_token = "下一步我应该做什么？应该授权哪些内容？"
+resequence_risk = "One bounded local capacity expansion and scheduling replacement; all prior consumption and terminal facts remain immutable, and all external effects remain prohibited."
+resequence_denial = "Do not create another P2 Task; keep P2 and the long-term Goal active, P3 HOLD, strict progress zero, and preserve P2-068 terminal Evidence."
+resequence_copy = <<~TEXT.strip
+  #{FounderActionHandoff::RECOVERY_RESEQUENCE_TOKEN}；canonical commit #{canonical['commit']}；tree #{canonical['tree']}；governing artifact #{plan['path']} #{plan['byte_length']} bytes SHA-256 #{plan['sha256']}；trigger #{resequence_trigger}；operation type P2_RECOVERY_CLEAN_ROOM_RESEQUENCING_AND_MINIMAL_ENVELOPE_EXPANSION；operation #{FounderActionHandoff::RECOVERY_RESEQUENCE_OPERATION}；order #{FounderActionHandoff::RECOVERY_RESEQUENCE_ORDER}；lineage #{FounderActionHandoff::RECOVERY_RESEQUENCE_LINEAGE}；target #{FounderActionHandoff::RECOVERY_RESEQUENCE_TARGET}；duration #{FounderActionHandoff::RECOVERY_RESEQUENCE_DURATION}；budget #{FounderActionHandoff::RECOVERY_RESEQUENCE_BUDGET}；risk #{resequence_risk}；deny #{resequence_denial}；expiry #{FounderActionHandoff::RECOVERY_RESEQUENCE_CONSUMPTION}；PASS #{FounderActionHandoff::RECOVERY_RESEQUENCE_PASS}；NON_PASS #{FounderActionHandoff::RECOVERY_RESEQUENCE_NON_PASS}
+TEXT
+resequence_authorization = authorization.merge(
+  "copy_ready_text_or_exact_steps" => resequence_copy,
+  "validator_evidence" => evidence(
+    prospective: prospective_preflight(trigger: resequence_trigger, effect: "MATERIAL_SCOPE")
+  ),
+  "user_request_evidence" => {
+    "source" => "CURRENT_DIRECT_USER_MESSAGE",
+    "exact_token" => resequence_request_token,
+    "requested_external_effect" => "MATERIAL_SCOPE"
+  },
+  "authorization" => authorization.fetch("authorization").merge(
+    "operation_type" => "P2_RECOVERY_CLEAN_ROOM_RESEQUENCING_AND_MINIMAL_ENVELOPE_EXPANSION",
+    "reserved_trigger" => resequence_trigger,
+    "grant_scope" => {
+      "operations" => [
+        FounderActionHandoff::RECOVERY_RESEQUENCE_OPERATION,
+        FounderActionHandoff::RECOVERY_RESEQUENCE_ORDER,
+        FounderActionHandoff::RECOVERY_RESEQUENCE_LINEAGE
+      ],
+      "targets" => [FounderActionHandoff::RECOVERY_RESEQUENCE_TARGET],
+      "duration" => FounderActionHandoff::RECOVERY_RESEQUENCE_DURATION,
+      "budget_or_external_effects" => FounderActionHandoff::RECOVERY_RESEQUENCE_BUDGET
+    },
+    "risk_and_reversibility" => resequence_risk,
+    "deny_or_defer_effect" => resequence_denial,
+    "authorization_expiry_or_consumption_rule" => FounderActionHandoff::RECOVERY_RESEQUENCE_CONSUMPTION,
+    "pass_lifecycle" => FounderActionHandoff::RECOVERY_RESEQUENCE_PASS,
+    "non_pass_lifecycle" => FounderActionHandoff::RECOVERY_RESEQUENCE_NON_PASS
+  )
+)
+resequence_draft = standard_draft.sub(standard_copy_text, resequence_copy)
+assert_pass!("clean-room recovery resequencing positive", resequence_authorization,
+             resequence_draft, current_truth, user_token: resequence_request_token)
+resequence_reset_budget = "Reset all consumed P2 capacity and add three fresh Tasks"
+assert_reject!(
+  "clean-room recovery resequencing rejects consumed-capacity reset",
+  resequence_authorization.merge(
+    "copy_ready_text_or_exact_steps" => resequence_copy.sub(
+      FounderActionHandoff::RECOVERY_RESEQUENCE_BUDGET, resequence_reset_budget
+    ),
+    "authorization" => resequence_authorization.fetch("authorization").merge(
+      "grant_scope" => resequence_authorization.dig("authorization", "grant_scope").merge(
+        "budget_or_external_effects" => resequence_reset_budget
+      )
+    )
+  ),
+  resequence_draft.sub(FounderActionHandoff::RECOVERY_RESEQUENCE_BUDGET, resequence_reset_budget),
+  current_truth,
+  user_token: resequence_request_token
+)
+
 completion_reset_budget = "A fresh 5 GiB body budget that resets all prior consumption"
 completion_reset_copy = completion_copy.sub(FounderActionHandoff::FINAL_CANDIDATE_COMPLETION_BUDGET,
                                              completion_reset_budget)

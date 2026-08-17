@@ -34,6 +34,7 @@ module FounderActionHandoff
     READ_ONLY_HTTPS_BENCHMARK_SOURCE_MILESTONE_STANDARD_CURL
     READ_ONLY_HTTPS_BENCHMARK_SOURCE_MILESTONE_STANDARD_CURL_REISSUE
     P2_BENCHMARK_SOURCE_FINAL_CANDIDATE_COMPLETION_ENVELOPE
+    P2_RECOVERY_CLEAN_ROOM_RESEQUENCING_AND_MINIMAL_ENVELOPE_EXPANSION
   ].freeze
   APP_OPERATION_TYPES = %w[APP_FILESYSTEM_BATCH_WRITE].freeze
   READ_ONLY_HTTPS_OPERATION = "一次全新、独立、clean-room V6 benchmark source acquisition"
@@ -69,6 +70,16 @@ module FounderActionHandoff
   FINAL_CANDIDATE_COMPLETION_CONSUMPTION = "This envelope is consumed by one replacement final candidate or exhaustion of repository ordinals 31..48, issue/PR ordinals 61..96, or the expanded cumulative body ceiling; it authorizes no second replacement, further ordinal expansion, fresh budget, or automatic execution of a successor"
   FINAL_CANDIDATE_COMPLETION_PASS = "PASS permits only installation of the accepted DEV public and HELD custody source packs and activation of existing P2 recovery slot 1; it does not grant the 25% milestone, formal benchmark, product mutation or P3"
   FINAL_CANDIDATE_COMPLETION_NON_PASS = "NON_PASS ends only this completion envelope and preserves exact terminal Evidence; P2, SourceLens and the long-term Goal remain active, P3 remains HOLD, source admission remains false and progress contribution remains 0; the mandatory next-step copy-ready handoff is still delivered even though no successor may be executed without direct Founder approval"
+  RECOVERY_RESEQUENCE_TOKEN = "AUTHORIZE_P2_CLEAN_ROOM_RECOVERY_RESEQUENCING_AND_MINIMAL_ENVELOPE_EXPANSION_V1"
+  RECOVERY_RESEQUENCE_OPERATION = "Supersede only the unused slot-2 and slot-3 scheduling projection from P2_VALUE_FIRST_RECOVERY_ENVELOPE_EXPANSION_DECISION_V1 with one new clean-room three-stage sequence: independent benchmark foundation, product selector DEV, then formal HELD evaluation"
+  RECOVERY_RESEQUENCE_BUDGET = "Raise the non-resettable cumulative P2 Phase envelope from 15 engineering tasks, 432 engineering hours and 108 calendar days to 16 engineering tasks, 464 engineering hours and 116 calendar days; preserve consumed 13 tasks, 368 hours and 92 days, leaving exactly 3 tasks, 96 hours and 24 days for the new sequence"
+  RECOVERY_RESEQUENCE_ORDER = "Require independent acceptance of P2_RECOVERY_BASELINE_ACCEPTED before product DEV activation, and independent acceptance of P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED before one formal HELD evaluation; no milestone receives credit before its own independent acceptance"
+  RECOVERY_RESEQUENCE_LINEAGE = "Preserve P2-068 only as closed terminal accounting and prohibit reading, comparing, copying or reusing its rejected branch, worktree, code, benchmark implementation or engineering Evidence in the new benchmark-foundation Task"
+  RECOVERY_RESEQUENCE_TARGET = "Local SourceLens canonical main, one future active Task branch and worktree, and create-once Evidence under /Users/lijunpeng/Developer/.sourcelens-audit; no network, Provider, Secret, remote, production, public release, deletion, database modification, P3 entry or long-term Goal termination"
+  RECOVERY_RESEQUENCE_DURATION = "Until the P2 Exit Gate is ACCEPTED, the exact 3-task 96-hour 24-day executable remainder is exhausted, Founder explicitly revokes this envelope, or a terminal safety condition occurs"
+  RECOVERY_RESEQUENCE_CONSUMPTION = "The envelope is non-resettable: each activated Task consumes exactly one 32-hour 8-day slot; a Task NON_PASS consumes that slot, unlocks no replacement or automatic successor, and any further scope requires a new exact Founder decision"
+  RECOVERY_RESEQUENCE_PASS = "Benchmark-foundation PASS unlocks only product DEV; product DEV PASS unlocks only one formal HELD evaluation; formal HELD completion may establish Phase-Gate eligibility but does not itself authorize P3 entry or close the long-term Goal"
+  RECOVERY_RESEQUENCE_NON_PASS = "Any Task NON_PASS preserves its exact terminal Evidence, consumes its slot, leaves dependent slots locked, creates no replacement or remediation chain, keeps P2 and the long-term Goal active with P3 HOLD, and contributes zero P2 progress"
   FOUNDER_NETWORK_OPERATION_PROFILES = {
     "READ_ONLY_HTTPS_ACQUISITION" => {
       "operations" => [READ_ONLY_HTTPS_OPERATION, READ_ONLY_HTTPS_METHOD],
@@ -132,6 +143,20 @@ module FounderActionHandoff
       "authorization_expiry_or_consumption_rule" => FINAL_CANDIDATE_COMPLETION_CONSUMPTION,
       "pass_lifecycle" => FINAL_CANDIDATE_COMPLETION_PASS,
       "non_pass_lifecycle" => FINAL_CANDIDATE_COMPLETION_NON_PASS
+    },
+    "P2_RECOVERY_CLEAN_ROOM_RESEQUENCING_AND_MINIMAL_ENVELOPE_EXPANSION" => {
+      "operations" => [
+        RECOVERY_RESEQUENCE_OPERATION,
+        RECOVERY_RESEQUENCE_ORDER,
+        RECOVERY_RESEQUENCE_LINEAGE
+      ],
+      "targets" => [RECOVERY_RESEQUENCE_TARGET],
+      "budget_or_external_effects" => RECOVERY_RESEQUENCE_BUDGET,
+      "token" => RECOVERY_RESEQUENCE_TOKEN,
+      "duration" => RECOVERY_RESEQUENCE_DURATION,
+      "authorization_expiry_or_consumption_rule" => RECOVERY_RESEQUENCE_CONSUMPTION,
+      "pass_lifecycle" => RECOVERY_RESEQUENCE_PASS,
+      "non_pass_lifecycle" => RECOVERY_RESEQUENCE_NON_PASS
     }
   }.freeze
   PROSPECTIVE_PREFLIGHT = "PROSPECTIVE_RESERVED_EFFECT_REQUIRED_BY_EXACT_USER_REQUEST_AND_NOT_EXPRESSIBLE_BY_CURRENT_OFFLINE_ESCALATION_PROJECTION"
@@ -463,6 +488,7 @@ module FounderActionHandoff
         READ_ONLY_HTTPS_BENCHMARK_SOURCE_MILESTONE_STANDARD_CURL
         READ_ONLY_HTTPS_BENCHMARK_SOURCE_MILESTONE_STANDARD_CURL_REISSUE
         P2_BENCHMARK_SOURCE_FINAL_CANDIDATE_COMPLETION_ENVELOPE
+        P2_RECOVERY_CLEAN_ROOM_RESEQUENCING_AND_MINIMAL_ENVELOPE_EXPANSION
       ].include?(operation_type)
         proposed_tokens = package["copy_ready_text_or_exact_steps"].scan(FOUNDER_AUTHORIZATION_TOKEN)
         assert!(proposed_tokens == [profile["token"]],

@@ -6912,7 +6912,7 @@ current_phase_route:
       Implement one deterministic Java-maintenance repository context selector in the
       real Code QA product path, then compare the exact product candidate against the
       accepted P2-069 B1 baseline on only the frozen eight-task DEV split under identical
-      query, corpus, top-k and UTF-8 byte budget without opening or scoring HELD.
+      query, corpus, top-k and UTF-8 byte budget, without opening or scoring HELD.
     capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_V3_1
     budget:
       engineering_hours: 32

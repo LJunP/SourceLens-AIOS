@@ -4185,8 +4185,10 @@ module FounderDelegationContinuity
           "engineering_hours" => 32,
           "calendar_days" => 8
         } &&
-        truth.dig("p2_recovery_control", "status") ==
-          "CLEAN_ROOM_SLOT_V2_2_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_LOCKED" &&
+        %w[
+          CLEAN_ROOM_SLOT_V2_2_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_LOCKED
+          CLEAN_ROOM_SLOT_V3_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
+        ].include?(truth.dig("p2_recovery_control", "status")) &&
         truth.dig("p2_recovery_control", "task_creation_allowed") == false &&
         truth.dig("p2_recovery_control", "next_eligible_action") == "FOUNDER_RESERVED_DECISION"
       assert((phase_envelope["status"] == "EXHAUSTED" && phase_envelope["reserved"].nil?) ||

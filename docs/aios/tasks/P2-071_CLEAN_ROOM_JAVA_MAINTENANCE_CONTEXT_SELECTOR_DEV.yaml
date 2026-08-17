@@ -3,7 +3,23 @@ record_type: aios_phase_delegated_independent_task_contract
 task_id: AIOS-P2-071_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_DEV
 phase: P2
 route_id: AIOS-P2-071_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_DEV_PHASE_DELEGATED_ROUTE
-status: ACTIVE
+status: TERMINAL_PRODUCT_SELECTOR_DEV_EXECUTION_INTEGRITY_AND_AUTHORITY_NON_PASS
+terminal_outcome:
+  receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-selector-dev-recovery-20260817/task-p2-071/terminal/P2_071_TERMINAL_PRODUCT_SELECTOR_DEV_EXECUTION_INTEGRITY_AND_AUTHORITY_NON_PASS_RECEIPT_V1.json
+    byte_length: 5661
+    sha256: a71841cb538b8f80aab8f09c93321b9d9fa85896a60cc7bdc225a43a43920445
+  independent_review_cycle: 1
+  target_verdicts:
+    cto: NON_PASS
+    security: NON_PASS
+    quality_and_evaluation: NON_PASS
+  candidate_integrated: false
+  product_selector_dev_milestone_accepted: false
+  formal_held_slot_unlocked: false
+  delivery_progress_percent: 25
+  strict_p2_exit_progress_percent: 0
+  progress_credit: 0
 task_kind: REPOSITORY_INTELLIGENCE_GRAPH_ENGINEERING
 capability: GRAPH_CONDITIONED_CONTEXT_SELECTION
 objective: >-

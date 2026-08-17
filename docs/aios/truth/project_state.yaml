@@ -1463,8 +1463,8 @@ project:
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
   p2_execution_status: ACTIVE
-  phase_execution_status: ACTIVE_REQUIRED_MILESTONE_MISSING
-  current_route_execution_status: TERMINAL_PRODUCT_SELECTOR_DEV_REPLAY_EXECUTION_INTEGRITY_NON_PASS
+  phase_execution_status: STOPPED_AT_FOUNDER_RESERVED_DECISION
+  current_route_execution_status: FOUNDER_RESERVED_DECISION_REQUIRED
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -7000,8 +7000,7 @@ historical_p2_product_selector_dev_execution_integrity_slot_and_relocked_held_ph
   capacity_slots:
   - slot: 1
     capacity_slot_id: P2_RECOVERY_CAPACITY_SLOT_V4_1
-    task_id: AIOS-P2-072_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_EXECUTION_INTEGRITY_DEV
-    status: TERMINAL_PRODUCT_SELECTOR_DEV_REPLAY_EXECUTION_INTEGRITY_NON_PASS
+    task_id:
     milestone_id: P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED
     unlock_requirement: P2_RECOVERY_BASELINE_ACCEPTED
     engineering_hours: 32
@@ -7027,7 +7026,7 @@ historical_p2_product_selector_dev_execution_integrity_slot_and_relocked_held_ph
   automatic_entries: []
   next_eligible_action: FOUNDER_RESERVED_DECISION
 
-current_phase_route:
+historical_p2_072_phase_route:
   schema_version: phase-delegated-independent-task/v1
   route_id: AIOS-P2-072_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_EXECUTION_INTEGRITY_DEV_PHASE_DELEGATED_ROUTE
   status: TERMINAL_PRODUCT_SELECTOR_DEV_REPLAY_EXECUTION_INTEGRITY_NON_PASS
@@ -7094,6 +7093,32 @@ current_phase_route:
     public: false
   additional_write_roots: []
   inherited_worktree_inventory_source: historical_p2_071_phase_route
+
+current_phase_route:
+  schema_version: founder-reserved-decision-hold/v1
+  route_id: P2_FOUNDER_RESERVED_DECISION_HOLD
+  status: FOUNDER_RESERVED_DECISION_REQUIRED
+  execution_status: FOUNDER_RESERVED_DECISION_REQUIRED
+  scheduling_status: STOPPED_AT_FOUNDER_RESERVED_DECISION
+  phase: P2
+  phase_entry_status: AUTHORIZED
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: '1.8'
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  founder_phase_route_decision_required: true
+  next_eligible_action: FOUNDER_RESERVED_DECISION
+  phase_execution_envelope_ref: phase_execution_envelope
+  historical_terminal_route_ref: historical_p2_072_phase_route
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false
+  additional_write_roots: []
+  inherited_worktree_inventory_source: historical_p2_072_phase_route
 
 historical_p2_071_phase_route:
   schema_version: phase-delegated-independent-task/v1
@@ -9173,7 +9198,7 @@ historical_p2_060_founder_expansion_phase_route:
 phase_execution_envelope:
   schema_version: phase-execution-envelope/v1
   phase: P2
-  status: FOUNDER_DECISION_REQUIRED_REMAINING_FORMAL_HELD_SLOT_LOCKED
+  status: ACTIVE_REMAINING_CAPACITY
   authority_basis:
     phase_entry_status: AUTHORIZED
     policy_path: docs/aios/FOUNDER_DELEGATION_POLICY.md
@@ -9500,7 +9525,7 @@ phase_execution_envelope:
 
 founder_escalation_control:
   schema_version: founder-escalation-control/v1
-  disposition: RESERVED_TRIGGER_REQUIRES_FOUNDER_DECISION
+  disposition: FOUNDER_DECISION_REQUIRED
   source_event:
     kind: PRODUCT_SELECTOR_DEV_TASK_TERMINAL_AND_ONLY_REMAINING_HELD_SLOT_LOCKED
     task_id: AIOS-P2-072_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_EXECUTION_INTEGRITY_DEV
@@ -20656,7 +20681,7 @@ historical_active_work_after_p1_079:
   phase_route_decision_required: true
   phase_route_user_action_required: FOUNDER_P1_PHASE_GATE_DECISION
   next_eligible_action: FOUNDER_P1_PHASE_GATE
-active_work:
+historical_p2_072_terminal_active_work:
   current_task: AIOS-P2-072_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_EXECUTION_INTEGRITY_DEV
   current_task_status: TERMINAL_PRODUCT_SELECTOR_DEV_REPLAY_EXECUTION_INTEGRITY_NON_PASS
   current_task_contract:
@@ -20751,6 +20776,54 @@ active_work:
   - evaluation-harness/harness/p2-product-selector-execution-integrity-dev-v1/**
   - evaluation-harness/replay/p2-product-selector-execution-integrity-dev-v1/**
   - evaluation-harness/reports/p2-product-selector-execution-integrity-dev-v1/**
+
+active_work:
+  current_task: NONE
+  current_task_status: NONE
+  current_task_contract:
+    path:
+    sha256:
+    byte_length:
+  current_task_contract_sha256:
+  current_execution_authorization:
+  current_execution_authorization_sha256:
+  authority_record:
+    path:
+    sha256:
+    byte_length:
+  execution_nonce:
+  execution_nonce_status: CONSUMED_TERMINAL
+  authorization_id:
+  activation_parent_commit:
+  activation_parent_tree:
+  task_resource_state: NO_ACTIVE_TASK_FOUNDER_RESERVED_DECISION_HOLD
+  task_branch:
+  task_worktree:
+  execution_evidence_root:
+  allowlisted_paths: []
+  budget:
+    engineering_hours: 0
+    calendar_days: 0
+    implementation_iterations: 0
+    candidates: 0
+  roles: {}
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false
+  offsite_target:
+  founder_reserved_authorization:
+  founder_reserved_authorization_sha256:
+  founder_decision_required: true
+  founder_decision_required_scope: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+  escalation_reason: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+  user_action_required: FOUNDER_RESERVED_DECISION
+  phase_route_decision_required: true
+  phase_route_user_action_required: FOUNDER_RESERVED_DECISION
+  next_eligible_action: FOUNDER_RESERVED_DECISION
 
 historical_p2_065_terminal_active_work:
   current_task: AIOS-P2-065_ESM_IMPORT_GRAPH_CONTEXT_PRODUCT_BENCHMARK
@@ -27295,8 +27368,8 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: AIOS-P2-072_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_EXECUTION_INTEGRITY_DEV_PHASE_DELEGATED_ROUTE
-  current_task_claim: AIOS-P2-072_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_EXECUTION_INTEGRITY_DEV
+  current_route_claim: P2_FOUNDER_RESERVED_DECISION_HOLD
+  current_task_claim: NONE
   real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_072_TERMINAL_PRODUCT_SELECTOR_DEV_REPLAY_EXECUTION_INTEGRITY_NON_PASS_SLOT_V2_3_LOCKED
   product_capability_changed: false
   phase_local_allowed:
@@ -27625,7 +27698,7 @@ phase_execution_claim:
 
 p2_recovery_control:
   schema_version: p2-recovery-control/v1
-  status: SLOT_V4_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_LOCKED_FOUNDER_RESERVED_DECISION
+  status: CLEAN_ROOM_SLOT_V4_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
   plan:
     path: docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml
     byte_length: 7433
@@ -27642,7 +27715,6 @@ p2_recovery_control:
   - slot: 1
     capacity_slot_id: P2_RECOVERY_CAPACITY_SLOT_V4_1
     task_id: AIOS-P2-072_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_EXECUTION_INTEGRITY_DEV
-    status: TERMINAL_PRODUCT_SELECTOR_DEV_REPLAY_EXECUTION_INTEGRITY_NON_PASS
     milestone_id: P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED
     unlock_requirement: P2_RECOVERY_BASELINE_ACCEPTED
     engineering_hours: 32
@@ -27664,8 +27736,8 @@ p2_recovery_control:
   next_eligible_action: FOUNDER_RESERVED_DECISION
 
 claim_boundary:
-  current_phase_route: AIOS-P2-072_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_EXECUTION_INTEGRITY_DEV_PHASE_DELEGATED_ROUTE
-  current_task: AIOS-P2-072_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_EXECUTION_INTEGRITY_DEV
+  current_phase_route: P2_FOUNDER_RESERVED_DECISION_HOLD
+  current_task: NONE
   next_eligible_action: FOUNDER_RESERVED_DECISION
   real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_072_TERMINAL_PRODUCT_SELECTOR_DEV_REPLAY_EXECUTION_INTEGRITY_NON_PASS_SLOT_V2_3_LOCKED
   p2_072_status: TERMINAL_PRODUCT_SELECTOR_DEV_REPLAY_EXECUTION_INTEGRITY_NON_PASS
@@ -27777,7 +27849,7 @@ claim_boundary:
   p2_065_rejected_candidate_preservation_receipt_sha256: 8a96643ed0823c11791471a7249318ce287c6e1f41d087b5bf3863a8b8fd8ac8
   p2_065_canonical_make_verify: NOT_INVOKED_TERMINAL_TARGET_METRIC_NON_PASS
   p2_065_capability_credit: 0
-  p2_phase_envelope_status: FOUNDER_DECISION_REQUIRED_REMAINING_FORMAL_HELD_SLOT_LOCKED
+  p2_phase_envelope_status: ACTIVE_REMAINING_CAPACITY
   p2_project_status: ACTIVE
   long_term_goal_status: ACTIVE
   p2_064_status: TERMINAL_FORMAL_DEV_CHILD_EXIT_BEFORE_READY_ITERATION2_EXHAUSTED_NON_PASS

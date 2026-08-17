@@ -613,6 +613,64 @@ module P2RecoveryAntiCycle
               claim["real_engineering_progress"] ==
                 "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_SLOT_V4_1_PRODUCT_SELECTOR_DEV_TASK_#{ready ? 'READY' : 'ACTIVE'}_SLOT_V2_3_RELOCKED",
               "Truth reserved clean-room Slot V4_1 claim projection drift")
+    when "CLEAN_ROOM_SLOT_V4_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED"
+      task_id_v4 = "AIOS-P2-072_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_EXECUTION_INTEGRITY_DEV"
+      terminal_status = "TERMINAL_PRODUCT_SELECTOR_DEV_REPLAY_EXECUTION_INTEGRITY_NON_PASS"
+      terminal_receipt = {
+        "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p2-product-selector-execution-integrity-recovery-20260817/task-p2-072/terminal/P2_072_TERMINAL_PRODUCT_SELECTOR_DEV_REPLAY_EXECUTION_INTEGRITY_NON_PASS_RECEIPT_V1.json",
+        "byte_length" => 6064,
+        "sha256" => "a14509a6e2ff8ce82962f6f4205adef7f1e6fde956f93d9c9331c2276e4ecf05"
+      }
+      expected_slots[0]["task_id"] = task_id_v4
+      expected_remaining = {
+        "engineering_tasks" => 1,
+        "engineering_hours" => 32,
+        "calendar_days" => 8
+      }
+      historical = truth.fetch("historical_p2_072_phase_route")
+      ledger_entry = envelope.fetch("task_ledger").find { |entry| entry["task_id"] == task_id_v4 }
+      assert!(envelope["status"] == "ACTIVE_REMAINING_CAPACITY" &&
+              envelope["reserved"].nil? &&
+              envelope["remaining"] == expected_remaining &&
+              envelope["consumed"] == {
+                "engineering_tasks" => 17,
+                "engineering_hours" => 496,
+                "calendar_days" => 124
+              }, "Truth terminal clean-room Slot V4_1 envelope drift")
+      assert!(route["schema_version"] == "founder-reserved-decision-hold/v1" &&
+              route["status"] == "FOUNDER_RESERVED_DECISION_REQUIRED" &&
+              route["execution_status"] == "FOUNDER_RESERVED_DECISION_REQUIRED" &&
+              route["scheduling_status"] == "STOPPED_AT_FOUNDER_RESERVED_DECISION" &&
+              route["historical_terminal_route_ref"] == "historical_p2_072_phase_route" &&
+              route["next_eligible_action"] == "FOUNDER_RESERVED_DECISION",
+              "Truth terminal clean-room Slot V4_1 Founder hold drift")
+      assert!(historical["status"] == terminal_status &&
+              historical["execution_status"] == terminal_status &&
+              historical.dig("selected_task", "task_id") == task_id_v4 &&
+              historical.dig("selected_task", "status") == terminal_status &&
+              historical.dig("selected_task", "rejected_candidate", "integrated") == false &&
+              historical.dig("selected_task", "outcome_receipt") == terminal_receipt,
+              "Truth terminal clean-room Slot V4_1 historical Route drift")
+      assert!(ledger_entry && ledger_entry["status"] == terminal_status &&
+              ledger_entry["outcome_receipt"] == terminal_receipt,
+              "Truth terminal clean-room Slot V4_1 ledger drift")
+      assert!(active["current_task"] == "NONE" &&
+              active["task_resource_state"] == "NO_ACTIVE_TASK_FOUNDER_RESERVED_DECISION_HOLD" &&
+              active["next_eligible_action"] == "FOUNDER_RESERVED_DECISION" &&
+              goal["current_task_authority"] == "NONE",
+              "Truth terminal clean-room Slot V4_1 active-work drift")
+      assert!(control["task_creation_allowed"] == false &&
+              control["current_delivery_percent"] == 25 &&
+              control["accepted_milestones"] == ["P2_RECOVERY_BASELINE_ACCEPTED"] &&
+              control["next_eligible_action"] == "FOUNDER_RESERVED_DECISION" &&
+              control["capacity_slots"] == expected_slots,
+              "Truth terminal clean-room Slot V4_1 capacity projection drift")
+      assert!(project["current_route_execution_status"] == "FOUNDER_RESERVED_DECISION_REQUIRED" &&
+              claim["p2_phase_envelope_status"] == "ACTIVE_REMAINING_CAPACITY" &&
+              claim["current_task"] == "NONE" &&
+              claim["real_engineering_progress"] ==
+                "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_072_TERMINAL_PRODUCT_SELECTOR_DEV_REPLAY_EXECUTION_INTEGRITY_NON_PASS_SLOT_V2_3_LOCKED",
+              "Truth terminal clean-room Slot V4_1 claim projection drift")
     when "CLEAN_ROOM_SLOT_V3_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED"
       next_action = "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK"
       expected_remaining = {

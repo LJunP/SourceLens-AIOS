@@ -7483,10 +7483,11 @@ current_phase_route:
     capability: GRAPH_CONDITIONED_CONTEXT_SELECTION
     objective: >-
       Implement one clean-room deterministic Java maintenance context selector in a
-      production-owned API used by both canonical CodeQaRetrievalService and the exact
-      DEV evaluator; prove strict value over the accepted P2-069 B1 baseline without
-      per-task recall regression; and close product-path, authority, execution and
-      reviewer-Evidence identity before Task Gate acceptance.
+      production-owned API used by both canonical CodeQaRetrievalService and the exact DEV
+      evaluator; prove that the same implementation strictly beats the accepted P2-069 B1
+      baseline on the frozen eight-task DEV split with no per-task recall regression; and
+      close authority, write-confinement, compiler, Surefire, replay, negative-state and
+      reviewer-Evidence identity before the Product Selector DEV Task Gate is considered.
     capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_V6_1
     budget:
       engineering_hours: 32

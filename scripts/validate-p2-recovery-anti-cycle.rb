@@ -562,6 +562,57 @@ module P2RecoveryAntiCycle
               claim["real_engineering_progress"] ==
                 "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_NEW_PRODUCT_SELECTOR_DEV_EXECUTION_INTEGRITY_SLOT_V4_1_ELIGIBLE_FORMAL_HELD_SLOT_V2_3_RELOCKED",
               "Truth eligible Product Selector execution-integrity claim projection drift")
+    when "CLEAN_ROOM_SLOT_V4_1_PRODUCT_SELECTOR_DEV_TASK_RESERVED_READY_SLOT_V2_3_RELOCKED",
+         "CLEAN_ROOM_SLOT_V4_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED"
+      ready = control["status"].include?("RESERVED_READY")
+      task_id_v4 = "AIOS-P2-072_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_EXECUTION_INTEGRITY_DEV"
+      task_status = ready ? "ELIGIBLE_NOT_ACTIVATED" : "ACTIVE"
+      next_action = ready ? "MASTER_ACTIVATE_PHASE_DELEGATED_TASK" : "COMPLETE_CURRENT_TASK_GATE"
+      expected_resource_state = ready ? "NOT_CREATED_PHASE_DELEGATED_TASK_READY" : "ACTIVE_UNIQUE_PHASE_DELEGATED"
+      expected_route_status = ready ? "AUTHORIZED_READY" : "ACTIVE"
+      expected_route_execution = ready ? "PHASE_DELEGATED_TASK_READY" : "ACTIVE"
+      expected_scheduling = ready ? "READY_FOR_MASTER_ACTIVATION" : "ACTIVE_PHASE_DELEGATED_TASK"
+      expected_project_route = ready ? "PHASE_DELEGATED_TASK_READY" : "ACTIVE_PHASE_DELEGATED_TASK"
+      remaining = { "engineering_tasks" => 1, "engineering_hours" => 32, "calendar_days" => 8 }
+      expected_slots[0]["task_id"] = task_id_v4
+      selected = route.fetch("selected_task")
+      reservation = envelope.fetch("reserved")
+      assert!(envelope["status"] == "TASK_CAPACITY_RESERVED" &&
+              envelope["consumed"] == { "engineering_tasks" => 16, "engineering_hours" => 464, "calendar_days" => 116 } &&
+              envelope["remaining"] == remaining,
+              "Truth reserved clean-room Slot V4_1 envelope drift")
+      assert!(selected["task_id"] == task_id_v4 && selected["status"] == task_status &&
+              selected["capacity_source_task_id"] == "P2_RECOVERY_CAPACITY_SLOT_V4_1",
+              "Truth reserved clean-room Slot V4_1 Task projection drift")
+      assert!(reservation["task_id"] == task_id_v4 && reservation["route_id"] == route["route_id"] &&
+              reservation["status"] == task_status &&
+              reservation["capacity_source_task_id"] == "P2_RECOVERY_CAPACITY_SLOT_V4_1" &&
+              reservation["contract"] == selected["contract"] &&
+              reservation["budget"] == { "engineering_tasks" => 1, "engineering_hours" => 32, "calendar_days" => 8 } &&
+              (ready ? reservation["authority"].nil? : reservation["authority"] == active["authority_record"]),
+              "Truth reserved clean-room Slot V4_1 authority or budget drift")
+      assert!(route["status"] == expected_route_status &&
+              route["execution_status"] == expected_route_execution &&
+              route["scheduling_status"] == expected_scheduling &&
+              route["preceding_terminal_route_ref"] == "historical_p2_071_phase_route" &&
+              route["next_eligible_action"] == next_action,
+              "Truth reserved clean-room Slot V4_1 Route lifecycle drift")
+      assert!(active["current_task"] == (ready ? "NONE" : task_id_v4) &&
+              active["task_resource_state"] == expected_resource_state &&
+              goal["current_task_authority"] == (ready ? "NONE" : task_id_v4),
+              "Truth reserved clean-room Slot V4_1 active-work lifecycle drift")
+      assert!(control["task_creation_allowed"] == false &&
+              control["current_delivery_percent"] == 25 &&
+              control["accepted_milestones"] == ["P2_RECOVERY_BASELINE_ACCEPTED"] &&
+              control["next_eligible_action"] == next_action &&
+              control["capacity_slots"] == expected_slots,
+              "Truth reserved clean-room Slot V4_1 capacity projection drift")
+      assert!(project["current_route_execution_status"] == expected_project_route &&
+              claim["p2_phase_envelope_status"] == "TASK_CAPACITY_RESERVED" &&
+              claim["current_task"] == (ready ? "NONE" : task_id_v4) &&
+              claim["real_engineering_progress"] ==
+                "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_SLOT_V4_1_PRODUCT_SELECTOR_DEV_TASK_#{ready ? 'READY' : 'ACTIVE'}_SLOT_V2_3_RELOCKED",
+              "Truth reserved clean-room Slot V4_1 claim projection drift")
     when "CLEAN_ROOM_SLOT_V3_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED"
       next_action = "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK"
       expected_remaining = {

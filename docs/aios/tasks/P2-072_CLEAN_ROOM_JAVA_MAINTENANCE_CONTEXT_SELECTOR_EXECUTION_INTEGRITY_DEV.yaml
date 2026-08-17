@@ -1,0 +1,245 @@
+schema_version: '1.1'
+record_type: aios_phase_delegated_independent_task_contract
+task_id: AIOS-P2-072_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_EXECUTION_INTEGRITY_DEV
+phase: P2
+route_id: AIOS-P2-072_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_EXECUTION_INTEGRITY_DEV_PHASE_DELEGATED_ROUTE
+status: ELIGIBLE_NOT_ACTIVATED
+task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
+capability: GRAPH_CONDITIONED_CONTEXT_SELECTION
+objective: >-
+  Implement one new clean-room Java maintenance context selector on the canonical
+  Code QA product path, then evaluate only the eight accepted P2-069 DEV tasks
+  against the frozen B1 control with all compiler, test, replay and negative-fixture
+  writes confined to the exact Task worktree or create-once Evidence root.
+why_now: >-
+  P2-069 independently accepted the representative benchmark foundation. The Founder
+  authorized one final independent execution-integrity Product Selector DEV slot,
+  while P2-070 and P2-071 remain closed terminal accounting and the formal HELD slot
+  stays locked until this milestone is independently accepted.
+task_spec_ref:
+  path: docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_EXECUTION_INTEGRITY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V2.md
+  sha256: 426df9b99d954d225982a4580f398fcd0b4cf07d4c1dad0886784059dc76a34c
+  byte_length: 7391
+owner_role: P2-072 Master Owner
+worker_role: P2-072 Clean-room Product Selector Worker
+write_scope:
+- backend-spring/src/main/java/com/sourcelens/module/agent/service/JavaMaintenanceContextSelector.java
+- backend-spring/src/main/java/com/sourcelens/module/agent/service/CodeQaRetrievalService.java
+- backend-spring/src/test/java/com/sourcelens/JavaMaintenanceContextSelectorTest.java
+- backend-spring/src/test/java/com/sourcelens/CodeQaRetrievalServiceTest.java
+- evaluation-harness/harness/p2-product-selector-execution-integrity-dev-v1/**
+- evaluation-harness/replay/p2-product-selector-execution-integrity-dev-v1/**
+- evaluation-harness/reports/p2-product-selector-execution-integrity-dev-v1/**
+read_context:
+- docs/aios/truth/project_state.yaml
+- docs/aios/STRATEGIC_CONSTITUTION.md
+- docs/aios/MASTER_EXECUTION_PROTOCOL.md
+- docs/aios/FOUNDER_DELEGATION_POLICY.md
+- docs/aios/EVALUATION_PROTOCOL.md
+- docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml
+- docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_EXECUTION_INTEGRITY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V2.md
+- evaluation-harness/harness/p2-clean-room-benchmark-foundation-v1/**
+- evaluation-harness/replay/p2-clean-room-benchmark-foundation-v1/**
+- evaluation-harness/reports/p2-clean-room-benchmark-foundation-v1/**
+- P2_069_ACCEPTED_EVIDENCE_ROOT/canonical-integration/P2_069_CANONICAL_INTEGRATION_AND_ACCEPTED_OUTCOME_RECEIPT_V1.json
+dependencies:
+- kind: CANONICAL_SOURCE
+  identity:
+    commit: 831a8a7a3d6c0f42a639ba7396c5c73cabf79c80
+    tree: f5410304873177275c34f7500201bb27976ab7aa
+- kind: BASELINE_ARTIFACT
+  identity:
+    artifact_id: P2_069_ACCEPTED_CLEAN_ROOM_BENCHMARK_FOUNDATION
+    relative_path: canonical-integration/P2_069_CANONICAL_INTEGRATION_AND_ACCEPTED_OUTCOME_RECEIPT_V1.json
+    byte_length: 2130
+    sha256: 78d5ad1af278f5e112c52021a1c8b81da330a14171d238992083a2ab9ae90747
+    baseline_ids:
+    - B1_DETERMINISTIC_BM25_FILE_RETRIEVAL
+risk_level: medium
+baseline_ref:
+  artifact_id: P2_069_ACCEPTED_CLEAN_ROOM_BENCHMARK_FOUNDATION
+  relative_path: canonical-integration/P2_069_CANONICAL_INTEGRATION_AND_ACCEPTED_OUTCOME_RECEIPT_V1.json
+  byte_length: 2130
+  sha256: 78d5ad1af278f5e112c52021a1c8b81da330a14171d238992083a2ab9ae90747
+  baseline_ids:
+  - B1_DETERMINISTIC_BM25_FILE_RETRIEVAL
+independent_reviewer:
+- CTO Agent
+- Security Agent
+- Quality and Evaluation Agent
+protocol_status_mapping:
+  ELIGIBLE_NOT_ACTIVATED: ready
+  ACTIVE: in_progress
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_V4_1
+budget:
+  engineering_hours: 32
+  calendar_days: 8
+  implementation_iterations: 2
+  candidates: 2
+max_same_task_repairs: 1
+roles:
+  owner: P2-072 Master Owner
+  worker: P2-072 Clean-room Product Selector Worker
+  independent_reviewers:
+  - CTO Agent
+  - Security Agent
+  - Quality and Evaluation Agent
+allowlisted_paths:
+- backend-spring/src/main/java/com/sourcelens/module/agent/service/JavaMaintenanceContextSelector.java
+- backend-spring/src/main/java/com/sourcelens/module/agent/service/CodeQaRetrievalService.java
+- backend-spring/src/test/java/com/sourcelens/JavaMaintenanceContextSelectorTest.java
+- backend-spring/src/test/java/com/sourcelens/CodeQaRetrievalServiceTest.java
+- evaluation-harness/harness/p2-product-selector-execution-integrity-dev-v1/**
+- evaluation-harness/replay/p2-product-selector-execution-integrity-dev-v1/**
+- evaluation-harness/reports/p2-product-selector-execution-integrity-dev-v1/**
+write_ownership:
+  schema_version: role-write-ownership/v1
+  cross_role_write_allowed: false
+  owner:
+    role: P2-072 Master Owner
+    write_paths: []
+  worker:
+    role: P2-072 Clean-room Product Selector Worker
+    write_paths:
+    - backend-spring/src/main/java/com/sourcelens/module/agent/service/JavaMaintenanceContextSelector.java
+    - backend-spring/src/main/java/com/sourcelens/module/agent/service/CodeQaRetrievalService.java
+    - backend-spring/src/test/java/com/sourcelens/JavaMaintenanceContextSelectorTest.java
+    - backend-spring/src/test/java/com/sourcelens/CodeQaRetrievalServiceTest.java
+    - evaluation-harness/harness/p2-product-selector-execution-integrity-dev-v1/**
+    - evaluation-harness/replay/p2-product-selector-execution-integrity-dev-v1/**
+    - evaluation-harness/reports/p2-product-selector-execution-integrity-dev-v1/**
+  independent_reviewers:
+  - role: CTO Agent
+    write_paths: []
+  - role: Security Agent
+    write_paths: []
+  - role: Quality and Evaluation Agent
+    write_paths: []
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+phase_delegation_binding:
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: '1.8'
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  delegation_amendment:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/founder-delegation-continuity-20260808/decision/FOUNDER_PHASE_DELEGATION_CONTINUITY_AMENDMENT_V1.json
+    byte_length: 1182
+    sha256: c37634c51b0b7695204c026f9950911c427f544a6ff2e2c2f786facb9a84a52e
+  source_decision:
+    path: docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_EXECUTION_INTEGRITY_SLOT_AND_RELOCKED_HELD_SEQUENCE_DECISION_V2.json
+    sha256: 48652306388e356ed52c3a6cf54a5834c8b6763ad595798ac0adee7dd872ba94
+    byte_length: 3270
+  source_terminal_event:
+    task_id: AIOS-P2-071_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_DEV
+    status: TERMINAL_PRODUCT_SELECTOR_DEV_EXECUTION_INTEGRITY_AND_AUTHORITY_NON_PASS
+    outcome_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-selector-dev-recovery-20260817/task-p2-071/terminal/P2_071_TERMINAL_PRODUCT_SELECTOR_DEV_EXECUTION_INTEGRITY_AND_AUTHORITY_NON_PASS_RECEIPT_V1.json
+      byte_length: 5661
+      sha256: a71841cb538b8f80aab8f09c93321b9d9fa85896a60cc7bdc225a43a43920445
+  phase_envelope_snapshot:
+    limits:
+      engineering_tasks: 18
+      engineering_hours: 528
+      calendar_days: 132
+      active_tasks: 1
+      task_branches: 1
+      task_worktrees: 1
+      active_candidates: 1
+    consumed:
+      engineering_tasks: 16
+      engineering_hours: 464
+      calendar_days: 116
+    reserved:
+      task_id: AIOS-P2-072_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_EXECUTION_INTEGRITY_DEV
+      route_id: AIOS-P2-072_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_EXECUTION_INTEGRITY_DEV_PHASE_DELEGATED_ROUTE
+      status: ELIGIBLE_NOT_ACTIVATED
+      capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_V4_1
+      budget:
+        engineering_tasks: 1
+        engineering_hours: 32
+        calendar_days: 8
+    remaining:
+      engineering_tasks: 1
+      engineering_hours: 32
+      calendar_days: 8
+  founder_packet_for_task:
+preactivation_execution_envelope:
+  required_before_worker_write: true
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-072-clean-room-java-maintenance-context-selector-execution-integrity-dev
+  evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-selector-execution-integrity-recovery-20260817/task-p2-072
+  permitted_write_roots:
+  - /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-072-clean-room-java-maintenance-context-selector-execution-integrity-dev
+  - /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-selector-execution-integrity-recovery-20260817/task-p2-072
+  forbidden_temp_roots:
+  - /private/tmp
+  - /tmp
+  planned_product_source_to_class:
+  - source: backend-spring/src/main/java/com/sourcelens/module/agent/service/JavaMaintenanceContextSelector.java
+    class_output_root: runtime/classes
+    class_name: com.sourcelens.module.agent.service.JavaMaintenanceContextSelector
+  required_bound_execution_facts:
+  - exact_candidate_commit_and_tree
+  - exact_source_bytes_and_sha256
+  - exact_jdk_and_javac_identity
+  - exact_classpath_and_class_inventory
+  - exact_sandbox_exec_profile_sha256_outer_argv_and_cwd
+  - closed_environment
+  - exit_stdout_and_stderr
+  - exact_surefire_inventory
+  - exact_negative_fixture_inventory
+acceptance_criteria:
+- A preactivation create-once execution envelope mechanically proves every planned compiler, test, replay and negative-fixture write is contained by the exact Task worktree or Evidence root before any Worker product write.
+- The candidate contains a non-empty product-source diff and the canonical CodeQaRetrievalService invokes the new JavaMaintenanceContextSelector on its real context-selection path.
+- The exact candidate source is compiled with JDK 17 into the Evidence-root class directory, and the source bytes, class bytes, classpath, JDK identity and candidate commit/tree are create-once bound before DEV execution.
+- All Maven or direct Java compiler/test processes use an exact hash-bound sandbox-exec deny-network outer command, closed environment, exact cwd and create-once raw stdout, stderr and exit records.
+- Only the eight accepted P2-069 DEV task cards and source leaves are opened; the four HELD tasks remain unopened and their formal slot stays locked.
+- B1 and Product use the same frozen DEV queries, corpus membership, top-k 10 and UTF-8 byte budget 131072; Product macro precision and recall are not below B1, every task has zero recall regression, and Product macro MRR is strictly above B1.
+- Two independent clean DEV replays are byte-exact and bind per-file score, selected ordering, selected bytes, per-task metrics and macro metrics.
+- Real-filesystem negative tests fail closed for symlink input, output overwrite, output-root escape, classpath escape, mutable unbound class input, candidate identity drift and HELD request.
+- CTO, Security and Quality/Evaluation independently accept the exact candidate and closed Evidence inventory before the Task Gate is accepted.
+required_evidence:
+- Preactivation execution-envelope manifest, mechanical validation receipt, exact root ancestry and no-symlink proof.
+- Exact candidate commit/tree, changed-file inventory, product invocation proof and rollback instructions.
+- Exact source-to-class manifest with source and class path, byte length, SHA-256, JDK, javac, classpath and candidate binding.
+- Sandboxed compiler, targeted unit-test and DEV replay transactions with outer argv, cwd, closed environment, exit, raw stdout, raw stderr and network-deny profile identity.
+- Surefire report inventory, negative-fixture inventory and real-filesystem negative-test receipt.
+- Two run-specific DEV transactions, exact comparison receipt, HELD non-open proof and complete create-once Evidence inventory.
+- Three independent final review records and one Master Task Gate decision.
+rollback: >-
+  Do not integrate a NON_PASS candidate. Preserve its exact candidate and Evidence
+  inventory, close only the P2-072 Task lifecycle, and keep canonical main, P2-069
+  acceptance, P2-070/P2-071 terminal accounting, the locked formal HELD slot, P2,
+  P3 HOLD and the Long-term Goal unchanged.
+stop_conditions:
+- Stop before Worker write if the preactivation execution envelope is absent, mutable, non-create-once, path-escaping, symlink-affected or fails mechanical validation.
+- Stop before product execution if source-to-class, candidate, JDK, classpath, sandbox outer invocation, closed environment, stdout, stderr, Surefire or fixture identities are incomplete or drift.
+- Stop if any P2-070 or P2-071 branch, worktree, code, evaluator implementation or engineering Evidence is read, compared, copied or reused as implementation input.
+- Stop if any HELD task source leaf, PR payload or build result is opened or any formal HELD evaluation is attempted.
+- Stop if any network, Provider, Secret, remote, production, public, database, deletion or write-outside-authorized-roots effect is requested or observed.
+- Stop when two candidate generations, two implementation iterations, one same-Task repair or two review cycles are exhausted.
+forbidden_actions:
+- Read, compare, copy or reuse rejected P2-070/P2-071 engineering lineage.
+- Write compiler, test, replay or negative-fixture output below /private/tmp, /tmp, the user home outside the exact Evidence root, or any other unbound root.
+- Evaluate HELD, tune on HELD, change accepted source-pack bytes, DEV/HELD split, oracle, metric, threshold, top-k, byte budget or schedule.
+- Run Maven, Gradle, javac, java or another build/test subprocess outside exact sandbox-exec deny-network containment.
+- Use network, Provider, Secret, credentials, cookies, Authorization headers, uploads, Git fetch/clone/push, browser networking, remote, production or public release.
+- Delete terminal Evidence, modify Codex private control-plane state, enter P3, create a successor/remediation chain or terminate the Long-term Goal.
+claim_boundary: >-
+  PASS may establish only P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED on the frozen
+  eight-task DEV split, raise delivery progress to 70 percent and unlock only one
+  formal HELD evaluation slot. It does not establish the P2 Exit Gate, authorize a
+  HELD run, enter P3, claim production readiness or close the Long-term Goal.

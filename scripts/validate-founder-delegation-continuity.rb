@@ -4158,8 +4158,21 @@ module FounderDelegationContinuity
              "Founder reserved source event status drift")
       assert(event["task_id"].nil?,
              "Phase envelope expansion source event may not impersonate a Task outcome")
-      assert(phase_envelope["status"] == "EXHAUSTED" && phase_envelope["reserved"].nil?,
-             "Phase envelope expansion requires exact unreserved exhausted accounting")
+      locked_recovery_capacity =
+        phase_envelope["status"] == "ACTIVE_REMAINING_CAPACITY" &&
+        phase_envelope["reserved"].nil? &&
+        phase_envelope["remaining"] == {
+          "engineering_tasks" => 1,
+          "engineering_hours" => 32,
+          "calendar_days" => 8
+        } &&
+        truth.dig("p2_recovery_control", "status") ==
+          "CLEAN_ROOM_SLOT_V2_2_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_LOCKED" &&
+        truth.dig("p2_recovery_control", "task_creation_allowed") == false &&
+        truth.dig("p2_recovery_control", "next_eligible_action") == "FOUNDER_RESERVED_DECISION"
+      assert((phase_envelope["status"] == "EXHAUSTED" && phase_envelope["reserved"].nil?) ||
+             locked_recovery_capacity,
+             "Phase envelope expansion requires exhausted accounting or exact dependency-locked recovery capacity")
       validate_reserved_trigger_evidence!(
         trigger,
         event,

@@ -377,6 +377,7 @@ module P2RecoveryAntiCycle
       CLEAN_ROOM_SLOT_V2_1_BENCHMARK_FOUNDATION_ACCEPTED_SLOT_V2_2_ELIGIBLE_NOT_ACTIVATED
       CLEAN_ROOM_SLOT_V2_2_PRODUCT_SELECTOR_DEV_TASK_RESERVED_READY
       CLEAN_ROOM_SLOT_V2_2_PRODUCT_SELECTOR_DEV_TASK_ACTIVE
+      CLEAN_ROOM_SLOT_V2_2_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_LOCKED
     ].include?(control["status"])
     expected_delivery_percent = baseline_accepted ? 25 : 0
     expected_accepted_milestones = baseline_accepted ? ["P2_RECOVERY_BASELINE_ACCEPTED"] : []
@@ -446,13 +447,16 @@ module P2RecoveryAntiCycle
       CLEAN_ROOM_SLOT_V2_1_BENCHMARK_FOUNDATION_ACCEPTED_SLOT_V2_2_ELIGIBLE_NOT_ACTIVATED
       CLEAN_ROOM_SLOT_V2_2_PRODUCT_SELECTOR_DEV_TASK_RESERVED_READY
       CLEAN_ROOM_SLOT_V2_2_PRODUCT_SELECTOR_DEV_TASK_ACTIVE
+      CLEAN_ROOM_SLOT_V2_2_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_LOCKED
     ].include?(control["status"])
     expected_consumed = consumed.dup
     if terminal_or_accepted_slot_1
+      consumed_slots = control["status"] ==
+        "CLEAN_ROOM_SLOT_V2_2_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_LOCKED" ? 2 : 1
       expected_consumed = {
-        "engineering_tasks" => consumed["engineering_tasks"] + 1,
-        "engineering_hours" => consumed["engineering_hours"] + 32,
-        "calendar_days" => consumed["calendar_days"] + 8
+        "engineering_tasks" => consumed["engineering_tasks"] + consumed_slots,
+        "engineering_hours" => consumed["engineering_hours"] + (32 * consumed_slots),
+        "calendar_days" => consumed["calendar_days"] + (8 * consumed_slots)
       }
     end
     assert!(envelope["limits"].slice(*limits.keys) == limits && envelope["consumed"] == expected_consumed,
@@ -475,12 +479,24 @@ module P2RecoveryAntiCycle
     slot_1_id = decision_claims.fetch("capacity_slots").first.fetch("capacity_slot_id")
     slot_2_task_id = "AIOS-P2-070_PRODUCT_JAVA_MAINTENANCE_CONTEXT_SELECTOR_DEV"
     slot_2_id = decision_claims.fetch("capacity_slots").fetch(1).fetch("capacity_slot_id")
-    assert!(escalation["disposition"] == "NO_RESERVED_TRIGGER_CONTINUE_PHASE" &&
-            escalation.dig("reserved_trigger", "category") == "NONE" &&
-            escalation["founder_decision_required"] == false &&
-            escalation["next_action_owner"] == "MASTER_CEO_AGENT",
-            "Truth Founder escalation must preserve autonomous P2 continuation")
-    assert!(project["phase_execution_status"] == "ACTIVE" &&
+    terminal_locked = control["status"] ==
+      "CLEAN_ROOM_SLOT_V2_2_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_LOCKED"
+    if terminal_locked
+      assert!(escalation["disposition"] == "FOUNDER_DECISION_REQUIRED" &&
+              escalation.dig("reserved_trigger", "category") ==
+                "MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE" &&
+              escalation["founder_decision_required"] == true &&
+              escalation["next_action_owner"] == "HUMAN_FOUNDER",
+              "Truth locked Slot V2_3 must preserve the exact Founder reserved decision")
+    else
+      assert!(escalation["disposition"] == "NO_RESERVED_TRIGGER_CONTINUE_PHASE" &&
+              escalation.dig("reserved_trigger", "category") == "NONE" &&
+              escalation["founder_decision_required"] == false &&
+              escalation["next_action_owner"] == "MASTER_CEO_AGENT",
+              "Truth Founder escalation must preserve autonomous P2 continuation")
+    end
+    assert!(project["phase_execution_status"] ==
+              (terminal_locked ? "STOPPED_AT_FOUNDER_RESERVED_DECISION" : "ACTIVE") &&
             claim["p2_project_status"] == "ACTIVE" &&
             claim["long_term_goal_status"] == "ACTIVE",
             "Truth recovery lifecycle projection drift")
@@ -670,6 +686,61 @@ module P2RecoveryAntiCycle
               claim["real_engineering_progress"] ==
                 "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_SLOT_V2_2_TASK_#{ready ? 'READY' : 'ACTIVE'}",
               "Truth reserved clean-room Slot V2_2 claim projection drift")
+    when "CLEAN_ROOM_SLOT_V2_2_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_LOCKED"
+      terminal_status = "TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_AND_REPAIR_NON_PASS"
+      terminal_receipt = {
+        "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p2-product-selector-dev-20260817/task-p2-070/terminal/P2_070_TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_AND_REPAIR_NON_PASS_RECEIPT_V1.json",
+        "byte_length" => 5551,
+        "sha256" => "514e1001303bbbec4dc657aff2604c014ba93b1cdff28c093fcbba89508b07fa"
+      }
+      expected_slots[0]["task_id"] = task_id
+      expected_slots[1]["task_id"] = slot_2_task_id
+      historical = truth.fetch("historical_p2_070_phase_route")
+      ledger_entry = envelope.fetch("task_ledger").find { |entry| entry["task_id"] == slot_2_task_id }
+      assert!(envelope["status"] == "ACTIVE_REMAINING_CAPACITY" &&
+              envelope["reserved"].nil? &&
+              envelope["consumed"] == {
+                "engineering_tasks" => 15,
+                "engineering_hours" => 432,
+                "calendar_days" => 108
+              } &&
+              envelope["remaining"] == {
+                "engineering_tasks" => 1,
+                "engineering_hours" => 32,
+                "calendar_days" => 8
+              }, "Truth terminal clean-room Slot V2_2 envelope drift")
+      assert!(historical["status"] == terminal_status &&
+              historical["execution_status"] == terminal_status &&
+              historical.dig("selected_task", "task_id") == slot_2_task_id &&
+              historical.dig("selected_task", "status") == terminal_status &&
+              historical["terminal_receipt"] == terminal_receipt,
+              "Truth terminal clean-room Slot V2_2 historical Route drift")
+      assert!(ledger_entry && ledger_entry["status"] == terminal_status &&
+              ledger_entry["outcome_receipt"] == terminal_receipt,
+              "Truth terminal clean-room Slot V2_2 ledger drift")
+      assert!(route["schema_version"] == "founder-reserved-decision-hold/v1" &&
+              route["status"] == "FOUNDER_RESERVED_DECISION_REQUIRED" &&
+              route["execution_status"] == "FOUNDER_RESERVED_DECISION_REQUIRED" &&
+              route["scheduling_status"] == "STOPPED_AT_FOUNDER_RESERVED_DECISION" &&
+              route["historical_terminal_route_ref"] == "historical_p2_070_phase_route" &&
+              route["next_eligible_action"] == "FOUNDER_RESERVED_DECISION",
+              "Truth terminal clean-room Slot V2_2 Founder hold drift")
+      assert!(active["current_task"] == "NONE" &&
+              active["task_resource_state"] == "NO_ACTIVE_TASK_FOUNDER_RESERVED_DECISION_HOLD" &&
+              goal["current_task_authority"] == "NONE",
+              "Truth terminal clean-room Slot V2_2 active-work drift")
+      assert!(control["task_creation_allowed"] == false &&
+              control["current_delivery_percent"] == 25 &&
+              control["accepted_milestones"] == ["P2_RECOVERY_BASELINE_ACCEPTED"] &&
+              control["next_eligible_action"] == "FOUNDER_RESERVED_DECISION" &&
+              control["capacity_slots"] == expected_slots,
+              "Truth terminal clean-room Slot V2_2 recovery control drift")
+      assert!(project["current_route_execution_status"] == "FOUNDER_RESERVED_DECISION_REQUIRED" &&
+              claim["p2_phase_envelope_status"] == "ACTIVE_REMAINING_CAPACITY" &&
+              claim["current_task"] == "NONE" &&
+              claim["real_engineering_progress"] ==
+                "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_070_TERMINAL_PRODUCT_SELECTOR_DEV_NON_PASS_SLOT_V2_3_LOCKED",
+              "Truth terminal clean-room Slot V2_2 claim projection drift")
     when "SLOT_1_BENCHMARK_FOUNDATION_TASK_TERMINAL_NON_PASS"
       terminal_status = "TERMINAL_IMPLEMENTATION_BUDGET_EXHAUSTED_RUNTIME_COMPATIBILITY_NON_PASS"
       next_action = "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK"
@@ -717,7 +788,7 @@ module P2RecoveryAntiCycle
       fail!("unsupported P2 recovery control lifecycle #{control['status'].inspect}")
     end
     assert!(escalation["next_eligible_action"] == route["next_eligible_action"] &&
-            active["founder_decision_required"] == false &&
+            active["founder_decision_required"] == terminal_locked &&
             active["next_eligible_action"] == route["next_eligible_action"] &&
             claim["current_phase_route"] == route["route_id"] &&
             claim["next_eligible_action"] == route["next_eligible_action"],

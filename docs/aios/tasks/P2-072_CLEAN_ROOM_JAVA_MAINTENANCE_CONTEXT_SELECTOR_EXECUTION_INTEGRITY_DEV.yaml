@@ -54,6 +54,7 @@ dependencies:
     byte_length: 2130
     sha256: 78d5ad1af278f5e112c52021a1c8b81da330a14171d238992083a2ab9ae90747
     baseline_ids:
+    - B0_DETERMINISTIC_TOKEN_OVERLAP_FILE_RETRIEVAL
     - B1_DETERMINISTIC_BM25_FILE_RETRIEVAL
 risk_level: medium
 baseline_ref:
@@ -62,6 +63,7 @@ baseline_ref:
   byte_length: 2130
   sha256: 78d5ad1af278f5e112c52021a1c8b81da330a14171d238992083a2ab9ae90747
   baseline_ids:
+  - B0_DETERMINISTIC_TOKEN_OVERLAP_FILE_RETRIEVAL
   - B1_DETERMINISTIC_BM25_FILE_RETRIEVAL
 independent_reviewer:
 - CTO Agent

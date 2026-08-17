@@ -1335,8 +1335,10 @@ module CurrentTaskAuthority
              parent_control["founder_decision_required"] == true,
              "structured decision does not resolve the exact exhausted activation-parent trigger")
     else
-      product_selector_recovery = decision["authorization_token"] ==
-        "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_RECOVERY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V1"
+      product_selector_recovery = %w[
+        AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_RECOVERY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V1
+        AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_EXECUTION_INTEGRITY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V2
+      ].include?(decision["authorization_token"])
       versioned_slots = array(decision["capacity_slots"],
                               "structured decision resequenced capacity slots").all? do |slot|
         slot.is_a?(Hash) && slot["capacity_slot_id"].to_s.match?(
@@ -1353,8 +1355,10 @@ module CurrentTaskAuthority
              parent_truth.dig("active_work", "current_task") == "NONE" &&
              parent_truth.dig("p2_recovery_control", "task_creation_allowed") == false &&
              (!product_selector_recovery ||
-               parent_truth.dig("p2_recovery_control", "status") ==
-                 "CLEAN_ROOM_SLOT_V2_2_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_LOCKED") &&
+               %w[
+                 CLEAN_ROOM_SLOT_V2_2_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_LOCKED
+                 CLEAN_ROOM_SLOT_V3_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
+               ].include?(parent_truth.dig("p2_recovery_control", "status"))) &&
              versioned_slots,
              "structured decision active-parent resequencing precondition drift")
     end
@@ -2024,8 +2028,10 @@ module CurrentTaskAuthority
 
       prior_consumed_envelope, prior_consumed, =
         validate_v1_4_prior_consumed_envelope(root, decision, parent, phase)
-      product_selector_recovery = authorization_token ==
-        "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_RECOVERY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V1"
+      product_selector_recovery = %w[
+        AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_RECOVERY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V1
+        AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_EXECUTION_INTEGRITY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V2
+      ].include?(authorization_token)
       slot_generations = []
       slots = array(decision["capacity_slots"],
                     "structured Founder route decision.capacity_slots").map.with_index do |value, index|
@@ -2042,8 +2048,12 @@ module CurrentTaskAuthority
           slot["capacity_slot_id"].to_s
         )
         slot_generations << slot_match&.[](1)
-        expected_capacity_slot_id = if product_selector_recovery
+        expected_capacity_slot_id = if authorization_token ==
+                                       "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_RECOVERY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V1"
                                       %w[P2_RECOVERY_CAPACITY_SLOT_V3_1 P2_RECOVERY_CAPACITY_SLOT_V2_3][index]
+                                    elsif authorization_token ==
+                                          "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_EXECUTION_INTEGRITY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V2"
+                                      %w[P2_RECOVERY_CAPACITY_SLOT_V4_1 P2_RECOVERY_CAPACITY_SLOT_V2_3][index]
                                     end
         assert(slot_match &&
                (product_selector_recovery ? slot["capacity_slot_id"] == expected_capacity_slot_id :

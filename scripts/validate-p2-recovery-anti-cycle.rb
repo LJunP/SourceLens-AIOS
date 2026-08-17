@@ -382,6 +382,11 @@ module P2RecoveryAntiCycle
       CLEAN_ROOM_SLOT_V3_1_PRODUCT_SELECTOR_DEV_TASK_RESERVED_READY_SLOT_V2_3_RELOCKED
       CLEAN_ROOM_SLOT_V3_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED
       CLEAN_ROOM_SLOT_V3_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
+      CLEAN_ROOM_SLOT_V4_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED
+      CLEAN_ROOM_SLOT_V4_1_PRODUCT_SELECTOR_DEV_TASK_RESERVED_READY_SLOT_V2_3_RELOCKED
+      CLEAN_ROOM_SLOT_V4_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED
+      CLEAN_ROOM_SLOT_V4_1_PRODUCT_SELECTOR_DEV_ACCEPTED_SLOT_V2_3_ELIGIBLE_NOT_ACTIVATED
+      CLEAN_ROOM_SLOT_V4_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
     ].include?(control["status"])
     expected_delivery_percent = baseline_accepted ? 25 : 0
     expected_accepted_milestones = baseline_accepted ? ["P2_RECOVERY_BASELINE_ACCEPTED"] : []
@@ -453,6 +458,8 @@ module P2RecoveryAntiCycle
       CLEAN_ROOM_SLOT_V2_2_PRODUCT_SELECTOR_DEV_TASK_ACTIVE
       CLEAN_ROOM_SLOT_V2_2_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_LOCKED
       CLEAN_ROOM_SLOT_V3_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
+      CLEAN_ROOM_SLOT_V4_1_PRODUCT_SELECTOR_DEV_ACCEPTED_SLOT_V2_3_ELIGIBLE_NOT_ACTIVATED
+      CLEAN_ROOM_SLOT_V4_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
     ].include?(control["status"])
     expected_consumed = consumed.dup
     if terminal_or_accepted_slot_1
@@ -487,6 +494,7 @@ module P2RecoveryAntiCycle
     terminal_locked = %w[
       CLEAN_ROOM_SLOT_V2_2_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_LOCKED
       CLEAN_ROOM_SLOT_V3_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
+      CLEAN_ROOM_SLOT_V4_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
     ].include?(control["status"])
     if terminal_locked
       assert!(escalation["disposition"] == "FOUNDER_DECISION_REQUIRED" &&
@@ -509,6 +517,51 @@ module P2RecoveryAntiCycle
             "Truth recovery lifecycle projection drift")
 
     case control["status"]
+    when "CLEAN_ROOM_SLOT_V4_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED"
+      next_action = "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK"
+      expected_remaining = {
+        "engineering_tasks" => 2,
+        "engineering_hours" => 64,
+        "calendar_days" => 16
+      }
+      assert!(decision_claims["authorization_token"] ==
+                "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_EXECUTION_INTEGRITY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V2" &&
+              decision_claims["capacity_slots"].map { |slot| slot["capacity_slot_id"] } ==
+                %w[P2_RECOVERY_CAPACITY_SLOT_V4_1 P2_RECOVERY_CAPACITY_SLOT_V2_3],
+              "Truth Product Selector execution-integrity decision or re-locked HELD identity drift")
+      assert!(envelope["status"] == "ACTIVE_REMAINING_CAPACITY" &&
+              envelope["reserved"].nil? && envelope["remaining"] == expected_remaining &&
+              envelope["consumed"] == {
+                "engineering_tasks" => 16,
+                "engineering_hours" => 464,
+                "calendar_days" => 116
+              }, "Truth eligible Product Selector execution-integrity envelope drift")
+      assert!(route["schema_version"] == "phase-delegated-continuation-hold/v1" &&
+              route["status"] == "AUTHORIZED_READY" &&
+              route["execution_status"] == "PHASE_DELEGATED_CONTINUATION_READY" &&
+              route["scheduling_status"] == "MASTER_SELECTING_NEXT_INDEPENDENT_PHASE_LOCAL_TASK" &&
+              route["historical_terminal_route_ref"] == "historical_p2_071_phase_route" &&
+              route["next_eligible_action"] == next_action,
+              "Truth eligible Product Selector execution-integrity continuation Route drift")
+      assert!(active["current_task"] == "NONE" &&
+              active["task_resource_state"] == "NOT_CREATED_PHASE_DELEGATED_CONTINUATION_READY" &&
+              active["execution_nonce_status"] == "NOT_ALLOCATED" &&
+              active["next_eligible_action"] == next_action &&
+              goal["current_task_authority"] == "NONE",
+              "Truth eligible Product Selector execution-integrity active-work drift")
+      assert!(control["task_creation_allowed"] == true &&
+              control["current_delivery_percent"] == 25 &&
+              control["accepted_milestones"] == ["P2_RECOVERY_BASELINE_ACCEPTED"] &&
+              control["next_eligible_action"] == next_action &&
+              control["capacity_slots"] == expected_slots &&
+              control["capacity_slots"].all? { |slot| slot["task_id"].nil? },
+              "Truth eligible Product Selector execution-integrity capacity projection drift")
+      assert!(project["current_route_execution_status"] == "PHASE_DELEGATED_CONTINUATION_READY" &&
+              claim["p2_phase_envelope_status"] == "ACTIVE_REMAINING_CAPACITY" &&
+              claim["current_task"] == "NONE" &&
+              claim["real_engineering_progress"] ==
+                "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_NEW_PRODUCT_SELECTOR_DEV_EXECUTION_INTEGRITY_SLOT_V4_1_ELIGIBLE_FORMAL_HELD_SLOT_V2_3_RELOCKED",
+              "Truth eligible Product Selector execution-integrity claim projection drift")
     when "CLEAN_ROOM_SLOT_V3_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED"
       next_action = "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK"
       expected_remaining = {

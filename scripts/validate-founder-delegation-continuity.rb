@@ -883,8 +883,17 @@ module FounderDelegationContinuity
       assert(plan_bytes.bytesize == plan["byte_length"] &&
              Digest::SHA256.hexdigest(plan_bytes.b) == plan["sha256"],
              "cumulative expansion recovery plan does not equal activation parent")
-      product_selector_recovery = decision["authorization_token"] ==
-        "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_RECOVERY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V1"
+      product_selector_recovery_token = decision["authorization_token"]
+      product_selector_recovery = %w[
+        AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_RECOVERY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V1
+        AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_EXECUTION_INTEGRITY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V2
+      ].include?(product_selector_recovery_token)
+      expected_product_selector_capacity_ids = case product_selector_recovery_token
+                                               when "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_RECOVERY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V1"
+                                                 %w[P2_RECOVERY_CAPACITY_SLOT_V3_1 P2_RECOVERY_CAPACITY_SLOT_V2_3]
+                                               when "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_EXECUTION_INTEGRITY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V2"
+                                                 %w[P2_RECOVERY_CAPACITY_SLOT_V4_1 P2_RECOVERY_CAPACITY_SLOT_V2_3]
+                                               end
       slot_generations = []
       slots = array(decision["capacity_slots"], "cumulative expansion capacity slots").map.with_index do |value, index|
         slot = exact_keys(
@@ -900,9 +909,7 @@ module FounderDelegationContinuity
           slot["capacity_slot_id"].to_s
         )
         slot_generations << slot_match&.[](1)
-        expected_capacity_slot_id = if product_selector_recovery
-                                      %w[P2_RECOVERY_CAPACITY_SLOT_V3_1 P2_RECOVERY_CAPACITY_SLOT_V2_3][index]
-                                    end
+        expected_capacity_slot_id = expected_product_selector_capacity_ids&.fetch(index)
         assert(slot_match &&
                (product_selector_recovery ? slot["capacity_slot_id"] == expected_capacity_slot_id :
                  Integer(slot_match[2], 10) == index + 1) &&
@@ -994,7 +1001,10 @@ module FounderDelegationContinuity
                  parent_control.dig("reserved_trigger", "category") == decision["exact_reserved_trigger"] &&
                    parent_control["founder_decision_required"] == true &&
                    parent_truth.dig("p2_recovery_control", "status") ==
-                     "CLEAN_ROOM_SLOT_V2_2_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_LOCKED" :
+                     (product_selector_recovery_token ==
+                       "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_RECOVERY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V1" ?
+                         "CLEAN_ROOM_SLOT_V2_2_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_LOCKED" :
+                         "CLEAN_ROOM_SLOT_V3_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED") :
                  parent_control.dig("reserved_trigger", "category") == "NONE" &&
                    parent_control["founder_decision_required"] == false),
                "cumulative expansion active-parent resequencing precondition drift")
@@ -4188,6 +4198,7 @@ module FounderDelegationContinuity
         %w[
           CLEAN_ROOM_SLOT_V2_2_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_LOCKED
           CLEAN_ROOM_SLOT_V3_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
+          CLEAN_ROOM_SLOT_V4_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
         ].include?(truth.dig("p2_recovery_control", "status")) &&
         truth.dig("p2_recovery_control", "task_creation_allowed") == false &&
         truth.dig("p2_recovery_control", "next_eligible_action") == "FOUNDER_RESERVED_DECISION"

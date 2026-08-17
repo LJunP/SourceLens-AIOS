@@ -996,6 +996,14 @@ module FounderDelegationContinuity
           parent_truth["founder_escalation_control"],
           "cumulative expansion activation-parent Founder control"
         )
+        expected_product_selector_parent_status = case product_selector_recovery_token
+                                                  when "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_RECOVERY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V1"
+                                                    "CLEAN_ROOM_SLOT_V2_2_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_LOCKED"
+                                                  when "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_EXECUTION_INTEGRITY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V2"
+                                                    "CLEAN_ROOM_SLOT_V3_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED"
+                                                  when "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SANDBOX_STREAM_LIFECYCLE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V3"
+                                                    "CLEAN_ROOM_SLOT_V4_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED"
+                                                  end
         assert(parent_envelope["status"] == "ACTIVE_REMAINING_CAPACITY" &&
                parent_remaining.values.all?(&:positive?) && slot_generations.first &&
                parent_truth.dig("active_work", "current_task") == "NONE" &&
@@ -1004,10 +1012,7 @@ module FounderDelegationContinuity
                  parent_control.dig("reserved_trigger", "category") == decision["exact_reserved_trigger"] &&
                    parent_control["founder_decision_required"] == true &&
                    parent_truth.dig("p2_recovery_control", "status") ==
-                     (product_selector_recovery_token ==
-                       "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_RECOVERY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V1" ?
-                         "CLEAN_ROOM_SLOT_V2_2_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_LOCKED" :
-                         "CLEAN_ROOM_SLOT_V3_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED") :
+                     expected_product_selector_parent_status :
                  parent_control.dig("reserved_trigger", "category") == "NONE" &&
                    parent_control["founder_decision_required"] == false),
                "cumulative expansion active-parent resequencing precondition drift")
@@ -4074,12 +4079,16 @@ module FounderDelegationContinuity
        CUMULATIVE_CAPACITY_DECISION_VERSIONS.include?(source_route["schema_version"])) &&
       current_route["schema_version"] == DELEGATED_TASK_ROUTE_SCHEMA &&
       %w[ELIGIBLE_NOT_ACTIVATED ACTIVE].include?(current_route.dig("selected_task", "status"))
+    cumulative_capacity_ready_status = truth.dig("p2_recovery_control", "status")
     cumulative_capacity_ready_projection =
       CUMULATIVE_CAPACITY_DECISION_VERSIONS.include?(source_route["schema_version"]) &&
       current_route["schema_version"] == CONTINUATION_ROUTE_SCHEMA &&
-      current_route["historical_terminal_route_ref"] == "historical_p2_071_phase_route" &&
-      truth.dig("p2_recovery_control", "status") ==
-        "CLEAN_ROOM_SLOT_V4_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED"
+      {
+        "CLEAN_ROOM_SLOT_V4_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED" =>
+          "historical_p2_071_phase_route",
+        "CLEAN_ROOM_SLOT_V5_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED" =>
+          "historical_p2_072_phase_route"
+      }[cumulative_capacity_ready_status] == current_route["historical_terminal_route_ref"]
     if single_task_projection
       task_status = current_route.dig("selected_task", "status")
       assert(event == {
@@ -4088,10 +4097,13 @@ module FounderDelegationContinuity
         "status" => task_status
       }, "single-Task Founder expansion control does not project the exact READY or ACTIVE Task")
     elsif cumulative_capacity_ready_projection
+      event_status = cumulative_capacity_ready_status.include?("SLOT_V5_1") ?
+        "PRODUCT_SELECTOR_DEV_SANDBOX_STREAM_LIFECYCLE_SLOT_V5_1_ELIGIBLE_NOT_ACTIVATED" :
+        "PRODUCT_SELECTOR_DEV_EXECUTION_INTEGRITY_SLOT_V4_1_ELIGIBLE_NOT_ACTIVATED"
       assert(event == {
         "kind" => "FOUNDER_PHASE_ENVELOPE_EXPANSION_ACCEPTED",
         "task_id" => nil,
-        "status" => "PRODUCT_SELECTOR_DEV_EXECUTION_INTEGRITY_SLOT_V4_1_ELIGIBLE_NOT_ACTIVATED"
+        "status" => event_status
       }, "cumulative Founder expansion control does not project the exact eligible capacity lifecycle")
     elsif ORDINARY_TERMINAL_EVENTS.include?(event["kind"])
       historical_tasks = if historical_route["task_plan"].is_a?(Array)

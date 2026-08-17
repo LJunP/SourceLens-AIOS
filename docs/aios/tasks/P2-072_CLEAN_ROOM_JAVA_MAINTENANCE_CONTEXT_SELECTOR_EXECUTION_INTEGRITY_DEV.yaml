@@ -177,30 +177,6 @@ phase_delegation_binding:
       engineering_hours: 32
       calendar_days: 8
   founder_packet_for_task:
-preactivation_execution_envelope:
-  required_before_worker_write: true
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-072-clean-room-java-maintenance-context-selector-execution-integrity-dev
-  evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-selector-execution-integrity-recovery-20260817/task-p2-072
-  permitted_write_roots:
-  - /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-072-clean-room-java-maintenance-context-selector-execution-integrity-dev
-  - /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-selector-execution-integrity-recovery-20260817/task-p2-072
-  forbidden_temp_roots:
-  - /private/tmp
-  - /tmp
-  planned_product_source_to_class:
-  - source: backend-spring/src/main/java/com/sourcelens/module/agent/service/JavaMaintenanceContextSelector.java
-    class_output_root: runtime/classes
-    class_name: com.sourcelens.module.agent.service.JavaMaintenanceContextSelector
-  required_bound_execution_facts:
-  - exact_candidate_commit_and_tree
-  - exact_source_bytes_and_sha256
-  - exact_jdk_and_javac_identity
-  - exact_classpath_and_class_inventory
-  - exact_sandbox_exec_profile_sha256_outer_argv_and_cwd
-  - closed_environment
-  - exit_stdout_and_stderr
-  - exact_surefire_inventory
-  - exact_negative_fixture_inventory
 acceptance_criteria:
 - A preactivation create-once execution envelope mechanically proves every planned compiler, test, replay and negative-fixture write is contained by the exact Task worktree or Evidence root before any Worker product write.
 - The candidate contains a non-empty product-source diff and the canonical CodeQaRetrievalService invokes the new JavaMaintenanceContextSelector on its real context-selection path.

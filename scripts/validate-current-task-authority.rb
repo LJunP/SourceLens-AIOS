@@ -3346,6 +3346,87 @@ module CurrentTaskAuthority
     gate
   end
 
+  def validate_p2_074_protocol_contract_fields(authority, contract)
+    baseline = exact_keys(
+      contract["baseline_ref"],
+      %w[
+        artifact_id baseline_id macro_precision macro_recall macro_reciprocal_rank
+        top_k utf8_byte_budget
+      ],
+      "P2-074 baseline_ref"
+    )
+    assert(baseline == {
+      "artifact_id" => "P2_RECOVERY_BASELINE_ACCEPTED",
+      "baseline_id" => "B1_DETERMINISTIC_BM25_FILE_RETRIEVAL",
+      "macro_precision" => 0.15595238095238093,
+      "macro_recall" => 0.8958333333333334,
+      "macro_reciprocal_rank" => 0.8229166666666666,
+      "top_k" => 10,
+      "utf8_byte_budget" => 131_072
+    }, "P2-074 accepted baseline metric identity drift")
+
+    dependencies = array(contract["dependencies"], "P2-074 dependencies")
+    assert(dependencies.length == 2, "P2-074 requires exact canonical and accepted baseline dependencies")
+    canonical = exact_keys(dependencies.fetch(0), %w[kind identity], "P2-074 canonical dependency")
+    canonical_identity = exact_keys(
+      canonical["identity"], %w[commit tree], "P2-074 canonical source identity"
+    )
+    assert(canonical["kind"] == "CANONICAL_SOURCE" && canonical_identity == {
+      "commit" => "8988b239e164f1897b95678e81f6465b2e41cbe7",
+      "tree" => "ff5fb7c59de62af2146ba12a93e01303b33673af"
+    }, "P2-074 canonical source dependency drift")
+
+    accepted = exact_keys(
+      dependencies.fetch(1), %w[kind identity], "P2-074 accepted baseline dependency"
+    )
+    identity = exact_keys(
+      accepted["identity"],
+      %w[
+        artifact_id root source_pack benchmark_manifest dev_task_cards b1_results
+        dev_held_non_overlap_proof
+      ],
+      "P2-074 accepted baseline identity"
+    )
+    assert(accepted["kind"] == "ACCEPTED_BASELINE_ARTIFACT" &&
+           identity["artifact_id"] == "P2_RECOVERY_BASELINE_ACCEPTED",
+           "P2-074 accepted baseline artifact kind drift")
+    root = string(identity["root"], "P2-074 accepted baseline root")
+    stat = File.lstat(root)
+    assert(File.expand_path(root) == root && stat.directory? && !stat.symlink? &&
+           File.realpath(root) == root,
+           "P2-074 accepted baseline root must be a canonical non-symlink directory")
+    %w[
+      source_pack benchmark_manifest dev_task_cards b1_results dev_held_non_overlap_proof
+    ].each do |key|
+      leaf = exact_keys(identity[key], %w[relative_path byte_length sha256], "P2-074 #{key}")
+      relative_path = safe_scope_path(leaf["relative_path"], "P2-074 #{key} relative path")
+      leaf_path = File.join(root, relative_path)
+      validate_identity(leaf_path, leaf, "P2-074 accepted baseline #{key}")
+    end
+
+    task_spec_ref = exact_keys(
+      contract["task_spec_ref"], %w[path sha256 byte_length], "P2-074 task spec"
+    )
+    expected_read_context = [
+      authority["current_facts"],
+      authority.dig("strategy", "path"),
+      authority.dig("execution_protocol", "path"),
+      authority.dig("founder_delegation_policy", "path"),
+      authority.dig("evaluation_protocol", "path"),
+      "docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml",
+      task_spec_ref["path"],
+      "P2_069_ACCEPTED_EVIDENCE_ROOT/accepted-source-pack-v1/SOURCE_PACK.json",
+      "P2_069_ACCEPTED_EVIDENCE_ROOT/runs/repair-replay-1/candidate/BENCHMARK_MANIFEST.json",
+      "P2_069_ACCEPTED_EVIDENCE_ROOT/runs/repair-replay-1/candidate/DEV_TASK_CARDS.json",
+      "P2_069_ACCEPTED_EVIDENCE_ROOT/runs/repair-replay-1/candidate/B1_RESULTS.json",
+      "P2_069_ACCEPTED_EVIDENCE_ROOT/runs/repair-replay-1/candidate/DEV_HELD_NON_OVERLAP_PROOF.json"
+    ]
+    read_context = array(contract["read_context"], "P2-074 read_context")
+    assert(read_context == expected_read_context && read_context.uniq.length == read_context.length,
+           "P2-074 read_context is not the exact clean-room minimum set")
+    true
+  end
+
   def validate_phase_delegated_baseline_ids(source_route, value)
     baseline_ids = array(value, "phase-delegated baseline ids")
     if %w[1.0 1.1].include?(source_route["schema_version"])
@@ -3401,6 +3482,12 @@ module CurrentTaskAuthority
     assert(%w[low medium high critical].include?(risk),
            "phase-delegated Task Contract risk_level is outside the protocol enum")
 
+    authority = hash(truth["authority"], "authority")
+    if contract["task_id"] ==
+       "AIOS-P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV"
+      return validate_p2_074_protocol_contract_fields(authority, contract)
+    end
+
     baseline = exact_keys(
       contract["baseline_ref"],
       %w[artifact_id relative_path byte_length sha256 baseline_ids],
@@ -3429,7 +3516,6 @@ module CurrentTaskAuthority
     assert(dependencies == expected_dependencies,
            "phase-delegated Task Contract dependencies are not the closed source and baseline set")
 
-    authority = hash(truth["authority"], "authority")
     expected_read_context = [
       authority["current_facts"],
       authority.dig("strategy", "path"),
@@ -4095,8 +4181,11 @@ module CurrentTaskAuthority
     assert(authority["worktree"] == worktree_real && authority["evidence_root"] == evidence_real,
            "phase-delegated Task resource identity drift")
     baseline = contract["baseline_ref"]
-    baseline_path = File.join(evidence_real, baseline["relative_path"])
-    validate_identity(baseline_path, baseline, "phase-delegated active baseline Artifact")
+    unless task["task_id"] ==
+           "AIOS-P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV"
+      baseline_path = File.join(evidence_real, baseline["relative_path"])
+      validate_identity(baseline_path, baseline, "phase-delegated active baseline Artifact")
+    end
     if task.key?("repair_accounting")
       repair_receipt = authority.dig("repair_accounting", "receipt")
       repair_receipt_path = File.join(evidence_real, repair_receipt["relative_path"])

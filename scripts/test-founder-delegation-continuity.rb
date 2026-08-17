@@ -1388,8 +1388,20 @@ Dir.mktmpdir("founder-delegation-continuity-") do |fixtures|
   }
   truth["founder_escalation_control"]["reserved_trigger"]["evidence"] =
     write_json_identity(fixtures, "agent-invented-next-budget.json", trigger)
-  expect_non_pass(fixtures, "exhausted-phase-cannot-invent-next-founder-budget", truth,
-                  "exhausted Phase decision Evidence must not invent a new Founder budget")
+  reserved_control = truth.fetch("founder_escalation_control")
+  reserved_route = truth.fetch(
+    truth.fetch("current_phase_route").fetch("historical_terminal_route_ref")
+  )
+  expect_method_non_pass("exhausted-phase-cannot-invent-next-founder-budget",
+                         "exhausted Phase decision Evidence must not invent a new Founder budget") do
+    FounderDelegationContinuity.validate_reserved_trigger_evidence!(
+      reserved_control.fetch("reserved_trigger"),
+      reserved_control.fetch("source_event"),
+      truth.dig("project", "current_phase"),
+      reserved_route,
+      truth.fetch("phase_execution_envelope")
+    )
+  end
   assertions += 1
 
   truth = deep_copy(reserved_base)
@@ -1399,8 +1411,20 @@ Dir.mktmpdir("founder-delegation-continuity-") do |fixtures|
   trigger["supporting_evidence"].pop
   truth["founder_escalation_control"]["reserved_trigger"]["evidence"] =
     write_json_identity(fixtures, "missing-terminal-ledger-support.json", trigger)
-  expect_non_pass(fixtures, "exhausted-phase-must-bind-all-terminal-receipts", truth,
-                  "Founder budget expansion trigger must bind every consumed Task outcome receipt")
+  reserved_control = truth.fetch("founder_escalation_control")
+  reserved_route = truth.fetch(
+    truth.fetch("current_phase_route").fetch("historical_terminal_route_ref")
+  )
+  expect_method_non_pass("exhausted-phase-must-bind-all-terminal-receipts",
+                         "Founder budget expansion trigger must bind every consumed Task outcome receipt") do
+    FounderDelegationContinuity.validate_reserved_trigger_evidence!(
+      reserved_control.fetch("reserved_trigger"),
+      reserved_control.fetch("source_event"),
+      truth.dig("project", "current_phase"),
+      reserved_route,
+      truth.fetch("phase_execution_envelope")
+    )
+  end
   assertions += 1
 
   truth = deep_copy(terminal_fixture_truth)

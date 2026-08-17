@@ -24,6 +24,8 @@ CANONICAL_REPO = File.dirname(GIT_COMMON_DIR)
 TRUTH_RELATIVE = "docs/aios/truth/project_state.yaml"
 POLICY_RELATIVE = "docs/aios/FOUNDER_DELEGATION_POLICY.md"
 P1_READY_GOLDEN_COMMIT = "03542c278ad57b030cb0798483de8c3c19341952"
+P1_STRICT_GATE_LEDGER_GOLDEN_COMMIT = "f4bf67fde8c97361bb4cd316ced1cbf4f59132a7"
+P2_STRICT_GATE_LEDGER_GOLDEN_COMMIT = "22a60d927971c9b0d46dc38f26fbeb41e93da7d2"
 STRUCTURED_ROUTE_GOLDEN_COMMIT = "b939567d35c2da497848d5772009fc5eaf6f5c02"
 STRUCTURED_DECISION_PATH = File.expand_path(
   "../.sourcelens-audit/p2-structured-decision-authority-20260727/decision/FOUNDER_P2_ROUTE_DECISION.json",
@@ -502,7 +504,13 @@ class CurrentTaskAuthorityTest
     assert(schema.dig("properties", "ordered_tasks", "items", "additionalProperties") == false,
            "structured decision schema Task items must be closed")
     version_branches = schema.fetch("allOf")
-    version_branch = version_branches.fetch(0)
+    version_branches_by_schema = version_branches.each_with_object({}) do |branch, values|
+      schema_version = branch.dig("if", "properties", "schema_version", "const")
+      raise "structured decision schema contains an unversioned branch" unless schema_version
+      raise "structured decision schema duplicates #{schema_version}" if values.key?(schema_version)
+      values[schema_version] = branch
+    end
+    version_branch = version_branches_by_schema.fetch("1.1")
     assert(version_branch.dig("if", "properties", "schema_version", "const") == "1.1",
            "structured decision schema does not discriminate v1.1")
     assert(version_branch.dig("then", "required") == ["automatic_entries"],
@@ -515,7 +523,7 @@ class CurrentTaskAuthorityTest
     assert(v1_1_task_required.include?("external_effects") &&
            v1_1_task_required.include?("founder_reserved_profile"),
            "structured decision schema does not require v1.1 Task effects and profile fields")
-    single_task_branch = version_branches.fetch(1)
+    single_task_branch = version_branches_by_schema.fetch("1.2")
     assert(single_task_branch.dig("if", "properties", "schema_version", "const") == "1.2",
            "structured decision schema does not discriminate v1.2")
     assert(single_task_branch.dig("then", "required").sort ==
@@ -524,7 +532,7 @@ class CurrentTaskAuthorityTest
     assert(single_task_branch.dig("then", "properties", "automatic_entry", "type") == "null" &&
            single_task_branch.dig("then", "properties", "automatic_entries", "maxItems") == 0,
            "structured decision schema does not prohibit a v1.2 automatic successor")
-    v1_3_branch = version_branches.fetch(2)
+    v1_3_branch = version_branches_by_schema.fetch("1.3")
     assert(v1_3_branch.dig("if", "properties", "schema_version", "const") == "1.3",
            "structured decision schema does not discriminate v1.3")
     assert(v1_3_branch.dig("then", "required").sort ==
@@ -533,7 +541,15 @@ class CurrentTaskAuthorityTest
     assert(v1_3_branch.dig("then", "properties", "automatic_entry", "type") == "null" &&
            v1_3_branch.dig("then", "properties", "automatic_entries", "maxItems") == 0,
            "structured decision schema does not prohibit a v1.3 automatic successor")
-    legacy_branch = version_branches.fetch(3)
+    v1_4_branch = version_branches_by_schema.fetch("1.4")
+    assert(v1_4_branch.dig("then", "required").sort ==
+           %w[automatic_entries capacity_slots exact_reserved_trigger prior_consumed_envelope recovery_plan_identity],
+           "structured decision schema does not require the v1.4 recovery capacity set")
+    assert(v1_4_branch.dig("then", "properties", "automatic_entry", "type") == "null" &&
+           v1_4_branch.dig("then", "properties", "automatic_entries", "maxItems") == 0 &&
+           v1_4_branch.dig("then", "properties", "ordered_tasks", "maxItems") == 0,
+           "structured decision schema does not prohibit a v1.4 automatic or predeclared Task")
+    legacy_branch = version_branches_by_schema.fetch("1.0")
     assert(legacy_branch.dig("if", "properties", "schema_version", "const") == "1.0" &&
            legacy_branch.dig("then", "properties", "automatic_entry", "type") == "object" &&
            legacy_branch.dig("then", "not", "anyOf").is_a?(Array),
@@ -2231,6 +2247,13 @@ class CurrentTaskAuthorityTest
     source_truth = YAML.load(
       shell(SOURCE_REPO, "git", "show", "#{P1_READY_GOLDEN_COMMIT}:#{TRUTH_RELATIVE}")
     )
+    strict_gate_truth = YAML.load(
+      shell(SOURCE_REPO, "git", "show", "#{P1_STRICT_GATE_LEDGER_GOLDEN_COMMIT}:#{TRUTH_RELATIVE}")
+    )
+    source_truth["strict_phase_gate_ledger"] =
+      deep_copy(strict_gate_truth.fetch("strict_phase_gate_ledger"))
+    source_truth["p1_partial_exit"] =
+      deep_copy(strict_gate_truth.fetch("p1_partial_exit"))
     assert(source_truth.dig("project", "current_phase") == "P1",
            "historical P1 READY golden phase drifted")
     assert(source_truth.dig("current_phase_route", "status") == "AUTHORIZED_READY",
@@ -2333,6 +2356,23 @@ class CurrentTaskAuthorityTest
     source_truth = YAML.load(
       shell(SOURCE_REPO, "git", "show", "#{STRUCTURED_ROUTE_GOLDEN_COMMIT}:#{TRUTH_RELATIVE}")
     )
+    strict_gate_truth = YAML.load(
+      shell(SOURCE_REPO, "git", "show", "#{P2_STRICT_GATE_LEDGER_GOLDEN_COMMIT}:#{TRUTH_RELATIVE}")
+    )
+    source_truth["strict_phase_gate_ledger"] =
+      deep_copy(strict_gate_truth.fetch("strict_phase_gate_ledger"))
+    source_truth["p1_partial_exit"] =
+      deep_copy(strict_gate_truth.fetch("p1_partial_exit"))
+    source_truth["claim_boundary"]["p1_strict_completion"] =
+      strict_gate_truth.dig("claim_boundary", "p1_strict_completion")
+    source_truth["project"]["p1_execution_status"] =
+      strict_gate_truth.dig("project", "p1_execution_status")
+    strict_gate_truth.dig("strict_phase_gate_ledger", "phases", "P1", "required_items").each_value do |item|
+      history_key = item["task_history_key"]
+      next unless history_key
+      source_truth.fetch("task_history")[history_key] =
+        deep_copy(strict_gate_truth.fetch("task_history").fetch(history_key))
+    end
     current_policy_bytes = File.binread(File.join(SOURCE_REPO, POLICY_RELATIVE))
     current_policy_sha = Digest::SHA256.hexdigest(current_policy_bytes)
     source_truth["authority"]["founder_delegation_policy"]["version"] = "1.8"
@@ -2445,7 +2485,7 @@ class CurrentTaskAuthorityTest
     truth["phase_boundary"]["phase"] = decision_phase
     if decision_phase == "P2"
       truth["project"]["p1_execution_status"] =
-        "PARTIAL_EXIT_WITH_DISCLOSED_RESIDUALS_6_OF_8_75_PERCENT"
+        "COMPLETE_STRICT_8_OF_8_100_PERCENT"
       truth["project"]["p2_entry_status"] = "AUTHORIZED"
       truth["phase_boundary"]["allowed_task_kinds"] = %w[
         REPOSITORY_INTELLIGENCE_ENGINEERING

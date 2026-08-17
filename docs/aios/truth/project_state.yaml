@@ -7496,8 +7496,8 @@ current_phase_route:
     max_same_task_repairs: 1
     contract:
       path: docs/aios/tasks/P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV.yaml
-      sha256: c3a7eebaa5f108263c90167d5c4ac0a6a3c31b80e7a978912c08ea9d35342092
-      byte_length: 16944
+      sha256: ec37300e7e8a51b377fd6e01aff1895d98c2541779c524b5efff685af80b9279
+      byte_length: 16960
     independence:
       new_task_id: true
       new_execution_nonce: true
@@ -9932,8 +9932,8 @@ phase_execution_envelope:
     capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_V6_1
     contract:
       path: docs/aios/tasks/P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV.yaml
-      sha256: c3a7eebaa5f108263c90167d5c4ac0a6a3c31b80e7a978912c08ea9d35342092
-      byte_length: 16944
+      sha256: ec37300e7e8a51b377fd6e01aff1895d98c2541779c524b5efff685af80b9279
+      byte_length: 16960
     budget:
       engineering_tasks: 1
       engineering_hours: 32

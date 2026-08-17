@@ -4071,6 +4071,12 @@ module FounderDelegationContinuity
        CUMULATIVE_CAPACITY_DECISION_VERSIONS.include?(source_route["schema_version"])) &&
       current_route["schema_version"] == DELEGATED_TASK_ROUTE_SCHEMA &&
       %w[ELIGIBLE_NOT_ACTIVATED ACTIVE].include?(current_route.dig("selected_task", "status"))
+    cumulative_capacity_ready_projection =
+      CUMULATIVE_CAPACITY_DECISION_VERSIONS.include?(source_route["schema_version"]) &&
+      current_route["schema_version"] == CONTINUATION_ROUTE_SCHEMA &&
+      current_route["historical_terminal_route_ref"] == "historical_p2_071_phase_route" &&
+      truth.dig("p2_recovery_control", "status") ==
+        "CLEAN_ROOM_SLOT_V4_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED"
     if single_task_projection
       task_status = current_route.dig("selected_task", "status")
       assert(event == {
@@ -4078,6 +4084,12 @@ module FounderDelegationContinuity
         "task_id" => current_route.dig("selected_task", "task_id"),
         "status" => task_status
       }, "single-Task Founder expansion control does not project the exact READY or ACTIVE Task")
+    elsif cumulative_capacity_ready_projection
+      assert(event == {
+        "kind" => "FOUNDER_PHASE_ENVELOPE_EXPANSION_ACCEPTED",
+        "task_id" => nil,
+        "status" => "PRODUCT_SELECTOR_DEV_EXECUTION_INTEGRITY_SLOT_V4_1_ELIGIBLE_NOT_ACTIVATED"
+      }, "cumulative Founder expansion control does not project the exact eligible capacity lifecycle")
     elsif ORDINARY_TERMINAL_EVENTS.include?(event["kind"])
       historical_tasks = if historical_route["task_plan"].is_a?(Array)
                            historical_route["task_plan"]
@@ -4159,6 +4171,10 @@ module FounderDelegationContinuity
         assert(control["next_eligible_action"] == expected_action &&
                control["next_eligible_action"] == current_route["next_eligible_action"],
                "single-Task Founder expansion control next action does not match the exact Task lifecycle")
+      elsif cumulative_capacity_ready_projection
+        assert(control["next_eligible_action"] == CONTINUE_ACTION &&
+               control["next_eligible_action"] == current_route["next_eligible_action"],
+               "cumulative Founder expansion control next action does not continue Phase-local selection")
       else
         assert(ORDINARY_TERMINAL_EVENTS.include?(event["kind"]) ||
                event["kind"] == "TASK_GATE_ACCEPTED",

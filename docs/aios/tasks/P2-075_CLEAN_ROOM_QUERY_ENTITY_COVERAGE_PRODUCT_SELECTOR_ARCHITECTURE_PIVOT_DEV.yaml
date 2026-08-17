@@ -1,0 +1,259 @@
+schema_version: '1.1'
+record_type: aios_phase_delegated_independent_task_contract
+task_id: AIOS-P2-075_CLEAN_ROOM_QUERY_ENTITY_COVERAGE_PRODUCT_SELECTOR_ARCHITECTURE_PIVOT_DEV
+phase: P2
+route_id: AIOS-P2-075_CLEAN_ROOM_QUERY_ENTITY_COVERAGE_PRODUCT_SELECTOR_ARCHITECTURE_PIVOT_DEV_PHASE_DELEGATED_ROUTE
+status: ACTIVE
+task_kind: REPOSITORY_INTELLIGENCE_GRAPH_ENGINEERING
+capability: GRAPH_CONDITIONED_CONTEXT_SELECTION
+objective: >-
+  Implement one independently authored clean-room Product Selector on the canonical
+  Code QA product path using deterministic query intent plus package, type and member
+  entity coverage, normalized-path-first ranking ties, top-k 10 and a 131072-byte
+  UTF-8 budget; evaluate only the frozen accepted P2-069 eight-task DEV split; and
+  establish P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED only if the exact product-owned
+  implementation strictly beats the frozen B1 baseline with no per-task recall regression.
+why_now: >-
+  The independently accepted P2-069 benchmark foundation is available, while P2-070
+  through P2-074 are terminal rejected engineering lineages and Product Selector DEV
+  remains unaccepted. Founder authorization V5 adds exactly one materially different
+  clean-room architecture-pivot slot before the still-locked formal HELD slot.
+task_spec_ref:
+  path: docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_AND_RELOCKED_HELD_SEQUENCE_V5.md
+  sha256: f4fa20496c85719d71707714183bb3b16ec3bf44a45821f3c9964e9c7820476d
+  byte_length: 7978
+owner_role: P2-075 Master Owner
+worker_role: P2-075 Clean-room Query Entity Coverage Worker
+write_scope:
+- backend-spring/src/main/java/com/sourcelens/module/agent/service/QueryEntityCoverageSelector.java
+- backend-spring/src/main/java/com/sourcelens/module/agent/service/CodeQaRetrievalService.java
+- backend-spring/src/test/java/com/sourcelens/QueryEntityCoverageSelectorTest.java
+- backend-spring/src/test/java/com/sourcelens/CodeQaRetrievalServiceTest.java
+- evaluation-harness/harness/p2-query-entity-coverage-selector-v1/**
+- evaluation-harness/replay/p2-query-entity-coverage-selector-v1/**
+- evaluation-harness/reports/p2-query-entity-coverage-selector-v1/**
+read_context:
+- docs/aios/truth/project_state.yaml
+- docs/aios/STRATEGIC_CONSTITUTION.md
+- docs/aios/MASTER_EXECUTION_PROTOCOL.md
+- docs/aios/FOUNDER_DELEGATION_POLICY.md
+- docs/aios/EVALUATION_PROTOCOL.md
+- docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml
+- docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_AND_RELOCKED_HELD_SEQUENCE_V5.md
+- P2_069_ACCEPTED_EVIDENCE_ROOT/accepted-source-pack-v1/SOURCE_PACK.json
+- P2_069_ACCEPTED_EVIDENCE_ROOT/runs/repair-replay-1/candidate/BENCHMARK_MANIFEST.json
+- P2_069_ACCEPTED_EVIDENCE_ROOT/runs/repair-replay-1/candidate/DEV_TASK_CARDS.json
+- P2_069_ACCEPTED_EVIDENCE_ROOT/runs/repair-replay-1/candidate/B1_RESULTS.json
+- P2_069_ACCEPTED_EVIDENCE_ROOT/runs/repair-replay-1/candidate/DEV_HELD_NON_OVERLAP_PROOF.json
+dependencies:
+- kind: CANONICAL_SOURCE
+  identity:
+    commit: 3d3b94e73b293597bf89eb210897737903d968a0
+    tree: 0693d9ab4e2b1c5aa90b16e732669dd67e121f49
+- kind: ACCEPTED_BASELINE_ARTIFACT
+  identity:
+    artifact_id: P2_RECOVERY_BASELINE_ACCEPTED
+    root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-clean-room-recovery-benchmark-foundation-20260817/task-p2-069
+    source_pack:
+      relative_path: accepted-source-pack-v1/SOURCE_PACK.json
+      byte_length: 94630
+      sha256: c5f38070b8f0ed445c759f3380769c2dec5493e0f4120f681b9b1cab3fd67884
+    benchmark_manifest:
+      relative_path: runs/repair-replay-1/candidate/BENCHMARK_MANIFEST.json
+      byte_length: 1698
+      sha256: 1847e480cd0a2a35f3130b65dc074742ad5669eb4f715bc4066867855680396f
+    dev_task_cards:
+      relative_path: runs/repair-replay-1/candidate/DEV_TASK_CARDS.json
+      byte_length: 520431
+      sha256: c6c5a2655870a6cc8b5310675fa4e31054be48d048702a0939fac81327bb865b
+    b1_results:
+      relative_path: runs/repair-replay-1/candidate/B1_RESULTS.json
+      byte_length: 634859
+      sha256: 231a99391726b618cba130474c4ad7ffa348af25afda97968dc0c1745159c0c0
+    dev_held_non_overlap_proof:
+      relative_path: runs/repair-replay-1/candidate/DEV_HELD_NON_OVERLAP_PROOF.json
+      byte_length: 498
+      sha256: 84af16469d26cfbf8b393a7e4b9aa39d383cdfc88c5a721e5651d73f3c9c2065
+risk_level: high
+baseline_ref:
+  artifact_id: P2_RECOVERY_BASELINE_ACCEPTED
+  baseline_id: B1_DETERMINISTIC_BM25_FILE_RETRIEVAL
+  macro_precision: 0.15595238095238093
+  macro_recall: 0.8958333333333334
+  macro_reciprocal_rank: 0.8229166666666666
+  top_k: 10
+  utf8_byte_budget: 131072
+independent_reviewer:
+- CTO Agent
+- Security Agent
+- Quality and Evaluation Agent
+protocol_status_mapping:
+  ELIGIBLE_NOT_ACTIVATED: ready
+  ACTIVE: in_progress
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_V7_1
+budget:
+  engineering_hours: 32
+  calendar_days: 8
+  implementation_iterations: 2
+  candidates: 2
+max_same_task_repairs: 1
+roles:
+  owner: P2-075 Master Owner
+  worker: P2-075 Clean-room Query Entity Coverage Worker
+  independent_reviewers:
+  - CTO Agent
+  - Security Agent
+  - Quality and Evaluation Agent
+allowlisted_paths:
+- backend-spring/src/main/java/com/sourcelens/module/agent/service/QueryEntityCoverageSelector.java
+- backend-spring/src/main/java/com/sourcelens/module/agent/service/CodeQaRetrievalService.java
+- backend-spring/src/test/java/com/sourcelens/QueryEntityCoverageSelectorTest.java
+- backend-spring/src/test/java/com/sourcelens/CodeQaRetrievalServiceTest.java
+- evaluation-harness/harness/p2-query-entity-coverage-selector-v1/**
+- evaluation-harness/replay/p2-query-entity-coverage-selector-v1/**
+- evaluation-harness/reports/p2-query-entity-coverage-selector-v1/**
+write_ownership:
+  schema_version: role-write-ownership/v1
+  cross_role_write_allowed: false
+  owner:
+    role: P2-075 Master Owner
+    write_paths: []
+  worker:
+    role: P2-075 Clean-room Query Entity Coverage Worker
+    write_paths:
+    - backend-spring/src/main/java/com/sourcelens/module/agent/service/QueryEntityCoverageSelector.java
+    - backend-spring/src/main/java/com/sourcelens/module/agent/service/CodeQaRetrievalService.java
+    - backend-spring/src/test/java/com/sourcelens/QueryEntityCoverageSelectorTest.java
+    - backend-spring/src/test/java/com/sourcelens/CodeQaRetrievalServiceTest.java
+    - evaluation-harness/harness/p2-query-entity-coverage-selector-v1/**
+    - evaluation-harness/replay/p2-query-entity-coverage-selector-v1/**
+    - evaluation-harness/reports/p2-query-entity-coverage-selector-v1/**
+  independent_reviewers:
+  - role: CTO Agent
+    write_paths: []
+  - role: Security Agent
+    write_paths: []
+  - role: Quality and Evaluation Agent
+    write_paths: []
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+phase_delegation_binding:
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: '1.8'
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  delegation_amendment:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/founder-delegation-continuity-20260808/decision/FOUNDER_PHASE_DELEGATION_CONTINUITY_AMENDMENT_V1.json
+    byte_length: 1182
+    sha256: c37634c51b0b7695204c026f9950911c427f544a6ff2e2c2f786facb9a84a52e
+  source_decision:
+    path: docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_AND_RELOCKED_HELD_SEQUENCE_DECISION_V5.json
+    sha256: fa4ea60a11cc89d793dc9b827f34ef58be242cfc683100a685f0a005d96b6cbc
+    byte_length: 3394
+  source_terminal_event:
+    task_id: AIOS-P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV
+    status: TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_AND_BUDGET_NON_PASS
+    outcome_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-selector-product-path-evidence-closure-recovery-20260817/task-p2-074/terminal/P2_074_TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_AND_BUDGET_NON_PASS_RECEIPT_V1.json
+      byte_length: 5454
+      sha256: f6cfcc715b40ccf953982cd5d0739baebfe68247b44da3a41be8ef5ef05a0f24
+  phase_envelope_snapshot:
+    limits:
+      engineering_tasks: 21
+      engineering_hours: 624
+      calendar_days: 156
+      active_tasks: 1
+      task_branches: 1
+      task_worktrees: 1
+      active_candidates: 1
+    consumed:
+      engineering_tasks: 19
+      engineering_hours: 560
+      calendar_days: 140
+    reserved:
+      task_id: AIOS-P2-075_CLEAN_ROOM_QUERY_ENTITY_COVERAGE_PRODUCT_SELECTOR_ARCHITECTURE_PIVOT_DEV
+      route_id: AIOS-P2-075_CLEAN_ROOM_QUERY_ENTITY_COVERAGE_PRODUCT_SELECTOR_ARCHITECTURE_PIVOT_DEV_PHASE_DELEGATED_ROUTE
+      status: ELIGIBLE_NOT_ACTIVATED
+      capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_V7_1
+      budget:
+        engineering_tasks: 1
+        engineering_hours: 32
+        calendar_days: 8
+    remaining:
+      engineering_tasks: 1
+      engineering_hours: 32
+      calendar_days: 8
+  founder_packet_for_task:
+preactivation_gate:
+  required_before_product_source_write: true
+  independent_architecture_freeze_required: true
+  deterministic_query_intent_required: true
+  package_type_member_entity_coverage_required: true
+  normalized_path_first_tie_break_required: true
+  product_owned_ranking_and_budget_selection_required: true
+  exact_authority_roots_before_mkdir: true
+  os_write_confinement_probe_required: true
+  compiler_test_replay_negative_fresh_roots_required: true
+  explicit_classpath_and_sourcepath_required: true
+  annotation_processing_disabled_or_fully_bound: true
+  exact_runtime_binary_identity_required: true
+  complete_source_to_class_identity_required: true
+  reviewer_manifest_direct_raw_leaf_binding_required: true
+  product_path_static_and_runtime_binding_required: true
+acceptance_criteria:
+- One create-once preactivation architecture freeze proves a materially different deterministic query-intent and package/type/member entity-coverage selector before any product-source write.
+- One production-owned Java API used by canonical CodeQaRetrievalService and the evaluator owns scoring, normalized-path-first score ties, top-k 10 and the 131072-byte UTF-8 budget.
+- The exact accepted P2-069 source pack, benchmark manifest, DEV task cards, B1 results and DEV/HELD non-overlap proof are rehashed before use; only the eight DEV cards and their base archives are opened.
+- Product DEV macro precision, macro recall and macro reciprocal rank each strictly exceed the accepted B1 values, and no DEV task has lower recall than its exact B1 task result.
+- Two clean OS-sandboxed DEV replays are byte-exact for rankings, selections and metrics; HELD execution count and HELD source reads remain zero.
+- Fresh compiler and Surefire roots, closed classpath/sourcepath, disabled annotation processing, exact runtime identities, source-to-class mapping, outer sandbox argv, cwd, closed environment, exit, stdout, stderr and write/post-state inventories are directly bound.
+- Real filesystem negatives cover symlink file and ancestor, root escape through supported arguments, output overwrite byte preservation, mutable classpath injection, out-of-root write and HELD request with exact pre/post state.
+- A direct reviewer manifest binds raw accepted inputs, product sources/classes, DEV results, Surefire XML/stdout, transactions, negative pre/post state, changed-file inventory, rollback and DEV/HELD non-overlap proof.
+- Independent CTO, Security and Quality/Evaluation reviewers all return PASS on the same exact candidate and reviewer manifest before Master Task Gate acceptance.
+required_evidence:
+- Exact Task authority, Contract, branch, worktree, Evidence root, execution nonce, activation parent and OS write-confinement identity.
+- Create-once architecture freeze and preactivation verification, proving zero product-source diff relative to activation parent at freeze time.
+- Direct accepted P2-069 source-pack, benchmark-manifest, DEV-task-card, B1-result and DEV/HELD-non-overlap identities plus complete read-set inventory.
+- Product-owned selector specification, exact product-path invocation, changed-file inventory and source-to-class inventory.
+- Fresh targeted Surefire transaction with XML/stdout/stderr and exact tests/failures/errors/skipped counts.
+- Two independent DEV replay transactions, raw rankings, selections, metrics, exact comparison and per-task no-recall-regression proof.
+- Negative matrix with per-case exact argv, fixture identities, exit/stdout/stderr and before/after post-state.
+- Reviewer Evidence manifest, rollback, three independent final reviews and Master Task Gate receipt.
+rollback: >-
+  Do not integrate a NON_PASS candidate. Preserve the exact candidate identity and
+  terminal Evidence, leave canonical main unchanged, keep P2-069 accepted, keep
+  P2-070 through P2-074 terminal accounting immutable, keep formal HELD locked,
+  keep P2 delivery at 25% and strict progress at 0%, keep P3 HOLD, and keep the
+  Long-term Goal ACTIVE.
+stop_conditions:
+- Stop before product-source write if the exact architecture freeze, authority-bound roots, OS write confinement or accepted P2-069 input identities do not validate.
+- Stop if any P2-070, P2-071, P2-072, P2-073 or P2-074 branch, worktree, code, evaluator implementation or engineering Evidence is read, compared, copied or reused.
+- Stop if any HELD task source leaf, HELD PR-file payload or HELD build result is opened or executed.
+- Stop if any compiler, test, replay or fixture write can escape the exact Task worktree or Evidence root, or any runtime/classpath/source input is mutable or unbound.
+- Stop if any network, Provider, Secret, remote, production, public, deletion, database, P3 or Long-term Goal termination effect is requested or observed.
+- Stop when two candidate generations, two implementation iterations, one same-Task repair or two review cycles are exhausted.
+forbidden_actions:
+- Read, compare, copy or reuse rejected P2-070 through P2-074 engineering lineage.
+- Modify accepted P2-069 source-pack bytes, dataset split, DEV/HELD cards, oracle, metric, threshold, schedule or formal HELD custody.
+- Evaluate HELD, tune on HELD, rerun-to-pass, create a successor/replacement/remediation chain or consume the locked formal HELD slot before Product Selector DEV acceptance.
+- Execute build or test subprocesses without exact offline configuration and hash-bound /usr/bin/sandbox-exec deny-network plus write confinement.
+- Use network, credentials, cookies, Authorization headers, uploads, Git fetch/clone/push, browser networking, Provider, remote, production or public release.
+- Delete historical Evidence or worktrees, modify Codex private control-plane state, enter P3 or terminate the Long-term Goal.
+claim_boundary: >-
+  This Task may establish only P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED for the exact
+  clean-room query-entity-coverage Product Selector and frozen eight-task DEV benchmark.
+  It does not claim formal HELD performance, P2 Exit Gate acceptance, P3 eligibility,
+  production readiness, public release or Long-term Goal completion.

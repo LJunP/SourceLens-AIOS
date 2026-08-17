@@ -7031,8 +7031,8 @@ current_phase_route:
     objective: >-
       Implement one new clean-room Java maintenance context selector on the canonical
       Code QA product path, then evaluate only the eight accepted P2-069 DEV tasks
-      against the frozen B1 control with every compiler, test, replay and fixture
-      write confined to the exact Task worktree or Evidence root.
+      against the frozen B1 control with all compiler, test, replay and negative-fixture
+      writes confined to the exact Task worktree or create-once Evidence root.
     capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_V4_1
     budget:
       engineering_hours: 32

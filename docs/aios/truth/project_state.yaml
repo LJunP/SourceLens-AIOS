@@ -1389,7 +1389,7 @@ project:
   p2_entry_status: AUTHORIZED
   p2_execution_status: ACTIVE
   phase_execution_status: ACTIVE
-  current_route_execution_status: PHASE_DELEGATED_CONTINUATION_READY
+  current_route_execution_status: PHASE_DELEGATED_TASK_READY
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -6455,6 +6455,118 @@ historical_p2_067_phase_route:
   additional_write_roots: []
   inherited_worktree_inventory_source: historical_p2_066_phase_route
 
+historical_p2_clean_room_recovery_resequencing_phase_route:
+  schema_version: '1.4'
+  route_id: P2_CLEAN_ROOM_RECOVERY_RESEQUENCING_AND_MINIMAL_ENVELOPE_EXPANSION_ROUTE_V1
+  status: AUTHORIZED_CAPACITY_AVAILABLE
+  execution_status: AUTHORIZED_CAPACITY_AVAILABLE
+  scheduling_status: MASTER_ACTIVATING_P2_CLEAN_ROOM_CAPACITY_SLOT_V2_1
+  phase: P2
+  phase_entry_status: AUTHORIZED
+  authorization_token: AUTHORIZE_P2_CLEAN_ROOM_RECOVERY_RESEQUENCING_AND_MINIMAL_ENVELOPE_EXPANSION_V1
+  decision_packet:
+    path: docs/aios/decisions/P2_CLEAN_ROOM_RECOVERY_RESEQUENCING_AND_MINIMAL_ENVELOPE_EXPANSION_DECISION_V1.json
+    sha256: 7f87125dc0fbf1550877de90e30552231aedaa9829eecec85348a9b89c5b225f
+    byte_length: 3418
+  original_founder_packet:
+    path: docs/aios/decisions/P2_CLEAN_ROOM_RECOVERY_RESEQUENCING_AND_MINIMAL_ENVELOPE_EXPANSION_V1.md
+    sha256: a8832c5c180f2a424362fe5e4baf06775212979072e2686c1da6868d1be9b1ee
+    byte_length: 5741
+  activation_parent:
+    commit: b76f6ae2e489b30762b0f4d5b1fd658d5fee9261
+    tree: 93924dbb8f87805118c8a682e420e237a5c5b6eb
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: '1.8'
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  goal_identity:
+    raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+    raw_byte_length: 19433
+    canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+    canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+    canonical_byte_length: 19434
+  objective: >-
+    Replace only the unused P2 recovery scheduling projection with one clean-room,
+    milestone-gated benchmark-foundation, product DEV and formal HELD sequence while
+    preserving all thirteen consumed Task outcomes and P2-068 terminal accounting.
+  claim_boundary: P2_CLEAN_ROOM_RECOVERY_CAPACITY_ONLY_PRESERVE_13_CONSUMED_SUPERSEDE_2_UNUSED_ADD_1_NO_TASK_ID_CONTRACT_AUTHORITY_BRANCH_WORKTREE_EVIDENCE_PRODUCT_MUTATION_EXTERNAL_EFFECT_OR_PROGRESS_CREDIT
+  envelope:
+    max_engineering_tasks: 16
+    max_engineering_hours: 464
+    max_calendar_days: 116
+    max_active_tasks: 1
+    max_task_branches: 1
+    max_task_worktrees: 1
+    max_active_candidates: 1
+    max_contract_corrections_per_task: 0
+    max_same_task_repairs: 1
+    successor_replacement_normalization_closure_feasibility_or_remediation_chain_allowed: false
+    p2_entry_authorized: true
+    p3_entry_authorized: false
+    external_effects:
+      network: false
+      provider: false
+      secret: false
+      remote: false
+      production: false
+      public: false
+  founder_reserved_profile:
+  founder_reserved_profiles: []
+  exact_reserved_trigger: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+  prior_consumed_envelope:
+    consumed:
+      calendar_days: 92
+      engineering_hours: 368
+      engineering_tasks: 13
+    source_route_id: P2_VALUE_FIRST_RECOVERY_ENVELOPE_EXPANSION_ROUTE_V1
+    task_ledger_canonical_byte_length: 12182
+    task_ledger_canonical_sha256: 3a8416f6e18ada2209f248d53518f0da0e14a41ea1d141ce94af9c359a7d2a39
+    task_ledger_canonicalization: RECURSIVE_KEY_SORT_COMPACT_JSON_UTF8
+    task_ledger_entry_count: 13
+  recovery_plan_identity:
+    path: docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml
+    byte_length: 7433
+    sha256: cfb383e6b89c84bfe7e574f25a6b2137f5618a7aef0a013814a7abad6d5d24ab
+  capacity_slots:
+  - slot: 1
+    capacity_slot_id: P2_RECOVERY_CAPACITY_SLOT_V2_1
+    task_id:
+    milestone_id: P2_RECOVERY_BASELINE_ACCEPTED
+    unlock_requirement: BENCHMARK_SOURCE_PACK_ADMISSION_ACCEPTED
+    engineering_hours: 32
+    calendar_days: 8
+    max_implementation_iterations: 2
+    max_same_task_repairs: 1
+    max_candidates: 2
+    product_mutation_allowed: false
+  - slot: 2
+    capacity_slot_id: P2_RECOVERY_CAPACITY_SLOT_V2_2
+    task_id:
+    milestone_id: P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED
+    unlock_requirement: P2_RECOVERY_BASELINE_ACCEPTED
+    engineering_hours: 32
+    calendar_days: 8
+    max_implementation_iterations: 2
+    max_same_task_repairs: 1
+    max_candidates: 2
+    product_mutation_allowed: true
+  - slot: 3
+    capacity_slot_id: P2_RECOVERY_CAPACITY_SLOT_V2_3
+    task_id:
+    milestone_id: P2_RECOVERY_FORMAL_HELD_MATRIX_COMPLETE
+    unlock_requirement: P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED
+    engineering_hours: 32
+    calendar_days: 8
+    max_implementation_iterations: 2
+    max_same_task_repairs: 1
+    max_candidates: 2
+    product_mutation_allowed: false
+  first_task:
+  task_plan: []
+  automatic_entry:
+  automatic_entries: []
+  next_eligible_action: MASTER_ACTIVATE_P2_CLEAN_ROOM_CAPACITY_SLOT_V2_1_BENCHMARK_FOUNDATION
+
 historical_p2_value_first_recovery_envelope_expansion_phase_route:
   schema_version: '1.4'
   route_id: P2_VALUE_FIRST_RECOVERY_ENVELOPE_EXPANSION_ROUTE_V1
@@ -6636,11 +6748,11 @@ historical_p2_068_phase_route:
     status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
 
 current_phase_route:
-  schema_version: phase-delegated-continuation-hold/v1
-  route_id: P2_PHASE_DELEGATED_CONTINUATION_PENDING_TASK_SELECTION
+  schema_version: phase-delegated-independent-task/v1
+  route_id: AIOS-P2-069_CLEAN_ROOM_RECOVERY_BENCHMARK_FOUNDATION_PHASE_DELEGATED_ROUTE
   status: AUTHORIZED_READY
-  execution_status: PHASE_DELEGATED_CONTINUATION_READY
-  scheduling_status: MASTER_SELECTING_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
+  execution_status: PHASE_DELEGATED_TASK_READY
+  scheduling_status: READY_FOR_MASTER_ACTIVATION
   phase: P2
   phase_entry_status: AUTHORIZED
   policy:
@@ -6648,9 +6760,44 @@ current_phase_route:
     version: '1.8'
     sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
   founder_phase_route_decision_required: false
-  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
+  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
   phase_execution_envelope_ref: phase_execution_envelope
-  historical_terminal_route_ref: historical_p2_068_phase_route
+  source_authority_route_ref: historical_p2_clean_room_recovery_resequencing_phase_route
+  preceding_terminal_route_ref: historical_p2_068_phase_route
+  selected_task:
+    task_id: AIOS-P2-069_CLEAN_ROOM_RECOVERY_BENCHMARK_FOUNDATION
+    status: ELIGIBLE_NOT_ACTIVATED
+    task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
+    capability: REPRODUCIBLE_CONTEXT_BENCHMARK
+    objective: >-
+      Build a new clean-room, source-bound Java maintenance benchmark foundation from
+      the accepted six-repository and twelve-task source pack; execute only the
+      eight-task DEV split; preserve the four-task HELD split as unexecuted custody;
+      and establish two deterministic simple retrieval controls whose results can be
+      independently replayed before any Product Selector DEV work is activated.
+    capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_V2_1
+    budget:
+      engineering_hours: 32
+      calendar_days: 8
+      implementation_iterations: 2
+      candidates: 2
+    max_same_task_repairs: 1
+    contract:
+      path: docs/aios/tasks/P2-069_CLEAN_ROOM_RECOVERY_BENCHMARK_FOUNDATION.yaml
+      sha256: 3c92a50f9a25c49ded206b58132c23967ae095cb6ed711303b0483f7069b4cef
+      byte_length: 11129
+    independence:
+      new_task_id: true
+      new_execution_nonce: true
+      new_branch: true
+      new_worktree: true
+      new_contract: true
+      new_evidence_root: true
+      rejected_lineage_read: false
+      rejected_lineage_compare: false
+      rejected_lineage_copy: false
+      same_phase_objective: true
+      successor_or_replacement: false
   external_effects:
     network: false
     provider: false
@@ -8514,27 +8661,27 @@ historical_p2_060_founder_expansion_phase_route:
 phase_execution_envelope:
   schema_version: phase-execution-envelope/v1
   phase: P2
-  status: ACTIVE_REMAINING_CAPACITY
+  status: TASK_CAPACITY_RESERVED
   authority_basis:
     phase_entry_status: AUTHORIZED
     policy_path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     policy_version: '1.8'
     policy_sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
-    source_route_ref: historical_p2_value_first_recovery_envelope_expansion_phase_route
-    source_route_id: P2_VALUE_FIRST_RECOVERY_ENVELOPE_EXPANSION_ROUTE_V1
+    source_route_ref: historical_p2_clean_room_recovery_resequencing_phase_route
+    source_route_id: P2_CLEAN_ROOM_RECOVERY_RESEQUENCING_AND_MINIMAL_ENVELOPE_EXPANSION_ROUTE_V1
     source_decision:
-      path: docs/aios/decisions/P2_VALUE_FIRST_RECOVERY_ENVELOPE_EXPANSION_DECISION_V1.json
-      sha256: 813f7b69dccd127a28bb6d4bdc1f45d2a15816a8a02390b28e9f299bf5e5fec2
-      byte_length: 3265
+      path: docs/aios/decisions/P2_CLEAN_ROOM_RECOVERY_RESEQUENCING_AND_MINIMAL_ENVELOPE_EXPANSION_DECISION_V1.json
+      sha256: 7f87125dc0fbf1550877de90e30552231aedaa9829eecec85348a9b89c5b225f
+      byte_length: 3418
     delegation_amendment:
       path: "/Users/lijunpeng/Developer/.sourcelens-audit/founder-delegation-continuity-20260808/decision/FOUNDER_PHASE_DELEGATION_CONTINUITY_AMENDMENT_V1.json"
       byte_length: 1182
       sha256: c37634c51b0b7695204c026f9950911c427f544a6ff2e2c2f786facb9a84a52e
   accounting_basis: DECLARED_TASK_BUDGET_RESERVATION_NOT_WALL_CLOCK
   limits:
-    engineering_tasks: 15
-    engineering_hours: 432
-    calendar_days: 108
+    engineering_tasks: 16
+    engineering_hours: 464
+    calendar_days: 116
     active_tasks: 1
     task_branches: 1
     task_worktrees: 1
@@ -8767,6 +8914,19 @@ phase_execution_envelope:
     engineering_hours: 368
     calendar_days: 92
   reserved:
+    task_id: AIOS-P2-069_CLEAN_ROOM_RECOVERY_BENCHMARK_FOUNDATION
+    route_id: AIOS-P2-069_CLEAN_ROOM_RECOVERY_BENCHMARK_FOUNDATION_PHASE_DELEGATED_ROUTE
+    status: ELIGIBLE_NOT_ACTIVATED
+    capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_V2_1
+    budget:
+      engineering_tasks: 1
+      engineering_hours: 32
+      calendar_days: 8
+    contract:
+      path: docs/aios/tasks/P2-069_CLEAN_ROOM_RECOVERY_BENCHMARK_FOUNDATION.yaml
+      sha256: 3c92a50f9a25c49ded206b58132c23967ae095cb6ed711303b0483f7069b4cef
+      byte_length: 11129
+    authority:
   remaining:
     engineering_tasks: 2
     engineering_hours: 64
@@ -8783,16 +8943,16 @@ founder_escalation_control:
   schema_version: founder-escalation-control/v1
   disposition: NO_RESERVED_TRIGGER_CONTINUE_PHASE
   source_event:
-    kind: TASK_TERMINAL_TASK_BUDGET_EXHAUSTED
-    task_id: AIOS-P2-068_RECOVERY_BENCHMARK_FOUNDATION
-    status: TERMINAL_IMPLEMENTATION_BUDGET_EXHAUSTED_RUNTIME_COMPATIBILITY_NON_PASS
+    kind: FOUNDER_EXPANDED_SINGLE_TASK_READY
+    task_id: AIOS-P2-069_CLEAN_ROOM_RECOVERY_BENCHMARK_FOUNDATION
+    status: ELIGIBLE_NOT_ACTIVATED
   reserved_trigger:
     category: NONE
     evidence:
   phase_gate_status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
   founder_decision_required: false
   next_action_owner: MASTER_CEO_AGENT
-  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
+  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
 
 historical_p2_053_phase_route:
   schema_version: "1.1"
@@ -19934,10 +20094,10 @@ active_work:
   current_task: NONE
   current_task_status: NONE
   current_task_contract:
-    path:
-    sha256:
-    byte_length:
-  current_task_contract_sha256:
+    path: docs/aios/tasks/P2-069_CLEAN_ROOM_RECOVERY_BENCHMARK_FOUNDATION.yaml
+    sha256: 3c92a50f9a25c49ded206b58132c23967ae095cb6ed711303b0483f7069b4cef
+    byte_length: 11129
+  current_task_contract_sha256: 3c92a50f9a25c49ded206b58132c23967ae095cb6ed711303b0483f7069b4cef
   current_execution_authorization:
   current_execution_authorization_sha256:
   authority_record:
@@ -19949,7 +20109,7 @@ active_work:
   authorization_id:
   activation_parent_commit:
   activation_parent_tree:
-  task_resource_state: NOT_CREATED_PHASE_DELEGATED_CONTINUATION_READY
+  task_resource_state: NOT_CREATED_PHASE_DELEGATED_TASK_READY
   task_branch:
   task_worktree:
   execution_evidence_root:
@@ -19979,7 +20139,7 @@ active_work:
   user_action_required: NONE
   phase_route_decision_required: false
   phase_route_user_action_required: NONE
-  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
+  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
 
 historical_p2_065_terminal_active_work:
   current_task: AIOS-P2-065_ESM_IMPORT_GRAPH_CONTEXT_PRODUCT_BENCHMARK
@@ -26524,9 +26684,9 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: P2_PHASE_DELEGATED_CONTINUATION_PENDING_TASK_SELECTION
+  current_route_claim: AIOS-P2-069_CLEAN_ROOM_RECOVERY_BENCHMARK_FOUNDATION_PHASE_DELEGATED_ROUTE
   current_task_claim: NONE
-  real_engineering_progress: P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_SLOT_1_TERMINAL_NON_PASS_NO_BASELINE_RESULT_DELIVERY_ZERO
+  real_engineering_progress: P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_CLEAN_ROOM_SLOT_V2_1_TASK_READY_DELIVERY_ZERO
   product_capability_changed: false
   phase_local_allowed:
   - REAL_CODE_QA_PRODUCT_PATH_REPOSITORY_CONTEXT_SELECTOR
@@ -26854,36 +27014,36 @@ phase_execution_claim:
 
 p2_recovery_control:
   schema_version: p2-recovery-control/v1
-  status: SLOT_1_BENCHMARK_FOUNDATION_TASK_TERMINAL_NON_PASS
+  status: CLEAN_ROOM_SLOT_V2_1_BENCHMARK_FOUNDATION_TASK_RESERVED_READY
   plan:
     path: docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml
     byte_length: 7433
     sha256: cfb383e6b89c84bfe7e574f25a6b2137f5618a7aef0a013814a7abad6d5d24ab
   envelope_expansion_decision:
-    path: docs/aios/decisions/P2_VALUE_FIRST_RECOVERY_ENVELOPE_EXPANSION_DECISION_V1.json
-    byte_length: 3265
-    sha256: 813f7b69dccd127a28bb6d4bdc1f45d2a15816a8a02390b28e9f299bf5e5fec2
+    path: docs/aios/decisions/P2_CLEAN_ROOM_RECOVERY_RESEQUENCING_AND_MINIMAL_ENVELOPE_EXPANSION_DECISION_V1.json
+    byte_length: 3418
+    sha256: 7f87125dc0fbf1550877de90e30552231aedaa9829eecec85348a9b89c5b225f
   source_admission_decision:
     path: docs/aios/decisions/P2_BENCHMARK_SOURCE_ADMISSION_ACCEPTED_V1.json
     byte_length: 3500
     sha256: c209604885e6494698e29d0fd9555603b810aa87eac1ae9f8d7778ee9841ec02
   capacity_slots:
   - slot: 1
-    capacity_slot_id: P2_RECOVERY_CAPACITY_SLOT_1
-    task_id: AIOS-P2-068_RECOVERY_BENCHMARK_FOUNDATION
+    capacity_slot_id: P2_RECOVERY_CAPACITY_SLOT_V2_1
+    task_id: AIOS-P2-069_CLEAN_ROOM_RECOVERY_BENCHMARK_FOUNDATION
     milestone_id: P2_RECOVERY_BASELINE_ACCEPTED
     unlock_requirement: BENCHMARK_SOURCE_PACK_ADMISSION_ACCEPTED
     engineering_hours: 32
     calendar_days: 8
   - slot: 2
-    capacity_slot_id: P2_RECOVERY_CAPACITY_SLOT_2
+    capacity_slot_id: P2_RECOVERY_CAPACITY_SLOT_V2_2
     task_id:
     milestone_id: P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED
     unlock_requirement: P2_RECOVERY_BASELINE_ACCEPTED
     engineering_hours: 32
     calendar_days: 8
   - slot: 3
-    capacity_slot_id: P2_RECOVERY_CAPACITY_SLOT_3
+    capacity_slot_id: P2_RECOVERY_CAPACITY_SLOT_V2_3
     task_id:
     milestone_id: P2_RECOVERY_FORMAL_HELD_MATRIX_COMPLETE
     unlock_requirement: P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED
@@ -26895,13 +27055,13 @@ p2_recovery_control:
   governance_progress_credit: 0
   accepted_milestones: []
   task_creation_allowed: false
-  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
+  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
 
 claim_boundary:
-  current_phase_route: P2_PHASE_DELEGATED_CONTINUATION_PENDING_TASK_SELECTION
+  current_phase_route: AIOS-P2-069_CLEAN_ROOM_RECOVERY_BENCHMARK_FOUNDATION_PHASE_DELEGATED_ROUTE
   current_task: NONE
-  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
-  real_engineering_progress: P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_SLOT_1_TERMINAL_NON_PASS_NO_BASELINE_RESULT_DELIVERY_ZERO
+  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
+  real_engineering_progress: P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_CLEAN_ROOM_SLOT_V2_1_TASK_READY_DELIVERY_ZERO
   p2_068_status: TERMINAL_IMPLEMENTATION_BUDGET_EXHAUSTED_RUNTIME_COMPATIBILITY_NON_PASS
   p2_068_contract_sha256: 833d1e34c89070e6c8888cf307dd9f3b562a8f85faefee5a6f6b91f76b4d0e4b
   p2_068_terminal_receipt_sha256: d8289319ed32cd5754dc26d7f77ec4ae4bfa27fe45c4747dc1f7e187a3b21cfb
@@ -26961,7 +27121,7 @@ claim_boundary:
   p2_065_rejected_candidate_preservation_receipt_sha256: 8a96643ed0823c11791471a7249318ce287c6e1f41d087b5bf3863a8b8fd8ac8
   p2_065_canonical_make_verify: NOT_INVOKED_TERMINAL_TARGET_METRIC_NON_PASS
   p2_065_capability_credit: 0
-  p2_phase_envelope_status: ACTIVE_REMAINING_CAPACITY
+  p2_phase_envelope_status: TASK_CAPACITY_RESERVED
   p2_project_status: ACTIVE
   long_term_goal_status: ACTIVE
   p2_064_status: TERMINAL_FORMAL_DEV_CHILD_EXIT_BEFORE_READY_ITERATION2_EXHAUSTED_NON_PASS

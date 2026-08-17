@@ -1,0 +1,206 @@
+schema_version: '1.1'
+record_type: phase_delegated_task_contract
+task_id: AIOS-P2-069_CLEAN_ROOM_RECOVERY_BENCHMARK_FOUNDATION
+phase: P2
+route_id: AIOS-P2-069_CLEAN_ROOM_RECOVERY_BENCHMARK_FOUNDATION_PHASE_DELEGATED_ROUTE
+status: ELIGIBLE_NOT_ACTIVATED
+task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
+capability: REPRODUCIBLE_CONTEXT_BENCHMARK
+objective: >-
+  Build a new clean-room, source-bound Java maintenance benchmark foundation from the
+  accepted six-repository and twelve-task source pack; execute only the eight-task DEV
+  split; preserve the four-task HELD split as unexecuted custody; and establish two
+  deterministic simple retrieval controls whose results can be independently replayed
+  before any Product Selector DEV work is activated.
+why_now: >-
+  The accepted benchmark source pack satisfies source admission, but P2 still has no
+  independently accepted representative baseline. The Founder-authorized V2 recovery
+  sequence requires this milestone before product mutation and forbids every input from
+  the rejected P2-068 engineering lineage.
+task_spec_ref:
+  path: docs/aios/decisions/P2_CLEAN_ROOM_RECOVERY_RESEQUENCING_AND_MINIMAL_ENVELOPE_EXPANSION_V1.md
+  sha256: a8832c5c180f2a424362fe5e4baf06775212979072e2686c1da6868d1be9b1ee
+  byte_length: 5741
+owner_role: P2-069 Master Owner
+worker_role: P2-069 Clean-room Benchmark Worker
+write_scope:
+- evaluation-harness/harness/p2-clean-room-benchmark-foundation-v1/**
+- evaluation-harness/replay/p2-clean-room-benchmark-foundation-v1/**
+- evaluation-harness/reports/p2-clean-room-benchmark-foundation-v1/**
+read_context:
+- docs/aios/truth/project_state.yaml
+- docs/aios/STRATEGIC_CONSTITUTION.md
+- docs/aios/MASTER_EXECUTION_PROTOCOL.md
+- docs/aios/FOUNDER_DELEGATION_POLICY.md
+- docs/aios/EVALUATION_PROTOCOL.md
+- docs/aios/decisions/P2_CLEAN_ROOM_RECOVERY_RESEQUENCING_AND_MINIMAL_ENVELOPE_EXPANSION_V1.md
+- TASK_EVIDENCE_ROOT/accepted-source-pack-v1/SOURCE_PACK.json
+dependencies:
+- kind: CANONICAL_SOURCE
+  identity:
+    commit: b76f6ae2e489b30762b0f4d5b1fd658d5fee9261
+    tree: 93924dbb8f87805118c8a682e420e237a5c5b6eb
+- kind: BASELINE_ARTIFACT
+  identity:
+    artifact_id: P2_BENCHMARK_SOURCE_PACK_V1
+    relative_path: accepted-source-pack-v1/SOURCE_PACK.json
+    byte_length: 94630
+    sha256: c5f38070b8f0ed445c759f3380769c2dec5493e0f4120f681b9b1cab3fd67884
+    baseline_ids:
+    - B0_DETERMINISTIC_TOKEN_OVERLAP_FILE_RETRIEVAL
+    - B1_DETERMINISTIC_BM25_FILE_RETRIEVAL
+risk_level: medium
+baseline_ref:
+  artifact_id: P2_BENCHMARK_SOURCE_PACK_V1
+  relative_path: accepted-source-pack-v1/SOURCE_PACK.json
+  byte_length: 94630
+  sha256: c5f38070b8f0ed445c759f3380769c2dec5493e0f4120f681b9b1cab3fd67884
+  baseline_ids:
+  - B0_DETERMINISTIC_TOKEN_OVERLAP_FILE_RETRIEVAL
+  - B1_DETERMINISTIC_BM25_FILE_RETRIEVAL
+independent_reviewer:
+- CTO Agent
+- Security Agent
+- Quality and Evaluation Agent
+protocol_status_mapping:
+  ELIGIBLE_NOT_ACTIVATED: ready
+  ACTIVE: in_progress
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_V2_1
+budget:
+  engineering_hours: 32
+  calendar_days: 8
+  implementation_iterations: 2
+  candidates: 2
+max_same_task_repairs: 1
+roles:
+  owner: P2-069 Master Owner
+  worker: P2-069 Clean-room Benchmark Worker
+  independent_reviewers:
+  - CTO Agent
+  - Security Agent
+  - Quality and Evaluation Agent
+allowlisted_paths:
+- evaluation-harness/harness/p2-clean-room-benchmark-foundation-v1/**
+- evaluation-harness/replay/p2-clean-room-benchmark-foundation-v1/**
+- evaluation-harness/reports/p2-clean-room-benchmark-foundation-v1/**
+write_ownership:
+  schema_version: role-write-ownership/v1
+  cross_role_write_allowed: false
+  owner:
+    role: P2-069 Master Owner
+    write_paths: []
+  worker:
+    role: P2-069 Clean-room Benchmark Worker
+    write_paths:
+    - evaluation-harness/harness/p2-clean-room-benchmark-foundation-v1/**
+    - evaluation-harness/replay/p2-clean-room-benchmark-foundation-v1/**
+    - evaluation-harness/reports/p2-clean-room-benchmark-foundation-v1/**
+  independent_reviewers:
+  - role: CTO Agent
+    write_paths: []
+  - role: Security Agent
+    write_paths: []
+  - role: Quality and Evaluation Agent
+    write_paths: []
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+phase_delegation_binding:
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: '1.8'
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  delegation_amendment:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/founder-delegation-continuity-20260808/decision/FOUNDER_PHASE_DELEGATION_CONTINUITY_AMENDMENT_V1.json
+    byte_length: 1182
+    sha256: c37634c51b0b7695204c026f9950911c427f544a6ff2e2c2f786facb9a84a52e
+  source_decision:
+    path: docs/aios/decisions/P2_CLEAN_ROOM_RECOVERY_RESEQUENCING_AND_MINIMAL_ENVELOPE_EXPANSION_DECISION_V1.json
+    sha256: 7f87125dc0fbf1550877de90e30552231aedaa9829eecec85348a9b89c5b225f
+    byte_length: 3418
+  source_terminal_event:
+    task_id: AIOS-P2-068_RECOVERY_BENCHMARK_FOUNDATION
+    status: TERMINAL_IMPLEMENTATION_BUDGET_EXHAUSTED_RUNTIME_COMPATIBILITY_NON_PASS
+    outcome_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-recovery-benchmark-foundation-20260817/task-p2-068/terminal/P2_068_TERMINAL_IMPLEMENTATION_BUDGET_EXHAUSTED_NON_PASS_RECEIPT_V1.json
+      byte_length: 5602
+      sha256: d8289319ed32cd5754dc26d7f77ec4ae4bfa27fe45c4747dc1f7e187a3b21cfb
+  phase_envelope_snapshot:
+    limits:
+      engineering_tasks: 16
+      engineering_hours: 464
+      calendar_days: 116
+      active_tasks: 1
+      task_branches: 1
+      task_worktrees: 1
+      active_candidates: 1
+    consumed:
+      engineering_tasks: 13
+      engineering_hours: 368
+      calendar_days: 92
+    reserved:
+      task_id: AIOS-P2-069_CLEAN_ROOM_RECOVERY_BENCHMARK_FOUNDATION
+      route_id: AIOS-P2-069_CLEAN_ROOM_RECOVERY_BENCHMARK_FOUNDATION_PHASE_DELEGATED_ROUTE
+      status: ELIGIBLE_NOT_ACTIVATED
+      capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_V2_1
+      budget:
+        engineering_tasks: 1
+        engineering_hours: 32
+        calendar_days: 8
+    remaining:
+      engineering_tasks: 2
+      engineering_hours: 64
+      calendar_days: 16
+  founder_packet_for_task:
+acceptance_criteria:
+- The exact accepted source-pack manifest is rehashed before use and every opened source-pack leaf is inventory-bound by relative path, byte length and SHA-256.
+- The benchmark manifest contains exactly 12 tasks from 6 repositories with exactly 8 DEV and 4 HELD tasks, and the runner executes only the 8 DEV tasks.
+- Each DEV task has an independently reconstructable maintenance query, base source identity, fix identity, production-Java retrieval corpus and production-Java ground-truth file set; tests, generated files and non-Java files are excluded from the scoring universe.
+- B0 deterministic token-overlap and B1 deterministic BM25 use the same frozen query, corpus, top-k and UTF-8 byte budget per task, with deterministic path tie-breaking.
+- DEV baseline outputs are byte-stable across two clean replays and include per-task recall, precision, reciprocal rank, selected paths, selected bytes and aggregate macro metrics.
+- HELD source trees, PR-file payloads and build results are not opened or scored by implementation or DEV replay; only their pre-existing source-pack manifest fields remain in sealed custody.
+- No product source changes, network effects, external writes outside the exact Task Evidence root, P3 entry or P2 capability claim occur.
+- CTO, Security and Quality/Evaluation checks independently accept the exact candidate and Evidence inventory before the Task Gate is accepted.
+required_evidence:
+- Create-once source-pack installation binding and full read-set inventory with pre-read expected identity and post-read observed identity for every opened leaf.
+- Frozen benchmark manifest, DEV task cards, HELD custody commitment and explicit DEV/HELD non-overlap proof.
+- B0 and B1 algorithm specification, tokenization specification, ranking tie-break specification, top-k and byte-budget specification.
+- Two independent clean DEV replay transactions with raw per-file scores, selections, metrics and exact-equality comparison.
+- Negative tests for manifest drift, out-of-root traversal, symlink input, HELD task request, test-source leakage, duplicate task IDs, non-deterministic tie breaking and output overwrite.
+- Exact candidate commit/tree, changed-file inventory, canonical verification, rollback instructions and three final review records.
+rollback: >-
+  Do not integrate the candidate; preserve the exact candidate and Evidence inventory,
+  reset only the short-lived Task worktree by supported Git lifecycle after terminal
+  accounting, and leave canonical main, the accepted source pack, P2-068 terminal
+  accounting, P2, P3 HOLD and the Long-term Goal unchanged.
+stop_conditions:
+- Stop before execution if the accepted source-pack manifest, inventory or seal identity drifts or the configured artifact root is not the stable accepted source root.
+- Stop if any P2-068 rejected branch, worktree, code, benchmark implementation or engineering Evidence is read, compared, copied or reused.
+- Stop if a HELD task source leaf, PR-file payload or build result is opened by the Worker or DEV runner.
+- Stop if any network, Provider, Secret, remote, production or public effect is requested or observed.
+- Stop if any write escapes the Task branch allowlist or exact create-once Task Evidence root.
+- Stop when two candidate generations, two implementation iterations, one same-Task repair or two review cycles are exhausted.
+forbidden_actions:
+- Read, compare, copy or reuse any P2-068 rejected engineering lineage input.
+- Modify product source, accepted source-pack bytes, dataset split, oracle, metric, threshold, schedule or HELD custody.
+- Execute Maven, Gradle, JVM tests or any build subprocess with network enabled; all real builds remain exact offline and sandbox-exec deny-network.
+- Run HELD evaluation, tune on HELD, rerun-to-pass, replace a failed Task or create successor, remediation, normalization or closure chains.
+- Use network, credentials, cookies, Authorization headers, uploads, Git fetch/clone/push, browser networking, Provider, remote, production or public release.
+- Delete P2-068 terminal Evidence, modify Codex control-plane state, enter P3 or terminate the Long-term Goal.
+claim_boundary: >-
+  This Task may establish only P2_RECOVERY_BASELINE_ACCEPTED for one clean-room,
+  source-bound Java benchmark foundation and its DEV simple-retrieval baselines. It
+  does not claim Product Selector value, formal HELD performance, the P2 Exit Gate,
+  P3 eligibility, production readiness or Long-term Goal completion.

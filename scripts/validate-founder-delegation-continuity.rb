@@ -685,8 +685,30 @@ module FounderDelegationContinuity
            source_text.scan(/^- Recovery plan bytes: `([0-9]+)`$/).flatten == [plan["byte_length"].to_s] &&
            source_text.scan(/^- Recovery plan SHA-256: `([0-9a-f]{64})`$/).flatten == [plan["sha256"]],
            "cumulative expansion v1.4 source packet recovery plan drift")
-    assert(parent_truth.dig("phase_execution_envelope", "status") == "EXHAUSTED",
-           "cumulative expansion v1.4 activation parent is not exhausted")
+    parent_envelope = mapping(
+      parent_truth["phase_execution_envelope"],
+      "cumulative expansion activation-parent envelope"
+    )
+    if parent_envelope["status"] == "ACTIVE_REMAINING_CAPACITY"
+      remaining = mapping(
+        parent_envelope["remaining"],
+        "cumulative expansion activation-parent remaining capacity"
+      )
+      superseded_values = source_text.scan(
+        /The superseded unused capacity is exactly `([0-9]+) Tasks \/ ([0-9]+) engineering hours \/ ([0-9]+) calendar days`\./
+      ).flatten.map { |value| Integer(value, 10) }
+      assert(superseded_values == [
+               remaining["engineering_tasks"],
+               remaining["engineering_hours"],
+               remaining["calendar_days"]
+             ] &&
+             source_text.scan(/Only unused capacity is superseded; all [0-9]+ consumed Task outcomes and their Evidence remain immutable\./).length == 1 &&
+             source_text.scan(/P2-068 is preserved only as closed terminal accounting\./).length == 1,
+             "cumulative expansion v1.4 active-parent resequencing boundary drift")
+    else
+      assert(parent_envelope["status"] == "EXHAUSTED",
+             "cumulative expansion v1.4 activation-parent lifecycle drift")
+    end
     true
   end
 
@@ -861,6 +883,7 @@ module FounderDelegationContinuity
       assert(plan_bytes.bytesize == plan["byte_length"] &&
              Digest::SHA256.hexdigest(plan_bytes.b) == plan["sha256"],
              "cumulative expansion recovery plan does not equal activation parent")
+      slot_generations = []
       slots = array(decision["capacity_slots"], "cumulative expansion capacity slots").map.with_index do |value, index|
         slot = exact_keys(
           value,
@@ -871,8 +894,12 @@ module FounderDelegationContinuity
           ],
           "cumulative expansion capacity slot #{index + 1}"
         )
-        assert(slot["slot"] == index + 1 &&
-               slot["capacity_slot_id"] == "P2_RECOVERY_CAPACITY_SLOT_#{index + 1}" &&
+        slot_match = /\AP2_RECOVERY_CAPACITY_SLOT_(?:(V[1-9][0-9]*)_)?([1-9][0-9]*)\z/.match(
+          slot["capacity_slot_id"].to_s
+        )
+        slot_generations << slot_match&.[](1)
+        assert(slot_match && Integer(slot_match[2], 10) == index + 1 &&
+               slot["slot"] == index + 1 &&
                slot["task_id"].nil? && slot["engineering_hours"] == 32 &&
                slot["calendar_days"] == 8 && slot["max_candidates"] == 2 &&
                slot["max_implementation_iterations"] == 2 &&
@@ -880,6 +907,8 @@ module FounderDelegationContinuity
                "cumulative expansion capacity slot identity or budget drift")
         slot
       end
+      assert(slot_generations.uniq.length == 1,
+             "cumulative expansion capacity slot generation drift")
       expected_slots = [
         ["P2_RECOVERY_BASELINE_ACCEPTED", "BENCHMARK_SOURCE_PACK_ADMISSION_ACCEPTED", false],
         ["P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED", "P2_RECOVERY_BASELINE_ACCEPTED", true],
@@ -904,18 +933,53 @@ module FounderDelegationContinuity
       )
       parent_envelope = mapping(parent_truth["phase_execution_envelope"],
                                 "cumulative expansion activation-parent envelope")
+      parent_limits = exact_keys(
+        parent_envelope["limits"],
+        %w[engineering_tasks engineering_hours calendar_days active_tasks task_branches task_worktrees active_candidates],
+        "cumulative expansion activation-parent limits"
+      )
+      parent_consumed = exact_keys(
+        parent_envelope["consumed"],
+        %w[engineering_tasks engineering_hours calendar_days],
+        "cumulative expansion activation-parent consumed"
+      )
+      parent_remaining = exact_keys(
+        parent_envelope["remaining"],
+        %w[engineering_tasks engineering_hours calendar_days],
+        "cumulative expansion activation-parent remaining"
+      )
       parent_ledger = array(parent_envelope["task_ledger"],
                             "cumulative expansion activation-parent ledger")
       parent_ledger_bytes = canonical_json_projection(parent_ledger).b
-      assert(parent_envelope["status"] == "EXHAUSTED" && parent_envelope["reserved"].nil? &&
-             parent_envelope["remaining"].values.all?(&:zero?) &&
-             prior["consumed"] == parent_envelope["consumed"] &&
+      accounting_conserved = %w[engineering_tasks engineering_hours calendar_days].all? do |key|
+        parent_limits[key] == parent_consumed[key] + parent_remaining[key]
+      end
+      assert(parent_envelope["reserved"].nil? && accounting_conserved &&
+             prior["consumed"] == parent_consumed &&
              prior["source_route_id"] == parent_envelope.dig("authority_basis", "source_route_id") &&
              prior["task_ledger_entry_count"] == parent_ledger.length &&
              prior["task_ledger_canonicalization"] == "RECURSIVE_KEY_SORT_COMPACT_JSON_UTF8" &&
              prior["task_ledger_canonical_byte_length"] == parent_ledger_bytes.bytesize &&
              prior["task_ledger_canonical_sha256"] == Digest::SHA256.hexdigest(parent_ledger_bytes),
              "cumulative expansion prior accounting is not hash-bound to activation parent")
+      if parent_envelope["status"] == "EXHAUSTED"
+        assert(parent_remaining.values.all?(&:zero?) && parent_consumed == parent_limits.slice(
+                 "engineering_tasks", "engineering_hours", "calendar_days"
+               ),
+               "cumulative expansion exhausted activation-parent accounting drift")
+      else
+        parent_control = mapping(
+          parent_truth["founder_escalation_control"],
+          "cumulative expansion activation-parent Founder control"
+        )
+        assert(parent_envelope["status"] == "ACTIVE_REMAINING_CAPACITY" &&
+               parent_remaining.values.all?(&:positive?) && slot_generations.first &&
+               parent_truth.dig("active_work", "current_task") == "NONE" &&
+               parent_truth.dig("p2_recovery_control", "task_creation_allowed") == false &&
+               parent_control.dig("reserved_trigger", "category") == "NONE" &&
+               parent_control["founder_decision_required"] == false,
+               "cumulative expansion active-parent resequencing precondition drift")
+      end
       assert(decision_envelope["max_engineering_tasks"] == prior.dig("consumed", "engineering_tasks") + slots.length &&
              decision_envelope["max_engineering_hours"] == prior.dig("consumed", "engineering_hours") + slots.sum { |slot| slot["engineering_hours"] } &&
              decision_envelope["max_calendar_days"] == prior.dig("consumed", "calendar_days") + slots.sum { |slot| slot["calendar_days"] } &&
@@ -3424,9 +3488,15 @@ module FounderDelegationContinuity
                historical_matches.first["terminal_receipt"] == receipt,
                "cumulative capacity consumed slot historical Route binding drift")
       end
+      reservation = truth.dig("phase_execution_envelope", "reserved")
       recovery_slots.drop(suffix.length).each do |slot|
-        assert(mapping(slot, "unused P2 recovery slot")["task_id"].nil?,
-               "unused cumulative capacity slot preallocates a Task id")
+        recovery_slot = mapping(slot, "unused P2 recovery slot")
+        expected_task_id = if reservation.is_a?(Hash) &&
+                              reservation["capacity_source_task_id"] == recovery_slot["capacity_slot_id"]
+                             reservation["task_id"]
+                           end
+        assert(recovery_slot["task_id"] == expected_task_id,
+               "unused cumulative capacity slot Task reservation projection drift")
       end
       return entries
     end

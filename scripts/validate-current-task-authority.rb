@@ -1204,6 +1204,7 @@ module CurrentTaskAuthority
            one_packet_match(text, /^- Tree: `([0-9a-f]{40})`$/, "v1.4 canonical tree") == parent["tree"],
            "structured Founder route decision v1.4 source packet parent drift")
     parent_truth = git(root, "show", "#{parent['commit']}:docs/aios/truth/project_state.yaml").first.b
+    parent_truth_record = parse_yaml(parent_truth, "v1.4 activation-parent Truth")
     truth_sha = one_packet_match(
       text, /^- Truth SHA-256:\n  `([0-9a-f]{64})`$/,
       "v1.4 activation-parent Truth SHA-256"
@@ -1239,6 +1240,23 @@ module CurrentTaskAuthority
            cumulative_values == [envelope["max_engineering_tasks"], envelope["max_engineering_hours"], envelope["max_calendar_days"]] &&
            incremental_values == [slots.length, slots.sum { |slot| slot["engineering_hours"] }, slots.sum { |slot| slot["calendar_days"] }],
            "structured Founder route decision v1.4 source packet envelope drift")
+    parent_envelope = hash(parent_truth_record["phase_execution_envelope"],
+                           "v1.4 activation-parent phase execution envelope")
+    if parent_envelope["status"] == "ACTIVE_REMAINING_CAPACITY"
+      superseded_values = one_packet_match(
+        text,
+        /The superseded unused capacity is exactly `([0-9]+) Tasks \/ ([0-9]+) engineering hours \/ ([0-9]+) calendar days`\./,
+        "v1.4 superseded unused capacity"
+      ).map { |value| Integer(value, 10) }
+      remaining = parent_envelope.fetch("remaining")
+      assert(superseded_values == [remaining["engineering_tasks"], remaining["engineering_hours"], remaining["calendar_days"]] &&
+             text.scan(/Only unused capacity is superseded; all [0-9]+ consumed Task outcomes and their Evidence remain immutable\./).length == 1 &&
+             text.scan(/P2-068 is preserved only as closed terminal accounting\./).length == 1,
+             "structured Founder route decision v1.4 resequencing boundary drift")
+    else
+      assert(parent_envelope["status"] == "EXHAUSTED",
+             "structured Founder route decision v1.4 activation-parent lifecycle drift")
+    end
     assert(text.scan(/Task IDs remain unallocated until the preceding milestone and Task admission pass\./).length == 1,
            "structured Founder route decision v1.4 source packet preallocation boundary drift")
     assert(text.scan(/zero network, Provider, Secret, remote, production or public effects\./).length == 1,
@@ -1302,14 +1320,36 @@ module CurrentTaskAuthority
     )
     parent_control = hash(parent_truth["founder_escalation_control"],
                           "structured decision activation-parent Founder control")
-    assert(parent_envelope["phase"] == phase && parent_envelope["status"] == "EXHAUSTED" &&
-           parent_envelope["reserved"].nil? && parent_consumed == parent_limits.slice(
-             "calendar_days", "engineering_hours", "engineering_tasks"
-           ) && parent_remaining.values.all?(&:zero?),
-           "structured decision activation-parent envelope is not exactly exhausted")
-    assert(parent_control.dig("reserved_trigger", "category") == decision["exact_reserved_trigger"] &&
-           parent_control["founder_decision_required"] == true,
-           "structured decision does not resolve the exact activation-parent reserved trigger")
+    parent_budget_limits = parent_limits.slice(
+      "calendar_days", "engineering_hours", "engineering_tasks"
+    )
+    accounting_conserved = parent_budget_limits.all? do |key, value|
+      value == parent_consumed.fetch(key) + parent_remaining.fetch(key)
+    end
+    assert(parent_envelope["phase"] == phase && parent_envelope["reserved"].nil? &&
+           accounting_conserved,
+           "structured decision activation-parent envelope accounting is not conserved")
+    if parent_envelope["status"] == "EXHAUSTED"
+      assert(parent_consumed == parent_budget_limits && parent_remaining.values.all?(&:zero?) &&
+             parent_control.dig("reserved_trigger", "category") == decision["exact_reserved_trigger"] &&
+             parent_control["founder_decision_required"] == true,
+             "structured decision does not resolve the exact exhausted activation-parent trigger")
+    else
+      versioned_slots = array(decision["capacity_slots"],
+                              "structured decision resequenced capacity slots").all? do |slot|
+        slot.is_a?(Hash) && slot["capacity_slot_id"].to_s.match?(
+          /\AP2_RECOVERY_CAPACITY_SLOT_V[1-9][0-9]*_[1-9][0-9]*\z/
+        )
+      end
+      assert(parent_envelope["status"] == "ACTIVE_REMAINING_CAPACITY" &&
+             parent_remaining.values.all?(&:positive?) &&
+             parent_control.dig("reserved_trigger", "category") == "NONE" &&
+             parent_control["founder_decision_required"] == false &&
+             parent_truth.dig("active_work", "current_task") == "NONE" &&
+             parent_truth.dig("p2_recovery_control", "task_creation_allowed") == false &&
+             versioned_slots,
+             "structured decision active-parent resequencing precondition drift")
+    end
     assert(prior["source_route_id"] == parent_envelope.dig("authority_basis", "source_route_id") &&
            consumed == parent_consumed,
            "structured decision prior consumed envelope does not equal activation parent")
@@ -1976,6 +2016,7 @@ module CurrentTaskAuthority
 
       prior_consumed_envelope, prior_consumed, =
         validate_v1_4_prior_consumed_envelope(root, decision, parent, phase)
+      slot_generations = []
       slots = array(decision["capacity_slots"],
                     "structured Founder route decision.capacity_slots").map.with_index do |value, index|
         slot = exact_keys(
@@ -1987,8 +2028,12 @@ module CurrentTaskAuthority
           ],
           "structured Founder route decision.capacity_slots[#{index}]"
         )
-        assert(slot["slot"] == index + 1 &&
-               slot["capacity_slot_id"] == "P2_RECOVERY_CAPACITY_SLOT_#{index + 1}" &&
+        slot_match = /\AP2_RECOVERY_CAPACITY_SLOT_(?:(V[1-9][0-9]*)_)?([1-9][0-9]*)\z/.match(
+          slot["capacity_slot_id"].to_s
+        )
+        slot_generations << slot_match&.[](1)
+        assert(slot_match && Integer(slot_match[2], 10) == index + 1 &&
+               slot["slot"] == index + 1 &&
                slot["task_id"].nil?,
                "structured Founder route decision capacity slot identity drift")
         assert(slot["engineering_hours"].is_a?(Integer) && slot["engineering_hours"].positive? &&
@@ -1998,6 +2043,8 @@ module CurrentTaskAuthority
                "structured Founder route decision capacity slot budget drift")
         slot
       end
+      assert(slot_generations.uniq.length == 1,
+             "structured Founder route decision capacity slot generation drift")
       expected_slots = [
         ["P2_RECOVERY_BASELINE_ACCEPTED", "BENCHMARK_SOURCE_PACK_ADMISSION_ACCEPTED", false],
         ["P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED", "P2_RECOVERY_BASELINE_ACCEPTED", true],

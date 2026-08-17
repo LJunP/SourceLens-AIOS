@@ -409,7 +409,7 @@
             "type": "integer"
           },
           "capacity_slot_id": {
-            "pattern": "^P[12]_RECOVERY_CAPACITY_SLOT_[1-9][0-9]*$",
+            "pattern": "^P[12]_RECOVERY_CAPACITY_SLOT_(?:V[1-9][0-9]*_)?[1-9][0-9]*$",
             "type": "string"
           },
           "engineering_hours": {

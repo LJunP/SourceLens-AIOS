@@ -422,23 +422,45 @@ module P2RecoveryAntiCycle
     assert!(source_decision["progress"] == {"p2_strict_percent" => 0, "p2_delivery_percent" => 0, "accepted_milestones" => [], "governance_progress_credit" => 0, "source_admission_progress_credit" => 0, "p3_status" => "HOLD"} && source_decision["rejected_lineage_recovered_or_reused"] == false, "source admission created false progress or reused rejected lineage")
     assert!(source_decision.fetch("external_effects_after_acceptance").values.none?, "source admission retained an external effect")
 
-    limits = { "engineering_tasks" => 15, "engineering_hours" => 432, "calendar_days" => 108 }
-    consumed = { "engineering_tasks" => 12, "engineering_hours" => 336, "calendar_days" => 84 }
-    expected_consumed = if control["status"] == "SLOT_1_BENCHMARK_FOUNDATION_TASK_TERMINAL_NON_PASS"
-                          { "engineering_tasks" => 13, "engineering_hours" => 368, "calendar_days" => 92 }
-                        else
-                          consumed
-                        end
+    clean_room_resequenced = decision_claims["route_id"] ==
+      "P2_CLEAN_ROOM_RECOVERY_RESEQUENCING_AND_MINIMAL_ENVELOPE_EXPANSION_ROUTE_V1"
+    limits = {
+      "engineering_tasks" => decision_claims.fetch("max_engineering_tasks"),
+      "engineering_hours" => decision_claims.fetch("max_engineering_hours"),
+      "calendar_days" => decision_claims.fetch("max_calendar_days")
+    }
+    consumed = decision_claims.fetch("prior_consumed_envelope").fetch("consumed")
+    terminal_or_accepted_slot_1 = %w[
+      SLOT_1_BENCHMARK_FOUNDATION_TASK_TERMINAL_NON_PASS
+      CLEAN_ROOM_SLOT_V2_1_BENCHMARK_FOUNDATION_TASK_TERMINAL_NON_PASS
+      CLEAN_ROOM_SLOT_V2_1_BENCHMARK_FOUNDATION_ACCEPTED_SLOT_V2_2_ELIGIBLE_NOT_ACTIVATED
+    ].include?(control["status"])
+    expected_consumed = consumed.dup
+    if terminal_or_accepted_slot_1
+      expected_consumed = {
+        "engineering_tasks" => consumed["engineering_tasks"] + 1,
+        "engineering_hours" => consumed["engineering_hours"] + 32,
+        "calendar_days" => consumed["calendar_days"] + 8
+      }
+    end
     assert!(envelope["limits"].slice(*limits.keys) == limits && envelope["consumed"] == expected_consumed,
             "Truth P2 recovery envelope fixed accounting drift")
-    assert!(envelope.dig("authority_basis", "source_route_ref") == "historical_p2_value_first_recovery_envelope_expansion_phase_route" && envelope.dig("authority_basis", "source_route_id") == decision_claims["route_id"] && envelope.dig("authority_basis", "source_decision") == decision_identity, "Truth P2 recovery envelope authority binding drift")
+    source_route_ref = envelope.dig("authority_basis", "source_route_ref")
+    source_route = truth[source_route_ref]
+    assert!(source_route.is_a?(Hash) && source_route["route_id"] == decision_claims["route_id"] &&
+            envelope.dig("authority_basis", "source_route_id") == decision_claims["route_id"] &&
+            envelope.dig("authority_basis", "source_decision") == decision_identity,
+            "Truth P2 recovery envelope authority binding drift")
     assert!(control["schema_version"] == "p2-recovery-control/v1" &&
             control["benchmark_source_admission_status"] == "ACCEPTED_SOURCE_PACK_INSTALLED_SLOT_1_ELIGIBLE",
             "Truth P2 recovery source-admission projection drift")
     expected_slots = decision_claims.fetch("capacity_slots").map do |slot|
       slot.slice("slot", "capacity_slot_id", "task_id", "milestone_id", "unlock_requirement", "engineering_hours", "calendar_days")
     end
-    task_id = "AIOS-P2-068_RECOVERY_BENCHMARK_FOUNDATION"
+    task_id = clean_room_resequenced ?
+      "AIOS-P2-069_CLEAN_ROOM_RECOVERY_BENCHMARK_FOUNDATION" :
+      "AIOS-P2-068_RECOVERY_BENCHMARK_FOUNDATION"
+    slot_1_id = decision_claims.fetch("capacity_slots").first.fetch("capacity_slot_id")
     assert!(escalation["disposition"] == "NO_RESERVED_TRIGGER_CONTINUE_PHASE" &&
             escalation.dig("reserved_trigger", "category") == "NONE" &&
             escalation["founder_decision_required"] == false &&
@@ -450,19 +472,34 @@ module P2RecoveryAntiCycle
             "Truth recovery lifecycle projection drift")
 
     case control["status"]
-    when "BENCHMARK_SOURCE_ADMISSION_ACCEPTED_SLOT_1_ELIGIBLE_NOT_ACTIVATED"
-      next_action = "MASTER_ACTIVATE_P2_RECOVERY_CAPACITY_SLOT_1_BENCHMARK_FOUNDATION"
+    when "BENCHMARK_SOURCE_ADMISSION_ACCEPTED_SLOT_1_ELIGIBLE_NOT_ACTIVATED",
+         "CLEAN_ROOM_RESEQUENCE_DECISION_ACCEPTED_SLOT_V2_1_ELIGIBLE_NOT_ACTIVATED"
+      clean_room_state = control["status"].start_with?("CLEAN_ROOM_")
+      assert!(clean_room_state == clean_room_resequenced,
+              "Truth eligible Slot 1 decision generation drift")
+      next_action = clean_room_state ?
+        "MASTER_ACTIVATE_P2_CLEAN_ROOM_CAPACITY_SLOT_V2_1_BENCHMARK_FOUNDATION" :
+        "MASTER_ACTIVATE_P2_RECOVERY_CAPACITY_SLOT_1_BENCHMARK_FOUNDATION"
       remaining = { "engineering_tasks" => 3, "engineering_hours" => 96, "calendar_days" => 24 }
+      scheduling_status = clean_room_state ?
+        "MASTER_ACTIVATING_P2_CLEAN_ROOM_CAPACITY_SLOT_V2_1" :
+        "MASTER_ACTIVATING_P2_RECOVERY_CAPACITY_SLOT_1"
+      resource_state = clean_room_state ?
+        "NOT_CREATED_CLEAN_ROOM_RESEQUENCE_SLOT_V2_1_ELIGIBLE" :
+        "NOT_CREATED_SOURCE_ADMISSION_ACCEPTED_SLOT_1_ELIGIBLE"
+      progress_claim = clean_room_state ?
+        "P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_CLEAN_ROOM_RESEQUENCE_SLOT_V2_1_ELIGIBLE_TASK_NONE_DELIVERY_ZERO" :
+        "P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_BENCHMARK_SOURCE_ADMISSION_ACCEPTED_SLOT_1_ELIGIBLE_TASK_NONE_DELIVERY_ZERO"
       assert!(envelope["status"] == "ACTIVE_REMAINING_CAPACITY" && envelope["reserved"].nil? &&
               envelope["remaining"] == remaining,
               "Truth eligible Slot 1 envelope drift")
       assert!(route["status"] == "AUTHORIZED_READY" &&
               route["execution_status"] == "PHASE_DELEGATED_CONTINUATION_READY" &&
-              route["scheduling_status"] == "MASTER_ACTIVATING_P2_RECOVERY_CAPACITY_SLOT_1" &&
+              route["scheduling_status"] == scheduling_status &&
               route["next_eligible_action"] == next_action,
               "Truth current route is not delegated Slot 1 selection ready")
       assert!(active["current_task"] == "NONE" && goal["current_task_authority"] == "NONE" &&
-              active["task_resource_state"] == "NOT_CREATED_SOURCE_ADMISSION_ACCEPTED_SLOT_1_ELIGIBLE",
+              active["task_resource_state"] == resource_state,
               "Truth eligible Slot 1 active-work projection drift")
       assert!(control["task_creation_allowed"] == true && control["next_eligible_action"] == next_action &&
               control["capacity_slots"] == expected_slots &&
@@ -471,9 +508,14 @@ module P2RecoveryAntiCycle
       assert!(project["current_route_execution_status"] == "PHASE_DELEGATED_CONTINUATION_READY" &&
               claim["p2_phase_envelope_status"] == "ACTIVE_REMAINING_CAPACITY" &&
               claim["current_task"] == "NONE" &&
-              claim["real_engineering_progress"] == "P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_BENCHMARK_SOURCE_ADMISSION_ACCEPTED_SLOT_1_ELIGIBLE_TASK_NONE_DELIVERY_ZERO",
+              claim["real_engineering_progress"] == progress_claim,
               "Truth eligible Slot 1 claim projection drift")
-    when "SLOT_1_BENCHMARK_FOUNDATION_TASK_RESERVED_READY", "SLOT_1_BENCHMARK_FOUNDATION_TASK_ACTIVE"
+    when "SLOT_1_BENCHMARK_FOUNDATION_TASK_RESERVED_READY", "SLOT_1_BENCHMARK_FOUNDATION_TASK_ACTIVE",
+         "CLEAN_ROOM_SLOT_V2_1_BENCHMARK_FOUNDATION_TASK_RESERVED_READY",
+         "CLEAN_ROOM_SLOT_V2_1_BENCHMARK_FOUNDATION_TASK_ACTIVE"
+      clean_room_state = control["status"].start_with?("CLEAN_ROOM_")
+      assert!(clean_room_state == clean_room_resequenced,
+              "Truth reserved Slot 1 decision generation drift")
       ready = control["status"].end_with?("READY")
       task_status = ready ? "ELIGIBLE_NOT_ACTIVATED" : "ACTIVE"
       next_action = ready ? "MASTER_ACTIVATE_PHASE_DELEGATED_TASK" : "COMPLETE_CURRENT_TASK_GATE"
@@ -489,11 +531,11 @@ module P2RecoveryAntiCycle
       assert!(envelope["status"] == "TASK_CAPACITY_RESERVED" && envelope["remaining"] == remaining,
               "Truth reserved Slot 1 envelope drift")
       assert!(selected["task_id"] == task_id && selected["status"] == task_status &&
-              selected["capacity_source_task_id"] == "P2_RECOVERY_CAPACITY_SLOT_1",
+              selected["capacity_source_task_id"] == slot_1_id,
               "Truth reserved Slot 1 Task projection drift")
       assert!(reservation["task_id"] == task_id && reservation["route_id"] == route["route_id"] &&
               reservation["status"] == task_status &&
-              reservation["capacity_source_task_id"] == "P2_RECOVERY_CAPACITY_SLOT_1" &&
+              reservation["capacity_source_task_id"] == slot_1_id &&
               reservation["contract"] == selected["contract"] &&
               reservation["budget"] == { "engineering_tasks" => 1, "engineering_hours" => 32, "calendar_days" => 8 } &&
               (ready ? reservation["authority"].nil? : reservation["authority"] == active["authority_record"]),
@@ -511,7 +553,11 @@ module P2RecoveryAntiCycle
       assert!(project["current_route_execution_status"] == expected_project_route &&
               claim["p2_phase_envelope_status"] == "TASK_CAPACITY_RESERVED" &&
               claim["current_task"] == (ready ? "NONE" : task_id) &&
-              claim["real_engineering_progress"] == "P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_BENCHMARK_SOURCE_ADMISSION_ACCEPTED_SLOT_1_#{ready ? 'TASK_READY' : 'TASK_ACTIVE'}_DELIVERY_ZERO",
+              claim["real_engineering_progress"] == if clean_room_state
+                "P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_CLEAN_ROOM_SLOT_V2_1_#{ready ? 'TASK_READY' : 'TASK_ACTIVE'}_DELIVERY_ZERO"
+              else
+                "P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_BENCHMARK_SOURCE_ADMISSION_ACCEPTED_SLOT_1_#{ready ? 'TASK_READY' : 'TASK_ACTIVE'}_DELIVERY_ZERO"
+              end,
               "Truth reserved Slot 1 claim projection drift")
     when "SLOT_1_BENCHMARK_FOUNDATION_TASK_TERMINAL_NON_PASS"
       terminal_status = "TERMINAL_IMPLEMENTATION_BUDGET_EXHAUSTED_RUNTIME_COMPATIBILITY_NON_PASS"

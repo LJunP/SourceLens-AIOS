@@ -6784,8 +6784,8 @@ current_phase_route:
     max_same_task_repairs: 1
     contract:
       path: docs/aios/tasks/P2-069_CLEAN_ROOM_RECOVERY_BENCHMARK_FOUNDATION.yaml
-      sha256: 3c92a50f9a25c49ded206b58132c23967ae095cb6ed711303b0483f7069b4cef
-      byte_length: 11129
+      sha256: 65335255c4ac58a876a5b199847ab455960c19696a7d9772ee46a7bef8c8f7ee
+      byte_length: 11146
     independence:
       new_task_id: true
       new_execution_nonce: true
@@ -8924,8 +8924,8 @@ phase_execution_envelope:
       calendar_days: 8
     contract:
       path: docs/aios/tasks/P2-069_CLEAN_ROOM_RECOVERY_BENCHMARK_FOUNDATION.yaml
-      sha256: 3c92a50f9a25c49ded206b58132c23967ae095cb6ed711303b0483f7069b4cef
-      byte_length: 11129
+      sha256: 65335255c4ac58a876a5b199847ab455960c19696a7d9772ee46a7bef8c8f7ee
+      byte_length: 11146
     authority:
   remaining:
     engineering_tasks: 2
@@ -20095,9 +20095,9 @@ active_work:
   current_task_status: NONE
   current_task_contract:
     path: docs/aios/tasks/P2-069_CLEAN_ROOM_RECOVERY_BENCHMARK_FOUNDATION.yaml
-    sha256: 3c92a50f9a25c49ded206b58132c23967ae095cb6ed711303b0483f7069b4cef
-    byte_length: 11129
-  current_task_contract_sha256: 3c92a50f9a25c49ded206b58132c23967ae095cb6ed711303b0483f7069b4cef
+    sha256: 65335255c4ac58a876a5b199847ab455960c19696a7d9772ee46a7bef8c8f7ee
+    byte_length: 11146
+  current_task_contract_sha256: 65335255c4ac58a876a5b199847ab455960c19696a7d9772ee46a7bef8c8f7ee
   current_execution_authorization:
   current_execution_authorization_sha256:
   authority_record:

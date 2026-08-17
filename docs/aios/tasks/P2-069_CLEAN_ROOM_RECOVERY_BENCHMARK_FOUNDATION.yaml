@@ -1,5 +1,5 @@
 schema_version: '1.1'
-record_type: phase_delegated_task_contract
+record_type: aios_phase_delegated_independent_task_contract
 task_id: AIOS-P2-069_CLEAN_ROOM_RECOVERY_BENCHMARK_FOUNDATION
 phase: P2
 route_id: AIOS-P2-069_CLEAN_ROOM_RECOVERY_BENCHMARK_FOUNDATION_PHASE_DELEGATED_ROUTE

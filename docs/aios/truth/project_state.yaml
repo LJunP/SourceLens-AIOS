@@ -20214,17 +20214,14 @@ active_work:
   execution_evidence_root:
   allowlisted_paths: []
   budget:
-    engineering_hours: 32
-    calendar_days: 8
-    implementation_iterations: 2
-    candidates: 2
+    engineering_hours:
+    calendar_days:
+    implementation_iterations:
+    candidates:
   roles:
-    owner: P2-070 Master Owner
-    worker: P2-070 Product Selector Worker
-    independent_reviewers:
-    - CTO Agent
-    - Security Agent
-    - Quality and Evaluation Agent
+    owner:
+    worker:
+    independent_reviewers: []
   external_effects:
     network: false
     provider: false

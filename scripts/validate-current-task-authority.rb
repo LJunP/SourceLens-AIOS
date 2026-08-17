@@ -4414,8 +4414,11 @@ module CurrentTaskAuthority
       assert(COMMIT_RE.match?(string(record["head"], "inherited worktree head")),
              "inherited worktree head must be a full commit id")
       string(record["branch"], "inherited worktree branch")
-      assert(record["status"] == "INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT",
-             "inherited worktree status is not terminal and out of scope")
+      assert(%w[
+        INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+        INHERITED_CLOSED_OUT_OF_SCOPE_NOT_CURRENT
+      ].include?(record["status"]),
+             "inherited worktree status is not closed and out of scope")
       record.merge("realpath" => File.realpath(path))
     end
     assert(inherited_records.map { |record| record["realpath"] }.uniq.length == inherited_records.length,

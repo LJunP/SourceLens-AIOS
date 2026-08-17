@@ -3460,14 +3460,17 @@ module FounderDelegationContinuity
         recovery_slot = mapping(recovery_slots[index], "P2 recovery slot #{index + 1}")
         budget = exact_keys(entry["budget"], %w[engineering_tasks engineering_hours calendar_days],
                             "cumulative capacity consumed slot budget")
+        consumed_status = entry["status"].to_s
+        terminal_non_pass = consumed_status.start_with?("TERMINAL_") &&
+          consumed_status.include?("NON_PASS")
+        accepted_task_gate = consumed_status == "MASTER_TASK_GATE_ACCEPTED_COMPLETE"
         assert(recovery_slot["capacity_slot_id"] == slot["capacity_slot_id"] &&
                recovery_slot["task_id"] == entry["task_id"] &&
                budget == {
                  "engineering_tasks" => 1,
                  "engineering_hours" => slot["engineering_hours"],
                  "calendar_days" => slot["calendar_days"]
-               } && entry["status"].to_s.start_with?("TERMINAL_") &&
-               entry["status"].to_s.include?("NON_PASS"),
+               } && (terminal_non_pass || accepted_task_gate),
                "cumulative capacity consumed slot lifecycle or budget drift")
         contract = exact_keys(entry["contract"], %w[path sha256 byte_length],
                               "cumulative capacity consumed slot Contract")
@@ -3481,11 +3484,12 @@ module FounderDelegationContinuity
             record.dig("selected_task", "status") == entry["status"] &&
             record["status"] == entry["status"] && record["execution_status"] == entry["status"]
         end.values
+        historical_receipt_key = accepted_task_gate ? "task_gate_receipt" : "terminal_receipt"
         assert(historical_matches.length == 1 &&
                historical_matches.first.dig("selected_task", "capacity_source_task_id") ==
                  slot["capacity_slot_id"] &&
                historical_matches.first.dig("selected_task", "contract") == contract &&
-               historical_matches.first["terminal_receipt"] == receipt,
+               historical_matches.first[historical_receipt_key] == receipt,
                "cumulative capacity consumed slot historical Route binding drift")
       end
       reservation = truth.dig("phase_execution_envelope", "reserved")
@@ -4062,6 +4066,28 @@ module FounderDelegationContinuity
              "ordinary terminal event status drift")
       assert(event["status"].to_s.start_with?("TERMINAL_") && event["status"].to_s.include?("NON_PASS"),
              "ordinary terminal event is not a terminal NON_PASS")
+    elsif event["kind"] == "TASK_GATE_ACCEPTED"
+      accepted_entries = array(
+        phase_envelope["task_ledger"], "accepted Task phase execution ledger"
+      ).select do |entry|
+        entry.is_a?(Hash) && entry["task_id"] == event["task_id"] &&
+          entry["status"] == event["status"]
+      end
+      assert(event["status"] == "MASTER_TASK_GATE_ACCEPTED_COMPLETE" &&
+             accepted_entries.length == 1,
+             "accepted Task Gate event does not bind one exact consumed ledger entry")
+      accepted_receipt = parse_bound_json(
+        accepted_entries.first["outcome_receipt"], "accepted Task Gate outcome receipt"
+      )
+      assert(accepted_receipt["task_id"] == event["task_id"] &&
+             accepted_receipt["status"] == event["status"] &&
+             accepted_receipt["accepted_milestone"].to_s.end_with?("_ACCEPTED"),
+             "accepted Task Gate event outcome receipt lifecycle drift")
+      assert(historical_route["status"] == event["status"] &&
+             historical_route.dig("selected_task", "task_id") == event["task_id"] &&
+             historical_route.dig("selected_task", "status") == event["status"] &&
+             historical_route["task_gate_receipt"] == accepted_entries.first["outcome_receipt"],
+             "accepted Task Gate event historical Route projection drift")
     end
 
     if strategic_hold
@@ -4105,8 +4131,9 @@ module FounderDelegationContinuity
                control["next_eligible_action"] == current_route["next_eligible_action"],
                "single-Task Founder expansion control next action does not match the exact Task lifecycle")
       else
-        assert(ORDINARY_TERMINAL_EVENTS.include?(event["kind"]),
-               "no-trigger continuation requires an ordinary terminal lifecycle event")
+        assert(ORDINARY_TERMINAL_EVENTS.include?(event["kind"]) ||
+               event["kind"] == "TASK_GATE_ACCEPTED",
+               "no-trigger continuation requires an ordinary terminal or accepted Task lifecycle event")
         assert(control["next_eligible_action"] == CONTINUE_ACTION,
                "ordinary terminal lifecycle next action drift")
       end
@@ -4614,9 +4641,12 @@ module FounderDelegationContinuity
     historical_route = mapping(truth[historical_route_ref], historical_route_ref)
     assert(historical_route["phase"] == phase && historical_route["phase_entry_status"] == "AUTHORIZED",
            "historical terminal route Phase drift")
-    assert(historical_route["status"].to_s.start_with?("TERMINAL_") &&
+    historical_status = historical_route["status"].to_s
+    historical_closed = historical_status.start_with?("TERMINAL_") ||
+      historical_status == "MASTER_TASK_GATE_ACCEPTED_COMPLETE"
+    assert(historical_closed &&
            historical_route["execution_status"] == historical_route["status"],
-           "historical route is not an exact terminal lifecycle")
+           "historical route is not an exact closed lifecycle")
     source_route_ref = truth.dig("phase_execution_envelope", "authority_basis", "source_route_ref")
     assert(source_route_ref.is_a?(String), "phase execution envelope source Route reference missing")
     source_route = mapping(truth[source_route_ref], source_route_ref)

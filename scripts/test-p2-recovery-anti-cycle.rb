@@ -200,11 +200,11 @@ Dir.mktmpdir("p2-recovery-tests-", ROOT) do |root|
   run_truth_case.call("goal-terminal", "Long-term Goal is not active") do |candidate|
     candidate.fetch("goal")["control_plane_status_observed"] = "COMPLETE"
   end
-  run_truth_case.call("active-task-injected", "reserved Slot 1 active-work lifecycle drift") do |candidate|
+  run_truth_case.call("active-task-injected", "accepted clean-room Slot V2_1 active-work drift") do |candidate|
     candidate.fetch("active_work")["current_task"] = "AIOS-P2-069_CLEAN_ROOM_RECOVERY_BENCHMARK_FOUNDATION"
   end
-  run_truth_case.call("false-progress", "created false P2 progress") do |candidate|
-    candidate.fetch("p2_recovery_control")["current_delivery_percent"] = 25
+  run_truth_case.call("false-progress", "delivery milestone projection drift") do |candidate|
+    candidate.fetch("p2_recovery_control")["current_delivery_percent"] = 50
   end
   run_truth_case.call("source-admission-decision-hash-drift", "source-admission decision identity drift") do |candidate|
     candidate.dig("p2_recovery_control", "source_admission_decision")["sha256"] = "0" * 64
@@ -212,13 +212,13 @@ Dir.mktmpdir("p2-recovery-tests-", ROOT) do |root|
   run_truth_case.call("source-admission-status-drift", "source-admission projection drift") do |candidate|
     candidate.fetch("p2_recovery_control")["benchmark_source_admission_status"] = "NOT_ACCEPTED_NO_ELIGIBLE_TASK"
   end
-  run_truth_case.call("terminal-task-creation-reopened", "reserved Slot 1 capacity projection drift") do |candidate|
-    candidate.fetch("p2_recovery_control")["task_creation_allowed"] = true
+  run_truth_case.call("accepted-task-creation-closed", "accepted clean-room Slot V2_1 recovery control drift") do |candidate|
+    candidate.fetch("p2_recovery_control")["task_creation_allowed"] = false
   end
-  run_truth_case.call("envelope-capacity-injected", "reserved Slot 1 envelope drift") do |candidate|
+  run_truth_case.call("envelope-capacity-injected", "accepted clean-room Slot V2_1 envelope drift") do |candidate|
     candidate.dig("phase_execution_envelope", "remaining")["engineering_tasks"] = 1
   end
-  run_truth_case.call("terminal-continuation-routed-to-founder", "reserved Slot 1 Route lifecycle drift") do |candidate|
+  run_truth_case.call("accepted-continuation-routed-to-founder", "accepted clean-room Slot V2_1 continuation Route drift") do |candidate|
     candidate.fetch("current_phase_route")["next_eligible_action"] = "FOUNDER_RESERVED_DECISION"
   end
 end

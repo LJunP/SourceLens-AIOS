@@ -373,7 +373,14 @@ module P2RecoveryAntiCycle
     assert!(project["current_phase"] == "P2" && project["p2_execution_status"] == "ACTIVE", "Truth P2 is not active")
     assert!(goal["control_plane_status_observed"] == "ACTIVE", "Long-term Goal is not active")
     assert!(gate["status"] == "INCOMPLETE" && gate.dig("required_items", "CONTEXT_BENCHMARK_BEATS_SIMPLE_RETRIEVAL_BASELINES", "status") == "MISSING", "P2 strict Exit Gate is not the expected incomplete gate")
-    assert!(control["strict_gate_percent"] == 0 && control["current_delivery_percent"] == 0 && control["accepted_milestones"] == [], "Truth created false P2 progress")
+    baseline_accepted = control["status"] ==
+      "CLEAN_ROOM_SLOT_V2_1_BENCHMARK_FOUNDATION_ACCEPTED_SLOT_V2_2_ELIGIBLE_NOT_ACTIVATED"
+    expected_delivery_percent = baseline_accepted ? 25 : 0
+    expected_accepted_milestones = baseline_accepted ? ["P2_RECOVERY_BASELINE_ACCEPTED"] : []
+    assert!(control["strict_gate_percent"] == 0 &&
+            control["current_delivery_percent"] == expected_delivery_percent &&
+            control["accepted_milestones"] == expected_accepted_milestones,
+            "Truth P2 delivery milestone projection drift")
     assert!(control["governance_progress_credit"] == 0, "Truth credited governance as P2 progress")
 
     decision_identity = exact_keys!(control.fetch("envelope_expansion_decision"), %w[byte_length path sha256], "Truth recovery expansion decision identity")
@@ -559,6 +566,53 @@ module P2RecoveryAntiCycle
                 "P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_BENCHMARK_SOURCE_ADMISSION_ACCEPTED_SLOT_1_#{ready ? 'TASK_READY' : 'TASK_ACTIVE'}_DELIVERY_ZERO"
               end,
               "Truth reserved Slot 1 claim projection drift")
+    when "CLEAN_ROOM_SLOT_V2_1_BENCHMARK_FOUNDATION_ACCEPTED_SLOT_V2_2_ELIGIBLE_NOT_ACTIVATED"
+      accepted_status = "MASTER_TASK_GATE_ACCEPTED_COMPLETE"
+      next_action = "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK"
+      remaining = { "engineering_tasks" => 2, "engineering_hours" => 64, "calendar_days" => 16 }
+      expected_slots[0]["task_id"] = task_id
+      historical = truth.fetch("historical_p2_069_phase_route")
+      accepted_receipt = {
+        "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p2-clean-room-recovery-benchmark-foundation-20260817/task-p2-069/canonical-integration/P2_069_CANONICAL_INTEGRATION_AND_ACCEPTED_OUTCOME_RECEIPT_V1.json",
+        "byte_length" => 2130,
+        "sha256" => "78d5ad1af278f5e112c52021a1c8b81da330a14171d238992083a2ab9ae90747"
+      }
+      ledger_entry = envelope.fetch("task_ledger").find { |entry| entry["task_id"] == task_id }
+      assert!(envelope["status"] == "ACTIVE_REMAINING_CAPACITY" && envelope["reserved"].nil? &&
+              envelope["remaining"] == remaining &&
+              envelope["consumed"] == { "engineering_tasks" => 14, "engineering_hours" => 400, "calendar_days" => 100 },
+              "Truth accepted clean-room Slot V2_1 envelope drift")
+      assert!(historical["status"] == accepted_status &&
+              historical["execution_status"] == accepted_status &&
+              historical.dig("selected_task", "task_id") == task_id &&
+              historical.dig("selected_task", "status") == accepted_status &&
+              historical["task_gate_receipt"] == accepted_receipt,
+              "Truth accepted clean-room Slot V2_1 historical Route drift")
+      assert!(ledger_entry && ledger_entry["status"] == accepted_status &&
+              ledger_entry["outcome_receipt"] == accepted_receipt,
+              "Truth accepted clean-room Slot V2_1 ledger drift")
+      assert!(route["schema_version"] == "phase-delegated-continuation-hold/v1" &&
+              route["status"] == "AUTHORIZED_READY" &&
+              route["execution_status"] == "PHASE_DELEGATED_CONTINUATION_READY" &&
+              route["scheduling_status"] == "MASTER_SELECTING_NEXT_INDEPENDENT_PHASE_LOCAL_TASK" &&
+              route["historical_terminal_route_ref"] == "historical_p2_069_phase_route" &&
+              route["next_eligible_action"] == next_action,
+              "Truth accepted clean-room Slot V2_1 continuation Route drift")
+      assert!(active["current_task"] == "NONE" && goal["current_task_authority"] == "NONE" &&
+              active["task_resource_state"] == "NOT_CREATED_PHASE_DELEGATED_CONTINUATION_READY",
+              "Truth accepted clean-room Slot V2_1 active-work drift")
+      assert!(control["task_creation_allowed"] == true &&
+              control["current_delivery_percent"] == 25 &&
+              control["accepted_milestones"] == ["P2_RECOVERY_BASELINE_ACCEPTED"] &&
+              control["next_eligible_action"] == next_action &&
+              control["capacity_slots"] == expected_slots,
+              "Truth accepted clean-room Slot V2_1 recovery control drift")
+      assert!(project["current_route_execution_status"] == "PHASE_DELEGATED_CONTINUATION_READY" &&
+              claim["p2_phase_envelope_status"] == "ACTIVE_REMAINING_CAPACITY" &&
+              claim["current_task"] == "NONE" &&
+              claim["real_engineering_progress"] ==
+                "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_SLOT_V2_2_ELIGIBLE_TASK_NONE",
+              "Truth accepted clean-room Slot V2_1 claim projection drift")
     when "SLOT_1_BENCHMARK_FOUNDATION_TASK_TERMINAL_NON_PASS"
       terminal_status = "TERMINAL_IMPLEMENTATION_BUDGET_EXHAUSTED_RUNTIME_COMPATIBILITY_NON_PASS"
       next_action = "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK"
@@ -622,7 +676,7 @@ module P2RecoveryAntiCycle
     validate_source_guardrails!(DEFAULT_RULES, repo_root)
     validate_plan!(plan, repo_root)
     validate_truth!(truth, plan, plan_bytes, repo_root)
-    true
+    truth.fetch("p2_recovery_control")
   end
 end
 
@@ -638,8 +692,9 @@ if $PROGRAM_NAME == __FILE__
       parser.on("--plan PATH") { |value| options[:plan_path] = File.expand_path(value) }
       parser.on("--repo PATH") { |value| options[:repo_root] = File.expand_path(value) }
     end.parse!
-    P2RecoveryAntiCycle.validate!(**options)
-    puts "P2_RECOVERY_ANTI_CYCLE: PASS strict_gate=0 delivery=0 source_admission=true lifecycle=validated"
+    control = P2RecoveryAntiCycle.validate!(**options)
+    puts "P2_RECOVERY_ANTI_CYCLE: PASS strict_gate=#{control.fetch('strict_gate_percent')} " \
+         "delivery=#{control.fetch('current_delivery_percent')} source_admission=true lifecycle=validated"
   rescue P2RecoveryAntiCycle::ValidationError, AuthorityValidationError,
          DuplicateJsonKeyError, JSON::ParserError, KeyError, Psych::Exception,
          Errno::ENOENT, Errno::ELOOP => error

@@ -22,11 +22,11 @@
 
 The prior consumed envelope is exactly `19 Tasks / 560 engineering hours / 140 calendar days`.
 
-The superseded unused capacity is exactly `1 Task / 32 engineering hours / 8 calendar days`.
+The superseded unused capacity is exactly `1 Tasks / 32 engineering hours / 8 calendar days`.
 
 The cumulative envelope is exactly `21 Tasks / 624 engineering hours / 156 calendar days`.
 
-The executable remainder is exactly `2 Tasks / 64 engineering hours / 16 calendar days`.
+The incremental capacity is exactly `2 Tasks / 64 engineering hours / 16 calendar days`.
 
 Relative to the prior cumulative limit, this is a net expansion of exactly `1 Task / 32 engineering hours / 8 calendar days`.
 
@@ -34,10 +34,12 @@ Only unused capacity is superseded; all 19 consumed Task outcomes and their Evid
 
 P2-069 remains the independently accepted benchmark foundation. P2-070, P2-071, P2-072, P2-073 and P2-074 are preserved only as closed terminal accounting.
 
+P2-068 is preserved only as closed terminal accounting.
+
 - Slot 1: one new clean-room Product Selector DEV query-entity-coverage architecture-pivot Task.
 - Slot 2: the existing formal HELD Task, still locked until `P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED` is independently accepted.
 
-Task IDs remain unallocated until Task admission passes.
+Task IDs remain unallocated until the preceding milestone and Task admission pass.
 
 The new Product DEV Task must use a new Task ID, nonce, branch, worktree, Contract and Evidence root. P2-070, P2-071, P2-072, P2-073 and P2-074 remain terminal accounting only; their rejected branch, worktree, code, evaluator implementation and engineering Evidence are forbidden implementation inputs.
 
@@ -45,4 +47,4 @@ Before any Worker product-source write, the Task must freeze one independently a
 
 This decision creates zero engineering or P2 progress credit by itself and authorizes zero network, Provider, Secret, remote, production or public effects. It does not authorize deletion, database modification, P3 entry or long-term Goal termination.
 
-P3 remains HOLD and the SourceLens project and long-term Goal remain ACTIVE.
+P3 remains HOLD and the SourceLens project and Long-term Goal remain ACTIVE.

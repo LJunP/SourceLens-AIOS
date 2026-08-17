@@ -3287,6 +3287,42 @@ module CurrentTaskAuthority
     true
   end
 
+  def validate_p2_073_preactivation_gate(contract)
+    gate = exact_keys(
+      contract["preactivation_gate"],
+      %w[
+        status exact_system_sandbox_exec sandbox_profile_order exact_java_major
+        exact_bridge_rule required_bindings failure_lifecycle
+      ],
+      "P2-073 preactivation_gate"
+    )
+    assert(gate["status"] == "REQUIRED_BEFORE_ANY_WORKER_PRODUCT_SOURCE_WRITE" &&
+           gate["exact_system_sandbox_exec"] == "/usr/bin/sandbox-exec" &&
+           gate["sandbox_profile_order"] == ["(allow default)", "(deny network*)"] &&
+           gate["exact_java_major"] == 17 &&
+           gate["failure_lifecycle"] ==
+             "TERMINATE_BEFORE_PRODUCT_EXECUTION_WITH_ZERO_PRODUCT_SOURCE_WRITES",
+           "P2-073 preactivation lifecycle or sandbox identity drift")
+    bridge_rule = string(gate["exact_bridge_rule"], "P2-073 exact_bridge_rule")
+    assert(bridge_rule.include?("stdin payload") && bridge_rule.include?("EOF") &&
+           bridge_rule.include?("stdout") && bridge_rule.include?("stderr") &&
+           bridge_rule.include?("System.in") && bridge_rule.include?("System.out") &&
+           bridge_rule.include?("System.err"),
+           "P2-073 exact bridge stream lifecycle rule is incomplete")
+    expected_bindings = [
+      "exact /usr/bin/sandbox-exec identity and outer argv",
+      "exact sandbox profile bytes and SHA-256",
+      "exact cwd and closed environment",
+      "exact JDK 17 java and javac identities",
+      "exact bridge source, compiled class and classpath identities",
+      "exact stdin payload, EOF event, stdout, stderr and exit status transcript",
+      "exact write-root inventory proving all compiler and fixture writes stayed inside the Task worktree or Evidence root"
+    ]
+    assert(array(gate["required_bindings"], "P2-073 required_bindings") == expected_bindings,
+           "P2-073 preactivation required binding set drift")
+    gate
+  end
+
   def validate_phase_delegated_baseline_ids(source_route, value)
     baseline_ids = array(value, "phase-delegated baseline ids")
     if %w[1.0 1.1].include?(source_route["schema_version"])
@@ -3535,6 +3571,8 @@ module CurrentTaskAuthority
     ]
     contract_keys << "write_ownership" if contract_schema_version == "1.1"
     contract_keys << "repair_accounting" if task.key?("repair_accounting")
+    contract_keys << "preactivation_gate" if parsed_contract["task_id"] ==
+      "AIOS-P2-073_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_SANDBOX_STREAM_LIFECYCLE_DEV"
     contract = exact_keys(
       parsed_contract,
       contract_keys,
@@ -3545,6 +3583,7 @@ module CurrentTaskAuthority
            "phase-delegated Task Contract type drift")
     validate_phase_delegated_contract_schema_binding!(source_route, contract)
     validate_phase_delegated_contract_policy_fields(contract)
+    validate_p2_073_preactivation_gate(contract) if contract.key?("preactivation_gate")
     validate_phase_delegated_protocol_contract_fields(truth, route, contract)
     projected_keys = %w[
       task_id status task_kind capability objective capacity_source_task_id budget max_same_task_repairs

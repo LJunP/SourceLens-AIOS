@@ -378,6 +378,7 @@ module P2RecoveryAntiCycle
       CLEAN_ROOM_SLOT_V2_2_PRODUCT_SELECTOR_DEV_TASK_RESERVED_READY
       CLEAN_ROOM_SLOT_V2_2_PRODUCT_SELECTOR_DEV_TASK_ACTIVE
       CLEAN_ROOM_SLOT_V2_2_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_LOCKED
+      CLEAN_ROOM_SLOT_V3_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED
     ].include?(control["status"])
     expected_delivery_percent = baseline_accepted ? 25 : 0
     expected_accepted_milestones = baseline_accepted ? ["P2_RECOVERY_BASELINE_ACCEPTED"] : []
@@ -502,6 +503,50 @@ module P2RecoveryAntiCycle
             "Truth recovery lifecycle projection drift")
 
     case control["status"]
+    when "CLEAN_ROOM_SLOT_V3_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED"
+      next_action = "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK"
+      expected_remaining = {
+        "engineering_tasks" => 2,
+        "engineering_hours" => 64,
+        "calendar_days" => 16
+      }
+      assert!(decision_claims["authorization_token"] ==
+                "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_RECOVERY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V1" &&
+              decision_claims["capacity_slots"].map { |slot| slot["capacity_slot_id"] } ==
+                %w[P2_RECOVERY_CAPACITY_SLOT_V3_1 P2_RECOVERY_CAPACITY_SLOT_V2_3],
+              "Truth Product Selector recovery decision or re-locked HELD identity drift")
+      assert!(envelope["status"] == "ACTIVE_REMAINING_CAPACITY" &&
+              envelope["reserved"].nil? && envelope["remaining"] == expected_remaining &&
+              envelope["consumed"] == {
+                "engineering_tasks" => 15,
+                "engineering_hours" => 432,
+                "calendar_days" => 108
+              }, "Truth eligible Product Selector recovery envelope drift")
+      assert!(route["schema_version"] == "phase-delegated-continuation-hold/v1" &&
+              route["status"] == "AUTHORIZED_READY" &&
+              route["execution_status"] == "PHASE_DELEGATED_CONTINUATION_READY" &&
+              route["scheduling_status"] == "MASTER_SELECTING_NEXT_INDEPENDENT_PHASE_LOCAL_TASK" &&
+              route["historical_terminal_route_ref"] == "historical_p2_070_phase_route" &&
+              route["next_eligible_action"] == next_action,
+              "Truth eligible Product Selector recovery continuation Route drift")
+      assert!(active["current_task"] == "NONE" &&
+              active["task_resource_state"] == "NOT_CREATED_PHASE_DELEGATED_CONTINUATION_READY" &&
+              active["next_eligible_action"] == next_action &&
+              goal["current_task_authority"] == "NONE",
+              "Truth eligible Product Selector recovery active-work drift")
+      assert!(control["task_creation_allowed"] == true &&
+              control["current_delivery_percent"] == 25 &&
+              control["accepted_milestones"] == ["P2_RECOVERY_BASELINE_ACCEPTED"] &&
+              control["next_eligible_action"] == next_action &&
+              control["capacity_slots"] == expected_slots &&
+              control["capacity_slots"].all? { |slot| slot["task_id"].nil? },
+              "Truth eligible Product Selector recovery capacity projection drift")
+      assert!(project["current_route_execution_status"] == "PHASE_DELEGATED_CONTINUATION_READY" &&
+              claim["p2_phase_envelope_status"] == "ACTIVE_REMAINING_CAPACITY" &&
+              claim["current_task"] == "NONE" &&
+              claim["real_engineering_progress"] ==
+                "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_NEW_PRODUCT_SELECTOR_DEV_RECOVERY_SLOT_V3_1_ELIGIBLE_FORMAL_HELD_SLOT_V2_3_RELOCKED",
+              "Truth eligible Product Selector recovery claim projection drift")
     when "BENCHMARK_SOURCE_ADMISSION_ACCEPTED_SLOT_1_ELIGIBLE_NOT_ACTIVATED",
          "CLEAN_ROOM_RESEQUENCE_DECISION_ACCEPTED_SLOT_V2_1_ELIGIBLE_NOT_ACTIVATED"
       clean_room_state = control["status"].start_with?("CLEAN_ROOM_")

@@ -200,7 +200,7 @@ Dir.mktmpdir("p2-recovery-tests-", ROOT) do |root|
   run_truth_case.call("goal-terminal", "Long-term Goal is not active") do |candidate|
     candidate.fetch("goal")["control_plane_status_observed"] = "COMPLETE"
   end
-  run_truth_case.call("active-task-injected", "terminal clean-room Slot V2_2 active-work drift") do |candidate|
+  run_truth_case.call("active-task-injected", "eligible Product Selector recovery active-work drift") do |candidate|
     candidate.fetch("active_work")["current_task"] = "AIOS-P2-069_CLEAN_ROOM_RECOVERY_BENCHMARK_FOUNDATION"
   end
   run_truth_case.call("false-progress", "delivery milestone projection drift") do |candidate|
@@ -212,14 +212,14 @@ Dir.mktmpdir("p2-recovery-tests-", ROOT) do |root|
   run_truth_case.call("source-admission-status-drift", "source-admission projection drift") do |candidate|
     candidate.fetch("p2_recovery_control")["benchmark_source_admission_status"] = "NOT_ACCEPTED_NO_ELIGIBLE_TASK"
   end
-  run_truth_case.call("reserved-task-creation-opened", "terminal clean-room Slot V2_2 recovery control drift") do |candidate|
-    candidate.fetch("p2_recovery_control")["task_creation_allowed"] = true
+  run_truth_case.call("eligible-task-creation-closed", "eligible Product Selector recovery capacity projection drift") do |candidate|
+    candidate.fetch("p2_recovery_control")["task_creation_allowed"] = false
   end
-  run_truth_case.call("envelope-capacity-injected", "terminal clean-room Slot V2_2 envelope drift") do |candidate|
-    candidate.dig("phase_execution_envelope", "remaining")["engineering_tasks"] = 2
+  run_truth_case.call("envelope-capacity-injected", "eligible Product Selector recovery envelope drift") do |candidate|
+    candidate.dig("phase_execution_envelope", "remaining")["engineering_tasks"] = 3
   end
-  run_truth_case.call("reserved-task-routed-away-from-founder", "terminal clean-room Slot V2_2 Founder hold drift") do |candidate|
-    candidate.fetch("current_phase_route")["next_eligible_action"] = "COMPLETE_CURRENT_TASK_GATE"
+  run_truth_case.call("eligible-task-routed-to-founder", "eligible Product Selector recovery continuation Route drift") do |candidate|
+    candidate.fetch("current_phase_route")["next_eligible_action"] = "FOUNDER_RESERVED_DECISION"
   end
 end
 

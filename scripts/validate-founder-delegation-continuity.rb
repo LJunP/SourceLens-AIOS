@@ -883,6 +883,8 @@ module FounderDelegationContinuity
       assert(plan_bytes.bytesize == plan["byte_length"] &&
              Digest::SHA256.hexdigest(plan_bytes.b) == plan["sha256"],
              "cumulative expansion recovery plan does not equal activation parent")
+      product_selector_recovery = decision["authorization_token"] ==
+        "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_RECOVERY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V1"
       slot_generations = []
       slots = array(decision["capacity_slots"], "cumulative expansion capacity slots").map.with_index do |value, index|
         slot = exact_keys(
@@ -898,7 +900,12 @@ module FounderDelegationContinuity
           slot["capacity_slot_id"].to_s
         )
         slot_generations << slot_match&.[](1)
-        assert(slot_match && Integer(slot_match[2], 10) == index + 1 &&
+        expected_capacity_slot_id = if product_selector_recovery
+                                      %w[P2_RECOVERY_CAPACITY_SLOT_V3_1 P2_RECOVERY_CAPACITY_SLOT_V2_3][index]
+                                    end
+        assert(slot_match &&
+               (product_selector_recovery ? slot["capacity_slot_id"] == expected_capacity_slot_id :
+                 Integer(slot_match[2], 10) == index + 1) &&
                slot["slot"] == index + 1 &&
                slot["task_id"].nil? && slot["engineering_hours"] == 32 &&
                slot["calendar_days"] == 8 && slot["max_candidates"] == 2 &&
@@ -907,14 +914,21 @@ module FounderDelegationContinuity
                "cumulative expansion capacity slot identity or budget drift")
         slot
       end
-      assert(slot_generations.uniq.length == 1,
+      assert(product_selector_recovery || slot_generations.uniq.length == 1,
              "cumulative expansion capacity slot generation drift")
-      expected_slots = [
-        ["P2_RECOVERY_BASELINE_ACCEPTED", "BENCHMARK_SOURCE_PACK_ADMISSION_ACCEPTED", false],
-        ["P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED", "P2_RECOVERY_BASELINE_ACCEPTED", true],
-        ["P2_RECOVERY_FORMAL_HELD_MATRIX_COMPLETE", "P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED", false]
-      ]
-      assert(slots.length == 3 && slots.each_with_index.all? do |slot, index|
+      expected_slots = if product_selector_recovery
+                         [
+                           ["P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED", "P2_RECOVERY_BASELINE_ACCEPTED", true],
+                           ["P2_RECOVERY_FORMAL_HELD_MATRIX_COMPLETE", "P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED", false]
+                         ]
+                       else
+                         [
+                           ["P2_RECOVERY_BASELINE_ACCEPTED", "BENCHMARK_SOURCE_PACK_ADMISSION_ACCEPTED", false],
+                           ["P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED", "P2_RECOVERY_BASELINE_ACCEPTED", true],
+                           ["P2_RECOVERY_FORMAL_HELD_MATRIX_COMPLETE", "P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED", false]
+                         ]
+                       end
+      assert(slots.length == expected_slots.length && slots.each_with_index.all? do |slot, index|
         [slot["milestone_id"], slot["unlock_requirement"], slot["product_mutation_allowed"]] ==
           expected_slots[index]
       end, "cumulative expansion milestone ordering drift")
@@ -976,8 +990,13 @@ module FounderDelegationContinuity
                parent_remaining.values.all?(&:positive?) && slot_generations.first &&
                parent_truth.dig("active_work", "current_task") == "NONE" &&
                parent_truth.dig("p2_recovery_control", "task_creation_allowed") == false &&
-               parent_control.dig("reserved_trigger", "category") == "NONE" &&
-               parent_control["founder_decision_required"] == false,
+               (product_selector_recovery ?
+                 parent_control.dig("reserved_trigger", "category") == decision["exact_reserved_trigger"] &&
+                   parent_control["founder_decision_required"] == true &&
+                   parent_truth.dig("p2_recovery_control", "status") ==
+                     "CLEAN_ROOM_SLOT_V2_2_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_LOCKED" :
+                 parent_control.dig("reserved_trigger", "category") == "NONE" &&
+                   parent_control["founder_decision_required"] == false),
                "cumulative expansion active-parent resequencing precondition drift")
       end
       assert(decision_envelope["max_engineering_tasks"] == prior.dig("consumed", "engineering_tasks") + slots.length &&

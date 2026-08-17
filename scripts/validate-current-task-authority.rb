@@ -1335,6 +1335,8 @@ module CurrentTaskAuthority
              parent_control["founder_decision_required"] == true,
              "structured decision does not resolve the exact exhausted activation-parent trigger")
     else
+      product_selector_recovery = decision["authorization_token"] ==
+        "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_RECOVERY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V1"
       versioned_slots = array(decision["capacity_slots"],
                               "structured decision resequenced capacity slots").all? do |slot|
         slot.is_a?(Hash) && slot["capacity_slot_id"].to_s.match?(
@@ -1343,10 +1345,16 @@ module CurrentTaskAuthority
       end
       assert(parent_envelope["status"] == "ACTIVE_REMAINING_CAPACITY" &&
              parent_remaining.values.all?(&:positive?) &&
-             parent_control.dig("reserved_trigger", "category") == "NONE" &&
-             parent_control["founder_decision_required"] == false &&
+             (product_selector_recovery ?
+               parent_control.dig("reserved_trigger", "category") == decision["exact_reserved_trigger"] &&
+                 parent_control["founder_decision_required"] == true :
+               parent_control.dig("reserved_trigger", "category") == "NONE" &&
+                 parent_control["founder_decision_required"] == false) &&
              parent_truth.dig("active_work", "current_task") == "NONE" &&
              parent_truth.dig("p2_recovery_control", "task_creation_allowed") == false &&
+             (!product_selector_recovery ||
+               parent_truth.dig("p2_recovery_control", "status") ==
+                 "CLEAN_ROOM_SLOT_V2_2_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_LOCKED") &&
              versioned_slots,
              "structured decision active-parent resequencing precondition drift")
     end
@@ -2016,6 +2024,8 @@ module CurrentTaskAuthority
 
       prior_consumed_envelope, prior_consumed, =
         validate_v1_4_prior_consumed_envelope(root, decision, parent, phase)
+      product_selector_recovery = authorization_token ==
+        "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_RECOVERY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V1"
       slot_generations = []
       slots = array(decision["capacity_slots"],
                     "structured Founder route decision.capacity_slots").map.with_index do |value, index|
@@ -2032,7 +2042,12 @@ module CurrentTaskAuthority
           slot["capacity_slot_id"].to_s
         )
         slot_generations << slot_match&.[](1)
-        assert(slot_match && Integer(slot_match[2], 10) == index + 1 &&
+        expected_capacity_slot_id = if product_selector_recovery
+                                      %w[P2_RECOVERY_CAPACITY_SLOT_V3_1 P2_RECOVERY_CAPACITY_SLOT_V2_3][index]
+                                    end
+        assert(slot_match &&
+               (product_selector_recovery ? slot["capacity_slot_id"] == expected_capacity_slot_id :
+                 Integer(slot_match[2], 10) == index + 1) &&
                slot["slot"] == index + 1 &&
                slot["task_id"].nil?,
                "structured Founder route decision capacity slot identity drift")
@@ -2043,14 +2058,21 @@ module CurrentTaskAuthority
                "structured Founder route decision capacity slot budget drift")
         slot
       end
-      assert(slot_generations.uniq.length == 1,
+      assert(product_selector_recovery || slot_generations.uniq.length == 1,
              "structured Founder route decision capacity slot generation drift")
-      expected_slots = [
-        ["P2_RECOVERY_BASELINE_ACCEPTED", "BENCHMARK_SOURCE_PACK_ADMISSION_ACCEPTED", false],
-        ["P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED", "P2_RECOVERY_BASELINE_ACCEPTED", true],
-        ["P2_RECOVERY_FORMAL_HELD_MATRIX_COMPLETE", "P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED", false]
-      ]
-      assert(slots.length == 3 && slots.each_with_index.all? do |slot, index|
+      expected_slots = if product_selector_recovery
+                         [
+                           ["P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED", "P2_RECOVERY_BASELINE_ACCEPTED", true],
+                           ["P2_RECOVERY_FORMAL_HELD_MATRIX_COMPLETE", "P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED", false]
+                         ]
+                       else
+                         [
+                           ["P2_RECOVERY_BASELINE_ACCEPTED", "BENCHMARK_SOURCE_PACK_ADMISSION_ACCEPTED", false],
+                           ["P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED", "P2_RECOVERY_BASELINE_ACCEPTED", true],
+                           ["P2_RECOVERY_FORMAL_HELD_MATRIX_COMPLETE", "P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED", false]
+                         ]
+                       end
+      assert(slots.length == expected_slots.length && slots.each_with_index.all? do |slot, index|
         [slot["milestone_id"], slot["unlock_requirement"], slot["product_mutation_allowed"]] ==
           expected_slots[index]
       end, "structured Founder route decision recovery milestone ordering drift")

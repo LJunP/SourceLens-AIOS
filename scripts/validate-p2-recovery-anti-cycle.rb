@@ -424,7 +424,12 @@ module P2RecoveryAntiCycle
 
     limits = { "engineering_tasks" => 15, "engineering_hours" => 432, "calendar_days" => 108 }
     consumed = { "engineering_tasks" => 12, "engineering_hours" => 336, "calendar_days" => 84 }
-    assert!(envelope["limits"].slice(*limits.keys) == limits && envelope["consumed"] == consumed,
+    expected_consumed = if control["status"] == "SLOT_1_BENCHMARK_FOUNDATION_TASK_TERMINAL_NON_PASS"
+                          { "engineering_tasks" => 13, "engineering_hours" => 368, "calendar_days" => 92 }
+                        else
+                          consumed
+                        end
+    assert!(envelope["limits"].slice(*limits.keys) == limits && envelope["consumed"] == expected_consumed,
             "Truth P2 recovery envelope fixed accounting drift")
     assert!(envelope.dig("authority_basis", "source_route_ref") == "historical_p2_value_first_recovery_envelope_expansion_phase_route" && envelope.dig("authority_basis", "source_route_id") == decision_claims["route_id"] && envelope.dig("authority_basis", "source_decision") == decision_identity, "Truth P2 recovery envelope authority binding drift")
     assert!(control["schema_version"] == "p2-recovery-control/v1" &&
@@ -508,6 +513,49 @@ module P2RecoveryAntiCycle
               claim["current_task"] == (ready ? "NONE" : task_id) &&
               claim["real_engineering_progress"] == "P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_BENCHMARK_SOURCE_ADMISSION_ACCEPTED_SLOT_1_#{ready ? 'TASK_READY' : 'TASK_ACTIVE'}_DELIVERY_ZERO",
               "Truth reserved Slot 1 claim projection drift")
+    when "SLOT_1_BENCHMARK_FOUNDATION_TASK_TERMINAL_NON_PASS"
+      terminal_status = "TERMINAL_IMPLEMENTATION_BUDGET_EXHAUSTED_RUNTIME_COMPATIBILITY_NON_PASS"
+      next_action = "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK"
+      remaining = { "engineering_tasks" => 2, "engineering_hours" => 64, "calendar_days" => 16 }
+      expected_slots[0]["task_id"] = task_id
+      historical = truth.fetch("historical_p2_068_phase_route")
+      terminal_receipt = {
+        "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p2-recovery-benchmark-foundation-20260817/task-p2-068/terminal/P2_068_TERMINAL_IMPLEMENTATION_BUDGET_EXHAUSTED_NON_PASS_RECEIPT_V1.json",
+        "byte_length" => 5602,
+        "sha256" => "d8289319ed32cd5754dc26d7f77ec4ae4bfa27fe45c4747dc1f7e187a3b21cfb"
+      }
+      ledger_entry = envelope.fetch("task_ledger").find { |entry| entry["task_id"] == task_id }
+      assert!(envelope["status"] == "ACTIVE_REMAINING_CAPACITY" && envelope["reserved"].nil? &&
+              envelope["remaining"] == remaining &&
+              envelope["consumed"] == { "engineering_tasks" => 13, "engineering_hours" => 368, "calendar_days" => 92 },
+              "Truth terminal Slot 1 envelope drift")
+      assert!(historical["status"] == terminal_status &&
+              historical["execution_status"] == terminal_status &&
+              historical.dig("selected_task", "task_id") == task_id &&
+              historical.dig("selected_task", "status") == terminal_status &&
+              historical["terminal_receipt"] == terminal_receipt,
+              "Truth terminal Slot 1 historical Route drift")
+      assert!(ledger_entry && ledger_entry["status"] == terminal_status &&
+              ledger_entry["outcome_receipt"] == terminal_receipt,
+              "Truth terminal Slot 1 ledger drift")
+      assert!(route["schema_version"] == "phase-delegated-continuation-hold/v1" &&
+              route["status"] == "AUTHORIZED_READY" &&
+              route["execution_status"] == "PHASE_DELEGATED_CONTINUATION_READY" &&
+              route["scheduling_status"] == "MASTER_SELECTING_NEXT_INDEPENDENT_PHASE_LOCAL_TASK" &&
+              route["historical_terminal_route_ref"] == "historical_p2_068_phase_route" &&
+              route["next_eligible_action"] == next_action,
+              "Truth terminal Slot 1 continuation Route drift")
+      assert!(active["current_task"] == "NONE" && goal["current_task_authority"] == "NONE" &&
+              active["task_resource_state"] == "NOT_CREATED_PHASE_DELEGATED_CONTINUATION_READY",
+              "Truth terminal Slot 1 active-work drift")
+      assert!(control["task_creation_allowed"] == false && control["next_eligible_action"] == next_action &&
+              control["capacity_slots"] == expected_slots,
+              "Truth terminal Slot 1 recovery control drift")
+      assert!(project["current_route_execution_status"] == "PHASE_DELEGATED_CONTINUATION_READY" &&
+              claim["p2_phase_envelope_status"] == "ACTIVE_REMAINING_CAPACITY" &&
+              claim["current_task"] == "NONE" &&
+              claim["real_engineering_progress"] == "P1_COMPLETE_P2_ZERO_ACCEPTED_CAPABILITY_SLOT_1_TERMINAL_NON_PASS_NO_BASELINE_RESULT_DELIVERY_ZERO",
+              "Truth terminal Slot 1 claim projection drift")
     else
       fail!("unsupported P2 recovery control lifecycle #{control['status'].inspect}")
     end

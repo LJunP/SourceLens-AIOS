@@ -3369,9 +3369,15 @@ module FounderDelegationContinuity
         parent_truth.dig("phase_execution_envelope", "task_ledger"),
         "cumulative capacity activation-parent Task ledger"
       )
-      assert(entries == parent_entries,
-             "cumulative capacity expansion may only carry forward the exact immutable prior ledger")
-      entries.each_with_index do |value, index|
+      assert(entries.first(parent_entries.length) == parent_entries,
+             "cumulative capacity prior ledger prefix drifts from activation-parent accounting")
+      suffix = entries.drop(parent_entries.length)
+      capacity_slots = array(source_route["capacity_slots"], "cumulative capacity slots")
+      recovery_slots = array(truth.dig("p2_recovery_control", "capacity_slots"),
+                             "P2 recovery capacity slot projection")
+      assert(suffix.length <= capacity_slots.length && recovery_slots.length == capacity_slots.length,
+             "cumulative capacity consumed suffix exceeds its exact slots")
+      parent_entries.each_with_index do |value, index|
         entry = mapping(value, "cumulative capacity prior ledger[#{index}]")
         budget = mapping(entry["budget"], "cumulative capacity prior ledger budget")
         assert(entry["task_id"].is_a?(String) && !entry["task_id"].empty? &&
@@ -3379,6 +3385,48 @@ module FounderDelegationContinuity
                budget["engineering_hours"].is_a?(Integer) && budget["engineering_hours"].positive? &&
                budget["calendar_days"].is_a?(Integer) && budget["calendar_days"].positive?,
                "cumulative capacity prior ledger structural projection drift")
+      end
+      suffix.each_with_index do |value, index|
+        entry = exact_keys(
+          value,
+          %w[task_id route_id status budget contract outcome_receipt],
+          "cumulative capacity consumed slot ledger[#{index}]"
+        )
+        slot = mapping(capacity_slots[index], "cumulative capacity source slot #{index + 1}")
+        recovery_slot = mapping(recovery_slots[index], "P2 recovery slot #{index + 1}")
+        budget = exact_keys(entry["budget"], %w[engineering_tasks engineering_hours calendar_days],
+                            "cumulative capacity consumed slot budget")
+        assert(recovery_slot["capacity_slot_id"] == slot["capacity_slot_id"] &&
+               recovery_slot["task_id"] == entry["task_id"] &&
+               budget == {
+                 "engineering_tasks" => 1,
+                 "engineering_hours" => slot["engineering_hours"],
+                 "calendar_days" => slot["calendar_days"]
+               } && entry["status"].to_s.start_with?("TERMINAL_") &&
+               entry["status"].to_s.include?("NON_PASS"),
+               "cumulative capacity consumed slot lifecycle or budget drift")
+        contract = exact_keys(entry["contract"], %w[path sha256 byte_length],
+                              "cumulative capacity consumed slot Contract")
+        receipt = exact_keys(entry["outcome_receipt"], %w[path sha256 byte_length],
+                             "cumulative capacity consumed slot outcome receipt")
+        bound_identity_bytes(root, contract, "cumulative capacity consumed slot Contract")
+        bound_identity_bytes(root, receipt, "cumulative capacity consumed slot outcome receipt")
+        historical_matches = truth.select do |key, record|
+          key.to_s.start_with?("historical_") && record.is_a?(Hash) &&
+            record.dig("selected_task", "task_id") == entry["task_id"] &&
+            record.dig("selected_task", "status") == entry["status"] &&
+            record["status"] == entry["status"] && record["execution_status"] == entry["status"]
+        end.values
+        assert(historical_matches.length == 1 &&
+               historical_matches.first.dig("selected_task", "capacity_source_task_id") ==
+                 slot["capacity_slot_id"] &&
+               historical_matches.first.dig("selected_task", "contract") == contract &&
+               historical_matches.first["terminal_receipt"] == receipt,
+               "cumulative capacity consumed slot historical Route binding drift")
+      end
+      recovery_slots.drop(suffix.length).each do |slot|
+        assert(mapping(slot, "unused P2 recovery slot")["task_id"].nil?,
+               "unused cumulative capacity slot preallocates a Task id")
       end
       return entries
     end

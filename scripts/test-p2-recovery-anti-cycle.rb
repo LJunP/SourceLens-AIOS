@@ -200,7 +200,7 @@ Dir.mktmpdir("p2-recovery-tests-", ROOT) do |root|
   run_truth_case.call("goal-terminal", "Long-term Goal is not active") do |candidate|
     candidate.fetch("goal")["control_plane_status_observed"] = "COMPLETE"
   end
-  run_truth_case.call("active-task-injected", "active-work lifecycle drift") do |candidate|
+  run_truth_case.call("active-task-injected", "terminal Slot 1 active-work drift") do |candidate|
     candidate.fetch("active_work")["current_task"] = "AIOS-P2-068"
   end
   run_truth_case.call("false-progress", "created false P2 progress") do |candidate|
@@ -212,13 +212,13 @@ Dir.mktmpdir("p2-recovery-tests-", ROOT) do |root|
   run_truth_case.call("source-admission-status-drift", "source-admission projection drift") do |candidate|
     candidate.fetch("p2_recovery_control")["benchmark_source_admission_status"] = "NOT_ACCEPTED_NO_ELIGIBLE_TASK"
   end
-  run_truth_case.call("reserved-task-creation-reopened", "capacity projection drift") do |candidate|
+  run_truth_case.call("terminal-task-creation-reopened", "recovery control drift") do |candidate|
     candidate.fetch("p2_recovery_control")["task_creation_allowed"] = true
   end
-  run_truth_case.call("envelope-capacity-injected", "reserved Slot 1 envelope drift") do |candidate|
+  run_truth_case.call("envelope-capacity-injected", "terminal Slot 1 envelope drift") do |candidate|
     candidate.dig("phase_execution_envelope", "remaining")["engineering_tasks"] = 1
   end
-  run_truth_case.call("reserved-task-routed-to-founder", "Route lifecycle drift") do |candidate|
+  run_truth_case.call("terminal-continuation-routed-to-founder", "continuation Route drift") do |candidate|
     candidate.fetch("current_phase_route")["next_eligible_action"] = "FOUNDER_RESERVED_DECISION"
   end
 end

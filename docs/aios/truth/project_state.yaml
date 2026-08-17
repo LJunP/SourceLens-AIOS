@@ -21299,10 +21299,10 @@ active_work:
   current_task: NONE
   current_task_status: NONE
   current_task_contract:
-    path:
-    sha256:
-    byte_length:
-  current_task_contract_sha256:
+    path: docs/aios/tasks/P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV.yaml
+    sha256: ec37300e7e8a51b377fd6e01aff1895d98c2541779c524b5efff685af80b9279
+    byte_length: 16960
+  current_task_contract_sha256: ec37300e7e8a51b377fd6e01aff1895d98c2541779c524b5efff685af80b9279
   current_execution_authorization:
   current_execution_authorization_sha256:
   authority_record:
@@ -21310,7 +21310,7 @@ active_work:
     sha256:
     byte_length:
   execution_nonce:
-  execution_nonce_status: NOT_ALLOCATED
+  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
   authorization_id:
   activation_parent_commit:
   activation_parent_tree:
@@ -21324,7 +21324,10 @@ active_work:
     calendar_days:
     implementation_iterations:
     candidates:
-  roles: {}
+  roles:
+    owner:
+    worker:
+    independent_reviewers: []
   external_effects:
     network: false
     provider: false

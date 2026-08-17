@@ -4395,6 +4395,7 @@ module CurrentTaskAuthority
       strict-phase-recovery-hold/v1
       phase-delegated-continuation-hold/v1
       phase-delegated-independent-task/v1
+      founder-reserved-decision-hold/v1
     ].include?(route["schema_version"])
                          source_key = string(
                            route["inherited_worktree_inventory_source"],

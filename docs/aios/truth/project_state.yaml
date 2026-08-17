@@ -7293,28 +7293,6 @@ current_phase_route:
       rejected_lineage_copy: false
       same_phase_objective: true
       successor_or_replacement: false
-    preactivation_gate:
-      status: PASS
-      receipt:
-        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-selector-sandbox-stream-lifecycle-recovery-20260817/task-p2-073/preactivation-v1/P2_073_SANDBOX_STREAM_LIFECYCLE_PREACTIVATION_RECEIPT_V1.json
-        byte_length: 10435
-        sha256: bf0ff48ac369bd1fe4df0a37bb563bd5224e9306b6bdc5da1124ccea177d5b61
-      verification:
-        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-selector-sandbox-stream-lifecycle-recovery-20260817/task-p2-073/preactivation-v1/P2_073_SANDBOX_STREAM_LIFECYCLE_PREACTIVATION_VERIFICATION_V1.json
-        byte_length: 1280
-        sha256: ba5aadcdbba2f0d5cab49efcf8c261f51567626dc42fbf1c90d57e4984239085
-    candidate:
-      generation: 2
-      commit: 567b8c78ee00c7784046b2edf05148c2283cdf64
-      tree: 904946440e89e66bb606b3611cb4de4b342d9310
-      product_source_diff_nonempty: true
-      execution_evidence_status: CLOSED
-      independent_review_status: PENDING
-      task_gate_status: NOT_YET_ACCEPTED
-      evidence_manifest:
-        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-product-selector-sandbox-stream-lifecycle-recovery-20260817/task-p2-073/candidate-v1/P2_073_EXECUTION_EVIDENCE_MANIFEST_V1.json
-        byte_length: 2488
-        sha256: 0723637401923cbbeb46b1b7b8a2f1363a1b72ef2d9bdb21162213e05c30e740
   external_effects:
     network: false
     provider: false

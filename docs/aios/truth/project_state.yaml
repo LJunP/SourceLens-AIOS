@@ -7712,10 +7712,11 @@ current_phase_route:
     capability: GRAPH_CONDITIONED_CONTEXT_SELECTION
     objective: >-
       Implement one independently authored clean-room Product Selector on the canonical
-      Code QA path using deterministic query intent plus package/type/member entity
-      coverage and normalized-path-first budgeted selection; prove strict value over
-      the accepted P2-069 B1 baseline on DEV without any per-task recall regression;
-      and preserve exact authority, execution and reviewer Evidence closure.
+      Code QA product path using deterministic query intent plus package, type and member
+      entity coverage, normalized-path-first ranking ties, top-k 10 and a 131072-byte
+      UTF-8 budget; evaluate only the frozen accepted P2-069 eight-task DEV split; and
+      establish P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED only if the exact product-owned
+      implementation strictly beats the frozen B1 baseline with no per-task recall regression.
     capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_V7_1
     budget:
       engineering_hours: 32

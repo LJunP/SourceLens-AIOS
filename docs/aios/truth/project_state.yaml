@@ -7725,8 +7725,8 @@ current_phase_route:
     max_same_task_repairs: 1
     contract:
       path: docs/aios/tasks/P2-075_CLEAN_ROOM_QUERY_ENTITY_COVERAGE_PRODUCT_SELECTOR_ARCHITECTURE_PIVOT_DEV.yaml
-      sha256: d330f17a1e9389e8da6e1dc794703c582350aff8685b3f7caf5590eebaf2071e
-      byte_length: 15495
+      sha256: 669a4e00219740f95aefd8d6a84e465afc13a601690435ff7a38adcb6cd617df
+      byte_length: 15511
     independence:
       new_task_id: true
       new_execution_nonce: true
@@ -10176,8 +10176,8 @@ phase_execution_envelope:
     capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_V7_1
     contract:
       path: docs/aios/tasks/P2-075_CLEAN_ROOM_QUERY_ENTITY_COVERAGE_PRODUCT_SELECTOR_ARCHITECTURE_PIVOT_DEV.yaml
-      sha256: d330f17a1e9389e8da6e1dc794703c582350aff8685b3f7caf5590eebaf2071e
-      byte_length: 15495
+      sha256: 669a4e00219740f95aefd8d6a84e465afc13a601690435ff7a38adcb6cd617df
+      byte_length: 15511
     budget:
       engineering_tasks: 1
       engineering_hours: 32

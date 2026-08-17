@@ -35,6 +35,7 @@ module FounderActionHandoff
     READ_ONLY_HTTPS_BENCHMARK_SOURCE_MILESTONE_STANDARD_CURL_REISSUE
     P2_BENCHMARK_SOURCE_FINAL_CANDIDATE_COMPLETION_ENVELOPE
     P2_RECOVERY_CLEAN_ROOM_RESEQUENCING_AND_MINIMAL_ENVELOPE_EXPANSION
+    P2_RECOVERY_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SLOT_AND_RELOCKED_HELD_SEQUENCE
   ].freeze
   APP_OPERATION_TYPES = %w[APP_FILESYSTEM_BATCH_WRITE].freeze
   READ_ONLY_HTTPS_OPERATION = "一次全新、独立、clean-room V6 benchmark source acquisition"
@@ -80,6 +81,16 @@ module FounderActionHandoff
   RECOVERY_RESEQUENCE_CONSUMPTION = "The envelope is non-resettable: each activated Task consumes exactly one 32-hour 8-day slot; a Task NON_PASS consumes that slot, unlocks no replacement or automatic successor, and any further scope requires a new exact Founder decision"
   RECOVERY_RESEQUENCE_PASS = "Benchmark-foundation PASS unlocks only product DEV; product DEV PASS unlocks only one formal HELD evaluation; formal HELD completion may establish Phase-Gate eligibility but does not itself authorize P3 entry or close the long-term Goal"
   RECOVERY_RESEQUENCE_NON_PASS = "Any Task NON_PASS preserves its exact terminal Evidence, consumes its slot, leaves dependent slots locked, creates no replacement or remediation chain, keeps P2 and the long-term Goal active with P3 HOLD, and contributes zero P2 progress"
+  PRODUCT_SELECTOR_RECOVERY_TOKEN = "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_RECOVERY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V1"
+  PRODUCT_SELECTOR_RECOVERY_OPERATION = "Add exactly one clean-room independent Product Selector DEV recovery slot before the existing locked formal HELD slot; preserve the accepted P2-069 baseline and P2-070 only as closed terminal accounting"
+  PRODUCT_SELECTOR_RECOVERY_ORDER = "Require independent acceptance of P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED before the existing formal HELD slot unlocks; no milestone receives credit before its own independent acceptance"
+  PRODUCT_SELECTOR_RECOVERY_LINEAGE = "Prohibit reading, comparing, copying or reusing the rejected P2-070 branch, worktree, code, evaluator implementation or engineering Evidence as implementation input; use only canonical main, the accepted P2-069 baseline and a new Task identity, nonce, branch, worktree, Contract and Evidence root"
+  PRODUCT_SELECTOR_RECOVERY_TARGET = "Local SourceLens canonical main, one future active Task branch and worktree, and create-once Evidence under /Users/lijunpeng/Developer/.sourcelens-audit; no network, Provider, Secret, remote, production, public release, deletion, database modification, P3 entry or long-term Goal termination"
+  PRODUCT_SELECTOR_RECOVERY_DURATION = "Until the new independent Product Selector DEV Task reaches Task Gate PASS or NON_PASS, Founder explicitly revokes this envelope, or a terminal safety condition occurs"
+  PRODUCT_SELECTOR_RECOVERY_BUDGET = "Raise the non-resettable cumulative P2 Phase envelope from 16 engineering tasks, 464 engineering hours and 116 calendar days to 17 engineering tasks, 496 engineering hours and 124 calendar days; preserve consumed 15 tasks, 432 hours and 108 days, leaving exactly 2 tasks, 64 hours and 16 days in order: one new Product Selector DEV slot, then the existing formal HELD slot"
+  PRODUCT_SELECTOR_RECOVERY_CONSUMPTION = "The new Product Selector DEV Task consumes exactly one 32-hour 8-day slot; the existing formal HELD slot remains locked until Product Selector DEV is independently ACCEPTED; Product DEV NON_PASS consumes the new slot and creates no replacement, remediation chain or automatic successor"
+  PRODUCT_SELECTOR_RECOVERY_PASS = "Product Selector DEV PASS establishes only P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED, raises delivery progress to 70% and unlocks only the existing formal HELD evaluation slot; strict P2 Exit progress remains 0% until the Exit Gate is independently ACCEPTED, and neither P3 entry nor long-term Goal closure is authorized"
+  PRODUCT_SELECTOR_RECOVERY_NON_PASS = "Product Selector DEV NON_PASS preserves exact terminal Evidence, consumes the new slot, leaves formal HELD locked, keeps P2 delivery progress at 25% and strict progress at 0%, creates no replacement or automatic successor, keeps P2 and the long-term Goal active, and keeps P3 HOLD"
   FOUNDER_NETWORK_OPERATION_PROFILES = {
     "READ_ONLY_HTTPS_ACQUISITION" => {
       "operations" => [READ_ONLY_HTTPS_OPERATION, READ_ONLY_HTTPS_METHOD],
@@ -157,6 +168,20 @@ module FounderActionHandoff
       "authorization_expiry_or_consumption_rule" => RECOVERY_RESEQUENCE_CONSUMPTION,
       "pass_lifecycle" => RECOVERY_RESEQUENCE_PASS,
       "non_pass_lifecycle" => RECOVERY_RESEQUENCE_NON_PASS
+    },
+    "P2_RECOVERY_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SLOT_AND_RELOCKED_HELD_SEQUENCE" => {
+      "operations" => [
+        PRODUCT_SELECTOR_RECOVERY_OPERATION,
+        PRODUCT_SELECTOR_RECOVERY_ORDER,
+        PRODUCT_SELECTOR_RECOVERY_LINEAGE
+      ],
+      "targets" => [PRODUCT_SELECTOR_RECOVERY_TARGET],
+      "budget_or_external_effects" => PRODUCT_SELECTOR_RECOVERY_BUDGET,
+      "token" => PRODUCT_SELECTOR_RECOVERY_TOKEN,
+      "duration" => PRODUCT_SELECTOR_RECOVERY_DURATION,
+      "authorization_expiry_or_consumption_rule" => PRODUCT_SELECTOR_RECOVERY_CONSUMPTION,
+      "pass_lifecycle" => PRODUCT_SELECTOR_RECOVERY_PASS,
+      "non_pass_lifecycle" => PRODUCT_SELECTOR_RECOVERY_NON_PASS
     }
   }.freeze
   PROSPECTIVE_PREFLIGHT = "PROSPECTIVE_RESERVED_EFFECT_REQUIRED_BY_EXACT_USER_REQUEST_AND_NOT_EXPRESSIBLE_BY_CURRENT_OFFLINE_ESCALATION_PROJECTION"
@@ -489,6 +514,7 @@ module FounderActionHandoff
         READ_ONLY_HTTPS_BENCHMARK_SOURCE_MILESTONE_STANDARD_CURL_REISSUE
         P2_BENCHMARK_SOURCE_FINAL_CANDIDATE_COMPLETION_ENVELOPE
         P2_RECOVERY_CLEAN_ROOM_RESEQUENCING_AND_MINIMAL_ENVELOPE_EXPANSION
+        P2_RECOVERY_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SLOT_AND_RELOCKED_HELD_SEQUENCE
       ].include?(operation_type)
         proposed_tokens = package["copy_ready_text_or_exact_steps"].scan(FOUNDER_AUTHORIZATION_TOKEN)
         assert!(proposed_tokens == [profile["token"]],

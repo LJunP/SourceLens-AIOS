@@ -15,14 +15,14 @@ module P3TaskAuthorityValidation
   TASK_ID = "AIOS-P3-001_DURABLE_EXECUTION_CHECKPOINT_RESUME_KERNEL"
   ROUTE_ID = "#{TASK_ID}_PHASE_DELEGATED_ROUTE"
   CONTRACT_PATH = "docs/aios/tasks/P3-001_DURABLE_EXECUTION_CHECKPOINT_RESUME_KERNEL.yaml"
-  CONTRACT_BYTES = 3731
-  CONTRACT_SHA256 = "1fa5d66bb5ccd2bdc2a8c8fb96e0cbf8841fef0e6c096053ba1781adf7bc907f"
+  CONTRACT_BYTES = 4115
+  CONTRACT_SHA256 = "e34eb7afe5cb666b65080762caa515dac2c445ec71e0c66b823e66c443ccf62a"
   BRANCH = "codex/p3-001-durable-execution-checkpoint-resume"
   WORKTREE = "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-001-durable-execution-checkpoint-resume"
   EVIDENCE_ROOT = "/Users/lijunpeng/Developer/.sourcelens-audit/p3-durable-execution-checkpoint-resume-20260819/task-p3-001"
-  AUTHORITY_PATH = File.join(EVIDENCE_ROOT, "authority", "P3_001_PHASE_DELEGATED_TASK_AUTHORITY_V1.json")
-  AUTHORITY_BYTES = 3237
-  AUTHORITY_SHA256 = "a11748cd233c20a8a6b22cab9a0e573e1e591e453e9d0ee4fc556db2d3f45636"
+  AUTHORITY_PATH = File.join(EVIDENCE_ROOT, "authority", "P3_001_PHASE_DELEGATED_TASK_AUTHORITY_V2.json")
+  AUTHORITY_BYTES = 3900
+  AUTHORITY_SHA256 = "d60fa38bb93987ef42fdcd9d034d0e25ce8d6e264091547e301d608e49a5271d"
   BUDGET = {
     "engineering_tasks" => 1,
     "engineering_hours" => 32,
@@ -57,6 +57,12 @@ module P3TaskAuthorityValidation
            contract["task_id"] == TASK_ID && contract["phase"] == "P3" &&
            contract["status"] == "ELIGIBLE_NOT_ACTIVATED" &&
            contract["milestone"] == "DURABLE_STATE_AND_CHECKPOINT_RESUME" &&
+           contract.dig("authority", "activation_parent", "commit") ==
+             "80ddaaebb1cea22f0b7d836d11cb6f159ef208f9" &&
+           contract.dig("authority", "activation_parent", "tree") ==
+             "1749fe921c213eb3db6c07f267bd9fbfa44a2c24" &&
+           contract.dig("authority", "phase_entry_parent", "commit") ==
+             "b07ea8889c0c68fb343746e65b507b637935af1d" &&
            contract.dig("authority", "task_selection_owner") == "MASTER_CEO_AGENT" &&
            contract.dig("authority", "task_gate_owner") == "MASTER_CEO_AGENT" &&
            contract["budget"] == BUDGET.merge(
@@ -130,7 +136,7 @@ module P3TaskAuthorityValidation
 
     assert(route["status"] == "ACTIVE" && route["execution_status"] == "ACTIVE" &&
            route["scheduling_status"] == "ACTIVE_PHASE_DELEGATED_TASK" &&
-           route["next_eligible_action"] == "EXECUTE_P3_001_TASK_CONTRACT" && task["status"] == "ACTIVE" &&
+           route["next_eligible_action"] == "INDEPENDENT_REVIEW_CYCLE_2" && task["status"] == "ACTIVE" &&
            ledger.first["status"] == "ACTIVE" && envelope.dig("reserved", "status") == "ACTIVE" &&
            active["current_task"] == TASK_ID && active["current_task_status"] == "ACTIVE" &&
            active["task_resource_state"] == "ACTIVE_UNIQUE_PHASE_DELEGATED" &&
@@ -142,7 +148,7 @@ module P3TaskAuthorityValidation
            active["current_execution_authorization"] == active.dig("authority_record", "path") &&
            active["current_execution_authorization_sha256"] == active.dig("authority_record", "sha256") &&
            active["execution_nonce_status"] == "ACTIVE" &&
-           active["next_eligible_action"] == "EXECUTE_P3_001_TASK_CONTRACT",
+           active["next_eligible_action"] == "INDEPENDENT_REVIEW_CYCLE_2",
            "P3-001 ACTIVE projection drift")
     authority_identity = {
       "path" => AUTHORITY_PATH,
@@ -159,10 +165,18 @@ module P3TaskAuthorityValidation
            Digest::SHA256.hexdigest(authority_bytes) == AUTHORITY_SHA256,
            "P3-001 authority identity drift")
     authority = JSON.parse(authority_bytes)
-    assert(authority["schema_version"] == "p3-phase-delegated-task-authority/v1" &&
+    assert(authority["schema_version"] == "p3-phase-delegated-task-authority/v2" &&
            authority["task_id"] == TASK_ID && authority["branch"] == BRANCH &&
            authority["worktree"] == WORKTREE && authority["evidence_root"] == EVIDENCE_ROOT &&
            authority["contract"] == identity && authority["external_effects"] == FALSE_EFFECTS &&
+           authority["authorization_id"] == "102dfcec-69c6-4a74-9daf-498bd1adb8e2" &&
+           authority["execution_nonce"] == "ed95029e-edb5-4f80-8d6c-b3f58638ec91" &&
+           authority.dig("authority_basis", "activation_parent", "commit") ==
+             "80ddaaebb1cea22f0b7d836d11cb6f159ef208f9" &&
+           authority.dig("repair_candidate", "commit") ==
+             "17ce1134da4ea15c7270b147340ad0bad25c1ac8" &&
+           authority.dig("repair_candidate", "tree") ==
+             "8b6b4e387067b25052a2f6a64d7b802077acadc5" &&
            authority["budget"] == BUDGET.merge(
              "candidate_generations" => 1, "same_task_repairs" => 1, "review_cycles" => 2
            ) && authority.dig("activation_guards", "single_active_task") == true &&

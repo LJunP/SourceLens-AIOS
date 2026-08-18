@@ -11,6 +11,10 @@ authority:
     byte_length: 4105
     sha256: 23a50848a182fa7865f8e96c78bd9001ff2db6682d8d19dc49a0d4768994d6eb
   activation_parent:
+    commit: 80ddaaebb1cea22f0b7d836d11cb6f159ef208f9
+    tree: 1749fe921c213eb3db6c07f267bd9fbfa44a2c24
+    kind: TASK_RESOURCE_CREATION_PARENT
+  phase_entry_parent:
     commit: b07ea8889c0c68fb343746e65b507b637935af1d
     tree: fd64f054ed0e3dbe3ff1581b3637373858dd6daf
   task_selection_owner: MASTER_CEO_AGENT
@@ -48,11 +52,11 @@ budget:
   review_cycles: 2
 acceptance:
   required:
-    - A checkpoint is uniquely bound to one execution Task, ordered step key, workflow identity, input hash, state bytes and state SHA-256.
+    - A checkpoint is uniquely bound to one existing execution Task, ordered step key, workflow identity, input hash, state bytes and state SHA-256, with a parent foreign key and a separately committed head and chain hash.
     - Repeating an identical completed checkpoint is idempotent; any conflicting rewrite, order gap, duplicate sequence or workflow drift fails closed.
     - A fresh service instance can reconstruct the exact accepted checkpoint prefix and the next executable step from persisted rows only.
     - Completed checkpointed steps are returned as non-executable on resume, preventing duplicate execution by the caller.
-    - Focused unit and fresh H2 integration tests cover normal resume, exact replay, corrupted state, changed workflow and non-prefix histories.
+    - Focused unit and fresh H2 integration tests execute the exact migration through a Spring transaction proxy and cover normal resume, exact replay, concurrent conflicting completion, corrupted state, tail truncation, missing parent, changed workflow and non-prefix histories.
     - No network, Provider, Secret, remote, production or public effect occurs.
   task_gate: INDEPENDENT_REVIEW_AND_TEST_EVIDENCE_PASS
 non_goals:

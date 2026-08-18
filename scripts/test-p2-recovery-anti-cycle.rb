@@ -218,7 +218,7 @@ Dir.mktmpdir("p2-recovery-tests-", ROOT) do |root|
   run_truth_case.call("goal-terminal", "Long-term Goal is not active") do |candidate|
     candidate.fetch("goal")["control_plane_status_observed"] = "COMPLETE"
   end
-  run_truth_case.call("terminal-active-task-injected", "P2-079 terminal active-work lifecycle drift") do |candidate|
+  run_truth_case.call("terminal-active-task-injected", "adapter-plus-HELD active-work drift") do |candidate|
     candidate.fetch("active_work")["current_task"] = "AIOS-P2-069_CLEAN_ROOM_RECOVERY_BENCHMARK_FOUNDATION"
   end
   run_truth_case.call("false-progress", "delivery milestone projection drift") do |candidate|
@@ -227,17 +227,17 @@ Dir.mktmpdir("p2-recovery-tests-", ROOT) do |root|
   run_truth_case.call("source-admission-decision-hash-drift", "source-admission decision identity drift") do |candidate|
     candidate.dig("p2_recovery_control", "source_admission_decision")["sha256"] = "0" * 64
   end
-  run_truth_case.call("source-admission-status-drift", "P2-079 terminal recovery projection drift") do |candidate|
+  run_truth_case.call("source-admission-status-drift", "adapter-plus-HELD recovery projection drift") do |candidate|
     candidate.fetch("p2_recovery_control")["benchmark_source_admission_status"] = "NOT_ACCEPTED_NO_ELIGIBLE_TASK"
   end
-  run_truth_case.call("terminal-task-creation-reopened", "P2-079 terminal recovery projection drift") do |candidate|
-    candidate.fetch("p2_recovery_control")["task_creation_allowed"] = true
+  run_truth_case.call("terminal-task-creation-reopened", "adapter-plus-HELD recovery projection drift") do |candidate|
+    candidate.fetch("p2_recovery_control")["task_creation_allowed"] = false
   end
-  run_truth_case.call("envelope-capacity-injected", "P2-079 terminal envelope drift") do |candidate|
-    candidate.dig("phase_execution_envelope", "remaining")["engineering_tasks"] = 2
+  run_truth_case.call("envelope-capacity-injected", "adapter-plus-HELD envelope drift") do |candidate|
+    candidate.dig("phase_execution_envelope", "remaining")["engineering_tasks"] = 3
   end
-  run_truth_case.call("terminal-task-routed-to-master", "P2-079 terminal Route lifecycle drift") do |candidate|
-    candidate.fetch("current_phase_route")["next_eligible_action"] = "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK"
+  run_truth_case.call("terminal-task-routed-to-master", "adapter-plus-HELD continuation Route drift") do |candidate|
+    candidate.fetch("current_phase_route")["next_eligible_action"] = "FOUNDER_RESERVED_DECISION"
   end
 end
 

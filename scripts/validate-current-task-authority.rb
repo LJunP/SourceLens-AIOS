@@ -2072,6 +2072,8 @@ module CurrentTaskAuthority
       ].include?(authorization_token)
       formal_held_route_unlock = authorization_token ==
         "AUTHORIZE_P2_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_ROUTE_UNLOCK_V1"
+      adapter_held_sequence = authorization_token ==
+        "AUTHORIZE_P2_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER_PLUS_ONE_SHOT_FORMAL_HELD_SEQUENCE_V1"
       slot_generations = []
       slots = array(decision["capacity_slots"],
                     "structured Founder route decision.capacity_slots").map.with_index do |value, index|
@@ -2088,7 +2090,9 @@ module CurrentTaskAuthority
           slot["capacity_slot_id"].to_s
         )
         slot_generations << slot_match&.[](1)
-        expected_capacity_slot_id = if formal_held_route_unlock
+        expected_capacity_slot_id = if adapter_held_sequence
+                                      %w[P2_RECOVERY_CAPACITY_SLOT_V11_1 P2_RECOVERY_CAPACITY_SLOT_V11_2][index]
+                                    elsif formal_held_route_unlock
                                       ["P2_RECOVERY_CAPACITY_SLOT_V2_3"][index]
                                     elsif authorization_token ==
                                        "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_RECOVERY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V1"
@@ -2116,21 +2120,32 @@ module CurrentTaskAuthority
                                       %w[P2_RECOVERY_CAPACITY_SLOT_V10_1 P2_RECOVERY_CAPACITY_SLOT_V2_3][index]
                                     end
         assert(slot_match &&
-               ((product_selector_recovery || formal_held_route_unlock) ? slot["capacity_slot_id"] == expected_capacity_slot_id :
+               ((product_selector_recovery || formal_held_route_unlock || adapter_held_sequence) ? slot["capacity_slot_id"] == expected_capacity_slot_id :
                  Integer(slot_match[2], 10) == index + 1) &&
                slot["slot"] == index + 1 &&
                slot["task_id"].nil?,
                "structured Founder route decision capacity slot identity drift")
-        expected_task_shape = formal_held_route_unlock ? [1, 1, 0] : [2, 2, 1]
+        expected_task_shape = if adapter_held_sequence
+                                [[1, 2, 1], [1, 1, 0]][index]
+                              elsif formal_held_route_unlock
+                                [1, 1, 0]
+                              else
+                                [2, 2, 1]
+                              end
         assert(slot["engineering_hours"].is_a?(Integer) && slot["engineering_hours"].positive? &&
                slot["calendar_days"].is_a?(Integer) && slot["calendar_days"].positive? &&
                [slot["max_candidates"], slot["max_implementation_iterations"], slot["max_same_task_repairs"]] == expected_task_shape,
                "structured Founder route decision capacity slot budget drift")
         slot
       end
-      assert(product_selector_recovery || formal_held_route_unlock || slot_generations.uniq.length == 1,
+      assert(product_selector_recovery || formal_held_route_unlock || adapter_held_sequence || slot_generations.uniq.length == 1,
              "structured Founder route decision capacity slot generation drift")
-      expected_slots = if formal_held_route_unlock
+      expected_slots = if adapter_held_sequence
+                         [
+                           ["P2_RECOVERY_EVALUATION_AND_EVIDENCE_ADAPTER_ACCEPTED", "EXACT_FOUNDER_ROUTE_DECISION_AFTER_P2_079_TERMINAL", false],
+                           ["P2_RECOVERY_FORMAL_HELD_MATRIX_COMPLETE", "P2_RECOVERY_EVALUATION_AND_EVIDENCE_ADAPTER_ACCEPTED", false]
+                         ]
+                       elsif formal_held_route_unlock
                          [
                            ["P2_RECOVERY_FORMAL_HELD_MATRIX_COMPLETE", "EXACT_FOUNDER_ROUTE_DECISION_AND_FROZEN_CANDIDATE_PREACTIVATION_PASS", false]
                          ]

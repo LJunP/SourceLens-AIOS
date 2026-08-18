@@ -1015,6 +1015,8 @@ module FounderDelegationContinuity
       ].include?(product_selector_recovery_token)
       formal_held_route_unlock = product_selector_recovery_token ==
         "AUTHORIZE_P2_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_ROUTE_UNLOCK_V1"
+      adapter_held_sequence = product_selector_recovery_token ==
+        "AUTHORIZE_P2_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER_PLUS_ONE_SHOT_FORMAL_HELD_SEQUENCE_V1"
       expected_product_selector_capacity_ids = case product_selector_recovery_token
                                                when "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_RECOVERY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V1"
                                                  %w[P2_RECOVERY_CAPACITY_SLOT_V3_1 P2_RECOVERY_CAPACITY_SLOT_V2_3]
@@ -1034,6 +1036,8 @@ module FounderDelegationContinuity
                                                  %w[P2_RECOVERY_CAPACITY_SLOT_V10_1 P2_RECOVERY_CAPACITY_SLOT_V2_3]
                                                when "AUTHORIZE_P2_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_ROUTE_UNLOCK_V1"
                                                  %w[P2_RECOVERY_CAPACITY_SLOT_V2_3]
+                                               when "AUTHORIZE_P2_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER_PLUS_ONE_SHOT_FORMAL_HELD_SEQUENCE_V1"
+                                                 %w[P2_RECOVERY_CAPACITY_SLOT_V11_1 P2_RECOVERY_CAPACITY_SLOT_V11_2]
                                                end
       slot_generations = []
       slots = array(decision["capacity_slots"], "cumulative expansion capacity slots").map.with_index do |value, index|
@@ -1051,9 +1055,15 @@ module FounderDelegationContinuity
         )
         slot_generations << slot_match&.[](1)
         expected_capacity_slot_id = expected_product_selector_capacity_ids&.fetch(index)
-        expected_task_shape = formal_held_route_unlock ? [1, 1, 0] : [2, 2, 1]
+        expected_task_shape = if adapter_held_sequence
+                                [[1, 2, 1], [1, 1, 0]][index]
+                              elsif formal_held_route_unlock
+                                [1, 1, 0]
+                              else
+                                [2, 2, 1]
+                              end
         assert(slot_match &&
-               ((product_selector_recovery || formal_held_route_unlock) ? slot["capacity_slot_id"] == expected_capacity_slot_id :
+               ((product_selector_recovery || formal_held_route_unlock || adapter_held_sequence) ? slot["capacity_slot_id"] == expected_capacity_slot_id :
                  Integer(slot_match[2], 10) == index + 1) &&
                slot["slot"] == index + 1 &&
                slot["task_id"].nil? && slot["engineering_hours"] == 32 &&
@@ -1063,9 +1073,18 @@ module FounderDelegationContinuity
                "cumulative expansion capacity slot identity or budget drift")
         slot
       end
-      assert(product_selector_recovery || formal_held_route_unlock || slot_generations.uniq.length == 1,
+      assert(product_selector_recovery || formal_held_route_unlock || adapter_held_sequence || slot_generations.uniq.length == 1,
              "cumulative expansion capacity slot generation drift")
-      expected_slots = if formal_held_route_unlock
+      expected_slots = if adapter_held_sequence
+                         [
+                           ["P2_RECOVERY_EVALUATION_AND_EVIDENCE_ADAPTER_ACCEPTED",
+                            "EXACT_FOUNDER_ROUTE_DECISION_AFTER_P2_079_TERMINAL",
+                            false],
+                           ["P2_RECOVERY_FORMAL_HELD_MATRIX_COMPLETE",
+                            "P2_RECOVERY_EVALUATION_AND_EVIDENCE_ADAPTER_ACCEPTED",
+                            false]
+                         ]
+                       elsif formal_held_route_unlock
                          [
                            ["P2_RECOVERY_FORMAL_HELD_MATRIX_COMPLETE",
                             "EXACT_FOUNDER_ROUTE_DECISION_AND_FROZEN_CANDIDATE_PREACTIVATION_PASS",

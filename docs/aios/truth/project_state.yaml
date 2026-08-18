@@ -7952,7 +7952,7 @@ current_phase_route:
   selected_task:
     task_id: AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV
     status: ELIGIBLE_NOT_ACTIVATED
-    task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_PRODUCT_DEV
+    task_kind: REPOSITORY_INTELLIGENCE_GRAPH_ENGINEERING
     capability: GRAPH_CONDITIONED_CONTEXT_SELECTION
     objective: >-
       Implement one clean-room product-owned Java maintenance context selector that
@@ -7970,8 +7970,8 @@ current_phase_route:
     max_same_task_repairs: 1
     contract:
       path: docs/aios/tasks/P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV.yaml
-      sha256: f0a4fdcb44c6e998075b09032790750b00ea6bfbe9eb85afa5005d4908018954
-      byte_length: 15398
+      sha256: 63ea60fa37199eaf0c8c35bfd28f3364557cc5bab4dfcfce2a52a83a45ec03b1
+      byte_length: 15386
     independence:
       new_task_id: true
       new_execution_nonce: true
@@ -10436,8 +10436,8 @@ phase_execution_envelope:
     capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_V8_1
     contract:
       path: docs/aios/tasks/P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV.yaml
-      sha256: f0a4fdcb44c6e998075b09032790750b00ea6bfbe9eb85afa5005d4908018954
-      byte_length: 15398
+      sha256: 63ea60fa37199eaf0c8c35bfd28f3364557cc5bab4dfcfce2a52a83a45ec03b1
+      byte_length: 15386
     budget:
       engineering_tasks: 1
       engineering_hours: 32

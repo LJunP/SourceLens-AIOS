@@ -135,10 +135,118 @@ module P3PhaseEntryValidation
     raise P3PhaseEntryValidationError, "P3 entry decision JSON invalid: #{e.message}"
   end
 
+  def validate_continuation!(truth, project, route)
+    assert(project["current_phase"] == "P3" &&
+           project["phase_name"] == "Single-Agent Runtime + Minimum Trust" &&
+           project["p2_execution_status"] == "COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED" &&
+           project["p3_entry_status"] == "AUTHORIZED" && project["p3_execution_status"] == "ACTIVE" &&
+           project["phase_execution_status"] == "ACTIVE" &&
+           project["p4_entry_status"] == "HOLD_PENDING_STRICT_P3_EXIT_AND_SEPARATE_FOUNDER_PHASE_ENTRY",
+           "project P3 continuation projection drift")
+
+    assert(route["schema_version"] == "p3-phase-delegated-task/v1" && route["phase"] == "P3" &&
+           route["phase_entry_status"] == "AUTHORIZED" &&
+           route["phase_execution_envelope_ref"] == "phase_execution_envelope" &&
+           route["phase_entry_route_ref"] == "historical_p3_phase_entry_route" &&
+           route["founder_phase_route_decision_required"] == false &&
+           route["external_effects"] == FALSE_EFFECTS && route["additional_write_roots"] == [],
+           "current P3 continuation Route drift")
+
+    entry_route = mapping(truth["historical_p3_phase_entry_route"], "historical P3 entry Route")
+    assert(entry_route["schema_version"] == ROUTE_SCHEMA &&
+           entry_route["route_id"] == "P3_PHASE_ENTRY_ACTIVE_PENDING_TASK_SELECTION" &&
+           entry_route["phase_entry_status"] == "AUTHORIZED" &&
+           entry_route["founder_phase_entry_decision"] == decision_identity.merge(
+             "decision_id" => DECISION_ID, "reserved_trigger" => "PHASE_ENTRY_OR_EXIT"
+           ) && entry_route["p3_entry_authorized"] == true &&
+           entry_route["p4_entry_authorized"] == false && entry_route["long_term_goal_status"] == "ACTIVE" &&
+           entry_route["external_effects"] == FALSE_EFFECTS,
+           "historical P3 entry Route drift")
+
+    predecessor = mapping(truth["historical_p2_research_exit_phase_route"], "historical P2 research Exit")
+    assert(predecessor["status"] == "COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED" &&
+           predecessor["original_capability_gate_status"] == "MISSING_NOT_ACCEPTED" &&
+           predecessor["strict_capability_progress_percent"] == 0 &&
+           predecessor["revised_research_exit_percent"] == 100,
+           "historical P2 research Exit drift")
+
+    envelope = mapping(truth["phase_execution_envelope"], "P3 Phase envelope")
+    consumed = mapping(envelope["consumed"], "P3 consumed capacity")
+    remaining = mapping(envelope["remaining"], "P3 remaining capacity")
+    assert(envelope["schema_version"] == "phase-execution-envelope/v1" &&
+           envelope["phase"] == "P3" && envelope["status"] == "ACTIVE_REMAINING_CAPACITY" &&
+           envelope["limits"] == LIMITS && envelope["milestone_order"] == MILESTONES &&
+           envelope["accepted_milestones"].is_a?(Array) &&
+           MILESTONES.first(envelope["accepted_milestones"].length) == envelope["accepted_milestones"] &&
+           consumed["engineering_tasks"] + remaining["engineering_tasks"] == 8 &&
+           consumed["engineering_hours"] + remaining["engineering_hours"] == 256 &&
+           consumed["calendar_days"] + remaining["calendar_days"] == 64 &&
+           envelope["remaining_capacity_usable"] == true && envelope["external_effects"] == FALSE_EFFECTS &&
+           envelope.dig("authority_basis", "source_route_ref") == "historical_p3_phase_entry_route" &&
+           envelope.dig("authority_basis", "source_decision") == decision_identity,
+           "P3 continuation envelope drift")
+
+    phases = mapping(mapping(truth["strict_phase_gate_ledger"], "strict Phase Gate ledger")["phases"],
+                     "strict Phase Gate phases")
+    p2 = mapping(phases["P2"], "strict P2 Gate")
+    p3 = mapping(phases["P3"], "strict P3 Gate")
+    assert(p2["status"] == "COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED" &&
+           p2.dig("original_capability_gate", "status") == "MISSING_NOT_ACCEPTED" &&
+           p2.dig("original_capability_gate", "strict_progress_percent") == 0,
+           "strict P2 conclusion drift during P3 continuation")
+    assert(p3["status"] == "INCOMPLETE" && p3["entry_authorized"] == true &&
+           p3["execution_started"] == true &&
+           p3["phase_entry_decision"] == decision_identity.merge("decision_id" => DECISION_ID) &&
+           p3.dig("required_items", "RESUME_ISOLATION_PERMISSION_AND_TRACE_TESTS", "status") == "MISSING" &&
+           p3.dig("founder_phase_gate", "status") == "NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS",
+           "strict P3 Gate continuation projection drift")
+
+    boundary = mapping(truth["phase_boundary"], "P3 Phase boundary")
+    assert(boundary["phase"] == "P3" && boundary["phase_execution_status"] == "ACTIVE" &&
+           boundary["task_creation_allowed"] == true && boundary["p3_entry_authorized"] == true &&
+           boundary["default_external_effects"] == FALSE_EFFECTS,
+           "P3 Phase boundary drift")
+
+    control = mapping(truth["founder_escalation_control"], "Founder escalation control")
+    assert(control["disposition"] == "NO_RESERVED_TRIGGER_CONTINUE_PHASE" &&
+           control.dig("reserved_trigger", "category") == "NONE" &&
+           control["phase_gate_status"] == "INCOMPLETE" && control["founder_decision_required"] == false &&
+           control["next_action_owner"] == "MASTER_CEO_AGENT" &&
+           control["next_eligible_action"] == route["next_eligible_action"],
+           "P3 Founder escalation continuation drift")
+
+    active = mapping(truth["active_work"], "active work")
+    assert(active["founder_reserved_authorization"] == DECISION_PATH &&
+           active["founder_reserved_authorization_sha256"] == DECISION_SHA256 &&
+           active["founder_decision_required"] == false && active["user_action_required"] == "NONE" &&
+           active["phase_route_decision_required"] == false && active["external_effects"] == FALSE_EFFECTS,
+           "P3 active-work continuation drift")
+    if route["next_eligible_action"] == "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK"
+      assert(active["current_task"] == "NONE" && active["current_task_status"] == "NONE" &&
+             active["next_eligible_action"] == route["next_eligible_action"],
+             "P3 completed-Task active-work projection drift")
+    end
+
+    claim = mapping(truth["claim_boundary"], "claim boundary")
+    assert(claim["current_phase_route"] == route["route_id"] &&
+           claim["next_eligible_action"] == route["next_eligible_action"] &&
+           claim["p2_original_capability_gate_status"] == "MISSING_NOT_ACCEPTED" &&
+           claim["p2_original_capability_progress_percent"] == 0 &&
+           claim["p3_status"] == "ACTIVE_INCOMPLETE" && claim["p3_entry_authorized"] == true &&
+           claim["p3_phase_envelope_status"] == envelope["status"] &&
+           claim["p3_exit_gate_progress_percent"] == 0 &&
+           claim["p3_accepted_milestones"] == envelope["accepted_milestones"],
+           "P3 continuation claim boundary drift")
+    "P3_ENTRY_ACTIVE_CONTINUATION"
+  end
+
   def validate!(root:, truth:)
     root = Pathname.new(root).realpath
     validate_decision!(root)
     project = mapping(truth["project"], "project")
+    route = mapping(truth["current_phase_route"], "current P3 Route")
+    return validate_continuation!(truth, project, route) unless route["schema_version"] == ROUTE_SCHEMA
+
     assert(project["current_phase"] == "P3" &&
            project["phase_name"] == "Single-Agent Runtime + Minimum Trust" &&
            project["p2_execution_status"] == "COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED" &&
@@ -149,7 +257,6 @@ module P3PhaseEntryValidation
            project["p4_entry_status"] == "HOLD_PENDING_STRICT_P3_EXIT_AND_SEPARATE_FOUNDER_PHASE_ENTRY",
            "project P3 entry projection drift")
 
-    route = mapping(truth["current_phase_route"], "current P3 Route")
     assert(route["schema_version"] == ROUTE_SCHEMA &&
            route["route_id"] == "P3_PHASE_ENTRY_ACTIVE_PENDING_TASK_SELECTION" &&
            route["status"] == "AUTHORIZED_READY" &&

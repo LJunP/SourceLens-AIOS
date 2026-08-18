@@ -23,6 +23,11 @@ module P3TaskAuthorityValidation
   AUTHORITY_PATH = File.join(EVIDENCE_ROOT, "authority", "P3_001_PHASE_DELEGATED_TASK_AUTHORITY_V2.json")
   AUTHORITY_BYTES = 3900
   AUTHORITY_SHA256 = "d60fa38bb93987ef42fdcd9d034d0e25ce8d6e264091547e301d608e49a5271d"
+  TASK_GATE_PATH = File.join(
+    EVIDENCE_ROOT, "terminal", "P3_001_TASK_GATE_PASS_INTEGRATION_RECEIPT_V1.json"
+  )
+  TASK_GATE_BYTES = 3055
+  TASK_GATE_SHA256 = "e4ea37f8e6770b8dea9f8939f81444f01ebca4104a8dd2f84d33c4787180e2c0"
   BUDGET = {
     "engineering_tasks" => 1,
     "engineering_hours" => 32,
@@ -111,7 +116,7 @@ module P3TaskAuthorityValidation
            envelope["remaining"] == {"engineering_tasks" => 7, "engineering_hours" => 224, "calendar_days" => 56} &&
            ledger.length == 1 && ledger.first["task_id"] == TASK_ID &&
            ledger.first["budget"] == BUDGET && ledger.first["contract"] == identity &&
-           envelope["accepted_milestones"] == [] && envelope["external_effects"] == FALSE_EFFECTS,
+           envelope["external_effects"] == FALSE_EFFECTS,
            "P3-001 Phase envelope drift")
 
     if route["status"] == "AUTHORIZED_READY"
@@ -132,6 +137,60 @@ module P3TaskAuthorityValidation
              active["next_eligible_action"] == "MASTER_ACTIVATE_PHASE_DELEGATED_TASK",
              "P3-001 READY projection drift")
       return "P3_001_READY_FOR_MASTER_ACTIVATION"
+    end
+
+    if route["status"] == "TASK_GATE_PASS_INTEGRATED"
+      task_gate_identity = {
+        "path" => TASK_GATE_PATH,
+        "byte_length" => TASK_GATE_BYTES,
+        "sha256" => TASK_GATE_SHA256
+      }
+      assert(route["execution_status"] == "TASK_GATE_PASS_INTEGRATED" &&
+             route["scheduling_status"] == "READY_FOR_MASTER_SELECTION" &&
+             route["next_eligible_action"] == "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK" &&
+             task["status"] == "ACCEPTED_INTEGRATED" && task["review_status"] == "CYCLE_2_PASS" &&
+             task["task_gate_receipt"] == task_gate_identity &&
+             ledger.first["status"] == "ACCEPTED_INTEGRATED" &&
+             ledger.first["task_gate_receipt"] == task_gate_identity &&
+             envelope["reserved"] == {} && envelope["consumed"] == BUDGET &&
+             envelope["accepted_milestones"] == ["DURABLE_STATE_AND_CHECKPOINT_RESUME"] &&
+             envelope["delivery_progress"] == {
+               "accepted" => 1, "total" => 4, "percent" => 25, "strict_exit_gate_percent" => 0
+             } && active["current_task"] == "NONE" && active["current_task_status"] == "NONE" &&
+             active["current_task_contract"].nil? && active["task_resource_state"] ==
+               "NOT_CREATED_READY_FOR_MASTER_SELECTION" && active["task_branch"].nil? &&
+             active["task_worktree"].nil? && active["execution_evidence_root"].nil? &&
+             active["authority_record"].values.all?(&:nil?) &&
+             active.dig("last_completed_task", "task_id") == TASK_ID &&
+             active.dig("last_completed_task", "status") == "ACCEPTED_INTEGRATED" &&
+             active.dig("last_completed_task", "task_gate_receipt") == task_gate_identity &&
+             active["next_eligible_action"] == "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK",
+             "P3-001 ACCEPTED projection drift")
+      task_gate_path = Pathname.new(TASK_GATE_PATH)
+      assert(task_gate_path.file? && !task_gate_path.symlink?,
+             "P3-001 Task Gate receipt must be a regular non-symlink file")
+      task_gate_bytes = task_gate_path.binread
+      assert(task_gate_bytes.bytesize == TASK_GATE_BYTES &&
+             Digest::SHA256.hexdigest(task_gate_bytes) == TASK_GATE_SHA256,
+             "P3-001 Task Gate receipt identity drift")
+      task_gate = JSON.parse(task_gate_bytes)
+      assert(task_gate["schema_version"] == "p3-task-gate-integration-receipt/v1" &&
+             task_gate["task_id"] == TASK_ID && task_gate["task_lifecycle"] == "ACCEPTED_INTEGRATED" &&
+             task_gate["phase_lifecycle"] == "P3_ACTIVE_INCOMPLETE" &&
+             task_gate["long_term_goal_lifecycle"] == "ACTIVE" &&
+             task_gate["contract"] == identity && task_gate["accepted_milestone"] ==
+               "DURABLE_STATE_AND_CHECKPOINT_RESUME" &&
+             task_gate.dig("canonical_integration", "commit") ==
+               "f841ff822610264ad1b88c93b1f6248d42eb134a" &&
+             task_gate.dig("canonical_integration", "tree") ==
+               "6a3e67b4680464e54d72936dc24a205079614431" &&
+             task_gate.dig("canonical_integration", "candidate_files_byte_exact") == "12_OF_12" &&
+             task_gate.dig("phase_progress", "delivery_percent") == 25 &&
+             task_gate.dig("phase_progress", "strict_p3_exit_gate_percent") == 0 &&
+             task_gate["external_effects"] == FALSE_EFFECTS &&
+             task_gate["next_eligible_action"] == "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK",
+             "P3-001 Task Gate receipt semantics drift")
+      return "P3_001_ACCEPTED_INTEGRATED"
     end
 
     assert(route["status"] == "ACTIVE" && route["execution_status"] == "ACTIVE" &&

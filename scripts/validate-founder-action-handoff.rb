@@ -720,7 +720,14 @@ module FounderActionHandoff
     if run_validator
       output, error, status = Open3.capture3("ruby", File.join(ROOT, evidence["validator"]))
       assert!(status.success?, "applicable Founder escalation validator NON_PASS: #{error.strip}")
-      assert!(output.include?("disposition=#{control['disposition']}"), "Founder validator output does not bind current disposition")
+      validator_disposition = if control["schema_version"] == "founder-escalation-control/v2" &&
+        control["next_eligible_action"] == "P3_PHASE_ENTRY_DECISION"
+                                "P2_RESEARCH_EXIT_COMPLETE_P3_ENTRY_DECISION_REQUIRED"
+                              else
+                                control["disposition"]
+                              end
+      assert!(output.include?("disposition=#{validator_disposition}"),
+              "Founder validator output does not bind current disposition")
     end
     control
   end

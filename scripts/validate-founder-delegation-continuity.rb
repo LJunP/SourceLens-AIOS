@@ -5058,7 +5058,32 @@ module FounderDelegationContinuity
     end
     if route["schema_version"] == "p3-phase-delegated-task/v1"
       assert(defined?(P3TaskAuthorityValidation), "P3 Task authority validator is unavailable")
-      P3TaskAuthorityValidation.validate!(root: root, truth: truth)
+      task_state = P3TaskAuthorityValidation.validate!(root: root, truth: truth)
+      if task_state == "P3_003_TERMINAL_PREACTIVATION_TEMP_ROOT_CONFINEMENT_NON_PASS"
+        assert(defined?(P3PhaseEntryValidation), "P3 Phase entry validator is unavailable")
+        phase_state = P3PhaseEntryValidation.validate!(root: root, truth: truth)
+        assert(phase_state == "P3_ENTRY_ACTIVE_MILESTONE_FROZEN",
+               "P3 terminal milestone-freeze Phase projection drift")
+        control = mapping(truth["founder_escalation_control"], "founder_escalation_control")
+        terminal_identity = mapping(
+          route.dig("selected_task", "terminal_receipt"),
+          "P3 terminal Task receipt identity"
+        )
+        assert(control["schema_version"] == "founder-escalation-control/v2" &&
+               control["disposition"] == FOUNDER_DISPOSITION &&
+               control.dig("source_event", "kind") ==
+                 "P3_CAPABILITY_MILESTONE_SECOND_IMPLEMENTATION_TASK_TERMINAL" &&
+               control.dig("source_event", "task_id") == route.dig("selected_task", "task_id") &&
+               control.dig("source_event", "status") == route["status"] &&
+               control.dig("reserved_trigger", "category") ==
+                 "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE" &&
+               control.dig("reserved_trigger", "evidence") == terminal_identity &&
+               control["founder_decision_required"] == true &&
+               control["next_action_owner"] == "HUMAN_FOUNDER" &&
+               control["next_eligible_action"] == route["next_eligible_action"],
+               "P3 capability milestone-freeze Founder escalation projection drift")
+        return FOUNDER_DISPOSITION
+      end
       return CONTINUE_DISPOSITION
     end
     validate_phase_delegation!(truth, phase)

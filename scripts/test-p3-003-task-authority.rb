@@ -30,11 +30,23 @@ raise "exact READY state drift" unless ready_state == "P3_003_READY_FOR_MASTER_A
 puts "PASS exact P3-003 READY projection"
 assertions = 1
 
+active_bytes, active_error, active_status = Open3.capture3(
+  "git", "-C", ROOT, "show",
+  "2cb19b7b1682ba241aaac16f4883363bf80502e8:docs/aios/truth/project_state.yaml"
+)
+raise "cannot load P3-003 ACTIVE Truth: #{active_error}" unless active_status.success?
+active_truth = YAML.safe_load(active_bytes, permitted_classes: [], permitted_symbols: [], aliases: false)
+state = P3Task003AuthorityValidation.validate!(root: ROOT, truth: active_truth)
+raise "exact ACTIVE preactivation state drift" unless state == "P3_003_ACTIVE_PREACTIVATION_REQUIRED"
+puts "PASS exact P3-003 ACTIVE preactivation projection"
+assertions += 1
+
 truth = YAML.safe_load(File.binread(File.join(ROOT, "docs/aios/truth/project_state.yaml")),
                        permitted_classes: [], permitted_symbols: [], aliases: false)
 state = P3Task003AuthorityValidation.validate!(root: ROOT, truth: truth)
-raise "exact ACTIVE preactivation state drift" unless state == "P3_003_ACTIVE_PREACTIVATION_REQUIRED"
-puts "PASS exact P3-003 ACTIVE preactivation projection"
+raise "exact TERMINAL state drift" unless state ==
+  "P3_003_TERMINAL_PREACTIVATION_TEMP_ROOT_CONFINEMENT_NON_PASS"
+puts "PASS exact P3-003 TERMINAL projection"
 assertions += 1
 
 fixture = copy(truth)
@@ -55,6 +67,11 @@ assertions += 1
 fixture = copy(truth)
 fixture.dig("current_phase_route", "external_effects")["network"] = true
 reject_drift("network expansion", fixture, "Route projection drift")
+assertions += 1
+
+fixture = copy(truth)
+fixture.dig("current_phase_route", "selected_task", "terminal_receipt")["sha256"] = "0" * 64
+reject_drift("terminal receipt drift", fixture, "TERMINAL projection drift")
 assertions += 1
 
 puts "P3_003_TASK_AUTHORITY_TESTS: PASS #{assertions} assertions"

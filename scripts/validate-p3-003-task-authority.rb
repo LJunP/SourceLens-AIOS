@@ -3,6 +3,7 @@
 
 require "digest"
 require "json"
+require "open3"
 require "pathname"
 require "yaml"
 
@@ -28,6 +29,20 @@ module P3Task003AuthorityValidation
   P3_002_TERMINAL_PATH = "/Users/lijunpeng/Developer/.sourcelens-audit/p3-capability-scoped-tool-permission-20260819/task-p3-002/terminal/P3_002_TERMINAL_WRITE_ROOT_ESCAPE_NON_PASS_RECEIPT_V1.json"
   P3_002_TERMINAL_BYTES = 3023
   P3_002_TERMINAL_SHA256 = "686b0d254ef8d56652de7fa9b4b742e3c0b5478b93744da23cb1760c99b7a35b"
+  TERMINAL_PATH = File.join(
+    EVIDENCE_ROOT, "terminal",
+    "P3_003_TERMINAL_PREACTIVATION_TEMP_ROOT_CONFINEMENT_NON_PASS_RECEIPT_V1.json"
+  )
+  TERMINAL_BYTES = 8569
+  TERMINAL_SHA256 = "1a488dea0c6750fdb679a27492fc031b5db7ad0e0fd9700e716d9a8dd1b59ed0"
+  RAW_EVIDENCE = [
+    ["raw/preactivation-v1/P3_003_SANDBOX_PROFILE_V1.sb", 184,
+     "eebc2f2c78c11d1dcc206ef09c27a04a0796ef124be4f8db425afcd29b9b5339"],
+    ["raw/preactivation-v1/P3_003_AGENT_SANDBOX_TOOL_TEST_COMBINED_LOG_V1.txt", 19_115,
+     "2bc797b8d6c1e1fcdf2ea511927db50617a84b311aacac16570ae49fa1452802"],
+    ["raw/preactivation-v1/P3_003_AGENT_SANDBOX_TOOL_TEST_SUREFIRE_XML_V1.xml", 50_455,
+     "01615fdf71e5febe801b97ff56fd8af9fa0d7de9f48dea4309f3520aaa892c0b"]
+  ].freeze
   BUDGET = {"engineering_tasks" => 1, "engineering_hours" => 32, "calendar_days" => 8}.freeze
   FULL_TASK_BUDGET = BUDGET.merge(
     "candidate_generations" => 1, "same_task_repairs" => 1, "review_cycles" => 2
@@ -100,7 +115,8 @@ module P3Task003AuthorityValidation
 
     assert(project["current_phase"] == "P3" && project["p3_entry_status"] == "AUTHORIZED" &&
            project["p3_execution_status"] == "ACTIVE" &&
-           %w[PHASE_DELEGATED_TASK_READY ACTIVE_PHASE_DELEGATED_TASK_PREACTIVATION].include?(
+           %w[PHASE_DELEGATED_TASK_READY ACTIVE_PHASE_DELEGATED_TASK_PREACTIVATION
+              TERMINAL_PREACTIVATION_TEMP_ROOT_CONFINEMENT_NON_PASS].include?(
              project["current_route_execution_status"]
            ) &&
            project["p4_entry_status"] == "HOLD_PENDING_STRICT_P3_EXIT_AND_SEPARATE_FOUNDER_PHASE_ENTRY",
@@ -112,7 +128,6 @@ module P3Task003AuthorityValidation
            route["phase_entry_route_ref"] == "historical_p3_phase_entry_route" &&
            route["predecessor_milestone_route_ref"] == "historical_p3_001_phase_route" &&
            route["preceding_terminal_route_ref"] == "historical_p3_002_phase_route" &&
-           route["founder_phase_route_decision_required"] == false &&
            route["external_effects"] == FALSE_EFFECTS && route["additional_write_roots"] == [],
            "P3-003 Route projection drift")
     assert(task["task_id"] == TASK_ID &&
@@ -140,7 +155,8 @@ module P3Task003AuthorityValidation
            envelope["external_effects"] == FALSE_EFFECTS,
            "P3-003 Phase envelope drift")
     if route["status"] == "AUTHORIZED_READY"
-      assert(route["execution_status"] == "P3_TASK_READY" &&
+      assert(route["founder_phase_route_decision_required"] == false &&
+             route["execution_status"] == "P3_TASK_READY" &&
              route["scheduling_status"] == "READY_FOR_MASTER_ACTIVATION" &&
              route["next_eligible_action"] == "MASTER_ACTIVATE_PHASE_DELEGATED_TASK" &&
              task["status"] == "ELIGIBLE_NOT_ACTIVATED" &&
@@ -164,7 +180,76 @@ module P3Task003AuthorityValidation
     authority_identity = {
       "path" => AUTHORITY_PATH, "byte_length" => AUTHORITY_BYTES, "sha256" => AUTHORITY_SHA256
     }
+    terminal_identity = {
+      "path" => TERMINAL_PATH, "byte_length" => TERMINAL_BYTES, "sha256" => TERMINAL_SHA256
+    }
+    if route["status"] == "TERMINAL_PREACTIVATION_TEMP_ROOT_CONFINEMENT_NON_PASS"
+      assert(project["phase_execution_status"] ==
+               "ACTIVE_INCOMPLETE_IMPLEMENTATION_MILESTONE_FROZEN" &&
+             route["execution_status"] ==
+               "TERMINAL_PREACTIVATION_TEMP_ROOT_CONFINEMENT_NON_PASS" &&
+             route["scheduling_status"] ==
+               "FOUNDER_PHASE_ROUTE_DECISION_REQUIRED_CAPABILITY_MILESTONE_FROZEN" &&
+             route["founder_phase_route_decision_required"] == true &&
+             route["founder_reserved_trigger"] == "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE" &&
+             route["next_eligible_action"] ==
+               "FOUNDER_DECIDE_P3_PHASE_ROUTE_WITH_CAPABILITY_MILESTONE_FROZEN" &&
+             task["status"] == "TERMINAL_PREACTIVATION_TEMP_ROOT_CONFINEMENT_NON_PASS" &&
+             task["authority"] == authority_identity && task["candidate_created"] == false &&
+             task["product_source_writes"] == 0 && task["integrated"] == false &&
+             task["terminal_receipt"] == terminal_identity &&
+             ledger[2]["status"] == "TERMINAL_PREACTIVATION_TEMP_ROOT_CONFINEMENT_NON_PASS" &&
+             ledger[2]["authority"] == authority_identity &&
+             ledger[2]["candidate_created"] == false && ledger[2]["product_source_writes"] == 0 &&
+             ledger[2]["terminal_receipt"] == terminal_identity &&
+             envelope["status"] == "ACTIVE_INCOMPLETE_CAPABILITY_MILESTONE_FROZEN" &&
+             envelope["consumed"] == {
+               "engineering_tasks" => 3, "engineering_hours" => 96, "calendar_days" => 24
+             } && envelope["reserved"].nil? && envelope["remaining_capacity_usable"] == false &&
+             envelope["remaining_capacity_lock_reason"] ==
+               "CAPABILITY_MILESTONE_TWO_IMPLEMENTATION_TASK_LIMIT_REACHED_PHASE_ROUTE_DECISION_REQUIRED" &&
+             active["current_task"] == "NONE" && active["current_task_status"] == "NONE" &&
+             active["current_task_contract"].nil? && active["authority_record"].values.all?(&:nil?) &&
+             active["execution_nonce_status"] == "CONSUMED_TERMINAL" &&
+             active["task_resource_state"] == "NONE_TERMINAL_WORKTREE_AND_BRANCH_REMOVED" &&
+             active["task_branch"].nil? && active["task_worktree"].nil? &&
+             active["execution_evidence_root"].nil? &&
+             active["founder_decision_required"] == true &&
+             active["founder_decision_required_scope"] ==
+               "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE" &&
+             active.dig("last_completed_task", "terminal_receipt") == terminal_identity &&
+             active["next_eligible_action"] ==
+               "FOUNDER_DECIDE_P3_PHASE_ROUTE_WITH_CAPABILITY_MILESTONE_FROZEN",
+             "P3-003 TERMINAL projection drift")
+      terminal = JSON.parse(exact_file(TERMINAL_PATH, TERMINAL_BYTES, TERMINAL_SHA256,
+                                       "P3-003 terminal receipt"))
+      assert(terminal["task_lifecycle"] ==
+               "TERMINAL_PREACTIVATION_TEMP_ROOT_CONFINEMENT_NON_PASS" &&
+             terminal["authorization_id"] == "d535eb7f-f6ad-4ce4-aa59-67f50564d28f" &&
+             terminal["execution_nonce"] == "657c0451-ca7b-4582-ba52-fc821a4ff784" &&
+             terminal.dig("worktree_at_execution", "tracked_diff") == "NONE" &&
+             terminal.dig("worktree_at_execution", "product_source_writes") == 0 &&
+             terminal.dig("preactivation", "status") == "NON_PASS" &&
+             terminal.dig("preactivation", "attempted_external_temp_paths_count") == 10 &&
+             terminal.dig("preactivation", "attempted_external_temp_paths_all_absent_after") == true &&
+             terminal["milestone_implementation_freeze"] == true &&
+             terminal["same_task_repair_allowed"] == false &&
+             terminal["external_effects"] == FALSE_EFFECTS,
+             "P3-003 terminal semantics drift")
+      RAW_EVIDENCE.each do |relative, bytes, sha256|
+        exact_file(File.join(EVIDENCE_ROOT, relative), bytes, sha256,
+                   "P3-003 raw preactivation Evidence #{relative}")
+      end
+      assert(!Pathname.new(WORKTREE).exist?, "P3-003 terminal worktree still exists")
+      _stdout, _stderr, branch_status = Open3.capture3(
+        "git", "-C", root.to_s, "show-ref", "--verify", "--quiet", "refs/heads/#{BRANCH}"
+      )
+      assert(!branch_status.success?, "P3-003 terminal branch still exists")
+      return "P3_003_TERMINAL_PREACTIVATION_TEMP_ROOT_CONFINEMENT_NON_PASS"
+    end
+
     assert(route["status"] == "ACTIVE_PREACTIVATION_REQUIRED" &&
+           route["founder_phase_route_decision_required"] == false &&
            route["execution_status"] == "ACTIVE_PREACTIVATION_REQUIRED" &&
            route["scheduling_status"] == "PREACTIVATION_BEFORE_PRODUCT_WRITE" &&
            route["next_eligible_action"] == "RUN_EXACT_TEMP_ROOT_CONFINEMENT_PREACTIVATION" &&

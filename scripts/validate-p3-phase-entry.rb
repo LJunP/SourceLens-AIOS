@@ -136,11 +136,15 @@ module P3PhaseEntryValidation
   end
 
   def validate_continuation!(truth, project, route)
+    milestone_frozen = route["status"] ==
+      "TERMINAL_PREACTIVATION_TEMP_ROOT_CONFINEMENT_NON_PASS"
+    expected_phase_execution_status = milestone_frozen ?
+      "ACTIVE_INCOMPLETE_IMPLEMENTATION_MILESTONE_FROZEN" : "ACTIVE"
     assert(project["current_phase"] == "P3" &&
            project["phase_name"] == "Single-Agent Runtime + Minimum Trust" &&
            project["p2_execution_status"] == "COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED" &&
            project["p3_entry_status"] == "AUTHORIZED" && project["p3_execution_status"] == "ACTIVE" &&
-           project["phase_execution_status"] == "ACTIVE" &&
+           project["phase_execution_status"] == expected_phase_execution_status &&
            project["p4_entry_status"] == "HOLD_PENDING_STRICT_P3_EXIT_AND_SEPARATE_FOUNDER_PHASE_ENTRY",
            "project P3 continuation projection drift")
 
@@ -148,7 +152,7 @@ module P3PhaseEntryValidation
            route["phase_entry_status"] == "AUTHORIZED" &&
            route["phase_execution_envelope_ref"] == "phase_execution_envelope" &&
            route["phase_entry_route_ref"] == "historical_p3_phase_entry_route" &&
-           route["founder_phase_route_decision_required"] == false &&
+           route["founder_phase_route_decision_required"] == milestone_frozen &&
            route["external_effects"] == FALSE_EFFECTS && route["additional_write_roots"] == [],
            "current P3 continuation Route drift")
 
@@ -176,8 +180,10 @@ module P3PhaseEntryValidation
     reserved = envelope["reserved"].is_a?(Hash) ? envelope["reserved"] : {}
     unconsumed_reservation = reserved["status"] == "ELIGIBLE_NOT_ACTIVATED" ?
       mapping(reserved["budget"], "P3 reserved capacity") : ZERO_CAPACITY
+    expected_envelope_status = milestone_frozen ?
+      "ACTIVE_INCOMPLETE_CAPABILITY_MILESTONE_FROZEN" : "ACTIVE_REMAINING_CAPACITY"
     assert(envelope["schema_version"] == "phase-execution-envelope/v1" &&
-           envelope["phase"] == "P3" && envelope["status"] == "ACTIVE_REMAINING_CAPACITY" &&
+           envelope["phase"] == "P3" && envelope["status"] == expected_envelope_status &&
            envelope["limits"] == LIMITS && envelope["milestone_order"] == MILESTONES &&
            envelope["accepted_milestones"].is_a?(Array) &&
            MILESTONES.first(envelope["accepted_milestones"].length) == envelope["accepted_milestones"] &&
@@ -187,7 +193,8 @@ module P3PhaseEntryValidation
              unconsumed_reservation["engineering_hours"] == 256 &&
            consumed["calendar_days"] + remaining["calendar_days"] +
              unconsumed_reservation["calendar_days"] == 64 &&
-           envelope["remaining_capacity_usable"] == true && envelope["external_effects"] == FALSE_EFFECTS &&
+           envelope["remaining_capacity_usable"] == !milestone_frozen &&
+           envelope["external_effects"] == FALSE_EFFECTS &&
            envelope.dig("authority_basis", "source_route_ref") == "historical_p3_phase_entry_route" &&
            envelope.dig("authority_basis", "source_decision") == decision_identity,
            "P3 continuation envelope drift")
@@ -208,26 +215,38 @@ module P3PhaseEntryValidation
            "strict P3 Gate continuation projection drift")
 
     boundary = mapping(truth["phase_boundary"], "P3 Phase boundary")
-    assert(boundary["phase"] == "P3" && boundary["phase_execution_status"] == "ACTIVE" &&
-           boundary["task_creation_allowed"] == true && boundary["p3_entry_authorized"] == true &&
+    assert(boundary["phase"] == "P3" &&
+           boundary["phase_execution_status"] == expected_phase_execution_status &&
+           boundary["task_creation_allowed"] == !milestone_frozen &&
+           boundary["p3_entry_authorized"] == true &&
            boundary["default_external_effects"] == FALSE_EFFECTS,
            "P3 Phase boundary drift")
 
     control = mapping(truth["founder_escalation_control"], "Founder escalation control")
-    assert(control["disposition"] == "NO_RESERVED_TRIGGER_CONTINUE_PHASE" &&
-           control.dig("reserved_trigger", "category") == "NONE" &&
-           control["phase_gate_status"] == "INCOMPLETE" && control["founder_decision_required"] == false &&
-           control["next_action_owner"] == "MASTER_CEO_AGENT" &&
+    expected_disposition = milestone_frozen ?
+      "FOUNDER_DECISION_REQUIRED" : "NO_RESERVED_TRIGGER_CONTINUE_PHASE"
+    expected_trigger = milestone_frozen ? "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE" : "NONE"
+    expected_owner = milestone_frozen ? "HUMAN_FOUNDER" : "MASTER_CEO_AGENT"
+    assert(control["disposition"] == expected_disposition &&
+           control.dig("reserved_trigger", "category") == expected_trigger &&
+           control["phase_gate_status"] == "INCOMPLETE" &&
+           control["founder_decision_required"] == milestone_frozen &&
+           control["next_action_owner"] == expected_owner &&
            control["next_eligible_action"] == route["next_eligible_action"],
            "P3 Founder escalation continuation drift")
 
     active = mapping(truth["active_work"], "active work")
+    expected_user_action = milestone_frozen ?
+      "FOUNDER_RESERVED_PHASE_ROUTE_DECISION" : "NONE"
     assert(active["founder_reserved_authorization"] == DECISION_PATH &&
            active["founder_reserved_authorization_sha256"] == DECISION_SHA256 &&
-           active["founder_decision_required"] == false && active["user_action_required"] == "NONE" &&
-           active["phase_route_decision_required"] == false && active["external_effects"] == FALSE_EFFECTS,
+           active["founder_decision_required"] == milestone_frozen &&
+           active["user_action_required"] == expected_user_action &&
+           active["phase_route_decision_required"] == milestone_frozen &&
+           active["external_effects"] == FALSE_EFFECTS,
            "P3 active-work continuation drift")
-    if route["next_eligible_action"] == "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK"
+    if route["next_eligible_action"] == "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK" ||
+       milestone_frozen
       assert(active["current_task"] == "NONE" && active["current_task_status"] == "NONE" &&
              active["next_eligible_action"] == route["next_eligible_action"],
              "P3 completed-Task active-work projection drift")
@@ -243,7 +262,7 @@ module P3PhaseEntryValidation
            claim["p3_exit_gate_progress_percent"] == 0 &&
            claim["p3_accepted_milestones"] == envelope["accepted_milestones"],
            "P3 continuation claim boundary drift")
-    "P3_ENTRY_ACTIVE_CONTINUATION"
+    milestone_frozen ? "P3_ENTRY_ACTIVE_MILESTONE_FROZEN" : "P3_ENTRY_ACTIVE_CONTINUATION"
   end
 
   def validate!(root:, truth:)

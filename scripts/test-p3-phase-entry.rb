@@ -44,6 +44,15 @@ assertions = 0
 expect_pass("exact P3 entry projection", truth)
 assertions += 1
 
+current_truth = YAML.safe_load(
+  File.binread(TRUTH), permitted_classes: [], permitted_symbols: [], aliases: false
+)
+current_state = P3PhaseEntryValidation.validate!(root: ROOT, truth: current_truth)
+raise "current P3 terminal continuation state drift: #{current_state}" unless
+  current_state == "P3_ENTRY_ACTIVE_MILESTONE_FROZEN"
+puts "PASS current P3 milestone-frozen continuation projection"
+assertions += 1
+
 fixture = deep_copy(truth)
 fixture.dig("strict_phase_gate_ledger", "phases", "P2", "original_capability_gate")["status"] =
   "ACCEPTED"

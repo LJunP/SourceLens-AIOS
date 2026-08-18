@@ -3,7 +3,7 @@ record_type: aios_phase_delegated_independent_task_contract
 task_id: AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV
 phase: P2
 route_id: AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV_PHASE_DELEGATED_ROUTE
-status: ACTIVE
+status: TERMINAL_PRODUCT_SELECTOR_DEV_PARAMETER_GATE_NON_PASS
 task_kind: REPOSITORY_INTELLIGENCE_GRAPH_ENGINEERING
 capability: GRAPH_CONDITIONED_CONTEXT_SELECTION
 objective: >-
@@ -253,6 +253,36 @@ forbidden_actions:
 - Let Maven, Gradle, Java, Node or another build/evaluation subprocess access network; all real execution remains sandbox-exec deny-network.
 - Use credentials, cookies, Authorization headers, uploads, Git fetch/clone/push, browser networking, Provider, remote, production or public release.
 - Delete prior terminal Evidence, modify Codex control-plane state, enter P3, close the P2 Exit Gate or terminate the Long-term Goal.
+terminal_outcome:
+  lifecycle: TASK_LIFECYCLE
+  status: TERMINAL_PRODUCT_SELECTOR_DEV_PARAMETER_GATE_NON_PASS
+  reason: >-
+    Both predeclared deterministic graph-fusion parameter sets failed the simultaneous
+    Product Selector DEV threshold before any product-source write. FUSION_A produced
+    macro precision 0.14583333333333331, macro recall 0.7916666666666666 and macro
+    reciprocal rank 0.78125. FUSION_B produced macro precision 0.1416170634920635,
+    macro recall 0.7916666666666666 and macro reciprocal rank 0.7291666666666666.
+    Both are below the accepted B1 precision 0.15595238095238093, recall
+    0.8958333333333334 and MRR 0.8229166666666666, and both regress jexl-409 recall
+    from 1 to 0.
+  candidate_commit: ca14e0ce704756ab1015db34952ef01d77411fb8
+  candidate_tree: e45ef1c77b221ce1b33f46e5a29cc33513924494
+  candidate_integrated: false
+  product_source_write_count: 0
+  parameter_sets_executed: 2
+  qualifying_parameter_sets: 0
+  b1_seed_parity: PASS_ALL_8_DEV_TASKS
+  replay_count: 2
+  byte_exact_replay_output_count: 4
+  held_source_reads: 0
+  held_tasks_executed: 0
+  product_selector_dev_milestone_accepted: false
+  p2_delivery_percent: 25
+  strict_p2_exit_percent: 0
+  progress_credit: 0
+  formal_held_slot_status: LOCKED
+  p3_status: HOLD
+  long_term_goal_status: ACTIVE
 claim_boundary: >-
   This Task may establish only P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED for one exact
   clean-room B1-anchored graph-fusion product candidate after independent Task Gate

@@ -754,11 +754,15 @@ module P2RecoveryAntiCycle
     when "CLEAN_ROOM_SLOT_V4_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED",
          "CLEAN_ROOM_SLOT_V5_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED",
          "CLEAN_ROOM_SLOT_V6_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED",
-         "CLEAN_ROOM_SLOT_V7_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED"
+         "CLEAN_ROOM_SLOT_V7_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED",
+         "CLEAN_ROOM_SLOT_V8_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED"
+      graph_fusion = control["status"].include?("SLOT_V8_1")
       architecture_pivot = control["status"].include?("SLOT_V7_1")
       product_path_closure = control["status"].include?("SLOT_V6_1")
       stream_lifecycle = control["status"].include?("SLOT_V5_1")
-      task_id = if architecture_pivot
+      task_id = if graph_fusion
+                  "AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV"
+                elsif architecture_pivot
                   "AIOS-P2-075_CLEAN_ROOM_QUERY_ENTITY_COVERAGE_PRODUCT_SELECTOR_ARCHITECTURE_PIVOT_DEV"
                 elsif product_path_closure
                   "AIOS-P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV"
@@ -767,7 +771,9 @@ module P2RecoveryAntiCycle
                 else
                   "AIOS-P2-072_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_EXECUTION_INTEGRITY_DEV"
                 end
-      terminal_status = if architecture_pivot
+      terminal_status = if graph_fusion
+                          "TERMINAL_PRODUCT_SELECTOR_DEV_PARAMETER_GATE_NON_PASS"
+                        elsif architecture_pivot
                           "TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_AND_BUDGET_NON_PASS"
                         elsif product_path_closure
                           "TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_AND_BUDGET_NON_PASS"
@@ -776,7 +782,13 @@ module P2RecoveryAntiCycle
                         else
                           "TERMINAL_PRODUCT_SELECTOR_DEV_REPLAY_EXECUTION_INTEGRITY_NON_PASS"
                         end
-      terminal_receipt = if architecture_pivot
+      terminal_receipt = if graph_fusion
+                           {
+                             "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p2-b1-anchored-graph-fusion-product-selector-20260818/task-p2-076/terminal/P2_076_TERMINAL_PRODUCT_SELECTOR_DEV_PARAMETER_GATE_NON_PASS_RECEIPT_V1.json",
+                             "byte_length" => 6999,
+                             "sha256" => "b81191597cf999cb6ff8ea4018413bf002d890e683ed2c8b1011c4494b62dd3c"
+                           }
+                         elsif architecture_pivot
                            {
                              "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p2-query-entity-coverage-product-selector-20260818/task-p2-075/terminal/P2_075_TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_AND_BUDGET_NON_PASS_RECEIPT_V1.json",
                              "byte_length" => 6090,
@@ -801,7 +813,9 @@ module P2RecoveryAntiCycle
                              "sha256" => "a14509a6e2ff8ce82962f6f4205adef7f1e6fde956f93d9c9331c2276e4ecf05"
                            }
                          end
-      historical_ref = if architecture_pivot
+      historical_ref = if graph_fusion
+                         "historical_p2_076_phase_route"
+                       elsif architecture_pivot
                          "historical_p2_075_phase_route"
                        elsif product_path_closure
                          "historical_p2_074_phase_route"
@@ -810,7 +824,9 @@ module P2RecoveryAntiCycle
                        else
                          "historical_p2_072_phase_route"
                        end
-      expected_consumed = if architecture_pivot
+      expected_consumed = if graph_fusion
+                            { "engineering_tasks" => 21, "engineering_hours" => 624, "calendar_days" => 156 }
+                          elsif architecture_pivot
                             { "engineering_tasks" => 20, "engineering_hours" => 592, "calendar_days" => 148 }
                           elsif product_path_closure
                             { "engineering_tasks" => 19, "engineering_hours" => 560, "calendar_days" => 140 }
@@ -819,7 +835,9 @@ module P2RecoveryAntiCycle
                           else
                             { "engineering_tasks" => 17, "engineering_hours" => 496, "calendar_days" => 124 }
                           end
-      expected_progress = if architecture_pivot
+      expected_progress = if graph_fusion
+                            "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_076_TERMINAL_PRODUCT_SELECTOR_DEV_PARAMETER_GATE_NON_PASS_SLOT_V2_3_LOCKED"
+                          elsif architecture_pivot
                             "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_075_TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_AND_BUDGET_NON_PASS_SLOT_V2_3_LOCKED"
                           elsif product_path_closure
                             "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_074_TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_AND_BUDGET_NON_PASS_SLOT_V2_3_LOCKED"
@@ -828,8 +846,8 @@ module P2RecoveryAntiCycle
                           else
                             "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_072_TERMINAL_PRODUCT_SELECTOR_DEV_REPLAY_EXECUTION_INTEGRITY_NON_PASS_SLOT_V2_3_LOCKED"
                           end
-      terminal_slot_label = architecture_pivot ? "V7_1" :
-        (product_path_closure ? "V6_1" : (stream_lifecycle ? "V5_1" : "V4_1"))
+      terminal_slot_label = graph_fusion ? "V8_1" : (architecture_pivot ? "V7_1" :
+        (product_path_closure ? "V6_1" : (stream_lifecycle ? "V5_1" : "V4_1")))
       expected_slots[0]["task_id"] = task_id
       expected_remaining = {
         "engineering_tasks" => 1,

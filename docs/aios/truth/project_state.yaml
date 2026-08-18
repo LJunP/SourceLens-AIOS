@@ -1,8 +1,8 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: '2026-08-18T01:31:12Z'
+last_verified_at: '2026-08-18T01:54:58Z'
 
-verification_scope: P2_076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_AUTHORITY_BRANCH_WORKTREE_AND_EVIDENCE_ROOT_BOUND_PREACTIVATION_REQUIRED_BEFORE_PRODUCT_WRITE_P2_DELIVERY_25_STRICT_0_HELD_RELOCKED_P2_PROJECT_AND_LONG_TERM_GOAL_ACTIVE
+verification_scope: P2_076_TERMINAL_PRODUCT_SELECTOR_DEV_PARAMETER_GATE_NON_PASS_NO_PRODUCT_SOURCE_WRITE_TWO_PREDECLARED_PARAMETER_SETS_BOTH_BELOW_B1_ZERO_HELD_ZERO_EXTERNAL_EFFECTS_SLOT_V8_1_CONSUMED_SLOT_V2_3_LOCKED_P2_DELIVERY_25_STRICT_0_P2_PROJECT_AND_LONG_TERM_GOAL_ACTIVE
 
 authority:
   founder: Human Founder
@@ -38,24 +38,32 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV
-  note: 'Founder decision AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_B1_ANCHORED_GRAPH_FUSION_SLOT_AND_RELOCKED_HELD_SEQUENCE_V6
-    expands the cumulative P2 envelope to twenty-two Tasks, six-hundred-fifty-six
+  current_task_authority: NONE
+  note: 'P2-076 is TERMINAL_PRODUCT_SELECTOR_DEV_PARAMETER_GATE_NON_PASS. The
+    accepted P2-069 B1 seed was reconstructed exactly on all eight DEV tasks before
+    either frozen parameter set executed. FUSION_A produced macro precision
+    0.14583333333333331, recall 0.7916666666666666 and MRR 0.78125; FUSION_B
+    produced precision 0.1416170634920635, recall 0.7916666666666666 and MRR
+    0.7291666666666666. Both are below all three accepted B1 thresholds and both
+    regress jexl-409 recall from 1 to 0. The two predeclared sets were replayed
+    byte-exact on candidate ca14e0ce704756ab1015db34952ef01d77411fb8 tree
+    e45ef1c77b221ce1b33f46e5a29cc33513924494. No product source was written or
+    integrated, HELD reads and executions remain zero, and all external effects
+    remain false. Slot V8_1 is consumed; twenty-one Tasks, six-hundred-twenty-four
+    hours and one-hundred-fifty-six days are consumed. The only remaining slot is
+    formal HELD V2_3 and remains locked because P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED
+    is absent. Delivery remains 25%, strict P2 progress remains 0%, P3 remains HOLD,
+    and P2 plus the Long-term Goal remain ACTIVE. The exact terminal receipt is 6999
+    bytes with SHA-256 b81191597cf999cb6ff8ea4018413bf002d890e683ed2c8b1011c4494b62dd3c.
+    Another Product Selector DEV Task requires the Founder-reserved
+    MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE decision;
+    no automatic successor exists. All following paragraphs are retained historical
+    chronology only. Founder decision AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_B1_ANCHORED_GRAPH_FUSION_SLOT_AND_RELOCKED_HELD_SEQUENCE_V6
+    expanded the cumulative P2 envelope to twenty-two Tasks, six-hundred-fifty-six
     engineering hours and one-hundred-sixty-four calendar days while preserving
-    twenty consumed Tasks. One new clean-room Product Selector DEV B1-anchored
-    graph-fusion slot V8_1 is eligible but not activated; the existing formal HELD
-    slot V2_3 remains locked until P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED is
-    independently accepted. The new Task must reproduce the accepted P2-069 B1
-    lexical seed ranking from accepted inputs, build a product-owned static Java
-    package/type/member/import/reference graph, and use no more than two predeclared
-    deterministic lexical plus one-hop structural fusion parameter sets. It must
-    preserve normalized-path-first ties, top-k 10, the 131072-byte UTF-8 budget,
-    zero per-task recall regressions, exact B1-seed parity, closed authority and
-    execution Evidence, and zero HELD reads. Rejected P2-070 through P2-075
-    engineering lineage remains forbidden implementation input. This decision
-    creates no engineering or capability credit, P2 delivery remains 25%, strict
-    P2 Exit progress remains 0%, P2 and the Long-term Goal remain ACTIVE, and P3
-    remains HOLD. All following paragraphs are retained historical chronology only.
+    twenty consumed Tasks and adding slot V8_1 before the locked formal HELD slot.
+    It created no engineering or capability credit by itself. All following
+    paragraphs are retained historical chronology only.
     P2-075 is TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_AND_BUDGET_NON_PASS. Its
     exact rejected candidate commit/tree b715833b9bd374dbdcb0543be161d1e4379036f9/9e328e058b8b08f580128cd782249d1ec50128d8
     is preserved and was not integrated. Generation 1 produced macro precision
@@ -1560,8 +1568,8 @@ project:
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
   p2_execution_status: ACTIVE
-  phase_execution_status: ACTIVE
-  current_route_execution_status: ACTIVE_PHASE_DELEGATED_TASK
+  phase_execution_status: STOPPED_AT_FOUNDER_RESERVED_DECISION
+  current_route_execution_status: FOUNDER_RESERVED_DECISION_REQUIRED
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -7432,9 +7440,9 @@ historical_p2_product_selector_dev_query_entity_coverage_architecture_pivot_slot
 historical_p2_product_selector_dev_b1_anchored_graph_fusion_slot_and_relocked_held_phase_route:
   schema_version: '1.4'
   route_id: P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_B1_ANCHORED_GRAPH_FUSION_SLOT_AND_RELOCKED_HELD_SEQUENCE_ROUTE_V6
-  status: AUTHORIZED_CAPACITY_AVAILABLE
-  execution_status: PRODUCT_SELECTOR_DEV_B1_ANCHORED_GRAPH_FUSION_SLOT_ELIGIBLE_NOT_ACTIVATED
-  scheduling_status: MASTER_SELECTING_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
+  status: PRODUCT_SELECTOR_DEV_SLOT_CONSUMED_FORMAL_HELD_SLOT_LOCKED
+  execution_status: PRODUCT_SELECTOR_DEV_B1_ANCHORED_GRAPH_FUSION_SLOT_TERMINAL_NON_PASS
+  scheduling_status: STOPPED_NO_SUCCESSOR_FORMAL_HELD_LOCKED
   phase: P2
   phase_entry_status: AUTHORIZED
   authorization_token: AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_B1_ANCHORED_GRAPH_FUSION_SLOT_AND_RELOCKED_HELD_SEQUENCE_V6
@@ -7529,7 +7537,8 @@ historical_p2_product_selector_dev_b1_anchored_graph_fusion_slot_and_relocked_he
   task_plan: []
   automatic_entry:
   automatic_entries: []
-  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
+  founder_phase_route_decision_required: true
+  next_eligible_action: FOUNDER_RESERVED_DECISION
 
 historical_p2_072_phase_route:
   schema_version: phase-delegated-independent-task/v1
@@ -7932,26 +7941,26 @@ historical_p2_075_phase_route:
     branch: codex/p2-075-query-entity-coverage-product-selector-dev
     status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
 
-current_phase_route:
+historical_p2_076_phase_route:
   schema_version: phase-delegated-independent-task/v1
   route_id: AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV_PHASE_DELEGATED_ROUTE
-  status: ACTIVE
-  execution_status: ACTIVE
-  scheduling_status: ACTIVE_PHASE_DELEGATED_TASK
+  status: TERMINAL_PRODUCT_SELECTOR_DEV_PARAMETER_GATE_NON_PASS
+  execution_status: TERMINAL_PRODUCT_SELECTOR_DEV_PARAMETER_GATE_NON_PASS
+  scheduling_status: STOPPED_NO_SUCCESSOR_FORMAL_HELD_LOCKED
   phase: P2
   phase_entry_status: AUTHORIZED
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: '1.8'
     sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
-  founder_phase_route_decision_required: false
-  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
+  founder_phase_route_decision_required: true
+  next_eligible_action: FOUNDER_RESERVED_DECISION
   phase_execution_envelope_ref: phase_execution_envelope
   source_authority_route_ref: historical_p2_product_selector_dev_b1_anchored_graph_fusion_slot_and_relocked_held_phase_route
   preceding_terminal_route_ref: historical_p2_075_phase_route
   selected_task:
     task_id: AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV
-    status: ACTIVE
+    status: TERMINAL_PRODUCT_SELECTOR_DEV_PARAMETER_GATE_NON_PASS
     task_kind: REPOSITORY_INTELLIGENCE_GRAPH_ENGINEERING
     capability: GRAPH_CONDITIONED_CONTEXT_SELECTION
     objective: >-
@@ -7970,8 +7979,8 @@ current_phase_route:
     max_same_task_repairs: 1
     contract:
       path: docs/aios/tasks/P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV.yaml
-      sha256: 6a22ee98bcde02190cfe16cf57cce1e8b44b9bc31018d5092f2e777ebbe74af4
-      byte_length: 15376
+      sha256: 59bbe91401109667ddee0136956fa8879115d24a38aef25691129809e4f7233b
+      byte_length: 16732
     independence:
       new_task_id: true
       new_execution_nonce: true
@@ -7984,6 +7993,19 @@ current_phase_route:
       rejected_lineage_copy: false
       same_phase_objective: true
       successor_or_replacement: false
+    rejected_candidate:
+      commit: ca14e0ce704756ab1015db34952ef01d77411fb8
+      tree: e45ef1c77b221ce1b33f46e5a29cc33513924494
+      product_source_changed_file_count: 0
+      integrated: false
+    outcome_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-b1-anchored-graph-fusion-product-selector-20260818/task-p2-076/terminal/P2_076_TERMINAL_PRODUCT_SELECTOR_DEV_PARAMETER_GATE_NON_PASS_RECEIPT_V1.json
+      byte_length: 6999
+      sha256: b81191597cf999cb6ff8ea4018413bf002d890e683ed2c8b1011c4494b62dd3c
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-b1-anchored-graph-fusion-product-selector-20260818/task-p2-076/terminal/P2_076_TERMINAL_PRODUCT_SELECTOR_DEV_PARAMETER_GATE_NON_PASS_RECEIPT_V1.json
+    byte_length: 6999
+    sha256: b81191597cf999cb6ff8ea4018413bf002d890e683ed2c8b1011c4494b62dd3c
   external_effects:
     network: false
     provider: false
@@ -7993,6 +8015,32 @@ current_phase_route:
     public: false
   additional_write_roots: []
   inherited_worktree_inventory_source: historical_p2_075_phase_route
+
+current_phase_route:
+  schema_version: founder-reserved-decision-hold/v1
+  route_id: P2_FOUNDER_RESERVED_DECISION_HOLD
+  status: FOUNDER_RESERVED_DECISION_REQUIRED
+  execution_status: FOUNDER_RESERVED_DECISION_REQUIRED
+  scheduling_status: STOPPED_AT_FOUNDER_RESERVED_DECISION
+  phase: P2
+  phase_entry_status: AUTHORIZED
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: '1.8'
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  founder_phase_route_decision_required: true
+  next_eligible_action: FOUNDER_RESERVED_DECISION
+  phase_execution_envelope_ref: phase_execution_envelope
+  historical_terminal_route_ref: historical_p2_076_phase_route
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false
+  additional_write_roots: []
+  inherited_worktree_inventory_source: historical_p2_076_phase_route
 
 historical_p2_071_phase_route:
   schema_version: phase-delegated-independent-task/v1
@@ -10072,7 +10120,7 @@ historical_p2_060_founder_expansion_phase_route:
 phase_execution_envelope:
   schema_version: phase-execution-envelope/v1
   phase: P2
-  status: TASK_CAPACITY_RESERVED
+  status: ACTIVE_REMAINING_CAPACITY
   authority_basis:
     phase_entry_status: AUTHORIZED
     policy_path: docs/aios/FOUNDER_DELEGATION_POLICY.md
@@ -10425,27 +10473,26 @@ phase_execution_envelope:
       path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-query-entity-coverage-product-selector-20260818/task-p2-075/terminal/P2_075_TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_AND_BUDGET_NON_PASS_RECEIPT_V1.json
       byte_length: 6090
       sha256: a5172c7fbc96631d7242674823f0e6f4ed5b254d98eb2d710a461e60a9c49cff
-  consumed:
-    engineering_tasks: 20
-    engineering_hours: 592
-    calendar_days: 148
-  reserved:
-    task_id: AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV
+  - task_id: AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV
     route_id: AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV_PHASE_DELEGATED_ROUTE
-    status: ACTIVE
-    capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_V8_1
-    contract:
-      path: docs/aios/tasks/P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV.yaml
-      sha256: 6a22ee98bcde02190cfe16cf57cce1e8b44b9bc31018d5092f2e777ebbe74af4
-      byte_length: 15376
+    status: TERMINAL_PRODUCT_SELECTOR_DEV_PARAMETER_GATE_NON_PASS
     budget:
       engineering_tasks: 1
       engineering_hours: 32
       calendar_days: 8
-    authority:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-b1-anchored-graph-fusion-product-selector-20260818/task-p2-076/authority/P2_076_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
-      sha256: 1609d28b1e7382630d71498ee8b8b19fa9084795f8b7dcab3c6446e9119d2c42
-      byte_length: 6531
+    contract:
+      path: docs/aios/tasks/P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV.yaml
+      sha256: 59bbe91401109667ddee0136956fa8879115d24a38aef25691129809e4f7233b
+      byte_length: 16732
+    outcome_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-b1-anchored-graph-fusion-product-selector-20260818/task-p2-076/terminal/P2_076_TERMINAL_PRODUCT_SELECTOR_DEV_PARAMETER_GATE_NON_PASS_RECEIPT_V1.json
+      byte_length: 6999
+      sha256: b81191597cf999cb6ff8ea4018413bf002d890e683ed2c8b1011c4494b62dd3c
+  consumed:
+    engineering_tasks: 21
+    engineering_hours: 624
+    calendar_days: 156
+  reserved:
   remaining:
     engineering_tasks: 1
     engineering_hours: 32
@@ -10460,18 +10507,21 @@ phase_execution_envelope:
 
 founder_escalation_control:
   schema_version: founder-escalation-control/v1
-  disposition: NO_RESERVED_TRIGGER_CONTINUE_PHASE
+  disposition: FOUNDER_DECISION_REQUIRED
   source_event:
-    kind: FOUNDER_EXPANDED_SINGLE_TASK_ACTIVE
-    task_id: AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV
-    status: ACTIVE
+    kind: PHASE_ENVELOPE_EXPANSION_REQUIRED
+    task_id:
+    status: PENDING_FOUNDER_RESERVED_DECISION
   reserved_trigger:
-    category: NONE
+    category: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
     evidence:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-b1-anchored-graph-fusion-product-selector-20260818/task-p2-076/terminal/P2_076_FOUNDER_RESERVED_TRIGGER_EVIDENCE_V2.json
+      byte_length: 7893
+      sha256: ca4898c4c28e965c112ee10518c0d402b079250eaf726c7f47dac712391cc625
   phase_gate_status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
-  founder_decision_required: false
-  next_action_owner: MASTER_CEO_AGENT
-  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
+  founder_decision_required: true
+  next_action_owner: HUMAN_FOUNDER
+  next_eligible_action: FOUNDER_RESERVED_DECISION
 
 historical_p2_053_phase_route:
   schema_version: "1.1"
@@ -21896,76 +21946,35 @@ historical_p2_074_terminal_active_work:
   next_eligible_action: FOUNDER_RESERVED_DECISION
 
 active_work:
-  current_task: AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV
-  current_task_status: ACTIVE
+  current_task: NONE
+  current_task_status: NONE
   current_task_contract:
-    path: docs/aios/tasks/P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV.yaml
-    sha256: 6a22ee98bcde02190cfe16cf57cce1e8b44b9bc31018d5092f2e777ebbe74af4
-    byte_length: 15376
-  current_task_contract_sha256: 6a22ee98bcde02190cfe16cf57cce1e8b44b9bc31018d5092f2e777ebbe74af4
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-b1-anchored-graph-fusion-product-selector-20260818/task-p2-076/authority/P2_076_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
-  current_execution_authorization_sha256: 1609d28b1e7382630d71498ee8b8b19fa9084795f8b7dcab3c6446e9119d2c42
+    path:
+    sha256:
+    byte_length:
+  current_task_contract_sha256:
+  current_execution_authorization:
+  current_execution_authorization_sha256:
   authority_record:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-b1-anchored-graph-fusion-product-selector-20260818/task-p2-076/authority/P2_076_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
-    sha256: 1609d28b1e7382630d71498ee8b8b19fa9084795f8b7dcab3c6446e9119d2c42
-    byte_length: 6531
-  execution_nonce: c27f900c-02d0-4137-ae47-840b0b74b3c3
-  execution_nonce_status: ACTIVE
-  authorization_id: e3c58490-78c5-40b4-b170-efc4debcfc16
-  activation_parent_commit: 6e683a8f796324cb561fca03fcffb61530fd94e1
-  activation_parent_tree: 2c7e56c92f5333f3b6852967b4fde8645a7744a7
-  task_resource_state: ACTIVE_UNIQUE_PHASE_DELEGATED
-  task_branch: codex/p2-076-b1-anchored-graph-fusion-product-selector-dev
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-076-b1-anchored-graph-fusion-product-selector-dev
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-b1-anchored-graph-fusion-product-selector-20260818/task-p2-076
-  allowlisted_paths:
-  - backend-spring/src/main/java/com/sourcelens/module/agent/service/CodeQaRetrievalService.java
-  - backend-spring/src/main/java/com/sourcelens/module/analysis/graph/B1AnchoredGraphFusionSelector.java
-  - backend-spring/src/test/java/com/sourcelens/module/analysis/graph/B1AnchoredGraphFusionSelectorTest.java
-  - evaluation-harness/harness/p2-b1-anchored-graph-fusion-product-selector-v1/**
-  - evaluation-harness/replay/p2-b1-anchored-graph-fusion-product-selector-v1/**
-  - evaluation-harness/reports/p2-b1-anchored-graph-fusion-product-selector-v1/**
+    path:
+    sha256:
+    byte_length:
+  execution_nonce:
+  execution_nonce_status: CONSUMED_TERMINAL
+  authorization_id:
+  activation_parent_commit:
+  activation_parent_tree:
+  task_resource_state: NO_ACTIVE_TASK_FOUNDER_RESERVED_DECISION_HOLD
+  task_branch:
+  task_worktree:
+  execution_evidence_root:
+  allowlisted_paths: []
   budget:
-    engineering_hours: 32
-    calendar_days: 8
-    implementation_iterations: 2
-    candidates: 2
-  roles:
-    owner: P2-076 Master Owner
-    worker: P2-076 Clean-room Graph-fusion Product Worker
-    independent_reviewers:
-    - CTO Agent
-    - Security Agent
-    - Quality and Evaluation Agent
-  write_ownership:
-    schema_version: role-write-ownership/v1
-    cross_role_write_allowed: false
-    owner:
-      role: P2-076 Master Owner
-      write_paths: []
-    worker:
-      role: P2-076 Clean-room Graph-fusion Product Worker
-      write_paths:
-      - backend-spring/src/main/java/com/sourcelens/module/agent/service/CodeQaRetrievalService.java
-      - backend-spring/src/main/java/com/sourcelens/module/analysis/graph/B1AnchoredGraphFusionSelector.java
-      - backend-spring/src/test/java/com/sourcelens/module/analysis/graph/B1AnchoredGraphFusionSelectorTest.java
-      - evaluation-harness/harness/p2-b1-anchored-graph-fusion-product-selector-v1/**
-      - evaluation-harness/replay/p2-b1-anchored-graph-fusion-product-selector-v1/**
-      - evaluation-harness/reports/p2-b1-anchored-graph-fusion-product-selector-v1/**
-    independent_reviewers:
-    - role: CTO Agent
-      write_paths: []
-    - role: Security Agent
-      write_paths: []
-    - role: Quality and Evaluation Agent
-      write_paths: []
-  effective_worker_write_paths:
-  - backend-spring/src/main/java/com/sourcelens/module/agent/service/CodeQaRetrievalService.java
-  - backend-spring/src/main/java/com/sourcelens/module/analysis/graph/B1AnchoredGraphFusionSelector.java
-  - backend-spring/src/test/java/com/sourcelens/module/analysis/graph/B1AnchoredGraphFusionSelectorTest.java
-  - evaluation-harness/harness/p2-b1-anchored-graph-fusion-product-selector-v1/**
-  - evaluation-harness/replay/p2-b1-anchored-graph-fusion-product-selector-v1/**
-  - evaluation-harness/reports/p2-b1-anchored-graph-fusion-product-selector-v1/**
+    engineering_hours: 0
+    calendar_days: 0
+    implementation_iterations: 0
+    candidates: 0
+  roles: {}
   external_effects:
     network: false
     provider: false
@@ -21976,13 +21985,13 @@ active_work:
   offsite_target:
   founder_reserved_authorization:
   founder_reserved_authorization_sha256:
-  founder_decision_required: false
-  founder_decision_required_scope:
-  escalation_reason:
-  user_action_required: NONE
-  phase_route_decision_required: false
-  phase_route_user_action_required: NONE
-  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
+  founder_decision_required: true
+  founder_decision_required_scope: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+  escalation_reason: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+  user_action_required: FOUNDER_RESERVED_DECISION
+  phase_route_decision_required: true
+  phase_route_user_action_required: FOUNDER_RESERVED_DECISION
+  next_eligible_action: FOUNDER_RESERVED_DECISION
 
 historical_p2_065_terminal_active_work:
   current_task: AIOS-P2-065_ESM_IMPORT_GRAPH_CONTEXT_PRODUCT_BENCHMARK
@@ -28527,9 +28536,9 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV_PHASE_DELEGATED_ROUTE
-  current_task_claim: AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV
-  real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_SLOT_V8_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED
+  current_route_claim: P2_FOUNDER_RESERVED_DECISION_HOLD
+  current_task_claim: NONE
+  real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_076_TERMINAL_PRODUCT_SELECTOR_DEV_PARAMETER_GATE_NON_PASS_SLOT_V2_3_LOCKED
   product_capability_changed: false
   phase_local_allowed:
   - REAL_CODE_QA_PRODUCT_PATH_REPOSITORY_CONTEXT_SELECTOR
@@ -28857,7 +28866,7 @@ phase_execution_claim:
 
 p2_recovery_control:
   schema_version: p2-recovery-control/v1
-  status: CLEAN_ROOM_SLOT_V8_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED
+  status: CLEAN_ROOM_SLOT_V8_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
   plan:
     path: docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml
     byte_length: 7433
@@ -28892,13 +28901,35 @@ p2_recovery_control:
   accepted_milestones:
   - P2_RECOVERY_BASELINE_ACCEPTED
   task_creation_allowed: false
-  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
+  next_eligible_action: FOUNDER_RESERVED_DECISION
 
 claim_boundary:
-  current_phase_route: AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV_PHASE_DELEGATED_ROUTE
-  current_task: AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV
-  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
-  real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_SLOT_V8_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED
+  current_phase_route: P2_FOUNDER_RESERVED_DECISION_HOLD
+  current_task: NONE
+  next_eligible_action: FOUNDER_RESERVED_DECISION
+  real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_076_TERMINAL_PRODUCT_SELECTOR_DEV_PARAMETER_GATE_NON_PASS_SLOT_V2_3_LOCKED
+  p2_076_status: TERMINAL_PRODUCT_SELECTOR_DEV_PARAMETER_GATE_NON_PASS
+  p2_076_contract_sha256: 59bbe91401109667ddee0136956fa8879115d24a38aef25691129809e4f7233b
+  p2_076_capacity_source: P2_RECOVERY_CAPACITY_SLOT_V8_1
+  p2_076_preactivation_gate_status: PASS_BEFORE_PRODUCT_SOURCE_WRITE
+  p2_076_candidate_commit: ca14e0ce704756ab1015db34952ef01d77411fb8
+  p2_076_candidate_tree: e45ef1c77b221ce1b33f46e5a29cc33513924494
+  p2_076_parameter_sets: 2_OF_2_PREDECLARED_EXECUTED
+  p2_076_fusion_a_macro_precision: 0.14583333333333331
+  p2_076_fusion_a_macro_recall: 0.7916666666666666
+  p2_076_fusion_a_macro_mrr: 0.78125
+  p2_076_fusion_b_macro_precision: 0.1416170634920635
+  p2_076_fusion_b_macro_recall: 0.7916666666666666
+  p2_076_fusion_b_macro_mrr: 0.7291666666666666
+  p2_076_per_task_recall_regression: jexl-409_1_TO_0_BOTH_PARAMETER_SETS
+  p2_076_independent_review_status: NOT_ELIGIBLE_PRODUCT_IMPLEMENTATION_GATE_NON_PASS
+  p2_076_terminal_receipt_sha256: b81191597cf999cb6ff8ea4018413bf002d890e683ed2c8b1011c4494b62dd3c
+  p2_076_product_source_writes: 0
+  p2_076_product_selector_dev_milestone_accepted: false
+  p2_076_candidate_integrated: false
+  p2_076_held_source_reads: 0
+  p2_076_held_tasks_executed: 0
+  p2_076_progress_credit: 0
   p2_075_status: TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_AND_BUDGET_NON_PASS
   p2_075_contract_sha256: 89ca7db1857a13ce54f937b11385b16bee29f2bd79ca185e4e536d9b1f726f30
   p2_075_capacity_source: P2_RECOVERY_CAPACITY_SLOT_V7_1
@@ -29065,7 +29096,7 @@ claim_boundary:
   p2_065_rejected_candidate_preservation_receipt_sha256: 8a96643ed0823c11791471a7249318ce287c6e1f41d087b5bf3863a8b8fd8ac8
   p2_065_canonical_make_verify: NOT_INVOKED_TERMINAL_TARGET_METRIC_NON_PASS
   p2_065_capability_credit: 0
-  p2_phase_envelope_status: TASK_CAPACITY_RESERVED
+  p2_phase_envelope_status: ACTIVE_REMAINING_CAPACITY
   p2_project_status: ACTIVE
   long_term_goal_status: ACTIVE
   p2_064_status: TERMINAL_FORMAL_DEV_CHILD_EXIT_BEFORE_READY_ITERATION2_EXHAUSTED_NON_PASS

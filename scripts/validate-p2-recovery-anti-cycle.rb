@@ -776,7 +776,8 @@ module P2RecoveryAntiCycle
                 "Truth P2-080 adapter recovery projection drift")
         assert!(project["phase_execution_status"] == "ACTIVE" &&
                 project["current_route_execution_status"] ==
-                  (task_active ? "ACTIVE" : "PHASE_DELEGATED_TASK_READY") &&
+                  (task_active ? "ACTIVE_PHASE_DELEGATED_TASK" :
+                   "PHASE_DELEGATED_TASK_READY") &&
                 claim["p2_phase_envelope_status"] == "TASK_CAPACITY_RESERVED" &&
                 claim["current_phase_route"] == route["route_id"] &&
                 claim["current_task"] == (task_active ? task_id : "NONE") &&

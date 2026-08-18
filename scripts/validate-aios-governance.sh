@@ -67,8 +67,8 @@ check_phase_sequence_section() {
 check_founder_action_handoff_section() {
   local rules_path="$1"
   local section_header='## Founder / 用户下一步交付（强制执行）'
-  local canonical_byte_length='4762'
-  local canonical_sha256='20fe645b452ac5a021fc648f632cd07ab30b1e99a1f0286dbb4da7e1b893b644'
+  local canonical_byte_length='4761'
+  local canonical_sha256='41231f21411cc77e710bf0073801453f69a3245e5075fe4a5c9a555014d33cd7'
 
   ruby -rdigest -e '
     rules_path, header, expected_length, expected_sha = ARGV

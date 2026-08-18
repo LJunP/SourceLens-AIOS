@@ -3423,6 +3423,34 @@ module CurrentTaskAuthority
     gate
   end
 
+  def validate_p2_077_preactivation_gate(contract)
+    gate = exact_keys(
+      contract["preactivation_gate"],
+      %w[
+        required_before_product_source_write independent_semantic_architecture_freeze_required
+        b1_seed_parity_freeze_required product_owned_deterministic_java_source_analysis_required
+        package_type_member_ownership_resolution_required
+        import_invocation_inheritance_reference_edges_required
+        query_and_b1_seeded_forward_backward_bounded_impact_cones_required
+        predeclared_candidate_parameter_set_limit normalized_path_first_tie_break_required
+        top_k utf8_byte_budget dev_oracle_labels_forbidden task_specific_branches_forbidden
+        post_result_tuning_forbidden held_reads_forbidden exact_authority_roots_before_mkdir
+        os_write_confinement_probe_required compiler_test_replay_negative_fresh_roots_required
+        explicit_classpath_and_sourcepath_required annotation_processing_disabled_or_fully_bound
+        exact_runtime_binary_identity_required complete_source_to_class_identity_required
+        reviewer_manifest_direct_raw_leaf_binding_required product_path_static_and_runtime_binding_required
+      ],
+      "P2-077 preactivation_gate"
+    )
+    numeric_keys = %w[predeclared_candidate_parameter_set_limit top_k utf8_byte_budget]
+    boolean_keys = gate.keys - numeric_keys
+    assert(boolean_keys.all? { |key| gate[key] == true } &&
+           gate["predeclared_candidate_parameter_set_limit"] == 2 &&
+           gate["top_k"] == 10 && gate["utf8_byte_budget"] == 131_072,
+           "P2-077 semantic-symbol-impact-cone preactivation gate drift")
+    gate
+  end
+
   def validate_p2_product_selector_protocol_contract_fields(authority, contract)
     task_id = contract["task_id"]
     label, expected_canonical = case task_id
@@ -3440,6 +3468,11 @@ module CurrentTaskAuthority
                                   ["P2-076", {
                                     "commit" => "09da8ea278db587520e0a835deb474415b14ab1c",
                                     "tree" => "4955c0b59e310db17c30c75721e88051f296df1e"
+                                  }]
+                                when "AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV"
+                                  ["P2-077", {
+                                    "commit" => "8ce9f963e3bd366efe35fa1d91de7023445d380f",
+                                    "tree" => "3fc27c5d547c3d1e61932ac4749ddb0b328ff4b0"
                                   }]
                                 else
                                   fail!("unsupported Product Selector protocol contract")
@@ -3537,7 +3570,69 @@ module CurrentTaskAuthority
     baseline_ids
   end
 
-  def validate_phase_delegated_protocol_contract_fields(truth, route, contract)
+  def effective_phase_source_identity(root, source_route)
+    pointer = source_route["source_identity_correction"]
+    return {
+      "decision_packet" => source_route["decision_packet"],
+      "original_founder_packet" => source_route["original_founder_packet"]
+    } if pointer.nil?
+
+    correction_identity = exact_keys(
+      pointer, %w[path sha256 byte_length], "phase source identity correction"
+    )
+    correction_path = repo_path(root, correction_identity["path"], "phase source identity correction")
+    correction = parse_structured(
+      validate_identity(correction_path, correction_identity, "phase source identity correction"),
+      correction_path,
+      "phase source identity correction"
+    )
+    exact_keys(
+      correction,
+      %w[
+        anchor_commit anchor_identity authority_effect authorization_token corrected_identity
+        invariants reason_code record_type route_id schema_version
+      ],
+      "phase source identity correction"
+    )
+    assert(correction["schema_version"] == "founder-phase-route-source-identity-correction/v1" &&
+           correction["record_type"] == "mechanical_source_identity_correction" &&
+           correction["route_id"] == source_route["route_id"] &&
+           correction["authorization_token"] == source_route["authorization_token"] &&
+           correction["authority_effect"] == "NONE" &&
+           correction["reason_code"] == "TRUNCATED_ACTIVATION_PARENT_TRUTH_SHA256_ONLY",
+           "phase source identity correction boundary drift")
+    anchor = exact_keys(
+      correction["anchor_identity"],
+      %w[decision_packet original_founder_packet],
+      "phase source anchor identity"
+    )
+    corrected = exact_keys(
+      correction["corrected_identity"],
+      %w[decision_packet original_founder_packet],
+      "phase source corrected identity"
+    )
+    assert(anchor["decision_packet"] == source_route["decision_packet"] &&
+           anchor["original_founder_packet"] == source_route["original_founder_packet"],
+           "phase source identity correction does not bind the immutable Route anchor")
+    corrected.each do |key, identity|
+      exact_keys(identity, %w[path byte_length sha256], "corrected phase source #{key}")
+      path = repo_path(root, identity["path"], "corrected phase source #{key}")
+      validate_identity(path, identity, "corrected phase source #{key}")
+    end
+    invariants = exact_keys(
+      correction["invariants"],
+      %w[
+        external_effect_permission_changed founder_token_changed git_history_rewritten
+        phase_envelope_changed route_authority_changed task_capacity_changed
+      ],
+      "phase source identity correction invariants"
+    )
+    assert(invariants.values.all? { |value| value == false },
+           "phase source identity correction changes authority")
+    corrected
+  end
+
+  def validate_phase_delegated_protocol_contract_fields(root, truth, route, contract)
     status_mapping = exact_keys(
       contract["protocol_status_mapping"],
       %w[ELIGIBLE_NOT_ACTIVATED ACTIVE],
@@ -3551,18 +3646,22 @@ module CurrentTaskAuthority
 
     source_route = hash(truth[route["source_authority_route_ref"]],
                         "phase-delegated source authority Route")
+    effective_source_identity = effective_phase_source_identity(root, source_route)
     task_spec_ref = exact_keys(
       contract["task_spec_ref"],
       %w[path sha256 byte_length],
       "phase-delegated Task Contract task_spec_ref"
     )
-    assert(task_spec_ref == source_route["original_founder_packet"],
+    assert(task_spec_ref == effective_source_identity["original_founder_packet"],
            "phase-delegated Task Contract task_spec_ref is not the immutable Founder packet")
     validate_identity(
-      task_spec_ref["path"],
+      repo_path(root, task_spec_ref["path"], "phase-delegated Task Contract immutable task spec"),
       task_spec_ref,
       "phase-delegated Task Contract immutable task spec"
     )
+    source_decision = truth.dig("phase_execution_envelope", "authority_basis", "source_decision")
+    assert(source_decision == effective_source_identity["decision_packet"],
+           "phase-delegated source decision does not equal the corrected effective identity")
 
     roles = hash(contract["roles"], "phase-delegated Task Contract roles")
     assert(contract["owner_role"] == roles["owner"] &&
@@ -3582,6 +3681,7 @@ module CurrentTaskAuthority
       AIOS-P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV
       AIOS-P2-075_CLEAN_ROOM_QUERY_ENTITY_COVERAGE_PRODUCT_SELECTOR_ARCHITECTURE_PIVOT_DEV
       AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV
+      AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV
     ].include?(contract["task_id"])
       return validate_p2_product_selector_protocol_contract_fields(authority, contract)
     end
@@ -3783,6 +3883,7 @@ module CurrentTaskAuthority
       AIOS-P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV
       AIOS-P2-075_CLEAN_ROOM_QUERY_ENTITY_COVERAGE_PRODUCT_SELECTOR_ARCHITECTURE_PIVOT_DEV
       AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV
+      AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV
     ].include?(parsed_contract["task_id"])
     contract = exact_keys(
       parsed_contract,
@@ -3806,8 +3907,11 @@ module CurrentTaskAuthority
     elsif parsed_contract["task_id"] ==
           "AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV"
       validate_p2_076_preactivation_gate(contract)
+    elsif parsed_contract["task_id"] ==
+          "AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV"
+      validate_p2_077_preactivation_gate(contract)
     end
-    validate_phase_delegated_protocol_contract_fields(truth, route, contract)
+    validate_phase_delegated_protocol_contract_fields(root, truth, route, contract)
     projected_keys = %w[
       task_id status task_kind capability objective capacity_source_task_id budget max_same_task_repairs
     ]
@@ -4291,6 +4395,7 @@ module CurrentTaskAuthority
       AIOS-P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV
       AIOS-P2-075_CLEAN_ROOM_QUERY_ENTITY_COVERAGE_PRODUCT_SELECTOR_ARCHITECTURE_PIVOT_DEV
       AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV
+      AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV
     ].include?(task["task_id"])
       baseline_path = File.join(evidence_real, baseline["relative_path"])
       validate_identity(baseline_path, baseline, "phase-delegated active baseline Artifact")

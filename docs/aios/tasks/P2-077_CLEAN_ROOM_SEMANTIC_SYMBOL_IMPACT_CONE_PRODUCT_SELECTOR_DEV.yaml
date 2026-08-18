@@ -1,0 +1,269 @@
+schema_version: '1.1'
+record_type: aios_phase_delegated_independent_task_contract
+task_id: AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV
+phase: P2
+route_id: AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV_PHASE_DELEGATED_ROUTE
+status: ELIGIBLE_NOT_ACTIVATED
+task_kind: REPOSITORY_INTELLIGENCE_PRODUCT_SELECTOR_DEV
+capability: SEMANTIC_SYMBOL_IMPACT_CONE_CONTEXT_SELECTION
+objective: >-
+  Build one independently authored, deterministic, product-owned Java source selector
+  that resolves package, type and member ownership plus import, invocation, inheritance
+  and reference edges; seeds bounded forward and backward impact cones only from the
+  query and the accepted B1 lexical candidates; and selects at most ten normalized-path
+  ordered files within a 131072-byte UTF-8 budget without DEV oracle or HELD access.
+why_now: >-
+  P2_RECOVERY_BASELINE_ACCEPTED is the only accepted P2 delivery milestone. Product
+  Selector DEV remains unaccepted, the formal HELD slot remains locked, and the exact
+  Founder V7 decision adds one clean-room architecture slot that must not read or reuse
+  P2-070 through P2-076 rejected engineering lineage.
+task_spec_ref:
+  path: docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V7.md
+  sha256: d50a54931c0595d6f233ee4f9906dd8db49b37171a2d2b2ee33eb12b88101903
+  byte_length: 8117
+owner_role: P2-077 Master Owner
+worker_role: P2-077 Clean-room Semantic Selector Worker
+write_scope:
+- backend-spring/src/main/java/com/sourcelens/module/analysis/service/SemanticSymbolImpactConeSelector.java
+- backend-spring/src/main/java/com/sourcelens/module/agent/service/CodeQaRetrievalService.java
+- backend-spring/src/test/java/com/sourcelens/SemanticSymbolImpactConeSelectorTest.java
+- backend-spring/src/test/java/com/sourcelens/CodeQaRetrievalServiceTest.java
+- evaluation-harness/harness/p2-semantic-symbol-impact-cone-product-selector-v1/**
+- evaluation-harness/replay/p2-semantic-symbol-impact-cone-product-selector-v1/**
+- evaluation-harness/reports/p2-semantic-symbol-impact-cone-product-selector-v1/**
+read_context:
+- docs/aios/truth/project_state.yaml
+- docs/aios/STRATEGIC_CONSTITUTION.md
+- docs/aios/MASTER_EXECUTION_PROTOCOL.md
+- docs/aios/FOUNDER_DELEGATION_POLICY.md
+- docs/aios/EVALUATION_PROTOCOL.md
+- docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml
+- docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V7.md
+- P2_069_ACCEPTED_EVIDENCE_ROOT/accepted-source-pack-v1/SOURCE_PACK.json
+- P2_069_ACCEPTED_EVIDENCE_ROOT/runs/repair-replay-1/candidate/BENCHMARK_MANIFEST.json
+- P2_069_ACCEPTED_EVIDENCE_ROOT/runs/repair-replay-1/candidate/DEV_TASK_CARDS.json
+- P2_069_ACCEPTED_EVIDENCE_ROOT/runs/repair-replay-1/candidate/B1_RESULTS.json
+- P2_069_ACCEPTED_EVIDENCE_ROOT/runs/repair-replay-1/candidate/DEV_HELD_NON_OVERLAP_PROOF.json
+dependencies:
+- kind: CANONICAL_SOURCE
+  identity:
+    commit: 8ce9f963e3bd366efe35fa1d91de7023445d380f
+    tree: 3fc27c5d547c3d1e61932ac4749ddb0b328ff4b0
+- kind: ACCEPTED_BASELINE_ARTIFACT
+  identity:
+    artifact_id: P2_RECOVERY_BASELINE_ACCEPTED
+    root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-clean-room-recovery-benchmark-foundation-20260817/task-p2-069
+    source_pack:
+      relative_path: accepted-source-pack-v1/SOURCE_PACK.json
+      byte_length: 94630
+      sha256: c5f38070b8f0ed445c759f3380769c2dec5493e0f4120f681b9b1cab3fd67884
+    benchmark_manifest:
+      relative_path: runs/repair-replay-1/candidate/BENCHMARK_MANIFEST.json
+      byte_length: 1698
+      sha256: 1847e480cd0a2a35f3130b65dc074742ad5669eb4f715bc4066867855680396f
+    dev_task_cards:
+      relative_path: runs/repair-replay-1/candidate/DEV_TASK_CARDS.json
+      byte_length: 520431
+      sha256: c6c5a2655870a6cc8b5310675fa4e31054be48d048702a0939fac81327bb865b
+    b1_results:
+      relative_path: runs/repair-replay-1/candidate/B1_RESULTS.json
+      byte_length: 634859
+      sha256: 231a99391726b618cba130474c4ad7ffa348af25afda97968dc0c1745159c0c0
+    dev_held_non_overlap_proof:
+      relative_path: runs/repair-replay-1/candidate/DEV_HELD_NON_OVERLAP_PROOF.json
+      byte_length: 498
+      sha256: 84af16469d26cfbf8b393a7e4b9aa39d383cdfc88c5a721e5651d73f3c9c2065
+risk_level: high
+baseline_ref:
+  artifact_id: P2_RECOVERY_BASELINE_ACCEPTED
+  baseline_id: B1_DETERMINISTIC_BM25_FILE_RETRIEVAL
+  macro_precision: 0.15595238095238093
+  macro_recall: 0.8958333333333334
+  macro_reciprocal_rank: 0.8229166666666666
+  top_k: 10
+  utf8_byte_budget: 131072
+independent_reviewer:
+- CTO Agent
+- Security Agent
+- Quality and Evaluation Agent
+protocol_status_mapping:
+  ELIGIBLE_NOT_ACTIVATED: ready
+  ACTIVE: in_progress
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_V9_1
+budget:
+  engineering_hours: 32
+  calendar_days: 8
+  implementation_iterations: 2
+  candidates: 2
+max_same_task_repairs: 1
+roles:
+  owner: P2-077 Master Owner
+  worker: P2-077 Clean-room Semantic Selector Worker
+  independent_reviewers:
+  - CTO Agent
+  - Security Agent
+  - Quality and Evaluation Agent
+allowlisted_paths:
+- backend-spring/src/main/java/com/sourcelens/module/analysis/service/SemanticSymbolImpactConeSelector.java
+- backend-spring/src/main/java/com/sourcelens/module/agent/service/CodeQaRetrievalService.java
+- backend-spring/src/test/java/com/sourcelens/SemanticSymbolImpactConeSelectorTest.java
+- backend-spring/src/test/java/com/sourcelens/CodeQaRetrievalServiceTest.java
+- evaluation-harness/harness/p2-semantic-symbol-impact-cone-product-selector-v1/**
+- evaluation-harness/replay/p2-semantic-symbol-impact-cone-product-selector-v1/**
+- evaluation-harness/reports/p2-semantic-symbol-impact-cone-product-selector-v1/**
+write_ownership:
+  schema_version: role-write-ownership/v1
+  cross_role_write_allowed: false
+  owner:
+    role: P2-077 Master Owner
+    write_paths: []
+  worker:
+    role: P2-077 Clean-room Semantic Selector Worker
+    write_paths:
+    - backend-spring/src/main/java/com/sourcelens/module/analysis/service/SemanticSymbolImpactConeSelector.java
+    - backend-spring/src/main/java/com/sourcelens/module/agent/service/CodeQaRetrievalService.java
+    - backend-spring/src/test/java/com/sourcelens/SemanticSymbolImpactConeSelectorTest.java
+    - backend-spring/src/test/java/com/sourcelens/CodeQaRetrievalServiceTest.java
+    - evaluation-harness/harness/p2-semantic-symbol-impact-cone-product-selector-v1/**
+    - evaluation-harness/replay/p2-semantic-symbol-impact-cone-product-selector-v1/**
+    - evaluation-harness/reports/p2-semantic-symbol-impact-cone-product-selector-v1/**
+  independent_reviewers:
+  - role: CTO Agent
+    write_paths: []
+  - role: Security Agent
+    write_paths: []
+  - role: Quality and Evaluation Agent
+    write_paths: []
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+phase_delegation_binding:
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: '1.8'
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  delegation_amendment:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/founder-delegation-continuity-20260808/decision/FOUNDER_PHASE_DELEGATION_CONTINUITY_AMENDMENT_V1.json
+    byte_length: 1182
+    sha256: c37634c51b0b7695204c026f9950911c427f544a6ff2e2c2f786facb9a84a52e
+  source_decision:
+    path: docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_DECISION_V7.json
+    sha256: 3d11bac2343f4d197de59ba770fae68287d9f09893e0b6ad482a4b50abcf4340
+    byte_length: 3320
+  source_terminal_event:
+    task_id: AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV
+    status: TERMINAL_PRODUCT_SELECTOR_DEV_PARAMETER_GATE_NON_PASS
+    outcome_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-b1-anchored-graph-fusion-product-selector-20260818/task-p2-076/terminal/P2_076_TERMINAL_PRODUCT_SELECTOR_DEV_PARAMETER_GATE_NON_PASS_RECEIPT_V1.json
+      byte_length: 6999
+      sha256: b81191597cf999cb6ff8ea4018413bf002d890e683ed2c8b1011c4494b62dd3c
+  phase_envelope_snapshot:
+    limits:
+      engineering_tasks: 23
+      engineering_hours: 688
+      calendar_days: 172
+      active_tasks: 1
+      task_branches: 1
+      task_worktrees: 1
+      active_candidates: 1
+    consumed:
+      engineering_tasks: 21
+      engineering_hours: 624
+      calendar_days: 156
+    reserved:
+      task_id: AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV
+      route_id: AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV_PHASE_DELEGATED_ROUTE
+      status: ELIGIBLE_NOT_ACTIVATED
+      capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_V9_1
+      budget:
+        engineering_tasks: 1
+        engineering_hours: 32
+        calendar_days: 8
+    remaining:
+      engineering_tasks: 1
+      engineering_hours: 32
+      calendar_days: 8
+  founder_packet_for_task:
+preactivation_gate:
+  required_before_product_source_write: true
+  independent_semantic_architecture_freeze_required: true
+  b1_seed_parity_freeze_required: true
+  product_owned_deterministic_java_source_analysis_required: true
+  package_type_member_ownership_resolution_required: true
+  import_invocation_inheritance_reference_edges_required: true
+  query_and_b1_seeded_forward_backward_bounded_impact_cones_required: true
+  predeclared_candidate_parameter_set_limit: 2
+  normalized_path_first_tie_break_required: true
+  top_k: 10
+  utf8_byte_budget: 131072
+  dev_oracle_labels_forbidden: true
+  task_specific_branches_forbidden: true
+  post_result_tuning_forbidden: true
+  held_reads_forbidden: true
+  exact_authority_roots_before_mkdir: true
+  os_write_confinement_probe_required: true
+  compiler_test_replay_negative_fresh_roots_required: true
+  explicit_classpath_and_sourcepath_required: true
+  annotation_processing_disabled_or_fully_bound: true
+  exact_runtime_binary_identity_required: true
+  complete_source_to_class_identity_required: true
+  reviewer_manifest_direct_raw_leaf_binding_required: true
+  product_path_static_and_runtime_binding_required: true
+acceptance_criteria:
+- Before any product-source write, create-once freeze one architecture and no more than two complete deterministic parameter sets; bind their exact bytes, SHA-256, top-k 10, 131072-byte budget, normalized-path tie rule and no-oracle/no-HELD constraints.
+- Rehash the accepted P2-069 source pack, benchmark manifest, DEV task cards, B1 results and DEV/HELD non-overlap proof before use; every opened accepted input and source leaf must have pre-read expected and post-read observed identities.
+- Reproduce the accepted B1 selected paths, selected bytes, ranking identities and aggregate metrics exactly before evaluating a semantic candidate.
+- The product-owned Java selector resolves package, type and member ownership plus import, invocation, inheritance and reference edges, and owns bounded forward/backward impact-cone ranking, top-k 10, the 131072-byte UTF-8 budget and normalized-path-first deterministic ties.
+- Implementation inputs are limited to canonical main, accepted P2-069 artifacts, query text, B1 lexical candidates and accepted source bytes; DEV oracle labels, task-specific branches, post-result tuning and all P2-070 through P2-076 engineering lineage are prohibited.
+- One exact candidate must simultaneously achieve macro precision greater than 0.15595238095238093, macro recall greater than 0.8958333333333334 and macro reciprocal rank greater than 0.8229166666666666, with zero per-task recall regression versus accepted B1.
+- The exact candidate passes focused product tests, an exact sandboxed evaluator replay and a second independent byte-exact replay with closed environment, runtime, source-to-class, stdout, stderr, exit and write inventories.
+- HELD task sources, payloads, results and oracle remain unopened and unexecuted; the existing formal HELD slot remains locked until independent Product Selector DEV acceptance.
+- CTO, Security and Quality/Evaluation independently accept the exact candidate, raw Evidence leaves and Task Gate without reading rejected lineage.
+required_evidence:
+- Exact architecture freeze, two-or-fewer parameter-set freeze, accepted-input inventory and B1 parity receipt created before product-source mutation.
+- Exact authority-bound worktree and Evidence roots plus sandbox-exec deny-network and write-confinement preactivation receipt created before the first mkdir performed by product execution.
+- Candidate commit/tree, changed-file inventory, product API call graph binding, complete Java source-to-class identity, JDK 17 and classpath/sourcepath/processor identities.
+- Fresh focused-test and Surefire XML/stdout/stderr inventories; fresh evaluator and negative-fixture roots; no reused target/classes or mutable build output.
+- Two independent DEV replay transactions containing exact argv, cwd, closed environment, runtime binaries, input/output identities, per-file ranks and scores, selected paths/bytes, per-task metrics and macro metrics.
+- Negative cases for authority-root substitution, symlink input, output overwrite, out-of-root write, HELD request, oracle field request, duplicate/ambiguous symbols, malformed Java, graph cycles, non-deterministic ties and budget overflow.
+- DEV/HELD non-overlap proof, zero HELD reads, zero external effects, rollback instructions, final reviewer manifest and three independent review records.
+rollback: >-
+  Do not integrate a NON_PASS candidate. Preserve exact terminal accounting and create-once
+  Evidence, leave canonical main unchanged, keep the Product Selector DEV milestone
+  unaccepted and the formal HELD slot locked, and perform no destructive cleanup under
+  this authorization.
+stop_conditions:
+- Stop before product-source write if the architecture, both-or-fewer parameter sets, accepted-input identities, B1 parity, exact authority roots or OS confinement envelope is missing or NON_PASS.
+- Stop if any P2-070, P2-071, P2-072, P2-073, P2-074, P2-075 or P2-076 branch, worktree, code, evaluator implementation or engineering Evidence is read, compared, copied or reused.
+- Stop if DEV oracle labels influence implementation, a task-specific branch is introduced, a parameter changes after seeing results, or more than two parameter sets are evaluated.
+- Stop if any HELD source leaf, task payload, result, oracle or build output is opened or executed.
+- Stop if any network, Provider, Secret, remote, production, public, deletion, database or P3 effect is requested or observed.
+- Stop if any write escapes the exact Task worktree or Evidence root, or if a build/evaluator transaction is not OS-confined and identity-bound before spawn.
+- Stop when two candidate generations, two implementation iterations, one same-Task repair or two review cycles are exhausted.
+forbidden_actions:
+- Read, compare, copy or reuse any rejected P2-070 through P2-076 engineering lineage input.
+- Modify accepted source-pack bytes, dataset split, DEV/HELD assignment, oracle, metric, threshold, schedule or baseline results.
+- Use DEV ground-truth labels or task IDs as selector implementation input; add task-specific branches; tune after observing candidate metrics; open or execute HELD.
+- Execute Maven, Gradle, JVM tests or evaluator subprocesses with network enabled; all real execution remains exact offline under sandbox-exec deny network.
+- Write outside the exact Task worktree or Evidence root; reuse mutable compiler/test output; omit closed environment or runtime/source-to-class/write inventories.
+- Create a successor, replacement, normalization, feasibility, remediation or automatic retry chain after NON_PASS.
+- Use network, credentials, cookies, Authorization headers, uploads, Git fetch/clone/push, browser networking, Provider, remote, production or public release.
+- Delete files or Evidence, modify Codex control-plane state, enter P3, unlock HELD without acceptance or terminate the Long-term Goal.
+claim_boundary: >-
+  This Task may establish only P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED for one exact
+  independently accepted Product Selector DEV candidate. PASS raises delivery progress
+  to 70% and unlocks only the existing formal HELD evaluation slot. It does not itself
+  claim strict P2 Exit progress, formal HELD performance, P3 eligibility, production
+  readiness, public release or Long-term Goal completion.

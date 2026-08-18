@@ -11420,7 +11420,7 @@ founder_escalation_control:
   source_event:
     kind: FOUNDER_PHASE_ENVELOPE_EXPANSION_ACCEPTED
     task_id:
-    status: ROUTE_CAPACITY_AVAILABLE
+    status: EVALUATION_AND_EVIDENCE_ADAPTER_SLOT_V11_1_ELIGIBLE_NOT_ACTIVATED
   reserved_trigger:
     category: NONE
     evidence:

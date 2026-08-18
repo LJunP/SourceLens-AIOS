@@ -4280,7 +4280,9 @@ module FounderDelegationContinuity
         "CLEAN_ROOM_SLOT_V10_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED" =>
           "historical_p2_077_phase_route",
         "EXACT_FROZEN_P2_078_FORMAL_HELD_SLOT_ELIGIBLE_NOT_ACTIVATED" =>
-          "historical_p2_078_phase_route"
+          "historical_p2_078_phase_route",
+        "EXACT_FROZEN_P2_078_EVALUATION_EVIDENCE_ADAPTER_SLOT_ELIGIBLE_NOT_ACTIVATED" =>
+          "historical_p2_079_phase_route"
       }[cumulative_capacity_ready_status] == current_route["historical_terminal_route_ref"]
     if single_task_projection
       task_status = current_route.dig("selected_task", "status")
@@ -4291,6 +4293,9 @@ module FounderDelegationContinuity
       }, "single-Task Founder expansion control does not project the exact READY or ACTIVE Task")
     elsif cumulative_capacity_ready_projection
       event_status = if cumulative_capacity_ready_status ==
+                        "EXACT_FROZEN_P2_078_EVALUATION_EVIDENCE_ADAPTER_SLOT_ELIGIBLE_NOT_ACTIVATED"
+                       "EVALUATION_AND_EVIDENCE_ADAPTER_SLOT_V11_1_ELIGIBLE_NOT_ACTIVATED"
+                     elsif cumulative_capacity_ready_status ==
                         "EXACT_FROZEN_P2_078_FORMAL_HELD_SLOT_ELIGIBLE_NOT_ACTIVATED"
                        "EXACT_FROZEN_P2_078_FORMAL_HELD_SLOT_V2_3_ELIGIBLE_NOT_ACTIVATED"
                      elsif cumulative_capacity_ready_status.include?("SLOT_V10_1")

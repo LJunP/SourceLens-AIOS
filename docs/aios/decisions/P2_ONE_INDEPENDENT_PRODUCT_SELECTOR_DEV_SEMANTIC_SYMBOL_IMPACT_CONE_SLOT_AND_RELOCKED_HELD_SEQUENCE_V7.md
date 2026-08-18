@@ -12,7 +12,7 @@
 - Commit: `fae5d0ea87ac8be3555e25fe94b8c2c4b48505de`
 - Tree: `3e15cf4873846edc041e6e29213128d73a10793a`
 - Truth SHA-256:
-  `257c784eeb0e8a1f1e0e4a918eec9ffcac9de011fd16e37e9997a629b2dd0`
+  `257c784eeb0e8a1f1fb1e0e4a918eec9ffcac9de011fd16e37e9997a629b2dd0`
 - Recovery plan: `docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml`
 - Recovery plan bytes: `7433`
 - Recovery plan SHA-256: `cfb383e6b89c84bfe7e574f25a6b2137f5618a7aef0a013814a7abad6d5d24ab`

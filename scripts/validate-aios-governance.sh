@@ -67,8 +67,8 @@ check_phase_sequence_section() {
 check_founder_action_handoff_section() {
   local rules_path="$1"
   local section_header='## Founder / 用户下一步交付（强制执行）'
-  local canonical_byte_length='3519'
-  local canonical_sha256='63c9f93e4fd1f9ea3c2bd6cf9fa8fe6a11f54068b8e5b70097a96fb9bddfa709'
+  local canonical_byte_length='4762'
+  local canonical_sha256='20fe645b452ac5a021fc648f632cd07ab30b1e99a1f0286dbb4da7e1b893b644'
 
   ruby -rdigest -e '
     rules_path, header, expected_length, expected_sha = ARGV
@@ -308,7 +308,8 @@ check_phase_predecessor_activation() {
     end
 
     ledger = truth.fetch("strict_phase_gate_ledger")
-    abort "strict phase Gate ledger schema invalid" unless ledger["schema_version"] == "1.0"
+    abort "strict phase Gate ledger schema invalid" unless %w[1.0 1.1].include?(ledger["schema_version"])
+    research_non_pass_closure = ledger["schema_version"] == "1.1"
     abort "strict phase Gate ledger is not closed" unless ledger.keys.sort == %w[
       phase_route_authority phases rule schema_version sequence trust_model
     ].sort
@@ -363,13 +364,23 @@ check_phase_predecessor_activation() {
     end
 
     phase_route_authority = ledger.fetch("phase_route_authority")
-    expected_phase_route_authority = {
-      "path" => "docs/aios/STRATEGIC_CONSTITUTION.md",
-      "version" => "2.3",
-      "section" => "## 9. Phase route",
-      "section_byte_length" => 1869,
-      "section_sha256" => "e636781630de5fb8d726b9d66f5520785753724fee942d7f06f1e08d8faad21a"
-    }
+    expected_phase_route_authority = if research_non_pass_closure
+      {
+        "path" => "docs/aios/STRATEGIC_CONSTITUTION.md",
+        "version" => "2.4",
+        "section" => "## 9. Phase route",
+        "section_byte_length" => 3009,
+        "section_sha256" => "3c4a48f1ab4e0b3904f45fdb58873db78e4169fa7cc38a6be8025e4873d07930"
+      }
+    else
+      {
+        "path" => "docs/aios/STRATEGIC_CONSTITUTION.md",
+        "version" => "2.3",
+        "section" => "## 9. Phase route",
+        "section_byte_length" => 1869,
+        "section_sha256" => "e636781630de5fb8d726b9d66f5520785753724fee942d7f06f1e08d8faad21a"
+      }
+    end
     abort "strict Phase route authority identity drift" unless
       phase_route_authority == expected_phase_route_authority
     constitution_bytes = verify_repository_file.call({"path" => phase_route_authority["path"]})
@@ -387,8 +398,6 @@ check_phase_predecessor_activation() {
       Digest::SHA256.hexdigest(phase_route_section) == phase_route_authority["section_sha256"]
 
     future_phase_specs = {
-      "P2" => ["CONTEXT_BENCHMARK_BEATS_SIMPLE_RETRIEVAL_BASELINES",
-               "Context benchmark beats simple retrieval baselines"],
       "P3" => ["RESUME_ISOLATION_PERMISSION_AND_TRACE_TESTS",
                "Resume, isolation, permission and trace tests"],
       "P4" => ["VERIFIED_PATCHES_ON_CONTROLLED_REAL_TASKS",
@@ -405,6 +414,12 @@ check_phase_predecessor_activation() {
       "P11" => ["SECOND_DOMAIN_EVIDENCE", "Evidence from a second domain"],
       "P12" => ["LONG_TERM_OUTCOME_FORMALLY_ACCEPTED", "Long-term outcome, not a current commitment"]
     }
+    unless research_non_pass_closure
+      future_phase_specs = {
+        "P2" => ["CONTEXT_BENCHMARK_BEATS_SIMPLE_RETRIEVAL_BASELINES",
+                 "Context benchmark beats simple retrieval baselines"]
+      }.merge(future_phase_specs)
+    end
     future_phase_specs.each do |phase_id, (item_id, exit_text)|
       phase_record = phases.fetch(phase_id)
       abort "#{phase_id} Exit Gate authority drift" unless phase_record["exit_gate_authority"] == {
@@ -418,6 +433,23 @@ check_phase_predecessor_activation() {
         line.start_with?(row_marker) && line.include?("| #{exit_text} |")
       end
       abort "#{phase_id} Exit Gate is not bound to exact Phase route row" unless matching_rows.length == 1
+    end
+    if research_non_pass_closure
+      p2_research = phases.fetch("P2")
+      p2_research_item_id = "P2_REPRESENTATIVE_BENCHMARK_AND_BOUNDED_SUPERIORITY_DETERMINATION"
+      p2_research_exit = "Independently accepted representative benchmark and B1 baseline, plus reproducible terminal evidence that determines whether any frozen candidate met the preregistered superiority criterion within the frozen budget"
+      abort "P2 revised research Exit authority drift" unless p2_research["exit_gate_authority"] == {
+        "source" => "STRATEGIC_CONSTITUTION_V2_4_REVISED_RESEARCH_EXIT",
+        "required_exit_evidence" => p2_research_exit
+      }
+      abort "P2 revised research required-item set drift" unless
+        p2_research["required_item_ids"] == [p2_research_item_id] &&
+        p2_research.fetch("required_items").keys == [p2_research_item_id]
+      row_marker = "| P2 Repository Intelligence Research |"
+      matching_rows = phase_route_section.lines.select do |line|
+        line.start_with?(row_marker) && line.include?("| #{p2_research_exit} |")
+      end
+      abort "P2 revised research Exit is not bound to exact Constitution row" unless matching_rows.length == 1
     end
 
     p0 = phases.fetch("P0")
@@ -857,12 +889,54 @@ check_phase_predecessor_activation() {
 
     p1_items.each { |item_id, item| validate_gate_item.call("P1", item_id, item) }
 
+    if research_non_pass_closure
+      p2_research_item_id = "P2_REPRESENTATIVE_BENCHMARK_AND_BOUNDED_SUPERIORITY_DETERMINATION"
+      p2_research_item = p2_research.fetch("required_items").fetch(p2_research_item_id)
+      abort "P2 research conclusion is not accepted" unless
+        p2_research_item["status"] == "ACCEPTED" &&
+        p2_research_item["benchmark_task_id"] == "AIOS-P2-069" &&
+        p2_research_item["accepted_milestone"] == "P2_RECOVERY_BASELINE_ACCEPTED" &&
+        p2_research_item["bounded_result"] == "NO_CANDIDATE_MET_FROZEN_SUPERIORITY_CRITERION"
+      p2_decision = JSON.parse(verify_file.call(p2_research_item.fetch("gate_evidence").slice("path", "byte_length", "sha256")))
+      abort "P2 research conclusion decision drift" unless
+        p2_research_item.dig("gate_evidence", "receipt_type") ==
+          "FOUNDER_P2_RESEARCH_NON_PASS_PHASE_EXIT_REBASELINE_DECISION_V1" &&
+        p2_decision["schema_version"] ==
+          "founder-p2-research-non-pass-completion-and-phase-exit-rebaseline-decision/v1" &&
+        p2_decision["decision_id"] ==
+          "AUTHORIZE_P2_RESEARCH_NON_PASS_COMPLETION_AND_PHASE_EXIT_REBASELINE_V1"
+      abort "P2 original capability truth was rewritten" unless
+        p2_research.fetch("original_capability_gate") == {
+          "id" => "CONTEXT_BENCHMARK_BEATS_SIMPLE_RETRIEVAL_BASELINES",
+          "status" => "MISSING_NOT_ACCEPTED",
+          "strict_progress_percent" => 0,
+          "capability_accepted" => false,
+          "candidate_integrated" => false
+        }
+      abort "P2 revised research completion projection drift" unless
+        p2_research["status"] == "COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED" &&
+        p2_research["derived_completion"] == {
+          "completed" => 1, "total" => 1, "percent" => 100,
+          "kind" => "RESEARCH_EXIT_ONLY_CAPABILITY_NOT_ACCEPTED"
+        }
+    end
+
     validate_founder_phase_gate = lambda do |phase_id, phase_record, required_ids|
       gate = phase_record.fetch("founder_phase_gate")
       expected_gate_keys = %w[byte_length decision_id path sha256 status]
       abort "#{phase_id} Founder Phase Gate record is not closed" unless
         gate.is_a?(Hash) && gate.keys.sort == expected_gate_keys
-      if phase_record["status"] == "INCOMPLETE"
+      if phase_id == "P2" && research_non_pass_closure
+        abort "P2 revised research Founder Gate drift" unless gate == {
+          "status" => "PASS_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED",
+          "decision_id" => "AUTHORIZE_P2_RESEARCH_NON_PASS_COMPLETION_AND_PHASE_EXIT_REBASELINE_V1",
+          "path" => p2_research.dig("required_items", required_ids.first, "gate_evidence", "path"),
+          "byte_length" => p2_research.dig("required_items", required_ids.first, "gate_evidence", "byte_length"),
+          "sha256" => p2_research.dig("required_items", required_ids.first, "gate_evidence", "sha256")
+        }
+        next
+      end
+      if ["INCOMPLETE", "ELIGIBLE_AWAITING_SEPARATE_FOUNDER_PHASE_ENTRY"].include?(phase_record["status"])
         abort "#{phase_id} incomplete Founder Gate identity must remain null" unless gate == {
           "status" => "NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS",
           "decision_id" => nil,
@@ -954,12 +1028,18 @@ check_phase_predecessor_activation() {
       abort "P1 incomplete ledger status drift" unless p1["status"] == "INCOMPLETE"
     end
     validate_founder_phase_gate.call("P1", p1, expected_p1_items)
+    validate_founder_phase_gate.call("P2", p2_research, p2_research["required_item_ids"]) if
+      research_non_pass_closure
     p1_gate = p1.fetch("founder_phase_gate")
     future_phase_specs.each do |phase_id, (item_id, _exit_text)|
       phase_record = phases.fetch(phase_id)
       item = phase_record.fetch("required_items").fetch(item_id)
       validate_gate_item.call(phase_id, item_id, item)
-      expected_status = item["status"] == "ACCEPTED" ? "COMPLETE" : "INCOMPLETE"
+      expected_status = if research_non_pass_closure && phase_id == "P3"
+                          "ELIGIBLE_AWAITING_SEPARATE_FOUNDER_PHASE_ENTRY"
+                        else
+                          item["status"] == "ACCEPTED" ? "COMPLETE" : "INCOMPLETE"
+                        end
       abort "#{phase_id} derived Gate status drift" unless phase_record["status"] == expected_status
       validate_founder_phase_gate.call(phase_id, phase_record, [item_id])
     end
@@ -970,8 +1050,13 @@ check_phase_predecessor_activation() {
       abort "active Task phase does not match current Phase" unless task_match[1] == phase
     end
 
+    phase_complete = lambda do |phase_id, record|
+      record["status"] == "COMPLETE" ||
+        (research_non_pass_closure && phase_id == "P2" &&
+         record["status"] == "COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED")
+    end
     earliest_incomplete_phase = phases.keys
-      .select { |phase_id| phase_id.match?(/\AP(?:0|[1-9]|1[0-2])\z/) && phases[phase_id]["status"] != "COMPLETE" }
+      .select { |phase_id| phase_id.match?(/\AP(?:0|[1-9]|1[0-2])\z/) && !phase_complete.call(phase_id, phases[phase_id]) }
       .min_by { |phase_id| Integer(phase_id.delete_prefix("P"), 10) }
     if earliest_incomplete_phase
       earliest_incomplete_number = Integer(earliest_incomplete_phase.delete_prefix("P"), 10)
@@ -1006,13 +1091,15 @@ check_phase_predecessor_activation() {
       (2...target_phase_number).each do |predecessor_number|
         predecessor_id = "P#{predecessor_number}"
         predecessor = phases.fetch(predecessor_id)
-        abort "#{predecessor_id} predecessor Gate is not COMPLETE" unless predecessor["status"] == "COMPLETE"
+        abort "#{predecessor_id} predecessor Gate is not COMPLETE" unless
+          phase_complete.call(predecessor_id, predecessor)
         required_ids = predecessor.fetch("required_item_ids")
         required_items = predecessor.fetch("required_items")
         abort "#{predecessor_id} predecessor required-item set is empty" unless required_ids.is_a?(Array) && !required_ids.empty?
         abort "#{predecessor_id} predecessor required-item set drift" unless required_items.keys == required_ids
         required_items.each do |item_id, item|
-          validate_gate_item.call(predecessor_id, item_id, item)
+          validate_gate_item.call(predecessor_id, item_id, item) unless
+            research_non_pass_closure && predecessor_id == "P2"
           abort "#{predecessor_id} predecessor required item is not accepted: #{item_id}" unless
             item["status"] == "ACCEPTED"
         end

@@ -16978,7 +16978,7 @@ strict_phase_gate_ledger:
       status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
       exit_gate_authority:
         source: STRATEGIC_CONSTITUTION_V2_4_REVISED_RESEARCH_EXIT
-        required_exit_evidence: Independently accepted representative benchmark and B1 baseline plus reproducible terminal evidence that determines whether any frozen candidate met the preregistered superiority criterion within the frozen budget
+        required_exit_evidence: Independently accepted representative benchmark and B1 baseline, plus reproducible terminal evidence that determines whether any frozen candidate met the preregistered superiority criterion within the frozen budget
       required_item_ids:
         - P2_REPRESENTATIVE_BENCHMARK_AND_BOUNDED_SUPERIORITY_DETERMINATION
       required_items:

@@ -173,14 +173,20 @@ module P3PhaseEntryValidation
     envelope = mapping(truth["phase_execution_envelope"], "P3 Phase envelope")
     consumed = mapping(envelope["consumed"], "P3 consumed capacity")
     remaining = mapping(envelope["remaining"], "P3 remaining capacity")
+    reserved = envelope["reserved"].is_a?(Hash) ? envelope["reserved"] : {}
+    unconsumed_reservation = reserved["status"] == "ELIGIBLE_NOT_ACTIVATED" ?
+      mapping(reserved["budget"], "P3 reserved capacity") : ZERO_CAPACITY
     assert(envelope["schema_version"] == "phase-execution-envelope/v1" &&
            envelope["phase"] == "P3" && envelope["status"] == "ACTIVE_REMAINING_CAPACITY" &&
            envelope["limits"] == LIMITS && envelope["milestone_order"] == MILESTONES &&
            envelope["accepted_milestones"].is_a?(Array) &&
            MILESTONES.first(envelope["accepted_milestones"].length) == envelope["accepted_milestones"] &&
-           consumed["engineering_tasks"] + remaining["engineering_tasks"] == 8 &&
-           consumed["engineering_hours"] + remaining["engineering_hours"] == 256 &&
-           consumed["calendar_days"] + remaining["calendar_days"] == 64 &&
+           consumed["engineering_tasks"] + remaining["engineering_tasks"] +
+             unconsumed_reservation["engineering_tasks"] == 8 &&
+           consumed["engineering_hours"] + remaining["engineering_hours"] +
+             unconsumed_reservation["engineering_hours"] == 256 &&
+           consumed["calendar_days"] + remaining["calendar_days"] +
+             unconsumed_reservation["calendar_days"] == 64 &&
            envelope["remaining_capacity_usable"] == true && envelope["external_effects"] == FALSE_EFFECTS &&
            envelope.dig("authority_basis", "source_route_ref") == "historical_p3_phase_entry_route" &&
            envelope.dig("authority_basis", "source_decision") == decision_identity,

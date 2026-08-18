@@ -1,0 +1,89 @@
+schema_version: p3-task-contract/v1
+record_type: sourcelens_aios_p3_task_contract
+task_id: AIOS-P3-002_CAPABILITY_SCOPED_TOOL_PERMISSION_ENFORCEMENT
+phase: P3
+status: ELIGIBLE_NOT_ACTIVATED
+milestone: CAPABILITY_SCOPED_TOOL_AND_PERMISSION_ENFORCEMENT
+authority:
+  phase_entry_decision:
+    decision_id: AUTHORIZE_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-phase-entry-20260819/decision/FOUNDER_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1.json
+    byte_length: 4105
+    sha256: 23a50848a182fa7865f8e96c78bd9001ff2db6682d8d19dc49a0d4768994d6eb
+  activation_parent:
+    commit: 934806bd5ce9bac029805612b58aaa9c6120dfbe
+    tree: 2d0865e0e5d30a9495af5a1d6ce040496d736902
+    kind: TASK_SELECTION_PARENT
+  task_selection_owner: MASTER_CEO_AGENT
+  task_gate_owner: MASTER_CEO_AGENT
+  founder_gate: P3_EXIT_GATE_ONLY
+objective: >-
+  Build the smallest production-path capability envelope that exposes and
+  executes only task-scoped tools, checks the exact project, conversation,
+  Agent Task, tool name, permission ceiling and policy identity before tool
+  code runs, and persists the resulting allow or deny decision for audit.
+why_now: >-
+  Durable checkpoint resume is independently accepted. The next ordered P3
+  milestone is capability-scoped tool and permission enforcement; the current
+  runtime relies on global enable flags and does not bind an individual tool
+  invocation to an exact Agent Task capability envelope.
+scope:
+  allowed_paths:
+    - backend-spring/src/main/java/com/sourcelens/module/agent
+    - backend-spring/src/main/resources/db/migration
+    - backend-spring/src/test/java/com/sourcelens
+  product_source_required: true
+  task_local_database_fixtures_only: true
+  network_allowed: false
+  provider_allowed: false
+  secret_allowed: false
+  remote_allowed: false
+  production_allowed: false
+  public_release_allowed: false
+budget:
+  engineering_tasks: 1
+  engineering_hours: 32
+  calendar_days: 8
+  candidate_generations: 1
+  same_task_repairs: 1
+  review_cycles: 2
+acceptance:
+  required:
+    - The production AgentRuntime constructs one immutable policy-identity-bound capability envelope for an exact project, conversation and Agent Task; conversations without an Agent Task receive no executable tool capability.
+    - Prompt tool descriptions and function schemas expose only the exact tools admitted by that envelope.
+    - ToolExecutionService rejects missing, malformed, policy-drifted, subject-mismatched, unlisted, permission-exceeding and globally disabled tool calls before invoking any AgentTool body.
+    - Capability validation is independent of LLM-controlled tool arguments and uses normalized exact tool names with no prefix, case-folding or substring admission.
+    - Every known-tool allow or deny persists Agent Task id, capability grant id, decision and stable reason code without exposing a broader capability.
+    - Focused unit and H2 migration tests cover exact allow, deny-all, subject drift, policy drift, tool mismatch, permission escalation, global disable, audit persistence and proof that denied tool bodies are never invoked.
+    - No network, Provider, Secret, remote, production or public effect occurs.
+  task_gate: INDEPENDENT_REVIEW_AND_TEST_EVIDENCE_PASS
+claim_boundary: >-
+  Cooperative local exact-identity capability enforcement. This Task does not
+  claim cryptographic attestation or protection from a malicious in-process
+  caller that can replace trusted runtime code.
+non_goals:
+  - OS process or filesystem isolation
+  - Complete observable execution trace acceptance
+  - Persisted planner orchestration beyond the accepted P3-001 checkpoint kernel
+  - Mutating capability issuance, Provider access or open shell
+  - P3 Exit Gate or P4 entry
+lineage:
+  p2_rejected_engineering_lineage_read: false
+  p2_rejected_engineering_lineage_compare: false
+  p2_rejected_engineering_lineage_copy: false
+  implementation_inputs:
+    - canonical main at activation parent
+    - accepted P3-001 durable checkpoint milestone
+    - current AgentRuntime, PromptBuilder, ToolRegistry and ToolExecutionService source and tests
+stop_conditions:
+  - Write escapes the exact Task worktree or create-once Evidence root.
+  - Any external capability becomes necessary.
+  - A denied invocation can reach AgentTool.execute.
+  - Candidate or repair budget is exhausted.
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false

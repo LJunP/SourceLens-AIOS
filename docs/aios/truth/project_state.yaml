@@ -38,7 +38,7 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
+  current_task_authority: AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER
   note: 'Founder decision AUTHORIZE_P2_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER_PLUS_ONE_SHOT_FORMAL_HELD_SEQUENCE_V1
     expands the cumulative P2 envelope to twenty-six Tasks, seven-hundred-eighty-four
     engineering hours and one-hundred-ninety-six calendar days while preserving all
@@ -1635,7 +1635,7 @@ project:
   p2_entry_status: AUTHORIZED
   p2_execution_status: ACTIVE
   phase_execution_status: ACTIVE
-  current_route_execution_status: PHASE_DELEGATED_TASK_READY
+  current_route_execution_status: ACTIVE
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -8122,9 +8122,9 @@ historical_p2_076_phase_route:
 current_phase_route:
   schema_version: phase-delegated-independent-task/v1
   route_id: AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER_PHASE_DELEGATED_ROUTE
-  status: AUTHORIZED_READY
-  execution_status: PHASE_DELEGATED_TASK_READY
-  scheduling_status: READY_FOR_MASTER_ACTIVATION
+  status: ACTIVE
+  execution_status: ACTIVE
+  scheduling_status: ACTIVE_PHASE_DELEGATED_TASK
   phase: P2
   phase_entry_status: AUTHORIZED
   policy:
@@ -8132,13 +8132,13 @@ current_phase_route:
     version: '1.8'
     sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
   founder_phase_route_decision_required: false
-  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
+  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
   phase_execution_envelope_ref: phase_execution_envelope
   source_authority_route_ref: historical_p2_exact_frozen_p2_078_evaluation_evidence_adapter_plus_one_shot_formal_held_sequence_phase_route
   preceding_terminal_route_ref: historical_p2_079_phase_route
   selected_task:
     task_id: AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER
-    status: ELIGIBLE_NOT_ACTIVATED
+    status: ACTIVE
     task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
     capability: REPRODUCIBLE_CONTEXT_BENCHMARK
     objective: >-
@@ -8157,8 +8157,8 @@ current_phase_route:
     max_same_task_repairs: 1
     contract:
       path: docs/aios/tasks/P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER.yaml
-      sha256: dd8010e94b1c99a990de35189f67cdc1314904eb5ac9fca6c676fd369d253425
-      byte_length: 18546
+      sha256: 2e21e9df3fcc4e4e771b4e4efe6f6060843043e3c11cc9e08398249c0b533631
+      byte_length: 18530
     independence:
       new_task_id: true
       new_execution_nonce: true
@@ -11440,7 +11440,7 @@ phase_execution_envelope:
   reserved:
     task_id: AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER
     route_id: AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER_PHASE_DELEGATED_ROUTE
-    status: ELIGIBLE_NOT_ACTIVATED
+    status: ACTIVE
     capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_V11_1
     budget:
       engineering_tasks: 1
@@ -11448,9 +11448,12 @@ phase_execution_envelope:
       calendar_days: 8
     contract:
       path: docs/aios/tasks/P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER.yaml
-      sha256: dd8010e94b1c99a990de35189f67cdc1314904eb5ac9fca6c676fd369d253425
-      byte_length: 18546
+      sha256: 2e21e9df3fcc4e4e771b4e4efe6f6060843043e3c11cc9e08398249c0b533631
+      byte_length: 18530
     authority:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-exact-frozen-p2-078-evaluation-evidence-adapter-20260818/task-p2-080/authority/P2_080_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
+      sha256: ee598a4e938050e4feb9bb5553296ecb313f52ca55514db08682ee1a1dc29027
+      byte_length: 6705
   remaining:
     engineering_tasks: 1
     engineering_hours: 32
@@ -11467,16 +11470,16 @@ founder_escalation_control:
   schema_version: founder-escalation-control/v1
   disposition: NO_RESERVED_TRIGGER_CONTINUE_PHASE
   source_event:
-    kind: FOUNDER_EXPANDED_SINGLE_TASK_READY
+    kind: FOUNDER_EXPANDED_SINGLE_TASK_ACTIVE
     task_id: AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER
-    status: ELIGIBLE_NOT_ACTIVATED
+    status: ACTIVE
   reserved_trigger:
     category: NONE
     evidence:
   phase_gate_status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
   founder_decision_required: false
   next_action_owner: MASTER_CEO_AGENT
-  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
+  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
 
 historical_p2_053_phase_route:
   schema_version: "1.1"
@@ -22988,38 +22991,67 @@ historical_p2_079_terminal_active_work:
   next_eligible_action: FOUNDER_RESERVED_DECISION
 
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER
+  current_task_status: ACTIVE
   current_task_contract:
     path: docs/aios/tasks/P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER.yaml
-    sha256: dd8010e94b1c99a990de35189f67cdc1314904eb5ac9fca6c676fd369d253425
-    byte_length: 18546
-  current_task_contract_sha256: dd8010e94b1c99a990de35189f67cdc1314904eb5ac9fca6c676fd369d253425
-  current_execution_authorization:
-  current_execution_authorization_sha256:
+    sha256: 2e21e9df3fcc4e4e771b4e4efe6f6060843043e3c11cc9e08398249c0b533631
+    byte_length: 18530
+  current_task_contract_sha256: 2e21e9df3fcc4e4e771b4e4efe6f6060843043e3c11cc9e08398249c0b533631
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-exact-frozen-p2-078-evaluation-evidence-adapter-20260818/task-p2-080/authority/P2_080_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
+  current_execution_authorization_sha256: ee598a4e938050e4feb9bb5553296ecb313f52ca55514db08682ee1a1dc29027
   authority_record:
-    path:
-    sha256:
-    byte_length:
-  execution_nonce:
-  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
-  authorization_id:
-  activation_parent_commit:
-  activation_parent_tree:
-  task_resource_state: NOT_CREATED_PHASE_DELEGATED_TASK_READY
-  task_branch:
-  task_worktree:
-  execution_evidence_root:
-  allowlisted_paths: []
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-exact-frozen-p2-078-evaluation-evidence-adapter-20260818/task-p2-080/authority/P2_080_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
+    sha256: ee598a4e938050e4feb9bb5553296ecb313f52ca55514db08682ee1a1dc29027
+    byte_length: 6705
+  execution_nonce: dee608c8-36e3-49fe-a712-b821aafe46ec
+  execution_nonce_status: ACTIVE
+  authorization_id: 2a1b0a68-9cd6-4b22-9859-20423e4da768
+  activation_parent_commit: 68ed2bf707ae61e5686939f2e8c8c3e4cfe2af7c
+  activation_parent_tree: d41f6a2f7e5e448910f03c6964877891da6c0db7
+  task_resource_state: ACTIVE_UNIQUE_PHASE_DELEGATED
+  task_branch: codex/p2-080-exact-frozen-p2-078-evaluation-evidence-adapter
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-080-exact-frozen-p2-078-evaluation-evidence-adapter
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-exact-frozen-p2-078-evaluation-evidence-adapter-20260818/task-p2-080
+  allowlisted_paths:
+  - evaluation-harness/harness/p2-exact-frozen-p2-078-evaluation-evidence-adapter-v1
+  - evaluation-harness/replay/p2-exact-frozen-p2-078-evaluation-evidence-adapter-v1
+  - evaluation-harness/reports/p2-exact-frozen-p2-078-evaluation-evidence-adapter-v1
   budget:
-    engineering_hours:
-    calendar_days:
-    implementation_iterations:
-    candidates:
+    engineering_hours: 32
+    calendar_days: 8
+    implementation_iterations: 2
+    candidates: 1
   roles:
+    owner: P2-080 Master Adapter Owner
+    worker: P2-080 Evaluation and Evidence Adapter Worker
+    independent_reviewers:
+    - P2-080 CTO Reviewer
+    - P2-080 Security Reviewer
+    - P2-080 Quality and Evaluation Reviewer
+  write_ownership:
+    schema_version: role-write-ownership/v1
+    cross_role_write_allowed: false
     owner:
+      role: P2-080 Master Adapter Owner
+      write_paths: []
     worker:
-    independent_reviewers: []
+      role: P2-080 Evaluation and Evidence Adapter Worker
+      write_paths:
+      - evaluation-harness/harness/p2-exact-frozen-p2-078-evaluation-evidence-adapter-v1
+      - evaluation-harness/replay/p2-exact-frozen-p2-078-evaluation-evidence-adapter-v1
+      - evaluation-harness/reports/p2-exact-frozen-p2-078-evaluation-evidence-adapter-v1
+    independent_reviewers:
+    - role: P2-080 CTO Reviewer
+      write_paths: []
+    - role: P2-080 Security Reviewer
+      write_paths: []
+    - role: P2-080 Quality and Evaluation Reviewer
+      write_paths: []
+  effective_worker_write_paths:
+  - evaluation-harness/harness/p2-exact-frozen-p2-078-evaluation-evidence-adapter-v1
+  - evaluation-harness/replay/p2-exact-frozen-p2-078-evaluation-evidence-adapter-v1
+  - evaluation-harness/reports/p2-exact-frozen-p2-078-evaluation-evidence-adapter-v1
   external_effects:
     network: false
     provider: false
@@ -23036,7 +23068,7 @@ active_work:
   user_action_required: NONE
   phase_route_decision_required: false
   phase_route_user_action_required: NONE
-  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
+  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
 
 historical_p2_065_terminal_active_work:
   current_task: AIOS-P2-065_ESM_IMPORT_GRAPH_CONTEXT_PRODUCT_BENCHMARK
@@ -29582,8 +29614,8 @@ historical_lineages:
 
 phase_execution_claim:
   current_route_claim: AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER_PHASE_DELEGATED_ROUTE
-  current_task_claim: NONE
-  real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_080_ADAPTER_TASK_RESERVED_NOT_ACTIVATED_ZERO_HELD_READ
+  current_task_claim: AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER
+  real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_080_ADAPTER_TASK_ACTIVE_ZERO_HELD_READ
   product_capability_changed: false
   phase_local_allowed:
   - REAL_CODE_QA_PRODUCT_PATH_REPOSITORY_CONTEXT_SELECTOR
@@ -29911,7 +29943,7 @@ phase_execution_claim:
 
 p2_recovery_control:
   schema_version: p2-recovery-control/v1
-  status: EXACT_FROZEN_P2_078_EVALUATION_EVIDENCE_ADAPTER_TASK_RESERVED_READY
+  status: EXACT_FROZEN_P2_078_EVALUATION_EVIDENCE_ADAPTER_TASK_ACTIVE
   plan:
     path: docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml
     byte_length: 12759
@@ -29946,15 +29978,15 @@ p2_recovery_control:
   accepted_milestones:
   - P2_RECOVERY_BASELINE_ACCEPTED
   task_creation_allowed: false
-  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
+  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
 
 claim_boundary:
   current_phase_route: AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER_PHASE_DELEGATED_ROUTE
-  current_task: NONE
-  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
-  real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_080_ADAPTER_TASK_RESERVED_NOT_ACTIVATED_ZERO_HELD_READ
-  p2_080_status: ELIGIBLE_NOT_ACTIVATED
-  p2_080_contract_sha256: dd8010e94b1c99a990de35189f67cdc1314904eb5ac9fca6c676fd369d253425
+  current_task: AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER
+  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
+  real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_080_ADAPTER_TASK_ACTIVE_ZERO_HELD_READ
+  p2_080_status: ACTIVE
+  p2_080_contract_sha256: 2e21e9df3fcc4e4e771b4e4efe6f6060843043e3c11cc9e08398249c0b533631
   p2_080_capacity_source: P2_RECOVERY_CAPACITY_SLOT_V11_1
   p2_080_held_source_reads: 0
   p2_080_formal_dispatches: 0

@@ -170,7 +170,201 @@ module P2RecoveryAntiCycle
     raise ValidationError, "P2 source guardrails rules are unavailable: #{error.message}"
   end
 
+  def validate_bound_file!(identity, label, repo_root, absolute: false)
+    exact_keys!(identity, %w[path byte_length sha256], label)
+    path = Pathname.new(identity.fetch("path").to_s)
+    assert!(path.absolute? == absolute, "#{label} path absolute/relative classification drift")
+    path = Pathname.new(repo_root).join(path) unless absolute
+    clean = path.cleanpath
+    assert!(clean == path, "#{label} path is not clean")
+    stat = File.lstat(path)
+    assert!(stat.file? && !stat.symlink? && stat.nlink == 1,
+            "#{label} must be a regular nlink1 non-symlink file")
+    if !absolute
+      root = File.realpath(repo_root)
+      assert!(File.realpath(path).start_with?(root + File::SEPARATOR), "#{label} escapes repository root")
+    else
+      assert!(File.realpath(path) == path.to_s, "#{label} resolves through a symlink")
+    end
+    bytes = File.binread(path)
+    assert!(bytes.bytesize == identity.fetch("byte_length"), "#{label} byte length mismatch")
+    assert!(Digest::SHA256.hexdigest(bytes) == identity.fetch("sha256"), "#{label} SHA-256 mismatch")
+    bytes
+  rescue Errno::ENOENT, Errno::ELOOP => error
+    raise ValidationError, "#{label} is unavailable: #{error.message}"
+  end
+
+  def validate_research_non_pass_plan!(plan, repo_root)
+    exact_keys!(plan, %w[
+      anti_cycle_closure authority_boundary constitution founder_decision
+      governing_artifact_before_decision mechanical_controls original_capability_truth
+      phase_envelope phase_lifecycle progress_model prohibited_operations
+      revised_research_exit schema_version status terminal_boundary
+    ], "P2 research non-pass closure plan")
+    assert!(plan["schema_version"] == "p2-recovery-and-anti-cycle-plan/v3" &&
+            plan["status"] == "COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED",
+            "P2 research non-pass closure plan lifecycle drift")
+    assert!(plan["authority_boundary"] == {
+      "changes_phase_objective" => true,
+      "changes_exit_gate" => true,
+      "expands_phase_envelope" => false,
+      "activates_task" => false,
+      "authorizes_external_effects" => false,
+      "creates_engineering_progress_credit" => false,
+      "authorizes_p3_entry" => false,
+      "authorizes_long_term_goal_termination" => false
+    }, "P2 research non-pass authority boundary drift")
+
+    decision = exact_keys!(plan.fetch("founder_decision"),
+      %w[canonical_binding decision_id path reserved_trigger sha256 source byte_length],
+      "P2 research non-pass Founder decision")
+    assert!(decision["decision_id"] == "AUTHORIZE_P2_RESEARCH_NON_PASS_COMPLETION_AND_PHASE_EXIT_REBASELINE_V1" &&
+            decision["source"] == "CURRENT_DIRECT_FOUNDER_REPLY_V1" &&
+            decision["reserved_trigger"] == "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE" &&
+            decision["canonical_binding"] == {
+              "branch" => "main",
+              "commit" => "a7ad01052e0a45d368e4311534afea343ba5f4e7",
+              "tree" => "9c1a33b3dcaf705e61c20d29336e73ee5fdc2244"
+            }, "P2 research non-pass Founder decision binding drift")
+    decision_bytes = validate_bound_file!(decision.slice("path", "byte_length", "sha256"),
+                                          "P2 research non-pass Founder decision", repo_root, absolute: true)
+    decision_json = JSON.parse(decision_bytes)
+    assert!(decision_json["schema_version"] ==
+            "founder-p2-research-non-pass-completion-and-phase-exit-rebaseline-decision/v1" &&
+            decision_json["decision_id"] == decision["decision_id"],
+            "P2 research non-pass Founder decision content drift")
+
+    constitution = plan.fetch("constitution")
+    assert!(constitution["version"] == "2.4" && constitution["status"] == "FROZEN",
+            "P2 research non-pass Constitution binding drift")
+    validate_bound_file!(constitution.slice("path", "byte_length", "sha256"),
+                         "P2 research non-pass Constitution", repo_root)
+    assert!(plan.fetch("governing_artifact_before_decision") == {
+      "path" => "docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml",
+      "byte_length" => 12_759,
+      "sha256" => "b06431a4b58d7b222a2706819fd280ba1dc429c9523a95d035508840fab5a065"
+    }, "P2 pre-decision plan identity drift")
+
+    terminal = plan.fetch("terminal_boundary")
+    assert!(terminal["latest_task_id"] == "AIOS-P2-080" &&
+            terminal["latest_terminal_status"] == "TERMINAL_NON_PASS" &&
+            terminal["p2_078_status"] == "TERMINAL_NON_PASS" &&
+            terminal["p2_080_status"] == "TERMINAL_NON_PASS" &&
+            terminal["retroactive_task_pass_allowed"] == false &&
+            terminal["rejected_candidate_integration_allowed"] == false &&
+            terminal["held_source_reads"] == 0 && terminal["held_tasks_executed"] == 0,
+            "P2 terminal truth boundary drift")
+    validate_bound_file!(terminal.fetch("latest_terminal_receipt"),
+                         "P2-080 terminal receipt", repo_root, absolute: true)
+
+    research = plan.fetch("revised_research_exit")
+    item = research.fetch("required_items").first
+    assert!(research["phase"] == "P2" &&
+            research["phase_completion_status"] == "COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED" &&
+            research["independent_phase_closure_audit_required"] == true &&
+            research["independent_phase_closure_audit_count"] == 1 &&
+            item["id"] == "P2_REPRESENTATIVE_BENCHMARK_AND_BOUNDED_SUPERIORITY_DETERMINATION" &&
+            item["status"] == "ACCEPTED" &&
+            item.dig("benchmark_foundation", "task_id") == "AIOS-P2-069" &&
+            item.dig("benchmark_foundation", "milestone") == "P2_RECOVERY_BASELINE_ACCEPTED" &&
+            item.dig("bounded_determination", "result") == "NO_CANDIDATE_MET_FROZEN_SUPERIORITY_CRITERION",
+            "P2 revised research Exit drift")
+    capability = plan.fetch("original_capability_truth")
+    assert!(capability == {
+      "gate_id" => "CONTEXT_BENCHMARK_BEATS_SIMPLE_RETRIEVAL_BASELINES",
+      "status" => "MISSING_NOT_ACCEPTED",
+      "accepted_items" => 0,
+      "total_items" => 1,
+      "strict_capability_progress_percent" => 0,
+      "delivery_progress_percent" => 25,
+      "repository_intelligence_capability_accepted" => false,
+      "product_or_adapter_candidate_integrated" => false,
+      "candidate_or_metric_mutation_allowed" => false
+    }, "P2 original capability truth drift")
+
+    envelope = plan.fetch("phase_envelope")
+    assert!(envelope["status"] == "CLOSED_RESEARCH_NON_PASS_UNUSED_REMAINDER_LOCKED" &&
+            envelope["limits"] == { "engineering_tasks" => 26, "engineering_hours" => 784, "calendar_days" => 196 } &&
+            envelope["consumed"] == { "engineering_tasks" => 25, "engineering_hours" => 752, "calendar_days" => 188 } &&
+            envelope["remaining"] == { "engineering_tasks" => 1, "engineering_hours" => 32, "calendar_days" => 8 } &&
+            envelope["remaining_capacity_usable"] == false && envelope["new_budget"].values.all?(&:zero?),
+            "P2 closed envelope drift")
+    assert!(plan.fetch("prohibited_operations").values.all? { |value| value == true },
+            "P2 research non-pass closure relaxed a prohibited operation")
+    assert!(plan.dig("progress_model", "revised_research_exit", "percent") == 100 &&
+            plan.dig("progress_model", "original_capability_exit", "percent") == 0 &&
+            plan.dig("progress_model", "delivery_milestones", "current_percent") == 25,
+            "P2 split progress model drift")
+    lifecycle = plan.fetch("phase_lifecycle")
+    assert!(lifecycle["p2_status"] == "COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED" &&
+            lifecycle["p2_capability_status"] == "NOT_ACCEPTED" &&
+            lifecycle["p3_status"] == "ELIGIBLE_AWAITING_SEPARATE_FOUNDER_PHASE_ENTRY" &&
+            lifecycle["p3_entry_authorized"] == false && lifecycle["p3_execution_started"] == false &&
+            lifecycle["long_term_goal_status"] == "ACTIVE" && lifecycle["project_actual_completion"] == false &&
+            lifecycle["next_eligible_action"] == "P3_PHASE_ENTRY_DECISION",
+            "P2 Phase lifecycle drift")
+  end
+
+  def validate_research_non_pass_truth!(truth, plan, plan_bytes, repo_root)
+    project = truth.fetch("project")
+    route = truth.fetch("current_phase_route")
+    control = truth.fetch("p2_recovery_control")
+    assert!(project["current_phase"] == "P2" &&
+            project["p2_execution_status"] == "COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED" &&
+            project["p3_entry_status"] == "ELIGIBLE_AWAITING_SEPARATE_FOUNDER_PHASE_ENTRY" &&
+            project["p3_execution_status"] == "HOLD_PENDING_SEPARATE_FOUNDER_PHASE_ENTRY",
+            "Truth project P2 research-exit projection drift")
+    assert!(route["schema_version"] == "founder-resolved-p2-research-exit/v1" &&
+            route["status"] == "COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED" &&
+            route["strict_capability_progress_percent"] == 0 &&
+            route["revised_research_exit_percent"] == 100 &&
+            route["p3_entry_authorized"] == false && route["long_term_goal_status"] == "ACTIVE" &&
+            route["external_effects"].values.all? { |value| value == false },
+            "Truth P2 research-exit Route drift")
+    plan_identity = control.fetch("plan")
+    assert!(plan_identity["path"] == "docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml" &&
+            plan_identity["byte_length"] == plan_bytes.bytesize &&
+            plan_identity["sha256"] == Digest::SHA256.hexdigest(plan_bytes),
+            "Truth P2 recovery plan identity drift")
+    assert!(control["schema_version"] == "p2-recovery-control/v2" &&
+            control["status"] == "COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED" &&
+            control["strict_gate_percent"] == 0 && control["revised_research_exit_percent"] == 100 &&
+            control["current_delivery_percent"] == 25 && control["task_creation_allowed"] == false &&
+            control["remaining_capacity_usable"] == false && control["held_read_allowed"] == false &&
+            control["candidate_integration_allowed"] == false && control["p3_entry_authorized"] == false,
+            "Truth P2 recovery control drift")
+    p2 = truth.dig("strict_phase_gate_ledger", "phases", "P2")
+    p3 = truth.dig("strict_phase_gate_ledger", "phases", "P3")
+    assert!(p2["status"] == "COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED" &&
+            p2.dig("original_capability_gate", "status") == "MISSING_NOT_ACCEPTED" &&
+            p2.dig("original_capability_gate", "strict_progress_percent") == 0 &&
+            p2.dig("founder_phase_gate", "status") == "PASS_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED" &&
+            p3["status"] == "ELIGIBLE_AWAITING_SEPARATE_FOUNDER_PHASE_ENTRY" &&
+            p3["entry_authorized"] == false && p3["execution_started"] == false,
+            "Truth strict Phase ledger drift")
+    envelope = truth.fetch("phase_execution_envelope")
+    assert!(envelope["status"] == "CLOSED_RESEARCH_NON_PASS_UNUSED_REMAINDER_LOCKED" &&
+            envelope["remaining_capacity_usable"] == false && envelope["reserved"].nil? &&
+            envelope["external_effects"].values.all? { |value| value == false },
+            "Truth P2 closed envelope drift")
+    active = truth.fetch("active_work")
+    assert!(active["current_task"] == "NONE" && active["current_task_status"] == "NONE" &&
+            active["next_eligible_action"] == "P3_PHASE_ENTRY_DECISION",
+            "Truth active_work drift")
+    assert!(truth.dig("goal", "control_plane_status_observed") == "ACTIVE" &&
+            truth.dig("goal", "current_task_authority") == "NONE",
+            "Truth Long-term Goal drift")
+    assert!(truth.dig("claim_boundary", "p2_original_capability_progress_percent") == 0 &&
+            truth.dig("claim_boundary", "p2_candidate_integrated") == false &&
+            truth.dig("claim_boundary", "p2_held_source_reads") == 0 &&
+            truth.dig("claim_boundary", "p3_entry_authorized") == false,
+            "Truth capability claim boundary drift")
+    validate_research_non_pass_plan!(plan, repo_root)
+  end
+
   def validate_plan!(plan, repo_root)
+    return validate_research_non_pass_plan!(plan, repo_root) if
+      plan["schema_version"] == "p2-recovery-and-anti-cycle-plan/v3"
     exact_keys!(plan, %w[
       authority_boundary baseline current_control drift_diagnosis mechanical_controls
       live_state phase_level_loop_breaker progress_model progress_scorecard
@@ -537,6 +731,8 @@ module P2RecoveryAntiCycle
   end
 
   def validate_truth!(truth, plan, plan_bytes, repo_root)
+    return validate_research_non_pass_truth!(truth, plan, plan_bytes, repo_root) if
+      plan["schema_version"] == "p2-recovery-and-anti-cycle-plan/v3"
     project = truth.fetch("project")
     goal = truth.fetch("goal")
     route = truth.fetch("current_phase_route")
@@ -2179,13 +2375,21 @@ module P2RecoveryAntiCycle
             "Recovery plan historical baseline was rewritten")
   end
 
-  def validate!(truth_path: DEFAULT_TRUTH, plan_path: DEFAULT_PLAN, repo_root: ROOT)
+  def validate!(truth_path: DEFAULT_TRUTH, plan_path: DEFAULT_PLAN, repo_root: ROOT, closure_audit: false)
     repo_root = File.realpath(repo_root)
     plan, plan_bytes = read_yaml!(plan_path, "P2 recovery plan", repo_root)
     truth, = read_yaml!(truth_path, "canonical Truth", repo_root)
     validate_source_guardrails!(DEFAULT_RULES, repo_root)
     validate_plan!(plan, repo_root)
     validate_truth!(truth, plan, plan_bytes, repo_root)
+    if closure_audit
+      assert!(plan["schema_version"] == "p2-recovery-and-anti-cycle-plan/v3",
+              "Phase-closure audit requires the v3 research non-pass closure plan")
+      assert!(git!(repo_root, "symbolic-ref", "--quiet", "--short", "HEAD").strip == "main",
+              "Phase-closure audit requires canonical main")
+      assert!(git!(repo_root, "status", "--porcelain=v1", "--untracked-files=all").empty?,
+              "Phase-closure audit requires a clean canonical repository")
+    end
     truth.fetch("p2_recovery_control")
   end
 end
@@ -2195,16 +2399,20 @@ if $PROGRAM_NAME == __FILE__
     options = {
       truth_path: P2RecoveryAntiCycle::DEFAULT_TRUTH,
       plan_path: P2RecoveryAntiCycle::DEFAULT_PLAN,
-      repo_root: P2RecoveryAntiCycle::ROOT
+      repo_root: P2RecoveryAntiCycle::ROOT,
+      closure_audit: false
     }
     OptionParser.new do |parser|
       parser.on("--truth PATH") { |value| options[:truth_path] = File.expand_path(value) }
       parser.on("--plan PATH") { |value| options[:plan_path] = File.expand_path(value) }
       parser.on("--repo PATH") { |value| options[:repo_root] = File.expand_path(value) }
+      parser.on("--closure-audit") { options[:closure_audit] = true }
     end.parse!
     control = P2RecoveryAntiCycle.validate!(**options)
     puts "P2_RECOVERY_ANTI_CYCLE: PASS strict_gate=#{control.fetch('strict_gate_percent')} " \
-         "delivery=#{control.fetch('current_delivery_percent')} source_admission=true lifecycle=validated"
+         "research_exit=#{control.fetch('revised_research_exit_percent', 0)} " \
+         "delivery=#{control.fetch('current_delivery_percent')} source_admission=true " \
+         "lifecycle=validated closure_audit=#{options[:closure_audit]}"
   rescue P2RecoveryAntiCycle::ValidationError, AuthorityValidationError,
          DuplicateJsonKeyError, JSON::ParserError, KeyError, Psych::Exception,
          Errno::ENOENT, Errno::ELOOP => error

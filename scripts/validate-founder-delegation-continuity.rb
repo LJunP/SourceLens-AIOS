@@ -27,6 +27,7 @@ module FounderDelegationContinuity
   CONTINUATION_ROUTE_SCHEMA = "phase-delegated-continuation-hold/v1"
   RESERVED_ROUTE_SCHEMA = "founder-reserved-decision-hold/v1"
   STRATEGIC_HOLD_ROUTE_SCHEMA = "founder-resolved-strategic-hold/v1"
+  RESEARCH_EXIT_ROUTE_SCHEMA = "founder-resolved-p2-research-exit/v1"
   DELEGATED_TASK_ROUTE_SCHEMA = "phase-delegated-independent-task/v1"
   DELEGATED_TASK_ID_RE = /\AAIOS-P[12]-[0-9]{3}(?:_[A-Z0-9_]+)?\z/.freeze
   DELEGATION_AMENDMENT_SCHEMA = "founder-phase-delegation-amendment/v1"
@@ -40,10 +41,13 @@ module FounderDelegationContinuity
   CONTINUE_DISPOSITION = "NO_RESERVED_TRIGGER_CONTINUE_PHASE"
   FOUNDER_DISPOSITION = "FOUNDER_DECISION_REQUIRED"
   STRATEGIC_HOLD_DISPOSITION = "FOUNDER_RESERVED_DECISION_RESOLVED_STRATEGIC_HOLD"
+  RESEARCH_EXIT_DISPOSITION = "P2_RESEARCH_EXIT_COMPLETE_P3_ENTRY_DECISION_REQUIRED"
   STRATEGIC_HOLD_STATUS = "TERMINAL_RESEARCH_NON_PASS_STRATEGIC_HOLD"
   STRATEGIC_HOLD_ACTION = "NO_ENGINEERING_ACTION_STRATEGIC_HOLD"
   STRATEGIC_HOLD_DECISION_SCHEMA =
     "founder-p2-terminal-research-non-pass-strategic-hold-decision/v1"
+  RESEARCH_EXIT_DECISION_SCHEMA =
+    "founder-p2-research-non-pass-completion-and-phase-exit-rebaseline-decision/v1"
   FALSE_EXTERNAL_EFFECTS = {
     "network" => false,
     "provider" => false,
@@ -4907,6 +4911,132 @@ module FounderDelegationContinuity
     "ACTIVE_OR_READY_PHASE_TASK_NO_FOUNDER_INTERRUPT"
   end
 
+  def validate_research_exit_state!(root, truth, policy, project, route)
+    exact_keys(
+      route,
+      %w[
+        schema_version route_id status execution_status scheduling_status phase
+        phase_entry_status policy founder_phase_route_decision_required next_eligible_action
+        phase_execution_envelope_ref historical_terminal_route_ref founder_strategy_decision
+        original_capability_gate_status strict_capability_progress_percent
+        revised_research_exit_percent p3_entry_authorized long_term_goal_status
+        external_effects additional_write_roots inherited_worktree_inventory_source
+      ],
+      "current_phase_route P2 research exit"
+    )
+    assert(route["route_id"] == "P2_RESEARCH_NON_PASS_PHASE_EXIT_COMPLETE" &&
+           route["status"] == "COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED" &&
+           route["execution_status"] == route["status"] &&
+           route["scheduling_status"] == "P3_ELIGIBLE_AWAITING_SEPARATE_FOUNDER_PHASE_ENTRY",
+           "P2 research-exit Route lifecycle drift")
+    assert(route["phase"] == "P2" && project["current_phase"] == "P2" &&
+           route["phase_entry_status"] == "AUTHORIZED",
+           "P2 research-exit Phase identity drift")
+    assert(route["policy"] == policy.slice("path", "version", "sha256"),
+           "P2 research-exit policy binding drift")
+    assert(route["founder_phase_route_decision_required"] == true &&
+           route["next_eligible_action"] == "P3_PHASE_ENTRY_DECISION" &&
+           route["phase_execution_envelope_ref"] == "phase_execution_envelope" &&
+           route["historical_terminal_route_ref"] == "historical_p2_080_phase_route" &&
+           route["inherited_worktree_inventory_source"] == "historical_p2_080_phase_route",
+           "P2 research-exit scheduling projection drift")
+    assert(route["original_capability_gate_status"] == "MISSING_NOT_ACCEPTED" &&
+           route["strict_capability_progress_percent"] == 0 &&
+           route["revised_research_exit_percent"] == 100 &&
+           route["p3_entry_authorized"] == false &&
+           route["long_term_goal_status"] == "ACTIVE",
+           "P2 research-exit truth boundary drift")
+    assert(route["external_effects"] == FALSE_EXTERNAL_EFFECTS && route["additional_write_roots"] == [],
+           "P2 research exit may not grant effects or write roots")
+
+    decision_identity = exact_keys(
+      route["founder_strategy_decision"],
+      %w[decision_id reserved_trigger path byte_length sha256],
+      "P2 research-exit Founder decision"
+    )
+    assert(decision_identity["decision_id"] ==
+           "AUTHORIZE_P2_RESEARCH_NON_PASS_COMPLETION_AND_PHASE_EXIT_REBASELINE_V1" &&
+           decision_identity["reserved_trigger"] == "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE",
+           "P2 research-exit Founder decision classification drift")
+    decision = parse_bound_json(decision_identity.slice("path", "byte_length", "sha256"),
+                                "P2 research-exit Founder decision")
+    assert(decision["schema_version"] == RESEARCH_EXIT_DECISION_SCHEMA &&
+           decision["decision_id"] == decision_identity["decision_id"] &&
+           decision["reserved_trigger"] == decision_identity["reserved_trigger"],
+           "P2 research-exit Founder decision content drift")
+    commit_tree_identity!(root, decision.fetch("canonical_binding").slice("commit", "tree"),
+                          "P2 research-exit decision canonical binding")
+    terminal = mapping(decision["terminal_receipt"], "P2 research-exit terminal receipt")
+    assert(terminal["task_id"] == "AIOS-P2-080" && terminal["task_lifecycle"] == "TERMINAL_NON_PASS" &&
+           terminal["held_read_count"] == 0 && terminal["candidate_integrated"] == false,
+           "P2 research-exit terminal boundary drift")
+    validate_identity(terminal.slice("path", "byte_length", "sha256"),
+                      "P2 research-exit P2-080 terminal receipt")
+    assert(mapping(decision["phase_budget"], "P2 research-exit budget").values_at(
+      "new_engineering_tasks", "new_engineering_hours", "new_calendar_days",
+      "new_external_capabilities"
+    ) == [0, 0, 0, 0] && decision.dig("phase_budget", "remaining_locked_task_slots_usable") == false,
+           "P2 research-exit decision added capacity")
+    assert(mapping(decision["prohibited_actions"], "P2 research-exit prohibitions").values.all? { |value| value == true },
+           "P2 research-exit prohibited action was relaxed")
+
+    assert(project["p2_execution_status"] == "COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED" &&
+           project["phase_execution_status"] == project["p2_execution_status"] &&
+           project["current_route_execution_status"] == "P2_RESEARCH_EXIT_COMPLETE_P3_ENTRY_DECISION_PENDING" &&
+           project["p3_entry_status"] == "ELIGIBLE_AWAITING_SEPARATE_FOUNDER_PHASE_ENTRY" &&
+           project["p3_execution_status"] == "HOLD_PENDING_SEPARATE_FOUNDER_PHASE_ENTRY",
+           "project P2 research-exit projection drift")
+
+    ledger = mapping(truth["strict_phase_gate_ledger"], "strict_phase_gate_ledger")
+    phases = mapping(ledger["phases"], "strict_phase_gate_ledger.phases")
+    p2 = mapping(phases["P2"], "strict P2 Gate")
+    p3 = mapping(phases["P3"], "strict P3 Gate")
+    assert(p2["status"] == "COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED" &&
+           p2["required_item_ids"] == ["P2_REPRESENTATIVE_BENCHMARK_AND_BOUNDED_SUPERIORITY_DETERMINATION"] &&
+           p2.dig("required_items", "P2_REPRESENTATIVE_BENCHMARK_AND_BOUNDED_SUPERIORITY_DETERMINATION", "status") == "ACCEPTED" &&
+           p2.dig("original_capability_gate", "id") == "CONTEXT_BENCHMARK_BEATS_SIMPLE_RETRIEVAL_BASELINES" &&
+           p2.dig("original_capability_gate", "status") == "MISSING_NOT_ACCEPTED" &&
+           p2.dig("original_capability_gate", "strict_progress_percent") == 0 &&
+           p2.dig("original_capability_gate", "capability_accepted") == false &&
+           p2.dig("original_capability_gate", "candidate_integrated") == false &&
+           p2.dig("founder_phase_gate", "status") == "PASS_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED",
+           "strict P2 research-exit Gate drift")
+    assert(p3["status"] == "ELIGIBLE_AWAITING_SEPARATE_FOUNDER_PHASE_ENTRY" &&
+           p3["entry_authorized"] == false && p3["execution_started"] == false,
+           "P3 was entered without a separate Founder decision")
+
+    envelope = mapping(truth["phase_execution_envelope"], "phase_execution_envelope")
+    assert(envelope["status"] == "CLOSED_RESEARCH_NON_PASS_UNUSED_REMAINDER_LOCKED" &&
+           envelope["limits"] == { "engineering_tasks" => 26, "engineering_hours" => 784, "calendar_days" => 196,
+                                    "active_tasks" => 1, "task_branches" => 1, "task_worktrees" => 1, "active_candidates" => 1 } &&
+           envelope["consumed"] == { "engineering_tasks" => 25, "engineering_hours" => 752, "calendar_days" => 188 } &&
+           envelope["remaining"] == { "engineering_tasks" => 1, "engineering_hours" => 32, "calendar_days" => 8 } &&
+           envelope["remaining_capacity_usable"] == false && envelope["reserved"].nil? &&
+           mapping(envelope["new_budget"], "P2 research-exit new budget").values.all?(&:zero?) &&
+           envelope["external_effects"] == FALSE_EXTERNAL_EFFECTS,
+           "P2 research-exit envelope drift")
+
+    control = mapping(truth["founder_escalation_control"], "founder_escalation_control")
+    assert(control["schema_version"] == "founder-escalation-control/v2" &&
+           control["disposition"] == FOUNDER_DISPOSITION &&
+           control.dig("reserved_trigger", "category") == "PHASE_ENTRY_OR_EXIT" &&
+           control["phase_gate_status"] == "COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED" &&
+           control["founder_decision_required"] == true &&
+           control["next_action_owner"] == "HUMAN_FOUNDER" &&
+           control["next_eligible_action"] == "P3_PHASE_ENTRY_DECISION",
+           "P3 Phase-entry escalation projection drift")
+    active = mapping(truth["active_work"], "active_work")
+    assert(active["current_task"] == "NONE" && active["current_task_status"] == "NONE" &&
+           active["task_resource_state"] == "NO_ACTIVE_TASK_P2_RESEARCH_EXIT_COMPLETE_P3_ENTRY_DECISION_PENDING" &&
+           active["founder_decision_required_scope"] == "PHASE_ENTRY_OR_EXIT" &&
+           active["next_eligible_action"] == "P3_PHASE_ENTRY_DECISION",
+           "P2 research-exit active-work projection drift")
+    assert(mapping(truth["goal"], "goal")["control_plane_status_observed"] == "ACTIVE" &&
+           truth.dig("goal", "current_task_authority") == "NONE",
+           "P2 research exit must keep the Long-term Goal active without Task authority")
+    RESEARCH_EXIT_DISPOSITION
+  end
+
   def validate_truth!(root:, truth:)
     root = Pathname.new(root).realpath
     assert(truth["record_type"] == "sourcelens_aios_current_truth", "unexpected Truth record type")
@@ -4914,6 +5044,9 @@ module FounderDelegationContinuity
     project = mapping(truth["project"], "project")
     phase = project["current_phase"]
     assert(phase.is_a?(String) && phase.match?(/\AP(?:0|[1-9]|1[0-2])\z/), "current Phase is invalid")
+    route = mapping(truth["current_phase_route"], "current_phase_route")
+    return validate_research_exit_state!(root, truth, policy, project, route) if
+      route["schema_version"] == RESEARCH_EXIT_ROUTE_SCHEMA
     validate_phase_delegation!(truth, phase)
     assert(truth["phase_execution_envelope"].is_a?(Hash),
            "active Phase delegation requires a phase execution envelope")
@@ -4926,7 +5059,6 @@ module FounderDelegationContinuity
              "strict Phase incomplete items require INCOMPLETE status")
     end
 
-    route = mapping(truth["current_phase_route"], "current_phase_route")
     unless [CONTINUATION_ROUTE_SCHEMA, RESERVED_ROUTE_SCHEMA, STRATEGIC_HOLD_ROUTE_SCHEMA,
             DELEGATED_TASK_ROUTE_SCHEMA].include?(route["schema_version"])
       assert(!truth["phase_execution_envelope"].is_a?(Hash),

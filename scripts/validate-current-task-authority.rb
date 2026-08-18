@@ -5368,6 +5368,7 @@ module CurrentTaskAuthority
       phase-delegated-continuation-hold/v1
       phase-delegated-independent-task/v1
       founder-reserved-decision-hold/v1
+      founder-resolved-p2-research-exit/v1
     ].include?(route["schema_version"])
                          source_key = string(
                            route["inherited_worktree_inventory_source"],
@@ -5520,6 +5521,7 @@ module CurrentTaskAuthority
         FounderDelegationContinuity::CONTINUATION_ROUTE_SCHEMA,
         FounderDelegationContinuity::RESERVED_ROUTE_SCHEMA,
         FounderDelegationContinuity::STRATEGIC_HOLD_ROUTE_SCHEMA,
+        FounderDelegationContinuity::RESEARCH_EXIT_ROUTE_SCHEMA,
         DELEGATED_TASK_ROUTE_SCHEMA
       ].include?(route["schema_version"]),
              "active Phase delegation requires a closed delegated Route schema")
@@ -5543,6 +5545,12 @@ module CurrentTaskAuthority
       assert(disposition == FounderDelegationContinuity::STRATEGIC_HOLD_DISPOSITION,
              "Founder strategic hold requires an exact resolved decision")
       return "FOUNDER_RESOLVED_STRATEGIC_HOLD"
+    end
+    if route["schema_version"] == FounderDelegationContinuity::RESEARCH_EXIT_ROUTE_SCHEMA
+      disposition = FounderDelegationContinuity.validate_truth!(root: root, truth: truth)
+      assert(disposition == FounderDelegationContinuity::RESEARCH_EXIT_DISPOSITION,
+             "P2 research exit requires exact capability-not-accepted closure and a separate P3 entry decision")
+      return "P2_RESEARCH_EXIT_COMPLETE_P3_ENTRY_DECISION_REQUIRED"
     end
     if route["schema_version"] == DELEGATED_TASK_ROUTE_SCHEMA
       return validate_phase_delegated_task(root, truth)

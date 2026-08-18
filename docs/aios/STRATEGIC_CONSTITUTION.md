@@ -1,8 +1,8 @@
 # SourceLens AIOS Strategic Constitution
 
-- Version: `2.3`
+- Version: `2.4`
 - Status: `FROZEN`
-- Effective date: 2026-07-10
+- Effective date: 2026-08-18
 - Owner: Human Founder
 
 ## 1. Positioning
@@ -125,7 +125,7 @@ P0 defines measurement. P1 measures the baseline and then locks practical target
 | --- | --- | --- |
 | P0 Strategic Foundation | Freeze truth, scope, migration and evaluation contracts | Canonical state, migration ledger, baseline protocol, reviewable worktree plan |
 | P1 Agent Evaluation and Research Foundation | Build task/evaluator/trace/baseline infrastructure | Reproducible baseline suite and hidden-set protocol |
-| P2 Repository Intelligence | Improve task-conditioned code understanding | Context benchmark beats simple retrieval baselines |
+| P2 Repository Intelligence Research | Establish a representative Repository Context Benchmark and truthfully determine, within the preregistered budget, whether task-conditioned Repository Intelligence materially outperforms a simple retrieval baseline | Independently accepted representative benchmark and B1 baseline, plus reproducible terminal evidence that determines whether any frozen candidate met the preregistered superiority criterion within the frozen budget |
 | P3 Single-Agent Runtime + Minimum Trust | Durable planner/executor/tool/state/checkpoint loop | Resume, isolation, permission and trace tests |
 | P4 Software Engineer Agent Alpha | Complete real issue-to-evidence flow | Verified patches on controlled real tasks |
 | P5 Trustworthy Execution Hardening | Harden sandbox, policy, approval, risk and rollback | Adversarial and failure-recovery evidence |
@@ -138,6 +138,10 @@ P0 defines measurement. P1 measures the baseline and then locks practical target
 | P12 AI Organization OS | Productize governed autonomous organizations | Long-term outcome, not a current commitment |
 
 Phase numbers in pre-v2.3 documents are historical and must not be mixed with this route.
+
+P2 has two mechanically separate conclusions. Its research Exit may complete with
+`COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED` when the representative benchmark and B1 baseline are independently accepted and the complete, reproducible terminal record establishes that no candidate met the frozen superiority criterion within the frozen budget. That status is an honest bounded research conclusion, not product capability acceptance. The original capability Gate
+`CONTEXT_BENCHMARK_BEATS_SIMPLE_RETRIEVAL_BASELINES` remains `MISSING_NOT_ACCEPTED`, strict capability progress remains `0%`, rejected candidates remain terminal `NON_PASS`, and no candidate may be integrated under that research conclusion. P3 remains ineligible for execution until a separate Founder Phase-entry decision.
 
 ## 10. Research artifacts
 
@@ -166,4 +170,4 @@ Stopping is a valid research result. It must not be hidden by adding features.
 
 ## 12. Change control
 
-Only the Human Founder may change mission, primary ICP, year-one outcome or long-term direction. Any change requires a new constitution version and an append-only ADR. Routine implementation choices do not modify this document.
+Only the Human Founder may change mission, primary ICP, year-one outcome or long-term direction. Any change requires a new constitution version and an append-only ADR. Constitution v2.4 is bound to the create-once Founder decision `AUTHORIZE_P2_RESEARCH_NON_PASS_COMPLETION_AND_PHASE_EXIT_REBASELINE_V1`; that decision is the append-only ADR for this P2 Phase-route change. Routine implementation choices do not modify this document.

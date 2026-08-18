@@ -1,15 +1,15 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: '2026-08-18T13:28:18Z'
+last_verified_at: '2026-08-18T14:20:32Z'
 
-verification_scope: P2_080_TERMINAL_EVALUATION_EVIDENCE_ADAPTER_DEV_COMPATIBILITY_NON_PASS_THREE_OF_FIVE_BYTE_EXACT_NO_TRANSACTION_ZERO_HELD_READ_P2_DELIVERY_25_STRICT_0_P2_PROJECT_AND_LONG_TERM_GOAL_ACTIVE
+verification_scope: P2_RESEARCH_NON_PASS_PHASE_EXIT_REBASELINE_P2_069_FOUNDATION_ACCEPTED_ORIGINAL_CAPABILITY_NOT_ACCEPTED_STRICT_0_ZERO_HELD_ZERO_INTEGRATION_P3_AWAITING_SEPARATE_ENTRY_LONG_TERM_GOAL_ACTIVE
 
 authority:
   founder: Human Founder
   strategy:
     path: docs/aios/STRATEGIC_CONSTITUTION.md
-    version: "2.3"
-    sha256: 040196be12532b8c3661665995d3e79a28d268a1ecc991623380f0939f468485
+    version: "2.4"
+    sha256: 7835ff584ad535b27c31bba174681abb625102a04b136ea6ee7535d57e18aaba
     status: FROZEN
   execution_protocol:
     path: docs/aios/MASTER_EXECUTION_PROTOCOL.md
@@ -39,7 +39,18 @@ goal:
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
   current_task_authority: NONE
-  note: 'P2-080 is TERMINAL_EVALUATION_EVIDENCE_ADAPTER_DEV_COMPATIBILITY_NON_PASS.
+  note: 'Founder decision AUTHORIZE_P2_RESEARCH_NON_PASS_COMPLETION_AND_PHASE_EXIT_REBASELINE_V1
+    redefines only the P2 research Objective and Exit evidence. P2 is complete as
+    COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED because P2-069 established
+    the independently accepted representative benchmark and B1 baseline and the
+    reproducible terminal record establishes that no candidate met the frozen
+    superiority criterion within the frozen budget. The original capability Gate
+    CONTEXT_BENCHMARK_BEATS_SIMPLE_RETRIEVAL_BASELINES remains MISSING_NOT_ACCEPTED,
+    strict capability progress remains 0%, delivery remains 25%, every NON_PASS
+    remains terminal, no candidate is integrated, HELD reads remain zero, and the
+    unused final slot is locked and unusable. P3 is only ELIGIBLE_AWAITING_SEPARATE_FOUNDER_PHASE_ENTRY;
+    no P3 execution or Long-term Goal closure is authorized. All following paragraphs
+    are retained historical chronology only. P2-080 is TERMINAL_EVALUATION_EVIDENCE_ADAPTER_DEV_COMPATIBILITY_NON_PASS.
     Its stable Evidence pack verified 166 of 166 exact leaves, its frozen adapter
     build and split-neutral synthetic runtime proof passed, and no HELD source or
     oracle byte was read. The exactly-one DEV compatibility replay then reproduced
@@ -1642,15 +1653,17 @@ project:
   year_one_outcome: Build and scientifically evaluate one trustworthy software-engineering
     Agent.
   current_phase: P2
-  phase_name: Repository Intelligence
+  phase_name: Repository Intelligence Research Complete
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
   p1_execution_status: COMPLETE_STRICT_8_OF_8_100_PERCENT
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
-  p2_execution_status: ACTIVE
-  phase_execution_status: STOPPED_AT_FOUNDER_RESERVED_DECISION
-  current_route_execution_status: FOUNDER_RESERVED_DECISION_REQUIRED
+  p2_execution_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
+  phase_execution_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
+  current_route_execution_status: P2_RESEARCH_EXIT_COMPLETE_P3_ENTRY_DECISION_PENDING
+  p3_entry_status: ELIGIBLE_AWAITING_SEPARATE_FOUNDER_PHASE_ENTRY
+  p3_execution_status: HOLD_PENDING_SEPARATE_FOUNDER_PHASE_ENTRY
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -8135,11 +8148,11 @@ historical_p2_076_phase_route:
     status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
 
 current_phase_route:
-  schema_version: founder-reserved-decision-hold/v1
-  route_id: P2_FOUNDER_RESERVED_DECISION_HOLD
-  status: FOUNDER_RESERVED_DECISION_REQUIRED
-  execution_status: FOUNDER_RESERVED_DECISION_REQUIRED
-  scheduling_status: STOPPED_AT_FOUNDER_RESERVED_DECISION
+  schema_version: founder-resolved-p2-research-exit/v1
+  route_id: P2_RESEARCH_NON_PASS_PHASE_EXIT_COMPLETE
+  status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
+  execution_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
+  scheduling_status: P3_ELIGIBLE_AWAITING_SEPARATE_FOUNDER_PHASE_ENTRY
   phase: P2
   phase_entry_status: AUTHORIZED
   policy:
@@ -8147,9 +8160,20 @@ current_phase_route:
     version: '1.8'
     sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
   founder_phase_route_decision_required: true
-  next_eligible_action: FOUNDER_RESERVED_DECISION
+  next_eligible_action: P3_PHASE_ENTRY_DECISION
   phase_execution_envelope_ref: phase_execution_envelope
   historical_terminal_route_ref: historical_p2_080_phase_route
+  founder_strategy_decision:
+    decision_id: AUTHORIZE_P2_RESEARCH_NON_PASS_COMPLETION_AND_PHASE_EXIT_REBASELINE_V1
+    reserved_trigger: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-research-non-pass-completion-20260818/decision/FOUNDER_P2_RESEARCH_NON_PASS_COMPLETION_AND_PHASE_EXIT_REBASELINE_V1.json
+    byte_length: 4574
+    sha256: 8f5ab941e79af9006ce1f2c563dbb1932f51008ad2dbd3ec27afd445bf69f4de
+  original_capability_gate_status: MISSING_NOT_ACCEPTED
+  strict_capability_progress_percent: 0
+  revised_research_exit_percent: 100
+  p3_entry_authorized: false
+  long_term_goal_status: ACTIVE
   external_effects:
     network: false
     provider: false
@@ -11013,6 +11037,7 @@ historical_p2_exact_frozen_p2_078_evaluation_evidence_adapter_plus_one_shot_form
     unlock_requirement: P2_RECOVERY_EVALUATION_AND_EVIDENCE_ADAPTER_ACCEPTED
     engineering_hours: 32
     calendar_days: 8
+    status: LOCKED_UNUSED_AND_UNUSABLE_P2_PHASE_CLOSED
     max_implementation_iterations: 1
     max_same_task_repairs: 0
     max_candidates: 1
@@ -11118,7 +11143,7 @@ historical_p2_exact_frozen_p2_078_one_shot_formal_held_route_unlock_phase_route:
 phase_execution_envelope:
   schema_version: phase-execution-envelope/v1
   phase: P2
-  status: ACTIVE_REMAINING_CAPACITY
+  status: CLOSED_RESEARCH_NON_PASS_UNUSED_REMAINDER_LOCKED
   authority_basis:
     phase_entry_status: AUTHORIZED
     policy_path: docs/aios/FOUNDER_DELEGATION_POLICY.md
@@ -11555,6 +11580,17 @@ phase_execution_envelope:
     engineering_tasks: 1
     engineering_hours: 32
     calendar_days: 8
+  remaining_capacity_usable: false
+  closure_decision:
+    decision_id: AUTHORIZE_P2_RESEARCH_NON_PASS_COMPLETION_AND_PHASE_EXIT_REBASELINE_V1
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-research-non-pass-completion-20260818/decision/FOUNDER_P2_RESEARCH_NON_PASS_COMPLETION_AND_PHASE_EXIT_REBASELINE_V1.json
+    byte_length: 4574
+    sha256: 8f5ab941e79af9006ce1f2c563dbb1932f51008ad2dbd3ec27afd445bf69f4de
+  new_budget:
+    engineering_tasks: 0
+    engineering_hours: 0
+    calendar_days: 0
+    external_capabilities: 0
   external_effects:
     network: false
     provider: false
@@ -11564,22 +11600,26 @@ phase_execution_envelope:
     public: false
 
 founder_escalation_control:
-  schema_version: founder-escalation-control/v1
+  schema_version: founder-escalation-control/v2
   disposition: FOUNDER_DECISION_REQUIRED
   source_event:
-    kind: FOUNDER_RESERVED_STRATEGY_CHANGE_REQUESTED
+    kind: PHASE_ENTRY_OR_EXIT
     task_id:
-    status: PENDING_FOUNDER_RESERVED_DECISION
+    status: P3_ELIGIBLE_AWAITING_SEPARATE_FOUNDER_PHASE_ENTRY
   reserved_trigger:
-    category: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
+    category: PHASE_ENTRY_OR_EXIT
     evidence:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-exact-frozen-p2-078-evaluation-evidence-adapter-20260818/task-p2-080/terminal/P2_080_FOUNDER_RESERVED_STRATEGY_CHANGE_TRIGGER_EVIDENCE_V1.json
-      byte_length: 9251
-      sha256: 28bb8fc3ebd6becf9e4b8e1cb7d0bfc34d863d03efc05bf683d5e435d3bbbf6f
-  phase_gate_status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-research-non-pass-completion-20260818/decision/FOUNDER_P2_RESEARCH_NON_PASS_COMPLETION_AND_PHASE_EXIT_REBASELINE_V1.json
+      byte_length: 4574
+      sha256: 8f5ab941e79af9006ce1f2c563dbb1932f51008ad2dbd3ec27afd445bf69f4de
+  resolved_strategy_decision:
+    category: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
+    decision_id: AUTHORIZE_P2_RESEARCH_NON_PASS_COMPLETION_AND_PHASE_EXIT_REBASELINE_V1
+    result: P2_RESEARCH_EXIT_REBASELINED_AND_COMPLETE_CAPABILITY_NOT_ACCEPTED
+  phase_gate_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
   founder_decision_required: true
   next_action_owner: HUMAN_FOUNDER
-  next_eligible_action: FOUNDER_RESERVED_DECISION
+  next_eligible_action: P3_PHASE_ENTRY_DECISION
 
 historical_p2_053_phase_route:
   schema_version: "1.1"
@@ -15765,13 +15805,14 @@ historical_p2_phase_route:
   next_eligible_action: FOUNDER_P2_PHASE_GATE
 
 phase_delegation:
-  status: ACTIVE_P2_PHASE_DELEGATED_CONTINUATION
+  status: CLOSED_P2_RESEARCH_EXIT_AWAITING_SEPARATE_P3_PHASE_ENTRY
   model: PHASE_LEVEL_FOUNDER_DELEGATION
   decision_source: FOUNDER_DELEGATION_POLICY_V1_8_NON_DOWNGRADE_DIRECTIVE_2026_08_08
   phase_gate_owner: HUMAN_FOUNDER
-  task_selection_owner: MASTER_CEO_AGENT
-  task_authorization_owner: MASTER_CEO_AGENT_WITHIN_CURRENT_PHASE_ENVELOPE
-  task_gate_owner: MASTER_CEO_AGENT_AFTER_REQUIRED_INDEPENDENT_REVIEW
+  task_selection_owner: NONE_UNTIL_P3_PHASE_ENTRY
+  task_authorization_owner: NONE_UNTIL_P3_PHASE_ENTRY
+  task_gate_owner: NONE_NO_ACTIVE_TASK
+  p3_entry_authorized: false
   founder_reserved_decisions:
     - mission_icp_year_one_or_phase_route_change
     - phase_entry_or_exit
@@ -16648,6 +16689,9 @@ mandatory_exit_capability_recovery:
 
 phase_boundary:
   phase: P2
+  phase_execution_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
+  task_creation_allowed: false
+  p3_entry_authorized: false
   allowed_task_kinds:
     - REPOSITORY_INTELLIGENCE_GRAPH_ENGINEERING
     - REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
@@ -16760,14 +16804,14 @@ p0_baseline:
   online_verification_status: ARCHIVED_NOT_ON_ACTIVE_PATH
 
 strict_phase_gate_ledger:
-  schema_version: "1.0"
+  schema_version: "1.1"
   trust_model: COOPERATIVE_LOCAL_EXACT_IDENTITY_WITHOUT_HOSTILE_PRINCIPAL_OR_CRYPTOGRAPHIC_ATTESTATION_CLAIM
   phase_route_authority:
     path: docs/aios/STRATEGIC_CONSTITUTION.md
-    version: "2.3"
+    version: "2.4"
     section: "## 9. Phase route"
-    section_byte_length: 1869
-    section_sha256: e636781630de5fb8d726b9d66f5520785753724fee942d7f06f1e08d8faad21a
+    section_byte_length: 3009
+    section_sha256: 3c4a48f1ab4e0b3904f45fdb58873db78e4169fa7cc38a6be8025e4873d07930
   sequence:
     - P0
     - P1
@@ -16931,32 +16975,44 @@ strict_phase_gate_ledger:
         byte_length: 1680
         sha256: d46403d7f7cf496d943eb2702afd96c786b219fd8fcfcf854a1eac53b34103bc
     P2:
-      status: INCOMPLETE
+      status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
       exit_gate_authority:
-        source: STRICT_PHASE_ROUTE_AUTHORITY
-        required_exit_evidence: Context benchmark beats simple retrieval baselines
+        source: STRATEGIC_CONSTITUTION_V2_4_REVISED_RESEARCH_EXIT
+        required_exit_evidence: Independently accepted representative benchmark and B1 baseline plus reproducible terminal evidence that determines whether any frozen candidate met the preregistered superiority criterion within the frozen budget
       required_item_ids:
-        - CONTEXT_BENCHMARK_BEATS_SIMPLE_RETRIEVAL_BASELINES
+        - P2_REPRESENTATIVE_BENCHMARK_AND_BOUNDED_SUPERIORITY_DETERMINATION
       required_items:
-        CONTEXT_BENCHMARK_BEATS_SIMPLE_RETRIEVAL_BASELINES:
-          status: MISSING
-          task_history_key: null
-          task_id: null
-          acceptance_commit: null
-          acceptance_tree: null
+        P2_REPRESENTATIVE_BENCHMARK_AND_BOUNDED_SUPERIORITY_DETERMINATION:
+          status: ACCEPTED
+          benchmark_task_id: AIOS-P2-069
+          accepted_milestone: P2_RECOVERY_BASELINE_ACCEPTED
+          bounded_result: NO_CANDIDATE_MET_FROZEN_SUPERIORITY_CRITERION
           gate_evidence:
-            receipt_type: null
-            path: null
-            byte_length: null
-            sha256: null
+            receipt_type: FOUNDER_P2_RESEARCH_NON_PASS_PHASE_EXIT_REBASELINE_DECISION_V1
+            path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-research-non-pass-completion-20260818/decision/FOUNDER_P2_RESEARCH_NON_PASS_COMPLETION_AND_PHASE_EXIT_REBASELINE_V1.json
+            byte_length: 4574
+            sha256: 8f5ab941e79af9006ce1f2c563dbb1932f51008ad2dbd3ec27afd445bf69f4de
+      original_capability_gate:
+        id: CONTEXT_BENCHMARK_BEATS_SIMPLE_RETRIEVAL_BASELINES
+        status: MISSING_NOT_ACCEPTED
+        strict_progress_percent: 0
+        capability_accepted: false
+        candidate_integrated: false
+      derived_completion:
+        completed: 1
+        total: 1
+        percent: 100
+        kind: RESEARCH_EXIT_ONLY_CAPABILITY_NOT_ACCEPTED
       founder_phase_gate:
-        status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
-        decision_id: null
-        path: null
-        byte_length: null
-        sha256: null
+        status: PASS_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
+        decision_id: AUTHORIZE_P2_RESEARCH_NON_PASS_COMPLETION_AND_PHASE_EXIT_REBASELINE_V1
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-research-non-pass-completion-20260818/decision/FOUNDER_P2_RESEARCH_NON_PASS_COMPLETION_AND_PHASE_EXIT_REBASELINE_V1.json
+        byte_length: 4574
+        sha256: 8f5ab941e79af9006ce1f2c563dbb1932f51008ad2dbd3ec27afd445bf69f4de
     P3:
-      status: INCOMPLETE
+      status: ELIGIBLE_AWAITING_SEPARATE_FOUNDER_PHASE_ENTRY
+      entry_authorized: false
+      execution_started: false
       exit_gate_authority:
         source: STRICT_PHASE_ROUTE_AUTHORITY
         required_exit_evidence: Resume, isolation, permission and trace tests
@@ -23109,7 +23165,7 @@ active_work:
   authorization_id:
   activation_parent_commit:
   activation_parent_tree:
-  task_resource_state: NO_ACTIVE_TASK_FOUNDER_RESERVED_DECISION_HOLD
+  task_resource_state: NO_ACTIVE_TASK_P2_RESEARCH_EXIT_COMPLETE_P3_ENTRY_DECISION_PENDING
   task_branch:
   task_worktree:
   execution_evidence_root:
@@ -23131,12 +23187,12 @@ active_work:
   founder_reserved_authorization:
   founder_reserved_authorization_sha256:
   founder_decision_required: true
-  founder_decision_required_scope: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
-  escalation_reason: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
-  user_action_required: FOUNDER_RESERVED_DECISION
+  founder_decision_required_scope: PHASE_ENTRY_OR_EXIT
+  escalation_reason: P3_PHASE_ENTRY_REQUIRES_SEPARATE_FOUNDER_DECISION
+  user_action_required: P3_PHASE_ENTRY_DECISION
   phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_RESERVED_DECISION
-  next_eligible_action: FOUNDER_RESERVED_DECISION
+  phase_route_user_action_required: P3_PHASE_ENTRY_DECISION
+  next_eligible_action: P3_PHASE_ENTRY_DECISION
 
 historical_p2_080_terminal_active_work:
   current_task: AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER
@@ -29761,10 +29817,13 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: P2_FOUNDER_RESERVED_DECISION_HOLD
+  current_route_claim: P2_RESEARCH_NON_PASS_PHASE_EXIT_COMPLETE
   current_task_claim: NONE
-  real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_080_TERMINAL_DEV_COMPATIBILITY_NON_PASS_ZERO_HELD_READ
+  real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P2_BASELINE_ACCEPTED_DELIVERY_25_ORIGINAL_STRICT_GATE_ZERO_ZERO_HELD_ZERO_INTEGRATION
   product_capability_changed: false
+  revised_research_exit_percent: 100
+  original_capability_progress_percent: 0
+  p3_entry_authorized: false
   phase_local_allowed:
   - REAL_CODE_QA_PRODUCT_PATH_REPOSITORY_CONTEXT_SELECTOR
   - EQUAL_UNIVERSE_EQUAL_BUDGET_LEXICAL_CONTROL
@@ -30090,12 +30149,17 @@ phase_execution_claim:
   - canonical main advance outside an accepted task gate
 
 p2_recovery_control:
-  schema_version: p2-recovery-control/v1
-  status: P2_080_EVALUATION_EVIDENCE_ADAPTER_DEV_COMPATIBILITY_NON_PASS_SLOT_V11_2_LOCKED_ROUTE_TERMINATED
+  schema_version: p2-recovery-control/v2
+  status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
   plan:
     path: docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml
-    byte_length: 12759
-    sha256: b06431a4b58d7b222a2706819fd280ba1dc429c9523a95d035508840fab5a065
+    byte_length: 7392
+    sha256: 933381b7be886bb813bc8c92a1bc201f5565d46cda2a11ef390221b8512eb5d2
+  phase_exit_rebaseline_decision:
+    decision_id: AUTHORIZE_P2_RESEARCH_NON_PASS_COMPLETION_AND_PHASE_EXIT_REBASELINE_V1
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-research-non-pass-completion-20260818/decision/FOUNDER_P2_RESEARCH_NON_PASS_COMPLETION_AND_PHASE_EXIT_REBASELINE_V1.json
+    byte_length: 4574
+    sha256: 8f5ab941e79af9006ce1f2c563dbb1932f51008ad2dbd3ec27afd445bf69f4de
   envelope_expansion_decision:
     path: docs/aios/decisions/P2_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER_PLUS_ONE_SHOT_FORMAL_HELD_SEQUENCE_DECISION_V1.json
     byte_length: 3249
@@ -30121,18 +30185,31 @@ p2_recovery_control:
     calendar_days: 8
   benchmark_source_admission_status: ACCEPTED_SOURCE_PACK_INSTALLED_SLOT_1_ELIGIBLE
   strict_gate_percent: 0
+  revised_research_exit_percent: 100
   current_delivery_percent: 25
   governance_progress_credit: 0
   accepted_milestones:
   - P2_RECOVERY_BASELINE_ACCEPTED
   task_creation_allowed: false
-  next_eligible_action: FOUNDER_RESERVED_DECISION
+  remaining_capacity_usable: false
+  held_read_allowed: false
+  candidate_integration_allowed: false
+  p3_entry_authorized: false
+  next_eligible_action: P3_PHASE_ENTRY_DECISION
 
 claim_boundary:
-  current_phase_route: P2_FOUNDER_RESERVED_DECISION_HOLD
+  current_phase_route: P2_RESEARCH_NON_PASS_PHASE_EXIT_COMPLETE
   current_task: NONE
-  next_eligible_action: FOUNDER_RESERVED_DECISION
-  real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_080_TERMINAL_DEV_COMPATIBILITY_NON_PASS_ZERO_HELD_READ
+  next_eligible_action: P3_PHASE_ENTRY_DECISION
+  real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P2_BASELINE_ACCEPTED_DELIVERY_25_ORIGINAL_STRICT_GATE_ZERO_ZERO_HELD_ZERO_INTEGRATION
+  p2_research_exit_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
+  p2_research_exit_percent: 100
+  p2_original_capability_gate_status: MISSING_NOT_ACCEPTED
+  p2_original_capability_progress_percent: 0
+  p2_candidate_integrated: false
+  p2_held_source_reads: 0
+  p3_status: ELIGIBLE_AWAITING_SEPARATE_FOUNDER_PHASE_ENTRY
+  p3_entry_authorized: false
   p2_080_status: TERMINAL_EVALUATION_EVIDENCE_ADAPTER_DEV_COMPATIBILITY_NON_PASS
   p2_080_contract_sha256: 3519c35ea452505588aceb0b765f7d69caf7dfebe22ad71b87d868bbcace35b5
   p2_080_capacity_source: P2_RECOVERY_CAPACITY_SLOT_V11_1

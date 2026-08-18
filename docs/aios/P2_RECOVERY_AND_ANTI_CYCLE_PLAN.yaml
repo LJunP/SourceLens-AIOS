@@ -1,67 +1,110 @@
-schema_version: p2-recovery-and-anti-cycle-plan/v2
-status: P2_IMPLEMENTATION_LOOP_FROZEN_AWAITING_EXACT_FROZEN_CANDIDATE_FORMAL_HELD_ROUTE_DECISION
+schema_version: p2-recovery-and-anti-cycle-plan/v3
+status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
 
 authority_boundary:
-  changes_phase_objective: false
-  changes_exit_gate: false
+  changes_phase_objective: true
+  changes_exit_gate: true
   expands_phase_envelope: false
   activates_task: false
   authorizes_external_effects: false
   creates_engineering_progress_credit: false
+  authorizes_p3_entry: false
+  authorizes_long_term_goal_termination: false
 
-baseline:
-  canonical_commit: 601de9c1301160ea6802d054383a5907e854aee3
-  canonical_tree: 3a6da44d0396c03feeeae7e115d263b4970fa4a8
-  p2_entry_activation_parent_commit: 293f54e469737c240a393db4dbdeea6d808efab2
-  p2_entry_activation_parent_tree: 017219320cdc17832a3553d9b401ebda9e8005c0
-  current_phase: P2
-  current_task: NONE
-  strict_exit_gate:
-    accepted: 0
-    total: 1
-    percent: 0
-    missing_item: CONTEXT_BENCHMARK_BEATS_SIMPLE_RETRIEVAL_BASELINES
-  phase_envelope:
-    status: EXHAUSTED
-    limits:
-      engineering_tasks: 12
-      engineering_hours: 336
-      calendar_days: 84
-    consumed:
-      engineering_tasks: 12
-      engineering_hours: 336
-      calendar_days: 84
-    remaining:
-      engineering_tasks: 0
-      engineering_hours: 0
-      calendar_days: 0
+founder_decision:
+  decision_id: AUTHORIZE_P2_RESEARCH_NON_PASS_COMPLETION_AND_PHASE_EXIT_REBASELINE_V1
+  source: CURRENT_DIRECT_FOUNDER_REPLY_V1
+  reserved_trigger: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
+  path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-research-non-pass-completion-20260818/decision/FOUNDER_P2_RESEARCH_NON_PASS_COMPLETION_AND_PHASE_EXIT_REBASELINE_V1.json
+  byte_length: 4574
+  sha256: 8f5ab941e79af9006ce1f2c563dbb1932f51008ad2dbd3ec27afd445bf69f4de
+  canonical_binding:
+    branch: main
+    commit: a7ad01052e0a45d368e4311534afea343ba5f4e7
+    tree: 9c1a33b3dcaf705e61c20d29336e73ee5fdc2244
 
-live_state:
-  observed_canonical_commit: 417bd948fd1fbfde0494776682cb9aaa3a88a248
-  observed_canonical_tree: f5913e7eee4cd38a054ee45611824d91220e73c1
-  current_phase: P2
-  current_task: NONE
-  strict_exit_percent: 0
-  delivery_percent: 25
-  accepted_milestones:
-    - P2_RECOVERY_BASELINE_ACCEPTED
-  phase_envelope:
-    status: ACTIVE_REMAINING_CAPACITY
-    limits:
-      engineering_tasks: 24
-      engineering_hours: 720
-      calendar_days: 180
-    consumed:
-      engineering_tasks: 23
-      engineering_hours: 688
-      calendar_days: 172
-    remaining:
-      engineering_tasks: 1
-      engineering_hours: 32
-      calendar_days: 8
+constitution:
+  version: "2.4"
+  status: FROZEN
+  path: docs/aios/STRATEGIC_CONSTITUTION.md
+  byte_length: 9397
+  sha256: 7835ff584ad535b27c31bba174681abb625102a04b136ea6ee7535d57e18aaba
+
+governing_artifact_before_decision:
+  path: docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml
+  byte_length: 12759
+  sha256: b06431a4b58d7b222a2706819fd280ba1dc429c9523a95d035508840fab5a065
+
+terminal_boundary:
+  latest_task_id: AIOS-P2-080
+  latest_terminal_status: TERMINAL_NON_PASS
+  latest_terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-exact-frozen-p2-078-evaluation-evidence-adapter-20260818/task-p2-080/terminal/P2_080_TERMINAL_EVALUATION_EVIDENCE_ADAPTER_DEV_COMPATIBILITY_NON_PASS_RECEIPT_V1.json
+    byte_length: 9908
+    sha256: cc93aca9f45d0ad9621e389d958837011c523d4db7a9b5d5c773b8f42e9417e0
+  p2_078_status: TERMINAL_NON_PASS
+  p2_080_status: TERMINAL_NON_PASS
+  retroactive_task_pass_allowed: false
+  rejected_candidate_integration_allowed: false
+  held_source_reads: 0
+  held_tasks_executed: 0
+
+revised_research_exit:
+  phase: P2
+  objective: Establish a representative Repository Context Benchmark and truthfully determine, within the preregistered budget, whether task-conditioned Repository Intelligence materially outperforms a simple retrieval baseline.
+  exit_evidence: P2-069 representative benchmark and B1 baseline are independently ACCEPTED, and all terminal P2 outcomes reproducibly establish that no candidate satisfied the original capability Gate under the frozen budget and frozen criteria.
+  required_items:
+    - id: P2_REPRESENTATIVE_BENCHMARK_AND_BOUNDED_SUPERIORITY_DETERMINATION
+      status: ACCEPTED
+      benchmark_foundation:
+        task_id: AIOS-P2-069
+        milestone: P2_RECOVERY_BASELINE_ACCEPTED
+        status: ACCEPTED
+      bounded_determination:
+        result: NO_CANDIDATE_MET_FROZEN_SUPERIORITY_CRITERION
+        status: ACCEPTED_REPRODUCIBLE_RESEARCH_CONCLUSION
+        terminal_lineage_source: docs/aios/truth/project_state.yaml
+  phase_completion_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
+  independent_phase_closure_audit_required: true
+  independent_phase_closure_audit_count: 1
+
+original_capability_truth:
+  gate_id: CONTEXT_BENCHMARK_BEATS_SIMPLE_RETRIEVAL_BASELINES
+  status: MISSING_NOT_ACCEPTED
+  accepted_items: 0
+  total_items: 1
+  strict_capability_progress_percent: 0
+  delivery_progress_percent: 25
+  repository_intelligence_capability_accepted: false
+  product_or_adapter_candidate_integrated: false
+  candidate_or_metric_mutation_allowed: false
+
+phase_envelope:
+  status: CLOSED_RESEARCH_NON_PASS_UNUSED_REMAINDER_LOCKED
+  limits:
+    engineering_tasks: 26
+    engineering_hours: 784
+    calendar_days: 196
+  consumed:
+    engineering_tasks: 25
+    engineering_hours: 752
+    calendar_days: 188
+  remaining:
+    engineering_tasks: 1
+    engineering_hours: 32
+    calendar_days: 8
+  remaining_capacity_usable: false
+  new_budget:
+    engineering_tasks: 0
+    engineering_hours: 0
+    calendar_days: 0
+    external_capabilities: 0
+
+anti_cycle_closure:
   product_implementation_history:
-    milestone: P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED
-    task_ids:
+    accepted_milestone: P2_RECOVERY_BASELINE_ACCEPTED
+    accepted_task_id: AIOS-P2-069
+    product_task_ids:
       - AIOS-P2-070_PRODUCT_JAVA_MAINTENANCE_CONTEXT_SELECTOR_DEV
       - AIOS-P2-071_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_DEV
       - AIOS-P2-072_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_EXECUTION_INTEGRITY_DEV
@@ -71,107 +114,31 @@ live_state:
       - AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV
       - AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV
       - AIOS-P2-078_CLEAN_ROOM_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_PRODUCT_SELECTOR_DEV
-    task_count: 9
-    terminal_non_pass_count: 9
-    phase_milestone_task_cap: 2
+    product_task_count: 9
+    terminal_product_non_pass_count: 9
+    allowed_product_task_cap: 2
     cap_exceeded: true
-    additional_implementation_task_allowed: false
-  frozen_p2_078_candidate:
-    commit: e0c0f4d78b64b95b359746ab7c2fec4beed4311f
-    tree: 405bd708c7e724b792c37b9eb568e492cb94c70d
-    terminal_status: TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_STRICT_SUPERIORITY_NON_PASS
-    terminal_receipt:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-jdk17-scan-time-attributed-persisted-graph-20260818/task-p2-078/terminal/P2_078_TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_STRICT_SUPERIORITY_NON_PASS_RECEIPT_V1.json
-      byte_length: 9827
-      sha256: 162efbdd9813bcc8436cb77f3f87d91d55711430855cf1ac10f9be08e762b454
-    dev_macro:
-      precision: 0.15595238095238093
-      recall: 0.8958333333333334
-      mrr: 0.84375
-      b1_precision: 0.15595238095238093
-      b1_recall: 0.8958333333333334
-      b1_mrr: 0.8229166666666666
-      per_task_recall_regressions: 0
-    integrated: false
-    held_source_reads: 0
-    held_tasks_executed: 0
-  held_slot:
-    capacity_slot_id: P2_RECOVERY_CAPACITY_SLOT_V2_3
-    status: LOCKED_UNOPENED
-    unlock_requirement: EXACT_FOUNDER_ROUTE_DECISION_AND_FROZEN_CANDIDATE_PREACTIVATION_PASS
-
-drift_diagnosis:
-  strategic_direction_changed: false
-  execution_deviation: SEVERE
-  self_loop_occurred: true
-  self_loop_currently_running: false
-  accepted_p2_capability_count: 0
-  exact_diff_since_p2_entry:
-    product:
-      path_prefixes:
-        - backend-spring/
-        - analyzer-rust/
-        - web-console/
-      changed_files: 0
-      insertions: 0
-      deletions: 0
-    evaluation:
-      path_prefixes:
-        - evaluation-harness/
-      changed_files: 1
-      insertions: 227
-      deletions: 0
-    governance:
-      path_prefixes:
-        - docs/aios/
-        - scripts/
-      changed_files: 39
-      insertions: 32651
-      deletions: 7460
-    other:
-      exact_paths:
-        - AGENTS.md
-        - Makefile
-        - docs/PROJECT_CODE_MAP.md
-        - schemas/founder-phase-route-decision.schema.json
-      changed_files: 4
-      insertions: 377
-      deletions: 34
-
-root_causes:
-  - id: PROOF_INFRASTRUCTURE_PRECEDED_PRODUCT_VALUE
-    statement: Evidence, isolation and governance mechanisms were repeatedly built before the smallest representative product-value experiment was stable.
-  - id: REPRESENTATIVENESS_FROZEN_TOO_LATE
-    statement: Dataset representativeness, baseline semantics and independent unit definitions were challenged after substantial task construction instead of before implementation.
-  - id: ALL_IN_ONE_TASK_SCOPE
-    statement: Multiple tasks combined dataset curation, runtime isolation, product execution, provenance, statistics and final evaluation into one failure surface.
-  - id: REVIEW_FINDINGS_NOT_GATE_RELEVANCE_FILTERED
-    statement: Reviewer findings that did not determine the P2 Exit Gate were allowed to extend preactivation and repair chains.
-  - id: GOVERNANCE_ACTIVITY_MISREAD_AS_PROGRESS
-    statement: Large governance and evidence deltas were observable while accepted P2 capability and product change remained zero.
-  - id: NO_ACCEPTED_MILESTONE_CHECKPOINTS
-    statement: Task succession was driven by terminal task outcomes instead of requiring an accepted delivery milestone before advancing the route.
+  implementation_freeze: PERMANENT_FOR_CLOSED_P2
+  additional_p2_task_allowed: false
+  remaining_formal_held_slot_status: LOCKED_UNUSED_AND_UNUSABLE
+  successor_replacement_remediation_chain_allowed: false
+  rejected_engineering_lineage_access_allowed: false
+  dev_rerun_allowed: false
+  held_read_allowed: false
+  governance_progress_credit: 0
+  terminal_non_pass_progress_credit: 0
 
 progress_model:
-  strict_gate:
+  revised_research_exit:
+    percent: 100
+    rule: ACCEPTED_REPRESENTATIVE_BENCHMARK_PLUS_REPRODUCIBLE_BOUNDED_DETERMINATION
+  original_capability_exit:
+    percent: 0
     rule: BINARY_ACCEPTED_GATE_ONLY
-    current_percent: 0
-    allowed_percent_values:
-      - 0
-      - 100
   delivery_milestones:
-    - id: P2_RECOVERY_BASELINE_ACCEPTED
-      percent: 25
-      acceptance: Representative benchmark foundation and an Evaluation-Protocol-conformant simple retrieval baseline are independently accepted.
-    - id: P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED
-      percent: 70
-      acceptance: A nonempty product-source context-selector change strictly beats the accepted baseline on the frozen DEV set without regression.
-    - id: P2_RECOVERY_FORMAL_HELD_MATRIX_COMPLETE
-      percent: 85
-      acceptance: The predeclared held matrix completes once with closed raw evidence, independent evaluation and no dataset, metric or candidate drift.
-    - id: P2_EXIT_GATE_ACCEPTED
-      percent: 100
-      acceptance: CONTEXT_BENCHMARK_BEATS_SIMPLE_RETRIEVAL_BASELINES is ACCEPTED in canonical strict Phase Gate evidence.
+    accepted:
+      - P2_RECOVERY_BASELINE_ACCEPTED
+    current_percent: 25
   zero_credit_activities:
     - governance_document_created
     - validator_or_schema_created
@@ -180,138 +147,38 @@ progress_model:
     - time_or_budget_consumed
     - task_terminal_non_pass
     - nonintegrated_candidate
-  current_delivery_percent: 25
 
-phase_level_loop_breaker:
-  implementation_task_cap_per_delivery_milestone: 2
-  counter_resets_on_new_task_identity: false
-  counter_resets_on_new_authorization_version: false
-  current_product_implementation_task_count: 9
-  implementation_freeze_status: FROZEN_NO_ADDITIONAL_PRODUCT_IMPLEMENTATION_OR_TUNING
-  prohibited_next_actions:
-    - NEW_PRODUCT_SELECTOR_IMPLEMENTATION_TASK
-    - NEW_HEURISTIC_OR_ARCHITECTURE_RETRY
-    - POST_RESULT_DEV_THRESHOLD_OR_METRIC_CHANGE
-    - NUMBERED_V11_OR_LATER_PRODUCT_REAUTHORIZATION_CHAIN
-    - REJECTED_TASK_RETROACTIVE_PASS
-  allowed_strategic_routes:
-    - EXACT_FROZEN_P2_078_CANDIDATE_ONE_SHOT_FORMAL_HELD_EVALUATION_WITH_FOUNDER_ROUTE_DECISION
-    - FOUNDER_FORMAL_PHASE_OBJECTIVE_OR_EXIT_GATE_CHANGE
-    - P2_HOLD_INCOMPLETE_WITH_LONG_TERM_GOAL_ACTIVE
-  rules_frozen_until_p2_terminal: true
-  further_governance_change_allowed_only_for_safety_critical_or_founder_reserved_decision: true
+prohibited_operations:
+  create_p2_task: true
+  read_held: true
+  rerun_dev: true
+  modify_candidate_dataset_split_oracle_metric_threshold_ranking_or_parameter: true
+  restore_or_reuse_rejected_engineering_lineage: true
+  network_provider_secret_remote_production_public_release: true
+  deletion: true
+  database_modification: true
+  p3_entry: true
+  long_term_goal_termination: true
 
-recommended_recovery_sequence:
-  authorization_status: PLANNED_AWAITING_EXACT_FOUNDER_PHASE_ROUTE_DECISION
-  proposed_additional_envelope:
-    engineering_tasks: 0
-    engineering_hours: 0
-    calendar_days: 0
-  tasks:
-    - sequence: 1
-      task_id: null
-      role: EXACT_FROZEN_CANDIDATE_PREACTIVATION_AND_FORMAL_HELD_EVALUATION
-      target_milestone: P2_RECOVERY_FORMAL_HELD_MATRIX_COMPLETE
-      recommended_budget:
-        engineering_hours: 32
-        calendar_days: 8
-      product_mutation_allowed: false
-      required_output: Independently verify the exact immutable P2-078 candidate and execution Evidence before any HELD read, then execute the untouched HELD matrix once with no candidate mutation, implementation repair, retuning, task replacement, dataset mutation, oracle mutation, metric mutation or rerun.
-
-route_to_completion:
-  phase_objective: Improve task-conditioned code understanding through real Repository Intelligence product capability.
-  final_completion_criterion: CONTEXT_BENCHMARK_BEATS_SIMPLE_RETRIEVAL_BASELINES_ACCEPTED
-  exit_gate_changes: false
-  next_node: FOUNDER_EXACT_FROZEN_P2_078_FORMAL_HELD_ROUTE_DECISION
-  preactivation:
-    candidate_identity_must_equal_live_state: true
-    original_task_remains_terminal_non_pass: true
-    product_source_mutation_allowed: false
-    dev_rerun_or_retuning_allowed: false
-    held_read_allowed_before_preactivation_pass: false
-    failure_result: TERMINAL_NO_HELD_READ_NO_SUCCESSOR
-  formal_held:
-    dispatch_count: 1
-    reruns: 0
-    candidate_dataset_split_oracle_metric_mutation_allowed: false
-    pass_result: P2_EXIT_GATE_ELIGIBLE_AWAITING_FOUNDER_PHASE_GATE
-    non_pass_result: P2_REMAINS_INCOMPLETE_IMPLEMENTATION_FROZEN_NO_AUTOMATIC_SUCCESSOR
-  p3_must_remain_hold_until_exit_gate_and_founder_phase_gate: true
-
-progress_scorecard:
-  strict_exit:
-    percent: 0
-    rule: BINARY_ONLY_0_OR_100
-  delivery:
-    percent: 25
-    accepted_nodes: 1
-    total_nodes: 4
-  nodes:
-    - id: K0_REPRESENTATIVE_BENCHMARK_AND_B1_BASELINE
-      percent: 25
-      status: ACCEPTED
-    - id: K1_EXACT_FROZEN_CANDIDATE_ADMITTED_FOR_FORMAL_HELD
-      percent: 55
-      status: PENDING_FOUNDER_ROUTE_DECISION
-    - id: K2_ONE_SHOT_FORMAL_HELD_EVALUATION_ACCEPTED
-      percent: 85
-      status: LOCKED_UNOPENED
-    - id: K3_STRICT_P2_EXIT_GATE_ACCEPTED
-      percent: 100
-      status: MISSING
-  health_indicators:
-    product_implementation_tasks: 9
-    product_implementation_task_cap: 2
-    consecutive_product_non_pass: 9
-    active_task_count: 0
-    held_source_reads: 0
-    held_tasks_executed: 0
-    p2_078_candidate_integrated: false
-    governance_progress_credit: 0
-  resource_indicators_not_progress:
-    engineering_tasks_consumed: 23
-    engineering_tasks_limit: 24
-    engineering_hours_consumed: 688
-    engineering_hours_limit: 720
-    calendar_days_consumed: 172
-    calendar_days_limit: 180
+phase_lifecycle:
+  p2_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
+  p2_capability_status: NOT_ACCEPTED
+  p3_status: ELIGIBLE_AWAITING_SEPARATE_FOUNDER_PHASE_ENTRY
+  p3_entry_authorized: false
+  p3_execution_started: false
+  long_term_goal_status: ACTIVE
+  project_actual_completion: false
+  next_action_owner: HUMAN_FOUNDER
+  next_eligible_action: P3_PHASE_ENTRY_DECISION
 
 mechanical_controls:
-  governance_progress_credit: 0
-  task_non_pass_progress_credit: 0
-  max_candidate_generations_per_task: 2
-  max_same_task_repairs: 1
-  max_review_cycles: 2
-  max_product_implementation_tasks_per_delivery_milestone: 2
-  milestone_task_counter_reset_allowed: false
-  current_product_implementation_task_count: 9
-  current_product_implementation_frozen: true
-  numbered_product_reauthorization_chain_allowed: false
-  first_review_freezes_complete_p0_p1_set: true
-  second_review_may_only_close_frozen_findings_or_reject_new_regression: true
-  governance_pre_worker_budget_percent_max: 10
-  worker_must_start_by_engineering_hour: 1
-  gate_relevance_required_for_blocker: true
-  blocker_gate_relevance_categories:
-    - EXIT_GATE_VALIDITY
-    - AUTHORITY_OR_EXTERNAL_EFFECT_SAFETY
-    - RESULT_INTEGRITY
-    - PRODUCT_CORRECTNESS
-  product_task_requires_nonempty_product_diff: true
-  benchmark_foundation_precedes_product_implementation: true
-  product_implementation_precedes_formal_evaluation: true
-  formal_task_forbids_product_dataset_or_metric_mutation: true
-  next_sequence_requires_prior_milestone_accepted: true
-  rejected_lineage_reuse_allowed: false
-  successor_replacement_remediation_chain_allowed: false
-  next_p2_task_contract_requires_recovery_binding: true
-  validator_command: ruby scripts/validate-p2-recovery-anti-cycle.rb
-
-current_control:
-  new_task_creation_allowed: false
-  reason: PRODUCT_IMPLEMENTATION_MILESTONE_ATTEMPT_CAP_EXCEEDED_AND_FORMAL_HELD_ROUTE_LOCKED
-  next_action_owner: HUMAN_FOUNDER
-  next_eligible_action: FOUNDER_RESERVED_DECISION
-  long_term_goal_must_remain_active: true
-  project_must_remain_active: true
-  p2_must_remain_active_incomplete: true
+  current_task: NONE
+  current_task_contract: NONE
+  current_task_authority: NONE
+  current_task_branch: NONE
+  current_task_worktree: NONE
+  active_p2_task_count: 0
+  phase_closure_audit_command: ruby scripts/validate-p2-recovery-anti-cycle.rb --closure-audit
+  p2_recovery_validator_command: ruby scripts/validate-p2-recovery-anti-cycle.rb
+  current_authority_validator_command: ruby scripts/validate-current-task-authority.rb
+  founder_continuity_validator_command: ruby scripts/validate-founder-delegation-continuity.rb

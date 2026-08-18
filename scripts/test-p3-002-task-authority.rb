@@ -30,11 +30,22 @@ raise "exact READY state drift" unless ready_state == "P3_002_READY_FOR_MASTER_A
 puts "PASS exact P3-002 READY projection"
 assertions = 1
 
+active_bytes, active_error, active_status = Open3.capture3(
+  "git", "-C", ROOT, "show",
+  "b135ed3:docs/aios/truth/project_state.yaml"
+)
+raise "cannot load P3-002 ACTIVE Truth: #{active_error}" unless active_status.success?
+active_truth = YAML.safe_load(active_bytes, permitted_classes: [], permitted_symbols: [], aliases: false)
+active_state = P3Task002AuthorityValidation.validate!(root: ROOT, truth: active_truth)
+raise "exact ACTIVE state drift" unless active_state == "P3_002_ACTIVE"
+puts "PASS exact P3-002 ACTIVE projection"
+assertions += 1
+
 truth = YAML.safe_load(File.binread(File.join(ROOT, "docs/aios/truth/project_state.yaml")),
                        permitted_classes: [], permitted_symbols: [], aliases: false)
 state = P3Task002AuthorityValidation.validate!(root: ROOT, truth: truth)
-raise "exact ACTIVE state drift" unless state == "P3_002_ACTIVE"
-puts "PASS exact P3-002 ACTIVE projection"
+raise "exact TERMINAL state drift" unless state == "P3_002_TERMINAL_WRITE_ROOT_ESCAPE_NON_PASS"
+puts "PASS exact P3-002 TERMINAL projection"
 assertions += 1
 
 fixture = copy(truth)

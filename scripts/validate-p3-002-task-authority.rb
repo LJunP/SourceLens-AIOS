@@ -22,6 +22,11 @@ module P3Task002AuthorityValidation
   AUTHORITY_PATH = File.join(EVIDENCE_ROOT, "authority", "P3_002_PHASE_DELEGATED_TASK_AUTHORITY_V1.json")
   AUTHORITY_BYTES = 3479
   AUTHORITY_SHA256 = "914bdac458ae4a3846582bd8dbe483cc072f81b059d286065751804218186be6"
+  CANDIDATE_COMMIT = "44ade64f87a4f213174e999c58616a89f867e894"
+  CANDIDATE_TREE = "93e0c2c55bfe1c60a7a43c66338678f87686c1a6"
+  TERMINAL_PATH = File.join(EVIDENCE_ROOT, "terminal", "P3_002_TERMINAL_WRITE_ROOT_ESCAPE_NON_PASS_RECEIPT_V1.json")
+  TERMINAL_BYTES = 3023
+  TERMINAL_SHA256 = "686b0d254ef8d56652de7fa9b4b742e3c0b5478b93744da23cb1760c99b7a35b"
   P3_001_GATE_PATH = "/Users/lijunpeng/Developer/.sourcelens-audit/p3-durable-execution-checkpoint-resume-20260819/task-p3-001/terminal/P3_001_TASK_GATE_PASS_INTEGRATION_RECEIPT_V1.json"
   P3_001_GATE_BYTES = 3055
   P3_001_GATE_SHA256 = "e4ea37f8e6770b8dea9f8939f81444f01ebca4104a8dd2f84d33c4787180e2c0"
@@ -96,7 +101,11 @@ module P3Task002AuthorityValidation
 
     assert(project["current_phase"] == "P3" && project["p3_entry_status"] == "AUTHORIZED" &&
            project["p3_execution_status"] == "ACTIVE" &&
-           %w[PHASE_DELEGATED_TASK_READY ACTIVE_PHASE_DELEGATED_TASK].include?(
+           %w[
+             PHASE_DELEGATED_TASK_READY
+             ACTIVE_PHASE_DELEGATED_TASK
+             P3_TASK_TERMINAL_READY_NEXT_TASK
+           ].include?(
              project["current_route_execution_status"]
            ) &&
            project["p4_entry_status"] == "HOLD_PENDING_STRICT_P3_EXIT_AND_SEPARATE_FOUNDER_PHASE_ENTRY",
@@ -156,6 +165,54 @@ module P3Task002AuthorityValidation
              active["external_effects"] == FALSE_EFFECTS,
              "P3-002 READY projection drift")
       return "P3_002_READY_FOR_MASTER_ACTIVATION"
+    end
+
+    if route["status"] == "TERMINAL_WRITE_ROOT_ESCAPE_NON_PASS"
+      terminal_identity = {
+        "path" => TERMINAL_PATH, "byte_length" => TERMINAL_BYTES, "sha256" => TERMINAL_SHA256
+      }
+      assert(project["current_route_execution_status"] == "P3_TASK_TERMINAL_READY_NEXT_TASK" &&
+             route["execution_status"] == "TERMINAL_WRITE_ROOT_ESCAPE_NON_PASS" &&
+             route["scheduling_status"] == "READY_FOR_MASTER_SELECTION" &&
+             route["next_eligible_action"] == "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK" &&
+             task["status"] == "TERMINAL_WRITE_ROOT_ESCAPE_NON_PASS" &&
+             task["candidate"] == {"commit" => CANDIDATE_COMMIT, "tree" => CANDIDATE_TREE,
+                                    "integrated" => false} &&
+             task["terminal_receipt"] == terminal_identity &&
+             ledger[1]["status"] == "TERMINAL_WRITE_ROOT_ESCAPE_NON_PASS" &&
+             ledger[1]["terminal_receipt"] == terminal_identity &&
+             envelope["consumed"] == {"engineering_tasks" => 2, "engineering_hours" => 64,
+                                       "calendar_days" => 16} && envelope["reserved"] == {} &&
+             active["current_task"] == "NONE" && active["current_task_status"] == "NONE" &&
+             active["current_task_contract"].nil? &&
+             active["task_resource_state"] == "NOT_CREATED_READY_FOR_MASTER_SELECTION" &&
+             active["task_branch"].nil? && active["task_worktree"].nil? &&
+             active["execution_evidence_root"].nil? && active["authority_record"].values.all?(&:nil?) &&
+             active.dig("last_completed_task", "task_id") == TASK_ID &&
+             active.dig("last_completed_task", "status") == "TERMINAL_WRITE_ROOT_ESCAPE_NON_PASS" &&
+             active.dig("last_completed_task", "terminal_receipt") == terminal_identity &&
+             active["next_eligible_action"] == "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK",
+             "P3-002 TERMINAL projection drift")
+      terminal_bytes = exact_file(TERMINAL_PATH, TERMINAL_BYTES, TERMINAL_SHA256,
+                                  "P3-002 terminal receipt")
+      terminal = JSON.parse(terminal_bytes)
+      assert(terminal["schema_version"] == "p3-task-terminal-receipt/v1" &&
+             terminal["task_id"] == TASK_ID &&
+             terminal["task_lifecycle"] == "TERMINAL_WRITE_ROOT_ESCAPE_NON_PASS" &&
+             terminal["phase_lifecycle"] == "P3_ACTIVE_INCOMPLETE" &&
+             terminal["long_term_goal_lifecycle"] == "ACTIVE" &&
+             terminal.dig("candidate", "commit") == CANDIDATE_COMMIT &&
+             terminal.dig("candidate", "tree") == CANDIDATE_TREE &&
+             terminal.dig("candidate", "integrated") == false &&
+             terminal.dig("terminal_finding", "reason_code") == "TASK_WRITE_ROOT_ESCAPE" &&
+             terminal["milestone_status"] ==
+               "CAPABILITY_SCOPED_TOOL_AND_PERMISSION_ENFORCEMENT_NOT_ACCEPTED" &&
+             terminal["p3_delivery_progress_percent"] == 25 &&
+             terminal["p3_strict_exit_gate_percent"] == 0 &&
+             terminal["user_action_required"] == false &&
+             terminal["next_eligible_action"] == "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK",
+             "P3-002 terminal receipt semantics drift")
+      return "P3_002_TERMINAL_WRITE_ROOT_ESCAPE_NON_PASS"
     end
 
     authority_identity = {

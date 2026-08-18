@@ -58,6 +58,8 @@ begin
   truth.fetch("project")["current_phase"] = "P1"
   truth.fetch("project")["p2_entry_status"] = "HOLD_PENDING_FOUNDER_PHASE_ENTRY"
   truth.fetch("project")["p2_execution_status"] = "HOLD_PENDING_FOUNDER_PHASE_ENTRY"
+  truth.fetch("project")["p3_entry_status"] = "HOLD_PENDING_STRICT_P2_EXIT"
+  truth.fetch("project")["p3_execution_status"] = "HOLD_PENDING_STRICT_P2_EXIT"
   truth.fetch("current_phase_route")["phase"] = "P1"
   truth.fetch("goal")["current_task_authority"] = "NONE"
   truth.fetch("active_work")["current_task"] = "NONE"

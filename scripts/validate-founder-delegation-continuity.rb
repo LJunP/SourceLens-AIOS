@@ -8,6 +8,8 @@ require "pathname"
 require "psych"
 require "time"
 require "yaml"
+p3_entry_validator = File.join(__dir__, "validate-p3-phase-entry.rb")
+require_relative "validate-p3-phase-entry" if File.file?(p3_entry_validator)
 
 class FounderDelegationContinuityError < StandardError; end
 class FounderDelegationDuplicateJsonKeyError < StandardError; end
@@ -29,7 +31,7 @@ module FounderDelegationContinuity
   STRATEGIC_HOLD_ROUTE_SCHEMA = "founder-resolved-strategic-hold/v1"
   RESEARCH_EXIT_ROUTE_SCHEMA = "founder-resolved-p2-research-exit/v1"
   DELEGATED_TASK_ROUTE_SCHEMA = "phase-delegated-independent-task/v1"
-  DELEGATED_TASK_ID_RE = /\AAIOS-P[12]-[0-9]{3}(?:_[A-Z0-9_]+)?\z/.freeze
+  DELEGATED_TASK_ID_RE = /\AAIOS-P[123]-[0-9]{3}(?:_[A-Z0-9_]+)?\z/.freeze
   DELEGATION_AMENDMENT_SCHEMA = "founder-phase-delegation-amendment/v1"
   DELEGATION_AMENDMENT_ID = "FOUNDER_PHASE_DELEGATION_CONTINUITY_AMENDMENT_2026_08_08"
   CONTINUE_ACTION = "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK"
@@ -5047,6 +5049,11 @@ module FounderDelegationContinuity
     route = mapping(truth["current_phase_route"], "current_phase_route")
     return validate_research_exit_state!(root, truth, policy, project, route) if
       route["schema_version"] == RESEARCH_EXIT_ROUTE_SCHEMA
+    if route["schema_version"] == "p3-phase-entry-active/v1"
+      assert(defined?(P3PhaseEntryValidation), "P3 Phase entry validator is unavailable")
+      P3PhaseEntryValidation.validate!(root: root, truth: truth)
+      return CONTINUE_DISPOSITION
+    end
     validate_phase_delegation!(truth, phase)
     assert(truth["phase_execution_envelope"].is_a?(Hash),
            "active Phase delegation requires a phase execution envelope")

@@ -1035,7 +1035,8 @@ check_phase_predecessor_activation() {
       phase_record = phases.fetch(phase_id)
       item = phase_record.fetch("required_items").fetch(item_id)
       validate_gate_item.call(phase_id, item_id, item)
-      expected_status = if research_non_pass_closure && phase_id == "P3"
+      expected_status = if research_non_pass_closure && phase_id == "P3" &&
+                           project["current_phase"] == "P2"
                           "ELIGIBLE_AWAITING_SEPARATE_FOUNDER_PHASE_ENTRY"
                         else
                           item["status"] == "ACCEPTED" ? "COMPLETE" : "INCOMPLETE"
@@ -2061,6 +2062,8 @@ required_files=(
   scripts/validate-current-task-authority.rb
   scripts/test-current-task-authority.rb
   scripts/validate-founder-delegation-continuity.rb
+  scripts/validate-p3-phase-entry.rb
+  scripts/test-p3-phase-entry.rb
   scripts/test-founder-delegation-continuity.rb
   scripts/test-phase-delegated-task-authority.rb
 )
@@ -2112,6 +2115,9 @@ check_founder_knowledge_section "$RULES_PATH"
 check_authority_bindings
 check_phase_predecessor_activation
 check_founder_knowledge_sync_state STRUCTURAL_ONLY "$TRUTH_PATH" CANONICAL_ONLY
+if ruby -ryaml -e 'exit(YAML.load_file(ARGV[0]).dig("current_phase_route", "schema_version") == "p3-phase-entry-active/v1" ? 0 : 1)' "$TRUTH_PATH"; then
+  ruby "${ROOT_DIR}/scripts/validate-p3-phase-entry.rb"
+fi
 ruby "${ROOT_DIR}/scripts/validate-founder-delegation-continuity.rb"
 ruby "${ROOT_DIR}/scripts/validate-current-task-authority.rb"
 

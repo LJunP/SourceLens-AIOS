@@ -177,7 +177,6 @@ raise "delegated active Truth anchor is missing" unless base
 base.fetch("phase_execution_envelope").fetch("task_ledger").each do |entry|
   entry.delete("capacity_source_task_id")
 end
-base["phase_boundary"] = deep_copy(current_truth.fetch("phase_boundary"))
 reserved_base = historical_truths.reverse.find do |candidate|
   control = candidate["founder_escalation_control"]
   trigger = control.is_a?(Hash) ? control["reserved_trigger"] : nil
@@ -256,6 +255,8 @@ Dir.mktmpdir("founder-delegation-continuity-") do |fixtures|
 
   unless FounderDelegationContinuity::DELEGATED_TASK_ID_RE.match?("AIOS-P2-998") &&
          FounderDelegationContinuity::DELEGATED_TASK_ID_RE.match?("AIOS-P2-998_GENERIC_FIXTURE") &&
+         FounderDelegationContinuity::DELEGATED_TASK_ID_RE.match?("AIOS-P3-001") &&
+         FounderDelegationContinuity::DELEGATED_TASK_ID_RE.match?("AIOS-P3-001_DURABLE_STATE") &&
          !FounderDelegationContinuity::DELEGATED_TASK_ID_RE.match?("AIOS-P2-0998") &&
          !FounderDelegationContinuity::DELEGATED_TASK_ID_RE.match?("AIOS-P2-998_")
     raise "delegated independent Task id compatibility regex drift"
@@ -1521,11 +1522,11 @@ Dir.mktmpdir("founder-delegation-continuity-") do |fixtures|
   assertions += 1
 
   truth = deep_copy(current_truth)
-  truth["claim_boundary"]["p2_phase_envelope_status"] =
+  truth["claim_boundary"]["p3_phase_envelope_status"] =
     truth.dig("phase_execution_envelope", "status") == "EXHAUSTED" ?
       "TASK_CAPACITY_RESERVED" : "EXHAUSTED"
   expect_non_pass(fixtures, "claim-boundary-envelope-status-drift", truth,
-                  "delegated independent Task claim-boundary Phase envelope status drift")
+                  "P3 claim boundary drift")
   assertions += 1
 
   truth = deep_copy(base)
@@ -1712,7 +1713,7 @@ Dir.mktmpdir("founder-delegation-continuity-") do |fixtures|
   truth["founder_escalation_control"]["next_action_owner"] = "HUMAN_FOUNDER"
   truth["founder_escalation_control"]["next_eligible_action"] = "FOUNDER_RESERVED_DECISION"
   expect_non_pass(fixtures, "ordinary-terminal-cannot-masquerade-as-critical-risk", truth,
-                  "terminal transition only supports mechanically derived Phase exit or envelope expansion")
+                  "terminal transition only supports mechanically derived Phase exit, Phase strategy change or envelope expansion")
   assertions += 1
 
   truth = deep_copy(base)

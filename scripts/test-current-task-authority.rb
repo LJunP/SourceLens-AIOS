@@ -1346,6 +1346,13 @@ class CurrentTaskAuthorityTest
     fixture_task_id = "AIOS-P2-998_DELEGATED_ROUTE_PLAN_FIXTURE"
     truth = yaml(File.join(SOURCE_REPO, TRUTH_RELATIVE))
     truth["project"]["current_phase"] = "P2"
+    truth["project"]["p3_entry_status"] = "ELIGIBLE_AWAITING_SEPARATE_FOUNDER_PHASE_ENTRY"
+    truth["project"]["p3_execution_status"] = "HOLD_PENDING_SEPARATE_FOUNDER_PHASE_ENTRY"
+    p3 = truth.dig("strict_phase_gate_ledger", "phases", "P3")
+    p3["status"] = "ELIGIBLE_AWAITING_SEPARATE_FOUNDER_PHASE_ENTRY"
+    p3["entry_authorized"] = false
+    p3["execution_started"] = false
+    p3["phase_entry_decision"] = nil
     truth["active_work"]["current_task"] = fixture_task_id
     truth["current_phase_route"] = {
       "schema_version" => "phase-delegated-independent-task/v1",
@@ -1618,7 +1625,18 @@ class CurrentTaskAuthorityTest
       puts "PASS active role write ownership rejects #{label}"
     end
 
-    phase_boundary = yaml(File.join(SOURCE_REPO, TRUTH_RELATIVE)).fetch("phase_boundary")
+    # The ownership contract below is a retained P2 fixture. Bind its root
+    # matrix to the exact pre-P3 canonical Truth instead of the live P3 roots.
+    phase_boundary = YAML.safe_load(
+      shell(
+        SOURCE_REPO,
+        "git", "show",
+        "bb257afad03b1dc512de68b27a2d64bc7bfb68d2:#{TRUTH_RELATIVE}"
+      ),
+      permitted_classes: [],
+      permitted_symbols: [],
+      aliases: false
+    ).fetch("phase_boundary")
     CurrentTaskAuthority.validate_phase_delegated_role_root_binding!(
       ownership_contract.fetch("write_ownership"), phase_boundary
     )
@@ -2375,6 +2393,13 @@ class CurrentTaskAuthorityTest
     end
     current_policy_bytes = File.binread(File.join(SOURCE_REPO, POLICY_RELATIVE))
     current_policy_sha = Digest::SHA256.hexdigest(current_policy_bytes)
+    historical_strategy_bytes = shell(
+      SOURCE_REPO,
+      "git", "show",
+      "#{P2_STRICT_GATE_LEDGER_GOLDEN_COMMIT}:docs/aios/STRATEGIC_CONSTITUTION.md"
+    )
+    source_truth["authority"]["strategy"] =
+      deep_copy(strict_gate_truth.dig("authority", "strategy"))
     source_truth["authority"]["founder_delegation_policy"]["version"] = "1.8"
     source_truth["authority"]["founder_delegation_policy"]["sha256"] = current_policy_sha
     source_truth["current_phase_route"]["policy"]["version"] = "1.8"
@@ -2388,17 +2413,20 @@ class CurrentTaskAuthorityTest
     shell(repo, "git", "checkout", "--quiet", "-B", "main", source_head)
 
     truth_path = File.join(repo, TRUTH_RELATIVE)
+    strategy_path = File.join(repo, "docs/aios/STRATEGIC_CONSTITUTION.md")
     policy_path = File.join(repo, POLICY_RELATIVE)
     validator_path = File.join(repo, "scripts/validate-current-task-authority.rb")
     delegation_validator_path = File.join(repo, "scripts/validate-founder-delegation-continuity.rb")
     safety_path = File.join(repo, "scripts/check-p1-safety-boundary.sh")
     governance_path = File.join(repo, "scripts/validate-aios-governance.sh")
     register_owned(truth_path)
+    register_owned(strategy_path)
     register_owned(policy_path)
     register_owned(validator_path)
     register_owned(delegation_validator_path)
     register_owned(safety_path)
     register_owned(governance_path)
+    rewrite_owned(strategy_path, historical_strategy_bytes)
     rewrite_owned(policy_path, current_policy_bytes)
     rewrite_owned(validator_path, File.binread(VALIDATOR))
     rewrite_owned(delegation_validator_path, File.binread(DELEGATION_VALIDATOR))

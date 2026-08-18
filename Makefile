@@ -61,6 +61,7 @@ aios-governance-check: ## 校验最小当前权威、P1 边界和历史隔离
 	ruby scripts/test-founder-action-handoff.rb
 	ruby scripts/test-p2-recovery-anti-cycle.rb
 	ruby scripts/validate-p2-recovery-anti-cycle.rb
+	ruby scripts/test-p3-phase-entry.rb
 	ruby scripts/test-current-task-authority.rb
 	ruby scripts/test-founder-delegation-continuity.rb
 	ruby scripts/test-phase-delegated-task-authority.rb

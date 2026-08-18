@@ -80,62 +80,32 @@ Dir.mktmpdir("p2-recovery-tests-", ROOT) do |root|
     assertions += 1
   end
 
-  run_plan_case.call("gate-fraction", "strict progress is not binary") do |candidate|
-    candidate.dig("progress_model", "strict_gate")["current_percent"] = 25
+  run_plan_case.call("research-exit-fraction", "P2 split progress model drift") do |candidate|
+    candidate.dig("progress_model", "revised_research_exit")["percent"] = 75
   end
-  run_plan_case.call("governance-credit", "mechanical anti-cycle controls drift") do |candidate|
-    candidate.dig("mechanical_controls")["governance_progress_credit"] = 1
+  run_plan_case.call("capability-retroactive-pass", "P2 original capability truth drift") do |candidate|
+    candidate.fetch("original_capability_truth")["status"] = "ACCEPTED"
   end
-  run_plan_case.call("terminal-credit", "mechanical anti-cycle controls drift") do |candidate|
-    candidate.dig("mechanical_controls")["task_non_pass_progress_credit"] = 1
+  run_plan_case.call("implementation-freeze-disabled", "P2 research non-pass anti-cycle closure drift") do |candidate|
+    candidate.fetch("anti_cycle_closure")["implementation_freeze"] = "OPEN"
   end
-  run_plan_case.call("candidate-loop", "mechanical anti-cycle controls drift") do |candidate|
-    candidate.dig("mechanical_controls")["max_candidate_generations_per_task"] = 3
+  run_plan_case.call("p2-successor-enabled", "P2 research non-pass anti-cycle closure drift") do |candidate|
+    candidate.fetch("anti_cycle_closure")["additional_p2_task_allowed"] = true
   end
-  run_plan_case.call("repair-loop", "mechanical anti-cycle controls drift") do |candidate|
-    candidate.dig("mechanical_controls")["max_same_task_repairs"] = 2
+  run_plan_case.call("held-read-enabled", "P2 research non-pass anti-cycle closure drift") do |candidate|
+    candidate.fetch("anti_cycle_closure")["held_read_allowed"] = true
   end
-  run_plan_case.call("review-loop", "mechanical anti-cycle controls drift") do |candidate|
-    candidate.dig("mechanical_controls")["max_review_cycles"] = 3
+  run_plan_case.call("governance-credit", "P2 research non-pass anti-cycle closure drift") do |candidate|
+    candidate.fetch("anti_cycle_closure")["governance_progress_credit"] = 1
   end
-  run_plan_case.call("milestone-task-cap-reset", "phase-level loop breaker drift") do |candidate|
-    candidate.dig("phase_level_loop_breaker")["counter_resets_on_new_task_identity"] = true
-  end
-  run_plan_case.call("implementation-freeze-disabled", "mechanical anti-cycle controls drift") do |candidate|
-    candidate.dig("mechanical_controls")["current_product_implementation_frozen"] = false
-  end
-  run_plan_case.call("numbered-product-chain-enabled", "mechanical anti-cycle controls drift") do |candidate|
-    candidate.dig("mechanical_controls")["numbered_product_reauthorization_chain_allowed"] = true
-  end
-  run_plan_case.call("fake-live-task-reduction", "product implementation loop-breaker facts drift") do |candidate|
-    candidate.dig("live_state", "product_implementation_history")["task_count"] = 2
-  end
-  run_plan_case.call("fake-scorecard-progress", "scorecard delivery progress drift") do |candidate|
-    candidate.dig("progress_scorecard", "delivery")["percent"] = 55
-  end
-  run_plan_case.call("invented-route-envelope", "route invented envelope expansion") do |candidate|
-    candidate.dig("recommended_recovery_sequence", "proposed_additional_envelope")["engineering_tasks"] = 1
-  end
-  run_plan_case.call("missing-root-cause", "root cause set drift") do |candidate|
-    candidate.fetch("root_causes").pop
-  end
-  run_plan_case.call("milestone-drift", "delivery milestone values drift") do |candidate|
-    candidate.dig("progress_model", "delivery_milestones", 0)["percent"] = 20
-  end
-  run_plan_case.call("preauthorized-task", "may not preauthorize a Task ID") do |candidate|
-    candidate.dig("recommended_recovery_sequence", "tasks", 0)["task_id"] = "AIOS-P2-068"
-  end
-  run_plan_case.call("formal-mutation", "mechanical anti-cycle controls drift") do |candidate|
-    candidate.dig("mechanical_controls")["formal_task_forbids_product_dataset_or_metric_mutation"] = false
-  end
-  run_plan_case.call("product-without-diff", "mechanical anti-cycle controls drift") do |candidate|
-    candidate.dig("mechanical_controls")["product_task_requires_nonempty_product_diff"] = false
-  end
-  run_plan_case.call("invented-envelope", "correction expanded authority") do |candidate|
+  run_plan_case.call("invented-envelope", "P2 research non-pass authority boundary drift") do |candidate|
     candidate.dig("authority_boundary")["expands_phase_envelope"] = true
   end
-  run_plan_case.call("diff-fact-drift", "governance diff facts drift") do |candidate|
-    candidate.dig("drift_diagnosis", "exact_diff_since_p2_entry", "governance")["changed_files"] = 38
+  run_plan_case.call("remaining-capacity-reopened", "P2 closed envelope drift") do |candidate|
+    candidate.fetch("phase_envelope")["remaining_capacity_usable"] = true
+  end
+  run_plan_case.call("mechanical-active-task", "P2 research non-pass mechanical controls drift") do |candidate|
+    candidate.fetch("mechanical_controls")["current_task"] = "AIOS-P2-081"
   end
 
   run_rules_case.call(
@@ -215,29 +185,20 @@ Dir.mktmpdir("p2-recovery-tests-", ROOT) do |root|
     assertions += 1
   end
 
-  run_truth_case.call("goal-terminal", "Long-term Goal is not active") do |candidate|
+  run_truth_case.call("goal-terminal", "Truth Long-term Goal drift") do |candidate|
     candidate.fetch("goal")["control_plane_status_observed"] = "COMPLETE"
   end
-  run_truth_case.call("terminal-active-task-injected", "P2-080 adapter active-work drift") do |candidate|
+  run_truth_case.call("terminal-active-task-injected", "Truth active Task Phase drift after P2 closure") do |candidate|
     candidate.fetch("active_work")["current_task"] = "AIOS-P2-069_CLEAN_ROOM_RECOVERY_BENCHMARK_FOUNDATION"
   end
-  run_truth_case.call("false-progress", "delivery milestone projection drift") do |candidate|
+  run_truth_case.call("false-progress", "Truth P2 recovery control drift") do |candidate|
     candidate.fetch("p2_recovery_control")["current_delivery_percent"] = 50
   end
-  run_truth_case.call("source-admission-decision-hash-drift", "source-admission decision identity drift") do |candidate|
-    candidate.dig("p2_recovery_control", "source_admission_decision")["sha256"] = "0" * 64
-  end
-  run_truth_case.call("source-admission-status-drift", "P2-080 adapter recovery projection drift") do |candidate|
-    candidate.fetch("p2_recovery_control")["benchmark_source_admission_status"] = "NOT_ACCEPTED_NO_ELIGIBLE_TASK"
-  end
-  run_truth_case.call("terminal-task-creation-reopened", "P2-080 adapter recovery projection drift") do |candidate|
+  run_truth_case.call("terminal-task-creation-reopened", "Truth P2 recovery control drift") do |candidate|
     candidate.fetch("p2_recovery_control")["task_creation_allowed"] = true
   end
-  run_truth_case.call("envelope-capacity-injected", "P2-080 adapter Task envelope drift") do |candidate|
-    candidate.dig("phase_execution_envelope", "remaining")["engineering_tasks"] = 3
-  end
-  run_truth_case.call("terminal-task-routed-to-master", "P2-080 adapter Route drift") do |candidate|
-    candidate.fetch("current_phase_route")["next_eligible_action"] = "FOUNDER_RESERVED_DECISION"
+  run_truth_case.call("envelope-capacity-injected", "Truth P2 closed envelope drift") do |candidate|
+    candidate.dig("historical_p2_phase_execution_envelope", "remaining")["engineering_tasks"] = 3
   end
 end
 

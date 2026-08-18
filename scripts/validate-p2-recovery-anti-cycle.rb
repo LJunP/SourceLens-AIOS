@@ -289,6 +289,49 @@ module P2RecoveryAntiCycle
             envelope["remaining"] == { "engineering_tasks" => 1, "engineering_hours" => 32, "calendar_days" => 8 } &&
             envelope["remaining_capacity_usable"] == false && envelope["new_budget"].values.all?(&:zero?),
             "P2 closed envelope drift")
+    anti_cycle = plan.fetch("anti_cycle_closure")
+    assert!(anti_cycle == {
+      "product_implementation_history" => {
+        "accepted_milestone" => "P2_RECOVERY_BASELINE_ACCEPTED",
+        "accepted_task_id" => "AIOS-P2-069",
+        "product_task_ids" => %w[
+          AIOS-P2-070_PRODUCT_JAVA_MAINTENANCE_CONTEXT_SELECTOR_DEV
+          AIOS-P2-071_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_DEV
+          AIOS-P2-072_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_EXECUTION_INTEGRITY_DEV
+          AIOS-P2-073_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_SANDBOX_STREAM_LIFECYCLE_DEV
+          AIOS-P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV
+          AIOS-P2-075_CLEAN_ROOM_QUERY_ENTITY_COVERAGE_PRODUCT_SELECTOR_ARCHITECTURE_PIVOT_DEV
+          AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV
+          AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV
+          AIOS-P2-078_CLEAN_ROOM_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_PRODUCT_SELECTOR_DEV
+        ],
+        "product_task_count" => 9,
+        "terminal_product_non_pass_count" => 9,
+        "allowed_product_task_cap" => 2,
+        "cap_exceeded" => true
+      },
+      "implementation_freeze" => "PERMANENT_FOR_CLOSED_P2",
+      "additional_p2_task_allowed" => false,
+      "remaining_formal_held_slot_status" => "LOCKED_UNUSED_AND_UNUSABLE",
+      "successor_replacement_remediation_chain_allowed" => false,
+      "rejected_engineering_lineage_access_allowed" => false,
+      "dev_rerun_allowed" => false,
+      "held_read_allowed" => false,
+      "governance_progress_credit" => 0,
+      "terminal_non_pass_progress_credit" => 0
+    }, "P2 research non-pass anti-cycle closure drift")
+    assert!(plan.fetch("mechanical_controls") == {
+      "current_task" => "NONE",
+      "current_task_contract" => "NONE",
+      "current_task_authority" => "NONE",
+      "current_task_branch" => "NONE",
+      "current_task_worktree" => "NONE",
+      "active_p2_task_count" => 0,
+      "phase_closure_audit_command" => "ruby scripts/validate-p2-recovery-anti-cycle.rb --closure-audit",
+      "p2_recovery_validator_command" => "ruby scripts/validate-p2-recovery-anti-cycle.rb",
+      "current_authority_validator_command" => "ruby scripts/validate-current-task-authority.rb",
+      "founder_continuity_validator_command" => "ruby scripts/validate-founder-delegation-continuity.rb"
+    }, "P2 research non-pass mechanical controls drift")
     assert!(plan.fetch("prohibited_operations").values.all? { |value| value == true },
             "P2 research non-pass closure relaxed a prohibited operation")
     assert!(plan.dig("progress_model", "revised_research_exit", "percent") == 100 &&
@@ -307,12 +350,16 @@ module P2RecoveryAntiCycle
 
   def validate_research_non_pass_truth!(truth, plan, plan_bytes, repo_root)
     project = truth.fetch("project")
-    route = truth.fetch("current_phase_route")
+    p3_entered = project["current_phase"] == "P3"
+    route = p3_entered ? truth.fetch("historical_p2_research_exit_phase_route") :
+                         truth.fetch("current_phase_route")
     control = truth.fetch("p2_recovery_control")
-    assert!(project["current_phase"] == "P2" &&
+    expected_p3_entry = p3_entered ? "AUTHORIZED" : "ELIGIBLE_AWAITING_SEPARATE_FOUNDER_PHASE_ENTRY"
+    expected_p3_execution = p3_entered ? "ACTIVE" : "HOLD_PENDING_SEPARATE_FOUNDER_PHASE_ENTRY"
+    assert!(%w[P2 P3].include?(project["current_phase"]) &&
             project["p2_execution_status"] == "COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED" &&
-            project["p3_entry_status"] == "ELIGIBLE_AWAITING_SEPARATE_FOUNDER_PHASE_ENTRY" &&
-            project["p3_execution_status"] == "HOLD_PENDING_SEPARATE_FOUNDER_PHASE_ENTRY",
+            project["p3_entry_status"] == expected_p3_entry &&
+            project["p3_execution_status"] == expected_p3_execution,
             "Truth project P2 research-exit projection drift")
     assert!(route["schema_version"] == "founder-resolved-p2-research-exit/v1" &&
             route["status"] == "COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED" &&
@@ -331,7 +378,8 @@ module P2RecoveryAntiCycle
             control["strict_gate_percent"] == 0 && control["revised_research_exit_percent"] == 100 &&
             control["current_delivery_percent"] == 25 && control["task_creation_allowed"] == false &&
             control["remaining_capacity_usable"] == false && control["held_read_allowed"] == false &&
-            control["candidate_integration_allowed"] == false && control["p3_entry_authorized"] == false,
+            control["candidate_integration_allowed"] == false &&
+            control["p3_entry_authorized"] == p3_entered,
             "Truth P2 recovery control drift")
     p2 = truth.dig("strict_phase_gate_ledger", "phases", "P2")
     p3 = truth.dig("strict_phase_gate_ledger", "phases", "P3")
@@ -339,25 +387,31 @@ module P2RecoveryAntiCycle
             p2.dig("original_capability_gate", "status") == "MISSING_NOT_ACCEPTED" &&
             p2.dig("original_capability_gate", "strict_progress_percent") == 0 &&
             p2.dig("founder_phase_gate", "status") == "PASS_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED" &&
-            p3["status"] == "ELIGIBLE_AWAITING_SEPARATE_FOUNDER_PHASE_ENTRY" &&
-            p3["entry_authorized"] == false && p3["execution_started"] == false,
+            p3["status"] == (p3_entered ? "INCOMPLETE" : "ELIGIBLE_AWAITING_SEPARATE_FOUNDER_PHASE_ENTRY") &&
+            p3["entry_authorized"] == p3_entered &&
+            (!p3_entered || p3["phase_entry_decision"].is_a?(Hash)),
             "Truth strict Phase ledger drift")
-    envelope = truth.fetch("phase_execution_envelope")
+    envelope = p3_entered ? truth.fetch("historical_p2_phase_execution_envelope") :
+                            truth.fetch("phase_execution_envelope")
     assert!(envelope["status"] == "CLOSED_RESEARCH_NON_PASS_UNUSED_REMAINDER_LOCKED" &&
+            envelope.fetch("limits").slice("engineering_tasks", "engineering_hours", "calendar_days") ==
+              plan.dig("phase_envelope", "limits") &&
+            envelope["consumed"] == plan.dig("phase_envelope", "consumed") &&
+            envelope["remaining"] == plan.dig("phase_envelope", "remaining") &&
             envelope["remaining_capacity_usable"] == false && envelope["reserved"].nil? &&
             envelope["external_effects"].values.all? { |value| value == false },
             "Truth P2 closed envelope drift")
-    active = truth.fetch("active_work")
-    assert!(active["current_task"] == "NONE" && active["current_task_status"] == "NONE" &&
-            active["next_eligible_action"] == "P3_PHASE_ENTRY_DECISION",
-            "Truth active_work drift")
     assert!(truth.dig("goal", "control_plane_status_observed") == "ACTIVE" &&
-            truth.dig("goal", "current_task_authority") == "NONE",
+            (p3_entered || truth.dig("goal", "current_task_authority") == "NONE"),
             "Truth Long-term Goal drift")
+    active_task = truth.dig("active_work", "current_task")
+    assert!((p3_entered && (active_task == "NONE" || active_task.to_s.start_with?("AIOS-P3-"))) ||
+            (!p3_entered && active_task == "NONE"),
+            "Truth active Task Phase drift after P2 closure")
     assert!(truth.dig("claim_boundary", "p2_original_capability_progress_percent") == 0 &&
             truth.dig("claim_boundary", "p2_candidate_integrated") == false &&
             truth.dig("claim_boundary", "p2_held_source_reads") == 0 &&
-            truth.dig("claim_boundary", "p3_entry_authorized") == false,
+            truth.dig("claim_boundary", "p3_entry_authorized") == p3_entered,
             "Truth capability claim boundary drift")
     validate_research_non_pass_plan!(plan, repo_root)
   end

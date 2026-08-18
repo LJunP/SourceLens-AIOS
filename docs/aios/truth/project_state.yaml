@@ -1,8 +1,8 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: '2026-08-18T14:20:32Z'
+last_verified_at: '2026-08-18T17:07:48Z'
 
-verification_scope: P2_RESEARCH_NON_PASS_PHASE_EXIT_REBASELINE_P2_069_FOUNDATION_ACCEPTED_ORIGINAL_CAPABILITY_NOT_ACCEPTED_STRICT_0_ZERO_HELD_ZERO_INTEGRATION_P3_AWAITING_SEPARATE_ENTRY_LONG_TERM_GOAL_ACTIVE
+verification_scope: P3_PHASE_ENTRY_AUTHORIZED_P2_RESEARCH_NON_PASS_COMPLETE_ORIGINAL_P2_CAPABILITY_NOT_ACCEPTED_P3_TASK_SELECTION_READY_ZERO_EXTERNAL_EFFECTS_LONG_TERM_GOAL_ACTIVE
 
 authority:
   founder: Human Founder
@@ -39,7 +39,16 @@ goal:
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
   current_task_authority: NONE
-  note: 'Founder decision AUTHORIZE_P2_RESEARCH_NON_PASS_COMPLETION_AND_PHASE_EXIT_REBASELINE_V1
+  note: 'Founder decision AUTHORIZE_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1
+    authorizes P3 entry with one persistent non-resettable envelope of eight Tasks,
+    two-hundred-fifty-six engineering hours and sixty-four calendar days. P3 is
+    ACTIVE with no current Task while Master selects the first durable-state and
+    checkpoint-resume engineering Task. It authorizes zero network, Provider, Secret,
+    remote, production, public, existing-database or P4 effects and keeps the Long-term
+    Goal ACTIVE. P2 remains COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED; its
+    original capability Gate remains MISSING_NOT_ACCEPTED at 0%, no rejected candidate
+    is integrated and no P2 route is reopened. All following paragraphs are retained
+    historical chronology only. Founder decision AUTHORIZE_P2_RESEARCH_NON_PASS_COMPLETION_AND_PHASE_EXIT_REBASELINE_V1
     redefines only the P2 research Objective and Exit evidence. P2 is complete as
     COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED because P2-069 established
     the independently accepted representative benchmark and B1 baseline and the
@@ -1652,18 +1661,19 @@ project:
     software engineering as the first validation environment.
   year_one_outcome: Build and scientifically evaluate one trustworthy software-engineering
     Agent.
-  current_phase: P2
-  phase_name: Repository Intelligence Research Complete
+  current_phase: P3
+  phase_name: Single-Agent Runtime + Minimum Trust
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
   p1_execution_status: COMPLETE_STRICT_8_OF_8_100_PERCENT
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
   p2_execution_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
-  phase_execution_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
-  current_route_execution_status: P2_RESEARCH_EXIT_COMPLETE_P3_ENTRY_DECISION_PENDING
-  p3_entry_status: ELIGIBLE_AWAITING_SEPARATE_FOUNDER_PHASE_ENTRY
-  p3_execution_status: HOLD_PENDING_SEPARATE_FOUNDER_PHASE_ENTRY
+  phase_execution_status: ACTIVE
+  current_route_execution_status: PHASE_DELEGATED_CONTINUATION_READY
+  p3_entry_status: AUTHORIZED
+  p3_execution_status: ACTIVE
+  p4_entry_status: HOLD_PENDING_STRICT_P3_EXIT_AND_SEPARATE_FOUNDER_PHASE_ENTRY
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -8147,7 +8157,7 @@ historical_p2_076_phase_route:
     branch: codex/p2-076-b1-anchored-graph-fusion-product-selector-dev
     status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
 
-current_phase_route:
+historical_p2_research_exit_phase_route:
   schema_version: founder-resolved-p2-research-exit/v1
   route_id: P2_RESEARCH_NON_PASS_PHASE_EXIT_COMPLETE
   status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
@@ -8161,7 +8171,7 @@ current_phase_route:
     sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
   founder_phase_route_decision_required: true
   next_eligible_action: P3_PHASE_ENTRY_DECISION
-  phase_execution_envelope_ref: phase_execution_envelope
+  phase_execution_envelope_ref: historical_p2_phase_execution_envelope
   historical_terminal_route_ref: historical_p2_080_phase_route
   founder_strategy_decision:
     decision_id: AUTHORIZE_P2_RESEARCH_NON_PASS_COMPLETION_AND_PHASE_EXIT_REBASELINE_V1
@@ -8173,6 +8183,44 @@ current_phase_route:
   strict_capability_progress_percent: 0
   revised_research_exit_percent: 100
   p3_entry_authorized: false
+  long_term_goal_status: ACTIVE
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false
+  additional_write_roots: []
+  inherited_worktree_inventory_source: historical_p2_080_phase_route
+
+current_phase_route:
+  schema_version: p3-phase-entry-active/v1
+  route_id: P3_PHASE_ENTRY_ACTIVE_PENDING_TASK_SELECTION
+  status: AUTHORIZED_READY
+  execution_status: PHASE_DELEGATED_CONTINUATION_READY
+  scheduling_status: MASTER_SELECTING_FIRST_P3_DURABLE_STATE_TASK
+  phase: P3
+  phase_entry_status: AUTHORIZED
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: '1.8'
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  founder_phase_route_decision_required: false
+  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
+  phase_execution_envelope_ref: phase_execution_envelope
+  historical_predecessor_route_ref: historical_p2_research_exit_phase_route
+  founder_phase_entry_decision:
+    decision_id: AUTHORIZE_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1
+    reserved_trigger: PHASE_ENTRY_OR_EXIT
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-phase-entry-20260819/decision/FOUNDER_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1.json
+    byte_length: 4105
+    sha256: 23a50848a182fa7865f8e96c78bd9001ff2db6682d8d19dc49a0d4768994d6eb
+  p2_research_exit_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
+  p2_original_capability_gate_status: MISSING_NOT_ACCEPTED
+  p2_original_capability_progress_percent: 0
+  p3_entry_authorized: true
+  p4_entry_authorized: false
   long_term_goal_status: ACTIVE
   external_effects:
     network: false
@@ -11142,6 +11190,55 @@ historical_p2_exact_frozen_p2_078_one_shot_formal_held_route_unlock_phase_route:
 
 phase_execution_envelope:
   schema_version: phase-execution-envelope/v1
+  phase: P3
+  status: ACTIVE_REMAINING_CAPACITY
+  authority_basis:
+    phase_entry_status: AUTHORIZED
+    policy_path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    policy_version: '1.8'
+    policy_sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+    source_route_ref: current_phase_route
+    source_route_id: P3_PHASE_ENTRY_ACTIVE_PENDING_TASK_SELECTION
+    source_decision:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-phase-entry-20260819/decision/FOUNDER_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1.json
+      sha256: 23a50848a182fa7865f8e96c78bd9001ff2db6682d8d19dc49a0d4768994d6eb
+      byte_length: 4105
+  accounting_basis: NON_RESETTABLE_DECLARED_TASK_BUDGET_RESERVATION
+  limits:
+    engineering_tasks: 8
+    engineering_hours: 256
+    calendar_days: 64
+    active_tasks: 1
+    task_branches: 1
+    task_worktrees: 1
+    active_candidates: 1
+  task_ledger: []
+  consumed:
+    engineering_tasks: 0
+    engineering_hours: 0
+    calendar_days: 0
+  reserved:
+  remaining:
+    engineering_tasks: 8
+    engineering_hours: 256
+    calendar_days: 64
+  remaining_capacity_usable: true
+  milestone_order:
+    - DURABLE_STATE_AND_CHECKPOINT_RESUME
+    - CAPABILITY_SCOPED_TOOL_AND_PERMISSION_ENFORCEMENT
+    - BOUNDED_ISOLATED_EXECUTION_WITH_COMPLETE_OBSERVABLE_TRACES
+    - INDEPENDENT_P3_EXIT_GATE_AUDIT
+  accepted_milestones: []
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false
+
+historical_p2_phase_execution_envelope:
+  schema_version: phase-execution-envelope/v1
   phase: P2
   status: CLOSED_RESEARCH_NON_PASS_UNUSED_REMAINDER_LOCKED
   authority_basis:
@@ -11601,25 +11698,25 @@ phase_execution_envelope:
 
 founder_escalation_control:
   schema_version: founder-escalation-control/v2
-  disposition: FOUNDER_DECISION_REQUIRED
+  disposition: NO_RESERVED_TRIGGER_CONTINUE_PHASE
   source_event:
-    kind: PHASE_ENTRY_OR_EXIT
+    kind: P3_PHASE_ENTRY_INSTALLED
     task_id:
-    status: P3_ELIGIBLE_AWAITING_SEPARATE_FOUNDER_PHASE_ENTRY
+    status: P3_AUTHORIZED_ACTIVE_TASK_SELECTION_READY
   reserved_trigger:
-    category: PHASE_ENTRY_OR_EXIT
+    category: NONE
     evidence:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-research-non-pass-completion-20260818/decision/FOUNDER_P2_RESEARCH_NON_PASS_COMPLETION_AND_PHASE_EXIT_REBASELINE_V1.json
-      byte_length: 4574
-      sha256: 8f5ab941e79af9006ce1f2c563dbb1932f51008ad2dbd3ec27afd445bf69f4de
-  resolved_strategy_decision:
-    category: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
-    decision_id: AUTHORIZE_P2_RESEARCH_NON_PASS_COMPLETION_AND_PHASE_EXIT_REBASELINE_V1
-    result: P2_RESEARCH_EXIT_REBASELINED_AND_COMPLETE_CAPABILITY_NOT_ACCEPTED
-  phase_gate_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
-  founder_decision_required: true
-  next_action_owner: HUMAN_FOUNDER
-  next_eligible_action: P3_PHASE_ENTRY_DECISION
+  resolved_phase_entry_decision:
+    category: PHASE_ENTRY_OR_EXIT
+    decision_id: AUTHORIZE_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-phase-entry-20260819/decision/FOUNDER_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1.json
+    byte_length: 4105
+    sha256: 23a50848a182fa7865f8e96c78bd9001ff2db6682d8d19dc49a0d4768994d6eb
+    result: P3_ENTRY_AUTHORIZED_ACTIVE
+  phase_gate_status: INCOMPLETE
+  founder_decision_required: false
+  next_action_owner: MASTER_CEO_AGENT
+  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
 
 historical_p2_053_phase_route:
   schema_version: "1.1"
@@ -15805,14 +15902,14 @@ historical_p2_phase_route:
   next_eligible_action: FOUNDER_P2_PHASE_GATE
 
 phase_delegation:
-  status: CLOSED_P2_RESEARCH_EXIT_AWAITING_SEPARATE_P3_PHASE_ENTRY
+  status: ACTIVE_P3_PHASE_LEVEL_DELEGATION
   model: PHASE_LEVEL_FOUNDER_DELEGATION
-  decision_source: FOUNDER_DELEGATION_POLICY_V1_8_NON_DOWNGRADE_DIRECTIVE_2026_08_08
+  decision_source: AUTHORIZE_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1_PLUS_FOUNDER_DELEGATION_POLICY_V1_8_NON_DOWNGRADE_DIRECTIVE
   phase_gate_owner: HUMAN_FOUNDER
-  task_selection_owner: NONE_UNTIL_P3_PHASE_ENTRY
-  task_authorization_owner: NONE_UNTIL_P3_PHASE_ENTRY
-  task_gate_owner: NONE_NO_ACTIVE_TASK
-  p3_entry_authorized: false
+  task_selection_owner: MASTER_CEO_AGENT
+  task_authorization_owner: MASTER_CEO_AGENT
+  task_gate_owner: MASTER_CEO_AGENT
+  p3_entry_authorized: true
   founder_reserved_decisions:
     - mission_icp_year_one_or_phase_route_change
     - phase_entry_or_exit
@@ -15846,11 +15943,11 @@ phase_delegation:
     ordinary_repairs_stay_in_same_task: true
     successor_replacement_correction_chain_allowed: false
     task_id_hardcoding_in_current_authority_validator_allowed: false
-    maximum_same_task_bounded_contract_repairs: 3
+    maximum_same_task_bounded_contract_repairs: 1
     historical_execution_lineage_reuse_allowed: false
     mandatory_exit_capability_permanent_ban_from_historical_stop: false
     peripheral_work_before_exit_capabilities_allowed: false
-  claim_boundary: This policy delegates bounded offline P2 Phase-local Task selection and execution within persistent remaining capacity; it does not delegate Founder-reserved decisions, external effects, P3 entry or product capability claims.
+  claim_boundary: This policy and the exact Founder P3 Phase-entry decision delegate bounded local P3 Task selection and execution within the persistent eight-Task envelope; they do not delegate Founder-reserved decisions, external effects, P4 entry, production claims or Long-term Goal closure.
 
 mandatory_exit_capability_recovery:
   status: HISTORICAL_POLICY_CONTEXT_SUPERSEDED_BY_LATER_FOUNDER_ROUTES
@@ -16688,65 +16785,38 @@ mandatory_exit_capability_recovery:
   claim_boundary: This recovery authorization removes a permanent capability ban only for P1 Exit Gate requirements; it does not accept historical Tasks or authorize external effects, P2, P3, benchmark claims or production use.
 
 phase_boundary:
-  phase: P2
-  phase_execution_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
-  task_creation_allowed: false
-  p3_entry_authorized: false
+  phase: P3
+  phase_execution_status: ACTIVE
+  task_creation_allowed: true
+  p3_entry_authorized: true
   allowed_task_kinds:
-    - REPOSITORY_INTELLIGENCE_GRAPH_ENGINEERING
-    - REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
+    - SINGLE_AGENT_RUNTIME_DURABLE_STATE_AND_RESUME
+    - SINGLE_AGENT_RUNTIME_CAPABILITY_PERMISSION_ENFORCEMENT
+    - SINGLE_AGENT_RUNTIME_ISOLATED_EXECUTION_TRACE
+    - P3_EXIT_GATE_AUDIT
   allowed_capabilities:
-    - CANONICAL_SCAN_GRAPH_INDEX_KERNEL
-    - REPOSITORY_ROOT_INDEPENDENT_SYMBOL_IDENTITY
-    - GRAPH_CONDITIONED_CONTEXT_SELECTION
-    - LEXICAL_RETRIEVAL_BASELINE
-    - REPRODUCIBLE_CONTEXT_BENCHMARK
+    - DURABLE_AGENT_STATE
+    - CHECKPOINT_RESUME
+    - CAPABILITY_SCOPED_TOOLS
+    - PERMISSION_ENFORCEMENT
+    - BOUNDED_ISOLATED_EXECUTION
+    - COMPLETE_OBSERVABLE_AGENT_TRACE
   role_write_roots:
     worker:
-      - analyzer-rust
-      - backend-spring/src/main/java/com/sourcelens/module/analysis/graph
-      - backend-spring/src/test/java/com/sourcelens/module/analysis/graph
-      - backend-spring/src/main/java/com/sourcelens/module/analysis/service/Jdk17AttributedJavaGraphBuilder.java
-      - backend-spring/src/main/java/com/sourcelens/module/analysis/service/AnalysisService.java
-      - backend-spring/src/main/java/com/sourcelens/module/analysis/service/CodeGraphPersistenceService.java
-      - backend-spring/src/main/java/com/sourcelens/module/analysis/service/GraphService.java
-      - backend-spring/src/main/java/com/sourcelens/module/agent/service/RepositoryContextSelectionService.java
-      - backend-spring/src/main/java/com/sourcelens/module/agent/service/JavaDirectCallContextService.java
-      - backend-spring/src/main/java/com/sourcelens/module/agent/service/JavaDependencyNeighborhoodContextService.java
-      - backend-spring/src/main/java/com/sourcelens/module/agent/service/SourceLocalJavaImportContextService.java
-      - backend-spring/src/main/java/com/sourcelens/module/agent/service/JavaMaintenanceContextSelector.java
-      - backend-spring/src/main/java/com/sourcelens/module/agent/service/QueryEntityCoverageSelector.java
-      - backend-spring/src/main/java/com/sourcelens/module/agent/service/CodeQaRetrievalService.java
-      - backend-spring/src/main/java/com/sourcelens/module/agent/controller/CodeQaController.java
-      - backend-spring/src/main/java/com/sourcelens/module/agent/dto/CodeQaRetrievalPlan.java
-      - backend-spring/src/main/java/com/sourcelens/module/analysis/service/CodeChunkFileFilter.java
-      - backend-spring/src/main/java/com/sourcelens/module/analysis/service/CodeChunkService.java
-      - backend-spring/src/test/java/com/sourcelens/RepositoryContextSelectionServiceTest.java
-      - backend-spring/src/test/java/com/sourcelens/JavaDirectCallContextServiceTest.java
-      - backend-spring/src/test/java/com/sourcelens/JavaDependencyNeighborhoodContextServiceTest.java
-      - backend-spring/src/test/java/com/sourcelens/SourceLocalJavaImportContextServiceTest.java
-      - backend-spring/src/test/java/com/sourcelens/JavaMaintenanceContextSelectorTest.java
-      - backend-spring/src/test/java/com/sourcelens/QueryEntityCoverageSelectorTest.java
-      - backend-spring/src/test/java/com/sourcelens/CodeQaRetrievalServiceTest.java
-      - backend-spring/src/test/java/com/sourcelens/CodeQaControllerTest.java
-      - backend-spring/src/test/java/com/sourcelens/Jdk17AttributedJavaGraphBuilderTest.java
-      - backend-spring/src/test/java/com/sourcelens/CodeGraphPersistenceH2IntegrationTest.java
-      - backend-spring/src/test/java/com/sourcelens/AnalysisServiceTest.java
-      - backend-spring/src/test/resources/p2-078
-      - backend-spring/src/test/java/com/sourcelens/CodeChunkFileFilterTest.java
-      - backend-spring/src/test/java/com/sourcelens/CodeChunkServiceTest.java
-      - evaluation-harness/harness
-      - evaluation-harness/replay
-      - evaluation-harness/reports
+      - backend-spring/src/main/java/com/sourcelens/module/agent
+      - backend-spring/src/main/java/com/sourcelens/module/execution
+      - backend-spring/src/main/java/com/sourcelens/module/sandbox
+      - backend-spring/src/main/resources/db/migration
+      - backend-spring/src/test/java/com/sourcelens
+      - backend-spring/src/test/resources
     quality:
-      - evaluation-harness/evaluator
-      - evaluation-harness/datasets
+      - backend-spring/src/test/java/com/sourcelens
+      - evaluation-harness/evaluator/p3-single-agent-runtime
+      - evaluation-harness/fixtures/p3-single-agent-runtime
     integration:
       - scripts
-      - schemas/founder-phase-route-decision.schema.json
       - docs/aios/tasks
-      - docs/aios/BASELINE_ADAPTER_CONTRACT.md
-      - docs/aios/schemas/run-record-v2.schema.json
+      - docs/aios/decisions
       - docs/aios/truth/project_state.yaml
       - docs/PROJECT_CODE_MAP.md
       - Makefile
@@ -16779,8 +16849,8 @@ phase_boundary:
   founder_reserved_risk_levels:
     - critical
   deferred_capabilities:
-    - P3_SINGLE_AGENT_RUNTIME
-    - AGENT_SHELL
+    - P4_SOFTWARE_ENGINEER_AGENT_ALPHA
+    - OPEN_AGENT_SHELL
     - MODEL_INITIATED_CANONICAL_WRITE
     - PLATFORM_IDENTITY
     - SUPERVISOR
@@ -17010,9 +17080,14 @@ strict_phase_gate_ledger:
         byte_length: 4574
         sha256: 8f5ab941e79af9006ce1f2c563dbb1932f51008ad2dbd3ec27afd445bf69f4de
     P3:
-      status: ELIGIBLE_AWAITING_SEPARATE_FOUNDER_PHASE_ENTRY
-      entry_authorized: false
+      status: INCOMPLETE
+      entry_authorized: true
       execution_started: false
+      phase_entry_decision:
+        decision_id: AUTHORIZE_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-phase-entry-20260819/decision/FOUNDER_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1.json
+        byte_length: 4105
+        sha256: 23a50848a182fa7865f8e96c78bd9001ff2db6682d8d19dc49a0d4768994d6eb
       exit_gate_authority:
         source: STRICT_PHASE_ROUTE_AUTHORITY
         required_exit_evidence: Resume, isolation, permission and trace tests
@@ -23161,11 +23236,11 @@ active_work:
     sha256:
     byte_length:
   execution_nonce:
-  execution_nonce_status: CONSUMED_TERMINAL
+  execution_nonce_status: NOT_ISSUED
   authorization_id:
   activation_parent_commit:
   activation_parent_tree:
-  task_resource_state: NO_ACTIVE_TASK_P2_RESEARCH_EXIT_COMPLETE_P3_ENTRY_DECISION_PENDING
+  task_resource_state: NOT_CREATED_PHASE_DELEGATED_CONTINUATION_READY
   task_branch:
   task_worktree:
   execution_evidence_root:
@@ -23184,15 +23259,15 @@ active_work:
     production: false
     public: false
   offsite_target:
-  founder_reserved_authorization:
-  founder_reserved_authorization_sha256:
-  founder_decision_required: true
-  founder_decision_required_scope: PHASE_ENTRY_OR_EXIT
-  escalation_reason: P3_PHASE_ENTRY_REQUIRES_SEPARATE_FOUNDER_DECISION
-  user_action_required: P3_PHASE_ENTRY_DECISION
-  phase_route_decision_required: true
-  phase_route_user_action_required: P3_PHASE_ENTRY_DECISION
-  next_eligible_action: P3_PHASE_ENTRY_DECISION
+  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p3-phase-entry-20260819/decision/FOUNDER_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1.json
+  founder_reserved_authorization_sha256: 23a50848a182fa7865f8e96c78bd9001ff2db6682d8d19dc49a0d4768994d6eb
+  founder_decision_required: false
+  founder_decision_required_scope:
+  escalation_reason:
+  user_action_required: NONE
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
 
 historical_p2_080_terminal_active_work:
   current_task: AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER
@@ -29817,17 +29892,18 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: P2_RESEARCH_NON_PASS_PHASE_EXIT_COMPLETE
+  current_route_claim: P3_PHASE_ENTRY_ACTIVE_PENDING_TASK_SELECTION
   current_task_claim: NONE
-  real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P2_BASELINE_ACCEPTED_DELIVERY_25_ORIGINAL_STRICT_GATE_ZERO_ZERO_HELD_ZERO_INTEGRATION
+  real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_ENTRY_AUTHORIZED_P3_EXIT_GATE_ZERO
   product_capability_changed: false
   revised_research_exit_percent: 100
   original_capability_progress_percent: 0
-  p3_entry_authorized: false
+  p3_entry_authorized: true
+  p3_exit_gate_progress_percent: 0
   phase_local_allowed:
-  - REAL_CODE_QA_PRODUCT_PATH_REPOSITORY_CONTEXT_SELECTOR
-  - EQUAL_UNIVERSE_EQUAL_BUDGET_LEXICAL_CONTROL
-  - COOPERATIVE_LOCAL_OUT_OF_SAMPLE_VALIDATION
+  - DURABLE_AGENT_STATE_AND_CHECKPOINT_RESUME
+  - CAPABILITY_SCOPED_TOOL_AND_PERMISSION_ENFORCEMENT
+  - BOUNDED_ISOLATED_EXECUTION_AND_COMPLETE_OBSERVABLE_TRACE
   historical_terminal_rules:
   - AIOS-P2-011 froze one exact nine-path deterministic graph-kernel candidate and
     passed its five-test targeted matrix, but fresh CTO, Security and Quality all
@@ -30194,22 +30270,25 @@ p2_recovery_control:
   remaining_capacity_usable: false
   held_read_allowed: false
   candidate_integration_allowed: false
-  p3_entry_authorized: false
-  next_eligible_action: P3_PHASE_ENTRY_DECISION
+  p3_entry_authorized: true
+  next_eligible_action: P3_PHASE_EXECUTION
 
 claim_boundary:
-  current_phase_route: P2_RESEARCH_NON_PASS_PHASE_EXIT_COMPLETE
+  current_phase_route: P3_PHASE_ENTRY_ACTIVE_PENDING_TASK_SELECTION
   current_task: NONE
-  next_eligible_action: P3_PHASE_ENTRY_DECISION
-  real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P2_BASELINE_ACCEPTED_DELIVERY_25_ORIGINAL_STRICT_GATE_ZERO_ZERO_HELD_ZERO_INTEGRATION
+  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
+  real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_ENTRY_AUTHORIZED_P3_EXIT_GATE_ZERO
   p2_research_exit_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
   p2_research_exit_percent: 100
   p2_original_capability_gate_status: MISSING_NOT_ACCEPTED
   p2_original_capability_progress_percent: 0
   p2_candidate_integrated: false
   p2_held_source_reads: 0
-  p3_status: ELIGIBLE_AWAITING_SEPARATE_FOUNDER_PHASE_ENTRY
-  p3_entry_authorized: false
+  p3_status: ACTIVE_INCOMPLETE
+  p3_entry_authorized: true
+  p3_phase_envelope_status: ACTIVE_REMAINING_CAPACITY
+  p3_exit_gate_progress_percent: 0
+  p3_accepted_milestones: []
   p2_080_status: TERMINAL_EVALUATION_EVIDENCE_ADAPTER_DEV_COMPATIBILITY_NON_PASS
   p2_080_contract_sha256: 3519c35ea452505588aceb0b765f7d69caf7dfebe22ad71b87d868bbcace35b5
   p2_080_capacity_source: P2_RECOVERY_CAPACITY_SLOT_V11_1

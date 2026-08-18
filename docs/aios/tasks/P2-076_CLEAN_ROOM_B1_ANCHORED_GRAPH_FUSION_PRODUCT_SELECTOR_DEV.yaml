@@ -27,8 +27,8 @@ owner_role: P2-076 Master Owner
 worker_role: P2-076 Clean-room Graph-fusion Product Worker
 write_scope:
 - backend-spring/src/main/java/com/sourcelens/module/agent/service/CodeQaRetrievalService.java
-- backend-spring/src/main/java/com/sourcelens/module/analysis/service/GraphFusionContextSelector.java
-- backend-spring/src/test/java/com/sourcelens/module/analysis/service/GraphFusionContextSelectorTest.java
+- backend-spring/src/main/java/com/sourcelens/module/analysis/graph/B1AnchoredGraphFusionSelector.java
+- backend-spring/src/test/java/com/sourcelens/module/analysis/graph/B1AnchoredGraphFusionSelectorTest.java
 - evaluation-harness/harness/p2-b1-anchored-graph-fusion-product-selector-v1/**
 - evaluation-harness/replay/p2-b1-anchored-graph-fusion-product-selector-v1/**
 - evaluation-harness/reports/p2-b1-anchored-graph-fusion-product-selector-v1/**
@@ -108,8 +108,8 @@ roles:
   - Quality and Evaluation Agent
 allowlisted_paths:
 - backend-spring/src/main/java/com/sourcelens/module/agent/service/CodeQaRetrievalService.java
-- backend-spring/src/main/java/com/sourcelens/module/analysis/service/GraphFusionContextSelector.java
-- backend-spring/src/test/java/com/sourcelens/module/analysis/service/GraphFusionContextSelectorTest.java
+- backend-spring/src/main/java/com/sourcelens/module/analysis/graph/B1AnchoredGraphFusionSelector.java
+- backend-spring/src/test/java/com/sourcelens/module/analysis/graph/B1AnchoredGraphFusionSelectorTest.java
 - evaluation-harness/harness/p2-b1-anchored-graph-fusion-product-selector-v1/**
 - evaluation-harness/replay/p2-b1-anchored-graph-fusion-product-selector-v1/**
 - evaluation-harness/reports/p2-b1-anchored-graph-fusion-product-selector-v1/**
@@ -123,8 +123,8 @@ write_ownership:
     role: P2-076 Clean-room Graph-fusion Product Worker
     write_paths:
     - backend-spring/src/main/java/com/sourcelens/module/agent/service/CodeQaRetrievalService.java
-    - backend-spring/src/main/java/com/sourcelens/module/analysis/service/GraphFusionContextSelector.java
-    - backend-spring/src/test/java/com/sourcelens/module/analysis/service/GraphFusionContextSelectorTest.java
+    - backend-spring/src/main/java/com/sourcelens/module/analysis/graph/B1AnchoredGraphFusionSelector.java
+    - backend-spring/src/test/java/com/sourcelens/module/analysis/graph/B1AnchoredGraphFusionSelectorTest.java
     - evaluation-harness/harness/p2-b1-anchored-graph-fusion-product-selector-v1/**
     - evaluation-harness/replay/p2-b1-anchored-graph-fusion-product-selector-v1/**
     - evaluation-harness/reports/p2-b1-anchored-graph-fusion-product-selector-v1/**

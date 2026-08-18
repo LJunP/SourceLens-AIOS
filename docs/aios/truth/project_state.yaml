@@ -7970,8 +7970,8 @@ current_phase_route:
     max_same_task_repairs: 1
     contract:
       path: docs/aios/tasks/P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV.yaml
-      sha256: 63ea60fa37199eaf0c8c35bfd28f3364557cc5bab4dfcfce2a52a83a45ec03b1
-      byte_length: 15386
+      sha256: dfddd218f12813c629b8e3e8cdd4aa426355da46adf5918a97736704186794bf
+      byte_length: 15392
     independence:
       new_task_id: true
       new_execution_nonce: true
@@ -10436,8 +10436,8 @@ phase_execution_envelope:
     capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_V8_1
     contract:
       path: docs/aios/tasks/P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV.yaml
-      sha256: 63ea60fa37199eaf0c8c35bfd28f3364557cc5bab4dfcfce2a52a83a45ec03b1
-      byte_length: 15386
+      sha256: dfddd218f12813c629b8e3e8cdd4aa426355da46adf5918a97736704186794bf
+      byte_length: 15392
     budget:
       engineering_tasks: 1
       engineering_hours: 32

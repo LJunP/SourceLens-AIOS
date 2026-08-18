@@ -8234,7 +8234,7 @@ historical_p2_080_phase_route:
     branch: codex/p2-070-product-java-maintenance-context-selector-dev
     status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
   - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-071-clean-room-java-maintenance-context-selector-dev
-    head: 36c2085e1e535cef2e6a27bc7645f0625db4
+    head: 36c2085e1e535cef2e6a27bc7645f062a1d37615
     branch: codex/p2-071-clean-room-java-maintenance-context-selector-dev
     status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
   - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-072-clean-room-java-maintenance-context-selector-execution-integrity-dev

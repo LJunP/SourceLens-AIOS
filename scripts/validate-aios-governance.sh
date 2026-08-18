@@ -221,7 +221,11 @@ check_phase_predecessor_activation() {
       abort "route activation precheck requires Task NONE" unless task_id == "NONE" && target_task == "NONE"
     else
       current_route = truth.fetch("current_phase_route")
-      planned_ids = if current_route["schema_version"] == "phase-delegated-independent-task/v1"
+      delegated_task_route = %w[
+        phase-delegated-independent-task/v1
+        p3-phase-delegated-task/v1
+      ].include?(current_route["schema_version"])
+      planned_ids = if delegated_task_route
                       abort "delegated independent route must not carry a legacy task_plan" if
                         current_route.key?("task_plan")
                       selected_task = current_route["selected_task"]
@@ -238,14 +242,14 @@ check_phase_predecessor_activation() {
       if %w[
         BRANCH_CREATE WORKTREE_CREATE ENGINEERING_EVIDENCE_CREATE TASK_AUTHORITY_CREATE
       ].include?(resource_action) &&
-         current_route["schema_version"] == "phase-delegated-independent-task/v1" &&
+         delegated_task_route &&
          task_id == "NONE" && planned_ids == [target_task]
         selected_task = current_route.fetch("selected_task")
         reservation = truth.dig("phase_execution_envelope", "reserved")
         ready_active = truth.fetch("active_work")
         preactivation_delegated_resource =
           current_route["status"] == "AUTHORIZED_READY" &&
-          current_route["execution_status"] == "PHASE_DELEGATED_TASK_READY" &&
+          %w[PHASE_DELEGATED_TASK_READY P3_TASK_READY].include?(current_route["execution_status"]) &&
           current_route["scheduling_status"] == "READY_FOR_MASTER_ACTIVATION" &&
           current_route["next_eligible_action"] == "MASTER_ACTIVATE_PHASE_DELEGATED_TASK" &&
           selected_task["status"] == "ELIGIBLE_NOT_ACTIVATED" &&
@@ -284,7 +288,7 @@ check_phase_predecessor_activation() {
         active_authority["sha256"].is_a?(String) &&
         active_authority["sha256"].match?(/\A[0-9a-f]{64}\z/)
       exact_active_candidate_projection =
-        current_route["schema_version"] == "phase-delegated-independent-task/v1" &&
+        delegated_task_route &&
         current_route["status"] == "ACTIVE" && current_route["execution_status"] == "ACTIVE" &&
         current_route["scheduling_status"] == "ACTIVE_PHASE_DELEGATED_TASK" &&
         selected_task.is_a?(Hash) && selected_task["task_id"] == target_task &&

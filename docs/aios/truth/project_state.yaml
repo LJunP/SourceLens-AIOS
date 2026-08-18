@@ -22981,9 +22981,9 @@ active_work:
   founder_decision_required: false
   founder_decision_required_scope:
   escalation_reason:
-  user_action_required: false
+  user_action_required: NONE
   phase_route_decision_required: false
-  phase_route_user_action_required: false
+  phase_route_user_action_required: NONE
   next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
 
 historical_p2_065_terminal_active_work:

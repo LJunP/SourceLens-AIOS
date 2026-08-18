@@ -45,6 +45,7 @@ module FounderActionHandoff
     P2_RECOVERY_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_SLOT_AND_RELOCKED_HELD_SEQUENCE
     P2_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_ROUTE_UNLOCK
     P2_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER_PLUS_ONE_SHOT_FORMAL_HELD_SEQUENCE
+    P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY
   ].freeze
   APP_OPERATION_TYPES = %w[APP_FILESYSTEM_BATCH_WRITE].freeze
   READ_ONLY_HTTPS_OPERATION = "一次全新、独立、clean-room V6 benchmark source acquisition"
@@ -209,6 +210,16 @@ module FounderActionHandoff
   P2_EVALUATION_ADAPTER_CONSUMPTION = "Each activated Task consumes exactly one 32-hour 8-day slot; adapter NON_PASS leaves formal HELD locked, formal HELD NON_PASS integrates no product candidate, either NON_PASS ends this route, and neither outcome creates a replacement, remediation chain, automatic successor or another Product DEV attempt"
   P2_EVALUATION_ADAPTER_PASS = "Adapter Task PASS permits integration of only the split-neutral evaluator adapter and unlocks one formal HELD Task with zero delivery or strict progress credit; formal HELD PASS permits byte-exact integration of only the frozen P2-078 product candidate, accepts the candidate-admission and formal-HELD delivery nodes, and makes the unchanged P2 Exit Gate eligible for independent acceptance, but does not authorize P3 entry or long-term Goal closure"
   P2_EVALUATION_ADAPTER_NON_PASS = "Any NON_PASS preserves exact terminal Evidence, contributes zero strict P2 progress, integrates no product candidate, keeps P2 and the long-term Goal active and P3 HOLD, and requires a new Founder Phase strategy decision rather than an automatic retry"
+  P3_PHASE_ENTRY_TOKEN = "AUTHORIZE_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1"
+  P3_PHASE_ENTRY_OPERATION = "Authorize P3 Phase entry for Single-Agent Runtime plus Minimum Trust under Strategic Constitution v2.4, with the Phase objective limited to a durable planner, executor, tool, state and checkpoint loop and the unchanged Exit evidence limited to resume, isolation, permission and trace tests"
+  P3_PHASE_ENTRY_DELEGATION = "Permit Master to autonomously select, activate, implement, repair, independently review and locally integrate one bounded P3 Task at a time inside the Phase envelope; Founder is not asked for ordinary Task, file, command, branch, worktree, test, Evidence or Task-Gate approvals"
+  P3_PHASE_ENTRY_ORDER = "Require value-first milestones in order: durable state and checkpoint resume, capability-scoped tool and permission enforcement, bounded isolated execution with complete observable traces, then independent P3 Exit-Gate audit; no milestone receives credit before independent acceptance"
+  P3_PHASE_ENTRY_TARGET = "Local SourceLens canonical main, at most one active P3 Task branch and worktree, and create-once Evidence under /Users/lijunpeng/Developer/.sourcelens-audit; no network, Provider, Secret, remote write, production, public release, irreversible deletion, database mutation outside fresh Task-local test fixtures, P4 entry or long-term Goal termination"
+  P3_PHASE_ENTRY_DURATION = "Until the P3 Exit Gate is independently ACCEPTED and reaches Founder Phase Gate, the non-resettable Phase envelope is exhausted, Founder explicitly revokes P3 entry, or a terminal safety condition occurs"
+  P3_PHASE_ENTRY_BUDGET = "One non-resettable P3 Phase envelope of at most 8 engineering Tasks, 256 engineering hours and 64 calendar days; each activated Task consumes its declared reservation, ordinary Task NON_PASS creates no automatic budget expansion, and external capabilities remain zero"
+  P3_PHASE_ENTRY_CONSUMPTION = "The envelope persists across ordinary independent P3 Task PASS or NON_PASS until the P3 Exit Gate is accepted, capacity is exhausted, Founder revokes it, or a terminal safety condition occurs; no Task outcome authorizes P4 entry, external effects or long-term Goal closure"
+  P3_PHASE_ENTRY_PASS = "PASS installs P3 entry, sets P3 ACTIVE, keeps exactly one current Task, allows Master to begin the highest-value minimal P3 engineering Task, and keeps the Long-term Goal ACTIVE; later P3 Exit-Gate PASS still requires an independent Founder Phase Gate before P4"
+  P3_PHASE_ENTRY_NON_PASS = "If installation identity, predecessor Gate or scope validation is NON_PASS, create no P3 Task, preserve P2 COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED, keep P3 ELIGIBLE_AWAITING_SEPARATE_FOUNDER_PHASE_ENTRY, keep P4 HOLD and the Long-term Goal ACTIVE, and create no repair or replacement authorization chain"
   FOUNDER_NETWORK_OPERATION_PROFILES = {
     "READ_ONLY_HTTPS_ACQUISITION" => {
       "operations" => [READ_ONLY_HTTPS_OPERATION, READ_ONLY_HTTPS_METHOD],
@@ -441,6 +452,20 @@ module FounderActionHandoff
       "authorization_expiry_or_consumption_rule" => P2_EVALUATION_ADAPTER_CONSUMPTION,
       "pass_lifecycle" => P2_EVALUATION_ADAPTER_PASS,
       "non_pass_lifecycle" => P2_EVALUATION_ADAPTER_NON_PASS
+    },
+    "P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY" => {
+      "operations" => [
+        P3_PHASE_ENTRY_OPERATION,
+        P3_PHASE_ENTRY_DELEGATION,
+        P3_PHASE_ENTRY_ORDER
+      ],
+      "targets" => [P3_PHASE_ENTRY_TARGET],
+      "budget_or_external_effects" => P3_PHASE_ENTRY_BUDGET,
+      "token" => P3_PHASE_ENTRY_TOKEN,
+      "duration" => P3_PHASE_ENTRY_DURATION,
+      "authorization_expiry_or_consumption_rule" => P3_PHASE_ENTRY_CONSUMPTION,
+      "pass_lifecycle" => P3_PHASE_ENTRY_PASS,
+      "non_pass_lifecycle" => P3_PHASE_ENTRY_NON_PASS
     }
   }.freeze
   PROSPECTIVE_PREFLIGHT = "PROSPECTIVE_RESERVED_EFFECT_REQUIRED_BY_EXACT_USER_REQUEST_AND_NOT_EXPRESSIBLE_BY_CURRENT_OFFLINE_ESCALATION_PROJECTION"
@@ -679,10 +704,14 @@ module FounderActionHandoff
   end
 
   def validate_control!(truth, evidence, run_validator:)
-    control = exact_object!(truth["founder_escalation_control"], %w[
+    raw_control = truth["founder_escalation_control"]
+    control_keys = %w[
       schema_version disposition source_event reserved_trigger phase_gate_status
       founder_decision_required next_action_owner next_eligible_action
-    ], "canonical Founder escalation control")
+    ]
+    control_keys << "resolved_strategy_decision" if raw_control.is_a?(Hash) &&
+      raw_control["schema_version"] == "founder-escalation-control/v2"
+    control = exact_object!(raw_control, control_keys, "canonical Founder escalation control")
     trigger = exact_object!(control["reserved_trigger"], %w[category evidence], "canonical reserved trigger")
     assert!(control["disposition"] == evidence["expected_disposition"], "validator disposition projection drift")
     assert!(control["founder_decision_required"] == evidence["expected_founder_decision_required"], "Founder decision projection drift")
@@ -783,6 +812,7 @@ module FounderActionHandoff
         P2_RECOVERY_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_SLOT_AND_RELOCKED_HELD_SEQUENCE
         P2_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_ROUTE_UNLOCK
         P2_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER_PLUS_ONE_SHOT_FORMAL_HELD_SEQUENCE
+        P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY
       ].include?(operation_type)
         proposed_tokens = package["copy_ready_text_or_exact_steps"].scan(FOUNDER_AUTHORIZATION_TOKEN)
         assert!(proposed_tokens == [profile["token"]],

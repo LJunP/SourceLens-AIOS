@@ -10,6 +10,8 @@ require "time"
 require "yaml"
 p3_entry_validator = File.join(__dir__, "validate-p3-phase-entry.rb")
 require_relative "validate-p3-phase-entry" if File.file?(p3_entry_validator)
+p3_task_validator = File.join(__dir__, "validate-p3-task-authority.rb")
+require_relative "validate-p3-task-authority" if File.file?(p3_task_validator)
 
 class FounderDelegationContinuityError < StandardError; end
 class FounderDelegationDuplicateJsonKeyError < StandardError; end
@@ -5052,6 +5054,11 @@ module FounderDelegationContinuity
     if route["schema_version"] == "p3-phase-entry-active/v1"
       assert(defined?(P3PhaseEntryValidation), "P3 Phase entry validator is unavailable")
       P3PhaseEntryValidation.validate!(root: root, truth: truth)
+      return CONTINUE_DISPOSITION
+    end
+    if route["schema_version"] == "p3-phase-delegated-task/v1"
+      assert(defined?(P3TaskAuthorityValidation), "P3 Task authority validator is unavailable")
+      P3TaskAuthorityValidation.validate!(root: root, truth: truth)
       return CONTINUE_DISPOSITION
     end
     validate_phase_delegation!(truth, phase)

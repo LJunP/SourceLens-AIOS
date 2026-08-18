@@ -2064,6 +2064,8 @@ required_files=(
   scripts/validate-founder-delegation-continuity.rb
   scripts/validate-p3-phase-entry.rb
   scripts/test-p3-phase-entry.rb
+  scripts/validate-p3-task-authority.rb
+  scripts/test-p3-task-authority.rb
   scripts/test-founder-delegation-continuity.rb
   scripts/test-phase-delegated-task-authority.rb
 )
@@ -2117,6 +2119,9 @@ check_phase_predecessor_activation
 check_founder_knowledge_sync_state STRUCTURAL_ONLY "$TRUTH_PATH" CANONICAL_ONLY
 if ruby -ryaml -e 'exit(YAML.load_file(ARGV[0]).dig("current_phase_route", "schema_version") == "p3-phase-entry-active/v1" ? 0 : 1)' "$TRUTH_PATH"; then
   ruby "${ROOT_DIR}/scripts/validate-p3-phase-entry.rb"
+fi
+if ruby -ryaml -e 'exit(YAML.load_file(ARGV[0]).dig("current_phase_route", "schema_version") == "p3-phase-delegated-task/v1" ? 0 : 1)' "$TRUTH_PATH"; then
+  ruby "${ROOT_DIR}/scripts/validate-p3-task-authority.rb"
 fi
 ruby "${ROOT_DIR}/scripts/validate-founder-delegation-continuity.rb"
 ruby "${ROOT_DIR}/scripts/validate-current-task-authority.rb"

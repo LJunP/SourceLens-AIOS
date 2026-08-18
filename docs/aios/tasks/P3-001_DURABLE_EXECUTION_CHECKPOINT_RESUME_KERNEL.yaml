@@ -1,0 +1,83 @@
+schema_version: p3-task-contract/v1
+record_type: sourcelens_aios_p3_task_contract
+task_id: AIOS-P3-001_DURABLE_EXECUTION_CHECKPOINT_RESUME_KERNEL
+phase: P3
+status: ELIGIBLE_NOT_ACTIVATED
+milestone: DURABLE_STATE_AND_CHECKPOINT_RESUME
+authority:
+  phase_entry_decision:
+    decision_id: AUTHORIZE_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-phase-entry-20260819/decision/FOUNDER_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1.json
+    byte_length: 4105
+    sha256: 23a50848a182fa7865f8e96c78bd9001ff2db6682d8d19dc49a0d4768994d6eb
+  activation_parent:
+    commit: b07ea8889c0c68fb343746e65b507b637935af1d
+    tree: fd64f054ed0e3dbe3ff1581b3637373858dd6daf
+  task_selection_owner: MASTER_CEO_AGENT
+  task_gate_owner: MASTER_CEO_AGENT
+  founder_gate: P3_EXIT_GATE_ONLY
+objective: >-
+  Build the smallest durable execution checkpoint and resume kernel that can
+  persist a hash-bound ordered checkpoint prefix, reconstruct the next
+  executable step after process loss, and fail closed on plan or state drift
+  without repeating already accepted checkpointed work.
+why_now: >-
+  P3 is active and its first required value milestone is durable state and
+  checkpoint resume. Existing execution attempts and steps persist lifecycle
+  status, but they do not provide a plan-bound checkpoint state contract or a
+  mechanically verifiable resume cursor.
+scope:
+  allowed_paths:
+    - backend-spring/src/main/java/com/sourcelens/module/execution
+    - backend-spring/src/main/resources/db/migration
+    - backend-spring/src/test/java/com/sourcelens
+  product_source_required: true
+  task_local_database_fixtures_only: true
+  network_allowed: false
+  provider_allowed: false
+  secret_allowed: false
+  remote_allowed: false
+  production_allowed: false
+  public_release_allowed: false
+budget:
+  engineering_tasks: 1
+  engineering_hours: 32
+  calendar_days: 8
+  candidate_generations: 1
+  same_task_repairs: 1
+  review_cycles: 2
+acceptance:
+  required:
+    - A checkpoint is uniquely bound to one execution Task, ordered step key, workflow identity, input hash, state bytes and state SHA-256.
+    - Repeating an identical completed checkpoint is idempotent; any conflicting rewrite, order gap, duplicate sequence or workflow drift fails closed.
+    - A fresh service instance can reconstruct the exact accepted checkpoint prefix and the next executable step from persisted rows only.
+    - Completed checkpointed steps are returned as non-executable on resume, preventing duplicate execution by the caller.
+    - Focused unit and fresh H2 integration tests cover normal resume, exact replay, corrupted state, changed workflow and non-prefix histories.
+    - No network, Provider, Secret, remote, production or public effect occurs.
+  task_gate: INDEPENDENT_REVIEW_AND_TEST_EVIDENCE_PASS
+non_goals:
+  - Full AgentRuntime planner integration
+  - Tool permission enforcement
+  - OS sandbox isolation
+  - Complete P3 observable trace acceptance
+  - P3 Exit Gate or P4 entry
+lineage:
+  p2_rejected_engineering_lineage_read: false
+  p2_rejected_engineering_lineage_compare: false
+  p2_rejected_engineering_lineage_copy: false
+  implementation_inputs:
+    - canonical main at activation parent
+    - accepted P3 Phase entry decision
+    - current execution module source and tests
+stop_conditions:
+  - Write escapes the exact Task worktree or create-once Evidence root.
+  - Any external capability becomes necessary.
+  - Persisted state cannot be made fail-closed without expanding beyond this Task budget.
+  - Candidate or repair budget is exhausted.
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false

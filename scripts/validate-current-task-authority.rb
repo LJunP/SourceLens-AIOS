@@ -9,6 +9,8 @@ require "yaml"
 require_relative "validate-founder-delegation-continuity"
 p3_entry_validator = File.join(__dir__, "validate-p3-phase-entry.rb")
 require_relative "validate-p3-phase-entry" if File.file?(p3_entry_validator)
+p3_task_validator = File.join(__dir__, "validate-p3-task-authority.rb")
+require_relative "validate-p3-task-authority" if File.file?(p3_task_validator)
 
 class AuthorityValidationError < StandardError; end
 class DuplicateJsonKeyError < StandardError; end
@@ -5525,6 +5527,7 @@ module CurrentTaskAuthority
         FounderDelegationContinuity::STRATEGIC_HOLD_ROUTE_SCHEMA,
         FounderDelegationContinuity::RESEARCH_EXIT_ROUTE_SCHEMA,
         "p3-phase-entry-active/v1",
+        "p3-phase-delegated-task/v1",
         DELEGATED_TASK_ROUTE_SCHEMA
       ].include?(route["schema_version"]),
              "active Phase delegation requires a closed delegated Route schema")
@@ -5559,6 +5562,10 @@ module CurrentTaskAuthority
       assert(defined?(P3PhaseEntryValidation), "P3 Phase entry validator is unavailable")
       state = P3PhaseEntryValidation.validate!(root: root, truth: truth)
       return state
+    end
+    if route["schema_version"] == "p3-phase-delegated-task/v1"
+      assert(defined?(P3TaskAuthorityValidation), "P3 Task authority validator is unavailable")
+      return P3TaskAuthorityValidation.validate!(root: root, truth: truth)
     end
     if route["schema_version"] == DELEGATED_TASK_ROUTE_SCHEMA
       return validate_phase_delegated_task(root, truth)

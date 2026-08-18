@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require "yaml"
+require "open3"
 
 require_relative "validate-p3-phase-entry"
 
@@ -26,8 +27,13 @@ rescue P3PhaseEntryValidationError => e
   puts "PASS #{name} rejected"
 end
 
+entry_truth_bytes, entry_truth_error, entry_truth_status = Open3.capture3(
+  "git", "-C", ROOT, "show",
+  "b07ea8889c0c68fb343746e65b507b637935af1d:docs/aios/truth/project_state.yaml"
+)
+raise "cannot load installed P3 entry Truth: #{entry_truth_error}" unless entry_truth_status.success?
 truth = YAML.safe_load(
-  File.binread(TRUTH),
+  entry_truth_bytes,
   permitted_classes: [],
   permitted_symbols: [],
   aliases: false

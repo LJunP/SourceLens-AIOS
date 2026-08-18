@@ -4418,9 +4418,9 @@ module FounderDelegationContinuity
     end
 
     assert(RESERVED_TRIGGERS.include?(trigger["category"]), "unknown Founder reserved trigger")
-    assert(%w[PHASE_ENTRY_OR_EXIT MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE]
+    assert(%w[PHASE_ENTRY_OR_EXIT MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE]
              .include?(trigger["category"]),
-           "terminal transition only supports mechanically derived Phase exit or envelope expansion")
+           "terminal transition only supports mechanically derived Phase exit, Phase strategy change or envelope expansion")
     expected_event_kind = RESERVED_EVENT_KINDS.fetch(trigger["category"])
     assert(event["kind"] == expected_event_kind,
            "Founder reserved trigger source event kind drift")
@@ -4453,6 +4453,7 @@ module FounderDelegationContinuity
           CLEAN_ROOM_SLOT_V8_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
           CLEAN_ROOM_SLOT_V9_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
           CLEAN_ROOM_SLOT_V10_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
+          P2_080_EVALUATION_EVIDENCE_ADAPTER_DEV_COMPATIBILITY_NON_PASS_SLOT_V11_2_LOCKED_ROUTE_TERMINATED
         ].include?(truth.dig("p2_recovery_control", "status")) &&
         truth.dig("p2_recovery_control", "task_creation_allowed") == false &&
         truth.dig("p2_recovery_control", "next_eligible_action") == "FOUNDER_RESERVED_DECISION"

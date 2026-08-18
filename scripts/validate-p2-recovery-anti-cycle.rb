@@ -605,6 +605,7 @@ module P2RecoveryAntiCycle
       EXACT_FROZEN_P2_078_EVALUATION_EVIDENCE_ADAPTER_SLOT_ELIGIBLE_NOT_ACTIVATED
       EXACT_FROZEN_P2_078_EVALUATION_EVIDENCE_ADAPTER_TASK_RESERVED_READY
       EXACT_FROZEN_P2_078_EVALUATION_EVIDENCE_ADAPTER_TASK_ACTIVE
+      P2_080_EVALUATION_EVIDENCE_ADAPTER_DEV_COMPATIBILITY_NON_PASS_SLOT_V11_2_LOCKED_ROUTE_TERMINATED
     ].include?(control["status"])
     expected_delivery_percent = baseline_accepted ? 25 : 0
     expected_accepted_milestones = baseline_accepted ? ["P2_RECOVERY_BASELINE_ACCEPTED"] : []
@@ -690,6 +691,99 @@ module P2RecoveryAntiCycle
                            "unlock_requirement", "engineering_hours", "calendar_days")
               end == expected_slots,
               "Truth exact frozen P2-078 adapter-plus-HELD capacity identity drift")
+      if route["schema_version"] == "founder-reserved-decision-hold/v1" &&
+         truth["historical_p2_080_phase_route"].is_a?(Hash)
+        task_id = "AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER"
+        terminal_status = "TERMINAL_EVALUATION_EVIDENCE_ADAPTER_DEV_COMPATIBILITY_NON_PASS"
+        terminal_route = truth.fetch("historical_p2_080_phase_route")
+        terminal_receipt_sha =
+          "cc93aca9f45d0ad9621e389d958837011c523d4db7a9b5d5c773b8f42e9417e0"
+        expected_terminal_slots = Marshal.load(Marshal.dump(expected_slots))
+        expected_terminal_slots.fetch(0)["task_id"] = task_id
+        last_ledger = envelope.fetch("task_ledger").last
+        assert!(envelope["status"] == "ACTIVE_REMAINING_CAPACITY" &&
+                envelope["limits"].slice("engineering_tasks", "engineering_hours", "calendar_days") == {
+                  "engineering_tasks" => 26,
+                  "engineering_hours" => 784,
+                  "calendar_days" => 196
+                } && envelope["consumed"] == {
+                  "engineering_tasks" => 25,
+                  "engineering_hours" => 752,
+                  "calendar_days" => 188
+                } && envelope["reserved"].nil? && envelope["remaining"] == {
+                  "engineering_tasks" => 1,
+                  "engineering_hours" => 32,
+                  "calendar_days" => 8
+                }, "Truth P2-080 terminal locked-capacity envelope drift")
+        assert!(last_ledger["task_id"] == task_id &&
+                last_ledger["status"] == terminal_status &&
+                last_ledger["budget"] == {
+                  "engineering_tasks" => 1,
+                  "engineering_hours" => 32,
+                  "calendar_days" => 8
+                } && last_ledger.dig("contract", "sha256") ==
+                  "3519c35ea452505588aceb0b765f7d69caf7dfebe22ad71b87d868bbcace35b5" &&
+                last_ledger.dig("outcome_receipt", "sha256") == terminal_receipt_sha,
+                "Truth P2-080 terminal ledger drift")
+        assert!(terminal_route["route_id"] ==
+                  "AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER_PHASE_DELEGATED_ROUTE" &&
+                terminal_route["status"] == terminal_status &&
+                terminal_route.dig("selected_task", "task_id") == task_id &&
+                terminal_route.dig("selected_task", "status") == terminal_status &&
+                terminal_route.dig("terminal_receipt", "sha256") == terminal_receipt_sha,
+                "Truth P2-080 terminal historical Route drift")
+        assert!(route["route_id"] == "P2_FOUNDER_RESERVED_DECISION_HOLD" &&
+                route["status"] == "FOUNDER_RESERVED_DECISION_REQUIRED" &&
+                route["execution_status"] == "FOUNDER_RESERVED_DECISION_REQUIRED" &&
+                route["scheduling_status"] == "STOPPED_AT_FOUNDER_RESERVED_DECISION" &&
+                route["historical_terminal_route_ref"] == "historical_p2_080_phase_route" &&
+                route["next_eligible_action"] == "FOUNDER_RESERVED_DECISION",
+                "Truth P2-080 terminal reserved Route lifecycle drift")
+        assert!(active["current_task"] == "NONE" &&
+                active["task_resource_state"] == "NO_ACTIVE_TASK_FOUNDER_RESERVED_DECISION_HOLD" &&
+                active["founder_decision_required"] == true &&
+                active["next_eligible_action"] == "FOUNDER_RESERVED_DECISION" &&
+                goal["current_task_authority"] == "NONE",
+                "Truth P2-080 terminal active-work lifecycle drift")
+        assert!(control["status"] ==
+                  "P2_080_EVALUATION_EVIDENCE_ADAPTER_DEV_COMPATIBILITY_NON_PASS_SLOT_V11_2_LOCKED_ROUTE_TERMINATED" &&
+                control["benchmark_source_admission_status"] ==
+                  "ACCEPTED_SOURCE_PACK_INSTALLED_SLOT_1_ELIGIBLE" &&
+                control["task_creation_allowed"] == false &&
+                control["current_delivery_percent"] == 25 &&
+                control["strict_gate_percent"] == 0 &&
+                control["accepted_milestones"] == ["P2_RECOVERY_BASELINE_ACCEPTED"] &&
+                control["capacity_slots"] == expected_terminal_slots &&
+                control["next_eligible_action"] == "FOUNDER_RESERVED_DECISION",
+                "Truth P2-080 terminal recovery projection drift")
+        assert!(escalation["disposition"] == "FOUNDER_DECISION_REQUIRED" &&
+                escalation.dig("reserved_trigger", "category") ==
+                  "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE" &&
+                escalation["founder_decision_required"] == true &&
+                escalation["next_action_owner"] == "HUMAN_FOUNDER" &&
+                escalation["next_eligible_action"] == "FOUNDER_RESERVED_DECISION",
+                "Truth P2-080 terminal Founder strategy control drift")
+        assert!(project["phase_execution_status"] == "STOPPED_AT_FOUNDER_RESERVED_DECISION" &&
+                project["current_route_execution_status"] == "FOUNDER_RESERVED_DECISION_REQUIRED" &&
+                claim["p2_phase_envelope_status"] == "ACTIVE_REMAINING_CAPACITY" &&
+                claim["current_phase_route"] == route["route_id"] &&
+                claim["current_task"] == "NONE" &&
+                claim["next_eligible_action"] == "FOUNDER_RESERVED_DECISION" &&
+                claim["p2_080_status"] == terminal_status &&
+                claim["p2_080_dev_compatibility_replay_count"] == 1 &&
+                claim["p2_080_dev_compatibility_byte_exact_files"] == "3_OF_5" &&
+                claim["p2_080_dev_compatibility_transaction_created"] == false &&
+                claim["p2_080_adapter_milestone_accepted"] == false &&
+                claim["p2_080_adapter_integrated"] == false &&
+                claim["p2_080_terminal_receipt_sha256"] == terminal_receipt_sha &&
+                claim["p2_080_held_source_reads"] == 0 &&
+                claim["p2_080_formal_dispatches"] == 0 &&
+                claim["p2_080_progress_credit"] == 0,
+                "Truth P2-080 terminal claim projection drift")
+        assert!(plan.dig("current_control", "new_task_creation_allowed") == false,
+                "Recovery plan historical baseline was rewritten")
+        return
+      end
       delegated_adapter_task = route["schema_version"] ==
         "phase-delegated-independent-task/v1" &&
         route.dig("selected_task", "task_id") ==

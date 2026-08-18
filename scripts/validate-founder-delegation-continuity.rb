@@ -441,6 +441,10 @@ module FounderDelegationContinuity
 
   def parse_bound_json_from_root(root, identity, label)
     bytes = bound_identity_bytes(root, identity, label)
+    parse_json_bytes(bytes, label)
+  end
+
+  def parse_json_bytes(bytes, label)
     value = JSON.parse(
       bytes,
       object_class: FounderDelegationClosedJsonHash,
@@ -452,6 +456,104 @@ module FounderDelegationContinuity
     fail!("#{label} JSON is invalid: #{e.message}")
   rescue FounderDelegationDuplicateJsonKeyError => e
     fail!("#{label} contains duplicate JSON key: #{e.message}")
+  end
+
+  def resolve_source_route_identity_correction!(root, historical_route, anchor_commit)
+    pointer = historical_route["source_identity_correction"]
+    return historical_route if pointer.nil?
+
+    expected_route_id =
+      "P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_ROUTE_V7"
+    expected_token =
+      "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V7"
+    assert(historical_route["route_id"] == expected_route_id &&
+           historical_route["authorization_token"] == expected_token,
+           "source identity correction is not allowed for this Route")
+
+    correction = parse_bound_json_from_root(root, pointer, "Phase source identity correction")
+    exact_keys(
+      correction,
+      %w[
+        anchor_commit anchor_identity authority_effect authorization_token corrected_identity
+        invariants reason_code record_type route_id schema_version
+      ],
+      "Phase source identity correction"
+    )
+    assert(correction["schema_version"] == "founder-phase-route-source-identity-correction/v1" &&
+           correction["record_type"] == "mechanical_source_identity_correction" &&
+           correction["route_id"] == expected_route_id &&
+           correction["authorization_token"] == expected_token &&
+           correction["anchor_commit"] == anchor_commit &&
+           correction["reason_code"] == "TRUNCATED_ACTIVATION_PARENT_TRUTH_SHA256_ONLY" &&
+           correction["authority_effect"] == "NONE",
+           "Phase source identity correction authority boundary drifts")
+
+    anchor_identity = exact_keys(
+      correction["anchor_identity"],
+      %w[decision_packet original_founder_packet],
+      "Phase source identity correction anchor identity"
+    )
+    corrected_identity = exact_keys(
+      correction["corrected_identity"],
+      %w[decision_packet original_founder_packet],
+      "Phase source identity correction corrected identity"
+    )
+    %w[decision_packet original_founder_packet].each do |key|
+      exact_keys(anchor_identity[key], %w[path byte_length sha256], "anchor #{key}")
+      exact_keys(corrected_identity[key], %w[path byte_length sha256], "corrected #{key}")
+    end
+    assert(anchor_identity["decision_packet"] == historical_route["decision_packet"] &&
+           anchor_identity["original_founder_packet"] == historical_route["original_founder_packet"],
+           "Phase source identity correction does not bind the immutable anchor Route")
+
+    invariants = exact_keys(
+      correction["invariants"],
+      %w[
+        external_effect_permission_changed founder_token_changed git_history_rewritten
+        phase_envelope_changed route_authority_changed task_capacity_changed
+      ],
+      "Phase source identity correction invariants"
+    )
+    assert(invariants.values == [false, false, false, false, false, false],
+           "Phase source identity correction changes authority")
+
+    anchor_bytes = {}
+    anchor_identity.each do |key, identity|
+      bytes = git(root, "show", "#{anchor_commit}:#{identity['path']}")
+      assert(bytes.bytesize == identity["byte_length"] &&
+             Digest::SHA256.hexdigest(bytes.b) == identity["sha256"],
+             "Phase source identity correction anchor #{key} does not match Git")
+      anchor_bytes[key] = bytes
+    end
+    corrected_bytes = {}
+    corrected_identity.each do |key, identity|
+      corrected_bytes[key] = bound_identity_bytes(root, identity, "corrected #{key}")
+    end
+
+    truncated_truth_sha = "257c784eeb0e8a1f1e0e4a918eec9ffcac9de011fd16e37e9997a629b2dd0".b
+    exact_truth_sha = "257c784eeb0e8a1f1fb1e0e4a918eec9ffcac9de011fd16e37e9997a629b2dd0".b
+    anchor_source = anchor_bytes["original_founder_packet"].b
+    assert(anchor_source.scan(truncated_truth_sha).length == 1 &&
+           corrected_bytes["original_founder_packet"].b ==
+             anchor_source.sub(truncated_truth_sha, exact_truth_sha),
+           "Phase source identity correction changes more than the truncated Truth SHA-256")
+
+    anchor_decision = parse_json_bytes(anchor_bytes["decision_packet"], "anchor source decision")
+    corrected_decision = parse_json_bytes(corrected_bytes["decision_packet"], "corrected source decision")
+    expected_decision = JSON.parse(JSON.generate(anchor_decision), create_additions: false)
+    expected_source_identity = mapping(
+      expected_decision["source_founder_packet_identity"],
+      "projected corrected source Founder packet identity"
+    )
+    expected_source_identity["byte_length"] = corrected_identity.dig("original_founder_packet", "byte_length")
+    expected_source_identity["sha256"] = corrected_identity.dig("original_founder_packet", "sha256")
+    assert(expected_decision == corrected_decision,
+           "Phase source identity correction changes structured authority content")
+
+    historical_route.merge(
+      "decision_packet" => corrected_identity["decision_packet"],
+      "original_founder_packet" => corrected_identity["original_founder_packet"]
+    )
   end
 
   def validate_policy!(root, truth)
@@ -725,7 +827,7 @@ module FounderDelegationContinuity
 
   def validate_source_route_authority!(root, historical_route)
     route_id = historical_route["route_id"]
-    _anchor_commit, anchor_truth = first_truth_anchor!(root, route_id, "Phase source Route") do |candidate|
+    anchor_commit, anchor_truth = first_truth_anchor!(root, route_id, "Phase source Route") do |candidate|
       candidate.any? do |_key, value|
         value.is_a?(Hash) && value["route_id"] == route_id
       end
@@ -733,6 +835,9 @@ module FounderDelegationContinuity
     anchor_route = route_by_id(anchor_truth, route_id)
     assert(source_route_static_projection(historical_route) == source_route_static_projection(anchor_route),
            "historical source Route static authority drifts from its first canonical Git anchor")
+    historical_route = resolve_source_route_identity_correction!(
+      root, historical_route, anchor_commit
+    )
 
     decision = parse_bound_json_from_root(
       root,
@@ -1149,7 +1254,7 @@ module FounderDelegationContinuity
       assert(historical_route["first_task"] == route_new_tasks.first,
              "single-Task expansion first Task must exactly equal its sole Task plan entry including lifecycle")
     end
-    decision
+    [decision, historical_route]
   end
 
   def source_capacity_task!(source_route, capacity_source_task_id)
@@ -3678,7 +3783,7 @@ module FounderDelegationContinuity
     entries
   end
 
-  def validate_phase_envelope!(root, truth, source_route, phase, policy, source_decision)
+  def validate_phase_envelope!(root, truth, source_route, effective_source_route, phase, policy, source_decision)
     envelope = exact_keys(
       truth["phase_execution_envelope"],
       %w[
@@ -3707,6 +3812,7 @@ module FounderDelegationContinuity
            authority["source_route_id"] == source_route["route_id"] &&
            truth[authority["source_route_ref"]] == source_route,
            "phase execution envelope authority binding drift")
+    source_route = effective_source_route
     assert(authority["source_decision"] == source_route["decision_packet"],
            "phase execution envelope source Decision identity drift")
     bound_identity_bytes(root, authority["source_decision"],
@@ -4780,9 +4886,9 @@ module FounderDelegationContinuity
     source_route_ref = truth.dig("phase_execution_envelope", "authority_basis", "source_route_ref")
     assert(source_route_ref.is_a?(String), "phase execution envelope source Route reference missing")
     source_route = mapping(truth[source_route_ref], source_route_ref)
-    source_decision = validate_source_route_authority!(root, source_route)
+    source_decision, effective_source_route = validate_source_route_authority!(root, source_route)
     phase_envelope = validate_phase_envelope!(
-      root, truth, source_route, phase, policy, source_decision
+      root, truth, source_route, effective_source_route, phase, policy, source_decision
     )
     control = validate_control!(
       truth,

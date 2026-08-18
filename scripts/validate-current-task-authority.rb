@@ -1255,7 +1255,10 @@ module CurrentTaskAuthority
          text.scan(/P2-069 remains the independently accepted benchmark foundation\. P2-070, P2-071, P2-072, P2-073 and P2-074 are preserved only as closed terminal accounting\./).length == 1) ||
         (expected_token ==
           "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_B1_ANCHORED_GRAPH_FUSION_SLOT_AND_RELOCKED_HELD_SEQUENCE_V6" &&
-         text.scan(/P2-069 remains the independently accepted benchmark foundation\. P2-070, P2-071, P2-072, P2-073, P2-074 and P2-075 are preserved only as closed terminal accounting\./).length == 1)
+         text.scan(/P2-069 remains the independently accepted benchmark foundation\. P2-070, P2-071, P2-072, P2-073, P2-074 and P2-075 are preserved only as closed terminal accounting\./).length == 1) ||
+        (expected_token ==
+          "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V7" &&
+         text.scan(/P2-069 remains the independently accepted benchmark foundation\. P2-070, P2-071, P2-072, P2-073, P2-074, P2-075 and P2-076 are preserved only as closed terminal accounting\./).length == 1)
       remaining = parent_envelope.fetch("remaining")
       assert(superseded_values == [remaining["engineering_tasks"], remaining["engineering_hours"], remaining["calendar_days"]] &&
              text.scan(/Only unused capacity is superseded; all [0-9]+ consumed Task outcomes and their Evidence remain immutable\./).length == 1 &&
@@ -1265,9 +1268,12 @@ module CurrentTaskAuthority
       assert(parent_envelope["status"] == "EXHAUSTED",
              "structured Founder route decision v1.4 activation-parent lifecycle drift")
     end
-    assert(text.scan(/Task IDs remain unallocated until (?:the preceding milestone and )?Task admission pass(?:es)?\./).length == 1,
+    assert(text.scan(/Task IDs remain unallocated until (?:(?:the preceding milestone and )?Task )?admission pass(?:es)?\./).length == 1,
            "structured Founder route decision v1.4 source packet preallocation boundary drift")
-    assert(text.scan(/zero network, Provider, Secret, remote, production or public effects\./).length == 1,
+    external_effect_boundary =
+      text.scan(/zero network, Provider, Secret, remote, production or public effects\./).length == 1 ||
+      text.scan(/authorizes zero network, Provider, Secret, remote, production, public, deletion, database, P3 or long-term Goal effects\./).length == 1
+    assert(external_effect_boundary,
            "structured Founder route decision v1.4 source packet external effect boundary drift")
     assert(text.scan(/P3 remains HOLD and the SourceLens project and [Ll]ong-term Goal remain ACTIVE\./).length == 1,
            "structured Founder route decision v1.4 source packet Phase or Goal boundary drift")
@@ -1350,6 +1356,7 @@ module CurrentTaskAuthority
         AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V4
         AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_AND_RELOCKED_HELD_SEQUENCE_V5
         AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_B1_ANCHORED_GRAPH_FUSION_SLOT_AND_RELOCKED_HELD_SEQUENCE_V6
+        AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V7
       ].include?(decision["authorization_token"])
       versioned_slots = array(decision["capacity_slots"],
                               "structured decision resequenced capacity slots").all? do |slot|
@@ -1374,6 +1381,7 @@ module CurrentTaskAuthority
                  CLEAN_ROOM_SLOT_V5_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
                  CLEAN_ROOM_SLOT_V6_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
                  CLEAN_ROOM_SLOT_V7_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
+                 CLEAN_ROOM_SLOT_V8_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
                ].include?(parent_truth.dig("p2_recovery_control", "status"))) &&
              versioned_slots,
              "structured decision active-parent resequencing precondition drift")
@@ -2051,6 +2059,7 @@ module CurrentTaskAuthority
         AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V4
         AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_AND_RELOCKED_HELD_SEQUENCE_V5
         AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_B1_ANCHORED_GRAPH_FUSION_SLOT_AND_RELOCKED_HELD_SEQUENCE_V6
+        AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V7
       ].include?(authorization_token)
       slot_generations = []
       slots = array(decision["capacity_slots"],
@@ -2086,6 +2095,9 @@ module CurrentTaskAuthority
                                     elsif authorization_token ==
                                           "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_B1_ANCHORED_GRAPH_FUSION_SLOT_AND_RELOCKED_HELD_SEQUENCE_V6"
                                       %w[P2_RECOVERY_CAPACITY_SLOT_V8_1 P2_RECOVERY_CAPACITY_SLOT_V2_3][index]
+                                    elsif authorization_token ==
+                                          "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V7"
+                                      %w[P2_RECOVERY_CAPACITY_SLOT_V9_1 P2_RECOVERY_CAPACITY_SLOT_V2_3][index]
                                     end
         assert(slot_match &&
                (product_selector_recovery ? slot["capacity_slot_id"] == expected_capacity_slot_id :

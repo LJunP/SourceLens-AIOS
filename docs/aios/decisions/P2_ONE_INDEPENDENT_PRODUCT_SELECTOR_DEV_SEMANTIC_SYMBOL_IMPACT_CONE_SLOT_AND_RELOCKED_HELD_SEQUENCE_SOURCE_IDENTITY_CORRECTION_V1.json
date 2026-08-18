@@ -1,0 +1,41 @@
+{
+  "schema_version": "founder-phase-route-source-identity-correction/v1",
+  "record_type": "mechanical_source_identity_correction",
+  "route_id": "P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_ROUTE_V7",
+  "authorization_token": "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V7",
+  "anchor_commit": "85a73722d3a7d2feed08fd5563d59a1dc1ad667b",
+  "reason_code": "TRUNCATED_ACTIVATION_PARENT_TRUTH_SHA256_ONLY",
+  "authority_effect": "NONE",
+  "anchor_identity": {
+    "decision_packet": {
+      "path": "docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_DECISION_V7.json",
+      "byte_length": 3320,
+      "sha256": "d3ebeb045b03d817c502e6f4d7b8500877d0fd6f89f5f1e30c07cc1990176990"
+    },
+    "original_founder_packet": {
+      "path": "docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V7.md",
+      "byte_length": 8114,
+      "sha256": "c17c9c677bba96d014073e15734e92818b9f658010adb8baa531f3aa8b9bb114"
+    }
+  },
+  "corrected_identity": {
+    "decision_packet": {
+      "path": "docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_DECISION_V7.json",
+      "byte_length": 3320,
+      "sha256": "3d11bac2343f4d197de59ba770fae68287d9f09893e0b6ad482a4b50abcf4340"
+    },
+    "original_founder_packet": {
+      "path": "docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V7.md",
+      "byte_length": 8117,
+      "sha256": "d50a54931c0595d6f233ee4f9906dd8db49b37171a2d2b2ee33eb12b88101903"
+    }
+  },
+  "invariants": {
+    "founder_token_changed": false,
+    "route_authority_changed": false,
+    "phase_envelope_changed": false,
+    "task_capacity_changed": false,
+    "external_effect_permission_changed": false,
+    "git_history_rewritten": false
+  }
+}

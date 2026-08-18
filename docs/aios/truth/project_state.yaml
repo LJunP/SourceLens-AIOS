@@ -10179,12 +10179,16 @@ historical_p2_product_selector_dev_semantic_symbol_impact_cone_slot_and_relocked
   authorization_token: AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V7
   decision_packet:
     path: docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_DECISION_V7.json
-    sha256: 3d11bac2343f4d197de59ba770fae68287d9f09893e0b6ad482a4b50abcf4340
+    sha256: d3ebeb045b03d817c502e6f4d7b8500877d0fd6f89f5f1e30c07cc1990176990
     byte_length: 3320
   original_founder_packet:
     path: docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V7.md
-    sha256: d50a54931c0595d6f233ee4f9906dd8db49b37171a2d2b2ee33eb12b88101903
-    byte_length: 8117
+    sha256: c17c9c677bba96d014073e15734e92818b9f658010adb8baa531f3aa8b9bb114
+    byte_length: 8114
+  source_identity_correction:
+    path: docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_SOURCE_IDENTITY_CORRECTION_V1.json
+    sha256: 612733df4f83915b1beee926f5738c2be01c49b92a54a5ff8f680c627fb4261d
+    byte_length: 2049
   activation_parent:
     commit: fae5d0ea87ac8be3555e25fe94b8c2c4b48505de
     tree: 3e15cf4873846edc041e6e29213128d73a10793a
@@ -22139,9 +22143,9 @@ active_work:
   founder_decision_required: false
   founder_decision_required_scope:
   escalation_reason:
-  user_action_required: false
+  user_action_required: NONE
   phase_route_decision_required: false
-  phase_route_user_action_required: false
+  phase_route_user_action_required: NONE
   next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
 
 historical_p2_065_terminal_active_work:

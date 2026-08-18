@@ -11465,7 +11465,7 @@ founder_escalation_control:
   schema_version: founder-escalation-control/v1
   disposition: NO_RESERVED_TRIGGER_CONTINUE_PHASE
   source_event:
-    kind: PHASE_DELEGATED_TASK_READY
+    kind: FOUNDER_EXPANDED_SINGLE_TASK_READY
     task_id: AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER
     status: ELIGIBLE_NOT_ACTIVATED
   reserved_trigger:

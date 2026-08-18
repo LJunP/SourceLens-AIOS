@@ -948,26 +948,34 @@ Dir.mktmpdir("founder-delegation-continuity-") do |fixtures|
 
   if current_disposition == "FOUNDER_DECISION_REQUIRED"
     current_control = current_truth.fetch("founder_escalation_control")
-    trigger = deep_copy(current_control.fetch("reserved_trigger"))
-    evidence_identity = trigger.fetch("evidence")
-    evidence = JSON.parse(File.binread(evidence_identity.fetch("path")))
-    evidence["source_route_id"] = "P2_UNBOUND_THIRD_ROUTE_V1"
-    trigger["evidence"] = write_json_identity(
-      fixtures, "unbound-third-trigger-route.json", evidence
-    )
     current_route = current_truth.fetch("current_phase_route")
-    historical_route = current_truth.fetch(
-      current_route.fetch("historical_terminal_route_ref")
-    )
-    expect_method_non_pass("reserved-trigger-unbound-third-route-reject",
-                           "Founder reserved trigger Evidence source Route drift") do
-      FounderDelegationContinuity.validate_reserved_trigger_evidence!(
-        trigger,
-        current_control.fetch("source_event"),
-        current_truth.dig("project", "current_phase"),
-        historical_route,
-        current_truth.fetch("phase_execution_envelope")
+    if current_route["schema_version"] == "p3-phase-delegated-task/v1"
+      fixture = deep_copy(current_truth)
+      fixture.dig("founder_escalation_control", "reserved_trigger", "evidence")["sha256"] =
+        "0" * 64
+      expect_non_pass(fixtures, "current-p3-terminal-trigger-evidence-drift", fixture,
+                      "P3 capability milestone-freeze Founder escalation projection drift")
+    else
+      trigger = deep_copy(current_control.fetch("reserved_trigger"))
+      evidence_identity = trigger.fetch("evidence")
+      evidence = JSON.parse(File.binread(evidence_identity.fetch("path")))
+      evidence["source_route_id"] = "P2_UNBOUND_THIRD_ROUTE_V1"
+      trigger["evidence"] = write_json_identity(
+        fixtures, "unbound-third-trigger-route.json", evidence
       )
+      historical_route = current_truth.fetch(
+        current_route.fetch("historical_terminal_route_ref")
+      )
+      expect_method_non_pass("reserved-trigger-unbound-third-route-reject",
+                             "Founder reserved trigger Evidence source Route drift") do
+        FounderDelegationContinuity.validate_reserved_trigger_evidence!(
+          trigger,
+          current_control.fetch("source_event"),
+          current_truth.dig("project", "current_phase"),
+          historical_route,
+          current_truth.fetch("phase_execution_envelope")
+        )
+      end
     end
     assertions += 1
   end
@@ -1526,7 +1534,7 @@ Dir.mktmpdir("founder-delegation-continuity-") do |fixtures|
     truth.dig("phase_execution_envelope", "status") == "EXHAUSTED" ?
       "TASK_CAPACITY_RESERVED" : "EXHAUSTED"
   expect_non_pass(fixtures, "claim-boundary-envelope-status-drift", truth,
-                  "P3 claim boundary drift")
+                  "P3 continuation claim boundary drift")
   assertions += 1
 
   truth = deep_copy(base)

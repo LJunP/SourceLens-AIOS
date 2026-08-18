@@ -1,8 +1,8 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: '2026-08-18T02:34:37Z'
+last_verified_at: '2026-08-18T04:02:39Z'
 
-verification_scope: P2_V7_SEMANTIC_SYMBOL_IMPACT_CONE_CAPACITY_ACCEPTED_SLOT_V9_1_ELIGIBLE_NOT_ACTIVATED_HELD_V2_3_RELOCKED_P2_DELIVERY_25_STRICT_0_P2_PROJECT_AND_LONG_TERM_GOAL_ACTIVE
+verification_scope: P2_077_TERMINAL_PRODUCT_SELECTOR_DEV_SEMANTIC_GRAPH_AND_THRESHOLD_NON_PASS_CANDIDATE_NOT_INTEGRATED_SLOT_V9_1_CONSUMED_SLOT_V2_3_LOCKED_P2_DELIVERY_25_STRICT_0_P2_PROJECT_AND_LONG_TERM_GOAL_ACTIVE
 
 authority:
   founder: Human Founder
@@ -38,21 +38,33 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV
-  note: 'Founder decision AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V7
-    expands the cumulative P2 envelope to twenty-three Tasks, six-hundred-eighty-eight
+  current_task_authority: NONE
+  note: 'P2-077 is TERMINAL_PRODUCT_SELECTOR_DEV_SEMANTIC_GRAPH_AND_THRESHOLD_NON_PASS.
+    Candidate A produced macro precision 0.075, recall 0.0625 and MRR 0.125 with
+    seven per-task recall regressions. Candidate B produced precision 0.1, recall
+    0.4375 and MRR 0.1763392857142857 with four regressions; its second replay was
+    byte-exact. CTO, Security and Quality/Evaluation independently returned NON_PASS.
+    The selector graph degenerated to a complete bidirectional graph on every DEV
+    repository, and the evidence package did not close exact fresh source-to-class
+    and per-replay sandbox/write-inventory provenance. Candidate commit/tree
+    5a52147f1ca522f6b8ef76822d2141a313b90b47/51d040abb0e8d5b358449513ad729a2ab206c0c4
+    was not integrated. HELD reads remain zero and all external effects remain false.
+    Slot V9_1 is consumed; twenty-two Tasks, six-hundred-fifty-six hours and
+    one-hundred-sixty-four days are consumed. The only remaining slot is formal
+    HELD V2_3 and remains locked because P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED
+    is absent. Delivery remains 25%, strict P2 progress remains 0%, P3 remains HOLD,
+    and P2 plus the Long-term Goal remain ACTIVE. The exact terminal receipt is 9427
+    bytes with SHA-256 159865e2eb97f0411508dc24b0720fd9a2eeff3c14ef46b9b5274394b13b54e3.
+    Another Product Selector DEV or Phase route requires the Founder-reserved
+    MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE decision;
+    V7 permits no automatic successor or automatic heuristic retry request. All
+    following paragraphs are retained historical chronology only. Founder decision
+    AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V7
+    expanded the cumulative P2 envelope to twenty-three Tasks, six-hundred-eighty-eight
     engineering hours and one-hundred-seventy-two calendar days while preserving
-    twenty-one consumed Tasks. One new clean-room semantic-symbol-impact-cone
-    Product Selector DEV slot V9_1 is eligible but not activated; the existing
-    formal HELD slot V2_3 remains locked until P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED
-    is independently accepted. The new Task must use deterministic product-owned
-    Java source analysis, seed bounded forward and backward impact cones only from
-    the query and accepted B1 lexical candidates, freeze no more than two parameter
-    sets before results, and prohibit DEV oracle inputs, task-specific branches,
-    post-result tuning and HELD reads. This decision creates no engineering or
-    capability credit, P2 delivery remains 25%, strict P2 Exit progress remains
-    0%, P2 and the Long-term Goal remain ACTIVE, and P3 remains HOLD. All following
-    paragraphs are retained historical chronology only. P2-076 is
+    twenty-one consumed Tasks and adding slot V9_1 before locked formal HELD V2_3.
+    It created no engineering or capability credit by itself. All following paragraphs
+    are retained historical chronology only. P2-076 is
     TERMINAL_PRODUCT_SELECTOR_DEV_PARAMETER_GATE_NON_PASS. The
     accepted P2-069 B1 seed was reconstructed exactly on all eight DEV tasks before
     either frozen parameter set executed. FUSION_A produced macro precision
@@ -1582,8 +1594,8 @@ project:
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
   p2_execution_status: ACTIVE
-  phase_execution_status: ACTIVE
-  current_route_execution_status: ACTIVE_PHASE_DELEGATED_TASK
+  phase_execution_status: STOPPED_AT_FOUNDER_RESERVED_DECISION
+  current_route_execution_status: FOUNDER_RESERVED_DECISION_REQUIRED
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -8068,25 +8080,51 @@ historical_p2_076_phase_route:
     status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
 
 current_phase_route:
-  schema_version: phase-delegated-independent-task/v1
-  route_id: AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV_PHASE_DELEGATED_ROUTE
-  status: ACTIVE
-  execution_status: ACTIVE
-  scheduling_status: ACTIVE_PHASE_DELEGATED_TASK
+  schema_version: founder-reserved-decision-hold/v1
+  route_id: P2_FOUNDER_RESERVED_DECISION_HOLD
+  status: FOUNDER_RESERVED_DECISION_REQUIRED
+  execution_status: FOUNDER_RESERVED_DECISION_REQUIRED
+  scheduling_status: STOPPED_AT_FOUNDER_RESERVED_DECISION
   phase: P2
   phase_entry_status: AUTHORIZED
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: '1.8'
     sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
-  founder_phase_route_decision_required: false
-  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
+  founder_phase_route_decision_required: true
+  next_eligible_action: FOUNDER_RESERVED_DECISION
+  phase_execution_envelope_ref: phase_execution_envelope
+  historical_terminal_route_ref: historical_p2_077_phase_route
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false
+  additional_write_roots: []
+  inherited_worktree_inventory_source: historical_p2_077_phase_route
+
+historical_p2_077_phase_route:
+  schema_version: phase-delegated-independent-task/v1
+  route_id: AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV_PHASE_DELEGATED_ROUTE
+  status: TERMINAL_PRODUCT_SELECTOR_DEV_SEMANTIC_GRAPH_AND_THRESHOLD_NON_PASS
+  execution_status: TERMINAL_PRODUCT_SELECTOR_DEV_SEMANTIC_GRAPH_AND_THRESHOLD_NON_PASS
+  scheduling_status: STOPPED_NO_SUCCESSOR_FORMAL_HELD_LOCKED
+  phase: P2
+  phase_entry_status: AUTHORIZED
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: '1.8'
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  founder_phase_route_decision_required: true
+  next_eligible_action: FOUNDER_RESERVED_DECISION
   phase_execution_envelope_ref: phase_execution_envelope
   source_authority_route_ref: historical_p2_product_selector_dev_semantic_symbol_impact_cone_slot_and_relocked_held_phase_route
   preceding_terminal_route_ref: historical_p2_076_phase_route
   selected_task:
     task_id: AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV
-    status: ACTIVE
+    status: TERMINAL_PRODUCT_SELECTOR_DEV_SEMANTIC_GRAPH_AND_THRESHOLD_NON_PASS
     task_kind: REPOSITORY_INTELLIGENCE_GRAPH_ENGINEERING
     capability: GRAPH_CONDITIONED_CONTEXT_SELECTION
     objective: >-
@@ -8104,8 +8142,8 @@ current_phase_route:
     max_same_task_repairs: 1
     contract:
       path: docs/aios/tasks/P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV.yaml
-      sha256: 048fcab22cfb3b987e6b0680f9fee1f726624ce091cbc4e07d7ed56d0e9056ba
-      byte_length: 16837
+      sha256: 39301fa918bfeebdbfecc79854572858fa313cbda2033b7005cc757986a2227d
+      byte_length: 18087
     independence:
       new_task_id: true
       new_execution_nonce: true
@@ -8118,6 +8156,18 @@ current_phase_route:
       rejected_lineage_copy: false
       same_phase_objective: true
       successor_or_replacement: false
+    rejected_candidate:
+      commit: 5a52147f1ca522f6b8ef76822d2141a313b90b47
+      tree: 51d040abb0e8d5b358449513ad729a2ab206c0c4
+      integrated: false
+    outcome_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-semantic-symbol-impact-cone-product-selector-20260818/task-p2-077/terminal/P2_077_TERMINAL_PRODUCT_SELECTOR_DEV_SEMANTIC_GRAPH_AND_THRESHOLD_NON_PASS_RECEIPT_V1.json
+      byte_length: 9427
+      sha256: 159865e2eb97f0411508dc24b0720fd9a2eeff3c14ef46b9b5274394b13b54e3
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-semantic-symbol-impact-cone-product-selector-20260818/task-p2-077/terminal/P2_077_TERMINAL_PRODUCT_SELECTOR_DEV_SEMANTIC_GRAPH_AND_THRESHOLD_NON_PASS_RECEIPT_V1.json
+    byte_length: 9427
+    sha256: 159865e2eb97f0411508dc24b0720fd9a2eeff3c14ef46b9b5274394b13b54e3
   external_effects:
     network: false
     provider: false
@@ -8127,6 +8177,47 @@ current_phase_route:
     public: false
   additional_write_roots: []
   inherited_worktree_inventory_source: historical_p2_076_phase_route
+  inherited_worktree_inventory:
+  - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-068-recovery-benchmark-foundation
+    head: 275eb00e2c209653ab045bd498d06e7d68e85162
+    branch: codex/p2-068-recovery-benchmark-foundation
+    status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+  - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-069-clean-room-recovery-benchmark-foundation
+    head: ce3be466fcdccba81011185fd0d8ee97e824befa
+    branch: codex/p2-069-clean-room-recovery-benchmark-foundation
+    status: INHERITED_CLOSED_OUT_OF_SCOPE_NOT_CURRENT
+  - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-070-product-java-maintenance-context-selector-dev
+    head: 9e2b30b3159ef6a62cc3ddb8a20c53fbf0625db4
+    branch: codex/p2-070-product-java-maintenance-context-selector-dev
+    status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+  - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-071-clean-room-java-maintenance-context-selector-dev
+    head: 36c2085e1e535cef2e6a27bc7645f062a1d37615
+    branch: codex/p2-071-clean-room-java-maintenance-context-selector-dev
+    status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+  - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-072-clean-room-java-maintenance-context-selector-execution-integrity-dev
+    head: 6dd462f26fcd366be8d4cd4bfba015348508bb97
+    branch: codex/p2-072-clean-room-java-maintenance-context-selector-execution-integrity-dev
+    status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+  - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-073-clean-room-java-maintenance-context-selector-sandbox-stream-lifecycle-dev
+    head: 567b8c78ee00c7784046b2edf05148c2283cdf64
+    branch: codex/p2-073-clean-room-java-maintenance-context-selector-sandbox-stream-lifecycle-dev
+    status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+  - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-074-clean-room-java-maintenance-context-selector-product-path-evidence-closure-dev
+    head: 0c517a6edaaff323f2de649402f6923706325da5
+    branch: codex/p2-074-clean-room-java-maintenance-context-selector-product-path-evidence-closure-dev
+    status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+  - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-075-query-entity-coverage-product-selector-dev
+    head: b715833b9bd374dbdcb0543be161d1e4379036f9
+    branch: codex/p2-075-query-entity-coverage-product-selector-dev
+    status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+  - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-076-b1-anchored-graph-fusion-product-selector-dev
+    head: ca14e0ce704756ab1015db34952ef01d77411fb8
+    branch: codex/p2-076-b1-anchored-graph-fusion-product-selector-dev
+    status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
+  - path: /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-077-semantic-symbol-impact-cone-product-selector-dev
+    head: 5a52147f1ca522f6b8ef76822d2141a313b90b47
+    branch: codex/p2-077-semantic-symbol-impact-cone-product-selector-dev
+    status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
 
 historical_p2_071_phase_route:
   schema_version: phase-delegated-independent-task/v1
@@ -10313,7 +10404,7 @@ historical_p2_product_selector_dev_semantic_symbol_impact_cone_slot_and_relocked
 phase_execution_envelope:
   schema_version: phase-execution-envelope/v1
   phase: P2
-  status: TASK_CAPACITY_RESERVED
+  status: ACTIVE_REMAINING_CAPACITY
   authority_basis:
     phase_entry_status: AUTHORIZED
     policy_path: docs/aios/FOUNDER_DELEGATION_POLICY.md
@@ -10681,27 +10772,26 @@ phase_execution_envelope:
       path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-b1-anchored-graph-fusion-product-selector-20260818/task-p2-076/terminal/P2_076_TERMINAL_PRODUCT_SELECTOR_DEV_PARAMETER_GATE_NON_PASS_RECEIPT_V1.json
       byte_length: 6999
       sha256: b81191597cf999cb6ff8ea4018413bf002d890e683ed2c8b1011c4494b62dd3c
-  consumed:
-    engineering_tasks: 21
-    engineering_hours: 624
-    calendar_days: 156
-  reserved:
-    task_id: AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV
+  - task_id: AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV
     route_id: AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV_PHASE_DELEGATED_ROUTE
-    status: ACTIVE
-    capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_V9_1
+    status: TERMINAL_PRODUCT_SELECTOR_DEV_SEMANTIC_GRAPH_AND_THRESHOLD_NON_PASS
     budget:
       engineering_tasks: 1
       engineering_hours: 32
       calendar_days: 8
     contract:
       path: docs/aios/tasks/P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV.yaml
-      sha256: 048fcab22cfb3b987e6b0680f9fee1f726624ce091cbc4e07d7ed56d0e9056ba
-      byte_length: 16837
-    authority:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-semantic-symbol-impact-cone-product-selector-20260818/task-p2-077/authority/P2_077_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
-      sha256: 342a066bb6f3bd92509ea3c16497df07f081b95be40e12f0a4989da86229477c
-      byte_length: 8000
+      sha256: 39301fa918bfeebdbfecc79854572858fa313cbda2033b7005cc757986a2227d
+      byte_length: 18087
+    outcome_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-semantic-symbol-impact-cone-product-selector-20260818/task-p2-077/terminal/P2_077_TERMINAL_PRODUCT_SELECTOR_DEV_SEMANTIC_GRAPH_AND_THRESHOLD_NON_PASS_RECEIPT_V1.json
+      byte_length: 9427
+      sha256: 159865e2eb97f0411508dc24b0720fd9a2eeff3c14ef46b9b5274394b13b54e3
+  consumed:
+    engineering_tasks: 22
+    engineering_hours: 656
+    calendar_days: 164
+  reserved:
   remaining:
     engineering_tasks: 1
     engineering_hours: 32
@@ -10716,18 +10806,21 @@ phase_execution_envelope:
 
 founder_escalation_control:
   schema_version: founder-escalation-control/v1
-  disposition: NO_RESERVED_TRIGGER_CONTINUE_PHASE
+  disposition: FOUNDER_DECISION_REQUIRED
   source_event:
-    kind: FOUNDER_EXPANDED_SINGLE_TASK_ACTIVE
-    task_id: AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV
-    status: ACTIVE
+    kind: PHASE_ENVELOPE_EXPANSION_REQUIRED
+    task_id:
+    status: PENDING_FOUNDER_RESERVED_DECISION
   reserved_trigger:
-    category: NONE
+    category: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
     evidence:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-semantic-symbol-impact-cone-product-selector-20260818/task-p2-077/terminal/P2_077_FOUNDER_RESERVED_TRIGGER_EVIDENCE_V1.json
+      byte_length: 7612
+      sha256: 636a3b5512f1c9183e2044f44bd5f9212d2f2bdf86f38f575fdb8434b538e358
   phase_gate_status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
-  founder_decision_required: false
-  next_action_owner: MASTER_CEO_AGENT
-  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
+  founder_decision_required: true
+  next_action_owner: HUMAN_FOUNDER
+  next_eligible_action: FOUNDER_RESERVED_DECISION
 
 historical_p2_053_phase_route:
   schema_version: "1.1"
@@ -22152,79 +22245,35 @@ historical_p2_074_terminal_active_work:
   next_eligible_action: FOUNDER_RESERVED_DECISION
 
 active_work:
-  current_task: AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV
-  current_task_status: ACTIVE
+  current_task: NONE
+  current_task_status: NONE
   current_task_contract:
-    path: docs/aios/tasks/P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV.yaml
-    sha256: 048fcab22cfb3b987e6b0680f9fee1f726624ce091cbc4e07d7ed56d0e9056ba
-    byte_length: 16837
-  current_task_contract_sha256: 048fcab22cfb3b987e6b0680f9fee1f726624ce091cbc4e07d7ed56d0e9056ba
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-semantic-symbol-impact-cone-product-selector-20260818/task-p2-077/authority/P2_077_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
-  current_execution_authorization_sha256: 342a066bb6f3bd92509ea3c16497df07f081b95be40e12f0a4989da86229477c
+    path:
+    sha256:
+    byte_length:
+  current_task_contract_sha256:
+  current_execution_authorization:
+  current_execution_authorization_sha256:
   authority_record:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-semantic-symbol-impact-cone-product-selector-20260818/task-p2-077/authority/P2_077_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
-    sha256: 342a066bb6f3bd92509ea3c16497df07f081b95be40e12f0a4989da86229477c
-    byte_length: 8000
-  execution_nonce: 84bada2d-3369-4398-aed9-59fc7510d092
-  execution_nonce_status: ACTIVE
-  authorization_id: f11c0dbf-4f21-41b7-80c5-05bb16cdd4ff
-  activation_parent_commit: fd816b8fd8d6ecf70195e6d5b3365302246ed17b
-  activation_parent_tree: c0488edbe7614bd319e2a2df1c8dfa456bddac2c
-  task_resource_state: ACTIVE_UNIQUE_PHASE_DELEGATED
-  task_branch: codex/p2-077-semantic-symbol-impact-cone-product-selector-dev
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-077-semantic-symbol-impact-cone-product-selector-dev
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-semantic-symbol-impact-cone-product-selector-20260818/task-p2-077
-  allowlisted_paths:
-  - backend-spring/src/main/java/com/sourcelens/module/analysis/graph/SemanticSymbolImpactConeSelector.java
-  - backend-spring/src/main/java/com/sourcelens/module/agent/service/CodeQaRetrievalService.java
-  - backend-spring/src/test/java/com/sourcelens/module/analysis/graph/SemanticSymbolImpactConeSelectorTest.java
-  - backend-spring/src/test/java/com/sourcelens/CodeQaRetrievalServiceTest.java
-  - evaluation-harness/harness/p2-semantic-symbol-impact-cone-product-selector-v1/**
-  - evaluation-harness/replay/p2-semantic-symbol-impact-cone-product-selector-v1/**
-  - evaluation-harness/reports/p2-semantic-symbol-impact-cone-product-selector-v1/**
+    path:
+    sha256:
+    byte_length:
+  execution_nonce:
+  execution_nonce_status: CONSUMED_TERMINAL
+  authorization_id:
+  activation_parent_commit:
+  activation_parent_tree:
+  task_resource_state: NO_ACTIVE_TASK_FOUNDER_RESERVED_DECISION_HOLD
+  task_branch:
+  task_worktree:
+  execution_evidence_root:
+  allowlisted_paths: []
   budget:
-    engineering_hours: 32
-    calendar_days: 8
-    implementation_iterations: 2
-    candidates: 2
-  roles:
-    owner: P2-077 Master Owner
-    worker: P2-077 Clean-room Semantic Selector Worker
-    independent_reviewers:
-    - CTO Agent
-    - Security Agent
-    - Quality and Evaluation Agent
-  write_ownership:
-    schema_version: role-write-ownership/v1
-    cross_role_write_allowed: false
-    owner:
-      role: P2-077 Master Owner
-      write_paths: []
-    worker:
-      role: P2-077 Clean-room Semantic Selector Worker
-      write_paths:
-      - backend-spring/src/main/java/com/sourcelens/module/analysis/graph/SemanticSymbolImpactConeSelector.java
-      - backend-spring/src/main/java/com/sourcelens/module/agent/service/CodeQaRetrievalService.java
-      - backend-spring/src/test/java/com/sourcelens/module/analysis/graph/SemanticSymbolImpactConeSelectorTest.java
-      - backend-spring/src/test/java/com/sourcelens/CodeQaRetrievalServiceTest.java
-      - evaluation-harness/harness/p2-semantic-symbol-impact-cone-product-selector-v1/**
-      - evaluation-harness/replay/p2-semantic-symbol-impact-cone-product-selector-v1/**
-      - evaluation-harness/reports/p2-semantic-symbol-impact-cone-product-selector-v1/**
-    independent_reviewers:
-    - role: CTO Agent
-      write_paths: []
-    - role: Security Agent
-      write_paths: []
-    - role: Quality and Evaluation Agent
-      write_paths: []
-  effective_worker_write_paths:
-  - backend-spring/src/main/java/com/sourcelens/module/analysis/graph/SemanticSymbolImpactConeSelector.java
-  - backend-spring/src/main/java/com/sourcelens/module/agent/service/CodeQaRetrievalService.java
-  - backend-spring/src/test/java/com/sourcelens/module/analysis/graph/SemanticSymbolImpactConeSelectorTest.java
-  - backend-spring/src/test/java/com/sourcelens/CodeQaRetrievalServiceTest.java
-  - evaluation-harness/harness/p2-semantic-symbol-impact-cone-product-selector-v1/**
-  - evaluation-harness/replay/p2-semantic-symbol-impact-cone-product-selector-v1/**
-  - evaluation-harness/reports/p2-semantic-symbol-impact-cone-product-selector-v1/**
+    engineering_hours: 0
+    calendar_days: 0
+    implementation_iterations: 0
+    candidates: 0
+  roles: {}
   external_effects:
     network: false
     provider: false
@@ -22235,13 +22284,13 @@ active_work:
   offsite_target:
   founder_reserved_authorization:
   founder_reserved_authorization_sha256:
-  founder_decision_required: false
-  founder_decision_required_scope:
-  escalation_reason:
-  user_action_required: NONE
-  phase_route_decision_required: false
-  phase_route_user_action_required: NONE
-  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
+  founder_decision_required: true
+  founder_decision_required_scope: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+  escalation_reason: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+  user_action_required: FOUNDER_RESERVED_DECISION
+  phase_route_decision_required: true
+  phase_route_user_action_required: FOUNDER_RESERVED_DECISION
+  next_eligible_action: FOUNDER_RESERVED_DECISION
 
 historical_p2_065_terminal_active_work:
   current_task: AIOS-P2-065_ESM_IMPORT_GRAPH_CONTEXT_PRODUCT_BENCHMARK
@@ -28786,9 +28835,9 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV_PHASE_DELEGATED_ROUTE
-  current_task_claim: AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV
-  real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_SLOT_V9_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED
+  current_route_claim: P2_FOUNDER_RESERVED_DECISION_HOLD
+  current_task_claim: NONE
+  real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_077_TERMINAL_PRODUCT_SELECTOR_DEV_SEMANTIC_GRAPH_AND_THRESHOLD_NON_PASS_SLOT_V2_3_LOCKED
   product_capability_changed: false
   phase_local_allowed:
   - REAL_CODE_QA_PRODUCT_PATH_REPOSITORY_CONTEXT_SELECTOR
@@ -29116,7 +29165,7 @@ phase_execution_claim:
 
 p2_recovery_control:
   schema_version: p2-recovery-control/v1
-  status: CLEAN_ROOM_SLOT_V9_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED
+  status: CLEAN_ROOM_SLOT_V9_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
   plan:
     path: docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml
     byte_length: 7433
@@ -29151,13 +29200,32 @@ p2_recovery_control:
   accepted_milestones:
   - P2_RECOVERY_BASELINE_ACCEPTED
   task_creation_allowed: false
-  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
+  next_eligible_action: FOUNDER_RESERVED_DECISION
 
 claim_boundary:
-  current_phase_route: AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV_PHASE_DELEGATED_ROUTE
-  current_task: AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV
-  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
-  real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_SLOT_V9_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED
+  current_phase_route: P2_FOUNDER_RESERVED_DECISION_HOLD
+  current_task: NONE
+  next_eligible_action: FOUNDER_RESERVED_DECISION
+  real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_077_TERMINAL_PRODUCT_SELECTOR_DEV_SEMANTIC_GRAPH_AND_THRESHOLD_NON_PASS_SLOT_V2_3_LOCKED
+  p2_077_status: TERMINAL_PRODUCT_SELECTOR_DEV_SEMANTIC_GRAPH_AND_THRESHOLD_NON_PASS
+  p2_077_contract_sha256: 39301fa918bfeebdbfecc79854572858fa313cbda2033b7005cc757986a2227d
+  p2_077_capacity_source: P2_RECOVERY_CAPACITY_SLOT_V9_1
+  p2_077_candidate_commit: 5a52147f1ca522f6b8ef76822d2141a313b90b47
+  p2_077_candidate_tree: 51d040abb0e8d5b358449513ad729a2ab206c0c4
+  p2_077_candidate_a_macro_precision: 0.075
+  p2_077_candidate_a_macro_recall: 0.0625
+  p2_077_candidate_a_macro_mrr: 0.125
+  p2_077_candidate_b_macro_precision: 0.1
+  p2_077_candidate_b_macro_recall: 0.4375
+  p2_077_candidate_b_macro_mrr: 0.1763392857142857
+  p2_077_candidate_b_replay_byte_exact: true
+  p2_077_independent_review_status: CTO_SECURITY_QUALITY_NON_PASS
+  p2_077_terminal_receipt_sha256: 159865e2eb97f0411508dc24b0720fd9a2eeff3c14ef46b9b5274394b13b54e3
+  p2_077_product_selector_dev_milestone_accepted: false
+  p2_077_candidate_integrated: false
+  p2_077_held_source_reads: 0
+  p2_077_held_tasks_executed: 0
+  p2_077_progress_credit: 0
   p2_076_status: TERMINAL_PRODUCT_SELECTOR_DEV_PARAMETER_GATE_NON_PASS
   p2_076_contract_sha256: 59bbe91401109667ddee0136956fa8879115d24a38aef25691129809e4f7233b
   p2_076_capacity_source: P2_RECOVERY_CAPACITY_SLOT_V8_1
@@ -29346,7 +29414,7 @@ claim_boundary:
   p2_065_rejected_candidate_preservation_receipt_sha256: 8a96643ed0823c11791471a7249318ce287c6e1f41d087b5bf3863a8b8fd8ac8
   p2_065_canonical_make_verify: NOT_INVOKED_TERMINAL_TARGET_METRIC_NON_PASS
   p2_065_capability_credit: 0
-  p2_phase_envelope_status: TASK_CAPACITY_RESERVED
+  p2_phase_envelope_status: ACTIVE_REMAINING_CAPACITY
   p2_project_status: ACTIVE
   long_term_goal_status: ACTIVE
   p2_064_status: TERMINAL_FORMAL_DEV_CHILD_EXIT_BEFORE_READY_ITERATION2_EXHAUSTED_NON_PASS
@@ -29442,11 +29510,11 @@ claim_boundary:
   p2_060_raw_graph_macro_recall: 0.9166666666666666
   p2_060_candidate_frozen: false
   p2_060_sealed_runs: 0
-  p2_phase_envelope_limits: 22_TASKS_656_ENGINEERING_HOURS_164_CALENDAR_DAYS
-  p2_phase_envelope_consumed: 20_TASKS_592_ENGINEERING_HOURS_148_CALENDAR_DAYS
+  p2_phase_envelope_limits: 23_TASKS_688_ENGINEERING_HOURS_172_CALENDAR_DAYS
+  p2_phase_envelope_consumed: 22_TASKS_656_ENGINEERING_HOURS_164_CALENDAR_DAYS
   p2_phase_envelope_reserved: NONE
-  p2_phase_envelope_remaining: 2_TASKS_64_ENGINEERING_HOURS_16_CALENDAR_DAYS_PRODUCT_SELECTOR_DEV_THEN_LOCKED_FORMAL_HELD
-  founder_reserved_trigger: NONE
+  p2_phase_envelope_remaining: 1_TASK_32_ENGINEERING_HOURS_8_CALENDAR_DAYS_LOCKED_FORMAL_HELD_ONLY
+  founder_reserved_trigger: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
   p2_055_status: TERMINAL_FINAL_CTO_SECURITY_TARGET_NON_PASS
   p2_055_candidate_commit: eebb76347ff71a5482b1965e0bf4ac6d4adfa7ca
   p2_055_candidate_tree: f5fb0f22b4a34d4b616214c9bd0bb69b625d2481

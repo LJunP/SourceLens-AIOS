@@ -399,6 +399,10 @@ module P2RecoveryAntiCycle
       CLEAN_ROOM_SLOT_V7_1_PRODUCT_SELECTOR_DEV_TASK_RESERVED_READY_SLOT_V2_3_RELOCKED
       CLEAN_ROOM_SLOT_V7_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED
       CLEAN_ROOM_SLOT_V7_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
+      CLEAN_ROOM_SLOT_V8_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED
+      CLEAN_ROOM_SLOT_V8_1_PRODUCT_SELECTOR_DEV_TASK_RESERVED_READY_SLOT_V2_3_RELOCKED
+      CLEAN_ROOM_SLOT_V8_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED
+      CLEAN_ROOM_SLOT_V8_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
     ].include?(control["status"])
     expected_delivery_percent = baseline_accepted ? 25 : 0
     expected_accepted_milestones = baseline_accepted ? ["P2_RECOVERY_BASELINE_ACCEPTED"] : []
@@ -475,6 +479,7 @@ module P2RecoveryAntiCycle
       CLEAN_ROOM_SLOT_V5_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
       CLEAN_ROOM_SLOT_V6_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
       CLEAN_ROOM_SLOT_V7_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
+      CLEAN_ROOM_SLOT_V8_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
     ].include?(control["status"])
     expected_consumed = consumed.dup
     if terminal_or_accepted_slot_1
@@ -513,6 +518,7 @@ module P2RecoveryAntiCycle
       CLEAN_ROOM_SLOT_V5_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
       CLEAN_ROOM_SLOT_V6_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
       CLEAN_ROOM_SLOT_V7_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
+      CLEAN_ROOM_SLOT_V8_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
     ].include?(control["status"])
     if terminal_locked
       assert!(escalation["disposition"] == "FOUNDER_DECISION_REQUIRED" &&
@@ -538,7 +544,9 @@ module P2RecoveryAntiCycle
     when "CLEAN_ROOM_SLOT_V4_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED",
          "CLEAN_ROOM_SLOT_V5_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED",
          "CLEAN_ROOM_SLOT_V6_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED",
-         "CLEAN_ROOM_SLOT_V7_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED"
+         "CLEAN_ROOM_SLOT_V7_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED",
+         "CLEAN_ROOM_SLOT_V8_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED"
+      graph_fusion = control["status"].include?("SLOT_V8_1")
       architecture_pivot = control["status"].include?("SLOT_V7_1")
       product_path_closure = control["status"].include?("SLOT_V6_1")
       stream_lifecycle = control["status"].include?("SLOT_V5_1")
@@ -548,7 +556,9 @@ module P2RecoveryAntiCycle
         "engineering_hours" => 64,
         "calendar_days" => 16
       }
-      expected_token = if architecture_pivot
+      expected_token = if graph_fusion
+                         "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_B1_ANCHORED_GRAPH_FUSION_SLOT_AND_RELOCKED_HELD_SEQUENCE_V6"
+                       elsif architecture_pivot
                          "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_AND_RELOCKED_HELD_SEQUENCE_V5"
                        elsif product_path_closure
                          "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V4"
@@ -557,7 +567,9 @@ module P2RecoveryAntiCycle
                        else
                          "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_EXECUTION_INTEGRITY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V2"
                        end
-      expected_capacity_ids = if architecture_pivot
+      expected_capacity_ids = if graph_fusion
+                                %w[P2_RECOVERY_CAPACITY_SLOT_V8_1 P2_RECOVERY_CAPACITY_SLOT_V2_3]
+                              elsif architecture_pivot
                                 %w[P2_RECOVERY_CAPACITY_SLOT_V7_1 P2_RECOVERY_CAPACITY_SLOT_V2_3]
                               elsif product_path_closure
                                 %w[P2_RECOVERY_CAPACITY_SLOT_V6_1 P2_RECOVERY_CAPACITY_SLOT_V2_3]
@@ -569,7 +581,9 @@ module P2RecoveryAntiCycle
       assert!(decision_claims["authorization_token"] == expected_token &&
               decision_claims["capacity_slots"].map { |slot| slot["capacity_slot_id"] } == expected_capacity_ids,
               "Truth Product Selector recovery decision or re-locked HELD identity drift")
-      expected_consumed = if architecture_pivot
+      expected_consumed = if graph_fusion
+                            { "engineering_tasks" => 20, "engineering_hours" => 592, "calendar_days" => 148 }
+                          elsif architecture_pivot
                             { "engineering_tasks" => 19, "engineering_hours" => 560, "calendar_days" => 140 }
                           elsif product_path_closure
                             { "engineering_tasks" => 18, "engineering_hours" => 528, "calendar_days" => 132 }
@@ -582,7 +596,9 @@ module P2RecoveryAntiCycle
               envelope["reserved"].nil? && envelope["remaining"] == expected_remaining &&
               envelope["consumed"] == expected_consumed,
               "Truth eligible Product Selector recovery envelope drift")
-      expected_preceding_route = if architecture_pivot
+      expected_preceding_route = if graph_fusion
+                                   "historical_p2_075_phase_route"
+                                 elsif architecture_pivot
                                    "historical_p2_074_phase_route"
                                  elsif product_path_closure
                                    "historical_p2_073_phase_route"
@@ -611,7 +627,9 @@ module P2RecoveryAntiCycle
               control["capacity_slots"] == expected_slots &&
               control["capacity_slots"].all? { |slot| slot["task_id"].nil? },
               "Truth eligible Product Selector recovery capacity projection drift")
-      expected_progress = if architecture_pivot
+      expected_progress = if graph_fusion
+                            "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_NEW_PRODUCT_SELECTOR_DEV_B1_ANCHORED_GRAPH_FUSION_SLOT_V8_1_ELIGIBLE_FORMAL_HELD_SLOT_V2_3_RELOCKED"
+                          elsif architecture_pivot
                             "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_NEW_PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_V7_1_ELIGIBLE_FORMAL_HELD_SLOT_V2_3_RELOCKED"
                           elsif product_path_closure
                             "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_NEW_PRODUCT_SELECTOR_DEV_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_SLOT_V6_1_ELIGIBLE_FORMAL_HELD_SLOT_V2_3_RELOCKED"

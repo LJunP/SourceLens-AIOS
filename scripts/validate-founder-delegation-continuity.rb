@@ -1013,6 +1013,8 @@ module FounderDelegationContinuity
         AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V7
         AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_SLOT_AND_RELOCKED_HELD_SEQUENCE_V8
       ].include?(product_selector_recovery_token)
+      formal_held_route_unlock = product_selector_recovery_token ==
+        "AUTHORIZE_P2_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_ROUTE_UNLOCK_V1"
       expected_product_selector_capacity_ids = case product_selector_recovery_token
                                                when "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_RECOVERY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V1"
                                                  %w[P2_RECOVERY_CAPACITY_SLOT_V3_1 P2_RECOVERY_CAPACITY_SLOT_V2_3]
@@ -1030,6 +1032,8 @@ module FounderDelegationContinuity
                                                  %w[P2_RECOVERY_CAPACITY_SLOT_V9_1 P2_RECOVERY_CAPACITY_SLOT_V2_3]
                                                when "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_SLOT_AND_RELOCKED_HELD_SEQUENCE_V8"
                                                  %w[P2_RECOVERY_CAPACITY_SLOT_V10_1 P2_RECOVERY_CAPACITY_SLOT_V2_3]
+                                               when "AUTHORIZE_P2_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_ROUTE_UNLOCK_V1"
+                                                 %w[P2_RECOVERY_CAPACITY_SLOT_V2_3]
                                                end
       slot_generations = []
       slots = array(decision["capacity_slots"], "cumulative expansion capacity slots").map.with_index do |value, index|
@@ -1047,20 +1051,27 @@ module FounderDelegationContinuity
         )
         slot_generations << slot_match&.[](1)
         expected_capacity_slot_id = expected_product_selector_capacity_ids&.fetch(index)
+        expected_task_shape = formal_held_route_unlock ? [1, 1, 0] : [2, 2, 1]
         assert(slot_match &&
-               (product_selector_recovery ? slot["capacity_slot_id"] == expected_capacity_slot_id :
+               ((product_selector_recovery || formal_held_route_unlock) ? slot["capacity_slot_id"] == expected_capacity_slot_id :
                  Integer(slot_match[2], 10) == index + 1) &&
                slot["slot"] == index + 1 &&
                slot["task_id"].nil? && slot["engineering_hours"] == 32 &&
-               slot["calendar_days"] == 8 && slot["max_candidates"] == 2 &&
-               slot["max_implementation_iterations"] == 2 &&
-               slot["max_same_task_repairs"] == 1,
+               slot["calendar_days"] == 8 &&
+               [slot["max_candidates"], slot["max_implementation_iterations"],
+                slot["max_same_task_repairs"]] == expected_task_shape,
                "cumulative expansion capacity slot identity or budget drift")
         slot
       end
-      assert(product_selector_recovery || slot_generations.uniq.length == 1,
+      assert(product_selector_recovery || formal_held_route_unlock || slot_generations.uniq.length == 1,
              "cumulative expansion capacity slot generation drift")
-      expected_slots = if product_selector_recovery
+      expected_slots = if formal_held_route_unlock
+                         [
+                           ["P2_RECOVERY_FORMAL_HELD_MATRIX_COMPLETE",
+                            "EXACT_FOUNDER_ROUTE_DECISION_AND_FROZEN_CANDIDATE_PREACTIVATION_PASS",
+                            false]
+                         ]
+                       elsif product_selector_recovery
                          [
                            ["P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED", "P2_RECOVERY_BASELINE_ACCEPTED", true],
                            ["P2_RECOVERY_FORMAL_HELD_MATRIX_COMPLETE", "P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED", false]
@@ -1152,7 +1163,12 @@ module FounderDelegationContinuity
                parent_remaining.values.all?(&:positive?) && slot_generations.first &&
                parent_truth.dig("active_work", "current_task") == "NONE" &&
                parent_truth.dig("p2_recovery_control", "task_creation_allowed") == false &&
-               (product_selector_recovery ?
+               (formal_held_route_unlock ?
+                 parent_control.dig("reserved_trigger", "category") == decision["exact_reserved_trigger"] &&
+                   parent_control["founder_decision_required"] == true &&
+                   parent_truth.dig("p2_recovery_control", "status") ==
+                     "CLEAN_ROOM_SLOT_V10_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED" :
+                product_selector_recovery ?
                  parent_control.dig("reserved_trigger", "category") == decision["exact_reserved_trigger"] &&
                    parent_control["founder_decision_required"] == true &&
                    parent_truth.dig("p2_recovery_control", "status") ==
@@ -1161,10 +1177,11 @@ module FounderDelegationContinuity
                    parent_control["founder_decision_required"] == false),
                "cumulative expansion active-parent resequencing precondition drift")
       end
+      expected_max_repairs = formal_held_route_unlock ? 0 : 1
       assert(decision_envelope["max_engineering_tasks"] == prior.dig("consumed", "engineering_tasks") + slots.length &&
              decision_envelope["max_engineering_hours"] == prior.dig("consumed", "engineering_hours") + slots.sum { |slot| slot["engineering_hours"] } &&
              decision_envelope["max_calendar_days"] == prior.dig("consumed", "calendar_days") + slots.sum { |slot| slot["calendar_days"] } &&
-             decision_envelope["max_same_task_repairs_per_task"] == 1 &&
+             decision_envelope["max_same_task_repairs_per_task"] == expected_max_repairs &&
              decision["external_effects"] == FALSE_EXTERNAL_EFFECTS,
              "cumulative expansion envelope does not equal its exact prior plus capacity slots")
     end
@@ -4242,7 +4259,9 @@ module FounderDelegationContinuity
         "CLEAN_ROOM_SLOT_V9_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED" =>
           "historical_p2_076_phase_route",
         "CLEAN_ROOM_SLOT_V10_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED" =>
-          "historical_p2_077_phase_route"
+          "historical_p2_077_phase_route",
+        "EXACT_FROZEN_P2_078_FORMAL_HELD_SLOT_ELIGIBLE_NOT_ACTIVATED" =>
+          "historical_p2_078_phase_route"
       }[cumulative_capacity_ready_status] == current_route["historical_terminal_route_ref"]
     if single_task_projection
       task_status = current_route.dig("selected_task", "status")
@@ -4252,7 +4271,10 @@ module FounderDelegationContinuity
         "status" => task_status
       }, "single-Task Founder expansion control does not project the exact READY or ACTIVE Task")
     elsif cumulative_capacity_ready_projection
-      event_status = if cumulative_capacity_ready_status.include?("SLOT_V10_1")
+      event_status = if cumulative_capacity_ready_status ==
+                        "EXACT_FROZEN_P2_078_FORMAL_HELD_SLOT_ELIGIBLE_NOT_ACTIVATED"
+                       "EXACT_FROZEN_P2_078_FORMAL_HELD_SLOT_V2_3_ELIGIBLE_NOT_ACTIVATED"
+                     elsif cumulative_capacity_ready_status.include?("SLOT_V10_1")
                        "PRODUCT_SELECTOR_DEV_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_SLOT_V10_1_ELIGIBLE_NOT_ACTIVATED"
                      elsif cumulative_capacity_ready_status.include?("SLOT_V9_1")
                        "PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_V9_1_ELIGIBLE_NOT_ACTIVATED"
@@ -4267,8 +4289,12 @@ module FounderDelegationContinuity
                      else
                        "PRODUCT_SELECTOR_DEV_EXECUTION_INTEGRITY_SLOT_V4_1_ELIGIBLE_NOT_ACTIVATED"
                      end
+      expected_event_kind = cumulative_capacity_ready_status ==
+        "EXACT_FROZEN_P2_078_FORMAL_HELD_SLOT_ELIGIBLE_NOT_ACTIVATED" ?
+          "FOUNDER_RESERVED_SCOPE_CHANGE_ACCEPTED" :
+          "FOUNDER_PHASE_ENVELOPE_EXPANSION_ACCEPTED"
       assert(event == {
-        "kind" => "FOUNDER_PHASE_ENVELOPE_EXPANSION_ACCEPTED",
+        "kind" => expected_event_kind,
         "task_id" => nil,
         "status" => event_status
       }, "cumulative Founder expansion control does not project the exact eligible capacity lifecycle")

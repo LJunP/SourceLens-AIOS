@@ -598,6 +598,7 @@ module P2RecoveryAntiCycle
       CLEAN_ROOM_SLOT_V10_1_PRODUCT_SELECTOR_DEV_TASK_RESERVED_READY_SLOT_V2_3_RELOCKED
       CLEAN_ROOM_SLOT_V10_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED
       CLEAN_ROOM_SLOT_V10_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
+      EXACT_FROZEN_P2_078_FORMAL_HELD_SLOT_ELIGIBLE_NOT_ACTIVATED
     ].include?(control["status"])
     expected_delivery_percent = baseline_accepted ? 25 : 0
     expected_accepted_milestones = baseline_accepted ? ["P2_RECOVERY_BASELINE_ACCEPTED"] : []
@@ -652,6 +653,89 @@ module P2RecoveryAntiCycle
     assert!(source_decision["slot_unlock"] == {"capacity_slot_id" => "P2_RECOVERY_CAPACITY_SLOT_1", "milestone_id" => "P2_RECOVERY_BASELINE_ACCEPTED", "unlock_requirement" => "BENCHMARK_SOURCE_PACK_ADMISSION_ACCEPTED", "unlock_status" => "SATISFIED", "task_id" => nil, "task_activation_status" => "ELIGIBLE_NOT_ACTIVATED"}, "source admission did not unlock only slot1")
     assert!(source_decision["progress"] == {"p2_strict_percent" => 0, "p2_delivery_percent" => 0, "accepted_milestones" => [], "governance_progress_credit" => 0, "source_admission_progress_credit" => 0, "p3_status" => "HOLD"} && source_decision["rejected_lineage_recovered_or_reused"] == false, "source admission created false progress or reused rejected lineage")
     assert!(source_decision.fetch("external_effects_after_acceptance").values.none?, "source admission retained an external effect")
+
+    formal_held_route_unlock = decision_claims["authorization_token"] ==
+      "AUTHORIZE_P2_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_ROUTE_UNLOCK_V1"
+    if formal_held_route_unlock
+      expected_slot = [{
+        "slot" => 1,
+        "capacity_slot_id" => "P2_RECOVERY_CAPACITY_SLOT_V2_3",
+        "task_id" => nil,
+        "milestone_id" => "P2_RECOVERY_FORMAL_HELD_MATRIX_COMPLETE",
+        "unlock_requirement" => "EXACT_FOUNDER_ROUTE_DECISION_AND_FROZEN_CANDIDATE_PREACTIVATION_PASS",
+        "engineering_hours" => 32,
+        "calendar_days" => 8
+      }]
+      assert!(decision_claims["capacity_slots"].map do |slot|
+                slot.slice("slot", "capacity_slot_id", "task_id", "milestone_id",
+                           "unlock_requirement", "engineering_hours", "calendar_days")
+              end == expected_slot,
+              "Truth exact frozen P2-078 formal HELD capacity identity drift")
+      assert!(envelope["status"] == "ACTIVE_REMAINING_CAPACITY" &&
+              envelope["limits"].slice("engineering_tasks", "engineering_hours", "calendar_days") == {
+                "engineering_tasks" => 24,
+                "engineering_hours" => 720,
+                "calendar_days" => 180
+              } &&
+              envelope["consumed"] == {
+                "engineering_tasks" => 23,
+                "engineering_hours" => 688,
+                "calendar_days" => 172
+              } && envelope["reserved"].nil? && envelope["remaining"] == {
+                "engineering_tasks" => 1,
+                "engineering_hours" => 32,
+                "calendar_days" => 8
+              }, "Truth exact frozen P2-078 formal HELD envelope drift")
+      source_route_ref = envelope.dig("authority_basis", "source_route_ref")
+      source_route = truth[source_route_ref]
+      assert!(source_route.is_a?(Hash) &&
+              source_route["route_id"] == decision_claims["route_id"] &&
+              envelope.dig("authority_basis", "source_route_id") == decision_claims["route_id"] &&
+              envelope.dig("authority_basis", "source_decision") == decision_identity,
+              "Truth exact frozen P2-078 formal HELD authority binding drift")
+      assert!(route["schema_version"] == "phase-delegated-continuation-hold/v1" &&
+              route["status"] == "AUTHORIZED_READY" &&
+              route["execution_status"] == "PHASE_DELEGATED_CONTINUATION_READY" &&
+              route["scheduling_status"] == "MASTER_SELECTING_NEXT_INDEPENDENT_PHASE_LOCAL_TASK" &&
+              route["historical_terminal_route_ref"] == "historical_p2_078_phase_route" &&
+              route["next_eligible_action"] == "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK",
+              "Truth exact frozen P2-078 formal HELD continuation Route drift")
+      assert!(escalation["disposition"] == "NO_RESERVED_TRIGGER_CONTINUE_PHASE" &&
+              escalation.dig("reserved_trigger", "category") == "NONE" &&
+              escalation["founder_decision_required"] == false &&
+              escalation["next_action_owner"] == "MASTER_CEO_AGENT" &&
+              escalation["next_eligible_action"] == "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK",
+              "Truth exact frozen P2-078 formal HELD Founder control drift")
+      assert!(active["current_task"] == "NONE" &&
+              active["task_resource_state"] == "NOT_CREATED_PHASE_DELEGATED_CONTINUATION_READY" &&
+              active["execution_nonce_status"] == "NOT_ALLOCATED" &&
+              active["founder_decision_required"] == false &&
+              active["next_eligible_action"] == "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK" &&
+              goal["current_task_authority"] == "NONE",
+              "Truth exact frozen P2-078 formal HELD active-work drift")
+      assert!(control["status"] == "EXACT_FROZEN_P2_078_FORMAL_HELD_SLOT_ELIGIBLE_NOT_ACTIVATED" &&
+              control["task_creation_allowed"] == true &&
+              control["current_delivery_percent"] == 25 &&
+              control["accepted_milestones"] == ["P2_RECOVERY_BASELINE_ACCEPTED"] &&
+              control["capacity_slots"] == expected_slot &&
+              control["next_eligible_action"] == "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK",
+              "Truth exact frozen P2-078 formal HELD recovery projection drift")
+      assert!(project["phase_execution_status"] == "ACTIVE" &&
+              project["current_route_execution_status"] == "PHASE_DELEGATED_CONTINUATION_READY" &&
+              claim["p2_phase_envelope_status"] == "ACTIVE_REMAINING_CAPACITY" &&
+              claim["current_phase_route"] == route["route_id"] &&
+              claim["current_task"] == "NONE" &&
+              claim["next_eligible_action"] == route["next_eligible_action"] &&
+              claim["real_engineering_progress"] ==
+                "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_EXACT_FROZEN_P2_078_FORMAL_HELD_SLOT_V2_3_ELIGIBLE_NOT_ACTIVATED" &&
+              claim["p2_078_candidate_integrated"] == false &&
+              claim["p2_078_held_source_reads"] == 0 &&
+              claim["p2_078_held_tasks_executed"] == 0,
+              "Truth exact frozen P2-078 formal HELD claim projection drift")
+      assert!(plan.dig("current_control", "new_task_creation_allowed") == false,
+              "Recovery plan historical baseline was rewritten")
+      return
+    end
 
     clean_room_resequenced = decision_claims["route_id"] ==
       "P2_CLEAN_ROOM_RECOVERY_RESEQUENCING_AND_MINIMAL_ENVELOPE_EXPANSION_ROUTE_V1"

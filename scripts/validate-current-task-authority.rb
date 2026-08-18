@@ -1362,6 +1362,7 @@ module CurrentTaskAuthority
         AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_B1_ANCHORED_GRAPH_FUSION_SLOT_AND_RELOCKED_HELD_SEQUENCE_V6
         AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V7
         AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_SLOT_AND_RELOCKED_HELD_SEQUENCE_V8
+        AUTHORIZE_P2_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_ROUTE_UNLOCK_V1
       ].include?(decision["authorization_token"])
       versioned_slots = array(decision["capacity_slots"],
                               "structured decision resequenced capacity slots").all? do |slot|
@@ -1388,6 +1389,7 @@ module CurrentTaskAuthority
                  CLEAN_ROOM_SLOT_V7_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
                  CLEAN_ROOM_SLOT_V8_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
                  CLEAN_ROOM_SLOT_V9_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
+                 CLEAN_ROOM_SLOT_V10_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
                ].include?(parent_truth.dig("p2_recovery_control", "status"))) &&
              versioned_slots,
              "structured decision active-parent resequencing precondition drift")
@@ -2068,6 +2070,8 @@ module CurrentTaskAuthority
         AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V7
         AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_SLOT_AND_RELOCKED_HELD_SEQUENCE_V8
       ].include?(authorization_token)
+      formal_held_route_unlock = authorization_token ==
+        "AUTHORIZE_P2_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_ROUTE_UNLOCK_V1"
       slot_generations = []
       slots = array(decision["capacity_slots"],
                     "structured Founder route decision.capacity_slots").map.with_index do |value, index|
@@ -2084,7 +2088,9 @@ module CurrentTaskAuthority
           slot["capacity_slot_id"].to_s
         )
         slot_generations << slot_match&.[](1)
-        expected_capacity_slot_id = if authorization_token ==
+        expected_capacity_slot_id = if formal_held_route_unlock
+                                      ["P2_RECOVERY_CAPACITY_SLOT_V2_3"][index]
+                                    elsif authorization_token ==
                                        "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_RECOVERY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V1"
                                       %w[P2_RECOVERY_CAPACITY_SLOT_V3_1 P2_RECOVERY_CAPACITY_SLOT_V2_3][index]
                                     elsif authorization_token ==
@@ -2110,21 +2116,25 @@ module CurrentTaskAuthority
                                       %w[P2_RECOVERY_CAPACITY_SLOT_V10_1 P2_RECOVERY_CAPACITY_SLOT_V2_3][index]
                                     end
         assert(slot_match &&
-               (product_selector_recovery ? slot["capacity_slot_id"] == expected_capacity_slot_id :
+               ((product_selector_recovery || formal_held_route_unlock) ? slot["capacity_slot_id"] == expected_capacity_slot_id :
                  Integer(slot_match[2], 10) == index + 1) &&
                slot["slot"] == index + 1 &&
                slot["task_id"].nil?,
                "structured Founder route decision capacity slot identity drift")
+        expected_task_shape = formal_held_route_unlock ? [1, 1, 0] : [2, 2, 1]
         assert(slot["engineering_hours"].is_a?(Integer) && slot["engineering_hours"].positive? &&
                slot["calendar_days"].is_a?(Integer) && slot["calendar_days"].positive? &&
-               slot["max_candidates"] == 2 && slot["max_implementation_iterations"] == 2 &&
-               slot["max_same_task_repairs"] == 1,
+               [slot["max_candidates"], slot["max_implementation_iterations"], slot["max_same_task_repairs"]] == expected_task_shape,
                "structured Founder route decision capacity slot budget drift")
         slot
       end
-      assert(product_selector_recovery || slot_generations.uniq.length == 1,
+      assert(product_selector_recovery || formal_held_route_unlock || slot_generations.uniq.length == 1,
              "structured Founder route decision capacity slot generation drift")
-      expected_slots = if product_selector_recovery
+      expected_slots = if formal_held_route_unlock
+                         [
+                           ["P2_RECOVERY_FORMAL_HELD_MATRIX_COMPLETE", "EXACT_FOUNDER_ROUTE_DECISION_AND_FROZEN_CANDIDATE_PREACTIVATION_PASS", false]
+                         ]
+                       elsif product_selector_recovery
                          [
                            ["P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED", "P2_RECOVERY_BASELINE_ACCEPTED", true],
                            ["P2_RECOVERY_FORMAL_HELD_MATRIX_COMPLETE", "P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED", false]
@@ -2140,7 +2150,8 @@ module CurrentTaskAuthority
         [slot["milestone_id"], slot["unlock_requirement"], slot["product_mutation_allowed"]] ==
           expected_slots[index]
       end, "structured Founder route decision recovery milestone ordering drift")
-      assert(envelope["max_same_task_repairs_per_task"] == 1 &&
+      expected_repairs = formal_held_route_unlock ? 0 : 1
+      assert(envelope["max_same_task_repairs_per_task"] == expected_repairs &&
              envelope["max_engineering_tasks"] == prior_consumed["engineering_tasks"] + slots.length &&
              envelope["max_engineering_hours"] == prior_consumed["engineering_hours"] + slots.sum { |slot| slot["engineering_hours"] } &&
              envelope["max_calendar_days"] == prior_consumed["calendar_days"] + slots.sum { |slot| slot["calendar_days"] },
@@ -2159,7 +2170,7 @@ module CurrentTaskAuthority
         "max_engineering_tasks" => envelope["max_engineering_tasks"],
         "max_engineering_hours" => envelope["max_engineering_hours"],
         "max_calendar_days" => envelope["max_calendar_days"],
-        "max_same_task_repairs" => 1,
+        "max_same_task_repairs" => expected_repairs,
         "max_contract_corrections_per_task" => 0,
         "first_task_id" => nil,
         "task_ids" => [],

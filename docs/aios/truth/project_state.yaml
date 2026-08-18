@@ -1,8 +1,8 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: '2026-08-18T05:06:00Z'
+last_verified_at: '2026-08-18T06:12:00Z'
 
-verification_scope: P2_078_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_TASK_ACTIVE_PREACTIVATION_PENDING_SLOT_V10_1_HELD_V2_3_RELOCKED_P2_DELIVERY_25_STRICT_0_P2_PROJECT_AND_LONG_TERM_GOAL_ACTIVE
+verification_scope: P2_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_ROUTE_AUTHORIZED_SLOT_V2_3_ELIGIBLE_NOT_ACTIVATED_HELD_UNREAD_P2_DELIVERY_25_STRICT_0_P2_PROJECT_AND_LONG_TERM_GOAL_ACTIVE
 
 authority:
   founder: Human Founder
@@ -39,7 +39,19 @@ goal:
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
   current_task_authority: NONE
-  note: 'Founder decision AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_SLOT_AND_RELOCKED_HELD_SEQUENCE_V8
+  note: 'Founder decision AUTHORIZE_P2_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_ROUTE_UNLOCK_V1
+    supersedes only the Product Selector DEV prerequisite for the existing formal HELD
+    slot V2_3. It adds no Task capacity, implementation attempt, parameter set or
+    Phase budget. The only eligible next Task must first preactivate exact frozen
+    candidate e0c0f4d78b64b95b359746ab7c2fec4beed4311f tree
+    405bd708c7e724b792c37b9eb568e492cb94c70d against manifest-bound P2-078 Evidence
+    before any HELD read. Preactivation PASS permits exactly one untouched formal
+    HELD dispatch; it authorizes no product mutation, DEV rerun, retuning or successor.
+    This decision does not retroactively accept P2-078. It creates zero progress:
+    delivery remains 25%, strict P2 progress remains 0%, HELD reads and executions
+    remain zero, P3 remains HOLD, and P2 plus the Long-term Goal remain ACTIVE. All
+    following paragraphs are retained historical chronology only. Founder decision
+    AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_SLOT_AND_RELOCKED_HELD_SEQUENCE_V8
     expands the cumulative P2 envelope to twenty-four Tasks, seven-hundred-twenty
     engineering hours and one-hundred-eighty calendar days while preserving twenty-two
     consumed Tasks. One final clean-room JDK17 scan-time compiler-attributed persisted-graph
@@ -1612,8 +1624,8 @@ project:
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
   p2_execution_status: ACTIVE
-  phase_execution_status: STOPPED_AT_FOUNDER_RESERVED_DECISION
-  current_route_execution_status: FOUNDER_RESERVED_DECISION_REQUIRED
+  phase_execution_status: ACTIVE
+  current_route_execution_status: PHASE_DELEGATED_CONTINUATION_READY
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -8098,19 +8110,19 @@ historical_p2_076_phase_route:
     status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
 
 current_phase_route:
-  schema_version: founder-reserved-decision-hold/v1
-  route_id: P2_FOUNDER_RESERVED_DECISION_HOLD
-  status: FOUNDER_RESERVED_DECISION_REQUIRED
-  execution_status: FOUNDER_RESERVED_DECISION_REQUIRED
-  scheduling_status: STOPPED_AT_FOUNDER_RESERVED_DECISION
+  schema_version: phase-delegated-continuation-hold/v1
+  route_id: P2_PHASE_DELEGATED_CONTINUATION_PENDING_TASK_SELECTION
+  status: AUTHORIZED_READY
+  execution_status: PHASE_DELEGATED_CONTINUATION_READY
+  scheduling_status: MASTER_SELECTING_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
   phase: P2
   phase_entry_status: AUTHORIZED
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: '1.8'
     sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
-  founder_phase_route_decision_required: true
-  next_eligible_action: FOUNDER_RESERVED_DECISION
+  founder_phase_route_decision_required: false
+  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
   phase_execution_envelope_ref: phase_execution_envelope
   historical_terminal_route_ref: historical_p2_078_phase_route
   external_effects:
@@ -10641,6 +10653,97 @@ historical_p2_product_selector_dev_jdk17_scan_time_compiler_attributed_persisted
   inherited_worktree_inventory: []
   next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
 
+historical_p2_exact_frozen_p2_078_one_shot_formal_held_route_unlock_phase_route:
+  schema_version: '1.4'
+  route_id: P2_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_ROUTE_UNLOCK_ROUTE_V1
+  status: AUTHORIZED_CAPACITY_AVAILABLE
+  execution_status: EXACT_FROZEN_P2_078_FORMAL_HELD_SLOT_ELIGIBLE_NOT_ACTIVATED
+  scheduling_status: MASTER_SELECTING_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
+  phase: P2
+  phase_entry_status: AUTHORIZED
+  authorization_token: AUTHORIZE_P2_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_ROUTE_UNLOCK_V1
+  decision_packet:
+    path: docs/aios/decisions/P2_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_ROUTE_UNLOCK_DECISION_V1.json
+    sha256: d1294d844c38da27eac079231cd4cb3296160618b14aa7caab4174b32392c8e2
+    byte_length: 2787
+  original_founder_packet:
+    path: docs/aios/decisions/P2_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_ROUTE_UNLOCK_V1.md
+    sha256: 0d4ce4fe96cd3ff08ea81707e125453ded42f7280d511705db6a47b8434ed810
+    byte_length: 7224
+  activation_parent:
+    commit: 5fb2693bb09dab23430dbff6e9b39e0ed1b2eb23
+    tree: b31ab25648bcb2fa8e0892a7cd6ee1a16ccbbb92
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: '1.8'
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  goal_identity:
+    raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+    raw_byte_length: 19433
+    canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+    canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+    canonical_byte_length: 19434
+  objective: >-
+    Use only the existing final formal HELD capacity slot to preactivate the exact
+    immutable P2-078 candidate and, only on preactivation PASS, perform one untouched
+    formal HELD dispatch without product mutation, DEV rerun, retuning or new capacity.
+  claim_boundary: P2_EXACT_FROZEN_P2_078_CANDIDATE_PREACTIVATION_AND_ONE_SHOT_FORMAL_HELD_ONLY_NO_NEW_CAPACITY_IMPLEMENTATION_DEV_RERUN_RETUNING_GATE_CHANGE_EXTERNAL_EFFECT_P3_OR_GOAL_EFFECT
+  envelope:
+    max_engineering_tasks: 24
+    max_engineering_hours: 720
+    max_calendar_days: 180
+    max_active_tasks: 1
+    max_task_branches: 1
+    max_task_worktrees: 1
+    max_active_candidates: 1
+    max_contract_corrections_per_task: 0
+    max_same_task_repairs: 0
+    successor_replacement_normalization_closure_feasibility_or_remediation_chain_allowed: false
+    p2_entry_authorized: true
+    p3_entry_authorized: false
+    external_effects:
+      network: false
+      provider: false
+      secret: false
+      remote: false
+      production: false
+      public: false
+  founder_reserved_profile:
+  founder_reserved_profiles: []
+  exact_reserved_trigger: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+  prior_consumed_envelope:
+    consumed:
+      calendar_days: 172
+      engineering_hours: 688
+      engineering_tasks: 23
+    source_route_id: P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_SLOT_AND_RELOCKED_HELD_SEQUENCE_ROUTE_V8
+    task_ledger_canonical_byte_length: 21029
+    task_ledger_canonical_sha256: 29bcca3591a086dc70f110aaec24f291d279d7f73059dad301e4df144e683653
+    task_ledger_canonicalization: RECURSIVE_KEY_SORT_COMPACT_JSON_UTF8
+    task_ledger_entry_count: 23
+  recovery_plan_identity:
+    path: docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml
+    byte_length: 12759
+    sha256: b06431a4b58d7b222a2706819fd280ba1dc429c9523a95d035508840fab5a065
+  capacity_slots:
+  - slot: 1
+    capacity_slot_id: P2_RECOVERY_CAPACITY_SLOT_V2_3
+    task_id:
+    milestone_id: P2_RECOVERY_FORMAL_HELD_MATRIX_COMPLETE
+    unlock_requirement: EXACT_FOUNDER_ROUTE_DECISION_AND_FROZEN_CANDIDATE_PREACTIVATION_PASS
+    engineering_hours: 32
+    calendar_days: 8
+    max_implementation_iterations: 1
+    max_same_task_repairs: 0
+    max_candidates: 1
+    product_mutation_allowed: false
+  first_task:
+  task_plan: []
+  automatic_entry:
+  automatic_entries: []
+  inherited_worktree_inventory: []
+  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
+
 phase_execution_envelope:
   schema_version: phase-execution-envelope/v1
   phase: P2
@@ -10650,12 +10753,12 @@ phase_execution_envelope:
     policy_path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     policy_version: '1.8'
     policy_sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
-    source_route_ref: historical_p2_product_selector_dev_jdk17_scan_time_compiler_attributed_persisted_graph_slot_and_relocked_held_phase_route
-    source_route_id: P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_SLOT_AND_RELOCKED_HELD_SEQUENCE_ROUTE_V8
+    source_route_ref: historical_p2_exact_frozen_p2_078_one_shot_formal_held_route_unlock_phase_route
+    source_route_id: P2_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_ROUTE_UNLOCK_ROUTE_V1
     source_decision:
-      path: docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_SLOT_AND_RELOCKED_HELD_SEQUENCE_DECISION_V8.json
-      sha256: 5dafd989c0efc28280acc55a262ee792edfc64596d3d03502a42deb5f2e1ec20
-      byte_length: 3479
+      path: docs/aios/decisions/P2_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_ROUTE_UNLOCK_DECISION_V1.json
+      sha256: d1294d844c38da27eac079231cd4cb3296160618b14aa7caab4174b32392c8e2
+      byte_length: 2787
     delegation_amendment:
       path: "/Users/lijunpeng/Developer/.sourcelens-audit/founder-delegation-continuity-20260808/decision/FOUNDER_PHASE_DELEGATION_CONTINUITY_AMENDMENT_V1.json"
       byte_length: 1182
@@ -11061,21 +11164,18 @@ phase_execution_envelope:
 
 founder_escalation_control:
   schema_version: founder-escalation-control/v1
-  disposition: FOUNDER_DECISION_REQUIRED
+  disposition: NO_RESERVED_TRIGGER_CONTINUE_PHASE
   source_event:
-    kind: PHASE_ENVELOPE_EXPANSION_REQUIRED
+    kind: FOUNDER_RESERVED_SCOPE_CHANGE_ACCEPTED
     task_id:
-    status: PENDING_FOUNDER_RESERVED_DECISION
+    status: EXACT_FROZEN_P2_078_FORMAL_HELD_SLOT_V2_3_ELIGIBLE_NOT_ACTIVATED
   reserved_trigger:
-    category: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+    category: NONE
     evidence:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-jdk17-scan-time-attributed-persisted-graph-20260818/task-p2-078/terminal/P2_078_FOUNDER_RESERVED_TRIGGER_EVIDENCE_V1.json
-      byte_length: 8623
-      sha256: f6a38b824f9886e13bd1becb49a7d59eace3b0e3d4d53cc3ea5b93ea2e129c5f
   phase_gate_status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
-  founder_decision_required: true
-  next_action_owner: HUMAN_FOUNDER
-  next_eligible_action: FOUNDER_RESERVED_DECISION
+  founder_decision_required: false
+  next_action_owner: MASTER_CEO_AGENT
+  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
 
 historical_p2_053_phase_route:
   schema_version: "1.1"
@@ -22522,11 +22622,11 @@ active_work:
     sha256:
     byte_length:
   execution_nonce:
-  execution_nonce_status: CONSUMED_TERMINAL
+  execution_nonce_status: NOT_ALLOCATED
   authorization_id:
   activation_parent_commit:
   activation_parent_tree:
-  task_resource_state: NO_ACTIVE_TASK_FOUNDER_RESERVED_DECISION_HOLD
+  task_resource_state: NOT_CREATED_PHASE_DELEGATED_CONTINUATION_READY
   task_branch:
   task_worktree:
   execution_evidence_root:
@@ -22547,13 +22647,13 @@ active_work:
   offsite_target:
   founder_reserved_authorization:
   founder_reserved_authorization_sha256:
-  founder_decision_required: true
-  founder_decision_required_scope: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
-  escalation_reason: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
-  user_action_required: FOUNDER_RESERVED_DECISION
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_RESERVED_DECISION
-  next_eligible_action: FOUNDER_RESERVED_DECISION
+  founder_decision_required: false
+  founder_decision_required_scope:
+  escalation_reason:
+  user_action_required: NONE
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
 
 historical_p2_065_terminal_active_work:
   current_task: AIOS-P2-065_ESM_IMPORT_GRAPH_CONTEXT_PRODUCT_BENCHMARK
@@ -29428,32 +29528,25 @@ phase_execution_claim:
 
 p2_recovery_control:
   schema_version: p2-recovery-control/v1
-  status: CLEAN_ROOM_SLOT_V10_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
+  status: EXACT_FROZEN_P2_078_FORMAL_HELD_SLOT_ELIGIBLE_NOT_ACTIVATED
   plan:
     path: docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml
     byte_length: 12759
     sha256: b06431a4b58d7b222a2706819fd280ba1dc429c9523a95d035508840fab5a065
   envelope_expansion_decision:
-    path: docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_SLOT_AND_RELOCKED_HELD_SEQUENCE_DECISION_V8.json
-    byte_length: 3479
-    sha256: 5dafd989c0efc28280acc55a262ee792edfc64596d3d03502a42deb5f2e1ec20
+    path: docs/aios/decisions/P2_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_ROUTE_UNLOCK_DECISION_V1.json
+    byte_length: 2787
+    sha256: d1294d844c38da27eac079231cd4cb3296160618b14aa7caab4174b32392c8e2
   source_admission_decision:
     path: docs/aios/decisions/P2_BENCHMARK_SOURCE_ADMISSION_ACCEPTED_V1.json
     byte_length: 3500
     sha256: c209604885e6494698e29d0fd9555603b810aa87eac1ae9f8d7778ee9841ec02
   capacity_slots:
   - slot: 1
-    capacity_slot_id: P2_RECOVERY_CAPACITY_SLOT_V10_1
-    task_id: AIOS-P2-078_CLEAN_ROOM_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_PRODUCT_SELECTOR_DEV
-    milestone_id: P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED
-    unlock_requirement: P2_RECOVERY_BASELINE_ACCEPTED
-    engineering_hours: 32
-    calendar_days: 8
-  - slot: 2
     capacity_slot_id: P2_RECOVERY_CAPACITY_SLOT_V2_3
     task_id:
     milestone_id: P2_RECOVERY_FORMAL_HELD_MATRIX_COMPLETE
-    unlock_requirement: P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED
+    unlock_requirement: EXACT_FOUNDER_ROUTE_DECISION_AND_FROZEN_CANDIDATE_PREACTIVATION_PASS
     engineering_hours: 32
     calendar_days: 8
   benchmark_source_admission_status: ACCEPTED_SOURCE_PACK_INSTALLED_SLOT_1_ELIGIBLE
@@ -29462,14 +29555,14 @@ p2_recovery_control:
   governance_progress_credit: 0
   accepted_milestones:
   - P2_RECOVERY_BASELINE_ACCEPTED
-  task_creation_allowed: false
-  next_eligible_action: FOUNDER_RESERVED_DECISION
+  task_creation_allowed: true
+  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
 
 claim_boundary:
-  current_phase_route: P2_FOUNDER_RESERVED_DECISION_HOLD
+  current_phase_route: P2_PHASE_DELEGATED_CONTINUATION_PENDING_TASK_SELECTION
   current_task: NONE
-  next_eligible_action: FOUNDER_RESERVED_DECISION
-  real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_078_TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_STRICT_SUPERIORITY_NON_PASS_SLOT_V2_3_LOCKED
+  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
+  real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_EXACT_FROZEN_P2_078_FORMAL_HELD_SLOT_V2_3_ELIGIBLE_NOT_ACTIVATED
   p2_078_status: TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_STRICT_SUPERIORITY_NON_PASS
   p2_078_contract_sha256: 1fd07942b72a930f37331cc211a7100d9e75cee9892d7a32202541b8a9db8081
   p2_078_capacity_source: P2_RECOVERY_CAPACITY_SLOT_V10_1

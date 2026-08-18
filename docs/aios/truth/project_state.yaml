@@ -21896,10 +21896,10 @@ active_work:
   current_task: NONE
   current_task_status: NONE
   current_task_contract:
-    path:
-    sha256:
-    byte_length:
-  current_task_contract_sha256:
+    path: docs/aios/tasks/P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV.yaml
+    sha256: dfddd218f12813c629b8e3e8cdd4aa426355da46adf5918a97736704186794bf
+    byte_length: 15392
+  current_task_contract_sha256: dfddd218f12813c629b8e3e8cdd4aa426355da46adf5918a97736704186794bf
   current_execution_authorization:
   current_execution_authorization_sha256:
   authority_record:
@@ -21907,7 +21907,7 @@ active_work:
     sha256:
     byte_length:
   execution_nonce:
-  execution_nonce_status: NOT_ALLOCATED
+  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
   authorization_id:
   activation_parent_commit:
   activation_parent_tree:
@@ -21921,7 +21921,10 @@ active_work:
     calendar_days:
     implementation_iterations:
     candidates:
-  roles: {}
+  roles:
+    owner:
+    worker:
+    independent_reviewers: []
   external_effects:
     network: false
     provider: false

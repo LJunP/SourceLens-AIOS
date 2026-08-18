@@ -29911,7 +29911,7 @@ phase_execution_claim:
 
 p2_recovery_control:
   schema_version: p2-recovery-control/v1
-  status: P2_080_EVALUATION_EVIDENCE_ADAPTER_TASK_RESERVED_READY
+  status: EXACT_FROZEN_P2_078_EVALUATION_EVIDENCE_ADAPTER_TASK_RESERVED_READY
   plan:
     path: docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml
     byte_length: 12759

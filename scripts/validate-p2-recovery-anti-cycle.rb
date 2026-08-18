@@ -690,6 +690,110 @@ module P2RecoveryAntiCycle
                            "unlock_requirement", "engineering_hours", "calendar_days")
               end == expected_slots,
               "Truth exact frozen P2-078 adapter-plus-HELD capacity identity drift")
+      delegated_adapter_task = route["schema_version"] ==
+        "phase-delegated-independent-task/v1" &&
+        route.dig("selected_task", "task_id") ==
+          "AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER" &&
+        %w[ELIGIBLE_NOT_ACTIVATED ACTIVE].include?(route.dig("selected_task", "status"))
+      if delegated_adapter_task
+        task_status = route.dig("selected_task", "status")
+        task_active = task_status == "ACTIVE"
+        task_id = route.dig("selected_task", "task_id")
+        expected_action = task_active ? "COMPLETE_CURRENT_TASK_GATE" :
+          "MASTER_ACTIVATE_PHASE_DELEGATED_TASK"
+        expected_control_status = task_active ?
+          "EXACT_FROZEN_P2_078_EVALUATION_EVIDENCE_ADAPTER_TASK_ACTIVE" :
+          "EXACT_FROZEN_P2_078_EVALUATION_EVIDENCE_ADAPTER_TASK_RESERVED_READY"
+        expected_control_slots = Marshal.load(Marshal.dump(expected_slots))
+        expected_control_slots.fetch(0)["task_id"] = task_id
+        expected_reservation = {
+          "task_id" => task_id,
+          "route_id" => route["route_id"],
+          "status" => task_status,
+          "capacity_source_task_id" => "P2_RECOVERY_CAPACITY_SLOT_V11_1",
+          "budget" => {
+            "engineering_tasks" => 1,
+            "engineering_hours" => 32,
+            "calendar_days" => 8
+          },
+          "contract" => route.dig("selected_task", "contract"),
+          "authority" => task_active ? active["authority_record"] : nil
+        }
+        assert!(envelope["status"] == "TASK_CAPACITY_RESERVED" &&
+                envelope["limits"].slice("engineering_tasks", "engineering_hours", "calendar_days") == {
+                  "engineering_tasks" => 26,
+                  "engineering_hours" => 784,
+                  "calendar_days" => 196
+                } && envelope["consumed"] == {
+                  "engineering_tasks" => 24,
+                  "engineering_hours" => 720,
+                  "calendar_days" => 180
+                } && envelope["reserved"] == expected_reservation &&
+                envelope["remaining"] == {
+                  "engineering_tasks" => 1,
+                  "engineering_hours" => 32,
+                  "calendar_days" => 8
+                }, "Truth P2-080 adapter Task envelope drift")
+        source_route_ref = envelope.dig("authority_basis", "source_route_ref")
+        source_route = truth[source_route_ref]
+        assert!(source_route.is_a?(Hash) &&
+                source_route["route_id"] == decision_claims["route_id"] &&
+                envelope.dig("authority_basis", "source_route_id") == decision_claims["route_id"] &&
+                envelope.dig("authority_basis", "source_decision") == decision_identity,
+                "Truth P2-080 adapter authority binding drift")
+        assert!(route["status"] == (task_active ? "ACTIVE" : "AUTHORIZED_READY") &&
+                route["execution_status"] == (task_active ? "ACTIVE" : "PHASE_DELEGATED_TASK_READY") &&
+                route["scheduling_status"] ==
+                  (task_active ? "ACTIVE_PHASE_DELEGATED_TASK" : "READY_FOR_MASTER_ACTIVATION") &&
+                route["source_authority_route_ref"] == source_route_ref &&
+                route["preceding_terminal_route_ref"] == "historical_p2_079_phase_route" &&
+                route["next_eligible_action"] == expected_action,
+                "Truth P2-080 adapter Route drift")
+        assert!(escalation["disposition"] == "NO_RESERVED_TRIGGER_CONTINUE_PHASE" &&
+                escalation.dig("reserved_trigger", "category") == "NONE" &&
+                escalation["founder_decision_required"] == false &&
+                escalation["next_action_owner"] == "MASTER_CEO_AGENT" &&
+                escalation["next_eligible_action"] == expected_action,
+                "Truth P2-080 adapter Founder control drift")
+        assert!(active["current_task"] == (task_active ? task_id : "NONE") &&
+                active["task_resource_state"] ==
+                  (task_active ? "ACTIVE_UNIQUE_PHASE_DELEGATED" :
+                   "NOT_CREATED_PHASE_DELEGATED_TASK_READY") &&
+                active["execution_nonce_status"] == (task_active ? "ACTIVE" :
+                  "NOT_APPLICABLE_TASK_NONE") &&
+                active["founder_decision_required"] == false &&
+                active["next_eligible_action"] == expected_action &&
+                goal["current_task_authority"] == (task_active ? task_id : "NONE"),
+                "Truth P2-080 adapter active-work drift")
+        assert!(control["status"] == expected_control_status &&
+                control["benchmark_source_admission_status"] ==
+                  "ACCEPTED_SOURCE_PACK_INSTALLED_SLOT_1_ELIGIBLE" &&
+                control["task_creation_allowed"] == false &&
+                control["current_delivery_percent"] == 25 &&
+                control["accepted_milestones"] == ["P2_RECOVERY_BASELINE_ACCEPTED"] &&
+                control["capacity_slots"] == expected_control_slots &&
+                control["next_eligible_action"] == expected_action,
+                "Truth P2-080 adapter recovery projection drift")
+        assert!(project["phase_execution_status"] == "ACTIVE" &&
+                project["current_route_execution_status"] ==
+                  (task_active ? "ACTIVE" : "PHASE_DELEGATED_TASK_READY") &&
+                claim["p2_phase_envelope_status"] == "TASK_CAPACITY_RESERVED" &&
+                claim["current_phase_route"] == route["route_id"] &&
+                claim["current_task"] == (task_active ? task_id : "NONE") &&
+                claim["next_eligible_action"] == expected_action &&
+                claim["real_engineering_progress"] ==
+                  (task_active ?
+                    "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_080_ADAPTER_TASK_ACTIVE_ZERO_HELD_READ" :
+                    "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_080_ADAPTER_TASK_RESERVED_NOT_ACTIVATED_ZERO_HELD_READ") &&
+                claim["p2_080_held_source_reads"] == 0 &&
+                claim["p2_080_formal_dispatches"] == 0 &&
+                claim["p2_080_product_source_mutation_allowed"] == false &&
+                claim["p2_080_progress_credit"] == 0,
+                "Truth P2-080 adapter claim projection drift")
+        assert!(plan.dig("current_control", "new_task_creation_allowed") == false,
+                "Recovery plan historical baseline was rewritten")
+        return
+      end
       assert!(envelope["status"] == "ACTIVE_REMAINING_CAPACITY" &&
               envelope["limits"].slice("engineering_tasks", "engineering_hours", "calendar_days") == {
                 "engineering_tasks" => 26,

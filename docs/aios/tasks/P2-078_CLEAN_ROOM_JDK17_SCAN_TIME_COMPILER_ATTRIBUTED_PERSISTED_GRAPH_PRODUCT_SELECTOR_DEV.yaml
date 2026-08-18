@@ -3,7 +3,7 @@ record_type: aios_phase_delegated_independent_task_contract
 task_id: AIOS-P2-078_CLEAN_ROOM_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_PRODUCT_SELECTOR_DEV
 phase: P2
 route_id: AIOS-P2-078_CLEAN_ROOM_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_PRODUCT_SELECTOR_DEV_PHASE_DELEGATED_ROUTE
-status: ACTIVE
+status: TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_STRICT_SUPERIORITY_NON_PASS
 task_kind: REPOSITORY_INTELLIGENCE_GRAPH_ENGINEERING
 capability: GRAPH_CONDITIONED_CONTEXT_SELECTION
 objective: >-
@@ -312,3 +312,41 @@ claim_boundary: >-
   DEV slot, keeps delivery at 25%, strict progress at 0%, formal HELD locked, P2 and the
   Long-term Goal active, and permits no further Product DEV retry handoff under the
   unchanged Gate.
+terminal_outcome:
+  task_gate: NON_PASS
+  controlling_gate_category: EXIT_GATE_VALIDITY
+  controlling_finding: P2-078-METRIC-001
+  candidate:
+    commit: e0c0f4d78b64b95b359746ab7c2fec4beed4311f
+    tree: 405bd708c7e724b792c37b9eb568e492cb94c70d
+    integrated_to_main: false
+  evaluated_parameter_sets: 2
+  candidate_a:
+    parameter_set: ATTRIBUTED_A_B1_RETAIN_APPEND_RERANK
+    macro_precision: 0.15595238095238093
+    macro_recall: 0.8958333333333334
+    macro_mrr: 0.84375
+    zero_per_task_recall_regressions: true
+    acceptance_threshold_pass: false
+  candidate_b:
+    parameter_set: ATTRIBUTED_B_B1_CONFIDENCE_DOMINANCE
+    macro_precision: 0.15595238095238093
+    macro_recall: 0.8958333333333334
+    macro_mrr: 0.84375
+    zero_per_task_recall_regressions: true
+    acceptance_threshold_pass: false
+  repair_replay_byte_exact: true
+  product_selector_dev_accepted: false
+  formal_held_slot_unlocked: false
+  p2_delivery_progress_percent: 25
+  p2_strict_exit_progress_percent: 0
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-jdk17-scan-time-attributed-persisted-graph-20260818/task-p2-078/terminal/P2_078_TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_STRICT_SUPERIORITY_NON_PASS_RECEIPT_V1.json
+    byte_length: 9827
+    sha256: 162efbdd9813bcc8436cb77f3f87d91d55711430855cf1ac10f9be08e762b454
+  lifecycle:
+    repair_allowed: false
+    third_candidate_allowed: false
+    automatic_successor_allowed: false
+    automatic_product_dev_retry_allowed_under_unchanged_gate: false
+  long_term_goal_status: ACTIVE

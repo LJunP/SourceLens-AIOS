@@ -167,6 +167,7 @@ active_truths = commits.lines.map(&:strip).reject(&:empty?).each_with_object([])
   rescue Psych::BadAlias, Psych::SyntaxError
     next
   end
+  next unless candidate.is_a?(Hash)
   historical_truths << candidate
   route = candidate["current_phase_route"]
   values << candidate if route.is_a?(Hash) && route["route_id"] == route_literal && route["status"] == "ACTIVE"
@@ -178,9 +179,13 @@ base.fetch("phase_execution_envelope").fetch("task_ledger").each do |entry|
 end
 base["phase_boundary"] = deep_copy(current_truth.fetch("phase_boundary"))
 reserved_base = historical_truths.reverse.find do |candidate|
-  candidate.dig("founder_escalation_control", "schema_version") == "founder-escalation-control/v1" &&
-    candidate.dig("founder_escalation_control", "reserved_trigger", "evidence", "path").is_a?(String) &&
-    candidate.dig("phase_execution_envelope", "status") == "EXHAUSTED"
+  control = candidate["founder_escalation_control"]
+  trigger = control.is_a?(Hash) ? control["reserved_trigger"] : nil
+  evidence = trigger.is_a?(Hash) ? trigger["evidence"] : nil
+  envelope = candidate["phase_execution_envelope"]
+  control.is_a?(Hash) && control["schema_version"] == "founder-escalation-control/v1" &&
+    evidence.is_a?(Hash) && evidence["path"].is_a?(String) &&
+    envelope.is_a?(Hash) && envelope["status"] == "EXHAUSTED"
 end
 raise "Founder reserved Truth anchor is missing" unless reserved_base
 

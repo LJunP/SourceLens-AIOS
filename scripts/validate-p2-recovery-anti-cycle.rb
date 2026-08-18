@@ -827,13 +827,17 @@ module P2RecoveryAntiCycle
          "CLEAN_ROOM_SLOT_V6_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED",
          "CLEAN_ROOM_SLOT_V7_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED",
          "CLEAN_ROOM_SLOT_V8_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED",
-         "CLEAN_ROOM_SLOT_V9_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED"
+         "CLEAN_ROOM_SLOT_V9_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED",
+         "CLEAN_ROOM_SLOT_V10_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED"
+      compiler_attributed = control["status"].include?("SLOT_V10_1")
       semantic_impact = control["status"].include?("SLOT_V9_1")
       graph_fusion = control["status"].include?("SLOT_V8_1")
       architecture_pivot = control["status"].include?("SLOT_V7_1")
       product_path_closure = control["status"].include?("SLOT_V6_1")
       stream_lifecycle = control["status"].include?("SLOT_V5_1")
-      task_id = if semantic_impact
+      task_id = if compiler_attributed
+                  "AIOS-P2-078_CLEAN_ROOM_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_PRODUCT_SELECTOR_DEV"
+                elsif semantic_impact
                   "AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV"
                 elsif graph_fusion
                   "AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV"
@@ -846,7 +850,9 @@ module P2RecoveryAntiCycle
                 else
                   "AIOS-P2-072_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_EXECUTION_INTEGRITY_DEV"
                 end
-      terminal_status = if semantic_impact
+      terminal_status = if compiler_attributed
+                          "TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_STRICT_SUPERIORITY_NON_PASS"
+                        elsif semantic_impact
                           "TERMINAL_PRODUCT_SELECTOR_DEV_SEMANTIC_GRAPH_AND_THRESHOLD_NON_PASS"
                         elsif graph_fusion
                           "TERMINAL_PRODUCT_SELECTOR_DEV_PARAMETER_GATE_NON_PASS"
@@ -859,7 +865,13 @@ module P2RecoveryAntiCycle
                         else
                           "TERMINAL_PRODUCT_SELECTOR_DEV_REPLAY_EXECUTION_INTEGRITY_NON_PASS"
                         end
-      terminal_receipt = if semantic_impact
+      terminal_receipt = if compiler_attributed
+                           {
+                             "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p2-jdk17-scan-time-attributed-persisted-graph-20260818/task-p2-078/terminal/P2_078_TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_STRICT_SUPERIORITY_NON_PASS_RECEIPT_V1.json",
+                             "byte_length" => 9827,
+                             "sha256" => "162efbdd9813bcc8436cb77f3f87d91d55711430855cf1ac10f9be08e762b454"
+                           }
+                         elsif semantic_impact
                            {
                              "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p2-semantic-symbol-impact-cone-product-selector-20260818/task-p2-077/terminal/P2_077_TERMINAL_PRODUCT_SELECTOR_DEV_SEMANTIC_GRAPH_AND_THRESHOLD_NON_PASS_RECEIPT_V1.json",
                              "byte_length" => 9427,
@@ -896,7 +908,9 @@ module P2RecoveryAntiCycle
                              "sha256" => "a14509a6e2ff8ce82962f6f4205adef7f1e6fde956f93d9c9331c2276e4ecf05"
                            }
                          end
-      historical_ref = if semantic_impact
+      historical_ref = if compiler_attributed
+                         "historical_p2_078_phase_route"
+                       elsif semantic_impact
                          "historical_p2_077_phase_route"
                        elsif graph_fusion
                          "historical_p2_076_phase_route"
@@ -909,7 +923,9 @@ module P2RecoveryAntiCycle
                        else
                          "historical_p2_072_phase_route"
                        end
-      expected_consumed = if semantic_impact
+      expected_consumed = if compiler_attributed
+                            { "engineering_tasks" => 23, "engineering_hours" => 688, "calendar_days" => 172 }
+                          elsif semantic_impact
                             { "engineering_tasks" => 22, "engineering_hours" => 656, "calendar_days" => 164 }
                           elsif graph_fusion
                             { "engineering_tasks" => 21, "engineering_hours" => 624, "calendar_days" => 156 }
@@ -922,7 +938,9 @@ module P2RecoveryAntiCycle
                           else
                             { "engineering_tasks" => 17, "engineering_hours" => 496, "calendar_days" => 124 }
                           end
-      expected_progress = if semantic_impact
+      expected_progress = if compiler_attributed
+                            "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_078_TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_STRICT_SUPERIORITY_NON_PASS_SLOT_V2_3_LOCKED"
+                          elsif semantic_impact
                             "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_077_TERMINAL_PRODUCT_SELECTOR_DEV_SEMANTIC_GRAPH_AND_THRESHOLD_NON_PASS_SLOT_V2_3_LOCKED"
                           elsif graph_fusion
                             "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_076_TERMINAL_PRODUCT_SELECTOR_DEV_PARAMETER_GATE_NON_PASS_SLOT_V2_3_LOCKED"
@@ -935,9 +953,9 @@ module P2RecoveryAntiCycle
                           else
                             "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_072_TERMINAL_PRODUCT_SELECTOR_DEV_REPLAY_EXECUTION_INTEGRITY_NON_PASS_SLOT_V2_3_LOCKED"
                           end
-      terminal_slot_label = semantic_impact ? "V9_1" : (graph_fusion ? "V8_1" :
+      terminal_slot_label = compiler_attributed ? "V10_1" : (semantic_impact ? "V9_1" : (graph_fusion ? "V8_1" :
         (architecture_pivot ? "V7_1" :
-        (product_path_closure ? "V6_1" : (stream_lifecycle ? "V5_1" : "V4_1"))))
+        (product_path_closure ? "V6_1" : (stream_lifecycle ? "V5_1" : "V4_1")))))
       expected_slots[0]["task_id"] = task_id
       expected_remaining = {
         "engineering_tasks" => 1,

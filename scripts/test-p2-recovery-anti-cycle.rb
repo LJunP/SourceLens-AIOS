@@ -200,7 +200,7 @@ Dir.mktmpdir("p2-recovery-tests-", ROOT) do |root|
   run_truth_case.call("goal-terminal", "Long-term Goal is not active") do |candidate|
     candidate.fetch("goal")["control_plane_status_observed"] = "COMPLETE"
   end
-  run_truth_case.call("terminal-active-task-injected", "terminal clean-room Slot V5_1 active-work drift") do |candidate|
+  run_truth_case.call("terminal-active-task-injected", "terminal clean-room Slot V10_1 active-work drift") do |candidate|
     candidate.fetch("active_work")["current_task"] = "AIOS-P2-069_CLEAN_ROOM_RECOVERY_BENCHMARK_FOUNDATION"
   end
   run_truth_case.call("false-progress", "delivery milestone projection drift") do |candidate|
@@ -212,13 +212,13 @@ Dir.mktmpdir("p2-recovery-tests-", ROOT) do |root|
   run_truth_case.call("source-admission-status-drift", "source-admission projection drift") do |candidate|
     candidate.fetch("p2_recovery_control")["benchmark_source_admission_status"] = "NOT_ACCEPTED_NO_ELIGIBLE_TASK"
   end
-  run_truth_case.call("terminal-task-creation-reopened", "terminal clean-room Slot V5_1 capacity projection drift") do |candidate|
+  run_truth_case.call("terminal-task-creation-reopened", "terminal clean-room Slot V10_1 capacity projection drift") do |candidate|
     candidate.fetch("p2_recovery_control")["task_creation_allowed"] = true
   end
-  run_truth_case.call("envelope-capacity-injected", "terminal clean-room Slot V5_1 envelope drift") do |candidate|
+  run_truth_case.call("envelope-capacity-injected", "terminal clean-room Slot V10_1 envelope drift") do |candidate|
     candidate.dig("phase_execution_envelope", "remaining")["engineering_tasks"] = 2
   end
-  run_truth_case.call("terminal-task-routed-to-master", "terminal clean-room Slot V5_1 Founder hold drift") do |candidate|
+  run_truth_case.call("terminal-task-routed-to-master", "terminal clean-room Slot V10_1 Founder hold drift") do |candidate|
     candidate.fetch("current_phase_route")["next_eligible_action"] = "MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK"
   end
 end

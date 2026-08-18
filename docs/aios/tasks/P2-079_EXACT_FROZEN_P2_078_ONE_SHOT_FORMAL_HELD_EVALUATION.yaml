@@ -1,0 +1,268 @@
+schema_version: '1.1'
+record_type: aios_phase_delegated_independent_task_contract
+task_id: AIOS-P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION
+phase: P2
+route_id: AIOS-P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION_PHASE_DELEGATED_ROUTE
+status: ELIGIBLE_NOT_ACTIVATED
+task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
+capability: REPRODUCIBLE_CONTEXT_BENCHMARK
+objective: >-
+  Independently preactivate the exact immutable P2-078 candidate and its manifest-bound
+  execution Evidence without reading HELD, then, only on complete preactivation PASS,
+  execute the untouched four-task P2-069 HELD split exactly once against the accepted B1
+  control under the original preregistered equal-budget context-recall criterion.
+why_now: >-
+  The Founder has frozen the nine-attempt Product Selector implementation loop and
+  authorized only one use of the already-existing formal HELD capacity slot. This Task
+  therefore contains no implementation, repair, DEV rerun or retuning surface: it either
+  admits exact candidate e0c0f4d78b64b95b359746ab7c2fec4beed4311f after closed
+  preactivation and performs one immutable HELD dispatch, or terminates before HELD.
+task_spec_ref:
+  path: docs/aios/decisions/P2_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_ROUTE_UNLOCK_V1.md
+  sha256: 0d4ce4fe96cd3ff08ea81707e125453ded42f7280d511705db6a47b8434ed810
+  byte_length: 7224
+owner_role: P2-079 Master Evaluation Owner
+worker_role: P2-079 One-shot Formal HELD Evaluator
+write_scope: []
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml
+  - docs/aios/decisions/P2_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_ROUTE_UNLOCK_V1.md
+  - evaluation-harness/reports/p1-219-dataset-derived-preregistration/P2_CONTEXT_ENGINE_PREREGISTRATION.json
+  - P2_078_TERMINAL_EVIDENCE_ROOT/terminal/P2_078_TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_STRICT_SUPERIORITY_NON_PASS_RECEIPT_V1.json
+  - P2_078_TERMINAL_EVIDENCE_ROOT/reviewer/P2_078_TERMINAL_REVIEWER_RAW_MANIFEST_V1.json
+  - P2_069_ACCEPTED_EVIDENCE_ROOT/accepted-source-pack-v1/SOURCE_PACK.json
+  - P2_069_ACCEPTED_EVIDENCE_ROOT/runs/repair-replay-1/candidate/BENCHMARK_MANIFEST.json
+  - P2_069_ACCEPTED_EVIDENCE_ROOT/runs/repair-replay-1/candidate/DEV_TASK_CARDS.json
+  - P2_069_ACCEPTED_EVIDENCE_ROOT/runs/repair-replay-1/candidate/B1_RESULTS.json
+  - P2_069_ACCEPTED_EVIDENCE_ROOT/runs/repair-replay-1/candidate/DEV_HELD_NON_OVERLAP_PROOF.json
+dependencies:
+  - kind: CANONICAL_SOURCE
+    identity:
+      commit: 5fb2693bb09dab23430dbff6e9b39e0ed1b2eb23
+      tree: b31ab25648bcb2fa8e0892a7cd6ee1a16ccbbb92
+  - kind: EXACT_FROZEN_P2_078_CANDIDATE
+    identity:
+      commit: e0c0f4d78b64b95b359746ab7c2fec4beed4311f
+      tree: 405bd708c7e724b792c37b9eb568e492cb94c70d
+      branch: codex/p2-078-jdk17-scan-time-attributed-persisted-graph
+      worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P2-078-jdk17-scan-time-attributed-persisted-graph
+      terminal_receipt:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-jdk17-scan-time-attributed-persisted-graph-20260818/task-p2-078/terminal/P2_078_TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_STRICT_SUPERIORITY_NON_PASS_RECEIPT_V1.json
+        byte_length: 9827
+        sha256: 162efbdd9813bcc8436cb77f3f87d91d55711430855cf1ac10f9be08e762b454
+      reviewer_raw_manifest:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-jdk17-scan-time-attributed-persisted-graph-20260818/task-p2-078/reviewer/P2_078_TERMINAL_REVIEWER_RAW_MANIFEST_V1.json
+        byte_length: 59011
+        sha256: a9f8c462af405d6b178c1db769d6349c51b9387dc0d049012437ce2b6c8988c9
+        entry_count: 166
+        held_source_or_payload_entries: 0
+  - kind: ACCEPTED_BASELINE_ARTIFACT
+    identity:
+      artifact_id: P2_RECOVERY_BASELINE_ACCEPTED
+      root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-clean-room-recovery-benchmark-foundation-20260817/task-p2-069
+      source_pack:
+        relative_path: accepted-source-pack-v1/SOURCE_PACK.json
+        byte_length: 94630
+        sha256: c5f38070b8f0ed445c759f3380769c2dec5493e0f4120f681b9b1cab3fd67884
+      benchmark_manifest:
+        relative_path: runs/repair-replay-1/candidate/BENCHMARK_MANIFEST.json
+        byte_length: 1698
+        sha256: 1847e480cd0a2a35f3130b65dc074742ad5669eb4f715bc4066867855680396f
+      dev_task_cards:
+        relative_path: runs/repair-replay-1/candidate/DEV_TASK_CARDS.json
+        byte_length: 520431
+        sha256: c6c5a2655870a6cc8b5310675fa4e31054be48d048702a0939fac81327bb865b
+      b1_results:
+        relative_path: runs/repair-replay-1/candidate/B1_RESULTS.json
+        byte_length: 634859
+        sha256: 231a99391726b618cba130474c4ad7ffa348af25afda97968dc0c1745159c0c0
+      dev_held_non_overlap_proof:
+        relative_path: runs/repair-replay-1/candidate/DEV_HELD_NON_OVERLAP_PROOF.json
+        byte_length: 498
+        sha256: 84af16469d26cfbf8b393a7e4b9aa39d383cdfc88c5a721e5651d73f3c9c2065
+  - kind: ORIGINAL_PREREGISTERED_CRITERION
+    identity:
+      path: evaluation-harness/reports/p1-219-dataset-derived-preregistration/P2_CONTEXT_ENGINE_PREREGISTRATION.json
+      byte_length: 6531
+      sha256: 4a5976b0bdffb5646fcab2b22c53216ff3d09dceb454082474953fe41482156f
+      primary_metric_id: TASK_RELEVANT_EVIDENCE_RECALL_AT_FIXED_CONTEXT_BYTE_BUDGET
+      comparison_design: PAIRED_WITHIN_TASK_EQUAL_CONTEXT_BYTE_BUDGET
+      treatment: GRAPH_CONDITIONED_CONTEXT_SELECTION
+      control: DETERMINISTIC_LEXICAL_RETRIEVAL_V1
+      direction: HIGHER_IS_BETTER
+      forbidden_context_increase_allowed: false
+risk_level: high
+baseline_ref:
+  artifact_id: P2_RECOVERY_BASELINE_ACCEPTED
+  baseline_id: B1_DETERMINISTIC_BM25_FILE_RETRIEVAL
+  macro_precision: 0.15595238095238093
+  macro_recall: 0.8958333333333334
+  macro_reciprocal_rank: 0.8229166666666666
+  top_k: 10
+  utf8_byte_budget: 131072
+independent_reviewer:
+  - P2-079 CTO Reviewer
+  - P2-079 Security Reviewer
+  - P2-079 Quality and Evaluation Reviewer
+protocol_status_mapping:
+  ELIGIBLE_NOT_ACTIVATED: ready
+  ACTIVE: in_progress
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_V2_3
+budget:
+  engineering_hours: 32
+  calendar_days: 8
+  implementation_iterations: 1
+  candidates: 1
+max_same_task_repairs: 0
+roles:
+  owner: P2-079 Master Evaluation Owner
+  worker: P2-079 One-shot Formal HELD Evaluator
+  independent_reviewers:
+    - P2-079 CTO Reviewer
+    - P2-079 Security Reviewer
+    - P2-079 Quality and Evaluation Reviewer
+allowlisted_paths: []
+write_ownership:
+  schema_version: role-write-ownership/v1
+  cross_role_write_allowed: false
+  owner:
+    role: P2-079 Master Evaluation Owner
+    write_paths: []
+  worker:
+    role: P2-079 One-shot Formal HELD Evaluator
+    write_paths: []
+  independent_reviewers:
+    - role: P2-079 CTO Reviewer
+      write_paths: []
+    - role: P2-079 Security Reviewer
+      write_paths: []
+    - role: P2-079 Quality and Evaluation Reviewer
+      write_paths: []
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+phase_delegation_binding:
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: '1.8'
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  delegation_amendment:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/founder-delegation-continuity-20260808/decision/FOUNDER_PHASE_DELEGATION_CONTINUITY_AMENDMENT_V1.json
+    byte_length: 1182
+    sha256: c37634c51b0b7695204c026f9950911c427f544a6ff2e2c2f786facb9a84a52e
+  source_decision:
+    path: docs/aios/decisions/P2_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_ROUTE_UNLOCK_DECISION_V1.json
+    sha256: d1294d844c38da27eac079231cd4cb3296160618b14aa7caab4174b32392c8e2
+    byte_length: 2787
+  source_terminal_event:
+    task_id: AIOS-P2-078_CLEAN_ROOM_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_PRODUCT_SELECTOR_DEV
+    status: TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_STRICT_SUPERIORITY_NON_PASS
+    outcome_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-jdk17-scan-time-attributed-persisted-graph-20260818/task-p2-078/terminal/P2_078_TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_STRICT_SUPERIORITY_NON_PASS_RECEIPT_V1.json
+      byte_length: 9827
+      sha256: 162efbdd9813bcc8436cb77f3f87d91d55711430855cf1ac10f9be08e762b454
+  phase_envelope_snapshot:
+    limits:
+      engineering_tasks: 24
+      engineering_hours: 720
+      calendar_days: 180
+      active_tasks: 1
+      task_branches: 1
+      task_worktrees: 1
+      active_candidates: 1
+    consumed:
+      engineering_tasks: 23
+      engineering_hours: 688
+      calendar_days: 172
+    reserved:
+      task_id: AIOS-P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION
+      route_id: AIOS-P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION_PHASE_DELEGATED_ROUTE
+      status: ELIGIBLE_NOT_ACTIVATED
+      capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_V2_3
+      budget:
+        engineering_tasks: 1
+        engineering_hours: 32
+        calendar_days: 8
+    remaining:
+      engineering_tasks: 0
+      engineering_hours: 0
+      calendar_days: 0
+  founder_packet_for_task:
+preactivation_gate:
+  required_before_held_read: true
+  exact_candidate_commit: e0c0f4d78b64b95b359746ab7c2fec4beed4311f
+  exact_candidate_tree: 405bd708c7e724b792c37b9eb568e492cb94c70d
+  exact_terminal_receipt_required: true
+  exact_reviewer_raw_manifest_required: true
+  reviewer_raw_manifest_entry_count: 166
+  reviewer_raw_manifest_held_entries: 0
+  candidate_identity_required: true
+  raw_evidence_required: true
+  product_correctness_required: true
+  authority_required: true
+  source_to_class_provenance_required: true
+  replay_required: true
+  closed_environment_required: true
+  exact_p2_069_source_pack_and_split_required: true
+  original_preregistered_criterion_required: true
+  product_source_mutation_allowed: false
+  dev_rerun_allowed: false
+  retuning_allowed: false
+  dataset_split_oracle_metric_threshold_ranking_parameter_mutation_allowed: false
+  formal_held_dispatch_count: 1
+  formal_held_reruns: 0
+  preactivation_failure_lifecycle: TERMINAL_NON_PASS_ZERO_HELD_READ_NO_SUCCESSOR
+acceptance_criteria:
+  - Before any HELD source or payload read, exact candidate commit/tree, branch/worktree cleanliness, terminal receipt, all manifest-bound raw Evidence, product correctness, authority, source-to-class provenance, replay and closed environment independently PASS without identity drift.
+  - P2-078 remains terminal NON_PASS; this Task performs no DEV rerun, product implementation, repair, retuning, threshold change or retroactive Task acceptance.
+  - Preactivation PASS opens exactly the four P2-069 HELD tasks once; the accepted source pack, split, query, corpus, oracle, B1 control, metric, top-k 10, 131072-byte UTF-8 budget, candidate parameters and schedule remain byte-identical and immutable.
+  - Every scheduled HELD task remains in the denominator; identity drift, missing oracle data or budget mismatch is INVALID and cannot be removed, replaced, repaired or rerun.
+  - Under the original preregistered criterion, the exact candidate has higher macro task-relevant-evidence recall than the equal-budget deterministic lexical B1 control and does not increase forbidden-context admission; precision and reciprocal rank are retained as disclosed secondary metrics.
+  - One create-once raw transaction binds exact inputs, candidate/runtime binaries, argv, cwd, closed environment, sandbox profile, stdout, stderr, exit, write inventory, per-task rankings, selected bytes, metrics and the zero-rerun lifecycle.
+  - CTO, Security and Quality/Evaluation independently accept the exact immutable candidate, preactivation receipt, one-shot HELD transaction and complete raw Evidence before the Master Task Gate accepts K1 and K2.
+required_evidence:
+  - Create-once P2-079 authority, Contract lifecycle binding and preactivation receipt proving zero HELD reads before PASS.
+  - Exact candidate Git identity and clean-state receipt; exact P2-078 terminal receipt and 166-leaf reviewer raw-manifest verification with no HELD or prohibited-lineage leaf.
+  - Exact source-to-class, JDK 17, compiler, Surefire, sandbox-exec, replay, closed-environment, product-path and negative-test provenance inherited only as manifest-bound P2-078 Evidence.
+  - Exact P2-069 accepted SOURCE_PACK, BENCHMARK_MANIFEST, B1 control and DEV/HELD non-overlap identities plus the original preregistration Artifact identity.
+  - One and only one formal HELD dispatch transaction with raw per-task treatment/control selections and metrics, full denominator accounting, no rerun and no mutation.
+  - Exact candidate integration identity only after formal PASS, or terminal non-integration proof after any NON_PASS.
+  - Exact CTO, Security and Quality/Evaluation verdict records plus Master Task Gate and P2 Exit-Gate eligibility receipt when applicable.
+rollback: >-
+  On any preactivation or formal HELD NON_PASS, integrate nothing, preserve exact terminal
+  Evidence, keep P2-078 terminal NON_PASS, consume the final slot, keep the implementation
+  freeze, P2 and the Long-term Goal active, P3 HOLD, and create no successor or repair.
+stop_conditions:
+  - Stop with zero HELD reads if candidate, terminal receipt, raw manifest, product correctness, authority, source-to-class, replay, closed-environment, accepted source-pack or preregistration identity does not PASS exactly.
+  - Stop if any product source, evaluator, dataset, split, oracle, metric, threshold, ranking, parameter, DEV result or candidate byte would need mutation or if a DEV rerun is requested.
+  - Stop if any HELD source or payload is opened before the preactivation PASS receipt is create-once sealed.
+  - Stop after the first formal HELD dispatch regardless of PASS, NON_PASS, INVALID, process failure or missing result; no rerun or replacement exists.
+  - Stop if network, Provider, Secret, remote, production, public, deletion, database modification, P3 entry or Long-term Goal termination is requested or observed.
+forbidden_actions:
+  - Retroactively accept P2-078, create a Product DEV Task, second candidate, implementation repair, same-Task repair, successor, replacement, remediation, normalization or closure chain.
+  - Modify or rerun DEV; mutate product, evaluator, dataset, split, oracle, metric, threshold, ranking, parameter, schedule, accepted B1 or the exact frozen candidate.
+  - Read any P2-070 through P2-077 rejected engineering lineage; access to rejected bytes is overridden only for exact P2-078 candidate and manifest-bound Evidence.
+  - Read HELD before preactivation PASS, dispatch HELD more than once, remove invalid tasks from the denominator, replace a task or rerun to pass.
+  - Use network, Provider, Secret, remote, production, public release, deletion, database modification, P3 entry or Long-term Goal termination.
+claim_boundary: >-
+  This Task may only admit exact frozen P2-078 candidate e0c0f4d78b64b95b359746ab7c2fec4beed4311f
+  for one untouched formal HELD dispatch and, on independent PASS, establish K1 and K2 plus
+  P2 Exit-Gate eligibility. It cannot retroactively PASS P2-078, change the Exit Gate,
+  authorize P3, claim production readiness, close P2 or terminate the Long-term Goal.

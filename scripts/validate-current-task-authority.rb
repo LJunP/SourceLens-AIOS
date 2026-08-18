@@ -3511,6 +3511,194 @@ module CurrentTaskAuthority
     gate
   end
 
+  def validate_p2_079_preactivation_gate(contract)
+    gate = exact_keys(
+      contract["preactivation_gate"],
+      %w[
+        required_before_held_read exact_candidate_commit exact_candidate_tree
+        exact_terminal_receipt_required exact_reviewer_raw_manifest_required
+        reviewer_raw_manifest_entry_count reviewer_raw_manifest_held_entries
+        candidate_identity_required raw_evidence_required product_correctness_required
+        authority_required source_to_class_provenance_required replay_required
+        closed_environment_required exact_p2_069_source_pack_and_split_required
+        original_preregistered_criterion_required product_source_mutation_allowed
+        dev_rerun_allowed retuning_allowed
+        dataset_split_oracle_metric_threshold_ranking_parameter_mutation_allowed
+        formal_held_dispatch_count formal_held_reruns preactivation_failure_lifecycle
+      ],
+      "P2-079 preactivation_gate"
+    )
+    required_true = %w[
+      required_before_held_read exact_terminal_receipt_required
+      exact_reviewer_raw_manifest_required candidate_identity_required raw_evidence_required
+      product_correctness_required authority_required source_to_class_provenance_required
+      replay_required closed_environment_required exact_p2_069_source_pack_and_split_required
+      original_preregistered_criterion_required
+    ]
+    required_false = %w[
+      product_source_mutation_allowed dev_rerun_allowed retuning_allowed
+      dataset_split_oracle_metric_threshold_ranking_parameter_mutation_allowed
+    ]
+    assert(required_true.all? { |key| gate[key] == true } &&
+           required_false.all? { |key| gate[key] == false } &&
+           gate["exact_candidate_commit"] ==
+             "e0c0f4d78b64b95b359746ab7c2fec4beed4311f" &&
+           gate["exact_candidate_tree"] ==
+             "405bd708c7e724b792c37b9eb568e492cb94c70d" &&
+           gate["reviewer_raw_manifest_entry_count"] == 166 &&
+           gate["reviewer_raw_manifest_held_entries"] == 0 &&
+           gate["formal_held_dispatch_count"] == 1 &&
+           gate["formal_held_reruns"] == 0 &&
+           gate["preactivation_failure_lifecycle"] ==
+             "TERMINAL_NON_PASS_ZERO_HELD_READ_NO_SUCCESSOR",
+           "P2-079 exact frozen candidate preactivation or one-shot HELD lifecycle drift")
+    gate
+  end
+
+  def validate_p2_079_formal_held_protocol_contract_fields(root, authority, contract)
+    baseline = exact_keys(
+      contract["baseline_ref"],
+      %w[
+        artifact_id baseline_id macro_precision macro_recall macro_reciprocal_rank
+        top_k utf8_byte_budget
+      ],
+      "P2-079 baseline_ref"
+    )
+    assert(baseline == {
+      "artifact_id" => "P2_RECOVERY_BASELINE_ACCEPTED",
+      "baseline_id" => "B1_DETERMINISTIC_BM25_FILE_RETRIEVAL",
+      "macro_precision" => 0.15595238095238093,
+      "macro_recall" => 0.8958333333333334,
+      "macro_reciprocal_rank" => 0.8229166666666666,
+      "top_k" => 10,
+      "utf8_byte_budget" => 131_072
+    }, "P2-079 accepted B1 identity drift")
+
+    dependencies = array(contract["dependencies"], "P2-079 dependencies")
+    assert(dependencies.length == 4, "P2-079 requires exactly four frozen dependencies")
+
+    canonical = exact_keys(dependencies.fetch(0), %w[kind identity], "P2-079 canonical")
+    canonical_identity = exact_keys(canonical["identity"], %w[commit tree], "P2-079 canonical identity")
+    assert(canonical["kind"] == "CANONICAL_SOURCE" && canonical_identity == {
+      "commit" => "5fb2693bb09dab23430dbff6e9b39e0ed1b2eb23",
+      "tree" => "b31ab25648bcb2fa8e0892a7cd6ee1a16ccbbb92"
+    }, "P2-079 canonical dependency drift")
+    validate_commit_tree(root, canonical_identity["commit"], canonical_identity["tree"],
+                         "P2-079 canonical dependency")
+
+    candidate = exact_keys(dependencies.fetch(1), %w[kind identity], "P2-079 candidate")
+    candidate_identity = exact_keys(
+      candidate["identity"],
+      %w[commit tree branch worktree terminal_receipt reviewer_raw_manifest],
+      "P2-079 frozen candidate identity"
+    )
+    assert(candidate["kind"] == "EXACT_FROZEN_P2_078_CANDIDATE" &&
+           candidate_identity["commit"] == "e0c0f4d78b64b95b359746ab7c2fec4beed4311f" &&
+           candidate_identity["tree"] == "405bd708c7e724b792c37b9eb568e492cb94c70d" &&
+           candidate_identity["branch"] ==
+             "codex/p2-078-jdk17-scan-time-attributed-persisted-graph" &&
+           candidate_identity["worktree"] ==
+             "/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P2-078-jdk17-scan-time-attributed-persisted-graph",
+           "P2-079 frozen candidate Git identity drift")
+    terminal = exact_keys(candidate_identity["terminal_receipt"], %w[path byte_length sha256],
+                          "P2-079 P2-078 terminal receipt")
+    assert(terminal == {
+      "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p2-jdk17-scan-time-attributed-persisted-graph-20260818/task-p2-078/terminal/P2_078_TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_STRICT_SUPERIORITY_NON_PASS_RECEIPT_V1.json",
+      "byte_length" => 9827,
+      "sha256" => "162efbdd9813bcc8436cb77f3f87d91d55711430855cf1ac10f9be08e762b454"
+    }, "P2-079 P2-078 terminal receipt identity drift")
+    validate_identity(terminal["path"], terminal, "P2-079 P2-078 terminal receipt")
+    manifest = exact_keys(
+      candidate_identity["reviewer_raw_manifest"],
+      %w[path byte_length sha256 entry_count held_source_or_payload_entries],
+      "P2-079 P2-078 reviewer raw manifest"
+    )
+    assert(manifest == {
+      "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p2-jdk17-scan-time-attributed-persisted-graph-20260818/task-p2-078/reviewer/P2_078_TERMINAL_REVIEWER_RAW_MANIFEST_V1.json",
+      "byte_length" => 59_011,
+      "sha256" => "a9f8c462af405d6b178c1db769d6349c51b9387dc0d049012437ce2b6c8988c9",
+      "entry_count" => 166,
+      "held_source_or_payload_entries" => 0
+    }, "P2-079 P2-078 reviewer raw manifest identity drift")
+    validate_identity(manifest["path"], manifest, "P2-079 P2-078 reviewer raw manifest")
+
+    accepted = exact_keys(dependencies.fetch(2), %w[kind identity], "P2-079 accepted baseline")
+    identity = exact_keys(
+      accepted["identity"],
+      %w[
+        artifact_id root source_pack benchmark_manifest dev_task_cards b1_results
+        dev_held_non_overlap_proof
+      ],
+      "P2-079 accepted baseline identity"
+    )
+    assert(accepted["kind"] == "ACCEPTED_BASELINE_ARTIFACT" &&
+           identity["artifact_id"] == "P2_RECOVERY_BASELINE_ACCEPTED",
+           "P2-079 accepted baseline artifact drift")
+    baseline_root = string(identity["root"], "P2-079 accepted baseline root")
+    baseline_stat = File.lstat(baseline_root)
+    assert(File.expand_path(baseline_root) == baseline_root && baseline_stat.directory? &&
+           !baseline_stat.symlink? && File.realpath(baseline_root) == baseline_root,
+           "P2-079 accepted baseline root is not canonical")
+    %w[source_pack benchmark_manifest dev_task_cards b1_results dev_held_non_overlap_proof].each do |key|
+      leaf = exact_keys(identity[key], %w[relative_path byte_length sha256], "P2-079 #{key}")
+      relative_path = safe_scope_path(leaf["relative_path"], "P2-079 #{key} relative path")
+      validate_identity(File.join(baseline_root, relative_path), leaf, "P2-079 accepted #{key}")
+    end
+
+    prereg = exact_keys(dependencies.fetch(3), %w[kind identity], "P2-079 preregistration")
+    prereg_identity = exact_keys(
+      prereg["identity"],
+      %w[
+        path byte_length sha256 primary_metric_id comparison_design treatment control direction
+        forbidden_context_increase_allowed
+      ],
+      "P2-079 preregistration identity"
+    )
+    assert(prereg["kind"] == "ORIGINAL_PREREGISTERED_CRITERION" &&
+           prereg_identity == {
+             "path" => "evaluation-harness/reports/p1-219-dataset-derived-preregistration/P2_CONTEXT_ENGINE_PREREGISTRATION.json",
+             "byte_length" => 6531,
+             "sha256" => "4a5976b0bdffb5646fcab2b22c53216ff3d09dceb454082474953fe41482156f",
+             "primary_metric_id" => "TASK_RELEVANT_EVIDENCE_RECALL_AT_FIXED_CONTEXT_BYTE_BUDGET",
+             "comparison_design" => "PAIRED_WITHIN_TASK_EQUAL_CONTEXT_BYTE_BUDGET",
+             "treatment" => "GRAPH_CONDITIONED_CONTEXT_SELECTION",
+             "control" => "DETERMINISTIC_LEXICAL_RETRIEVAL_V1",
+             "direction" => "HIGHER_IS_BETTER",
+             "forbidden_context_increase_allowed" => false
+           }, "P2-079 original preregistered criterion drift")
+    validate_identity(
+      repo_path(root, prereg_identity["path"], "P2-079 preregistration path"),
+      prereg_identity,
+      "P2-079 preregistration"
+    )
+
+    task_spec_ref = exact_keys(contract["task_spec_ref"], %w[path sha256 byte_length],
+                               "P2-079 task spec")
+    expected_read_context = [
+      authority["current_facts"],
+      authority.dig("strategy", "path"),
+      authority.dig("execution_protocol", "path"),
+      authority.dig("founder_delegation_policy", "path"),
+      authority.dig("evaluation_protocol", "path"),
+      "docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml",
+      task_spec_ref["path"],
+      prereg_identity["path"],
+      "P2_078_TERMINAL_EVIDENCE_ROOT/terminal/P2_078_TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_STRICT_SUPERIORITY_NON_PASS_RECEIPT_V1.json",
+      "P2_078_TERMINAL_EVIDENCE_ROOT/reviewer/P2_078_TERMINAL_REVIEWER_RAW_MANIFEST_V1.json",
+      "P2_069_ACCEPTED_EVIDENCE_ROOT/accepted-source-pack-v1/SOURCE_PACK.json",
+      "P2_069_ACCEPTED_EVIDENCE_ROOT/runs/repair-replay-1/candidate/BENCHMARK_MANIFEST.json",
+      "P2_069_ACCEPTED_EVIDENCE_ROOT/runs/repair-replay-1/candidate/DEV_TASK_CARDS.json",
+      "P2_069_ACCEPTED_EVIDENCE_ROOT/runs/repair-replay-1/candidate/B1_RESULTS.json",
+      "P2_069_ACCEPTED_EVIDENCE_ROOT/runs/repair-replay-1/candidate/DEV_HELD_NON_OVERLAP_PROOF.json"
+    ]
+    read_context = array(contract["read_context"], "P2-079 read_context")
+    assert(read_context == expected_read_context && read_context.uniq.length == read_context.length,
+           "P2-079 read_context is not the exact frozen minimum")
+    true
+  rescue Errno::ENOENT, Errno::ELOOP, Errno::ENOTDIR => e
+    fail!("P2-079 frozen dependency unavailable (#{e.class})")
+  end
+
   def validate_p2_product_selector_protocol_contract_fields(authority, contract)
     task_id = contract["task_id"]
     label, expected_canonical = case task_id
@@ -3742,6 +3930,10 @@ module CurrentTaskAuthority
            "phase-delegated Task Contract risk_level is outside the protocol enum")
 
     authority = hash(truth["authority"], "authority")
+    if contract["task_id"] ==
+       "AIOS-P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION"
+      return validate_p2_079_formal_held_protocol_contract_fields(root, authority, contract)
+    end
     if %w[
       AIOS-P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV
       AIOS-P2-075_CLEAN_ROOM_QUERY_ENTITY_COVERAGE_PRODUCT_SELECTOR_ARCHITECTURE_PIVOT_DEV
@@ -3951,6 +4143,7 @@ module CurrentTaskAuthority
       AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV
       AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV
       AIOS-P2-078_CLEAN_ROOM_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_PRODUCT_SELECTOR_DEV
+      AIOS-P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION
     ].include?(parsed_contract["task_id"])
     contract = exact_keys(
       parsed_contract,
@@ -3980,6 +4173,9 @@ module CurrentTaskAuthority
     elsif parsed_contract["task_id"] ==
           "AIOS-P2-078_CLEAN_ROOM_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_PRODUCT_SELECTOR_DEV"
       validate_p2_078_preactivation_gate(contract)
+    elsif parsed_contract["task_id"] ==
+          "AIOS-P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION"
+      validate_p2_079_preactivation_gate(contract)
     end
     validate_phase_delegated_protocol_contract_fields(root, truth, route, contract)
     projected_keys = %w[
@@ -4066,8 +4262,11 @@ module CurrentTaskAuthority
     assert(([owner, worker] + reviewers).uniq.length == 5,
            "phase-delegated Task role identities must be distinct")
 
-    scopes = normalize_scopes(contract["allowlisted_paths"],
-                              "phase-delegated Task Contract allowlisted_paths")
+    scopes = phase_delegated_scopes(
+      contract["allowlisted_paths"],
+      "phase-delegated Task Contract allowlisted_paths",
+      task["task_id"]
+    )
     ownership = contract["schema_version"] == "1.1" ?
       validate_phase_delegated_write_ownership!(contract, roles, scopes) : nil
     boundary = hash(truth["phase_boundary"], "phase_boundary")
@@ -4084,6 +4283,15 @@ module CurrentTaskAuthority
                               "phase-delegated Task Contract external_effects",
                               FALSE_EXTERNAL_EFFECTS)
     [budget, repairs, roles, scopes]
+  end
+
+  def phase_delegated_scopes(value, label, task_id)
+    paths = array(value, label)
+    if task_id == "AIOS-P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION"
+      assert(paths.empty?, "P2-079 repository write allowlist must be empty")
+      return []
+    end
+    normalize_scopes(paths, label)
   end
 
   def validate_phase_delegated_write_ownership!(contract, roles, scopes)
@@ -4146,20 +4354,23 @@ module CurrentTaskAuthority
 
   def validate_phase_delegated_active_write_ownership!(contract, authority, active, roles, scopes)
     ownership = validate_phase_delegated_write_ownership!(contract, roles, scopes)
-    worker_paths = normalize_scopes(
+    worker_paths = phase_delegated_scopes(
       ownership.dig("worker", "write_paths"),
-      "phase-delegated effective Worker write paths"
+      "phase-delegated effective Worker write paths",
+      contract["task_id"]
     )
     assert(authority["write_ownership"] == ownership &&
            active["write_ownership"] == ownership,
            "phase-delegated active role write ownership projection drift")
-    assert(normalize_scopes(
+    assert(phase_delegated_scopes(
              authority["effective_worker_write_paths"],
-             "phase-delegated authority effective Worker paths"
+             "phase-delegated authority effective Worker paths",
+             contract["task_id"]
            ) == worker_paths &&
-           normalize_scopes(
+           phase_delegated_scopes(
              active["effective_worker_write_paths"],
-             "phase-delegated active effective Worker paths"
+             "phase-delegated active effective Worker paths",
+             contract["task_id"]
            ) == worker_paths,
            "phase-delegated Worker effective write set exceeds its role partition")
     ownership
@@ -4358,7 +4569,8 @@ module CurrentTaskAuthority
            "phase-delegated authority capacity source drift")
     assert(authority["budget"] == budget && authority["max_same_task_repairs"] == repairs &&
            authority["roles"] == roles &&
-           normalize_scopes(authority["allowlisted_paths"], "phase-delegated authority paths") == scopes,
+           phase_delegated_scopes(authority["allowlisted_paths"],
+                                  "phase-delegated authority paths", task_id) == scopes,
            "phase-delegated authority scope drift")
     if contract["schema_version"] == "1.1"
       validate_phase_delegated_active_write_ownership!(
@@ -4431,7 +4643,8 @@ module CurrentTaskAuthority
            "phase-delegated READY and ACTIVE Contracts differ outside the lifecycle status")
 
     assert(active["budget"] == budget && active["roles"] == roles &&
-           normalize_scopes(active["allowlisted_paths"], "phase-delegated active paths") == scopes,
+           phase_delegated_scopes(active["allowlisted_paths"],
+                                  "phase-delegated active paths", task_id) == scopes,
            "phase-delegated active_work scope drift")
     validate_external_effects(active["external_effects"], "phase-delegated active effects",
                               FALSE_EXTERNAL_EFFECTS)
@@ -4467,6 +4680,7 @@ module CurrentTaskAuthority
       AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV
       AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV
       AIOS-P2-078_CLEAN_ROOM_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_PRODUCT_SELECTOR_DEV
+      AIOS-P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION
     ].include?(task["task_id"])
       baseline_path = File.join(evidence_real, baseline["relative_path"])
       validate_identity(baseline_path, baseline, "phase-delegated active baseline Artifact")

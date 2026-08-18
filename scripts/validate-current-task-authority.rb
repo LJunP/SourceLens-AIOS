@@ -3386,6 +3386,31 @@ module CurrentTaskAuthority
     gate
   end
 
+  def validate_p2_076_preactivation_gate(contract)
+    gate = exact_keys(
+      contract["preactivation_gate"],
+      %w[
+        required_before_product_source_write b1_seed_parity_freeze_required
+        product_owned_static_java_graph_required package_type_member_import_reference_edges_required
+        one_hop_only predeclared_candidate_parameter_set_limit
+        normalized_path_first_tie_break_required top_k utf8_byte_budget
+        task_specific_oracle_branches_forbidden post_result_tuning_forbidden held_reads_forbidden
+        exact_authority_roots_before_mkdir os_write_confinement_probe_required
+        compiler_test_replay_negative_fresh_roots_required explicit_classpath_and_sourcepath_required
+        annotation_processing_disabled_or_fully_bound exact_runtime_binary_identity_required
+        complete_source_to_class_identity_required reviewer_manifest_direct_raw_leaf_binding_required
+        product_path_static_and_runtime_binding_required
+      ],
+      "P2-076 preactivation_gate"
+    )
+    boolean_keys = gate.keys - %w[predeclared_candidate_parameter_set_limit top_k utf8_byte_budget]
+    assert(boolean_keys.all? { |key| gate[key] == true } &&
+           gate["predeclared_candidate_parameter_set_limit"] == 2 &&
+           gate["top_k"] == 10 && gate["utf8_byte_budget"] == 131_072,
+           "P2-076 B1 graph-fusion preactivation gate drift")
+    gate
+  end
+
   def validate_p2_product_selector_protocol_contract_fields(authority, contract)
     task_id = contract["task_id"]
     label, expected_canonical = case task_id
@@ -3398,6 +3423,11 @@ module CurrentTaskAuthority
                                   ["P2-075", {
                                     "commit" => "3d3b94e73b293597bf89eb210897737903d968a0",
                                     "tree" => "0693d9ab4e2b1c5aa90b16e732669dd67e121f49"
+                                  }]
+                                when "AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV"
+                                  ["P2-076", {
+                                    "commit" => "09da8ea278db587520e0a835deb474415b14ab1c",
+                                    "tree" => "4955c0b59e310db17c30c75721e88051f296df1e"
                                   }]
                                 else
                                   fail!("unsupported Product Selector protocol contract")
@@ -3539,6 +3569,7 @@ module CurrentTaskAuthority
     if %w[
       AIOS-P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV
       AIOS-P2-075_CLEAN_ROOM_QUERY_ENTITY_COVERAGE_PRODUCT_SELECTOR_ARCHITECTURE_PIVOT_DEV
+      AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV
     ].include?(contract["task_id"])
       return validate_p2_product_selector_protocol_contract_fields(authority, contract)
     end
@@ -3739,6 +3770,7 @@ module CurrentTaskAuthority
       AIOS-P2-073_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_SANDBOX_STREAM_LIFECYCLE_DEV
       AIOS-P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV
       AIOS-P2-075_CLEAN_ROOM_QUERY_ENTITY_COVERAGE_PRODUCT_SELECTOR_ARCHITECTURE_PIVOT_DEV
+      AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV
     ].include?(parsed_contract["task_id"])
     contract = exact_keys(
       parsed_contract,
@@ -3759,6 +3791,9 @@ module CurrentTaskAuthority
     elsif parsed_contract["task_id"] ==
           "AIOS-P2-075_CLEAN_ROOM_QUERY_ENTITY_COVERAGE_PRODUCT_SELECTOR_ARCHITECTURE_PIVOT_DEV"
       validate_p2_075_preactivation_gate(contract)
+    elsif parsed_contract["task_id"] ==
+          "AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV"
+      validate_p2_076_preactivation_gate(contract)
     end
     validate_phase_delegated_protocol_contract_fields(truth, route, contract)
     projected_keys = %w[
@@ -4243,6 +4278,7 @@ module CurrentTaskAuthority
     unless %w[
       AIOS-P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV
       AIOS-P2-075_CLEAN_ROOM_QUERY_ENTITY_COVERAGE_PRODUCT_SELECTOR_ARCHITECTURE_PIVOT_DEV
+      AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV
     ].include?(task["task_id"])
       baseline_path = File.join(evidence_real, baseline["relative_path"])
       validate_identity(baseline_path, baseline, "phase-delegated active baseline Artifact")

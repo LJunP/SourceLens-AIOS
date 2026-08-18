@@ -650,12 +650,17 @@ module P2RecoveryAntiCycle
          "CLEAN_ROOM_SLOT_V6_1_PRODUCT_SELECTOR_DEV_TASK_RESERVED_READY_SLOT_V2_3_RELOCKED",
          "CLEAN_ROOM_SLOT_V6_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED",
          "CLEAN_ROOM_SLOT_V7_1_PRODUCT_SELECTOR_DEV_TASK_RESERVED_READY_SLOT_V2_3_RELOCKED",
-         "CLEAN_ROOM_SLOT_V7_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED"
+         "CLEAN_ROOM_SLOT_V7_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED",
+         "CLEAN_ROOM_SLOT_V8_1_PRODUCT_SELECTOR_DEV_TASK_RESERVED_READY_SLOT_V2_3_RELOCKED",
+         "CLEAN_ROOM_SLOT_V8_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED"
+      graph_fusion = control["status"].include?("SLOT_V8_1")
       architecture_pivot = control["status"].include?("SLOT_V7_1")
       product_path_closure = control["status"].include?("SLOT_V6_1")
       stream_lifecycle = control["status"].include?("SLOT_V5_1")
       ready = control["status"].include?("RESERVED_READY")
-      task_id_v4 = if architecture_pivot
+      task_id_v4 = if graph_fusion
+                     "AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV"
+                   elsif architecture_pivot
                      "AIOS-P2-075_CLEAN_ROOM_QUERY_ENTITY_COVERAGE_PRODUCT_SELECTOR_ARCHITECTURE_PIVOT_DEV"
                    elsif product_path_closure
                      "AIOS-P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV"
@@ -664,7 +669,9 @@ module P2RecoveryAntiCycle
                    else
                      "AIOS-P2-072_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_EXECUTION_INTEGRITY_DEV"
                    end
-      capacity_slot_id = if architecture_pivot
+      capacity_slot_id = if graph_fusion
+                           "P2_RECOVERY_CAPACITY_SLOT_V8_1"
+                         elsif architecture_pivot
                            "P2_RECOVERY_CAPACITY_SLOT_V7_1"
                          elsif product_path_closure
                            "P2_RECOVERY_CAPACITY_SLOT_V6_1"
@@ -673,7 +680,9 @@ module P2RecoveryAntiCycle
                          else
                            "P2_RECOVERY_CAPACITY_SLOT_V4_1"
                          end
-      preceding_route_ref = if architecture_pivot
+      preceding_route_ref = if graph_fusion
+                              "historical_p2_075_phase_route"
+                            elsif architecture_pivot
                               "historical_p2_074_phase_route"
                             elsif product_path_closure
                               "historical_p2_073_phase_route"
@@ -693,7 +702,9 @@ module P2RecoveryAntiCycle
       expected_slots[0]["task_id"] = task_id_v4
       selected = route.fetch("selected_task")
       reservation = envelope.fetch("reserved")
-      expected_consumed = if architecture_pivot
+      expected_consumed = if graph_fusion
+                            { "engineering_tasks" => 20, "engineering_hours" => 592, "calendar_days" => 148 }
+                          elsif architecture_pivot
                             { "engineering_tasks" => 19, "engineering_hours" => 560, "calendar_days" => 140 }
                           elsif product_path_closure
                             { "engineering_tasks" => 18, "engineering_hours" => 528, "calendar_days" => 132 }
@@ -732,8 +743,8 @@ module P2RecoveryAntiCycle
               control["next_eligible_action"] == next_action &&
               control["capacity_slots"] == expected_slots,
               "Truth reserved clean-room Product Selector capacity projection drift")
-      slot_label = architecture_pivot ? "SLOT_V7_1" :
-        (product_path_closure ? "SLOT_V6_1" : (stream_lifecycle ? "SLOT_V5_1" : "SLOT_V4_1"))
+      slot_label = graph_fusion ? "SLOT_V8_1" : (architecture_pivot ? "SLOT_V7_1" :
+        (product_path_closure ? "SLOT_V6_1" : (stream_lifecycle ? "SLOT_V5_1" : "SLOT_V4_1")))
       assert!(project["current_route_execution_status"] == expected_project_route &&
               claim["p2_phase_envelope_status"] == "TASK_CAPACITY_RESERVED" &&
               claim["current_task"] == (ready ? "NONE" : task_id_v4) &&

@@ -8104,8 +8104,8 @@ current_phase_route:
     max_same_task_repairs: 1
     contract:
       path: docs/aios/tasks/P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV.yaml
-      sha256: bd2d9bd0ad7ab8ec4214c27157c30c9050c1a0504b48b1e87a65ae28834c207d
-      byte_length: 16793
+      sha256: 7759d41f99b1648428677c6d589d4061abe628dce72f62baa8370bb842787b4b
+      byte_length: 16853
     independence:
       new_task_id: true
       new_execution_nonce: true
@@ -10696,8 +10696,8 @@ phase_execution_envelope:
       calendar_days: 8
     contract:
       path: docs/aios/tasks/P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV.yaml
-      sha256: bd2d9bd0ad7ab8ec4214c27157c30c9050c1a0504b48b1e87a65ae28834c207d
-      byte_length: 16793
+      sha256: 7759d41f99b1648428677c6d589d4061abe628dce72f62baa8370bb842787b4b
+      byte_length: 16853
     authority:
   remaining:
     engineering_tasks: 1
@@ -22153,9 +22153,9 @@ active_work:
   current_task_status: NONE
   current_task_contract:
     path: docs/aios/tasks/P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV.yaml
-    sha256: bd2d9bd0ad7ab8ec4214c27157c30c9050c1a0504b48b1e87a65ae28834c207d
-    byte_length: 16793
-  current_task_contract_sha256: bd2d9bd0ad7ab8ec4214c27157c30c9050c1a0504b48b1e87a65ae28834c207d
+    sha256: 7759d41f99b1648428677c6d589d4061abe628dce72f62baa8370bb842787b4b
+    byte_length: 16853
+  current_task_contract_sha256: 7759d41f99b1648428677c6d589d4061abe628dce72f62baa8370bb842787b4b
   current_execution_authorization:
   current_execution_authorization_sha256:
   authority_record:

@@ -24,9 +24,9 @@ task_spec_ref:
 owner_role: P2-077 Master Owner
 worker_role: P2-077 Clean-room Semantic Selector Worker
 write_scope:
-- backend-spring/src/main/java/com/sourcelens/module/analysis/service/SemanticSymbolImpactConeSelector.java
+- backend-spring/src/main/java/com/sourcelens/module/analysis/graph/SemanticSymbolImpactConeSelector.java
 - backend-spring/src/main/java/com/sourcelens/module/agent/service/CodeQaRetrievalService.java
-- backend-spring/src/test/java/com/sourcelens/SemanticSymbolImpactConeSelectorTest.java
+- backend-spring/src/test/java/com/sourcelens/module/analysis/graph/SemanticSymbolImpactConeSelectorTest.java
 - backend-spring/src/test/java/com/sourcelens/CodeQaRetrievalServiceTest.java
 - evaluation-harness/harness/p2-semantic-symbol-impact-cone-product-selector-v1/**
 - evaluation-harness/replay/p2-semantic-symbol-impact-cone-product-selector-v1/**
@@ -106,9 +106,9 @@ roles:
   - Security Agent
   - Quality and Evaluation Agent
 allowlisted_paths:
-- backend-spring/src/main/java/com/sourcelens/module/analysis/service/SemanticSymbolImpactConeSelector.java
+- backend-spring/src/main/java/com/sourcelens/module/analysis/graph/SemanticSymbolImpactConeSelector.java
 - backend-spring/src/main/java/com/sourcelens/module/agent/service/CodeQaRetrievalService.java
-- backend-spring/src/test/java/com/sourcelens/SemanticSymbolImpactConeSelectorTest.java
+- backend-spring/src/test/java/com/sourcelens/module/analysis/graph/SemanticSymbolImpactConeSelectorTest.java
 - backend-spring/src/test/java/com/sourcelens/CodeQaRetrievalServiceTest.java
 - evaluation-harness/harness/p2-semantic-symbol-impact-cone-product-selector-v1/**
 - evaluation-harness/replay/p2-semantic-symbol-impact-cone-product-selector-v1/**
@@ -122,9 +122,9 @@ write_ownership:
   worker:
     role: P2-077 Clean-room Semantic Selector Worker
     write_paths:
-    - backend-spring/src/main/java/com/sourcelens/module/analysis/service/SemanticSymbolImpactConeSelector.java
+    - backend-spring/src/main/java/com/sourcelens/module/analysis/graph/SemanticSymbolImpactConeSelector.java
     - backend-spring/src/main/java/com/sourcelens/module/agent/service/CodeQaRetrievalService.java
-    - backend-spring/src/test/java/com/sourcelens/SemanticSymbolImpactConeSelectorTest.java
+    - backend-spring/src/test/java/com/sourcelens/module/analysis/graph/SemanticSymbolImpactConeSelectorTest.java
     - backend-spring/src/test/java/com/sourcelens/CodeQaRetrievalServiceTest.java
     - evaluation-harness/harness/p2-semantic-symbol-impact-cone-product-selector-v1/**
     - evaluation-harness/replay/p2-semantic-symbol-impact-cone-product-selector-v1/**

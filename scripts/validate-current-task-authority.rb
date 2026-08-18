@@ -3570,6 +3570,258 @@ module CurrentTaskAuthority
     gate
   end
 
+  def validate_p2_080_preactivation_gate(contract)
+    gate = exact_keys(
+      contract["preactivation_gate"],
+      %w[
+        required_before_held_read exact_candidate_commit exact_candidate_tree
+        split_neutral_adapter_required explicit_task_card_input_required
+        hard_coded_dev_cardinality_allowed synthetic_dev_schema_card_count
+        synthetic_held_schema_card_count synthetic_fixture_may_contain_held_source_or_oracle
+        historical_blob_rebinding_required new_relative_manifest_expected_entry_count
+        old_manifest_reclassified_as_pass dev_compatibility_replay_count
+        adapter_mutation_after_dev_observation_allowed held_read_allowed
+        product_source_mutation_allowed formal_held_dispatch_count failure_lifecycle
+      ],
+      "P2-080 preactivation_gate"
+    )
+    assert(gate["required_before_held_read"] == true &&
+           gate["exact_candidate_commit"] ==
+             "e0c0f4d78b64b95b359746ab7c2fec4beed4311f" &&
+           gate["exact_candidate_tree"] ==
+             "405bd708c7e724b792c37b9eb568e492cb94c70d" &&
+           gate["split_neutral_adapter_required"] == true &&
+           gate["explicit_task_card_input_required"] == true &&
+           gate["hard_coded_dev_cardinality_allowed"] == false &&
+           gate["synthetic_dev_schema_card_count"] == 8 &&
+           gate["synthetic_held_schema_card_count"] == 4 &&
+           gate["synthetic_fixture_may_contain_held_source_or_oracle"] == false &&
+           gate["historical_blob_rebinding_required"] == true &&
+           gate["new_relative_manifest_expected_entry_count"] == 166 &&
+           gate["old_manifest_reclassified_as_pass"] == false &&
+           gate["dev_compatibility_replay_count"] == 1 &&
+           gate["adapter_mutation_after_dev_observation_allowed"] == false &&
+           gate["held_read_allowed"] == false &&
+           gate["product_source_mutation_allowed"] == false &&
+           gate["formal_held_dispatch_count"] == 0 &&
+           gate["failure_lifecycle"] ==
+             "TERMINAL_NON_PASS_ZERO_HELD_READ_ROUTE_ENDS",
+           "P2-080 adapter preactivation or zero-HELD lifecycle drift")
+    gate
+  end
+
+  def validate_p2_080_adapter_protocol_contract_fields(root, authority, contract)
+    baseline = exact_keys(
+      contract["baseline_ref"],
+      %w[
+        artifact_id baseline_id macro_precision macro_recall macro_reciprocal_rank
+        top_k utf8_byte_budget
+      ],
+      "P2-080 baseline_ref"
+    )
+    assert(baseline == {
+      "artifact_id" => "P2_RECOVERY_BASELINE_ACCEPTED",
+      "baseline_id" => "B1_DETERMINISTIC_BM25_FILE_RETRIEVAL",
+      "macro_precision" => 0.15595238095238093,
+      "macro_recall" => 0.8958333333333334,
+      "macro_reciprocal_rank" => 0.8229166666666666,
+      "top_k" => 10,
+      "utf8_byte_budget" => 131_072
+    }, "P2-080 accepted B1 identity drift")
+
+    dependencies = array(contract["dependencies"], "P2-080 dependencies")
+    assert(dependencies.length == 6, "P2-080 requires exactly six frozen dependencies")
+
+    canonical = exact_keys(dependencies.fetch(0), %w[kind identity], "P2-080 canonical")
+    canonical_identity = exact_keys(canonical["identity"], %w[commit tree],
+                                    "P2-080 canonical identity")
+    assert(canonical["kind"] == "CANONICAL_SOURCE" && canonical_identity == {
+      "commit" => "27e435ceb882ed5d7b9c822969f40da41c455737",
+      "tree" => "18c1a4a21d016a0a12a2ae45575dee0740038535"
+    }, "P2-080 canonical dependency drift")
+    validate_commit_tree(root, canonical_identity["commit"], canonical_identity["tree"],
+                         "P2-080 canonical dependency")
+
+    candidate = exact_keys(dependencies.fetch(1), %w[kind identity], "P2-080 candidate")
+    candidate_identity = exact_keys(
+      candidate["identity"],
+      %w[commit tree branch worktree reviewer_raw_manifest],
+      "P2-080 frozen candidate identity"
+    )
+    assert(candidate["kind"] == "EXACT_FROZEN_P2_078_CANDIDATE" &&
+           candidate_identity["commit"] ==
+             "e0c0f4d78b64b95b359746ab7c2fec4beed4311f" &&
+           candidate_identity["tree"] ==
+             "405bd708c7e724b792c37b9eb568e492cb94c70d" &&
+           candidate_identity["branch"] ==
+             "codex/p2-078-jdk17-scan-time-attributed-persisted-graph" &&
+           candidate_identity["worktree"] ==
+             "/Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P2-078-jdk17-scan-time-attributed-persisted-graph",
+           "P2-080 frozen candidate Git identity drift")
+    validate_commit_tree(root, candidate_identity["commit"], candidate_identity["tree"],
+                         "P2-080 frozen candidate")
+    manifest = exact_keys(
+      candidate_identity["reviewer_raw_manifest"],
+      %w[path byte_length sha256 entry_count held_source_or_payload_entries],
+      "P2-080 P2-078 reviewer raw manifest"
+    )
+    assert(manifest == {
+      "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p2-jdk17-scan-time-attributed-persisted-graph-20260818/task-p2-078/reviewer/P2_078_TERMINAL_REVIEWER_RAW_MANIFEST_V1.json",
+      "byte_length" => 59_011,
+      "sha256" => "a9f8c462af405d6b178c1db769d6349c51b9387dc0d049012437ce2b6c8988c9",
+      "entry_count" => 166,
+      "held_source_or_payload_entries" => 0
+    }, "P2-080 reviewer raw manifest identity drift")
+
+    accepted = exact_keys(dependencies.fetch(2), %w[kind identity], "P2-080 accepted baseline")
+    accepted_identity = exact_keys(
+      accepted["identity"],
+      %w[
+        artifact_id root source_pack benchmark_manifest dev_task_cards b1_results
+        dev_held_non_overlap_proof
+      ],
+      "P2-080 accepted baseline identity"
+    )
+    assert(accepted["kind"] == "ACCEPTED_BASELINE_ARTIFACT" &&
+           accepted_identity["artifact_id"] == "P2_RECOVERY_BASELINE_ACCEPTED" &&
+           accepted_identity["root"] ==
+             "/Users/lijunpeng/Developer/.sourcelens-audit/p2-clean-room-recovery-benchmark-foundation-20260817/task-p2-069",
+           "P2-080 accepted baseline identity drift")
+
+    terminal_event = exact_keys(dependencies.fetch(3), %w[kind identity],
+                                "P2-080 P2-079 terminal event")
+    terminal_identity = exact_keys(
+      terminal_event["identity"],
+      %w[terminal_receipt preactivation_receipt],
+      "P2-080 P2-079 terminal event identity"
+    )
+    terminal_receipt = exact_keys(terminal_identity["terminal_receipt"],
+                                  %w[path byte_length sha256],
+                                  "P2-080 P2-079 terminal receipt")
+    preactivation_receipt = exact_keys(terminal_identity["preactivation_receipt"],
+                                       %w[path byte_length sha256],
+                                       "P2-080 P2-079 preactivation receipt")
+    assert(terminal_event["kind"] == "P2_079_TERMINAL_EVENT" &&
+           terminal_receipt == {
+             "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p2-exact-frozen-p2-078-formal-held-20260818/task-p2-079/terminal/P2_079_TERMINAL_PREACTIVATION_FORMAL_HELD_RUNNER_INCOMPATIBLE_NON_PASS_RECEIPT_V1.json",
+             "byte_length" => 7211,
+             "sha256" => "4dc663888d1492f3ed7542372c050284a7a8a7f511f95edd9147d256069f93f6"
+           } && preactivation_receipt == {
+             "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p2-exact-frozen-p2-078-formal-held-20260818/task-p2-079/preactivation/P2_079_PREACTIVATION_NON_PASS_RECEIPT_V1.json",
+             "byte_length" => 11_341,
+             "sha256" => "cba210c2d31900fc79baab75cd1818713d0b9372fea7f9778df0156aa2cf0236"
+           }, "P2-080 P2-079 terminal Evidence identity drift")
+    validate_identity(terminal_receipt["path"], terminal_receipt,
+                      "P2-080 P2-079 terminal receipt")
+    validate_identity(preactivation_receipt["path"], preactivation_receipt,
+                      "P2-080 P2-079 preactivation receipt")
+
+    rebinding = exact_keys(dependencies.fetch(4), %w[kind identity],
+                           "P2-080 historical blob rebinding")
+    rebinding_identity = exact_keys(rebinding["identity"], %w[entries],
+                                    "P2-080 historical blob rebinding identity")
+    entries = array(rebinding_identity["entries"], "P2-080 historical blob entries")
+    expected_entries = [
+      {
+        "logical_path" => "docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml",
+        "source_commit" => "5d75f146db21da0e05b5bd5b47ed23e096dd162d",
+        "blob" => "838fb82bec44fccd9d3eec1d732d0358c5060633",
+        "byte_length" => 7433,
+        "sha256" => "cfb383e6b89c84bfe7e574f25a6b2137f5618a7aef0a013814a7abad6d5d24ab"
+      },
+      {
+        "logical_path" => "docs/aios/tasks/P2-078_CLEAN_ROOM_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_PRODUCT_SELECTOR_DEV.yaml",
+        "source_commit" => "5733350eace33556254d2a25be075d184f4d2383",
+        "blob" => "43ac4a9a1a30dc8b1441acccc9e0f79f3d3b20d6",
+        "byte_length" => 21_112,
+        "sha256" => "618a7a00f58cc5a3af1440284d909d74c5c17d00e5e003d9269b3fb0fe840af6"
+      }
+    ]
+    entries.each { |entry| exact_keys(entry, %w[logical_path source_commit blob byte_length sha256],
+                                      "P2-080 historical blob entry") }
+    assert(rebinding["kind"] == "HISTORICAL_BLOB_REBINDING" &&
+           entries == expected_entries,
+           "P2-080 historical blob rebinding identity drift")
+
+    prereg = exact_keys(dependencies.fetch(5), %w[kind identity], "P2-080 preregistration")
+    prereg_identity = exact_keys(
+      prereg["identity"],
+      %w[
+        path byte_length sha256 primary_metric_id comparison_design treatment control direction
+        forbidden_context_increase_allowed
+      ],
+      "P2-080 preregistration identity"
+    )
+    assert(prereg["kind"] == "ORIGINAL_PREREGISTERED_CRITERION" &&
+           prereg_identity == {
+             "path" => "evaluation-harness/reports/p1-219-dataset-derived-preregistration/P2_CONTEXT_ENGINE_PREREGISTRATION.json",
+             "byte_length" => 6531,
+             "sha256" => "4a5976b0bdffb5646fcab2b22c53216ff3d09dceb454082474953fe41482156f",
+             "primary_metric_id" => "TASK_RELEVANT_EVIDENCE_RECALL_AT_FIXED_CONTEXT_BYTE_BUDGET",
+             "comparison_design" => "PAIRED_WITHIN_TASK_EQUAL_CONTEXT_BYTE_BUDGET",
+             "treatment" => "GRAPH_CONDITIONED_CONTEXT_SELECTION",
+             "control" => "DETERMINISTIC_LEXICAL_RETRIEVAL_V1",
+             "direction" => "HIGHER_IS_BETTER",
+             "forbidden_context_increase_allowed" => false
+           }, "P2-080 original preregistered criterion drift")
+    validate_identity(repo_path(root, prereg_identity["path"], "P2-080 preregistration path"),
+                      prereg_identity, "P2-080 preregistration")
+
+    if contract["status"] == "ACTIVE"
+      validate_identity(manifest["path"], manifest, "P2-080 P2-078 reviewer raw manifest")
+      baseline_root = accepted_identity["root"]
+      baseline_stat = File.lstat(baseline_root)
+      assert(File.expand_path(baseline_root) == baseline_root && baseline_stat.directory? &&
+             !baseline_stat.symlink? && File.realpath(baseline_root) == baseline_root,
+             "P2-080 accepted baseline root is not canonical")
+      %w[source_pack benchmark_manifest dev_task_cards b1_results dev_held_non_overlap_proof].each do |key|
+        leaf = exact_keys(accepted_identity[key], %w[relative_path byte_length sha256],
+                          "P2-080 #{key}")
+        relative_path = safe_scope_path(leaf["relative_path"], "P2-080 #{key} relative path")
+        validate_identity(File.join(baseline_root, relative_path), leaf,
+                          "P2-080 accepted #{key}")
+      end
+      entries.each do |entry|
+        blob_bytes = git(root, "cat-file", "blob", entry["blob"]).first
+        assert(blob_bytes.bytesize == entry["byte_length"] &&
+               sha256(blob_bytes) == entry["sha256"],
+               "P2-080 historical blob bytes drift for #{entry['logical_path']}")
+        source_blob = git(root, "rev-parse", "#{entry['source_commit']}:#{entry['logical_path']}").first.strip
+        assert(source_blob == entry["blob"],
+               "P2-080 historical source commit does not bind the declared blob")
+      end
+    end
+
+    task_spec_ref = exact_keys(contract["task_spec_ref"], %w[path sha256 byte_length],
+                               "P2-080 task spec")
+    expected_read_context = [
+      authority["current_facts"],
+      authority.dig("strategy", "path"),
+      authority.dig("execution_protocol", "path"),
+      authority.dig("founder_delegation_policy", "path"),
+      authority.dig("evaluation_protocol", "path"),
+      "docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml",
+      task_spec_ref["path"],
+      "P2_079_TERMINAL_EVIDENCE_ROOT/terminal/P2_079_TERMINAL_PREACTIVATION_FORMAL_HELD_RUNNER_INCOMPATIBLE_NON_PASS_RECEIPT_V1.json",
+      "P2_079_TERMINAL_EVIDENCE_ROOT/preactivation/P2_079_PREACTIVATION_NON_PASS_RECEIPT_V1.json",
+      "P2_078_TERMINAL_EVIDENCE_ROOT/reviewer/P2_078_TERMINAL_REVIEWER_RAW_MANIFEST_V1.json",
+      "P2_069_ACCEPTED_EVIDENCE_ROOT/accepted-source-pack-v1/SOURCE_PACK.json",
+      "P2_069_ACCEPTED_EVIDENCE_ROOT/runs/repair-replay-1/candidate/BENCHMARK_MANIFEST.json",
+      "P2_069_ACCEPTED_EVIDENCE_ROOT/runs/repair-replay-1/candidate/DEV_TASK_CARDS.json",
+      "P2_069_ACCEPTED_EVIDENCE_ROOT/runs/repair-replay-1/candidate/B1_RESULTS.json",
+      "P2_069_ACCEPTED_EVIDENCE_ROOT/runs/repair-replay-1/candidate/DEV_HELD_NON_OVERLAP_PROOF.json",
+      prereg_identity["path"],
+      "GIT_OBJECT/838fb82bec44fccd9d3eec1d732d0358c5060633",
+      "GIT_OBJECT/43ac4a9a1a30dc8b1441acccc9e0f79f3d3b20d6"
+    ]
+    read_context = array(contract["read_context"], "P2-080 read_context")
+    assert(read_context == expected_read_context && read_context.uniq.length == read_context.length,
+           "P2-080 read_context is not the exact frozen minimum")
+    true
+  rescue Errno::ENOENT, Errno::ELOOP, Errno::ENOTDIR => e
+    fail!("P2-080 frozen dependency unavailable (#{e.class})")
+  end
+
   def validate_p2_079_formal_held_protocol_contract_fields(root, authority, contract)
     baseline = exact_keys(
       contract["baseline_ref"],
@@ -3949,6 +4201,10 @@ module CurrentTaskAuthority
        "AIOS-P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION"
       return validate_p2_079_formal_held_protocol_contract_fields(root, authority, contract)
     end
+    if contract["task_id"] ==
+       "AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER"
+      return validate_p2_080_adapter_protocol_contract_fields(root, authority, contract)
+    end
     if %w[
       AIOS-P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV
       AIOS-P2-075_CLEAN_ROOM_QUERY_ENTITY_COVERAGE_PRODUCT_SELECTOR_ARCHITECTURE_PIVOT_DEV
@@ -4159,6 +4415,7 @@ module CurrentTaskAuthority
       AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV
       AIOS-P2-078_CLEAN_ROOM_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_PRODUCT_SELECTOR_DEV
       AIOS-P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION
+      AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER
     ].include?(parsed_contract["task_id"])
     contract = exact_keys(
       parsed_contract,
@@ -4191,6 +4448,9 @@ module CurrentTaskAuthority
     elsif parsed_contract["task_id"] ==
           "AIOS-P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION"
       validate_p2_079_preactivation_gate(contract)
+    elsif parsed_contract["task_id"] ==
+          "AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER"
+      validate_p2_080_preactivation_gate(contract)
     end
     validate_phase_delegated_protocol_contract_fields(root, truth, route, contract)
     projected_keys = %w[
@@ -4696,6 +4956,7 @@ module CurrentTaskAuthority
       AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV
       AIOS-P2-078_CLEAN_ROOM_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_PRODUCT_SELECTOR_DEV
       AIOS-P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION
+      AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER
     ].include?(task["task_id"])
       baseline_path = File.join(evidence_real, baseline["relative_path"])
       validate_identity(baseline_path, baseline, "phase-delegated active baseline Artifact")

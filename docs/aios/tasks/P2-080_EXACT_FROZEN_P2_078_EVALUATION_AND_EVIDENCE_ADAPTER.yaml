@@ -1,0 +1,300 @@
+schema_version: '1.1'
+record_type: aios_phase_delegated_independent_task_contract
+task_id: AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER
+phase: P2
+route_id: AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER_PHASE_DELEGATED_ROUTE
+status: ELIGIBLE_NOT_ACTIVATED
+task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
+capability: REPRODUCIBLE_CONTEXT_BENCHMARK
+objective: >-
+  Build one split-neutral evaluation-and-Evidence adapter for exact immutable P2-078
+  candidate e0c0f4d78b64b95b359746ab7c2fec4beed4311f, rebind the two historical
+  Git blobs that caused P2-079 preactivation failure into a new stable 166-entry
+  relative-path Evidence manifest, prove the adapter schema on synthetic DEV-shaped
+  and HELD-shaped cards without HELD source or oracle bytes, and only after the
+  adapter is frozen perform one non-selective DEV compatibility replay.
+why_now: >-
+  P2-079 terminated before HELD because its runner required live absolute paths for
+  two historically changed files. The Founder authorized exactly one non-product
+  adapter Task to close that runner/Evidence incompatibility without retroactively
+  passing P2-079, mutating P2-078, rerunning Product DEV, reading HELD, retuning, or
+  changing the accepted benchmark, split, oracle, metric, threshold or schedule.
+task_spec_ref:
+  path: docs/aios/decisions/P2_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER_PLUS_ONE_SHOT_FORMAL_HELD_SEQUENCE_V1.md
+  sha256: 4d0e3d2e489fbcf3b1de6003cdeef15c9cff7205ac1bd5eac88dd46603fcb015
+  byte_length: 8719
+owner_role: P2-080 Master Adapter Owner
+worker_role: P2-080 Evaluation and Evidence Adapter Worker
+write_scope:
+  - evaluation-harness/harness/p2-exact-frozen-p2-078-evaluation-evidence-adapter-v1
+  - evaluation-harness/replay/p2-exact-frozen-p2-078-evaluation-evidence-adapter-v1
+  - evaluation-harness/reports/p2-exact-frozen-p2-078-evaluation-evidence-adapter-v1
+read_context:
+  - docs/aios/truth/project_state.yaml
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
+  - docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml
+  - docs/aios/decisions/P2_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER_PLUS_ONE_SHOT_FORMAL_HELD_SEQUENCE_V1.md
+  - P2_079_TERMINAL_EVIDENCE_ROOT/terminal/P2_079_TERMINAL_PREACTIVATION_FORMAL_HELD_RUNNER_INCOMPATIBLE_NON_PASS_RECEIPT_V1.json
+  - P2_079_TERMINAL_EVIDENCE_ROOT/preactivation/P2_079_PREACTIVATION_NON_PASS_RECEIPT_V1.json
+  - P2_078_TERMINAL_EVIDENCE_ROOT/reviewer/P2_078_TERMINAL_REVIEWER_RAW_MANIFEST_V1.json
+  - P2_069_ACCEPTED_EVIDENCE_ROOT/accepted-source-pack-v1/SOURCE_PACK.json
+  - P2_069_ACCEPTED_EVIDENCE_ROOT/runs/repair-replay-1/candidate/BENCHMARK_MANIFEST.json
+  - P2_069_ACCEPTED_EVIDENCE_ROOT/runs/repair-replay-1/candidate/DEV_TASK_CARDS.json
+  - P2_069_ACCEPTED_EVIDENCE_ROOT/runs/repair-replay-1/candidate/B1_RESULTS.json
+  - P2_069_ACCEPTED_EVIDENCE_ROOT/runs/repair-replay-1/candidate/DEV_HELD_NON_OVERLAP_PROOF.json
+  - evaluation-harness/reports/p1-219-dataset-derived-preregistration/P2_CONTEXT_ENGINE_PREREGISTRATION.json
+  - GIT_OBJECT/838fb82bec44fccd9d3eec1d732d0358c5060633
+  - GIT_OBJECT/43ac4a9a1a30dc8b1441acccc9e0f79f3d3b20d6
+dependencies:
+  - kind: CANONICAL_SOURCE
+    identity:
+      commit: 27e435ceb882ed5d7b9c822969f40da41c455737
+      tree: 18c1a4a21d016a0a12a2ae45575dee0740038535
+  - kind: EXACT_FROZEN_P2_078_CANDIDATE
+    identity:
+      commit: e0c0f4d78b64b95b359746ab7c2fec4beed4311f
+      tree: 405bd708c7e724b792c37b9eb568e492cb94c70d
+      branch: codex/p2-078-jdk17-scan-time-attributed-persisted-graph
+      worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/AIOS-P2-078-jdk17-scan-time-attributed-persisted-graph
+      reviewer_raw_manifest:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-jdk17-scan-time-attributed-persisted-graph-20260818/task-p2-078/reviewer/P2_078_TERMINAL_REVIEWER_RAW_MANIFEST_V1.json
+        byte_length: 59011
+        sha256: a9f8c462af405d6b178c1db769d6349c51b9387dc0d049012437ce2b6c8988c9
+        entry_count: 166
+        held_source_or_payload_entries: 0
+  - kind: ACCEPTED_BASELINE_ARTIFACT
+    identity:
+      artifact_id: P2_RECOVERY_BASELINE_ACCEPTED
+      root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-clean-room-recovery-benchmark-foundation-20260817/task-p2-069
+      source_pack:
+        relative_path: accepted-source-pack-v1/SOURCE_PACK.json
+        byte_length: 94630
+        sha256: c5f38070b8f0ed445c759f3380769c2dec5493e0f4120f681b9b1cab3fd67884
+      benchmark_manifest:
+        relative_path: runs/repair-replay-1/candidate/BENCHMARK_MANIFEST.json
+        byte_length: 1698
+        sha256: 1847e480cd0a2a35f3130b65dc074742ad5669eb4f715bc4066867855680396f
+      dev_task_cards:
+        relative_path: runs/repair-replay-1/candidate/DEV_TASK_CARDS.json
+        byte_length: 520431
+        sha256: c6c5a2655870a6cc8b5310675fa4e31054be48d048702a0939fac81327bb865b
+      b1_results:
+        relative_path: runs/repair-replay-1/candidate/B1_RESULTS.json
+        byte_length: 634859
+        sha256: 231a99391726b618cba130474c4ad7ffa348af25afda97968dc0c1745159c0c0
+      dev_held_non_overlap_proof:
+        relative_path: runs/repair-replay-1/candidate/DEV_HELD_NON_OVERLAP_PROOF.json
+        byte_length: 498
+        sha256: 84af16469d26cfbf8b393a7e4b9aa39d383cdfc88c5a721e5651d73f3c9c2065
+  - kind: P2_079_TERMINAL_EVENT
+    identity:
+      terminal_receipt:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-exact-frozen-p2-078-formal-held-20260818/task-p2-079/terminal/P2_079_TERMINAL_PREACTIVATION_FORMAL_HELD_RUNNER_INCOMPATIBLE_NON_PASS_RECEIPT_V1.json
+        byte_length: 7211
+        sha256: 4dc663888d1492f3ed7542372c050284a7a8a7f511f95edd9147d256069f93f6
+      preactivation_receipt:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-exact-frozen-p2-078-formal-held-20260818/task-p2-079/preactivation/P2_079_PREACTIVATION_NON_PASS_RECEIPT_V1.json
+        byte_length: 11341
+        sha256: cba210c2d31900fc79baab75cd1818713d0b9372fea7f9778df0156aa2cf0236
+  - kind: HISTORICAL_BLOB_REBINDING
+    identity:
+      entries:
+        - logical_path: docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml
+          source_commit: 5d75f146db21da0e05b5bd5b47ed23e096dd162d
+          blob: 838fb82bec44fccd9d3eec1d732d0358c5060633
+          byte_length: 7433
+          sha256: cfb383e6b89c84bfe7e574f25a6b2137f5618a7aef0a013814a7abad6d5d24ab
+        - logical_path: docs/aios/tasks/P2-078_CLEAN_ROOM_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_PRODUCT_SELECTOR_DEV.yaml
+          source_commit: 5733350eace33556254d2a25be075d184f4d2383
+          blob: 43ac4a9a1a30dc8b1441acccc9e0f79f3d3b20d6
+          byte_length: 21112
+          sha256: 618a7a00f58cc5a3af1440284d909d74c5c17d00e5e003d9269b3fb0fe840af6
+  - kind: ORIGINAL_PREREGISTERED_CRITERION
+    identity:
+      path: evaluation-harness/reports/p1-219-dataset-derived-preregistration/P2_CONTEXT_ENGINE_PREREGISTRATION.json
+      byte_length: 6531
+      sha256: 4a5976b0bdffb5646fcab2b22c53216ff3d09dceb454082474953fe41482156f
+      primary_metric_id: TASK_RELEVANT_EVIDENCE_RECALL_AT_FIXED_CONTEXT_BYTE_BUDGET
+      comparison_design: PAIRED_WITHIN_TASK_EQUAL_CONTEXT_BYTE_BUDGET
+      treatment: GRAPH_CONDITIONED_CONTEXT_SELECTION
+      control: DETERMINISTIC_LEXICAL_RETRIEVAL_V1
+      direction: HIGHER_IS_BETTER
+      forbidden_context_increase_allowed: false
+risk_level: high
+baseline_ref:
+  artifact_id: P2_RECOVERY_BASELINE_ACCEPTED
+  baseline_id: B1_DETERMINISTIC_BM25_FILE_RETRIEVAL
+  macro_precision: 0.15595238095238093
+  macro_recall: 0.8958333333333334
+  macro_reciprocal_rank: 0.8229166666666666
+  top_k: 10
+  utf8_byte_budget: 131072
+independent_reviewer:
+  - P2-080 CTO Reviewer
+  - P2-080 Security Reviewer
+  - P2-080 Quality and Evaluation Reviewer
+protocol_status_mapping:
+  ELIGIBLE_NOT_ACTIVATED: ready
+  ACTIVE: in_progress
+task_gate_owner: MASTER_CEO_AGENT
+founder_gate: RESERVED_DECISIONS_ONLY
+capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_V11_1
+budget:
+  engineering_hours: 32
+  calendar_days: 8
+  implementation_iterations: 2
+  candidates: 1
+max_same_task_repairs: 1
+roles:
+  owner: P2-080 Master Adapter Owner
+  worker: P2-080 Evaluation and Evidence Adapter Worker
+  independent_reviewers:
+    - P2-080 CTO Reviewer
+    - P2-080 Security Reviewer
+    - P2-080 Quality and Evaluation Reviewer
+allowlisted_paths:
+  - evaluation-harness/harness/p2-exact-frozen-p2-078-evaluation-evidence-adapter-v1
+  - evaluation-harness/replay/p2-exact-frozen-p2-078-evaluation-evidence-adapter-v1
+  - evaluation-harness/reports/p2-exact-frozen-p2-078-evaluation-evidence-adapter-v1
+write_ownership:
+  schema_version: role-write-ownership/v1
+  cross_role_write_allowed: false
+  owner:
+    role: P2-080 Master Adapter Owner
+    write_paths: []
+  worker:
+    role: P2-080 Evaluation and Evidence Adapter Worker
+    write_paths:
+      - evaluation-harness/harness/p2-exact-frozen-p2-078-evaluation-evidence-adapter-v1
+      - evaluation-harness/replay/p2-exact-frozen-p2-078-evaluation-evidence-adapter-v1
+      - evaluation-harness/reports/p2-exact-frozen-p2-078-evaluation-evidence-adapter-v1
+  independent_reviewers:
+    - role: P2-080 CTO Reviewer
+      write_paths: []
+    - role: P2-080 Security Reviewer
+      write_paths: []
+    - role: P2-080 Quality and Evaluation Reviewer
+      write_paths: []
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+phase_delegation_binding:
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: '1.8'
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  delegation_amendment:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/founder-delegation-continuity-20260808/decision/FOUNDER_PHASE_DELEGATION_CONTINUITY_AMENDMENT_V1.json
+    byte_length: 1182
+    sha256: c37634c51b0b7695204c026f9950911c427f544a6ff2e2c2f786facb9a84a52e
+  source_decision:
+    path: docs/aios/decisions/P2_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER_PLUS_ONE_SHOT_FORMAL_HELD_SEQUENCE_DECISION_V1.json
+    sha256: fea0f1a548dd6b9384da3319b38c8fd024bf8be3b486ce9b679a8aaac5e87313
+    byte_length: 3249
+  source_terminal_event:
+    task_id: AIOS-P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION
+    status: TERMINAL_PREACTIVATION_FORMAL_HELD_RUNNER_INCOMPATIBLE_NON_PASS
+    outcome_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-exact-frozen-p2-078-formal-held-20260818/task-p2-079/terminal/P2_079_TERMINAL_PREACTIVATION_FORMAL_HELD_RUNNER_INCOMPATIBLE_NON_PASS_RECEIPT_V1.json
+      byte_length: 7211
+      sha256: 4dc663888d1492f3ed7542372c050284a7a8a7f511f95edd9147d256069f93f6
+  phase_envelope_snapshot:
+    limits:
+      engineering_tasks: 26
+      engineering_hours: 784
+      calendar_days: 196
+      active_tasks: 1
+      task_branches: 1
+      task_worktrees: 1
+      active_candidates: 1
+    consumed:
+      engineering_tasks: 24
+      engineering_hours: 720
+      calendar_days: 180
+    reserved:
+      task_id: AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER
+      route_id: AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER_PHASE_DELEGATED_ROUTE
+      status: ELIGIBLE_NOT_ACTIVATED
+      capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_V11_1
+      budget:
+        engineering_tasks: 1
+        engineering_hours: 32
+        calendar_days: 8
+    remaining:
+      engineering_tasks: 1
+      engineering_hours: 32
+      calendar_days: 8
+  founder_packet_for_task:
+preactivation_gate:
+  required_before_held_read: true
+  exact_candidate_commit: e0c0f4d78b64b95b359746ab7c2fec4beed4311f
+  exact_candidate_tree: 405bd708c7e724b792c37b9eb568e492cb94c70d
+  split_neutral_adapter_required: true
+  explicit_task_card_input_required: true
+  hard_coded_dev_cardinality_allowed: false
+  synthetic_dev_schema_card_count: 8
+  synthetic_held_schema_card_count: 4
+  synthetic_fixture_may_contain_held_source_or_oracle: false
+  historical_blob_rebinding_required: true
+  new_relative_manifest_expected_entry_count: 166
+  old_manifest_reclassified_as_pass: false
+  dev_compatibility_replay_count: 1
+  adapter_mutation_after_dev_observation_allowed: false
+  held_read_allowed: false
+  product_source_mutation_allowed: false
+  formal_held_dispatch_count: 0
+  failure_lifecycle: TERMINAL_NON_PASS_ZERO_HELD_READ_ROUTE_ENDS
+acceptance_criteria:
+  - The adapter is split-neutral and accepts explicit task-card and oracle inputs; no DEV or HELD cardinality, path, task ID, split label, source byte or oracle byte is embedded in product or adapter logic.
+  - Before any DEV compatibility replay, synthetic eight-card DEV-shaped and four-card HELD-shaped schema fixtures pass using generated non-benchmark bytes and prove identical adapter behavior without opening any HELD source or oracle.
+  - Exact historical blobs 838fb82bec44fccd9d3eec1d732d0358c5060633 and 43ac4a9a1a30dc8b1441acccc9e0f79f3d3b20d6 are independently verified against their authorized byte lengths and SHA-256 identities and installed only as create-once stable Evidence inputs.
+  - A new relative-path 166-entry manifest binds every exact P2-078 raw Evidence leaf; all entries verify, the two formerly drifting logical paths resolve through the exact historical blobs, and the old raw manifest remains disclosed as NON_PASS rather than rewritten.
+  - After the adapter, synthetic schema proof and new manifest are frozen, exactly one non-selective DEV compatibility replay byte-exactly reproduces the recorded P2-078 DEV task results and aggregate metrics; any mismatch is terminal NON_PASS with zero HELD reads.
+  - No adapter byte, evaluator rule, Evidence mapping, manifest, parameter or schedule changes after the first observed DEV compatibility result.
+  - CTO, Security and Quality/Evaluation independently accept the exact adapter candidate, stable Evidence pack, synthetic schema proof, one DEV replay and zero-HELD proof before the Master accepts P2_RECOVERY_EVALUATION_AND_EVIDENCE_ADAPTER_ACCEPTED.
+required_evidence:
+  - Create-once P2-080 authority and Contract lifecycle bindings with exact canonical parent, branch, worktree, Evidence root, nonce, roles, write allowlist and zero external-effect envelope.
+  - Exact P2-079 terminal and preactivation receipts, exact frozen P2-078 commit/tree and 166-entry raw-manifest identity, and exact P2-069 accepted source-pack and split identities.
+  - Exact historical Git blob byte-length and SHA-256 verification receipts plus create-once installed stable Evidence copies addressed only by Artifact ID and relative path.
+  - Split-neutral adapter source, synthetic DEV-shaped and HELD-shaped schema fixtures containing no benchmark source or oracle bytes, exact invocation transactions and negative tests for implicit split/cardinality/path assumptions.
+  - New 166-entry relative-path manifest, complete verification transaction, explicit two-entry historical rebinding proof and explicit old-manifest NON_PASS preservation.
+  - Exactly one DEV compatibility replay transaction binding frozen adapter bytes, explicit DEV cards, candidate/runtime identities, argv, cwd, closed environment, stdout, stderr, exit, complete read/write inventories and byte-exact comparison to recorded P2-078 DEV outputs.
+  - Independent CTO, Security and Quality/Evaluation verdicts over the same exact candidate and complete Evidence plus Master acceptance or terminal NON_PASS receipt.
+rollback: >-
+  On any adapter, synthetic schema, historical blob, manifest, DEV compatibility or
+  independent-review NON_PASS, integrate nothing, preserve exact terminal Evidence,
+  consume P2_RECOVERY_CAPACITY_SLOT_V11_1, keep the formal HELD slot locked, P2
+  delivery at 25%, strict progress at 0%, P2 and the Long-term Goal active, P3 HOLD,
+  and create no Product DEV, adapter successor, repair chain or formal HELD Task.
+stop_conditions:
+  - Stop before DEV if either historical blob identity, candidate identity, accepted P2-069 identity, synthetic schema proof, 166-entry relative manifest or zero-HELD proof does not PASS exactly.
+  - Stop before HELD on any DEV compatibility mismatch, replay failure, identity drift, incomplete transaction, post-result adapter mutation, reviewer blocker or Task Gate NON_PASS.
+  - Stop if any product source, P2-078 candidate, dataset, split, oracle, metric, threshold, ranking, parameter, recorded DEV result or accepted B1 byte would need mutation or retuning.
+  - Stop if any HELD source or oracle byte, P2-070 through P2-077 rejected engineering lineage, or non-manifest-bound P2-078 byte is requested or observed.
+  - Stop if network, Provider, Secret, remote, production, public release, deletion, existing database modification, P3 entry or Long-term Goal termination is requested or observed.
+forbidden_actions:
+  - Retroactively PASS P2-078 or P2-079; create or mutate Product DEV; reuse P2-070 through P2-077 rejected engineering; or alter exact P2-078 product, evaluator, result or parameter bytes.
+  - Read HELD source or oracle, dispatch formal HELD, infer HELD content from synthetic fixtures, embed fixed DEV or HELD card counts into adapter behavior, or make split-selective adapter decisions.
+  - Run DEV before adapter and manifest freeze, run DEV more than once, change any adapter or Evidence mapping after observing DEV, or rerun to pass.
+  - Modify product, accepted benchmark source pack, dataset, split, oracle, metric, threshold, ranking, schedule, preregistration, accepted B1, historical terminal Evidence or old raw manifest.
+  - Use network, Provider, Secret, remote, production, public release, deletion, existing database modification, P3 entry or Long-term Goal termination.
+claim_boundary: >-
+  This Task may establish only P2_RECOVERY_EVALUATION_AND_EVIDENCE_ADAPTER_ACCEPTED
+  for exact frozen P2-078 candidate e0c0f4d78b64b95b359746ab7c2fec4beed4311f
+  after one byte-exact DEV compatibility replay and independent acceptance. It cannot
+  retroactively PASS P2-078 or P2-079, accept Product Selector DEV, read or evaluate
+  HELD, establish K1/K2 or P2 Exit, authorize P3, claim production readiness, close P2,
+  or terminate the Long-term Goal.

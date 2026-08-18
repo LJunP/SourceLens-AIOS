@@ -44,7 +44,7 @@ module FounderActionHandoff
     P2_RECOVERY_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE
     P2_RECOVERY_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_SLOT_AND_RELOCKED_HELD_SEQUENCE
     P2_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_ROUTE_UNLOCK
-    P2_EXACT_FROZEN_P2_078_EVALUATION_ADAPTER_AND_ONE_SHOT_FORMAL_HELD_SEQUENCE
+    P2_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER_PLUS_ONE_SHOT_FORMAL_HELD_SEQUENCE
   ].freeze
   APP_OPERATION_TYPES = %w[APP_FILESYSTEM_BATCH_WRITE].freeze
   READ_ONLY_HTTPS_OPERATION = "一次全新、独立、clean-room V6 benchmark source acquisition"
@@ -194,16 +194,17 @@ module FounderActionHandoff
   P2_078_PARETO_RESIDUAL_ADMISSION_CONSUMPTION = "The existing formal HELD Task consumes the final 32-hour 8-day slot whether preactivation or formal evaluation PASSes or NON_PASSes; it authorizes no product mutation, DEV rerun, second candidate, replacement, remediation chain or automatic successor"
   P2_078_PARETO_RESIDUAL_ADMISSION_PASS = "Formal HELD PASS permits byte-exact integration of only the frozen P2-078 candidate, accepts K1 and K2, and makes the unchanged P2 Exit Gate eligible for independent acceptance and Founder Phase Gate; it does not itself authorize P3 entry or long-term Goal closure"
   P2_078_PARETO_RESIDUAL_ADMISSION_NON_PASS = "Preactivation or formal HELD NON_PASS preserves exact terminal Evidence, consumes the existing final slot, integrates nothing, keeps strict P2 progress at 0% and the implementation freeze active, creates no replacement or automatic successor, keeps P2 and the long-term Goal active, and keeps P3 HOLD"
-  P2_EVALUATION_ADAPTER_TOKEN = "AUTHORIZE_P2_EXACT_FROZEN_P2_078_EVALUATION_ADAPTER_AND_ONE_SHOT_FORMAL_HELD_SEQUENCE_V1"
-  P2_EVALUATION_ADAPTER_OPERATION = "Add exactly two ordered Tasks after terminal P2-079: one evaluation-infrastructure adapter Task for the exact frozen P2-078 candidate, followed only after independent adapter acceptance by one immutable-candidate one-shot formal HELD Task; add no Product DEV implementation attempt"
+  P2_EVALUATION_ADAPTER_TOKEN = "AUTHORIZE_P2_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER_PLUS_ONE_SHOT_FORMAL_HELD_SEQUENCE_V1"
+  P2_EVALUATION_ADAPTER_OPERATION = "Add exactly two ordered Tasks after terminal P2-079: one evaluation-and-Evidence adapter Task for the exact frozen P2-078 candidate, followed only after independent adapter acceptance by one immutable-candidate one-shot formal HELD Task; add no Product DEV implementation attempt"
   P2_EVALUATION_ADAPTER_PERMISSION = "Permit exact P2-078 candidate commit e0c0f4d78b64b95b359746ab7c2fec4beed4311f tree 405bd708c7e724b792c37b9eb568e492cb94c70d and its manifest-bound Evidence as read-only execution input while preserving P2-078 and P2-079 as terminal NON_PASS; permit new evaluator-adapter source only under evaluation-harness, with no product-source mutation, candidate retuning, dataset, split, oracle, metric, threshold, ranking or parameter mutation"
   P2_EVALUATION_ADAPTER_PREFLIGHT = "Before any HELD read, independently author and mechanically validate on canonical main one split-neutral evaluator adapter that accepts explicit task-card input without hard-coded DEV cardinality or DEV-only paths; prove the frozen 8-card DEV and 4-card HELD schemas using only non-HELD synthetic fixtures, exact authority-bound roots, closed runtime identities, sandboxed write confinement and create-once Evidence"
+  P2_EVALUATION_ADAPTER_EVIDENCE = "Within the same adapter Task and without modifying old Evidence, extract only historical Git blob 838fb82bec44fccd9d3eec1d732d0358c5060633 from commit 5d75f146db21da0e05b5bd5b47ed23e096dd162d and blob 43ac4a9a1a30dc8b1441acccc9e0f79f3d3b20d6 from commit 5733350eace33556254d2a25be075d184f4d2383, verify their preregistered byte lengths and SHA-256 identities, install them create-once under the new stable Evidence root, and build a new relative-path manifest that independently reaches 166 of 166 exact leaves; historical path drift remains disclosed and is never rewritten as an old-manifest PASS"
   P2_EVALUATION_ADAPTER_COMPATIBILITY = "After the adapter is frozen and before HELD access, permit exactly one non-selective DEV compatibility replay against the accepted P2-069 eight DEV cards and exact P2-078 candidate; it must byte-exact reproduce the already recorded P2-078 DEV task outputs and aggregates, cannot change candidate or adapter after observing results, and any mismatch is terminal NON_PASS with zero HELD reads"
   P2_EVALUATION_ADAPTER_FORMAL = "Adapter Task PASS freezes and may integrate only the evaluator adapter, then unlocks exactly one formal HELD Task; before the first HELD read freeze the exact candidate, adapter, dataset, split, oracle, metric, threshold, ranking, parameters, commands and Evidence, then execute exactly one untouched four-task HELD dispatch with no mutation, retuning, replacement, second candidate or rerun"
-  P2_EVALUATION_ADAPTER_TARGET = "Local SourceLens canonical main, exact frozen P2-078 candidate and manifest-bound Evidence, accepted P2-069 baseline and source pack, at most one active Task branch and worktree at a time, and create-once Evidence under /Users/lijunpeng/Developer/.sourcelens-audit; no network, Provider, Secret, remote write, production, public release, deletion, existing database modification, P3 entry or long-term Goal termination"
+  P2_EVALUATION_ADAPTER_TARGET = "Local SourceLens canonical main, exact frozen P2-078 candidate and manifest-bound Evidence, exact two declared historical Git commits and blobs, accepted P2-069 baseline and source pack, at most one active Task branch and worktree at a time, and create-once Evidence under /Users/lijunpeng/Developer/.sourcelens-audit; no network, Provider, Secret, remote write, production, public release, deletion, existing database modification, P3 entry or long-term Goal termination"
   P2_EVALUATION_ADAPTER_DURATION = "Until the unchanged P2 Exit Gate is independently ACCEPTED, either of the exact two Tasks reaches terminal NON_PASS, Founder explicitly revokes this route, or a terminal safety condition occurs"
   P2_EVALUATION_ADAPTER_BUDGET = "Raise the non-resettable cumulative P2 Phase envelope from 24 engineering tasks, 720 engineering hours and 180 calendar days to 26 engineering tasks, 784 engineering hours and 196 calendar days; preserve consumed 24 tasks, 720 hours and 180 days, leaving exactly two 32-hour 8-day slots and no other P2 capacity"
-  P2_EVALUATION_ADAPTER_RISK = "The material risks are read-only execution of one terminal candidate, one new evaluator adapter and 64 engineering hours of added capacity; risk is bounded by immutable product bytes, byte-exact DEV compatibility, zero pre-PASS HELD reads, one formal dispatch and an unchanged Exit Gate, and the expansion is reversible only before the first new Task is activated"
+  P2_EVALUATION_ADAPTER_RISK = "The material risks are read-only execution of one terminal candidate, one new evaluator adapter, content-addressed rebinding of two exact historical blobs and 64 engineering hours of added capacity; risk is bounded by immutable product bytes, no overwrite of old Evidence, byte-exact DEV compatibility, zero pre-PASS HELD reads, one formal dispatch and an unchanged Exit Gate, and the expansion is reversible only before the first new Task is activated"
   P2_EVALUATION_ADAPTER_DENY = "Do not create a new Task, read P2-078 rejected bytes or read HELD; keep P2 delivery at 25 percent, strict P2 progress at 0 percent, P2 and the long-term Goal active, P3 HOLD, and all P2-070 through P2-079 terminal facts immutable"
   P2_EVALUATION_ADAPTER_CONSUMPTION = "Each activated Task consumes exactly one 32-hour 8-day slot; adapter NON_PASS leaves formal HELD locked, formal HELD NON_PASS integrates no product candidate, either NON_PASS ends this route, and neither outcome creates a replacement, remediation chain, automatic successor or another Product DEV attempt"
   P2_EVALUATION_ADAPTER_PASS = "Adapter Task PASS permits integration of only the split-neutral evaluator adapter and unlocks one formal HELD Task with zero delivery or strict progress credit; formal HELD PASS permits byte-exact integration of only the frozen P2-078 product candidate, accepts the candidate-admission and formal-HELD delivery nodes, and makes the unchanged P2 Exit Gate eligible for independent acceptance, but does not authorize P3 entry or long-term Goal closure"
@@ -424,11 +425,12 @@ module FounderActionHandoff
       "pass_lifecycle" => P2_078_PARETO_RESIDUAL_ADMISSION_PASS,
       "non_pass_lifecycle" => P2_078_PARETO_RESIDUAL_ADMISSION_NON_PASS
     },
-    "P2_EXACT_FROZEN_P2_078_EVALUATION_ADAPTER_AND_ONE_SHOT_FORMAL_HELD_SEQUENCE" => {
+    "P2_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER_PLUS_ONE_SHOT_FORMAL_HELD_SEQUENCE" => {
       "operations" => [
         P2_EVALUATION_ADAPTER_OPERATION,
         P2_EVALUATION_ADAPTER_PERMISSION,
         P2_EVALUATION_ADAPTER_PREFLIGHT,
+        P2_EVALUATION_ADAPTER_EVIDENCE,
         P2_EVALUATION_ADAPTER_COMPATIBILITY,
         P2_EVALUATION_ADAPTER_FORMAL
       ],
@@ -780,7 +782,7 @@ module FounderActionHandoff
         P2_RECOVERY_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE
         P2_RECOVERY_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_SLOT_AND_RELOCKED_HELD_SEQUENCE
         P2_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_ROUTE_UNLOCK
-        P2_EXACT_FROZEN_P2_078_EVALUATION_ADAPTER_AND_ONE_SHOT_FORMAL_HELD_SEQUENCE
+        P2_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER_PLUS_ONE_SHOT_FORMAL_HELD_SEQUENCE
       ].include?(operation_type)
         proposed_tokens = package["copy_ready_text_or_exact_steps"].scan(FOUNDER_AUTHORIZATION_TOKEN)
         assert!(proposed_tokens == [profile["token"]],

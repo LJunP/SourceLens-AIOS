@@ -1,8 +1,8 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: '2026-08-18T04:51:20Z'
+last_verified_at: '2026-08-18T05:06:00Z'
 
-verification_scope: P2_V8_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_CAPACITY_ACCEPTED_SLOT_V10_1_ELIGIBLE_NOT_ACTIVATED_HELD_V2_3_RELOCKED_P2_DELIVERY_25_STRICT_0_P2_PROJECT_AND_LONG_TERM_GOAL_ACTIVE
+verification_scope: P2_078_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_TASK_RESERVED_READY_SLOT_V10_1_HELD_V2_3_RELOCKED_P2_DELIVERY_25_STRICT_0_P2_PROJECT_AND_LONG_TERM_GOAL_ACTIVE
 
 authority:
   founder: Human Founder
@@ -1613,7 +1613,7 @@ project:
   p2_entry_status: AUTHORIZED
   p2_execution_status: ACTIVE
   phase_execution_status: ACTIVE
-  current_route_execution_status: PHASE_DELEGATED_CONTINUATION_READY
+  current_route_execution_status: PHASE_DELEGATED_TASK_READY
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -8098,11 +8098,11 @@ historical_p2_076_phase_route:
     status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
 
 current_phase_route:
-  schema_version: phase-delegated-continuation-hold/v1
-  route_id: P2_PHASE_DELEGATED_CONTINUATION_PENDING_TASK_SELECTION
+  schema_version: phase-delegated-independent-task/v1
+  route_id: AIOS-P2-078_CLEAN_ROOM_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_PRODUCT_SELECTOR_DEV_PHASE_DELEGATED_ROUTE
   status: AUTHORIZED_READY
-  execution_status: PHASE_DELEGATED_CONTINUATION_READY
-  scheduling_status: MASTER_SELECTING_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
+  execution_status: PHASE_DELEGATED_TASK_READY
+  scheduling_status: READY_FOR_MASTER_ACTIVATION
   phase: P2
   phase_entry_status: AUTHORIZED
   policy:
@@ -8110,9 +8110,45 @@ current_phase_route:
     version: '1.8'
     sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
   founder_phase_route_decision_required: false
-  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
+  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
   phase_execution_envelope_ref: phase_execution_envelope
-  historical_terminal_route_ref: historical_p2_077_phase_route
+  source_authority_route_ref: historical_p2_product_selector_dev_jdk17_scan_time_compiler_attributed_persisted_graph_slot_and_relocked_held_phase_route
+  preceding_terminal_route_ref: historical_p2_077_phase_route
+  selected_task:
+    task_id: AIOS-P2-078_CLEAN_ROOM_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_PRODUCT_SELECTOR_DEV
+    status: ELIGIBLE_NOT_ACTIVATED
+    task_kind: REPOSITORY_INTELLIGENCE_GRAPH_ENGINEERING
+    capability: GRAPH_CONDITIONED_CONTEXT_SELECTION
+    objective: >-
+      Build one clean-room product-owned Java graph at the existing full-source scan
+      boundary using only public JDK 17 attribution APIs, persist declaration-proven
+      ownership and resolved Element-to-Element edges, and make the real CodeQaController
+      plus CodeQaRetrievalService selection path start from the exact accepted B1 ranking
+      and apply only deterministic persisted-graph substitutions within top-k 10 and
+      a 131072-byte UTF-8 budget.
+    capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_V10_1
+    budget:
+      engineering_hours: 32
+      calendar_days: 8
+      implementation_iterations: 2
+      candidates: 2
+    max_same_task_repairs: 1
+    contract:
+      path: docs/aios/tasks/P2-078_CLEAN_ROOM_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_PRODUCT_SELECTOR_DEV.yaml
+      sha256: 9a2c983cc260d7eb45c634c0d7d5236092a47a14129f0f27a7ec3b033deacfcc
+      byte_length: 21128
+    independence:
+      new_task_id: true
+      new_execution_nonce: true
+      new_branch: true
+      new_worktree: true
+      new_contract: true
+      new_evidence_root: true
+      rejected_lineage_read: false
+      rejected_lineage_compare: false
+      rejected_lineage_copy: false
+      same_phase_objective: true
+      successor_or_replacement: false
   external_effects:
     network: false
     provider: false
@@ -10525,7 +10561,7 @@ historical_p2_product_selector_dev_jdk17_scan_time_compiler_attributed_persisted
 phase_execution_envelope:
   schema_version: phase-execution-envelope/v1
   phase: P2
-  status: ACTIVE_REMAINING_CAPACITY
+  status: TASK_CAPACITY_RESERVED
   authority_basis:
     phase_entry_status: AUTHORIZED
     policy_path: docs/aios/FOUNDER_DELEGATION_POLICY.md
@@ -10913,10 +10949,23 @@ phase_execution_envelope:
     engineering_hours: 656
     calendar_days: 164
   reserved:
+    task_id: AIOS-P2-078_CLEAN_ROOM_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_PRODUCT_SELECTOR_DEV
+    route_id: AIOS-P2-078_CLEAN_ROOM_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_PRODUCT_SELECTOR_DEV_PHASE_DELEGATED_ROUTE
+    status: ELIGIBLE_NOT_ACTIVATED
+    capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_V10_1
+    budget:
+      engineering_tasks: 1
+      engineering_hours: 32
+      calendar_days: 8
+    contract:
+      path: docs/aios/tasks/P2-078_CLEAN_ROOM_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_PRODUCT_SELECTOR_DEV.yaml
+      sha256: 9a2c983cc260d7eb45c634c0d7d5236092a47a14129f0f27a7ec3b033deacfcc
+      byte_length: 21128
+    authority:
   remaining:
-    engineering_tasks: 2
-    engineering_hours: 64
-    calendar_days: 16
+    engineering_tasks: 1
+    engineering_hours: 32
+    calendar_days: 8
   external_effects:
     network: false
     provider: false
@@ -10929,16 +10978,16 @@ founder_escalation_control:
   schema_version: founder-escalation-control/v1
   disposition: NO_RESERVED_TRIGGER_CONTINUE_PHASE
   source_event:
-    kind: FOUNDER_PHASE_ENVELOPE_EXPANSION_ACCEPTED
-    task_id:
-    status: PRODUCT_SELECTOR_DEV_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_SLOT_V10_1_ELIGIBLE_NOT_ACTIVATED
+    kind: FOUNDER_EXPANDED_SINGLE_TASK_READY
+    task_id: AIOS-P2-078_CLEAN_ROOM_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_PRODUCT_SELECTOR_DEV
+    status: ELIGIBLE_NOT_ACTIVATED
   reserved_trigger:
     category: NONE
     evidence:
   phase_gate_status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
   founder_decision_required: false
   next_action_owner: MASTER_CEO_AGENT
-  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
+  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
 
 historical_p2_053_phase_route:
   schema_version: "1.1"
@@ -16021,6 +16070,10 @@ phase_boundary:
       - analyzer-rust
       - backend-spring/src/main/java/com/sourcelens/module/analysis/graph
       - backend-spring/src/test/java/com/sourcelens/module/analysis/graph
+      - backend-spring/src/main/java/com/sourcelens/module/analysis/service/Jdk17AttributedJavaGraphBuilder.java
+      - backend-spring/src/main/java/com/sourcelens/module/analysis/service/AnalysisService.java
+      - backend-spring/src/main/java/com/sourcelens/module/analysis/service/CodeGraphPersistenceService.java
+      - backend-spring/src/main/java/com/sourcelens/module/analysis/service/GraphService.java
       - backend-spring/src/main/java/com/sourcelens/module/agent/service/RepositoryContextSelectionService.java
       - backend-spring/src/main/java/com/sourcelens/module/agent/service/JavaDirectCallContextService.java
       - backend-spring/src/main/java/com/sourcelens/module/agent/service/JavaDependencyNeighborhoodContextService.java
@@ -16040,6 +16093,10 @@ phase_boundary:
       - backend-spring/src/test/java/com/sourcelens/QueryEntityCoverageSelectorTest.java
       - backend-spring/src/test/java/com/sourcelens/CodeQaRetrievalServiceTest.java
       - backend-spring/src/test/java/com/sourcelens/CodeQaControllerTest.java
+      - backend-spring/src/test/java/com/sourcelens/Jdk17AttributedJavaGraphBuilderTest.java
+      - backend-spring/src/test/java/com/sourcelens/CodeGraphPersistenceH2IntegrationTest.java
+      - backend-spring/src/test/java/com/sourcelens/AnalysisServiceTest.java
+      - backend-spring/src/test/resources/p2-078
       - backend-spring/src/test/java/com/sourcelens/CodeChunkFileFilterTest.java
       - backend-spring/src/test/java/com/sourcelens/CodeChunkServiceTest.java
       - evaluation-harness/harness
@@ -22366,10 +22423,10 @@ active_work:
   current_task: NONE
   current_task_status: NONE
   current_task_contract:
-    path:
-    sha256:
-    byte_length:
-  current_task_contract_sha256:
+    path: docs/aios/tasks/P2-078_CLEAN_ROOM_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_PRODUCT_SELECTOR_DEV.yaml
+    sha256: 9a2c983cc260d7eb45c634c0d7d5236092a47a14129f0f27a7ec3b033deacfcc
+    byte_length: 21128
+  current_task_contract_sha256: 9a2c983cc260d7eb45c634c0d7d5236092a47a14129f0f27a7ec3b033deacfcc
   current_execution_authorization:
   current_execution_authorization_sha256:
   authority_record:
@@ -22377,21 +22434,24 @@ active_work:
     sha256:
     byte_length:
   execution_nonce:
-  execution_nonce_status: NOT_ALLOCATED
+  execution_nonce_status: NOT_APPLICABLE_TASK_NONE
   authorization_id:
   activation_parent_commit:
   activation_parent_tree:
-  task_resource_state: NOT_CREATED_PHASE_DELEGATED_CONTINUATION_READY
+  task_resource_state: NOT_CREATED_PHASE_DELEGATED_TASK_READY
   task_branch:
   task_worktree:
   execution_evidence_root:
   allowlisted_paths: []
   budget:
-    engineering_hours: 0
-    calendar_days: 0
-    implementation_iterations: 0
-    candidates: 0
-  roles: {}
+    engineering_hours:
+    calendar_days:
+    implementation_iterations:
+    candidates:
+  roles:
+    owner:
+    worker:
+    independent_reviewers: []
   external_effects:
     network: false
     provider: false
@@ -22408,7 +22468,7 @@ active_work:
   user_action_required: NONE
   phase_route_decision_required: false
   phase_route_user_action_required: NONE
-  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
+  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
 
 historical_p2_065_terminal_active_work:
   current_task: AIOS-P2-065_ESM_IMPORT_GRAPH_CONTEXT_PRODUCT_BENCHMARK
@@ -28953,9 +29013,9 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: P2_PHASE_DELEGATED_CONTINUATION_PENDING_TASK_SELECTION
+  current_route_claim: AIOS-P2-078_CLEAN_ROOM_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_PRODUCT_SELECTOR_DEV_PHASE_DELEGATED_ROUTE
   current_task_claim: NONE
-  real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_NEW_PRODUCT_SELECTOR_DEV_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_SLOT_V10_1_ELIGIBLE_FORMAL_HELD_SLOT_V2_3_RELOCKED
+  real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_SLOT_V10_1_PRODUCT_SELECTOR_DEV_TASK_READY_SLOT_V2_3_RELOCKED
   product_capability_changed: false
   phase_local_allowed:
   - REAL_CODE_QA_PRODUCT_PATH_REPOSITORY_CONTEXT_SELECTOR
@@ -29283,7 +29343,7 @@ phase_execution_claim:
 
 p2_recovery_control:
   schema_version: p2-recovery-control/v1
-  status: CLEAN_ROOM_SLOT_V10_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED
+  status: CLEAN_ROOM_SLOT_V10_1_PRODUCT_SELECTOR_DEV_TASK_RESERVED_READY_SLOT_V2_3_RELOCKED
   plan:
     path: docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml
     byte_length: 7433
@@ -29299,7 +29359,7 @@ p2_recovery_control:
   capacity_slots:
   - slot: 1
     capacity_slot_id: P2_RECOVERY_CAPACITY_SLOT_V10_1
-    task_id:
+    task_id: AIOS-P2-078_CLEAN_ROOM_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_PRODUCT_SELECTOR_DEV
     milestone_id: P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED
     unlock_requirement: P2_RECOVERY_BASELINE_ACCEPTED
     engineering_hours: 32
@@ -29317,14 +29377,14 @@ p2_recovery_control:
   governance_progress_credit: 0
   accepted_milestones:
   - P2_RECOVERY_BASELINE_ACCEPTED
-  task_creation_allowed: true
-  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
+  task_creation_allowed: false
+  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
 
 claim_boundary:
-  current_phase_route: P2_PHASE_DELEGATED_CONTINUATION_PENDING_TASK_SELECTION
+  current_phase_route: AIOS-P2-078_CLEAN_ROOM_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_PRODUCT_SELECTOR_DEV_PHASE_DELEGATED_ROUTE
   current_task: NONE
-  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
-  real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_NEW_PRODUCT_SELECTOR_DEV_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_SLOT_V10_1_ELIGIBLE_FORMAL_HELD_SLOT_V2_3_RELOCKED
+  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
+  real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_SLOT_V10_1_PRODUCT_SELECTOR_DEV_TASK_READY_SLOT_V2_3_RELOCKED
   p2_077_status: TERMINAL_PRODUCT_SELECTOR_DEV_SEMANTIC_GRAPH_AND_THRESHOLD_NON_PASS
   p2_077_contract_sha256: 39301fa918bfeebdbfecc79854572858fa313cbda2033b7005cc757986a2227d
   p2_077_capacity_source: P2_RECOVERY_CAPACITY_SLOT_V9_1
@@ -29532,7 +29592,7 @@ claim_boundary:
   p2_065_rejected_candidate_preservation_receipt_sha256: 8a96643ed0823c11791471a7249318ce287c6e1f41d087b5bf3863a8b8fd8ac8
   p2_065_canonical_make_verify: NOT_INVOKED_TERMINAL_TARGET_METRIC_NON_PASS
   p2_065_capability_credit: 0
-  p2_phase_envelope_status: ACTIVE_REMAINING_CAPACITY
+  p2_phase_envelope_status: TASK_CAPACITY_RESERVED
   p2_project_status: ACTIVE
   long_term_goal_status: ACTIVE
   p2_064_status: TERMINAL_FORMAL_DEV_CHILD_EXIT_BEFORE_READY_ITERATION2_EXHAUSTED_NON_PASS

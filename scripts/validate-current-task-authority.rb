@@ -3461,6 +3461,45 @@ module CurrentTaskAuthority
     gate
   end
 
+  def validate_p2_078_preactivation_gate(contract)
+    gate = exact_keys(
+      contract["preactivation_gate"],
+      %w[
+        required_before_product_source_write
+        independent_scan_time_compiler_attributed_architecture_freeze_required
+        full_source_scan_path_only public_jdk17_compiler_api_only
+        complete_normalized_java_compilation_units_required declaration_proven_ownership_required
+        resolved_element_to_element_edges_required code_graph_persistence_service_required
+        fresh_process_local_h2_in_memory_test_database_only
+        existing_or_operational_datasource_unreachable_required
+        real_code_qa_controller_retrieval_path_required
+        dev_evaluator_same_production_selection_api_required
+        query_time_chunk_compilation_or_reconstruction_forbidden benchmark_only_bridge_forbidden
+        simple_name_broadcast_forbidden reference_sites_as_owners_forbidden
+        unresolved_or_ambiguous_edges_forbidden b1_seed_parity_freeze_required
+        predeclared_candidate_parameter_set_limit normalized_path_first_tie_break_required
+        top_k utf8_byte_budget dev_oracle_labels_forbidden task_ids_as_inputs_forbidden
+        task_specific_branches_forbidden post_result_tuning_forbidden held_reads_forbidden
+        full_source_to_persisted_graph_identity_required graph_to_selected_chunk_traceability_required
+        exact_authority_roots_before_mkdir af_inet_and_af_inet6_deny_network_probes_required
+        os_write_confinement_probe_required compiler_test_replay_negative_fresh_roots_required
+        explicit_classpath_and_sourcepath_required annotation_processing_disabled_or_fully_bound
+        exact_runtime_binary_identity_required complete_source_to_class_identity_required
+        per_replay_sandbox_and_write_inventories_required
+        real_evaluator_bound_held_oracle_negatives_required
+        reviewer_manifest_direct_raw_leaf_binding_required product_path_static_and_runtime_binding_required
+      ],
+      "P2-078 preactivation_gate"
+    )
+    numeric_keys = %w[predeclared_candidate_parameter_set_limit top_k utf8_byte_budget]
+    boolean_keys = gate.keys - numeric_keys
+    assert(boolean_keys.all? { |key| gate[key] == true } &&
+           gate["predeclared_candidate_parameter_set_limit"] == 2 &&
+           gate["top_k"] == 10 && gate["utf8_byte_budget"] == 131_072,
+           "P2-078 JDK17 scan-time compiler-attributed persisted-graph preactivation gate drift")
+    gate
+  end
+
   def validate_p2_product_selector_protocol_contract_fields(authority, contract)
     task_id = contract["task_id"]
     label, expected_canonical = case task_id
@@ -3483,6 +3522,11 @@ module CurrentTaskAuthority
                                   ["P2-077", {
                                     "commit" => "8ce9f963e3bd366efe35fa1d91de7023445d380f",
                                     "tree" => "3fc27c5d547c3d1e61932ac4749ddb0b328ff4b0"
+                                  }]
+                                when "AIOS-P2-078_CLEAN_ROOM_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_PRODUCT_SELECTOR_DEV"
+                                  ["P2-078", {
+                                    "commit" => "14fb98412d4a796cfd0fda92345e43ab7df3bc2d",
+                                    "tree" => "d861467de31c91deebf4b8adc1ff36945ed73c3a"
                                   }]
                                 else
                                   fail!("unsupported Product Selector protocol contract")
@@ -3692,6 +3736,7 @@ module CurrentTaskAuthority
       AIOS-P2-075_CLEAN_ROOM_QUERY_ENTITY_COVERAGE_PRODUCT_SELECTOR_ARCHITECTURE_PIVOT_DEV
       AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV
       AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV
+      AIOS-P2-078_CLEAN_ROOM_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_PRODUCT_SELECTOR_DEV
     ].include?(contract["task_id"])
       return validate_p2_product_selector_protocol_contract_fields(authority, contract)
     end
@@ -3894,6 +3939,7 @@ module CurrentTaskAuthority
       AIOS-P2-075_CLEAN_ROOM_QUERY_ENTITY_COVERAGE_PRODUCT_SELECTOR_ARCHITECTURE_PIVOT_DEV
       AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV
       AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV
+      AIOS-P2-078_CLEAN_ROOM_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_PRODUCT_SELECTOR_DEV
     ].include?(parsed_contract["task_id"])
     contract = exact_keys(
       parsed_contract,
@@ -3920,6 +3966,9 @@ module CurrentTaskAuthority
     elsif parsed_contract["task_id"] ==
           "AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV"
       validate_p2_077_preactivation_gate(contract)
+    elsif parsed_contract["task_id"] ==
+          "AIOS-P2-078_CLEAN_ROOM_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_PRODUCT_SELECTOR_DEV"
+      validate_p2_078_preactivation_gate(contract)
     end
     validate_phase_delegated_protocol_contract_fields(root, truth, route, contract)
     projected_keys = %w[
@@ -4406,6 +4455,7 @@ module CurrentTaskAuthority
       AIOS-P2-075_CLEAN_ROOM_QUERY_ENTITY_COVERAGE_PRODUCT_SELECTOR_ARCHITECTURE_PIVOT_DEV
       AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV
       AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV
+      AIOS-P2-078_CLEAN_ROOM_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_PRODUCT_SELECTOR_DEV
     ].include?(task["task_id"])
       baseline_path = File.join(evidence_real, baseline["relative_path"])
       validate_identity(baseline_path, baseline, "phase-delegated active baseline Artifact")

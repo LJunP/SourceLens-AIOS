@@ -44,6 +44,7 @@ module FounderActionHandoff
     P2_RECOVERY_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE
     P2_RECOVERY_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_SLOT_AND_RELOCKED_HELD_SEQUENCE
     P2_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_ROUTE_UNLOCK
+    P2_PHASE_ROUTE_REBASELINE_EXECUTABLE_EVALUATION_AND_FINAL_TWO_TASK_EXIT_SEQUENCE
   ].freeze
   APP_OPERATION_TYPES = %w[APP_FILESYSTEM_BATCH_WRITE].freeze
   READ_ONLY_HTTPS_OPERATION = "一次全新、独立、clean-room V6 benchmark source acquisition"
@@ -193,6 +194,20 @@ module FounderActionHandoff
   P2_078_PARETO_RESIDUAL_ADMISSION_CONSUMPTION = "The existing formal HELD Task consumes the final 32-hour 8-day slot whether preactivation or formal evaluation PASSes or NON_PASSes; it authorizes no product mutation, DEV rerun, second candidate, replacement, remediation chain or automatic successor"
   P2_078_PARETO_RESIDUAL_ADMISSION_PASS = "Formal HELD PASS permits byte-exact integration of only the frozen P2-078 candidate, accepts K1 and K2, and makes the unchanged P2 Exit Gate eligible for independent acceptance and Founder Phase Gate; it does not itself authorize P3 entry or long-term Goal closure"
   P2_078_PARETO_RESIDUAL_ADMISSION_NON_PASS = "Preactivation or formal HELD NON_PASS preserves exact terminal Evidence, consumes the existing final slot, integrates nothing, keeps strict P2 progress at 0% and the implementation freeze active, creates no replacement or automatic successor, keeps P2 and the long-term Goal active, and keeps P3 HOLD"
+  P2_FINAL_REBASELINE_TOKEN = "AUTHORIZE_P2_PHASE_ROUTE_REBASELINE_EXECUTABLE_EVALUATION_AND_FINAL_TWO_TASK_EXIT_SEQUENCE_V1"
+  P2_FINAL_REBASELINE_OPERATION = "Replace the exhausted P2 Product DEV retry chain with exactly two ordered independent Tasks: one Product Selector plus split-neutral evaluation-interface Task, followed only after independent acceptance by one immutable-candidate one-shot formal HELD Task"
+  P2_FINAL_REBASELINE_CRITERION = "Rebaseline only the internal Product DEV admission milestone to the preregistered Pareto criterion macro precision greater than or equal to B1 0.15595238095238093, macro recall greater than or equal to B1 0.8958333333333334, macro MRR strictly greater than B1 0.8229166666666666, and zero per-task recall regressions; keep the canonical P2 Exit Gate and its formal HELD superiority criterion unchanged"
+  P2_FINAL_REBASELINE_PREFLIGHT = "Before any product-source write, mechanically prove with non-HELD synthetic task cards that one split-neutral evaluator and product boundary accepts the frozen 8-card DEV and 4-card HELD schemas without hard-coded DEV cardinality or DEV-only paths; the probe must read no HELD payload, and any failure terminates before implementation"
+  P2_FINAL_REBASELINE_LINEAGE = "Preserve P2-070 through P2-079 only as closed terminal accounting and prohibit reading, comparing, copying or reusing their rejected engineering branches, worktrees, code or Evidence as implementation input; use only canonical main, the accepted P2-069 baseline and source pack, a new Task identity, nonce, branch, worktree, Contract and Evidence root"
+  P2_FINAL_REBASELINE_FORMAL = "After Product Task acceptance, freeze the exact candidate, evaluator, dataset, split, oracle, metric, threshold, ranking, parameters and Evidence before the first HELD read; execute exactly one untouched four-task HELD dispatch with no product or evaluator mutation, retuning, replacement, second candidate or rerun"
+  P2_FINAL_REBASELINE_TARGET = "Local SourceLens canonical main, at most one active Task branch and worktree at a time, accepted P2-069 baseline and source pack, and create-once Evidence under /Users/lijunpeng/Developer/.sourcelens-audit; no network, Provider, Secret, remote write, production, public release, deletion, existing database modification, P3 entry or long-term Goal termination"
+  P2_FINAL_REBASELINE_DURATION = "Until the unchanged P2 Exit Gate is independently ACCEPTED, either of the exact two Tasks reaches terminal NON_PASS, Founder explicitly revokes this route, or a terminal safety condition occurs"
+  P2_FINAL_REBASELINE_BUDGET = "Raise the non-resettable cumulative P2 Phase envelope from 24 engineering tasks, 720 engineering hours and 180 calendar days to 26 engineering tasks, 784 engineering hours and 196 calendar days; preserve consumed 24 tasks, 720 hours and 180 days, leaving exactly two 32-hour 8-day slots and no other P2 capacity"
+  P2_FINAL_REBASELINE_RISK = "The material risks are one Phase-local admission-criterion change and 64 engineering hours of added capacity; the unchanged one-shot formal HELD Exit criterion remains the only capability gate, no prior terminal fact is rewritten, and the expansion is reversible only before the first new Task is activated"
+  P2_FINAL_REBASELINE_DENY = "Do not create a new Task or read HELD; keep P2 delivery at 25 percent, strict P2 progress at 0 percent, P2 and the long-term Goal active, P3 HOLD, and all P2-070 through P2-079 terminal facts immutable"
+  P2_FINAL_REBASELINE_CONSUMPTION = "Each activated Task consumes exactly one 32-hour 8-day slot; Product Task NON_PASS leaves formal HELD locked, formal HELD NON_PASS integrates nothing, either NON_PASS ends this route, and neither outcome creates a replacement, remediation chain, automatic successor or automatic request for another Product DEV attempt"
+  P2_FINAL_REBASELINE_PASS = "Product Task PASS establishes only the rebaselined Product Selector DEV milestone and raises delivery progress to 70 percent while unlocking one formal HELD Task; formal HELD PASS permits byte-exact candidate integration and P2 Exit-Gate eligibility only, not P3 entry or long-term Goal closure"
+  P2_FINAL_REBASELINE_NON_PASS = "Any NON_PASS preserves exact terminal Evidence, contributes zero strict P2 progress, integrates nothing unless the formal HELD Task PASSes, keeps P2 and the long-term Goal active and P3 HOLD, and requires a new Founder Phase strategy decision rather than another automatic retry"
   FOUNDER_NETWORK_OPERATION_PROFILES = {
     "READ_ONLY_HTTPS_ACQUISITION" => {
       "operations" => [READ_ONLY_HTTPS_OPERATION, READ_ONLY_HTTPS_METHOD],
@@ -408,6 +423,22 @@ module FounderActionHandoff
       "authorization_expiry_or_consumption_rule" => P2_078_PARETO_RESIDUAL_ADMISSION_CONSUMPTION,
       "pass_lifecycle" => P2_078_PARETO_RESIDUAL_ADMISSION_PASS,
       "non_pass_lifecycle" => P2_078_PARETO_RESIDUAL_ADMISSION_NON_PASS
+    },
+    "P2_PHASE_ROUTE_REBASELINE_EXECUTABLE_EVALUATION_AND_FINAL_TWO_TASK_EXIT_SEQUENCE" => {
+      "operations" => [
+        P2_FINAL_REBASELINE_OPERATION,
+        P2_FINAL_REBASELINE_CRITERION,
+        P2_FINAL_REBASELINE_PREFLIGHT,
+        P2_FINAL_REBASELINE_LINEAGE,
+        P2_FINAL_REBASELINE_FORMAL
+      ],
+      "targets" => [P2_FINAL_REBASELINE_TARGET],
+      "budget_or_external_effects" => P2_FINAL_REBASELINE_BUDGET,
+      "token" => P2_FINAL_REBASELINE_TOKEN,
+      "duration" => P2_FINAL_REBASELINE_DURATION,
+      "authorization_expiry_or_consumption_rule" => P2_FINAL_REBASELINE_CONSUMPTION,
+      "pass_lifecycle" => P2_FINAL_REBASELINE_PASS,
+      "non_pass_lifecycle" => P2_FINAL_REBASELINE_NON_PASS
     }
   }.freeze
   PROSPECTIVE_PREFLIGHT = "PROSPECTIVE_RESERVED_EFFECT_REQUIRED_BY_EXACT_USER_REQUEST_AND_NOT_EXPRESSIBLE_BY_CURRENT_OFFLINE_ESCALATION_PROJECTION"
@@ -749,6 +780,7 @@ module FounderActionHandoff
         P2_RECOVERY_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE
         P2_RECOVERY_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_SLOT_AND_RELOCKED_HELD_SEQUENCE
         P2_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_ROUTE_UNLOCK
+        P2_PHASE_ROUTE_REBASELINE_EXECUTABLE_EVALUATION_AND_FINAL_TWO_TASK_EXIT_SEQUENCE
       ].include?(operation_type)
         proposed_tokens = package["copy_ready_text_or_exact_steps"].scan(FOUNDER_AUTHORIZATION_TOKEN)
         assert!(proposed_tokens == [profile["token"]],

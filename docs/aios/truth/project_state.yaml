@@ -16810,8 +16810,8 @@ strict_phase_gate_ledger:
     path: docs/aios/STRATEGIC_CONSTITUTION.md
     version: "2.4"
     section: "## 9. Phase route"
-    section_byte_length: 3009
-    section_sha256: 3c4a48f1ab4e0b3904f45fdb58873db78e4169fa7cc38a6be8025e4873d07930
+    section_byte_length: 3008
+    section_sha256: 5a0138fbf81c8818df4dad4e36bd844abe0414683a011e5048be0f08818068a6
   sequence:
     - P0
     - P1

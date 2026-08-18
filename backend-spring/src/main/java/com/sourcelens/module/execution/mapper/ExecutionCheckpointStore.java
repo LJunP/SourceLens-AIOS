@@ -1,6 +1,7 @@
 package com.sourcelens.module.execution.mapper;
 
 import com.sourcelens.module.execution.entity.ExecutionCheckpoint;
+import com.sourcelens.module.execution.entity.ExecutionCheckpointHead;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
@@ -19,10 +20,17 @@ public class ExecutionCheckpointStore {
         ).isEmpty();
     }
 
+    public boolean taskExists(Long taskId) {
+        Integer count = jdbcTemplate.queryForObject(
+                "select count(*) from execution_tasks where id = ?", Integer.class, taskId
+        );
+        return count != null && count == 1;
+    }
+
     public List<ExecutionCheckpoint> list(Long taskId) {
         return jdbcTemplate.query(
                 """
-                select id, task_id, workflow_id, workflow_sha256, sequence_no, step_key,
+                select id, task_id, task_binding_sha256, workflow_id, workflow_sha256, sequence_no, step_key,
                        input_sha256, state_json, state_byte_length, state_sha256, status,
                        created_at, updated_at
                 from execution_checkpoints
@@ -32,6 +40,7 @@ public class ExecutionCheckpointStore {
                 (rs, rowNum) -> ExecutionCheckpoint.builder()
                         .id(rs.getLong("id"))
                         .taskId(rs.getLong("task_id"))
+                        .taskBindingSha256(rs.getString("task_binding_sha256"))
                         .workflowId(rs.getString("workflow_id"))
                         .workflowSha256(rs.getString("workflow_sha256"))
                         .sequenceNo(rs.getInt("sequence_no"))
@@ -48,18 +57,65 @@ public class ExecutionCheckpointStore {
         );
     }
 
+    public ExecutionCheckpointHead getHead(Long taskId) {
+        List<ExecutionCheckpointHead> heads = jdbcTemplate.query(
+                """
+                select task_id, workflow_id, workflow_sha256, accepted_count, chain_sha256,
+                       created_at, updated_at
+                from execution_checkpoint_heads
+                where task_id = ?
+                """,
+                (rs, rowNum) -> ExecutionCheckpointHead.builder()
+                        .taskId(rs.getLong("task_id"))
+                        .workflowId(rs.getString("workflow_id"))
+                        .workflowSha256(rs.getString("workflow_sha256"))
+                        .acceptedCount(rs.getInt("accepted_count"))
+                        .chainSha256(rs.getString("chain_sha256"))
+                        .createdAt(rs.getTimestamp("created_at").toLocalDateTime())
+                        .updatedAt(rs.getTimestamp("updated_at").toLocalDateTime())
+                        .build(),
+                taskId
+        );
+        return heads.isEmpty() ? null : heads.get(0);
+    }
+
     public void insert(ExecutionCheckpoint checkpoint) {
         jdbcTemplate.update(
                 """
                 insert into execution_checkpoints
-                    (task_id, workflow_id, workflow_sha256, sequence_no, step_key,
+                    (task_id, task_binding_sha256, workflow_id, workflow_sha256, sequence_no, step_key,
                      input_sha256, state_json, state_byte_length, state_sha256, status)
-                values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
-                checkpoint.getTaskId(), checkpoint.getWorkflowId(), checkpoint.getWorkflowSha256(),
+                checkpoint.getTaskId(), checkpoint.getTaskBindingSha256(), checkpoint.getWorkflowId(),
+                checkpoint.getWorkflowSha256(),
                 checkpoint.getSequenceNo(), checkpoint.getStepKey(), checkpoint.getInputSha256(),
                 checkpoint.getStateJson(), checkpoint.getStateByteLength(), checkpoint.getStateSha256(),
                 checkpoint.getStatus()
+        );
+    }
+
+    public void insertHead(ExecutionCheckpointHead head) {
+        jdbcTemplate.update(
+                """
+                insert into execution_checkpoint_heads
+                    (task_id, workflow_id, workflow_sha256, accepted_count, chain_sha256)
+                values (?, ?, ?, ?, ?)
+                """,
+                head.getTaskId(), head.getWorkflowId(), head.getWorkflowSha256(),
+                head.getAcceptedCount(), head.getChainSha256()
+        );
+    }
+
+    public int advanceHead(Long taskId, int previousCount, String previousChainSha256,
+                           int acceptedCount, String chainSha256) {
+        return jdbcTemplate.update(
+                """
+                update execution_checkpoint_heads
+                set accepted_count = ?, chain_sha256 = ?
+                where task_id = ? and accepted_count = ? and chain_sha256 = ?
+                """,
+                acceptedCount, chainSha256, taskId, previousCount, previousChainSha256
         );
     }
 }

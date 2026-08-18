@@ -11,20 +11,13 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExecutionCheckpoint {
+public class ExecutionCheckpointHead {
 
-    private Long id;
     private Long taskId;
-    private String taskBindingSha256;
     private String workflowId;
     private String workflowSha256;
-    private Integer sequenceNo;
-    private String stepKey;
-    private String inputSha256;
-    private String stateJson;
-    private Long stateByteLength;
-    private String stateSha256;
-    private String status;
+    private Integer acceptedCount;
+    private String chainSha256;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
 }

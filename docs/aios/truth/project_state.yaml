@@ -1,8 +1,8 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: '2026-08-18T18:16:00Z'
+last_verified_at: '2026-08-18T18:24:00Z'
 
-verification_scope: P3_002_TERMINAL_WRITE_ROOT_ESCAPE_NON_PASS_NOT_INTEGRATED_P3_001_ACCEPTED_INTEGRATED_P3_DELIVERY_25_STRICT_EXIT_ZERO_P2_RESEARCH_NON_PASS_COMPLETE_ORIGINAL_P2_CAPABILITY_NOT_ACCEPTED_ZERO_EXTERNAL_EFFECTS_LONG_TERM_GOAL_ACTIVE
+verification_scope: P3_003_PERSISTED_TOOL_CAPABILITY_LEDGER_SELECTED_READY_FINAL_MILESTONE_IMPLEMENTATION_ATTEMPT_P3_002_TERMINAL_NON_PASS_NOT_INTEGRATED_P3_001_ACCEPTED_P3_DELIVERY_25_STRICT_EXIT_ZERO_LONG_TERM_GOAL_ACTIVE
 
 authority:
   founder: Human Founder
@@ -1670,7 +1670,7 @@ project:
   p2_entry_status: AUTHORIZED
   p2_execution_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
   phase_execution_status: ACTIVE
-  current_route_execution_status: P3_TASK_TERMINAL_READY_NEXT_TASK
+  current_route_execution_status: PHASE_DELEGATED_TASK_READY
   p3_entry_status: AUTHORIZED
   p3_execution_status: ACTIVE
   p4_entry_status: HOLD_PENDING_STRICT_P3_EXIT_AND_SEPARATE_FOUNDER_PHASE_ENTRY
@@ -8301,7 +8301,7 @@ historical_p3_001_phase_route:
     public: false
   additional_write_roots: []
 
-current_phase_route:
+historical_p3_002_phase_route:
   schema_version: p3-phase-delegated-task/v1
   route_id: AIOS-P3-002_CAPABILITY_SCOPED_TOOL_PERMISSION_ENFORCEMENT_PHASE_DELEGATED_ROUTE
   status: TERMINAL_WRITE_ROOT_ESCAPE_NON_PASS
@@ -8363,6 +8363,77 @@ current_phase_route:
       new_worktree: true
       new_contract: true
       new_evidence_root: true
+      p2_rejected_lineage_read: false
+      p2_rejected_lineage_compare: false
+      p2_rejected_lineage_copy: false
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false
+  additional_write_roots: []
+
+current_phase_route:
+  schema_version: p3-phase-delegated-task/v1
+  route_id: AIOS-P3-003_PERSISTED_TOOL_CAPABILITY_LEDGER_ENFORCEMENT_PHASE_DELEGATED_ROUTE
+  status: AUTHORIZED_READY
+  execution_status: P3_TASK_READY
+  scheduling_status: READY_FOR_MASTER_ACTIVATION
+  phase: P3
+  phase_entry_status: AUTHORIZED
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: '1.8'
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  founder_phase_route_decision_required: false
+  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
+  phase_execution_envelope_ref: phase_execution_envelope
+  phase_entry_route_ref: historical_p3_phase_entry_route
+  predecessor_milestone_route_ref: historical_p3_001_phase_route
+  preceding_terminal_route_ref: historical_p3_002_phase_route
+  selected_task:
+    task_id: AIOS-P3-003_PERSISTED_TOOL_CAPABILITY_LEDGER_ENFORCEMENT
+    status: ELIGIBLE_NOT_ACTIVATED
+    task_kind: SINGLE_AGENT_RUNTIME_CAPABILITY_PERMISSION_ENFORCEMENT
+    capability: PERSISTED_CAPABILITY_LEDGER_AND_TOOL_ADMISSION
+    milestone: CAPABILITY_SCOPED_TOOL_AND_PERMISSION_ENFORCEMENT
+    implementation_attempt: 2_OF_2_FINAL_FOR_MILESTONE
+    objective: Build one durable task-bound capability ledger and enforce it on the production AgentRuntime tool path.
+    budget:
+      engineering_tasks: 1
+      engineering_hours: 32
+      calendar_days: 8
+      candidate_generations: 1
+      same_task_repairs: 1
+      review_cycles: 2
+    contract:
+      path: docs/aios/tasks/P3-003_PERSISTED_TOOL_CAPABILITY_LEDGER_ENFORCEMENT.yaml
+      byte_length: 5708
+      sha256: ef502c1b0719f56472dc896674e0d99df6fac56f58fa3ce2ec70562e35f49b86
+    predecessor_milestone:
+      id: DURABLE_STATE_AND_CHECKPOINT_RESUME
+      status: ACCEPTED
+      task_id: AIOS-P3-001_DURABLE_EXECUTION_CHECKPOINT_RESUME_KERNEL
+    preceding_terminal_task:
+      task_id: AIOS-P3-002_CAPABILITY_SCOPED_TOOL_PERMISSION_ENFORCEMENT
+      status: TERMINAL_WRITE_ROOT_ESCAPE_NON_PASS
+      engineering_lineage_reusable: false
+      terminal_receipt:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-capability-scoped-tool-permission-20260819/task-p3-002/terminal/P3_002_TERMINAL_WRITE_ROOT_ESCAPE_NON_PASS_RECEIPT_V1.json
+        byte_length: 3023
+        sha256: 686b0d254ef8d56652de7fa9b4b742e3c0b5478b93744da23cb1760c99b7a35b
+    independence:
+      new_task_id: true
+      new_execution_nonce: true
+      new_branch: true
+      new_worktree: true
+      new_contract: true
+      new_evidence_root: true
+      p3_002_rejected_lineage_read: false
+      p3_002_rejected_lineage_compare: false
+      p3_002_rejected_lineage_copy: false
       p2_rejected_lineage_read: false
       p2_rejected_lineage_compare: false
       p2_rejected_lineage_copy: false
@@ -11396,15 +11467,37 @@ phase_execution_envelope:
         path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-capability-scoped-tool-permission-20260819/task-p3-002/terminal/P3_002_TERMINAL_WRITE_ROOT_ESCAPE_NON_PASS_RECEIPT_V1.json
         byte_length: 3023
         sha256: 686b0d254ef8d56652de7fa9b4b742e3c0b5478b93744da23cb1760c99b7a35b
+    - task_id: AIOS-P3-003_PERSISTED_TOOL_CAPABILITY_LEDGER_ENFORCEMENT
+      route_id: AIOS-P3-003_PERSISTED_TOOL_CAPABILITY_LEDGER_ENFORCEMENT_PHASE_DELEGATED_ROUTE
+      status: ELIGIBLE_NOT_ACTIVATED
+      milestone: CAPABILITY_SCOPED_TOOL_AND_PERMISSION_ENFORCEMENT
+      implementation_attempt: 2_OF_2_FINAL_FOR_MILESTONE
+      budget:
+        engineering_tasks: 1
+        engineering_hours: 32
+        calendar_days: 8
+      contract:
+        path: docs/aios/tasks/P3-003_PERSISTED_TOOL_CAPABILITY_LEDGER_ENFORCEMENT.yaml
+        byte_length: 5708
+        sha256: ef502c1b0719f56472dc896674e0d99df6fac56f58fa3ce2ec70562e35f49b86
+      authority:
   consumed:
     engineering_tasks: 2
     engineering_hours: 64
     calendar_days: 16
-  reserved: {}
+  reserved:
+    task_id: AIOS-P3-003_PERSISTED_TOOL_CAPABILITY_LEDGER_ENFORCEMENT
+    route_id: AIOS-P3-003_PERSISTED_TOOL_CAPABILITY_LEDGER_ENFORCEMENT_PHASE_DELEGATED_ROUTE
+    status: ELIGIBLE_NOT_ACTIVATED
+    budget:
+      engineering_tasks: 1
+      engineering_hours: 32
+      calendar_days: 8
+    authority:
   remaining:
-    engineering_tasks: 6
-    engineering_hours: 192
-    calendar_days: 48
+    engineering_tasks: 5
+    engineering_hours: 160
+    calendar_days: 40
   remaining_capacity_usable: true
   milestone_order:
     - DURABLE_STATE_AND_CHECKPOINT_RESUME
@@ -11889,9 +11982,9 @@ founder_escalation_control:
   schema_version: founder-escalation-control/v2
   disposition: NO_RESERVED_TRIGGER_CONTINUE_PHASE
   source_event:
-    kind: P3_TASK_TERMINAL_NON_PASS
-    task_id: AIOS-P3-002_CAPABILITY_SCOPED_TOOL_PERMISSION_ENFORCEMENT
-    status: TERMINAL_WRITE_ROOT_ESCAPE_NON_PASS
+    kind: P3_PHASE_DELEGATED_TASK_SELECTED_READY
+    task_id: AIOS-P3-003_PERSISTED_TOOL_CAPABILITY_LEDGER_ENFORCEMENT
+    status: ELIGIBLE_NOT_ACTIVATED
   reserved_trigger:
     category: NONE
     evidence:
@@ -11905,7 +11998,7 @@ founder_escalation_control:
   phase_gate_status: INCOMPLETE
   founder_decision_required: false
   next_action_owner: MASTER_CEO_AGENT
-  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
+  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
 
 historical_p2_053_phase_route:
   schema_version: "1.1"
@@ -23414,7 +23507,10 @@ active_work:
   current_task: NONE
   current_task_status: NONE
   current_task_contract:
-  current_task_contract_sha256:
+    path: docs/aios/tasks/P3-003_PERSISTED_TOOL_CAPABILITY_LEDGER_ENFORCEMENT.yaml
+    sha256: ef502c1b0719f56472dc896674e0d99df6fac56f58fa3ce2ec70562e35f49b86
+    byte_length: 5708
+  current_task_contract_sha256: ef502c1b0719f56472dc896674e0d99df6fac56f58fa3ce2ec70562e35f49b86
   current_execution_authorization:
   current_execution_authorization_sha256:
   authority_record:
@@ -23426,7 +23522,7 @@ active_work:
   authorization_id:
   activation_parent_commit:
   activation_parent_tree:
-  task_resource_state: NOT_CREATED_READY_FOR_MASTER_SELECTION
+  task_resource_state: NOT_CREATED_PHASE_DELEGATED_TASK_READY
   task_branch:
   task_worktree:
   execution_evidence_root:
@@ -23459,7 +23555,7 @@ active_work:
       path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-capability-scoped-tool-permission-20260819/task-p3-002/terminal/P3_002_TERMINAL_WRITE_ROOT_ESCAPE_NON_PASS_RECEIPT_V1.json
       byte_length: 3023
       sha256: 686b0d254ef8d56652de7fa9b4b742e3c0b5478b93744da23cb1760c99b7a35b
-  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
+  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
 
 historical_p2_080_terminal_active_work:
   current_task: AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER
@@ -30084,7 +30180,7 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: AIOS-P3-002_CAPABILITY_SCOPED_TOOL_PERMISSION_ENFORCEMENT_PHASE_DELEGATED_ROUTE
+  current_route_claim: AIOS-P3-003_PERSISTED_TOOL_CAPABILITY_LEDGER_ENFORCEMENT_PHASE_DELEGATED_ROUTE
   current_task_claim: NONE
   real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_DURABLE_STATE_AND_CHECKPOINT_RESUME_ACCEPTED_P3_EXIT_GATE_ZERO
   product_capability_changed: false
@@ -30467,9 +30563,9 @@ p2_recovery_control:
   next_eligible_action: P3_PHASE_EXECUTION
 
 claim_boundary:
-  current_phase_route: AIOS-P3-002_CAPABILITY_SCOPED_TOOL_PERMISSION_ENFORCEMENT_PHASE_DELEGATED_ROUTE
+  current_phase_route: AIOS-P3-003_PERSISTED_TOOL_CAPABILITY_LEDGER_ENFORCEMENT_PHASE_DELEGATED_ROUTE
   current_task: NONE
-  next_eligible_action: MASTER_SELECT_NEXT_INDEPENDENT_PHASE_LOCAL_TASK
+  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
   real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_ACTIVE_DURABLE_STATE_AND_CHECKPOINT_RESUME_ACCEPTED_P3_EXIT_GATE_ZERO
   p2_research_exit_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
   p2_research_exit_percent: 100

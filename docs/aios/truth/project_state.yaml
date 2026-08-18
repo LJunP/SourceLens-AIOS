@@ -1,8 +1,8 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: '2026-08-18T17:14:45Z'
+last_verified_at: '2026-08-18T17:18:03Z'
 
-verification_scope: P3_001_DURABLE_EXECUTION_CHECKPOINT_RESUME_KERNEL_READY_P2_RESEARCH_NON_PASS_COMPLETE_ORIGINAL_P2_CAPABILITY_NOT_ACCEPTED_ZERO_EXTERNAL_EFFECTS_LONG_TERM_GOAL_ACTIVE
+verification_scope: P3_001_DURABLE_EXECUTION_CHECKPOINT_RESUME_KERNEL_ACTIVE_P2_RESEARCH_NON_PASS_COMPLETE_ORIGINAL_P2_CAPABILITY_NOT_ACCEPTED_ZERO_EXTERNAL_EFFECTS_LONG_TERM_GOAL_ACTIVE
 
 authority:
   founder: Human Founder
@@ -38,7 +38,7 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
+  current_task_authority: /Users/lijunpeng/Developer/.sourcelens-audit/p3-durable-execution-checkpoint-resume-20260819/task-p3-001/authority/P3_001_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
   note: 'Founder decision AUTHORIZE_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1
     authorizes P3 entry with one persistent non-resettable envelope of eight Tasks,
     two-hundred-fifty-six engineering hours and sixty-four calendar days. P3 is
@@ -1670,7 +1670,7 @@ project:
   p2_entry_status: AUTHORIZED
   p2_execution_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
   phase_execution_status: ACTIVE
-  current_route_execution_status: PHASE_DELEGATED_TASK_READY
+  current_route_execution_status: ACTIVE_PHASE_DELEGATED_TASK
   p3_entry_status: AUTHORIZED
   p3_execution_status: ACTIVE
   p4_entry_status: HOLD_PENDING_STRICT_P3_EXIT_AND_SEPARATE_FOUNDER_PHASE_ENTRY
@@ -8235,9 +8235,9 @@ historical_p3_phase_entry_route:
 current_phase_route:
   schema_version: p3-phase-delegated-task/v1
   route_id: AIOS-P3-001_DURABLE_EXECUTION_CHECKPOINT_RESUME_KERNEL_PHASE_DELEGATED_ROUTE
-  status: AUTHORIZED_READY
-  execution_status: P3_TASK_READY
-  scheduling_status: READY_FOR_MASTER_ACTIVATION
+  status: ACTIVE
+  execution_status: ACTIVE
+  scheduling_status: ACTIVE_PHASE_DELEGATED_TASK
   phase: P3
   phase_entry_status: AUTHORIZED
   policy:
@@ -8245,12 +8245,12 @@ current_phase_route:
     version: '1.8'
     sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
   founder_phase_route_decision_required: false
-  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
+  next_eligible_action: EXECUTE_P3_001_TASK_CONTRACT
   phase_execution_envelope_ref: phase_execution_envelope
   phase_entry_route_ref: historical_p3_phase_entry_route
   selected_task:
     task_id: AIOS-P3-001_DURABLE_EXECUTION_CHECKPOINT_RESUME_KERNEL
-    status: ELIGIBLE_NOT_ACTIVATED
+    status: ACTIVE
     task_kind: SINGLE_AGENT_RUNTIME_DURABLE_STATE_AND_RESUME
     capability: CHECKPOINT_RESUME
     milestone: DURABLE_STATE_AND_CHECKPOINT_RESUME
@@ -11268,7 +11268,7 @@ phase_execution_envelope:
   task_ledger:
     - task_id: AIOS-P3-001_DURABLE_EXECUTION_CHECKPOINT_RESUME_KERNEL
       route_id: AIOS-P3-001_DURABLE_EXECUTION_CHECKPOINT_RESUME_KERNEL_PHASE_DELEGATED_ROUTE
-      status: ELIGIBLE_NOT_ACTIVATED
+      status: ACTIVE
       milestone: DURABLE_STATE_AND_CHECKPOINT_RESUME
       budget:
         engineering_tasks: 1
@@ -11279,19 +11279,25 @@ phase_execution_envelope:
         byte_length: 3731
         sha256: 1fa5d66bb5ccd2bdc2a8c8fb96e0cbf8841fef0e6c096053ba1781adf7bc907f
       authority:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-durable-execution-checkpoint-resume-20260819/task-p3-001/authority/P3_001_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
+        byte_length: 3237
+        sha256: a11748cd233c20a8a6b22cab9a0e573e1e591e453e9d0ee4fc556db2d3f45636
   consumed:
-    engineering_tasks: 0
-    engineering_hours: 0
-    calendar_days: 0
+    engineering_tasks: 1
+    engineering_hours: 32
+    calendar_days: 8
   reserved:
     task_id: AIOS-P3-001_DURABLE_EXECUTION_CHECKPOINT_RESUME_KERNEL
     route_id: AIOS-P3-001_DURABLE_EXECUTION_CHECKPOINT_RESUME_KERNEL_PHASE_DELEGATED_ROUTE
-    status: ELIGIBLE_NOT_ACTIVATED
+    status: ACTIVE
     budget:
       engineering_tasks: 1
       engineering_hours: 32
       calendar_days: 8
     authority:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-durable-execution-checkpoint-resume-20260819/task-p3-001/authority/P3_001_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
+      byte_length: 3237
+      sha256: a11748cd233c20a8a6b22cab9a0e573e1e591e453e9d0ee4fc556db2d3f45636
   remaining:
     engineering_tasks: 7
     engineering_hours: 224
@@ -17156,7 +17162,7 @@ strict_phase_gate_ledger:
     P3:
       status: INCOMPLETE
       entry_authorized: true
-      execution_started: false
+      execution_started: true
       phase_entry_decision:
         decision_id: AUTHORIZE_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1
         path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-phase-entry-20260819/decision/FOUNDER_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1.json
@@ -23296,35 +23302,43 @@ historical_p2_079_terminal_active_work:
   next_eligible_action: FOUNDER_RESERVED_DECISION
 
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P3-001_DURABLE_EXECUTION_CHECKPOINT_RESUME_KERNEL
+  current_task_status: ACTIVE
   current_task_contract:
     path: docs/aios/tasks/P3-001_DURABLE_EXECUTION_CHECKPOINT_RESUME_KERNEL.yaml
     sha256: 1fa5d66bb5ccd2bdc2a8c8fb96e0cbf8841fef0e6c096053ba1781adf7bc907f
     byte_length: 3731
   current_task_contract_sha256: 1fa5d66bb5ccd2bdc2a8c8fb96e0cbf8841fef0e6c096053ba1781adf7bc907f
-  current_execution_authorization:
-  current_execution_authorization_sha256:
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p3-durable-execution-checkpoint-resume-20260819/task-p3-001/authority/P3_001_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
+  current_execution_authorization_sha256: a11748cd233c20a8a6b22cab9a0e573e1e591e453e9d0ee4fc556db2d3f45636
   authority_record:
-    path:
-    sha256:
-    byte_length:
-  execution_nonce:
-  execution_nonce_status: NOT_ISSUED
-  authorization_id:
-  activation_parent_commit:
-  activation_parent_tree:
-  task_resource_state: NOT_CREATED_PHASE_DELEGATED_TASK_READY
-  task_branch:
-  task_worktree:
-  execution_evidence_root:
-  allowlisted_paths: []
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-durable-execution-checkpoint-resume-20260819/task-p3-001/authority/P3_001_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
+    sha256: a11748cd233c20a8a6b22cab9a0e573e1e591e453e9d0ee4fc556db2d3f45636
+    byte_length: 3237
+  execution_nonce: ed95029e-edb5-4f80-8d6c-b3f58638ec91
+  execution_nonce_status: ACTIVE
+  authorization_id: 102dfcec-69c6-4a74-9daf-498bd1adb8e2
+  activation_parent_commit: 80ddaaebb1cea22f0b7d836d11cb6f159ef208f9
+  activation_parent_tree: 1749fe921c213eb3db6c07f267bd9fbfa44a2c24
+  task_resource_state: ACTIVE_UNIQUE_PHASE_DELEGATED
+  task_branch: codex/p3-001-durable-execution-checkpoint-resume
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p3-001-durable-execution-checkpoint-resume
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p3-durable-execution-checkpoint-resume-20260819/task-p3-001
+  allowlisted_paths:
+    - backend-spring/src/main/java/com/sourcelens/module/execution
+    - backend-spring/src/main/resources/db/migration
+    - backend-spring/src/test/java/com/sourcelens
   budget:
+    engineering_tasks: 1
     engineering_hours: 32
     calendar_days: 8
-    implementation_iterations: 2
-    candidates: 1
-  roles: {}
+    candidate_generations: 1
+    same_task_repairs: 1
+    review_cycles: 2
+  roles:
+    owner: P3-001 Master Task Owner
+    worker: P3-001 Durable Checkpoint Worker
+    review: Fresh read-only Task Gate review
   external_effects:
     network: false
     provider: false
@@ -23341,7 +23355,7 @@ active_work:
   user_action_required: NONE
   phase_route_decision_required: false
   phase_route_user_action_required: NONE
-  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
+  next_eligible_action: EXECUTE_P3_001_TASK_CONTRACT
 
 historical_p2_080_terminal_active_work:
   current_task: AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER
@@ -30349,9 +30363,9 @@ p2_recovery_control:
 
 claim_boundary:
   current_phase_route: AIOS-P3-001_DURABLE_EXECUTION_CHECKPOINT_RESUME_KERNEL_PHASE_DELEGATED_ROUTE
-  current_task: NONE
-  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
-  real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_ENTRY_AUTHORIZED_P3_001_READY_P3_EXIT_GATE_ZERO
+  current_task: AIOS-P3-001_DURABLE_EXECUTION_CHECKPOINT_RESUME_KERNEL
+  next_eligible_action: EXECUTE_P3_001_TASK_CONTRACT
+  real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_ACTIVE_P3_001_ACTIVE_P3_EXIT_GATE_ZERO
   p2_research_exit_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
   p2_research_exit_percent: 100
   p2_original_capability_gate_status: MISSING_NOT_ACCEPTED

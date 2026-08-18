@@ -20,6 +20,9 @@ module P3TaskAuthorityValidation
   BRANCH = "codex/p3-001-durable-execution-checkpoint-resume"
   WORKTREE = "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-001-durable-execution-checkpoint-resume"
   EVIDENCE_ROOT = "/Users/lijunpeng/Developer/.sourcelens-audit/p3-durable-execution-checkpoint-resume-20260819/task-p3-001"
+  AUTHORITY_PATH = File.join(EVIDENCE_ROOT, "authority", "P3_001_PHASE_DELEGATED_TASK_AUTHORITY_V1.json")
+  AUTHORITY_BYTES = 3237
+  AUTHORITY_SHA256 = "a11748cd233c20a8a6b22cab9a0e573e1e591e453e9d0ee4fc556db2d3f45636"
   BUDGET = {
     "engineering_tasks" => 1,
     "engineering_hours" => 32,
@@ -99,7 +102,6 @@ module P3TaskAuthorityValidation
     assert(envelope["phase"] == "P3" && envelope["limits"].slice(
              "engineering_tasks", "engineering_hours", "calendar_days"
            ) == {"engineering_tasks" => 8, "engineering_hours" => 256, "calendar_days" => 64} &&
-           envelope["consumed"] == {"engineering_tasks" => 0, "engineering_hours" => 0, "calendar_days" => 0} &&
            envelope["remaining"] == {"engineering_tasks" => 7, "engineering_hours" => 224, "calendar_days" => 56} &&
            ledger.length == 1 && ledger.first["task_id"] == TASK_ID &&
            ledger.first["budget"] == BUDGET && ledger.first["contract"] == identity &&
@@ -115,6 +117,7 @@ module P3TaskAuthorityValidation
              envelope.dig("reserved", "task_id") == TASK_ID &&
              envelope.dig("reserved", "status") == "ELIGIBLE_NOT_ACTIVATED" &&
              envelope.dig("reserved", "budget") == BUDGET && envelope.dig("reserved", "authority").nil? &&
+             envelope["consumed"] == {"engineering_tasks" => 0, "engineering_hours" => 0, "calendar_days" => 0} &&
              active["current_task"] == "NONE" && active["current_task_status"] == "NONE" &&
              active["current_task_contract"] == identity &&
              active["task_resource_state"] == "NOT_CREATED_PHASE_DELEGATED_TASK_READY" &&
@@ -133,6 +136,7 @@ module P3TaskAuthorityValidation
            active["task_resource_state"] == "ACTIVE_UNIQUE_PHASE_DELEGATED" &&
            active["task_branch"] == BRANCH && active["task_worktree"] == WORKTREE &&
            active["execution_evidence_root"] == EVIDENCE_ROOT &&
+           envelope["consumed"] == BUDGET &&
            active["authority_record"] == ledger.first["authority"] &&
            active["authority_record"] == envelope.dig("reserved", "authority") &&
            active["current_execution_authorization"] == active.dig("authority_record", "path") &&
@@ -140,11 +144,29 @@ module P3TaskAuthorityValidation
            active["execution_nonce_status"] == "ACTIVE" &&
            active["next_eligible_action"] == "EXECUTE_P3_001_TASK_CONTRACT",
            "P3-001 ACTIVE projection drift")
-    authority = JSON.parse(File.binread(active.dig("authority_record", "path")))
+    authority_identity = {
+      "path" => AUTHORITY_PATH,
+      "byte_length" => AUTHORITY_BYTES,
+      "sha256" => AUTHORITY_SHA256
+    }
+    assert(active["authority_record"] == authority_identity,
+           "P3-001 authority identity projection drift")
+    authority_path = Pathname.new(AUTHORITY_PATH)
+    assert(authority_path.file? && !authority_path.symlink?,
+           "P3-001 authority must be a regular non-symlink file")
+    authority_bytes = authority_path.binread
+    assert(authority_bytes.bytesize == AUTHORITY_BYTES &&
+           Digest::SHA256.hexdigest(authority_bytes) == AUTHORITY_SHA256,
+           "P3-001 authority identity drift")
+    authority = JSON.parse(authority_bytes)
     assert(authority["schema_version"] == "p3-phase-delegated-task-authority/v1" &&
            authority["task_id"] == TASK_ID && authority["branch"] == BRANCH &&
            authority["worktree"] == WORKTREE && authority["evidence_root"] == EVIDENCE_ROOT &&
-           authority["contract"] == identity && authority["external_effects"] == FALSE_EFFECTS,
+           authority["contract"] == identity && authority["external_effects"] == FALSE_EFFECTS &&
+           authority["budget"] == BUDGET.merge(
+             "candidate_generations" => 1, "same_task_repairs" => 1, "review_cycles" => 2
+           ) && authority.dig("activation_guards", "single_active_task") == true &&
+           authority.dig("activation_guards", "p2_rejected_engineering_lineage_read") == false,
            "P3-001 authority semantics drift")
     "P3_001_ACTIVE"
   rescue KeyError, JSON::ParserError, Errno::ENOENT => e

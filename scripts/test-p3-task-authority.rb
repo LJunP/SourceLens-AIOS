@@ -24,8 +24,8 @@ truth = YAML.safe_load(
 )
 
 state = P3TaskAuthorityValidation.validate!(root: ROOT, truth: truth)
-raise "exact READY state drift" unless state == "P3_001_READY_FOR_MASTER_ACTIVATION"
-puts "PASS exact P3-001 READY projection"
+raise "exact ACTIVE state drift" unless state == "P3_001_ACTIVE"
+puts "PASS exact P3-001 ACTIVE projection"
 assertions = 1
 
 fixture = copy(truth)
@@ -46,6 +46,11 @@ assertions += 1
 fixture = copy(truth)
 fixture.dig("phase_execution_envelope", "remaining")["engineering_tasks"] = 8
 reject_drift("reservation conservation", fixture, "Phase envelope drift")
+assertions += 1
+
+fixture = copy(truth)
+fixture.dig("active_work", "authority_record")["sha256"] = "0" * 64
+reject_drift("authority identity substitution", fixture, "ACTIVE projection drift")
 assertions += 1
 
 puts "P3_TASK_AUTHORITY_TESTS: PASS #{assertions} assertions"

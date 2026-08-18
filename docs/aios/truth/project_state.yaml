@@ -2,7 +2,7 @@ schema_version: 3
 record_type: sourcelens_aios_current_truth
 last_verified_at: '2026-08-18T06:44:00Z'
 
-verification_scope: P2_079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_TASK_ACTIVE_PREACTIVATION_HELD_UNREAD_P2_DELIVERY_25_STRICT_0_P2_PROJECT_AND_LONG_TERM_GOAL_ACTIVE
+verification_scope: P2_079_TERMINAL_PREACTIVATION_FORMAL_HELD_RUNNER_INCOMPATIBLE_NON_PASS_ZERO_HELD_READ_ENVELOPE_EXHAUSTED_P2_DELIVERY_25_STRICT_0_P2_PROJECT_AND_LONG_TERM_GOAL_ACTIVE
 
 authority:
   founder: Human Founder
@@ -38,7 +38,7 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: AIOS-P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION
+  current_task_authority: NONE
   note: 'Founder decision AUTHORIZE_P2_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_ROUTE_UNLOCK_V1
     supersedes only the Product Selector DEV prerequisite for the existing formal HELD
     slot V2_3. It adds no Task capacity, implementation attempt, parameter set or
@@ -1624,8 +1624,8 @@ project:
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
   p2_execution_status: ACTIVE
-  phase_execution_status: ACTIVE
-  current_route_execution_status: ACTIVE_PHASE_DELEGATED_TASK
+  phase_execution_status: STOPPED_AT_FOUNDER_RESERVED_DECISION
+  current_route_execution_status: FOUNDER_RESERVED_DECISION_REQUIRED
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -8110,25 +8110,51 @@ historical_p2_076_phase_route:
     status: INHERITED_TERMINAL_OUT_OF_SCOPE_NOT_CURRENT
 
 current_phase_route:
-  schema_version: phase-delegated-independent-task/v1
-  route_id: AIOS-P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION_PHASE_DELEGATED_ROUTE
-  status: ACTIVE
-  execution_status: ACTIVE
-  scheduling_status: ACTIVE_PHASE_DELEGATED_TASK
+  schema_version: founder-reserved-decision-hold/v1
+  route_id: P2_FOUNDER_RESERVED_DECISION_HOLD
+  status: FOUNDER_RESERVED_DECISION_REQUIRED
+  execution_status: FOUNDER_RESERVED_DECISION_REQUIRED
+  scheduling_status: STOPPED_AT_FOUNDER_RESERVED_DECISION
   phase: P2
   phase_entry_status: AUTHORIZED
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: '1.8'
     sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
-  founder_phase_route_decision_required: false
-  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
+  founder_phase_route_decision_required: true
+  next_eligible_action: FOUNDER_RESERVED_DECISION
+  phase_execution_envelope_ref: phase_execution_envelope
+  historical_terminal_route_ref: historical_p2_079_phase_route
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false
+  additional_write_roots: []
+  inherited_worktree_inventory_source: historical_p2_079_phase_route
+
+historical_p2_079_phase_route:
+  schema_version: phase-delegated-independent-task/v1
+  route_id: AIOS-P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION_PHASE_DELEGATED_ROUTE
+  status: TERMINAL_PREACTIVATION_FORMAL_HELD_RUNNER_INCOMPATIBLE_NON_PASS
+  execution_status: TERMINAL_PREACTIVATION_FORMAL_HELD_RUNNER_INCOMPATIBLE_NON_PASS
+  scheduling_status: STOPPED_NO_SUCCESSOR_ENVELOPE_EXHAUSTED_ZERO_HELD_READ
+  phase: P2
+  phase_entry_status: AUTHORIZED
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: '1.8'
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  founder_phase_route_decision_required: true
+  next_eligible_action: FOUNDER_RESERVED_DECISION
   phase_execution_envelope_ref: phase_execution_envelope
   source_authority_route_ref: historical_p2_exact_frozen_p2_078_one_shot_formal_held_route_unlock_phase_route
   preceding_terminal_route_ref: historical_p2_078_phase_route
   selected_task:
     task_id: AIOS-P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION
-    status: ACTIVE
+    status: TERMINAL_PREACTIVATION_FORMAL_HELD_RUNNER_INCOMPATIBLE_NON_PASS
     task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
     capability: REPRODUCIBLE_CONTEXT_BENCHMARK
     objective: >-
@@ -8145,8 +8171,8 @@ current_phase_route:
     max_same_task_repairs: 0
     contract:
       path: docs/aios/tasks/P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION.yaml
-      sha256: 6f8fe51142208308835402d33a468fb3d619834492900f44867b13c066bfd366
-      byte_length: 15734
+      sha256: 3419d05314cbb318e210565b970d3c6db31f812231f433ddd12442f5d9cff243
+      byte_length: 15791
     independence:
       new_task_id: true
       new_execution_nonce: true
@@ -8159,6 +8185,22 @@ current_phase_route:
       rejected_lineage_copy: false
       same_phase_objective: true
       successor_or_replacement: false
+    frozen_candidate:
+      commit: e0c0f4d78b64b95b359746ab7c2fec4beed4311f
+      tree: 405bd708c7e724b792c37b9eb568e492cb94c70d
+      integrated: false
+    preactivation_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-exact-frozen-p2-078-formal-held-20260818/task-p2-079/preactivation/P2_079_PREACTIVATION_NON_PASS_RECEIPT_V1.json
+      byte_length: 11341
+      sha256: cba210c2d31900fc79baab75cd1818713d0b9372fea7f9778df0156aa2cf0236
+    outcome_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-exact-frozen-p2-078-formal-held-20260818/task-p2-079/terminal/P2_079_TERMINAL_PREACTIVATION_FORMAL_HELD_RUNNER_INCOMPATIBLE_NON_PASS_RECEIPT_V1.json
+      byte_length: 7211
+      sha256: 4dc663888d1492f3ed7542372c050284a7a8a7f511f95edd9147d256069f93f6
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-exact-frozen-p2-078-formal-held-20260818/task-p2-079/terminal/P2_079_TERMINAL_PREACTIVATION_FORMAL_HELD_RUNNER_INCOMPATIBLE_NON_PASS_RECEIPT_V1.json
+    byte_length: 7211
+    sha256: 4dc663888d1492f3ed7542372c050284a7a8a7f511f95edd9147d256069f93f6
   external_effects:
     network: false
     provider: false
@@ -10781,7 +10823,7 @@ historical_p2_exact_frozen_p2_078_one_shot_formal_held_route_unlock_phase_route:
 phase_execution_envelope:
   schema_version: phase-execution-envelope/v1
   phase: P2
-  status: TASK_CAPACITY_RESERVED
+  status: EXHAUSTED
   authority_basis:
     phase_entry_status: AUTHORIZED
     policy_path: docs/aios/FOUNDER_DELEGATION_POLICY.md
@@ -11179,27 +11221,26 @@ phase_execution_envelope:
       path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-jdk17-scan-time-attributed-persisted-graph-20260818/task-p2-078/terminal/P2_078_TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_STRICT_SUPERIORITY_NON_PASS_RECEIPT_V1.json
       byte_length: 9827
       sha256: 162efbdd9813bcc8436cb77f3f87d91d55711430855cf1ac10f9be08e762b454
-  consumed:
-    engineering_tasks: 23
-    engineering_hours: 688
-    calendar_days: 172
-  reserved:
-    task_id: AIOS-P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION
+  - task_id: AIOS-P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION
     route_id: AIOS-P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION_PHASE_DELEGATED_ROUTE
-    status: ACTIVE
-    capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_V2_3
+    status: TERMINAL_PREACTIVATION_FORMAL_HELD_RUNNER_INCOMPATIBLE_NON_PASS
     budget:
       engineering_tasks: 1
       engineering_hours: 32
       calendar_days: 8
     contract:
       path: docs/aios/tasks/P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION.yaml
-      sha256: 6f8fe51142208308835402d33a468fb3d619834492900f44867b13c066bfd366
-      byte_length: 15734
-    authority:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-exact-frozen-p2-078-formal-held-20260818/task-p2-079/authority/P2_079_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
-      sha256: e2e9fddcce38c0c1e28f4cdfea306e862a2bafd68995277d6c455b5a6c909e73
-      byte_length: 5845
+      sha256: 3419d05314cbb318e210565b970d3c6db31f812231f433ddd12442f5d9cff243
+      byte_length: 15791
+    outcome_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-exact-frozen-p2-078-formal-held-20260818/task-p2-079/terminal/P2_079_TERMINAL_PREACTIVATION_FORMAL_HELD_RUNNER_INCOMPATIBLE_NON_PASS_RECEIPT_V1.json
+      byte_length: 7211
+      sha256: 4dc663888d1492f3ed7542372c050284a7a8a7f511f95edd9147d256069f93f6
+  consumed:
+    engineering_tasks: 24
+    engineering_hours: 720
+    calendar_days: 180
+  reserved:
   remaining:
     engineering_tasks: 0
     engineering_hours: 0
@@ -11214,18 +11255,21 @@ phase_execution_envelope:
 
 founder_escalation_control:
   schema_version: founder-escalation-control/v1
-  disposition: NO_RESERVED_TRIGGER_CONTINUE_PHASE
+  disposition: FOUNDER_DECISION_REQUIRED
   source_event:
-    kind: FOUNDER_EXPANDED_SINGLE_TASK_ACTIVE
-    task_id: AIOS-P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION
-    status: ACTIVE
+    kind: PHASE_ENVELOPE_EXPANSION_REQUIRED
+    task_id:
+    status: PENDING_FOUNDER_RESERVED_DECISION
   reserved_trigger:
-    category: NONE
+    category: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
     evidence:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-exact-frozen-p2-078-formal-held-20260818/task-p2-079/terminal/P2_079_FOUNDER_RESERVED_TRIGGER_EVIDENCE_V1.json
+      byte_length: 8894
+      sha256: 8a2110a4459ac3bbfd5695a0326d5283b1432aa0868175cfb49c52ec26e02597
   phase_gate_status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
-  founder_decision_required: false
-  next_action_owner: MASTER_CEO_AGENT
-  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
+  founder_decision_required: true
+  next_action_owner: HUMAN_FOUNDER
+  next_eligible_action: FOUNDER_RESERVED_DECISION
 
 historical_p2_053_phase_route:
   schema_version: "1.1"
@@ -22657,14 +22701,14 @@ historical_p2_074_terminal_active_work:
   phase_route_user_action_required: FOUNDER_RESERVED_DECISION
   next_eligible_action: FOUNDER_RESERVED_DECISION
 
-active_work:
+historical_p2_079_terminal_active_work:
   current_task: AIOS-P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION
-  current_task_status: ACTIVE
+  current_task_status: TERMINAL_PREACTIVATION_FORMAL_HELD_RUNNER_INCOMPATIBLE_NON_PASS
   current_task_contract:
     path: docs/aios/tasks/P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION.yaml
-    sha256: 6f8fe51142208308835402d33a468fb3d619834492900f44867b13c066bfd366
-    byte_length: 15734
-  current_task_contract_sha256: 6f8fe51142208308835402d33a468fb3d619834492900f44867b13c066bfd366
+    sha256: 3419d05314cbb318e210565b970d3c6db31f812231f433ddd12442f5d9cff243
+    byte_length: 15791
+  current_task_contract_sha256: 3419d05314cbb318e210565b970d3c6db31f812231f433ddd12442f5d9cff243
   current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p2-exact-frozen-p2-078-formal-held-20260818/task-p2-079/authority/P2_079_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
   current_execution_authorization_sha256: e2e9fddcce38c0c1e28f4cdfea306e862a2bafd68995277d6c455b5a6c909e73
   authority_record:
@@ -22672,14 +22716,22 @@ active_work:
     sha256: e2e9fddcce38c0c1e28f4cdfea306e862a2bafd68995277d6c455b5a6c909e73
     byte_length: 5845
   execution_nonce: 9bb3c813-65d8-46c0-99f7-a74817783fd3
-  execution_nonce_status: ACTIVE
+  execution_nonce_status: CONSUMED_TERMINAL
   authorization_id: c72296a5-650a-43df-a634-0d4efc269800
   activation_parent_commit: f4ff1160501360894cd6d4d4a9915bd9b9973781
   activation_parent_tree: 59ca75d2cc3ea4702795bca9d62ee63f100e0429
-  task_resource_state: ACTIVE_UNIQUE_PHASE_DELEGATED
+  task_resource_state: TERMINAL_PRESERVED_NO_DELETION_AUTHORIZED
   task_branch: codex/p2-079-exact-frozen-p2-078-formal-held
   task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p2-079-exact-frozen-p2-078-formal-held
   execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p2-exact-frozen-p2-078-formal-held-20260818/task-p2-079
+  preactivation_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-exact-frozen-p2-078-formal-held-20260818/task-p2-079/preactivation/P2_079_PREACTIVATION_NON_PASS_RECEIPT_V1.json
+    byte_length: 11341
+    sha256: cba210c2d31900fc79baab75cd1818713d0b9372fea7f9778df0156aa2cf0236
+  terminal_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p2-exact-frozen-p2-078-formal-held-20260818/task-p2-079/terminal/P2_079_TERMINAL_PREACTIVATION_FORMAL_HELD_RUNNER_INCOMPATIBLE_NON_PASS_RECEIPT_V1.json
+    byte_length: 7211
+    sha256: 4dc663888d1492f3ed7542372c050284a7a8a7f511f95edd9147d256069f93f6
   allowlisted_paths: []
   budget:
     engineering_hours: 32
@@ -22720,13 +22772,61 @@ active_work:
   offsite_target:
   founder_reserved_authorization:
   founder_reserved_authorization_sha256:
-  founder_decision_required: false
-  founder_decision_required_scope:
-  escalation_reason:
-  user_action_required: NONE
-  phase_route_decision_required: false
-  phase_route_user_action_required: NONE
-  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
+  founder_decision_required: true
+  founder_decision_required_scope: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+  escalation_reason: P2_079_TERMINAL_NON_PASS_FINAL_PHASE_ENVELOPE_SLOT_CONSUMED_EXIT_GATE_INCOMPLETE
+  user_action_required: FOUNDER_RESERVED_DECISION
+  phase_route_decision_required: true
+  phase_route_user_action_required: FOUNDER_RESERVED_DECISION
+  next_eligible_action: FOUNDER_RESERVED_DECISION
+
+active_work:
+  current_task: NONE
+  current_task_status: NONE
+  current_task_contract:
+    path:
+    sha256:
+    byte_length:
+  current_task_contract_sha256:
+  current_execution_authorization:
+  current_execution_authorization_sha256:
+  authority_record:
+    path:
+    sha256:
+    byte_length:
+  execution_nonce:
+  execution_nonce_status: CONSUMED_TERMINAL
+  authorization_id:
+  activation_parent_commit:
+  activation_parent_tree:
+  task_resource_state: NO_ACTIVE_TASK_FOUNDER_RESERVED_DECISION_HOLD
+  task_branch:
+  task_worktree:
+  execution_evidence_root:
+  allowlisted_paths: []
+  budget:
+    engineering_hours: 0
+    calendar_days: 0
+    implementation_iterations: 0
+    candidates: 0
+  roles: {}
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false
+  offsite_target:
+  founder_reserved_authorization:
+  founder_reserved_authorization_sha256:
+  founder_decision_required: true
+  founder_decision_required_scope: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+  escalation_reason: MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+  user_action_required: FOUNDER_RESERVED_DECISION
+  phase_route_decision_required: true
+  phase_route_user_action_required: FOUNDER_RESERVED_DECISION
+  next_eligible_action: FOUNDER_RESERVED_DECISION
 
 historical_p2_065_terminal_active_work:
   current_task: AIOS-P2-065_ESM_IMPORT_GRAPH_CONTEXT_PRODUCT_BENCHMARK
@@ -29271,9 +29371,9 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: AIOS-P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION_PHASE_DELEGATED_ROUTE
-  current_task_claim: AIOS-P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION
-  real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_079_FORMAL_HELD_TASK_ACTIVE_PREACTIVATION_HELD_UNREAD
+  current_route_claim: P2_FOUNDER_RESERVED_DECISION_HOLD
+  current_task_claim: NONE
+  real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_079_TERMINAL_PREACTIVATION_FORMAL_HELD_RUNNER_INCOMPATIBLE_NON_PASS_ZERO_HELD_READ_ENVELOPE_EXHAUSTED
   product_capability_changed: false
   phase_local_allowed:
   - REAL_CODE_QA_PRODUCT_PATH_REPOSITORY_CONTEXT_SELECTOR
@@ -29601,7 +29701,7 @@ phase_execution_claim:
 
 p2_recovery_control:
   schema_version: p2-recovery-control/v1
-  status: EXACT_FROZEN_P2_078_FORMAL_HELD_TASK_ACTIVE_PREACTIVATION
+  status: P2_079_FORMAL_HELD_PREACTIVATION_NON_PASS_ENVELOPE_EXHAUSTED
   plan:
     path: docs/aios/P2_RECOVERY_AND_ANTI_CYCLE_PLAN.yaml
     byte_length: 12759
@@ -29629,13 +29729,28 @@ p2_recovery_control:
   accepted_milestones:
   - P2_RECOVERY_BASELINE_ACCEPTED
   task_creation_allowed: false
-  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
+  next_eligible_action: FOUNDER_RESERVED_DECISION
 
 claim_boundary:
-  current_phase_route: AIOS-P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION_PHASE_DELEGATED_ROUTE
-  current_task: AIOS-P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION
-  next_eligible_action: COMPLETE_CURRENT_TASK_GATE
-  real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_079_FORMAL_HELD_TASK_ACTIVE_PREACTIVATION_HELD_UNREAD
+  current_phase_route: P2_FOUNDER_RESERVED_DECISION_HOLD
+  current_task: NONE
+  next_eligible_action: FOUNDER_RESERVED_DECISION
+  real_engineering_progress: P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_P2_079_TERMINAL_PREACTIVATION_FORMAL_HELD_RUNNER_INCOMPATIBLE_NON_PASS_ZERO_HELD_READ_ENVELOPE_EXHAUSTED
+  p2_079_status: TERMINAL_PREACTIVATION_FORMAL_HELD_RUNNER_INCOMPATIBLE_NON_PASS
+  p2_079_contract_sha256: 3419d05314cbb318e210565b970d3c6db31f812231f433ddd12442f5d9cff243
+  p2_079_capacity_source: P2_RECOVERY_CAPACITY_SLOT_V2_3
+  p2_079_preactivation_status: NON_PASS
+  p2_079_preactivation_receipt_sha256: cba210c2d31900fc79baab75cd1818713d0b9372fea7f9778df0156aa2cf0236
+  p2_079_terminal_receipt_sha256: 4dc663888d1492f3ed7542372c050284a7a8a7f511f95edd9147d256069f93f6
+  p2_079_frozen_candidate_commit: e0c0f4d78b64b95b359746ab7c2fec4beed4311f
+  p2_079_frozen_candidate_tree: 405bd708c7e724b792c37b9eb568e492cb94c70d
+  p2_079_raw_manifest_live_path_match_count: 164_OF_166
+  p2_079_manifest_bound_four_task_held_runner_found: false
+  p2_079_held_source_reads: 0
+  p2_079_held_tasks_executed: 0
+  p2_079_formal_dispatches: 0
+  p2_079_candidate_integrated: false
+  p2_079_progress_credit: 0
   p2_078_status: TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_STRICT_SUPERIORITY_NON_PASS
   p2_078_contract_sha256: 1fd07942b72a930f37331cc211a7100d9e75cee9892d7a32202541b8a9db8081
   p2_078_capacity_source: P2_RECOVERY_CAPACITY_SLOT_V10_1
@@ -29862,7 +29977,7 @@ claim_boundary:
   p2_065_rejected_candidate_preservation_receipt_sha256: 8a96643ed0823c11791471a7249318ce287c6e1f41d087b5bf3863a8b8fd8ac8
   p2_065_canonical_make_verify: NOT_INVOKED_TERMINAL_TARGET_METRIC_NON_PASS
   p2_065_capability_credit: 0
-  p2_phase_envelope_status: TASK_CAPACITY_RESERVED
+  p2_phase_envelope_status: EXHAUSTED
   p2_project_status: ACTIVE
   long_term_goal_status: ACTIVE
   p2_064_status: TERMINAL_FORMAL_DEV_CHILD_EXIT_BEFORE_READY_ITERATION2_EXHAUSTED_NON_PASS

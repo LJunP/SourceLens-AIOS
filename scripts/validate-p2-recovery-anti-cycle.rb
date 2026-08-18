@@ -601,6 +601,7 @@ module P2RecoveryAntiCycle
       EXACT_FROZEN_P2_078_FORMAL_HELD_SLOT_ELIGIBLE_NOT_ACTIVATED
       EXACT_FROZEN_P2_078_FORMAL_HELD_TASK_RESERVED_READY
       EXACT_FROZEN_P2_078_FORMAL_HELD_TASK_ACTIVE_PREACTIVATION
+      P2_079_FORMAL_HELD_PREACTIVATION_NON_PASS_ENVELOPE_EXHAUSTED
     ].include?(control["status"])
     expected_delivery_percent = baseline_accepted ? 25 : 0
     expected_accepted_milestones = baseline_accepted ? ["P2_RECOVERY_BASELINE_ACCEPTED"] : []
@@ -673,7 +674,8 @@ module P2RecoveryAntiCycle
                            "unlock_requirement", "engineering_hours", "calendar_days")
               end == expected_slot,
               "Truth exact frozen P2-078 formal HELD capacity identity drift")
-      unless route["schema_version"] == "phase-delegated-independent-task/v1"
+      unless %w[phase-delegated-independent-task/v1 founder-reserved-decision-hold/v1]
+             .include?(route["schema_version"])
         assert!(envelope["status"] == "ACTIVE_REMAINING_CAPACITY" &&
               envelope["limits"].slice("engineering_tasks", "engineering_hours", "calendar_days") == {
                 "engineering_tasks" => 24,
@@ -697,6 +699,89 @@ module P2RecoveryAntiCycle
               envelope.dig("authority_basis", "source_route_id") == decision_claims["route_id"] &&
               envelope.dig("authority_basis", "source_decision") == decision_identity,
               "Truth exact frozen P2-078 formal HELD authority binding drift")
+      if route["schema_version"] == "founder-reserved-decision-hold/v1"
+        task_id = "AIOS-P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION"
+        terminal_route = truth.fetch("historical_p2_079_phase_route")
+        last_ledger = envelope.fetch("task_ledger").last
+        expected_slot[0]["task_id"] = task_id
+        assert!(envelope["status"] == "EXHAUSTED" &&
+                envelope["limits"].slice("engineering_tasks", "engineering_hours", "calendar_days") == {
+                  "engineering_tasks" => 24,
+                  "engineering_hours" => 720,
+                  "calendar_days" => 180
+                } && envelope["consumed"] == {
+                  "engineering_tasks" => 24,
+                  "engineering_hours" => 720,
+                  "calendar_days" => 180
+                } && envelope["reserved"].nil? && envelope["remaining"] == {
+                  "engineering_tasks" => 0,
+                  "engineering_hours" => 0,
+                  "calendar_days" => 0
+                }, "Truth P2-079 terminal envelope drift")
+        assert!(last_ledger["task_id"] == task_id &&
+                last_ledger["status"] ==
+                  "TERMINAL_PREACTIVATION_FORMAL_HELD_RUNNER_INCOMPATIBLE_NON_PASS" &&
+                last_ledger["budget"] == {
+                  "engineering_tasks" => 1,
+                  "engineering_hours" => 32,
+                  "calendar_days" => 8
+                } && last_ledger.dig("outcome_receipt", "sha256") ==
+                  "4dc663888d1492f3ed7542372c050284a7a8a7f511f95edd9147d256069f93f6",
+                "Truth P2-079 terminal ledger drift")
+        assert!(route["route_id"] == "P2_FOUNDER_RESERVED_DECISION_HOLD" &&
+                route["status"] == "FOUNDER_RESERVED_DECISION_REQUIRED" &&
+                route["execution_status"] == "FOUNDER_RESERVED_DECISION_REQUIRED" &&
+                route["scheduling_status"] == "STOPPED_AT_FOUNDER_RESERVED_DECISION" &&
+                route["historical_terminal_route_ref"] == "historical_p2_079_phase_route" &&
+                route["next_eligible_action"] == "FOUNDER_RESERVED_DECISION" &&
+                terminal_route["route_id"] ==
+                  "AIOS-P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION_PHASE_DELEGATED_ROUTE" &&
+                terminal_route["status"] ==
+                  "TERMINAL_PREACTIVATION_FORMAL_HELD_RUNNER_INCOMPATIBLE_NON_PASS",
+                "Truth P2-079 terminal Route lifecycle drift")
+        assert!(active["current_task"] == "NONE" &&
+                active["task_resource_state"] == "NO_ACTIVE_TASK_FOUNDER_RESERVED_DECISION_HOLD" &&
+                active["founder_decision_required"] == true &&
+                active["next_eligible_action"] == "FOUNDER_RESERVED_DECISION" &&
+                goal["current_task_authority"] == "NONE",
+                "Truth P2-079 terminal active-work lifecycle drift")
+        assert!(control["status"] ==
+                  "P2_079_FORMAL_HELD_PREACTIVATION_NON_PASS_ENVELOPE_EXHAUSTED" &&
+                control["benchmark_source_admission_status"] ==
+                  "ACCEPTED_SOURCE_PACK_INSTALLED_SLOT_1_ELIGIBLE" &&
+                control["task_creation_allowed"] == false &&
+                control["current_delivery_percent"] == 25 &&
+                control["strict_gate_percent"] == 0 &&
+                control["accepted_milestones"] == ["P2_RECOVERY_BASELINE_ACCEPTED"] &&
+                control["capacity_slots"] == expected_slot &&
+                control["next_eligible_action"] == "FOUNDER_RESERVED_DECISION",
+                "Truth P2-079 terminal recovery projection drift")
+        assert!(escalation["disposition"] == "FOUNDER_DECISION_REQUIRED" &&
+                escalation.dig("reserved_trigger", "category") ==
+                  "MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE" &&
+                escalation["founder_decision_required"] == true &&
+                escalation["next_action_owner"] == "HUMAN_FOUNDER" &&
+                escalation["next_eligible_action"] == "FOUNDER_RESERVED_DECISION",
+                "Truth P2-079 terminal Founder control drift")
+        assert!(project["phase_execution_status"] == "STOPPED_AT_FOUNDER_RESERVED_DECISION" &&
+                project["current_route_execution_status"] ==
+                  "FOUNDER_RESERVED_DECISION_REQUIRED" &&
+                claim["p2_phase_envelope_status"] == "EXHAUSTED" &&
+                claim["current_phase_route"] == route["route_id"] &&
+                claim["current_task"] == "NONE" &&
+                claim["next_eligible_action"] == "FOUNDER_RESERVED_DECISION" &&
+                claim["p2_079_status"] ==
+                  "TERMINAL_PREACTIVATION_FORMAL_HELD_RUNNER_INCOMPATIBLE_NON_PASS" &&
+                claim["p2_079_held_source_reads"] == 0 &&
+                claim["p2_079_held_tasks_executed"] == 0 &&
+                claim["p2_079_formal_dispatches"] == 0 &&
+                claim["p2_079_candidate_integrated"] == false &&
+                claim["p2_079_progress_credit"] == 0,
+                "Truth P2-079 terminal claim projection drift")
+        assert!(plan.dig("current_control", "new_task_creation_allowed") == false,
+                "Recovery plan historical baseline was rewritten")
+        return
+      end
       if route["schema_version"] == "phase-delegated-independent-task/v1"
         task_id = "AIOS-P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION"
         ready = route.dig("selected_task", "status") == "ELIGIBLE_NOT_ACTIVATED"

@@ -41,6 +41,7 @@ module FounderActionHandoff
     P2_RECOVERY_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_SLOT_AND_RELOCKED_HELD_SEQUENCE
     P2_RECOVERY_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_AND_RELOCKED_HELD_SEQUENCE
     P2_RECOVERY_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_B1_ANCHORED_GRAPH_FUSION_SLOT_AND_RELOCKED_HELD_SEQUENCE
+    P2_RECOVERY_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE
   ].freeze
   APP_OPERATION_TYPES = %w[APP_FILESYSTEM_BATCH_WRITE].freeze
   READ_ONLY_HTTPS_OPERATION = "一次全新、独立、clean-room V6 benchmark source acquisition"
@@ -152,6 +153,18 @@ module FounderActionHandoff
   PRODUCT_SELECTOR_GRAPH_FUSION_RECOVERY_CONSUMPTION = "The new Product Selector DEV B1-anchored graph-fusion Task consumes exactly one 32-hour 8-day slot; the existing formal HELD slot remains locked until Product Selector DEV is independently ACCEPTED; Product DEV NON_PASS consumes the new slot and creates no replacement, remediation chain or automatic successor"
   PRODUCT_SELECTOR_GRAPH_FUSION_RECOVERY_PASS = "Product Selector DEV PASS establishes only P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED, raises delivery progress to 70% and unlocks only the existing formal HELD evaluation slot; strict P2 Exit progress remains 0% until the Exit Gate is independently ACCEPTED, and neither P3 entry nor long-term Goal closure is authorized"
   PRODUCT_SELECTOR_GRAPH_FUSION_RECOVERY_NON_PASS = "Product Selector DEV NON_PASS preserves exact terminal Evidence, consumes the new slot, leaves formal HELD locked, keeps P2 delivery progress at 25% and strict progress at 0%, creates no replacement or automatic successor, keeps P2 and the long-term Goal active, and keeps P3 HOLD"
+  PRODUCT_SELECTOR_SEMANTIC_IMPACT_RECOVERY_TOKEN = "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V7"
+  PRODUCT_SELECTOR_SEMANTIC_IMPACT_RECOVERY_OPERATION = "Add exactly one clean-room independent Product Selector DEV semantic-symbol-impact-cone slot before the existing locked formal HELD slot; preserve the accepted P2-069 baseline and P2-070/P2-071/P2-072/P2-073/P2-074/P2-075/P2-076 only as closed terminal accounting"
+  PRODUCT_SELECTOR_SEMANTIC_IMPACT_RECOVERY_ORDER = "Require independent acceptance of P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED before the existing formal HELD slot unlocks; no milestone receives credit before its own independent acceptance"
+  PRODUCT_SELECTOR_SEMANTIC_IMPACT_RECOVERY_LINEAGE = "Prohibit reading, comparing, copying or reusing the rejected P2-070, P2-071, P2-072, P2-073, P2-074, P2-075 or P2-076 branch, worktree, code, evaluator implementation or engineering Evidence as implementation input; use only canonical main, the accepted P2-069 baseline and source pack, and a new Task identity, nonce, branch, worktree, Contract and Evidence root"
+  PRODUCT_SELECTOR_SEMANTIC_IMPACT_RECOVERY_ARCHITECTURE = "Before any Worker product-source write, freeze one independently authored semantic-symbol-impact-cone architecture: use deterministic product-owned Java source analysis to resolve package/type/member ownership plus import, invocation, inheritance and reference edges from accepted source bytes; seed bounded forward and backward impact cones only from the query and B1 lexical candidates; select under normalized-path-first ties, top-k 10 and the 131072-byte UTF-8 budget using no more than two predeclared deterministic parameter sets; prohibit DEV oracle labels as implementation inputs, task-specific branches, post-result tuning and every HELD read; require exact B1-seed parity, authority, OS write confinement, fresh compiler and Surefire roots, runtime identities and reviewer Evidence closure before product execution"
+  PRODUCT_SELECTOR_SEMANTIC_IMPACT_RECOVERY_ACCEPTANCE = "The DEV Task may PASS only if one exact candidate independently and simultaneously exceeds the accepted P2-069 B1 macro precision 0.15595238095238093, macro recall 0.8958333333333334 and macro MRR 0.8229166666666666, has zero per-task recall regressions, passes product tests and replay, and receives independent Task Gate acceptance; otherwise it is NON_PASS without HELD access"
+  PRODUCT_SELECTOR_SEMANTIC_IMPACT_RECOVERY_TARGET = "Local SourceLens canonical main, one future active Task branch and worktree, and create-once Evidence under /Users/lijunpeng/Developer/.sourcelens-audit; no network, Provider, Secret, remote, production, public release, deletion, database modification, P3 entry or long-term Goal termination"
+  PRODUCT_SELECTOR_SEMANTIC_IMPACT_RECOVERY_DURATION = "Until the new independent Product Selector DEV semantic-symbol-impact-cone Task reaches Task Gate PASS or NON_PASS, Founder explicitly revokes this envelope, or a terminal safety condition occurs"
+  PRODUCT_SELECTOR_SEMANTIC_IMPACT_RECOVERY_BUDGET = "Raise the non-resettable cumulative P2 Phase envelope from 22 engineering tasks, 656 engineering hours and 164 calendar days to 23 engineering tasks, 688 engineering hours and 172 calendar days; preserve consumed 21 tasks, 624 hours and 156 days, leaving exactly 2 tasks, 64 hours and 16 days in order: one new Product Selector DEV semantic-symbol-impact-cone slot, then the existing formal HELD slot"
+  PRODUCT_SELECTOR_SEMANTIC_IMPACT_RECOVERY_CONSUMPTION = "The new Product Selector DEV semantic-symbol-impact-cone Task consumes exactly one 32-hour 8-day slot; the existing formal HELD slot remains locked until Product Selector DEV is independently ACCEPTED; Product DEV NON_PASS consumes the new slot and creates no replacement, remediation chain or automatic successor"
+  PRODUCT_SELECTOR_SEMANTIC_IMPACT_RECOVERY_PASS = "Product Selector DEV PASS establishes only P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED, raises delivery progress to 70% and unlocks only the existing formal HELD evaluation slot; strict P2 Exit progress remains 0% until the Exit Gate is independently ACCEPTED, and neither P3 entry nor long-term Goal closure is authorized"
+  PRODUCT_SELECTOR_SEMANTIC_IMPACT_RECOVERY_NON_PASS = "Product Selector DEV NON_PASS preserves exact terminal Evidence, consumes the new slot, leaves formal HELD locked, keeps P2 delivery progress at 25% and strict progress at 0%, creates no replacement, remediation chain, automatic successor or automatic request for another heuristic retry, keeps P2 and the long-term Goal active, and keeps P3 HOLD"
   FOUNDER_NETWORK_OPERATION_PROFILES = {
     "READ_ONLY_HTTPS_ACQUISITION" => {
       "operations" => [READ_ONLY_HTTPS_OPERATION, READ_ONLY_HTTPS_METHOD],
@@ -319,6 +332,22 @@ module FounderActionHandoff
       "authorization_expiry_or_consumption_rule" => PRODUCT_SELECTOR_GRAPH_FUSION_RECOVERY_CONSUMPTION,
       "pass_lifecycle" => PRODUCT_SELECTOR_GRAPH_FUSION_RECOVERY_PASS,
       "non_pass_lifecycle" => PRODUCT_SELECTOR_GRAPH_FUSION_RECOVERY_NON_PASS
+    },
+    "P2_RECOVERY_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE" => {
+      "operations" => [
+        PRODUCT_SELECTOR_SEMANTIC_IMPACT_RECOVERY_OPERATION,
+        PRODUCT_SELECTOR_SEMANTIC_IMPACT_RECOVERY_ORDER,
+        PRODUCT_SELECTOR_SEMANTIC_IMPACT_RECOVERY_LINEAGE,
+        PRODUCT_SELECTOR_SEMANTIC_IMPACT_RECOVERY_ARCHITECTURE,
+        PRODUCT_SELECTOR_SEMANTIC_IMPACT_RECOVERY_ACCEPTANCE
+      ],
+      "targets" => [PRODUCT_SELECTOR_SEMANTIC_IMPACT_RECOVERY_TARGET],
+      "budget_or_external_effects" => PRODUCT_SELECTOR_SEMANTIC_IMPACT_RECOVERY_BUDGET,
+      "token" => PRODUCT_SELECTOR_SEMANTIC_IMPACT_RECOVERY_TOKEN,
+      "duration" => PRODUCT_SELECTOR_SEMANTIC_IMPACT_RECOVERY_DURATION,
+      "authorization_expiry_or_consumption_rule" => PRODUCT_SELECTOR_SEMANTIC_IMPACT_RECOVERY_CONSUMPTION,
+      "pass_lifecycle" => PRODUCT_SELECTOR_SEMANTIC_IMPACT_RECOVERY_PASS,
+      "non_pass_lifecycle" => PRODUCT_SELECTOR_SEMANTIC_IMPACT_RECOVERY_NON_PASS
     }
   }.freeze
   PROSPECTIVE_PREFLIGHT = "PROSPECTIVE_RESERVED_EFFECT_REQUIRED_BY_EXACT_USER_REQUEST_AND_NOT_EXPRESSIBLE_BY_CURRENT_OFFLINE_ESCALATION_PROJECTION"
@@ -657,6 +686,7 @@ module FounderActionHandoff
         P2_RECOVERY_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_SLOT_AND_RELOCKED_HELD_SEQUENCE
         P2_RECOVERY_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_AND_RELOCKED_HELD_SEQUENCE
         P2_RECOVERY_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_B1_ANCHORED_GRAPH_FUSION_SLOT_AND_RELOCKED_HELD_SEQUENCE
+        P2_RECOVERY_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE
       ].include?(operation_type)
         proposed_tokens = package["copy_ready_text_or_exact_steps"].scan(FOUNDER_AUTHORIZATION_TOKEN)
         assert!(proposed_tokens == [profile["token"]],

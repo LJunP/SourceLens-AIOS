@@ -98,6 +98,24 @@ Dir.mktmpdir("p2-recovery-tests-", ROOT) do |root|
   run_plan_case.call("review-loop", "mechanical anti-cycle controls drift") do |candidate|
     candidate.dig("mechanical_controls")["max_review_cycles"] = 3
   end
+  run_plan_case.call("milestone-task-cap-reset", "phase-level loop breaker drift") do |candidate|
+    candidate.dig("phase_level_loop_breaker")["counter_resets_on_new_task_identity"] = true
+  end
+  run_plan_case.call("implementation-freeze-disabled", "mechanical anti-cycle controls drift") do |candidate|
+    candidate.dig("mechanical_controls")["current_product_implementation_frozen"] = false
+  end
+  run_plan_case.call("numbered-product-chain-enabled", "mechanical anti-cycle controls drift") do |candidate|
+    candidate.dig("mechanical_controls")["numbered_product_reauthorization_chain_allowed"] = true
+  end
+  run_plan_case.call("fake-live-task-reduction", "product implementation loop-breaker facts drift") do |candidate|
+    candidate.dig("live_state", "product_implementation_history")["task_count"] = 2
+  end
+  run_plan_case.call("fake-scorecard-progress", "scorecard delivery progress drift") do |candidate|
+    candidate.dig("progress_scorecard", "delivery")["percent"] = 55
+  end
+  run_plan_case.call("invented-route-envelope", "route invented envelope expansion") do |candidate|
+    candidate.dig("recommended_recovery_sequence", "proposed_additional_envelope")["engineering_tasks"] = 1
+  end
   run_plan_case.call("missing-root-cause", "root cause set drift") do |candidate|
     candidate.fetch("root_causes").pop
   end

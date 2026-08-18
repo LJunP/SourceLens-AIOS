@@ -173,10 +173,11 @@ module P2RecoveryAntiCycle
   def validate_plan!(plan, repo_root)
     exact_keys!(plan, %w[
       authority_boundary baseline current_control drift_diagnosis mechanical_controls
-      progress_model recommended_recovery_sequence root_causes schema_version status
+      live_state phase_level_loop_breaker progress_model progress_scorecard
+      recommended_recovery_sequence root_causes route_to_completion schema_version status
     ], "P2 recovery plan")
-    assert!(plan["schema_version"] == "p2-recovery-and-anti-cycle-plan/v1", "P2 recovery plan schema drift")
-    assert!(plan["status"] == "FOUNDER_CORRECTION_ACTIVE_AWAITING_ENVELOPE_AUTHORIZATION", "P2 recovery plan status drift")
+    assert!(plan["schema_version"] == "p2-recovery-and-anti-cycle-plan/v2", "P2 recovery plan schema drift")
+    assert!(plan["status"] == "P2_IMPLEMENTATION_LOOP_FROZEN_AWAITING_EXACT_FROZEN_CANDIDATE_FORMAL_HELD_ROUTE_DECISION", "P2 recovery plan status drift")
 
     authority = exact_keys!(plan.fetch("authority_boundary"), %w[
       activates_task authorizes_external_effects changes_exit_gate changes_phase_objective
@@ -209,7 +210,11 @@ module P2RecoveryAntiCycle
     validate_diff_diagnosis!(plan.fetch("drift_diagnosis"), baseline, repo_root)
     validate_root_causes!(plan.fetch("root_causes"))
     validate_progress_model!(plan.fetch("progress_model"))
+    validate_live_state!(plan.fetch("live_state"), repo_root)
+    validate_phase_level_loop_breaker!(plan.fetch("phase_level_loop_breaker"))
     validate_sequence!(plan.fetch("recommended_recovery_sequence"))
+    validate_route_to_completion!(plan.fetch("route_to_completion"))
+    validate_progress_scorecard!(plan.fetch("progress_scorecard"))
     validate_controls!(plan.fetch("mechanical_controls"))
     validate_current_control!(plan.fetch("current_control"))
   end
@@ -263,6 +268,119 @@ module P2RecoveryAntiCycle
     assert!(causes.all? { |cause| cause["statement"].is_a?(String) && !cause["statement"].strip.empty? }, "P2 root cause statement missing")
   end
 
+  def validate_live_state!(state, repo_root)
+    exact_keys!(state, %w[
+      accepted_milestones current_phase current_task delivery_percent frozen_p2_078_candidate
+      held_slot observed_canonical_commit observed_canonical_tree phase_envelope
+      product_implementation_history strict_exit_percent
+    ], "P2 live state")
+    assert!(state.slice("current_phase", "current_task", "strict_exit_percent", "delivery_percent", "accepted_milestones") == {
+      "current_phase" => "P2",
+      "current_task" => "NONE",
+      "strict_exit_percent" => 0,
+      "delivery_percent" => 25,
+      "accepted_milestones" => ["P2_RECOVERY_BASELINE_ACCEPTED"]
+    }, "P2 live state phase or progress drift")
+    observed_commit = state.fetch("observed_canonical_commit")
+    assert!(git!(repo_root, "show", "-s", "--format=%T", observed_commit).strip == state.fetch("observed_canonical_tree"), "P2 live canonical commit/tree mismatch")
+    system("git", "-C", repo_root, "merge-base", "--is-ancestor", observed_commit, "HEAD", out: File::NULL, err: File::NULL)
+    assert!($?.success?, "P2 live canonical observation is not canonical ancestry")
+
+    envelope = exact_keys!(state.fetch("phase_envelope"), %w[consumed limits remaining status], "P2 live envelope")
+    assert!(envelope == {
+      "status" => "ACTIVE_REMAINING_CAPACITY",
+      "limits" => { "engineering_tasks" => 24, "engineering_hours" => 720, "calendar_days" => 180 },
+      "consumed" => { "engineering_tasks" => 23, "engineering_hours" => 688, "calendar_days" => 172 },
+      "remaining" => { "engineering_tasks" => 1, "engineering_hours" => 32, "calendar_days" => 8 }
+    }, "P2 live envelope drift")
+
+    history = exact_keys!(state.fetch("product_implementation_history"), %w[
+      additional_implementation_task_allowed cap_exceeded milestone phase_milestone_task_cap
+      task_count task_ids terminal_non_pass_count
+    ], "P2 product implementation history")
+    expected_task_ids = [
+      "AIOS-P2-070_PRODUCT_JAVA_MAINTENANCE_CONTEXT_SELECTOR_DEV",
+      "AIOS-P2-071_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_DEV",
+      "AIOS-P2-072_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_EXECUTION_INTEGRITY_DEV",
+      "AIOS-P2-073_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_SANDBOX_STREAM_LIFECYCLE_DEV",
+      "AIOS-P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV",
+      "AIOS-P2-075_CLEAN_ROOM_QUERY_ENTITY_COVERAGE_PRODUCT_SELECTOR_ARCHITECTURE_PIVOT_DEV",
+      "AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV",
+      "AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV",
+      "AIOS-P2-078_CLEAN_ROOM_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_PRODUCT_SELECTOR_DEV"
+    ]
+    assert!(history == {
+      "milestone" => "P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED",
+      "task_ids" => expected_task_ids,
+      "task_count" => 9,
+      "terminal_non_pass_count" => 9,
+      "phase_milestone_task_cap" => 2,
+      "cap_exceeded" => true,
+      "additional_implementation_task_allowed" => false
+    }, "P2 product implementation loop-breaker facts drift")
+
+    candidate = exact_keys!(state.fetch("frozen_p2_078_candidate"), %w[
+      commit dev_macro held_source_reads held_tasks_executed integrated terminal_receipt
+      terminal_status tree
+    ], "P2 frozen candidate")
+    assert!(candidate["commit"] == "e0c0f4d78b64b95b359746ab7c2fec4beed4311f" &&
+            git!(repo_root, "show", "-s", "--format=%T", candidate.fetch("commit")).strip == candidate.fetch("tree"),
+            "P2 frozen candidate identity drift")
+    assert!(candidate["terminal_status"] == "TERMINAL_PRODUCT_SELECTOR_DEV_METRIC_STRICT_SUPERIORITY_NON_PASS" &&
+            candidate.slice("integrated", "held_source_reads", "held_tasks_executed") == {
+              "integrated" => false, "held_source_reads" => 0, "held_tasks_executed" => 0
+            }, "P2 frozen candidate lifecycle drift")
+    assert!(candidate.fetch("dev_macro") == {
+      "precision" => 0.15595238095238093,
+      "recall" => 0.8958333333333334,
+      "mrr" => 0.84375,
+      "b1_precision" => 0.15595238095238093,
+      "b1_recall" => 0.8958333333333334,
+      "b1_mrr" => 0.8229166666666666,
+      "per_task_recall_regressions" => 0
+    }, "P2 frozen candidate DEV facts drift")
+    receipt = exact_keys!(candidate.fetch("terminal_receipt"), %w[byte_length path sha256], "P2 frozen candidate terminal receipt")
+    receipt_bytes = File.binread(receipt.fetch("path"))
+    assert!(receipt["byte_length"] == receipt_bytes.bytesize && receipt["sha256"] == Digest::SHA256.hexdigest(receipt_bytes), "P2 frozen candidate terminal receipt identity drift")
+
+    held = exact_keys!(state.fetch("held_slot"), %w[capacity_slot_id status unlock_requirement], "P2 held slot")
+    assert!(held == {
+      "capacity_slot_id" => "P2_RECOVERY_CAPACITY_SLOT_V2_3",
+      "status" => "LOCKED_UNOPENED",
+      "unlock_requirement" => "EXACT_FOUNDER_ROUTE_DECISION_AND_FROZEN_CANDIDATE_PREACTIVATION_PASS"
+    }, "P2 held slot drift")
+  rescue Errno::ENOENT => error
+    raise ValidationError, "P2 live Evidence unavailable: #{error.message}"
+  end
+
+  def validate_phase_level_loop_breaker!(breaker)
+    exact_keys!(breaker, %w[
+      allowed_strategic_routes counter_resets_on_new_authorization_version
+      counter_resets_on_new_task_identity current_product_implementation_task_count
+      further_governance_change_allowed_only_for_safety_critical_or_founder_reserved_decision
+      implementation_freeze_status implementation_task_cap_per_delivery_milestone
+      prohibited_next_actions rules_frozen_until_p2_terminal
+    ], "P2 phase-level loop breaker")
+    assert!(breaker == {
+      "implementation_task_cap_per_delivery_milestone" => 2,
+      "counter_resets_on_new_task_identity" => false,
+      "counter_resets_on_new_authorization_version" => false,
+      "current_product_implementation_task_count" => 9,
+      "implementation_freeze_status" => "FROZEN_NO_ADDITIONAL_PRODUCT_IMPLEMENTATION_OR_TUNING",
+      "prohibited_next_actions" => %w[
+        NEW_PRODUCT_SELECTOR_IMPLEMENTATION_TASK NEW_HEURISTIC_OR_ARCHITECTURE_RETRY
+        POST_RESULT_DEV_THRESHOLD_OR_METRIC_CHANGE NUMBERED_V11_OR_LATER_PRODUCT_REAUTHORIZATION_CHAIN
+        REJECTED_TASK_RETROACTIVE_PASS
+      ],
+      "allowed_strategic_routes" => %w[
+        EXACT_FROZEN_P2_078_CANDIDATE_ONE_SHOT_FORMAL_HELD_EVALUATION_WITH_FOUNDER_ROUTE_DECISION
+        FOUNDER_FORMAL_PHASE_OBJECTIVE_OR_EXIT_GATE_CHANGE P2_HOLD_INCOMPLETE_WITH_LONG_TERM_GOAL_ACTIVE
+      ],
+      "rules_frozen_until_p2_terminal" => true,
+      "further_governance_change_allowed_only_for_safety_critical_or_founder_reserved_decision" => true
+    }, "P2 phase-level loop breaker drift")
+  end
+
   def validate_progress_model!(model)
     exact_keys!(model, %w[current_delivery_percent delivery_milestones strict_gate zero_credit_activities], "P2 progress model")
     strict = exact_keys!(model.fetch("strict_gate"), %w[allowed_percent_values current_percent rule], "P2 strict progress")
@@ -277,7 +395,7 @@ module P2RecoveryAntiCycle
     assert!(milestones.is_a?(Array) && milestones.length == expected.length, "P2 delivery milestone count drift")
     milestones.each { |milestone| exact_keys!(milestone, %w[acceptance id percent], "P2 delivery milestone") }
     assert!(milestones.map { |milestone| [milestone["id"], milestone["percent"]] } == expected, "P2 delivery milestone values drift")
-    assert!(model["current_delivery_percent"] == 0, "P2 delivery progress may not be inferred from activity")
+    assert!(model["current_delivery_percent"] == 25, "P2 accepted baseline delivery progress drift")
     assert!(model["zero_credit_activities"] == %w[
       governance_document_created validator_or_schema_created review_or_receipt_created
       evidence_inventory_created time_or_budget_consumed task_terminal_non_pass
@@ -287,22 +405,86 @@ module P2RecoveryAntiCycle
 
   def validate_sequence!(sequence)
     exact_keys!(sequence, %w[authorization_status proposed_additional_envelope tasks], "P2 recovery sequence")
-    assert!(sequence["authorization_status"] == "PLANNED_NOT_AUTHORIZED", "P2 recovery plan invented authorization")
-    assert!(sequence["proposed_additional_envelope"] == { "engineering_tasks" => 3, "engineering_hours" => 96, "calendar_days" => 24 }, "P2 recovery envelope recommendation drift")
+    assert!(sequence["authorization_status"] == "PLANNED_AWAITING_EXACT_FOUNDER_PHASE_ROUTE_DECISION", "P2 recovery plan invented authorization")
+    assert!(sequence["proposed_additional_envelope"] == { "engineering_tasks" => 0, "engineering_hours" => 0, "calendar_days" => 0 }, "P2 recovery route invented envelope expansion")
     tasks = sequence.fetch("tasks")
-    expected = [
-      [1, "BENCHMARK_FOUNDATION", "P2_RECOVERY_BASELINE_ACCEPTED", false],
-      [2, "PRODUCT_SELECTOR_IMPLEMENTATION", "P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED", true],
-      [3, "FORMAL_HELD_EVALUATION", "P2_RECOVERY_FORMAL_HELD_MATRIX_COMPLETE", false]
-    ]
-    assert!(tasks.is_a?(Array) && tasks.length == expected.length, "P2 recovery task sequence drift")
-    tasks.each_with_index do |task, index|
-      exact_keys!(task, %w[product_mutation_allowed recommended_budget required_output role sequence target_milestone task_id], "P2 recovery task")
-      assert!(task["task_id"].nil?, "P2 recovery plan may not preauthorize a Task ID")
-      assert!([task["sequence"], task["role"], task["target_milestone"], task["product_mutation_allowed"]] == expected[index], "P2 recovery task ordering drift")
-      assert!(task["recommended_budget"] == { "engineering_hours" => 32, "calendar_days" => 8 }, "P2 recovery task budget drift")
-      assert!(task["required_output"].is_a?(String) && !task["required_output"].strip.empty?, "P2 recovery required output missing")
-    end
+    assert!(tasks.is_a?(Array) && tasks.length == 1, "P2 recovery task sequence drift")
+    task = exact_keys!(tasks.first, %w[product_mutation_allowed recommended_budget required_output role sequence target_milestone task_id], "P2 recovery task")
+    assert!(task["task_id"].nil?, "P2 recovery plan may not preauthorize a Task ID")
+    assert!(task.slice("sequence", "role", "target_milestone", "product_mutation_allowed", "recommended_budget") == {
+      "sequence" => 1,
+      "role" => "EXACT_FROZEN_CANDIDATE_PREACTIVATION_AND_FORMAL_HELD_EVALUATION",
+      "target_milestone" => "P2_RECOVERY_FORMAL_HELD_MATRIX_COMPLETE",
+      "product_mutation_allowed" => false,
+      "recommended_budget" => { "engineering_hours" => 32, "calendar_days" => 8 }
+    }, "P2 recovery formal HELD route drift")
+    assert!(task["required_output"].is_a?(String) && !task["required_output"].strip.empty?, "P2 recovery required output missing")
+  end
+
+  def validate_route_to_completion!(route)
+    exact_keys!(route, %w[
+      exit_gate_changes final_completion_criterion formal_held next_node p3_must_remain_hold_until_exit_gate_and_founder_phase_gate
+      phase_objective preactivation
+    ], "P2 route to completion")
+    assert!(route.slice("phase_objective", "final_completion_criterion", "exit_gate_changes", "next_node", "p3_must_remain_hold_until_exit_gate_and_founder_phase_gate") == {
+      "phase_objective" => "Improve task-conditioned code understanding through real Repository Intelligence product capability.",
+      "final_completion_criterion" => "CONTEXT_BENCHMARK_BEATS_SIMPLE_RETRIEVAL_BASELINES_ACCEPTED",
+      "exit_gate_changes" => false,
+      "next_node" => "FOUNDER_EXACT_FROZEN_P2_078_FORMAL_HELD_ROUTE_DECISION",
+      "p3_must_remain_hold_until_exit_gate_and_founder_phase_gate" => true
+    }, "P2 route objective or next node drift")
+    assert!(exact_keys!(route.fetch("preactivation"), %w[
+      candidate_identity_must_equal_live_state dev_rerun_or_retuning_allowed failure_result
+      held_read_allowed_before_preactivation_pass original_task_remains_terminal_non_pass
+      product_source_mutation_allowed
+    ], "P2 route preactivation") == {
+      "candidate_identity_must_equal_live_state" => true,
+      "original_task_remains_terminal_non_pass" => true,
+      "product_source_mutation_allowed" => false,
+      "dev_rerun_or_retuning_allowed" => false,
+      "held_read_allowed_before_preactivation_pass" => false,
+      "failure_result" => "TERMINAL_NO_HELD_READ_NO_SUCCESSOR"
+    }, "P2 route preactivation drift")
+    assert!(exact_keys!(route.fetch("formal_held"), %w[
+      candidate_dataset_split_oracle_metric_mutation_allowed dispatch_count non_pass_result pass_result reruns
+    ], "P2 formal HELD route") == {
+      "dispatch_count" => 1,
+      "reruns" => 0,
+      "candidate_dataset_split_oracle_metric_mutation_allowed" => false,
+      "pass_result" => "P2_EXIT_GATE_ELIGIBLE_AWAITING_FOUNDER_PHASE_GATE",
+      "non_pass_result" => "P2_REMAINS_INCOMPLETE_IMPLEMENTATION_FROZEN_NO_AUTOMATIC_SUCCESSOR"
+    }, "P2 formal HELD route drift")
+  end
+
+  def validate_progress_scorecard!(scorecard)
+    exact_keys!(scorecard, %w[delivery health_indicators nodes resource_indicators_not_progress strict_exit], "P2 progress scorecard")
+    assert!(scorecard.fetch("strict_exit") == { "percent" => 0, "rule" => "BINARY_ONLY_0_OR_100" }, "P2 scorecard strict progress drift")
+    assert!(scorecard.fetch("delivery") == { "percent" => 25, "accepted_nodes" => 1, "total_nodes" => 4 }, "P2 scorecard delivery progress drift")
+    nodes = scorecard.fetch("nodes")
+    assert!(nodes == [
+      { "id" => "K0_REPRESENTATIVE_BENCHMARK_AND_B1_BASELINE", "percent" => 25, "status" => "ACCEPTED" },
+      { "id" => "K1_EXACT_FROZEN_CANDIDATE_ADMITTED_FOR_FORMAL_HELD", "percent" => 55, "status" => "PENDING_FOUNDER_ROUTE_DECISION" },
+      { "id" => "K2_ONE_SHOT_FORMAL_HELD_EVALUATION_ACCEPTED", "percent" => 85, "status" => "LOCKED_UNOPENED" },
+      { "id" => "K3_STRICT_P2_EXIT_GATE_ACCEPTED", "percent" => 100, "status" => "MISSING" }
+    ], "P2 scorecard node drift")
+    assert!(scorecard.fetch("health_indicators") == {
+      "product_implementation_tasks" => 9,
+      "product_implementation_task_cap" => 2,
+      "consecutive_product_non_pass" => 9,
+      "active_task_count" => 0,
+      "held_source_reads" => 0,
+      "held_tasks_executed" => 0,
+      "p2_078_candidate_integrated" => false,
+      "governance_progress_credit" => 0
+    }, "P2 scorecard health drift")
+    assert!(scorecard.fetch("resource_indicators_not_progress") == {
+      "engineering_tasks_consumed" => 23,
+      "engineering_tasks_limit" => 24,
+      "engineering_hours_consumed" => 688,
+      "engineering_hours_limit" => 720,
+      "calendar_days_consumed" => 172,
+      "calendar_days_limit" => 180
+    }, "P2 scorecard resource drift")
   end
 
   def validate_controls!(controls)
@@ -312,6 +494,11 @@ module P2RecoveryAntiCycle
       "max_candidate_generations_per_task" => 2,
       "max_same_task_repairs" => 1,
       "max_review_cycles" => 2,
+      "max_product_implementation_tasks_per_delivery_milestone" => 2,
+      "milestone_task_counter_reset_allowed" => false,
+      "current_product_implementation_task_count" => 9,
+      "current_product_implementation_frozen" => true,
+      "numbered_product_reauthorization_chain_allowed" => false,
       "first_review_freezes_complete_p0_p1_set" => true,
       "second_review_may_only_close_frozen_findings_or_reject_new_regression" => true,
       "governance_pre_worker_budget_percent_max" => 10,
@@ -339,7 +526,7 @@ module P2RecoveryAntiCycle
     ], "P2 current control")
     expected = {
       "new_task_creation_allowed" => false,
-      "reason" => "PHASE_ENVELOPE_EXHAUSTED_AWAITING_FOUNDER_EXPANSION",
+      "reason" => "PRODUCT_IMPLEMENTATION_MILESTONE_ATTEMPT_CAP_EXCEEDED_AND_FORMAL_HELD_ROUTE_LOCKED",
       "next_action_owner" => "HUMAN_FOUNDER",
       "next_eligible_action" => "FOUNDER_RESERVED_DECISION",
       "long_term_goal_must_remain_active" => true,

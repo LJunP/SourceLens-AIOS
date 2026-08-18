@@ -146,6 +146,16 @@ Founder 只保留：
 - 每个普通工程 Task 最多 `2` 个 candidate generations、`1` 次 same-Task repair、`2` 个
   review cycles。第一次独立 review 必须一次性冻结完整 P0/P1 finding set；第二次只允许关闭
   已冻结 finding 或拒绝修复新引入的 regression，不得持续 drip-feed 新的同类设计要求。
+- 同一 delivery milestone 在整个 Phase 内最多允许 `2` 个 product implementation Tasks；该累计
+  上限不得因新 Task ID、nonce、branch、worktree、Contract、架构名称、clean-room 标签或
+  Founder 授权版本号而重置。连续 `2` 个 implementation Task `NON_PASS` 后，必须冻结该
+  benchmark 下的新实现和调参；不得继续生成 `V3/V4/...` 授权链。历史已超过上限的 Phase
+  立即按超限状态执行，不得以 grandfathering 再增加实现 Task。
+- 里程碑级实现冻结后只允许三类路线：在打开 HELD 前由 Founder 明确授权对一个 exact、不可变、
+  已有 candidate 做一次预声明的独立 formal evaluation；Founder 正式修改 Phase Objective 或
+  Exit Gate；或保持 Phase `HOLD/INCOMPLETE`。第一类路线不得修改或调试 candidate，不得读取
+  其他 rejected lineage，不得把 post-hoc DEV 结果改写为原 Task `PASS`，也不得在 HELD 后
+  rerun-to-pass。
 - Reviewer blocker 必须落入封闭 Gate Relevance 类别之一：`EXIT_GATE_VALIDITY`、
   `AUTHORITY_OR_EXTERNAL_EFFECT_SAFETY`、`RESULT_INTEGRITY`、`PRODUCT_CORRECTNESS`。
   与当前 Task 输出、P2 Exit Gate、既有安全权限或结果真实性无机械因果关系的改进项只能记为
@@ -153,6 +163,10 @@ Founder 只保留：
 - 普通 Task 的治理与 pre-Worker 准备不得超过预算的 `10%`，Worker 必须在第一个
   engineering hour 内开始真实实现或可执行 benchmark 工作。无法满足时在首次 write 前终止
   该 Task，不得用更多治理修复来证明它可以开始。
+- Phase 内的规则、schema 与 validator 只允许在机械证明“现有控制会接受一个明确禁止状态”时
+  修改，并必须优先扩展既有文件。每次路线纠偏最多一次规则冻结；冻结后除 safety-critical
+  缺陷或 Founder 保留决策外不得继续追加治理。治理修改、校验轮次、授权文本和历史同步永远
+  不解锁 Task、不增加 delivery milestone、不产生工程进度。
 - Task `NON_PASS` 后禁止 successor、replacement、normalization、closure、feasibility 或
   remediation 链。若 Phase 仍需同一能力，只能在剩余/新增合法 envelope 内选择一个完全独立、
   不读不复用 rejected lineage、且直接瞄准下一未接受 delivery milestone 的 Task。

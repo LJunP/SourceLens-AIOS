@@ -407,6 +407,10 @@ module P2RecoveryAntiCycle
       CLEAN_ROOM_SLOT_V9_1_PRODUCT_SELECTOR_DEV_TASK_RESERVED_READY_SLOT_V2_3_RELOCKED
       CLEAN_ROOM_SLOT_V9_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED
       CLEAN_ROOM_SLOT_V9_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
+      CLEAN_ROOM_SLOT_V10_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED
+      CLEAN_ROOM_SLOT_V10_1_PRODUCT_SELECTOR_DEV_TASK_RESERVED_READY_SLOT_V2_3_RELOCKED
+      CLEAN_ROOM_SLOT_V10_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED
+      CLEAN_ROOM_SLOT_V10_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
     ].include?(control["status"])
     expected_delivery_percent = baseline_accepted ? 25 : 0
     expected_accepted_milestones = baseline_accepted ? ["P2_RECOVERY_BASELINE_ACCEPTED"] : []
@@ -485,6 +489,7 @@ module P2RecoveryAntiCycle
       CLEAN_ROOM_SLOT_V7_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
       CLEAN_ROOM_SLOT_V8_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
       CLEAN_ROOM_SLOT_V9_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
+      CLEAN_ROOM_SLOT_V10_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
     ].include?(control["status"])
     expected_consumed = consumed.dup
     if terminal_or_accepted_slot_1
@@ -525,6 +530,7 @@ module P2RecoveryAntiCycle
       CLEAN_ROOM_SLOT_V7_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
       CLEAN_ROOM_SLOT_V8_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
       CLEAN_ROOM_SLOT_V9_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
+      CLEAN_ROOM_SLOT_V10_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
     ].include?(control["status"])
     if terminal_locked
       assert!(escalation["disposition"] == "FOUNDER_DECISION_REQUIRED" &&
@@ -552,7 +558,9 @@ module P2RecoveryAntiCycle
          "CLEAN_ROOM_SLOT_V6_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED",
          "CLEAN_ROOM_SLOT_V7_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED",
          "CLEAN_ROOM_SLOT_V8_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED",
-         "CLEAN_ROOM_SLOT_V9_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED"
+         "CLEAN_ROOM_SLOT_V9_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED",
+         "CLEAN_ROOM_SLOT_V10_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED"
+      compiler_attributed = control["status"].include?("SLOT_V10_1")
       semantic_impact = control["status"].include?("SLOT_V9_1")
       graph_fusion = control["status"].include?("SLOT_V8_1")
       architecture_pivot = control["status"].include?("SLOT_V7_1")
@@ -564,7 +572,9 @@ module P2RecoveryAntiCycle
         "engineering_hours" => 64,
         "calendar_days" => 16
       }
-      expected_token = if semantic_impact
+      expected_token = if compiler_attributed
+                         "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_SLOT_AND_RELOCKED_HELD_SEQUENCE_V8"
+                       elsif semantic_impact
                          "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V7"
                        elsif graph_fusion
                          "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_B1_ANCHORED_GRAPH_FUSION_SLOT_AND_RELOCKED_HELD_SEQUENCE_V6"
@@ -577,7 +587,9 @@ module P2RecoveryAntiCycle
                        else
                          "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_EXECUTION_INTEGRITY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V2"
                        end
-      expected_capacity_ids = if semantic_impact
+      expected_capacity_ids = if compiler_attributed
+                                %w[P2_RECOVERY_CAPACITY_SLOT_V10_1 P2_RECOVERY_CAPACITY_SLOT_V2_3]
+                              elsif semantic_impact
                                 %w[P2_RECOVERY_CAPACITY_SLOT_V9_1 P2_RECOVERY_CAPACITY_SLOT_V2_3]
                               elsif graph_fusion
                                 %w[P2_RECOVERY_CAPACITY_SLOT_V8_1 P2_RECOVERY_CAPACITY_SLOT_V2_3]
@@ -593,7 +605,9 @@ module P2RecoveryAntiCycle
       assert!(decision_claims["authorization_token"] == expected_token &&
               decision_claims["capacity_slots"].map { |slot| slot["capacity_slot_id"] } == expected_capacity_ids,
               "Truth Product Selector recovery decision or re-locked HELD identity drift")
-      expected_consumed = if semantic_impact
+      expected_consumed = if compiler_attributed
+                            { "engineering_tasks" => 22, "engineering_hours" => 656, "calendar_days" => 164 }
+                          elsif semantic_impact
                             { "engineering_tasks" => 21, "engineering_hours" => 624, "calendar_days" => 156 }
                           elsif graph_fusion
                             { "engineering_tasks" => 20, "engineering_hours" => 592, "calendar_days" => 148 }
@@ -610,7 +624,9 @@ module P2RecoveryAntiCycle
               envelope["reserved"].nil? && envelope["remaining"] == expected_remaining &&
               envelope["consumed"] == expected_consumed,
               "Truth eligible Product Selector recovery envelope drift")
-      expected_preceding_route = if semantic_impact
+      expected_preceding_route = if compiler_attributed
+                                   "historical_p2_077_phase_route"
+                                 elsif semantic_impact
                                    "historical_p2_076_phase_route"
                                  elsif graph_fusion
                                    "historical_p2_075_phase_route"
@@ -643,7 +659,9 @@ module P2RecoveryAntiCycle
               control["capacity_slots"] == expected_slots &&
               control["capacity_slots"].all? { |slot| slot["task_id"].nil? },
               "Truth eligible Product Selector recovery capacity projection drift")
-      expected_progress = if semantic_impact
+      expected_progress = if compiler_attributed
+                            "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_NEW_PRODUCT_SELECTOR_DEV_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_SLOT_V10_1_ELIGIBLE_FORMAL_HELD_SLOT_V2_3_RELOCKED"
+                          elsif semantic_impact
                             "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_NEW_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_V9_1_ELIGIBLE_FORMAL_HELD_SLOT_V2_3_RELOCKED"
                           elsif graph_fusion
                             "P1_COMPLETE_P2_BASELINE_ACCEPTED_DELIVERY_25_STRICT_GATE_ZERO_NEW_PRODUCT_SELECTOR_DEV_B1_ANCHORED_GRAPH_FUSION_SLOT_V8_1_ELIGIBLE_FORMAL_HELD_SLOT_V2_3_RELOCKED"
@@ -672,14 +690,19 @@ module P2RecoveryAntiCycle
          "CLEAN_ROOM_SLOT_V8_1_PRODUCT_SELECTOR_DEV_TASK_RESERVED_READY_SLOT_V2_3_RELOCKED",
          "CLEAN_ROOM_SLOT_V8_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED",
          "CLEAN_ROOM_SLOT_V9_1_PRODUCT_SELECTOR_DEV_TASK_RESERVED_READY_SLOT_V2_3_RELOCKED",
-         "CLEAN_ROOM_SLOT_V9_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED"
+         "CLEAN_ROOM_SLOT_V9_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED",
+         "CLEAN_ROOM_SLOT_V10_1_PRODUCT_SELECTOR_DEV_TASK_RESERVED_READY_SLOT_V2_3_RELOCKED",
+         "CLEAN_ROOM_SLOT_V10_1_PRODUCT_SELECTOR_DEV_TASK_ACTIVE_SLOT_V2_3_RELOCKED"
+      compiler_attributed = control["status"].include?("SLOT_V10_1")
       semantic_impact = control["status"].include?("SLOT_V9_1")
       graph_fusion = control["status"].include?("SLOT_V8_1")
       architecture_pivot = control["status"].include?("SLOT_V7_1")
       product_path_closure = control["status"].include?("SLOT_V6_1")
       stream_lifecycle = control["status"].include?("SLOT_V5_1")
       ready = control["status"].include?("RESERVED_READY")
-      task_id_v4 = if semantic_impact
+      task_id_v4 = if compiler_attributed
+                     "AIOS-P2-078_CLEAN_ROOM_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_PRODUCT_SELECTOR_DEV"
+                   elsif semantic_impact
                      "AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV"
                    elsif graph_fusion
                      "AIOS-P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV"
@@ -692,7 +715,9 @@ module P2RecoveryAntiCycle
                    else
                      "AIOS-P2-072_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_EXECUTION_INTEGRITY_DEV"
                    end
-      capacity_slot_id = if semantic_impact
+      capacity_slot_id = if compiler_attributed
+                           "P2_RECOVERY_CAPACITY_SLOT_V10_1"
+                         elsif semantic_impact
                            "P2_RECOVERY_CAPACITY_SLOT_V9_1"
                          elsif graph_fusion
                            "P2_RECOVERY_CAPACITY_SLOT_V8_1"
@@ -705,7 +730,9 @@ module P2RecoveryAntiCycle
                          else
                            "P2_RECOVERY_CAPACITY_SLOT_V4_1"
                          end
-      preceding_route_ref = if semantic_impact
+      preceding_route_ref = if compiler_attributed
+                              "historical_p2_077_phase_route"
+                            elsif semantic_impact
                               "historical_p2_076_phase_route"
                             elsif graph_fusion
                               "historical_p2_075_phase_route"
@@ -729,7 +756,9 @@ module P2RecoveryAntiCycle
       expected_slots[0]["task_id"] = task_id_v4
       selected = route.fetch("selected_task")
       reservation = envelope.fetch("reserved")
-      expected_consumed = if semantic_impact
+      expected_consumed = if compiler_attributed
+                            { "engineering_tasks" => 22, "engineering_hours" => 656, "calendar_days" => 164 }
+                          elsif semantic_impact
                             { "engineering_tasks" => 21, "engineering_hours" => 624, "calendar_days" => 156 }
                           elsif graph_fusion
                             { "engineering_tasks" => 20, "engineering_hours" => 592, "calendar_days" => 148 }
@@ -772,7 +801,9 @@ module P2RecoveryAntiCycle
               control["next_eligible_action"] == next_action &&
               control["capacity_slots"] == expected_slots,
               "Truth reserved clean-room Product Selector capacity projection drift")
-      slot_label = if semantic_impact
+      slot_label = if compiler_attributed
+                     "SLOT_V10_1"
+                   elsif semantic_impact
                      "SLOT_V9_1"
                    elsif graph_fusion
                      "SLOT_V8_1"

@@ -809,7 +809,10 @@ module FounderDelegationContinuity
          source_text.scan(/P2-069 remains the independently accepted benchmark foundation\. P2-070, P2-071, P2-072, P2-073, P2-074 and P2-075 are preserved only as closed terminal accounting\./).length == 1) ||
         (token ==
           "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V7" &&
-         source_text.scan(/P2-069 remains the independently accepted benchmark foundation\. P2-070, P2-071, P2-072, P2-073, P2-074, P2-075 and P2-076 are preserved only as closed terminal accounting\./).length == 1)
+         source_text.scan(/P2-069 remains the independently accepted benchmark foundation\. P2-070, P2-071, P2-072, P2-073, P2-074, P2-075 and P2-076 are preserved only as closed terminal accounting\./).length == 1) ||
+        (token ==
+          "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_SLOT_AND_RELOCKED_HELD_SEQUENCE_V8" &&
+         source_text.scan(/P2-069 remains the independently accepted benchmark foundation\. P2-070, P2-071, P2-072, P2-073, P2-074, P2-075, P2-076 and P2-077 are preserved only as closed terminal accounting\./).length == 1)
       assert(superseded_values == [
                remaining["engineering_tasks"],
                remaining["engineering_hours"],
@@ -1008,6 +1011,7 @@ module FounderDelegationContinuity
         AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_AND_RELOCKED_HELD_SEQUENCE_V5
         AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_B1_ANCHORED_GRAPH_FUSION_SLOT_AND_RELOCKED_HELD_SEQUENCE_V6
         AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V7
+        AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_SLOT_AND_RELOCKED_HELD_SEQUENCE_V8
       ].include?(product_selector_recovery_token)
       expected_product_selector_capacity_ids = case product_selector_recovery_token
                                                when "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_RECOVERY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V1"
@@ -1024,6 +1028,8 @@ module FounderDelegationContinuity
                                                  %w[P2_RECOVERY_CAPACITY_SLOT_V8_1 P2_RECOVERY_CAPACITY_SLOT_V2_3]
                                                when "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V7"
                                                  %w[P2_RECOVERY_CAPACITY_SLOT_V9_1 P2_RECOVERY_CAPACITY_SLOT_V2_3]
+                                               when "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_SLOT_AND_RELOCKED_HELD_SEQUENCE_V8"
+                                                 %w[P2_RECOVERY_CAPACITY_SLOT_V10_1 P2_RECOVERY_CAPACITY_SLOT_V2_3]
                                                end
       slot_generations = []
       slots = array(decision["capacity_slots"], "cumulative expansion capacity slots").map.with_index do |value, index|
@@ -1139,6 +1145,8 @@ module FounderDelegationContinuity
                                                     "CLEAN_ROOM_SLOT_V7_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED"
                                                   when "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V7"
                                                     "CLEAN_ROOM_SLOT_V8_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED"
+                                                  when "AUTHORIZE_P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_SLOT_AND_RELOCKED_HELD_SEQUENCE_V8"
+                                                    "CLEAN_ROOM_SLOT_V9_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED"
                                                   end
         assert(parent_envelope["status"] == "ACTIVE_REMAINING_CAPACITY" &&
                parent_remaining.values.all?(&:positive?) && slot_generations.first &&
@@ -4232,7 +4240,9 @@ module FounderDelegationContinuity
         "CLEAN_ROOM_SLOT_V8_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED" =>
           "historical_p2_075_phase_route",
         "CLEAN_ROOM_SLOT_V9_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED" =>
-          "historical_p2_076_phase_route"
+          "historical_p2_076_phase_route",
+        "CLEAN_ROOM_SLOT_V10_1_PRODUCT_SELECTOR_DEV_ELIGIBLE_NOT_ACTIVATED_SLOT_V2_3_RELOCKED" =>
+          "historical_p2_077_phase_route"
       }[cumulative_capacity_ready_status] == current_route["historical_terminal_route_ref"]
     if single_task_projection
       task_status = current_route.dig("selected_task", "status")
@@ -4242,7 +4252,9 @@ module FounderDelegationContinuity
         "status" => task_status
       }, "single-Task Founder expansion control does not project the exact READY or ACTIVE Task")
     elsif cumulative_capacity_ready_projection
-      event_status = if cumulative_capacity_ready_status.include?("SLOT_V9_1")
+      event_status = if cumulative_capacity_ready_status.include?("SLOT_V10_1")
+                       "PRODUCT_SELECTOR_DEV_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_SLOT_V10_1_ELIGIBLE_NOT_ACTIVATED"
+                     elsif cumulative_capacity_ready_status.include?("SLOT_V9_1")
                        "PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_V9_1_ELIGIBLE_NOT_ACTIVATED"
                      elsif cumulative_capacity_ready_status.include?("SLOT_V8_1")
                        "PRODUCT_SELECTOR_DEV_B1_ANCHORED_GRAPH_FUSION_SLOT_V8_1_ELIGIBLE_NOT_ACTIVATED"
@@ -4390,6 +4402,7 @@ module FounderDelegationContinuity
           CLEAN_ROOM_SLOT_V7_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
           CLEAN_ROOM_SLOT_V8_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
           CLEAN_ROOM_SLOT_V9_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
+          CLEAN_ROOM_SLOT_V10_1_PRODUCT_SELECTOR_DEV_TERMINAL_NON_PASS_SLOT_V2_3_RELOCKED
         ].include?(truth.dig("p2_recovery_control", "status")) &&
         truth.dig("p2_recovery_control", "task_creation_allowed") == false &&
         truth.dig("p2_recovery_control", "next_eligible_action") == "FOUNDER_RESERVED_DECISION"

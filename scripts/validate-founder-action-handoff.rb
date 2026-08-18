@@ -43,6 +43,7 @@ module FounderActionHandoff
     P2_RECOVERY_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_B1_ANCHORED_GRAPH_FUSION_SLOT_AND_RELOCKED_HELD_SEQUENCE
     P2_RECOVERY_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE
     P2_RECOVERY_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_SLOT_AND_RELOCKED_HELD_SEQUENCE
+    P2_EXACT_FROZEN_P2_078_PARETO_DEV_RESIDUAL_ADMISSION_AND_RELOCKED_HELD_SEQUENCE
   ].freeze
   APP_OPERATION_TYPES = %w[APP_FILESYSTEM_BATCH_WRITE].freeze
   READ_ONLY_HTTPS_OPERATION = "一次全新、独立、clean-room V6 benchmark source acquisition"
@@ -178,6 +179,20 @@ module FounderActionHandoff
   PRODUCT_SELECTOR_COMPILER_ATTRIBUTED_RECOVERY_CONSUMPTION = "The new Product Selector DEV Task consumes exactly one 32-hour 8-day slot; the existing formal HELD slot remains locked until Product Selector DEV is independently ACCEPTED; Product DEV NON_PASS consumes the new slot, creates no replacement, remediation chain or automatic successor, and forbids another Product DEV retry request under the unchanged acceptance Gate; any further Founder handoff must be a Phase route, objective or Exit-Gate strategy decision"
   PRODUCT_SELECTOR_COMPILER_ATTRIBUTED_RECOVERY_PASS = "Product Selector DEV PASS establishes only P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED, raises delivery progress to 70% and unlocks only the existing formal HELD evaluation slot; strict P2 Exit progress remains 0% until the Exit Gate is independently ACCEPTED, and neither P3 entry nor long-term Goal closure is authorized"
   PRODUCT_SELECTOR_COMPILER_ATTRIBUTED_RECOVERY_NON_PASS = "Product Selector DEV NON_PASS preserves exact terminal Evidence, consumes the final Product DEV slot, leaves formal HELD locked, keeps P2 delivery progress at 25% and strict progress at 0%, creates no replacement, remediation chain, automatic successor or further Product DEV retry authorization handoff under the unchanged Gate, keeps P2 and the long-term Goal active, and keeps P3 HOLD"
+  P2_078_PARETO_RESIDUAL_ADMISSION_TOKEN = "AUTHORIZE_P2_EXACT_FROZEN_P2_078_PARETO_DEV_RESIDUAL_ADMISSION_AND_RELOCKED_HELD_SEQUENCE_V1"
+  P2_078_PARETO_RESIDUAL_ADMISSION_OPERATION = "Add exactly one non-implementation residual-admission slot for the frozen P2-078 candidate before the existing locked formal HELD slot; do not create another Product Selector implementation or evaluate another parameter set"
+  P2_078_PARETO_RESIDUAL_ADMISSION_PERMISSION = "Permit only read-only independent review and exact canonical admission of frozen candidate e0c0f4d78b64b95b359746ab7c2fec4beed4311f tree 405bd708c7e724b792c37b9eb568e492cb94c70d and its manifest-bound P2-078 Evidence; override rejected-lineage access only for this exact frozen candidate and only for review, verification and byte-exact integration, with no code, evaluator, dataset, split, oracle, metric, threshold, ranking, parameter or DEV result mutation and no DEV rerun"
+  P2_078_PARETO_RESIDUAL_ADMISSION_CRITERION = "Accept only for this exact frozen candidate the bounded DEV screening residual that macro precision 0.15595238095238093 and macro recall 0.8958333333333334 equal the accepted B1 values without regression, macro MRR 0.84375 strictly exceeds B1 0.8229166666666666, and every DEV task has zero recall regression; this is not a general threshold rewrite and does not modify the P2 Exit Gate or formal HELD acceptance criterion"
+  P2_078_PARETO_RESIDUAL_ADMISSION_REVIEW = "Require independent CTO, Security and Quality/Evaluation PASS on the frozen candidate, raw Evidence closure, product correctness, authority, source-to-class provenance, two byte-exact replays and canonical full verification before integration; any blocker or identity drift is terminal NON_PASS and HELD remains locked"
+  P2_078_PARETO_RESIDUAL_ADMISSION_ORDER = "HELD remains unopened and locked until the residual-admission Task independently PASSes and the exact reviewed candidate is integrated; PASS unlocks only the existing one-shot formal HELD slot, whose original preregistered Exit-Gate criterion remains unchanged"
+  P2_078_PARETO_RESIDUAL_ADMISSION_TARGET = "Local SourceLens canonical main, exact frozen P2-078 candidate branch and worktree, manifest-bound P2-078 Evidence under /Users/lijunpeng/Developer/.sourcelens-audit, one new review/admission Task identity and the existing formal HELD slot; no network, Provider, Secret, remote, production, public release, deletion, database modification, new product implementation, P3 entry or long-term Goal termination"
+  P2_078_PARETO_RESIDUAL_ADMISSION_DURATION = "Until the exact frozen P2-078 residual-admission Task reaches PASS or NON_PASS, Founder explicitly revokes this envelope, or a terminal safety condition occurs"
+  P2_078_PARETO_RESIDUAL_ADMISSION_BUDGET = "Raise the non-resettable cumulative P2 Phase envelope from 24 engineering tasks, 720 engineering hours and 180 calendar days to 25 engineering tasks, 752 engineering hours and 188 calendar days; preserve consumed 23 tasks, 688 hours and 172 days, leaving exactly 2 tasks, 64 hours and 16 days in order: one frozen-candidate residual-admission slot, then the existing formal HELD slot"
+  P2_078_PARETO_RESIDUAL_ADMISSION_RISK = "The material risk is a disclosed post-result DEV screening exception and exact access to one rejected candidate; it is bounded by immutable candidate and Evidence identities, zero implementation or retuning, three independent reviews, unchanged formal HELD and Exit-Gate criteria, and the still-unopened HELD set"
+  P2_078_PARETO_RESIDUAL_ADMISSION_DENY = "Do not create a Task, do not read the frozen candidate, do not unlock HELD and do not change any Gate; P2 delivery remains 25%, strict progress remains 0%, P2 and the long-term Goal remain active, and P3 remains HOLD"
+  P2_078_PARETO_RESIDUAL_ADMISSION_CONSUMPTION = "The residual-admission Task consumes exactly one 32-hour 8-day slot; it authorizes no product mutation, DEV rerun, second residual exception, replacement or automatic successor; the existing formal HELD slot remains locked unless the exact frozen candidate independently PASSes review and canonical verification"
+  P2_078_PARETO_RESIDUAL_ADMISSION_PASS = "PASS admits and integrates only the exact frozen P2-078 candidate, establishes P2_RECOVERY_PRODUCT_SELECTOR_DEV_ACCEPTED by the disclosed Founder residual, raises delivery progress to 70% and unlocks only the existing one-shot formal HELD evaluation slot; strict P2 Exit progress remains 0% until that unchanged Exit Gate is independently ACCEPTED, and neither P3 entry nor long-term Goal closure is authorized"
+  P2_078_PARETO_RESIDUAL_ADMISSION_NON_PASS = "NON_PASS preserves exact terminal review Evidence, consumes the residual-admission slot, integrates nothing, leaves formal HELD locked, keeps P2 delivery at 25% and strict progress at 0%, creates no replacement or automatic successor, keeps P2 and the long-term Goal active, and keeps P3 HOLD"
   FOUNDER_NETWORK_OPERATION_PROFILES = {
     "READ_ONLY_HTTPS_ACQUISITION" => {
       "operations" => [READ_ONLY_HTTPS_OPERATION, READ_ONLY_HTTPS_METHOD],
@@ -377,6 +392,22 @@ module FounderActionHandoff
       "authorization_expiry_or_consumption_rule" => PRODUCT_SELECTOR_COMPILER_ATTRIBUTED_RECOVERY_CONSUMPTION,
       "pass_lifecycle" => PRODUCT_SELECTOR_COMPILER_ATTRIBUTED_RECOVERY_PASS,
       "non_pass_lifecycle" => PRODUCT_SELECTOR_COMPILER_ATTRIBUTED_RECOVERY_NON_PASS
+    },
+    "P2_EXACT_FROZEN_P2_078_PARETO_DEV_RESIDUAL_ADMISSION_AND_RELOCKED_HELD_SEQUENCE" => {
+      "operations" => [
+        P2_078_PARETO_RESIDUAL_ADMISSION_OPERATION,
+        P2_078_PARETO_RESIDUAL_ADMISSION_PERMISSION,
+        P2_078_PARETO_RESIDUAL_ADMISSION_CRITERION,
+        P2_078_PARETO_RESIDUAL_ADMISSION_REVIEW,
+        P2_078_PARETO_RESIDUAL_ADMISSION_ORDER
+      ],
+      "targets" => [P2_078_PARETO_RESIDUAL_ADMISSION_TARGET],
+      "budget_or_external_effects" => P2_078_PARETO_RESIDUAL_ADMISSION_BUDGET,
+      "token" => P2_078_PARETO_RESIDUAL_ADMISSION_TOKEN,
+      "duration" => P2_078_PARETO_RESIDUAL_ADMISSION_DURATION,
+      "authorization_expiry_or_consumption_rule" => P2_078_PARETO_RESIDUAL_ADMISSION_CONSUMPTION,
+      "pass_lifecycle" => P2_078_PARETO_RESIDUAL_ADMISSION_PASS,
+      "non_pass_lifecycle" => P2_078_PARETO_RESIDUAL_ADMISSION_NON_PASS
     }
   }.freeze
   PROSPECTIVE_PREFLIGHT = "PROSPECTIVE_RESERVED_EFFECT_REQUIRED_BY_EXACT_USER_REQUEST_AND_NOT_EXPRESSIBLE_BY_CURRENT_OFFLINE_ESCALATION_PROJECTION"
@@ -717,6 +748,7 @@ module FounderActionHandoff
         P2_RECOVERY_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_B1_ANCHORED_GRAPH_FUSION_SLOT_AND_RELOCKED_HELD_SEQUENCE
         P2_RECOVERY_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE
         P2_RECOVERY_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_SLOT_AND_RELOCKED_HELD_SEQUENCE
+        P2_EXACT_FROZEN_P2_078_PARETO_DEV_RESIDUAL_ADMISSION_AND_RELOCKED_HELD_SEQUENCE
       ].include?(operation_type)
         proposed_tokens = package["copy_ready_text_or_exact_steps"].scan(FOUNDER_AUTHORIZATION_TOKEN)
         assert!(proposed_tokens == [profile["token"]],

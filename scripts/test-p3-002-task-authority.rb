@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
 
+require "open3"
 require "yaml"
 require_relative "validate-p3-002-task-authority"
 
@@ -18,12 +19,23 @@ rescue P3Task002AuthorityValidationError => e
   puts "PASS #{name} rejected"
 end
 
+ready_bytes, ready_error, ready_status = Open3.capture3(
+  "git", "-C", ROOT, "show",
+  "779fc3d52f8b6a9a5e871e4b14a820d783203961:docs/aios/truth/project_state.yaml"
+)
+raise "cannot load P3-002 READY Truth: #{ready_error}" unless ready_status.success?
+ready_truth = YAML.safe_load(ready_bytes, permitted_classes: [], permitted_symbols: [], aliases: false)
+ready_state = P3Task002AuthorityValidation.validate!(root: ROOT, truth: ready_truth)
+raise "exact READY state drift" unless ready_state == "P3_002_READY_FOR_MASTER_ACTIVATION"
+puts "PASS exact P3-002 READY projection"
+assertions = 1
+
 truth = YAML.safe_load(File.binread(File.join(ROOT, "docs/aios/truth/project_state.yaml")),
                        permitted_classes: [], permitted_symbols: [], aliases: false)
 state = P3Task002AuthorityValidation.validate!(root: ROOT, truth: truth)
-raise "exact READY state drift" unless state == "P3_002_READY_FOR_MASTER_ACTIVATION"
-puts "PASS exact P3-002 READY projection"
-assertions = 1
+raise "exact ACTIVE state drift" unless state == "P3_002_ACTIVE"
+puts "PASS exact P3-002 ACTIVE projection"
+assertions += 1
 
 fixture = copy(truth)
 fixture.dig("current_phase_route", "selected_task", "budget")["engineering_hours"] = 33

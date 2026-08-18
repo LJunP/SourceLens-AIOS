@@ -46,6 +46,7 @@ module FounderActionHandoff
     P2_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_ROUTE_UNLOCK
     P2_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER_PLUS_ONE_SHOT_FORMAL_HELD_SEQUENCE
     P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY
+    P3_ONE_FINAL_HERMETIC_CAPABILITY_LEDGER_ROUTE_AFTER_PREACTIVATION_TERMINAL
   ].freeze
   APP_OPERATION_TYPES = %w[APP_FILESYSTEM_BATCH_WRITE].freeze
   READ_ONLY_HTTPS_OPERATION = "一次全新、独立、clean-room V6 benchmark source acquisition"
@@ -220,6 +221,16 @@ module FounderActionHandoff
   P3_PHASE_ENTRY_CONSUMPTION = "The envelope persists across ordinary independent P3 Task PASS or NON_PASS until the P3 Exit Gate is accepted, capacity is exhausted, Founder revokes it, or a terminal safety condition occurs; no Task outcome authorizes P4 entry, external effects or long-term Goal closure"
   P3_PHASE_ENTRY_PASS = "PASS installs P3 entry, sets P3 ACTIVE, keeps exactly one current Task, allows Master to begin the highest-value minimal P3 engineering Task, and keeps the Long-term Goal ACTIVE; later P3 Exit-Gate PASS still requires an independent Founder Phase Gate before P4"
   P3_PHASE_ENTRY_NON_PASS = "If installation identity, predecessor Gate or scope validation is NON_PASS, create no P3 Task, preserve P2 COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED, keep P3 ELIGIBLE_AWAITING_SEPARATE_FOUNDER_PHASE_ENTRY, keep P4 HOLD and the Long-term Goal ACTIVE, and create no repair or replacement authorization chain"
+  P3_FINAL_CAPABILITY_TOKEN = "AUTHORIZE_P3_ONE_FINAL_HERMETIC_CAPABILITY_LEDGER_ROUTE_AFTER_PREACTIVATION_ONLY_TERMINAL_V1"
+  P3_FINAL_CAPABILITY_OPERATION = "Authorize exactly one final P3 capability-scoped tool and permission enforcement Task after P3-003 terminated before product write; this is a one-time Phase-route exception to the two-implementation-Task milestone cap and does not reset P3-002 or P3-003 consumption"
+  P3_FINAL_CAPABILITY_ORDER = "Stage A may change only backend-spring/pom.xml or Task-local test configuration needed to bind forked Surefire and JUnit temp creation inside the exact new Task worktree, then must PASS the exact legacy AgentSandboxToolTest under sandbox-exec deny network before any product-source write; Stage B may then independently implement the persistent capability ledger, and no later P3 milestone unlocks before independent acceptance"
+  P3_FINAL_CAPABILITY_LINEAGE = "Preserve P3-002 and P3-003 as closed terminal accounting; prohibit reading, comparing, copying or reusing P3-002 candidate engineering lineage, and use P3-003 only through its exact terminal receipt as preactivation root-cause Evidence; implementation inputs are canonical main, accepted P3-001 and a new Task identity, nonce, branch, worktree, Contract and Evidence root"
+  P3_FINAL_CAPABILITY_TARGET = "Local SourceLens canonical main, at most one new active P3 Task branch and worktree, and create-once Evidence under /Users/lijunpeng/Developer/.sourcelens-audit; no network, Provider, Secret, remote write, production, public release, irreversible deletion, existing-database mutation, P4 entry or long-term Goal termination"
+  P3_FINAL_CAPABILITY_DURATION = "Until the one final capability Task reaches Task Gate PASS or NON_PASS, Founder explicitly revokes this route, or a terminal safety condition occurs"
+  P3_FINAL_CAPABILITY_BUDGET = "No P3 Phase envelope expansion: preserve the 8-Task, 256-engineering-hour and 64-calendar-day limits, consumed 3 Tasks, 96 hours and 24 days, and use exactly one of the remaining Tasks with at most 32 hours and 8 days; activation leaves 4 Tasks, 128 hours and 32 days after this reservation"
+  P3_FINAL_CAPABILITY_CONSUMPTION = "This is the sole final exception for the capability milestone: activation consumes exactly one Task, 32-hour and 8-day reservation with one candidate generation, at most one same-Task repair and at most two review cycles; any preactivation or Task NON_PASS creates no successor, replacement, remediation chain, V2 authorization or further capability implementation attempt"
+  P3_FINAL_CAPABILITY_PASS = "PASS accepts only CAPABILITY_SCOPED_TOOL_AND_PERMISSION_ENFORCEMENT, raises P3 delivery progress from 25% to 50%, keeps strict P3 Exit progress at 0%, and unlocks only the bounded isolated-execution-with-complete-traces milestone under the remaining Phase authority; it does not authorize P4 entry or long-term Goal closure"
+  P3_FINAL_CAPABILITY_NON_PASS = "NON_PASS preserves exact terminal Evidence, consumes the final exception Task, permanently freezes further capability-milestone implementation inside the current P3 route, keeps P3 ACTIVE_INCOMPLETE at 25% delivery and 0% strict Exit, creates no automatic successor, keeps P4 HOLD and keeps the Long-term Goal ACTIVE"
   FOUNDER_NETWORK_OPERATION_PROFILES = {
     "READ_ONLY_HTTPS_ACQUISITION" => {
       "operations" => [READ_ONLY_HTTPS_OPERATION, READ_ONLY_HTTPS_METHOD],
@@ -466,6 +477,20 @@ module FounderActionHandoff
       "authorization_expiry_or_consumption_rule" => P3_PHASE_ENTRY_CONSUMPTION,
       "pass_lifecycle" => P3_PHASE_ENTRY_PASS,
       "non_pass_lifecycle" => P3_PHASE_ENTRY_NON_PASS
+    },
+    "P3_ONE_FINAL_HERMETIC_CAPABILITY_LEDGER_ROUTE_AFTER_PREACTIVATION_TERMINAL" => {
+      "operations" => [
+        P3_FINAL_CAPABILITY_OPERATION,
+        P3_FINAL_CAPABILITY_ORDER,
+        P3_FINAL_CAPABILITY_LINEAGE
+      ],
+      "targets" => [P3_FINAL_CAPABILITY_TARGET],
+      "budget_or_external_effects" => P3_FINAL_CAPABILITY_BUDGET,
+      "token" => P3_FINAL_CAPABILITY_TOKEN,
+      "duration" => P3_FINAL_CAPABILITY_DURATION,
+      "authorization_expiry_or_consumption_rule" => P3_FINAL_CAPABILITY_CONSUMPTION,
+      "pass_lifecycle" => P3_FINAL_CAPABILITY_PASS,
+      "non_pass_lifecycle" => P3_FINAL_CAPABILITY_NON_PASS
     }
   }.freeze
   PROSPECTIVE_PREFLIGHT = "PROSPECTIVE_RESERVED_EFFECT_REQUIRED_BY_EXACT_USER_REQUEST_AND_NOT_EXPRESSIBLE_BY_CURRENT_OFFLINE_ESCALATION_PROJECTION"
@@ -820,6 +845,7 @@ module FounderActionHandoff
         P2_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_ROUTE_UNLOCK
         P2_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER_PLUS_ONE_SHOT_FORMAL_HELD_SEQUENCE
         P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY
+        P3_ONE_FINAL_HERMETIC_CAPABILITY_LEDGER_ROUTE_AFTER_PREACTIVATION_TERMINAL
       ].include?(operation_type)
         proposed_tokens = package["copy_ready_text_or_exact_steps"].scan(FOUNDER_AUTHORIZATION_TOKEN)
         assert!(proposed_tokens == [profile["token"]],

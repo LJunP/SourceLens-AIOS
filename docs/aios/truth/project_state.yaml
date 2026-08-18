@@ -8142,10 +8142,12 @@ current_phase_route:
     task_kind: REPOSITORY_INTELLIGENCE_CONTEXT_SELECTION_BENCHMARK_RESEARCH
     capability: REPRODUCIBLE_CONTEXT_BENCHMARK
     objective: >-
-      Build one split-neutral evaluation-and-Evidence adapter for exact immutable
-      P2-078, rebind the two authorized historical Git blobs into a stable 166-entry
-      relative-path Evidence manifest, prove schema neutrality without HELD bytes,
-      and perform exactly one frozen non-selective DEV compatibility replay.
+      Build one split-neutral evaluation-and-Evidence adapter for exact immutable P2-078
+      candidate e0c0f4d78b64b95b359746ab7c2fec4beed4311f, rebind the two historical
+      Git blobs that caused P2-079 preactivation failure into a new stable 166-entry
+      relative-path Evidence manifest, prove the adapter schema on synthetic DEV-shaped
+      and HELD-shaped cards without HELD source or oracle bytes, and only after the
+      adapter is frozen perform one non-selective DEV compatibility replay.
     capacity_source_task_id: P2_RECOVERY_CAPACITY_SLOT_V11_1
     budget:
       engineering_hours: 32

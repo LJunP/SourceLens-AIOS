@@ -4,8 +4,8 @@ task_id: AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV
 phase: P2
 route_id: AIOS-P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV_PHASE_DELEGATED_ROUTE
 status: ELIGIBLE_NOT_ACTIVATED
-task_kind: REPOSITORY_INTELLIGENCE_PRODUCT_SELECTOR_DEV
-capability: SEMANTIC_SYMBOL_IMPACT_CONE_CONTEXT_SELECTION
+task_kind: REPOSITORY_INTELLIGENCE_GRAPH_ENGINEERING
+capability: GRAPH_CONDITIONED_CONTEXT_SELECTION
 objective: >-
   Build one independently authored, deterministic, product-owned Java source selector
   that resolves package, type and member ownership plus import, invocation, inheritance

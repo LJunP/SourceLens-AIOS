@@ -735,7 +735,9 @@ module FounderActionHandoff
       founder_decision_required next_action_owner next_eligible_action
     ]
     control_keys << "resolved_strategy_decision" if raw_control.is_a?(Hash) &&
-      raw_control["schema_version"] == "founder-escalation-control/v2"
+      raw_control.key?("resolved_strategy_decision")
+    control_keys << "resolved_phase_entry_decision" if raw_control.is_a?(Hash) &&
+      raw_control.key?("resolved_phase_entry_decision")
     control = exact_object!(raw_control, control_keys, "canonical Founder escalation control")
     trigger = exact_object!(control["reserved_trigger"], %w[category evidence], "canonical reserved trigger")
     assert!(control["disposition"] == evidence["expected_disposition"], "validator disposition projection drift")

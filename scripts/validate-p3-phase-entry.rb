@@ -6,6 +6,7 @@ require "json"
 require "open3"
 require "pathname"
 require "yaml"
+require_relative "validate-p3-004-task-authority"
 
 class P3PhaseEntryValidationError < StandardError; end
 
@@ -270,6 +271,9 @@ module P3PhaseEntryValidation
     validate_decision!(root)
     project = mapping(truth["project"], "project")
     route = mapping(truth["current_phase_route"], "current P3 Route")
+    if route["schema_version"] == P3Task004AuthorityValidation::ROUTE_SCHEMA
+      return P3Task004AuthorityValidation.validate!(root: root, truth: truth)
+    end
     return validate_continuation!(truth, project, route) unless route["schema_version"] == ROUTE_SCHEMA
 
     assert(project["current_phase"] == "P3" &&

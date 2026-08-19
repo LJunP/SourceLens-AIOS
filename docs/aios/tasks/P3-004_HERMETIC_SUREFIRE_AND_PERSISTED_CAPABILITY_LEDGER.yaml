@@ -1,0 +1,169 @@
+schema_version: p3-task-contract/v1
+record_type: sourcelens_aios_p3_task_contract
+task_id: AIOS-P3-004_HERMETIC_SUREFIRE_AND_PERSISTED_CAPABILITY_LEDGER
+route_id: AIOS-P3-004_HERMETIC_SUREFIRE_AND_PERSISTED_CAPABILITY_LEDGER_FOUNDER_EXCEPTION_ROUTE
+phase: P3
+status: ELIGIBLE_NOT_ACTIVATED
+milestone: CAPABILITY_SCOPED_TOOL_AND_PERMISSION_ENFORCEMENT
+implementation_attempt: 3_OF_3_FINAL_FOUNDER_EXCEPTION
+authority:
+  phase_entry_decision:
+    decision_id: AUTHORIZE_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-phase-entry-20260819/decision/FOUNDER_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1.json
+    byte_length: 4105
+    sha256: 23a50848a182fa7865f8e96c78bd9001ff2db6682d8d19dc49a0d4768994d6eb
+  founder_route_decision:
+    decision_id: AUTHORIZE_P3_ONE_FINAL_HERMETIC_CAPABILITY_LEDGER_ROUTE_AFTER_PREACTIVATION_ONLY_TERMINAL_V1
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-final-hermetic-capability-route-20260819/decision/FOUNDER_P3_ONE_FINAL_HERMETIC_CAPABILITY_LEDGER_ROUTE_AFTER_PREACTIVATION_TERMINAL_V1.json
+    byte_length: 5092
+    sha256: 8470fcea6bf99bca1326233c4d2fed704aa5ab9ec28df3da2a43aa8842924a30
+  selection_parent:
+    commit: e51ef6c362c40ad66a66c827d826456f979f20f5
+    tree: 9b4eafd745c7de86bbbb3938becc1070cc7b778b
+  task_selection_owner: MASTER_CEO_AGENT
+  task_gate_owner: MASTER_CEO_AGENT
+  founder_gate: P3_EXIT_GATE_ONLY
+objective: >-
+  First establish hermetic forked-Surefire and JUnit temporary-file confinement
+  inside the exact Task worktree, then build the smallest persistent task-bound
+  capability ledger that filters production AgentRuntime tool exposure and
+  rejects unauthorized tool execution before any tool body runs.
+why_now: >-
+  P3-001 accepted durable state and checkpoint resume. P3-003 terminated before
+  product write because the forked test JVM ignored the intended Task-local
+  temporary root. The Founder authorized one final capability-milestone Task,
+  without increasing the P3 Phase envelope, with Stage A required to close that
+  exact hermetic preactivation condition before Stage B may write product source.
+ordered_stages:
+  stage_a:
+    name: HERMETIC_SUREFIRE_JUNIT_TEMP_ROOT_PREACTIVATION
+    status: REQUIRED_BEFORE_PRODUCT_WRITE
+    allowed_paths:
+      - backend-spring/pom.xml
+      - backend-spring/src/test/resources/junit-platform.properties
+    selected_minimal_path:
+      - backend-spring/pom.xml
+    product_source_write_allowed: false
+    required_execution:
+      test: AgentSandboxToolTest
+      runtime: JDK_17
+      maven_mode: OFFLINE
+      os_sandbox: MACOS_SANDBOX_EXEC_DENY_NETWORK_AND_DENY_WRITES_OUTSIDE_EXACT_TASK_WORKTREE
+      forked_jvm_java_io_tmpdir: EXACT_TASK_WORKTREE_CHILD
+      junit_temp_root: EXACT_TASK_WORKTREE_CHILD
+    acceptance:
+      - The exact legacy AgentSandboxToolTest reports 10 tests, 0 failures, 0 errors and 0 skipped under the bound sandbox.
+      - The Surefire fork command and runtime properties bind java.io.tmpdir to the exact Task-local root before the forked JVM starts.
+      - Every observed JUnit temporary path is within the exact Task worktree and is absent after the test completes.
+      - Maven, JDK 17, sandbox-exec, profile, argv, cwd, closed environment, stdout, stderr, XML and write inventory are hash-bound in create-once Evidence.
+      - No network or write outside the exact Task worktree or Evidence root occurs.
+    non_pass_effect: TERMINAL_BEFORE_PRODUCT_SOURCE_WRITE
+  stage_b:
+    name: PERSISTED_CAPABILITY_LEDGER_PRODUCT_IMPLEMENTATION
+    entry_requirement: STAGE_A_ACCEPTED
+    allowed_paths:
+      - backend-spring/src/main/java/com/sourcelens/module/agent
+      - backend-spring/src/main/resources/db/migration
+      - backend-spring/src/test/java/com/sourcelens
+    product_source_required: true
+    objective: >-
+      Persist exactly one default READ_ONLY tool capability grant with each
+      Agent Task, bind it to exact project, conversation, policy and tool
+      identities, filter production AgentRuntime prompt exposure from that
+      grant, and reload it before every tool execution decision.
+architecture:
+  grant_record: >-
+    A durable immutable issuance record bound to one Agent Task, project,
+    conversation, policy identity, normalized exact tool allowlist, permission
+    ceiling and ACTIVE or REVOKED status.
+  issuance: >-
+    Agent Task creation and default READ_ONLY grant creation are atomic;
+    duplicate or conflicting issuance fails closed.
+  runtime_exposure: >-
+    AgentRuntime loads the exact ACTIVE grant for the task-bound subject and
+    exposes only exact normalized allowed tool descriptions and schemas.
+  execution_admission: >-
+    Tool execution reloads the durable grant and rejects missing, revoked,
+    unlisted, aliased, elevated, malformed or subject-drifted requests before
+    AgentTool.execute is invoked.
+  audit: >-
+    Known-tool allow and deny decisions persist task id, grant id, decision and
+    stable reason code without storing secrets.
+scope:
+  task_branch: codex/p3-004-hermetic-capability-ledger
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p3-004-hermetic-capability-ledger
+  evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p3-final-hermetic-capability-route-20260819/task-p3-004
+  task_local_database_fixtures_only: true
+  existing_or_operational_database_mutation_allowed: false
+  network_allowed: false
+  provider_allowed: false
+  secret_allowed: false
+  remote_allowed: false
+  production_allowed: false
+  public_release_allowed: false
+  irreversible_deletion_allowed: false
+budget:
+  engineering_tasks: 1
+  engineering_hours: 32
+  calendar_days: 8
+  candidate_generations: 1
+  same_task_repairs: 1
+  review_cycles: 2
+  phase_envelope_expanded: false
+acceptance:
+  required:
+    - Stage A is independently mechanically PASS before the first Stage B product-source write.
+    - Creating an Agent Task atomically creates exactly one immutable default READ_ONLY grant bound to its exact project and conversation; duplicate or conflicting grant creation fails closed.
+    - The production AgentRuntime loads the exact ACTIVE grant for the bound Agent Task; unbound conversations, missing grants, revoked grants, policy drift and subject drift expose no tools.
+    - Prompt descriptions and function schemas contain only exact normalized tools in the durable grant.
+    - Tool execution reloads the durable grant and rejects unlisted tools, permission elevation, global disable, case or prefix aliases, malformed policy and subject drift before AgentTool.execute.
+    - Known-tool allow and deny decisions persist Agent Task id, grant id, decision and stable reason code.
+    - Focused unit and fresh H2 migration tests cover atomic issuance, exact load, revocation, all deny paths, prompt filtering, audit persistence and proof that denied tool bodies are never invoked.
+    - All compiler, Surefire and fixture writes remain inside the exact Task worktree or Evidence root and network remains denied by sandbox-exec.
+    - No network, Provider, Secret, remote, production or public effect occurs.
+  task_gate: INDEPENDENT_REVIEW_AND_TEST_EVIDENCE_PASS
+claim_boundary: >-
+  Cooperative local durable capability-ledger enforcement only. No
+  cryptographic attestation, hostile in-process caller resistance, OS isolation,
+  complete P3 trace acceptance, P3 Exit, P4 entry or production claim.
+non_goals:
+  - Read, compare, copy or reuse P3-002 candidate code, tests or engineering Evidence.
+  - Read P3-003 code, tests or engineering Evidence; only its exact terminal receipt is an allowed root-cause input.
+  - OS process or filesystem isolation as a product capability.
+  - Complete observable execution trace acceptance.
+  - Provider access, open shell or mutable capability administration.
+  - P3 Exit Gate, P4 entry or Long-term Goal closure.
+lineage:
+  p3_002_rejected_engineering_lineage_read: false
+  p3_002_rejected_engineering_lineage_compare: false
+  p3_002_rejected_engineering_lineage_copy: false
+  p3_003_access_mode: EXACT_TERMINAL_RECEIPT_ONLY
+  p2_rejected_engineering_lineage_read: false
+  p2_rejected_engineering_lineage_compare: false
+  p2_rejected_engineering_lineage_copy: false
+  implementation_inputs:
+    - canonical main at Task activation
+    - accepted P3-001 durable checkpoint milestone
+    - exact P3-003 terminal receipt only for preactivation root cause
+    - current canonical Agent task, conversation, runtime and tool source
+stop_conditions:
+  - Stage A is not mechanically PASS before product-source write.
+  - A write escapes the exact Task worktree or create-once Evidence root.
+  - A denied invocation can reach AgentTool.execute.
+  - Any external capability becomes necessary.
+  - Candidate or repair budget is exhausted.
+  - Independent review is NON_PASS after the bounded repair lifecycle.
+lifecycle:
+  pass: ACCEPT_CAPABILITY_MILESTONE_RAISE_P3_DELIVERY_TO_50_KEEP_STRICT_EXIT_0_UNLOCK_ONLY_ISOLATION_AND_TRACE_MILESTONE
+  non_pass: TERMINAL_FREEZE_CAPABILITY_MILESTONE_KEEP_P3_ACTIVE_INCOMPLETE_DELIVERY_25_STRICT_EXIT_0_P4_HOLD_LONG_TERM_GOAL_ACTIVE
+  automatic_successor_allowed: false
+  replacement_allowed: false
+  remediation_chain_allowed: false
+  v2_authorization_allowed: false
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false

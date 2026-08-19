@@ -1,0 +1,121 @@
+{
+  "schema_version": "founder-p3-final-hermetic-capability-ledger-route-decision/v1",
+  "record_type": "sourcelens_aios_founder_p3_phase_route_decision",
+  "decision_id": "AUTHORIZE_P3_ONE_FINAL_HERMETIC_CAPABILITY_LEDGER_ROUTE_AFTER_PREACTIVATION_ONLY_TERMINAL_V1",
+  "authority": "HUMAN_FOUNDER",
+  "source_kind": "CURRENT_DIRECT_FOUNDER_REPLY_V1",
+  "reserved_trigger": "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE",
+  "operation_type": "P3_ONE_FINAL_HERMETIC_CAPABILITY_LEDGER_ROUTE_AFTER_PREACTIVATION_TERMINAL",
+  "canonical_binding": {
+    "branch": "main",
+    "commit": "e51ef6c362c40ad66a66c827d826456f979f20f5",
+    "tree": "9b4eafd745c7de86bbbb3938becc1070cc7b778b",
+    "governing_artifact": {
+      "path": "docs/aios/STRATEGIC_CONSTITUTION.md",
+      "byte_length": 9397,
+      "sha256": "7835ff584ad535b27c31bba174681abb625102a04b136ea6ee7535d57e18aaba"
+    }
+  },
+  "terminal_basis": {
+    "task_id": "AIOS-P3-003_PERSISTED_TOOL_CAPABILITY_LEDGER_ENFORCEMENT",
+    "status": "TERMINAL_PREACTIVATION_TEMP_ROOT_CONFINEMENT_NON_PASS",
+    "path": "/Users/lijunpeng/Developer/.sourcelens-audit/p3-persisted-tool-capability-ledger-20260819/task-p3-003/terminal/P3_003_TERMINAL_PREACTIVATION_TEMP_ROOT_CONFINEMENT_NON_PASS_RECEIPT_V1.json",
+    "byte_length": 8569,
+    "sha256": "1a488dea0c6750fdb679a27492fc031b5db7ad0e0fd9700e716d9a8dd1b59ed0",
+    "product_source_writes": 0,
+    "candidate_created": false,
+    "integrated": false
+  },
+  "route": {
+    "phase": "P3",
+    "milestone": "CAPABILITY_SCOPED_TOOL_AND_PERMISSION_ENFORCEMENT",
+    "exception_kind": "ONE_FINAL_IMPLEMENTATION_TASK_AFTER_PREACTIVATION_ONLY_TERMINAL",
+    "implementation_attempt": "3_OF_3_FINAL_FOUNDER_EXCEPTION",
+    "new_task_limit": 1,
+    "candidate_generation_limit": 1,
+    "same_task_repair_limit": 1,
+    "review_cycle_limit": 2,
+    "automatic_successor_allowed": false,
+    "replacement_allowed": false,
+    "remediation_chain_allowed": false,
+    "v2_authorization_allowed": false
+  },
+  "ordered_execution": {
+    "stage_a": {
+      "name": "HERMETIC_SUREFIRE_JUNIT_TEMP_ROOT_PREACTIVATION",
+      "allowed_changes": [
+        "backend-spring/pom.xml",
+        "Task-local test configuration required to bind forked Surefire and JUnit temporary writes inside the exact Task worktree"
+      ],
+      "required_test": "AgentSandboxToolTest",
+      "required_network_boundary": "MACOS_SANDBOX_EXEC_DENY_NETWORK",
+      "product_source_write_allowed": false,
+      "pass_unlocks": "STAGE_B_ONLY",
+      "non_pass_effect": "TASK_TERMINAL_BEFORE_PRODUCT_WRITE"
+    },
+    "stage_b": {
+      "name": "PERSISTENT_CAPABILITY_LEDGER_PRODUCT_IMPLEMENTATION",
+      "entry_requirement": "STAGE_A_INDEPENDENTLY_MECHANICALLY_PASS",
+      "objective": "Persist and enforce task-bound capability grants on the production AgentRuntime prompt and tool-execution path",
+      "later_milestone_unlock_requirement": "INDEPENDENT_TASK_GATE_ACCEPTANCE"
+    }
+  },
+  "lineage": {
+    "p3_002_terminal_accounting_preserved": true,
+    "p3_003_terminal_accounting_preserved": true,
+    "p3_002_rejected_engineering_lineage_read_compare_copy_or_reuse_allowed": false,
+    "p3_003_access_allowed_only_to_exact_terminal_receipt": true,
+    "implementation_inputs": [
+      "canonical main",
+      "accepted P3-001 durable state and checkpoint resume milestone",
+      "new Task identity, execution nonce, branch, worktree, Contract and Evidence root"
+    ]
+  },
+  "phase_envelope": {
+    "limits": {
+      "engineering_tasks": 8,
+      "engineering_hours": 256,
+      "calendar_days": 64
+    },
+    "consumed_before_activation": {
+      "engineering_tasks": 3,
+      "engineering_hours": 96,
+      "calendar_days": 24
+    },
+    "reservation_for_authorized_task": {
+      "engineering_tasks": 1,
+      "engineering_hours": 32,
+      "calendar_days": 8
+    },
+    "remaining_after_activation": {
+      "engineering_tasks": 4,
+      "engineering_hours": 128,
+      "calendar_days": 32
+    },
+    "expanded": false,
+    "external_capabilities": 0
+  },
+  "target_boundary": {
+    "canonical_repository": "/Users/lijunpeng/Developer/SourceLens-AIOS",
+    "maximum_active_task_branches": 1,
+    "maximum_active_task_worktrees": 1,
+    "evidence_root_base": "/Users/lijunpeng/Developer/.sourcelens-audit",
+    "existing_database_mutation_allowed": false
+  },
+  "external_effects": {
+    "network": false,
+    "provider": false,
+    "secret": false,
+    "remote_write": false,
+    "production": false,
+    "public_release": false,
+    "irreversible_deletion": false
+  },
+  "lifecycle": {
+    "duration": "UNTIL_FINAL_CAPABILITY_TASK_PASS_OR_NON_PASS_FOUNDER_REVOCATION_OR_TERMINAL_SAFETY_CONDITION",
+    "pass_effect": "ACCEPT_ONLY_CAPABILITY_SCOPED_TOOL_AND_PERMISSION_ENFORCEMENT_RAISE_DELIVERY_TO_50_KEEP_STRICT_EXIT_0_UNLOCK_ONLY_BOUNDED_ISOLATED_EXECUTION_AND_TRACES",
+    "non_pass_effect": "PRESERVE_TERMINAL_EVIDENCE_FREEZE_CAPABILITY_MILESTONE_KEEP_P3_ACTIVE_INCOMPLETE_DELIVERY_25_STRICT_EXIT_0_P4_HOLD_LONG_TERM_GOAL_ACTIVE",
+    "p4_entry_authorized": false,
+    "long_term_goal_closure_authorized": false
+  }
+}

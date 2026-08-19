@@ -1,8 +1,8 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: '2026-08-18T18:32:10Z'
+last_verified_at: '2026-08-19T01:15:27Z'
 
-verification_scope: P3_003_TERMINAL_PREACTIVATION_TEMP_ROOT_CONFINEMENT_NON_PASS_ZERO_PRODUCT_WRITE_CAPABILITY_MILESTONE_IMPLEMENTATION_FREEZE_P3_DELIVERY_25_STRICT_EXIT_ZERO_LONG_TERM_GOAL_ACTIVE
+verification_scope: P3_FINAL_HERMETIC_CAPABILITY_ROUTE_AUTHORIZED_P3_004_SELECTED_NOT_ACTIVATED_P3_DELIVERY_25_STRICT_EXIT_ZERO_LONG_TERM_GOAL_ACTIVE
 
 authority:
   founder: Human Founder
@@ -38,8 +38,19 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority:
-  note: 'Founder decision AUTHORIZE_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1
+  current_task_authority: P3_004_SELECTED_PENDING_PHASE_DELEGATED_ACTIVATION
+  note: 'Founder decision AUTHORIZE_P3_ONE_FINAL_HERMETIC_CAPABILITY_LEDGER_ROUTE_AFTER_PREACTIVATION_ONLY_TERMINAL_V1
+    authorizes exactly one final P3 capability milestone Task without expanding
+    the eight-Task, two-hundred-fifty-six-hour and sixty-four-day Phase envelope.
+    P3-004 is selected but not activated. Stage A may change only the POM or
+    Task-local test configuration and must pass the exact legacy AgentSandboxToolTest
+    under sandbox-exec deny network with every temporary write inside the exact
+    Task worktree before any product-source write. Stage B may then implement
+    the persistent capability ledger. P3-002 remains rejected and unreadable;
+    P3-003 is used only through its exact terminal receipt. Installation creates
+    zero engineering or delivery credit: P3 delivery remains 25%, strict Exit
+    remains 0%, P4 remains HOLD and the Long-term Goal remains ACTIVE. All following
+    paragraphs are retained historical chronology only. Founder decision AUTHORIZE_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1
     authorizes P3 entry with one persistent non-resettable envelope of eight Tasks,
     two-hundred-fifty-six engineering hours and sixty-four calendar days. P3 is
     ACTIVE with no current Task while Master selects the first durable-state and
@@ -1669,8 +1680,8 @@ project:
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
   p2_execution_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
-  phase_execution_status: ACTIVE_INCOMPLETE_IMPLEMENTATION_MILESTONE_FROZEN
-  current_route_execution_status: TERMINAL_PREACTIVATION_TEMP_ROOT_CONFINEMENT_NON_PASS
+  phase_execution_status: ACTIVE_INCOMPLETE_FINAL_CAPABILITY_ROUTE_AUTHORIZED
+  current_route_execution_status: FOUNDER_EXCEPTION_TASK_SELECTED_NOT_ACTIVATED
   p3_entry_status: AUTHORIZED
   p3_execution_status: ACTIVE
   p4_entry_status: HOLD_PENDING_STRICT_P3_EXIT_AND_SEPARATE_FOUNDER_PHASE_ENTRY
@@ -8375,7 +8386,7 @@ historical_p3_002_phase_route:
     public: false
   additional_write_roots: []
 
-current_phase_route:
+historical_p3_003_phase_route:
   schema_version: p3-phase-delegated-task/v1
   route_id: AIOS-P3-003_PERSISTED_TOOL_CAPABILITY_LEDGER_ENFORCEMENT_PHASE_DELEGATED_ROUTE
   status: TERMINAL_PREACTIVATION_TEMP_ROOT_CONFINEMENT_NON_PASS
@@ -8449,6 +8460,74 @@ current_phase_route:
       p2_rejected_lineage_read: false
       p2_rejected_lineage_compare: false
       p2_rejected_lineage_copy: false
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false
+  additional_write_roots: []
+
+current_phase_route:
+  schema_version: p3-founder-exception-task-route/v1
+  route_id: AIOS-P3-004_HERMETIC_SUREFIRE_AND_PERSISTED_CAPABILITY_LEDGER_FOUNDER_EXCEPTION_ROUTE
+  status: AUTHORIZED_TASK_SELECTED_NOT_ACTIVATED
+  execution_status: PENDING_PHASE_DELEGATED_ACTIVATION
+  scheduling_status: MASTER_ACTIVATE_EXACT_P3_004
+  phase: P3
+  phase_entry_status: AUTHORIZED
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: '1.8'
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  founder_phase_route_decision_required: false
+  founder_reserved_trigger_resolved: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
+  next_eligible_action: MASTER_ACTIVATE_EXACT_P3_004
+  phase_execution_envelope_ref: phase_execution_envelope
+  phase_entry_route_ref: historical_p3_phase_entry_route
+  predecessor_milestone_route_ref: historical_p3_001_phase_route
+  preceding_terminal_route_refs:
+    - historical_p3_002_phase_route
+    - historical_p3_003_phase_route
+  founder_route_decision:
+    decision_id: AUTHORIZE_P3_ONE_FINAL_HERMETIC_CAPABILITY_LEDGER_ROUTE_AFTER_PREACTIVATION_ONLY_TERMINAL_V1
+    reserved_trigger: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-final-hermetic-capability-route-20260819/decision/FOUNDER_P3_ONE_FINAL_HERMETIC_CAPABILITY_LEDGER_ROUTE_AFTER_PREACTIVATION_TERMINAL_V1.json
+    byte_length: 5092
+    sha256: 8470fcea6bf99bca1326233c4d2fed704aa5ab9ec28df3da2a43aa8842924a30
+  selected_task:
+    task_id: AIOS-P3-004_HERMETIC_SUREFIRE_AND_PERSISTED_CAPABILITY_LEDGER
+    status: ELIGIBLE_NOT_ACTIVATED
+    task_kind: SINGLE_AGENT_RUNTIME_HERMETIC_CAPABILITY_PERMISSION_ENFORCEMENT
+    capability: PERSISTED_CAPABILITY_LEDGER_AND_TOOL_ADMISSION
+    milestone: CAPABILITY_SCOPED_TOOL_AND_PERMISSION_ENFORCEMENT
+    implementation_attempt: 3_OF_3_FINAL_FOUNDER_EXCEPTION
+    ordered_stages:
+      - HERMETIC_SUREFIRE_JUNIT_TEMP_ROOT_PREACTIVATION
+      - PERSISTED_CAPABILITY_LEDGER_PRODUCT_IMPLEMENTATION
+    budget:
+      engineering_tasks: 1
+      engineering_hours: 32
+      calendar_days: 8
+      candidate_generations: 1
+      same_task_repairs: 1
+      review_cycles: 2
+    contract:
+      path: docs/aios/tasks/P3-004_HERMETIC_SUREFIRE_AND_PERSISTED_CAPABILITY_LEDGER.yaml
+      byte_length: 9407
+      sha256: 0243f29a7f36e550dda4359f13dbacd52f8eb408ae0f57804b3f8b69f2052945
+    candidate_created: false
+    product_source_writes: 0
+    integrated: false
+    independence:
+      new_task_id: true
+      new_execution_nonce_required: true
+      new_branch: codex/p3-004-hermetic-capability-ledger
+      new_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p3-004-hermetic-capability-ledger
+      new_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p3-final-hermetic-capability-route-20260819/task-p3-004
+      p3_002_rejected_lineage_read_compare_copy_or_reuse: false
+      p3_003_access_mode: EXACT_TERMINAL_RECEIPT_ONLY
   external_effects:
     network: false
     provider: false
@@ -11417,7 +11496,7 @@ historical_p2_exact_frozen_p2_078_one_shot_formal_held_route_unlock_phase_route:
 phase_execution_envelope:
   schema_version: phase-execution-envelope/v1
   phase: P3
-  status: ACTIVE_INCOMPLETE_CAPABILITY_MILESTONE_FROZEN
+  status: ACTIVE_INCOMPLETE_FINAL_CAPABILITY_ROUTE_AUTHORIZED_TASK_NOT_ACTIVATED
   authority_basis:
     phase_entry_status: AUTHORIZED
     policy_path: docs/aios/FOUNDER_DELEGATION_POLICY.md
@@ -11429,6 +11508,10 @@ phase_execution_envelope:
       path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-phase-entry-20260819/decision/FOUNDER_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1.json
       sha256: 23a50848a182fa7865f8e96c78bd9001ff2db6682d8d19dc49a0d4768994d6eb
       byte_length: 4105
+    founder_route_exception_decision:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-final-hermetic-capability-route-20260819/decision/FOUNDER_P3_ONE_FINAL_HERMETIC_CAPABILITY_LEDGER_ROUTE_AFTER_PREACTIVATION_TERMINAL_V1.json
+      sha256: 8470fcea6bf99bca1326233c4d2fed704aa5ab9ec28df3da2a43aa8842924a30
+      byte_length: 5092
   accounting_basis: NON_RESETTABLE_DECLARED_TASK_BUDGET_RESERVATION
   limits:
     engineering_tasks: 8
@@ -11511,8 +11594,16 @@ phase_execution_envelope:
     engineering_tasks: 5
     engineering_hours: 160
     calendar_days: 40
-  remaining_capacity_usable: false
-  remaining_capacity_lock_reason: CAPABILITY_MILESTONE_TWO_IMPLEMENTATION_TASK_LIMIT_REACHED_PHASE_ROUTE_DECISION_REQUIRED
+  remaining_capacity_usable: true
+  remaining_capacity_scope: EXACT_P3_004_ONLY_BEFORE_ACTIVATION
+  reservation_on_activation:
+    engineering_tasks: 1
+    engineering_hours: 32
+    calendar_days: 8
+  projected_remaining_after_activation:
+    engineering_tasks: 4
+    engineering_hours: 128
+    calendar_days: 32
   milestone_order:
     - DURABLE_STATE_AND_CHECKPOINT_RESUME
     - CAPABILITY_SCOPED_TOOL_AND_PERMISSION_ENFORCEMENT
@@ -11994,17 +12085,17 @@ historical_p2_phase_execution_envelope:
 
 founder_escalation_control:
   schema_version: founder-escalation-control/v2
-  disposition: FOUNDER_DECISION_REQUIRED
+  disposition: NO_RESERVED_TRIGGER_CONTINUE_PHASE
   source_event:
-    kind: P3_CAPABILITY_MILESTONE_SECOND_IMPLEMENTATION_TASK_TERMINAL
-    task_id: AIOS-P3-003_PERSISTED_TOOL_CAPABILITY_LEDGER_ENFORCEMENT
-    status: TERMINAL_PREACTIVATION_TEMP_ROOT_CONFINEMENT_NON_PASS
-  reserved_trigger:
+    kind: FOUNDER_P3_FINAL_CAPABILITY_ROUTE_DECISION_INSTALLED
+    task_id: AIOS-P3-004_HERMETIC_SUREFIRE_AND_PERSISTED_CAPABILITY_LEDGER
+    status: ELIGIBLE_NOT_ACTIVATED
+  resolved_reserved_trigger:
     category: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
     evidence:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-persisted-tool-capability-ledger-20260819/task-p3-003/terminal/P3_003_TERMINAL_PREACTIVATION_TEMP_ROOT_CONFINEMENT_NON_PASS_RECEIPT_V1.json
-      byte_length: 8569
-      sha256: 1a488dea0c6750fdb679a27492fc031b5db7ad0e0fd9700e716d9a8dd1b59ed0
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-final-hermetic-capability-route-20260819/decision/FOUNDER_P3_ONE_FINAL_HERMETIC_CAPABILITY_LEDGER_ROUTE_AFTER_PREACTIVATION_TERMINAL_V1.json
+      byte_length: 5092
+      sha256: 8470fcea6bf99bca1326233c4d2fed704aa5ab9ec28df3da2a43aa8842924a30
   resolved_phase_entry_decision:
     category: PHASE_ENTRY_OR_EXIT
     decision_id: AUTHORIZE_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1
@@ -12013,9 +12104,9 @@ founder_escalation_control:
     sha256: 23a50848a182fa7865f8e96c78bd9001ff2db6682d8d19dc49a0d4768994d6eb
     result: P3_ENTRY_AUTHORIZED_ACTIVE
   phase_gate_status: INCOMPLETE
-  founder_decision_required: true
-  next_action_owner: HUMAN_FOUNDER
-  next_eligible_action: FOUNDER_DECIDE_P3_PHASE_ROUTE_WITH_CAPABILITY_MILESTONE_FROZEN
+  founder_decision_required: false
+  next_action_owner: MASTER_CEO_AGENT
+  next_eligible_action: MASTER_ACTIVATE_EXACT_P3_004
 
 historical_p2_053_phase_route:
   schema_version: "1.1"
@@ -17085,9 +17176,10 @@ mandatory_exit_capability_recovery:
 
 phase_boundary:
   phase: P3
-  phase_execution_status: ACTIVE_INCOMPLETE_IMPLEMENTATION_MILESTONE_FROZEN
-  task_creation_allowed: false
-  task_creation_lock_reason: CAPABILITY_MILESTONE_TWO_IMPLEMENTATION_TASK_LIMIT_REACHED_PHASE_ROUTE_DECISION_REQUIRED
+  phase_execution_status: ACTIVE_INCOMPLETE_FINAL_CAPABILITY_ROUTE_AUTHORIZED
+  task_creation_allowed: true
+  task_creation_scope: EXACT_P3_004_ONLY
+  task_creation_lock_after_activation: true
   p3_entry_authorized: true
   allowed_task_kinds:
     - SINGLE_AGENT_RUNTIME_DURABLE_STATE_AND_RESUME
@@ -23522,10 +23614,13 @@ historical_p2_079_terminal_active_work:
   next_eligible_action: FOUNDER_RESERVED_DECISION
 
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P3-004_HERMETIC_SUREFIRE_AND_PERSISTED_CAPABILITY_LEDGER
+  current_task_status: ELIGIBLE_NOT_ACTIVATED
   current_task_contract:
-  current_task_contract_sha256:
+    path: docs/aios/tasks/P3-004_HERMETIC_SUREFIRE_AND_PERSISTED_CAPABILITY_LEDGER.yaml
+    sha256: 0243f29a7f36e550dda4359f13dbacd52f8eb408ae0f57804b3f8b69f2052945
+    byte_length: 9407
+  current_task_contract_sha256: 0243f29a7f36e550dda4359f13dbacd52f8eb408ae0f57804b3f8b69f2052945
   current_execution_authorization:
   current_execution_authorization_sha256:
   authority_record:
@@ -23533,17 +23628,30 @@ active_work:
     sha256:
     byte_length:
   execution_nonce:
-  execution_nonce_status: CONSUMED_TERMINAL
+  execution_nonce_status: NOT_ISSUED_PREACTIVATION
   authorization_id:
   activation_parent_commit:
   activation_parent_tree:
-  task_resource_state: NONE_TERMINAL_WORKTREE_AND_BRANCH_REMOVED
-  task_branch:
-  task_worktree:
-  execution_evidence_root:
-  allowlisted_paths: []
+  task_resource_state: SELECTED_NOT_CREATED
+  task_branch: codex/p3-004-hermetic-capability-ledger
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p3-004-hermetic-capability-ledger
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p3-final-hermetic-capability-route-20260819/task-p3-004
+  allowlisted_paths:
+  - backend-spring/pom.xml
+  - backend-spring/src/test/resources/junit-platform.properties
+  - backend-spring/src/main/java/com/sourcelens/module/agent
+  - backend-spring/src/main/resources/db/migration
+  - backend-spring/src/test/java/com/sourcelens
   budget:
+    engineering_tasks: 1
+    engineering_hours: 32
+    calendar_days: 8
+    candidate_generations: 1
+    same_task_repairs: 1
+    review_cycles: 2
   roles:
+    owner: MASTER_CEO_AGENT
+    independent_review_required_before_task_gate: true
   external_effects:
     network: false
     provider: false
@@ -23552,14 +23660,14 @@ active_work:
     production: false
     public: false
   offsite_target:
-  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p3-phase-entry-20260819/decision/FOUNDER_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1.json
-  founder_reserved_authorization_sha256: 23a50848a182fa7865f8e96c78bd9001ff2db6682d8d19dc49a0d4768994d6eb
-  founder_decision_required: true
-  founder_decision_required_scope: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
-  escalation_reason: CAPABILITY_MILESTONE_TWO_IMPLEMENTATION_TASK_LIMIT_REACHED_WITH_P3_EXIT_INCOMPLETE
-  user_action_required: FOUNDER_RESERVED_PHASE_ROUTE_DECISION
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_RESERVED_PHASE_ROUTE_DECISION
+  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p3-final-hermetic-capability-route-20260819/decision/FOUNDER_P3_ONE_FINAL_HERMETIC_CAPABILITY_LEDGER_ROUTE_AFTER_PREACTIVATION_TERMINAL_V1.json
+  founder_reserved_authorization_sha256: 8470fcea6bf99bca1326233c4d2fed704aa5ab9ec28df3da2a43aa8842924a30
+  founder_decision_required: false
+  founder_decision_required_scope:
+  escalation_reason:
+  user_action_required: false
+  phase_route_decision_required: false
+  phase_route_user_action_required: false
   last_completed_task:
     task_id: AIOS-P3-003_PERSISTED_TOOL_CAPABILITY_LEDGER_ENFORCEMENT
     status: TERMINAL_PREACTIVATION_TEMP_ROOT_CONFINEMENT_NON_PASS
@@ -23571,7 +23679,7 @@ active_work:
       path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-persisted-tool-capability-ledger-20260819/task-p3-003/terminal/P3_003_TERMINAL_PREACTIVATION_TEMP_ROOT_CONFINEMENT_NON_PASS_RECEIPT_V1.json
       byte_length: 8569
       sha256: 1a488dea0c6750fdb679a27492fc031b5db7ad0e0fd9700e716d9a8dd1b59ed0
-  next_eligible_action: FOUNDER_DECIDE_P3_PHASE_ROUTE_WITH_CAPABILITY_MILESTONE_FROZEN
+  next_eligible_action: MASTER_ACTIVATE_EXACT_P3_004
 
 historical_p2_080_terminal_active_work:
   current_task: AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER
@@ -30196,8 +30304,8 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: AIOS-P3-003_PERSISTED_TOOL_CAPABILITY_LEDGER_ENFORCEMENT_PHASE_DELEGATED_ROUTE
-  current_task_claim: AIOS-P3-003_PERSISTED_TOOL_CAPABILITY_LEDGER_ENFORCEMENT
+  current_route_claim: AIOS-P3-004_HERMETIC_SUREFIRE_AND_PERSISTED_CAPABILITY_LEDGER_FOUNDER_EXCEPTION_ROUTE
+  current_task_claim: AIOS-P3-004_HERMETIC_SUREFIRE_AND_PERSISTED_CAPABILITY_LEDGER
   real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_DURABLE_STATE_AND_CHECKPOINT_RESUME_ACCEPTED_P3_EXIT_GATE_ZERO
   product_capability_changed: false
   revised_research_exit_percent: 100
@@ -30579,10 +30687,11 @@ p2_recovery_control:
   next_eligible_action: P3_PHASE_EXECUTION
 
 claim_boundary:
-  current_phase_route: AIOS-P3-003_PERSISTED_TOOL_CAPABILITY_LEDGER_ENFORCEMENT_PHASE_DELEGATED_ROUTE
-  current_task: NONE
-  next_eligible_action: FOUNDER_DECIDE_P3_PHASE_ROUTE_WITH_CAPABILITY_MILESTONE_FROZEN
-  real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_ACTIVE_INCOMPLETE_DURABLE_STATE_AND_CHECKPOINT_RESUME_ACCEPTED_CAPABILITY_MILESTONE_FROZEN_P3_EXIT_GATE_ZERO
+  current_phase_route: AIOS-P3-004_HERMETIC_SUREFIRE_AND_PERSISTED_CAPABILITY_LEDGER_FOUNDER_EXCEPTION_ROUTE
+  current_task: AIOS-P3-004_HERMETIC_SUREFIRE_AND_PERSISTED_CAPABILITY_LEDGER
+  current_task_status: ELIGIBLE_NOT_ACTIVATED
+  next_eligible_action: MASTER_ACTIVATE_EXACT_P3_004
+  real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_ACTIVE_INCOMPLETE_DURABLE_STATE_AND_CHECKPOINT_RESUME_ACCEPTED_FINAL_CAPABILITY_ROUTE_AUTHORIZED_NOT_ACTIVATED_P3_EXIT_GATE_ZERO
   p2_research_exit_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
   p2_research_exit_percent: 100
   p2_original_capability_gate_status: MISSING_NOT_ACCEPTED
@@ -30591,12 +30700,16 @@ claim_boundary:
   p2_held_source_reads: 0
   p3_status: ACTIVE_INCOMPLETE
   p3_entry_authorized: true
-  p3_phase_envelope_status: ACTIVE_INCOMPLETE_CAPABILITY_MILESTONE_FROZEN
+  p3_phase_envelope_status: ACTIVE_INCOMPLETE_FINAL_CAPABILITY_ROUTE_AUTHORIZED_TASK_NOT_ACTIVATED
   p3_exit_gate_progress_percent: 0
   p3_delivery_progress_percent: 25
   p3_accepted_milestones:
     - DURABLE_STATE_AND_CHECKPOINT_RESUME
-  p3_capability_milestone_status: NOT_ACCEPTED_TWO_IMPLEMENTATION_TASK_LIMIT_REACHED
+  p3_capability_milestone_status: NOT_ACCEPTED_FINAL_FOUNDER_EXCEPTION_AUTHORIZED_NOT_ACTIVATED
+  p3_004_product_source_writes: 0
+  p3_004_candidate_created: false
+  p3_004_delivery_credit: 0
+  p3_004_strict_exit_credit: 0
   p3_003_status: TERMINAL_PREACTIVATION_TEMP_ROOT_CONFINEMENT_NON_PASS
   p3_003_product_source_writes: 0
   p3_003_candidate_created: false

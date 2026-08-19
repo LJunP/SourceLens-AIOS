@@ -5056,6 +5056,12 @@ module FounderDelegationContinuity
       P3PhaseEntryValidation.validate!(root: root, truth: truth)
       return CONTINUE_DISPOSITION
     end
+    if route["schema_version"] == "p3-founder-exception-task-route/v1"
+      assert(defined?(P3TaskAuthorityValidation), "P3 Task authority validator is unavailable")
+      task_state = P3TaskAuthorityValidation.validate!(root: root, truth: truth)
+      assert(task_state.start_with?("P3_004_"), "P3-004 Founder-exception Task projection drift")
+      return CONTINUE_DISPOSITION
+    end
     if route["schema_version"] == "p3-phase-delegated-task/v1"
       assert(defined?(P3TaskAuthorityValidation), "P3 Task authority validator is unavailable")
       task_state = P3TaskAuthorityValidation.validate!(root: root, truth: truth)

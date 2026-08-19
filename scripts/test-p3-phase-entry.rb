@@ -22,7 +22,7 @@ end
 def expect_non_pass(name, truth, fragment)
   P3PhaseEntryValidation.validate!(root: ROOT, truth: truth)
   raise "#{name} unexpectedly passed"
-rescue P3PhaseEntryValidationError => e
+rescue P3PhaseEntryValidationError, P3Task004AuthorityValidationError => e
   raise "#{name} failed for the wrong reason: #{e.message}" unless e.message.include?(fragment)
   puts "PASS #{name} rejected"
 end
@@ -48,9 +48,15 @@ current_truth = YAML.safe_load(
   File.binread(TRUTH), permitted_classes: [], permitted_symbols: [], aliases: false
 )
 current_state = P3PhaseEntryValidation.validate!(root: ROOT, truth: current_truth)
-raise "current P3 terminal continuation state drift: #{current_state}" unless
-  current_state == "P3_ENTRY_ACTIVE_MILESTONE_FROZEN"
-puts "PASS current P3 milestone-frozen continuation projection"
+raise "current P3 Founder-exception continuation state drift: #{current_state}" unless
+  current_state == "P3_004_READY_FOR_MASTER_ACTIVATION"
+puts "PASS current P3-004 Founder-exception continuation projection"
+assertions += 1
+
+fixture = deep_copy(current_truth)
+fixture.dig("current_phase_route", "founder_route_decision")["sha256"] = "0" * 64
+expect_non_pass("P3-004 Founder route identity cannot drift", fixture,
+                "P3-004 Route projection drift")
 assertions += 1
 
 fixture = deep_copy(truth)

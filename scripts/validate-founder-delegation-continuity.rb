@@ -5060,6 +5060,27 @@ module FounderDelegationContinuity
       assert(defined?(P3TaskAuthorityValidation), "P3 Task authority validator is unavailable")
       task_state = P3TaskAuthorityValidation.validate!(root: root, truth: truth)
       assert(task_state.start_with?("P3_004_"), "P3-004 Founder-exception Task projection drift")
+      if task_state == "P3_004_TERMINAL_FINAL_CAPABILITY_EXCEPTION_INDEPENDENT_REVIEW_NON_PASS"
+        control = mapping(truth["founder_escalation_control"], "founder_escalation_control")
+        terminal_identity = mapping(
+          route.dig("selected_task", "terminal_receipt"),
+          "P3-004 terminal Task receipt identity"
+        )
+        assert(control["schema_version"] == "founder-escalation-control/v2" &&
+               control["disposition"] == FOUNDER_DISPOSITION &&
+               control.dig("source_event", "kind") ==
+                 "P3_CAPABILITY_MILESTONE_FINAL_FOUNDER_EXCEPTION_TASK_TERMINAL" &&
+               control.dig("source_event", "task_id") == route.dig("selected_task", "task_id") &&
+               control.dig("source_event", "status") == route["status"] &&
+               control.dig("reserved_trigger", "category") ==
+                 "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE" &&
+               control.dig("reserved_trigger", "evidence") == terminal_identity &&
+               control["founder_decision_required"] == true &&
+               control["next_action_owner"] == "HUMAN_FOUNDER" &&
+               control["next_eligible_action"] == route["next_eligible_action"],
+               "P3-004 terminal Founder escalation projection drift")
+        return FOUNDER_DISPOSITION
+      end
       return CONTINUE_DISPOSITION
     end
     if route["schema_version"] == "p3-phase-delegated-task/v1"

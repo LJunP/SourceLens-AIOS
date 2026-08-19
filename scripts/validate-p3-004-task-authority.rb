@@ -34,6 +34,26 @@ module P3Task004AuthorityValidation
   BRANCH = "codex/p3-004-hermetic-capability-ledger"
   WORKTREE = "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-004-hermetic-capability-ledger"
   EVIDENCE_ROOT = "/Users/lijunpeng/Developer/.sourcelens-audit/p3-final-hermetic-capability-route-20260819/task-p3-004"
+  CANDIDATE_COMMIT = "b31e0f27cec5ba4b0b2e1b3d5e258cc95a5bb210"
+  CANDIDATE_TREE = "77a74fdf308083beab30a25bd84793e08e20e45c"
+  CANDIDATE_MANIFEST_PATH = File.join(EVIDENCE_ROOT, "candidate", "P3_004_CANDIDATE_MANIFEST_V1.json")
+  CANDIDATE_MANIFEST_BYTES = 6550
+  CANDIDATE_MANIFEST_SHA256 = "80de3073d2da3fee8156cfd72e025e3fcadc5415909360b28c9b7d7b78d34715"
+  TEST_RECEIPT_PATH = File.join(EVIDENCE_ROOT, "tests", "P3_004_FINAL_CLEAN_OFFLINE_TEST_RECEIPT_V1.json")
+  TEST_RECEIPT_BYTES = 8272
+  TEST_RECEIPT_SHA256 = "1c6122d2953bf16ad304c98f72bb56a9215fca2c9b96e99562aa1ee0f840b3c5"
+  REVIEW_PATH = File.join(EVIDENCE_ROOT, "reviews", "P3_004_INDEPENDENT_REVIEW_CYCLE_1_NON_PASS_V1.json")
+  REVIEW_BYTES = 4547
+  REVIEW_SHA256 = "a073ae3a8ef898779d8fffe198c5ace41756e9b5ea42382c6f4770c537ebc7e1"
+  TERMINAL_PATH = File.join(EVIDENCE_ROOT, "terminal", "P3_004_TERMINAL_FINAL_CAPABILITY_EXCEPTION_INDEPENDENT_REVIEW_NON_PASS_RECEIPT_V1.json")
+  TERMINAL_BYTES = 6451
+  TERMINAL_SHA256 = "3ec5d1ee27c7a0376efe2a45806d92fc2c66ea2c875b1584866f69f1cdd83583"
+  CLEANUP_PATH = File.join(EVIDENCE_ROOT, "terminal", "P3_004_TERMINAL_CANDIDATE_PRESERVATION_AND_CLEANUP_RECEIPT_V1.json")
+  CLEANUP_BYTES = 2084
+  CLEANUP_SHA256 = "265aaeaddb06cf54499e68a724c3c8522ecd59e83c4dc2b2fdaed88d47c7ddfd"
+  BUNDLE_PATH = File.join(EVIDENCE_ROOT, "snapshots", "P3_004_REJECTED_CANDIDATE_V1.bundle")
+  BUNDLE_BYTES = 9_747_713
+  BUNDLE_SHA256 = "a9541c40f0a8486b090cfc222eeccc0260968fe9ba9774065f0705fb5a4eead2"
   BUDGET = {"engineering_tasks" => 1, "engineering_hours" => 32, "calendar_days" => 8}.freeze
   FULL_BUDGET = BUDGET.merge(
     "candidate_generations" => 1, "same_task_repairs" => 1, "review_cycles" => 2
@@ -184,6 +204,83 @@ module P3Task004AuthorityValidation
     receipt
   end
 
+  def terminal_identity
+    identity(TERMINAL_PATH, TERMINAL_BYTES, TERMINAL_SHA256)
+  end
+
+  def validate_terminal_evidence!
+    candidate_manifest = JSON.parse(exact_file(
+      CANDIDATE_MANIFEST_PATH, CANDIDATE_MANIFEST_BYTES, CANDIDATE_MANIFEST_SHA256,
+      "P3-004 candidate manifest"
+    ))
+    test_receipt = JSON.parse(exact_file(
+      TEST_RECEIPT_PATH, TEST_RECEIPT_BYTES, TEST_RECEIPT_SHA256,
+      "P3-004 final test receipt"
+    ))
+    review = JSON.parse(exact_file(REVIEW_PATH, REVIEW_BYTES, REVIEW_SHA256,
+                                   "P3-004 independent review"))
+    terminal = JSON.parse(exact_file(TERMINAL_PATH, TERMINAL_BYTES, TERMINAL_SHA256,
+                                     "P3-004 terminal receipt"))
+    cleanup = JSON.parse(exact_file(CLEANUP_PATH, CLEANUP_BYTES, CLEANUP_SHA256,
+                                    "P3-004 preservation cleanup receipt"))
+    exact_file(BUNDLE_PATH, BUNDLE_BYTES, BUNDLE_SHA256, "P3-004 rejected candidate bundle")
+
+    assert(candidate_manifest.dig("source_state", "final_candidate", "commit") == CANDIDATE_COMMIT &&
+           candidate_manifest.dig("source_state", "final_candidate", "tree") == CANDIDATE_TREE &&
+           candidate_manifest.dig("lifecycle", "task_gate_accepted") == false &&
+           candidate_manifest.dig("lifecycle", "capability_milestone_accepted") == false,
+           "P3-004 candidate manifest boundary drift")
+    assert(test_receipt.dig("candidate", "commit") == CANDIDATE_COMMIT &&
+           test_receipt.dig("candidate", "tree") == CANDIDATE_TREE &&
+           test_receipt.dig("execution", "tests_run") == 956 &&
+           test_receipt.dig("execution", "failures") == 0 &&
+           test_receipt.dig("execution", "errors") == 0 &&
+           test_receipt.dig("execution", "skipped") == 1 &&
+           test_receipt.dig("execution", "sandbox_deny_network") == true &&
+           test_receipt.dig("execution", "sandbox_deny_writes_outside_exact_task_worktree") == true,
+           "P3-004 final test receipt drift")
+    assert(review["target_verdict"] == "NON_PASS" && review["review_cycle"] == 1 &&
+           review["frozen_blocker_count"] == 3 &&
+           review["repair_budget_status"] == "EXHAUSTED_BEFORE_REVIEW" &&
+           review.fetch("frozen_blockers").map { |finding| finding["category"] }.sort ==
+             %w[AUTHORITY_OR_EXTERNAL_EFFECT_SAFETY PRODUCT_CORRECTNESS RESULT_INTEGRITY].sort &&
+           review.fetch("external_effects").values.all? { |value| value == false },
+           "P3-004 independent review drift")
+    assert(terminal["task_lifecycle"] ==
+             "TERMINAL_FINAL_CAPABILITY_EXCEPTION_INDEPENDENT_REVIEW_NON_PASS" &&
+           terminal["route_lifecycle"] == terminal["task_lifecycle"] &&
+           terminal["phase_lifecycle"] == "ACTIVE_INCOMPLETE_CAPABILITY_MILESTONE_FROZEN" &&
+           terminal["long_term_goal_lifecycle"] == "ACTIVE" &&
+           terminal.dig("candidate", "commit") == CANDIDATE_COMMIT &&
+           terminal.dig("candidate", "tree") == CANDIDATE_TREE &&
+           terminal.dig("candidate", "integrated") == false &&
+           terminal.dig("independent_review", "verdict") == "NON_PASS" &&
+           terminal["milestone_implementation_freeze"] == true &&
+           terminal["automatic_successor_allowed"] == false &&
+           terminal["replacement_allowed"] == false &&
+           terminal["second_review_cycle_allowed"] == false &&
+           terminal.dig("progress", "delivery_percent") == 25 &&
+           terminal.dig("progress", "strict_p3_exit_percent") == 0 &&
+           terminal["next_action_owner"] == "HUMAN_FOUNDER" &&
+           terminal["founder_reserved_trigger"] ==
+             "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE" &&
+           terminal.fetch("external_effects").values.all? { |value| value == false },
+           "P3-004 terminal receipt semantics drift")
+    assert(cleanup.dig("content_addressed_snapshot", "path") == BUNDLE_PATH &&
+           cleanup.dig("content_addressed_snapshot", "byte_length") == BUNDLE_BYTES &&
+           cleanup.dig("content_addressed_snapshot", "sha256") == BUNDLE_SHA256 &&
+           cleanup.dig("content_addressed_snapshot", "contained_commit") == CANDIDATE_COMMIT &&
+           cleanup.dig("cleanup", "worktree_removed") == true &&
+           cleanup.dig("cleanup", "local_branch_removed") == true &&
+           cleanup.dig("cleanup", "candidate_recoverable_from_bundle") == true &&
+           cleanup["progress_credit"] == 0,
+           "P3-004 preservation cleanup receipt drift")
+    assert(git(Pathname.new(__dir__).join("..").realpath, "bundle", "list-heads", BUNDLE_PATH) ==
+             "#{CANDIDATE_COMMIT} refs/heads/#{BRANCH}",
+           "P3-004 candidate bundle ref drift")
+    [terminal, review]
+  end
+
   def validate!(root:, truth:)
     root = Pathname.new(root).realpath
     validate_decision!
@@ -194,6 +291,8 @@ module P3Task004AuthorityValidation
     task = route.fetch("selected_task")
     envelope = truth.fetch("phase_execution_envelope")
     active = truth.fetch("active_work")
+    terminal_state = route["status"] ==
+      "TERMINAL_FINAL_CAPABILITY_EXCEPTION_INDEPENDENT_REVIEW_NON_PASS"
 
     assert(project["current_phase"] == "P3" && project["p3_entry_status"] == "AUTHORIZED" &&
            project["p3_execution_status"] == "ACTIVE" &&
@@ -202,7 +301,7 @@ module P3Task004AuthorityValidation
            "P3-004 project Phase projection drift")
     assert(route["schema_version"] == ROUTE_SCHEMA && route["route_id"] == ROUTE_ID &&
            route["phase"] == "P3" && route["phase_entry_status"] == "AUTHORIZED" &&
-           route["founder_phase_route_decision_required"] == false &&
+           route["founder_phase_route_decision_required"] == terminal_state &&
            route["founder_route_decision"].slice("path", "byte_length", "sha256") ==
              decision_identity && route["external_effects"] == FALSE_EFFECTS &&
            route["additional_write_roots"] == [],
@@ -219,6 +318,97 @@ module P3Task004AuthorityValidation
              "strict_exit_gate_percent" => 0
            } && envelope["external_effects"] == FALSE_EFFECTS,
            "P3-004 envelope milestone projection drift")
+
+    if terminal_state
+      terminal, review = validate_terminal_evidence!
+      terminal_identity_hash = terminal_identity
+      ledger = envelope.fetch("task_ledger")
+      assert(project["phase_execution_status"] ==
+               "ACTIVE_INCOMPLETE_CAPABILITY_MILESTONE_FROZEN" &&
+             project["current_route_execution_status"] == route["status"],
+             "P3-004 terminal project projection drift")
+      assert(route["execution_status"] == route["status"] &&
+             route["scheduling_status"] ==
+               "FOUNDER_PHASE_ROUTE_DECISION_REQUIRED_CAPABILITY_MILESTONE_FROZEN" &&
+             route["next_eligible_action"] ==
+               "FOUNDER_DECIDE_P3_PHASE_ROUTE_WITH_CAPABILITY_MILESTONE_FROZEN" &&
+             task["status"] == route["status"] && task["candidate_created"] == true &&
+             task["product_source_writes"] == 10 && task["integrated"] == false &&
+             task.dig("candidate", "commit") == CANDIDATE_COMMIT &&
+             task.dig("candidate", "tree") == CANDIDATE_TREE &&
+             task.dig("independent_review", "verdict") == "NON_PASS" &&
+             task.dig("independent_review", "frozen_blocker_count") == 3 &&
+             task["terminal_receipt"] == terminal_identity_hash &&
+             task["milestone_status"] == "NOT_ACCEPTED_FINAL_EXCEPTION_NON_PASS" &&
+             task["same_task_repair_allowed"] == false &&
+             task["second_review_cycle_allowed"] == false &&
+             task["automatic_successor_allowed"] == false,
+             "P3-004 terminal Task projection drift")
+      assert(envelope["status"] == "ACTIVE_INCOMPLETE_CAPABILITY_MILESTONE_FROZEN" &&
+             ledger.length == 4 && ledger.last["task_id"] == TASK_ID &&
+             ledger.last["status"] == route["status"] &&
+             ledger.last["terminal_receipt"] == terminal_identity_hash &&
+             ledger.last.dig("candidate", "commit") == CANDIDATE_COMMIT &&
+             ledger.last.dig("candidate", "integrated") == false &&
+             envelope["consumed"] == {
+               "engineering_tasks" => 4, "engineering_hours" => 128, "calendar_days" => 32
+             } && envelope["remaining"] == {
+               "engineering_tasks" => 4, "engineering_hours" => 128, "calendar_days" => 32
+             } && envelope["reserved"] == {} && envelope["remaining_capacity_usable"] == false,
+             "P3-004 terminal envelope projection drift")
+      assert(active["current_task"] == "NONE" && active["current_task_status"] == "NONE" &&
+             active["task_resource_state"] == "NO_ACTIVE_TASK_CAPABILITY_MILESTONE_FROZEN" &&
+             active["execution_nonce_status"] == "CONSUMED_TERMINAL" &&
+             active["task_branch"].nil? && active["task_worktree"].nil? &&
+             active.dig("authority_record", "path").nil? &&
+             active["founder_decision_required"] == true &&
+             active["founder_decision_required_scope"] ==
+               "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE" &&
+             active["user_action_required"] == "FOUNDER_RESERVED_PHASE_ROUTE_DECISION" &&
+             active["phase_route_decision_required"] == true &&
+             active.dig("last_completed_task", "task_id") == TASK_ID &&
+             active.dig("last_completed_task", "terminal_receipt") == terminal_identity_hash &&
+             active["next_eligible_action"] == route["next_eligible_action"],
+             "P3-004 terminal active-work projection drift")
+      claim = truth.fetch("claim_boundary")
+      assert(claim["current_phase_route"] == ROUTE_ID && claim["current_task"] == "NONE" &&
+             claim["selected_task"] == TASK_ID &&
+             claim["next_eligible_action"] == route["next_eligible_action"] &&
+             claim["p3_status"] == "ACTIVE_INCOMPLETE" && claim["p3_entry_authorized"] == true &&
+             claim["p3_phase_envelope_status"] == envelope["status"] &&
+             claim["p3_exit_gate_progress_percent"] == 0 &&
+             claim["p3_delivery_progress_percent"] == 25 &&
+             claim["p3_accepted_milestones"] == envelope["accepted_milestones"] &&
+             claim["p3_capability_milestone_status"] ==
+               "NOT_ACCEPTED_P3_004_FINAL_EXCEPTION_INDEPENDENT_REVIEW_NON_PASS_FROZEN" &&
+             claim["p3_004_product_source_writes"] == 10 &&
+             claim["p3_004_candidate_created"] == true &&
+             claim["p3_004_candidate_integrated"] == false &&
+             claim["p3_004_review_verdict"] == "NON_PASS" &&
+             claim["p3_004_terminal_receipt_sha256"] == TERMINAL_SHA256 &&
+             claim["p3_004_delivery_credit"] == 0 && claim["p3_004_strict_exit_credit"] == 0,
+             "P3-004 terminal claim boundary drift")
+      control = truth.fetch("founder_escalation_control")
+      assert(control["disposition"] == "FOUNDER_DECISION_REQUIRED" &&
+             control.dig("source_event", "kind") ==
+               "P3_CAPABILITY_MILESTONE_FINAL_FOUNDER_EXCEPTION_TASK_TERMINAL" &&
+             control.dig("source_event", "task_id") == TASK_ID &&
+             control.dig("source_event", "status") == route["status"] &&
+             control.dig("reserved_trigger", "category") ==
+               "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE" &&
+             control.dig("reserved_trigger", "evidence") == terminal_identity_hash &&
+             control["founder_decision_required"] == true &&
+             control["next_action_owner"] == "HUMAN_FOUNDER" &&
+             control["next_eligible_action"] == route["next_eligible_action"],
+             "P3-004 terminal Founder escalation projection drift")
+      assert(!Pathname.new(WORKTREE).exist? && git(root, "branch", "--list", BRANCH).empty?,
+             "P3-004 terminal worktree or local branch was not closed")
+      assert(terminal.dig("independent_review", "sha256") == REVIEW_SHA256 &&
+             review["target_verdict"] == "NON_PASS",
+             "P3-004 terminal review binding drift")
+      return "P3_004_TERMINAL_FINAL_CAPABILITY_EXCEPTION_INDEPENDENT_REVIEW_NON_PASS"
+    end
+
     claim = truth.fetch("claim_boundary")
     expected_claim_task = route["status"] == "AUTHORIZED_TASK_SELECTED_NOT_ACTIVATED" ? "NONE" : TASK_ID
     assert(claim["current_phase_route"] == ROUTE_ID && claim["current_task"] == expected_claim_task &&

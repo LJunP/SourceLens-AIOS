@@ -49,8 +49,8 @@ current_truth = YAML.safe_load(
 )
 current_state = P3PhaseEntryValidation.validate!(root: ROOT, truth: current_truth)
 raise "current P3 Founder-exception continuation state drift: #{current_state}" unless
-  current_state == "P3_004_READY_FOR_MASTER_ACTIVATION"
-puts "PASS current P3-004 Founder-exception continuation projection"
+  current_state == "P3_004_TERMINAL_FINAL_CAPABILITY_EXCEPTION_INDEPENDENT_REVIEW_NON_PASS"
+puts "PASS current P3-004 terminal Founder-exception projection"
 assertions += 1
 
 fixture = deep_copy(current_truth)

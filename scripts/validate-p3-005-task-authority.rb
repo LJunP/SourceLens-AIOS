@@ -47,6 +47,20 @@ module P3Task005AuthorityValidation
     "engineering_hours" => 96,
     "calendar_days" => 24
   }.freeze
+  TERMINAL_STATUS = "TERMINAL_SLOT_1_INDEPENDENT_REVIEW_NON_PASS"
+  TERMINAL_NEXT_ACTION =
+    "NONE_ROUTE_TERMINAL_NO_AUTOMATIC_SUCCESSOR_OR_FOUNDER_REQUEST"
+  TERMINAL_RECEIPT = {
+    "path" =>
+      "/Users/lijunpeng/Developer/.sourcelens-audit/p3-zero-authority-action-request-boundary-20260819/task-p3-005/terminal/P3_005_TERMINAL_ZERO_AUTHORITY_ACTION_REQUEST_BOUNDARY_INDEPENDENT_REVIEW_NON_PASS_RECEIPT_V1.json",
+    "byte_length" => 5645,
+    "sha256" => "e531a489b9b48cf119bd5a02069cfe0c686145308ff34c51591d827050bbe161"
+  }.freeze
+  TERMINAL_CANDIDATE = {
+    "commit" => "14bfeaaff394448f528b6963fe76974ab5ab82c2",
+    "tree" => "5386ae4d53ec09a6a6071fb740904445220d0958",
+    "integrated" => false
+  }.freeze
   ALLOWLIST = [
     "backend-spring/src/main/java/com/sourcelens/module/agent/service/AgentRuntime.java",
     "backend-spring/src/main/java/com/sourcelens/module/agent/action/AgentActionRequest.java",
@@ -187,11 +201,153 @@ module P3Task005AuthorityValidation
     raise P3Task005AuthorityValidationError, "P3-005 Task authority JSON invalid: #{error.message}"
   end
 
+  def validate_terminal!(root:, truth:, contract:)
+    receipt_bytes = exact_file(
+      TERMINAL_RECEIPT, root: root, label: "P3-005 terminal receipt"
+    )
+    receipt = JSON.parse(receipt_bytes)
+    assert(receipt["schema_version"] == "p3-task-terminal-receipt/v1" &&
+           receipt["record_type"] == "sourcelens_aios_p3_task_terminal_receipt" &&
+           receipt["task_id"] == TASK_ID && receipt["phase"] == "P3" &&
+           receipt["slot"] == 1 &&
+           receipt["task_lifecycle"] == "TERMINAL_INDEPENDENT_REVIEW_NON_PASS" &&
+           receipt["target_verdict"] == "NON_PASS" &&
+           receipt.dig("candidate", "commit") == TERMINAL_CANDIDATE["commit"] &&
+           receipt.dig("candidate", "tree") == TERMINAL_CANDIDATE["tree"] &&
+           receipt.dig("candidate", "integrated") == false &&
+           receipt.dig("review_summary", "pass") == 1 &&
+           receipt.dig("review_summary", "non_pass") == 2 &&
+           receipt.dig("review_summary", "merged_p1") == 3 &&
+           receipt.dig("budget_accounting", "repair_budget_remaining") == 0 &&
+           receipt.dig("task_gate", "accepted") == false &&
+           receipt["next_action"] == TERMINAL_NEXT_ACTION &&
+           receipt["automatic_successor_allowed"] == false &&
+           receipt["automatic_founder_request_allowed"] == false &&
+           receipt["long_term_goal_status"] == "ACTIVE" &&
+           receipt["project_actual_completion"] == false,
+           "P3-005 terminal receipt content drift")
+    receipt.fetch("independent_reviews").each_with_index do |identity, index|
+      exact_file(identity, root: root, label: "P3-005 independent review #{index + 1}")
+    end
+
+    project = mapping(truth["project"], "project")
+    route = mapping(truth["current_phase_route"], "P3-005 terminal Route")
+    envelope = mapping(truth["phase_execution_envelope"], "P3 terminal Phase envelope")
+    active = mapping(truth["active_work"], "P3 terminal active work")
+    task = mapping(route["selected_task"], "P3-005 terminal selected Task")
+    assert(project["current_phase"] == "P3" && project["p3_entry_status"] == "AUTHORIZED" &&
+           project["p3_execution_status"] == "HOLD_INCOMPLETE_SLOT_1_NON_PASS" &&
+           project["phase_execution_status"] == "HOLD_INCOMPLETE_SLOT_1_NON_PASS" &&
+           project["current_route_execution_status"] == "P3_005_TERMINAL_SLOT_1_NON_PASS" &&
+           project["p4_entry_status"] ==
+             "HOLD_PENDING_STRICT_P3_EXIT_AND_SEPARATE_FOUNDER_PHASE_ENTRY",
+           "P3-005 terminal project projection drift")
+    assert(route["schema_version"] == ROUTE_SCHEMA && route["route_id"] == ROUTE_ID &&
+           route["status"] == TERMINAL_STATUS && route["execution_status"] == TERMINAL_STATUS &&
+           route["scheduling_status"] == "HOLD_DEPENDENT_SLOTS_LOCKED" &&
+           route["phase"] == "P3" && route["phase_entry_status"] == "AUTHORIZED" &&
+           route["founder_phase_route_decision_required"] == false &&
+           route["next_eligible_action"] == TERMINAL_NEXT_ACTION &&
+           route["founder_route_decision"] == P3ZeroAuthorityRouteValidation::DECISION_IDENTITY &&
+           route["external_effects"] == FALSE_EFFECTS && route["additional_write_roots"] == [],
+           "P3-005 terminal Route projection drift")
+    assert(task["task_id"] == TASK_ID && task["status"] ==
+             "TERMINAL_INDEPENDENT_REVIEW_NON_PASS" && task["contract"] == CONTRACT_IDENTITY &&
+           task["terminal_receipt"] == TERMINAL_RECEIPT && task["candidate"] == TERMINAL_CANDIDATE &&
+           task["automatic_successor_allowed"] == false &&
+           task["automatic_founder_request_allowed"] == false,
+           "P3-005 terminal Task projection drift")
+    slots = route["ordered_slots"]
+    assert(slots.is_a?(Array) && slots.length == 4 &&
+           slots.map { |slot| slot["slot"] } == [1, 2, 3, 4] &&
+           slots.map { |slot| slot["id"] } == P3ZeroAuthorityRouteValidation::SLOT_IDS &&
+           slots.map { |slot| slot["status"] } == [
+             "TERMINAL_INDEPENDENT_REVIEW_NON_PASS",
+             "LOCKED_PREDECESSOR_NON_PASS", "LOCKED_PREDECESSOR_NON_PASS",
+             "LOCKED_PREDECESSOR_NON_PASS"
+           ], "P3-005 terminal dependent-slot lock drift")
+
+    ledger = envelope["task_ledger"]
+    p3_005_ledger = ledger.is_a?(Array) ? ledger.last : nil
+    assert(envelope["phase"] == "P3" && envelope["limits"] == P3ZeroAuthorityRouteValidation::LIMITS &&
+           envelope["status"] == "HOLD_ZERO_AUTHORITY_ROUTE_SLOT_1_NON_PASS_DEPENDENT_SLOTS_LOCKED" &&
+           envelope["consumed"] == {
+             "engineering_tasks" => 5, "engineering_hours" => 160, "calendar_days" => 40
+           } && envelope["reserved"] == {} && envelope["remaining"] == REMAINING &&
+           envelope["remaining_capacity_usable"] == false &&
+           envelope["remaining_capacity_lock_reason"] ==
+             "DEPENDENT_SLOTS_LOCKED_BY_SLOT_1_NON_PASS_NO_SUCCESSOR" &&
+           envelope["accepted_milestones"] == ["DURABLE_STATE_AND_CHECKPOINT_RESUME"] &&
+           envelope["delivery_progress"] == {
+             "accepted" => 1, "total" => 4, "percent" => 25, "strict_exit_gate_percent" => 0
+           } && p3_005_ledger["task_id"] == TASK_ID &&
+           p3_005_ledger["status"] == "TERMINAL_INDEPENDENT_REVIEW_NON_PASS" &&
+           p3_005_ledger["terminal_receipt"] == TERMINAL_RECEIPT &&
+           p3_005_ledger["candidate"] == TERMINAL_CANDIDATE,
+           "P3-005 terminal Phase-envelope projection drift")
+
+    control = mapping(truth["founder_escalation_control"], "Founder escalation control")
+    assert(control["disposition"] == "NO_RESERVED_TRIGGER_CONTINUE_PHASE" &&
+           control.dig("source_event", "kind") == "P3_PHASE_DELEGATED_TASK_TERMINAL_NON_PASS" &&
+           control.dig("source_event", "task_id") == TASK_ID &&
+           control.dig("source_event", "status") == TERMINAL_STATUS &&
+           control.dig("reserved_trigger", "category") == "NONE" &&
+           control.dig("reserved_trigger", "evidence").nil? &&
+           control["phase_gate_status"] == "INCOMPLETE" &&
+           control["founder_decision_required"] == false &&
+           control["next_action_owner"] == "NONE_ROUTE_TERMINAL" &&
+           control["next_eligible_action"] == TERMINAL_NEXT_ACTION,
+           "P3-005 terminal Founder-escalation projection drift")
+    assert(truth.dig("phase_delegation", "status") ==
+             "HOLD_P3_ZERO_AUTHORITY_ACTION_ENVELOPE_ROUTE_SLOT_1_NON_PASS" &&
+           truth.dig("phase_boundary", "phase_execution_status") ==
+             "HOLD_INCOMPLETE_SLOT_1_NON_PASS" &&
+           truth.dig("phase_boundary", "task_creation_allowed") == false &&
+           truth.dig("phase_boundary", "task_creation_scope") == "NONE_ROUTE_TERMINAL" &&
+           truth.dig("phase_boundary", "next_eligible_action") == TERMINAL_NEXT_ACTION,
+           "P3-005 terminal Phase-delegation or boundary drift")
+    assert(active["current_task"] == "NONE" && active["current_task_status"] == "NONE" &&
+           active["current_task_contract"].nil? && active["current_execution_authorization"].nil? &&
+           active["execution_nonce_status"] == "CONSUMED_TERMINAL" &&
+           active["task_resource_state"] == "NO_ACTIVE_TASK_ROUTE_TERMINAL_SLOT_1_NON_PASS" &&
+           active["task_branch"].nil? && active["task_worktree"].nil? &&
+           active["execution_evidence_root"].nil? && active["allowlisted_paths"] == [] &&
+           active["founder_decision_required"] == false && active["user_action_required"] == "NONE" &&
+           active["next_eligible_action"] == TERMINAL_NEXT_ACTION &&
+           active.dig("last_completed_task", "task_id") == TASK_ID &&
+           active.dig("last_completed_task", "status") ==
+             "TERMINAL_INDEPENDENT_REVIEW_NON_PASS" &&
+           active.dig("last_completed_task", "terminal_receipt") == TERMINAL_RECEIPT,
+           "P3-005 terminal active-work projection drift")
+    assert(truth.dig("phase_execution_claim", "current_task_claim") == "NONE" &&
+           truth.dig("phase_execution_claim", "p3_delivery_progress_percent") == 25 &&
+           truth.dig("phase_execution_claim", "p3_exit_gate_progress_percent") == 0 &&
+           truth.dig("phase_execution_claim", "phase_local_allowed") == [] &&
+           truth.dig("claim_boundary", "current_task") == "NONE" &&
+           truth.dig("claim_boundary", "selected_task") == "NONE_ROUTE_TERMINAL" &&
+           truth.dig("claim_boundary", "next_eligible_action") == TERMINAL_NEXT_ACTION &&
+           truth.dig("claim_boundary", "p3_status") == "HOLD_INCOMPLETE_SLOT_1_NON_PASS" &&
+           truth.dig("claim_boundary", "p3_phase_envelope_status") ==
+             "HOLD_ZERO_AUTHORITY_ROUTE_SLOT_1_NON_PASS_DEPENDENT_SLOTS_LOCKED" &&
+           truth.dig("claim_boundary", "p3_005_candidate_integrated") == false &&
+           truth.dig("claim_boundary", "p3_005_terminal_receipt_sha256") ==
+             TERMINAL_RECEIPT["sha256"], "P3-005 terminal claim projection drift")
+    assert(truth.dig("goal", "control_plane_status_observed") == "ACTIVE" &&
+           truth.dig("goal", "current_task_authority") == "NONE",
+           "P3-005 terminal state must keep the Long-term Goal active")
+    "P3_005_TERMINAL_INDEPENDENT_REVIEW_NON_PASS"
+  rescue JSON::ParserError => error
+    raise P3Task005AuthorityValidationError,
+          "P3-005 terminal receipt JSON invalid: #{error.message}"
+  end
+
   def validate!(root:, truth:)
     root = Pathname.new(root).realpath
     P3ZeroAuthorityRouteValidation.validate_decision!(root)
     P3PhaseEntryValidation.validate_decision!(root)
-    validate_contract!(root)
+    contract = validate_contract!(root)
+    return validate_terminal!(root: root, truth: truth, contract: contract) if
+      truth.dig("current_phase_route", "status") == TERMINAL_STATUS
     project = mapping(truth["project"], "project")
     route = mapping(truth["current_phase_route"], "current P3-005 Route")
     envelope = mapping(truth["phase_execution_envelope"], "P3 Phase envelope")

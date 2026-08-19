@@ -2068,6 +2068,7 @@ required_files=(
   scripts/validate-founder-delegation-continuity.rb
   scripts/validate-p3-phase-entry.rb
   scripts/validate-p3-zero-authority-route.rb
+  scripts/validate-p3-005-task-authority.rb
   scripts/test-p3-phase-entry.rb
   scripts/validate-p3-task-authority.rb
   scripts/test-p3-task-authority.rb
@@ -2127,6 +2128,9 @@ if ruby -ryaml -e 'exit(YAML.load_file(ARGV[0]).dig("current_phase_route", "sche
 fi
 if ruby -ryaml -e 'exit(YAML.load_file(ARGV[0]).dig("current_phase_route", "schema_version") == "p3-zero-authority-action-envelope-route/v1" ? 0 : 1)' "$TRUTH_PATH"; then
   ruby "${ROOT_DIR}/scripts/validate-p3-zero-authority-route.rb"
+fi
+if ruby -ryaml -e 'exit(YAML.load_file(ARGV[0]).dig("current_phase_route", "schema_version") == "p3-zero-authority-action-envelope-task-route/v1" ? 0 : 1)' "$TRUTH_PATH"; then
+  ruby "${ROOT_DIR}/scripts/validate-p3-005-task-authority.rb"
 fi
 if ruby -ryaml -e 'exit(YAML.load_file(ARGV[0]).dig("current_phase_route", "schema_version") == "p3-phase-delegated-task/v1" ? 0 : 1)' "$TRUTH_PATH"; then
   ruby "${ROOT_DIR}/scripts/validate-p3-task-authority.rb"

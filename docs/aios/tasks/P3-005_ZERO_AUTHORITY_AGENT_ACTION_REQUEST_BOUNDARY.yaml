@@ -1,0 +1,210 @@
+schema_version: p3-task-contract/v1
+record_type: sourcelens_aios_p3_task_contract
+task_id: AIOS-P3-005_ZERO_AUTHORITY_AGENT_ACTION_REQUEST_BOUNDARY
+route_id: AIOS-P3-005_ZERO_AUTHORITY_AGENT_ACTION_REQUEST_BOUNDARY_PHASE_DELEGATED_ROUTE
+phase: P3
+slot: 1
+status: ELIGIBLE_NOT_ACTIVATED
+task_kind: ZERO_AUTHORITY_AGENT_ACTION_REQUEST_BOUNDARY
+capability: ZERO_AUTHORITY_AGENT_ACTION_REQUEST
+milestone: ZERO_AUTHORITY_AGENT_ACTION_REQUEST_BOUNDARY
+why_now: >-
+  P3-001 already established the accepted durable checkpoint foundation. The exact
+  Founder route now makes only slot 1 eligible. The current canonical AgentRuntime
+  still calls ToolExecutionService directly, so the highest-value minimal change is
+  to remove that authority-bearing dispatch and establish one typed, immutable,
+  fail-closed request boundary before building the independent broker in slot 2.
+objective: >-
+  Make canonical AgentRuntime zero-authority with respect to tools: every LLM tool
+  call becomes one immutable typed AgentActionRequest, enters one boundary with no
+  tool, registry, sandbox or process executor dependency, and receives a durable
+  DENY decision before AgentRuntime observes a result. If request freezing or denial
+  persistence fails, no tool body or external effect may run.
+success_claim: >-
+  One local Java 17 product-path AgentRuntime action-request boundary proven to remove
+  direct tool execution and to fail closed through durable pre-effect denial records.
+  This is not broker, envelope-permission, isolation, trace-completeness, P3 Exit,
+  production or hostile-principal acceptance.
+
+authority:
+  founder_route_decision:
+    decision_id: AUTHORIZE_P3_ZERO_AUTHORITY_AGENT_AND_IMMUTABLE_TASK_ACTION_ENVELOPE_PHASE_ROUTE_RESEQUENCING_V1
+    reserved_trigger: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-zero-authority-action-envelope-route-20260819/decision/FOUNDER_P3_ZERO_AUTHORITY_AGENT_AND_IMMUTABLE_TASK_ACTION_ENVELOPE_PHASE_ROUTE_RESEQUENCING_V1.json
+    byte_length: 13291
+    sha256: 1688e7d6cec549842ed4d36ae28366f7f3e0f9aaf4b9fdecde4f4b9cee65168b
+  route_install_parent:
+    commit: 842884f18abc6c30a4981faf84c91a13bba0265d
+    tree: 9fd573135a6cf0347930ad9ed490606222ad05a2
+  accepted_foundation:
+    milestone: DURABLE_STATE_AND_CHECKPOINT_RESUME
+    task_id: AIOS-P3-001_DURABLE_EXECUTION_CHECKPOINT_RESUME_KERNEL
+    receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-durable-execution-checkpoint-resume-20260819/task-p3-001/terminal/P3_001_TASK_GATE_PASS_INTEGRATION_RECEIPT_V1.json
+      byte_length: 3055
+      sha256: e4ea37f8e6770b8dea9f8939f81444f01ebca4104a8dd2f84d33c4787180e2c0
+  activation_parent_rule: >-
+    The create-once Task authority must bind the clean canonical main commit and tree
+    that first installs this exact Contract identity and the READY Truth projection.
+  task_selection_owner: MASTER_CEO_AGENT
+  task_authorization_owner: MASTER_CEO_AGENT
+  task_gate_owner: MASTER_CEO_AGENT
+  founder_phase_gate_owner: HUMAN_FOUNDER
+
+resource_identity:
+  branch: codex/p3-005-zero-authority-action-request-boundary
+  worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p3-005-zero-authority-action-request-boundary
+  evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p3-zero-authority-action-request-boundary-20260819/task-p3-005
+  new_task_id: true
+  new_execution_nonce_required: true
+  new_authorization_id_required: true
+  one_active_task_branch_worktree_candidate: true
+
+implementation_inputs:
+  allowed:
+    - CANONICAL_MAIN_AT_ACTIVATION_PARENT
+    - ACCEPTED_P3_001_CHECKPOINT_FOUNDATION
+    - THIS_CONTRACT
+  prohibited:
+    - P3_002_REJECTED_ENGINEERING_LINEAGE
+    - P3_003_REJECTED_ENGINEERING_LINEAGE
+    - P3_004_REJECTED_ENGINEERING_LINEAGE
+    - MUTABLE_DYNAMIC_CAPABILITY_GRANT_LEDGER
+    - HISTORICAL_FAILED_CANDIDATE_CODE_TESTS_EVALUATORS_OR_ENGINEERING_EVIDENCE
+  terminal_receipt_access: IDENTITY_AND_ACCOUNTING_ONLY
+
+allowlisted_paths:
+  product:
+    - backend-spring/src/main/java/com/sourcelens/module/agent/service/AgentRuntime.java
+    - backend-spring/src/main/java/com/sourcelens/module/agent/action/AgentActionRequest.java
+    - backend-spring/src/main/java/com/sourcelens/module/agent/action/AgentActionRequestBoundary.java
+  tests:
+    - backend-spring/src/test/java/com/sourcelens/AgentActionRequestBoundaryTest.java
+    - backend-spring/src/test/java/com/sourcelens/AgentRuntimeActionBoundaryTest.java
+  forbidden:
+    - backend-spring/pom.xml
+    - backend-spring/src/main/resources/db/migration
+    - docs/aios/STRATEGIC_CONSTITUTION.md
+    - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+    - docs/aios/FOUNDER_DELEGATION_POLICY.md
+    - docs/aios/EVALUATION_PROTOCOL.md
+    - evaluation-harness
+
+architectural_invariants:
+  agent_runtime_tool_authority: ZERO
+  agent_runtime_direct_tool_execution_dependency_allowed: false
+  agent_runtime_direct_tool_registry_dependency_allowed: false
+  agent_runtime_direct_sandbox_or_process_dependency_allowed: false
+  immutable_typed_action_request_required: true
+  request_fields:
+    - REQUEST_ID
+    - CONVERSATION_ID
+    - PROJECT_ID
+    - SCAN_TASK_ID
+    - USER_ID
+    - TOOL_NAME
+    - CANONICAL_ARGUMENTS_JSON
+  canonical_arguments_snapshot_required: true
+  boundary_has_effect_executor_dependency: false
+  durable_denial_before_return_required: true
+  denial_code: ACTION_DENIED_NO_TASK_ACTION_ENVELOPE
+  freeze_failure_code: ACTION_REQUEST_FREEZE_FAILED
+  denial_persistence_failure_code: ACTION_DENIAL_RECORD_PERSISTENCE_FAILED
+  denial_persistence_failure_behavior: FAIL_CLOSED_ZERO_TOOL_BODY_INVOCATIONS
+  tool_body_execution_count: 0
+  broker_implementation_allowed: false
+  task_action_envelope_authorization_allowed: false
+  sandbox_execution_allowed: false
+
+acceptance:
+  compile:
+    java_major: 17
+    backend_test_compile_required: true
+  product_path:
+    - AgentRuntime constructor and fields contain no ToolExecutionService, ToolRegistry, AgentTool, SandboxExecutor or ProcessBuilder dependency.
+    - AgentRuntime tool-call loop invokes only AgentActionRequestBoundary for tool requests.
+    - AgentActionRequestBoundary contains no path that invokes a tool body, registry, sandbox or process.
+  immutable_request:
+    - Valid tool-call input becomes one typed AgentActionRequest with an immutable canonical JSON argument snapshot.
+    - Mutating the caller argument map after submission cannot change the persisted request bytes.
+  fail_closed_denial:
+    - Every valid request persists one ACTION_DENIED_NO_TASK_ACTION_ENVELOPE record before returning a denial result.
+    - Request freeze failure persists one fail-closed denial when persistence is available.
+    - Denial persistence failure returns ACTION_DENIAL_RECORD_PERSISTENCE_FAILED and invokes zero tool bodies.
+  tests:
+    required_classes:
+      - com.sourcelens.AgentActionRequestBoundaryTest
+      - com.sourcelens.AgentRuntimeActionBoundaryTest
+      - com.sourcelens.ToolExecutionServiceTest
+    legacy_regression_subset:
+      - com.sourcelens.ExecutionCheckpointServiceTest
+      - com.sourcelens.ExecutionCheckpointH2IntegrationTest
+    all_required_tests_pass: true
+  static_negative_checks:
+    - NO_AGENT_RUNTIME_TOOL_EXECUTION_SERVICE_REFERENCE
+    - NO_ACTION_BOUNDARY_TOOL_REGISTRY_AGENT_TOOL_SANDBOX_EXECUTOR_PROCESS_BUILDER_REFERENCE
+    - NO_PRODUCT_OR_TEST_PATH_OUTSIDE_ALLOWLIST
+    - NO_DATABASE_MIGRATION
+  external_effects_all_false: true
+  candidate_manifest_required: true
+  exact_test_receipt_required: true
+  independent_review_required: true
+
+budget:
+  engineering_tasks: 1
+  engineering_hours: 32
+  calendar_days: 8
+  candidate_generations: 2
+  same_task_repairs: 1
+  review_cycles: 2
+  governance_pre_worker_percent_max: 10
+  worker_start_deadline_engineering_hour: 1
+
+review:
+  risk: HIGH
+  cycle_1_freezes_complete_p0_p1_findings: true
+  cycle_2_only_closes_frozen_findings_or_rejects_regression: true
+  required_independent_roles:
+    - CTO
+    - SECURITY
+    - QUALITY_EVALUATION
+  gate_relevance_categories:
+    - EXIT_GATE_VALIDITY
+    - AUTHORITY_OR_EXTERNAL_EFFECT_SAFETY
+    - RESULT_INTEGRITY
+    - PRODUCT_CORRECTNESS
+
+progress_effect:
+  pass_delivery_percent: 25
+  pass_strict_exit_percent: 0
+  phase_milestone_credit: 0
+  pass_unlocks_only: IMMUTABLE_TASK_ACTION_ENVELOPE_BROKER_AND_PERMISSION_ENFORCEMENT
+  pass_does_not_accept_permission_milestone: true
+  p4_entry_authorized: false
+  long_term_goal_closure_authorized: false
+
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+  irreversible_deletion: false
+  existing_database_mutation: false
+
+stop_conditions:
+  - CONTRACT_OR_AUTHORITY_IDENTITY_DRIFT
+  - WRITE_OUTSIDE_EXACT_TASK_WORKTREE_OR_EVIDENCE_ROOT
+  - REJECTED_LINEAGE_ACCESS
+  - TOOL_BODY_OR_EFFECTFUL_EXECUTION_FROM_AGENT_RUNTIME_OR_ACTION_BOUNDARY
+  - DENIAL_RETURNED_WITHOUT_REQUIRED_DURABLE_RECORD_WHEN_PERSISTENCE_WAS_AVAILABLE
+  - NETWORK_PROVIDER_SECRET_REMOTE_PRODUCTION_PUBLIC_OR_EXISTING_DATABASE_EFFECT
+  - CANDIDATE_OR_REPAIR_OR_REVIEW_BUDGET_EXHAUSTED
+  - TERMINAL_SAFETY_CONDITION
+
+non_pass_lifecycle: >-
+  Preserve exact terminal Evidence, consume slot 1, integrate no failed candidate,
+  lock slots 2 through 4, return P3 to HOLD under this route, keep delivery at 25
+  percent and strict Exit at 0 percent, create no successor, replacement, remediation,
+  V2/V3 or automatic Founder request, keep P4 HOLD and the Long-term Goal ACTIVE.

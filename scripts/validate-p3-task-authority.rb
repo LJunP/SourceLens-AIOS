@@ -8,6 +8,7 @@ require "yaml"
 require_relative "validate-p3-002-task-authority"
 require_relative "validate-p3-003-task-authority"
 require_relative "validate-p3-004-task-authority"
+require_relative "validate-p3-005-task-authority"
 
 class P3TaskAuthorityValidationError < StandardError; end
 
@@ -82,6 +83,9 @@ module P3TaskAuthorityValidation
 
   def validate!(root:, truth:)
     root = Pathname.new(root).realpath
+    if truth.dig("current_phase_route", "schema_version") == P3Task005AuthorityValidation::ROUTE_SCHEMA
+      return P3Task005AuthorityValidation.validate!(root: root, truth: truth)
+    end
     if truth.dig("current_phase_route", "route_id") == P3Task004AuthorityValidation::ROUTE_ID
       return P3Task004AuthorityValidation.validate!(root: root, truth: truth)
     end

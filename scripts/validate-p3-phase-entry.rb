@@ -278,6 +278,13 @@ module P3PhaseEntryValidation
              "P3 zero-authority Route validator is unavailable")
       return P3ZeroAuthorityRouteValidation.validate_truth!(root: root, truth: truth)
     end
+    if route["schema_version"] == "p3-zero-authority-action-envelope-task-route/v1"
+      require_relative "validate-p3-005-task-authority" unless
+        defined?(P3Task005AuthorityValidation)
+      assert(defined?(P3Task005AuthorityValidation),
+             "P3-005 Task authority validator is unavailable")
+      return P3Task005AuthorityValidation.validate!(root: root, truth: truth)
+    end
     if route["schema_version"] == P3Task004AuthorityValidation::ROUTE_SCHEMA
       return P3Task004AuthorityValidation.validate!(root: root, truth: truth)
     end

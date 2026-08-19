@@ -12,6 +12,8 @@ p3_entry_validator = File.join(__dir__, "validate-p3-phase-entry.rb")
 require_relative "validate-p3-phase-entry" if File.file?(p3_entry_validator)
 p3_zero_authority_route_validator = File.join(__dir__, "validate-p3-zero-authority-route.rb")
 require_relative "validate-p3-zero-authority-route" if File.file?(p3_zero_authority_route_validator)
+p3_005_task_validator = File.join(__dir__, "validate-p3-005-task-authority.rb")
+require_relative "validate-p3-005-task-authority" if File.file?(p3_005_task_validator)
 p3_task_validator = File.join(__dir__, "validate-p3-task-authority.rb")
 require_relative "validate-p3-task-authority" if File.file?(p3_task_validator)
 
@@ -5062,6 +5064,13 @@ module FounderDelegationContinuity
       state = P3ZeroAuthorityRouteValidation.validate_truth!(root: root, truth: truth)
       assert(state == "P3_ZERO_AUTHORITY_ROUTE_INSTALLED_SLOT_1_ELIGIBLE",
              "P3 zero-authority Route state drift")
+      return CONTINUE_DISPOSITION
+    end
+    if route["schema_version"] == P3Task005AuthorityValidation::ROUTE_SCHEMA
+      assert(defined?(P3Task005AuthorityValidation),
+             "P3-005 Task authority validator is unavailable")
+      state = P3Task005AuthorityValidation.validate!(root: root, truth: truth)
+      assert(state.start_with?("P3_005_"), "P3-005 Task projection drift")
       return CONTINUE_DISPOSITION
     end
     if route["schema_version"] == "p3-phase-entry-active/v1"

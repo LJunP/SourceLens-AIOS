@@ -3,6 +3,7 @@
 
 require "digest"
 require "json"
+require "open3"
 require "pathname"
 require "yaml"
 
@@ -27,6 +28,9 @@ module P3Task004AuthorityValidation
   P3_003_TERMINAL_PATH = "/Users/lijunpeng/Developer/.sourcelens-audit/p3-persisted-tool-capability-ledger-20260819/task-p3-003/terminal/P3_003_TERMINAL_PREACTIVATION_TEMP_ROOT_CONFINEMENT_NON_PASS_RECEIPT_V1.json"
   P3_003_TERMINAL_BYTES = 8569
   P3_003_TERMINAL_SHA256 = "1a488dea0c6750fdb679a27492fc031b5db7ad0e0fd9700e716d9a8dd1b59ed0"
+  STAGE_A_RECEIPT_PATH = "/Users/lijunpeng/Developer/.sourcelens-audit/p3-final-hermetic-capability-route-20260819/task-p3-004/preactivation/stage-a-v1/P3_004_STAGE_A_HERMETIC_SUREFIRE_PREACTIVATION_PASS_RECEIPT_V1.json"
+  STAGE_A_RECEIPT_BYTES = 8094
+  STAGE_A_RECEIPT_SHA256 = "d00b1f958cf83dda994cee1a88b78c216443f8a513ab66867182b54007637453"
   BRANCH = "codex/p3-004-hermetic-capability-ledger"
   WORKTREE = "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-004-hermetic-capability-ledger"
   EVIDENCE_ROOT = "/Users/lijunpeng/Developer/.sourcelens-audit/p3-final-hermetic-capability-route-20260819/task-p3-004"
@@ -62,6 +66,16 @@ module P3Task004AuthorityValidation
 
   def decision_identity
     identity(DECISION_PATH, DECISION_BYTES, DECISION_SHA256)
+  end
+
+  def stage_a_receipt_identity
+    identity(STAGE_A_RECEIPT_PATH, STAGE_A_RECEIPT_BYTES, STAGE_A_RECEIPT_SHA256)
+  end
+
+  def git(root, *args)
+    stdout, stderr, status = Open3.capture3("git", "-C", root.to_s, *args)
+    raise P3Task004AuthorityValidationError, "git #{args.join(' ')} failed: #{stderr}" unless status.success?
+    stdout.strip
   end
 
   def validate_decision!
@@ -140,6 +154,34 @@ module P3Task004AuthorityValidation
            authority.dig("lineage", "p3_003_access_mode") == "EXACT_TERMINAL_RECEIPT_ONLY",
            "P3-004 Task authority semantics drift")
     authority
+  end
+
+  def validate_stage_a_receipt!
+    receipt = JSON.parse(exact_file(
+      STAGE_A_RECEIPT_PATH, STAGE_A_RECEIPT_BYTES, STAGE_A_RECEIPT_SHA256,
+      "P3-004 Stage A receipt"
+    ))
+    assert(receipt["task_id"] == TASK_ID && receipt["status"] == "PASS" &&
+           receipt["authorization_id"] == "f900df4e-549f-4631-a713-a90887b0cd6e" &&
+           receipt["execution_nonce"] == "6e4529a2-42b2-424f-831e-3bec650ae493" &&
+           receipt.dig("source_state", "product_source_writes") == 0 &&
+           receipt.dig("execution", "exit_code") == 0 &&
+           receipt.dig("execution", "tests_run") == 10 &&
+           receipt.dig("execution", "failures") == 0 &&
+           receipt.dig("execution", "errors") == 0 &&
+           receipt.dig("execution", "skipped") == 0 &&
+           receipt.dig("execution", "sandbox_deny_network") == true &&
+           receipt.dig("execution", "sandbox_deny_writes_outside_task_worktree") == true &&
+           receipt.dig("temp_root_proof", "all_observed_paths_within_expected_root") == true &&
+           receipt.dig("temp_root_proof", "all_observed_paths_absent_after_execution") == true &&
+           receipt.dig("stage_transition", "stage_b_unlocked") == true &&
+           receipt.fetch("external_effects").values.all? { |value| value == false },
+           "P3-004 Stage A receipt semantics drift")
+    receipt.fetch("raw_evidence").each do |raw|
+      exact_file(raw.fetch("path"), raw.fetch("byte_length"), raw.fetch("sha256"),
+                 "P3-004 Stage A raw Evidence")
+    end
+    receipt
   end
 
   def validate!(root:, truth:)
@@ -253,8 +295,16 @@ module P3Task004AuthorityValidation
            route["next_eligible_action"] == "IMPLEMENT_PERSISTED_CAPABILITY_LEDGER" &&
            active["current_task_status"] == "ACTIVE_STAGE_B_PRODUCT_IMPLEMENTATION" &&
            active["next_eligible_action"] == "IMPLEMENT_PERSISTED_CAPABILITY_LEDGER" &&
-           task.dig("stage_a", "status") == "PASS",
+           task.dig("stage_a", "status") == "PASS" &&
+           task.dig("stage_a", "receipt") == stage_a_receipt_identity &&
+           envelope.dig("task_ledger", -1, "stage_a_receipt") == stage_a_receipt_identity,
            "P3-004 Stage B projection drift")
+    validate_stage_a_receipt!
+    stage_a_commit = task.dig("stage_a", "commit")
+    assert(stage_a_commit == "f188591f56ac846b98280f94e28abb47e7a55ad6" &&
+           task.dig("stage_a", "tree") == "039c5127541f79b9c3ceed7280c8bbf907b56031" &&
+           git(WORKTREE, "merge-base", "--is-ancestor", stage_a_commit, "HEAD").empty?,
+           "P3-004 Stage A commit ancestry drift")
     "P3_004_ACTIVE_STAGE_B_PRODUCT_IMPLEMENTATION"
   rescue KeyError, JSON::ParserError, Errno::ENOENT => e
     raise P3Task004AuthorityValidationError, e.message

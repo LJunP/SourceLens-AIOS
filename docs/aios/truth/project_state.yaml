@@ -1,8 +1,8 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: '2026-08-19T01:39:50Z'
+last_verified_at: '2026-08-19T01:46:13Z'
 
-verification_scope: P3_004_ACTIVE_STAGE_A_HERMETIC_PREACTIVATION_REQUIRED_P3_DELIVERY_25_STRICT_EXIT_ZERO_LONG_TERM_GOAL_ACTIVE
+verification_scope: P3_004_STAGE_A_HERMETIC_PREACTIVATION_PASS_STAGE_B_PRODUCT_IMPLEMENTATION_ACTIVE_P3_DELIVERY_25_STRICT_EXIT_ZERO_LONG_TERM_GOAL_ACTIVE
 
 authority:
   founder: Human Founder
@@ -1681,7 +1681,7 @@ project:
   p2_entry_status: AUTHORIZED
   p2_execution_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
   phase_execution_status: ACTIVE
-  current_route_execution_status: ACTIVE_STAGE_A_PREACTIVATION_REQUIRED
+  current_route_execution_status: ACTIVE_STAGE_B_PRODUCT_IMPLEMENTATION
   p3_entry_status: AUTHORIZED
   p3_execution_status: ACTIVE
   p4_entry_status: HOLD_PENDING_STRICT_P3_EXIT_AND_SEPARATE_FOUNDER_PHASE_ENTRY
@@ -8472,9 +8472,9 @@ historical_p3_003_phase_route:
 current_phase_route:
   schema_version: p3-founder-exception-task-route/v1
   route_id: AIOS-P3-004_HERMETIC_SUREFIRE_AND_PERSISTED_CAPABILITY_LEDGER_FOUNDER_EXCEPTION_ROUTE
-  status: ACTIVE_STAGE_A_PREACTIVATION_REQUIRED
-  execution_status: ACTIVE_STAGE_A_PREACTIVATION_REQUIRED
-  scheduling_status: RUN_HERMETIC_PREACTIVATION_BEFORE_PRODUCT_WRITE
+  status: ACTIVE_STAGE_B_PRODUCT_IMPLEMENTATION
+  execution_status: ACTIVE_STAGE_B_PRODUCT_IMPLEMENTATION
+  scheduling_status: IMPLEMENT_PERSISTED_CAPABILITY_LEDGER
   phase: P3
   phase_entry_status: AUTHORIZED
   policy:
@@ -8483,7 +8483,7 @@ current_phase_route:
     sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
   founder_phase_route_decision_required: false
   founder_reserved_trigger_resolved: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
-  next_eligible_action: RUN_STAGE_A_HERMETIC_PREACTIVATION
+  next_eligible_action: IMPLEMENT_PERSISTED_CAPABILITY_LEDGER
   phase_execution_envelope_ref: phase_execution_envelope
   phase_entry_route_ref: historical_p3_phase_entry_route
   predecessor_milestone_route_ref: historical_p3_001_phase_route
@@ -8498,7 +8498,7 @@ current_phase_route:
     sha256: 8470fcea6bf99bca1326233c4d2fed704aa5ab9ec28df3da2a43aa8842924a30
   selected_task:
     task_id: AIOS-P3-004_HERMETIC_SUREFIRE_AND_PERSISTED_CAPABILITY_LEDGER
-    status: ACTIVE_STAGE_A_PREACTIVATION_REQUIRED
+    status: ACTIVE_STAGE_B_PRODUCT_IMPLEMENTATION
     task_kind: SINGLE_AGENT_RUNTIME_HERMETIC_CAPABILITY_PERMISSION_ENFORCEMENT
     capability: PERSISTED_CAPABILITY_LEDGER_AND_TOOL_ADMISSION
     milestone: CAPABILITY_SCOPED_TOOL_AND_PERMISSION_ENFORCEMENT
@@ -8521,6 +8521,15 @@ current_phase_route:
       path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-final-hermetic-capability-route-20260819/task-p3-004/authority/P3_004_FOUNDER_EXCEPTION_TASK_AUTHORITY_V1.json
       byte_length: 4233
       sha256: b5bbba822e1301ed553f62098a5a54cadc842cd56e951b39694c1ca947a40624
+    stage_a:
+      status: PASS
+      commit: f188591f56ac846b98280f94e28abb47e7a55ad6
+      tree: 039c5127541f79b9c3ceed7280c8bbf907b56031
+      product_source_writes: 0
+      receipt:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-final-hermetic-capability-route-20260819/task-p3-004/preactivation/stage-a-v1/P3_004_STAGE_A_HERMETIC_SUREFIRE_PREACTIVATION_PASS_RECEIPT_V1.json
+        byte_length: 8094
+        sha256: d00b1f958cf83dda994cee1a88b78c216443f8a513ab66867182b54007637453
     candidate_created: false
     product_source_writes: 0
     integrated: false
@@ -11500,7 +11509,7 @@ historical_p2_exact_frozen_p2_078_one_shot_formal_held_route_unlock_phase_route:
 phase_execution_envelope:
   schema_version: phase-execution-envelope/v1
   phase: P3
-  status: ACTIVE_STAGE_A_PREACTIVATION_REQUIRED
+  status: ACTIVE_STAGE_B_PRODUCT_IMPLEMENTATION
   authority_basis:
     phase_entry_status: AUTHORIZED
     policy_path: docs/aios/FOUNDER_DELEGATION_POLICY.md
@@ -11591,7 +11600,7 @@ phase_execution_envelope:
         sha256: 1a488dea0c6750fdb679a27492fc031b5db7ad0e0fd9700e716d9a8dd1b59ed0
     - task_id: AIOS-P3-004_HERMETIC_SUREFIRE_AND_PERSISTED_CAPABILITY_LEDGER
       route_id: AIOS-P3-004_HERMETIC_SUREFIRE_AND_PERSISTED_CAPABILITY_LEDGER_FOUNDER_EXCEPTION_ROUTE
-      status: ACTIVE_STAGE_A_PREACTIVATION_REQUIRED
+      status: ACTIVE_STAGE_B_PRODUCT_IMPLEMENTATION
       milestone: CAPABILITY_SCOPED_TOOL_AND_PERMISSION_ENFORCEMENT
       implementation_attempt: 3_OF_3_FINAL_FOUNDER_EXCEPTION
       budget:
@@ -11606,6 +11615,10 @@ phase_execution_envelope:
         path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-final-hermetic-capability-route-20260819/task-p3-004/authority/P3_004_FOUNDER_EXCEPTION_TASK_AUTHORITY_V1.json
         byte_length: 4233
         sha256: b5bbba822e1301ed553f62098a5a54cadc842cd56e951b39694c1ca947a40624
+      stage_a_receipt:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-final-hermetic-capability-route-20260819/task-p3-004/preactivation/stage-a-v1/P3_004_STAGE_A_HERMETIC_SUREFIRE_PREACTIVATION_PASS_RECEIPT_V1.json
+        byte_length: 8094
+        sha256: d00b1f958cf83dda994cee1a88b78c216443f8a513ab66867182b54007637453
       product_source_writes: 0
       candidate_created: false
   consumed:
@@ -11615,7 +11628,7 @@ phase_execution_envelope:
   reserved:
     task_id: AIOS-P3-004_HERMETIC_SUREFIRE_AND_PERSISTED_CAPABILITY_LEDGER
     route_id: AIOS-P3-004_HERMETIC_SUREFIRE_AND_PERSISTED_CAPABILITY_LEDGER_FOUNDER_EXCEPTION_ROUTE
-    status: ACTIVE_STAGE_A_PREACTIVATION_REQUIRED
+    status: ACTIVE_STAGE_B_PRODUCT_IMPLEMENTATION
     budget:
       engineering_tasks: 1
       engineering_hours: 32
@@ -12113,9 +12126,9 @@ founder_escalation_control:
   schema_version: founder-escalation-control/v2
   disposition: NO_RESERVED_TRIGGER_CONTINUE_PHASE
   source_event:
-    kind: P3_004_FOUNDER_EXCEPTION_TASK_ACTIVATED
+    kind: P3_004_STAGE_A_PREACTIVATION_PASS_STAGE_B_UNLOCKED
     task_id: AIOS-P3-004_HERMETIC_SUREFIRE_AND_PERSISTED_CAPABILITY_LEDGER
-    status: ACTIVE_STAGE_A_PREACTIVATION_REQUIRED
+    status: ACTIVE_STAGE_B_PRODUCT_IMPLEMENTATION
   resolved_reserved_trigger:
     category: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
     evidence:
@@ -12132,7 +12145,7 @@ founder_escalation_control:
   phase_gate_status: INCOMPLETE
   founder_decision_required: false
   next_action_owner: MASTER_CEO_AGENT
-  next_eligible_action: RUN_STAGE_A_HERMETIC_PREACTIVATION
+  next_eligible_action: IMPLEMENT_PERSISTED_CAPABILITY_LEDGER
 
 historical_p2_053_phase_route:
   schema_version: "1.1"
@@ -23641,7 +23654,7 @@ historical_p2_079_terminal_active_work:
 
 active_work:
   current_task: AIOS-P3-004_HERMETIC_SUREFIRE_AND_PERSISTED_CAPABILITY_LEDGER
-  current_task_status: ACTIVE_STAGE_A_PREACTIVATION_REQUIRED
+  current_task_status: ACTIVE_STAGE_B_PRODUCT_IMPLEMENTATION
   current_task_contract:
     path: docs/aios/tasks/P3-004_HERMETIC_SUREFIRE_AND_PERSISTED_CAPABILITY_LEDGER.yaml
     sha256: 0243f29a7f36e550dda4359f13dbacd52f8eb408ae0f57804b3f8b69f2052945
@@ -23658,7 +23671,7 @@ active_work:
   authorization_id: f900df4e-549f-4631-a713-a90887b0cd6e
   activation_parent_commit: f72e5eb5563936e9b962b3ce7dcb398643d3a41f
   activation_parent_tree: 7d3b7354c79a5e930d672e94e7421e4dfa4fb337
-  task_resource_state: ACTIVE_UNIQUE_FOUNDER_EXCEPTION_STAGE_A
+  task_resource_state: ACTIVE_UNIQUE_FOUNDER_EXCEPTION_STAGE_B
   task_branch: codex/p3-004-hermetic-capability-ledger
   task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p3-004-hermetic-capability-ledger
   execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p3-final-hermetic-capability-route-20260819/task-p3-004
@@ -23708,7 +23721,7 @@ active_work:
       path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-persisted-tool-capability-ledger-20260819/task-p3-003/terminal/P3_003_TERMINAL_PREACTIVATION_TEMP_ROOT_CONFINEMENT_NON_PASS_RECEIPT_V1.json
       byte_length: 8569
       sha256: 1a488dea0c6750fdb679a27492fc031b5db7ad0e0fd9700e716d9a8dd1b59ed0
-  next_eligible_action: RUN_STAGE_A_HERMETIC_PREACTIVATION
+  next_eligible_action: IMPLEMENT_PERSISTED_CAPABILITY_LEDGER
 
 historical_p2_080_terminal_active_work:
   current_task: AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER
@@ -30719,9 +30732,9 @@ claim_boundary:
   current_phase_route: AIOS-P3-004_HERMETIC_SUREFIRE_AND_PERSISTED_CAPABILITY_LEDGER_FOUNDER_EXCEPTION_ROUTE
   current_task: AIOS-P3-004_HERMETIC_SUREFIRE_AND_PERSISTED_CAPABILITY_LEDGER
   selected_task: AIOS-P3-004_HERMETIC_SUREFIRE_AND_PERSISTED_CAPABILITY_LEDGER
-  current_task_status: ACTIVE_STAGE_A_PREACTIVATION_REQUIRED
-  next_eligible_action: RUN_STAGE_A_HERMETIC_PREACTIVATION
-  real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_ACTIVE_INCOMPLETE_DURABLE_STATE_AND_CHECKPOINT_RESUME_ACCEPTED_P3_004_STAGE_A_REQUIRED_P3_EXIT_GATE_ZERO
+  current_task_status: ACTIVE_STAGE_B_PRODUCT_IMPLEMENTATION
+  next_eligible_action: IMPLEMENT_PERSISTED_CAPABILITY_LEDGER
+  real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_ACTIVE_INCOMPLETE_DURABLE_STATE_AND_CHECKPOINT_RESUME_ACCEPTED_P3_004_STAGE_A_PASS_STAGE_B_ACTIVE_P3_EXIT_GATE_ZERO
   p2_research_exit_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
   p2_research_exit_percent: 100
   p2_original_capability_gate_status: MISSING_NOT_ACCEPTED
@@ -30730,12 +30743,12 @@ claim_boundary:
   p2_held_source_reads: 0
   p3_status: ACTIVE_INCOMPLETE
   p3_entry_authorized: true
-  p3_phase_envelope_status: ACTIVE_STAGE_A_PREACTIVATION_REQUIRED
+  p3_phase_envelope_status: ACTIVE_STAGE_B_PRODUCT_IMPLEMENTATION
   p3_exit_gate_progress_percent: 0
   p3_delivery_progress_percent: 25
   p3_accepted_milestones:
     - DURABLE_STATE_AND_CHECKPOINT_RESUME
-  p3_capability_milestone_status: NOT_ACCEPTED_P3_004_ACTIVE_STAGE_A_REQUIRED
+  p3_capability_milestone_status: NOT_ACCEPTED_P3_004_ACTIVE_STAGE_B_PRODUCT_IMPLEMENTATION
   p3_004_product_source_writes: 0
   p3_004_candidate_created: false
   p3_004_delivery_credit: 0

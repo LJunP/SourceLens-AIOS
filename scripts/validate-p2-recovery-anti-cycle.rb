@@ -355,7 +355,15 @@ module P2RecoveryAntiCycle
                          truth.fetch("current_phase_route")
     control = truth.fetch("p2_recovery_control")
     expected_p3_entry = p3_entered ? "AUTHORIZED" : "ELIGIBLE_AWAITING_SEPARATE_FOUNDER_PHASE_ENTRY"
-    expected_p3_execution = p3_entered ? "ACTIVE" : "HOLD_PENDING_SEPARATE_FOUNDER_PHASE_ENTRY"
+    p3_strategic_hold = p3_entered && truth.dig("founder_escalation_control", "disposition") ==
+      "FOUNDER_RESERVED_DECISION_RESOLVED_P3_CAPABILITY_MILESTONE_HOLD"
+    expected_p3_execution = if p3_strategic_hold
+                              "HOLD_INCOMPLETE_CAPABILITY_MILESTONE_FROZEN"
+                            elsif p3_entered
+                              "ACTIVE"
+                            else
+                              "HOLD_PENDING_SEPARATE_FOUNDER_PHASE_ENTRY"
+                            end
     assert!(%w[P2 P3].include?(project["current_phase"]) &&
             project["p2_execution_status"] == "COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED" &&
             project["p3_entry_status"] == expected_p3_entry &&

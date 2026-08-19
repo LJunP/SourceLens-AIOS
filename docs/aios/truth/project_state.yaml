@@ -1,8 +1,8 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: '2026-08-19T06:55:00Z'
+last_verified_at: '2026-08-19T07:08:00Z'
 
-verification_scope: P3_005_ZERO_AUTHORITY_AGENT_ACTION_REQUEST_BOUNDARY_CONTRACT_SELECTED_READY_FOR_MASTER_ACTIVATION_P3_DELIVERY_25_STRICT_EXIT_ZERO_P4_HOLD_LONG_TERM_GOAL_ACTIVE
+verification_scope: P3_005_ZERO_AUTHORITY_AGENT_ACTION_REQUEST_BOUNDARY_ACTIVE_UNIQUE_TASK_P3_DELIVERY_25_STRICT_EXIT_ZERO_P4_HOLD_LONG_TERM_GOAL_ACTIVE
 
 authority:
   founder: Human Founder
@@ -38,7 +38,7 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
+  current_task_authority: AIOS-P3-005_ZERO_AUTHORITY_AGENT_ACTION_REQUEST_BOUNDARY
   note: 'Founder decision AUTHORIZE_P3_ZERO_AUTHORITY_AGENT_AND_IMMUTABLE_TASK_ACTION_ENVELOPE_PHASE_ROUTE_RESEQUENCING_V1
     supersedes only the scheduling effect of the resolved P3 capability-milestone
     HOLD and installs one materially different zero-authority Agent plus immutable
@@ -54,8 +54,9 @@ goal:
     P3 delivery remains 25%, strict P3 Exit remains 0%, P4 remains HOLD, the project
     remains incomplete and the Long-term Goal remains ACTIVE. Slot 1,
     ZERO_AUTHORITY_AGENT_ACTION_REQUEST_BOUNDARY, has one exact P3-005 Contract selected
-    and is READY for Master activation; no branch, worktree, Evidence root or Task
-    authority has yet been created. All following paragraphs are retained historical chronology
+    and is ACTIVE under one create-once Task authority, one branch, one worktree and
+    one Evidence root. Slot 2 remains locked and no product capability or Phase Gate
+    credit exists. All following paragraphs are retained historical chronology
     only. Founder decision DECIDE_P3_KEEP_STRICT_EXIT_AND_HOLD_CAPABILITY_MILESTONE_AFTER_P3_004_FINAL_EXCEPTION_NON_PASS_V1
     keeps Strategic Constitution v2.4, the P3 Objective and the strict P3 Exit
     Gate unchanged while placing P3 in HOLD_INCOMPLETE_CAPABILITY_MILESTONE_FROZEN.
@@ -1724,7 +1725,7 @@ project:
   p2_entry_status: AUTHORIZED
   p2_execution_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
   phase_execution_status: ACTIVE
-  current_route_execution_status: P3_005_READY_FOR_MASTER_ACTIVATION
+  current_route_execution_status: P3_005_ACTIVE
   p3_entry_status: AUTHORIZED
   p3_execution_status: ACTIVE
   p4_entry_status: HOLD_PENDING_STRICT_P3_EXIT_AND_SEPARATE_FOUNDER_PHASE_ENTRY
@@ -8515,9 +8516,9 @@ historical_p3_003_phase_route:
 current_phase_route:
   schema_version: p3-zero-authority-action-envelope-task-route/v1
   route_id: P3_ZERO_AUTHORITY_AGENT_AND_IMMUTABLE_TASK_ACTION_ENVELOPE_PHASE_ROUTE
-  status: AUTHORIZED_READY
-  execution_status: P3_TASK_READY
-  scheduling_status: READY_FOR_MASTER_ACTIVATION
+  status: ACTIVE
+  execution_status: ACTIVE
+  scheduling_status: ACTIVE_PHASE_DELEGATED_TASK
   phase: P3
   phase_entry_status: AUTHORIZED
   policy:
@@ -8526,7 +8527,7 @@ current_phase_route:
     sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
   founder_phase_route_decision_required: false
   founder_reserved_trigger_resolved: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
-  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
+  next_eligible_action: WORKER_IMPLEMENT_AND_TEST
   phase_execution_envelope_ref: phase_execution_envelope
   phase_entry_route_ref: historical_p3_phase_entry_route
   accepted_foundation_route_ref: historical_p3_001_phase_route
@@ -8561,7 +8562,7 @@ current_phase_route:
   selected_task:
     task_id: AIOS-P3-005_ZERO_AUTHORITY_AGENT_ACTION_REQUEST_BOUNDARY
     slot: 1
-    status: ELIGIBLE_NOT_ACTIVATED
+    status: ACTIVE
     task_kind: ZERO_AUTHORITY_AGENT_ACTION_REQUEST_BOUNDARY
     capability: ZERO_AUTHORITY_AGENT_ACTION_REQUEST
     milestone: ZERO_AUTHORITY_AGENT_ACTION_REQUEST_BOUNDARY
@@ -8577,6 +8578,9 @@ current_phase_route:
       byte_length: 9473
       sha256: d0bcf63c9bfc66b5ef6db676b82f2892e415fa9aef4c301f27f4dd63046c446b
     authority:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-zero-authority-action-request-boundary-20260819/task-p3-005/authority/P3_005_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
+      byte_length: 2753
+      sha256: 94c049ac0eddb7a269c260339b1a5054ffcc11b98ce59d127d9d0f214e8d6451
     resource_identity:
       branch: codex/p3-005-zero-authority-action-request-boundary
       worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p3-005-zero-authority-action-request-boundary
@@ -8605,7 +8609,7 @@ current_phase_route:
   ordered_slots:
     - slot: 1
       id: ZERO_AUTHORITY_AGENT_ACTION_REQUEST_BOUNDARY
-      status: ELIGIBLE_NOT_ACTIVATED
+      status: ACTIVE
       predecessor: DURABLE_STATE_AND_CHECKPOINT_RESUME_ACCEPTED
       phase_milestone_credit_on_pass: 0
       pass_unlocks_only: IMMUTABLE_TASK_ACTION_ENVELOPE_BROKER_AND_PERMISSION_ENFORCEMENT
@@ -11836,7 +11840,7 @@ phase_execution_envelope:
         sha256: 3ec5d1ee27c7a0376efe2a45806d92fc2c66ea2c875b1584866f69f1cdd83583
     - task_id: AIOS-P3-005_ZERO_AUTHORITY_AGENT_ACTION_REQUEST_BOUNDARY
       route_id: AIOS-P3-005_ZERO_AUTHORITY_AGENT_ACTION_REQUEST_BOUNDARY_PHASE_DELEGATED_ROUTE
-      status: ELIGIBLE_NOT_ACTIVATED
+      status: ACTIVE
       milestone: ZERO_AUTHORITY_AGENT_ACTION_REQUEST_BOUNDARY
       budget:
         engineering_tasks: 1
@@ -11847,13 +11851,16 @@ phase_execution_envelope:
         byte_length: 9473
         sha256: d0bcf63c9bfc66b5ef6db676b82f2892e415fa9aef4c301f27f4dd63046c446b
       authority:
+        path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-zero-authority-action-request-boundary-20260819/task-p3-005/authority/P3_005_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
+        byte_length: 2753
+        sha256: 94c049ac0eddb7a269c260339b1a5054ffcc11b98ce59d127d9d0f214e8d6451
   consumed:
-    engineering_tasks: 4
-    engineering_hours: 128
-    calendar_days: 32
+    engineering_tasks: 5
+    engineering_hours: 160
+    calendar_days: 40
   reserved:
     task_id: AIOS-P3-005_ZERO_AUTHORITY_AGENT_ACTION_REQUEST_BOUNDARY
-    status: ELIGIBLE_NOT_ACTIVATED
+    status: ACTIVE
     budget:
       engineering_tasks: 1
       engineering_hours: 32
@@ -11863,6 +11870,9 @@ phase_execution_envelope:
       byte_length: 9473
       sha256: d0bcf63c9bfc66b5ef6db676b82f2892e415fa9aef4c301f27f4dd63046c446b
     authority:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-zero-authority-action-request-boundary-20260819/task-p3-005/authority/P3_005_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
+      byte_length: 2753
+      sha256: 94c049ac0eddb7a269c260339b1a5054ffcc11b98ce59d127d9d0f214e8d6451
   remaining:
     engineering_tasks: 3
     engineering_hours: 96
@@ -12351,9 +12361,9 @@ founder_escalation_control:
   schema_version: founder-escalation-control/v2
   disposition: NO_RESERVED_TRIGGER_CONTINUE_PHASE
   source_event:
-    kind: P3_PHASE_DELEGATED_TASK_SELECTED_READY
+    kind: P3_PHASE_DELEGATED_TASK_ACTIVE
     task_id: AIOS-P3-005_ZERO_AUTHORITY_AGENT_ACTION_REQUEST_BOUNDARY
-    status: ELIGIBLE_NOT_ACTIVATED
+    status: ACTIVE
   reserved_trigger:
     category: NONE
     evidence:
@@ -12375,7 +12385,7 @@ founder_escalation_control:
   phase_gate_status: INCOMPLETE
   founder_decision_required: false
   next_action_owner: MASTER_CEO_AGENT
-  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
+  next_eligible_action: WORKER_IMPLEMENT_AND_TEST
 
 historical_p2_053_phase_route:
   schema_version: "1.1"
@@ -23882,29 +23892,34 @@ historical_p2_079_terminal_active_work:
   next_eligible_action: FOUNDER_RESERVED_DECISION
 
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P3-005_ZERO_AUTHORITY_AGENT_ACTION_REQUEST_BOUNDARY
+  current_task_status: ACTIVE
   current_task_contract:
     path: docs/aios/tasks/P3-005_ZERO_AUTHORITY_AGENT_ACTION_REQUEST_BOUNDARY.yaml
     byte_length: 9473
     sha256: d0bcf63c9bfc66b5ef6db676b82f2892e415fa9aef4c301f27f4dd63046c446b
   current_task_contract_sha256: d0bcf63c9bfc66b5ef6db676b82f2892e415fa9aef4c301f27f4dd63046c446b
-  current_execution_authorization:
-  current_execution_authorization_sha256:
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p3-zero-authority-action-request-boundary-20260819/task-p3-005/authority/P3_005_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
+  current_execution_authorization_sha256: 94c049ac0eddb7a269c260339b1a5054ffcc11b98ce59d127d9d0f214e8d6451
   authority_record:
-    path:
-    sha256:
-    byte_length:
-  execution_nonce:
-  execution_nonce_status: NOT_ISSUED
-  authorization_id:
-  activation_parent_commit:
-  activation_parent_tree:
-  task_resource_state: NOT_CREATED_PHASE_DELEGATED_TASK_READY
-  task_branch:
-  task_worktree:
-  execution_evidence_root:
-  allowlisted_paths: []
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-zero-authority-action-request-boundary-20260819/task-p3-005/authority/P3_005_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
+    sha256: 94c049ac0eddb7a269c260339b1a5054ffcc11b98ce59d127d9d0f214e8d6451
+    byte_length: 2753
+  execution_nonce: d4456400-fba1-47dd-809a-96d311c942f1
+  execution_nonce_status: ACTIVE_SINGLE_USE
+  authorization_id: 85bcb9de-0a54-4499-8ee3-4c11d058acbc
+  activation_parent_commit: afc041eea543ec06e277fa0a47b9fa9f7e9b3e7a
+  activation_parent_tree: 58b0fc482feed9e64b9d9bd2a7a84ee06600ecd2
+  task_resource_state: ACTIVE_UNIQUE_PHASE_DELEGATED
+  task_branch: codex/p3-005-zero-authority-action-request-boundary
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p3-005-zero-authority-action-request-boundary
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p3-zero-authority-action-request-boundary-20260819/task-p3-005
+  allowlisted_paths:
+    - backend-spring/src/main/java/com/sourcelens/module/agent/service/AgentRuntime.java
+    - backend-spring/src/main/java/com/sourcelens/module/agent/action/AgentActionRequest.java
+    - backend-spring/src/main/java/com/sourcelens/module/agent/action/AgentActionRequestBoundary.java
+    - backend-spring/src/test/java/com/sourcelens/AgentActionRequestBoundaryTest.java
+    - backend-spring/src/test/java/com/sourcelens/AgentRuntimeActionBoundaryTest.java
   budget:
     engineering_tasks: 1
     engineering_hours: 32
@@ -23945,7 +23960,7 @@ active_work:
       path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-final-hermetic-capability-route-20260819/task-p3-004/terminal/P3_004_TERMINAL_FINAL_CAPABILITY_EXCEPTION_INDEPENDENT_REVIEW_NON_PASS_RECEIPT_V1.json
       byte_length: 6451
       sha256: 3ec5d1ee27c7a0376efe2a45806d92fc2c66ea2c875b1584866f69f1cdd83583
-  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
+  next_eligible_action: WORKER_IMPLEMENT_AND_TEST
 
 historical_p2_080_terminal_active_work:
   current_task: AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER
@@ -30571,8 +30586,8 @@ historical_lineages:
 
 phase_execution_claim:
   current_route_claim: P3_ZERO_AUTHORITY_AGENT_AND_IMMUTABLE_TASK_ACTION_ENVELOPE_PHASE_ROUTE
-  current_task_claim: NONE
-  real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_ACTIVE_INCOMPLETE_DURABLE_STATE_AND_CHECKPOINT_RESUME_ACCEPTED_P3_005_SELECTED_NOT_ACTIVATED_P3_EXIT_GATE_ZERO
+  current_task_claim: AIOS-P3-005_ZERO_AUTHORITY_AGENT_ACTION_REQUEST_BOUNDARY
+  real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_ACTIVE_INCOMPLETE_DURABLE_STATE_AND_CHECKPOINT_RESUME_ACCEPTED_P3_005_ACTIVE_ZERO_CAPABILITY_CREDIT_P3_EXIT_GATE_ZERO
   product_capability_changed: false
   revised_research_exit_percent: 100
   original_capability_progress_percent: 0
@@ -30956,11 +30971,11 @@ p2_recovery_control:
 
 claim_boundary:
   current_phase_route: P3_ZERO_AUTHORITY_AGENT_AND_IMMUTABLE_TASK_ACTION_ENVELOPE_PHASE_ROUTE
-  current_task: NONE
+  current_task: AIOS-P3-005_ZERO_AUTHORITY_AGENT_ACTION_REQUEST_BOUNDARY
   selected_task: AIOS-P3-005_ZERO_AUTHORITY_AGENT_ACTION_REQUEST_BOUNDARY
-  current_task_status: NONE
-  next_eligible_action: MASTER_ACTIVATE_PHASE_DELEGATED_TASK
-  real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_ACTIVE_INCOMPLETE_DURABLE_STATE_AND_CHECKPOINT_RESUME_ACCEPTED_P3_005_SELECTED_NOT_ACTIVATED_P3_EXIT_GATE_ZERO
+  current_task_status: ACTIVE
+  next_eligible_action: WORKER_IMPLEMENT_AND_TEST
+  real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_ACTIVE_INCOMPLETE_DURABLE_STATE_AND_CHECKPOINT_RESUME_ACCEPTED_P3_005_ACTIVE_ZERO_CAPABILITY_CREDIT_P3_EXIT_GATE_ZERO
   p2_research_exit_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
   p2_research_exit_percent: 100
   p2_original_capability_gate_status: MISSING_NOT_ACCEPTED

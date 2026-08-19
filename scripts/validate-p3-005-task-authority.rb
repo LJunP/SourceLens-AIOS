@@ -216,11 +216,12 @@ module P3Task005AuthorityValidation
            route["external_effects"] == FALSE_EFFECTS && route["additional_write_roots"] == [],
            "P3-005 Route projection drift")
     slots = route["ordered_slots"]
+    expected_slot_1_status = ready ? "ELIGIBLE_NOT_ACTIVATED" : "ACTIVE"
     assert(slots.is_a?(Array) && slots.length == 4 &&
            slots.map { |slot| slot["slot"] } == [1, 2, 3, 4] &&
            slots.map { |slot| slot["id"] } == P3ZeroAuthorityRouteValidation::SLOT_IDS &&
            slots.map { |slot| slot["status"] } == [
-             "ELIGIBLE_NOT_ACTIVATED", "LOCKED_PREDECESSOR",
+             expected_slot_1_status, "LOCKED_PREDECESSOR",
              "LOCKED_PREDECESSOR", "LOCKED_PREDECESSOR"
            ] && slots.all? { |slot| slot["budget"] == FULL_BUDGET },
            "P3-005 ordered slot projection drift")

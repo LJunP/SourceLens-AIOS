@@ -1534,7 +1534,7 @@ Dir.mktmpdir("founder-delegation-continuity-") do |fixtures|
     truth.dig("phase_execution_envelope", "status") == "EXHAUSTED" ?
       "TASK_CAPACITY_RESERVED" : "EXHAUSTED"
   expect_non_pass(fixtures, "claim-boundary-envelope-status-drift", truth,
-                  "P3 continuation claim boundary drift")
+                  "P3-004 terminal claim boundary drift")
   assertions += 1
 
   truth = deep_copy(base)

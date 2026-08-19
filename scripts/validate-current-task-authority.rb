@@ -209,6 +209,18 @@ module CurrentTaskAuthority
     fail!("#{label} is unavailable (#{e.class})")
   end
 
+  def immutable_phase_source_path(root, identity, label)
+    path = string(hash(identity, "#{label} identity")["path"], "#{label}.path")
+    return repo_path(root, path, label) unless Pathname.new(path).absolute?
+
+    assert(File.expand_path(path) == path, "#{label} absolute historical path must be normalized")
+    assert(File.realpath(path) == path,
+           "#{label} absolute historical path must not traverse symlinked components")
+    path
+  rescue Errno::ENOENT, Errno::ELOOP, Errno::ENOTDIR => e
+    fail!("#{label} is unavailable (#{e.class})")
+  end
+
   def absolute_existing_file(value, label)
     path = string(value, label)
     assert(Pathname.new(path).absolute?, "#{label} must be absolute")
@@ -4179,7 +4191,11 @@ module CurrentTaskAuthority
     assert(task_spec_ref == effective_source_identity["original_founder_packet"],
            "phase-delegated Task Contract task_spec_ref is not the immutable Founder packet")
     validate_identity(
-      repo_path(root, task_spec_ref["path"], "phase-delegated Task Contract immutable task spec"),
+      immutable_phase_source_path(
+        root,
+        task_spec_ref,
+        "phase-delegated Task Contract immutable task spec"
+      ),
       task_spec_ref,
       "phase-delegated Task Contract immutable task spec"
     )

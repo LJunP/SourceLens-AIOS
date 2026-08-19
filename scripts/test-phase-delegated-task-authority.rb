@@ -86,9 +86,20 @@ module PhaseDelegatedAuthorityTest
         next
       end
       route = candidate["current_phase_route"]
-      values << candidate if route.is_a?(Hash) && route["route_id"] == ROUTE_ID && route["status"] == "ACTIVE"
+      values << [commit_id, candidate] if
+        route.is_a?(Hash) && route["route_id"] == ROUTE_ID && route["status"] == "ACTIVE"
     end.last
     assert(active, "delegated active Truth anchor is missing")
+    active_commit, active = active
+    %w[strategy execution_protocol founder_delegation_policy evaluation_protocol].each do |key|
+      authority_path = active.dig("authority", key, "path")
+      assert(authority_path.is_a?(String), "delegated active authority path is missing: #{key}")
+      bytes, stderr, status = command(
+        repo, "git", "show", "#{active_commit}:#{authority_path}", allow_failure: true
+      )
+      assert(status.success?, "delegated active authority bytes are missing: #{key}: #{stderr}")
+      File.binwrite(File.join(repo, authority_path), bytes)
+    end
     active.fetch("phase_execution_envelope").fetch("task_ledger").each do |entry|
       entry.delete("capacity_source_task_id")
     end

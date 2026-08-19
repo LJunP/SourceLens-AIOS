@@ -22,7 +22,8 @@ end
 def expect_non_pass(name, truth, fragment)
   P3PhaseEntryValidation.validate!(root: ROOT, truth: truth)
   raise "#{name} unexpectedly passed"
-rescue P3PhaseEntryValidationError, P3Task004AuthorityValidationError => e
+rescue P3PhaseEntryValidationError, P3Task004AuthorityValidationError,
+       P3ZeroAuthorityRouteValidationError => e
   raise "#{name} failed for the wrong reason: #{e.message}" unless e.message.include?(fragment)
   puts "PASS #{name} rejected"
 end
@@ -48,27 +49,33 @@ current_truth = YAML.safe_load(
   File.binread(TRUTH), permitted_classes: [], permitted_symbols: [], aliases: false
 )
 current_state = P3PhaseEntryValidation.validate!(root: ROOT, truth: current_truth)
-raise "current P3 Founder-exception continuation state drift: #{current_state}" unless
-  current_state == "P3_004_TERMINAL_FINAL_CAPABILITY_EXCEPTION_INDEPENDENT_REVIEW_NON_PASS"
-puts "PASS current P3-004 terminal Founder-exception projection"
+raise "current P3 zero-authority Route state drift: #{current_state}" unless
+  current_state == "P3_ZERO_AUTHORITY_ROUTE_INSTALLED_SLOT_1_ELIGIBLE"
+puts "PASS current P3 zero-authority Route installation projection"
 assertions += 1
 
 fixture = deep_copy(current_truth)
 fixture.dig("founder_escalation_control", "resolved_strategy_decision")["sha256"] = "0" * 64
-expect_non_pass("P3 strategic HOLD decision identity cannot drift", fixture,
-                "P3-004 strategic HOLD control decision drift")
+expect_non_pass("P3 zero-authority Route decision identity cannot drift", fixture,
+                "P3 zero-authority Founder escalation projection drift")
 assertions += 1
 
 fixture = deep_copy(current_truth)
-fixture.dig("phase_boundary")["task_creation_allowed"] = true
-expect_non_pass("P3 strategic HOLD cannot create a Task", fixture,
-                "P3 strategic HOLD Phase boundary drift")
+fixture.dig("phase_boundary")["task_creation_allowed"] = false
+expect_non_pass("P3 zero-authority Route must expose only eligible slot 1", fixture,
+                "P3 zero-authority Phase boundary drift")
 assertions += 1
 
 fixture = deep_copy(current_truth)
 fixture.dig("current_phase_route", "founder_route_decision")["sha256"] = "0" * 64
-expect_non_pass("P3-004 Founder route identity cannot drift", fixture,
-                "P3-004 Route projection drift")
+expect_non_pass("P3 zero-authority Founder route identity cannot drift", fixture,
+                "current P3 zero-authority Route drift")
+assertions += 1
+
+fixture = deep_copy(current_truth)
+fixture.dig("current_phase_route", "ordered_slots", 1)["status"] = "ELIGIBLE_NOT_ACTIVATED"
+expect_non_pass("P3 zero-authority slot 2 cannot unlock before slot 1 PASS", fixture,
+                "P3 zero-authority slot schedule drift")
 assertions += 1
 
 fixture = deep_copy(truth)

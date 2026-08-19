@@ -10,6 +10,8 @@ require "time"
 require "yaml"
 p3_entry_validator = File.join(__dir__, "validate-p3-phase-entry.rb")
 require_relative "validate-p3-phase-entry" if File.file?(p3_entry_validator)
+p3_zero_authority_route_validator = File.join(__dir__, "validate-p3-zero-authority-route.rb")
+require_relative "validate-p3-zero-authority-route" if File.file?(p3_zero_authority_route_validator)
 p3_task_validator = File.join(__dir__, "validate-p3-task-authority.rb")
 require_relative "validate-p3-task-authority" if File.file?(p3_task_validator)
 
@@ -5054,6 +5056,14 @@ module FounderDelegationContinuity
     route = mapping(truth["current_phase_route"], "current_phase_route")
     return validate_research_exit_state!(root, truth, policy, project, route) if
       route["schema_version"] == RESEARCH_EXIT_ROUTE_SCHEMA
+    if route["schema_version"] == "p3-zero-authority-action-envelope-route/v1"
+      assert(defined?(P3ZeroAuthorityRouteValidation),
+             "P3 zero-authority Route validator is unavailable")
+      state = P3ZeroAuthorityRouteValidation.validate_truth!(root: root, truth: truth)
+      assert(state == "P3_ZERO_AUTHORITY_ROUTE_INSTALLED_SLOT_1_ELIGIBLE",
+             "P3 zero-authority Route state drift")
+      return CONTINUE_DISPOSITION
+    end
     if route["schema_version"] == "p3-phase-entry-active/v1"
       assert(defined?(P3PhaseEntryValidation), "P3 Phase entry validator is unavailable")
       P3PhaseEntryValidation.validate!(root: root, truth: truth)

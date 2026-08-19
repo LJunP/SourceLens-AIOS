@@ -271,6 +271,13 @@ module P3PhaseEntryValidation
     validate_decision!(root)
     project = mapping(truth["project"], "project")
     route = mapping(truth["current_phase_route"], "current P3 Route")
+    if route["schema_version"] == "p3-zero-authority-action-envelope-route/v1"
+      require_relative "validate-p3-zero-authority-route" unless
+        defined?(P3ZeroAuthorityRouteValidation)
+      assert(defined?(P3ZeroAuthorityRouteValidation),
+             "P3 zero-authority Route validator is unavailable")
+      return P3ZeroAuthorityRouteValidation.validate_truth!(root: root, truth: truth)
+    end
     if route["schema_version"] == P3Task004AuthorityValidation::ROUTE_SCHEMA
       return P3Task004AuthorityValidation.validate!(root: root, truth: truth)
     end
@@ -396,6 +403,8 @@ module P3PhaseEntryValidation
 end
 
 if $PROGRAM_NAME == __FILE__
+  p3_zero_authority_route_validator = File.join(__dir__, "validate-p3-zero-authority-route.rb")
+  require_relative "validate-p3-zero-authority-route" if File.file?(p3_zero_authority_route_validator)
   begin
     root = Pathname.new(__dir__).join("..").realpath
     truth = YAML.load_file(root.join("docs/aios/truth/project_state.yaml"))

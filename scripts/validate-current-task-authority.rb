@@ -5543,6 +5543,7 @@ module CurrentTaskAuthority
         FounderDelegationContinuity::STRATEGIC_HOLD_ROUTE_SCHEMA,
         FounderDelegationContinuity::RESEARCH_EXIT_ROUTE_SCHEMA,
         "p3-phase-entry-active/v1",
+        "p3-zero-authority-action-envelope-route/v1",
         "p3-phase-delegated-task/v1",
         "p3-founder-exception-task-route/v1",
         DELEGATED_TASK_ROUTE_SCHEMA
@@ -5574,6 +5575,11 @@ module CurrentTaskAuthority
       assert(disposition == FounderDelegationContinuity::RESEARCH_EXIT_DISPOSITION,
              "P2 research exit requires exact capability-not-accepted closure and a separate P3 entry decision")
       return "P2_RESEARCH_EXIT_COMPLETE_P3_ENTRY_DECISION_REQUIRED"
+    end
+    if route["schema_version"] == "p3-zero-authority-action-envelope-route/v1"
+      assert(defined?(P3ZeroAuthorityRouteValidation),
+             "P3 zero-authority Route validator is unavailable")
+      return P3ZeroAuthorityRouteValidation.validate_truth!(root: root, truth: truth)
     end
     if route["schema_version"] == "p3-phase-entry-active/v1"
       assert(defined?(P3PhaseEntryValidation), "P3 Phase entry validator is unavailable")

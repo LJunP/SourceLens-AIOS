@@ -47,6 +47,7 @@ module FounderActionHandoff
     P2_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER_PLUS_ONE_SHOT_FORMAL_HELD_SEQUENCE
     P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY
     P3_ONE_FINAL_HERMETIC_CAPABILITY_LEDGER_ROUTE_AFTER_PREACTIVATION_TERMINAL
+    P3_ZERO_AUTHORITY_AGENT_AND_IMMUTABLE_TASK_ACTION_ENVELOPE_PHASE_ROUTE_RESEQUENCING
   ].freeze
   APP_OPERATION_TYPES = %w[APP_FILESYSTEM_BATCH_WRITE].freeze
   READ_ONLY_HTTPS_OPERATION = "一次全新、独立、clean-room V6 benchmark source acquisition"
@@ -231,6 +232,22 @@ module FounderActionHandoff
   P3_FINAL_CAPABILITY_CONSUMPTION = "This is the sole final exception for the capability milestone: activation consumes exactly one Task, 32-hour and 8-day reservation with one candidate generation, at most one same-Task repair and at most two review cycles; any preactivation or Task NON_PASS creates no successor, replacement, remediation chain, V2 authorization or further capability implementation attempt"
   P3_FINAL_CAPABILITY_PASS = "PASS accepts only CAPABILITY_SCOPED_TOOL_AND_PERMISSION_ENFORCEMENT, raises P3 delivery progress from 25% to 50%, keeps strict P3 Exit progress at 0%, and unlocks only the bounded isolated-execution-with-complete-traces milestone under the remaining Phase authority; it does not authorize P4 entry or long-term Goal closure"
   P3_FINAL_CAPABILITY_NON_PASS = "NON_PASS preserves exact terminal Evidence, consumes the final exception Task, permanently freezes further capability-milestone implementation inside the current P3 route, keeps P3 ACTIVE_INCOMPLETE at 25% delivery and 0% strict Exit, creates no automatic successor, keeps P4 HOLD and keeps the Long-term Goal ACTIVE"
+  P3_ZERO_AUTHORITY_ROUTE_TOKEN = "AUTHORIZE_P3_ZERO_AUTHORITY_AGENT_AND_IMMUTABLE_TASK_ACTION_ENVELOPE_PHASE_ROUTE_RESEQUENCING_V1"
+  P3_ZERO_AUTHORITY_ROUTE_DECISION = "Supersede only the scheduling effect of DECIDE_P3_KEEP_STRICT_EXIT_AND_HOLD_CAPABILITY_MILESTONE_AFTER_P3_004_FINAL_EXCEPTION_NON_PASS_V1 and its prohibition on new P3 engineering, solely for this materially different Phase route; preserve that decision, P3-002/P3-003/P3-004 terminal facts and all failed-candidate non-integration facts as immutable accounting"
+  P3_ZERO_AUTHORITY_ROUTE_OBJECTIVE = "Keep Strategic Constitution v2.4 and the P3 Objective unchanged: deliver one durable planner, executor, tool, state and checkpoint loop with Minimum Trust"
+  P3_ZERO_AUTHORITY_ROUTE_EXIT_GATE = "Keep the strict P3 Exit Gate unchanged: resume, isolation, permission and complete observable trace tests must all be independently ACCEPTED, followed by one independent P3 Exit-Gate audit; no research-NON_PASS completion and no weakened substitute evidence"
+  P3_ZERO_AUTHORITY_ROUTE_ARCHITECTURE = "Replace the failed mutable in-process capability-grant/ledger approach with a zero-authority Agent plus an immutable Task Action Envelope and an out-of-process default-deny broker: AgentRuntime may request actions but cannot mint, mutate, widen or execute authority; every tool request must bind exact task, workflow, checkpoint, repository commit/tree, normalized root, tool, argument constraints, read/write roots, executable identity, closed environment, network policy, timeout, budget, nonce and expiry from a create-once envelope issued outside AgentRuntime; the broker must durably persist an ALLOW or DENY decision before any tool body and fail closed if that persistence fails; effectful actions run only in a disposable Task worktree under exact /usr/bin/sandbox-exec deny-network and write confinement with no fallback to the current local ProcessBuilder path; completed action receipts are idempotently bound into the accepted P3-001 checkpoint chain so resume cannot duplicate effects; request, decision, argv, cwd, environment identity, stdout, stderr, exit, file pre/post state, patch, rollback and checkpoint events form one complete replayable trace"
+  P3_ZERO_AUTHORITY_ROUTE_MILESTONES = "Preserve DURABLE_STATE_AND_CHECKPOINT_RESUME as ACCEPTED; replace only the frozen CAPABILITY_SCOPED_TOOL_AND_PERMISSION_ENFORCEMENT implementation projection with ZERO_AUTHORITY_AGENT_AND_IMMUTABLE_TASK_ACTION_ENVELOPE_PERMISSION_ENFORCEMENT; retain BOUNDED_ISOLATED_EXECUTION_WITH_COMPLETE_OBSERVABLE_TRACES and INDEPENDENT_P3_EXIT_GATE_AUDIT as required milestones"
+  P3_ZERO_AUTHORITY_ROUTE_ORDER = "Use exactly four ordered remaining slots: slot 1 ZERO_AUTHORITY_AGENT_ACTION_REQUEST_BOUNDARY removes all direct effectful dispatch from AgentRuntime and freezes typed action requests with fail-closed pre-effect denial recording; slot 2 IMMUTABLE_TASK_ACTION_ENVELOPE_BROKER_AND_PERMISSION_ENFORCEMENT implements the independent broker and accepts the new permission milestone only after fresh independent review; slot 3 BOUNDED_ISOLATED_EXECUTION_TRACE_CHECKPOINT_REPLAY_AND_ROLLBACK integrates the accepted checkpoint kernel with one controlled synthetic end-to-end execution, crash/resume without duplicate effects, complete trace and exact rollback; slot 4 INDEPENDENT_P3_EXIT_GATE_AUDIT performs evaluation only and may not mutate product, oracle, criteria or prior Evidence"
+  P3_ZERO_AUTHORITY_ROUTE_LINEAGE = "Implementation inputs are only canonical main, the accepted P3-001 checkpoint foundation and newly authored Task Contracts; prohibit reading, comparing, copying or reusing P3-002/P3-003/P3-004 branches, worktrees, code, tests, evaluator implementations or engineering Evidence; terminal receipts may be used only for identity and accounting; prohibit recreating a mutable dynamic capability-grant ledger under a new name"
+  P3_ZERO_AUTHORITY_ROUTE_INSTALLATION = "Permit one create-once structured Founder decision, one minimal closed-profile extension of the existing Founder handoff/P3 route validators solely to recognize this exact token, operation type and resolved-HOLD-to-new-route transition, and the mechanically identical current Truth/route projection; Constitution v2.4 remains byte-exact unchanged; installation, validator work and governance synchronization receive zero engineering or delivery credit and no Task may be created before installation and relevant authority/predecessor checks PASS"
+  P3_ZERO_AUTHORITY_ROUTE_VALIDATOR_BOUNDARY = "The previously observed historical Founder Knowledge Sync inconsistency is disclosed but is neither repaired nor waived by this route and receives zero progress; if it mechanically falsifies a P3-bound identity or a validator required by this route, preactivation stops before Task creation without an automatic governance repair chain"
+  P3_ZERO_AUTHORITY_ROUTE_TARGET = "Local SourceLens canonical main, at most one active P3 Task branch and worktree, Task-contract allowlisted backend-spring agent/execution/sandbox code, corresponding tests and fresh Task-local database fixtures, plus create-once Evidence under /Users/lijunpeng/Developer/.sourcelens-audit; no existing-database mutation, network, Provider, Secret, remote write, production, public release, irreversible deletion, P4 entry or long-term Goal termination"
+  P3_ZERO_AUTHORITY_ROUTE_DURATION = "Until the strict P3 Exit Gate is independently ACCEPTED and reaches the Founder Phase Gate, all exact four remaining slots are consumed, Founder explicitly revokes this route, or a terminal safety condition occurs"
+  P3_ZERO_AUTHORITY_ROUTE_BUDGET = "No P3 Phase envelope expansion: preserve limits of 8 engineering Tasks, 256 engineering hours and 64 calendar days, preserve consumed 4 Tasks, 128 hours and 32 days, and unlock exactly the remaining 4 Tasks, 128 hours and 32 days in the declared order; each Task reserves at most 32 hours and 8 days, only one Task/branch/worktree/candidate may be active, each engineering Task permits at most 2 candidate generations, 1 same-Task repair and 2 review cycles, governance/pre-Worker preparation is capped at 10 percent and real Worker implementation must start within the first engineering hour"
+  P3_ZERO_AUTHORITY_ROUTE_CONSUMPTION = "Each activated Task consumes exactly one 32-hour/8-day slot; any Task NON_PASS preserves exact terminal Evidence, locks every dependent slot, returns P3 to HOLD under this route and creates no successor, replacement, remediation, V2/V3 or automatic Founder request"
+  P3_ZERO_AUTHORITY_ROUTE_PASS = "Installation PASS sets P3 ACTIVE on this route with delivery 25 percent and strict Exit 0 percent and unlocks only slot 1; later milestone PASS effects follow the declared progress map; final Exit-audit PASS authorizes only Founder P3 Phase-Gate consideration and does not authorize P4 entry or project/Goal completion"
+  P3_ZERO_AUTHORITY_ROUTE_NON_PASS = "Any installation identity, authority, predecessor or validator mismatch stops before Task creation and preserves the current HOLD; any Task NON_PASS consumes its slot, integrates no failed candidate, leaves P4 HOLD and Long-term Goal ACTIVE, and creates no automatic retry chain"
   FOUNDER_NETWORK_OPERATION_PROFILES = {
     "READ_ONLY_HTTPS_ACQUISITION" => {
       "operations" => [READ_ONLY_HTTPS_OPERATION, READ_ONLY_HTTPS_METHOD],
@@ -491,6 +508,26 @@ module FounderActionHandoff
       "authorization_expiry_or_consumption_rule" => P3_FINAL_CAPABILITY_CONSUMPTION,
       "pass_lifecycle" => P3_FINAL_CAPABILITY_PASS,
       "non_pass_lifecycle" => P3_FINAL_CAPABILITY_NON_PASS
+    },
+    "P3_ZERO_AUTHORITY_AGENT_AND_IMMUTABLE_TASK_ACTION_ENVELOPE_PHASE_ROUTE_RESEQUENCING" => {
+      "operations" => [
+        P3_ZERO_AUTHORITY_ROUTE_DECISION,
+        P3_ZERO_AUTHORITY_ROUTE_OBJECTIVE,
+        P3_ZERO_AUTHORITY_ROUTE_EXIT_GATE,
+        P3_ZERO_AUTHORITY_ROUTE_ARCHITECTURE,
+        P3_ZERO_AUTHORITY_ROUTE_MILESTONES,
+        P3_ZERO_AUTHORITY_ROUTE_ORDER,
+        P3_ZERO_AUTHORITY_ROUTE_LINEAGE,
+        P3_ZERO_AUTHORITY_ROUTE_INSTALLATION,
+        P3_ZERO_AUTHORITY_ROUTE_VALIDATOR_BOUNDARY
+      ],
+      "targets" => [P3_ZERO_AUTHORITY_ROUTE_TARGET],
+      "budget_or_external_effects" => P3_ZERO_AUTHORITY_ROUTE_BUDGET,
+      "token" => P3_ZERO_AUTHORITY_ROUTE_TOKEN,
+      "duration" => P3_ZERO_AUTHORITY_ROUTE_DURATION,
+      "authorization_expiry_or_consumption_rule" => P3_ZERO_AUTHORITY_ROUTE_CONSUMPTION,
+      "pass_lifecycle" => P3_ZERO_AUTHORITY_ROUTE_PASS,
+      "non_pass_lifecycle" => P3_ZERO_AUTHORITY_ROUTE_NON_PASS
     }
   }.freeze
   PROSPECTIVE_PREFLIGHT = "PROSPECTIVE_RESERVED_EFFECT_REQUIRED_BY_EXACT_USER_REQUEST_AND_NOT_EXPRESSIBLE_BY_CURRENT_OFFLINE_ESCALATION_PROJECTION"
@@ -848,6 +885,7 @@ module FounderActionHandoff
         P2_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER_PLUS_ONE_SHOT_FORMAL_HELD_SEQUENCE
         P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY
         P3_ONE_FINAL_HERMETIC_CAPABILITY_LEDGER_ROUTE_AFTER_PREACTIVATION_TERMINAL
+        P3_ZERO_AUTHORITY_AGENT_AND_IMMUTABLE_TASK_ACTION_ENVELOPE_PHASE_ROUTE_RESEQUENCING
       ].include?(operation_type)
         proposed_tokens = package["copy_ready_text_or_exact_steps"].scan(FOUNDER_AUTHORIZATION_TOKEN)
         assert!(proposed_tokens == [profile["token"]],

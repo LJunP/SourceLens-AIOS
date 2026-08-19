@@ -54,6 +54,18 @@ puts "PASS current P3-004 terminal Founder-exception projection"
 assertions += 1
 
 fixture = deep_copy(current_truth)
+fixture.dig("founder_escalation_control", "resolved_strategy_decision")["sha256"] = "0" * 64
+expect_non_pass("P3 strategic HOLD decision identity cannot drift", fixture,
+                "P3-004 strategic HOLD control decision drift")
+assertions += 1
+
+fixture = deep_copy(current_truth)
+fixture.dig("phase_boundary")["task_creation_allowed"] = true
+expect_non_pass("P3 strategic HOLD cannot create a Task", fixture,
+                "P3 strategic HOLD Phase boundary drift")
+assertions += 1
+
+fixture = deep_copy(current_truth)
 fixture.dig("current_phase_route", "founder_route_decision")["sha256"] = "0" * 64
 expect_non_pass("P3-004 Founder route identity cannot drift", fixture,
                 "P3-004 Route projection drift")

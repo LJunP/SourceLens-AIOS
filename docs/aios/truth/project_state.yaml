@@ -1,8 +1,8 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: '2026-08-19T02:30:17Z'
+last_verified_at: '2026-08-19T02:57:54Z'
 
-verification_scope: P3_004_TERMINAL_FINAL_EXCEPTION_INDEPENDENT_REVIEW_NON_PASS_CAPABILITY_MILESTONE_FROZEN_P3_DELIVERY_25_STRICT_EXIT_ZERO_LONG_TERM_GOAL_ACTIVE
+verification_scope: FOUNDER_RESOLVED_P3_CAPABILITY_MILESTONE_STRATEGIC_HOLD_P3_004_TERMINAL_NON_PASS_P3_DELIVERY_25_STRICT_EXIT_ZERO_P4_HOLD_LONG_TERM_GOAL_ACTIVE
 
 authority:
   founder: Human Founder
@@ -39,7 +39,19 @@ goal:
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
   current_task_authority: NONE
-  note: 'Founder decision AUTHORIZE_P3_ONE_FINAL_HERMETIC_CAPABILITY_LEDGER_ROUTE_AFTER_PREACTIVATION_ONLY_TERMINAL_V1
+  note: 'Founder decision DECIDE_P3_KEEP_STRICT_EXIT_AND_HOLD_CAPABILITY_MILESTONE_AFTER_P3_004_FINAL_EXCEPTION_NON_PASS_V1
+    keeps Strategic Constitution v2.4, the P3 Objective and the strict P3 Exit
+    Gate unchanged while placing P3 in HOLD_INCOMPLETE_CAPABILITY_MILESTONE_FROZEN.
+    P3-001 remains accepted; P3-002, P3-003 and P3-004 remain exact terminal
+    accounting. The capability-scoped tool and permission-enforcement milestone
+    remains NOT_ACCEPTED and no failed candidate is integrated. The decision adds
+    zero Task, hour, calendar-day or external capacity, authorizes no product
+    mutation or rejected-lineage reuse, and freezes all repair, successor,
+    replacement, remediation and V2 retry routes. P3 delivery remains 25%, strict
+    P3 Exit remains 0%, P4 remains HOLD, the project is not complete and the
+    Long-term Goal remains ACTIVE. Only a later explicit Founder mission, P3
+    Objective, Exit Gate or Phase-route decision may resume P3 engineering. All
+    following paragraphs are retained historical chronology only. Founder decision AUTHORIZE_P3_ONE_FINAL_HERMETIC_CAPABILITY_LEDGER_ROUTE_AFTER_PREACTIVATION_ONLY_TERMINAL_V1
     authorizes exactly one final P3 capability milestone Task without expanding
     the eight-Task, two-hundred-fifty-six-hour and sixty-four-day Phase envelope.
     P3-004 is TERMINAL_FINAL_CAPABILITY_EXCEPTION_INDEPENDENT_REVIEW_NON_PASS.
@@ -1694,10 +1706,10 @@ project:
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
   p2_execution_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
-  phase_execution_status: ACTIVE_INCOMPLETE_CAPABILITY_MILESTONE_FROZEN
+  phase_execution_status: HOLD_INCOMPLETE_CAPABILITY_MILESTONE_FROZEN
   current_route_execution_status: TERMINAL_FINAL_CAPABILITY_EXCEPTION_INDEPENDENT_REVIEW_NON_PASS
   p3_entry_status: AUTHORIZED
-  p3_execution_status: ACTIVE
+  p3_execution_status: HOLD_INCOMPLETE_CAPABILITY_MILESTONE_FROZEN
   p4_entry_status: HOLD_PENDING_STRICT_P3_EXIT_AND_SEPARATE_FOUNDER_PHASE_ENTRY
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
@@ -8488,16 +8500,16 @@ current_phase_route:
   route_id: AIOS-P3-004_HERMETIC_SUREFIRE_AND_PERSISTED_CAPABILITY_LEDGER_FOUNDER_EXCEPTION_ROUTE
   status: TERMINAL_FINAL_CAPABILITY_EXCEPTION_INDEPENDENT_REVIEW_NON_PASS
   execution_status: TERMINAL_FINAL_CAPABILITY_EXCEPTION_INDEPENDENT_REVIEW_NON_PASS
-  scheduling_status: FOUNDER_PHASE_ROUTE_DECISION_REQUIRED_CAPABILITY_MILESTONE_FROZEN
+  scheduling_status: FOUNDER_RESOLVED_NO_ENGINEERING_ACTION_CAPABILITY_MILESTONE_HOLD
   phase: P3
   phase_entry_status: AUTHORIZED
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: '1.8'
     sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
-  founder_phase_route_decision_required: true
+  founder_phase_route_decision_required: false
   founder_reserved_trigger_resolved: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
-  next_eligible_action: FOUNDER_DECIDE_P3_PHASE_ROUTE_WITH_CAPABILITY_MILESTONE_FROZEN
+  next_eligible_action: NO_ENGINEERING_ACTION_P3_CAPABILITY_MILESTONE_HOLD
   phase_execution_envelope_ref: phase_execution_envelope
   phase_entry_route_ref: historical_p3_phase_entry_route
   predecessor_milestone_route_ref: historical_p3_001_phase_route
@@ -8510,6 +8522,10 @@ current_phase_route:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-final-hermetic-capability-route-20260819/decision/FOUNDER_P3_ONE_FINAL_HERMETIC_CAPABILITY_LEDGER_ROUTE_AFTER_PREACTIVATION_TERMINAL_V1.json
     byte_length: 5092
     sha256: 8470fcea6bf99bca1326233c4d2fed704aa5ab9ec28df3da2a43aa8842924a30
+  founder_hold_decision:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-capability-milestone-hold-20260819/decision/FOUNDER_P3_KEEP_STRICT_EXIT_AND_HOLD_CAPABILITY_MILESTONE_AFTER_P3_004_FINAL_EXCEPTION_NON_PASS_V1.json
+    byte_length: 4145
+    sha256: ec6b35bcacdbf3686cbf0e943dd6f111dd2011dfea87996deb53af91a81453be
   selected_task:
     task_id: AIOS-P3-004_HERMETIC_SUREFIRE_AND_PERSISTED_CAPABILITY_LEDGER
     status: TERMINAL_FINAL_CAPABILITY_EXCEPTION_INDEPENDENT_REVIEW_NON_PASS
@@ -11554,7 +11570,7 @@ historical_p2_exact_frozen_p2_078_one_shot_formal_held_route_unlock_phase_route:
 phase_execution_envelope:
   schema_version: phase-execution-envelope/v1
   phase: P3
-  status: ACTIVE_INCOMPLETE_CAPABILITY_MILESTONE_FROZEN
+  status: HOLD_INCOMPLETE_CAPABILITY_MILESTONE_FROZEN
   authority_basis:
     phase_entry_status: AUTHORIZED
     policy_path: docs/aios/FOUNDER_DELEGATION_POLICY.md
@@ -11690,7 +11706,7 @@ phase_execution_envelope:
     engineering_hours: 128
     calendar_days: 32
   remaining_capacity_usable: false
-  remaining_capacity_lock_reason: FINAL_CAPABILITY_EXCEPTION_NON_PASS_MILESTONE_FROZEN_FOUNDER_PHASE_ROUTE_DECISION_REQUIRED
+  remaining_capacity_lock_reason: FOUNDER_RESOLVED_P3_CAPABILITY_MILESTONE_STRATEGIC_HOLD_NO_ENGINEERING_ACTION
   milestone_order:
     - DURABLE_STATE_AND_CHECKPOINT_RESUME
     - CAPABILITY_SCOPED_TOOL_AND_PERMISSION_ENFORCEMENT
@@ -12172,9 +12188,9 @@ historical_p2_phase_execution_envelope:
 
 founder_escalation_control:
   schema_version: founder-escalation-control/v2
-  disposition: FOUNDER_DECISION_REQUIRED
+  disposition: FOUNDER_RESERVED_DECISION_RESOLVED_P3_CAPABILITY_MILESTONE_HOLD
   source_event:
-    kind: P3_CAPABILITY_MILESTONE_FINAL_FOUNDER_EXCEPTION_TASK_TERMINAL
+    kind: FOUNDER_P3_CAPABILITY_MILESTONE_STRATEGIC_HOLD_DECISION
     task_id: AIOS-P3-004_HERMETIC_SUREFIRE_AND_PERSISTED_CAPABILITY_LEDGER
     status: TERMINAL_FINAL_CAPABILITY_EXCEPTION_INDEPENDENT_REVIEW_NON_PASS
   reserved_trigger:
@@ -12183,6 +12199,13 @@ founder_escalation_control:
       path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-final-hermetic-capability-route-20260819/task-p3-004/terminal/P3_004_TERMINAL_FINAL_CAPABILITY_EXCEPTION_INDEPENDENT_REVIEW_NON_PASS_RECEIPT_V1.json
       byte_length: 6451
       sha256: 3ec5d1ee27c7a0376efe2a45806d92fc2c66ea2c875b1584866f69f1cdd83583
+  resolved_strategy_decision:
+    category: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
+    decision_id: DECIDE_P3_KEEP_STRICT_EXIT_AND_HOLD_CAPABILITY_MILESTONE_AFTER_P3_004_FINAL_EXCEPTION_NON_PASS_V1
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-capability-milestone-hold-20260819/decision/FOUNDER_P3_KEEP_STRICT_EXIT_AND_HOLD_CAPABILITY_MILESTONE_AFTER_P3_004_FINAL_EXCEPTION_NON_PASS_V1.json
+    byte_length: 4145
+    sha256: ec6b35bcacdbf3686cbf0e943dd6f111dd2011dfea87996deb53af91a81453be
+    result: P3_HOLD_INCOMPLETE_CAPABILITY_MILESTONE_FROZEN
   resolved_phase_entry_decision:
     category: PHASE_ENTRY_OR_EXIT
     decision_id: AUTHORIZE_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1
@@ -12191,9 +12214,9 @@ founder_escalation_control:
     sha256: 23a50848a182fa7865f8e96c78bd9001ff2db6682d8d19dc49a0d4768994d6eb
     result: P3_ENTRY_AUTHORIZED_ACTIVE
   phase_gate_status: INCOMPLETE
-  founder_decision_required: true
-  next_action_owner: HUMAN_FOUNDER
-  next_eligible_action: FOUNDER_DECIDE_P3_PHASE_ROUTE_WITH_CAPABILITY_MILESTONE_FROZEN
+  founder_decision_required: false
+  next_action_owner: NONE
+  next_eligible_action: NO_ENGINEERING_ACTION_P3_CAPABILITY_MILESTONE_HOLD
 
 historical_p2_053_phase_route:
   schema_version: "1.1"
@@ -16379,9 +16402,9 @@ historical_p2_phase_route:
   next_eligible_action: FOUNDER_P2_PHASE_GATE
 
 phase_delegation:
-  status: ACTIVE_P3_PHASE_LEVEL_DELEGATION
+  status: HOLD_P3_PHASE_LEVEL_DELEGATION_CAPABILITY_MILESTONE_FROZEN
   model: PHASE_LEVEL_FOUNDER_DELEGATION
-  decision_source: AUTHORIZE_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1_PLUS_FOUNDER_DELEGATION_POLICY_V1_8_NON_DOWNGRADE_DIRECTIVE
+  decision_source: DECIDE_P3_KEEP_STRICT_EXIT_AND_HOLD_CAPABILITY_MILESTONE_AFTER_P3_004_FINAL_EXCEPTION_NON_PASS_V1
   phase_gate_owner: HUMAN_FOUNDER
   task_selection_owner: MASTER_CEO_AGENT
   task_authorization_owner: MASTER_CEO_AGENT
@@ -16424,7 +16447,7 @@ phase_delegation:
     historical_execution_lineage_reuse_allowed: false
     mandatory_exit_capability_permanent_ban_from_historical_stop: false
     peripheral_work_before_exit_capabilities_allowed: false
-  claim_boundary: This policy and the exact Founder P3 Phase-entry decision delegate bounded local P3 Task selection and execution within the persistent eight-Task envelope; they do not delegate Founder-reserved decisions, external effects, P4 entry, production claims or Long-term Goal closure.
+  claim_boundary: The exact Founder P3 strategic HOLD decision suspends all P3 engineering and makes the remaining Phase capacity unusable without changing the P3 Objective or strict Exit Gate; it grants no Task, external effect, P4 entry, production claim or Long-term Goal closure.
 
 mandatory_exit_capability_recovery:
   status: HISTORICAL_POLICY_CONTEXT_SUPERSEDED_BY_LATER_FOUNDER_ROUTES
@@ -17263,9 +17286,9 @@ mandatory_exit_capability_recovery:
 
 phase_boundary:
   phase: P3
-  phase_execution_status: ACTIVE_INCOMPLETE_CAPABILITY_MILESTONE_FROZEN
+  phase_execution_status: HOLD_INCOMPLETE_CAPABILITY_MILESTONE_FROZEN
   task_creation_allowed: false
-  task_creation_scope: NONE_CAPABILITY_MILESTONE_FROZEN_FOUNDER_PHASE_ROUTE_DECISION_REQUIRED
+  task_creation_scope: NONE_FOUNDER_RESOLVED_P3_CAPABILITY_MILESTONE_STRATEGIC_HOLD
   task_creation_lock_after_activation: true
   p3_entry_authorized: true
   allowed_task_kinds:
@@ -23716,7 +23739,7 @@ active_work:
   authorization_id:
   activation_parent_commit:
   activation_parent_tree:
-  task_resource_state: NO_ACTIVE_TASK_CAPABILITY_MILESTONE_FROZEN
+  task_resource_state: NO_ACTIVE_TASK_FOUNDER_RESOLVED_P3_CAPABILITY_MILESTONE_HOLD
   task_branch:
   task_worktree:
   execution_evidence_root:
@@ -23731,14 +23754,14 @@ active_work:
     production: false
     public: false
   offsite_target:
-  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p3-final-hermetic-capability-route-20260819/decision/FOUNDER_P3_ONE_FINAL_HERMETIC_CAPABILITY_LEDGER_ROUTE_AFTER_PREACTIVATION_TERMINAL_V1.json
-  founder_reserved_authorization_sha256: 8470fcea6bf99bca1326233c4d2fed704aa5ab9ec28df3da2a43aa8842924a30
-  founder_decision_required: true
-  founder_decision_required_scope: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
-  escalation_reason: P3_004_FINAL_EXCEPTION_INDEPENDENT_REVIEW_NON_PASS_CAPABILITY_MILESTONE_FROZEN
-  user_action_required: FOUNDER_RESERVED_PHASE_ROUTE_DECISION
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_RESERVED_PHASE_ROUTE_DECISION
+  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p3-capability-milestone-hold-20260819/decision/FOUNDER_P3_KEEP_STRICT_EXIT_AND_HOLD_CAPABILITY_MILESTONE_AFTER_P3_004_FINAL_EXCEPTION_NON_PASS_V1.json
+  founder_reserved_authorization_sha256: ec6b35bcacdbf3686cbf0e943dd6f111dd2011dfea87996deb53af91a81453be
+  founder_decision_required: false
+  founder_decision_required_scope:
+  escalation_reason:
+  user_action_required: NONE
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
   last_completed_task:
     task_id: AIOS-P3-004_HERMETIC_SUREFIRE_AND_PERSISTED_CAPABILITY_LEDGER
     status: TERMINAL_FINAL_CAPABILITY_EXCEPTION_INDEPENDENT_REVIEW_NON_PASS
@@ -23750,7 +23773,7 @@ active_work:
       path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-final-hermetic-capability-route-20260819/task-p3-004/terminal/P3_004_TERMINAL_FINAL_CAPABILITY_EXCEPTION_INDEPENDENT_REVIEW_NON_PASS_RECEIPT_V1.json
       byte_length: 6451
       sha256: 3ec5d1ee27c7a0376efe2a45806d92fc2c66ea2c875b1584866f69f1cdd83583
-  next_eligible_action: FOUNDER_DECIDE_P3_PHASE_ROUTE_WITH_CAPABILITY_MILESTONE_FROZEN
+  next_eligible_action: NO_ENGINEERING_ACTION_P3_CAPABILITY_MILESTONE_HOLD
 
 historical_p2_080_terminal_active_work:
   current_task: AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER
@@ -30377,17 +30400,18 @@ historical_lineages:
 phase_execution_claim:
   current_route_claim: AIOS-P3-004_HERMETIC_SUREFIRE_AND_PERSISTED_CAPABILITY_LEDGER_FOUNDER_EXCEPTION_ROUTE
   current_task_claim: NONE
-  real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_DURABLE_STATE_AND_CHECKPOINT_RESUME_ACCEPTED_CAPABILITY_MILESTONE_FROZEN_P3_EXIT_GATE_ZERO
+  real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_FOUNDER_STRATEGIC_HOLD_DURABLE_STATE_AND_CHECKPOINT_RESUME_ACCEPTED_CAPABILITY_MILESTONE_NOT_ACCEPTED_P3_EXIT_GATE_ZERO
   product_capability_changed: false
   revised_research_exit_percent: 100
   original_capability_progress_percent: 0
   p3_entry_authorized: true
   p3_exit_gate_progress_percent: 0
   p3_delivery_progress_percent: 25
-  phase_local_allowed:
-  - DURABLE_AGENT_STATE_AND_CHECKPOINT_RESUME
+  phase_local_allowed: []
+  phase_local_frozen_capabilities:
   - CAPABILITY_SCOPED_TOOL_AND_PERMISSION_ENFORCEMENT
   - BOUNDED_ISOLATED_EXECUTION_AND_COMPLETE_OBSERVABLE_TRACE
+  - INDEPENDENT_P3_EXIT_GATE_AUDIT
   historical_terminal_rules:
   - AIOS-P2-011 froze one exact nine-path deterministic graph-kernel candidate and
     passed its five-test targeted matrix, but fresh CTO, Security and Quality all
@@ -30762,22 +30786,22 @@ claim_boundary:
   current_task: NONE
   selected_task: AIOS-P3-004_HERMETIC_SUREFIRE_AND_PERSISTED_CAPABILITY_LEDGER
   current_task_status: NONE
-  next_eligible_action: FOUNDER_DECIDE_P3_PHASE_ROUTE_WITH_CAPABILITY_MILESTONE_FROZEN
-  real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_ACTIVE_INCOMPLETE_DURABLE_STATE_AND_CHECKPOINT_RESUME_ACCEPTED_P3_004_TERMINAL_NON_PASS_CAPABILITY_MILESTONE_FROZEN_P3_EXIT_GATE_ZERO
+  next_eligible_action: NO_ENGINEERING_ACTION_P3_CAPABILITY_MILESTONE_HOLD
+  real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_HOLD_INCOMPLETE_DURABLE_STATE_AND_CHECKPOINT_RESUME_ACCEPTED_P3_004_TERMINAL_NON_PASS_CAPABILITY_MILESTONE_NOT_ACCEPTED_P3_EXIT_GATE_ZERO
   p2_research_exit_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
   p2_research_exit_percent: 100
   p2_original_capability_gate_status: MISSING_NOT_ACCEPTED
   p2_original_capability_progress_percent: 0
   p2_candidate_integrated: false
   p2_held_source_reads: 0
-  p3_status: ACTIVE_INCOMPLETE
+  p3_status: HOLD_INCOMPLETE_CAPABILITY_MILESTONE_FROZEN
   p3_entry_authorized: true
-  p3_phase_envelope_status: ACTIVE_INCOMPLETE_CAPABILITY_MILESTONE_FROZEN
+  p3_phase_envelope_status: HOLD_INCOMPLETE_CAPABILITY_MILESTONE_FROZEN
   p3_exit_gate_progress_percent: 0
   p3_delivery_progress_percent: 25
   p3_accepted_milestones:
     - DURABLE_STATE_AND_CHECKPOINT_RESUME
-  p3_capability_milestone_status: NOT_ACCEPTED_P3_004_FINAL_EXCEPTION_INDEPENDENT_REVIEW_NON_PASS_FROZEN
+  p3_capability_milestone_status: NOT_ACCEPTED_P3_004_FINAL_EXCEPTION_NON_PASS_FOUNDER_STRATEGIC_HOLD
   p3_004_product_source_writes: 10
   p3_004_candidate_created: true
   p3_004_candidate_commit: b31e0f27cec5ba4b0b2e1b3d5e258cc95a5bb210

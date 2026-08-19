@@ -22,6 +22,12 @@ module P3Task004AuthorityValidation
   DECISION_PATH = "/Users/lijunpeng/Developer/.sourcelens-audit/p3-final-hermetic-capability-route-20260819/decision/FOUNDER_P3_ONE_FINAL_HERMETIC_CAPABILITY_LEDGER_ROUTE_AFTER_PREACTIVATION_TERMINAL_V1.json"
   DECISION_BYTES = 5092
   DECISION_SHA256 = "8470fcea6bf99bca1326233c4d2fed704aa5ab9ec28df3da2a43aa8842924a30"
+  HOLD_DECISION_ID = "DECIDE_P3_KEEP_STRICT_EXIT_AND_HOLD_CAPABILITY_MILESTONE_AFTER_P3_004_FINAL_EXCEPTION_NON_PASS_V1"
+  HOLD_DECISION_PATH = "/Users/lijunpeng/Developer/.sourcelens-audit/p3-capability-milestone-hold-20260819/decision/FOUNDER_P3_KEEP_STRICT_EXIT_AND_HOLD_CAPABILITY_MILESTONE_AFTER_P3_004_FINAL_EXCEPTION_NON_PASS_V1.json"
+  HOLD_DECISION_BYTES = 4145
+  HOLD_DECISION_SHA256 = "ec6b35bcacdbf3686cbf0e943dd6f111dd2011dfea87996deb53af91a81453be"
+  HOLD_DISPOSITION = "FOUNDER_RESERVED_DECISION_RESOLVED_P3_CAPABILITY_MILESTONE_HOLD"
+  HOLD_ACTION = "NO_ENGINEERING_ACTION_P3_CAPABILITY_MILESTONE_HOLD"
   P3_001_GATE_PATH = "/Users/lijunpeng/Developer/.sourcelens-audit/p3-durable-execution-checkpoint-resume-20260819/task-p3-001/terminal/P3_001_TASK_GATE_PASS_INTEGRATION_RECEIPT_V1.json"
   P3_001_GATE_BYTES = 3055
   P3_001_GATE_SHA256 = "e4ea37f8e6770b8dea9f8939f81444f01ebca4104a8dd2f84d33c4787180e2c0"
@@ -88,6 +94,10 @@ module P3Task004AuthorityValidation
     identity(DECISION_PATH, DECISION_BYTES, DECISION_SHA256)
   end
 
+  def hold_decision_identity
+    identity(HOLD_DECISION_PATH, HOLD_DECISION_BYTES, HOLD_DECISION_SHA256)
+  end
+
   def stage_a_receipt_identity
     identity(STAGE_A_RECEIPT_PATH, STAGE_A_RECEIPT_BYTES, STAGE_A_RECEIPT_SHA256)
   end
@@ -115,6 +125,110 @@ module P3Task004AuthorityValidation
            decision.dig("lifecycle", "p4_entry_authorized") == false &&
            decision.dig("lifecycle", "long_term_goal_closure_authorized") == false,
            "P3-004 Founder route decision semantics drift")
+  end
+
+  def validate_hold_decision!(root)
+    decision = JSON.parse(exact_file(
+      HOLD_DECISION_PATH, HOLD_DECISION_BYTES, HOLD_DECISION_SHA256,
+      "P3 capability-milestone strategic HOLD decision"
+    ))
+    assert(decision.keys.sort == %w[
+      accepted_at_utc budget canonical_start decision decision_id external_effects
+      governing_artifact long_term_goal non_pass_lifecycle operation pass_lifecycle
+      phase phase_lifecycle prohibited reserved_trigger schema_version source
+      terminal_receipt truth_boundary
+    ].sort, "P3 strategic HOLD decision keys drift")
+    assert(decision["schema_version"] ==
+             "founder-p3-capability-milestone-frozen-strategic-hold-decision/v1" &&
+           decision["decision_id"] == HOLD_DECISION_ID &&
+           decision["source"] == "CURRENT_DIRECT_FOUNDER_REPLY_V1" &&
+           decision["accepted_at_utc"].to_s.match?(
+             /\A\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z\z/
+           ) && decision["reserved_trigger"] ==
+             "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE" &&
+           decision["phase"] == "P3",
+           "P3 strategic HOLD decision identity drift")
+    start = decision.fetch("canonical_start")
+    assert(start == {
+      "commit" => "556f938fb7fb4ecd0d6d2997751d1d9315536ac5",
+      "tree" => "96bc2c565eafc8a29724acc078b8c95126e2ee5e",
+      "branch" => "main", "main_clean" => true
+    } && git(root, "rev-parse", "#{start.fetch("commit")}^{tree}") == start.fetch("tree"),
+           "P3 strategic HOLD canonical start drift")
+    _out, _err, ancestor = Open3.capture3(
+      "git", "-C", root.to_s, "merge-base", "--is-ancestor", start.fetch("commit"), "HEAD"
+    )
+    assert(ancestor.success?, "P3 strategic HOLD canonical start is not an ancestor")
+    artifact = decision.fetch("governing_artifact")
+    assert(artifact == {
+      "path" => "docs/aios/STRATEGIC_CONSTITUTION.md", "byte_length" => 9397,
+      "sha256" => "7835ff584ad535b27c31bba174681abb625102a04b136ea6ee7535d57e18aaba"
+    }, "P3 strategic HOLD governing artifact drift")
+    exact_file(root.join(artifact.fetch("path")), artifact.fetch("byte_length"),
+               artifact.fetch("sha256"), "P3 strategic HOLD governing artifact")
+    assert(decision.fetch("terminal_receipt") ==
+             identity(TERMINAL_PATH, TERMINAL_BYTES, TERMINAL_SHA256),
+           "P3 strategic HOLD terminal receipt drift")
+    disposition = decision.fetch("decision")
+    assert(disposition == {
+      "disposition" => "HOLD_INCOMPLETE_CAPABILITY_MILESTONE_FROZEN",
+      "p3_objective_and_exit_gate" => "UNCHANGED_STRATEGIC_CONSTITUTION_V2_4",
+      "current_task" => "NONE", "new_task_authorized" => false,
+      "candidate_integration_authorized" => false, "p4_entry_authorized" => false,
+      "engineering_action_eligible" => false,
+      "next_founder_intervention" =>
+        "EXPLICIT_NEW_MISSION_P3_OBJECTIVE_EXIT_GATE_OR_PHASE_ROUTE_DECISION"
+    }, "P3 strategic HOLD disposition drift")
+    assert(decision.fetch("truth_boundary") == {
+      "p3_001_durable_state_and_checkpoint_resume" => "ACCEPTED",
+      "p3_002_terminal_preserved" => true, "p3_003_terminal_preserved" => true,
+      "p3_004_terminal_preserved" => true,
+      "capability_scoped_tool_and_permission_enforcement" => "NOT_ACCEPTED_FROZEN",
+      "p3_delivery_progress_percent" => 25,
+      "strict_p3_exit_progress_percent" => 0,
+      "p3_004_candidate_integrated" => false
+    }, "P3 strategic HOLD truth boundary drift")
+    operation = decision.fetch("operation")
+    assert(operation == {
+      "allowed" => [
+        "ONE_TIME_INSTALL_THIS_EXACT_FOUNDER_PHASE_ROUTE_DECISION",
+        "UPDATE_CANONICAL_TRUTH_AND_EXISTING_RELEVANT_VALIDATORS_FOR_IDENTICAL_PROJECTION"
+      ],
+      "new_engineering_task_created" => false, "product_source_modified" => false,
+      "failed_candidate_reexecuted" => false,
+      "rejected_engineering_lineage_read_or_reused" => false
+    }, "P3 strategic HOLD operation drift")
+    assert(decision.fetch("budget") == {
+      "expansion" => {"engineering_tasks" => 0, "engineering_hours" => 0,
+                       "calendar_days" => 0, "external_capabilities" => 0},
+      "existing_limits" => {"engineering_tasks" => 8, "engineering_hours" => 256,
+                              "calendar_days" => 64},
+      "consumed" => {"engineering_tasks" => 4, "engineering_hours" => 128,
+                       "calendar_days" => 32},
+      "remaining_locked" => {"engineering_tasks" => 4, "engineering_hours" => 128,
+                               "calendar_days" => 32},
+      "remaining_capacity_usable" => false
+    }, "P3 strategic HOLD budget drift")
+    assert(decision.fetch("phase_lifecycle") == {
+      "p3" => "HOLD_INCOMPLETE_CAPABILITY_MILESTONE_FROZEN",
+      "p4" => "HOLD_PENDING_STRICT_P3_EXIT_AND_SEPARATE_FOUNDER_PHASE_ENTRY",
+      "project_actual_completion" => false
+    } && decision.fetch("external_effects") == FALSE_EFFECTS &&
+           decision.fetch("long_term_goal") == {
+             "status" => "ACTIVE", "termination_authorized" => false,
+             "project_complete" => false
+           }, "P3 strategic HOLD lifecycle drift")
+    assert(decision.fetch("prohibited") == [
+      "NEW_CAPABILITY_IMPLEMENTATION",
+      "REPAIR_SUCCESSOR_REPLACEMENT_REMEDIATION_OR_V2_RETRY_ROUTE",
+      "P3_004_CANDIDATE_INTEGRATION", "P4_ENTRY",
+      "NETWORK_PROVIDER_SECRET_REMOTE_WRITE_PRODUCTION_OR_PUBLIC_EFFECT",
+      "IRREVERSIBLE_DELETION", "EXISTING_DATABASE_MODIFICATION",
+      "LONG_TERM_GOAL_TERMINATION"
+    ] && !decision.fetch("pass_lifecycle").empty? &&
+           !decision.fetch("non_pass_lifecycle").empty?,
+           "P3 strategic HOLD prohibition or lifecycle drift")
+    decision
   end
 
   def validate_contract!(root)
@@ -293,19 +407,26 @@ module P3Task004AuthorityValidation
     active = truth.fetch("active_work")
     terminal_state = route["status"] ==
       "TERMINAL_FINAL_CAPABILITY_EXCEPTION_INDEPENDENT_REVIEW_NON_PASS"
+    hold_resolved = terminal_state &&
+      truth.dig("founder_escalation_control", "disposition") == HOLD_DISPOSITION
+    validate_hold_decision!(root) if hold_resolved
 
     assert(project["current_phase"] == "P3" && project["p3_entry_status"] == "AUTHORIZED" &&
-           project["p3_execution_status"] == "ACTIVE" &&
+           project["p3_execution_status"] ==
+             (hold_resolved ? "HOLD_INCOMPLETE_CAPABILITY_MILESTONE_FROZEN" : "ACTIVE") &&
            project["p4_entry_status"] ==
              "HOLD_PENDING_STRICT_P3_EXIT_AND_SEPARATE_FOUNDER_PHASE_ENTRY",
            "P3-004 project Phase projection drift")
     assert(route["schema_version"] == ROUTE_SCHEMA && route["route_id"] == ROUTE_ID &&
            route["phase"] == "P3" && route["phase_entry_status"] == "AUTHORIZED" &&
-           route["founder_phase_route_decision_required"] == terminal_state &&
+           route["founder_phase_route_decision_required"] == (terminal_state && !hold_resolved) &&
            route["founder_route_decision"].slice("path", "byte_length", "sha256") ==
              decision_identity && route["external_effects"] == FALSE_EFFECTS &&
            route["additional_write_roots"] == [],
            "P3-004 Route projection drift")
+    assert(route["founder_hold_decision"] ==
+             (hold_resolved ? hold_decision_identity : nil),
+           "P3-004 strategic HOLD Route decision drift")
     assert(task["task_id"] == TASK_ID, "P3-004 selected Task id drift")
     assert(task["contract"] == contract_identity && task["budget"] == FULL_BUDGET &&
            task.dig("independence", "p3_002_rejected_lineage_read_compare_copy_or_reuse") == false &&
@@ -324,14 +445,17 @@ module P3Task004AuthorityValidation
       terminal_identity_hash = terminal_identity
       ledger = envelope.fetch("task_ledger")
       assert(project["phase_execution_status"] ==
-               "ACTIVE_INCOMPLETE_CAPABILITY_MILESTONE_FROZEN" &&
+               (hold_resolved ? "HOLD_INCOMPLETE_CAPABILITY_MILESTONE_FROZEN" :
+                                "ACTIVE_INCOMPLETE_CAPABILITY_MILESTONE_FROZEN") &&
              project["current_route_execution_status"] == route["status"],
              "P3-004 terminal project projection drift")
       assert(route["execution_status"] == route["status"] &&
              route["scheduling_status"] ==
-               "FOUNDER_PHASE_ROUTE_DECISION_REQUIRED_CAPABILITY_MILESTONE_FROZEN" &&
+               (hold_resolved ? "FOUNDER_RESOLVED_NO_ENGINEERING_ACTION_CAPABILITY_MILESTONE_HOLD" :
+                                "FOUNDER_PHASE_ROUTE_DECISION_REQUIRED_CAPABILITY_MILESTONE_FROZEN") &&
              route["next_eligible_action"] ==
-               "FOUNDER_DECIDE_P3_PHASE_ROUTE_WITH_CAPABILITY_MILESTONE_FROZEN" &&
+               (hold_resolved ? HOLD_ACTION :
+                                "FOUNDER_DECIDE_P3_PHASE_ROUTE_WITH_CAPABILITY_MILESTONE_FROZEN") &&
              task["status"] == route["status"] && task["candidate_created"] == true &&
              task["product_source_writes"] == 10 && task["integrated"] == false &&
              task.dig("candidate", "commit") == CANDIDATE_COMMIT &&
@@ -344,7 +468,9 @@ module P3Task004AuthorityValidation
              task["second_review_cycle_allowed"] == false &&
              task["automatic_successor_allowed"] == false,
              "P3-004 terminal Task projection drift")
-      assert(envelope["status"] == "ACTIVE_INCOMPLETE_CAPABILITY_MILESTONE_FROZEN" &&
+      assert(envelope["status"] ==
+               (hold_resolved ? "HOLD_INCOMPLETE_CAPABILITY_MILESTONE_FROZEN" :
+                                "ACTIVE_INCOMPLETE_CAPABILITY_MILESTONE_FROZEN") &&
              ledger.length == 4 && ledger.last["task_id"] == TASK_ID &&
              ledger.last["status"] == route["status"] &&
              ledger.last["terminal_receipt"] == terminal_identity_hash &&
@@ -357,15 +483,24 @@ module P3Task004AuthorityValidation
              } && envelope["reserved"] == {} && envelope["remaining_capacity_usable"] == false,
              "P3-004 terminal envelope projection drift")
       assert(active["current_task"] == "NONE" && active["current_task_status"] == "NONE" &&
-             active["task_resource_state"] == "NO_ACTIVE_TASK_CAPABILITY_MILESTONE_FROZEN" &&
+             active["task_resource_state"] ==
+               (hold_resolved ? "NO_ACTIVE_TASK_FOUNDER_RESOLVED_P3_CAPABILITY_MILESTONE_HOLD" :
+                                "NO_ACTIVE_TASK_CAPABILITY_MILESTONE_FROZEN") &&
              active["execution_nonce_status"] == "CONSUMED_TERMINAL" &&
              active["task_branch"].nil? && active["task_worktree"].nil? &&
              active.dig("authority_record", "path").nil? &&
-             active["founder_decision_required"] == true &&
+             active["founder_decision_required"] == !hold_resolved &&
              active["founder_decision_required_scope"] ==
-               "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE" &&
-             active["user_action_required"] == "FOUNDER_RESERVED_PHASE_ROUTE_DECISION" &&
-             active["phase_route_decision_required"] == true &&
+               (hold_resolved ? nil : "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE") &&
+             active["user_action_required"] ==
+               (hold_resolved ? "NONE" : "FOUNDER_RESERVED_PHASE_ROUTE_DECISION") &&
+             active["phase_route_decision_required"] == !hold_resolved &&
+             active["phase_route_user_action_required"] ==
+               (hold_resolved ? "NONE" : "FOUNDER_RESERVED_PHASE_ROUTE_DECISION") &&
+             active["founder_reserved_authorization"] ==
+               (hold_resolved ? HOLD_DECISION_PATH : DECISION_PATH) &&
+             active["founder_reserved_authorization_sha256"] ==
+               (hold_resolved ? HOLD_DECISION_SHA256 : DECISION_SHA256) &&
              active.dig("last_completed_task", "task_id") == TASK_ID &&
              active.dig("last_completed_task", "terminal_receipt") == terminal_identity_hash &&
              active["next_eligible_action"] == route["next_eligible_action"],
@@ -374,13 +509,17 @@ module P3Task004AuthorityValidation
       assert(claim["current_phase_route"] == ROUTE_ID && claim["current_task"] == "NONE" &&
              claim["selected_task"] == TASK_ID &&
              claim["next_eligible_action"] == route["next_eligible_action"] &&
-             claim["p3_status"] == "ACTIVE_INCOMPLETE" && claim["p3_entry_authorized"] == true &&
+             claim["p3_status"] ==
+               (hold_resolved ? "HOLD_INCOMPLETE_CAPABILITY_MILESTONE_FROZEN" :
+                                "ACTIVE_INCOMPLETE") && claim["p3_entry_authorized"] == true &&
              claim["p3_phase_envelope_status"] == envelope["status"] &&
              claim["p3_exit_gate_progress_percent"] == 0 &&
              claim["p3_delivery_progress_percent"] == 25 &&
              claim["p3_accepted_milestones"] == envelope["accepted_milestones"] &&
              claim["p3_capability_milestone_status"] ==
-               "NOT_ACCEPTED_P3_004_FINAL_EXCEPTION_INDEPENDENT_REVIEW_NON_PASS_FROZEN" &&
+               (hold_resolved ?
+                 "NOT_ACCEPTED_P3_004_FINAL_EXCEPTION_NON_PASS_FOUNDER_STRATEGIC_HOLD" :
+                 "NOT_ACCEPTED_P3_004_FINAL_EXCEPTION_INDEPENDENT_REVIEW_NON_PASS_FROZEN") &&
              claim["p3_004_product_source_writes"] == 10 &&
              claim["p3_004_candidate_created"] == true &&
              claim["p3_004_candidate_integrated"] == false &&
@@ -389,18 +528,62 @@ module P3Task004AuthorityValidation
              claim["p3_004_delivery_credit"] == 0 && claim["p3_004_strict_exit_credit"] == 0,
              "P3-004 terminal claim boundary drift")
       control = truth.fetch("founder_escalation_control")
-      assert(control["disposition"] == "FOUNDER_DECISION_REQUIRED" &&
+      assert(control["disposition"] ==
+               (hold_resolved ? HOLD_DISPOSITION : "FOUNDER_DECISION_REQUIRED") &&
              control.dig("source_event", "kind") ==
-               "P3_CAPABILITY_MILESTONE_FINAL_FOUNDER_EXCEPTION_TASK_TERMINAL" &&
+               (hold_resolved ? "FOUNDER_P3_CAPABILITY_MILESTONE_STRATEGIC_HOLD_DECISION" :
+                                "P3_CAPABILITY_MILESTONE_FINAL_FOUNDER_EXCEPTION_TASK_TERMINAL") &&
              control.dig("source_event", "task_id") == TASK_ID &&
              control.dig("source_event", "status") == route["status"] &&
              control.dig("reserved_trigger", "category") ==
                "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE" &&
              control.dig("reserved_trigger", "evidence") == terminal_identity_hash &&
-             control["founder_decision_required"] == true &&
-             control["next_action_owner"] == "HUMAN_FOUNDER" &&
+             control["founder_decision_required"] == !hold_resolved &&
+             control["next_action_owner"] == (hold_resolved ? "NONE" : "HUMAN_FOUNDER") &&
              control["next_eligible_action"] == route["next_eligible_action"],
              "P3-004 terminal Founder escalation projection drift")
+      assert(control["resolved_strategy_decision"] ==
+               (hold_resolved ? {
+                 "category" => "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE",
+                 "decision_id" => HOLD_DECISION_ID,
+                 "path" => HOLD_DECISION_PATH,
+                 "byte_length" => HOLD_DECISION_BYTES,
+                 "sha256" => HOLD_DECISION_SHA256,
+                 "result" => "P3_HOLD_INCOMPLETE_CAPABILITY_MILESTONE_FROZEN"
+               } : nil),
+             "P3-004 strategic HOLD control decision drift")
+      if hold_resolved
+        boundary = truth.fetch("phase_boundary")
+        assert(boundary["phase"] == "P3" &&
+               boundary["phase_execution_status"] ==
+                 "HOLD_INCOMPLETE_CAPABILITY_MILESTONE_FROZEN" &&
+               boundary["task_creation_allowed"] == false &&
+               boundary["task_creation_scope"] ==
+                 "NONE_FOUNDER_RESOLVED_P3_CAPABILITY_MILESTONE_STRATEGIC_HOLD" &&
+               boundary["p3_entry_authorized"] == true,
+               "P3 strategic HOLD Phase boundary drift")
+        delegation = truth.fetch("phase_delegation")
+        assert(delegation["status"] ==
+                 "HOLD_P3_PHASE_LEVEL_DELEGATION_CAPABILITY_MILESTONE_FROZEN" &&
+               delegation["decision_source"] == HOLD_DECISION_ID &&
+               delegation["p3_entry_authorized"] == true,
+               "P3 strategic HOLD delegation drift")
+        execution_claim = truth.fetch("phase_execution_claim")
+        assert(execution_claim["phase_local_allowed"] == [] &&
+               execution_claim["phase_local_frozen_capabilities"] == [
+                 "CAPABILITY_SCOPED_TOOL_AND_PERMISSION_ENFORCEMENT",
+                 "BOUNDED_ISOLATED_EXECUTION_AND_COMPLETE_OBSERVABLE_TRACE",
+                 "INDEPENDENT_P3_EXIT_GATE_AUDIT"
+               ], "P3 strategic HOLD execution claim drift")
+        assert(envelope["remaining_capacity_usable"] == false &&
+               envelope["remaining_capacity_lock_reason"] ==
+                 "FOUNDER_RESOLVED_P3_CAPABILITY_MILESTONE_STRATEGIC_HOLD_NO_ENGINEERING_ACTION",
+               "P3 strategic HOLD remaining capacity drift")
+        goal = truth.fetch("goal")
+        assert(goal["control_plane_status_observed"] == "ACTIVE" &&
+               goal["current_task_authority"] == "NONE",
+               "P3 strategic HOLD must keep the Long-term Goal active without Task authority")
+      end
       assert(!Pathname.new(WORKTREE).exist? && git(root, "branch", "--list", BRANCH).empty?,
              "P3-004 terminal worktree or local branch was not closed")
       assert(terminal.dig("independent_review", "sha256") == REVIEW_SHA256 &&

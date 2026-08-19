@@ -48,6 +48,9 @@ module FounderDelegationContinuity
   RESEARCH_EXIT_DISPOSITION = "P2_RESEARCH_EXIT_COMPLETE_P3_ENTRY_DECISION_REQUIRED"
   STRATEGIC_HOLD_STATUS = "TERMINAL_RESEARCH_NON_PASS_STRATEGIC_HOLD"
   STRATEGIC_HOLD_ACTION = "NO_ENGINEERING_ACTION_STRATEGIC_HOLD"
+  P3_CAPABILITY_HOLD_DISPOSITION =
+    "FOUNDER_RESERVED_DECISION_RESOLVED_P3_CAPABILITY_MILESTONE_HOLD"
+  P3_CAPABILITY_HOLD_ACTION = "NO_ENGINEERING_ACTION_P3_CAPABILITY_MILESTONE_HOLD"
   STRATEGIC_HOLD_DECISION_SCHEMA =
     "founder-p2-terminal-research-non-pass-strategic-hold-decision/v1"
   RESEARCH_EXIT_DECISION_SCHEMA =
@@ -5066,19 +5069,36 @@ module FounderDelegationContinuity
           route.dig("selected_task", "terminal_receipt"),
           "P3-004 terminal Task receipt identity"
         )
+        p3_hold_resolved = control["disposition"] == P3_CAPABILITY_HOLD_DISPOSITION
         assert(control["schema_version"] == "founder-escalation-control/v2" &&
-               control["disposition"] == FOUNDER_DISPOSITION &&
+               control["disposition"] ==
+                 (p3_hold_resolved ? P3_CAPABILITY_HOLD_DISPOSITION : FOUNDER_DISPOSITION) &&
                control.dig("source_event", "kind") ==
-                 "P3_CAPABILITY_MILESTONE_FINAL_FOUNDER_EXCEPTION_TASK_TERMINAL" &&
+                 (p3_hold_resolved ?
+                   "FOUNDER_P3_CAPABILITY_MILESTONE_STRATEGIC_HOLD_DECISION" :
+                   "P3_CAPABILITY_MILESTONE_FINAL_FOUNDER_EXCEPTION_TASK_TERMINAL") &&
                control.dig("source_event", "task_id") == route.dig("selected_task", "task_id") &&
                control.dig("source_event", "status") == route["status"] &&
                control.dig("reserved_trigger", "category") ==
                  "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE" &&
                control.dig("reserved_trigger", "evidence") == terminal_identity &&
-               control["founder_decision_required"] == true &&
-               control["next_action_owner"] == "HUMAN_FOUNDER" &&
+               control["founder_decision_required"] == !p3_hold_resolved &&
+               control["next_action_owner"] ==
+                 (p3_hold_resolved ? "NONE" : "HUMAN_FOUNDER") &&
                control["next_eligible_action"] == route["next_eligible_action"],
                "P3-004 terminal Founder escalation projection drift")
+        if p3_hold_resolved
+          assert(control["resolved_strategy_decision"] == {
+            "category" => "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE",
+            "decision_id" => P3Task004AuthorityValidation::HOLD_DECISION_ID,
+            "path" => P3Task004AuthorityValidation::HOLD_DECISION_PATH,
+            "byte_length" => P3Task004AuthorityValidation::HOLD_DECISION_BYTES,
+            "sha256" => P3Task004AuthorityValidation::HOLD_DECISION_SHA256,
+            "result" => "P3_HOLD_INCOMPLETE_CAPABILITY_MILESTONE_FROZEN"
+          } && route["next_eligible_action"] == P3_CAPABILITY_HOLD_ACTION,
+                 "P3 strategic HOLD resolution projection drift")
+          return P3_CAPABILITY_HOLD_DISPOSITION
+        end
         return FOUNDER_DISPOSITION
       end
       return CONTINUE_DISPOSITION

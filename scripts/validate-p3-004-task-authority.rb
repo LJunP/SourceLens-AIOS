@@ -127,6 +127,7 @@ module P3Task004AuthorityValidation
     ))
     assert(authority["schema_version"] == "p3-founder-exception-task-authority/v1" &&
            authority["task_id"] == TASK_ID && authority["route_id"] == ROUTE_ID &&
+           authority["status"] == "ACTIVE" &&
            authority["authorization_id"] == active["authorization_id"] &&
            authority["execution_nonce"] == active["execution_nonce"] &&
            authority["branch"] == BRANCH && authority["worktree"] == WORKTREE &&
@@ -242,7 +243,6 @@ module P3Task004AuthorityValidation
     if route["status"] == "ACTIVE_STAGE_A_PREACTIVATION_REQUIRED"
       assert(task["status"] == route["status"] && task["product_source_writes"] == 0 &&
              route["next_eligible_action"] == "RUN_STAGE_A_HERMETIC_PREACTIVATION" &&
-             authority["status"] == route["status"] &&
              active["current_task_status"] == route["status"] &&
              active["next_eligible_action"] == "RUN_STAGE_A_HERMETIC_PREACTIVATION",
              "P3-004 Stage A projection drift")
@@ -251,7 +251,6 @@ module P3Task004AuthorityValidation
 
     assert(task["status"] == "ACTIVE_STAGE_B_PRODUCT_IMPLEMENTATION" &&
            route["next_eligible_action"] == "IMPLEMENT_PERSISTED_CAPABILITY_LEDGER" &&
-           authority["status"] == "ACTIVE_STAGE_B_PRODUCT_IMPLEMENTATION" &&
            active["current_task_status"] == "ACTIVE_STAGE_B_PRODUCT_IMPLEMENTATION" &&
            active["next_eligible_action"] == "IMPLEMENT_PERSISTED_CAPABILITY_LEDGER" &&
            task.dig("stage_a", "status") == "PASS",

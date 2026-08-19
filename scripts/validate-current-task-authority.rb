@@ -5528,6 +5528,7 @@ module CurrentTaskAuthority
         FounderDelegationContinuity::RESEARCH_EXIT_ROUTE_SCHEMA,
         "p3-phase-entry-active/v1",
         "p3-phase-delegated-task/v1",
+        "p3-founder-exception-task-route/v1",
         DELEGATED_TASK_ROUTE_SCHEMA
       ].include?(route["schema_version"]),
              "active Phase delegation requires a closed delegated Route schema")
@@ -5564,6 +5565,10 @@ module CurrentTaskAuthority
       return state
     end
     if route["schema_version"] == "p3-phase-delegated-task/v1"
+      assert(defined?(P3TaskAuthorityValidation), "P3 Task authority validator is unavailable")
+      return P3TaskAuthorityValidation.validate!(root: root, truth: truth)
+    end
+    if route["schema_version"] == "p3-founder-exception-task-route/v1"
       assert(defined?(P3TaskAuthorityValidation), "P3 Task authority validator is unavailable")
       return P3TaskAuthorityValidation.validate!(root: root, truth: truth)
     end

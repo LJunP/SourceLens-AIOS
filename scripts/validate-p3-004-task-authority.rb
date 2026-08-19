@@ -177,7 +177,9 @@ module P3Task004AuthorityValidation
            } && envelope["external_effects"] == FALSE_EFFECTS,
            "P3-004 envelope milestone projection drift")
     claim = truth.fetch("claim_boundary")
-    assert(claim["current_phase_route"] == ROUTE_ID && claim["current_task"] == TASK_ID &&
+    expected_claim_task = route["status"] == "AUTHORIZED_TASK_SELECTED_NOT_ACTIVATED" ? "NONE" : TASK_ID
+    assert(claim["current_phase_route"] == ROUTE_ID && claim["current_task"] == expected_claim_task &&
+           claim["selected_task"] == TASK_ID &&
            claim["next_eligible_action"] == route["next_eligible_action"] &&
            claim["p3_status"] == "ACTIVE_INCOMPLETE" && claim["p3_entry_authorized"] == true &&
            claim["p3_phase_envelope_status"] == envelope["status"] &&
@@ -209,10 +211,12 @@ module P3Task004AuthorityValidation
              } && envelope["remaining"] == {
                "engineering_tasks" => 5, "engineering_hours" => 160, "calendar_days" => 40
              } && envelope["remaining_capacity_usable"] == true && envelope["reserved"].nil? &&
-             active["current_task"] == TASK_ID && active["current_task_status"] ==
-               "ELIGIBLE_NOT_ACTIVATED" && active["current_task_contract"] == contract_identity &&
-             active["task_resource_state"] == "SELECTED_NOT_CREATED" &&
+             active["current_task"] == "NONE" && active["current_task_status"] == "NONE" &&
+             active["current_task_contract"] == contract_identity &&
+             active["task_resource_state"] == "NOT_CREATED_FOUNDER_EXCEPTION_TASK_READY" &&
              active["execution_nonce_status"] == "NOT_ISSUED_PREACTIVATION" &&
+             active["task_branch"].nil? && active["task_worktree"].nil? &&
+             active["execution_evidence_root"].nil? &&
              active.dig("authority_record", "path").nil? &&
              active["next_eligible_action"] == "MASTER_ACTIVATE_EXACT_P3_004",
              "P3-004 READY projection drift")

@@ -1101,7 +1101,8 @@ module P3FinalTransactionalRouteValidation
       "decision_id" => HOLD_DECISION_ID,
       "reserved_trigger" => "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE"
     )
-    assert(git!(root, "diff", "--name-only", HOLD_ACTIVATION_PARENT.fetch("commit"), "HEAD",
+    assert(git!(root, "diff", "--name-only", HOLD_ACTIVATION_PARENT.fetch("commit"),
+                HOST_AUTHORIZED_ACTIVATION_PARENT.fetch("commit"),
                 "--", "backend-spring", "docs/aios/STRATEGIC_CONSTITUTION.md").empty?,
            "P3 strategic HOLD changed product source or the Constitution")
 

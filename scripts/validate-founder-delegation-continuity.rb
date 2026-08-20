@@ -5061,7 +5061,10 @@ module FounderDelegationContinuity
     if route["schema_version"] == P3PhaseEntryValidation::HOST_OWNED_ROUTE_SCHEMA
       assert(defined?(P3PhaseEntryValidation), "P3 host-owned Route validator is unavailable")
       state = P3PhaseEntryValidation.validate!(root: root, truth: truth)
-      assert(state == "P3_HOST_OWNED_FIXED_STATE_ROUTE_SLOT_1_ELIGIBLE",
+      assert(%w[
+        P3_HOST_OWNED_FIXED_STATE_ROUTE_SLOT_1_ELIGIBLE
+        P3_HOST_OWNED_FIXED_STATE_ROUTE_SLOT_1_ACTIVE
+      ].include?(state),
              "P3 host-owned Route state drift")
       return CONTINUE_DISPOSITION
     end

@@ -46,7 +46,7 @@ assertions = 0
 expect_pass(
   "exact host-owned fixed-state Route projection",
   current_truth,
-  "P3_HOST_OWNED_FIXED_STATE_ROUTE_SLOT_1_ELIGIBLE"
+  "P3_HOST_OWNED_FIXED_STATE_ROUTE_SLOT_1_ACTIVE"
 )
 assertions += 1
 
@@ -65,8 +65,8 @@ mutations = [
    ->(t) { t.dig("current_phase_route")["objective_id"] = "AGENT_AUTHORED_PLAN" }],
   ["route may not grant network", "host-owned current Route lifecycle drift",
    ->(t) { t.dig("current_phase_route", "external_effects")["network"] = true }],
-  ["slot 1 status cannot skip activation", "host-owned Route slot dependency projection drift",
-   ->(t) { t.dig("current_phase_route", "ordered_slots", 0)["status"] = "ACTIVE" }],
+  ["slot 1 active status cannot claim acceptance", "host-owned Route slot dependency projection drift",
+   ->(t) { t.dig("current_phase_route", "ordered_slots", 0)["status"] = "ACCEPTED" }],
   ["slot 1 delivery credit cannot drift", "host-owned Route slot dependency projection drift",
    ->(t) { t.dig("current_phase_route", "ordered_slots", 0)["delivery_percent_on_pass"] = 75 }],
   ["slot 1 unlock target cannot drift", "host-owned Route slot dependency projection drift",
@@ -109,17 +109,17 @@ mutations = [
    ->(t) { t.dig("project")["p3_execution_status"] = "COMPLETE" }],
   ["Phase boundary cannot enable a different Task kind", "host-owned Phase boundary drift",
    ->(t) { t.dig("phase_boundary", "allowed_task_kinds")[0] = "GENERIC_INTERPRETER" }],
-  ["Phase boundary cannot disable slot 1", "host-owned Phase boundary drift",
-   ->(t) { t.dig("phase_boundary")["task_creation_allowed"] = false }],
+  ["Phase boundary cannot create a second Task", "host-owned Phase boundary drift",
+   ->(t) { t.dig("phase_boundary")["task_creation_allowed"] = true }],
   ["Founder control cannot return to NONE owner", "host-owned Founder escalation projection drift",
    ->(t) { t.dig("founder_escalation_control")["next_action_owner"] = "NONE_ROUTE_TERMINAL" }],
   ["Founder control cannot invent a reserved trigger", "host-owned Founder escalation projection drift",
    ->(t) { t.dig("founder_escalation_control", "reserved_trigger")["category"] = "PHASE_ENTRY_OR_EXIT" }],
   ["Phase delegation source cannot drift", "host-owned Phase delegation drift",
    ->(t) { t.dig("phase_delegation")["decision_source"] = "OLD_ROUTE" }],
-  ["current Task must remain NONE before activation", "host-owned active-work projection drift",
+  ["active Task identity cannot drift", "host-owned active Task Contract lifecycle drift",
    ->(t) { t.dig("active_work")["current_task"] = "AIOS-P3-006_UNAUTHORIZED" }],
-  ["Task nonce cannot exist before activation", "host-owned active-work projection drift",
+  ["active Task nonce cannot drift", "host-owned active Task authority drift",
    ->(t) { t.dig("active_work")["execution_nonce"] = "premature" }],
   ["active authorization cannot drift", "host-owned active-work projection drift",
    ->(t) { t.dig("active_work")["founder_reserved_authorization_sha256"] = "0" * 64 }],
@@ -128,7 +128,17 @@ mutations = [
   ["claim boundary cannot fabricate delivery", "host-owned claim boundary drift",
    ->(t) { t.dig("claim_boundary")["p3_delivery_progress_percent"] = 50 }],
   ["claim boundary cannot close Long-term Goal", "host-owned claim boundary drift",
-   ->(t) { t.dig("claim_boundary")["long_term_goal_status"] = "COMPLETE" }]
+   ->(t) { t.dig("claim_boundary")["long_term_goal_status"] = "COMPLETE" }],
+  ["active Task Contract identity cannot drift", "host-owned active Task Contract SHA-256 mismatch",
+   ->(t) { t.dig("active_work", "current_task_contract")["sha256"] = "0" * 64 }],
+  ["active Task authority identity cannot drift", "host-owned active Task authority aliases drift",
+   ->(t) { t.dig("active_work", "authority_record")["sha256"] = "0" * 64 }],
+  ["active Task ledger status cannot drift", "host-owned active Task ledger entry drift",
+   ->(t) { t.dig("phase_execution_envelope", "task_ledger", 5)["status"] = "ACCEPTED" }],
+  ["active Task budget cannot drift", "host-owned active Task active-work budget or roles drift",
+   ->(t) { t.dig("active_work", "budget")["engineering_hours"] = 64 }],
+  ["active Task reviewer roles cannot drift", "host-owned active Task active-work budget or roles drift",
+   ->(t) { t.dig("active_work", "roles", "independent_reviewers").pop }]
 ]
 
 mutations.each do |name, fragment, mutation|
@@ -157,11 +167,15 @@ Dir.mktmpdir("p3-host-owned-untracked-") do |directory|
   raise "temporary git init failed: #{err}" unless status.success?
   File.binwrite(File.join(directory, "rogue.txt"), "rogue\n")
   begin
-    P3PhaseEntryValidation.validate_host_owned_repository_scope!(directory)
+    P3PhaseEntryValidation.validate_host_owned_repository_scope!(directory, {
+      "active_work" => {
+        "current_task_contract" => {"path" => "docs/aios/tasks/expected.yaml"}
+      }
+    })
     raise "untracked repository file unexpectedly passed"
   rescue P3PhaseEntryValidationError => e
     raise "untracked test failed for wrong reason: #{e.message}" unless
-      e.message.include?("untracked repository file")
+      e.message.include?("neither exact installation nor exact Task activation")
   end
   puts "PASS untracked repository file rejected"
   assertions += 1

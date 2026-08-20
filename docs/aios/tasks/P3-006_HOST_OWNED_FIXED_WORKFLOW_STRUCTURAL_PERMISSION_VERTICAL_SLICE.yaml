@@ -1,0 +1,195 @@
+schema_version: p3-host-owned-fixed-workflow-task-contract/v1
+record_type: sourcelens_aios_p3_host_owned_fixed_workflow_task_contract
+task_id: AIOS-P3-006_HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION_VERTICAL_SLICE
+route_id: P3_HOST_OWNED_FIXED_STATE_WORKFLOW_MINIMAL_ATOMIC_ROUTE
+phase: P3
+slot_id: P3_HOST_OWNED_FIXED_WORKFLOW_SLOT_1_STRUCTURAL_PERMISSION
+task_kind: PRODUCT_IMPLEMENTATION
+status: ACTIVE
+milestone: HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION
+
+authority:
+  phase_route_decision:
+    decision_id: AUTHORIZE_P3_HOST_OWNED_FIXED_STATE_WORKFLOW_MINIMAL_ATOMIC_STRATEGY_INSTALLATION_AFTER_EVIDENCE_ONLY_NON_PASS_V1
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-host-owned-fixed-state-workflow-minimal-atomic-install-20260820/decision/FOUNDER_P3_HOST_OWNED_FIXED_STATE_WORKFLOW_MINIMAL_ATOMIC_STRATEGY_INSTALLATION_AFTER_EVIDENCE_ONLY_NON_PASS_V1.json
+    byte_length: 13466
+    sha256: e40c2703b66b70658ef7c1fce9da67a5283c7792fc5b596fe294f391ce7f82ff
+  activation_parent:
+    branch: main
+    commit: 125d339c6f9da56b1bd2293bf3c1f8944d5f5483
+    tree: 517aa9ba2fd3d981afe2cea0d7e7b67ccc0b2046
+  accepted_predecessor:
+    milestone: DURABLE_STATE_AND_CHECKPOINT_RESUME
+    task_id: AIOS-P3-001_DURABLE_EXECUTION_CHECKPOINT_RESUME_KERNEL
+    receipt_path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-durable-execution-checkpoint-resume-20260819/task-p3-001/terminal/P3_001_TASK_GATE_PASS_INTEGRATION_RECEIPT_V1.json
+    receipt_byte_length: 3055
+    receipt_sha256: e4ea37f8e6770b8dea9f8939f81444f01ebca4104a8dd2f84d33c4787180e2c0
+  task_selection_owner: MASTER_CEO_AGENT
+  task_authorization_owner: MASTER_CEO_AGENT
+  task_gate_owner: MASTER_CEO_AGENT
+  founder_gate: P3_EXIT_GATE_ONLY
+
+objective: >-
+  Replace the AgentRuntime-to-effectful ToolExecutionService path with the
+  smallest real host-owned five-state workflow vertical slice: the Agent may
+  supply only one strict state-specific effect-free typed payload, while fixed
+  host handlers own transition order, authority, inputs and any later effect;
+  bind state advancement to the accepted P3-001 checkpoint chain and fail
+  closed before handler invocation on every structural permission violation.
+
+why_now: >-
+  P3-001 has independently accepted durable checkpoint and resume. The next
+  frozen P3 value milestone is structural permission for the Founder-amended
+  host-owned fixed-state architecture. The current AgentRuntime still forwards
+  model-authored tool calls directly into ToolExecutionService, so the product
+  path does not yet meet the new zero-authority Agent boundary.
+
+state_graph:
+  - INSPECT
+  - AGENT_EFFECT_FREE_PAYLOAD
+  - APPLY_IN_DISPOSABLE_WORKSPACE
+  - DECLARED_TEST
+  - RECORD_RESULT
+
+structural_permission_invariants:
+  agent_runtime_output: CURRENT_STATE_TYPED_EFFECT_FREE_DTO_ONLY
+  agent_forbidden_fields:
+    - tool_name
+    - verb
+    - argv
+    - executable
+    - read_root
+    - write_root
+    - network_policy
+    - timeout
+    - next_state
+    - step_order
+    - additional_step
+  fail_before_handler_invocation:
+    - UNKNOWN_TYPE
+    - RAW_MAP
+    - EXTRA_FIELD
+    - WRONG_STATE
+    - PATH_BEARING_PAYLOAD
+    - OUT_OF_ORDER_TRANSITION
+    - REPLAY
+  handler_selection: CLOSED_ENUM_SWITCH_ONE_FIXED_PRODUCT_HANDLER_PER_STATE
+  transition_selection: HOST_OWNED_FIXED_ORDER_ONLY
+  checkpoint_binding: ACCEPTED_P3_001_EXECUTION_CHECKPOINT_CHAIN
+  legacy_agent_runtime_effect_path: UNREACHABLE
+
+scope:
+  allowed_paths:
+    - backend-spring/src/main/java/com/sourcelens/module/agent
+    - backend-spring/src/main/java/com/sourcelens/module/execution
+    - backend-spring/src/test/java/com/sourcelens
+    - backend-spring/src/test/resources
+  worker_write_paths:
+    - backend-spring/src/main/java/com/sourcelens/module/agent
+    - backend-spring/src/main/java/com/sourcelens/module/execution
+    - backend-spring/src/test/java/com/sourcelens
+    - backend-spring/src/test/resources
+  product_source_required: true
+  required_product_source_diff: NON_EMPTY_TESTABLE
+  task_local_database_fixtures_only: true
+  build_output_root: backend-spring/target
+  network_allowed: false
+  provider_allowed: false
+  secret_allowed: false
+  remote_allowed: false
+  production_allowed: false
+  public_release_allowed: false
+  existing_database_mutation_allowed: false
+
+roles:
+  owner: MASTER_CEO_AGENT
+  worker: IMPLEMENTATION_WORKER_AGENT
+  quality_owner: QUALITY_AND_EVALUATION_AGENT
+  independent_reviewers:
+    - CTO_AGENT
+    - SECURITY_AGENT
+    - QUALITY_AND_EVALUATION_AGENT
+  write_ownership:
+    worker: PRODUCT_AND_TEST_PATHS_IN_EXACT_TASK_WORKTREE_ONLY
+    quality: TASK_CARD_AND_READ_ONLY_REPLAY_EVIDENCE_ONLY
+    reviewers: READ_ONLY
+
+budget:
+  engineering_tasks: 1
+  engineering_hours: 32
+  calendar_days: 8
+  candidate_generations: 2
+  same_task_repairs: 1
+  review_cycles: 2
+  active_candidates: 1
+
+acceptance:
+  required:
+    - AgentRuntime has no executable path from model-authored tool calls to ToolExecutionService or ToolRegistry; a model tool call fails closed before any tool body, filesystem, process or network effect.
+    - The production workflow exposes exactly INSPECT, AGENT_EFFECT_FREE_PAYLOAD, APPLY_IN_DISPOSABLE_WORKSPACE, DECLARED_TEST and RECORD_RESULT in that order and dispatches through a closed enum switch to one fixed product handler per state, with no generic registry, interpreter, broker, dynamic grant or Agent-authored next state.
+    - The Agent boundary accepts only the exact typed payload for AGENT_EFFECT_FREE_PAYLOAD; unknown type, raw map, extra field, wrong state, path-bearing content, out-of-order transition and replay each fail before any handler invocation.
+    - Workflow identity, fixed step inputs and each accepted transition are bound to the accepted ExecutionCheckpointService chain; resume derives the sole next executable state from persisted checkpoint rows and never repeats an accepted handler.
+    - Fixed handler authority inputs are host-owned and cannot be populated or overridden by an Agent payload, including executable, argv, roots, environment, network policy, timeout, order and transition.
+    - Focused unit tests and a fresh Task-local H2 integration test prove the positive five-state path, checkpoint resume, and the complete fail-before-handler negative matrix.
+    - Exact source-to-class identities, JDK identity, Maven argv, cwd, closed environment, Surefire XML/stdout, changed-file inventory and zero external effects are bound in create-once Task Evidence.
+    - Independent CTO, Security and Quality/Evaluation reviewers all return TARGET_VERDICT PASS on the same exact candidate and Evidence manifest.
+  task_gate: INDEPENDENT_REVIEW_AND_TEST_EVIDENCE_PASS
+
+required_evidence:
+  - PHASE_DELEGATED_TASK_AUTHORITY
+  - FROZEN_QUALITY_TASK_CARD
+  - WORKER_REPORT
+  - EXACT_CHANGED_FILE_AND_SOURCE_TO_CLASS_INVENTORY
+  - FOCUSED_UNIT_AND_H2_INTEGRATION_TEST_TRANSACTIONS
+  - LEGACY_AGENT_RUNTIME_EFFECT_PATH_UNREACHABLE_PROOF
+  - STRUCTURAL_PERMISSION_NEGATIVE_MATRIX
+  - CHECKPOINT_RESUME_REPLAY_PROOF
+  - CLOSED_ENVIRONMENT_AND_ZERO_EXTERNAL_EFFECT_RECEIPT
+  - CANDIDATE_MANIFEST
+  - INDEPENDENT_CTO_SECURITY_QUALITY_REVIEWS
+
+non_goals:
+  - Implement disposable-workspace process spawning or crash recovery; those belong to slot 2.
+  - Claim complete observable trace, isolation acceptance, strict P3 Exit, P4 entry or production readiness.
+  - Build a whole-task compiler, sealed action program, generic interpreter, action broker, reusable action envelope, mutable capability ledger or dynamic grant/revoke system.
+  - Add network, Provider, Secret, remote, production, public release or existing-database effects.
+
+lineage:
+  allowed_inputs:
+    - canonical main at activation parent
+    - current canonical Truth and Strategic Constitution v2.6
+    - accepted P3-001 product source and accepted receipt
+    - current direct Founder P3 route decision
+  prohibited_inputs:
+    - P3-002 through P3-005 rejected branches or worktrees
+    - P3-002 through P3-005 rejected product code, tests or candidates
+    - P3-002 through P3-005 evaluators or engineering Evidence
+  rejected_lineage_read: false
+  rejected_lineage_compare: false
+  rejected_lineage_copy: false
+  rejected_lineage_reuse: false
+
+stop_conditions:
+  - Any write escapes the exact Task worktree or create-once Evidence root.
+  - Any network, Provider, Secret, remote, production, public or existing-database capability becomes necessary.
+  - The Agent must choose a tool, command, path, permission, transition or step order for the vertical slice to work.
+  - The fixed five-state graph must expand or slot 2 behavior is required to satisfy slot 1 acceptance.
+  - Candidate generation, same-Task repair or review-cycle budget is exhausted.
+
+claim_boundary: >-
+  Acceptance establishes only HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION,
+  raises P3 delivery from 25% to 50%, and unlocks only slot 2. It does not accept
+  isolation, complete trace, the strict P3 Exit Gate, P4 entry, production use or
+  the Long-term Goal.
+
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false
+
+rollback:
+  strategy: NON_DESTRUCTIVE_REVERT_OF_ACCEPTED_LOCAL_INTEGRATION_COMMIT_ONLY
+  failed_candidate_integration_allowed: false

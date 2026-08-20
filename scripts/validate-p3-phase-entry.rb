@@ -76,6 +76,12 @@ module P3PhaseEntryValidation
     scripts/test-p3-phase-entry.rb
     scripts/validate-aios-governance.sh
   ].freeze
+  HOST_OWNED_TASK_ACTIVATION_CONTROL_PATHS = %w[
+    docs/aios/truth/project_state.yaml
+    scripts/validate-p3-phase-entry.rb
+    scripts/validate-founder-delegation-continuity.rb
+    scripts/test-p3-phase-entry.rb
+  ].freeze
   HOST_OWNED_MILESTONES = %w[
     DURABLE_STATE_AND_CHECKPOINT_RESUME
     HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION
@@ -362,21 +368,35 @@ module P3PhaseEntryValidation
     raise P3PhaseEntryValidationError, "activation-parent Truth YAML invalid: #{e.message}"
   end
 
-  def validate_host_owned_repository_scope!(root)
+  def validate_host_owned_repository_scope!(root, truth = nil)
+    root = Pathname.new(root).realpath
     stdout, stderr, status = Open3.capture3(
       "git", "-C", root.to_s, "status", "--porcelain=v1", "--untracked-files=all"
     )
     raise P3PhaseEntryValidationError, "host-owned repository status failed: #{stderr}" unless status.success?
     lines = stdout.lines.map(&:chomp)
-    assert(lines.none? { |line| line.start_with?("??") },
-           "host-owned installation contains an untracked repository file")
     paths = lines.map do |line|
       assert(line.bytesize >= 4 && !line.include?(" -> "),
              "host-owned installation status entry is not a single path")
       line[3..]
     end
-    assert(paths.empty? || paths.sort == HOST_OWNED_INSTALLATION_PATHS.sort,
-           "host-owned installation repository mutation set is not exact seven")
+    return if paths.empty?
+
+    installation = paths.sort == HOST_OWNED_INSTALLATION_PATHS.sort &&
+      lines.none? { |line| line.start_with?("??") }
+    unless truth
+      truth = YAML.safe_load(
+        root.join("docs/aios/truth/project_state.yaml").binread,
+        permitted_classes: [], permitted_symbols: [], aliases: false
+      )
+    end
+    contract_path = truth.dig("active_work", "current_task_contract", "path")
+    activation_paths = HOST_OWNED_TASK_ACTIVATION_CONTROL_PATHS + [contract_path]
+    activation = contract_path.is_a?(String) && !contract_path.empty? &&
+      paths.sort == activation_paths.sort &&
+      lines.select { |line| line.start_with?("??") }.map { |line| line[3..] } == [contract_path]
+    assert(installation || activation,
+           "host-owned repository mutation set is neither exact installation nor exact Task activation")
   end
 
   def validate_host_owned_constitution!(root, truth, decision)
@@ -440,10 +460,145 @@ module P3PhaseEntryValidation
     end
   end
 
+  def validate_host_owned_active_task!(root, truth, decision, current_envelope)
+    active = mapping(truth["active_work"], "host-owned active work")
+    task_id = active["current_task"]
+    assert(task_id.is_a?(String) && task_id.match?(/\AAIOS-P3-[0-9]{3}_[A-Z0-9_]+\z/),
+           "host-owned active Task id is invalid")
+
+    contract_identity = exact_keys(
+      active["current_task_contract"], %w[path sha256 byte_length],
+      "host-owned active Task Contract identity"
+    )
+    contract_path = Pathname.new(contract_identity.fetch("path"))
+    assert(!contract_path.absolute? && contract_path.each_filename.first(3).to_a == %w[docs aios tasks],
+           "host-owned active Task Contract path is outside docs/aios/tasks")
+    contract_bytes = exact_identity(
+      root.join(contract_path), contract_identity.fetch("byte_length"),
+      contract_identity.fetch("sha256"), "host-owned active Task Contract"
+    )
+    contract = YAML.safe_load(
+      contract_bytes, permitted_classes: [], permitted_symbols: [], aliases: false
+    )
+    mapping(contract, "host-owned active Task Contract")
+    first_slot = array(decision["ordered_slots"], "host-owned ordered slots").first
+    assert(contract["schema_version"] == "p3-host-owned-fixed-workflow-task-contract/v1" &&
+           contract["record_type"] == "sourcelens_aios_p3_host_owned_fixed_workflow_task_contract" &&
+           contract["task_id"] == task_id && contract["route_id"] == HOST_OWNED_ROUTE_ID &&
+           contract["phase"] == "P3" && contract["slot_id"] == first_slot["slot_id"] &&
+           contract["task_kind"] == first_slot["kind"] && contract["status"] == "ACTIVE" &&
+           contract["milestone"] == first_slot["milestone"],
+           "host-owned active Task Contract lifecycle drift")
+    assert(contract["state_graph"] == decision.dig("architecture", "state_graph") &&
+           contract.dig("structural_permission_invariants", "agent_forbidden_fields") ==
+             decision.dig("architecture", "agent_runtime_forbidden_fields") &&
+           contract.dig("structural_permission_invariants", "fail_before_handler_invocation") ==
+             decision.dig("architecture", "fail_before_effect_on") &&
+           contract.dig("structural_permission_invariants", "legacy_agent_runtime_effect_path") ==
+             "UNREACHABLE",
+           "host-owned active Task structural permission contract drift")
+    expected_budget = first_slot.fetch("budget").merge(
+      "candidate_generations" => first_slot.fetch("max_candidate_generations"),
+      "same_task_repairs" => first_slot.fetch("max_same_task_repairs"),
+      "review_cycles" => first_slot.fetch("max_review_cycles"),
+      "active_candidates" => 1
+    )
+    assert(contract["budget"] == expected_budget &&
+           contract.dig("authority", "activation_parent") == {
+             "branch" => "main",
+             "commit" => active["activation_parent_commit"],
+             "tree" => active["activation_parent_tree"]
+           } && contract.dig("authority", "accepted_predecessor", "milestone") ==
+             first_slot["predecessor"] &&
+           contract.dig("authority", "task_gate_owner") == "MASTER_CEO_AGENT" &&
+           contract["external_effects"] == FALSE_EFFECTS,
+           "host-owned active Task Contract authority or budget drift")
+
+    authority_identity = exact_keys(
+      active["authority_record"], %w[path sha256 byte_length],
+      "host-owned active Task authority identity"
+    )
+    assert(active["current_execution_authorization"] == authority_identity["path"] &&
+           active["current_execution_authorization_sha256"] == authority_identity["sha256"],
+           "host-owned active Task authority aliases drift")
+    authority_bytes = closed_file_identity(
+      authority_identity.slice("path", "byte_length", "sha256"),
+      "host-owned active Task authority", create_once: true
+    )
+    authority = JSON.parse(authority_bytes)
+    assert(authority["schema_version"] ==
+             "p3-host-owned-fixed-workflow-phase-delegated-task-authority/v1" &&
+           authority["record_type"] ==
+             "sourcelens_aios_p3_host_owned_fixed_workflow_phase_delegated_task_authority" &&
+           authority["task_id"] == task_id && authority["route_id"] == HOST_OWNED_ROUTE_ID &&
+           authority["slot_id"] == first_slot["slot_id"] &&
+           authority["milestone"] == first_slot["milestone"] &&
+           authority["authorization_id"] == active["authorization_id"] &&
+           authority["execution_nonce"] == active["execution_nonce"] &&
+           authority["contract"] == contract_identity &&
+           authority["branch"] == active["task_branch"] &&
+           authority["worktree"] == active["task_worktree"] &&
+           authority["evidence_root"] == active["execution_evidence_root"] &&
+           authority["allowlisted_paths"] == active["allowlisted_paths"] &&
+           authority["budget"].slice(*expected_budget.keys) == expected_budget &&
+           authority["external_effects"] == FALSE_EFFECTS &&
+           authority["founder_decision_required"] == false && authority["create_once"] == true,
+           "host-owned active Task authority drift")
+    assert(active["budget"] == expected_budget.reject { |key, _| key == "active_candidates" } &&
+           active["roles"] == authority["roles"],
+           "host-owned active Task active-work budget or roles drift")
+    expected_route_decision = truth.dig("current_phase_route", "founder_route_decision")
+      .slice("decision_id", "path", "byte_length", "sha256")
+    assert(authority.dig("authority_basis", "phase_route_decision") == expected_route_decision,
+           "host-owned active Task Founder authority binding drift")
+    assert(authority.dig("authority_basis", "activation_parent") == {
+      "branch" => "main",
+      "commit" => active["activation_parent_commit"],
+      "tree" => active["activation_parent_tree"]
+    }, "host-owned active Task activation parent drift")
+    assert(git(root, "rev-parse", "#{active.fetch('activation_parent_commit')}^{tree}") ==
+             active["activation_parent_tree"],
+           "host-owned active Task activation parent commit/tree mismatch")
+    assert(Pathname.new(active["task_worktree"]).cleanpath.to_s.start_with?(
+             "/Users/lijunpeng/Developer/.sourcelens-worktrees/"),
+           "host-owned active Task worktree is outside the configured root")
+    assert(Pathname.new(active["execution_evidence_root"]).cleanpath.to_s.start_with?(
+             "/Users/lijunpeng/Developer/.sourcelens-audit/"),
+           "host-owned active Task Evidence root is outside the configured root")
+
+    current_task_entry = array(current_envelope["task_ledger"], "current P3 Task ledger").last
+    assert(current_task_entry == {
+      "task_id" => task_id,
+      "route_id" => HOST_OWNED_ROUTE_ID,
+      "status" => "ACTIVE",
+      "milestone" => first_slot["milestone"],
+      "slot_id" => first_slot["slot_id"],
+      "budget" => first_slot["budget"],
+      "contract" => contract_identity.slice("path", "byte_length", "sha256"),
+      "authority" => authority_identity.slice("path", "byte_length", "sha256"),
+      "activation_parent" => {
+        "commit" => active["activation_parent_commit"],
+        "tree" => active["activation_parent_tree"]
+      }
+    }, "host-owned active Task ledger entry drift")
+    [contract, authority]
+  rescue JSON::ParserError => e
+    raise P3PhaseEntryValidationError, "host-owned active Task authority JSON invalid: #{e.message}"
+  rescue Psych::SyntaxError => e
+    raise P3PhaseEntryValidationError, "host-owned active Task Contract YAML invalid: #{e.message}"
+  end
+
   def validate_host_owned_route!(root, truth, project, route)
     decision, parent_truth = validate_host_owned_decision!(root, route)
-    validate_host_owned_repository_scope!(root)
+    validate_host_owned_repository_scope!(root, truth)
     validate_host_owned_constitution!(root, truth, decision)
+    active_task = route["status"] == "ACTIVE_SLOT_1"
+    expected_route_status = active_task ? "ACTIVE_SLOT_1" : "AUTHORIZED_READY_SLOT_1"
+    expected_execution_status = active_task ?
+      "PHASE_DELEGATED_TASK_ACTIVE" : "PHASE_DELEGATED_CONTINUATION_READY"
+    expected_scheduling_status = active_task ?
+      "SLOT_1_ACTIVE_DOWNSTREAM_LOCKED" : "SLOT_1_ELIGIBLE_NOT_ACTIVATED"
+    expected_next_action = active_task ? "COMPLETE_CURRENT_TASK_GATE" : HOST_OWNED_NEXT_ACTION
 
     exact_keys(
       route,
@@ -462,13 +617,13 @@ module P3PhaseEntryValidation
     )
     assert(route["schema_version"] == HOST_OWNED_ROUTE_SCHEMA &&
            route["route_id"] == HOST_OWNED_ROUTE_ID &&
-           route["status"] == "AUTHORIZED_READY_SLOT_1" &&
-           route["execution_status"] == "PHASE_DELEGATED_CONTINUATION_READY" &&
-           route["scheduling_status"] == "SLOT_1_ELIGIBLE_NOT_ACTIVATED" &&
+           route["status"] == expected_route_status &&
+           route["execution_status"] == expected_execution_status &&
+           route["scheduling_status"] == expected_scheduling_status &&
            route["phase"] == "P3" && route["phase_entry_status"] == "AUTHORIZED" &&
            route["founder_phase_route_decision_required"] == false &&
            route["founder_reserved_trigger_resolved"] == "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE" &&
-           route["next_eligible_action"] == HOST_OWNED_NEXT_ACTION &&
+           route["next_eligible_action"] == expected_next_action &&
            route["phase_execution_envelope_ref"] == "phase_execution_envelope" &&
            route["phase_entry_route_ref"] == "historical_p3_phase_entry_route" &&
            route["accepted_foundation_route_ref"] == "historical_p3_001_phase_route" &&
@@ -493,11 +648,13 @@ module P3PhaseEntryValidation
       "entry_count", "canonicalization", "canonical_byte_length", "canonical_sha256"
     ), "host-owned Route prior ledger identity drift")
     expected_route_slots = decision_slot_projection(decision)
+    expected_route_slots.first["status"] = "ACTIVE" if active_task
     assert(route["ordered_slots"] == expected_route_slots,
            "host-owned Route slot dependency projection drift")
     assert(expected_route_slots.map { |slot| slot["ordinal"] } == [1, 2, 3] &&
            expected_route_slots.map { |slot| slot["status"] } == [
-             "ELIGIBLE_NOT_ACTIVATED", "LOCKED_PREDECESSOR_NOT_ACCEPTED",
+             active_task ? "ACTIVE" : "ELIGIBLE_NOT_ACTIVATED",
+             "LOCKED_PREDECESSOR_NOT_ACCEPTED",
              "LOCKED_PREDECESSOR_NOT_ACCEPTED"
            ] &&
            expected_route_slots.map { |slot| slot["kind"] } == [
@@ -510,28 +667,43 @@ module P3PhaseEntryValidation
     current_ledger = array(current_envelope["task_ledger"], "current P3 Task ledger")
     prior_identity = mapping(decision["prior_task_ledger"], "host-owned prior ledger decision")
     serialized = canonical_json(parent_ledger)
-    assert(parent_ledger == current_ledger && parent_ledger.length == prior_identity["entry_count"] &&
+    expected_current_ledger_length = parent_ledger.length + (active_task ? 1 : 0)
+    assert(parent_ledger == current_ledger.first(parent_ledger.length) &&
+           current_ledger.length == expected_current_ledger_length &&
+           parent_ledger.length == prior_identity["entry_count"] &&
            serialized.bytesize == prior_identity["canonical_byte_length"] &&
            Digest::SHA256.hexdigest(serialized) == prior_identity["canonical_sha256"],
            "host-owned P3 Task ledger drift")
     phase_envelope = mapping(decision["phase_envelope"], "host-owned decision Phase envelope")
+    slot_budget = decision.dig("ordered_slots", 0, "budget")
+    expected_consumed = phase_envelope["consumed"].each_with_object({}) do |(key, value), result|
+      result[key] = value + slot_budget.fetch(key)
+    end
+    expected_remaining = phase_envelope["remaining"].each_with_object({}) do |(key, value), result|
+      result[key] = value - slot_budget.fetch(key)
+    end
+    expected_envelope_slots = envelope_slot_projection(decision)
+    expected_envelope_slots.first["status"] = "ACTIVE" if active_task
     assert(current_envelope["schema_version"] == "phase-execution-envelope/v1" &&
            current_envelope["phase"] == "P3" &&
-           current_envelope["status"] == "ACTIVE_REMAINING_CAPACITY_SLOT_1_ELIGIBLE" &&
+           current_envelope["status"] == (active_task ?
+             "ACTIVE_SLOT_1_TASK_IN_PROGRESS" : "ACTIVE_REMAINING_CAPACITY_SLOT_1_ELIGIBLE") &&
            current_envelope["accounting_basis"] == "NON_RESETTABLE_DECLARED_TASK_BUDGET_RESERVATION" &&
            current_envelope["limits"] == phase_envelope["limits"] &&
-           current_envelope["consumed"] == phase_envelope["consumed"] &&
-           current_envelope["remaining"] == phase_envelope["remaining"] &&
+           current_envelope["consumed"] == (active_task ? expected_consumed : phase_envelope["consumed"]) &&
+           current_envelope["remaining"] == (active_task ? expected_remaining : phase_envelope["remaining"]) &&
            current_envelope["reserved"] == {} && current_envelope["remaining_capacity_usable"] == true &&
            current_envelope["remaining_capacity_lock_reason"] == "NONE" &&
            current_envelope["milestone_order"] == HOST_OWNED_MILESTONES &&
            current_envelope["accepted_milestones"] == ["DURABLE_STATE_AND_CHECKPOINT_RESUME"] &&
-           current_envelope["ordered_slots"] == envelope_slot_projection(decision) &&
+           current_envelope["ordered_slots"] == expected_envelope_slots &&
            current_envelope["delivery_progress"] == {
              "accepted" => 1, "total" => 4, "percent" => 25,
              "strict_exit_gate_percent" => 0
            } && current_envelope["external_effects"] == FALSE_EFFECTS,
            "host-owned P3 Phase envelope drift")
+    active_contract, = active_task ?
+      validate_host_owned_active_task!(root, truth, decision, current_envelope) : [nil, nil]
     assert(current_envelope["authority_basis"] == {
       "phase_entry_status" => "AUTHORIZED",
       "policy_path" => "docs/aios/FOUNDER_DELEGATION_POLICY.md",
@@ -546,10 +718,14 @@ module P3PhaseEntryValidation
     assert(project["current_phase"] == "P3" &&
            project["phase_name"] == "Single-Agent Runtime + Minimum Trust" &&
            project["p2_execution_status"] == "COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED" &&
-           project["phase_execution_status"] == "ACTIVE_SLOT_1_ELIGIBLE_NOT_ACTIVATED" &&
-           project["current_route_execution_status"] == "P3_HOST_OWNED_FIXED_STATE_WORKFLOW_ROUTE_READY_SLOT_1" &&
+           project["phase_execution_status"] == (active_task ?
+             "ACTIVE_SLOT_1_TASK_IN_PROGRESS" : "ACTIVE_SLOT_1_ELIGIBLE_NOT_ACTIVATED") &&
+           project["current_route_execution_status"] == (active_task ?
+             "P3_HOST_OWNED_FIXED_STATE_WORKFLOW_ROUTE_SLOT_1_ACTIVE" :
+             "P3_HOST_OWNED_FIXED_STATE_WORKFLOW_ROUTE_READY_SLOT_1") &&
            project["p3_entry_status"] == "AUTHORIZED" &&
-           project["p3_execution_status"] == "ACTIVE_INCOMPLETE_SLOT_1_ELIGIBLE" &&
+           project["p3_execution_status"] == (active_task ?
+             "ACTIVE_INCOMPLETE_SLOT_1_TASK_IN_PROGRESS" : "ACTIVE_INCOMPLETE_SLOT_1_ELIGIBLE") &&
            project["p4_entry_status"] == "HOLD_PENDING_STRICT_P3_EXIT_AND_SEPARATE_FOUNDER_PHASE_ENTRY",
            "host-owned project projection drift")
 
@@ -565,26 +741,36 @@ module P3PhaseEntryValidation
 
     boundary = mapping(truth["phase_boundary"], "host-owned Phase boundary")
     assert(boundary["phase"] == "P3" &&
-           boundary["phase_execution_status"] == "ACTIVE_SLOT_1_ELIGIBLE_NOT_ACTIVATED" &&
-           boundary["task_creation_allowed"] == true &&
-           boundary["task_creation_scope"] == "HOST_OWNED_FIXED_WORKFLOW_SLOT_1_ONLY" &&
+           boundary["phase_execution_status"] == (active_task ?
+             "ACTIVE_SLOT_1_TASK_IN_PROGRESS" : "ACTIVE_SLOT_1_ELIGIBLE_NOT_ACTIVATED") &&
+           boundary["task_creation_allowed"] == !active_task &&
+           boundary["task_creation_scope"] == (active_task ?
+             "NONE_ACTIVE_TASK" : "HOST_OWNED_FIXED_WORKFLOW_SLOT_1_ONLY") &&
            boundary["task_creation_lock_after_activation"] == true &&
            boundary["p3_entry_authorized"] == true &&
            boundary["allowed_task_kinds"] == %w[
              HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION_VERTICAL_SLICE
              FIXED_HANDLER_CRASH_ISOLATION_AND_TRACE_CUSTODY
              INDEPENDENT_P3_STRICT_EXIT_GATE_AUDIT
-           ] && boundary["next_eligible_action"] == HOST_OWNED_NEXT_ACTION &&
+           ] && boundary["next_eligible_action"] == expected_next_action &&
            boundary["user_action_required"] == "NONE" &&
            boundary["phase_route_decision_required"] == false &&
            boundary["default_external_effects"] == FALSE_EFFECTS,
            "host-owned Phase boundary drift")
 
     control = mapping(truth["founder_escalation_control"], "host-owned Founder escalation control")
+    expected_source_event = active_task ? {
+      "kind" => "P3_PHASE_DELEGATED_SLOT_1_TASK_ACTIVATED",
+      "decision_id" => truth.dig("active_work", "current_task"),
+      "status" => "P3_HOST_OWNED_FIXED_STATE_WORKFLOW_SLOT_1_ACTIVE"
+    } : {
+      "kind" => "FOUNDER_P3_OBJECTIVE_AND_PHASE_ROUTE_DECISION_INSTALLED",
+      "decision_id" => HOST_OWNED_DECISION_ID,
+      "status" => "P3_HOST_OWNED_FIXED_STATE_WORKFLOW_ROUTE_READY_SLOT_1"
+    }
     assert(control["schema_version"] == "founder-escalation-control/v2" &&
            control["disposition"] == "NO_RESERVED_TRIGGER_CONTINUE_PHASE" &&
-           control.dig("source_event", "kind") == "FOUNDER_P3_OBJECTIVE_AND_PHASE_ROUTE_DECISION_INSTALLED" &&
-           control.dig("source_event", "decision_id") == HOST_OWNED_DECISION_ID &&
+           control["source_event"] == expected_source_event &&
            control.dig("reserved_trigger", "category") == "NONE" &&
            control.dig("reserved_trigger", "evidence").nil? &&
            control["resolved_strategy_decision"] == route["founder_route_decision"].merge(
@@ -593,11 +779,13 @@ module P3PhaseEntryValidation
            ) && control["phase_gate_status"] == "INCOMPLETE" &&
            control["founder_decision_required"] == false &&
            control["next_action_owner"] == "MASTER_CEO_AGENT" &&
-           control["next_eligible_action"] == HOST_OWNED_NEXT_ACTION,
+           control["next_eligible_action"] == expected_next_action,
            "host-owned Founder escalation projection drift")
 
     delegation = mapping(truth["phase_delegation"], "host-owned Phase delegation")
-    assert(delegation["status"] == "ACTIVE_P3_HOST_OWNED_FIXED_STATE_WORKFLOW_ROUTE_SLOT_1_ELIGIBLE" &&
+    assert(delegation["status"] == (active_task ?
+             "ACTIVE_P3_HOST_OWNED_FIXED_STATE_WORKFLOW_SLOT_1_TASK" :
+             "ACTIVE_P3_HOST_OWNED_FIXED_STATE_WORKFLOW_ROUTE_SLOT_1_ELIGIBLE") &&
            delegation["model"] == "PHASE_LEVEL_FOUNDER_DELEGATION" &&
            delegation["decision_source"] == HOST_OWNED_DECISION_ID &&
            delegation["task_selection_owner"] == "MASTER_CEO_AGENT" &&
@@ -609,32 +797,41 @@ module P3PhaseEntryValidation
            "host-owned Phase delegation drift")
 
     active = mapping(truth["active_work"], "host-owned active work")
-    assert(active["current_task"] == "NONE" && active["current_task_status"] == "NONE" &&
-           active["execution_nonce"].nil? && active["execution_nonce_status"] == "NOT_ISSUED" &&
-           active["task_resource_state"] == "NOT_CREATED_PHASE_DELEGATED_SLOT_1_READY" &&
+    assert(active["current_task"] == (active_task ? active_contract["task_id"] : "NONE") &&
+           active["current_task_status"] == (active_task ? "ACTIVE" : "NONE") &&
+           (active_task ? active["execution_nonce"].is_a?(String) : active["execution_nonce"].nil?) &&
+           active["execution_nonce_status"] == (active_task ? "ACTIVE_SINGLE_USE" : "NOT_ISSUED") &&
+           active["task_resource_state"] == (active_task ?
+             "ACTIVE_PHASE_DELEGATED_SLOT_1" : "NOT_CREATED_PHASE_DELEGATED_SLOT_1_READY") &&
            active["founder_reserved_authorization"] == route.dig("founder_route_decision", "path") &&
            active["founder_reserved_authorization_sha256"] == route.dig("founder_route_decision", "sha256") &&
            active["founder_decision_required"] == false && active["user_action_required"] == "NONE" &&
            active["phase_route_decision_required"] == false &&
-           active["next_eligible_action"] == HOST_OWNED_NEXT_ACTION &&
+           active["next_eligible_action"] == expected_next_action &&
            active["external_effects"] == FALSE_EFFECTS,
            "host-owned active-work projection drift")
 
     execution_claim = mapping(truth["phase_execution_claim"], "host-owned execution claim")
     assert(execution_claim["current_route_claim"] == HOST_OWNED_ROUTE_ID &&
-           execution_claim["current_task_claim"] == "NONE" &&
+           execution_claim["current_task_claim"] == (active_task ? active["current_task"] : "NONE") &&
            execution_claim["product_capability_changed"] == false &&
            execution_claim["p3_entry_authorized"] == true &&
            execution_claim["p3_exit_gate_progress_percent"] == 0 &&
            execution_claim["p3_delivery_progress_percent"] == 25 &&
-           execution_claim["phase_local_allowed"] == [
-             "ACTIVATE_HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION_VERTICAL_SLICE"
-           ], "host-owned execution claim drift")
+           execution_claim["phase_local_allowed"] == [active_task ?
+             "COMPLETE_HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION_VERTICAL_SLICE" :
+             "ACTIVATE_HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION_VERTICAL_SLICE"],
+           "host-owned execution claim drift")
     claim = mapping(truth["claim_boundary"], "host-owned claim boundary")
-    assert(claim["current_phase_route"] == HOST_OWNED_ROUTE_ID && claim["current_task"] == "NONE" &&
-           claim["selected_task"] == "NONE_SLOT_1_ELIGIBLE_NOT_ACTIVATED" &&
-           claim["current_task_status"] == "NONE" && claim["next_eligible_action"] == HOST_OWNED_NEXT_ACTION &&
-           claim["p3_status"] == "ACTIVE_INCOMPLETE_SLOT_1_ELIGIBLE" &&
+    expected_current_task = active_task ? active["current_task"] : "NONE"
+    assert(claim["current_phase_route"] == HOST_OWNED_ROUTE_ID &&
+           claim["current_task"] == expected_current_task &&
+           claim["selected_task"] == (active_task ? expected_current_task :
+             "NONE_SLOT_1_ELIGIBLE_NOT_ACTIVATED") &&
+           claim["current_task_status"] == (active_task ? "ACTIVE" : "NONE") &&
+           claim["next_eligible_action"] == expected_next_action &&
+           claim["p3_status"] == (active_task ?
+             "ACTIVE_INCOMPLETE_SLOT_1_TASK_IN_PROGRESS" : "ACTIVE_INCOMPLETE_SLOT_1_ELIGIBLE") &&
            claim["p3_phase_envelope_status"] == current_envelope["status"] &&
            claim["p3_exit_gate_progress_percent"] == 0 &&
            claim["p3_delivery_progress_percent"] == 25 &&
@@ -645,13 +842,14 @@ module P3PhaseEntryValidation
            "host-owned claim boundary drift")
     goal = mapping(truth["goal"], "Long-term Goal projection")
     assert(goal["control_plane_status_observed"] == "ACTIVE" &&
-           goal["current_task_authority"] == "NONE",
+           goal["current_task_authority"] == expected_current_task,
            "host-owned route must keep the Long-term Goal active")
     historical = mapping(truth["historical_p3_005_phase_route"], "historical P3-005 Route")
     assert(historical["schema_version"] == "p3-zero-authority-action-envelope-task-route/v1" &&
            historical["status"] == "TERMINAL_SLOT_1_INDEPENDENT_REVIEW_NON_PASS",
            "historical P3-005 terminal accounting drift")
-    "P3_HOST_OWNED_FIXED_STATE_ROUTE_SLOT_1_ELIGIBLE"
+    active_task ? "P3_HOST_OWNED_FIXED_STATE_ROUTE_SLOT_1_ACTIVE" :
+      "P3_HOST_OWNED_FIXED_STATE_ROUTE_SLOT_1_ELIGIBLE"
   end
 
   def validate_continuation!(truth, project, route)

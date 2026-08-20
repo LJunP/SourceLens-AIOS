@@ -39,7 +39,7 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE_ROUTE_TERMINAL
+  current_task_authority: NONE
   note: 'AIOS-P3-HATB-F1_MINIMUM_TRUST_EXECUTABLE_ACCEPTANCE_FOUNDATION is
     TERMINAL_TASK_GATE_NON_PASS. Candidate 2 commit
     624b1fc13c4e3ebbd34fbe6f9959fc3cb773ee51 tree
@@ -24889,7 +24889,7 @@ historical_p2_079_terminal_active_work:
   next_eligible_action: FOUNDER_RESERVED_DECISION
 
 active_work:
-  current_task: NONE_ROUTE_TERMINAL_FOUNDATION_TASK_GATE_NON_PASS
+  current_task: NONE
   current_task_status: NONE_ROUTE_TERMINAL_FOUNDATION_TASK_GATE_NON_PASS
   current_task_contract:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-host-authorized-transactional-boundary-rebaseline-20260820/task-foundation/contract/P3_HATB_F1_MINIMUM_TRUST_EXECUTABLE_ACCEPTANCE_FOUNDATION_TASK_CONTRACT_V1.yaml
@@ -31652,7 +31652,7 @@ historical_lineages:
 
 phase_execution_claim:
   current_route_claim: P3_HOST_AUTHORIZED_TRANSACTIONAL_TRUST_BOUNDARY_REBASELINE_ROUTE_V1
-  current_task_claim: NONE_ROUTE_TERMINAL_FOUNDATION_TASK_GATE_NON_PASS
+  current_task_claim: NONE
   real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_HOST_AUTHORIZED_TRANSACTIONAL_FOUNDATION_TASK_TERMINAL_NON_PASS_ZERO_ACCEPTED_PROGRESS_P3_DELIVERY_25_P3_EXIT_GATE_ZERO
   product_capability_changed: false
   accepted_outcomes:
@@ -32043,8 +32043,8 @@ p2_recovery_control:
 
 claim_boundary:
   current_phase_route: P3_HOST_AUTHORIZED_TRANSACTIONAL_TRUST_BOUNDARY_REBASELINE_ROUTE_V1
-  current_task: NONE_ROUTE_TERMINAL_FOUNDATION_TASK_GATE_NON_PASS
-  selected_task: NONE_ROUTE_TERMINAL_FOUNDATION_TASK_GATE_NON_PASS
+  current_task: NONE
+  selected_task: NONE
   current_task_status: NONE_ROUTE_TERMINAL_FOUNDATION_TASK_GATE_NON_PASS
   next_eligible_action: NONE_ROUTE_TERMINAL_NO_AUTOMATIC_SUCCESSOR_OR_FOUNDER_REQUEST
   real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_HOST_AUTHORIZED_TRANSACTIONAL_FOUNDATION_TASK_TERMINAL_NON_PASS_ZERO_ACCEPTED_PROGRESS_P3_DELIVERY_25_P3_EXIT_GATE_ZERO

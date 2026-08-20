@@ -1967,7 +1967,7 @@ module P3FinalTransactionalRouteValidation
 
     active = mapping(truth["active_work"], "P3 foundation terminal active_work")
     completed = mapping(active["last_completed_task"], "P3 foundation terminal completed Task")
-    assert(active["current_task"] == "NONE_ROUTE_TERMINAL_FOUNDATION_TASK_GATE_NON_PASS" &&
+    assert(active["current_task"] == "NONE" &&
            active["current_task_status"] ==
              "NONE_ROUTE_TERMINAL_FOUNDATION_TASK_GATE_NON_PASS" &&
            active["current_task_contract"] == HOST_AUTHORIZED_FOUNDATION_CONTRACT &&
@@ -1995,8 +1995,7 @@ module P3FinalTransactionalRouteValidation
     execution = mapping(truth["phase_execution_claim"],
                         "P3 foundation terminal execution claim")
     assert(execution["current_route_claim"] == HOST_AUTHORIZED_ROUTE_ID &&
-           execution["current_task_claim"] ==
-             "NONE_ROUTE_TERMINAL_FOUNDATION_TASK_GATE_NON_PASS" &&
+           execution["current_task_claim"] == "NONE" &&
            execution["phase_local_allowed"] == [] &&
            execution["phase_local_frozen_capabilities"].include?(
              "P3_002_THROUGH_P3_007_REJECTED_LINEAGE_FROZEN_UNREADABLE"
@@ -2010,8 +2009,7 @@ module P3FinalTransactionalRouteValidation
            "P3 foundation terminal execution claim drift")
 
     claim = mapping(truth["claim_boundary"], "P3 foundation terminal claim boundary")
-    assert(claim["current_task"] == "NONE_ROUTE_TERMINAL_FOUNDATION_TASK_GATE_NON_PASS" &&
-           claim["selected_task"] == "NONE_ROUTE_TERMINAL_FOUNDATION_TASK_GATE_NON_PASS" &&
+    assert(claim["current_task"] == "NONE" && claim["selected_task"] == "NONE" &&
            claim["p3_status"] == "HOLD_INCOMPLETE_FOUNDATION_TASK_GATE_NON_PASS" &&
            claim["p3_phase_envelope_status"] ==
              "TERMINAL_FOUNDATION_TASK_GATE_NON_PASS" &&
@@ -2026,7 +2024,7 @@ module P3FinalTransactionalRouteValidation
 
     goal = mapping(truth["goal"], "P3 foundation terminal Long-term Goal")
     assert(goal["control_plane_status_observed"] == "ACTIVE" &&
-           goal["current_task_authority"] == "NONE_ROUTE_TERMINAL" &&
+           goal["current_task_authority"] == "NONE" &&
            goal.fetch("note").include?(HOST_AUTHORIZED_FOUNDATION_TERMINAL_RECEIPT.fetch("sha256")) &&
            truth["verification_scope"] ==
              "P3_HOST_AUTHORIZED_TRANSACTIONAL_FOUNDATION_TASK_TERMINAL_GATE_NON_PASS_UNINTEGRATED_P3_HOLD_INCOMPLETE_DELIVERY_25_STRICT_EXIT_ZERO_P4_HOLD_LONG_TERM_GOAL_ACTIVE",

@@ -49,6 +49,7 @@ module FounderDelegationContinuity
   CUMULATIVE_CAPACITY_DECISION_VERSIONS = %w[1.4].freeze
   STRUCTURED_EFFECT_DECISION_VERSIONS = %w[1.1 1.2 1.3 1.4].freeze
   CONTINUE_DISPOSITION = "NO_RESERVED_TRIGGER_CONTINUE_PHASE"
+  ROUTE_TERMINAL_NO_ACTION_DISPOSITION = "NO_RESERVED_TRIGGER_ROUTE_TERMINAL"
   FOUNDER_DISPOSITION = "FOUNDER_DECISION_REQUIRED"
   STRATEGIC_HOLD_DISPOSITION = "FOUNDER_RESERVED_DECISION_RESOLVED_STRATEGIC_HOLD"
   RESEARCH_EXIT_DISPOSITION = "P2_RESEARCH_EXIT_COMPLETE_P3_ENTRY_DECISION_REQUIRED"
@@ -5074,7 +5075,8 @@ module FounderDelegationContinuity
         P3FinalTransactionalRouteValidation::TERMINAL_STATE,
         P3FinalTransactionalRouteValidation::HOLD_STATE,
         P3FinalTransactionalRouteValidation::HOST_AUTHORIZED_ROUTE_STATE,
-        P3FinalTransactionalRouteValidation::HOST_AUTHORIZED_FOUNDATION_ACTIVE_STATE
+        P3FinalTransactionalRouteValidation::HOST_AUTHORIZED_FOUNDATION_ACTIVE_STATE,
+        P3FinalTransactionalRouteValidation::HOST_AUTHORIZED_FOUNDATION_TERMINAL_STATE
       ].include?(state),
              "P3 final transactional Route state drift")
       return P3FinalTransactionalRouteValidation::HOLD_DISPOSITION if
@@ -5083,6 +5085,8 @@ module FounderDelegationContinuity
         P3FinalTransactionalRouteValidation::HOST_AUTHORIZED_ROUTE_STATE,
         P3FinalTransactionalRouteValidation::HOST_AUTHORIZED_FOUNDATION_ACTIVE_STATE
       ].include?(state)
+      return ROUTE_TERMINAL_NO_ACTION_DISPOSITION if
+        state == P3FinalTransactionalRouteValidation::HOST_AUTHORIZED_FOUNDATION_TERMINAL_STATE
       return state == P3FinalTransactionalRouteValidation::TERMINAL_STATE ?
         FOUNDER_DISPOSITION : CONTINUE_DISPOSITION
     end

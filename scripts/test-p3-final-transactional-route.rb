@@ -38,7 +38,10 @@ if host_authorized_truth.dig("current_phase_route", "schema_version") ==
   )
   expected_state =
     if host_authorized_truth.dig("current_phase_route", "lifecycle_stage") ==
-       "FOUNDATION_TASK_ACTIVE"
+       "FOUNDATION_TASK_TERMINAL_NON_PASS"
+      P3FinalTransactionalRouteValidation::HOST_AUTHORIZED_FOUNDATION_TERMINAL_STATE
+    elsif host_authorized_truth.dig("current_phase_route", "lifecycle_stage") ==
+          "FOUNDATION_TASK_ACTIVE"
       P3FinalTransactionalRouteValidation::HOST_AUTHORIZED_FOUNDATION_ACTIVE_STATE
     else
       P3FinalTransactionalRouteValidation::HOST_AUTHORIZED_ROUTE_STATE
@@ -127,6 +130,32 @@ if host_authorized_truth.dig("current_phase_route", "schema_version") ==
       end,
       "active foundation cannot claim acceptance before review" => lambda do |candidate|
         candidate["phase_execution_envelope"]["delivery_progress"]["percent"] = 50
+      end
+    })
+  end
+
+  if expected_state ==
+     P3FinalTransactionalRouteValidation::HOST_AUTHORIZED_FOUNDATION_TERMINAL_STATE
+    host_authorized_mutations.merge!({
+      "terminal foundation receipt identity cannot drift" => lambda do |candidate|
+        candidate["current_phase_route"]["terminal_task"]["terminal_receipt"]["sha256"] =
+          "0" * 64
+      end,
+      "terminal foundation cannot resurrect a branch" => lambda do |candidate|
+        candidate["active_work"]["task_branch"] = "codex/p3-hatb-f1-resurrected"
+      end,
+      "terminal foundation cannot unlock product" => lambda do |candidate|
+        candidate["current_phase_route"]["ordered_stages"][1]["status"] =
+          "ELIGIBLE_NOT_ACTIVATED"
+      end,
+      "terminal foundation cannot create a third candidate" => lambda do |candidate|
+        candidate["active_work"]["budget_consumed"]["candidate_generations"] = 3
+      end,
+      "terminal foundation cannot request ordinary Founder approval" => lambda do |candidate|
+        candidate["founder_escalation_control"]["founder_decision_required"] = true
+      end,
+      "terminal foundation cannot close the long-term Goal" => lambda do |candidate|
+        candidate["goal"]["control_plane_status_observed"] = "COMPLETE"
       end
     })
   end

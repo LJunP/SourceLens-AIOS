@@ -104,6 +104,10 @@ module P3FinalTransactionalRouteValidation
     "P3_HOST_AUTHORIZED_TRANSACTIONAL_FOUNDATION_TASK_ACTIVE"
   HOST_AUTHORIZED_FOUNDATION_ACTIVE_ACTION =
     "WORKER_BEGIN_EXECUTABLE_FOUNDATION_WITHIN_FIRST_ENGINEERING_HOUR"
+  HOST_AUTHORIZED_FOUNDATION_TERMINAL_STATE =
+    "P3_HOST_AUTHORIZED_TRANSACTIONAL_FOUNDATION_TASK_TERMINAL_NON_PASS"
+  HOST_AUTHORIZED_FOUNDATION_TERMINAL_ACTION =
+    "NONE_ROUTE_TERMINAL_NO_AUTOMATIC_SUCCESSOR_OR_FOUNDER_REQUEST"
   HOST_AUTHORIZED_DECISION_SCHEMA =
     "founder-p3-minimum-trust-host-authorized-transactional-boundary-objective-route-rebaseline/v1"
   HOST_AUTHORIZED_DECISION_ID =
@@ -206,6 +210,68 @@ module P3FinalTransactionalRouteValidation
     "canonicalization" => "RECURSIVE_KEY_SORT_COMPACT_JSON_UTF8",
     "canonical_byte_length" => 10_678,
     "canonical_sha256" => "960671374bb73de0a941a1df787e8e22b59834337699f157f0d97029c9e751dc"
+  }.freeze
+  HOST_AUTHORIZED_FOUNDATION_FINAL_CANDIDATE = {
+    "commit" => "624b1fc13c4e3ebbd34fbe6f9959fc3cb773ee51",
+    "tree" => "a57aa9a96b5bcb3a4a54f8224facdf05680fd3be",
+    "integrated" => false
+  }.freeze
+  HOST_AUTHORIZED_FOUNDATION_CANDIDATE_2_MANIFEST = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-host-authorized-transactional-boundary-rebaseline-20260820/task-foundation/candidate/P3_HATB_F1_CANDIDATE_2_REVIEW_MANIFEST_V1.json",
+    "byte_length" => 10_216,
+    "sha256" => "4a56556934c33b20563dae2f23a5d5d8e7b369a5b5772db8ae75562c647c38aa"
+  }.freeze
+  HOST_AUTHORIZED_FOUNDATION_FROZEN_FINDING_SET = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-host-authorized-transactional-boundary-rebaseline-20260820/task-foundation/reviews/P3_HATB_F1_CYCLE_1_FROZEN_FINDING_SET_V1.json",
+    "byte_length" => 2340,
+    "sha256" => "b24fc1a2dcc93da21d0e4ac65d760e18d6eb72af27c66196a24a27d13087b365"
+  }.freeze
+  HOST_AUTHORIZED_FOUNDATION_MANIFEST_FALSE_FINDING_SET_SHA256 =
+    "b24fc1a219bcf5864ff9648b8423da148a6f35a3047731bda1c4edb07b70d233"
+  HOST_AUTHORIZED_FOUNDATION_CYCLE_2_REVIEWS = [
+    {
+      "reviewer_role" => "CTO_AGENT", "verdict" => "NON_PASS",
+      "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-host-authorized-transactional-boundary-rebaseline-20260820/task-foundation/reviews/P3_HATB_F1_CTO_CYCLE_2_FINAL_NON_PASS_REVIEW_V1.json",
+      "byte_length" => 2488,
+      "sha256" => "e3431ad6f4e46cbf60947a5ebb52ab7b3cdd318b009846b0c83b3544e4d5a91f"
+    },
+    {
+      "reviewer_role" => "SECURITY_AGENT", "verdict" => "NON_PASS",
+      "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-host-authorized-transactional-boundary-rebaseline-20260820/task-foundation/reviews/P3_HATB_F1_SECURITY_CYCLE_2_FINAL_NON_PASS_REVIEW_V1.json",
+      "byte_length" => 3955,
+      "sha256" => "51e22ba5939b70d74b38c6991d146c64df0155714e45c4f0d828aa8a179ebb87"
+    },
+    {
+      "reviewer_role" => "QUALITY_EVALUATION_AGENT", "verdict" => "NON_PASS",
+      "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-host-authorized-transactional-boundary-rebaseline-20260820/task-foundation/reviews/P3_HATB_F1_QUALITY_EVALUATION_CYCLE_2_FINAL_NON_PASS_REVIEW_V1.json",
+      "byte_length" => 2933,
+      "sha256" => "84de9ed73c7ac43f9df799ca78ccbbee35111f745a82beefff3770b4bf961b7b"
+    }
+  ].freeze
+  HOST_AUTHORIZED_FOUNDATION_FOCUSED_EVIDENCE = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-host-authorized-transactional-boundary-rebaseline-20260820/task-foundation/tests/P3_HATB_F1_CANDIDATE_2_FOCUSED_SUREFIRE_REPORTS_V1.tar",
+    "byte_length" => 125_952,
+    "sha256" => "7cabdd0ceac5ed4b0bbec150ae67d94a38a327f238df3fdcc5008055d7bd3381"
+  }.freeze
+  HOST_AUTHORIZED_FOUNDATION_FULL_EVIDENCE = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-host-authorized-transactional-boundary-rebaseline-20260820/task-foundation/tests/P3_HATB_F1_CANDIDATE_2_FULL_SUREFIRE_REPORTS_V1.tar",
+    "byte_length" => 4_056_064,
+    "sha256" => "475ae14e7e599055ee5bce29a5176aabd4c67a403a6e92bb6933da77a96bc6b3"
+  }.freeze
+  HOST_AUTHORIZED_FOUNDATION_TERMINAL_BUNDLE = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-host-authorized-transactional-boundary-rebaseline-20260820/task-foundation/terminal/P3_HATB_F1_CANDIDATE_2_UNINTEGRATED_GIT_BUNDLE_V1.bundle",
+    "byte_length" => 10_615_471,
+    "sha256" => "7248a1cde52b3bf9b5a61b3f4631ea7dce09c71c64c3679e299a4ecb9e998e98"
+  }.freeze
+  HOST_AUTHORIZED_FOUNDATION_CLEANUP_RECEIPT = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-host-authorized-transactional-boundary-rebaseline-20260820/task-foundation/terminal/P3_HATB_F1_TASK_WORKTREE_BRANCH_CLEANUP_RECEIPT_V1.json",
+    "byte_length" => 2174,
+    "sha256" => "e530b6d7dcf03f64785eec98e5e492f319fcd4177dded8d5b29ff6d57249ff5e"
+  }.freeze
+  HOST_AUTHORIZED_FOUNDATION_TERMINAL_RECEIPT = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-host-authorized-transactional-boundary-rebaseline-20260820/task-foundation/terminal/P3_HATB_F1_TERMINAL_FOUNDATION_TASK_GATE_NON_PASS_RECEIPT_V1.json",
+    "byte_length" => 9883,
+    "sha256" => "bbbb76ad9a3a5ff81d02103771540a29135e39c10e8187b3cb123f9508d80756"
   }.freeze
   PREACTIVATION_COMMIT = "87637233f847d6fb666419b63bef70990056e58f"
   PREACTIVATION_TREE = "e96dcae00a9da63cb327381fd25c40f9b384f7e0"
@@ -1622,6 +1688,355 @@ module P3FinalTransactionalRouteValidation
           "P3 foundation Task resource invalid: #{e.message}"
   end
 
+  def validate_host_authorized_foundation_terminal!(root, truth)
+    decision = JSON.parse(read_identity!(
+      HOST_AUTHORIZED_DECISION, "P3 host-authorized Founder decision", create_once: true
+    ))
+    assert(decision["schema_version"] == HOST_AUTHORIZED_DECISION_SCHEMA &&
+           decision["decision_id"] == HOST_AUTHORIZED_DECISION_ID &&
+           decision.dig("lifecycle", "stage_1_non_pass") ==
+             "TERMINAL_LOCK_PRODUCT_AND_AUDIT_RETURN_P3_HOLD" &&
+           decision.dig("anti_cycle", "successor_replacement_remediation_normalization_feasibility_authorized") == false &&
+           decision.dig("anti_cycle", "p3_008_or_numbered_v2_v3_route_authorized") == false &&
+           decision.dig("long_term_goal", "status") == "ACTIVE",
+           "P3 foundation terminal Founder boundary drift")
+
+    contract = YAML.safe_load(
+      read_identity!(HOST_AUTHORIZED_FOUNDATION_CONTRACT,
+                     "P3 foundation terminal Contract", create_once: true),
+      permitted_classes: [], permitted_symbols: [], aliases: false
+    )
+    assert(contract["task_id"] == HOST_AUTHORIZED_FOUNDATION_TASK_ID &&
+           contract["route_id"] == HOST_AUTHORIZED_ROUTE_ID &&
+           contract["stage_id"] == "MINIMUM_TRUST_EXECUTABLE_ACCEPTANCE_FOUNDATION" &&
+           contract["budget"] == HOST_AUTHORIZED_FOUNDATION_BUDGET.merge(
+             "governance_and_preworker_percent_max" => 10,
+             "executable_foundation_start_within_engineering_hour" => 1
+           ) &&
+           contract.dig("implementation_discipline", "candidate_generation_limit") == 2 &&
+           contract.dig("implementation_discipline", "same_task_repair_limit") == 1 &&
+           contract.dig("implementation_discipline", "review_cycle_limit") == 2 &&
+           contract.dig("lineage", "p3_002_through_p3_007_branch_worktree_code_tests_evaluator_candidate_engineering_evidence_read") == false &&
+           contract["external_effects"] == FALSE_EFFECTS,
+           "P3 foundation terminal Contract boundary drift")
+
+    authority = JSON.parse(read_identity!(
+      HOST_AUTHORIZED_FOUNDATION_AUTHORITY,
+      "P3 foundation terminal authority", create_once: true
+    ))
+    assert(authority["authorization_id"] == HOST_AUTHORIZED_FOUNDATION_AUTHORIZATION_ID &&
+           authority["execution_nonce"] == HOST_AUTHORIZED_FOUNDATION_EXECUTION_NONCE &&
+           authority["task_id"] == HOST_AUTHORIZED_FOUNDATION_TASK_ID &&
+           authority["contract"] == HOST_AUTHORIZED_FOUNDATION_CONTRACT &&
+           authority["external_effects"] == FALSE_EFFECTS &&
+           authority.dig("lineage_guards", "p3_002_through_p3_007_rejected_lineage_read_allowed") == false &&
+           authority.dig("activation_guards", "long_term_goal_close_allowed") == false,
+           "P3 foundation terminal authority drift")
+
+    manifest = JSON.parse(read_identity!(
+      HOST_AUTHORIZED_FOUNDATION_CANDIDATE_2_MANIFEST,
+      "P3 foundation Candidate 2 manifest", create_once: true
+    ))
+    read_identity!(HOST_AUTHORIZED_FOUNDATION_FROZEN_FINDING_SET,
+                   "P3 foundation frozen finding set", create_once: true)
+    assert(manifest.dig("candidate", "commit") ==
+             HOST_AUTHORIZED_FOUNDATION_FINAL_CANDIDATE.fetch("commit") &&
+           manifest.dig("candidate", "tree") ==
+             HOST_AUTHORIZED_FOUNDATION_FINAL_CANDIDATE.fetch("tree") &&
+           manifest.dig("cycle_1_frozen_finding_set", "byte_length") == 2340 &&
+           manifest.dig("cycle_1_frozen_finding_set", "sha256") ==
+             HOST_AUTHORIZED_FOUNDATION_MANIFEST_FALSE_FINDING_SET_SHA256 &&
+           manifest.dig("cycle_1_frozen_finding_set", "sha256") !=
+             HOST_AUTHORIZED_FOUNDATION_FROZEN_FINDING_SET.fetch("sha256"),
+           "P3 foundation final manifest regression identity drift")
+
+    HOST_AUTHORIZED_FOUNDATION_CYCLE_2_REVIEWS.each do |review_identity|
+      identity = review_identity.slice("path", "byte_length", "sha256")
+      review = JSON.parse(read_identity!(
+        identity, "P3 foundation #{review_identity.fetch('reviewer_role')} Cycle 2 Review",
+        create_once: true
+      ))
+      assert(review["reviewer_role"] == review_identity.fetch("reviewer_role") &&
+             review["cycle"] == 2 && review["verdict"] == "NON_PASS" &&
+             review.dig("candidate", "commit") ==
+               HOST_AUTHORIZED_FOUNDATION_FINAL_CANDIDATE.fetch("commit") &&
+             review.dig("candidate", "tree") ==
+               HOST_AUTHORIZED_FOUNDATION_FINAL_CANDIDATE.fetch("tree") &&
+             review.dig("scope_lineage_attestation", "p3_002_through_p3_007_rejected_lineage_read_or_reuse") == false,
+             "P3 foundation Cycle 2 Review semantics drift")
+    end
+
+    read_identity!(HOST_AUTHORIZED_FOUNDATION_FOCUSED_EVIDENCE,
+                   "P3 foundation focused test archive", create_once: true)
+    read_identity!(HOST_AUTHORIZED_FOUNDATION_FULL_EVIDENCE,
+                   "P3 foundation full test archive", create_once: true)
+    read_identity!(HOST_AUTHORIZED_FOUNDATION_TERMINAL_BUNDLE,
+                   "P3 foundation terminal candidate bundle", create_once: true)
+    cleanup = JSON.parse(read_identity!(
+      HOST_AUTHORIZED_FOUNDATION_CLEANUP_RECEIPT,
+      "P3 foundation cleanup receipt", create_once: true
+    ))
+    assert(cleanup.dig("terminal_candidate", "commit") ==
+             HOST_AUTHORIZED_FOUNDATION_FINAL_CANDIDATE.fetch("commit") &&
+           cleanup.dig("terminal_candidate", "tree") ==
+             HOST_AUTHORIZED_FOUNDATION_FINAL_CANDIDATE.fetch("tree") &&
+           cleanup.dig("post_cleanup_topology", "local_branches") == ["main"] &&
+           cleanup.fetch("removed_targets").all? { |target| target["exists_after_cleanup"] == false },
+           "P3 foundation cleanup receipt drift")
+
+    receipt = JSON.parse(read_identity!(
+      HOST_AUTHORIZED_FOUNDATION_TERMINAL_RECEIPT,
+      "P3 foundation terminal receipt", create_once: true
+    ))
+    expected_reviews = HOST_AUTHORIZED_FOUNDATION_CYCLE_2_REVIEWS.map do |review|
+      review.slice("reviewer_role", "verdict", "path", "byte_length", "sha256")
+    end
+    assert(receipt["schema_version"] == "p3-host-authorized-foundation-terminal-receipt/v1" &&
+           receipt["task_id"] == HOST_AUTHORIZED_FOUNDATION_TASK_ID &&
+           receipt["route_id"] == HOST_AUTHORIZED_ROUTE_ID &&
+           receipt["terminal_disposition"] == "TERMINAL_FOUNDATION_TASK_GATE_NON_PASS" &&
+           receipt["accepted"] == false &&
+           receipt["integrated_to_canonical_main"] == false &&
+           receipt["cycle_2_final_independent_reviews"] == expected_reviews &&
+           receipt.dig("cycle_1_frozen_finding_set", "actual_sha256") ==
+             HOST_AUTHORIZED_FOUNDATION_FROZEN_FINDING_SET.fetch("sha256") &&
+           receipt.dig("cycle_1_frozen_finding_set", "candidate_2_manifest_claimed_sha256") ==
+             HOST_AUTHORIZED_FOUNDATION_MANIFEST_FALSE_FINDING_SET_SHA256 &&
+           receipt.dig("cycle_1_frozen_finding_set", "identity_match") == false &&
+           receipt.dig("budget_accounting", "candidate_generations", "consumed") == 2 &&
+           receipt.dig("budget_accounting", "same_task_repairs", "consumed") == 1 &&
+           receipt.dig("budget_accounting", "review_cycles", "consumed") == 2 &&
+           receipt.dig("test_execution_evidence", "focused", "tests") == 15 &&
+           receipt.dig("test_execution_evidence", "full", "tests") == 993 &&
+           receipt.dig("test_execution_evidence", "task_gate_effect") ==
+             "TEST_PASS_DOES_NOT_OVERRIDE_INDEPENDENT_REVIEW_NON_PASS" &&
+           receipt.dig("lifecycle_isolation", "TASK_LIFECYCLE") ==
+             "TERMINAL_TASK_GATE_NON_PASS" &&
+           receipt.dig("lifecycle_isolation", "ROUTE_LIFECYCLE") ==
+             "TERMINAL_STAGE_1_NON_PASS_DEPENDENT_STAGES_LOCKED_NO_SUCCESSOR" &&
+           receipt.dig("lifecycle_isolation", "PHASE_LIFECYCLE") == "HOLD_INCOMPLETE" &&
+           receipt.dig("lifecycle_isolation", "LONG_TERM_GOAL_LIFECYCLE") == "ACTIVE" &&
+           receipt.dig("next_step_authorization_handoff", "user_action_required") == false &&
+           receipt.dig("next_step_authorization_handoff", "next_eligible_action") ==
+             HOST_AUTHORIZED_FOUNDATION_TERMINAL_ACTION,
+           "P3 foundation terminal receipt semantics drift")
+
+    bundle_path = HOST_AUTHORIZED_FOUNDATION_TERMINAL_BUNDLE.fetch("path")
+    _verify_out, verify_err, verify_status = Open3.capture3(
+      "git", "bundle", "verify", bundle_path, chdir: root.to_s
+    )
+    assert(verify_status.success?, "P3 foundation terminal bundle invalid: #{verify_err.strip}")
+    heads = git!(root, "bundle", "list-heads", bundle_path)
+    assert(heads ==
+             "#{HOST_AUTHORIZED_FOUNDATION_FINAL_CANDIDATE.fetch('commit')} refs/heads/#{HOST_AUTHORIZED_FOUNDATION_BRANCH}",
+           "P3 foundation terminal bundle head drift")
+    branches = git!(root, "branch", "--format=%(refname:short)").lines.map(&:strip).reject(&:empty?)
+    assert(branches == ["main"], "P3 foundation terminal local-branch topology drift")
+    worktrees = git!(root, "worktree", "list", "--porcelain").lines.grep(/^worktree /)
+    assert(worktrees == ["worktree #{root}\n"], "P3 foundation terminal worktree topology drift")
+    assert(!Pathname.new(HOST_AUTHORIZED_FOUNDATION_WORKTREE).exist?,
+           "P3 foundation terminal worktree was not removed")
+
+    project = mapping(truth["project"], "P3 foundation terminal project")
+    assert(project["current_phase"] == "P3" &&
+           project["phase_execution_status"] ==
+             "HOLD_P3_HOST_AUTHORIZED_TRANSACTIONAL_ROUTE_TERMINAL_FOUNDATION_NON_PASS" &&
+           project["current_route_execution_status"] ==
+             "P3_HOST_AUTHORIZED_TRANSACTIONAL_ROUTE_TERMINAL_FOUNDATION_NON_PASS" &&
+           project["p3_execution_status"] ==
+             "HOLD_INCOMPLETE_FOUNDATION_TASK_GATE_NON_PASS" &&
+           project["p4_entry_status"] ==
+             "HOLD_PENDING_STRICT_P3_EXIT_AND_SEPARATE_FOUNDER_PHASE_ENTRY",
+           "P3 foundation terminal project projection drift")
+
+    route = mapping(truth["current_phase_route"], "P3 foundation terminal Route")
+    stages = array(route["ordered_stages"], "P3 foundation terminal ordered stages")
+    assert(route["schema_version"] == HOST_AUTHORIZED_ROUTE_SCHEMA &&
+           route["route_id"] == HOST_AUTHORIZED_ROUTE_ID &&
+           route["founder_reserved_triggers_resolved"] == [
+             "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE",
+             "MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE"
+           ] &&
+           route["founder_route_decision"] == HOST_AUTHORIZED_DECISION.merge(
+             "decision_id" => HOST_AUTHORIZED_DECISION_ID,
+             "reserved_triggers" => [
+               "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE",
+               "MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE"
+             ]
+           ) &&
+           route["objective_id"] == "MINIMUM_TRUST_HOST_AUTHORIZED_TRANSACTIONAL_BOUNDARY" &&
+           route["status"] == "TERMINAL_FOUNDATION_TASK_GATE_NON_PASS" &&
+           route["lifecycle_stage"] == "FOUNDATION_TASK_TERMINAL_NON_PASS" &&
+           route["execution_status"] == "TERMINAL_FOUNDATION_TASK_GATE_NON_PASS" &&
+           route["scheduling_status"] == "HOLD_DEPENDENT_STAGES_LOCKED_NO_SUCCESSOR" &&
+           route["next_eligible_action"] == HOST_AUTHORIZED_FOUNDATION_TERMINAL_ACTION &&
+           route["terminal_task_ref"] == "active_work.last_completed_task" &&
+           !route.key?("active_task_ref") &&
+           stages.map { |stage| stage["stage_id"] } == %w[
+             MINIMUM_TRUST_EXECUTABLE_ACCEPTANCE_FOUNDATION
+             HOST_AUTHORIZED_TRANSACTIONAL_TRUST_BOUNDARY_PRODUCT
+             INDEPENDENT_P3_STRICT_EXIT_AUDIT
+           ] &&
+           stages.map { |stage| stage["status"] } == [
+             "TERMINAL_TASK_GATE_NON_PASS", "LOCKED_FOUNDATION_NOT_ACCEPTED",
+             "LOCKED_PRODUCT_NOT_ACCEPTED"
+           ] &&
+           route.dig("terminal_task", "candidate_commit") ==
+             HOST_AUTHORIZED_FOUNDATION_FINAL_CANDIDATE.fetch("commit") &&
+           route.dig("terminal_task", "candidate_tree") ==
+             HOST_AUTHORIZED_FOUNDATION_FINAL_CANDIDATE.fetch("tree") &&
+           route.dig("terminal_task", "independent_review_verdicts") == {
+             "cto" => "NON_PASS", "security" => "NON_PASS",
+             "quality_evaluation" => "NON_PASS"
+           } &&
+           route.dig("terminal_task", "terminal_receipt") ==
+             HOST_AUTHORIZED_FOUNDATION_TERMINAL_RECEIPT &&
+           route["long_term_goal_status"] == "ACTIVE" && route["external_effects"] == FALSE_EFFECTS,
+           "P3 foundation terminal Route projection drift")
+
+    p3_gate = truth.dig("strict_phase_gate_ledger", "phases", "P3")
+    assert(p3_gate.is_a?(Hash) && p3_gate["status"] == "INCOMPLETE" &&
+           p3_gate["required_item_ids"] ==
+             ["RESUME_ISOLATION_PERMISSION_AND_TRACE_TESTS"] &&
+           p3_gate.dig("required_items", "RESUME_ISOLATION_PERMISSION_AND_TRACE_TESTS", "status") ==
+             "MISSING" &&
+           p3_gate.dig("founder_phase_gate", "status") ==
+             "NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS",
+           "P3 foundation terminal strict Exit projection drift")
+
+    envelope = mapping(truth["phase_execution_envelope"],
+                       "P3 foundation terminal Phase envelope")
+    assert(envelope["status"] == "TERMINAL_FOUNDATION_TASK_GATE_NON_PASS" &&
+           envelope["limits"] == HOST_AUTHORIZED_LIMITS &&
+           envelope["route_capacity"] == HOST_AUTHORIZED_REMAINING &&
+           envelope["consumed"] == {
+             "engineering_tasks" => 8, "engineering_hours" => 240,
+             "calendar_days" => 60
+           } && envelope["reserved"] == {} &&
+           envelope["remaining"] == {
+             "engineering_tasks" => 2, "engineering_hours" => 48,
+             "calendar_days" => 12
+           } && envelope["remaining_capacity_usable"] == false &&
+           envelope["remaining_capacity_lock_reason"] ==
+             "FOUNDATION_TASK_GATE_NON_PASS_ROUTE_TERMINAL_DEPENDENT_STAGES_LOCKED_NO_REORDER_OR_SUCCESSOR" &&
+           envelope.dig("last_consumed_stage", "task_id") ==
+             HOST_AUTHORIZED_FOUNDATION_TASK_ID &&
+           envelope.dig("last_consumed_stage", "terminal_receipt_sha256") ==
+             HOST_AUTHORIZED_FOUNDATION_TERMINAL_RECEIPT.fetch("sha256") &&
+           envelope.dig("ordered_stages", 0, "status") == "TERMINAL_TASK_GATE_NON_PASS" &&
+           envelope.dig("ordered_stages", 1, "status") == "LOCKED_FOUNDATION_NOT_ACCEPTED" &&
+           envelope.dig("ordered_stages", 2, "status") == "LOCKED_PRODUCT_NOT_ACCEPTED" &&
+           envelope["accepted_milestones"] == ["DURABLE_STATE_AND_CHECKPOINT_RESUME"] &&
+           envelope["delivery_progress"] == {
+             "accepted" => 1, "total" => 4, "percent" => 25,
+             "strict_exit_gate_percent" => 0
+           } && envelope["external_effects"] == FALSE_EFFECTS,
+           "P3 foundation terminal Phase envelope projection drift")
+
+    control = mapping(truth["founder_escalation_control"],
+                      "P3 foundation terminal Founder control")
+    assert(control["disposition"] == "NO_RESERVED_TRIGGER_ROUTE_TERMINAL" &&
+           control.dig("source_event", "kind") ==
+             "P3_HOST_AUTHORIZED_TRANSACTIONAL_FOUNDATION_TASK_TERMINAL" &&
+           control.dig("source_event", "status") == "TERMINAL_FOUNDATION_TASK_GATE_NON_PASS" &&
+           control.dig("reserved_trigger", "category") == "NONE" &&
+           control["phase_gate_status"] == "INCOMPLETE" &&
+           control["founder_decision_required"] == false &&
+           control["next_action_owner"] == "NONE" &&
+           control["next_eligible_action"] == HOST_AUTHORIZED_FOUNDATION_TERMINAL_ACTION,
+           "P3 foundation terminal Founder control drift")
+
+    delegation = mapping(truth["phase_delegation"], "P3 foundation terminal delegation")
+    assert(delegation["status"] ==
+             "HOLD_P3_HOST_AUTHORIZED_TRANSACTIONAL_ROUTE_TERMINAL_FOUNDATION_NON_PASS" &&
+           delegation["decision_source"] == HOST_AUTHORIZED_DECISION_ID &&
+           delegation.fetch("claim_boundary").include?("TERMINAL_TASK_GATE_NON_PASS") &&
+           delegation.fetch("claim_boundary").include?("Long-term Goal remains ACTIVE"),
+           "P3 foundation terminal delegation drift")
+
+    boundary = mapping(truth["phase_boundary"], "P3 foundation terminal Phase boundary")
+    assert(boundary["phase_execution_status"] ==
+             "HOLD_P3_HOST_AUTHORIZED_TRANSACTIONAL_ROUTE_TERMINAL_FOUNDATION_NON_PASS" &&
+           boundary["task_creation_allowed"] == false &&
+           boundary["task_creation_scope"] == "NONE_ROUTE_TERMINAL_FOUNDATION_NON_PASS" &&
+           boundary["founder_decision_required"] == false &&
+           boundary["user_action_required"] == "NONE" &&
+           boundary["phase_route_decision_required"] == false &&
+           boundary["next_eligible_action"] == HOST_AUTHORIZED_FOUNDATION_TERMINAL_ACTION,
+           "P3 foundation terminal Phase boundary drift")
+
+    active = mapping(truth["active_work"], "P3 foundation terminal active_work")
+    completed = mapping(active["last_completed_task"], "P3 foundation terminal completed Task")
+    assert(active["current_task"] == "NONE_ROUTE_TERMINAL_FOUNDATION_TASK_GATE_NON_PASS" &&
+           active["current_task_status"] ==
+             "NONE_ROUTE_TERMINAL_FOUNDATION_TASK_GATE_NON_PASS" &&
+           active["current_task_contract"] == HOST_AUTHORIZED_FOUNDATION_CONTRACT &&
+           active["authority_record"] == HOST_AUTHORIZED_FOUNDATION_AUTHORITY &&
+           active["execution_nonce_status"] == "CONSUMED_TERMINAL_NON_PASS" &&
+           active["task_resource_state"] ==
+             "TERMINAL_EVIDENCE_PRESERVED_BRANCH_AND_WORKTREE_REMOVED" &&
+           active["task_branch"].nil? && active["task_worktree"].nil? &&
+           active["budget"] == HOST_AUTHORIZED_FOUNDATION_BUDGET &&
+           active["budget_consumed"] == HOST_AUTHORIZED_FOUNDATION_BUDGET &&
+           active["founder_decision_required"] == false &&
+           active["user_action_required"] == "NONE" &&
+           active["next_eligible_action"] == HOST_AUTHORIZED_FOUNDATION_TERMINAL_ACTION &&
+           completed["task_id"] == HOST_AUTHORIZED_FOUNDATION_TASK_ID &&
+           completed["candidate_commit"] ==
+             HOST_AUTHORIZED_FOUNDATION_FINAL_CANDIDATE.fetch("commit") &&
+           completed["candidate_tree"] ==
+             HOST_AUTHORIZED_FOUNDATION_FINAL_CANDIDATE.fetch("tree") &&
+           completed["candidate_integrated"] == false &&
+           completed["independent_review_verdicts"].values == %w[NON_PASS NON_PASS NON_PASS] &&
+           completed["terminal_receipt"] == HOST_AUTHORIZED_FOUNDATION_TERMINAL_RECEIPT &&
+           completed["recovery_bundle"] == HOST_AUTHORIZED_FOUNDATION_TERMINAL_BUNDLE,
+           "P3 foundation terminal active_work drift")
+
+    execution = mapping(truth["phase_execution_claim"],
+                        "P3 foundation terminal execution claim")
+    assert(execution["current_route_claim"] == HOST_AUTHORIZED_ROUTE_ID &&
+           execution["current_task_claim"] ==
+             "NONE_ROUTE_TERMINAL_FOUNDATION_TASK_GATE_NON_PASS" &&
+           execution["phase_local_allowed"] == [] &&
+           execution["phase_local_frozen_capabilities"].include?(
+             "P3_002_THROUGH_P3_007_REJECTED_LINEAGE_FROZEN_UNREADABLE"
+           ) &&
+           execution["p3_delivery_progress_percent"] == 25 &&
+           execution["p3_exit_gate_progress_percent"] == 0 &&
+           execution["task_creation_allowed"] == false &&
+           execution["remaining_capacity_usable"] == false &&
+           execution["candidate_integration_allowed"] == false &&
+           execution["next_eligible_action"] == HOST_AUTHORIZED_FOUNDATION_TERMINAL_ACTION,
+           "P3 foundation terminal execution claim drift")
+
+    claim = mapping(truth["claim_boundary"], "P3 foundation terminal claim boundary")
+    assert(claim["current_task"] == "NONE_ROUTE_TERMINAL_FOUNDATION_TASK_GATE_NON_PASS" &&
+           claim["selected_task"] == "NONE_ROUTE_TERMINAL_FOUNDATION_TASK_GATE_NON_PASS" &&
+           claim["p3_status"] == "HOLD_INCOMPLETE_FOUNDATION_TASK_GATE_NON_PASS" &&
+           claim["p3_phase_envelope_status"] ==
+             "TERMINAL_FOUNDATION_TASK_GATE_NON_PASS" &&
+           claim["p3_delivery_progress_percent"] == 25 &&
+           claim["p3_exit_gate_progress_percent"] == 0 &&
+           claim["p3_hatb_f1_status"] == "TERMINAL_TASK_GATE_NON_PASS" &&
+           claim["p3_hatb_f1_candidate_integrated"] == false &&
+           claim["p3_hatb_f1_terminal_receipt_sha256"] ==
+             HOST_AUTHORIZED_FOUNDATION_TERMINAL_RECEIPT.fetch("sha256") &&
+           claim["next_eligible_action"] == HOST_AUTHORIZED_FOUNDATION_TERMINAL_ACTION,
+           "P3 host-authorized claim boundary projection drift")
+
+    goal = mapping(truth["goal"], "P3 foundation terminal Long-term Goal")
+    assert(goal["control_plane_status_observed"] == "ACTIVE" &&
+           goal["current_task_authority"] == "NONE_ROUTE_TERMINAL" &&
+           goal.fetch("note").include?(HOST_AUTHORIZED_FOUNDATION_TERMINAL_RECEIPT.fetch("sha256")) &&
+           truth["verification_scope"] ==
+             "P3_HOST_AUTHORIZED_TRANSACTIONAL_FOUNDATION_TASK_TERMINAL_GATE_NON_PASS_UNINTEGRATED_P3_HOLD_INCOMPLETE_DELIVERY_25_STRICT_EXIT_ZERO_P4_HOLD_LONG_TERM_GOAL_ACTIVE",
+           "P3 foundation terminal Goal or verification scope drift")
+    HOST_AUTHORIZED_FOUNDATION_TERMINAL_STATE
+  rescue JSON::ParserError, Psych::SyntaxError => e
+    raise P3FinalTransactionalRouteValidationError,
+          "P3 foundation terminal Evidence invalid: #{e.message}"
+  end
+
   def validate_host_authorized_foundation_active!(root, truth)
     ready_truth = load_host_authorized_foundation_ready_truth!(root)
     validate_host_authorized_foundation_ready!(
@@ -2039,6 +2454,10 @@ module P3FinalTransactionalRouteValidation
   def validate_truth!(root:, truth:)
     root = Pathname.new(root).realpath
     if truth.dig("current_phase_route", "schema_version") == HOST_AUTHORIZED_ROUTE_SCHEMA
+      if truth.dig("current_phase_route", "lifecycle_stage") ==
+         "FOUNDATION_TASK_TERMINAL_NON_PASS"
+        return validate_host_authorized_foundation_terminal!(root, truth)
+      end
       if truth.dig("current_phase_route", "lifecycle_stage") == "FOUNDATION_TASK_ACTIVE"
         return validate_host_authorized_foundation_active!(root, truth)
       end

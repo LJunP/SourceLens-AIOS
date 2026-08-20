@@ -208,7 +208,8 @@ check_phase_predecessor_activation() {
     route_phase = truth.dig("current_phase_route", "phase")
     abort "current route Phase does not equal canonical current Phase" unless route_phase == phase
     if target_task != "NONE"
-      target_task_match = target_task.is_a?(String) && target_task.match(/\AAIOS-(P[0-9]+)-[A-Z0-9_]+\z/)
+      target_task_match = target_task.is_a?(String) &&
+        target_task.match(/\AAIOS-(P[0-9]+)-[A-Z0-9_]+(?:-[A-Z0-9_]+)*\z/)
       abort "requested target Task identity invalid" unless target_task_match &&
         target_task_match[1] == target_phase
     elsif !%w[STATE_AUDIT ROUTE_ACTIVATION].include?(resource_action)

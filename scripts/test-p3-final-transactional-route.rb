@@ -36,8 +36,14 @@ if host_authorized_truth.dig("current_phase_route", "schema_version") ==
   state = P3FinalTransactionalRouteValidation.validate_truth!(
     root: root, truth: host_authorized_truth
   )
-  raise "host-authorized foundation-ready route state drift" unless
-    state == P3FinalTransactionalRouteValidation::HOST_AUTHORIZED_ROUTE_STATE
+  expected_state =
+    if host_authorized_truth.dig("current_phase_route", "lifecycle_stage") ==
+       "FOUNDATION_TASK_ACTIVE"
+      P3FinalTransactionalRouteValidation::HOST_AUTHORIZED_FOUNDATION_ACTIVE_STATE
+    else
+      P3FinalTransactionalRouteValidation::HOST_AUTHORIZED_ROUTE_STATE
+    end
+  raise "host-authorized current route state drift" unless state == expected_state
   assertions += 1
 
   host_authorized_mutations = {
@@ -94,6 +100,36 @@ if host_authorized_truth.dig("current_phase_route", "schema_version") ==
       candidate["goal"]["control_plane_status_observed"] = "COMPLETE"
     end
   }
+
+  if expected_state ==
+     P3FinalTransactionalRouteValidation::HOST_AUTHORIZED_FOUNDATION_ACTIVE_STATE
+    host_authorized_mutations.merge!({
+      "active foundation Task identity cannot drift" => lambda do |candidate|
+        candidate["active_work"]["current_task"] = "AIOS-P3-008_FORBIDDEN"
+      end,
+      "active foundation Contract identity cannot drift" => lambda do |candidate|
+        candidate["active_work"]["current_task_contract"]["sha256"] = "0" * 64
+      end,
+      "active foundation authority identity cannot drift" => lambda do |candidate|
+        candidate["active_work"]["authority_record"]["sha256"] = "0" * 64
+      end,
+      "active foundation branch cannot drift" => lambda do |candidate|
+        candidate["active_work"]["task_branch"] = "codex/p3-008-forbidden"
+      end,
+      "active foundation reserved budget cannot drift" => lambda do |candidate|
+        candidate["phase_execution_envelope"]["reserved"]["engineering_hours"] = 32
+      end,
+      "active foundation cannot unlock concurrent capacity" => lambda do |candidate|
+        candidate["phase_execution_envelope"]["remaining_capacity_usable"] = true
+      end,
+      "active foundation cannot permit another Task" => lambda do |candidate|
+        candidate["phase_boundary"]["task_creation_allowed"] = true
+      end,
+      "active foundation cannot claim acceptance before review" => lambda do |candidate|
+        candidate["phase_execution_envelope"]["delivery_progress"]["percent"] = 50
+      end
+    })
+  end
 
   host_authorized_mutations.each do |label, mutation|
     expect_non_pass(root, host_authorized_truth, label, &mutation)

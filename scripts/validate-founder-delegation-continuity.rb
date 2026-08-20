@@ -5073,13 +5073,16 @@ module FounderDelegationContinuity
         P3FinalTransactionalRouteValidation::ACTIVE_IMPLEMENTATION_STATE,
         P3FinalTransactionalRouteValidation::TERMINAL_STATE,
         P3FinalTransactionalRouteValidation::HOLD_STATE,
-        P3FinalTransactionalRouteValidation::HOST_AUTHORIZED_ROUTE_STATE
+        P3FinalTransactionalRouteValidation::HOST_AUTHORIZED_ROUTE_STATE,
+        P3FinalTransactionalRouteValidation::HOST_AUTHORIZED_FOUNDATION_ACTIVE_STATE
       ].include?(state),
              "P3 final transactional Route state drift")
       return P3FinalTransactionalRouteValidation::HOLD_DISPOSITION if
         state == P3FinalTransactionalRouteValidation::HOLD_STATE
-      return CONTINUE_DISPOSITION if
-        state == P3FinalTransactionalRouteValidation::HOST_AUTHORIZED_ROUTE_STATE
+      return CONTINUE_DISPOSITION if [
+        P3FinalTransactionalRouteValidation::HOST_AUTHORIZED_ROUTE_STATE,
+        P3FinalTransactionalRouteValidation::HOST_AUTHORIZED_FOUNDATION_ACTIVE_STATE
+      ].include?(state)
       return state == P3FinalTransactionalRouteValidation::TERMINAL_STATE ?
         FOUNDER_DISPOSITION : CONTINUE_DISPOSITION
     end

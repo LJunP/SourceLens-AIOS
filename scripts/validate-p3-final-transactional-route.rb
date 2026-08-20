@@ -100,6 +100,10 @@ module P3FinalTransactionalRouteValidation
     "P3_HOST_AUTHORIZED_TRANSACTIONAL_FOUNDATION_ELIGIBLE"
   HOST_AUTHORIZED_ROUTE_ACTION =
     "MASTER_ACTIVATE_MINIMUM_TRUST_EXECUTABLE_ACCEPTANCE_FOUNDATION_TASK"
+  HOST_AUTHORIZED_FOUNDATION_ACTIVE_STATE =
+    "P3_HOST_AUTHORIZED_TRANSACTIONAL_FOUNDATION_TASK_ACTIVE"
+  HOST_AUTHORIZED_FOUNDATION_ACTIVE_ACTION =
+    "WORKER_BEGIN_EXECUTABLE_FOUNDATION_WITHIN_FIRST_ENGINEERING_HOUR"
   HOST_AUTHORIZED_DECISION_SCHEMA =
     "founder-p3-minimum-trust-host-authorized-transactional-boundary-objective-route-rebaseline/v1"
   HOST_AUTHORIZED_DECISION_ID =
@@ -151,6 +155,50 @@ module P3FinalTransactionalRouteValidation
     "engineering_tasks" => 3,
     "engineering_hours" => 64,
     "calendar_days" => 16
+  }.freeze
+  HOST_AUTHORIZED_FOUNDATION_ACTIVATION_PARENT = {
+    "branch" => "main",
+    "commit" => "0a7d4c25111e468a531c2ff88731358bf4f3def4",
+    "tree" => "b23ddd50c099e5ecdf69c110931cf015bb085e64",
+    "truth" => {
+      "path" => "docs/aios/truth/project_state.yaml",
+      "byte_length" => 1_874_141,
+      "sha256" => "34a97c2ce89f66dfab15edcc4a78ac7094c056e0cd0b1e50ce1b6fc994332302"
+    }
+  }.freeze
+  HOST_AUTHORIZED_FOUNDATION_TASK_ID =
+    "AIOS-P3-HATB-F1_MINIMUM_TRUST_EXECUTABLE_ACCEPTANCE_FOUNDATION"
+  HOST_AUTHORIZED_FOUNDATION_CONTRACT = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-host-authorized-transactional-boundary-rebaseline-20260820/task-foundation/contract/P3_HATB_F1_MINIMUM_TRUST_EXECUTABLE_ACCEPTANCE_FOUNDATION_TASK_CONTRACT_V1.yaml",
+    "byte_length" => 7089,
+    "sha256" => "6efc2370cf812662de46d4cd4bf6c4c22e6b7c141d90554fca01417dc9aac3b1"
+  }.freeze
+  HOST_AUTHORIZED_FOUNDATION_AUTHORITY = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-host-authorized-transactional-boundary-rebaseline-20260820/task-foundation/authority/P3_HATB_F1_PHASE_DELEGATED_TASK_AUTHORITY_V1.json",
+    "byte_length" => 4989,
+    "sha256" => "18ba0c5797452c477da5f35f71a4b7fbccc9827cbb3b07707c9bc623978ec38e"
+  }.freeze
+  HOST_AUTHORIZED_FOUNDATION_AUTHORIZATION_ID =
+    "18ae6829-7d30-44e3-86cc-81d969bed1f6"
+  HOST_AUTHORIZED_FOUNDATION_EXECUTION_NONCE =
+    "75201f2d-66e0-48eb-b911-8eb9d62f57c1"
+  HOST_AUTHORIZED_FOUNDATION_BRANCH =
+    "codex/p3-hatb-f1-minimum-trust-foundation"
+  HOST_AUTHORIZED_FOUNDATION_WORKTREE =
+    "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-hatb-f1-minimum-trust-foundation"
+  HOST_AUTHORIZED_FOUNDATION_EVIDENCE_ROOT =
+    "/Users/lijunpeng/Developer/.sourcelens-audit/p3-host-authorized-transactional-boundary-rebaseline-20260820/task-foundation"
+  HOST_AUTHORIZED_FOUNDATION_ALLOWLIST = [
+    "backend-spring/src/test/java/com/sourcelens/module/execution/trustboundary/foundation",
+    "backend-spring/src/test/resources/p3-host-authorized-transactional-foundation"
+  ].freeze
+  HOST_AUTHORIZED_FOUNDATION_BUDGET = {
+    "engineering_tasks" => 1,
+    "engineering_hours" => 16,
+    "calendar_days" => 4,
+    "candidate_generations" => 2,
+    "same_task_repairs" => 1,
+    "review_cycles" => 2
   }.freeze
   HOST_AUTHORIZED_PRIOR_LEDGER = {
     "ref" => "historical_p3_final_transactional_route_hold_phase_execution_envelope.task_ledger",
@@ -1430,7 +1478,278 @@ module P3FinalTransactionalRouteValidation
           "P3 host-authorized Founder decision invalid: #{e.message}"
   end
 
-  def validate_host_authorized_foundation_ready!(root, truth)
+  def load_host_authorized_foundation_ready_truth!(root)
+    parent = HOST_AUTHORIZED_FOUNDATION_ACTIVATION_PARENT
+    assert(git!(root, "rev-parse", "#{parent.fetch('commit')}^{tree}") == parent.fetch("tree"),
+           "P3 foundation activation-parent tree drift")
+    bytes, stderr, status = Open3.capture3(
+      "git", "show", "#{parent.fetch('commit')}:#{parent.dig('truth', 'path')}",
+      chdir: root.to_s
+    )
+    assert(status.success?, "P3 foundation-ready Truth unavailable: #{stderr.strip}")
+    assert(bytes.bytesize == parent.dig("truth", "byte_length") &&
+           Digest::SHA256.hexdigest(bytes) == parent.dig("truth", "sha256"),
+           "P3 foundation-ready Truth identity drift")
+    YAML.safe_load(bytes, permitted_classes: [], permitted_symbols: [], aliases: false)
+  end
+
+  def validate_host_authorized_foundation_task_resources!(root)
+    declared_budget = HOST_AUTHORIZED_FOUNDATION_BUDGET.merge(
+      "governance_and_preworker_percent_max" => 10,
+      "executable_foundation_start_within_engineering_hour" => 1
+    )
+    installation_audit = {
+      "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-host-authorized-transactional-boundary-rebaseline-20260820/audit/P3_HOST_AUTHORIZED_TRANSACTIONAL_REBASELINE_INSTALLATION_INDEPENDENT_AUDIT_PASS_RECEIPT_V1.json",
+      "byte_length" => 11_611,
+      "sha256" => "a85d5eef337b43e5cc6e02622bdf438c569a5dd8a9fb27c389dc8665888206a6"
+    }
+    workspace_hygiene = {
+      "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/workspace-hygiene-p2-local-branches-20260820/P2_HISTORICAL_LOCAL_BRANCH_CLEANUP_RECEIPT_V1.json",
+      "byte_length" => 4902,
+      "sha256" => "47fe08d36f0c198d927bb5e17e967a2bbaf1d685fef65aa1714873e6de9a0b76"
+    }
+    activation_parent = HOST_AUTHORIZED_FOUNDATION_ACTIVATION_PARENT.slice(
+      "branch", "commit", "tree"
+    ).merge("kind" => "HOST_AUTHORIZED_FOUNDATION_TASK_RESOURCE_CREATION_PARENT")
+
+    contract_bytes = read_identity!(
+      HOST_AUTHORIZED_FOUNDATION_CONTRACT, "P3 foundation Contract", create_once: true
+    )
+    contract = YAML.safe_load(
+      contract_bytes, permitted_classes: [], permitted_symbols: [], aliases: false
+    )
+    exact_keys(contract, %w[
+      schema_version record_type task_id phase route_id stage_id status authority objective
+      why_now scope budget acceptance non_goals lineage implementation_discipline
+      stop_conditions non_pass_lifecycle external_effects
+    ], "P3 foundation Contract")
+    assert(contract["schema_version"] == "p3-host-authorized-foundation-task-contract/v1" &&
+           contract["record_type"] ==
+             "sourcelens_aios_p3_host_authorized_transactional_foundation_task_contract" &&
+           contract["task_id"] == HOST_AUTHORIZED_FOUNDATION_TASK_ID &&
+           contract["phase"] == "P3" && contract["route_id"] == HOST_AUTHORIZED_ROUTE_ID &&
+           contract["stage_id"] == "MINIMUM_TRUST_EXECUTABLE_ACCEPTANCE_FOUNDATION" &&
+           contract["status"] == "ELIGIBLE_FOR_MASTER_ACTIVATION" &&
+           contract.dig("authority", "founder_decision") ==
+             HOST_AUTHORIZED_DECISION.merge("decision_id" => HOST_AUTHORIZED_DECISION_ID) &&
+           contract.dig("authority", "installation_audit") == installation_audit &&
+           contract.dig("authority", "workspace_hygiene_receipt") == workspace_hygiene &&
+           contract.dig("authority", "activation_parent") == activation_parent &&
+           contract.dig("scope", "allowed_paths") == HOST_AUTHORIZED_FOUNDATION_ALLOWLIST &&
+           contract.dig("scope", "product_source_mutation_allowed") == false &&
+           contract.dig("scope", "product_build_configuration_mutation_allowed") == false &&
+           contract.dig("scope", "database_migration_mutation_allowed") == false &&
+           contract.dig("scope", "test_only_executable_oracle_required") == true &&
+           contract["budget"] == declared_budget &&
+           contract.dig("lineage", "p3_002_through_p3_007_branch_worktree_code_tests_evaluator_candidate_engineering_evidence_read") == false &&
+           contract.dig("lineage", "pre_fix_historical_replay_observation_as_task_input") == false &&
+           contract["external_effects"] == FALSE_EFFECTS,
+           "P3 foundation Contract semantics drift")
+
+    authority_bytes = read_identity!(
+      HOST_AUTHORIZED_FOUNDATION_AUTHORITY, "P3 foundation authority", create_once: true
+    )
+    authority = JSON.parse(authority_bytes)
+    exact_keys(authority, %w[
+      schema_version record_type authorization_id execution_nonce issued_at_utc phase route_id
+      stage_id task_id authority_basis contract branch worktree evidence_root allowlisted_paths
+      budget roles activation_guards lineage_guards external_effects task_gate_owner
+      founder_decision_required user_action_required next_eligible_action
+    ], "P3 foundation authority")
+    assert(authority["schema_version"] == "p3-host-authorized-foundation-task-authority/v1" &&
+           authority["record_type"] ==
+             "sourcelens_aios_p3_host_authorized_foundation_phase_delegated_task_authority" &&
+           authority["authorization_id"] == HOST_AUTHORIZED_FOUNDATION_AUTHORIZATION_ID &&
+           authority["execution_nonce"] == HOST_AUTHORIZED_FOUNDATION_EXECUTION_NONCE &&
+           authority["phase"] == "P3" && authority["route_id"] == HOST_AUTHORIZED_ROUTE_ID &&
+           authority["stage_id"] == "MINIMUM_TRUST_EXECUTABLE_ACCEPTANCE_FOUNDATION" &&
+           authority["task_id"] == HOST_AUTHORIZED_FOUNDATION_TASK_ID &&
+           authority.dig("authority_basis", "founder_decision") ==
+             HOST_AUTHORIZED_DECISION.merge("decision_id" => HOST_AUTHORIZED_DECISION_ID) &&
+           authority.dig("authority_basis", "installation_audit") == installation_audit &&
+           authority.dig("authority_basis", "workspace_hygiene_receipt") == workspace_hygiene &&
+           authority.dig("authority_basis", "activation_parent") == activation_parent &&
+           authority["contract"] == HOST_AUTHORIZED_FOUNDATION_CONTRACT &&
+           authority["branch"] == HOST_AUTHORIZED_FOUNDATION_BRANCH &&
+           authority["worktree"] == HOST_AUTHORIZED_FOUNDATION_WORKTREE &&
+           authority["evidence_root"] == HOST_AUTHORIZED_FOUNDATION_EVIDENCE_ROOT &&
+           authority["allowlisted_paths"] == HOST_AUTHORIZED_FOUNDATION_ALLOWLIST &&
+           authority["budget"] == declared_budget &&
+           authority.dig("activation_guards", "product_source_mutation_allowed") == false &&
+           authority.dig("activation_guards", "product_build_configuration_mutation_allowed") == false &&
+           authority.dig("activation_guards", "database_migration_mutation_allowed") == false &&
+           authority.dig("activation_guards", "stage_2_unlock_before_task_gate_pass_allowed") == false &&
+           authority.dig("activation_guards", "stage_3_unlock_allowed") == false &&
+           authority.dig("lineage_guards", "p3_002_through_p3_007_rejected_lineage_read_allowed") == false &&
+           authority.dig("lineage_guards", "pre_fix_historical_replay_observation_as_task_input_allowed") == false &&
+           authority["external_effects"] == FALSE_EFFECTS &&
+           authority["founder_decision_required"] == false &&
+           authority["user_action_required"] == "NONE" &&
+           authority["next_eligible_action"] == HOST_AUTHORIZED_FOUNDATION_ACTIVE_ACTION,
+           "P3 foundation authority semantics drift")
+
+    read_identity!(installation_audit, "P3 installation audit", create_once: true)
+    read_identity!(workspace_hygiene, "P3 workspace-hygiene receipt", create_once: true)
+
+    evidence_root = Pathname.new(HOST_AUTHORIZED_FOUNDATION_EVIDENCE_ROOT)
+    assert(evidence_root.directory? && !evidence_root.symlink?,
+           "P3 foundation Evidence root unavailable")
+    %w[contract authority tests reviews candidate terminal].each do |child|
+      path = evidence_root.join(child)
+      assert(path.directory? && !path.symlink?,
+             "P3 foundation Evidence directory unavailable: #{child}")
+    end
+
+    worktree = Pathname.new(HOST_AUTHORIZED_FOUNDATION_WORKTREE)
+    assert(worktree.directory? && !worktree.symlink?, "P3 foundation worktree unavailable")
+    assert(git!(worktree, "symbolic-ref", "--quiet", "--short", "HEAD") ==
+             HOST_AUTHORIZED_FOUNDATION_BRANCH,
+           "P3 foundation worktree branch drift")
+    _out, _err, descendant = Open3.capture3(
+      "git", "merge-base", "--is-ancestor",
+      HOST_AUTHORIZED_FOUNDATION_ACTIVATION_PARENT.fetch("commit"), "HEAD",
+      chdir: worktree.to_s
+    )
+    assert(descendant.success?, "P3 foundation worktree activation ancestry drift")
+    branches = git!(root, "branch", "--format=%(refname:short)").lines.map(&:strip).reject(&:empty?)
+    assert(branches.sort == ["main", HOST_AUTHORIZED_FOUNDATION_BRANCH].sort,
+           "P3 foundation local-branch topology drift")
+    assert(git!(root, "symbolic-ref", "--quiet", "--short", "HEAD") == "main",
+           "P3 canonical repository is not on main")
+    [contract, authority]
+  rescue JSON::ParserError, Psych::SyntaxError => e
+    raise P3FinalTransactionalRouteValidationError,
+          "P3 foundation Task resource invalid: #{e.message}"
+  end
+
+  def validate_host_authorized_foundation_active!(root, truth)
+    ready_truth = load_host_authorized_foundation_ready_truth!(root)
+    validate_host_authorized_foundation_ready!(
+      root, ready_truth, active_task_paths: HOST_AUTHORIZED_FOUNDATION_ALLOWLIST
+    )
+    validate_host_authorized_foundation_task_resources!(root)
+
+    expected = deep_copy(ready_truth)
+    expected["last_verified_at"] = "2026-08-20T15:30:23Z"
+    expected["verification_scope"] =
+      "P3_HOST_AUTHORIZED_TRANSACTIONAL_FOUNDATION_TASK_ACTIVE_TEST_ONLY_EXECUTABLE_ORACLE_P3_DELIVERY_25_STRICT_EXIT_ZERO_P4_HOLD_LONG_TERM_GOAL_ACTIVE"
+    expected.dig("goal")["current_task_authority"] = HOST_AUTHORIZED_FOUNDATION_TASK_ID
+
+    project = expected.fetch("project")
+    project["phase_execution_status"] =
+      "ACTIVE_P3_HOST_AUTHORIZED_TRANSACTIONAL_FOUNDATION_TASK"
+    project["current_route_execution_status"] =
+      "P3_HOST_AUTHORIZED_TRANSACTIONAL_FOUNDATION_TASK_ACTIVE"
+    project["p3_execution_status"] = "ACTIVE_INCOMPLETE_FOUNDATION_TASK"
+
+    route = expected.fetch("current_phase_route")
+    route["lifecycle_stage"] = "FOUNDATION_TASK_ACTIVE"
+    route["execution_status"] = "FOUNDATION_TASK_ACTIVE"
+    route["scheduling_status"] = "ACTIVE_FOUNDATION_TASK"
+    route["next_eligible_action"] = HOST_AUTHORIZED_FOUNDATION_ACTIVE_ACTION
+    route["active_task_ref"] = "active_work"
+    route.dig("ordered_stages", 0)["status"] = "ACTIVE"
+
+    envelope = expected.fetch("phase_execution_envelope")
+    envelope["status"] = "ACTIVE_FOUNDATION_TASK"
+    envelope["consumed"] = {
+      "engineering_tasks" => 8, "engineering_hours" => 240, "calendar_days" => 60
+    }
+    envelope["reserved"] = {
+      "task_id" => HOST_AUTHORIZED_FOUNDATION_TASK_ID,
+      "stage_id" => "MINIMUM_TRUST_EXECUTABLE_ACCEPTANCE_FOUNDATION",
+      "engineering_tasks" => 1, "engineering_hours" => 16, "calendar_days" => 4,
+      "contract_sha256" => HOST_AUTHORIZED_FOUNDATION_CONTRACT.fetch("sha256"),
+      "authority_sha256" => HOST_AUTHORIZED_FOUNDATION_AUTHORITY.fetch("sha256")
+    }
+    envelope["remaining"] = {
+      "engineering_tasks" => 2, "engineering_hours" => 48, "calendar_days" => 12
+    }
+    envelope["remaining_capacity_usable"] = false
+    envelope["remaining_capacity_lock_reason"] =
+      "ACTIVE_FOUNDATION_TASK_SINGLE_TASK_INVARIANT"
+    envelope.dig("ordered_stages", 0)["status"] = "ACTIVE"
+
+    escalation = expected.fetch("founder_escalation_control")
+    escalation["source_event"] = {
+      "kind" => "P3_HOST_AUTHORIZED_TRANSACTIONAL_FOUNDATION_TASK_ACTIVATED",
+      "decision_id" => HOST_AUTHORIZED_DECISION_ID,
+      "status" => "P3_HOST_AUTHORIZED_TRANSACTIONAL_FOUNDATION_TASK_ACTIVE"
+    }
+    escalation.dig("resolved_strategy_decision")["result"] =
+      "P3_HOST_AUTHORIZED_TRANSACTIONAL_ROUTE_ACTIVE_FOUNDATION_TASK"
+    escalation["next_eligible_action"] = HOST_AUTHORIZED_FOUNDATION_ACTIVE_ACTION
+
+    delegation = expected.fetch("phase_delegation")
+    delegation["status"] = "ACTIVE_P3_HOST_AUTHORIZED_TRANSACTIONAL_FOUNDATION_TASK"
+    delegation["claim_boundary"] =
+      "Constitution v2.7 installs only the host-authorized transactional P3 Objective and its three ordered stages. The single test-only foundation Task is ACTIVE with its full 1-Task, 16-hour, 4-day declared budget reserved and consumed for non-resettable accounting. P3-001 remains ACCEPTED; P3-002 through P3-007 remain immutable terminal accounting and unreadable rejected lineage. Activation gives zero delivery or strict Exit credit, keeps product and audit locked, keeps P4 HOLD and keeps the same Long-term Goal ACTIVE."
+
+    boundary = expected.fetch("phase_boundary")
+    boundary["phase_execution_status"] =
+      "ACTIVE_P3_HOST_AUTHORIZED_TRANSACTIONAL_FOUNDATION_TASK"
+    boundary["task_creation_allowed"] = false
+    boundary["task_creation_scope"] = "NONE_ACTIVE_FOUNDATION_TASK"
+    boundary["next_eligible_action"] = HOST_AUTHORIZED_FOUNDATION_ACTIVE_ACTION
+
+    active = expected.fetch("active_work")
+    active["current_task"] = HOST_AUTHORIZED_FOUNDATION_TASK_ID
+    active["current_task_status"] = "ACTIVE_TEST_ONLY_EXECUTABLE_FOUNDATION"
+    active["current_task_contract"] = HOST_AUTHORIZED_FOUNDATION_CONTRACT
+    active["current_task_contract_sha256"] =
+      HOST_AUTHORIZED_FOUNDATION_CONTRACT.fetch("sha256")
+    active["current_execution_authorization"] =
+      HOST_AUTHORIZED_FOUNDATION_AUTHORITY.fetch("path")
+    active["current_execution_authorization_sha256"] =
+      HOST_AUTHORIZED_FOUNDATION_AUTHORITY.fetch("sha256")
+    active["authority_record"] = HOST_AUTHORIZED_FOUNDATION_AUTHORITY
+    active["execution_nonce"] = HOST_AUTHORIZED_FOUNDATION_EXECUTION_NONCE
+    active["execution_nonce_status"] = "ACTIVE_SINGLE_USE"
+    active["authorization_id"] = HOST_AUTHORIZED_FOUNDATION_AUTHORIZATION_ID
+    active["activation_parent_commit"] =
+      HOST_AUTHORIZED_FOUNDATION_ACTIVATION_PARENT.fetch("commit")
+    active["activation_parent_tree"] =
+      HOST_AUTHORIZED_FOUNDATION_ACTIVATION_PARENT.fetch("tree")
+    active["task_resource_state"] = "ACTIVE_FROZEN_CONTRACT_AND_AUTHORITY"
+    active["task_branch"] = HOST_AUTHORIZED_FOUNDATION_BRANCH
+    active["task_worktree"] = HOST_AUTHORIZED_FOUNDATION_WORKTREE
+    active["execution_evidence_root"] = HOST_AUTHORIZED_FOUNDATION_EVIDENCE_ROOT
+    active["allowlisted_paths"] = HOST_AUTHORIZED_FOUNDATION_ALLOWLIST
+    active["budget"] = HOST_AUTHORIZED_FOUNDATION_BUDGET
+    active["roles"] = {
+      "owner" => "MASTER_CEO_AGENT",
+      "worker" => "IMPLEMENTATION_AGENT",
+      "quality_owner" => "QUALITY_EVALUATION_AGENT",
+      "independent_reviewers" => %w[CTO_AGENT SECURITY_AGENT QUALITY_EVALUATION_AGENT]
+    }
+    active["next_eligible_action"] = HOST_AUTHORIZED_FOUNDATION_ACTIVE_ACTION
+
+    execution = expected.fetch("phase_execution_claim")
+    execution["current_task_claim"] =
+      "AIOS-P3-HATB-F1_MINIMUM_TRUST_EXECUTABLE_ACCEPTANCE_FOUNDATION_ACTIVE"
+    execution["real_engineering_progress"] =
+      "P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_HOST_AUTHORIZED_TRANSACTIONAL_FOUNDATION_TASK_ACTIVE_ZERO_ACCEPTED_PROGRESS_P3_DELIVERY_25_P3_EXIT_GATE_ZERO"
+    execution["phase_local_allowed"] = [HOST_AUTHORIZED_FOUNDATION_ACTIVE_ACTION]
+    execution["task_creation_allowed"] = false
+    execution["remaining_capacity_usable"] = false
+    execution["next_eligible_action"] = HOST_AUTHORIZED_FOUNDATION_ACTIVE_ACTION
+
+    claim = expected.fetch("claim_boundary")
+    claim["current_task"] = HOST_AUTHORIZED_FOUNDATION_TASK_ID
+    claim["selected_task"] = HOST_AUTHORIZED_FOUNDATION_TASK_ID
+    claim["current_task_status"] = "ACTIVE_TEST_ONLY_EXECUTABLE_FOUNDATION"
+    claim["next_eligible_action"] = HOST_AUTHORIZED_FOUNDATION_ACTIVE_ACTION
+    claim["real_engineering_progress"] = execution.fetch("real_engineering_progress")
+    claim["p3_status"] = "ACTIVE_INCOMPLETE_FOUNDATION_TASK"
+    claim["p3_phase_envelope_status"] = "ACTIVE_FOUNDATION_TASK"
+    claim["p3_capability_milestone_status"] =
+      "HOST_AUTHORIZED_TRANSACTIONAL_FOUNDATION_ACTIVE_NOT_ACCEPTED"
+
+    assert(truth == expected, "P3 host-authorized active foundation projection drift")
+    HOST_AUTHORIZED_FOUNDATION_ACTIVE_STATE
+  end
+
+  def validate_host_authorized_foundation_ready!(root, truth, active_task_paths: [])
     parent_truth = load_host_authorized_activation_truth!(root)
     decision = validate_host_authorized_decision!(root)
     constitution_bytes = read_repo_identity!(root, HOST_AUTHORIZED_CONSTITUTION,
@@ -1442,9 +1761,19 @@ module P3FinalTransactionalRouteValidation
     changed_paths = git!(root, "diff", "--name-only",
                          HOST_AUTHORIZED_ACTIVATION_PARENT.fetch("commit"), "--").lines.map(&:strip)
     allowed_paths = decision.dig("installation", "allowed_repository_changes")
-    assert(changed_paths.all? { |path| allowed_paths.include?(path) },
+    path_allowed = lambda do |path|
+      allowed_paths.include?(path) || active_task_paths.any? do |prefix|
+        path == prefix || path.start_with?("#{prefix}/")
+      end
+    end
+    assert(changed_paths.all? { |path| path_allowed.call(path) },
            "P3 host-authorized installation changed a path outside its exact allowlist")
-    assert(changed_paths.none? { |path| path.start_with?("backend-spring/") },
+    assert(changed_paths.none? do |path|
+             path.start_with?("backend-spring/") &&
+               active_task_paths.none? do |prefix|
+                 path == prefix || path.start_with?("#{prefix}/")
+               end
+           end,
            "P3 host-authorized installation changed product source")
 
     assert(truth["historical_p3_final_transactional_route_hold"] ==
@@ -1710,6 +2039,9 @@ module P3FinalTransactionalRouteValidation
   def validate_truth!(root:, truth:)
     root = Pathname.new(root).realpath
     if truth.dig("current_phase_route", "schema_version") == HOST_AUTHORIZED_ROUTE_SCHEMA
+      if truth.dig("current_phase_route", "lifecycle_stage") == "FOUNDATION_TASK_ACTIVE"
+        return validate_host_authorized_foundation_active!(root, truth)
+      end
       return validate_host_authorized_foundation_ready!(root, truth)
     end
     decision, decision_identity = validate_decision!(root)

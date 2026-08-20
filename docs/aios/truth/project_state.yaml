@@ -1,8 +1,8 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: '2026-08-20T13:25:40Z'
+last_verified_at: '2026-08-20T15:30:23Z'
 
-verification_scope: P3_HOST_AUTHORIZED_TRANSACTIONAL_OBJECTIVE_AND_ROUTE_REBASELINE_INSTALLED_FOUNDATION_ELIGIBLE_P3_DELIVERY_25_STRICT_EXIT_ZERO_P4_HOLD_LONG_TERM_GOAL_ACTIVE
+verification_scope: P3_HOST_AUTHORIZED_TRANSACTIONAL_FOUNDATION_TASK_ACTIVE_TEST_ONLY_EXECUTABLE_ORACLE_P3_DELIVERY_25_STRICT_EXIT_ZERO_P4_HOLD_LONG_TERM_GOAL_ACTIVE
 
 authority:
   founder: Human Founder
@@ -39,7 +39,7 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
+  current_task_authority: AIOS-P3-HATB-F1_MINIMUM_TRUST_EXECUTABLE_ACCEPTANCE_FOUNDATION
   note: 'Founder decision AUTHORIZE_P3_MINIMUM_TRUST_HOST_AUTHORIZED_TRANSACTIONAL_BOUNDARY_OBJECTIVE_AND_ROUTE_REBASELINE_AFTER_P3_007_V1
     is installed create-once as SHA-256 96b18ed2c356ff41b52a1379d56991f02585ecb47c55b963da4de02db66a2d84.
     It upgrades only the P3 Objective and append-only ADR from Strategic Constitution
@@ -1784,10 +1784,10 @@ project:
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
   p2_execution_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
-  phase_execution_status: ACTIVE_P3_HOST_AUTHORIZED_TRANSACTIONAL_FOUNDATION_ELIGIBLE
-  current_route_execution_status: P3_HOST_AUTHORIZED_TRANSACTIONAL_ROUTE_READY_FOUNDATION_STAGE
+  phase_execution_status: ACTIVE_P3_HOST_AUTHORIZED_TRANSACTIONAL_FOUNDATION_TASK
+  current_route_execution_status: P3_HOST_AUTHORIZED_TRANSACTIONAL_FOUNDATION_TASK_ACTIVE
   p3_entry_status: AUTHORIZED
-  p3_execution_status: ACTIVE_INCOMPLETE_FOUNDATION_STAGE_ELIGIBLE
+  p3_execution_status: ACTIVE_INCOMPLETE_FOUNDATION_TASK
   p4_entry_status: HOLD_PENDING_STRICT_P3_EXIT_AND_SEPARATE_FOUNDER_PHASE_ENTRY
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
@@ -8974,9 +8974,9 @@ current_phase_route:
   schema_version: p3-host-authorized-transactional-trust-boundary-rebaseline-route/v1
   route_id: P3_HOST_AUTHORIZED_TRANSACTIONAL_TRUST_BOUNDARY_REBASELINE_ROUTE_V1
   status: ACTIVE
-  lifecycle_stage: READY_FOUNDATION_STAGE
-  execution_status: READY_FOUNDATION_STAGE
-  scheduling_status: FOUNDATION_TASK_ELIGIBLE
+  lifecycle_stage: FOUNDATION_TASK_ACTIVE
+  execution_status: FOUNDATION_TASK_ACTIVE
+  scheduling_status: ACTIVE_FOUNDATION_TASK
   phase: P3
   phase_entry_status: AUTHORIZED
   policy:
@@ -8987,7 +8987,7 @@ current_phase_route:
   founder_reserved_triggers_resolved:
     - MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
     - MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
-  next_eligible_action: MASTER_ACTIVATE_MINIMUM_TRUST_EXECUTABLE_ACCEPTANCE_FOUNDATION_TASK
+  next_eligible_action: WORKER_BEGIN_EXECUTABLE_FOUNDATION_WITHIN_FIRST_ENGINEERING_HOUR
   phase_execution_envelope_ref: phase_execution_envelope
   phase_entry_route_ref: historical_p3_phase_entry_route
   accepted_p3_001_foundation_route_ref: historical_p3_001_phase_route
@@ -9031,6 +9031,7 @@ current_phase_route:
     canonicalization: RECURSIVE_KEY_SORT_COMPACT_JSON_UTF8
     canonical_byte_length: 10678
     canonical_sha256: 960671374bb73de0a941a1df787e8e22b59834337699f157f0d97029c9e751dc
+  active_task_ref: active_work
   ordered_stages:
     - ordinal: 1
       stage_id: MINIMUM_TRUST_EXECUTABLE_ACCEPTANCE_FOUNDATION
@@ -9050,7 +9051,7 @@ current_phase_route:
       delivery_percent_on_pass: 50
       strict_exit_percent_on_pass: 0
       pass_unlocks_only: HOST_AUTHORIZED_TRANSACTIONAL_TRUST_BOUNDARY_PRODUCT
-      status: ELIGIBLE_NOT_ACTIVATED
+      status: ACTIVE
     - ordinal: 2
       stage_id: HOST_AUTHORIZED_TRANSACTIONAL_TRUST_BOUNDARY_PRODUCT
       kind: PRODUCT_IMPLEMENTATION
@@ -12612,7 +12613,7 @@ historical_p3_final_transactional_route_hold_phase_execution_envelope:
 phase_execution_envelope:
   schema_version: p3-host-authorized-transactional-phase-envelope/v1
   phase: P3
-  status: ACTIVE_FOUNDATION_STAGE_ELIGIBLE
+  status: ACTIVE_FOUNDATION_TASK
   authority_basis:
     phase_entry_status: AUTHORIZED
     policy_path: docs/aios/FOUNDER_DELEGATION_POLICY.md
@@ -12665,16 +12666,23 @@ phase_execution_envelope:
     engineering_hours: 64
     calendar_days: 16
   consumed:
-    engineering_tasks: 7
-    engineering_hours: 224
-    calendar_days: 56
-  reserved: {}
+    engineering_tasks: 8
+    engineering_hours: 240
+    calendar_days: 60
+  reserved:
+    task_id: AIOS-P3-HATB-F1_MINIMUM_TRUST_EXECUTABLE_ACCEPTANCE_FOUNDATION
+    stage_id: MINIMUM_TRUST_EXECUTABLE_ACCEPTANCE_FOUNDATION
+    engineering_tasks: 1
+    engineering_hours: 16
+    calendar_days: 4
+    contract_sha256: 6efc2370cf812662de46d4cd4bf6c4c22e6b7c141d90554fca01417dc9aac3b1
+    authority_sha256: 18ba0c5797452c477da5f35f71a4b7fbccc9827cbb3b07707c9bc623978ec38e
   remaining:
-    engineering_tasks: 3
-    engineering_hours: 64
-    calendar_days: 16
-  remaining_capacity_usable: true
-  remaining_capacity_lock_reason: NONE
+    engineering_tasks: 2
+    engineering_hours: 48
+    calendar_days: 12
+  remaining_capacity_usable: false
+  remaining_capacity_lock_reason: ACTIVE_FOUNDATION_TASK_SINGLE_TASK_INVARIANT
   milestone_order:
     - DURABLE_STATE_AND_CHECKPOINT_RESUME
     - MINIMUM_TRUST_EXECUTABLE_ACCEPTANCE_FOUNDATION
@@ -12701,7 +12709,7 @@ phase_execution_envelope:
       delivery_percent_on_pass: 50
       strict_exit_percent_on_pass: 0
       pass_unlocks_only: HOST_AUTHORIZED_TRANSACTIONAL_TRUST_BOUNDARY_PRODUCT
-      status: ELIGIBLE_NOT_ACTIVATED
+      status: ACTIVE
     - ordinal: 2
       stage_id: HOST_AUTHORIZED_TRANSACTIONAL_TRUST_BOUNDARY_PRODUCT
       kind: PRODUCT_IMPLEMENTATION
@@ -13245,9 +13253,9 @@ founder_escalation_control:
   schema_version: founder-escalation-control/v2
   disposition: NO_RESERVED_TRIGGER_CONTINUE_PHASE
   source_event:
-    kind: FOUNDER_P3_HOST_AUTHORIZED_TRANSACTIONAL_REBASELINE_INSTALLED
+    kind: P3_HOST_AUTHORIZED_TRANSACTIONAL_FOUNDATION_TASK_ACTIVATED
     decision_id: AUTHORIZE_P3_MINIMUM_TRUST_HOST_AUTHORIZED_TRANSACTIONAL_BOUNDARY_OBJECTIVE_AND_ROUTE_REBASELINE_AFTER_P3_007_V1
-    status: P3_HOST_AUTHORIZED_TRANSACTIONAL_FOUNDATION_ELIGIBLE
+    status: P3_HOST_AUTHORIZED_TRANSACTIONAL_FOUNDATION_TASK_ACTIVE
   reserved_trigger:
     category: NONE
     evidence:
@@ -13260,7 +13268,7 @@ founder_escalation_control:
       - MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
       - MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
     category: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
-    result: P3_HOST_AUTHORIZED_TRANSACTIONAL_ROUTE_INSTALLED_FOUNDATION_ELIGIBLE
+    result: P3_HOST_AUTHORIZED_TRANSACTIONAL_ROUTE_ACTIVE_FOUNDATION_TASK
   resolved_phase_entry_decision:
     category: PHASE_ENTRY_OR_EXIT
     decision_id: AUTHORIZE_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1
@@ -13271,7 +13279,7 @@ founder_escalation_control:
   phase_gate_status: INCOMPLETE
   founder_decision_required: false
   next_action_owner: MASTER_CEO_AGENT
-  next_eligible_action: MASTER_ACTIVATE_MINIMUM_TRUST_EXECUTABLE_ACCEPTANCE_FOUNDATION_TASK
+  next_eligible_action: WORKER_BEGIN_EXECUTABLE_FOUNDATION_WITHIN_FIRST_ENGINEERING_HOUR
 
 historical_p2_053_phase_route:
   schema_version: "1.1"
@@ -17457,7 +17465,7 @@ historical_p2_phase_route:
   next_eligible_action: FOUNDER_P2_PHASE_GATE
 
 phase_delegation:
-  status: ACTIVE_P3_HOST_AUTHORIZED_TRANSACTIONAL_FOUNDATION_ELIGIBLE
+  status: ACTIVE_P3_HOST_AUTHORIZED_TRANSACTIONAL_FOUNDATION_TASK
   model: PHASE_LEVEL_FOUNDER_DELEGATION
   decision_source: AUTHORIZE_P3_MINIMUM_TRUST_HOST_AUTHORIZED_TRANSACTIONAL_BOUNDARY_OBJECTIVE_AND_ROUTE_REBASELINE_AFTER_P3_007_V1
   phase_gate_owner: HUMAN_FOUNDER
@@ -17502,7 +17510,7 @@ phase_delegation:
     historical_execution_lineage_reuse_allowed: false
     mandatory_exit_capability_permanent_ban_from_historical_stop: false
     peripheral_work_before_exit_capabilities_allowed: false
-  claim_boundary: Constitution v2.7 installs only the host-authorized transactional P3 Objective and its three ordered stages. P3-001 remains ACCEPTED; P3-002 through P3-007 remain immutable terminal accounting and unreadable rejected lineage. The non-resettable cumulative ceiling is 10 Tasks, 288 hours and 72 days with 7 Tasks, 224 hours and 56 days already consumed. Installation gives zero engineering or delivery credit, unlocks only the foundation Task, keeps strict Exit at 0%, keeps P4 HOLD and keeps the same Long-term Goal ACTIVE.
+  claim_boundary: Constitution v2.7 installs only the host-authorized transactional P3 Objective and its three ordered stages. The single test-only foundation Task is ACTIVE with its full 1-Task, 16-hour, 4-day declared budget reserved and consumed for non-resettable accounting. P3-001 remains ACCEPTED; P3-002 through P3-007 remain immutable terminal accounting and unreadable rejected lineage. Activation gives zero delivery or strict Exit credit, keeps product and audit locked, keeps P4 HOLD and keeps the same Long-term Goal ACTIVE.
 
 mandatory_exit_capability_recovery:
   status: HISTORICAL_POLICY_CONTEXT_SUPERSEDED_BY_LATER_FOUNDER_ROUTES
@@ -18341,9 +18349,9 @@ mandatory_exit_capability_recovery:
 
 phase_boundary:
   phase: P3
-  phase_execution_status: ACTIVE_P3_HOST_AUTHORIZED_TRANSACTIONAL_FOUNDATION_ELIGIBLE
-  task_creation_allowed: true
-  task_creation_scope: MINIMUM_TRUST_EXECUTABLE_ACCEPTANCE_FOUNDATION_ONLY
+  phase_execution_status: ACTIVE_P3_HOST_AUTHORIZED_TRANSACTIONAL_FOUNDATION_TASK
+  task_creation_allowed: false
+  task_creation_scope: NONE_ACTIVE_FOUNDATION_TASK
   task_creation_lock_after_activation: true
   p3_entry_authorized: true
   allowed_task_kinds:
@@ -18424,7 +18432,7 @@ phase_boundary:
   user_action_required: NONE
   phase_route_decision_required: false
   phase_route_user_action_required: NONE
-  next_eligible_action: MASTER_ACTIVATE_MINIMUM_TRUST_EXECUTABLE_ACCEPTANCE_FOUNDATION_TASK
+  next_eligible_action: WORKER_BEGIN_EXECUTABLE_FOUNDATION_WITHIN_FIRST_ENGINEERING_HOUR
 
 p0_baseline:
   checkpoint_commit: ad6450e418d8f1b4fd5a789f913525a8dd8bdc10
@@ -24843,36 +24851,47 @@ historical_p2_079_terminal_active_work:
   next_eligible_action: FOUNDER_RESERVED_DECISION
 
 active_work:
-  current_task: NONE
-  current_task_status: NONE
+  current_task: AIOS-P3-HATB-F1_MINIMUM_TRUST_EXECUTABLE_ACCEPTANCE_FOUNDATION
+  current_task_status: ACTIVE_TEST_ONLY_EXECUTABLE_FOUNDATION
   current_task_contract:
-  current_task_contract_sha256:
-  current_execution_authorization:
-  current_execution_authorization_sha256:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-host-authorized-transactional-boundary-rebaseline-20260820/task-foundation/contract/P3_HATB_F1_MINIMUM_TRUST_EXECUTABLE_ACCEPTANCE_FOUNDATION_TASK_CONTRACT_V1.yaml
+    byte_length: 7089
+    sha256: 6efc2370cf812662de46d4cd4bf6c4c22e6b7c141d90554fca01417dc9aac3b1
+  current_task_contract_sha256: 6efc2370cf812662de46d4cd4bf6c4c22e6b7c141d90554fca01417dc9aac3b1
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p3-host-authorized-transactional-boundary-rebaseline-20260820/task-foundation/authority/P3_HATB_F1_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
+  current_execution_authorization_sha256: 18ba0c5797452c477da5f35f71a4b7fbccc9827cbb3b07707c9bc623978ec38e
   authority_record:
-  execution_nonce:
-  execution_nonce_status: CONSUMED_TERMINAL_NON_PASS
-  authorization_id:
-  activation_parent_commit: 8e4fd7037bd72c6c80561079ddd82991aac0f37e
-  activation_parent_tree: 79c4e0dc0960e152b780fb0690fd4f7a15d7b3d9
-  task_resource_state: NOT_CREATED_FOUNDATION_STAGE_ELIGIBLE
-  task_branch:
-  task_worktree:
-  execution_evidence_root:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-host-authorized-transactional-boundary-rebaseline-20260820/task-foundation/authority/P3_HATB_F1_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
+    byte_length: 4989
+    sha256: 18ba0c5797452c477da5f35f71a4b7fbccc9827cbb3b07707c9bc623978ec38e
+  execution_nonce: 75201f2d-66e0-48eb-b911-8eb9d62f57c1
+  execution_nonce_status: ACTIVE_SINGLE_USE
+  authorization_id: 18ae6829-7d30-44e3-86cc-81d969bed1f6
+  activation_parent_commit: 0a7d4c25111e468a531c2ff88731358bf4f3def4
+  activation_parent_tree: b23ddd50c099e5ecdf69c110931cf015bb085e64
+  task_resource_state: ACTIVE_FROZEN_CONTRACT_AND_AUTHORITY
+  task_branch: codex/p3-hatb-f1-minimum-trust-foundation
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p3-hatb-f1-minimum-trust-foundation
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p3-host-authorized-transactional-boundary-rebaseline-20260820/task-foundation
   dependency_custody_root:
-  allowlisted_paths: []
+  allowlisted_paths:
+    - backend-spring/src/test/java/com/sourcelens/module/execution/trustboundary/foundation
+    - backend-spring/src/test/resources/p3-host-authorized-transactional-foundation
   budget:
-    engineering_tasks:
-    engineering_hours:
-    calendar_days:
-    candidate_generations:
-    same_task_repairs:
-    review_cycles:
+    engineering_tasks: 1
+    engineering_hours: 16
+    calendar_days: 4
+    candidate_generations: 2
+    same_task_repairs: 1
+    review_cycles: 2
   roles:
     owner: MASTER_CEO_AGENT
-    worker:
-    quality_owner:
-    independent_reviewers: []
+    worker: IMPLEMENTATION_AGENT
+    quality_owner: QUALITY_EVALUATION_AGENT
+    independent_reviewers:
+      - CTO_AGENT
+      - SECURITY_AGENT
+      - QUALITY_EVALUATION_AGENT
   external_effects:
     network: false
     provider: false
@@ -24913,7 +24932,7 @@ active_work:
       sha256: 8fa1bad0a4c428f43c3d3e53506798252247b1c4d745fc5240209ba18c97db27
     dependency_custody_root: /Users/lijunpeng/Developer/.sourcelens-custody/p3-007-maven-repository
     product_source_write_authorized: true
-  next_eligible_action: MASTER_ACTIVATE_MINIMUM_TRUST_EXECUTABLE_ACCEPTANCE_FOUNDATION_TASK
+  next_eligible_action: WORKER_BEGIN_EXECUTABLE_FOUNDATION_WITHIN_FIRST_ENGINEERING_HOUR
 
 historical_p2_080_terminal_active_work:
   current_task: AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER
@@ -31577,8 +31596,8 @@ historical_lineages:
 
 phase_execution_claim:
   current_route_claim: P3_HOST_AUTHORIZED_TRANSACTIONAL_TRUST_BOUNDARY_REBASELINE_ROUTE_V1
-  current_task_claim: NONE
-  real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_HOST_AUTHORIZED_TRANSACTIONAL_REBASELINE_INSTALLED_ZERO_ENGINEERING_PROGRESS_P3_DELIVERY_25_P3_EXIT_GATE_ZERO
+  current_task_claim: AIOS-P3-HATB-F1_MINIMUM_TRUST_EXECUTABLE_ACCEPTANCE_FOUNDATION_ACTIVE
+  real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_HOST_AUTHORIZED_TRANSACTIONAL_FOUNDATION_TASK_ACTIVE_ZERO_ACCEPTED_PROGRESS_P3_DELIVERY_25_P3_EXIT_GATE_ZERO
   product_capability_changed: false
   accepted_outcomes:
   - P3_HOST_AUTHORIZED_TRANSACTIONAL_OBJECTIVE_ROUTE_REBASELINE_INSTALLED_ZERO_ENGINEERING_PROGRESS
@@ -31588,7 +31607,7 @@ phase_execution_claim:
   p3_exit_gate_progress_percent: 0
   p3_delivery_progress_percent: 25
   phase_local_allowed:
-  - MASTER_ACTIVATE_MINIMUM_TRUST_EXECUTABLE_ACCEPTANCE_FOUNDATION_TASK
+  - WORKER_BEGIN_EXECUTABLE_FOUNDATION_WITHIN_FIRST_ENGINEERING_HOUR
   phase_local_frozen_capabilities:
   - P3_002_THROUGH_P3_007_REJECTED_LINEAGE_FROZEN_UNREADABLE
   - SECOND_PRODUCT_IMPLEMENTATION_TASK_NOT_AUTHORIZED
@@ -31912,11 +31931,11 @@ phase_execution_claim:
   - production side effects
   - public capability claims
   - canonical main advance outside an accepted task gate
-  task_creation_allowed: true
-  remaining_capacity_usable: true
+  task_creation_allowed: false
+  remaining_capacity_usable: false
   held_read_allowed: false
   candidate_integration_allowed: false
-  next_eligible_action: MASTER_ACTIVATE_MINIMUM_TRUST_EXECUTABLE_ACCEPTANCE_FOUNDATION_TASK
+  next_eligible_action: WORKER_BEGIN_EXECUTABLE_FOUNDATION_WITHIN_FIRST_ENGINEERING_HOUR
 
 p2_recovery_control:
   schema_version: p2-recovery-control/v2
@@ -31969,25 +31988,25 @@ p2_recovery_control:
 
 claim_boundary:
   current_phase_route: P3_HOST_AUTHORIZED_TRANSACTIONAL_TRUST_BOUNDARY_REBASELINE_ROUTE_V1
-  current_task: NONE
-  selected_task: NONE_FOUNDATION_STAGE_ELIGIBLE
-  current_task_status: NONE
-  next_eligible_action: MASTER_ACTIVATE_MINIMUM_TRUST_EXECUTABLE_ACCEPTANCE_FOUNDATION_TASK
-  real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_HOST_AUTHORIZED_TRANSACTIONAL_REBASELINE_INSTALLED_ZERO_ENGINEERING_PROGRESS_P3_DELIVERY_25_P3_EXIT_GATE_ZERO
+  current_task: AIOS-P3-HATB-F1_MINIMUM_TRUST_EXECUTABLE_ACCEPTANCE_FOUNDATION
+  selected_task: AIOS-P3-HATB-F1_MINIMUM_TRUST_EXECUTABLE_ACCEPTANCE_FOUNDATION
+  current_task_status: ACTIVE_TEST_ONLY_EXECUTABLE_FOUNDATION
+  next_eligible_action: WORKER_BEGIN_EXECUTABLE_FOUNDATION_WITHIN_FIRST_ENGINEERING_HOUR
+  real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_HOST_AUTHORIZED_TRANSACTIONAL_FOUNDATION_TASK_ACTIVE_ZERO_ACCEPTED_PROGRESS_P3_DELIVERY_25_P3_EXIT_GATE_ZERO
   p2_research_exit_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
   p2_research_exit_percent: 100
   p2_original_capability_gate_status: MISSING_NOT_ACCEPTED
   p2_original_capability_progress_percent: 0
   p2_candidate_integrated: false
   p2_held_source_reads: 0
-  p3_status: ACTIVE_INCOMPLETE_FOUNDATION_STAGE_ELIGIBLE
+  p3_status: ACTIVE_INCOMPLETE_FOUNDATION_TASK
   p3_entry_authorized: true
-  p3_phase_envelope_status: ACTIVE_FOUNDATION_STAGE_ELIGIBLE
+  p3_phase_envelope_status: ACTIVE_FOUNDATION_TASK
   p3_exit_gate_progress_percent: 0
   p3_delivery_progress_percent: 25
   p3_accepted_milestones:
     - DURABLE_STATE_AND_CHECKPOINT_RESUME
-  p3_capability_milestone_status: HOST_AUTHORIZED_TRANSACTIONAL_FOUNDATION_ELIGIBLE_NOT_ACCEPTED
+  p3_capability_milestone_status: HOST_AUTHORIZED_TRANSACTIONAL_FOUNDATION_ACTIVE_NOT_ACCEPTED
   p3_final_transactional_route_decision_sha256: 7daa36b2d85a215861051845cf3712b209c1f711c351e1a092e01725b13d1c3d
   p3_host_authorized_transactional_route_decision_sha256: 96b18ed2c356ff41b52a1379d56991f02585ecb47c55b963da4de02db66a2d84
   p3_007_preactivation_status: PASS_PRODUCT_SOURCE_WRITE_AUTHORIZED

@@ -76,6 +76,22 @@ module P3FinalTransactionalRouteValidation
   ACTIVE_IMPLEMENTATION_STATE = "P3_007_ACTIVE_IMPLEMENTATION_AUTHORIZED"
   TERMINAL_STATE = "P3_007_TERMINAL_TASK_GATE_NON_PASS"
   TERMINAL_ACTION = "FOUNDER_DECIDE_P3_STRATEGY_AFTER_FINAL_PRODUCT_SLOT_NON_PASS_OR_HOLD"
+  HOLD_STATE = "P3_FINAL_TRANSACTIONAL_ROUTE_FOUNDER_RESOLVED_STRATEGIC_HOLD"
+  HOLD_ACTION = "NO_ENGINEERING_ACTION_P3_FINAL_TRANSACTIONAL_ROUTE_HOLD"
+  HOLD_DISPOSITION = "FOUNDER_RESERVED_DECISION_RESOLVED_P3_FINAL_TRANSACTIONAL_ROUTE_HOLD"
+  HOLD_ACTIVATION_PARENT = {
+    "commit" => "9bfd116e96c353a5be2114da0aa09f75f439d064",
+    "tree" => "a73d8ecaf58431e648f1186bf5937012f869e732"
+  }.freeze
+  HOLD_DECISION_SCHEMA =
+    "founder-p3-final-transactional-route-exhausted-strategic-hold-decision/v1"
+  HOLD_DECISION_ID =
+    "DECIDE_P3_KEEP_STRICT_EXIT_AND_HOLD_AFTER_P3_007_FINAL_TRANSACTIONAL_ROUTE_NON_PASS_V1"
+  HOLD_DECISION = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-final-transactional-route-hold-20260820/decision/FOUNDER_P3_KEEP_STRICT_EXIT_AND_HOLD_AFTER_P3_007_FINAL_TRANSACTIONAL_ROUTE_NON_PASS_V1.json",
+    "byte_length" => 6356,
+    "sha256" => "156e4fc85a4cd7c80ecd967ef8ce65b7520b6ad183943994f84b081881cd58cf"
+  }.freeze
   PREACTIVATION_COMMIT = "87637233f847d6fb666419b63bef70990056e58f"
   PREACTIVATION_TREE = "e96dcae00a9da63cb327381fd25c40f9b384f7e0"
   FINAL_CANDIDATE = {
@@ -901,6 +917,247 @@ module P3FinalTransactionalRouteValidation
     TERMINAL_STATE
   end
 
+  def load_hold_activation_truth!(root)
+    assert(git!(root, "rev-parse", "#{HOLD_ACTIVATION_PARENT.fetch('commit')}^{tree}") ==
+             HOLD_ACTIVATION_PARENT.fetch("tree"),
+           "P3 strategic HOLD activation-parent tree drift")
+    bytes, stderr, status = Open3.capture3(
+      "git", "show",
+      "#{HOLD_ACTIVATION_PARENT.fetch('commit')}:docs/aios/truth/project_state.yaml",
+      chdir: root.to_s
+    )
+    assert(status.success?, "P3 strategic HOLD activation Truth unavailable: #{stderr.strip}")
+    truth = YAML.safe_load(bytes, permitted_classes: [], permitted_symbols: [], aliases: false)
+    assert(truth.dig("current_phase_route", "lifecycle_stage") ==
+             "PRODUCT_TASK_TERMINAL_NON_PASS" &&
+           truth.dig("current_phase_route", "terminal_task", "terminal_receipt") == TERMINAL_RECEIPT,
+           "P3 strategic HOLD activation Truth is not the exact P3-007 terminal state")
+    truth
+  end
+
+  def validate_hold_decision!
+    bytes = read_identity!(HOLD_DECISION, "P3 final transactional strategic HOLD decision",
+                           create_once: true)
+    hold = JSON.parse(bytes)
+    assert(hold["schema_version"] == HOLD_DECISION_SCHEMA &&
+           hold["record_type"] == "sourcelens_aios_founder_p3_phase_strategic_hold_decision" &&
+           hold["decision_id"] == HOLD_DECISION_ID &&
+           hold["authority"] == "HUMAN_FOUNDER" &&
+           hold["source"] == "CURRENT_DIRECT_FOUNDER_REPLY_V1" &&
+           hold["reserved_trigger"] == "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE" &&
+           hold["phase"] == "P3",
+           "P3 strategic HOLD decision authority drift")
+    assert(hold["canonical_start"] == {
+      "commit" => HOLD_ACTIVATION_PARENT.fetch("commit"),
+      "tree" => HOLD_ACTIVATION_PARENT.fetch("tree"),
+      "branch" => "main",
+      "main_clean" => true,
+      "truth" => {
+        "path" => "docs/aios/truth/project_state.yaml",
+        "byte_length" => 1_860_281,
+        "sha256" => "8a933a9f55522ab9adf764d96a02af2f39edf5144bd52902be1c6ce28a9d2e31"
+      }
+    }, "P3 strategic HOLD canonical binding drift")
+    assert(hold["governing_artifact"] == {
+      "path" => "docs/aios/STRATEGIC_CONSTITUTION.md",
+      "version" => "2.6",
+      "byte_length" => 10_360,
+      "sha256" => "bae35e3e0d9cc93e5ad94b42a661651b2684c3922711fc569a643a00ef07953b"
+    } && hold["terminal_receipt"] == TERMINAL_RECEIPT,
+           "P3 strategic HOLD governing identity drift")
+    assert(hold.dig("decision", "disposition") ==
+             "HOLD_INCOMPLETE_FINAL_TRANSACTIONAL_ROUTE_EXHAUSTED" &&
+           hold.dig("decision", "p3_objective") ==
+             "UNCHANGED_STRATEGIC_CONSTITUTION_V2_6" &&
+           hold.dig("decision", "strict_exit_gate") ==
+             "UNCHANGED_RESUME_ISOLATION_PERMISSION_AND_TRACE_TESTS" &&
+           hold.dig("decision", "current_task") == "NONE" &&
+           hold.dig("decision", "new_task_authorized") == false &&
+           hold.dig("decision", "candidate_integration_authorized") == false &&
+           hold.dig("decision", "evaluation_slot_unlock_authorized") == false &&
+           hold.dig("decision", "p4_entry_authorized") == false &&
+           hold.dig("decision", "engineering_action_eligible") == false,
+           "P3 strategic HOLD decision boundary drift")
+    assert(hold.dig("truth_boundary", "p3_001_durable_state_and_checkpoint_resume") ==
+             "ACCEPTED" &&
+           hold.dig("truth_boundary", "p3_002_through_p3_007_terminal_facts_preserved") ==
+             true &&
+           hold.dig("truth_boundary", "p3_007_candidate") == FINAL_CANDIDATE &&
+           hold.dig("truth_boundary", "host_owned_fixed_workflow_structural_permission") ==
+             "NOT_ACCEPTED" &&
+           hold.dig("truth_boundary", "fixed_handler_resume_isolation_and_complete_trace") ==
+             "NOT_ACCEPTED" &&
+           hold.dig("truth_boundary", "p3_delivery_progress_percent") == 25 &&
+           hold.dig("truth_boundary", "strict_p3_exit_progress_percent") == 0 &&
+           hold.dig("truth_boundary", "evaluation_only_strict_exit_audit") ==
+             "PERMANENTLY_LOCKED_PRODUCT_SLOT_NON_PASS",
+           "P3 strategic HOLD truth boundary drift")
+    assert(hold.dig("budget", "expansion") == {
+      "engineering_tasks" => 0, "engineering_hours" => 0,
+      "calendar_days" => 0, "external_capabilities" => 0
+    } && hold.dig("budget", "consumed") == {
+      "engineering_tasks" => 7, "engineering_hours" => 224, "calendar_days" => 56
+    } && hold.dig("budget", "remaining_locked") == {
+      "engineering_tasks" => 1, "engineering_hours" => 32, "calendar_days" => 8
+    } && hold.dig("budget", "remaining_capacity_usable") == false &&
+           hold.dig("budget", "remaining_capacity_resequencing_authorized") == false,
+           "P3 strategic HOLD budget drift")
+    assert(hold.fetch("external_effects").values.all? { |value| value == false } &&
+           hold.dig("long_term_goal", "status") == "ACTIVE" &&
+           hold.dig("long_term_goal", "termination_authorized") == false &&
+           hold.dig("long_term_goal", "project_complete") == false &&
+           hold.dig("long_term_goal", "codex_goal_action") == "NONE_KEEP_ACTIVE",
+           "P3 strategic HOLD external or Goal boundary drift")
+    hold
+  rescue JSON::ParserError => e
+    raise P3FinalTransactionalRouteValidationError,
+          "P3 strategic HOLD decision JSON invalid: #{e.message}"
+  end
+
+  def validate_strategic_hold!(root, truth, decision, decision_identity, parent_truth, route)
+    terminal_truth = load_hold_activation_truth!(root)
+    terminal_state = validate_terminal_task!(
+      root, terminal_truth, decision, decision_identity, parent_truth,
+      terminal_truth.fetch("current_phase_route")
+    )
+    assert(terminal_state == TERMINAL_STATE, "P3 strategic HOLD terminal parent is invalid")
+    hold = validate_hold_decision!
+    hold_projection = HOLD_DECISION.merge(
+      "decision_id" => HOLD_DECISION_ID,
+      "reserved_trigger" => "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE"
+    )
+    assert(git!(root, "diff", "--name-only", HOLD_ACTIVATION_PARENT.fetch("commit"), "HEAD",
+                "--", "backend-spring", "docs/aios/STRATEGIC_CONSTITUTION.md").empty?,
+           "P3 strategic HOLD changed product source or the Constitution")
+
+    expected_route = deep_copy(terminal_truth.fetch("current_phase_route"))
+    expected_route["status"] = "FOUNDER_RESOLVED_STRATEGIC_HOLD"
+    expected_route["lifecycle_stage"] = "FOUNDER_RESOLVED_STRATEGIC_HOLD"
+    expected_route["execution_status"] = "NO_ENGINEERING_ACTION"
+    expected_route["scheduling_status"] =
+      "FOUNDER_RESOLVED_NO_ENGINEERING_ACTION_P3_FINAL_TRANSACTIONAL_ROUTE_HOLD"
+    expected_route["founder_phase_route_decision_required"] = false
+    expected_route["next_eligible_action"] = HOLD_ACTION
+    expected_route["founder_hold_decision"] = hold_projection
+    assert(route == expected_route, "P3 strategic HOLD Route projection drift")
+
+    expected_envelope = deep_copy(terminal_truth.fetch("phase_execution_envelope"))
+    expected_envelope["status"] = "HOLD_INCOMPLETE_FINAL_TRANSACTIONAL_ROUTE_EXHAUSTED"
+    expected_envelope["remaining_capacity_lock_reason"] =
+      "FOUNDER_RESOLVED_P3_FINAL_TRANSACTIONAL_ROUTE_STRATEGIC_HOLD_NO_ENGINEERING_ACTION"
+    assert(truth["phase_execution_envelope"] == expected_envelope,
+           "P3 strategic HOLD Phase envelope drift")
+
+    expected_project = deep_copy(terminal_truth.fetch("project"))
+    expected_project["phase_execution_status"] =
+      "HOLD_INCOMPLETE_FINAL_TRANSACTIONAL_ROUTE_EXHAUSTED"
+    expected_project["current_route_execution_status"] =
+      "FOUNDER_RESOLVED_P3_FINAL_TRANSACTIONAL_ROUTE_STRATEGIC_HOLD"
+    expected_project["p3_execution_status"] =
+      "HOLD_INCOMPLETE_FINAL_TRANSACTIONAL_ROUTE_EXHAUSTED"
+    assert(truth["project"] == expected_project, "P3 strategic HOLD project projection drift")
+    assert(truth.dig("strict_phase_gate_ledger", "phases", "P3") ==
+             terminal_truth.dig("strict_phase_gate_ledger", "phases", "P3"),
+           "P3 strategic HOLD changed the strict P3 Exit Gate")
+
+    expected_boundary = deep_copy(terminal_truth.fetch("phase_boundary"))
+    expected_boundary["phase_execution_status"] =
+      "HOLD_INCOMPLETE_FINAL_TRANSACTIONAL_ROUTE_EXHAUSTED"
+    expected_boundary["task_creation_scope"] =
+      "NONE_FOUNDER_RESOLVED_P3_FINAL_TRANSACTIONAL_ROUTE_STRATEGIC_HOLD"
+    expected_boundary["escalation_reason"] = nil
+    expected_boundary["user_action_required"] = "NONE"
+    expected_boundary["phase_route_decision_required"] = false
+    expected_boundary["phase_route_user_action_required"] = "NONE"
+    expected_boundary["next_eligible_action"] = HOLD_ACTION
+    assert(truth["phase_boundary"] == expected_boundary,
+           "P3 strategic HOLD Phase boundary drift")
+
+    terminal_control = terminal_truth.fetch("founder_escalation_control")
+    expected_control = {
+      "schema_version" => "founder-escalation-control/v2",
+      "disposition" => HOLD_DISPOSITION,
+      "source_event" => {
+        "kind" => "FOUNDER_P3_FINAL_TRANSACTIONAL_ROUTE_STRATEGIC_HOLD_DECISION",
+        "decision_id" => HOLD_DECISION_ID,
+        "status" => "HOLD_INCOMPLETE_FINAL_TRANSACTIONAL_ROUTE_EXHAUSTED"
+      },
+      "reserved_trigger" => {
+        "category" => "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE",
+        "evidence" => TERMINAL_RECEIPT
+      },
+      "resolved_strategy_decision" => hold_projection.merge(
+        "category" => "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE",
+        "result" => "P3_HOLD_INCOMPLETE_FINAL_TRANSACTIONAL_ROUTE_EXHAUSTED"
+      ),
+      "resolved_phase_entry_decision" => terminal_control.fetch("resolved_phase_entry_decision"),
+      "phase_gate_status" => "INCOMPLETE",
+      "founder_decision_required" => false,
+      "next_action_owner" => "NONE",
+      "next_eligible_action" => HOLD_ACTION
+    }
+    assert(truth["founder_escalation_control"] == expected_control,
+           "P3 strategic HOLD Founder control drift")
+
+    expected_delegation = deep_copy(terminal_truth.fetch("phase_delegation"))
+    expected_delegation["status"] =
+      "HOLD_P3_PHASE_LEVEL_DELEGATION_FINAL_TRANSACTIONAL_ROUTE_EXHAUSTED"
+    expected_delegation["decision_source"] = HOLD_DECISION_ID
+    expected_delegation["claim_boundary"] =
+      "The exact Founder P3 strategic HOLD decision keeps the Constitution v2.6 Objective and strict Exit Gate unchanged, preserves P3-001 as the sole accepted milestone and P3-002 through P3-007 as immutable terminal accounting, makes the remaining nominal Phase capacity unusable, authorizes no Task or candidate integration, keeps P4 HOLD and keeps the Long-term Goal ACTIVE."
+    assert(truth["phase_delegation"] == expected_delegation,
+           "P3 strategic HOLD Phase delegation drift")
+
+    expected_active = deep_copy(terminal_truth.fetch("active_work"))
+    expected_active["task_resource_state"] =
+      "NO_ACTIVE_TASK_FOUNDER_RESOLVED_P3_FINAL_TRANSACTIONAL_ROUTE_HOLD"
+    expected_active["founder_decision_required"] = false
+    expected_active["founder_decision_required_scope"] = nil
+    expected_active["escalation_reason"] = nil
+    expected_active["user_action_required"] = "NONE"
+    expected_active["phase_route_decision_required"] = false
+    expected_active["phase_route_user_action_required"] = "NONE"
+    expected_active["next_eligible_action"] = HOLD_ACTION
+    assert(truth["active_work"] == expected_active,
+           "P3 strategic HOLD active-work drift")
+
+    expected_execution = deep_copy(terminal_truth.fetch("phase_execution_claim"))
+    expected_execution["real_engineering_progress"] =
+      "P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_FOUNDER_RESOLVED_STRATEGIC_HOLD_P3_007_TERMINAL_NON_PASS_PRODUCT_MILESTONES_NOT_ACCEPTED_P3_DELIVERY_25_P3_EXIT_GATE_ZERO"
+    expected_execution["phase_local_frozen_capabilities"] =
+      terminal_truth.dig("phase_execution_claim", "phase_local_frozen_capabilities") +
+      ["FOUNDER_RESOLVED_P3_FINAL_TRANSACTIONAL_ROUTE_STRATEGIC_HOLD_NO_ENGINEERING_ACTION"]
+    expected_execution["next_eligible_action"] = HOLD_ACTION
+    assert(truth["phase_execution_claim"] == expected_execution,
+           "P3 strategic HOLD execution claim drift")
+
+    expected_claim = deep_copy(terminal_truth.fetch("claim_boundary"))
+    expected_claim["selected_task"] =
+      "NONE_FOUNDER_RESOLVED_P3_FINAL_TRANSACTIONAL_ROUTE_HOLD"
+    expected_claim["next_eligible_action"] = HOLD_ACTION
+    expected_claim["real_engineering_progress"] = expected_execution.fetch("real_engineering_progress")
+    expected_claim["p3_status"] = "HOLD_INCOMPLETE_FINAL_TRANSACTIONAL_ROUTE_EXHAUSTED"
+    expected_claim["p3_phase_envelope_status"] =
+      "HOLD_INCOMPLETE_FINAL_TRANSACTIONAL_ROUTE_EXHAUSTED"
+    expected_claim["p3_capability_milestone_status"] =
+      "FINAL_TRANSACTIONAL_PRODUCT_MILESTONES_NOT_ACCEPTED_FOUNDER_RESOLVED_STRATEGIC_HOLD"
+    assert(truth["claim_boundary"] == expected_claim,
+           "P3 strategic HOLD claim boundary drift")
+
+    goal = mapping(truth["goal"], "Long-term Goal")
+    assert(goal["control_plane_status_observed"] == "ACTIVE" &&
+           goal["current_task_authority"] == "NONE" &&
+           goal.fetch("note").include?(HOLD_DECISION.fetch("sha256")),
+           "P3 strategic HOLD must keep the Long-term Goal active")
+    assert(truth["verification_scope"] ==
+             "FOUNDER_RESOLVED_P3_FINAL_TRANSACTIONAL_ROUTE_STRATEGIC_HOLD_P3_007_TERMINAL_NON_PASS_PRODUCT_MILESTONES_NOT_ACCEPTED_P3_DELIVERY_25_STRICT_EXIT_ZERO_P4_HOLD_LONG_TERM_GOAL_ACTIVE",
+           "P3 strategic HOLD verification scope drift")
+    assert(hold.dig("phase_lifecycle", "p3") ==
+             "HOLD_INCOMPLETE_FINAL_TRANSACTIONAL_ROUTE_EXHAUSTED",
+           "P3 strategic HOLD lifecycle drift")
+    HOLD_STATE
+  end
+
   def validate_truth!(root:, truth:)
     root = Pathname.new(root).realpath
     decision, decision_identity = validate_decision!(root)
@@ -915,6 +1172,9 @@ module P3FinalTransactionalRouteValidation
     end
     if route["lifecycle_stage"] == "PRODUCT_TASK_TERMINAL_NON_PASS"
       return validate_terminal_task!(root, truth, decision, decision_identity, parent_truth, route)
+    end
+    if route["lifecycle_stage"] == "FOUNDER_RESOLVED_STRATEGIC_HOLD"
+      return validate_strategic_hold!(root, truth, decision, decision_identity, parent_truth, route)
     end
     expected_slots = slot_projection(decision)
     assert(route == {

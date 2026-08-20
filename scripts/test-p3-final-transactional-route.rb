@@ -9,7 +9,7 @@ require_relative "validate-p3-final-transactional-route"
 
 root = Pathname.new(__dir__).join("..").realpath
 truth_path = root.join("docs/aios/truth/project_state.yaml")
-terminal_truth = YAML.safe_load(
+hold_truth = YAML.safe_load(
   truth_path.binread,
   permitted_classes: [],
   permitted_symbols: [],
@@ -18,9 +18,29 @@ terminal_truth = YAML.safe_load(
 
 assertions = 0
 
-state = P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: terminal_truth)
+state = P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: hold_truth)
+raise "strategic HOLD route state drift" unless
+  state == P3FinalTransactionalRouteValidation::HOLD_STATE
+assertions += 1
+
+terminal_bytes, terminal_stderr, terminal_status = Open3.capture3(
+  "git", "show",
+  "#{P3FinalTransactionalRouteValidation::HOLD_ACTIVATION_PARENT.fetch('commit')}:docs/aios/truth/project_state.yaml",
+  chdir: root.to_s
+)
+raise "terminal Route Truth unavailable: #{terminal_stderr}" unless terminal_status.success?
+terminal_truth = YAML.safe_load(
+  terminal_bytes,
+  permitted_classes: [],
+  permitted_symbols: [],
+  aliases: false
+)
+terminal_state = P3FinalTransactionalRouteValidation.validate_truth!(
+  root: root,
+  truth: terminal_truth
+)
 raise "terminal route state drift" unless
-  state == P3FinalTransactionalRouteValidation::TERMINAL_STATE
+  terminal_state == P3FinalTransactionalRouteValidation::TERMINAL_STATE
 assertions += 1
 
 active_bytes, active_stderr, active_status = Open3.capture3(
@@ -265,6 +285,46 @@ terminal_mutations = {
 
 terminal_mutations.each do |label, mutation|
   expect_non_pass(root, terminal_truth, label, &mutation)
+  assertions += 1
+end
+
+hold_mutations = {
+  "HOLD decision identity cannot drift" => lambda do |candidate|
+    candidate["current_phase_route"]["founder_hold_decision"]["sha256"] = "0" * 64
+  end,
+  "HOLD cannot create a Task" => lambda do |candidate|
+    candidate["phase_boundary"]["task_creation_allowed"] = true
+  end,
+  "HOLD cannot unlock remaining capacity" => lambda do |candidate|
+    candidate["phase_execution_envelope"]["remaining_capacity_usable"] = true
+  end,
+  "HOLD cannot unlock evaluation" => lambda do |candidate|
+    candidate["phase_execution_envelope"]["ordered_slots"][1]["status"] =
+      "ELIGIBLE_NOT_ACTIVATED"
+  end,
+  "HOLD cannot accept strict Exit" => lambda do |candidate|
+    items = candidate["strict_phase_gate_ledger"]["phases"]["P3"]["required_items"]
+    items["RESUME_ISOLATION_PERMISSION_AND_TRACE_TESTS"]["status"] = "ACCEPTED"
+  end,
+  "HOLD cannot integrate rejected candidate" => lambda do |candidate|
+    candidate["phase_execution_envelope"]["task_ledger"].last["candidate"]["integrated"] = true
+  end,
+  "HOLD cannot enter P4" => lambda do |candidate|
+    candidate["project"]["p4_entry_status"] = "AUTHORIZED"
+  end,
+  "HOLD cannot close Long-term Goal" => lambda do |candidate|
+    candidate["goal"]["control_plane_status_observed"] = "COMPLETE"
+  end,
+  "HOLD cannot request ordinary Founder action" => lambda do |candidate|
+    candidate["founder_escalation_control"]["founder_decision_required"] = true
+  end,
+  "HOLD next action cannot drift" => lambda do |candidate|
+    candidate["claim_boundary"]["next_eligible_action"] = "MASTER_CREATE_TASK"
+  end
+}
+
+hold_mutations.each do |label, mutation|
+  expect_non_pass(root, hold_truth, label, &mutation)
   assertions += 1
 end
 

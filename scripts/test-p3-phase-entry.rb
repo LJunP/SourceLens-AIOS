@@ -45,8 +45,18 @@ current_truth = load_yaml(File.binread(TRUTH))
 assertions = 0
 
 expect_pass(
-  "exact terminal final transactional Task projection",
+  "exact Founder-resolved final transactional strategic HOLD projection",
   current_truth,
+  "P3_FINAL_TRANSACTIONAL_ROUTE_FOUNDER_RESOLVED_STRATEGIC_HOLD"
+)
+assertions += 1
+
+p3_007_terminal_truth = load_yaml(
+  git_show("9bfd116e96c353a5be2114da0aa09f75f439d064", "docs/aios/truth/project_state.yaml")
+)
+expect_pass(
+  "historical exact P3-007 terminal projection",
+  p3_007_terminal_truth,
   "P3_007_TERMINAL_TASK_GATE_NON_PASS"
 )
 assertions += 1

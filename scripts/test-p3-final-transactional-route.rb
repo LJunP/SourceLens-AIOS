@@ -20,7 +20,7 @@ assertions = 0
 
 state = P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: active_truth)
 raise "active route state drift" unless
-  state == P3FinalTransactionalRouteValidation::ACTIVE_PREACTIVATION_STATE
+  state == P3FinalTransactionalRouteValidation::ACTIVE_IMPLEMENTATION_STATE
 assertions += 1
 
 ready_bytes, ready_stderr, ready_status = Open3.capture3(
@@ -156,8 +156,8 @@ active_mutations = {
   "active reservation drift" => lambda do |candidate|
     candidate["phase_execution_envelope"]["reserved"]["slot_id"] = "OTHER"
   end,
-  "pending preactivation cannot authorize product write" => lambda do |candidate|
-    candidate["active_work"]["preactivation"]["product_source_write_authorized"] = true
+  "passed preactivation cannot revoke product write" => lambda do |candidate|
+    candidate["active_work"]["preactivation"]["product_source_write_authorized"] = false
   end,
   "active branch drift" => lambda do |candidate|
     candidate["active_work"]["task_branch"] = "codex/other"

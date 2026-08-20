@@ -418,7 +418,15 @@ module P3FinalTransactionalRouteValidation
     active = mapping(truth["active_work"], "P3-007 active work")
     preactivation = mapping(active["preactivation"], "P3-007 preactivation")
     preactivation_pass = preactivation["status"] == "PASS_PRODUCT_SOURCE_WRITE_AUTHORIZED"
-    unless preactivation_pass
+    if preactivation_pass
+      receipt_identity = validate_preactivation_receipt!(preactivation)
+      assert(preactivation == {
+        "status" => "PASS_PRODUCT_SOURCE_WRITE_AUTHORIZED",
+        "receipt" => receipt_identity,
+        "dependency_custody_root" => TASK_CUSTODY_ROOT,
+        "product_source_write_authorized" => true
+      }, "P3-007 passed preactivation projection drift")
+    else
       assert(preactivation == {
         "status" => "PENDING_BEFORE_PRODUCT_SOURCE_WRITE",
         "receipt" => nil,
@@ -426,7 +434,6 @@ module P3FinalTransactionalRouteValidation
         "product_source_write_authorized" => false
       }, "P3-007 pending preactivation projection drift")
     end
-    validate_preactivation_receipt!(preactivation) if preactivation_pass
 
     action = preactivation_pass ? IMPLEMENT_ACTION : PREACTIVATION_ACTION
     task_state = preactivation_pass ? "ACTIVE_IMPLEMENTATION" : "ACTIVE_PREACTIVATION_REQUIRED"

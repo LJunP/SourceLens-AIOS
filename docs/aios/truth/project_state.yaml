@@ -1,8 +1,8 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: '2026-08-20T08:09:52Z'
+last_verified_at: '2026-08-20T08:54:27Z'
 
-verification_scope: P3_007_ACTIVE_PREACTIVATION_REQUIRED_PRODUCT_SOURCE_WRITE_LOCKED_P3_DELIVERY_25_STRICT_EXIT_ZERO_P4_HOLD_LONG_TERM_GOAL_ACTIVE
+verification_scope: P3_007_ACTIVE_IMPLEMENTATION_AUTHORIZED_PRODUCT_MILESTONE_NOT_ACCEPTED_P3_DELIVERY_25_STRICT_EXIT_ZERO_P4_HOLD_LONG_TERM_GOAL_ACTIVE
 
 authority:
   founder: Human Founder
@@ -40,12 +40,13 @@ goal:
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
   current_task_authority: AIOS-P3-007_FINAL_TRANSACTIONAL_HOST_WORKFLOW_PERMISSION_ISOLATION_TRACE
   note: 'P3-007 is the sole active final transactional product Task under the
-    exact Founder two-slot route. It has consumed the product slot, but product
-    source writes remain locked until Task-local Maven dependency custody and
-    the closed sandbox execution envelope independently pass preactivation.
-    P3 delivery therefore remains 25% and strict Exit remains 0%; the evaluation-only
-    strict Exit audit is locked, P4 remains HOLD, the project is incomplete and
-    the Long-term Goal remains ACTIVE. P3-006 is TERMINAL_TASK_GATE_NON_PASS. Its exact repaired candidate
+    exact Founder two-slot route. Task-local Maven dependency custody and the
+    closed sandbox execution envelope independently passed preactivation, so
+    product-source writes are now authorized inside the exact Task envelope.
+    The product milestone is not yet accepted: P3 delivery remains 25% and strict
+    Exit remains 0%; the evaluation-only strict Exit audit is locked, P4 remains
+    HOLD, the project is incomplete and the Long-term Goal remains ACTIVE. P3-006
+    is TERMINAL_TASK_GATE_NON_PASS. Its exact repaired candidate
     3025a9bfe634bbe58776ed13942a15dc3afd9dc8 tree
     5cfa4fe182b880b2dbeaa02e747537e5401fccb2 passed the bound focused,
     deny-network full and strictly confined matrices, but final cycle-2 CTO,
@@ -1757,7 +1758,7 @@ project:
   p2_entry_status: AUTHORIZED
   p2_execution_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
   phase_execution_status: ACTIVE_FINAL_PRODUCT_TASK
-  current_route_execution_status: P3_FINAL_TRANSACTIONAL_HOST_WORKFLOW_PRODUCT_TASK_ACTIVE_PREACTIVATION
+  current_route_execution_status: P3_FINAL_TRANSACTIONAL_HOST_WORKFLOW_PRODUCT_TASK_ACTIVE_IMPLEMENTATION
   p3_entry_status: AUTHORIZED
   p3_execution_status: ACTIVE_INCOMPLETE_FINAL_PRODUCT_TASK
   p4_entry_status: HOLD_PENDING_STRICT_P3_EXIT_AND_SEPARATE_FOUNDER_PHASE_ENTRY
@@ -8807,7 +8808,7 @@ current_phase_route:
   route_id: P3_FINAL_TRANSACTIONAL_HOST_WORKFLOW_AND_STRICT_EXIT_AUDIT_ROUTE
   status: ACTIVE
   lifecycle_stage: PRODUCT_TASK_ACTIVE
-  execution_status: ACTIVE_PRODUCT_TASK_PREACTIVATION
+  execution_status: ACTIVE_PRODUCT_TASK_IMPLEMENTATION
   scheduling_status: ACTIVE_SINGLE_PRODUCT_TASK
   phase: P3
   phase_entry_status: AUTHORIZED
@@ -8817,7 +8818,7 @@ current_phase_route:
     sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
   founder_phase_route_decision_required: false
   founder_reserved_trigger_resolved: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
-  next_eligible_action: P3_007_COMPLETE_PREACTIVATION_BEFORE_PRODUCT_WRITE
+  next_eligible_action: P3_007_IMPLEMENT_AND_VERIFY_FINAL_TRANSACTIONAL_PRODUCT
   phase_execution_envelope_ref: phase_execution_envelope
   phase_entry_route_ref: historical_p3_phase_entry_route
   accepted_foundation_route_ref: historical_p3_001_phase_route
@@ -8875,7 +8876,7 @@ current_phase_route:
       max_review_cycles: 2
       required_product_source_diff: NON_EMPTY_TESTABLE
       third_product_attempt_allowed: false
-      status: ACTIVE_PREACTIVATION_REQUIRED
+      status: ACTIVE_IMPLEMENTATION
     - ordinal: 2
       slot_id: P3_FINAL_TRANSACTIONAL_HOST_WORKFLOW_SLOT_2_STRICT_EXIT_AUDIT
       kind: EVALUATION_ONLY
@@ -8911,7 +8912,7 @@ current_phase_route:
   additional_write_roots: []
   active_task:
     task_id: AIOS-P3-007_FINAL_TRANSACTIONAL_HOST_WORKFLOW_PERMISSION_ISOLATION_TRACE
-    status: ACTIVE_PREACTIVATION_REQUIRED
+    status: ACTIVE_IMPLEMENTATION
     slot_id: P3_FINAL_TRANSACTIONAL_HOST_WORKFLOW_SLOT_1_PRODUCT
     contract:
       path: docs/aios/tasks/P3-007_FINAL_TRANSACTIONAL_HOST_WORKFLOW_PERMISSION_ISOLATION_TRACE.yaml
@@ -12334,7 +12335,7 @@ phase_execution_envelope:
         sha256: 30be3b0fd7757bc218d8c0f72354ed049135a83316a582c31bada8bc3d2b082a
     - task_id: AIOS-P3-007_FINAL_TRANSACTIONAL_HOST_WORKFLOW_PERMISSION_ISOLATION_TRACE
       route_id: P3_FINAL_TRANSACTIONAL_HOST_WORKFLOW_AND_STRICT_EXIT_AUDIT_ROUTE
-      status: ACTIVE_PREACTIVATION_REQUIRED
+      status: ACTIVE_IMPLEMENTATION
       milestone: HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION_AND_FIXED_HANDLER_RESUME_ISOLATION_AND_COMPLETE_TRACE
       slot_id: P3_FINAL_TRANSACTIONAL_HOST_WORKFLOW_SLOT_1_PRODUCT
       budget:
@@ -12352,7 +12353,7 @@ phase_execution_envelope:
       activation_parent:
         commit: c94b15474ba22fd6213c4ff5683531d3202cc709
         tree: 67851678f97a36bda593aa186b9fdce6589b629f
-      preactivation_status: PENDING_BEFORE_PRODUCT_SOURCE_WRITE
+      preactivation_status: PASS_PRODUCT_SOURCE_WRITE_AUTHORIZED
   consumed:
     engineering_tasks: 7
     engineering_hours: 224
@@ -12360,7 +12361,7 @@ phase_execution_envelope:
   reserved:
     task_id: AIOS-P3-007_FINAL_TRANSACTIONAL_HOST_WORKFLOW_PERMISSION_ISOLATION_TRACE
     slot_id: P3_FINAL_TRANSACTIONAL_HOST_WORKFLOW_SLOT_1_PRODUCT
-    status: ACTIVE_PREACTIVATION_REQUIRED
+    status: ACTIVE_IMPLEMENTATION
     budget:
       engineering_tasks: 1
       engineering_hours: 32
@@ -12408,7 +12409,7 @@ phase_execution_envelope:
       max_review_cycles: 2
       required_product_source_diff: NON_EMPTY_TESTABLE
       third_product_attempt_allowed: false
-      status: ACTIVE_PREACTIVATION_REQUIRED
+      status: ACTIVE_IMPLEMENTATION
     - ordinal: 2
       slot_id: P3_FINAL_TRANSACTIONAL_HOST_WORKFLOW_SLOT_2_STRICT_EXIT_AUDIT
       kind: EVALUATION_ONLY
@@ -12909,7 +12910,7 @@ founder_escalation_control:
   source_event:
     kind: P3_FINAL_TRANSACTIONAL_PRODUCT_TASK_ACTIVE
     decision_id: AIOS-P3-007_FINAL_TRANSACTIONAL_HOST_WORKFLOW_PERMISSION_ISOLATION_TRACE
-    status: ACTIVE_PREACTIVATION_REQUIRED
+    status: ACTIVE_IMPLEMENTATION
   reserved_trigger:
     category: NONE
     evidence:
@@ -12931,7 +12932,7 @@ founder_escalation_control:
   phase_gate_status: INCOMPLETE
   founder_decision_required: false
   next_action_owner: MASTER_CEO_AGENT
-  next_eligible_action: P3_007_COMPLETE_PREACTIVATION_BEFORE_PRODUCT_WRITE
+  next_eligible_action: P3_007_IMPLEMENT_AND_VERIFY_FINAL_TRANSACTIONAL_PRODUCT
 
 historical_p2_053_phase_route:
   schema_version: "1.1"
@@ -18082,7 +18083,7 @@ phase_boundary:
   user_action_required: NONE
   phase_route_decision_required: false
   phase_route_user_action_required: NONE
-  next_eligible_action: P3_007_COMPLETE_PREACTIVATION_BEFORE_PRODUCT_WRITE
+  next_eligible_action: P3_007_IMPLEMENT_AND_VERIFY_FINAL_TRANSACTIONAL_PRODUCT
 
 p0_baseline:
   checkpoint_commit: ad6450e418d8f1b4fd5a789f913525a8dd8bdc10
@@ -24502,7 +24503,7 @@ historical_p2_079_terminal_active_work:
 
 active_work:
   current_task: AIOS-P3-007_FINAL_TRANSACTIONAL_HOST_WORKFLOW_PERMISSION_ISOLATION_TRACE
-  current_task_status: ACTIVE_PREACTIVATION_REQUIRED
+  current_task_status: ACTIVE_IMPLEMENTATION
   current_task_contract:
     path: docs/aios/tasks/P3-007_FINAL_TRANSACTIONAL_HOST_WORKFLOW_PERMISSION_ISOLATION_TRACE.yaml
     byte_length: 10889
@@ -24519,7 +24520,7 @@ active_work:
   authorization_id: 0e7dd486-694a-4dac-9281-30470efadbbc
   activation_parent_commit: c94b15474ba22fd6213c4ff5683531d3202cc709
   activation_parent_tree: 67851678f97a36bda593aa186b9fdce6589b629f
-  task_resource_state: ACTIVE_PREACTIVATION_REQUIRED
+  task_resource_state: ACTIVE_IMPLEMENTATION
   task_branch: codex/p3-007-final-transactional-host-workflow
   task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p3-007-final-transactional-host-workflow
   execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p3-final-transactional-host-workflow-20260820/task-p3-007
@@ -24577,11 +24578,14 @@ active_work:
       byte_length: 8302
       sha256: 30be3b0fd7757bc218d8c0f72354ed049135a83316a582c31bada8bc3d2b082a
   preactivation:
-    status: PENDING_BEFORE_PRODUCT_SOURCE_WRITE
+    status: PASS_PRODUCT_SOURCE_WRITE_AUTHORIZED
     receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-final-transactional-host-workflow-20260820/task-p3-007/preactivation/receipt/P3_007_PREACTIVATION_PASS_RECEIPT_V1.json
+      byte_length: 5473
+      sha256: 8fa1bad0a4c428f43c3d3e53506798252247b1c4d745fc5240209ba18c97db27
     dependency_custody_root: /Users/lijunpeng/Developer/.sourcelens-custody/p3-007-maven-repository
-    product_source_write_authorized: false
-  next_eligible_action: P3_007_COMPLETE_PREACTIVATION_BEFORE_PRODUCT_WRITE
+    product_source_write_authorized: true
+  next_eligible_action: P3_007_IMPLEMENT_AND_VERIFY_FINAL_TRANSACTIONAL_PRODUCT
 
 historical_p2_080_terminal_active_work:
   current_task: AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER
@@ -31246,7 +31250,7 @@ historical_lineages:
 phase_execution_claim:
   current_route_claim: P3_FINAL_TRANSACTIONAL_HOST_WORKFLOW_AND_STRICT_EXIT_AUDIT_ROUTE
   current_task_claim: AIOS-P3-007_FINAL_TRANSACTIONAL_HOST_WORKFLOW_PERMISSION_ISOLATION_TRACE
-  real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_007_ACTIVE_PREACTIVATION_REQUIRED_PRODUCT_NOT_WRITTEN_P3_DELIVERY_25_P3_EXIT_GATE_ZERO
+  real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_007_ACTIVE_IMPLEMENTATION_AUTHORIZED_PRODUCT_MILESTONE_NOT_ACCEPTED_P3_DELIVERY_25_P3_EXIT_GATE_ZERO
   product_capability_changed: false
   revised_research_exit_percent: 100
   original_capability_progress_percent: 0
@@ -31254,10 +31258,10 @@ phase_execution_claim:
   p3_exit_gate_progress_percent: 0
   p3_delivery_progress_percent: 25
   phase_local_allowed:
-  - P3_007_COMPLETE_PREACTIVATION_BEFORE_PRODUCT_WRITE
+  - P3_007_IMPLEMENT_AND_VERIFY_FINAL_TRANSACTIONAL_PRODUCT
   phase_local_frozen_capabilities:
   - P3_006_TERMINAL_NON_PASS_CANDIDATE_UNINTEGRATED
-  - P3_007_PRODUCT_SOURCE_WRITE_LOCKED_PENDING_PREACTIVATION
+  - P3_007_PRODUCT_MILESTONE_ACTIVE_NOT_ACCEPTED
   - INDEPENDENT_P3_EXIT_GATE_AUDIT_LOCKED_UNTIL_PRODUCT_SLOT_ACCEPTED
   historical_terminal_rules:
   - AIOS-P2-011 froze one exact nine-path deterministic graph-kernel candidate and
@@ -31582,7 +31586,7 @@ phase_execution_claim:
   remaining_capacity_usable: true
   held_read_allowed: false
   candidate_integration_allowed: false
-  next_eligible_action: P3_007_COMPLETE_PREACTIVATION_BEFORE_PRODUCT_WRITE
+  next_eligible_action: P3_007_IMPLEMENT_AND_VERIFY_FINAL_TRANSACTIONAL_PRODUCT
 
 p2_recovery_control:
   schema_version: p2-recovery-control/v2
@@ -31637,9 +31641,9 @@ claim_boundary:
   current_phase_route: P3_FINAL_TRANSACTIONAL_HOST_WORKFLOW_AND_STRICT_EXIT_AUDIT_ROUTE
   current_task: AIOS-P3-007_FINAL_TRANSACTIONAL_HOST_WORKFLOW_PERMISSION_ISOLATION_TRACE
   selected_task: AIOS-P3-007_FINAL_TRANSACTIONAL_HOST_WORKFLOW_PERMISSION_ISOLATION_TRACE
-  current_task_status: ACTIVE_PREACTIVATION_REQUIRED
-  next_eligible_action: P3_007_COMPLETE_PREACTIVATION_BEFORE_PRODUCT_WRITE
-  real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_007_ACTIVE_PREACTIVATION_REQUIRED_PRODUCT_NOT_WRITTEN_P3_DELIVERY_25_P3_EXIT_GATE_ZERO
+  current_task_status: ACTIVE_IMPLEMENTATION
+  next_eligible_action: P3_007_IMPLEMENT_AND_VERIFY_FINAL_TRANSACTIONAL_PRODUCT
+  real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_007_ACTIVE_IMPLEMENTATION_AUTHORIZED_PRODUCT_MILESTONE_NOT_ACCEPTED_P3_DELIVERY_25_P3_EXIT_GATE_ZERO
   p2_research_exit_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
   p2_research_exit_percent: 100
   p2_original_capability_gate_status: MISSING_NOT_ACCEPTED
@@ -31655,7 +31659,7 @@ claim_boundary:
     - DURABLE_STATE_AND_CHECKPOINT_RESUME
   p3_capability_milestone_status: FINAL_TRANSACTIONAL_HOST_WORKFLOW_PRODUCT_TASK_ACTIVE_NOT_ACCEPTED
   p3_final_transactional_route_decision_sha256: 7daa36b2d85a215861051845cf3712b209c1f711c351e1a092e01725b13d1c3d
-  p3_007_preactivation_status: PENDING_BEFORE_PRODUCT_SOURCE_WRITE
+  p3_007_preactivation_status: PASS_PRODUCT_SOURCE_WRITE_AUTHORIZED
   p3_host_owned_fixed_state_workflow_route_decision_sha256: e40c2703b66b70658ef7c1fce9da67a5283c7792fc5b596fe294f391ce7f82ff
   p3_006_status: TERMINAL_TASK_GATE_NON_PASS
   p3_006_candidate_commit: 3025a9bfe634bbe58776ed13942a15dc3afd9dc8

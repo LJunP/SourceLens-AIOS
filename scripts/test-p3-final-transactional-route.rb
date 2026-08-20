@@ -35,9 +35,15 @@ active_truth = YAML.safe_load(
   permitted_symbols: [],
   aliases: false
 )
-active_state = P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: active_truth)
-raise "active route state drift" unless
-  active_state == P3FinalTransactionalRouteValidation::ACTIVE_IMPLEMENTATION_STATE
+active_tree, tree_stderr, tree_status = Open3.capture3(
+  "git", "rev-parse", "#{P3FinalTransactionalRouteValidation::PREACTIVATION_COMMIT}^{tree}",
+  chdir: root.to_s
+)
+raise "active route tree unavailable: #{tree_stderr}" unless tree_status.success?
+raise "active route tree drift" unless
+  active_tree.strip == P3FinalTransactionalRouteValidation::PREACTIVATION_TREE &&
+  active_truth.dig("current_phase_route", "lifecycle_stage") == "PRODUCT_TASK_ACTIVE" &&
+  active_truth.dig("active_work", "current_task") == P3FinalTransactionalRouteValidation::TASK_ID
 assertions += 1
 
 ready_bytes, ready_stderr, ready_status = Open3.capture3(

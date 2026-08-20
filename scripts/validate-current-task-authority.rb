@@ -5380,7 +5380,8 @@ module CurrentTaskAuthority
     branch = git(root, "symbolic-ref", "--quiet", "--short", "HEAD").first.strip
     assert(branch == project["canonical_branch"], "canonical repository is not on configured canonical branch")
     route = hash(truth["current_phase_route"], "current_phase_route")
-    if route["schema_version"] == P3PhaseEntryValidation::HOST_OWNED_ROUTE_SCHEMA
+    if route["schema_version"] == "p3-host-owned-fixed-state-workflow-route/v1"
+      assert(defined?(P3PhaseEntryValidation), "P3 host-owned Route validator is unavailable")
       P3PhaseEntryValidation.validate_host_owned_repository_scope!(root)
     else
       assert(git(root, "status", "--porcelain=v1", "--untracked-files=all").first.empty?,
@@ -5548,8 +5549,8 @@ module CurrentTaskAuthority
         FounderDelegationContinuity::RESERVED_ROUTE_SCHEMA,
         FounderDelegationContinuity::STRATEGIC_HOLD_ROUTE_SCHEMA,
         FounderDelegationContinuity::RESEARCH_EXIT_ROUTE_SCHEMA,
-        P3PhaseEntryValidation::HOST_OWNED_ROUTE_SCHEMA,
-        P3FinalTransactionalRouteValidation::ROUTE_SCHEMA,
+        "p3-host-owned-fixed-state-workflow-route/v1",
+        "p3-final-transactional-host-workflow-and-strict-exit-route/v1",
         "p3-phase-entry-active/v1",
         "p3-zero-authority-action-envelope-route/v1",
         "p3-zero-authority-action-envelope-task-route/v1",
@@ -5585,11 +5586,12 @@ module CurrentTaskAuthority
              "P2 research exit requires exact capability-not-accepted closure and a separate P3 entry decision")
       return "P2_RESEARCH_EXIT_COMPLETE_P3_ENTRY_DECISION_REQUIRED"
     end
-    if route["schema_version"] == P3PhaseEntryValidation::HOST_OWNED_ROUTE_SCHEMA
+    if route["schema_version"] == "p3-host-owned-fixed-state-workflow-route/v1"
       assert(defined?(P3PhaseEntryValidation), "P3 host-owned Route validator is unavailable")
       return P3PhaseEntryValidation.validate!(root: root, truth: truth)
     end
-    if route["schema_version"] == P3FinalTransactionalRouteValidation::ROUTE_SCHEMA
+    if route["schema_version"] ==
+       "p3-final-transactional-host-workflow-and-strict-exit-route/v1"
       assert(defined?(P3FinalTransactionalRouteValidation),
              "P3 final transactional Route validator is unavailable")
       return P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: truth)

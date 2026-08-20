@@ -372,7 +372,10 @@ check_phase_predecessor_activation() {
       "p3-host-owned-fixed-state-workflow-route/v1",
       "p3-final-transactional-host-workflow-and-strict-exit-route/v1"
     ].include?(truth.dig("current_phase_route", "schema_version"))
-    expected_phase_route_authority = if host_owned_p3_route
+    current_v26_authority = phase_route_authority["version"] == "2.6"
+    abort "host-owned P3 Route requires Constitution v2.6 authority" if
+      host_owned_p3_route && !current_v26_authority
+    expected_phase_route_authority = if current_v26_authority
       {
         "path" => "docs/aios/STRATEGIC_CONSTITUTION.md",
         "version" => "2.6",

@@ -45,9 +45,9 @@ current_truth = load_yaml(File.binread(TRUTH))
 assertions = 0
 
 expect_pass(
-  "exact active final transactional Task projection",
+  "exact terminal final transactional Task projection",
   current_truth,
-  "P3_007_ACTIVE_PREACTIVATION_REQUIRED"
+  "P3_007_TERMINAL_TASK_GATE_NON_PASS"
 )
 assertions += 1
 

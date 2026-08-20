@@ -9,7 +9,7 @@ require_relative "validate-p3-final-transactional-route"
 
 root = Pathname.new(__dir__).join("..").realpath
 truth_path = root.join("docs/aios/truth/project_state.yaml")
-active_truth = YAML.safe_load(
+terminal_truth = YAML.safe_load(
   truth_path.binread,
   permitted_classes: [],
   permitted_symbols: [],
@@ -18,9 +18,26 @@ active_truth = YAML.safe_load(
 
 assertions = 0
 
-state = P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: active_truth)
+state = P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: terminal_truth)
+raise "terminal route state drift" unless
+  state == P3FinalTransactionalRouteValidation::TERMINAL_STATE
+assertions += 1
+
+active_bytes, active_stderr, active_status = Open3.capture3(
+  "git", "show",
+  "#{P3FinalTransactionalRouteValidation::PREACTIVATION_COMMIT}:docs/aios/truth/project_state.yaml",
+  chdir: root.to_s
+)
+raise "active Route Truth unavailable: #{active_stderr}" unless active_status.success?
+active_truth = YAML.safe_load(
+  active_bytes,
+  permitted_classes: [],
+  permitted_symbols: [],
+  aliases: false
+)
+active_state = P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: active_truth)
 raise "active route state drift" unless
-  state == P3FinalTransactionalRouteValidation::ACTIVE_IMPLEMENTATION_STATE
+  active_state == P3FinalTransactionalRouteValidation::ACTIVE_IMPLEMENTATION_STATE
 assertions += 1
 
 ready_bytes, ready_stderr, ready_status = Open3.capture3(
@@ -184,6 +201,64 @@ active_mutations = {
 
 active_mutations.each do |label, mutation|
   expect_non_pass(root, active_truth, label, &mutation)
+  assertions += 1
+end
+
+terminal_mutations = {
+  "terminal Task cannot be rewritten PASS" => lambda do |candidate|
+    candidate["current_phase_route"]["terminal_task"]["status"] = "ACCEPTED"
+  end,
+  "terminal security verdict cannot be rewritten" => lambda do |candidate|
+    candidate["current_phase_route"]["terminal_task"]["independent_review_verdicts"]["security"] = "PASS"
+  end,
+  "terminal candidate cannot be marked integrated" => lambda do |candidate|
+    candidate["phase_execution_envelope"]["task_ledger"].last["candidate"]["integrated"] = true
+  end,
+  "terminal receipt identity cannot drift" => lambda do |candidate|
+    candidate["current_phase_route"]["terminal_task"]["terminal_receipt"]["sha256"] = "0" * 64
+  end,
+  "terminal slot cannot receive delivery credit" => lambda do |candidate|
+    candidate["phase_execution_envelope"]["delivery_progress"]["percent"] = 75
+  end,
+  "terminal evaluation slot cannot unlock" => lambda do |candidate|
+    candidate["phase_execution_envelope"]["ordered_slots"][1]["status"] = "ELIGIBLE_NOT_ACTIVATED"
+  end,
+  "terminal reserved budget cannot reappear" => lambda do |candidate|
+    candidate["phase_execution_envelope"]["reserved"] = {"task_id" => "AIOS-P3-008_FAKE"}
+  end,
+  "terminal remaining capacity cannot become usable" => lambda do |candidate|
+    candidate["phase_execution_envelope"]["remaining_capacity_usable"] = true
+  end,
+  "terminal state cannot create a Task" => lambda do |candidate|
+    candidate["phase_boundary"]["task_creation_allowed"] = true
+  end,
+  "terminal state cannot erase reserved trigger" => lambda do |candidate|
+    candidate["founder_escalation_control"]["reserved_trigger"] = {
+      "category" => "NONE", "evidence" => nil
+    }
+  end,
+  "terminal active work cannot resurrect Task" => lambda do |candidate|
+    candidate["active_work"]["current_task"] = P3FinalTransactionalRouteValidation::TASK_ID
+  end,
+  "terminal phase cannot schedule implementation" => lambda do |candidate|
+    candidate["phase_execution_claim"]["phase_local_allowed"] = [
+      P3FinalTransactionalRouteValidation::IMPLEMENT_ACTION
+    ]
+  end,
+  "terminal claim cannot unlock evaluation" => lambda do |candidate|
+    candidate["claim_boundary"]["p3_007_evaluation_slot_unlocked"] = true
+  end,
+  "terminal strict Exit cannot be accepted" => lambda do |candidate|
+    items = candidate["strict_phase_gate_ledger"]["phases"]["P3"]["required_items"]
+    items["RESUME_ISOLATION_PERMISSION_AND_TRACE_TESTS"]["status"] = "ACCEPTED"
+  end,
+  "terminal Long-term Goal cannot close" => lambda do |candidate|
+    candidate["goal"]["control_plane_status_observed"] = "COMPLETE"
+  end
+}
+
+terminal_mutations.each do |label, mutation|
+  expect_non_pass(root, terminal_truth, label, &mutation)
   assertions += 1
 end
 

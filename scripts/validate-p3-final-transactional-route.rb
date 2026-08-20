@@ -74,6 +74,50 @@ module P3FinalTransactionalRouteValidation
   IMPLEMENT_ACTION = "P3_007_IMPLEMENT_AND_VERIFY_FINAL_TRANSACTIONAL_PRODUCT"
   ACTIVE_PREACTIVATION_STATE = "P3_007_ACTIVE_PREACTIVATION_REQUIRED"
   ACTIVE_IMPLEMENTATION_STATE = "P3_007_ACTIVE_IMPLEMENTATION_AUTHORIZED"
+  TERMINAL_STATE = "P3_007_TERMINAL_TASK_GATE_NON_PASS"
+  TERMINAL_ACTION = "FOUNDER_DECIDE_P3_STRATEGY_AFTER_FINAL_PRODUCT_SLOT_NON_PASS_OR_HOLD"
+  PREACTIVATION_COMMIT = "87637233f847d6fb666419b63bef70990056e58f"
+  PREACTIVATION_TREE = "e96dcae00a9da63cb327381fd25c40f9b384f7e0"
+  FINAL_CANDIDATE = {
+    "commit" => "8679ed31f9cee2612c34ee3be744ba3e43cfa747",
+    "tree" => "fcbe9038ca1d2d60735b46597db80863003eab71",
+    "integrated" => false
+  }.freeze
+  REPAIR_MANIFEST = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-final-transactional-host-workflow-20260820/task-p3-007/repair/candidate-2/P3_007_REPAIR_CANDIDATE_2_REVIEW_MANIFEST_V1.json",
+    "byte_length" => 36_195,
+    "sha256" => "08cc965ca10df27e70bccab2a74440503c6e4261ff7ebb10b7f2306151903589"
+  }.freeze
+  TERMINAL_RECEIPT = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-final-transactional-host-workflow-20260820/task-p3-007/terminal/P3_007_TERMINAL_FINAL_TRANSACTIONAL_PRODUCT_TASK_GATE_NON_PASS_RECEIPT_V1.json",
+    "byte_length" => 7849,
+    "sha256" => "7ba2ef033ca2ff3033d02c20c818d6c9754bb2d49aea467904c28de35e0c0bd9"
+  }.freeze
+  TERMINAL_BUNDLE = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-final-transactional-host-workflow-20260820/task-p3-007/terminal/P3_007_REJECTED_CANDIDATE_COMMITS_V1.bundle",
+    "byte_length" => 36_317,
+    "sha256" => "a7f93e1a1dea722b9362c5f0b2a3347c67f0a8fa8498991f5b2422b5a666b369"
+  }.freeze
+  CYCLE_2_REVIEWS = [
+    {
+      "role" => "CTO_AGENT", "verdict" => "PASS",
+      "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-final-transactional-host-workflow-20260820/task-p3-007/review/cycle-2/P3_007_CTO_CYCLE_2_PASS_REVIEW_V1.json",
+      "byte_length" => 3549,
+      "sha256" => "6e78243459debe76c4b543a4ee35427689f8e4c15371f2de13d1ba631b8e4025"
+    },
+    {
+      "role" => "SECURITY_AGENT", "verdict" => "NON_PASS",
+      "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-final-transactional-host-workflow-20260820/task-p3-007/review/cycle-2/P3_007_SECURITY_CYCLE_2_NON_PASS_REVIEW_V1.json",
+      "byte_length" => 4996,
+      "sha256" => "069bd6b8937a40cacdb274da6131930b6ad1824da8f942826ab5567dd84fcf38"
+    },
+    {
+      "role" => "QUALITY_EVALUATION_AGENT", "verdict" => "PASS",
+      "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-final-transactional-host-workflow-20260820/task-p3-007/review/cycle-2/P3_007_QUALITY_EVALUATION_CYCLE_2_PASS_REVIEW_V1.json",
+      "byte_length" => 4030,
+      "sha256" => "0d7811ebf82590a5ac3574c4c13fc979f2b4a603538a4dd0868c6d14c2429825"
+    }
+  ].freeze
   TASK_BUDGET = {
     "engineering_tasks" => 1,
     "engineering_hours" => 32,
@@ -587,6 +631,276 @@ module P3FinalTransactionalRouteValidation
     preactivation_pass ? ACTIVE_IMPLEMENTATION_STATE : ACTIVE_PREACTIVATION_STATE
   end
 
+  def load_preactivation_truth!(root)
+    assert(git!(root, "rev-parse", "#{PREACTIVATION_COMMIT}^{tree}") == PREACTIVATION_TREE,
+           "P3-007 preactivation Truth tree drift")
+    bytes, stderr, status = Open3.capture3(
+      "git", "show", "#{PREACTIVATION_COMMIT}:docs/aios/truth/project_state.yaml",
+      chdir: root.to_s
+    )
+    assert(status.success?, "P3-007 preactivation Truth unavailable: #{stderr.strip}")
+    truth = YAML.safe_load(bytes, permitted_classes: [], permitted_symbols: [], aliases: false)
+    assert(truth.dig("current_phase_route", "lifecycle_stage") == "PRODUCT_TASK_ACTIVE" &&
+           truth.dig("active_work", "current_task") == TASK_ID,
+           "P3-007 preactivation Truth is not the exact active Task state")
+    truth
+  end
+
+  def validate_terminal_evidence!(root)
+    read_identity!(REPAIR_MANIFEST, "P3-007 repair manifest", create_once: true)
+    review_receipts = CYCLE_2_REVIEWS.map do |review|
+      identity = review.slice("path", "byte_length", "sha256")
+      parsed = JSON.parse(read_identity!(identity, "P3-007 #{review.fetch('role')} cycle-2 review",
+                                         create_once: true))
+      assert(parsed["task_id"] == TASK_ID && parsed["review_cycle"] == 2 &&
+             parsed["role"] == review.fetch("role") &&
+             parsed["target_verdict"] == review.fetch("verdict") &&
+             parsed.dig("candidate", "commit") == FINAL_CANDIDATE.fetch("commit") &&
+             parsed.dig("candidate", "tree") == FINAL_CANDIDATE.fetch("tree") &&
+             parsed.dig("safety", "write_executed") == false &&
+             parsed.dig("safety", "network_executed") == false &&
+             parsed.dig("safety", "forbidden_lineage_touched") == false,
+             "P3-007 #{review.fetch('role')} cycle-2 review semantics drift")
+      review.slice("role", "verdict").merge(identity).merge("mode" => "0444")
+    end
+
+    receipt = JSON.parse(read_identity!(TERMINAL_RECEIPT, "P3-007 terminal receipt",
+                                        create_once: true))
+    assert(receipt["schema"] == "p3-task-terminal-receipt/v1" &&
+           receipt.dig("task", "task_id") == TASK_ID &&
+           receipt.dig("task", "route_id") == ROUTE_ID &&
+           receipt.dig("task", "slot_id") == TASK_SLOT_ID &&
+           receipt.dig("task", "contract") == TASK_CONTRACT &&
+           receipt.dig("task", "authority", "path") == TASK_AUTHORITY.fetch("path") &&
+           receipt.dig("task", "authority", "byte_length") == TASK_AUTHORITY.fetch("byte_length") &&
+           receipt.dig("task", "authority", "sha256") == TASK_AUTHORITY.fetch("sha256") &&
+           receipt.dig("candidate", "final_commit") == FINAL_CANDIDATE.fetch("commit") &&
+           receipt.dig("candidate", "final_tree") == FINAL_CANDIDATE.fetch("tree") &&
+           receipt.dig("candidate", "integrated") == false &&
+           receipt.dig("candidate", "manifest") == REPAIR_MANIFEST.merge("mode" => "0444") &&
+           receipt["cycle_2_independent_reviews"] == review_receipts &&
+           receipt.fetch("terminal_blockers").map { |finding| finding["finding_id"] } ==
+             ["P1-SEC-001", "P1-SEC-002"] &&
+           receipt.dig("terminal_result", "task_lifecycle") == "TERMINAL_TASK_GATE_NON_PASS" &&
+           receipt.dig("terminal_result", "candidate_integration_allowed") == false &&
+           receipt.dig("terminal_result", "strict_exit_audit_slot_unlocked") == false &&
+           receipt.dig("terminal_result", "p3_delivery_progress_percent") == 25 &&
+           receipt.dig("terminal_result", "p3_strict_exit_progress_percent") == 0 &&
+           receipt.dig("terminal_result", "long_term_goal_lifecycle") == "ACTIVE" &&
+           receipt.dig("no_auto_successor", "present") == true &&
+           receipt.fetch("external_effects").values.all? { |value| value == false },
+           "P3-007 terminal receipt semantics drift")
+
+    read_identity!(TERMINAL_BUNDLE, "P3-007 rejected candidate bundle", create_once: true)
+    bundle_heads, bundle_stderr, bundle_status = Open3.capture3(
+      "git", "bundle", "list-heads", TERMINAL_BUNDLE.fetch("path"), chdir: root.to_s
+    )
+    assert(bundle_status.success?, "P3-007 terminal bundle invalid: #{bundle_stderr.strip}")
+    assert(bundle_heads.lines.any? do |line|
+      line.start_with?(FINAL_CANDIDATE.fetch("commit")) && line.include?(TASK_BRANCH)
+    end, "P3-007 terminal bundle candidate ref drift")
+    assert(git!(root, "diff", "--name-only", PREACTIVATION_COMMIT, "HEAD", "--", "backend-spring").empty?,
+           "P3-007 rejected candidate product bytes entered canonical main")
+    [receipt, review_receipts]
+  rescue JSON::ParserError => e
+    raise P3FinalTransactionalRouteValidationError, "P3-007 terminal Evidence invalid: #{e.message}"
+  end
+
+  def validate_terminal_task!(root, truth, decision, decision_identity, parent_truth, route)
+    validate_task_inputs!(root)
+    active_truth = load_preactivation_truth!(root)
+    receipt, _review_receipts = validate_terminal_evidence!(root)
+    review_verdicts = {
+      "cto" => "PASS", "security" => "NON_PASS", "quality_evaluation" => "PASS"
+    }
+    terminal_task = {
+      "task_id" => TASK_ID,
+      "status" => "TERMINAL_TASK_GATE_NON_PASS",
+      "slot_id" => TASK_SLOT_ID,
+      "milestones" => MILESTONES.slice(1, 2),
+      "candidate" => FINAL_CANDIDATE,
+      "manifest" => REPAIR_MANIFEST,
+      "independent_review_verdicts" => review_verdicts,
+      "terminal_receipt" => TERMINAL_RECEIPT,
+      "accepted" => false,
+      "delivery_credit" => 0,
+      "strict_exit_credit" => 0
+    }
+    slots = deep_copy(active_truth.dig("current_phase_route", "ordered_slots"))
+    slots[0]["status"] = "TERMINAL_TASK_GATE_NON_PASS"
+    slots[1]["status"] = "LOCKED_PRODUCT_SLOT_NON_PASS_NO_REPLACEMENT"
+    expected_route = deep_copy(active_truth.fetch("current_phase_route"))
+    expected_route["status"] = "TERMINAL_PRODUCT_SLOT_NON_PASS"
+    expected_route["lifecycle_stage"] = "PRODUCT_TASK_TERMINAL_NON_PASS"
+    expected_route["execution_status"] = "TERMINAL_PRODUCT_TASK_GATE_NON_PASS"
+    expected_route["scheduling_status"] = "EVALUATION_SLOT_PERMANENTLY_LOCKED_NO_REPLACEMENT"
+    expected_route["founder_phase_route_decision_required"] = true
+    expected_route["next_eligible_action"] = TERMINAL_ACTION
+    expected_route["ordered_slots"] = slots
+    expected_route.delete("active_task")
+    expected_route["terminal_task"] = terminal_task
+    assert(route == expected_route, "P3-007 terminal Route projection drift")
+
+    expected_envelope = deep_copy(active_truth.fetch("phase_execution_envelope"))
+    expected_envelope["status"] = "HOLD_INCOMPLETE_FINAL_PRODUCT_SLOT_NON_PASS"
+    terminal_ledger_entry = deep_copy(expected_envelope.fetch("task_ledger").last)
+    terminal_ledger_entry["status"] = "TERMINAL_TASK_GATE_NON_PASS"
+    terminal_ledger_entry["candidate"] = FINAL_CANDIDATE
+    terminal_ledger_entry["candidate_manifest"] = REPAIR_MANIFEST
+    terminal_ledger_entry["independent_review_verdicts"] = review_verdicts
+    terminal_ledger_entry["terminal_receipt"] = TERMINAL_RECEIPT
+    expected_envelope["task_ledger"][-1] = terminal_ledger_entry
+    expected_envelope["reserved"] = {}
+    expected_envelope["remaining_capacity_usable"] = false
+    expected_envelope["remaining_capacity_lock_reason"] =
+      "PRODUCT_SLOT_NON_PASS_EVALUATION_SLOT_PERMANENTLY_LOCKED_BY_EXACT_FOUNDER_ROUTE"
+    expected_envelope["ordered_slots"] = slots
+    assert(truth["phase_execution_envelope"] == expected_envelope,
+           "P3-007 terminal Phase envelope drift")
+
+    expected_project = deep_copy(active_truth.fetch("project"))
+    expected_project["phase_execution_status"] = "HOLD_INCOMPLETE_FINAL_PRODUCT_SLOT_NON_PASS"
+    expected_project["current_route_execution_status"] =
+      "P3_FINAL_TRANSACTIONAL_HOST_WORKFLOW_ROUTE_TERMINAL_PRODUCT_SLOT_NON_PASS"
+    expected_project["p3_execution_status"] =
+      "HOLD_INCOMPLETE_FINAL_PRODUCT_SLOT_NON_PASS_EVALUATION_LOCKED"
+    assert(truth["project"] == expected_project, "P3-007 terminal project projection drift")
+    assert(truth.dig("strict_phase_gate_ledger", "phases", "P3") ==
+             active_truth.dig("strict_phase_gate_ledger", "phases", "P3"),
+           "P3-007 terminal state changed the strict P3 Exit Gate")
+
+    expected_boundary = deep_copy(active_truth.fetch("phase_boundary"))
+    expected_boundary["phase_execution_status"] = "HOLD_INCOMPLETE_FINAL_PRODUCT_SLOT_NON_PASS"
+    expected_boundary["task_creation_scope"] = "NONE_ROUTE_TERMINAL_PRODUCT_SLOT_NON_PASS"
+    expected_boundary["escalation_reason"] =
+      "P3_STRATEGY_CHANGE_REQUIRED_AFTER_FINAL_PRODUCT_SLOT_NON_PASS_LOCKED_THE_ONLY_REMAINING_EVALUATION_SLOT"
+    expected_boundary["user_action_required"] = "FOUNDER_STRATEGIC_DECISION"
+    expected_boundary["phase_route_decision_required"] = true
+    expected_boundary["phase_route_user_action_required"] = TERMINAL_ACTION
+    expected_boundary["next_eligible_action"] = TERMINAL_ACTION
+    assert(truth["phase_boundary"] == expected_boundary, "P3-007 terminal Phase boundary drift")
+
+    expected_control = deep_copy(active_truth.fetch("founder_escalation_control"))
+    expected_control["disposition"] = "FOUNDER_DECISION_REQUIRED"
+    expected_control["source_event"] = {
+      "kind" => "P3_FINAL_TRANSACTIONAL_PRODUCT_TASK_TERMINAL",
+      "decision_id" => TASK_ID,
+      "status" => "TERMINAL_TASK_GATE_NON_PASS_EVALUATION_SLOT_PERMANENTLY_LOCKED"
+    }
+    expected_control["reserved_trigger"] = {
+      "category" => "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE",
+      "evidence" => {
+        "terminal_receipt" => TERMINAL_RECEIPT,
+        "reason" => "CURRENT_EXACT_P3_ROUTE_HAS_NO_EXECUTABLE_SLOT_AFTER_FINAL_PRODUCT_SLOT_NON_PASS_AND_ANY_CONTINUATION_REQUIRES_A_FOUNDER_PHASE_STRATEGY_DECISION"
+      }
+    }
+    expected_control["founder_decision_required"] = true
+    expected_control["next_action_owner"] = "HUMAN_FOUNDER"
+    expected_control["next_eligible_action"] = TERMINAL_ACTION
+    assert(truth["founder_escalation_control"] == expected_control,
+           "P3-007 terminal Founder escalation projection drift")
+
+    expected_delegation = deep_copy(active_truth.fetch("phase_delegation"))
+    expected_delegation["status"] = "HOLD_P3_FINAL_TRANSACTIONAL_ROUTE_TERMINAL"
+    expected_delegation["claim_boundary"] =
+      "P3-001 remains ACCEPTED; P3-002 through P3-007 remain immutable terminal accounting with no failed candidate integrated. P3-007 consumed the final product slot and is TERMINAL_TASK_GATE_NON_PASS after both candidate generations, the sole same-Task repair and the second independent review cycle. Neither product milestone is accepted, the evaluation-only strict Exit audit is permanently locked by the exact Founder route, and there is no product successor or replacement. P3 is HOLD_INCOMPLETE at delivery 25% and strict Exit 0%; P4 remains HOLD and the Long-term Goal remains ACTIVE."
+    assert(truth["phase_delegation"] == expected_delegation,
+           "P3-007 terminal Phase delegation drift")
+
+    expected_active = deep_copy(active_truth.fetch("active_work"))
+    preactivation = expected_active.delete("preactivation")
+    expected_active["current_task"] = "NONE"
+    expected_active["current_task_status"] = "NONE"
+    expected_active["current_task_contract"] = nil
+    expected_active["current_task_contract_sha256"] = nil
+    expected_active["current_execution_authorization"] = nil
+    expected_active["current_execution_authorization_sha256"] = nil
+    expected_active["authority_record"] = nil
+    expected_active["execution_nonce"] = nil
+    expected_active["execution_nonce_status"] = "CONSUMED_TERMINAL_NON_PASS"
+    expected_active["authorization_id"] = nil
+    expected_active["task_resource_state"] = "NONE_ROUTE_TERMINAL_PRODUCT_SLOT_NON_PASS"
+    expected_active["task_branch"] = nil
+    expected_active["task_worktree"] = nil
+    expected_active["execution_evidence_root"] = nil
+    expected_active["dependency_custody_root"] = nil
+    expected_active["allowlisted_paths"] = []
+    expected_active["budget"] = TASK_BUDGET.transform_values { nil }
+    expected_active["roles"] = {
+      "owner" => "MASTER_CEO_AGENT", "worker" => nil, "quality_owner" => nil,
+      "independent_reviewers" => []
+    }
+    expected_active["founder_decision_required"] = true
+    expected_active["founder_decision_required_scope"] =
+      "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE"
+    expected_active["escalation_reason"] =
+      "CURRENT_EXACT_P3_ROUTE_HAS_NO_EXECUTABLE_SLOT_AFTER_FINAL_PRODUCT_SLOT_NON_PASS"
+    expected_active["user_action_required"] = "FOUNDER_STRATEGIC_DECISION"
+    expected_active["phase_route_decision_required"] = true
+    expected_active["phase_route_user_action_required"] = TERMINAL_ACTION
+    expected_active["last_completed_task"] = {
+      "task_id" => TASK_ID,
+      "status" => "TERMINAL_TASK_GATE_NON_PASS",
+      "candidate_commit" => FINAL_CANDIDATE.fetch("commit"),
+      "candidate_tree" => FINAL_CANDIDATE.fetch("tree"),
+      "candidate_integrated" => false,
+      "product_source_writes" => 16,
+      "independent_review_verdicts" => review_verdicts,
+      "frozen_blocker_count" => 2,
+      "terminal_receipt" => TERMINAL_RECEIPT
+    }
+    expected_active["last_task_preactivation"] = preactivation
+    expected_active["next_eligible_action"] = TERMINAL_ACTION
+    assert(truth["active_work"] == expected_active, "P3-007 terminal active-work drift")
+
+    expected_execution = deep_copy(active_truth.fetch("phase_execution_claim"))
+    expected_execution["current_task_claim"] = "NONE"
+    expected_execution["real_engineering_progress"] =
+      "P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_HOLD_INCOMPLETE_P3_007_TERMINAL_NON_PASS_PRODUCT_MILESTONES_NOT_ACCEPTED_P3_DELIVERY_25_P3_EXIT_GATE_ZERO"
+    expected_execution["phase_local_allowed"] = []
+    expected_execution["phase_local_frozen_capabilities"] = [
+      "P3_006_TERMINAL_NON_PASS_CANDIDATE_UNINTEGRATED",
+      "P3_007_TERMINAL_NON_PASS_CANDIDATE_UNINTEGRATED_PRODUCT_MILESTONES_NOT_ACCEPTED",
+      "INDEPENDENT_P3_EXIT_GATE_AUDIT_PERMANENTLY_LOCKED_PRODUCT_SLOT_NON_PASS"
+    ]
+    expected_execution["remaining_capacity_usable"] = false
+    expected_execution["next_eligible_action"] = TERMINAL_ACTION
+    assert(truth["phase_execution_claim"] == expected_execution,
+           "P3-007 terminal execution claim drift")
+
+    expected_claim = deep_copy(active_truth.fetch("claim_boundary"))
+    expected_claim["current_task"] = "NONE"
+    expected_claim["selected_task"] = "NONE_ROUTE_TERMINAL_PRODUCT_SLOT_NON_PASS"
+    expected_claim["current_task_status"] = "NONE"
+    expected_claim["next_eligible_action"] = TERMINAL_ACTION
+    expected_claim["real_engineering_progress"] = expected_execution["real_engineering_progress"]
+    expected_claim["p3_status"] = "HOLD_INCOMPLETE_FINAL_PRODUCT_SLOT_NON_PASS_EVALUATION_LOCKED"
+    expected_claim["p3_phase_envelope_status"] = "HOLD_INCOMPLETE_FINAL_PRODUCT_SLOT_NON_PASS"
+    expected_claim["p3_capability_milestone_status"] =
+      "FINAL_TRANSACTIONAL_HOST_WORKFLOW_PRODUCT_MILESTONES_NOT_ACCEPTED_P3_007_TERMINAL_NON_PASS"
+    expected_claim["p3_007_status"] = "TERMINAL_TASK_GATE_NON_PASS"
+    expected_claim["p3_007_candidate_commit"] = FINAL_CANDIDATE.fetch("commit")
+    expected_claim["p3_007_candidate_tree"] = FINAL_CANDIDATE.fetch("tree")
+    expected_claim["p3_007_candidate_integrated"] = false
+    expected_claim["p3_007_review_verdicts"] = review_verdicts
+    expected_claim["p3_007_terminal_blocker_count"] = 2
+    expected_claim["p3_007_terminal_receipt_sha256"] = TERMINAL_RECEIPT.fetch("sha256")
+    expected_claim["p3_007_delivery_credit"] = 0
+    expected_claim["p3_007_strict_exit_credit"] = 0
+    expected_claim["p3_007_evaluation_slot_unlocked"] = false
+    assert(truth["claim_boundary"] == expected_claim, "P3-007 terminal claim boundary drift")
+
+    goal = mapping(truth["goal"], "Long-term Goal")
+    assert(goal["control_plane_status_observed"] == "ACTIVE" &&
+           goal["current_task_authority"] == "NONE" &&
+           goal.fetch("note").include?(TERMINAL_RECEIPT.fetch("sha256")),
+           "P3-007 terminal state must preserve the active Long-term Goal")
+    assert(truth["verification_scope"] ==
+             "P3_007_TERMINAL_TASK_GATE_NON_PASS_PRODUCT_MILESTONES_NOT_ACCEPTED_EVALUATION_SLOT_PERMANENTLY_LOCKED_P3_HOLD_INCOMPLETE_DELIVERY_25_STRICT_EXIT_ZERO_P4_HOLD_LONG_TERM_GOAL_ACTIVE",
+           "P3-007 terminal verification scope drift")
+    TERMINAL_STATE
+  end
+
   def validate_truth!(root:, truth:)
     root = Pathname.new(root).realpath
     decision, decision_identity = validate_decision!(root)
@@ -598,6 +912,9 @@ module P3FinalTransactionalRouteValidation
     route = mapping(truth["current_phase_route"], "current final transactional P3 Route")
     if route["lifecycle_stage"] == "PRODUCT_TASK_ACTIVE"
       return validate_active_task!(root, truth, decision, decision_identity, parent_truth, route)
+    end
+    if route["lifecycle_stage"] == "PRODUCT_TASK_TERMINAL_NON_PASS"
+      return validate_terminal_task!(root, truth, decision, decision_identity, parent_truth, route)
     end
     expected_slots = slot_projection(decision)
     assert(route == {

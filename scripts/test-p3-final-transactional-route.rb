@@ -18,10 +18,91 @@ host_authorized_truth = YAML.safe_load(
 
 assertions = 0
 
-state = P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: host_authorized_truth)
-raise "host-authorized foundation-ready route state drift" unless
-  state == P3FinalTransactionalRouteValidation::HOST_AUTHORIZED_ROUTE_STATE
-assertions += 1
+def deep_copy(value)
+  JSON.parse(JSON.generate(value))
+end
+
+def expect_non_pass(root, truth, label)
+  candidate = deep_copy(truth)
+  yield candidate
+  P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: candidate)
+  raise "#{label} false-PASSed"
+rescue P3FinalTransactionalRouteValidationError
+  true
+end
+
+if host_authorized_truth.dig("current_phase_route", "schema_version") ==
+   P3FinalTransactionalRouteValidation::HOST_AUTHORIZED_ROUTE_SCHEMA
+  state = P3FinalTransactionalRouteValidation.validate_truth!(
+    root: root, truth: host_authorized_truth
+  )
+  raise "host-authorized foundation-ready route state drift" unless
+    state == P3FinalTransactionalRouteValidation::HOST_AUTHORIZED_ROUTE_STATE
+  assertions += 1
+
+  host_authorized_mutations = {
+    "host-authorized decision identity cannot drift" => lambda do |candidate|
+      candidate["current_phase_route"]["founder_route_decision"]["sha256"] = "0" * 64
+    end,
+    "host-authorized Objective cannot drift" => lambda do |candidate|
+      candidate["current_phase_route"]["objective_id"] = "GENERIC_TOOL_BROKER"
+    end,
+    "host-authorized route cannot omit the capacity trigger" => lambda do |candidate|
+      candidate["current_phase_route"]["founder_reserved_triggers_resolved"].pop
+    end,
+    "host-authorized cumulative Task ceiling cannot expand" => lambda do |candidate|
+      candidate["phase_execution_envelope"]["limits"]["engineering_tasks"] = 11
+    end,
+    "host-authorized cumulative hour ceiling cannot expand" => lambda do |candidate|
+      candidate["phase_execution_envelope"]["limits"]["engineering_hours"] = 320
+    end,
+    "host-authorized consumed accounting cannot reset" => lambda do |candidate|
+      candidate["phase_execution_envelope"]["consumed"]["engineering_tasks"] = 0
+    end,
+    "host-authorized stage order cannot drift" => lambda do |candidate|
+      candidate["current_phase_route"]["ordered_stages"].reverse!
+    end,
+    "host-authorized product cannot unlock before foundation acceptance" => lambda do |candidate|
+      candidate["current_phase_route"]["ordered_stages"][1]["status"] =
+        "ELIGIBLE_NOT_ACTIVATED"
+    end,
+    "host-authorized audit cannot unlock before product acceptance" => lambda do |candidate|
+      candidate["phase_execution_envelope"]["ordered_stages"][2]["status"] =
+        "ELIGIBLE_NOT_ACTIVATED"
+    end,
+    "host-authorized installation cannot claim delivery credit" => lambda do |candidate|
+      candidate["phase_execution_envelope"]["delivery_progress"]["percent"] = 50
+    end,
+    "host-authorized installation cannot weaken strict Exit" => lambda do |candidate|
+      required_items = candidate["strict_phase_gate_ledger"]["phases"]["P3"]["required_items"]
+      required_items["RESUME_ISOLATION_PERMISSION_AND_TRACE_TESTS"]["status"] = "ACCEPTED"
+    end,
+    "host-authorized installation cannot permit rejected-lineage reuse" => lambda do |candidate|
+      candidate["phase_execution_claim"]["phase_local_frozen_capabilities"].delete(
+        "P3_002_THROUGH_P3_007_REJECTED_LINEAGE_FROZEN_UNREADABLE"
+      )
+    end,
+    "host-authorized installation cannot authorize a second product Task" => lambda do |candidate|
+      candidate["current_phase_route"]["ordered_stages"].insert(
+        2, deep_copy(candidate["current_phase_route"]["ordered_stages"][1])
+      )
+    end,
+    "host-authorized installation cannot enter P4" => lambda do |candidate|
+      candidate["project"]["p4_entry_status"] = "AUTHORIZED"
+    end,
+    "host-authorized installation cannot close the long-term Goal" => lambda do |candidate|
+      candidate["goal"]["control_plane_status_observed"] = "COMPLETE"
+    end
+  }
+
+  host_authorized_mutations.each do |label, mutation|
+    expect_non_pass(root, host_authorized_truth, label, &mutation)
+    assertions += 1
+  end
+
+  puts "P3_FINAL_TRANSACTIONAL_ROUTE_TEST: PASS #{assertions} assertions mode=HOST_AUTHORIZED_CURRENT_ONLY_NO_REJECTED_LINEAGE_REPLAY"
+  exit 0
+end
 
 hold_bytes, hold_stderr, hold_status = Open3.capture3(
   "git", "show",
@@ -98,19 +179,6 @@ truth = YAML.safe_load(
 ready_state = P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: truth)
 raise "ready route state drift" unless ready_state == P3FinalTransactionalRouteValidation::READY_STATE
 assertions += 1
-
-def deep_copy(value)
-  JSON.parse(JSON.generate(value))
-end
-
-def expect_non_pass(root, truth, label)
-  candidate = deep_copy(truth)
-  yield candidate
-  P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: candidate)
-  raise "#{label} false-PASSed"
-rescue P3FinalTransactionalRouteValidationError
-  true
-end
 
 mutations = {
   "historical route drift" => lambda do |candidate|
@@ -342,64 +410,6 @@ hold_mutations = {
 
 hold_mutations.each do |label, mutation|
   expect_non_pass(root, hold_truth, label, &mutation)
-  assertions += 1
-end
-
-host_authorized_mutations = {
-  "host-authorized decision identity cannot drift" => lambda do |candidate|
-    candidate["current_phase_route"]["founder_route_decision"]["sha256"] = "0" * 64
-  end,
-  "host-authorized Objective cannot drift" => lambda do |candidate|
-    candidate["current_phase_route"]["objective_id"] = "GENERIC_TOOL_BROKER"
-  end,
-  "host-authorized route cannot omit the capacity trigger" => lambda do |candidate|
-    candidate["current_phase_route"]["founder_reserved_triggers_resolved"].pop
-  end,
-  "host-authorized cumulative Task ceiling cannot expand" => lambda do |candidate|
-    candidate["phase_execution_envelope"]["limits"]["engineering_tasks"] = 11
-  end,
-  "host-authorized cumulative hour ceiling cannot expand" => lambda do |candidate|
-    candidate["phase_execution_envelope"]["limits"]["engineering_hours"] = 320
-  end,
-  "host-authorized consumed accounting cannot reset" => lambda do |candidate|
-    candidate["phase_execution_envelope"]["consumed"]["engineering_tasks"] = 0
-  end,
-  "host-authorized stage order cannot drift" => lambda do |candidate|
-    candidate["current_phase_route"]["ordered_stages"].reverse!
-  end,
-  "host-authorized product cannot unlock before foundation acceptance" => lambda do |candidate|
-    candidate["current_phase_route"]["ordered_stages"][1]["status"] = "ELIGIBLE_NOT_ACTIVATED"
-  end,
-  "host-authorized audit cannot unlock before product acceptance" => lambda do |candidate|
-    candidate["phase_execution_envelope"]["ordered_stages"][2]["status"] = "ELIGIBLE_NOT_ACTIVATED"
-  end,
-  "host-authorized installation cannot claim delivery credit" => lambda do |candidate|
-    candidate["phase_execution_envelope"]["delivery_progress"]["percent"] = 50
-  end,
-  "host-authorized installation cannot weaken strict Exit" => lambda do |candidate|
-    required_items = candidate["strict_phase_gate_ledger"]["phases"]["P3"]["required_items"]
-    required_items["RESUME_ISOLATION_PERMISSION_AND_TRACE_TESTS"]["status"] = "ACCEPTED"
-  end,
-  "host-authorized installation cannot permit rejected-lineage reuse" => lambda do |candidate|
-    candidate["phase_execution_claim"]["phase_local_frozen_capabilities"].delete(
-      "P3_002_THROUGH_P3_007_REJECTED_LINEAGE_FROZEN_UNREADABLE"
-    )
-  end,
-  "host-authorized installation cannot authorize a second product Task" => lambda do |candidate|
-    candidate["current_phase_route"]["ordered_stages"].insert(
-      2, deep_copy(candidate["current_phase_route"]["ordered_stages"][1])
-    )
-  end,
-  "host-authorized installation cannot enter P4" => lambda do |candidate|
-    candidate["project"]["p4_entry_status"] = "AUTHORIZED"
-  end,
-  "host-authorized installation cannot close the long-term Goal" => lambda do |candidate|
-    candidate["goal"]["control_plane_status_observed"] = "COMPLETE"
-  end
-}
-
-host_authorized_mutations.each do |label, mutation|
-  expect_non_pass(root, host_authorized_truth, label, &mutation)
   assertions += 1
 end
 

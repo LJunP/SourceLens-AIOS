@@ -787,4 +787,175 @@ assert_reject!("material vague item", material.merge(
 ), material_draft, current_truth)
 assert_reject!("material bundles authorization", material.merge("authorization" => {}), material_draft, current_truth)
 
+p3_host_authorized_truth = truth_bytes(
+  disposition: "FOUNDER_RESERVED_DECISION_RESOLVED_P3_FINAL_TRANSACTIONAL_ROUTE_HOLD",
+  decision: false,
+  trigger: FounderActionHandoff::P3_HOST_AUTHORIZED_ROUTE_PRIMARY_TRIGGER,
+  owner: "NONE"
+)
+p3_host_authorized_body = File.binread(
+  "/Users/lijunpeng/.codex/attachments/9b6253cf-5837-4efc-8738-a9396f1bfaf2/pasted-text.txt"
+).force_encoding("UTF-8")
+abort "P3 host-authorized Founder body fixture encoding invalid" unless p3_host_authorized_body.valid_encoding?
+p3_host_authorized_profile = FounderActionHandoff::FOUNDER_NETWORK_OPERATION_PROFILES.fetch(
+  "P3_MINIMUM_TRUST_HOST_AUTHORIZED_TRANSACTIONAL_BOUNDARY_OBJECTIVE_AND_ROUTE_REBASELINE_AFTER_P3_007"
+)
+p3_host_authorized_risk = "该 Objective 取代 v2.6 中“Agent state-specific typed payload → fixed host transition handler”这一已经耗尽的具体实现假设，但不降低 Minimum Trust 或 strict Exit Gate。"
+p3_host_authorized_deny = "network、Provider、Secret；"
+p3_host_authorized = common.merge(
+  "canonical_identity" => {
+    "commit" => FounderActionHandoff::P3_HOST_AUTHORIZED_ROUTE_PREINSTALL_COMMIT,
+    "tree" => FounderActionHandoff::P3_HOST_AUTHORIZED_ROUTE_PREINSTALL_TREE,
+    "branch" => "main"
+  },
+  "truth_sha256" => Digest::SHA256.hexdigest(p3_host_authorized_truth),
+  "basis" => {
+    "facts" => ["P3 is in the exact Founder-resolved strategic HOLD after P3-007 terminal NON_PASS."],
+    "inferences" => [],
+    "unknowns" => []
+  },
+  "affected_scope" => "Only the P3 Objective, three-stage route and non-resettable Phase ceiling are rebaselined.",
+  "project_authorized" => "NO",
+  "app_filesystem_approval_required" => "NO",
+  "write_not_executed" => "YES",
+  "agent_continuation_after_action" => "Install Constitution v2.7, the exact route, Truth projection and validators with zero engineering progress, then activate only Stage 1 after independent installation audit PASS.",
+  "resume_condition" => "The complete exact Founder body is directly supplied and every bound current identity passes revalidation.",
+  "safe_default" => "Keep the preinstallation P3 strategic HOLD and create no Task.",
+  "state_preservation" => "P3-001 credit and P3-002 through P3-007 terminal facts remain unchanged; P4 stays HOLD and the same long-term Goal stays ACTIVE.",
+  "governing_artifact" => {
+    "path" => FounderActionHandoff::P3_HOST_AUTHORIZED_ROUTE_PREINSTALL_TRUTH_PATH,
+    "byte_length" => FounderActionHandoff::P3_HOST_AUTHORIZED_ROUTE_PREINSTALL_TRUTH_BYTES,
+    "sha256" => FounderActionHandoff::P3_HOST_AUTHORIZED_ROUTE_PREINSTALL_TRUTH_SHA256
+  },
+  "validator_evidence" => evidence(
+    disposition: "FOUNDER_RESERVED_DECISION_RESOLVED_P3_FINAL_TRANSACTIONAL_ROUTE_HOLD",
+    decision: false,
+    trigger: FounderActionHandoff::P3_HOST_AUTHORIZED_ROUTE_PRIMARY_TRIGGER,
+    owner: "NONE"
+  ),
+  "user_request_evidence" => {
+    "source" => "CURRENT_DIRECT_USER_MESSAGE",
+    "exact_token" => FounderActionHandoff::P3_HOST_AUTHORIZED_ROUTE_TOKEN,
+    "requested_external_effect" => "MATERIAL_SCOPE"
+  },
+  "action_class" => "AUTHORIZATION_REQUIRED",
+  "current_state" => "WAITING_USER",
+  "material" => nil,
+  "recommended_single_action" => "APPROVE_THE_EXACT_P3_HOST_AUTHORIZED_TRANSACTIONAL_REBASELINE",
+  "copy_ready_text_or_exact_steps" => p3_host_authorized_body,
+  "authorization" => {
+    "authority_layer" => "FOUNDER_RESERVED",
+    "reserved_trigger" => FounderActionHandoff::P3_HOST_AUTHORIZED_ROUTE_PRIMARY_TRIGGER,
+    "proposal_mode" => "CURRENT_RESOLVED_HOLD_REENTRY",
+    "recommended_decision" => "APPROVE",
+    "grant_scope" => {
+      "operations" => p3_host_authorized_profile.fetch("operations"),
+      "targets" => p3_host_authorized_profile.fetch("targets"),
+      "duration" => p3_host_authorized_profile.fetch("duration"),
+      "budget_or_external_effects" => p3_host_authorized_profile.fetch("budget_or_external_effects")
+    },
+    "risk_and_reversibility" => p3_host_authorized_risk,
+    "deny_or_defer_effect" => p3_host_authorized_deny,
+    "authorization_expiry_or_consumption_rule" => p3_host_authorized_profile.fetch("authorization_expiry_or_consumption_rule"),
+    "pass_lifecycle" => p3_host_authorized_profile.fetch("pass_lifecycle"),
+    "non_pass_lifecycle" => p3_host_authorized_profile.fetch("non_pass_lifecycle"),
+    "operation_type" => "P3_MINIMUM_TRUST_HOST_AUTHORIZED_TRANSACTIONAL_BOUNDARY_OBJECTIVE_AND_ROUTE_REBASELINE_AFTER_P3_007"
+  }
+)
+p3_host_authorized_draft = <<~MARKDOWN
+  USER_ACTION_REQUIRED: true
+  RECOMMENDED_SINGLE_ACTION: #{p3_host_authorized["recommended_single_action"]}
+  COPY_READY_TEXT_OR_EXACT_STEPS: #{p3_host_authorized_body}
+  AGENT_CONTINUATION_AFTER_ACTION: #{p3_host_authorized["agent_continuation_after_action"]}
+MARKDOWN
+assert_pass!("P3 host-authorized transactional rebaseline exact body", p3_host_authorized,
+             p3_host_authorized_draft, p3_host_authorized_truth)
+
+drift_commit = "0" * 40
+assert_reject!(
+  "P3 host-authorized transactional rebaseline rejects canonical identity drift",
+  p3_host_authorized.merge(
+    "canonical_identity" => p3_host_authorized.fetch("canonical_identity").merge("commit" => drift_commit)
+  ),
+  p3_host_authorized_draft,
+  p3_host_authorized_truth
+)
+
+old_p3_token = FounderActionHandoff::P3_ZERO_AUTHORITY_ROUTE_TOKEN
+old_token_body = p3_host_authorized_body.sub(FounderActionHandoff::P3_HOST_AUTHORIZED_ROUTE_TOKEN,
+                                               old_p3_token)
+assert_reject!(
+  "P3 host-authorized transactional rebaseline rejects old P3 token",
+  p3_host_authorized.merge("copy_ready_text_or_exact_steps" => old_token_body),
+  p3_host_authorized_draft.sub(p3_host_authorized_body, old_token_body),
+  p3_host_authorized_truth
+)
+
+expanded_budget = "将累计 P3 ceiling 精确扩为 11 engineering Tasks / 320 engineering hours / 80 calendar days；"
+expanded_budget_body = p3_host_authorized_body.sub(
+  FounderActionHandoff::P3_HOST_AUTHORIZED_ROUTE_BUDGET, expanded_budget
+)
+expanded_budget_package = p3_host_authorized.merge(
+  "copy_ready_text_or_exact_steps" => expanded_budget_body,
+  "authorization" => p3_host_authorized.fetch("authorization").merge(
+    "grant_scope" => p3_host_authorized.dig("authorization", "grant_scope").merge(
+      "budget_or_external_effects" => expanded_budget
+    )
+  )
+)
+assert_reject!(
+  "P3 host-authorized transactional rebaseline rejects expanded budget",
+  expanded_budget_package,
+  p3_host_authorized_draft.sub(p3_host_authorized_body, expanded_budget_body),
+  p3_host_authorized_truth
+)
+
+weakened_exit_body = p3_host_authorized_body.sub(
+  "P3 strict Exit Gate 精确保持 “Resume, isolation, permission and trace tests”；",
+  "P3 strict Exit Gate 允许按 delivery milestone 部分通过；"
+)
+assert_reject!(
+  "P3 host-authorized transactional rebaseline rejects weakened Exit Gate",
+  p3_host_authorized.merge("copy_ready_text_or_exact_steps" => weakened_exit_body),
+  p3_host_authorized_draft.sub(p3_host_authorized_body, weakened_exit_body),
+  p3_host_authorized_truth
+)
+
+lineage_reuse_body = p3_host_authorized_body.sub(
+  "永久冻结，不读取、不比较、不复制、不执行、不修复、不复用；",
+  "允许读取并复用 rejected lineage；"
+)
+assert_reject!(
+  "P3 host-authorized transactional rebaseline rejects rejected-lineage reuse",
+  p3_host_authorized.merge("copy_ready_text_or_exact_steps" => lineage_reuse_body),
+  p3_host_authorized_draft.sub(p3_host_authorized_body, lineage_reuse_body),
+  p3_host_authorized_truth
+)
+
+automatic_p4_body = p3_host_authorized_body.sub(
+  "不自动授权 P4。",
+  "自动授权 P4。"
+)
+assert_reject!(
+  "P3 host-authorized transactional rebaseline rejects automatic P4 entry",
+  p3_host_authorized.merge("copy_ready_text_or_exact_steps" => automatic_p4_body),
+  p3_host_authorized_draft.sub(p3_host_authorized_body, automatic_p4_body),
+  p3_host_authorized_truth
+)
+
+assert_reject!(
+  "P3 host-authorized transactional rebaseline rejects missing capacity trigger",
+  p3_host_authorized.merge(
+    "authorization" => p3_host_authorized.fetch("authorization").merge(
+      "grant_scope" => p3_host_authorized.dig("authorization", "grant_scope").merge(
+        "operations" => p3_host_authorized_profile.fetch("operations") - [
+          FounderActionHandoff::P3_HOST_AUTHORIZED_ROUTE_CAPACITY_TRIGGER
+        ]
+      )
+    )
+  ),
+  p3_host_authorized_draft,
+  p3_host_authorized_truth
+)
+
 puts "FOUNDER_ACTION_HANDOFF_TESTS: PASS assertions=#{ASSERTIONS[:count]}"

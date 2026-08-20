@@ -9,7 +9,7 @@ require_relative "validate-p3-final-transactional-route"
 
 root = Pathname.new(__dir__).join("..").realpath
 truth_path = root.join("docs/aios/truth/project_state.yaml")
-hold_truth = YAML.safe_load(
+host_authorized_truth = YAML.safe_load(
   truth_path.binread,
   permitted_classes: [],
   permitted_symbols: [],
@@ -18,9 +18,26 @@ hold_truth = YAML.safe_load(
 
 assertions = 0
 
-state = P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: hold_truth)
+state = P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: host_authorized_truth)
+raise "host-authorized foundation-ready route state drift" unless
+  state == P3FinalTransactionalRouteValidation::HOST_AUTHORIZED_ROUTE_STATE
+assertions += 1
+
+hold_bytes, hold_stderr, hold_status = Open3.capture3(
+  "git", "show",
+  "#{P3FinalTransactionalRouteValidation::HOST_AUTHORIZED_ACTIVATION_PARENT.fetch('commit')}:docs/aios/truth/project_state.yaml",
+  chdir: root.to_s
+)
+raise "strategic HOLD Truth unavailable: #{hold_stderr}" unless hold_status.success?
+hold_truth = YAML.safe_load(
+  hold_bytes,
+  permitted_classes: [],
+  permitted_symbols: [],
+  aliases: false
+)
+hold_state = P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: hold_truth)
 raise "strategic HOLD route state drift" unless
-  state == P3FinalTransactionalRouteValidation::HOLD_STATE
+  hold_state == P3FinalTransactionalRouteValidation::HOLD_STATE
 assertions += 1
 
 terminal_bytes, terminal_stderr, terminal_status = Open3.capture3(
@@ -325,6 +342,64 @@ hold_mutations = {
 
 hold_mutations.each do |label, mutation|
   expect_non_pass(root, hold_truth, label, &mutation)
+  assertions += 1
+end
+
+host_authorized_mutations = {
+  "host-authorized decision identity cannot drift" => lambda do |candidate|
+    candidate["current_phase_route"]["founder_route_decision"]["sha256"] = "0" * 64
+  end,
+  "host-authorized Objective cannot drift" => lambda do |candidate|
+    candidate["current_phase_route"]["objective_id"] = "GENERIC_TOOL_BROKER"
+  end,
+  "host-authorized route cannot omit the capacity trigger" => lambda do |candidate|
+    candidate["current_phase_route"]["founder_reserved_triggers_resolved"].pop
+  end,
+  "host-authorized cumulative Task ceiling cannot expand" => lambda do |candidate|
+    candidate["phase_execution_envelope"]["limits"]["engineering_tasks"] = 11
+  end,
+  "host-authorized cumulative hour ceiling cannot expand" => lambda do |candidate|
+    candidate["phase_execution_envelope"]["limits"]["engineering_hours"] = 320
+  end,
+  "host-authorized consumed accounting cannot reset" => lambda do |candidate|
+    candidate["phase_execution_envelope"]["consumed"]["engineering_tasks"] = 0
+  end,
+  "host-authorized stage order cannot drift" => lambda do |candidate|
+    candidate["current_phase_route"]["ordered_stages"].reverse!
+  end,
+  "host-authorized product cannot unlock before foundation acceptance" => lambda do |candidate|
+    candidate["current_phase_route"]["ordered_stages"][1]["status"] = "ELIGIBLE_NOT_ACTIVATED"
+  end,
+  "host-authorized audit cannot unlock before product acceptance" => lambda do |candidate|
+    candidate["phase_execution_envelope"]["ordered_stages"][2]["status"] = "ELIGIBLE_NOT_ACTIVATED"
+  end,
+  "host-authorized installation cannot claim delivery credit" => lambda do |candidate|
+    candidate["phase_execution_envelope"]["delivery_progress"]["percent"] = 50
+  end,
+  "host-authorized installation cannot weaken strict Exit" => lambda do |candidate|
+    required_items = candidate["strict_phase_gate_ledger"]["phases"]["P3"]["required_items"]
+    required_items["RESUME_ISOLATION_PERMISSION_AND_TRACE_TESTS"]["status"] = "ACCEPTED"
+  end,
+  "host-authorized installation cannot permit rejected-lineage reuse" => lambda do |candidate|
+    candidate["phase_execution_claim"]["phase_local_frozen_capabilities"].delete(
+      "P3_002_THROUGH_P3_007_REJECTED_LINEAGE_FROZEN_UNREADABLE"
+    )
+  end,
+  "host-authorized installation cannot authorize a second product Task" => lambda do |candidate|
+    candidate["current_phase_route"]["ordered_stages"].insert(
+      2, deep_copy(candidate["current_phase_route"]["ordered_stages"][1])
+    )
+  end,
+  "host-authorized installation cannot enter P4" => lambda do |candidate|
+    candidate["project"]["p4_entry_status"] = "AUTHORIZED"
+  end,
+  "host-authorized installation cannot close the long-term Goal" => lambda do |candidate|
+    candidate["goal"]["control_plane_status_observed"] = "COMPLETE"
+  end
+}
+
+host_authorized_mutations.each do |label, mutation|
+  expect_non_pass(root, host_authorized_truth, label, &mutation)
   assertions += 1
 end
 

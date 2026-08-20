@@ -5060,7 +5060,10 @@ module FounderDelegationContinuity
     route = mapping(truth["current_phase_route"], "current_phase_route")
     return validate_research_exit_state!(root, truth, policy, project, route) if
       route["schema_version"] == RESEARCH_EXIT_ROUTE_SCHEMA
-    if route["schema_version"] == P3FinalTransactionalRouteValidation::ROUTE_SCHEMA
+    if [
+      P3FinalTransactionalRouteValidation::ROUTE_SCHEMA,
+      P3FinalTransactionalRouteValidation::HOST_AUTHORIZED_ROUTE_SCHEMA
+    ].include?(route["schema_version"])
       assert(defined?(P3FinalTransactionalRouteValidation),
              "P3 final transactional Route validator is unavailable")
       state = P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: truth)
@@ -5069,11 +5072,14 @@ module FounderDelegationContinuity
         P3FinalTransactionalRouteValidation::ACTIVE_PREACTIVATION_STATE,
         P3FinalTransactionalRouteValidation::ACTIVE_IMPLEMENTATION_STATE,
         P3FinalTransactionalRouteValidation::TERMINAL_STATE,
-        P3FinalTransactionalRouteValidation::HOLD_STATE
+        P3FinalTransactionalRouteValidation::HOLD_STATE,
+        P3FinalTransactionalRouteValidation::HOST_AUTHORIZED_ROUTE_STATE
       ].include?(state),
              "P3 final transactional Route state drift")
       return P3FinalTransactionalRouteValidation::HOLD_DISPOSITION if
         state == P3FinalTransactionalRouteValidation::HOLD_STATE
+      return CONTINUE_DISPOSITION if
+        state == P3FinalTransactionalRouteValidation::HOST_AUTHORIZED_ROUTE_STATE
       return state == P3FinalTransactionalRouteValidation::TERMINAL_STATE ?
         FOUNDER_DISPOSITION : CONTINUE_DISPOSITION
     end

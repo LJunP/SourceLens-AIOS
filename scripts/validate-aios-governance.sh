@@ -372,10 +372,24 @@ check_phase_predecessor_activation() {
       "p3-host-owned-fixed-state-workflow-route/v1",
       "p3-final-transactional-host-workflow-and-strict-exit-route/v1"
     ].include?(truth.dig("current_phase_route", "schema_version"))
+    host_authorized_p3_route =
+      truth.dig("current_phase_route", "schema_version") ==
+        "p3-host-authorized-transactional-trust-boundary-rebaseline-route/v1"
     current_v26_authority = phase_route_authority["version"] == "2.6"
+    current_v27_authority = phase_route_authority["version"] == "2.7"
     abort "host-owned P3 Route requires Constitution v2.6 authority" if
       host_owned_p3_route && !current_v26_authority
-    expected_phase_route_authority = if current_v26_authority
+    abort "host-authorized P3 Route requires Constitution v2.7 authority" if
+      host_authorized_p3_route && !current_v27_authority
+    expected_phase_route_authority = if current_v27_authority
+      {
+        "path" => "docs/aios/STRATEGIC_CONSTITUTION.md",
+        "version" => "2.7",
+        "section" => "## 9. Phase route",
+        "section_byte_length" => 4047,
+        "section_sha256" => "c5bb58c7d745031f8e3f223dd0a84449e6039f575ad8fa67ade7ec922db8444a"
+      }
+    elsif current_v26_authority
       {
         "path" => "docs/aios/STRATEGIC_CONSTITUTION.md",
         "version" => "2.6",
@@ -2144,7 +2158,7 @@ fi
 if ruby -ryaml -e 'exit(YAML.load_file(ARGV[0]).dig("current_phase_route", "schema_version") == "p3-host-owned-fixed-state-workflow-route/v1" ? 0 : 1)' "$TRUTH_PATH"; then
   ruby "${ROOT_DIR}/scripts/validate-p3-phase-entry.rb"
 fi
-if ruby -ryaml -e 'exit(YAML.load_file(ARGV[0]).dig("current_phase_route", "schema_version") == "p3-final-transactional-host-workflow-and-strict-exit-route/v1" ? 0 : 1)' "$TRUTH_PATH"; then
+if ruby -ryaml -e 'exit(%w[p3-final-transactional-host-workflow-and-strict-exit-route/v1 p3-host-authorized-transactional-trust-boundary-rebaseline-route/v1].include?(YAML.load_file(ARGV[0]).dig("current_phase_route", "schema_version")) ? 0 : 1)' "$TRUTH_PATH"; then
   ruby "${ROOT_DIR}/scripts/validate-p3-final-transactional-route.rb"
   ruby "${ROOT_DIR}/scripts/test-p3-final-transactional-route.rb"
 fi

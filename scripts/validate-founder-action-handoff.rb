@@ -48,6 +48,7 @@ module FounderActionHandoff
     P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY
     P3_ONE_FINAL_HERMETIC_CAPABILITY_LEDGER_ROUTE_AFTER_PREACTIVATION_TERMINAL
     P3_ZERO_AUTHORITY_AGENT_AND_IMMUTABLE_TASK_ACTION_ENVELOPE_PHASE_ROUTE_RESEQUENCING
+    P3_MINIMUM_TRUST_HOST_AUTHORIZED_TRANSACTIONAL_BOUNDARY_OBJECTIVE_AND_ROUTE_REBASELINE_AFTER_P3_007
   ].freeze
   APP_OPERATION_TYPES = %w[APP_FILESYSTEM_BATCH_WRITE].freeze
   READ_ONLY_HTTPS_OPERATION = "一次全新、独立、clean-room V6 benchmark source acquisition"
@@ -248,6 +249,25 @@ module FounderActionHandoff
   P3_ZERO_AUTHORITY_ROUTE_CONSUMPTION = "Each activated Task consumes exactly one 32-hour/8-day slot; any Task NON_PASS preserves exact terminal Evidence, locks every dependent slot, returns P3 to HOLD under this route and creates no successor, replacement, remediation, V2/V3 or automatic Founder request"
   P3_ZERO_AUTHORITY_ROUTE_PASS = "Installation PASS sets P3 ACTIVE on this route with delivery 25 percent and strict Exit 0 percent and unlocks only slot 1; later milestone PASS effects follow the declared progress map; final Exit-audit PASS authorizes only Founder P3 Phase-Gate consideration and does not authorize P4 entry or project/Goal completion"
   P3_ZERO_AUTHORITY_ROUTE_NON_PASS = "Any installation identity, authority, predecessor or validator mismatch stops before Task creation and preserves the current HOLD; any Task NON_PASS consumes its slot, integrates no failed candidate, leaves P4 HOLD and Long-term Goal ACTIVE, and creates no automatic retry chain"
+  P3_HOST_AUTHORIZED_ROUTE_TOKEN = "AUTHORIZE_P3_MINIMUM_TRUST_HOST_AUTHORIZED_TRANSACTIONAL_BOUNDARY_OBJECTIVE_AND_ROUTE_REBASELINE_AFTER_P3_007_V1"
+  P3_HOST_AUTHORIZED_ROUTE_PRIMARY_TRIGGER = "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE"
+  P3_HOST_AUTHORIZED_ROUTE_CAPACITY_TRIGGER = "MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE"
+  P3_HOST_AUTHORIZED_ROUTE_OBJECTIVE = "Build and independently validate one host-authorized transactional Single-Agent workflow in which every Agent output is non-authoritative proposal data and can neither create authority nor directly supply an executable, handler, filesystem path, environment value, credential, network target, or unrestricted argument map. The trusted host alone derives each invocation from an immutable task/workflow specification, the accepted P3-001 checkpoint state, a compile-time closed action algebra, content-addressed host-custody handles, and positive state/resource/budget authorization; it durably records an invocation-local authorization decision and dispatch intent before any effect, executes only inside a disposable OS-enforced isolation boundary, and blocks checkpoint advancement until exactly one append-only terminal invocation trace has been durably accepted or crash-reconciled. A generic tool registry, dynamic grant, broker/interpreter, finite semantic denylist, best-effort post-effect audit, network/Provider/Secret/remote/production/public effect, or P4 entry is not permitted."
+  P3_HOST_AUTHORIZED_ROUTE_ORDER = "我批准创建 P3_HOST_AUTHORIZED_TRANSACTIONAL_TRUST_BOUNDARY_REBASELINE_ROUTE_V1，只允许以下三个顺序阶段："
+  P3_HOST_AUTHORIZED_ROUTE_LINEAGE = "P3-002 至 P3-007 的 branch、worktree、code、tests、evaluator、candidate 和 engineering Evidence 永久冻结，不读取、不比较、不复制、不执行、不修复、不复用；只允许使用 canonical Truth 与 terminal receipt 中的身份和 accounting。P3-001 的 accepted source、schema、migration 和 tests 保持只读 foundation；新实现只允许组合其已接受公开行为。若必须修改 P3-001 accepted semantics，新路线立即 NON_PASS 并返回 HOLD。"
+  P3_HOST_AUTHORIZED_ROUTE_TARGET = "本地 SourceLens canonical main；"
+  P3_HOST_AUTHORIZED_ROUTE_BUDGET = "将累计 P3 ceiling 精确扩为 10 engineering Tasks / 288 engineering hours / 72 calendar days；"
+  P3_HOST_AUTHORIZED_ROUTE_DURATION = "本授权从我直接回复本完整 exact text 且 Agent 再次核验全部 current identities PASS 时生效；在 strict P3 Exit 独立 ACCEPTED 并到达 Founder P3 Phase Gate、3 Tasks / 64 hours / 16 days 容量耗尽、出现 terminal safety condition、任一 identity 漂移或我明确撤销时终止。"
+  P3_HOST_AUTHORIZED_ROUTE_CONSUMPTION = "未激活容量不得重排、转赠或解释为后继授权。"
+  P3_HOST_AUTHORIZED_ROUTE_PASS = "安装 PASS 只安装 Constitution v2.7、route、Truth projection 和 validators，保持当前 25% delivery / 0% strict Exit，工程进度贡献为 0；"
+  P3_HOST_AUTHORIZED_ROUTE_NON_PASS = "安装 NON_PASS 保持当前 HOLD，不创建治理修复链。"
+  P3_HOST_AUTHORIZED_ROUTE_CANONICAL_BODY_BYTES = 12_584
+  P3_HOST_AUTHORIZED_ROUTE_CANONICAL_BODY_SHA256 = "34e8dd59ec03386623b61c381af3f1d7fa7fe44fde9402bcd39300f3f80b9a8f"
+  P3_HOST_AUTHORIZED_ROUTE_PREINSTALL_COMMIT = "8e4fd7037bd72c6c80561079ddd82991aac0f37e"
+  P3_HOST_AUTHORIZED_ROUTE_PREINSTALL_TREE = "79c4e0dc0960e152b780fb0690fd4f7a15d7b3d9"
+  P3_HOST_AUTHORIZED_ROUTE_PREINSTALL_TRUTH_PATH = "docs/aios/truth/project_state.yaml"
+  P3_HOST_AUTHORIZED_ROUTE_PREINSTALL_TRUTH_BYTES = 1_860_604
+  P3_HOST_AUTHORIZED_ROUTE_PREINSTALL_TRUTH_SHA256 = "ffb8ad7ea3474d3592e90b417c2aa5696ad54f4e6d6042fecc7da5d3e3ef2e47"
   FOUNDER_NETWORK_OPERATION_PROFILES = {
     "READ_ONLY_HTTPS_ACQUISITION" => {
       "operations" => [READ_ONLY_HTTPS_OPERATION, READ_ONLY_HTTPS_METHOD],
@@ -528,6 +548,22 @@ module FounderActionHandoff
       "authorization_expiry_or_consumption_rule" => P3_ZERO_AUTHORITY_ROUTE_CONSUMPTION,
       "pass_lifecycle" => P3_ZERO_AUTHORITY_ROUTE_PASS,
       "non_pass_lifecycle" => P3_ZERO_AUTHORITY_ROUTE_NON_PASS
+    },
+    "P3_MINIMUM_TRUST_HOST_AUTHORIZED_TRANSACTIONAL_BOUNDARY_OBJECTIVE_AND_ROUTE_REBASELINE_AFTER_P3_007" => {
+      "operations" => [
+        P3_HOST_AUTHORIZED_ROUTE_PRIMARY_TRIGGER,
+        P3_HOST_AUTHORIZED_ROUTE_CAPACITY_TRIGGER,
+        P3_HOST_AUTHORIZED_ROUTE_OBJECTIVE,
+        P3_HOST_AUTHORIZED_ROUTE_ORDER,
+        P3_HOST_AUTHORIZED_ROUTE_LINEAGE
+      ],
+      "targets" => [P3_HOST_AUTHORIZED_ROUTE_TARGET],
+      "budget_or_external_effects" => P3_HOST_AUTHORIZED_ROUTE_BUDGET,
+      "token" => P3_HOST_AUTHORIZED_ROUTE_TOKEN,
+      "duration" => P3_HOST_AUTHORIZED_ROUTE_DURATION,
+      "authorization_expiry_or_consumption_rule" => P3_HOST_AUTHORIZED_ROUTE_CONSUMPTION,
+      "pass_lifecycle" => P3_HOST_AUTHORIZED_ROUTE_PASS,
+      "non_pass_lifecycle" => P3_HOST_AUTHORIZED_ROUTE_NON_PASS
     }
   }.freeze
   PROSPECTIVE_PREFLIGHT = "PROSPECTIVE_RESERVED_EFFECT_REQUIRED_BY_EXACT_USER_REQUEST_AND_NOT_EXPRESSIBLE_BY_CURRENT_OFFLINE_ESCALATION_PROJECTION"
@@ -624,7 +660,7 @@ module FounderActionHandoff
     }
   end
 
-  def validate_common!(package, truth_bytes)
+  def validate_common!(package, truth_bytes, test_fixture: false)
     exact_object!(package, %w[
       schema_version action_class truth_sha256 current_state basis affected_scope
       project_authorized app_filesystem_approval_required write_not_executed
@@ -654,17 +690,36 @@ module FounderActionHandoff
     assert!(identity["commit"].is_a?(String) && identity["commit"].match?(COMMIT), "canonical commit invalid")
     assert!(identity["tree"].is_a?(String) && identity["tree"].match?(COMMIT), "canonical tree invalid")
     nonempty_string!(identity["branch"], "canonical branch")
-    assert!(identity == current_git_identity, "handoff canonical Git identity drift")
+    frozen_p3_fixture = test_fixture &&
+                        package.dig("authorization", "operation_type") ==
+                          "P3_MINIMUM_TRUST_HOST_AUTHORIZED_TRANSACTIONAL_BOUNDARY_OBJECTIVE_AND_ROUTE_REBASELINE_AFTER_P3_007"
+    if frozen_p3_fixture
+      assert!(identity == {
+        "commit" => P3_HOST_AUTHORIZED_ROUTE_PREINSTALL_COMMIT,
+        "tree" => P3_HOST_AUTHORIZED_ROUTE_PREINSTALL_TREE,
+        "branch" => "main"
+      }, "P3 host-authorized fixture canonical Git identity drift")
+    else
+      assert!(identity == current_git_identity, "handoff canonical Git identity drift")
+    end
 
     artifact = exact_object!(package["governing_artifact"], %w[path byte_length sha256], "governing artifact")
     nonempty_string!(artifact["path"], "governing artifact path")
     assert!(artifact["byte_length"].is_a?(Integer) && artifact["byte_length"].positive?, "governing artifact byte length invalid")
     assert!(artifact["sha256"].is_a?(String) && artifact["sha256"].match?(SHA256), "governing artifact SHA-256 invalid")
-    artifact_path = Pathname.new(ROOT).join(artifact["path"]).cleanpath
-    assert!(artifact_path.to_s.start_with?(ROOT + File::SEPARATOR), "governing artifact escaped repository")
-    artifact_bytes = read_regular!(artifact_path, "governing artifact")
-    assert!(artifact["byte_length"] == artifact_bytes.bytesize &&
-            artifact["sha256"] == Digest::SHA256.hexdigest(artifact_bytes), "governing artifact identity drift")
+    if frozen_p3_fixture
+      assert!(artifact == {
+        "path" => P3_HOST_AUTHORIZED_ROUTE_PREINSTALL_TRUTH_PATH,
+        "byte_length" => P3_HOST_AUTHORIZED_ROUTE_PREINSTALL_TRUTH_BYTES,
+        "sha256" => P3_HOST_AUTHORIZED_ROUTE_PREINSTALL_TRUTH_SHA256
+      }, "P3 host-authorized fixture governing artifact identity drift")
+    else
+      artifact_path = Pathname.new(ROOT).join(artifact["path"]).cleanpath
+      assert!(artifact_path.to_s.start_with?(ROOT + File::SEPARATOR), "governing artifact escaped repository")
+      artifact_bytes = read_regular!(artifact_path, "governing artifact")
+      assert!(artifact["byte_length"] == artifact_bytes.bytesize &&
+              artifact["sha256"] == Digest::SHA256.hexdigest(artifact_bytes), "governing artifact identity drift")
+    end
 
     request = package["user_request_evidence"]
     if request
@@ -803,7 +858,7 @@ module FounderActionHandoff
       pass_lifecycle non_pass_lifecycle operation_type
     ], "authorization handoff")
     assert!(%w[FOUNDER_RESERVED APP_FILESYSTEM].include?(authorization["authority_layer"]), "authority layer invalid")
-    assert!(%w[CURRENT_CANONICAL_TRIGGER PROSPECTIVE_RESERVED_EFFECT NOT_APPLICABLE].include?(authorization["proposal_mode"]), "authorization proposal mode invalid")
+    assert!(%w[CURRENT_CANONICAL_TRIGGER PROSPECTIVE_RESERVED_EFFECT CURRENT_RESOLVED_HOLD_REENTRY NOT_APPLICABLE].include?(authorization["proposal_mode"]), "authorization proposal mode invalid")
     assert!(RECOMMENDED_DECISIONS.include?(authorization["recommended_decision"]), "recommended decision invalid")
     grant = exact_object!(authorization["grant_scope"], %w[operations targets duration budget_or_external_effects], "authorization grant scope")
     %w[operations targets].each { |key| nonempty_strings!(grant[key], "authorization #{key}") }
@@ -824,7 +879,7 @@ module FounderActionHandoff
                 control.dig("reserved_trigger", "category") == authorization["reserved_trigger"] &&
                 evidence["prospective_preflight"].nil?,
                 "Founder package does not match the current canonical trigger")
-      else
+      elsif authorization["proposal_mode"] == "PROSPECTIVE_RESERVED_EFFECT"
         assert!(control["disposition"] == "NO_RESERVED_TRIGGER_CONTINUE_PHASE" &&
                 control["founder_decision_required"] == false &&
                 control.dig("reserved_trigger", "category") == "NONE" &&
@@ -843,6 +898,24 @@ module FounderActionHandoff
                 "prospective Founder request lacks the independently supplied direct-user request binding")
         assert!(authorization["reserved_trigger"] == evidence.dig("prospective_preflight", "requested_trigger"),
                 "prospective request may only cover an exact external-effect Founder trigger")
+      else
+        request = package["user_request_evidence"]
+        assert!(control["disposition"] ==
+                  "FOUNDER_RESERVED_DECISION_RESOLVED_P3_FINAL_TRANSACTIONAL_ROUTE_HOLD" &&
+                control["founder_decision_required"] == false &&
+                control.dig("reserved_trigger", "category") ==
+                  P3_HOST_AUTHORIZED_ROUTE_PRIMARY_TRIGGER &&
+                control["next_action_owner"] == "NONE" &&
+                evidence["prospective_preflight"].nil?,
+                "resolved P3 HOLD reentry does not match the exact canonical control state")
+        assert!(request.is_a?(Hash) && current_user_request_token == P3_HOST_AUTHORIZED_ROUTE_TOKEN &&
+                request["source"] == "CURRENT_DIRECT_USER_MESSAGE" &&
+                request["exact_token"] == current_user_request_token &&
+                request["requested_external_effect"] == "MATERIAL_SCOPE" &&
+                authorization["reserved_trigger"] == P3_HOST_AUTHORIZED_ROUTE_PRIMARY_TRIGGER &&
+                authorization["operation_type"] ==
+                  "P3_MINIMUM_TRUST_HOST_AUTHORIZED_TRANSACTIONAL_BOUNDARY_OBJECTIVE_AND_ROUTE_REBASELINE_AFTER_P3_007",
+                "resolved P3 HOLD reentry lacks the exact direct-Founder token and two-trigger profile")
       end
       assert!(FOUNDER_OPERATION_TYPES.include?(authorization["operation_type"]), "Founder operation type invalid")
       operation_type = authorization["operation_type"]
@@ -886,6 +959,7 @@ module FounderActionHandoff
         P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY
         P3_ONE_FINAL_HERMETIC_CAPABILITY_LEDGER_ROUTE_AFTER_PREACTIVATION_TERMINAL
         P3_ZERO_AUTHORITY_AGENT_AND_IMMUTABLE_TASK_ACTION_ENVELOPE_PHASE_ROUTE_RESEQUENCING
+        P3_MINIMUM_TRUST_HOST_AUTHORIZED_TRANSACTIONAL_BOUNDARY_OBJECTIVE_AND_ROUTE_REBASELINE_AFTER_P3_007
       ].include?(operation_type)
         proposed_tokens = package["copy_ready_text_or_exact_steps"].scan(FOUNDER_AUTHORIZATION_TOKEN)
         assert!(proposed_tokens == [profile["token"]],
@@ -895,6 +969,17 @@ module FounderActionHandoff
                 authorization["pass_lifecycle"] == profile["pass_lifecycle"] &&
                 authorization["non_pass_lifecycle"] == profile["non_pass_lifecycle"],
                 "milestone-curl lifecycle is not bound to the closed milestone profile")
+      end
+      if operation_type ==
+           "P3_MINIMUM_TRUST_HOST_AUTHORIZED_TRANSACTIONAL_BOUNDARY_OBJECTIVE_AND_ROUTE_REBASELINE_AFTER_P3_007"
+        body = package["copy_ready_text_or_exact_steps"].dup.force_encoding("UTF-8")
+        assert!(body.valid_encoding?, "P3 host-authorized rebaseline body encoding invalid")
+        canonical_body = body.gsub(/\r\n?/, "\n").sub(/\n*\z/, "") + "\n"
+        assert!(canonical_body.bytesize == P3_HOST_AUTHORIZED_ROUTE_CANONICAL_BODY_BYTES &&
+                Digest::SHA256.hexdigest(canonical_body) ==
+                  P3_HOST_AUTHORIZED_ROUTE_CANONICAL_BODY_SHA256 &&
+                canonical_body.lines.first.chomp == P3_HOST_AUTHORIZED_ROUTE_TOKEN,
+                "P3 host-authorized rebaseline exact Founder body identity drift")
       end
       assert!(grant["targets"] == profile["targets"] &&
               grant["budget_or_external_effects"] == profile["budget_or_external_effects"],
@@ -922,7 +1007,15 @@ module FounderActionHandoff
                                                       "authorization_expiry_or_consumption_rule",
                                                       "pass_lifecycle", "non_pass_lifecycle")
     required_copy_fragments.reject(&:empty?).each do |fragment|
-      assert!(copy.include?(fragment), "copy-ready authorization omitted a declared identity, scope, or lifecycle boundary")
+      present = copy.include?(fragment)
+      if authorization["operation_type"] ==
+           "P3_MINIMUM_TRUST_HOST_AUTHORIZED_TRANSACTIONAL_BOUNDARY_OBJECTIVE_AND_ROUTE_REBASELINE_AFTER_P3_007" &&
+         fragment == artifact["byte_length"].to_s
+        grouped_length = artifact["byte_length"].to_s.reverse.scan(/.{1,3}/).join(",").reverse
+        present ||= copy.include?(grouped_length)
+      end
+      assert!(present,
+              "copy-ready authorization omitted a declared identity, scope, or lifecycle boundary: #{fragment.inspect}")
     end
   end
 
@@ -1032,7 +1125,7 @@ module FounderActionHandoff
     assert!(truth.is_a?(Hash), "canonical Truth must be a mapping")
     package = parse_json!(read_regular!(package_path, "handoff package"), "handoff package")
     draft = read_regular!(draft_path, "handoff draft")
-    validate_common!(package, truth_bytes)
+    validate_common!(package, truth_bytes, test_fixture: test_fixture)
     validate_terminal_handoff!(package, terminal_receipt_path)
     validate_class!(package, truth, run_validator: !test_fixture,
                     current_user_request_token: current_user_request_token)

@@ -1,0 +1,209 @@
+schema_version: p3-final-transactional-product-task-contract/v1
+record_type: sourcelens_aios_p3_final_transactional_product_task_contract
+task_id: AIOS-P3-007_FINAL_TRANSACTIONAL_HOST_WORKFLOW_PERMISSION_ISOLATION_TRACE
+phase: P3
+route_id: P3_FINAL_TRANSACTIONAL_HOST_WORKFLOW_AND_STRICT_EXIT_AUDIT_ROUTE
+slot_id: P3_FINAL_TRANSACTIONAL_HOST_WORKFLOW_SLOT_1_PRODUCT
+status: AUTHORIZED_ACTIVE_PREACTIVATION_REQUIRED
+milestones:
+  - HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION
+  - FIXED_HANDLER_RESUME_ISOLATION_AND_COMPLETE_TRACE
+authority:
+  founder_route_decision:
+    decision_id: AUTHORIZE_P3_ONE_FINAL_INDEPENDENT_TRANSACTIONAL_HOST_WORKFLOW_AND_STRICT_EXIT_AUDIT_ROUTE_REBASELINE_V1
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-final-transactional-host-workflow-route-20260820/decision/FOUNDER_P3_ONE_FINAL_INDEPENDENT_TRANSACTIONAL_HOST_WORKFLOW_AND_STRICT_EXIT_AUDIT_ROUTE_REBASELINE_V1.json
+    byte_length: 12316
+    sha256: 7daa36b2d85a215861051845cf3712b209c1f711c351e1a092e01725b13d1c3d
+  phase_entry_decision:
+    decision_id: AUTHORIZE_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-phase-entry-20260819/decision/FOUNDER_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1.json
+    byte_length: 4105
+    sha256: 23a50848a182fa7865f8e96c78bd9001ff2db6682d8d19dc49a0d4768994d6eb
+  accepted_p3_001_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-durable-execution-checkpoint-resume-20260819/task-p3-001/terminal/P3_001_TASK_GATE_PASS_INTEGRATION_RECEIPT_V1.json
+    byte_length: 3055
+    sha256: e4ea37f8e6770b8dea9f8939f81444f01ebca4104a8dd2f84d33c4787180e2c0
+  activation_parent:
+    branch: main
+    commit: c94b15474ba22fd6213c4ff5683531d3202cc709
+    tree: 67851678f97a36bda593aa186b9fdce6589b629f
+    kind: FINAL_TRANSACTIONAL_PRODUCT_TASK_RESOURCE_CREATION_PARENT
+  task_selection_owner: MASTER_CEO_AGENT
+  task_authorization_owner: MASTER_CEO_AGENT
+  task_gate_owner: MASTER_CEO_AGENT
+  founder_gate: P3_EXIT_GATE_ONLY
+objective: >-
+  Deliver the smallest independently authored transactional host-owned finite-state
+  Single-Agent workflow that closes the remaining P3 structural permission,
+  fixed-handler resume isolation and complete observable trace outcomes without
+  introducing an Agent-authored plan, dynamic capability ledger, generic tool broker,
+  interpreter or open shell.
+why_now: >-
+  P3-001 has independently accepted durable checkpoint resume, while the final Founder
+  route makes exactly one clean-room product slot eligible and keeps the strict Exit
+  audit locked. The highest-value action is therefore one bounded vertical product
+  slice that makes persisted state authoritative before model invocation and makes
+  every effect transactionally fenced, ordered, replay-safe and traceable.
+architecture:
+  ownership: HOST_OWNED_FIXED_STATE
+  persisted_state_is_authoritative: true
+  sole_next_state_verified_before_model_invocation: true
+  model_allowed_state: AGENT_EFFECT_FREE_PAYLOAD
+  agent_output: CLOSED_STATE_SPECIFIC_TYPED_PAYLOAD_ONLY
+  agent_authority: ZERO_EFFECT_AUTHORITY
+  forbidden_runtime_primitives:
+    - AGENT_AUTHORED_PLAN
+    - AGENT_ACTION_REQUEST
+    - DYNAMIC_GRANT
+    - GENERIC_TOOL_REGISTRY
+    - TOOL_BROKER
+    - PLAN_INTERPRETER
+    - OPEN_SHELL
+  dispatch_protocol:
+    exclusive_intent_committed_before_handler: true
+    later_state_hidden_while_intent_in_flight: true
+    state_advance_after_handler_success_and_durable_result_only: true
+    failure_keeps_prior_state_and_durable_failure_trace: true
+    crash_reconciliation: EXACT_IDEMPOTENCY_IDENTITY_OR_FAIL_CLOSED_NO_EFFECT_REPLAY
+  complete_trace_events:
+    - REQUEST
+    - STATE_DECISION
+    - DISPATCH_INTENT
+    - HANDLER_START
+    - HANDLER_RESULT
+    - CHECKPOINT_COMMIT
+    - ROLLBACK_OR_FAILURE
+scope:
+  allowed_product_paths:
+    - backend-spring/src/main/java/com/sourcelens/module/agent
+    - backend-spring/src/main/java/com/sourcelens/module/execution
+    - backend-spring/src/main/resources/db/migration
+  allowed_test_paths:
+    - backend-spring/src/test/java/com/sourcelens
+  product_source_diff: NON_EMPTY_TESTABLE_REQUIRED
+  task_local_database_fixtures_only: true
+  existing_database_mutation_allowed: false
+  product_pom_mutation_allowed: false
+  network_allowed: false
+  provider_allowed: false
+  secret_allowed: false
+  remote_allowed: false
+  production_allowed: false
+  public_release_allowed: false
+task_resources:
+  branch: codex/p3-007-final-transactional-host-workflow
+  worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p3-007-final-transactional-host-workflow
+  evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p3-final-transactional-host-workflow-20260820/task-p3-007
+  dependency_custody_root: /Users/lijunpeng/Developer/.sourcelens-custody/p3-007-maven-repository
+  fresh_build_root: backend-spring/target
+  fresh_test_database_root: backend-spring/target/p3-007-test-databases
+preactivation:
+  required_before_product_source_write: true
+  task_identity_nonce_branch_worktree_contract_authority_bound: true
+  dependency_custody:
+    source_repository: /Users/lijunpeng/.m2/repository
+    materialization_mode: SANDBOXED_FILE_MIRROR_RESOLUTION_INTO_TASK_LOCAL_REPOSITORY
+    source_is_execution_repository: false
+    complete_resolved_inventory_required: true
+    inventory_fields:
+      - relative_path
+      - byte_length
+      - sha256
+      - mode
+      - non_symlink
+    immutable_after_freeze: true
+    formal_maven_repo_local_must_equal_custody_root: true
+    mutable_user_m2_formal_read_forbidden: true
+  execution_envelope:
+    exact_jdk17_identity_required: true
+    exact_maven_identity_required: true
+    exact_sandbox_exec_identity_required: true
+    closed_environment_required: true
+    explicit_global_settings_required: true
+    explicit_user_settings_required: true
+    maven_offline_required: true
+    sandbox_deny_network_required: true
+    sandbox_filesystem_write_confinement_required: true
+    exact_argv_cwd_exit_stdout_stderr_required: true
+    pre_and_post_write_inventory_required: true
+  fail_closed: true
+budget:
+  engineering_tasks: 1
+  engineering_hours: 32
+  calendar_days: 8
+  candidate_generations: 2
+  same_task_repairs: 1
+  review_cycles: 2
+acceptance:
+  product_correctness:
+    - The persisted sole-next state is checked before any model invocation, and the model is invoked only for AGENT_EFFECT_FREE_PAYLOAD.
+    - Agent output uses one closed state-specific typed schema and rejects unknown, dynamic action, tool, shell, credential, URL and every path-bearing field before workflow mutation or handler execution.
+    - A durable exclusive dispatch intent with an exact idempotency identity is committed before a fixed host handler begins.
+    - While an intent is in flight, no caller can expose or execute a later state; only successful handler result commitment exposes the next state.
+    - Handler failure, process loss and ambiguous persistence reconcile by exact idempotency identity or fail closed without replaying an effect, premature state advance or overtaking.
+    - Append-only hash-bound traces cover request, decision, intent, handler, result, checkpoint and rollback or failure for every accepted and denied path.
+  required_tests:
+    - Fresh H2 concurrency proves exactly one durable owner and exactly one fixed-handler effect.
+    - Handler failure and restart prove no premature state advance, no overtaking and no duplicate effect.
+    - Persisted complete and host-only prefixes prove zero model invocation before the sole-next-state check.
+    - Malformed, trailing-token, unknown-field, tool-like, credential-like, URL-like and relative, absolute, home, drive and UNC path-bearing payloads fail before state mutation and handler execution.
+    - Trace integrity tests detect missing, reordered, rewritten and cross-task events.
+    - The exact focused matrix and canonical full suite use only the frozen Task-local Maven custody under the closed sandbox envelope.
+    - The canonical full suite has zero failures and zero errors; only the existing environment-gated MySQL smoke test may be skipped.
+  evidence:
+    - Exact candidate commit, tree, parent and allowlisted changed-file inventory.
+    - Complete source-to-class identity for every changed production and test source.
+    - Dependency custody inventory and immutable post-run verification.
+    - Exact focused and full execution transactions, raw stdout, stderr, Surefire XML and pre/post-write inventories.
+    - Negative-fixture pre/post states and OS-observed network and filesystem confinement.
+    - Independent CTO, Security and Quality/Evaluation review receipts.
+  task_gate: ALL_ACCEPTANCE_AND_THREE_INDEPENDENT_REVIEWS_PASS
+review:
+  roles:
+    - CTO_AGENT
+    - SECURITY_AGENT
+    - QUALITY_EVALUATION_AGENT
+  implementer_may_accept_own_result: false
+  cycle_1_freezes_complete_p0_p1_set: true
+  cycle_2_only_closes_frozen_findings_or_rejects_regression: true
+lineage:
+  allowed_implementation_inputs:
+    - canonical main at activation parent
+    - Strategic Constitution v2.6
+    - accepted P3-001 product and receipt
+    - current canonical Truth
+    - current Founder final transactional route decision
+  p3_006_terminal_receipt_read_only_for_accounting_and_root_constraints: true
+  p3_006_candidate_branch_read: false
+  p3_006_candidate_bundle_read: false
+  p3_006_worktree_read: false
+  p3_006_product_code_read: false
+  p3_006_tests_read: false
+  p3_006_evaluator_read: false
+  p3_006_candidate_manifest_read: false
+  p3_006_engineering_evidence_read: false
+  p3_002_through_p3_005_rejected_engineering_lineage_read: false
+  rejected_lineage_compare_copy_reuse: false
+stop_conditions:
+  - Preactivation identity, custody, sandbox or closed-environment validation is NON_PASS.
+  - A write escapes the exact Task worktree, Task-local custody preparation root, fresh test roots or create-once Evidence root.
+  - Any network, Provider, Secret, remote, production or public capability becomes necessary.
+  - Existing databases, rejected engineering lineage or P4 scope would be touched.
+  - Candidate, same-Task repair or review-cycle budget is exhausted.
+  - A frozen P0 or P1 finding remains open after the sole repair.
+lifecycle:
+  pass: >-
+    Accept only HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION and
+    FIXED_HANDLER_RESUME_ISOLATION_AND_COMPLETE_TRACE, raise P3 delivery to 75%,
+    keep strict Exit at 0%, and unlock only the evaluation-only strict Exit audit.
+  non_pass: >-
+    Preserve exact terminal Evidence, integrate nothing, consume the product slot,
+    permanently lock the Exit audit, create no successor or replacement, keep P3
+    delivery at 25% and strict Exit at 0%, P4 HOLD and the Long-term Goal ACTIVE.
+external_effects:
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public: false

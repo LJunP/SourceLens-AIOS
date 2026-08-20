@@ -46,6 +46,42 @@ module P3FinalTransactionalRouteValidation
   STRICT_ITEMS = %w[RESUME ISOLATION PERMISSION COMPLETE_OBSERVABLE_TRACE].freeze
   READY_ACTION = "MASTER_ACTIVATE_ONE_FINAL_TRANSACTIONAL_HOST_WORKFLOW_PRODUCT_TASK"
   READY_STATE = "P3_FINAL_TRANSACTIONAL_ROUTE_PRODUCT_SLOT_ELIGIBLE"
+  TASK_ID = "AIOS-P3-007_FINAL_TRANSACTIONAL_HOST_WORKFLOW_PERMISSION_ISOLATION_TRACE"
+  TASK_SLOT_ID = "P3_FINAL_TRANSACTIONAL_HOST_WORKFLOW_SLOT_1_PRODUCT"
+  TASK_CONTRACT = {
+    "path" => "docs/aios/tasks/P3-007_FINAL_TRANSACTIONAL_HOST_WORKFLOW_PERMISSION_ISOLATION_TRACE.yaml",
+    "byte_length" => 10_889,
+    "sha256" => "7fd8a89571ea5982912b40bca613a09273da37dc6bb0011cd3a1a4a3511f7096"
+  }.freeze
+  TASK_AUTHORITY = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-final-transactional-host-workflow-20260820/task-p3-007/authority/P3_007_PHASE_DELEGATED_FINAL_TRANSACTIONAL_PRODUCT_TASK_AUTHORITY_V1.json",
+    "byte_length" => 6157,
+    "sha256" => "4280025239d81182c68dbbcf198eddf8aa3b34a0bce6714922e8081719d3efb5"
+  }.freeze
+  TASK_BRANCH = "codex/p3-007-final-transactional-host-workflow"
+  TASK_WORKTREE =
+    "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-007-final-transactional-host-workflow"
+  TASK_EVIDENCE_ROOT =
+    "/Users/lijunpeng/Developer/.sourcelens-audit/p3-final-transactional-host-workflow-20260820/task-p3-007"
+  TASK_CUSTODY_ROOT = "/Users/lijunpeng/Developer/.sourcelens-custody/p3-007-maven-repository"
+  TASK_AUTHORIZATION_ID = "0e7dd486-694a-4dac-9281-30470efadbbc"
+  TASK_EXECUTION_NONCE = "da3cff61-d23d-49fe-bea9-623786cf86e5"
+  TASK_ACTIVATION_PARENT = {
+    "commit" => "c94b15474ba22fd6213c4ff5683531d3202cc709",
+    "tree" => "67851678f97a36bda593aa186b9fdce6589b629f"
+  }.freeze
+  PREACTIVATION_ACTION = "P3_007_COMPLETE_PREACTIVATION_BEFORE_PRODUCT_WRITE"
+  IMPLEMENT_ACTION = "P3_007_IMPLEMENT_AND_VERIFY_FINAL_TRANSACTIONAL_PRODUCT"
+  ACTIVE_PREACTIVATION_STATE = "P3_007_ACTIVE_PREACTIVATION_REQUIRED"
+  ACTIVE_IMPLEMENTATION_STATE = "P3_007_ACTIVE_IMPLEMENTATION_AUTHORIZED"
+  TASK_BUDGET = {
+    "engineering_tasks" => 1,
+    "engineering_hours" => 32,
+    "calendar_days" => 8,
+    "candidate_generations" => 2,
+    "same_task_repairs" => 1,
+    "review_cycles" => 2
+  }.freeze
   LIMITS = {
     "engineering_tasks" => 8,
     "engineering_hours" => 256,
@@ -241,6 +277,309 @@ module P3FinalTransactionalRouteValidation
     end
   end
 
+  def deep_copy(value)
+    JSON.parse(JSON.generate(value))
+  end
+
+  def load_task_activation_truth!(root)
+    assert(git!(root, "rev-parse", "#{TASK_ACTIVATION_PARENT.fetch('commit')}^{tree}") ==
+             TASK_ACTIVATION_PARENT.fetch("tree"), "P3-007 activation-parent tree drift")
+    bytes, stderr, status = Open3.capture3(
+      "git", "show", "#{TASK_ACTIVATION_PARENT.fetch('commit')}:docs/aios/truth/project_state.yaml",
+      chdir: root.to_s
+    )
+    assert(status.success?, "P3-007 activation-parent Truth unavailable: #{stderr.strip}")
+    truth = YAML.safe_load(bytes, permitted_classes: [], permitted_symbols: [], aliases: false)
+    state = validate_truth!(root: root, truth: truth)
+    assert(state == READY_STATE, "P3-007 activation parent is not the accepted ready Route")
+    truth
+  end
+
+  def validate_task_inputs!(root)
+    contract_bytes = read_repo_identity!(root, TASK_CONTRACT, "P3-007 Contract")
+    contract = YAML.safe_load(
+      contract_bytes, permitted_classes: [], permitted_symbols: [], aliases: false
+    )
+    assert(contract["schema_version"] == "p3-final-transactional-product-task-contract/v1" &&
+           contract["record_type"] == "sourcelens_aios_p3_final_transactional_product_task_contract" &&
+           contract["task_id"] == TASK_ID && contract["phase"] == "P3" &&
+           contract["route_id"] == ROUTE_ID && contract["slot_id"] == TASK_SLOT_ID &&
+           contract["status"] == "AUTHORIZED_ACTIVE_PREACTIVATION_REQUIRED" &&
+           contract["milestones"] == [
+             "HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION",
+             "FIXED_HANDLER_RESUME_ISOLATION_AND_COMPLETE_TRACE"
+           ] && contract.dig("authority", "activation_parent") ==
+             TASK_ACTIVATION_PARENT.merge(
+               "branch" => "main",
+               "kind" => "FINAL_TRANSACTIONAL_PRODUCT_TASK_RESOURCE_CREATION_PARENT"
+             ) && contract["budget"] == TASK_BUDGET &&
+           contract.dig("architecture", "persisted_state_is_authoritative") == true &&
+           contract.dig("architecture", "sole_next_state_verified_before_model_invocation") == true &&
+           contract.dig("architecture", "model_allowed_state") == "AGENT_EFFECT_FREE_PAYLOAD" &&
+           contract.dig("architecture", "agent_authority") == "ZERO_EFFECT_AUTHORITY" &&
+           contract.dig("preactivation", "required_before_product_source_write") == true &&
+           contract.dig("preactivation", "dependency_custody", "formal_maven_repo_local_must_equal_custody_root") == true &&
+           contract.dig("preactivation", "dependency_custody", "mutable_user_m2_formal_read_forbidden") == true &&
+           contract.dig("task_resources", "branch") == TASK_BRANCH &&
+           contract.dig("task_resources", "worktree") == TASK_WORKTREE &&
+           contract.dig("task_resources", "evidence_root") == TASK_EVIDENCE_ROOT &&
+           contract.dig("task_resources", "dependency_custody_root") == TASK_CUSTODY_ROOT &&
+           contract["external_effects"] == FALSE_EFFECTS,
+           "P3-007 Contract semantics drift")
+
+    authority_bytes = read_identity!(TASK_AUTHORITY, "P3-007 authority", create_once: true)
+    authority = JSON.parse(authority_bytes)
+    exact_keys(authority, %w[
+      schema_version record_type authorization_id execution_nonce issued_at phase task_id route_id
+      slot_id milestones authority_basis contract branch worktree evidence_root dependency_custody_root
+      fresh_test_database_root allowlisted_product_paths allowlisted_test_paths preactivation_gate
+      execution_envelope budget roles activation_guards external_effects task_gate_owner
+      founder_decision_required pass_lifecycle non_pass_lifecycle next_eligible_action
+    ], "P3-007 authority")
+    assert(authority["schema_version"] == "p3-final-transactional-product-task-authority/v1" &&
+           authority["record_type"] ==
+             "sourcelens_aios_phase_delegated_final_transactional_product_task_authority" &&
+           authority["authorization_id"] == TASK_AUTHORIZATION_ID &&
+           authority["execution_nonce"] == TASK_EXECUTION_NONCE && authority["phase"] == "P3" &&
+           authority["task_id"] == TASK_ID && authority["route_id"] == ROUTE_ID &&
+           authority["slot_id"] == TASK_SLOT_ID && authority["contract"] == TASK_CONTRACT &&
+           authority["branch"] == TASK_BRANCH && authority["worktree"] == TASK_WORKTREE &&
+           authority["evidence_root"] == TASK_EVIDENCE_ROOT &&
+           authority["dependency_custody_root"] == TASK_CUSTODY_ROOT &&
+           authority["budget"] == TASK_BUDGET &&
+           authority.dig("authority_basis", "activation_parent") ==
+             TASK_ACTIVATION_PARENT.merge(
+               "branch" => "main",
+               "kind" => "FINAL_TRANSACTIONAL_PRODUCT_TASK_RESOURCE_CREATION_PARENT"
+             ) && authority.dig("preactivation_gate", "status") ==
+             "PENDING_BEFORE_PRODUCT_SOURCE_WRITE" &&
+           authority.dig("preactivation_gate", "formal_user_m2_read_allowed") == false &&
+           authority.dig("preactivation_gate", "product_source_write_allowed_before_pass") == false &&
+           authority.dig("execution_envelope", "maven_repo_local") == TASK_CUSTODY_ROOT &&
+           authority.dig("execution_envelope", "mutable_user_m2_formal_read") == false &&
+           authority.dig("activation_guards", "p3_006_terminal_receipt_only") == true &&
+           authority.dig("activation_guards", "p3_006_rejected_engineering_lineage_read") == false &&
+           authority.dig("activation_guards", "p3_002_through_p3_005_rejected_engineering_lineage_read") == false &&
+           authority["external_effects"] == FALSE_EFFECTS &&
+           authority["founder_decision_required"] == false,
+           "P3-007 authority semantics drift")
+    [contract, authority]
+  rescue JSON::ParserError, Psych::SyntaxError => e
+    raise P3FinalTransactionalRouteValidationError, "P3-007 Task input invalid: #{e.message}"
+  end
+
+  def validate_task_worktree!(root)
+    worktree = Pathname.new(TASK_WORKTREE)
+    assert(worktree.directory? && !worktree.symlink?, "P3-007 worktree unavailable")
+    branch = git!(worktree, "symbolic-ref", "--quiet", "--short", "HEAD")
+    assert(branch == TASK_BRANCH, "P3-007 worktree branch drift")
+    _out, _err, status = Open3.capture3(
+      "git", "merge-base", "--is-ancestor", TASK_ACTIVATION_PARENT.fetch("commit"), "HEAD",
+      chdir: worktree.to_s
+    )
+    assert(status.success?, "P3-007 worktree does not descend from activation parent")
+    canonical_branch = git!(root, "symbolic-ref", "--quiet", "--short", "HEAD")
+    assert(canonical_branch == "main", "canonical repository is not on main")
+  end
+
+  def validate_preactivation_receipt!(preactivation)
+    receipt_identity = exact_keys(
+      preactivation.fetch("receipt"), %w[path byte_length sha256], "P3-007 preactivation receipt"
+    )
+    receipt_bytes = read_identity!(receipt_identity, "P3-007 preactivation receipt", create_once: true)
+    receipt = JSON.parse(receipt_bytes)
+    assert(receipt["schema_version"] == "p3-007-preactivation-pass-receipt/v1" &&
+           receipt["record_type"] == "sourcelens_aios_p3_task_preactivation_pass_receipt" &&
+           receipt["task_id"] == TASK_ID && receipt["authorization_id"] == TASK_AUTHORIZATION_ID &&
+           receipt["execution_nonce"] == TASK_EXECUTION_NONCE &&
+           receipt["contract"] == TASK_CONTRACT && receipt["authority"] == TASK_AUTHORITY &&
+           receipt.dig("worktree", "path") == TASK_WORKTREE &&
+           receipt.dig("worktree", "branch") == TASK_BRANCH &&
+           receipt.dig("dependency_custody", "root") == TASK_CUSTODY_ROOT &&
+           receipt.dig("dependency_custody", "status") == "PASS_IMMUTABLE_COMPLETE_INVENTORY" &&
+           receipt.dig("execution_envelope", "status") == "PASS" &&
+           receipt.dig("sandbox_preflight", "status") == "PASS" &&
+           receipt["external_effects"] == FALSE_EFFECTS && receipt["result"] == "PASS" &&
+           receipt["product_source_write_authorized"] == true,
+           "P3-007 preactivation receipt semantics drift")
+    receipt_identity
+  rescue JSON::ParserError => e
+    raise P3FinalTransactionalRouteValidationError, "P3-007 preactivation receipt invalid: #{e.message}"
+  end
+
+  def validate_active_task!(root, truth, decision, decision_identity, parent_truth, route)
+    task_parent_truth = load_task_activation_truth!(root)
+    assert(truth["historical_p3_final_transactional_route_ready"] ==
+             task_parent_truth["current_phase_route"],
+           "P3 final transactional ready Route historical copy drift")
+    validate_task_inputs!(root)
+    validate_task_worktree!(root)
+
+    active = mapping(truth["active_work"], "P3-007 active work")
+    preactivation = mapping(active["preactivation"], "P3-007 preactivation")
+    preactivation_pass = preactivation["status"] == "PASS_PRODUCT_SOURCE_WRITE_AUTHORIZED"
+    unless preactivation_pass
+      assert(preactivation == {
+        "status" => "PENDING_BEFORE_PRODUCT_SOURCE_WRITE",
+        "receipt" => nil,
+        "dependency_custody_root" => TASK_CUSTODY_ROOT,
+        "product_source_write_authorized" => false
+      }, "P3-007 pending preactivation projection drift")
+    end
+    validate_preactivation_receipt!(preactivation) if preactivation_pass
+
+    action = preactivation_pass ? IMPLEMENT_ACTION : PREACTIVATION_ACTION
+    task_state = preactivation_pass ? "ACTIVE_IMPLEMENTATION" : "ACTIVE_PREACTIVATION_REQUIRED"
+    route_execution = preactivation_pass ?
+      "ACTIVE_PRODUCT_TASK_IMPLEMENTATION" : "ACTIVE_PRODUCT_TASK_PREACTIVATION"
+    project_route_execution = preactivation_pass ?
+      "P3_FINAL_TRANSACTIONAL_HOST_WORKFLOW_PRODUCT_TASK_ACTIVE_IMPLEMENTATION" :
+      "P3_FINAL_TRANSACTIONAL_HOST_WORKFLOW_PRODUCT_TASK_ACTIVE_PREACTIVATION"
+
+    slots = slot_projection(decision)
+    slots[0]["status"] = task_state
+    expected_route = deep_copy(task_parent_truth.fetch("current_phase_route"))
+    expected_route["lifecycle_stage"] = "PRODUCT_TASK_ACTIVE"
+    expected_route["execution_status"] = route_execution
+    expected_route["scheduling_status"] = "ACTIVE_SINGLE_PRODUCT_TASK"
+    expected_route["next_eligible_action"] = action
+    expected_route["ordered_slots"] = slots
+    expected_route["active_task"] = {
+      "task_id" => TASK_ID,
+      "status" => task_state,
+      "slot_id" => TASK_SLOT_ID,
+      "contract" => TASK_CONTRACT,
+      "authority" => TASK_AUTHORITY,
+      "branch" => TASK_BRANCH,
+      "worktree" => TASK_WORKTREE,
+      "evidence_root" => TASK_EVIDENCE_ROOT,
+      "dependency_custody_root" => TASK_CUSTODY_ROOT,
+      "budget" => TASK_BUDGET
+    }
+    assert(route == expected_route, "P3-007 active Route projection drift")
+
+    parent_ledger = array(parent_truth.dig("phase_execution_envelope", "task_ledger"),
+                          "activation-parent P3 Task ledger")
+    task_entry = {
+      "task_id" => TASK_ID,
+      "route_id" => ROUTE_ID,
+      "status" => task_state,
+      "milestone" => "HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION_AND_FIXED_HANDLER_RESUME_ISOLATION_AND_COMPLETE_TRACE",
+      "slot_id" => TASK_SLOT_ID,
+      "budget" => TASK_BUDGET.slice("engineering_tasks", "engineering_hours", "calendar_days"),
+      "contract" => TASK_CONTRACT,
+      "authority" => TASK_AUTHORITY,
+      "activation_parent" => TASK_ACTIVATION_PARENT,
+      "preactivation_status" => preactivation.fetch("status")
+    }
+    expected_envelope = deep_copy(task_parent_truth.fetch("phase_execution_envelope"))
+    expected_envelope["status"] = "ACTIVE_FINAL_PRODUCT_TASK"
+    expected_envelope["task_ledger"] = parent_ledger + [task_entry]
+    expected_envelope["consumed"] = {
+      "engineering_tasks" => 7, "engineering_hours" => 224, "calendar_days" => 56
+    }
+    expected_envelope["reserved"] = {
+      "task_id" => TASK_ID,
+      "slot_id" => TASK_SLOT_ID,
+      "status" => task_state,
+      "budget" => TASK_BUDGET.slice("engineering_tasks", "engineering_hours", "calendar_days"),
+      "contract" => TASK_CONTRACT,
+      "authority" => TASK_AUTHORITY
+    }
+    expected_envelope["remaining"] = {
+      "engineering_tasks" => 1, "engineering_hours" => 32, "calendar_days" => 8
+    }
+    expected_envelope["remaining_capacity_usable"] = true
+    expected_envelope["remaining_capacity_lock_reason"] = "ACTIVE_PRODUCT_TASK_SINGLE_TASK_LOCK"
+    expected_envelope["ordered_slots"] = slots
+    assert(truth["phase_execution_envelope"] == expected_envelope,
+           "P3-007 active Phase envelope drift")
+
+    expected_project = deep_copy(task_parent_truth.fetch("project"))
+    expected_project["phase_execution_status"] = "ACTIVE_FINAL_PRODUCT_TASK"
+    expected_project["current_route_execution_status"] = project_route_execution
+    expected_project["p3_execution_status"] = "ACTIVE_INCOMPLETE_FINAL_PRODUCT_TASK"
+    assert(truth["project"] == expected_project, "P3-007 active project projection drift")
+
+    expected_boundary = deep_copy(task_parent_truth.fetch("phase_boundary"))
+    expected_boundary["phase_execution_status"] = "ACTIVE_FINAL_PRODUCT_TASK"
+    expected_boundary["task_creation_allowed"] = false
+    expected_boundary["task_creation_scope"] = "NONE_ACTIVE_SINGLE_PRODUCT_TASK"
+    expected_boundary["next_eligible_action"] = action
+    assert(truth["phase_boundary"] == expected_boundary,
+           "P3-007 active Phase boundary drift")
+
+    expected_control = deep_copy(task_parent_truth.fetch("founder_escalation_control"))
+    expected_control["source_event"] = {
+      "kind" => "P3_FINAL_TRANSACTIONAL_PRODUCT_TASK_ACTIVE",
+      "decision_id" => TASK_ID,
+      "status" => task_state
+    }
+    expected_control["next_eligible_action"] = action
+    assert(truth["founder_escalation_control"] == expected_control,
+           "P3-007 active Founder control drift")
+
+    delegation = mapping(truth["phase_delegation"], "P3-007 Phase delegation")
+    assert(delegation["status"] == "ACTIVE_P3_FINAL_TRANSACTIONAL_PRODUCT_TASK" &&
+           delegation["decision_source"] == DECISION_ID &&
+           delegation["task_selection_owner"] == "MASTER_CEO_AGENT" &&
+           delegation["task_authorization_owner"] == "MASTER_CEO_AGENT" &&
+           delegation["task_gate_owner"] == "MASTER_CEO_AGENT" &&
+           delegation.dig("anti_loop", "route_or_task_may_downgrade_phase_delegation") == false,
+           "P3-007 active Phase delegation drift")
+
+    assert(active["current_task"] == TASK_ID && active["current_task_status"] == task_state &&
+           active["current_task_contract"] == TASK_CONTRACT &&
+           active["current_task_contract_sha256"] == TASK_CONTRACT["sha256"] &&
+           active["current_execution_authorization"] == TASK_AUTHORITY["path"] &&
+           active["current_execution_authorization_sha256"] == TASK_AUTHORITY["sha256"] &&
+           active["authority_record"] == TASK_AUTHORITY &&
+           active["execution_nonce"] == TASK_EXECUTION_NONCE &&
+           active["execution_nonce_status"] == "ACTIVE" &&
+           active["authorization_id"] == TASK_AUTHORIZATION_ID &&
+           active["activation_parent_commit"] == TASK_ACTIVATION_PARENT["commit"] &&
+           active["activation_parent_tree"] == TASK_ACTIVATION_PARENT["tree"] &&
+           active["task_resource_state"] == task_state && active["task_branch"] == TASK_BRANCH &&
+           active["task_worktree"] == TASK_WORKTREE &&
+           active["execution_evidence_root"] == TASK_EVIDENCE_ROOT &&
+           active["dependency_custody_root"] == TASK_CUSTODY_ROOT &&
+           active["budget"] == TASK_BUDGET && active["external_effects"] == FALSE_EFFECTS &&
+           active["founder_decision_required"] == false && active["user_action_required"] == "NONE" &&
+           active["phase_route_decision_required"] == false && active["next_eligible_action"] == action &&
+           active["last_completed_task"] == task_parent_truth.dig("active_work", "last_completed_task"),
+           "P3-007 active-work projection drift")
+
+    execution = mapping(truth["phase_execution_claim"], "P3-007 execution claim")
+    assert(execution["current_route_claim"] == ROUTE_ID && execution["current_task_claim"] == TASK_ID &&
+           execution["p3_entry_authorized"] == true && execution["p3_exit_gate_progress_percent"] == 0 &&
+           execution["p3_delivery_progress_percent"] == 25 &&
+           execution["phase_local_allowed"] == [action] && execution["task_creation_allowed"] == false &&
+           execution["remaining_capacity_usable"] == true && execution["held_read_allowed"] == false &&
+           execution["candidate_integration_allowed"] == false &&
+           execution["next_eligible_action"] == action,
+           "P3-007 active execution claim drift")
+    claim = mapping(truth["claim_boundary"], "P3-007 claim boundary")
+    assert(claim["current_phase_route"] == ROUTE_ID && claim["current_task"] == TASK_ID &&
+           claim["selected_task"] == TASK_ID && claim["current_task_status"] == task_state &&
+           claim["next_eligible_action"] == action &&
+           claim["p3_status"] == "ACTIVE_INCOMPLETE_FINAL_PRODUCT_TASK" &&
+           claim["p3_phase_envelope_status"] == "ACTIVE_FINAL_PRODUCT_TASK" &&
+           claim["p3_exit_gate_progress_percent"] == 0 &&
+           claim["p3_delivery_progress_percent"] == 25 &&
+           claim["p3_capability_milestone_status"] ==
+             "FINAL_TRANSACTIONAL_HOST_WORKFLOW_PRODUCT_TASK_ACTIVE_NOT_ACCEPTED" &&
+           claim["p3_007_preactivation_status"] == preactivation.fetch("status") &&
+           claim["p3_006_status"] == "TERMINAL_TASK_GATE_NON_PASS" &&
+           claim["p3_006_candidate_integrated"] == false &&
+           claim["long_term_goal_status"] == "ACTIVE",
+           "P3-007 active claim boundary drift")
+    goal = mapping(truth["goal"], "Long-term Goal")
+    assert(goal["control_plane_status_observed"] == "ACTIVE" &&
+           goal["current_task_authority"] == TASK_ID,
+           "P3-007 active Task must preserve the Long-term Goal")
+    preactivation_pass ? ACTIVE_IMPLEMENTATION_STATE : ACTIVE_PREACTIVATION_STATE
+  end
+
   def validate_truth!(root:, truth:)
     root = Pathname.new(root).realpath
     decision, decision_identity = validate_decision!(root)
@@ -250,6 +589,9 @@ module P3FinalTransactionalRouteValidation
            "superseded P3 host-owned Route historical copy drift")
 
     route = mapping(truth["current_phase_route"], "current final transactional P3 Route")
+    if route["lifecycle_stage"] == "PRODUCT_TASK_ACTIVE"
+      return validate_active_task!(root, truth, decision, decision_identity, parent_truth, route)
+    end
     expected_slots = slot_projection(decision)
     assert(route == {
       "schema_version" => ROUTE_SCHEMA,

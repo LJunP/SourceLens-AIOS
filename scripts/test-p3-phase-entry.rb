@@ -45,8 +45,18 @@ current_truth = load_yaml(File.binread(TRUTH))
 assertions = 0
 
 expect_pass(
-  "exact final transactional Route projection",
+  "exact active final transactional Task projection",
   current_truth,
+  "P3_007_ACTIVE_PREACTIVATION_REQUIRED"
+)
+assertions += 1
+
+ready_truth = load_yaml(
+  git_show("c94b15474ba22fd6213c4ff5683531d3202cc709", "docs/aios/truth/project_state.yaml")
+)
+expect_pass(
+  "historical exact final transactional ready projection",
+  ready_truth,
   "P3_FINAL_TRANSACTIONAL_ROUTE_PRODUCT_SLOT_ELIGIBLE"
 )
 assertions += 1

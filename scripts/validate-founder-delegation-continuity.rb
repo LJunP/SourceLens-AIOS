@@ -5064,7 +5064,11 @@ module FounderDelegationContinuity
       assert(defined?(P3FinalTransactionalRouteValidation),
              "P3 final transactional Route validator is unavailable")
       state = P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: truth)
-      assert(state == P3FinalTransactionalRouteValidation::READY_STATE,
+      assert([
+        P3FinalTransactionalRouteValidation::READY_STATE,
+        P3FinalTransactionalRouteValidation::ACTIVE_PREACTIVATION_STATE,
+        P3FinalTransactionalRouteValidation::ACTIVE_IMPLEMENTATION_STATE
+      ].include?(state),
              "P3 final transactional Route state drift")
       return CONTINUE_DISPOSITION
     end

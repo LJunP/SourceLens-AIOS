@@ -1044,10 +1044,17 @@ module FounderActionHandoff
     control = validate_control!(truth, evidence, run_validator: run_validator)
     case package["action_class"]
     when "NONE_CONTINUE"
-      assert!(control["disposition"] == "NO_RESERVED_TRIGGER_CONTINUE_PHASE" &&
+      terminal_no_action = package.dig(
+        "terminal_next_step_handoff", "next_step_user_action_required"
+      ) == false &&
+        control["disposition"] == "NO_RESERVED_TRIGGER_ROUTE_TERMINAL" &&
+        control["next_action_owner"] == "NONE"
+      delegated_continue =
+        control["disposition"] == "NO_RESERVED_TRIGGER_CONTINUE_PHASE" &&
+        control["next_action_owner"] == "MASTER_CEO_AGENT"
+      assert!((terminal_no_action || delegated_continue) &&
               control["founder_decision_required"] == false &&
               control.dig("reserved_trigger", "category") == "NONE" &&
-              control["next_action_owner"] == "MASTER_CEO_AGENT" &&
               evidence["prospective_preflight"].nil?,
               "no-action handoff cannot silence a Founder action or prospective reserved effect")
       assert!(%w[COMPLETE CONTINUING].include?(package["current_state"]), "no-action handoff cannot wait for user")

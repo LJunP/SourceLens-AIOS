@@ -7,6 +7,7 @@ require "open3"
 require "pathname"
 require "yaml"
 require_relative "validate-p3-004-task-authority"
+require_relative "validate-p3-final-transactional-route"
 
 class P3PhaseEntryValidationError < StandardError; end
 
@@ -1253,6 +1254,9 @@ module P3PhaseEntryValidation
     validate_decision!(root)
     project = mapping(truth["project"], "project")
     route = mapping(truth["current_phase_route"], "current P3 Route")
+    if route["schema_version"] == P3FinalTransactionalRouteValidation::ROUTE_SCHEMA
+      return P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: truth)
+    end
     if route["schema_version"] == HOST_OWNED_ROUTE_SCHEMA
       return validate_host_owned_route!(root, truth, project, route)
     end

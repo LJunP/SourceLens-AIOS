@@ -29,7 +29,8 @@ def expect_non_pass(name, truth, fragment)
   P3PhaseEntryValidation.validate!(root: ROOT, truth: truth)
   raise "#{name} unexpectedly passed"
 rescue P3PhaseEntryValidationError, P3Task004AuthorityValidationError,
-       P3ZeroAuthorityRouteValidationError, P3Task005AuthorityValidationError => e
+       P3ZeroAuthorityRouteValidationError, P3Task005AuthorityValidationError,
+       P3FinalTransactionalRouteValidationError => e
   raise "#{name} failed for the wrong reason: #{e.message}" unless e.message.include?(fragment)
   puts "PASS #{name} rejected"
 end
@@ -44,8 +45,18 @@ current_truth = load_yaml(File.binread(TRUTH))
 assertions = 0
 
 expect_pass(
-  "exact host-owned fixed-state Route projection",
+  "exact final transactional Route projection",
   current_truth,
+  "P3_FINAL_TRANSACTIONAL_ROUTE_PRODUCT_SLOT_ELIGIBLE"
+)
+assertions += 1
+
+terminal_truth = load_yaml(
+  git_show("431421f13269621c3884b798f5b806b4555fec22", "docs/aios/truth/project_state.yaml")
+)
+expect_pass(
+  "historical exact host-owned slot-1 terminal projection",
+  terminal_truth,
   "P3_HOST_OWNED_FIXED_STATE_ROUTE_SLOT_1_TERMINAL_NON_PASS"
 )
 assertions += 1
@@ -214,7 +225,7 @@ terminal_mutations = [
 ]
 
 terminal_mutations.each do |name, fragment, mutation|
-  fixture = deep_copy(current_truth)
+  fixture = deep_copy(terminal_truth)
   mutation.call(fixture)
   expect_non_pass(name, fixture, fragment)
   assertions += 1

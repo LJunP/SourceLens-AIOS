@@ -1750,10 +1750,10 @@ project:
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
   p2_execution_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
-  phase_execution_status: HOLD_INCOMPLETE_ROUTE_TERMINAL_SLOT_1_NON_PASS
-  current_route_execution_status: P3_HOST_OWNED_FIXED_STATE_WORKFLOW_ROUTE_TERMINAL_SLOT_1_NON_PASS
+  phase_execution_status: ACTIVE_FINAL_PRODUCT_SLOT_ELIGIBLE
+  current_route_execution_status: P3_FINAL_TRANSACTIONAL_HOST_WORKFLOW_ROUTE_READY_PRODUCT_SLOT
   p3_entry_status: AUTHORIZED
-  p3_execution_status: HOLD_INCOMPLETE_SLOT_1_NON_PASS_DOWNSTREAM_LOCKED
+  p3_execution_status: ACTIVE_INCOMPLETE_FINAL_PRODUCT_SLOT_ELIGIBLE
   p4_entry_status: HOLD_PENDING_STRICT_P3_EXIT_AND_SEPARATE_FOUNDER_PHASE_ENTRY
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
@@ -8539,7 +8539,7 @@ historical_p3_003_phase_route:
     public: false
   additional_write_roots: []
 
-current_phase_route:
+historical_p3_host_owned_fixed_state_workflow_phase_route:
   schema_version: p3-host-owned-fixed-state-workflow-route/v1
   route_id: P3_HOST_OWNED_FIXED_STATE_WORKFLOW_MINIMAL_ATOMIC_ROUTE
   status: TERMINAL_SLOT_1_TASK_GATE_NON_PASS
@@ -8676,6 +8676,114 @@ current_phase_route:
       delivery_percent_on_pass: 100
       strict_exit_percent_on_pass: 100
       pass_unlocks_only: FOUNDER_P3_PHASE_GATE_ELIGIBILITY
+  p3_entry_authorized: true
+  p4_entry_authorized: false
+  long_term_goal_status: ACTIVE
+  external_effects:
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public: false
+  additional_write_roots: []
+
+current_phase_route:
+  schema_version: p3-final-transactional-host-workflow-and-strict-exit-route/v1
+  route_id: P3_FINAL_TRANSACTIONAL_HOST_WORKFLOW_AND_STRICT_EXIT_AUDIT_ROUTE
+  status: ACTIVE
+  lifecycle_stage: READY_PRODUCT_SLOT
+  execution_status: READY_PRODUCT_SLOT
+  scheduling_status: PRODUCT_SLOT_ELIGIBLE
+  phase: P3
+  phase_entry_status: AUTHORIZED
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: '1.8'
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  founder_phase_route_decision_required: false
+  founder_reserved_trigger_resolved: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
+  next_eligible_action: MASTER_ACTIVATE_ONE_FINAL_TRANSACTIONAL_HOST_WORKFLOW_PRODUCT_TASK
+  phase_execution_envelope_ref: phase_execution_envelope
+  phase_entry_route_ref: historical_p3_phase_entry_route
+  accepted_foundation_route_ref: historical_p3_001_phase_route
+  superseded_route_ref: historical_p3_host_owned_fixed_state_workflow_phase_route
+  founder_route_decision:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-final-transactional-host-workflow-route-20260820/decision/FOUNDER_P3_ONE_FINAL_INDEPENDENT_TRANSACTIONAL_HOST_WORKFLOW_AND_STRICT_EXIT_AUDIT_ROUTE_REBASELINE_V1.json
+    byte_length: 12316
+    sha256: 7daa36b2d85a215861051845cf3712b209c1f711c351e1a092e01725b13d1c3d
+    decision_id: AUTHORIZE_P3_ONE_FINAL_INDEPENDENT_TRANSACTIONAL_HOST_WORKFLOW_AND_STRICT_EXIT_AUDIT_ROUTE_REBASELINE_V1
+    reserved_trigger: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
+  activation_parent:
+    branch: main
+    commit: 431421f13269621c3884b798f5b806b4555fec22
+    tree: ff5f12ca763436af92892e40ad2ff8d113ade5b8
+    truth:
+      path: docs/aios/truth/project_state.yaml
+      byte_length: 1844136
+      sha256: 69fce9fdbf64b46f6c281ea5bbe5c838e1986798e13d1bd48e807cf2aa28f49c
+    constitution:
+      path: docs/aios/STRATEGIC_CONSTITUTION.md
+      version: '2.6'
+      byte_length: 10360
+      sha256: bae35e3e0d9cc93e5ad94b42a661651b2684c3922711fc569a643a00ef07953b
+  objective_id: HOST_OWNED_FIXED_STATE_WORKFLOW_WITH_EFFECT_FREE_AGENT_PAYLOADS
+  strict_exit_gate_changed: false
+  strict_exit_gate_required_items:
+    - RESUME
+    - ISOLATION
+    - PERMISSION
+    - COMPLETE_OBSERVABLE_TRACE
+  prior_task_ledger:
+    entry_count: 6
+    canonicalization: RECURSIVE_KEY_SORT_COMPACT_JSON_UTF8
+    canonical_byte_length: 8676
+    canonical_sha256: 16bcb5bb665d59c1bfd87ac5d12bab8399bf3ba568469cdfbd9077d3931a4dd1
+  ordered_slots:
+    - ordinal: 1
+      slot_id: P3_FINAL_TRANSACTIONAL_HOST_WORKFLOW_SLOT_1_PRODUCT
+      kind: PRODUCT_IMPLEMENTATION
+      task_kind: ONE_FINAL_TRANSACTIONAL_HOST_WORKFLOW_PERMISSION_ISOLATION_AND_TRACE_PRODUCT_TASK
+      initial_status: ELIGIBLE_NOT_ACTIVATED
+      predecessor: DURABLE_STATE_AND_CHECKPOINT_RESUME
+      predecessor_status_required: ACCEPTED
+      accepts_on_pass:
+        - HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION
+        - FIXED_HANDLER_RESUME_ISOLATION_AND_COMPLETE_TRACE
+      delivery_percent_on_pass: 75
+      pass_unlocks_only: P3_FINAL_TRANSACTIONAL_HOST_WORKFLOW_SLOT_2_STRICT_EXIT_AUDIT
+      budget:
+        engineering_tasks: 1
+        engineering_hours: 32
+        calendar_days: 8
+      max_candidate_generations: 2
+      max_same_task_repairs: 1
+      max_review_cycles: 2
+      required_product_source_diff: NON_EMPTY_TESTABLE
+      third_product_attempt_allowed: false
+      status: ELIGIBLE_NOT_ACTIVATED
+    - ordinal: 2
+      slot_id: P3_FINAL_TRANSACTIONAL_HOST_WORKFLOW_SLOT_2_STRICT_EXIT_AUDIT
+      kind: EVALUATION_ONLY
+      task_kind: INDEPENDENT_P3_STRICT_EXIT_GATE_AUDIT
+      initial_status: LOCKED_PREDECESSOR_NOT_ACCEPTED
+      predecessor: HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION_AND_FIXED_HANDLER_RESUME_ISOLATION_AND_COMPLETE_TRACE
+      predecessor_status_required: ACCEPTED
+      accepts_on_pass: P3_STRICT_EXIT_GATE
+      delivery_percent_on_pass: 100
+      strict_exit_percent_on_pass: 100
+      pass_unlocks_only: FOUNDER_P3_PHASE_GATE_ELIGIBILITY
+      budget:
+        engineering_tasks: 1
+        engineering_hours: 32
+        calendar_days: 8
+      max_candidate_generations: 0
+      max_same_task_repairs: 0
+      max_review_cycles: 1
+      formal_dispatches: 1
+      rerun_to_pass_allowed: false
+      mutable_inputs: []
+      status: LOCKED_PREDECESSOR_NOT_ACCEPTED
   p3_entry_authorized: true
   p4_entry_authorized: false
   long_term_goal_status: ACTIVE
@@ -11901,22 +12009,22 @@ historical_p2_exact_frozen_p2_078_one_shot_formal_held_route_unlock_phase_route:
 phase_execution_envelope:
   schema_version: phase-execution-envelope/v1
   phase: P3
-  status: HOLD_INCOMPLETE_SLOT_1_NON_PASS_DOWNSTREAM_LOCKED
+  status: ACTIVE_FINAL_PRODUCT_SLOT_ELIGIBLE
   authority_basis:
     phase_entry_status: AUTHORIZED
     policy_path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     policy_version: '1.8'
     policy_sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
     source_route_ref: current_phase_route
-    source_route_id: P3_HOST_OWNED_FIXED_STATE_WORKFLOW_MINIMAL_ATOMIC_ROUTE
+    source_route_id: P3_FINAL_TRANSACTIONAL_HOST_WORKFLOW_AND_STRICT_EXIT_AUDIT_ROUTE
     phase_entry_decision:
       path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-phase-entry-20260819/decision/FOUNDER_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1.json
       sha256: 23a50848a182fa7865f8e96c78bd9001ff2db6682d8d19dc49a0d4768994d6eb
       byte_length: 4105
     founder_route_decision:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-host-owned-fixed-state-workflow-minimal-atomic-install-20260820/decision/FOUNDER_P3_HOST_OWNED_FIXED_STATE_WORKFLOW_MINIMAL_ATOMIC_STRATEGY_INSTALLATION_AFTER_EVIDENCE_ONLY_NON_PASS_V1.json
-      sha256: e40c2703b66b70658ef7c1fce9da67a5283c7792fc5b596fe294f391ce7f82ff
-      byte_length: 13466
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-final-transactional-host-workflow-route-20260820/decision/FOUNDER_P3_ONE_FINAL_INDEPENDENT_TRANSACTIONAL_HOST_WORKFLOW_AND_STRICT_EXIT_AUDIT_ROUTE_REBASELINE_V1.json
+      byte_length: 12316
+      sha256: 7daa36b2d85a215861051845cf3712b209c1f711c351e1a092e01725b13d1c3d
   accounting_basis: NON_RESETTABLE_DECLARED_TASK_BUDGET_RESERVATION
   limits:
     engineering_tasks: 8
@@ -12096,8 +12204,8 @@ phase_execution_envelope:
     engineering_tasks: 2
     engineering_hours: 64
     calendar_days: 16
-  remaining_capacity_usable: false
-  remaining_capacity_lock_reason: SLOT_1_NON_PASS_DOWNSTREAM_DEPENDENCIES_LOCKED_BY_EXACT_FOUNDER_ROUTE
+  remaining_capacity_usable: true
+  remaining_capacity_lock_reason: NONE
   milestone_order:
     - DURABLE_STATE_AND_CHECKPOINT_RESUME
     - HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION
@@ -12107,38 +12215,49 @@ phase_execution_envelope:
     - DURABLE_STATE_AND_CHECKPOINT_RESUME
   ordered_slots:
     - ordinal: 1
-      slot_id: P3_HOST_OWNED_FIXED_WORKFLOW_SLOT_1_STRUCTURAL_PERMISSION
+      slot_id: P3_FINAL_TRANSACTIONAL_HOST_WORKFLOW_SLOT_1_PRODUCT
       kind: PRODUCT_IMPLEMENTATION
-      milestone: HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION
-      status: TERMINAL_TASK_GATE_NON_PASS
+      task_kind: ONE_FINAL_TRANSACTIONAL_HOST_WORKFLOW_PERMISSION_ISOLATION_AND_TRACE_PRODUCT_TASK
+      initial_status: ELIGIBLE_NOT_ACTIVATED
       predecessor: DURABLE_STATE_AND_CHECKPOINT_RESUME
       predecessor_status_required: ACCEPTED
+      accepts_on_pass:
+        - HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION
+        - FIXED_HANDLER_RESUME_ISOLATION_AND_COMPLETE_TRACE
+      delivery_percent_on_pass: 75
+      pass_unlocks_only: P3_FINAL_TRANSACTIONAL_HOST_WORKFLOW_SLOT_2_STRICT_EXIT_AUDIT
       budget:
         engineering_tasks: 1
         engineering_hours: 32
         calendar_days: 8
+      max_candidate_generations: 2
+      max_same_task_repairs: 1
+      max_review_cycles: 2
+      required_product_source_diff: NON_EMPTY_TESTABLE
+      third_product_attempt_allowed: false
+      status: ELIGIBLE_NOT_ACTIVATED
     - ordinal: 2
-      slot_id: P3_HOST_OWNED_FIXED_WORKFLOW_SLOT_2_CRASH_ISOLATION_TRACE
-      kind: PRODUCT_IMPLEMENTATION
-      milestone: FIXED_HANDLER_RESUME_ISOLATION_AND_COMPLETE_TRACE
-      status: LOCKED_SLOT_1_NON_PASS_NO_REPLACEMENT
-      predecessor: HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION
-      predecessor_status_required: ACCEPTED
-      budget:
-        engineering_tasks: 1
-        engineering_hours: 32
-        calendar_days: 8
-    - ordinal: 3
-      slot_id: P3_HOST_OWNED_FIXED_WORKFLOW_SLOT_3_STRICT_EXIT_AUDIT
+      slot_id: P3_FINAL_TRANSACTIONAL_HOST_WORKFLOW_SLOT_2_STRICT_EXIT_AUDIT
       kind: EVALUATION_ONLY
-      milestone: INDEPENDENT_P3_EXIT_GATE_AUDIT
-      status: LOCKED_SLOT_1_NON_PASS_NO_REPLACEMENT
-      predecessor: FIXED_HANDLER_RESUME_ISOLATION_AND_COMPLETE_TRACE
+      task_kind: INDEPENDENT_P3_STRICT_EXIT_GATE_AUDIT
+      initial_status: LOCKED_PREDECESSOR_NOT_ACCEPTED
+      predecessor: HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION_AND_FIXED_HANDLER_RESUME_ISOLATION_AND_COMPLETE_TRACE
       predecessor_status_required: ACCEPTED
+      accepts_on_pass: P3_STRICT_EXIT_GATE
+      delivery_percent_on_pass: 100
+      strict_exit_percent_on_pass: 100
+      pass_unlocks_only: FOUNDER_P3_PHASE_GATE_ELIGIBILITY
       budget:
         engineering_tasks: 1
         engineering_hours: 32
         calendar_days: 8
+      max_candidate_generations: 0
+      max_same_task_repairs: 0
+      max_review_cycles: 1
+      formal_dispatches: 1
+      rerun_to_pass_allowed: false
+      mutable_inputs: []
+      status: LOCKED_PREDECESSOR_NOT_ACCEPTED
   delivery_progress:
     accepted: 1
     total: 4
@@ -12613,27 +12732,22 @@ historical_p2_phase_execution_envelope:
 
 founder_escalation_control:
   schema_version: founder-escalation-control/v2
-  disposition: FOUNDER_DECISION_REQUIRED
+  disposition: NO_RESERVED_TRIGGER_CONTINUE_PHASE
   source_event:
-    kind: P3_PHASE_DELEGATED_SLOT_1_TASK_TERMINAL
-    decision_id: AIOS-P3-006_HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION_VERTICAL_SLICE
-    status: TERMINAL_TASK_GATE_NON_PASS_DOWNSTREAM_LOCKED_NO_REPLACEMENT
+    kind: FOUNDER_P3_FINAL_TRANSACTIONAL_ROUTE_DECISION_INSTALLED
+    decision_id: AUTHORIZE_P3_ONE_FINAL_INDEPENDENT_TRANSACTIONAL_HOST_WORKFLOW_AND_STRICT_EXIT_AUDIT_ROUTE_REBASELINE_V1
+    status: P3_FINAL_TRANSACTIONAL_ROUTE_READY_PRODUCT_SLOT
   reserved_trigger:
-    category: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
+    category: NONE
     evidence:
-      terminal_receipt:
-        path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-host-owned-fixed-workflow-structural-permission-20260820/task-p3-006/terminal/P3_006_TERMINAL_SLOT_1_TASK_GATE_NON_PASS_RECEIPT_V1C.json
-        byte_length: 8302
-        sha256: 30be3b0fd7757bc218d8c0f72354ed049135a83316a582c31bada8bc3d2b082a
-      reason: CURRENT_P3_ROUTE_HAS_NO_EXECUTABLE_SLOT_AFTER_SLOT_1_NON_PASS_AND_ANY_CONTINUATION_REQUIRES_A_NEW_PHASE_ROUTE_DECISION
   resolved_strategy_decision:
     category: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
-    decision_id: AUTHORIZE_P3_HOST_OWNED_FIXED_STATE_WORKFLOW_MINIMAL_ATOMIC_STRATEGY_INSTALLATION_AFTER_EVIDENCE_ONLY_NON_PASS_V1
+    decision_id: AUTHORIZE_P3_ONE_FINAL_INDEPENDENT_TRANSACTIONAL_HOST_WORKFLOW_AND_STRICT_EXIT_AUDIT_ROUTE_REBASELINE_V1
     reserved_trigger: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-host-owned-fixed-state-workflow-minimal-atomic-install-20260820/decision/FOUNDER_P3_HOST_OWNED_FIXED_STATE_WORKFLOW_MINIMAL_ATOMIC_STRATEGY_INSTALLATION_AFTER_EVIDENCE_ONLY_NON_PASS_V1.json
-    byte_length: 13466
-    sha256: e40c2703b66b70658ef7c1fce9da67a5283c7792fc5b596fe294f391ce7f82ff
-    result: P3_HOST_OWNED_FIXED_STATE_WORKFLOW_ROUTE_INSTALLED_SLOT_1_ELIGIBLE
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-final-transactional-host-workflow-route-20260820/decision/FOUNDER_P3_ONE_FINAL_INDEPENDENT_TRANSACTIONAL_HOST_WORKFLOW_AND_STRICT_EXIT_AUDIT_ROUTE_REBASELINE_V1.json
+    byte_length: 12316
+    sha256: 7daa36b2d85a215861051845cf3712b209c1f711c351e1a092e01725b13d1c3d
+    result: P3_FINAL_TRANSACTIONAL_ROUTE_INSTALLED_PRODUCT_SLOT_ELIGIBLE
   resolved_phase_entry_decision:
     category: PHASE_ENTRY_OR_EXIT
     decision_id: AUTHORIZE_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1
@@ -12642,9 +12756,9 @@ founder_escalation_control:
     sha256: 23a50848a182fa7865f8e96c78bd9001ff2db6682d8d19dc49a0d4768994d6eb
     result: P3_ENTRY_AUTHORIZED_ACTIVE
   phase_gate_status: INCOMPLETE
-  founder_decision_required: true
-  next_action_owner: HUMAN_FOUNDER
-  next_eligible_action: FOUNDER_DECIDE_P3_ROUTE_AFTER_SLOT_1_NON_PASS_OR_HOLD
+  founder_decision_required: false
+  next_action_owner: MASTER_CEO_AGENT
+  next_eligible_action: MASTER_ACTIVATE_ONE_FINAL_TRANSACTIONAL_HOST_WORKFLOW_PRODUCT_TASK
 
 historical_p2_053_phase_route:
   schema_version: "1.1"
@@ -16830,9 +16944,9 @@ historical_p2_phase_route:
   next_eligible_action: FOUNDER_P2_PHASE_GATE
 
 phase_delegation:
-  status: P3_HOLD_INCOMPLETE_SLOT_1_NON_PASS_FOUNDER_ROUTE_DECISION_REQUIRED
+  status: ACTIVE_P3_FINAL_TRANSACTIONAL_ROUTE_PRODUCT_SLOT_ELIGIBLE
   model: PHASE_LEVEL_FOUNDER_DELEGATION
-  decision_source: AUTHORIZE_P3_HOST_OWNED_FIXED_STATE_WORKFLOW_MINIMAL_ATOMIC_STRATEGY_INSTALLATION_AFTER_EVIDENCE_ONLY_NON_PASS_V1
+  decision_source: AUTHORIZE_P3_ONE_FINAL_INDEPENDENT_TRANSACTIONAL_HOST_WORKFLOW_AND_STRICT_EXIT_AUDIT_ROUTE_REBASELINE_V1
   phase_gate_owner: HUMAN_FOUNDER
   task_selection_owner: MASTER_CEO_AGENT
   task_authorization_owner: MASTER_CEO_AGENT
@@ -16875,7 +16989,7 @@ phase_delegation:
     historical_execution_lineage_reuse_allowed: false
     mandatory_exit_capability_permanent_ban_from_historical_stop: false
     peripheral_work_before_exit_capabilities_allowed: false
-  claim_boundary: P3-001 remains ACCEPTED; P3-002 through P3-005 remain immutable terminal accounting with no failed candidate integrated. P3-006 consumed slot 1 and is TERMINAL_TASK_GATE_NON_PASS after the sole same-Task repair and second independent review cycle; its candidate is not integrated and HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION is not accepted. The exact Founder route locks slots 2 and 3 with no replacement. P3 is HOLD_INCOMPLETE at delivery 25% and strict Exit 0%; any continuation now requires a Founder-reserved Phase-route decision, P4 remains HOLD, and the Long-term Goal remains ACTIVE.
+  claim_boundary: P3-001 remains ACCEPTED; P3-002 through P3-005 and P3-006 remain immutable terminal accounting with no failed candidate integrated. The Founder installed exactly one final ordered two-slot route without Phase envelope expansion. The product slot is eligible but not activated, the strict Exit audit remains locked, P3 delivery remains 25% and strict Exit remains 0%; P4 remains HOLD and the Long-term Goal remains ACTIVE.
 
 mandatory_exit_capability_recovery:
   status: HISTORICAL_POLICY_CONTEXT_SUPERSEDED_BY_LATER_FOUNDER_ROUTES
@@ -17714,14 +17828,13 @@ mandatory_exit_capability_recovery:
 
 phase_boundary:
   phase: P3
-  phase_execution_status: HOLD_INCOMPLETE_ROUTE_TERMINAL_SLOT_1_NON_PASS
-  task_creation_allowed: false
-  task_creation_scope: NONE_ROUTE_TERMINAL_DOWNSTREAM_LOCKED
+  phase_execution_status: ACTIVE_FINAL_PRODUCT_SLOT_ELIGIBLE
+  task_creation_allowed: true
+  task_creation_scope: ONE_FINAL_TRANSACTIONAL_HOST_WORKFLOW_PERMISSION_ISOLATION_AND_TRACE_PRODUCT_TASK_ONLY
   task_creation_lock_after_activation: true
   p3_entry_authorized: true
   allowed_task_kinds:
-    - HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION_VERTICAL_SLICE
-    - FIXED_HANDLER_CRASH_ISOLATION_AND_TRACE_CUSTODY
+    - ONE_FINAL_TRANSACTIONAL_HOST_WORKFLOW_PERMISSION_ISOLATION_AND_TRACE_PRODUCT_TASK
     - INDEPENDENT_P3_STRICT_EXIT_GATE_AUDIT
   allowed_capabilities:
     - HOST_OWNED_FIXED_STATE_TRANSITIONS
@@ -17792,11 +17905,11 @@ phase_boundary:
     remote: false
     production: false
     public: false
-  escalation_reason: P3_ROUTE_CHANGE_REQUIRED_AFTER_SLOT_1_NON_PASS_LOCKED_ALL_REMAINING_DECLARED_SLOTS
-  user_action_required: FOUNDER_STRATEGIC_DECISION
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_DECIDE_P3_ROUTE_AFTER_SLOT_1_NON_PASS_OR_HOLD
-  next_eligible_action: FOUNDER_DECIDE_P3_ROUTE_AFTER_SLOT_1_NON_PASS_OR_HOLD
+  escalation_reason:
+  user_action_required: NONE
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
+  next_eligible_action: MASTER_ACTIVATE_ONE_FINAL_TRANSACTIONAL_HOST_WORKFLOW_PRODUCT_TASK
 
 p0_baseline:
   checkpoint_commit: ad6450e418d8f1b4fd5a789f913525a8dd8bdc10
@@ -24223,11 +24336,11 @@ active_work:
   current_execution_authorization_sha256:
   authority_record:
   execution_nonce:
-  execution_nonce_status: CONSUMED_TERMINAL_NON_PASS
+  execution_nonce_status: NOT_ISSUED
   authorization_id:
-  activation_parent_commit: 125d339c6f9da56b1bd2293bf3c1f8944d5f5483
-  activation_parent_tree: 517aa9ba2fd3d981afe2cea0d7e7b67ccc0b2046
-  task_resource_state: NONE_ROUTE_TERMINAL_SLOT_1_NON_PASS
+  activation_parent_commit: 431421f13269621c3884b798f5b806b4555fec22
+  activation_parent_tree: ff5f12ca763436af92892e40ad2ff8d113ade5b8
+  task_resource_state: NOT_CREATED_FINAL_PRODUCT_SLOT_ELIGIBLE
   task_branch:
   task_worktree:
   execution_evidence_root:
@@ -24252,14 +24365,14 @@ active_work:
     production: false
     public: false
   offsite_target:
-  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p3-host-owned-fixed-state-workflow-minimal-atomic-install-20260820/decision/FOUNDER_P3_HOST_OWNED_FIXED_STATE_WORKFLOW_MINIMAL_ATOMIC_STRATEGY_INSTALLATION_AFTER_EVIDENCE_ONLY_NON_PASS_V1.json
-  founder_reserved_authorization_sha256: e40c2703b66b70658ef7c1fce9da67a5283c7792fc5b596fe294f391ce7f82ff
-  founder_decision_required: true
-  founder_decision_required_scope: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
-  escalation_reason: CURRENT_P3_ROUTE_HAS_NO_EXECUTABLE_SLOT_AFTER_SLOT_1_NON_PASS
-  user_action_required: FOUNDER_STRATEGIC_DECISION
-  phase_route_decision_required: true
-  phase_route_user_action_required: FOUNDER_DECIDE_P3_ROUTE_AFTER_SLOT_1_NON_PASS_OR_HOLD
+  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p3-final-transactional-host-workflow-route-20260820/decision/FOUNDER_P3_ONE_FINAL_INDEPENDENT_TRANSACTIONAL_HOST_WORKFLOW_AND_STRICT_EXIT_AUDIT_ROUTE_REBASELINE_V1.json
+  founder_reserved_authorization_sha256: 7daa36b2d85a215861051845cf3712b209c1f711c351e1a092e01725b13d1c3d
+  founder_decision_required: false
+  founder_decision_required_scope: NONE
+  escalation_reason:
+  user_action_required: NONE
+  phase_route_decision_required: false
+  phase_route_user_action_required: NONE
   last_completed_task:
     task_id: AIOS-P3-006_HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION_VERTICAL_SLICE
     status: TERMINAL_TASK_GATE_NON_PASS
@@ -24276,7 +24389,7 @@ active_work:
       path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-host-owned-fixed-workflow-structural-permission-20260820/task-p3-006/terminal/P3_006_TERMINAL_SLOT_1_TASK_GATE_NON_PASS_RECEIPT_V1C.json
       byte_length: 8302
       sha256: 30be3b0fd7757bc218d8c0f72354ed049135a83316a582c31bada8bc3d2b082a
-  next_eligible_action: FOUNDER_DECIDE_P3_ROUTE_AFTER_SLOT_1_NON_PASS_OR_HOLD
+  next_eligible_action: MASTER_ACTIVATE_ONE_FINAL_TRANSACTIONAL_HOST_WORKFLOW_PRODUCT_TASK
 
 historical_p2_080_terminal_active_work:
   current_task: AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER
@@ -30939,20 +31052,21 @@ historical_lineages:
     authority: HISTORICAL_EVIDENCE_ONLY
 
 phase_execution_claim:
-  current_route_claim: P3_HOST_OWNED_FIXED_STATE_WORKFLOW_MINIMAL_ATOMIC_ROUTE
+  current_route_claim: P3_FINAL_TRANSACTIONAL_HOST_WORKFLOW_AND_STRICT_EXIT_AUDIT_ROUTE
   current_task_claim: NONE
-  real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_HOLD_INCOMPLETE_DURABLE_STATE_AND_CHECKPOINT_RESUME_ACCEPTED_P3_006_TERMINAL_NON_PASS_P3_DELIVERY_25_P3_EXIT_GATE_ZERO
+  real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_ACTIVE_FINAL_TRANSACTIONAL_PRODUCT_SLOT_ELIGIBLE_P3_006_TERMINAL_NON_PASS_P3_DELIVERY_25_P3_EXIT_GATE_ZERO
   product_capability_changed: false
   revised_research_exit_percent: 100
   original_capability_progress_percent: 0
   p3_entry_authorized: true
   p3_exit_gate_progress_percent: 0
   p3_delivery_progress_percent: 25
-  phase_local_allowed: []
+  phase_local_allowed:
+  - MASTER_ACTIVATE_ONE_FINAL_TRANSACTIONAL_HOST_WORKFLOW_PRODUCT_TASK
   phase_local_frozen_capabilities:
-  - HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION_NOT_ACCEPTED_P3_006_TERMINAL
-  - FIXED_HANDLER_CRASH_ISOLATION_AND_TRACE_CUSTODY_LOCKED_SLOT_1_NON_PASS
-  - INDEPENDENT_P3_EXIT_GATE_AUDIT_LOCKED_SLOT_1_NON_PASS
+  - P3_006_TERMINAL_NON_PASS_CANDIDATE_UNINTEGRATED
+  - FINAL_TRANSACTIONAL_HOST_WORKFLOW_PRODUCT_SLOT_ELIGIBLE_NOT_ACCEPTED
+  - INDEPENDENT_P3_EXIT_GATE_AUDIT_LOCKED_UNTIL_PRODUCT_SLOT_ACCEPTED
   historical_terminal_rules:
   - AIOS-P2-011 froze one exact nine-path deterministic graph-kernel candidate and
     passed its five-test targeted matrix, but fresh CTO, Security and Quality all
@@ -31272,6 +31386,11 @@ phase_execution_claim:
   - production side effects
   - public capability claims
   - canonical main advance outside an accepted task gate
+  task_creation_allowed: true
+  remaining_capacity_usable: true
+  held_read_allowed: false
+  candidate_integration_allowed: false
+  next_eligible_action: MASTER_ACTIVATE_ONE_FINAL_TRANSACTIONAL_HOST_WORKFLOW_PRODUCT_TASK
 
 p2_recovery_control:
   schema_version: p2-recovery-control/v2
@@ -31323,26 +31442,27 @@ p2_recovery_control:
   next_eligible_action: P3_PHASE_EXECUTION
 
 claim_boundary:
-  current_phase_route: P3_HOST_OWNED_FIXED_STATE_WORKFLOW_MINIMAL_ATOMIC_ROUTE
+  current_phase_route: P3_FINAL_TRANSACTIONAL_HOST_WORKFLOW_AND_STRICT_EXIT_AUDIT_ROUTE
   current_task: NONE
-  selected_task: NONE_ROUTE_TERMINAL_SLOT_1_NON_PASS
+  selected_task: NONE_FINAL_PRODUCT_SLOT_ELIGIBLE
   current_task_status: NONE
-  next_eligible_action: FOUNDER_DECIDE_P3_ROUTE_AFTER_SLOT_1_NON_PASS_OR_HOLD
-  real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_HOLD_INCOMPLETE_DURABLE_STATE_AND_CHECKPOINT_RESUME_ACCEPTED_P3_006_TERMINAL_NON_PASS_P3_DELIVERY_25_P3_EXIT_GATE_ZERO
+  next_eligible_action: MASTER_ACTIVATE_ONE_FINAL_TRANSACTIONAL_HOST_WORKFLOW_PRODUCT_TASK
+  real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_ACTIVE_FINAL_TRANSACTIONAL_PRODUCT_SLOT_ELIGIBLE_P3_006_TERMINAL_NON_PASS_P3_DELIVERY_25_P3_EXIT_GATE_ZERO
   p2_research_exit_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
   p2_research_exit_percent: 100
   p2_original_capability_gate_status: MISSING_NOT_ACCEPTED
   p2_original_capability_progress_percent: 0
   p2_candidate_integrated: false
   p2_held_source_reads: 0
-  p3_status: HOLD_INCOMPLETE_SLOT_1_NON_PASS_DOWNSTREAM_LOCKED
+  p3_status: ACTIVE_INCOMPLETE_FINAL_PRODUCT_SLOT_ELIGIBLE
   p3_entry_authorized: true
-  p3_phase_envelope_status: HOLD_INCOMPLETE_SLOT_1_NON_PASS_DOWNSTREAM_LOCKED
+  p3_phase_envelope_status: ACTIVE_FINAL_PRODUCT_SLOT_ELIGIBLE
   p3_exit_gate_progress_percent: 0
   p3_delivery_progress_percent: 25
   p3_accepted_milestones:
     - DURABLE_STATE_AND_CHECKPOINT_RESUME
-  p3_capability_milestone_status: HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION_NOT_ACCEPTED_P3_006_TERMINAL_NON_PASS
+  p3_capability_milestone_status: FINAL_TRANSACTIONAL_HOST_WORKFLOW_PRODUCT_SLOT_ELIGIBLE_NOT_ACCEPTED
+  p3_final_transactional_route_decision_sha256: 7daa36b2d85a215861051845cf3712b209c1f711c351e1a092e01725b13d1c3d
   p3_host_owned_fixed_state_workflow_route_decision_sha256: e40c2703b66b70658ef7c1fce9da67a5283c7792fc5b596fe294f391ce7f82ff
   p3_006_status: TERMINAL_TASK_GATE_NON_PASS
   p3_006_candidate_commit: 3025a9bfe634bbe58776ed13942a15dc3afd9dc8

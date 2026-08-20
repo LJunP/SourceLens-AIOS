@@ -16,6 +16,8 @@ p3_005_task_validator = File.join(__dir__, "validate-p3-005-task-authority.rb")
 require_relative "validate-p3-005-task-authority" if File.file?(p3_005_task_validator)
 p3_task_validator = File.join(__dir__, "validate-p3-task-authority.rb")
 require_relative "validate-p3-task-authority" if File.file?(p3_task_validator)
+p3_final_transactional_route_validator = File.join(__dir__, "validate-p3-final-transactional-route.rb")
+require_relative "validate-p3-final-transactional-route" if File.file?(p3_final_transactional_route_validator)
 
 class FounderDelegationContinuityError < StandardError; end
 class FounderDelegationDuplicateJsonKeyError < StandardError; end
@@ -5058,6 +5060,14 @@ module FounderDelegationContinuity
     route = mapping(truth["current_phase_route"], "current_phase_route")
     return validate_research_exit_state!(root, truth, policy, project, route) if
       route["schema_version"] == RESEARCH_EXIT_ROUTE_SCHEMA
+    if route["schema_version"] == P3FinalTransactionalRouteValidation::ROUTE_SCHEMA
+      assert(defined?(P3FinalTransactionalRouteValidation),
+             "P3 final transactional Route validator is unavailable")
+      state = P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: truth)
+      assert(state == P3FinalTransactionalRouteValidation::READY_STATE,
+             "P3 final transactional Route state drift")
+      return CONTINUE_DISPOSITION
+    end
     if route["schema_version"] == P3PhaseEntryValidation::HOST_OWNED_ROUTE_SCHEMA
       assert(defined?(P3PhaseEntryValidation), "P3 host-owned Route validator is unavailable")
       state = P3PhaseEntryValidation.validate!(root: root, truth: truth)

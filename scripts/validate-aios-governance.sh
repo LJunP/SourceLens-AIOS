@@ -368,8 +368,10 @@ check_phase_predecessor_activation() {
     end
 
     phase_route_authority = ledger.fetch("phase_route_authority")
-    host_owned_p3_route = truth.dig("current_phase_route", "schema_version") ==
-      "p3-host-owned-fixed-state-workflow-route/v1"
+    host_owned_p3_route = [
+      "p3-host-owned-fixed-state-workflow-route/v1",
+      "p3-final-transactional-host-workflow-and-strict-exit-route/v1"
+    ].include?(truth.dig("current_phase_route", "schema_version"))
     expected_phase_route_authority = if host_owned_p3_route
       {
         "path" => "docs/aios/STRATEGIC_CONSTITUTION.md",
@@ -2138,6 +2140,10 @@ if ruby -ryaml -e 'exit(YAML.load_file(ARGV[0]).dig("current_phase_route", "sche
 fi
 if ruby -ryaml -e 'exit(YAML.load_file(ARGV[0]).dig("current_phase_route", "schema_version") == "p3-host-owned-fixed-state-workflow-route/v1" ? 0 : 1)' "$TRUTH_PATH"; then
   ruby "${ROOT_DIR}/scripts/validate-p3-phase-entry.rb"
+fi
+if ruby -ryaml -e 'exit(YAML.load_file(ARGV[0]).dig("current_phase_route", "schema_version") == "p3-final-transactional-host-workflow-and-strict-exit-route/v1" ? 0 : 1)' "$TRUTH_PATH"; then
+  ruby "${ROOT_DIR}/scripts/validate-p3-final-transactional-route.rb"
+  ruby "${ROOT_DIR}/scripts/test-p3-final-transactional-route.rb"
 fi
 if ruby -ryaml -e 'exit(YAML.load_file(ARGV[0]).dig("current_phase_route", "schema_version") == "p3-zero-authority-action-envelope-route/v1" ? 0 : 1)' "$TRUTH_PATH"; then
   ruby "${ROOT_DIR}/scripts/validate-p3-zero-authority-route.rb"

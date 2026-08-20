@@ -5058,6 +5058,13 @@ module FounderDelegationContinuity
     route = mapping(truth["current_phase_route"], "current_phase_route")
     return validate_research_exit_state!(root, truth, policy, project, route) if
       route["schema_version"] == RESEARCH_EXIT_ROUTE_SCHEMA
+    if route["schema_version"] == P3PhaseEntryValidation::HOST_OWNED_ROUTE_SCHEMA
+      assert(defined?(P3PhaseEntryValidation), "P3 host-owned Route validator is unavailable")
+      state = P3PhaseEntryValidation.validate!(root: root, truth: truth)
+      assert(state == "P3_HOST_OWNED_FIXED_STATE_ROUTE_SLOT_1_ELIGIBLE",
+             "P3 host-owned Route state drift")
+      return CONTINUE_DISPOSITION
+    end
     if route["schema_version"] == "p3-zero-authority-action-envelope-route/v1"
       assert(defined?(P3ZeroAuthorityRouteValidation),
              "P3 zero-authority Route validator is unavailable")

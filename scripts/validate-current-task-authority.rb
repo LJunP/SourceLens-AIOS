@@ -5377,12 +5377,16 @@ module CurrentTaskAuthority
            "validator must run from the configured canonical repository, not a secondary worktree")
     branch = git(root, "symbolic-ref", "--quiet", "--short", "HEAD").first.strip
     assert(branch == project["canonical_branch"], "canonical repository is not on configured canonical branch")
-    assert(git(root, "status", "--porcelain=v1", "--untracked-files=all").first.empty?,
-           "canonical repository must be clean during authority validation")
+    route = hash(truth["current_phase_route"], "current_phase_route")
+    if route["schema_version"] == P3PhaseEntryValidation::HOST_OWNED_ROUTE_SCHEMA
+      P3PhaseEntryValidation.validate_host_owned_repository_scope!(root)
+    else
+      assert(git(root, "status", "--porcelain=v1", "--untracked-files=all").first.empty?,
+             "canonical repository must be clean during authority validation")
+    end
 
     active = hash(truth["active_work"], "active_work")
     records = worktrees(root)
-    route = hash(truth["current_phase_route"], "current_phase_route")
     inherited_source = if %w[
       strict-phase-recovery-hold/v1
       phase-delegated-continuation-hold/v1
@@ -5542,6 +5546,7 @@ module CurrentTaskAuthority
         FounderDelegationContinuity::RESERVED_ROUTE_SCHEMA,
         FounderDelegationContinuity::STRATEGIC_HOLD_ROUTE_SCHEMA,
         FounderDelegationContinuity::RESEARCH_EXIT_ROUTE_SCHEMA,
+        P3PhaseEntryValidation::HOST_OWNED_ROUTE_SCHEMA,
         "p3-phase-entry-active/v1",
         "p3-zero-authority-action-envelope-route/v1",
         "p3-zero-authority-action-envelope-task-route/v1",
@@ -5576,6 +5581,10 @@ module CurrentTaskAuthority
       assert(disposition == FounderDelegationContinuity::RESEARCH_EXIT_DISPOSITION,
              "P2 research exit requires exact capability-not-accepted closure and a separate P3 entry decision")
       return "P2_RESEARCH_EXIT_COMPLETE_P3_ENTRY_DECISION_REQUIRED"
+    end
+    if route["schema_version"] == P3PhaseEntryValidation::HOST_OWNED_ROUTE_SCHEMA
+      assert(defined?(P3PhaseEntryValidation), "P3 host-owned Route validator is unavailable")
+      return P3PhaseEntryValidation.validate!(root: root, truth: truth)
     end
     if route["schema_version"] == "p3-zero-authority-action-envelope-route/v1"
       assert(defined?(P3ZeroAuthorityRouteValidation),

@@ -1,8 +1,8 @@
 # SourceLens AIOS Strategic Constitution
 
-- Version: `2.4`
+- Version: `2.6`
 - Status: `FROZEN`
-- Effective date: 2026-08-18
+- Effective date: 2026-08-20
 - Owner: Human Founder
 
 ## 1. Positioning
@@ -126,7 +126,7 @@ P0 defines measurement. P1 measures the baseline and then locks practical target
 | P0 Strategic Foundation | Freeze truth, scope, migration and evaluation contracts | Canonical state, migration ledger, baseline protocol, reviewable worktree plan |
 | P1 Agent Evaluation and Research Foundation | Build task/evaluator/trace/baseline infrastructure | Reproducible baseline suite and hidden-set protocol |
 | P2 Repository Intelligence Research | Establish a representative Repository Context Benchmark and truthfully determine, within the preregistered budget, whether task-conditioned Repository Intelligence materially outperforms a simple retrieval baseline | Independently accepted representative benchmark and B1 baseline, plus reproducible terminal evidence that determines whether any frozen candidate met the preregistered superiority criterion within the frozen budget |
-| P3 Single-Agent Runtime + Minimum Trust | Durable planner/executor/tool/state/checkpoint loop | Resume, isolation, permission and trace tests |
+| P3 Single-Agent Runtime + Minimum Trust | Build and independently validate one host-owned finite-state Single-Agent workflow in which AgentRuntime emits only state-specific effect-free typed payloads, while fixed host transition handlers—not an Agent-authored plan, action request, dynamic grant, sealed action program, generic tool registry, broker or interpreter—perform the only bounded effects inside a disposable workspace; bind every transition and effect to the accepted P3-001 checkpoint chain, fail-closed structural permissions and isolation, and a complete append-only observable trace without entering P4. | Resume, isolation, permission and trace tests |
 | P4 Software Engineer Agent Alpha | Complete real issue-to-evidence flow | Verified patches on controlled real tasks |
 | P5 Trustworthy Execution Hardening | Harden sandbox, policy, approval, risk and rollback | Adversarial and failure-recovery evidence |
 | P6 Reliability Research | Establish SourceLens-Bench and failure taxonomy | Reproducible benchmark report |
@@ -170,4 +170,4 @@ Stopping is a valid research result. It must not be hidden by adding features.
 
 ## 12. Change control
 
-Only the Human Founder may change mission, primary ICP, year-one outcome or long-term direction. Any change requires a new constitution version and an append-only ADR. Constitution v2.4 is bound to the create-once Founder decision `AUTHORIZE_P2_RESEARCH_NON_PASS_COMPLETION_AND_PHASE_EXIT_REBASELINE_V1`; that decision is the append-only ADR for this P2 Phase-route change. Routine implementation choices do not modify this document.
+Only the Human Founder may change mission, primary ICP, year-one outcome or long-term direction. Any change requires a new constitution version and an append-only ADR. Constitution v2.4 is bound to the create-once Founder decision `AUTHORIZE_P2_RESEARCH_NON_PASS_COMPLETION_AND_PHASE_EXIT_REBASELINE_V1`; that decision is the append-only ADR for this P2 Phase-route change. Constitution v2.6 is bound to the create-once Founder decision `AUTHORIZE_P3_HOST_OWNED_FIXED_STATE_WORKFLOW_MINIMAL_ATOMIC_STRATEGY_INSTALLATION_AFTER_EVIDENCE_ONLY_NON_PASS_V1`; that decision formally amends only the P3 Objective and installs the host-owned fixed-state workflow route while preserving the strict P3 Exit Gate, P4 HOLD and Long-term Goal ACTIVE boundaries. Constitution v2.5 was never installed and has no authority. Routine implementation choices do not modify this document.

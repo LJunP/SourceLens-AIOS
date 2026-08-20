@@ -368,7 +368,17 @@ check_phase_predecessor_activation() {
     end
 
     phase_route_authority = ledger.fetch("phase_route_authority")
-    expected_phase_route_authority = if research_non_pass_closure
+    host_owned_p3_route = truth.dig("current_phase_route", "schema_version") ==
+      "p3-host-owned-fixed-state-workflow-route/v1"
+    expected_phase_route_authority = if host_owned_p3_route
+      {
+        "path" => "docs/aios/STRATEGIC_CONSTITUTION.md",
+        "version" => "2.6",
+        "section" => "## 9. Phase route",
+        "section_byte_length" => 3536,
+        "section_sha256" => "c0ad7682ae22f531930629c9b89042705f8810d50def6b2be9dcaf102c680218"
+      }
+    elsif research_non_pass_closure
       {
         "path" => "docs/aios/STRATEGIC_CONSTITUTION.md",
         "version" => "2.4",
@@ -2124,6 +2134,9 @@ check_authority_bindings
 check_phase_predecessor_activation
 check_founder_knowledge_sync_state STRUCTURAL_ONLY "$TRUTH_PATH" CANONICAL_ONLY
 if ruby -ryaml -e 'exit(YAML.load_file(ARGV[0]).dig("current_phase_route", "schema_version") == "p3-phase-entry-active/v1" ? 0 : 1)' "$TRUTH_PATH"; then
+  ruby "${ROOT_DIR}/scripts/validate-p3-phase-entry.rb"
+fi
+if ruby -ryaml -e 'exit(YAML.load_file(ARGV[0]).dig("current_phase_route", "schema_version") == "p3-host-owned-fixed-state-workflow-route/v1" ? 0 : 1)' "$TRUTH_PATH"; then
   ruby "${ROOT_DIR}/scripts/validate-p3-phase-entry.rb"
 fi
 if ruby -ryaml -e 'exit(YAML.load_file(ARGV[0]).dig("current_phase_route", "schema_version") == "p3-zero-authority-action-envelope-route/v1" ? 0 : 1)' "$TRUTH_PATH"; then

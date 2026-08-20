@@ -5064,9 +5064,11 @@ module FounderDelegationContinuity
       assert(%w[
         P3_HOST_OWNED_FIXED_STATE_ROUTE_SLOT_1_ELIGIBLE
         P3_HOST_OWNED_FIXED_STATE_ROUTE_SLOT_1_ACTIVE
+        P3_HOST_OWNED_FIXED_STATE_ROUTE_SLOT_1_TERMINAL_NON_PASS
       ].include?(state),
              "P3 host-owned Route state drift")
-      return CONTINUE_DISPOSITION
+      return state == "P3_HOST_OWNED_FIXED_STATE_ROUTE_SLOT_1_TERMINAL_NON_PASS" ?
+        FOUNDER_DISPOSITION : CONTINUE_DISPOSITION
     end
     if route["schema_version"] == "p3-zero-authority-action-envelope-route/v1"
       assert(defined?(P3ZeroAuthorityRouteValidation),

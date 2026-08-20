@@ -67,6 +67,13 @@ module P3PhaseEntryValidation
   HOST_OWNED_ROUTE_ID = "P3_HOST_OWNED_FIXED_STATE_WORKFLOW_MINIMAL_ATOMIC_ROUTE"
   HOST_OWNED_NEXT_ACTION =
     "MASTER_ACTIVATE_HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION_VERTICAL_SLICE"
+  HOST_OWNED_TERMINAL_ACTION =
+    "FOUNDER_DECIDE_P3_ROUTE_AFTER_SLOT_1_NON_PASS_OR_HOLD"
+  HOST_OWNED_TERMINAL_RECEIPT = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-host-owned-fixed-workflow-structural-permission-20260820/task-p3-006/terminal/P3_006_TERMINAL_SLOT_1_TASK_GATE_NON_PASS_RECEIPT_V1C.json",
+    "byte_length" => 8302,
+    "sha256" => "30be3b0fd7757bc218d8c0f72354ed049135a83316a582c31bada8bc3d2b082a"
+  }.freeze
   HOST_OWNED_INSTALLATION_PATHS = %w[
     docs/aios/STRATEGIC_CONSTITUTION.md
     docs/aios/truth/project_state.yaml
@@ -77,6 +84,12 @@ module P3PhaseEntryValidation
     scripts/validate-aios-governance.sh
   ].freeze
   HOST_OWNED_TASK_ACTIVATION_CONTROL_PATHS = %w[
+    docs/aios/truth/project_state.yaml
+    scripts/validate-p3-phase-entry.rb
+    scripts/validate-founder-delegation-continuity.rb
+    scripts/test-p3-phase-entry.rb
+  ].freeze
+  HOST_OWNED_TASK_TERMINAL_CONTROL_PATHS = %w[
     docs/aios/truth/project_state.yaml
     scripts/validate-p3-phase-entry.rb
     scripts/validate-founder-delegation-continuity.rb
@@ -395,8 +408,10 @@ module P3PhaseEntryValidation
     activation = contract_path.is_a?(String) && !contract_path.empty? &&
       paths.sort == activation_paths.sort &&
       lines.select { |line| line.start_with?("??") }.map { |line| line[3..] } == [contract_path]
-    assert(installation || activation,
-           "host-owned repository mutation set is neither exact installation nor exact Task activation")
+    terminalization = paths.sort == HOST_OWNED_TASK_TERMINAL_CONTROL_PATHS.sort &&
+      lines.none? { |line| line.start_with?("??") }
+    assert(installation || activation || terminalization,
+           "host-owned repository mutation set is neither exact installation, Task activation nor Task terminalization")
   end
 
   def validate_host_owned_constitution!(root, truth, decision)
@@ -588,17 +603,166 @@ module P3PhaseEntryValidation
     raise P3PhaseEntryValidationError, "host-owned active Task Contract YAML invalid: #{e.message}"
   end
 
+  def validate_host_owned_terminal_task!(root, truth, decision, current_envelope)
+    route = mapping(truth["current_phase_route"], "host-owned terminal Route")
+    terminal = exact_keys(
+      route["terminal_task"],
+      %w[
+        task_id status slot_id milestone candidate manifest
+        independent_review_verdicts terminal_receipt accepted
+        delivery_credit strict_exit_credit
+      ],
+      "host-owned terminal Task"
+    )
+    first_slot = array(decision["ordered_slots"], "host-owned ordered slots").first
+    assert(terminal["task_id"] ==
+             "AIOS-P3-006_HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION_VERTICAL_SLICE" &&
+           terminal["status"] == "TERMINAL_TASK_GATE_NON_PASS" &&
+           terminal["slot_id"] == first_slot["slot_id"] &&
+           terminal["milestone"] == first_slot["milestone"] &&
+           terminal["candidate"] == {
+             "commit" => "3025a9bfe634bbe58776ed13942a15dc3afd9dc8",
+             "tree" => "5cfa4fe182b880b2dbeaa02e747537e5401fccb2",
+             "integrated" => false
+           } && terminal["independent_review_verdicts"] == {
+             "cto" => "NON_PASS",
+             "security" => "NON_PASS",
+             "quality_evaluation" => "NON_PASS"
+           } && terminal["accepted"] == false && terminal["delivery_credit"] == 0 &&
+           terminal["strict_exit_credit"] == 0,
+           "host-owned terminal Task outcome drift")
+    manifest_identity = exact_keys(
+      terminal["manifest"], %w[path byte_length sha256], "host-owned terminal manifest"
+    )
+    closed_file_identity(manifest_identity, "host-owned terminal manifest", create_once: true)
+    receipt_identity = exact_keys(
+      terminal["terminal_receipt"], %w[path byte_length sha256],
+      "host-owned terminal receipt identity"
+    )
+    assert(receipt_identity == HOST_OWNED_TERMINAL_RECEIPT,
+           "host-owned terminal receipt identity drift")
+    receipt = JSON.parse(closed_file_identity(
+      receipt_identity, "host-owned terminal receipt", create_once: true
+    ))
+    assert(receipt["schema"] == "p3-task-terminal-receipt/v1" &&
+           receipt["receipt_id"] == "P3_006_TERMINAL_SLOT_1_TASK_GATE_NON_PASS_RECEIPT_V1C" &&
+           receipt.dig("correction", "prior_receipt_canonicalized") == false &&
+           receipt.dig("correction", "prior_receipt_do_not_use") == true &&
+           receipt.dig("task", "task_id") == terminal["task_id"] &&
+           receipt.dig("task", "slot_id") == terminal["slot_id"] &&
+           receipt.dig("candidate", "final_commit") == terminal.dig("candidate", "commit") &&
+           receipt.dig("candidate", "final_tree") == terminal.dig("candidate", "tree") &&
+           receipt.dig("candidate", "integrated") == false &&
+           receipt.dig("terminal_result", "task_lifecycle") == "TERMINAL_TASK_GATE_NON_PASS" &&
+           receipt.dig("terminal_result", "route_lifecycle") ==
+             "TERMINAL_SLOT_1_NON_PASS_DOWNSTREAM_LOCKED_NO_REPLACEMENT" &&
+           receipt.dig("terminal_result", "phase_lifecycle") == "ACTIVE_INCOMPLETE_ROUTE_HOLD" &&
+           receipt.dig("terminal_result", "long_term_goal_lifecycle") == "ACTIVE" &&
+           receipt.dig("terminal_result", "task_gate_accepted") == false &&
+           receipt.dig("terminal_result", "candidate_integration_allowed") == false &&
+           receipt.dig("terminal_result", "slot_2_unlocked") == false &&
+           receipt.dig("terminal_result", "slot_3_unlocked") == false &&
+           receipt.dig("terminal_result", "p3_delivery_progress_percent") == 25 &&
+           receipt.dig("terminal_result", "p3_strict_exit_progress_percent") == 0 &&
+           receipt.dig("terminal_result", "p4_status") == "HOLD" &&
+           receipt.dig("terminal_result", "project_actually_completed") == false &&
+           receipt.dig("no_auto_successor", "present") == true,
+           "host-owned terminal receipt content drift")
+
+    contract = exact_keys(
+      receipt.dig("task", "contract"), %w[path byte_length sha256],
+      "host-owned terminal Contract identity"
+    )
+    exact_identity(root.join(contract.fetch("path")), contract.fetch("byte_length"),
+                   contract.fetch("sha256"), "host-owned terminal Contract")
+    authority = exact_keys(
+      receipt.dig("task", "authority").slice("path", "byte_length", "sha256"),
+      %w[path byte_length sha256], "host-owned terminal authority identity"
+    )
+    closed_file_identity(authority, "host-owned terminal authority", create_once: true)
+    task_card = exact_keys(
+      receipt.dig("task", "frozen_task_card"), %w[path byte_length sha256],
+      "host-owned frozen Task Card identity"
+    )
+    closed_file_identity(task_card, "host-owned frozen Task Card", create_once: true)
+    assert(receipt.dig("candidate", "manifest").slice("path", "byte_length", "sha256") ==
+             manifest_identity,
+           "host-owned terminal manifest receipt binding drift")
+    array(receipt["cycle_2_independent_reviews"], "cycle-2 reviews").each do |review|
+      assert(review["verdict"] == "NON_PASS", "host-owned terminal review verdict drift")
+      closed_file_identity(
+        review.slice("path", "byte_length", "sha256"),
+        "host-owned terminal #{review.fetch('role')} review", create_once: true
+      )
+    end
+    bundle = receipt.dig("candidate", "recoverable_terminal_bundle")
+    closed_file_identity(
+      bundle.slice("path", "byte_length", "sha256"),
+      "host-owned rejected candidate terminal bundle", create_once: true
+    )
+
+    expected_entry = {
+      "task_id" => terminal["task_id"],
+      "route_id" => HOST_OWNED_ROUTE_ID,
+      "status" => "TERMINAL_TASK_GATE_NON_PASS",
+      "milestone" => first_slot["milestone"],
+      "slot_id" => first_slot["slot_id"],
+      "budget" => first_slot["budget"],
+      "contract" => contract,
+      "authority" => authority,
+      "activation_parent" => {
+        "commit" => receipt.dig("candidate", "route_installation_commit"),
+        "tree" => receipt.dig("candidate", "route_installation_tree")
+      },
+      "candidate" => terminal["candidate"],
+      "candidate_manifest" => manifest_identity,
+      "independent_review_verdicts" => terminal["independent_review_verdicts"],
+      "terminal_receipt" => receipt_identity
+    }
+    assert(array(current_envelope["task_ledger"], "current P3 Task ledger").last == expected_entry,
+           "host-owned terminal Task ledger entry drift")
+    receipt
+  rescue JSON::ParserError => e
+    raise P3PhaseEntryValidationError, "host-owned terminal receipt JSON invalid: #{e.message}"
+  end
+
   def validate_host_owned_route!(root, truth, project, route)
     decision, parent_truth = validate_host_owned_decision!(root, route)
     validate_host_owned_repository_scope!(root, truth)
     validate_host_owned_constitution!(root, truth, decision)
     active_task = route["status"] == "ACTIVE_SLOT_1"
-    expected_route_status = active_task ? "ACTIVE_SLOT_1" : "AUTHORIZED_READY_SLOT_1"
-    expected_execution_status = active_task ?
-      "PHASE_DELEGATED_TASK_ACTIVE" : "PHASE_DELEGATED_CONTINUATION_READY"
-    expected_scheduling_status = active_task ?
-      "SLOT_1_ACTIVE_DOWNSTREAM_LOCKED" : "SLOT_1_ELIGIBLE_NOT_ACTIVATED"
-    expected_next_action = active_task ? "COMPLETE_CURRENT_TASK_GATE" : HOST_OWNED_NEXT_ACTION
+    terminal_task = route["status"] == "TERMINAL_SLOT_1_TASK_GATE_NON_PASS"
+    ready_route = route["status"] == "AUTHORIZED_READY_SLOT_1"
+    assert([active_task, terminal_task, ready_route].count(true) == 1,
+           "host-owned current Route lifecycle drift")
+    expected_route_status = if terminal_task
+                              "TERMINAL_SLOT_1_TASK_GATE_NON_PASS"
+                            elsif active_task
+                              "ACTIVE_SLOT_1"
+                            else
+                              "AUTHORIZED_READY_SLOT_1"
+                            end
+    expected_execution_status = if terminal_task
+                                  "ROUTE_TERMINAL_SLOT_1_NON_PASS"
+                                elsif active_task
+                                  "PHASE_DELEGATED_TASK_ACTIVE"
+                                else
+                                  "PHASE_DELEGATED_CONTINUATION_READY"
+                                end
+    expected_scheduling_status = if terminal_task
+                                   "DOWNSTREAM_SLOTS_LOCKED_NO_REPLACEMENT"
+                                 elsif active_task
+                                   "SLOT_1_ACTIVE_DOWNSTREAM_LOCKED"
+                                 else
+                                   "SLOT_1_ELIGIBLE_NOT_ACTIVATED"
+                                 end
+    expected_next_action = if terminal_task
+                             HOST_OWNED_TERMINAL_ACTION
+                           elsif active_task
+                             "COMPLETE_CURRENT_TASK_GATE"
+                           else
+                             HOST_OWNED_NEXT_ACTION
+                           end
 
     exact_keys(
       route,
@@ -607,12 +771,12 @@ module P3PhaseEntryValidation
         phase_entry_status policy founder_phase_route_decision_required
         founder_reserved_trigger_resolved next_eligible_action
         phase_execution_envelope_ref phase_entry_route_ref
-        accepted_foundation_route_ref historical_terminal_route_ref
+        accepted_foundation_route_ref historical_terminal_route_ref terminal_task
         founder_route_decision activation_parent objective_id
         strict_exit_gate_changed strict_exit_gate_required_items prior_task_ledger
         ordered_slots p3_entry_authorized p4_entry_authorized
         long_term_goal_status external_effects additional_write_roots
-      ],
+      ].reject { |key| key == "terminal_task" && !terminal_task },
       "host-owned current Route"
     )
     assert(route["schema_version"] == HOST_OWNED_ROUTE_SCHEMA &&
@@ -621,7 +785,7 @@ module P3PhaseEntryValidation
            route["execution_status"] == expected_execution_status &&
            route["scheduling_status"] == expected_scheduling_status &&
            route["phase"] == "P3" && route["phase_entry_status"] == "AUTHORIZED" &&
-           route["founder_phase_route_decision_required"] == false &&
+           route["founder_phase_route_decision_required"] == terminal_task &&
            route["founder_reserved_trigger_resolved"] == "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE" &&
            route["next_eligible_action"] == expected_next_action &&
            route["phase_execution_envelope_ref"] == "phase_execution_envelope" &&
@@ -648,14 +812,23 @@ module P3PhaseEntryValidation
       "entry_count", "canonicalization", "canonical_byte_length", "canonical_sha256"
     ), "host-owned Route prior ledger identity drift")
     expected_route_slots = decision_slot_projection(decision)
-    expected_route_slots.first["status"] = "ACTIVE" if active_task
+    if terminal_task
+      expected_route_slots[0]["status"] = "TERMINAL_TASK_GATE_NON_PASS"
+      expected_route_slots[1]["status"] = "LOCKED_SLOT_1_NON_PASS_NO_REPLACEMENT"
+      expected_route_slots[2]["status"] = "LOCKED_SLOT_1_NON_PASS_NO_REPLACEMENT"
+    elsif active_task
+      expected_route_slots.first["status"] = "ACTIVE"
+    end
     assert(route["ordered_slots"] == expected_route_slots,
            "host-owned Route slot dependency projection drift")
     assert(expected_route_slots.map { |slot| slot["ordinal"] } == [1, 2, 3] &&
            expected_route_slots.map { |slot| slot["status"] } == [
-             active_task ? "ACTIVE" : "ELIGIBLE_NOT_ACTIVATED",
-             "LOCKED_PREDECESSOR_NOT_ACCEPTED",
-             "LOCKED_PREDECESSOR_NOT_ACCEPTED"
+             terminal_task ? "TERMINAL_TASK_GATE_NON_PASS" :
+               (active_task ? "ACTIVE" : "ELIGIBLE_NOT_ACTIVATED"),
+             terminal_task ? "LOCKED_SLOT_1_NON_PASS_NO_REPLACEMENT" :
+               "LOCKED_PREDECESSOR_NOT_ACCEPTED",
+             terminal_task ? "LOCKED_SLOT_1_NON_PASS_NO_REPLACEMENT" :
+               "LOCKED_PREDECESSOR_NOT_ACCEPTED"
            ] &&
            expected_route_slots.map { |slot| slot["kind"] } == [
              "PRODUCT_IMPLEMENTATION", "PRODUCT_IMPLEMENTATION", "EVALUATION_ONLY"
@@ -667,7 +840,8 @@ module P3PhaseEntryValidation
     current_ledger = array(current_envelope["task_ledger"], "current P3 Task ledger")
     prior_identity = mapping(decision["prior_task_ledger"], "host-owned prior ledger decision")
     serialized = canonical_json(parent_ledger)
-    expected_current_ledger_length = parent_ledger.length + (active_task ? 1 : 0)
+    task_consumed = active_task || terminal_task
+    expected_current_ledger_length = parent_ledger.length + (task_consumed ? 1 : 0)
     assert(parent_ledger == current_ledger.first(parent_ledger.length) &&
            current_ledger.length == expected_current_ledger_length &&
            parent_ledger.length == prior_identity["entry_count"] &&
@@ -683,17 +857,27 @@ module P3PhaseEntryValidation
       result[key] = value - slot_budget.fetch(key)
     end
     expected_envelope_slots = envelope_slot_projection(decision)
-    expected_envelope_slots.first["status"] = "ACTIVE" if active_task
+    if terminal_task
+      expected_envelope_slots[0]["status"] = "TERMINAL_TASK_GATE_NON_PASS"
+      expected_envelope_slots[1]["status"] = "LOCKED_SLOT_1_NON_PASS_NO_REPLACEMENT"
+      expected_envelope_slots[2]["status"] = "LOCKED_SLOT_1_NON_PASS_NO_REPLACEMENT"
+    elsif active_task
+      expected_envelope_slots.first["status"] = "ACTIVE"
+    end
     assert(current_envelope["schema_version"] == "phase-execution-envelope/v1" &&
            current_envelope["phase"] == "P3" &&
-           current_envelope["status"] == (active_task ?
-             "ACTIVE_SLOT_1_TASK_IN_PROGRESS" : "ACTIVE_REMAINING_CAPACITY_SLOT_1_ELIGIBLE") &&
+           current_envelope["status"] == (terminal_task ?
+             "HOLD_INCOMPLETE_SLOT_1_NON_PASS_DOWNSTREAM_LOCKED" :
+             (active_task ? "ACTIVE_SLOT_1_TASK_IN_PROGRESS" :
+               "ACTIVE_REMAINING_CAPACITY_SLOT_1_ELIGIBLE")) &&
            current_envelope["accounting_basis"] == "NON_RESETTABLE_DECLARED_TASK_BUDGET_RESERVATION" &&
            current_envelope["limits"] == phase_envelope["limits"] &&
-           current_envelope["consumed"] == (active_task ? expected_consumed : phase_envelope["consumed"]) &&
-           current_envelope["remaining"] == (active_task ? expected_remaining : phase_envelope["remaining"]) &&
-           current_envelope["reserved"] == {} && current_envelope["remaining_capacity_usable"] == true &&
-           current_envelope["remaining_capacity_lock_reason"] == "NONE" &&
+           current_envelope["consumed"] == (task_consumed ? expected_consumed : phase_envelope["consumed"]) &&
+           current_envelope["remaining"] == (task_consumed ? expected_remaining : phase_envelope["remaining"]) &&
+           current_envelope["reserved"] == {} &&
+           current_envelope["remaining_capacity_usable"] == !terminal_task &&
+           current_envelope["remaining_capacity_lock_reason"] == (terminal_task ?
+             "SLOT_1_NON_PASS_DOWNSTREAM_DEPENDENCIES_LOCKED_BY_EXACT_FOUNDER_ROUTE" : "NONE") &&
            current_envelope["milestone_order"] == HOST_OWNED_MILESTONES &&
            current_envelope["accepted_milestones"] == ["DURABLE_STATE_AND_CHECKPOINT_RESUME"] &&
            current_envelope["ordered_slots"] == expected_envelope_slots &&
@@ -704,6 +888,7 @@ module P3PhaseEntryValidation
            "host-owned P3 Phase envelope drift")
     active_contract, = active_task ?
       validate_host_owned_active_task!(root, truth, decision, current_envelope) : [nil, nil]
+    validate_host_owned_terminal_task!(root, truth, decision, current_envelope) if terminal_task
     assert(current_envelope["authority_basis"] == {
       "phase_entry_status" => "AUTHORIZED",
       "policy_path" => "docs/aios/FOUNDER_DELEGATION_POLICY.md",
@@ -718,14 +903,19 @@ module P3PhaseEntryValidation
     assert(project["current_phase"] == "P3" &&
            project["phase_name"] == "Single-Agent Runtime + Minimum Trust" &&
            project["p2_execution_status"] == "COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED" &&
-           project["phase_execution_status"] == (active_task ?
-             "ACTIVE_SLOT_1_TASK_IN_PROGRESS" : "ACTIVE_SLOT_1_ELIGIBLE_NOT_ACTIVATED") &&
-           project["current_route_execution_status"] == (active_task ?
-             "P3_HOST_OWNED_FIXED_STATE_WORKFLOW_ROUTE_SLOT_1_ACTIVE" :
-             "P3_HOST_OWNED_FIXED_STATE_WORKFLOW_ROUTE_READY_SLOT_1") &&
+           project["phase_execution_status"] == (terminal_task ?
+             "HOLD_INCOMPLETE_ROUTE_TERMINAL_SLOT_1_NON_PASS" :
+             (active_task ? "ACTIVE_SLOT_1_TASK_IN_PROGRESS" :
+               "ACTIVE_SLOT_1_ELIGIBLE_NOT_ACTIVATED")) &&
+           project["current_route_execution_status"] == (terminal_task ?
+             "P3_HOST_OWNED_FIXED_STATE_WORKFLOW_ROUTE_TERMINAL_SLOT_1_NON_PASS" :
+             (active_task ? "P3_HOST_OWNED_FIXED_STATE_WORKFLOW_ROUTE_SLOT_1_ACTIVE" :
+               "P3_HOST_OWNED_FIXED_STATE_WORKFLOW_ROUTE_READY_SLOT_1")) &&
            project["p3_entry_status"] == "AUTHORIZED" &&
-           project["p3_execution_status"] == (active_task ?
-             "ACTIVE_INCOMPLETE_SLOT_1_TASK_IN_PROGRESS" : "ACTIVE_INCOMPLETE_SLOT_1_ELIGIBLE") &&
+           project["p3_execution_status"] == (terminal_task ?
+             "HOLD_INCOMPLETE_SLOT_1_NON_PASS_DOWNSTREAM_LOCKED" :
+             (active_task ? "ACTIVE_INCOMPLETE_SLOT_1_TASK_IN_PROGRESS" :
+               "ACTIVE_INCOMPLETE_SLOT_1_ELIGIBLE")) &&
            project["p4_entry_status"] == "HOLD_PENDING_STRICT_P3_EXIT_AND_SEPARATE_FOUNDER_PHASE_ENTRY",
            "host-owned project projection drift")
 
@@ -741,11 +931,14 @@ module P3PhaseEntryValidation
 
     boundary = mapping(truth["phase_boundary"], "host-owned Phase boundary")
     assert(boundary["phase"] == "P3" &&
-           boundary["phase_execution_status"] == (active_task ?
-             "ACTIVE_SLOT_1_TASK_IN_PROGRESS" : "ACTIVE_SLOT_1_ELIGIBLE_NOT_ACTIVATED") &&
-           boundary["task_creation_allowed"] == !active_task &&
-           boundary["task_creation_scope"] == (active_task ?
-             "NONE_ACTIVE_TASK" : "HOST_OWNED_FIXED_WORKFLOW_SLOT_1_ONLY") &&
+           boundary["phase_execution_status"] == (terminal_task ?
+             "HOLD_INCOMPLETE_ROUTE_TERMINAL_SLOT_1_NON_PASS" :
+             (active_task ? "ACTIVE_SLOT_1_TASK_IN_PROGRESS" :
+               "ACTIVE_SLOT_1_ELIGIBLE_NOT_ACTIVATED")) &&
+           boundary["task_creation_allowed"] == ready_route &&
+           boundary["task_creation_scope"] == (terminal_task ?
+             "NONE_ROUTE_TERMINAL_DOWNSTREAM_LOCKED" :
+             (active_task ? "NONE_ACTIVE_TASK" : "HOST_OWNED_FIXED_WORKFLOW_SLOT_1_ONLY")) &&
            boundary["task_creation_lock_after_activation"] == true &&
            boundary["p3_entry_authorized"] == true &&
            boundary["allowed_task_kinds"] == %w[
@@ -753,39 +946,64 @@ module P3PhaseEntryValidation
              FIXED_HANDLER_CRASH_ISOLATION_AND_TRACE_CUSTODY
              INDEPENDENT_P3_STRICT_EXIT_GATE_AUDIT
            ] && boundary["next_eligible_action"] == expected_next_action &&
-           boundary["user_action_required"] == "NONE" &&
-           boundary["phase_route_decision_required"] == false &&
+           boundary["escalation_reason"] == (terminal_task ?
+             "P3_ROUTE_CHANGE_REQUIRED_AFTER_SLOT_1_NON_PASS_LOCKED_ALL_REMAINING_DECLARED_SLOTS" : nil) &&
+           boundary["user_action_required"] == (terminal_task ?
+             "FOUNDER_STRATEGIC_DECISION" : "NONE") &&
+           boundary["phase_route_decision_required"] == terminal_task &&
+           boundary["phase_route_user_action_required"] == (terminal_task ?
+             HOST_OWNED_TERMINAL_ACTION : "NONE") &&
            boundary["default_external_effects"] == FALSE_EFFECTS,
            "host-owned Phase boundary drift")
 
     control = mapping(truth["founder_escalation_control"], "host-owned Founder escalation control")
-    expected_source_event = active_task ? {
-      "kind" => "P3_PHASE_DELEGATED_SLOT_1_TASK_ACTIVATED",
-      "decision_id" => truth.dig("active_work", "current_task"),
-      "status" => "P3_HOST_OWNED_FIXED_STATE_WORKFLOW_SLOT_1_ACTIVE"
-    } : {
-      "kind" => "FOUNDER_P3_OBJECTIVE_AND_PHASE_ROUTE_DECISION_INSTALLED",
-      "decision_id" => HOST_OWNED_DECISION_ID,
-      "status" => "P3_HOST_OWNED_FIXED_STATE_WORKFLOW_ROUTE_READY_SLOT_1"
-    }
+    expected_source_event = if terminal_task
+                              {
+                                "kind" => "P3_PHASE_DELEGATED_SLOT_1_TASK_TERMINAL",
+                                "decision_id" => route.dig("terminal_task", "task_id"),
+                                "status" =>
+                                  "TERMINAL_TASK_GATE_NON_PASS_DOWNSTREAM_LOCKED_NO_REPLACEMENT"
+                              }
+                            elsif active_task
+                              {
+                                "kind" => "P3_PHASE_DELEGATED_SLOT_1_TASK_ACTIVATED",
+                                "decision_id" => truth.dig("active_work", "current_task"),
+                                "status" => "P3_HOST_OWNED_FIXED_STATE_WORKFLOW_SLOT_1_ACTIVE"
+                              }
+                            else
+                              {
+                                "kind" => "FOUNDER_P3_OBJECTIVE_AND_PHASE_ROUTE_DECISION_INSTALLED",
+                                "decision_id" => HOST_OWNED_DECISION_ID,
+                                "status" => "P3_HOST_OWNED_FIXED_STATE_WORKFLOW_ROUTE_READY_SLOT_1"
+                              }
+                            end
+    expected_reserved = terminal_task ? {
+      "category" => "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE",
+      "evidence" => {
+        "terminal_receipt" => HOST_OWNED_TERMINAL_RECEIPT,
+        "reason" =>
+          "CURRENT_P3_ROUTE_HAS_NO_EXECUTABLE_SLOT_AFTER_SLOT_1_NON_PASS_AND_ANY_CONTINUATION_REQUIRES_A_NEW_PHASE_ROUTE_DECISION"
+      }
+    } : {"category" => "NONE", "evidence" => nil}
     assert(control["schema_version"] == "founder-escalation-control/v2" &&
-           control["disposition"] == "NO_RESERVED_TRIGGER_CONTINUE_PHASE" &&
+           control["disposition"] == (terminal_task ?
+             "FOUNDER_DECISION_REQUIRED" : "NO_RESERVED_TRIGGER_CONTINUE_PHASE") &&
            control["source_event"] == expected_source_event &&
-           control.dig("reserved_trigger", "category") == "NONE" &&
-           control.dig("reserved_trigger", "evidence").nil? &&
+           control["reserved_trigger"] == expected_reserved &&
            control["resolved_strategy_decision"] == route["founder_route_decision"].merge(
              "category" => "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE",
              "result" => "P3_HOST_OWNED_FIXED_STATE_WORKFLOW_ROUTE_INSTALLED_SLOT_1_ELIGIBLE"
            ) && control["phase_gate_status"] == "INCOMPLETE" &&
-           control["founder_decision_required"] == false &&
-           control["next_action_owner"] == "MASTER_CEO_AGENT" &&
+           control["founder_decision_required"] == terminal_task &&
+           control["next_action_owner"] == (terminal_task ? "HUMAN_FOUNDER" : "MASTER_CEO_AGENT") &&
            control["next_eligible_action"] == expected_next_action,
            "host-owned Founder escalation projection drift")
 
     delegation = mapping(truth["phase_delegation"], "host-owned Phase delegation")
-    assert(delegation["status"] == (active_task ?
-             "ACTIVE_P3_HOST_OWNED_FIXED_STATE_WORKFLOW_SLOT_1_TASK" :
-             "ACTIVE_P3_HOST_OWNED_FIXED_STATE_WORKFLOW_ROUTE_SLOT_1_ELIGIBLE") &&
+    assert(delegation["status"] == (terminal_task ?
+             "P3_HOLD_INCOMPLETE_SLOT_1_NON_PASS_FOUNDER_ROUTE_DECISION_REQUIRED" :
+             (active_task ? "ACTIVE_P3_HOST_OWNED_FIXED_STATE_WORKFLOW_SLOT_1_TASK" :
+               "ACTIVE_P3_HOST_OWNED_FIXED_STATE_WORKFLOW_ROUTE_SLOT_1_ELIGIBLE")) &&
            delegation["model"] == "PHASE_LEVEL_FOUNDER_DELEGATION" &&
            delegation["decision_source"] == HOST_OWNED_DECISION_ID &&
            delegation["task_selection_owner"] == "MASTER_CEO_AGENT" &&
@@ -800,16 +1018,41 @@ module P3PhaseEntryValidation
     assert(active["current_task"] == (active_task ? active_contract["task_id"] : "NONE") &&
            active["current_task_status"] == (active_task ? "ACTIVE" : "NONE") &&
            (active_task ? active["execution_nonce"].is_a?(String) : active["execution_nonce"].nil?) &&
-           active["execution_nonce_status"] == (active_task ? "ACTIVE_SINGLE_USE" : "NOT_ISSUED") &&
-           active["task_resource_state"] == (active_task ?
-             "ACTIVE_PHASE_DELEGATED_SLOT_1" : "NOT_CREATED_PHASE_DELEGATED_SLOT_1_READY") &&
+           active["execution_nonce_status"] == (terminal_task ?
+             "CONSUMED_TERMINAL_NON_PASS" : (active_task ? "ACTIVE_SINGLE_USE" : "NOT_ISSUED")) &&
+           active["task_resource_state"] == (terminal_task ?
+             "NONE_ROUTE_TERMINAL_SLOT_1_NON_PASS" :
+             (active_task ? "ACTIVE_PHASE_DELEGATED_SLOT_1" :
+               "NOT_CREATED_PHASE_DELEGATED_SLOT_1_READY")) &&
            active["founder_reserved_authorization"] == route.dig("founder_route_decision", "path") &&
            active["founder_reserved_authorization_sha256"] == route.dig("founder_route_decision", "sha256") &&
-           active["founder_decision_required"] == false && active["user_action_required"] == "NONE" &&
-           active["phase_route_decision_required"] == false &&
+           active["founder_decision_required"] == terminal_task &&
+           active["founder_decision_required_scope"] == (terminal_task ?
+             "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE" : nil) &&
+           active["user_action_required"] == (terminal_task ?
+             "FOUNDER_STRATEGIC_DECISION" : "NONE") &&
+           active["phase_route_decision_required"] == terminal_task &&
+           active["phase_route_user_action_required"] == (terminal_task ?
+             HOST_OWNED_TERMINAL_ACTION : "NONE") &&
            active["next_eligible_action"] == expected_next_action &&
            active["external_effects"] == FALSE_EFFECTS,
            "host-owned active-work projection drift")
+    if terminal_task
+      assert(active["current_task_contract"].nil? &&
+             active["current_task_contract_sha256"].nil? &&
+             active["current_execution_authorization"].nil? &&
+             active["current_execution_authorization_sha256"].nil? &&
+             active["authority_record"].nil? && active["authorization_id"].nil? &&
+             active["task_branch"].nil? && active["task_worktree"].nil? &&
+             active["execution_evidence_root"].nil? && active["allowlisted_paths"] == [] &&
+             mapping(active["budget"], "terminal active-work budget").values.all?(&:nil?) &&
+             active.dig("roles", "independent_reviewers") == [] &&
+             active.dig("last_completed_task", "task_id") ==
+               route.dig("terminal_task", "task_id") &&
+             active.dig("last_completed_task", "terminal_receipt") ==
+               HOST_OWNED_TERMINAL_RECEIPT,
+             "host-owned terminal active-work closure drift")
+    end
 
     execution_claim = mapping(truth["phase_execution_claim"], "host-owned execution claim")
     assert(execution_claim["current_route_claim"] == HOST_OWNED_ROUTE_ID &&
@@ -818,20 +1061,23 @@ module P3PhaseEntryValidation
            execution_claim["p3_entry_authorized"] == true &&
            execution_claim["p3_exit_gate_progress_percent"] == 0 &&
            execution_claim["p3_delivery_progress_percent"] == 25 &&
-           execution_claim["phase_local_allowed"] == [active_task ?
+           execution_claim["phase_local_allowed"] == (terminal_task ? [] : [active_task ?
              "COMPLETE_HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION_VERTICAL_SLICE" :
-             "ACTIVATE_HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION_VERTICAL_SLICE"],
+             "ACTIVATE_HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION_VERTICAL_SLICE"]),
            "host-owned execution claim drift")
     claim = mapping(truth["claim_boundary"], "host-owned claim boundary")
     expected_current_task = active_task ? active["current_task"] : "NONE"
     assert(claim["current_phase_route"] == HOST_OWNED_ROUTE_ID &&
            claim["current_task"] == expected_current_task &&
-           claim["selected_task"] == (active_task ? expected_current_task :
-             "NONE_SLOT_1_ELIGIBLE_NOT_ACTIVATED") &&
+           claim["selected_task"] == (terminal_task ?
+             "NONE_ROUTE_TERMINAL_SLOT_1_NON_PASS" :
+             (active_task ? expected_current_task : "NONE_SLOT_1_ELIGIBLE_NOT_ACTIVATED")) &&
            claim["current_task_status"] == (active_task ? "ACTIVE" : "NONE") &&
            claim["next_eligible_action"] == expected_next_action &&
-           claim["p3_status"] == (active_task ?
-             "ACTIVE_INCOMPLETE_SLOT_1_TASK_IN_PROGRESS" : "ACTIVE_INCOMPLETE_SLOT_1_ELIGIBLE") &&
+           claim["p3_status"] == (terminal_task ?
+             "HOLD_INCOMPLETE_SLOT_1_NON_PASS_DOWNSTREAM_LOCKED" :
+             (active_task ? "ACTIVE_INCOMPLETE_SLOT_1_TASK_IN_PROGRESS" :
+               "ACTIVE_INCOMPLETE_SLOT_1_ELIGIBLE")) &&
            claim["p3_phase_envelope_status"] == current_envelope["status"] &&
            claim["p3_exit_gate_progress_percent"] == 0 &&
            claim["p3_delivery_progress_percent"] == 25 &&
@@ -840,6 +1086,21 @@ module P3PhaseEntryValidation
              route.dig("founder_route_decision", "sha256") &&
            claim["long_term_goal_status"] == "ACTIVE",
            "host-owned claim boundary drift")
+    if terminal_task
+      assert(claim["p3_capability_milestone_status"] ==
+               "HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION_NOT_ACCEPTED_P3_006_TERMINAL_NON_PASS" &&
+             claim["p3_006_status"] == "TERMINAL_TASK_GATE_NON_PASS" &&
+             claim["p3_006_candidate_commit"] == route.dig("terminal_task", "candidate", "commit") &&
+             claim["p3_006_candidate_tree"] == route.dig("terminal_task", "candidate", "tree") &&
+             claim["p3_006_candidate_integrated"] == false &&
+             claim["p3_006_review_verdicts"] ==
+               route.dig("terminal_task", "independent_review_verdicts") &&
+             claim["p3_006_terminal_blocker_count"] == 3 &&
+             claim["p3_006_terminal_receipt_sha256"] == HOST_OWNED_TERMINAL_RECEIPT["sha256"] &&
+             claim["p3_006_delivery_credit"] == 0 &&
+             claim["p3_006_strict_exit_credit"] == 0,
+             "host-owned terminal claim boundary drift")
+    end
     goal = mapping(truth["goal"], "Long-term Goal projection")
     assert(goal["control_plane_status_observed"] == "ACTIVE" &&
            goal["current_task_authority"] == expected_current_task,
@@ -848,8 +1109,13 @@ module P3PhaseEntryValidation
     assert(historical["schema_version"] == "p3-zero-authority-action-envelope-task-route/v1" &&
            historical["status"] == "TERMINAL_SLOT_1_INDEPENDENT_REVIEW_NON_PASS",
            "historical P3-005 terminal accounting drift")
-    active_task ? "P3_HOST_OWNED_FIXED_STATE_ROUTE_SLOT_1_ACTIVE" :
+    if terminal_task
+      "P3_HOST_OWNED_FIXED_STATE_ROUTE_SLOT_1_TERMINAL_NON_PASS"
+    elsif active_task
+      "P3_HOST_OWNED_FIXED_STATE_ROUTE_SLOT_1_ACTIVE"
+    else
       "P3_HOST_OWNED_FIXED_STATE_ROUTE_SLOT_1_ELIGIBLE"
+    end
   end
 
   def validate_continuation!(truth, project, route)

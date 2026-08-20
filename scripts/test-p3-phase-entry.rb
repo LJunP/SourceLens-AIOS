@@ -46,6 +46,16 @@ assertions = 0
 expect_pass(
   "exact host-owned fixed-state Route projection",
   current_truth,
+  "P3_HOST_OWNED_FIXED_STATE_ROUTE_SLOT_1_TERMINAL_NON_PASS"
+)
+assertions += 1
+
+active_truth = load_yaml(
+  git_show("0999b0fd754cb79580329e0348dcecbce1aeb69e", "docs/aios/truth/project_state.yaml")
+)
+expect_pass(
+  "historical exact host-owned slot-1 active projection",
+  active_truth,
   "P3_HOST_OWNED_FIXED_STATE_ROUTE_SLOT_1_ACTIVE"
 )
 assertions += 1
@@ -142,21 +152,21 @@ mutations = [
 ]
 
 mutations.each do |name, fragment, mutation|
-  fixture = deep_copy(current_truth)
+  fixture = deep_copy(active_truth)
   mutation.call(fixture)
   expect_non_pass(name, fixture, fragment)
   assertions += 1
 end
 
 5.times do |index|
-  fixture = deep_copy(current_truth)
+  fixture = deep_copy(active_truth)
   fixture.dig("phase_execution_envelope", "task_ledger", index)["status"] = "REWRITTEN"
   expect_non_pass("historical Task ledger entry #{index + 1} is immutable", fixture,
                   "host-owned P3 Task ledger drift")
   assertions += 1
 end
 
-fixture = deep_copy(current_truth)
+fixture = deep_copy(active_truth)
 fixture.dig("phase_execution_envelope", "task_ledger") << {"task_id" => "FABRICATED"}
 expect_non_pass("historical Task ledger length is immutable", fixture,
                 "host-owned P3 Task ledger drift")
@@ -175,9 +185,38 @@ Dir.mktmpdir("p3-host-owned-untracked-") do |directory|
     raise "untracked repository file unexpectedly passed"
   rescue P3PhaseEntryValidationError => e
     raise "untracked test failed for wrong reason: #{e.message}" unless
-      e.message.include?("neither exact installation nor exact Task activation")
+      e.message.include?("neither exact installation, Task activation nor Task terminalization")
   end
   puts "PASS untracked repository file rejected"
+  assertions += 1
+end
+
+
+terminal_mutations = [
+  ["terminal receipt identity cannot drift", "host-owned terminal receipt identity drift",
+   ->(t) { t.dig("current_phase_route", "terminal_task", "terminal_receipt")["sha256"] = "0" * 64 }],
+  ["terminal slot 1 cannot claim acceptance", "host-owned Route slot dependency projection drift",
+   ->(t) { t.dig("current_phase_route", "ordered_slots", 0)["status"] = "ACCEPTED" }],
+  ["terminal slot 2 cannot unlock", "host-owned Route slot dependency projection drift",
+   ->(t) { t.dig("current_phase_route", "ordered_slots", 1)["status"] = "ELIGIBLE_NOT_ACTIVATED" }],
+  ["locked remaining capacity cannot become usable", "host-owned P3 Phase envelope drift",
+   ->(t) { t.dig("phase_execution_envelope")["remaining_capacity_usable"] = true }],
+  ["terminal Task ledger cannot claim acceptance", "host-owned terminal Task ledger entry drift",
+   ->(t) { t.dig("phase_execution_envelope", "task_ledger", 5)["status"] = "ACCEPTED" }],
+  ["terminal Route requires the reserved strategic trigger", "host-owned Founder escalation projection drift",
+   ->(t) { t.dig("founder_escalation_control", "reserved_trigger")["category"] = "NONE" }],
+  ["terminal Route cannot retain an active Task", "host-owned active-work projection drift",
+   ->(t) { t.dig("active_work")["current_task"] = "AIOS-P3-006_UNAUTHORIZED" }],
+  ["terminal Route cannot fabricate delivery credit", "host-owned claim boundary drift",
+   ->(t) { t.dig("claim_boundary")["p3_delivery_progress_percent"] = 50 }],
+  ["terminal Route cannot close Long-term Goal", "host-owned claim boundary drift",
+   ->(t) { t.dig("claim_boundary")["long_term_goal_status"] = "COMPLETE" }]
+]
+
+terminal_mutations.each do |name, fragment, mutation|
+  fixture = deep_copy(current_truth)
+  mutation.call(fixture)
+  expect_non_pass(name, fixture, fragment)
   assertions += 1
 end
 

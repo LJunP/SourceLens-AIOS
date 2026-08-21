@@ -1,9 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: '2026-08-21T04:00:31Z'
-
-verification_scope: P3_TIK_F1_PROCESS_REAL_CONFORMANCE_FOUNDATION_TASK_ACTIVE_ZERO_ACCEPTED_PROGRESS_DELIVERY_25_STRICT_EXIT_ZERO_P4_HOLD_LONG_TERM_GOAL_ACTIVE
-
+last_verified_at: '2026-08-21T07:44:42Z'
+verification_scope: P3_TIK_F1_TERMINAL_NON_PASS_DELIVERY_25_STRICT_EXIT_ZERO_P4_HOLD_LONG_TERM_GOAL_ACTIVE_FOUNDER_ROUTE_CHANGE_DECISION_REQUIRED
 authority:
   founder: Human Founder
   strategy:
@@ -39,7 +37,7 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: AIOS-P3-TIK-F1_PROCESS_REAL_BLACK_BOX_CONFORMANCE_FOUNDATION
+  current_task_authority: NONE
   note: 'Founder decision AUTHORIZE_P3_TRUSTED_INVOCATION_KERNEL_PROCESS_REAL_CLEAN_ROOM_ROUTE_REBASELINE_V1
     is installed from the exact 20308-byte direct Founder body with SHA-256
     f7bcecb200c5a7ce9564b63cadf6cd9b5fdf3b11398b48f53e37d635551b6ca7.
@@ -1801,10 +1799,8 @@ goal:
 
 project:
   name: SourceLens AIOS
-  positioning: Trustworthy autonomous-agent infrastructure research platform using
-    software engineering as the first validation environment.
-  year_one_outcome: Build and scientifically evaluate one trustworthy software-engineering
-    Agent.
+  positioning: Trustworthy autonomous-agent infrastructure research platform using software engineering as the first validation environment.
+  year_one_outcome: Build and scientifically evaluate one trustworthy software-engineering Agent.
   current_phase: P3
   phase_name: Single-Agent Runtime + Minimum Trust
   p0_status: COMPLETE
@@ -1813,10 +1809,10 @@ project:
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
   p2_execution_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
-  phase_execution_status: ACTIVE_P3_TIK_PROCESS_REAL_FOUNDATION_TASK
-  current_route_execution_status: P3_TIK_PROCESS_REAL_CLEAN_ROOM_ROUTE_ACTIVE_FOUNDATION_TASK
+  phase_execution_status: P3_TIK_HOLD_INCOMPLETE_ROUTE_TERMINAL_NON_PASS
+  current_route_execution_status: P3_TIK_PROCESS_REAL_ROUTE_TERMINAL_NON_PASS
   p3_entry_status: AUTHORIZED
-  p3_execution_status: ACTIVE_INCOMPLETE_PROCESS_REAL_FOUNDATION_TASK
+  p3_execution_status: HOLD_INCOMPLETE_PROCESS_REAL_ROUTE_TERMINAL_NON_PASS
   p4_entry_status: HOLD_PENDING_STRICT_P3_EXIT_AND_SEPARATE_FOUNDER_PHASE_ENTRY
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
@@ -1828,7 +1824,6 @@ project:
   accepted_harness_candidate_tree: 1a31751dc1b4d5bc2c9b2c4aaf0aa640528edecc
   realignment_parent_commit: f3fa42221de95381d98fb3c5a966bf33e99e4d21
   realignment_parent_tree: 97972952872b0a1e340b6a88cbd7491b7f7df953
-
 historical_previous_phase_route:
   route_id: P1_LOCAL_GATEWAY_EMPIRICAL_BASELINE_VERTICAL_SLICE_ROUTE_V1
   status: ACTIVE
@@ -9154,37 +9149,37 @@ historical_p3_host_authorized_transactional_route_terminal:
 current_phase_route:
   schema_version: p3-trusted-invocation-kernel-process-real-clean-room-route/v1
   route_id: P3_TRUSTED_INVOCATION_KERNEL_PROCESS_REAL_CLEAN_ROOM_ROUTE_V1
-  status: ACTIVE_FOUNDATION_TASK
-  lifecycle_stage: FOUNDATION_TASK_ACTIVE
-  execution_status: FOUNDATION_TASK_ACTIVE
-  scheduling_status: ACTIVE_FOUNDATION_TASK
+  status: HOLD_INCOMPLETE_ROUTE_TERMINAL_NON_PASS
+  lifecycle_stage: ROUTE_TERMINAL_NON_PASS
+  execution_status: TERMINAL_TIK_STAGE_GATE_NON_PASS
+  scheduling_status: FOUNDER_RESERVED_ROUTE_CHANGE_DECISION_REQUIRED
   phase: P3
   phase_entry_status: AUTHORIZED
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: '1.8'
     sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
-  founder_phase_route_decision_required: false
+  founder_phase_route_decision_required: true
   founder_reserved_triggers_resolved:
-    - MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
-    - MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
-  next_eligible_action: EXECUTE_P3_TIK_F1_PROCESS_REAL_CONFORMANCE_FOUNDATION
+  - MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
+  - MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+  next_eligible_action: FOUNDER_DECIDE_P3_AFTER_TIK_ROUTE_TERMINAL_NON_PASS
   phase_execution_envelope_ref: phase_execution_envelope
   phase_entry_route_ref: historical_p3_phase_entry_route
   accepted_p3_001_foundation_route_ref: historical_p3_001_phase_route
   historical_predecessor_route_ref: historical_p3_host_authorized_transactional_route_terminal
   founder_route_decision:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-invocation-kernel-process-real-20260821/decision/FOUNDER_P3_TRUSTED_INVOCATION_KERNEL_PROCESS_REAL_CLEAN_ROOM_ROUTE_REBASELINE_V1.json
+    path: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-invocation-kernel-process-real-20260821/decision/FOUNDER_P3_TRUSTED_INVOCATION_KERNEL_PROCESS_REAL_CLEAN_ROOM_ROUTE_REBASELINE_V1.json"
     byte_length: 29696
     sha256: aaf69bcd7a11c80a7af0410cca549fc084c69e4a52560175104dbc5e06e976d4
     decision_id: AUTHORIZE_P3_TRUSTED_INVOCATION_KERNEL_PROCESS_REAL_CLEAN_ROOM_ROUTE_REBASELINE_V1
     source_body:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-invocation-kernel-process-real-20260821/decision/FOUNDER_AUTHORIZATION_BODY_V1.txt
+      path: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-invocation-kernel-process-real-20260821/decision/FOUNDER_AUTHORIZATION_BODY_V1.txt"
       byte_length: 20308
       sha256: f7bcecb200c5a7ce9564b63cadf6cd9b5fdf3b11398b48f53e37d635551b6ca7
     reserved_triggers:
-      - MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
-      - MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+    - MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
+    - MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
   activation_parent:
     branch: main
     commit: 655a44bb083cf2c292e9b5ebbdd23c9c247f46ee
@@ -9208,79 +9203,79 @@ current_phase_route:
   workflow_claim_limit: MACOS_JDK17_LOCAL_SYNTHETIC_ONE_FIXED_READ_ONLY_CUSTODY_SHA256_WORKFLOW_ONLY
   strict_exit_gate_changed: false
   strict_exit_gate_required_items:
-    - RESUME
-    - ISOLATION
-    - PERMISSION
-    - COMPLETE_OBSERVABLE_TRACE
+  - RESUME
+  - ISOLATION
+  - PERMISSION
+  - COMPLETE_OBSERVABLE_TRACE
   prior_consumed_accounting:
     engineering_tasks: 8
     engineering_hours: 240
     calendar_days: 60
   rejected_lineage_policy: TERMINAL_IDENTITY_ACCOUNTING_ONLY_NO_BRANCH_WORKTREE_CANDIDATE_CODE_TEST_EVALUATOR_OR_ENGINEERING_EVIDENCE_READ
   ordered_stages:
-    - ordinal: 1
-      task_id: AIOS-P3-TIK-F1_PROCESS_REAL_BLACK_BOX_CONFORMANCE_FOUNDATION
-      stage_id: PROCESS_REAL_BLACK_BOX_CONFORMANCE_FOUNDATION
-      kind: EVALUATION_FOUNDATION
-      budget:
-        engineering_tasks: 1
-        engineering_hours: 24
-        calendar_days: 6
-        candidate_generations: 2
-        same_task_repairs: 1
-        review_cycles: 2
-      product_source_mutation_allowed: false
-      frozen_subject_protocol_required: true
-      file_backed_fresh_process_restart_required: true
-      required_reviewers:
-        - CTO_AGENT
-        - SECURITY_AGENT
-        - QUALITY_EVALUATION_AGENT
-      delivery_percent_on_pass: 50
-      strict_exit_percent_on_pass: 0
-      pass_unlocks_only: HOST_AUTHORIZED_TRANSACTIONAL_INVOCATION_KERNEL_PRODUCT
-      status: ACTIVE
-    - ordinal: 2
-      task_id: AIOS-P3-TIK-P1_HOST_AUTHORIZED_TRANSACTIONAL_INVOCATION_KERNEL
-      stage_id: HOST_AUTHORIZED_TRANSACTIONAL_INVOCATION_KERNEL_PRODUCT
-      kind: PRODUCT_IMPLEMENTATION
-      budget:
-        engineering_tasks: 1
-        engineering_hours: 48
-        calendar_days: 12
-        candidate_generations: 2
-        same_task_repairs: 1
-        review_cycles: 2
-      product_source_diff_required: NON_EMPTY_TESTABLE
-      stage_1_mutation_allowed: false
-      required_reviewers:
-        - CTO_AGENT
-        - SECURITY_AGENT
-        - QUALITY_EVALUATION_AGENT
-      delivery_percent_on_pass: 75
-      strict_exit_percent_on_pass: 0
-      pass_unlocks_only: ONE_SHOT_INDEPENDENT_STRICT_EXIT_AUDIT
-      status: LOCKED_FOUNDATION_NOT_ACCEPTED
-    - ordinal: 3
-      task_id: AIOS-P3-TIK-A1_ONE_SHOT_INDEPENDENT_STRICT_EXIT_AUDIT
-      stage_id: ONE_SHOT_INDEPENDENT_STRICT_EXIT_AUDIT
-      kind: EVALUATION_ONLY
-      budget:
-        engineering_tasks: 1
-        engineering_hours: 24
-        calendar_days: 6
-        product_candidates: 0
-        same_task_repairs: 0
-        formal_dispatches: 1
-      rerun_to_pass_allowed: false
-      required_reviewers:
-        - CTO_AGENT
-        - SECURITY_AGENT
-        - QUALITY_EVALUATION_AGENT
-      delivery_percent_on_pass: 100
-      strict_exit_percent_on_pass: 100
-      pass_unlocks_only: ELIGIBLE_AWAITING_FOUNDER_P3_PHASE_GATE_DECISION
-      status: LOCKED_PRODUCT_NOT_ACCEPTED
+  - ordinal: 1
+    task_id: AIOS-P3-TIK-F1_PROCESS_REAL_BLACK_BOX_CONFORMANCE_FOUNDATION
+    stage_id: PROCESS_REAL_BLACK_BOX_CONFORMANCE_FOUNDATION
+    kind: EVALUATION_FOUNDATION
+    budget:
+      engineering_tasks: 1
+      engineering_hours: 24
+      calendar_days: 6
+      candidate_generations: 2
+      same_task_repairs: 1
+      review_cycles: 2
+    product_source_mutation_allowed: false
+    frozen_subject_protocol_required: true
+    file_backed_fresh_process_restart_required: true
+    required_reviewers:
+    - CTO_AGENT
+    - SECURITY_AGENT
+    - QUALITY_EVALUATION_AGENT
+    delivery_percent_on_pass: 50
+    strict_exit_percent_on_pass: 0
+    pass_unlocks_only: HOST_AUTHORIZED_TRANSACTIONAL_INVOCATION_KERNEL_PRODUCT
+    status: TERMINAL_TASK_GATE_NON_PASS
+  - ordinal: 2
+    task_id: AIOS-P3-TIK-P1_HOST_AUTHORIZED_TRANSACTIONAL_INVOCATION_KERNEL
+    stage_id: HOST_AUTHORIZED_TRANSACTIONAL_INVOCATION_KERNEL_PRODUCT
+    kind: PRODUCT_IMPLEMENTATION
+    budget:
+      engineering_tasks: 1
+      engineering_hours: 48
+      calendar_days: 12
+      candidate_generations: 2
+      same_task_repairs: 1
+      review_cycles: 2
+    product_source_diff_required: NON_EMPTY_TESTABLE
+    stage_1_mutation_allowed: false
+    required_reviewers:
+    - CTO_AGENT
+    - SECURITY_AGENT
+    - QUALITY_EVALUATION_AGENT
+    delivery_percent_on_pass: 75
+    strict_exit_percent_on_pass: 0
+    pass_unlocks_only: ONE_SHOT_INDEPENDENT_STRICT_EXIT_AUDIT
+    status: LOCKED_ROUTE_TERMINAL
+  - ordinal: 3
+    task_id: AIOS-P3-TIK-A1_ONE_SHOT_INDEPENDENT_STRICT_EXIT_AUDIT
+    stage_id: ONE_SHOT_INDEPENDENT_STRICT_EXIT_AUDIT
+    kind: EVALUATION_ONLY
+    budget:
+      engineering_tasks: 1
+      engineering_hours: 24
+      calendar_days: 6
+      product_candidates: 0
+      same_task_repairs: 0
+      formal_dispatches: 1
+    rerun_to_pass_allowed: false
+    required_reviewers:
+    - CTO_AGENT
+    - SECURITY_AGENT
+    - QUALITY_EVALUATION_AGENT
+    delivery_percent_on_pass: 100
+    strict_exit_percent_on_pass: 100
+    pass_unlocks_only: ELIGIBLE_AWAITING_FOUNDER_P3_PHASE_GATE_DECISION
+    status: LOCKED_ROUTE_TERMINAL
   p3_entry_authorized: true
   p4_entry_authorized: false
   long_term_goal_status: ACTIVE
@@ -9300,7 +9295,7 @@ current_phase_route:
     write_outside_exact_authorized_roots: false
     irreversible_asset_deletion: false
   additional_write_roots: []
-
+  terminal_stage_ordinal: 1
 historical_p3_005_phase_route:
   schema_version: p3-zero-authority-action-envelope-task-route/v1
   route_id: P3_ZERO_AUTHORITY_AGENT_AND_IMMUTABLE_TASK_ACTION_ENVELOPE_PHASE_ROUTE
@@ -12966,7 +12961,7 @@ historical_p3_host_authorized_transactional_phase_execution_envelope:
 phase_execution_envelope:
   schema_version: p3-trusted-invocation-kernel-process-real-phase-envelope/v1
   phase: P3
-  status: ACTIVE_FOUNDATION_TASK
+  status: HOLD_INCOMPLETE_ROUTE_TERMINAL_NON_PASS
   authority_basis:
     phase_entry_status: AUTHORIZED
     policy_path: docs/aios/FOUNDER_DELEGATION_POLICY.md
@@ -12975,23 +12970,23 @@ phase_execution_envelope:
     source_route_ref: current_phase_route
     source_route_id: P3_TRUSTED_INVOCATION_KERNEL_PROCESS_REAL_CLEAN_ROOM_ROUTE_V1
     phase_entry_decision:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-phase-entry-20260819/decision/FOUNDER_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1.json
+      path: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-phase-entry-20260819/decision/FOUNDER_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1.json"
       sha256: 23a50848a182fa7865f8e96c78bd9001ff2db6682d8d19dc49a0d4768994d6eb
       byte_length: 4105
     founder_route_decision:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-invocation-kernel-process-real-20260821/decision/FOUNDER_P3_TRUSTED_INVOCATION_KERNEL_PROCESS_REAL_CLEAN_ROOM_ROUTE_REBASELINE_V1.json
+      path: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-invocation-kernel-process-real-20260821/decision/FOUNDER_P3_TRUSTED_INVOCATION_KERNEL_PROCESS_REAL_CLEAN_ROOM_ROUTE_REBASELINE_V1.json"
       byte_length: 29696
       sha256: aaf69bcd7a11c80a7af0410cca549fc084c69e4a52560175104dbc5e06e976d4
       decision_id: AUTHORIZE_P3_TRUSTED_INVOCATION_KERNEL_PROCESS_REAL_CLEAN_ROOM_ROUTE_REBASELINE_V1
       reserved_triggers:
-        - MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
-        - MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+      - MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
+      - MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
   accounting_basis: NON_RESETTABLE_DECLARED_TASK_BUDGET_RESERVATION
   prior_terminal_envelope_ref: historical_p3_host_authorized_transactional_phase_execution_envelope
   consumed:
-    engineering_tasks: 8
-    engineering_hours: 240
-    calendar_days: 60
+    engineering_tasks: 9
+    engineering_hours: 264
+    calendar_days: 66
   rebound_locked_capacity:
     engineering_tasks: 2
     engineering_hours: 48
@@ -13012,75 +13007,69 @@ phase_execution_envelope:
     engineering_tasks: 3
     engineering_hours: 96
     calendar_days: 24
-  reserved:
-    engineering_tasks: 1
-    engineering_hours: 24
-    calendar_days: 6
-    candidate_generations: 2
-    same_task_repairs: 1
-    review_cycles: 2
+  reserved: {}
   remaining:
-    engineering_tasks: 3
-    engineering_hours: 96
-    calendar_days: 24
+    engineering_tasks: 2
+    engineering_hours: 72
+    calendar_days: 18
   remaining_capacity_usable: false
-  remaining_capacity_lock_reason: ACTIVE_TASK_CONSUMES_SINGLE_TASK_SLOT
+  remaining_capacity_lock_reason: ROUTE_TERMINAL_EXACT_AUTHORIZATION_PROHIBITS_REUSE_OR_FOLLOW_ON_TASK
   milestone_order:
-    - DURABLE_STATE_AND_CHECKPOINT_RESUME
-    - PROCESS_REAL_BLACK_BOX_CONFORMANCE_FOUNDATION
-    - HOST_AUTHORIZED_TRANSACTIONAL_INVOCATION_KERNEL_PRODUCT
-    - ONE_SHOT_INDEPENDENT_STRICT_EXIT_AUDIT
+  - DURABLE_STATE_AND_CHECKPOINT_RESUME
+  - PROCESS_REAL_BLACK_BOX_CONFORMANCE_FOUNDATION
+  - HOST_AUTHORIZED_TRANSACTIONAL_INVOCATION_KERNEL_PRODUCT
+  - ONE_SHOT_INDEPENDENT_STRICT_EXIT_AUDIT
   accepted_milestones:
-    - DURABLE_STATE_AND_CHECKPOINT_RESUME
+  - DURABLE_STATE_AND_CHECKPOINT_RESUME
   ordered_stages:
-    - ordinal: 1
-      task_id: AIOS-P3-TIK-F1_PROCESS_REAL_BLACK_BOX_CONFORMANCE_FOUNDATION
-      stage_id: PROCESS_REAL_BLACK_BOX_CONFORMANCE_FOUNDATION
-      kind: EVALUATION_FOUNDATION
-      budget:
-        engineering_tasks: 1
-        engineering_hours: 24
-        calendar_days: 6
-        candidate_generations: 2
-        same_task_repairs: 1
-        review_cycles: 2
-      product_source_mutation_allowed: false
-      delivery_percent_on_pass: 50
-      strict_exit_percent_on_pass: 0
-      pass_unlocks_only: HOST_AUTHORIZED_TRANSACTIONAL_INVOCATION_KERNEL_PRODUCT
-      status: ACTIVE
-    - ordinal: 2
-      task_id: AIOS-P3-TIK-P1_HOST_AUTHORIZED_TRANSACTIONAL_INVOCATION_KERNEL
-      stage_id: HOST_AUTHORIZED_TRANSACTIONAL_INVOCATION_KERNEL_PRODUCT
-      kind: PRODUCT_IMPLEMENTATION
-      budget:
-        engineering_tasks: 1
-        engineering_hours: 48
-        calendar_days: 12
-        candidate_generations: 2
-        same_task_repairs: 1
-        review_cycles: 2
-      product_source_diff_required: NON_EMPTY_TESTABLE
-      delivery_percent_on_pass: 75
-      strict_exit_percent_on_pass: 0
-      pass_unlocks_only: ONE_SHOT_INDEPENDENT_STRICT_EXIT_AUDIT
-      status: LOCKED_FOUNDATION_NOT_ACCEPTED
-    - ordinal: 3
-      task_id: AIOS-P3-TIK-A1_ONE_SHOT_INDEPENDENT_STRICT_EXIT_AUDIT
-      stage_id: ONE_SHOT_INDEPENDENT_STRICT_EXIT_AUDIT
-      kind: EVALUATION_ONLY
-      budget:
-        engineering_tasks: 1
-        engineering_hours: 24
-        calendar_days: 6
-        product_candidates: 0
-        same_task_repairs: 0
-        formal_dispatches: 1
-      rerun_to_pass_allowed: false
-      delivery_percent_on_pass: 100
-      strict_exit_percent_on_pass: 100
-      pass_unlocks_only: ELIGIBLE_AWAITING_FOUNDER_P3_PHASE_GATE_DECISION
-      status: LOCKED_PRODUCT_NOT_ACCEPTED
+  - ordinal: 1
+    task_id: AIOS-P3-TIK-F1_PROCESS_REAL_BLACK_BOX_CONFORMANCE_FOUNDATION
+    stage_id: PROCESS_REAL_BLACK_BOX_CONFORMANCE_FOUNDATION
+    kind: EVALUATION_FOUNDATION
+    budget:
+      engineering_tasks: 1
+      engineering_hours: 24
+      calendar_days: 6
+      candidate_generations: 2
+      same_task_repairs: 1
+      review_cycles: 2
+    product_source_mutation_allowed: false
+    delivery_percent_on_pass: 50
+    strict_exit_percent_on_pass: 0
+    pass_unlocks_only: HOST_AUTHORIZED_TRANSACTIONAL_INVOCATION_KERNEL_PRODUCT
+    status: TERMINAL_TASK_GATE_NON_PASS
+  - ordinal: 2
+    task_id: AIOS-P3-TIK-P1_HOST_AUTHORIZED_TRANSACTIONAL_INVOCATION_KERNEL
+    stage_id: HOST_AUTHORIZED_TRANSACTIONAL_INVOCATION_KERNEL_PRODUCT
+    kind: PRODUCT_IMPLEMENTATION
+    budget:
+      engineering_tasks: 1
+      engineering_hours: 48
+      calendar_days: 12
+      candidate_generations: 2
+      same_task_repairs: 1
+      review_cycles: 2
+    product_source_diff_required: NON_EMPTY_TESTABLE
+    delivery_percent_on_pass: 75
+    strict_exit_percent_on_pass: 0
+    pass_unlocks_only: ONE_SHOT_INDEPENDENT_STRICT_EXIT_AUDIT
+    status: LOCKED_ROUTE_TERMINAL
+  - ordinal: 3
+    task_id: AIOS-P3-TIK-A1_ONE_SHOT_INDEPENDENT_STRICT_EXIT_AUDIT
+    stage_id: ONE_SHOT_INDEPENDENT_STRICT_EXIT_AUDIT
+    kind: EVALUATION_ONLY
+    budget:
+      engineering_tasks: 1
+      engineering_hours: 24
+      calendar_days: 6
+      product_candidates: 0
+      same_task_repairs: 0
+      formal_dispatches: 1
+    rerun_to_pass_allowed: false
+    delivery_percent_on_pass: 100
+    strict_exit_percent_on_pass: 100
+    pass_unlocks_only: ELIGIBLE_AWAITING_FOUNDER_P3_PHASE_GATE_DECISION
+    status: LOCKED_ROUTE_TERMINAL
   delivery_progress:
     accepted: 1
     total: 4
@@ -13102,7 +13091,6 @@ phase_execution_envelope:
     existing_database_mutation: false
     write_outside_exact_authorized_roots: false
     irreversible_asset_deletion: false
-
 historical_p2_phase_execution_envelope:
   schema_version: phase-execution-envelope/v1
   phase: P2
@@ -13629,36 +13617,46 @@ historical_p3_host_authorized_transactional_terminal_founder_escalation_control:
 
 founder_escalation_control:
   schema_version: founder-escalation-control/v2
-  disposition: NO_RESERVED_TRIGGER_CONTINUE_PHASE
+  disposition: FOUNDER_RESERVED_DECISION_REQUIRED
   source_event:
-    kind: P3_TIK_PROCESS_REAL_FOUNDATION_TASK_ACTIVATED
+    kind: P3_TIK_PROCESS_REAL_ROUTE_TERMINAL_NON_PASS
     decision_id: AUTHORIZE_P3_TRUSTED_INVOCATION_KERNEL_PROCESS_REAL_CLEAN_ROOM_ROUTE_REBASELINE_V1
-    status: P3_TIK_PROCESS_REAL_FOUNDATION_TASK_ACTIVE
+    status: P3_TIK_PROCESS_REAL_ROUTE_TERMINAL_NON_PASS
   reserved_trigger:
-    category: NONE
+    category: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
     evidence:
+      reason: EXACT_TIK_ROUTE_TERMINAL_NO_AUTHORIZED_REUSE_OR_FOLLOW_ON_TASK_CONTINUATION_REQUIRES_ROUTE_CHANGE
+      terminal_stage_ordinal: 1
+      terminal_receipt:
+        path: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-invocation-kernel-process-real-20260821/task-foundation/terminal/P3_TIK_F1_TERMINAL_TASK_GATE_NON_PASS_RECEIPT_V1.json"
+        byte_length: 5205
+        sha256: 5e9350b2e21973203f146523fec0a4d5ee4c86a0602269eb9795c787a55c0c8b
+      founder_decision:
+        path: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-invocation-kernel-process-real-20260821/decision/FOUNDER_P3_TRUSTED_INVOCATION_KERNEL_PROCESS_REAL_CLEAN_ROOM_ROUTE_REBASELINE_V1.json"
+        byte_length: 29696
+        sha256: aaf69bcd7a11c80a7af0410cca549fc084c69e4a52560175104dbc5e06e976d4
+        decision_id: AUTHORIZE_P3_TRUSTED_INVOCATION_KERNEL_PROCESS_REAL_CLEAN_ROOM_ROUTE_REBASELINE_V1
   resolved_strategy_decision:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-invocation-kernel-process-real-20260821/decision/FOUNDER_P3_TRUSTED_INVOCATION_KERNEL_PROCESS_REAL_CLEAN_ROOM_ROUTE_REBASELINE_V1.json
+    path: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-invocation-kernel-process-real-20260821/decision/FOUNDER_P3_TRUSTED_INVOCATION_KERNEL_PROCESS_REAL_CLEAN_ROOM_ROUTE_REBASELINE_V1.json"
     byte_length: 29696
     sha256: aaf69bcd7a11c80a7af0410cca549fc084c69e4a52560175104dbc5e06e976d4
     decision_id: AUTHORIZE_P3_TRUSTED_INVOCATION_KERNEL_PROCESS_REAL_CLEAN_ROOM_ROUTE_REBASELINE_V1
     reserved_triggers:
-      - MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
-      - MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+    - MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
+    - MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
     category: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
-    result: P3_TIK_PROCESS_REAL_FOUNDATION_TASK_ACTIVE
+    result: P3_TIK_ROUTE_TERMINAL_NON_PASS_REQUIRES_FOUNDER_ROUTE_CHANGE_DECISION
   resolved_phase_entry_decision:
     category: PHASE_ENTRY_OR_EXIT
     decision_id: AUTHORIZE_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-phase-entry-20260819/decision/FOUNDER_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1.json
+    path: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-phase-entry-20260819/decision/FOUNDER_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1.json"
     byte_length: 4105
     sha256: 23a50848a182fa7865f8e96c78bd9001ff2db6682d8d19dc49a0d4768994d6eb
     result: P3_ENTRY_AUTHORIZED_ACTIVE
   phase_gate_status: INCOMPLETE
-  founder_decision_required: false
-  next_action_owner: MASTER_CEO_AGENT
-  next_eligible_action: EXECUTE_P3_TIK_F1_PROCESS_REAL_CONFORMANCE_FOUNDATION
-
+  founder_decision_required: true
+  next_action_owner: HUMAN_FOUNDER
+  next_eligible_action: FOUNDER_DECIDE_P3_AFTER_TIK_ROUTE_TERMINAL_NON_PASS
 historical_p2_053_phase_route:
   schema_version: "1.1"
   route_id: P2_COMPILER_ATTRIBUTED_JAVA_EDGE_TRUTH_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
@@ -17843,7 +17841,7 @@ historical_p2_phase_route:
   next_eligible_action: FOUNDER_P2_PHASE_GATE
 
 phase_delegation:
-  status: ACTIVE_P3_TIK_PROCESS_REAL_FOUNDATION_TASK
+  status: P3_TIK_HOLD_INCOMPLETE_ROUTE_TERMINAL_NON_PASS
   model: PHASE_LEVEL_FOUNDER_DELEGATION
   decision_source: AUTHORIZE_P3_TRUSTED_INVOCATION_KERNEL_PROCESS_REAL_CLEAN_ROOM_ROUTE_REBASELINE_V1
   phase_gate_owner: HUMAN_FOUNDER
@@ -17852,28 +17850,28 @@ phase_delegation:
   task_gate_owner: MASTER_CEO_AGENT
   p3_entry_authorized: true
   founder_reserved_decisions:
-    - mission_icp_year_one_or_phase_route_change
-    - phase_entry_or_exit
-    - material_scope_budget_or_permission_expansion_beyond_phase_envelope
-    - network_provider_secret_remote_production_or_public_effect
-    - irreversible_asset_removal
-    - material_legal_privacy_commercial_commitment
-    - critical_residual_risk_acceptance
+  - mission_icp_year_one_or_phase_route_change
+  - phase_entry_or_exit
+  - material_scope_budget_or_permission_expansion_beyond_phase_envelope
+  - network_provider_secret_remote_production_or_public_effect
+  - irreversible_asset_removal
+  - material_legal_privacy_commercial_commitment
+  - critical_residual_risk_acceptance
   agent_delegated_decisions:
-    - select_reject_sequence_and_freeze_phase_local_tasks
-    - assign_roles_workers_reviewers_and_disjoint_write_ownership
-    - authorize_and_execute_local_task_branch_worktree_and_commands
-    - perform_in_scope_implementation_tests_repairs_evidence_replay_and_rollback
-    - accept_return_or_terminally_stop_tasks_after_independent_review
-    - integrate_task_to_local_canonical_main_after_task_gate
-    - choose_the_next_independent_phase_local_task_after_task_completion_or_stop
-    - continue_phase_without_founder_reapproval_after_ordinary_task_terminal
+  - select_reject_sequence_and_freeze_phase_local_tasks
+  - assign_roles_workers_reviewers_and_disjoint_write_ownership
+  - authorize_and_execute_local_task_branch_worktree_and_commands
+  - perform_in_scope_implementation_tests_repairs_evidence_replay_and_rollback
+  - accept_return_or_terminally_stop_tasks_after_independent_review
+  - integrate_task_to_local_canonical_main_after_task_gate
+  - choose_the_next_independent_phase_local_task_after_task_completion_or_stop
+  - continue_phase_without_founder_reapproval_after_ordinary_task_terminal
   escalation_conditions:
-    - founder_reserved_decision_required
-    - phase_boundary_or_strategy_conflict
-    - high_risk_external_effect_required
-    - irreversible_action_required
-    - critical_risk_requires_acceptance
+  - founder_reserved_decision_required
+  - phase_boundary_or_strategy_conflict
+  - high_risk_external_effect_required
+  - irreversible_action_required
+  - critical_risk_requires_acceptance
   anti_loop:
     routine_founder_task_approval_required: false
     per_file_or_command_approval_required: false
@@ -17888,8 +17886,7 @@ phase_delegation:
     historical_execution_lineage_reuse_allowed: false
     mandatory_exit_capability_permanent_ban_from_historical_stop: false
     peripheral_work_before_exit_capabilities_allowed: false
-  claim_boundary: Constitution v2.8 and the exact Founder decision authorize one architecturally distinct process-real clean-room P3 route. P3-001 remains ACCEPTED; P3-002 through P3-007 and terminal P3-HATB-F1 remain immutable identity and accounting only, with rejected engineering lineage unreadable. AIOS-P3-TIK-F1_PROCESS_REAL_BLACK_BOX_CONFORMANCE_FOUNDATION is now the only active Task under a single-use Contract and authority; activation adds zero delivery or strict Exit credit. P3 remains at delivery 25% and strict Exit 0%, Product and Audit stay locked, P4 remains HOLD and the same Long-term Goal remains ACTIVE.
-
+  claim_boundary: The exact P3 TIK clean-room Route ended at Foundation Task Gate NON_PASS after Candidate 2 consumed the sole same-Task repair and second candidate generation. The rejected candidate was not integrated and is retained only through immutable current Evidence, three Cycle-2 NON_PASS reviews, a one-time verified bundle attestation and terminal receipt. P3-001 remains the only accepted delivery milestone; delivery remains 25%, strict Exit remains 0%, Product and Audit are locked, P4 remains HOLD, and the Long-term Goal remains ACTIVE. The exact Route authorization prohibits reuse or follow-on Task continuation, so a Founder P3 route-change decision is required.
 mandatory_exit_capability_recovery:
   status: HISTORICAL_POLICY_CONTEXT_SUPERSEDED_BY_LATER_FOUNDER_ROUTES
   founder_decision_source: FOUNDER_P1_DELIVERY_ARCHITECTURE_SIMPLIFICATION_2026_07_17
@@ -18727,81 +18724,54 @@ mandatory_exit_capability_recovery:
 
 phase_boundary:
   phase: P3
-  phase_execution_status: ACTIVE_P3_TIK_PROCESS_REAL_FOUNDATION_TASK
+  phase_execution_status: P3_TIK_HOLD_INCOMPLETE_ROUTE_TERMINAL_NON_PASS
   task_creation_allowed: false
-  task_creation_scope: NONE_ACTIVE_TIK_TASK
+  task_creation_scope: NONE_ROUTE_TERMINAL_EXACT_AUTHORIZATION_EXHAUSTED
   task_creation_lock_after_activation: true
   p3_entry_authorized: true
-  allowed_task_kinds:
-    - PROCESS_REAL_BLACK_BOX_CONFORMANCE_FOUNDATION
-  allowed_capabilities:
-    - P3_001_CHECKPOINT_PUBLIC_BEHAVIOR_COMPOSITION
-    - PROCESS_REAL_BLACK_BOX_CONFORMANCE_HARNESS
-    - FROZEN_SUBJECT_ADAPTER_CLI_PROTOCOL
-    - FILE_BACKED_FRESH_PROCESS_RESTART
-    - FROZEN_CRASH_AND_ADVERSARIAL_MATRIX
-    - DETERMINISTIC_DOUBLE_REPLAY
-    - FAULT_MUTANT_SENSITIVITY
-    - AUTO_GENERATED_BYTE_MANIFEST
+  allowed_task_kinds: []
+  allowed_capabilities: []
   role_write_roots:
-    worker:
-      - backend-spring/src/test/java/com/sourcelens/module/execution/trustboundary/processreal
-      - backend-spring/src/test/resources/p3-tik-process-real-foundation
-      - docs/PROJECT_CODE_MAP.md
+    worker: []
     quality: []
-    integration:
-      - docs/aios/truth/project_state.yaml
-      - docs/PROJECT_CODE_MAP.md
+    integration: []
     external_evidence: EXTERNAL_TASK_EVIDENCE_ROOT_ONLY
   immutable_authority_paths:
-    - AGENTS.md
-    - docs/aios/STRATEGIC_CONSTITUTION.md
-    - docs/aios/MASTER_EXECUTION_PROTOCOL.md
-    - docs/aios/FOUNDER_DELEGATION_POLICY.md
-    - docs/aios/EVALUATION_PROTOCOL.md
+  - AGENTS.md
+  - docs/aios/STRATEGIC_CONSTITUTION.md
+  - docs/aios/MASTER_EXECUTION_PROTOCOL.md
+  - docs/aios/FOUNDER_DELEGATION_POLICY.md
+  - docs/aios/EVALUATION_PROTOCOL.md
   allowed_independent_reviewers:
+  - CTO Agent
+  - Security Agent
+  - Quality and Evaluation Agent
+  required_reviewers_by_risk:
+    low:
+    - Quality and Evaluation Agent
+    medium:
     - CTO Agent
     - Security Agent
     - Quality and Evaluation Agent
-  required_reviewers_by_risk:
-    low:
-      - Quality and Evaluation Agent
-    medium:
-      - CTO Agent
-      - Security Agent
-      - Quality and Evaluation Agent
     high:
-      - CTO Agent
-      - Security Agent
-      - Quality and Evaluation Agent
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent
     critical:
-      - CTO Agent
-      - Security Agent
-      - Quality and Evaluation Agent
+    - CTO Agent
+    - Security Agent
+    - Quality and Evaluation Agent
   founder_reserved_risk_levels:
-    - critical
+  - critical
   deferred_capabilities:
-    - COMPILE_TIME_CLOSED_ACTION_ALGEBRA
-    - IMMUTABLE_HOST_WORKFLOW_SPEC
-    - HOST_POSITIVE_AUTHORIZATION
-    - CONTENT_ADDRESSED_HOST_CUSTODY
-    - CREATE_ONCE_PRE_EFFECT_AUTHORIZATION_AND_DISPATCH_INTENT
-    - SANDBOX_EXEC_HASH_BOUND_DISPOSABLE_ISOLATION
-    - FRESH_PROCESS_DURABLE_CRASH_RECONCILIATION
-    - EXACTLY_ONE_TERMINAL_INVOCATION_TRACE
-    - CHECKPOINT_ADVANCEMENT_AFTER_TERMINAL_TRACE_ACCEPTANCE
-    - ONE_SHOT_INDEPENDENT_STRICT_EXIT_AUDIT
-    - FROZEN_CANDIDATE_AND_FOUNDATION_REPLAY
-    - PERMISSION_ADVERSARIAL_CRASH_AND_TRACE_MATRIX
-    - EXACT_EVIDENCE_IDENTITY_AUDIT
-    - P4_SOFTWARE_ENGINEER_AGENT_ALPHA
-    - OPEN_AGENT_SHELL
-    - MODEL_INITIATED_CANONICAL_WRITE
-    - PLATFORM_IDENTITY
-    - SUPERVISOR
-    - ROOT_CUSTODY
-    - STRONG_ISOLATION
-    - MULTI_AGENT_RUNTIME
+  - P4_SOFTWARE_ENGINEER_AGENT_ALPHA
+  - OPEN_AGENT_SHELL
+  - MODEL_INITIATED_CANONICAL_WRITE
+  - PLATFORM_IDENTITY
+  - SUPERVISOR
+  - ROOT_CUSTODY
+  - STRONG_ISOLATION
+  - MULTI_AGENT_RUNTIME
   default_external_effects:
     network: false
     dns: false
@@ -18817,14 +18787,13 @@ phase_boundary:
     existing_database_mutation: false
     write_outside_exact_authorized_roots: false
     irreversible_asset_deletion: false
-  founder_decision_required: false
-  founder_decision_required_scope:
-  escalation_reason:
-  user_action_required: NONE
-  phase_route_decision_required: false
-  phase_route_user_action_required: NONE
-  next_eligible_action: EXECUTE_P3_TIK_F1_PROCESS_REAL_CONFORMANCE_FOUNDATION
-
+  founder_decision_required: true
+  founder_decision_required_scope: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
+  escalation_reason: EXACT_TIK_ROUTE_TERMINAL_AND_REMAINING_ROUTE_CAPACITY_UNUSABLE_CONTINUATION_REQUIRES_FOUNDER_ROUTE_CHANGE
+  user_action_required: FOUNDER_P3_ROUTE_CHANGE_DECISION
+  phase_route_decision_required: true
+  phase_route_user_action_required: FOUNDER_P3_ROUTE_CHANGE_DECISION
+  next_eligible_action: FOUNDER_DECIDE_P3_AFTER_TIK_ROUTE_TERMINAL_NON_PASS
 p0_baseline:
   checkpoint_commit: ad6450e418d8f1b4fd5a789f913525a8dd8bdc10
   checkpoint_tree: 2c0956ae8598547466f691ead21532a026006bf9
@@ -25344,52 +25313,40 @@ historical_p3_hatb_f1_terminal_active_work:
   next_eligible_action: NONE_ROUTE_TERMINAL_NO_AUTOMATIC_SUCCESSOR_OR_FOUNDER_REQUEST
 
 active_work:
-  current_task: AIOS-P3-TIK-F1_PROCESS_REAL_BLACK_BOX_CONFORMANCE_FOUNDATION
-  current_task_status: ACTIVE
+  current_task: NONE
+  current_task_status: NONE_ROUTE_TERMINAL_NON_PASS
   current_task_contract:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-invocation-kernel-process-real-20260821/task-foundation/contract/P3_TIK_F1_TASK_CONTRACT_V1.json
-    byte_length: 6889
-    sha256: ced968134bb078863b638f1a95dbaa40182bc0f4f49ebb2aa04c5e494ce93c99
-  current_task_contract_sha256: ced968134bb078863b638f1a95dbaa40182bc0f4f49ebb2aa04c5e494ce93c99
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-invocation-kernel-process-real-20260821/task-foundation/authority/P3_TIK_F1_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
-  current_execution_authorization_sha256: 3607a5bb10b4927ae3fe97e4e90ea2c457e08249c12c37b3610e8e709a8ff759
+  current_task_contract_sha256:
+  current_execution_authorization:
+  current_execution_authorization_sha256:
   authority_record:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-invocation-kernel-process-real-20260821/task-foundation/authority/P3_TIK_F1_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
-    byte_length: 6728
-    sha256: 3607a5bb10b4927ae3fe97e4e90ea2c457e08249c12c37b3610e8e709a8ff759
-  execution_nonce: c3cbe9f3-a5af-4c0c-8ea0-d7b48eba1b78
-  execution_nonce_status: ACTIVE
-  authorization_id: faa45eb9-71e7-465f-8317-f1edd9c55dbf
-  activation_parent_commit: 57be2f0326a4857bcdd3445db08a37dc14754207
-  activation_parent_tree: 14438dc74601c6cc5ede0ede06c13db3a248d07d
+  execution_nonce:
+  execution_nonce_status: NO_CURRENT_TASK
+  authorization_id:
+  activation_parent_commit:
+  activation_parent_tree:
   stage0_installation_parent:
     commit: 655a44bb083cf2c292e9b5ebbdd23c9c247f46ee
     tree: d6c3b8392665caa2d9f83f09f8d6ad8ff0e48248
-  task_resource_state: ACTIVE_UNIQUE_TIK_STAGE
-  task_branch: codex/p3-tik-f1-process-real-conformance-foundation
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p3-tik-f1-process-real-conformance-foundation
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-invocation-kernel-process-real-20260821/task-foundation
-  dependency_custody_root: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-invocation-kernel-process-real-20260821/task-foundation/custody
-  allowlisted_paths:
-    - backend-spring/src/test/java/com/sourcelens/module/execution/trustboundary/processreal
-    - backend-spring/src/test/resources/p3-tik-process-real-foundation
-    - docs/PROJECT_CODE_MAP.md
+  task_resource_state: TERMINAL_ROUTE_NO_TASK_RESOURCES
+  task_branch:
+  task_worktree:
+  execution_evidence_root:
+  dependency_custody_root:
+  allowlisted_paths: []
   current_task_budget:
-    engineering_tasks: 1
-    engineering_hours: 24
-    calendar_days: 6
-    candidate_generations: 2
-    same_task_repairs: 1
-    review_cycles: 2
+    engineering_tasks: 0
+    engineering_hours: 0
+    calendar_days: 0
   next_stage_budget: {}
   roles:
     owner: MASTER_CEO_AGENT
     worker: IMPLEMENTATION_AGENT
     quality_owner: QUALITY_EVALUATION_AGENT
     independent_reviewers:
-      - CTO_AGENT
-      - SECURITY_AGENT
-      - QUALITY_EVALUATION_AGENT
+    - CTO_AGENT
+    - SECURITY_AGENT
+    - QUALITY_EVALUATION_AGENT
   external_effects:
     network: false
     dns: false
@@ -25406,15 +25363,50 @@ active_work:
     write_outside_exact_authorized_roots: false
     irreversible_asset_deletion: false
   offsite_target:
-  founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-invocation-kernel-process-real-20260821/decision/FOUNDER_P3_TRUSTED_INVOCATION_KERNEL_PROCESS_REAL_CLEAN_ROOM_ROUTE_REBASELINE_V1.json
+  founder_reserved_authorization: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-invocation-kernel-process-real-20260821/decision/FOUNDER_P3_TRUSTED_INVOCATION_KERNEL_PROCESS_REAL_CLEAN_ROOM_ROUTE_REBASELINE_V1.json"
   founder_reserved_authorization_sha256: aaf69bcd7a11c80a7af0410cca549fc084c69e4a52560175104dbc5e06e976d4
-  founder_decision_required: false
-  founder_decision_required_scope:
-  escalation_reason:
-  user_action_required: NONE
-  phase_route_decision_required: false
-  phase_route_user_action_required: NONE
-  completed_tasks: []
+  founder_decision_required: true
+  founder_decision_required_scope: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
+  escalation_reason: EXACT_TIK_ROUTE_TERMINAL_AND_REMAINING_ROUTE_CAPACITY_UNUSABLE_CONTINUATION_REQUIRES_FOUNDER_ROUTE_CHANGE
+  user_action_required: FOUNDER_P3_ROUTE_CHANGE_DECISION
+  phase_route_decision_required: true
+  phase_route_user_action_required: FOUNDER_P3_ROUTE_CHANGE_DECISION
+  completed_tasks:
+  - task_id: AIOS-P3-TIK-F1_PROCESS_REAL_BLACK_BOX_CONFORMANCE_FOUNDATION
+    status: TERMINAL_TASK_GATE_NON_PASS
+    contract:
+      path: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-invocation-kernel-process-real-20260821/task-foundation/contract/P3_TIK_F1_TASK_CONTRACT_V1.json"
+      byte_length: 6889
+      sha256: ced968134bb078863b638f1a95dbaa40182bc0f4f49ebb2aa04c5e494ce93c99
+    authority:
+      path: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-invocation-kernel-process-real-20260821/task-foundation/authority/P3_TIK_F1_PHASE_DELEGATED_TASK_AUTHORITY_V1.json"
+      byte_length: 6728
+      sha256: 3607a5bb10b4927ae3fe97e4e90ea2c457e08249c12c37b3610e8e709a8ff759
+    candidate_manifest:
+      path: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-invocation-kernel-process-real-20260821/task-foundation/candidate/P3_TIK_F1_CANDIDATE_MANIFEST_V1.json"
+      byte_length: 17068
+      sha256: 1182fe7b76d790514be756289afdeea09eceae9d6e52eb09bbd9aaf7377b41b4
+    gate_evidence:
+      path: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-invocation-kernel-process-real-20260821/task-foundation/gate/P3_TIK_F1_GATE_EVIDENCE_V1.json"
+      byte_length: 14017
+      sha256: '087f010aa2d229102dc23e7f248629014376d3e3687b14f450a40f1d1ddeedad'
+    independent_reviews:
+      cto:
+        path: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-invocation-kernel-process-real-20260821/task-foundation/reviews/CTO_REVIEW_V1.json"
+        byte_length: 5865
+        sha256: 4823774fdd6f836020950a0765f3c772b2f82b1d30a716181363b56d2183093c
+      security:
+        path: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-invocation-kernel-process-real-20260821/task-foundation/reviews/SECURITY_REVIEW_V1.json"
+        byte_length: 6046
+        sha256: 0a3a0fcb4b3f551a87b69c10e382611fd1a26a9c84195306693a413b3b515dbc
+      quality_evaluation:
+        path: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-invocation-kernel-process-real-20260821/task-foundation/reviews/QUALITY_EVALUATION_REVIEW_V1.json"
+        byte_length: 4910
+        sha256: b89022e26f6d0a078a54addb22abd46249b24974f88555af3ff667bb219e07d4
+    terminal_receipt:
+      path: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-invocation-kernel-process-real-20260821/task-foundation/terminal/P3_TIK_F1_TERMINAL_TASK_GATE_NON_PASS_RECEIPT_V1.json"
+      byte_length: 5205
+      sha256: 5e9350b2e21973203f146523fec0a4d5ee4c86a0602269eb9795c787a55c0c8b
   last_completed_task_identity_accounting:
     task_id: AIOS-P3-HATB-F1_MINIMUM_TRUST_EXECUTABLE_ACCEPTANCE_FOUNDATION
     status: TERMINAL_TASK_GATE_NON_PASS
@@ -25426,11 +25418,10 @@ active_work:
       same_task_repairs: 1
       review_cycles: 2
     terminal_receipt:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-host-authorized-transactional-boundary-rebaseline-20260820/task-foundation/terminal/P3_HATB_F1_TERMINAL_FOUNDATION_TASK_GATE_NON_PASS_RECEIPT_V1.json
+      path: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-host-authorized-transactional-boundary-rebaseline-20260820/task-foundation/terminal/P3_HATB_F1_TERMINAL_FOUNDATION_TASK_GATE_NON_PASS_RECEIPT_V1.json"
       byte_length: 9883
       sha256: bbbb76ad9a3a5ff81d02103771540a29135e39c10e8187b3cb123f9508d80756
-  next_eligible_action: EXECUTE_P3_TIK_F1_PROCESS_REAL_CONFORMANCE_FOUNDATION
-
+  next_eligible_action: FOUNDER_DECIDE_P3_AFTER_TIK_ROUTE_TERMINAL_NON_PASS
 historical_p2_080_terminal_active_work:
   current_task: AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER
   current_task_status: TERMINAL_EVALUATION_EVIDENCE_ADAPTER_DEV_COMPATIBILITY_NON_PASS
@@ -32093,8 +32084,8 @@ historical_lineages:
 
 phase_execution_claim:
   current_route_claim: P3_TRUSTED_INVOCATION_KERNEL_PROCESS_REAL_CLEAN_ROOM_ROUTE_V1
-  current_task_claim: AIOS-P3-TIK-F1_PROCESS_REAL_BLACK_BOX_CONFORMANCE_FOUNDATION
-  real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_TIK_F1_FOUNDATION_TASK_ACTIVE_ZERO_ACCEPTED_PROGRESS_P3_DELIVERY_25_P3_EXIT_GATE_ZERO
+  current_task_claim: NONE
+  real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_TIK_F1_TERMINAL_NON_PASS_ZERO_ACCEPTED_PROGRESS_P3_DELIVERY_25_P3_EXIT_GATE_ZERO
   product_capability_changed: false
   accepted_outcomes:
   - P3_HOST_AUTHORIZED_TRANSACTIONAL_OBJECTIVE_ROUTE_REBASELINE_INSTALLED_ZERO_ENGINEERING_PROGRESS
@@ -32104,8 +32095,7 @@ phase_execution_claim:
   p3_entry_authorized: true
   p3_exit_gate_progress_percent: 0
   p3_delivery_progress_percent: 25
-  phase_local_allowed:
-  - EXECUTE_P3_TIK_F1_PROCESS_REAL_CONFORMANCE_FOUNDATION
+  phase_local_allowed: []
   phase_local_frozen_capabilities:
   - P3_002_THROUGH_P3_007_REJECTED_LINEAGE_FROZEN_UNREADABLE
   - P3_HATB_F1_REJECTED_ENGINEERING_LINEAGE_FROZEN_UNREADABLE
@@ -32433,8 +32423,7 @@ phase_execution_claim:
   remaining_capacity_usable: false
   held_read_allowed: false
   candidate_integration_allowed: false
-  next_eligible_action: EXECUTE_P3_TIK_F1_PROCESS_REAL_CONFORMANCE_FOUNDATION
-
+  next_eligible_action: FOUNDER_DECIDE_P3_AFTER_TIK_ROUTE_TERMINAL_NON_PASS
 p2_recovery_control:
   schema_version: p2-recovery-control/v2
   status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
@@ -32486,10 +32475,10 @@ p2_recovery_control:
 
 claim_boundary:
   current_phase_route: P3_TRUSTED_INVOCATION_KERNEL_PROCESS_REAL_CLEAN_ROOM_ROUTE_V1
-  current_task: AIOS-P3-TIK-F1_PROCESS_REAL_BLACK_BOX_CONFORMANCE_FOUNDATION
-  selected_task: AIOS-P3-TIK-F1_PROCESS_REAL_BLACK_BOX_CONFORMANCE_FOUNDATION
-  current_task_status: ACTIVE
-  next_eligible_action: EXECUTE_P3_TIK_F1_PROCESS_REAL_CONFORMANCE_FOUNDATION
+  current_task: NONE
+  selected_task: NONE_ROUTE_TERMINAL_NON_PASS
+  current_task_status: NONE_ROUTE_TERMINAL_NON_PASS
+  next_eligible_action: FOUNDER_DECIDE_P3_AFTER_TIK_ROUTE_TERMINAL_NON_PASS
   real_engineering_progress: P1_COMPLETE_P2_RESEARCH_EXIT_COMPLETE_CAPABILITY_NOT_ACCEPTED_P3_TIK_F1_FOUNDATION_TASK_ACTIVE_ZERO_ACCEPTED_PROGRESS_P3_DELIVERY_25_P3_EXIT_GATE_ZERO
   p2_research_exit_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
   p2_research_exit_percent: 100
@@ -32497,18 +32486,18 @@ claim_boundary:
   p2_original_capability_progress_percent: 0
   p2_candidate_integrated: false
   p2_held_source_reads: 0
-  p3_status: ACTIVE_INCOMPLETE_PROCESS_REAL_FOUNDATION_TASK
+  p3_status: HOLD_INCOMPLETE_PROCESS_REAL_ROUTE_TERMINAL_NON_PASS
   p3_entry_authorized: true
-  p3_phase_envelope_status: ACTIVE_FOUNDATION_TASK
+  p3_phase_envelope_status: HOLD_INCOMPLETE_ROUTE_TERMINAL_NON_PASS
   p3_exit_gate_progress_percent: 0
   p3_delivery_progress_percent: 25
   p3_accepted_milestones:
     - DURABLE_STATE_AND_CHECKPOINT_RESUME
-  p3_capability_milestone_status: PROCESS_REAL_CONFORMANCE_FOUNDATION_TASK_ACTIVE_NOT_ACCEPTED
+  p3_capability_milestone_status: PROCESS_REAL_CONFORMANCE_FOUNDATION_TERMINAL_NON_PASS_NOT_ACCEPTED
   p3_final_transactional_route_decision_sha256: 7daa36b2d85a215861051845cf3712b209c1f711c351e1a092e01725b13d1c3d
   p3_host_authorized_transactional_route_decision_sha256: 96b18ed2c356ff41b52a1379d56991f02585ecb47c55b963da4de02db66a2d84
   p3_tik_process_real_route_decision_sha256: aaf69bcd7a11c80a7af0410cca549fc084c69e4a52560175104dbc5e06e976d4
-  p3_tik_process_real_route_stage: FOUNDATION_TASK_ACTIVE
+  p3_tik_process_real_route_stage: ROUTE_TERMINAL_NON_PASS
   p3_tik_process_real_route_delivery_credit: 0
   p3_tik_process_real_route_strict_exit_credit: 0
   p3_hatb_f1_status: TERMINAL_TASK_GATE_NON_PASS

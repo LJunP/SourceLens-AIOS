@@ -5602,6 +5602,12 @@ module CurrentTaskAuthority
              "P3 host-authorized transactional Route validator is unavailable")
       return P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: truth)
     end
+    if route["schema_version"] ==
+       P3FinalTransactionalRouteValidation::TIK_ROUTE_SCHEMA
+      assert(defined?(P3FinalTransactionalRouteValidation),
+             "P3 TIK process-real Route validator is unavailable")
+      return P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: truth)
+    end
     if route["schema_version"] == "p3-zero-authority-action-envelope-route/v1"
       assert(defined?(P3ZeroAuthorityRouteValidation),
              "P3 zero-authority Route validator is unavailable")

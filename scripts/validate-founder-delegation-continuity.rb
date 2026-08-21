@@ -5061,6 +5061,21 @@ module FounderDelegationContinuity
     route = mapping(truth["current_phase_route"], "current_phase_route")
     return validate_research_exit_state!(root, truth, policy, project, route) if
       route["schema_version"] == RESEARCH_EXIT_ROUTE_SCHEMA
+    if route["schema_version"] == P3FinalTransactionalRouteValidation::TIK_ROUTE_SCHEMA
+      assert(defined?(P3FinalTransactionalRouteValidation),
+             "P3 TIK process-real Route validator is unavailable")
+      state = P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: truth)
+      expected_state = P3FinalTransactionalRouteValidation::TIK_LIFECYCLE_STATES[
+        route["lifecycle_stage"]
+      ]
+      assert(expected_state && state == expected_state,
+             "P3 TIK process-real Route state drift")
+      disposition = truth.dig("founder_escalation_control", "disposition")
+      assert(%w[
+        NO_RESERVED_TRIGGER_CONTINUE_PHASE FOUNDER_RESERVED_DECISION_REQUIRED
+      ].include?(disposition), "P3 TIK Founder disposition is not closed-schema")
+      return disposition
+    end
     if [
       P3FinalTransactionalRouteValidation::ROUTE_SCHEMA,
       P3FinalTransactionalRouteValidation::HOST_AUTHORIZED_ROUTE_SCHEMA

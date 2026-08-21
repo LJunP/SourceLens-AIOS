@@ -32,6 +32,217 @@ rescue P3FinalTransactionalRouteValidationError
 end
 
 if host_authorized_truth.dig("current_phase_route", "schema_version") ==
+   P3FinalTransactionalRouteValidation::TIK_ROUTE_SCHEMA
+  state = P3FinalTransactionalRouteValidation.validate_truth!(
+    root: root, truth: host_authorized_truth
+  )
+  expected_state = P3FinalTransactionalRouteValidation::TIK_LIFECYCLE_STATES.fetch(
+    host_authorized_truth.dig("current_phase_route", "lifecycle_stage")
+  )
+  raise "P3 TIK current route state drift" unless
+    state == expected_state
+  assertions += 1
+  expected_resource_keys = %w[
+    branch worktree evidence_root contract_path authority_path candidate_manifest_path
+    cycle_1_candidate_manifest_path cycle_1_gate_evidence_path gate_evidence_path
+    rejected_bundle_path bundle_attestation_path
+    cycle_1_finding_set_path cycle_1_cto_review_path cycle_1_security_review_path
+    cycle_1_quality_review_path cto_review_path security_review_path quality_review_path
+    task_gate_pass_receipt_path task_gate_non_pass_receipt_path
+  ]
+  raise "P3 TIK frozen resource schema drift" unless
+    P3FinalTransactionalRouteValidation::TIK_STAGE_RESOURCES.all? do |resource|
+      resource.keys.sort == expected_resource_keys.sort
+    end
+  assertions += 1
+
+  validator_source = root.join("scripts/validate-p3-final-transactional-route.rb").binread
+  stage_receipt_source = validator_source[/^  def validate_tik_stage_receipt!.*?(?=^  def )/m]
+  attestation_source = validator_source[/^  def validate_tik_bundle_attestation!.*?(?=^  def )/m]
+  raise "P3 TIK terminal current-state lineage replay regression" unless
+    stage_receipt_source &&
+    !stage_receipt_source.include?("validate_tik_terminal_bundle!") &&
+    stage_receipt_source.include?("bundle_verification_attestation") && attestation_source &&
+    !attestation_source.include?("validate_tik_terminal_bundle!")
+  assertions += 1
+
+  bundle_verifier_source = validator_source[/^  def validate_tik_terminal_bundle!.*?(?=^  def )/m]
+  attestation_creator_source = validator_source[
+    /^  def create_tik_terminal_bundle_attestation!.*?(?=^  def )/m
+  ]
+  reservation_source = validator_source[
+    /^  def tik_reserve_exclusive_create_once_file!.*?(?=^  def )/m
+  ]
+  raise "P3 TIK one-time bundle verifier escaped the active Evidence root" unless
+    bundle_verifier_source &&
+    bundle_verifier_source.include?("terminal_root.to_s") &&
+    bundle_verifier_source.include?(".p3-tik-bundle-verifier-") &&
+    reservation_source && reservation_source.include?("File::EXCL") &&
+    reservation_source.include?("File::NOFOLLOW") && attestation_creator_source &&
+    attestation_creator_source.index("tik_reserve_exclusive_create_once_file!") <
+      attestation_creator_source.index("validate_tik_terminal_bundle!")
+  assertions += 1
+
+  tree_entry_source = validator_source[/^  def tik_git_tree_entry!.*?(?=^  def )/m]
+  route_source = validator_source[/^  def validate_tik_route!.*?(?=^  def )/m]
+  raise "P3 TIK Git symlink or Audit ancestor regression" unless
+    tree_entry_source && tree_entry_source.include?("%w[100644 100755]") &&
+    tree_entry_source.include?('match[2] == "blob"') && route_source &&
+    route_source.include?('audit.fetch("candidate").slice("commit", "tree", "source_branch") ==') &&
+    route_source.include?('product.fetch("candidate").slice("commit", "tree", "source_branch")')
+  assertions += 1
+
+  tik_mutations = {
+    "TIK unknown route member cannot enter the closed state machine" => lambda do |candidate|
+      candidate["current_phase_route"]["unexpected_route_member"] = true
+    end,
+    "TIK decision identity cannot drift" => lambda do |candidate|
+      candidate["current_phase_route"]["founder_route_decision"]["sha256"] = "0" * 64
+    end,
+    "TIK authorization body identity cannot drift" => lambda do |candidate|
+      candidate["current_phase_route"]["founder_route_decision"]["source_body"]["sha256"] =
+        "0" * 64
+    end,
+    "TIK activation parent cannot drift" => lambda do |candidate|
+      candidate["current_phase_route"]["activation_parent"]["commit"] = "0" * 40
+    end,
+    "TIK Constitution binding cannot drift" => lambda do |candidate|
+      candidate["current_phase_route"]["constitution"]["version"] = "2.7"
+    end,
+    "TIK workflow cannot become a dynamic broker" => lambda do |candidate|
+      candidate["current_phase_route"]["workflow_id"] = "GENERIC_TOOL_BROKER"
+    end,
+    "TIK lifecycle cannot be unknown" => lambda do |candidate|
+      candidate["current_phase_route"]["lifecycle_stage"] = "SUCCESSOR_READY"
+    end,
+    "TIK lifecycle execution status cannot drift" => lambda do |candidate|
+      candidate["current_phase_route"]["execution_status"] = "READY_TO_ACTIVATE_PRODUCT"
+    end,
+    "TIK lifecycle scheduling status cannot drift" => lambda do |candidate|
+      candidate["current_phase_route"]["scheduling_status"] = "FOUNDER_WAIT"
+    end,
+    "TIK stage order cannot drift" => lambda do |candidate|
+      candidate["current_phase_route"]["ordered_stages"].reverse!
+    end,
+    "TIK stage Task identity cannot become Candidate 3" => lambda do |candidate|
+      candidate["current_phase_route"]["ordered_stages"][0]["task_id"] =
+        "AIOS-P3-TIK-F1-CANDIDATE-3"
+    end,
+    "TIK stage budget cannot expand" => lambda do |candidate|
+      candidate["current_phase_route"]["ordered_stages"][1]["budget"]["engineering_hours"] = 49
+    end,
+    "TIK Product cannot unlock before Foundation" => lambda do |candidate|
+      candidate["current_phase_route"]["ordered_stages"][1]["status"] =
+        "ELIGIBLE_NOT_ACTIVATED"
+    end,
+    "TIK Audit cannot unlock before Product" => lambda do |candidate|
+      candidate["phase_execution_envelope"]["ordered_stages"][2]["status"] =
+        "ELIGIBLE_NOT_ACTIVATED"
+    end,
+    "TIK cumulative Task ceiling cannot expand" => lambda do |candidate|
+      candidate["phase_execution_envelope"]["limits"]["engineering_tasks"] = 12
+    end,
+    "TIK cumulative hour ceiling cannot expand" => lambda do |candidate|
+      candidate["phase_execution_envelope"]["limits"]["engineering_hours"] = 337
+    end,
+    "TIK cumulative consumed accounting cannot reset" => lambda do |candidate|
+      candidate["phase_execution_envelope"]["consumed"]["engineering_tasks"] = 0
+    end,
+    "TIK route capacity cannot expand" => lambda do |candidate|
+      candidate["phase_execution_envelope"]["route_capacity"]["calendar_days"] = 25
+    end,
+    "TIK Stage 0 cannot claim engineering progress" => lambda do |candidate|
+      candidate["phase_execution_envelope"]["governance_progress_credit"] = 1
+    end,
+    "TIK delegated continuation cannot lose the Master owner" => lambda do |candidate|
+      candidate["founder_escalation_control"]["next_action_owner"] = "NONE"
+    end,
+    "TIK delegated continuation cannot become a routine Founder gate" => lambda do |candidate|
+      candidate["founder_escalation_control"]["next_action_owner"] = "HUMAN_FOUNDER"
+      candidate["founder_escalation_control"]["founder_decision_required"] = true
+    end,
+    "TIK exact next action cannot drift" => lambda do |candidate|
+      candidate["founder_escalation_control"]["next_eligible_action"] = "NONE_CONTINUE"
+    end,
+    "TIK ready state cannot retain an old Contract" => lambda do |candidate|
+      candidate["active_work"]["current_task_contract"] = {
+        "path" => "/tmp/old-contract", "byte_length" => 1, "sha256" => "0" * 64
+      }
+    end,
+    "TIK ready state cannot prebind a Task activation parent" => lambda do |candidate|
+      candidate["active_work"]["activation_parent_commit"] =
+        P3FinalTransactionalRouteValidation::TIK_ACTIVATION_PARENT.fetch("commit")
+    end,
+    "TIK ready state cannot preauthorize a write path" => lambda do |candidate|
+      candidate["active_work"]["allowlisted_paths"] = ["backend-spring/src/main"]
+    end,
+    "TIK arbitrary create-once blob cannot unlock a completed stage" => lambda do |candidate|
+      candidate["active_work"]["completed_tasks"] = [{
+        "task_id" => P3FinalTransactionalRouteValidation::TIK_TASK_IDS.fetch(0),
+        "status" => "ACCEPTED_TASK_GATE_PASS",
+        "contract" => P3FinalTransactionalRouteValidation::TIK_AUTHORIZATION_BODY,
+        "authority" => P3FinalTransactionalRouteValidation::TIK_AUTHORIZATION_BODY,
+        "candidate_manifest" => P3FinalTransactionalRouteValidation::TIK_AUTHORIZATION_BODY,
+        "gate_evidence" => P3FinalTransactionalRouteValidation::TIK_AUTHORIZATION_BODY,
+        "independent_reviews" => {
+          "cto" => P3FinalTransactionalRouteValidation::TIK_AUTHORIZATION_BODY,
+          "security" => P3FinalTransactionalRouteValidation::TIK_AUTHORIZATION_BODY,
+          "quality_evaluation" => P3FinalTransactionalRouteValidation::TIK_AUTHORIZATION_BODY
+        },
+        "task_gate_receipt" => P3FinalTransactionalRouteValidation::TIK_AUTHORIZATION_BODY
+      }]
+    end,
+    "TIK ready state cannot bind an arbitrary authority file" => lambda do |candidate|
+      candidate["active_work"]["authority_record"] = {
+        "path" => "/etc/hosts", "byte_length" => 1, "sha256" => "0" * 64
+      }
+    end,
+    "TIK phase boundary cannot authorize the filesystem root" => lambda do |candidate|
+      candidate["phase_boundary"]["role_write_roots"]["worker"] = ["/"]
+    end,
+    "TIK phase boundary cannot enable open shell" => lambda do |candidate|
+      candidate["phase_boundary"]["allowed_capabilities"] << "OPEN_AGENT_SHELL"
+    end,
+    "TIK phase boundary cannot erase a deferred capability" => lambda do |candidate|
+      candidate["phase_boundary"]["deferred_capabilities"].delete("OPEN_AGENT_SHELL")
+    end,
+    "TIK remaining-capacity lock reason cannot be self-reported" => lambda do |candidate|
+      candidate["phase_execution_envelope"]["remaining_capacity_lock_reason"] =
+        "ROUTE_TERMINAL_EXACT_AUTHORIZATION_PROHIBITS_REUSE_OR_FOLLOW_ON_TASK"
+    end,
+    "TIK ordinary terminal label cannot synthesize a Founder trigger" => lambda do |candidate|
+      candidate["current_phase_route"]["lifecycle_stage"] = "ROUTE_TERMINAL_NON_PASS"
+      candidate["current_phase_route"]["terminal_stage_ordinal"] = 1
+    end,
+    "TIK external effect cannot be enabled" => lambda do |candidate|
+      candidate["current_phase_route"]["external_effects"]["network"] = true
+    end,
+    "TIK rejected lineage cannot become readable" => lambda do |candidate|
+      candidate["phase_execution_claim"]["phase_local_frozen_capabilities"].delete(
+        "P3_HATB_F1_REJECTED_ENGINEERING_LINEAGE_FROZEN_UNREADABLE"
+      )
+    end,
+    "TIK strict Exit cannot be claimed during installation" => lambda do |candidate|
+      required_items = candidate["strict_phase_gate_ledger"]["phases"]["P3"]["required_items"]
+      required_items["RESUME_ISOLATION_PERMISSION_AND_TRACE_TESTS"]["status"] = "ACCEPTED"
+    end,
+    "TIK cannot enter P4" => lambda do |candidate|
+      candidate["project"]["p4_entry_status"] = "AUTHORIZED"
+    end,
+    "TIK cannot close the Long-term Goal" => lambda do |candidate|
+      candidate["goal"]["control_plane_status_observed"] = "COMPLETE"
+    end
+  }
+  tik_mutations.each do |label, mutation|
+    expect_non_pass(root, host_authorized_truth, label, &mutation)
+    assertions += 1
+  end
+
+  puts "P3_FINAL_TRANSACTIONAL_ROUTE_TEST: PASS #{assertions} assertions mode=TIK_CURRENT_ONLY_NO_REJECTED_LINEAGE_REPLAY"
+  exit 0
+end
+
+if host_authorized_truth.dig("current_phase_route", "schema_version") ==
    P3FinalTransactionalRouteValidation::HOST_AUTHORIZED_ROUTE_SCHEMA
   state = P3FinalTransactionalRouteValidation.validate_truth!(
     root: root, truth: host_authorized_truth

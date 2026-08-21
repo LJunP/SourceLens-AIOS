@@ -1044,19 +1044,17 @@ module FounderActionHandoff
     control = validate_control!(truth, evidence, run_validator: run_validator)
     case package["action_class"]
     when "NONE_CONTINUE"
-      terminal_no_action = package.dig(
-        "terminal_next_step_handoff", "next_step_user_action_required"
-      ) == false &&
-        control["disposition"] == "NO_RESERVED_TRIGGER_ROUTE_TERMINAL" &&
-        control["next_action_owner"] == "NONE"
       delegated_continue =
         control["disposition"] == "NO_RESERVED_TRIGGER_CONTINUE_PHASE" &&
         control["next_action_owner"] == "MASTER_CEO_AGENT"
-      assert!((terminal_no_action || delegated_continue) &&
+      next_action = control["next_eligible_action"]
+      executable_next_action = next_action.is_a?(String) && !next_action.strip.empty? &&
+        !next_action.match?(/\A(?:NONE(?:_|\z)|NO_ENGINEERING_ACTION(?:_|\z))/)
+      assert!(delegated_continue && executable_next_action &&
               control["founder_decision_required"] == false &&
               control.dig("reserved_trigger", "category") == "NONE" &&
               evidence["prospective_preflight"].nil?,
-              "no-action handoff cannot silence a Founder action or prospective reserved effect")
+              "no-action handoff requires a Master-owned executable Phase continuation")
       assert!(%w[COMPLETE CONTINUING].include?(package["current_state"]), "no-action handoff cannot wait for user")
       assert!(package["project_authorized"] == "YES" && package["app_filesystem_approval_required"] == "NO",
               "no-action handoff authority projection invalid")

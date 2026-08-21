@@ -293,9 +293,9 @@ route_terminal_none = none.merge(
     trigger: "NONE", owner: "NONE"
   )
 )
-assert_terminal_result!("terminal no-action Route does not fabricate a Founder request",
+assert_terminal_result!("terminal no-action Route cannot deadlock an incomplete project at owner NONE",
                         route_terminal_none, none_draft, route_terminal_truth, terminal_receipt,
-                        next_step_user_action_required: false, expect_pass: true, user_token: nil)
+                        next_step_user_action_required: false, expect_pass: false, user_token: nil)
 
 standard_operation = "一次全新、独立、clean-room V7 benchmark source acquisition using exact system curl"
 standard_budget = FounderActionHandoff::STANDARD_CURL_BUDGET

@@ -150,6 +150,41 @@ current_truth = YAML.safe_load(
   aliases: false
 )
 
+if current_truth.dig("current_phase_route", "schema_version") ==
+   P3FinalTransactionalRouteValidation::HPE_ROUTE_SCHEMA
+  begin
+    disposition = FounderDelegationContinuity.validate_truth!(root: ROOT, truth: current_truth)
+    expected_disposition = current_truth.dig("founder_escalation_control", "disposition")
+    raise "HPE Founder disposition drift" unless disposition == expected_disposition
+
+    lifecycle_drift = deep_copy(current_truth)
+    lifecycle_drift["current_phase_route"]["lifecycle_stage"] =
+      "UNDECLARED_HPE_LIFECYCLE"
+    begin
+      FounderDelegationContinuity.validate_truth!(root: ROOT, truth: lifecycle_drift)
+      raise "HPE unknown lifecycle false-PASSed through delegation continuity"
+    rescue FounderDelegationContinuityError, P3FinalTransactionalRouteValidationError
+      # Expected fail-closed result.
+    end
+
+    disposition_drift = deep_copy(current_truth)
+    disposition_drift["founder_escalation_control"]["disposition"] =
+      "NO_RESERVED_TRIGGER_ROUTE_TERMINAL"
+    begin
+      FounderDelegationContinuity.validate_truth!(root: ROOT, truth: disposition_drift)
+      raise "HPE undeclared Founder disposition false-PASSed"
+    rescue FounderDelegationContinuityError, P3FinalTransactionalRouteValidationError
+      # Expected fail-closed result.
+    end
+
+    puts "FOUNDER_DELEGATION_CONTINUITY_TESTS: PASS assertions=3 mode=HPE_CURRENT_ONLY_NO_REJECTED_LINEAGE_REPLAY"
+    exit 0
+  rescue StandardError => e
+    warn "FOUNDER_DELEGATION_CONTINUITY_TESTS: NON_PASS #{e.class}: #{e.message}"
+    exit 1
+  end
+end
+
 route_literal = "AIOS-P2-058_DEV_FIRST_GRAPH_CONTEXT_VALUE_BENCHMARK_PHASE_DELEGATED_ROUTE"
 commits, stderr, status = Open3.capture3(
   "git", "log", "--reverse", "--format=%H", "--",

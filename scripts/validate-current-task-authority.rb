@@ -5556,6 +5556,8 @@ module CurrentTaskAuthority
         "p3-zero-authority-action-envelope-task-route/v1",
         "p3-phase-delegated-task/v1",
         "p3-founder-exception-task-route/v1",
+        P3FinalTransactionalRouteValidation::TIK_ROUTE_SCHEMA,
+        P3FinalTransactionalRouteValidation::HPE_ROUTE_SCHEMA,
         DELEGATED_TASK_ROUTE_SCHEMA
       ].include?(route["schema_version"]),
              "active Phase delegation requires a closed delegated Route schema")
@@ -5606,6 +5608,12 @@ module CurrentTaskAuthority
        P3FinalTransactionalRouteValidation::TIK_ROUTE_SCHEMA
       assert(defined?(P3FinalTransactionalRouteValidation),
              "P3 TIK process-real Route validator is unavailable")
+      return P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: truth)
+    end
+    if route["schema_version"] ==
+       P3FinalTransactionalRouteValidation::HPE_ROUTE_SCHEMA
+      assert(defined?(P3FinalTransactionalRouteValidation),
+             "P3 HPE Route validator is unavailable")
       return P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: truth)
     end
     if route["schema_version"] == "p3-zero-authority-action-envelope-route/v1"

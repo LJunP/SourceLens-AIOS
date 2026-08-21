@@ -973,4 +973,109 @@ assert_reject!(
   p3_host_authorized_truth
 )
 
+p3_hpe_truth = truth_bytes(
+  disposition: "FOUNDER_RESERVED_DECISION_REQUIRED", decision: true,
+  trigger: FounderActionHandoff::P3_HPE_ROUTE_PRIMARY_TRIGGER, owner: "HUMAN_FOUNDER"
+)
+p3_hpe_body = File.binread(
+  "/Users/lijunpeng/.codex/attachments/e77ae6e2-1ec9-49dc-8853-f7ad62f9a76d/pasted-text.txt"
+).force_encoding("UTF-8")
+abort "P3 HPE Founder body fixture encoding invalid" unless p3_hpe_body.valid_encoding?
+p3_hpe_body = p3_hpe_body.gsub(/\r\n?/, "\n").sub(/\n*\z/, "") + "\n"
+p3_hpe_profile = FounderActionHandoff::FOUNDER_NETWORK_OPERATION_PROFILES.fetch(
+  FounderActionHandoff::P3_HPE_ROUTE_OPERATION_TYPE
+)
+p3_hpe_risk =
+  "本授权不是对失败 Task 的重试、Candidate 3、successor、replacement、normalization、remediation 或历史 lineage 恢复；"
+p3_hpe_deny =
+  "禁止 network、DNS、AF_INET、AF_INET6、Provider、Secret、real-secret read、remote write、production、public release、existing-database mutation、write outside exact Task roots、irreversible deletion、开放 shell、任意 executable、任意环境继承或 P4 entry。"
+p3_hpe = common.merge(
+  "canonical_identity" => {
+    "commit" => FounderActionHandoff::P3_HPE_ROUTE_PREINSTALL_COMMIT,
+    "tree" => FounderActionHandoff::P3_HPE_ROUTE_PREINSTALL_TREE,
+    "branch" => "main"
+  },
+  "truth_sha256" => Digest::SHA256.hexdigest(p3_hpe_truth),
+  "basis" => {
+    "facts" => ["The exact terminal TIK Route requires the Founder-authorized independent HPE rebaseline."],
+    "inferences" => [],
+    "unknowns" => []
+  },
+  "affected_scope" => "Only the exact three-stage P3 HPE Route and non-resettable cumulative envelope are changed.",
+  "project_authorized" => "NO",
+  "app_filesystem_approval_required" => "NO",
+  "write_not_executed" => "YES",
+  "agent_continuation_after_action" => "Install the exact HPE decision, Truth projection and existing-validator closed profile, then activate only Stage 1 after Stage 0 validation PASS.",
+  "resume_condition" => "The exact direct Founder body and all bound preinstallation identities pass revalidation.",
+  "safe_default" => "Preserve the terminal TIK state and create no HPE Task.",
+  "state_preservation" => "P3-001 remains accepted, P4 remains HOLD, the project is incomplete and the long-term Goal remains ACTIVE.",
+  "governing_artifact" => {
+    "path" => FounderActionHandoff::P3_HPE_ROUTE_PREINSTALL_TRUTH_PATH,
+    "byte_length" => FounderActionHandoff::P3_HPE_ROUTE_PREINSTALL_TRUTH_BYTES,
+    "sha256" => FounderActionHandoff::P3_HPE_ROUTE_PREINSTALL_TRUTH_SHA256
+  },
+  "validator_evidence" => evidence(
+    disposition: "FOUNDER_RESERVED_DECISION_REQUIRED", decision: true,
+    trigger: FounderActionHandoff::P3_HPE_ROUTE_PRIMARY_TRIGGER, owner: "HUMAN_FOUNDER"
+  ),
+  "user_request_evidence" => {
+    "source" => "CURRENT_DIRECT_USER_MESSAGE",
+    "exact_token" => FounderActionHandoff::P3_HPE_ROUTE_TOKEN,
+    "requested_external_effect" => "MATERIAL_SCOPE"
+  },
+  "action_class" => "AUTHORIZATION_REQUIRED",
+  "current_state" => "WAITING_USER",
+  "material" => nil,
+  "recommended_single_action" => "APPROVE_THE_EXACT_P3_HPE_REBASELINE",
+  "copy_ready_text_or_exact_steps" => p3_hpe_body,
+  "authorization" => {
+    "authority_layer" => "FOUNDER_RESERVED",
+    "reserved_trigger" => FounderActionHandoff::P3_HPE_ROUTE_PRIMARY_TRIGGER,
+    "proposal_mode" => "CURRENT_CANONICAL_TRIGGER",
+    "recommended_decision" => "APPROVE",
+    "grant_scope" => {
+      "operations" => p3_hpe_profile.fetch("operations"),
+      "targets" => p3_hpe_profile.fetch("targets"),
+      "duration" => p3_hpe_profile.fetch("duration"),
+      "budget_or_external_effects" => p3_hpe_profile.fetch("budget_or_external_effects")
+    },
+    "risk_and_reversibility" => p3_hpe_risk,
+    "deny_or_defer_effect" => p3_hpe_deny,
+    "authorization_expiry_or_consumption_rule" =>
+      p3_hpe_profile.fetch("authorization_expiry_or_consumption_rule"),
+    "pass_lifecycle" => p3_hpe_profile.fetch("pass_lifecycle"),
+    "non_pass_lifecycle" => p3_hpe_profile.fetch("non_pass_lifecycle"),
+    "operation_type" => FounderActionHandoff::P3_HPE_ROUTE_OPERATION_TYPE
+  }
+)
+p3_hpe_draft = <<~MARKDOWN
+  USER_ACTION_REQUIRED: true
+  RECOMMENDED_SINGLE_ACTION: #{p3_hpe["recommended_single_action"]}
+  COPY_READY_TEXT_OR_EXACT_STEPS: #{p3_hpe_body}
+  AGENT_CONTINUATION_AFTER_ACTION: #{p3_hpe["agent_continuation_after_action"]}
+MARKDOWN
+assert_pass!("P3 HPE rebaseline exact body", p3_hpe, p3_hpe_draft, p3_hpe_truth)
+
+p3_hpe_budget_drift = p3_hpe_body.sub(
+  FounderActionHandoff::P3_HPE_ROUTE_BUDGET,
+  "将 P3 累计 ceiling 精确改为 13 engineering Tasks / 336 engineering hours / 84 calendar days；"
+)
+assert_reject!(
+  "P3 HPE rebaseline rejects expanded Task ceiling",
+  p3_hpe.merge("copy_ready_text_or_exact_steps" => p3_hpe_budget_drift),
+  p3_hpe_draft.sub(p3_hpe_body, p3_hpe_budget_drift),
+  p3_hpe_truth
+)
+
+p3_hpe_lineage_drift = p3_hpe_body.sub(
+  FounderActionHandoff::P3_HPE_ROUTE_LINEAGE,
+  "允许读取和复用 rejected TIK engineering lineage。"
+)
+assert_reject!(
+  "P3 HPE rebaseline rejects rejected-lineage reuse",
+  p3_hpe.merge("copy_ready_text_or_exact_steps" => p3_hpe_lineage_drift),
+  p3_hpe_draft.sub(p3_hpe_body, p3_hpe_lineage_drift),
+  p3_hpe_truth
+)
+
 puts "FOUNDER_ACTION_HANDOFF_TESTS: PASS assertions=#{ASSERTIONS[:count]}"

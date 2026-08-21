@@ -225,13 +225,16 @@ check_phase_predecessor_activation() {
       current_route = truth.fetch("current_phase_route")
       tik_process_real_route = current_route["schema_version"] ==
         "p3-trusted-invocation-kernel-process-real-clean-room-route/v1"
+      hpe_process_route = current_route["schema_version"] ==
+        "p3-host-process-enforced-minimal-slice-route/v1"
+      closed_process_route = tik_process_real_route || hpe_process_route
       delegated_task_route = %w[
         phase-delegated-independent-task/v1
         p3-phase-delegated-task/v1
       ].include?(current_route["schema_version"])
       tik_stage_index = nil
       tik_validator_state = nil
-      if tik_process_real_route
+      if closed_process_route
         require repo_root.join("scripts/validate-p3-final-transactional-route.rb").to_s
         partial_tik_action = if task_id == "NONE" && %w[
           BRANCH_CREATE WORKTREE_CREATE ENGINEERING_EVIDENCE_CREATE TASK_AUTHORITY_CREATE
@@ -252,16 +255,12 @@ check_phase_predecessor_activation() {
           "AUDIT_TASK_ACTIVE" => 2
         }
         tik_stage_index = tik_lifecycle_map[current_route["lifecycle_stage"]]
-        abort "TIK lifecycle has no resource-eligible stage" unless tik_stage_index
+        abort "P3 closed process route lifecycle has no resource-eligible stage" unless tik_stage_index
       end
-      planned_ids = if tik_process_real_route
-                      expected_task = [
-                        "AIOS-P3-TIK-F1_PROCESS_REAL_BLACK_BOX_CONFORMANCE_FOUNDATION",
-                        "AIOS-P3-TIK-P1_HOST_AUTHORIZED_TRANSACTIONAL_INVOCATION_KERNEL",
-                        "AIOS-P3-TIK-A1_ONE_SHOT_INDEPENDENT_STRICT_EXIT_AUDIT"
-                      ].fetch(tik_stage_index)
-                      abort "TIK current stage Task identity drift" unless
-                        current_route.dig("ordered_stages", tik_stage_index, "task_id") == expected_task
+      planned_ids = if closed_process_route
+                      expected_task = current_route.dig("ordered_stages", tik_stage_index, "task_id")
+                      abort "P3 closed process route current-stage Task identity drift" unless
+                        expected_task.is_a?(String) && !expected_task.empty?
                       [expected_task]
                     elsif delegated_task_route
                       abort "delegated independent route must not carry a legacy task_plan" if
@@ -280,7 +279,7 @@ check_phase_predecessor_activation() {
       if %w[
         BRANCH_CREATE WORKTREE_CREATE ENGINEERING_EVIDENCE_CREATE TASK_AUTHORITY_CREATE
         TASK_ACTIVATION
-      ].include?(resource_action) && tik_process_real_route && task_id == "NONE" &&
+      ].include?(resource_action) && closed_process_route && task_id == "NONE" &&
          planned_ids == [target_task]
         ready_specs = [
           {
@@ -318,6 +317,27 @@ check_phase_predecessor_activation() {
           }
         ]
         spec = ready_specs.fetch(tik_stage_index)
+        if hpe_process_route
+          spec = {
+            "lifecycle" => %w[
+              FOUNDATION_STAGE_ELIGIBLE PRODUCT_STAGE_ELIGIBLE AUDIT_STAGE_ELIGIBLE
+            ].fetch(tik_stage_index),
+            "status" => %w[
+              ACTIVE_FOUNDATION_STAGE_ELIGIBLE ACTIVE_PRODUCT_STAGE_ELIGIBLE
+              ACTIVE_AUDIT_STAGE_ELIGIBLE
+            ].fetch(tik_stage_index),
+            "execution_status" => %w[
+              READY_TO_ACTIVATE_FOUNDATION READY_TO_ACTIVATE_PRODUCT READY_TO_ACTIVATE_AUDIT
+            ].fetch(tik_stage_index),
+            "action" => current_route.fetch("next_eligible_action"),
+            "resource_state" => %w[
+              NOT_CREATED_HPE_FOUNDATION_STAGE_ELIGIBLE
+              NOT_CREATED_HPE_PRODUCT_STAGE_ELIGIBLE
+              NOT_CREATED_HPE_AUDIT_STAGE_ELIGIBLE
+            ].fetch(tik_stage_index),
+            "budget" => current_route.dig("ordered_stages", tik_stage_index, "budget")
+          }
+        end
         decision_identity = current_route.fetch("founder_route_decision")
         decision_path = Pathname.new(decision_identity.fetch("path"))
         abort "TIK Founder decision identity is not closed" unless
@@ -331,11 +351,11 @@ check_phase_predecessor_activation() {
           Digest::SHA256.hexdigest(decision_bytes) == decision_identity["sha256"]
         decision = JSON.parse(decision_bytes)
         decision_stage = decision.dig("route", "stages", tik_stage_index)
-        abort "TIK Founder decision stage/resource plan drift" unless
+        common_stage_plan =
           decision_stage.is_a?(Hash) && decision_stage["task_id"] == target_task &&
           decision_stage["budget"] == spec.fetch("budget") &&
-          decision_stage["resources"].is_a?(Hash) &&
-          decision_stage.dig("resources", "branch") == [
+          decision_stage["resources"].is_a?(Hash)
+        tik_stage_paths_match = decision_stage.dig("resources", "branch") == [
             "codex/p3-tik-f1-process-real-conformance-foundation",
             "codex/p3-tik-p1-host-authorized-transactional-invocation-kernel",
             "codex/p3-tik-a1-one-shot-strict-exit-audit"
@@ -350,6 +370,8 @@ check_phase_predecessor_activation() {
             "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-invocation-kernel-process-real-20260821/task-product",
             "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-invocation-kernel-process-real-20260821/task-audit"
           ].fetch(tik_stage_index)
+        abort "P3 closed process Founder decision stage/resource plan drift" unless
+          common_stage_plan && (hpe_process_route || tik_stage_paths_match)
         resources = decision_stage.fetch("resources")
         branch_name = resources.fetch("branch")
         branch_out, _branch_err, branch_status = Open3.capture3(
@@ -359,6 +381,10 @@ check_phase_predecessor_activation() {
         branch_head = branch_exists ? branch_out.strip : nil
         worktree_path = Pathname.new(resources.fetch("worktree"))
         evidence_path = Pathname.new(resources.fetch("evidence_root"))
+        residual_preflight_path = if hpe_process_route && tik_stage_index.zero?
+          P3FinalTransactionalRouteValidation.hpe_residual_preflight_path(decision)
+        end
+        preauthority_allowed_files = residual_preflight_path ? [residual_preflight_path] : []
         reserved_file_paths = resources.select { |key, _value| key.end_with?("_path") }.values
         lexically_absent = lambda do |path|
           pathname = Pathname.new(path)
@@ -424,7 +450,7 @@ check_phase_predecessor_activation() {
                                   when "TASK_AUTHORITY_CREATE"
                                     exact_branch_at_main && worktree_exact && evidence_path.directory? &&
                                       !evidence_path.symlink? && reserved_files_absent &&
-                                      evidence_inventory_closed.call([])
+                                      evidence_inventory_closed.call(preauthority_allowed_files)
                                   when "TASK_ACTIVATION"
                                     contract_path = Pathname.new(resources.fetch("contract_path"))
                                     authority_path = Pathname.new(resources.fetch("authority_path"))
@@ -437,7 +463,8 @@ check_phase_predecessor_activation() {
                                       !authority_path.symlink? &&
                                       remaining_paths.all? { |path| lexically_absent.call(path) } &&
                                       evidence_inventory_closed.call(
-                                        [contract_path.to_s, authority_path.to_s]
+                                        [contract_path.to_s, authority_path.to_s] +
+                                          preauthority_allowed_files
                                       )
                                   else
                                     false
@@ -456,13 +483,27 @@ check_phase_predecessor_activation() {
           end
           contract_identity = identity_for.call(resources.fetch("contract_path"), "TIK Contract")
           authority_identity = identity_for.call(resources.fetch("authority_path"), "TIK authority")
-          verified_contract, _contract, activation_parent =
-            P3FinalTransactionalRouteValidation.validate_tik_contract!(
-              repo_root, contract_identity, tik_stage_index
+          if hpe_process_route
+            verified_contract, _contract, activation_parent =
+              P3FinalTransactionalRouteValidation.validate_hpe_contract!(
+                repo_root, decision, contract_identity, tik_stage_index
+              )
+            verified_authority, = P3FinalTransactionalRouteValidation.validate_hpe_authority!(
+              repo_root, decision, authority_identity, tik_stage_index, verified_contract,
+              activation_parent
             )
-          verified_authority, = P3FinalTransactionalRouteValidation.validate_tik_authority!(
-            repo_root, authority_identity, tik_stage_index, verified_contract, activation_parent
-          )
+            P3FinalTransactionalRouteValidation.validate_hpe_live_residual_isolation!(
+              decision, tik_stage_index
+            )
+          else
+            verified_contract, _contract, activation_parent =
+              P3FinalTransactionalRouteValidation.validate_tik_contract!(
+                repo_root, contract_identity, tik_stage_index
+              )
+            verified_authority, = P3FinalTransactionalRouteValidation.validate_tik_authority!(
+              repo_root, authority_identity, tik_stage_index, verified_contract, activation_parent
+            )
+          end
           parent_tree_out, _parent_tree_err, parent_tree_status = Open3.capture3(
             "git", "-C", repo_root.to_s, "rev-parse", "#{main_out.strip}^{tree}"
           )
@@ -517,7 +558,7 @@ check_phase_predecessor_activation() {
         abort "delegated READY resource precheck requires the exact unactivated reservation" unless
           preactivation_delegated_resource
       end
-      if tik_process_real_route && task_id != "NONE" && %w[
+      if closed_process_route && task_id != "NONE" && %w[
         BRANCH_CREATE WORKTREE_CREATE ENGINEERING_EVIDENCE_CREATE TASK_AUTHORITY_CREATE
       ].include?(resource_action)
         abort "TIK active Task cannot recreate branch, worktree, Evidence root or authority"
@@ -527,7 +568,7 @@ check_phase_predecessor_activation() {
       abort "Task activation requires canonical Task NONE" unless task_id == "NONE"
       abort "Task activation target is not in the exact current route plan" unless planned_ids.include?(target_task)
     elsif resource_action == "TASK_AUTHORITY_CREATE"
-      abort "Task authority creation requires the exact delegated/TIK READY reservation" unless
+      abort "Task authority creation requires the exact delegated/closed-process READY reservation" unless
         preactivation_delegated_resource || preactivation_tik_resource
     elsif preactivation_delegated_resource || preactivation_tik_resource
       # Branch, worktree and Evidence are created only after this exact READY reservation check.
@@ -544,21 +585,30 @@ check_phase_predecessor_activation() {
         active_authority["byte_length"].is_a?(Integer) && active_authority["byte_length"].positive? &&
         active_authority["sha256"].is_a?(String) &&
         active_authority["sha256"].match?(/\A[0-9a-f]{64}\z/)
-      exact_active_candidate_projection = if tik_process_real_route
+      exact_active_candidate_projection = if closed_process_route
         expected_active_lifecycle = %w[
           FOUNDATION_TASK_ACTIVE PRODUCT_TASK_ACTIVE AUDIT_TASK_ACTIVE
         ].fetch(tik_stage_index)
-        expected_active_state = [
-          "P3_TIK_PROCESS_REAL_FOUNDATION_TASK_ACTIVE",
-          "P3_TIK_PROCESS_REAL_PRODUCT_TASK_ACTIVE",
-          "P3_TIK_PROCESS_REAL_AUDIT_TASK_ACTIVE"
-        ].fetch(tik_stage_index)
+        expected_active_state = if hpe_process_route
+          [
+            "P3_HPE_FOUNDATION_TASK_ACTIVE",
+            "P3_HPE_PRODUCT_TASK_ACTIVE",
+            "P3_HPE_AUDIT_TASK_ACTIVE"
+          ].fetch(tik_stage_index)
+        else
+          [
+            "P3_TIK_PROCESS_REAL_FOUNDATION_TASK_ACTIVE",
+            "P3_TIK_PROCESS_REAL_PRODUCT_TASK_ACTIVE",
+            "P3_TIK_PROCESS_REAL_AUDIT_TASK_ACTIVE"
+          ].fetch(tik_stage_index)
+        end
         tik_validator_state == expected_active_state &&
           current_route["lifecycle_stage"] == expected_active_lifecycle &&
           active["current_task"] == target_task && active["current_task_status"] == "ACTIVE" &&
           closed_active_authority && active["current_execution_authorization"] ==
             active_authority["path"] && active["current_execution_authorization_sha256"] ==
-            active_authority["sha256"] && active["task_resource_state"] == "ACTIVE_UNIQUE_TIK_STAGE"
+            active_authority["sha256"] && active["task_resource_state"] ==
+              (hpe_process_route ? "ACTIVE_UNIQUE_HPE_STAGE" : "ACTIVE_UNIQUE_TIK_STAGE")
       else
         delegated_task_route &&
         current_route["status"] == "ACTIVE" && current_route["execution_status"] == "ACTIVE" &&
@@ -651,6 +701,9 @@ check_phase_predecessor_activation() {
     tik_process_real_p3_route =
       truth.dig("current_phase_route", "schema_version") ==
         "p3-trusted-invocation-kernel-process-real-clean-room-route/v1"
+    hpe_process_p3_route =
+      truth.dig("current_phase_route", "schema_version") ==
+        "p3-host-process-enforced-minimal-slice-route/v1"
     current_v26_authority = phase_route_authority["version"] == "2.6"
     current_v27_authority = phase_route_authority["version"] == "2.7"
     current_v28_authority = phase_route_authority["version"] == "2.8"
@@ -658,8 +711,8 @@ check_phase_predecessor_activation() {
       host_owned_p3_route && !current_v26_authority
     abort "host-authorized P3 Route requires Constitution v2.7 authority" if
       host_authorized_p3_route && !current_v27_authority
-    abort "TIK process-real P3 Route requires Constitution v2.8 authority" if
-      tik_process_real_p3_route && !current_v28_authority
+    abort "TIK/HPE process-real P3 Route requires Constitution v2.8 authority" if
+      (tik_process_real_p3_route || hpe_process_p3_route) && !current_v28_authority
     expected_phase_route_authority = if current_v28_authority
       {
         "path" => "docs/aios/STRATEGIC_CONSTITUTION.md",
@@ -883,6 +936,40 @@ check_phase_predecessor_activation() {
       receipt = JSON.parse(receipt_bytes)
 
       case receipt_type
+      when "P3_HPE_STAGE_GATE_RECEIPT_V1"
+        abort "P3 HPE receipt used for another Phase/Gate item" unless
+          phase_id == "P3" &&
+          item_id == "RESUME_ISOLATION_PERMISSION_AND_TRACE_TESTS" &&
+          truth.dig("current_phase_route", "schema_version") ==
+            "p3-host-process-enforced-minimal-slice-route/v1" &&
+          truth.dig("current_phase_route", "lifecycle_stage") ==
+            "COMPLETE_AWAITING_FOUNDER_PHASE_GATE"
+        require repo_root.join("scripts/validate-p3-final-transactional-route.rb").to_s
+        hpe_state = P3FinalTransactionalRouteValidation.validate_truth!(
+          root: repo_root, truth: truth
+        )
+        abort "P3 HPE strict Exit state did not pass its frozen Route validator" unless
+          hpe_state == "P3_HPE_COMPLETE_AWAITING_FOUNDER_PHASE_GATE"
+        completed = truth.dig("active_work", "completed_tasks", 2)
+        abort "P3 HPE strict Exit completed-Task projection is not closed" unless
+          completed.is_a?(Hash) && completed["task_id"] == task_id_value &&
+          completed["status"] == "ACCEPTED_TASK_GATE_PASS" &&
+          completed["task_gate_receipt"] == evidence.slice("path", "byte_length", "sha256")
+        abort "P3 HPE strict Exit receipt identity mismatch" unless
+          receipt["schema_version"] == "p3-hpe-stage-gate-receipt/v1" &&
+          receipt["record_type"] == "P3_HPE_STAGE_GATE_RECEIPT" &&
+          receipt["phase"] == "P3" && receipt["stage_ordinal"] == 3 &&
+          receipt["stage_id"] == "ONE_SHOT_INDEPENDENT_STRICT_EXIT_AUDIT" &&
+          receipt["task_id"] == task_id_value &&
+          receipt["disposition"] == "ACCEPTED_TASK_GATE_PASS" &&
+          receipt.dig("integration", "integrated") == true &&
+          receipt.dig("integration", "canonical_main_commit") == item["acceptance_commit"] &&
+          receipt.dig("integration", "canonical_main_tree") == item["acceptance_tree"] &&
+          receipt["next_lifecycle"] == "COMPLETE_AWAITING_FOUNDER_PHASE_GATE" &&
+          receipt["delivery_percent"] == 100 && receipt["strict_exit_percent"] == 100 &&
+          accepted_history_statuses.include?(history["status"]) &&
+          history["accepted_candidate_commit"] == item["acceptance_commit"] &&
+          history["accepted_candidate_tree"] == item["acceptance_tree"]
       when "P3_TIK_STAGE_GATE_RECEIPT_V1"
         abort "P3 TIK receipt used for another Phase/Gate item" unless
           phase_id == "P3" &&

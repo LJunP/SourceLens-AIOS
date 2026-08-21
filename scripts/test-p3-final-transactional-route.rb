@@ -32,6 +32,157 @@ rescue P3FinalTransactionalRouteValidationError
 end
 
 if host_authorized_truth.dig("current_phase_route", "schema_version") ==
+   P3FinalTransactionalRouteValidation::HPE_ROUTE_SCHEMA
+  state = P3FinalTransactionalRouteValidation.validate_truth!(
+    root: root, truth: host_authorized_truth
+  )
+  expected_state = P3FinalTransactionalRouteValidation::HPE_LIFECYCLE_STATES.fetch(
+    host_authorized_truth.dig("current_phase_route", "lifecycle_stage")
+  )
+  raise "P3 HPE current route state drift" unless state == expected_state
+  assertions += 1
+
+  decision = JSON.parse(File.binread(P3FinalTransactionalRouteValidation::HPE_DECISION.fetch("path")))
+  expected_resource_keys = %w[
+    branch worktree evidence_root contract_path authority_path candidate_manifest_path
+    gate_evidence_path cycle_1_finding_set_path task_gate_pass_receipt_path
+    task_gate_non_pass_receipt_path cycle_1_candidate_manifest_path
+    cycle_1_gate_evidence_path cycle_1_cto_review_path cycle_1_security_review_path
+    cycle_1_quality_review_path cto_review_path security_review_path quality_review_path
+    rejected_bundle_path bundle_attestation_path
+  ]
+  raise "P3 HPE frozen resource schema drift" unless
+    decision.dig("route", "stages").all? do |stage|
+      stage.fetch("resources").keys.sort == expected_resource_keys.sort
+    end
+  assertions += 1
+
+  validator_source = root.join("scripts/validate-p3-final-transactional-route.rb").binread
+  receipt_source = validator_source[/^  def validate_hpe_stage_receipt!.*?(?=^  def )/m]
+  attestation_source = validator_source[/^  def validate_hpe_terminal_attestation!.*?(?=^  def )/m]
+  raise "P3 HPE terminal current-state rejected-lineage replay regression" unless
+    receipt_source && attestation_source &&
+    !receipt_source.include?("validate_hpe_terminal_bundle!") &&
+    !attestation_source.include?("validate_hpe_terminal_bundle!") &&
+    !receipt_source.include?('"git", "bundle"') &&
+    !attestation_source.include?('"git", "bundle"') &&
+    receipt_source.include?("bundle_verification_attestation") &&
+    attestation_source.include?('"future_current_state_lineage_replay_allowed"] == false')
+  assertions += 1
+
+  candidate_source = validator_source[/^  def validate_hpe_candidate_manifest!.*?(?=^  def )/m]
+  gate_source = validator_source[/^  def validate_hpe_gate_evidence!.*?(?=^  def )/m]
+  review_source = validator_source[/^  def validate_hpe_review!.*?(?=^  def )/m]
+  gate_partition_source = validator_source[/^  def hpe_executable_gate_requirements.*?(?=^  def )/m]
+  pointer_source = validator_source[/^  def hpe_json_pointer.*?(?=^  def )/m]
+  raise "P3 HPE frozen candidate/Gate/review safety semantics drift" unless
+    candidate_source && candidate_source.include?("--diff-filter=ACMRD") &&
+    candidate_source.include?("%w[A M].include?(status)") &&
+    candidate_source.include?("%w[100644 100755]") &&
+    gate_source && gate_source.include?("parse_tik_json!") &&
+    gate_source.include?("source_identities") && gate_source.include?("derivation") &&
+    gate_source.include?("actual_values == pass_values") &&
+    gate_partition_source &&
+    gate_partition_source.include?('gates - ["THREE_INDEPENDENT_REVIEWS_PASS"]') &&
+    pointer_source && pointer_source.include?("JSON pointer") && review_source &&
+    review_source.include?("regression_ids & frozen_ids") &&
+    review_source.include?("closed + unresolved")
+  assertions += 1
+
+  creator_source = validator_source[/^  def create_hpe_terminal_bundle_attestation!.*?(?=^  def )/m]
+  raise "P3 HPE one-shot terminalization or canonical integration semantics drift" unless
+    creator_source && creator_source.include?("tik_reserve_exclusive_create_once_file!") &&
+    creator_source.include?("validate_hpe_terminal_bundle!") &&
+    creator_source.index("tik_reserve_exclusive_create_once_file!") <
+      creator_source.index("validate_hpe_terminal_bundle!") &&
+    receipt_source.include?("expected_receipt_gate_results") &&
+    receipt_source.include?("activation_parent.fetch(\"commit\")") &&
+    receipt_source.include?("expected_integration_paths")
+  assertions += 1
+
+  hpe_mutations = {
+    "HPE unknown route member cannot enter the closed state machine" => lambda do |candidate|
+      candidate["current_phase_route"]["unexpected_route_member"] = true
+    end,
+    "HPE decision identity cannot drift" => lambda do |candidate|
+      candidate["current_phase_route"]["founder_route_decision"]["sha256"] = "0" * 64
+    end,
+    "HPE installed authorization body identity cannot drift" => lambda do |candidate|
+      candidate["current_phase_route"]["founder_route_decision"]["source_body"]["sha256"] =
+        "0" * 64
+    end,
+    "HPE canonical start cannot drift" => lambda do |candidate|
+      candidate["current_phase_route"]["canonical_start"]["commit"] = "0" * 40
+    end,
+    "HPE lifecycle cannot be unknown" => lambda do |candidate|
+      candidate["current_phase_route"]["lifecycle_stage"] = "SUCCESSOR_READY"
+    end,
+    "HPE lifecycle execution status cannot drift" => lambda do |candidate|
+      candidate["current_phase_route"]["execution_status"] = "READY_TO_ACTIVATE_PRODUCT"
+    end,
+    "HPE lifecycle scheduling cannot become a Founder daily gate" => lambda do |candidate|
+      candidate["current_phase_route"]["scheduling_status"] =
+        "FOUNDER_RESERVED_ROUTE_CHANGE_DECISION_REQUIRED"
+    end,
+    "HPE stage order cannot drift" => lambda do |candidate|
+      candidate["current_phase_route"]["ordered_stages"].reverse!
+    end,
+    "HPE Foundation budget cannot expand" => lambda do |candidate|
+      candidate["phase_execution_envelope"]["ordered_stages"][0]["budget"]["engineering_hours"] = 9
+    end,
+    "HPE Product cannot unlock before Foundation" => lambda do |candidate|
+      candidate["current_phase_route"]["ordered_stages"][1]["status"] =
+        "ELIGIBLE_NOT_ACTIVATED"
+    end,
+    "HPE cumulative Task ceiling cannot expand" => lambda do |candidate|
+      candidate["phase_execution_envelope"]["limits"]["engineering_tasks"] = 13
+    end,
+    "HPE consumed accounting cannot reset" => lambda do |candidate|
+      candidate["phase_execution_envelope"]["consumed"]["engineering_tasks"] = 0
+    end,
+    "HPE Stage 0 cannot claim delivery progress" => lambda do |candidate|
+      candidate["phase_execution_envelope"]["delivery_progress"]["percent"] = 50
+    end,
+    "HPE delegated continuation cannot lose Master owner" => lambda do |candidate|
+      candidate["founder_escalation_control"]["next_action_owner"] = "NONE"
+    end,
+    "HPE ready state cannot retain Task authority" => lambda do |candidate|
+      candidate["active_work"]["authority_record"] =
+        P3FinalTransactionalRouteValidation::HPE_AUTHORIZATION_BODY
+    end,
+    "HPE phase boundary cannot authorize repository root" => lambda do |candidate|
+      candidate["phase_boundary"]["role_write_roots"]["worker"] = ["/"]
+    end,
+    "HPE phase boundary cannot enable open shell" => lambda do |candidate|
+      candidate["phase_boundary"]["allowed_capabilities"] << "OPEN_AGENT_SHELL"
+    end,
+    "HPE external network effect cannot be enabled" => lambda do |candidate|
+      candidate["current_phase_route"]["external_effects"]["network"] = true
+    end,
+    "HPE predecessor terminal accounting cannot drift" => lambda do |candidate|
+      candidate.dig("active_work", "last_completed_task_identity_accounting",
+                    "terminal_receipt")["sha256"] = "0" * 64
+    end,
+    "HPE strict Exit cannot be claimed during installation" => lambda do |candidate|
+      candidate.dig("strict_phase_gate_ledger", "phases", "P3", "required_items",
+                    "RESUME_ISOLATION_PERMISSION_AND_TRACE_TESTS")["status"] = "ACCEPTED"
+    end,
+    "HPE cannot enter P4" => lambda do |candidate|
+      candidate["project"]["p4_entry_status"] = "AUTHORIZED"
+    end,
+    "HPE cannot close the Long-term Goal" => lambda do |candidate|
+      candidate["goal"]["control_plane_status_observed"] = "COMPLETE"
+    end
+  }
+  hpe_mutations.each do |label, mutation|
+    expect_non_pass(root, host_authorized_truth, label, &mutation)
+    assertions += 1
+  end
+  puts "P3_FINAL_TRANSACTIONAL_ROUTE_TEST: PASS #{assertions} assertions mode=HPE_CURRENT_ONLY_NO_REJECTED_LINEAGE_REPLAY"
+  exit 0
+end
+
+if host_authorized_truth.dig("current_phase_route", "schema_version") ==
    P3FinalTransactionalRouteValidation::TIK_ROUTE_SCHEMA
   state = P3FinalTransactionalRouteValidation.validate_truth!(
     root: root, truth: host_authorized_truth

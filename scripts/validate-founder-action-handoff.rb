@@ -49,6 +49,7 @@ module FounderActionHandoff
     P3_ONE_FINAL_HERMETIC_CAPABILITY_LEDGER_ROUTE_AFTER_PREACTIVATION_TERMINAL
     P3_ZERO_AUTHORITY_AGENT_AND_IMMUTABLE_TASK_ACTION_ENVELOPE_PHASE_ROUTE_RESEQUENCING
     P3_MINIMUM_TRUST_HOST_AUTHORIZED_TRANSACTIONAL_BOUNDARY_OBJECTIVE_AND_ROUTE_REBASELINE_AFTER_P3_007
+    P3_HOST_PROCESS_ENFORCED_MINIMAL_SLICE_ROUTE_REBASELINE_AFTER_TIK_F1_TERMINAL
   ].freeze
   APP_OPERATION_TYPES = %w[APP_FILESYSTEM_BATCH_WRITE].freeze
   READ_ONLY_HTTPS_OPERATION = "一次全新、独立、clean-room V6 benchmark source acquisition"
@@ -268,6 +269,42 @@ module FounderActionHandoff
   P3_HOST_AUTHORIZED_ROUTE_PREINSTALL_TRUTH_PATH = "docs/aios/truth/project_state.yaml"
   P3_HOST_AUTHORIZED_ROUTE_PREINSTALL_TRUTH_BYTES = 1_860_604
   P3_HOST_AUTHORIZED_ROUTE_PREINSTALL_TRUTH_SHA256 = "ffb8ad7ea3474d3592e90b417c2aa5696ad54f4e6d6042fecc7da5d3e3ef2e47"
+  P3_HPE_ROUTE_TOKEN =
+    "AUTHORIZE_P3_HOST_PROCESS_ENFORCED_MINIMAL_SLICE_ROUTE_REBASELINE_AFTER_TIK_F1_TERMINAL_V1"
+  P3_HPE_ROUTE_OPERATION_TYPE =
+    "P3_HOST_PROCESS_ENFORCED_MINIMAL_SLICE_ROUTE_REBASELINE_AFTER_TIK_F1_TERMINAL"
+  P3_HPE_ROUTE_PRIMARY_TRIGGER = "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE"
+  P3_HPE_ROUTE_CAPACITY_SCOPE =
+    "批准一次 P3 路线变更与最小 Task 数量扩展。"
+  P3_HPE_ROUTE_OPERATION =
+    "授权一次 P3 Host-Process-Enforced Minimal Slice 路线变更，只允许安装一个更小的 process-real Foundation、一个非空产品实现 Task 和一个 one-shot strict Exit audit；不得恢复或修复已终态 TIK Task。"
+  P3_HPE_ROUTE_ORDER =
+    "严格顺序为 HOST_PROCESS_CONFINEMENT_COMPATIBILITY_FOUNDATION → DURABLE_HOST_INVOCATION_KERNEL_PRODUCT → ONE_SHOT_INDEPENDENT_STRICT_EXIT_AUDIT；前一 Stage 未独立 ACCEPTED 时后一 Stage 必须保持 LOCKED。"
+  P3_HPE_ROUTE_LINEAGE =
+    "P3-002 至 P3-007、P3-HATB-F1 与本次 P3-TIK-F1 的 rejected branch、worktree、code、tests、evaluator、candidate、raw engineering Evidence 和 bundle lineage 均禁止读取、比较、复制、执行、修复或复用；新路线只能使用 canonical main、accepted P3-001 public behavior、新 Founder decision 以及旧 terminal receipt/attestation 的 identity 与 accounting。"
+  P3_HPE_ROUTE_TARGET =
+    "本路线只作用于本地 SourceLens canonical main、上述三个依序且短生命周期的 Task branch/worktree、对应 create-once Evidence roots，以及 exact Task Contract allowlist；不授权 remote push、tag、release、部署或对外发布。"
+  P3_HPE_ROUTE_BUDGET =
+    "将 P3 累计 ceiling 精确改为 12 engineering Tasks / 336 engineering hours / 84 calendar days，保留 consumed 9 / 264 / 66，只释放本路线按顺序使用的 3 Tasks / 72 hours / 18 days；不授权任何额外小时、日历、网络或第二次路线扩张。"
+  P3_HPE_ROUTE_DURATION =
+    "本授权在以下任一条件发生时终止：Stage 3 formal PASS/NON_PASS 并形成 exact terminal/Phase-Gate receipt；3 Tasks / 72 hours / 18 days 容量耗尽；任一 identity 漂移；出现 unauthorized external effect、scope escape、credential exposure、existing DB mutation、outside-root write 或 irreversible deletion；我明确撤销。"
+  P3_HPE_ROUTE_CONSUMPTION =
+    "任一 Stage NON_PASS 都终止本路线：失败 candidate 不集成，保留 exact receipt/bundle/attestation，dependent stages 保持 LOCKED；不得创建 Candidate 3、successor、replacement、normalization、closure、feasibility、remediation、V2/V3 路线或 rerun-to-pass。"
+  P3_HPE_ROUTE_PASS =
+    "PASS lifecycle：安装 PASS 仅使 Stage 1 eligible，仍为 P3 delivery 25% / strict Exit 0%；Stage 1 PASS → 50%/0%；Stage 2 PASS → 75%/0%；Stage 3 PASS → 100%/100% 并仅等待 Founder P3 Phase Gate。"
+  P3_HPE_ROUTE_NON_PASS =
+    "NON_PASS lifecycle：安装 NON_PASS 不创建 Task；Stage 1 或 Stage 2 NON_PASS 不集成 candidate并锁定后续 Stage；Stage 3 NON_PASS 保留 one-shot 真实结果且不得重跑。任何 NON_PASS 都保持 P4 HOLD、项目未完成、长期 Goal ACTIVE，并交付下一步 handoff，但不得自动执行另一条路线。"
+  P3_HPE_ROUTE_CANONICAL_BODY_BYTES = 17_085
+  P3_HPE_ROUTE_CANONICAL_BODY_SHA256 =
+    "b4be5e40155710913c2e6b61214f07b5df4cd176cbd8cf07f7eecf24f2283202"
+  P3_HPE_ROUTE_PREINSTALL_COMMIT =
+    "b6d7b398278f3e64ef8ee5761c9324cdebf0e8f3"
+  P3_HPE_ROUTE_PREINSTALL_TREE =
+    "2de5445ca28cb73b0093d02780f9248ad4b8b049"
+  P3_HPE_ROUTE_PREINSTALL_TRUTH_PATH = "docs/aios/truth/project_state.yaml"
+  P3_HPE_ROUTE_PREINSTALL_TRUTH_BYTES = 1_899_425
+  P3_HPE_ROUTE_PREINSTALL_TRUTH_SHA256 =
+    "fdc473bebc781271dbec7a622a936556b92bc46d44aef55314fa251052fb2ac1"
   FOUNDER_NETWORK_OPERATION_PROFILES = {
     "READ_ONLY_HTTPS_ACQUISITION" => {
       "operations" => [READ_ONLY_HTTPS_OPERATION, READ_ONLY_HTTPS_METHOD],
@@ -564,6 +601,22 @@ module FounderActionHandoff
       "authorization_expiry_or_consumption_rule" => P3_HOST_AUTHORIZED_ROUTE_CONSUMPTION,
       "pass_lifecycle" => P3_HOST_AUTHORIZED_ROUTE_PASS,
       "non_pass_lifecycle" => P3_HOST_AUTHORIZED_ROUTE_NON_PASS
+    },
+    P3_HPE_ROUTE_OPERATION_TYPE => {
+      "operations" => [
+        P3_HPE_ROUTE_PRIMARY_TRIGGER,
+        P3_HPE_ROUTE_CAPACITY_SCOPE,
+        P3_HPE_ROUTE_OPERATION,
+        P3_HPE_ROUTE_ORDER,
+        P3_HPE_ROUTE_LINEAGE
+      ],
+      "targets" => [P3_HPE_ROUTE_TARGET],
+      "budget_or_external_effects" => P3_HPE_ROUTE_BUDGET,
+      "token" => P3_HPE_ROUTE_TOKEN,
+      "duration" => P3_HPE_ROUTE_DURATION,
+      "authorization_expiry_or_consumption_rule" => P3_HPE_ROUTE_CONSUMPTION,
+      "pass_lifecycle" => P3_HPE_ROUTE_PASS,
+      "non_pass_lifecycle" => P3_HPE_ROUTE_NON_PASS
     }
   }.freeze
   PROSPECTIVE_PREFLIGHT = "PROSPECTIVE_RESERVED_EFFECT_REQUIRED_BY_EXACT_USER_REQUEST_AND_NOT_EXPRESSIBLE_BY_CURRENT_OFFLINE_ESCALATION_PROJECTION"
@@ -690,15 +743,27 @@ module FounderActionHandoff
     assert!(identity["commit"].is_a?(String) && identity["commit"].match?(COMMIT), "canonical commit invalid")
     assert!(identity["tree"].is_a?(String) && identity["tree"].match?(COMMIT), "canonical tree invalid")
     nonempty_string!(identity["branch"], "canonical branch")
-    frozen_p3_fixture = test_fixture &&
-                        package.dig("authorization", "operation_type") ==
-                          "P3_MINIMUM_TRUST_HOST_AUTHORIZED_TRANSACTIONAL_BOUNDARY_OBJECTIVE_AND_ROUTE_REBASELINE_AFTER_P3_007"
+    frozen_p3_operation_type = package.dig("authorization", "operation_type")
+    frozen_p3_fixture = test_fixture && [
+      "P3_MINIMUM_TRUST_HOST_AUTHORIZED_TRANSACTIONAL_BOUNDARY_OBJECTIVE_AND_ROUTE_REBASELINE_AFTER_P3_007",
+      P3_HPE_ROUTE_OPERATION_TYPE
+    ].include?(frozen_p3_operation_type)
     if frozen_p3_fixture
-      assert!(identity == {
-        "commit" => P3_HOST_AUTHORIZED_ROUTE_PREINSTALL_COMMIT,
-        "tree" => P3_HOST_AUTHORIZED_ROUTE_PREINSTALL_TREE,
-        "branch" => "main"
-      }, "P3 host-authorized fixture canonical Git identity drift")
+      expected_fixture_identity = if frozen_p3_operation_type == P3_HPE_ROUTE_OPERATION_TYPE
+        {
+          "commit" => P3_HPE_ROUTE_PREINSTALL_COMMIT,
+          "tree" => P3_HPE_ROUTE_PREINSTALL_TREE,
+          "branch" => "main"
+        }
+      else
+        {
+          "commit" => P3_HOST_AUTHORIZED_ROUTE_PREINSTALL_COMMIT,
+          "tree" => P3_HOST_AUTHORIZED_ROUTE_PREINSTALL_TREE,
+          "branch" => "main"
+        }
+      end
+      assert!(identity == expected_fixture_identity,
+              "P3 rebaseline fixture canonical Git identity drift")
     else
       assert!(identity == current_git_identity, "handoff canonical Git identity drift")
     end
@@ -708,11 +773,21 @@ module FounderActionHandoff
     assert!(artifact["byte_length"].is_a?(Integer) && artifact["byte_length"].positive?, "governing artifact byte length invalid")
     assert!(artifact["sha256"].is_a?(String) && artifact["sha256"].match?(SHA256), "governing artifact SHA-256 invalid")
     if frozen_p3_fixture
-      assert!(artifact == {
-        "path" => P3_HOST_AUTHORIZED_ROUTE_PREINSTALL_TRUTH_PATH,
-        "byte_length" => P3_HOST_AUTHORIZED_ROUTE_PREINSTALL_TRUTH_BYTES,
-        "sha256" => P3_HOST_AUTHORIZED_ROUTE_PREINSTALL_TRUTH_SHA256
-      }, "P3 host-authorized fixture governing artifact identity drift")
+      expected_fixture_artifact = if frozen_p3_operation_type == P3_HPE_ROUTE_OPERATION_TYPE
+        {
+          "path" => P3_HPE_ROUTE_PREINSTALL_TRUTH_PATH,
+          "byte_length" => P3_HPE_ROUTE_PREINSTALL_TRUTH_BYTES,
+          "sha256" => P3_HPE_ROUTE_PREINSTALL_TRUTH_SHA256
+        }
+      else
+        {
+          "path" => P3_HOST_AUTHORIZED_ROUTE_PREINSTALL_TRUTH_PATH,
+          "byte_length" => P3_HOST_AUTHORIZED_ROUTE_PREINSTALL_TRUTH_BYTES,
+          "sha256" => P3_HOST_AUTHORIZED_ROUTE_PREINSTALL_TRUTH_SHA256
+        }
+      end
+      assert!(artifact == expected_fixture_artifact,
+              "P3 rebaseline fixture governing artifact identity drift")
     else
       artifact_path = Pathname.new(ROOT).join(artifact["path"]).cleanpath
       assert!(artifact_path.to_s.start_with?(ROOT + File::SEPARATOR), "governing artifact escaped repository")
@@ -874,11 +949,26 @@ module FounderActionHandoff
       assert!(package["project_authorized"] == "NO" && package["app_filesystem_approval_required"] == "NO",
               "Founder request mixed project and App approval layers")
       if authorization["proposal_mode"] == "CURRENT_CANONICAL_TRIGGER"
-        assert!(control["disposition"] == "FOUNDER_DECISION_REQUIRED" &&
-                control["founder_decision_required"] == true &&
-                control.dig("reserved_trigger", "category") == authorization["reserved_trigger"] &&
-                evidence["prospective_preflight"].nil?,
-                "Founder package does not match the current canonical trigger")
+        if authorization["operation_type"] == P3_HPE_ROUTE_OPERATION_TYPE
+          request = package["user_request_evidence"]
+          assert!(control["disposition"] == "FOUNDER_RESERVED_DECISION_REQUIRED" &&
+                  control["founder_decision_required"] == true &&
+                  control.dig("reserved_trigger", "category") == P3_HPE_ROUTE_PRIMARY_TRIGGER &&
+                  control["next_action_owner"] == "HUMAN_FOUNDER" &&
+                  evidence["prospective_preflight"].nil? &&
+                  request.is_a?(Hash) && current_user_request_token == P3_HPE_ROUTE_TOKEN &&
+                  request["source"] == "CURRENT_DIRECT_USER_MESSAGE" &&
+                  request["exact_token"] == current_user_request_token &&
+                  request["requested_external_effect"] == "MATERIAL_SCOPE" &&
+                  authorization["reserved_trigger"] == P3_HPE_ROUTE_PRIMARY_TRIGGER,
+                  "P3 HPE rebaseline lacks the exact current trigger and direct Founder token")
+        else
+          assert!(control["disposition"] == "FOUNDER_DECISION_REQUIRED" &&
+                  control["founder_decision_required"] == true &&
+                  control.dig("reserved_trigger", "category") == authorization["reserved_trigger"] &&
+                  evidence["prospective_preflight"].nil?,
+                  "Founder package does not match the current canonical trigger")
+        end
       elsif authorization["proposal_mode"] == "PROSPECTIVE_RESERVED_EFFECT"
         assert!(control["disposition"] == "NO_RESERVED_TRIGGER_CONTINUE_PHASE" &&
                 control["founder_decision_required"] == false &&
@@ -960,6 +1050,7 @@ module FounderActionHandoff
         P3_ONE_FINAL_HERMETIC_CAPABILITY_LEDGER_ROUTE_AFTER_PREACTIVATION_TERMINAL
         P3_ZERO_AUTHORITY_AGENT_AND_IMMUTABLE_TASK_ACTION_ENVELOPE_PHASE_ROUTE_RESEQUENCING
         P3_MINIMUM_TRUST_HOST_AUTHORIZED_TRANSACTIONAL_BOUNDARY_OBJECTIVE_AND_ROUTE_REBASELINE_AFTER_P3_007
+        P3_HOST_PROCESS_ENFORCED_MINIMAL_SLICE_ROUTE_REBASELINE_AFTER_TIK_F1_TERMINAL
       ].include?(operation_type)
         proposed_tokens = package["copy_ready_text_or_exact_steps"].scan(FOUNDER_AUTHORIZATION_TOKEN)
         assert!(proposed_tokens == [profile["token"]],
@@ -980,6 +1071,16 @@ module FounderActionHandoff
                   P3_HOST_AUTHORIZED_ROUTE_CANONICAL_BODY_SHA256 &&
                 canonical_body.lines.first.chomp == P3_HOST_AUTHORIZED_ROUTE_TOKEN,
                 "P3 host-authorized rebaseline exact Founder body identity drift")
+      end
+      if operation_type == P3_HPE_ROUTE_OPERATION_TYPE
+        body = package["copy_ready_text_or_exact_steps"].dup.force_encoding("UTF-8")
+        assert!(body.valid_encoding?, "P3 HPE rebaseline body encoding invalid")
+        canonical_body = body.gsub(/\r\n?/, "\n").sub(/\n*\z/, "") + "\n"
+        assert!(canonical_body.bytesize == P3_HPE_ROUTE_CANONICAL_BODY_BYTES &&
+                Digest::SHA256.hexdigest(canonical_body) ==
+                  P3_HPE_ROUTE_CANONICAL_BODY_SHA256 &&
+                canonical_body.lines.first.chomp == P3_HPE_ROUTE_TOKEN,
+                "P3 HPE rebaseline exact Founder body identity drift")
       end
       assert!(grant["targets"] == profile["targets"] &&
               grant["budget_or_external_effects"] == profile["budget_or_external_effects"],

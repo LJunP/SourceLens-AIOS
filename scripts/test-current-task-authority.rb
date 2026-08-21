@@ -3,6 +3,7 @@
 
 require "digest"
 require "fileutils"
+require "json"
 require "open3"
 require "pathname"
 require "rbconfig"
@@ -4111,6 +4112,41 @@ class CurrentTaskAuthorityTest
       end
     end
     puts "CURRENT_TASK_AUTHORITY_TESTS: PASS assertions=#{@passes}"
+  end
+end
+
+current_truth = YAML.safe_load(
+  File.binread(File.join(SOURCE_REPO, TRUTH_RELATIVE)),
+  permitted_classes: [],
+  permitted_symbols: [],
+  aliases: false
+)
+if current_truth.dig("current_phase_route", "schema_version") ==
+   P3FinalTransactionalRouteValidation::HPE_ROUTE_SCHEMA
+  begin
+    state = CurrentTaskAuthority.validate!
+    expected_state = P3FinalTransactionalRouteValidation::HPE_LIFECYCLE_STATES.fetch(
+      current_truth.dig("current_phase_route", "lifecycle_stage")
+    )
+    raise TestFailure, "HPE current authority state drift" unless state == expected_state
+
+    mutated = JSON.parse(JSON.generate(current_truth))
+    mutated["current_phase_route"]["lifecycle_stage"] = "UNDECLARED_HPE_LIFECYCLE"
+    begin
+      P3FinalTransactionalRouteValidation.validate_truth!(root: SOURCE_REPO, truth: mutated)
+      raise TestFailure, "HPE unknown lifecycle false-PASSed through current authority"
+    rescue P3FinalTransactionalRouteValidationError
+      # Expected fail-closed result.
+    end
+
+    puts "CURRENT_TASK_AUTHORITY_TESTS: PASS assertions=2 mode=HPE_CURRENT_ONLY_NO_REJECTED_LINEAGE_REPLAY"
+    exit 0
+  rescue TestFailure, AuthorityValidationError => e
+    warn "CURRENT_TASK_AUTHORITY_TESTS: NON_PASS #{e.message}"
+    exit 1
+  rescue StandardError => e
+    warn "CURRENT_TASK_AUTHORITY_TESTS: NON_PASS unexpected #{e.class}: #{e.message}"
+    exit 1
   end
 end
 

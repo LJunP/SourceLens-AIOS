@@ -531,6 +531,122 @@ module P3FinalTransactionalRouteValidation
     "byte_length" => 9_883,
     "sha256" => "bbbb76ad9a3a5ff81d02103771540a29135e39c10e8187b3cb123f9508d80756"
   }.freeze
+  HPE_ROUTE_SCHEMA = "p3-host-process-enforced-minimal-slice-route/v1"
+  HPE_ROUTE_ID = "P3_HOST_PROCESS_ENFORCED_MINIMAL_SLICE_ROUTE_V1"
+  HPE_DECISION_SCHEMA =
+    "founder-p3-host-process-enforced-minimal-slice-route-rebaseline/v1"
+  HPE_DECISION_ID =
+    "AUTHORIZE_P3_HOST_PROCESS_ENFORCED_MINIMAL_SLICE_ROUTE_REBASELINE_AFTER_TIK_F1_TERMINAL_V1"
+  HPE_DECISION = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-host-process-enforced-minimal-slice-20260821/decision/FOUNDER_P3_HOST_PROCESS_ENFORCED_MINIMAL_SLICE_ROUTE_REBASELINE_AFTER_TIK_F1_TERMINAL_V1.json",
+    "byte_length" => 25_969,
+    "sha256" => "ce9ee638c3112d098f0e1ebf55f862a30a053e479eeaf780980c9cde8425019d"
+  }.freeze
+  HPE_AUTHORIZATION_BODY = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-host-process-enforced-minimal-slice-20260821/decision/FOUNDER_AUTHORIZATION_BODY_V1.txt",
+    "byte_length" => 17_085,
+    "sha256" => "b4be5e40155710913c2e6b61214f07b5df4cd176cbd8cf07f7eecf24f2283202"
+  }.freeze
+  HPE_AUTHORIZATION_ATTACHMENT = {
+    "path" => "/Users/lijunpeng/.codex/attachments/e77ae6e2-1ec9-49dc-8853-f7ad62f9a76d/pasted-text.txt",
+    "byte_length" => 17_084,
+    "sha256" => "50332522517e407a1c7d8ffce03a4c5edcc3dec04bc6228a0d09705516ac68bb"
+  }.freeze
+  HPE_CANONICAL_START = {
+    "repository" => "/Users/lijunpeng/Developer/SourceLens-AIOS",
+    "branch" => "main",
+    "commit" => "b6d7b398278f3e64ef8ee5761c9324cdebf0e8f3",
+    "tree" => "2de5445ca28cb73b0093d02780f9248ad4b8b049",
+    "truth" => {
+      "path" => "docs/aios/truth/project_state.yaml",
+      "byte_length" => 1_899_425,
+      "sha256" => "fdc473bebc781271dbec7a622a936556b92bc46d44aef55314fa251052fb2ac1"
+    },
+    "constitution" => TIK_CONSTITUTION,
+    "long_term_goal_status" => "ACTIVE",
+    "terminal_receipt" => {
+      "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-invocation-kernel-process-real-20260821/task-foundation/terminal/P3_TIK_F1_TERMINAL_TASK_GATE_NON_PASS_RECEIPT_V1.json",
+      "byte_length" => 5_205,
+      "sha256" => "5e9350b2e21973203f146523fec0a4d5ee4c86a0602269eb9795c787a55c0c8b"
+    },
+    "rejected_bundle_attestation" => {
+      "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-invocation-kernel-process-real-20260821/task-foundation/terminal/P3_TIK_F1_REJECTED_BUNDLE_VERIFICATION_ATTESTATION_V1.json",
+      "byte_length" => 2_882,
+      "sha256" => "9abe2565c0d408c8b407f95cc5513e60aaa7efd07749c6246ad48d81e4543f8e"
+    }
+  }.freeze
+  HPE_EXTERNAL_EFFECTS = TIK_EXTERNAL_EFFECTS
+  HPE_REVIEW_ROLES = TIK_REVIEW_ROLES
+  HPE_FINDING_CATEGORIES = TIK_FINDING_CATEGORIES
+  HPE_LIFECYCLE_STATES = {
+    "FOUNDATION_STAGE_ELIGIBLE" => "P3_HPE_FOUNDATION_STAGE_ELIGIBLE",
+    "FOUNDATION_TASK_ACTIVE" => "P3_HPE_FOUNDATION_TASK_ACTIVE",
+    "PRODUCT_STAGE_ELIGIBLE" => "P3_HPE_PRODUCT_STAGE_ELIGIBLE",
+    "PRODUCT_TASK_ACTIVE" => "P3_HPE_PRODUCT_TASK_ACTIVE",
+    "AUDIT_STAGE_ELIGIBLE" => "P3_HPE_AUDIT_STAGE_ELIGIBLE",
+    "AUDIT_TASK_ACTIVE" => "P3_HPE_AUDIT_TASK_ACTIVE",
+    "COMPLETE_AWAITING_FOUNDER_PHASE_GATE" =>
+      "P3_HPE_COMPLETE_AWAITING_FOUNDER_PHASE_GATE",
+    "ROUTE_TERMINAL_NON_PASS" => "P3_HPE_ROUTE_TERMINAL_NON_PASS"
+  }.freeze
+  HPE_LIFECYCLE_SPECS = {
+    "FOUNDATION_STAGE_ELIGIBLE" => {
+      "route_status" => "ACTIVE_FOUNDATION_STAGE_ELIGIBLE",
+      "stage_statuses" => %w[ELIGIBLE_NOT_ACTIVATED LOCKED_FOUNDATION_NOT_ACCEPTED LOCKED_PRODUCT_NOT_ACCEPTED],
+      "active_stage" => nil, "completed_stages" => 0, "delivery" => 25,
+      "strict_exit" => 0,
+      "next_action" => "ACTIVATE_P3_HPE_F1_HOST_PROCESS_CONFINEMENT_COMPATIBILITY_FOUNDATION",
+      "task_creation_allowed" => true, "founder_gate" => false
+    },
+    "FOUNDATION_TASK_ACTIVE" => {
+      "route_status" => "ACTIVE_FOUNDATION_TASK",
+      "stage_statuses" => %w[ACTIVE LOCKED_FOUNDATION_NOT_ACCEPTED LOCKED_PRODUCT_NOT_ACCEPTED],
+      "active_stage" => 0, "completed_stages" => 0, "delivery" => 25,
+      "strict_exit" => 0,
+      "next_action" => "EXECUTE_P3_HPE_F1_HOST_PROCESS_CONFINEMENT_COMPATIBILITY_FOUNDATION",
+      "task_creation_allowed" => false, "founder_gate" => false
+    },
+    "PRODUCT_STAGE_ELIGIBLE" => {
+      "route_status" => "ACTIVE_PRODUCT_STAGE_ELIGIBLE",
+      "stage_statuses" => %w[ACCEPTED ELIGIBLE_NOT_ACTIVATED LOCKED_PRODUCT_NOT_ACCEPTED],
+      "active_stage" => nil, "completed_stages" => 1, "delivery" => 50,
+      "strict_exit" => 0,
+      "next_action" => "ACTIVATE_P3_HPE_P1_DURABLE_HOST_INVOCATION_KERNEL_PRODUCT",
+      "task_creation_allowed" => true, "founder_gate" => false
+    },
+    "PRODUCT_TASK_ACTIVE" => {
+      "route_status" => "ACTIVE_PRODUCT_TASK",
+      "stage_statuses" => %w[ACCEPTED ACTIVE LOCKED_PRODUCT_NOT_ACCEPTED],
+      "active_stage" => 1, "completed_stages" => 1, "delivery" => 50,
+      "strict_exit" => 0,
+      "next_action" => "EXECUTE_P3_HPE_P1_DURABLE_HOST_INVOCATION_KERNEL_PRODUCT",
+      "task_creation_allowed" => false, "founder_gate" => false
+    },
+    "AUDIT_STAGE_ELIGIBLE" => {
+      "route_status" => "ACTIVE_AUDIT_STAGE_ELIGIBLE",
+      "stage_statuses" => %w[ACCEPTED ACCEPTED ELIGIBLE_NOT_ACTIVATED],
+      "active_stage" => nil, "completed_stages" => 2, "delivery" => 75,
+      "strict_exit" => 0,
+      "next_action" => "ACTIVATE_P3_HPE_A1_ONE_SHOT_INDEPENDENT_STRICT_EXIT_AUDIT",
+      "task_creation_allowed" => true, "founder_gate" => false
+    },
+    "AUDIT_TASK_ACTIVE" => {
+      "route_status" => "ACTIVE_AUDIT_TASK",
+      "stage_statuses" => %w[ACCEPTED ACCEPTED ACTIVE],
+      "active_stage" => 2, "completed_stages" => 2, "delivery" => 75,
+      "strict_exit" => 0,
+      "next_action" => "EXECUTE_P3_HPE_A1_ONE_SHOT_INDEPENDENT_STRICT_EXIT_AUDIT",
+      "task_creation_allowed" => false, "founder_gate" => false
+    },
+    "COMPLETE_AWAITING_FOUNDER_PHASE_GATE" => {
+      "route_status" => "COMPLETE_AWAITING_FOUNDER_PHASE_GATE",
+      "stage_statuses" => %w[ACCEPTED ACCEPTED ACCEPTED],
+      "active_stage" => nil, "completed_stages" => 3, "delivery" => 100,
+      "strict_exit" => 100,
+      "next_action" => "ELIGIBLE_AWAITING_FOUNDER_P3_PHASE_GATE_DECISION",
+      "task_creation_allowed" => false, "founder_gate" => true
+    }
+  }.freeze
   HOST_AUTHORIZED_DECISION_SCHEMA =
     "founder-p3-minimum-trust-host-authorized-transactional-boundary-objective-route-rebaseline/v1"
   HOST_AUTHORIZED_DECISION_ID =
@@ -5162,8 +5278,2032 @@ module P3FinalTransactionalRouteValidation
     raise P3FinalTransactionalRouteValidationError, "P3 TIK route invalid: #{e.message}"
   end
 
+  def validate_hpe_decision!(root)
+    bytes = read_tik_external_identity!(HPE_DECISION, "P3 HPE Founder decision", create_once: true)
+    decision = parse_tik_json!(bytes, "P3 HPE Founder decision")
+    exact_keys(decision, %w[
+      schema_version record_type decision_id approved_at_utc authority source_reply canonical_start
+      route installation local_executables lifecycle
+    ], "P3 HPE Founder decision")
+    assert(decision["schema_version"] == HPE_DECISION_SCHEMA &&
+           decision["record_type"] ==
+             "FOUNDER_P3_HOST_PROCESS_ENFORCED_MINIMAL_SLICE_ROUTE_REBASELINE" &&
+           decision["decision_id"] == HPE_DECISION_ID &&
+           decision["authority"] == "HUMAN_FOUNDER",
+           "P3 HPE Founder decision identity drift")
+    tik_timestamp!(decision["approved_at_utc"], "P3 HPE Founder decision timestamp")
+
+    source = exact_keys(decision["source_reply"],
+                        %w[attachment canonicalization canonical_body canonicalized_bytes_equal],
+                        "P3 HPE Founder source reply")
+    assert(source["attachment"] == HPE_AUTHORIZATION_ATTACHMENT &&
+           source["canonicalization"] == "UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF" &&
+           source["canonical_body"] == HPE_AUTHORIZATION_BODY &&
+           source["canonicalized_bytes_equal"] == true,
+           "P3 HPE Founder source identity drift")
+    body = read_tik_external_identity!(HPE_AUTHORIZATION_BODY,
+                                       "P3 HPE installed Founder body", create_once: true)
+    assert(body.valid_encoding? && body.end_with?("\n") && !body.end_with?("\n\n") &&
+           body.scan(HPE_DECISION_ID).length == 1,
+           "P3 HPE installed Founder body canonicalization/token drift")
+    if File.exist?(HPE_AUTHORIZATION_ATTACHMENT.fetch("path"))
+      raw = read_tik_external_identity!(HPE_AUTHORIZATION_ATTACHMENT,
+                                        "P3 HPE Founder attachment")
+      normalized = raw.dup.force_encoding(Encoding::UTF_8)
+      assert(normalized.valid_encoding?, "P3 HPE Founder attachment is not UTF-8")
+      normalized = normalized.gsub("\r\n", "\n").gsub("\r", "\n").sub(/\n*\z/, "") + "\n"
+      assert(normalized.b == body.b, "P3 HPE attachment/body canonical bytes differ")
+    end
+
+    assert(decision["canonical_start"] == HPE_CANONICAL_START,
+           "P3 HPE canonical-start identity drift")
+    assert(git!(root, "rev-parse", "#{HPE_CANONICAL_START.fetch('commit')}^{tree}") ==
+             HPE_CANONICAL_START.fetch("tree"), "P3 HPE canonical-start tree drift")
+    start_truth = tik_git_bytes!(root, HPE_CANONICAL_START.fetch("commit"),
+                                 HPE_CANONICAL_START.dig("truth", "path"),
+                                 "P3 HPE canonical-start Truth")
+    assert(start_truth.bytesize == HPE_CANONICAL_START.dig("truth", "byte_length") &&
+           Digest::SHA256.hexdigest(start_truth) == HPE_CANONICAL_START.dig("truth", "sha256"),
+           "P3 HPE canonical-start Truth drift")
+    constitution = (root / TIK_CONSTITUTION.fetch("path")).binread
+    assert(constitution.bytesize == TIK_CONSTITUTION.fetch("byte_length") &&
+           Digest::SHA256.hexdigest(constitution) == TIK_CONSTITUTION.fetch("sha256"),
+           "P3 HPE Constitution identity drift")
+    read_tik_external_identity!(HPE_CANONICAL_START.fetch("terminal_receipt"),
+                                "P3 TIK terminal receipt identity accounting", create_once: true)
+    read_tik_external_identity!(HPE_CANONICAL_START.fetch("rejected_bundle_attestation"),
+                                "P3 TIK rejected-bundle attestation identity accounting",
+                                create_once: true)
+
+    route = exact_keys(decision["route"], %w[
+      schema_version route_id objective_id workflow_id strict_exit_gate_changed
+      strict_exit_gate_required_items external_effects cumulative_ceiling consumed_preserved
+      route_capacity stages progression rejected_lineage_policy anti_loop
+    ], "P3 HPE authorized route")
+    assert(route["schema_version"] == HPE_ROUTE_SCHEMA && route["route_id"] == HPE_ROUTE_ID &&
+           route["objective_id"] == "MINIMUM_TRUST_HOST_AUTHORIZED_TRANSACTIONAL_BOUNDARY" &&
+           route["workflow_id"] == "VERIFY_CUSTODY_SHA256_V1" &&
+           route["strict_exit_gate_changed"] == false &&
+           route["strict_exit_gate_required_items"] ==
+             %w[RESUME ISOLATION PERMISSION COMPLETE_OBSERVABLE_TRACE] &&
+           route["external_effects"] == HPE_EXTERNAL_EFFECTS &&
+           route["cumulative_ceiling"] == {
+             "engineering_tasks" => 12, "engineering_hours" => 336,
+             "calendar_days" => 84, "active_tasks" => 1, "task_branches" => 1,
+             "task_worktrees" => 1, "active_candidates" => 1
+           } && route["consumed_preserved"] == {
+             "engineering_tasks" => 9, "engineering_hours" => 264, "calendar_days" => 66
+           } && route["route_capacity"] == {
+             "engineering_tasks" => 3, "engineering_hours" => 72, "calendar_days" => 18
+           }, "P3 HPE objective, Exit Gate, effect or budget drift")
+    stages = array(route["stages"], "P3 HPE stages")
+    assert(stages.length == 3 && stages.map { |stage| stage.fetch("ordinal") } == [1, 2, 3] &&
+           stages.map { |stage| stage.fetch("task_id") }.uniq.length == 3 &&
+           stages.map { |stage| stage.fetch("resources").fetch("branch") }.uniq.length == 3 &&
+           stages.map { |stage| stage.fetch("resources").fetch("worktree") }.uniq.length == 3 &&
+           stages.map { |stage| stage.fetch("resources").fetch("evidence_root") }.uniq.length == 3,
+           "P3 HPE stages are not a unique ordered three-stage route")
+    expected_kinds = %w[EVALUATION_FOUNDATION PRODUCT_IMPLEMENTATION EVALUATION_ONLY]
+    expected_budgets = [
+      {"engineering_tasks" => 1, "engineering_hours" => 8, "calendar_days" => 2,
+       "candidate_generations" => 2, "same_task_repairs" => 1, "review_cycles" => 2},
+      {"engineering_tasks" => 1, "engineering_hours" => 44, "calendar_days" => 10,
+       "candidate_generations" => 2, "same_task_repairs" => 1, "review_cycles" => 2},
+      {"engineering_tasks" => 1, "engineering_hours" => 20, "calendar_days" => 6,
+       "product_candidates" => 0, "same_task_repairs" => 0, "formal_dispatches" => 1}
+    ]
+    stages.each_with_index do |stage, index|
+      assert(stage["kind"] == expected_kinds.fetch(index) &&
+             stage["budget"] == expected_budgets.fetch(index) &&
+             stage["required_reviewers"] == HPE_REVIEW_ROLES &&
+             stage["delivery_percent_on_pass"] == [50, 75, 100].fetch(index) &&
+             stage["strict_exit_percent_on_pass"] == [0, 0, 100].fetch(index) &&
+             array(stage["allowlisted_repository_paths"], "P3 HPE stage allowlist").uniq ==
+               stage["allowlisted_repository_paths"] &&
+             array(stage["capabilities"], "P3 HPE stage capabilities").uniq ==
+               stage["capabilities"] &&
+             array(stage["gate_requirements"], "P3 HPE stage Gate requirements").uniq ==
+               stage["gate_requirements"], "P3 HPE stage #{index + 1} semantic drift")
+      assert(stage.fetch("gate_requirements").count("THREE_INDEPENDENT_REVIEWS_PASS") == 1,
+             "P3 HPE stage #{index + 1} must reserve exactly one receipt-level Review Gate")
+      resources = mapping(stage["resources"], "P3 HPE stage resources")
+      resources.each do |key, value|
+        next if key == "branch"
+        next if key == "worktree"
+        path = Pathname.new(value)
+        evidence_root = Pathname.new(resources.fetch("evidence_root"))
+        assert(path.absolute? && path.cleanpath.to_s == path.to_s,
+               "P3 HPE stage #{index + 1} #{key} path is not absolute and normalized")
+        next if key == "evidence_root"
+
+        relative = path.relative_path_from(evidence_root).to_s
+        assert(relative != "." && !relative.start_with?("../"),
+               "P3 HPE stage #{index + 1} #{key} escapes its Evidence root")
+      end
+    end
+    assert(stages[0]["product_source_mutation_allowed"] == false &&
+           stages[1]["product_source_diff_required"] == "NON_EMPTY_TESTABLE" &&
+           stages[1]["stage_1_mutation_allowed"] == false &&
+           stages[2]["allowlisted_repository_paths"] == [] &&
+           stages[2]["rerun_to_pass_allowed"] == false,
+           "P3 HPE stage mutation boundary drift")
+    assert(route["anti_loop"] == {
+      "maximum_candidate_generations_per_implementation_task" => 2,
+      "maximum_same_task_repairs" => 1, "maximum_review_cycles" => 2,
+      "candidate_3_allowed" => false,
+      "successor_replacement_normalization_closure_feasibility_remediation_allowed" => false,
+      "rerun_to_pass_allowed" => false, "rules_freeze_count" => 1,
+      "governance_progress_credit" => 0
+    }, "P3 HPE anti-loop boundary drift")
+
+    installation = exact_keys(decision["installation"], %w[
+      decision_path body_path constitution_mutation_allowed allowed_repository_paths
+      create_once_required decision_and_body_mode governance_and_delivery_progress_credit
+      stage_1_prep_budget_percent_max worker_must_start_within_first_engineering_hour
+      rules_freeze_count
+    ], "P3 HPE installation")
+    assert(installation["decision_path"] == HPE_DECISION.fetch("path") &&
+           installation["body_path"] == HPE_AUTHORIZATION_BODY.fetch("path") &&
+           installation["constitution_mutation_allowed"] == false &&
+           installation["create_once_required"] == true &&
+           installation["decision_and_body_mode"] == "0444" &&
+           installation["governance_and_delivery_progress_credit"] == 0 &&
+           installation["stage_1_prep_budget_percent_max"] == 10 &&
+           installation["worker_must_start_within_first_engineering_hour"] == true &&
+           installation["rules_freeze_count"] == 1,
+           "P3 HPE installation boundary drift")
+    array(decision["local_executables"], "P3 HPE local executable identities").each do |identity|
+      exact_keys(identity, %w[id path byte_length sha256], "P3 HPE local executable")
+      read_tik_external_identity!(identity.slice("path", "byte_length", "sha256"),
+                                  "P3 HPE local executable #{identity.fetch('id')}")
+    end
+    lifecycle = exact_keys(decision["lifecycle"], %w[states non_pass project_and_goal],
+                           "P3 HPE lifecycle")
+    assert(lifecycle["states"] == HPE_LIFECYCLE_STATES.keys &&
+           lifecycle["non_pass"] ==
+             "ANY_STAGE_NON_PASS_TERMINATES_ROUTE_WITH_NO_CANDIDATE_3_SUCCESSOR_REPLACEMENT_OR_RERUN_TO_PASS" &&
+           lifecycle["project_and_goal"] ==
+             "P4_HOLD_PROJECT_INCOMPLETE_LONG_TERM_GOAL_ACTIVE_UNTIL_ACTUAL_PROJECT_COMPLETION",
+           "P3 HPE lifecycle freeze drift")
+    decision
+  end
+
+  def hpe_stages(decision)
+    decision.fetch("route").fetch("stages")
+  end
+
+  def hpe_stage(decision, stage_index)
+    hpe_stages(decision).fetch(stage_index)
+  end
+
+  def hpe_stage_resource(decision, stage_index)
+    hpe_stage(decision, stage_index).fetch("resources")
+  end
+
+  def hpe_identity(identity)
+    exact_keys(identity, %w[path byte_length sha256], "P3 HPE artifact identity")
+  end
+
+  def hpe_founder_decision_projection
+    HPE_DECISION.merge(
+      "decision_id" => HPE_DECISION_ID,
+      "source_body" => HPE_AUTHORIZATION_BODY,
+      "reserved_triggers" => %w[
+        MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
+        MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+      ]
+    )
+  end
+
+  def hpe_boundary_stage_index(spec)
+    return spec.fetch("active_stage") unless spec["active_stage"].nil?
+    return nil unless spec.fetch("task_creation_allowed")
+
+    spec.fetch("completed_stages")
+  end
+
+  def hpe_stage_projection(stage, status)
+    base = stage.slice(
+      "ordinal", "task_id", "stage_id", "kind", "objective", "claim_boundary", "budget",
+      "allowlisted_repository_paths", "capabilities", "gate_requirements", "required_reviewers",
+      "delivery_percent_on_pass", "strict_exit_percent_on_pass", "pass_unlocks_only"
+    )
+    %w[
+      product_source_mutation_allowed product_source_diff_required stage_1_mutation_allowed
+      product_mutation_ban rerun_to_pass_allowed
+    ].each { |key| base[key] = stage[key] if stage.key?(key) }
+    base.merge("status" => status)
+  end
+
+  def hpe_expected_phase_boundary(decision, lifecycle, spec)
+    stage_index = hpe_boundary_stage_index(spec)
+    stage = stage_index ? hpe_stage(decision, stage_index) : nil
+    founder_scope = if lifecycle == "COMPLETE_AWAITING_FOUNDER_PHASE_GATE"
+      "PHASE_ENTRY_OR_EXIT"
+    elsif lifecycle == "ROUTE_TERMINAL_NON_PASS"
+      "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE"
+    end
+    {
+      "phase" => "P3",
+      "phase_execution_status" => "P3_HPE_#{lifecycle}",
+      "task_creation_allowed" => spec.fetch("task_creation_allowed"),
+      "task_creation_scope" => if stage
+        "#{stage.fetch('task_id').tr('-', '_')}_ONLY"
+      elsif spec["active_stage"]
+        "NONE_ACTIVE_HPE_TASK"
+      elsif lifecycle == "ROUTE_TERMINAL_NON_PASS"
+        "NONE_ROUTE_TERMINAL_EXACT_AUTHORIZATION_EXHAUSTED"
+      else
+        "NONE_P3_COMPLETE_AWAITING_FOUNDER_PHASE_GATE"
+      end,
+      "task_creation_lock_after_activation" => true,
+      "p3_entry_authorized" => true,
+      "allowed_task_kinds" => stage ? [stage.fetch("stage_id")] : [],
+      "allowed_capabilities" => stage ? stage.fetch("capabilities") : [],
+      "role_write_roots" => {
+        "worker" => stage ? stage.fetch("allowlisted_repository_paths") : [],
+        "quality" => [],
+        "integration" => if stage_index == 2
+          ["docs/aios/truth/project_state.yaml"]
+        elsif stage
+          %w[docs/aios/truth/project_state.yaml docs/PROJECT_CODE_MAP.md]
+        else
+          []
+        end,
+        "external_evidence" => "EXTERNAL_TASK_EVIDENCE_ROOT_ONLY"
+      },
+      "immutable_authority_paths" => TIK_IMMUTABLE_AUTHORITY_PATHS,
+      "allowed_independent_reviewers" =>
+        ["CTO Agent", "Security Agent", "Quality and Evaluation Agent"],
+      "required_reviewers_by_risk" => {
+        "low" => ["Quality and Evaluation Agent"],
+        "medium" => ["CTO Agent", "Security Agent", "Quality and Evaluation Agent"],
+        "high" => ["CTO Agent", "Security Agent", "Quality and Evaluation Agent"],
+        "critical" => ["CTO Agent", "Security Agent", "Quality and Evaluation Agent"]
+      },
+      "founder_reserved_risk_levels" => ["critical"],
+      "deferred_capabilities" => TIK_DEFERRED_PLATFORM_CAPABILITIES,
+      "default_external_effects" => HPE_EXTERNAL_EFFECTS,
+      "founder_decision_required" => spec.fetch("founder_gate"),
+      "founder_decision_required_scope" => founder_scope,
+      "escalation_reason" => if lifecycle == "ROUTE_TERMINAL_NON_PASS"
+        "EXACT_HPE_ROUTE_TERMINAL_AND_ROUTE_CAPACITY_UNUSABLE_CONTINUATION_REQUIRES_FOUNDER_ROUTE_CHANGE"
+      elsif lifecycle == "COMPLETE_AWAITING_FOUNDER_PHASE_GATE"
+        "P3_STRICT_EXIT_ACCEPTED_FOUNDER_PHASE_GATE_REQUIRED"
+      end,
+      "user_action_required" => if lifecycle == "ROUTE_TERMINAL_NON_PASS"
+        "FOUNDER_P3_ROUTE_CHANGE_DECISION"
+      elsif lifecycle == "COMPLETE_AWAITING_FOUNDER_PHASE_GATE"
+        "FOUNDER_P3_PHASE_GATE_DECISION"
+      else
+        "NONE"
+      end,
+      "phase_route_decision_required" => lifecycle == "ROUTE_TERMINAL_NON_PASS",
+      "phase_route_user_action_required" => lifecycle == "ROUTE_TERMINAL_NON_PASS" ?
+        "FOUNDER_P3_ROUTE_CHANGE_DECISION" : "NONE",
+      "next_eligible_action" => spec.fetch("next_action")
+    }
+  end
+
+  def validate_hpe_activation_parent!(root, decision, activation_parent, stage_index)
+    parent = exact_keys(activation_parent, %w[branch commit tree],
+                        "P3 HPE Task activation parent")
+    assert(parent["branch"] == "main" && parent["commit"].match?(/\A[0-9a-f]{40}\z/) &&
+           parent["tree"].match?(/\A[0-9a-f]{40}\z/) &&
+           parent["commit"] != HPE_CANONICAL_START.fetch("commit") &&
+           git!(root, "rev-parse", "#{parent.fetch('commit')}^{tree}") == parent.fetch("tree"),
+           "P3 HPE activation-parent identity invalid")
+    git!(root, "merge-base", "--is-ancestor", HPE_CANONICAL_START.fetch("commit"),
+         parent.fetch("commit"))
+    git!(root, "merge-base", "--is-ancestor", parent.fetch("commit"), "main")
+    parent_truth_bytes = tik_git_bytes!(root, parent.fetch("commit"),
+                                        "docs/aios/truth/project_state.yaml",
+                                        "P3 HPE activation-parent Truth")
+    parent_truth = YAML.safe_load(parent_truth_bytes, permitted_classes: [],
+                                  permitted_symbols: [], aliases: false)
+    expected_lifecycle = %w[
+      FOUNDATION_STAGE_ELIGIBLE PRODUCT_STAGE_ELIGIBLE AUDIT_STAGE_ELIGIBLE
+    ].fetch(stage_index)
+    assert(parent_truth.dig("current_phase_route", "schema_version") == HPE_ROUTE_SCHEMA &&
+           parent_truth.dig("current_phase_route", "route_id") == HPE_ROUTE_ID &&
+           parent_truth.dig("current_phase_route", "lifecycle_stage") == expected_lifecycle &&
+           parent_truth.dig("current_phase_route", "founder_route_decision", "sha256") ==
+             HPE_DECISION.fetch("sha256") &&
+           parent_truth.dig("active_work", "current_task") == "NONE" &&
+           parent_truth.dig("goal", "control_plane_status_observed") == "ACTIVE",
+           "P3 HPE activation parent is not the exact predecessor-accepted ready state")
+    if stage_index == 1
+      _stdout, _stderr, status = Open3.capture3(
+        "git", "cat-file", "-e",
+        "#{parent.fetch('commit')}:backend-spring/src/main/resources/db/migration/V034__add_host_invocation_kernel.sql",
+        chdir: root.to_s
+      )
+      assert(!status.success?, "P3 HPE exact V034 migration target is already occupied")
+    end
+    parent
+  rescue Psych::Exception => e
+    raise P3FinalTransactionalRouteValidationError,
+          "P3 HPE activation-parent Truth invalid: #{e.message}"
+  end
+
+  def validate_hpe_contract!(root, decision, identity, stage_index)
+    stage = hpe_stage(decision, stage_index)
+    resource = stage.fetch("resources")
+    contract_identity, contract = read_tik_rooted_json!(
+      identity, "P3 HPE Task Contract", root_path: resource.fetch("evidence_root"),
+      expected_path: resource.fetch("contract_path")
+    )
+    exact_keys(contract, %w[
+      schema_version record_type phase route_id stage_ordinal stage_id task_id task_kind status
+      objective claim_boundary founder_decision activation_parent resources
+      allowlisted_repository_paths capabilities gate_requirements budget external_effects roles
+      stage_constraints anti_loop preactivation_host_residual_preflight created_at_utc
+    ], "P3 HPE Task Contract")
+    residual_preflight = validate_hpe_residual_preflight!(
+      decision, contract["preactivation_host_residual_preflight"], stage_index
+    )
+    expected_constraints = stage.reject do |key, _value|
+      %w[
+        ordinal stage_id task_id kind objective claim_boundary budget resources
+        allowlisted_repository_paths capabilities gate_requirements required_reviewers
+        delivery_percent_on_pass strict_exit_percent_on_pass pass_unlocks_only
+      ].include?(key)
+    end
+    assert(contract["schema_version"] == "p3-hpe-phase-delegated-task-contract/v1" &&
+           contract["record_type"] == "P3_HPE_PHASE_DELEGATED_TASK_CONTRACT" &&
+           contract["phase"] == "P3" && contract["route_id"] == HPE_ROUTE_ID &&
+           contract["stage_ordinal"] == stage_index + 1 &&
+           contract["stage_id"] == stage.fetch("stage_id") &&
+           contract["task_id"] == stage.fetch("task_id") &&
+           contract["task_kind"] == stage.fetch("kind") &&
+           contract["status"] == "FROZEN_PREACTIVATION" &&
+           contract["objective"] == stage.fetch("objective") &&
+           contract["claim_boundary"] == stage.fetch("claim_boundary") &&
+           contract["founder_decision"] == hpe_founder_decision_projection &&
+           contract["resources"] == resource &&
+           contract["allowlisted_repository_paths"] ==
+             stage.fetch("allowlisted_repository_paths") &&
+           contract["capabilities"] == stage.fetch("capabilities") &&
+           contract["gate_requirements"] == stage.fetch("gate_requirements") &&
+           contract["budget"] == stage.fetch("budget") &&
+           contract["external_effects"] == HPE_EXTERNAL_EFFECTS &&
+           contract["roles"] == {
+             "owner" => "MASTER_CEO_AGENT", "worker" => "IMPLEMENTATION_AGENT",
+             "independent_reviewers" => HPE_REVIEW_ROLES
+           } && contract["stage_constraints"] == expected_constraints &&
+           contract["anti_loop"] == decision.dig("route", "anti_loop") &&
+           contract["preactivation_host_residual_preflight"] == residual_preflight,
+           "P3 HPE Task Contract semantic or authority drift")
+    tik_timestamp!(contract["created_at_utc"], "P3 HPE Contract timestamp")
+    activation_parent = validate_hpe_activation_parent!(
+      root, decision, contract.fetch("activation_parent"), stage_index
+    )
+    [contract_identity, contract, activation_parent]
+  end
+
+  def validate_hpe_authority!(root, decision, identity, stage_index, contract_identity,
+                              activation_parent)
+    stage = hpe_stage(decision, stage_index)
+    resource = stage.fetch("resources")
+    authority_identity, authority = read_tik_rooted_json!(
+      identity, "P3 HPE Task authority", root_path: resource.fetch("evidence_root"),
+      expected_path: resource.fetch("authority_path")
+    )
+    exact_keys(authority, %w[
+      schema_version record_type phase route_id stage_ordinal stage_id task_id status
+      authority_scope issuer issued_at_utc contract founder_decision activation_parent resources
+      allowlisted_repository_paths capabilities gate_requirements budget external_effects roles
+      preactivation_host_residual_preflight authorization_id execution_nonce reuse_allowed
+    ], "P3 HPE Task authority")
+    assert(authority["schema_version"] == "p3-hpe-phase-delegated-task-authority/v1" &&
+           authority["record_type"] == "P3_HPE_PHASE_DELEGATED_TASK_AUTHORITY" &&
+           authority["phase"] == "P3" && authority["route_id"] == HPE_ROUTE_ID &&
+           authority["stage_ordinal"] == stage_index + 1 &&
+           authority["stage_id"] == stage.fetch("stage_id") &&
+           authority["task_id"] == stage.fetch("task_id") &&
+           authority["status"] == "AUTHORIZED_SINGLE_USE" &&
+           authority["authority_scope"] == "P3_PHASE_DELEGATED_TASK" &&
+           authority["issuer"] == "MASTER_CEO_AGENT" &&
+           authority["contract"] == contract_identity &&
+           authority["founder_decision"] == hpe_founder_decision_projection &&
+           authority["activation_parent"] == activation_parent &&
+           authority["resources"] == resource &&
+           authority["allowlisted_repository_paths"] ==
+             stage.fetch("allowlisted_repository_paths") &&
+           authority["capabilities"] == stage.fetch("capabilities") &&
+           authority["gate_requirements"] == stage.fetch("gate_requirements") &&
+           authority["budget"] == stage.fetch("budget") &&
+           authority["external_effects"] == HPE_EXTERNAL_EFFECTS &&
+           authority["roles"] == {
+             "owner" => "MASTER_CEO_AGENT", "worker" => "IMPLEMENTATION_AGENT",
+             "independent_reviewers" => HPE_REVIEW_ROLES
+           } && authority["preactivation_host_residual_preflight"] ==
+             (stage_index.zero? ?
+               validate_hpe_residual_preflight!(
+                 decision, authority["preactivation_host_residual_preflight"], stage_index
+               ) : nil) && authority["reuse_allowed"] == false,
+           "P3 HPE Task authority semantic or cross-binding drift")
+    tik_timestamp!(authority["issued_at_utc"], "P3 HPE authority timestamp")
+    tik_uuid!(authority["authorization_id"], "P3 HPE authorization ID")
+    tik_uuid!(authority["execution_nonce"], "P3 HPE execution nonce")
+    [authority_identity, authority]
+  end
+
+  def hpe_repository_path_allowed?(decision, path, stage_index)
+    return false unless path.is_a?(String) && !Pathname.new(path).absolute? &&
+                        Pathname.new(path).cleanpath.to_s == path && !path.start_with?("../")
+
+    hpe_stage(decision, stage_index).fetch("allowlisted_repository_paths").any? do |allowed|
+      path == allowed || path.start_with?("#{allowed}/")
+    end
+  end
+
+  def hpe_residual_preflight_path(decision)
+    "#{hpe_stage_resource(decision, 0).fetch('evidence_root')}/custody/" \
+      "P3_HPE_F1_HOST_RESIDUAL_ISOLATION_PREFLIGHT_V1.json"
+  end
+
+  def validate_hpe_residual_preflight!(decision, identity, stage_index)
+    return nil unless stage_index.zero?
+
+    preflight_identity, preflight = read_tik_rooted_json!(
+      identity, "P3 HPE host-residual isolation preflight",
+      root_path: hpe_stage_resource(decision, 0).fetch("evidence_root"),
+      expected_path: hpe_residual_preflight_path(decision)
+    )
+    exact_keys(preflight, %w[
+      schema_version record_type phase route_id stage_id task_id disclosed_residual_count
+      observed_residual_count_at_preflight accepted_state_set inspected_task_roots
+      hpe_path_owner_count tcp_listener_count hpe_lock_or_db_owner_count
+      existing_database_mutation_performed irreversible_deletion_performed result observed_at_utc
+    ], "P3 HPE host-residual preflight")
+    stage = hpe_stage(decision, 0)
+    roots = [stage.dig("resources", "worktree"), stage.dig("resources", "evidence_root")]
+    assert(preflight["schema_version"] == "p3-hpe-host-residual-isolation-preflight/v1" &&
+           preflight["record_type"] == "P3_HPE_HOST_RESIDUAL_ISOLATION_PREFLIGHT" &&
+           preflight["phase"] == "P3" && preflight["route_id"] == HPE_ROUTE_ID &&
+           preflight["stage_id"] == stage.fetch("stage_id") &&
+           preflight["task_id"] == stage.fetch("task_id") &&
+           preflight["disclosed_residual_count"] == 28 &&
+           preflight["observed_residual_count_at_preflight"].is_a?(Integer) &&
+           preflight["observed_residual_count_at_preflight"].between?(0, 28) &&
+           preflight["accepted_state_set"] == ["UE"] &&
+           preflight["inspected_task_roots"] == roots &&
+           preflight["hpe_path_owner_count"] == 0 &&
+           preflight["tcp_listener_count"] == 0 &&
+           preflight["hpe_lock_or_db_owner_count"] == 0 &&
+           preflight["existing_database_mutation_performed"] == false &&
+           preflight["irreversible_deletion_performed"] == false &&
+           preflight["result"] == "PASS_NO_NEW_TASK_RESOURCE_OVERLAP",
+           "P3 HPE host-residual preflight does not prove the exact no-overlap boundary")
+    tik_timestamp!(preflight["observed_at_utc"], "P3 HPE residual preflight timestamp")
+    preflight_identity
+  end
+
+  def validate_hpe_live_residual_isolation!(decision, stage_index)
+    return true unless stage_index.zero?
+
+    ps_out, ps_err, ps_status = Open3.capture3("ps", "-axo", "pid=,ppid=,state=,command=")
+    assert(ps_status.success?, "P3 HPE residual ps preflight failed: #{ps_err.strip}")
+    ue = ps_out.lines.each_with_object([]) do |line, residuals|
+      pid, ppid, state, command = line.strip.split(/\s+/, 4)
+      next unless state == "UE"
+
+      residuals << {"pid" => pid, "ppid" => ppid, "command" => command.to_s}
+    end
+    assert(ue.length <= 28, "P3 HPE residual UE process count expanded beyond disclosure")
+    roots = [hpe_stage_resource(decision, stage_index).fetch("worktree"),
+             hpe_stage_resource(decision, stage_index).fetch("evidence_root")]
+    assert(ue.none? { |process| roots.any? { |path| process.fetch("command").include?(path) } },
+           "P3 HPE residual process command owns a new Task root")
+    return true if ue.empty?
+
+    pids = ue.map { |process| process.fetch("pid") }.join(",")
+    lsof_out, lsof_err, lsof_status = Open3.capture3("lsof", "-nP", "-a", "-p", pids)
+    assert(lsof_status.success?, "P3 HPE residual lsof preflight failed: #{lsof_err.strip}")
+    assert(roots.none? { |path| lsof_out.include?(path) },
+           "P3 HPE residual process owns a new worktree or Evidence path")
+    listen_out, _listen_err, listen_status = Open3.capture3(
+      "lsof", "-nP", "-a", "-p", pids, "-iTCP", "-sTCP:LISTEN"
+    )
+    assert(!listen_status.success? && listen_out.empty?,
+           "P3 HPE residual process retains a TCP listener")
+    true
+  end
+
+  def hpe_executable_gate_requirements(stage)
+    gates = array(stage["gate_requirements"], "P3 HPE stage Gate requirements")
+    executable = gates - ["THREE_INDEPENDENT_REVIEWS_PASS"]
+    assert(!executable.empty? && executable.length == gates.length - 1,
+           "P3 HPE executable Gate set does not partition the receipt-level Review Gate")
+    executable
+  end
+
+  def hpe_json_pointer(value, pointer, label)
+    assert(pointer.is_a?(String) && pointer.start_with?("/") && pointer.length > 1,
+           "#{label} JSON pointer is invalid")
+    pointer.split("/")[1..].reduce(value) do |current, encoded|
+      token = encoded.gsub("~1", "/").gsub("~0", "~")
+      if current.is_a?(Hash)
+        assert(current.key?(token), "#{label} JSON pointer is missing #{token.inspect}")
+        current.fetch(token)
+      elsif current.is_a?(Array)
+        assert(token.match?(/\A(?:0|[1-9][0-9]*)\z/) && token.to_i < current.length,
+               "#{label} JSON pointer array index is invalid")
+        current.fetch(token.to_i)
+      else
+        fail!("#{label} JSON pointer traverses a scalar")
+      end
+    end
+  end
+
+  def validate_hpe_candidate_manifest!(root, decision, identity, stage_index,
+                                       contract_identity, authority_identity,
+                                       activation_parent, terminal: false,
+                                       expected_path: nil, expected_candidate_id: nil)
+    stage = hpe_stage(decision, stage_index)
+    resource = stage.fetch("resources")
+    manifest_identity, manifest = read_tik_rooted_json!(
+      identity, "P3 HPE candidate manifest", root_path: resource.fetch("evidence_root"),
+      expected_path: expected_path || resource.fetch("candidate_manifest_path")
+    )
+    keys = %w[
+      schema_version record_type phase route_id stage_ordinal stage_id task_id candidate
+      activation_parent contract authority generated_from_actual_bytes repository_files
+      external_files inventory_canonicalization inventory_sha256 created_at_utc
+    ]
+    keys << "frozen_predecessor_inputs" if stage_index.positive?
+    exact_keys(manifest, keys, "P3 HPE candidate manifest")
+    candidate = exact_keys(manifest["candidate"],
+                           %w[candidate_id candidate_kind commit tree source_branch],
+                           "P3 HPE candidate identity")
+    expected_kind = %w[FOUNDATION_CANDIDATE PRODUCT_CANDIDATE LOCKED_STAGE_2_PRODUCT].fetch(stage_index)
+    expected_branch = stage_index == 2 ? hpe_stage_resource(decision, 1).fetch("branch") :
+      resource.fetch("branch")
+    valid_candidate_id = if expected_candidate_id
+      candidate["candidate_id"] == expected_candidate_id
+    elsif stage_index == 2
+      candidate["candidate_id"] == "LOCKED_STAGE_2_PRODUCT"
+    else
+      %w[CANDIDATE_1 CANDIDATE_2].include?(candidate["candidate_id"])
+    end
+    assert(valid_candidate_id && candidate["candidate_kind"] == expected_kind &&
+           candidate["source_branch"] == expected_branch &&
+           candidate["commit"].is_a?(String) && candidate["commit"].match?(/\A[0-9a-f]{40}\z/) &&
+           candidate["tree"].is_a?(String) && candidate["tree"].match?(/\A[0-9a-f]{40}\z/),
+           "P3 HPE candidate identity is invalid or exceeds Candidate 2")
+    unless terminal
+      assert(git!(root, "rev-parse", "#{candidate.fetch('commit')}^{tree}") ==
+               candidate.fetch("tree"), "P3 HPE candidate commit/tree drift")
+    end
+
+    repository_files = array(manifest["repository_files"], "P3 HPE repository inventory")
+    paths = repository_files.map do |entry|
+      exact_keys(entry, %w[
+        relative_path git_mode object_type git_blob_sha1 byte_length sha256
+      ], "P3 HPE repository file identity")
+      path = entry.fetch("relative_path")
+      assert(hpe_repository_path_allowed?(decision, path, stage_index),
+             "P3 HPE candidate repository path exceeds the stage allowlist: #{path}")
+      assert(%w[100644 100755].include?(entry["git_mode"]) &&
+             entry["object_type"] == "blob" &&
+             entry["git_blob_sha1"].is_a?(String) &&
+             entry["git_blob_sha1"].match?(/\A[0-9a-f]{40}\z/) &&
+             entry["byte_length"].is_a?(Integer) && entry["byte_length"] >= 0 &&
+             entry["sha256"].is_a?(String) && entry["sha256"].match?(/\A[0-9a-f]{64}\z/),
+             "P3 HPE candidate repository identity is not closed: #{path}")
+      unless terminal
+        assert(tik_git_tree_entry!(root, candidate.fetch("commit"), path,
+                                   "P3 HPE candidate repository file") ==
+                 entry.slice("git_mode", "object_type", "git_blob_sha1"),
+               "P3 HPE candidate repository mode/type/blob drift: #{path}")
+        bytes = tik_git_bytes!(root, candidate.fetch("commit"), path,
+                               "P3 HPE candidate repository file")
+        assert(bytes.bytesize == entry.fetch("byte_length") &&
+               Digest::SHA256.hexdigest(bytes) == entry.fetch("sha256"),
+               "P3 HPE candidate repository bytes drift: #{path}")
+      end
+      path
+    end
+    assert(paths == paths.sort && paths.uniq.length == paths.length,
+           "P3 HPE repository inventory must be unique and sorted")
+    if stage_index == 2
+      assert(repository_files.empty?, "P3 HPE Audit cannot contain repository mutations")
+      git!(root, "merge-base", "--is-ancestor", candidate.fetch("commit"),
+           activation_parent.fetch("commit")) unless terminal
+    elsif !terminal
+      git!(root, "merge-base", "--is-ancestor", activation_parent.fetch("commit"),
+           candidate.fetch("commit"))
+      changed = git!(root, "diff", "--name-status", "--diff-filter=ACMRD",
+                     activation_parent.fetch("commit"), candidate.fetch("commit"))
+        .lines.map(&:strip).reject(&:empty?).map do |line|
+          status, path, unexpected = line.split("\t", 3)
+          assert(unexpected.nil? && %w[A M].include?(status) && path,
+                 "P3 HPE candidate contains a deletion, rename, copy or unknown Git delta")
+          path
+        end.sort
+      assert(changed == paths && !changed.empty?,
+             "P3 HPE candidate manifest does not bind the exact non-empty changed set")
+      if stage_index == 0
+        assert(changed.none? { |path| path.start_with?("backend-spring/src/main/") },
+               "P3 HPE Foundation candidate mutated product source")
+      else
+        assert(changed.any? { |path| path.start_with?("backend-spring/src/main/") },
+               "P3 HPE Product candidate lacks a non-empty product source diff")
+      end
+    end
+
+    external_files = array(manifest["external_files"], "P3 HPE external Evidence inventory")
+    assert(!external_files.empty?, "P3 HPE candidate manifest requires real external Evidence")
+    reserved_paths = resource.reject { |key, _| %w[branch worktree evidence_root].include?(key) }.values
+    reserved_paths << hpe_residual_preflight_path(decision) if stage_index.zero?
+    external_paths = external_files.map do |entry|
+      record = exact_keys(entry, %w[path byte_length sha256], "P3 HPE external Evidence identity")
+      assert(!reserved_paths.include?(record.fetch("path")),
+             "P3 HPE manifest cannot inventory a control, review or receipt leaf")
+      tik_assert_path_under!(record.fetch("path"), resource.fetch("evidence_root"),
+                             "P3 HPE external Evidence")
+      read_tik_external_identity!(record, "P3 HPE external Evidence", create_once: true)
+      record.fetch("path")
+    end
+    assert(external_paths == external_paths.sort && external_paths.uniq.length == external_paths.length,
+           "P3 HPE external Evidence inventory must be unique and sorted")
+    inventory = {"repository_files" => repository_files, "external_files" => external_files}
+    assert(manifest["schema_version"] == "p3-hpe-candidate-manifest/v1" &&
+           manifest["record_type"] == "P3_HPE_CANDIDATE_MANIFEST" &&
+           manifest["phase"] == "P3" && manifest["route_id"] == HPE_ROUTE_ID &&
+           manifest["stage_ordinal"] == stage_index + 1 &&
+           manifest["stage_id"] == stage.fetch("stage_id") &&
+           manifest["task_id"] == stage.fetch("task_id") &&
+           manifest["activation_parent"] == activation_parent &&
+           manifest["contract"] == contract_identity &&
+           manifest["authority"] == authority_identity &&
+           manifest["generated_from_actual_bytes"] == true &&
+           manifest["inventory_canonicalization"] == "RECURSIVE_KEY_SORT_COMPACT_JSON_UTF8" &&
+           manifest["inventory_sha256"] ==
+             Digest::SHA256.hexdigest(JSON.generate(canonical(inventory))),
+           "P3 HPE candidate manifest semantic or inventory binding drift")
+    if stage_index.positive?
+      expected_keys = %w[
+        foundation_candidate_manifest foundation_gate_evidence foundation_task_gate_receipt
+      ]
+      expected_keys += %w[
+        product_candidate_manifest product_gate_evidence product_task_gate_receipt
+      ] if stage_index == 2
+      predecessors = exact_keys(manifest["frozen_predecessor_inputs"], expected_keys,
+                                "P3 HPE frozen predecessor inputs")
+      predecessors.each do |name, predecessor_identity|
+        exact_keys(predecessor_identity, %w[path byte_length sha256],
+                   "P3 HPE frozen predecessor input #{name}")
+      end
+    end
+    tik_timestamp!(manifest["created_at_utc"], "P3 HPE candidate manifest timestamp")
+    [manifest_identity, manifest, candidate]
+  end
+
+  def validate_hpe_gate_evidence!(decision, identity, stage_index, contract_identity,
+                                  authority_identity, manifest_identity, manifest,
+                                  terminal: false, allow_non_pass: false, expected_path: nil)
+    stage = hpe_stage(decision, stage_index)
+    resource = stage.fetch("resources")
+    evidence_identity, evidence = read_tik_rooted_json!(
+      identity, "P3 HPE Gate Evidence", root_path: resource.fetch("evidence_root"),
+      expected_path: expected_path || resource.fetch("gate_evidence_path")
+    )
+    exact_keys(evidence, %w[
+      schema_version record_type phase route_id stage_ordinal stage_id task_id disposition
+      candidate_manifest contract authority generated_from_actual_bytes evidence_files
+      executed_checks gate_results external_effects recorded_at_utc
+    ], "P3 HPE Gate Evidence")
+    evidence_files = array(evidence["evidence_files"], "P3 HPE Gate Evidence files")
+    assert(evidence_files == manifest.fetch("external_files") && !evidence_files.empty?,
+           "P3 HPE Gate Evidence does not bind the candidate raw Evidence inventory")
+    expected_gates = hpe_executable_gate_requirements(stage)
+    results = exact_keys(evidence["gate_results"], expected_gates, "P3 HPE Gate results")
+    checks = array(evidence["executed_checks"], "P3 HPE executed Gate checks")
+    observations = checks.map do |raw_identity|
+      raw_identity = exact_keys(raw_identity, %w[path byte_length sha256],
+                                "P3 HPE Gate observation identity")
+      assert(evidence_files.include?(raw_identity),
+             "P3 HPE Gate observation is not in the candidate Evidence inventory")
+      observation = parse_tik_json!(
+        read_tik_external_identity!(raw_identity, "P3 HPE Gate observation", create_once: true),
+        "P3 HPE Gate observation"
+      )
+      exact_keys(observation, %w[
+        schema_version record_type phase route_id stage_ordinal stage_id task_id candidate
+        gate_key observed_status command source_identities derivation recorded_at_utc
+      ], "P3 HPE Gate observation")
+      command = exact_keys(observation["command"], %w[cwd argv exit_code],
+                           "P3 HPE Gate command")
+      cwd = Pathname.new(command.fetch("cwd"))
+      cwd_allowed = [resource.fetch("worktree"), resource.fetch("evidence_root")].any? do |allowed|
+        cwd.to_s == allowed || cwd.to_s.start_with?("#{allowed}/")
+      end
+      assert(observation["schema_version"] == "p3-hpe-gate-observation/v1" &&
+             observation["record_type"] == "P3_HPE_GATE_OBSERVATION" &&
+             observation["phase"] == "P3" && observation["route_id"] == HPE_ROUTE_ID &&
+             observation["stage_ordinal"] == stage_index + 1 &&
+             observation["stage_id"] == stage.fetch("stage_id") &&
+             observation["task_id"] == stage.fetch("task_id") &&
+             observation["candidate"] == manifest.fetch("candidate") &&
+             expected_gates.include?(observation["gate_key"]) &&
+             %w[PASS NON_PASS].include?(observation["observed_status"]) &&
+             cwd.absolute? && cwd.cleanpath.to_s == cwd.to_s && cwd_allowed &&
+             command["argv"].is_a?(Array) && !command["argv"].empty? &&
+             command["argv"].all? { |part| part.is_a?(String) && !part.empty? } &&
+             command["exit_code"].is_a?(Integer) &&
+             observation["source_identities"].is_a?(Array),
+             "P3 HPE Gate observation semantic binding drift")
+      derivation = exact_keys(observation["derivation"], %w[
+        schema_version rule source_assertions command_exit_assertion_index
+      ], "P3 HPE Gate observation derivation")
+      source_assertions = array(derivation["source_assertions"],
+                                "P3 HPE Gate source assertions")
+      assert(derivation["schema_version"] == "p3-hpe-gate-raw-derivation/v1" &&
+             derivation["rule"] ==
+               "ALL_JSON_POINTER_PASS_VALUES_MATCH_AND_COMMAND_EXIT_ZERO" &&
+             !source_assertions.empty? &&
+             derivation["command_exit_assertion_index"].is_a?(Integer) &&
+             derivation["command_exit_assertion_index"].between?(0,
+                                                                  source_assertions.length - 1),
+             "P3 HPE Gate derivation rule is invalid")
+      source_projection = []
+      actual_values = source_assertions.map do |source_assertion|
+        assertion = exact_keys(source_assertion, %w[
+          source_identity json_pointer pass_value
+        ], "P3 HPE Gate source assertion")
+        source_identity = exact_keys(assertion["source_identity"], %w[path byte_length sha256],
+                                     "P3 HPE Gate observation source identity")
+        assert(evidence_files.include?(source_identity),
+               "P3 HPE Gate observation source is not manifest-bound")
+        source_projection << source_identity
+        source = parse_tik_json!(
+          read_tik_external_identity!(source_identity, "P3 HPE Gate raw source",
+                                      create_once: true),
+          "P3 HPE Gate raw source"
+        )
+        hpe_json_pointer(source, assertion.fetch("json_pointer"),
+                         "P3 HPE Gate source assertion")
+      end
+      expected_sources = source_projection.uniq.sort_by { |source| source.fetch("path") }
+      actual_sources = observation["source_identities"].map do |source_identity|
+        exact_keys(source_identity, %w[path byte_length sha256],
+                   "P3 HPE Gate observation source identity")
+      end
+      assert(actual_sources == actual_sources.sort_by { |source| source.fetch("path") } &&
+             actual_sources.uniq == actual_sources && actual_sources == expected_sources,
+             "P3 HPE Gate observation source inventory is not closed")
+      exit_index = derivation.fetch("command_exit_assertion_index")
+      pass_values = source_assertions.map { |source_assertion| source_assertion.fetch("pass_value") }
+      assert(actual_values.fetch(exit_index) == command.fetch("exit_code"),
+             "P3 HPE Gate command exit code is not derived from retained raw bytes")
+      derived_status = if command.fetch("exit_code").zero? && actual_values == pass_values
+        "PASS"
+      else
+        "NON_PASS"
+      end
+      assert(observation["observed_status"] == derived_status,
+             "P3 HPE Gate observation status is not mechanically derived from raw bytes")
+      tik_timestamp!(observation["recorded_at_utc"], "P3 HPE Gate observation timestamp")
+      [observation.fetch("gate_key"), observation.fetch("observed_status"),
+       command.fetch("exit_code")]
+    end
+    assert(observations.map(&:first).sort == expected_gates.sort &&
+           observations.map(&:first).uniq.length == observations.length &&
+           results == observations.to_h { |gate, status, _exit| [gate, status] },
+           "P3 HPE Gate Evidence is not derived from the exact frozen observation set")
+    assert(evidence["schema_version"] == "p3-hpe-gate-evidence/v1" &&
+           evidence["record_type"] == "P3_HPE_GATE_EVIDENCE" && evidence["phase"] == "P3" &&
+           evidence["route_id"] == HPE_ROUTE_ID && evidence["stage_ordinal"] == stage_index + 1 &&
+           evidence["stage_id"] == stage.fetch("stage_id") &&
+           evidence["task_id"] == stage.fetch("task_id") &&
+           evidence["candidate_manifest"] == manifest_identity &&
+           evidence["contract"] == contract_identity && evidence["authority"] == authority_identity &&
+           evidence["generated_from_actual_bytes"] == true &&
+           evidence["external_effects"] == HPE_EXTERNAL_EFFECTS &&
+           ((terminal || allow_non_pass) ? %w[PASS_CANDIDATE NON_PASS_CANDIDATE] :
+             ["PASS_CANDIDATE"])
+             .include?(evidence["disposition"]),
+           "P3 HPE Gate Evidence semantic cross-binding drift")
+    if evidence["disposition"] == "PASS_CANDIDATE"
+      assert(results.values.all? { |status| status == "PASS" } &&
+             observations.all? { |_gate, _status, exit_code| exit_code == 0 },
+             "P3 HPE PASS Gate Evidence contains a non-PASS result")
+    else
+      assert(results.values.any? { |status| status != "PASS" } ||
+             observations.any? { |_gate, _status, exit_code| exit_code != 0 },
+             "P3 HPE NON_PASS Gate Evidence contains no mechanical failure")
+    end
+    tik_timestamp!(evidence["recorded_at_utc"], "P3 HPE Gate Evidence timestamp")
+    [evidence_identity, evidence]
+  end
+
+  def hpe_validate_findings!(value, label, include_role: false)
+    findings = array(value, label)
+    findings.each do |finding|
+      keys = %w[finding_id severity category summary exact_evidence minimal_closure]
+      keys << "role" if include_role
+      exact_keys(finding, keys, label)
+      assert(finding["finding_id"].is_a?(String) && !finding["finding_id"].empty? &&
+             %w[P0 P1].include?(finding["severity"]) &&
+             HPE_FINDING_CATEGORIES.include?(finding["category"]) &&
+             finding["summary"].is_a?(String) && !finding["summary"].empty? &&
+             finding["exact_evidence"].is_a?(Array) && !finding["exact_evidence"].empty? &&
+             finding["exact_evidence"].all? { |line| line.is_a?(String) && !line.empty? } &&
+             finding["minimal_closure"].is_a?(String) && !finding["minimal_closure"].empty? &&
+             (!include_role || HPE_REVIEW_ROLES.include?(finding["role"])),
+             "#{label} schema drift")
+    end
+    findings
+  end
+
+  def validate_hpe_review_record!(decision, identity, role, stage_index, contract_identity,
+                                  authority_identity, manifest_identity, gate_identity,
+                                  expected_path:, expected_cycle:)
+    stage = hpe_stage(decision, stage_index)
+    resource = stage.fetch("resources")
+    review_identity, review = read_tik_rooted_json!(
+      identity, "P3 HPE #{role} review", root_path: resource.fetch("evidence_root"),
+      expected_path: expected_path
+    )
+    exact_keys(review, %w[
+      schema_version record_type phase route_id stage_ordinal stage_id task_id role review_cycle
+      candidate_manifest gate_evidence contract authority independence verdict finding_categories
+      blocking_findings cycle_1_review cycle_1_finding_set cycle_2_closure reviewed_at_utc
+    ], "P3 HPE independent review")
+    findings = hpe_validate_findings!(review["blocking_findings"], "P3 HPE blocking finding")
+    ids = findings.map { |finding| finding.fetch("finding_id") }
+    categories = array(review["finding_categories"], "P3 HPE review categories")
+    assert(ids.uniq.length == ids.length && categories.uniq.length == categories.length &&
+           categories.all? { |category| HPE_FINDING_CATEGORIES.include?(category) } &&
+           categories.sort == findings.map { |finding| finding.fetch("category") }.uniq.sort &&
+           review["schema_version"] == "p3-hpe-independent-review/v1" &&
+           review["record_type"] == "P3_HPE_INDEPENDENT_REVIEW" && review["phase"] == "P3" &&
+           review["route_id"] == HPE_ROUTE_ID && review["stage_ordinal"] == stage_index + 1 &&
+           review["stage_id"] == stage.fetch("stage_id") &&
+           review["task_id"] == stage.fetch("task_id") && review["role"] == role &&
+           review["review_cycle"] == expected_cycle &&
+           review["candidate_manifest"] == manifest_identity &&
+           review["gate_evidence"] == gate_identity && review["contract"] == contract_identity &&
+           review["authority"] == authority_identity &&
+           review["independence"] == {
+             "implemented_candidate" => false, "issued_task_authority" => false,
+             "read_other_reviews" => false, "read_rejected_lineage" => false
+           } && %w[PASS NON_PASS].include?(review["verdict"]),
+           "P3 HPE independent review semantic or independence drift")
+    if review["verdict"] == "PASS"
+      assert(findings.empty? && categories.empty?, "P3 HPE PASS review retains blockers")
+    else
+      assert(!findings.empty?, "P3 HPE NON_PASS review lacks a blocker")
+    end
+    tik_timestamp!(review["reviewed_at_utc"], "P3 HPE review timestamp")
+    [review_identity, review]
+  end
+
+  def validate_hpe_cycle_1_finding_set!(root, decision, identity, stage_index,
+                                        contract_identity, authority_identity,
+                                        activation_parent, terminal: false)
+    resource = hpe_stage_resource(decision, stage_index)
+    set_identity, finding_set = read_tik_rooted_json!(
+      identity, "P3 HPE Cycle 1 frozen finding set",
+      root_path: resource.fetch("evidence_root"),
+      expected_path: resource.fetch("cycle_1_finding_set_path")
+    )
+    exact_keys(finding_set, %w[
+      schema_version record_type phase route_id stage_ordinal stage_id task_id contract authority
+      cycle_1_candidate_manifest cycle_1_gate_evidence cycle_1_reviews
+      complete_p0_p1_set_frozen findings frozen_at_utc
+    ], "P3 HPE Cycle 1 frozen finding set")
+    manifest_identity, manifest, = validate_hpe_candidate_manifest!(
+      root, decision, finding_set["cycle_1_candidate_manifest"], stage_index,
+      contract_identity, authority_identity, activation_parent, terminal: terminal,
+      expected_path: resource.fetch("cycle_1_candidate_manifest_path"),
+      expected_candidate_id: "CANDIDATE_1"
+    )
+    gate_identity, = validate_hpe_gate_evidence!(
+      decision, finding_set["cycle_1_gate_evidence"], stage_index, contract_identity,
+      authority_identity, manifest_identity, manifest, terminal: false,
+      allow_non_pass: true,
+      expected_path: resource.fetch("cycle_1_gate_evidence_path")
+    )
+    review_projection = exact_keys(finding_set["cycle_1_reviews"],
+                                   %w[cto security quality_evaluation],
+                                   "P3 HPE Cycle 1 review identities")
+    reviews = {}
+    {
+      "cto" => ["CTO_AGENT", "cycle_1_cto_review_path"],
+      "security" => ["SECURITY_AGENT", "cycle_1_security_review_path"],
+      "quality_evaluation" => ["QUALITY_EVALUATION_AGENT", "cycle_1_quality_review_path"]
+    }.each do |key, (role, path_key)|
+      review_identity, review = validate_hpe_review_record!(
+        decision, review_projection.fetch(key), role, stage_index, contract_identity,
+        authority_identity, manifest_identity, gate_identity,
+        expected_path: resource.fetch(path_key), expected_cycle: 1
+      )
+      assert(review_identity == review_projection.fetch(key) &&
+             review["cycle_1_review"].nil? && review["cycle_1_finding_set"].nil? &&
+             review["cycle_2_closure"].nil?,
+             "P3 HPE Cycle 1 review projection or lifecycle drift")
+      reviews[role] = review
+    end
+    expected_findings = reviews.flat_map do |role, review|
+      review.fetch("blocking_findings").map { |finding| finding.merge("role" => role) }
+    end.sort_by { |finding| [finding.fetch("role"), finding.fetch("finding_id")] }
+    frozen = hpe_validate_findings!(finding_set["findings"],
+                                    "P3 HPE Cycle 1 frozen finding", include_role: true)
+    ids = frozen.map { |finding| finding.fetch("finding_id") }
+    stage = hpe_stage(decision, stage_index)
+    assert(frozen == expected_findings && !frozen.empty? && ids.uniq.length == ids.length &&
+           finding_set["schema_version"] == "p3-hpe-cycle-1-finding-set/v1" &&
+           finding_set["record_type"] == "P3_HPE_CYCLE_1_FROZEN_FINDING_SET" &&
+           finding_set["phase"] == "P3" && finding_set["route_id"] == HPE_ROUTE_ID &&
+           finding_set["stage_ordinal"] == stage_index + 1 &&
+           finding_set["stage_id"] == stage.fetch("stage_id") &&
+           finding_set["task_id"] == stage.fetch("task_id") &&
+           finding_set["contract"] == contract_identity &&
+           finding_set["authority"] == authority_identity &&
+           finding_set["cycle_1_candidate_manifest"] == manifest_identity &&
+           finding_set["cycle_1_gate_evidence"] == gate_identity &&
+           finding_set["complete_p0_p1_set_frozen"] == true,
+           "P3 HPE Cycle 1 frozen finding-set binding drift")
+    tik_timestamp!(finding_set["frozen_at_utc"], "P3 HPE finding-set timestamp")
+    [set_identity, reviews, frozen]
+  end
+
+  def validate_hpe_review!(root, decision, identity, role, stage_index, contract_identity,
+                           authority_identity, activation_parent, manifest_identity,
+                           gate_identity, terminal: false)
+    resource = hpe_stage_resource(decision, stage_index)
+    path_key = {
+      "CTO_AGENT" => "cto_review_path", "SECURITY_AGENT" => "security_review_path",
+      "QUALITY_EVALUATION_AGENT" => "quality_review_path"
+    }.fetch(role)
+    preview_identity, preview = read_tik_rooted_json!(
+      identity, "P3 HPE #{role} review", root_path: resource.fetch("evidence_root"),
+      expected_path: resource.fetch(path_key)
+    )
+    cycle = preview["review_cycle"]
+    assert([1, 2].include?(cycle) && !(stage_index == 2 && cycle == 2),
+           "P3 HPE review cycle exceeds the stage budget")
+    review_identity, review = validate_hpe_review_record!(
+      decision, preview_identity, role, stage_index, contract_identity, authority_identity,
+      manifest_identity, gate_identity, expected_path: resource.fetch(path_key),
+      expected_cycle: cycle
+    )
+    if cycle == 1
+      assert(review["cycle_1_review"].nil? && review["cycle_1_finding_set"].nil? &&
+             review["cycle_2_closure"].nil?,
+             "P3 HPE Cycle 1 final review contains future-cycle state")
+    else
+      finding_set_identity, cycle_1_reviews, frozen = validate_hpe_cycle_1_finding_set!(
+        root, decision, review["cycle_1_finding_set"], stage_index, contract_identity,
+        authority_identity, activation_parent, terminal: terminal
+      )
+      prior = cycle_1_reviews.fetch(role)
+      prior_path_key = {
+        "CTO_AGENT" => "cycle_1_cto_review_path",
+        "SECURITY_AGENT" => "cycle_1_security_review_path",
+        "QUALITY_EVALUATION_AGENT" => "cycle_1_quality_review_path"
+      }.fetch(role)
+      prior_identity = exact_keys(review["cycle_1_review"], %w[path byte_length sha256],
+                                  "P3 HPE Cycle 2 prior review identity")
+      assert(review["cycle_1_finding_set"] == finding_set_identity &&
+             prior_identity.fetch("path") == resource.fetch(prior_path_key),
+             "P3 HPE Cycle 2 prior-input binding drift")
+      read_tik_external_identity!(prior_identity, "P3 HPE Cycle 2 prior review", create_once: true)
+      closure = exact_keys(review["cycle_2_closure"],
+                           %w[closed_finding_ids unresolved_finding_ids regression_findings],
+                           "P3 HPE Cycle 2 closure")
+      initial = prior.fetch("blocking_findings")
+      initial_ids = initial.map { |finding| finding.fetch("finding_id") }
+      closed = array(closure["closed_finding_ids"], "P3 HPE closed findings")
+      unresolved = array(closure["unresolved_finding_ids"], "P3 HPE unresolved findings")
+      regressions = hpe_validate_findings!(closure["regression_findings"],
+                                           "P3 HPE direct regression")
+      regression_ids = regressions.map { |finding| finding.fetch("finding_id") }
+      frozen_ids = frozen.map { |finding| finding.fetch("finding_id") }
+      assert(closed.uniq.length == closed.length && unresolved.uniq.length == unresolved.length &&
+             regression_ids.uniq.length == regression_ids.length &&
+             (closed & unresolved).empty? && (closed + unresolved).sort == initial_ids.sort &&
+             (regression_ids & frozen_ids).empty?,
+             "P3 HPE Cycle 2 closure does not partition the frozen findings")
+      expected_current = initial.select do |finding|
+        unresolved.include?(finding.fetch("finding_id"))
+      end + regressions
+      assert(review.fetch("blocking_findings").sort_by { |finding| finding.fetch("finding_id") } ==
+               expected_current.sort_by { |finding| finding.fetch("finding_id") },
+             "P3 HPE Cycle 2 review drip-fed a non-regression finding")
+      if review["verdict"] == "PASS"
+        assert(unresolved.empty? && regressions.empty? && closed.sort == initial_ids.sort,
+               "P3 HPE Cycle 2 PASS did not close its complete Cycle 1 finding set")
+      end
+    end
+    [review_identity, review]
+  end
+
+  def validate_hpe_terminal_bundle!(root, decision, bundle, stage_index, activation_parent,
+                                    candidate, manifest)
+    bundle_path = bundle.fetch("path")
+    _verify_out, verify_err, verify_status = Open3.capture3(
+      "git", "bundle", "verify", bundle_path, chdir: root.to_s
+    )
+    assert(verify_status.success?,
+           "P3 HPE rejected candidate bundle verification failed: #{verify_err.strip}")
+    expected_ref = "refs/heads/#{candidate.fetch('source_branch')}"
+    heads = git!(root, "bundle", "list-heads", bundle_path).lines.map(&:strip)
+    assert(heads == ["#{candidate.fetch('commit')} #{expected_ref}"],
+           "P3 HPE rejected candidate bundle does not contain the exact sole candidate head")
+
+    resource = hpe_stage_resource(decision, stage_index)
+    terminal_root = Pathname.new(resource.fetch("evidence_root")).join("terminal")
+    terminal_stat = terminal_root.lstat
+    assert(terminal_stat.directory? && !terminal_root.symlink? &&
+           terminal_root.realpath.to_s == terminal_root.cleanpath.to_s,
+           "P3 HPE terminal bundle verifier root is not a real authorized directory")
+    Dir.mktmpdir(".p3-hpe-bundle-verifier-", terminal_root.to_s) do |temporary_root|
+      replay = Pathname.new(temporary_root).join("candidate.git")
+      _init_out, init_err, init_status = Open3.capture3("git", "init", "--bare", replay.to_s)
+      assert(init_status.success?, "P3 HPE bundle replay init failed: #{init_err.strip}")
+      _fetch_out, fetch_err, fetch_status = Open3.capture3(
+        "git", "-C", replay.to_s, "fetch", "--no-tags", bundle_path,
+        "#{expected_ref}:refs/heads/candidate"
+      )
+      assert(fetch_status.success?,
+             "P3 HPE rejected candidate bundle is not self-contained: #{fetch_err.strip}")
+      assert(git!(replay, "rev-parse", "refs/heads/candidate") == candidate.fetch("commit") &&
+             git!(replay, "rev-parse", "#{candidate.fetch('commit')}^{tree}") ==
+               candidate.fetch("tree"),
+             "P3 HPE bundle candidate commit/tree drift")
+      git!(replay, "merge-base", "--is-ancestor", activation_parent.fetch("commit"),
+           candidate.fetch("commit"))
+      changed = git!(
+        replay, "diff", "--name-status", "--diff-filter=ACMRD",
+        activation_parent.fetch("commit"), candidate.fetch("commit")
+      ).lines.map(&:strip).reject(&:empty?).map do |line|
+        status, path, unexpected = line.split("\t", 3)
+        assert(unexpected.nil? && %w[A M].include?(status) && path,
+               "P3 HPE terminal bundle contains deletion, rename, copy or unknown delta")
+        path
+      end.sort
+      expected_paths = manifest.fetch("repository_files").map do |entry|
+        path = entry.fetch("relative_path")
+        assert(tik_git_tree_entry!(replay, candidate.fetch("commit"), path,
+                                   "P3 HPE terminal bundle candidate file") ==
+                 entry.slice("git_mode", "object_type", "git_blob_sha1"),
+               "P3 HPE terminal bundle mode/type/blob differs from the immutable manifest")
+        bytes = tik_git_bytes!(replay, candidate.fetch("commit"), path,
+                               "P3 HPE terminal bundle candidate file")
+        assert(bytes.bytesize == entry.fetch("byte_length") &&
+               Digest::SHA256.hexdigest(bytes) == entry.fetch("sha256"),
+               "P3 HPE terminal bundle bytes differ from the immutable manifest")
+        path
+      end.sort
+      assert(changed == expected_paths && !changed.empty?,
+             "P3 HPE terminal bundle changed set differs from the immutable manifest")
+    end
+    {
+      "bundle_verified_once" => true, "sole_head_matches_candidate" => true,
+      "candidate_commit_tree_matches" => true,
+      "activation_parent_relation_matches" => true,
+      "changed_set_matches_manifest" => true,
+      "repository_mode_type_bytes_match_manifest" => true,
+      "rejected_lineage_replay_count" => 1
+    }
+  end
+
+  def validate_hpe_terminal_attestation!(root, decision, identity, stage_index,
+                                         activation_parent, contract_identity,
+                                         authority_identity, manifest_identity,
+                                         candidate, bundle_identity)
+    resource = hpe_stage_resource(decision, stage_index)
+    attestation_identity, attestation = read_tik_rooted_json!(
+      identity, "P3 HPE rejected-bundle attestation", root_path: resource.fetch("evidence_root"),
+      expected_path: resource.fetch("bundle_attestation_path")
+    )
+    exact_keys(attestation, %w[
+      schema_version record_type phase route_id stage_ordinal stage_id task_id activation_parent
+      contract authority candidate_manifest candidate bundle validator verification_status
+      failure_reason checks verified_once_while_active future_current_state_lineage_replay_allowed
+      verified_at_utc
+    ], "P3 HPE rejected-bundle attestation")
+    stage = hpe_stage(decision, stage_index)
+    validator = exact_keys(attestation["validator"], %w[path commit tree byte_length sha256],
+                           "P3 HPE terminalization validator identity")
+    validator_bytes = tik_git_bytes!(
+      root, activation_parent.fetch("commit"), validator.fetch("path"),
+      "P3 HPE terminalization validator"
+    )
+    checks = exact_keys(attestation["checks"], %w[
+      bundle_verified_once sole_head_matches_candidate candidate_commit_tree_matches
+      activation_parent_relation_matches changed_set_matches_manifest
+      repository_mode_type_bytes_match_manifest rejected_lineage_replay_count
+    ], "P3 HPE rejected-bundle checks")
+    pass_checks = {
+      "bundle_verified_once" => true, "sole_head_matches_candidate" => true,
+      "candidate_commit_tree_matches" => true,
+      "activation_parent_relation_matches" => true,
+      "changed_set_matches_manifest" => true,
+      "repository_mode_type_bytes_match_manifest" => true,
+      "rejected_lineage_replay_count" => 1
+    }
+    assert(attestation["schema_version"] == "p3-hpe-rejected-bundle-attestation/v1" &&
+           attestation["record_type"] == "P3_HPE_REJECTED_BUNDLE_ATTESTATION" &&
+           attestation["phase"] == "P3" && attestation["route_id"] == HPE_ROUTE_ID &&
+           attestation["stage_ordinal"] == stage_index + 1 &&
+           attestation["stage_id"] == stage.fetch("stage_id") &&
+           attestation["task_id"] == stage.fetch("task_id") &&
+           attestation["activation_parent"] == activation_parent &&
+           attestation["contract"] == contract_identity &&
+           attestation["authority"] == authority_identity &&
+           attestation["candidate_manifest"] == manifest_identity &&
+           attestation["candidate"] == candidate && attestation["bundle"] == bundle_identity &&
+           validator["path"] == "scripts/validate-p3-final-transactional-route.rb" &&
+           validator["commit"] == activation_parent.fetch("commit") &&
+           validator["tree"] == activation_parent.fetch("tree") &&
+           validator_bytes.bytesize == validator["byte_length"] &&
+           Digest::SHA256.hexdigest(validator_bytes) == validator["sha256"] &&
+           %w[PASS NON_PASS].include?(attestation["verification_status"]) &&
+           attestation["verified_once_while_active"] == true &&
+           attestation["future_current_state_lineage_replay_allowed"] == false,
+           "P3 HPE rejected-bundle attestation binding drift")
+    if attestation["verification_status"] == "PASS"
+      assert(attestation["failure_reason"].nil? && checks == pass_checks,
+             "P3 HPE PASS bundle attestation does not close every check")
+    else
+      assert(attestation["failure_reason"].is_a?(String) &&
+             !attestation["failure_reason"].empty? && checks != pass_checks &&
+             checks["rejected_lineage_replay_count"] == 1,
+             "P3 HPE NON_PASS bundle attestation lacks its one-shot failure")
+    end
+    tik_timestamp!(attestation["verified_at_utc"], "P3 HPE bundle attestation timestamp")
+    [attestation_identity, attestation]
+  end
+
+  def create_hpe_terminal_bundle_attestation!(root:, truth:)
+    state = validate_truth!(root: root, truth: truth)
+    lifecycle = truth.dig("current_phase_route", "lifecycle_stage")
+    stage_index = {"FOUNDATION_TASK_ACTIVE" => 0, "PRODUCT_TASK_ACTIVE" => 1}[lifecycle]
+    assert(stage_index && state == HPE_LIFECYCLE_STATES.fetch(lifecycle),
+           "P3 HPE bundle attestation is allowed only while a mutable stage Task is active")
+    decision = validate_hpe_decision!(Pathname.new(root).realpath)
+    resource = hpe_stage_resource(decision, stage_index)
+    active = mapping(truth["active_work"], "P3 HPE active work for terminalization")
+    contract_identity, _contract, activation_parent = validate_hpe_contract!(
+      root, decision, active.fetch("current_task_contract"), stage_index
+    )
+    authority_identity, _authority = validate_hpe_authority!(
+      root, decision, active.fetch("authority_record"), stage_index,
+      contract_identity, activation_parent
+    )
+    manifest_identity = tik_identity_for_exact_create_once_file!(
+      resource.fetch("candidate_manifest_path"), resource.fetch("evidence_root"),
+      "P3 HPE terminalization candidate manifest"
+    )
+    manifest_identity, manifest, candidate = validate_hpe_candidate_manifest!(
+      root, decision, manifest_identity, stage_index, contract_identity, authority_identity,
+      activation_parent, terminal: false
+    )
+    bundle_identity = tik_identity_for_exact_create_once_file!(
+      resource.fetch("rejected_bundle_path"), resource.fetch("evidence_root"),
+      "P3 HPE rejected candidate bundle"
+    )
+    attestation_path, attestation_file = tik_reserve_exclusive_create_once_file!(
+      resource.fetch("bundle_attestation_path"), resource.fetch("evidence_root"),
+      "P3 HPE rejected-bundle attestation"
+    )
+    verification_status = "PASS"
+    failure_reason = nil
+    checks = nil
+    begin
+      checks = validate_hpe_terminal_bundle!(
+        root, decision, bundle_identity, stage_index, activation_parent, candidate, manifest
+      )
+    rescue P3FinalTransactionalRouteValidationError => error
+      verification_status = "NON_PASS"
+      failure_reason = error.message
+      checks = {
+        "bundle_verified_once" => false, "sole_head_matches_candidate" => false,
+        "candidate_commit_tree_matches" => false,
+        "activation_parent_relation_matches" => false,
+        "changed_set_matches_manifest" => false,
+        "repository_mode_type_bytes_match_manifest" => false,
+        "rejected_lineage_replay_count" => 1
+      }
+    end
+    validator_path = "scripts/validate-p3-final-transactional-route.rb"
+    validator_bytes = tik_git_bytes!(root, activation_parent.fetch("commit"), validator_path,
+                                     "P3 HPE terminalization validator")
+    attestation = {
+      "schema_version" => "p3-hpe-rejected-bundle-attestation/v1",
+      "record_type" => "P3_HPE_REJECTED_BUNDLE_ATTESTATION",
+      "phase" => "P3", "route_id" => HPE_ROUTE_ID,
+      "stage_ordinal" => stage_index + 1,
+      "stage_id" => hpe_stage(decision, stage_index).fetch("stage_id"),
+      "task_id" => hpe_stage(decision, stage_index).fetch("task_id"),
+      "activation_parent" => activation_parent,
+      "contract" => contract_identity, "authority" => authority_identity,
+      "candidate_manifest" => manifest_identity, "candidate" => candidate,
+      "bundle" => bundle_identity,
+      "validator" => {
+        "path" => validator_path, "commit" => activation_parent.fetch("commit"),
+        "tree" => activation_parent.fetch("tree"), "byte_length" => validator_bytes.bytesize,
+        "sha256" => Digest::SHA256.hexdigest(validator_bytes)
+      },
+      "verification_status" => verification_status, "failure_reason" => failure_reason,
+      "checks" => checks, "verified_once_while_active" => true,
+      "future_current_state_lineage_replay_allowed" => false,
+      "verified_at_utc" => Time.now.utc.strftime("%Y-%m-%dT%H:%M:%SZ")
+    }
+    identity = tik_finalize_reserved_create_once_json!(
+      attestation_path, attestation_file, attestation,
+      "P3 HPE rejected-bundle attestation"
+    )
+    validate_hpe_terminal_attestation!(
+      root, decision, identity, stage_index, activation_parent, contract_identity,
+      authority_identity, manifest_identity, candidate, bundle_identity
+    )
+    identity.merge("verification_status" => verification_status)
+  ensure
+    attestation_file.close if defined?(attestation_file) && attestation_file &&
+                              !attestation_file.closed?
+  end
+
+  def validate_hpe_stage_receipt!(root, decision, completed, stage_index, terminal: false)
+    receipt_key = terminal ? "terminal_receipt" : "task_gate_receipt"
+    exact_keys(completed, %w[
+      task_id status contract authority candidate_manifest gate_evidence independent_reviews
+    ] + [receipt_key], "P3 HPE completed Task projection")
+    stage = hpe_stage(decision, stage_index)
+    expected_status = terminal ? "TERMINAL_TASK_GATE_NON_PASS" : "ACCEPTED_TASK_GATE_PASS"
+    assert(completed["task_id"] == stage.fetch("task_id") &&
+           completed["status"] == expected_status,
+           "P3 HPE completed Task identity or disposition drift")
+    contract_identity, _contract, activation_parent = validate_hpe_contract!(
+      root, decision, completed["contract"], stage_index
+    )
+    authority_identity, authority = validate_hpe_authority!(
+      root, decision, completed["authority"], stage_index, contract_identity, activation_parent
+    )
+    manifest_identity, manifest, candidate = validate_hpe_candidate_manifest!(
+      root, decision, completed["candidate_manifest"], stage_index, contract_identity,
+      authority_identity, activation_parent, terminal: terminal
+    )
+    gate_identity, gate = validate_hpe_gate_evidence!(
+      decision, completed["gate_evidence"], stage_index, contract_identity, authority_identity,
+      manifest_identity, manifest, terminal: terminal
+    )
+    review_projection = exact_keys(completed["independent_reviews"],
+                                   %w[cto security quality_evaluation],
+                                   "P3 HPE review identities")
+    reviews = {}
+    {"cto" => "CTO_AGENT", "security" => "SECURITY_AGENT",
+     "quality_evaluation" => "QUALITY_EVALUATION_AGENT"}.each do |key, role|
+      identity_record, review = validate_hpe_review!(
+        root, decision, review_projection.fetch(key), role, stage_index, contract_identity,
+        authority_identity, activation_parent, manifest_identity, gate_identity,
+        terminal: terminal
+      )
+      assert(identity_record == review_projection.fetch(key),
+             "P3 HPE review identity projection drift")
+      reviews[key] = review
+    end
+    review_cycles = reviews.values.map { |review| review.fetch("review_cycle") }
+    assert(review_cycles.uniq.length == 1,
+           "P3 HPE final reviews must use the same final review cycle")
+    resource = stage.fetch("resources")
+    expected_receipt_path = resource.fetch(
+      terminal ? "task_gate_non_pass_receipt_path" : "task_gate_pass_receipt_path"
+    )
+    receipt_identity, receipt = read_tik_rooted_json!(
+      completed.fetch(receipt_key), "P3 HPE stage Gate receipt",
+      root_path: resource.fetch("evidence_root"), expected_path: expected_receipt_path
+    )
+    exact_keys(receipt, %w[
+      schema_version record_type phase route_id stage_ordinal stage_id task_id disposition
+      contract authority candidate_manifest gate_evidence independent_reviews review_cycle
+      gate_results integration budget_consumption next_lifecycle delivery_percent
+      strict_exit_percent external_effects recorded_at_utc
+    ], "P3 HPE stage Gate receipt")
+    review_gate_status = reviews.values.all? { |review| review["verdict"] == "PASS" } ?
+      "PASS" : "NON_PASS"
+    expected_receipt_gate_results = gate.fetch("gate_results").merge(
+      "THREE_INDEPENDENT_REVIEWS_PASS" => review_gate_status
+    )
+    exact_keys(receipt["gate_results"], stage.fetch("gate_requirements"),
+               "P3 HPE receipt Gate results")
+    assert(receipt["schema_version"] == "p3-hpe-stage-gate-receipt/v1" &&
+           receipt["record_type"] == "P3_HPE_STAGE_GATE_RECEIPT" && receipt["phase"] == "P3" &&
+           receipt["route_id"] == HPE_ROUTE_ID && receipt["stage_ordinal"] == stage_index + 1 &&
+           receipt["stage_id"] == stage.fetch("stage_id") &&
+           receipt["task_id"] == stage.fetch("task_id") &&
+           receipt["disposition"] == expected_status && receipt["contract"] == contract_identity &&
+           receipt["authority"] == authority_identity &&
+           receipt["candidate_manifest"] == manifest_identity &&
+           receipt["gate_evidence"] == gate_identity &&
+           receipt["independent_reviews"] == review_projection &&
+           receipt["review_cycle"] == review_cycles.first &&
+           receipt["gate_results"] == expected_receipt_gate_results &&
+           receipt["budget_consumption"] == stage.fetch("budget") &&
+           receipt["external_effects"] == HPE_EXTERNAL_EFFECTS,
+           "P3 HPE stage Gate receipt cross-binding drift")
+    if terminal
+      assert(reviews.values.any? { |review| review["verdict"] == "NON_PASS" } ||
+             gate["disposition"] == "NON_PASS_CANDIDATE",
+             "P3 HPE terminal receipt lacks a mechanical or independent NON_PASS")
+    else
+      assert(reviews.values.all? { |review| review["verdict"] == "PASS" } &&
+             gate["disposition"] == "PASS_CANDIDATE" &&
+             receipt.fetch("gate_results").values.all? { |status| status == "PASS" },
+             "P3 HPE PASS receipt lacks exact Gate PASS and three independent PASS reviews")
+    end
+    integration = exact_keys(receipt["integration"], %w[
+      candidate_commit candidate_tree integrated canonical_main_commit canonical_main_tree
+      integration_delta_files rejected_candidate_bundle bundle_verification_attestation
+    ], "P3 HPE receipt integration")
+    assert(integration["candidate_commit"] == candidate["commit"] &&
+           integration["candidate_tree"] == candidate["tree"],
+           "P3 HPE receipt candidate identity drift")
+    if terminal
+      assert(integration["integrated"] == false &&
+             integration["canonical_main_commit"].is_a?(String) &&
+             integration["canonical_main_commit"].match?(/\A[0-9a-f]{40}\z/) &&
+             integration["canonical_main_tree"].is_a?(String) &&
+             git!(root, "rev-parse", "#{integration.fetch('canonical_main_commit')}^{tree}") ==
+               integration.fetch("canonical_main_tree") &&
+             integration["integration_delta_files"] == [],
+             "P3 HPE terminal candidate cannot be integrated and lacks its canonical anchor")
+      git!(root, "merge-base", "--is-ancestor", activation_parent.fetch("commit"),
+           integration.fetch("canonical_main_commit"))
+      git!(root, "merge-base", "--is-ancestor", integration.fetch("canonical_main_commit"),
+           "main")
+      terminal_anchor_delta = git!(
+        root, "diff", "--name-status", "--diff-filter=ACMRD",
+        activation_parent.fetch("commit"), integration.fetch("canonical_main_commit")
+      ).lines.map(&:strip).reject(&:empty?)
+      assert(terminal_anchor_delta == ["M\tdocs/aios/truth/project_state.yaml"],
+             "P3 HPE terminal canonical anchor exceeds the active Truth projection")
+      if stage_index < 2
+        bundle = exact_keys(integration["rejected_candidate_bundle"],
+                            %w[path byte_length sha256], "P3 HPE rejected bundle")
+        tik_assert_path_under!(bundle.fetch("path"), resource.fetch("evidence_root"),
+                               "P3 HPE rejected bundle",
+                               expected_path: resource.fetch("rejected_bundle_path"))
+        read_tik_external_identity!(bundle, "P3 HPE rejected bundle", create_once: true)
+        validate_hpe_terminal_attestation!(
+          root, decision, integration["bundle_verification_attestation"], stage_index,
+          activation_parent, contract_identity, authority_identity, manifest_identity,
+          candidate, bundle
+        )
+      else
+        assert(integration["rejected_candidate_bundle"].nil? &&
+               integration["bundle_verification_attestation"].nil?,
+               "P3 HPE Audit terminal receipt cannot reopen Product lineage")
+      end
+    else
+      assert(integration["integrated"] == true &&
+             integration["rejected_candidate_bundle"].nil? &&
+             integration["bundle_verification_attestation"].nil? &&
+             integration["canonical_main_commit"].is_a?(String) &&
+             integration["canonical_main_commit"].match?(/\A[0-9a-f]{40}\z/) &&
+             integration["canonical_main_tree"].is_a?(String) &&
+             git!(root, "rev-parse", "#{integration.fetch('canonical_main_commit')}^{tree}") ==
+               integration.fetch("canonical_main_tree"),
+             "P3 HPE PASS receipt lacks exact canonical integration")
+      git!(root, "merge-base", "--is-ancestor", candidate.fetch("commit"),
+           integration.fetch("canonical_main_commit"))
+      git!(root, "merge-base", "--is-ancestor", activation_parent.fetch("commit"),
+           integration.fetch("canonical_main_commit"))
+      git!(root, "merge-base", "--is-ancestor", integration.fetch("canonical_main_commit"), "main")
+      changed = git!(
+        root, "diff", "--name-status", "--diff-filter=ACMRD",
+        activation_parent.fetch("commit"), integration.fetch("canonical_main_commit")
+      ).lines.map(&:strip).reject(&:empty?).map do |line|
+        status, path, unexpected = line.split("\t", 3)
+        assert(unexpected.nil? && %w[A M].include?(status) && path,
+               "P3 HPE integration contains a deletion, rename, copy or unknown Git delta")
+        path
+      end.sort
+      expected_integration_paths = (
+        manifest.fetch("repository_files").map { |entry| entry.fetch("relative_path") } +
+        ["docs/aios/truth/project_state.yaml"]
+      ).sort
+      assert(changed == expected_integration_paths,
+             "P3 HPE canonical integration contains unreviewed or missing repository bytes")
+      manifest.fetch("repository_files").each do |entry|
+        path = entry.fetch("relative_path")
+        assert(tik_git_tree_entry!(root, integration.fetch("canonical_main_commit"), path,
+                                   "P3 HPE integrated repository file") ==
+                 entry.slice("git_mode", "object_type", "git_blob_sha1"),
+               "P3 HPE integrated repository mode/type/blob drift: #{path}")
+        bytes = tik_git_bytes!(root, integration.fetch("canonical_main_commit"), path,
+                               "P3 HPE integrated repository file")
+        assert(bytes.bytesize == entry.fetch("byte_length") &&
+               Digest::SHA256.hexdigest(bytes) == entry.fetch("sha256"),
+               "P3 HPE integrated repository bytes drift: #{path}")
+      end
+      delta = array(integration["integration_delta_files"], "P3 HPE integration delta")
+      assert(delta.length == 1, "P3 HPE integration permits exactly one Truth projection delta")
+      entry = exact_keys(delta.first, %w[relative_path byte_length sha256],
+                         "P3 HPE integration Truth identity")
+      assert(entry["relative_path"] == "docs/aios/truth/project_state.yaml" &&
+             entry["byte_length"].is_a?(Integer) && entry["byte_length"].positive? &&
+             entry["sha256"].is_a?(String) && entry["sha256"].match?(/\A[0-9a-f]{64}\z/),
+             "P3 HPE integration delta exceeds canonical Truth")
+      truth_bytes = tik_git_bytes!(root, integration.fetch("canonical_main_commit"),
+                                   entry.fetch("relative_path"), "P3 HPE integrated Truth")
+      assert(truth_bytes.bytesize == entry.fetch("byte_length") &&
+             Digest::SHA256.hexdigest(truth_bytes) == entry.fetch("sha256"),
+             "P3 HPE integrated Truth identity drift")
+    end
+    expected_next = terminal ? "ROUTE_TERMINAL_NON_PASS" :
+      %w[PRODUCT_STAGE_ELIGIBLE AUDIT_STAGE_ELIGIBLE COMPLETE_AWAITING_FOUNDER_PHASE_GATE]
+        .fetch(stage_index)
+    assert(receipt["next_lifecycle"] == expected_next &&
+           receipt["delivery_percent"] == (terminal ? [25, 50, 75].fetch(stage_index) :
+             stage.fetch("delivery_percent_on_pass")) &&
+           receipt["strict_exit_percent"] == (terminal ? 0 :
+             stage.fetch("strict_exit_percent_on_pass")),
+           "P3 HPE receipt lifecycle/progress drift")
+    tik_timestamp!(receipt["recorded_at_utc"], "P3 HPE receipt timestamp")
+    {
+      "receipt" => receipt_identity, "contract" => contract_identity,
+      "authority_identity" => authority_identity, "authority" => authority,
+      "manifest_identity" => manifest_identity, "manifest" => manifest,
+      "gate_identity" => gate_identity, "gate" => gate,
+      "candidate" => candidate, "integration" => integration
+    }
+  end
+
+  def hpe_lifecycle_spec(route)
+    lifecycle = route["lifecycle_stage"]
+    return [lifecycle, HPE_LIFECYCLE_SPECS.fetch(lifecycle)] if
+      HPE_LIFECYCLE_SPECS.key?(lifecycle)
+    return [lifecycle, nil] unless lifecycle == "ROUTE_TERMINAL_NON_PASS"
+
+    ordinal = route["terminal_stage_ordinal"]
+    return [lifecycle, nil] unless ordinal.is_a?(Integer) && ordinal.between?(1, 3)
+
+    statuses = Array.new(3, "LOCKED_ROUTE_TERMINAL")
+    (ordinal - 1).times { |index| statuses[index] = "ACCEPTED" }
+    statuses[ordinal - 1] = "TERMINAL_TASK_GATE_NON_PASS"
+    [lifecycle, {
+      "route_status" => "HOLD_INCOMPLETE_ROUTE_TERMINAL_NON_PASS",
+      "stage_statuses" => statuses, "active_stage" => nil,
+      "completed_stages" => ordinal, "delivery" => 25 + ((ordinal - 1) * 25),
+      "strict_exit" => 0, "next_action" => "FOUNDER_DECIDE_P3_AFTER_HPE_ROUTE_TERMINAL_NON_PASS",
+      "task_creation_allowed" => false, "founder_gate" => true, "terminal" => true,
+      "terminal_stage_index" => ordinal - 1
+    }]
+  end
+
+  def hpe_budget_sum(decision, completed_count)
+    total = {"engineering_tasks" => 9, "engineering_hours" => 264, "calendar_days" => 66}
+    hpe_stages(decision).first(completed_count).each do |stage|
+      %w[engineering_tasks engineering_hours calendar_days].each do |key|
+        total[key] += stage.fetch("budget").fetch(key)
+      end
+    end
+    total
+  end
+
+  def hpe_remaining(consumed)
+    {
+      "engineering_tasks" => 12 - consumed.fetch("engineering_tasks"),
+      "engineering_hours" => 336 - consumed.fetch("engineering_hours"),
+      "calendar_days" => 84 - consumed.fetch("calendar_days")
+    }
+  end
+
+  def validate_hpe_workspace_topology!(root, decision, active_index, activation_parent = nil,
+                                       preactivation_resource_action: nil,
+                                       preactivation_stage_index: nil,
+                                       completed_results: [])
+    assert(git!(root, "symbolic-ref", "--short", "HEAD") == "main",
+           "P3 HPE canonical checkout must remain on main")
+    assert(git!(root, "status", "--porcelain").empty?,
+           "P3 HPE canonical checkout must be clean")
+    branches = git!(root, "for-each-ref", "--format=%(refname:short)", "refs/heads")
+      .lines.map(&:strip).reject(&:empty?).sort
+    partial_branch = %w[
+      WORKTREE_CREATE ENGINEERING_EVIDENCE_CREATE TASK_AUTHORITY_CREATE TASK_ACTIVATION
+    ].include?(preactivation_resource_action)
+    partial_worktree = %w[
+      ENGINEERING_EVIDENCE_CREATE TASK_AUTHORITY_CREATE TASK_ACTIVATION
+    ].include?(preactivation_resource_action)
+    expected_branches = ["main"]
+    expected_branches << hpe_stage_resource(decision, active_index).fetch("branch") if active_index
+    if partial_branch
+      expected_branches << hpe_stage_resource(decision, preactivation_stage_index).fetch("branch")
+    end
+    assert(branches == expected_branches.sort,
+           "P3 HPE branch topology exceeds main plus the active Task")
+    records = git!(root, "worktree", "list", "--porcelain").split(/\n\n+/).map do |block|
+      block.lines.each_with_object({}) do |line, record|
+        key, value = line.strip.split(" ", 2)
+        assert(%w[worktree HEAD branch].include?(key) && value && !record.key?(key),
+               "P3 HPE worktree topology contains detached, duplicate or unknown state")
+        record[key] = value
+      end
+    end
+    expected_worktrees = [root.to_s]
+    expected_worktrees << hpe_stage_resource(decision, active_index).fetch("worktree") if active_index
+    if partial_worktree
+      expected_worktrees << hpe_stage_resource(decision, preactivation_stage_index).fetch("worktree")
+    end
+    assert(records.map { |record| record.fetch("worktree") }.sort == expected_worktrees.sort,
+           "P3 HPE worktree topology exceeds canonical plus the active Task")
+    canonical_record = records.find { |record| record["worktree"] == root.to_s }
+    assert(canonical_record && canonical_record.keys.sort == %w[HEAD branch worktree] &&
+           canonical_record["branch"] == "refs/heads/main" &&
+           canonical_record["HEAD"] == git!(root, "rev-parse", "main"),
+           "P3 HPE canonical worktree association drift")
+    partial_index = preactivation_stage_index
+    if partial_branch
+      branch = hpe_stage_resource(decision, partial_index).fetch("branch")
+      assert(git!(root, "rev-parse", branch) == git!(root, "rev-parse", "main"),
+             "P3 HPE preactivation branch is not at exact canonical main")
+    end
+    if partial_worktree
+      resource = hpe_stage_resource(decision, partial_index)
+      task = records.find { |record| record["worktree"] == resource.fetch("worktree") }
+      assert(task && task.keys.sort == %w[HEAD branch worktree] &&
+             task["branch"] == "refs/heads/#{resource.fetch('branch')}" &&
+             task["HEAD"] == git!(root, "rev-parse", resource.fetch("branch")),
+             "P3 HPE preactivation worktree association drift")
+    end
+    main_commit = git!(root, "rev-parse", "main")
+    if active_index
+      resource = hpe_stage_resource(decision, active_index)
+      task = records.find { |record| record["worktree"] == resource.fetch("worktree") }
+      assert(task && task.keys.sort == %w[HEAD branch worktree] &&
+             task["branch"] == "refs/heads/#{resource.fetch('branch')}" &&
+             task["HEAD"] == git!(root, "rev-parse", resource.fetch("branch")) &&
+             activation_parent,
+             "P3 HPE active worktree association or activation-parent drift")
+      main_lineage = git!(root, "rev-list", "--parents", "-n", "1", main_commit).split
+      assert(main_lineage.length == 2 && main_lineage[1] == activation_parent.fetch("commit"),
+             "P3 HPE active canonical main is not the sole Truth activation projection")
+      delta = git!(root, "diff", "--name-status", "--diff-filter=ACMRD",
+                   activation_parent.fetch("commit"), main_commit)
+        .lines.map(&:strip).reject(&:empty?)
+      assert(delta == ["M\tdocs/aios/truth/project_state.yaml"],
+             "P3 HPE active canonical main drifted beyond the exact Truth activation delta")
+      git!(root, "merge-base", "--is-ancestor", activation_parent.fetch("commit"),
+           task.fetch("HEAD"))
+    elsif completed_results.empty?
+      git!(root, "merge-base", "--is-ancestor", HPE_CANONICAL_START.fetch("commit"), "main")
+      main_lineage = git!(root, "rev-list", "--parents", "-n", "1", main_commit).split
+      assert(main_lineage.length == 2 &&
+             main_lineage[1] == HPE_CANONICAL_START.fetch("commit"),
+             "P3 HPE Stage 0 must be one exact canonical installation commit")
+      installation_paths = decision.dig("installation", "allowed_repository_paths")
+      changed = git!(root, "diff", "--name-only", "--diff-filter=ACMRD",
+                     HPE_CANONICAL_START.fetch("commit"), "main")
+        .lines.map(&:strip).reject(&:empty?)
+      assert((changed - installation_paths).empty? && changed.include?("docs/aios/truth/project_state.yaml"),
+             "P3 HPE Stage 0 canonical delta exceeds the single authorized rule freeze")
+    else
+      canonical_anchor = completed_results.last.fetch("integration")
+      anchor_commit = canonical_anchor.fetch("canonical_main_commit")
+      anchor_tree = canonical_anchor.fetch("canonical_main_tree")
+      assert(anchor_commit.is_a?(String) && anchor_tree.is_a?(String) &&
+             git!(root, "rev-parse", "#{anchor_commit}^{tree}") == anchor_tree,
+             "P3 HPE completed lifecycle canonical anchor drift")
+      main_lineage = git!(root, "rev-list", "--parents", "-n", "1", main_commit).split
+      assert(main_lineage.length == 2 && main_lineage[1] == anchor_commit,
+             "P3 HPE completed lifecycle must have one exact Truth synchronization commit")
+      sync_delta = git!(root, "diff", "--name-status", "--diff-filter=ACMRD",
+                        anchor_commit, main_commit).lines.map(&:strip).reject(&:empty?)
+      assert(sync_delta == ["M\tdocs/aios/truth/project_state.yaml"],
+             "P3 HPE completed lifecycle sync exceeds the exact Truth projection")
+    end
+  end
+
+  def validate_hpe_route!(root, truth, preactivation_resource_action: nil)
+    decision = validate_hpe_decision!(root)
+    route = mapping(truth["current_phase_route"], "P3 HPE current route")
+    lifecycle, spec = hpe_lifecycle_spec(route)
+    assert(spec, "P3 HPE lifecycle stage is not closed-schema")
+    preactivation_actions = %w[
+      BRANCH_CREATE WORKTREE_CREATE ENGINEERING_EVIDENCE_CREATE TASK_AUTHORITY_CREATE TASK_ACTIVATION
+    ]
+    assert(preactivation_resource_action.nil? ||
+           (preactivation_actions.include?(preactivation_resource_action) &&
+            spec.fetch("task_creation_allowed") && spec["active_stage"].nil?),
+           "P3 HPE partial preactivation mode is not authorized for this lifecycle")
+    route_keys = %w[
+      schema_version route_id status lifecycle_stage execution_status scheduling_status phase
+      phase_entry_status policy founder_phase_route_decision_required
+      founder_reserved_triggers_resolved next_eligible_action phase_execution_envelope_ref
+      phase_entry_route_ref accepted_p3_001_foundation_route_ref historical_predecessor_route_ref
+      founder_route_decision canonical_start constitution objective_id workflow_id
+      workflow_claim_limit strict_exit_gate_changed strict_exit_gate_required_items
+      prior_consumed_accounting rejected_lineage_policy ordered_stages p3_entry_authorized
+      p4_entry_authorized long_term_goal_status external_effects additional_write_roots
+    ]
+    route_keys << "terminal_stage_ordinal" if lifecycle == "ROUTE_TERMINAL_NON_PASS"
+    exact_keys(route, route_keys, "P3 HPE current route")
+    execution_status = {
+      "FOUNDATION_STAGE_ELIGIBLE" => "READY_TO_ACTIVATE_FOUNDATION",
+      "FOUNDATION_TASK_ACTIVE" => "FOUNDATION_TASK_ACTIVE",
+      "PRODUCT_STAGE_ELIGIBLE" => "READY_TO_ACTIVATE_PRODUCT",
+      "PRODUCT_TASK_ACTIVE" => "PRODUCT_TASK_ACTIVE",
+      "AUDIT_STAGE_ELIGIBLE" => "READY_TO_ACTIVATE_AUDIT",
+      "AUDIT_TASK_ACTIVE" => "AUDIT_TASK_ACTIVE",
+      "COMPLETE_AWAITING_FOUNDER_PHASE_GATE" =>
+        "P3_COMPLETE_STRICT_EXIT_ACCEPTED_AWAITING_FOUNDER_PHASE_GATE",
+      "ROUTE_TERMINAL_NON_PASS" => "TERMINAL_HPE_STAGE_GATE_NON_PASS"
+    }.fetch(lifecycle)
+    scheduling_status = if spec.fetch("founder_gate")
+      lifecycle == "COMPLETE_AWAITING_FOUNDER_PHASE_GATE" ?
+        "ELIGIBLE_AWAITING_FOUNDER_P3_PHASE_GATE_DECISION" :
+        "FOUNDER_RESERVED_ROUTE_CHANGE_DECISION_REQUIRED"
+    elsif spec["active_stage"]
+      "ACTIVE_#{%w[FOUNDATION PRODUCT AUDIT].fetch(spec.fetch('active_stage'))}_TASK"
+    else
+      "MASTER_CONTINUES_PHASE"
+    end
+    assert(route["schema_version"] == HPE_ROUTE_SCHEMA && route["route_id"] == HPE_ROUTE_ID &&
+           route["status"] == spec.fetch("route_status") && route["phase"] == "P3" &&
+           route["execution_status"] == execution_status &&
+           route["scheduling_status"] == scheduling_status &&
+           route["phase_entry_status"] == "AUTHORIZED" && route["policy"] == POLICY &&
+           route["founder_phase_route_decision_required"] == spec.fetch("founder_gate") &&
+           route["founder_reserved_triggers_resolved"] == %w[
+             MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
+             MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+           ] && route["next_eligible_action"] == spec.fetch("next_action") &&
+           route["phase_execution_envelope_ref"] == "phase_execution_envelope" &&
+           route["phase_entry_route_ref"] == "historical_p3_phase_entry_route" &&
+           route["accepted_p3_001_foundation_route_ref"] == "historical_p3_001_phase_route" &&
+           route["historical_predecessor_route_ref"] ==
+             "historical_p3_tik_process_real_route_terminal" &&
+           route["founder_route_decision"] == hpe_founder_decision_projection &&
+           route["canonical_start"] == HPE_CANONICAL_START &&
+           route["constitution"] == TIK_CONSTITUTION &&
+           route["objective_id"] == "MINIMUM_TRUST_HOST_AUTHORIZED_TRANSACTIONAL_BOUNDARY" &&
+           route["workflow_id"] == "VERIFY_CUSTODY_SHA256_V1" &&
+           route["workflow_claim_limit"] ==
+             "MACOS_JDK17_LOCAL_ONE_FIXED_READ_ONLY_CUSTODY_SHA256_WORKFLOW_ONLY_NO_PRODUCTION_CLAIM" &&
+           route["strict_exit_gate_changed"] == false &&
+           route["strict_exit_gate_required_items"] ==
+             %w[RESUME ISOLATION PERMISSION COMPLETE_OBSERVABLE_TRACE] &&
+           route["prior_consumed_accounting"] == decision.dig("route", "consumed_preserved") &&
+           route["rejected_lineage_policy"] == decision.dig("route", "rejected_lineage_policy") &&
+           route["p3_entry_authorized"] == true && route["p4_entry_authorized"] == false &&
+           route["long_term_goal_status"] == "ACTIVE" &&
+           route["external_effects"] == HPE_EXTERNAL_EFFECTS && route["additional_write_roots"] == [],
+           "P3 HPE route lifecycle, authority or claim-boundary drift")
+    expected_stages = hpe_stages(decision).each_with_index.map do |stage, index|
+      hpe_stage_projection(stage, spec.fetch("stage_statuses").fetch(index))
+    end
+    assert(route["ordered_stages"] == expected_stages,
+           "P3 HPE stage ordering, budget, capability or lock drift")
+
+    start_truth = YAML.safe_load(
+      tik_git_bytes!(root, HPE_CANONICAL_START.fetch("commit"),
+                     "docs/aios/truth/project_state.yaml", "P3 HPE predecessor Truth"),
+      permitted_classes: [], permitted_symbols: [], aliases: false
+    )
+    assert(truth["historical_p3_tik_process_real_route_terminal"] ==
+             start_truth["current_phase_route"] &&
+           truth["historical_p3_tik_process_real_phase_execution_envelope"] ==
+             start_truth["phase_execution_envelope"] &&
+           truth["historical_p3_tik_process_real_founder_escalation_control"] ==
+             start_truth["founder_escalation_control"] &&
+           truth["historical_p3_tik_process_real_phase_delegation"] ==
+             start_truth["phase_delegation"] &&
+           truth["historical_p3_tik_process_real_phase_boundary"] ==
+             start_truth["phase_boundary"] &&
+           truth["historical_p3_tik_process_real_terminal_active_work"] ==
+             start_truth["active_work"],
+           "P3 HPE predecessor terminal current-state accounting drift")
+
+    envelope = exact_keys(truth["phase_execution_envelope"], %w[
+      schema_version phase status authority_basis accounting_basis prior_terminal_envelope_ref
+      consumed rebound_locked_capacity added_capacity limits route_capacity reserved remaining
+      remaining_capacity_usable remaining_capacity_lock_reason milestone_order accepted_milestones
+      ordered_stages delivery_progress governance_progress_credit external_effects
+    ], "P3 HPE Phase envelope")
+    consumed = hpe_budget_sum(decision, spec.fetch("completed_stages"))
+    active_index = spec["active_stage"]
+    expected_reserved = active_index.nil? ? {} : hpe_stage(decision, active_index).fetch("budget")
+    accepted_count = spec["terminal"] ? spec.fetch("completed_stages") - 1 :
+      spec.fetch("completed_stages")
+    expected_accepted = ["DURABLE_STATE_AND_CHECKPOINT_RESUME"] +
+      hpe_stages(decision).first(accepted_count).map { |stage| stage.fetch("stage_id") }
+    lock_reason = if lifecycle == "ROUTE_TERMINAL_NON_PASS"
+      "ROUTE_TERMINAL_EXACT_AUTHORIZATION_PROHIBITS_REUSE_OR_FOLLOW_ON_TASK"
+    elsif lifecycle == "COMPLETE_AWAITING_FOUNDER_PHASE_GATE"
+      "P3_COMPLETE_AWAITING_FOUNDER_PHASE_GATE"
+    elsif active_index
+      "ACTIVE_TASK_CONSUMES_SINGLE_TASK_SLOT"
+    else
+      "NONE"
+    end
+    authority_basis = mapping(envelope["authority_basis"], "P3 HPE envelope authority basis")
+    assert(envelope["schema_version"] ==
+             "p3-host-process-enforced-minimal-slice-phase-envelope/v1" &&
+           envelope["phase"] == "P3" && envelope["status"] == spec.fetch("route_status") &&
+           authority_basis["phase_entry_status"] == "AUTHORIZED" &&
+           authority_basis["policy_path"] == POLICY.fetch("path") &&
+           authority_basis["policy_version"] == POLICY.fetch("version") &&
+           authority_basis["policy_sha256"] == POLICY.fetch("sha256") &&
+           authority_basis["source_route_ref"] == "current_phase_route" &&
+           authority_basis["source_route_id"] == HPE_ROUTE_ID &&
+           authority_basis["founder_route_decision"] ==
+             HPE_DECISION.merge("decision_id" => HPE_DECISION_ID,
+                                "reserved_triggers" => %w[
+                                  MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
+                                  MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+                                ]) &&
+           envelope["accounting_basis"] == "NON_RESETTABLE_DECLARED_TASK_BUDGET_RESERVATION" &&
+           envelope["prior_terminal_envelope_ref"] ==
+             "historical_p3_tik_process_real_phase_execution_envelope" &&
+           envelope["consumed"] == consumed && envelope["rebound_locked_capacity"] == {
+             "engineering_tasks" => 2, "engineering_hours" => 72, "calendar_days" => 18
+           } && envelope["added_capacity"] == {
+             "engineering_tasks" => 1, "engineering_hours" => 0, "calendar_days" => 0
+           } && envelope["limits"] == decision.dig("route", "cumulative_ceiling") &&
+           envelope["route_capacity"] == decision.dig("route", "route_capacity") &&
+           envelope["reserved"] == expected_reserved &&
+           envelope["remaining"] == hpe_remaining(consumed) &&
+           envelope["remaining_capacity_usable"] == spec.fetch("task_creation_allowed") &&
+           envelope["remaining_capacity_lock_reason"] == lock_reason &&
+           envelope["milestone_order"] == [
+             "DURABLE_STATE_AND_CHECKPOINT_RESUME",
+             *hpe_stages(decision).map { |stage| stage.fetch("stage_id") }
+           ] && envelope["accepted_milestones"] == expected_accepted &&
+           envelope["ordered_stages"] == expected_stages &&
+           envelope["delivery_progress"] == {
+             "accepted" => spec.fetch("delivery") / 25, "total" => 4,
+             "percent" => spec.fetch("delivery"),
+             "strict_exit_gate_percent" => spec.fetch("strict_exit")
+           } && envelope["governance_progress_credit"] == 0 &&
+           envelope["external_effects"] == HPE_EXTERNAL_EFFECTS,
+           "P3 HPE Phase envelope, accounting or progress drift")
+
+    active = exact_keys(truth["active_work"], %w[
+      current_task current_task_status current_task_contract current_task_contract_sha256
+      current_execution_authorization current_execution_authorization_sha256 authority_record
+      execution_nonce execution_nonce_status authorization_id activation_parent_commit
+      activation_parent_tree stage0_installation_parent task_resource_state task_branch
+      task_worktree execution_evidence_root dependency_custody_root allowlisted_paths
+      current_task_budget next_stage_budget roles external_effects offsite_target
+      founder_reserved_authorization founder_reserved_authorization_sha256
+      founder_decision_required founder_decision_required_scope escalation_reason
+      user_action_required phase_route_decision_required phase_route_user_action_required
+      completed_tasks last_completed_task_identity_accounting next_eligible_action
+    ], "P3 HPE active_work")
+    completed = array(active["completed_tasks"], "P3 HPE completed Task chain")
+    assert(completed.length == spec.fetch("completed_stages"),
+           "P3 HPE completed Task chain length drift")
+    completed_results = completed.each_with_index.map do |entry, index|
+      terminal_task = spec["terminal"] && index == completed.length - 1
+      validate_hpe_stage_receipt!(root, decision, entry, index, terminal: terminal_task)
+    end
+    if completed_results.length >= 2 &&
+       (!spec["terminal"] || spec.fetch("terminal_stage_index", 99) > 1)
+      foundation = completed_results.fetch(0)
+      product = completed_results.fetch(1)
+      assert(product.dig("manifest", "frozen_predecessor_inputs") == {
+        "foundation_candidate_manifest" => foundation.fetch("manifest_identity"),
+        "foundation_gate_evidence" => foundation.fetch("gate_identity"),
+        "foundation_task_gate_receipt" => foundation.fetch("receipt")
+      }, "P3 HPE Product is not bound to exact accepted Foundation")
+    end
+    if completed_results.length >= 3 && !spec["terminal"]
+      foundation, product, audit = completed_results
+      assert(audit.fetch("candidate").slice("commit", "tree", "source_branch") ==
+               product.fetch("candidate").slice("commit", "tree", "source_branch") &&
+             audit.dig("manifest", "frozen_predecessor_inputs") == {
+               "foundation_candidate_manifest" => foundation.fetch("manifest_identity"),
+               "foundation_gate_evidence" => foundation.fetch("gate_identity"),
+               "foundation_task_gate_receipt" => foundation.fetch("receipt"),
+               "product_candidate_manifest" => product.fetch("manifest_identity"),
+               "product_gate_evidence" => product.fetch("gate_identity"),
+               "product_task_gate_receipt" => product.fetch("receipt")
+             }, "P3 HPE Audit did not freeze exact accepted Foundation/Product")
+    end
+    active_parent = nil
+    current_authority = nil
+    if active_index
+      stage = hpe_stage(decision, active_index)
+      resource = stage.fetch("resources")
+      assert(active["current_task"] == stage.fetch("task_id") &&
+             active["current_task_status"] == "ACTIVE" &&
+             active["execution_nonce_status"] == "ACTIVE" &&
+             active["task_branch"] == resource.fetch("branch") &&
+             active["task_worktree"] == resource.fetch("worktree") &&
+             active["execution_evidence_root"] == resource.fetch("evidence_root") &&
+             active["dependency_custody_root"] == "#{resource.fetch('evidence_root')}/custody" &&
+             active["allowlisted_paths"] == stage.fetch("allowlisted_repository_paths") &&
+             active["current_task_budget"] == stage.fetch("budget") &&
+             active["next_stage_budget"] == {} &&
+             active["task_resource_state"] == "ACTIVE_UNIQUE_HPE_STAGE" &&
+             active["offsite_target"].nil?, "P3 HPE active Task projection drift")
+      contract_identity, _contract, active_parent = validate_hpe_contract!(
+        root, decision, active["current_task_contract"], active_index
+      )
+      authority_identity, current_authority = validate_hpe_authority!(
+        root, decision, active["authority_record"], active_index,
+        contract_identity, active_parent
+      )
+      assert(active["current_task_contract_sha256"] == contract_identity["sha256"] &&
+             active["current_execution_authorization"] == authority_identity["path"] &&
+             active["current_execution_authorization_sha256"] == authority_identity["sha256"] &&
+             active["authorization_id"] == current_authority["authorization_id"] &&
+             active["execution_nonce"] == current_authority["execution_nonce"] &&
+             active["activation_parent_commit"] == active_parent["commit"] &&
+             active["activation_parent_tree"] == active_parent["tree"],
+             "P3 HPE active Contract/authority pointer drift")
+      custody = Pathname.new(active.fetch("dependency_custody_root"))
+      assert(custody.directory? && !custody.symlink? &&
+             custody.realpath.to_s == custody.cleanpath.to_s,
+             "P3 HPE active custody root is missing or symlinked")
+    else
+      assert(active["current_task"] == "NONE" && active["current_task_contract"].nil? &&
+             active["current_task_contract_sha256"].nil? &&
+             active["current_execution_authorization"].nil? &&
+             active["current_execution_authorization_sha256"].nil? &&
+             active["authority_record"].nil? && active["execution_nonce"].nil? &&
+             active["authorization_id"].nil? && active["activation_parent_commit"].nil? &&
+             active["activation_parent_tree"].nil? && active["task_branch"].nil? &&
+             active["task_worktree"].nil? && active["execution_evidence_root"].nil? &&
+             active["dependency_custody_root"].nil? && active["allowlisted_paths"] == [] &&
+             active["current_task_budget"] == {
+               "engineering_tasks" => 0, "engineering_hours" => 0, "calendar_days" => 0
+             }, "P3 HPE no-Task lifecycle retained active authority")
+      next_index = hpe_boundary_stage_index(spec)
+      expected_status = {
+        "FOUNDATION_STAGE_ELIGIBLE" => "NONE_FOUNDATION_STAGE_ELIGIBLE",
+        "PRODUCT_STAGE_ELIGIBLE" => "NONE_PRODUCT_STAGE_ELIGIBLE",
+        "AUDIT_STAGE_ELIGIBLE" => "NONE_AUDIT_STAGE_ELIGIBLE",
+        "COMPLETE_AWAITING_FOUNDER_PHASE_GATE" =>
+          "NONE_P3_COMPLETE_AWAITING_FOUNDER_PHASE_GATE",
+        "ROUTE_TERMINAL_NON_PASS" => "NONE_ROUTE_TERMINAL_NON_PASS"
+      }.fetch(lifecycle)
+      expected_resource = {
+        "FOUNDATION_STAGE_ELIGIBLE" => "NOT_CREATED_HPE_FOUNDATION_STAGE_ELIGIBLE",
+        "PRODUCT_STAGE_ELIGIBLE" => "NOT_CREATED_HPE_PRODUCT_STAGE_ELIGIBLE",
+        "AUDIT_STAGE_ELIGIBLE" => "NOT_CREATED_HPE_AUDIT_STAGE_ELIGIBLE",
+        "COMPLETE_AWAITING_FOUNDER_PHASE_GATE" => "COMPLETE_NO_TASK_RESOURCES",
+        "ROUTE_TERMINAL_NON_PASS" => "TERMINAL_ROUTE_NO_TASK_RESOURCES"
+      }.fetch(lifecycle)
+      assert(active["current_task_status"] == expected_status &&
+             active["task_resource_state"] == expected_resource &&
+             active["execution_nonce_status"] ==
+               (lifecycle == "FOUNDATION_STAGE_ELIGIBLE" ? "NOT_ISSUED" : "NO_CURRENT_TASK") &&
+             active["next_stage_budget"] ==
+               (next_index ? hpe_stage(decision, next_index).fetch("budget") : {}),
+             "P3 HPE no-Task lifecycle/resource projection drift")
+    end
+    authorities = completed_results.map { |result| result.fetch("authority") }
+    authorities << current_authority if current_authority
+    assert(authorities.map { |authority| authority.fetch("authorization_id") }.uniq.length ==
+             authorities.length &&
+           authorities.map { |authority| authority.fetch("execution_nonce") }.uniq.length ==
+             authorities.length, "P3 HPE authorization ID or nonce was reused")
+    boundary = hpe_expected_phase_boundary(decision, lifecycle, spec)
+    assert(truth["phase_boundary"] == boundary,
+           "P3 HPE phase-boundary authority projection drift")
+    assert(active["stage0_installation_parent"] ==
+             HPE_CANONICAL_START.slice("commit", "tree") &&
+           active["roles"] == {
+             "owner" => "MASTER_CEO_AGENT", "worker" => "IMPLEMENTATION_AGENT",
+             "quality_owner" => "QUALITY_EVALUATION_AGENT",
+             "independent_reviewers" => HPE_REVIEW_ROLES
+           } && active["external_effects"] == HPE_EXTERNAL_EFFECTS &&
+           active["founder_reserved_authorization"] == HPE_DECISION.fetch("path") &&
+           active["founder_reserved_authorization_sha256"] == HPE_DECISION.fetch("sha256") &&
+           active["next_eligible_action"] == spec.fetch("next_action") &&
+           active["founder_decision_required"] == boundary["founder_decision_required"] &&
+           active["founder_decision_required_scope"] ==
+             boundary["founder_decision_required_scope"] &&
+           active["escalation_reason"] == boundary["escalation_reason"] &&
+           active["user_action_required"] == boundary["user_action_required"] &&
+           active["phase_route_decision_required"] == boundary["phase_route_decision_required"] &&
+           active["phase_route_user_action_required"] ==
+             boundary["phase_route_user_action_required"],
+           "P3 HPE active-work authority/effect/user-action drift")
+    assert(active["last_completed_task_identity_accounting"] == {
+      "task_id" => "AIOS-P3-TIK-F1_PROCESS_REAL_BLACK_BOX_CONFORMANCE_FOUNDATION",
+      "status" => "TERMINAL_TASK_GATE_NON_PASS",
+      "consumed" => {
+        "engineering_tasks" => 1, "engineering_hours" => 24, "calendar_days" => 6,
+        "candidate_generations" => 2, "same_task_repairs" => 1, "review_cycles" => 2
+      },
+      "terminal_receipt" => HPE_CANONICAL_START.fetch("terminal_receipt"),
+      "rejected_bundle_attestation" => HPE_CANONICAL_START.fetch("rejected_bundle_attestation")
+    }, "P3 HPE predecessor terminal accounting drift")
+
+    control = exact_keys(truth["founder_escalation_control"], %w[
+      schema_version disposition source_event reserved_trigger resolved_strategy_decision
+      resolved_phase_entry_decision phase_gate_status founder_decision_required next_action_owner
+      next_eligible_action
+    ], "P3 HPE Founder escalation control")
+    trigger = exact_keys(control["reserved_trigger"], %w[category evidence],
+                         "P3 HPE Founder reserved trigger")
+    if spec.fetch("founder_gate")
+      expected_category = lifecycle == "COMPLETE_AWAITING_FOUNDER_PHASE_GATE" ?
+        "PHASE_ENTRY_OR_EXIT" : "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE"
+      assert(control["disposition"] == "FOUNDER_RESERVED_DECISION_REQUIRED" &&
+             trigger["category"] == expected_category && trigger["evidence"].is_a?(Hash) &&
+             control["founder_decision_required"] == true &&
+             control["next_action_owner"] == "HUMAN_FOUNDER" &&
+             control["next_eligible_action"] == spec.fetch("next_action"),
+             "P3 HPE Founder Gate projection drift")
+    else
+      assert(control["disposition"] == "NO_RESERVED_TRIGGER_CONTINUE_PHASE" &&
+             trigger == {"category" => "NONE", "evidence" => nil} &&
+             control["founder_decision_required"] == false &&
+             control["next_action_owner"] == "MASTER_CEO_AGENT" &&
+             control["next_eligible_action"] == spec.fetch("next_action"),
+             "P3 HPE delegated continuation projection drift")
+    end
+    assert(control["schema_version"] == "founder-escalation-control/v2" &&
+           control.dig("resolved_strategy_decision", "decision_id") == HPE_DECISION_ID &&
+           control.dig("resolved_strategy_decision", "sha256") == HPE_DECISION.fetch("sha256"),
+           "P3 HPE resolved strategy decision drift")
+
+    delegation = mapping(truth["phase_delegation"], "P3 HPE phase delegation")
+    assert(delegation["status"] == "P3_HPE_#{lifecycle}" &&
+           delegation["model"] == "PHASE_LEVEL_FOUNDER_DELEGATION" &&
+           delegation["decision_source"] == HPE_DECISION_ID &&
+           delegation["phase_gate_owner"] == "HUMAN_FOUNDER" &&
+           delegation["task_selection_owner"] == "MASTER_CEO_AGENT" &&
+           delegation["task_authorization_owner"] == "MASTER_CEO_AGENT" &&
+           delegation["task_gate_owner"] == "MASTER_CEO_AGENT" &&
+           delegation["p3_entry_authorized"] == true,
+           "P3 HPE Phase delegation drift")
+    execution = mapping(truth["phase_execution_claim"], "P3 HPE execution claim")
+    assert(execution["current_route_claim"] == HPE_ROUTE_ID &&
+           execution["p3_delivery_progress_percent"] == spec.fetch("delivery") &&
+           execution["p3_exit_gate_progress_percent"] == spec.fetch("strict_exit") &&
+           execution["task_creation_allowed"] == spec.fetch("task_creation_allowed") &&
+           execution["remaining_capacity_usable"] == spec.fetch("task_creation_allowed") &&
+           execution["held_read_allowed"] == false &&
+           execution["candidate_integration_allowed"] == false &&
+           execution["next_eligible_action"] == spec.fetch("next_action"),
+           "P3 HPE execution claim drift")
+    claim = mapping(truth["claim_boundary"], "P3 HPE claim boundary")
+    assert(claim["current_phase_route"] == HPE_ROUTE_ID &&
+           claim["current_task"] == active["current_task"] &&
+           claim["next_eligible_action"] == spec.fetch("next_action") &&
+           claim["p3_delivery_progress_percent"] == spec.fetch("delivery") &&
+           claim["p3_exit_gate_progress_percent"] == spec.fetch("strict_exit") &&
+           claim["p3_hpe_route_decision_sha256"] == HPE_DECISION.fetch("sha256") &&
+           claim["p3_hpe_route_stage"] == lifecycle &&
+           claim["p3_hpe_route_delivery_credit"] == spec.fetch("delivery") - 25 &&
+           claim["p3_hpe_route_strict_exit_credit"] == spec.fetch("strict_exit"),
+           "P3 HPE claim-boundary drift")
+    goal = mapping(truth["goal"], "P3 HPE Long-term Goal")
+    assert(goal["control_plane_status_observed"] == "ACTIVE" &&
+           goal["current_task_authority"] ==
+             (active_index ? hpe_stage(decision, active_index).fetch("task_id") : "NONE") &&
+           goal.fetch("note").start_with?("Founder decision #{HPE_DECISION_ID}") &&
+           truth.dig("project", "current_phase") == "P3" &&
+           truth.dig("project", "p4_entry_status") ==
+             "HOLD_PENDING_STRICT_P3_EXIT_AND_SEPARATE_FOUNDER_PHASE_ENTRY",
+           "P3 HPE Goal, Phase or P4 boundary drift")
+    gate = mapping(truth.dig("strict_phase_gate_ledger", "phases", "P3"),
+                   "P3 strict Exit Gate")
+    if lifecycle == "COMPLETE_AWAITING_FOUNDER_PHASE_GATE"
+      assert(gate.dig("required_items", "RESUME_ISOLATION_PERMISSION_AND_TRACE_TESTS", "status") ==
+               "ACCEPTED" && gate.dig("founder_phase_gate", "status") ==
+               "ELIGIBLE_AWAITING_FOUNDER_DECISION",
+             "P3 HPE complete lifecycle lacks strict Exit acceptance")
+    else
+      assert(gate["status"] == "INCOMPLETE" &&
+             gate.dig("required_items", "RESUME_ISOLATION_PERMISSION_AND_TRACE_TESTS", "status") ==
+               "MISSING" && gate.dig("founder_phase_gate", "status") ==
+               "NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS",
+             "P3 HPE incomplete lifecycle falsely accepted strict Exit")
+    end
+    if lifecycle == "FOUNDATION_STAGE_ELIGIBLE"
+      assert(truth["verification_scope"] ==
+               "P3_HPE_ROUTE_INSTALLED_FOUNDATION_ELIGIBLE_ZERO_ENGINEERING_PROGRESS_DELIVERY_25_STRICT_EXIT_ZERO_P4_HOLD_LONG_TERM_GOAL_ACTIVE",
+             "P3 HPE installation verification scope drift")
+    end
+    validate_hpe_workspace_topology!(
+      root, decision, active_index, active_parent,
+      preactivation_resource_action: preactivation_resource_action,
+      preactivation_stage_index: preactivation_resource_action ? hpe_boundary_stage_index(spec) : nil,
+      completed_results: completed_results
+    )
+    HPE_LIFECYCLE_STATES.fetch(lifecycle)
+  rescue ArgumentError, KeyError, TypeError, Psych::Exception => e
+    raise P3FinalTransactionalRouteValidationError, "P3 HPE route invalid: #{e.message}"
+  end
+
   def validate_truth!(root:, truth:, preactivation_resource_action: nil)
     root = Pathname.new(root).realpath
+    if truth.dig("current_phase_route", "schema_version") == HPE_ROUTE_SCHEMA
+      return validate_hpe_route!(
+        root, truth, preactivation_resource_action: preactivation_resource_action
+      )
+    end
     if truth.dig("current_phase_route", "schema_version") == TIK_ROUTE_SCHEMA
       return validate_tik_route!(
         root, truth, preactivation_resource_action: preactivation_resource_action
@@ -5391,7 +7531,15 @@ if $PROGRAM_NAME == __FILE__
     root = Pathname.new(__dir__).join("..").realpath
     truth = YAML.safe_load(root.join("docs/aios/truth/project_state.yaml").binread,
                            permitted_classes: [], permitted_symbols: [], aliases: false)
-    if ARGV == ["--create-tik-terminal-bundle-attestation"]
+    if ARGV == ["--create-hpe-terminal-bundle-attestation"]
+      identity = P3FinalTransactionalRouteValidation.create_hpe_terminal_bundle_attestation!(
+        root: root, truth: truth
+      )
+      puts "P3_HPE_TERMINAL_BUNDLE_ATTESTATION: CREATED " \
+           "verification_status=#{identity.fetch('verification_status')} " \
+           "path=#{identity.fetch('path')} bytes=#{identity.fetch('byte_length')} " \
+           "sha256=#{identity.fetch('sha256')}"
+    elsif ARGV == ["--create-tik-terminal-bundle-attestation"]
       identity = P3FinalTransactionalRouteValidation.create_tik_terminal_bundle_attestation!(
         root: root, truth: truth
       )
@@ -5403,7 +7551,8 @@ if $PROGRAM_NAME == __FILE__
       puts "P3_FINAL_TRANSACTIONAL_ROUTE: PASS state=#{state}"
     else
       raise P3FinalTransactionalRouteValidationError,
-            "unsupported arguments; use no arguments or --create-tik-terminal-bundle-attestation"
+            "unsupported arguments; use no arguments, --create-hpe-terminal-bundle-attestation " \
+            "or --create-tik-terminal-bundle-attestation"
     end
   rescue P3FinalTransactionalRouteValidationError, JSON::ParserError, Psych::SyntaxError => e
     warn "P3_FINAL_TRANSACTIONAL_ROUTE: NON_PASS #{e.message}"

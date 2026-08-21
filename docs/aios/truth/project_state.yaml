@@ -1,6 +1,6 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-21T09:40:28Z"
+last_verified_at: "2026-08-21T14:48:46Z"
 verification_scope: "P3_HPE_FOUNDATION_TASK_ACTIVE_EXACT_CONTRACT_AUTHORITY_BRANCH_WORKTREE_EVIDENCE_DELIVERY_25_STRICT_EXIT_ZERO_P4_HOLD_LONG_TERM_GOAL_ACTIVE"
 authority:
   founder: Human Founder

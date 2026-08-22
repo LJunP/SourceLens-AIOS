@@ -87,8 +87,9 @@ if host_authorized_truth.dig("current_phase_route", "schema_version") ==
       candidate.dig("strict_phase_gate_ledger", "phases", "P3", "required_items",
                     "RESUME_ISOLATION_PERMISSION_AND_TRACE_TESTS")["status"] = "ACCEPTED"
     end,
-    "TXC Founder daily gate cannot reappear" => lambda do |candidate|
-      candidate["founder_escalation_control"]["founder_decision_required"] = true
+    "TXC Founder decision bit cannot drift across lifecycle states" => lambda do |candidate|
+      current = candidate["founder_escalation_control"]["founder_decision_required"]
+      candidate["founder_escalation_control"]["founder_decision_required"] = !current
     end,
     "TXC delegated owner cannot move to Founder" => lambda do |candidate|
       candidate["phase_delegation"]["task_selection_owner"] = "HUMAN_FOUNDER"

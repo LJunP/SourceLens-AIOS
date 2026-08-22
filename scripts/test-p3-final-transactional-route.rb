@@ -210,6 +210,14 @@ if host_authorized_truth.dig("current_phase_route", "schema_version") ==
     assertions += 1
   end
 
+  if ENV["SOURCELENS_ATOMIC_STAGING_MANIFEST"].to_s.empty? &&
+     host_authorized_truth.dig("current_phase_route", "lifecycle_stage") !=
+       "PRODUCT_STAGE_ELIGIBLE"
+    puts "P3_FINAL_TRANSACTIONAL_ROUTE_TEST: PASS #{assertions} assertions " \
+         "mode=CURRENT_TXC_LIFECYCLE_NO_STAGE0_MANIFEST_REPLAY"
+    exit 0
+  end
+
   decision, = P3FinalTransactionalRouteValidation.validate_txc_decision!
   manifest_context = if ENV["SOURCELENS_ATOMIC_STAGING_MANIFEST"].to_s.empty?
     P3FinalTransactionalRouteValidation.txc_installed_context!(

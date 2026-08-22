@@ -54,6 +54,7 @@ module FounderActionHandoff
     P3_TXC_CONTROL_PLANE_RECOVERY_AND_DIRECT_PRODUCT_ROUTE_REENTRY_AFTER_POSTINSTALL_PROTOCOL_ERROR
     P3_TRUSTED_HOST_TCB_TRANSACTIONAL_EXECUTION_OBJECTIVE_EXIT_GATE_AND_CLEAN_ROOM_FINAL_ROUTE
     P3_TASK_WIDE_RESERVATION_FRONTIER_TRANSACTIONAL_EXECUTION_FOUNDATION_PRODUCT_AND_ONE_SHOT_AUDIT_ROUTE
+    P3_EXECUTABLE_TRANSITION_SYSTEM_KERNEL_TASK_WIDE_PRODUCT_AND_ONE_SHOT_AUDIT_REENTRY
   ].freeze
   APP_OPERATION_TYPES = %w[APP_FILESYSTEM_BATCH_WRITE].freeze
   READ_ONLY_HTTPS_OPERATION = "一次全新、独立、clean-room V6 benchmark source acquisition"
@@ -516,6 +517,65 @@ module FounderActionHandoff
     "risk_and_reversibility" => P3_TWRF_ROUTE_RISK,
     "deny_or_defer_effect" => P3_TWRF_ROUTE_DENY
   }.freeze
+  P3_ETSK_REENTRY_TOKEN =
+    "AUTHORIZE_P3_EXECUTABLE_TRANSITION_SYSTEM_KERNEL_TASK_WIDE_PRODUCT_AND_ONE_SHOT_AUDIT_REENTRY_V1"
+  P3_ETSK_REENTRY_OPERATION_TYPE =
+    "P3_EXECUTABLE_TRANSITION_SYSTEM_KERNEL_TASK_WIDE_PRODUCT_AND_ONE_SHOT_AUDIT_REENTRY"
+  P3_ETSK_REENTRY_PRIMARY_TRIGGER = "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE"
+  P3_ETSK_REENTRY_ROUTE_CHANGE =
+    "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE：保留 Strategic Constitution v3.2、P3 Objective TRUSTED_HOST_TCB_TRANSACTIONAL_SINGLE_AGENT_EXECUTION、strict Exit Gate TRUSTED_HOST_TCB_TASK_WIDE_TRANSACTIONAL_EXECUTION_WITH_PROCESS_REAL_CONTAINMENT、五个 required items、accepted P3-001 语义、TCB/威胁边界、P4 HOLD 和 Long-term Goal ACTIVE；只终止已 NON_PASS 的 TWRF 路线并安装一次全新 P3_EXECUTABLE_TRANSITION_SYSTEM_KERNEL_REENTRY_ROUTE_V1，不恢复、修复、重跑或重命名旧 Foundation candidate。"
+  P3_ETSK_REENTRY_CAPACITY =
+    "MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE：保留已消费 13 Tasks / 384 engineering hours / 92 calendar days 不返还；把 P3 non-resettable ceiling 从 15 Tasks / 448 hours / 106 days 精确扩为 16 Tasks / 456 hours / 108 days，只重新释放旧路线未激活且已锁定的 2 Tasks / 64 hours / 14 days，并新增恰好 1 Task / 8 hours / 2 days，合计只供本路线 3 Tasks / 72 hours / 16 days使用。"
+  P3_ETSK_REENTRY_FOUNDATION =
+    "Foundation 必须 clean-room 构建一个真正可执行的 transition-system kernel：恰好一个 hash-bound machine_spec.json 是 states、events、legal/illegal transitions、terminal/checkpoint results 和 cleanup algebra 的唯一语义来源；解释器所有状态变化只能经该 transition relation；独立 verifier 必须从初态逐事件重放每条 trace 并拒绝 unknown state/event、非法 transition、缺失或伪造 result、聚合值与 trace 不一致、terminal replay 改写其他 invocation、reservation/history tamper；必须包含 mutation tests 证明上述每类篡改 fail closed。Foundation 不修改产品，只允许 1 candidate、0 repair、1 independent Quality/Evaluation review，PASS 只解锁 Product 且进度仍为 25% / 0%。"
+  P3_ETSK_REENTRY_PRODUCT =
+    "Product 只能从 canonical main、accepted P3-001 public behavior、Strategic Constitution v3.2、accepted ETSK Foundation specification/oracle 和新 Task Contract clean-room 实现；必须闭合 host positive authorization、immutable authorization anchor、durable intent、task_id-only active reservation frontier、invocation-bound append-only history、task-row transaction、cross-workflow/cross-step loser zero effect、crash/orphan reconciliation、stage-aware cleanup、exactly one terminal trace、checkpoint gating、terminal-A replay preserving later reservation-B、sealed custody、exact OCI profile 和 process-real containment，并产生非空可测试产品源码 diff。"
+  P3_ETSK_REENTRY_ORDER =
+    "严格顺序只允许 AIOS-P3-ETSK-F1_EXECUTABLE_TRANSITION_SYSTEM_KERNEL、AIOS-P3-ETSK-P1_TASK_WIDE_TRANSACTIONAL_EXECUTION_PRODUCT、AIOS-P3-ETSK-A1_ONE_SHOT_STRICT_EXIT_AUDIT；前一 Gate 未独立 ACCEPTED 时后一 Task 不创建。Foundation 仅 1 candidate/0 repair/1 review；Product 最多 2 candidates/1 same-Task repair/2 review cycles；Audit 仅 1 formal dispatch/0 product change/0 repair/no rerun-to-pass。任一 NON_PASS 立即终止本路线，不得 Foundation 2、Candidate 3、额外 repair/review/audit、successor、replacement、normalization、closure、feasibility、remediation 或 V2/V3 路线链。"
+  P3_ETSK_REENTRY_LINEAGE =
+    "禁止读取、比较、复制、执行、修复或复用 TWRF rejected candidate ad9f61ff1e77893de9418043a2dfa6ffb96cf665、其 tree b87d6fc31af0602280a1030fc89d1595b81fcc39、bundle、source、tests、verifier、reports、raw review probes，以及更早全部 rejected P3 engineering lineage；只允许读取 canonical terminal receipt 3489a70fd8af5e1e1000aa860b9d0eee346024c74c855ed17fd67e8eb00ad977 和两个 finding ID，分别只用于身份、非重置 accounting、Gate invariant 命名与 clean-room denylist。"
+  P3_ETSK_REENTRY_EXTERNAL =
+    "网络、Provider、Secret、credential、remote、production、public、Docker registry pull/push/login/build 和 P4 entry 全部禁止；Product 激活后只允许本机 Docker Desktop version/info/image import/image inspect/create/inspect/start/wait/logs/rm/image rm，并只作用于本 Task exact name/label/digest 创建的可再生对象；hostile probe 仅用已安装 exact Go 标准库离线交叉编译并以全新 rootfs import，JDK17/Go/Docker identity 或 daemon linux/arm64 preflight 漂移必须在 spawn 前 NON_PASS。"
+  P3_ETSK_REENTRY_TARGETS = [
+    "Strategic installation allowlist: docs/aios/truth/project_state.yaml, docs/aios/decisions/P3_EXECUTABLE_TRANSITION_SYSTEM_KERNEL_REENTRY_ROUTE_DECISION_V1.json, scripts/validate-founder-delegation-continuity.rb, scripts/validate-current-task-authority.rb, scripts/validate-p3-final-transactional-route.rb, scripts/test-p3-final-transactional-route.rb, scripts/validate-strict-phase-gates.rb, scripts/test-strict-phase-gates.rb；Strategic Constitution v3.2 只读不变。",
+    "Foundation: branch codex/p3-etsk-f1-executable-transition-system-kernel, worktree /Users/lijunpeng/Developer/.sourcelens-worktrees/p3-etsk-f1-executable-transition-system-kernel, Evidence /Users/lijunpeng/Developer/.sourcelens-audit/p3-executable-transition-system-kernel-reentry-20260823/task-foundation, repository allowlist evaluation-harness/harness/p3-executable-transition-system-kernel-v1/**, evaluation-harness/reports/p3-executable-transition-system-kernel-v1/**, docs/aios/tasks/P3-ETSK-F1_EXECUTABLE_TRANSITION_SYSTEM_KERNEL.yaml, docs/PROJECT_CODE_MAP.md。",
+    "Product: branch codex/p3-etsk-p1-task-wide-transactional-execution, worktree /Users/lijunpeng/Developer/.sourcelens-worktrees/p3-etsk-p1-task-wide-transactional-execution, Evidence /Users/lijunpeng/Developer/.sourcelens-audit/p3-executable-transition-system-kernel-reentry-20260823/task-product, repository allowlist backend-spring/src/main/java/com/sourcelens/module/execution/taskwide/**, backend-spring/src/main/java/com/sourcelens/module/sandbox/oci/taskwide/**, backend-spring/src/main/java/com/sourcelens/module/execution/service/ExecutionCheckpointService.java, backend-spring/src/main/java/com/sourcelens/module/execution/mapper/ExecutionCheckpointStore.java, backend-spring/src/main/resources/db/migration/V034__add_task_wide_reservation_frontier.sql, backend-spring/src/test/java/com/sourcelens/module/execution/taskwide/**, backend-spring/src/test/java/com/sourcelens/module/sandbox/oci/taskwide/**, backend-spring/src/test/resources/p3-task-wide-reservation/**, docs/aios/tasks/P3-ETSK-P1_TASK_WIDE_TRANSACTIONAL_EXECUTION_PRODUCT.yaml, docs/PROJECT_CODE_MAP.md。",
+    "Audit: branch codex/p3-etsk-a1-one-shot-strict-exit-audit, worktree /Users/lijunpeng/Developer/.sourcelens-worktrees/p3-etsk-a1-one-shot-strict-exit-audit, Evidence /Users/lijunpeng/Developer/.sourcelens-audit/p3-executable-transition-system-kernel-reentry-20260823/task-audit, repository allowlist docs/aios/tasks/P3-ETSK-A1_ONE_SHOT_STRICT_EXIT_AUDIT.yaml and evaluation-harness/reports/p3-executable-transition-system-kernel-audit-v1/** only；Product source、Foundation spec/oracle、frozen candidate、metric、threshold 与 fault schedule 全部只读。"
+  ].freeze
+  P3_ETSK_REENTRY_BUDGET =
+    "累计 ceiling 16 Tasks / 456 hours / 108 days，已消费 13 / 384 / 92；只释放 3 Tasks / 72 hours / 16 days：Foundation 1/8/2、Product 1/48/10、Audit 1/16/4。治理、validator、review、receipt、失败和时间消耗不产生 P3 delivery 或 strict Exit credit。"
+  P3_ETSK_REENTRY_DURATION =
+    "从 Founder 直接回复完整 exact authorization body，且当时 canonical commit/tree/Truth、terminal receipt、toolchain、Docker daemon、clean-room denylist 与零网络 preflight 全部 PASS 起生效；至 Audit formal PASS/NON_PASS、3 Tasks/72 hours/16 days 耗尽、任一 scope/identity drift、terminal safety condition 或 Founder 撤销中的最早事件止。"
+  P3_ETSK_REENTRY_CONSUMPTION =
+    "战略安装只允许一个 staged unified patch、一次 pre-install correction 和一个 canonical atomic commit，且进度 credit 为 0；每个 Task 在激活时消费其 slot。任一 stage NON_PASS 后未激活 slot 不得复用，路线终止并进入 P3 strategic HOLD；不得自动构造另一实现路线或下一版授权链。"
+  P3_ETSK_REENTRY_PASS =
+    "安装 PASS 后自动激活 Foundation；Foundation 独立 ACCEPTED 后只解锁 Product且 P3 保持25%/0%；Product独立 ACCEPTED并集成后为75%/0%且只解锁one-shot Audit；Audit PASS 后五个 strict items 对同一 frozen Product candidate 全部 ACCEPTED，P3为100%/100%并只进入 ELIGIBLE_AWAITING_FOUNDER_P3_PHASE_GATE_DECISION，不自动进入P4。"
+  P3_ETSK_REENTRY_NON_PASS =
+    "Foundation NON_PASS不创建Product；Product NON_PASS不集成candidate且不创建Audit；Audit NON_PASS保留同一frozen candidate正式结果且禁止补跑。任何NON_PASS保持P3 HOLD/INCOMPLETE、P4 HOLD、项目未完成、Long-term Goal ACTIVE，并停止所有实现路线自动续接。"
+  P3_ETSK_REENTRY_RISK =
+    "这是一次最终 clean-room reentry：它增加 1 Task / 8 hours / 2 days，主要风险是仍可能在 Foundation 或 Product Gate 失败；可逆性来自单一短生命周期 branch/worktree、未接受 candidate 不集成、content-addressed Evidence/bundle和本地可再生Docker对象。禁止通过删并发proposal、预绑单一workflow、弱化Gate、信任聚合自报或复用 rejected bytes 换取PASS。"
+  P3_ETSK_REENTRY_DENY =
+    "若拒绝或延期，canonical main保持当前 TWRF terminal Truth，P3维持25% delivery / 0% strict Exit和HOLD；始终禁止网络、Provider、Secret、remote、production、public、Docker registry/build、破坏既有数据库、outside-authorized-root write、不可逆重要资产删除、P4 entry、project completion claim和Long-term Goal completion。"
+  P3_ETSK_REENTRY_PROFILE = {
+    "operations" => [
+      P3_ETSK_REENTRY_ROUTE_CHANGE,
+      P3_ETSK_REENTRY_CAPACITY,
+      P3_ETSK_REENTRY_FOUNDATION,
+      P3_ETSK_REENTRY_PRODUCT,
+      P3_ETSK_REENTRY_ORDER,
+      P3_ETSK_REENTRY_LINEAGE,
+      P3_ETSK_REENTRY_EXTERNAL
+    ],
+    "targets" => P3_ETSK_REENTRY_TARGETS,
+    "budget_or_external_effects" => P3_ETSK_REENTRY_BUDGET,
+    "token" => P3_ETSK_REENTRY_TOKEN,
+    "duration" => P3_ETSK_REENTRY_DURATION,
+    "authorization_expiry_or_consumption_rule" => P3_ETSK_REENTRY_CONSUMPTION,
+    "pass_lifecycle" => P3_ETSK_REENTRY_PASS,
+    "non_pass_lifecycle" => P3_ETSK_REENTRY_NON_PASS,
+    "risk_and_reversibility" => P3_ETSK_REENTRY_RISK,
+    "deny_or_defer_effect" => P3_ETSK_REENTRY_DENY
+  }.freeze
   FOUNDER_NETWORK_OPERATION_PROFILES = {
     "READ_ONLY_HTTPS_ACQUISITION" => {
       "operations" => [READ_ONLY_HTTPS_OPERATION, READ_ONLY_HTTPS_METHOD],
@@ -831,7 +891,8 @@ module FounderActionHandoff
     },
     P3_TXC_ROUTE_OPERATION_TYPE => P3_TXC_ROUTE_PROFILE,
     P3_THTCB_ROUTE_OPERATION_TYPE => P3_THTCB_ROUTE_PROFILE,
-    P3_TWRF_ROUTE_OPERATION_TYPE => P3_TWRF_ROUTE_PROFILE
+    P3_TWRF_ROUTE_OPERATION_TYPE => P3_TWRF_ROUTE_PROFILE,
+    P3_ETSK_REENTRY_OPERATION_TYPE => P3_ETSK_REENTRY_PROFILE
   }.freeze
   PROSPECTIVE_PREFLIGHT = "PROSPECTIVE_RESERVED_EFFECT_REQUIRED_BY_EXACT_USER_REQUEST_AND_NOT_EXPRESSIBLE_BY_CURRENT_OFFLINE_ESCALATION_PROJECTION"
   NO_ACTION_SENTENCE = "你现在无需操作，我将在现有授权范围内继续执行。"
@@ -1234,6 +1295,15 @@ module FounderActionHandoff
                   package["user_request_evidence"].nil? &&
                   authorization["reserved_trigger"] == P3_TWRF_ROUTE_PRIMARY_TRIGGER,
                   "P3 task-wide reservation frontier route does not match the exact current terminal trigger")
+        elsif authorization["operation_type"] == P3_ETSK_REENTRY_OPERATION_TYPE
+          assert!(control["disposition"] == "FOUNDER_RESERVED_DECISION_REQUIRED" &&
+                  control["founder_decision_required"] == true &&
+                  control.dig("reserved_trigger", "category") == P3_ETSK_REENTRY_PRIMARY_TRIGGER &&
+                  control["next_action_owner"] == "HUMAN_FOUNDER" &&
+                  evidence["prospective_preflight"].nil? &&
+                  package["user_request_evidence"].nil? &&
+                  authorization["reserved_trigger"] == P3_ETSK_REENTRY_PRIMARY_TRIGGER,
+                  "P3 executable-transition-system reentry does not match the exact current terminal trigger")
         else
           assert!(control["disposition"] == "FOUNDER_DECISION_REQUIRED" &&
                   control["founder_decision_required"] == true &&
@@ -1326,6 +1396,7 @@ module FounderActionHandoff
         P3_TXC_CONTROL_PLANE_RECOVERY_AND_DIRECT_PRODUCT_ROUTE_REENTRY_AFTER_POSTINSTALL_PROTOCOL_ERROR
         P3_TRUSTED_HOST_TCB_TRANSACTIONAL_EXECUTION_OBJECTIVE_EXIT_GATE_AND_CLEAN_ROOM_FINAL_ROUTE
         P3_TASK_WIDE_RESERVATION_FRONTIER_TRANSACTIONAL_EXECUTION_FOUNDATION_PRODUCT_AND_ONE_SHOT_AUDIT_ROUTE
+        P3_EXECUTABLE_TRANSITION_SYSTEM_KERNEL_TASK_WIDE_PRODUCT_AND_ONE_SHOT_AUDIT_REENTRY
       ].include?(operation_type)
         proposed_tokens = package["copy_ready_text_or_exact_steps"].scan(FOUNDER_AUTHORIZATION_TOKEN)
         assert!(proposed_tokens == [profile["token"]],

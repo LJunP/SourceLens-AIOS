@@ -8458,14 +8458,12 @@ module P3FinalTransactionalRouteValidation
            "P3 TXC cumulative accounting reset or expansion")
     assert(route["ordered_stages"] == txc_expected_stages(decision, scope, statuses),
            "P3 TXC ordered stage projection drift")
-    unless lifecycle == "ROUTE_TERMINAL_NON_PASS"
-      assert(route["progression"] == {
-        "delivery_percent" => spec["delivery_percent"],
-        "strict_exit_percent" => spec["strict_exit_percent"],
-        "accepted_stages" => spec["accepted_stages"],
-        "total_stages" => 2
-      }, "P3 TXC progress projection drift")
-    end
+    assert(route["progression"] == {
+      "delivery_percent" => lifecycle_accounting.fetch("delivery_percent"),
+      "strict_exit_percent" => lifecycle_accounting.fetch("strict_exit_percent"),
+      "accepted_stages" => lifecycle_accounting.fetch("accepted_stage_count"),
+      "total_stages" => 2
+    }, "P3 TXC progress projection drift")
     assert(route["anti_loop"] == {
       "foundation_task_allowed" => false,
       "third_product_task_allowed" => false,

@@ -37,8 +37,8 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: "NONE"
-  current_state_note: "Founder decision AUTHORIZE_P3_TASK_WIDE_RESERVATION_FRONTIER_TRANSACTIONAL_EXECUTION_FOUNDATION_PRODUCT_AND_ONE_SHOT_AUDIT_ROUTE_V1 is installed from exact canonical baseline 7b01acd118d45db89a51efe5090543348d236383 / 83c6385d299b5149ce63fd0a8abede299eb7653a. The prior THTCB Product remains immutable TERMINAL_TASK_GATE_NON_PASS and Candidate 2 remains unintegrated. P3 Objective and TCB are preserved, strict Exit is strengthened with TASK_WIDE_PRE_EFFECT_RESERVATION_FRONTIER, cumulative consumed accounting remains 12 Tasks / 368 hours / 88 days, and only the ordered Foundation, Product and one-shot Audit route has 3 Tasks / 80 hours / 18 days. Strategic installation creates zero progress; Foundation is eligible but not yet activated, P3 remains delivery 25% and strict Exit 0%, P4 remains HOLD, the project is incomplete and the Long-term Goal remains ACTIVE."
+  current_task_authority: P3-TWRF-F1-AUTH-F95329AD-2F3B-41E5-A565-6B7F9DD6FBA7
+  current_state_note: "Founder decision AUTHORIZE_P3_TASK_WIDE_RESERVATION_FRONTIER_TRANSACTIONAL_EXECUTION_FOUNDATION_PRODUCT_AND_ONE_SHOT_AUDIT_ROUTE_V1 is installed from exact canonical baseline 7b01acd118d45db89a51efe5090543348d236383 / 83c6385d299b5149ce63fd0a8abede299eb7653a. The prior THTCB Product remains immutable TERMINAL_TASK_GATE_NON_PASS and Candidate 2 remains unintegrated. P3 Objective and TCB are preserved, strict Exit is strengthened with TASK_WIDE_PRE_EFFECT_RESERVATION_FRONTIER, cumulative consumed accounting remains 12 Tasks / 368 hours / 88 days. AIOS-P3-TWRF-F1_TASK_WIDE_RESERVATION_STATE_MACHINE_FOUNDATION is now the sole active Task under one create-once authority and reserves 1 Task / 16 hours / 4 days without consuming it before terminal outcome. Product and Audit remain locked; P3 remains delivery 25% and strict Exit 0%, P4 remains HOLD, the project is incomplete and the Long-term Goal remains ACTIVE."
   current_strategic_decision:
     decision_id: AUTHORIZE_P3_TASK_WIDE_RESERVATION_FRONTIER_TRANSACTIONAL_EXECUTION_FOUNDATION_PRODUCT_AND_ONE_SHOT_AUDIT_ROUTE_V1
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-task-wide-reservation-frontier-20260823/decision/FOUNDER_P3_TWRF_ACCEPTED_STRUCTURED_DECISION_V1.json
@@ -63,10 +63,10 @@ project:
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
   p2_execution_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
-  phase_execution_status: ACTIVE_P3_TWRF_FOUNDATION_ELIGIBLE
-  current_route_execution_status: P3_TWRF_FOUNDATION_ELIGIBLE_NOT_ACTIVATED
+  phase_execution_status: ACTIVE_P3_TWRF_FOUNDATION_TASK
+  current_route_execution_status: P3_TWRF_FOUNDATION_TASK_ACTIVE
   p3_entry_status: AUTHORIZED
-  p3_execution_status: ACTIVE_TWRF_FOUNDATION_ELIGIBLE
+  p3_execution_status: ACTIVE_TWRF_FOUNDATION_TASK
   p4_entry_status: HOLD_PENDING_STRICT_P3_EXIT_AND_SEPARATE_FOUNDER_PHASE_ENTRY
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
@@ -8419,10 +8419,10 @@ historical_p3_thtcb_route_terminal:
 current_phase_route:
   schema_version: p3-task-wide-reservation-frontier-transactional-execution-route/v1
   route_id: P3_TASK_WIDE_RESERVATION_FRONTIER_TRANSACTIONAL_EXECUTION_ROUTE_V1
-  status: ACTIVE_FOUNDATION_ELIGIBLE
-  lifecycle_stage: FOUNDATION_ELIGIBLE_NOT_ACTIVATED
-  execution_status: FOUNDATION_ELIGIBLE_NOT_ACTIVATED
-  scheduling_status: MASTER_MUST_ACTIVATE_FOUNDATION
+  status: ACTIVE_FOUNDATION_TASK
+  lifecycle_stage: FOUNDATION_TASK_ACTIVE
+  execution_status: FOUNDATION_TASK_ACTIVE
+  scheduling_status: FOUNDATION_EXECUTION_IN_PROGRESS
   phase: P3
   phase_entry_status: AUTHORIZED
   policy:
@@ -8433,7 +8433,7 @@ current_phase_route:
   founder_reserved_triggers_resolved:
   - MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
   - MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
-  next_eligible_action: MASTER_ACTIVATE_AIOS_P3_TWRF_F1_FOUNDATION
+  next_eligible_action: EXECUTE_AIOS_P3_TWRF_F1_FOUNDATION
   phase_execution_envelope_ref: phase_execution_envelope
   phase_entry_route_ref: historical_p3_phase_entry_route
   accepted_p3_001_foundation_route_ref: historical_p3_001_phase_route
@@ -8544,7 +8544,7 @@ current_phase_route:
     stage_id: TASK_WIDE_RESERVATION_STATE_MACHINE_FOUNDATION
     task_id: AIOS-P3-TWRF-F1_TASK_WIDE_RESERVATION_STATE_MACHINE_FOUNDATION
     kind: EVALUATION_FOUNDATION
-    status: ELIGIBLE_NOT_ACTIVATED
+    status: ACTIVE
     budget:
       engineering_tasks: 1
       engineering_hours: 16
@@ -12504,7 +12504,7 @@ historical_p3_thtcb_phase_execution_envelope:
 phase_execution_envelope:
   schema_version: phase-execution-envelope/v1
   phase: P3
-  status: ACTIVE_P3_TWRF_FOUNDATION_ELIGIBLE
+  status: ACTIVE_P3_TWRF_FOUNDATION_TASK
   authority_basis:
     phase_entry_status: AUTHORIZED
     source_route_ref: current_phase_route
@@ -12526,11 +12526,15 @@ phase_execution_envelope:
     task_branches: 1
     task_worktrees: 1
     active_candidates: 1
-  reserved: {}
+  reserved:
+    engineering_tasks: 1
+    engineering_hours: 16
+    calendar_days: 4
+    task_id: AIOS-P3-TWRF-F1_TASK_WIDE_RESERVATION_STATE_MACHINE_FOUNDATION
   remaining:
-    engineering_tasks: 3
-    engineering_hours: 80
-    calendar_days: 18
+    engineering_tasks: 2
+    engineering_hours: 64
+    calendar_days: 14
   remaining_capacity_usable: true
   remaining_capacity_lock_reason:
   milestone_order:
@@ -12543,7 +12547,7 @@ phase_execution_envelope:
   ordered_stages:
   - ordinal: 1
     task_id: AIOS-P3-TWRF-F1_TASK_WIDE_RESERVATION_STATE_MACHINE_FOUNDATION
-    status: ELIGIBLE_NOT_ACTIVATED
+    status: ACTIVE
     budget:
       engineering_tasks: 1
       engineering_hours: 16
@@ -13173,10 +13177,10 @@ founder_escalation_control:
   schema_version: founder-escalation-control/v2
   disposition: NO_RESERVED_TRIGGER_CONTINUE_PHASE
   source_event:
-    kind: FOUNDER_P3_TWRF_ROUTE_INSTALLED_FOUNDATION_ELIGIBLE
+    kind: P3_TWRF_FOUNDATION_TASK_ACTIVATED
     decision_id: AUTHORIZE_P3_TASK_WIDE_RESERVATION_FRONTIER_TRANSACTIONAL_EXECUTION_FOUNDATION_PRODUCT_AND_ONE_SHOT_AUDIT_ROUTE_V1
-    task_id: NONE
-    status: FOUNDATION_ELIGIBLE_NOT_ACTIVATED
+    task_id: AIOS-P3-TWRF-F1_TASK_WIDE_RESERVATION_STATE_MACHINE_FOUNDATION
+    status: FOUNDATION_TASK_ACTIVE
   reserved_trigger:
   resolved_strategy_decisions:
   - category: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
@@ -13192,7 +13196,7 @@ founder_escalation_control:
   phase_gate_status: INCOMPLETE
   founder_decision_required: false
   next_action_owner: MASTER_CEO_AGENT
-  next_eligible_action: MASTER_ACTIVATE_AIOS_P3_TWRF_F1_FOUNDATION
+  next_eligible_action: EXECUTE_AIOS_P3_TWRF_F1_FOUNDATION
 
 historical_p2_053_phase_route:
   schema_version: "1.1"
@@ -17447,7 +17451,7 @@ historical_p3_thtcb_phase_delegation:
   claim_boundary: P3_THTCB_PRODUCT_TERMINAL_NON_PASS_AUDIT_LOCKED_ROUTE_CHANGE_RESERVED_P4_HOLD_LONG_TERM_GOAL_ACTIVE
 
 phase_delegation:
-  status: ACTIVE_P3_TWRF_FOUNDATION_ELIGIBLE
+  status: ACTIVE_P3_TWRF_FOUNDATION_TASK
   model: PHASE_LEVEL_FOUNDER_DELEGATION
   decision_source: AUTHORIZE_P3_TASK_WIDE_RESERVATION_FRONTIER_TRANSACTIONAL_EXECUTION_FOUNDATION_PRODUCT_AND_ONE_SHOT_AUDIT_ROUTE_V1
   phase_gate_owner: HUMAN_FOUNDER
@@ -18443,9 +18447,9 @@ historical_p3_thtcb_phase_boundary:
 
 phase_boundary:
   phase: P3
-  phase_execution_status: ACTIVE_P3_TWRF_FOUNDATION_ELIGIBLE
-  task_creation_allowed: true
-  task_creation_scope: EXACT_AIOS_P3_TWRF_F1_FOUNDATION_ONLY
+  phase_execution_status: ACTIVE_P3_TWRF_FOUNDATION_TASK
+  task_creation_allowed: false
+  task_creation_scope: NONE_ACTIVE_TASK
   task_creation_lock_after_activation: true
   p3_entry_authorized: true
   allowed_task_kinds:
@@ -18509,7 +18513,7 @@ phase_boundary:
   user_action_required: NONE
   phase_route_decision_required: false
   phase_route_user_action_required: NONE
-  next_eligible_action: MASTER_ACTIVATE_AIOS_P3_TWRF_F1_FOUNDATION
+  next_eligible_action: EXECUTE_AIOS_P3_TWRF_F1_FOUNDATION
 
 p0_baseline:
   checkpoint_commit: ad6450e418d8f1b4fd5a789f913525a8dd8bdc10
@@ -25248,37 +25252,49 @@ historical_p3_thtcb_terminal_active_work:
   next_eligible_action: FOUNDER_DECIDE_P3_AFTER_THTCB_ROUTE_TERMINAL_NON_PASS
 
 active_work:
-  current_task: NONE
+  current_task: AIOS-P3-TWRF-F1_TASK_WIDE_RESERVATION_STATE_MACHINE_FOUNDATION
   selected_task: AIOS-P3-TWRF-F1_TASK_WIDE_RESERVATION_STATE_MACHINE_FOUNDATION
-  current_task_status: ELIGIBLE_NOT_ACTIVATED
+  current_task_status: ACTIVE
   current_task_contract:
-  current_task_contract_sha256:
-  current_execution_authorization:
-  current_execution_authorization_sha256:
+    path: docs/aios/tasks/P3-TWRF-F1_TASK_WIDE_RESERVATION_STATE_MACHINE_FOUNDATION.yaml
+    byte_length: 11685
+    sha256: 28ed01d1652c7530ccd5c3ee59ca852a40f8c82b6510c100d3da1a7dfc42f4f6
+  current_task_contract_sha256: 28ed01d1652c7530ccd5c3ee59ca852a40f8c82b6510c100d3da1a7dfc42f4f6
+  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p3-task-wide-reservation-frontier-20260823/task-foundation/authority/P3_TWRF_F1_EXECUTION_AUTHORITY_V1.json
+  current_execution_authorization_sha256: d388d3ad9f2562f5597d2f3c617b8ffa194b62d1033a83b547febf32d72aec77
   authority_record:
-  authority_scope_conformance:
-  execution_nonce:
-  execution_nonce_status: NOT_ISSUED
-  authorization_id:
-  activation_parent_commit:
-  activation_parent_tree:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-task-wide-reservation-frontier-20260823/task-foundation/authority/P3_TWRF_F1_EXECUTION_AUTHORITY_V1.json
+    byte_length: 3150
+    sha256: d388d3ad9f2562f5597d2f3c617b8ffa194b62d1033a83b547febf32d72aec77
+  authority_scope_conformance: PASS_EXACT_FOUNDATION_ALLOWLIST
+  execution_nonce: P3-TWRF-F1-F95329AD-2F3B-41E5-A565-6B7F9DD6FBA7
+  execution_nonce_status: ACTIVE
+  authorization_id: P3-TWRF-F1-AUTH-F95329AD-2F3B-41E5-A565-6B7F9DD6FBA7
+  activation_parent_commit: 6772a13088cc027679797ab10b50e1c613407620
+  activation_parent_tree: 997c399619975767a4cdf45f7086a588512cd62e
   strategic_installation_parent:
     commit: 7b01acd118d45db89a51efe5090543348d236383
     tree: 83c6385d299b5149ce63fd0a8abede299eb7653a
-  task_resource_state: NOT_CREATED_FOUNDATION_ELIGIBLE
+  task_resource_state: CREATED_ACTIVE_FOUNDATION
   planned_task_branch: codex/p3-twrf-f1-task-wide-reservation-state-machine
   planned_task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p3-twrf-f1-task-wide-reservation-state-machine
   planned_execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p3-task-wide-reservation-frontier-20260823/task-foundation
-  task_branch:
-  task_worktree:
-  execution_evidence_root:
+  task_branch: codex/p3-twrf-f1-task-wide-reservation-state-machine
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p3-twrf-f1-task-wide-reservation-state-machine
+  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p3-task-wide-reservation-frontier-20260823/task-foundation
   dependency_custody_root:
   allowlisted_paths:
   - evaluation-harness/harness/p3-task-wide-reservation-foundation-v1
   - evaluation-harness/reports/p3-task-wide-reservation-foundation-v1
   - docs/aios/tasks/P3-TWRF-F1_TASK_WIDE_RESERVATION_STATE_MACHINE_FOUNDATION.yaml
   - docs/PROJECT_CODE_MAP.md
-  current_task_budget: {}
+  current_task_budget:
+    engineering_tasks: 1
+    engineering_hours: 16
+    calendar_days: 4
+    candidate_generations: 1
+    same_task_repairs: 0
+    review_cycles: 1
   next_stage_budget:
     engineering_tasks: 1
     engineering_hours: 16
@@ -25288,7 +25304,7 @@ active_work:
     review_cycles: 1
   roles:
     owner: MASTER_CEO_AGENT
-    worker:
+    worker: P3_TWRF_F1_FOUNDATION_WORKER
     quality_owner: QUALITY_EVALUATION_AGENT
     independent_reviewers:
     - QUALITY_EVALUATION_AGENT
@@ -25343,7 +25359,7 @@ active_work:
       path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product/terminal/P3_THTCB_PRODUCT_TASK_TERMINAL_NON_PASS_RECEIPT_V1.json
       byte_length: 8627
       sha256: f0a4fdfb515ad1852e950c35c3b62f767d1e86618633cab1e59f382f66388b65
-  next_eligible_action: MASTER_ACTIVATE_AIOS_P3_TWRF_F1_FOUNDATION
+  next_eligible_action: EXECUTE_AIOS_P3_TWRF_F1_FOUNDATION
 
 historical_p2_080_terminal_active_work:
   current_task: AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER
@@ -32045,9 +32061,9 @@ historical_p3_txc_control_recovery_phase_execution_claim:
 
 phase_execution_claim:
   current_route_claim: P3_TASK_WIDE_RESERVATION_FRONTIER_TRANSACTIONAL_EXECUTION_ROUTE_V1
-  current_task_claim: NONE
+  current_task_claim: AIOS-P3-TWRF-F1_TASK_WIDE_RESERVATION_STATE_MACHINE_FOUNDATION
   selected_next_task: AIOS-P3-TWRF-F1_TASK_WIDE_RESERVATION_STATE_MACHINE_FOUNDATION
-  real_engineering_progress: P3_TWRF_STRATEGIC_INSTALLATION_ZERO_CREDIT_FOUNDATION_ELIGIBLE_NOT_ACTIVATED_DELIVERY_25_STRICT_EXIT_ZERO
+  real_engineering_progress: P3_TWRF_FOUNDATION_TASK_ACTIVE_NO_ACCEPTANCE_CREDIT_DELIVERY_25_STRICT_EXIT_ZERO
   product_capability_changed: false
   accepted_outcomes:
   - DURABLE_STATE_AND_CHECKPOINT_RESUME
@@ -32057,7 +32073,7 @@ phase_execution_claim:
   p3_exit_gate_progress_percent: 0
   p3_delivery_progress_percent: 25
   phase_local_allowed:
-  - MASTER_ACTIVATE_AIOS_P3_TWRF_F1_FOUNDATION
+  - EXECUTE_AIOS_P3_TWRF_F1_FOUNDATION
   phase_local_frozen_capabilities:
   - AIOS-P3-TWRF-P1_LOCKED_PENDING_FOUNDATION_ACCEPTED
   - AIOS-P3-TWRF-A1_LOCKED_PENDING_PRODUCT_ACCEPTED_AND_INTEGRATED
@@ -32079,11 +32095,11 @@ phase_execution_claim:
   - PHASE_ROUTE_CHANGE
   - ENVELOPE_EXPANSION
   - UNDECLARED_EXTERNAL_EFFECT
-  task_creation_allowed: true
+  task_creation_allowed: false
   remaining_capacity_usable: true
   held_read_allowed: false
   candidate_integration_allowed: false
-  next_eligible_action: MASTER_ACTIVATE_AIOS_P3_TWRF_F1_FOUNDATION
+  next_eligible_action: EXECUTE_AIOS_P3_TWRF_F1_FOUNDATION
 
 p2_recovery_control:
   schema_version: p2-recovery-control/v2
@@ -32136,31 +32152,31 @@ p2_recovery_control:
 
 claim_boundary:
   current_phase_route: "P3_TASK_WIDE_RESERVATION_FRONTIER_TRANSACTIONAL_EXECUTION_ROUTE_V1"
-  current_task: "NONE"
+  current_task: "AIOS-P3-TWRF-F1_TASK_WIDE_RESERVATION_STATE_MACHINE_FOUNDATION"
   selected_task: "AIOS-P3-TWRF-F1_TASK_WIDE_RESERVATION_STATE_MACHINE_FOUNDATION"
-  current_task_status: "ELIGIBLE_NOT_ACTIVATED"
-  next_eligible_action: "MASTER_ACTIVATE_AIOS_P3_TWRF_F1_FOUNDATION"
-  real_engineering_progress: "P3_TWRF_STRATEGIC_INSTALLATION_ZERO_CREDIT_FOUNDATION_ELIGIBLE_NOT_ACTIVATED_DELIVERY_25_STRICT_EXIT_ZERO"
+  current_task_status: "ACTIVE"
+  next_eligible_action: "EXECUTE_AIOS_P3_TWRF_F1_FOUNDATION"
+  real_engineering_progress: "P3_TWRF_FOUNDATION_TASK_ACTIVE_NO_ACCEPTANCE_CREDIT_DELIVERY_25_STRICT_EXIT_ZERO"
   p2_research_exit_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
   p2_research_exit_percent: 100
   p2_original_capability_gate_status: MISSING_NOT_ACCEPTED
   p2_original_capability_progress_percent: 0
   p2_candidate_integrated: false
   p2_held_source_reads: 0
-  p3_status: "ACTIVE_INCOMPLETE_TWRF_FOUNDATION_ELIGIBLE"
+  p3_status: "ACTIVE_INCOMPLETE_TWRF_FOUNDATION_TASK"
   p3_entry_authorized: true
-  p3_phase_envelope_status: "ACTIVE_P3_TWRF_FOUNDATION_ELIGIBLE"
+  p3_phase_envelope_status: "ACTIVE_P3_TWRF_FOUNDATION_TASK"
   p3_exit_gate_progress_percent: 0
   p3_delivery_progress_percent: 25
   p3_accepted_milestones:
   - DURABLE_STATE_AND_CHECKPOINT_RESUME
-  p3_capability_milestone_status: "TASK_WIDE_RESERVATION_FOUNDATION_ELIGIBLE_NOT_ACCEPTED"
+  p3_capability_milestone_status: "TASK_WIDE_RESERVATION_FOUNDATION_ACTIVE_NOT_ACCEPTED"
   p3_twrf_route_decision_sha256: eec827799886f1a41b3528892f15203e94fcc75f047f3045a603bf64a9fc4425
   p3_twrf_route_source_body_sha256: 0ca140379f415a1ddae6b07590733c9db001cd805d03dc08e9204780528194c3
-  p3_twrf_route_stage: FOUNDATION_ELIGIBLE_NOT_ACTIVATED
+  p3_twrf_route_stage: FOUNDATION_TASK_ACTIVE
   p3_twrf_route_delivery_credit: 0
   p3_twrf_route_strict_exit_credit: 0
-  p3_twrf_foundation_status: ELIGIBLE_NOT_ACTIVATED
+  p3_twrf_foundation_status: ACTIVE
   p3_twrf_product_status: LOCKED_PENDING_FOUNDATION_ACCEPTED
   p3_twrf_audit_status: LOCKED_PENDING_PRODUCT_ACCEPTED_AND_INTEGRATED
   p3_twrf_candidate_integrated: false

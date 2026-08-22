@@ -1,0 +1,242 @@
+schema_version: p3-twrf-foundation-task-contract/v1
+record_type: sourcelens_aios_p3_evaluation_foundation_task_contract
+task_id: AIOS-P3-TWRF-F1_TASK_WIDE_RESERVATION_STATE_MACHINE_FOUNDATION
+phase: P3
+route_id: P3_TASK_WIDE_RESERVATION_FRONTIER_TRANSACTIONAL_EXECUTION_ROUTE_V1
+stage_id: TASK_WIDE_RESERVATION_STATE_MACHINE_FOUNDATION
+kind: EVALUATION_FOUNDATION
+status: ACTIVE
+milestone: TASK_WIDE_RESERVATION_STATE_MACHINE_FOUNDATION
+authority:
+  founder_decision_id: AUTHORIZE_P3_TASK_WIDE_RESERVATION_FRONTIER_TRANSACTIONAL_EXECUTION_FOUNDATION_PRODUCT_AND_ONE_SHOT_AUDIT_ROUTE_V1
+  founder_decision:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-task-wide-reservation-frontier-20260823/decision/FOUNDER_P3_TWRF_ACCEPTED_STRUCTURED_DECISION_V1.json
+    byte_length: 17228
+    sha256: eec827799886f1a41b3528892f15203e94fcc75f047f3045a603bf64a9fc4425
+  strategic_installation:
+    commit: 6772a13088cc027679797ab10b50e1c613407620
+    tree: 997c399619975767a4cdf45f7086a588512cd62e
+  activation_parent:
+    commit: 6772a13088cc027679797ab10b50e1c613407620
+    tree: 997c399619975767a4cdf45f7086a588512cd62e
+  task_selection_owner: MASTER_CEO_AGENT
+  task_authorization_owner: MASTER_CEO_AGENT
+  task_gate_owner: MASTER_CEO_AGENT
+  phase_gate_owner: HUMAN_FOUNDER
+  founder_gate: P3_EXIT_GATE_ONLY
+objective: >-
+  Build and execute a deterministic task-wide reservation state-machine benchmark
+  that falsifies the old task-and-workflow composite active-head model and proves,
+  over one frozen finite interleaving schedule, that a task-id-only active frontier
+  plus invocation-bound append-only history admits exactly one pre-effect winner,
+  leaves every loser at zero effect, and preserves the accepted P3-001 checkpoint
+  and workflow-binding semantics across crash, cleanup, replay and release.
+why_now: >-
+  The accepted P3-001 checkpoint foundation binds workflow only at the first
+  accepted checkpoint. The preceding Product route demonstrated that a
+  workflow-scoped active reservation can false-accept concurrent step-zero
+  proposals for different workflows on the same task. Product implementation is
+  locked until this Foundation supplies an executable task-wide oracle.
+scope:
+  task_branch: codex/p3-twrf-f1-task-wide-reservation-state-machine
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p3-twrf-f1-task-wide-reservation-state-machine
+  evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p3-task-wide-reservation-frontier-20260823/task-foundation
+  worker_allowed_paths:
+    - evaluation-harness/harness/p3-task-wide-reservation-foundation-v1
+    - evaluation-harness/reports/p3-task-wide-reservation-foundation-v1
+    - docs/aios/tasks/P3-TWRF-F1_TASK_WIDE_RESERVATION_STATE_MACHINE_FOUNDATION.yaml
+    - docs/PROJECT_CODE_MAP.md
+  product_source_changes_allowed: false
+  canonical_truth_changes_allowed_to_worker: false
+  constitution_changes_allowed: false
+  external_evidence_write_owner: QUALITY_EVALUATION_AGENT
+  network_allowed: false
+  provider_allowed: false
+  secret_allowed: false
+  credential_allowed: false
+  remote_allowed: false
+  production_allowed: false
+  public_release_allowed: false
+  docker_allowed: false
+budget:
+  engineering_tasks: 1
+  engineering_hours: 16
+  calendar_days: 4
+  candidate_generations: 1
+  same_task_repairs: 0
+  review_cycles: 1
+source_inputs:
+  allowed:
+    - canonical main at activation parent 6772a13088cc027679797ab10b50e1c613407620
+    - accepted P3-001 public behavior and canonical integrated source
+    - Strategic Constitution v3.2
+    - this Task Contract and its create-once Task authority
+    - exact predecessor terminal receipt identity and the named independent Quality finding only for the falsified-model and Gate invariant names
+  predecessor_identity_only:
+    terminal_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product/terminal/P3_THTCB_PRODUCT_TASK_TERMINAL_NON_PASS_RECEIPT_V1.json
+      byte_length: 8627
+      sha256: f0a4fdfb515ad1852e950c35c3b62f767d1e86618633cab1e59f382f66388b65
+    quality_finding:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product/reviews/cycle-2/P3_THTCB_CANDIDATE2_QUALITY_CYCLE2_CLOSURE_REVIEW_V1.json
+      byte_length: 15466
+      sha256: 4c4ecc595333acc9e7e326aa204eff424166bc7d65f856a0768a36ed4e9f0967
+    permitted_finding_id: R2-C2-B1-TASK_WIDE_RESERVATION_SCOPE_INCOMPLETE
+  rejected_lineage_policy: CANONICAL_MAIN_ACCEPTED_P3_001_AND_ACCEPTED_TWRF_FOUNDATION_ONLY_NO_REJECTED_ENGINEERING_LINEAGE_READ_COMPARE_COPY_EXECUTE_REPAIR_OR_REUSE
+  forbidden:
+    - AIOS-P3-THTCB-P1 Candidate 1 or Candidate 2 source, tests, evaluator, custody, bundle or raw engineering Evidence
+    - rejected P3-002 through predecessor branch, worktree, Product code, tests, evaluator, candidate or raw engineering Evidence
+    - implementation comparison, copying, execution, repair, restoration or reuse from any rejected lineage
+runtime:
+  executable: /usr/bin/ruby
+  version: ruby 2.6.10p210
+  byte_length: 135200
+  sha256: 16848b9f85e6984e412162471040d4fa7423d9ba940c1482092c8fb016dcd159
+  standard_library_only: true
+  random_seed: 0
+  clock_input_allowed: false
+  network_input_allowed: false
+state_machine:
+  models:
+    - OLD_COMPOSITE_KEY_ACTIVE_HEAD
+    - TASK_ID_ONLY_ACTIVE_HEAD_WITH_INVOCATION_HISTORY
+  states:
+    - PROPOSED
+    - AUTHORIZATION_ANCHORED
+    - INTENT_DURABLE
+    - RESERVATION_ACTIVE
+    - EFFECT_STARTED
+    - EFFECT_OUTCOME_UNKNOWN
+    - TERMINAL_ACCEPTED_SUCCESS
+    - TERMINAL_ACCEPTED_FAILURE
+    - CLEANUP_PENDING
+    - CLEANUP_CONFIRMED_ABSENT
+    - CHECKPOINT_COMMITTED
+    - RESERVATION_RELEASED
+    - DENIED_LOSER_ZERO_EFFECT
+  events:
+    - ACQUIRE
+    - ANCHOR_AUTHORIZATION
+    - PERSIST_INTENT
+    - START_EFFECT
+    - ACCEPT_SUCCESS_TERMINAL
+    - ACCEPT_FAILURE_TERMINAL
+    - RECORD_CLEANUP_OUTCOME
+    - COMMIT_CHECKPOINT
+    - RELEASE_RESERVATION
+    - CRASH
+    - RESUME
+    - REPLAY_TERMINAL
+    - TAMPER_RESERVATION
+    - TAMPER_HISTORY
+  terminal_results:
+    - SUCCESS_ACCEPTED
+    - FAILURE_ACCEPTED_CLEANUP_REQUIRED
+    - FAIL_CLOSED_CONFLICT
+    - FAIL_CLOSED_IDENTITY_DRIFT
+    - FAIL_CLOSED_CLEANUP_UNCERTAIN
+  checkpoint_results:
+    - NOT_ADVANCED
+    - ADVANCED_EXACTLY_ONCE
+    - REPLAY_IDEMPOTENT
+    - FAIL_CLOSED_NON_OWNER
+  cleanup_result_algebra:
+    PRE_RM_FAILURE: KEEP_FAILURE_AND_RESERVATION
+    EXACT_RM_ISSUED_ACK_UNKNOWN: KEEP_FAILURE_AND_RESERVATION_UNTIL_CONFIRMED
+    CONFIRMED_RM_FAILURE: KEEP_FAILURE_AND_RESERVATION
+    CONFIRMED_ABSENT: RELEASE_ALLOWED_AFTER_ACCEPTED_FAILURE_AND_NO_CHECKPOINT
+frozen_schedule:
+  schedule_version: p3-task-wide-reservation-interleaving-schedule/v1
+  exhaustive_finite_domain: true
+  required_classes:
+    - TWO_WORKFLOW_STEP_ZERO_SIMULTANEOUS_ACQUIRE
+    - SAME_WORKFLOW_CROSS_STEP_COMPETITION
+    - DUPLICATE_SAME_INVOCATION
+    - CONFLICTING_DIFFERENT_INVOCATION
+    - CRASH_AROUND_EVERY_DURABLE_BOUNDARY
+    - TERMINAL_REPLAY_WITH_LATER_ACTIVE_RESERVATION
+    - SUCCESS_CHECKPOINT_RELEASE
+    - FAILURE_CLEANUP_NO_CHECKPOINT_RELEASE
+    - CLEANUP_RESULT_ALGEBRA
+  crash_boundaries:
+    - BEFORE_AUTHORIZATION_ANCHOR
+    - AFTER_AUTHORIZATION_ANCHOR_BEFORE_INTENT
+    - AFTER_INTENT_BEFORE_EFFECT_START
+    - DURING_EFFECT_BEFORE_TERMINAL
+    - AFTER_TERMINAL_BEFORE_CHECKPOINT
+    - AFTER_CHECKPOINT_BEFORE_RELEASE
+    - AFTER_FAILURE_BEFORE_CLEANUP
+    - AFTER_CLEANUP_BEFORE_RELEASE
+  schedule_generation: CARTESIAN_ENUMERATION_OF_DECLARED_CASE_AXES_NO_RANDOMNESS
+oracle:
+  required_invariants:
+    - AT_MOST_ONE_ACTIVE_HEAD_PER_TASK
+    - AT_MOST_ONE_EFFECT_PER_INVOCATION
+    - ZERO_CHECKPOINT_ADVANCEMENT_BEFORE_ACCEPTED_TERMINAL
+    - ACCEPTED_CHECKPOINT_ONLY_FROM_ACTIVE_RESERVATION_OWNER
+    - TERMINAL_REPLAY_DOES_NOT_MUTATE_ANOTHER_INVOCATION
+    - WORKFLOW_DRIFT_AFTER_P3_001_HEAD_FAILS_CLOSED
+  differential_requirements:
+    old_composite_key_model_false_accepts_same_task_two_workflow_step_zero: true
+    old_model_false_accept_winner_count: 2
+    new_task_wide_model_pre_effect_winner_count: 1
+    new_task_wide_model_loser_effect_count: 0
+  fail_closed_on:
+    - missing required schedule class
+    - non-deterministic replay
+    - oracle self-inconsistency
+    - reservation identity drift
+    - append-only history drift
+    - duplicate or conflicting invocation ambiguity
+    - false accept not detected in the old model
+deliverables:
+  executable_benchmark:
+    path: evaluation-harness/harness/p3-task-wide-reservation-foundation-v1/task_wide_reservation_benchmark.rb
+  frozen_schedule:
+    path: evaluation-harness/harness/p3-task-wide-reservation-foundation-v1/frozen_schedule.json
+  independent_result_verifier:
+    path: evaluation-harness/harness/p3-task-wide-reservation-foundation-v1/verify_foundation_result.rb
+  candidate_report:
+    path: evaluation-harness/reports/p3-task-wide-reservation-foundation-v1/FOUNDATION_RESULT.json
+  replay_report:
+    path: evaluation-harness/reports/p3-task-wide-reservation-foundation-v1/FOUNDATION_REPLAY_RESULT.json
+  inventory:
+    path: evaluation-harness/reports/p3-task-wide-reservation-foundation-v1/FOUNDATION_FILE_INVENTORY.json
+acceptance:
+  required:
+    - The contract freezes states, events, legal and illegal transitions, terminal results and checkpoint results in executable form.
+    - The exact old composite-key model produces a reproducible two-winner false accept for same-task different-workflow step-zero competition.
+    - The new task-id-only model produces exactly one pre-effect winner and zero loser effects for the same frozen schedule.
+    - Every required schedule class and crash boundary executes and is reported with a deterministic case identifier.
+    - All six oracle invariants pass over every new-model case, including terminal replay while a later reservation is active.
+    - The result verifier independently recomputes report identities and expected aggregate claims without importing benchmark implementation code.
+    - Two clean executions are byte-identical after excluding no fields because wall-clock, random and host-specific inputs are forbidden.
+    - A closed regular-file inventory binds path, byte length, mode and SHA-256 for every candidate artifact.
+    - Product source diff is empty and network, Provider, Secret, credential, Docker, remote, production and public effects are zero.
+  independent_review:
+    required_role: QUALITY_EVALUATION_AGENT
+    review_cycles: 1
+    verdicts:
+      - PASS
+      - NON_PASS
+  task_gate: MASTER_ACCEPTS_ONLY_AFTER_INDEPENDENT_QUALITY_EVALUATION_PASS
+non_goals:
+  - Product implementation or migration V034
+  - Docker or OCI execution
+  - Formal P3 strict Exit Audit
+  - P3 Phase Gate or P4 entry
+  - General-purpose model checking outside the frozen finite domain
+stop_conditions:
+  - Any write escapes the exact Task worktree or create-once Foundation Evidence root.
+  - Any Product source path changes.
+  - Any network, Provider, Secret, credential, Docker, remote, production or public effect becomes necessary.
+  - Any forbidden rejected-lineage engineering input is read, compared, copied, executed, repaired or reused.
+  - A required schedule is missing, old-model false accept is not reproduced, the new model admits more than one winner, or any oracle invariant fails.
+  - The single candidate or single review cycle is consumed without PASS.
+lifecycle:
+  candidate_generations_allowed: 1
+  same_task_repairs_allowed: 0
+  review_cycles_allowed: 1
+  pass_effect: FOUNDATION_ACCEPTED_PRODUCT_ELIGIBLE_DELIVERY_25_STRICT_EXIT_0
+  non_pass_effect: ROUTE_TERMINAL_NON_PASS_PRODUCT_AND_AUDIT_LOCKED
+  long_term_goal_status: ACTIVE

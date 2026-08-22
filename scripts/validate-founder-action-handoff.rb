@@ -52,6 +52,7 @@ module FounderActionHandoff
     P3_MINIMUM_TRUST_HOST_AUTHORIZED_TRANSACTIONAL_BOUNDARY_OBJECTIVE_AND_ROUTE_REBASELINE_AFTER_P3_007
     P3_HOST_PROCESS_ENFORCED_MINIMAL_SLICE_ROUTE_REBASELINE_AFTER_TIK_F1_TERMINAL
     P3_TXC_CONTROL_PLANE_RECOVERY_AND_DIRECT_PRODUCT_ROUTE_REENTRY_AFTER_POSTINSTALL_PROTOCOL_ERROR
+    P3_TRUSTED_HOST_TCB_TRANSACTIONAL_EXECUTION_OBJECTIVE_EXIT_GATE_AND_CLEAN_ROOM_FINAL_ROUTE
   ].freeze
   APP_OPERATION_TYPES = %w[APP_FILESYSTEM_BATCH_WRITE].freeze
   READ_ONLY_HTTPS_OPERATION = "一次全新、独立、clean-room V6 benchmark source acquisition"
@@ -397,6 +398,61 @@ module FounderActionHandoff
       })
     }
   end.freeze
+  P3_THTCB_ROUTE_TOKEN =
+    "AUTHORIZE_P3_TRUSTED_HOST_TCB_TRANSACTIONAL_EXECUTION_OBJECTIVE_EXIT_GATE_AND_CLEAN_ROOM_FINAL_ROUTE_V1"
+  P3_THTCB_ROUTE_OPERATION_TYPE =
+    "P3_TRUSTED_HOST_TCB_TRANSACTIONAL_EXECUTION_OBJECTIVE_EXIT_GATE_AND_CLEAN_ROOM_FINAL_ROUTE"
+  P3_THTCB_ROUTE_PRIMARY_TRIGGER = "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE"
+  P3_THTCB_ROUTE_STRATEGIC_CHANGE =
+    "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE：将 P3 Objective 正式改为 TRUSTED_HOST_TCB_TRANSACTIONAL_SINGLE_AGENT_EXECUTION，将 strict Exit Gate 正式改为 TRUSTED_HOST_TCB_DURABLE_TRANSACTIONAL_EXECUTION_WITH_PROCESS_REAL_CONTAINMENT，并以 Strategic Constitution v3.1 与 append-only ADR 固化；mission、Primary ICP、year-one outcome、P0-P2 accepted facts、P3-001 accepted semantics、P4-P12 顺序和 Long-term Goal ACTIVE 不变。"
+  P3_THTCB_ROUTE_TCB_SCOPE =
+    "P3 TCB 冻结为本机 OS/kernel、当前 SourceLens trusted-host process、host-controlled durable database、sealed host custody root、exact Docker CLI executable、Docker Unix socket、Docker Desktop daemon 与 pinned local OCI image；P3 防御 arbitrary Agent proposal、workflow payload、重复/重放、崩溃/超时/部分 I/O、容器网络/文件/权限/资源越权和非 TCB 路径漂移，但不声称抵御 root/admin、同一用户且拥有上述 TCB 写权限的进程、竞争 Docker client、被攻陷的 Docker daemon/CLI/socket、OS kernel compromise 或物理主机 compromise。"
+  P3_THTCB_ROUTE_PRODUCT_GATE =
+    "Product 必须在冻结 TCB 内实现 host-only positive authorization、与 mutable invocation row 分离的 immutable authorization anchor、effect 前 durable intent、crash/orphan reconciliation、exactly one durable terminal trace、terminal acceptance 前 checkpoint advancement 为零、invocation-scoped reservation replay、stage-aware cleanup saga、sealed content-addressed custody、exact pre-start OCI profile validation、post-start attestation 与 fail-closed drift handling，并以 process-real hostile probes实际尝试 AF_INET、AF_INET6、DNS、outside write、child spawn、privilege escalation 与 resource overflow；不得把被排除的 TCB compromise 写成已防御能力。"
+  P3_THTCB_ROUTE_ORDER =
+    "只创建 P3_TRUSTED_HOST_TCB_CLEAN_ROOM_FINAL_ROUTE_V1，严格顺序为 AIOS-P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT 后接 AIOS-P3-THTCB-A1_ONE_SHOT_STRICT_EXIT_AUDIT；不创建 Foundation Task，Product 未独立 ACCEPTED 并集成时 Audit 保持 LOCKED。"
+  P3_THTCB_ROUTE_LINEAGE =
+    "P3-002 至当前 AIOS-P3-TXCR-P1 的 rejected branch、worktree、product code、tests、evaluator、candidate、raw engineering Evidence 与 bundle lineage 禁止作为实现输入读取、比较、复制、执行、修复或复用；新 Product 只允许使用 canonical main、accepted P3-001 public behavior、新 Constitution/ADR、Task Contract 和全新第三方 custody bytes；历史 terminal receipt 与 independent Cycle 2 review 只允许用于 identity、accounting、threat-model 决策和验收项命名。"
+  P3_THTCB_ROUTE_EXTERNAL =
+    "外部能力仅允许 Product 激活后对本机 Docker Desktop 执行 version/info/import/image-inspect/create/inspect/start/wait/logs/rm 与清理本 Task 创建的可再生 container/image，禁止 registry pull/push/login/build、源码或 Evidence 上传；另允许 exact /usr/bin/curl 对 api.adoptium.net、github.com、release-assets.githubusercontent.com、objects.githubusercontent.com 执行一次无凭据 GET/HEAD JRE17 custody acquisition，固定 metadata URL，request body 0，persisted response body 累计不超过 314572800 bytes，redirect 不超过 5，connect timeout 15 秒，window 1800 秒，retry 0。"
+  P3_THTCB_ROUTE_TARGETS = [
+    "/Users/lijunpeng/Developer/SourceLens-AIOS canonical main",
+    "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-thtcb-p1-trusted-host-transactional-coordinator and /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product",
+    "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-thtcb-a1-one-shot-strict-exit-audit and /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-audit"
+  ].freeze
+  P3_THTCB_ROUTE_BUDGET =
+    "保留累计 consumed 11 engineering Tasks / 320 engineering hours / 78 calendar days；将 P3 non-resettable ceiling 精确扩为 13 Tasks / 384 hours / 94 days，只释放按顺序使用的 2 Tasks / 64 hours / 16 days：Product 1 Task / 48 hours / 10 days / 最多 2 candidate generations / 1 same-Task repair / 2 review cycles，Audit 1 Task / 16 hours / 6 days / formal dispatch 1 / product changes 0 / repair 0 / rerun-to-pass false。"
+  P3_THTCB_ROUTE_DURATION =
+    "从 Founder 直接回复完整 exact authorization body 且 current identity、authority、predecessor、TCB 与外部能力 preflight 全部 PASS 起生效，至 Audit formal PASS/NON_PASS、2 Tasks/64 hours/16 days耗尽、scope或identity漂移、任何 terminal safety condition、Founder撤销中的最早事件止。"
+  P3_THTCB_ROUTE_CONSUMPTION =
+    "战略安装与 validator 同步工程进度为零，只允许一个 staged unified patch、一次 pre-install correction 和一个 canonical atomic commit；canonical post-install NON_PASS 只允许一次保留历史的 exact revert并终止路线。Product 或 Audit NON_PASS 均消费其已激活 slot、锁定后续阶段且不产生 Candidate 3、第二次 repair、第三次 review、successor、replacement、normalization、closure、feasibility、remediation、V2/V3授权链或 rerun-to-pass。"
+  P3_THTCB_ROUTE_PASS =
+    "安装 PASS 保持 P3 delivery 25% / strict Exit 0% 并立即激活 Product；Product PASS且独立接受并集成后为 delivery 75% / strict Exit 0% 且只解锁 Audit；Audit one-shot PASS 后为 100% / 100% 并只进入 ELIGIBLE_AWAITING_FOUNDER_P3_PHASE_GATE_DECISION，不自动进入 P4。"
+  P3_THTCB_ROUTE_NON_PASS =
+    "安装 NON_PASS 不创建 Task；Product NON_PASS 不集成 candidate并终止路线；Audit NON_PASS 保留同一 frozen candidate 的正式结果且禁止补跑。任何 NON_PASS 都保持 P3 HOLD/INCOMPLETE、P4 HOLD、项目未完成、Long-term Goal ACTIVE，并交付真实下一步但不自动执行新路线。"
+  P3_THTCB_ROUTE_RISK =
+    "本路线只产生可审查、可回滚的本地 source/Truth/Constitution/Task Evidence 与可再生 Docker container/image；Founder 明确认可的战略取舍是把拥有 TCB 写权限的本机 admin/same-user process、竞争 Docker client 和 Docker/OS compromise 排除在 P3 保证外，未来若要抵御这些威胁必须在后续 Phase 单独建设 privileged broker、separate OS principal 或更强隔离平台，P3 不得暗示已具备该能力。"
+  P3_THTCB_ROUTE_DENY =
+    "始终禁止 Provider、Secret、credential、remote write、production、public release、Docker registry、现有数据库破坏性修改、outside-authorized-root write、不可逆重要资产删除、P4 entry、project completion claim 或 Long-term Goal completion；若拒绝或延期授权，canonical main保持当前 terminal Truth、Candidate 2不集成、P3保持25%/0%和HOLD。"
+  P3_THTCB_ROUTE_PROFILE = {
+    "operations" => [
+      P3_THTCB_ROUTE_STRATEGIC_CHANGE,
+      P3_THTCB_ROUTE_TCB_SCOPE,
+      P3_THTCB_ROUTE_PRODUCT_GATE,
+      P3_THTCB_ROUTE_ORDER,
+      P3_THTCB_ROUTE_LINEAGE,
+      P3_THTCB_ROUTE_EXTERNAL
+    ],
+    "targets" => P3_THTCB_ROUTE_TARGETS,
+    "budget_or_external_effects" => P3_THTCB_ROUTE_BUDGET,
+    "token" => P3_THTCB_ROUTE_TOKEN,
+    "duration" => P3_THTCB_ROUTE_DURATION,
+    "authorization_expiry_or_consumption_rule" => P3_THTCB_ROUTE_CONSUMPTION,
+    "pass_lifecycle" => P3_THTCB_ROUTE_PASS,
+    "non_pass_lifecycle" => P3_THTCB_ROUTE_NON_PASS,
+    "risk_and_reversibility" => P3_THTCB_ROUTE_RISK,
+    "deny_or_defer_effect" => P3_THTCB_ROUTE_DENY
+  }.freeze
   FOUNDER_NETWORK_OPERATION_PROFILES = {
     "READ_ONLY_HTTPS_ACQUISITION" => {
       "operations" => [READ_ONLY_HTTPS_OPERATION, READ_ONLY_HTTPS_METHOD],
@@ -710,7 +766,8 @@ module FounderActionHandoff
       "pass_lifecycle" => P3_HPE_ROUTE_PASS,
       "non_pass_lifecycle" => P3_HPE_ROUTE_NON_PASS
     },
-    P3_TXC_ROUTE_OPERATION_TYPE => P3_TXC_ROUTE_PROFILE
+    P3_TXC_ROUTE_OPERATION_TYPE => P3_TXC_ROUTE_PROFILE,
+    P3_THTCB_ROUTE_OPERATION_TYPE => P3_THTCB_ROUTE_PROFILE
   }.freeze
   PROSPECTIVE_PREFLIGHT = "PROSPECTIVE_RESERVED_EFFECT_REQUIRED_BY_EXACT_USER_REQUEST_AND_NOT_EXPRESSIBLE_BY_CURRENT_OFFLINE_ESCALATION_PROJECTION"
   NO_ACTION_SENTENCE = "你现在无需操作，我将在现有授权范围内继续执行。"
@@ -1095,6 +1152,15 @@ module FounderActionHandoff
                   request["requested_external_effect"] == "MATERIAL_SCOPE" &&
                   authorization["reserved_trigger"] == expected_trigger,
                   "P3 rebaseline lacks the exact current trigger and direct Founder token")
+        elsif authorization["operation_type"] == P3_THTCB_ROUTE_OPERATION_TYPE
+          assert!(control["disposition"] == "FOUNDER_RESERVED_DECISION_REQUIRED" &&
+                  control["founder_decision_required"] == true &&
+                  control.dig("reserved_trigger", "category") == P3_THTCB_ROUTE_PRIMARY_TRIGGER &&
+                  control["next_action_owner"] == "HUMAN_FOUNDER" &&
+                  evidence["prospective_preflight"].nil? &&
+                  package["user_request_evidence"].nil? &&
+                  authorization["reserved_trigger"] == P3_THTCB_ROUTE_PRIMARY_TRIGGER,
+                  "P3 trusted-host TCB rebaseline does not match the exact current terminal trigger")
         else
           assert!(control["disposition"] == "FOUNDER_DECISION_REQUIRED" &&
                   control["founder_decision_required"] == true &&
@@ -1185,6 +1251,7 @@ module FounderActionHandoff
         P3_MINIMUM_TRUST_HOST_AUTHORIZED_TRANSACTIONAL_BOUNDARY_OBJECTIVE_AND_ROUTE_REBASELINE_AFTER_P3_007
         P3_HOST_PROCESS_ENFORCED_MINIMAL_SLICE_ROUTE_REBASELINE_AFTER_TIK_F1_TERMINAL
         P3_TXC_CONTROL_PLANE_RECOVERY_AND_DIRECT_PRODUCT_ROUTE_REENTRY_AFTER_POSTINSTALL_PROTOCOL_ERROR
+        P3_TRUSTED_HOST_TCB_TRANSACTIONAL_EXECUTION_OBJECTIVE_EXIT_GATE_AND_CLEAN_ROOM_FINAL_ROUTE
       ].include?(operation_type)
         proposed_tokens = package["copy_ready_text_or_exact_steps"].scan(FOUNDER_AUTHORIZATION_TOKEN)
         assert!(proposed_tokens == [profile["token"]],

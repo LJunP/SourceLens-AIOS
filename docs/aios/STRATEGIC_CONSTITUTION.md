@@ -1,8 +1,8 @@
 # SourceLens AIOS Strategic Constitution
 
-- Version: `3.0`
+- Version: `2.8`
 - Status: `FROZEN`
-- Effective date: 2026-08-22
+- Effective date: 2026-08-21
 - Owner: Human Founder
 
 ## 1. Positioning
@@ -143,21 +143,6 @@ P2 has two mechanically separate conclusions. Its research Exit may complete wit
 `COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED` when the representative benchmark and B1 baseline are independently accepted and the complete, reproducible terminal record establishes that no candidate met the frozen superiority criterion within the frozen budget. That status is an honest bounded research conclusion, not product capability acceptance. The original capability Gate
 `CONTEXT_BENCHMARK_BEATS_SIMPLE_RETRIEVAL_BASELINES` remains `MISSING_NOT_ACCEPTED`, strict capability progress remains `0%`, rejected candidates remain terminal `NON_PASS`, and no candidate may be integrated under that research conclusion. P3 remains ineligible for execution until a separate Founder Phase-entry decision.
 
-## 9A. P3 v3.0 transactional coordinator authority
-
-This section supersedes only the detailed P3 objective and strict Exit Gate represented by the legacy-compatible P3 row in section 9. The section 9 row remains an aggregate compatibility projection for the existing global governance validator; it cannot independently accept P3, schedule work, or override the structured current Route.
-
-The P3 objective is `HOST_AUTHORIZED_TRANSACTIONAL_INVOCATION_COORDINATOR`. SourceLens must build and independently validate one trusted-host-owned, durable, transactional Single-Agent Invocation Coordinator for the compile-time closed `SHA256_READ_ONLY_CUSTODY_V1` workflow. Agent output is non-authoritative proposal data. The trusted host exclusively owns positive authorization, intent durability, crash/orphan reconciliation, terminal trace acceptance, checkpoint gating, content-addressed custody and Evidence. Pinned Docker Desktop OCI is an external isolation substrate and receives no Task, business-action, source-custody or checkpoint authority. A generic runtime, dynamic tool registry, broker/interpreter, open shell or multi-tool platform is outside P3.
-
-The strict P3 Exit Gate is `HOST_AUTHORIZED_DURABLE_TRANSACTIONAL_INVOCATION_WITH_EXTERNAL_ISOLATION_ATTESTATION`. It is complete only when one frozen candidate has independent `ACCEPTED` Evidence for every structured required item below:
-
-- `AUTHORIZATION_AND_INTENT_DURABILITY`
-- `CRASH_ORPHAN_RECONCILIATION_AND_RESUME`
-- `EXACTLY_ONE_TERMINAL_TRACE_AND_CHECKPOINT_GATE`
-- `PINNED_EXTERNAL_ISOLATION_ATTESTATION`
-
-The legacy aggregate item `RESUME_ISOLATION_PERMISSION_AND_TRACE_TESTS` is a conservative compatibility projection of these four requirements. It must remain `MISSING` until all four current items are accepted from the same frozen candidate and may then be accepted only by the one-shot Audit receipt. Neither the compatibility projection nor prose wording is a lifecycle authority.
-
 ## 10. Research artifacts
 
 Every major phase must leave a reproducible artifact containing hypothesis, dataset version, environment snapshot, baseline, configuration, run IDs, raw metrics, failure taxonomy, effect size, cost, conclusion and reproduction command.
@@ -185,4 +170,4 @@ Stopping is a valid research result. It must not be hidden by adding features.
 
 ## 12. Change control
 
-Only the Human Founder may change mission, primary ICP, year-one outcome or long-term direction. Any change requires a new constitution version and an append-only ADR. Constitution v2.4 is bound to the create-once Founder decision `AUTHORIZE_P2_RESEARCH_NON_PASS_COMPLETION_AND_PHASE_EXIT_REBASELINE_V1`; that decision is the append-only ADR for this P2 Phase-route change. Constitution v2.6 is bound to the create-once Founder decision `AUTHORIZE_P3_HOST_OWNED_FIXED_STATE_WORKFLOW_MINIMAL_ATOMIC_STRATEGY_INSTALLATION_AFTER_EVIDENCE_ONLY_NON_PASS_V1`; that decision formally amended only the P3 Objective and installed the now-exhausted host-owned fixed-state workflow route while preserving the strict P3 Exit Gate, P4 HOLD and Long-term Goal ACTIVE boundaries. Constitution v2.7 is bound to the create-once Founder decision `AUTHORIZE_P3_MINIMUM_TRUST_HOST_AUTHORIZED_TRANSACTIONAL_BOUNDARY_OBJECTIVE_AND_ROUTE_REBASELINE_AFTER_P3_007_V1`; that decision is the append-only ADR for replacing only the exhausted P3 implementation assumption with the host-authorized transactional trust-boundary Objective and three-stage route, while keeping mission, ICP, year-one outcome, strict P3 Exit Gate, P4 HOLD and Long-term Goal ACTIVE unchanged. Constitution v2.8 is bound to the create-once Founder decision `AUTHORIZE_P3_TRUSTED_INVOCATION_KERNEL_PROCESS_REAL_CLEAN_ROOM_ROUTE_REBASELINE_V1`; that decision preserves the v2.7 mission, ICP, year-one outcome, P3 Objective and strict Exit Gate while authorizing one architecturally distinct process-real clean-room Foundation, Product and one-shot Audit route with non-resettable capacity and no rejected-lineage reuse. Constitution v3.0 is bound to the create-once Founder decision `AUTHORIZE_P3_TRANSACTIONAL_COORDINATOR_EXTERNAL_OCI_ATTESTATION_OBJECTIVE_EXIT_GATE_AND_ATOMIC_STAGED_ROUTE_REBASELINE_V1`; that decision formally replaces only the P3 objective, strict Exit Gate and executable Phase route with the transactional coordinator plus external OCI attestation route, preserves P0-P2 accepted facts, P3-001 semantics, P4-P12 order and the active Long-term Goal, and requires the atomic staged installation defined by the same structured decision. Constitution v2.5 was never installed and has no authority. Routine implementation choices do not modify this document.
+Only the Human Founder may change mission, primary ICP, year-one outcome or long-term direction. Any change requires a new constitution version and an append-only ADR. Constitution v2.4 is bound to the create-once Founder decision `AUTHORIZE_P2_RESEARCH_NON_PASS_COMPLETION_AND_PHASE_EXIT_REBASELINE_V1`; that decision is the append-only ADR for this P2 Phase-route change. Constitution v2.6 is bound to the create-once Founder decision `AUTHORIZE_P3_HOST_OWNED_FIXED_STATE_WORKFLOW_MINIMAL_ATOMIC_STRATEGY_INSTALLATION_AFTER_EVIDENCE_ONLY_NON_PASS_V1`; that decision formally amended only the P3 Objective and installed the now-exhausted host-owned fixed-state workflow route while preserving the strict P3 Exit Gate, P4 HOLD and Long-term Goal ACTIVE boundaries. Constitution v2.7 is bound to the create-once Founder decision `AUTHORIZE_P3_MINIMUM_TRUST_HOST_AUTHORIZED_TRANSACTIONAL_BOUNDARY_OBJECTIVE_AND_ROUTE_REBASELINE_AFTER_P3_007_V1`; that decision is the append-only ADR for replacing only the exhausted P3 implementation assumption with the host-authorized transactional trust-boundary Objective and three-stage route, while keeping mission, ICP, year-one outcome, strict P3 Exit Gate, P4 HOLD and Long-term Goal ACTIVE unchanged. Constitution v2.8 is bound to the create-once Founder decision `AUTHORIZE_P3_TRUSTED_INVOCATION_KERNEL_PROCESS_REAL_CLEAN_ROOM_ROUTE_REBASELINE_V1`; that decision preserves the v2.7 mission, ICP, year-one outcome, P3 Objective and strict Exit Gate while authorizing one architecturally distinct process-real clean-room Foundation, Product and one-shot Audit route with non-resettable capacity and no rejected-lineage reuse. Constitution v2.5 was never installed and has no authority. Routine implementation choices do not modify this document.

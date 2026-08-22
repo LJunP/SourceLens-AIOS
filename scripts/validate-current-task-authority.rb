@@ -5375,27 +5375,11 @@ module CurrentTaskAuthority
   def validate_repository_and_worktrees(root, truth)
     project = hash(truth["project"], "project")
     canonical = string(project["canonical_repository"], "project.canonical_repository")
-    route = hash(truth["current_phase_route"], "current_phase_route")
-    if route["schema_version"] == P3FinalTransactionalRouteValidation::TXC_ROUTE_SCHEMA &&
-       ENV["SOURCELENS_ATOMIC_STAGING_MANIFEST"]
-      assert(defined?(P3FinalTransactionalRouteValidation),
-             "P3 TXC Route validator is unavailable")
-      context = P3FinalTransactionalRouteValidation.atomic_staging_context!(
-        root: root, truth: truth
-      )
-      assert(context && File.realpath(root) == File.realpath(context.fetch("staging_root")),
-             "P3 TXC staging context did not bind the validator root")
-      records = worktrees(root)
-      assert(records.length == 1 &&
-             File.realpath(records.first.fetch("path")) == File.realpath(root) &&
-             records.first["branch"] == "main",
-             "P3 TXC staging clone must have exactly one local main worktree")
-      return
-    end
     assert(File.realpath(root) == File.realpath(canonical),
            "validator must run from the configured canonical repository, not a secondary worktree")
     branch = git(root, "symbolic-ref", "--quiet", "--short", "HEAD").first.strip
     assert(branch == project["canonical_branch"], "canonical repository is not on configured canonical branch")
+    route = hash(truth["current_phase_route"], "current_phase_route")
     if route["schema_version"] == "p3-host-owned-fixed-state-workflow-route/v1"
       assert(defined?(P3PhaseEntryValidation), "P3 host-owned Route validator is unavailable")
       P3PhaseEntryValidation.validate_host_owned_repository_scope!(root)
@@ -5574,7 +5558,6 @@ module CurrentTaskAuthority
         "p3-founder-exception-task-route/v1",
         P3FinalTransactionalRouteValidation::TIK_ROUTE_SCHEMA,
         P3FinalTransactionalRouteValidation::HPE_ROUTE_SCHEMA,
-        P3FinalTransactionalRouteValidation::TXC_ROUTE_SCHEMA,
         DELEGATED_TASK_ROUTE_SCHEMA
       ].include?(route["schema_version"]),
              "active Phase delegation requires a closed delegated Route schema")
@@ -5631,12 +5614,6 @@ module CurrentTaskAuthority
        P3FinalTransactionalRouteValidation::HPE_ROUTE_SCHEMA
       assert(defined?(P3FinalTransactionalRouteValidation),
              "P3 HPE Route validator is unavailable")
-      return P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: truth)
-    end
-    if route["schema_version"] ==
-       P3FinalTransactionalRouteValidation::TXC_ROUTE_SCHEMA
-      assert(defined?(P3FinalTransactionalRouteValidation),
-             "P3 TXC Route validator is unavailable")
       return P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: truth)
     end
     if route["schema_version"] == "p3-zero-authority-action-envelope-route/v1"

@@ -5376,6 +5376,22 @@ module CurrentTaskAuthority
     project = hash(truth["project"], "project")
     canonical = string(project["canonical_repository"], "project.canonical_repository")
     route = hash(truth["current_phase_route"], "current_phase_route")
+    if route["schema_version"] == P3FinalTransactionalRouteValidation::THTCB_ROUTE_SCHEMA &&
+       ENV["SOURCELENS_THTCB_STRATEGIC_STAGING_ROOT"]
+      assert(defined?(P3FinalTransactionalRouteValidation),
+             "P3 THTCB Route validator is unavailable")
+      expected_root = File.realpath(ENV.fetch("SOURCELENS_THTCB_STRATEGIC_STAGING_ROOT"))
+      assert(File.realpath(root) == expected_root,
+             "P3 THTCB staging context did not bind the validator root")
+      state = P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: truth)
+      assert(state == P3FinalTransactionalRouteValidation::THTCB_STATE,
+             "P3 THTCB staging Route state drift")
+      records = worktrees(root)
+      assert(records.length == 1 &&
+             File.realpath(records.first.fetch("path")) == File.realpath(root),
+             "P3 THTCB staging clone must have exactly one local worktree")
+      return
+    end
     if route["schema_version"] == P3FinalTransactionalRouteValidation::TXC_ROUTE_SCHEMA &&
        ENV["SOURCELENS_ATOMIC_STAGING_MANIFEST"]
       assert(defined?(P3FinalTransactionalRouteValidation),
@@ -5635,6 +5651,12 @@ module CurrentTaskAuthority
        "p3-host-authorized-transactional-trust-boundary-rebaseline-route/v1"
       assert(defined?(P3FinalTransactionalRouteValidation),
              "P3 host-authorized transactional Route validator is unavailable")
+      return P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: truth)
+    end
+    if route["schema_version"] ==
+       P3FinalTransactionalRouteValidation::THTCB_ROUTE_SCHEMA
+      assert(defined?(P3FinalTransactionalRouteValidation),
+             "P3 THTCB Route validator is unavailable")
       return P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: truth)
     end
     if route["schema_version"] ==

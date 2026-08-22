@@ -1117,6 +1117,108 @@ module P3FinalTransactionalRouteValidation
     }
   }.freeze
 
+  THTCB_ROUTE_SCHEMA = "p3-trusted-host-tcb-clean-room-final-route/v1"
+  THTCB_ROUTE_ID = "P3_TRUSTED_HOST_TCB_CLEAN_ROOM_FINAL_ROUTE_V1"
+  THTCB_STATE = "P3_THTCB_PRODUCT_ELIGIBLE"
+  THTCB_ACTION = "MASTER_ACTIVATE_AIOS_P3_THTCB_P1_PRODUCT"
+  THTCB_DECISION_SCHEMA = "p3-trusted-host-tcb-founder-decision/v1"
+  THTCB_DECISION_ID =
+    "AUTHORIZE_P3_TRUSTED_HOST_TCB_TRANSACTIONAL_EXECUTION_OBJECTIVE_EXIT_GATE_AND_CLEAN_ROOM_FINAL_ROUTE_V1"
+  THTCB_OPERATION_TYPE =
+    "P3_TRUSTED_HOST_TCB_TRANSACTIONAL_EXECUTION_OBJECTIVE_EXIT_GATE_AND_CLEAN_ROOM_FINAL_ROUTE"
+  THTCB_DECISION = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/decision/FOUNDER_P3_THTCB_ACCEPTED_STRUCTURED_DECISION_V1.json",
+    "byte_length" => 14_404,
+    "sha256" => "e7fc49d6022294423525fd2d764c0658045045197ac114a4327c07b34f743fb6"
+  }.freeze
+  THTCB_AUTHORIZATION_BODY = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/decision/FOUNDER_AUTHORIZATION_BODY_V1.txt",
+    "byte_length" => 19_057,
+    "sha256" => "4427ba6c96a5fd6fba9822e516ec8fe4707573a75f7447da95b7d0fcbda1445d"
+  }.freeze
+  THTCB_CANONICAL_START = {
+    "repository" => "/Users/lijunpeng/Developer/SourceLens-AIOS",
+    "branch" => "main",
+    "commit" => "f6a1c69dc28b399e0bc7562a9d591b6b11b953be",
+    "tree" => "6326179fd4d879b4ba2f4e92ccc59f27144aad41",
+    "truth" => {
+      "path" => "docs/aios/truth/project_state.yaml",
+      "byte_length" => 1_890_557,
+      "sha256" => "8243e189ae3b0374a885ec1de5c2889de1b1eacdd92046a9d846add9cafcb96a"
+    },
+    "constitution" => {
+      "path" => "docs/aios/STRATEGIC_CONSTITUTION.md",
+      "version" => "3.0",
+      "byte_length" => 14_949,
+      "sha256" => "12f9d9bbcf708002f9221eb6051b2da7d302197518151634ca2f7c0cc903c56c"
+    }
+  }.freeze
+  THTCB_CONSTITUTION = {
+    "path" => "docs/aios/STRATEGIC_CONSTITUTION.md",
+    "version" => "3.1",
+    "byte_length" => 16_879,
+    "sha256" => "42483622fe6ff66eeb44ecc63139efef6d457a9b1cdad8d389e3f4f15e7065a4"
+  }.freeze
+  THTCB_STRICT_GATE_ID =
+    "TRUSTED_HOST_TCB_DURABLE_TRANSACTIONAL_EXECUTION_WITH_PROCESS_REAL_CONTAINMENT"
+  THTCB_STRICT_ITEMS = %w[
+    AUTHORIZATION_AND_INTENT_DURABILITY
+    CRASH_ORPHAN_RECONCILIATION_AND_RESUME
+    EXACTLY_ONE_TERMINAL_TRACE_AND_CHECKPOINT_GATE
+    TRUSTED_HOST_TCB_PROCESS_REAL_CONTAINMENT_ATTESTATION
+  ].freeze
+  THTCB_TCB = %w[
+    LOCAL_OS_AND_KERNEL
+    CURRENT_SOURCELENS_TRUSTED_HOST_PROCESS
+    HOST_CONTROLLED_DURABLE_DATABASE
+    SEALED_HOST_CUSTODY_ROOT
+    EXACT_DOCKER_CLI_EXECUTABLE
+    DOCKER_UNIX_SOCKET
+    DOCKER_DESKTOP_DAEMON
+    PINNED_LOCAL_OCI_IMAGE
+  ].freeze
+  THTCB_INCLUDED_THREATS = %w[
+    ARBITRARY_AGENT_PROPOSAL
+    HOSTILE_WORKFLOW_PAYLOAD
+    DUPLICATE_OR_REPLAYED_PROPOSAL
+    CRASH_TIMEOUT_PARTIAL_IO_AND_ORPHAN
+    CONTAINER_NETWORK_FILESYSTEM_PERMISSION_AND_RESOURCE_ACQUISITION
+    NON_TCB_PATH_OR_CONTENT_DRIFT
+    FORGED_OR_INCONSISTENT_INVOCATION_CHECKPOINT_OR_TERMINAL_STATE
+  ].freeze
+  THTCB_EXCLUDED_THREATS = %w[
+    ROOT_OR_ADMIN_ATTACKER
+    SAME_USER_PROCESS_WITH_TCB_WRITE_AUTHORITY
+    COMPETING_DOCKER_CLIENT_WITH_EQUIVALENT_DAEMON_AUTHORITY
+    COMPROMISED_DOCKER_DAEMON_CLI_OR_SOCKET
+    OS_KERNEL_COMPROMISE
+    PHYSICAL_HOST_COMPROMISE
+  ].freeze
+  THTCB_PROJECTION_SHA256 = {
+    "current_phase_route" => "c18720f88a6604c42a260f69870994e2c9383e88ccbf0119d584b8fb81e9c677",
+    "phase_execution_envelope" => "4586390a1facb494e1d5b73dc86033ffcc711142820c2db1ec70890ddc100117",
+    "founder_escalation_control" => "74b523ddaa88ab7e957d409d757b0ebfc4ba909eb9f4a4d736cf49959233475a",
+    "phase_delegation" => "673bd058777b640dcc0a27959ffddc6600a7ddf906f15e26e9c2210ad8974bb5",
+    "phase_boundary" => "83aa2a3046d8c81c7c2f4d315c8ee367cebf5446e006243045ea6ab3bb16e64e",
+    "active_work" => "797a250ec944796762e9f9c7f2c3e8fe90862cf3802afecdc75d6f1d7f0e7945",
+    "phase_execution_claim" => "4a844d4dade9b2f9cef1942d1a4cc2b8f0ff97759bb27ae2d872fbcc04375d8e",
+    "claim_boundary" => "3790a27a89859604383e3bcb30dace56f0e7246663a52306285e2ba99c37bec1",
+    "project" => "1cabe3f7150412a8165c1cc2ab0a222e3b410b445e2936d913a60004215d4f69",
+    "goal" => "f0c06b59befd79ea7ea4d9d54a15e05736bdd5f3d2646766d8eb574368d2071d",
+    "strict_p3" => "2a8c19c8cc8f067b306820e5e426482986dea7e103d5b277d589d5fe412d1953"
+  }.freeze
+  THTCB_HISTORICAL_PROJECTIONS = {
+    "historical_p3_txc_control_recovery_route_terminal" => "current_phase_route",
+    "historical_p3_txc_control_recovery_phase_execution_envelope" =>
+      "phase_execution_envelope",
+    "historical_p3_txc_control_recovery_founder_escalation_control" =>
+      "founder_escalation_control",
+    "historical_p3_txc_control_recovery_phase_delegation" => "phase_delegation",
+    "historical_p3_txc_control_recovery_phase_boundary" => "phase_boundary",
+    "historical_p3_txc_control_recovery_active_work" => "active_work",
+    "historical_p3_txc_control_recovery_phase_execution_claim" => "phase_execution_claim"
+  }.freeze
+
   def assert(condition, message)
     raise P3FinalTransactionalRouteValidationError, message unless condition
   end
@@ -8803,7 +8905,258 @@ module P3FinalTransactionalRouteValidation
     raise P3FinalTransactionalRouteValidationError, "P3 TXC route invalid: #{e.message}"
   end
 
+  def thtcb_projection_sha256(value)
+    Digest::SHA256.hexdigest(canonical_json(value))
+  end
+
+  def validate_thtcb_repository_context!(root, decision)
+    canonical_root = Pathname.new(THTCB_CANONICAL_START.fetch("repository")).realpath
+    if root != canonical_root
+      staged_root = ENV["SOURCELENS_THTCB_STRATEGIC_STAGING_ROOT"]
+      assert(staged_root && Pathname.new(staged_root).realpath == root,
+             "P3 THTCB non-canonical root is not the exact declared strategic staging root")
+    else
+      assert(git!(root, "rev-parse", "--abbrev-ref", "HEAD") == "main",
+             "P3 THTCB canonical installation must remain on main")
+    end
+    assert(git!(root, "rev-parse", "#{THTCB_CANONICAL_START.fetch('commit')}^{tree}") ==
+             THTCB_CANONICAL_START.fetch("tree"),
+           "P3 THTCB canonical-start tree drift")
+    _out, _err, ancestor = Open3.capture3(
+      "git", "merge-base", "--is-ancestor", THTCB_CANONICAL_START.fetch("commit"), "HEAD",
+      chdir: root.to_s
+    )
+    assert(ancestor.success?, "P3 THTCB canonical start is not an ancestor of HEAD")
+    allowed = array(
+      decision.dig("strategic_installation", "allowed_repository_paths"),
+      "P3 THTCB strategic installation path allowlist"
+    )
+    changed = git!(root, "diff", "--name-only", THTCB_CANONICAL_START.fetch("commit")).lines
+      .map(&:strip).reject(&:empty?)
+    untracked = git!(root, "ls-files", "--others", "--exclude-standard").lines
+      .map(&:strip).reject(&:empty?)
+    assert(((changed + untracked).uniq - allowed).empty?,
+           "P3 THTCB strategic installation escaped its exact repository path allowlist")
+  rescue Errno::ENOENT, Errno::ELOOP => e
+    raise P3FinalTransactionalRouteValidationError,
+          "P3 THTCB repository context unavailable: #{e.message}"
+  end
+
+  def load_thtcb_canonical_start_truth!(root)
+    identity = THTCB_CANONICAL_START.fetch("truth")
+    bytes, stderr, status = Open3.capture3(
+      "git", "show", "#{THTCB_CANONICAL_START.fetch('commit')}:#{identity.fetch('path')}",
+      chdir: root.to_s
+    )
+    assert(status.success?, "P3 THTCB canonical-start Truth unavailable: #{stderr.strip}")
+    assert(bytes.bytesize == identity.fetch("byte_length") &&
+           Digest::SHA256.hexdigest(bytes) == identity.fetch("sha256"),
+           "P3 THTCB canonical-start Truth identity drift")
+    YAML.safe_load(bytes, permitted_classes: [], permitted_symbols: [], aliases: false)
+  end
+
+  def validate_thtcb_decision!(root)
+    bytes = read_identity!(THTCB_DECISION, "P3 THTCB Founder decision", create_once: true)
+    decision = JSON.parse(bytes)
+    assert(decision["schema_version"] == THTCB_DECISION_SCHEMA &&
+           decision["record_type"] == "FOUNDER_ACCEPTED_STRATEGIC_DECISION" &&
+           decision["decision_id"] == THTCB_DECISION_ID &&
+           decision["operation_type"] == THTCB_OPERATION_TYPE &&
+           decision["status"] == "ACCEPTED_CURRENT_DIRECT_FOUNDER_MESSAGE",
+           "P3 THTCB Founder decision identity or lifecycle drift")
+    body = read_identity!(THTCB_AUTHORIZATION_BODY, "P3 THTCB authorization body",
+                          create_once: true)
+    body_text = body.dup.force_encoding(Encoding::UTF_8)
+    assert(body_text.valid_encoding? && body_text.lines.first&.chomp == THTCB_DECISION_ID,
+           "P3 THTCB authorization body token drift")
+    assert(decision.dig("source", "installed_body") ==
+             THTCB_AUTHORIZATION_BODY.merge(
+               "byte_equal_to_attachment" => true, "mode" => "0444", "nlink" => 1
+             ), "P3 THTCB installed authorization body projection drift")
+    start = mapping(decision["canonical_start"], "P3 THTCB canonical start")
+    assert(start.slice("repository", "branch", "commit", "tree") ==
+             THTCB_CANONICAL_START.slice("repository", "branch", "commit", "tree") &&
+           start["clean"] == true && start["truth"] == THTCB_CANONICAL_START.fetch("truth") &&
+           start["constitution"] == THTCB_CANONICAL_START.fetch("constitution"),
+           "P3 THTCB canonical-start decision binding drift")
+    assert(decision.dig("authority", "primary_reserved_trigger") ==
+             "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE" &&
+           decision.dig("authority", "phase_entry_remains_authorized") == true &&
+           decision.dig("authority", "p4_entry_authorized") == false &&
+           decision.dig("authority", "long_term_goal_status") == "ACTIVE",
+           "P3 THTCB authority-layer projection drift")
+    assert(decision.dig("strategic_change", "constitution_version") == "3.1" &&
+           decision.dig("strategic_change", "objective_id") ==
+             "TRUSTED_HOST_TCB_TRANSACTIONAL_SINGLE_AGENT_EXECUTION" &&
+           decision.dig("strategic_change", "strict_exit_gate_id") == THTCB_STRICT_GATE_ID &&
+           decision.dig("strategic_change", "required_gate_items") == THTCB_STRICT_ITEMS,
+           "P3 THTCB strategic Objective or strict Exit Gate drift")
+    assert(decision.dig("threat_model", "trusted_computing_base") == THTCB_TCB &&
+           decision.dig("threat_model", "included_threats") == THTCB_INCLUDED_THREATS &&
+           decision.dig("threat_model", "excluded_as_tcb_compromise") ==
+             THTCB_EXCLUDED_THREATS,
+           "P3 THTCB threat-model boundary drift")
+    assert(decision.dig("route", "route_id") == THTCB_ROUTE_ID &&
+           decision.dig("route", "foundation_task_allowed") == false &&
+           decision.dig("route", "cumulative_ceiling") == {
+             "engineering_tasks" => 13, "engineering_hours" => 384,
+             "calendar_days" => 94
+           } && decision.dig("route", "consumed_preserved") == {
+             "engineering_tasks" => 11, "engineering_hours" => 320,
+             "calendar_days" => 78
+           } && decision.dig("route", "remaining") == {
+             "engineering_tasks" => 2, "engineering_hours" => 64,
+             "calendar_days" => 16
+           }, "P3 THTCB non-resettable cumulative envelope drift")
+    assert(decision.dig("lifecycle", "project_actual_completion") == false &&
+           decision.dig("lifecycle", "long_term_goal_status") == "ACTIVE" &&
+           decision.dig("lifecycle", "codex_goal_completion_authorized") == false,
+           "P3 THTCB project or Long-term Goal lifecycle drift")
+    validate_thtcb_repository_context!(root, decision)
+    decision
+  rescue JSON::ParserError => e
+    raise P3FinalTransactionalRouteValidationError,
+          "P3 THTCB Founder decision is not valid JSON: #{e.message}"
+  end
+
+  def validate_thtcb_installed_route!(root, truth)
+    root = Pathname.new(root).realpath
+    assert(truth["record_type"] == "sourcelens_aios_current_truth",
+           "P3 THTCB canonical Truth record type drift")
+    decision = validate_thtcb_decision!(root)
+    baseline = load_thtcb_canonical_start_truth!(root)
+    THTCB_HISTORICAL_PROJECTIONS.each do |historical_key, baseline_key|
+      assert(truth[historical_key] == baseline[baseline_key],
+             "P3 THTCB immutable historical projection drift: #{historical_key}")
+    end
+    constitution_bytes = read_repo_identity!(
+      root, THTCB_CONSTITUTION, "P3 THTCB Strategic Constitution v3.1"
+    )
+    assert(constitution_bytes.include?("- Version: `3.1`") &&
+           constitution_bytes.include?("`#{THTCB_STRICT_GATE_ID}`") &&
+           constitution_bytes.include?("`TRUSTED_HOST_TCB_TRANSACTIONAL_SINGLE_AGENT_EXECUTION`"),
+           "P3 THTCB Constitution semantic anchor drift")
+
+    THTCB_PROJECTION_SHA256.each do |key, expected_sha|
+      value = if key == "strict_p3"
+                truth.dig("strict_phase_gate_ledger", "phases", "P3")
+              else
+                truth[key]
+              end
+      assert(!value.nil? && thtcb_projection_sha256(value) == expected_sha,
+             "P3 THTCB closed projection drift: #{key}")
+    end
+
+    route = mapping(truth["current_phase_route"], "P3 THTCB current Route")
+    assert(route["schema_version"] == THTCB_ROUTE_SCHEMA &&
+           route["route_id"] == THTCB_ROUTE_ID && route["phase"] == "P3" &&
+           route["status"] == "ACTIVE_PRODUCT_ELIGIBLE" &&
+           route["lifecycle_stage"] == "PRODUCT_ELIGIBLE_NOT_ACTIVATED" &&
+           route["next_eligible_action"] == THTCB_ACTION &&
+           route["founder_route_decision"] == THTCB_DECISION.merge(
+             "decision_id" => THTCB_DECISION_ID,
+             "operation_type" => THTCB_OPERATION_TYPE,
+             "source_body" => THTCB_AUTHORIZATION_BODY
+           ) && route["canonical_start"].slice("repository", "branch", "commit", "tree",
+                                                "truth", "constitution") ==
+             THTCB_CANONICAL_START && route["constitution"] == THTCB_CONSTITUTION &&
+           route["objective_id"] == "TRUSTED_HOST_TCB_TRANSACTIONAL_SINGLE_AGENT_EXECUTION" &&
+           route["workflow_id"] == "SHA256_READ_ONLY_CUSTODY_V1" &&
+           route.dig("threat_model", "trusted_computing_base") == THTCB_TCB &&
+           route.dig("threat_model", "included_threats") == THTCB_INCLUDED_THREATS &&
+           route.dig("threat_model", "excluded_as_tcb_compromise") ==
+             THTCB_EXCLUDED_THREATS && route.dig("strict_exit_gate", "gate_id") ==
+             THTCB_STRICT_GATE_ID &&
+           route.dig("strict_exit_gate", "required_item_ids") == THTCB_STRICT_ITEMS,
+           "P3 THTCB Route semantic projection drift")
+    assert(route.dig("ordered_stages", 0, "task_id") ==
+             "AIOS-P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT" &&
+           route.dig("ordered_stages", 0, "status") ==
+             "ELIGIBLE_MASTER_ACTIVATE_IMMEDIATELY" &&
+           route.dig("ordered_stages", 1, "task_id") ==
+             "AIOS-P3-THTCB-A1_ONE_SHOT_STRICT_EXIT_AUDIT" &&
+           route.dig("ordered_stages", 1, "status") ==
+             "LOCKED_PENDING_PRODUCT_ACCEPTED_AND_INTEGRATED",
+           "P3 THTCB Product-then-Audit order drift")
+    assert(route.dig("cumulative_accounting", "limits") ==
+             decision.dig("route", "cumulative_ceiling").merge(
+               "active_tasks" => 1, "task_branches" => 1,
+               "task_worktrees" => 1, "active_candidates" => 1
+             ) && route.dig("cumulative_accounting", "consumed") ==
+             decision.dig("route", "consumed_preserved") &&
+           route.dig("cumulative_accounting", "remaining") ==
+             decision.dig("route", "remaining"),
+           "P3 THTCB Route accounting drift")
+    assert(route.dig("anti_loop", "foundation_task_allowed") == false &&
+           route.dig("anti_loop", "candidate_3_allowed") == false &&
+           route.dig("anti_loop", "second_same_task_repair_allowed") == false &&
+           route.dig("anti_loop", "third_review_cycle_allowed") == false &&
+           route.dig("anti_loop", "successor_or_replacement_allowed") == false &&
+           route.dig("anti_loop", "governance_progress_credit") == 0,
+           "P3 THTCB anti-cycle boundary drift")
+
+    envelope = mapping(truth["phase_execution_envelope"], "P3 THTCB Phase envelope")
+    assert(envelope["status"] == "ACTIVE_P3_THTCB_PRODUCT_ELIGIBLE" &&
+           envelope["consumed"] == decision.dig("route", "consumed_preserved") &&
+           envelope["remaining"] == decision.dig("route", "remaining") &&
+           envelope["remaining_capacity_usable"] == true &&
+           envelope["governance_progress_credit"] == 0,
+           "P3 THTCB Phase envelope semantic drift")
+    control = mapping(truth["founder_escalation_control"],
+                      "P3 THTCB Founder escalation control")
+    assert(control["disposition"] == "NO_RESERVED_TRIGGER_CONTINUE_PHASE" &&
+           control.dig("reserved_trigger", "category") == "NONE" &&
+           control["founder_decision_required"] == false &&
+           control["next_action_owner"] == "MASTER_CEO_AGENT" &&
+           control["next_eligible_action"] == THTCB_ACTION,
+           "P3 THTCB Founder interruption boundary drift")
+    boundary = mapping(truth["phase_boundary"], "P3 THTCB Phase boundary")
+    active = mapping(truth["active_work"], "P3 THTCB active work")
+    assert(boundary["task_creation_allowed"] == true &&
+           boundary["task_creation_scope"] == "EXACT_AIOS_P3_THTCB_P1_PRODUCT_ONLY" &&
+           boundary["founder_decision_required"] == false &&
+           boundary["next_eligible_action"] == THTCB_ACTION &&
+           active["current_task"] == "NONE" &&
+           active["selected_task"] ==
+             "AIOS-P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT" &&
+           active["current_task_status"] ==
+             "NONE_PRODUCT_ELIGIBLE_PENDING_MASTER_ACTIVATION" &&
+           active["task_resource_state"] == "NOT_CREATED_MASTER_ACTIVATION_REQUIRED" &&
+           active["founder_decision_required"] == false &&
+           active["user_action_required"] == "NONE" &&
+           active["next_eligible_action"] == THTCB_ACTION,
+           "P3 THTCB Product activation boundary drift")
+    p3 = mapping(truth.dig("strict_phase_gate_ledger", "phases", "P3"),
+                 "P3 THTCB strict Exit Gate")
+    assert(p3["status"] == "INCOMPLETE" &&
+           p3.dig("current_exit_gate", "gate_id") == THTCB_STRICT_GATE_ID &&
+           p3.dig("current_exit_gate", "authority") == THTCB_DECISION.merge(
+             "decision_id" => THTCB_DECISION_ID
+           ) && p3.dig("current_exit_gate", "required_item_ids") == THTCB_STRICT_ITEMS &&
+           THTCB_STRICT_ITEMS.all? do |item_id|
+             p3.dig("current_exit_gate", "required_items", item_id, "status") == "MISSING"
+           end && p3.dig("founder_phase_gate", "status") ==
+             "NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS",
+           "P3 THTCB strict Exit Gate false acceptance or identity drift")
+    assert(truth.dig("project", "current_phase") == "P3" &&
+           truth.dig("project", "p3_execution_status") == "ACTIVE_THTCB_PRODUCT_ELIGIBLE" &&
+           truth.dig("project", "p4_entry_status") ==
+             "HOLD_PENDING_STRICT_P3_EXIT_AND_SEPARATE_FOUNDER_PHASE_ENTRY" &&
+           truth.dig("goal", "control_plane_status_observed") == "ACTIVE" &&
+           truth.dig("goal", "current_task_authority") == "NONE" &&
+           truth.dig("goal", "current_strategic_decision", "decision_id") ==
+             THTCB_DECISION_ID,
+           "P3 THTCB project, P4 or Long-term Goal lifecycle drift")
+    THTCB_STATE
+  rescue ArgumentError, KeyError, TypeError, Psych::Exception => e
+    raise P3FinalTransactionalRouteValidationError,
+          "P3 THTCB route invalid: #{e.message}"
+  end
+
   def validate_truth!(root:, truth:, preactivation_resource_action: nil)
+    if truth.dig("current_phase_route", "schema_version") == THTCB_ROUTE_SCHEMA
+      return validate_thtcb_installed_route!(root, truth)
+    end
     root = Pathname.new(root).realpath
     if truth.dig("current_phase_route", "schema_version") == TXC_ROUTE_SCHEMA
       return validate_txc_route!(root, truth)

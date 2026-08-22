@@ -35,6 +35,162 @@ rescue P3FinalTransactionalRouteValidationError
 end
 
 if host_authorized_truth.dig("current_phase_route", "schema_version") ==
+   P3FinalTransactionalRouteValidation::THTCB_ROUTE_SCHEMA
+  state = P3FinalTransactionalRouteValidation.validate_truth!(
+    root: root, truth: host_authorized_truth
+  )
+  raise "P3 THTCB installed state drift" unless
+    state == P3FinalTransactionalRouteValidation::THTCB_STATE
+  assertions += 1
+
+  mutations = {
+    "THTCB Route cannot gain an unknown member" => lambda do |candidate|
+      candidate["current_phase_route"]["unexpected"] = true
+    end,
+    "THTCB Founder decision identity cannot drift" => lambda do |candidate|
+      candidate["current_phase_route"]["founder_route_decision"]["sha256"] = "0" * 64
+    end,
+    "THTCB authorization body identity cannot drift" => lambda do |candidate|
+      candidate["current_phase_route"]["founder_route_decision"]["source_body"]["sha256"] =
+        "0" * 64
+    end,
+    "THTCB canonical start cannot drift" => lambda do |candidate|
+      candidate["current_phase_route"]["canonical_start"]["tree"] = "0" * 40
+    end,
+    "THTCB Constitution identity cannot drift" => lambda do |candidate|
+      candidate["current_phase_route"]["constitution"]["sha256"] = "0" * 64
+    end,
+    "THTCB Objective cannot become generic runtime" => lambda do |candidate|
+      candidate["current_phase_route"]["objective_id"] = "GENERIC_AGENT_RUNTIME"
+    end,
+    "THTCB trusted computing base cannot shrink" => lambda do |candidate|
+      candidate["current_phase_route"]["threat_model"]["trusted_computing_base"].pop
+    end,
+    "THTCB included threat set cannot shrink" => lambda do |candidate|
+      candidate["current_phase_route"]["threat_model"]["included_threats"].pop
+    end,
+    "THTCB excluded compromise cannot become a defended claim" => lambda do |candidate|
+      candidate["current_phase_route"]["threat_model"]["excluded_as_tcb_compromise"].delete(
+        "SAME_USER_PROCESS_WITH_TCB_WRITE_AUTHORITY"
+      )
+    end,
+    "THTCB strict Exit Gate id cannot drift" => lambda do |candidate|
+      candidate["current_phase_route"]["strict_exit_gate"]["gate_id"] = "STRONG_HOST_ISOLATION"
+    end,
+    "THTCB Product and Audit order cannot reverse" => lambda do |candidate|
+      candidate["current_phase_route"]["ordered_stages"].reverse!
+    end,
+    "THTCB Foundation Task cannot reappear" => lambda do |candidate|
+      candidate["current_phase_route"]["anti_loop"]["foundation_task_allowed"] = true
+    end,
+    "THTCB Product budget cannot expand" => lambda do |candidate|
+      candidate["current_phase_route"]["ordered_stages"][0]["budget"]["engineering_hours"] = 49
+    end,
+    "THTCB Audit cannot unlock before Product acceptance" => lambda do |candidate|
+      candidate["current_phase_route"]["ordered_stages"][1]["status"] =
+        "ELIGIBLE_MASTER_ACTIVATE_IMMEDIATELY"
+    end,
+    "THTCB Audit cannot gain rerun-to-pass" => lambda do |candidate|
+      candidate["current_phase_route"]["ordered_stages"][1]["budget"]["rerun_to_pass_allowed"] =
+        true
+    end,
+    "THTCB cumulative consumed accounting cannot reset" => lambda do |candidate|
+      candidate["phase_execution_envelope"]["consumed"]["engineering_tasks"] = 0
+    end,
+    "THTCB cumulative ceiling cannot expand" => lambda do |candidate|
+      candidate["phase_execution_envelope"]["limits"]["engineering_hours"] = 385
+    end,
+    "THTCB strategic installation cannot claim progress" => lambda do |candidate|
+      candidate["phase_execution_envelope"]["delivery_progress"]["percent"] = 75
+    end,
+    "THTCB governance cannot claim progress" => lambda do |candidate|
+      candidate["phase_execution_envelope"]["governance_progress_credit"] = 1
+    end,
+    "THTCB one-shot JRE acquisition cannot become open network" => lambda do |candidate|
+      candidate["phase_execution_envelope"]["external_effects"]["network"] = true
+    end,
+    "THTCB Founder interruption cannot be fabricated" => lambda do |candidate|
+      candidate["founder_escalation_control"]["founder_decision_required"] = true
+    end,
+    "THTCB next action owner cannot move to Founder" => lambda do |candidate|
+      candidate["founder_escalation_control"]["next_action_owner"] = "HUMAN_FOUNDER"
+    end,
+    "THTCB delegated Task selection cannot move to Founder" => lambda do |candidate|
+      candidate["phase_delegation"]["task_selection_owner"] = "HUMAN_FOUNDER"
+    end,
+    "THTCB second repair cannot reappear" => lambda do |candidate|
+      candidate["phase_delegation"]["anti_loop"]["second_same_task_repair_allowed"] = true
+    end,
+    "THTCB Task scope cannot become open" => lambda do |candidate|
+      candidate["phase_boundary"]["task_creation_scope"] = "ANY_P3_TASK"
+    end,
+    "THTCB Worker root cannot escape" => lambda do |candidate|
+      candidate["phase_boundary"]["role_write_roots"]["worker"] = ["/"]
+    end,
+    "THTCB Provider cannot self-enable" => lambda do |candidate|
+      candidate["phase_boundary"]["default_external_effects"]["provider"] = true
+    end,
+    "THTCB Product cannot be marked active before authority exists" => lambda do |candidate|
+      candidate["active_work"]["current_task"] =
+        "AIOS-P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT"
+    end,
+    "THTCB inactive Product cannot receive forged authority" => lambda do |candidate|
+      candidate["active_work"]["authority_record"] = {
+        "path" => "/private/tmp/forged", "byte_length" => 1, "sha256" => "0" * 64
+      }
+    end,
+    "THTCB next Product budget cannot expand" => lambda do |candidate|
+      candidate["active_work"]["next_stage_budget"]["calendar_days"] = 11
+    end,
+    "THTCB Product activation cannot claim engineering progress" => lambda do |candidate|
+      candidate["phase_execution_claim"]["real_engineering_progress"] = 1
+    end,
+    "THTCB Product cannot be marked changed before implementation" => lambda do |candidate|
+      candidate["phase_execution_claim"]["product_capability_changed"] = true
+    end,
+    "THTCB candidate cannot integrate before independent acceptance" => lambda do |candidate|
+      candidate["phase_execution_claim"]["candidate_integration_allowed"] = true
+    end,
+    "THTCB claim Route cannot drift" => lambda do |candidate|
+      candidate["claim_boundary"]["current_phase_route"] = "FORGED_ROUTE"
+    end,
+    "THTCB strict Gate item cannot false-accept" => lambda do |candidate|
+      candidate.dig("strict_phase_gate_ledger", "phases", "P3", "current_exit_gate",
+                    "required_items", "AUTHORIZATION_AND_INTENT_DURABILITY")["status"] =
+        "ACCEPTED"
+    end,
+    "THTCB compatibility Gate cannot false-accept" => lambda do |candidate|
+      candidate.dig("strict_phase_gate_ledger", "phases", "P3", "required_items",
+                    "RESUME_ISOLATION_PERMISSION_AND_TRACE_TESTS")["status"] = "ACCEPTED"
+    end,
+    "THTCB historical terminal Route cannot be rewritten" => lambda do |candidate|
+      candidate["historical_p3_txc_control_recovery_route_terminal"]["status"] = "ACCEPTED"
+    end,
+    "THTCB rejected lineage cannot become reusable" => lambda do |candidate|
+      candidate["current_phase_route"]["rejected_lineage_policy"] = "REUSE_ALLOWED"
+    end,
+    "THTCB Docker registry cannot self-enable" => lambda do |candidate|
+      candidate["current_phase_route"]["external_effect_authority"]["docker_registry"] = true
+    end,
+    "THTCB cannot enter P4" => lambda do |candidate|
+      candidate["project"]["p4_entry_status"] = "AUTHORIZED"
+    end,
+    "THTCB cannot close the Long-term Goal" => lambda do |candidate|
+      candidate["goal"]["control_plane_status_observed"] = "COMPLETE"
+    end,
+    "THTCB current decision cannot be detached from Goal" => lambda do |candidate|
+      candidate["goal"]["current_strategic_decision"]["decision_id"] = "FORGED"
+    end
+  }
+  mutations.each do |label, mutation|
+    expect_non_pass(root, host_authorized_truth, label, &mutation)
+    assertions += 1
+  end
+  puts "P3_FINAL_TRANSACTIONAL_ROUTE_TEST: PASS #{assertions} assertions mode=THTCB_INSTALLED"
+  exit 0
+end
+
+if host_authorized_truth.dig("current_phase_route", "schema_version") ==
    P3FinalTransactionalRouteValidation::TXC_ROUTE_SCHEMA
   state = P3FinalTransactionalRouteValidation.validate_truth!(
     root: root, truth: host_authorized_truth

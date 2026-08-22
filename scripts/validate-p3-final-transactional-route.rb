@@ -7,6 +7,7 @@ require "open3"
 require "pathname"
 require "tmpdir"
 require "yaml"
+require_relative "validate-strict-phase-gates"
 
 class P3FinalTransactionalRouteValidationError < StandardError; end
 
@@ -9873,6 +9874,10 @@ module P3FinalTransactionalRouteValidation
   end
 
   def validate_truth!(root:, truth:, preactivation_resource_action: nil)
+    if truth.dig("current_phase_route", "schema_version") ==
+       P3TaskWideReservationRouteValidation::ROUTE_SCHEMA
+      return P3TaskWideReservationRouteValidation.validate_truth!(root: root, truth: truth)
+    end
     if truth.dig("current_phase_route", "schema_version") == THTCB_ROUTE_SCHEMA
       lifecycle = truth.dig("current_phase_route", "lifecycle_stage")
       return validate_thtcb_installed_route!(root, truth) if
@@ -10143,7 +10148,9 @@ if $PROGRAM_NAME == __FILE__
             "unsupported arguments; use no arguments, --create-hpe-terminal-bundle-attestation " \
             "or --create-tik-terminal-bundle-attestation"
     end
-  rescue P3FinalTransactionalRouteValidationError, JSON::ParserError, Psych::SyntaxError => e
+  rescue P3FinalTransactionalRouteValidationError,
+         P3TaskWideReservationRouteValidationError,
+         JSON::ParserError, Psych::SyntaxError => e
     warn "P3_FINAL_TRANSACTIONAL_ROUTE: NON_PASS #{e.message}"
     exit 1
   end

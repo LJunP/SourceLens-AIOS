@@ -7,6 +7,7 @@ require "json"
 require "open3"
 require "tmpdir"
 require "yaml"
+require_relative "validate-strict-phase-gates"
 
 ROOT = File.expand_path("..", __dir__)
 TRUTH = File.join(ROOT, "docs/aios/truth/project_state.yaml")
@@ -41,6 +42,58 @@ def run_phase_fixture(path, phase, task, action)
   )
 end
 
+if ARGV == ["--twrf-current-only"]
+  truth = YAML.safe_load(
+    File.binread(TRUTH),
+    permitted_classes: [],
+    permitted_symbols: [],
+    aliases: false
+  )
+  raise "current Route is not P3 TWRF" unless
+    truth.dig("current_phase_route", "schema_version") ==
+      P3TaskWideReservationRouteValidation::ROUTE_SCHEMA
+  state = P3TaskWideReservationRouteValidation.validate_truth!(root: ROOT, truth: truth)
+  expected = P3TaskWideReservationRouteValidation::LIFECYCLE_STATES.fetch(
+    truth.dig("current_phase_route", "lifecycle_stage")
+  )
+  raise "TWRF strict Gate current state drift" unless state == expected
+  mutations = {
+    "task-wide item removal" => lambda do |candidate|
+      candidate.dig("strict_phase_gate_ledger", "phases", "P3", "current_exit_gate",
+                    "required_item_ids").delete("TASK_WIDE_PRE_EFFECT_RESERVATION_FRONTIER")
+    end,
+    "task-wide item false acceptance" => lambda do |candidate|
+      candidate.dig("strict_phase_gate_ledger", "phases", "P3", "current_exit_gate",
+                    "required_items", "TASK_WIDE_PRE_EFFECT_RESERVATION_FRONTIER")["status"] =
+        "ACCEPTED"
+    end,
+    "compatibility projection false acceptance" => lambda do |candidate|
+      candidate.dig("strict_phase_gate_ledger", "phases", "P3", "required_items",
+                    "RESUME_ISOLATION_PERMISSION_AND_TRACE_TESTS")["status"] = "ACCEPTED"
+    end,
+    "strict Gate candidate split" => lambda do |candidate|
+      candidate.dig("strict_phase_gate_ledger", "phases", "P3", "current_exit_gate")[
+        "same_frozen_candidate_required"
+      ] = false
+    end,
+    "P4 premature entry" => lambda do |candidate|
+      candidate["project"]["p4_entry_status"] = "AUTHORIZED"
+    end
+  }
+  mutations.each do |label, mutation|
+    candidate = JSON.parse(JSON.generate(truth))
+    begin
+      mutation.call(candidate)
+      P3TaskWideReservationRouteValidation.validate_truth!(root: ROOT, truth: candidate)
+      raise "TWRF strict Gate mutation false-PASSed: #{label}"
+    rescue P3TaskWideReservationRouteValidationError
+      # expected
+    end
+  end
+  puts "STRICT_PHASE_GATE_TESTS: PASS twrf_current=1 twrf_negative_mutations=#{mutations.length}"
+  exit 0
+end
+
 FileUtils.mkdir_p(REVIEW_ROOT)
 audit = Dir.mktmpdir("strict-phase-gates-", AUDIT_ROOT)
 reviews = Dir.mktmpdir("strict-phase-gate-reviews-", REVIEW_ROOT)
@@ -52,6 +105,46 @@ begin
     permitted_symbols: [],
     aliases: false
   )
+  if truth.dig("current_phase_route", "schema_version") ==
+     P3TaskWideReservationRouteValidation::ROUTE_SCHEMA
+    state = P3TaskWideReservationRouteValidation.validate_truth!(root: ROOT, truth: truth)
+    expected = P3TaskWideReservationRouteValidation::LIFECYCLE_STATES.fetch(
+      truth.dig("current_phase_route", "lifecycle_stage")
+    )
+    raise "TWRF strict Gate current state drift" unless state == expected
+    {
+      "task-wide item removal" => lambda do |candidate|
+        candidate.dig("strict_phase_gate_ledger", "phases", "P3", "current_exit_gate",
+                      "required_item_ids").delete("TASK_WIDE_PRE_EFFECT_RESERVATION_FRONTIER")
+      end,
+      "task-wide item false acceptance" => lambda do |candidate|
+        candidate.dig("strict_phase_gate_ledger", "phases", "P3", "current_exit_gate",
+                      "required_items", "TASK_WIDE_PRE_EFFECT_RESERVATION_FRONTIER")["status"] =
+          "ACCEPTED"
+      end,
+      "compatibility projection false acceptance" => lambda do |candidate|
+        candidate.dig("strict_phase_gate_ledger", "phases", "P3", "required_items",
+                      "RESUME_ISOLATION_PERMISSION_AND_TRACE_TESTS")["status"] = "ACCEPTED"
+      end,
+      "strict Gate candidate split" => lambda do |candidate|
+        candidate.dig("strict_phase_gate_ledger", "phases", "P3", "current_exit_gate")[
+          "same_frozen_candidate_required"
+        ] = false
+      end,
+      "P4 premature entry" => lambda do |candidate|
+        candidate["project"]["p4_entry_status"] = "AUTHORIZED"
+      end
+    }.each do |label, mutation|
+      candidate = JSON.parse(JSON.generate(truth))
+      begin
+        mutation.call(candidate)
+        P3TaskWideReservationRouteValidation.validate_truth!(root: ROOT, truth: candidate)
+        raise "TWRF strict Gate mutation false-PASSed: #{label}"
+      rescue P3TaskWideReservationRouteValidationError
+        # expected
+      end
+    end
+  end
   # This matrix exercises the P1 -> P2 boundary even after canonical execution
   # has entered P2. Isolate that lifecycle from the live Phase and active Task
   # instead of implicitly assuming canonical current_phase == P1.

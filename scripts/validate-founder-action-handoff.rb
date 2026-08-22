@@ -53,6 +53,7 @@ module FounderActionHandoff
     P3_HOST_PROCESS_ENFORCED_MINIMAL_SLICE_ROUTE_REBASELINE_AFTER_TIK_F1_TERMINAL
     P3_TXC_CONTROL_PLANE_RECOVERY_AND_DIRECT_PRODUCT_ROUTE_REENTRY_AFTER_POSTINSTALL_PROTOCOL_ERROR
     P3_TRUSTED_HOST_TCB_TRANSACTIONAL_EXECUTION_OBJECTIVE_EXIT_GATE_AND_CLEAN_ROOM_FINAL_ROUTE
+    P3_TASK_WIDE_RESERVATION_FRONTIER_TRANSACTIONAL_EXECUTION_FOUNDATION_PRODUCT_AND_ONE_SHOT_AUDIT_ROUTE
   ].freeze
   APP_OPERATION_TYPES = %w[APP_FILESYSTEM_BATCH_WRITE].freeze
   READ_ONLY_HTTPS_OPERATION = "一次全新、独立、clean-room V6 benchmark source acquisition"
@@ -453,6 +454,68 @@ module FounderActionHandoff
     "risk_and_reversibility" => P3_THTCB_ROUTE_RISK,
     "deny_or_defer_effect" => P3_THTCB_ROUTE_DENY
   }.freeze
+  P3_TWRF_ROUTE_TOKEN =
+    "AUTHORIZE_P3_TASK_WIDE_RESERVATION_FRONTIER_TRANSACTIONAL_EXECUTION_FOUNDATION_PRODUCT_AND_ONE_SHOT_AUDIT_ROUTE_V1"
+  P3_TWRF_ROUTE_OPERATION_TYPE =
+    "P3_TASK_WIDE_RESERVATION_FRONTIER_TRANSACTIONAL_EXECUTION_FOUNDATION_PRODUCT_AND_ONE_SHOT_AUDIT_ROUTE"
+  P3_TWRF_ROUTE_PRIMARY_TRIGGER = "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE"
+  P3_TWRF_ROUTE_STRATEGIC_CHANGE =
+    "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE：保留 P3 Objective TRUSTED_HOST_TCB_TRANSACTIONAL_SINGLE_AGENT_EXECUTION 和现有 TCB/威胁边界，不缩小 Agent、workflow、checkpoint、crash、cleanup、trace 或 process-real containment 能力；将 strict Exit Gate 从 TRUSTED_HOST_TCB_DURABLE_TRANSACTIONAL_EXECUTION_WITH_PROCESS_REAL_CONTAINMENT 正式加强为 TRUSTED_HOST_TCB_TASK_WIDE_TRANSACTIONAL_EXECUTION_WITH_PROCESS_REAL_CONTAINMENT，新增显式必需项 TASK_WIDE_PRE_EFFECT_RESERVATION_FRONTIER，并以 Strategic Constitution v3.2、append-only ADR、Truth 与 validator 固化。mission、Primary ICP、year-one outcome、P0-P2 accepted facts、P3-001 accepted semantics、P4-P12 顺序和 Long-term Goal ACTIVE 不变。"
+  P3_TWRF_ROUTE_CAPACITY_CHANGE =
+    "MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE：批准把当前P3 non-resettable ceiling从13 Tasks / 384 engineering hours / 94 calendar days精确扩为15 Tasks / 448 engineering hours / 106 calendar days；以已消费12 Tasks / 368 hours / 88 days为不可返还基线，只释放本路线严格顺序的Foundation、Product、Audit共3 Tasks / 80 hours / 18 days及正文列明的本机Docker权限，不授权第二条路线、额外Task、网络、Provider、Secret、remote、production或public effect。"
+  P3_TWRF_ROUTE_GATE =
+    "新 strict Exit Gate 恰含五个必需项：TASK_WIDE_PRE_EFFECT_RESERVATION_FRONTIER、AUTHORIZATION_AND_INTENT_DURABILITY、CRASH_ORPHAN_RECONCILIATION_AND_RESUME、EXACTLY_ONE_TERMINAL_TRACE_AND_CHECKPOINT_GATE、TRUSTED_HOST_TCB_PROCESS_REAL_CONTAINMENT_ATTESTATION；五项必须由同一 frozen Product candidate 的当前 hash-bound Evidence 全部 ACCEPTED。P3-001 语义保持不变：checkpoint head 不存在时，不同 workflow proposal 可以竞争，但 task_id-only active reservation 只允许一个 invocation 在 effect 前获胜；成功 terminal 被接受并提交首个 checkpoint 后由 P3-001 head 绑定 workflow；terminal failure 已接受、cleanup 已确认且 checkpoint head 仍不存在时才可释放 active reservation并允许新的正授权 proposal；禁止用 task 创建时固定单一 workflow 的降级方案替代该语义。"
+  P3_TWRF_ROUTE_FOUNDATION =
+    "Foundation 必须构建不修改产品源码的可执行、确定性 task-wide reservation state-machine benchmark，并穷举冻结的有限 interleaving：它必须机械证明旧的 (task_id, workflow_id) active head 会在同一 task、两个 workflow step-zero proposal 并发时 false-accept 两个 pre-effect winner，并证明 task_id-only active head 加 invocation-bound append-only history 只允许一个 winner且loser零effect；覆盖winner在intent前、intent后、effect-start前、effect中、terminal后、checkpoint前和release前崩溃，successful checkpoint 后 workflow drift 拒绝，failed terminal 加 confirmed cleanup 且无 checkpoint 后安全释放，同workflow跨step竞争，terminal A在B持有合法下一步reservation时可重放且不扰动B，重复/冲突invocation，reservation/history篡改，以及PRE_RM_FAILURE、EXACT_RM_ISSUED_ACK_UNKNOWN、CONFIRMED_RM_FAILURE、CONFIRMED_ABSENT的cleanup结果代数。Foundation PASS 的 delivery 与 strict Exit credit 均为0，只解锁Product。"
+  P3_TWRF_ROUTE_PRODUCT =
+    "Product 必须从 canonical main、accepted P3-001 public behavior、Strategic Constitution v3.2、accepted Foundation oracle 与新 Task Contract clean-room 实现完整 TCB transactional coordinator，而不是只修一个索引：host positive authorization、immutable authorization anchor、durable intent、task_id-only active reservation frontier、invocation-bound append-only reservation history、crash/orphan reconciliation、stage-aware cleanup、exactly one terminal trace、checkpoint gating、sealed custody、exact OCI profile和process-real containment必须闭合。active reservation 的 acquire/verify/transition/release 必须与同一 task row lock 和 durable transaction绑定；任何 alternate workflow 或 cross-step loser 在 effect 前 fail closed；terminal replay只验证自身history identity，不得要求全task active head为空或破坏后继合法reservation。"
+  P3_TWRF_ROUTE_ORDER =
+    "只创建 P3_TASK_WIDE_RESERVATION_FRONTIER_TRANSACTIONAL_EXECUTION_ROUTE_V1，严格顺序为 AIOS-P3-TWRF-F1_TASK_WIDE_RESERVATION_STATE_MACHINE_FOUNDATION、AIOS-P3-TWRF-P1_TASK_WIDE_TRANSACTIONAL_EXECUTION_PRODUCT、AIOS-P3-TWRF-A1_ONE_SHOT_STRICT_EXIT_AUDIT；前一Task未独立ACCEPTED并按其Gate安装时后一Task保持LOCKED，Foundation不写产品，Audit不写产品、Foundation oracle、dataset、metric、threshold、fault schedule或frozen candidate。"
+  P3_TWRF_ROUTE_LINEAGE =
+    "AIOS-P3-THTCB-P1 Candidate 1/2 以及 P3-002 至其之前的 rejected branch、worktree、product code、tests、evaluator、candidate、raw engineering Evidence、custody probe与bundle lineage禁止作为Foundation或Product的语义/实现输入读取、比较、复制、执行、修复或复用；只允许读取当前terminal receipt与独立Quality finding R2-C2-B1-TASK_WIDE_RESERVATION_SCOPE_INCOMPLETE，用于identity、non-resettable accounting、已证伪模型和新Gate验收不变量命名，不得恢复旧Task、复制已关闭实现或改写旧verdict。"
+  P3_TWRF_ROUTE_EXTERNAL =
+    "网络完全禁止。Product激活后只允许对本机Docker Desktop执行version、info、image import、image inspect、create、inspect、start、wait、logs、rm、image rm，并只清理由本Task exact name/label/digest创建的可再生container/image；禁止registry pull/push/login/build、Docker network connect、既有container/image修改或删除。hostile probe只能由已安装本机Go以CGO_ENABLED=0、GOOS=linux、GOARCH=arm64、GO111MODULE=off、GOPROXY=off、GOSUMDB=off、GOTOOLCHAIN=local从全新Task-local标准库源码离线构建，封装为全新rootfs tar后import；本机JDK17、Go或Docker exact identity/preflight不通过时在spawn前NON_PASS，不得安装、下载、复用rejected custody或改走网络。"
+  P3_TWRF_ROUTE_TARGETS = [
+    "Canonical strategic installation allowlist: /Users/lijunpeng/Developer/SourceLens-AIOS/docs/aios/STRATEGIC_CONSTITUTION.md, /Users/lijunpeng/Developer/SourceLens-AIOS/docs/aios/truth/project_state.yaml, /Users/lijunpeng/Developer/SourceLens-AIOS/docs/aios/decisions/P3_TASK_WIDE_RESERVATION_FRONTIER_TRANSACTIONAL_EXECUTION_ROUTE_DECISION_V1.json, /Users/lijunpeng/Developer/SourceLens-AIOS/scripts/validate-founder-action-handoff.rb, /Users/lijunpeng/Developer/SourceLens-AIOS/scripts/validate-founder-delegation-continuity.rb, /Users/lijunpeng/Developer/SourceLens-AIOS/scripts/validate-current-task-authority.rb, /Users/lijunpeng/Developer/SourceLens-AIOS/scripts/validate-p3-final-transactional-route.rb, /Users/lijunpeng/Developer/SourceLens-AIOS/scripts/test-p3-final-transactional-route.rb, /Users/lijunpeng/Developer/SourceLens-AIOS/scripts/validate-strict-phase-gates.rb, /Users/lijunpeng/Developer/SourceLens-AIOS/scripts/test-strict-phase-gates.rb",
+    "Foundation: branch codex/p3-twrf-f1-task-wide-reservation-state-machine, worktree /Users/lijunpeng/Developer/.sourcelens-worktrees/p3-twrf-f1-task-wide-reservation-state-machine, Evidence /Users/lijunpeng/Developer/.sourcelens-audit/p3-task-wide-reservation-frontier-20260823/task-foundation, repository allowlist evaluation-harness/harness/p3-task-wide-reservation-foundation-v1/**, evaluation-harness/reports/p3-task-wide-reservation-foundation-v1/**, docs/aios/tasks/P3-TWRF-F1_TASK_WIDE_RESERVATION_STATE_MACHINE_FOUNDATION.yaml, docs/PROJECT_CODE_MAP.md",
+    "Product: branch codex/p3-twrf-p1-task-wide-transactional-execution, worktree /Users/lijunpeng/Developer/.sourcelens-worktrees/p3-twrf-p1-task-wide-transactional-execution, Evidence /Users/lijunpeng/Developer/.sourcelens-audit/p3-task-wide-reservation-frontier-20260823/task-product, repository allowlist backend-spring/src/main/java/com/sourcelens/module/execution/taskwide/**, backend-spring/src/main/java/com/sourcelens/module/sandbox/oci/taskwide/**, backend-spring/src/main/java/com/sourcelens/module/execution/service/ExecutionCheckpointService.java, backend-spring/src/main/java/com/sourcelens/module/execution/mapper/ExecutionCheckpointStore.java, backend-spring/src/main/resources/db/migration/V034__add_task_wide_reservation_frontier.sql, backend-spring/src/test/java/com/sourcelens/module/execution/taskwide/**, backend-spring/src/test/java/com/sourcelens/module/sandbox/oci/taskwide/**, backend-spring/src/test/resources/p3-task-wide-reservation/**, docs/aios/tasks/P3-TWRF-P1_TASK_WIDE_TRANSACTIONAL_EXECUTION_PRODUCT.yaml, docs/PROJECT_CODE_MAP.md",
+    "Audit: branch codex/p3-twrf-a1-one-shot-strict-exit-audit, worktree /Users/lijunpeng/Developer/.sourcelens-worktrees/p3-twrf-a1-one-shot-strict-exit-audit, Evidence /Users/lijunpeng/Developer/.sourcelens-audit/p3-task-wide-reservation-frontier-20260823/task-audit, repository allowlist docs/aios/tasks/P3-TWRF-A1_ONE_SHOT_STRICT_EXIT_AUDIT.yaml and evaluation-harness/reports/p3-task-wide-reservation-audit-v1/** only; Product source, Foundation oracle, dataset, metric, threshold, fault schedule and frozen candidate are read-only"
+  ].freeze
+  P3_TWRF_ROUTE_BUDGET =
+    "保留非重置累计consumed 12 engineering Tasks / 368 engineering hours / 88 calendar days；将P3 ceiling精确扩为15 Tasks / 448 hours / 106 days，只释放严格顺序的3 Tasks / 80 hours / 18 days：Foundation 1 Task / 16 hours / 4 days / 1 candidate generation / 0 repair / 1 review cycle；Product 1 Task / 48 hours / 10 days / 最多2 candidate generations / 1 same-Task repair / 2 review cycles；Audit 1 Task / 16 hours / 4 days / formal dispatch 1 / product changes 0 / repair 0 / rerun-to-pass false。此前所有已消费Task、hour、day、candidate、repair、review与terminal outcome不返还、不重置；这是本次Gate加强后的唯一Product implementation slot。"
+  P3_TWRF_ROUTE_DURATION =
+    "从Founder直接回复完整exact authorization body且canonical identity、terminal receipt、authority、predecessor、clean-room denylist、本机JDK17/Go/Docker与零网络preflight全部PASS起生效，至Audit formal PASS/NON_PASS、3 Tasks/80 hours/18 days耗尽、scope或identity漂移、任何terminal safety condition、Founder撤销中的最早事件止。"
+  P3_TWRF_ROUTE_CONSUMPTION =
+    "战略安装与validator同步工程进度为零，只允许一个staged unified patch、一次pre-install correction和一个canonical atomic commit；canonical post-install NON_PASS只允许一次保留历史的exact revert并终止路线。Foundation NON_PASS、Product NON_PASS或Audit NON_PASS均消费已激活slot并终止路线；不得产生Foundation 2、Candidate 3、第二次repair、第三次review、第二次formal dispatch、successor、replacement、normalization、closure、feasibility、remediation、V2/V3授权链或rerun-to-pass。"
+  P3_TWRF_ROUTE_PASS =
+    "战略安装PASS保持P3 delivery 25% / strict Exit 0%并立即激活Foundation；Foundation独立ACCEPTED后仍为25% / 0%且只解锁Product；Product PASS、独立接受并集成后为75% / 0%且只解锁Audit；Audit one-shot PASS后为100% / 100%并只进入ELIGIBLE_AWAITING_FOUNDER_P3_PHASE_GATE_DECISION，不自动进入P4。"
+  P3_TWRF_ROUTE_NON_PASS =
+    "Foundation NON_PASS不创建Product；Product NON_PASS不集成candidate且不创建Audit；Audit NON_PASS保留同一frozen candidate的正式结果且禁止补跑。Foundation或Product NON_PASS时P3保持delivery 25% / strict Exit 0%；Audit NON_PASS时P3保持delivery 75% / strict Exit 0%。所有NON_PASS都保持P3 HOLD/INCOMPLETE、P4 HOLD、项目未完成、Long-term Goal ACTIVE，并交付真实下一步但不自动执行新路线。"
+  P3_TWRF_ROUTE_RISK =
+    "本路线不通过预先固定单一workflow、删除并发proposal或弱化Gate来换取PASS；它保留accepted P3-001的首个checkpoint绑定和workflow-drift fail-closed语义，以task_id-only active reservation将effect前并发竞争变成可机械证明的单winner frontier。写入仅限可审查、可回滚的本地source/Truth/Constitution/Task Evidence与可再生Docker container/image；TCB仍排除root/admin、拥有TCB写权限的same-user process、竞争Docker client、Docker/CLI/socket/daemon compromise、kernel compromise和物理主机compromise，不得扩大安全主张。"
+  P3_TWRF_ROUTE_DENY =
+    "始终禁止network、Provider、Secret、credential、remote write、production、public release、Docker registry、Docker build、既有数据库破坏性修改、outside-authorized-root write、不可逆重要资产删除、预先固定单一workflow的scope降级、P4 entry、project completion claim或Long-term Goal completion；若拒绝或延期授权，canonical main保持commit 7b01acd118d45db89a51efe5090543348d236383 / tree 83c6385d299b5149ce63fd0a8abede299eb7653a、Candidate 2不集成、P3保持25% / 0%和HOLD。"
+  P3_TWRF_ROUTE_PROFILE = {
+    "operations" => [
+      P3_TWRF_ROUTE_STRATEGIC_CHANGE,
+      P3_TWRF_ROUTE_CAPACITY_CHANGE,
+      P3_TWRF_ROUTE_GATE,
+      P3_TWRF_ROUTE_FOUNDATION,
+      P3_TWRF_ROUTE_PRODUCT,
+      P3_TWRF_ROUTE_ORDER,
+      P3_TWRF_ROUTE_LINEAGE,
+      P3_TWRF_ROUTE_EXTERNAL
+    ],
+    "targets" => P3_TWRF_ROUTE_TARGETS,
+    "budget_or_external_effects" => P3_TWRF_ROUTE_BUDGET,
+    "token" => P3_TWRF_ROUTE_TOKEN,
+    "duration" => P3_TWRF_ROUTE_DURATION,
+    "authorization_expiry_or_consumption_rule" => P3_TWRF_ROUTE_CONSUMPTION,
+    "pass_lifecycle" => P3_TWRF_ROUTE_PASS,
+    "non_pass_lifecycle" => P3_TWRF_ROUTE_NON_PASS,
+    "risk_and_reversibility" => P3_TWRF_ROUTE_RISK,
+    "deny_or_defer_effect" => P3_TWRF_ROUTE_DENY
+  }.freeze
   FOUNDER_NETWORK_OPERATION_PROFILES = {
     "READ_ONLY_HTTPS_ACQUISITION" => {
       "operations" => [READ_ONLY_HTTPS_OPERATION, READ_ONLY_HTTPS_METHOD],
@@ -767,7 +830,8 @@ module FounderActionHandoff
       "non_pass_lifecycle" => P3_HPE_ROUTE_NON_PASS
     },
     P3_TXC_ROUTE_OPERATION_TYPE => P3_TXC_ROUTE_PROFILE,
-    P3_THTCB_ROUTE_OPERATION_TYPE => P3_THTCB_ROUTE_PROFILE
+    P3_THTCB_ROUTE_OPERATION_TYPE => P3_THTCB_ROUTE_PROFILE,
+    P3_TWRF_ROUTE_OPERATION_TYPE => P3_TWRF_ROUTE_PROFILE
   }.freeze
   PROSPECTIVE_PREFLIGHT = "PROSPECTIVE_RESERVED_EFFECT_REQUIRED_BY_EXACT_USER_REQUEST_AND_NOT_EXPRESSIBLE_BY_CURRENT_OFFLINE_ESCALATION_PROJECTION"
   NO_ACTION_SENTENCE = "你现在无需操作，我将在现有授权范围内继续执行。"
@@ -1161,6 +1225,15 @@ module FounderActionHandoff
                   package["user_request_evidence"].nil? &&
                   authorization["reserved_trigger"] == P3_THTCB_ROUTE_PRIMARY_TRIGGER,
                   "P3 trusted-host TCB rebaseline does not match the exact current terminal trigger")
+        elsif authorization["operation_type"] == P3_TWRF_ROUTE_OPERATION_TYPE
+          assert!(control["disposition"] == "FOUNDER_RESERVED_DECISION_REQUIRED" &&
+                  control["founder_decision_required"] == true &&
+                  control.dig("reserved_trigger", "category") == P3_TWRF_ROUTE_PRIMARY_TRIGGER &&
+                  control["next_action_owner"] == "HUMAN_FOUNDER" &&
+                  evidence["prospective_preflight"].nil? &&
+                  package["user_request_evidence"].nil? &&
+                  authorization["reserved_trigger"] == P3_TWRF_ROUTE_PRIMARY_TRIGGER,
+                  "P3 task-wide reservation frontier route does not match the exact current terminal trigger")
         else
           assert!(control["disposition"] == "FOUNDER_DECISION_REQUIRED" &&
                   control["founder_decision_required"] == true &&
@@ -1252,6 +1325,7 @@ module FounderActionHandoff
         P3_HOST_PROCESS_ENFORCED_MINIMAL_SLICE_ROUTE_REBASELINE_AFTER_TIK_F1_TERMINAL
         P3_TXC_CONTROL_PLANE_RECOVERY_AND_DIRECT_PRODUCT_ROUTE_REENTRY_AFTER_POSTINSTALL_PROTOCOL_ERROR
         P3_TRUSTED_HOST_TCB_TRANSACTIONAL_EXECUTION_OBJECTIVE_EXIT_GATE_AND_CLEAN_ROOM_FINAL_ROUTE
+        P3_TASK_WIDE_RESERVATION_FRONTIER_TRANSACTIONAL_EXECUTION_FOUNDATION_PRODUCT_AND_ONE_SHOT_AUDIT_ROUTE
       ].include?(operation_type)
         proposed_tokens = package["copy_ready_text_or_exact_steps"].scan(FOUNDER_AUTHORIZATION_TOKEN)
         assert!(proposed_tokens == [profile["token"]],

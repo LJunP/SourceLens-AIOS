@@ -1,0 +1,421 @@
+{
+  "schema_version": "p3-task-wide-reservation-frontier-founder-decision/v1",
+  "record_type": "FOUNDER_ACCEPTED_STRATEGIC_DECISION",
+  "decision_id": "AUTHORIZE_P3_TASK_WIDE_RESERVATION_FRONTIER_TRANSACTIONAL_EXECUTION_FOUNDATION_PRODUCT_AND_ONE_SHOT_AUDIT_ROUTE_V1",
+  "operation_type": "P3_TASK_WIDE_RESERVATION_FRONTIER_TRANSACTIONAL_EXECUTION_FOUNDATION_PRODUCT_AND_ONE_SHOT_AUDIT_ROUTE",
+  "status": "ACCEPTED_CURRENT_DIRECT_FOUNDER_MESSAGE",
+  "accepted_at_date": "2026-08-23",
+  "source": {
+    "kind": "CURRENT_DIRECT_USER_MESSAGE_ATTACHMENT",
+    "attachment_path": "/Users/lijunpeng/.codex/attachments/04d1e1c6-a8f0-40e3-aed1-67789b55fab7/pasted-text.txt",
+    "byte_length": 22728,
+    "sha256": "0ca140379f415a1ddae6b07590733c9db001cd805d03dc08e9204780528194c3",
+    "first_line_token": "AUTHORIZE_P3_TASK_WIDE_RESERVATION_FRONTIER_TRANSACTIONAL_EXECUTION_FOUNDATION_PRODUCT_AND_ONE_SHOT_AUDIT_ROUTE_V1",
+    "installed_body": {
+      "path": "/Users/lijunpeng/Developer/.sourcelens-audit/p3-task-wide-reservation-frontier-20260823/decision/FOUNDER_AUTHORIZATION_BODY_V1.txt",
+      "byte_length": 22728,
+      "sha256": "0ca140379f415a1ddae6b07590733c9db001cd805d03dc08e9204780528194c3",
+      "byte_equal_to_attachment": true,
+      "mode": "0444",
+      "nlink": 1
+    }
+  },
+  "canonical_start": {
+    "repository": "/Users/lijunpeng/Developer/SourceLens-AIOS",
+    "branch": "main",
+    "commit": "7b01acd118d45db89a51efe5090543348d236383",
+    "tree": "83c6385d299b5149ce63fd0a8abede299eb7653a",
+    "clean": true,
+    "truth": {
+      "path": "docs/aios/truth/project_state.yaml",
+      "byte_length": 1918568,
+      "sha256": "c5feae8f55686d68be0dca2b3f32297d243a1ce413fd7a2b786a39ad9f02ac9a"
+    },
+    "constitution": {
+      "path": "docs/aios/STRATEGIC_CONSTITUTION.md",
+      "version": "3.1",
+      "byte_length": 16879,
+      "sha256": "42483622fe6ff66eeb44ecc63139efef6d457a9b1cdad8d389e3f4f15e7065a4"
+    },
+    "terminal_route": {
+      "route_id": "P3_TRUSTED_HOST_TCB_CLEAN_ROOM_FINAL_ROUTE_V1",
+      "status": "HOLD_INCOMPLETE_ROUTE_TERMINAL_NON_PASS",
+      "receipt": {
+        "path": "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product/terminal/P3_THTCB_PRODUCT_TASK_TERMINAL_NON_PASS_RECEIPT_V1.json",
+        "byte_length": 8627,
+        "sha256": "f0a4fdfb515ad1852e950c35c3b62f767d1e86618633cab1e59f382f66388b65"
+      },
+      "candidate_2_commit": "70c1e2e5fafe466ac33ec43d534444d20b166da8",
+      "candidate_2_tree": "17d36631abb424add93d6c4ea8c9da9e31e4a297",
+      "candidate_integrated": false,
+      "terminal_blocker_id": "R2-C2-B1-TASK_WIDE_RESERVATION_SCOPE_INCOMPLETE"
+    }
+  },
+  "authority": {
+    "primary_reserved_trigger": "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE",
+    "additional_reserved_triggers": [
+      "MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE"
+    ],
+    "canonical_trigger_evidence": {
+      "path": "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product/terminal/P3_THTCB_PRODUCT_TASK_TERMINAL_NON_PASS_RECEIPT_V1.json",
+      "byte_length": 8627,
+      "sha256": "f0a4fdfb515ad1852e950c35c3b62f767d1e86618633cab1e59f382f66388b65"
+    },
+    "phase_entry_remains_authorized": true,
+    "p4_entry_authorized": false,
+    "long_term_goal_status": "ACTIVE"
+  },
+  "strategic_change": {
+    "constitution_version": "3.2",
+    "objective_id": "TRUSTED_HOST_TCB_TRANSACTIONAL_SINGLE_AGENT_EXECUTION",
+    "previous_strict_exit_gate_id": "TRUSTED_HOST_TCB_DURABLE_TRANSACTIONAL_EXECUTION_WITH_PROCESS_REAL_CONTAINMENT",
+    "strict_exit_gate_id": "TRUSTED_HOST_TCB_TASK_WIDE_TRANSACTIONAL_EXECUTION_WITH_PROCESS_REAL_CONTAINMENT",
+    "workflow_id": "SHA256_READ_ONLY_CUSTODY_V1",
+    "required_gate_items": [
+      "TASK_WIDE_PRE_EFFECT_RESERVATION_FRONTIER",
+      "AUTHORIZATION_AND_INTENT_DURABILITY",
+      "CRASH_ORPHAN_RECONCILIATION_AND_RESUME",
+      "EXACTLY_ONE_TERMINAL_TRACE_AND_CHECKPOINT_GATE",
+      "TRUSTED_HOST_TCB_PROCESS_REAL_CONTAINMENT_ATTESTATION"
+    ],
+    "compatibility_aggregate_item_id": "RESUME_ISOLATION_PERMISSION_AND_TRACE_TESTS",
+    "same_frozen_product_candidate_required": true,
+    "p3_001_semantics": {
+      "workflow_unbound_before_first_accepted_checkpoint": true,
+      "different_workflow_step_zero_proposals_may_compete": true,
+      "task_id_only_active_reservation_allows_exactly_one_pre_effect_winner": true,
+      "successful_first_checkpoint_binds_workflow": true,
+      "workflow_drift_after_checkpoint_fails_closed": true,
+      "failure_release_requires_accepted_terminal_confirmed_cleanup_and_no_checkpoint": true,
+      "prebinding_one_workflow_at_task_creation_is_forbidden_scope_degradation": true
+    },
+    "unchanged": [
+      "mission",
+      "Primary ICP",
+      "year-one outcome",
+      "P0-P2 accepted facts",
+      "P3-001 accepted checkpoint semantics",
+      "P3 trusted-host TCB and excluded-threat boundary",
+      "P4-P12 strict order",
+      "Long-term Goal ACTIVE"
+    ]
+  },
+  "threat_model": {
+    "trusted_computing_base": [
+      "LOCAL_OS_AND_KERNEL",
+      "CURRENT_SOURCELENS_TRUSTED_HOST_PROCESS",
+      "HOST_CONTROLLED_DURABLE_DATABASE",
+      "SEALED_HOST_CUSTODY_ROOT",
+      "EXACT_DOCKER_CLI_EXECUTABLE",
+      "DOCKER_UNIX_SOCKET",
+      "DOCKER_DESKTOP_DAEMON",
+      "PINNED_LOCAL_OCI_IMAGE"
+    ],
+    "included_threats": [
+      "ARBITRARY_AGENT_PROPOSAL",
+      "HOSTILE_WORKFLOW_PAYLOAD",
+      "DUPLICATE_OR_REPLAYED_PROPOSAL",
+      "CROSS_WORKFLOW_AND_CROSS_STEP_PRE_EFFECT_COMPETITION",
+      "CRASH_TIMEOUT_PARTIAL_IO_AND_ORPHAN",
+      "CONTAINER_NETWORK_FILESYSTEM_PERMISSION_AND_RESOURCE_ACQUISITION",
+      "NON_TCB_PATH_OR_CONTENT_DRIFT",
+      "FORGED_OR_INCONSISTENT_RESERVATION_INVOCATION_CHECKPOINT_OR_TERMINAL_STATE"
+    ],
+    "excluded_as_tcb_compromise": [
+      "ROOT_OR_ADMIN_ATTACKER",
+      "SAME_USER_PROCESS_WITH_TCB_WRITE_AUTHORITY",
+      "COMPETING_DOCKER_CLIENT_WITH_EQUIVALENT_DAEMON_AUTHORITY",
+      "COMPROMISED_DOCKER_DAEMON_CLI_OR_SOCKET",
+      "OS_KERNEL_COMPROMISE",
+      "PHYSICAL_HOST_COMPROMISE"
+    ],
+    "claim_boundary": "TRUSTED_SINGLE_USER_HOST_NO_SAME_AUTHORITY_ADVERSARY_CLAIM"
+  },
+  "route": {
+    "route_id": "P3_TASK_WIDE_RESERVATION_FRONTIER_TRANSACTIONAL_EXECUTION_ROUTE_V1",
+    "phase": "P3",
+    "cumulative_ceiling": {
+      "engineering_tasks": 15,
+      "engineering_hours": 448,
+      "calendar_days": 106
+    },
+    "consumed_preserved": {
+      "engineering_tasks": 12,
+      "engineering_hours": 368,
+      "calendar_days": 88
+    },
+    "released_for_this_route": {
+      "engineering_tasks": 3,
+      "engineering_hours": 80,
+      "calendar_days": 18
+    },
+    "stages": [
+      {
+        "ordinal": 1,
+        "stage_id": "TASK_WIDE_RESERVATION_STATE_MACHINE_FOUNDATION",
+        "task_id": "AIOS-P3-TWRF-F1_TASK_WIDE_RESERVATION_STATE_MACHINE_FOUNDATION",
+        "kind": "EVALUATION_FOUNDATION",
+        "status_after_install": "ELIGIBLE_MASTER_ACTIVATE_IMMEDIATELY",
+        "budget": {
+          "engineering_tasks": 1,
+          "engineering_hours": 16,
+          "calendar_days": 4,
+          "candidate_generations": 1,
+          "same_task_repairs": 0,
+          "review_cycles": 1
+        },
+        "resources": {
+          "branch": "codex/p3-twrf-f1-task-wide-reservation-state-machine",
+          "worktree": "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-twrf-f1-task-wide-reservation-state-machine",
+          "evidence_root": "/Users/lijunpeng/Developer/.sourcelens-audit/p3-task-wide-reservation-frontier-20260823/task-foundation"
+        }
+      },
+      {
+        "ordinal": 2,
+        "stage_id": "TASK_WIDE_TRANSACTIONAL_EXECUTION_PRODUCT",
+        "task_id": "AIOS-P3-TWRF-P1_TASK_WIDE_TRANSACTIONAL_EXECUTION_PRODUCT",
+        "kind": "PRODUCT_IMPLEMENTATION",
+        "status_after_install": "LOCKED_PENDING_FOUNDATION_ACCEPTED",
+        "budget": {
+          "engineering_tasks": 1,
+          "engineering_hours": 48,
+          "calendar_days": 10,
+          "candidate_generations": 2,
+          "same_task_repairs": 1,
+          "review_cycles": 2
+        },
+        "resources": {
+          "branch": "codex/p3-twrf-p1-task-wide-transactional-execution",
+          "worktree": "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-twrf-p1-task-wide-transactional-execution",
+          "evidence_root": "/Users/lijunpeng/Developer/.sourcelens-audit/p3-task-wide-reservation-frontier-20260823/task-product"
+        }
+      },
+      {
+        "ordinal": 3,
+        "stage_id": "ONE_SHOT_STRICT_EXIT_AUDIT",
+        "task_id": "AIOS-P3-TWRF-A1_ONE_SHOT_STRICT_EXIT_AUDIT",
+        "kind": "EVALUATION_ONLY",
+        "status_after_install": "LOCKED_PENDING_PRODUCT_ACCEPTED_AND_INTEGRATED",
+        "budget": {
+          "engineering_tasks": 1,
+          "engineering_hours": 16,
+          "calendar_days": 4,
+          "formal_dispatches": 1,
+          "product_changes": 0,
+          "same_task_repairs": 0,
+          "rerun_to_pass_allowed": false
+        },
+        "resources": {
+          "branch": "codex/p3-twrf-a1-one-shot-strict-exit-audit",
+          "worktree": "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-twrf-a1-one-shot-strict-exit-audit",
+          "evidence_root": "/Users/lijunpeng/Developer/.sourcelens-audit/p3-task-wide-reservation-frontier-20260823/task-audit"
+        }
+      }
+    ],
+    "progression": {
+      "installation_pass": {"delivery_percent": 25, "strict_exit_percent": 0},
+      "foundation_accepted": {"delivery_percent": 25, "strict_exit_percent": 0},
+      "product_accepted_and_integrated": {"delivery_percent": 75, "strict_exit_percent": 0},
+      "audit_pass": {
+        "delivery_percent": 100,
+        "strict_exit_percent": 100,
+        "next": "ELIGIBLE_AWAITING_FOUNDER_P3_PHASE_GATE_DECISION"
+      }
+    }
+  },
+  "foundation_acceptance": {
+    "product_source_changes_allowed": false,
+    "old_composite_key_model_must_false_accept": true,
+    "new_task_wide_model_must_have_exactly_one_pre_effect_winner": true,
+    "loser_effect_count": 0,
+    "required_schedule_classes": [
+      "TWO_WORKFLOW_STEP_ZERO_SIMULTANEOUS_ACQUIRE",
+      "SAME_WORKFLOW_CROSS_STEP_COMPETITION",
+      "DUPLICATE_SAME_INVOCATION",
+      "CONFLICTING_DIFFERENT_INVOCATION",
+      "CRASH_AROUND_EVERY_DURABLE_BOUNDARY",
+      "TERMINAL_REPLAY_WITH_LATER_ACTIVE_RESERVATION",
+      "SUCCESS_CHECKPOINT_RELEASE",
+      "FAILURE_CLEANUP_NO_CHECKPOINT_RELEASE",
+      "CLEANUP_RESULT_ALGEBRA"
+    ],
+    "required_invariants": [
+      "AT_MOST_ONE_ACTIVE_HEAD_PER_TASK",
+      "AT_MOST_ONE_EFFECT_PER_INVOCATION",
+      "ZERO_CHECKPOINT_ADVANCEMENT_BEFORE_ACCEPTED_TERMINAL",
+      "ACCEPTED_CHECKPOINT_ONLY_FROM_ACTIVE_RESERVATION_OWNER",
+      "TERMINAL_REPLAY_DOES_NOT_MUTATE_ANOTHER_INVOCATION",
+      "WORKFLOW_DRIFT_AFTER_P3_001_HEAD_FAILS_CLOSED"
+    ]
+  },
+  "product_acceptance": {
+    "action_algebra": ["SHA256_READ_ONLY_CUSTODY_V1"],
+    "agent_proposal_non_authoritative": true,
+    "required_storage_separation": [
+      "TASK_WIDE_ACTIVE_RESERVATION",
+      "APPEND_ONLY_INVOCATION_RESERVATION_HISTORY",
+      "IMMUTABLE_AUTHORIZATION_ANCHOR",
+      "MUTABLE_INVOCATION_LIFECYCLE",
+      "APPEND_ONLY_CLEANUP_TRANSITIONS",
+      "TERMINAL_TRACE",
+      "ACCEPTED_P3_001_CHECKPOINT"
+    ],
+    "required_invariants": [
+      "HOST_ONLY_POSITIVE_AUTHORIZATION",
+      "TASK_ID_UNIQUE_ACTIVE_RESERVATION_UNDER_TASK_ROW_TRANSACTION",
+      "IMMUTABLE_AUTHORIZATION_ANCHOR_SEPARATE_FROM_MUTABLE_INVOCATION_ROW",
+      "DURABLE_INTENT_BEFORE_EFFECT",
+      "CROSS_WORKFLOW_AND_CROSS_STEP_LOSER_ZERO_EFFECT",
+      "CRASH_ORPHAN_RECONCILIATION",
+      "EXACTLY_ONE_DURABLE_TERMINAL_TRACE",
+      "ZERO_CHECKPOINT_ADVANCEMENT_BEFORE_TERMINAL_ACCEPTANCE",
+      "TERMINAL_REPLAY_IS_INVOCATION_LOCAL_AND_PRESERVES_LATER_RESERVATION",
+      "STAGE_AWARE_CLEANUP_SAGA",
+      "SEALED_CONTENT_ADDRESSED_CUSTODY",
+      "EXACT_PRE_START_OCI_PROFILE_VALIDATION",
+      "POST_START_ATTESTATION_AND_FAIL_CLOSED_DRIFT_HANDLING"
+    ],
+    "cleanup_stages": [
+      "PRE_RM_FAILURE",
+      "EXACT_RM_ISSUED_ACK_UNKNOWN",
+      "CONFIRMED_RM_FAILURE",
+      "CONFIRMED_ABSENT"
+    ],
+    "process_real_hostile_probes": [
+      "AF_INET",
+      "AF_INET6",
+      "DNS",
+      "OUTSIDE_WRITE",
+      "CHILD_SPAWN",
+      "PRIVILEGE_ESCALATION",
+      "RESOURCE_OVERFLOW"
+    ],
+    "required_outcomes": [
+      "ZERO_FALSE_ACCEPTS",
+      "ZERO_FORBIDDEN_EFFECTS",
+      "ZERO_CHECKPOINT_ADVANCEMENT_BEFORE_ACCEPTED_TERMINAL"
+    ]
+  },
+  "toolchain_preflight": {
+    "jdk17": {
+      "path": "/Users/lijunpeng/Library/Java/JavaVirtualMachines/ms-17.0.18/Contents/Home/bin/java",
+      "version": "17.0.18",
+      "byte_length": 84752,
+      "sha256": "8dc256371b69e4e26cab700a4b6df5d80598feabf603b7d6cc68b1e349833f8c"
+    },
+    "maven": {
+      "path": "/Users/lijunpeng/apache-maven-3.9.6/bin/mvn",
+      "version": "3.9.6",
+      "byte_length": 5883,
+      "sha256": "340bfabd76eaca39a1614f9ad767cdbd12c2090cfc15d66afe0ed536cd9b8bda",
+      "maven_wrapper_present": false
+    },
+    "go": {
+      "path": "/opt/homebrew/Cellar/go/1.26.3/libexec/bin/go",
+      "version": "go1.26.3 darwin/arm64",
+      "byte_length": 14481794,
+      "sha256": "1b6e73b4f9eae9108e2e747f5cd29dc27ddfc1999a414fe11cd593072d607a84"
+    },
+    "docker_cli": {
+      "path": "/Applications/Docker.app/Contents/Resources/bin/docker",
+      "byte_length": 41522608,
+      "sha256": "a6822407e207ff0b687419ccbe55700ffbf389d77de58ef625b3b1790d88747c",
+      "server_os": "linux",
+      "server_arch": "arm64"
+    },
+    "latest_flyway_before_route": "V033__add_execution_checkpoints.sql",
+    "route_migration": "V034__add_task_wide_reservation_frontier.sql"
+  },
+  "external_effects": {
+    "docker": {
+      "authorized_after_product_activation": true,
+      "allowed_operations": [
+        "version",
+        "info",
+        "image_import",
+        "image_inspect",
+        "create",
+        "inspect",
+        "start",
+        "wait",
+        "logs",
+        "rm",
+        "image_rm_task_created_only"
+      ],
+      "forbidden_operations": [
+        "registry_pull",
+        "registry_push",
+        "registry_login",
+        "docker_build",
+        "network_connect",
+        "modify_or_delete_preexisting_container_or_image"
+      ]
+    },
+    "network_authorized": false,
+    "provider_authorized": false,
+    "secret_or_credential_authorized": false,
+    "remote_production_public_authorized": false,
+    "p4_entry_authorized": false
+  },
+  "strategic_installation": {
+    "progress_credit": 0,
+    "staging_root_pattern": "/private/tmp/sourcelens-p3-twrf-stage.XXXXXX",
+    "unified_patch_count_max": 1,
+    "preinstall_correction_count_max": 1,
+    "canonical_atomic_commit_count_max": 1,
+    "canonical_post_install_repair_allowed": false,
+    "canonical_exact_revert_on_non_pass_count_max": 1,
+    "allowed_repository_paths": [
+      "docs/aios/STRATEGIC_CONSTITUTION.md",
+      "docs/aios/truth/project_state.yaml",
+      "docs/aios/decisions/P3_TASK_WIDE_RESERVATION_FRONTIER_TRANSACTIONAL_EXECUTION_ROUTE_DECISION_V1.json",
+      "scripts/validate-founder-action-handoff.rb",
+      "scripts/validate-founder-delegation-continuity.rb",
+      "scripts/validate-current-task-authority.rb",
+      "scripts/validate-p3-final-transactional-route.rb",
+      "scripts/test-p3-final-transactional-route.rb",
+      "scripts/validate-strict-phase-gates.rb",
+      "scripts/test-strict-phase-gates.rb"
+    ]
+  },
+  "lineage": {
+    "implementation_inputs": [
+      "CANONICAL_MAIN",
+      "ACCEPTED_P3_001_PUBLIC_BEHAVIOR",
+      "CONSTITUTION_V3_2_AND_THIS_DECISION",
+      "ACCEPTED_TWRF_FOUNDATION_PUBLIC_ORACLE_AFTER_GATE",
+      "NEW_TASK_CONTRACT"
+    ],
+    "rejected_engineering_lineage_use": "PROHIBITED",
+    "permitted_historical_inputs": [
+      "CURRENT_TERMINAL_RECEIPT_IDENTITY_AND_ACCOUNTING",
+      "R2_C2_B1_TASK_WIDE_RESERVATION_SCOPE_INCOMPLETE_FINDING_AND_INVARIANT_NAME"
+    ],
+    "candidate_2_integration": false
+  },
+  "anti_loop": {
+    "foundation_2_allowed": false,
+    "candidate_3_allowed": false,
+    "second_same_task_repair_allowed": false,
+    "third_review_cycle_allowed": false,
+    "second_formal_dispatch_allowed": false,
+    "successor_or_replacement_allowed": false,
+    "normalization_closure_feasibility_or_remediation_allowed": false,
+    "v2_or_v3_authorization_chain_allowed": false,
+    "rerun_to_pass_allowed": false,
+    "governance_progress_credit": 0
+  },
+  "lifecycle": {
+    "installation_pass": "ACTIVATE_FOUNDATION_IMMEDIATELY_WITHOUT_DAILY_FOUNDER_APPROVAL",
+    "installation_non_pass": "NO_TASK_CREATE_KEEP_P3_HOLD",
+    "foundation_pass": "UNLOCK_PRODUCT_WITH_ZERO_DELIVERY_OR_STRICT_EXIT_CREDIT",
+    "foundation_non_pass": "TERMINATE_ROUTE_DO_NOT_CREATE_PRODUCT",
+    "product_pass": "INTEGRATE_ONLY_AFTER_INDEPENDENT_ACCEPTANCE_THEN_UNLOCK_AUDIT",
+    "product_non_pass": "DO_NOT_INTEGRATE_TERMINATE_ROUTE_LOCK_AUDIT",
+    "audit_pass": "P3_EXIT_ACCEPTED_ELIGIBLE_AWAITING_FOUNDER_PHASE_GATE",
+    "audit_non_pass": "PRESERVE_ONE_SHOT_RESULT_NO_RERUN",
+    "project_actual_completion": false,
+    "long_term_goal_status": "ACTIVE",
+    "codex_goal_completion_authorized": false
+  }
+}

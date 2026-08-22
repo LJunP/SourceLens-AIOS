@@ -5061,6 +5061,22 @@ module FounderDelegationContinuity
     route = mapping(truth["current_phase_route"], "current_phase_route")
     return validate_research_exit_state!(root, truth, policy, project, route) if
       route["schema_version"] == RESEARCH_EXIT_ROUTE_SCHEMA
+    if route["schema_version"] == P3TaskWideReservationRouteValidation::ROUTE_SCHEMA
+      assert(defined?(P3TaskWideReservationRouteValidation),
+             "P3 TWRF Route validator is unavailable")
+      state = P3TaskWideReservationRouteValidation.validate_truth!(root: root, truth: truth)
+      expected_state = P3TaskWideReservationRouteValidation::LIFECYCLE_STATES[
+        route["lifecycle_stage"]
+      ]
+      assert(expected_state && state == expected_state, "P3 TWRF Route state drift")
+      disposition = truth.dig("founder_escalation_control", "disposition")
+      expected_disposition = P3TaskWideReservationRouteValidation::LIFECYCLE[
+        route["lifecycle_stage"]
+      ].fetch("founder_required") ? "FOUNDER_RESERVED_DECISION_REQUIRED" : CONTINUE_DISPOSITION
+      assert(disposition == expected_disposition,
+             "P3 TWRF Founder disposition drift for its exact lifecycle")
+      return disposition
+    end
     if route["schema_version"] == P3FinalTransactionalRouteValidation::THTCB_ROUTE_SCHEMA
       assert(defined?(P3FinalTransactionalRouteValidation),
              "P3 THTCB Route validator is unavailable")

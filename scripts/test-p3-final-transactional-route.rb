@@ -111,10 +111,11 @@ if host_authorized_truth.dig("current_phase_route", "schema_version") ==
       candidate["phase_execution_envelope"]["external_effects"]["network"] = true
     end,
     "THTCB Founder interruption cannot be fabricated" => lambda do |candidate|
-      candidate["founder_escalation_control"]["founder_decision_required"] = true
+      candidate["founder_escalation_control"]["founder_decision_required"] =
+        !candidate["founder_escalation_control"]["founder_decision_required"]
     end,
     "THTCB next action owner cannot move to Founder" => lambda do |candidate|
-      candidate["founder_escalation_control"]["next_action_owner"] = "HUMAN_FOUNDER"
+      candidate["founder_escalation_control"]["next_action_owner"] = "FORGED_OWNER"
     end,
     "THTCB delegated Task selection cannot move to Founder" => lambda do |candidate|
       candidate["phase_delegation"]["task_selection_owner"] = "HUMAN_FOUNDER"
@@ -135,7 +136,12 @@ if host_authorized_truth.dig("current_phase_route", "schema_version") ==
       candidate["active_work"]["current_task"] = "FORGED_TASK"
     end,
     "THTCB active Product authority cannot drift" => lambda do |candidate|
-      candidate["active_work"]["authority_record"]["sha256"] = "0" * 64
+      if candidate["active_work"]["authority_record"]
+        candidate["active_work"]["authority_record"]["sha256"] = "0" * 64
+      else
+        candidate["active_work"]["last_completed_task"]["terminal_receipt"]["sha256"] =
+          "0" * 64
+      end
     end,
     "THTCB locked Audit budget cannot expand" => lambda do |candidate|
       candidate["active_work"]["next_stage_budget"]["calendar_days"] = 7

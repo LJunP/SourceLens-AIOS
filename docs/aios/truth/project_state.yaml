@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-22T11:53:58Z"
-verification_scope: "P3_THTCB_PRODUCT_TASK_ACTIVE_DELIVERY_25_STRICT_EXIT_ZERO_P4_HOLD_PROJECT_INCOMPLETE_LONG_TERM_GOAL_ACTIVE"
+last_verified_at: "2026-08-22T15:45:52Z"
+verification_scope: "P3_THTCB_PRODUCT_TASK_TERMINAL_NON_PASS_ROUTE_TERMINAL_PRODUCT_UNINTEGRATED_AUDIT_LOCKED_P3_HOLD_INCOMPLETE_DELIVERY_25_STRICT_EXIT_ZERO_P4_HOLD_PROJECT_INCOMPLETE_LONG_TERM_GOAL_ACTIVE"
 authority:
   founder: Human Founder
   strategy:
@@ -37,8 +37,8 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: "AIOS-P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT"
-  current_state_note: "AIOS-P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT is phase-delegated ACTIVE from canonical strategic install commit 8da75bcb4c3c29667a3762854833103814fb192f. One fresh Product Task, branch, worktree, Contract, nonce and Evidence root are authorized; Product implementation must start immediately. P3 remains delivery 25% and strict Exit 0%, Audit remains locked, P4 remains HOLD, the project is incomplete and the Long-term Goal remains ACTIVE."
+  current_task_authority: "NONE"
+  current_state_note: "AIOS-P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT is TERMINAL_TASK_GATE_NON_PASS. Candidate 2 commit 70c1e2e5fafe466ac33ec43d534444d20b166da8 tree 17d36631abb424add93d6c4ea8c9da9e31e4a297 is not integrated. Security Cycle 2 is PASS; Quality/Evaluation Cycle 2 is NON_PASS with one P1 task-wide reservation-scope blocker. CTO Cycle 2 was not dispatched after the decisive independent NON_PASS. The exact terminal receipt SHA-256 is f0a4fdfb515ad1852e950c35c3b62f767d1e86618633cab1e59f382f66388b65. The Route is terminal, Audit is locked, P3 remains delivery 25% and strict Exit 0%, P4 remains HOLD, the project is incomplete and the Long-term Goal remains ACTIVE."
   current_strategic_decision:
     decision_id: AUTHORIZE_P3_TRUSTED_HOST_TCB_TRANSACTIONAL_EXECUTION_OBJECTIVE_EXIT_GATE_AND_CLEAN_ROOM_FINAL_ROUTE_V1
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/decision/FOUNDER_P3_THTCB_ACCEPTED_STRUCTURED_DECISION_V1.json
@@ -63,10 +63,10 @@ project:
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
   p2_execution_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
-  phase_execution_status: ACTIVE_P3_THTCB_PRODUCT_TASK
-  current_route_execution_status: P3_THTCB_ROUTE_PRODUCT_TASK_ACTIVE
+  phase_execution_status: HOLD_INCOMPLETE_P3_THTCB_ROUTE_TERMINAL_NON_PASS
+  current_route_execution_status: P3_THTCB_ROUTE_TERMINAL_NON_PASS
   p3_entry_status: AUTHORIZED
-  p3_execution_status: ACTIVE_THTCB_PRODUCT_TASK
+  p3_execution_status: HOLD_INCOMPLETE_THTCB_ROUTE_TERMINAL_NON_PASS
   p4_entry_status: HOLD_PENDING_STRICT_P3_EXIT_AND_SEPARATE_FOUNDER_PHASE_ENTRY
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
@@ -8152,23 +8152,23 @@ historical_p3_txc_control_recovery_route_terminal:
 current_phase_route:
   schema_version: p3-trusted-host-tcb-clean-room-final-route/v1
   route_id: P3_TRUSTED_HOST_TCB_CLEAN_ROOM_FINAL_ROUTE_V1
-  status: ACTIVE
-  lifecycle_stage: PRODUCT_TASK_ACTIVE
-  execution_status: PRODUCT_TASK_ACTIVE
-  scheduling_status: TASK_ENVELOPE_EXECUTION
+  status: HOLD_INCOMPLETE_ROUTE_TERMINAL_NON_PASS
+  lifecycle_stage: ROUTE_TERMINAL_NON_PASS
+  execution_status: TERMINAL_PRODUCT_TASK_GATE_NON_PASS
+  scheduling_status: FOUNDER_RESERVED_ROUTE_CHANGE_DECISION_REQUIRED
   phase: P3
   phase_entry_status: AUTHORIZED
   policy:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: '1.8'
     sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
-  founder_phase_route_decision_required: false
+  founder_phase_route_decision_required: true
   founder_reserved_triggers_resolved:
   - MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
   - MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
   - NETWORK_PROVIDER_SECRET_REMOTE_PRODUCTION_OR_PUBLIC_EFFECT
   - CRITICAL_RESIDUAL_RISK_ACCEPTANCE
-  next_eligible_action: EXECUTE_AIOS_P3_THTCB_P1_PRODUCT
+  next_eligible_action: FOUNDER_DECIDE_P3_AFTER_THTCB_ROUTE_TERMINAL_NON_PASS
   phase_execution_envelope_ref: phase_execution_envelope
   phase_entry_route_ref: historical_p3_phase_entry_route
   accepted_p3_001_foundation_route_ref: historical_p3_001_phase_route
@@ -8253,19 +8253,19 @@ current_phase_route:
       task_worktrees: 1
       active_candidates: 1
     consumed:
-      engineering_tasks: 11
-      engineering_hours: 320
-      calendar_days: 78
+      engineering_tasks: 12
+      engineering_hours: 368
+      calendar_days: 88
     remaining:
-      engineering_tasks: 2
-      engineering_hours: 64
-      calendar_days: 16
+      engineering_tasks: 1
+      engineering_hours: 16
+      calendar_days: 6
   ordered_stages:
   - ordinal: 1
     stage_id: TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT
     task_id: AIOS-P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT
     kind: PRODUCT_IMPLEMENTATION
-    status: ACTIVE
+    status: TERMINAL_TASK_GATE_NON_PASS
     budget:
       engineering_tasks: 1
       engineering_hours: 48
@@ -8281,7 +8281,7 @@ current_phase_route:
     stage_id: ONE_SHOT_STRICT_EXIT_AUDIT
     task_id: AIOS-P3-THTCB-A1_ONE_SHOT_STRICT_EXIT_AUDIT
     kind: EVALUATION_ONLY
-    status: LOCKED_PENDING_PRODUCT_ACCEPTED_AND_INTEGRATED
+    status: LOCKED_PRODUCT_TERMINAL_NON_PASS
     budget:
       engineering_tasks: 1
       engineering_hours: 16
@@ -8294,8 +8294,9 @@ current_phase_route:
       branch: codex/p3-thtcb-a1-one-shot-strict-exit-audit
       worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p3-thtcb-a1-one-shot-strict-exit-audit
       evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-audit
-  active_task:
+  terminal_task:
     task_id: AIOS-P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT
+    status: TERMINAL_TASK_GATE_NON_PASS
     contract:
       path: docs/aios/tasks/P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT.yaml
       byte_length: 12078
@@ -8325,6 +8326,28 @@ current_phase_route:
       candidate_generations: 2
       same_task_repairs: 1
       review_cycles: 2
+    candidate:
+      generation: 2
+      commit: 70c1e2e5fafe466ac33ec43d534444d20b166da8
+      tree: 17d36631abb424add93d6c4ea8c9da9e31e4a297
+      parent_commit: c0672691d1b571f68f763bb2b3198f750c8566e8
+      integrated: false
+    independent_review_verdicts:
+      security: PASS
+      quality_evaluation: NON_PASS
+      cto: NOT_DISPATCHED_AFTER_DECISIVE_INDEPENDENT_NON_PASS
+    terminal_blocker_count: 1
+    terminal_blocker_id: R2-C2-B1-TASK_WIDE_RESERVATION_SCOPE_INCOMPLETE
+    cycle_2_final_disposition:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product/reviews/cycle-2/P3_THTCB_CANDIDATE2_CYCLE2_FINAL_DISPOSITION_V1.json
+      byte_length: 6491
+      sha256: 12aef76f86ad860fabd6673a20044f0f97614f7df02d3af2f44854a63d834da7
+    terminal_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product/terminal/P3_THTCB_PRODUCT_TASK_TERMINAL_NON_PASS_RECEIPT_V1.json
+      byte_length: 8627
+      sha256: f0a4fdfb515ad1852e950c35c3b62f767d1e86618633cab1e59f382f66388b65
+    delivery_credit: 0
+    strict_exit_credit: 0
   progression:
     delivery_percent: 25
     strict_exit_percent: 0
@@ -8361,8 +8384,8 @@ current_phase_route:
   p4_entry_authorized: false
   long_term_goal_status: ACTIVE
   external_effect_authority:
-    docker_for_active_product_task: true
-    jre17_single_use_acquisition_for_active_product_task: true
+    docker_for_active_product_task: false
+    jre17_single_use_acquisition_for_active_product_task: false
     provider: false
     secret: false
     credential: false
@@ -12125,7 +12148,7 @@ historical_p3_txc_control_recovery_phase_execution_envelope:
 phase_execution_envelope:
   schema_version: phase-execution-envelope/v1
   phase: P3
-  status: ACTIVE_P3_THTCB_PRODUCT_TASK
+  status: HOLD_INCOMPLETE_P3_THTCB_ROUTE_TERMINAL_NON_PASS
   authority_basis:
     phase_entry_status: AUTHORIZED
     source_route_ref: current_phase_route
@@ -12136,9 +12159,9 @@ phase_execution_envelope:
       sha256: e7fc49d6022294423525fd2d764c0658045045197ac114a4327c07b34f743fb6
   accounting_basis: NON_RESETTABLE_CUMULATIVE_P3_FOUNDER_ENVELOPE
   consumed:
-    engineering_tasks: 11
-    engineering_hours: 320
-    calendar_days: 78
+    engineering_tasks: 12
+    engineering_hours: 368
+    calendar_days: 88
   limits:
     engineering_tasks: 13
     engineering_hours: 384
@@ -12147,20 +12170,13 @@ phase_execution_envelope:
     task_branches: 1
     task_worktrees: 1
     active_candidates: 1
-  reserved:
-    task_id: AIOS-P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT
-    engineering_tasks: 1
-    engineering_hours: 48
-    calendar_days: 10
-    candidate_generations: 2
-    same_task_repairs: 1
-    review_cycles: 2
+  reserved: {}
   remaining:
     engineering_tasks: 1
     engineering_hours: 16
     calendar_days: 6
   remaining_capacity_usable: false
-  remaining_capacity_lock_reason: ACTIVE_PRODUCT_RESERVATION_AUDIT_LOCKED
+  remaining_capacity_lock_reason: ROUTE_TERMINAL_PRODUCT_NON_PASS_AUDIT_LOCKED_FOUNDER_ROUTE_CHANGE_REQUIRED
   milestone_order:
   - DURABLE_STATE_AND_CHECKPOINT_RESUME
   - TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT
@@ -12170,14 +12186,14 @@ phase_execution_envelope:
   ordered_stages:
   - ordinal: 1
     task_id: AIOS-P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT
-    status: ACTIVE
+    status: TERMINAL_TASK_GATE_NON_PASS
     budget:
       engineering_tasks: 1
       engineering_hours: 48
       calendar_days: 10
   - ordinal: 2
     task_id: AIOS-P3-THTCB-A1_ONE_SHOT_STRICT_EXIT_AUDIT
-    status: LOCKED_PENDING_PRODUCT_ACCEPTED_AND_INTEGRATED
+    status: LOCKED_PRODUCT_TERMINAL_NON_PASS
     budget:
       engineering_tasks: 1
       engineering_hours: 16
@@ -12189,14 +12205,25 @@ phase_execution_envelope:
     strict_exit_gate_percent: 0
   governance_progress_credit: 0
   external_effects:
-    docker: ACTIVE_PRODUCT_TASK_AUTHORIZED
-    network: SINGLE_USE_JRE17_CUSTODY_ACTIVE_PRODUCT_TASK_ONLY
+    docker: CLOSED_AFTER_PRODUCT_TASK_TERMINAL
+    network: SINGLE_USE_JRE17_CUSTODY_CONSUMED_CLOSED
     provider: false
     secret: false
     remote: false
     production: false
     public: false
     p4_entry: false
+  last_consumed_stage:
+    ordinal: 1
+    task_id: AIOS-P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT
+    status: TERMINAL_TASK_GATE_NON_PASS
+    candidate_commit: 70c1e2e5fafe466ac33ec43d534444d20b166da8
+    candidate_tree: 17d36631abb424add93d6c4ea8c9da9e31e4a297
+    candidate_integrated: false
+    terminal_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product/terminal/P3_THTCB_PRODUCT_TASK_TERMINAL_NON_PASS_RECEIPT_V1.json
+      byte_length: 8627
+      sha256: f0a4fdfb515ad1852e950c35c3b62f767d1e86618633cab1e59f382f66388b65
 historical_p2_phase_execution_envelope:
   schema_version: phase-execution-envelope/v1
   phase: P2
@@ -12748,17 +12775,18 @@ historical_p3_txc_control_recovery_founder_escalation_control:
 
 founder_escalation_control:
   schema_version: founder-escalation-control/v2
-  disposition: NO_RESERVED_TRIGGER_CONTINUE_PHASE
+  disposition: FOUNDER_RESERVED_DECISION_REQUIRED
   source_event:
-    kind: P3_THTCB_PRODUCT_TASK_ACTIVE
+    kind: P3_THTCB_PRODUCT_TASK_TERMINAL_NON_PASS
     decision_id: AUTHORIZE_P3_TRUSTED_HOST_TCB_TRANSACTIONAL_EXECUTION_OBJECTIVE_EXIT_GATE_AND_CLEAN_ROOM_FINAL_ROUTE_V1
-    status: ACTIVE
+    task_id: AIOS-P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT
+    status: TERMINAL_TASK_GATE_NON_PASS
   reserved_trigger:
-    category: NONE
+    category: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
     evidence:
-      path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/decision/FOUNDER_P3_THTCB_ACCEPTED_STRUCTURED_DECISION_V1.json
-      byte_length: 14404
-      sha256: e7fc49d6022294423525fd2d764c0658045045197ac114a4327c07b34f743fb6
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product/terminal/P3_THTCB_PRODUCT_TASK_TERMINAL_NON_PASS_RECEIPT_V1.json
+      byte_length: 8627
+      sha256: f0a4fdfb515ad1852e950c35c3b62f767d1e86618633cab1e59f382f66388b65
   resolved_strategy_decision:
     category: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
     decision_id: AUTHORIZE_P3_TRUSTED_HOST_TCB_TRANSACTIONAL_EXECUTION_OBJECTIVE_EXIT_GATE_AND_CLEAN_ROOM_FINAL_ROUTE_V1
@@ -12769,11 +12797,11 @@ founder_escalation_control:
       path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/decision/FOUNDER_AUTHORIZATION_BODY_V1.txt
       byte_length: 19057
       sha256: 4427ba6c96a5fd6fba9822e516ec8fe4707573a75f7447da95b7d0fcbda1445d
-    result: P3_THTCB_PRODUCT_TASK_ACTIVE
+    result: P3_THTCB_ROUTE_TERMINAL_NON_PASS
   phase_gate_status: INCOMPLETE
-  founder_decision_required: false
-  next_action_owner: MASTER_CEO_AGENT
-  next_eligible_action: EXECUTE_AIOS_P3_THTCB_P1_PRODUCT
+  founder_decision_required: true
+  next_action_owner: HUMAN_FOUNDER
+  next_eligible_action: FOUNDER_DECIDE_P3_AFTER_THTCB_ROUTE_TERMINAL_NON_PASS
 
 historical_p2_053_phase_route:
   schema_version: "1.1"
@@ -16992,7 +17020,7 @@ historical_p3_txc_control_recovery_phase_delegation:
   claim_boundary: P3_TXC_TWO_ORDERED_TASKS_ONLY_P4_HOLD_LONG_TERM_GOAL_ACTIVE
 
 phase_delegation:
-  status: ACTIVE_P3_THTCB_PRODUCT_TASK
+  status: HOLD_INCOMPLETE_P3_THTCB_ROUTE_TERMINAL_NON_PASS
   model: PHASE_LEVEL_FOUNDER_DELEGATION
   decision_source: AUTHORIZE_P3_TRUSTED_HOST_TCB_TRANSACTIONAL_EXECUTION_OBJECTIVE_EXIT_GATE_AND_CLEAN_ROOM_FINAL_ROUTE_V1
   phase_gate_owner: HUMAN_FOUNDER
@@ -17025,7 +17053,7 @@ phase_delegation:
     candidate_3_allowed: false
     second_same_task_repair_allowed: false
     third_review_cycle_allowed: false
-  claim_boundary: P3_THTCB_PRODUCT_THEN_ONE_SHOT_AUDIT_ONLY_P4_HOLD_LONG_TERM_GOAL_ACTIVE
+  claim_boundary: P3_THTCB_PRODUCT_TERMINAL_NON_PASS_AUDIT_LOCKED_ROUTE_CHANGE_RESERVED_P4_HOLD_LONG_TERM_GOAL_ACTIVE
 mandatory_exit_capability_recovery:
   status: HISTORICAL_POLICY_CONTEXT_SUPERSEDED_BY_LATER_FOUNDER_ROUTES
   founder_decision_source: FOUNDER_P1_DELIVERY_ARCHITECTURE_SIMPLIFICATION_2026_07_17
@@ -17922,23 +17950,16 @@ historical_p3_txc_control_recovery_phase_boundary:
 
 phase_boundary:
   phase: P3
-  phase_execution_status: ACTIVE_P3_THTCB_PRODUCT_TASK
+  phase_execution_status: HOLD_INCOMPLETE_P3_THTCB_ROUTE_TERMINAL_NON_PASS
   task_creation_allowed: false
-  task_creation_scope: CURRENT_TASK_ONLY
+  task_creation_scope: NONE_ROUTE_TERMINAL_NON_PASS
   task_creation_lock_after_activation: true
   p3_entry_authorized: true
-  allowed_task_kinds:
-  - PRODUCT_IMPLEMENTATION
-  allowed_capabilities:
-  - TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT
-  - SHA256_READ_ONLY_CUSTODY_V1
-  - TASK_SCOPED_DOCKER_DESKTOP_PROCESS_REAL_VALIDATION
-  - SINGLE_USE_JRE17_CUSTODY_ACQUISITION
+  allowed_task_kinds: []
+  allowed_capabilities: []
   role_write_roots:
-    worker:
-    - /Users/lijunpeng/Developer/.sourcelens-worktrees/p3-thtcb-p1-trusted-host-transactional-coordinator
-    quality:
-    - /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product
+    worker: []
+    quality: []
     integration:
     - /Users/lijunpeng/Developer/SourceLens-AIOS
     external_evidence:
@@ -17973,8 +17994,8 @@ phase_boundary:
   - PRODUCTION
   - PUBLIC
   default_external_effects:
-    docker: ACTIVE_PRODUCT_TASK_AUTHORIZED
-    network: SINGLE_USE_JRE17_CUSTODY_ACTIVE_PRODUCT_TASK_ONLY
+    docker: false
+    network: false
     provider: false
     secret: false
     credential: false
@@ -17982,13 +18003,13 @@ phase_boundary:
     production: false
     public: false
     p4_entry: false
-  founder_decision_required: false
-  founder_decision_required_scope: NONE
-  escalation_reason: NONE_CURRENT_RESERVED_TRIGGERS_RESOLVED
-  user_action_required: NONE
-  phase_route_decision_required: false
-  phase_route_user_action_required: NONE
-  next_eligible_action: EXECUTE_AIOS_P3_THTCB_P1_PRODUCT
+  founder_decision_required: true
+  founder_decision_required_scope: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
+  escalation_reason: EXACT_THTCB_ROUTE_TERMINAL_CONTINUATION_REQUIRES_FOUNDER_ROUTE_CHANGE
+  user_action_required: FOUNDER_P3_ROUTE_CHANGE_DECISION
+  phase_route_decision_required: true
+  phase_route_user_action_required: FOUNDER_P3_ROUTE_CHANGE_DECISION
+  next_eligible_action: FOUNDER_DECIDE_P3_AFTER_THTCB_ROUTE_TERMINAL_NON_PASS
 
 p0_baseline:
   checkpoint_commit: ad6450e418d8f1b4fd5a789f913525a8dd8bdc10
@@ -24617,56 +24638,33 @@ historical_p3_txc_control_recovery_active_work:
   next_eligible_action: FOUNDER_DECIDE_P3_AFTER_TXC_ROUTE_TERMINAL_NON_PASS
 
 active_work:
-  current_task: AIOS-P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT
-  selected_task: AIOS-P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT
-  current_task_status: ACTIVE_IMPLEMENTATION
+  current_task: NONE
+  selected_task: NONE_ROUTE_TERMINAL_NON_PASS
+  current_task_status: NONE
   current_task_contract:
-    path: docs/aios/tasks/P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT.yaml
-    sha256: 39c46c03bcf708f343bb0a65416c2dcae69d0bdddefb50c9d525e1129c4d1c27
-    byte_length: 12078
-  current_task_contract_sha256: 39c46c03bcf708f343bb0a65416c2dcae69d0bdddefb50c9d525e1129c4d1c27
-  current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product/authority/P3_THTCB_P1_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
-  current_execution_authorization_sha256: 87d11c3fbbe4e7f5488ad5e043db80d264e68e72f1067cbf24b1db4ff7e0e7f4
+  current_task_contract_sha256:
+  current_execution_authorization:
+  current_execution_authorization_sha256:
   authority_record:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product/authority/P3_THTCB_P1_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
-    sha256: 87d11c3fbbe4e7f5488ad5e043db80d264e68e72f1067cbf24b1db4ff7e0e7f4
-    byte_length: 7978
   authority_scope_conformance:
-    path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product/authority/P3_THTCB_P1_AUTHORITY_SCOPE_CONFORMANCE_V1.json
-    sha256: 813567ccda95a4705ac7303490820ebd9aa7a416a0f7e1a2564dbe54363bbf52
-    byte_length: 3422
-  execution_nonce: b315aa7f-e39f-47b3-accc-489f812c3800
-  execution_nonce_status: ACTIVE_SINGLE_USE
-  authorization_id: 16c2425e-bc41-47d4-81e1-37c0d735a907
+  execution_nonce:
+  execution_nonce_status: CONSUMED_TERMINAL_NON_PASS
+  authorization_id:
   activation_parent_commit: 8da75bcb4c3c29667a3762854833103814fb192f
   activation_parent_tree: 3c8c33f5d1c547de00e3a7f5e515238ff9d7b56c
   strategic_installation_parent:
     commit: f6a1c69dc28b399e0bc7562a9d591b6b11b953be
     tree: 6326179fd4d879b4ba2f4e92ccc59f27144aad41
-  task_resource_state: ACTIVE_CREATED
-  planned_task_branch: codex/p3-thtcb-p1-trusted-host-transactional-coordinator
-  planned_task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p3-thtcb-p1-trusted-host-transactional-coordinator
+  task_resource_state: TERMINAL_ROUTE_NO_TASK_RESOURCES
+  planned_task_branch:
+  planned_task_worktree:
   planned_execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product
-  task_branch: codex/p3-thtcb-p1-trusted-host-transactional-coordinator
-  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p3-thtcb-p1-trusted-host-transactional-coordinator
-  execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product
-  dependency_custody_root: /Users/lijunpeng/Developer/.sourcelens-custody/p3-thtcb-jre17
-  allowlisted_paths:
-  - backend-spring/src/main/java/com/sourcelens/module/execution/trustboundary
-  - backend-spring/src/main/java/com/sourcelens/module/sandbox/oci
-  - backend-spring/src/main/java/com/sourcelens/module/execution/service/ExecutionCheckpointService.java
-  - backend-spring/src/main/java/com/sourcelens/module/execution/mapper/ExecutionCheckpointStore.java
-  - backend-spring/src/main/resources/db/migration/V034__add_trusted_host_tcb_transactional_execution.sql
-  - backend-spring/src/test/java/com/sourcelens/module/execution/trustboundary/thtcb
-  - backend-spring/src/test/resources/p3-trusted-host-tcb
-  - docs/PROJECT_CODE_MAP.md
-  current_task_budget:
-    engineering_tasks: 1
-    engineering_hours: 48
-    calendar_days: 10
-    candidate_generations: 2
-    same_task_repairs: 1
-    review_cycles: 2
+  task_branch:
+  task_worktree:
+  execution_evidence_root:
+  dependency_custody_root:
+  allowlisted_paths: []
+  current_task_budget: {}
   next_stage_budget:
     engineering_tasks: 1
     engineering_hours: 16
@@ -24677,15 +24675,12 @@ active_work:
     rerun_to_pass_allowed: false
   roles:
     owner: MASTER_CEO_AGENT
-    worker: IMPLEMENTATION_AGENT
-    quality_owner: QUALITY_EVALUATION_AGENT
-    independent_reviewers:
-    - CTO_AGENT
-    - SECURITY_AGENT
-    - QUALITY_EVALUATION_AGENT
+    worker:
+    quality_owner:
+    independent_reviewers: []
   external_effects:
-    docker: ACTIVE_PRODUCT_TASK_AUTHORIZED
-    network: SINGLE_USE_JRE17_CUSTODY_ACTIVE_PRODUCT_TASK_ONLY
+    docker: false
+    network: false
     provider: false
     secret: false
     credential: false
@@ -24698,12 +24693,12 @@ active_work:
   offsite_target:
   founder_reserved_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/decision/FOUNDER_P3_THTCB_ACCEPTED_STRUCTURED_DECISION_V1.json
   founder_reserved_authorization_sha256: e7fc49d6022294423525fd2d764c0658045045197ac114a4327c07b34f743fb6
-  founder_decision_required: false
-  founder_decision_required_scope: NONE
-  escalation_reason: NONE_CURRENT_RESERVED_TRIGGERS_RESOLVED
-  user_action_required: NONE
-  phase_route_decision_required: false
-  phase_route_user_action_required: NONE
+  founder_decision_required: true
+  founder_decision_required_scope: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
+  escalation_reason: EXACT_THTCB_ROUTE_TERMINAL_CONTINUATION_REQUIRES_FOUNDER_ROUTE_CHANGE
+  user_action_required: FOUNDER_P3_ROUTE_CHANGE_DECISION
+  phase_route_decision_required: true
+  phase_route_user_action_required: FOUNDER_P3_ROUTE_CHANGE_DECISION
   completed_tasks:
   - task_id: AIOS-P3-TXCR-P1_TRANSACTIONAL_INVOCATION_COORDINATOR_PRODUCT
     status: TERMINAL_NON_PASS
@@ -24711,13 +24706,40 @@ active_work:
       path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-txc-control-recovery-20260822/task-product/terminal/P3_TXCR_P1_PRODUCT_TASK_TERMINAL_NON_PASS_RECEIPT_V1.json
       byte_length: 7117
       sha256: 47b0527b16a6e678abc1af6693752f1ef27d879633ac0e244d70a225c794e7d8
+  - task_id: AIOS-P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT
+    status: TERMINAL_TASK_GATE_NON_PASS
+    receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product/terminal/P3_THTCB_PRODUCT_TASK_TERMINAL_NON_PASS_RECEIPT_V1.json
+      byte_length: 8627
+      sha256: f0a4fdfb515ad1852e950c35c3b62f767d1e86618633cab1e59f382f66388b65
   historical_terminal_accounting:
-    consumed_engineering_tasks: 11
-    consumed_engineering_hours: 320
-    consumed_calendar_days: 78
-    latest_terminal_task_id: AIOS-P3-TXCR-P1_TRANSACTIONAL_INVOCATION_COORDINATOR_PRODUCT
-    latest_terminal_receipt_sha256: 47b0527b16a6e678abc1af6693752f1ef27d879633ac0e244d70a225c794e7d8
-  next_eligible_action: EXECUTE_AIOS_P3_THTCB_P1_PRODUCT
+    consumed_engineering_tasks: 12
+    consumed_engineering_hours: 368
+    consumed_calendar_days: 88
+    latest_terminal_task_id: AIOS-P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT
+    latest_terminal_receipt_sha256: f0a4fdfb515ad1852e950c35c3b62f767d1e86618633cab1e59f382f66388b65
+  last_completed_task:
+    task_id: AIOS-P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT
+    status: TERMINAL_TASK_GATE_NON_PASS
+    contract:
+      path: docs/aios/tasks/P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT.yaml
+      byte_length: 12078
+      sha256: 39c46c03bcf708f343bb0a65416c2dcae69d0bdddefb50c9d525e1129c4d1c27
+    authorization_id: 16c2425e-bc41-47d4-81e1-37c0d735a907
+    execution_nonce: b315aa7f-e39f-47b3-accc-489f812c3800
+    candidate_commit: 70c1e2e5fafe466ac33ec43d534444d20b166da8
+    candidate_tree: 17d36631abb424add93d6c4ea8c9da9e31e4a297
+    candidate_integrated: false
+    independent_review_verdicts:
+      security: PASS
+      quality_evaluation: NON_PASS
+      cto: NOT_DISPATCHED_AFTER_DECISIVE_INDEPENDENT_NON_PASS
+    frozen_blocker_count: 1
+    terminal_receipt:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product/terminal/P3_THTCB_PRODUCT_TASK_TERMINAL_NON_PASS_RECEIPT_V1.json
+      byte_length: 8627
+      sha256: f0a4fdfb515ad1852e950c35c3b62f767d1e86618633cab1e59f382f66388b65
+  next_eligible_action: FOUNDER_DECIDE_P3_AFTER_THTCB_ROUTE_TERMINAL_NON_PASS
 
 historical_p2_080_terminal_active_work:
   current_task: AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER
@@ -31419,9 +31441,9 @@ historical_p3_txc_control_recovery_phase_execution_claim:
 
 phase_execution_claim:
   current_route_claim: P3_TRUSTED_HOST_TCB_CLEAN_ROOM_FINAL_ROUTE_V1
-  current_task_claim: AIOS-P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT
-  selected_next_task: AIOS-P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT
-  real_engineering_progress: 0
+  current_task_claim: NONE
+  selected_next_task: NONE_ROUTE_TERMINAL_NON_PASS
+  real_engineering_progress: P3_THTCB_PRODUCT_TASK_TERMINAL_NON_PASS_CANDIDATE_UNINTEGRATED_AUDIT_LOCKED_DELIVERY_25_STRICT_EXIT_ZERO
   product_capability_changed: false
   accepted_outcomes:
   - DURABLE_STATE_AND_CHECKPOINT_RESUME
@@ -31430,10 +31452,10 @@ phase_execution_claim:
   p3_entry_authorized: true
   p3_exit_gate_progress_percent: 0
   p3_delivery_progress_percent: 25
-  phase_local_allowed:
-  - EXECUTE_AIOS_P3_THTCB_P1_PRODUCT
+  phase_local_allowed: []
   phase_local_frozen_capabilities:
-  - AIOS-P3-THTCB-A1_ONE_SHOT_STRICT_EXIT_AUDIT_UNTIL_PRODUCT_ACCEPTED_AND_INTEGRATED
+  - AIOS-P3-THTCB-P1_TERMINAL_NON_PASS_CANDIDATE_UNINTEGRATED
+  - AIOS-P3-THTCB-A1_ONE_SHOT_STRICT_EXIT_AUDIT_LOCKED_ROUTE_TERMINAL
   historical_terminal_rules:
   - IDENTITY_ACCOUNTING_THREAT_MODEL_AND_ACCEPTANCE_ITEM_NAMING_ONLY
   - NO_REJECTED_ENGINEERING_LINEAGE_READ_COMPARE_COPY_EXECUTE_REPAIR_OR_REUSE
@@ -31456,7 +31478,7 @@ phase_execution_claim:
   remaining_capacity_usable: false
   held_read_allowed: false
   candidate_integration_allowed: false
-  next_eligible_action: EXECUTE_AIOS_P3_THTCB_P1_PRODUCT
+  next_eligible_action: FOUNDER_DECIDE_P3_AFTER_THTCB_ROUTE_TERMINAL_NON_PASS
 
 p2_recovery_control:
   schema_version: p2-recovery-control/v2
@@ -31509,32 +31531,41 @@ p2_recovery_control:
 
 claim_boundary:
   current_phase_route: "P3_TRUSTED_HOST_TCB_CLEAN_ROOM_FINAL_ROUTE_V1"
-  current_task: "AIOS-P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT"
-  selected_task: "AIOS-P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT"
-  current_task_status: "ACTIVE_IMPLEMENTATION"
-  next_eligible_action: "EXECUTE_AIOS_P3_THTCB_P1_PRODUCT"
-  real_engineering_progress: "PRODUCT_TASK_ACTIVATED_ZERO_PRODUCT_SOURCE_DIFF_AT_ACTIVATION"
+  current_task: "NONE"
+  selected_task: "NONE_ROUTE_TERMINAL_NON_PASS"
+  current_task_status: "NONE"
+  next_eligible_action: "FOUNDER_DECIDE_P3_AFTER_THTCB_ROUTE_TERMINAL_NON_PASS"
+  real_engineering_progress: "P3_THTCB_PRODUCT_TASK_TERMINAL_NON_PASS_CANDIDATE_UNINTEGRATED_AUDIT_LOCKED_DELIVERY_25_STRICT_EXIT_ZERO"
   p2_research_exit_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
   p2_research_exit_percent: 100
   p2_original_capability_gate_status: MISSING_NOT_ACCEPTED
   p2_original_capability_progress_percent: 0
   p2_candidate_integrated: false
   p2_held_source_reads: 0
-  p3_status: "ACTIVE_THTCB_PRODUCT_TASK"
+  p3_status: "HOLD_INCOMPLETE_THTCB_ROUTE_TERMINAL_NON_PASS"
   p3_entry_authorized: true
-  p3_phase_envelope_status: "ACTIVE_P3_THTCB_PRODUCT_TASK"
+  p3_phase_envelope_status: "HOLD_INCOMPLETE_P3_THTCB_ROUTE_TERMINAL_NON_PASS"
   p3_exit_gate_progress_percent: 0
   p3_delivery_progress_percent: 25
   p3_accepted_milestones:
   - DURABLE_STATE_AND_CHECKPOINT_RESUME
-  p3_capability_milestone_status: "TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT_ACTIVE_NOT_ACCEPTED"
+  p3_capability_milestone_status: "TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT_TERMINAL_NON_PASS_NOT_ACCEPTED"
   p3_thtcb_route_decision_sha256: e7fc49d6022294423525fd2d764c0658045045197ac114a4327c07b34f743fb6
   p3_thtcb_route_source_body_sha256: 4427ba6c96a5fd6fba9822e516ec8fe4707573a75f7447da95b7d0fcbda1445d
-  p3_thtcb_route_stage: PRODUCT_TASK_ACTIVE
+  p3_thtcb_route_stage: ROUTE_TERMINAL_NON_PASS
   p3_thtcb_route_delivery_credit: 0
   p3_thtcb_route_strict_exit_credit: 0
   p3_thtcb_product_candidate_integrated: false
   p3_thtcb_audit_unlocked: false
+  p3_thtcb_product_task_status: TERMINAL_TASK_GATE_NON_PASS
+  p3_thtcb_product_candidate_commit: 70c1e2e5fafe466ac33ec43d534444d20b166da8
+  p3_thtcb_product_candidate_tree: 17d36631abb424add93d6c4ea8c9da9e31e4a297
+  p3_thtcb_product_review_verdicts:
+    security: PASS
+    quality_evaluation: NON_PASS
+    cto: NOT_DISPATCHED_AFTER_DECISIVE_INDEPENDENT_NON_PASS
+  p3_thtcb_product_terminal_blocker_count: 1
+  p3_thtcb_product_terminal_receipt_sha256: f0a4fdfb515ad1852e950c35c3b62f767d1e86618633cab1e59f382f66388b65
   p3_final_transactional_route_decision_sha256: 7daa36b2d85a215861051845cf3712b209c1f711c351e1a092e01725b13d1c3d
   p3_host_authorized_transactional_route_decision_sha256: 96b18ed2c356ff41b52a1379d56991f02585ecb47c55b963da4de02db66a2d84
   p3_tik_process_real_route_decision_sha256: aaf69bcd7a11c80a7af0410cca549fc084c69e4a52560175104dbc5e06e976d4

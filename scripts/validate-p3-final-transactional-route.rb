@@ -1123,9 +1123,12 @@ module P3FinalTransactionalRouteValidation
   THTCB_ACTION = "MASTER_ACTIVATE_AIOS_P3_THTCB_P1_PRODUCT"
   THTCB_PRODUCT_ACTIVE_STATE = "P3_THTCB_PRODUCT_TASK_ACTIVE"
   THTCB_PRODUCT_ACTIVE_ACTION = "EXECUTE_AIOS_P3_THTCB_P1_PRODUCT"
+  THTCB_ROUTE_TERMINAL_STATE = "P3_THTCB_HOLD_INCOMPLETE_ROUTE_TERMINAL_NON_PASS"
+  THTCB_ROUTE_TERMINAL_ACTION = "FOUNDER_DECIDE_P3_AFTER_THTCB_ROUTE_TERMINAL_NON_PASS"
   THTCB_LIFECYCLE_STATES = {
     "PRODUCT_ELIGIBLE_NOT_ACTIVATED" => THTCB_STATE,
-    "PRODUCT_TASK_ACTIVE" => THTCB_PRODUCT_ACTIVE_STATE
+    "PRODUCT_TASK_ACTIVE" => THTCB_PRODUCT_ACTIVE_STATE,
+    "ROUTE_TERMINAL_NON_PASS" => THTCB_ROUTE_TERMINAL_STATE
   }.freeze
   THTCB_DECISION_SCHEMA = "p3-trusted-host-tcb-founder-decision/v1"
   THTCB_DECISION_ID =
@@ -1226,6 +1229,19 @@ module P3FinalTransactionalRouteValidation
     "goal" => "ab8ea1f9078fbb3ca6ec85cbda66526558a0247a5f90583a49983dbbdf1e50ba",
     "strict_p3" => "2a8c19c8cc8f067b306820e5e426482986dea7e103d5b277d589d5fe412d1953"
   }.freeze
+  THTCB_TERMINAL_PROJECTION_SHA256 = {
+    "current_phase_route" => "ce14ea9fa1ecba452979545dd148e0e14cc2fe9e55a555157596e5bfb7ee03f9",
+    "phase_execution_envelope" => "1e744546a3fd68df60b61a5779676be4ae05d29747fcf136b6d3d786f7235e04",
+    "founder_escalation_control" => "cd232460c12f9cfadfd0f2f686efe22d900fb4efdbf0d5e65c69640b16b52c6b",
+    "phase_delegation" => "c59552d070b14c896844dec4002607b5e75cea296953e6144613a3ce3386777c",
+    "phase_boundary" => "ebfc0fd048d42e994d91f1b2613418f681c81da7f523f0c1308b7e1ce30da006",
+    "active_work" => "d752128808f4967275ecbc371d72f7815d2a3913899ae0982f0179beb6ab7b34",
+    "phase_execution_claim" => "33cf8c255dfb84cbc73a8313c9812c2e78193a93db12a57b34ed46e7f119f617",
+    "claim_boundary" => "18281a97a7b9b24ce6912958dbe46399745595dbfb3473389e511ae849af2487",
+    "project" => "a809c55acf6ff7e5ac57dbdc4c920688c6e0348cf5ea3a948a6ebb706aa7ac22",
+    "goal" => "746fd1a91a732d0c12e235ffbd4a90b908db555cd00aff91b5f24fb82ce2d013",
+    "strict_p3" => "2a8c19c8cc8f067b306820e5e426482986dea7e103d5b277d589d5fe412d1953"
+  }.freeze
   THTCB_PRODUCT_TASK_ID =
     "AIOS-P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT"
   THTCB_AUDIT_TASK_ID = "AIOS-P3-THTCB-A1_ONE_SHOT_STRICT_EXIT_AUDIT"
@@ -1255,6 +1271,41 @@ module P3FinalTransactionalRouteValidation
   }.freeze
   THTCB_PRODUCT_AUTHORIZATION_ID = "16c2425e-bc41-47d4-81e1-37c0d735a907"
   THTCB_PRODUCT_EXECUTION_NONCE = "b315aa7f-e39f-47b3-accc-489f812c3800"
+  THTCB_PRODUCT_CANDIDATE_2 = {
+    "commit" => "70c1e2e5fafe466ac33ec43d534444d20b166da8",
+    "tree" => "17d36631abb424add93d6c4ea8c9da9e31e4a297",
+    "parent_commit" => "c0672691d1b571f68f763bb2b3198f750c8566e8"
+  }.freeze
+  THTCB_PRODUCT_CANDIDATE_2_MANIFEST = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product/candidate/P3_THTCB_PRODUCT_CANDIDATE2_REPAIR_MANIFEST_V1.json",
+    "byte_length" => 14_341,
+    "sha256" => "e1bb1033a45d7e5827c46214ec06a7cf3369c9f23cd1f4574e651eac0cd37248"
+  }.freeze
+  THTCB_PRODUCT_CANDIDATE_2_BUNDLE = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product/candidate/P3_THTCB_PRODUCT_CANDIDATE2.bundle",
+    "byte_length" => 34_609,
+    "sha256" => "039621a13444bbcfa15dbab859c15859fa1e0c55a13cf2d87a3ed58b64a906b7"
+  }.freeze
+  THTCB_CYCLE_2_SECURITY_REVIEW = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product/reviews/cycle-2/P3_THTCB_CANDIDATE2_SECURITY_CYCLE2_CLOSURE_REVIEW_V1.json",
+    "byte_length" => 20_461,
+    "sha256" => "3fe32fd0385b0ff4dd97fedcc68d9601c73a8880d6fc9b00e2ddccd6f8f8972d"
+  }.freeze
+  THTCB_CYCLE_2_QUALITY_REVIEW = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product/reviews/cycle-2/P3_THTCB_CANDIDATE2_QUALITY_CYCLE2_CLOSURE_REVIEW_V1.json",
+    "byte_length" => 15_466,
+    "sha256" => "4c4ecc595333acc9e7e326aa204eff424166bc7d65f856a0768a36ed4e9f0967"
+  }.freeze
+  THTCB_CYCLE_2_FINAL_DISPOSITION = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product/reviews/cycle-2/P3_THTCB_CANDIDATE2_CYCLE2_FINAL_DISPOSITION_V1.json",
+    "byte_length" => 6_491,
+    "sha256" => "12aef76f86ad860fabd6673a20044f0f97614f7df02d3af2f44854a63d834da7"
+  }.freeze
+  THTCB_PRODUCT_TERMINAL_RECEIPT = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product/terminal/P3_THTCB_PRODUCT_TASK_TERMINAL_NON_PASS_RECEIPT_V1.json",
+    "byte_length" => 8_627,
+    "sha256" => "f0a4fdfb515ad1852e950c35c3b62f767d1e86618633cab1e59f382f66388b65"
+  }.freeze
   THTCB_PRODUCT_RESOURCES = {
     "branch" => "codex/p3-thtcb-p1-trusted-host-transactional-coordinator",
     "worktree" => "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-thtcb-p1-trusted-host-transactional-coordinator",
@@ -9018,7 +9069,7 @@ module P3FinalTransactionalRouteValidation
       decision.dig("strategic_installation", "allowed_repository_paths"),
       "P3 THTCB strategic installation path allowlist"
     )
-    if lifecycle_stage == "PRODUCT_TASK_ACTIVE"
+    if %w[PRODUCT_TASK_ACTIVE ROUTE_TERMINAL_NON_PASS].include?(lifecycle_stage)
       allowed = (allowed + THTCB_PRODUCT_MASTER_PATHS).uniq
     end
     changed = git!(root, "diff", "--name-only", THTCB_CANONICAL_START.fetch("commit")).lines
@@ -9557,6 +9608,270 @@ module P3FinalTransactionalRouteValidation
           "P3 THTCB active Product route invalid: #{e.message}"
   end
 
+  def validate_thtcb_product_terminal_evidence!(root)
+    manifest = JSON.parse(read_identity!(
+      THTCB_PRODUCT_CANDIDATE_2_MANIFEST,
+      "P3 THTCB Candidate 2 manifest",
+      create_once: true
+    ))
+    assert(manifest["schema_version"] ==
+             "p3-thtcb-product-candidate-repair-manifest/v1" &&
+           manifest["record_type"] == "P3_THTCB_PRODUCT_CANDIDATE_REPAIR_MANIFEST" &&
+           manifest["candidate_generation"] == 2 &&
+           manifest.dig("task_identity", "task_id") == THTCB_PRODUCT_TASK_ID &&
+           manifest.dig("source", "parent_commit") ==
+             THTCB_PRODUCT_CANDIDATE_2.fetch("parent_commit") &&
+           manifest.dig("source", "candidate_commit") ==
+             THTCB_PRODUCT_CANDIDATE_2.fetch("commit") &&
+           manifest.dig("source", "candidate_tree") ==
+             THTCB_PRODUCT_CANDIDATE_2.fetch("tree") &&
+           manifest.dig("source", "changed_file_count") == 15 &&
+           manifest.dig("rollback", "canonical_integration_performed") == false &&
+           manifest.dig("budget_and_lifecycle", "candidate_3_allowed") == false &&
+           manifest.dig("budget_and_lifecycle", "review_cycle_3_allowed") == false &&
+           manifest.dig("budget_and_lifecycle", "successor_or_replacement_allowed") == false,
+           "P3 THTCB Candidate 2 manifest semantic drift")
+
+    security = JSON.parse(read_identity!(
+      THTCB_CYCLE_2_SECURITY_REVIEW,
+      "P3 THTCB Candidate 2 Security Cycle 2 review",
+      create_once: true
+    ))
+    assert(security["schema_version"] == "p3-thtcb-cycle-2-closure-review/v1" &&
+           security["role"] == "SECURITY_AGENT" && security["review_cycle"] == 2 &&
+           security["p0_count"] == 0 && security["p1_count"] == 0 &&
+           security["verdict"] == "PASS" &&
+           security.dig("identity_audit", "candidate_commit", "verified") == true &&
+           security.dig("identity_audit", "candidate_commit", "observed") ==
+             THTCB_PRODUCT_CANDIDATE_2.fetch("commit") &&
+           security.dig("identity_audit", "candidate_tree", "verified") == true &&
+           security.dig("identity_audit", "candidate_tree", "observed") ==
+             THTCB_PRODUCT_CANDIDATE_2.fetch("tree") &&
+           security.dig("independence_audit", "other_cycle_2_reviewer_outputs_read") == false &&
+           security.dig("independence_audit",
+                        "historical_rejected_p3_engineering_lineage_read_compared_or_reused") ==
+             false,
+           "P3 THTCB Security Cycle 2 review semantic drift")
+
+    quality = JSON.parse(read_identity!(
+      THTCB_CYCLE_2_QUALITY_REVIEW,
+      "P3 THTCB Candidate 2 Quality Cycle 2 review",
+      create_once: true
+    ))
+    blocker = array(quality["cluster_assessments"],
+                    "P3 THTCB Quality Cycle 2 cluster assessments")
+      .flat_map { |cluster| Array(cluster["unresolved_blockers"]) }
+      .find { |finding| finding["id"] ==
+        "R2-C2-B1-TASK_WIDE_RESERVATION_SCOPE_INCOMPLETE" }
+    assert(quality["schema_version"] == "p3-thtcb-cycle-2-closure-review/v1" &&
+           quality["role"] == "QUALITY_EVALUATION_AGENT" &&
+           quality["review_cycle"] == 2 && quality["p0_count"] == 0 &&
+           quality["p1_count"] == 1 && quality["verdict"] == "NON_PASS" &&
+           quality.dig("identity_audit", "candidate_commit") ==
+             THTCB_PRODUCT_CANDIDATE_2.fetch("commit") &&
+           quality.dig("identity_audit", "candidate_tree") ==
+             THTCB_PRODUCT_CANDIDATE_2.fetch("tree") &&
+           quality.dig("independence_audit", "read_other_cycle2_reviewer_outputs") == false &&
+           quality.dig("independence_audit",
+                       "read_or_compared_historical_rejected_p3_engineering_lineage") == false &&
+           blocker && blocker["severity"] == "P1" &&
+           blocker["gate_relevance"] ==
+             %w[AUTHORITY_OR_EXTERNAL_EFFECT_SAFETY PRODUCT_CORRECTNESS],
+           "P3 THTCB Quality Cycle 2 decisive blocker drift")
+
+    disposition = JSON.parse(read_identity!(
+      THTCB_CYCLE_2_FINAL_DISPOSITION,
+      "P3 THTCB Candidate 2 Cycle 2 final disposition",
+      create_once: true
+    ))
+    review_verdicts = disposition.fetch("cycle_2_reviews").to_h do |review|
+      [review.fetch("role"), review.fetch("verdict")]
+    end
+    assert(disposition["schema_version"] == "p3-thtcb-cycle-2-final-disposition/v1" &&
+           disposition.dig("task", "task_id") == THTCB_PRODUCT_TASK_ID &&
+           disposition.dig("candidate", "commit") ==
+             THTCB_PRODUCT_CANDIDATE_2.fetch("commit") &&
+           disposition.dig("candidate", "tree") ==
+             THTCB_PRODUCT_CANDIDATE_2.fetch("tree") &&
+           review_verdicts == {
+             "SECURITY_AGENT" => "PASS", "QUALITY_EVALUATION_AGENT" => "NON_PASS"
+           } && disposition.dig("cto_cycle_2", "status") ==
+             "NOT_DISPATCHED_AFTER_DECISIVE_INDEPENDENT_NON_PASS" &&
+           disposition.dig("decision_rule", "non_pass_trigger") ==
+             "ANY_REVIEWER_OPEN_P0_OR_P1" &&
+           disposition.dig("decision_rule", "trigger_observed") == true &&
+           disposition.dig("final_disposition", "product_task_gate") == "NON_PASS" &&
+           disposition.dig("final_disposition", "task_lifecycle") ==
+             "TERMINAL_TASK_GATE_NON_PASS" &&
+           disposition.dig("final_disposition", "route_lifecycle") ==
+             "ROUTE_TERMINAL_NON_PASS" &&
+           disposition.dig("final_disposition", "long_term_goal_status") == "ACTIVE",
+           "P3 THTCB Cycle 2 final disposition semantic drift")
+
+    receipt = JSON.parse(read_identity!(
+      THTCB_PRODUCT_TERMINAL_RECEIPT,
+      "P3 THTCB Product terminal receipt",
+      create_once: true
+    ))
+    assert(receipt["schema_version"] == "p3-thtcb-product-task-terminal-receipt/v1" &&
+           receipt["record_type"] == "P3_THTCB_PRODUCT_TASK_TERMINAL_NON_PASS_RECEIPT" &&
+           receipt.dig("task", "task_id") == THTCB_PRODUCT_TASK_ID &&
+           receipt.dig("task", "execution_nonce") == THTCB_PRODUCT_EXECUTION_NONCE &&
+           receipt.dig("candidate", "final_commit") ==
+             THTCB_PRODUCT_CANDIDATE_2.fetch("commit") &&
+           receipt.dig("candidate", "final_tree") ==
+             THTCB_PRODUCT_CANDIDATE_2.fetch("tree") &&
+           receipt.dig("candidate", "canonical_integration_performed") == false &&
+           receipt["cycle_2_final_disposition"] ==
+             THTCB_CYCLE_2_FINAL_DISPOSITION.merge("mode" => "0444", "nlink" => 1) &&
+           receipt.dig("independent_review_results", "security", "verdict") == "PASS" &&
+           receipt.dig("independent_review_results", "quality_evaluation", "verdict") ==
+             "NON_PASS" &&
+           receipt.dig("independent_review_results", "cto", "status") ==
+             "NOT_DISPATCHED_AFTER_DECISIVE_INDEPENDENT_NON_PASS" &&
+           receipt.dig("independent_review_results", "unanimous_acceptance") == false &&
+           receipt.fetch("terminal_blockers").map { |finding| finding["finding_id"] } ==
+             ["R2-C2-B1-TASK_WIDE_RESERVATION_SCOPE_INCOMPLETE"] &&
+           receipt.dig("terminal_result", "product_task_gate") == "NON_PASS" &&
+           receipt.dig("terminal_result", "task_lifecycle") ==
+             "TERMINAL_TASK_GATE_NON_PASS" &&
+           receipt.dig("terminal_result", "route_lifecycle") == "ROUTE_TERMINAL_NON_PASS" &&
+           receipt.dig("terminal_result", "candidate_integrated") == false &&
+           receipt.dig("terminal_result", "audit_status") == "LOCKED_ROUTE_TERMINAL" &&
+           receipt.dig("terminal_result", "p3_delivery_progress_percent") == 25 &&
+           receipt.dig("terminal_result", "p3_strict_exit_progress_percent") == 0 &&
+           receipt.dig("terminal_result", "project_actually_completed") == false &&
+           receipt.dig("terminal_result", "long_term_goal_lifecycle") == "ACTIVE" &&
+           receipt.dig("terminal_result", "codex_goal_action_taken") == "NONE_KEEP_ACTIVE" &&
+           receipt.dig("no_auto_successor", "present") == true &&
+           receipt.dig("no_auto_successor", "suppresses_user_action_handoff") == false,
+           "P3 THTCB Product terminal receipt semantic drift")
+
+    read_identity!(THTCB_PRODUCT_CANDIDATE_2_BUNDLE,
+                   "P3 THTCB Candidate 2 bundle", create_once: true)
+    bundle_heads, bundle_stderr, bundle_status = Open3.capture3(
+      "git", "bundle", "list-heads", THTCB_PRODUCT_CANDIDATE_2_BUNDLE.fetch("path")
+    )
+    assert(bundle_status.success?,
+           "P3 THTCB Candidate 2 bundle invalid: #{bundle_stderr.strip}")
+    assert(bundle_heads.lines.any? { |line|
+      line.start_with?(THTCB_PRODUCT_CANDIDATE_2.fetch("commit"))
+    }, "P3 THTCB Candidate 2 bundle head drift")
+    product_diff = git!(
+      root, "diff", "--name-only", THTCB_PRODUCT_ACTIVATION_PARENT.fetch("commit"), "HEAD",
+      "--", *THTCB_PRODUCT_WORKER_PATHS
+    )
+    assert(product_diff.empty?, "P3 THTCB rejected Product bytes entered canonical main")
+    receipt
+  rescue JSON::ParserError => e
+    raise P3FinalTransactionalRouteValidationError,
+          "P3 THTCB terminal Evidence is not valid JSON: #{e.message}"
+  end
+
+  def validate_thtcb_product_terminal_route!(root, truth)
+    root = Pathname.new(root).realpath
+    assert(truth["record_type"] == "sourcelens_aios_current_truth",
+           "P3 THTCB canonical Truth record type drift")
+    validate_thtcb_decision!(root, "ROUTE_TERMINAL_NON_PASS")
+    baseline = load_thtcb_canonical_start_truth!(root)
+    THTCB_HISTORICAL_PROJECTIONS.each do |historical_key, baseline_key|
+      assert(truth[historical_key] == baseline[baseline_key],
+             "P3 THTCB immutable historical projection drift: #{historical_key}")
+    end
+    constitution_bytes = read_repo_identity!(
+      root, THTCB_CONSTITUTION, "P3 THTCB Strategic Constitution v3.1"
+    )
+    assert(constitution_bytes.include?("- Version: `3.1`") &&
+           constitution_bytes.include?("`#{THTCB_STRICT_GATE_ID}`") &&
+           constitution_bytes.include?("`TRUSTED_HOST_TCB_TRANSACTIONAL_SINGLE_AGENT_EXECUTION`"),
+           "P3 THTCB Constitution semantic anchor drift")
+    validate_thtcb_projection_set!(truth, THTCB_TERMINAL_PROJECTION_SHA256)
+    validate_thtcb_product_records!(root)
+    validate_thtcb_product_terminal_evidence!(root)
+
+    route = mapping(truth["current_phase_route"], "P3 THTCB terminal Route")
+    terminal_task = mapping(route["terminal_task"], "P3 THTCB terminal Task")
+    assert(route["schema_version"] == THTCB_ROUTE_SCHEMA &&
+           route["route_id"] == THTCB_ROUTE_ID && route["phase"] == "P3" &&
+           route["status"] == "HOLD_INCOMPLETE_ROUTE_TERMINAL_NON_PASS" &&
+           route["lifecycle_stage"] == "ROUTE_TERMINAL_NON_PASS" &&
+           route["execution_status"] == "TERMINAL_PRODUCT_TASK_GATE_NON_PASS" &&
+           route["scheduling_status"] == "FOUNDER_RESERVED_ROUTE_CHANGE_DECISION_REQUIRED" &&
+           route["founder_phase_route_decision_required"] == true &&
+           route["next_eligible_action"] == THTCB_ROUTE_TERMINAL_ACTION &&
+           route.dig("ordered_stages", 0, "status") == "TERMINAL_TASK_GATE_NON_PASS" &&
+           route.dig("ordered_stages", 1, "status") == "LOCKED_PRODUCT_TERMINAL_NON_PASS" &&
+           terminal_task["task_id"] == THTCB_PRODUCT_TASK_ID &&
+           terminal_task["status"] == "TERMINAL_TASK_GATE_NON_PASS" &&
+           terminal_task["candidate"] == THTCB_PRODUCT_CANDIDATE_2.merge("generation" => 2,
+                                                                          "integrated" => false) &&
+           terminal_task["independent_review_verdicts"] == {
+             "security" => "PASS", "quality_evaluation" => "NON_PASS",
+             "cto" => "NOT_DISPATCHED_AFTER_DECISIVE_INDEPENDENT_NON_PASS"
+           } && terminal_task["terminal_blocker_count"] == 1 &&
+           terminal_task["terminal_receipt"] == THTCB_PRODUCT_TERMINAL_RECEIPT &&
+           terminal_task["delivery_credit"] == 0 && terminal_task["strict_exit_credit"] == 0,
+           "P3 THTCB terminal Route semantic projection drift")
+
+    envelope = mapping(truth["phase_execution_envelope"], "P3 THTCB terminal envelope")
+    control = mapping(truth["founder_escalation_control"],
+                      "P3 THTCB terminal Founder escalation control")
+    boundary = mapping(truth["phase_boundary"], "P3 THTCB terminal Phase boundary")
+    active = mapping(truth["active_work"], "P3 THTCB terminal active work")
+    assert(envelope["status"] == "HOLD_INCOMPLETE_P3_THTCB_ROUTE_TERMINAL_NON_PASS" &&
+           envelope["consumed"] == {
+             "engineering_tasks" => 12, "engineering_hours" => 368, "calendar_days" => 88
+           } && envelope["remaining"] == {
+             "engineering_tasks" => 1, "engineering_hours" => 16, "calendar_days" => 6
+           } && envelope["reserved"] == {} && envelope["remaining_capacity_usable"] == false &&
+           envelope.dig("delivery_progress", "percent") == 25 &&
+           envelope.dig("delivery_progress", "strict_exit_gate_percent") == 0 &&
+           control["disposition"] == "FOUNDER_RESERVED_DECISION_REQUIRED" &&
+           control.dig("reserved_trigger", "category") ==
+             "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE" &&
+           control.dig("reserved_trigger", "evidence") == THTCB_PRODUCT_TERMINAL_RECEIPT &&
+           control["founder_decision_required"] == true &&
+           control["next_action_owner"] == "HUMAN_FOUNDER" &&
+           control["next_eligible_action"] == THTCB_ROUTE_TERMINAL_ACTION &&
+           boundary["task_creation_allowed"] == false &&
+           boundary["task_creation_scope"] == "NONE_ROUTE_TERMINAL_NON_PASS" &&
+           boundary["allowed_task_kinds"] == [] && boundary["allowed_capabilities"] == [] &&
+           boundary["founder_decision_required"] == true &&
+           active["current_task"] == "NONE" && active["current_task_status"] == "NONE" &&
+           active["execution_nonce_status"] == "CONSUMED_TERMINAL_NON_PASS" &&
+           active["task_resource_state"] == "TERMINAL_ROUTE_NO_TASK_RESOURCES" &&
+           active["founder_decision_required"] == true &&
+           active["next_eligible_action"] == THTCB_ROUTE_TERMINAL_ACTION,
+           "P3 THTCB terminal envelope, escalation or authority projection drift")
+
+    p3 = mapping(truth.dig("strict_phase_gate_ledger", "phases", "P3"),
+                 "P3 THTCB terminal strict Exit Gate")
+    assert(p3["status"] == "INCOMPLETE" &&
+           p3.dig("current_exit_gate", "gate_id") == THTCB_STRICT_GATE_ID &&
+           THTCB_STRICT_ITEMS.all? { |item_id|
+             p3.dig("current_exit_gate", "required_items", item_id, "status") == "MISSING"
+           } && p3.dig("founder_phase_gate", "status") ==
+             "NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS" &&
+           truth.dig("project", "current_phase") == "P3" &&
+           truth.dig("project", "p3_execution_status") ==
+             "HOLD_INCOMPLETE_THTCB_ROUTE_TERMINAL_NON_PASS" &&
+           truth.dig("project", "p4_entry_status") ==
+             "HOLD_PENDING_STRICT_P3_EXIT_AND_SEPARATE_FOUNDER_PHASE_ENTRY" &&
+           truth.dig("goal", "control_plane_status_observed") == "ACTIVE" &&
+           truth.dig("goal", "current_task_authority") == "NONE" &&
+           truth.dig("claim_boundary", "p3_thtcb_route_stage") ==
+             "ROUTE_TERMINAL_NON_PASS" &&
+           truth.dig("claim_boundary", "p3_thtcb_product_candidate_integrated") == false &&
+           truth.dig("claim_boundary", "p3_thtcb_audit_unlocked") == false &&
+           truth["verification_scope"] ==
+             "P3_THTCB_PRODUCT_TASK_TERMINAL_NON_PASS_ROUTE_TERMINAL_PRODUCT_UNINTEGRATED_AUDIT_LOCKED_P3_HOLD_INCOMPLETE_DELIVERY_25_STRICT_EXIT_ZERO_P4_HOLD_PROJECT_INCOMPLETE_LONG_TERM_GOAL_ACTIVE",
+           "P3 THTCB terminal Phase, P4 or Long-term Goal boundary drift")
+    THTCB_ROUTE_TERMINAL_STATE
+  rescue ArgumentError, KeyError, TypeError, Psych::Exception => e
+    raise P3FinalTransactionalRouteValidationError,
+          "P3 THTCB terminal Route invalid: #{e.message}"
+  end
+
   def validate_truth!(root:, truth:, preactivation_resource_action: nil)
     if truth.dig("current_phase_route", "schema_version") == THTCB_ROUTE_SCHEMA
       lifecycle = truth.dig("current_phase_route", "lifecycle_stage")
@@ -9564,6 +9879,8 @@ module P3FinalTransactionalRouteValidation
         lifecycle == "PRODUCT_ELIGIBLE_NOT_ACTIVATED"
       return validate_thtcb_product_active_route!(root, truth) if
         lifecycle == "PRODUCT_TASK_ACTIVE"
+      return validate_thtcb_product_terminal_route!(root, truth) if
+        lifecycle == "ROUTE_TERMINAL_NON_PASS"
       raise P3FinalTransactionalRouteValidationError,
             "P3 THTCB lifecycle is not closed-schema: #{lifecycle.inspect}"
     end

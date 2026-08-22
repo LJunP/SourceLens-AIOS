@@ -5071,8 +5071,10 @@ module FounderDelegationContinuity
       assert(expected_state && state == expected_state,
              "P3 THTCB Route state drift")
       disposition = truth.dig("founder_escalation_control", "disposition")
-      assert(disposition == CONTINUE_DISPOSITION,
-             "P3 THTCB Route must autonomously continue within the active Product lifecycle")
+      expected_disposition = route["lifecycle_stage"] == "ROUTE_TERMINAL_NON_PASS" ?
+        "FOUNDER_RESERVED_DECISION_REQUIRED" : CONTINUE_DISPOSITION
+      assert(disposition == expected_disposition,
+             "P3 THTCB Founder disposition drift for its exact lifecycle")
       return disposition
     end
     if route["schema_version"] == P3FinalTransactionalRouteValidation::TXC_ROUTE_SCHEMA

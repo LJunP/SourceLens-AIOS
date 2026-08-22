@@ -1214,12 +1214,12 @@ module P3FinalTransactionalRouteValidation
     "strict_p3" => "2a8c19c8cc8f067b306820e5e426482986dea7e103d5b277d589d5fe412d1953"
   }.freeze
   THTCB_ACTIVE_PROJECTION_SHA256 = {
-    "current_phase_route" => "dd05767daa135857de875e3740f463898f3ab708b6c27dca7821873480d5efc3",
+    "current_phase_route" => "e57669777cbf30c514545b26afe7ee3293fdbb4f21e0def9e95157d18acdc134",
     "phase_execution_envelope" => "f1e66dfe90c69c88b013833856bf0659baafd27bd3bb5d9c86dc6a2aa25c2f00",
     "founder_escalation_control" => "45cc578f4cd90ca56e0505070420a92e01ff82c83aaf417d428c5f8afa69f2fd",
     "phase_delegation" => "266248b61e2fe574fd280197232f9f09002f909f75fd0d0cb1bde609acba8746",
     "phase_boundary" => "c3d22015c4b6a91d118096950c5927cfa90cbeb0f71995f01275385be0a9965a",
-    "active_work" => "1765858b1bb73c631fb5221a09860053dc387cc5c96faf46aab20bee5a2bb2b0",
+    "active_work" => "e26fa3d6a1367d21425e32b3433f1cd805d57c4f7d9a6591bd562d1fd5192d67",
     "phase_execution_claim" => "259c4d63b3ab5e4c759f3d7fd53ee662d2519f004af5d7af0d4dadd55110c351",
     "claim_boundary" => "23066f947178cecd642fe3436b56d94d3ae04388d82d3b009781dbdce736d5ca",
     "project" => "428743521610d1ede7280c38c3d4163d541d22504e2dc572db8904b29549f5d5",
@@ -1231,6 +1231,11 @@ module P3FinalTransactionalRouteValidation
   THTCB_AUDIT_TASK_ID = "AIOS-P3-THTCB-A1_ONE_SHOT_STRICT_EXIT_AUDIT"
   THTCB_PRODUCT_CONTRACT = {
     "path" => "docs/aios/tasks/P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT.yaml",
+    "byte_length" => 12_078,
+    "sha256" => "39c46c03bcf708f343bb0a65416c2dcae69d0bdddefb50c9d525e1129c4d1c27"
+  }.freeze
+  THTCB_PRODUCT_ORIGINAL_CONTRACT = {
+    "path" => "docs/aios/tasks/P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT.yaml",
     "byte_length" => 11_744,
     "sha256" => "a29b79209ff8add45eb8c357ca6b7cf1b55164104c484c0cb41b713bebaa977c"
   }.freeze
@@ -1238,6 +1243,11 @@ module P3FinalTransactionalRouteValidation
     "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product/authority/P3_THTCB_P1_PHASE_DELEGATED_TASK_AUTHORITY_V1.json",
     "byte_length" => 7_978,
     "sha256" => "87d11c3fbbe4e7f5488ad5e043db80d264e68e72f1067cbf24b1db4ff7e0e7f4"
+  }.freeze
+  THTCB_PRODUCT_SCOPE_CONFORMANCE = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product/authority/P3_THTCB_P1_AUTHORITY_SCOPE_CONFORMANCE_V1.json",
+    "byte_length" => 3_422,
+    "sha256" => "813567ccda95a4705ac7303490820ebd9aa7a416a0f7e1a2564dbe54363bbf52"
   }.freeze
   THTCB_PRODUCT_ACTIVATION_PARENT = {
     "commit" => "8da75bcb4c3c29667a3762854833103814fb192f",
@@ -1261,6 +1271,16 @@ module P3FinalTransactionalRouteValidation
     "rerun_to_pass_allowed" => false
   }.freeze
   THTCB_PRODUCT_WORKER_PATHS = [
+    "backend-spring/src/main/java/com/sourcelens/module/execution/trustboundary",
+    "backend-spring/src/main/java/com/sourcelens/module/sandbox/oci",
+    "backend-spring/src/main/java/com/sourcelens/module/execution/service/ExecutionCheckpointService.java",
+    "backend-spring/src/main/java/com/sourcelens/module/execution/mapper/ExecutionCheckpointStore.java",
+    "backend-spring/src/main/resources/db/migration/V034__add_trusted_host_tcb_transactional_execution.sql",
+    "backend-spring/src/test/java/com/sourcelens/module/execution/trustboundary/thtcb",
+    "backend-spring/src/test/resources/p3-trusted-host-tcb",
+    "docs/PROJECT_CODE_MAP.md"
+  ].freeze
+  THTCB_PRODUCT_ORIGINAL_WORKER_PATHS = [
     "backend-spring/src/main/java/com/sourcelens/module/execution/transactional",
     "backend-spring/src/main/resources/db/migration/V034__add_trusted_host_transactional_invocations.sql",
     "backend-spring/src/test/java/com/sourcelens/module/execution/transactional",
@@ -9039,6 +9059,18 @@ module P3FinalTransactionalRouteValidation
     body_text = body.dup.force_encoding(Encoding::UTF_8)
     assert(body_text.valid_encoding? && body_text.lines.first&.chomp == THTCB_DECISION_ID,
            "P3 THTCB authorization body token drift")
+    founder_source_tokens = [
+      "backend-spring/src/main/java/com/sourcelens/module/execution/trustboundary/**",
+      "backend-spring/src/main/java/com/sourcelens/module/sandbox/oci/**",
+      "backend-spring/src/main/java/com/sourcelens/module/execution/service/ExecutionCheckpointService.java",
+      "backend-spring/src/main/java/com/sourcelens/module/execution/mapper/ExecutionCheckpointStore.java",
+      "backend-spring/src/main/resources/db/migration/V034__add_trusted_host_tcb_transactional_execution.sql",
+      "backend-spring/src/test/java/com/sourcelens/module/execution/trustboundary/thtcb/**",
+      "backend-spring/src/test/resources/p3-trusted-host-tcb/**",
+      "docs/PROJECT_CODE_MAP.md"
+    ]
+    assert(founder_source_tokens.all? { |token| body_text.include?("`#{token}`") },
+           "P3 THTCB Founder exact Product source allowlist drift")
     assert(decision.dig("source", "installed_body") ==
              THTCB_AUTHORIZATION_BODY.merge(
                "byte_equal_to_attachment" => true, "mode" => "0444", "nlink" => 1
@@ -9291,10 +9323,11 @@ module P3FinalTransactionalRouteValidation
            authority["founder_decision"] ==
              THTCB_DECISION.merge("decision_id" => THTCB_DECISION_ID) &&
            authority.fetch("activation_parent").slice("commit", "tree") ==
-             THTCB_PRODUCT_ACTIVATION_PARENT && authority["contract"] == THTCB_PRODUCT_CONTRACT &&
+             THTCB_PRODUCT_ACTIVATION_PARENT &&
+           authority["contract"] == THTCB_PRODUCT_ORIGINAL_CONTRACT &&
            authority["resources"] == THTCB_PRODUCT_RESOURCES &&
            authority.dig("write_authority", "worker_allowed_repository_paths") ==
-             THTCB_PRODUCT_WORKER_PATHS &&
+             THTCB_PRODUCT_ORIGINAL_WORKER_PATHS &&
            authority.dig("write_authority", "master_control_paths") ==
              THTCB_PRODUCT_MASTER_PATHS && authority["budget"] == THTCB_PRODUCT_BUDGET &&
            authority.dig("trusted_computing_base", "included") == THTCB_TCB &&
@@ -9321,6 +9354,46 @@ module P3FinalTransactionalRouteValidation
            authority.dig("lifecycle", "long_term_goal_status") == "ACTIVE" &&
            authority.dig("lifecycle", "codex_goal_completion_authorized") == false,
            "P3 THTCB Product authority semantic boundary drift")
+    conformance_bytes = read_identity!(
+      THTCB_PRODUCT_SCOPE_CONFORMANCE,
+      "P3 THTCB Product authority scope conformance",
+      create_once: true
+    )
+    conformance = JSON.parse(conformance_bytes)
+    assert(conformance["schema_version"] ==
+             "p3-thtcb-phase-delegated-task-authority-scope-conformance/v1" &&
+           conformance["record_type"] ==
+             "SOURCELENS_AIOS_PHASE_DELEGATED_TASK_AUTHORITY_SCOPE_CONFORMANCE" &&
+           conformance["status"] == "EFFECTIVE_CORRECTION_BEFORE_CANDIDATE_FREEZE" &&
+           conformance["phase"] == "P3" && conformance["route_id"] == THTCB_ROUTE_ID &&
+           conformance["task_id"] == THTCB_PRODUCT_TASK_ID &&
+           conformance["authorization_id"] == THTCB_PRODUCT_AUTHORIZATION_ID &&
+           conformance["execution_nonce"] == THTCB_PRODUCT_EXECUTION_NONCE &&
+           conformance["prior_authority"] ==
+             THTCB_PRODUCT_AUTHORITY.merge("preserved_immutable" => true) &&
+           conformance["corrected_contract"] == THTCB_PRODUCT_CONTRACT &&
+           conformance["effective_worker_allowed_repository_paths"] ==
+             THTCB_PRODUCT_WORKER_PATHS &&
+           conformance.dig("correction_classification",
+                           "existing_validator_would_accept_explicitly_FORBIDDEN_state") == true &&
+           conformance.dig("correction_classification", "candidate_frozen_before_correction") == false &&
+           conformance.dig("correction_classification", "candidate_generation_consumed") == false &&
+           conformance.dig("correction_classification", "same_task_repair_consumed") == false &&
+           conformance.dig("correction_classification", "new_task_created") == false &&
+           conformance.dig("correction_classification", "new_route_created") == false &&
+           conformance.dig("correction_classification", "budget_expanded") == false &&
+           conformance.dig("correction_classification", "external_effect_expanded") == false &&
+           conformance.dig("correction_classification", "engineering_progress_credit") == 0 &&
+           conformance.dig("preserved_invariants", "same_task_identity") == true &&
+           conformance.dig("preserved_invariants", "same_authorization_id") == true &&
+           conformance.dig("preserved_invariants", "same_execution_nonce") == true &&
+           conformance.dig("preserved_invariants", "same_budget") == true &&
+           conformance.dig("preserved_invariants", "same_external_effect_boundary") == true &&
+           conformance.dig("lifecycle", "long_term_goal_status") == "ACTIVE" &&
+           conformance.dig("lifecycle", "project_actual_completion") == false &&
+           conformance.dig("lifecycle", "p3_delivery_percent") == 25 &&
+           conformance.dig("lifecycle", "p3_strict_exit_percent") == 0,
+           "P3 THTCB Product authority scope-conformance boundary drift")
     assert(git!(root, "rev-parse", "#{THTCB_PRODUCT_ACTIVATION_PARENT.fetch('commit')}^{tree}") ==
              THTCB_PRODUCT_ACTIVATION_PARENT.fetch("tree"),
            "P3 THTCB Product activation-parent tree drift")
@@ -9329,7 +9402,7 @@ module P3FinalTransactionalRouteValidation
       THTCB_PRODUCT_ACTIVATION_PARENT.fetch("commit"), "HEAD", chdir: root.to_s
     )
     assert(ancestor.success?, "P3 THTCB Product activation parent is not an ancestor of HEAD")
-    [contract, authority]
+    [contract, authority, conformance]
   rescue JSON::ParserError => e
     raise P3FinalTransactionalRouteValidationError,
           "P3 THTCB Product authority is not valid JSON: #{e.message}"
@@ -9360,6 +9433,7 @@ module P3FinalTransactionalRouteValidation
       "task_id" => THTCB_PRODUCT_TASK_ID,
       "contract" => THTCB_PRODUCT_CONTRACT,
       "authority" => THTCB_PRODUCT_AUTHORITY,
+      "scope_conformance" => THTCB_PRODUCT_SCOPE_CONFORMANCE,
       "activation_parent" => THTCB_PRODUCT_ACTIVATION_PARENT,
       "authorization_id" => THTCB_PRODUCT_AUTHORIZATION_ID,
       "execution_nonce" => THTCB_PRODUCT_EXECUTION_NONCE,
@@ -9431,6 +9505,8 @@ module P3FinalTransactionalRouteValidation
              THTCB_PRODUCT_CONTRACT.slice("path", "sha256", "byte_length") &&
            active["authority_record"] ==
              THTCB_PRODUCT_AUTHORITY.slice("path", "sha256", "byte_length") &&
+           active["authority_scope_conformance"] ==
+             THTCB_PRODUCT_SCOPE_CONFORMANCE.slice("path", "sha256", "byte_length") &&
            active["execution_nonce"] == THTCB_PRODUCT_EXECUTION_NONCE &&
            active["execution_nonce_status"] == "ACTIVE_SINGLE_USE" &&
            active["authorization_id"] == THTCB_PRODUCT_AUTHORIZATION_ID &&

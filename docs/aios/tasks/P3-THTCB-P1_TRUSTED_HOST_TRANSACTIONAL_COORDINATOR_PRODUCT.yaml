@@ -91,10 +91,14 @@ trusted_computing_base:
     - PHYSICAL_HOST_COMPROMISE
 scope:
   worker_allowed_paths:
-    - backend-spring/src/main/java/com/sourcelens/module/execution/transactional
-    - backend-spring/src/main/resources/db/migration/V034__add_trusted_host_transactional_invocations.sql
-    - backend-spring/src/test/java/com/sourcelens/module/execution/transactional
-    - scripts/p3-thtcb-process-real-probe.sh
+    - backend-spring/src/main/java/com/sourcelens/module/execution/trustboundary
+    - backend-spring/src/main/java/com/sourcelens/module/sandbox/oci
+    - backend-spring/src/main/java/com/sourcelens/module/execution/service/ExecutionCheckpointService.java
+    - backend-spring/src/main/java/com/sourcelens/module/execution/mapper/ExecutionCheckpointStore.java
+    - backend-spring/src/main/resources/db/migration/V034__add_trusted_host_tcb_transactional_execution.sql
+    - backend-spring/src/test/java/com/sourcelens/module/execution/trustboundary/thtcb
+    - backend-spring/src/test/resources/p3-trusted-host-tcb
+    - docs/PROJECT_CODE_MAP.md
   master_control_paths:
     - docs/aios/tasks/P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT.yaml
     - docs/aios/truth/project_state.yaml

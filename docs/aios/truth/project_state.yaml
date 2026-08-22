@@ -8298,12 +8298,16 @@ current_phase_route:
     task_id: AIOS-P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT
     contract:
       path: docs/aios/tasks/P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT.yaml
-      byte_length: 11744
-      sha256: a29b79209ff8add45eb8c357ca6b7cf1b55164104c484c0cb41b713bebaa977c
+      byte_length: 12078
+      sha256: 39c46c03bcf708f343bb0a65416c2dcae69d0bdddefb50c9d525e1129c4d1c27
     authority:
       path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product/authority/P3_THTCB_P1_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
       byte_length: 7978
       sha256: 87d11c3fbbe4e7f5488ad5e043db80d264e68e72f1067cbf24b1db4ff7e0e7f4
+    scope_conformance:
+      path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product/authority/P3_THTCB_P1_AUTHORITY_SCOPE_CONFORMANCE_V1.json
+      byte_length: 3422
+      sha256: 813567ccda95a4705ac7303490820ebd9aa7a416a0f7e1a2564dbe54363bbf52
     activation_parent:
       commit: 8da75bcb4c3c29667a3762854833103814fb192f
       tree: 3c8c33f5d1c547de00e3a7f5e515238ff9d7b56c
@@ -24618,15 +24622,19 @@ active_work:
   current_task_status: ACTIVE_IMPLEMENTATION
   current_task_contract:
     path: docs/aios/tasks/P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT.yaml
-    sha256: a29b79209ff8add45eb8c357ca6b7cf1b55164104c484c0cb41b713bebaa977c
-    byte_length: 11744
-  current_task_contract_sha256: a29b79209ff8add45eb8c357ca6b7cf1b55164104c484c0cb41b713bebaa977c
+    sha256: 39c46c03bcf708f343bb0a65416c2dcae69d0bdddefb50c9d525e1129c4d1c27
+    byte_length: 12078
+  current_task_contract_sha256: 39c46c03bcf708f343bb0a65416c2dcae69d0bdddefb50c9d525e1129c4d1c27
   current_execution_authorization: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product/authority/P3_THTCB_P1_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
   current_execution_authorization_sha256: 87d11c3fbbe4e7f5488ad5e043db80d264e68e72f1067cbf24b1db4ff7e0e7f4
   authority_record:
     path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product/authority/P3_THTCB_P1_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
     sha256: 87d11c3fbbe4e7f5488ad5e043db80d264e68e72f1067cbf24b1db4ff7e0e7f4
     byte_length: 7978
+  authority_scope_conformance:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product/authority/P3_THTCB_P1_AUTHORITY_SCOPE_CONFORMANCE_V1.json
+    sha256: 813567ccda95a4705ac7303490820ebd9aa7a416a0f7e1a2564dbe54363bbf52
+    byte_length: 3422
   execution_nonce: b315aa7f-e39f-47b3-accc-489f812c3800
   execution_nonce_status: ACTIVE_SINGLE_USE
   authorization_id: 16c2425e-bc41-47d4-81e1-37c0d735a907
@@ -24644,10 +24652,14 @@ active_work:
   execution_evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product
   dependency_custody_root: /Users/lijunpeng/Developer/.sourcelens-custody/p3-thtcb-jre17
   allowlisted_paths:
-  - backend-spring/src/main/java/com/sourcelens/module/execution/transactional
-  - backend-spring/src/main/resources/db/migration/V034__add_trusted_host_transactional_invocations.sql
-  - backend-spring/src/test/java/com/sourcelens/module/execution/transactional
-  - scripts/p3-thtcb-process-real-probe.sh
+  - backend-spring/src/main/java/com/sourcelens/module/execution/trustboundary
+  - backend-spring/src/main/java/com/sourcelens/module/sandbox/oci
+  - backend-spring/src/main/java/com/sourcelens/module/execution/service/ExecutionCheckpointService.java
+  - backend-spring/src/main/java/com/sourcelens/module/execution/mapper/ExecutionCheckpointStore.java
+  - backend-spring/src/main/resources/db/migration/V034__add_trusted_host_tcb_transactional_execution.sql
+  - backend-spring/src/test/java/com/sourcelens/module/execution/trustboundary/thtcb
+  - backend-spring/src/test/resources/p3-trusted-host-tcb
+  - docs/PROJECT_CODE_MAP.md
   current_task_budget:
     engineering_tasks: 1
     engineering_hours: 48

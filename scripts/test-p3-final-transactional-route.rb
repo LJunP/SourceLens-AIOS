@@ -127,11 +127,12 @@ if host_authorized_truth.dig("current_phase_route", "schema_version") ==
     "TXC envelope cannot false-complete" => lambda do |candidate|
       candidate["phase_execution_envelope"]["status"] = "COMPLETE"
     end,
-    "TXC active-work network cannot self-enable" => lambda do |candidate|
-      candidate["active_work"]["external_effects"]["network"] = true
+    "TXC active-work network authority cannot drift" => lambda do |candidate|
+      current = candidate["active_work"]["external_effects"]["network"]
+      candidate["active_work"]["external_effects"]["network"] = !current
     end,
     "TXC active-work next budget cannot expand" => lambda do |candidate|
-      candidate["active_work"]["next_stage_budget"]["engineering_hours"] = 49
+      candidate["active_work"]["next_stage_budget"] = {"engineering_hours" => 49}
     end,
     "TXC active-work owner cannot move to Founder" => lambda do |candidate|
       candidate["active_work"]["roles"]["owner"] = "HUMAN_FOUNDER"

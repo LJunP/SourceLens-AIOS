@@ -39,8 +39,9 @@ if host_authorized_truth.dig("current_phase_route", "schema_version") ==
   state = P3FinalTransactionalRouteValidation.validate_truth!(
     root: root, truth: host_authorized_truth
   )
-  raise "P3 THTCB installed state drift" unless
-    state == P3FinalTransactionalRouteValidation::THTCB_STATE
+  lifecycle = host_authorized_truth.dig("current_phase_route", "lifecycle_stage")
+  expected_state = P3FinalTransactionalRouteValidation::THTCB_LIFECYCLE_STATES[lifecycle]
+  raise "P3 THTCB state drift" unless expected_state && state == expected_state
   assertions += 1
 
   mutations = {
@@ -130,17 +131,14 @@ if host_authorized_truth.dig("current_phase_route", "schema_version") ==
     "THTCB Provider cannot self-enable" => lambda do |candidate|
       candidate["phase_boundary"]["default_external_effects"]["provider"] = true
     end,
-    "THTCB Product cannot be marked active before authority exists" => lambda do |candidate|
-      candidate["active_work"]["current_task"] =
-        "AIOS-P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT"
+    "THTCB active Product identity cannot drift" => lambda do |candidate|
+      candidate["active_work"]["current_task"] = "FORGED_TASK"
     end,
-    "THTCB inactive Product cannot receive forged authority" => lambda do |candidate|
-      candidate["active_work"]["authority_record"] = {
-        "path" => "/private/tmp/forged", "byte_length" => 1, "sha256" => "0" * 64
-      }
+    "THTCB active Product authority cannot drift" => lambda do |candidate|
+      candidate["active_work"]["authority_record"]["sha256"] = "0" * 64
     end,
-    "THTCB next Product budget cannot expand" => lambda do |candidate|
-      candidate["active_work"]["next_stage_budget"]["calendar_days"] = 11
+    "THTCB locked Audit budget cannot expand" => lambda do |candidate|
+      candidate["active_work"]["next_stage_budget"]["calendar_days"] = 7
     end,
     "THTCB Product activation cannot claim engineering progress" => lambda do |candidate|
       candidate["phase_execution_claim"]["real_engineering_progress"] = 1
@@ -186,7 +184,7 @@ if host_authorized_truth.dig("current_phase_route", "schema_version") ==
     expect_non_pass(root, host_authorized_truth, label, &mutation)
     assertions += 1
   end
-  puts "P3_FINAL_TRANSACTIONAL_ROUTE_TEST: PASS #{assertions} assertions mode=THTCB_INSTALLED"
+  puts "P3_FINAL_TRANSACTIONAL_ROUTE_TEST: PASS #{assertions} assertions mode=#{lifecycle}"
   exit 0
 end
 

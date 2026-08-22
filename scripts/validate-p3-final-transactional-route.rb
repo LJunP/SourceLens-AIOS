@@ -1121,6 +1121,12 @@ module P3FinalTransactionalRouteValidation
   THTCB_ROUTE_ID = "P3_TRUSTED_HOST_TCB_CLEAN_ROOM_FINAL_ROUTE_V1"
   THTCB_STATE = "P3_THTCB_PRODUCT_ELIGIBLE"
   THTCB_ACTION = "MASTER_ACTIVATE_AIOS_P3_THTCB_P1_PRODUCT"
+  THTCB_PRODUCT_ACTIVE_STATE = "P3_THTCB_PRODUCT_TASK_ACTIVE"
+  THTCB_PRODUCT_ACTIVE_ACTION = "EXECUTE_AIOS_P3_THTCB_P1_PRODUCT"
+  THTCB_LIFECYCLE_STATES = {
+    "PRODUCT_ELIGIBLE_NOT_ACTIVATED" => THTCB_STATE,
+    "PRODUCT_TASK_ACTIVE" => THTCB_PRODUCT_ACTIVE_STATE
+  }.freeze
   THTCB_DECISION_SCHEMA = "p3-trusted-host-tcb-founder-decision/v1"
   THTCB_DECISION_ID =
     "AUTHORIZE_P3_TRUSTED_HOST_TCB_TRANSACTIONAL_EXECUTION_OBJECTIVE_EXIT_GATE_AND_CLEAN_ROOM_FINAL_ROUTE_V1"
@@ -1194,7 +1200,7 @@ module P3FinalTransactionalRouteValidation
     OS_KERNEL_COMPROMISE
     PHYSICAL_HOST_COMPROMISE
   ].freeze
-  THTCB_PROJECTION_SHA256 = {
+  THTCB_INSTALLED_PROJECTION_SHA256 = {
     "current_phase_route" => "c18720f88a6604c42a260f69870994e2c9383e88ccbf0119d584b8fb81e9c677",
     "phase_execution_envelope" => "4586390a1facb494e1d5b73dc86033ffcc711142820c2db1ec70890ddc100117",
     "founder_escalation_control" => "74b523ddaa88ab7e957d409d757b0ebfc4ba909eb9f4a4d736cf49959233475a",
@@ -1207,6 +1213,67 @@ module P3FinalTransactionalRouteValidation
     "goal" => "f0c06b59befd79ea7ea4d9d54a15e05736bdd5f3d2646766d8eb574368d2071d",
     "strict_p3" => "2a8c19c8cc8f067b306820e5e426482986dea7e103d5b277d589d5fe412d1953"
   }.freeze
+  THTCB_ACTIVE_PROJECTION_SHA256 = {
+    "current_phase_route" => "dd05767daa135857de875e3740f463898f3ab708b6c27dca7821873480d5efc3",
+    "phase_execution_envelope" => "f1e66dfe90c69c88b013833856bf0659baafd27bd3bb5d9c86dc6a2aa25c2f00",
+    "founder_escalation_control" => "45cc578f4cd90ca56e0505070420a92e01ff82c83aaf417d428c5f8afa69f2fd",
+    "phase_delegation" => "266248b61e2fe574fd280197232f9f09002f909f75fd0d0cb1bde609acba8746",
+    "phase_boundary" => "c3d22015c4b6a91d118096950c5927cfa90cbeb0f71995f01275385be0a9965a",
+    "active_work" => "1765858b1bb73c631fb5221a09860053dc387cc5c96faf46aab20bee5a2bb2b0",
+    "phase_execution_claim" => "259c4d63b3ab5e4c759f3d7fd53ee662d2519f004af5d7af0d4dadd55110c351",
+    "claim_boundary" => "23066f947178cecd642fe3436b56d94d3ae04388d82d3b009781dbdce736d5ca",
+    "project" => "428743521610d1ede7280c38c3d4163d541d22504e2dc572db8904b29549f5d5",
+    "goal" => "ab8ea1f9078fbb3ca6ec85cbda66526558a0247a5f90583a49983dbbdf1e50ba",
+    "strict_p3" => "2a8c19c8cc8f067b306820e5e426482986dea7e103d5b277d589d5fe412d1953"
+  }.freeze
+  THTCB_PRODUCT_TASK_ID =
+    "AIOS-P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT"
+  THTCB_AUDIT_TASK_ID = "AIOS-P3-THTCB-A1_ONE_SHOT_STRICT_EXIT_AUDIT"
+  THTCB_PRODUCT_CONTRACT = {
+    "path" => "docs/aios/tasks/P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT.yaml",
+    "byte_length" => 11_744,
+    "sha256" => "a29b79209ff8add45eb8c357ca6b7cf1b55164104c484c0cb41b713bebaa977c"
+  }.freeze
+  THTCB_PRODUCT_AUTHORITY = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product/authority/P3_THTCB_P1_PHASE_DELEGATED_TASK_AUTHORITY_V1.json",
+    "byte_length" => 7_978,
+    "sha256" => "87d11c3fbbe4e7f5488ad5e043db80d264e68e72f1067cbf24b1db4ff7e0e7f4"
+  }.freeze
+  THTCB_PRODUCT_ACTIVATION_PARENT = {
+    "commit" => "8da75bcb4c3c29667a3762854833103814fb192f",
+    "tree" => "3c8c33f5d1c547de00e3a7f5e515238ff9d7b56c"
+  }.freeze
+  THTCB_PRODUCT_AUTHORIZATION_ID = "16c2425e-bc41-47d4-81e1-37c0d735a907"
+  THTCB_PRODUCT_EXECUTION_NONCE = "b315aa7f-e39f-47b3-accc-489f812c3800"
+  THTCB_PRODUCT_RESOURCES = {
+    "branch" => "codex/p3-thtcb-p1-trusted-host-transactional-coordinator",
+    "worktree" => "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-thtcb-p1-trusted-host-transactional-coordinator",
+    "evidence_root" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product",
+    "dependency_custody_root" => "/Users/lijunpeng/Developer/.sourcelens-custody/p3-thtcb-jre17"
+  }.freeze
+  THTCB_PRODUCT_BUDGET = {
+    "engineering_tasks" => 1, "engineering_hours" => 48, "calendar_days" => 10,
+    "candidate_generations" => 2, "same_task_repairs" => 1, "review_cycles" => 2
+  }.freeze
+  THTCB_AUDIT_BUDGET = {
+    "engineering_tasks" => 1, "engineering_hours" => 16, "calendar_days" => 6,
+    "formal_dispatches" => 1, "product_changes" => 0, "same_task_repairs" => 0,
+    "rerun_to_pass_allowed" => false
+  }.freeze
+  THTCB_PRODUCT_WORKER_PATHS = [
+    "backend-spring/src/main/java/com/sourcelens/module/execution/transactional",
+    "backend-spring/src/main/resources/db/migration/V034__add_trusted_host_transactional_invocations.sql",
+    "backend-spring/src/test/java/com/sourcelens/module/execution/transactional",
+    "scripts/p3-thtcb-process-real-probe.sh"
+  ].freeze
+  THTCB_PRODUCT_MASTER_PATHS = [
+    THTCB_PRODUCT_CONTRACT.fetch("path"),
+    "docs/aios/truth/project_state.yaml",
+    "scripts/validate-p3-final-transactional-route.rb",
+    "scripts/test-p3-final-transactional-route.rb",
+    "scripts/validate-founder-delegation-continuity.rb",
+    "scripts/validate-current-task-authority.rb"
+  ].freeze
   THTCB_HISTORICAL_PROJECTIONS = {
     "historical_p3_txc_control_recovery_route_terminal" => "current_phase_route",
     "historical_p3_txc_control_recovery_phase_execution_envelope" =>
@@ -8909,7 +8976,7 @@ module P3FinalTransactionalRouteValidation
     Digest::SHA256.hexdigest(canonical_json(value))
   end
 
-  def validate_thtcb_repository_context!(root, decision)
+  def validate_thtcb_repository_context!(root, decision, lifecycle_stage)
     canonical_root = Pathname.new(THTCB_CANONICAL_START.fetch("repository")).realpath
     if root != canonical_root
       staged_root = ENV["SOURCELENS_THTCB_STRATEGIC_STAGING_ROOT"]
@@ -8931,6 +8998,9 @@ module P3FinalTransactionalRouteValidation
       decision.dig("strategic_installation", "allowed_repository_paths"),
       "P3 THTCB strategic installation path allowlist"
     )
+    if lifecycle_stage == "PRODUCT_TASK_ACTIVE"
+      allowed = (allowed + THTCB_PRODUCT_MASTER_PATHS).uniq
+    end
     changed = git!(root, "diff", "--name-only", THTCB_CANONICAL_START.fetch("commit")).lines
       .map(&:strip).reject(&:empty?)
     untracked = git!(root, "ls-files", "--others", "--exclude-standard").lines
@@ -8955,7 +9025,7 @@ module P3FinalTransactionalRouteValidation
     YAML.safe_load(bytes, permitted_classes: [], permitted_symbols: [], aliases: false)
   end
 
-  def validate_thtcb_decision!(root)
+  def validate_thtcb_decision!(root, lifecycle_stage)
     bytes = read_identity!(THTCB_DECISION, "P3 THTCB Founder decision", create_once: true)
     decision = JSON.parse(bytes)
     assert(decision["schema_version"] == THTCB_DECISION_SCHEMA &&
@@ -9012,7 +9082,7 @@ module P3FinalTransactionalRouteValidation
            decision.dig("lifecycle", "long_term_goal_status") == "ACTIVE" &&
            decision.dig("lifecycle", "codex_goal_completion_authorized") == false,
            "P3 THTCB project or Long-term Goal lifecycle drift")
-    validate_thtcb_repository_context!(root, decision)
+    validate_thtcb_repository_context!(root, decision, lifecycle_stage)
     decision
   rescue JSON::ParserError => e
     raise P3FinalTransactionalRouteValidationError,
@@ -9023,7 +9093,7 @@ module P3FinalTransactionalRouteValidation
     root = Pathname.new(root).realpath
     assert(truth["record_type"] == "sourcelens_aios_current_truth",
            "P3 THTCB canonical Truth record type drift")
-    decision = validate_thtcb_decision!(root)
+    decision = validate_thtcb_decision!(root, "PRODUCT_ELIGIBLE_NOT_ACTIVATED")
     baseline = load_thtcb_canonical_start_truth!(root)
     THTCB_HISTORICAL_PROJECTIONS.each do |historical_key, baseline_key|
       assert(truth[historical_key] == baseline[baseline_key],
@@ -9037,7 +9107,7 @@ module P3FinalTransactionalRouteValidation
            constitution_bytes.include?("`TRUSTED_HOST_TCB_TRANSACTIONAL_SINGLE_AGENT_EXECUTION`"),
            "P3 THTCB Constitution semantic anchor drift")
 
-    THTCB_PROJECTION_SHA256.each do |key, expected_sha|
+    THTCB_INSTALLED_PROJECTION_SHA256.each do |key, expected_sha|
       value = if key == "strict_p3"
                 truth.dig("strict_phase_gate_ledger", "phases", "P3")
               else
@@ -9153,9 +9223,273 @@ module P3FinalTransactionalRouteValidation
           "P3 THTCB route invalid: #{e.message}"
   end
 
+  def validate_thtcb_projection_set!(truth, expected)
+    expected.each do |key, expected_sha|
+      value = if key == "strict_p3"
+                truth.dig("strict_phase_gate_ledger", "phases", "P3")
+              else
+                truth[key]
+              end
+      assert(!value.nil? && thtcb_projection_sha256(value) == expected_sha,
+             "P3 THTCB closed projection drift: #{key}")
+    end
+  end
+
+  def validate_thtcb_product_records!(root)
+    contract_bytes = read_repo_identity!(
+      root, THTCB_PRODUCT_CONTRACT, "P3 THTCB Product Task Contract"
+    )
+    contract = YAML.safe_load(
+      contract_bytes, permitted_classes: [], permitted_symbols: [], aliases: false
+    )
+    assert(contract["schema_version"] == "p3-thtcb-product-task-contract/v1" &&
+           contract["record_type"] == "sourcelens_aios_phase_delegated_product_task_contract" &&
+           contract["task_id"] == THTCB_PRODUCT_TASK_ID && contract["phase"] == "P3" &&
+           contract["route_id"] == THTCB_ROUTE_ID && contract["status"] == "ACTIVE" &&
+           contract["kind"] == "PRODUCT_IMPLEMENTATION" &&
+           contract.dig("authority", "founder_decision") ==
+             THTCB_DECISION.merge("decision_id" => THTCB_DECISION_ID) &&
+           contract.dig("authority", "activation_parent").slice("commit", "tree") ==
+             THTCB_PRODUCT_ACTIVATION_PARENT &&
+           contract.dig("authority", "authorization_id") == THTCB_PRODUCT_AUTHORIZATION_ID &&
+           contract.dig("authority", "execution_nonce") == THTCB_PRODUCT_EXECUTION_NONCE &&
+           contract.dig("action_algebra", "allowed") == ["SHA256_READ_ONLY_CUSTODY_V1"] &&
+           contract.dig("scope", "worker_allowed_paths") == THTCB_PRODUCT_WORKER_PATHS &&
+           contract.dig("scope", "master_control_paths") == THTCB_PRODUCT_MASTER_PATHS &&
+           contract.dig("scope", "task_branch") == THTCB_PRODUCT_RESOURCES.fetch("branch") &&
+           contract.dig("scope", "task_worktree") == THTCB_PRODUCT_RESOURCES.fetch("worktree") &&
+           contract.dig("scope", "evidence_root") == THTCB_PRODUCT_RESOURCES.fetch("evidence_root") &&
+           contract.dig("scope", "dependency_custody_root") ==
+             THTCB_PRODUCT_RESOURCES.fetch("dependency_custody_root") &&
+           contract["budget"].slice(*THTCB_PRODUCT_BUDGET.keys) == THTCB_PRODUCT_BUDGET &&
+           contract.dig("lineage", "rejected_engineering_lineage_read") == false &&
+           contract.dig("lineage", "rejected_engineering_lineage_compare") == false &&
+           contract.dig("lineage", "rejected_engineering_lineage_copy") == false &&
+           contract.dig("lineage", "rejected_engineering_lineage_execute") == false &&
+           contract.dig("lineage", "rejected_engineering_lineage_repair_or_reuse") == false &&
+           contract.dig("anti_loop", "candidate_3_allowed") == false &&
+           contract.dig("anti_loop", "second_same_task_repair_allowed") == false &&
+           contract.dig("anti_loop", "third_review_cycle_allowed") == false &&
+           contract.dig("anti_loop", "successor_or_replacement_allowed") == false,
+           "P3 THTCB Product Contract semantic boundary drift")
+    read_identity!(contract.fetch("accepted_input").fetch("task_gate_receipt"),
+                   "P3 THTCB accepted P3-001 receipt")
+
+    authority_bytes = read_identity!(
+      THTCB_PRODUCT_AUTHORITY, "P3 THTCB Product Task authority", create_once: true
+    )
+    authority = JSON.parse(authority_bytes)
+    assert(authority["schema_version"] == "p3-thtcb-phase-delegated-task-authority/v1" &&
+           authority["record_type"] ==
+             "SOURCELENS_AIOS_PHASE_DELEGATED_PRODUCT_TASK_AUTHORITY" &&
+           authority["status"] == "AUTHORIZED_ACTIVE" && authority["phase"] == "P3" &&
+           authority["route_id"] == THTCB_ROUTE_ID &&
+           authority["task_id"] == THTCB_PRODUCT_TASK_ID &&
+           authority["authorization_id"] == THTCB_PRODUCT_AUTHORIZATION_ID &&
+           authority["execution_nonce"] == THTCB_PRODUCT_EXECUTION_NONCE &&
+           authority["execution_nonce_status"] == "ACTIVE_SINGLE_USE" &&
+           authority["founder_decision"] ==
+             THTCB_DECISION.merge("decision_id" => THTCB_DECISION_ID) &&
+           authority.fetch("activation_parent").slice("commit", "tree") ==
+             THTCB_PRODUCT_ACTIVATION_PARENT && authority["contract"] == THTCB_PRODUCT_CONTRACT &&
+           authority["resources"] == THTCB_PRODUCT_RESOURCES &&
+           authority.dig("write_authority", "worker_allowed_repository_paths") ==
+             THTCB_PRODUCT_WORKER_PATHS &&
+           authority.dig("write_authority", "master_control_paths") ==
+             THTCB_PRODUCT_MASTER_PATHS && authority["budget"] == THTCB_PRODUCT_BUDGET &&
+           authority.dig("trusted_computing_base", "included") == THTCB_TCB &&
+           authority.dig("external_effects", "docker", "authorized") == true &&
+           authority.dig("external_effects", "jre17_custody_acquisition", "authorized") == true &&
+           authority.dig("external_effects", "jre17_custody_acquisition",
+                         "single_use_non_resettable") == true &&
+           authority.dig("external_effects", "provider") == false &&
+           authority.dig("external_effects", "secret") == false &&
+           authority.dig("external_effects", "remote") == false &&
+           authority.dig("external_effects", "production") == false &&
+           authority.dig("external_effects", "public") == false &&
+           authority.dig("external_effects", "p4_entry") == false &&
+           authority.dig("lineage", "rejected_engineering_lineage_read") == false &&
+           authority.dig("lineage", "rejected_engineering_lineage_compare") == false &&
+           authority.dig("lineage", "rejected_engineering_lineage_copy") == false &&
+           authority.dig("lineage", "rejected_engineering_lineage_execute") == false &&
+           authority.dig("lineage", "rejected_engineering_lineage_repair_or_reuse") == false &&
+           authority.dig("anti_loop", "candidate_3_allowed") == false &&
+           authority.dig("anti_loop", "second_same_task_repair_allowed") == false &&
+           authority.dig("anti_loop", "third_review_cycle_allowed") == false &&
+           authority.dig("anti_loop", "successor_or_replacement_allowed") == false &&
+           authority.dig("lifecycle", "project_actual_completion") == false &&
+           authority.dig("lifecycle", "long_term_goal_status") == "ACTIVE" &&
+           authority.dig("lifecycle", "codex_goal_completion_authorized") == false,
+           "P3 THTCB Product authority semantic boundary drift")
+    assert(git!(root, "rev-parse", "#{THTCB_PRODUCT_ACTIVATION_PARENT.fetch('commit')}^{tree}") ==
+             THTCB_PRODUCT_ACTIVATION_PARENT.fetch("tree"),
+           "P3 THTCB Product activation-parent tree drift")
+    _out, _err, ancestor = Open3.capture3(
+      "git", "merge-base", "--is-ancestor",
+      THTCB_PRODUCT_ACTIVATION_PARENT.fetch("commit"), "HEAD", chdir: root.to_s
+    )
+    assert(ancestor.success?, "P3 THTCB Product activation parent is not an ancestor of HEAD")
+    [contract, authority]
+  rescue JSON::ParserError => e
+    raise P3FinalTransactionalRouteValidationError,
+          "P3 THTCB Product authority is not valid JSON: #{e.message}"
+  end
+
+  def validate_thtcb_product_active_route!(root, truth)
+    root = Pathname.new(root).realpath
+    assert(truth["record_type"] == "sourcelens_aios_current_truth",
+           "P3 THTCB canonical Truth record type drift")
+    decision = validate_thtcb_decision!(root, "PRODUCT_TASK_ACTIVE")
+    baseline = load_thtcb_canonical_start_truth!(root)
+    THTCB_HISTORICAL_PROJECTIONS.each do |historical_key, baseline_key|
+      assert(truth[historical_key] == baseline[baseline_key],
+             "P3 THTCB immutable historical projection drift: #{historical_key}")
+    end
+    constitution_bytes = read_repo_identity!(
+      root, THTCB_CONSTITUTION, "P3 THTCB Strategic Constitution v3.1"
+    )
+    assert(constitution_bytes.include?("- Version: `3.1`") &&
+           constitution_bytes.include?("`#{THTCB_STRICT_GATE_ID}`") &&
+           constitution_bytes.include?("`TRUSTED_HOST_TCB_TRANSACTIONAL_SINGLE_AGENT_EXECUTION`"),
+           "P3 THTCB Constitution semantic anchor drift")
+    validate_thtcb_projection_set!(truth, THTCB_ACTIVE_PROJECTION_SHA256)
+    validate_thtcb_product_records!(root)
+
+    route = mapping(truth["current_phase_route"], "P3 THTCB current Route")
+    expected_active_task = {
+      "task_id" => THTCB_PRODUCT_TASK_ID,
+      "contract" => THTCB_PRODUCT_CONTRACT,
+      "authority" => THTCB_PRODUCT_AUTHORITY,
+      "activation_parent" => THTCB_PRODUCT_ACTIVATION_PARENT,
+      "authorization_id" => THTCB_PRODUCT_AUTHORIZATION_ID,
+      "execution_nonce" => THTCB_PRODUCT_EXECUTION_NONCE,
+      "resources" => THTCB_PRODUCT_RESOURCES,
+      "budget" => THTCB_PRODUCT_BUDGET
+    }
+    assert(route["schema_version"] == THTCB_ROUTE_SCHEMA &&
+           route["route_id"] == THTCB_ROUTE_ID && route["phase"] == "P3" &&
+           route["status"] == "ACTIVE" && route["lifecycle_stage"] == "PRODUCT_TASK_ACTIVE" &&
+           route["execution_status"] == "PRODUCT_TASK_ACTIVE" &&
+           route["scheduling_status"] == "TASK_ENVELOPE_EXECUTION" &&
+           route["next_eligible_action"] == THTCB_PRODUCT_ACTIVE_ACTION &&
+           route["founder_route_decision"] == THTCB_DECISION.merge(
+             "decision_id" => THTCB_DECISION_ID, "operation_type" => THTCB_OPERATION_TYPE,
+             "source_body" => THTCB_AUTHORIZATION_BODY
+           ) && route["constitution"] == THTCB_CONSTITUTION &&
+           route["objective_id"] == "TRUSTED_HOST_TCB_TRANSACTIONAL_SINGLE_AGENT_EXECUTION" &&
+           route["workflow_id"] == "SHA256_READ_ONLY_CUSTODY_V1" &&
+           route.dig("strict_exit_gate", "gate_id") == THTCB_STRICT_GATE_ID &&
+           route.dig("strict_exit_gate", "required_item_ids") == THTCB_STRICT_ITEMS &&
+           route.dig("ordered_stages", 0, "task_id") == THTCB_PRODUCT_TASK_ID &&
+           route.dig("ordered_stages", 0, "status") == "ACTIVE" &&
+           route.dig("ordered_stages", 0, "budget") == THTCB_PRODUCT_BUDGET &&
+           route.dig("ordered_stages", 1, "task_id") == THTCB_AUDIT_TASK_ID &&
+           route.dig("ordered_stages", 1, "status") ==
+             "LOCKED_PENDING_PRODUCT_ACCEPTED_AND_INTEGRATED" &&
+           route.dig("ordered_stages", 1, "budget") == THTCB_AUDIT_BUDGET &&
+           route["active_task"] == expected_active_task &&
+           route.dig("anti_loop", "foundation_task_allowed") == false &&
+           route.dig("anti_loop", "candidate_3_allowed") == false &&
+           route.dig("anti_loop", "second_same_task_repair_allowed") == false &&
+           route.dig("anti_loop", "third_review_cycle_allowed") == false &&
+           route.dig("anti_loop", "successor_or_replacement_allowed") == false &&
+           route.dig("anti_loop", "governance_progress_credit") == 0,
+           "P3 THTCB active Product Route semantic projection drift")
+
+    envelope = mapping(truth["phase_execution_envelope"], "P3 THTCB Phase envelope")
+    assert(envelope["status"] == "ACTIVE_P3_THTCB_PRODUCT_TASK" &&
+           envelope["consumed"] == decision.dig("route", "consumed_preserved") &&
+           envelope["reserved"] == THTCB_PRODUCT_BUDGET.merge("task_id" => THTCB_PRODUCT_TASK_ID) &&
+           envelope["remaining"] == {
+             "engineering_tasks" => 1, "engineering_hours" => 16, "calendar_days" => 6
+           } && envelope["remaining_capacity_usable"] == false &&
+           envelope["remaining_capacity_lock_reason"] ==
+             "ACTIVE_PRODUCT_RESERVATION_AUDIT_LOCKED" &&
+           envelope["governance_progress_credit"] == 0,
+           "P3 THTCB active Product envelope drift")
+    control = mapping(truth["founder_escalation_control"],
+                      "P3 THTCB Founder escalation control")
+    assert(control["disposition"] == "NO_RESERVED_TRIGGER_CONTINUE_PHASE" &&
+           control.dig("source_event", "kind") == "P3_THTCB_PRODUCT_TASK_ACTIVE" &&
+           control.dig("reserved_trigger", "category") == "NONE" &&
+           control["founder_decision_required"] == false &&
+           control["next_action_owner"] == "MASTER_CEO_AGENT" &&
+           control["next_eligible_action"] == THTCB_PRODUCT_ACTIVE_ACTION,
+           "P3 THTCB active Product Founder interruption boundary drift")
+    boundary = mapping(truth["phase_boundary"], "P3 THTCB Phase boundary")
+    active = mapping(truth["active_work"], "P3 THTCB active work")
+    assert(boundary["phase_execution_status"] == "ACTIVE_P3_THTCB_PRODUCT_TASK" &&
+           boundary["task_creation_allowed"] == false &&
+           boundary["task_creation_scope"] == "CURRENT_TASK_ONLY" &&
+           boundary["allowed_task_kinds"] == ["PRODUCT_IMPLEMENTATION"] &&
+           boundary["founder_decision_required"] == false &&
+           boundary["next_eligible_action"] == THTCB_PRODUCT_ACTIVE_ACTION &&
+           active["current_task"] == THTCB_PRODUCT_TASK_ID &&
+           active["selected_task"] == THTCB_PRODUCT_TASK_ID &&
+           active["current_task_status"] == "ACTIVE_IMPLEMENTATION" &&
+           active["current_task_contract"] ==
+             THTCB_PRODUCT_CONTRACT.slice("path", "sha256", "byte_length") &&
+           active["authority_record"] ==
+             THTCB_PRODUCT_AUTHORITY.slice("path", "sha256", "byte_length") &&
+           active["execution_nonce"] == THTCB_PRODUCT_EXECUTION_NONCE &&
+           active["execution_nonce_status"] == "ACTIVE_SINGLE_USE" &&
+           active["authorization_id"] == THTCB_PRODUCT_AUTHORIZATION_ID &&
+           active["activation_parent_commit"] == THTCB_PRODUCT_ACTIVATION_PARENT.fetch("commit") &&
+           active["activation_parent_tree"] == THTCB_PRODUCT_ACTIVATION_PARENT.fetch("tree") &&
+           active["task_resource_state"] == "ACTIVE_CREATED" &&
+           active["task_branch"] == THTCB_PRODUCT_RESOURCES.fetch("branch") &&
+           active["task_worktree"] == THTCB_PRODUCT_RESOURCES.fetch("worktree") &&
+           active["execution_evidence_root"] == THTCB_PRODUCT_RESOURCES.fetch("evidence_root") &&
+           active["dependency_custody_root"] ==
+             THTCB_PRODUCT_RESOURCES.fetch("dependency_custody_root") &&
+           active["allowlisted_paths"] == THTCB_PRODUCT_WORKER_PATHS &&
+           active["current_task_budget"] == THTCB_PRODUCT_BUDGET &&
+           active["next_stage_budget"] == THTCB_AUDIT_BUDGET &&
+           active["founder_decision_required"] == false &&
+           active["user_action_required"] == "NONE" &&
+           active["next_eligible_action"] == THTCB_PRODUCT_ACTIVE_ACTION,
+           "P3 THTCB active Product Task authority projection drift")
+    p3 = mapping(truth.dig("strict_phase_gate_ledger", "phases", "P3"),
+                 "P3 THTCB strict Exit Gate")
+    assert(p3["status"] == "INCOMPLETE" &&
+           p3.dig("current_exit_gate", "gate_id") == THTCB_STRICT_GATE_ID &&
+           p3.dig("current_exit_gate", "required_item_ids") == THTCB_STRICT_ITEMS &&
+           THTCB_STRICT_ITEMS.all? { |item_id|
+             p3.dig("current_exit_gate", "required_items", item_id, "status") == "MISSING"
+           } && p3.dig("founder_phase_gate", "status") ==
+             "NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS",
+           "P3 THTCB active Product strict Exit Gate false acceptance")
+    assert(truth.dig("project", "current_phase") == "P3" &&
+           truth.dig("project", "phase_execution_status") == "ACTIVE_P3_THTCB_PRODUCT_TASK" &&
+           truth.dig("project", "p3_execution_status") == "ACTIVE_THTCB_PRODUCT_TASK" &&
+           truth.dig("project", "p4_entry_status") ==
+             "HOLD_PENDING_STRICT_P3_EXIT_AND_SEPARATE_FOUNDER_PHASE_ENTRY" &&
+           truth.dig("goal", "control_plane_status_observed") == "ACTIVE" &&
+           truth.dig("goal", "current_task_authority") == THTCB_PRODUCT_TASK_ID &&
+           truth.dig("goal", "current_strategic_decision", "decision_id") == THTCB_DECISION_ID &&
+           truth.dig("phase_execution_claim", "current_task_claim") == THTCB_PRODUCT_TASK_ID &&
+           truth.dig("phase_execution_claim", "real_engineering_progress") == 0 &&
+           truth.dig("phase_execution_claim", "product_capability_changed") == false &&
+           truth.dig("phase_execution_claim", "candidate_integration_allowed") == false &&
+           truth.dig("claim_boundary", "p3_thtcb_route_stage") == "PRODUCT_TASK_ACTIVE" &&
+           truth.dig("claim_boundary", "p3_thtcb_product_candidate_integrated") == false &&
+           truth.dig("claim_boundary", "p3_thtcb_audit_unlocked") == false,
+           "P3 THTCB active Product project, Goal or claim boundary drift")
+    THTCB_PRODUCT_ACTIVE_STATE
+  rescue ArgumentError, KeyError, TypeError, Psych::Exception => e
+    raise P3FinalTransactionalRouteValidationError,
+          "P3 THTCB active Product route invalid: #{e.message}"
+  end
+
   def validate_truth!(root:, truth:, preactivation_resource_action: nil)
     if truth.dig("current_phase_route", "schema_version") == THTCB_ROUTE_SCHEMA
-      return validate_thtcb_installed_route!(root, truth)
+      lifecycle = truth.dig("current_phase_route", "lifecycle_stage")
+      return validate_thtcb_installed_route!(root, truth) if
+        lifecycle == "PRODUCT_ELIGIBLE_NOT_ACTIVATED"
+      return validate_thtcb_product_active_route!(root, truth) if
+        lifecycle == "PRODUCT_TASK_ACTIVE"
+      raise P3FinalTransactionalRouteValidationError,
+            "P3 THTCB lifecycle is not closed-schema: #{lifecycle.inspect}"
     end
     root = Pathname.new(root).realpath
     if truth.dig("current_phase_route", "schema_version") == TXC_ROUTE_SCHEMA

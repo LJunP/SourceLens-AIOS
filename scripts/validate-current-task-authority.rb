@@ -5384,7 +5384,10 @@ module CurrentTaskAuthority
       assert(File.realpath(root) == expected_root,
              "P3 THTCB staging context did not bind the validator root")
       state = P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: truth)
-      assert(state == P3FinalTransactionalRouteValidation::THTCB_STATE,
+      expected_state = P3FinalTransactionalRouteValidation::THTCB_LIFECYCLE_STATES[
+        route["lifecycle_stage"]
+      ]
+      assert(expected_state && state == expected_state,
              "P3 THTCB staging Route state drift")
       records = worktrees(root)
       assert(records.length == 1 &&

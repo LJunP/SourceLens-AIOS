@@ -5065,11 +5065,14 @@ module FounderDelegationContinuity
       assert(defined?(P3FinalTransactionalRouteValidation),
              "P3 THTCB Route validator is unavailable")
       state = P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: truth)
-      assert(state == P3FinalTransactionalRouteValidation::THTCB_STATE,
-             "P3 THTCB installed Route state drift")
+      expected_state = P3FinalTransactionalRouteValidation::THTCB_LIFECYCLE_STATES[
+        route["lifecycle_stage"]
+      ]
+      assert(expected_state && state == expected_state,
+             "P3 THTCB Route state drift")
       disposition = truth.dig("founder_escalation_control", "disposition")
       assert(disposition == CONTINUE_DISPOSITION,
-             "P3 THTCB installed Route must autonomously continue to Product activation")
+             "P3 THTCB Route must autonomously continue within the active Product lifecycle")
       return disposition
     end
     if route["schema_version"] == P3FinalTransactionalRouteValidation::TXC_ROUTE_SCHEMA

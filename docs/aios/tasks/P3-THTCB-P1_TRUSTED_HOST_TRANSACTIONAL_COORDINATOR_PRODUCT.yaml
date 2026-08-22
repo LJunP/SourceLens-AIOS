@@ -1,0 +1,267 @@
+schema_version: p3-thtcb-product-task-contract/v1
+record_type: sourcelens_aios_phase_delegated_product_task_contract
+task_id: AIOS-P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT
+phase: P3
+route_id: P3_TRUSTED_HOST_TCB_CLEAN_ROOM_FINAL_ROUTE_V1
+status: ACTIVE
+kind: PRODUCT_IMPLEMENTATION
+milestone: TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT
+authority:
+  founder_decision:
+    decision_id: AUTHORIZE_P3_TRUSTED_HOST_TCB_TRANSACTIONAL_EXECUTION_OBJECTIVE_EXIT_GATE_AND_CLEAN_ROOM_FINAL_ROUTE_V1
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/decision/FOUNDER_P3_THTCB_ACCEPTED_STRUCTURED_DECISION_V1.json
+    byte_length: 14404
+    sha256: e7fc49d6022294423525fd2d764c0658045045197ac114a4327c07b34f743fb6
+  phase_entry_authorized: true
+  task_selection_owner: MASTER_CEO_AGENT
+  task_authorization_owner: MASTER_CEO_AGENT
+  task_gate_owner: MASTER_CEO_AGENT
+  activation_parent:
+    branch: main
+    commit: 8da75bcb4c3c29667a3762854833103814fb192f
+    tree: 3c8c33f5d1c547de00e3a7f5e515238ff9d7b56c
+  authorization_id: 16c2425e-bc41-47d4-81e1-37c0d735a907
+  execution_nonce: b315aa7f-e39f-47b3-accc-489f812c3800
+objective: >-
+  Implement the smallest trusted-host-TCB-owned durable transactional coordinator
+  for the closed SHA256_READ_ONLY_CUSTODY_V1 action. Agent proposal fields remain
+  non-authoritative; the host derives every executable parameter from an immutable
+  authorization anchor, persists intent before effect, reconciles crash and orphan
+  state, accepts exactly one durable terminal trace, and advances the accepted
+  P3-001 checkpoint only after terminal acceptance.
+why_now: >-
+  Strategic installation is PASS and P3 remains at delivery 25 percent and strict
+  Exit 0 percent. This Product is the only eligible Phase-local engineering Task;
+  the one-shot Audit is locked until this exact Product candidate is independently
+  accepted and integrated.
+accepted_input:
+  task_id: AIOS-P3-001_DURABLE_EXECUTION_CHECKPOINT_RESUME_KERNEL
+  milestone: DURABLE_STATE_AND_CHECKPOINT_RESUME
+  status: ACCEPTED_INTEGRATED
+  contract:
+    path: docs/aios/tasks/P3-001_DURABLE_EXECUTION_CHECKPOINT_RESUME_KERNEL.yaml
+    byte_length: 4115
+    sha256: e34eb7afe5cb666b65080762caa515dac2c445ec71e0c66b823e66c443ccf62a
+  task_gate_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-durable-execution-checkpoint-resume-20260819/task-p3-001/terminal/P3_001_TASK_GATE_PASS_INTEGRATION_RECEIPT_V1.json
+    byte_length: 3055
+    sha256: e4ea37f8e6770b8dea9f8939f81444f01ebca4104a8dd2f84d33c4787180e2c0
+action_algebra:
+  allowed:
+    - SHA256_READ_ONLY_CUSTODY_V1
+  agent_proposal_fields:
+    - authorization_id
+    - idempotency_key
+    - expected_workflow_id
+    - expected_input_sha256
+  host_derived_fields:
+    - executable
+    - host_path
+    - container_path
+    - argv
+    - environment
+    - docker_options
+    - credential
+    - network_target
+    - resource_limits
+    - handler
+  unrestricted_map_allowed: false
+trusted_computing_base:
+  included:
+    - LOCAL_OS_AND_KERNEL
+    - CURRENT_SOURCELENS_TRUSTED_HOST_PROCESS
+    - HOST_CONTROLLED_DURABLE_DATABASE
+    - SEALED_HOST_CUSTODY_ROOT
+    - EXACT_DOCKER_CLI_EXECUTABLE
+    - DOCKER_UNIX_SOCKET
+    - DOCKER_DESKTOP_DAEMON
+    - PINNED_LOCAL_OCI_IMAGE
+  exact_docker_cli:
+    command_path: /usr/local/bin/docker
+    resolved_path: /Applications/Docker.app/Contents/Resources/bin/docker
+    byte_length: 41522608
+    sha256: a6822407e207ff0b687419ccbe55700ffbf389d77de58ef625b3b1790d88747c
+  exact_docker_socket: /Users/lijunpeng/.docker/run/docker.sock
+  excluded_as_tcb_compromise:
+    - ROOT_OR_ADMIN_ATTACKER
+    - SAME_USER_PROCESS_WITH_TCB_WRITE_AUTHORITY
+    - COMPETING_DOCKER_CLIENT_WITH_EQUIVALENT_DAEMON_AUTHORITY
+    - COMPROMISED_DOCKER_DAEMON_CLI_OR_SOCKET
+    - OS_KERNEL_COMPROMISE
+    - PHYSICAL_HOST_COMPROMISE
+scope:
+  worker_allowed_paths:
+    - backend-spring/src/main/java/com/sourcelens/module/execution/transactional
+    - backend-spring/src/main/resources/db/migration/V034__add_trusted_host_transactional_invocations.sql
+    - backend-spring/src/test/java/com/sourcelens/module/execution/transactional
+    - scripts/p3-thtcb-process-real-probe.sh
+  master_control_paths:
+    - docs/aios/tasks/P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT.yaml
+    - docs/aios/truth/project_state.yaml
+    - scripts/validate-p3-final-transactional-route.rb
+    - scripts/test-p3-final-transactional-route.rb
+    - scripts/validate-founder-delegation-continuity.rb
+    - scripts/validate-current-task-authority.rb
+  task_branch: codex/p3-thtcb-p1-trusted-host-transactional-coordinator
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p3-thtcb-p1-trusted-host-transactional-coordinator
+  evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-host-tcb-clean-room-20260822/task-product
+  dependency_custody_root: /Users/lijunpeng/Developer/.sourcelens-custody/p3-thtcb-jre17
+  task_local_database_fixtures_only: true
+architecture_requirements:
+  authorization_anchor:
+    immutable_separate_row: true
+    positive_host_authorization_only: true
+    anchor_sha256_covers_all_host_derived_fields: true
+    update_path_allowed: false
+  transactional_invocation:
+    durable_intent_before_effect: true
+    unique_authorization_and_idempotency_key: true
+    invocation_scoped_checkpoint_reservation: true
+    exactly_one_terminal_trace: true
+    terminal_acceptance_before_checkpoint_advancement: true
+    crash_orphan_reconciliation: true
+  cleanup_saga_stages:
+    - PRE_RM_FAILURE
+    - EXACT_RM_ISSUED_ACK_UNKNOWN
+    - CONFIRMED_RM_FAILURE
+    - CONFIRMED_ABSENT
+  custody:
+    content_addressed: true
+    regular_non_symlink_nlink1: true
+    mode_0444: true
+    exact_relative_path_byte_length_sha256: true
+  oci_profile:
+    - PINNED_LOCAL_IMAGE_ID
+    - PULL_NEVER
+    - NETWORK_NONE
+    - READ_ONLY_ROOTFS
+    - NON_ROOT
+    - CAP_DROP_ALL
+    - NO_NEW_PRIVILEGES
+    - CLOSED_TMPFS
+    - CLOSED_READ_ONLY_MOUNTS
+    - PIDS_MEMORY_CPU_LIMITS
+    - NO_DOCKER_SOCKET_DEVICE_OR_SECRET_MOUNT
+  attestation:
+    exact_pre_start_profile_validation: true
+    post_start_inspect_attestation: true
+    fail_closed_on_drift: true
+  process_real_hostile_probes:
+    - AF_INET
+    - AF_INET6
+    - DNS
+    - OUTSIDE_WRITE
+    - CHILD_SPAWN
+    - PRIVILEGE_ESCALATION
+    - RESOURCE_OVERFLOW
+budget:
+  engineering_tasks: 1
+  engineering_hours: 48
+  calendar_days: 10
+  candidate_generations: 2
+  same_task_repairs: 1
+  review_cycles: 2
+  governance_fraction_max: 0.10
+external_effects:
+  docker:
+    authorized: true
+    allowed_operations:
+      - version
+      - info
+      - import
+      - image-inspect
+      - create
+      - inspect
+      - start
+      - wait
+      - logs
+      - rm
+      - cleanup_task_created_reproducible_container_and_image
+    forbidden_operations:
+      - registry_pull
+      - registry_push
+      - registry_login
+      - docker_build
+      - source_or_evidence_upload
+  jre17_custody_acquisition:
+    authorized: true
+    single_use_non_resettable: true
+    executable: /usr/bin/curl
+    hosts:
+      - api.adoptium.net
+      - github.com
+      - release-assets.githubusercontent.com
+      - objects.githubusercontent.com
+    methods:
+      - GET
+      - HEAD
+    metadata_url: https://api.adoptium.net/v3/assets/latest/17/hotspot?architecture=aarch64&heap_size=normal&image_type=jre&jvm_impl=hotspot&os=linux&page_size=1&project=jdk&release_type=ga&vendor=eclipse
+    request_body_bytes: 0
+    persisted_response_body_budget_bytes: 314572800
+    redirect_max: 5
+    connect_timeout_seconds: 15
+    window_seconds: 1800
+    retry_count: 0
+    credentials_allowed: false
+  always_forbidden:
+    - PROVIDER
+    - SECRET
+    - CREDENTIAL
+    - REMOTE_WRITE
+    - PRODUCTION
+    - PUBLIC_RELEASE
+    - DOCKER_REGISTRY
+    - DESTRUCTIVE_EXISTING_DATABASE_MUTATION
+    - OUTSIDE_AUTHORIZED_ROOT_WRITE
+    - IRREVERSIBLE_IMPORTANT_ASSET_DELETION
+    - P4_ENTRY
+acceptance:
+  required:
+    - Agent proposal data cannot select or widen executable, path, argv, environment, Docker option, credential, network target, resource limit or handler.
+    - An immutable authorization anchor is persisted separately from the mutable invocation row and hash-binds all host-derived parameters.
+    - Intent and checkpoint reservation are durable before any Docker effect; replay and crash reconciliation cannot duplicate the action.
+    - Exactly one hash-chained durable terminal trace is accepted; no checkpoint advances before that acceptance.
+    - Stage-aware cleanup records ACK-unknown, confirmed failure and confirmed absence without claiming absence from an unacknowledged rm.
+    - Content-addressed custody rejects symlink, hardlink, mode, path, length or SHA-256 drift before effect.
+    - The exact OCI create profile and post-start inspect state are attested; any drift fails closed and initiates cleanup.
+    - Focused unit and H2 integration tests cover success, replay, conflicting proposal, anchor drift, pre-effect transaction failure, crash windows, orphan reconciliation, duplicate terminal, checkpoint gating, trace tamper, custody drift and cleanup stages.
+    - One process-real pinned-image probe demonstrates zero false accepts, zero forbidden effects and zero checkpoint advancement before accepted terminal for AF_INET, AF_INET6, DNS, outside write, child spawn, privilege escalation and resource overflow attempts.
+    - Fresh CTO, Security and Quality/Evaluation reviewers independently accept the same frozen candidate.
+  task_gate: INDEPENDENT_CTO_SECURITY_QUALITY_ACCEPTANCE_AND_TEST_EVIDENCE_PASS
+required_evidence:
+  - candidate manifest with exact parent commit/tree, changed-file inventory and source hashes
+  - focused unit and H2 integration test receipt with replay
+  - process-real Docker preflight, exact argv/profile, image custody and hostile-probe receipt
+  - immutable Cycle 1 finding set and three independent review records
+  - if needed, one repair manifest that closes only frozen findings and proves no regression
+  - Product Task Gate PASS or terminal NON_PASS receipt
+non_goals:
+  - Generic tool runtime or dynamic registry
+  - Open shell or Agent-selected command execution
+  - Privileged broker, separate OS principal or stronger isolation platform
+  - Provider, Secret, credential, remote, production or public effect
+  - P3 strict Exit Audit, P3 Phase Gate, P4 entry or project completion
+lineage:
+  implementation_inputs:
+    - canonical main at activation parent
+    - accepted P3-001 public behavior and canonical integrated source
+    - Strategic Constitution v3.1 and exact Founder decision
+    - this Task Contract and fresh third-party custody bytes
+  rejected_engineering_lineage_read: false
+  rejected_engineering_lineage_compare: false
+  rejected_engineering_lineage_copy: false
+  rejected_engineering_lineage_execute: false
+  rejected_engineering_lineage_repair_or_reuse: false
+anti_loop:
+  candidate_3_allowed: false
+  second_same_task_repair_allowed: false
+  third_review_cycle_allowed: false
+  successor_or_replacement_allowed: false
+  normalization_closure_feasibility_or_remediation_allowed: false
+  rerun_to_pass_allowed: false
+stop_conditions:
+  - Any write escapes the exact Task worktree, custody root or create-once Evidence root.
+  - Any unapproved network, Provider, Secret, credential, remote, production, public or registry effect is required or observed.
+  - The exact Docker CLI, socket, pinned image, custody bytes, Task authority or activation parent drifts.
+  - A process-real run records any false accept, forbidden effect or checkpoint advancement before accepted terminal.
+  - Candidate, repair, review, engineering-hour or calendar budget is exhausted.

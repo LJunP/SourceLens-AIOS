@@ -7,6 +7,7 @@ require "open3"
 require "optparse"
 require "pathname"
 require "yaml"
+require_relative "validate-p3-final-transactional-route"
 
 module FounderActionHandoff
   ROOT = File.expand_path("..", __dir__)
@@ -50,6 +51,7 @@ module FounderActionHandoff
     P3_ZERO_AUTHORITY_AGENT_AND_IMMUTABLE_TASK_ACTION_ENVELOPE_PHASE_ROUTE_RESEQUENCING
     P3_MINIMUM_TRUST_HOST_AUTHORIZED_TRANSACTIONAL_BOUNDARY_OBJECTIVE_AND_ROUTE_REBASELINE_AFTER_P3_007
     P3_HOST_PROCESS_ENFORCED_MINIMAL_SLICE_ROUTE_REBASELINE_AFTER_TIK_F1_TERMINAL
+    P3_TXC_CONTROL_PLANE_RECOVERY_AND_DIRECT_PRODUCT_ROUTE_REENTRY_AFTER_POSTINSTALL_PROTOCOL_ERROR
   ].freeze
   APP_OPERATION_TYPES = %w[APP_FILESYSTEM_BATCH_WRITE].freeze
   READ_ONLY_HTTPS_OPERATION = "一次全新、独立、clean-room V6 benchmark source acquisition"
@@ -305,6 +307,96 @@ module FounderActionHandoff
   P3_HPE_ROUTE_PREINSTALL_TRUTH_BYTES = 1_899_425
   P3_HPE_ROUTE_PREINSTALL_TRUTH_SHA256 =
     "fdc473bebc781271dbec7a622a936556b92bc46d44aef55314fa251052fb2ac1"
+  P3_TXC_ROUTE_TOKEN =
+    "AUTHORIZE_P3_TXC_CONTROL_PLANE_RECOVERY_AND_DIRECT_PRODUCT_ROUTE_REENTRY_AFTER_POSTINSTALL_PROTOCOL_ERROR_V1"
+  P3_TXC_ROUTE_OPERATION_TYPE =
+    "P3_TXC_CONTROL_PLANE_RECOVERY_AND_DIRECT_PRODUCT_ROUTE_REENTRY_AFTER_POSTINSTALL_PROTOCOL_ERROR"
+  P3_TXC_ROUTE_PRIMARY_TRIGGER = "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE"
+  P3_TXC_ROUTE_DECISION_PATH =
+    "/Users/lijunpeng/Developer/.sourcelens-audit/p3-txc-control-recovery-20260822/decision/FOUNDER_P3_TXCR_CONTROL_RECOVERY_ACCEPTED_STRUCTURED_DECISION_V1.json"
+  P3_TXC_ROUTE_DECISION_BYTES = 22_892
+  P3_TXC_ROUTE_DECISION_SHA256 =
+    "d804694d69119c67ce0421c5dadac894db956a032599e800cc53590615536184"
+  P3_TXC_ROUTE_CANONICAL_BODY_BYTES = 18_433
+  P3_TXC_ROUTE_CANONICAL_BODY_SHA256 =
+    "769ff349511f275f4bb2f1647f2bf224864658181002c24c6ab944ab21b5eee4"
+  P3_TXC_ROUTE_PREINSTALL_COMMIT = "e23f48a3a4e68453d81c41dc774940a52378534f"
+  P3_TXC_ROUTE_PREINSTALL_TREE = "de999ff5fa6e16b78573a6ff805da2af18b7f748"
+  P3_TXC_ROUTE_PREINSTALL_TRUTH_PATH = "docs/aios/truth/project_state.yaml"
+  P3_TXC_ROUTE_PREINSTALL_TRUTH_BYTES = 1_928_850
+  P3_TXC_ROUTE_PREINSTALL_TRUTH_SHA256 =
+    "0ffe94417d134fca97197232f27f856e6f0949b7bf8d09626b67dc185cb59e58"
+  P3_TXC_ROUTE_DECISION_DATA = begin
+    bytes = File.binread(P3_TXC_ROUTE_DECISION_PATH)
+    raise "P3 TXC decision byte identity drift" unless
+      bytes.bytesize == P3_TXC_ROUTE_DECISION_BYTES &&
+      Digest::SHA256.hexdigest(bytes) == P3_TXC_ROUTE_DECISION_SHA256
+    JSON.parse(bytes)
+  end.freeze
+  P3_TXC_ROUTE_PROFILE = begin
+    decision = P3_TXC_ROUTE_DECISION_DATA
+    route = decision.fetch("route")
+    staging = decision.fetch("control_plane_recovery")
+    lifecycle = decision.fetch("lifecycle")
+    {
+      "operations" => [
+        decision.fetch("operation_type"),
+        route.fetch("route_id"),
+        route.fetch("objective_id"),
+        decision.dig("strategic_change", "p3_strict_exit_gate"),
+        "EXACT_CONTROL_PLANE_RECOVERY"
+      ],
+      "targets" => [
+        decision.dig("canonical_start", "repository"),
+        staging.fetch("stage0_evidence_root"),
+        route.dig("stages", 0, "resources", "worktree"),
+        route.dig("stages", 0, "resources", "evidence_root"),
+        route.dig("stages", 1, "resources", "worktree"),
+        route.dig("stages", 1, "resources", "evidence_root")
+      ],
+      "budget_or_external_effects" => JSON.generate({
+        "ceiling" => route.fetch("cumulative_ceiling"),
+        "consumed" => route.fetch("consumed_preserved"),
+        "remaining" => route.fetch("remaining"),
+        "external_effects" => decision.fetch("external_effects")
+      }),
+      "token" => P3_TXC_ROUTE_TOKEN,
+      "duration" => JSON.generate({
+        "control_patch_generations_max" => staging.fetch("candidate_generations_max"),
+        "same_staging_repairs_max" => staging.fetch("same_staging_repairs_max"),
+        "product_budget" => route.dig("stages", 0, "budget"),
+        "audit_budget" => route.dig("stages", 1, "budget")
+      }),
+      "authorization_expiry_or_consumption_rule" => JSON.generate(lifecycle),
+      "pass_lifecycle" => JSON.generate({
+        "stage0" => lifecycle.fetch("stage0_pass"),
+        "stage1" => lifecycle.fetch("stage1_pass"),
+        "stage2" => lifecycle.fetch("stage2_pass")
+      }),
+      "non_pass_lifecycle" => JSON.generate({
+        "stage0" => lifecycle.fetch("stage0_non_pass"),
+        "stage1" => lifecycle.fetch("stage1_non_pass"),
+        "stage2" => lifecycle.fetch("stage2_non_pass")
+      }),
+      "risk_and_reversibility" => JSON.generate({
+        "canonical_post_install_repair_allowed" =>
+          staging.fetch("canonical_post_install_repair_allowed"),
+        "canonical_post_install_rerun_to_pass_allowed" =>
+          staging.fetch("canonical_post_install_rerun_to_pass_allowed"),
+        "canonical_exact_revert_on_non_pass_count_max" =>
+          staging.fetch("canonical_exact_revert_on_non_pass_count_max"),
+        "anti_loop" => decision.fetch("anti_loop")
+      }),
+      "deny_or_defer_effect" => JSON.generate({
+        "provider" => decision.dig("external_effects", "provider"),
+        "secret" => decision.dig("external_effects", "secret"),
+        "remote" => decision.dig("external_effects", "remote"),
+        "production" => decision.dig("external_effects", "production"),
+        "public" => decision.dig("external_effects", "public"),
+        "p4_entry" => decision.dig("external_effects", "p4_entry")
+      })
+    }
+  end.freeze
   FOUNDER_NETWORK_OPERATION_PROFILES = {
     "READ_ONLY_HTTPS_ACQUISITION" => {
       "operations" => [READ_ONLY_HTTPS_OPERATION, READ_ONLY_HTTPS_METHOD],
@@ -617,7 +709,8 @@ module FounderActionHandoff
       "authorization_expiry_or_consumption_rule" => P3_HPE_ROUTE_CONSUMPTION,
       "pass_lifecycle" => P3_HPE_ROUTE_PASS,
       "non_pass_lifecycle" => P3_HPE_ROUTE_NON_PASS
-    }
+    },
+    P3_TXC_ROUTE_OPERATION_TYPE => P3_TXC_ROUTE_PROFILE
   }.freeze
   PROSPECTIVE_PREFLIGHT = "PROSPECTIVE_RESERVED_EFFECT_REQUIRED_BY_EXACT_USER_REQUEST_AND_NOT_EXPRESSIBLE_BY_CURRENT_OFFLINE_ESCALATION_PROJECTION"
   NO_ACTION_SENTENCE = "你现在无需操作，我将在现有授权范围内继续执行。"
@@ -665,6 +758,17 @@ module FounderActionHandoff
     assert!(value.is_a?(Array) && !value.empty?, "#{label} must be a non-empty array")
     value.each_with_index { |entry, index| nonempty_string!(entry, "#{label}[#{index}]") }
     value
+  end
+
+  def structured_json_object_string!(value, label)
+    assert!(value.is_a?(String) && !value.strip.empty?,
+            "#{label} must be a non-empty structured JSON string")
+    parsed = JSON.parse(value)
+    assert!(parsed.is_a?(Hash) && !parsed.empty?,
+            "#{label} must encode a non-empty JSON object")
+    value
+  rescue JSON::ParserError => error
+    raise ValidationError, "#{label} is not valid structured JSON: #{error.message}"
   end
 
   def read_regular!(path, label)
@@ -746,10 +850,17 @@ module FounderActionHandoff
     frozen_p3_operation_type = package.dig("authorization", "operation_type")
     frozen_p3_fixture = test_fixture && [
       "P3_MINIMUM_TRUST_HOST_AUTHORIZED_TRANSACTIONAL_BOUNDARY_OBJECTIVE_AND_ROUTE_REBASELINE_AFTER_P3_007",
-      P3_HPE_ROUTE_OPERATION_TYPE
+      P3_HPE_ROUTE_OPERATION_TYPE,
+      P3_TXC_ROUTE_OPERATION_TYPE
     ].include?(frozen_p3_operation_type)
     if frozen_p3_fixture
-      expected_fixture_identity = if frozen_p3_operation_type == P3_HPE_ROUTE_OPERATION_TYPE
+      expected_fixture_identity = if frozen_p3_operation_type == P3_TXC_ROUTE_OPERATION_TYPE
+        {
+          "commit" => P3_TXC_ROUTE_PREINSTALL_COMMIT,
+          "tree" => P3_TXC_ROUTE_PREINSTALL_TREE,
+          "branch" => "main"
+        }
+      elsif frozen_p3_operation_type == P3_HPE_ROUTE_OPERATION_TYPE
         {
           "commit" => P3_HPE_ROUTE_PREINSTALL_COMMIT,
           "tree" => P3_HPE_ROUTE_PREINSTALL_TREE,
@@ -773,7 +884,13 @@ module FounderActionHandoff
     assert!(artifact["byte_length"].is_a?(Integer) && artifact["byte_length"].positive?, "governing artifact byte length invalid")
     assert!(artifact["sha256"].is_a?(String) && artifact["sha256"].match?(SHA256), "governing artifact SHA-256 invalid")
     if frozen_p3_fixture
-      expected_fixture_artifact = if frozen_p3_operation_type == P3_HPE_ROUTE_OPERATION_TYPE
+      expected_fixture_artifact = if frozen_p3_operation_type == P3_TXC_ROUTE_OPERATION_TYPE
+        {
+          "path" => P3_TXC_ROUTE_PREINSTALL_TRUTH_PATH,
+          "byte_length" => P3_TXC_ROUTE_PREINSTALL_TRUTH_BYTES,
+          "sha256" => P3_TXC_ROUTE_PREINSTALL_TRUTH_SHA256
+        }
+      elsif frozen_p3_operation_type == P3_HPE_ROUTE_OPERATION_TYPE
         {
           "path" => P3_HPE_ROUTE_PREINSTALL_TRUTH_PATH,
           "byte_length" => P3_HPE_ROUTE_PREINSTALL_TRUTH_BYTES,
@@ -937,9 +1054,20 @@ module FounderActionHandoff
     assert!(RECOMMENDED_DECISIONS.include?(authorization["recommended_decision"]), "recommended decision invalid")
     grant = exact_object!(authorization["grant_scope"], %w[operations targets duration budget_or_external_effects], "authorization grant scope")
     %w[operations targets].each { |key| nonempty_strings!(grant[key], "authorization #{key}") }
-    %w[duration budget_or_external_effects].each { |key| nonempty_string!(grant[key], "authorization #{key}") }
+    structured_txc = authorization["operation_type"] == P3_TXC_ROUTE_OPERATION_TYPE
+    %w[duration budget_or_external_effects].each do |key|
+      if structured_txc
+        structured_json_object_string!(grant[key], "authorization #{key}")
+      else
+        nonempty_string!(grant[key], "authorization #{key}")
+      end
+    end
     %w[risk_and_reversibility deny_or_defer_effect authorization_expiry_or_consumption_rule pass_lifecycle non_pass_lifecycle].each do |key|
-      nonempty_string!(authorization[key], "authorization #{key}")
+      if structured_txc
+        structured_json_object_string!(authorization[key], "authorization #{key}")
+      else
+        nonempty_string!(authorization[key], "authorization #{key}")
+      end
     end
 
     evidence = package["validator_evidence"]
@@ -949,19 +1077,24 @@ module FounderActionHandoff
       assert!(package["project_authorized"] == "NO" && package["app_filesystem_approval_required"] == "NO",
               "Founder request mixed project and App approval layers")
       if authorization["proposal_mode"] == "CURRENT_CANONICAL_TRIGGER"
-        if authorization["operation_type"] == P3_HPE_ROUTE_OPERATION_TYPE
+        if [P3_HPE_ROUTE_OPERATION_TYPE, P3_TXC_ROUTE_OPERATION_TYPE].include?(
+             authorization["operation_type"]
+           )
+          txc = authorization["operation_type"] == P3_TXC_ROUTE_OPERATION_TYPE
+          expected_token = txc ? P3_TXC_ROUTE_TOKEN : P3_HPE_ROUTE_TOKEN
+          expected_trigger = txc ? P3_TXC_ROUTE_PRIMARY_TRIGGER : P3_HPE_ROUTE_PRIMARY_TRIGGER
           request = package["user_request_evidence"]
           assert!(control["disposition"] == "FOUNDER_RESERVED_DECISION_REQUIRED" &&
                   control["founder_decision_required"] == true &&
-                  control.dig("reserved_trigger", "category") == P3_HPE_ROUTE_PRIMARY_TRIGGER &&
+                  control.dig("reserved_trigger", "category") == expected_trigger &&
                   control["next_action_owner"] == "HUMAN_FOUNDER" &&
                   evidence["prospective_preflight"].nil? &&
-                  request.is_a?(Hash) && current_user_request_token == P3_HPE_ROUTE_TOKEN &&
+                  request.is_a?(Hash) && current_user_request_token == expected_token &&
                   request["source"] == "CURRENT_DIRECT_USER_MESSAGE" &&
                   request["exact_token"] == current_user_request_token &&
                   request["requested_external_effect"] == "MATERIAL_SCOPE" &&
-                  authorization["reserved_trigger"] == P3_HPE_ROUTE_PRIMARY_TRIGGER,
-                  "P3 HPE rebaseline lacks the exact current trigger and direct Founder token")
+                  authorization["reserved_trigger"] == expected_trigger,
+                  "P3 rebaseline lacks the exact current trigger and direct Founder token")
         else
           assert!(control["disposition"] == "FOUNDER_DECISION_REQUIRED" &&
                   control["founder_decision_required"] == true &&
@@ -1051,6 +1184,7 @@ module FounderActionHandoff
         P3_ZERO_AUTHORITY_AGENT_AND_IMMUTABLE_TASK_ACTION_ENVELOPE_PHASE_ROUTE_RESEQUENCING
         P3_MINIMUM_TRUST_HOST_AUTHORIZED_TRANSACTIONAL_BOUNDARY_OBJECTIVE_AND_ROUTE_REBASELINE_AFTER_P3_007
         P3_HOST_PROCESS_ENFORCED_MINIMAL_SLICE_ROUTE_REBASELINE_AFTER_TIK_F1_TERMINAL
+        P3_TXC_CONTROL_PLANE_RECOVERY_AND_DIRECT_PRODUCT_ROUTE_REENTRY_AFTER_POSTINSTALL_PROTOCOL_ERROR
       ].include?(operation_type)
         proposed_tokens = package["copy_ready_text_or_exact_steps"].scan(FOUNDER_AUTHORIZATION_TOKEN)
         assert!(proposed_tokens == [profile["token"]],
@@ -1082,6 +1216,21 @@ module FounderActionHandoff
                 canonical_body.lines.first.chomp == P3_HPE_ROUTE_TOKEN,
                 "P3 HPE rebaseline exact Founder body identity drift")
       end
+      if operation_type == P3_TXC_ROUTE_OPERATION_TYPE
+        body = package["copy_ready_text_or_exact_steps"].dup.force_encoding("UTF-8")
+        assert!(body.valid_encoding?, "P3 TXC rebaseline body encoding invalid")
+        canonical_body = body.gsub(/\r\n?/, "\n").sub(/\n*\z/, "") + "\n"
+        assert!(canonical_body.bytesize == P3_TXC_ROUTE_CANONICAL_BODY_BYTES &&
+                Digest::SHA256.hexdigest(canonical_body) ==
+                  P3_TXC_ROUTE_CANONICAL_BODY_SHA256 &&
+                canonical_body.lines.first.chomp == P3_TXC_ROUTE_TOKEN,
+                "P3 TXC rebaseline exact Founder body identity drift")
+        assert!(authorization["risk_and_reversibility"] ==
+                  profile["risk_and_reversibility"] &&
+                authorization["deny_or_defer_effect"] ==
+                  profile["deny_or_defer_effect"],
+                "P3 TXC structured risk boundary drift")
+      end
       assert!(grant["targets"] == profile["targets"] &&
               grant["budget_or_external_effects"] == profile["budget_or_external_effects"],
               "read-only HTTPS operation enum contradicts its exact grant scope")
@@ -1107,6 +1256,8 @@ module FounderActionHandoff
                               authorization.values_at("risk_and_reversibility", "deny_or_defer_effect",
                                                       "authorization_expiry_or_consumption_rule",
                                                       "pass_lifecycle", "non_pass_lifecycle")
+    required_copy_fragments = [] if
+      authorization["operation_type"] == P3_TXC_ROUTE_OPERATION_TYPE
     required_copy_fragments.reject(&:empty?).each do |fragment|
       present = copy.include?(fragment)
       if authorization["operation_type"] ==
@@ -1225,15 +1376,66 @@ module FounderActionHandoff
 
   def validate!(truth_path:, package_path:, draft_path:, test_fixture: false, current_user_request_token: nil,
                 terminal_receipt_path: nil)
-    validate_truth_path!(truth_path) unless test_fixture
-    truth_bytes = read_regular!(truth_path, "canonical Truth")
+    package = parse_json!(read_regular!(package_path, "handoff package"), "handoff package")
+    atomic_fixture = false
+    installed_fixture = false
+    if ENV["SOURCELENS_ATOMIC_STAGING_MANIFEST"] &&
+       package.dig("authorization", "operation_type") == P3_TXC_ROUTE_OPERATION_TYPE
+      candidate_truth_path = Pathname.new(truth_path)
+      expected_candidate_truth = Pathname.new(ROOT).join("docs/aios/truth/project_state.yaml").realpath
+      assert!(candidate_truth_path.exist? && !candidate_truth_path.symlink? &&
+              candidate_truth_path.realpath == expected_candidate_truth,
+              "P3 TXC atomic handoff fixture Truth path drift")
+      candidate_truth_bytes = read_regular!(candidate_truth_path, "P3 TXC staging Truth")
+      candidate_truth = YAML.safe_load(candidate_truth_bytes, permitted_classes: [],
+                                       permitted_symbols: [], aliases: false)
+      P3FinalTransactionalRouteValidation.atomic_staging_context!(
+        root: ROOT, truth: candidate_truth
+      )
+      truth_bytes, stderr, status = Open3.capture3(
+        "git", "-C", ROOT, "show",
+        "#{P3_TXC_ROUTE_PREINSTALL_COMMIT}:#{P3_TXC_ROUTE_PREINSTALL_TRUTH_PATH}"
+      )
+      assert!(status.success?, "P3 TXC preinstall Truth unavailable: #{stderr.strip}")
+      assert!(truth_bytes.bytesize == P3_TXC_ROUTE_PREINSTALL_TRUTH_BYTES &&
+              Digest::SHA256.hexdigest(truth_bytes) == P3_TXC_ROUTE_PREINSTALL_TRUTH_SHA256,
+              "P3 TXC preinstall Truth byte identity drift")
+      atomic_fixture = true
+    elsif !test_fixture &&
+          package.dig("authorization", "operation_type") == P3_TXC_ROUTE_OPERATION_TYPE
+      validate_truth_path!(truth_path)
+      installed_truth_bytes = read_regular!(truth_path, "P3 TXC installed Truth")
+      installed_truth = YAML.safe_load(installed_truth_bytes, permitted_classes: [],
+                                       permitted_symbols: [], aliases: false)
+      if installed_truth.dig("current_phase_route", "schema_version") ==
+         P3FinalTransactionalRouteValidation::TXC_ROUTE_SCHEMA
+        P3FinalTransactionalRouteValidation.validate_truth!(root: ROOT, truth: installed_truth)
+        P3FinalTransactionalRouteValidation.txc_installed_context!(
+          root: ROOT, truth: installed_truth
+        )
+        truth_bytes, stderr, status = Open3.capture3(
+          "git", "-C", ROOT, "show",
+          "#{P3_TXC_ROUTE_PREINSTALL_COMMIT}:#{P3_TXC_ROUTE_PREINSTALL_TRUTH_PATH}"
+        )
+        assert!(status.success?, "P3 TXC installed replay baseline Truth unavailable: #{stderr.strip}")
+        assert!(truth_bytes.bytesize == P3_TXC_ROUTE_PREINSTALL_TRUTH_BYTES &&
+                Digest::SHA256.hexdigest(truth_bytes) == P3_TXC_ROUTE_PREINSTALL_TRUTH_SHA256,
+                "P3 TXC installed replay baseline Truth identity drift")
+        installed_fixture = true
+      else
+        truth_bytes = installed_truth_bytes
+      end
+    else
+      validate_truth_path!(truth_path) unless test_fixture
+      truth_bytes = read_regular!(truth_path, "canonical Truth")
+    end
+    effective_fixture = test_fixture || atomic_fixture || installed_fixture
     truth = YAML.safe_load(truth_bytes, permitted_classes: [], permitted_symbols: [], aliases: false)
     assert!(truth.is_a?(Hash), "canonical Truth must be a mapping")
-    package = parse_json!(read_regular!(package_path, "handoff package"), "handoff package")
     draft = read_regular!(draft_path, "handoff draft")
-    validate_common!(package, truth_bytes, test_fixture: test_fixture)
+    validate_common!(package, truth_bytes, test_fixture: effective_fixture)
     validate_terminal_handoff!(package, terminal_receipt_path)
-    validate_class!(package, truth, run_validator: !test_fixture,
+    validate_class!(package, truth, run_validator: !effective_fixture,
                     current_user_request_token: current_user_request_token)
     validate_draft!(package, draft)
     true

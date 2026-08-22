@@ -882,6 +882,241 @@ module P3FinalTransactionalRouteValidation
     "calendar_days" => 16
   }.freeze
 
+  TXC_ROUTE_SCHEMA = "p3-txc-control-recovery-direct-product-route/v1"
+  TXC_ROUTE_ID = "P3_TXC_CONTROL_RECOVERY_DIRECT_PRODUCT_REENTRY_ROUTE_V1"
+  TXC_DECISION_SCHEMA = "founder-p3-txc-control-plane-recovery-direct-product-reentry/v1"
+  TXC_DECISION_ID =
+    "AUTHORIZE_P3_TXC_CONTROL_PLANE_RECOVERY_AND_DIRECT_PRODUCT_ROUTE_REENTRY_AFTER_POSTINSTALL_PROTOCOL_ERROR_V1"
+  TXC_OPERATION_TYPE =
+    "P3_TXC_CONTROL_PLANE_RECOVERY_AND_DIRECT_PRODUCT_ROUTE_REENTRY_AFTER_POSTINSTALL_PROTOCOL_ERROR"
+  TXC_DECISION = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-txc-control-recovery-20260822/decision/FOUNDER_P3_TXCR_CONTROL_RECOVERY_ACCEPTED_STRUCTURED_DECISION_V1.json",
+    "byte_length" => 22_892,
+    "sha256" => "d804694d69119c67ce0421c5dadac894db956a032599e800cc53590615536184"
+  }.freeze
+  TXC_AUTHORIZATION_BODY = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-txc-control-recovery-20260822/decision/FOUNDER_AUTHORIZATION_BODY_V1.txt",
+    "byte_length" => 18_433,
+    "sha256" => "769ff349511f275f4bb2f1647f2bf224864658181002c24c6ab944ab21b5eee4"
+  }.freeze
+  TXC_POLICY = {
+    "path" => "docs/aios/FOUNDER_DELEGATION_POLICY.md",
+    "version" => "1.8",
+    "sha256" => "12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29"
+  }.freeze
+  TXC_CONSTITUTION = {
+    "path" => "docs/aios/STRATEGIC_CONSTITUTION.md",
+    "version" => "3.0",
+    "byte_length" => 14_949,
+    "sha256" => "12f9d9bbcf708002f9221eb6051b2da7d302197518151634ca2f7c0cc903c56c"
+  }.freeze
+  TXC_STRICT_GATE_ID =
+    "HOST_AUTHORIZED_DURABLE_TRANSACTIONAL_INVOCATION_WITH_EXTERNAL_ISOLATION_ATTESTATION"
+  TXC_STRICT_ITEMS = %w[
+    AUTHORIZATION_AND_INTENT_DURABILITY
+    CRASH_ORPHAN_RECONCILIATION_AND_RESUME
+    EXACTLY_ONE_TERMINAL_TRACE_AND_CHECKPOINT_GATE
+    PINNED_EXTERNAL_ISOLATION_ATTESTATION
+  ].freeze
+  TXC_COMPATIBILITY_ITEM = "RESUME_ISOLATION_PERMISSION_AND_TRACE_TESTS"
+  TXC_READY_ACTION = "MASTER_ACTIVATE_P3_TXCR_PRODUCT_TASK"
+  TXC_LIFECYCLE_STATES = {
+    "PRODUCT_STAGE_ELIGIBLE" => "P3_TXC_PRODUCT_STAGE_ELIGIBLE",
+    "PRODUCT_TASK_ACTIVE" => "P3_TXC_PRODUCT_TASK_ACTIVE",
+    "AUDIT_STAGE_ELIGIBLE" => "P3_TXC_AUDIT_STAGE_ELIGIBLE",
+    "AUDIT_TASK_ACTIVE" => "P3_TXC_AUDIT_TASK_ACTIVE",
+    "COMPLETE_AWAITING_FOUNDER_PHASE_GATE" =>
+      "P3_TXC_COMPLETE_AWAITING_FOUNDER_PHASE_GATE",
+    "ROUTE_TERMINAL_NON_PASS" => "P3_TXC_ROUTE_TERMINAL_NON_PASS"
+  }.freeze
+  TXC_LIFECYCLE_SPECS = {
+    "PRODUCT_STAGE_ELIGIBLE" => {
+      "route_status" => "ACTIVE",
+      "execution_status" => "READY_PRODUCT_TASK_ACTIVATION",
+      "scheduling_status" => "MASTER_PHASE_DELEGATED_CONTINUATION",
+      "stage_statuses" => ["ELIGIBLE_NOT_ACTIVATED", "LOCKED_PREDECESSOR_NOT_ACCEPTED"],
+      "current_task_ordinal" => nil,
+      "delivery_percent" => 25,
+      "strict_exit_percent" => 0,
+      "accepted_stages" => 0,
+      "next_action" => TXC_READY_ACTION,
+      "founder_decision_required" => false,
+      "next_action_owner" => "MASTER_CEO_AGENT"
+    },
+    "PRODUCT_TASK_ACTIVE" => {
+      "route_status" => "ACTIVE",
+      "execution_status" => "PRODUCT_TASK_ACTIVE",
+      "scheduling_status" => "TASK_ENVELOPE_EXECUTION",
+      "stage_statuses" => ["ACTIVE", "LOCKED_PREDECESSOR_NOT_ACCEPTED"],
+      "current_task_ordinal" => 1,
+      "delivery_percent" => 25,
+      "strict_exit_percent" => 0,
+      "accepted_stages" => 0,
+      "next_action" => "EXECUTE_P3_TXCR_PRODUCT_TASK",
+      "founder_decision_required" => false,
+      "next_action_owner" => "MASTER_CEO_AGENT"
+    },
+    "AUDIT_STAGE_ELIGIBLE" => {
+      "route_status" => "ACTIVE",
+      "execution_status" => "READY_AUDIT_TASK_ACTIVATION",
+      "scheduling_status" => "MASTER_PHASE_DELEGATED_CONTINUATION",
+      "stage_statuses" => ["ACCEPTED_INTEGRATED", "ELIGIBLE_NOT_ACTIVATED"],
+      "current_task_ordinal" => nil,
+      "delivery_percent" => 75,
+      "strict_exit_percent" => 0,
+      "accepted_stages" => 1,
+      "next_action" => "MASTER_ACTIVATE_P3_TXCR_ONE_SHOT_AUDIT_TASK",
+      "founder_decision_required" => false,
+      "next_action_owner" => "MASTER_CEO_AGENT"
+    },
+    "AUDIT_TASK_ACTIVE" => {
+      "route_status" => "ACTIVE",
+      "execution_status" => "AUDIT_TASK_ACTIVE",
+      "scheduling_status" => "ONE_SHOT_AUDIT_EXECUTION",
+      "stage_statuses" => ["ACCEPTED_INTEGRATED", "ACTIVE"],
+      "current_task_ordinal" => 2,
+      "delivery_percent" => 75,
+      "strict_exit_percent" => 0,
+      "accepted_stages" => 1,
+      "next_action" => "EXECUTE_P3_TXCR_ONE_SHOT_AUDIT",
+      "founder_decision_required" => false,
+      "next_action_owner" => "MASTER_CEO_AGENT"
+    },
+    "COMPLETE_AWAITING_FOUNDER_PHASE_GATE" => {
+      "route_status" => "COMPLETE",
+      "execution_status" => "COMPLETE_AWAITING_FOUNDER_PHASE_GATE",
+      "scheduling_status" => "ELIGIBLE_AWAITING_FOUNDER_P3_PHASE_GATE_DECISION",
+      "stage_statuses" => ["ACCEPTED_INTEGRATED", "ACCEPTED_INTEGRATED"],
+      "current_task_ordinal" => nil,
+      "delivery_percent" => 100,
+      "strict_exit_percent" => 100,
+      "accepted_stages" => 2,
+      "next_action" => "FOUNDER_P3_PHASE_GATE_DECISION",
+      "founder_decision_required" => true,
+      "next_action_owner" => "HUMAN_FOUNDER"
+    },
+    "ROUTE_TERMINAL_NON_PASS" => {
+      "route_status" => "HOLD_INCOMPLETE_ROUTE_TERMINAL_NON_PASS",
+      "execution_status" => "ROUTE_TERMINAL_NON_PASS",
+      "scheduling_status" => "FOUNDER_STRATEGIC_DECISION_REQUIRED",
+      "current_task_ordinal" => nil,
+      "delivery_percent" => nil,
+      "strict_exit_percent" => nil,
+      "accepted_stages" => nil,
+      "next_action" => "FOUNDER_DECIDE_P3_AFTER_TXC_ROUTE_TERMINAL_NON_PASS",
+      "founder_decision_required" => true,
+      "next_action_owner" => "HUMAN_FOUNDER"
+    }
+  }.freeze
+  TXC_CURRENT_FALSE_EFFECTS = {
+    "docker" => false,
+    "network" => false,
+    "dns" => false,
+    "af_inet" => false,
+    "af_inet6" => false,
+    "provider" => false,
+    "secret" => false,
+    "credential" => false,
+    "remote" => false,
+    "production" => false,
+    "public" => false,
+    "dependency_download" => false,
+    "existing_database_mutation" => false,
+    "write_outside_exact_authorized_roots" => false,
+    "irreversible_asset_deletion" => false
+  }.freeze
+  TXC_TASK_FALSE_EFFECTS = {
+    "docker" => false,
+    "network" => false,
+    "provider" => false,
+    "secret" => false,
+    "remote" => false,
+    "production" => false,
+    "public" => false,
+    "existing_database_mutation" => false,
+    "write_outside_exact_authorized_roots" => false,
+    "irreversible_asset_deletion" => false
+  }.freeze
+  TXC_ENVELOPE_FALSE_EFFECTS = {
+    "docker" => false,
+    "network" => false,
+    "provider" => false,
+    "secret" => false,
+    "remote" => false,
+    "production" => false,
+    "public" => false,
+    "p4_entry" => false
+  }.freeze
+  TXC_IMMUTABLE_AUTHORITY_PATHS = %w[
+    AGENTS.md
+    docs/aios/STRATEGIC_CONSTITUTION.md
+    docs/aios/MASTER_EXECUTION_PROTOCOL.md
+    docs/aios/FOUNDER_DELEGATION_POLICY.md
+    docs/aios/EVALUATION_PROTOCOL.md
+  ].freeze
+  TXC_REVIEWERS = %w[CTO_AGENT SECURITY_AGENT QUALITY_EVALUATION_AGENT].freeze
+  TXC_DEFERRED_CAPABILITIES = %w[P4_ENTRY PROVIDER SECRET REMOTE PRODUCTION PUBLIC].freeze
+  TXC_STAGING_ALLOWED_VALIDATORS = %w[
+    scripts/validate-founder-action-handoff.rb
+    scripts/validate-founder-delegation-continuity.rb
+    scripts/validate-current-task-authority.rb
+    scripts/validate-p3-final-transactional-route.rb
+    scripts/test-p3-final-transactional-route.rb
+    scripts/validate-aios-governance.sh
+  ].freeze
+  TXC_STAGE0_EVIDENCE_ROOT =
+    "/Users/lijunpeng/Developer/.sourcelens-audit/p3-txc-control-recovery-20260822/stage0"
+  TXC_INSTALLED_MANIFEST_PATHS = [1, 2].map do |generation|
+    "#{TXC_STAGE0_EVIDENCE_ROOT}/P3_TXCR_ATOMIC_STAGING_MANIFEST_GENERATION_#{generation}_V1.json"
+  end.freeze
+  TXCR_STAGING_ROOT_RECORD = {
+    "path" => "#{TXC_STAGE0_EVIDENCE_ROOT}/P3_TXCR_STAGE0_STAGING_ROOT_RECORD_V1.json",
+    "byte_length" => 683,
+    "sha256" => "b38834184394072f5c68e3bac0008653f6ad16130eb94be358bb945333b48acb"
+  }.freeze
+  TXCR_RECOVERY_BASELINE = {
+    "repository" => "/Users/lijunpeng/Developer/SourceLens-AIOS",
+    "branch" => "main",
+    "commit" => "e23f48a3a4e68453d81c41dc774940a52378534f",
+    "tree" => "de999ff5fa6e16b78573a6ff805da2af18b7f748",
+    "parent_install_commit" => "1804f04c34b3ef264ab994926405519a05f85f02",
+    "install_tree" => "592691e3703640d9535d3a891a6a53ab9c1442b2",
+    "install_parent_commit" => "84a5bc600aafcb396c81598959d54cc5a32a0bcd",
+    "install_parent_tree" => "de999ff5fa6e16b78573a6ff805da2af18b7f748",
+    "truth" => {
+      "path" => "docs/aios/truth/project_state.yaml",
+      "byte_length" => 1_928_850,
+      "sha256" => "0ffe94417d134fca97197232f27f856e6f0949b7bf8d09626b67dc185cb59e58"
+    },
+    "constitution" => {
+      "path" => "docs/aios/STRATEGIC_CONSTITUTION.md",
+      "byte_length" => 11_788,
+      "sha256" => "6ca11702c8b364f6e241b16912185868ca160eeaf1d158786f20d5682bb37cd1"
+    }
+  }.freeze
+  TXCR_HISTORICAL_TERMINAL_IDENTITIES = {
+    "hpe_terminal_receipt" => {
+      "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-host-process-enforced-minimal-slice-20260821/task-foundation/terminal/P3_HPE_F1_TERMINAL_TASK_GATE_NON_PASS_RECEIPT_V1.json",
+      "byte_length" => 4_982,
+      "sha256" => "faf7973733cae1b544128de6e650daa19274e13046ed64c8df752a3dea622dea"
+    },
+    "oci_stage0_terminal_receipt" => {
+      "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-pinned-oci-transactional-worker-20260821/P3_OCI_STAGE0_TERMINAL_NON_PASS_RECEIPT_V1.json",
+      "byte_length" => 5_313,
+      "sha256" => "77816a22044f2d2e8a7fc8c86d7195d8a38c281218ec5013f57ab663a91e9837"
+    },
+    "oci_recovery_terminal_receipt" => {
+      "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-pinned-oci-transactional-worker-20260821/P3_OCI_STAGE0_RECOVERY_TERMINAL_NON_PASS_RECEIPT_V1.json",
+      "byte_length" => 5_086,
+      "sha256" => "0b793db8584032e0432102f94ef97b54ae8f22cf4b9f541781123cfe52ea30e1"
+    },
+    "prior_txc_stage0_terminal_receipt" => {
+      "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-transactional-coordinator-external-oci-20260822/stage0/P3_TXC_ATOMIC_STAGE0_POST_INSTALL_TERMINAL_NON_PASS_RECEIPT_V1.json",
+      "byte_length" => 5_885,
+      "sha256" => "4b3f2fed918396200ce0bab0d76f49a9604feb86ea74392aa86d554d2228ddb0"
+    }
+  }.freeze
+
   def assert(condition, message)
     raise P3FinalTransactionalRouteValidationError, message unless condition
   end
@@ -7297,8 +7532,1284 @@ module P3FinalTransactionalRouteValidation
     raise P3FinalTransactionalRouteValidationError, "P3 HPE route invalid: #{e.message}"
   end
 
+  def validate_txc_identity!(identity, expected, label, create_once: true)
+    record = exact_keys(identity, %w[path byte_length sha256], label)
+    assert(record == expected, "#{label} identity drift")
+    read_identity!(record, label, create_once: create_once)
+  end
+
+  def parse_txc_json!(bytes, label)
+    value = JSON.parse(bytes)
+    assert(value.is_a?(Hash), "#{label} must be a JSON mapping")
+    value
+  rescue JSON::ParserError => e
+    raise P3FinalTransactionalRouteValidationError, "#{label} JSON invalid: #{e.message}"
+  end
+
+  def validate_txc_decision!
+    decision = parse_txc_json!(
+      validate_txc_identity!(TXC_DECISION, TXC_DECISION, "P3 TXC Founder decision"),
+      "P3 TXC Founder decision"
+    )
+    exact_keys(decision, %w[
+      schema_version record_type decision_id operation_type approved_at_utc authority
+      source_reply canonical_start reserved_triggers strategic_change control_plane_recovery
+      route external_effects anti_loop lifecycle
+    ], "P3 TXC Founder decision")
+    assert(decision["schema_version"] == TXC_DECISION_SCHEMA &&
+           decision["record_type"] ==
+             "FOUNDER_P3_TXC_CONTROL_PLANE_RECOVERY_AND_DIRECT_PRODUCT_ROUTE_REENTRY" &&
+           decision["decision_id"] == TXC_DECISION_ID &&
+           decision["operation_type"] == TXC_OPERATION_TYPE &&
+           decision["authority"] == "HUMAN_FOUNDER",
+           "P3 TXC Founder decision closed identity drift")
+
+    source = exact_keys(decision["source_reply"], %w[
+      source first_line_token authorization_token_count attachment installed_body canonicalization
+      attachment_and_installed_body_byte_equal
+    ], "P3 TXC source reply")
+    assert(source["source"] == "CURRENT_DIRECT_USER_MESSAGE_ATTACHMENT" &&
+           source["first_line_token"] == TXC_DECISION_ID &&
+           source["authorization_token_count"] == 1 &&
+           source["canonicalization"] == "EXACT_UTF8_LF_BYTES_NO_TRANSFORMATION" &&
+           source["attachment_and_installed_body_byte_equal"] == true,
+           "P3 TXC source reply mode drift")
+    installed = exact_keys(source["installed_body"], %w[path byte_length sha256],
+                           "P3 TXC installed body")
+    assert(installed == TXC_AUTHORIZATION_BODY, "P3 TXC installed body identity drift")
+    body = read_identity!(installed, "P3 TXC installed body", create_once: true)
+    attachment = exact_keys(source["attachment"], %w[path byte_length sha256],
+                            "P3 TXC source attachment")
+    attachment_bytes = read_identity!(attachment, "P3 TXC source attachment")
+    assert(attachment.slice("byte_length", "sha256") ==
+             installed.slice("byte_length", "sha256") && attachment_bytes == body,
+           "P3 TXC source and installed body bytes differ")
+    body_text = body.dup.force_encoding("UTF-8")
+    assert(body_text.valid_encoding? && body_text.lines.first&.chomp == TXC_DECISION_ID,
+           "P3 TXC Founder body token or encoding drift")
+
+    start = exact_keys(decision["canonical_start"], %w[
+      repository branch commit tree truth constitution current_phase current_task
+      p3_delivery_percent p3_strict_exit_percent p4_status
+      project_actual_completion long_term_goal_status exact_recovery_chain terminal_receipt
+    ], "P3 TXC canonical start")
+    assert(start.slice("repository", "branch", "commit", "tree") == {
+      "repository" => TXCR_RECOVERY_BASELINE.fetch("repository"),
+      "branch" => TXCR_RECOVERY_BASELINE.fetch("branch"),
+      "commit" => TXCR_RECOVERY_BASELINE.fetch("commit"),
+      "tree" => TXCR_RECOVERY_BASELINE.fetch("tree")
+    } && start["current_phase"] == "P3" && start["current_task"] == "NONE" &&
+      start["p3_delivery_percent"] == 25 && start["p3_strict_exit_percent"] == 0 &&
+      start["p4_status"] == "HOLD" && start["project_actual_completion"] == false &&
+      start["long_term_goal_status"] == "ACTIVE",
+      "P3 TXC canonical baseline drift")
+    assert(start["truth"] == {
+      "path" => "docs/aios/truth/project_state.yaml",
+      "byte_length" => 1_928_850,
+      "sha256" => "0ffe94417d134fca97197232f27f856e6f0949b7bf8d09626b67dc185cb59e58"
+    } && start["constitution"] == {
+      "path" => "docs/aios/STRATEGIC_CONSTITUTION.md", "version" => "2.8",
+      "byte_length" => 11_788,
+      "sha256" => "6ca11702c8b364f6e241b16912185868ca160eeaf1d158786f20d5682bb37cd1"
+    }, "P3 TXC baseline artifact identity drift")
+    assert(start["exact_recovery_chain"] == {
+      "current_revert_commit" => TXCR_RECOVERY_BASELINE.fetch("commit"),
+      "current_revert_tree" => TXCR_RECOVERY_BASELINE.fetch("tree"),
+      "current_revert_parent_install_commit" =>
+        TXCR_RECOVERY_BASELINE.fetch("parent_install_commit"),
+      "install_commit" => TXCR_RECOVERY_BASELINE.fetch("parent_install_commit"),
+      "install_tree" => TXCR_RECOVERY_BASELINE.fetch("install_tree"),
+      "install_parent_baseline_commit" =>
+        TXCR_RECOVERY_BASELINE.fetch("install_parent_commit"),
+      "baseline_tree" => TXCR_RECOVERY_BASELINE.fetch("install_parent_tree"),
+      "predicate_scope" => "THIS_EXACT_INSTALL_REVERT_CHAIN_ONLY",
+      "arbitrary_revert_or_descendant_allowed" => false
+    }, "P3 TXC exact recovery chain drift")
+    read_identity!(start.fetch("terminal_receipt"), "P3 TXC prior Stage0 terminal receipt",
+                   create_once: true)
+
+    assert(decision["reserved_triggers"] == %w[
+      MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
+      MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+      NETWORK_PROVIDER_SECRET_REMOTE_PRODUCTION_OR_PUBLIC_EFFECT
+    ], "P3 TXC reserved trigger set drift")
+    strategic = mapping(decision["strategic_change"], "P3 TXC strategic change")
+    assert(strategic["constitution_target_version"] == "3.0" &&
+           strategic["mission_changed"] == false && strategic["primary_icp_changed"] == false &&
+           strategic["year_one_outcome_changed"] == false &&
+           strategic["p0_through_p2_accepted_facts_changed"] == false &&
+           strategic["p3_001_accepted_semantics_changed"] == false &&
+           strategic["p4_through_p12_order_changed"] == false &&
+           strategic["p3_objective_id"] == "HOST_AUTHORIZED_TRANSACTIONAL_INVOCATION_COORDINATOR" &&
+           strategic["p3_strict_exit_gate"] == TXC_STRICT_GATE_ID &&
+           strategic["p3_strict_exit_required_items"] == TXC_STRICT_ITEMS,
+           "P3 TXC structured strategic change drift")
+
+    route = mapping(decision["route"], "P3 TXC decision Route")
+    assert(route["schema_version"] == TXC_ROUTE_SCHEMA && route["route_id"] == TXC_ROUTE_ID &&
+           route["objective_id"] == "HOST_AUTHORIZED_TRANSACTIONAL_INVOCATION_COORDINATOR" &&
+           route["workflow_id"] == "SHA256_READ_ONLY_CUSTODY_V1" &&
+           route["cumulative_ceiling"] == {
+             "engineering_tasks" => 12, "engineering_hours" => 336,
+             "calendar_days" => 84, "active_tasks" => 1, "task_branches" => 1,
+             "task_worktrees" => 1, "active_candidates" => 1
+           } && route["consumed_preserved"] == {
+             "engineering_tasks" => 10, "engineering_hours" => 272, "calendar_days" => 68
+           } && route["remaining"] == {
+             "engineering_tasks" => 2, "engineering_hours" => 64, "calendar_days" => 16
+           }, "P3 TXC decision Route accounting drift")
+    stages = array(route["stages"], "P3 TXC decision stages")
+    assert(stages.length == 2 && stages.map { |stage| stage["ordinal"] } == [1, 2] &&
+           stages.map { |stage| stage["task_id"] } == %w[
+             AIOS-P3-TXCR-P1_TRANSACTIONAL_INVOCATION_COORDINATOR_PRODUCT
+             AIOS-P3-TXCR-A1_ONE_SHOT_STRICT_EXIT_AUDIT
+           ], "P3 TXC stage order drift")
+    assert(route.dig("progression", "stage0_pass") == {
+      "delivery_percent" => 25, "strict_exit_percent" => 0,
+      "effect" => "PRODUCT_STAGE_ELIGIBLE"
+    } && route.dig("progression", "stage1_pass") == {
+      "delivery_percent" => 75, "strict_exit_percent" => 0,
+      "effect" => "AUDIT_STAGE_ELIGIBLE"
+    } && route.dig("progression", "stage2_pass") == {
+      "delivery_percent" => 100, "strict_exit_percent" => 100,
+      "effect" => "ELIGIBLE_AWAITING_FOUNDER_P3_PHASE_GATE_DECISION"
+    }, "P3 TXC progression drift")
+
+    staging = mapping(decision["control_plane_recovery"], "P3 TXC control recovery")
+    assert(staging["decision_root"] ==
+             "/Users/lijunpeng/Developer/.sourcelens-audit/p3-txc-control-recovery-20260822/decision" &&
+           staging["stage0_evidence_root"] == TXC_STAGE0_EVIDENCE_ROOT &&
+           staging["staging_root_command"] ==
+             "mktemp -d /private/tmp/sourcelens-p3-txcr-stage.XXXXXX" &&
+           staging["clone_mode"] == "LOCAL_NO_NETWORK_NO_HARDLINK_NO_REMOTE" &&
+           staging["baseline_commit"] == TXCR_RECOVERY_BASELINE.fetch("commit") &&
+           staging["baseline_tree"] == TXCR_RECOVERY_BASELINE.fetch("tree") &&
+           staging["candidate_generations_max"] == 2 &&
+           staging["same_staging_repairs_max"] == 1 &&
+           staging["generation_3_allowed"] == false &&
+           staging["ephemeral_candidate_may_be_canonical_ancestor"] == false &&
+           staging["rejected_product_engineering_lineage_read_or_reuse_allowed"] == false &&
+           staging.dig("closed_dual_modes", "manifest_environment_variable") ==
+             "SOURCELENS_ATOMIC_STAGING_MANIFEST" &&
+           staging.dig("closed_dual_modes", "with_exact_manifest") ==
+             "ATOMIC_STAGING_FIXTURE_MODE" &&
+           staging.dig("closed_dual_modes", "without_manifest_on_clean_installed_canonical") ==
+             "CANONICAL_INSTALLED_REPLAY_MODE" &&
+           staging["natural_language_or_full_founder_body_controls_lifecycle"] == false &&
+           staging["canonical_post_install_repair_allowed"] == false &&
+           staging["canonical_post_install_rerun_to_pass_allowed"] == false &&
+           staging["canonical_exact_revert_on_non_pass_count_max"] == 1,
+           "P3 TXC atomic staging boundary drift")
+    assert(staging["repository_allowlist"] == %w[
+      docs/aios/STRATEGIC_CONSTITUTION.md
+      docs/aios/truth/project_state.yaml
+      scripts/validate-founder-action-handoff.rb
+      scripts/validate-founder-delegation-continuity.rb
+      scripts/validate-current-task-authority.rb
+      scripts/validate-p3-final-transactional-route.rb
+      scripts/test-p3-final-transactional-route.rb
+    ], "P3 TXC atomic repository allowlist drift")
+
+    product = mapping(stages[0]["product_scope"], "P3 TXC Product scope")
+    audit = mapping(stages[1]["audit_scope"], "P3 TXC Audit scope")
+    scope = {"product" => product, "audit" => audit}
+    assert(product["task_id"] == stages[0]["task_id"] &&
+           product["kind"] == "PRODUCT_IMPLEMENTATION" &&
+           product["compile_time_action_algebra"] == ["SHA256_READ_ONLY_CUSTODY"] &&
+           product.dig("stream_capture", "stdout_bytes_max") == 1_048_576 &&
+           product.dig("stream_capture", "stderr_bytes_max") == 1_048_576 &&
+           product.dig("container_profile", "pull_policy") == "NEVER" &&
+           product.dig("container_profile", "network") == "NONE" &&
+           product.dig("container_profile", "root_filesystem_read_only") == true &&
+           product.dig("container_profile", "docker_socket_mount_allowed") == false &&
+           product["fresh_review_roles"] == %w[
+             CTO_AGENT SECURITY_AGENT QUALITY_EVALUATION_AGENT
+           ], "P3 TXC Product structured scope drift")
+    assert(audit["task_id"] == stages[1]["task_id"] && audit["kind"] == "EVALUATION_ONLY" &&
+           audit["formal_dispatches"] == 1 && audit["product_changes"] == 0 &&
+           audit["same_task_repairs"] == 0 && audit["rerun_to_pass_allowed"] == false &&
+           audit["required_gate_items"] == TXC_STRICT_ITEMS &&
+           audit["fresh_review_roles"] == %w[
+             CTO_AGENT SECURITY_AGENT QUALITY_EVALUATION_AGENT
+           ], "P3 TXC Audit structured scope drift")
+    assert(decision.dig("external_effects", "provider") == false &&
+           decision.dig("external_effects", "secret") == false &&
+           decision.dig("external_effects", "credential") == false &&
+           decision.dig("external_effects", "remote") == false &&
+           decision.dig("external_effects", "production") == false &&
+           decision.dig("external_effects", "public") == false &&
+           decision.dig("external_effects", "p4_entry") == false &&
+           decision.dig("external_effects", "existing_database_mutation") == false &&
+           decision.dig("external_effects", "write_outside_exact_authorized_roots") == false &&
+           decision.dig("external_effects", "irreversible_asset_deletion") == false,
+           "P3 TXC prohibited capability became enabled")
+    [decision, scope]
+  rescue ArgumentError, KeyError, TypeError => e
+    raise P3FinalTransactionalRouteValidationError, "P3 TXC decision invalid: #{e.message}"
+  end
+
+  def txc_expected_stages(decision, scope, statuses)
+    decision.fetch("route").fetch("stages").each_with_index.map do |stage, index|
+      {
+        "ordinal" => stage.fetch("ordinal"),
+        "stage_id" => stage.fetch("stage_id"),
+        "task_id" => stage.fetch("task_id"),
+        "kind" => index.zero? ? scope.dig("product", "kind") : scope.dig("audit", "kind"),
+        "status" => statuses.fetch(index),
+        "budget" => stage.fetch("budget"),
+        "resources" => stage.fetch("resources")
+      }
+    end
+  end
+
+  def txc_manifest_identity_bytes!(identity, label)
+    path = Pathname.new(identity.fetch("path"))
+    assert(path.absolute? && path.cleanpath.to_s == path.to_s &&
+           path.to_s.start_with?(TXC_STAGE0_EVIDENCE_ROOT + File::SEPARATOR),
+           "#{label} path escaped Stage0 Evidence root")
+    read_identity!(identity, label, create_once: true)
+  end
+
+  def txc_git_bytes!(root, *args)
+    stdout, stderr, status = Open3.capture3("git", *args, chdir: root.to_s)
+    assert(status.success?, "git #{args.join(' ')} failed: #{stderr.strip}")
+    stdout.b
+  end
+
+  def validate_txc_recovery_baseline!(root:)
+    root = Pathname.new(root).realpath
+    expected = TXCR_RECOVERY_BASELINE
+    assert(root.to_s == expected.fetch("repository"),
+           "P3 TXCR recovery baseline must be the exact canonical repository")
+    assert(git!(root, "symbolic-ref", "--quiet", "--short", "HEAD") ==
+             expected.fetch("branch") &&
+           git!(root, "rev-parse", "HEAD") == expected.fetch("commit") &&
+           git!(root, "rev-parse", "HEAD^{tree}") == expected.fetch("tree") &&
+           git!(root, "rev-parse", "HEAD^") == expected.fetch("parent_install_commit") &&
+           git!(root, "rev-parse", "HEAD^^{tree}") == expected.fetch("install_tree") &&
+           git!(root, "rev-parse", "HEAD^^") == expected.fetch("install_parent_commit") &&
+           git!(root, "rev-parse", "HEAD^^^{tree}") == expected.fetch("install_parent_tree") &&
+           git!(root, "status", "--porcelain=v1", "--untracked-files=all").empty?,
+           "P3 TXCR exact install/revert recovery chain drift")
+    branches = git!(root, "for-each-ref", "--format=%(refname:short)", "refs/heads")
+      .lines.map(&:strip).reject(&:empty?)
+    worktrees = git!(root, "worktree", "list", "--porcelain").lines
+      .grep(/^worktree /).map { |line| Pathname.new(line.delete_prefix("worktree ").strip).realpath.to_s }
+    assert(branches == ["main"] && worktrees == [root.to_s],
+           "P3 TXCR recovery baseline topology drift")
+    %w[truth constitution].each do |key|
+      identity = expected.fetch(key)
+      bytes = root.join(identity.fetch("path")).binread
+      assert(bytes.bytesize == identity.fetch("byte_length") &&
+             Digest::SHA256.hexdigest(bytes) == identity.fetch("sha256"),
+             "P3 TXCR recovery baseline #{key} identity drift")
+    end
+    baseline_truth = YAML.safe_load(
+      root.join(expected.dig("truth", "path")).binread,
+      permitted_classes: [], permitted_symbols: [], aliases: false
+    )
+    assert(baseline_truth.dig("current_phase_route", "schema_version") == HPE_ROUTE_SCHEMA &&
+           baseline_truth.dig("current_phase_route", "lifecycle_stage") ==
+             "ROUTE_TERMINAL_NON_PASS" &&
+           baseline_truth.dig("active_work", "current_task") == "NONE",
+           "P3 TXCR recovery baseline Truth is not the exact terminal HPE state")
+    "P3_TXCR_EXACT_RECOVERY_BASELINE_RECOGNIZED"
+  end
+
+  def txc_validate_atomic_manifest_values!(manifest, root:, decision:, canonical_mode: :staging)
+    exact_keys(manifest, %w[
+      schema_version mode generation created_at_utc recorded_staging_root
+      staging_root_record staging_repository canonical_repository baseline candidate frozen_patch
+      closed_inventory allowed_validators external_effects
+    ], "P3 TXC atomic staging manifest")
+    assert(manifest["schema_version"] == "p3-txcr-atomic-staging-manifest/v1" &&
+           manifest["mode"] == "ATOMIC_STAGING_FIXTURE_MODE" &&
+           [1, 2].include?(manifest["generation"]) &&
+           %i[staging installed].include?(canonical_mode),
+           "P3 TXC staging manifest schema/generation drift")
+    staging = decision.fetch("control_plane_recovery")
+    canonical_start = decision.fetch("canonical_start")
+    record_identity = exact_keys(manifest["staging_root_record"], %w[path byte_length sha256],
+                                 "P3 TXCR staging-root record")
+    assert(record_identity == TXCR_STAGING_ROOT_RECORD,
+           "P3 TXCR staging-root record identity drift")
+    record = parse_txc_json!(
+      read_identity!(record_identity, "P3 TXCR staging-root record", create_once: true),
+      "P3 TXCR staging-root record"
+    )
+    exact_keys(record, %w[
+      schema_version record_type created_at_utc creation_command staging_root realpath file_type
+      mode_octal nlink_at_creation uid gid repository_relative_path clone_mode
+      canonical_authority task_resource candidate product_progress_credit
+    ], "P3 TXCR staging-root record")
+    assert(record["schema_version"] == "p3-txcr-stage0-staging-root-record/v1" &&
+           record["record_type"] == "P3_TXCR_STAGE0_STAGING_ROOT_RECORD" &&
+           record["creation_command"] == staging.fetch("staging_root_command") &&
+           record["staging_root"] == record["realpath"] &&
+           record["repository_relative_path"] == staging.fetch("staging_repository_relative_path") &&
+           record["clone_mode"] == staging.fetch("clone_mode") &&
+           record["canonical_authority"] == false && record["task_resource"] == false &&
+           record["candidate"] == false && record["product_progress_credit"] == 0,
+           "P3 TXCR staging-root record semantics drift")
+    expected_staging_repository = File.join(record.fetch("realpath"),
+                                            record.fetch("repository_relative_path"))
+    assert(manifest["recorded_staging_root"] == record.fetch("realpath") &&
+           manifest["staging_repository"] == expected_staging_repository &&
+           manifest["canonical_repository"] == canonical_start.fetch("repository"),
+           "P3 TXC staging/canonical root binding drift")
+    assert(root.realpath.to_s == Pathname.new(manifest["staging_repository"]).realpath.to_s &&
+           root.realpath.to_s.start_with?(Pathname.new(manifest["recorded_staging_root"]).realpath.to_s +
+                                           File::SEPARATOR),
+           "P3 TXC validator root is outside the recorded staging repository")
+    baseline = exact_keys(manifest["baseline"], %w[commit tree], "P3 TXC staging baseline")
+    candidate = exact_keys(manifest["candidate"], %w[
+      commit tree parent_commit parent_tree branch
+    ], "P3 TXC staging candidate")
+    assert(baseline == canonical_start.slice("commit", "tree") &&
+           candidate["parent_commit"] == baseline["commit"] &&
+           candidate["parent_tree"] == baseline["tree"] &&
+           candidate["branch"] == "main",
+           "P3 TXC staging candidate parent or branch drift")
+    assert(git!(root, "rev-parse", "HEAD") == candidate["commit"] &&
+           git!(root, "rev-parse", "HEAD^{tree}") == candidate["tree"] &&
+           git!(root, "rev-parse", "HEAD^") == candidate["parent_commit"] &&
+           git!(root, "rev-parse", "HEAD^^{tree}") == candidate["parent_tree"] &&
+           git!(root, "symbolic-ref", "--quiet", "--short", "HEAD") == candidate["branch"] &&
+           git!(root, "status", "--porcelain=v1", "--untracked-files=all").empty?,
+           "P3 TXC staging candidate Git identity is not clean and exact")
+    assert(git!(root, "remote").empty?, "P3 TXC staging clone retained a remote")
+
+    canonical_root = Pathname.new(manifest["canonical_repository"]).realpath
+    assert(root.realpath != canonical_root,
+           "ATOMIC_STAGING_FIXTURE_MODE cannot run from canonical root")
+    canonical_head = git!(canonical_root, "rev-parse", "HEAD")
+    canonical_tree = git!(canonical_root, "rev-parse", "HEAD^{tree}")
+    canonical_clean = git!(canonical_root, "status", "--porcelain=v1", "--untracked-files=all").empty?
+    canonical_main = git!(canonical_root, "symbolic-ref", "--quiet", "--short", "HEAD") == "main"
+    if canonical_mode == :staging
+      assert(canonical_head == baseline["commit"] && canonical_tree == baseline["tree"] &&
+             canonical_main && canonical_clean,
+             "P3 TXC canonical baseline drifted during staging")
+    else
+      assert(git!(canonical_root, "rev-parse", "HEAD^") == baseline["commit"] &&
+             git!(canonical_root, "rev-parse", "HEAD^^{tree}") == baseline["tree"] &&
+             canonical_tree == candidate["tree"] && canonical_main && canonical_clean,
+             "P3 TXC canonical installed commit is not one exact child with the frozen tree")
+    end
+    canonical_truth = canonical_root.join(canonical_start.dig("truth", "path"))
+    canonical_truth_bytes = canonical_truth.binread
+    if canonical_mode == :staging
+      assert(canonical_truth_bytes.bytesize == canonical_start.dig("truth", "byte_length") &&
+             Digest::SHA256.hexdigest(canonical_truth_bytes) ==
+               canonical_start.dig("truth", "sha256"),
+             "P3 TXC canonical Truth drifted during staging")
+    else
+      installed_truth = YAML.safe_load(
+        canonical_truth_bytes, permitted_classes: [], permitted_symbols: [], aliases: false
+      )
+      assert(installed_truth.dig("current_phase_route", "schema_version") == TXC_ROUTE_SCHEMA &&
+             installed_truth.dig("current_phase_route", "lifecycle_stage") ==
+               "PRODUCT_STAGE_ELIGIBLE",
+             "P3 TXC canonical installed Truth is not the exact reentry lifecycle")
+    end
+    canonical_worktrees = git!(canonical_root, "worktree", "list", "--porcelain").lines
+      .grep(/^worktree /).map { |line| Pathname.new(line.delete_prefix("worktree ").strip).realpath.to_s }
+    assert(canonical_worktrees == [canonical_root.to_s],
+           "P3 TXC canonical topology gained an active worktree during staging")
+
+    expected_validators = TXC_STAGING_ALLOWED_VALIDATORS
+    assert(manifest["allowed_validators"] == expected_validators,
+           "P3 TXC staging allowed-validator set drift")
+    effects = exact_keys(manifest["external_effects"], %w[
+      network docker product_source_write task_creation remote production public
+    ], "P3 TXC staging effects")
+    assert(effects.values.all? { |value| value == false },
+           "P3 TXC staging manifest claims an external or engineering effect")
+
+    changed_paths = git!(root, "diff", "--name-only", baseline["commit"], candidate["commit"])
+      .lines.map(&:strip).reject(&:empty?)
+    allowed_paths = staging.fetch("repository_allowlist")
+    assert(!changed_paths.empty? && (changed_paths - allowed_paths).empty? &&
+           changed_paths.sort == changed_paths.uniq.sort,
+           "P3 TXC staging candidate escaped the repository allowlist")
+    patch_identity = exact_keys(manifest["frozen_patch"], %w[path byte_length sha256],
+                                "P3 TXC frozen patch")
+    patch_bytes = txc_manifest_identity_bytes!(patch_identity, "P3 TXC frozen patch")
+    actual_patch = txc_git_bytes!(root, "diff", "--binary",
+                                 baseline["commit"], candidate["commit"])
+    assert(patch_bytes == actual_patch, "P3 TXC frozen patch bytes differ from candidate diff")
+
+    inventory_identity = exact_keys(manifest["closed_inventory"], %w[path byte_length sha256],
+                                    "P3 TXC closed inventory")
+    inventory = parse_txc_json!(
+      txc_manifest_identity_bytes!(inventory_identity, "P3 TXC closed inventory"),
+      "P3 TXC closed inventory"
+    )
+    exact_keys(inventory, %w[schema_version baseline candidate files],
+               "P3 TXC closed inventory")
+    assert(inventory["schema_version"] == "p3-txcr-closed-inventory/v1" &&
+           inventory["baseline"] == baseline &&
+           inventory["candidate"] == candidate.slice("commit", "tree") &&
+           array(inventory["files"], "P3 TXC inventory files").map { |entry| entry["path"] } ==
+             changed_paths,
+           "P3 TXC closed inventory binding drift")
+    inventory["files"].each do |entry|
+      exact_keys(entry, %w[path before after], "P3 TXC inventory entry")
+      path = entry.fetch("path")
+      before = txc_git_bytes!(root, "show", "#{baseline.fetch('commit')}:#{path}")
+      after = root.join(path).binread
+      assert(entry["before"] == {
+        "byte_length" => before.bytesize, "sha256" => Digest::SHA256.hexdigest(before)
+      } && entry["after"] == {
+        "byte_length" => after.bytesize, "sha256" => Digest::SHA256.hexdigest(after)
+      }, "P3 TXC inventory byte identity drift for #{path}")
+    end
+    {
+      "manifest" => manifest,
+      "baseline" => baseline,
+      "candidate" => candidate,
+      "changed_paths" => changed_paths,
+      "canonical_root" => canonical_root.to_s,
+      "staging_root" => root.to_s,
+      "canonical_mode" => canonical_mode.to_s
+    }
+  end
+
+  def atomic_staging_context!(root:, truth:)
+    manifest_path_string = ENV["SOURCELENS_ATOMIC_STAGING_MANIFEST"]
+    return nil if manifest_path_string.nil? || manifest_path_string.empty?
+
+    root = Pathname.new(root).realpath
+    assert(truth.dig("current_phase_route", "schema_version") == TXC_ROUTE_SCHEMA,
+           "ATOMIC_STAGING_FIXTURE_MODE is restricted to the P3 TXC Route")
+    decision, = validate_txc_decision!
+    manifest_path = Pathname.new(manifest_path_string)
+    assert(manifest_path.absolute? && manifest_path.cleanpath.to_s == manifest_path.to_s &&
+           manifest_path.dirname.realpath.to_s == TXC_STAGE0_EVIDENCE_ROOT &&
+           manifest_path.basename.to_s.match?(
+             /\AP3_TXCR_ATOMIC_STAGING_MANIFEST_GENERATION_[12]_V1\.json\z/
+           ), "P3 TXC staging manifest path is not the recorded create-once target")
+    stat = manifest_path.lstat
+    assert(stat.file? && !manifest_path.symlink? && (stat.mode & 0o777) == 0o444 &&
+           stat.nlink == 1, "P3 TXC staging manifest is not create-once")
+    manifest = parse_txc_json!(manifest_path.binread, "P3 TXC atomic staging manifest")
+    expected_generation = manifest_path.basename.to_s[/GENERATION_([12])_V1/, 1].to_i
+    assert(manifest["generation"] == expected_generation,
+           "P3 TXC manifest filename/generation drift")
+    txc_validate_atomic_manifest_values!(
+      manifest, root: root, decision: decision, canonical_mode: :staging
+    )
+  rescue Errno::ENOENT, Errno::ELOOP => e
+    raise P3FinalTransactionalRouteValidationError,
+          "P3 TXC atomic staging manifest unavailable: #{e.message}"
+  end
+
+  def txc_installed_context!(root:, truth:)
+    root = Pathname.new(root).realpath
+    assert(ENV["SOURCELENS_ATOMIC_STAGING_MANIFEST"].to_s.empty?,
+           "P3 TXC installed replay cannot use staging fixture mode")
+    assert(truth.dig("current_phase_route", "schema_version") == TXC_ROUTE_SCHEMA,
+           "P3 TXC installed replay requires the current TXC Route")
+    decision, = validate_txc_decision!
+    canonical_root = Pathname.new(decision.dig("canonical_start", "repository")).realpath
+    baseline = decision.fetch("canonical_start").slice("commit", "tree")
+    head = git!(root, "rev-parse", "HEAD")
+    tree = git!(root, "rev-parse", "HEAD^{tree}")
+
+    candidates = TXC_INSTALLED_MANIFEST_PATHS.each_with_object([]) do |path_string, matches|
+      path = Pathname.new(path_string)
+      next unless path.exist?
+
+      stat = path.lstat
+      assert(stat.file? && !path.symlink? && (stat.mode & 0o777) == 0o444 && stat.nlink == 1,
+             "P3 TXC installed manifest is not create-once")
+      manifest = parse_txc_json!(path.binread, "P3 TXC installed manifest")
+      next unless manifest.dig("candidate", "tree") == tree
+
+      matches << [path, manifest]
+    end
+    assert(candidates.length == 1,
+           "P3 TXC installed replay did not resolve exactly one matching frozen manifest")
+    manifest_path, manifest = candidates.first
+    expected_generation = manifest_path.basename.to_s[/GENERATION_([12])_V1/, 1].to_i
+    staging_repo = Pathname.new(manifest.fetch("staging_repository")).realpath
+    actual_installed = root == canonical_root
+    preinstall_simulation = root == staging_repo
+    assert(actual_installed || preinstall_simulation,
+           "P3 TXC installed replay escaped canonical or the exact recorded simulation clone")
+    assert(git!(root, "rev-parse", "HEAD^") == baseline.fetch("commit") &&
+           git!(root, "rev-parse", "HEAD^^{tree}") == baseline.fetch("tree") &&
+           git!(root, "symbolic-ref", "--quiet", "--short", "HEAD") == "main" &&
+           git!(root, "status", "--porcelain=v1", "--untracked-files=all").empty?,
+           "P3 TXC installed replay requires one clean atomic child of the exact baseline")
+    assert(manifest["generation"] == expected_generation,
+           "P3 TXC installed manifest filename/generation drift")
+    context = txc_validate_atomic_manifest_values!(
+      manifest, root: staging_repo, decision: decision,
+      canonical_mode: actual_installed ? :installed : :staging
+    )
+    assert(context.dig("candidate", "tree") == tree &&
+           context.dig("baseline", "commit") == baseline.fetch("commit"),
+           "P3 TXC installed context candidate/baseline drift")
+    context.merge(
+      "manifest_path" => manifest_path.to_s,
+      "head" => head,
+      "tree" => tree,
+      "mode" => actual_installed ? "CANONICAL_INSTALLED_REPLAY_MODE" :
+        "CANONICAL_INSTALLED_REPLAY_PREINSTALL_SIMULATION_MODE"
+    )
+  rescue Errno::ENOENT, Errno::ELOOP => error
+    raise P3FinalTransactionalRouteValidationError,
+          "P3 TXC installed replay artifact unavailable: #{error.message}"
+  end
+
+  def validate_txc_workspace!(root, truth, active_ordinal, lifecycle)
+    return atomic_staging_context!(root: root, truth: truth) if
+      ENV["SOURCELENS_ATOMIC_STAGING_MANIFEST"]
+
+    return txc_installed_context!(root: root, truth: truth) if
+      lifecycle == "PRODUCT_STAGE_ELIGIBLE"
+
+    project = mapping(truth["project"], "P3 TXC project")
+    canonical_root = Pathname.new(project.fetch("canonical_repository")).realpath
+    assert(root.realpath == canonical_root,
+           "P3 TXC canonical validation must run from canonical repository")
+    assert(git!(root, "symbolic-ref", "--quiet", "--short", "HEAD") ==
+             project.fetch("canonical_branch") &&
+           git!(root, "status", "--porcelain=v1", "--untracked-files=all").empty?,
+           "P3 TXC canonical main must be clean")
+    records = git!(root, "worktree", "list", "--porcelain").lines
+      .grep(/^worktree /).map { |line| Pathname.new(line.delete_prefix("worktree ").strip).realpath.to_s }
+    expected = [canonical_root.to_s]
+    if active_ordinal
+      expected << Pathname.new(truth.dig("active_work", "task_worktree")).realpath.to_s
+    end
+    assert(records.sort == expected.sort,
+           "P3 TXC worktree topology is not canonical plus the one active Task")
+    nil
+  end
+
+  def validate_txc_current_gate!(truth, lifecycle, decision_identity)
+    p3 = mapping(truth.dig("strict_phase_gate_ledger", "phases", "P3"),
+                 "P3 TXC strict Gate")
+    compat = mapping(p3.dig("required_items", TXC_COMPATIBILITY_ITEM),
+                     "P3 TXC compatibility Gate item")
+    current = exact_keys(p3["current_exit_gate"], %w[
+      gate_id authority required_item_ids required_items
+      same_frozen_candidate_required compatibility_projection
+    ], "P3 TXC current Exit Gate")
+    assert(current["gate_id"] == TXC_STRICT_GATE_ID &&
+           current["authority"] == decision_identity.merge("decision_id" => TXC_DECISION_ID) &&
+           current["required_item_ids"] == TXC_STRICT_ITEMS &&
+           current["required_items"].keys == TXC_STRICT_ITEMS &&
+           current["same_frozen_candidate_required"] == true &&
+           current["compatibility_projection"] == {
+             "item_id" => TXC_COMPATIBILITY_ITEM,
+             "status" => lifecycle == "COMPLETE_AWAITING_FOUNDER_PHASE_GATE" ? "ACCEPTED" : "MISSING",
+             "acceptance_requires_all_current_items" => true
+           }, "P3 TXC current strict Gate projection drift")
+    if lifecycle == "COMPLETE_AWAITING_FOUNDER_PHASE_GATE"
+      identities = current["required_item_ids"].map do |item_id|
+        item = exact_keys(current.dig("required_items", item_id), %w[
+          status candidate_commit candidate_tree evidence
+        ], "P3 TXC strict item #{item_id}")
+        assert(item["status"] == "ACCEPTED" &&
+               item["candidate_commit"].to_s.match?(/\A[0-9a-f]{40}\z/) &&
+               item["candidate_tree"].to_s.match?(/\A[0-9a-f]{40}\z/),
+               "P3 TXC strict item #{item_id} is not accepted from a frozen candidate")
+        read_identity!(item["evidence"], "P3 TXC strict item #{item_id} Evidence",
+                       create_once: true)
+        item.slice("candidate_commit", "candidate_tree")
+      end
+      assert(identities.uniq.length == 1 && compat["status"] == "ACCEPTED" &&
+             p3["status"] == "COMPLETE" &&
+             p3.dig("founder_phase_gate", "status") ==
+               "ELIGIBLE_AWAITING_FOUNDER_DECISION",
+             "P3 TXC complete Gate did not bind one frozen candidate")
+    else
+      current["required_item_ids"].each do |item_id|
+        item = exact_keys(current.dig("required_items", item_id), %w[
+          status candidate_commit candidate_tree evidence
+        ], "P3 TXC strict item #{item_id}")
+        assert(item == {
+          "status" => "MISSING", "candidate_commit" => nil,
+          "candidate_tree" => nil, "evidence" => nil
+        }, "P3 TXC incomplete strict item #{item_id} falsely claims Evidence")
+      end
+      assert(compat["status"] == "MISSING" && p3["status"] == "INCOMPLETE" &&
+             p3.dig("founder_phase_gate", "status") ==
+               "NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS",
+             "P3 TXC incomplete Gate falsely became eligible")
+    end
+  end
+
+  def txc_budget_accounting(stage)
+    stage.fetch("budget").slice("engineering_tasks", "engineering_hours", "calendar_days")
+  end
+
+  def txc_lifecycle_accounting(decision, lifecycle, spec, statuses)
+    stages = decision.fetch("route").fetch("stages")
+    terminal_index = lifecycle == "ROUTE_TERMINAL_NON_PASS" ?
+      statuses.index("TERMINAL_NON_PASS") : nil
+    accepted_count = terminal_index || spec.fetch("accepted_stages")
+    consumed_count = terminal_index ? terminal_index + 1 : accepted_count
+    active_index = spec["current_task_ordinal"] && spec.fetch("current_task_ordinal") - 1
+    consumed = decision.dig("route", "consumed_preserved").dup
+    stages.first(consumed_count).each do |stage|
+      txc_budget_accounting(stage).each { |key, value| consumed[key] += value }
+    end
+    reserved = active_index ? txc_budget_accounting(stages.fetch(active_index)) : {}
+    remaining = %w[engineering_tasks engineering_hours calendar_days].to_h do |key|
+      [key, decision.dig("route", "cumulative_ceiling", key) - consumed.fetch(key) -
+        reserved.fetch(key, 0)]
+    end
+    assert(remaining.values.all? { |value| value >= 0 },
+           "P3 TXC lifecycle accounting exceeded the cumulative envelope")
+    delivery = if lifecycle == "ROUTE_TERMINAL_NON_PASS"
+      terminal_index.zero? ? 25 : 75
+    else
+      spec.fetch("delivery_percent")
+    end
+    strict_exit = lifecycle == "ROUTE_TERMINAL_NON_PASS" ? 0 :
+      spec.fetch("strict_exit_percent")
+    {
+      "consumed" => consumed,
+      "reserved" => reserved,
+      "remaining" => remaining,
+      "accepted_stage_count" => accepted_count,
+      "active_stage_index" => active_index,
+      "terminal_stage_index" => terminal_index,
+      "delivery_percent" => delivery,
+      "strict_exit_percent" => strict_exit
+    }
+  end
+
+  def txc_envelope_status(lifecycle)
+    return "COMPLETE_P3_TXC_STRICT_EXIT_AWAITING_FOUNDER_PHASE_GATE" if
+      lifecycle == "COMPLETE_AWAITING_FOUNDER_PHASE_GATE"
+    return "HOLD_INCOMPLETE_P3_TXC_ROUTE_TERMINAL_NON_PASS" if
+      lifecycle == "ROUTE_TERMINAL_NON_PASS"
+
+    "ACTIVE_P3_TXC_#{lifecycle}"
+  end
+
+  def txc_expected_envelope_stages(decision, statuses)
+    decision.fetch("route").fetch("stages").each_with_index.map do |stage, index|
+      {
+        "ordinal" => stage.fetch("ordinal"),
+        "task_id" => stage.fetch("task_id"),
+        "status" => statuses.fetch(index),
+        "budget" => txc_budget_accounting(stage)
+      }
+    end
+  end
+
+  def txc_expected_phase_boundary(decision, scope, lifecycle, spec, accounting)
+    stage_index = case lifecycle
+                  when "PRODUCT_STAGE_ELIGIBLE", "PRODUCT_TASK_ACTIVE" then 0
+                  when "AUDIT_STAGE_ELIGIBLE", "AUDIT_TASK_ACTIVE" then 1
+                  end
+    stage = stage_index && decision.dig("route", "stages", stage_index)
+    active = !spec["current_task_ordinal"].nil?
+    task_creation_allowed = %w[PRODUCT_STAGE_ELIGIBLE AUDIT_STAGE_ELIGIBLE].include?(lifecycle)
+    founder_scope = if lifecycle == "COMPLETE_AWAITING_FOUNDER_PHASE_GATE"
+      "PHASE_ENTRY_OR_EXIT"
+    elsif lifecycle == "ROUTE_TERMINAL_NON_PASS"
+      "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE"
+    else
+      "NONE"
+    end
+    task_scope = case lifecycle
+                 when "PRODUCT_STAGE_ELIGIBLE"
+                   "ONE_P3_TXC_PRODUCT_TASK_THEN_ONE_LOCKED_ONE_SHOT_AUDIT"
+                 when "PRODUCT_TASK_ACTIVE"
+                   "NONE_ACTIVE_P3_TXC_PRODUCT_TASK"
+                 when "AUDIT_STAGE_ELIGIBLE"
+                   "ONE_P3_TXC_ONE_SHOT_AUDIT_TASK"
+                 when "AUDIT_TASK_ACTIVE"
+                   "NONE_ACTIVE_P3_TXC_AUDIT_TASK"
+                 when "COMPLETE_AWAITING_FOUNDER_PHASE_GATE"
+                   "NONE_P3_COMPLETE_AWAITING_FOUNDER_PHASE_GATE"
+                 else
+                   "NONE_ROUTE_TERMINAL_EXACT_AUTHORIZATION_EXHAUSTED"
+                 end
+    product_resources = decision.dig("route", "stages", 0, "resources")
+    audit_resources = decision.dig("route", "stages", 1, "resources")
+    worker_roots = if stage_index == 0
+      [product_resources.fetch("worktree"), product_resources.fetch("evidence_root")]
+    elsif stage_index == 1
+      [audit_resources.fetch("evidence_root")]
+    else
+      []
+    end
+    quality_roots = if stage_index == 0
+      [product_resources.fetch("evidence_root"), audit_resources.fetch("evidence_root")]
+    elsif stage_index == 1
+      [audit_resources.fetch("evidence_root")]
+    else
+      []
+    end
+    allowed_kinds = if lifecycle == "PRODUCT_STAGE_ELIGIBLE"
+      ["PRODUCT_IMPLEMENTATION", "EVALUATION_ONLY_AFTER_PRODUCT_ACCEPTANCE"]
+    elsif lifecycle == "AUDIT_STAGE_ELIGIBLE"
+      ["EVALUATION_ONLY"]
+    else
+      []
+    end
+    capabilities = if stage_index == 0
+      %w[
+        HOST_AUTHORIZED_TRANSACTIONAL_INVOCATION_COORDINATOR
+        SHA256_READ_ONLY_CUSTODY
+        PINNED_EXTERNAL_OCI_ATTESTATION
+      ]
+    elsif stage_index == 1
+      ["PINNED_EXTERNAL_OCI_ATTESTATION"]
+    else
+      []
+    end
+    {
+      "phase" => "P3",
+      "phase_execution_status" => txc_envelope_status(lifecycle),
+      "task_creation_allowed" => task_creation_allowed,
+      "task_creation_scope" => task_scope,
+      "task_creation_lock_after_activation" => true,
+      "p3_entry_authorized" => true,
+      "allowed_task_kinds" => allowed_kinds,
+      "allowed_capabilities" => capabilities,
+      "role_write_roots" => {
+        "worker" => worker_roots,
+        "quality" => quality_roots,
+        "integration" => stage ? [decision.dig("canonical_start", "repository")] : [],
+        "external_evidence" => "EXTERNAL_TASK_EVIDENCE_ROOT_ONLY"
+      },
+      "immutable_authority_paths" => TXC_IMMUTABLE_AUTHORITY_PATHS,
+      "allowed_independent_reviewers" =>
+        ["CTO Agent", "Security Agent", "Quality and Evaluation Agent"],
+      "required_reviewers_by_risk" => {
+        "high" => ["CTO Agent", "Security Agent", "Quality and Evaluation Agent"],
+        "critical" => ["CTO Agent", "Security Agent", "Quality and Evaluation Agent"]
+      },
+      "founder_reserved_risk_levels" => ["critical"],
+      "deferred_capabilities" => TXC_DEFERRED_CAPABILITIES,
+      "default_external_effects" => TXC_ENVELOPE_FALSE_EFFECTS,
+      "founder_decision_required" => spec.fetch("founder_decision_required"),
+      "founder_decision_required_scope" => founder_scope,
+      "escalation_reason" => if lifecycle == "COMPLETE_AWAITING_FOUNDER_PHASE_GATE"
+        "P3_TXC_STRICT_EXIT_ACCEPTED_FOUNDER_PHASE_GATE_REQUIRED"
+      elsif lifecycle == "ROUTE_TERMINAL_NON_PASS"
+        "EXACT_P3_TXC_ROUTE_TERMINAL_CONTINUATION_REQUIRES_FOUNDER_ROUTE_CHANGE"
+      end,
+      "user_action_required" => if lifecycle == "COMPLETE_AWAITING_FOUNDER_PHASE_GATE"
+        "FOUNDER_P3_PHASE_GATE_DECISION"
+      elsif lifecycle == "ROUTE_TERMINAL_NON_PASS"
+        "FOUNDER_P3_ROUTE_CHANGE_DECISION"
+      else
+        "NONE"
+      end,
+      "phase_route_decision_required" => lifecycle == "ROUTE_TERMINAL_NON_PASS",
+      "phase_route_user_action_required" => lifecycle == "ROUTE_TERMINAL_NON_PASS" ?
+        "FOUNDER_P3_ROUTE_CHANGE_DECISION" : "NONE",
+      "next_eligible_action" => spec.fetch("next_action")
+    }
+  end
+
+  def txc_expected_project_statuses(lifecycle)
+    if lifecycle == "COMPLETE_AWAITING_FOUNDER_PHASE_GATE"
+      {
+        "phase_execution_status" => "COMPLETE_P3_TXC_STRICT_EXIT_AWAITING_FOUNDER_PHASE_GATE",
+        "current_route_execution_status" => "P3_TXC_COMPLETE_AWAITING_FOUNDER_PHASE_GATE",
+        "p3_execution_status" => "COMPLETE_STRICT_EXIT_AWAITING_FOUNDER_PHASE_GATE"
+      }
+    elsif lifecycle == "ROUTE_TERMINAL_NON_PASS"
+      {
+        "phase_execution_status" => "HOLD_INCOMPLETE_P3_TXC_ROUTE_TERMINAL_NON_PASS",
+        "current_route_execution_status" => "P3_TXC_ROUTE_TERMINAL_NON_PASS",
+        "p3_execution_status" => "HOLD_INCOMPLETE_TXC_ROUTE_TERMINAL_NON_PASS"
+      }
+    else
+      {
+        "phase_execution_status" => "ACTIVE_P3_TXC_#{lifecycle}",
+        "current_route_execution_status" => "P3_TXC_#{lifecycle}",
+        "p3_execution_status" => "ACTIVE_INCOMPLETE_TXC_#{lifecycle}"
+      }
+    end
+  end
+
+  def txc_expected_execution_claim(lifecycle, spec, accounting, active)
+    product_accepted = accounting.fetch("accepted_stage_count") >= 1
+    founder_gate = spec.fetch("founder_decision_required")
+    task_creation_allowed = %w[PRODUCT_STAGE_ELIGIBLE AUDIT_STAGE_ELIGIBLE].include?(lifecycle)
+    frozen = if product_accepted
+      lifecycle == "AUDIT_TASK_ACTIVE" ? ["P3_TXC_FROZEN_PRODUCT_CANDIDATE_MUTATION"] : []
+    else
+      ["P3_TXC_AUDIT_UNTIL_PRODUCT_ACCEPTED"]
+    end
+    {
+      "current_route_claim" => TXC_ROUTE_ID,
+      "current_task_claim" => active.fetch("current_task"),
+      "real_engineering_progress" => product_accepted ? 1 : 0,
+      "product_capability_changed" => product_accepted,
+      "accepted_outcomes" => ["DURABLE_STATE_AND_CHECKPOINT_RESUME"] +
+        (product_accepted ? ["TRANSACTIONAL_INVOCATION_COORDINATOR_PRODUCT"] : []),
+      "revised_research_exit_percent" => 100,
+      "original_capability_progress_percent" => 0,
+      "p3_entry_authorized" => true,
+      "p3_exit_gate_progress_percent" => accounting.fetch("strict_exit_percent"),
+      "p3_delivery_progress_percent" => accounting.fetch("delivery_percent"),
+      "phase_local_allowed" => founder_gate ? [] : [spec.fetch("next_action")],
+      "phase_local_frozen_capabilities" => frozen,
+      "historical_terminal_rules" => [
+        "IDENTITY_ACCOUNTING_ONLY", "NO_REJECTED_ENGINEERING_LINEAGE_READ_OR_REUSE"
+      ],
+      "mandatory_priority_rule" => "PRODUCT_TASK_THEN_ONE_SHOT_AUDIT",
+      "not_authorized_in_current_phase" => %w[P4 PROVIDER SECRET REMOTE PRODUCTION PUBLIC],
+      "deferred_to_p2_or_later" => [],
+      "deferred_to_p3_or_later" => [],
+      "forbidden_without_separate_founder_authority" => %w[
+        PHASE_ROUTE_CHANGE ENVELOPE_EXPANSION UNDECLARED_EXTERNAL_EFFECT
+      ],
+      "task_creation_allowed" => task_creation_allowed,
+      "remaining_capacity_usable" => task_creation_allowed,
+      "held_read_allowed" => false,
+      "candidate_integration_allowed" => false,
+      "next_eligible_action" => spec.fetch("next_action")
+    }
+  end
+
+  def validate_txc_route!(root, truth)
+    decision, scope = validate_txc_decision!
+    decision_identity = TXC_DECISION
+    route = mapping(truth["current_phase_route"], "P3 TXC current Route")
+    lifecycle = route["lifecycle_stage"]
+    spec = TXC_LIFECYCLE_SPECS[lifecycle]
+    assert(spec, "P3 TXC lifecycle is outside the closed state machine")
+    base_keys = %w[
+      schema_version route_id status lifecycle_stage execution_status scheduling_status
+      phase phase_entry_status policy founder_phase_route_decision_required
+      founder_reserved_triggers_resolved next_eligible_action phase_execution_envelope_ref
+      phase_entry_route_ref accepted_p3_001_foundation_route_ref historical_predecessor_route_ref
+      founder_route_decision canonical_start constitution objective_id workflow_id
+      strict_exit_gate cumulative_accounting ordered_stages progression p3_entry_authorized
+      p4_entry_authorized long_term_goal_status current_external_effects
+      future_external_effect_authority_ref anti_loop historical_terminal_identities
+      rejected_lineage_policy additional_write_roots
+    ]
+    optional_keys = %w[active_task completed_stages terminal_result]
+    assert((route.keys - base_keys - optional_keys).empty? && (base_keys - route.keys).empty?,
+           "P3 TXC Route keys drift")
+    assert(route["schema_version"] == TXC_ROUTE_SCHEMA && route["route_id"] == TXC_ROUTE_ID &&
+           route["status"] == spec["route_status"] &&
+           route["execution_status"] == spec["execution_status"] &&
+           route["scheduling_status"] == spec["scheduling_status"] &&
+           route["phase"] == "P3" && route["phase_entry_status"] == "AUTHORIZED" &&
+           route["policy"] == TXC_POLICY &&
+           route["founder_phase_route_decision_required"] == spec["founder_decision_required"] &&
+           route["founder_reserved_triggers_resolved"] == decision["reserved_triggers"] &&
+           route["next_eligible_action"] == spec["next_action"] &&
+           route["phase_execution_envelope_ref"] == "phase_execution_envelope" &&
+           route["phase_entry_route_ref"] == "historical_p3_phase_entry_route" &&
+           route["accepted_p3_001_foundation_route_ref"] ==
+             "historical_p3_001_phase_route" &&
+           route["historical_predecessor_route_ref"] ==
+             "P3_TXC_STAGE0_TERMINAL_IDENTITY_ONLY" &&
+           route["objective_id"] == decision.dig("route", "objective_id") &&
+           route["workflow_id"] == decision.dig("route", "workflow_id") &&
+           route["p3_entry_authorized"] == true && route["p4_entry_authorized"] == false &&
+           route["long_term_goal_status"] == "ACTIVE" &&
+           route["current_external_effects"] == TXC_CURRENT_FALSE_EFFECTS &&
+           route["future_external_effect_authority_ref"] == "founder_route_decision" &&
+           route["rejected_lineage_policy"] ==
+             "HISTORICAL_IDENTITIES_ONLY_NO_REJECTED_ENGINEERING_LINEAGE_READ_COMPARE_COPY_EXECUTE_REPAIR_OR_REUSE" &&
+           route["additional_write_roots"] == [],
+           "P3 TXC Route structured projection drift")
+    expected_decision_projection = TXC_DECISION.merge(
+      "decision_id" => TXC_DECISION_ID,
+      "operation_type" => TXC_OPERATION_TYPE,
+      "source_body" => TXC_AUTHORIZATION_BODY
+    )
+    assert(route["founder_route_decision"] == expected_decision_projection &&
+           route["canonical_start"] == decision["canonical_start"].slice(
+             "repository", "branch", "commit", "tree", "truth", "constitution",
+             "exact_recovery_chain", "terminal_receipt"
+           ) && route["constitution"] == TXC_CONSTITUTION,
+           "P3 TXC Founder decision or canonical binding drift")
+    read_repo_identity!(root, TXC_CONSTITUTION, "P3 TXC Constitution")
+    assert(route["strict_exit_gate"] == {
+      "gate_id" => TXC_STRICT_GATE_ID,
+      "required_item_ids" => TXC_STRICT_ITEMS,
+      "compatibility_aggregate_item_id" => TXC_COMPATIBILITY_ITEM,
+      "same_frozen_candidate_required" => true
+    }, "P3 TXC strict Gate declaration drift")
+    statuses = spec["stage_statuses"]
+    if lifecycle == "ROUTE_TERMINAL_NON_PASS"
+      statuses = route.fetch("ordered_stages").map { |stage| stage.fetch("status") }
+      assert(statuses.length == 2 && statuses.count("TERMINAL_NON_PASS") == 1 &&
+             statuses.drop(statuses.index("TERMINAL_NON_PASS") + 1).all? do |status|
+               status == "LOCKED_ROUTE_TERMINAL"
+             end, "P3 TXC terminal stage disposition drift")
+    end
+    lifecycle_accounting = txc_lifecycle_accounting(decision, lifecycle, spec, statuses)
+    expected_accounting = {
+      "limits" => decision.dig("route", "cumulative_ceiling"),
+      "consumed" => lifecycle_accounting.fetch("consumed"),
+      "remaining" => lifecycle_accounting.fetch("remaining")
+    }
+    assert(route["cumulative_accounting"] == expected_accounting,
+           "P3 TXC cumulative accounting reset or expansion")
+    assert(route["ordered_stages"] == txc_expected_stages(decision, scope, statuses),
+           "P3 TXC ordered stage projection drift")
+    unless lifecycle == "ROUTE_TERMINAL_NON_PASS"
+      assert(route["progression"] == {
+        "delivery_percent" => spec["delivery_percent"],
+        "strict_exit_percent" => spec["strict_exit_percent"],
+        "accepted_stages" => spec["accepted_stages"],
+        "total_stages" => 2
+      }, "P3 TXC progress projection drift")
+    end
+    assert(route["anti_loop"] == {
+      "foundation_task_allowed" => false,
+      "third_product_task_allowed" => false,
+      "successor_or_replacement_allowed" => false,
+      "normalization_closure_feasibility_or_remediation_allowed" => false,
+      "candidate_3_allowed" => false,
+      "second_same_task_repair_allowed" => false,
+      "third_review_cycle_allowed" => false,
+      "v2_or_v3_authorization_chain_allowed" => false,
+      "rerun_to_pass_allowed" => false,
+      "governance_progress_credit" => 0
+    }, "P3 TXC anti-loop boundary drift")
+    expected_historical = TXCR_HISTORICAL_TERMINAL_IDENTITIES
+    assert(route["historical_terminal_identities"] == expected_historical,
+           "P3 TXC historical terminal identity set drift")
+    expected_historical.each do |label, identity|
+      read_identity!(identity, "P3 TXC historical #{label}")
+    end
+
+    envelope = exact_keys(truth["phase_execution_envelope"], %w[
+      schema_version phase status authority_basis accounting_basis consumed limits reserved
+      remaining remaining_capacity_usable remaining_capacity_lock_reason milestone_order
+      accepted_milestones ordered_stages delivery_progress governance_progress_credit
+      external_effects
+    ], "P3 TXC Phase envelope")
+    task_creation_allowed = %w[PRODUCT_STAGE_ELIGIBLE AUDIT_STAGE_ELIGIBLE].include?(lifecycle)
+    accepted_milestones = ["DURABLE_STATE_AND_CHECKPOINT_RESUME"]
+    accepted_milestones << "TRANSACTIONAL_INVOCATION_COORDINATOR_PRODUCT" if
+      lifecycle_accounting.fetch("accepted_stage_count") >= 1
+    accepted_milestones << TXC_STRICT_GATE_ID if
+      lifecycle_accounting.fetch("accepted_stage_count") >= 2
+    capacity_lock = if lifecycle == "ROUTE_TERMINAL_NON_PASS"
+      "ROUTE_TERMINAL_EXACT_AUTHORIZATION_PROHIBITS_REUSE_OR_FOLLOW_ON_TASK"
+    elsif lifecycle == "COMPLETE_AWAITING_FOUNDER_PHASE_GATE"
+      "P3_COMPLETE_AWAITING_FOUNDER_PHASE_GATE"
+    elsif spec["current_task_ordinal"]
+      "ACTIVE_TASK_CONSUMES_SINGLE_TASK_SLOT"
+    else
+      "NONE"
+    end
+    accepted_counter = {
+      25 => 1,
+      75 => 3,
+      100 => 4
+    }.fetch(lifecycle_accounting.fetch("delivery_percent"))
+    assert(envelope == {
+      "schema_version" => "phase-execution-envelope/v1",
+      "phase" => "P3",
+      "status" => txc_envelope_status(lifecycle),
+      "authority_basis" => {
+        "phase_entry_status" => "AUTHORIZED",
+        "source_route_ref" => "current_phase_route",
+        "source_route_id" => TXC_ROUTE_ID,
+        "founder_route_decision" => TXC_DECISION
+      },
+      "accounting_basis" => "NON_RESETTABLE_CUMULATIVE_P3_FOUNDER_ENVELOPE",
+      "consumed" => lifecycle_accounting.fetch("consumed"),
+      "limits" => decision.dig("route", "cumulative_ceiling"),
+      "reserved" => lifecycle_accounting.fetch("reserved"),
+      "remaining" => lifecycle_accounting.fetch("remaining"),
+      "remaining_capacity_usable" => task_creation_allowed,
+      "remaining_capacity_lock_reason" => capacity_lock,
+      "milestone_order" => [
+        "DURABLE_STATE_AND_CHECKPOINT_RESUME",
+        "TRANSACTIONAL_INVOCATION_COORDINATOR_PRODUCT",
+        TXC_STRICT_GATE_ID
+      ],
+      "accepted_milestones" => accepted_milestones,
+      "ordered_stages" => txc_expected_envelope_stages(decision, statuses),
+      "delivery_progress" => {
+        "accepted" => accepted_counter,
+        "total" => 4,
+        "percent" => lifecycle_accounting.fetch("delivery_percent"),
+        "strict_exit_gate_percent" => lifecycle_accounting.fetch("strict_exit_percent")
+      },
+      "governance_progress_credit" => 0,
+      "external_effects" => TXC_ENVELOPE_FALSE_EFFECTS
+    }, "P3 TXC Phase envelope closed lifecycle projection drift")
+
+    validate_txc_current_gate!(truth, lifecycle, decision_identity)
+    expected_boundary = txc_expected_phase_boundary(
+      decision, scope, lifecycle, spec, lifecycle_accounting
+    )
+    active = exact_keys(truth["active_work"], %w[
+      current_task current_task_status current_task_contract current_task_contract_sha256
+      current_execution_authorization current_execution_authorization_sha256 authority_record
+      execution_nonce execution_nonce_status authorization_id activation_parent_commit
+      activation_parent_tree stage0_installation_parent task_resource_state task_branch
+      task_worktree execution_evidence_root dependency_custody_root allowlisted_paths
+      current_task_budget next_stage_budget roles external_effects offsite_target
+      founder_reserved_authorization founder_reserved_authorization_sha256
+      founder_decision_required founder_decision_required_scope escalation_reason
+      user_action_required phase_route_decision_required phase_route_user_action_required
+      completed_tasks historical_terminal_accounting next_eligible_action
+    ], "P3 TXC active work")
+    active_ordinal = spec["current_task_ordinal"]
+    if active_ordinal
+      stage = route.fetch("ordered_stages").fetch(active_ordinal - 1)
+      assert(active["current_task"] == stage["task_id"] &&
+             active["current_task_status"] == "ACTIVE" &&
+             active["task_branch"] == stage.dig("resources", "branch") &&
+             active["task_worktree"] == stage.dig("resources", "worktree") &&
+             active["execution_evidence_root"] == stage.dig("resources", "evidence_root") &&
+             active["current_task_budget"] == stage["budget"] &&
+             active["next_stage_budget"] == {} &&
+             active["task_resource_state"] == "ACTIVE_UNIQUE_P3_TXC_STAGE" &&
+             active["execution_nonce_status"] == "ACTIVE" &&
+             active["offsite_target"].nil?,
+             "P3 TXC active Task resource projection drift")
+      contract = exact_keys(active.fetch("current_task_contract"), %w[path byte_length sha256],
+                            "P3 TXC active Contract")
+      authority = exact_keys(active.fetch("authority_record"), %w[path byte_length sha256],
+                             "P3 TXC active authority")
+      read_identity!(contract, "P3 TXC active Contract", create_once: true)
+      read_identity!(authority, "P3 TXC active authority", create_once: true)
+      expected_allowlist = active_ordinal == 1 ?
+        scope.dig("product", "repository_allowlist") : []
+      expected_custody = if active_ordinal == 1
+        "#{stage.dig('resources', 'evidence_root')}/custody"
+      else
+        "#{decision.dig('route', 'stages', 0, 'resources', 'evidence_root')}/custody"
+      end
+      expected_effects = TXC_TASK_FALSE_EFFECTS.dup
+      if active_ordinal == 1
+        expected_effects["docker"] = true
+        expected_effects["network"] = true
+      else
+        expected_effects["docker"] = true
+      end
+      assert(active["current_task_contract_sha256"] == contract["sha256"] &&
+             active["current_execution_authorization"] == authority["path"] &&
+             active["current_execution_authorization_sha256"] == authority["sha256"] &&
+             active["execution_nonce"].to_s.match?(/\A[0-9a-f-]{36}\z/) &&
+             active["authorization_id"].to_s.match?(/\A[0-9a-f-]{36}\z/) &&
+             active["activation_parent_commit"].to_s.match?(/\A[0-9a-f]{40}\z/) &&
+             active["activation_parent_tree"].to_s.match?(/\A[0-9a-f]{40}\z/) &&
+             active["dependency_custody_root"] == expected_custody &&
+             active["allowlisted_paths"] == expected_allowlist &&
+             active["external_effects"] == expected_effects,
+             "P3 TXC active Contract/authority/scope/effect projection drift")
+    else
+      assert(active["current_task"] == "NONE" && active["authority_record"].nil? &&
+             active["current_task_contract"].nil? &&
+             active["current_task_contract_sha256"].nil? &&
+             active["current_execution_authorization"].nil? &&
+             active["current_execution_authorization_sha256"].nil? &&
+             active["execution_nonce"].nil? && active["task_branch"].nil? &&
+             active["authorization_id"].nil? &&
+             active["activation_parent_commit"].nil? &&
+             active["activation_parent_tree"].nil? &&
+             active["task_worktree"].nil? && active["execution_evidence_root"].nil?,
+             "P3 TXC no-Task lifecycle retained active authority/resources")
+      expected_no_task_status = {
+        "PRODUCT_STAGE_ELIGIBLE" => "NONE_PRODUCT_STAGE_ELIGIBLE",
+        "AUDIT_STAGE_ELIGIBLE" => "NONE_AUDIT_STAGE_ELIGIBLE",
+        "COMPLETE_AWAITING_FOUNDER_PHASE_GATE" =>
+          "NONE_P3_COMPLETE_AWAITING_FOUNDER_PHASE_GATE",
+        "ROUTE_TERMINAL_NON_PASS" => "NONE_ROUTE_TERMINAL_NON_PASS"
+      }.fetch(lifecycle)
+      expected_resource_state = {
+        "PRODUCT_STAGE_ELIGIBLE" => "NOT_CREATED_PRODUCT_STAGE_ELIGIBLE",
+        "AUDIT_STAGE_ELIGIBLE" => "NOT_CREATED_AUDIT_STAGE_ELIGIBLE",
+        "COMPLETE_AWAITING_FOUNDER_PHASE_GATE" => "COMPLETE_NO_TASK_RESOURCES",
+        "ROUTE_TERMINAL_NON_PASS" => "TERMINAL_ROUTE_NO_TASK_RESOURCES"
+      }.fetch(lifecycle)
+      next_index = lifecycle == "PRODUCT_STAGE_ELIGIBLE" ? 0 :
+        (lifecycle == "AUDIT_STAGE_ELIGIBLE" ? 1 : nil)
+      assert(active["current_task_status"] == expected_no_task_status &&
+             active["task_resource_state"] == expected_resource_state &&
+             active["execution_nonce_status"] ==
+               (lifecycle == "PRODUCT_STAGE_ELIGIBLE" ? "NOT_ISSUED" : "NO_CURRENT_TASK") &&
+             active["dependency_custody_root"].nil? && active["allowlisted_paths"] == [] &&
+             active["current_task_budget"] == {
+               "engineering_tasks" => 0, "engineering_hours" => 0, "calendar_days" => 0
+             } &&
+             active["next_stage_budget"] ==
+               (next_index ? decision.dig("route", "stages", next_index, "budget") : {}) &&
+             active["external_effects"] == TXC_TASK_FALSE_EFFECTS &&
+             active["offsite_target"].nil?,
+             "P3 TXC no-Task lifecycle/scope/budget/effect projection drift")
+    end
+    expected_completed_count = if lifecycle == "ROUTE_TERMINAL_NON_PASS"
+      lifecycle_accounting.fetch("terminal_stage_index") + 1
+    else
+      lifecycle_accounting.fetch("accepted_stage_count")
+    end
+    completed = array(active["completed_tasks"], "P3 TXC completed Task chain")
+    assert(completed.length == expected_completed_count,
+           "P3 TXC completed Task chain length drift")
+    completed.each_with_index do |entry, index|
+      record = exact_keys(entry, %w[task_id status receipt],
+                          "P3 TXC completed Task #{index + 1}")
+      expected_status = lifecycle == "ROUTE_TERMINAL_NON_PASS" &&
+        index == lifecycle_accounting.fetch("terminal_stage_index") ?
+          "TERMINAL_NON_PASS" : "ACCEPTED_INTEGRATED"
+      assert(record["task_id"] == decision.dig("route", "stages", index, "task_id") &&
+             record["status"] == expected_status,
+             "P3 TXC completed Task identity/status drift")
+      read_identity!(record["receipt"], "P3 TXC completed Task #{index + 1} receipt",
+                     create_once: true)
+    end
+    expected_roles = {
+      "owner" => "MASTER_CEO_AGENT",
+      "worker" => "IMPLEMENTATION_AGENT",
+      "quality_owner" => "QUALITY_EVALUATION_AGENT",
+      "independent_reviewers" => TXC_REVIEWERS
+    }
+    assert(active["stage0_installation_parent"] ==
+             decision.dig("canonical_start").slice("commit", "tree") &&
+           active["roles"] == expected_roles &&
+           active["historical_terminal_accounting"] == {
+             "consumed_engineering_tasks" => 10,
+             "consumed_engineering_hours" => 272,
+             "consumed_calendar_days" => 68,
+             "latest_terminal_task_id" =>
+               "AIOS-P3-HPE-F1_HOST_PROCESS_CONFINEMENT_COMPATIBILITY_FOUNDATION",
+             "latest_terminal_receipt_sha256" =>
+               TXCR_HISTORICAL_TERMINAL_IDENTITIES.dig(
+                 "hpe_terminal_receipt", "sha256"
+               )
+           },
+           "P3 TXC active-work role/install/history projection drift")
+    assert(active["founder_reserved_authorization"] == TXC_DECISION["path"] &&
+           active["founder_reserved_authorization_sha256"] == TXC_DECISION["sha256"] &&
+           active["founder_decision_required"] == spec["founder_decision_required"] &&
+           active["founder_decision_required_scope"] ==
+             expected_boundary["founder_decision_required_scope"] &&
+           active["escalation_reason"] == expected_boundary["escalation_reason"] &&
+           active["user_action_required"] == expected_boundary["user_action_required"] &&
+           active["phase_route_decision_required"] ==
+             expected_boundary["phase_route_decision_required"] &&
+           active["phase_route_user_action_required"] ==
+             expected_boundary["phase_route_user_action_required"] &&
+           active["next_eligible_action"] == spec["next_action"],
+           "P3 TXC active-work authority drift")
+
+    control = mapping(truth["founder_escalation_control"], "P3 TXC Founder control")
+    expected_disposition = spec["founder_decision_required"] ?
+      "FOUNDER_RESERVED_DECISION_REQUIRED" : "NO_RESERVED_TRIGGER_CONTINUE_PHASE"
+    expected_trigger = if lifecycle == "COMPLETE_AWAITING_FOUNDER_PHASE_GATE"
+                         "PHASE_ENTRY_OR_EXIT"
+                       elsif lifecycle == "ROUTE_TERMINAL_NON_PASS"
+                         "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE"
+                       else
+                         "NONE"
+                       end
+    assert(control["schema_version"] == "founder-escalation-control/v2" &&
+           control["disposition"] == expected_disposition &&
+           control.dig("reserved_trigger", "category") == expected_trigger &&
+           control["founder_decision_required"] == spec["founder_decision_required"] &&
+           control["next_action_owner"] == spec["next_action_owner"] &&
+           control["next_eligible_action"] == spec["next_action"] &&
+           control.dig("resolved_strategy_decision", "decision_id") == TXC_DECISION_ID &&
+           control.dig("resolved_strategy_decision", "sha256") == TXC_DECISION["sha256"],
+           "P3 TXC Founder escalation projection drift")
+    delegation = exact_keys(truth["phase_delegation"], %w[
+      status model decision_source phase_gate_owner task_selection_owner
+      task_authorization_owner task_gate_owner p3_entry_authorized
+      founder_reserved_decisions agent_delegated_decisions escalation_conditions
+      anti_loop claim_boundary
+    ], "P3 TXC Phase delegation")
+    assert(delegation == {
+      "status" => txc_envelope_status(lifecycle),
+      "model" => "PHASE_LEVEL_FOUNDER_DELEGATION",
+      "decision_source" => TXC_DECISION_ID,
+      "phase_gate_owner" => "HUMAN_FOUNDER",
+      "task_selection_owner" => "MASTER_CEO_AGENT",
+      "task_authorization_owner" => "MASTER_CEO_AGENT",
+      "task_gate_owner" => "MASTER_CEO_AGENT",
+      "p3_entry_authorized" => true,
+      "founder_reserved_decisions" => %w[
+        PHASE_ENTRY_OR_EXIT
+        MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
+        MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+        NETWORK_PROVIDER_SECRET_REMOTE_PRODUCTION_OR_PUBLIC_EFFECT
+        IRREVERSIBLE_ASSET_REMOVAL
+        MATERIAL_LEGAL_PRIVACY_OR_COMMERCIAL_COMMITMENT
+        CRITICAL_RESIDUAL_RISK_ACCEPTANCE
+      ],
+      "agent_delegated_decisions" => %w[
+        PRODUCT_TASK_ACTIVATION
+        TASK_CONTRACT_AND_AUTHORITY
+        IMPLEMENTATION_AND_SAME_TASK_REPAIR
+        TEST_EVIDENCE_REVIEW_TASK_GATE
+        LOCAL_CANONICAL_INTEGRATION
+        AUDIT_TASK_ACTIVATION_AFTER_PRODUCT_ACCEPTANCE
+      ],
+      "escalation_conditions" => ["EXACT_FOUNDER_RESERVED_TRIGGER_ONLY"],
+      "anti_loop" => {
+        "route_or_task_may_downgrade_phase_delegation" => false,
+        "phase_execution_envelope_survives_route_terminal" => false,
+        "ordinary_task_failure_requests_founder" => false,
+        "successor_or_replacement_allowed" => false
+      },
+      "claim_boundary" => "P3_TXC_TWO_ORDERED_TASKS_ONLY_P4_HOLD_LONG_TERM_GOAL_ACTIVE"
+    }, "P3 TXC Phase delegation closed projection drift")
+    boundary = mapping(truth["phase_boundary"], "P3 TXC Phase boundary")
+    assert(boundary == expected_boundary,
+           "P3 TXC Phase boundary closed authority projection drift")
+
+    project = mapping(truth["project"], "P3 TXC project")
+    expected_project_statuses = txc_expected_project_statuses(lifecycle)
+    assert(project["current_phase"] == "P3" && project["p3_entry_status"] == "AUTHORIZED" &&
+           project["phase_execution_status"] ==
+             expected_project_statuses["phase_execution_status"] &&
+           project["current_route_execution_status"] ==
+             expected_project_statuses["current_route_execution_status"] &&
+           project["p3_execution_status"] == expected_project_statuses["p3_execution_status"] &&
+           project["p4_entry_status"] ==
+             "HOLD_PENDING_STRICT_P3_EXIT_AND_SEPARATE_FOUNDER_PHASE_ENTRY" &&
+           truth.dig("goal", "control_plane_status_observed") == "ACTIVE" &&
+           truth.dig("goal", "current_task_authority") == active["current_task"],
+           "P3 TXC project/Goal boundary drift")
+    execution = mapping(truth["phase_execution_claim"], "P3 TXC execution claim")
+    claim = mapping(truth["claim_boundary"], "P3 TXC claim boundary")
+    assert(execution == txc_expected_execution_claim(
+             lifecycle, spec, lifecycle_accounting, active
+           ), "P3 TXC execution claim closed projection drift")
+    assert(claim["current_phase_route"] == TXC_ROUTE_ID &&
+           claim["current_task"] == active["current_task"] &&
+           claim["next_eligible_action"] == spec["next_action"] &&
+           claim["p3_exit_gate_progress_percent"] ==
+             lifecycle_accounting.fetch("strict_exit_percent") &&
+           claim["p3_delivery_progress_percent"] ==
+             lifecycle_accounting.fetch("delivery_percent") &&
+           claim["p3_txc_route_decision_sha256"] == TXC_DECISION["sha256"] &&
+           claim["p3_txc_route_stage"] == lifecycle &&
+           claim["p3_txc_route_delivery_credit"] ==
+             lifecycle_accounting.fetch("delivery_percent") - 25 &&
+           claim["p3_txc_route_strict_exit_credit"] ==
+             lifecycle_accounting.fetch("strict_exit_percent") &&
+           claim["long_term_goal_status"] == "ACTIVE",
+           "P3 TXC execution/claim projection drift")
+    validate_txc_workspace!(root, truth, active_ordinal, lifecycle)
+    TXC_LIFECYCLE_STATES.fetch(lifecycle)
+  rescue ArgumentError, KeyError, TypeError, Psych::Exception => e
+    raise P3FinalTransactionalRouteValidationError, "P3 TXC route invalid: #{e.message}"
+  end
+
   def validate_truth!(root:, truth:, preactivation_resource_action: nil)
     root = Pathname.new(root).realpath
+    if truth.dig("current_phase_route", "schema_version") == TXC_ROUTE_SCHEMA
+      return validate_txc_route!(root, truth)
+    end
     if truth.dig("current_phase_route", "schema_version") == HPE_ROUTE_SCHEMA
       return validate_hpe_route!(
         root, truth, preactivation_resource_action: preactivation_resource_action

@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require "json"
+require "fileutils"
 require "open3"
 require "pathname"
 require "yaml"
@@ -24,11 +25,340 @@ end
 
 def expect_non_pass(root, truth, label)
   candidate = deep_copy(truth)
+  before = JSON.generate(candidate)
   yield candidate
+  raise "#{label} mutation was a no-op" if JSON.generate(candidate) == before
   P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: candidate)
   raise "#{label} false-PASSed"
 rescue P3FinalTransactionalRouteValidationError
   true
+end
+
+if host_authorized_truth.dig("current_phase_route", "schema_version") ==
+   P3FinalTransactionalRouteValidation::TXC_ROUTE_SCHEMA
+  state = P3FinalTransactionalRouteValidation.validate_truth!(
+    root: root, truth: host_authorized_truth
+  )
+  expected_state = P3FinalTransactionalRouteValidation::TXC_LIFECYCLE_STATES.fetch(
+    host_authorized_truth.dig("current_phase_route", "lifecycle_stage")
+  )
+  raise "P3 TXC current route state drift" unless state == expected_state
+  assertions += 1
+
+  mutations = {
+    "TXC unknown route member cannot enter the closed state machine" => lambda do |candidate|
+      candidate["current_phase_route"]["unexpected_route_member"] = true
+    end,
+    "TXC decision identity cannot drift" => lambda do |candidate|
+      candidate["current_phase_route"]["founder_route_decision"]["sha256"] = "0" * 64
+    end,
+    "TXC lifecycle cannot become an undeclared successor" => lambda do |candidate|
+      candidate["current_phase_route"]["lifecycle_stage"] = "SUCCESSOR_READY"
+    end,
+    "TXC objective cannot become a generic runtime" => lambda do |candidate|
+      candidate["current_phase_route"]["objective_id"] = "GENERIC_AGENT_RUNTIME"
+    end,
+    "TXC stage order cannot drift" => lambda do |candidate|
+      candidate["current_phase_route"]["ordered_stages"].reverse!
+    end,
+    "TXC Product budget cannot expand" => lambda do |candidate|
+      candidate["current_phase_route"]["ordered_stages"][0]["budget"]["engineering_hours"] = 49
+    end,
+    "TXC Audit cannot unlock before Product acceptance" => lambda do |candidate|
+      candidate["current_phase_route"]["ordered_stages"][1]["status"] =
+        "ELIGIBLE_NOT_ACTIVATED"
+    end,
+    "TXC cumulative accounting cannot reset" => lambda do |candidate|
+      candidate["current_phase_route"]["cumulative_accounting"]["consumed"]["engineering_tasks"] = 0
+    end,
+    "TXC cumulative ceiling cannot expand" => lambda do |candidate|
+      candidate["phase_execution_envelope"]["limits"]["engineering_tasks"] = 13
+    end,
+    "TXC Stage0 cannot claim delivery progress" => lambda do |candidate|
+      candidate["current_phase_route"]["progression"]["delivery_percent"] = 75
+    end,
+    "TXC strict Gate item cannot false-accept" => lambda do |candidate|
+      item = candidate.dig("strict_phase_gate_ledger", "phases", "P3",
+                           "current_exit_gate", "required_items",
+                           "AUTHORIZATION_AND_INTENT_DURABILITY")
+      item["status"] = "ACCEPTED"
+    end,
+    "TXC compatibility Gate cannot false-accept" => lambda do |candidate|
+      candidate.dig("strict_phase_gate_ledger", "phases", "P3", "required_items",
+                    "RESUME_ISOLATION_PERMISSION_AND_TRACE_TESTS")["status"] = "ACCEPTED"
+    end,
+    "TXC Founder daily gate cannot reappear" => lambda do |candidate|
+      candidate["founder_escalation_control"]["founder_decision_required"] = true
+    end,
+    "TXC delegated owner cannot move to Founder" => lambda do |candidate|
+      candidate["phase_delegation"]["task_selection_owner"] = "HUMAN_FOUNDER"
+    end,
+    "TXC Task scope cannot become open" => lambda do |candidate|
+      candidate["phase_boundary"]["task_creation_scope"] = "ANY_P3_TASK"
+    end,
+    "TXC Task kind cannot become open" => lambda do |candidate|
+      candidate["phase_boundary"]["allowed_task_kinds"] << "ARBITRARY_TASK"
+    end,
+    "TXC capability cannot become open" => lambda do |candidate|
+      candidate["phase_boundary"]["allowed_capabilities"] << "OPEN_AGENT_SHELL"
+    end,
+    "TXC Worker root cannot escape" => lambda do |candidate|
+      candidate["phase_boundary"]["role_write_roots"]["worker"] = ["/"]
+    end,
+    "TXC Phase boundary network cannot self-enable" => lambda do |candidate|
+      candidate["phase_boundary"]["default_external_effects"]["network"] = true
+    end,
+    "TXC Phase boundary activation lock cannot disappear" => lambda do |candidate|
+      candidate["phase_boundary"]["task_creation_lock_after_activation"] = false
+    end,
+    "TXC deferred Provider capability cannot disappear" => lambda do |candidate|
+      candidate["phase_boundary"]["deferred_capabilities"].delete("PROVIDER")
+    end,
+    "TXC Phase boundary cannot fabricate a Founder action" => lambda do |candidate|
+      candidate["phase_boundary"]["user_action_required"] = "FOUNDER_APPROVAL"
+    end,
+    "TXC envelope network cannot self-enable" => lambda do |candidate|
+      candidate["phase_execution_envelope"]["external_effects"]["network"] = true
+    end,
+    "TXC envelope milestone cannot false-accept" => lambda do |candidate|
+      candidate["phase_execution_envelope"]["accepted_milestones"] <<
+        "TRANSACTIONAL_INVOCATION_COORDINATOR_PRODUCT"
+    end,
+    "TXC envelope cannot false-complete" => lambda do |candidate|
+      candidate["phase_execution_envelope"]["status"] = "COMPLETE"
+    end,
+    "TXC active-work network cannot self-enable" => lambda do |candidate|
+      candidate["active_work"]["external_effects"]["network"] = true
+    end,
+    "TXC active-work next budget cannot expand" => lambda do |candidate|
+      candidate["active_work"]["next_stage_budget"]["engineering_hours"] = 49
+    end,
+    "TXC active-work owner cannot move to Founder" => lambda do |candidate|
+      candidate["active_work"]["roles"]["owner"] = "HUMAN_FOUNDER"
+    end,
+    "TXC active-work allowlist cannot escape" => lambda do |candidate|
+      candidate["active_work"]["allowlisted_paths"] << "/"
+    end,
+    "TXC inactive work cannot gain a custody root" => lambda do |candidate|
+      candidate["active_work"]["dependency_custody_root"] = "/private/tmp/forged"
+    end,
+    "TXC delegated decision set cannot become open" => lambda do |candidate|
+      candidate["phase_delegation"]["agent_delegated_decisions"] << "OPEN_ENDED_RUNTIME"
+    end,
+    "TXC Stage0 cannot claim engineering progress" => lambda do |candidate|
+      candidate["phase_execution_claim"]["real_engineering_progress"] = 1
+    end,
+    "TXC Stage0 cannot claim a product change" => lambda do |candidate|
+      candidate["phase_execution_claim"]["product_capability_changed"] = true
+    end,
+    "TXC project cannot false-complete P3" => lambda do |candidate|
+      candidate["project"]["p3_execution_status"] = "COMPLETE"
+    end,
+    "TXC rejected lineage cannot become reusable" => lambda do |candidate|
+      candidate["current_phase_route"]["rejected_lineage_policy"] = "REUSE_ALLOWED"
+    end,
+    "TXC Phase-entry reference cannot drift" => lambda do |candidate|
+      candidate["current_phase_route"]["phase_entry_route_ref"] = "FORGED"
+    end,
+    "TXC historical terminal identity set cannot expand" => lambda do |candidate|
+      candidate["current_phase_route"]["historical_terminal_identities"]["extra"] =
+        candidate["current_phase_route"]["historical_terminal_identities"]["hpe_terminal_receipt"]
+    end,
+    "TXC Product-eligible state cannot retain Task authority" => lambda do |candidate|
+      candidate["active_work"]["authority_record"] = {
+        "path" => "/private/tmp/forbidden", "byte_length" => 1, "sha256" => "0" * 64
+      }
+    end,
+    "TXC current network effect cannot self-enable" => lambda do |candidate|
+      candidate["current_phase_route"]["current_external_effects"]["network"] = true
+    end,
+    "TXC cannot enter P4" => lambda do |candidate|
+      candidate["project"]["p4_entry_status"] = "AUTHORIZED"
+    end,
+    "TXC cannot close the Long-term Goal" => lambda do |candidate|
+      candidate["goal"]["control_plane_status_observed"] = "COMPLETE"
+    end
+  }
+  mutations.each do |label, mutation|
+    expect_non_pass(root, host_authorized_truth, label, &mutation)
+    assertions += 1
+  end
+
+  natural_language_variants = [
+    lambda do |candidate|
+      candidate["goal"]["current_state_note"] =
+        "同义改写：P3 仍为 25% delivery，strict Exit 仍为 0%。"
+    end,
+    lambda do |candidate|
+      candidate["goal"]["current_state_note"] =
+        candidate["goal"]["current_state_note"].gsub(" ", "  ")
+    end,
+    lambda do |candidate|
+      candidate["project"]["positioning"] =
+        "Trustworthy autonomous agent infrastructure research platform; software engineering first!"
+    end
+  ]
+  natural_language_variants.each_with_index do |mutation, index|
+    candidate = deep_copy(host_authorized_truth)
+    before = JSON.generate(candidate)
+    mutation.call(candidate)
+    raise "TXC natural-language mutation #{index + 1} was a no-op" if JSON.generate(candidate) == before
+    variant_state = P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: candidate)
+    raise "TXC natural-language variation changed structured disposition" unless
+      variant_state == expected_state
+    assertions += 1
+  end
+
+  decision, = P3FinalTransactionalRouteValidation.validate_txc_decision!
+  manifest_context = if ENV["SOURCELENS_ATOMIC_STAGING_MANIFEST"].to_s.empty?
+    P3FinalTransactionalRouteValidation.txc_installed_context!(
+      root: root, truth: host_authorized_truth
+    )
+  else
+    P3FinalTransactionalRouteValidation.atomic_staging_context!(
+      root: root, truth: host_authorized_truth
+    )
+  end
+  raise "TXC dual-mode manifest context was not resolved" unless manifest_context
+  manifest = manifest_context.fetch("manifest")
+  manifest_staging_root = Pathname.new(manifest_context.fetch("staging_root")).realpath
+  canonical_mode = manifest_context["mode"] == "CANONICAL_INSTALLED_REPLAY_MODE" ?
+    :installed : :staging
+  {
+    "wrong candidate parent" => lambda do |candidate|
+      candidate["candidate"]["parent_commit"] = "0" * 40
+    end,
+    "wrong canonical baseline" => lambda do |candidate|
+      candidate["baseline"]["tree"] = "f" * 40
+    end,
+    "wrong recorded staging root" => lambda do |candidate|
+      candidate["recorded_staging_root"] = "/private/tmp/forged-p3-txc-stage"
+    end
+  }.each do |label, mutation|
+    candidate = deep_copy(manifest)
+    mutation.call(candidate)
+    begin
+      P3FinalTransactionalRouteValidation.txc_validate_atomic_manifest_values!(
+        candidate, root: manifest_staging_root, decision: decision,
+        canonical_mode: canonical_mode
+      )
+      raise "TXC staging manifest #{label} false-PASSed"
+    rescue P3FinalTransactionalRouteValidationError
+      assertions += 1
+    end
+  end
+
+  begin
+    forged_dir = Dir.mktmpdir("p3-txc-forged-manifest-")
+    forged_path = File.join(forged_dir, "P3_TXC_ATOMIC_STAGING_MANIFEST_GENERATION_1_V1.json")
+    File.binwrite(forged_path, JSON.generate(manifest))
+    File.chmod(0o444, forged_path)
+    previous = ENV["SOURCELENS_ATOMIC_STAGING_MANIFEST"]
+    ENV["SOURCELENS_ATOMIC_STAGING_MANIFEST"] = forged_path
+    begin
+      if previous.to_s.empty?
+        P3FinalTransactionalRouteValidation.txc_installed_context!(
+          root: root, truth: host_authorized_truth
+        )
+      else
+        P3FinalTransactionalRouteValidation.atomic_staging_context!(
+          root: root, truth: host_authorized_truth
+        )
+      end
+      raise "TXC forged staging manifest path false-PASSed"
+    rescue P3FinalTransactionalRouteValidationError
+      assertions += 1
+    ensure
+      ENV["SOURCELENS_ATOMIC_STAGING_MANIFEST"] = previous
+    end
+  ensure
+    File.chmod(0o644, forged_path) if defined?(forged_path) && File.exist?(forged_path)
+    File.delete(forged_path) if defined?(forged_path) && File.exist?(forged_path)
+    Dir.rmdir(forged_dir) if defined?(forged_dir) && Dir.exist?(forged_dir)
+  end
+
+  begin
+    if ENV["SOURCELENS_ATOMIC_STAGING_MANIFEST"].to_s.empty?
+      P3FinalTransactionalRouteValidation.txc_installed_context!(
+        root: root.parent, truth: host_authorized_truth
+      )
+    else
+      P3FinalTransactionalRouteValidation.atomic_staging_context!(
+        root: root.parent, truth: host_authorized_truth
+      )
+    end
+    raise "TXC wrong validator root false-PASSed"
+  rescue P3FinalTransactionalRouteValidationError
+    assertions += 1
+  end
+
+  dirty_probe = root.join(".p3-txc-dirty-head-negative-probe")
+  begin
+    File.binwrite(dirty_probe, "DIRTY_HEAD_NEGATIVE_PROBE\n")
+    if ENV["SOURCELENS_ATOMIC_STAGING_MANIFEST"].to_s.empty?
+      P3FinalTransactionalRouteValidation.txc_installed_context!(
+        root: root, truth: host_authorized_truth
+      )
+    else
+      P3FinalTransactionalRouteValidation.atomic_staging_context!(
+        root: root, truth: host_authorized_truth
+      )
+    end
+    raise "TXC dirty staging HEAD false-PASSed"
+  rescue P3FinalTransactionalRouteValidationError
+    assertions += 1
+  ensure
+    dirty_probe.delete if dirty_probe.exist?
+  end
+  raise "TXC negative probes left the staging repository dirty" unless
+    Open3.capture3("git", "status", "--porcelain=v1", "--untracked-files=all",
+                   chdir: root.to_s).first.empty?
+
+  drift_root = Dir.mktmpdir("p3-txcr-canonical-drift-")
+  begin
+    drift_repo = File.join(drift_root, "repo")
+    _clone_out, clone_err, clone_status = Open3.capture3(
+      "git", "clone", "--local", "--no-hardlinks", "--no-checkout",
+      decision.dig("canonical_start", "repository"), drift_repo
+    )
+    raise "TXC canonical-drift clone failed: #{clone_err.strip}" unless clone_status.success?
+    Open3.capture3("git", "remote", "remove", "origin", chdir: drift_repo)
+    _checkout_out, checkout_err, checkout_status = Open3.capture3(
+      "git", "checkout", "--detach", decision.dig("canonical_start", "commit"),
+      chdir: drift_repo
+    )
+    raise "TXC canonical-drift checkout failed: #{checkout_err.strip}" unless
+      checkout_status.success?
+    _branch_out, branch_err, branch_status = Open3.capture3(
+      "git", "branch", "-f", "main", decision.dig("canonical_start", "commit"),
+      chdir: drift_repo
+    )
+    raise "TXC canonical-drift branch failed: #{branch_err.strip}" unless branch_status.success?
+    _switch_out, switch_err, switch_status = Open3.capture3(
+      "git", "switch", "main", chdir: drift_repo
+    )
+    raise "TXC canonical-drift switch failed: #{switch_err.strip}" unless switch_status.success?
+    drift_decision = deep_copy(decision)
+    drift_manifest = deep_copy(manifest)
+    drift_decision["canonical_start"]["repository"] = File.realpath(drift_repo)
+    drift_manifest["canonical_repository"] = File.realpath(drift_repo)
+    begin
+      P3FinalTransactionalRouteValidation.txc_validate_atomic_manifest_values!(
+        drift_manifest, root: manifest_staging_root, decision: drift_decision,
+        canonical_mode: :installed
+      )
+      raise "TXC canonical drift false-PASSed"
+    rescue P3FinalTransactionalRouteValidationError
+      assertions += 1
+    end
+  ensure
+    FileUtils.remove_entry(drift_root) if Dir.exist?(drift_root)
+  end
+
+  mode = ENV["SOURCELENS_ATOMIC_STAGING_MANIFEST"].to_s.empty? ?
+    "CANONICAL_INSTALLED_REPLAY_MODE" : "ATOMIC_STAGING_FIXTURE_MODE"
+  puts "P3_FINAL_TRANSACTIONAL_ROUTE_TEST: PASS #{assertions} assertions mode=#{mode}"
+  exit 0
 end
 
 if host_authorized_truth.dig("current_phase_route", "schema_version") ==

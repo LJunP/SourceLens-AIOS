@@ -1,0 +1,97 @@
+schema_version: phase-delegated-task-contract/v1.2
+record_type: AIOS_PHASE_DELEGATED_TASK_CONTRACT
+task_id: AIOS-P3-DTK-F1_DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION
+status: ACTIVE
+phase: P3
+route_id: P3_DECLARATIVE_TRANSACTION_KERNEL_CLEAN_ROOM_ROUTE_V1
+stage_id: DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION
+kind: EVALUATION_FOUNDATION
+objective_id: TRUSTED_HOST_TCB_DECLARATIVE_TRANSACTION_KERNEL_SINGLE_AGENT_EXECUTION
+strict_exit_gate_id: TRUSTED_HOST_TCB_DECLARATIVE_TASK_WIDE_TRANSACTIONAL_EXECUTION_WITH_PROCESS_REAL_CONTAINMENT
+why_now: >-
+  Build the independent declarative semantic authority before Product code so the
+  machine specification, generic interpreter and full-replay verifier can falsify
+  the exact three frozen findings without reading or reusing rejected candidate bytes.
+branch: codex/p3-dtk-f1-declarative-transaction-semantics
+worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p3-dtk-f1-declarative-transaction-semantics
+evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p3-declarative-transaction-kernel-route-20260823/task-foundation
+activation_parent_commit: 1ed7b5e1070aed767089dd320fadcf3035d17c0f
+activation_parent_tree: d725af1bca22dda5edce2d794beba4296a2c4477
+execution_nonce: P3-DTK-F1-7241767a-53c8-4d0d-9565-81044242aa86
+authorization_id: P3-DTK-F1-PHASE-DELEGATED-7241767a-53c8-4d0d-9565-81044242aa86
+decision_id: AUTHORIZE_P3_DECLARATIVE_TRANSACTION_KERNEL_OBJECTIVE_EXIT_GATE_AND_FINDING_SCOPED_CLEAN_ROOM_ROUTE_V1
+write_allowlist:
+  - evaluation-harness/harness/p3-declarative-transaction-kernel-v1
+  - evaluation-harness/reports/p3-declarative-transaction-kernel-v1
+  - docs/aios/tasks/P3-DTK-F1_DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION.yaml
+  - docs/PROJECT_CODE_MAP.md
+budget:
+  engineering_tasks: 1
+  engineering_hours: 8
+  calendar_days: 2
+  candidate_generations: 2
+  same_task_repairs: 1
+  review_cycles: 2
+toolchain:
+  node_path: /opt/homebrew/Cellar/node@22/22.23.2/bin/node
+  node_version: v22.23.2
+  node_sha256: 0ef5d6908a2c10506f9685b1bd2496b6f7bcb0e23a6ee025c75eb036b997474b
+  sandbox_exec_path: /usr/bin/sandbox-exec
+  sandbox_exec_sha256: 7fc7dcd7782e1abd52b11f6c512bdfb0c09d2502b619c483fdfce554c472352e
+  sandbox_profile: "(version 1) (allow default) (deny network*)"
+  dependencies: NODE_STANDARD_LIBRARY_AND_TASK_LOCAL_MODULES_ONLY
+external_effects:
+  network: false
+  docker: false
+  provider: false
+  secret: false
+  credential: false
+  remote: false
+  production: false
+  public: false
+  p4_entry: false
+clean_room:
+  permitted_historical_inputs:
+    - P3-ETSK-F1-C1-P0-001
+    - P3-ETSK-F1-C1-P1-002
+    - P3-ETSK-F1-C1-P1-003
+    - ETSK_TERMINAL_IDENTITY_ACCOUNTING_AND_LIFECYCLE_FIELDS
+  rejected_candidate_bytes_read_compare_copy_execute_restore_repair_or_reuse: false
+  earlier_rejected_p3_engineering_lineage_allowed: false
+deliverables:
+  - schema-validated canonical-JSON content-addressed machine specification
+  - generic closed versioned fail-closed interpreter
+  - independent full-trace replay verifier
+  - ten positive scenarios
+  - thirteen falsification mutants
+  - deterministic two-replay byte-equality report
+  - manifest binding specification oracle scenarios mutants reports and toolchain
+acceptance:
+  machine_spec_is_only_domain_semantic_source: true
+  machine_spec_is_foundation_oracle_and_product_runtime_authority: true
+  generic_closed_versioned_operator_algebra_only: true
+  interpreter_and_verifier_independent: true
+  required_positive_scenarios: 10
+  required_mutants_killed: 13
+  required_mutants_total: 13
+  false_accepts_allowed: 0
+  deterministic_replays: 2
+  report_byte_equality_required: true
+  product_source_changes_allowed: false
+  fresh_independent_reviewer: QUALITY_EVALUATION_AGENT
+  gate_result_required: ACCEPTED
+anti_loop:
+  cycle_1_freezes_complete_p0_p1_finding_set: true
+  cycle_2_only_closes_frozen_findings_or_rejects_new_regression: true
+  drip_feed_findings_allowed: false
+  second_foundation_task_allowed: false
+  candidate_3_allowed: false
+  second_same_task_repair_allowed: false
+  third_review_cycle_allowed: false
+  successor_replacement_normalization_closure_feasibility_remediation_allowed: false
+lifecycle:
+  pass: FOUNDATION_ACCEPTED_AND_INTEGRATED_UNLOCKS_PRODUCT_DELIVERY_25_STRICT_EXIT_0
+  non_pass: ROUTE_TERMINAL_NON_PASS_PRODUCT_AND_AUDIT_LOCKED
+  project_actually_completed: false
+  long_term_goal_status: ACTIVE
+  codex_goal_completion_or_blocking_authorized: false

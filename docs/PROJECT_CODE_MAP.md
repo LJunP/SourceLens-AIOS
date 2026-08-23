@@ -4,9 +4,9 @@
 
 ## 1. 生成范围
 
-- 纳入逐文件用途索引的文件数：1017。
-- 其中源码/脚本/配置/SQL/CSS 类文件数：558。
-- 纳入统计的文本总行数：270792。
+- 纳入逐文件用途索引的文件数：1040。
+- 其中源码/脚本/配置/SQL/CSS 类文件数：568。
+- 纳入统计的文本总行数：272979。
 - 排除逐文件展开的本地生成/证据目录：`.git/`、`bin/`、`web-console/node_modules/`、`backend-spring/target/`、`analyzer-rust/target/`、`.sourcelens-runtime/`、`release-evidence/`、前端构建和测试产物。
 - 本地生成物、依赖缓存和历史证据目录不是源码或当前权威；它们必须保持未跟踪并可重建或从封存恢复。
 
@@ -25,7 +25,7 @@
 | `CONTRIBUTING.md` | 1 | 项目根文件或辅助目录。 |
 | `deploy` | 2 | Docker Compose 和环境模板。 |
 | `docs` | 228 | 当前架构、接口、安全、研究与 AIOS 权威文档。 |
-| `evaluation-harness` | 272 | 项目根文件或辅助目录。 |
+| `evaluation-harness` | 295 | 项目根文件或辅助目录。 |
 | `LICENSE` | 1 | 项目根文件或辅助目录。 |
 | `Makefile` | 1 | 项目根文件或辅助目录。 |
 | `README.md` | 1 | 项目根文件或辅助目录。 |
@@ -177,7 +177,7 @@
 | `docs/aios/tasks` | 173 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/aios/truth` | 1 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/llm-safety-evals` | 2 | LLM 安全评测用例目录，存放 prompt injection、输出质量和 provider run 模板。 |
-| `evaluation-harness` | 272 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness` | 295 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/adapters` | 18 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/adapters/harness_stub` | 2 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/adapters/offline-b0-finite-typed-v1` | 1 | 项目根文件或辅助目录。子目录。 |
@@ -254,7 +254,7 @@
 | `evaluation-harness/fixtures/p1-125-six-task-parameterized/system-configurations` | 6 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/fixtures/stable-replay-projection-v2` | 2 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/fixtures/visible` | 10 | 项目根文件或辅助目录。子目录。 |
-| `evaluation-harness/harness` | 32 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/harness` | 48 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/harness/blind-admission-v1` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/harness/experiment-pack-reentry-v1` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/harness/finite-typed-patch-ir-v1` | 2 | 项目根文件或辅助目录。子目录。 |
@@ -266,6 +266,11 @@
 | `evaluation-harness/harness/p1-125-six-task-parameterized` | 3 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/harness/p1-149-accepted-execution-spine` | 6 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/harness/p2-clean-room-benchmark-foundation-v1` | 3 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/harness/p3-declarative-transaction-kernel-v1` | 16 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/harness/p3-declarative-transaction-kernel-v1/fixtures` | 2 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/harness/p3-declarative-transaction-kernel-v1/lib` | 6 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/harness/p3-declarative-transaction-kernel-v1/spec` | 2 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/harness/p3-declarative-transaction-kernel-v1/tools` | 4 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/recording` | 31 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/recording/aios-p1-001-evidence` | 25 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/recording/aios-p1-001-evidence/controlled-failure` | 6 | 项目根文件或辅助目录。子目录。 |
@@ -283,11 +288,12 @@
 | `evaluation-harness/replay/p1-149-accepted-execution-spine` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/replay/p2-clean-room-benchmark-foundation-v1` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/replay/stable-replay-projection-v2` | 1 | 项目根文件或辅助目录。子目录。 |
-| `evaluation-harness/reports` | 4 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/reports` | 11 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/reports/p1-217-single-process-report` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/reports/p1-219-dataset-derived-preregistration` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/reports/p2-clean-room-benchmark-foundation-v1` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/reports/p2-product-selector-dev-v1` | 1 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/reports/p3-declarative-transaction-kernel-v1` | 7 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/validators` | 3 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/validators/blind-admission-v1` | 1 | 项目根文件或辅助目录。子目录。 |
 | `schemas` | 1 | 项目根文件或辅助目录。子目录。 |
@@ -1405,6 +1411,22 @@
 | `evaluation-harness/harness/p2-clean-room-benchmark-foundation-v1/cli.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/harness/p2-clean-room-benchmark-foundation-v1/core.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/harness/p2-clean-room-benchmark-foundation-v1/test.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/harness/p3-declarative-transaction-kernel-v1/fixtures/mutants.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/harness/p3-declarative-transaction-kernel-v1/fixtures/scenarios.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/harness/p3-declarative-transaction-kernel-v1/lib/canonical-json.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/harness/p3-declarative-transaction-kernel-v1/lib/foundation-tests.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/harness/p3-declarative-transaction-kernel-v1/lib/interpreter.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/harness/p3-declarative-transaction-kernel-v1/lib/mutants.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/harness/p3-declarative-transaction-kernel-v1/lib/replay-verifier.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/harness/p3-declarative-transaction-kernel-v1/lib/spec-validator.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/harness/p3-declarative-transaction-kernel-v1/package.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/harness/p3-declarative-transaction-kernel-v1/README.md` | Markdown 文档。 |
+| `evaluation-harness/harness/p3-declarative-transaction-kernel-v1/spec/machine-spec.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/harness/p3-declarative-transaction-kernel-v1/spec/machine-spec.schema.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/harness/p3-declarative-transaction-kernel-v1/tools/canonicalize-json.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/harness/p3-declarative-transaction-kernel-v1/tools/network-deny-preflight.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/harness/p3-declarative-transaction-kernel-v1/tools/run-foundation.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/harness/p3-declarative-transaction-kernel-v1/tools/self-test.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/harness/README.md` | Markdown 文档。 |
 | `evaluation-harness/harness/run.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/harness/self-test.mjs` | Node.js 自动化脚本或配置文件。 |
@@ -1451,6 +1473,13 @@
 | `evaluation-harness/reports/p1-219-dataset-derived-preregistration/P2_CONTEXT_ENGINE_PREREGISTRATION.json` | JSON 配置或数据文件。 |
 | `evaluation-harness/reports/p2-clean-room-benchmark-foundation-v1/SPEC.md` | Markdown 文档。 |
 | `evaluation-harness/reports/p2-product-selector-dev-v1/ACCEPTED_P2_069_DEV_BASELINE_MANIFEST.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/reports/p3-declarative-transaction-kernel-v1/DETERMINISTIC_REPLAY_A.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/reports/p3-declarative-transaction-kernel-v1/DETERMINISTIC_REPLAY_B.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/reports/p3-declarative-transaction-kernel-v1/FOUNDATION_MANIFEST.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/reports/p3-declarative-transaction-kernel-v1/FOUNDATION_REPORT.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/reports/p3-declarative-transaction-kernel-v1/MUTATION_REPORT.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/reports/p3-declarative-transaction-kernel-v1/ORACLE_DECLARATION.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/reports/p3-declarative-transaction-kernel-v1/SELF_TEST_REPORT.json` | JSON 配置或数据文件。 |
 | `evaluation-harness/validators/blind-admission-v1/validator.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/validators/task-dataset-self-test.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/validators/task-dataset-validator.mjs` | Node.js 自动化脚本或配置文件。 |

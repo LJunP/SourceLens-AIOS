@@ -4,9 +4,9 @@
 
 ## 1. 生成范围
 
-- 纳入逐文件用途索引的文件数：934。
-- 其中源码/脚本/配置/SQL/CSS 类文件数：542。
-- 纳入统计的文本总行数：253721。
+- 纳入逐文件用途索引的文件数：1015。
+- 其中源码/脚本/配置/SQL/CSS 类文件数：558。
+- 纳入统计的文本总行数：269619。
 - 排除逐文件展开的本地生成/证据目录：`.git/`、`bin/`、`web-console/node_modules/`、`backend-spring/target/`、`analyzer-rust/target/`、`.sourcelens-runtime/`、`release-evidence/`、前端构建和测试产物。
 - 本地生成物、依赖缓存和历史证据目录不是源码或当前权威；它们必须保持未跟踪并可重建或从封存恢复。
 
@@ -19,19 +19,19 @@
 | `.gitignore` | 1 | 项目根文件或辅助目录。 |
 | `AGENTS.md` | 1 | 项目根文件或辅助目录。 |
 | `analyzer-rust` | 10 | Rust 代码逆向分析器。 |
-| `backend-spring` | 342 | Spring Boot 后端服务。 |
+| `backend-spring` | 354 | Spring Boot 后端服务。 |
 | `CHANGELOG.md` | 1 | 项目根文件或辅助目录。 |
 | `CODE_OF_CONDUCT.md` | 1 | 项目根文件或辅助目录。 |
 | `CONTRIBUTING.md` | 1 | 项目根文件或辅助目录。 |
 | `deploy` | 2 | Docker Compose 和环境模板。 |
-| `docs` | 177 | 当前架构、接口、安全、研究与 AIOS 权威文档。 |
-| `evaluation-harness` | 266 | 项目根文件或辅助目录。 |
+| `docs` | 226 | 当前架构、接口、安全、研究与 AIOS 权威文档。 |
+| `evaluation-harness` | 272 | 项目根文件或辅助目录。 |
 | `LICENSE` | 1 | 项目根文件或辅助目录。 |
 | `Makefile` | 1 | 项目根文件或辅助目录。 |
 | `README.md` | 1 | 项目根文件或辅助目录。 |
 | `ROADMAP.md` | 1 | 项目根文件或辅助目录。 |
 | `schemas` | 1 | 项目根文件或辅助目录。 |
-| `scripts` | 43 | 本地构建、验证、代码地图和最小安全检查。 |
+| `scripts` | 57 | 本地构建、验证、代码地图和最小安全检查。 |
 | `SECURITY.md` | 1 | 项目根文件或辅助目录。 |
 | `SUPPORT.md` | 1 | 项目根文件或辅助目录。 |
 | `web-console` | 72 | React/Vite 前端控制台。 |
@@ -49,19 +49,19 @@
 | `analyzer-rust/.cargo` | 1 | Rust 代码逆向分析器。子目录。 |
 | `analyzer-rust/src` | 6 | Rust analyzer 核心源码目录，包含扫描、AST、框架识别、逆向分析和数据模型。 |
 | `analyzer-rust/tests` | 1 | Rust analyzer 合同测试目录，保护 CLI 输出和扫描行为不退化。 |
-| `backend-spring` | 342 | Spring Boot 后端工程，承载认证、项目、仓库、扫描、产物、Agent、审计、修复和集成 API。 |
-| `backend-spring/src` | 339 | Spring Boot 后端服务。子目录。 |
-| `backend-spring/src/main` | 251 | Spring Boot 后端服务。子目录。 |
-| `backend-spring/src/main/java` | 216 | Spring Boot 后端服务。子目录。 |
-| `backend-spring/src/main/java/com` | 216 | Spring Boot 后端服务。子目录。 |
-| `backend-spring/src/main/java/com/sourcelens` | 216 | Spring Boot 后端服务。子目录。 |
+| `backend-spring` | 354 | Spring Boot 后端工程，承载认证、项目、仓库、扫描、产物、Agent、审计、修复和集成 API。 |
+| `backend-spring/src` | 351 | Spring Boot 后端服务。子目录。 |
+| `backend-spring/src/main` | 261 | Spring Boot 后端服务。子目录。 |
+| `backend-spring/src/main/java` | 225 | Spring Boot 后端服务。子目录。 |
+| `backend-spring/src/main/java/com` | 225 | Spring Boot 后端服务。子目录。 |
+| `backend-spring/src/main/java/com/sourcelens` | 225 | Spring Boot 后端服务。子目录。 |
 | `backend-spring/src/main/java/com/sourcelens/common` | 18 | 后端公共基础设施，包含统一响应、异常、安全、配置、可观测性和 MyBatis 配置。 |
 | `backend-spring/src/main/java/com/sourcelens/common/config` | 4 | Spring Boot 后端服务。子目录。 |
 | `backend-spring/src/main/java/com/sourcelens/common/exception` | 2 | Spring Boot 后端服务。子目录。 |
 | `backend-spring/src/main/java/com/sourcelens/common/observability` | 1 | Spring Boot 后端服务。子目录。 |
 | `backend-spring/src/main/java/com/sourcelens/common/security` | 7 | Spring Boot 后端服务。子目录。 |
 | `backend-spring/src/main/java/com/sourcelens/common/web` | 1 | Spring Boot 后端服务。子目录。 |
-| `backend-spring/src/main/java/com/sourcelens/module` | 197 | 后端业务模块根目录，每个子目录对应一个相对独立的产品域。 |
+| `backend-spring/src/main/java/com/sourcelens/module` | 206 | 后端业务模块根目录，每个子目录对应一个相对独立的产品域。 |
 | `backend-spring/src/main/java/com/sourcelens/module/agent` | 57 | Agent 任务、对话、工具调用审计、Code QA、LLM provider 适配。业务模块目录。 |
 | `backend-spring/src/main/java/com/sourcelens/module/agent/controller` | 6 | Agent 任务、对话、工具调用审计、Code QA、LLM provider 适配。Controller 层，暴露 REST 接口、校验入口参数并委托 service。 |
 | `backend-spring/src/main/java/com/sourcelens/module/agent/dto` | 12 | Agent 任务、对话、工具调用审计、Code QA、LLM provider 适配。DTO 层，定义请求/响应契约。 |
@@ -101,12 +101,12 @@
 | `backend-spring/src/main/java/com/sourcelens/module/common` | 1 | 模块级健康检查和共享后端能力。业务模块目录。 |
 | `backend-spring/src/main/java/com/sourcelens/module/dashboard` | 1 | 控制台统计、最近扫描和下一步建议。业务模块目录。 |
 | `backend-spring/src/main/java/com/sourcelens/module/dashboard/controller` | 1 | 控制台统计、最近扫描和下一步建议。Controller 层，暴露 REST 接口、校验入口参数并委托 service。 |
-| `backend-spring/src/main/java/com/sourcelens/module/execution` | 12 | 执行任务、attempt、step、log 和取消流程。业务模块目录。 |
+| `backend-spring/src/main/java/com/sourcelens/module/execution` | 21 | 执行任务、attempt、step、log 和取消流程。业务模块目录。 |
 | `backend-spring/src/main/java/com/sourcelens/module/execution/controller` | 1 | 执行任务、attempt、step、log 和取消流程。Controller 层，暴露 REST 接口、校验入口参数并委托 service。 |
-| `backend-spring/src/main/java/com/sourcelens/module/execution/dto` | 1 | 执行任务、attempt、step、log 和取消流程。DTO 层，定义请求/响应契约。 |
-| `backend-spring/src/main/java/com/sourcelens/module/execution/entity` | 4 | 执行任务、attempt、step、log 和取消流程。Entity 层，映射数据库表。 |
-| `backend-spring/src/main/java/com/sourcelens/module/execution/mapper` | 4 | 执行任务、attempt、step、log 和取消流程。Mapper 层，封装 MyBatis-Plus 数据访问。 |
-| `backend-spring/src/main/java/com/sourcelens/module/execution/service` | 2 | 执行任务、attempt、step、log 和取消流程。Service 层，承载业务规则、状态机、外部系统调用和安全边界。 |
+| `backend-spring/src/main/java/com/sourcelens/module/execution/dto` | 5 | 执行任务、attempt、step、log 和取消流程。DTO 层，定义请求/响应契约。 |
+| `backend-spring/src/main/java/com/sourcelens/module/execution/entity` | 6 | 执行任务、attempt、step、log 和取消流程。Entity 层，映射数据库表。 |
+| `backend-spring/src/main/java/com/sourcelens/module/execution/mapper` | 5 | 执行任务、attempt、step、log 和取消流程。Mapper 层，封装 MyBatis-Plus 数据访问。 |
+| `backend-spring/src/main/java/com/sourcelens/module/execution/service` | 4 | 执行任务、attempt、step、log 和取消流程。Service 层，承载业务规则、状态机、外部系统调用和安全边界。 |
 | `backend-spring/src/main/java/com/sourcelens/module/issue` | 7 | Issue 拆解、任务列表和 Markdown 导出。业务模块目录。 |
 | `backend-spring/src/main/java/com/sourcelens/module/issue/controller` | 1 | Issue 拆解、任务列表和 Markdown 导出。Controller 层，暴露 REST 接口、校验入口参数并委托 service。 |
 | `backend-spring/src/main/java/com/sourcelens/module/issue/dto` | 1 | Issue 拆解、任务列表和 Markdown 导出。DTO 层，定义请求/响应契约。 |
@@ -149,13 +149,13 @@
 | `backend-spring/src/main/java/com/sourcelens/module/user/service` | 1 | 登录、注册、用户信息、JWT 认证。Service 层，承载业务规则、状态机、外部系统调用和安全边界。 |
 | `backend-spring/src/main/java/com/sourcelens/module/workspace` | 1 | 本地工作区和 sandbox 清理。业务模块目录。 |
 | `backend-spring/src/main/java/com/sourcelens/module/workspace/service` | 1 | 本地工作区和 sandbox 清理。Service 层，承载业务规则、状态机、外部系统调用和安全边界。 |
-| `backend-spring/src/main/resources` | 35 | 后端资源目录，包含 Spring 配置、Flyway 数据库迁移和 MyBatis mapper XML。 |
-| `backend-spring/src/main/resources/db` | 32 | Spring Boot 后端服务。子目录。 |
-| `backend-spring/src/main/resources/db/migration` | 32 | Flyway 迁移目录，按版本演进 MySQL schema。 |
-| `backend-spring/src/test` | 88 | Spring Boot 后端服务。子目录。 |
-| `backend-spring/src/test/java` | 83 | Spring Boot 后端服务。子目录。 |
-| `backend-spring/src/test/java/com` | 83 | Spring Boot 后端服务。子目录。 |
-| `backend-spring/src/test/java/com/sourcelens` | 83 | 后端单元/切片测试目录，覆盖 controller、service、安全、sandbox、分析和回归行为。 |
+| `backend-spring/src/main/resources` | 36 | 后端资源目录，包含 Spring 配置、Flyway 数据库迁移和 MyBatis mapper XML。 |
+| `backend-spring/src/main/resources/db` | 33 | Spring Boot 后端服务。子目录。 |
+| `backend-spring/src/main/resources/db/migration` | 33 | Flyway 迁移目录，按版本演进 MySQL schema。 |
+| `backend-spring/src/test` | 90 | Spring Boot 后端服务。子目录。 |
+| `backend-spring/src/test/java` | 85 | Spring Boot 后端服务。子目录。 |
+| `backend-spring/src/test/java/com` | 85 | Spring Boot 后端服务。子目录。 |
+| `backend-spring/src/test/java/com/sourcelens` | 85 | 后端单元/切片测试目录，覆盖 controller、service、安全、sandbox、分析和回归行为。 |
 | `backend-spring/src/test/java/com/sourcelens/common` | 1 | Spring Boot 后端服务。子目录。 |
 | `backend-spring/src/test/java/com/sourcelens/common/security` | 1 | Spring Boot 后端服务。子目录。 |
 | `backend-spring/src/test/java/com/sourcelens/module` | 6 | Spring Boot 后端服务。子目录。 |
@@ -170,14 +170,14 @@
 | `backend-spring/src/test/resources` | 5 | Spring Boot 后端服务。子目录。 |
 | `backend-spring/src/test/resources/mockito-extensions` | 1 | Spring Boot 后端服务。子目录。 |
 | `deploy` | 2 | 部署配置目录，包含 Docker Compose 和环境变量模板。 |
-| `docs` | 177 | 项目事实源文档目录，覆盖产品、架构、API、数据库、安全、运维、阶段需求、进度和交接。 |
-| `docs/aios` | 165 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
-| `docs/aios/decisions` | 3 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
+| `docs` | 226 | 项目事实源文档目录，覆盖产品、架构、API、数据库、安全、运维、阶段需求、进度和交接。 |
+| `docs/aios` | 214 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
+| `docs/aios/decisions` | 29 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/aios/schemas` | 4 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
-| `docs/aios/tasks` | 149 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
+| `docs/aios/tasks` | 172 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/aios/truth` | 1 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/llm-safety-evals` | 2 | LLM 安全评测用例目录，存放 prompt injection、输出质量和 provider run 模板。 |
-| `evaluation-harness` | 266 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness` | 272 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/adapters` | 18 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/adapters/harness_stub` | 2 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/adapters/offline-b0-finite-typed-v1` | 1 | 项目根文件或辅助目录。子目录。 |
@@ -254,7 +254,7 @@
 | `evaluation-harness/fixtures/p1-125-six-task-parameterized/system-configurations` | 6 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/fixtures/stable-replay-projection-v2` | 2 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/fixtures/visible` | 10 | 项目根文件或辅助目录。子目录。 |
-| `evaluation-harness/harness` | 29 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/harness` | 32 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/harness/blind-admission-v1` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/harness/experiment-pack-reentry-v1` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/harness/finite-typed-patch-ir-v1` | 2 | 项目根文件或辅助目录。子目录。 |
@@ -265,6 +265,7 @@
 | `evaluation-harness/harness/p1-116-closed-profile-scanner-admission` | 5 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/harness/p1-125-six-task-parameterized` | 3 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/harness/p1-149-accepted-execution-spine` | 6 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/harness/p2-clean-room-benchmark-foundation-v1` | 3 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/recording` | 31 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/recording/aios-p1-001-evidence` | 25 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/recording/aios-p1-001-evidence/controlled-failure` | 6 | 项目根文件或辅助目录。子目录。 |
@@ -275,19 +276,22 @@
 | `evaluation-harness/recording/p1-097-minimal-documented` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/recording/p1-101-accepted-shared-trace` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/recording/p1-125-six-task-parameterized` | 1 | 项目根文件或辅助目录。子目录。 |
-| `evaluation-harness/replay` | 7 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/replay` | 8 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/replay/p1-097-minimal-documented` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/replay/p1-101-accepted-shared-trace` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/replay/p1-125-six-task-parameterized` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/replay/p1-149-accepted-execution-spine` | 1 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/replay/p2-clean-room-benchmark-foundation-v1` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/replay/stable-replay-projection-v2` | 1 | 项目根文件或辅助目录。子目录。 |
-| `evaluation-harness/reports` | 2 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/reports` | 4 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/reports/p1-217-single-process-report` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/reports/p1-219-dataset-derived-preregistration` | 1 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/reports/p2-clean-room-benchmark-foundation-v1` | 1 | 项目根文件或辅助目录。子目录。 |
+| `evaluation-harness/reports/p2-product-selector-dev-v1` | 1 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/validators` | 3 | 项目根文件或辅助目录。子目录。 |
 | `evaluation-harness/validators/blind-admission-v1` | 1 | 项目根文件或辅助目录。子目录。 |
 | `schemas` | 1 | 项目根文件或辅助目录。子目录。 |
-| `scripts` | 43 | 本地自动化脚本目录，封装启动、校验、代码地图和生成物清理。 |
+| `scripts` | 57 | 本地自动化脚本目录，封装启动、校验、代码地图和生成物清理。 |
 | `web-console` | 72 | React/Vite 前端控制台工程，承载 SourceLens 用户界面和 UI smoke。 |
 | `web-console/src` | 66 | 前端源码根目录。 |
 | `web-console/src/api` | 21 | 前端 API client 层，集中定义后端 HTTP 调用和 TypeScript 响应类型。 |
@@ -698,15 +702,24 @@
 | `backend-spring/src/main/java/com/sourcelens/module/common/HealthController.java` | 模块级健康检查和共享后端能力。该文件属于 common 模块的后端实现。 |
 | `backend-spring/src/main/java/com/sourcelens/module/dashboard/controller/DashboardController.java` | 控制台统计、最近扫描和下一步建议。该 Controller 暴露 REST 接口并把请求转给 service 层。 |
 | `backend-spring/src/main/java/com/sourcelens/module/execution/controller/ExecutionTaskController.java` | 执行任务、attempt、step、log 和取消流程。该 Controller 暴露 REST 接口并把请求转给 service 层。 |
+| `backend-spring/src/main/java/com/sourcelens/module/execution/dto/ExecutionCheckpointState.java` | 执行任务、attempt、step、log 和取消流程。该 DTO 定义请求/响应数据契约。 |
+| `backend-spring/src/main/java/com/sourcelens/module/execution/dto/ExecutionPlanStep.java` | 执行任务、attempt、step、log 和取消流程。该 DTO 定义请求/响应数据契约。 |
+| `backend-spring/src/main/java/com/sourcelens/module/execution/dto/ExecutionResumeState.java` | 执行任务、attempt、step、log 和取消流程。该 DTO 定义请求/响应数据契约。 |
 | `backend-spring/src/main/java/com/sourcelens/module/execution/dto/ExecutionTaskDetailResponse.java` | 执行任务、attempt、step、log 和取消流程。该 DTO 定义请求/响应数据契约。 |
+| `backend-spring/src/main/java/com/sourcelens/module/execution/dto/ExecutionWorkflowPlan.java` | 执行任务、attempt、step、log 和取消流程。该 DTO 定义请求/响应数据契约。 |
 | `backend-spring/src/main/java/com/sourcelens/module/execution/entity/ExecutionAttempt.java` | 执行任务、attempt、step、log 和取消流程。该 Entity 映射数据库表结构。 |
+| `backend-spring/src/main/java/com/sourcelens/module/execution/entity/ExecutionCheckpoint.java` | 执行任务、attempt、step、log 和取消流程。该 Entity 映射数据库表结构。 |
+| `backend-spring/src/main/java/com/sourcelens/module/execution/entity/ExecutionCheckpointHead.java` | 执行任务、attempt、step、log 和取消流程。该 Entity 映射数据库表结构。 |
 | `backend-spring/src/main/java/com/sourcelens/module/execution/entity/ExecutionLog.java` | 执行任务、attempt、step、log 和取消流程。该 Entity 映射数据库表结构。 |
 | `backend-spring/src/main/java/com/sourcelens/module/execution/entity/ExecutionStep.java` | 执行任务、attempt、step、log 和取消流程。该 Entity 映射数据库表结构。 |
 | `backend-spring/src/main/java/com/sourcelens/module/execution/entity/ExecutionTask.java` | 执行任务、attempt、step、log 和取消流程。该 Entity 映射数据库表结构。 |
 | `backend-spring/src/main/java/com/sourcelens/module/execution/mapper/ExecutionAttemptMapper.java` | 执行任务、attempt、step、log 和取消流程。该 Mapper 负责 MyBatis-Plus 数据访问。 |
+| `backend-spring/src/main/java/com/sourcelens/module/execution/mapper/ExecutionCheckpointStore.java` | 执行任务、attempt、step、log 和取消流程。该 Mapper 负责 MyBatis-Plus 数据访问。 |
 | `backend-spring/src/main/java/com/sourcelens/module/execution/mapper/ExecutionLogMapper.java` | 执行任务、attempt、step、log 和取消流程。该 Mapper 负责 MyBatis-Plus 数据访问。 |
 | `backend-spring/src/main/java/com/sourcelens/module/execution/mapper/ExecutionStepMapper.java` | 执行任务、attempt、step、log 和取消流程。该 Mapper 负责 MyBatis-Plus 数据访问。 |
 | `backend-spring/src/main/java/com/sourcelens/module/execution/mapper/ExecutionTaskMapper.java` | 执行任务、attempt、step、log 和取消流程。该 Mapper 负责 MyBatis-Plus 数据访问。 |
+| `backend-spring/src/main/java/com/sourcelens/module/execution/service/ExecutionCheckpointIntegrityException.java` | 执行任务、attempt、step、log 和取消流程。该 Service 承担核心业务逻辑、状态机、外部调用或安全边界。 |
+| `backend-spring/src/main/java/com/sourcelens/module/execution/service/ExecutionCheckpointService.java` | 执行任务、attempt、step、log 和取消流程。该 Service 承担核心业务逻辑、状态机、外部调用或安全边界。 |
 | `backend-spring/src/main/java/com/sourcelens/module/execution/service/ExecutionLogRetentionService.java` | 执行任务、attempt、step、log 和取消流程。该 Service 承担核心业务逻辑、状态机、外部调用或安全边界。 |
 | `backend-spring/src/main/java/com/sourcelens/module/execution/service/ExecutionTaskService.java` | 执行任务、attempt、step、log 和取消流程。该 Service 承担核心业务逻辑、状态机、外部调用或安全边界。 |
 | `backend-spring/src/main/java/com/sourcelens/module/issue/controller/IssueDecompositionController.java` | Issue 拆解、任务列表和 Markdown 导出。该 Controller 暴露 REST 接口并把请求转给 service 层。 |
@@ -815,6 +828,7 @@
 | `backend-spring/src/main/resources/db/migration/V030__add_auto_repair_scan_task_id.sql` | V030__add_auto_repair_scan_task_id.sql Flyway 迁移，主要操作：修改表结构、新增索引/唯一约束。 |
 | `backend-spring/src/main/resources/db/migration/V031__add_code_chunk_lookup_indexes.sql` | V031__add_code_chunk_lookup_indexes.sql Flyway 迁移，主要操作：修改表结构、新增索引/唯一约束。 |
 | `backend-spring/src/main/resources/db/migration/V032__add_code_chunk_root_metadata.sql` | V032__add_code_chunk_root_metadata.sql Flyway 迁移，主要操作：修改表结构、新增索引/唯一约束。 |
+| `backend-spring/src/main/resources/db/migration/V033__add_execution_checkpoints.sql` | V033__add_execution_checkpoints.sql Flyway 迁移，主要操作：创建表、新增索引/唯一约束、字符集/排序规则调整。 |
 | `backend-spring/src/test/java/com/sourcelens/ActuatorSecurityTest.java` | 后端测试文件 ActuatorSecurityTest，覆盖对应 controller/service/security/sandbox/analysis 行为；检测到 2 个测试/断言方法。 |
 | `backend-spring/src/test/java/com/sourcelens/AgentSandboxToolTest.java` | 后端测试文件 AgentSandboxToolTest，覆盖对应 controller/service/security/sandbox/analysis 行为；检测到 10 个测试/断言方法。 |
 | `backend-spring/src/test/java/com/sourcelens/AgentTaskControllerTest.java` | 后端测试文件 AgentTaskControllerTest，覆盖对应 controller/service/security/sandbox/analysis 行为；检测到 1 个测试/断言方法。 |
@@ -852,6 +866,8 @@
 | `backend-spring/src/test/java/com/sourcelens/DashboardControllerTest.java` | 后端测试文件 DashboardControllerTest，覆盖对应 controller/service/security/sandbox/analysis 行为；检测到 2 个测试/断言方法。 |
 | `backend-spring/src/test/java/com/sourcelens/DockerSandboxExecutorTest.java` | 后端测试文件 DockerSandboxExecutorTest，覆盖对应 controller/service/security/sandbox/analysis 行为；检测到 6 个测试/断言方法。 |
 | `backend-spring/src/test/java/com/sourcelens/DummyController.java` | 后端测试文件 DummyController，覆盖对应 controller/service/security/sandbox/analysis 行为；检测到 0 个测试/断言方法。 |
+| `backend-spring/src/test/java/com/sourcelens/ExecutionCheckpointH2IntegrationTest.java` | 后端测试文件 ExecutionCheckpointH2IntegrationTest，覆盖对应 controller/service/security/sandbox/analysis 行为；检测到 4 个测试/断言方法。 |
+| `backend-spring/src/test/java/com/sourcelens/ExecutionCheckpointServiceTest.java` | 后端测试文件 ExecutionCheckpointServiceTest，覆盖对应 controller/service/security/sandbox/analysis 行为；检测到 10 个测试/断言方法。 |
 | `backend-spring/src/test/java/com/sourcelens/ExecutionLogRetentionServiceTest.java` | 后端测试文件 ExecutionLogRetentionServiceTest，覆盖对应 controller/service/security/sandbox/analysis 行为；检测到 4 个测试/断言方法。 |
 | `backend-spring/src/test/java/com/sourcelens/ExecutionTaskControllerTest.java` | 后端测试文件 ExecutionTaskControllerTest，覆盖对应 controller/service/security/sandbox/analysis 行为；检测到 2 个测试/断言方法。 |
 | `backend-spring/src/test/java/com/sourcelens/ExecutionTaskServiceTest.java` | 后端测试文件 ExecutionTaskServiceTest，覆盖对应 controller/service/security/sandbox/analysis 行为；检测到 15 个测试/断言方法。 |
@@ -935,8 +951,34 @@
 | --- | --- |
 | `docs/aios/BASELINE_ADAPTER_CONTRACT.md` | 项目文档。标题：SourceLens AIOS Baseline Adapter Contract。 |
 | `docs/aios/decisions/P2_BENCHMARK_SOURCE_ADMISSION_ACCEPTED_V1.json` | 项目文档。标题：P2_BENCHMARK_SOURCE_ADMISSION_ACCEPTED_V1.json。 |
+| `docs/aios/decisions/P2_CLEAN_ROOM_RECOVERY_RESEQUENCING_AND_MINIMAL_ENVELOPE_EXPANSION_DECISION_V1.json` | 项目文档。标题：P2_CLEAN_ROOM_RECOVERY_RESEQUENCING_AND_MINIMAL_ENVELOPE_EXPANSION_DECISION_V1.json。 |
+| `docs/aios/decisions/P2_CLEAN_ROOM_RECOVERY_RESEQUENCING_AND_MINIMAL_ENVELOPE_EXPANSION_V1.md` | 项目文档。标题：P2 clean-room recovery resequencing and minimal envelope expansion。 |
+| `docs/aios/decisions/P2_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER_PLUS_ONE_SHOT_FORMAL_HELD_SEQUENCE_DECISION_V1.json` | 项目文档。标题：P2_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER_PLUS_ONE_SHOT_FORMAL_HELD_SEQUENCE_DECISION_V1.json。 |
+| `docs/aios/decisions/P2_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER_PLUS_ONE_SHOT_FORMAL_HELD_SEQUENCE_V1.md` | 项目文档。标题：P2 exact frozen P2-078 evaluation and Evidence adapter plus one-shot formal HELD sequence V1。 |
+| `docs/aios/decisions/P2_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_ROUTE_UNLOCK_DECISION_V1.json` | 项目文档。标题：P2_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_ROUTE_UNLOCK_DECISION_V1.json。 |
+| `docs/aios/decisions/P2_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_ROUTE_UNLOCK_V1.md` | 项目文档。标题：P2 exact frozen P2-078 one-shot formal HELD route unlock V1。 |
+| `docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_B1_ANCHORED_GRAPH_FUSION_SLOT_AND_RELOCKED_HELD_SEQUENCE_DECISION_V6.json` | 项目文档。标题：P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_B1_ANCHORED_GRAPH_FUSION_SLOT_AND_RELOCKED_HELD_SEQUENCE_DECISION_V6.json。 |
+| `docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_B1_ANCHORED_GRAPH_FUSION_SLOT_AND_RELOCKED_HELD_SEQUENCE_V6.md` | 项目文档。标题：P2 one independent Product Selector DEV B1-anchored graph-fusion slot and re-locked HELD sequence V6。 |
+| `docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_EXECUTION_INTEGRITY_SLOT_AND_RELOCKED_HELD_SEQUENCE_DECISION_V2.json` | 项目文档。标题：P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_EXECUTION_INTEGRITY_SLOT_AND_RELOCKED_HELD_SEQUENCE_DECISION_V2.json。 |
+| `docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_EXECUTION_INTEGRITY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V2.md` | 项目文档。标题：P2 one independent Product Selector DEV execution-integrity slot and re-locked HELD sequence V2。 |
+| `docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_SLOT_AND_RELOCKED_HELD_SEQUENCE_DECISION_V8.json` | 项目文档。标题：P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_SLOT_AND_RELOCKED_HELD_SEQUENCE_DECISION_V8.json。 |
+| `docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_SLOT_AND_RELOCKED_HELD_SEQUENCE_V8.md` | 项目文档。标题：P2 one independent Product Selector DEV JDK17 scan-time compiler-attributed persisted-graph slot and re-locked HELD sequence V8。 |
+| `docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_SLOT_AND_RELOCKED_HELD_SEQUENCE_DECISION_V4.json` | 项目文档。标题：P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_SLOT_AND_RELOCKED_HELD_SEQUENCE_DECISION_V4.json。 |
+| `docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V4.md` | 项目文档。标题：P2 one independent Product Selector DEV product-path-and-evidence-closure slot and re-locked HELD sequence V4。 |
+| `docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_AND_RELOCKED_HELD_SEQUENCE_DECISION_V5.json` | 项目文档。标题：P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_AND_RELOCKED_HELD_SEQUENCE_DECISION_V5.json。 |
+| `docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_QUERY_ENTITY_COVERAGE_ARCHITECTURE_PIVOT_SLOT_AND_RELOCKED_HELD_SEQUENCE_V5.md` | 项目文档。标题：P2 one independent Product Selector DEV query-entity-coverage architecture-pivot slot and re-locked HELD sequence V5。 |
+| `docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_RECOVERY_SLOT_AND_RELOCKED_HELD_SEQUENCE_DECISION_V1.json` | 项目文档。标题：P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_RECOVERY_SLOT_AND_RELOCKED_HELD_SEQUENCE_DECISION_V1.json。 |
+| `docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_RECOVERY_SLOT_AND_RELOCKED_HELD_SEQUENCE_V1.md` | 项目文档。标题：P2 one independent Product Selector DEV recovery slot and re-locked HELD sequence。 |
+| `docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SANDBOX_STREAM_LIFECYCLE_SLOT_AND_RELOCKED_HELD_SEQUENCE_DECISION_V3.json` | 项目文档。标题：P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SANDBOX_STREAM_LIFECYCLE_SLOT_AND_RELOCKED_HELD_SEQUENCE_DECISION_V3.json。 |
+| `docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SANDBOX_STREAM_LIFECYCLE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V3.md` | 项目文档。标题：P2 one independent Product Selector DEV sandbox-stream-lifecycle slot and re-locked HELD sequence V3。 |
+| `docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_DECISION_V7.json` | 项目文档。标题：P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_DECISION_V7.json。 |
+| `docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_SOURCE_IDENTITY_CORRECTION_V1.json` | 项目文档。标题：P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_SOURCE_IDENTITY_CORRECTION_V1.json。 |
+| `docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V7.md` | 项目文档。标题：P2 one independent Product Selector DEV semantic-symbol-impact-cone slot and re-locked HELD sequence V7。 |
 | `docs/aios/decisions/P2_VALUE_FIRST_RECOVERY_ENVELOPE_EXPANSION_DECISION_V1.json` | 项目文档。标题：P2_VALUE_FIRST_RECOVERY_ENVELOPE_EXPANSION_DECISION_V1.json。 |
 | `docs/aios/decisions/P2_VALUE_FIRST_RECOVERY_ENVELOPE_EXPANSION_V1.md` | 项目文档。标题：P2 value-first recovery envelope expansion。 |
+| `docs/aios/decisions/P3_EXECUTABLE_TRANSITION_SYSTEM_KERNEL_REENTRY_ROUTE_DECISION_V1.json` | 项目文档。标题：P3_EXECUTABLE_TRANSITION_SYSTEM_KERNEL_REENTRY_ROUTE_DECISION_V1.json。 |
+| `docs/aios/decisions/P3_ONE_FINAL_HERMETIC_CAPABILITY_LEDGER_ROUTE_AFTER_PREACTIVATION_TERMINAL_DECISION_V1.json` | 项目文档。标题：P3_ONE_FINAL_HERMETIC_CAPABILITY_LEDGER_ROUTE_AFTER_PREACTIVATION_TERMINAL_DECISION_V1.json。 |
+| `docs/aios/decisions/P3_TASK_WIDE_RESERVATION_FRONTIER_TRANSACTIONAL_EXECUTION_ROUTE_DECISION_V1.json` | 项目文档。标题：P3_TASK_WIDE_RESERVATION_FRONTIER_TRANSACTIONAL_EXECUTION_ROUTE_DECISION_V1.json。 |
 | `docs/aios/EVALUATION_PROTOCOL.md` | 项目文档。标题：SourceLens AIOS Evaluation and Research Protocol。 |
 | `docs/aios/FOUNDER_DELEGATION_POLICY.md` | 项目文档。标题：SourceLens AIOS Founder Delegation Policy。 |
 | `docs/aios/MASTER_EXECUTION_PROTOCOL.md` | 项目文档。标题：SourceLens AIOS Master Execution Protocol。 |
@@ -1097,6 +1139,29 @@
 | `docs/aios/tasks/P2-065_ESM_IMPORT_GRAPH_CONTEXT_PRODUCT_BENCHMARK.yaml` | 项目文档。标题：P2-065_ESM_IMPORT_GRAPH_CONTEXT_PRODUCT_BENCHMARK.yaml。 |
 | `docs/aios/tasks/P2-066_JAVA_STRUCTURAL_CONTEXT_DISCRIMINATION_BENCHMARK.yaml` | 项目文档。标题：P2-066_JAVA_STRUCTURAL_CONTEXT_DISCRIMINATION_BENCHMARK.yaml。 |
 | `docs/aios/tasks/P2-067_INDEPENDENT_BLACK_BOX_JAVA_CONTEXT_BENCHMARK.yaml` | 项目文档。标题：P2-067_INDEPENDENT_BLACK_BOX_JAVA_CONTEXT_BENCHMARK.yaml。 |
+| `docs/aios/tasks/P2-068_RECOVERY_BENCHMARK_FOUNDATION.yaml` | 项目文档。标题：P2-068_RECOVERY_BENCHMARK_FOUNDATION.yaml。 |
+| `docs/aios/tasks/P2-069_CLEAN_ROOM_RECOVERY_BENCHMARK_FOUNDATION.yaml` | 项目文档。标题：P2-069_CLEAN_ROOM_RECOVERY_BENCHMARK_FOUNDATION.yaml。 |
+| `docs/aios/tasks/P2-070_PRODUCT_JAVA_MAINTENANCE_CONTEXT_SELECTOR_DEV.yaml` | 项目文档。标题：P2-070_PRODUCT_JAVA_MAINTENANCE_CONTEXT_SELECTOR_DEV.yaml。 |
+| `docs/aios/tasks/P2-071_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_DEV.yaml` | 项目文档。标题：P2-071_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_DEV.yaml。 |
+| `docs/aios/tasks/P2-072_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_EXECUTION_INTEGRITY_DEV.yaml` | 项目文档。标题：P2-072_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_EXECUTION_INTEGRITY_DEV.yaml。 |
+| `docs/aios/tasks/P2-073_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_SANDBOX_STREAM_LIFECYCLE_DEV.yaml` | 项目文档。标题：P2-073_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_SANDBOX_STREAM_LIFECYCLE_DEV.yaml。 |
+| `docs/aios/tasks/P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV.yaml` | 项目文档。标题：P2-074_CLEAN_ROOM_JAVA_MAINTENANCE_CONTEXT_SELECTOR_PRODUCT_PATH_AND_EVIDENCE_CLOSURE_DEV.yaml。 |
+| `docs/aios/tasks/P2-075_CLEAN_ROOM_QUERY_ENTITY_COVERAGE_PRODUCT_SELECTOR_ARCHITECTURE_PIVOT_DEV.yaml` | 项目文档。标题：P2-075_CLEAN_ROOM_QUERY_ENTITY_COVERAGE_PRODUCT_SELECTOR_ARCHITECTURE_PIVOT_DEV.yaml。 |
+| `docs/aios/tasks/P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV.yaml` | 项目文档。标题：P2-076_CLEAN_ROOM_B1_ANCHORED_GRAPH_FUSION_PRODUCT_SELECTOR_DEV.yaml。 |
+| `docs/aios/tasks/P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV.yaml` | 项目文档。标题：P2-077_CLEAN_ROOM_SEMANTIC_SYMBOL_IMPACT_CONE_PRODUCT_SELECTOR_DEV.yaml。 |
+| `docs/aios/tasks/P2-078_CLEAN_ROOM_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_PRODUCT_SELECTOR_DEV.yaml` | 项目文档。标题：P2-078_CLEAN_ROOM_JDK17_SCAN_TIME_COMPILER_ATTRIBUTED_PERSISTED_GRAPH_PRODUCT_SELECTOR_DEV.yaml。 |
+| `docs/aios/tasks/P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION.yaml` | 项目文档。标题：P2-079_EXACT_FROZEN_P2_078_ONE_SHOT_FORMAL_HELD_EVALUATION.yaml。 |
+| `docs/aios/tasks/P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER.yaml` | 项目文档。标题：P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER.yaml。 |
+| `docs/aios/tasks/P3-001_DURABLE_EXECUTION_CHECKPOINT_RESUME_KERNEL.yaml` | 项目文档。标题：P3-001_DURABLE_EXECUTION_CHECKPOINT_RESUME_KERNEL.yaml。 |
+| `docs/aios/tasks/P3-002_CAPABILITY_SCOPED_TOOL_PERMISSION_ENFORCEMENT.yaml` | 项目文档。标题：P3-002_CAPABILITY_SCOPED_TOOL_PERMISSION_ENFORCEMENT.yaml。 |
+| `docs/aios/tasks/P3-003_PERSISTED_TOOL_CAPABILITY_LEDGER_ENFORCEMENT.yaml` | 项目文档。标题：P3-003_PERSISTED_TOOL_CAPABILITY_LEDGER_ENFORCEMENT.yaml。 |
+| `docs/aios/tasks/P3-004_HERMETIC_SUREFIRE_AND_PERSISTED_CAPABILITY_LEDGER.yaml` | 项目文档。标题：P3-004_HERMETIC_SUREFIRE_AND_PERSISTED_CAPABILITY_LEDGER.yaml。 |
+| `docs/aios/tasks/P3-005_ZERO_AUTHORITY_AGENT_ACTION_REQUEST_BOUNDARY.yaml` | 项目文档。标题：P3-005_ZERO_AUTHORITY_AGENT_ACTION_REQUEST_BOUNDARY.yaml。 |
+| `docs/aios/tasks/P3-006_HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION_VERTICAL_SLICE.yaml` | 项目文档。标题：P3-006_HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION_VERTICAL_SLICE.yaml。 |
+| `docs/aios/tasks/P3-007_FINAL_TRANSACTIONAL_HOST_WORKFLOW_PERMISSION_ISOLATION_TRACE.yaml` | 项目文档。标题：P3-007_FINAL_TRANSACTIONAL_HOST_WORKFLOW_PERMISSION_ISOLATION_TRACE.yaml。 |
+| `docs/aios/tasks/P3-ETSK-F1_EXECUTABLE_TRANSITION_SYSTEM_KERNEL.yaml` | 项目文档。标题：P3-ETSK-F1_EXECUTABLE_TRANSITION_SYSTEM_KERNEL.yaml。 |
+| `docs/aios/tasks/P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT.yaml` | 项目文档。标题：P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT.yaml。 |
+| `docs/aios/tasks/P3-TWRF-F1_TASK_WIDE_RESERVATION_STATE_MACHINE_FOUNDATION.yaml` | 项目文档。标题：P3-TWRF-F1_TASK_WIDE_RESERVATION_STATE_MACHINE_FOUNDATION.yaml。 |
 | `docs/aios/truth/project_state.yaml` | 项目文档。标题：project_state.yaml。 |
 | `docs/API_DESIGN.md` | API 设计文档，记录后端接口、请求响应、权限和当前 route inventory。标题：API 设计。 |
 | `docs/ARCHITECTURE.md` | 项目文档。标题：架构设计。 |
@@ -1335,6 +1400,9 @@
 | `evaluation-harness/harness/p1-149-accepted-execution-spine/negative-matrix.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/harness/p1-149-accepted-execution-spine/patch-ir-v2.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/harness/p1-149-accepted-execution-spine/run-preflight.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/harness/p2-clean-room-benchmark-foundation-v1/cli.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/harness/p2-clean-room-benchmark-foundation-v1/core.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/harness/p2-clean-room-benchmark-foundation-v1/test.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/harness/README.md` | Markdown 文档。 |
 | `evaluation-harness/harness/run.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/harness/self-test.mjs` | Node.js 自动化脚本或配置文件。 |
@@ -1374,10 +1442,13 @@
 | `evaluation-harness/replay/p1-101-accepted-shared-trace/replay.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/replay/p1-125-six-task-parameterized/project.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/replay/p1-149-accepted-execution-spine/replay.mjs` | Node.js 自动化脚本或配置文件。 |
+| `evaluation-harness/replay/p2-clean-room-benchmark-foundation-v1/verify-replays.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/replay/replay.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/replay/stable-replay-projection-v2/project.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/reports/p1-217-single-process-report/README.md` | Markdown 文档。 |
 | `evaluation-harness/reports/p1-219-dataset-derived-preregistration/P2_CONTEXT_ENGINE_PREREGISTRATION.json` | JSON 配置或数据文件。 |
+| `evaluation-harness/reports/p2-clean-room-benchmark-foundation-v1/SPEC.md` | Markdown 文档。 |
+| `evaluation-harness/reports/p2-product-selector-dev-v1/ACCEPTED_P2_069_DEV_BASELINE_MANIFEST.json` | JSON 配置或数据文件。 |
 | `evaluation-harness/validators/blind-admission-v1/validator.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/validators/task-dataset-self-test.mjs` | Node.js 自动化脚本或配置文件。 |
 | `evaluation-harness/validators/task-dataset-validator.mjs` | Node.js 自动化脚本或配置文件。 |
@@ -1431,6 +1502,11 @@
 | `scripts/test-founder-knowledge-sync.rb` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/test-p2-recovery-anti-cycle.rb` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/test-p2-recovery-envelope-expansion.rb` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
+| `scripts/test-p3-002-task-authority.rb` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
+| `scripts/test-p3-003-task-authority.rb` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
+| `scripts/test-p3-final-transactional-route.rb` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
+| `scripts/test-p3-phase-entry.rb` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
+| `scripts/test-p3-task-authority.rb` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/test-phase-delegated-task-authority.rb` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/test-strict-phase-gates.rb` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/validate-aios-governance.sh` | 静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。 |
@@ -1443,6 +1519,15 @@
 | `scripts/validate-llm-safety-evals.mjs` | 静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。 |
 | `scripts/validate-p2-benchmark-source-pack.rb` | 静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。 |
 | `scripts/validate-p2-recovery-anti-cycle.rb` | 静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。 |
+| `scripts/validate-p3-002-task-authority.rb` | 静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。 |
+| `scripts/validate-p3-003-task-authority.rb` | 静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。 |
+| `scripts/validate-p3-004-task-authority.rb` | 静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。 |
+| `scripts/validate-p3-005-task-authority.rb` | 静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。 |
+| `scripts/validate-p3-final-transactional-route.rb` | 静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。 |
+| `scripts/validate-p3-phase-entry.rb` | 静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。 |
+| `scripts/validate-p3-task-authority.rb` | 静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。 |
+| `scripts/validate-p3-zero-authority-route.rb` | 静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。 |
+| `scripts/validate-strict-phase-gates.rb` | 静态或语义校验脚本，用于锁定 API/UI/产物/LLM 输出等工程合同。 |
 | `scripts/verify-all.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/verify-p1-066-offline-b0.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |
 | `scripts/verify-p1-069-blind-admission-harness.sh` | 工程自动化脚本，服务本地验证、smoke、preflight、drill 或专项门禁。 |

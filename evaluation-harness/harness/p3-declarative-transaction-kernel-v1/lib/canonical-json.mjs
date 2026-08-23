@@ -190,4 +190,3 @@ export function readCanonicalJson(path, label = path) {
 export function deepClone(value) {
   return strictParseJson(canonicalJsonBytes(value), 'deep clone')
 }
-

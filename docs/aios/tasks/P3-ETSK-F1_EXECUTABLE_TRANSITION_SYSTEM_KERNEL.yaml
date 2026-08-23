@@ -1,0 +1,263 @@
+schema_version: aios-task-contract/v1
+task_id: AIOS-P3-ETSK-F1_EXECUTABLE_TRANSITION_SYSTEM_KERNEL
+phase: P3
+task_kind: EVALUATION_FOUNDATION
+status: ACTIVE
+title: Executable transition-system kernel Foundation
+
+authority:
+  founder_decision_id: AUTHORIZE_P3_EXECUTABLE_TRANSITION_SYSTEM_KERNEL_TASK_WIDE_PRODUCT_AND_ONE_SHOT_AUDIT_REENTRY_V1
+  route_id: P3_EXECUTABLE_TRANSITION_SYSTEM_KERNEL_REENTRY_ROUTE_V1
+  stage_id: EXECUTABLE_TRANSITION_SYSTEM_KERNEL
+  delegated_owner: MASTER_CEO_AGENT
+  task_gate_owner: MASTER_CEO_AGENT
+  independent_reviewer: QUALITY_EVALUATION_AGENT
+  strategic_constitution:
+    path: docs/aios/STRATEGIC_CONSTITUTION.md
+    version: "3.2"
+    sha256: ccba174ea66d1044d63de97cd1a666139d6c886d2ebd1d790dbb59b98fb9b32a
+  evaluation_protocol:
+    path: docs/aios/EVALUATION_PROTOCOL.md
+    version: "1.1"
+    sha256: da029143561fbb3c213d4a358b25e085542c6cd26ae8150a53cbb5998177eed8
+  canonical_parent:
+    commit: 5c6a4c2a46ca35f3b2ed9343dd4a43632bcb9dd2
+    tree: a0b4e1423e1d52cfab7f17feea66b85d69de19d7
+
+objective:
+  statement: >-
+    Build one deterministic executable transition-system Foundation in the
+    evaluation harness so that the machine specification is the sole semantic
+    source, the interpreter mutates state only through the declared transition
+    relation, and an independent verifier can replay every event from the exact
+    initial state and fail closed on semantic corruption.
+  phase_value: >-
+    Freeze a falsifiable state-machine and oracle contract for the later
+    task-wide transactional Product Task without changing product source.
+  success_claim: EXECUTABLE_TRANSITION_SYSTEM_KERNEL_FOUNDATION_ACCEPTED
+  progress_credit_on_pass:
+    p3_delivery_percent: 0
+    p3_strict_exit_percent: 0
+    governance_percent: 0
+
+scope:
+  task_branch: codex/p3-etsk-f1-executable-transition-system-kernel
+  task_worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p3-etsk-f1-executable-transition-system-kernel
+  evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p3-executable-transition-system-kernel-reentry-20260823/task-foundation
+  worker_allowed_paths:
+    - evaluation-harness/harness/p3-executable-transition-system-kernel-v1
+    - evaluation-harness/reports/p3-executable-transition-system-kernel-v1
+    - docs/aios/tasks/P3-ETSK-F1_EXECUTABLE_TRANSITION_SYSTEM_KERNEL.yaml
+    - docs/PROJECT_CODE_MAP.md
+  product_source_changes_allowed: false
+  canonical_truth_changes_allowed_to_worker: false
+  strategic_or_policy_changes_allowed: false
+
+budget:
+  engineering_tasks: 1
+  engineering_hours: 8
+  calendar_days: 2
+  candidate_generations: 1
+  same_task_repairs: 0
+  review_cycles: 1
+  implementation_must_start_within_engineering_hour: 1
+  governance_share_max_percent: 10
+
+clean_room_inputs:
+  allowed:
+    - CANONICAL_MAIN_AT_ACTIVATION_PARENT
+    - ACCEPTED_P3_001_PUBLIC_CHECKPOINT_BEHAVIOR
+    - STRATEGIC_CONSTITUTION_V3_2
+    - EVALUATION_PROTOCOL_V1_1
+    - CURRENT_FOUNDER_DECISION_AND_THIS_TASK_CONTRACT
+    - TWRF_TERMINAL_RECEIPT_IDENTITY_ONLY
+    - P3-TWRF-F1-C1-P1-001_ID_ONLY
+    - P3-TWRF-F1-C1-P1-002_ID_ONLY
+  forbidden:
+    - TWRF_REJECTED_CANDIDATE_BYTES
+    - TWRF_REJECTED_SOURCE
+    - TWRF_REJECTED_TESTS
+    - TWRF_REJECTED_VERIFIER
+    - TWRF_REPORTS_OR_RAW_REVIEW_PROBES
+    - ANY_EARLIER_REJECTED_ENGINEERING_LINEAGE
+  rule: >-
+    Do not read, compare, copy, execute, repair, or reuse forbidden lineage.
+    The two permitted TWRF finding identifiers carry no implementation content.
+
+runtime:
+  language: ECMASCRIPT_MODULES
+  node:
+    version: v22.23.2
+    platform_arch: darwin/arm64
+    executable: /opt/homebrew/Cellar/node@22/22.23.2/bin/node
+    sha256: 0ef5d6908a2c10506f9685b1bd2496b6f7bcb0e23a6ee025c75eb036b997474b
+  network_sandbox:
+    executable: /usr/bin/sandbox-exec
+    executable_sha256: 7fc7dcd7782e1abd52b11f6c512bdfb0c09d2502b619c483fdfce554c472352e
+    exact_profile: "(version 1) (allow default) (deny network*)"
+    required_for_test_and_replay: true
+  dependencies: NODE_STANDARD_LIBRARY_ONLY
+
+machine_spec_contract:
+  canonical_path: evaluation-harness/harness/p3-executable-transition-system-kernel-v1/machine_spec.json
+  sole_semantic_source: true
+  schema_version: p3-etsk-machine-spec/v1
+  required_domains:
+    - states
+    - events
+    - initial_state
+    - terminal_states
+    - result_schemas
+    - transition_relation
+    - guards
+    - effects
+    - invariants
+    - aggregate_trace_contract
+  accepted_p3_001_semantics:
+    workflow_unbound_before_first_accepted_checkpoint: true
+    different_workflow_step_zero_proposals_may_compete: true
+    task_id_only_active_reservation_allows_exactly_one_pre_effect_winner: true
+    successful_first_checkpoint_binds_workflow: true
+    workflow_drift_after_checkpoint_fails_closed: true
+    failure_release_requires_accepted_terminal_confirmed_cleanup_and_no_checkpoint: true
+    prebinding_one_workflow_at_task_creation_allowed: false
+  semantic_duplication_forbidden:
+    - STATE_EVENT_SWITCH_TABLE_OUTSIDE_MACHINE_SPEC
+    - HARDCODED_TRANSITION_BRANCH_IN_INTERPRETER
+    - VERIFIER_ONLY_ALTERNATE_TRANSITION_MODEL
+    - TEST_ONLY_ORACLE_THAT_BYPASSES_MACHINE_SPEC
+
+interpreter_contract:
+  input: INITIAL_MACHINE_SNAPSHOT_PLUS_ORDERED_EVENT
+  output: NEXT_MACHINE_SNAPSHOT_PLUS_TRANSITION_RECORD
+  requirements:
+    - VALIDATE_MACHINE_SPEC_BEFORE_EXECUTION
+    - RESOLVE_EXACTLY_ONE_DECLARED_TRANSITION
+    - EVALUATE_ONLY_DECLARED_GUARDS
+    - APPLY_ONLY_DECLARED_EFFECTS
+    - VALIDATE_DECLARED_RESULT_SCHEMA
+    - RECHECK_ALL_DECLARED_INVARIANTS_AFTER_EACH_EVENT
+    - REJECT_UNKNOWN_STATE_EVENT_GUARD_EFFECT_OR_RESULT_FIELD
+    - NEVER_MUTATE_CALLER_INPUT
+    - PRODUCE_DETERMINISTIC_CANONICAL_JSON
+
+verifier_contract:
+  independence_boundary: >-
+    The verifier may consume the same immutable machine_spec.json but must not
+    call the interpreter or trust interpreter-produced snapshots, aggregates,
+    transition identifiers, result validity flags, or terminal verdicts.
+  replay_requirements:
+    - RECONSTRUCT_INITIAL_STATE_FROM_SPEC_AND_DECLARED_RUN_INPUT
+    - REPLAY_EVERY_EVENT_IN_ORDER
+    - DERIVE_EACH_EXPECTED_TRANSITION_FROM_MACHINE_SPEC
+    - RECOMPUTE_EACH_RESULT_VALIDATION
+    - RECOMPUTE_EACH_POST_STATE_AND_INVARIANT
+    - RECOMPUTE_PER_INVOCATION_AND_TASK_AGGREGATES
+    - REQUIRE_TRACE_TO_MATCH_RECOMPUTED_VALUES_BYTE_SEMANTICALLY
+    - PROVE_TERMINAL_REPLAY_CANNOT_MUTATE_OTHER_INVOCATION
+    - FAIL_CLOSED_WITH_STABLE_REASON_CODE
+
+required_positive_scenarios:
+  - STEP_ZERO_COMPETITION_ONE_PRE_EFFECT_WINNER
+  - CHECKPOINT_BINDS_WORKFLOW
+  - SAME_WORKFLOW_RESUME_AFTER_CHECKPOINT
+  - PRECHECKPOINT_CONFIRMED_FAILURE_RELEASES_RESERVATION
+  - POSTCHECKPOINT_FAILURE_RETAINS_BOUND_HISTORY
+  - TERMINAL_A_REPLAY_PRESERVES_LATER_RESERVATION_B
+  - EXACTLY_ONE_TERMINAL_PER_INVOCATION
+
+required_negative_controls:
+  - id: UNKNOWN_STATE
+    expected_reason: UNKNOWN_STATE
+  - id: UNKNOWN_EVENT
+    expected_reason: UNKNOWN_EVENT
+  - id: ILLEGAL_TRANSITION
+    expected_reason: ILLEGAL_TRANSITION
+  - id: MISSING_RESULT
+    expected_reason: RESULT_REQUIRED
+  - id: FORGED_RESULT
+    expected_reason: RESULT_SCHEMA_MISMATCH
+  - id: AGGREGATE_TRACE_MISMATCH
+    expected_reason: AGGREGATE_TRACE_MISMATCH
+  - id: TERMINAL_REPLAY_CROSS_INVOCATION_MUTATION
+    expected_reason: CROSS_INVOCATION_MUTATION
+  - id: RESERVATION_TAMPER
+    expected_reason: STATE_SNAPSHOT_MISMATCH
+  - id: HISTORY_TAMPER
+    expected_reason: HISTORY_MISMATCH
+
+mutation_gate:
+  source: MACHINE_SPEC_AND_VALID_TRACE_MUTATIONS_ONLY
+  required_killed_mutants: 9
+  total_mutants: 9
+  required_score_percent: 100
+  each_mutant_must_fail_for_declared_reason: true
+  false_accepts_allowed: 0
+
+deliverables:
+  - path: evaluation-harness/harness/p3-executable-transition-system-kernel-v1/machine_spec.json
+    kind: EXECUTABLE_MACHINE_SPEC
+  - path: evaluation-harness/harness/p3-executable-transition-system-kernel-v1/interpreter.mjs
+    kind: GENERIC_SPEC_DRIVEN_INTERPRETER
+  - path: evaluation-harness/harness/p3-executable-transition-system-kernel-v1/verifier.mjs
+    kind: INDEPENDENT_FULL_TRACE_REPLAY_VERIFIER
+  - path: evaluation-harness/harness/p3-executable-transition-system-kernel-v1/scenarios.mjs
+    kind: FROZEN_POSITIVE_AND_NEGATIVE_SCENARIOS
+  - path: evaluation-harness/harness/p3-executable-transition-system-kernel-v1/test.mjs
+    kind: DETERMINISTIC_FOUNDATION_AND_MUTATION_MATRIX
+  - path: evaluation-harness/harness/p3-executable-transition-system-kernel-v1/run.mjs
+    kind: REPRODUCTION_ENTRYPOINT
+  - path: evaluation-harness/harness/p3-executable-transition-system-kernel-v1/README.md
+    kind: REPRODUCTION_AND_BOUNDARY_NOTE
+  - path: evaluation-harness/reports/p3-executable-transition-system-kernel-v1/FOUNDATION_REPORT.json
+    kind: DETERMINISTIC_REPRODUCIBLE_REPORT
+
+verification:
+  required_commands:
+    - >-
+      /usr/bin/sandbox-exec -f evaluation-harness/harness/p3-executable-transition-system-kernel-v1/deny-network.sb
+      /opt/homebrew/Cellar/node@22/22.23.2/bin/node
+      evaluation-harness/harness/p3-executable-transition-system-kernel-v1/test.mjs
+    - >-
+      /usr/bin/sandbox-exec -f evaluation-harness/harness/p3-executable-transition-system-kernel-v1/deny-network.sb
+      /opt/homebrew/Cellar/node@22/22.23.2/bin/node
+      evaluation-harness/harness/p3-executable-transition-system-kernel-v1/run.mjs
+  deterministic_replays: 2
+  report_byte_equality_required: true
+  expected_positive_scenarios: 7
+  expected_negative_controls: 9
+  expected_false_accepts: 0
+  forbidden_external_effects_observed: 0
+
+independent_review:
+  required: true
+  reviewer: QUALITY_EVALUATION_AGENT
+  cycles: 1
+  review_scope:
+    - SINGLE_SEMANTIC_SOURCE
+    - INTERPRETER_ONLY_DECLARED_TRANSITIONS
+    - VERIFIER_FULL_REPLAY_AND_INDEPENDENCE
+    - ALL_NINE_FAIL_CLOSED_MUTATION_CONTROLS
+    - DETERMINISM_AND_EVIDENCE_INTEGRITY
+    - NO_PRODUCT_SOURCE_DIFF
+    - NO_EXTERNAL_EFFECT
+  task_gate_pass_requires_review_pass: true
+
+stop_conditions:
+  - MACHINE_SPEC_IS_NOT_THE_ONLY_SEMANTIC_SOURCE
+  - INTERPRETER_MUTATES_OUTSIDE_DECLARED_TRANSITION_RELATION
+  - VERIFIER_DOES_NOT_REPLAY_EVERY_EVENT_FROM_INITIAL_STATE
+  - ANY_REQUIRED_MUTATION_FALSE_ACCEPTS
+  - ANY_REQUIRED_RESULT_OR_AGGREGATE_TAMPER_FALSE_ACCEPTS
+  - ANY_PRODUCT_SOURCE_PATH_CHANGES
+  - ANY_FORBIDDEN_LINEAGE_READ_OR_REUSE
+  - ANY_NETWORK_PROVIDER_SECRET_REMOTE_PRODUCTION_PUBLIC_OR_P4_EFFECT
+  - BUDGET_OR_REVIEW_LIMIT_EXHAUSTED
+
+lifecycle:
+  foundation_non_pass_terminates_route: true
+  product_locked_until_foundation_accepted: true
+  audit_locked_until_product_accepted_and_integrated: true
+  no_successor_replacement_remediation_or_v2_chain: true
+  project_incomplete: true
+  long_term_goal_status: ACTIVE

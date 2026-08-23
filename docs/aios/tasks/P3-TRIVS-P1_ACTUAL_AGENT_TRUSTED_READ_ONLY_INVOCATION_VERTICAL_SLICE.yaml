@@ -1,0 +1,275 @@
+schema_version: phase-delegated-task-contract/v1.2
+record_type: AIOS_PHASE_DELEGATED_TASK_CONTRACT
+task_id: AIOS-P3-TRIVS-P1_ACTUAL_AGENT_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE
+status: ACTIVE
+phase: P3
+route_id: P3_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE_ROUTE_V1
+stage_id: TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE_PRODUCT
+kind: PRODUCT_IMPLEMENTATION
+objective_id: ACTUAL_AGENT_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE
+strict_exit_gate_id: ACTUAL_AGENT_TO_TRUSTED_HOST_READ_ONLY_INVOCATION_WITH_AUTOMATIC_RECOVERY
+workflow_id: SHA256_READ_ONLY_CUSTODY_V1
+why_now: >-
+  Complete the narrowest real P3 product slice that closes the frozen DTK terminal
+  blockers without reopening the rejected generic transaction-kernel lineage: one
+  production AgentTask ingress, one host-derived fixed read-only action, one real
+  MySQL durability path, one pinned local OCI path, and automatic fresh-process
+  recovery.
+branch: codex/p3-trivs-p1-actual-agent-trusted-read-only-invocation
+worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p3-trivs-p1-actual-agent-trusted-read-only-invocation
+evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-read-only-invocation-vertical-slice-20260823/task-product
+activation_parent_commit: fc0c3bfa57480ca8e41678b16268185ea4e264f1
+activation_parent_tree: 385ac48d63a7daf3db3597a0af29da55633912a6
+execution_nonce: P3-TRIVS-P1-b80b0084-608f-4ed4-9a5b-d02ea4366413
+authorization_id: P3-TRIVS-P1-PHASE-DELEGATED-724596c2-e70f-4cb2-ba02-311e52c446ed
+decision_id: AUTHORIZE_P3_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE_OBJECTIVE_EXIT_GATE_AND_FINAL_ROUTE_REBASELINE_AFTER_DTK_TERMINAL_V1
+goal_identity:
+  raw_sha256: 28bc384fbac9d69c6de3ef8709a5be5a0473309b0fe0e54b01bead13d4fa9cf1
+  raw_byte_length: 19433
+  canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
+  canonical_sha256: b1be2cb56da4a1ad8b16fb3d8e8d5ccc413c047da30bd4cbdb161ebc1df5f70a
+  canonical_byte_length: 19434
+write_allowlist:
+  - backend-spring/src/main/java/com/sourcelens/module/agent/service/AgentRuntime.java
+  - backend-spring/src/main/java/com/sourcelens/module/agent/service/AgentTaskService.java
+  - backend-spring/src/main/java/com/sourcelens/module/execution/service/ExecutionTaskService.java
+  - backend-spring/src/main/java/com/sourcelens/module/execution/trustedread
+  - backend-spring/src/main/java/com/sourcelens/module/sandbox/oci/trustedread
+  - backend-spring/src/main/resources/db/migration/V034__add_trusted_read_only_invocation_vertical_slice.sql
+  - backend-spring/src/test/java/com/sourcelens/module/agent/service/AgentTrustedReadInvocationIntegrationTest.java
+  - backend-spring/src/test/java/com/sourcelens/module/execution/trustedread
+  - backend-spring/src/test/java/com/sourcelens/module/sandbox/oci/trustedread
+  - backend-spring/src/test/resources/p3-trusted-read-only-invocation
+  - docs/aios/tasks/P3-TRIVS-P1_ACTUAL_AGENT_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE.yaml
+  - docs/PROJECT_CODE_MAP.md
+budget:
+  engineering_tasks: 1
+  engineering_hours: 48
+  calendar_days: 10
+  candidate_generations: 2
+  same_task_repairs: 1
+  review_cycles: 2
+roles:
+  owner: MASTER_CEO_AGENT
+  worker: TRIVS_PRODUCT_IMPLEMENTER
+  independent_reviewers:
+    - FRESH_CTO_AGENT
+    - FRESH_SECURITY_AGENT
+    - FRESH_QUALITY_EVALUATION_AGENT
+toolchain:
+  java:
+    path: /Users/lijunpeng/Library/Java/JavaVirtualMachines/ms-17.0.18/Contents/Home/bin/java
+    version: 17.0.18
+    byte_length: 84752
+    sha256: 8dc256371b69e4e26cab700a4b6df5d80598feabf603b7d6cc68b1e349833f8c
+  maven:
+    path: /Users/lijunpeng/apache-maven-3.9.6/bin/mvn
+    version: 3.9.6
+    launcher_byte_length: 5883
+    launcher_sha256: 340bfabd76eaca39a1614f9ad767cdbd12c2090cfc15d66afe0ed536cd9b8bda
+  docker_cli:
+    path: /Applications/Docker.app/Contents/Resources/bin/docker
+    byte_length: 41522608
+    sha256: a6822407e207ff0b687419ccbe55700ffbf389d77de58ef625b3b1790d88747c
+    endpoint: unix:///Users/lijunpeng/.docker/run/docker.sock
+  sandbox_exec:
+    path: /usr/bin/sandbox-exec
+    byte_length: 102560
+    sha256: 7fc7dcd7782e1abd52b11f6c512bdfb0c09d2502b619c483fdfce554c472352e
+  go_test_fixture_builder:
+    path: /opt/homebrew/Cellar/go/1.26.3/libexec/bin/go
+    version: go1.26.3 darwin/arm64
+    byte_length: 14481794
+    sha256: 1b6e73b4f9eae9108e2e747f5cd29dc27ddfc1999a414fe11cd593072d607a84
+runtime_artifact_freeze:
+  before_first_docker_effect: REQUIRED
+  linux_architecture: arm64
+  sha256_worker_source: CANONICAL_TASK_TEST_RESOURCE
+  sha256_worker_binary: TASK_EVIDENCE_CREATE_ONCE_MODE_LENGTH_SHA256_BOUND
+  rootfs_archive: HOST_DERIVED_PER_INVOCATION_DETERMINISTIC_NO_HOST_BIND_MOUNT
+  mysql_image: mysql:8.4@sha256:d36d39a64cd12a5c1cc9e6aa2bfb5f8d4c81a2f6586e0a04a9ae13939db02209
+  mysql_image_policy: LOCAL_ONLY_PULL_NEVER_NO_REGISTRY
+  docker_sterile_config: TASK_EVIDENCE_CREATE_ONCE_MODE_LENGTH_SHA256_BOUND
+  docker_sandbox_profile: TASK_EVIDENCE_CREATE_ONCE_MODE_LENGTH_SHA256_BOUND
+architecture_invariants:
+  actual_positive_ingress: AgentTaskService
+  trusted_task_type: SHA256_READ_ONLY_CUSTODY_V1
+  caller_fields:
+    - invocationId
+    - custodyBase64
+  host_derived_fields:
+    - executionTaskId
+    - projectId
+    - userId
+    - workflowId
+    - action
+    - argv
+    - environment
+    - resourceBudget
+    - dockerEndpoint
+    - dockerProfile
+    - authorizationAnchor
+    - cleanupDecision
+    - terminalTruth
+  forbidden_caller_fields:
+    - taskId
+    - executionTaskId
+    - action
+    - path
+    - argv
+    - environment
+    - image
+    - docker
+    - authorization
+    - cleanup
+    - terminal
+  agent_runtime_reserved_tool_bypass: FAIL_CLOSED_BEFORE_TOOL_EXECUTION_SERVICE
+  tool_registry_registration_for_workflow: FORBIDDEN
+  generic_sandbox_executor_reuse: FORBIDDEN
+  production_persistence: SPRING_SERVICE_STORE_REAL_MYSQL_TRANSACTION_PATH
+  pre_effect_rule: AUTHORIZATION_ANCHOR_AND_STAGE_INTENT_COMMITTED_BEFORE_EACH_EFFECT
+  terminal_rule: EXACTLY_ONE_TERMINAL_AND_CHECKPOINT_ATOMIC_COMMIT
+  recovery_owner: HOST_OWNED_GLOBAL_STARTUP_LIFECYCLE
+  recovery_discovery_input: NO_CALLER_TASK_ID
+  custody_rule: MYSQL_DURABLE_INVOCATION_SCOPED_BYTES_FILESYSTEM_ONLY_REGENERABLE
+  object_identity_rule: INVOCATION_SCOPED_CONTAINER_IMAGE_LABEL_AND_NAME
+  archive_rule: INVOCATION_SCOPED_DETERMINISTIC_ROOTFS_CONTAINS_CUSTODY_NO_BIND_MOUNT
+  docker_process_rule: EXACT_CLI_DIGEST_EXACT_UNIX_SOCKET_STERILE_CONFIG_CLOSED_ENV_OS_NETWORK_RESTRICTION
+  result_rule: RESULT_RETAINED_BEFORE_OBJECT_REMOVE_TERMINAL_USES_RETAINED_RESULT
+required_durable_stages:
+  - IMPORT_INTENT
+  - CREATE_INTENT
+  - START_INTENT
+  - WAIT_INTENT
+  - REMOVE_INTENT
+  - TERMINAL_INTENT
+  - TERMINAL
+required_real_kill_points:
+  - before-import
+  - after-import
+  - after-create
+  - after-start
+  - after-wait
+  - after-remove
+  - before-terminal-commit
+external_effects:
+  docker: TASK_LOCAL_NAME_LABEL_HASH_BOUND_ONLY
+  docker_endpoint: unix:///Users/lijunpeng/.docker/run/docker.sock
+  docker_allowed_verbs:
+    - version
+    - info
+    - image import
+    - create
+    - start
+    - wait
+    - inspect
+    - rm
+    - rmi
+  docker_forbidden_verbs:
+    - image ls
+    - ps
+    - run
+    - port
+    - exec
+    - logs
+    - save
+    - export
+    - build
+    - pull
+    - push
+    - login
+  task_local_mysql_loopback: EXACT_DISPOSABLE_CONTAINER_ONLY
+  network: false
+  dns: false
+  http_https: false
+  provider: false
+  secret: false
+  credential: false
+  remote: false
+  production: false
+  public: false
+  existing_non_task_database_mutation: false
+  irreversible_asset_removal: false
+  p4_entry: false
+clean_room:
+  permitted_historical_inputs:
+    - ACCEPTED_P3_001_PUBLIC_BEHAVIOR_AND_CANONICAL_SOURCE
+    - ACCEPTED_DTK_DECLARATIVE_SEMANTICS_FOUNDATION_PUBLIC_BEHAVIOR_AND_CANONICAL_SOURCE
+    - DTK_TERMINAL_NINE_FINDING_ID_SEVERITY_GATE_RELEVANCE_SUMMARY_FIELDS
+    - DTK_TERMINAL_CYCLE_VERDICT_IDENTITY_AND_ACCOUNTING_FIELDS
+  rejected_candidate_1_or_2_source_read_compare_copy_execute_restore_repair_or_reuse: false
+  rejected_branch_worktree_bundle_patch_archive_or_engineering_evidence_read: false
+  candidate_source_identity_requires_git_mode_blob_length_sha256: true
+acceptance:
+  required_exit_items:
+    - ACTUAL_AGENT_INGRESS_EXCLUSIVE_TRUSTED_READ_ONLY_ROUTE
+    - HOST_DERIVED_AUTHORITY_DURABLE_INTENT_AND_EXACTLY_ONE_TERMINAL
+    - AUTOMATIC_FRESH_HOST_DISCOVERY_AND_CRASH_RECOVERY
+    - PINNED_LOCAL_OCI_HOSTILE_CONTEXT_AND_REAL_MYSQL_PRODUCT_PATH_ATTESTATION
+  same_frozen_candidate_required: true
+  non_empty_testable_product_source_diff_required: true
+  clean_jdk17_full_suite_runs: 2
+  clean_full_suite_normalized_summary_byte_equal: true
+  ingress_matrix:
+    positive_actual_agent_task_path: true
+    reserved_tool_bypass_denied: true
+    caller_field_injection_denied: true
+    concurrent_loser_zero_effect: true
+  mysql_matrix:
+    production_spring_service_store_path: true
+    real_mysql: true
+    concurrency: true
+    transaction_rollback: true
+    duplicate_terminal: true
+    identical_custody_multiple_invocations: true
+    restart_recovery: true
+  docker_matrix:
+    real_happy_path: true
+    hostile_home_context_config_proxy_credential_helper: true
+    seven_real_process_kill_points: true
+    exact_cleanup_no_orphan: true
+  zero_external_effects:
+    - NETWORK
+    - DNS
+    - HTTP_HTTPS
+    - PROVIDER
+    - SECRET
+    - CREDENTIAL
+    - REMOTE
+    - PRODUCTION
+    - PUBLIC
+  fresh_reviewers:
+    - CTO_AGENT
+    - SECURITY_AGENT
+    - QUALITY_EVALUATION_AGENT
+  all_reviewers_pass_required: true
+  zero_open_p0_p1_required: true
+  zero_new_p0_p1_regression_required: true
+  canonical_replay_required: true
+review_policy:
+  cycle_1_freezes_complete_p0_p1_finding_set: true
+  cycle_2_only_closes_frozen_findings_or_rejects_new_regression: true
+  drip_feed_findings_allowed: false
+  implementer_may_accept_own_result: false
+stop_conditions:
+  - CANDIDATE_2_ANY_REVIEWER_NON_PASS
+  - ANY_NEW_P0_OR_P1
+  - REAL_KILL_POINT_MATRIX_INCOMPLETE
+  - PRODUCTION_MYSQL_PATH_NON_PASS
+  - DOCKER_OR_EXTERNAL_EFFECT_ESCAPE
+  - IDENTITY_OR_SCOPE_DRIFT
+  - BUDGET_EXHAUSTION
+anti_loop:
+  candidate_3_allowed: false
+  second_same_task_repair_allowed: false
+  third_review_cycle_allowed: false
+  second_trivs_product_task_allowed: false
+  successor_replacement_normalization_closure_feasibility_remediation_allowed: false
+  v2_or_v3_route_chain_allowed: false
+  rerun_to_pass_allowed: false
+lifecycle:
+  pass: SAME_FROZEN_CANDIDATE_ALL_REVIEWS_PASS_INTEGRATE_AND_CANONICAL_REPLAY_THEN_P3_100_STRICT_100_PHASE_GATE_ELIGIBLE
+  non_pass: TASK_AND_ROUTE_TERMINAL_NON_PASS_P3_DELIVERY_25_STRICT_EXIT_0_P4_HOLD
+  project_actually_completed: false
+  long_term_goal_status: ACTIVE
+  codex_goal_completion_or_blocking_authorized: false

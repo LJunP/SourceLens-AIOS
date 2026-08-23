@@ -1,0 +1,177 @@
+{
+  "schema_version": "p3-trivs-evidence-first-phase-delegated-task-contract/v1",
+  "record_type": "P3_TRIVS_EVIDENCE_FIRST_PHASE_DELEGATED_TASK_CONTRACT",
+  "task_id": "AIOS-P3-TRIVS-F2_CANDIDATE_BOUND_ACCEPTANCE_HARNESS",
+  "route_id": "P3_TRUSTED_READ_ONLY_INVOCATION_EVIDENCE_FIRST_FINAL_CLEAN_ROOM_ROUTE_V1",
+  "phase": "P3",
+  "stage_id": "TRIVS_CANDIDATE_BOUND_ACCEPTANCE_FOUNDATION",
+  "task_kind": "BENCHMARK_AND_ACCEPTANCE_FOUNDATION_NON_PRODUCT",
+  "status": "ACTIVE",
+  "activation_parent": {
+    "commit": "b68f2c0911ef2133e8212c36c365abfabc6b1875",
+    "tree": "23e7d96957533c3afa0412f538f471964465b258"
+  },
+  "strategic_installation_parent": {
+    "commit": "b68f2c0911ef2133e8212c36c365abfabc6b1875",
+    "tree": "23e7d96957533c3afa0412f538f471964465b258"
+  },
+  "branch": "codex/p3-trivs-f2-candidate-bound-acceptance-harness",
+  "worktree": "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-trivs-f2-candidate-bound-acceptance-harness",
+  "evidence_root": "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trivs-evidence-first-final-route-20260823/task-foundation",
+  "write_allowlist": [
+    "evaluation-harness/harness/p3-trivs-candidate-bound-acceptance-v1",
+    "evaluation-harness/replay/p3-trivs-candidate-bound-acceptance-v1",
+    "docs/aios/tasks/P3-TRIVS-F2_CANDIDATE_BOUND_ACCEPTANCE_HARNESS.yaml",
+    "docs/PROJECT_CODE_MAP.md"
+  ],
+  "optional_pre_first_write_allowlist_expansion": null,
+  "product_source_mutation_allowed": false,
+  "budget": {
+    "engineering_tasks": 1,
+    "engineering_hours": 24,
+    "calendar_days": 6,
+    "candidate_generations": 2,
+    "same_task_repairs": 1,
+    "review_cycles": 2
+  },
+  "execution_nonce": "2c3d76bb-993c-47a5-9cb0-67e73f67a889",
+  "authorization_id": "4988feb4-54e8-4ce0-bdfb-7dd0dba3719e",
+  "founder_route_decision": {
+    "path": "docs/aios/decisions/P3_TRUSTED_READ_ONLY_INVOCATION_EVIDENCE_FIRST_FINAL_CLEAN_ROOM_ROUTE_DECISION_V1.json",
+    "byte_length": 18380,
+    "sha256": "e112556801503247b4e52e23dbc9bb9ce544d72c78affa2566bbf9121f7f4c80",
+    "decision_id": "AUTHORIZE_P3_TRUSTED_READ_ONLY_INVOCATION_EVIDENCE_FIRST_FINAL_CLEAN_ROOM_ROUTE_AFTER_TRIVS_TERMINAL_V1"
+  },
+  "accepted_dependencies": {
+    "p3_001": {
+      "status": "ACCEPTED_INTEGRATED",
+      "task_id": "AIOS-P3-001_DURABLE_EXECUTION_CHECKPOINT_RESUME_KERNEL",
+      "commit": "17ce1134da4ea15c7270b147340ad0bad25c1ac8",
+      "tree": "8b6b4e387067b25052a2f6a64d7b802077acadc5",
+      "task_gate_receipt": {
+        "path": "/Users/lijunpeng/Developer/.sourcelens-audit/p3-durable-execution-checkpoint-resume-20260819/task-p3-001/terminal/P3_001_TASK_GATE_PASS_INTEGRATION_RECEIPT_V1.json",
+        "byte_length": 3055,
+        "sha256": "e4ea37f8e6770b8dea9f8939f81444f01ebca4104a8dd2f84d33c4787180e2c0"
+      }
+    },
+    "declarative_semantics_foundation": {
+      "status": "ACCEPTED_INTEGRATED",
+      "task_id": "AIOS-P3-DTK-F1_DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION",
+      "commit": "2f52d0912ba5621bd2258fc21f5b74dd2019efd5",
+      "tree": "e9490d8f786f913b2e60a7e690a71911e015c87a",
+      "task_gate_receipt": {
+        "path": "/Users/lijunpeng/Developer/.sourcelens-audit/p3-declarative-transaction-kernel-route-20260823/task-foundation/gate/P3_DTK_F1_TASK_GATE_INTEGRATION_RECEIPT_V1.json",
+        "byte_length": 5202,
+        "sha256": "47dfed7024336b144306b565e643da0b2b88f87e72ffc181b88d58147e09f268"
+      },
+      "canonical_verification_receipt": {
+        "path": "/Users/lijunpeng/Developer/.sourcelens-audit/p3-declarative-transaction-kernel-route-20260823/task-foundation/gate/P3_DTK_F1_CANONICAL_VERIFICATION_RECEIPT_V1.json",
+        "byte_length": 5409,
+        "sha256": "27847f8c89166897ce41846bb7fdd47494418057fb4726e6584f6b6e1cfbd0f6"
+      }
+    }
+  },
+  "acceptance": {
+    "milestone_id": "TRIVS_CANDIDATE_BOUND_ACCEPTANCE_FOUNDATION",
+    "candidate_first_detached_clean_verifier_required": true,
+    "all_build_and_test_processes_offline_and_os_deny_network_required": true,
+    "jdk_major": 17,
+    "maven_version": "3.9.6",
+    "maven_required_arguments": [
+      "--offline",
+      "--global-settings",
+      "--settings",
+      "-Dmaven.repo.local"
+    ],
+    "sandbox_profile": "(version 1) (allow default) (deny network*)",
+    "closed_dependency_custody_required": true,
+    "two_clean_builds_and_source_to_class_replay_required": true,
+    "helper_two_build_byte_equality_required": true,
+    "exact_mysql_and_oci_custody_required": true,
+    "seven_real_kill_points_required": [
+      "before-import",
+      "after-import",
+      "after-create",
+      "after-start",
+      "after-wait",
+      "after-remove",
+      "before-terminal-commit"
+    ],
+    "adversarial_pack_covers_all_frozen_findings": true,
+    "false_accepts_allowed": 0,
+    "fresh_reviewers": [
+      "CTO_AGENT",
+      "SECURITY_AGENT",
+      "QUALITY_EVALUATION_AGENT"
+    ],
+    "all_reviewers_pass_required": true
+  },
+  "external_effects": {
+    "docker": true,
+    "docker_scope": "ACTIVE_TASK_SCOPED",
+    "docker_endpoint": "unix:///Users/lijunpeng/.docker/run/docker.sock",
+    "docker_allowed_verbs": [
+      "version",
+      "info",
+      "exact image inspect",
+      "image import",
+      "create",
+      "start",
+      "wait",
+      "inspect",
+      "logs",
+      "rm",
+      "rmi"
+    ],
+    "mysql_content_id": "sha256:d36d39a64cd12a5c1cc9e6aa2bfb5f8d4c81a2f6586e0a04a9ae13939db02209",
+    "task_created_disposable_mysql": true,
+    "task_local_mysql_loopback_only": true,
+    "sterile_config_closed_environment_required": true,
+    "os_network_restriction_required": true,
+    "docker_registry_pull_push_login_or_build": false,
+    "docker_host_source_bind_mount": false,
+    "docker_privileged_mode": false,
+    "docker_existing_object_mutation": false,
+    "docker_unrelated_cleanup": false,
+    "pinned_mysql_content_image_removal": false,
+    "network": false,
+    "dns": false,
+    "http_https": false,
+    "provider": false,
+    "secret": false,
+    "credential": false,
+    "remote": false,
+    "production": false,
+    "public": false,
+    "existing_database_mutation": false,
+    "write_outside_exact_authorized_roots": false,
+    "irreversible_asset_deletion": false
+  },
+  "clean_room": {
+    "rejected_candidate_1_checkout_read_compare_copy_execute_decompile_restore_repair_or_reuse_allowed": false,
+    "rejected_branch_worktree_bundle_patch_changed_source_tests_helper_rootfs_machine_state_scripts_or_engineering_evidence_read_allowed": false,
+    "permitted_terminal_finding_fields": [
+      "finding_id",
+      "severity",
+      "gate_relevance",
+      "summary"
+    ],
+    "permitted_terminal_metadata": [
+      "identity",
+      "accounting",
+      "lifecycle",
+      "verdict"
+    ],
+    "accepted_p3_001_and_declarative_semantics_foundation_use_allowed": true
+  },
+  "lifecycle": {
+    "candidate_generations_max": 2,
+    "same_task_repairs_max": 1,
+    "review_cycles_max": 2,
+    "candidate_3_allowed": false,
+    "second_same_task_repair_allowed": false,
+    "third_review_cycle_allowed": false,
+    "automatic_successor_allowed": false,
+    "rerun_to_pass_allowed": false
+  }
+}

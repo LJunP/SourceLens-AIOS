@@ -5376,22 +5376,22 @@ module CurrentTaskAuthority
     project = hash(truth["project"], "project")
     canonical = string(project["canonical_repository"], "project.canonical_repository")
     route = hash(truth["current_phase_route"], "current_phase_route")
-    if route["schema_version"] == P3TaskWideReservationRouteValidation::ROUTE_SCHEMA &&
-       ENV["SOURCELENS_TWRF_STRATEGIC_STAGING_ROOT"]
-      assert(defined?(P3TaskWideReservationRouteValidation),
-             "P3 TWRF Route validator is unavailable")
-      expected_root = File.realpath(ENV.fetch("SOURCELENS_TWRF_STRATEGIC_STAGING_ROOT"))
+    if route["schema_version"] == P3ExecutableTransitionSystemKernelRouteValidation::ROUTE_SCHEMA &&
+       ENV["SOURCELENS_ETSK_STRATEGIC_STAGING_ROOT"]
+      assert(defined?(P3ExecutableTransitionSystemKernelRouteValidation),
+             "P3 ETSK Route validator is unavailable")
+      expected_root = File.realpath(ENV.fetch("SOURCELENS_ETSK_STRATEGIC_STAGING_ROOT"))
       assert(File.realpath(root) == expected_root,
-             "P3 TWRF staging context did not bind the validator root")
-      state = P3TaskWideReservationRouteValidation.validate_truth!(root: root, truth: truth)
-      expected_state = P3TaskWideReservationRouteValidation::LIFECYCLE_STATES[
+             "P3 ETSK staging context did not bind the validator root")
+      state = P3ExecutableTransitionSystemKernelRouteValidation.validate_truth!(root: root, truth: truth)
+      expected_state = P3ExecutableTransitionSystemKernelRouteValidation::LIFECYCLE_STATES[
         route["lifecycle_stage"]
       ]
-      assert(expected_state && state == expected_state, "P3 TWRF staging Route state drift")
+      assert(expected_state && state == expected_state, "P3 ETSK staging Route state drift")
       records = worktrees(root)
       assert(records.length == 1 &&
              File.realpath(records.first.fetch("path")) == File.realpath(root),
-             "P3 TWRF staging clone must have exactly one local worktree")
+             "P3 ETSK staging clone must have exactly one local worktree")
       return
     end
     if route["schema_version"] == P3FinalTransactionalRouteValidation::THTCB_ROUTE_SCHEMA &&
@@ -5628,7 +5628,7 @@ module CurrentTaskAuthority
         P3FinalTransactionalRouteValidation::TIK_ROUTE_SCHEMA,
         P3FinalTransactionalRouteValidation::HPE_ROUTE_SCHEMA,
         P3FinalTransactionalRouteValidation::TXC_ROUTE_SCHEMA,
-        P3TaskWideReservationRouteValidation::ROUTE_SCHEMA,
+        P3ExecutableTransitionSystemKernelRouteValidation::ROUTE_SCHEMA,
         DELEGATED_TASK_ROUTE_SCHEMA
       ].include?(route["schema_version"]),
              "active Phase delegation requires a closed delegated Route schema")
@@ -5659,10 +5659,10 @@ module CurrentTaskAuthority
              "P2 research exit requires exact capability-not-accepted closure and a separate P3 entry decision")
       return "P2_RESEARCH_EXIT_COMPLETE_P3_ENTRY_DECISION_REQUIRED"
     end
-    if route["schema_version"] == P3TaskWideReservationRouteValidation::ROUTE_SCHEMA
-      assert(defined?(P3TaskWideReservationRouteValidation),
-             "P3 TWRF Route validator is unavailable")
-      return P3TaskWideReservationRouteValidation.validate_truth!(root: root, truth: truth)
+    if route["schema_version"] == P3ExecutableTransitionSystemKernelRouteValidation::ROUTE_SCHEMA
+      assert(defined?(P3ExecutableTransitionSystemKernelRouteValidation),
+             "P3 ETSK Route validator is unavailable")
+      return P3ExecutableTransitionSystemKernelRouteValidation.validate_truth!(root: root, truth: truth)
     end
     if route["schema_version"] == "p3-host-owned-fixed-state-workflow-route/v1"
       assert(defined?(P3PhaseEntryValidation), "P3 host-owned Route validator is unavailable")

@@ -31,125 +31,125 @@ def expect_non_pass(root, truth, label)
   P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: candidate)
   raise "#{label} false-PASSed"
 rescue P3FinalTransactionalRouteValidationError,
-       P3TaskWideReservationRouteValidationError
+       P3ExecutableTransitionSystemKernelRouteValidationError
   true
 end
 
 if host_authorized_truth.dig("current_phase_route", "schema_version") ==
-   P3TaskWideReservationRouteValidation::ROUTE_SCHEMA
-  state = P3TaskWideReservationRouteValidation.validate_truth!(
+   P3ExecutableTransitionSystemKernelRouteValidation::ROUTE_SCHEMA
+  state = P3ExecutableTransitionSystemKernelRouteValidation.validate_truth!(
     root: root, truth: host_authorized_truth
   )
   lifecycle = host_authorized_truth.dig("current_phase_route", "lifecycle_stage")
-  expected_state = P3TaskWideReservationRouteValidation::LIFECYCLE_STATES[lifecycle]
-  raise "P3 TWRF state drift" unless expected_state && state == expected_state
+  expected_state = P3ExecutableTransitionSystemKernelRouteValidation::LIFECYCLE_STATES[lifecycle]
+  raise "P3 ETSK state drift" unless expected_state && state == expected_state
   assertions += 1
 
   mutations = {
-    "TWRF Route cannot gain an unknown member" => lambda do |candidate|
+    "ETSK Route cannot gain an unknown member" => lambda do |candidate|
       candidate["current_phase_route"]["unexpected"] = true
     end,
-    "TWRF Founder decision identity cannot drift" => lambda do |candidate|
+    "ETSK Founder decision identity cannot drift" => lambda do |candidate|
       candidate["current_phase_route"]["founder_route_decision"]["sha256"] = "0" * 64
     end,
-    "TWRF canonical ADR identity cannot drift" => lambda do |candidate|
+    "ETSK canonical ADR identity cannot drift" => lambda do |candidate|
       candidate["current_phase_route"]["founder_route_decision"]["canonical_adr"]["sha256"] = "0" * 64
     end,
-    "TWRF source authorization body cannot drift" => lambda do |candidate|
+    "ETSK source authorization body cannot drift" => lambda do |candidate|
       candidate["current_phase_route"]["founder_route_decision"]["source_body"]["sha256"] = "0" * 64
     end,
-    "TWRF canonical start cannot drift" => lambda do |candidate|
+    "ETSK canonical start cannot drift" => lambda do |candidate|
       candidate["current_phase_route"]["canonical_start"]["tree"] = "0" * 40
     end,
-    "TWRF Constitution identity cannot drift" => lambda do |candidate|
+    "ETSK Constitution identity cannot drift" => lambda do |candidate|
       candidate["current_phase_route"]["constitution"]["sha256"] = "0" * 64
     end,
-    "TWRF Objective cannot become generic runtime" => lambda do |candidate|
+    "ETSK Objective cannot become generic runtime" => lambda do |candidate|
       candidate["current_phase_route"]["objective_id"] = "GENERIC_AGENT_RUNTIME"
     end,
-    "TWRF Gate cannot drop task-wide reservation" => lambda do |candidate|
+    "ETSK Gate cannot drop task-wide reservation" => lambda do |candidate|
       candidate["current_phase_route"]["strict_exit_gate"]["required_item_ids"].shift
     end,
-    "TWRF Gate id cannot regress to workflow-scoped" => lambda do |candidate|
+    "ETSK Gate id cannot regress to workflow-scoped" => lambda do |candidate|
       candidate["current_phase_route"]["strict_exit_gate"]["gate_id"] =
         "TRUSTED_HOST_TCB_DURABLE_TRANSACTIONAL_EXECUTION_WITH_PROCESS_REAL_CONTAINMENT"
     end,
-    "TWRF cannot prebind one workflow at task creation" => lambda do |candidate|
+    "ETSK cannot prebind one workflow at task creation" => lambda do |candidate|
       candidate["current_phase_route"]["p3_001_semantics"][
         "prebinding_one_workflow_at_task_creation_allowed"
       ] = true
     end,
-    "TWRF stage order cannot reverse" => lambda do |candidate|
+    "ETSK stage order cannot reverse" => lambda do |candidate|
       candidate["current_phase_route"]["ordered_stages"].reverse!
     end,
-    "TWRF Foundation cannot gain a repair" => lambda do |candidate|
+    "ETSK Foundation cannot gain a repair" => lambda do |candidate|
       candidate["current_phase_route"]["ordered_stages"][0]["budget"]["same_task_repairs"] = 1
     end,
-    "TWRF Product cannot unlock before Foundation" => lambda do |candidate|
+    "ETSK Product cannot unlock before Foundation" => lambda do |candidate|
       candidate["current_phase_route"]["ordered_stages"][1]["status"] = "ELIGIBLE_NOT_ACTIVATED"
     end,
-    "TWRF Audit cannot unlock before Product" => lambda do |candidate|
+    "ETSK Audit cannot unlock before Product" => lambda do |candidate|
       candidate["current_phase_route"]["ordered_stages"][2]["status"] = "ELIGIBLE_NOT_ACTIVATED"
     end,
-    "TWRF cumulative consumed accounting cannot reset" => lambda do |candidate|
+    "ETSK cumulative consumed accounting cannot reset" => lambda do |candidate|
       candidate["phase_execution_envelope"]["consumed"]["engineering_tasks"] = 0
     end,
-    "TWRF cumulative ceiling cannot expand" => lambda do |candidate|
-      candidate["phase_execution_envelope"]["limits"]["engineering_hours"] = 449
+    "ETSK cumulative ceiling cannot expand" => lambda do |candidate|
+      candidate["phase_execution_envelope"]["limits"]["engineering_hours"] = 457
     end,
-    "TWRF strategic installation cannot claim delivery" => lambda do |candidate|
+    "ETSK strategic installation cannot claim delivery" => lambda do |candidate|
       candidate["phase_execution_envelope"]["delivery_progress"]["percent"] = 75
     end,
-    "TWRF governance cannot claim progress" => lambda do |candidate|
+    "ETSK governance cannot claim progress" => lambda do |candidate|
       candidate["phase_execution_envelope"]["governance_progress_credit"] = 1
     end,
-    "TWRF Founder interruption cannot be fabricated" => lambda do |candidate|
+    "ETSK Founder interruption cannot be fabricated" => lambda do |candidate|
       candidate["founder_escalation_control"]["founder_decision_required"] = true
     end,
-    "TWRF next action owner cannot move to Founder" => lambda do |candidate|
+    "ETSK next action owner cannot move to Founder" => lambda do |candidate|
       candidate["founder_escalation_control"]["next_action_owner"] = "HUMAN_FOUNDER"
     end,
-    "TWRF Task selection cannot move to Founder" => lambda do |candidate|
+    "ETSK Task selection cannot move to Founder" => lambda do |candidate|
       candidate["phase_delegation"]["task_selection_owner"] = "HUMAN_FOUNDER"
     end,
-    "TWRF Foundation 2 cannot reappear" => lambda do |candidate|
+    "ETSK Foundation 2 cannot reappear" => lambda do |candidate|
       candidate["phase_delegation"]["anti_loop"]["foundation_2_allowed"] = true
     end,
-    "TWRF Candidate 3 cannot reappear" => lambda do |candidate|
+    "ETSK Candidate 3 cannot reappear" => lambda do |candidate|
       candidate["phase_delegation"]["anti_loop"]["candidate_3_allowed"] = true
     end,
-    "TWRF Task scope cannot become open" => lambda do |candidate|
+    "ETSK Task scope cannot become open" => lambda do |candidate|
       candidate["phase_boundary"]["task_creation_scope"] = "ANY_P3_TASK"
     end,
-    "TWRF active Task cannot appear before activation" => lambda do |candidate|
+    "ETSK active Task cannot appear before activation" => lambda do |candidate|
       candidate["active_work"]["current_task"] =
-        P3TaskWideReservationRouteValidation::TASK_IDS.first
+        P3ExecutableTransitionSystemKernelRouteValidation::TASK_IDS.first
     end,
-    "TWRF strict Gate item cannot false-accept" => lambda do |candidate|
+    "ETSK strict Gate item cannot false-accept" => lambda do |candidate|
       candidate.dig("strict_phase_gate_ledger", "phases", "P3", "current_exit_gate",
                     "required_items", "TASK_WIDE_PRE_EFFECT_RESERVATION_FRONTIER")["status"] =
         "ACCEPTED"
     end,
-    "TWRF compatibility Gate cannot false-accept" => lambda do |candidate|
+    "ETSK compatibility Gate cannot false-accept" => lambda do |candidate|
       candidate.dig("strict_phase_gate_ledger", "phases", "P3", "required_items",
                     "RESUME_ISOLATION_PERMISSION_AND_TRACE_TESTS")["status"] = "ACCEPTED"
     end,
-    "TWRF predecessor terminal Route cannot be rewritten" => lambda do |candidate|
-      candidate["historical_p3_thtcb_route_terminal"]["status"] = "ACCEPTED"
+    "ETSK predecessor terminal Route cannot be rewritten" => lambda do |candidate|
+      candidate["historical_p3_twrf_route_terminal"]["status"] = "ACCEPTED"
     end,
-    "TWRF rejected lineage cannot become reusable" => lambda do |candidate|
+    "ETSK rejected lineage cannot become reusable" => lambda do |candidate|
       candidate["current_phase_route"]["rejected_lineage_policy"] = "REUSE_ALLOWED"
     end,
-    "TWRF network cannot self-enable" => lambda do |candidate|
+    "ETSK network cannot self-enable" => lambda do |candidate|
       candidate["current_phase_route"]["external_effect_authority"]["network"] = true
     end,
-    "TWRF Docker registry cannot self-enable" => lambda do |candidate|
+    "ETSK Docker registry cannot self-enable" => lambda do |candidate|
       candidate["current_phase_route"]["external_effect_authority"]["docker_registry"] = true
     end,
-    "TWRF cannot enter P4" => lambda do |candidate|
+    "ETSK cannot enter P4" => lambda do |candidate|
       candidate["project"]["p4_entry_status"] = "AUTHORIZED"
     end,
-    "TWRF cannot close the Long-term Goal" => lambda do |candidate|
+    "ETSK cannot close the Long-term Goal" => lambda do |candidate|
       candidate["goal"]["control_plane_status_observed"] = "COMPLETE"
     end
   }

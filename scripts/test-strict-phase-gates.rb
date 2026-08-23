@@ -42,21 +42,21 @@ def run_phase_fixture(path, phase, task, action)
   )
 end
 
-if ARGV == ["--twrf-current-only"]
+if ARGV == ["--etsk-current-only"]
   truth = YAML.safe_load(
     File.binread(TRUTH),
     permitted_classes: [],
     permitted_symbols: [],
     aliases: false
   )
-  raise "current Route is not P3 TWRF" unless
+  raise "current Route is not P3 ETSK" unless
     truth.dig("current_phase_route", "schema_version") ==
-      P3TaskWideReservationRouteValidation::ROUTE_SCHEMA
-  state = P3TaskWideReservationRouteValidation.validate_truth!(root: ROOT, truth: truth)
-  expected = P3TaskWideReservationRouteValidation::LIFECYCLE_STATES.fetch(
+      P3ExecutableTransitionSystemKernelRouteValidation::ROUTE_SCHEMA
+  state = P3ExecutableTransitionSystemKernelRouteValidation.validate_truth!(root: ROOT, truth: truth)
+  expected = P3ExecutableTransitionSystemKernelRouteValidation::LIFECYCLE_STATES.fetch(
     truth.dig("current_phase_route", "lifecycle_stage")
   )
-  raise "TWRF strict Gate current state drift" unless state == expected
+  raise "ETSK strict Gate current state drift" unless state == expected
   mutations = {
     "task-wide item removal" => lambda do |candidate|
       candidate.dig("strict_phase_gate_ledger", "phases", "P3", "current_exit_gate",
@@ -84,13 +84,13 @@ if ARGV == ["--twrf-current-only"]
     candidate = JSON.parse(JSON.generate(truth))
     begin
       mutation.call(candidate)
-      P3TaskWideReservationRouteValidation.validate_truth!(root: ROOT, truth: candidate)
-      raise "TWRF strict Gate mutation false-PASSed: #{label}"
-    rescue P3TaskWideReservationRouteValidationError
+      P3ExecutableTransitionSystemKernelRouteValidation.validate_truth!(root: ROOT, truth: candidate)
+      raise "ETSK strict Gate mutation false-PASSed: #{label}"
+    rescue P3ExecutableTransitionSystemKernelRouteValidationError
       # expected
     end
   end
-  puts "STRICT_PHASE_GATE_TESTS: PASS twrf_current=1 twrf_negative_mutations=#{mutations.length}"
+  puts "STRICT_PHASE_GATE_TESTS: PASS etsk_current=1 etsk_negative_mutations=#{mutations.length}"
   exit 0
 end
 
@@ -106,12 +106,12 @@ begin
     aliases: false
   )
   if truth.dig("current_phase_route", "schema_version") ==
-     P3TaskWideReservationRouteValidation::ROUTE_SCHEMA
-    state = P3TaskWideReservationRouteValidation.validate_truth!(root: ROOT, truth: truth)
-    expected = P3TaskWideReservationRouteValidation::LIFECYCLE_STATES.fetch(
+     P3ExecutableTransitionSystemKernelRouteValidation::ROUTE_SCHEMA
+    state = P3ExecutableTransitionSystemKernelRouteValidation.validate_truth!(root: ROOT, truth: truth)
+    expected = P3ExecutableTransitionSystemKernelRouteValidation::LIFECYCLE_STATES.fetch(
       truth.dig("current_phase_route", "lifecycle_stage")
     )
-    raise "TWRF strict Gate current state drift" unless state == expected
+    raise "ETSK strict Gate current state drift" unless state == expected
     {
       "task-wide item removal" => lambda do |candidate|
         candidate.dig("strict_phase_gate_ledger", "phases", "P3", "current_exit_gate",
@@ -138,9 +138,9 @@ begin
       candidate = JSON.parse(JSON.generate(truth))
       begin
         mutation.call(candidate)
-        P3TaskWideReservationRouteValidation.validate_truth!(root: ROOT, truth: candidate)
-        raise "TWRF strict Gate mutation false-PASSed: #{label}"
-      rescue P3TaskWideReservationRouteValidationError
+        P3ExecutableTransitionSystemKernelRouteValidation.validate_truth!(root: ROOT, truth: candidate)
+        raise "ETSK strict Gate mutation false-PASSed: #{label}"
+      rescue P3ExecutableTransitionSystemKernelRouteValidationError
         # expected
       end
     end

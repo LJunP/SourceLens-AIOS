@@ -9875,6 +9875,12 @@ module P3FinalTransactionalRouteValidation
 
   def validate_truth!(root:, truth:, preactivation_resource_action: nil)
     if truth.dig("current_phase_route", "schema_version") ==
+       P3TrustedReadOnlyInvocationEvidenceFirstFinalRouteValidation::ROUTE_SCHEMA
+      return P3TrustedReadOnlyInvocationEvidenceFirstFinalRouteValidation.validate_truth!(
+        root: root, truth: truth
+      )
+    end
+    if truth.dig("current_phase_route", "schema_version") ==
        P3TrustedReadOnlyInvocationVerticalSliceRouteValidation::ROUTE_SCHEMA
       return P3TrustedReadOnlyInvocationVerticalSliceRouteValidation.validate_truth!(root: root, truth: truth)
     end
@@ -10157,6 +10163,7 @@ if $PROGRAM_NAME == __FILE__
             "or --create-tik-terminal-bundle-attestation"
     end
   rescue P3FinalTransactionalRouteValidationError,
+         P3TrustedReadOnlyInvocationEvidenceFirstFinalRouteValidationError,
          P3TrustedReadOnlyInvocationVerticalSliceRouteValidationError,
          P3DeclarativeTransactionKernelRouteValidationError,
          P3ExecutableTransitionSystemKernelRouteValidationError,

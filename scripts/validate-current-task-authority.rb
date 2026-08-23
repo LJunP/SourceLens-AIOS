@@ -21,6 +21,8 @@ module CurrentTaskAuthority
   module_function
 
   TRIVS_ROUTE_SCHEMA = "p3-trusted-read-only-invocation-vertical-slice-route/v1"
+  TRIVS_EVIDENCE_FIRST_ROUTE_SCHEMA =
+    "p3-trusted-read-only-invocation-evidence-first-final-route/v1"
   DTK_ROUTE_SCHEMA = "p3-declarative-transaction-kernel-clean-room-route/v1"
   ETSK_ROUTE_SCHEMA = "p3-executable-transition-system-kernel-reentry-route/v1"
   TIK_ROUTE_SCHEMA = "p3-trusted-invocation-kernel-process-real-clean-room-route/v1"
@@ -5384,6 +5386,26 @@ module CurrentTaskAuthority
     project = hash(truth["project"], "project")
     canonical = string(project["canonical_repository"], "project.canonical_repository")
     route = hash(truth["current_phase_route"], "current_phase_route")
+    if route["schema_version"] == TRIVS_EVIDENCE_FIRST_ROUTE_SCHEMA &&
+       ENV["SOURCELENS_TRIVS_EVIDENCE_FIRST_STRATEGIC_STAGING_ROOT"]
+      assert(defined?(P3TrustedReadOnlyInvocationEvidenceFirstFinalRouteValidation),
+             "P3 TRIVS evidence-first final Route validator is unavailable")
+      expected_root = File.realpath(ENV.fetch("SOURCELENS_TRIVS_EVIDENCE_FIRST_STRATEGIC_STAGING_ROOT"))
+      assert(File.realpath(root) == expected_root,
+             "P3 TRIVS evidence-first staging context did not bind the validator root")
+      state = P3TrustedReadOnlyInvocationEvidenceFirstFinalRouteValidation.validate_truth!(
+        root: root, truth: truth
+      )
+      expected_state = P3TrustedReadOnlyInvocationEvidenceFirstFinalRouteValidation::LIFECYCLE_STATES[
+        route["lifecycle_stage"]
+      ]
+      assert(expected_state && state == expected_state,
+             "P3 TRIVS evidence-first staging Route state drift")
+      records = worktrees(root)
+      assert(records.length == 1 && File.realpath(records.first.fetch("path")) == File.realpath(root),
+             "P3 TRIVS evidence-first staging clone must have exactly one local worktree")
+      return
+    end
     if route["schema_version"] == TRIVS_ROUTE_SCHEMA &&
        ENV["SOURCELENS_TRIVS_STRATEGIC_STAGING_ROOT"]
       assert(defined?(P3TrustedReadOnlyInvocationVerticalSliceRouteValidation),
@@ -5672,6 +5694,7 @@ module CurrentTaskAuthority
         TIK_ROUTE_SCHEMA,
         HPE_ROUTE_SCHEMA,
         TXC_ROUTE_SCHEMA,
+        TRIVS_EVIDENCE_FIRST_ROUTE_SCHEMA,
         TRIVS_ROUTE_SCHEMA,
         DTK_ROUTE_SCHEMA,
         ETSK_ROUTE_SCHEMA,
@@ -5704,6 +5727,11 @@ module CurrentTaskAuthority
       assert(disposition == FounderDelegationContinuity::RESEARCH_EXIT_DISPOSITION,
              "P2 research exit requires exact capability-not-accepted closure and a separate P3 entry decision")
       return "P2_RESEARCH_EXIT_COMPLETE_P3_ENTRY_DECISION_REQUIRED"
+    end
+    if route["schema_version"] == TRIVS_EVIDENCE_FIRST_ROUTE_SCHEMA
+      assert(defined?(P3TrustedReadOnlyInvocationEvidenceFirstFinalRouteValidation),
+             "P3 TRIVS evidence-first final Route validator is unavailable")
+      return P3TrustedReadOnlyInvocationEvidenceFirstFinalRouteValidation.validate_truth!(root: root, truth: truth)
     end
     if route["schema_version"] == TRIVS_ROUTE_SCHEMA
       assert(defined?(P3TrustedReadOnlyInvocationVerticalSliceRouteValidation),

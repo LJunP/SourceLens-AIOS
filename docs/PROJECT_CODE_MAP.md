@@ -4,9 +4,9 @@
 
 ## 1. 生成范围
 
-- 纳入逐文件用途索引的文件数：1043。
+- 纳入逐文件用途索引的文件数：1044。
 - 其中源码/脚本/配置/SQL/CSS 类文件数：568。
-- 纳入统计的文本总行数：273673。
+- 纳入统计的文本总行数：274329。
 - 排除逐文件展开的本地生成/证据目录：`.git/`、`bin/`、`web-console/node_modules/`、`backend-spring/target/`、`analyzer-rust/target/`、`.sourcelens-runtime/`、`release-evidence/`、前端构建和测试产物。
 - 本地生成物、依赖缓存和历史证据目录不是源码或当前权威；它们必须保持未跟踪并可重建或从封存恢复。
 
@@ -24,7 +24,7 @@
 | `CODE_OF_CONDUCT.md` | 1 | 项目根文件或辅助目录。 |
 | `CONTRIBUTING.md` | 1 | 项目根文件或辅助目录。 |
 | `deploy` | 2 | Docker Compose 和环境模板。 |
-| `docs` | 231 | 当前架构、接口、安全、研究与 AIOS 权威文档。 |
+| `docs` | 232 | 当前架构、接口、安全、研究与 AIOS 权威文档。 |
 | `evaluation-harness` | 295 | 项目根文件或辅助目录。 |
 | `LICENSE` | 1 | 项目根文件或辅助目录。 |
 | `Makefile` | 1 | 项目根文件或辅助目录。 |
@@ -170,9 +170,9 @@
 | `backend-spring/src/test/resources` | 5 | Spring Boot 后端服务。子目录。 |
 | `backend-spring/src/test/resources/mockito-extensions` | 1 | Spring Boot 后端服务。子目录。 |
 | `deploy` | 2 | 部署配置目录，包含 Docker Compose 和环境变量模板。 |
-| `docs` | 231 | 项目事实源文档目录，覆盖产品、架构、API、数据库、安全、运维、阶段需求、进度和交接。 |
-| `docs/aios` | 219 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
-| `docs/aios/decisions` | 31 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
+| `docs` | 232 | 项目事实源文档目录，覆盖产品、架构、API、数据库、安全、运维、阶段需求、进度和交接。 |
+| `docs/aios` | 220 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
+| `docs/aios/decisions` | 32 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/aios/schemas` | 4 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/aios/tasks` | 175 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/aios/truth` | 1 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
@@ -986,6 +986,7 @@
 | `docs/aios/decisions/P3_EXECUTABLE_TRANSITION_SYSTEM_KERNEL_REENTRY_ROUTE_DECISION_V1.json` | 项目文档。标题：P3_EXECUTABLE_TRANSITION_SYSTEM_KERNEL_REENTRY_ROUTE_DECISION_V1.json。 |
 | `docs/aios/decisions/P3_ONE_FINAL_HERMETIC_CAPABILITY_LEDGER_ROUTE_AFTER_PREACTIVATION_TERMINAL_DECISION_V1.json` | 项目文档。标题：P3_ONE_FINAL_HERMETIC_CAPABILITY_LEDGER_ROUTE_AFTER_PREACTIVATION_TERMINAL_DECISION_V1.json。 |
 | `docs/aios/decisions/P3_TASK_WIDE_RESERVATION_FRONTIER_TRANSACTIONAL_EXECUTION_ROUTE_DECISION_V1.json` | 项目文档。标题：P3_TASK_WIDE_RESERVATION_FRONTIER_TRANSACTIONAL_EXECUTION_ROUTE_DECISION_V1.json。 |
+| `docs/aios/decisions/P3_TRUSTED_READ_ONLY_INVOCATION_EVIDENCE_FIRST_FINAL_CLEAN_ROOM_ROUTE_DECISION_V1.json` | 项目文档。标题：P3_TRUSTED_READ_ONLY_INVOCATION_EVIDENCE_FIRST_FINAL_CLEAN_ROOM_ROUTE_DECISION_V1.json。 |
 | `docs/aios/decisions/P3_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE_ROUTE_DECISION_V1.json` | 项目文档。标题：P3_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE_ROUTE_DECISION_V1.json。 |
 | `docs/aios/EVALUATION_PROTOCOL.md` | 项目文档。标题：SourceLens AIOS Evaluation and Research Protocol。 |
 | `docs/aios/FOUNDER_DELEGATION_POLICY.md` | 项目文档。标题：SourceLens AIOS Founder Delegation Policy。 |

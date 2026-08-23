@@ -4,9 +4,9 @@
 
 ## 1. 生成范围
 
-- 纳入逐文件用途索引的文件数：1040。
+- 纳入逐文件用途索引的文件数：1041。
 - 其中源码/脚本/配置/SQL/CSS 类文件数：568。
-- 纳入统计的文本总行数：272997。
+- 纳入统计的文本总行数：273274。
 - 排除逐文件展开的本地生成/证据目录：`.git/`、`bin/`、`web-console/node_modules/`、`backend-spring/target/`、`analyzer-rust/target/`、`.sourcelens-runtime/`、`release-evidence/`、前端构建和测试产物。
 - 本地生成物、依赖缓存和历史证据目录不是源码或当前权威；它们必须保持未跟踪并可重建或从封存恢复。
 
@@ -24,7 +24,7 @@
 | `CODE_OF_CONDUCT.md` | 1 | 项目根文件或辅助目录。 |
 | `CONTRIBUTING.md` | 1 | 项目根文件或辅助目录。 |
 | `deploy` | 2 | Docker Compose 和环境模板。 |
-| `docs` | 228 | 当前架构、接口、安全、研究与 AIOS 权威文档。 |
+| `docs` | 229 | 当前架构、接口、安全、研究与 AIOS 权威文档。 |
 | `evaluation-harness` | 295 | 项目根文件或辅助目录。 |
 | `LICENSE` | 1 | 项目根文件或辅助目录。 |
 | `Makefile` | 1 | 项目根文件或辅助目录。 |
@@ -170,11 +170,11 @@
 | `backend-spring/src/test/resources` | 5 | Spring Boot 后端服务。子目录。 |
 | `backend-spring/src/test/resources/mockito-extensions` | 1 | Spring Boot 后端服务。子目录。 |
 | `deploy` | 2 | 部署配置目录，包含 Docker Compose 和环境变量模板。 |
-| `docs` | 228 | 项目事实源文档目录，覆盖产品、架构、API、数据库、安全、运维、阶段需求、进度和交接。 |
-| `docs/aios` | 216 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
+| `docs` | 229 | 项目事实源文档目录，覆盖产品、架构、API、数据库、安全、运维、阶段需求、进度和交接。 |
+| `docs/aios` | 217 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/aios/decisions` | 30 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/aios/schemas` | 4 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
-| `docs/aios/tasks` | 173 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
+| `docs/aios/tasks` | 174 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/aios/truth` | 1 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/llm-safety-evals` | 2 | LLM 安全评测用例目录，存放 prompt injection、输出质量和 provider run 模板。 |
 | `evaluation-harness` | 295 | 项目根文件或辅助目录。子目录。 |
@@ -1167,6 +1167,7 @@
 | `docs/aios/tasks/P3-006_HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION_VERTICAL_SLICE.yaml` | 项目文档。标题：P3-006_HOST_OWNED_FIXED_WORKFLOW_STRUCTURAL_PERMISSION_VERTICAL_SLICE.yaml。 |
 | `docs/aios/tasks/P3-007_FINAL_TRANSACTIONAL_HOST_WORKFLOW_PERMISSION_ISOLATION_TRACE.yaml` | 项目文档。标题：P3-007_FINAL_TRANSACTIONAL_HOST_WORKFLOW_PERMISSION_ISOLATION_TRACE.yaml。 |
 | `docs/aios/tasks/P3-DTK-F1_DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION.yaml` | 项目文档。标题：P3-DTK-F1_DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION.yaml。 |
+| `docs/aios/tasks/P3-DTK-P1_TRUSTED_HOST_DECLARATIVE_TRANSACTION_KERNEL_PRODUCT.yaml` | 项目文档。标题：P3-DTK-P1_TRUSTED_HOST_DECLARATIVE_TRANSACTION_KERNEL_PRODUCT.yaml。 |
 | `docs/aios/tasks/P3-ETSK-F1_EXECUTABLE_TRANSITION_SYSTEM_KERNEL.yaml` | 项目文档。标题：P3-ETSK-F1_EXECUTABLE_TRANSITION_SYSTEM_KERNEL.yaml。 |
 | `docs/aios/tasks/P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT.yaml` | 项目文档。标题：P3-THTCB-P1_TRUSTED_HOST_TRANSACTIONAL_COORDINATOR_PRODUCT.yaml。 |
 | `docs/aios/tasks/P3-TWRF-F1_TASK_WIDE_RESERVATION_STATE_MACHINE_FOUNDATION.yaml` | 项目文档。标题：P3-TWRF-F1_TASK_WIDE_RESERVATION_STATE_MACHINE_FOUNDATION.yaml。 |

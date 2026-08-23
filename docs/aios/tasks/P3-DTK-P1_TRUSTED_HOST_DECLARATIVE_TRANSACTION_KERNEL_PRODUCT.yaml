@@ -1,0 +1,248 @@
+schema_version: phase-delegated-task-contract/v1.2
+record_type: AIOS_PHASE_DELEGATED_TASK_CONTRACT
+task_id: AIOS-P3-DTK-P1_TRUSTED_HOST_DECLARATIVE_TRANSACTION_KERNEL_PRODUCT
+status: ACTIVE
+phase: P3
+route_id: P3_DECLARATIVE_TRANSACTION_KERNEL_CLEAN_ROOM_ROUTE_V1
+stage_id: TRUSTED_HOST_DECLARATIVE_TRANSACTION_KERNEL_PRODUCT
+kind: PRODUCT_IMPLEMENTATION
+objective_id: TRUSTED_HOST_TCB_DECLARATIVE_TRANSACTION_KERNEL_SINGLE_AGENT_EXECUTION
+strict_exit_gate_id: TRUSTED_HOST_TCB_DECLARATIVE_TASK_WIDE_TRANSACTIONAL_EXECUTION_WITH_PROCESS_REAL_CONTAINMENT
+why_now: >-
+  The declarative semantics Foundation is independently ACCEPTED and integrated.
+  Build the one allowed Product implementation so the accepted machine-spec digest
+  becomes the runtime transaction authority and the trusted host can enforce the
+  complete task-wide pre-effect, durability, resume, trace and process-containment
+  boundary without a second hand-coded domain transition table.
+branch: codex/p3-dtk-p1-trusted-host-transaction-kernel
+worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p3-dtk-p1-trusted-host-transaction-kernel
+evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p3-declarative-transaction-kernel-route-20260823/task-product
+activation_parent_commit: 66e9130a4a713fdfc0e4ec1775e4a8b1b31f99e0
+activation_parent_tree: 2ff5026599e136bed9295556c54a633ef7f82830
+execution_nonce: P3-DTK-P1-4e6ce824-b93e-40a6-9864-3da588970503
+authorization_id: P3-DTK-P1-PHASE-DELEGATED-4e6ce824-b93e-40a6-9864-3da588970503
+decision_id: AUTHORIZE_P3_DECLARATIVE_TRANSACTION_KERNEL_OBJECTIVE_EXIT_GATE_AND_FINDING_SCOPED_CLEAN_ROOM_ROUTE_V1
+write_allowlist:
+  - backend-spring/src/main/java/com/sourcelens/module/execution/kernel
+  - backend-spring/src/main/java/com/sourcelens/module/execution/taskwide
+  - backend-spring/src/main/java/com/sourcelens/module/sandbox/oci/taskwide
+  - backend-spring/src/main/java/com/sourcelens/module/execution/service/ExecutionCheckpointService.java
+  - backend-spring/src/main/java/com/sourcelens/module/execution/service/ExecutionTaskService.java
+  - backend-spring/src/main/java/com/sourcelens/module/execution/mapper/ExecutionCheckpointStore.java
+  - backend-spring/src/main/resources/p3/declarative-transaction-kernel
+  - backend-spring/src/main/resources/db/migration/V034__add_declarative_task_wide_transaction_kernel.sql
+  - backend-spring/src/test/java/com/sourcelens/module/execution/kernel
+  - backend-spring/src/test/java/com/sourcelens/module/execution/taskwide
+  - backend-spring/src/test/java/com/sourcelens/module/sandbox/oci/taskwide
+  - backend-spring/src/test/resources/p3-declarative-transaction-kernel
+  - docs/aios/tasks/P3-DTK-P1_TRUSTED_HOST_DECLARATIVE_TRANSACTION_KERNEL_PRODUCT.yaml
+  - docs/PROJECT_CODE_MAP.md
+budget:
+  engineering_tasks: 1
+  engineering_hours: 48
+  calendar_days: 10
+  candidate_generations: 2
+  same_task_repairs: 1
+  review_cycles: 2
+accepted_foundation:
+  candidate_commit: 2f52d0912ba5621bd2258fc21f5b74dd2019efd5
+  candidate_tree: e9490d8f786f913b2e60a7e690a71911e015c87a
+  machine_spec_path: evaluation-harness/harness/p3-declarative-transaction-kernel-v1/spec/machine-spec.json
+  machine_spec_sha256: 810ccef6369b03676336725c38299020acdd844704f56e8276f5583209752de4
+  foundation_manifest_path: evaluation-harness/reports/p3-declarative-transaction-kernel-v1/FOUNDATION_MANIFEST.json
+  foundation_manifest_sha256: ddf9d00212381132045465fda17e97b777f77ea18d8ae1406a3f116918cacea3
+  task_gate_receipt:
+    path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-declarative-transaction-kernel-route-20260823/task-foundation/gate/P3_DTK_F1_TASK_GATE_INTEGRATION_RECEIPT_V1.json
+    byte_length: 5202
+    sha256: 47dfed7024336b144306b565e643da0b2b88f87e72ffc181b88d58147e09f268
+toolchain:
+  java_home: /Users/lijunpeng/Library/Java/JavaVirtualMachines/ms-17.0.18/Contents/Home
+  java_version: 17.0.18
+  java_sha256: 8dc256371b69e4e26cab700a4b6df5d80598feabf603b7d6cc68b1e349833f8c
+  javac_sha256: d584c74fc058eedeb445da13551b1f3f4fde1b3e95afc57cabf43f2ba3ac9987
+  maven_path: /Users/lijunpeng/apache-maven-3.9.6/bin/mvn
+  maven_version: 3.9.6
+  maven_sha256: 340bfabd76eaca39a1614f9ad767cdbd12c2090cfc15d66afe0ed536cd9b8bda
+  go_path: /opt/homebrew/Cellar/go/1.26.3/libexec/bin/go
+  go_version: 1.26.3
+  go_sha256: 1b6e73b4f9eae9108e2e747f5cd29dc27ddfc1999a414fe11cd593072d607a84
+  sandbox_exec_path: /usr/bin/sandbox-exec
+  sandbox_exec_sha256: 7fc7dcd7782e1abd52b11f6c512bdfb0c09d2502b619c483fdfce554c472352e
+  sandbox_profile: "(version 1) (allow default) (deny network*)"
+  docker_cli_path: /Applications/Docker.app/Contents/Resources/bin/docker
+  docker_cli_sha256: a6822407e207ff0b687419ccbe55700ffbf389d77de58ef625b3b1790d88747c
+  docker_client_version: 29.7.2
+  docker_server_version: 29.7.2
+  docker_server_os: linux
+  docker_server_arch: arm64
+  observed_daemon_id: c04cfda9-762c-4c79-b6f9-1c69a4b7083b
+build_boundary:
+  maven_offline_required: true
+  sandbox_exec_deny_network_required: true
+  dependency_download_allowed: false
+  go_hostile_probe:
+    source_origin: FRESH_TASK_LOCAL_SOURCE_ONLY
+    environment:
+      CGO_ENABLED: '0'
+      GOOS: linux
+      GOARCH: arm64
+      GO111MODULE: 'off'
+      GOPROXY: 'off'
+      GOSUMDB: 'off'
+      GOTOOLCHAIN: local
+    docker_build_allowed: false
+    rootfs_tar_then_docker_image_import_required: true
+external_effects:
+  network: false
+  docker: true
+  docker_scope: LOCAL_TASK_SCOPED_EXACT_OPERATIONS_ONLY
+  docker_allowed_operations:
+    - version
+    - info
+    - image import
+    - image inspect
+    - create
+    - inspect
+    - start
+    - wait
+    - logs
+    - rm
+    - image rm
+  docker_registry: false
+  docker_pull: false
+  docker_push: false
+  docker_login: false
+  docker_build: false
+  provider: false
+  secret: false
+  credential: false
+  remote: false
+  production: false
+  public: false
+  p4_entry: false
+docker_object_boundary:
+  container_name_prefix: sourcelens-p3-dtk-
+  required_labels:
+    com.sourcelens.aios.route: P3_DECLARATIVE_TRANSACTION_KERNEL_CLEAN_ROOM_ROUTE_V1
+    com.sourcelens.aios.task: AIOS-P3-DTK-P1_TRUSTED_HOST_DECLARATIVE_TRANSACTION_KERNEL_PRODUCT
+  create_identity_binding_required:
+    - image_id
+    - container_id
+    - container_name
+    - labels
+    - rootfs_digest
+    - profile_digest
+  existing_container_image_volume_or_network_mutation_allowed: false
+  cleanup_scope: EXACT_TASK_IDENTITY_CREATED_REGENERABLE_OBJECTS_ONLY
+  exact_profile:
+    network: none
+    read_only_rootfs: true
+    cap_drop: ALL
+    no_new_privileges: true
+    seccomp: HOST_CONTROLLED_CONTENT_ADDRESSED
+    pids_limit: 64
+    memory: 256m
+    cpus: 1
+    user: '65532:65532'
+    custody_mount: TASK_LOCAL_CONTENT_ADDRESSED_READ_ONLY_ONLY
+    forbidden_mounts:
+      - DOCKER_SOCKET
+      - USER_DIRECTORY
+      - CANONICAL_REPOSITORY
+      - CREDENTIAL
+      - WRITABLE_HOST_SOURCE
+    writable_state: BOUNDED_TMPFS_ONLY
+  daemon_identity_drift_before_create_or_start: FAIL_CLOSED
+clean_room:
+  permitted_inputs:
+    - PRODUCT_ACTIVATION_CANONICAL_MAIN
+    - ACCEPTED_P3_001_PUBLIC_CHECKPOINT_BEHAVIOR
+    - STRATEGIC_CONSTITUTION_V3_3
+    - ACCEPTED_DTK_FOUNDATION_SPEC_ORACLE_MANIFEST_AND_TASK_GATE_RECEIPT
+    - THIS_PRODUCT_TASK_CONTRACT
+    - CURRENT_FOUNDER_DECISION
+    - INSTALLED_HASH_BOUND_LOCAL_TOOLCHAIN
+  rejected_candidate_bytes_read_compare_copy_execute_restore_repair_or_reuse: false
+  earlier_rejected_p3_engineering_lineage_allowed: false
+runtime_authority:
+  immutable_machine_spec_digest_is_runtime_authority: true
+  compile_time_closed_operator_implementation_only: true
+  second_domain_transition_table_in_product_code_allowed: false
+  second_domain_invariant_or_cleanup_semantics_allowed: false
+  agent_selectable_spec_handler_executable_path_argv_environment_docker_option_resource_credential_network_or_unrestricted_map: false
+  host_derives_invocation_from_immutable_task_workflow_state_budget_and_custody: true
+  same_task_row_serialized_transaction_before_any_effect_must_persist:
+    - POSITIVE_AUTHORIZATION_DECISION
+    - IMMUTABLE_AUTHORIZATION_ANCHOR
+    - INVOCATION_LOCAL_INTENT
+    - TASK_WIDE_ACTIVE_RESERVATION_OWNERSHIP
+    - APPEND_ONLY_RESERVATION_HISTORY_IDENTITY
+    - EXACT_MACHINE_SPEC_DIGEST
+    - EXACT_OCI_PROFILE_DIGEST
+    - SEALED_INPUT_CUSTODY_DIGEST
+deliverables:
+  - non-empty testable Product source diff
+  - machine-spec-digest-bound runtime interpreter with closed operators
+  - task-row serialized durable reservation authorization intent and history transaction
+  - crash orphan resume replay checkpoint and exactly-one-terminal-trace enforcement
+  - sealed content-addressed custody and exact OCI profile enforcement
+  - process-real hostile probe and containment test matrix
+  - candidate manifest replay commands rollback and external-effect inventory
+required_capabilities:
+  - DECLARATIVE_TRANSITION_SEMANTIC_INTEGRITY
+  - HOST_POSITIVE_AUTHORIZATION
+  - IMMUTABLE_AUTHORIZATION_ANCHOR
+  - DURABLE_INTENT_BEFORE_EFFECT
+  - TASK_ID_ONLY_ACTIVE_RESERVATION_FRONTIER
+  - INVOCATION_BOUND_APPEND_ONLY_HISTORY
+  - TASK_ROW_LOCK_AND_SINGLE_DURABLE_TRANSACTION
+  - CROSS_WORKFLOW_AND_CROSS_STEP_LOSER_ZERO_EFFECT
+  - CRASH_ORPHAN_RECONCILIATION
+  - STAGE_AWARE_CLEANUP
+  - EXACTLY_ONE_TERMINAL_TRACE
+  - CHECKPOINT_GATING
+  - TERMINAL_A_REPLAY_PRESERVES_LATER_RESERVATION_B
+  - SEALED_CONTENT_ADDRESSED_CUSTODY
+  - EXACT_OCI_PROFILE
+  - PROCESS_REAL_CONTAINMENT
+test_matrix:
+  required_classes:
+    - POSITIVE
+    - NEGATIVE
+    - CROSS_WORKFLOW_AND_CROSS_STEP_COMPETITION
+    - CRASH
+    - ORPHAN
+    - RESUME
+    - REPLAY
+    - TAMPER
+    - PROCESS_REAL_CONTAINMENT
+  exact_foundation_spec_replay_required: true
+  canonical_candidate_verification_required: true
+acceptance:
+  milestone_id: DECLARATIVE_TRANSACTION_KERNEL_PRODUCT
+  non_empty_testable_product_source_diff_required: true
+  machine_spec_digest_is_runtime_authority: true
+  required_capability_count: 16
+  all_required_capabilities_must_have_hash_bound_replayable_evidence: true
+  canonical_verification_required: true
+  fresh_independent_reviewers:
+    - CTO_AGENT
+    - SECURITY_AGENT
+    - QUALITY_EVALUATION_AGENT
+  all_reviewers_pass_required: true
+  gate_result_required: ACCEPTED
+anti_loop:
+  cycle_1_freezes_complete_p0_p1_finding_set: true
+  cycle_2_only_closes_frozen_findings_or_rejects_new_regression: true
+  drip_feed_findings_allowed: false
+  second_product_task_allowed: false
+  candidate_3_allowed: false
+  second_same_task_repair_allowed: false
+  third_review_cycle_allowed: false
+  successor_replacement_normalization_closure_feasibility_remediation_allowed: false
+lifecycle:
+  pass: PRODUCT_ACCEPTED_AND_INTEGRATED_UNLOCKS_ONE_SHOT_AUDIT_DELIVERY_75_STRICT_EXIT_0
+  non_pass: ROUTE_TERMINAL_NON_PASS_AUDIT_LOCKED
+  project_actually_completed: false
+  long_term_goal_status: ACTIVE
+  codex_goal_completion_or_blocking_authorized: false

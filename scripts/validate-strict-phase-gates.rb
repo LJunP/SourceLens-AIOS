@@ -1471,12 +1471,480 @@ module P3DeclarativeTransactionKernelRouteValidation
   end
 end
 
+class P3TrustedReadOnlyInvocationVerticalSliceRouteValidationError < StandardError; end
+
+module P3TrustedReadOnlyInvocationVerticalSliceRouteValidation
+  module_function
+
+  ROUTE_SCHEMA = "p3-trusted-read-only-invocation-vertical-slice-route/v1"
+  ROUTE_ID = "P3_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE_ROUTE_V1"
+  DECISION_SCHEMA = "p3-trusted-read-only-invocation-vertical-slice-founder-decision/v1"
+  DECISION_ID =
+    "AUTHORIZE_P3_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE_OBJECTIVE_EXIT_GATE_AND_FINAL_ROUTE_REBASELINE_AFTER_DTK_TERMINAL_V1"
+  OPERATION_TYPE =
+    "P3_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE_OBJECTIVE_EXIT_GATE_AND_FINAL_ROUTE_REBASELINE_AFTER_DTK_TERMINAL"
+  OBJECTIVE_ID = "ACTUAL_AGENT_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE"
+  WORKFLOW_ID = "SHA256_READ_ONLY_CUSTODY_V1"
+  CLAIM_BOUNDARY =
+    "ONE_ACTUAL_FIXED_READ_ONLY_AGENT_TO_TRUSTED_HOST_INVOCATION_ON_TRUSTED_SINGLE_USER_LOCAL_HOST"
+  STRICT_GATE_ID = "ACTUAL_AGENT_TO_TRUSTED_HOST_READ_ONLY_INVOCATION_WITH_AUTOMATIC_RECOVERY"
+  STRICT_ITEMS = %w[
+    ACTUAL_AGENT_INGRESS_EXCLUSIVE_TRUSTED_READ_ONLY_ROUTE
+    HOST_DERIVED_AUTHORITY_DURABLE_INTENT_AND_EXACTLY_ONE_TERMINAL
+    AUTOMATIC_FRESH_HOST_DISCOVERY_AND_CRASH_RECOVERY
+    PINNED_LOCAL_OCI_HOSTILE_CONTEXT_AND_REAL_MYSQL_PRODUCT_PATH_ATTESTATION
+  ].freeze
+  COMPATIBILITY_ITEM = "RESUME_ISOLATION_PERMISSION_AND_TRACE_TESTS"
+  TASK_ID = "AIOS-P3-TRIVS-P1_ACTUAL_AGENT_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE"
+  MILESTONE_ID = "TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE_PRODUCT"
+
+  DECISION = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-read-only-invocation-vertical-slice-20260823/decision/FOUNDER_P3_TRIVS_ACCEPTED_STRUCTURED_DECISION_V1.json",
+    "byte_length" => 11_896,
+    "sha256" => "dfbd602ce7ab8823e835ecffbe96bf462491071874e3a726fa52ed1b62294dd2"
+  }.freeze
+  ADR = DECISION.merge(
+    "path" => "docs/aios/decisions/P3_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE_ROUTE_DECISION_V1.json"
+  ).freeze
+  AUTHORIZATION_BODY = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-read-only-invocation-vertical-slice-20260823/decision/FOUNDER_AUTHORIZATION_BODY_V1.txt",
+    "byte_length" => 14_575,
+    "sha256" => "68eeccc6af1070f06a1a4f343f08e17c4f8b16c521affe0250512cd3cfdf23ce"
+  }.freeze
+  SOURCE_ATTACHMENT = {
+    "path" => "/Users/lijunpeng/.codex/attachments/311f4929-d686-4b83-9f95-cdffe30158c8/pasted-text.txt",
+    "byte_length" => 14_574,
+    "sha256" => "1ee526766e232fbc6b434c661ed81ea4cfd8b5ce94f0317b5ae02126ff174527"
+  }.freeze
+  TERMINAL_RECEIPT = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-declarative-transaction-kernel-route-20260823/task-product/terminal/P3_DTK_P1_PRODUCT_TASK_ROUTE_TERMINAL_NON_PASS_RECEIPT_V1.json",
+    "byte_length" => 15_047,
+    "sha256" => "22c34b40854db7b1cda4c9575166a42714c4041c9aff35ba8e87cc5a68e2a50a"
+  }.freeze
+  CONSTITUTION = {
+    "path" => "docs/aios/STRATEGIC_CONSTITUTION.md",
+    "version" => "3.4",
+    "byte_length" => 32_657,
+    "sha256" => "063363c85f8967f78529abef6c777180766ec64e25b562863cfc2f9aecada2a8"
+  }.freeze
+  CANONICAL_START = {
+    "repository" => "/Users/lijunpeng/Developer/SourceLens-AIOS",
+    "branch" => "main",
+    "commit" => "98090adc539199791ff0084b1e7b94de84e32f27",
+    "tree" => "d7aebf4b822eb9b4d47d736093fdb203e08a42e8",
+    "truth" => {
+      "path" => "docs/aios/truth/project_state.yaml",
+      "byte_length" => 2_017_937,
+      "sha256" => "d794fa327cb7700bafd29e77f73645d8db8b6fb1e1009abeb1bdebf703b79b19"
+    },
+    "constitution" => {
+      "path" => "docs/aios/STRATEGIC_CONSTITUTION.md",
+      "version" => "3.3",
+      "byte_length" => 26_557,
+      "sha256" => "86785be2944daa0f9946ccbf1d6e2ca798320d50403db23867fb04feeed4cbc0"
+    },
+    "git_topology" => {
+      "branches" => ["main"],
+      "worktrees" => ["/Users/lijunpeng/Developer/SourceLens-AIOS"]
+    }
+  }.freeze
+  LIMITS = {
+    "engineering_tasks" => 17, "engineering_hours" => 496, "calendar_days" => 116,
+    "active_tasks" => 1, "task_branches" => 1, "task_worktrees" => 1,
+    "active_candidates" => 1
+  }.freeze
+  BASE_CONSUMED = {
+    "engineering_tasks" => 16, "engineering_hours" => 448, "calendar_days" => 106
+  }.freeze
+  TASK_BUDGET = {
+    "engineering_tasks" => 1, "engineering_hours" => 48, "calendar_days" => 10,
+    "candidate_generations" => 2, "same_task_repairs" => 1, "review_cycles" => 2
+  }.freeze
+  ROUTE_RELEASE = TASK_BUDGET.slice("engineering_tasks", "engineering_hours", "calendar_days").freeze
+  RESOURCES = {
+    "branch" => "codex/p3-trivs-p1-actual-agent-trusted-read-only-invocation",
+    "worktree" => "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-trivs-p1-actual-agent-trusted-read-only-invocation",
+    "evidence_root" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-read-only-invocation-vertical-slice-20260823/task-product"
+  }.freeze
+  WORKER_PATHS = %w[
+    backend-spring/src/main/java/com/sourcelens/module/agent/service/AgentRuntime.java
+    backend-spring/src/main/java/com/sourcelens/module/agent/service/AgentTaskService.java
+    backend-spring/src/main/java/com/sourcelens/module/execution/service/ExecutionTaskService.java
+    backend-spring/src/main/java/com/sourcelens/module/execution/trustedread
+    backend-spring/src/main/java/com/sourcelens/module/sandbox/oci/trustedread
+    backend-spring/src/main/resources/db/migration/V034__add_trusted_read_only_invocation_vertical_slice.sql
+    backend-spring/src/test/java/com/sourcelens/module/agent/service/AgentTrustedReadInvocationIntegrationTest.java
+    backend-spring/src/test/java/com/sourcelens/module/execution/trustedread
+    backend-spring/src/test/java/com/sourcelens/module/sandbox/oci/trustedread
+    backend-spring/src/test/resources/p3-trusted-read-only-invocation
+    docs/aios/tasks/P3-TRIVS-P1_ACTUAL_AGENT_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE.yaml
+    docs/PROJECT_CODE_MAP.md
+  ].freeze
+  TERMINAL_FINDING_IDS = %w[
+    P3-DTK-P1-C1-CTO-P0-001 P3-DTK-P1-C1-CTO-P0-002 P3-DTK-P1-QE-C1-P0-001
+    P3-DTK-P1-QE-C1-P1-002 P3-DTK-P1-QE-C1-P1-003 P3-DTK-P1-QE-C1-P1-004
+    P3-DTK-P1-QE-C1-P1-005 P3-DTK-P1-C1-SEC-P1-003 P3-DTK-P1-C2-SEC-REG-P1-001
+  ].freeze
+  PERMITTED_FINDING_FIELDS = %w[finding_id severity gate_relevance summary].freeze
+  FALSE_EXTERNAL_EFFECTS = %w[
+    network dns http_https provider secret credential remote production public
+    docker_registry docker_build irreversible_asset_removal p4_entry
+  ].freeze
+  DECISION_EXTERNAL_EFFECTS = %w[
+    network dns http_https provider secret credential remote production public
+    irreversible_asset_removal p4_entry
+  ].to_h { |key| [key, false] }.freeze
+  LOCAL_DOCKER_AUTHORITY = {
+    "endpoint" => "unix:///Users/lijunpeng/.docker/run/docker.sock",
+    "allowed_verbs" => ["version", "info", "image import", "create", "start", "wait", "inspect", "rm", "rmi"],
+    "task_created_name_label_hash_bound_objects_only" => true,
+    "sterile_config_closed_environment_required" => true,
+    "os_network_restriction_required" => true,
+    "forbidden_verbs" => ["image ls", "ps", "build", "pull", "push", "login"],
+    "registry_or_remote_context_allowed" => false
+  }.freeze
+  LIFECYCLE = {
+    "PRODUCT_ELIGIBLE_NOT_ACTIVATED" => {
+      "state" => "P3_TRIVS_PRODUCT_ELIGIBLE", "route_status" => "ACTIVE_PRODUCT_ELIGIBLE",
+      "phase_status" => "ACTIVE_P3_TRIVS_PRODUCT_ELIGIBLE",
+      "action" => "MASTER_ACTIVATE_AIOS_P3_TRIVS_P1_PRODUCT", "stage_status" => "ELIGIBLE_NOT_ACTIVATED",
+      "task_status" => "ELIGIBLE_NOT_ACTIVATED", "active" => false,
+      "task_creation_allowed" => true, "remaining_capacity_usable" => true,
+      "founder_required" => false, "delivery" => 25, "strict" => 0
+    },
+    "PRODUCT_TASK_ACTIVE" => {
+      "state" => "P3_TRIVS_PRODUCT_TASK_ACTIVE", "route_status" => "ACTIVE_PRODUCT_TASK",
+      "phase_status" => "ACTIVE_P3_TRIVS_PRODUCT_TASK",
+      "action" => "EXECUTE_AIOS_P3_TRIVS_P1_PRODUCT", "stage_status" => "ACTIVE",
+      "task_status" => "ACTIVE", "active" => true,
+      "task_creation_allowed" => false, "remaining_capacity_usable" => true,
+      "founder_required" => false, "delivery" => 25, "strict" => 0
+    },
+    "ROUTE_TERMINAL_NON_PASS" => {
+      "state" => "P3_TRIVS_ROUTE_TERMINAL_NON_PASS",
+      "route_status" => "HOLD_INCOMPLETE_ROUTE_TERMINAL_NON_PASS",
+      "phase_status" => "HOLD_INCOMPLETE_P3_TRIVS_ROUTE_TERMINAL_NON_PASS",
+      "action" => "FOUNDER_DECIDE_P3_AFTER_TRIVS_ROUTE_TERMINAL_NON_PASS",
+      "stage_status" => "TERMINAL_TASK_GATE_NON_PASS", "task_status" => "TERMINAL_TASK_GATE_NON_PASS",
+      "active" => false, "task_creation_allowed" => false, "remaining_capacity_usable" => false,
+      "founder_required" => true, "delivery" => 25, "strict" => 0
+    },
+    "PRODUCT_ACCEPTED_PHASE_GATE_ELIGIBLE" => {
+      "state" => "P3_TRIVS_P3_PHASE_GATE_ELIGIBLE",
+      "route_status" => "ELIGIBLE_AWAITING_FOUNDER_P3_PHASE_GATE_DECISION",
+      "phase_status" => "ELIGIBLE_AWAITING_FOUNDER_P3_PHASE_GATE_DECISION",
+      "action" => "FOUNDER_DECIDE_P3_PHASE_EXIT", "stage_status" => "ACCEPTED_INTEGRATED",
+      "task_status" => "ACCEPTED_INTEGRATED", "active" => false,
+      "task_creation_allowed" => false, "remaining_capacity_usable" => false,
+      "founder_required" => true, "delivery" => 100, "strict" => 100
+    }
+  }.freeze
+  LIFECYCLE_STATES = LIFECYCLE.transform_values { |profile| profile.fetch("state") }.freeze
+
+  def assert(condition, message)
+    raise P3TrustedReadOnlyInvocationVerticalSliceRouteValidationError, message unless condition
+  end
+
+  def mapping(value, label)
+    assert(value.is_a?(Hash), "#{label} is not a mapping")
+    value
+  end
+
+  def path_for(root, identity)
+    path = Pathname.new(identity.fetch("path"))
+    path.absolute? ? path : Pathname.new(root).join(path)
+  end
+
+  def read_identity!(root, identity, label)
+    path = path_for(root, identity)
+    assert(path.exist? && path.file? && !path.symlink?, "#{label} missing, non-regular or symlinked")
+    bytes = path.binread
+    assert(bytes.bytesize == identity.fetch("byte_length"), "#{label} byte length drift")
+    assert(Digest::SHA256.hexdigest(bytes) == identity.fetch("sha256"), "#{label} SHA-256 drift")
+    bytes
+  end
+
+  def validate_decision!(root)
+    adr_bytes = read_identity!(root, ADR, "P3 TRIVS canonical ADR")
+    decision_bytes = read_identity!(root, DECISION, "P3 TRIVS accepted external decision")
+    body_bytes = read_identity!(root, AUTHORIZATION_BODY, "P3 TRIVS normalized Founder body")
+    attachment_bytes = read_identity!(root, SOURCE_ATTACHMENT, "P3 TRIVS direct Founder attachment")
+    read_identity!(root, TERMINAL_RECEIPT, "P3 DTK terminal receipt identity")
+    assert(decision_bytes == adr_bytes, "P3 TRIVS canonical ADR differs from the accepted external decision")
+    assert(body_bytes == attachment_bytes + "\n",
+           "P3 TRIVS normalized Founder body differs beyond the optional trailing LF")
+    decision = mapping(JSON.parse(adr_bytes), "P3 TRIVS ADR")
+    assert(decision["schema_version"] == DECISION_SCHEMA &&
+           decision["record_type"] == "FOUNDER_P3_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE_ROUTE_DECISION" &&
+           decision["decision_id"] == DECISION_ID && decision["operation_type"] == OPERATION_TYPE &&
+           decision["status"] == "ACCEPTED_DIRECT_FOUNDER_STRATEGIC_ROUTE_DECISION",
+           "P3 TRIVS Founder decision header drift")
+    assert(decision["reserved_triggers"] == %w[
+      MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
+      MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+    ], "P3 TRIVS reserved-trigger closure drift")
+    assert(decision["canonical_start"] == CANONICAL_START && decision["installed_constitution"] == CONSTITUTION,
+           "P3 TRIVS canonical-start or Constitution identity drift")
+    strategic = mapping(decision["strategic_change"], "P3 TRIVS strategic change")
+    assert(strategic["objective_id"] == OBJECTIVE_ID && strategic["workflow_id"] == WORKFLOW_ID &&
+           strategic["claim_boundary"] == CLAIM_BOUNDARY &&
+           strategic.dig("strict_exit_gate", "gate_id") == STRICT_GATE_ID &&
+           strategic.dig("strict_exit_gate", "required_item_ids") == STRICT_ITEMS &&
+           strategic.dig("strict_exit_gate", "same_frozen_candidate_required") == true &&
+           strategic.dig("strict_exit_gate", "canonical_replay_required") == true,
+           "P3 TRIVS objective or exact four-item Gate drift")
+    route = mapping(decision["route"], "P3 TRIVS decision route")
+    assert(route["route_id"] == ROUTE_ID && route["milestone_id"] == MILESTONE_ID &&
+           route["task_id"] == TASK_ID && route["branch"] == RESOURCES["branch"] &&
+           route["worktree"] == RESOURCES["worktree"] && route["evidence_root"] == RESOURCES["evidence_root"] &&
+           route["budget"] == TASK_BUDGET && route["worker_write_allowlist"] == WORKER_PATHS &&
+           route["reviewers"] == %w[CTO_AGENT SECURITY_AGENT QUALITY_EVALUATION_AGENT] &&
+           route["all_reviewers_pass_required"] == true && route["separate_audit_task"] == false,
+           "P3 TRIVS one-Task route, budget, allowlist or review boundary drift")
+    accounting = mapping(decision["cumulative_accounting"], "P3 TRIVS accounting")
+    assert(accounting["limits"] == LIMITS && accounting["consumed_before_route"] == BASE_CONSUMED &&
+           accounting["route_release"] == ROUTE_RELEASE && accounting["reset_or_refund_allowed"] == false &&
+           accounting["governance_progress_credit"] == 0,
+           "P3 TRIVS non-resettable accounting drift")
+    clean = mapping(decision["clean_room"], "P3 TRIVS clean-room boundary")
+    assert(clean["rejected_candidate_1_or_2_source_read_compare_copy_execute_restore_repair_or_reuse"] == false &&
+           clean["rejected_branch_worktree_bundle_patch_archive_or_engineering_evidence_read"] == false &&
+           clean["permitted_terminal_finding_fields"] == PERMITTED_FINDING_FIELDS,
+           "P3 TRIVS rejected-lineage or finding-field boundary drift")
+    terminal = mapping(decision["terminal_basis"], "P3 TRIVS terminal finding projection")
+    findings = terminal["findings"]
+    assert(terminal["route_id"] == P3DeclarativeTransactionKernelRouteValidation::ROUTE_ID &&
+           terminal["task_status"] == "TERMINAL_TASK_GATE_NON_PASS" &&
+           terminal["route_status"] == "ROUTE_TERMINAL_NON_PASS" &&
+           terminal["receipt"] == TERMINAL_RECEIPT &&
+           terminal["finding_projection_fields"] == PERMITTED_FINDING_FIELDS &&
+           findings.is_a?(Array) && findings.map { |finding| finding.keys }.
+             all? { |keys| keys == PERMITTED_FINDING_FIELDS } &&
+           findings.map { |finding| finding["finding_id"] } == TERMINAL_FINDING_IDS,
+           "P3 TRIVS terminal metadata exceeds the permitted clean-room projection")
+    assert(decision["local_docker_authority"] == LOCAL_DOCKER_AUTHORITY &&
+           decision["external_effects"] == DECISION_EXTERNAL_EFFECTS,
+           "P3 TRIVS Docker or forbidden external-effect decision boundary drift")
+    lifecycle = mapping(decision["lifecycle"], "P3 TRIVS lifecycle")
+    %w[candidate_3_allowed second_same_task_repair_allowed third_review_cycle_allowed
+       second_product_task_allowed successor_replacement_normalization_closure_feasibility_remediation_allowed
+       v2_v3_route_or_rerun_to_pass_allowed].each do |key|
+      assert(lifecycle[key] == false, "P3 TRIVS anti-loop decision drift at #{key}")
+    end
+    assert(lifecycle["installation_state"] == "PRODUCT_ELIGIBLE_NOT_ACTIVATED" &&
+           lifecycle["long_term_goal_status"] == "ACTIVE",
+           "P3 TRIVS installed lifecycle or Long-term Goal drift")
+    decision
+  rescue JSON::ParserError => e
+    raise P3TrustedReadOnlyInvocationVerticalSliceRouteValidationError,
+          "P3 TRIVS canonical ADR invalid JSON: #{e.message}"
+  end
+
+  def expected_accounting(profile)
+    reserved = profile.fetch("active") ? ROUTE_RELEASE : {}
+    remaining = %w[engineering_tasks engineering_hours calendar_days].to_h do |key|
+      [key, LIMITS.fetch(key) - BASE_CONSUMED.fetch(key) - (reserved[key] || 0)]
+    end
+    remaining = ROUTE_RELEASE if !profile.fetch("active") && profile.fetch("remaining_capacity_usable")
+    [reserved, remaining]
+  end
+
+  def validate_active_work!(truth, profile)
+    active = mapping(truth["active_work"], "P3 TRIVS active_work")
+    if profile.fetch("active")
+      assert(active["current_task"] == TASK_ID && active["selected_task"] == TASK_ID &&
+             active["current_task_status"] == "ACTIVE" && active["task_branch"] == RESOURCES["branch"] &&
+             active["task_worktree"] == RESOURCES["worktree"] &&
+             active["execution_evidence_root"] == RESOURCES["evidence_root"] &&
+             active["allowlisted_paths"] == WORKER_PATHS && active["current_task_budget"] == TASK_BUDGET &&
+             active["execution_nonce"].is_a?(String) && !active["execution_nonce"].empty? &&
+             active["current_task_contract"].is_a?(Hash) && active["authority_record"].is_a?(Hash),
+             "P3 TRIVS active Product Task identity, authority, budget or allowlist drift")
+    else
+      expected_selected = profile.fetch("founder_required") ? "NONE_ROUTE_TERMINAL_NON_PASS" : TASK_ID
+      assert(active["current_task"] == "NONE" && active["selected_task"] == expected_selected &&
+             active["current_task_contract"].nil? && active["current_execution_authorization"].nil? &&
+             active["authority_record"].nil? && active["task_branch"].nil? &&
+             active["task_worktree"].nil? && active["execution_evidence_root"].nil?,
+             "P3 TRIVS inactive Task projection drift") unless profile.fetch("strict") == 100
+    end
+    assert(active["founder_decision_required"] == profile.fetch("founder_required") &&
+           active["next_eligible_action"] == profile.fetch("action"),
+           "P3 TRIVS active-work control projection drift")
+  end
+
+  def validate_truth!(root:, truth:)
+    root = Pathname.new(root).realpath
+    route = mapping(truth["current_phase_route"], "P3 TRIVS current Route")
+    assert(route["schema_version"] == ROUTE_SCHEMA && route["route_id"] == ROUTE_ID,
+           "P3 TRIVS Route schema or identity drift")
+    lifecycle = route["lifecycle_stage"]
+    profile = LIFECYCLE[lifecycle]
+    assert(profile, "P3 TRIVS lifecycle is not closed-schema: #{lifecycle.inspect}")
+    decision = validate_decision!(root)
+    constitution = read_identity!(root, CONSTITUTION, "P3 TRIVS Strategic Constitution v3.4")
+    assert(constitution.include?("## 9D. P3 v3.4 actual trusted read-only invocation vertical slice authority") &&
+           constitution.include?("`#{OBJECTIVE_ID}`") && constitution.include?("`#{STRICT_GATE_ID}`") &&
+           STRICT_ITEMS.all? { |item| constitution.include?("`#{item}`") },
+           "P3 TRIVS Constitution semantic anchor drift")
+
+    assert(route["status"] == profile.fetch("route_status") && route["phase"] == "P3" &&
+           route["phase_entry_status"] == "AUTHORIZED" &&
+           route["founder_phase_route_decision_required"] == profile.fetch("founder_required") &&
+           route["next_eligible_action"] == profile.fetch("action") &&
+           route["founder_route_decision"] == DECISION.merge(
+             "decision_id" => DECISION_ID, "operation_type" => OPERATION_TYPE,
+             "canonical_adr" => ADR, "source_body" => AUTHORIZATION_BODY,
+             "source_attachment" => SOURCE_ATTACHMENT
+           ) && route["canonical_start"] == CANONICAL_START && route["constitution"] == CONSTITUTION &&
+           route["objective_id"] == OBJECTIVE_ID && route["workflow_id"] == WORKFLOW_ID &&
+           route["claim_boundary"] == CLAIM_BOUNDARY &&
+           route.dig("strict_exit_gate", "gate_id") == STRICT_GATE_ID &&
+           route.dig("strict_exit_gate", "required_item_ids") == STRICT_ITEMS &&
+           route.dig("strict_exit_gate", "compatibility_aggregate_item_id") == COMPATIBILITY_ITEM &&
+           route.dig("strict_exit_gate", "same_frozen_product_candidate_required") == true &&
+           route.dig("strict_exit_gate", "canonical_replay_required") == true &&
+           route["terminal_finding_ids"] == TERMINAL_FINDING_IDS,
+           "P3 TRIVS Route authority, identity, claim or exact Gate drift")
+    assert(route.dig("cumulative_accounting", "limits") == LIMITS &&
+           route.dig("cumulative_accounting", "consumed") == BASE_CONSUMED &&
+           route.dig("cumulative_accounting", "remaining") == ROUTE_RELEASE &&
+           route.dig("cumulative_accounting", "reset_or_refund_allowed") == false,
+           "P3 TRIVS installed accounting projection drift")
+    assert(route["ordered_stages"] == [{
+      "ordinal" => 17, "stage_id" => MILESTONE_ID, "task_id" => TASK_ID,
+      "kind" => "PRODUCT_IMPLEMENTATION", "status" => profile.fetch("stage_status"),
+      "budget" => TASK_BUDGET, "resources" => RESOURCES
+    }], "P3 TRIVS exact one-stage lifecycle drift")
+    FALSE_EXTERNAL_EFFECTS.each do |key|
+      assert(route.dig("external_effect_authority", key) == false,
+             "P3 TRIVS external effect unexpectedly authorized: #{key}")
+    end
+    expected_docker = profile.fetch("active") ? true : "LOCKED_UNTIL_PRODUCT_ACTIVATION"
+    assert(route.dig("external_effect_authority", "docker_for_active_product_task") == expected_docker &&
+           route.dig("external_effect_authority", "docker_endpoint") ==
+             "unix:///Users/lijunpeng/.docker/run/docker.sock" &&
+           route.dig("clean_room", "rejected_candidate_source_or_engineering_evidence_read_allowed") == false &&
+           route.dig("clean_room", "rejected_bundle_patch_archive_or_worktree_read_allowed") == false &&
+           route.dig("clean_room", "permitted_terminal_finding_fields") == PERMITTED_FINDING_FIELDS &&
+           route["p4_entry_authorized"] == false && route["long_term_goal_status"] == "ACTIVE",
+           "P3 TRIVS Docker, clean-room, P4 or Goal boundary drift")
+    %w[candidate_3_allowed second_same_task_repair_allowed third_review_cycle_allowed
+       second_trivs_product_task_allowed successor_replacement_normalization_closure_feasibility_remediation_allowed
+       v2_or_v3_route_chain_allowed rerun_to_pass_allowed].each do |key|
+      assert(route.dig("anti_loop", key) == false, "P3 TRIVS anti-loop projection drift at #{key}")
+    end
+    assert(route.dig("anti_loop", "governance_progress_credit") == 0,
+           "P3 TRIVS governance may not claim progress")
+
+    reserved, remaining = expected_accounting(profile)
+    envelope = mapping(truth["phase_execution_envelope"], "P3 TRIVS Phase envelope")
+    assert(envelope["schema_version"] == "phase-execution-envelope/v1" && envelope["phase"] == "P3" &&
+           envelope["status"] == profile.fetch("phase_status") &&
+           envelope.dig("authority_basis", "source_route_id") == ROUTE_ID &&
+           envelope["limits"] == LIMITS && envelope["consumed"] == BASE_CONSUMED &&
+           envelope["reserved"] == reserved && envelope["remaining"] == remaining &&
+           envelope["remaining_capacity_usable"] == profile.fetch("remaining_capacity_usable") &&
+           envelope["ordered_stages"] == route["ordered_stages"] &&
+           envelope.dig("delivery_progress", "percent") == profile.fetch("delivery") &&
+           envelope.dig("delivery_progress", "strict_exit_gate_percent") == profile.fetch("strict") &&
+           envelope["governance_progress_credit"] == 0,
+           "P3 TRIVS envelope, reservation or progress drift")
+
+    control = mapping(truth["founder_escalation_control"], "P3 TRIVS Founder escalation")
+    expected_disposition = profile.fetch("founder_required") ?
+      "FOUNDER_RESERVED_DECISION_REQUIRED" : "NO_RESERVED_TRIGGER_CONTINUE_PHASE"
+    assert(control["schema_version"] == "founder-escalation-control/v2" &&
+           control["disposition"] == expected_disposition &&
+           control["founder_decision_required"] == profile.fetch("founder_required") &&
+           control["next_action_owner"] == (profile.fetch("founder_required") ? "HUMAN_FOUNDER" : "MASTER_CEO_AGENT") &&
+           control["next_eligible_action"] == profile.fetch("action"),
+           "P3 TRIVS Founder-interruption projection drift")
+    delegation = mapping(truth["phase_delegation"], "P3 TRIVS Phase delegation")
+    assert(delegation["decision_source"] == DECISION_ID &&
+           delegation["task_selection_owner"] == "MASTER_CEO_AGENT" &&
+           delegation["task_authorization_owner"] == "MASTER_CEO_AGENT" &&
+           delegation["task_gate_owner"] == "MASTER_CEO_AGENT" &&
+           delegation.dig("anti_loop", "second_trivs_product_task_allowed") == false &&
+           delegation.dig("anti_loop", "successor_or_replacement_allowed") == false &&
+           delegation.dig("anti_loop", "candidate_3_allowed") == false &&
+           delegation.dig("anti_loop", "second_same_task_repair_allowed") == false &&
+           delegation.dig("anti_loop", "third_review_cycle_allowed") == false &&
+           delegation.dig("anti_loop", "rerun_to_pass_allowed") == false,
+           "P3 TRIVS delegation or anti-loop drift")
+    boundary = mapping(truth["phase_boundary"], "P3 TRIVS Phase boundary")
+    assert(boundary["phase"] == "P3" && boundary["phase_execution_status"] == profile.fetch("phase_status") &&
+           boundary["task_creation_allowed"] == profile.fetch("task_creation_allowed") &&
+           boundary["allowed_task_kinds"] == (profile.fetch("task_creation_allowed") ? ["PRODUCT_IMPLEMENTATION"] : []) &&
+           boundary["founder_decision_required"] == profile.fetch("founder_required") &&
+           boundary["next_eligible_action"] == profile.fetch("action") &&
+           FALSE_EXTERNAL_EFFECTS.reject { |key| key.start_with?("docker_") || key == "irreversible_asset_removal" }.all? {
+             |key| boundary.dig("default_external_effects", key) == false
+           }, "P3 TRIVS Phase boundary or external-effect drift")
+    claim = mapping(truth["phase_execution_claim"], "P3 TRIVS Phase execution claim")
+    assert(claim["current_route_claim"] == ROUTE_ID &&
+           claim["current_task_claim"] == (profile.fetch("active") ? TASK_ID : "NONE") &&
+           claim["task_creation_allowed"] == profile.fetch("task_creation_allowed") &&
+           claim["remaining_capacity_usable"] == profile.fetch("remaining_capacity_usable") &&
+           claim["candidate_integration_allowed"] == false && claim["next_eligible_action"] == profile.fetch("action"),
+           "P3 TRIVS execution-claim drift")
+    validate_active_work!(truth, profile)
+
+    p3 = mapping(truth.dig("strict_phase_gate_ledger", "phases", "P3"), "P3 strict Gate")
+    current_gate = mapping(p3["current_exit_gate"], "P3 TRIVS current strict Gate")
+    assert(current_gate["gate_id"] == STRICT_GATE_ID &&
+           current_gate["authority"] == DECISION.merge("decision_id" => DECISION_ID) &&
+           current_gate["required_item_ids"] == STRICT_ITEMS && current_gate["required_items"].keys == STRICT_ITEMS &&
+           current_gate["same_frozen_candidate_required"] == true && current_gate["canonical_replay_required"] == true,
+           "P3 TRIVS strict Gate shape drift")
+    if profile.fetch("strict") == 100
+      candidates = STRICT_ITEMS.map do |item|
+        record = mapping(current_gate.dig("required_items", item), "P3 TRIVS accepted Gate item #{item}")
+        assert(record["status"] == "ACCEPTED" && record["evidence"].is_a?(Hash),
+               "P3 TRIVS phase-gate state lacks accepted Evidence for #{item}")
+        [record["candidate_commit"], record["candidate_tree"]]
+      end
+      assert(candidates.uniq.length == 1 &&
+             current_gate.dig("compatibility_projection", "status") == "ACCEPTED" &&
+             p3.dig("founder_phase_gate", "status") == "ELIGIBLE_AWAITING_FOUNDER_DECISION",
+             "P3 TRIVS same-candidate, compatibility or Founder Gate drift")
+    else
+      assert(STRICT_ITEMS.all? { |item| current_gate.dig("required_items", item, "status") == "MISSING" } &&
+             current_gate.dig("compatibility_projection", "status") == "MISSING" &&
+             p3.dig("founder_phase_gate", "status") == "NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS",
+             "P3 TRIVS strict Gate false acceptance before Product acceptance and replay")
+    end
+    assert(truth.dig("project", "current_phase") == "P3" &&
+           truth.dig("project", "phase_execution_status") == profile.fetch("phase_status") &&
+           truth.dig("project", "current_route_execution_status") == profile.fetch("state") &&
+           truth.dig("project", "p4_entry_status") ==
+             "HOLD_PENDING_STRICT_P3_EXIT_AND_SEPARATE_FOUNDER_PHASE_ENTRY" &&
+           truth.dig("goal", "control_plane_status_observed") == "ACTIVE" &&
+           truth.dig("goal", "current_strategic_decision", "decision_id") == DECISION_ID &&
+           truth.dig("claim_boundary", "current_phase_route") == ROUTE_ID &&
+           truth.dig("claim_boundary", "p3_phase_envelope_status") == profile.fetch("phase_status") &&
+           truth.dig("claim_boundary", "p3_exit_gate_progress_percent") == profile.fetch("strict") &&
+           truth.dig("claim_boundary", "p3_delivery_progress_percent") == profile.fetch("delivery") &&
+           truth.dig("claim_boundary", "p3_trivs_route_decision_sha256") == DECISION.fetch("sha256") &&
+           truth.dig("claim_boundary", "p3_trivs_candidate_integrated") == false,
+           "P3 TRIVS project, P4, Goal or claim projection drift")
+    profile.fetch("state")
+  rescue ArgumentError, KeyError, TypeError, Psych::Exception => e
+    raise P3TrustedReadOnlyInvocationVerticalSliceRouteValidationError,
+          "P3 TRIVS Route invalid: #{e.message}"
+  end
+end
+
 if $PROGRAM_NAME == __FILE__
   begin
     root = Pathname.new(__dir__).join("..").realpath
     truth = YAML.safe_load(root.join("docs/aios/truth/project_state.yaml").binread,
                            permitted_classes: [], permitted_symbols: [], aliases: false)
     if truth.dig("current_phase_route", "schema_version") ==
+       P3TrustedReadOnlyInvocationVerticalSliceRouteValidation::ROUTE_SCHEMA
+      state = P3TrustedReadOnlyInvocationVerticalSliceRouteValidation.validate_truth!(root: root, truth: truth)
+      puts "STRICT_PHASE_GATES: PASS state=#{state}"
+    elsif truth.dig("current_phase_route", "schema_version") ==
        P3DeclarativeTransactionKernelRouteValidation::ROUTE_SCHEMA
       state = P3DeclarativeTransactionKernelRouteValidation.validate_truth!(root: root, truth: truth)
       puts "STRICT_PHASE_GATES: PASS state=#{state}"
@@ -1489,7 +1957,8 @@ if $PROGRAM_NAME == __FILE__
       raise P3ExecutableTransitionSystemKernelRouteValidationError, "P3 strict Gate is missing" unless p3.is_a?(Hash)
       puts "STRICT_PHASE_GATES: PASS state=NON_ETSK_CURRENT_ROUTE"
     end
-  rescue P3DeclarativeTransactionKernelRouteValidationError,
+  rescue P3TrustedReadOnlyInvocationVerticalSliceRouteValidationError,
+         P3DeclarativeTransactionKernelRouteValidationError,
          P3ExecutableTransitionSystemKernelRouteValidationError, JSON::ParserError, Psych::SyntaxError => e
     warn "STRICT_PHASE_GATES: NON_PASS #{e.message}"
     exit 1

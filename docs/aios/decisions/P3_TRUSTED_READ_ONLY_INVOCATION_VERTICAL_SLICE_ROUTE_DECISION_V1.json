@@ -1,0 +1,296 @@
+{
+  "schema_version": "p3-trusted-read-only-invocation-vertical-slice-founder-decision/v1",
+  "record_type": "FOUNDER_P3_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE_ROUTE_DECISION",
+  "decision_id": "AUTHORIZE_P3_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE_OBJECTIVE_EXIT_GATE_AND_FINAL_ROUTE_REBASELINE_AFTER_DTK_TERMINAL_V1",
+  "operation_type": "P3_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE_OBJECTIVE_EXIT_GATE_AND_FINAL_ROUTE_REBASELINE_AFTER_DTK_TERMINAL",
+  "status": "ACCEPTED_DIRECT_FOUNDER_STRATEGIC_ROUTE_DECISION",
+  "accepted_at_utc": "2026-08-23T10:27:38Z",
+  "reserved_triggers": [
+    "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE",
+    "MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE"
+  ],
+  "canonical_start": {
+    "repository": "/Users/lijunpeng/Developer/SourceLens-AIOS",
+    "branch": "main",
+    "commit": "98090adc539199791ff0084b1e7b94de84e32f27",
+    "tree": "d7aebf4b822eb9b4d47d736093fdb203e08a42e8",
+    "truth": {
+      "path": "docs/aios/truth/project_state.yaml",
+      "byte_length": 2017937,
+      "sha256": "d794fa327cb7700bafd29e77f73645d8db8b6fb1e1009abeb1bdebf703b79b19"
+    },
+    "constitution": {
+      "path": "docs/aios/STRATEGIC_CONSTITUTION.md",
+      "version": "3.3",
+      "byte_length": 26557,
+      "sha256": "86785be2944daa0f9946ccbf1d6e2ca798320d50403db23867fb04feeed4cbc0"
+    },
+    "git_topology": {
+      "branches": ["main"],
+      "worktrees": ["/Users/lijunpeng/Developer/SourceLens-AIOS"]
+    }
+  },
+  "direct_founder_authorization": {
+    "source": "CURRENT_DIRECT_USER_MESSAGE",
+    "path": "/Users/lijunpeng/.codex/attachments/311f4929-d686-4b83-9f95-cdffe30158c8/pasted-text.txt",
+    "byte_length": 14574,
+    "sha256": "1ee526766e232fbc6b434c661ed81ea4cfd8b5ce94f0317b5ae02126ff174527",
+    "token_count": 1,
+    "content_match": "EXACT_AUTHORIZATION_BODY_WITHOUT_OPTIONAL_TRAILING_LF"
+  },
+  "installed_constitution": {
+    "path": "docs/aios/STRATEGIC_CONSTITUTION.md",
+    "version": "3.4",
+    "byte_length": 32657,
+    "sha256": "063363c85f8967f78529abef6c777180766ec64e25b562863cfc2f9aecada2a8"
+  },
+  "terminal_basis": {
+    "route_id": "P3_DECLARATIVE_TRANSACTION_KERNEL_CLEAN_ROOM_ROUTE_V1",
+    "task_id": "AIOS-P3-DTK-P1_TRUSTED_HOST_DECLARATIVE_TRANSACTION_KERNEL_PRODUCT",
+    "task_status": "TERMINAL_TASK_GATE_NON_PASS",
+    "route_status": "ROUTE_TERMINAL_NON_PASS",
+    "receipt": {
+      "path": "/Users/lijunpeng/Developer/.sourcelens-audit/p3-declarative-transaction-kernel-route-20260823/task-product/terminal/P3_DTK_P1_PRODUCT_TASK_ROUTE_TERMINAL_NON_PASS_RECEIPT_V1.json",
+      "byte_length": 15047,
+      "sha256": "22c34b40854db7b1cda4c9575166a42714c4041c9aff35ba8e87cc5a68e2a50a"
+    },
+    "candidate_2": {
+      "commit": "5ff6d12451c9cfb02e3e7aef4019aea4473cfe2b",
+      "tree": "8f03459ce1e4add821af4ddf352fe03ded483ccc",
+      "integrated": false
+    },
+    "review_verdicts": {
+      "cto": "NON_PASS",
+      "security": "NON_PASS",
+      "quality_evaluation": "NON_PASS"
+    },
+    "finding_projection_fields": [
+      "finding_id",
+      "severity",
+      "gate_relevance",
+      "summary"
+    ],
+    "findings": [
+      {
+        "finding_id": "P3-DTK-P1-C1-CTO-P0-001",
+        "severity": "P0",
+        "gate_relevance": "AUTHORITY_OR_EXTERNAL_EFFECT_SAFETY",
+        "summary": "The trusted-host custody ingress is not invoked by the actual Product Agent/workflow call chain and is not exclusive."
+      },
+      {
+        "finding_id": "P3-DTK-P1-C1-CTO-P0-002",
+        "severity": "P0",
+        "gate_relevance": "PRODUCT_CORRECTNESS",
+        "summary": "Fresh-host automatic discovery and crash/orphan recovery across the required real kill-point matrix are absent."
+      },
+      {
+        "finding_id": "P3-DTK-P1-QE-C1-P0-001",
+        "severity": "P0",
+        "gate_relevance": "PRODUCT_CORRECTNESS",
+        "summary": "AgentRuntime still reaches ToolExecutionService directly and no production-ingress bypass-denial proof exists."
+      },
+      {
+        "finding_id": "P3-DTK-P1-QE-C1-P1-002",
+        "severity": "P1",
+        "gate_relevance": "PRODUCT_CORRECTNESS",
+        "summary": "No startup reconciler or process-real abrupt-crash/restart corpus proves exactly-one terminal and no orphan."
+      },
+      {
+        "finding_id": "P3-DTK-P1-QE-C1-P1-003",
+        "severity": "P1",
+        "gate_relevance": "RESULT_INTEGRITY",
+        "summary": "The real MySQL verifier exercises handwritten JDBC primitives, not the production transaction service/store path."
+      },
+      {
+        "finding_id": "P3-DTK-P1-QE-C1-P1-004",
+        "severity": "P1",
+        "gate_relevance": "AUTHORITY_OR_EXTERNAL_EFFECT_SAFETY",
+        "summary": "Hostile Docker HOME, context, config, proxy and credential-helper adversarial proof is absent."
+      },
+      {
+        "finding_id": "P3-DTK-P1-QE-C1-P1-005",
+        "severity": "P1",
+        "gate_relevance": "RESULT_INTEGRITY",
+        "summary": "The retained source tar records all 49 Git-0644 members as 0664."
+      },
+      {
+        "finding_id": "P3-DTK-P1-C1-SEC-P1-003",
+        "severity": "P1",
+        "gate_relevance": "RESULT_INTEGRITY",
+        "summary": "Replay does not recompute and compare the accepted checkpoint prefix that predates reservation."
+      },
+      {
+        "finding_id": "P3-DTK-P1-C2-SEC-REG-P1-001",
+        "severity": "P1",
+        "gate_relevance": "PRODUCT_CORRECTNESS",
+        "summary": "Content-only object/image identity collides across valid repeated invocations and can permanently wedge a DISPATCHING frontier."
+      }
+    ]
+  },
+  "strategic_change": {
+    "objective_id": "ACTUAL_AGENT_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE",
+    "workflow_id": "SHA256_READ_ONLY_CUSTODY_V1",
+    "claim_boundary": "ONE_ACTUAL_FIXED_READ_ONLY_AGENT_TO_TRUSTED_HOST_INVOCATION_ON_TRUSTED_SINGLE_USER_LOCAL_HOST",
+    "strict_exit_gate": {
+      "gate_id": "ACTUAL_AGENT_TO_TRUSTED_HOST_READ_ONLY_INVOCATION_WITH_AUTOMATIC_RECOVERY",
+      "required_item_ids": [
+        "ACTUAL_AGENT_INGRESS_EXCLUSIVE_TRUSTED_READ_ONLY_ROUTE",
+        "HOST_DERIVED_AUTHORITY_DURABLE_INTENT_AND_EXACTLY_ONE_TERMINAL",
+        "AUTOMATIC_FRESH_HOST_DISCOVERY_AND_CRASH_RECOVERY",
+        "PINNED_LOCAL_OCI_HOSTILE_CONTEXT_AND_REAL_MYSQL_PRODUCT_PATH_ATTESTATION"
+      ],
+      "same_frozen_candidate_required": true,
+      "canonical_replay_required": true
+    },
+    "preserved": [
+      "MISSION_ICP_YEAR_ONE_OUTCOME",
+      "P0_P1_P2_CANONICAL_RESULTS",
+      "P3_001_ACCEPTED_DURABLE_CHECKPOINT_SEMANTICS",
+      "DTK_DECLARATIVE_SEMANTICS_FOUNDATION_ACCEPTED_INTEGRATED",
+      "P4_HOLD",
+      "PROJECT_INCOMPLETE",
+      "LONG_TERM_GOAL_ACTIVE"
+    ],
+    "not_claimed": [
+      "GENERIC_TASK_WIDE_TRANSACTION_KERNEL",
+      "ARBITRARY_ACTION_ALGEBRA",
+      "MULTI_WORKFLOW_CONCURRENCY",
+      "COMPLETE_CHECKPOINT_PREFIX_TRANSACTION",
+      "FULL_TRUST_RUNTIME",
+      "HOSTILE_SAME_AUTHORITY_PRINCIPAL_ISOLATION",
+      "MULTI_AGENT_RUNTIME"
+    ]
+  },
+  "route": {
+    "route_id": "P3_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE_ROUTE_V1",
+    "milestone_id": "TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE_PRODUCT",
+    "task_id": "AIOS-P3-TRIVS-P1_ACTUAL_AGENT_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE",
+    "branch": "codex/p3-trivs-p1-actual-agent-trusted-read-only-invocation",
+    "worktree": "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-trivs-p1-actual-agent-trusted-read-only-invocation",
+    "evidence_root": "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-read-only-invocation-vertical-slice-20260823/task-product",
+    "budget": {
+      "engineering_tasks": 1,
+      "engineering_hours": 48,
+      "calendar_days": 10,
+      "candidate_generations": 2,
+      "same_task_repairs": 1,
+      "review_cycles": 2
+    },
+    "worker_write_allowlist": [
+      "backend-spring/src/main/java/com/sourcelens/module/agent/service/AgentRuntime.java",
+      "backend-spring/src/main/java/com/sourcelens/module/agent/service/AgentTaskService.java",
+      "backend-spring/src/main/java/com/sourcelens/module/execution/service/ExecutionTaskService.java",
+      "backend-spring/src/main/java/com/sourcelens/module/execution/trustedread",
+      "backend-spring/src/main/java/com/sourcelens/module/sandbox/oci/trustedread",
+      "backend-spring/src/main/resources/db/migration/V034__add_trusted_read_only_invocation_vertical_slice.sql",
+      "backend-spring/src/test/java/com/sourcelens/module/agent/service/AgentTrustedReadInvocationIntegrationTest.java",
+      "backend-spring/src/test/java/com/sourcelens/module/execution/trustedread",
+      "backend-spring/src/test/java/com/sourcelens/module/sandbox/oci/trustedread",
+      "backend-spring/src/test/resources/p3-trusted-read-only-invocation",
+      "docs/aios/tasks/P3-TRIVS-P1_ACTUAL_AGENT_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE.yaml",
+      "docs/PROJECT_CODE_MAP.md"
+    ],
+    "reviewers": [
+      "CTO_AGENT",
+      "SECURITY_AGENT",
+      "QUALITY_EVALUATION_AGENT"
+    ],
+    "all_reviewers_pass_required": true,
+    "separate_audit_task": false
+  },
+  "cumulative_accounting": {
+    "basis": "NON_RESETTABLE_CUMULATIVE_P3_FOUNDER_ENVELOPE",
+    "consumed_before_route": {
+      "engineering_tasks": 16,
+      "engineering_hours": 448,
+      "calendar_days": 106
+    },
+    "limits": {
+      "engineering_tasks": 17,
+      "engineering_hours": 496,
+      "calendar_days": 116,
+      "active_tasks": 1,
+      "task_branches": 1,
+      "task_worktrees": 1,
+      "active_candidates": 1
+    },
+    "route_release": {
+      "engineering_tasks": 1,
+      "engineering_hours": 48,
+      "calendar_days": 10
+    },
+    "reset_or_refund_allowed": false,
+    "governance_progress_credit": 0
+  },
+  "clean_room": {
+    "rejected_candidate_1_or_2_source_read_compare_copy_execute_restore_repair_or_reuse": false,
+    "rejected_branch_worktree_bundle_patch_archive_or_engineering_evidence_read": false,
+    "permitted_terminal_finding_fields": [
+      "finding_id",
+      "severity",
+      "gate_relevance",
+      "summary"
+    ],
+    "permitted_terminal_metadata": [
+      "review_verdicts",
+      "identity",
+      "accounting"
+    ],
+    "accepted_dependencies": [
+      "P3_001_DURABLE_STATE_AND_CHECKPOINT_RESUME",
+      "DTK_DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION"
+    ],
+    "git_mode_blob_length_and_sha256_evidence_required": true
+  },
+  "local_docker_authority": {
+    "endpoint": "unix:///Users/lijunpeng/.docker/run/docker.sock",
+    "allowed_verbs": [
+      "version",
+      "info",
+      "image import",
+      "create",
+      "start",
+      "wait",
+      "inspect",
+      "rm",
+      "rmi"
+    ],
+    "task_created_name_label_hash_bound_objects_only": true,
+    "sterile_config_closed_environment_required": true,
+    "os_network_restriction_required": true,
+    "forbidden_verbs": [
+      "image ls",
+      "ps",
+      "build",
+      "pull",
+      "push",
+      "login"
+    ],
+    "registry_or_remote_context_allowed": false
+  },
+  "external_effects": {
+    "network": false,
+    "dns": false,
+    "http_https": false,
+    "provider": false,
+    "secret": false,
+    "credential": false,
+    "remote": false,
+    "production": false,
+    "public": false,
+    "irreversible_asset_removal": false,
+    "p4_entry": false
+  },
+  "lifecycle": {
+    "installation_state": "PRODUCT_ELIGIBLE_NOT_ACTIVATED",
+    "pass": "ALL_THREE_REVIEWS_PASS_CANONICAL_INTEGRATION_AND_REPLAY_PASS_YIELDS_P3_100_100_AWAITING_FOUNDER_PHASE_GATE",
+    "non_pass": "FINAL_REVIEW_NON_PASS_NEW_P0_P1_OR_BOUNDARY_FAILURE_TERMINATES_TASK_AND_ROUTE_AT_P3_25_0",
+    "candidate_3_allowed": false,
+    "second_same_task_repair_allowed": false,
+    "third_review_cycle_allowed": false,
+    "second_product_task_allowed": false,
+    "successor_replacement_normalization_closure_feasibility_remediation_allowed": false,
+    "v2_v3_route_or_rerun_to_pass_allowed": false,
+    "long_term_goal_status": "ACTIVE"
+  }
+}

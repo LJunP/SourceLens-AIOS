@@ -56,6 +56,7 @@ module FounderActionHandoff
     P3_TASK_WIDE_RESERVATION_FRONTIER_TRANSACTIONAL_EXECUTION_FOUNDATION_PRODUCT_AND_ONE_SHOT_AUDIT_ROUTE
     P3_EXECUTABLE_TRANSITION_SYSTEM_KERNEL_TASK_WIDE_PRODUCT_AND_ONE_SHOT_AUDIT_REENTRY
     P3_DECLARATIVE_TRANSACTION_KERNEL_OBJECTIVE_EXIT_GATE_AND_FINDING_SCOPED_CLEAN_ROOM_ROUTE
+    P3_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE_OBJECTIVE_EXIT_GATE_AND_FINAL_ROUTE_REBASELINE_AFTER_DTK_TERMINAL
   ].freeze
   APP_OPERATION_TYPES = %w[APP_FILESYSTEM_BATCH_WRITE].freeze
   READ_ONLY_HTTPS_OPERATION = "一次全新、独立、clean-room V6 benchmark source acquisition"
@@ -612,6 +613,158 @@ module FounderActionHandoff
     "deny_or_defer_effect" =>
       "拒绝或延期时 canonical ETSK terminal state 保持不变；始终禁止 rejected-lineage reuse、Gate弱化、网络、Provider、Secret、remote、production、public、Docker registry/build、P4 entry、project completion 与 Long-term Goal completion/blocking。"
   }.freeze
+  P3_TRIVS_ROUTE_TOKEN =
+    "AUTHORIZE_P3_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE_OBJECTIVE_EXIT_GATE_AND_FINAL_ROUTE_REBASELINE_AFTER_DTK_TERMINAL_V1"
+  P3_TRIVS_ROUTE_OPERATION_TYPE =
+    "P3_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE_OBJECTIVE_EXIT_GATE_AND_FINAL_ROUTE_REBASELINE_AFTER_DTK_TERMINAL"
+  P3_TRIVS_ROUTE_PRIMARY_TRIGGER = "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE"
+  P3_TRIVS_ROUTE_CAPACITY_TRIGGER =
+    "MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE"
+  P3_TRIVS_ROUTE_DECISION_PATH = File.join(
+    ROOT,
+    "docs/aios/decisions/P3_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE_ROUTE_DECISION_V1.json"
+  )
+  P3_TRIVS_ROUTE_DIRECT_ATTACHMENT_BYTES = 14_574
+  P3_TRIVS_ROUTE_DIRECT_ATTACHMENT_SHA256 =
+    "1ee526766e232fbc6b434c661ed81ea4cfd8b5ce94f0317b5ae02126ff174527"
+  P3_TRIVS_ROUTE_CANONICAL_BODY_BYTES = 14_575
+  P3_TRIVS_ROUTE_CANONICAL_BODY_SHA256 =
+    "68eeccc6af1070f06a1a4f343f08e17c4f8b16c521affe0250512cd3cfdf23ce"
+  P3_TRIVS_ROUTE_PREINSTALL_COMMIT = "98090adc539199791ff0084b1e7b94de84e32f27"
+  P3_TRIVS_ROUTE_PREINSTALL_TREE = "d7aebf4b822eb9b4d47d736093fdb203e08a42e8"
+  P3_TRIVS_ROUTE_PREINSTALL_TRUTH_PATH = "docs/aios/truth/project_state.yaml"
+  P3_TRIVS_ROUTE_PREINSTALL_TRUTH_BYTES = 2_017_937
+  P3_TRIVS_ROUTE_PREINSTALL_TRUTH_SHA256 =
+    "d794fa327cb7700bafd29e77f73645d8db8b6fb1e1009abeb1bdebf703b79b19"
+  P3_TRIVS_ROUTE_PREINSTALL_CONSTITUTION_PATH = "docs/aios/STRATEGIC_CONSTITUTION.md"
+  P3_TRIVS_ROUTE_PREINSTALL_CONSTITUTION_VERSION = "3.3"
+  P3_TRIVS_ROUTE_PREINSTALL_CONSTITUTION_BYTES = 26_557
+  P3_TRIVS_ROUTE_PREINSTALL_CONSTITUTION_SHA256 =
+    "86785be2944daa0f9946ccbf1d6e2ca798320d50403db23867fb04feeed4cbc0"
+  P3_TRIVS_ROUTE_TERMINAL_RECEIPT_PATH =
+    "/Users/lijunpeng/Developer/.sourcelens-audit/p3-declarative-transaction-kernel-route-20260823/task-product/terminal/P3_DTK_P1_PRODUCT_TASK_ROUTE_TERMINAL_NON_PASS_RECEIPT_V1.json"
+  P3_TRIVS_ROUTE_TERMINAL_RECEIPT_BYTES = 15_047
+  P3_TRIVS_ROUTE_TERMINAL_RECEIPT_SHA256 =
+    "22c34b40854db7b1cda4c9575166a42714c4041c9aff35ba8e87cc5a68e2a50a"
+  P3_TRIVS_ROUTE_DECISION_DATA = begin
+    decision = JSON.parse(File.binread(P3_TRIVS_ROUTE_DECISION_PATH))
+    route = decision.fetch("route")
+    strategic_change = decision.fetch("strategic_change")
+    gate = strategic_change.fetch("strict_exit_gate")
+    accounting = decision.fetch("cumulative_accounting")
+    raise "P3 TRIVS decision identity or strategic boundary drift" unless
+      decision.fetch("decision_id") == P3_TRIVS_ROUTE_TOKEN &&
+      decision.fetch("operation_type") == P3_TRIVS_ROUTE_OPERATION_TYPE &&
+      decision.fetch("reserved_triggers") == [
+        P3_TRIVS_ROUTE_PRIMARY_TRIGGER,
+        P3_TRIVS_ROUTE_CAPACITY_TRIGGER
+      ] &&
+      decision.dig("canonical_start", "commit") == P3_TRIVS_ROUTE_PREINSTALL_COMMIT &&
+      decision.dig("canonical_start", "tree") == P3_TRIVS_ROUTE_PREINSTALL_TREE &&
+      decision.dig("canonical_start", "truth") == {
+        "path" => P3_TRIVS_ROUTE_PREINSTALL_TRUTH_PATH,
+        "byte_length" => P3_TRIVS_ROUTE_PREINSTALL_TRUTH_BYTES,
+        "sha256" => P3_TRIVS_ROUTE_PREINSTALL_TRUTH_SHA256
+      } &&
+      decision.dig("canonical_start", "constitution") == {
+        "path" => P3_TRIVS_ROUTE_PREINSTALL_CONSTITUTION_PATH,
+        "version" => P3_TRIVS_ROUTE_PREINSTALL_CONSTITUTION_VERSION,
+        "byte_length" => P3_TRIVS_ROUTE_PREINSTALL_CONSTITUTION_BYTES,
+        "sha256" => P3_TRIVS_ROUTE_PREINSTALL_CONSTITUTION_SHA256
+      } &&
+      decision.dig("direct_founder_authorization", "byte_length") ==
+        P3_TRIVS_ROUTE_DIRECT_ATTACHMENT_BYTES &&
+      decision.dig("direct_founder_authorization", "sha256") ==
+        P3_TRIVS_ROUTE_DIRECT_ATTACHMENT_SHA256 &&
+      decision.dig("terminal_basis", "receipt") == {
+        "path" => P3_TRIVS_ROUTE_TERMINAL_RECEIPT_PATH,
+        "byte_length" => P3_TRIVS_ROUTE_TERMINAL_RECEIPT_BYTES,
+        "sha256" => P3_TRIVS_ROUTE_TERMINAL_RECEIPT_SHA256
+      } &&
+      strategic_change.values_at("objective_id", "workflow_id", "claim_boundary") == [
+        "ACTUAL_AGENT_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE",
+        "SHA256_READ_ONLY_CUSTODY_V1",
+        "ONE_ACTUAL_FIXED_READ_ONLY_AGENT_TO_TRUSTED_HOST_INVOCATION_ON_TRUSTED_SINGLE_USER_LOCAL_HOST"
+      ] &&
+      gate.fetch("gate_id") ==
+        "ACTUAL_AGENT_TO_TRUSTED_HOST_READ_ONLY_INVOCATION_WITH_AUTOMATIC_RECOVERY" &&
+      gate.fetch("required_item_ids") == %w[
+        ACTUAL_AGENT_INGRESS_EXCLUSIVE_TRUSTED_READ_ONLY_ROUTE
+        HOST_DERIVED_AUTHORITY_DURABLE_INTENT_AND_EXACTLY_ONE_TERMINAL
+        AUTOMATIC_FRESH_HOST_DISCOVERY_AND_CRASH_RECOVERY
+        PINNED_LOCAL_OCI_HOSTILE_CONTEXT_AND_REAL_MYSQL_PRODUCT_PATH_ATTESTATION
+      ] &&
+      gate.values_at("same_frozen_candidate_required", "canonical_replay_required") ==
+        [true, true] &&
+      route.values_at("route_id", "milestone_id", "task_id") == [
+        "P3_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE_ROUTE_V1",
+        "TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE_PRODUCT",
+        "AIOS-P3-TRIVS-P1_ACTUAL_AGENT_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE"
+      ] &&
+      route.fetch("budget") == {
+        "engineering_tasks" => 1,
+        "engineering_hours" => 48,
+        "calendar_days" => 10,
+        "candidate_generations" => 2,
+        "same_task_repairs" => 1,
+        "review_cycles" => 2
+      } &&
+      accounting.fetch("consumed_before_route") == {
+        "engineering_tasks" => 16,
+        "engineering_hours" => 448,
+        "calendar_days" => 106
+      } &&
+      accounting.fetch("limits").slice(
+        "engineering_tasks", "engineering_hours", "calendar_days"
+      ) == {
+        "engineering_tasks" => 17,
+        "engineering_hours" => 496,
+        "calendar_days" => 116
+      } &&
+      accounting.fetch("route_release") == {
+        "engineering_tasks" => 1,
+        "engineering_hours" => 48,
+        "calendar_days" => 10
+      } &&
+      decision.fetch("external_effects").values.all? { |value| value == false } &&
+      decision.dig("local_docker_authority", "allowed_verbs") == [
+        "version", "info", "image import", "create", "start", "wait", "inspect", "rm", "rmi"
+      ] &&
+      decision.dig("local_docker_authority", "forbidden_verbs") ==
+        ["image ls", "ps", "build", "pull", "push", "login"] &&
+      decision.dig("lifecycle", "candidate_3_allowed") == false &&
+      decision.dig("lifecycle", "second_product_task_allowed") == false &&
+      decision.dig("lifecycle", "long_term_goal_status") == "ACTIVE"
+    decision
+  end.freeze
+  P3_TRIVS_ROUTE_PROFILE = {
+    "operations" => [
+      "将 Strategic Constitution 从 v3.3 升级为 v3.4",
+      "将当前 P3 Objective 改为 ACTUAL_AGENT_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE",
+      "新的 Gate ID 为 ACTUAL_AGENT_TO_TRUSTED_HOST_READ_ONLY_INVOCATION_WITH_AUTOMATIC_RECOVERY",
+      "AIOS-P3-TRIVS-P1_ACTUAL_AGENT_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE"
+    ],
+    "targets" => [
+      "/Users/lijunpeng/Developer/SourceLens-AIOS",
+      "codex/p3-trivs-p1-actual-agent-trusted-read-only-invocation",
+      "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-trivs-p1-actual-agent-trusted-read-only-invocation",
+      "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-read-only-invocation-vertical-slice-20260823/task-product"
+    ],
+    "budget_or_external_effects" =>
+      "ceiling 从 17 Tasks、464 hours、110 days 最小调整为 17 Tasks、496 hours、116 days",
+    "token" => P3_TRIVS_ROUTE_TOKEN,
+    "duration" =>
+      "Task budget：1 engineering Task、48 engineering hours、10 calendar days、最多 2 candidate generations、最多 1 次 same-Task repair、最多 2 review cycles。",
+    "authorization_expiry_or_consumption_rule" => "当我直接回复本完整正文后",
+    "pass_lifecycle" =>
+      "只有 canonical replay 继续 PASS 时，P3 delivery 与 strict Exit 才可记为 100%/100%，状态变为 ELIGIBLE_AWAITING_FOUNDER_P3_PHASE_GATE_DECISION",
+    "non_pass_lifecycle" =>
+      "若 Candidate 2 后任一独立 reviewer 仍为 NON_PASS、出现任何新 P0/P1、真实 kill-point matrix 不完整、production MySQL path 未通过、Docker/外部效应越界、identity/scope drift 或预算耗尽，则 Task 与 Route 立即 TERMINAL_NON_PASS",
+    "risk_and_reversibility" =>
+      "本次改变的是 P3 Objective、Exit Gate、claim boundary 和 Phase Route；不改变 SourceLens mission、ICP、year-one outcome、P0/P1/P2 历史结果、P3-001 已接受事实、P4 未授权状态、项目未完成事实或同一个 Long-term Goal ACTIVE 状态。",
+    "deny_or_defer_effect" =>
+      "终态后禁止 Candidate 3、第二 repair、第三 review、第二 TRIVS Product Task、successor、replacement、normalization、closure、feasibility、remediation、V2/V3 Route、rerun-to-pass 或把同一 milestone 改名后重试。"
+  }.freeze
   FOUNDER_NETWORK_OPERATION_PROFILES = {
     "READ_ONLY_HTTPS_ACQUISITION" => {
       "operations" => [READ_ONLY_HTTPS_OPERATION, READ_ONLY_HTTPS_METHOD],
@@ -929,7 +1082,8 @@ module FounderActionHandoff
     P3_THTCB_ROUTE_OPERATION_TYPE => P3_THTCB_ROUTE_PROFILE,
     P3_TWRF_ROUTE_OPERATION_TYPE => P3_TWRF_ROUTE_PROFILE,
     P3_ETSK_REENTRY_OPERATION_TYPE => P3_ETSK_REENTRY_PROFILE,
-    P3_DTK_ROUTE_OPERATION_TYPE => P3_DTK_ROUTE_PROFILE
+    P3_DTK_ROUTE_OPERATION_TYPE => P3_DTK_ROUTE_PROFILE,
+    P3_TRIVS_ROUTE_OPERATION_TYPE => P3_TRIVS_ROUTE_PROFILE
   }.freeze
   PROSPECTIVE_PREFLIGHT = "PROSPECTIVE_RESERVED_EFFECT_REQUIRED_BY_EXACT_USER_REQUEST_AND_NOT_EXPRESSIBLE_BY_CURRENT_OFFLINE_ESCALATION_PROJECTION"
   NO_ACTION_SENTENCE = "你现在无需操作，我将在现有授权范围内继续执行。"
@@ -1070,10 +1224,17 @@ module FounderActionHandoff
     frozen_p3_fixture = test_fixture && [
       "P3_MINIMUM_TRUST_HOST_AUTHORIZED_TRANSACTIONAL_BOUNDARY_OBJECTIVE_AND_ROUTE_REBASELINE_AFTER_P3_007",
       P3_HPE_ROUTE_OPERATION_TYPE,
-      P3_TXC_ROUTE_OPERATION_TYPE
+      P3_TXC_ROUTE_OPERATION_TYPE,
+      P3_TRIVS_ROUTE_OPERATION_TYPE
     ].include?(frozen_p3_operation_type)
     if frozen_p3_fixture
-      expected_fixture_identity = if frozen_p3_operation_type == P3_TXC_ROUTE_OPERATION_TYPE
+      expected_fixture_identity = if frozen_p3_operation_type == P3_TRIVS_ROUTE_OPERATION_TYPE
+        {
+          "commit" => P3_TRIVS_ROUTE_PREINSTALL_COMMIT,
+          "tree" => P3_TRIVS_ROUTE_PREINSTALL_TREE,
+          "branch" => "main"
+        }
+      elsif frozen_p3_operation_type == P3_TXC_ROUTE_OPERATION_TYPE
         {
           "commit" => P3_TXC_ROUTE_PREINSTALL_COMMIT,
           "tree" => P3_TXC_ROUTE_PREINSTALL_TREE,
@@ -1103,7 +1264,13 @@ module FounderActionHandoff
     assert!(artifact["byte_length"].is_a?(Integer) && artifact["byte_length"].positive?, "governing artifact byte length invalid")
     assert!(artifact["sha256"].is_a?(String) && artifact["sha256"].match?(SHA256), "governing artifact SHA-256 invalid")
     if frozen_p3_fixture
-      expected_fixture_artifact = if frozen_p3_operation_type == P3_TXC_ROUTE_OPERATION_TYPE
+      expected_fixture_artifact = if frozen_p3_operation_type == P3_TRIVS_ROUTE_OPERATION_TYPE
+        {
+          "path" => P3_TRIVS_ROUTE_PREINSTALL_TRUTH_PATH,
+          "byte_length" => P3_TRIVS_ROUTE_PREINSTALL_TRUTH_BYTES,
+          "sha256" => P3_TRIVS_ROUTE_PREINSTALL_TRUTH_SHA256
+        }
+      elsif frozen_p3_operation_type == P3_TXC_ROUTE_OPERATION_TYPE
         {
           "path" => P3_TXC_ROUTE_PREINSTALL_TRUTH_PATH,
           "byte_length" => P3_TXC_ROUTE_PREINSTALL_TRUTH_BYTES,
@@ -1124,6 +1291,17 @@ module FounderActionHandoff
       end
       assert!(artifact == expected_fixture_artifact,
               "P3 rebaseline fixture governing artifact identity drift")
+      if frozen_p3_operation_type == P3_TRIVS_ROUTE_OPERATION_TYPE
+        constitution_bytes, stderr, status = Open3.capture3(
+          "git", "-C", ROOT, "show",
+          "#{P3_TRIVS_ROUTE_PREINSTALL_COMMIT}:#{P3_TRIVS_ROUTE_PREINSTALL_CONSTITUTION_PATH}"
+        )
+        assert!(status.success?, "P3 TRIVS preinstall Constitution unavailable: #{stderr.strip}")
+        assert!(constitution_bytes.bytesize == P3_TRIVS_ROUTE_PREINSTALL_CONSTITUTION_BYTES &&
+                Digest::SHA256.hexdigest(constitution_bytes) ==
+                  P3_TRIVS_ROUTE_PREINSTALL_CONSTITUTION_SHA256,
+                "P3 TRIVS preinstall Constitution identity drift")
+      end
     else
       artifact_path = Pathname.new(ROOT).join(artifact["path"]).cleanpath
       assert!(artifact_path.to_s.start_with?(ROOT + File::SEPARATOR), "governing artifact escaped repository")
@@ -1350,6 +1528,24 @@ module FounderActionHandoff
                   package["user_request_evidence"].nil? &&
                   authorization["reserved_trigger"] == P3_DTK_ROUTE_PRIMARY_TRIGGER,
                   "P3 declarative-transaction-kernel route does not match the exact current terminal trigger")
+        elsif authorization["operation_type"] == P3_TRIVS_ROUTE_OPERATION_TYPE
+          terminal_handoff = package["terminal_next_step_handoff"]
+          assert!(control["disposition"] == "FOUNDER_RESERVED_DECISION_REQUIRED" &&
+                  control["founder_decision_required"] == true &&
+                  control.dig("reserved_trigger", "category") == P3_TRIVS_ROUTE_PRIMARY_TRIGGER &&
+                  control["next_action_owner"] == "HUMAN_FOUNDER" &&
+                  evidence["prospective_preflight"].nil? &&
+                  package["user_request_evidence"].nil? &&
+                  authorization["reserved_trigger"] == P3_TRIVS_ROUTE_PRIMARY_TRIGGER &&
+                  terminal_handoff.is_a?(Hash) &&
+                  terminal_handoff.values_at(
+                    "receipt_path", "receipt_byte_length", "receipt_sha256"
+                  ) == [
+                    P3_TRIVS_ROUTE_TERMINAL_RECEIPT_PATH,
+                    P3_TRIVS_ROUTE_TERMINAL_RECEIPT_BYTES,
+                    P3_TRIVS_ROUTE_TERMINAL_RECEIPT_SHA256
+                  ],
+                  "P3 trusted-read-only vertical-slice route does not match the exact DTK terminal trigger")
         else
           assert!(control["disposition"] == "FOUNDER_DECISION_REQUIRED" &&
                   control["founder_decision_required"] == true &&
@@ -1443,6 +1639,7 @@ module FounderActionHandoff
         P3_TRUSTED_HOST_TCB_TRANSACTIONAL_EXECUTION_OBJECTIVE_EXIT_GATE_AND_CLEAN_ROOM_FINAL_ROUTE
         P3_TASK_WIDE_RESERVATION_FRONTIER_TRANSACTIONAL_EXECUTION_FOUNDATION_PRODUCT_AND_ONE_SHOT_AUDIT_ROUTE
         P3_EXECUTABLE_TRANSITION_SYSTEM_KERNEL_TASK_WIDE_PRODUCT_AND_ONE_SHOT_AUDIT_REENTRY
+        P3_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE_OBJECTIVE_EXIT_GATE_AND_FINAL_ROUTE_REBASELINE_AFTER_DTK_TERMINAL
       ].include?(operation_type)
         proposed_tokens = package["copy_ready_text_or_exact_steps"].scan(FOUNDER_AUTHORIZATION_TOKEN)
         assert!(proposed_tokens == [profile["token"]],
@@ -1489,6 +1686,20 @@ module FounderActionHandoff
                   profile["deny_or_defer_effect"],
                 "P3 TXC structured risk boundary drift")
       end
+      if operation_type == P3_TRIVS_ROUTE_OPERATION_TYPE
+        body = package["copy_ready_text_or_exact_steps"].dup.force_encoding("UTF-8")
+        assert!(body.valid_encoding?, "P3 TRIVS rebaseline body encoding invalid")
+        canonical_body = body.gsub(/\r\n?/, "\n").sub(/\n*\z/, "") + "\n"
+        direct_attachment_body = canonical_body.byteslice(0, canonical_body.bytesize - 1)
+        assert!(canonical_body.bytesize == P3_TRIVS_ROUTE_CANONICAL_BODY_BYTES &&
+                Digest::SHA256.hexdigest(canonical_body) ==
+                  P3_TRIVS_ROUTE_CANONICAL_BODY_SHA256 &&
+                direct_attachment_body.bytesize == P3_TRIVS_ROUTE_DIRECT_ATTACHMENT_BYTES &&
+                Digest::SHA256.hexdigest(direct_attachment_body) ==
+                  P3_TRIVS_ROUTE_DIRECT_ATTACHMENT_SHA256 &&
+                canonical_body.lines.first.chomp == P3_TRIVS_ROUTE_TOKEN,
+                "P3 TRIVS rebaseline exact Founder body identity drift")
+      end
       assert!(grant["targets"] == profile["targets"] &&
               grant["budget_or_external_effects"] == profile["budget_or_external_effects"],
               "read-only HTTPS operation enum contradicts its exact grant scope")
@@ -1518,8 +1729,10 @@ module FounderActionHandoff
       authorization["operation_type"] == P3_TXC_ROUTE_OPERATION_TYPE
     required_copy_fragments.reject(&:empty?).each do |fragment|
       present = copy.include?(fragment)
-      if authorization["operation_type"] ==
-           "P3_MINIMUM_TRUST_HOST_AUTHORIZED_TRANSACTIONAL_BOUNDARY_OBJECTIVE_AND_ROUTE_REBASELINE_AFTER_P3_007" &&
+      if [
+           "P3_MINIMUM_TRUST_HOST_AUTHORIZED_TRANSACTIONAL_BOUNDARY_OBJECTIVE_AND_ROUTE_REBASELINE_AFTER_P3_007",
+           P3_TRIVS_ROUTE_OPERATION_TYPE
+         ].include?(authorization["operation_type"]) &&
          fragment == artifact["byte_length"].to_s
         grouped_length = artifact["byte_length"].to_s.reverse.scan(/.{1,3}/).join(",").reverse
         present ||= copy.include?(grouped_length)

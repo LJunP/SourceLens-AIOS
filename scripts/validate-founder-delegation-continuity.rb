@@ -39,6 +39,7 @@ module FounderDelegationContinuity
   STRATEGIC_HOLD_ROUTE_SCHEMA = "founder-resolved-strategic-hold/v1"
   RESEARCH_EXIT_ROUTE_SCHEMA = "founder-resolved-p2-research-exit/v1"
   DELEGATED_TASK_ROUTE_SCHEMA = "phase-delegated-independent-task/v1"
+  TRIVS_ROUTE_SCHEMA = "p3-trusted-read-only-invocation-vertical-slice-route/v1"
   DTK_ROUTE_SCHEMA = "p3-declarative-transaction-kernel-clean-room-route/v1"
   ETSK_ROUTE_SCHEMA = "p3-executable-transition-system-kernel-reentry-route/v1"
   TIK_ROUTE_SCHEMA = "p3-trusted-invocation-kernel-process-real-clean-room-route/v1"
@@ -5067,6 +5068,22 @@ module FounderDelegationContinuity
     route = mapping(truth["current_phase_route"], "current_phase_route")
     return validate_research_exit_state!(root, truth, policy, project, route) if
       route["schema_version"] == RESEARCH_EXIT_ROUTE_SCHEMA
+    if route["schema_version"] == TRIVS_ROUTE_SCHEMA
+      assert(defined?(P3TrustedReadOnlyInvocationVerticalSliceRouteValidation),
+             "P3 TRIVS Route validator is unavailable")
+      state = P3TrustedReadOnlyInvocationVerticalSliceRouteValidation.validate_truth!(root: root, truth: truth)
+      expected_state = P3TrustedReadOnlyInvocationVerticalSliceRouteValidation::LIFECYCLE_STATES[
+        route["lifecycle_stage"]
+      ]
+      assert(expected_state && state == expected_state, "P3 TRIVS Route state drift")
+      disposition = truth.dig("founder_escalation_control", "disposition")
+      expected_disposition = P3TrustedReadOnlyInvocationVerticalSliceRouteValidation::LIFECYCLE[
+        route["lifecycle_stage"]
+      ].fetch("founder_required") ? "FOUNDER_RESERVED_DECISION_REQUIRED" : CONTINUE_DISPOSITION
+      assert(disposition == expected_disposition,
+             "P3 TRIVS Founder disposition drift for its exact lifecycle")
+      return disposition
+    end
     if route["schema_version"] == DTK_ROUTE_SCHEMA
       assert(defined?(P3DeclarativeTransactionKernelRouteValidation),
              "P3 DTK Route validator is unavailable")

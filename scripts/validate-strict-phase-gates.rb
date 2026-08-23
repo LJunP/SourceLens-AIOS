@@ -791,6 +791,22 @@ module P3DeclarativeTransactionKernelRouteValidation
     "byte_length" => 2_959,
     "sha256" => "47ae2ae57aa94a4c5108f26daa65fc90a72b3bfa82c1ca123454b36be654f7e2"
   }.freeze
+  PRODUCT_TERMINAL_RECEIPT = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-declarative-transaction-kernel-route-20260823/task-product/terminal/P3_DTK_P1_PRODUCT_TASK_ROUTE_TERMINAL_NON_PASS_RECEIPT_V1.json",
+    "byte_length" => 15_047,
+    "sha256" => "22c34b40854db7b1cda4c9575166a42714c4041c9aff35ba8e87cc5a68e2a50a"
+  }.freeze
+  PRODUCT_TERMINAL_BLOCKER_IDS = %w[
+    P3-DTK-P1-C1-CTO-P0-001
+    P3-DTK-P1-C1-CTO-P0-002
+    P3-DTK-P1-QE-C1-P0-001
+    P3-DTK-P1-QE-C1-P1-002
+    P3-DTK-P1-QE-C1-P1-003
+    P3-DTK-P1-QE-C1-P1-004
+    P3-DTK-P1-QE-C1-P1-005
+    P3-DTK-P1-C1-SEC-P1-003
+    P3-DTK-P1-C2-SEC-REG-P1-001
+  ].freeze
   FINDINGS = [
     { "id" => "P3-ETSK-F1-C1-P0-001", "priority" => "P0", "gate_relevance" => "EXIT_GATE_VALIDITY",
       "required_closure" => "FAILED_TERMINAL_RELEASE_REQUIRES_TERMINAL_ACCEPTED_AND_CLEANUP_CONFIRMED_AND_ZERO_CHECKPOINTS" },
@@ -952,7 +968,11 @@ module P3DeclarativeTransactionKernelRouteValidation
       "route_status" => "HOLD_INCOMPLETE_ROUTE_TERMINAL_NON_PASS",
       "phase_status" => "HOLD_INCOMPLETE_P3_DTK_ROUTE_TERMINAL_NON_PASS",
       "action" => "FOUNDER_DECIDE_P3_AFTER_DTK_ROUTE_TERMINAL_NON_PASS",
-      "active_index" => nil, "founder_required" => true
+      "stage_statuses" => %w[ACCEPTED_INTEGRATED TERMINAL_TASK_GATE_NON_PASS LOCKED_ROUTE_TERMINAL],
+      "active_index" => nil, "completed_stage_count" => 1, "consumed_count" => 2,
+      "reserved_index" => nil, "delivery" => 25, "strict" => 0,
+      "remaining_capacity_usable" => false, "selected_task" => "NONE_ROUTE_TERMINAL_NON_PASS",
+      "founder_required" => true
     },
     "AUDIT_PASS_PHASE_GATE_ELIGIBLE" => {
       "state" => "P3_DTK_P3_PHASE_GATE_ELIGIBLE",
@@ -1191,8 +1211,9 @@ module P3DeclarativeTransactionKernelRouteValidation
     active = mapping(truth["active_work"], "P3 DTK active_work")
     index = profile["active_index"]
     if index.nil?
-      expected_selected = profile.fetch("completed_stage_count") < 3 ?
-        TASK_IDS.fetch(profile.fetch("completed_stage_count")) : "NONE"
+      expected_selected = profile["selected_task"] ||
+        (profile.fetch("completed_stage_count") < 3 ?
+          TASK_IDS.fetch(profile.fetch("completed_stage_count")) : "NONE")
       assert(active["current_task"] == "NONE" && active["selected_task"] == expected_selected &&
              active["current_task_contract"].nil? && active["current_execution_authorization"].nil? &&
              active["authority_record"].nil? && active["task_branch"].nil? &&
@@ -1249,6 +1270,47 @@ module P3DeclarativeTransactionKernelRouteValidation
     validate_repository_context!(root)
     decision = validate_decision!(root)
     validate_terminal_basis!(root)
+    if lifecycle == "ROUTE_TERMINAL_NON_PASS"
+      receipt = parse_json!(
+        read_identity!(root, PRODUCT_TERMINAL_RECEIPT, "P3 DTK Product terminal receipt", create_once: true),
+        "P3 DTK Product terminal receipt"
+      )
+      assert(receipt["record_type"] == "P3_DTK_P1_PRODUCT_TASK_ROUTE_TERMINAL_NON_PASS_RECEIPT" &&
+             receipt.dig("task", "task_id") == TASK_IDS[1] &&
+             receipt.dig("candidate_history", "candidate_2", "commit") ==
+               "5ff6d12451c9cfb02e3e7aef4019aea4473cfe2b" &&
+             receipt.dig("candidate_history", "candidate_2", "tree") ==
+               "8f03459ce1e4add821af4ddf352fe03ded483ccc" &&
+             receipt.dig("candidate_history", "candidate_2", "canonical_integration_performed") == false &&
+             %w[cto security quality_evaluation].all? { |role|
+               receipt.dig("cycle_2_independent_reviews", role, "verdict") == "NON_PASS"
+             } &&
+             receipt.fetch("terminal_blocking_finding_union").map { |finding| finding["finding_id"] } ==
+               PRODUCT_TERMINAL_BLOCKER_IDS &&
+             receipt.dig("terminal_result", "product_task_gate") == "NON_PASS" &&
+             receipt.dig("terminal_result", "task_lifecycle") == "TERMINAL_TASK_GATE_NON_PASS" &&
+             receipt.dig("terminal_result", "route_lifecycle") == "ROUTE_TERMINAL_NON_PASS" &&
+             receipt.dig("terminal_result", "candidate_integrated") == false &&
+             receipt.dig("terminal_result", "audit_status") == "LOCKED_ROUTE_TERMINAL" &&
+             receipt.dig("terminal_result", "p3_delivery_progress_percent") == 25 &&
+             receipt.dig("terminal_result", "p3_strict_exit_progress_percent") == 0 &&
+             receipt.dig("terminal_result", "long_term_goal_lifecycle") == "ACTIVE" &&
+             receipt.dig("terminal_result", "codex_goal_action_taken") == "NONE_KEEP_ACTIVE" &&
+             receipt.dig("no_auto_successor", "present") == true,
+             "P3 DTK Product terminal receipt facts drift")
+      assert(route["product_terminal_result"] == {
+        "task_id" => TASK_IDS[1],
+        "status" => "TERMINAL_TASK_GATE_NON_PASS",
+        "candidate_commit" => "5ff6d12451c9cfb02e3e7aef4019aea4473cfe2b",
+        "candidate_tree" => "8f03459ce1e4add821af4ddf352fe03ded483ccc",
+        "candidate_integrated" => false,
+        "review_verdicts" => {
+          "cto" => "NON_PASS", "security" => "NON_PASS", "quality_evaluation" => "NON_PASS"
+        },
+        "blocker_count" => PRODUCT_TERMINAL_BLOCKER_IDS.length,
+        "receipt" => PRODUCT_TERMINAL_RECEIPT
+      }, "P3 DTK Product terminal projection drift")
+    end
     constitution = read_identity!(root, CONSTITUTION, "P3 DTK Strategic Constitution v3.3")
     assert(constitution.include?("## 9C. P3 v3.3 declarative transaction kernel authority") &&
            constitution.include?("`#{OBJECTIVE_ID}`") && constitution.include?("`#{STRICT_GATE_ID}`") &&
@@ -1303,7 +1365,7 @@ module P3DeclarativeTransactionKernelRouteValidation
            envelope["accounting_basis"] == "NON_RESETTABLE_CUMULATIVE_P3_FOUNDER_ENVELOPE" &&
            envelope["limits"] == LIMITS && envelope["consumed"] == consumed &&
            envelope["reserved"] == (reserved || {}) && envelope["remaining"] == remaining &&
-           envelope["remaining_capacity_usable"] == true &&
+           envelope["remaining_capacity_usable"] == profile.fetch("remaining_capacity_usable", true) &&
            envelope["ordered_stages"] == route["ordered_stages"] &&
            envelope.dig("delivery_progress", "percent") == profile.fetch("delivery") &&
            envelope.dig("delivery_progress", "strict_exit_gate_percent") == profile.fetch("strict") &&
@@ -1321,6 +1383,12 @@ module P3DeclarativeTransactionKernelRouteValidation
            control["next_action_owner"] == (profile.fetch("founder_required") ? "HUMAN_FOUNDER" : "MASTER_CEO_AGENT") &&
            control["next_eligible_action"] == profile.fetch("action"),
            "P3 DTK Founder interruption projection drift")
+    if lifecycle == "ROUTE_TERMINAL_NON_PASS"
+      assert(control["reserved_trigger"] == {
+        "category" => "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE",
+        "evidence" => PRODUCT_TERMINAL_RECEIPT
+      }, "P3 DTK terminal Founder reserved-trigger evidence drift")
+    end
     delegation = mapping(truth["phase_delegation"], "P3 DTK Phase delegation")
     assert(delegation["decision_source"] == DECISION_ID &&
            delegation["task_selection_owner"] == "MASTER_CEO_AGENT" &&
@@ -1353,7 +1421,7 @@ module P3DeclarativeTransactionKernelRouteValidation
     assert(claim["current_route_claim"] == ROUTE_ID &&
            claim["current_task_claim"] == (profile["active_index"].nil? ? "NONE" : TASK_IDS[profile["active_index"]]) &&
            claim["task_creation_allowed"] == task_creation_allowed &&
-           claim["remaining_capacity_usable"] == true &&
+           claim["remaining_capacity_usable"] == profile.fetch("remaining_capacity_usable", true) &&
            claim["candidate_integration_allowed"] == false &&
            claim["next_eligible_action"] == profile.fetch("action"),
            "P3 DTK Phase execution claim drift")

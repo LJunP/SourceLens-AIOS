@@ -4,9 +4,9 @@
 
 ## 1. 生成范围
 
-- 纳入逐文件用途索引的文件数：1015。
+- 纳入逐文件用途索引的文件数：1016。
 - 其中源码/脚本/配置/SQL/CSS 类文件数：558。
-- 纳入统计的文本总行数：269619。
+- 纳入统计的文本总行数：270686。
 - 排除逐文件展开的本地生成/证据目录：`.git/`、`bin/`、`web-console/node_modules/`、`backend-spring/target/`、`analyzer-rust/target/`、`.sourcelens-runtime/`、`release-evidence/`、前端构建和测试产物。
 - 本地生成物、依赖缓存和历史证据目录不是源码或当前权威；它们必须保持未跟踪并可重建或从封存恢复。
 
@@ -24,7 +24,7 @@
 | `CODE_OF_CONDUCT.md` | 1 | 项目根文件或辅助目录。 |
 | `CONTRIBUTING.md` | 1 | 项目根文件或辅助目录。 |
 | `deploy` | 2 | Docker Compose 和环境模板。 |
-| `docs` | 226 | 当前架构、接口、安全、研究与 AIOS 权威文档。 |
+| `docs` | 227 | 当前架构、接口、安全、研究与 AIOS 权威文档。 |
 | `evaluation-harness` | 272 | 项目根文件或辅助目录。 |
 | `LICENSE` | 1 | 项目根文件或辅助目录。 |
 | `Makefile` | 1 | 项目根文件或辅助目录。 |
@@ -170,9 +170,9 @@
 | `backend-spring/src/test/resources` | 5 | Spring Boot 后端服务。子目录。 |
 | `backend-spring/src/test/resources/mockito-extensions` | 1 | Spring Boot 后端服务。子目录。 |
 | `deploy` | 2 | 部署配置目录，包含 Docker Compose 和环境变量模板。 |
-| `docs` | 226 | 项目事实源文档目录，覆盖产品、架构、API、数据库、安全、运维、阶段需求、进度和交接。 |
-| `docs/aios` | 214 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
-| `docs/aios/decisions` | 29 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
+| `docs` | 227 | 项目事实源文档目录，覆盖产品、架构、API、数据库、安全、运维、阶段需求、进度和交接。 |
+| `docs/aios` | 215 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
+| `docs/aios/decisions` | 30 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/aios/schemas` | 4 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/aios/tasks` | 172 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
 | `docs/aios/truth` | 1 | 当前架构、接口、安全、研究与 AIOS 权威文档。子目录。 |
@@ -976,6 +976,7 @@
 | `docs/aios/decisions/P2_ONE_INDEPENDENT_PRODUCT_SELECTOR_DEV_SEMANTIC_SYMBOL_IMPACT_CONE_SLOT_AND_RELOCKED_HELD_SEQUENCE_V7.md` | 项目文档。标题：P2 one independent Product Selector DEV semantic-symbol-impact-cone slot and re-locked HELD sequence V7。 |
 | `docs/aios/decisions/P2_VALUE_FIRST_RECOVERY_ENVELOPE_EXPANSION_DECISION_V1.json` | 项目文档。标题：P2_VALUE_FIRST_RECOVERY_ENVELOPE_EXPANSION_DECISION_V1.json。 |
 | `docs/aios/decisions/P2_VALUE_FIRST_RECOVERY_ENVELOPE_EXPANSION_V1.md` | 项目文档。标题：P2 value-first recovery envelope expansion。 |
+| `docs/aios/decisions/P3_DECLARATIVE_TRANSACTION_KERNEL_CLEAN_ROOM_ROUTE_DECISION_V1.json` | 项目文档。标题：P3_DECLARATIVE_TRANSACTION_KERNEL_CLEAN_ROOM_ROUTE_DECISION_V1.json。 |
 | `docs/aios/decisions/P3_EXECUTABLE_TRANSITION_SYSTEM_KERNEL_REENTRY_ROUTE_DECISION_V1.json` | 项目文档。标题：P3_EXECUTABLE_TRANSITION_SYSTEM_KERNEL_REENTRY_ROUTE_DECISION_V1.json。 |
 | `docs/aios/decisions/P3_ONE_FINAL_HERMETIC_CAPABILITY_LEDGER_ROUTE_AFTER_PREACTIVATION_TERMINAL_DECISION_V1.json` | 项目文档。标题：P3_ONE_FINAL_HERMETIC_CAPABILITY_LEDGER_ROUTE_AFTER_PREACTIVATION_TERMINAL_DECISION_V1.json。 |
 | `docs/aios/decisions/P3_TASK_WIDE_RESERVATION_FRONTIER_TRANSACTIONAL_EXECUTION_ROUTE_DECISION_V1.json` | 项目文档。标题：P3_TASK_WIDE_RESERVATION_FRONTIER_TRANSACTIONAL_EXECUTION_ROUTE_DECISION_V1.json。 |

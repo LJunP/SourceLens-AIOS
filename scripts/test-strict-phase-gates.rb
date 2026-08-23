@@ -94,6 +94,61 @@ if ARGV == ["--etsk-current-only"]
   exit 0
 end
 
+if ARGV == ["--dtk-current-only"]
+  truth = YAML.safe_load(
+    File.binread(TRUTH),
+    permitted_classes: [],
+    permitted_symbols: [],
+    aliases: false
+  )
+  raise "current Route is not P3 DTK" unless
+    truth.dig("current_phase_route", "schema_version") ==
+      P3DeclarativeTransactionKernelRouteValidation::ROUTE_SCHEMA
+  state = P3DeclarativeTransactionKernelRouteValidation.validate_truth!(root: ROOT, truth: truth)
+  expected = P3DeclarativeTransactionKernelRouteValidation::LIFECYCLE_STATES.fetch(
+    truth.dig("current_phase_route", "lifecycle_stage")
+  )
+  raise "DTK strict Gate current state drift" unless state == expected
+  mutations = {
+    "declarative semantic item removal" => lambda do |candidate|
+      candidate.dig("strict_phase_gate_ledger", "phases", "P3", "current_exit_gate",
+                    "required_item_ids").delete(
+                      "DECLARATIVE_TRANSITION_SEMANTIC_INTEGRITY_AND_INDEPENDENT_REPLAY"
+                    )
+    end,
+    "declarative semantic item false acceptance" => lambda do |candidate|
+      candidate.dig("strict_phase_gate_ledger", "phases", "P3", "current_exit_gate",
+                    "required_items",
+                    "DECLARATIVE_TRANSITION_SEMANTIC_INTEGRITY_AND_INDEPENDENT_REPLAY")["status"] =
+        "ACCEPTED"
+    end,
+    "compatibility projection false acceptance" => lambda do |candidate|
+      candidate.dig("strict_phase_gate_ledger", "phases", "P3", "required_items",
+                    "RESUME_ISOLATION_PERMISSION_AND_TRACE_TESTS")["status"] = "ACCEPTED"
+    end,
+    "strict Gate candidate split" => lambda do |candidate|
+      candidate.dig("strict_phase_gate_ledger", "phases", "P3", "current_exit_gate")[
+        "same_frozen_candidate_required"
+      ] = false
+    end,
+    "P4 premature entry" => lambda do |candidate|
+      candidate["project"]["p4_entry_status"] = "AUTHORIZED"
+    end
+  }
+  mutations.each do |label, mutation|
+    candidate = JSON.parse(JSON.generate(truth))
+    begin
+      mutation.call(candidate)
+      P3DeclarativeTransactionKernelRouteValidation.validate_truth!(root: ROOT, truth: candidate)
+      raise "DTK strict Gate mutation false-PASSed: #{label}"
+    rescue P3DeclarativeTransactionKernelRouteValidationError
+      # expected
+    end
+  end
+  puts "STRICT_PHASE_GATE_TESTS: PASS dtk_current=1 dtk_negative_mutations=#{mutations.length}"
+  exit 0
+end
+
 FileUtils.mkdir_p(REVIEW_ROOT)
 audit = Dir.mktmpdir("strict-phase-gates-", AUDIT_ROOT)
 reviews = Dir.mktmpdir("strict-phase-gate-reviews-", REVIEW_ROOT)
@@ -141,6 +196,49 @@ begin
         P3ExecutableTransitionSystemKernelRouteValidation.validate_truth!(root: ROOT, truth: candidate)
         raise "ETSK strict Gate mutation false-PASSed: #{label}"
       rescue P3ExecutableTransitionSystemKernelRouteValidationError
+        # expected
+      end
+    end
+  end
+  if truth.dig("current_phase_route", "schema_version") ==
+     P3DeclarativeTransactionKernelRouteValidation::ROUTE_SCHEMA
+    state = P3DeclarativeTransactionKernelRouteValidation.validate_truth!(root: ROOT, truth: truth)
+    expected = P3DeclarativeTransactionKernelRouteValidation::LIFECYCLE_STATES.fetch(
+      truth.dig("current_phase_route", "lifecycle_stage")
+    )
+    raise "DTK strict Gate current state drift" unless state == expected
+    {
+      "declarative semantic item removal" => lambda do |candidate|
+        candidate.dig("strict_phase_gate_ledger", "phases", "P3", "current_exit_gate",
+                      "required_item_ids").delete(
+                        "DECLARATIVE_TRANSITION_SEMANTIC_INTEGRITY_AND_INDEPENDENT_REPLAY"
+                      )
+      end,
+      "declarative semantic item false acceptance" => lambda do |candidate|
+        candidate.dig("strict_phase_gate_ledger", "phases", "P3", "current_exit_gate",
+                      "required_items",
+                      "DECLARATIVE_TRANSITION_SEMANTIC_INTEGRITY_AND_INDEPENDENT_REPLAY")["status"] =
+          "ACCEPTED"
+      end,
+      "compatibility projection false acceptance" => lambda do |candidate|
+        candidate.dig("strict_phase_gate_ledger", "phases", "P3", "required_items",
+                      "RESUME_ISOLATION_PERMISSION_AND_TRACE_TESTS")["status"] = "ACCEPTED"
+      end,
+      "strict Gate candidate split" => lambda do |candidate|
+        candidate.dig("strict_phase_gate_ledger", "phases", "P3", "current_exit_gate")[
+          "same_frozen_candidate_required"
+        ] = false
+      end,
+      "P4 premature entry" => lambda do |candidate|
+        candidate["project"]["p4_entry_status"] = "AUTHORIZED"
+      end
+    }.each do |label, mutation|
+      candidate = JSON.parse(JSON.generate(truth))
+      begin
+        mutation.call(candidate)
+        P3DeclarativeTransactionKernelRouteValidation.validate_truth!(root: ROOT, truth: candidate)
+        raise "DTK strict Gate mutation false-PASSed: #{label}"
+      rescue P3DeclarativeTransactionKernelRouteValidationError
         # expected
       end
     end

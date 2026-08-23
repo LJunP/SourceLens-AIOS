@@ -1078,4 +1078,24 @@ assert_reject!(
   p3_hpe_truth
 )
 
+ASSERTIONS[:count] += 1
+abort "P3 DTK operation type is not founder-authorized closed schema" unless
+  FounderActionHandoff::FOUNDER_OPERATION_TYPES.include?(
+    FounderActionHandoff::P3_DTK_ROUTE_OPERATION_TYPE
+  )
+
+ASSERTIONS[:count] += 1
+dtk_profile = FounderActionHandoff::P3_DTK_ROUTE_PROFILE
+abort "P3 DTK profile token or frozen findings drift" unless
+  dtk_profile.fetch("token") == FounderActionHandoff::P3_DTK_ROUTE_TOKEN &&
+  %w[P3-ETSK-F1-C1-P0-001 P3-ETSK-F1-C1-P1-002 P3-ETSK-F1-C1-P1-003].all? { |id|
+    dtk_profile.fetch("operations").any? { |operation| operation.include?(id) }
+  }
+
+ASSERTIONS[:count] += 1
+abort "P3 DTK profile budget, lineage or external-effect boundary drift" unless
+  dtk_profile.fetch("budget_or_external_effects").include?("17 Tasks / 464 hours / 110 days") &&
+  dtk_profile.fetch("operations").any? { |operation| operation.include?("禁止读取、比较、复制、执行、恢复、修复或复用") } &&
+  dtk_profile.fetch("operations").any? { |operation| operation.include?("Foundation 禁止 Docker") }
+
 puts "FOUNDER_ACTION_HANDOFF_TESTS: PASS assertions=#{ASSERTIONS[:count]}"

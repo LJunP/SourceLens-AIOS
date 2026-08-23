@@ -20,6 +20,13 @@ class DuplicateJsonKeyError < StandardError; end
 module CurrentTaskAuthority
   module_function
 
+  DTK_ROUTE_SCHEMA = "p3-declarative-transaction-kernel-clean-room-route/v1"
+  ETSK_ROUTE_SCHEMA = "p3-executable-transition-system-kernel-reentry-route/v1"
+  TIK_ROUTE_SCHEMA = "p3-trusted-invocation-kernel-process-real-clean-room-route/v1"
+  HPE_ROUTE_SCHEMA = "p3-host-process-enforced-minimal-slice-route/v1"
+  TXC_ROUTE_SCHEMA = "p3-txc-control-recovery-direct-product-route/v1"
+  THTCB_ROUTE_SCHEMA = "p3-trusted-host-tcb-clean-room-final-route/v1"
+
   SHA256_RE = /\A[0-9a-f]{64}\z/.freeze
   COMMIT_RE = /\A[0-9a-f]{40}\z/.freeze
   SAFE_TASK_ID_RE = /\AAIOS-P[12]-[0-9]{3}(?:_[A-Z0-9_]+)?\z/.freeze
@@ -5376,7 +5383,25 @@ module CurrentTaskAuthority
     project = hash(truth["project"], "project")
     canonical = string(project["canonical_repository"], "project.canonical_repository")
     route = hash(truth["current_phase_route"], "current_phase_route")
-    if route["schema_version"] == P3ExecutableTransitionSystemKernelRouteValidation::ROUTE_SCHEMA &&
+    if route["schema_version"] == DTK_ROUTE_SCHEMA &&
+       ENV["SOURCELENS_DTK_STRATEGIC_STAGING_ROOT"]
+      assert(defined?(P3DeclarativeTransactionKernelRouteValidation),
+             "P3 DTK Route validator is unavailable")
+      expected_root = File.realpath(ENV.fetch("SOURCELENS_DTK_STRATEGIC_STAGING_ROOT"))
+      assert(File.realpath(root) == expected_root,
+             "P3 DTK staging context did not bind the validator root")
+      state = P3DeclarativeTransactionKernelRouteValidation.validate_truth!(root: root, truth: truth)
+      expected_state = P3DeclarativeTransactionKernelRouteValidation::LIFECYCLE_STATES[
+        route["lifecycle_stage"]
+      ]
+      assert(expected_state && state == expected_state, "P3 DTK staging Route state drift")
+      records = worktrees(root)
+      assert(records.length == 1 &&
+             File.realpath(records.first.fetch("path")) == File.realpath(root),
+             "P3 DTK staging clone must have exactly one local worktree")
+      return
+    end
+    if route["schema_version"] == ETSK_ROUTE_SCHEMA &&
        ENV["SOURCELENS_ETSK_STRATEGIC_STAGING_ROOT"]
       assert(defined?(P3ExecutableTransitionSystemKernelRouteValidation),
              "P3 ETSK Route validator is unavailable")
@@ -5394,7 +5419,7 @@ module CurrentTaskAuthority
              "P3 ETSK staging clone must have exactly one local worktree")
       return
     end
-    if route["schema_version"] == P3FinalTransactionalRouteValidation::THTCB_ROUTE_SCHEMA &&
+    if route["schema_version"] == THTCB_ROUTE_SCHEMA &&
        ENV["SOURCELENS_THTCB_STRATEGIC_STAGING_ROOT"]
       assert(defined?(P3FinalTransactionalRouteValidation),
              "P3 THTCB Route validator is unavailable")
@@ -5413,7 +5438,7 @@ module CurrentTaskAuthority
              "P3 THTCB staging clone must have exactly one local worktree")
       return
     end
-    if route["schema_version"] == P3FinalTransactionalRouteValidation::TXC_ROUTE_SCHEMA &&
+    if route["schema_version"] == TXC_ROUTE_SCHEMA &&
        ENV["SOURCELENS_ATOMIC_STAGING_MANIFEST"]
       assert(defined?(P3FinalTransactionalRouteValidation),
              "P3 TXC Route validator is unavailable")
@@ -5429,7 +5454,7 @@ module CurrentTaskAuthority
              "P3 TXC staging clone must have exactly one local main worktree")
       return
     end
-    if route["schema_version"] == P3FinalTransactionalRouteValidation::TXC_ROUTE_SCHEMA &&
+    if route["schema_version"] == TXC_ROUTE_SCHEMA &&
        route["lifecycle_stage"] == "PRODUCT_STAGE_ELIGIBLE" &&
        File.realpath(root) != File.realpath(canonical)
       context = P3FinalTransactionalRouteValidation.txc_installed_context!(
@@ -5625,10 +5650,11 @@ module CurrentTaskAuthority
         "p3-zero-authority-action-envelope-task-route/v1",
         "p3-phase-delegated-task/v1",
         "p3-founder-exception-task-route/v1",
-        P3FinalTransactionalRouteValidation::TIK_ROUTE_SCHEMA,
-        P3FinalTransactionalRouteValidation::HPE_ROUTE_SCHEMA,
-        P3FinalTransactionalRouteValidation::TXC_ROUTE_SCHEMA,
-        P3ExecutableTransitionSystemKernelRouteValidation::ROUTE_SCHEMA,
+        TIK_ROUTE_SCHEMA,
+        HPE_ROUTE_SCHEMA,
+        TXC_ROUTE_SCHEMA,
+        DTK_ROUTE_SCHEMA,
+        ETSK_ROUTE_SCHEMA,
         DELEGATED_TASK_ROUTE_SCHEMA
       ].include?(route["schema_version"]),
              "active Phase delegation requires a closed delegated Route schema")
@@ -5659,7 +5685,12 @@ module CurrentTaskAuthority
              "P2 research exit requires exact capability-not-accepted closure and a separate P3 entry decision")
       return "P2_RESEARCH_EXIT_COMPLETE_P3_ENTRY_DECISION_REQUIRED"
     end
-    if route["schema_version"] == P3ExecutableTransitionSystemKernelRouteValidation::ROUTE_SCHEMA
+    if route["schema_version"] == DTK_ROUTE_SCHEMA
+      assert(defined?(P3DeclarativeTransactionKernelRouteValidation),
+             "P3 DTK Route validator is unavailable")
+      return P3DeclarativeTransactionKernelRouteValidation.validate_truth!(root: root, truth: truth)
+    end
+    if route["schema_version"] == ETSK_ROUTE_SCHEMA
       assert(defined?(P3ExecutableTransitionSystemKernelRouteValidation),
              "P3 ETSK Route validator is unavailable")
       return P3ExecutableTransitionSystemKernelRouteValidation.validate_truth!(root: root, truth: truth)
@@ -5681,25 +5712,25 @@ module CurrentTaskAuthority
       return P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: truth)
     end
     if route["schema_version"] ==
-       P3FinalTransactionalRouteValidation::THTCB_ROUTE_SCHEMA
+       THTCB_ROUTE_SCHEMA
       assert(defined?(P3FinalTransactionalRouteValidation),
              "P3 THTCB Route validator is unavailable")
       return P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: truth)
     end
     if route["schema_version"] ==
-       P3FinalTransactionalRouteValidation::TIK_ROUTE_SCHEMA
+       TIK_ROUTE_SCHEMA
       assert(defined?(P3FinalTransactionalRouteValidation),
              "P3 TIK process-real Route validator is unavailable")
       return P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: truth)
     end
     if route["schema_version"] ==
-       P3FinalTransactionalRouteValidation::HPE_ROUTE_SCHEMA
+       HPE_ROUTE_SCHEMA
       assert(defined?(P3FinalTransactionalRouteValidation),
              "P3 HPE Route validator is unavailable")
       return P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: truth)
     end
     if route["schema_version"] ==
-       P3FinalTransactionalRouteValidation::TXC_ROUTE_SCHEMA
+       TXC_ROUTE_SCHEMA
       assert(defined?(P3FinalTransactionalRouteValidation),
              "P3 TXC Route validator is unavailable")
       return P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: truth)

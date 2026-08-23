@@ -4150,6 +4150,35 @@ if current_truth.dig("current_phase_route", "schema_version") ==
   end
 end
 
+if current_truth.dig("current_phase_route", "schema_version") ==
+   CurrentTaskAuthority::DTK_ROUTE_SCHEMA
+  begin
+    prior_staging_root = ENV["SOURCELENS_DTK_STRATEGIC_STAGING_ROOT"]
+    ENV["SOURCELENS_DTK_STRATEGIC_STAGING_ROOT"] = SOURCE_REPO
+    state = CurrentTaskAuthority.validate!
+    expected_state = P3DeclarativeTransactionKernelRouteValidation::LIFECYCLE_STATES.fetch(
+      current_truth.dig("current_phase_route", "lifecycle_stage")
+    )
+    raise TestFailure, "DTK current authority state drift" unless state == expected_state
+
+    mutated = JSON.parse(JSON.generate(current_truth))
+    mutated["phase_boundary"]["task_creation_scope"] = "ANY_P3_TASK"
+    begin
+      P3DeclarativeTransactionKernelRouteValidation.validate_truth!(root: SOURCE_REPO, truth: mutated)
+      raise TestFailure, "DTK open Task scope false-PASSed through current authority"
+    rescue P3DeclarativeTransactionKernelRouteValidationError
+      # Expected fail-closed result.
+    end
+    puts "CURRENT_TASK_AUTHORITY_DTK_SMOKE: PASS assertions=2 mode=#{current_truth.dig('current_phase_route', 'lifecycle_stage')}"
+  ensure
+    if prior_staging_root.nil?
+      ENV.delete("SOURCELENS_DTK_STRATEGIC_STAGING_ROOT")
+    else
+      ENV["SOURCELENS_DTK_STRATEGIC_STAGING_ROOT"] = prior_staging_root
+    end
+  end
+end
+
 begin
   CurrentTaskAuthorityTest.new.run
   exit 0

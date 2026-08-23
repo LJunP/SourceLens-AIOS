@@ -1,0 +1,313 @@
+{
+  "schema_version": "p3-declarative-transaction-kernel-founder-decision/v1",
+  "record_type": "FOUNDER_ACCEPTED_STRATEGIC_DECISION",
+  "decision_id": "AUTHORIZE_P3_DECLARATIVE_TRANSACTION_KERNEL_OBJECTIVE_EXIT_GATE_AND_FINDING_SCOPED_CLEAN_ROOM_ROUTE_V1",
+  "operation_type": "P3_DECLARATIVE_TRANSACTION_KERNEL_OBJECTIVE_EXIT_GATE_AND_FINDING_SCOPED_CLEAN_ROOM_ROUTE",
+  "status": "ACCEPTED_CURRENT_DIRECT_FOUNDER_MESSAGE",
+  "accepted_at_date": "2026-08-23",
+  "source": {
+    "kind": "CURRENT_DIRECT_USER_MESSAGE_ATTACHMENT",
+    "attachment_path": "/Users/lijunpeng/.codex/attachments/bd76b71d-4f1a-410a-b16b-2ce2666171d2/pasted-text.txt",
+    "byte_length": 27700,
+    "sha256": "5043a744078c414adf0c467ee4f34980e1d46d326260d4971728e6bdc8c99fc6",
+    "first_line_token": "AUTHORIZE_P3_DECLARATIVE_TRANSACTION_KERNEL_OBJECTIVE_EXIT_GATE_AND_FINDING_SCOPED_CLEAN_ROOM_ROUTE_V1",
+    "installed_body": {
+      "path": "/Users/lijunpeng/Developer/.sourcelens-audit/p3-declarative-transaction-kernel-route-20260823/decision/FOUNDER_AUTHORIZATION_BODY_V1.txt",
+      "byte_length": 27700,
+      "sha256": "5043a744078c414adf0c467ee4f34980e1d46d326260d4971728e6bdc8c99fc6",
+      "byte_equal_to_attachment": true,
+      "required_mode": "0444",
+      "required_nlink": 1
+    }
+  },
+  "canonical_start": {
+    "repository": "/Users/lijunpeng/Developer/SourceLens-AIOS",
+    "branch": "main",
+    "commit": "e31105bb3d285c4b3c91a404526855a1628364ee",
+    "tree": "89d5d0ed9c2c8ad2983f98de4bbdc44ad86b69ae",
+    "clean": true,
+    "truth": {
+      "path": "docs/aios/truth/project_state.yaml",
+      "byte_length": 1980366,
+      "sha256": "68c41e5af75a765c9d8db35f2e6aacdbcddccb3fe6b24cac5710376b28278517"
+    },
+    "constitution": {
+      "path": "docs/aios/STRATEGIC_CONSTITUTION.md",
+      "version": "3.2",
+      "byte_length": 20994,
+      "sha256": "ccba174ea66d1044d63de97cd1a666139d6c886d2ebd1d790dbb59b98fb9b32a"
+    },
+    "git_topology": {
+      "branches": ["main"],
+      "worktrees": ["/Users/lijunpeng/Developer/SourceLens-AIOS"]
+    }
+  },
+  "terminal_basis": {
+    "route_id": "P3_EXECUTABLE_TRANSITION_SYSTEM_KERNEL_REENTRY_ROUTE_V1",
+    "status": "ROUTE_TERMINAL_NON_PASS",
+    "task_id": "AIOS-P3-ETSK-F1_EXECUTABLE_TRANSITION_SYSTEM_KERNEL",
+    "terminal_receipt": {
+      "path": "/Users/lijunpeng/Developer/.sourcelens-audit/p3-executable-transition-system-kernel-reentry-20260823/task-foundation/terminal/P3_ETSK_F1_FOUNDATION_TASK_TERMINAL_NON_PASS_RECEIPT_V1.json",
+      "byte_length": 5933,
+      "sha256": "55d3c6a0189d47380cc87102cfaa48129363ada5fd68519faaaf42703a8e42f0"
+    },
+    "independent_review": {
+      "path": "/Users/lijunpeng/Developer/.sourcelens-audit/p3-executable-transition-system-kernel-reentry-20260823/task-foundation/reviews/cycle-1/P3_ETSK_F1_QUALITY_EVALUATION_REVIEW_V1.json",
+      "byte_length": 19956,
+      "sha256": "f3d8df1613f41d14f47a3eb84d6c96478a163e0f976bdb967da3f5bd77b95ab6",
+      "verdict": "NON_PASS",
+      "p0_count": 1,
+      "p1_count": 2
+    },
+    "handoff_capability_gap_preflight": {
+      "path": "/Users/lijunpeng/Developer/.sourcelens-audit/p3-executable-transition-system-kernel-reentry-20260823/task-foundation/terminal/P3_ETSK_F1_POST_TERMINAL_FOUNDER_HANDOFF_CAPABILITY_GAP_PREFLIGHT_V1.json",
+      "byte_length": 2959,
+      "sha256": "47ae2ae57aa94a4c5108f26daa65fc90a72b3bfa82c1ca123454b36be654f7e2",
+      "status": "PASS_GAP_PROVEN_NO_AUTHORIZATION_EXECUTED"
+    }
+  },
+  "authority": {
+    "reserved_triggers": [
+      "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE",
+      "MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE"
+    ],
+    "phase_entry_remains_authorized": true,
+    "p4_entry_authorized": false,
+    "long_term_goal_status": "ACTIVE",
+    "one_time_handoff_validator_bypass_consumed_for_intake_only": true,
+    "generic_validator_bypass_authorized": false
+  },
+  "strategic_change": {
+    "constitution_from_version": "3.2",
+    "constitution_to_version": "3.3",
+    "append_only_section": "9C",
+    "objective_id": "TRUSTED_HOST_TCB_DECLARATIVE_TRANSACTION_KERNEL_SINGLE_AGENT_EXECUTION",
+    "strict_exit_gate_id": "TRUSTED_HOST_TCB_DECLARATIVE_TASK_WIDE_TRANSACTIONAL_EXECUTION_WITH_PROCESS_REAL_CONTAINMENT",
+    "required_gate_items": [
+      "DECLARATIVE_TRANSITION_SEMANTIC_INTEGRITY_AND_INDEPENDENT_REPLAY",
+      "TASK_WIDE_PRE_EFFECT_RESERVATION_FRONTIER",
+      "AUTHORIZATION_AND_INTENT_DURABILITY",
+      "CRASH_ORPHAN_RECONCILIATION_AND_RESUME",
+      "EXACTLY_ONE_TERMINAL_TRACE_AND_CHECKPOINT_GATE",
+      "TRUSTED_HOST_TCB_PROCESS_REAL_CONTAINMENT_ATTESTATION"
+    ],
+    "compatibility_aggregate_item_id": "RESUME_ISOLATION_PERMISSION_AND_TRACE_TESTS",
+    "same_frozen_product_candidate_required": true,
+    "new_product_milestone": "DECLARATIVE_TRANSACTION_KERNEL_PRODUCT",
+    "historical_product_milestone_frozen": "TASK_WIDE_TRANSACTIONAL_EXECUTION_PRODUCT",
+    "machine_specification_is_foundation_oracle_and_product_runtime_authority": true,
+    "unchanged": [
+      "MISSION",
+      "PRIMARY_ICP",
+      "YEAR_ONE_PRODUCT_LOOP",
+      "P0_P1_P2_CANONICAL_ACCEPTED_FACTS",
+      "ACCEPTED_P3_001_CHECKPOINT_SEMANTICS",
+      "TRUSTED_HOST_TCB_AND_THREAT_BOUNDARY",
+      "SHA256_READ_ONLY_CUSTODY_V1_WORKFLOW",
+      "P4_P12_STRICT_ORDER",
+      "P4_HOLD",
+      "LONG_TERM_GOAL_ACTIVE"
+    ]
+  },
+  "frozen_findings": [
+    {
+      "id": "P3-ETSK-F1-C1-P0-001",
+      "priority": "P0",
+      "gate_relevance": "EXIT_GATE_VALIDITY",
+      "required_closure": "FAILED_TERMINAL_RELEASE_REQUIRES_TERMINAL_ACCEPTED_AND_CLEANUP_CONFIRMED_AND_ZERO_CHECKPOINTS"
+    },
+    {
+      "id": "P3-ETSK-F1-C1-P1-002",
+      "priority": "P1",
+      "gate_relevance": "RESULT_INTEGRITY",
+      "required_closure": "REPLAY_TERMINAL_VERDICT_RECOMPUTED_FROM_STATE_RETAINED_RESULT_AND_SPEC"
+    },
+    {
+      "id": "P3-ETSK-F1-C1-P1-003",
+      "priority": "P1",
+      "gate_relevance": "PRODUCT_CORRECTNESS",
+      "required_closure": "MACHINE_SPEC_IS_SOLE_DOMAIN_SEMANTIC_SOURCE_FOR_FOUNDATION_AND_PRODUCT"
+    }
+  ],
+  "rejected_lineage": {
+    "etsk_candidate_commit": "d9f6c609beabae0519a3eb0cc7e3ab03a79547e6",
+    "etsk_candidate_tree": "d2d60bebe935cfa588c7a21001b8ee273ab4a3ba",
+    "etsk_bundle_sha256": "8eaaaf9a084e56e81d1d2a5f7f011913290ccb0acc878670e822c32a60c13da4",
+    "permitted_review_fields": ["id", "priority", "gate_relevance", "criterion", "evidence", "impact"],
+    "read_compare_copy_execute_restore_repair_or_reuse_rejected_bytes": false,
+    "earlier_rejected_p3_engineering_lineage_allowed": false
+  },
+  "route": {
+    "route_id": "P3_DECLARATIVE_TRANSACTION_KERNEL_CLEAN_ROOM_ROUTE_V1",
+    "phase": "P3",
+    "cumulative_consumed": {
+      "engineering_tasks": 14,
+      "engineering_hours": 392,
+      "calendar_days": 94
+    },
+    "cumulative_ceiling": {
+      "engineering_tasks": 17,
+      "engineering_hours": 464,
+      "calendar_days": 110
+    },
+    "released_for_route": {
+      "engineering_tasks": 3,
+      "engineering_hours": 72,
+      "calendar_days": 16
+    },
+    "concurrency": {
+      "active_tasks": 1,
+      "task_branches": 1,
+      "task_worktrees": 1,
+      "active_candidates": 1,
+      "physical_agents_including_master": 3
+    },
+    "stages": [
+      {
+        "ordinal": 1,
+        "stage_id": "DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION",
+        "task_id": "AIOS-P3-DTK-F1_DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION",
+        "kind": "EVALUATION_FOUNDATION",
+        "status_after_install": "ELIGIBLE_MASTER_ACTIVATE_IMMEDIATELY",
+        "budget": {
+          "engineering_tasks": 1,
+          "engineering_hours": 8,
+          "calendar_days": 2,
+          "candidate_generations": 2,
+          "same_task_repairs": 1,
+          "review_cycles": 2
+        },
+        "resources": {
+          "branch": "codex/p3-dtk-f1-declarative-transaction-semantics",
+          "worktree": "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-dtk-f1-declarative-transaction-semantics",
+          "evidence_root": "/Users/lijunpeng/Developer/.sourcelens-audit/p3-declarative-transaction-kernel-route-20260823/task-foundation"
+        }
+      },
+      {
+        "ordinal": 2,
+        "stage_id": "TRUSTED_HOST_DECLARATIVE_TRANSACTION_KERNEL_PRODUCT",
+        "task_id": "AIOS-P3-DTK-P1_TRUSTED_HOST_DECLARATIVE_TRANSACTION_KERNEL_PRODUCT",
+        "kind": "PRODUCT_IMPLEMENTATION",
+        "status_after_install": "LOCKED_PENDING_FOUNDATION_ACCEPTED_AND_INTEGRATED",
+        "budget": {
+          "engineering_tasks": 1,
+          "engineering_hours": 48,
+          "calendar_days": 10,
+          "candidate_generations": 2,
+          "same_task_repairs": 1,
+          "review_cycles": 2
+        },
+        "resources": {
+          "branch": "codex/p3-dtk-p1-trusted-host-transaction-kernel",
+          "worktree": "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-dtk-p1-trusted-host-transaction-kernel",
+          "evidence_root": "/Users/lijunpeng/Developer/.sourcelens-audit/p3-declarative-transaction-kernel-route-20260823/task-product"
+        }
+      },
+      {
+        "ordinal": 3,
+        "stage_id": "ONE_SHOT_STRICT_EXIT_AUDIT",
+        "task_id": "AIOS-P3-DTK-A1_ONE_SHOT_STRICT_EXIT_AUDIT",
+        "kind": "EVALUATION_ONLY",
+        "status_after_install": "LOCKED_PENDING_PRODUCT_ACCEPTED_AND_INTEGRATED",
+        "budget": {
+          "engineering_tasks": 1,
+          "engineering_hours": 16,
+          "calendar_days": 4,
+          "formal_dispatches": 1,
+          "product_changes": 0,
+          "same_task_repairs": 0,
+          "rerun_to_pass_allowed": false
+        },
+        "resources": {
+          "branch": "codex/p3-dtk-a1-one-shot-strict-exit-audit",
+          "worktree": "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-dtk-a1-one-shot-strict-exit-audit",
+          "evidence_root": "/Users/lijunpeng/Developer/.sourcelens-audit/p3-declarative-transaction-kernel-route-20260823/task-audit"
+        }
+      }
+    ],
+    "progression": {
+      "installation_pass": {"delivery_percent": 25, "strict_exit_percent": 0},
+      "foundation_accepted_and_integrated": {"delivery_percent": 25, "strict_exit_percent": 0},
+      "product_accepted_and_integrated": {"delivery_percent": 75, "strict_exit_percent": 0},
+      "audit_pass": {"delivery_percent": 100, "strict_exit_percent": 100, "next": "ELIGIBLE_AWAITING_FOUNDER_P3_PHASE_GATE_DECISION"}
+    }
+  },
+  "foundation_acceptance": {
+    "machine_spec_is_only_domain_semantic_source": true,
+    "machine_spec_is_foundation_oracle_and_product_runtime_authority": true,
+    "generic_closed_operator_algebra_only": true,
+    "interpreter_and_verifier_independent": true,
+    "required_positive_scenarios": 10,
+    "required_mutants_killed": 13,
+    "required_mutants_total": 13,
+    "false_accepts_allowed": 0,
+    "deterministic_replays": 2,
+    "report_byte_equality_required": true,
+    "product_source_changes_allowed": false
+  },
+  "product_acceptance": {
+    "milestone_id": "DECLARATIVE_TRANSACTION_KERNEL_PRODUCT",
+    "non_empty_testable_product_source_diff_required": true,
+    "machine_spec_digest_is_runtime_authority": true,
+    "required_capability_count": 16,
+    "fresh_reviewers": ["CTO_AGENT", "SECURITY_AGENT", "QUALITY_EVALUATION_AGENT"],
+    "all_reviewers_pass_required": true
+  },
+  "audit_acceptance": {
+    "formal_dispatches": 1,
+    "product_changes": 0,
+    "foundation_spec_oracle_changes": 0,
+    "dataset_oracle_metric_threshold_schedule_changes": 0,
+    "same_task_repairs": 0,
+    "rerun_to_pass_allowed": false,
+    "same_frozen_product_candidate_for_all_six_gate_items": true
+  },
+  "toolchain": {
+    "java_sha256": "8dc256371b69e4e26cab700a4b6df5d80598feabf603b7d6cc68b1e349833f8c",
+    "javac_sha256": "d584c74fc058eedeb445da13551b1f3f4fde1b3e95afc57cabf43f2ba3ac9987",
+    "maven_sha256": "340bfabd76eaca39a1614f9ad767cdbd12c2090cfc15d66afe0ed536cd9b8bda",
+    "node_sha256": "0ef5d6908a2c10506f9685b1bd2496b6f7bcb0e23a6ee025c75eb036b997474b",
+    "go_sha256": "1b6e73b4f9eae9108e2e747f5cd29dc27ddfc1999a414fe11cd593072d607a84",
+    "sandbox_exec_sha256": "7fc7dcd7782e1abd52b11f6c512bdfb0c09d2502b619c483fdfce554c472352e",
+    "docker_cli_sha256": "a6822407e207ff0b687419ccbe55700ffbf389d77de58ef625b3b1790d88747c",
+    "docker_client_server": "29.7.2/29.7.2",
+    "docker_server_os_arch": "linux/arm64",
+    "observed_daemon_id": "c04cfda9-762c-4c79-b6f9-1c69a4b7083b"
+  },
+  "external_effects": {
+    "foundation_docker": false,
+    "product_local_task_scoped_docker_locked_until_product_activation": true,
+    "docker_registry_pull_push_login_or_build": false,
+    "network": false,
+    "provider": false,
+    "secret": false,
+    "credential": false,
+    "remote": false,
+    "production": false,
+    "public": false,
+    "p4_entry": false
+  },
+  "anti_loop": {
+    "dtk_foundation_2_allowed": false,
+    "second_dtk_product_task_allowed": false,
+    "candidate_3_allowed": false,
+    "second_same_task_repair_allowed": false,
+    "third_review_cycle_allowed": false,
+    "second_formal_audit_allowed": false,
+    "successor_replacement_normalization_closure_feasibility_remediation_allowed": false,
+    "v2_or_v3_route_chain_allowed": false,
+    "rerun_to_pass_allowed": false,
+    "governance_progress_credit": 0
+  },
+  "lifecycle": {
+    "installation_progress_credit": 0,
+    "foundation_non_pass_terminates_route": true,
+    "product_non_pass_terminates_route": true,
+    "audit_non_pass_terminates_route": true,
+    "p3_phase_gate_requires_separate_founder_decision": true,
+    "p4_entry_authorized": false,
+    "project_actually_completed": false,
+    "long_term_goal_status": "ACTIVE",
+    "codex_goal_completion_or_blocking_authorized": false
+  }
+}

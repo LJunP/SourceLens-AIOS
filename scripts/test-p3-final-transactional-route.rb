@@ -31,8 +31,61 @@ def expect_non_pass(root, truth, label)
   P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: candidate)
   raise "#{label} false-PASSed"
 rescue P3FinalTransactionalRouteValidationError,
-       P3ExecutableTransitionSystemKernelRouteValidationError
+       P3ExecutableTransitionSystemKernelRouteValidationError,
+       P3DeclarativeTransactionKernelRouteValidationError
   true
+end
+
+if host_authorized_truth.dig("current_phase_route", "schema_version") ==
+   P3DeclarativeTransactionKernelRouteValidation::ROUTE_SCHEMA
+  state = P3DeclarativeTransactionKernelRouteValidation.validate_truth!(
+    root: root, truth: host_authorized_truth
+  )
+  lifecycle = host_authorized_truth.dig("current_phase_route", "lifecycle_stage")
+  expected_state = P3DeclarativeTransactionKernelRouteValidation::LIFECYCLE_STATES[lifecycle]
+  raise "P3 DTK state drift" unless expected_state && state == expected_state
+  assertions += 1
+
+  mutations = {
+    "DTK Founder decision identity cannot drift" => lambda do |candidate|
+      candidate["current_phase_route"]["founder_route_decision"]["sha256"] = "0" * 64
+    end,
+    "DTK Constitution identity cannot drift" => lambda do |candidate|
+      candidate["current_phase_route"]["constitution"]["sha256"] = "0" * 64
+    end,
+    "DTK Objective cannot become generic runtime" => lambda do |candidate|
+      candidate["current_phase_route"]["objective_id"] = "GENERIC_AGENT_RUNTIME"
+    end,
+    "DTK Gate cannot drop declarative semantic integrity" => lambda do |candidate|
+      candidate["current_phase_route"]["strict_exit_gate"]["required_item_ids"].delete(
+        "DECLARATIVE_TRANSITION_SEMANTIC_INTEGRITY_AND_INDEPENDENT_REPLAY"
+      )
+    end,
+    "DTK frozen finding priority cannot drift" => lambda do |candidate|
+      candidate["current_phase_route"]["frozen_findings"].first["priority"] = "P1"
+    end,
+    "DTK remaining budget cannot reset" => lambda do |candidate|
+      candidate["current_phase_route"]["cumulative_accounting"]["remaining"]["engineering_tasks"] = 4
+    end,
+    "DTK candidate 3 cannot reappear" => lambda do |candidate|
+      candidate["current_phase_route"]["anti_loop"]["candidate_3_allowed"] = true
+    end,
+    "DTK strict Gate candidate cannot split" => lambda do |candidate|
+      candidate["current_phase_route"]["strict_exit_gate"]["same_frozen_product_candidate_required"] = false
+    end,
+    "DTK cannot enter P4" => lambda do |candidate|
+      candidate["project"]["p4_entry_status"] = "AUTHORIZED"
+    end,
+    "DTK cannot close the Long-term Goal" => lambda do |candidate|
+      candidate["goal"]["control_plane_status_observed"] = "COMPLETE"
+    end
+  }
+  mutations.each do |label, mutation|
+    expect_non_pass(root, host_authorized_truth, label, &mutation)
+    assertions += 1
+  end
+  puts "P3_FINAL_TRANSACTIONAL_ROUTE_TEST: PASS #{assertions} assertions mode=#{lifecycle}"
+  exit 0
 end
 
 if host_authorized_truth.dig("current_phase_route", "schema_version") ==

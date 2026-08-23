@@ -9875,6 +9875,10 @@ module P3FinalTransactionalRouteValidation
 
   def validate_truth!(root:, truth:, preactivation_resource_action: nil)
     if truth.dig("current_phase_route", "schema_version") ==
+       P3DeclarativeTransactionKernelRouteValidation::ROUTE_SCHEMA
+      return P3DeclarativeTransactionKernelRouteValidation.validate_truth!(root: root, truth: truth)
+    end
+    if truth.dig("current_phase_route", "schema_version") ==
        P3ExecutableTransitionSystemKernelRouteValidation::ROUTE_SCHEMA
       return P3ExecutableTransitionSystemKernelRouteValidation.validate_truth!(root: root, truth: truth)
     end
@@ -10149,6 +10153,7 @@ if $PROGRAM_NAME == __FILE__
             "or --create-tik-terminal-bundle-attestation"
     end
   rescue P3FinalTransactionalRouteValidationError,
+         P3DeclarativeTransactionKernelRouteValidationError,
          P3ExecutableTransitionSystemKernelRouteValidationError,
          JSON::ParserError, Psych::SyntaxError => e
     warn "P3_FINAL_TRANSACTIONAL_ROUTE: NON_PASS #{e.message}"

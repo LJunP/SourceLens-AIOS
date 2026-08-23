@@ -726,13 +726,694 @@ module P3ExecutableTransitionSystemKernelRouteValidation
   end
 end
 
+class P3DeclarativeTransactionKernelRouteValidationError < StandardError; end
+
+module P3DeclarativeTransactionKernelRouteValidation
+  module_function
+
+  ROUTE_SCHEMA = "p3-declarative-transaction-kernel-clean-room-route/v1"
+  ROUTE_ID = "P3_DECLARATIVE_TRANSACTION_KERNEL_CLEAN_ROOM_ROUTE_V1"
+  DECISION_SCHEMA = "p3-declarative-transaction-kernel-founder-decision/v1"
+  DECISION_ID =
+    "AUTHORIZE_P3_DECLARATIVE_TRANSACTION_KERNEL_OBJECTIVE_EXIT_GATE_AND_FINDING_SCOPED_CLEAN_ROOM_ROUTE_V1"
+  OPERATION_TYPE =
+    "P3_DECLARATIVE_TRANSACTION_KERNEL_OBJECTIVE_EXIT_GATE_AND_FINDING_SCOPED_CLEAN_ROOM_ROUTE"
+  OBJECTIVE_ID = "TRUSTED_HOST_TCB_DECLARATIVE_TRANSACTION_KERNEL_SINGLE_AGENT_EXECUTION"
+  WORKFLOW_ID = "SHA256_READ_ONLY_CUSTODY_V1"
+  STRICT_GATE_ID =
+    "TRUSTED_HOST_TCB_DECLARATIVE_TASK_WIDE_TRANSACTIONAL_EXECUTION_WITH_PROCESS_REAL_CONTAINMENT"
+  STRICT_ITEMS = %w[
+    DECLARATIVE_TRANSITION_SEMANTIC_INTEGRITY_AND_INDEPENDENT_REPLAY
+    TASK_WIDE_PRE_EFFECT_RESERVATION_FRONTIER
+    AUTHORIZATION_AND_INTENT_DURABILITY
+    CRASH_ORPHAN_RECONCILIATION_AND_RESUME
+    EXACTLY_ONE_TERMINAL_TRACE_AND_CHECKPOINT_GATE
+    TRUSTED_HOST_TCB_PROCESS_REAL_CONTAINMENT_ATTESTATION
+  ].freeze
+  COMPATIBILITY_ITEM = "RESUME_ISOLATION_PERMISSION_AND_TRACE_TESTS"
+
+  DECISION = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-declarative-transaction-kernel-route-20260823/decision/FOUNDER_P3_DTK_ACCEPTED_STRUCTURED_DECISION_V1.json",
+    "byte_length" => 13_666,
+    "sha256" => "e415cff79e4bd0f4784cf232ebd1358ec52b03463733967915e2611aa2de9185"
+  }.freeze
+  ADR = {
+    "path" => "docs/aios/decisions/P3_DECLARATIVE_TRANSACTION_KERNEL_CLEAN_ROOM_ROUTE_DECISION_V1.json",
+    "byte_length" => 13_666,
+    "sha256" => "e415cff79e4bd0f4784cf232ebd1358ec52b03463733967915e2611aa2de9185"
+  }.freeze
+  AUTHORIZATION_BODY = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-declarative-transaction-kernel-route-20260823/decision/FOUNDER_AUTHORIZATION_BODY_V1.txt",
+    "byte_length" => 27_700,
+    "sha256" => "5043a744078c414adf0c467ee4f34980e1d46d326260d4971728e6bdc8c99fc6"
+  }.freeze
+  SOURCE_ATTACHMENT = AUTHORIZATION_BODY.merge(
+    "path" => "/Users/lijunpeng/.codex/attachments/bd76b71d-4f1a-410a-b16b-2ce2666171d2/pasted-text.txt"
+  ).freeze
+  CONSTITUTION = {
+    "path" => "docs/aios/STRATEGIC_CONSTITUTION.md",
+    "version" => "3.3",
+    "byte_length" => 26_557,
+    "sha256" => "86785be2944daa0f9946ccbf1d6e2ca798320d50403db23867fb04feeed4cbc0"
+  }.freeze
+  TERMINAL_RECEIPT = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-executable-transition-system-kernel-reentry-20260823/task-foundation/terminal/P3_ETSK_F1_FOUNDATION_TASK_TERMINAL_NON_PASS_RECEIPT_V1.json",
+    "byte_length" => 5_933,
+    "sha256" => "55d3c6a0189d47380cc87102cfaa48129363ada5fd68519faaaf42703a8e42f0"
+  }.freeze
+  INDEPENDENT_REVIEW = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-executable-transition-system-kernel-reentry-20260823/task-foundation/reviews/cycle-1/P3_ETSK_F1_QUALITY_EVALUATION_REVIEW_V1.json",
+    "byte_length" => 19_956,
+    "sha256" => "f3d8df1613f41d14f47a3eb84d6c96478a163e0f976bdb967da3f5bd77b95ab6"
+  }.freeze
+  CAPABILITY_GAP_PREFLIGHT = {
+    "path" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-executable-transition-system-kernel-reentry-20260823/task-foundation/terminal/P3_ETSK_F1_POST_TERMINAL_FOUNDER_HANDOFF_CAPABILITY_GAP_PREFLIGHT_V1.json",
+    "byte_length" => 2_959,
+    "sha256" => "47ae2ae57aa94a4c5108f26daa65fc90a72b3bfa82c1ca123454b36be654f7e2"
+  }.freeze
+  FINDINGS = [
+    { "id" => "P3-ETSK-F1-C1-P0-001", "priority" => "P0", "gate_relevance" => "EXIT_GATE_VALIDITY",
+      "required_closure" => "FAILED_TERMINAL_RELEASE_REQUIRES_TERMINAL_ACCEPTED_AND_CLEANUP_CONFIRMED_AND_ZERO_CHECKPOINTS" },
+    { "id" => "P3-ETSK-F1-C1-P1-002", "priority" => "P1", "gate_relevance" => "RESULT_INTEGRITY",
+      "required_closure" => "REPLAY_TERMINAL_VERDICT_RECOMPUTED_FROM_STATE_RETAINED_RESULT_AND_SPEC" },
+    { "id" => "P3-ETSK-F1-C1-P1-003", "priority" => "P1", "gate_relevance" => "PRODUCT_CORRECTNESS",
+      "required_closure" => "MACHINE_SPEC_IS_SOLE_DOMAIN_SEMANTIC_SOURCE_FOR_FOUNDATION_AND_PRODUCT" }
+  ].map(&:freeze).freeze
+  FINDING_IDS = FINDINGS.map { |finding| finding.fetch("id") }.freeze
+  CANONICAL_START = {
+    "repository" => "/Users/lijunpeng/Developer/SourceLens-AIOS",
+    "branch" => "main",
+    "commit" => "e31105bb3d285c4b3c91a404526855a1628364ee",
+    "tree" => "89d5d0ed9c2c8ad2983f98de4bbdc44ad86b69ae",
+    "truth" => {
+      "path" => "docs/aios/truth/project_state.yaml",
+      "byte_length" => 1_980_366,
+      "sha256" => "68c41e5af75a765c9d8db35f2e6aacdbcddccb3fe6b24cac5710376b28278517"
+    },
+    "constitution" => {
+      "path" => "docs/aios/STRATEGIC_CONSTITUTION.md",
+      "version" => "3.2",
+      "byte_length" => 20_994,
+      "sha256" => "ccba174ea66d1044d63de97cd1a666139d6c886d2ebd1d790dbb59b98fb9b32a"
+    },
+    "git_topology" => {
+      "branches" => ["main"],
+      "worktrees" => ["/Users/lijunpeng/Developer/SourceLens-AIOS"]
+    }
+  }.freeze
+  LIMITS = {
+    "engineering_tasks" => 17, "engineering_hours" => 464, "calendar_days" => 110,
+    "active_tasks" => 1, "task_branches" => 1, "task_worktrees" => 1,
+    "active_candidates" => 1
+  }.freeze
+  BASE_CONSUMED = {
+    "engineering_tasks" => 14, "engineering_hours" => 392, "calendar_days" => 94
+  }.freeze
+  ROUTE_RELEASE = {
+    "engineering_tasks" => 3, "engineering_hours" => 72, "calendar_days" => 16
+  }.freeze
+  STAGE_IDS = %w[
+    DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION
+    TRUSTED_HOST_DECLARATIVE_TRANSACTION_KERNEL_PRODUCT
+    ONE_SHOT_STRICT_EXIT_AUDIT
+  ].freeze
+  TASK_IDS = %w[
+    AIOS-P3-DTK-F1_DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION
+    AIOS-P3-DTK-P1_TRUSTED_HOST_DECLARATIVE_TRANSACTION_KERNEL_PRODUCT
+    AIOS-P3-DTK-A1_ONE_SHOT_STRICT_EXIT_AUDIT
+  ].freeze
+  STAGE_KINDS = %w[EVALUATION_FOUNDATION PRODUCT_IMPLEMENTATION EVALUATION_ONLY].freeze
+  STAGE_BUDGETS = [
+    { "engineering_tasks" => 1, "engineering_hours" => 8, "calendar_days" => 2,
+      "candidate_generations" => 2, "same_task_repairs" => 1, "review_cycles" => 2 },
+    { "engineering_tasks" => 1, "engineering_hours" => 48, "calendar_days" => 10,
+      "candidate_generations" => 2, "same_task_repairs" => 1, "review_cycles" => 2 },
+    { "engineering_tasks" => 1, "engineering_hours" => 16, "calendar_days" => 4,
+      "formal_dispatches" => 1, "product_changes" => 0, "same_task_repairs" => 0,
+      "rerun_to_pass_allowed" => false }
+  ].map(&:freeze).freeze
+  STAGE_RESOURCES = [
+    {
+      "branch" => "codex/p3-dtk-f1-declarative-transaction-semantics",
+      "worktree" => "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-dtk-f1-declarative-transaction-semantics",
+      "evidence_root" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-declarative-transaction-kernel-route-20260823/task-foundation"
+    },
+    {
+      "branch" => "codex/p3-dtk-p1-trusted-host-transaction-kernel",
+      "worktree" => "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-dtk-p1-trusted-host-transaction-kernel",
+      "evidence_root" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-declarative-transaction-kernel-route-20260823/task-product"
+    },
+    {
+      "branch" => "codex/p3-dtk-a1-one-shot-strict-exit-audit",
+      "worktree" => "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-dtk-a1-one-shot-strict-exit-audit",
+      "evidence_root" => "/Users/lijunpeng/Developer/.sourcelens-audit/p3-declarative-transaction-kernel-route-20260823/task-audit"
+    }
+  ].map(&:freeze).freeze
+  WORKER_PATHS = [
+    %w[
+      evaluation-harness/harness/p3-declarative-transaction-kernel-v1
+      evaluation-harness/reports/p3-declarative-transaction-kernel-v1
+      docs/aios/tasks/P3-DTK-F1_DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION.yaml
+      docs/PROJECT_CODE_MAP.md
+    ],
+    %w[
+      backend-spring/src/main/java/com/sourcelens/module/execution/kernel
+      backend-spring/src/main/java/com/sourcelens/module/execution/taskwide
+      backend-spring/src/main/java/com/sourcelens/module/sandbox/oci/taskwide
+      backend-spring/src/main/java/com/sourcelens/module/execution/service/ExecutionCheckpointService.java
+      backend-spring/src/main/java/com/sourcelens/module/execution/service/ExecutionTaskService.java
+      backend-spring/src/main/java/com/sourcelens/module/execution/mapper/ExecutionCheckpointStore.java
+      backend-spring/src/main/resources/p3/declarative-transaction-kernel
+      backend-spring/src/main/resources/db/migration/V034__add_declarative_task_wide_transaction_kernel.sql
+      backend-spring/src/test/java/com/sourcelens/module/execution/kernel
+      backend-spring/src/test/java/com/sourcelens/module/execution/taskwide
+      backend-spring/src/test/java/com/sourcelens/module/sandbox/oci/taskwide
+      backend-spring/src/test/resources/p3-declarative-transaction-kernel
+      docs/aios/tasks/P3-DTK-P1_TRUSTED_HOST_DECLARATIVE_TRANSACTION_KERNEL_PRODUCT.yaml
+      docs/PROJECT_CODE_MAP.md
+    ],
+    %w[
+      docs/aios/tasks/P3-DTK-A1_ONE_SHOT_STRICT_EXIT_AUDIT.yaml
+      evaluation-harness/reports/p3-declarative-transaction-kernel-audit-v1
+    ]
+  ].map(&:freeze).freeze
+
+  LIFECYCLE = {
+    "FOUNDATION_ELIGIBLE_NOT_ACTIVATED" => {
+      "state" => "P3_DTK_FOUNDATION_ELIGIBLE", "route_status" => "ACTIVE_FOUNDATION_ELIGIBLE",
+      "phase_status" => "ACTIVE_P3_DTK_FOUNDATION_ELIGIBLE",
+      "action" => "MASTER_ACTIVATE_AIOS_P3_DTK_F1_FOUNDATION",
+      "stage_statuses" => %w[ELIGIBLE_NOT_ACTIVATED LOCKED_PENDING_FOUNDATION_ACCEPTED_AND_INTEGRATED LOCKED_PENDING_PRODUCT_ACCEPTED_AND_INTEGRATED],
+      "active_index" => nil, "completed_stage_count" => 0, "consumed_count" => 0,
+      "reserved_index" => nil, "delivery" => 25, "strict" => 0, "founder_required" => false
+    },
+    "FOUNDATION_TASK_ACTIVE" => {
+      "state" => "P3_DTK_FOUNDATION_TASK_ACTIVE", "route_status" => "ACTIVE_FOUNDATION_TASK",
+      "phase_status" => "ACTIVE_P3_DTK_FOUNDATION_TASK",
+      "action" => "EXECUTE_AIOS_P3_DTK_F1_FOUNDATION",
+      "stage_statuses" => %w[ACTIVE LOCKED_PENDING_FOUNDATION_ACCEPTED_AND_INTEGRATED LOCKED_PENDING_PRODUCT_ACCEPTED_AND_INTEGRATED],
+      "active_index" => 0, "completed_stage_count" => 0, "consumed_count" => 0,
+      "reserved_index" => 0, "delivery" => 25, "strict" => 0, "founder_required" => false
+    },
+    "FOUNDATION_ACCEPTED_PRODUCT_ELIGIBLE" => {
+      "state" => "P3_DTK_PRODUCT_ELIGIBLE", "route_status" => "ACTIVE_PRODUCT_ELIGIBLE",
+      "phase_status" => "ACTIVE_P3_DTK_PRODUCT_ELIGIBLE",
+      "action" => "MASTER_ACTIVATE_AIOS_P3_DTK_P1_PRODUCT",
+      "stage_statuses" => %w[ACCEPTED_INTEGRATED ELIGIBLE_NOT_ACTIVATED LOCKED_PENDING_PRODUCT_ACCEPTED_AND_INTEGRATED],
+      "active_index" => nil, "completed_stage_count" => 1, "consumed_count" => 1,
+      "reserved_index" => nil, "delivery" => 25, "strict" => 0, "founder_required" => false
+    },
+    "PRODUCT_TASK_ACTIVE" => {
+      "state" => "P3_DTK_PRODUCT_TASK_ACTIVE", "route_status" => "ACTIVE_PRODUCT_TASK",
+      "phase_status" => "ACTIVE_P3_DTK_PRODUCT_TASK",
+      "action" => "EXECUTE_AIOS_P3_DTK_P1_PRODUCT",
+      "stage_statuses" => %w[ACCEPTED_INTEGRATED ACTIVE LOCKED_PENDING_PRODUCT_ACCEPTED_AND_INTEGRATED],
+      "active_index" => 1, "completed_stage_count" => 1, "consumed_count" => 1,
+      "reserved_index" => 1, "delivery" => 25, "strict" => 0, "founder_required" => false
+    },
+    "PRODUCT_ACCEPTED_AUDIT_ELIGIBLE" => {
+      "state" => "P3_DTK_AUDIT_ELIGIBLE", "route_status" => "ACTIVE_AUDIT_ELIGIBLE",
+      "phase_status" => "ACTIVE_P3_DTK_AUDIT_ELIGIBLE",
+      "action" => "MASTER_ACTIVATE_AIOS_P3_DTK_A1_AUDIT",
+      "stage_statuses" => %w[ACCEPTED_INTEGRATED ACCEPTED_INTEGRATED ELIGIBLE_NOT_ACTIVATED],
+      "active_index" => nil, "completed_stage_count" => 2, "consumed_count" => 2,
+      "reserved_index" => nil, "delivery" => 75, "strict" => 0, "founder_required" => false
+    },
+    "AUDIT_TASK_ACTIVE" => {
+      "state" => "P3_DTK_AUDIT_TASK_ACTIVE", "route_status" => "ACTIVE_AUDIT_TASK",
+      "phase_status" => "ACTIVE_P3_DTK_AUDIT_TASK",
+      "action" => "EXECUTE_AIOS_P3_DTK_A1_ONE_SHOT_AUDIT",
+      "stage_statuses" => %w[ACCEPTED_INTEGRATED ACCEPTED_INTEGRATED ACTIVE],
+      "active_index" => 2, "completed_stage_count" => 2, "consumed_count" => 2,
+      "reserved_index" => 2, "delivery" => 75, "strict" => 0, "founder_required" => false
+    },
+    "ROUTE_TERMINAL_NON_PASS" => {
+      "state" => "P3_DTK_ROUTE_TERMINAL_NON_PASS",
+      "route_status" => "HOLD_INCOMPLETE_ROUTE_TERMINAL_NON_PASS",
+      "phase_status" => "HOLD_INCOMPLETE_P3_DTK_ROUTE_TERMINAL_NON_PASS",
+      "action" => "FOUNDER_DECIDE_P3_AFTER_DTK_ROUTE_TERMINAL_NON_PASS",
+      "active_index" => nil, "founder_required" => true
+    },
+    "AUDIT_PASS_PHASE_GATE_ELIGIBLE" => {
+      "state" => "P3_DTK_P3_PHASE_GATE_ELIGIBLE",
+      "route_status" => "ELIGIBLE_AWAITING_FOUNDER_P3_PHASE_GATE_DECISION",
+      "phase_status" => "ELIGIBLE_AWAITING_FOUNDER_P3_PHASE_GATE_DECISION",
+      "action" => "FOUNDER_DECIDE_P3_PHASE_EXIT",
+      "stage_statuses" => %w[ACCEPTED_INTEGRATED ACCEPTED_INTEGRATED ACCEPTED],
+      "active_index" => nil, "completed_stage_count" => 3, "consumed_count" => 3,
+      "reserved_index" => nil, "delivery" => 100, "strict" => 100, "founder_required" => true
+    }
+  }.freeze
+  LIFECYCLE_STATES = LIFECYCLE.transform_values { |profile| profile.fetch("state") }.freeze
+
+  def assert(condition, message)
+    raise P3DeclarativeTransactionKernelRouteValidationError, message unless condition
+  end
+
+  def mapping(value, label)
+    assert(value.is_a?(Hash), "#{label} is not a mapping")
+    value
+  end
+
+  def array(value, label)
+    assert(value.is_a?(Array), "#{label} is not an array")
+    value
+  end
+
+  def path_for(root, identity)
+    path = Pathname.new(identity.fetch("path"))
+    path.absolute? ? path : Pathname.new(root).join(path)
+  end
+
+  def read_identity!(root, identity, label, create_once: false)
+    path = path_for(root, identity)
+    assert(path.exist? && path.file? && !path.symlink?, "#{label} missing, non-regular or symlinked")
+    stat = path.stat
+    assert(stat.nlink == 1, "#{label} link count is not one") if create_once
+    assert((stat.mode & 0o777) == 0o444, "#{label} mode is not 0444") if create_once
+    bytes = path.binread
+    assert(bytes.bytesize == identity.fetch("byte_length"), "#{label} byte length drift")
+    assert(Digest::SHA256.hexdigest(bytes) == identity.fetch("sha256"), "#{label} SHA-256 drift")
+    bytes
+  end
+
+  def parse_json!(bytes, label)
+    mapping(JSON.parse(bytes), label)
+  rescue JSON::ParserError => e
+    raise P3DeclarativeTransactionKernelRouteValidationError, "#{label} invalid JSON: #{e.message}"
+  end
+
+  def git!(root, *args)
+    stdout, stderr, status = Open3.capture3("git", "-C", root.to_s, *args)
+    assert(status.success?, "git #{args.join(' ')} failed: #{stderr.strip}")
+    stdout.strip
+  end
+
+  def expected_accounting(profile)
+    consumed = BASE_CONSUMED.dup
+    profile.fetch("consumed_count").times do |index|
+      %w[engineering_tasks engineering_hours calendar_days].each do |key|
+        consumed[key] += STAGE_BUDGETS.fetch(index).fetch(key)
+      end
+    end
+    reserved = if profile["reserved_index"]
+                 STAGE_BUDGETS.fetch(profile.fetch("reserved_index")).slice(
+                   "engineering_tasks", "engineering_hours", "calendar_days"
+                 )
+               end
+    remaining = %w[engineering_tasks engineering_hours calendar_days].to_h do |key|
+      [key, LIMITS.fetch(key) - consumed.fetch(key) - (reserved&.fetch(key) || 0)]
+    end
+    [consumed, reserved, remaining]
+  end
+
+  def validate_decision!(root)
+    adr_bytes = read_identity!(root, ADR, "P3 DTK canonical ADR")
+    staging = ENV["SOURCELENS_DTK_STRATEGIC_STAGING_ROOT"]
+    external_path = path_for(root, DECISION)
+    external_bytes = if staging && !external_path.exist?
+                       adr_bytes
+                     else
+                       read_identity!(root, DECISION, "P3 DTK Founder decision", create_once: true)
+                     end
+    assert(external_bytes == adr_bytes, "P3 DTK external decision and canonical ADR differ")
+    attachment = read_identity!(root, SOURCE_ATTACHMENT, "P3 DTK direct attachment")
+    body_path = path_for(root, AUTHORIZATION_BODY)
+    body = if staging && !body_path.exist?
+             attachment
+           else
+             read_identity!(root, AUTHORIZATION_BODY, "P3 DTK authorization body", create_once: true)
+           end
+    assert(body == attachment, "P3 DTK installed authorization body differs from attachment")
+    assert(body.dup.force_encoding(Encoding::UTF_8).valid_encoding? &&
+           body.lines.first&.chomp == DECISION_ID,
+           "P3 DTK authorization token or UTF-8 identity drift")
+    decision = parse_json!(external_bytes, "P3 DTK Founder decision")
+    assert(decision["schema_version"] == DECISION_SCHEMA &&
+           decision["record_type"] == "FOUNDER_ACCEPTED_STRATEGIC_DECISION" &&
+           decision["decision_id"] == DECISION_ID && decision["operation_type"] == OPERATION_TYPE &&
+           decision["status"] == "ACCEPTED_CURRENT_DIRECT_FOUNDER_MESSAGE",
+           "P3 DTK Founder decision header drift")
+    assert(decision.dig("source", "byte_length") == AUTHORIZATION_BODY.fetch("byte_length") &&
+           decision.dig("source", "sha256") == AUTHORIZATION_BODY.fetch("sha256") &&
+           decision.dig("source", "installed_body", "path") == AUTHORIZATION_BODY.fetch("path") &&
+           decision.dig("source", "installed_body", "byte_equal_to_attachment") == true,
+           "P3 DTK source-body binding drift")
+    assert(decision["canonical_start"] == CANONICAL_START.merge("clean" => true),
+           "P3 DTK canonical-start binding drift")
+    terminal_basis = mapping(decision["terminal_basis"], "P3 DTK terminal basis")
+    assert(terminal_basis["route_id"] == "P3_EXECUTABLE_TRANSITION_SYSTEM_KERNEL_REENTRY_ROUTE_V1" &&
+           terminal_basis["status"] == "ROUTE_TERMINAL_NON_PASS" &&
+           terminal_basis["terminal_receipt"] == TERMINAL_RECEIPT &&
+           terminal_basis["independent_review"].slice("path", "byte_length", "sha256") == INDEPENDENT_REVIEW &&
+           terminal_basis["handoff_capability_gap_preflight"].slice("path", "byte_length", "sha256") == CAPABILITY_GAP_PREFLIGHT,
+           "P3 DTK terminal basis drift")
+    assert(decision.dig("authority", "one_time_handoff_validator_bypass_consumed_for_intake_only") == true &&
+           decision.dig("authority", "generic_validator_bypass_authorized") == false,
+           "P3 DTK one-time validator-gap boundary drift")
+    assert(decision.dig("strategic_change", "constitution_to_version") == "3.3" &&
+           decision.dig("strategic_change", "append_only_section") == "9C" &&
+           decision.dig("strategic_change", "objective_id") == OBJECTIVE_ID &&
+           decision.dig("strategic_change", "strict_exit_gate_id") == STRICT_GATE_ID &&
+           decision.dig("strategic_change", "required_gate_items") == STRICT_ITEMS &&
+           decision.dig("strategic_change", "compatibility_aggregate_item_id") == COMPATIBILITY_ITEM &&
+           decision.dig("strategic_change", "same_frozen_product_candidate_required") == true,
+           "P3 DTK strategic Gate drift")
+    assert(decision["frozen_findings"] == FINDINGS,
+           "P3 DTK frozen finding set drift")
+    assert(decision.dig("rejected_lineage", "read_compare_copy_execute_restore_repair_or_reuse_rejected_bytes") == false &&
+           decision.dig("rejected_lineage", "earlier_rejected_p3_engineering_lineage_allowed") == false,
+           "P3 DTK rejected-lineage boundary drift")
+    assert(decision.dig("route", "route_id") == ROUTE_ID &&
+           decision.dig("route", "cumulative_consumed") == BASE_CONSUMED &&
+           decision.dig("route", "cumulative_ceiling") == LIMITS.slice(
+             "engineering_tasks", "engineering_hours", "calendar_days"
+           ) && decision.dig("route", "released_for_route") == ROUTE_RELEASE,
+           "P3 DTK cumulative accounting drift")
+    stages = array(decision.dig("route", "stages"), "P3 DTK decision stages")
+    assert(stages.length == 3, "P3 DTK decision stage count drift")
+    stages.each_with_index do |stage, index|
+      assert(stage["ordinal"] == index + 1 && stage["stage_id"] == STAGE_IDS[index] &&
+             stage["task_id"] == TASK_IDS[index] && stage["kind"] == STAGE_KINDS[index] &&
+             stage["budget"] == STAGE_BUDGETS[index] && stage["resources"] == STAGE_RESOURCES[index],
+             "P3 DTK decision stage #{index + 1} drift")
+    end
+    assert(decision.dig("foundation_acceptance", "required_positive_scenarios") == 10 &&
+           decision.dig("foundation_acceptance", "required_mutants_killed") == 13 &&
+           decision.dig("foundation_acceptance", "required_mutants_total") == 13 &&
+           decision.dig("foundation_acceptance", "false_accepts_allowed") == 0 &&
+           decision.dig("foundation_acceptance", "deterministic_replays") == 2 &&
+           decision.dig("foundation_acceptance", "product_source_changes_allowed") == false,
+           "P3 DTK Foundation acceptance drift")
+    assert(decision.dig("external_effects", "network") == false &&
+           decision.dig("external_effects", "provider") == false &&
+           decision.dig("external_effects", "secret") == false &&
+           decision.dig("external_effects", "remote") == false &&
+           decision.dig("external_effects", "production") == false &&
+           decision.dig("external_effects", "public") == false &&
+           decision.dig("external_effects", "p4_entry") == false &&
+           decision.dig("anti_loop", "governance_progress_credit") == 0 &&
+           decision.dig("lifecycle", "long_term_goal_status") == "ACTIVE" &&
+           decision.dig("lifecycle", "codex_goal_completion_or_blocking_authorized") == false,
+           "P3 DTK effect, anti-loop or Goal boundary drift")
+    decision
+  end
+
+  def validate_terminal_basis!(root)
+    terminal = parse_json!(
+      read_identity!(root, TERMINAL_RECEIPT, "P3 DTK ETSK terminal receipt", create_once: true),
+      "P3 DTK ETSK terminal receipt"
+    )
+    review = parse_json!(
+      read_identity!(root, INDEPENDENT_REVIEW, "P3 DTK frozen independent review", create_once: true),
+      "P3 DTK frozen independent review"
+    )
+    read_identity!(root, CAPABILITY_GAP_PREFLIGHT, "P3 DTK handoff capability-gap preflight", create_once: true)
+    assert(terminal["record_type"] == "P3_ETSK_F1_FOUNDATION_TASK_TERMINAL_NON_PASS_RECEIPT" &&
+           terminal.dig("terminal_result", "route_lifecycle") == "ROUTE_TERMINAL_NON_PASS" &&
+           terminal.dig("candidate", "canonical_integration_performed") == false &&
+           terminal.dig("candidate", "commit") == "d9f6c609beabae0519a3eb0cc7e3ab03a79547e6" &&
+           terminal.dig("candidate", "tree") == "d2d60bebe935cfa588c7a21001b8ee273ab4a3ba" &&
+           terminal.dig("candidate", "bundle", "sha256") == "8eaaaf9a084e56e81d1d2a5f7f011913290ccb0acc878670e822c32a60c13da4" &&
+           terminal.dig("independent_review", "complete_frozen_findings").map { |item| item["finding_id"] } == FINDING_IDS,
+           "P3 DTK predecessor terminal facts drift")
+    assert(review["verdict"] == "NON_PASS" &&
+           review.fetch("frozen_findings").map { |finding| finding.slice("id", "priority", "gate_relevance") } ==
+             FINDINGS.map { |finding| finding.slice("id", "priority", "gate_relevance") },
+           "P3 DTK frozen review finding identity drift")
+  end
+
+  def validate_repository_context!(root)
+    root = Pathname.new(root).realpath
+    assert(git!(root, "rev-parse", "#{CANONICAL_START.fetch('commit')}^{tree}") ==
+           CANONICAL_START.fetch("tree"), "P3 DTK canonical-start tree drift")
+    _stdout, _stderr, status = Open3.capture3(
+      "git", "-C", root.to_s, "merge-base", "--is-ancestor", CANONICAL_START.fetch("commit"), "HEAD"
+    )
+    assert(status.success?, "P3 DTK canonical-start commit is not an ancestor of HEAD")
+    _stdout, _stderr, rejected_status = Open3.capture3(
+      "git", "-C", root.to_s, "merge-base", "--is-ancestor",
+      "d9f6c609beabae0519a3eb0cc7e3ab03a79547e6", "HEAD"
+    )
+    assert(!rejected_status.success?, "P3 DTK rejected ETSK candidate reached canonical history")
+  end
+
+  def validate_stage_shape!(route, profile)
+    stages = array(route["ordered_stages"], "P3 DTK ordered stages")
+    assert(stages.length == 3, "P3 DTK stage count drift")
+    stages.each_with_index do |stage, index|
+      assert(stage["ordinal"] == index + 1 && stage["stage_id"] == STAGE_IDS[index] &&
+             stage["task_id"] == TASK_IDS[index] && stage["kind"] == STAGE_KINDS[index] &&
+             stage["status"] == profile.fetch("stage_statuses")[index] &&
+             stage["budget"] == STAGE_BUDGETS[index] && stage["resources"] == STAGE_RESOURCES[index],
+             "P3 DTK stage #{index + 1} identity, state or budget drift")
+    end
+  end
+
+  def boundary_profile(lifecycle)
+    case lifecycle
+    when "FOUNDATION_ELIGIBLE_NOT_ACTIVATED"
+      [true, "EXACT_AIOS_P3_DTK_F1_FOUNDATION_ONLY", ["EVALUATION_FOUNDATION"]]
+    when "FOUNDATION_TASK_ACTIVE", "PRODUCT_TASK_ACTIVE", "AUDIT_TASK_ACTIVE"
+      [false, "NONE_ACTIVE_TASK_EXISTS", []]
+    when "FOUNDATION_ACCEPTED_PRODUCT_ELIGIBLE"
+      [true, "EXACT_AIOS_P3_DTK_P1_PRODUCT_ONLY", ["PRODUCT_IMPLEMENTATION"]]
+    when "PRODUCT_ACCEPTED_AUDIT_ELIGIBLE"
+      [true, "EXACT_AIOS_P3_DTK_A1_AUDIT_ONLY", ["EVALUATION_ONLY"]]
+    when "AUDIT_PASS_PHASE_GATE_ELIGIBLE"
+      [false, "NONE_FOUNDER_PHASE_GATE_REQUIRED", []]
+    else
+      [false, "NONE_ROUTE_TERMINAL", []]
+    end
+  end
+
+  def validate_active_work!(root, truth, profile)
+    active = mapping(truth["active_work"], "P3 DTK active_work")
+    index = profile["active_index"]
+    if index.nil?
+      expected_selected = profile.fetch("completed_stage_count") < 3 ?
+        TASK_IDS.fetch(profile.fetch("completed_stage_count")) : "NONE"
+      assert(active["current_task"] == "NONE" && active["selected_task"] == expected_selected &&
+             active["current_task_contract"].nil? && active["current_execution_authorization"].nil? &&
+             active["authority_record"].nil? && active["task_branch"].nil? &&
+             active["task_worktree"].nil? && active["execution_evidence_root"].nil? &&
+             active["founder_decision_required"] == profile.fetch("founder_required") &&
+             active["next_eligible_action"] == profile.fetch("action"),
+             "P3 DTK inactive Task projection drift")
+      return
+    end
+    assert(active["current_task"] == TASK_IDS[index] && active["selected_task"] == TASK_IDS[index] &&
+           active["current_task_status"] == "ACTIVE" && active["task_branch"] == STAGE_RESOURCES[index]["branch"] &&
+           active["task_worktree"] == STAGE_RESOURCES[index]["worktree"] &&
+           active["execution_evidence_root"] == STAGE_RESOURCES[index]["evidence_root"] &&
+           active["allowlisted_paths"] == WORKER_PATHS[index] &&
+           active["current_task_budget"] == STAGE_BUDGETS[index] &&
+           active["founder_decision_required"] == false &&
+           active["next_eligible_action"] == profile.fetch("action"),
+           "P3 DTK active Task identity or scope drift")
+    contract_identity = mapping(active["current_task_contract"], "P3 DTK active Contract identity")
+    contract_bytes = read_identity!(root, contract_identity, "P3 DTK active Contract")
+    contract = YAML.safe_load(contract_bytes, permitted_classes: [], permitted_symbols: [], aliases: false)
+    assert(contract["task_id"] == TASK_IDS[index] && contract["status"] == "ACTIVE" &&
+           contract["branch"] == STAGE_RESOURCES[index]["branch"] &&
+           contract["worktree"] == STAGE_RESOURCES[index]["worktree"] &&
+           contract["evidence_root"] == STAGE_RESOURCES[index]["evidence_root"] &&
+           contract["write_allowlist"] == WORKER_PATHS[index] && contract["budget"] == STAGE_BUDGETS[index] &&
+           contract["execution_nonce"] == active["execution_nonce"],
+           "P3 DTK active Contract drift")
+    authority_identity = mapping(active["authority_record"], "P3 DTK active authority identity")
+    authority = parse_json!(
+      read_identity!(root, authority_identity, "P3 DTK active authority", create_once: true),
+      "P3 DTK active authority"
+    )
+    assert(authority["task_id"] == TASK_IDS[index] && authority["status"] == "ACTIVE" &&
+           authority["branch"] == STAGE_RESOURCES[index]["branch"] &&
+           authority["worktree"] == STAGE_RESOURCES[index]["worktree"] &&
+           authority["evidence_root"] == STAGE_RESOURCES[index]["evidence_root"] &&
+           authority["write_allowlist"] == WORKER_PATHS[index] &&
+           authority["execution_nonce"] == active["execution_nonce"] &&
+           authority["authorization_id"] == active["authorization_id"],
+           "P3 DTK active authority drift")
+  end
+
+  def validate_truth!(root:, truth:)
+    root = Pathname.new(root).realpath
+    route = mapping(truth["current_phase_route"], "P3 DTK current Route")
+    assert(route["schema_version"] == ROUTE_SCHEMA && route["route_id"] == ROUTE_ID,
+           "P3 DTK Route schema or identity drift")
+    lifecycle = route["lifecycle_stage"]
+    profile = LIFECYCLE[lifecycle]
+    assert(profile, "P3 DTK lifecycle is not closed-schema: #{lifecycle.inspect}")
+    assert(profile["stage_statuses"], "P3 DTK terminal stage projection must be explicitly installed")
+
+    validate_repository_context!(root)
+    decision = validate_decision!(root)
+    validate_terminal_basis!(root)
+    constitution = read_identity!(root, CONSTITUTION, "P3 DTK Strategic Constitution v3.3")
+    assert(constitution.include?("## 9C. P3 v3.3 declarative transaction kernel authority") &&
+           constitution.include?("`#{OBJECTIVE_ID}`") && constitution.include?("`#{STRICT_GATE_ID}`") &&
+           STRICT_ITEMS.all? { |item| constitution.include?("`#{item}`") },
+           "P3 DTK Constitution semantic anchor drift")
+
+    assert(route["status"] == profile.fetch("route_status") && route["phase"] == "P3" &&
+           route["phase_entry_status"] == "AUTHORIZED" &&
+           route["founder_phase_route_decision_required"] == profile.fetch("founder_required") &&
+           route["next_eligible_action"] == profile.fetch("action") &&
+           route["founder_route_decision"] == DECISION.merge(
+             "decision_id" => DECISION_ID, "operation_type" => OPERATION_TYPE,
+             "canonical_adr" => ADR, "source_body" => AUTHORIZATION_BODY
+           ) && route["canonical_start"] == CANONICAL_START && route["constitution"] == CONSTITUTION &&
+           route["objective_id"] == OBJECTIVE_ID && route["workflow_id"] == WORKFLOW_ID &&
+           route.dig("strict_exit_gate", "gate_id") == STRICT_GATE_ID &&
+           route.dig("strict_exit_gate", "required_item_ids") == STRICT_ITEMS &&
+           route.dig("strict_exit_gate", "compatibility_aggregate_item_id") == COMPATIBILITY_ITEM &&
+           route.dig("strict_exit_gate", "same_frozen_product_candidate_required") == true &&
+           route["frozen_findings"] == FINDINGS &&
+           route["rejected_lineage"] == decision["rejected_lineage"] &&
+           route["foundation_acceptance"] == decision["foundation_acceptance"] &&
+           route["product_acceptance"] == decision["product_acceptance"] &&
+           route["audit_acceptance"] == decision["audit_acceptance"] &&
+           route["toolchain"] == decision["toolchain"] && route["anti_loop"] == decision["anti_loop"],
+           "P3 DTK Route authority, Gate, finding or clean-room projection drift")
+    assert(route.dig("cumulative_accounting", "limits") == LIMITS &&
+           route.dig("cumulative_accounting", "consumed") == BASE_CONSUMED &&
+           route.dig("cumulative_accounting", "remaining") == ROUTE_RELEASE &&
+           route.dig("cumulative_accounting", "reset_or_refund_allowed") == false,
+           "P3 DTK installed cumulative accounting drift")
+    assert(route.dig("external_effect_authority", "docker_for_active_foundation_task") == false &&
+           route.dig("external_effect_authority", "network") == false &&
+           route.dig("external_effect_authority", "provider") == false &&
+           route.dig("external_effect_authority", "secret") == false &&
+           route.dig("external_effect_authority", "credential") == false &&
+           route.dig("external_effect_authority", "remote") == false &&
+           route.dig("external_effect_authority", "production") == false &&
+           route.dig("external_effect_authority", "public") == false &&
+           route.dig("external_effect_authority", "docker_registry") == false &&
+           route.dig("external_effect_authority", "docker_build") == false &&
+           route["p4_entry_authorized"] == false && route["long_term_goal_status"] == "ACTIVE" &&
+           route.dig("anti_loop", "governance_progress_credit") == 0,
+           "P3 DTK external-effect, P4, Goal or anti-loop drift")
+    validate_stage_shape!(route, profile)
+
+    consumed, reserved, remaining = expected_accounting(profile)
+    envelope = mapping(truth["phase_execution_envelope"], "P3 DTK Phase envelope")
+    assert(envelope["schema_version"] == "phase-execution-envelope/v1" && envelope["phase"] == "P3" &&
+           envelope["status"] == profile.fetch("phase_status") &&
+           envelope.dig("authority_basis", "source_route_id") == ROUTE_ID &&
+           envelope["accounting_basis"] == "NON_RESETTABLE_CUMULATIVE_P3_FOUNDER_ENVELOPE" &&
+           envelope["limits"] == LIMITS && envelope["consumed"] == consumed &&
+           envelope["reserved"] == (reserved || {}) && envelope["remaining"] == remaining &&
+           envelope["remaining_capacity_usable"] == true &&
+           envelope["ordered_stages"] == route["ordered_stages"] &&
+           envelope.dig("delivery_progress", "percent") == profile.fetch("delivery") &&
+           envelope.dig("delivery_progress", "strict_exit_gate_percent") == profile.fetch("strict") &&
+           envelope["governance_progress_credit"] == 0,
+           "P3 DTK Phase envelope accounting or progress drift")
+    assert(truth.dig("claim_boundary", "p3_phase_envelope_status") == envelope["status"],
+           "P3 host-authorized claim boundary projection drift (P3 DTK envelope binding)")
+
+    control = mapping(truth["founder_escalation_control"], "P3 DTK Founder escalation")
+    expected_disposition = profile.fetch("founder_required") ?
+      "FOUNDER_RESERVED_DECISION_REQUIRED" : "NO_RESERVED_TRIGGER_CONTINUE_PHASE"
+    assert(control["schema_version"] == "founder-escalation-control/v2" &&
+           control["disposition"] == expected_disposition &&
+           control["founder_decision_required"] == profile.fetch("founder_required") &&
+           control["next_action_owner"] == (profile.fetch("founder_required") ? "HUMAN_FOUNDER" : "MASTER_CEO_AGENT") &&
+           control["next_eligible_action"] == profile.fetch("action"),
+           "P3 DTK Founder interruption projection drift")
+    delegation = mapping(truth["phase_delegation"], "P3 DTK Phase delegation")
+    assert(delegation["decision_source"] == DECISION_ID &&
+           delegation["task_selection_owner"] == "MASTER_CEO_AGENT" &&
+           delegation["task_authorization_owner"] == "MASTER_CEO_AGENT" &&
+           delegation["task_gate_owner"] == "MASTER_CEO_AGENT" &&
+           delegation.dig("anti_loop", "dtk_foundation_2_allowed") == false &&
+           delegation.dig("anti_loop", "second_dtk_product_task_allowed") == false &&
+           delegation.dig("anti_loop", "candidate_3_allowed") == false &&
+           delegation.dig("anti_loop", "second_same_task_repair_allowed") == false &&
+           delegation.dig("anti_loop", "third_review_cycle_allowed") == false &&
+           delegation.dig("anti_loop", "second_formal_audit_allowed") == false,
+           "P3 DTK Phase delegation or anti-loop drift")
+    boundary = mapping(truth["phase_boundary"], "P3 DTK Phase boundary")
+    task_creation_allowed, task_creation_scope, task_kinds = boundary_profile(lifecycle)
+    assert(boundary["phase"] == "P3" && boundary["phase_execution_status"] == profile.fetch("phase_status") &&
+           boundary["task_creation_allowed"] == task_creation_allowed &&
+           boundary["task_creation_scope"] == task_creation_scope &&
+           boundary["allowed_task_kinds"] == task_kinds &&
+           boundary["founder_decision_required"] == profile.fetch("founder_required") &&
+           boundary["next_eligible_action"] == profile.fetch("action") &&
+           boundary.dig("default_external_effects", "network") == false &&
+           boundary.dig("default_external_effects", "provider") == false &&
+           boundary.dig("default_external_effects", "secret") == false &&
+           boundary.dig("default_external_effects", "remote") == false &&
+           boundary.dig("default_external_effects", "production") == false &&
+           boundary.dig("default_external_effects", "public") == false &&
+           boundary.dig("default_external_effects", "p4_entry") == false,
+           "P3 DTK Phase boundary drift")
+    claim = mapping(truth["phase_execution_claim"], "P3 DTK Phase execution claim")
+    assert(claim["current_route_claim"] == ROUTE_ID &&
+           claim["current_task_claim"] == (profile["active_index"].nil? ? "NONE" : TASK_IDS[profile["active_index"]]) &&
+           claim["task_creation_allowed"] == task_creation_allowed &&
+           claim["remaining_capacity_usable"] == true &&
+           claim["candidate_integration_allowed"] == false &&
+           claim["next_eligible_action"] == profile.fetch("action"),
+           "P3 DTK Phase execution claim drift")
+    validate_active_work!(root, truth, profile)
+
+    p3 = mapping(truth.dig("strict_phase_gate_ledger", "phases", "P3"), "P3 strict Gate")
+    current_gate = mapping(p3["current_exit_gate"], "P3 DTK current strict Gate")
+    assert(current_gate["gate_id"] == STRICT_GATE_ID &&
+           current_gate["authority"] == DECISION.merge("decision_id" => DECISION_ID) &&
+           current_gate["required_item_ids"] == STRICT_ITEMS &&
+           current_gate["required_items"].keys == STRICT_ITEMS &&
+           current_gate["same_frozen_candidate_required"] == true,
+           "P3 DTK strict Gate shape drift")
+    if lifecycle == "AUDIT_PASS_PHASE_GATE_ELIGIBLE"
+      candidates = STRICT_ITEMS.map do |item|
+        record = mapping(current_gate.dig("required_items", item), "P3 DTK accepted Gate item #{item}")
+        assert(record["status"] == "ACCEPTED" && record["evidence"].is_a?(Hash),
+               "P3 DTK Audit PASS lacks accepted Evidence for #{item}")
+        [record["candidate_commit"], record["candidate_tree"]]
+      end
+      assert(candidates.uniq.length == 1 &&
+             p3.dig("required_items", COMPATIBILITY_ITEM, "status") == "ACCEPTED" &&
+             p3.dig("founder_phase_gate", "status") == "ELIGIBLE_AWAITING_FOUNDER_DECISION",
+             "P3 DTK Audit PASS same-candidate or compatibility projection drift")
+    else
+      assert(STRICT_ITEMS.all? { |item| current_gate.dig("required_items", item, "status") == "MISSING" } &&
+             p3.dig("required_items", COMPATIBILITY_ITEM, "status") == "MISSING" &&
+             p3.dig("founder_phase_gate", "status") == "NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS",
+             "P3 DTK strict Gate false acceptance before one-shot Audit PASS")
+    end
+    assert(truth.dig("project", "current_phase") == "P3" &&
+           truth.dig("project", "phase_execution_status") == profile.fetch("phase_status") &&
+           truth.dig("project", "current_route_execution_status") == profile.fetch("state") &&
+           truth.dig("project", "p4_entry_status") == "HOLD_PENDING_STRICT_P3_EXIT_AND_SEPARATE_FOUNDER_PHASE_ENTRY" &&
+           truth.dig("goal", "control_plane_status_observed") == "ACTIVE" &&
+           truth.dig("goal", "current_strategic_decision", "decision_id") == DECISION_ID &&
+           truth.dig("claim_boundary", "current_phase_route") == ROUTE_ID &&
+           truth.dig("claim_boundary", "p3_phase_envelope_status") == profile.fetch("phase_status") &&
+           truth.dig("claim_boundary", "p3_exit_gate_progress_percent") == profile.fetch("strict") &&
+           truth.dig("claim_boundary", "p3_delivery_progress_percent") == profile.fetch("delivery") &&
+           truth.dig("claim_boundary", "p3_dtk_route_decision_sha256") == DECISION.fetch("sha256") &&
+           truth.dig("claim_boundary", "p3_dtk_candidate_integrated") == false,
+           "P3 DTK project, P4, Goal or claim projection drift")
+    profile.fetch("state")
+  rescue ArgumentError, KeyError, TypeError, Psych::Exception => e
+    raise P3DeclarativeTransactionKernelRouteValidationError, "P3 DTK Route invalid: #{e.message}"
+  end
+end
+
 if $PROGRAM_NAME == __FILE__
   begin
     root = Pathname.new(__dir__).join("..").realpath
     truth = YAML.safe_load(root.join("docs/aios/truth/project_state.yaml").binread,
                            permitted_classes: [], permitted_symbols: [], aliases: false)
     if truth.dig("current_phase_route", "schema_version") ==
-       P3ExecutableTransitionSystemKernelRouteValidation::ROUTE_SCHEMA
+       P3DeclarativeTransactionKernelRouteValidation::ROUTE_SCHEMA
+      state = P3DeclarativeTransactionKernelRouteValidation.validate_truth!(root: root, truth: truth)
+      puts "STRICT_PHASE_GATES: PASS state=#{state}"
+    elsif truth.dig("current_phase_route", "schema_version") ==
+          P3ExecutableTransitionSystemKernelRouteValidation::ROUTE_SCHEMA
       state = P3ExecutableTransitionSystemKernelRouteValidation.validate_truth!(root: root, truth: truth)
       puts "STRICT_PHASE_GATES: PASS state=#{state}"
     else
@@ -740,7 +1421,8 @@ if $PROGRAM_NAME == __FILE__
       raise P3ExecutableTransitionSystemKernelRouteValidationError, "P3 strict Gate is missing" unless p3.is_a?(Hash)
       puts "STRICT_PHASE_GATES: PASS state=NON_ETSK_CURRENT_ROUTE"
     end
-  rescue P3ExecutableTransitionSystemKernelRouteValidationError, JSON::ParserError, Psych::SyntaxError => e
+  rescue P3DeclarativeTransactionKernelRouteValidationError,
+         P3ExecutableTransitionSystemKernelRouteValidationError, JSON::ParserError, Psych::SyntaxError => e
     warn "STRICT_PHASE_GATES: NON_PASS #{e.message}"
     exit 1
   end

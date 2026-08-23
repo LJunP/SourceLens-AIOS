@@ -55,6 +55,7 @@ module FounderActionHandoff
     P3_TRUSTED_HOST_TCB_TRANSACTIONAL_EXECUTION_OBJECTIVE_EXIT_GATE_AND_CLEAN_ROOM_FINAL_ROUTE
     P3_TASK_WIDE_RESERVATION_FRONTIER_TRANSACTIONAL_EXECUTION_FOUNDATION_PRODUCT_AND_ONE_SHOT_AUDIT_ROUTE
     P3_EXECUTABLE_TRANSITION_SYSTEM_KERNEL_TASK_WIDE_PRODUCT_AND_ONE_SHOT_AUDIT_REENTRY
+    P3_DECLARATIVE_TRANSACTION_KERNEL_OBJECTIVE_EXIT_GATE_AND_FINDING_SCOPED_CLEAN_ROOM_ROUTE
   ].freeze
   APP_OPERATION_TYPES = %w[APP_FILESYSTEM_BATCH_WRITE].freeze
   READ_ONLY_HTTPS_OPERATION = "一次全新、独立、clean-room V6 benchmark source acquisition"
@@ -576,6 +577,41 @@ module FounderActionHandoff
     "risk_and_reversibility" => P3_ETSK_REENTRY_RISK,
     "deny_or_defer_effect" => P3_ETSK_REENTRY_DENY
   }.freeze
+  P3_DTK_ROUTE_TOKEN =
+    "AUTHORIZE_P3_DECLARATIVE_TRANSACTION_KERNEL_OBJECTIVE_EXIT_GATE_AND_FINDING_SCOPED_CLEAN_ROOM_ROUTE_V1"
+  P3_DTK_ROUTE_OPERATION_TYPE =
+    "P3_DECLARATIVE_TRANSACTION_KERNEL_OBJECTIVE_EXIT_GATE_AND_FINDING_SCOPED_CLEAN_ROOM_ROUTE"
+  P3_DTK_ROUTE_PRIMARY_TRIGGER = "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE"
+  P3_DTK_ROUTE_PROFILE = {
+    "operations" => [
+      "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE：将 Constitution 升级为 v3.3，把 P3 Objective 强化为 TRUSTED_HOST_TCB_DECLARATIVE_TRANSACTION_KERNEL_SINGLE_AGENT_EXECUTION，并把 strict Exit Gate 强化为六项同一 frozen Product candidate 的 TRUSTED_HOST_TCB_DECLARATIVE_TASK_WIDE_TRANSACTIONAL_EXECUTION_WITH_PROCESS_REAL_CONTAINMENT。",
+      "MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE：保留累计 14 Tasks / 392 hours / 94 days，精确扩展到 17 / 464 / 110，只供 DTK Foundation、Product 与 one-shot Audit 共 3 Tasks / 72 hours / 16 days。",
+      "闭合 frozen findings P3-ETSK-F1-C1-P0-001、P3-ETSK-F1-C1-P1-002、P3-ETSK-F1-C1-P1-003；machine specification 同时是 Foundation oracle 与 Product runtime authority。",
+      "严格顺序为 AIOS-P3-DTK-F1_DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION、AIOS-P3-DTK-P1_TRUSTED_HOST_DECLARATIVE_TRANSACTION_KERNEL_PRODUCT、AIOS-P3-DTK-A1_ONE_SHOT_STRICT_EXIT_AUDIT；前一 Gate 未独立 ACCEPTED 并集成时后一 Task 保持锁定。",
+      "禁止读取、比较、复制、执行、恢复、修复或复用 rejected ETSK candidate/tree/bundle 与更早 rejected P3 engineering lineage；只允许 frozen finding 字段及 terminal identity/accounting/lifecycle。",
+      "Foundation 禁止 Docker；Product 激活前 Docker 保持锁定；全路线禁止 network、Provider、Secret、credential、remote、production、public、Docker registry/build 与 P4 entry。"
+    ],
+    "targets" => [
+      "Strategic installation: docs/aios/STRATEGIC_CONSTITUTION.md, docs/aios/truth/project_state.yaml, docs/aios/decisions/P3_DECLARATIVE_TRANSACTION_KERNEL_CLEAN_ROOM_ROUTE_DECISION_V1.json and the five exact validator/test pairs named by the authorization.",
+      "Foundation: codex/p3-dtk-f1-declarative-transaction-semantics, /Users/lijunpeng/Developer/.sourcelens-worktrees/p3-dtk-f1-declarative-transaction-semantics, /Users/lijunpeng/Developer/.sourcelens-audit/p3-declarative-transaction-kernel-route-20260823/task-foundation and its exact four-path repository allowlist.",
+      "Product and Audit: only their exact authorized branch/worktree/Evidence roots and repository allowlists after predecessor acceptance and canonical integration."
+    ],
+    "budget_or_external_effects" =>
+      "Non-resettable ceiling 17 Tasks / 464 hours / 110 days; consumed 14 / 392 / 94; Route 3 / 72 / 16. Foundation 1/8/2, Product 1/48/10, Audit 1/16/4. Governance credit 0; network/provider/secret/remote/production/public/P4 effects 0.",
+    "token" => P3_DTK_ROUTE_TOKEN,
+    "duration" =>
+      "从 exact Founder body、canonical identity、terminal basis、toolchain 与 validator preflight 全部 PASS 起，至 one-shot Audit PASS/NON_PASS、Route budget 耗尽、identity/scope drift、terminal safety condition、Founder 撤销中的最早事件止。",
+    "authorization_expiry_or_consumption_rule" =>
+      "战略安装只消费一次 intake capability-gap bypass且工程进度为0；每个工程 slot 在激活时消费。任一 stage NON_PASS 终止 Route，不得 DTK Foundation 2、第二 Product Task、Candidate 3、第二 repair、第三 review、第二 Audit、successor/replacement/remediation 或 V2/V3 chain。",
+    "pass_lifecycle" =>
+      "安装与 Foundation ACCEPTED 均保持 P3 25%/0%；Product ACCEPTED并集成为75%/0%；one-shot Audit 对同一 frozen Product candidate 接受六项后为100%/100%，只进入 Founder P3 Phase Gate，不进入P4。",
+    "non_pass_lifecycle" =>
+      "任一 stage NON_PASS 保留真实 Evidence、拒绝未接受 candidate 集成、锁定后续 stage，P3保持HOLD/INCOMPLETE、P4 HOLD、项目未完成、Long-term Goal ACTIVE。",
+    "risk_and_reversibility" =>
+      "主要风险是声明式语义或 Product Gate 仍可能失败；通过单一短生命周期 branch/worktree、未接受 candidate 不集成、content-addressed Evidence与只清理Task自建可再生Docker对象保持可逆。",
+    "deny_or_defer_effect" =>
+      "拒绝或延期时 canonical ETSK terminal state 保持不变；始终禁止 rejected-lineage reuse、Gate弱化、网络、Provider、Secret、remote、production、public、Docker registry/build、P4 entry、project completion 与 Long-term Goal completion/blocking。"
+  }.freeze
   FOUNDER_NETWORK_OPERATION_PROFILES = {
     "READ_ONLY_HTTPS_ACQUISITION" => {
       "operations" => [READ_ONLY_HTTPS_OPERATION, READ_ONLY_HTTPS_METHOD],
@@ -892,7 +928,8 @@ module FounderActionHandoff
     P3_TXC_ROUTE_OPERATION_TYPE => P3_TXC_ROUTE_PROFILE,
     P3_THTCB_ROUTE_OPERATION_TYPE => P3_THTCB_ROUTE_PROFILE,
     P3_TWRF_ROUTE_OPERATION_TYPE => P3_TWRF_ROUTE_PROFILE,
-    P3_ETSK_REENTRY_OPERATION_TYPE => P3_ETSK_REENTRY_PROFILE
+    P3_ETSK_REENTRY_OPERATION_TYPE => P3_ETSK_REENTRY_PROFILE,
+    P3_DTK_ROUTE_OPERATION_TYPE => P3_DTK_ROUTE_PROFILE
   }.freeze
   PROSPECTIVE_PREFLIGHT = "PROSPECTIVE_RESERVED_EFFECT_REQUIRED_BY_EXACT_USER_REQUEST_AND_NOT_EXPRESSIBLE_BY_CURRENT_OFFLINE_ESCALATION_PROJECTION"
   NO_ACTION_SENTENCE = "你现在无需操作，我将在现有授权范围内继续执行。"
@@ -1304,6 +1341,15 @@ module FounderActionHandoff
                   package["user_request_evidence"].nil? &&
                   authorization["reserved_trigger"] == P3_ETSK_REENTRY_PRIMARY_TRIGGER,
                   "P3 executable-transition-system reentry does not match the exact current terminal trigger")
+        elsif authorization["operation_type"] == P3_DTK_ROUTE_OPERATION_TYPE
+          assert!(control["disposition"] == "FOUNDER_RESERVED_DECISION_REQUIRED" &&
+                  control["founder_decision_required"] == true &&
+                  control.dig("reserved_trigger", "category") == P3_DTK_ROUTE_PRIMARY_TRIGGER &&
+                  control["next_action_owner"] == "HUMAN_FOUNDER" &&
+                  evidence["prospective_preflight"].nil? &&
+                  package["user_request_evidence"].nil? &&
+                  authorization["reserved_trigger"] == P3_DTK_ROUTE_PRIMARY_TRIGGER,
+                  "P3 declarative-transaction-kernel route does not match the exact current terminal trigger")
         else
           assert!(control["disposition"] == "FOUNDER_DECISION_REQUIRED" &&
                   control["founder_decision_required"] == true &&

@@ -39,6 +39,12 @@ module FounderDelegationContinuity
   STRATEGIC_HOLD_ROUTE_SCHEMA = "founder-resolved-strategic-hold/v1"
   RESEARCH_EXIT_ROUTE_SCHEMA = "founder-resolved-p2-research-exit/v1"
   DELEGATED_TASK_ROUTE_SCHEMA = "phase-delegated-independent-task/v1"
+  DTK_ROUTE_SCHEMA = "p3-declarative-transaction-kernel-clean-room-route/v1"
+  ETSK_ROUTE_SCHEMA = "p3-executable-transition-system-kernel-reentry-route/v1"
+  TIK_ROUTE_SCHEMA = "p3-trusted-invocation-kernel-process-real-clean-room-route/v1"
+  HPE_ROUTE_SCHEMA = "p3-host-process-enforced-minimal-slice-route/v1"
+  TXC_ROUTE_SCHEMA = "p3-txc-control-recovery-direct-product-route/v1"
+  THTCB_ROUTE_SCHEMA = "p3-trusted-host-tcb-clean-room-final-route/v1"
   DELEGATED_TASK_ID_RE = /\AAIOS-P[123]-[0-9]{3}(?:_[A-Z0-9_]+)?\z/.freeze
   DELEGATION_AMENDMENT_SCHEMA = "founder-phase-delegation-amendment/v1"
   DELEGATION_AMENDMENT_ID = "FOUNDER_PHASE_DELEGATION_CONTINUITY_AMENDMENT_2026_08_08"
@@ -5061,7 +5067,23 @@ module FounderDelegationContinuity
     route = mapping(truth["current_phase_route"], "current_phase_route")
     return validate_research_exit_state!(root, truth, policy, project, route) if
       route["schema_version"] == RESEARCH_EXIT_ROUTE_SCHEMA
-    if route["schema_version"] == P3ExecutableTransitionSystemKernelRouteValidation::ROUTE_SCHEMA
+    if route["schema_version"] == DTK_ROUTE_SCHEMA
+      assert(defined?(P3DeclarativeTransactionKernelRouteValidation),
+             "P3 DTK Route validator is unavailable")
+      state = P3DeclarativeTransactionKernelRouteValidation.validate_truth!(root: root, truth: truth)
+      expected_state = P3DeclarativeTransactionKernelRouteValidation::LIFECYCLE_STATES[
+        route["lifecycle_stage"]
+      ]
+      assert(expected_state && state == expected_state, "P3 DTK Route state drift")
+      disposition = truth.dig("founder_escalation_control", "disposition")
+      expected_disposition = P3DeclarativeTransactionKernelRouteValidation::LIFECYCLE[
+        route["lifecycle_stage"]
+      ].fetch("founder_required") ? "FOUNDER_RESERVED_DECISION_REQUIRED" : CONTINUE_DISPOSITION
+      assert(disposition == expected_disposition,
+             "P3 DTK Founder disposition drift for its exact lifecycle")
+      return disposition
+    end
+    if route["schema_version"] == ETSK_ROUTE_SCHEMA
       assert(defined?(P3ExecutableTransitionSystemKernelRouteValidation),
              "P3 ETSK Route validator is unavailable")
       state = P3ExecutableTransitionSystemKernelRouteValidation.validate_truth!(root: root, truth: truth)
@@ -5077,7 +5099,7 @@ module FounderDelegationContinuity
              "P3 ETSK Founder disposition drift for its exact lifecycle")
       return disposition
     end
-    if route["schema_version"] == P3FinalTransactionalRouteValidation::THTCB_ROUTE_SCHEMA
+    if route["schema_version"] == THTCB_ROUTE_SCHEMA
       assert(defined?(P3FinalTransactionalRouteValidation),
              "P3 THTCB Route validator is unavailable")
       state = P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: truth)
@@ -5093,7 +5115,7 @@ module FounderDelegationContinuity
              "P3 THTCB Founder disposition drift for its exact lifecycle")
       return disposition
     end
-    if route["schema_version"] == P3FinalTransactionalRouteValidation::TXC_ROUTE_SCHEMA
+    if route["schema_version"] == TXC_ROUTE_SCHEMA
       assert(defined?(P3FinalTransactionalRouteValidation),
              "P3 TXC Route validator is unavailable")
       state = P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: truth)
@@ -5107,7 +5129,7 @@ module FounderDelegationContinuity
       ].include?(disposition), "P3 TXC Founder disposition is not closed-schema")
       return disposition
     end
-    if route["schema_version"] == P3FinalTransactionalRouteValidation::TIK_ROUTE_SCHEMA
+    if route["schema_version"] == TIK_ROUTE_SCHEMA
       assert(defined?(P3FinalTransactionalRouteValidation),
              "P3 TIK process-real Route validator is unavailable")
       state = P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: truth)
@@ -5122,7 +5144,7 @@ module FounderDelegationContinuity
       ].include?(disposition), "P3 TIK Founder disposition is not closed-schema")
       return disposition
     end
-    if route["schema_version"] == P3FinalTransactionalRouteValidation::HPE_ROUTE_SCHEMA
+    if route["schema_version"] == HPE_ROUTE_SCHEMA
       assert(defined?(P3FinalTransactionalRouteValidation),
              "P3 HPE Route validator is unavailable")
       state = P3FinalTransactionalRouteValidation.validate_truth!(root: root, truth: truth)

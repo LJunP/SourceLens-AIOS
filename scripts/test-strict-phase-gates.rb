@@ -125,8 +125,9 @@ if ARGV == ["--mtro-current-only"]
       candidate.dig("phase_execution_envelope")["accounting_basis"] =
         "RESETTABLE_PER_TASK"
     end,
-    "envelope stage activated without Task" => lambda do |candidate|
-      candidate.dig("phase_execution_envelope", "ordered_stages", 0)["status"] = "ACTIVE"
+    "envelope stage lifecycle drift" => lambda do |candidate|
+      stage = candidate.dig("phase_execution_envelope", "ordered_stages", 0)
+      stage["status"] = stage["status"] == "ACTIVE" ? "ELIGIBLE_NOT_ACTIVATED" : "ACTIVE"
     end,
     "envelope external network exposed" => lambda do |candidate|
       candidate.dig("phase_execution_envelope", "external_effects")["network"] = true

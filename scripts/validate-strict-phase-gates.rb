@@ -10934,12 +10934,3569 @@ module P3MinimumTrustTransactionalOciFinalProductRouteValidation
   end
 end
 
+class P4ProposalFirstControlledRealTaskRouteValidationError < StandardError; end
+
+module P4ProposalFirstControlledRealTaskRouteValidation
+  module_function
+
+  ROUTE_SCHEMA = "p4-proposal-first-controlled-real-task-route/v1"
+  ROUTE_ID = "P4_PROPOSAL_FIRST_CONTROLLED_REAL_TASK_ROUTE_V1"
+  DECISION_ID =
+    "AUTHORIZE_P3_RESEARCH_NON_PASS_CLOSURE_AND_CONDITIONAL_P4_PROPOSAL_FIRST_PHASE_ENTRY_V1"
+  OPERATION_TYPE =
+    "P3_RESEARCH_NON_PASS_OBJECTIVE_EXIT_GATE_REBASELINE_AND_CONDITIONAL_P4_ENTRY"
+  OBJECTIVE_ID = "CONTROLLED_NON_AUTHORITATIVE_PROPOSAL_FIRST_PATCH_EVIDENCE_PRODUCT"
+  STRICT_GATE_ID = "VERIFIED_PATCHES_ON_CONTROLLED_REAL_TASKS"
+  E1_TASK_HISTORY_KEY = "aios_p4_e1"
+  DECISION = {
+    "path" =>
+      "docs/aios/decisions/P3_RESEARCH_NON_PASS_CLOSURE_AND_P4_PROPOSAL_FIRST_PHASE_ENTRY_DECISION_V1.json",
+    "byte_length" => 10_592,
+    "sha256" => "e52a969b1f128cb86c361bfe9c77ff49996be0ec2fa3e452c6afa249146e6fe0"
+  }.freeze
+  DIRECT_AUTHORIZATION = {
+    "path" =>
+      "/Users/lijunpeng/.codex/attachments/76197035-97fe-4890-9157-08ae3ee9a98a/pasted-text.txt",
+    "byte_length" => 26_909,
+    "sha256" => "02c41cd578455a986d6b2a7d125a2892145b3a1da35d3b3225ff321029cdfbd6"
+  }.freeze
+  SCOPE_AMENDMENT = {
+    "decision_id" =>
+      "AUTHORIZE_P3_STRATEGIC_TRANSITION_GLOBAL_GOVERNANCE_COMPATIBILITY_SCOPE_AMENDMENT_V1",
+    "operation_type" =>
+      "P3_STRATEGIC_TRANSITION_GLOBAL_GOVERNANCE_COMPATIBILITY_SCOPE_AMENDMENT",
+    "reserved_trigger" =>
+      "MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE",
+    "target" => "scripts/validate-aios-governance.sh",
+    "new_task_budget_or_external_effect_capacity" => false
+  }.freeze
+  CONSTITUTION = {
+    "path" => "docs/aios/STRATEGIC_CONSTITUTION.md",
+    "version" => "3.7",
+    "byte_length" => 55_295,
+    "sha256" => "a6c6047ff8ebc66e79c4868ecdcefaa2921b25ca3cb4724f235419bed8bcbf05"
+  }.freeze
+  CLOSURE_MANIFEST = {
+    "path" =>
+      "/Users/lijunpeng/Developer/.sourcelens-audit/p3-research-non-pass-closure-20260824/phase-exit/P3_RESEARCH_NON_PASS_CLOSURE_INPUT_MANIFEST_V1.json",
+    "byte_length" => 4_450,
+    "sha256" => "e84ac40aceb202cd1dc4272bc706d64dc1c94a3a81be0989e5be8239079f8855"
+  }.freeze
+  CLOSURE_AUDIT = {
+    "path" =>
+      "/Users/lijunpeng/Developer/.sourcelens-audit/p3-research-non-pass-closure-20260824/phase-exit/P3_RESEARCH_NON_PASS_CLOSURE_AUDIT_RECEIPT_V1.json",
+    "byte_length" => 11_641,
+    "sha256" => "ff42e8ab71c4c14ef12c29edec95a59528dbf34f61213556c065ac6c9b5d46a9"
+  }.freeze
+  TASKS = [
+    {
+      "task_id" => "AIOS-P4-F1_CONTROLLED_REAL_TASK_AND_PATCH_EVIDENCE_ACCEPTANCE_FOUNDATION",
+      "nonce" => "p4-f1-crtpeaf-20260824-v1",
+      "stage_id" => "CONTROLLED_REAL_TASK_AND_PATCH_EVIDENCE_ACCEPTANCE_FOUNDATION",
+      "kind" => "NON_PRODUCT_EXECUTABLE_FOUNDATION",
+      "budget" => {"engineering_tasks" => 1, "engineering_hours" => 24, "calendar_days" => 6},
+      "branch" => "codex/p4-f1-controlled-real-task-evidence-foundation",
+      "worktree" =>
+        "/Users/lijunpeng/Developer/.sourcelens-worktrees/p4-f1-controlled-real-task-evidence-foundation",
+      "evidence_root" =>
+        "/Users/lijunpeng/Developer/.sourcelens-audit/p4-proposal-first-controlled-real-task-20260824/task-f1",
+      "contract_path" =>
+        "docs/aios/tasks/P4-F1_CONTROLLED_REAL_TASK_AND_PATCH_EVIDENCE_ACCEPTANCE_FOUNDATION.yaml",
+      "authority_path" =>
+        "/Users/lijunpeng/Developer/.sourcelens-audit/p4-proposal-first-controlled-real-task-20260824/task-f1/authority/P4_F1_PHASE_DELEGATED_TASK_AUTHORITY_V1.json"
+    },
+    {
+      "task_id" => "AIOS-P4-P1_NON_AUTHORITATIVE_PATCH_PROPOSAL_EVIDENCE_PRODUCT",
+      "nonce" => "p4-p1-nappep-20260824-v1",
+      "stage_id" => "NON_AUTHORITATIVE_PATCH_PROPOSAL_EVIDENCE_PRODUCT",
+      "kind" => "PRODUCT_IMPLEMENTATION",
+      "budget" => {"engineering_tasks" => 1, "engineering_hours" => 56, "calendar_days" => 12},
+      "branch" => "codex/p4-p1-non-authoritative-patch-proposal-evidence",
+      "worktree" =>
+        "/Users/lijunpeng/Developer/.sourcelens-worktrees/p4-p1-non-authoritative-patch-proposal-evidence",
+      "evidence_root" =>
+        "/Users/lijunpeng/Developer/.sourcelens-audit/p4-proposal-first-controlled-real-task-20260824/task-p1",
+      "contract_path" =>
+        "docs/aios/tasks/P4-P1_NON_AUTHORITATIVE_PATCH_PROPOSAL_EVIDENCE_PRODUCT.yaml",
+      "authority_path" =>
+        "/Users/lijunpeng/Developer/.sourcelens-audit/p4-proposal-first-controlled-real-task-20260824/task-p1/authority/P4_P1_PHASE_DELEGATED_TASK_AUTHORITY_V1.json"
+    },
+    {
+      "task_id" => "AIOS-P4-E1_ONE_SHOT_CONTROLLED_REAL_TASK_FORMAL_HELD_EVALUATION",
+      "nonce" => "p4-e1-crtfhe-20260824-v1",
+      "stage_id" => "ONE_SHOT_CONTROLLED_REAL_TASK_FORMAL_HELD_EVALUATION",
+      "kind" => "EVALUATION_ONLY_ONE_SHOT",
+      "budget" => {
+        "engineering_tasks" => 1, "engineering_hours" => 32, "calendar_days" => 8,
+        "formal_dispatches" => 1
+      },
+      "branch" => "codex/p4-e1-controlled-real-task-formal-held-evaluation",
+      "worktree" =>
+        "/Users/lijunpeng/Developer/.sourcelens-worktrees/p4-e1-controlled-real-task-formal-held-evaluation",
+      "evidence_root" =>
+        "/Users/lijunpeng/Developer/.sourcelens-audit/p4-proposal-first-controlled-real-task-20260824/task-e1",
+      "contract_path" =>
+        "docs/aios/tasks/P4-E1_ONE_SHOT_CONTROLLED_REAL_TASK_FORMAL_HELD_EVALUATION.yaml",
+      "authority_path" =>
+        "/Users/lijunpeng/Developer/.sourcelens-audit/p4-proposal-first-controlled-real-task-20260824/task-e1/authority/P4_E1_PHASE_DELEGATED_TASK_AUTHORITY_V1.json"
+    }
+  ].map(&:freeze).freeze
+  FALSE_EFFECTS = {
+    "docker" => false, "network" => false, "dns" => false, "http_https" => false,
+    "provider" => false, "secret" => false, "credential" => false, "remote" => false,
+    "production" => false, "public" => false, "push" => false, "pull_request" => false,
+    "merge" => false, "release" => false, "canonical_source_write_by_system_under_test" => false
+  }.freeze
+  CANONICAL_REPOSITORY = "/Users/lijunpeng/Developer/SourceLens-AIOS"
+  CANONICAL_START = {
+    "commit" => "ca4f80905271c5e5afd8d0dde9bd1972f110bfe7",
+    "tree" => "9bc7dbad643e5062064aee7a05236e79d8989f3f"
+  }.freeze
+  PHASE_ENTRY_RECEIPT_PATH =
+    "/Users/lijunpeng/Developer/.sourcelens-audit/p3-research-non-pass-closure-20260824/phase-exit/P3_RESEARCH_NON_PASS_PHASE_EXIT_AND_P4_ENTRY_RECEIPT_V1.json"
+  TRANSITION_ALLOWLIST = %w[
+    docs/aios/STRATEGIC_CONSTITUTION.md
+    docs/aios/truth/project_state.yaml
+    docs/aios/decisions/P3_RESEARCH_NON_PASS_CLOSURE_AND_P4_PROPOSAL_FIRST_PHASE_ENTRY_DECISION_V1.json
+    scripts/validate-founder-action-handoff.rb
+    scripts/validate-founder-delegation-continuity.rb
+    scripts/validate-current-task-authority.rb
+    scripts/validate-strict-phase-gates.rb
+    scripts/test-strict-phase-gates.rb
+    scripts/validate-aios-governance.sh
+  ].freeze
+  PRODUCT_WRITE_ALLOWLIST = %w[
+    backend-spring/src/main/java/com/sourcelens/module/autorepair/controller/AutoRepairController.java
+    backend-spring/src/main/java/com/sourcelens/module/autorepair/dto/AutoRepairRequest.java
+    backend-spring/src/main/java/com/sourcelens/module/autorepair/dto/AutoRepairPatchProposalRequest.java
+    backend-spring/src/main/java/com/sourcelens/module/autorepair/dto/AutoRepairPatchProposalManifest.java
+    backend-spring/src/main/java/com/sourcelens/module/autorepair/entity/AutoRepair.java
+    backend-spring/src/main/java/com/sourcelens/module/autorepair/entity/AutoRepairProposalStatus.java
+    backend-spring/src/main/java/com/sourcelens/module/autorepair/mapper/AutoRepairMapper.java
+    backend-spring/src/main/java/com/sourcelens/module/autorepair/service/AutoRepairService.java
+    backend-spring/src/main/java/com/sourcelens/module/autorepair/service/AutoRepairPatchPolicy.java
+    backend-spring/src/main/java/com/sourcelens/module/autorepair/service/AutoRepairPatchProposalService.java
+    backend-spring/src/main/java/com/sourcelens/module/artifact/service/ArtifactStorageService.java
+    backend-spring/src/main/resources/db/migration/V034__add_auto_repair_patch_proposal_state.sql
+    backend-spring/src/test/java/com/sourcelens/AutoRepairServiceTest.java
+    backend-spring/src/test/java/com/sourcelens/AutoRepairControllerTest.java
+    backend-spring/src/test/java/com/sourcelens/AutoRepairPatchPolicyTest.java
+    backend-spring/src/test/java/com/sourcelens/ArtifactStorageServiceTest.java
+    backend-spring/src/test/java/com/sourcelens/AutoRepairPatchProposalServiceTest.java
+    backend-spring/src/test/java/com/sourcelens/AutoRepairPatchProposalControllerTest.java
+    web-console/src/pages/AutoRepairs.tsx
+    web-console/src/pages/AutoRepairsPage.tsx
+    web-console/src/api/autoRepair.ts
+  ].freeze
+  FORBIDDEN_PRODUCT_PATHS = %w[
+    backend-spring/src/main/java/com/sourcelens/module/autorepair/service/AutoRepairPrService.java
+    backend-spring/src/main/java/com/sourcelens/module/agent/tool/ToolRegistry.java
+    backend-spring/src/main/java/com/sourcelens/module/agent/tool/ShellExecTool.java
+    backend-spring/src/main/java/com/sourcelens/module/agent/tool/WriteFileTool.java
+  ].freeze
+  CONDITIONAL_P1_MIGRATION_PATH =
+    "backend-spring/src/main/resources/db/migration/V034__add_auto_repair_patch_proposal_state.sql"
+  P1_FORBIDDEN_ADDED_REFERENCES = %w[
+    AutoRepairPrService autoRepairPrService submitPatchAsPullRequest
+    ToolRegistry toolRegistry ToolExecutionService toolExecutionService
+    ShellExecTool shell_exec WriteFileTool write_file executeRepairAsync executeSubmitPrAsync
+  ].freeze
+  P1_SCHEMA_NEED_CONSTRAINTS = %w[
+    PATCH_PROPOSAL_STATE_REQUIRES_DURABLE_SCHEMA
+    ACTIVATION_PARENT_DOES_NOT_CONTAIN_PROPOSAL_STATE_MIGRATION
+    CREATE_ONCE_DECISION_FROZEN_BEFORE_PRODUCT_CANDIDATE
+  ].freeze
+  REPOSITORY_WRITE_ALLOWLISTS = [[], PRODUCT_WRITE_ALLOWLIST, []].freeze
+  CONTROLLED_TASKS = {
+    "P4-F1-JAVA-LISTDIR-LEXICAL-TRAVERSAL" => "BACKEND_JAVA",
+    "P4-F1-TS-SSE-EVENT-CHUNK-STATE" => "FRONTEND_TYPESCRIPT"
+  }.freeze
+  CLEAN_ROOM = {
+    "rejected_p3_lineage_read" => false,
+    "rejected_p3_lineage_compare" => false,
+    "rejected_p3_lineage_copy" => false,
+    "rejected_p3_lineage_restore" => false,
+    "rejected_p3_lineage_integrate" => false,
+    "permitted_inputs" => [
+      "CANONICAL_MAIN",
+      "ACCEPTED_P3_DURABLE_STATE_AND_CHECKPOINT_RESUME",
+      "ACCEPTED_DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION",
+      "P3_CLOSURE_AUDIT_IDENTITIES_AND_VERDICT",
+      "CURRENT_DIRECT_FOUNDER_AUTHORIZATION"
+    ]
+  }.freeze
+  ANTI_CYCLE = {
+    "successor_allowed" => false,
+    "replacement_allowed" => false,
+    "normalization_allowed" => false,
+    "remediation_allowed" => false,
+    "v2_or_v3_allowed" => false,
+    "formal_rerun_to_pass_allowed" => false,
+    "p5_early_entry_allowed" => false,
+    "cross_task_budget_borrowing_allowed" => false,
+    "automatic_envelope_expansion_allowed" => false
+  }.freeze
+  ENVELOPE_LIMITS = {
+    "engineering_tasks" => 3, "engineering_hours" => 112, "calendar_days" => 26,
+    "active_tasks" => 1, "task_branches" => 1, "task_worktrees" => 1,
+    "active_candidates" => 1
+  }.freeze
+  IMPLEMENTATION_ACCOUNTING = {
+    "product_implementation_tasks_allowed" => 1,
+    "product_candidate_generations" => 2,
+    "same_task_repairs" => 1,
+    "review_cycles" => 2,
+    "formal_evaluation_dispatches" => 1
+  }.freeze
+  P1_REQUIRED_CASES = {
+    "POSITIVE_PROPOSAL_FREEZE" =>
+      {"suite" => "focused_tests", "testcase_id" =>
+        "com.sourcelens.AutoRepairPatchProposalServiceTest#freezesSingleFileProposalWithoutApplying"},
+    "MALFORMED_PATCH_REJECTED" =>
+      {"suite" => "focused_tests", "testcase_id" =>
+        "com.sourcelens.AutoRepairPatchPolicyTest#rejectsMalformedPatch"},
+    "MULTI_FILE_PATCH_REJECTED" =>
+      {"suite" => "focused_tests", "testcase_id" =>
+        "com.sourcelens.AutoRepairPatchPolicyTest#rejectsMultiFilePatch"},
+    "CREATE_PATCH_REJECTED" =>
+      {"suite" => "focused_tests", "testcase_id" =>
+        "com.sourcelens.AutoRepairPatchPolicyTest#rejectsCreatePatch"},
+    "DELETE_PATCH_REJECTED" =>
+      {"suite" => "focused_tests", "testcase_id" =>
+        "com.sourcelens.AutoRepairPatchPolicyTest#rejectsDeletePatch"},
+    "RENAME_PATCH_REJECTED" =>
+      {"suite" => "focused_tests", "testcase_id" =>
+        "com.sourcelens.AutoRepairPatchPolicyTest#rejectsRenamePatch"},
+    "MODE_PATCH_REJECTED" =>
+      {"suite" => "focused_tests", "testcase_id" =>
+        "com.sourcelens.AutoRepairPatchPolicyTest#rejectsModePatch"},
+    "BINARY_PATCH_REJECTED" =>
+      {"suite" => "focused_tests", "testcase_id" =>
+        "com.sourcelens.AutoRepairPatchPolicyTest#rejectsBinaryPatch"},
+    "OUT_OF_SCOPE_PATH_REJECTED" =>
+      {"suite" => "focused_tests", "testcase_id" =>
+        "com.sourcelens.AutoRepairPatchPolicyTest#rejectsOutOfScopePath"},
+    "SENSITIVE_PATH_REJECTED" =>
+      {"suite" => "focused_tests", "testcase_id" =>
+        "com.sourcelens.AutoRepairPatchPolicyTest#rejectsSensitivePath"},
+    "OVERSIZED_PATCH_REJECTED" =>
+      {"suite" => "focused_tests", "testcase_id" =>
+        "com.sourcelens.AutoRepairPatchPolicyTest#rejectsOversizedPatch"},
+    "SOURCE_IDENTITY_DRIFT_REJECTED" =>
+      {"suite" => "focused_tests", "testcase_id" =>
+        "com.sourcelens.AutoRepairPatchProposalServiceTest#rejectsSourceIdentityDrift"},
+    "ARTIFACT_OVERWRITE_REJECTED" =>
+      {"suite" => "focused_tests", "testcase_id" =>
+        "com.sourcelens.AutoRepairPatchProposalServiceTest#rejectsArtifactOverwrite"},
+    "ARTIFACT_DUPLICATE_REJECTED" =>
+      {"suite" => "focused_tests", "testcase_id" =>
+        "com.sourcelens.AutoRepairPatchProposalServiceTest#rejectsDuplicateArtifactIdentity"},
+    "ARTIFACT_TAMPER_REJECTED" =>
+      {"suite" => "focused_tests", "testcase_id" =>
+        "com.sourcelens.AutoRepairPatchProposalServiceTest#rejectsArtifactTamper"},
+    "CHECKPOINT_CONFLICT_REJECTED" =>
+      {"suite" => "focused_tests", "testcase_id" =>
+        "com.sourcelens.AutoRepairPatchProposalServiceTest#rejectsCheckpointConflict"},
+    "PARTIAL_WRITE_REJECTED" =>
+      {"suite" => "focused_tests", "testcase_id" =>
+        "com.sourcelens.AutoRepairPatchProposalServiceTest#rejectsPartialWrite"},
+    "DIRECT_SUBMIT_PR_REJECTED" =>
+      {"suite" => "focused_tests", "testcase_id" =>
+        "com.sourcelens.AutoRepairPatchProposalControllerTest#rejectsDirectSubmitPrFromProposal"},
+    "CAPABILITY_ESCALATION_REJECTED" =>
+      {"suite" => "focused_tests", "testcase_id" =>
+        "com.sourcelens.AutoRepairPatchProposalControllerTest#rejectsCapabilityEscalation"},
+    "LEGACY_AUTOREPAIR_REGRESSION" =>
+      {"suite" => "regression_tests", "testcase_id" =>
+        "com.sourcelens.AutoRepairServiceTest#legacyRepairStateRemainsCompatible"}
+  }.transform_values(&:freeze).freeze
+  OPERATION_REGISTRATION_CHECK_CODE =
+    "require File.expand_path('./scripts/validate-founder-action-handoff', Dir.pwd); " \
+    "abort 'operation missing' unless FounderActionHandoff::FOUNDER_OPERATION_TYPES.include?(" \
+    "'P3_RESEARCH_NON_PASS_OBJECTIVE_EXIT_GATE_REBASELINE_AND_CONDITIONAL_P4_ENTRY') && " \
+    "FounderActionHandoff::FOUNDER_OPERATION_TYPES.include?(" \
+    "'P3_STRATEGIC_TRANSITION_GLOBAL_GOVERNANCE_COMPATIBILITY_SCOPE_AMENDMENT'); " \
+    "puts 'FOUNDER_ACTION_OPERATION_REGISTRATION: PASS'"
+  VALIDATION_ARGV = {
+    "strict_phase_gates" => ["/usr/bin/ruby", "scripts/validate-strict-phase-gates.rb"],
+    "current_task_authority" => ["/usr/bin/ruby", "scripts/validate-current-task-authority.rb"],
+    "founder_delegation_continuity" =>
+      ["/usr/bin/ruby", "scripts/validate-founder-delegation-continuity.rb"],
+    "founder_action_operation_registration" =>
+      ["/usr/bin/ruby", "-e", OPERATION_REGISTRATION_CHECK_CODE],
+    "negative_tests" =>
+      ["/usr/bin/ruby", "scripts/test-strict-phase-gates.rb", "--p4-current-only"],
+    "lifecycle_policy_tests" =>
+      ["/usr/bin/ruby", "scripts/test-strict-phase-gates.rb", "--p4-lifecycle-policy-only"],
+    "global_governance" => ["/bin/bash", "scripts/validate-aios-governance.sh"],
+    "independent_transition_review" => ["INDEPENDENT_REVIEW", "P3_P4_TRANSITION"]
+  }.transform_values(&:freeze).freeze
+  VALIDATION_STDOUT = {
+    "strict_phase_gates" => /\ASTRICT_PHASE_GATES: PASS state=[A-Z0-9_]+\n\z/,
+    "current_task_authority" => /\ACURRENT_TASK_AUTHORITY: PASS state=[A-Z0-9_]+\n\z/,
+    "founder_delegation_continuity" =>
+      /\AFOUNDER_DELEGATION_CONTINUITY: PASS disposition=[A-Z0-9_]+\n\z/,
+    "founder_action_operation_registration" =>
+      /\AFOUNDER_ACTION_OPERATION_REGISTRATION: PASS\n\z/,
+    "negative_tests" =>
+      /\ASTRICT_PHASE_GATE_TESTS: PASS p4_current=1 p4_negative_mutations=[1-9][0-9]*\n\z/,
+    "lifecycle_policy_tests" =>
+      /\AP4_LIFECYCLE_POLICY_TESTS: PASS profiles=11 positive_transitions=10 negatives=[1-9][0-9]*\n\z/,
+    "global_governance" =>
+      /\ASTRICT_PHASE_GATES: PASS state=[A-Z0-9_]+\nFOUNDER_DELEGATION_CONTINUITY: PASS disposition=[A-Z0-9_]+\nCURRENT_TASK_AUTHORITY: PASS state=[A-Z0-9_]+\nAIOS current governance validation passed \(data-driven current authority only\)\.\n\z/,
+    "independent_transition_review" => /\AINDEPENDENT_TRANSITION_REVIEW: PASS\n\z/
+  }.freeze
+  LIFECYCLE = {
+    "PREDECESSOR_RECEIPT_PENDING" => {
+      "state" => "NOT_STARTED_PREDECESSOR_RECEIPT_PENDING",
+      "route_status" => "CONDITIONAL_PENDING_POST_INTEGRATION_PREDECESSOR_CHECK",
+      "scheduling" => "PENDING_POST_INTEGRATION_PREDECESSOR_CHECK", "stage_statuses" =>
+        %w[CONDITIONAL_ELIGIBLE_PREDECESSOR_PENDING LOCKED_PENDING_FOUNDATION_ACCEPTED LOCKED_PENDING_PRODUCT_ACCEPTED],
+      "active" => nil, "selected" => 0, "consumed" => 0, "management" => 0, "strict" => 0,
+      "action" => "MASTER_RUN_POST_INTEGRATION_PREDECESSOR_CHECK_THEN_ACTIVATE_AIOS_P4_F1",
+      "founder_required" => false
+    },
+    "FOUNDATION_ELIGIBLE_NOT_ACTIVATED" => {
+      "state" => "P4_F1_ELIGIBLE_NOT_ACTIVATED", "route_status" => "AUTHORIZED_READY",
+      "scheduling" => "READY_FOR_FOUNDATION_ACTIVATION", "stage_statuses" =>
+        %w[ELIGIBLE_NOT_ACTIVATED LOCKED_PENDING_FOUNDATION_ACCEPTED LOCKED_PENDING_PRODUCT_ACCEPTED],
+      "active" => nil, "selected" => 0, "consumed" => 0, "management" => 0, "strict" => 0,
+      "action" => "MASTER_ACTIVATE_AIOS_P4_F1", "founder_required" => false
+    },
+    "FOUNDATION_TASK_ACTIVE" => {
+      "state" => "P4_F1_TASK_ACTIVE", "route_status" => "ACTIVE",
+      "scheduling" => "FOUNDATION_EXECUTING", "stage_statuses" =>
+        %w[ACTIVE LOCKED_PENDING_FOUNDATION_ACCEPTED LOCKED_PENDING_PRODUCT_ACCEPTED],
+      "active" => 0, "selected" => 0, "consumed" => 1, "management" => 0, "strict" => 0,
+      "action" => "MASTER_COMPLETE_AIOS_P4_F1", "founder_required" => false
+    },
+    "FOUNDATION_ACCEPTED_PRODUCT_ELIGIBLE" => {
+      "state" => "P4_F1_ACCEPTED_P1_ELIGIBLE", "route_status" => "AUTHORIZED_READY",
+      "scheduling" => "READY_FOR_PRODUCT_ACTIVATION", "stage_statuses" =>
+        %w[ACCEPTED_EXTERNAL_FOUNDATION ELIGIBLE_NOT_ACTIVATED LOCKED_PENDING_PRODUCT_ACCEPTED],
+      "active" => nil, "selected" => 1, "consumed" => 1, "management" => 20, "strict" => 0,
+      "action" => "MASTER_ACTIVATE_AIOS_P4_P1", "founder_required" => false
+    },
+    "PRODUCT_TASK_ACTIVE" => {
+      "state" => "P4_P1_TASK_ACTIVE", "route_status" => "ACTIVE",
+      "scheduling" => "PRODUCT_EXECUTING", "stage_statuses" =>
+        %w[ACCEPTED_EXTERNAL_FOUNDATION ACTIVE LOCKED_PENDING_PRODUCT_ACCEPTED],
+      "active" => 1, "selected" => 1, "consumed" => 2, "management" => 20, "strict" => 0,
+      "action" => "MASTER_COMPLETE_AIOS_P4_P1", "founder_required" => false
+    },
+    "PRODUCT_ACCEPTED_EVALUATION_ELIGIBLE" => {
+      "state" => "P4_P1_ACCEPTED_E1_ELIGIBLE", "route_status" => "AUTHORIZED_READY",
+      "scheduling" => "READY_FOR_ONE_SHOT_EVALUATION_ACTIVATION", "stage_statuses" =>
+        %w[ACCEPTED_EXTERNAL_FOUNDATION ACCEPTED_PRODUCT_INTEGRATED ELIGIBLE_NOT_ACTIVATED],
+      "active" => nil, "selected" => 2, "consumed" => 2, "management" => 70, "strict" => 0,
+      "action" => "MASTER_ACTIVATE_AIOS_P4_E1", "founder_required" => false
+    },
+    "EVALUATION_TASK_ACTIVE" => {
+      "state" => "P4_E1_TASK_ACTIVE", "route_status" => "ACTIVE",
+      "scheduling" => "ONE_SHOT_EVALUATION_EXECUTING", "stage_statuses" =>
+        %w[ACCEPTED_EXTERNAL_FOUNDATION ACCEPTED_PRODUCT_INTEGRATED ACTIVE],
+      "active" => 2, "selected" => 2, "consumed" => 3, "management" => 70, "strict" => 0,
+      "action" => "MASTER_COMPLETE_AIOS_P4_E1_ONE_SHOT", "founder_required" => false
+    },
+    "EVALUATION_ACCEPTED_PHASE_GATE_ELIGIBLE" => {
+      "state" => "P4_EXIT_GATE_ELIGIBLE_AWAITING_FOUNDER_DECISION", "route_status" => "PHASE_GATE_READY",
+      "scheduling" => "NO_MORE_P4_TASKS", "stage_statuses" =>
+        %w[ACCEPTED_EXTERNAL_FOUNDATION ACCEPTED_PRODUCT_INTEGRATED ACCEPTED_FORMAL_EVALUATION],
+      "active" => nil, "selected" => nil, "consumed" => 3, "management" => 100, "strict" => 100,
+      "action" => "FOUNDER_P4_PHASE_GATE_DECISION", "founder_required" => true
+    },
+    "FOUNDATION_ROUTE_TERMINAL_NON_PASS" => {
+      "state" => "P4_F1_TERMINAL_NON_PASS", "route_status" => "TERMINAL_NON_PASS",
+      "scheduling" => "P1_AND_E1_INELIGIBLE_NO_REPLACEMENT", "stage_statuses" =>
+        %w[TERMINAL_NON_PASS LOCKED_ROUTE_TERMINAL LOCKED_ROUTE_TERMINAL],
+      "active" => nil, "selected" => nil, "consumed" => 1, "management" => 0, "strict" => 0,
+      "action" => "FOUNDER_DECIDE_P4_ROUTE_CHANGE_OR_CONTINUED_HOLD",
+      "founder_required" => true
+    },
+    "PRODUCT_ROUTE_TERMINAL_NON_PASS" => {
+      "state" => "P4_P1_TERMINAL_NON_PASS", "route_status" => "TERMINAL_NON_PASS",
+      "scheduling" => "E1_INELIGIBLE_NO_SECOND_PRODUCT", "stage_statuses" =>
+        %w[ACCEPTED_EXTERNAL_FOUNDATION TERMINAL_NON_PASS LOCKED_ROUTE_TERMINAL],
+      "active" => nil, "selected" => nil, "consumed" => 2, "management" => 20, "strict" => 0,
+      "action" => "FOUNDER_DECIDE_P4_ROUTE_CHANGE_OR_CONTINUED_HOLD",
+      "founder_required" => true
+    },
+    "EVALUATION_ROUTE_TERMINAL_NON_PASS" => {
+      "state" => "P4_E1_TERMINAL_NON_PASS", "route_status" => "TERMINAL_NON_PASS",
+      "scheduling" => "NO_FORMAL_RERUN", "stage_statuses" =>
+        %w[ACCEPTED_EXTERNAL_FOUNDATION ACCEPTED_PRODUCT_INTEGRATED TERMINAL_NON_PASS],
+      "active" => nil, "selected" => nil, "consumed" => 3, "management" => 70, "strict" => 0,
+      "action" => "FOUNDER_DECIDE_P4_ROUTE_CHANGE_OR_CONTINUED_HOLD",
+      "founder_required" => true
+    }
+  }.transform_values(&:freeze).freeze
+  ALLOWED_LIFECYCLE_TRANSITIONS = {
+    "PREDECESSOR_RECEIPT_PENDING" => ["FOUNDATION_ELIGIBLE_NOT_ACTIVATED"],
+    "FOUNDATION_ELIGIBLE_NOT_ACTIVATED" => ["FOUNDATION_TASK_ACTIVE"],
+    "FOUNDATION_TASK_ACTIVE" => %w[
+      FOUNDATION_ACCEPTED_PRODUCT_ELIGIBLE FOUNDATION_ROUTE_TERMINAL_NON_PASS
+    ],
+    "FOUNDATION_ACCEPTED_PRODUCT_ELIGIBLE" => ["PRODUCT_TASK_ACTIVE"],
+    "PRODUCT_TASK_ACTIVE" => %w[
+      PRODUCT_ACCEPTED_EVALUATION_ELIGIBLE PRODUCT_ROUTE_TERMINAL_NON_PASS
+    ],
+    "PRODUCT_ACCEPTED_EVALUATION_ELIGIBLE" => ["EVALUATION_TASK_ACTIVE"],
+    "EVALUATION_TASK_ACTIVE" => %w[
+      EVALUATION_ACCEPTED_PHASE_GATE_ELIGIBLE EVALUATION_ROUTE_TERMINAL_NON_PASS
+    ],
+    "EVALUATION_ACCEPTED_PHASE_GATE_ELIGIBLE" => [],
+    "FOUNDATION_ROUTE_TERMINAL_NON_PASS" => [],
+    "PRODUCT_ROUTE_TERMINAL_NON_PASS" => [],
+    "EVALUATION_ROUTE_TERMINAL_NON_PASS" => []
+  }.transform_values(&:freeze).freeze
+
+  def assert(condition, message)
+    raise P4ProposalFirstControlledRealTaskRouteValidationError, message unless condition
+  end
+
+  def mapping(value, label)
+    assert(value.is_a?(Hash), "#{label} must be a mapping")
+    value
+  end
+
+  def validate_lifecycle_policy!(profiles = LIFECYCLE,
+                                 transitions = ALLOWED_LIFECYCLE_TRANSITIONS)
+    assert(profiles.is_a?(Hash) && profiles.keys == LIFECYCLE.keys,
+           "P4 lifecycle profile set drift")
+    assert(transitions.is_a?(Hash) && transitions.keys == profiles.keys &&
+           transitions == ALLOWED_LIFECYCLE_TRANSITIONS,
+           "P4 lifecycle transition table drift")
+    profile_keys = %w[
+      state route_status scheduling stage_statuses active selected consumed management strict
+      action founder_required
+    ]
+    profiles.each do |lifecycle, raw_profile|
+      profile = exact_keys(raw_profile, profile_keys, "P4 #{lifecycle} lifecycle profile")
+      statuses = array(profile["stage_statuses"], "P4 #{lifecycle} stage statuses")
+      assert(statuses.length == TASKS.length,
+             "P4 #{lifecycle} stage-status count drift")
+      active_indexes = statuses.each_index.select { |index| statuses[index] == "ACTIVE" }
+      expected_active = active_indexes.empty? ? nil : active_indexes.first
+      assert(active_indexes.length <= 1 && profile["active"] == expected_active,
+             "P4 #{lifecycle} active-stage projection drift")
+      started = statuses.count do |status|
+        status == "ACTIVE" || status.start_with?("ACCEPTED") ||
+          status == "TERMINAL_NON_PASS"
+      end
+      assert(profile["consumed"] == started &&
+             profile["consumed"].is_a?(Integer) &&
+             profile["consumed"].between?(0, TASKS.length),
+             "P4 #{lifecycle} consumed Task projection drift")
+      assert(profile["selected"].nil? ||
+             (profile["selected"].is_a?(Integer) &&
+              profile["selected"].between?(0, TASKS.length - 1)),
+             "P4 #{lifecycle} selected Task projection drift")
+      assert(profile["management"].is_a?(Integer) &&
+             profile["management"].between?(0, 100) &&
+             profile["strict"].is_a?(Integer) && profile["strict"].between?(0, 100),
+             "P4 #{lifecycle} progress projection drift")
+      founder_terminal = lifecycle == "EVALUATION_ACCEPTED_PHASE_GATE_ELIGIBLE" ||
+        lifecycle.end_with?("_ROUTE_TERMINAL_NON_PASS")
+      assert(profile["founder_required"] == founder_terminal,
+             "P4 #{lifecycle} Founder decision boundary drift")
+      if founder_terminal
+        assert(profile["active"].nil? && profile["selected"].nil? &&
+               transitions.fetch(lifecycle).empty?,
+               "P4 #{lifecycle} terminal state retained execution or successor authority")
+      end
+    end
+    transitions.each do |from, destinations|
+      array(destinations, "P4 #{from} lifecycle destinations").each do |to|
+        from_profile = profiles.fetch(from)
+        to_profile = profiles.fetch(to)
+        assert(to_profile["consumed"] >= from_profile["consumed"] &&
+               to_profile["management"] >= from_profile["management"] &&
+               to_profile["strict"] >= from_profile["strict"],
+               "P4 lifecycle transition #{from} -> #{to} resets accounting or progress")
+      end
+    end
+    true
+  end
+
+  def validate_lifecycle_transition!(from, to)
+    validate_lifecycle_policy!
+    assert(ALLOWED_LIFECYCLE_TRANSITIONS.fetch(from, []).include?(to),
+           "P4 lifecycle transition is not allowed: #{from} -> #{to}")
+    true
+  end
+
+  def array(value, label)
+    assert(value.is_a?(Array), "#{label} must be an array")
+    value
+  end
+
+  def exact_keys(value, keys, label)
+    record = mapping(value, label)
+    assert(record.keys.sort == keys.sort, "#{label} key set drift")
+    record
+  end
+
+  def git_capture(root, *arguments)
+    Open3.capture3("git", "-C", root.to_s, *arguments)
+  end
+
+  def git!(root, *arguments)
+    stdout, stderr, status = git_capture(root, *arguments)
+    assert(status.success?, "git #{arguments.join(' ')} failed: #{stderr.strip}")
+    stdout
+  end
+
+  def bound_path(root, identity)
+    path = identity.fetch("path")
+    Pathname.new(path).absolute? ? Pathname.new(path) : Pathname.new(root).join(path)
+  end
+
+  def validate_identity!(root, identity, label)
+    record = mapping(identity, label)
+    path = bound_path(root, record)
+    stat = path.lstat
+    assert(stat.file? && !stat.symlink?, "#{label} must be a regular non-symlink file")
+    bytes = path.binread
+    assert(bytes.bytesize == record.fetch("byte_length") &&
+           Digest::SHA256.hexdigest(bytes) == record.fetch("sha256"), "#{label} identity drift")
+    bytes
+  rescue Errno::ENOENT, KeyError => e
+    raise P4ProposalFirstControlledRealTaskRouteValidationError, "#{label} unavailable: #{e.message}"
+  end
+
+  def validate_create_once_identity!(root, identity, label, expected_path: nil)
+    record = exact_keys(identity, %w[path byte_length sha256], label)
+    assert(record["path"] == expected_path, "#{label} path drift") if expected_path
+    path = bound_path(root, record)
+    stat = path.lstat
+    assert(stat.file? && !stat.symlink? && stat.nlink == 1 && (stat.mode & 0o777) == 0o444,
+           "#{label} is not create-once mode-0444 regular custody")
+    validate_identity!(root, record, label)
+  rescue Errno::ENOENT => e
+    raise P4ProposalFirstControlledRealTaskRouteValidationError, "#{label} unavailable: #{e.message}"
+  end
+
+  def validate_transition_receipt!(root, identity)
+    bytes = validate_create_once_identity!(
+      root, identity, "P3 Exit and P4 entry receipt", expected_path: PHASE_ENTRY_RECEIPT_PATH
+    )
+    receipt = exact_keys(
+      JSON.parse(bytes),
+      %w[
+        schema_version record_type verdict authorization transition_integration canonical_truth
+        scope_amendment constitution closure_audit strategic_validation predecessor_check
+        p3_outcome p4_entry topology external_effects issued_at_utc
+      ],
+      "P3 Exit and P4 entry receipt"
+    )
+    assert(receipt["schema_version"] ==
+             "p3-research-non-pass-phase-exit-and-p4-entry-receipt/v1" &&
+           receipt["record_type"] ==
+             "P3_RESEARCH_NON_PASS_PHASE_EXIT_AND_P4_ENTRY_RECEIPT" &&
+           receipt["verdict"] == "PASS",
+           "P3 Exit and P4 entry receipt header drift")
+    expected_authorization = DECISION.merge(
+      "decision_id" => DECISION_ID, "operation_type" => OPERATION_TYPE
+    )
+    assert(receipt["authorization"] == expected_authorization,
+           "P3 Exit and P4 entry authorization binding drift")
+    assert(receipt["scope_amendment"] == SCOPE_AMENDMENT,
+           "P3 strategic transition scope-amendment binding drift")
+
+    transition = exact_keys(
+      receipt["transition_integration"],
+      %w[branch parent_commit parent_tree commit tree],
+      "P3 strategic transition integration"
+    )
+    assert(transition["branch"] == "main" &&
+           transition["parent_commit"] == CANONICAL_START["commit"] &&
+           transition["parent_tree"] == CANONICAL_START["tree"],
+           "P3 strategic transition parent drift")
+    transition_commit = transition.fetch("commit")
+    transition_tree = transition.fetch("tree")
+    assert(transition_commit.is_a?(String) && transition_commit.match?(/\A[0-9a-f]{40}\z/) &&
+           transition_tree.is_a?(String) && transition_tree.match?(/\A[0-9a-f]{40}\z/),
+           "P3 strategic transition Git identity invalid")
+    assert(git!(root, "show", "-s", "--format=%P", transition_commit).strip ==
+             CANONICAL_START["commit"] &&
+           git!(root, "show", "-s", "--format=%T", transition_commit).strip == transition_tree,
+           "P3 strategic transition commit/tree/parent mismatch")
+    _out, _err, ancestor = git_capture(root, "merge-base", "--is-ancestor",
+                                        transition_commit, "main")
+    assert(ancestor.success?, "P3 strategic transition is not canonical-main ancestry")
+    changed_records = git!(
+      root, "diff-tree", "--no-commit-id", "--name-status", "--no-renames", "-r",
+      transition_commit
+    ).lines.map { |line| line.chomp.split("\t", 2) }
+    changed_paths = changed_records.map(&:last).sort
+    assert(changed_records.all? { |status, path| %w[A M].include?(status) && path } &&
+           changed_paths == TRANSITION_ALLOWLIST.sort,
+           "P3 strategic transition changed-path/type allowlist drift")
+    changed_paths.each do |path|
+      entry = git!(root, "ls-tree", transition_commit, "--", path).split
+      assert(entry[0] == "100644" && entry[1] == "blob",
+             "P3 strategic transition introduced a non-regular or mode-drifted path: #{path}")
+      next if changed_records.any? { |status, changed_path| status == "A" && changed_path == path }
+
+      parent_entry = git!(root, "ls-tree", CANONICAL_START["commit"], "--", path).split
+      assert(parent_entry[0] == entry[0] && parent_entry[1] == entry[1],
+             "P3 strategic transition changed file mode/type: #{path}")
+    end
+
+    canonical_truth = exact_keys(
+      receipt["canonical_truth"], %w[path byte_length sha256],
+      "P3 strategic transition Truth"
+    )
+    assert(canonical_truth["path"] == "docs/aios/truth/project_state.yaml",
+           "P3 strategic transition Truth path drift")
+    truth_bytes = git!(root, "show", "#{transition_commit}:#{canonical_truth['path']}").b
+    assert(truth_bytes.bytesize == canonical_truth["byte_length"] &&
+           Digest::SHA256.hexdigest(truth_bytes) == canonical_truth["sha256"],
+           "P3 strategic transition Truth identity drift")
+    assert(receipt["constitution"] == CONSTITUTION,
+           "P3 strategic transition Constitution receipt drift")
+    constitution_bytes = git!(root, "show", "#{transition_commit}:#{CONSTITUTION['path']}").b
+    assert(constitution_bytes.bytesize == CONSTITUTION["byte_length"] &&
+           Digest::SHA256.hexdigest(constitution_bytes) == CONSTITUTION["sha256"],
+           "P3 strategic transition Constitution Git identity drift")
+    assert(receipt["closure_audit"] == CLOSURE_AUDIT,
+           "P3 closure audit receipt binding drift")
+
+    validations = exact_keys(
+      receipt["strategic_validation"],
+      %w[
+        strict_phase_gates current_task_authority founder_delegation_continuity
+        founder_action_operation_registration negative_tests lifecycle_policy_tests
+        global_governance independent_transition_review
+      ],
+      "P3 strategic validation results"
+    )
+    expected_sources = {
+      "strict_phase_gates" => "scripts/validate-strict-phase-gates.rb",
+      "current_task_authority" => "scripts/validate-current-task-authority.rb",
+      "founder_delegation_continuity" => "scripts/validate-founder-delegation-continuity.rb",
+      "founder_action_operation_registration" => "scripts/validate-founder-action-handoff.rb",
+      "negative_tests" => "scripts/test-strict-phase-gates.rb",
+      "lifecycle_policy_tests" => "scripts/test-strict-phase-gates.rb",
+      "global_governance" => "scripts/validate-aios-governance.sh",
+      "independent_transition_review" => nil
+    }
+    validations.each do |name, value|
+      result = exact_keys(
+        value,
+        %w[argv source exit_code stdout stderr_sha256 completed_at_utc],
+        "P3 strategic validation #{name}"
+      )
+      assert(result["argv"] == VALIDATION_ARGV.fetch(name) &&
+             result["exit_code"] == 0 &&
+             result["stderr_sha256"].is_a?(String) &&
+             result["stderr_sha256"].match?(/\A[0-9a-f]{64}\z/),
+             "P3 strategic validation #{name} execution metadata drift")
+      source_identity = exact_keys(
+        result["source"], %w[path byte_length sha256],
+        "P3 strategic validation #{name} source"
+      )
+      if expected_sources.fetch(name)
+        assert(source_identity["path"] == expected_sources.fetch(name),
+               "P3 strategic validation #{name} source path drift")
+      end
+      validate_identity!(root, source_identity, "P3 strategic validation #{name} source")
+      stdout = validate_create_once_identity!(
+        root, result["stdout"], "P3 strategic validation #{name} stdout"
+      )
+      assert(stdout.match?(VALIDATION_STDOUT.fetch(name)),
+             "P3 strategic validation #{name} stdout PASS grammar drift")
+      Time.iso8601(result.fetch("completed_at_utc"))
+    end
+    predecessor = exact_keys(
+      receipt["predecessor_check"],
+      %w[
+        status current_phase target_phase predecessor_phase p2_predecessor
+        p3_research_closure p3_founder_phase_gate p3_original_execution_capability
+        accepted_foundations
+      ],
+      "P4 predecessor result"
+    )
+    assert(predecessor == {
+      "status" => "PASS_POST_INTEGRATION",
+      "current_phase" => "P3",
+      "target_phase" => "P4",
+      "predecessor_phase" => "P3",
+      "p2_predecessor" => "PASS_COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED",
+      "p3_research_closure" => "PASS_COMPLETE_RESEARCH_NON_PASS_EXECUTION_CAPABILITY_NOT_ACCEPTED",
+      "p3_founder_phase_gate" => "PASS_RESEARCH_NON_PASS_EXECUTION_CAPABILITY_NOT_ACCEPTED",
+      "p3_original_execution_capability" => "MISSING_NOT_ACCEPTED",
+      "accepted_foundations" => [
+        "DURABLE_STATE_AND_CHECKPOINT_RESUME",
+        "DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION"
+      ]
+    }, "P4 predecessor semantics drift")
+    assert(receipt["p3_outcome"] == {
+      "phase_outcome" => "COMPLETE_RESEARCH_NON_PASS_EXECUTION_CAPABILITY_NOT_ACCEPTED",
+      "research_closure_status" => "COMPLETE",
+      "management_delivery_percent" => 25,
+      "strict_execution_capability_percent" => 0,
+      "execution_capability_accepted" => false,
+      "original_execution_capability_gate" => "MISSING_NOT_ACCEPTED"
+    }, "P3 dual conclusion in phase receipt drift")
+    assert(receipt["p4_entry"] == {
+      "status" => "PASS_CONDITIONS_SATISFIED",
+      "phase" => "P4",
+      "first_eligible_task" => TASKS[0]["task_id"],
+      "task_created_at_receipt" => false,
+      "p4_phase_exit_authorized" => false,
+      "p5_entry_authorized" => false
+    }, "P4 entry receipt projection drift")
+    assert(receipt["topology"] == {
+      "canonical_main_clean" => true,
+      "transition_branch_absent" => true,
+      "transition_worktree_absent" => true,
+      "active_task" => "NONE"
+    }, "P4 entry topology receipt drift")
+    assert(receipt["external_effects"] == FALSE_EFFECTS,
+           "P4 entry receipt external-effect drift")
+    Time.iso8601(receipt.fetch("issued_at_utc"))
+    transition
+  rescue JSON::ParserError, ArgumentError, KeyError => e
+    raise P4ProposalFirstControlledRealTaskRouteValidationError,
+          "P3 Exit and P4 entry receipt invalid: #{e.message}"
+  end
+
+  def validate_p4_entry_sync!(root, transition, phase_entry_receipt)
+    commits = git!(
+      root, "rev-list", "--ancestry-path", "#{transition.fetch('commit')}..main", "--reverse"
+    ).lines.map(&:strip).reject(&:empty?)
+    assert(!commits.empty?, "P4 entry sync commit is missing after predecessor PASS")
+    entry_commit = commits.first
+    parents = git!(root, "show", "-s", "--format=%P", entry_commit).split
+    assert(parents == [transition.fetch("commit")],
+           "P4 entry sync is not the unique direct child of the strategic transition")
+    changed = git!(root, "diff-tree", "--no-commit-id", "--name-only", "-r", entry_commit)
+      .lines.map(&:strip).reject(&:empty?)
+    assert(changed == ["docs/aios/truth/project_state.yaml"],
+           "P4 entry sync changed more than canonical Truth")
+    entry_tree = git!(root, "show", "-s", "--format=%T", entry_commit).strip
+    truth_bytes = git!(
+      root, "show", "#{entry_commit}:docs/aios/truth/project_state.yaml"
+    ).b
+    entry_truth = YAML.safe_load(
+      truth_bytes, permitted_classes: [], permitted_symbols: [], aliases: false
+    )
+    assert(entry_truth.dig("project", "current_phase") == "P4" &&
+           entry_truth.dig("project", "p4_entry_status") == "AUTHORIZED" &&
+           entry_truth.dig("current_phase_route", "lifecycle_stage") ==
+             "FOUNDATION_ELIGIBLE_NOT_ACTIVATED" &&
+           entry_truth.dig("current_phase_route", "predecessor_check", "status") ==
+             "PASS_POST_INTEGRATION" &&
+           entry_truth.dig("current_phase_route", "predecessor_check", "receipt") ==
+             phase_entry_receipt &&
+           entry_truth.dig("strict_phase_gate_ledger", "phases", "P4", "entry_authorized") ==
+             true &&
+           entry_truth.dig("strict_phase_gate_ledger", "phases", "P4", "execution_started") ==
+             false &&
+           entry_truth.dig("active_work", "current_task") == "NONE" &&
+           entry_truth.dig("phase_boundary", "task_creation_allowed") == true,
+           "P4 entry sync Truth does not represent exact receipt-bound F1 eligibility")
+    {"commit" => entry_commit, "tree" => entry_tree}
+  rescue Psych::Exception, KeyError => e
+    raise P4ProposalFirstControlledRealTaskRouteValidationError,
+          "P4 entry sync invalid: #{e.message}"
+  end
+
+  def expected_task_permissions
+    {
+      "proposal_data_only" => true, "shell" => false, "tools_with_side_effects" => false,
+      "docker" => false, "network" => false, "provider" => false, "secret" => false,
+      "remote" => false, "production" => false, "public_release" => false,
+      "canonical_source_write" => false, "push" => false, "pull_request" => false,
+      "merge" => false
+    }
+  end
+
+  def expected_host_permissions
+    {
+      "predeclared_commands_only" => true, "disposable_isolated_copy_only" => true,
+      "deny_network_required" => true, "canonical_source_mutation" => false,
+      "command_or_test_change_after_freeze" => false
+    }
+  end
+
+  def validate_task_contract!(root, identity, task, index, phase_entry_receipt,
+                              expected_predecessor)
+    contract_identity = exact_keys(
+      identity, %w[path byte_length sha256], "P4 Task #{index + 1} Contract identity"
+    )
+    bytes = validate_identity!(root, contract_identity, "P4 Task #{index + 1} Contract")
+    contract = exact_keys(
+      YAML.safe_load(bytes, permitted_classes: [], permitted_symbols: [], aliases: false),
+      %w[
+        schema_version record_type status task_id nonce phase route_id stage_id kind
+        activation_parent founder_strategy_decision phase_entry_receipt predecessor_evidence
+        budget resources worker_repository_write_allowlist worker_evidence_write_root
+        system_under_test_permissions host_verifier_permissions external_effects
+        frozen_execution_plan pre_worker_schema_need_receipt acceptance_gate anti_cycle
+        created_at_utc
+      ],
+      "P4 Task #{index + 1} Contract"
+    )
+    assert(contract_identity["path"] == task["contract_path"] &&
+           contract["schema_version"] == "p4-phase-delegated-task-contract/v1" &&
+           contract["record_type"] == "sourcelens_aios_p4_phase_delegated_task_contract" &&
+           contract["status"] == "ACTIVE_IMMUTABLE" && contract["phase"] == "P4" &&
+           contract["route_id"] == ROUTE_ID && contract["task_id"] == task["task_id"] &&
+           contract["nonce"] == task["nonce"] && contract["stage_id"] == task["stage_id"] &&
+           contract["kind"] == task["kind"] && contract["budget"] == task["budget"] &&
+           contract["resources"] == task.slice(
+             "branch", "worktree", "evidence_root", "contract_path", "authority_path"
+           ) && contract["founder_strategy_decision"] ==
+             DECISION.merge("decision_id" => DECISION_ID, "operation_type" => OPERATION_TYPE) &&
+           contract["phase_entry_receipt"] == phase_entry_receipt &&
+           contract["worker_repository_write_allowlist"] == REPOSITORY_WRITE_ALLOWLISTS[index] &&
+           contract["worker_evidence_write_root"] == task["evidence_root"] &&
+           contract["system_under_test_permissions"] == expected_task_permissions &&
+           contract["host_verifier_permissions"] == expected_host_permissions &&
+           contract["external_effects"] == FALSE_EFFECTS,
+           "P4 Task #{index + 1} Contract authority drift")
+    if index.zero?
+      assert(contract["frozen_execution_plan"].nil? &&
+             contract["pre_worker_schema_need_receipt"].nil?,
+             "P4 F1 Contract retained an inapplicable Product/Evaluation plan")
+    else
+      plan = exact_keys(
+        contract["frozen_execution_plan"], %w[path byte_length sha256],
+        "P4 Task #{index + 1} frozen execution plan"
+      )
+      validate_task_evidence_identity!(root, plan, task,
+                                       "P4 Task #{index + 1} frozen execution plan")
+      assert(index == 1 || contract["pre_worker_schema_need_receipt"].nil?,
+             "P4 E1 Contract retained a Product schema-need receipt")
+      if contract["pre_worker_schema_need_receipt"]
+        assert(index == 1, "only P4 P1 may bind a pre-Worker schema-need receipt")
+        validate_p1_schema_need_receipt!(
+          root, contract["pre_worker_schema_need_receipt"], task,
+          contract["activation_parent"], contract["created_at_utc"]
+        )
+      end
+    end
+    activation_parent = exact_keys(
+      contract["activation_parent"], %w[commit tree truth],
+      "P4 Task #{index + 1} Contract activation parent"
+    )
+    assert(activation_parent["commit"].is_a?(String) &&
+           activation_parent["commit"].match?(/\A[0-9a-f]{40}\z/) &&
+           git!(root, "show", "-s", "--format=%T", activation_parent["commit"]).strip ==
+             activation_parent["tree"] &&
+           git_capture(root, "merge-base", "--is-ancestor",
+                       activation_parent["commit"], "main").last.success?,
+           "P4 Task #{index + 1} activation parent identity drift")
+    parent_truth = exact_keys(
+      activation_parent["truth"], %w[path byte_length sha256],
+      "P4 Task #{index + 1} activation-parent Truth"
+    )
+    parent_truth_bytes = git!(
+      root, "show", "#{activation_parent['commit']}:#{parent_truth['path']}"
+    ).b
+    assert(parent_truth["path"] == "docs/aios/truth/project_state.yaml" &&
+           parent_truth_bytes.bytesize == parent_truth["byte_length"] &&
+           Digest::SHA256.hexdigest(parent_truth_bytes) == parent_truth["sha256"],
+           "P4 Task #{index + 1} activation-parent Truth drift")
+    assert(contract["predecessor_evidence"] == expected_predecessor,
+           "P4 Task #{index + 1} Contract predecessor drift")
+    expected_gate_ids = %w[
+      TWO_CONTROLLED_REAL_LOCAL_GIT_TASKS_FROZEN_BASE_FAIL_FIX_PASS
+      NON_AUTHORITATIVE_PATCH_EVIDENCE_PRODUCT_PROPOSAL_FROZEN
+      TWO_TASK_ONE_SHOT_FORMAL_HELD_EVALUATION_PASS
+    ]
+    assert(contract["acceptance_gate"] == {
+      "gate_id" => expected_gate_ids[index], "independent_review_required" => true,
+      "task_gate_pass_required_before_local_integration" => true
+    }, "P4 Task #{index + 1} acceptance Gate drift")
+    assert(contract["anti_cycle"] == {
+      "successor_allowed" => false, "replacement_allowed" => false,
+      "same_task_repair_limit" => (index == 2 ? 0 : 1),
+      "review_cycle_limit" => (index == 2 ? 1 : 2),
+      "formal_rerun_to_pass_allowed" => false
+    }, "P4 Task #{index + 1} anti-cycle drift")
+    Time.iso8601(contract.fetch("created_at_utc"))
+    [contract, activation_parent, contract_identity]
+  rescue Psych::Exception, ArgumentError, KeyError => e
+    raise P4ProposalFirstControlledRealTaskRouteValidationError,
+          "P4 Task #{index + 1} Contract invalid: #{e.message}"
+  end
+
+  def validate_stage_activation_parent!(root, activation_parent, index, entry_sync,
+                                        current_stages, phase_entry_receipt)
+    if index.zero?
+      assert(activation_parent.slice("commit", "tree") == entry_sync,
+             "P4 F1 activation parent is not the exact receipt-bound P4 entry sync")
+      return
+    end
+
+    expected_lifecycle = index == 1 ?
+      "FOUNDATION_ACCEPTED_PRODUCT_ELIGIBLE" : "PRODUCT_ACCEPTED_EVALUATION_ELIGIBLE"
+    truth_bytes = git!(
+      root, "show", "#{activation_parent['commit']}:docs/aios/truth/project_state.yaml"
+    ).b
+    parent_truth = YAML.safe_load(
+      truth_bytes, permitted_classes: [], permitted_symbols: [], aliases: false
+    )
+    parent_route = mapping(parent_truth["current_phase_route"],
+                           "P4 Task #{index + 1} activation-parent Route")
+    parent_stages = array(parent_route["ordered_stages"],
+                          "P4 Task #{index + 1} activation-parent stages")
+    assert(parent_route["schema_version"] == ROUTE_SCHEMA &&
+           parent_route["route_id"] == ROUTE_ID &&
+           parent_route["lifecycle_stage"] == expected_lifecycle &&
+           parent_route.dig("predecessor_check", "receipt") == phase_entry_receipt &&
+           parent_truth.dig("active_work", "current_task") == "NONE" &&
+           parent_truth.dig("phase_boundary", "task_creation_allowed") == true,
+           "P4 Task #{index + 1} activation parent is not the exact eligible Truth state")
+    index.times do |prior_index|
+      assert(parent_stages.dig(prior_index, "status") ==
+               LIFECYCLE.fetch(expected_lifecycle).fetch("stage_statuses")[prior_index] &&
+             parent_stages.dig(prior_index, "acceptance") ==
+               current_stages.dig(prior_index, "acceptance"),
+             "P4 Task #{index + 1} activation parent does not bind predecessor acceptance")
+    end
+    assert(parent_stages.dig(index, "status") == "ELIGIBLE_NOT_ACTIVATED" &&
+           parent_stages[index].values_at("contract", "authority", "acceptance", "terminal") ==
+             [nil, nil, nil, nil],
+           "P4 Task #{index + 1} activation parent had already consumed Task authority")
+  rescue Psych::Exception, KeyError, TypeError => e
+    raise P4ProposalFirstControlledRealTaskRouteValidationError,
+          "P4 Task #{index + 1} activation parent invalid: #{e.message}"
+  end
+
+  def validate_task_authority!(root, identity, task, index, contract_identity, contract,
+                               activation_parent, phase_entry_receipt,
+                               expected_predecessor)
+    authority_identity = exact_keys(
+      identity, %w[path byte_length sha256], "P4 Task #{index + 1} authority identity"
+    )
+    assert(authority_identity["path"] == task["authority_path"],
+           "P4 Task #{index + 1} authority path drift")
+    bytes = validate_task_evidence_identity!(
+      root, authority_identity, task, "P4 Task #{index + 1} authority"
+    )
+    authority = exact_keys(
+      JSON.parse(bytes),
+      %w[
+        schema_version record_type status authority_id task_id nonce phase route_id stage_id
+        contract activation_parent founder_strategy_decision phase_entry_receipt
+        predecessor_evidence budget resources worker_repository_write_allowlist
+        worker_evidence_write_root system_under_test_permissions host_verifier_permissions
+        external_effects frozen_execution_plan pre_worker_schema_need_receipt prohibited_effects
+        issued_at_utc
+      ],
+      "P4 Task #{index + 1} authority"
+    )
+    assert(authority["schema_version"] == "p4-phase-delegated-task-authority/v1" &&
+           authority["record_type"] == "sourcelens_aios_p4_phase_delegated_task_authority" &&
+           authority["status"] == "ACTIVE_UNIQUE_CREATE_ONCE" && authority["phase"] == "P4" &&
+           authority["route_id"] == ROUTE_ID && authority["task_id"] == task["task_id"] &&
+           authority["nonce"] == task["nonce"] && authority["stage_id"] == task["stage_id"] &&
+           authority["contract"] == contract_identity &&
+           authority["activation_parent"] == activation_parent &&
+           authority["founder_strategy_decision"] ==
+             DECISION.merge("decision_id" => DECISION_ID, "operation_type" => OPERATION_TYPE) &&
+           authority["phase_entry_receipt"] == phase_entry_receipt &&
+           authority["budget"] == task["budget"] && authority["resources"] == task.slice(
+             "branch", "worktree", "evidence_root", "contract_path", "authority_path"
+           ) && authority["worker_repository_write_allowlist"] ==
+             REPOSITORY_WRITE_ALLOWLISTS[index] &&
+           authority["worker_evidence_write_root"] == task["evidence_root"] &&
+           authority["system_under_test_permissions"] == expected_task_permissions &&
+           authority["host_verifier_permissions"] == expected_host_permissions &&
+           authority["frozen_execution_plan"] == contract["frozen_execution_plan"] &&
+           authority["pre_worker_schema_need_receipt"] ==
+             contract["pre_worker_schema_need_receipt"] &&
+           authority["external_effects"] == FALSE_EFFECTS,
+           "P4 Task #{index + 1} authority semantic drift")
+    assert(authority["authority_id"].is_a?(String) &&
+           authority["authority_id"].match?(
+             /\A[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}\z/
+           ), "P4 Task #{index + 1} authority ID invalid")
+    assert(authority["predecessor_evidence"] == expected_predecessor,
+           "P4 Task #{index + 1} authority predecessor drift")
+    assert(authority["prohibited_effects"] == %w[
+      SYSTEM_UNDER_TEST_SHELL SYSTEM_UNDER_TEST_SIDE_EFFECT_TOOL DOCKER NETWORK PROVIDER SECRET
+      REMOTE PRODUCTION PUBLIC_RELEASE CANONICAL_SOURCE_WRITE PUSH PULL_REQUEST MERGE
+    ], "P4 Task #{index + 1} prohibited-effect set drift")
+    Time.iso8601(authority.fetch("issued_at_utc"))
+    authority
+  rescue JSON::ParserError, ArgumentError, KeyError => e
+    raise P4ProposalFirstControlledRealTaskRouteValidationError,
+          "P4 Task #{index + 1} authority invalid: #{e.message}"
+  end
+
+  def validate_activation_commit!(root, task, contract_identity, activation_parent,
+                                  activation_identity = nil)
+    activation = if activation_identity
+                   exact_keys(
+                     activation_identity, %w[commit tree],
+                     "P4 #{task['stage_id']} activation commit"
+                   )
+                 else
+                   commit = git!(root, "rev-parse", "main").strip
+                   {"commit" => commit, "tree" => git!(root, "show", "-s", "--format=%T", commit).strip}
+                 end
+    assert(activation["commit"].match?(/\A[0-9a-f]{40}\z/) &&
+           activation["tree"].match?(/\A[0-9a-f]{40}\z/) &&
+           git!(root, "show", "-s", "--format=%T", activation["commit"]).strip ==
+             activation["tree"] &&
+           git!(root, "show", "-s", "--format=%P", activation["commit"]).split ==
+             [activation_parent["commit"]],
+           "P4 #{task['stage_id']} activation commit is not the direct canonical child")
+    _out, _err, ancestor = git_capture(
+      root, "merge-base", "--is-ancestor", activation["commit"], "main"
+    )
+    assert(ancestor.success?, "P4 #{task['stage_id']} activation commit is not canonical ancestry")
+    contract_bytes = git!(root, "show", "#{activation['commit']}:#{task['contract_path']}").b
+    assert(contract_bytes.bytesize == contract_identity["byte_length"] &&
+           Digest::SHA256.hexdigest(contract_bytes) == contract_identity["sha256"],
+           "P4 #{task['stage_id']} activation commit does not contain the exact Contract")
+    changes = git!(
+      root, "diff", "--name-status", "--no-renames", activation_parent["commit"],
+      activation["commit"]
+    ).lines.map { |line| line.chomp.split("\t", 2) }
+    assert(changes.map(&:last).sort ==
+             ["docs/aios/truth/project_state.yaml", task["contract_path"]].sort &&
+           changes.all? { |status, _path| %w[A M].include?(status) },
+           "P4 #{task['stage_id']} activation commit changed more than Truth and Contract")
+    ["docs/aios/truth/project_state.yaml", task["contract_path"]].each do |path|
+      entry = git!(root, "ls-tree", activation["commit"], "--", path).split
+      assert(entry[0] == "100644" && entry[1] == "blob",
+             "P4 #{task['stage_id']} activation path is not a regular mode-100644 blob")
+    end
+    activation
+  end
+
+  def validate_review_set!(root, reviews, task, index, candidate)
+    expected_roles = index == 2 ? %w[SECURITY QUALITY_EVALUATION] :
+      %w[CTO SECURITY QUALITY_EVALUATION]
+    review_map = mapping(reviews, "P4 Task #{index + 1} independent reviews")
+    assert(review_map.keys.sort == expected_roles.sort,
+           "P4 Task #{index + 1} independent-review role set drift")
+    reviewer_ids = []
+    expected_roles.each do |role|
+      bytes = validate_task_evidence_identity!(
+        root, review_map.fetch(role), task, "P4 Task #{index + 1} #{role} review"
+      )
+      review = exact_keys(
+        JSON.parse(bytes),
+        %w[
+          schema_version record_type role reviewer_id verdict task_id nonce candidate
+          findings open_p0_p1_findings reviewed_at_utc
+        ],
+        "P4 Task #{index + 1} #{role} review"
+      )
+      assert(review["schema_version"] == "p4-independent-task-review/v1" &&
+             review["record_type"] == "P4_INDEPENDENT_TASK_REVIEW" &&
+             review["role"] == role && review["verdict"] == "PASS" &&
+             review["task_id"] == task["task_id"] && review["nonce"] == task["nonce"] &&
+             review["candidate"] == candidate && review["findings"] == [] &&
+             review["open_p0_p1_findings"] == [],
+             "P4 Task #{index + 1} #{role} review semantic drift")
+      reviewer_ids << review.fetch("reviewer_id")
+      Time.iso8601(review.fetch("reviewed_at_utc"))
+    end
+    assert(reviewer_ids.uniq.length == expected_roles.length,
+           "P4 Task #{index + 1} reviews are not independent")
+  end
+
+  def validate_task_evidence_identity!(root, identity, task, label)
+    record = exact_keys(identity, %w[path byte_length sha256], label)
+    evidence_root = Pathname.new(task.fetch("evidence_root")).cleanpath
+    path = bound_path(root, record).cleanpath
+    assert(path.absolute? && path.to_s.start_with?("#{evidence_root}/"),
+           "#{label} escapes the Task Evidence root")
+    root_stat = evidence_root.lstat
+    assert(root_stat.directory? && !root_stat.symlink?,
+           "#{label} Task Evidence root is not a real directory")
+    current = evidence_root
+    path.relative_path_from(evidence_root).each_filename do |component|
+      current = current.join(component)
+      stat = current.lstat
+      assert(!stat.symlink?, "#{label} traverses a symlink")
+    end
+    if @task_identity_registry && @task_identity_registry["task_id"] == task["task_id"]
+      @task_identity_registry["identities"][identity_key(record)] = record
+    end
+    validate_create_once_identity!(root, record, label)
+  rescue ArgumentError, Errno::ENOENT => e
+    raise P4ProposalFirstControlledRealTaskRouteValidationError,
+          "#{label} custody invalid: #{e.message}"
+  end
+
+  def start_task_identity_registry!(task)
+    assert(@task_identity_registry.nil?, "nested P4 Task Evidence registry is forbidden")
+    @task_identity_registry = {"task_id" => task["task_id"], "identities" => {}}
+  end
+
+  def finish_task_identity_registry!
+    identities = @task_identity_registry ? @task_identity_registry["identities"].values : []
+    @task_identity_registry = nil
+    identities
+  end
+
+  def validate_task_evidence_json!(root, identity, task, label)
+    JSON.parse(validate_task_evidence_identity!(root, identity, task, label))
+  rescue JSON::ParserError => e
+    raise P4ProposalFirstControlledRealTaskRouteValidationError,
+          "#{label} JSON invalid: #{e.message}"
+  end
+
+  def validate_p1_schema_need_receipt!(root, identity, task, activation_parent,
+                                       contract_created_at_utc = nil)
+    receipt = exact_keys(
+      validate_task_evidence_json!(
+        root, identity, task, "P4 P1 pre-Worker schema-need receipt"
+      ),
+      %w[
+        schema_version record_type verdict decision task_id nonce activation_parent
+        migration_path activation_parent_path_state required_constraints checked_at_utc
+      ],
+      "P4 P1 pre-Worker schema-need receipt"
+    )
+    parent = exact_keys(
+      activation_parent, %w[commit tree truth],
+      "P4 P1 schema-need activation parent"
+    )
+    assert(receipt["schema_version"] == "p4-p1-pre-worker-schema-need/v1" &&
+           receipt["record_type"] == "P4_P1_PRE_WORKER_SCHEMA_NEED" &&
+           receipt["verdict"] == "PASS" && receipt["decision"] == "MIGRATION_REQUIRED" &&
+           receipt["task_id"] == task["task_id"] && receipt["nonce"] == task["nonce"] &&
+           receipt["activation_parent"] == parent &&
+           receipt["migration_path"] == CONDITIONAL_P1_MIGRATION_PATH &&
+           receipt["activation_parent_path_state"] == "ABSENT" &&
+           receipt["required_constraints"] == P1_SCHEMA_NEED_CONSTRAINTS &&
+           git!(root, "ls-tree", parent["commit"], "--", CONDITIONAL_P1_MIGRATION_PATH).empty?,
+           "P4 P1 pre-Worker schema-need decision or activation-parent fact drift")
+    checked_at = Time.iso8601(receipt.fetch("checked_at_utc"))
+    if contract_created_at_utc
+      assert(checked_at <= Time.iso8601(contract_created_at_utc),
+             "P4 P1 schema-need receipt postdates its activation Contract")
+    end
+    receipt
+  rescue ArgumentError, KeyError => e
+    raise P4ProposalFirstControlledRealTaskRouteValidationError,
+          "P4 P1 pre-Worker schema-need receipt invalid: #{e.message}"
+  end
+
+  def collect_identities(value, result = [])
+    case value
+    when Hash
+      if value.keys.sort == %w[byte_length path sha256] &&
+         value["path"].is_a?(String) && value["byte_length"].is_a?(Integer) &&
+         value["sha256"].is_a?(String)
+        result << value
+      else
+        value.each_value { |child| collect_identities(child, result) }
+      end
+    when Array
+      value.each { |child| collect_identities(child, result) }
+    end
+    result
+  end
+
+  def identity_key(identity)
+    [identity.fetch("path"), identity.fetch("byte_length"), identity.fetch("sha256")]
+  end
+
+  def validate_no_canonical_mutation!(root, value, label, expected_identity:)
+    mutation = exact_keys(value, %w[before after mutated], label)
+    before = exact_keys(mutation["before"], %w[commit tree], "#{label} before")
+    after = exact_keys(mutation["after"], %w[commit tree], "#{label} after")
+    assert(mutation["mutated"] == false && before == after && before == expected_identity &&
+           git!(root, "show", "-s", "--format=%T", before["commit"]).strip == before["tree"],
+           "#{label} does not prove an unchanged canonical Git identity")
+    mutation
+  end
+
+  def validate_host_process_event_trace!(root, identity, task, label, expected)
+    cwd_preflight = exact_keys(
+      validate_task_evidence_json!(
+        root, expected.fetch("cwd_preflight"), task, "#{label} disposable cwd preflight"
+      ),
+      %w[
+        schema_version record_type verdict declared_path realpath symlink_components_false
+        disposable source_identity checked_at_utc
+      ],
+      "#{label} disposable cwd preflight"
+    )
+    assert(cwd_preflight["schema_version"] == "p4-disposable-cwd-preflight/v1" &&
+           cwd_preflight["record_type"] == "P4_DISPOSABLE_CWD_PREFLIGHT" &&
+           cwd_preflight["verdict"] == "PASS" &&
+           cwd_preflight["declared_path"] == expected.fetch("cwd") &&
+           cwd_preflight["realpath"] == expected.fetch("cwd") &&
+           cwd_preflight["symlink_components_false"] == true &&
+           cwd_preflight["disposable"] == true &&
+           cwd_preflight["source_identity"] == expected.fetch("subject"),
+           "#{label} disposable cwd preflight drift")
+    Time.iso8601(cwd_preflight.fetch("checked_at_utc"))
+    canonical_status = validate_task_evidence_identity!(
+      root, expected.fetch("canonical_status"), task, "#{label} canonical git status"
+    )
+    assert(canonical_status.empty?, "#{label} left canonical tracked or untracked changes")
+    trace = exact_keys(
+      validate_task_evidence_json!(root, identity, task, "#{label} process event trace"),
+      %w[schema_version record_type execution_id events terminal_hash],
+      "#{label} process event trace"
+    )
+    events = array(trace["events"], "#{label} process events")
+    assert(events.length == 2, "#{label} process trace is not one spawn and one terminal")
+    previous = "0" * 64
+    parsed = events.map.with_index do |value, index|
+      event = exact_keys(
+        value, %w[sequence previous_sha256 event payload event_sha256],
+        "#{label} process event[#{index}]"
+      )
+      payload = mapping(event["payload"], "#{label} process event payload[#{index}]")
+      preimage = JSON.generate(
+        "sequence" => event["sequence"], "previous_sha256" => event["previous_sha256"],
+        "event" => event["event"], "payload" => payload
+      )
+      event_hash = Digest::SHA256.hexdigest(preimage.b)
+      assert(event["sequence"] == index + 1 && event["previous_sha256"] == previous &&
+             event["event_sha256"] == event_hash,
+             "#{label} process event hash chain drift")
+      previous = event_hash
+      event
+    end
+    expected_spawn = {
+      "execution_id" => expected.fetch("execution_id"),
+      "runner" => expected.fetch("runner"), "cwd" => expected.fetch("cwd"),
+      "argv" => expected.fetch("argv"), "environment" => expected.fetch("environment"),
+      "timeout_seconds" => expected.fetch("timeout_seconds"),
+      "sandbox_profile" => expected.fetch("sandbox_profile"),
+      "cwd_preflight" => expected.fetch("cwd_preflight"),
+      "subject" => expected.fetch("subject")
+    }
+    expected_exit = {
+      "execution_id" => expected.fetch("execution_id"),
+      "exit_code" => expected.fetch("exit_code"), "timed_out" => false,
+      "stdout" => expected.fetch("stdout"), "stderr" => expected.fetch("stderr"),
+      "result_artifacts" => expected.fetch("result_artifacts", []),
+      "canonical_status" => expected.fetch("canonical_status"),
+      "subject" => expected.fetch("subject")
+    }
+    assert(trace["schema_version"] == "p4-host-process-event-trace/v1" &&
+           trace["record_type"] == "P4_HOST_PROCESS_EVENT_TRACE" &&
+           trace["execution_id"] == expected.fetch("execution_id") &&
+           parsed.map { |event| event["event"] } == %w[PROCESS_SPAWN PROCESS_EXIT] &&
+           parsed[0]["payload"] == expected_spawn && parsed[1]["payload"] == expected_exit &&
+           trace["terminal_hash"] == previous,
+           "#{label} process trace does not derive the exact frozen spawn/terminal result")
+    trace
+  end
+
+  def expected_deny_network_profile(task)
+    "(version 1)\n" \
+      "(allow default)\n" \
+      "(deny network*)\n" \
+      "(deny file-write* (subpath \"#{CANONICAL_REPOSITORY}\"))\n" \
+      "(deny file-write* (subpath \"#{task.fetch('worktree')}\"))\n"
+  end
+
+  def validate_closed_artifact_inventory!(root, manifest, task, label)
+    inventory = array(manifest["artifact_inventory"], "#{label} artifact inventory")
+    records = inventory.map.with_index do |identity, index|
+      record = exact_keys(identity, %w[path byte_length sha256],
+                          "#{label} artifact inventory[#{index}]")
+      validate_task_evidence_identity!(root, record, task,
+                                       "#{label} artifact inventory[#{index}]")
+      record
+    end
+    assert(records.map { |record| record["path"] } ==
+             records.map { |record| record["path"] }.sort &&
+           records.map { |record| record["path"] }.uniq.length == records.length,
+           "#{label} artifact inventory is not closed, sorted and unique")
+    records
+  end
+
+  def validate_task_root_inventory!(root, manifest, task, control_identities, label,
+                                    semantic_identities:)
+    inventory = array(manifest["artifact_inventory"], "#{label} artifact inventory")
+    expected = (inventory + control_identities).map do |identity|
+      exact_keys(identity, %w[path byte_length sha256], "#{label} root identity")
+    end
+    expected_paths = expected.map { |identity| bound_path(root, identity).cleanpath.to_s }
+    assert(expected_paths.uniq.length == expected_paths.length,
+           "#{label} root inventory contains duplicate or overlapping control paths")
+    evidence_root = Pathname.new(task.fetch("evidence_root")).cleanpath
+    actual_paths = []
+    Find.find(evidence_root.to_s) do |entry|
+      path = Pathname.new(entry)
+      stat = path.lstat
+      assert(!stat.symlink?, "#{label} Evidence root contains a symlink: #{entry}")
+      next if stat.directory?
+      assert(stat.file? && stat.nlink == 1 && (stat.mode & 0o777) == 0o444,
+             "#{label} Evidence root contains a non-create-once leaf: #{entry}")
+      actual_paths << path.cleanpath.to_s
+    end
+    assert(actual_paths.sort == expected_paths.sort,
+           "#{label} Evidence root contains an unbound, missing or rerun leaf")
+    controls = control_identities.map do |identity|
+      exact_keys(identity, %w[path byte_length sha256], "#{label} control identity")
+    end
+    control_keys = controls.map { |identity| identity_key(identity) }
+    semantic = semantic_identities.map do |identity|
+      exact_keys(identity, %w[path byte_length sha256], "#{label} consumed semantic identity")
+    end.reject { |identity| control_keys.include?(identity_key(identity)) }
+    inventory_keys = inventory.map { |identity| identity_key(identity) }
+    semantic_keys = semantic.map { |identity| identity_key(identity) }
+    assert(inventory_keys.sort == semantic_keys.sort,
+           "#{label} artifact inventory is not the exact semantically reachable Evidence set")
+    expected.each_with_index do |identity, index|
+      validate_create_once_identity!(root, identity, "#{label} root identity[#{index}]")
+    end
+  end
+
+  def validate_f1_task_spec!(root, identity, task, controlled_task)
+    spec = exact_keys(
+      validate_task_evidence_json!(root, identity, task,
+                                   "P4 F1 #{controlled_task['controlled_task_id']} TaskSpec"),
+      %w[
+        schema_version task_id language producer_task_spec issue provenance source scope runtime dependencies
+        oracle reference budgets effects rollback acceptance
+      ],
+      "P4 F1 controlled TaskSpec"
+    )
+    issue = exact_keys(spec["issue"], %w[text sha256], "P4 F1 TaskSpec issue")
+    provenance = exact_keys(
+      spec["provenance"],
+      %w[
+        origin_repository canonical_head base_commit base_tree historical_fix_commit
+        historical_fix_tree ancestry_verified author license_classification
+        redistribution_allowed rights_receipt_artifact
+      ],
+      "P4 F1 TaskSpec provenance"
+    )
+    source = exact_keys(
+      spec["source"],
+      %w[
+        base_only_repo_artifact dirty_policy allowed_target_path target_mode base_blob
+        projected_fix_blob projected_fix_tree
+      ],
+      "P4 F1 TaskSpec source"
+    )
+    scope = exact_keys(spec["scope"], %w[maximum_changed_paths forbidden_changes],
+                       "P4 F1 TaskSpec scope")
+    runtime = exact_keys(
+      spec["runtime"],
+      %w[os sandbox_exec sandbox_profile deny_network_observer executions],
+      "P4 F1 TaskSpec runtime"
+    )
+    dependencies = exact_keys(
+      spec["dependencies"],
+      %w[inventory_artifacts all_dependencies_present_before_spawn install_or_network_discovery_allowed],
+      "P4 F1 TaskSpec dependencies"
+    )
+    oracle = exact_keys(
+      spec["oracle"],
+      %w[
+        held_harness_artifact issue_assertion regression_assertion expected_base_exit
+        expected_base_result expected_fix_exit expected_fix_result
+      ],
+      "P4 F1 TaskSpec oracle"
+    )
+    reference = exact_keys(
+      spec["reference"], %w[visibility patch_artifact inverse_patch_artifact projected_tree],
+      "P4 F1 TaskSpec reference"
+    )
+    budgets = exact_keys(
+      spec["budgets"], %w[compile_seconds execute_seconds stdout_bytes stderr_bytes memory_mib],
+      "P4 F1 TaskSpec budgets"
+    )
+    effects = exact_keys(
+      spec["effects"], %w[network provider secrets docker remote_git pr_or_public_effect],
+      "P4 F1 TaskSpec effects"
+    )
+    rollback = exact_keys(spec["rollback"], %w[strategy inverse_patch_sha256],
+                          "P4 F1 TaskSpec rollback")
+    acceptance = exact_keys(
+      spec["acceptance"],
+      %w[
+        require_base_fail require_fix_pass require_regression_pass_both
+        require_exact_single_target_diff create_final_freeze_only_after_all_pass
+      ],
+      "P4 F1 TaskSpec acceptance"
+    )
+    assert(spec["schema_version"] == "p4-f1-evaluator-private-task/v1" &&
+           spec["task_id"] == controlled_task["controlled_task_id"] &&
+           spec["language"] == controlled_task["language"] &&
+           spec["producer_task_spec"] == controlled_task["producer_task_spec"] &&
+           issue["text"].is_a?(String) && !issue["text"].empty? &&
+           Digest::SHA256.hexdigest(issue["text"].b) == issue["sha256"] &&
+           provenance["origin_repository"] == "https://github.com/LJunP/SourceLens-AIOS.git" &&
+           provenance["canonical_head"] == CANONICAL_START["commit"] &&
+           provenance["base_commit"] == controlled_task.dig("base", "commit") &&
+           provenance["base_tree"] == controlled_task.dig("base", "tree") &&
+           provenance["ancestry_verified"] == true &&
+           provenance["license_classification"] == "FIRST_PARTY_RESTRICTED" &&
+           provenance["redistribution_allowed"] == false &&
+           source["allowed_target_path"] == controlled_task.dig("target_file", "path") &&
+           source["target_mode"] == "100644" && source["dirty_policy"] == "CLEAN_REQUIRED" &&
+           source["projected_fix_tree"].is_a?(String) &&
+           source["projected_fix_tree"].match?(/\A[0-9a-f]{40}\z/) &&
+           scope == {"maximum_changed_paths" => 1, "forbidden_changes" => "ALL_OTHER_PATHS"} &&
+           runtime["os"].is_a?(String) &&
+           dependencies["all_dependencies_present_before_spawn"] == true &&
+           dependencies["install_or_network_discovery_allowed"] == false &&
+           dependencies["inventory_artifacts"].is_a?(Array) &&
+           !dependencies["inventory_artifacts"].empty? &&
+           oracle["expected_base_exit"].is_a?(Integer) && oracle["expected_base_exit"] != 0 &&
+           oracle["expected_fix_exit"] == 0 && oracle["expected_base_result"].is_a?(Hash) &&
+           oracle["expected_fix_result"].is_a?(Hash) && reference["visibility"] == "EVALUATOR_ONLY" &&
+           reference["projected_tree"] == source["projected_fix_tree"] &&
+           budgets.values.all? { |value| value.is_a?(Integer) && value.positive? } &&
+           effects == {
+             "network" => "DENY_ALL", "provider" => "DENY", "secrets" => "DENY",
+             "docker" => "DENY", "remote_git" => "DENY", "pr_or_public_effect" => "DENY"
+           } && rollback["strategy"] == "DELETE_DISPOSABLE_REPO_AND_VERIFY_CANONICAL_UNCHANGED" &&
+           acceptance == {
+             "require_base_fail" => true, "require_fix_pass" => true,
+             "require_regression_pass_both" => true,
+             "require_exact_single_target_diff" => true,
+             "create_final_freeze_only_after_all_pass" => true
+           }, "P4 F1 controlled TaskSpec safety or acceptance drift")
+    %w[base_only_repo_artifact base_blob projected_fix_blob].each do |field|
+      validate_task_evidence_identity!(root, source[field], task, "P4 F1 TaskSpec #{field}")
+    end
+    sandbox_exec = exact_keys(
+      runtime["sandbox_exec"], %w[path byte_length sha256], "P4 F1 sandbox-exec identity"
+    )
+    assert(sandbox_exec["path"] == "/usr/bin/sandbox-exec",
+           "P4 F1 runner is not exact host /usr/bin/sandbox-exec")
+    validate_identity!(root, sandbox_exec, "P4 F1 host sandbox-exec")
+    profile_bytes = validate_task_evidence_identity!(
+      root, runtime["sandbox_profile"], task, "P4 F1 TaskSpec sandbox_profile"
+    )
+    assert(profile_bytes == expected_deny_network_profile(task).b,
+           "P4 F1 sandbox profile is not exact deny-network policy")
+    validate_task_evidence_identity!(
+      root, runtime["deny_network_observer"], task, "P4 F1 TaskSpec deny_network_observer"
+    )
+    executions = exact_keys(runtime["executions"], %w[BASE FIX], "P4 F1 executions")
+    executions.each do |variant, execution|
+      frozen = exact_keys(
+        execution, %w[cwd argv environment timeout_seconds], "P4 F1 #{variant} execution"
+      )
+      assert(frozen["cwd"].is_a?(String) &&
+             frozen["cwd"].start_with?("/private/tmp/sourcelens-p4-f1-") &&
+             !frozen["cwd"].start_with?(CANONICAL_REPOSITORY) &&
+             frozen["argv"].is_a?(Array) && !frozen["argv"].empty? &&
+             frozen["argv"].all? { |argument| argument.is_a?(String) } &&
+             frozen["environment"].is_a?(Hash) &&
+             (frozen["environment"].keys - %w[PATH LANG LC_ALL TZ TMPDIR NODE_NO_WARNINGS]).empty? &&
+             frozen["environment"].values.all? { |value| value.is_a?(String) } &&
+             frozen["timeout_seconds"].is_a?(Integer) &&
+             frozen["timeout_seconds"].positive? &&
+             frozen["timeout_seconds"] <= budgets["compile_seconds"] + budgets["execute_seconds"],
+             "P4 F1 #{variant} cwd/argv/environment/timeout escaped the frozen run boundary")
+    end
+    dependencies["inventory_artifacts"].each_with_index do |artifact, index|
+      validate_task_evidence_identity!(root, artifact, task,
+                                       "P4 F1 TaskSpec dependency inventory[#{index}]")
+    end
+    %w[held_harness_artifact].each do |field|
+      validate_task_evidence_identity!(root, oracle[field], task, "P4 F1 TaskSpec oracle #{field}")
+    end
+    %w[patch_artifact inverse_patch_artifact].each do |field|
+      validate_task_evidence_identity!(root, reference[field], task,
+                                       "P4 F1 TaskSpec reference #{field}")
+    end
+    validate_task_evidence_identity!(root, provenance["rights_receipt_artifact"], task,
+                                     "P4 F1 TaskSpec rights receipt")
+    spec
+  end
+
+  def validate_f1_producer_task_spec!(root, identity, task, controlled_task)
+    spec = exact_keys(
+      validate_task_evidence_json!(
+        root, identity, task,
+        "P4 F1 #{controlled_task['controlled_task_id']} producer TaskSpec"
+      ),
+      %w[schema_version task_id language issue source proposal_boundary effects],
+      "P4 F1 producer TaskSpec"
+    )
+    issue = exact_keys(spec["issue"], %w[text sha256], "P4 F1 producer issue")
+    source = exact_keys(
+      spec["source"], %w[base_commit base_tree target_path target_mode],
+      "P4 F1 producer source"
+    )
+    boundary = exact_keys(
+      spec["proposal_boundary"], %w[maximum_changed_paths format maximum_patch_bytes],
+      "P4 F1 producer proposal boundary"
+    )
+    assert(spec["schema_version"] == "p4-f1-producer-task/v1" &&
+           spec["task_id"] == controlled_task["controlled_task_id"] &&
+           spec["language"] == controlled_task["language"] &&
+           issue["text"].is_a?(String) && !issue["text"].empty? &&
+           Digest::SHA256.hexdigest(issue["text"].b) == issue["sha256"] &&
+           source == {
+             "base_commit" => controlled_task.dig("base", "commit"),
+             "base_tree" => controlled_task.dig("base", "tree"),
+             "target_path" => controlled_task.dig("target_file", "path"),
+             "target_mode" => "100644"
+           } && boundary["maximum_changed_paths"] == 1 &&
+           boundary["format"] == "SINGLE_EXISTING_FILE_UNIFIED_DIFF" &&
+           boundary["maximum_patch_bytes"].is_a?(Integer) &&
+           boundary["maximum_patch_bytes"].positive? &&
+           spec["effects"] == {
+             "shell" => false, "tools" => false, "network" => false,
+             "provider" => false, "secret" => false, "canonical_write" => false
+           }, "P4 F1 producer TaskSpec leaked authority or failed source binding")
+    forbidden_text = JSON.generate(spec)
+    assert(!forbidden_text.match?(/historical_fix|projected_fix|reference|oracle|held_harness|patch_artifact/),
+           "P4 F1 producer TaskSpec exposes evaluator-private solution material")
+    spec
+  end
+
+  def validate_f1_run!(root, identity, task, controlled_task, variant, task_spec_identity,
+                       task_spec, host_evaluator, activation_commit)
+    run = exact_keys(
+      validate_task_evidence_json!(
+        root, identity, task,
+        "P4 F1 #{controlled_task['controlled_task_id']} #{variant} run"
+      ),
+      %w[
+        schema_version record_type verdict controlled_task_id variant task_spec host_evaluator
+        source target_file dependency_inventory execution_id runner sandbox_profile cwd argv
+        environment timeout_seconds cwd_preflight event_trace stdout stderr canonical_status exit_code issue_specific_test
+        regression_test network_observation canonical_mutation
+        started_at_utc completed_at_utc
+      ],
+      "P4 F1 #{variant} run"
+    )
+    expected_verdict = variant == "BASE" ? "EXPECTED_BASE_FAIL" : "PASS"
+    execution = task_spec.dig("runtime", "executions", variant)
+    assert(run["schema_version"] == "p4-controlled-task-host-run/v1" &&
+           run["record_type"] == "P4_CONTROLLED_TASK_HOST_RUN" &&
+           run["verdict"] == expected_verdict &&
+           run["controlled_task_id"] == controlled_task["controlled_task_id"] &&
+           run["variant"] == variant && run["task_spec"] == task_spec_identity &&
+           run["host_evaluator"] == host_evaluator &&
+           run["target_file"] ==
+             (variant == "BASE" ? controlled_task["target_file"] : {
+               "path" => controlled_task.dig("target_file", "path"),
+               "byte_length" => task_spec.dig("source", "projected_fix_blob", "byte_length"),
+               "sha256" => task_spec.dig("source", "projected_fix_blob", "sha256"),
+               "mode" => "100644"
+             }) &&
+           run["dependency_inventory"] ==
+             controlled_task.dig("dependency_custody", "manifest") &&
+           run["execution_id"].is_a?(String) && !run["execution_id"].empty? &&
+           run["runner"] == task_spec.dig("runtime", "sandbox_exec") &&
+           run["cwd"] == execution["cwd"] && run["argv"] == execution["argv"] &&
+           run["environment"] == execution["environment"] &&
+           run["timeout_seconds"] == execution["timeout_seconds"] &&
+           run["sandbox_profile"] == task_spec.dig("runtime", "sandbox_profile") &&
+           run["exit_code"] == task_spec.dig(
+             "oracle", variant == "BASE" ? "expected_base_exit" : "expected_fix_exit"
+           ),
+           "P4 F1 #{variant} run semantic drift")
+    source = exact_keys(
+      run["source"], %w[base_commit base_tree variant_tree target_blob],
+      "P4 F1 #{variant} run source"
+    )
+    expected_source = {
+      "base_commit" => controlled_task.dig("base", "commit"),
+      "base_tree" => controlled_task.dig("base", "tree"),
+      "variant_tree" => variant == "BASE" ? controlled_task.dig("base", "tree") :
+        task_spec.dig("source", "projected_fix_tree"),
+      "target_blob" => variant == "BASE" ? task_spec.dig("source", "base_blob") :
+        task_spec.dig("source", "projected_fix_blob")
+    }
+    assert(source == expected_source &&
+           git!(root, "show", "-s", "--format=%T", source["base_commit"]).strip ==
+             source["base_tree"],
+           "P4 F1 #{variant} source Git identity drift")
+    network = exact_keys(
+      run["network_observation"], %w[mode receipt violation_count],
+      "P4 F1 #{variant} network observation"
+    )
+    assert(network["mode"] == "DENY_NETWORK" && network["violation_count"] == 0,
+           "P4 F1 #{variant} network denial was not proven")
+    observer = exact_keys(
+      validate_task_evidence_json!(root, network["receipt"], task,
+                                   "P4 F1 #{variant} network receipt"),
+      %w[
+        schema_version record_type verdict controlled_task_id variant mode observer
+        sandbox_profile events violation_count started_at_utc completed_at_utc
+      ],
+      "P4 F1 #{variant} network receipt"
+    )
+    events = array(observer["events"], "P4 F1 #{variant} network events").map do |event|
+      exact_keys(event, %w[sequence protocol address decision],
+                 "P4 F1 #{variant} network event")
+    end
+    violations = events.count { |event| event["decision"] != "DENIED" }
+    assert(observer["schema_version"] == "p4-deny-network-observer/v1" &&
+           observer["record_type"] == "P4_DENY_NETWORK_OBSERVER" && observer["verdict"] == "PASS" &&
+           observer["controlled_task_id"] == controlled_task["controlled_task_id"] &&
+           observer["variant"] == variant && observer["mode"] == "DENY_NETWORK" &&
+           observer["observer"] == task_spec.dig("runtime", "deny_network_observer") &&
+           observer["sandbox_profile"] == task_spec.dig("runtime", "sandbox_profile") &&
+           events.map { |event| event["protocol"] }.sort == %w[AF_INET AF_INET6] &&
+           events.map { |event| event["sequence"] } == (1..events.length).to_a &&
+           violations.zero? && observer["violation_count"] == violations &&
+           network["violation_count"] == violations,
+           "P4 F1 #{variant} network observer trace drift")
+    Time.iso8601(observer.fetch("started_at_utc"))
+    Time.iso8601(observer.fetch("completed_at_utc"))
+    %w[sandbox_profile stdout stderr].each do |field|
+      validate_task_evidence_identity!(root, run[field], task,
+                                       "P4 F1 #{variant} #{field}")
+    end
+    validate_no_canonical_mutation!(
+      root, run["canonical_mutation"], "P4 F1 #{variant} canonical mutation",
+      expected_identity: activation_commit
+    )
+    stdout_bytes = validate_task_evidence_identity!(root, run["stdout"], task,
+                                                    "P4 F1 #{variant} stdout replay")
+    stderr_bytes = validate_task_evidence_identity!(root, run["stderr"], task,
+                                                    "P4 F1 #{variant} stderr replay")
+    validate_host_process_event_trace!(
+      root, run["event_trace"], task, "P4 F1 #{variant}", {
+        "execution_id" => run["execution_id"], "runner" => run["runner"],
+        "cwd" => run["cwd"], "argv" => run["argv"],
+        "environment" => run["environment"], "timeout_seconds" => run["timeout_seconds"],
+        "sandbox_profile" => run["sandbox_profile"], "cwd_preflight" => run["cwd_preflight"],
+        "subject" => source,
+        "exit_code" => run["exit_code"], "stdout" => run["stdout"],
+        "stderr" => run["stderr"], "canonical_status" => run["canonical_status"]
+      }
+    )
+    stdout_result = JSON.parse(stdout_bytes)
+    expected_result = task_spec.dig(
+      "oracle", variant == "BASE" ? "expected_base_result" : "expected_fix_result"
+    )
+    assert(stderr_bytes.empty? && stdout_bytes == JSON.generate(expected_result) + "\n" &&
+           stdout_result == expected_result &&
+           run["issue_specific_test"] == stdout_result["issue"] &&
+           run["regression_test"] == stdout_result["regression"] &&
+           run["regression_test"] == "PASS" &&
+           run["issue_specific_test"] == (variant == "BASE" ? "FAIL" : "PASS"),
+           "P4 F1 #{variant} held result did not mechanically match stdout")
+    Time.iso8601(run.fetch("started_at_utc"))
+    Time.iso8601(run.fetch("completed_at_utc"))
+    run
+  end
+
+  def validate_f1_evidence!(root, manifest, task, activation_commit)
+    assert(manifest["schema_version"] == "p4-controlled-real-task-foundation-evidence/v1" &&
+           manifest["record_type"] == "P4_CONTROLLED_REAL_TASK_FOUNDATION_EVIDENCE",
+           "P4 F1 Evidence schema drift")
+    facts = exact_keys(
+      manifest["facts"], %w[controlled_task_count controlled_tasks], "P4 F1 facts"
+    )
+    controlled_tasks = array(facts["controlled_tasks"], "P4 F1 controlled tasks")
+    assert(facts["controlled_task_count"] == 2 && controlled_tasks.length == 2,
+           "P4 F1 did not freeze exactly two controlled tasks")
+    observed = {}
+    controlled_tasks.each_with_index do |value, index|
+      controlled = exact_keys(
+        value,
+        %w[
+          controlled_task_id language repository_provenance license base target_file
+          dependency_custody producer_task_spec task_spec host_evaluator base_run fix_run
+          hidden_reference_solution rollback
+        ],
+        "P4 F1 controlled task[#{index}]"
+      )
+      task_id = controlled["controlled_task_id"]
+      assert(CONTROLLED_TASKS[task_id] == controlled["language"] && !observed.key?(task_id),
+             "P4 F1 controlled task language or identity drift")
+      observed[task_id] = controlled["language"]
+      base = exact_keys(controlled["base"], %w[commit tree], "P4 F1 #{task_id} base")
+      assert(git!(root, "show", "-s", "--format=%T", base["commit"]).strip == base["tree"],
+             "P4 F1 #{task_id} base Git identity drift")
+      target = exact_keys(
+        controlled["target_file"], %w[path byte_length sha256 mode],
+        "P4 F1 #{task_id} target file"
+      )
+      entry = git!(root, "ls-tree", base["commit"], "--", target["path"]).split
+      target_bytes = git!(root, "show", "#{base['commit']}:#{target['path']}").b
+      assert(entry[0] == "100644" && entry[1] == "blob" && target["mode"] == "100644" &&
+             target_bytes.bytesize == target["byte_length"] &&
+             Digest::SHA256.hexdigest(target_bytes) == target["sha256"],
+             "P4 F1 #{task_id} target file identity drift")
+      custody = exact_keys(
+        controlled["dependency_custody"], %w[manifest closed offline network_required],
+        "P4 F1 #{task_id} dependency custody"
+      )
+      assert(custody["closed"] == true && custody["offline"] == true &&
+             custody["network_required"] == false,
+             "P4 F1 #{task_id} dependency closure is not closed and offline")
+      validate_task_evidence_identity!(root, custody["manifest"], task,
+                                       "P4 F1 #{task_id} dependency manifest")
+      provenance = exact_keys(
+        validate_task_evidence_json!(
+          root, controlled["repository_provenance"], task, "P4 F1 #{task_id} provenance"
+        ),
+        %w[
+          schema_version repository base_commit base_tree fix_commit fix_tree
+          ancestry_verified target_path issue_identity created_at_utc
+        ],
+        "P4 F1 #{task_id} provenance"
+      )
+      assert(provenance["schema_version"] == "p4-controlled-task-provenance/v1" &&
+             provenance["repository"] == "https://github.com/LJunP/SourceLens-AIOS.git" &&
+             provenance["base_commit"] == base["commit"] &&
+             provenance["base_tree"] == base["tree"] &&
+             provenance["target_path"] == target["path"] &&
+             provenance["ancestry_verified"] == true,
+             "P4 F1 #{task_id} provenance drift")
+      Time.iso8601(provenance.fetch("created_at_utc"))
+      validate_task_evidence_identity!(root, provenance["issue_identity"], task,
+                                       "P4 F1 #{task_id} issue identity")
+      fix = {"commit" => provenance["fix_commit"], "tree" => provenance["fix_tree"]}
+      assert(git!(root, "show", "-s", "--format=%P", fix["commit"]).split == [base["commit"]] &&
+             git!(root, "show", "-s", "--format=%T", fix["commit"]).strip == fix["tree"],
+             "P4 F1 #{task_id} historical fix is not the direct child of base")
+      _out, _err, base_ancestor = git_capture(root, "merge-base", "--is-ancestor",
+                                               base["commit"], "main")
+      _out, _err, fix_ancestor = git_capture(root, "merge-base", "--is-ancestor",
+                                              fix["commit"], "main")
+      assert(base_ancestor.success? && fix_ancestor.success?,
+             "P4 F1 #{task_id} source commits are not canonical ancestry")
+      actual_changes = git!(root, "diff", "--name-status", "--no-renames",
+                            base["commit"], fix["commit"], "--", target["path"]).lines.map do |line|
+        line.chomp.split("\t", 2)
+      end
+      fix_entry = git!(root, "ls-tree", fix["commit"], "--", target["path"]).split
+      assert(actual_changes == [["M", target["path"]]] && fix_entry[0] == "100644" &&
+             fix_entry[1] == "blob",
+             "P4 F1 #{task_id} target change is not an existing regular-blob modification")
+      license = exact_keys(
+        validate_task_evidence_json!(
+          root, controlled["license"], task, "P4 F1 #{task_id} license"
+        ),
+        %w[
+          schema_version repository covered_commits purpose redistribution network_upload
+          public_release commercial_or_third_party_rights_granted authorization issued_at_utc
+        ],
+        "P4 F1 #{task_id} license"
+      )
+      assert(license["schema_version"] == "first-party-internal-evaluation-license/v1" &&
+             license["repository"] == provenance["repository"] &&
+             license["covered_commits"] == [base["commit"], fix["commit"]] &&
+             license["purpose"] == "INTERNAL_CONTROLLED_EVALUATION_ONLY" &&
+             license["redistribution"] == "PROHIBITED" &&
+             license["network_upload"] == "PROHIBITED" &&
+             license["public_release"] == "PROHIBITED" &&
+             license["commercial_or_third_party_rights_granted"] == false &&
+             license["authorization"] == DIRECT_AUTHORIZATION,
+             "P4 F1 #{task_id} license boundary drift")
+      Time.iso8601(license.fetch("issued_at_utc"))
+      task_spec = exact_keys(
+        controlled["task_spec"], %w[path byte_length sha256], "P4 F1 #{task_id} TaskSpec identity"
+      )
+      producer_task_spec = exact_keys(
+        controlled["producer_task_spec"], %w[path byte_length sha256],
+        "P4 F1 #{task_id} producer TaskSpec identity"
+      )
+      evaluator = exact_keys(
+        controlled["host_evaluator"], %w[path byte_length sha256],
+        "P4 F1 #{task_id} evaluator identity"
+      )
+      validate_f1_producer_task_spec!(root, producer_task_spec, task, controlled)
+      task_spec_record = validate_f1_task_spec!(root, task_spec, task, controlled)
+      assert(task_spec_record.dig("provenance", "historical_fix_commit") == fix["commit"] &&
+             task_spec_record.dig("provenance", "historical_fix_tree") == fix["tree"] &&
+             task_spec_record.dig("provenance", "rights_receipt_artifact") ==
+               controlled["license"] &&
+             task_spec_record.dig("source", "base_blob").slice("byte_length", "sha256") ==
+               target.slice("byte_length", "sha256"),
+             "P4 F1 #{task_id} TaskSpec provenance/source binding drift")
+      fix_target_bytes = git!(root, "show", "#{fix['commit']}:#{target['path']}").b
+      assert(task_spec_record.dig("source", "projected_fix_blob").slice(
+               "byte_length", "sha256"
+             ) == {
+               "byte_length" => fix_target_bytes.bytesize,
+               "sha256" => Digest::SHA256.hexdigest(fix_target_bytes)
+             }, "P4 F1 #{task_id} projected fix blob does not equal the historical target blob")
+      projected_tree = task_spec_record.dig("source", "projected_fix_tree")
+      projected_entry = git!(root, "ls-tree", projected_tree, "--", target["path"]).split
+      projected_changes = git!(
+        root, "diff-tree", "-r", "--name-status", "--no-renames", base["tree"], projected_tree
+      ).lines.map { |line| line.chomp.split("\t", 2) }
+      assert(git!(root, "cat-file", "-t", projected_tree).strip == "tree" &&
+             projected_changes == [["M", target["path"]]] &&
+             projected_entry[0] == "100644" && projected_entry[1] == "blob" &&
+             projected_entry[2] == fix_entry[2],
+             "P4 F1 #{task_id} projected reference tree is not exact base plus target-only fix")
+      validate_task_evidence_identity!(root, evaluator, task, "P4 F1 #{task_id} evaluator")
+      base_run = validate_f1_run!(
+        root, controlled["base_run"], task, controlled, "BASE", task_spec,
+        task_spec_record, evaluator, activation_commit
+      )
+      fix_run = validate_f1_run!(
+        root, controlled["fix_run"], task, controlled, "FIX", task_spec,
+        task_spec_record, evaluator, activation_commit
+      )
+      assert(base_run.dig("source", "variant_tree") == base["tree"] &&
+             fix_run.dig("source", "variant_tree") ==
+               task_spec_record.dig("source", "projected_fix_tree"),
+             "P4 F1 #{task_id} base/fix source separation drift")
+      reference_patch = validate_task_evidence_identity!(
+        root, controlled["hidden_reference_solution"], task,
+        "P4 F1 #{task_id} hidden reference solution"
+      )
+      actual_patch = git!(root, "diff", "--no-ext-diff", "--binary",
+                          base["commit"], fix["commit"], "--", target["path"]).b
+      assert(reference_patch == actual_patch &&
+             task_spec_record.dig("reference", "patch_artifact") ==
+               controlled["hidden_reference_solution"],
+             "P4 F1 #{task_id} hidden reference patch does not equal the exact base/fix diff")
+      rollback = validate_task_evidence_json!(
+        root, controlled["rollback"], task, "P4 F1 #{task_id} rollback"
+      )
+      assert(rollback["schema_version"] == "p4-controlled-task-rollback/v1" &&
+             rollback["controlled_task_id"] == task_id && rollback["verdict"] == "PASS",
+             "P4 F1 #{task_id} rollback was not proven")
+    end
+    assert(observed == CONTROLLED_TASKS, "P4 F1 controlled task set drift")
+    expected_candidate = {
+      "foundation_id" => "P4_F1_CONTROLLED_REAL_TASK_FOUNDATION_V1",
+      "controlled_task_ids" => CONTROLLED_TASKS.keys.sort
+    }
+    expected_candidate
+  end
+
+  def validate_unified_diff!(bytes, expected_path)
+    text = bytes.dup.force_encoding("UTF-8")
+    assert(text.valid_encoding? && !text.include?("GIT binary patch") &&
+           !text.match?(/^Binary files /) && !text.match?(/^new file mode /) &&
+           !text.match?(/^deleted file mode /) && !text.match?(/^old mode /) &&
+           !text.match?(/^new mode /) && !text.match?(/^rename (?:from|to) /),
+           "P4 proposal patch contains a forbidden binary/create/delete/rename/mode change")
+    headers = text.scan(/^diff --git a\/(.+) b\/(.+)$/)
+    hunks = text.lines.count { |line| line.start_with?("@@ ") }
+    additions = text.lines.count { |line| line.start_with?("+") && !line.start_with?("+++") }
+    deletions = text.lines.count { |line| line.start_with?("-") && !line.start_with?("---") }
+    assert(headers == [[expected_path, expected_path]] && hunks.positive? &&
+           (additions + deletions).positive? &&
+           text.include?("--- a/#{expected_path}\n") &&
+           text.include?("+++ b/#{expected_path}\n") && !text.include?("/dev/null"),
+           "P4 proposal patch is not an exact one-file existing-path unified diff")
+  end
+
+  def validate_proposal_package!(root, identity, task, controlled_tasks,
+                                 expected_controlled_task_id: nil)
+    package = exact_keys(
+      validate_task_evidence_json!(root, identity, task, "P4 proposal package"),
+      %w[
+        schema_version record_type manifest source_identity environment understanding plan
+        actions patch rationale risk_notes tests verification risk approval rollback claims
+        claim applied external_effects created_at_utc
+      ],
+      "P4 proposal package"
+    )
+    assert(package["schema_version"] == "patch-evidence-package-proposal/v1" &&
+           package["record_type"] == "PATCH_EVIDENCE_PACKAGE_PROPOSAL" &&
+           package["actions"] == [] && package["claim"] == "NON_AUTHORITATIVE_PROPOSAL_ONLY" &&
+           package["claims"] == %w[
+             NON_AUTHORITATIVE_PROPOSAL_ONLY NOT_APPLIED TESTS_NOT_RUN VERIFICATION_NOT_RUN
+             APPROVAL_PENDING
+           ] &&
+           package["applied"] == false && package["tests"] == "NOT_RUN" &&
+           package["verification"] == "NOT_RUN" && package["approval"] == "PENDING" &&
+           package["rollback"] == "NO_SOURCE_MUTATION" && package["external_effects"] == [] &&
+           package["understanding"].is_a?(String) && !package["understanding"].strip.empty? &&
+           package["plan"].is_a?(Array) && !package["plan"].empty? &&
+           package["plan"].all? { |step| step.is_a?(String) && !step.strip.empty? } &&
+           package["rationale"].is_a?(String) && !package["rationale"].strip.empty? &&
+           package["risk_notes"].is_a?(Array) && package["risk"].is_a?(Hash),
+           "P4 proposal package authority or lifecycle drift")
+    source = exact_keys(
+      package["source_identity"],
+      %w[controlled_task_id base_commit base_tree target_path task_spec],
+      "P4 proposal package source identity"
+    )
+    controlled = controlled_tasks[source["controlled_task_id"]]
+    assert(controlled &&
+           (expected_controlled_task_id.nil? ||
+             source["controlled_task_id"] == expected_controlled_task_id) &&
+           source["base_commit"] == controlled.dig("base", "commit") &&
+           source["base_tree"] == controlled.dig("base", "tree") &&
+           source["target_path"] == controlled.dig("target_file", "path") &&
+           source["task_spec"] == controlled["producer_task_spec"] &&
+           git!(root, "show", "-s", "--format=%T", source["base_commit"]).strip ==
+             source["base_tree"],
+           "P4 proposal package source identity drift")
+    environment = exact_keys(
+      package["environment"], %w[network secret command_or_tool canonical_write],
+      "P4 proposal package environment"
+    )
+    assert(environment == {
+      "network" => false, "secret" => false,
+      "command_or_tool" => false, "canonical_write" => false
+    },
+           "P4 proposal package environment escaped proposal-only authority")
+    patch_bytes = validate_task_evidence_identity!(root, package["patch"], task,
+                                                   "P4 proposal unified diff")
+    package_manifest = exact_keys(
+      validate_task_evidence_json!(root, package["manifest"], task,
+                                   "P4 proposal package manifest"),
+      %w[
+        schema_version record_type source_identity patch package_payload_sha256 claim applied
+        tests verification approval external_effects
+      ],
+      "P4 proposal package manifest"
+    )
+    package_payload = package.reject { |key, _value| key == "manifest" }
+    assert(package_manifest == {
+      "schema_version" => "patch-evidence-package-manifest/v1",
+      "record_type" => "PATCH_EVIDENCE_PACKAGE_MANIFEST",
+      "source_identity" => package["source_identity"], "patch" => package["patch"],
+      "package_payload_sha256" => Digest::SHA256.hexdigest(JSON.generate(package_payload).b),
+      "claim" => package["claim"], "applied" => package["applied"],
+      "tests" => package["tests"], "verification" => package["verification"],
+      "approval" => package["approval"], "external_effects" => package["external_effects"]
+    }, "P4 proposal package manifest does not bind the exact package payload")
+    validate_unified_diff!(patch_bytes, source["target_path"])
+    Time.iso8601(package.fetch("created_at_utc"))
+    package
+  end
+
+  def validate_product_check!(root, identity, task, candidate, check_name, expected_check,
+                              required_testcase_ids)
+    check = exact_keys(
+      validate_task_evidence_json!(root, identity, task, "P4 P1 #{check_name} receipt"),
+      %w[
+        schema_version record_type verdict check candidate execution_id runner sandbox_profile
+        cwd command environment timeout_seconds cwd_preflight event_trace exit_code stdout stderr
+        result_artifacts canonical_status external_effects completed_at_utc
+      ],
+      "P4 P1 #{check_name} receipt"
+    )
+    assert(check["schema_version"] == "p4-product-verification-result/v1" &&
+           check["record_type"] == "P4_PRODUCT_VERIFICATION_RESULT" &&
+           check["verdict"] == "PASS" && check["check"] == check_name &&
+           check["candidate"] == candidate &&
+           check["execution_id"].is_a?(String) && !check["execution_id"].empty? &&
+           check["runner"] == expected_check["runner"] &&
+           check["sandbox_profile"] == expected_check["sandbox_profile"] &&
+           check["cwd"] == expected_check["cwd"] &&
+           check["command"] == expected_check["command"] &&
+           check["environment"] == expected_check["environment"] &&
+           check["timeout_seconds"] == expected_check["timeout_seconds"] &&
+           check["exit_code"] == 0 && check["external_effects"] == FALSE_EFFECTS,
+           "P4 P1 #{check_name} did not mechanically PASS")
+    stdout = validate_task_evidence_identity!(root, check["stdout"], task,
+                                              "P4 P1 #{check_name} stdout")
+    stderr = validate_task_evidence_identity!(root, check["stderr"], task,
+                                              "P4 P1 #{check_name} stderr")
+    validate_host_process_event_trace!(
+      root, check["event_trace"], task, "P4 P1 #{check_name}", {
+        "execution_id" => check["execution_id"], "runner" => check["runner"],
+        "cwd" => check["cwd"], "argv" => check["command"],
+        "environment" => check["environment"], "timeout_seconds" => check["timeout_seconds"],
+        "sandbox_profile" => check["sandbox_profile"],
+        "cwd_preflight" => check["cwd_preflight"], "subject" => candidate,
+        "exit_code" => check["exit_code"], "stdout" => check["stdout"],
+        "stderr" => check["stderr"], "result_artifacts" => check["result_artifacts"],
+        "canonical_status" => check["canonical_status"]
+      }
+    )
+    result_spec = exact_keys(
+      expected_check["expected_result"], %w[kind minimum_tests],
+      "P4 P1 #{check_name} expected result"
+    )
+    artifacts = array(check["result_artifacts"], "P4 P1 #{check_name} result artifacts")
+    if result_spec["kind"] == "EXIT_ZERO"
+      assert(result_spec["minimum_tests"] == 0 && artifacts.empty?,
+             "P4 P1 #{check_name} compile result shape drift")
+    else
+      assert(result_spec["kind"] == "JUNIT_XML" &&
+             result_spec["minimum_tests"].is_a?(Integer) &&
+             result_spec["minimum_tests"].positive?,
+             "P4 P1 #{check_name} test result specification drift")
+      documents = artifacts.map.with_index do |artifact, index|
+        validate_task_evidence_identity!(
+          root, artifact, task, "P4 P1 #{check_name} JUnit XML[#{index}]"
+        )
+      end
+      validate_p1_junit_documents!(
+        documents, result_spec["minimum_tests"], required_testcase_ids,
+        "P4 P1 #{check_name}"
+      )
+    end
+    assert(stdout.bytesize <= 1_048_576 && stderr.bytesize <= 1_048_576,
+           "P4 P1 #{check_name} raw output exceeded the frozen Evidence bound")
+    Time.iso8601(check.fetch("completed_at_utc"))
+    check
+  end
+
+  def validate_p1_junit_documents!(documents, minimum_tests, required_testcase_ids, label)
+    xml_documents = array(documents, "#{label} JUnit documents")
+    required = array(required_testcase_ids, "#{label} required testcase IDs")
+    passed_testcase_ids = []
+    totals = xml_documents.map.with_index do |bytes, index|
+      assert(bytes.is_a?(String), "#{label} JUnit XML[#{index}] is not bytes")
+      xml = REXML::Document.new(bytes)
+      suite = xml.root
+      assert(suite && suite.name == "testsuite", "#{label} JUnit root drift")
+      declared = %w[tests failures errors skipped].map do |attribute|
+        value = suite.attributes[attribute]
+        assert(value && value.to_s.match?(/\A[0-9]+\z/),
+               "#{label} JUnit #{attribute} aggregate is absent or non-numeric")
+        Integer(value.to_s, 10)
+      end
+      cases = REXML::XPath.match(suite, ".//testcase")
+      derived = [
+        cases.length,
+        cases.count { |testcase| testcase.elements["failure"] },
+        cases.count { |testcase| testcase.elements["error"] },
+        cases.count { |testcase| testcase.elements["skipped"] }
+      ]
+      assert(declared == derived,
+             "#{label} JUnit aggregate does not match testcase children")
+      cases.each do |testcase|
+        next if testcase.elements["failure"] || testcase.elements["error"] ||
+                testcase.elements["skipped"]
+
+        class_name = testcase.attributes["classname"].to_s
+        test_name = testcase.attributes["name"].to_s
+        passed_testcase_ids << "#{class_name}##{test_name}"
+      end
+      declared
+    end
+    aggregate = totals.transpose.map(&:sum)
+    passed = aggregate[0] - aggregate[1] - aggregate[2] - aggregate[3]
+    assert(!totals.empty? && aggregate[0].positive? && minimum_tests.is_a?(Integer) &&
+           minimum_tests.positive? && passed >= minimum_tests &&
+           aggregate[1] == 0 && aggregate[2] == 0,
+           "#{label} JUnit results contain no tests or a failure/error")
+    assert((required - passed_testcase_ids.uniq).empty?,
+           "#{label} did not PASS every preactivation frozen testcase")
+    {"aggregate" => aggregate, "passed_testcase_ids" => passed_testcase_ids.uniq.sort}
+  rescue REXML::ParseException, ArgumentError, KeyError => e
+    raise P4ProposalFirstControlledRealTaskRouteValidationError,
+          "#{label} JUnit Evidence invalid: #{e.message}"
+  end
+
+  def validate_p1_forbidden_added_references!(root, parent_commit, candidate_commit, paths)
+    patch = git!(
+      root, "diff", "--unified=0", "--no-ext-diff", "--no-textconv", "--no-renames",
+      parent_commit, candidate_commit, "--", *paths
+    )
+    added_lines = patch.lines.select do |line|
+      line.start_with?("+") && !line.start_with?("+++")
+    end.map { |line| line.delete_prefix("+") }
+    found = P1_FORBIDDEN_ADDED_REFERENCES.select do |token|
+      added_lines.any? { |line| line.match?(/\b#{Regexp.escape(token)}\b/) }
+    end
+    assert(found.empty?,
+           "P4 P1 Product introduced a forbidden service/tool/legacy execution reference: " \
+           "#{found.join(', ')}")
+  end
+
+  def expected_p1_required_testcase_ids
+    {
+      "compile" => [],
+      "focused_tests" => P1_REQUIRED_CASES.values.select do |record|
+        record["suite"] == "focused_tests"
+      end.map { |record| record["testcase_id"] }.sort,
+      "regression_tests" => P1_REQUIRED_CASES.values.select do |record|
+        record["suite"] == "regression_tests"
+      end.map { |record| record["testcase_id"] }.sort
+    }
+  end
+
+  def validate_p1_required_case_matrix!(required_cases, required_testcase_ids, label)
+    ids = exact_keys(
+      required_testcase_ids, %w[compile focused_tests regression_tests],
+      "#{label} testcase sets"
+    )
+    assert(required_cases == P1_REQUIRED_CASES &&
+           ids == expected_p1_required_testcase_ids,
+           "#{label} does not bind the exact required case matrix")
+    ids
+  end
+
+  def validate_p1_schema_need_iff!(changed_paths, receipt_identity)
+    paths = array(changed_paths, "P4 P1 changed paths for schema-need decision")
+    migration_changed = paths.include?(CONDITIONAL_P1_MIGRATION_PATH)
+    assert(migration_changed == !receipt_identity.nil?,
+           "P4 P1 V034 migration and pre-Worker schema-need receipt are not iff-bound")
+    migration_changed
+  end
+
+  def validate_p1_evidence!(root, manifest, task, activation_commit, prior_acceptances,
+                            frozen_execution_plan, pre_worker_schema_need_receipt,
+                            activation_parent)
+    assert(manifest["schema_version"] == "p4-patch-evidence-product-evidence/v1" &&
+           manifest["record_type"] == "P4_PATCH_EVIDENCE_PRODUCT_EVIDENCE",
+           "P4 P1 Evidence schema drift")
+    facts = exact_keys(
+      manifest["facts"],
+      %w[
+        product_candidate product_source_diff product_verification_spec product_verification
+        producer_input_manifest proposal_package
+      ],
+      "P4 P1 facts"
+    )
+    frozen_plan = exact_keys(
+      validate_task_evidence_json!(root, frozen_execution_plan, task,
+                                   "P4 P1 preactivation frozen verification plan"),
+      %w[
+        schema_version record_type checks deny_network_profile deny_network_observer
+        required_cases required_testcase_ids frozen_at_utc
+      ],
+      "P4 P1 preactivation frozen verification plan"
+    )
+    expected_required_testcase_ids = expected_p1_required_testcase_ids
+    assert(frozen_plan["schema_version"] == "p4-p1-frozen-verification-plan/v1" &&
+           frozen_plan["record_type"] == "P4_P1_FROZEN_VERIFICATION_PLAN" &&
+           validate_p1_required_case_matrix!(
+             frozen_plan["required_cases"], frozen_plan["required_testcase_ids"],
+             "P4 P1 preactivation frozen plan"
+           ) == expected_required_testcase_ids,
+           "P4 P1 verification plan schema drift")
+    Time.iso8601(frozen_plan.fetch("frozen_at_utc"))
+    candidate = exact_keys(
+      facts["product_candidate"], %w[commit tree parent_commit parent_tree],
+      "P4 P1 product candidate"
+    )
+    assert(candidate["parent_commit"] == activation_commit["commit"] &&
+           candidate["parent_tree"] == activation_commit["tree"] &&
+           git!(root, "show", "-s", "--format=%P", candidate["commit"]).split ==
+             [candidate["parent_commit"]] &&
+           git!(root, "show", "-s", "--format=%T", candidate["commit"]).strip ==
+             candidate["tree"],
+           "P4 P1 candidate Git identity or activation parent drift")
+    _out, _err, ancestor = git_capture(
+      root, "merge-base", "--is-ancestor", candidate["parent_commit"], candidate["commit"]
+    )
+    assert(ancestor.success?, "P4 P1 candidate does not descend from its activation commit")
+    records = git!(
+      root, "diff", "--name-status", "--no-renames", candidate["parent_commit"],
+      candidate["commit"]
+    ).lines.map { |line| line.chomp.split("\t", 2) }
+    paths = records.map(&:last)
+    diff = exact_keys(
+      facts["product_source_diff"],
+      %w[changed_paths non_empty testable rename_count symlink_count],
+      "P4 P1 product source diff"
+    )
+    assert(records.all? { |status, _path| %w[A M].include?(status) } && !paths.empty? &&
+           paths.sort == diff["changed_paths"].sort &&
+           (paths - PRODUCT_WRITE_ALLOWLIST).empty? &&
+           (paths & FORBIDDEN_PRODUCT_PATHS).empty? &&
+           diff["non_empty"] == true && diff["testable"] == true &&
+           diff["rename_count"] == 0 && diff["symlink_count"] == 0 &&
+           paths.any? { |path| path.include?("/src/main/") || path.start_with?("web-console/src/") } &&
+           paths.any? { |path| path.include?("/src/test/") },
+           "P4 P1 product diff is empty, untestable or outside the exact allowlist")
+    paths.each do |path|
+      entry = git!(root, "ls-tree", candidate["commit"], "--", path).split
+      assert(entry[0] == "100644" && entry[1] == "blob",
+             "P4 P1 product candidate contains a symlink or mode/type drift")
+    end
+    migration_changed = validate_p1_schema_need_iff!(paths, pre_worker_schema_need_receipt)
+    if migration_changed
+      validate_p1_schema_need_receipt!(
+        root, pre_worker_schema_need_receipt, task, activation_parent
+      )
+    end
+    validate_p1_forbidden_added_references!(
+      root, candidate["parent_commit"], candidate["commit"], paths
+    )
+    verification = exact_keys(
+      facts["product_verification"],
+      %w[compile focused_tests regression_tests deny_network canonical_mutation],
+      "P4 P1 product verification"
+    )
+    verification_spec = exact_keys(
+      validate_task_evidence_json!(root, facts["product_verification_spec"], task,
+                                   "P4 P1 product verification spec"),
+      %w[
+        schema_version record_type candidate checks deny_network_profile deny_network_observer
+        required_cases required_testcase_ids
+      ],
+      "P4 P1 product verification spec"
+    )
+    checks = exact_keys(
+      verification_spec["checks"], %w[compile focused_tests regression_tests],
+      "P4 P1 frozen checks"
+    )
+    required_testcase_ids = exact_keys(
+      verification_spec["required_testcase_ids"],
+      %w[compile focused_tests regression_tests], "P4 P1 frozen testcase sets"
+    )
+    assert(validate_p1_required_case_matrix!(
+             verification_spec["required_cases"], required_testcase_ids,
+             "P4 P1 verification spec"
+           ) == expected_required_testcase_ids,
+           "P4 P1 verification spec required case matrix drift")
+    required_testcase_ids.each do |check_name, identifiers|
+      list = array(identifiers, "P4 P1 #{check_name} frozen testcase IDs")
+      assert(list.all? { |identifier| identifier.is_a?(String) && identifier.include?("#") } &&
+             list.uniq.length == list.length &&
+             (check_name == "compile" ? list.empty? : !list.empty?),
+             "P4 P1 #{check_name} frozen testcase set drift")
+    end
+    checks.each do |check_name, check|
+      exact_keys(
+        check,
+        %w[runner sandbox_profile cwd command environment timeout_seconds expected_result],
+        "P4 P1 frozen #{check_name}"
+      )
+      runner = exact_keys(check["runner"], %w[path byte_length sha256],
+                          "P4 P1 frozen #{check_name} runner")
+      assert(runner["path"] == "/usr/bin/sandbox-exec",
+             "P4 P1 frozen #{check_name} runner is not host sandbox-exec")
+      validate_identity!(root, runner, "P4 P1 frozen #{check_name} runner")
+      assert(check["sandbox_profile"] == verification_spec["deny_network_profile"] &&
+             check["cwd"].is_a?(String) &&
+             check["cwd"].start_with?("/private/tmp/sourcelens-p4-p1-") &&
+             check["command"].is_a?(Array) && !check["command"].empty? &&
+             check["command"].all? { |argument| argument.is_a?(String) },
+             "P4 P1 frozen #{check_name} command drift")
+      assert(check["environment"].is_a?(Hash) &&
+             (check["environment"].keys - %w[PATH LANG LC_ALL TZ TMPDIR JAVA_HOME MAVEN_OPTS]).empty? &&
+             check["environment"].values.all? { |value| value.is_a?(String) } &&
+             check["timeout_seconds"].is_a?(Integer) &&
+             check["timeout_seconds"].between?(1, 1_800),
+             "P4 P1 frozen #{check_name} environment or timeout drift")
+    end
+    assert(verification_spec["schema_version"] == "p4-product-verification-spec/v1" &&
+           verification_spec["record_type"] == "P4_PRODUCT_VERIFICATION_SPEC" &&
+           verification_spec["candidate"] == candidate &&
+           verification_spec.slice(
+             "checks", "deny_network_profile", "deny_network_observer", "required_cases",
+             "required_testcase_ids"
+           ) == frozen_plan.slice(
+             "checks", "deny_network_profile", "deny_network_observer", "required_cases",
+             "required_testcase_ids"
+           ),
+           "P4 P1 product verification spec candidate drift")
+    profile_bytes = validate_task_evidence_identity!(
+      root, verification_spec["deny_network_profile"], task, "P4 P1 deny-network profile"
+    )
+    assert(profile_bytes == expected_deny_network_profile(task).b,
+           "P4 P1 deny-network profile policy drift")
+    validate_task_evidence_identity!(root, verification_spec["deny_network_observer"], task,
+                                     "P4 P1 deny-network observer")
+    %w[compile focused_tests regression_tests].each do |check_name|
+      validate_product_check!(
+        root, verification[check_name], task, candidate, check_name, checks.fetch(check_name),
+        array(
+          verification_spec.dig("required_testcase_ids", check_name),
+          "P4 P1 #{check_name} frozen testcase IDs"
+        )
+      )
+    end
+    deny_network = exact_keys(
+      validate_task_evidence_json!(root, verification["deny_network"], task,
+                                   "P4 P1 deny-network receipt"),
+      %w[
+        schema_version record_type verdict mode observer profile observer_trace
+        violation_count completed_at_utc
+      ],
+      "P4 P1 deny-network receipt"
+    )
+    assert(deny_network["schema_version"] == "p4-product-deny-network-result/v1" &&
+           deny_network["record_type"] == "P4_PRODUCT_DENY_NETWORK_RESULT" &&
+           deny_network["verdict"] == "PASS" && deny_network["mode"] == "DENY_NETWORK" &&
+           deny_network["observer"] == verification_spec["deny_network_observer"] &&
+           deny_network["profile"] == verification_spec["deny_network_profile"],
+           "P4 P1 deny-network verification drift")
+    observer_trace = exact_keys(
+      validate_task_evidence_json!(root, deny_network["observer_trace"], task,
+                                   "P4 P1 network observer trace"),
+      %w[schema_version record_type events violation_count], "P4 P1 network observer trace"
+    )
+    events = array(observer_trace["events"], "P4 P1 network events").map.with_index do |value, index|
+      event = exact_keys(value, %w[sequence protocol address decision],
+                         "P4 P1 network event[#{index}]")
+      assert(event["sequence"] == index + 1, "P4 P1 network event sequence drift")
+      event
+    end
+    violations = events.count { |event| event["decision"] != "DENIED" }
+    assert(observer_trace["schema_version"] == "p4-product-deny-network-trace/v1" &&
+           observer_trace["record_type"] == "P4_PRODUCT_DENY_NETWORK_TRACE" &&
+           events.map { |event| event["protocol"] }.sort == %w[AF_INET AF_INET6] &&
+           violations.zero? && observer_trace["violation_count"] == violations &&
+           deny_network["violation_count"] == violations,
+           "P4 P1 network observer trace did not prove deny-network")
+    Time.iso8601(deny_network.fetch("completed_at_utc"))
+    validate_no_canonical_mutation!(
+      root, verification["canonical_mutation"], "P4 P1 canonical mutation",
+      expected_identity: activation_commit
+    )
+    f1_manifest = prior_acceptances.dig(0, "_manifest")
+    assert(f1_manifest.is_a?(Hash), "P4 P1 accepted F1 typed Evidence is unavailable")
+    controlled_tasks = f1_manifest.dig("facts", "controlled_tasks").each_with_object({}) do |entry, result|
+      result[entry["controlled_task_id"]] = entry
+    end
+    producer_inputs = exact_keys(
+      validate_task_evidence_json!(root, facts["producer_input_manifest"], task,
+                                   "P4 P1 producer input manifest"),
+      %w[
+        schema_version record_type model_visible_artifacts evaluator_private_artifact_access_count
+        shell_access network_access provider_access secret_access created_at_utc
+      ],
+      "P4 P1 producer input manifest"
+    )
+    visible = array(
+      producer_inputs["model_visible_artifacts"], "P4 P1 model-visible artifacts"
+    ).map do |value|
+      record = exact_keys(
+        value, %w[controlled_task_id producer_task_spec], "P4 P1 model-visible artifact"
+      )
+      controlled = controlled_tasks[record["controlled_task_id"]]
+      assert(controlled && record["producer_task_spec"] == controlled["producer_task_spec"],
+             "P4 P1 producer input is not the exact public F1 TaskSpec")
+      validate_create_once_identity!(
+        root, record["producer_task_spec"], "P4 P1 accepted public F1 TaskSpec"
+      )
+      record
+    end
+    assert(producer_inputs["schema_version"] == "p4-producer-input-manifest/v1" &&
+           producer_inputs["record_type"] == "P4_PRODUCER_INPUT_MANIFEST" &&
+           visible.map { |record| record["controlled_task_id"] } == CONTROLLED_TASKS.keys.sort &&
+           producer_inputs["evaluator_private_artifact_access_count"] == 0 &&
+           producer_inputs.values_at(
+             "shell_access", "network_access", "provider_access", "secret_access"
+           ) == [false, false, false, false],
+           "P4 P1 producer input manifest exposed evaluator-private or effect authority")
+    Time.iso8601(producer_inputs.fetch("created_at_utc"))
+    validate_proposal_package!(root, facts["proposal_package"], task, controlled_tasks)
+    candidate
+  end
+
+  def validate_e1_schedule!(root, identity, task, dispatch, controlled_tasks, product_candidate)
+    schedule = exact_keys(
+      validate_task_evidence_json!(root, identity, task, "P4 E1 frozen formal schedule"),
+      %w[schema_version record_type dispatch_id product_candidate checks frozen_at_utc],
+      "P4 E1 frozen formal schedule"
+    )
+    checks = array(schedule["checks"], "P4 E1 frozen schedule checks")
+    expected_pairs = CONTROLLED_TASKS.keys.sort.product(
+      %w[package_integrity isolated_application issue_specific_tests regression_tests]
+    )
+    observed_pairs = checks.map do |value|
+      check = exact_keys(
+        value,
+        %w[
+          controlled_task_id check producer_task_spec evaluator_task_spec host_evaluator operation
+          runner sandbox_profile cwd argv environment timeout_seconds expected_result
+        ],
+        "P4 E1 frozen scheduled check"
+      )
+      controlled = controlled_tasks[check["controlled_task_id"]]
+      assert(controlled && check["producer_task_spec"] == controlled["producer_task_spec"] &&
+             check["evaluator_task_spec"] == controlled["task_spec"] &&
+             check["host_evaluator"] == controlled["host_evaluator"] &&
+             check["sandbox_profile"] == dispatch["sandbox_profile"],
+             "P4 E1 frozen check TaskSpec or sandbox binding drift")
+      runner = exact_keys(check["runner"], %w[path byte_length sha256],
+                          "P4 E1 frozen check runner")
+      assert(runner["path"] == "/usr/bin/sandbox-exec",
+             "P4 E1 frozen check runner is not host sandbox-exec")
+      validate_identity!(root, runner, "P4 E1 host sandbox-exec")
+      validate_create_once_identity!(
+        root, check["host_evaluator"], "P4 E1 accepted F1 Host evaluator"
+      )
+      expected_operation = {
+        "package_integrity" => "VERIFY_PATCH_EVIDENCE_PACKAGE_V1",
+        "isolated_application" => "APPLY_SINGLE_FILE_PATCH_TO_DISPOSABLE_BASE_V1",
+        "issue_specific_tests" => "RUN_FROZEN_ISSUE_SPECIFIC_TEST_V1",
+        "regression_tests" => "RUN_FROZEN_REGRESSION_TEST_V1"
+      }.fetch(check["check"])
+      assert(check["cwd"].is_a?(String) &&
+             check["cwd"].start_with?("/private/tmp/sourcelens-p4-e1-") &&
+             check["argv"].is_a?(Array) && !check["argv"].empty? &&
+             check["argv"].all? { |argument| argument.is_a?(String) } &&
+             check["operation"] == expected_operation &&
+             check["argv"].include?(check.dig("host_evaluator", "path")) &&
+             check["argv"].include?(expected_operation) &&
+             check["environment"].is_a?(Hash) &&
+             (check["environment"].keys - %w[PATH LANG LC_ALL TZ TMPDIR JAVA_HOME NODE_NO_WARNINGS]).empty? &&
+             check["environment"].values.all? { |entry| entry.is_a?(String) } &&
+             check["timeout_seconds"].is_a?(Integer) &&
+             check["timeout_seconds"].between?(1, 1_800),
+             "P4 E1 frozen check cwd/argv/environment/timeout drift")
+      result = exact_keys(check["expected_result"], %w[kind value],
+                          "P4 E1 frozen expected result")
+      if %w[issue_specific_tests regression_tests].include?(check["check"])
+        private_spec = JSON.parse(validate_create_once_identity!(
+          root, controlled["task_spec"], "P4 E1 accepted evaluator-private F1 TaskSpec"
+        ))
+        assert(result == {
+          "kind" => "HOST_HELD_JSON", "value" => private_spec.dig("oracle", "expected_fix_result")
+        }, "P4 E1 held-test result was not frozen by the accepted F1 oracle")
+      else
+        assert(result == {"kind" => "EXIT_ZERO", "value" => nil},
+               "P4 E1 integrity/application result kind drift")
+      end
+      [check["controlled_task_id"], check["check"]]
+    end
+    assert(schedule["schema_version"] == "p4-formal-held-schedule/v1" &&
+           schedule["record_type"] == "P4_FORMAL_HELD_SCHEDULE" &&
+           schedule["dispatch_id"] == dispatch["dispatch_id"] &&
+           schedule["product_candidate"] == product_candidate &&
+           observed_pairs == expected_pairs,
+           "P4 E1 formal schedule is incomplete, reordered or candidate-drifted")
+    Time.iso8601(schedule.fetch("frozen_at_utc"))
+    checks.each_with_object({}) do |check, result|
+      result[[check["controlled_task_id"], check["check"]]] = check
+    end
+  end
+
+  def validate_e1_check!(root, identity, task, check_name, dispatch_id, controlled,
+                         product_candidate, proposal_package, scheduled_check,
+                         application_result: nil)
+    check = exact_keys(
+      validate_task_evidence_json!(
+        root, identity, task, "P4 E1 #{controlled['controlled_task_id']} #{check_name} receipt"
+      ),
+      %w[
+        schema_version record_type verdict check dispatch_id controlled_task_id
+        product_candidate task_spec proposal_package execution_id runner sandbox_profile cwd
+        command environment timeout_seconds cwd_preflight event_trace exit_code stdout stderr
+        result_artifacts canonical_status external_effects completed_at_utc
+      ],
+      "P4 E1 #{check_name} receipt"
+    )
+    assert(check["schema_version"] == "p4-formal-held-check-result/v1" &&
+           check["record_type"] == "P4_FORMAL_HELD_CHECK_RESULT" &&
+           check["verdict"] == "PASS" && check["check"] == check_name &&
+           check["dispatch_id"] == dispatch_id &&
+           check["controlled_task_id"] == controlled["controlled_task_id"] &&
+           check["product_candidate"] == product_candidate &&
+           check["task_spec"] == controlled["producer_task_spec"] &&
+           check["proposal_package"] == proposal_package &&
+           check["execution_id"].is_a?(String) && !check["execution_id"].empty? &&
+           check["runner"] == scheduled_check["runner"] &&
+           check["sandbox_profile"] == scheduled_check["sandbox_profile"] &&
+           check["cwd"] == scheduled_check["cwd"] &&
+           check["command"] == scheduled_check["argv"] &&
+           check["environment"] == scheduled_check["environment"] &&
+           check["timeout_seconds"] == scheduled_check["timeout_seconds"] &&
+           check["exit_code"] == 0 && check["external_effects"] == FALSE_EFFECTS,
+           "P4 E1 #{check_name} terminal payload drift")
+    stdout = validate_task_evidence_identity!(
+      root, check["stdout"], task, "P4 E1 #{controlled['controlled_task_id']} #{check_name} stdout"
+    )
+    stderr = validate_task_evidence_identity!(
+      root, check["stderr"], task, "P4 E1 #{controlled['controlled_task_id']} #{check_name} stderr"
+    )
+    validate_host_process_event_trace!(
+      root, check["event_trace"], task,
+      "P4 E1 #{controlled['controlled_task_id']} #{check_name}", {
+        "execution_id" => check["execution_id"], "runner" => check["runner"],
+        "cwd" => check["cwd"], "argv" => check["command"],
+        "environment" => check["environment"], "timeout_seconds" => check["timeout_seconds"],
+        "sandbox_profile" => check["sandbox_profile"], "cwd_preflight" => check["cwd_preflight"],
+        "subject" => {
+          "dispatch_id" => dispatch_id, "controlled_task_id" => controlled["controlled_task_id"],
+          "product_candidate" => product_candidate, "proposal_package" => proposal_package
+        },
+        "exit_code" => check["exit_code"], "stdout" => check["stdout"],
+        "stderr" => check["stderr"], "result_artifacts" => check["result_artifacts"],
+        "canonical_status" => check["canonical_status"]
+      }
+    )
+    expected_result = scheduled_check["expected_result"]
+    if expected_result["kind"] == "HOST_HELD_JSON"
+      assert(JSON.parse(stdout) == expected_result["value"] &&
+             stdout == JSON.generate(expected_result["value"]) + "\n" && stderr.empty?,
+             "P4 E1 #{check_name} held output did not match the frozen F1 oracle")
+    else
+      assert(expected_result == {"kind" => "EXIT_ZERO", "value" => nil},
+             "P4 E1 #{check_name} non-test result kind drift")
+    end
+    artifacts = array(check["result_artifacts"], "P4 E1 #{check_name} result artifacts")
+    assert(artifacts.length == 1,
+           "P4 E1 #{check_name} must bind exactly one typed terminal result artifact")
+    result_artifact = validate_task_evidence_json!(
+      root, artifacts.first, task,
+      "P4 E1 #{controlled['controlled_task_id']} #{check_name} result artifact"
+    )
+    package = JSON.parse(validate_task_evidence_identity!(
+      root, proposal_package, task, "P4 E1 #{check_name} proposal package replay"
+    ))
+    case check_name
+    when "package_integrity"
+      result_artifact = exact_keys(
+        result_artifact,
+        %w[
+          schema_version record_type verdict controlled_task_id proposal_package manifest patch
+        ],
+        "P4 E1 package integrity result"
+      )
+      assert(result_artifact == {
+        "schema_version" => "p4-package-integrity-result/v1",
+        "record_type" => "P4_PACKAGE_INTEGRITY_RESULT", "verdict" => "PASS",
+        "controlled_task_id" => controlled["controlled_task_id"],
+        "proposal_package" => proposal_package, "manifest" => package["manifest"],
+        "patch" => package["patch"]
+      }, "P4 E1 package integrity result did not bind the exact proposal bytes")
+    when "isolated_application"
+      result_artifact = exact_keys(
+        result_artifact,
+        %w[
+          schema_version record_type verdict controlled_task_id base patch applied_tree
+          changed_paths target_path target_blob
+        ],
+        "P4 E1 isolated application result"
+      )
+      applied_tree = result_artifact["applied_tree"]
+      target_path = controlled.dig("target_file", "path")
+      changes = git!(
+        root, "diff-tree", "-r", "--name-status", "--no-renames",
+        controlled.dig("base", "tree"), applied_tree
+      ).lines.map { |line| line.chomp.split("\t", 2) }
+      target_entry = git!(root, "ls-tree", applied_tree, "--", target_path).split
+      target_bytes = git!(root, "show", "#{applied_tree}:#{target_path}").b
+      actual_patch = git!(
+        root, "diff", "--no-ext-diff", "--binary", controlled.dig("base", "tree"),
+        applied_tree, "--", target_path
+      ).b
+      expected_blob = exact_keys(result_artifact["target_blob"], %w[byte_length sha256],
+                                 "P4 E1 applied target blob")
+      assert(result_artifact["schema_version"] == "p4-isolated-application-result/v1" &&
+             result_artifact["record_type"] == "P4_ISOLATED_APPLICATION_RESULT" &&
+             result_artifact["verdict"] == "PASS" &&
+             result_artifact["controlled_task_id"] == controlled["controlled_task_id"] &&
+             result_artifact["base"] == controlled["base"] &&
+             result_artifact["patch"] == package["patch"] &&
+             result_artifact["changed_paths"] == [target_path] &&
+             result_artifact["target_path"] == target_path &&
+             git!(root, "cat-file", "-t", applied_tree).strip == "tree" &&
+             changes == [["M", target_path]] && target_entry[0] == "100644" &&
+             target_entry[1] == "blob" &&
+             expected_blob == {
+               "byte_length" => target_bytes.bytesize,
+               "sha256" => Digest::SHA256.hexdigest(target_bytes)
+             } && actual_patch == validate_task_evidence_identity!(
+               root, package["patch"], task, "P4 E1 isolated patch replay"
+             ), "P4 E1 isolated application did not derive exact base plus one-file patch")
+    else
+      result_artifact = exact_keys(
+        result_artifact,
+        %w[
+          schema_version record_type verdict controlled_task_id check applied_tree
+          evaluator_task_spec host_evaluator stdout
+        ],
+        "P4 E1 held test result binding"
+      )
+      assert(application_result.is_a?(Hash) &&
+             result_artifact == {
+               "schema_version" => "p4-held-test-result-binding/v1",
+               "record_type" => "P4_HELD_TEST_RESULT_BINDING", "verdict" => "PASS",
+               "controlled_task_id" => controlled["controlled_task_id"], "check" => check_name,
+               "applied_tree" => application_result["applied_tree"],
+               "evaluator_task_spec" => controlled["task_spec"],
+               "host_evaluator" => controlled["host_evaluator"], "stdout" => check["stdout"]
+             }, "P4 E1 held test was not bound to the exact applied tree and frozen evaluator")
+    end
+    Time.iso8601(check.fetch("completed_at_utc"))
+    result_artifact
+  end
+
+  def validate_e1_dispatch_trace!(root, dispatch, task)
+    trace = exact_keys(
+      validate_task_evidence_json!(root, dispatch["event_trace"], task,
+                                   "P4 E1 dispatch event trace"),
+      %w[schema_version record_type dispatch_id events terminal_hash],
+      "P4 E1 dispatch event trace"
+    )
+    events = array(trace["events"], "P4 E1 dispatch events")
+    previous = "0" * 64
+    event_names = []
+    events.each_with_index do |value, index|
+      event = exact_keys(
+        value, %w[sequence previous_sha256 event payload_sha256 event_sha256],
+        "P4 E1 dispatch event[#{index}]"
+      )
+      preimage = JSON.generate(
+        "sequence" => event["sequence"], "previous_sha256" => event["previous_sha256"],
+        "event" => event["event"], "payload_sha256" => event["payload_sha256"]
+      )
+      expected_hash = Digest::SHA256.hexdigest(preimage.b)
+      assert(event["sequence"] == index + 1 && event["previous_sha256"] == previous &&
+             event["payload_sha256"].match?(/\A[0-9a-f]{64}\z/) &&
+             event["event_sha256"] == expected_hash,
+             "P4 E1 dispatch event hash chain drift")
+      previous = expected_hash
+      event_names << event["event"]
+    end
+    assert(trace["schema_version"] == "p4-formal-dispatch-event-trace/v1" &&
+           trace["record_type"] == "P4_FORMAL_DISPATCH_EVENT_TRACE" &&
+           trace["dispatch_id"] == dispatch["dispatch_id"] &&
+           event_names == %w[DISPATCH_STARTED TASK_1_RESULT TASK_2_RESULT DISPATCH_COMPLETED] &&
+           trace["terminal_hash"] == previous,
+           "P4 E1 dispatch trace is not one closed two-task dispatch")
+    ledger = exact_keys(
+      validate_task_evidence_json!(root, dispatch["dispatch_ledger"], task,
+                                   "P4 E1 dispatch ledger"),
+      %w[schema_version record_type dispatches], "P4 E1 dispatch ledger"
+    )
+    assert(ledger["schema_version"] == "p4-formal-dispatch-ledger/v1" &&
+           ledger["record_type"] == "P4_FORMAL_DISPATCH_LEDGER" &&
+           ledger["dispatches"] == [{
+             "dispatch_id" => dispatch["dispatch_id"], "ordinal" => 1,
+             "terminal_hash" => trace["terminal_hash"], "status" => "COMPLETE"
+           }], "P4 E1 dispatch ledger contains zero, duplicate or rerun dispatches")
+    {"trace" => trace, "events" => events}
+  end
+
+  def validate_e1_evidence!(root, manifest, task, activation_commit, prior_acceptances, reviews,
+                            frozen_execution_plan)
+    assert(manifest["schema_version"] == "p4-one-shot-formal-held-evaluation-evidence/v1" &&
+           manifest["record_type"] == "P4_ONE_SHOT_FORMAL_HELD_EVALUATION_EVIDENCE",
+           "P4 E1 Evidence schema drift")
+    facts = exact_keys(
+      manifest["facts"],
+      %w[
+        f1_acceptance p1_acceptance frozen_product_candidate formal_dispatch task_results
+        network_enforcement canonical_mutation independent_reviews highest_product_claim
+      ],
+      "P4 E1 facts"
+    )
+    assert(facts["f1_acceptance"] == prior_acceptances[0]["task_gate_receipt"] &&
+           facts["p1_acceptance"] == prior_acceptances[1]["integration_receipt"] &&
+           facts["frozen_product_candidate"] == prior_acceptances[1]["candidate"] &&
+           facts["independent_reviews"] == reviews,
+           "P4 E1 did not bind the accepted F1/P1 evidence and same frozen product candidate")
+    dispatch = exact_keys(
+      facts["formal_dispatch"],
+      %w[
+        dispatch_id ordinal host_triggered schedule_frozen disposable_copy sandbox_profile
+        schedule event_trace dispatch_ledger started_at_utc completed_at_utc
+      ],
+      "P4 E1 formal dispatch"
+    )
+    assert(dispatch["dispatch_id"].is_a?(String) && !dispatch["dispatch_id"].empty? &&
+           dispatch["ordinal"] == 1 && dispatch["host_triggered"] == true &&
+           dispatch["schedule_frozen"] == true && dispatch["disposable_copy"] == true &&
+           dispatch["schedule"] == frozen_execution_plan,
+           "P4 E1 formal dispatch is not the exact one-shot Host dispatch")
+    e1_profile = validate_task_evidence_identity!(
+      root, dispatch["sandbox_profile"], task, "P4 E1 deny-network sandbox profile"
+    )
+    assert(e1_profile == expected_deny_network_profile(task).b,
+           "P4 E1 sandbox profile policy drift")
+    dispatch_trace = validate_e1_dispatch_trace!(root, dispatch, task)
+    Time.iso8601(dispatch.fetch("started_at_utc"))
+    Time.iso8601(dispatch.fetch("completed_at_utc"))
+    results = array(facts["task_results"], "P4 E1 task results")
+    assert(results.length == 2, "P4 E1 did not evaluate exactly two controlled tasks")
+    f1_manifest = prior_acceptances.dig(0, "_manifest")
+    assert(f1_manifest.is_a?(Hash), "P4 E1 accepted F1 typed Evidence is unavailable")
+    controlled_tasks = f1_manifest.dig("facts", "controlled_tasks").each_with_object({}) do |entry, result|
+      result[entry["controlled_task_id"]] = entry
+    end
+    scheduled_checks = validate_e1_schedule!(
+      root, dispatch["schedule"], task, dispatch, controlled_tasks,
+      facts["frozen_product_candidate"]
+    )
+    observed_results = results.map do |value|
+      result = exact_keys(
+        value,
+        %w[
+          controlled_task_id task_spec base proposal_package package_integrity
+          isolated_application issue_specific_tests regression_tests canonical_mutation verdict
+        ],
+        "P4 E1 controlled task result"
+      )
+      controlled = controlled_tasks[result["controlled_task_id"]]
+      assert(controlled && result["verdict"] == "PASS" &&
+             result["task_spec"] == controlled["producer_task_spec"] &&
+             result["base"] == controlled["base"],
+             "P4 E1 controlled task result drift")
+      validate_create_once_identity!(
+        root, result["task_spec"],
+        "P4 E1 #{result['controlled_task_id']} accepted F1 TaskSpec custody"
+      )
+      validate_proposal_package!(
+        root, result["proposal_package"], task, controlled_tasks,
+        expected_controlled_task_id: result["controlled_task_id"]
+      )
+      validate_e1_check!(
+        root, result["package_integrity"], task, "package_integrity", dispatch["dispatch_id"],
+        controlled, facts["frozen_product_candidate"], result["proposal_package"],
+        scheduled_checks.fetch([result["controlled_task_id"], "package_integrity"])
+      )
+      application_result = validate_e1_check!(
+        root, result["isolated_application"], task, "isolated_application",
+        dispatch["dispatch_id"], controlled, facts["frozen_product_candidate"],
+        result["proposal_package"],
+        scheduled_checks.fetch([result["controlled_task_id"], "isolated_application"])
+      )
+      %w[issue_specific_tests regression_tests].each do |field|
+        validate_e1_check!(
+          root, result[field], task, field, dispatch["dispatch_id"], controlled,
+          facts["frozen_product_candidate"], result["proposal_package"],
+          scheduled_checks.fetch([result["controlled_task_id"], field]),
+          application_result: application_result
+        )
+      end
+      validate_no_canonical_mutation!(
+        root, result["canonical_mutation"],
+        "P4 E1 #{result['controlled_task_id']} canonical mutation",
+        expected_identity: activation_commit
+      )
+      result
+    end
+    observed = observed_results.map { |result| result["controlled_task_id"] }
+    assert(observed == CONTROLLED_TASKS.keys.sort,
+           "P4 E1 controlled task set drift")
+    proposal_identities = observed_results.map { |result| identity_key(result["proposal_package"]) }
+    assert(proposal_identities.uniq.length == CONTROLLED_TASKS.length,
+           "P4 E1 reused one proposal package for multiple controlled tasks")
+    dispatch_payloads = [
+      {
+        "dispatch_id" => dispatch["dispatch_id"], "ordinal" => dispatch["ordinal"],
+        "started_at_utc" => dispatch["started_at_utc"]
+      },
+      observed_results[0],
+      observed_results[1],
+      {
+        "dispatch_id" => dispatch["dispatch_id"],
+        "completed_at_utc" => dispatch["completed_at_utc"],
+        "controlled_task_ids" => observed
+      }
+    ]
+    expected_payload_hashes = dispatch_payloads.map do |payload|
+      Digest::SHA256.hexdigest(JSON.generate(payload).b)
+    end
+    assert(dispatch_trace["events"].map { |event| event["payload_sha256"] } ==
+             expected_payload_hashes,
+           "P4 E1 dispatch event payloads are not bound to the exact typed task results")
+    network = exact_keys(
+      facts["network_enforcement"], %w[mode observer_trace violation_count],
+      "P4 E1 network enforcement"
+    )
+    assert(network["mode"] == "DENY_NETWORK" && network["violation_count"] == 0,
+           "P4 E1 deny-network enforcement did not PASS")
+    network_trace = exact_keys(
+      validate_task_evidence_json!(root, network["observer_trace"], task,
+                                   "P4 E1 network observer trace"),
+      %w[schema_version record_type mode events violation_count],
+      "P4 E1 network observer trace"
+    )
+    network_events = array(network_trace["events"], "P4 E1 network events").map.with_index do |value, index|
+      event = exact_keys(value, %w[sequence controlled_task_id protocol address decision],
+                         "P4 E1 network event[#{index}]")
+      assert(event["sequence"] == index + 1 &&
+             CONTROLLED_TASKS.key?(event["controlled_task_id"]),
+             "P4 E1 network event identity or sequence drift")
+      event
+    end
+    violations = network_events.count { |event| event["decision"] != "DENIED" }
+    observed_network_pairs = network_events.map do |event|
+      [event["controlled_task_id"], event["protocol"]]
+    end
+    expected_network_pairs = CONTROLLED_TASKS.keys.sort.product(%w[AF_INET AF_INET6])
+    assert(network_trace["schema_version"] == "p4-formal-deny-network-trace/v1" &&
+           network_trace["record_type"] == "P4_FORMAL_DENY_NETWORK_TRACE" &&
+           network_trace["mode"] == "DENY_NETWORK" &&
+           observed_network_pairs.sort == expected_network_pairs.sort &&
+           violations.zero? &&
+           network_trace["violation_count"] == violations &&
+           network["violation_count"] == violations,
+           "P4 E1 network trace contains an allowed or unbound event")
+    validate_no_canonical_mutation!(
+      root, facts["canonical_mutation"], "P4 E1 aggregate canonical mutation",
+      expected_identity: activation_commit
+    )
+    assert(facts["highest_product_claim"] == {
+      "value" => "VERIFIED_PATCH_READY_FOR_HUMAN_APPROVAL",
+      "canonical_application" => false, "merge" => false, "approval" => "PENDING",
+      "remote_effects" => [], "production_effects" => []
+    }, "P4 E1 highest product claim drift")
+    facts["frozen_product_candidate"]
+  end
+
+  def validate_evidence_manifest!(root, identity, task, index, contract_identity,
+                                  authority_identity, expected_predecessor,
+                                  activation_commit, prior_acceptances, reviews,
+                                  frozen_execution_plan, pre_worker_schema_need_receipt,
+                                  activation_parent)
+    manifest = exact_keys(
+      validate_task_evidence_json!(root, identity, task, "P4 Task #{index + 1} Evidence manifest"),
+      %w[
+        schema_version record_type task_id nonce route_id stage_id contract authority candidate
+        predecessor_evidence artifact_inventory facts external_effects created_at_utc
+      ],
+      "P4 Task #{index + 1} Evidence manifest"
+    )
+    assert(manifest["task_id"] == task["task_id"] && manifest["nonce"] == task["nonce"] &&
+           manifest["route_id"] == ROUTE_ID && manifest["stage_id"] == task["stage_id"] &&
+           manifest["contract"] == contract_identity && manifest["authority"] == authority_identity &&
+           manifest["predecessor_evidence"] == expected_predecessor &&
+           manifest["external_effects"] == FALSE_EFFECTS,
+           "P4 Task #{index + 1} Evidence manifest authority drift")
+    normalized_candidate = case index
+                           when 0
+                             validate_f1_evidence!(root, manifest, task, activation_commit)
+                           when 1
+                             validate_p1_evidence!(
+                               root, manifest, task, activation_commit, prior_acceptances,
+                               frozen_execution_plan, pre_worker_schema_need_receipt,
+                               activation_parent
+                             )
+                           when 2
+                             validate_e1_evidence!(
+                               root, manifest, task, activation_commit, prior_acceptances, reviews,
+                               frozen_execution_plan
+                             )
+                           end
+    semantic_identities = finish_task_identity_registry!
+    validate_closed_artifact_inventory!(root, manifest, task, "P4 Task #{index + 1}")
+    assert(manifest["candidate"] == normalized_candidate,
+           "P4 Task #{index + 1} Evidence candidate projection drift")
+    Time.iso8601(manifest.fetch("created_at_utc"))
+    [manifest, semantic_identities]
+  end
+
+  def validate_task_gate_acceptance!(root, acceptance, task, index, contract_identity, contract,
+                                     authority_identity, activation_parent,
+                                     expected_predecessor, prior_acceptances)
+    record = exact_keys(
+      acceptance,
+      %w[task_gate_receipt candidate integration_receipt candidate_integrated],
+      "P4 Task #{index + 1} acceptance"
+    )
+    gate_bytes = validate_task_evidence_identity!(
+      root, record["task_gate_receipt"], task, "P4 Task #{index + 1} Task Gate receipt"
+    )
+    gate = exact_keys(
+      JSON.parse(gate_bytes),
+      %w[
+        schema_version record_type verdict task_id nonce stage_id candidate contract authority
+        activation_commit predecessor_evidence evidence_manifest independent_reviews
+        open_p0_p1_findings external_effects formal_dispatch_count decided_at_utc
+      ],
+      "P4 Task #{index + 1} Task Gate receipt"
+    )
+    assert(gate["schema_version"] == "p4-task-gate-pass-receipt/v1" &&
+           gate["record_type"] == "P4_TASK_GATE_PASS_RECEIPT" && gate["verdict"] == "PASS" &&
+           gate["task_id"] == task["task_id"] && gate["nonce"] == task["nonce"] &&
+           gate["stage_id"] == task["stage_id"] && gate["candidate"] == record["candidate"] &&
+           gate["contract"] == contract_identity && gate["authority"] == authority_identity &&
+           gate["predecessor_evidence"] == expected_predecessor &&
+           gate["open_p0_p1_findings"] == [] && gate["external_effects"] == FALSE_EFFECTS &&
+           gate["formal_dispatch_count"] == (index == 2 ? 1 : 0),
+           "P4 Task #{index + 1} Task Gate semantic drift")
+    activation_commit = validate_activation_commit!(
+      root, task, contract_identity, activation_parent, gate["activation_commit"]
+    )
+    validate_review_set!(root, gate["independent_reviews"], task, index, record["candidate"])
+    start_task_identity_registry!(task)
+    begin
+      manifest, semantic_identities = validate_evidence_manifest!(
+        root, gate["evidence_manifest"], task, index, contract_identity, authority_identity,
+        expected_predecessor, activation_commit, prior_acceptances,
+        gate["independent_reviews"], contract["frozen_execution_plan"],
+        contract["pre_worker_schema_need_receipt"], activation_parent
+      )
+    ensure
+      @task_identity_registry = nil
+    end
+    assert(manifest["candidate"] == record["candidate"],
+           "P4 Task #{index + 1} Task Gate candidate differs from typed Evidence")
+    Time.iso8601(gate.fetch("decided_at_utc"))
+
+    expected_integrated = index == 1
+    assert(record["candidate_integrated"] == expected_integrated,
+           "P4 Task #{index + 1} candidate-integration boundary drift")
+    if expected_integrated
+      integration_bytes = validate_task_evidence_identity!(
+        root, record["integration_receipt"], task, "P4 P1 integration receipt"
+      )
+      integration = exact_keys(
+        JSON.parse(integration_bytes),
+        %w[
+          schema_version record_type verdict task_id candidate_commit candidate_tree
+          activation_commit task_gate_receipt canonical_commit canonical_tree changed_paths
+          remote_effects integrated_at_utc
+        ],
+        "P4 P1 integration receipt"
+      )
+      candidate = mapping(record["candidate"], "P4 P1 candidate")
+      assert(integration["schema_version"] == "p4-product-integration-receipt/v1" &&
+             integration["record_type"] == "P4_PRODUCT_LOCAL_INTEGRATION_RECEIPT" &&
+             integration["verdict"] == "PASS" && integration["task_id"] == task["task_id"] &&
+             integration["candidate_commit"] == candidate["commit"] &&
+             integration["candidate_tree"] == candidate["tree"] &&
+             integration["activation_commit"] == activation_commit &&
+             integration["task_gate_receipt"] == record["task_gate_receipt"] &&
+             integration["canonical_commit"] == candidate["commit"] &&
+             integration["canonical_tree"] == candidate["tree"] &&
+             integration["changed_paths"].is_a?(Array) && !integration["changed_paths"].empty? &&
+             integration["changed_paths"].sort ==
+               manifest.dig("facts", "product_source_diff", "changed_paths").sort &&
+             (integration["changed_paths"] - PRODUCT_WRITE_ALLOWLIST).empty? &&
+             (integration["changed_paths"] & FORBIDDEN_PRODUCT_PATHS).empty? &&
+             integration["remote_effects"] == [],
+             "P4 P1 integration receipt drift")
+      _out, _err, ancestor = git_capture(root, "merge-base", "--is-ancestor",
+                                          candidate["commit"], "main")
+      assert(ancestor.success? &&
+             git!(root, "show", "-s", "--format=%T", candidate["commit"]).strip ==
+               candidate["tree"], "P4 P1 accepted candidate is not canonical ancestry")
+      allowed_post_candidate_paths = ["docs/aios/truth/project_state.yaml"] +
+        TASKS.map { |stage_task| stage_task["contract_path"] }
+      post_candidate_commits = git!(
+        root, "rev-list", "--ancestry-path", "#{candidate['commit']}..main", "--reverse"
+      ).lines.map(&:strip).reject(&:empty?)
+      post_candidate_commits.each do |commit|
+        paths = git!(root, "diff-tree", "--no-commit-id", "--name-only", "-r", commit)
+          .lines.map(&:strip).reject(&:empty?)
+        assert(!paths.empty? && (paths - allowed_post_candidate_paths).empty?,
+               "P4 P1 canonical ancestry contains an unapproved post-candidate source change")
+      end
+      integration["changed_paths"].each do |path|
+        candidate_entry = git!(root, "ls-tree", candidate["commit"], "--", path).split
+        canonical_entry = git!(root, "ls-tree", "main", "--", path).split
+        assert(candidate_entry == canonical_entry,
+               "P4 P1 accepted Product blob was replaced or reverted after integration: #{path}")
+      end
+      Time.iso8601(integration.fetch("integrated_at_utc"))
+    else
+      assert(record["integration_receipt"].nil?,
+             "P4 non-Product Task retained an integration receipt")
+    end
+    control_identities = [
+      authority_identity, gate["evidence_manifest"], record["task_gate_receipt"]
+    ] + gate["independent_reviews"].values
+    control_identities << record["integration_receipt"] if record["integration_receipt"]
+    validate_task_root_inventory!(
+      root, manifest, task, control_identities, "P4 Task #{index + 1}",
+      semantic_identities: semantic_identities
+    )
+    record.merge("_manifest" => manifest, "_activation_commit" => activation_commit)
+  rescue JSON::ParserError, ArgumentError, KeyError => e
+    raise P4ProposalFirstControlledRealTaskRouteValidationError,
+          "P4 Task #{index + 1} acceptance invalid: #{e.message}"
+  end
+
+  def validate_task_terminal!(root, terminal, task, index, contract_identity, contract,
+                              authority_identity, activation_parent, expected_predecessor)
+    record = exact_keys(
+      terminal, %w[receipt candidate_integrated successor_allowed],
+      "P4 Task #{index + 1} terminal state"
+    )
+    start_task_identity_registry!(task)
+    bytes = validate_task_evidence_identity!(
+      root, record["receipt"], task, "P4 Task #{index + 1} terminal receipt"
+    )
+    receipt = exact_keys(
+      JSON.parse(bytes),
+      %w[
+        schema_version record_type verdict task_id nonce stage_id contract authority
+        activation_commit predecessor_evidence candidate_integrated successor_allowed
+        terminal_reason frozen_finding_set accounting artifact_inventory resource_cleanup
+        external_effects terminal_at_utc
+      ],
+      "P4 Task #{index + 1} terminal receipt"
+    )
+    assert(receipt["schema_version"] == "p4-task-terminal-non-pass-receipt/v1" &&
+           receipt["record_type"] == "P4_TASK_TERMINAL_NON_PASS_RECEIPT" &&
+           receipt["verdict"] == "NON_PASS" && receipt["task_id"] == task["task_id"] &&
+           receipt["nonce"] == task["nonce"] && receipt["stage_id"] == task["stage_id"] &&
+           receipt["contract"] == contract_identity && receipt["authority"] == authority_identity &&
+           receipt["predecessor_evidence"] == expected_predecessor &&
+           receipt["candidate_integrated"] == false && receipt["successor_allowed"] == false &&
+           %w[
+             PREACTIVATION_NON_PASS IMPLEMENTATION_BUDGET_EXHAUSTED
+             INDEPENDENT_REVIEW_NON_PASS TASK_GATE_NON_PASS FORMAL_EVALUATION_NON_PASS
+           ].include?(receipt["terminal_reason"]) &&
+           receipt["external_effects"] == FALSE_EFFECTS && record["candidate_integrated"] == false &&
+           record["successor_allowed"] == false,
+           "P4 Task #{index + 1} terminal receipt drift")
+    validate_activation_commit!(
+      root, task, contract_identity, activation_parent, receipt["activation_commit"]
+    )
+    findings = exact_keys(
+      validate_task_evidence_json!(root, receipt["frozen_finding_set"], task,
+                                   "P4 Task #{index + 1} frozen finding set"),
+      %w[schema_version record_type task_id nonce findings frozen_at_utc],
+      "P4 Task #{index + 1} frozen finding set"
+    )
+    finding_records = array(findings["findings"], "P4 Task #{index + 1} findings")
+    assert(findings["schema_version"] == "p4-frozen-terminal-finding-set/v1" &&
+           findings["record_type"] == "P4_FROZEN_TERMINAL_FINDING_SET" &&
+           findings["task_id"] == task["task_id"] && findings["nonce"] == task["nonce"] &&
+           !finding_records.empty?, "P4 terminal finding set is empty or unbound")
+    finding_records.each do |finding|
+      item = exact_keys(finding, %w[finding_id severity gate_relevance summary],
+                        "P4 Task #{index + 1} frozen finding")
+      assert(item["finding_id"].is_a?(String) && !item["finding_id"].empty? &&
+             %w[P0 P1].include?(item["severity"]) &&
+             %w[
+               EXIT_GATE_VALIDITY AUTHORITY_OR_EXTERNAL_EFFECT_SAFETY RESULT_INTEGRITY
+               PRODUCT_CORRECTNESS
+             ].include?(item["gate_relevance"]) &&
+             item["summary"].is_a?(String) && !item["summary"].empty?,
+             "P4 terminal finding semantic drift")
+    end
+    Time.iso8601(findings.fetch("frozen_at_utc"))
+    accounting = exact_keys(
+      receipt["accounting"],
+      %w[
+        candidate_generations same_task_repairs review_cycles formal_dispatches
+        successor_allowed replacement_allowed rerun_to_pass_allowed
+        cross_task_budget_borrowing_allowed
+      ],
+      "P4 Task #{index + 1} terminal accounting"
+    )
+    assert(accounting["candidate_generations"].is_a?(Integer) &&
+           accounting["candidate_generations"].between?(0, index == 2 ? 0 : 2) &&
+           accounting["same_task_repairs"].is_a?(Integer) &&
+           accounting["same_task_repairs"].between?(0, index == 2 ? 0 : 1) &&
+           accounting["review_cycles"].is_a?(Integer) &&
+           accounting["review_cycles"].between?(0, index == 2 ? 1 : 2) &&
+           accounting["formal_dispatches"].is_a?(Integer) &&
+           accounting["formal_dispatches"].between?(0, index == 2 ? 1 : 0) &&
+           accounting.values_at(
+             "successor_allowed", "replacement_allowed", "rerun_to_pass_allowed",
+             "cross_task_budget_borrowing_allowed"
+           ) == [false, false, false, false],
+           "P4 terminal accounting exceeded or reset the frozen anti-cycle limits")
+    cleanup = exact_keys(
+      receipt["resource_cleanup"],
+      %w[branch_active worktree_active candidate_integrated canonical_clean],
+      "P4 Task #{index + 1} terminal cleanup"
+    )
+    assert(cleanup == {
+      "branch_active" => false, "worktree_active" => false,
+      "candidate_integrated" => false, "canonical_clean" => true
+    } && !Pathname.new(task["worktree"]).exist? &&
+           !git_capture(root, "show-ref", "--verify", "--quiet",
+                        "refs/heads/#{task['branch']}").last.success? &&
+           git!(root, "status", "--porcelain=v1", "--untracked-files=all").empty?,
+           "P4 terminal Task resources were not actually cleaned")
+    terminal_manifest = {
+      "artifact_inventory" => receipt["artifact_inventory"],
+      "facts" => {"frozen_finding_set" => receipt["frozen_finding_set"]}
+    }
+    semantic_identities = finish_task_identity_registry!
+    validate_closed_artifact_inventory!(
+      root, terminal_manifest, task, "P4 Task #{index + 1} terminal"
+    )
+    terminal_controls = [
+      authority_identity, record["receipt"], contract["frozen_execution_plan"],
+      contract["pre_worker_schema_need_receipt"]
+    ].compact
+    validate_task_root_inventory!(
+      root, terminal_manifest, task, terminal_controls,
+      "P4 Task #{index + 1} terminal", semantic_identities: semantic_identities
+    )
+    Time.iso8601(receipt.fetch("terminal_at_utc"))
+    record
+  rescue JSON::ParserError, ArgumentError, KeyError => e
+    @task_identity_registry = nil
+    raise P4ProposalFirstControlledRealTaskRouteValidationError,
+          "P4 Task #{index + 1} terminal receipt invalid: #{e.message}"
+  end
+
+  def validate_truth!(root:, truth:)
+    validate_lifecycle_policy!
+    route = exact_keys(
+      truth["current_phase_route"],
+      %w[
+        schema_version route_id phase target_phase policy status lifecycle_stage execution_status
+        scheduling_status phase_entry_status founder_phase_route_decision_required
+        founder_reserved_triggers_resolved next_eligible_action objective_id strict_exit_gate
+        founder_strategy_decision governing_constitution closure_audit predecessor_check
+        accepted_dependencies ordered_stages system_under_test_permissions
+        host_verifier_permissions external_effects clean_room anti_cycle progress
+        inherited_worktree_inventory lifecycle
+      ],
+      "current_phase_route"
+    )
+    lifecycle = route["lifecycle_stage"]
+    profile = LIFECYCLE[lifecycle]
+    assert(profile, "P4 Route lifecycle is not closed")
+    pending = lifecycle == "PREDECESSOR_RECEIPT_PENDING"
+    assert(route["schema_version"] == ROUTE_SCHEMA && route["route_id"] == ROUTE_ID &&
+           route["phase"] == (pending ? "P3" : "P4") && route["target_phase"] == "P4" &&
+           route["objective_id"] == OBJECTIVE_ID && route["status"] == profile["route_status"] &&
+           route["execution_status"] == profile["state"] &&
+           route["scheduling_status"] == profile["scheduling"] &&
+           route["next_eligible_action"] == profile["action"] &&
+           route["phase_entry_status"] ==
+             (pending ? "CONDITIONAL_AUTHORIZED_PENDING_POST_INTEGRATION_PREDECESSOR_CHECK" :
+                        "AUTHORIZED") &&
+           route["founder_phase_route_decision_required"] == profile["founder_required"] &&
+           route["founder_reserved_triggers_resolved"] ==
+             %w[MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE PHASE_ENTRY_OR_EXIT],
+           "P4 Route identity or lifecycle drift")
+    assert(route["strict_exit_gate"] == {
+      "gate_id" => STRICT_GATE_ID, "controlled_real_task_count" => 2,
+      "same_frozen_product_candidate_required" => true,
+      "one_shot_formal_evaluation_required" => true,
+      "p4_phase_exit_authorized" => false, "p5_entry_authorized" => false
+    }, "P4 strict Exit Gate authority drift")
+    assert(route["system_under_test_permissions"] == expected_task_permissions &&
+           route["host_verifier_permissions"] == expected_host_permissions &&
+           route["external_effects"] == FALSE_EFFECTS && route["clean_room"] == CLEAN_ROOM &&
+           route["anti_cycle"] == ANTI_CYCLE && route["inherited_worktree_inventory"] == [],
+           "P4 permission, clean-room, anti-cycle or external-effect boundary drift")
+    assert(route["progress"] == {
+      "management_delivery_percent" => profile["management"],
+      "strict_exit_percent" => profile["strict"], "engineering_progress_credit" => 0,
+      "governance_progress_credit" => 0
+    }, "P4 progress projection drift")
+    assert(route["accepted_dependencies"] == [
+      "DURABLE_STATE_AND_CHECKPOINT_RESUME", "DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION"
+    ], "P4 accepted dependency set drift")
+
+    predecessor = exact_keys(
+      route["predecessor_check"],
+      %w[
+        schema_version status current_phase target_phase predecessor_phase p3_phase_outcome
+        p3_research_exit p3_original_execution_capability_gate
+        p3_strict_execution_capability_percent p3_founder_phase_gate
+        post_integration_receipt_required_before_f1_activation receipt
+      ],
+      "P4 predecessor check"
+    )
+    assert(predecessor["schema_version"] == "phase-predecessor-check/v1" &&
+           predecessor["current_phase"] == "P3" && predecessor["target_phase"] == "P4" &&
+           predecessor["predecessor_phase"] == "P3" &&
+           predecessor["p3_phase_outcome"] ==
+             "COMPLETE_RESEARCH_NON_PASS_EXECUTION_CAPABILITY_NOT_ACCEPTED" &&
+           predecessor["p3_research_exit"] == "ACCEPTED" &&
+           predecessor["p3_original_execution_capability_gate"] == "MISSING_NOT_ACCEPTED" &&
+           predecessor["p3_strict_execution_capability_percent"] == 0 &&
+           predecessor["p3_founder_phase_gate"] ==
+             "PASS_RESEARCH_NON_PASS_EXECUTION_CAPABILITY_NOT_ACCEPTED" &&
+           predecessor["post_integration_receipt_required_before_f1_activation"] == true,
+           "P4 predecessor fact set drift")
+    transition = nil
+    entry_sync = nil
+    phase_entry_receipt = predecessor["receipt"]
+    if pending
+      assert(predecessor["status"] ==
+               "DECLARED_CONDITIONAL_POST_INTEGRATION_REPLAY_REQUIRED" &&
+             phase_entry_receipt.nil?,
+             "P4 was projected as entered before the post-integration predecessor receipt")
+    else
+      assert(predecessor["status"] == "PASS_POST_INTEGRATION" &&
+             phase_entry_receipt.is_a?(Hash),
+             "P4 lifecycle advanced without a PASS post-integration predecessor receipt")
+      transition = validate_transition_receipt!(root, phase_entry_receipt)
+      entry_sync = validate_p4_entry_sync!(root, transition, phase_entry_receipt)
+      canonical_truth_bytes = git!(root, "show", "main:docs/aios/truth/project_state.yaml").b
+      assert(root.join("docs/aios/truth/project_state.yaml").binread == canonical_truth_bytes,
+             "working Truth is not the exact canonical-main Truth")
+    end
+
+    decision_identity = DECISION.merge("decision_id" => DECISION_ID,
+                                       "operation_type" => OPERATION_TYPE)
+    assert(route["founder_strategy_decision"] == decision_identity,
+           "P4 Founder decision identity drift")
+    decision = JSON.parse(validate_identity!(root, DECISION, "P4 Founder decision"))
+    assert(decision["decision_id"] == DECISION_ID && decision["operation_type"] == OPERATION_TYPE &&
+           decision["reserved_triggers"] ==
+             %w[MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE PHASE_ENTRY_OR_EXIT] &&
+           decision["direct_founder_authorization"].slice("path", "byte_length", "sha256") ==
+             DIRECT_AUTHORIZATION,
+           "P4 Founder decision semantic drift")
+    validate_identity!(root, DIRECT_AUTHORIZATION, "direct Founder authorization")
+    validate_identity!(root, CLOSURE_MANIFEST, "P3 closure input manifest")
+    audit = JSON.parse(validate_identity!(root, CLOSURE_AUDIT, "P3 closure audit receipt"))
+    assert(audit["verdict"] == "PASS" &&
+           audit.dig("closed_reference_inventory", "total_count") == 94 &&
+           audit.dig("closed_reference_inventory", "match_count") == 94 &&
+           audit.dig("closed_reference_inventory", "missing_count") == 0 &&
+           audit.dig("closed_reference_inventory", "drift_count") == 0 &&
+           audit.dig("rejected_candidate_ancestry", "candidate_generation_count") == 19 &&
+           audit.dig("rejected_candidate_ancestry", "head_ancestor_count") == 0 &&
+           audit.dig("rejected_candidate_ancestry", "git_show_diff_checkout_or_content_read") == false,
+           "P3 closure audit facts drift")
+    assert(route["closure_audit"] == {
+      "input_manifest" => CLOSURE_MANIFEST, "audit_receipt" => CLOSURE_AUDIT,
+      "verdict" => "PASS", "rerun_to_pass_allowed" => false
+    } && route["governing_constitution"] == CONSTITUTION,
+           "P3 closure audit or Constitution binding drift")
+    validate_identity!(root, CONSTITUTION.reject { |key, _| key == "version" }, "Constitution v3.7")
+
+    stages = array(route["ordered_stages"], "P4 ordered stages")
+    assert(stages.length == TASKS.length, "P4 stage count drift")
+    accepted_records = []
+    contract_objects = {}
+    authority_objects = {}
+    activation_commits = {}
+    stages.each_with_index do |stage_value, index|
+      stage = exact_keys(
+        stage_value,
+        %w[
+          ordinal stage_id task_id nonce kind status budget resources contract authority
+          acceptance terminal
+        ],
+        "P4 stage #{index + 1}"
+      )
+      task = TASKS[index]
+      assert(stage.slice("task_id", "nonce", "stage_id", "kind", "budget") ==
+               task.slice("task_id", "nonce", "stage_id", "kind", "budget") &&
+             stage["resources"] == task.slice(
+               "branch", "worktree", "evidence_root", "contract_path", "authority_path"
+             ) && stage["ordinal"] == index + 1 &&
+             stage["status"] == profile["stage_statuses"][index],
+             "P4 stage #{index + 1} identity or lifecycle drift")
+      expected_predecessor = if index.zero?
+                               phase_entry_receipt
+                             elsif index == 1
+                               accepted_records.dig(0, "task_gate_receipt")
+                             else
+                               accepted_records.dig(1, "integration_receipt")
+                             end
+      consumes_authority = stage["status"] == "ACTIVE" ||
+        stage["status"].start_with?("ACCEPTED") || stage["status"] == "TERMINAL_NON_PASS"
+      unless consumes_authority
+        assert(stage.values_at("contract", "authority", "acceptance", "terminal") ==
+                 [nil, nil, nil, nil],
+               "inactive or locked P4 stage retained Task authority/Evidence")
+        next
+      end
+      assert(!expected_predecessor.nil?, "P4 stage #{index + 1} predecessor is unavailable")
+      contract, activation_parent, contract_identity = validate_task_contract!(
+        root, stage["contract"], task, index, phase_entry_receipt, expected_predecessor
+      )
+      validate_stage_activation_parent!(
+        root, activation_parent, index, entry_sync, stages, phase_entry_receipt
+      )
+      contract_objects[index] = contract
+      authority_objects[index] = validate_task_authority!(
+        root, stage["authority"], task, index, contract_identity, contract, activation_parent,
+        phase_entry_receipt, expected_predecessor
+      )
+      if stage["status"] == "ACTIVE"
+        assert(stage["acceptance"].nil? && stage["terminal"].nil?,
+               "active P4 stage retained terminal or acceptance Evidence")
+        activation_commits[index] = validate_activation_commit!(
+          root, task, contract_identity, activation_parent
+        )
+      elsif stage["status"].start_with?("ACCEPTED")
+        assert(stage["terminal"].nil?, "accepted P4 stage retained terminal Evidence")
+        acceptance = validate_task_gate_acceptance!(
+          root, stage["acceptance"], task, index, contract_identity, contract,
+          stage["authority"],
+          activation_parent, expected_predecessor, accepted_records
+        )
+        expected_integrated = index == 1
+        assert(acceptance["candidate_integrated"] == expected_integrated &&
+               (expected_integrated || acceptance["integration_receipt"].nil?),
+               "P4 stage #{index + 1} integration boundary drift")
+        accepted_records[index] = acceptance
+      else
+        assert(stage["acceptance"].nil?, "terminal P4 stage retained acceptance Evidence")
+        validate_task_terminal!(
+          root, stage["terminal"], task, index, contract_identity, contract,
+          stage["authority"], activation_parent, expected_predecessor
+        )
+      end
+    end
+
+    p3 = mapping(truth.dig("strict_phase_gate_ledger", "phases", "P3"), "strict P3 Gate")
+    assert(p3["status"] == "COMPLETE_RESEARCH_NON_PASS_EXECUTION_CAPABILITY_NOT_ACCEPTED" &&
+           p3.dig("research_exit", "status") == "ACCEPTED" &&
+           p3.dig("research_exit", "research_exit_percent") == 100 &&
+           p3.dig("research_exit", "management_delivery_percent") == 25 &&
+           p3.dig("research_exit", "strict_execution_capability_percent") == 0 &&
+           p3.dig("research_exit", "closure_audit") == CLOSURE_AUDIT &&
+           p3.dig("research_exit", "accepted_foundations") ==
+             %w[DURABLE_STATE_AND_CHECKPOINT_RESUME DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION] &&
+           p3.dig("original_capability_gate", "id") ==
+             "ACTUAL_AGENT_HOST_AUTHORIZED_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE_ACCEPTED" &&
+           p3.dig("original_capability_gate", "status") == "MISSING_NOT_ACCEPTED" &&
+           p3.dig("original_capability_gate", "strict_progress_percent") == 0 &&
+           p3.dig("original_capability_gate", "capability_accepted") == false &&
+           p3.dig("original_capability_gate", "candidate_integrated") == false &&
+           p3.dig("founder_phase_gate", "status") ==
+             "PASS_RESEARCH_NON_PASS_EXECUTION_CAPABILITY_NOT_ACCEPTED",
+           "P3 research-NON_PASS dual conclusion drift")
+    current_gate = mapping(p3["current_exit_gate"], "original P3 execution Gate")
+    assert(current_gate["gate_id"] ==
+             "ACTUAL_AGENT_HOST_AUTHORIZED_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE_ACCEPTED" &&
+           current_gate["required_items"].values.all? do |item|
+             item == {"status" => "MISSING", "candidate_commit" => nil,
+                      "candidate_tree" => nil, "evidence" => nil}
+           end,
+           "original P3 execution Gate was false-accepted")
+
+    accepted_exit = lifecycle == "EVALUATION_ACCEPTED_PHASE_GATE_ELIGIBLE"
+    p4 = mapping(truth.dig("strict_phase_gate_ledger", "phases", "P4"), "strict P4 Gate")
+    p4_item = mapping(p4.dig("required_items", STRICT_GATE_ID), "P4 strict item")
+    expected_entry = !pending
+    expected_execution_started = !pending && lifecycle != "FOUNDATION_ELIGIBLE_NOT_ACTIVATED"
+    assert(p4["entry_authorized"] == expected_entry &&
+           p4["execution_started"] == expected_execution_started &&
+           p4["required_item_ids"] == [STRICT_GATE_ID] &&
+           p4_item["status"] == (accepted_exit ? "ACCEPTED" : "MISSING") &&
+           p4["status"] == (accepted_exit ? "EXIT_GATE_READY" : "INCOMPLETE") &&
+           p4.dig("founder_phase_gate", "status") ==
+             (accepted_exit ? "ELIGIBLE_AWAITING_FOUNDER_DECISION" :
+                              "NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS"),
+           "strict P4 Gate lifecycle drift")
+    if accepted_exit
+      e1_receipt = accepted_records.dig(2, "task_gate_receipt")
+      expected_gate_evidence = {"receipt_type" => "P4_TASK_GATE_PASS_RECEIPT"}.merge(e1_receipt)
+      acceptance_commit = p4_item["acceptance_commit"]
+      acceptance_tree = p4_item["acceptance_tree"]
+      assert(p4_item["task_id"] == TASKS[2]["task_id"] &&
+             p4_item["task_history_key"] == E1_TASK_HISTORY_KEY &&
+             p4_item["gate_evidence"] == expected_gate_evidence &&
+             acceptance_commit == git!(root, "rev-parse", "main").strip &&
+             git!(root, "show", "-s", "--format=%T", acceptance_commit).strip ==
+               acceptance_tree,
+             "P4 strict Gate was accepted without the E1 Task Gate receipt")
+      accepted_truth_bytes = git!(
+        root, "show", "#{acceptance_commit}:docs/aios/truth/project_state.yaml"
+      ).b
+      accepted_truth = YAML.safe_load(
+        accepted_truth_bytes, permitted_classes: [], permitted_symbols: [], aliases: false
+      )
+      assert(accepted_truth.dig(
+               "strict_phase_gate_ledger", "phases", "P4", "required_items", STRICT_GATE_ID
+             ) == p4_item,
+             "P4 strict Gate acceptance commit does not contain the exact accepted Truth item")
+    else
+      assert(p4_item == {
+        "status" => "MISSING", "task_history_key" => nil, "task_id" => nil,
+        "acceptance_commit" => nil, "acceptance_tree" => nil,
+        "gate_evidence" => {"receipt_type" => nil, "path" => nil,
+                            "byte_length" => nil, "sha256" => nil}
+      }, "P4 strict Gate contains premature acceptance data")
+    end
+
+    project = mapping(truth["project"], "project")
+    assert(project["current_phase"] == (pending ? "P3" : "P4") &&
+           project["phase_name"] ==
+             (pending ? "Single-Agent Runtime + Minimum Trust" : "Software Engineer Agent Alpha") &&
+           project["p3_execution_status"] ==
+             "COMPLETE_RESEARCH_NON_PASS_EXECUTION_CAPABILITY_NOT_ACCEPTED" &&
+           project["p4_entry_status"] ==
+             (pending ? "CONDITIONAL_AUTHORIZED_PENDING_POST_INTEGRATION_PREDECESSOR_CHECK" :
+                        "AUTHORIZED") &&
+           project["p4_execution_status"] == profile["state"] &&
+           project["p5_entry_status"] == "HOLD_PENDING_STRICT_P4_EXIT_AND_FOUNDER_PHASE_GATE",
+           "project P3/P4/P5 projection drift")
+    goal = mapping(truth["goal"], "Goal")
+    expected_active_task = profile["active"].nil? ? "NONE" : TASKS[profile["active"]]["task_id"]
+    assert(goal["control_plane_status_observed"] == "ACTIVE" &&
+           goal["long_term_goal_status"] == "ACTIVE" && goal["project_actually_completed"] == false &&
+           goal["codex_goal_action"] == "NONE_KEEP_ACTIVE" &&
+           goal.dig("current_strategic_decision", "decision_id") == DECISION_ID &&
+           goal["current_task_authority"] == expected_active_task,
+           "Long-term Goal or Task authority drift")
+
+    envelope = mapping(truth["phase_execution_envelope"], "P4 Phase envelope")
+    consumed = profile["consumed"]
+    expected_hours = TASKS.first(consumed).sum { |task| task["budget"]["engineering_hours"] }
+    expected_days = TASKS.first(consumed).sum { |task| task["budget"]["calendar_days"] }
+    expected_consumed = {
+      "engineering_tasks" => consumed, "engineering_hours" => expected_hours,
+      "calendar_days" => expected_days
+    }
+    expected_remaining = {
+      "engineering_tasks" => 3 - consumed, "engineering_hours" => 112 - expected_hours,
+      "calendar_days" => 26 - expected_days
+    }
+    usable = !pending && profile["active"].nil? && !profile["selected"].nil?
+    reserved = if profile["selected"].nil?
+                 {}
+               else
+                 selected_index = profile["selected"]
+                 {"task_id" => TASKS[selected_index]["task_id"],
+                  "status" => profile["stage_statuses"][selected_index]}.merge(
+                   TASKS[selected_index]["budget"]
+                 )
+               end
+    envelope_status = case lifecycle
+                      when "PREDECESSOR_RECEIPT_PENDING"
+                        "CONDITIONAL_LOCKED_PENDING_POST_INTEGRATION_PREDECESSOR_CHECK"
+                      when "FOUNDATION_ELIGIBLE_NOT_ACTIVATED" then "AUTHORIZED_F1_ELIGIBLE"
+                      when "FOUNDATION_TASK_ACTIVE" then "ACTIVE_F1"
+                      when "FOUNDATION_ACCEPTED_PRODUCT_ELIGIBLE" then "AUTHORIZED_P1_ELIGIBLE"
+                      when "PRODUCT_TASK_ACTIVE" then "ACTIVE_P1"
+                      when "PRODUCT_ACCEPTED_EVALUATION_ELIGIBLE" then "AUTHORIZED_E1_ELIGIBLE"
+                      when "EVALUATION_TASK_ACTIVE" then "ACTIVE_E1_ONE_SHOT"
+                      when "EVALUATION_ACCEPTED_PHASE_GATE_ELIGIBLE" then "P4_EXIT_GATE_READY"
+                      else "TERMINAL_NON_PASS_NO_REPLACEMENT"
+                      end
+    assert(envelope["schema_version"] == "phase-execution-envelope/v1" &&
+           envelope["phase"] == "P4" && envelope["status"] == envelope_status &&
+           envelope["authority_basis"] == {
+             "phase_entry_status" =>
+               (pending ? "CONDITIONAL_AUTHORIZED_PENDING_POST_INTEGRATION_PREDECESSOR_CHECK" :
+                          "AUTHORIZED"),
+             "source_route_ref" => "current_phase_route", "source_route_id" => ROUTE_ID,
+             "founder_strategy_decision" => decision_identity
+           } && envelope["accounting_basis"] ==
+             "NON_RESETTABLE_P4_PROPOSAL_FIRST_FOUNDER_ENVELOPE" &&
+           envelope["limits"] == ENVELOPE_LIMITS && envelope["consumed"] == expected_consumed &&
+           envelope["remaining"] == expected_remaining && envelope["reserved"] == reserved &&
+           envelope["remaining_capacity_usable"] == usable &&
+           envelope["milestone_order"] == TASKS.map { |task| task["stage_id"] } &&
+           envelope["accepted_milestones"] ==
+             accepted_records.each_index.select { |index| accepted_records[index] }.map do |index|
+               TASKS[index]["stage_id"]
+             end &&
+           envelope["ordered_stages"] == stages &&
+           envelope["implementation_accounting"] == IMPLEMENTATION_ACCOUNTING &&
+           envelope["delivery_progress"] == {
+             "management_percent" => profile["management"],
+             "strict_exit_percent" => profile["strict"], "governance_progress_credit" => 0
+           } && envelope["external_effects"] == FALSE_EFFECTS,
+           "P4 envelope, reservation, ordering or progress drift")
+
+    active = mapping(truth["active_work"], "active_work")
+    expected_selected = profile["selected"].nil? ? "NONE" : TASKS[profile["selected"]]["task_id"]
+    expected_selected_status = profile["selected"].nil? ? "NONE" :
+      profile["stage_statuses"][profile["selected"]]
+    assert(active["current_task"] == expected_active_task &&
+           active["selected_task"] == expected_selected &&
+           active["current_task_status"] ==
+             (profile["active"].nil? ? expected_selected_status : "ACTIVE") &&
+           active["next_eligible_action"] == profile["action"] &&
+           active["founder_decision_required"] == profile["founder_required"] &&
+           active["user_action_required"] == profile["founder_required"] &&
+           active["external_effects"] == FALSE_EFFECTS &&
+           active["historical_terminal_accounting"] == {
+             "consumed_engineering_tasks" => 19, "consumed_engineering_hours" => 568,
+             "consumed_calendar_days" => 132,
+             "latest_terminal_task_id" =>
+               "AIOS-P3-MTRO-P1_ACTUAL_AGENT_TRANSACTIONAL_OCI_READ_ONLY_INVOCATION",
+             "latest_terminal_receipt_sha256" =>
+               "a5866faa737513b7ca9515fd451ecbf2360d949bb24995f8ce88df1df15043e0"
+           }, "P4 active-work or historical accounting projection drift")
+    if profile["active"]
+      index = profile["active"]
+      task = TASKS[index]
+      stage = stages[index]
+      activation = activation_commits.fetch(index)
+      authority = authority_objects.fetch(index)
+      assert(active["current_task_contract"] == stage.dig("contract", "path") &&
+             active["current_task_contract_sha256"] == stage.dig("contract", "sha256") &&
+             active["current_execution_authorization"] == stage.dig("authority", "path") &&
+             active["current_execution_authorization_sha256"] == stage.dig("authority", "sha256") &&
+             active["authority_record"] == stage["authority"] &&
+             active["execution_nonce"] == task["nonce"] &&
+             active["authorization_id"] == authority["authority_id"] &&
+             active["activation_parent_commit"] ==
+               contract_objects.dig(index, "activation_parent", "commit") &&
+             active["activation_parent_tree"] ==
+               contract_objects.dig(index, "activation_parent", "tree") &&
+             active["task_branch"] == task["branch"] && active["task_worktree"] == task["worktree"] &&
+             active["execution_evidence_root"] == task["evidence_root"] &&
+             active["allowlisted_paths"] == REPOSITORY_WRITE_ALLOWLISTS[index] &&
+             active["current_task_budget"] == task["budget"],
+             "P4 active Task Contract, authority or resource projection drift")
+      worktree = Pathname.new(task["worktree"])
+      assert(worktree.directory? && !worktree.symlink? &&
+             git!(worktree, "symbolic-ref", "--quiet", "--short", "HEAD").strip == task["branch"],
+             "P4 active Task worktree/branch drift")
+      task_head = git!(worktree, "rev-parse", "HEAD").strip
+      _out, _err, descendant = git_capture(
+        root, "merge-base", "--is-ancestor", activation["commit"], task_head
+      )
+      assert(descendant.success?, "P4 active Task branch does not descend from activation commit")
+    else
+      assert(active.values_at(
+        "current_task_contract", "current_task_contract_sha256",
+        "current_execution_authorization", "current_execution_authorization_sha256",
+        "authority_record", "execution_nonce", "authorization_id", "activation_parent_commit",
+        "activation_parent_tree", "task_branch", "task_worktree", "execution_evidence_root"
+      ).all?(&:nil?) && active["allowlisted_paths"] == [] && active["current_task_budget"] == {},
+             "P4 no-active-Task state retains Task authority or resources")
+    end
+
+    phase_boundary = mapping(truth["phase_boundary"], "P4 phase boundary")
+    task_creation_allowed = usable
+    assert(phase_boundary["phase"] == (pending ? "P3" : "P4") &&
+           phase_boundary["target_phase"] == "P4" &&
+           phase_boundary["p4_entry_authorized"] == !pending &&
+           phase_boundary["task_creation_allowed"] == task_creation_allowed &&
+           phase_boundary["default_external_effects"] == FALSE_EFFECTS &&
+           phase_boundary["founder_decision_required"] == profile["founder_required"] &&
+           phase_boundary["user_action_required"] == profile["founder_required"] &&
+           phase_boundary["next_eligible_action"] == profile["action"],
+           "P4 phase-boundary projection drift")
+    delegation = mapping(truth["phase_delegation"], "P4 phase delegation")
+    assert(delegation["status"] ==
+             (pending ? "CONDITIONAL_P4_PENDING_POST_INTEGRATION_PREDECESSOR_CHECK" :
+                        "ACTIVE_P4_PROPOSAL_FIRST") &&
+           delegation["model"] == "PHASE_LEVEL_FOUNDER_DELEGATION" &&
+           delegation["decision_source"] == DECISION_ID && delegation["p3_exit_authorized"] == true &&
+           delegation["p4_entry_authorized"] == !pending &&
+           delegation["task_selection_owner"] == "MASTER_CEO_AGENT" &&
+           delegation["task_authorization_owner"] == "MASTER_CEO_AGENT" &&
+           delegation["task_gate_owner"] == "MASTER_CEO_AGENT" &&
+           delegation.dig("anti_loop", "ordinary_task_failure_requests_founder") == false &&
+           delegation.dig("anti_loop", "successor_or_replacement_allowed") == false &&
+           delegation.dig("anti_loop", "cross_task_budget_borrowing_allowed") == false &&
+           delegation.dig("anti_loop", "formal_rerun_to_pass_allowed") == false &&
+           delegation.dig("anti_loop", "p5_early_entry_allowed") == false,
+           "P4 phase delegation or anti-loop projection drift")
+    execution_claim = mapping(truth["phase_execution_claim"], "P4 phase execution claim")
+    assert(execution_claim["current_route_claim"] == ROUTE_ID &&
+           execution_claim["current_task_claim"] == expected_active_task &&
+           execution_claim["selected_next_task"] == expected_selected &&
+           execution_claim["p4_entry_authorized"] == !pending &&
+           execution_claim["p4_exit_gate_progress_percent"] == profile["strict"] &&
+           execution_claim["p4_management_delivery_percent"] == profile["management"] &&
+           execution_claim["task_creation_allowed"] == task_creation_allowed &&
+           execution_claim["remaining_capacity_usable"] == usable &&
+           execution_claim["next_eligible_action"] == profile["action"],
+           "P4 phase execution claim drift")
+    claim = mapping(truth["claim_boundary"], "P4 claim boundary")
+    assert(claim["current_phase_route"] == ROUTE_ID && claim["current_task"] == expected_active_task &&
+           claim["selected_task"] == expected_selected && claim["p3_status"] ==
+             "COMPLETE_RESEARCH_NON_PASS_EXECUTION_CAPABILITY_NOT_ACCEPTED" &&
+           claim["p3_capability_milestone_status"] == "MISSING_NOT_ACCEPTED" &&
+           claim["p3_exit_gate_progress_percent"] == 0 && claim["p3_delivery_progress_percent"] == 25 &&
+           claim["p4_status"] ==
+             (pending ? "P4_ENTRY_CONDITIONAL_PENDING_POST_INTEGRATION_PREDECESSOR_CHECK" :
+                        profile["state"]) && claim["p4_entry_authorized"] == !pending &&
+           claim["p4_strict_exit_progress_percent"] == profile["strict"] &&
+           claim["p4_management_delivery_percent"] == profile["management"] &&
+           claim["p4_phase_exit_authorized"] == false && claim["p5_entry_authorized"] == false,
+           "P3/P4 claim boundary drift")
+    escalation = mapping(truth["founder_escalation_control"], "Founder escalation control")
+    terminal_non_pass = lifecycle.end_with?("ROUTE_TERMINAL_NON_PASS")
+    expected_escalation = if profile["founder_required"]
+                            category = terminal_non_pass ?
+                              "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE" : "PHASE_ENTRY_OR_EXIT"
+                            ["FOUNDER_RESERVED_DECISION_REQUIRED", "HUMAN_FOUNDER", category]
+                          else
+                            ["NO_RESERVED_TRIGGER_CONTINUE_PHASE", "MASTER_CEO_AGENT", "NONE"]
+                          end
+    assert(escalation["disposition"] == expected_escalation[0] &&
+           escalation["founder_decision_required"] == profile["founder_required"] &&
+           escalation["next_action_owner"] == expected_escalation[1] &&
+           escalation.dig("reserved_trigger", "category") == expected_escalation[2] &&
+           escalation["next_eligible_action"] == profile["action"],
+           "P4 Founder escalation classification drift")
+    profile["state"]
+  rescue JSON::ParserError, KeyError, TypeError, ArgumentError, Errno::ENOENT,
+         Psych::Exception => e
+    raise P4ProposalFirstControlledRealTaskRouteValidationError,
+          "P4 proposal-first Route invalid: #{e.message}"
+  end
+end
+
 if $PROGRAM_NAME == __FILE__
   begin
     root = Pathname.new(__dir__).join("..").realpath
     truth = YAML.safe_load(root.join("docs/aios/truth/project_state.yaml").binread,
                            permitted_classes: [], permitted_symbols: [], aliases: false)
     if truth.dig("current_phase_route", "schema_version") ==
+       P4ProposalFirstControlledRealTaskRouteValidation::ROUTE_SCHEMA
+      state = P4ProposalFirstControlledRealTaskRouteValidation.validate_truth!(root: root, truth: truth)
+      puts "STRICT_PHASE_GATES: PASS state=#{state}"
+    elsif truth.dig("current_phase_route", "schema_version") ==
        P3MinimumTrustTransactionalOciFinalProductRouteValidation::ROUTE_SCHEMA
       state = P3MinimumTrustTransactionalOciFinalProductRouteValidation.validate_truth!(
         root: root, truth: truth
@@ -10966,7 +14523,8 @@ if $PROGRAM_NAME == __FILE__
       raise P3ExecutableTransitionSystemKernelRouteValidationError, "P3 strict Gate is missing" unless p3.is_a?(Hash)
       puts "STRICT_PHASE_GATES: PASS state=NON_ETSK_CURRENT_ROUTE"
     end
-  rescue P3MinimumTrustTransactionalOciFinalProductRouteValidationError,
+  rescue P4ProposalFirstControlledRealTaskRouteValidationError,
+         P3MinimumTrustTransactionalOciFinalProductRouteValidationError,
          P3TrustedReadOnlyInvocationEvidenceFirstFinalRouteValidationError,
          P3TrustedReadOnlyInvocationVerticalSliceRouteValidationError,
          P3DeclarativeTransactionKernelRouteValidationError,

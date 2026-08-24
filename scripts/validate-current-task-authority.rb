@@ -25,6 +25,8 @@ module CurrentTaskAuthority
     "p3-trusted-read-only-invocation-evidence-first-final-route/v1"
   MTRO_ROUTE_SCHEMA =
     "p3-minimum-trust-transactional-oci-final-product-route/v1"
+  P4_PROPOSAL_FIRST_ROUTE_SCHEMA =
+    "p4-proposal-first-controlled-real-task-route/v1"
   DTK_ROUTE_SCHEMA = "p3-declarative-transaction-kernel-clean-room-route/v1"
   ETSK_ROUTE_SCHEMA = "p3-executable-transition-system-kernel-reentry-route/v1"
   TIK_ROUTE_SCHEMA = "p3-trusted-invocation-kernel-process-real-clean-room-route/v1"
@@ -5686,6 +5688,7 @@ module CurrentTaskAuthority
         FounderDelegationContinuity::RESERVED_ROUTE_SCHEMA,
         FounderDelegationContinuity::STRATEGIC_HOLD_ROUTE_SCHEMA,
         FounderDelegationContinuity::RESEARCH_EXIT_ROUTE_SCHEMA,
+        P4_PROPOSAL_FIRST_ROUTE_SCHEMA,
         "p3-host-owned-fixed-state-workflow-route/v1",
         "p3-final-transactional-host-workflow-and-strict-exit-route/v1",
         "p3-phase-entry-active/v1",
@@ -5729,6 +5732,13 @@ module CurrentTaskAuthority
       assert(disposition == FounderDelegationContinuity::RESEARCH_EXIT_DISPOSITION,
              "P2 research exit requires exact capability-not-accepted closure and a separate P3 entry decision")
       return "P2_RESEARCH_EXIT_COMPLETE_P3_ENTRY_DECISION_REQUIRED"
+    end
+    if route["schema_version"] == P4_PROPOSAL_FIRST_ROUTE_SCHEMA
+      assert(defined?(P4ProposalFirstControlledRealTaskRouteValidation),
+             "P4 proposal-first Route validator is unavailable")
+      return P4ProposalFirstControlledRealTaskRouteValidation.validate_truth!(
+        root: root, truth: truth
+      )
     end
     if route["schema_version"] == MTRO_ROUTE_SCHEMA
       assert(defined?(P3MinimumTrustTransactionalOciFinalProductRouteValidation),

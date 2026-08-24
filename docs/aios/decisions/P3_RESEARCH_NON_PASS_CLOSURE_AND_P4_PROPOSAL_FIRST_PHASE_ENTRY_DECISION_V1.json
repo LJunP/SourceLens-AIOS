@@ -1,0 +1,226 @@
+{
+  "schema_version": "p3-research-non-pass-closure-and-p4-proposal-first-phase-entry-founder-decision/v1",
+  "record_type": "sourcelens_aios_founder_reserved_strategy_and_phase_transition_decision",
+  "decision_id": "AUTHORIZE_P3_RESEARCH_NON_PASS_CLOSURE_AND_CONDITIONAL_P4_PROPOSAL_FIRST_PHASE_ENTRY_V1",
+  "operation_type": "P3_RESEARCH_NON_PASS_OBJECTIVE_EXIT_GATE_REBASELINE_AND_CONDITIONAL_P4_ENTRY",
+  "status": "AUTHORIZED_CREATE_ONCE",
+  "reserved_triggers": [
+    "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE",
+    "PHASE_ENTRY_OR_EXIT"
+  ],
+  "direct_founder_authorization": {
+    "path": "/Users/lijunpeng/.codex/attachments/76197035-97fe-4890-9157-08ae3ee9a98a/pasted-text.txt",
+    "byte_length": 26909,
+    "sha256": "02c41cd578455a986d6b2a7d125a2892145b3a1da35d3b3225ff321029cdfbd6",
+    "canonicalization": "EXACT_ATTACHMENT_BYTES"
+  },
+  "canonical_start": {
+    "branch": "main",
+    "commit": "ca4f80905271c5e5afd8d0dde9bd1972f110bfe7",
+    "tree": "9bc7dbad643e5062064aee7a05236e79d8989f3f",
+    "truth": {
+      "path": "docs/aios/truth/project_state.yaml",
+      "byte_length": 2046902,
+      "sha256": "854b224c45301e774ac722fe25b7e9943f2e08c5d609bce505d5113ba6125da1"
+    },
+    "constitution": {
+      "path": "docs/aios/STRATEGIC_CONSTITUTION.md",
+      "version": "3.6",
+      "byte_length": 48904,
+      "sha256": "aeacef88eae184f9fe03e74df4311d62bb8b6710299b9e4bd6cc5a566c9f9bbf"
+    }
+  },
+  "terminal_basis": {
+    "task_id": "AIOS-P3-MTRO-P1_ACTUAL_AGENT_TRANSACTIONAL_OCI_READ_ONLY_INVOCATION",
+    "task_lifecycle": "TERMINAL_TASK_GATE_NON_PASS",
+    "implementation_attempt": "2_OF_2_FINAL",
+    "candidate_integrated": false,
+    "receipt": {
+      "path": "/Users/lijunpeng/Developer/.sourcelens-audit/p3-minimum-trust-transactional-oci-20260824/task-product/terminal/P3_MTRO_P1_PRODUCT_ROUTE_TERMINAL_NON_PASS_RECEIPT_V1.json",
+      "byte_length": 2151,
+      "sha256": "a5866faa737513b7ca9515fd451ecbf2360d949bb24995f8ce88df1df15043e0"
+    }
+  },
+  "independent_closure_audit": {
+    "verdict": "PASS",
+    "rerun_to_pass_allowed": false,
+    "reviewer_independent_of_audited_candidates": true,
+    "input_manifest": {
+      "path": "/Users/lijunpeng/Developer/.sourcelens-audit/p3-research-non-pass-closure-20260824/phase-exit/P3_RESEARCH_NON_PASS_CLOSURE_INPUT_MANIFEST_V1.json",
+      "byte_length": 4450,
+      "sha256": "e84ac40aceb202cd1dc4272bc706d64dc1c94a3a81be0989e5be8239079f8855"
+    },
+    "audit_receipt": {
+      "path": "/Users/lijunpeng/Developer/.sourcelens-audit/p3-research-non-pass-closure-20260824/phase-exit/P3_RESEARCH_NON_PASS_CLOSURE_AUDIT_RECEIPT_V1.json",
+      "byte_length": 11641,
+      "sha256": "ff42e8ab71c4c14ef12c29edec95a59528dbf34f61213556c065ac6c9b5d46a9"
+    },
+    "p3_hash_bound_reference_count": 94,
+    "p3_hash_bound_reference_match_count": 94,
+    "p3_hash_bound_reference_missing_count": 0,
+    "p3_hash_bound_reference_drift_count": 0,
+    "reference_projection_sha256": "95d1983e33c59eda83562076a4f2e3068180175932858ee96f1c7f44b3c5f3d5",
+    "rejected_candidate_commit_count": 19,
+    "rejected_candidate_ancestor_count": 0,
+    "rejected_candidate_content_read": false
+  },
+  "p3_phase_exit": {
+    "phase_outcome": "COMPLETE_RESEARCH_NON_PASS_EXECUTION_CAPABILITY_NOT_ACCEPTED",
+    "research_closure_status": "COMPLETE",
+    "research_exit_percent": 100,
+    "management_delivery_percent": 25,
+    "strict_execution_capability_progress_percent": 0,
+    "execution_capability_accepted": false,
+    "original_execution_capability_gate": {
+      "gate_id": "ACTUAL_AGENT_HOST_AUTHORIZED_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE_ACCEPTED",
+      "status": "MISSING_NOT_ACCEPTED",
+      "capability_accepted": false,
+      "candidate_integrated": false
+    },
+    "accepted_foundations": [
+      {
+        "milestone_id": "DURABLE_STATE_AND_CHECKPOINT_RESUME",
+        "integration_commit": "f841ff822610264ad1b88c93b1f6248d42eb134a",
+        "integration_tree": "6a3e67b4680464e54d72936dc24a205079614431",
+        "receipt": {
+          "path": "/Users/lijunpeng/Developer/.sourcelens-audit/p3-durable-execution-checkpoint-resume-20260819/task-p3-001/terminal/P3_001_TASK_GATE_PASS_INTEGRATION_RECEIPT_V1.json",
+          "byte_length": 3055,
+          "sha256": "e4ea37f8e6770b8dea9f8939f81444f01ebca4104a8dd2f84d33c4787180e2c0"
+        }
+      },
+      {
+        "milestone_id": "DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION",
+        "integration_commit": "2f52d0912ba5621bd2258fc21f5b74dd2019efd5",
+        "integration_tree": "e9490d8f786f913b2e60a7e690a71911e015c87a",
+        "task_gate_receipt": {
+          "path": "/Users/lijunpeng/Developer/.sourcelens-audit/p3-declarative-transaction-kernel-route-20260823/task-foundation/gate/P3_DTK_F1_TASK_GATE_INTEGRATION_RECEIPT_V1.json",
+          "byte_length": 5202,
+          "sha256": "47dfed7024336b144306b565e643da0b2b88f87e72ffc181b88d58147e09f268"
+        },
+        "canonical_verification_receipt": {
+          "path": "/Users/lijunpeng/Developer/.sourcelens-audit/p3-declarative-transaction-kernel-route-20260823/task-foundation/gate/P3_DTK_F1_CANONICAL_VERIFICATION_RECEIPT_V1.json",
+          "byte_length": 5409,
+          "sha256": "27847f8c89166897ce41846bb7fdd47494418057fb4726e6584f6b6e1cfbd0f6"
+        }
+      }
+    ],
+    "closed_envelope": {
+      "engineering_tasks": 19,
+      "engineering_hours": 568,
+      "calendar_days": 132,
+      "remaining_engineering_tasks": 0,
+      "remaining_engineering_hours": 0,
+      "remaining_calendar_days": 0
+    },
+    "phase_gate": "PASS_RESEARCH_NON_PASS_EXECUTION_CAPABILITY_NOT_ACCEPTED"
+  },
+  "p4_phase_entry": {
+    "conditional_on_predecessor_check": true,
+    "phase": "P4",
+    "phase_name": "Software Engineer Agent Alpha",
+    "objective_id": "CONTROLLED_NON_AUTHORITATIVE_PROPOSAL_FIRST_PATCH_EVIDENCE_PRODUCT",
+    "strict_exit_gate_id": "VERIFIED_PATCHES_ON_CONTROLLED_REAL_TASKS",
+    "strict_exit_task_count": 2,
+    "system_under_test_agent_authority": "PROPOSAL_DATA_ONLY",
+    "phase_exit_authorized": false,
+    "p5_entry_authorized": false,
+    "long_term_goal_status": "ACTIVE"
+  },
+  "p4_phase_envelope": {
+    "engineering_tasks": 3,
+    "engineering_hours": 112,
+    "calendar_days": 26,
+    "active_tasks": 1,
+    "task_branches": 1,
+    "task_worktrees": 1,
+    "candidate_generations_per_product_task": 2,
+    "same_task_repairs_per_product_task": 1,
+    "review_cycles_per_product_task": 2,
+    "cross_task_borrowing_allowed": false,
+    "automatic_expansion_allowed": false
+  },
+  "p4_ordered_tasks": [
+    {
+      "ordinal": 1,
+      "stage_id": "CONTROLLED_REAL_TASK_AND_PATCH_EVIDENCE_ACCEPTANCE_FOUNDATION",
+      "task_id": "AIOS-P4-F1_CONTROLLED_REAL_TASK_AND_PATCH_EVIDENCE_ACCEPTANCE_FOUNDATION",
+      "nonce": "p4-f1-crtpeaf-20260824-v1",
+      "kind": "NON_PRODUCT_EXECUTABLE_FOUNDATION",
+      "budget": {"engineering_tasks": 1, "engineering_hours": 24, "calendar_days": 6},
+      "branch": "codex/p4-f1-controlled-real-task-evidence-foundation",
+      "worktree": "/Users/lijunpeng/Developer/.sourcelens-worktrees/p4-f1-controlled-real-task-evidence-foundation",
+      "evidence_root": "/Users/lijunpeng/Developer/.sourcelens-audit/p4-proposal-first-controlled-real-task-20260824/task-f1"
+    },
+    {
+      "ordinal": 2,
+      "stage_id": "NON_AUTHORITATIVE_PATCH_PROPOSAL_EVIDENCE_PRODUCT",
+      "task_id": "AIOS-P4-P1_NON_AUTHORITATIVE_PATCH_PROPOSAL_EVIDENCE_PRODUCT",
+      "nonce": "p4-p1-nappep-20260824-v1",
+      "kind": "PRODUCT_IMPLEMENTATION",
+      "budget": {"engineering_tasks": 1, "engineering_hours": 56, "calendar_days": 12},
+      "branch": "codex/p4-p1-non-authoritative-patch-proposal-evidence",
+      "worktree": "/Users/lijunpeng/Developer/.sourcelens-worktrees/p4-p1-non-authoritative-patch-proposal-evidence",
+      "evidence_root": "/Users/lijunpeng/Developer/.sourcelens-audit/p4-proposal-first-controlled-real-task-20260824/task-p1"
+    },
+    {
+      "ordinal": 3,
+      "stage_id": "ONE_SHOT_CONTROLLED_REAL_TASK_FORMAL_HELD_EVALUATION",
+      "task_id": "AIOS-P4-E1_ONE_SHOT_CONTROLLED_REAL_TASK_FORMAL_HELD_EVALUATION",
+      "nonce": "p4-e1-crtfhe-20260824-v1",
+      "kind": "EVALUATION_ONLY_ONE_SHOT",
+      "budget": {"engineering_tasks": 1, "engineering_hours": 32, "calendar_days": 8, "formal_dispatches": 1},
+      "branch": "codex/p4-e1-controlled-real-task-formal-held-evaluation",
+      "worktree": "/Users/lijunpeng/Developer/.sourcelens-worktrees/p4-e1-controlled-real-task-formal-held-evaluation",
+      "evidence_root": "/Users/lijunpeng/Developer/.sourcelens-audit/p4-proposal-first-controlled-real-task-20260824/task-e1"
+    }
+  ],
+  "external_effects": {
+    "network": false,
+    "dns": false,
+    "http_https": false,
+    "provider": false,
+    "secret": false,
+    "credential": false,
+    "docker": false,
+    "remote": false,
+    "production": false,
+    "public": false,
+    "push": false,
+    "pull_request": false,
+    "merge": false,
+    "release": false
+  },
+  "prohibited_actions": {
+    "rejected_p3_lineage_read_compare_copy_restore_or_integrate": true,
+    "system_under_test_shell_or_tool_side_effect": true,
+    "system_under_test_canonical_source_write": true,
+    "system_under_test_docker_network_provider_secret_or_remote": true,
+    "task_replacement_successor_normalization_remediation_v2_or_v3": true,
+    "formal_evaluation_rerun_to_pass": true,
+    "p4_phase_exit_without_founder_gate": true,
+    "p5_entry": true,
+    "long_term_goal_closure": true
+  },
+  "strategic_installation": {
+    "branch": "codex/p3-research-non-pass-closure-p4-entry",
+    "worktree": "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-research-non-pass-closure-p4-entry",
+    "product_tasks": 0,
+    "maximum_engineering_hours": 16,
+    "maximum_calendar_days": 3,
+    "engineering_progress_credit": 0,
+    "governance_progress_credit": 0,
+    "validator_freezes": 1,
+    "same_operation_limited_corrections": 1
+  },
+  "lifecycle": {
+    "pass": "CLOSURE_AUDIT_PASS_AND_STRATEGIC_VALIDATORS_PASS_AND_P3_RESEARCH_EXIT_INSTALLED_AND_PREDECESSOR_PASS_ENTER_P4_WITH_F1_ELIGIBLE",
+    "non_pass": "KEEP_P3_HOLD_AND_P4_HOLD_WITHOUT_SUCCESSOR_REPLACEMENT_NORMALIZATION_OR_RERUN_TO_PASS",
+    "p4_f1_non_pass": "P4_HOLD_P1_AND_E1_INELIGIBLE_NO_REPLACEMENT",
+    "p4_p1_non_pass": "P4_HOLD_E1_INELIGIBLE_NO_SECOND_PRODUCT_TASK",
+    "p4_e1_non_pass": "P4_HOLD_NO_FORMAL_RERUN",
+    "p4_e1_pass": "P4_EXIT_GATE_100_PERCENT_ELIGIBLE_AWAITING_FOUNDER_P4_PHASE_GATE_P5_HOLD",
+    "project_actually_completed": false,
+    "long_term_goal_status": "ACTIVE",
+    "codex_goal_action": "NONE_KEEP_ACTIVE"
+  }
+}

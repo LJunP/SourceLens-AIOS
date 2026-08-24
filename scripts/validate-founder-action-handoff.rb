@@ -60,6 +60,8 @@ module FounderActionHandoff
     P3_TRUSTED_READ_ONLY_INVOCATION_EVIDENCE_FIRST_FINAL_CLEAN_ROOM_ROUTE_AFTER_TRIVS_TERMINAL
     P3_TRIVS_EVIDENCE_FIRST_TERMINAL_HOLD_DISPOSITION
     P3_MINIMUM_TRUST_TRANSACTIONAL_OCI_FINAL_PRODUCT_ROUTE_AFTER_F2_TERMINAL
+    P3_RESEARCH_NON_PASS_OBJECTIVE_EXIT_GATE_REBASELINE_AND_CONDITIONAL_P4_ENTRY
+    P3_STRATEGIC_TRANSITION_GLOBAL_GOVERNANCE_COMPATIBILITY_SCOPE_AMENDMENT
   ].freeze
   APP_OPERATION_TYPES = %w[APP_FILESYSTEM_BATCH_WRITE].freeze
   READ_ONLY_HTTPS_OPERATION = "一次全新、独立、clean-room V6 benchmark source acquisition"
@@ -1101,6 +1103,68 @@ module FounderActionHandoff
     "deny_or_defer_effect" =>
       "本授权不授权互联网、DNS、HTTP(S)、Provider、外部 Secret、外部 credential、remote write、production、public release、P4 entry、remote branch/tag mutation、Git history rewrite、不可逆资产删除或修改 Codex 私有控制面。"
   }.freeze
+  P3_RESEARCH_NON_PASS_P4_ENTRY_TOKEN =
+    "AUTHORIZE_P3_RESEARCH_NON_PASS_CLOSURE_AND_CONDITIONAL_P4_PROPOSAL_FIRST_PHASE_ENTRY_V1"
+  P3_RESEARCH_NON_PASS_P4_ENTRY_OPERATION_TYPE =
+    "P3_RESEARCH_NON_PASS_OBJECTIVE_EXIT_GATE_REBASELINE_AND_CONDITIONAL_P4_ENTRY"
+  P3_RESEARCH_NON_PASS_P4_ENTRY_PROFILE = {
+    "operations" => [
+      "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE",
+      "PHASE_ENTRY_OR_EXIT",
+      "COMPLETE_RESEARCH_NON_PASS_EXECUTION_CAPABILITY_NOT_ACCEPTED",
+      "P4_PROPOSAL_FIRST_CONTROLLED_REAL_TASK_ROUTE_V1"
+    ],
+    "targets" => [
+      "/Users/lijunpeng/Developer/SourceLens-AIOS",
+      "codex/p3-research-non-pass-closure-p4-entry",
+      "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-research-non-pass-closure-p4-entry",
+      "/Users/lijunpeng/Developer/.sourcelens-audit/p3-research-non-pass-closure-20260824/phase-exit",
+      "/Users/lijunpeng/Developer/.sourcelens-audit/p4-proposal-first-controlled-real-task-20260824"
+    ],
+    "budget_or_external_effects" =>
+      "P3 transition 0 Product Tasks, at most 16 hours and 3 days; P4 3 Tasks, 112 hours and 26 days; all network, Provider, Secret, Docker, remote, production and public effects false",
+    "token" => P3_RESEARCH_NON_PASS_P4_ENTRY_TOKEN,
+    "duration" => "One P3 closure and strategic transition followed by the exact three-Task P4 route",
+    "authorization_expiry_or_consumption_rule" =>
+      "The strategy/Phase transition is create-once; each P4 Task is non-replaceable and dependent Tasks require independent predecessor acceptance",
+    "pass_lifecycle" =>
+      "P3 closes only as research NON_PASS with capability MISSING; predecessor PASS enters P4; E1 PASS reaches P4 Phase-Gate eligibility only",
+    "non_pass_lifecycle" =>
+      "Any failed closure/predecessor keeps P4 HOLD; F1, P1 or E1 NON_PASS ends its dependent route without successor, replacement or rerun-to-pass",
+    "risk_and_reversibility" =>
+      "No rejected P3 lineage may be read or integrated; system-under-test output remains non-authoritative proposal data",
+    "deny_or_defer_effect" =>
+      "P4 Phase Exit, P5 entry, trusted autonomous execution, adversarial hardening, network, Provider, Secret, Docker, remote, production, public release and Long-term Goal closure remain unauthorized"
+  }.freeze
+  P3_STRATEGIC_SCOPE_AMENDMENT_TOKEN =
+    "AUTHORIZE_P3_STRATEGIC_TRANSITION_GLOBAL_GOVERNANCE_COMPATIBILITY_SCOPE_AMENDMENT_V1"
+  P3_STRATEGIC_SCOPE_AMENDMENT_OPERATION_TYPE =
+    "P3_STRATEGIC_TRANSITION_GLOBAL_GOVERNANCE_COMPATIBILITY_SCOPE_AMENDMENT"
+  P3_STRATEGIC_SCOPE_AMENDMENT_PROFILE = {
+    "operations" => [
+      "ADD_ONLY_SCRIPTS_VALIDATE_AIOS_GOVERNANCE_SH_TO_THE_EXISTING_P3_TRANSITION_WRITE_ALLOWLIST",
+      "IMPLEMENT_ONLY_TYPED_FAIL_CLOSED_SUPPORT_FOR_P3_RESEARCH_NON_PASS_DUAL_CONCLUSION_AND_POST_INTEGRATION_P4_PREDECESSOR_ENTRY",
+      "PRESERVE_P3_EXECUTION_CAPABILITY_MISSING_AND_ALL_OTHER_ORIGINAL_SCOPE_BUDGET_PERMISSION_AND_ANTI_CYCLE_BOUNDARIES"
+    ],
+    "targets" => [
+      "/Users/lijunpeng/Developer/SourceLens-AIOS/scripts/validate-aios-governance.sh"
+    ],
+    "budget_or_external_effects" =>
+      "No new Task, engineering-hour, calendar-day, candidate, review or external-effect capacity; one additional existing local validator file only; network, Provider, Secret, Docker, remote, production and public effects remain false",
+    "token" => P3_STRATEGIC_SCOPE_AMENDMENT_TOKEN,
+    "duration" =>
+      "One compatibility patch inside the already authorized create-once P3 strategic transition, ending at transition PASS/NON_PASS or any identity/scope drift",
+    "authorization_expiry_or_consumption_rule" =>
+      "Consumed by one validated compatibility patch to the exact shell file; it does not create a successor Route, second strategy installation or reusable permission",
+    "pass_lifecycle" =>
+      "Global governance PASS only re-enables the already authorized transition, predecessor check and conditional P4 entry; it grants no P3 capability PASS, P4 Task acceptance, P4 Phase Exit or P5 entry",
+    "non_pass_lifecycle" =>
+      "No strategic transition commit is created; canonical baseline, P3 capability MISSING, P4 HOLD and Long-term Goal ACTIVE are preserved without Truth falsification or a retry chain",
+    "risk_and_reversibility" =>
+      "The patch may only teach the legacy validator the typed P3 research-NON_PASS dual conclusion and strict P4 predecessor semantics; it must remain fail-closed and must reject false legacy capability acceptance, phase skipping and bypass",
+    "deny_or_defer_effect" =>
+      "Without this exact one-file scope amendment, the authorized transition remains uncommitted because the unchanged global governance validator mechanically rejects the true P3 dual conclusion"
+  }.freeze
   FOUNDER_NETWORK_OPERATION_PROFILES = {
     "READ_ONLY_HTTPS_ACQUISITION" => {
       "operations" => [READ_ONLY_HTTPS_OPERATION, READ_ONLY_HTTPS_METHOD],
@@ -1423,7 +1487,9 @@ module FounderActionHandoff
     P3_TRIVS_EVIDENCE_FIRST_ROUTE_OPERATION_TYPE => P3_TRIVS_EVIDENCE_FIRST_ROUTE_PROFILE,
     P3_TRIVS_EVIDENCE_FIRST_TERMINAL_HOLD_OPERATION_TYPE =>
       P3_TRIVS_EVIDENCE_FIRST_TERMINAL_HOLD_PROFILE,
-    P3_MTRO_ROUTE_OPERATION_TYPE => P3_MTRO_ROUTE_PROFILE
+    P3_MTRO_ROUTE_OPERATION_TYPE => P3_MTRO_ROUTE_PROFILE,
+    P3_RESEARCH_NON_PASS_P4_ENTRY_OPERATION_TYPE => P3_RESEARCH_NON_PASS_P4_ENTRY_PROFILE,
+    P3_STRATEGIC_SCOPE_AMENDMENT_OPERATION_TYPE => P3_STRATEGIC_SCOPE_AMENDMENT_PROFILE
   }.freeze
   PROSPECTIVE_PREFLIGHT = "PROSPECTIVE_RESERVED_EFFECT_REQUIRED_BY_EXACT_USER_REQUEST_AND_NOT_EXPRESSIBLE_BY_CURRENT_OFFLINE_ESCALATION_PROJECTION"
   NO_ACTION_SENTENCE = "你现在无需操作，我将在现有授权范围内继续执行。"
@@ -2152,6 +2218,8 @@ module FounderActionHandoff
         P3_TRUSTED_READ_ONLY_INVOCATION_EVIDENCE_FIRST_FINAL_CLEAN_ROOM_ROUTE_AFTER_TRIVS_TERMINAL
         P3_TRIVS_EVIDENCE_FIRST_TERMINAL_HOLD_DISPOSITION
         P3_MINIMUM_TRUST_TRANSACTIONAL_OCI_FINAL_PRODUCT_ROUTE_AFTER_F2_TERMINAL
+        P3_RESEARCH_NON_PASS_OBJECTIVE_EXIT_GATE_REBASELINE_AND_CONDITIONAL_P4_ENTRY
+        P3_STRATEGIC_TRANSITION_GLOBAL_GOVERNANCE_COMPATIBILITY_SCOPE_AMENDMENT
       ].include?(operation_type)
         proposed_tokens = package["copy_ready_text_or_exact_steps"].scan(FOUNDER_AUTHORIZATION_TOKEN)
         assert!(proposed_tokens == [profile["token"]],

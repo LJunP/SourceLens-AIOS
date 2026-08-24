@@ -647,6 +647,10 @@ check_phase_predecessor_activation() {
     abort "strict phase sequence drift" unless ledger["sequence"] == expected_sequence
     phases = ledger.fetch("phases")
     abort "strict phase record set drift" unless phases.keys == expected_sequence
+    p3_research_non_pass_dual_conclusion_claimed =
+      research_non_pass_closure &&
+      phases.dig("P3", "status") ==
+        "COMPLETE_RESEARCH_NON_PASS_EXECUTION_CAPABILITY_NOT_ACCEPTED"
 
     git_capture = lambda do |*arguments|
       stdout, stderr, status = Open3.capture3("git", "-C", repo_root.to_s, *arguments)
@@ -688,6 +692,86 @@ check_phase_predecessor_activation() {
       abort "Exit Gate authority SHA-256 mismatch" if identity.key?("sha256") &&
         Digest::SHA256.hexdigest(bytes) != identity["sha256"]
       bytes
+    end
+
+    p3_research_non_pass_dual_conclusion = false
+    if p3_research_non_pass_dual_conclusion_claimed
+      p3_record = phases.fetch("P3")
+      research_exit = p3_record["research_exit"]
+      original_gate = p3_record["original_capability_gate"]
+      founder_gate = p3_record["founder_phase_gate"]
+      current_gate = p3_record["current_exit_gate"]
+      abort "P3 research-NON_PASS dual conclusion structure is incomplete" unless
+        research_exit.is_a?(Hash) && original_gate.is_a?(Hash) &&
+        founder_gate.is_a?(Hash) && current_gate.is_a?(Hash)
+      abort "P3 research-NON_PASS dual conclusion is incomplete" unless
+        research_exit == {
+          "gate_id" =>
+            "P3_BOUNDED_RESEARCH_TERMINAL_RECORD_AND_EXECUTION_CAPABILITY_NON_ACCEPTANCE",
+          "status" => "ACCEPTED",
+          "research_exit_percent" => 100,
+          "management_delivery_percent" => 25,
+          "strict_execution_capability_percent" => 0,
+          "closure_audit" => founder_gate["closure_audit"],
+          "accepted_foundations" => %w[
+            DURABLE_STATE_AND_CHECKPOINT_RESUME
+            DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION
+          ]
+        } &&
+        original_gate == {
+          "id" =>
+            "ACTUAL_AGENT_HOST_AUTHORIZED_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE_ACCEPTED",
+          "status" => "MISSING_NOT_ACCEPTED",
+          "strict_progress_percent" => 0,
+          "capability_accepted" => false,
+          "candidate_integrated" => false
+        }
+      abort "P3 research-NON_PASS Founder Gate identity drift" unless
+        founder_gate["decision_id"] ==
+          "AUTHORIZE_P3_RESEARCH_NON_PASS_CLOSURE_AND_CONDITIONAL_P4_PROPOSAL_FIRST_PHASE_ENTRY_V1" &&
+        founder_gate["status"] ==
+          "PASS_RESEARCH_NON_PASS_EXECUTION_CAPABILITY_NOT_ACCEPTED" &&
+        founder_gate.keys.sort == %w[
+          closure_audit decision_id path byte_length sha256 status
+        ].sort
+      decision_bytes = verify_repository_file.call(
+        founder_gate.slice("path", "byte_length", "sha256")
+      )
+      decision = JSON.parse(decision_bytes)
+      abort "P3 research-NON_PASS Founder decision semantic drift" unless
+        decision["schema_version"] ==
+          "p3-research-non-pass-closure-and-p4-proposal-first-phase-entry-founder-decision/v1" &&
+        decision["decision_id"] == founder_gate["decision_id"] &&
+        decision["operation_type"] ==
+          "P3_RESEARCH_NON_PASS_OBJECTIVE_EXIT_GATE_REBASELINE_AND_CONDITIONAL_P4_ENTRY" &&
+        decision["status"] == "AUTHORIZED_CREATE_ONCE" &&
+        decision["reserved_triggers"] == %w[
+          MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE PHASE_ENTRY_OR_EXIT
+        ]
+      audit_bytes = verify_file.call(founder_gate.fetch("closure_audit"))
+      closure_audit = JSON.parse(audit_bytes)
+      abort "P3 research-NON_PASS closure audit semantic drift" unless
+        closure_audit["schema_version"] ==
+          "p3-research-non-pass-closure-audit-receipt/v1" &&
+        closure_audit["record_type"] ==
+          "P3_RESEARCH_NON_PASS_CLOSURE_AUDIT_RECEIPT" &&
+        closure_audit["verdict"] == "PASS" &&
+        closure_audit["formal_dispatch_ordinal"] == 1 &&
+        closure_audit["formal_dispatch_limit"] == 1 &&
+        closure_audit["rerun_to_pass_allowed"] == false &&
+        closure_audit["operation_type"] == decision["operation_type"]
+      abort "P3 original execution capability was false-accepted" unless
+        current_gate.is_a?(Hash) &&
+        current_gate["gate_id"] == original_gate["id"] &&
+        current_gate.fetch("required_items").values.all? do |item|
+          item == {
+            "status" => "MISSING", "candidate_commit" => nil,
+            "candidate_tree" => nil, "evidence" => nil
+          }
+        end &&
+        current_gate.dig("compatibility_projection", "status") == "MISSING" &&
+        current_gate.dig("compatibility_projection", "acceptance_requires_all_current_items") == true
+      p3_research_non_pass_dual_conclusion = true
     end
 
     phase_route_authority = ledger.fetch("phase_route_authority")
@@ -1475,14 +1559,17 @@ check_phase_predecessor_activation() {
       phase_record = phases.fetch(phase_id)
       item = phase_record.fetch("required_items").fetch(item_id)
       validate_gate_item.call(phase_id, item_id, item)
-      expected_status = if research_non_pass_closure && phase_id == "P3" &&
+      expected_status = if p3_research_non_pass_dual_conclusion && phase_id == "P3"
+                          "COMPLETE_RESEARCH_NON_PASS_EXECUTION_CAPABILITY_NOT_ACCEPTED"
+                        elsif research_non_pass_closure && phase_id == "P3" &&
                            project["current_phase"] == "P2"
                           "ELIGIBLE_AWAITING_SEPARATE_FOUNDER_PHASE_ENTRY"
                         else
                           item["status"] == "ACCEPTED" ? "COMPLETE" : "INCOMPLETE"
                         end
       abort "#{phase_id} derived Gate status drift" unless phase_record["status"] == expected_status
-      validate_founder_phase_gate.call(phase_id, phase_record, [item_id])
+      validate_founder_phase_gate.call(phase_id, phase_record, [item_id]) unless
+        p3_research_non_pass_dual_conclusion && phase_id == "P3"
     end
 
     unless task_id == "NONE"
@@ -1494,7 +1581,10 @@ check_phase_predecessor_activation() {
     phase_complete = lambda do |phase_id, record|
       record["status"] == "COMPLETE" ||
         (research_non_pass_closure && phase_id == "P2" &&
-         record["status"] == "COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED")
+         record["status"] == "COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED") ||
+        (p3_research_non_pass_dual_conclusion && phase_id == "P3" &&
+         record["status"] ==
+           "COMPLETE_RESEARCH_NON_PASS_EXECUTION_CAPABILITY_NOT_ACCEPTED")
     end
     earliest_incomplete_phase = phases.keys
       .select { |phase_id| phase_id.match?(/\AP(?:0|[1-9]|1[0-2])\z/) && !phase_complete.call(phase_id, phases[phase_id]) }
@@ -1534,6 +1624,15 @@ check_phase_predecessor_activation() {
         predecessor = phases.fetch(predecessor_id)
         abort "#{predecessor_id} predecessor Gate is not COMPLETE" unless
           phase_complete.call(predecessor_id, predecessor)
+        if p3_research_non_pass_dual_conclusion && predecessor_id == "P3"
+          abort "P3 research-NON_PASS predecessor dual conclusion is unavailable" unless
+            predecessor["research_exit"]["status"] == "ACCEPTED" &&
+            predecessor.dig("original_capability_gate", "status") ==
+              "MISSING_NOT_ACCEPTED" &&
+            predecessor.dig("founder_phase_gate", "status") ==
+              "PASS_RESEARCH_NON_PASS_EXECUTION_CAPABILITY_NOT_ACCEPTED"
+          next
+        end
         required_ids = predecessor.fetch("required_item_ids")
         required_items = predecessor.fetch("required_items")
         abort "#{predecessor_id} predecessor required-item set is empty" unless required_ids.is_a?(Array) && !required_ids.empty?
@@ -2502,6 +2601,7 @@ required_files=(
   scripts/validate-current-task-authority.rb
   scripts/test-current-task-authority.rb
   scripts/validate-founder-delegation-continuity.rb
+  scripts/validate-strict-phase-gates.rb
   scripts/validate-p3-phase-entry.rb
   scripts/validate-p3-zero-authority-route.rb
   scripts/validate-p3-005-task-authority.rb
@@ -2558,6 +2658,9 @@ check_founder_action_handoff_section "$RULES_PATH"
 check_founder_knowledge_section "$RULES_PATH"
 check_authority_bindings
 check_phase_predecessor_activation
+if ruby -ryaml -e 'exit(YAML.safe_load(File.binread(ARGV[0]), permitted_classes: [], permitted_symbols: [], aliases: false).dig("current_phase_route", "schema_version") == "p4-proposal-first-controlled-real-task-route/v1" ? 0 : 1)' "$TRUTH_PATH"; then
+  ruby "${ROOT_DIR}/scripts/validate-strict-phase-gates.rb"
+fi
 check_founder_knowledge_sync_state STRUCTURAL_ONLY "$TRUTH_PATH" CANONICAL_ONLY
 if ruby -ryaml -e 'exit(YAML.load_file(ARGV[0]).dig("current_phase_route", "schema_version") == "p3-phase-entry-active/v1" ? 0 : 1)' "$TRUTH_PATH"; then
   ruby "${ROOT_DIR}/scripts/validate-p3-phase-entry.rb"

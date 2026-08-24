@@ -42,6 +42,494 @@ def run_phase_fixture(path, phase, task, action)
   )
 end
 
+if ARGV == ["--p4-lifecycle-policy-only"]
+  p4 = P4ProposalFirstControlledRealTaskRouteValidation
+  p4.validate_lifecycle_policy!
+  positive_transitions = 0
+  p4::ALLOWED_LIFECYCLE_TRANSITIONS.each do |from, destinations|
+    destinations.each do |to|
+      p4.validate_lifecycle_transition!(from, to)
+      positive_transitions += 1
+    end
+  end
+  negative_transitions = [
+    ["PREDECESSOR_RECEIPT_PENDING", "PRODUCT_TASK_ACTIVE"],
+    ["FOUNDATION_TASK_ACTIVE", "PREDECESSOR_RECEIPT_PENDING"],
+    ["FOUNDATION_ROUTE_TERMINAL_NON_PASS", "FOUNDATION_TASK_ACTIVE"],
+    ["EVALUATION_ACCEPTED_PHASE_GATE_ELIGIBLE", "EVALUATION_TASK_ACTIVE"]
+  ]
+  negative_count = 0
+  negative_transitions.each do |from, to|
+    begin
+      p4.validate_lifecycle_transition!(from, to)
+    rescue P4ProposalFirstControlledRealTaskRouteValidationError
+      negative_count += 1
+      next
+    end
+    raise "P4 lifecycle policy accepted illegal transition #{from} -> #{to}"
+  end
+  profile_mutations = {
+    "consumed reset" => lambda do |profiles, _transitions|
+      profiles["FOUNDATION_ACCEPTED_PRODUCT_ELIGIBLE"]["consumed"] = 0
+    end,
+    "terminal Founder boundary removed" => lambda do |profiles, _transitions|
+      profiles["PRODUCT_ROUTE_TERMINAL_NON_PASS"]["founder_required"] = false
+    end,
+    "two active stages" => lambda do |profiles, _transitions|
+      profiles["PRODUCT_TASK_ACTIVE"]["stage_statuses"][2] = "ACTIVE"
+    end,
+    "terminal successor injected" => lambda do |_profiles, transitions|
+      transitions["EVALUATION_ROUTE_TERMINAL_NON_PASS"] = ["EVALUATION_TASK_ACTIVE"]
+    end
+  }
+  profile_mutations.each do |label, mutation|
+    profiles = Marshal.load(Marshal.dump(p4::LIFECYCLE))
+    transitions = Marshal.load(Marshal.dump(p4::ALLOWED_LIFECYCLE_TRANSITIONS))
+    mutation.call(profiles, transitions)
+    begin
+      p4.validate_lifecycle_policy!(profiles, transitions)
+    rescue P4ProposalFirstControlledRealTaskRouteValidationError
+      negative_count += 1
+      next
+    end
+    raise "P4 lifecycle policy accepted mutation: #{label}"
+  end
+  raise "P4 lifecycle positive edge count drift" unless positive_transitions == 10
+  puts "P4_LIFECYCLE_POLICY_TESTS: PASS profiles=#{p4::LIFECYCLE.length} " \
+       "positive_transitions=#{positive_transitions} negatives=#{negative_count}"
+  exit 0
+end
+
+if ARGV == ["--p4-current-only"]
+  truth = YAML.safe_load(
+    File.binread(TRUTH),
+    permitted_classes: [],
+    permitted_symbols: [],
+    aliases: false
+  )
+  raise "current Route is not P4 proposal-first" unless
+    truth.dig("current_phase_route", "schema_version") ==
+      P4ProposalFirstControlledRealTaskRouteValidation::ROUTE_SCHEMA
+  state = P4ProposalFirstControlledRealTaskRouteValidation.validate_truth!(
+    root: ROOT, truth: truth
+  )
+  raise "P4 proposal-first current state drift" unless
+    state == "NOT_STARTED_PREDECESSOR_RECEIPT_PENDING"
+
+  mutations = {
+    "receipt missing but project enters P4" => lambda do |candidate|
+      candidate.dig("project")["current_phase"] = "P4"
+    end,
+    "receipt missing but P4 entry is authorized" => lambda do |candidate|
+      candidate.dig("strict_phase_gate_ledger", "phases", "P4")["entry_authorized"] = true
+    end,
+    "receipt missing but P4 execution is started" => lambda do |candidate|
+      candidate.dig("strict_phase_gate_ledger", "phases", "P4")["execution_started"] = true
+    end,
+    "receipt missing but Route reports F1 eligible" => lambda do |candidate|
+      profile = P4ProposalFirstControlledRealTaskRouteValidation::LIFECYCLE.fetch(
+        "FOUNDATION_ELIGIBLE_NOT_ACTIVATED"
+      )
+      route = candidate.fetch("current_phase_route")
+      route["lifecycle_stage"] = "FOUNDATION_ELIGIBLE_NOT_ACTIVATED"
+      route["status"] = profile.fetch("route_status")
+      route["execution_status"] = profile.fetch("state")
+      route["scheduling_status"] = profile.fetch("scheduling")
+      route["next_eligible_action"] = profile.fetch("action")
+      route["ordered_stages"].each_with_index do |stage, index|
+        stage["status"] = profile.fetch("stage_statuses")[index]
+      end
+    end,
+    "receipt missing but F1 stage is eligible" => lambda do |candidate|
+      candidate.dig("current_phase_route", "ordered_stages", 0)["status"] =
+        "ELIGIBLE_NOT_ACTIVATED"
+    end,
+    "receipt missing but phase boundary permits Task creation" => lambda do |candidate|
+      candidate.dig("phase_boundary")["task_creation_allowed"] = true
+    end,
+    "receipt missing but phase execution claim permits Task creation" => lambda do |candidate|
+      candidate.dig("phase_execution_claim")["task_creation_allowed"] = true
+    end,
+    "receipt missing but P4 envelope capacity is usable" => lambda do |candidate|
+      candidate.dig("phase_execution_envelope")["remaining_capacity_usable"] = true
+    end,
+    "P3 capability false acceptance" => lambda do |candidate|
+      candidate.dig(
+        "strict_phase_gate_ledger", "phases", "P3", "original_capability_gate"
+      )["status"] = "ACCEPTED"
+    end,
+    "P3 current Gate item false acceptance" => lambda do |candidate|
+      candidate.dig(
+        "strict_phase_gate_ledger", "phases", "P3", "current_exit_gate", "required_items"
+      ).values.first["status"] = "ACCEPTED"
+    end,
+    "closure audit removed" => lambda do |candidate|
+      candidate.dig("current_phase_route", "closure_audit")["verdict"] = "NON_PASS"
+    end,
+    "P4 Product activated before F1" => lambda do |candidate|
+      candidate.dig("current_phase_route", "ordered_stages", 1)["status"] = "ACTIVE"
+    end,
+    "system-under-test shell enabled" => lambda do |candidate|
+      candidate.dig("current_phase_route", "system_under_test_permissions")["shell"] = true
+    end,
+    "system-under-test Docker enabled" => lambda do |candidate|
+      candidate.dig("current_phase_route", "system_under_test_permissions")["docker"] = true
+    end,
+    "external network enabled" => lambda do |candidate|
+      candidate.dig("current_phase_route", "external_effects")["network"] = true
+    end,
+    "rejected P3 lineage read enabled" => lambda do |candidate|
+      candidate.dig("current_phase_route", "clean_room")["rejected_p3_lineage_read"] = true
+    end,
+    "P5 early entry enabled" => lambda do |candidate|
+      candidate.dig("current_phase_route", "anti_cycle")["p5_early_entry_allowed"] = true
+    end,
+    "P4 strict Gate accepted before E1" => lambda do |candidate|
+      candidate.dig(
+        "strict_phase_gate_ledger", "phases", "P4", "required_items",
+        "VERIFIED_PATCHES_ON_CONTROLLED_REAL_TASKS"
+      )["status"] = "ACCEPTED"
+    end,
+    "P4 lifecycle self-reported accepted without receipts" => lambda do |candidate|
+      profile = P4ProposalFirstControlledRealTaskRouteValidation::LIFECYCLE.fetch(
+        "EVALUATION_ACCEPTED_PHASE_GATE_ELIGIBLE"
+      )
+      route = candidate.fetch("current_phase_route")
+      route["lifecycle_stage"] = "EVALUATION_ACCEPTED_PHASE_GATE_ELIGIBLE"
+      route["status"] = profile.fetch("route_status")
+      route["execution_status"] = profile.fetch("state")
+      route["scheduling_status"] = profile.fetch("scheduling")
+      route["next_eligible_action"] = profile.fetch("action")
+      route["ordered_stages"].each_with_index do |stage, index|
+        stage["status"] = profile.fetch("stage_statuses")[index]
+      end
+    end,
+    "P4 envelope reset" => lambda do |candidate|
+      candidate.dig("phase_execution_envelope", "limits")["engineering_tasks"] = 4
+    end,
+    "Long-term Goal falsely completed" => lambda do |candidate|
+      candidate.dig("goal")["long_term_goal_status"] = "COMPLETE"
+    end,
+    "Founder decision identity drift" => lambda do |candidate|
+      candidate.dig("current_phase_route", "founder_strategy_decision")["sha256"] = "0" * 64
+    end
+  }
+  mutations.each do |label, mutation|
+    candidate = Marshal.load(Marshal.dump(truth))
+    mutation.call(candidate)
+    begin
+      P4ProposalFirstControlledRealTaskRouteValidation.validate_truth!(
+        root: ROOT, truth: candidate
+      )
+    rescue P4ProposalFirstControlledRealTaskRouteValidationError
+      next
+    end
+    raise "P4 proposal-first validator accepted mutation: #{label}"
+  end
+  global_compatibility_negative_checks = 0
+  Dir.mktmpdir("p3-research-non-pass-global-compatibility-") do |tmp|
+    positive_path = File.join(tmp, "positive.yaml")
+    File.binwrite(positive_path, YAML.dump(truth))
+    stdout, stderr, status = run_phase_fixture(
+      positive_path, "P3", "NONE", "STATE_AUDIT"
+    )
+    raise "global P3 dual-conclusion positive fixture failed\n#{stdout}#{stderr}" unless
+      status.success?
+    stdout, stderr, status = run_phase_fixture(
+      positive_path, "P4", "NONE", "ROUTE_ACTIVATION"
+    )
+    raise "global P4 predecessor positive fixture failed\n#{stdout}#{stderr}" unless
+      status.success?
+
+    global_mutations = {
+      "legacy capability phase PASS" => lambda do |candidate|
+        candidate.dig("strict_phase_gate_ledger", "phases", "P3")["status"] = "COMPLETE"
+      end,
+      "research exit claims strict capability progress" => lambda do |candidate|
+        candidate.dig(
+          "strict_phase_gate_ledger", "phases", "P3", "research_exit"
+        )["strict_execution_capability_percent"] = 1
+      end,
+      "original capability accepted" => lambda do |candidate|
+        candidate.dig(
+          "strict_phase_gate_ledger", "phases", "P3", "original_capability_gate"
+        )["capability_accepted"] = true
+      end,
+      "current capability item accepted" => lambda do |candidate|
+        candidate.dig(
+          "strict_phase_gate_ledger", "phases", "P3", "current_exit_gate",
+          "required_items"
+        ).values.first["status"] = "ACCEPTED"
+      end,
+      "Founder dual-conclusion status drift" => lambda do |candidate|
+        candidate.dig(
+          "strict_phase_gate_ledger", "phases", "P3", "founder_phase_gate"
+        )["status"] = "PASS"
+      end,
+      "Founder decision identity drift" => lambda do |candidate|
+        candidate.dig(
+          "strict_phase_gate_ledger", "phases", "P3", "founder_phase_gate"
+        )["sha256"] = "0" * 64
+      end,
+      "closure audit identity drift" => lambda do |candidate|
+        candidate.dig(
+          "strict_phase_gate_ledger", "phases", "P3", "founder_phase_gate",
+          "closure_audit"
+        )["sha256"] = "0" * 64
+      end
+    }
+    global_mutations.each do |label, mutation|
+      candidate = Marshal.load(Marshal.dump(truth))
+      mutation.call(candidate)
+      fixture_path = File.join(tmp, "#{label.gsub(/[^A-Za-z0-9]+/, "-")}.yaml")
+      File.binwrite(fixture_path, YAML.dump(candidate))
+      _stdout, _stderr, status = run_phase_fixture(
+        fixture_path, "P3", "NONE", "STATE_AUDIT"
+      )
+      raise "global governance compatibility accepted mutation: #{label}" if
+        status.success?
+      global_compatibility_negative_checks += 1
+    end
+  end
+  helper_negative_checks = 0
+  expected_testcase_ids =
+    P4ProposalFirstControlledRealTaskRouteValidation.expected_p1_required_testcase_ids
+  P4ProposalFirstControlledRealTaskRouteValidation.validate_p1_required_case_matrix!(
+    P4ProposalFirstControlledRealTaskRouteValidation::P1_REQUIRED_CASES,
+    expected_testcase_ids,
+    "P4 P1 required-case positive fixture"
+  )
+  mutated_cases = Marshal.load(
+    Marshal.dump(P4ProposalFirstControlledRealTaskRouteValidation::P1_REQUIRED_CASES)
+  )
+  mutated_cases.delete("MALFORMED_PATCH_REJECTED")
+  begin
+    P4ProposalFirstControlledRealTaskRouteValidation.validate_p1_required_case_matrix!(
+      mutated_cases, expected_testcase_ids, "P4 P1 required-case negative fixture"
+    )
+  rescue P4ProposalFirstControlledRealTaskRouteValidationError
+    helper_negative_checks += 1
+  else
+    raise "P4 P1 required-case matrix accepted a missing required case"
+  end
+  junit_required = expected_testcase_ids.fetch("focused_tests").first
+  junit_class, junit_name = junit_required.split("#", 2)
+  junit_pass =
+    "<testsuite tests=\"1\" failures=\"0\" errors=\"0\" skipped=\"0\">" \
+    "<testcase classname=\"#{junit_class}\" name=\"#{junit_name}\"/></testsuite>"
+  P4ProposalFirstControlledRealTaskRouteValidation.validate_p1_junit_documents!(
+    [junit_pass], 1, [junit_required], "P4 P1 JUnit positive fixture"
+  )
+  junit_mutants = {
+    "missing required testcase" =>
+      "<testsuite tests=\"1\" failures=\"0\" errors=\"0\" skipped=\"0\">" \
+      "<testcase classname=\"fixture.Other\" name=\"passes\"/></testsuite>",
+    "required testcase skipped" =>
+      "<testsuite tests=\"1\" failures=\"0\" errors=\"0\" skipped=\"1\">" \
+      "<testcase classname=\"#{junit_class}\" name=\"#{junit_name}\">" \
+      "<skipped/></testcase></testsuite>",
+    "required testcase failed" =>
+      "<testsuite tests=\"1\" failures=\"1\" errors=\"0\" skipped=\"0\">" \
+      "<testcase classname=\"#{junit_class}\" name=\"#{junit_name}\">" \
+      "<failure/></testcase></testsuite>",
+    "required testcase errored" =>
+      "<testsuite tests=\"1\" failures=\"0\" errors=\"1\" skipped=\"0\">" \
+      "<testcase classname=\"#{junit_class}\" name=\"#{junit_name}\">" \
+      "<error/></testcase></testsuite>"
+  }
+  junit_mutants.each do |label, xml|
+    begin
+      P4ProposalFirstControlledRealTaskRouteValidation.validate_p1_junit_documents!(
+        [xml], 1, [junit_required], "P4 P1 JUnit #{label} fixture"
+      )
+    rescue P4ProposalFirstControlledRealTaskRouteValidationError
+      helper_negative_checks += 1
+      next
+    end
+    raise "P4 P1 JUnit guard accepted #{label}"
+  end
+
+  migration_path =
+    P4ProposalFirstControlledRealTaskRouteValidation::CONDITIONAL_P1_MIGRATION_PATH
+  P4ProposalFirstControlledRealTaskRouteValidation.validate_p1_schema_need_iff!(
+    ["backend-spring/src/main/java/example/Proposal.java"], nil
+  )
+  P4ProposalFirstControlledRealTaskRouteValidation.validate_p1_schema_need_iff!(
+    [migration_path], {"path" => "receipt"}
+  )
+  [
+    [[migration_path], nil],
+    [["backend-spring/src/main/java/example/Proposal.java"], {"path" => "receipt"}]
+  ].each do |paths, receipt|
+    begin
+      P4ProposalFirstControlledRealTaskRouteValidation.validate_p1_schema_need_iff!(
+        paths, receipt
+      )
+    rescue P4ProposalFirstControlledRealTaskRouteValidationError
+      helper_negative_checks += 1
+      next
+    end
+    raise "P4 P1 schema-need iff accepted a mismatched migration/receipt pair"
+  end
+
+  Dir.mktmpdir("p4-p1-policy-fixture-") do |tmp|
+    _stdout, stderr, status = Open3.capture3("git", "init", "--quiet", tmp)
+    raise "P4 P1 fixture git init failed: #{stderr}" unless status.success?
+    [["user.name", "P4 Fixture"], ["user.email", "p4-fixture@example.invalid"]].each do |key, value|
+      _stdout, stderr, status = Open3.capture3("git", "-C", tmp, "config", key, value)
+      raise "P4 P1 fixture git config failed: #{stderr}" unless status.success?
+    end
+    product_path =
+      "backend-spring/src/main/java/com/sourcelens/module/autorepair/service/" \
+      "AutoRepairPatchPolicy.java"
+    FileUtils.mkdir_p(File.join(tmp, File.dirname(product_path)))
+    File.binwrite(File.join(tmp, product_path), "final class AutoRepairPatchPolicy {}\n")
+    Open3.capture3("git", "-C", tmp, "add", product_path)
+    _stdout, stderr, status = Open3.capture3(
+      "git", "-C", tmp, "commit", "--quiet", "-m", "base"
+    )
+    raise "P4 P1 fixture base commit failed: #{stderr}" unless status.success?
+    base_commit = Open3.capture3("git", "-C", tmp, "rev-parse", "HEAD").first.strip
+
+    evidence_root = File.join(tmp, "evidence")
+    FileUtils.mkdir_p(evidence_root)
+    task = {"task_id" => "P4-P1-FIXTURE", "nonce" => "p4-p1-fixture-v1",
+            "evidence_root" => evidence_root}
+    parent_tree = Open3.capture3(
+      "git", "-C", tmp, "show", "-s", "--format=%T", base_commit
+    ).first.strip
+    activation_parent = {
+      "commit" => base_commit, "tree" => parent_tree,
+      "truth" => {"path" => "docs/aios/truth/project_state.yaml",
+                  "byte_length" => 0, "sha256" => Digest::SHA256.hexdigest("")}
+    }
+    receipt_path = File.join(evidence_root, "pre-worker-schema-need.json")
+    receipt = {
+      "schema_version" => "p4-p1-pre-worker-schema-need/v1",
+      "record_type" => "P4_P1_PRE_WORKER_SCHEMA_NEED", "verdict" => "PASS",
+      "decision" => "MIGRATION_REQUIRED", "task_id" => task["task_id"],
+      "nonce" => task["nonce"], "activation_parent" => activation_parent,
+      "migration_path" => migration_path, "activation_parent_path_state" => "ABSENT",
+      "required_constraints" =>
+        P4ProposalFirstControlledRealTaskRouteValidation::P1_SCHEMA_NEED_CONSTRAINTS,
+      "checked_at_utc" => "2026-08-24T00:00:00Z"
+    }
+    receipt_identity = write_json(receipt_path, receipt)
+    File.chmod(0o444, receipt_path)
+    P4ProposalFirstControlledRealTaskRouteValidation.validate_p1_schema_need_receipt!(
+      tmp, receipt_identity, task, activation_parent
+    )
+    begin
+      P4ProposalFirstControlledRealTaskRouteValidation.validate_p1_schema_need_receipt!(
+        tmp, receipt_identity, task, activation_parent, "2026-08-23T23:59:59Z"
+      )
+    rescue P4ProposalFirstControlledRealTaskRouteValidationError
+      helper_negative_checks += 1
+    else
+      raise "P4 P1 schema receipt accepted a post-Contract checked_at timestamp"
+    end
+    writable_receipt_path = File.join(evidence_root, "writable-schema-need.json")
+    writable_receipt_identity = write_json(writable_receipt_path, receipt)
+    begin
+      P4ProposalFirstControlledRealTaskRouteValidation.validate_p1_schema_need_receipt!(
+        tmp, writable_receipt_identity, task, activation_parent
+      )
+    rescue P4ProposalFirstControlledRealTaskRouteValidationError
+      helper_negative_checks += 1
+    else
+      raise "P4 P1 schema receipt accepted writable Evidence"
+    end
+    invalid_receipt_path = File.join(evidence_root, "invalid-pre-worker-schema-need.json")
+    invalid_receipt = Marshal.load(Marshal.dump(receipt))
+    invalid_receipt["decision"] = "MIGRATION_NOT_REQUIRED"
+    invalid_receipt_identity = write_json(invalid_receipt_path, invalid_receipt)
+    File.chmod(0o444, invalid_receipt_path)
+    begin
+      P4ProposalFirstControlledRealTaskRouteValidation.validate_p1_schema_need_receipt!(
+        tmp, invalid_receipt_identity, task, activation_parent
+      )
+    rescue P4ProposalFirstControlledRealTaskRouteValidationError
+      helper_negative_checks += 1
+    else
+      raise "P4 P1 pre-Worker schema receipt accepted a false migration decision"
+    end
+
+    File.binwrite(
+      File.join(tmp, product_path),
+      "final class AutoRepairPatchPolicy { boolean proposalOnly() { return true; } }\n"
+    )
+    Open3.capture3("git", "-C", tmp, "add", product_path)
+    _stdout, stderr, status = Open3.capture3(
+      "git", "-C", tmp, "commit", "--quiet", "-m", "harmless"
+    )
+    raise "P4 P1 fixture harmless commit failed: #{stderr}" unless status.success?
+    harmless_commit = Open3.capture3("git", "-C", tmp, "rev-parse", "HEAD").first.strip
+    P4ProposalFirstControlledRealTaskRouteValidation.validate_p1_forbidden_added_references!(
+      tmp, base_commit, harmless_commit, [product_path]
+    )
+
+    previous_commit = harmless_commit
+    P4ProposalFirstControlledRealTaskRouteValidation::P1_FORBIDDEN_ADDED_REFERENCES.each do |token|
+      File.binwrite(
+        File.join(tmp, product_path),
+        "final class AutoRepairPatchPolicy { boolean proposalOnly() { return true; } } " \
+        "// #{token}\n"
+      )
+      Open3.capture3("git", "-C", tmp, "add", product_path)
+      _stdout, stderr, status = Open3.capture3(
+        "git", "-C", tmp, "commit", "--quiet", "-m", "forbidden #{token}"
+      )
+      raise "P4 P1 fixture forbidden commit failed: #{stderr}" unless status.success?
+      forbidden_commit = Open3.capture3(
+        "git", "-C", tmp, "rev-parse", "HEAD"
+      ).first.strip
+      begin
+        P4ProposalFirstControlledRealTaskRouteValidation.validate_p1_forbidden_added_references!(
+          tmp, previous_commit, forbidden_commit, [product_path]
+        )
+      rescue P4ProposalFirstControlledRealTaskRouteValidationError
+        helper_negative_checks += 1
+      else
+        raise "P4 P1 forbidden-reference guard accepted #{token}"
+      end
+      previous_commit = forbidden_commit
+    end
+
+    FileUtils.mkdir_p(File.join(tmp, File.dirname(migration_path)))
+    File.binwrite(File.join(tmp, migration_path), "-- proposal state\n")
+    Open3.capture3("git", "-C", tmp, "add", migration_path)
+    _stdout, stderr, status = Open3.capture3(
+      "git", "-C", tmp, "commit", "--quiet", "-m", "migration already present"
+    )
+    raise "P4 P1 fixture migration commit failed: #{stderr}" unless status.success?
+    migration_parent_commit = Open3.capture3(
+      "git", "-C", tmp, "rev-parse", "HEAD"
+    ).first.strip
+    migration_parent = Marshal.load(Marshal.dump(activation_parent))
+    migration_parent["commit"] = migration_parent_commit
+    migration_parent["tree"] = Open3.capture3(
+      "git", "-C", tmp, "show", "-s", "--format=%T", migration_parent_commit
+    ).first.strip
+    migration_present_receipt = Marshal.load(Marshal.dump(receipt))
+    migration_present_receipt["activation_parent"] = migration_parent
+    migration_present_path = File.join(evidence_root, "migration-present-schema-need.json")
+    migration_present_identity = write_json(migration_present_path, migration_present_receipt)
+    File.chmod(0o444, migration_present_path)
+    begin
+      P4ProposalFirstControlledRealTaskRouteValidation.validate_p1_schema_need_receipt!(
+        tmp, migration_present_identity, task, migration_parent
+      )
+    rescue P4ProposalFirstControlledRealTaskRouteValidationError
+      helper_negative_checks += 1
+    else
+      raise "P4 P1 schema receipt accepted a migration already present at activation parent"
+    end
+  end
+  puts "STRICT_PHASE_GATE_TESTS: PASS p4_current=1 " \
+       "p4_negative_mutations=#{mutations.length + helper_negative_checks + global_compatibility_negative_checks}"
+  exit 0
+end
+
 if ARGV == ["--mtro-current-only"]
   truth = YAML.safe_load(
     File.binread(TRUTH),
@@ -578,6 +1066,7 @@ begin
   truth.fetch("project")["p2_execution_status"] = "HOLD_PENDING_FOUNDER_PHASE_ENTRY"
   truth.fetch("project")["p3_entry_status"] = "HOLD_PENDING_STRICT_P2_EXIT"
   truth.fetch("project")["p3_execution_status"] = "HOLD_PENDING_STRICT_P2_EXIT"
+  truth.fetch("project")["p4_entry_status"] = "HOLD_PENDING_STRICT_P3_EXIT"
   truth.fetch("current_phase_route")["phase"] = "P1"
   truth.fetch("goal")["current_task_authority"] = "NONE"
   truth.fetch("active_work")["current_task"] = "NONE"

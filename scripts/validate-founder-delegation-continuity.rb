@@ -8,6 +8,7 @@ require "pathname"
 require "psych"
 require "time"
 require "yaml"
+require_relative "validate-strict-phase-gates"
 p3_entry_validator = File.join(__dir__, "validate-p3-phase-entry.rb")
 require_relative "validate-p3-phase-entry" if File.file?(p3_entry_validator)
 p3_zero_authority_route_validator = File.join(__dir__, "validate-p3-zero-authority-route.rb")
@@ -44,6 +45,8 @@ module FounderDelegationContinuity
     "p3-trusted-read-only-invocation-evidence-first-final-route/v1"
   MTRO_ROUTE_SCHEMA =
     "p3-minimum-trust-transactional-oci-final-product-route/v1"
+  P4_PROPOSAL_FIRST_ROUTE_SCHEMA =
+    "p4-proposal-first-controlled-real-task-route/v1"
   DTK_ROUTE_SCHEMA = "p3-declarative-transaction-kernel-clean-room-route/v1"
   ETSK_ROUTE_SCHEMA = "p3-executable-transition-system-kernel-reentry-route/v1"
   TIK_ROUTE_SCHEMA = "p3-trusted-invocation-kernel-process-real-clean-room-route/v1"
@@ -5072,6 +5075,28 @@ module FounderDelegationContinuity
     route = mapping(truth["current_phase_route"], "current_phase_route")
     return validate_research_exit_state!(root, truth, policy, project, route) if
       route["schema_version"] == RESEARCH_EXIT_ROUTE_SCHEMA
+    if route["schema_version"] == P4_PROPOSAL_FIRST_ROUTE_SCHEMA
+      assert(defined?(P4ProposalFirstControlledRealTaskRouteValidation),
+             "P4 proposal-first Route validator is unavailable")
+      state = P4ProposalFirstControlledRealTaskRouteValidation.validate_truth!(
+        root: root, truth: truth
+      )
+      profile = P4ProposalFirstControlledRealTaskRouteValidation::LIFECYCLE[
+        route["lifecycle_stage"]
+      ]
+      assert(profile && state == profile.fetch("state"), "P4 proposal-first Route state drift")
+      disposition = truth.dig("founder_escalation_control", "disposition")
+      expected_disposition = if profile.fetch("founder_required")
+                               FOUNDER_DISPOSITION
+                             elsif profile.fetch("route_status") == "TERMINAL_NON_PASS"
+                               ROUTE_TERMINAL_NO_ACTION_DISPOSITION
+                             else
+                               CONTINUE_DISPOSITION
+                             end
+      assert(disposition == expected_disposition,
+             "P4 proposal-first Founder disposition drift for its exact lifecycle")
+      return disposition
+    end
     if route["schema_version"] == MTRO_ROUTE_SCHEMA
       assert(defined?(P3MinimumTrustTransactionalOciFinalProductRouteValidation),
              "P3 MTRO Route validator is unavailable")

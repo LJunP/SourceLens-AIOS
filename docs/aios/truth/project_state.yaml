@@ -1,7 +1,7 @@
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: "2026-08-24T01:50:51Z"
-verification_scope: "P3_MTRO_V3_6_STRATEGIC_ROUTE_INSTALLED_PRODUCT_ELIGIBLE_NOT_ACTIVATED_DELIVERY_25_STRICT_EXIT_ZERO_P4_HOLD_PROJECT_INCOMPLETE_LONG_TERM_GOAL_ACTIVE"
+last_verified_at: "2026-08-24T04:00:16Z"
+verification_scope: "P3_MTRO_V3_6_FINAL_PRODUCT_TASK_ACTIVE_DELIVERY_25_STRICT_EXIT_ZERO_P4_HOLD_PROJECT_INCOMPLETE_LONG_TERM_GOAL_ACTIVE"
 authority:
   founder: Human Founder
   strategy:
@@ -37,11 +37,11 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: NONE
+  current_task_authority: 8a54d4e2-b806-486d-8ba8-52c82ad3450f
   project_actually_completed: false
   long_term_goal_status: ACTIVE
   codex_goal_action: NONE_KEEP_ACTIVE
-  current_state_note: "P3 MTRO final Product route is installed but not activated. P3 is 25% delivery and 0% strict Exit; P4 is HOLD; the project is incomplete; the Long-term Goal remains ACTIVE."
+  current_state_note: "P3 MTRO final Product Task is ACTIVE under its exact Contract and authority. P3 remains 25% delivery and 0% strict Exit; P4 is HOLD; the project is incomplete; the Long-term Goal remains ACTIVE."
   current_strategic_decision:
     path: docs/aios/decisions/P3_MINIMUM_TRUST_TRANSACTIONAL_OCI_FINAL_PRODUCT_ROUTE_AFTER_F2_TERMINAL_V2.json
     byte_length: 23363
@@ -69,10 +69,10 @@ project:
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
   p2_execution_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
-  phase_execution_status: ACTIVE_P3_MTRO_PRODUCT_ELIGIBLE_NOT_ACTIVATED
-  current_route_execution_status: P3_MTRO_PRODUCT_ELIGIBLE_NOT_ACTIVATED
+  phase_execution_status: ACTIVE_P3_MTRO_PRODUCT_TASK_ACTIVE
+  current_route_execution_status: P3_MTRO_PRODUCT_TASK_ACTIVE
   p3_entry_status: AUTHORIZED
-  p3_execution_status: ACTIVE_INCOMPLETE_P3_MTRO_PRODUCT_ELIGIBLE_NOT_ACTIVATED
+  p3_execution_status: ACTIVE_INCOMPLETE_P3_MTRO_PRODUCT_TASK_ACTIVE
   p4_entry_status: HOLD_PENDING_STRICT_P3_EXIT_AND_SEPARATE_FOUNDER_PHASE_ENTRY
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
@@ -9783,13 +9783,13 @@ current_phase_route:
     version: '1.8'
     sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
   status: ACTIVE
-  lifecycle_stage: PRODUCT_ELIGIBLE_NOT_ACTIVATED
-  execution_status: P3_MTRO_PRODUCT_ELIGIBLE_NOT_ACTIVATED
-  scheduling_status: ONE_FINAL_PRODUCT_TASK_ELIGIBLE
+  lifecycle_stage: PRODUCT_TASK_ACTIVE
+  execution_status: P3_MTRO_PRODUCT_TASK_ACTIVE
+  scheduling_status: ONE_FINAL_PRODUCT_TASK_ACTIVE
   phase_entry_status: AUTHORIZED
   founder_phase_route_decision_required: false
   founder_reserved_trigger_resolved: MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
-  next_eligible_action: MASTER_ACTIVATE_P3_MTRO_P1
+  next_eligible_action: WORKER_RUN_P3_MTRO_PREWRITE_OCI_PROBE_THEN_IMPLEMENT
   objective_id: ACTUAL_AGENT_HOST_AUTHORIZED_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE
   claim_boundary: ONE_ACTUAL_AGENT_HOST_AUTHORIZED_DURABLE_READ_ONLY_ARCHITECTURE_OVERVIEW_SHA256_INVOCATION_ON_TRUSTED_SINGLE_USER_LOCAL_HOST
   strict_exit_gate:
@@ -9857,7 +9857,7 @@ current_phase_route:
     stage_id: ACTUAL_AGENT_TRANSACTIONAL_OCI_READ_ONLY_INVOCATION_PRODUCT
     task_id: AIOS-P3-MTRO-P1_ACTUAL_AGENT_TRANSACTIONAL_OCI_READ_ONLY_INVOCATION
     kind: PRODUCT_IMPLEMENTATION_SECOND_AND_FINAL
-    status: ELIGIBLE_NOT_ACTIVATED
+    status: ACTIVE
     budget:
       engineering_tasks: 1
       engineering_hours: 48
@@ -9871,8 +9871,14 @@ current_phase_route:
       evidence_root: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-minimum-trust-transactional-oci-20260824/task-product"
       contract_path: docs/aios/tasks/P3-MTRO-P1_ACTUAL_AGENT_TRANSACTIONAL_OCI_READ_ONLY_INVOCATION.yaml
     implementation_attempt_for_milestone: 2_OF_2_FINAL
-    contract_identity: null
-    authority_identity: null
+    contract_identity:
+      path: docs/aios/tasks/P3-MTRO-P1_ACTUAL_AGENT_TRANSACTIONAL_OCI_READ_ONLY_INVOCATION.yaml
+      byte_length: 13574
+      sha256: a9b132e51c8118a43d0991addb441cd4553ed7a98d0dff92f719ea01ab2659c8
+    authority_identity:
+      path: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-minimum-trust-transactional-oci-20260824/task-product/authority/P3_MTRO_P1_PHASE_DELEGATED_TASK_AUTHORITY_V1.json"
+      byte_length: 11944
+      sha256: 0b11376f0efaf63d92d481a26222518431c42a4b9ff52694960292d7c3749853
   runtime_identity_channel:
     status: PENDING_TASK_OWNED_DISCOVERY
     task_activation_record: null
@@ -10031,9 +10037,9 @@ current_phase_route:
     strict_exit_percent: 0
     governance_progress_credit: 0
   external_effects:
-    docker: false
-    task_created_disposable_mysql: false
-    task_local_mysql_loopback_only: false
+    docker: true
+    task_created_disposable_mysql: true
+    task_local_mysql_loopback_only: true
     network: false
     dns: false
     http_https: false
@@ -14124,7 +14130,7 @@ historical_p3_trivs_evidence_first_terminal_phase_execution_envelope:
 phase_execution_envelope:
   schema_version: phase-execution-envelope/v1
   phase: P3
-  status: ACTIVE_P3_MTRO_PRODUCT_ELIGIBLE_NOT_ACTIVATED
+  status: ACTIVE_P3_MTRO_PRODUCT_TASK_ACTIVE
   authority_basis:
     phase_entry_status: AUTHORIZED
     source_route_ref: current_phase_route
@@ -14147,12 +14153,15 @@ phase_execution_envelope:
     task_branches: 1
     task_worktrees: 1
     active_candidates: 1
-  reserved: {}
-  remaining:
+  reserved:
     engineering_tasks: 1
     engineering_hours: 48
     calendar_days: 10
-  remaining_capacity_usable: true
+  remaining:
+    engineering_tasks: 0
+    engineering_hours: 0
+    calendar_days: 0
+  remaining_capacity_usable: false
   milestone_order:
   - DURABLE_STATE_AND_CHECKPOINT_RESUME
   - DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION
@@ -14165,7 +14174,7 @@ phase_execution_envelope:
     stage_id: ACTUAL_AGENT_TRANSACTIONAL_OCI_READ_ONLY_INVOCATION_PRODUCT
     task_id: AIOS-P3-MTRO-P1_ACTUAL_AGENT_TRANSACTIONAL_OCI_READ_ONLY_INVOCATION
     kind: PRODUCT_IMPLEMENTATION_SECOND_AND_FINAL
-    status: ELIGIBLE_NOT_ACTIVATED
+    status: ACTIVE
     implementation_attempt_for_milestone: 2_OF_2_FINAL
     budget:
       engineering_tasks: 1
@@ -14192,9 +14201,9 @@ phase_execution_envelope:
     strict_exit_gate_percent: 0
   governance_progress_credit: 0
   external_effects:
-    docker_task_operations: LOCKED_UNTIL_TASK_ACTIVE
-    task_created_disposable_mysql: false
-    task_local_mysql_loopback_only: false
+    docker_task_operations: TASK_ACTIVE_EXACT_LOCAL_AUTHORITY_ONLY
+    task_created_disposable_mysql: true
+    task_local_mysql_loopback_only: true
     network: false
     dns: false
     http_https: false
@@ -14838,7 +14847,7 @@ founder_escalation_control:
   source_event:
     kind: FOUNDER_P3_MTRO_FINAL_PRODUCT_ROUTE_AUTHORIZED
     decision_id: AUTHORIZE_P3_MINIMUM_TRUST_TRANSACTIONAL_OCI_FINAL_PRODUCT_ROUTE_AFTER_F2_TERMINAL_V2
-    status: P3_MTRO_PRODUCT_ELIGIBLE_NOT_ACTIVATED
+    status: P3_MTRO_PRODUCT_TASK_ACTIVE
   reserved_trigger:
     category: NONE
     evidence:
@@ -14848,11 +14857,11 @@ founder_escalation_control:
     path: docs/aios/decisions/P3_MINIMUM_TRUST_TRANSACTIONAL_OCI_FINAL_PRODUCT_ROUTE_AFTER_F2_TERMINAL_V2.json
     byte_length: 23363
     sha256: e1ce4b6080c4ad193fd81511e44f72a7f1bceb4edfae4d1e5425ca8b42a6b217
-    result: P3_MTRO_FINAL_PRODUCT_ROUTE_INSTALLED_PRODUCT_ELIGIBLE
+    result: P3_MTRO_FINAL_PRODUCT_TASK_ACTIVE
   phase_gate_status: INCOMPLETE
   founder_decision_required: false
   next_action_owner: MASTER_CEO_AGENT
-  next_eligible_action: MASTER_ACTIVATE_P3_MTRO_P1
+  next_eligible_action: WORKER_RUN_P3_MTRO_PREWRITE_OCI_PROBE_THEN_IMPLEMENT
 historical_p2_053_phase_route:
   schema_version: "1.1"
   route_id: P2_COMPILER_ATTRIBUTED_JAVA_EDGE_TRUTH_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
@@ -19181,7 +19190,7 @@ historical_p3_trivs_f2_terminal_phase_delegation:
     rerun_to_pass_allowed: false
   claim_boundary: P3_EVIDENCE_FIRST_F2_THEN_SECOND_AND_FINAL_CLEAN_ROOM_PRODUCT_ONLY_P4_HOLD_LONG_TERM_GOAL_ACTIVE
 phase_delegation:
-  status: ACTIVE_P3_MTRO_PRODUCT_ELIGIBLE_NOT_ACTIVATED
+  status: ACTIVE_P3_MTRO_PRODUCT_TASK_ACTIVE
   model: PHASE_LEVEL_FOUNDER_DELEGATION
   decision_source: AUTHORIZE_P3_MINIMUM_TRUST_TRANSACTIONAL_OCI_FINAL_PRODUCT_ROUTE_AFTER_F2_TERMINAL_V2
   phase_gate_owner: HUMAN_FOUNDER
@@ -20305,13 +20314,12 @@ historical_p3_trivs_f2_terminal_phase_boundary:
   next_eligible_action: FOUNDER_DECIDE_P3_AFTER_TRIVS_F2_TERMINAL_NON_PASS
 phase_boundary:
   phase: P3
-  phase_execution_status: ACTIVE_P3_MTRO_PRODUCT_ELIGIBLE_NOT_ACTIVATED
-  task_creation_allowed: true
-  task_creation_scope: ONE_EXACT_MTRO_P1_PRODUCT_IMPLEMENTATION_SECOND_AND_FINAL_ONLY
+  phase_execution_status: ACTIVE_P3_MTRO_PRODUCT_TASK_ACTIVE
+  task_creation_allowed: false
+  task_creation_scope: NO_ADDITIONAL_TASK_CURRENT_FINAL_PRODUCT_ACTIVE
   task_creation_lock_after_activation: true
   p3_entry_authorized: true
-  allowed_task_kinds:
-  - PRODUCT_IMPLEMENTATION_SECOND_AND_FINAL
+  allowed_task_kinds: []
   allowed_capabilities:
   - ACTUAL_AGENT_NON_AUTHORITATIVE_PROPOSAL_AND_EXCLUSIVE_RESERVED_INGRESS
   - HOST_DERIVED_CUSTODY_DURABLE_INTENT_REAL_MYSQL_AND_EXACTLY_ONE_TERMINAL
@@ -20373,7 +20381,7 @@ phase_boundary:
   user_action_required: false
   phase_route_decision_required: false
   phase_route_user_action_required: false
-  next_eligible_action: MASTER_ACTIVATE_P3_MTRO_P1
+  next_eligible_action: WORKER_RUN_P3_MTRO_PREWRITE_OCI_PROBE_THEN_IMPLEMENT
 p0_baseline:
   checkpoint_commit: ad6450e418d8f1b4fd5a789f913525a8dd8bdc10
   checkpoint_tree: 2c0956ae8598547466f691ead21532a026006bf9
@@ -27338,44 +27346,73 @@ historical_p3_trivs_f2_terminal_active_work:
       sha256: 1246e6065d73d87bd01a5dc059ab1377145904ab3fc55f4d25d2ed8a07b7ae9c
   next_eligible_action: FOUNDER_DECIDE_P3_AFTER_TRIVS_F2_TERMINAL_NON_PASS
 active_work:
-  current_task: NONE
+  current_task: AIOS-P3-MTRO-P1_ACTUAL_AGENT_TRANSACTIONAL_OCI_READ_ONLY_INVOCATION
   selected_task: AIOS-P3-MTRO-P1_ACTUAL_AGENT_TRANSACTIONAL_OCI_READ_ONLY_INVOCATION
-  current_task_status: ELIGIBLE_NOT_ACTIVATED
+  current_task_status: ACTIVE
   current_task_contract:
-  current_task_contract_sha256:
-  current_execution_authorization:
-  current_execution_authorization_sha256:
+    path: docs/aios/tasks/P3-MTRO-P1_ACTUAL_AGENT_TRANSACTIONAL_OCI_READ_ONLY_INVOCATION.yaml
+    byte_length: 13574
+    sha256: a9b132e51c8118a43d0991addb441cd4553ed7a98d0dff92f719ea01ab2659c8
+  current_task_contract_sha256: a9b132e51c8118a43d0991addb441cd4553ed7a98d0dff92f719ea01ab2659c8
+  current_execution_authorization: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-minimum-trust-transactional-oci-20260824/task-product/authority/P3_MTRO_P1_PHASE_DELEGATED_TASK_AUTHORITY_V1.json"
+  current_execution_authorization_sha256: 0b11376f0efaf63d92d481a26222518431c42a4b9ff52694960292d7c3749853
   authority_record:
-  authority_scope_conformance: NOT_YET_ISSUED
-  execution_nonce:
-  execution_nonce_status: NOT_YET_ISSUED
-  authorization_id:
-  activation_parent_commit:
-  activation_parent_tree:
+    path: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-minimum-trust-transactional-oci-20260824/task-product/authority/P3_MTRO_P1_PHASE_DELEGATED_TASK_AUTHORITY_V1.json"
+    byte_length: 11944
+    sha256: 0b11376f0efaf63d92d481a26222518431c42a4b9ff52694960292d7c3749853
+  authority_scope_conformance: PASS_EXACT_TASK_SCOPE
+  execution_nonce: 759fcce1-b6a7-4196-8f5c-597c96704b5d
+  execution_nonce_status: ACTIVE
+  authorization_id: 8a54d4e2-b806-486d-8ba8-52c82ad3450f
+  activation_parent_commit: 427d343f6242579c9e04681deda4dfa92b7aa8f3
+  activation_parent_tree: b3161eb18bbb2c71c7e5b2656f02f9c5d15f3427
   strategic_installation_parent:
     commit: 24a8cae969c36aafb01933466a5742b052a7e2e5
     tree: b95115968e5ca5ed2381bfa74168429319308a01
-  task_resource_state: NOT_CREATED_PRODUCT_ELIGIBLE
+  task_resource_state: ACTIVE_PRODUCT_TASK_RESOURCES_CREATED
   planned_task_branch: codex/p3-mtro-p1-actual-agent-transactional-oci-read-only
   planned_task_worktree: "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-mtro-p1-actual-agent-transactional-oci-read-only"
   planned_execution_evidence_root: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-minimum-trust-transactional-oci-20260824/task-product"
-  task_branch:
-  task_worktree:
-  execution_evidence_root:
-  dependency_custody_root:
-  allowlisted_paths: []
-  current_task_budget: {}
-  next_stage_budget:
+  task_branch: codex/p3-mtro-p1-actual-agent-transactional-oci-read-only
+  task_worktree: "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-mtro-p1-actual-agent-transactional-oci-read-only"
+  execution_evidence_root: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-minimum-trust-transactional-oci-20260824/task-product"
+  dependency_custody_root: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-minimum-trust-transactional-oci-20260824/task-product/dependency-custody"
+  allowlisted_paths:
+  - backend-spring/src/main/java/com/sourcelens/module/agent/service/AgentRuntime.java
+  - backend-spring/src/main/java/com/sourcelens/module/agent/service/PromptBuilder.java
+  - backend-spring/src/main/java/com/sourcelens/module/agent/service/ToolExecutionService.java
+  - backend-spring/src/main/java/com/sourcelens/module/agent/service/LlmClient.java
+  - backend-spring/src/main/java/com/sourcelens/module/agent/service/AgentTaskService.java
+  - backend-spring/src/main/java/com/sourcelens/module/agent/tool/ToolContext.java
+  - backend-spring/src/main/java/com/sourcelens/module/agent/tool/ToolRegistry.java
+  - backend-spring/src/main/java/com/sourcelens/module/agent/trustedread
+  - backend-spring/src/main/java/com/sourcelens/module/artifact/service/ArtifactStorageService.java
+  - backend-spring/src/main/java/com/sourcelens/module/execution/trustedread
+  - backend-spring/src/main/java/com/sourcelens/module/sandbox/oci/trustedread
+  - backend-spring/src/main/resources/db/migration/V034__add_trusted_read_only_invocation.sql
+  - backend-spring/src/main/resources/application.yml
+  - backend-spring/src/test/java/com/sourcelens/module/agent/trustedread
+  - backend-spring/src/test/java/com/sourcelens/module/execution/trustedread
+  - backend-spring/src/test/java/com/sourcelens/module/sandbox/oci/trustedread
+  - backend-spring/src/test/java/com/sourcelens/AgentRuntimeFixedReadOnlyInvocationTest.java
+  - backend-spring/src/test/java/com/sourcelens/ToolExecutionServiceTest.java
+  - backend-spring/src/test/java/com/sourcelens/ArtifactStorageServiceTest.java
+  - backend-spring/src/test/java/com/sourcelens/LlmClientToolCallIngressTest.java
+  - backend-spring/src/test/resources/p3-minimum-trust-transactional-oci
+  - docs/aios/tasks/P3-MTRO-P1_ACTUAL_AGENT_TRANSACTIONAL_OCI_READ_ONLY_INVOCATION.yaml
+  - docs/PROJECT_CODE_MAP.md
+  current_task_budget:
     engineering_tasks: 1
     engineering_hours: 48
     calendar_days: 10
     candidate_generations: 2
     same_task_repairs: 1
     review_cycles: 2
+  next_stage_budget: {}
   roles:
     owner: MASTER_CEO_AGENT
-    worker: NOT_YET_ASSIGNED
-    quality_owner: NOT_YET_ASSIGNED
+    worker: BACKEND_JAVA_WORKER_AGENT
+    quality_owner: QUALITY_EVALUATION_AGENT
     independent_reviewers:
     - CTO_AGENT
     - SECURITY_AGENT
@@ -27389,12 +27426,12 @@ active_work:
     canonical_replay_record:
     future_dynamic_identity_prefill_allowed: false
   external_effects:
-    docker: false
-    docker_scope: LOCKED_UNTIL_TASK_ACTIVE
+    docker: true
+    docker_scope: EXACT_TASK_CREATED_OBJECTS_ONLY
     docker_endpoint: "unix:///Users/lijunpeng/.docker/run/docker.sock"
     docker_registry_pull_push_login_build_import_or_tag: false
-    task_created_disposable_mysql: false
-    task_local_mysql_loopback_only: false
+    task_created_disposable_mysql: true
+    task_local_mysql_loopback_only: true
     network: false
     dns: false
     http_https: false
@@ -27422,7 +27459,7 @@ active_work:
     consumed_calendar_days: 122
     latest_terminal_task_id: AIOS-P3-TRIVS-F2_CANDIDATE_BOUND_ACCEPTANCE_HARNESS
     latest_terminal_receipt_sha256: 1246e6065d73d87bd01a5dc059ab1377145904ab3fc55f4d25d2ed8a07b7ae9c
-  next_eligible_action: MASTER_ACTIVATE_P3_MTRO_P1
+  next_eligible_action: WORKER_RUN_P3_MTRO_PREWRITE_OCI_PROBE_THEN_IMPLEMENT
 historical_p2_080_terminal_active_work:
   current_task: AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER
   current_task_status: TERMINAL_EVALUATION_EVIDENCE_ADAPTER_DEV_COMPATIBILITY_NON_PASS
@@ -34206,9 +34243,9 @@ historical_p3_trivs_f2_terminal_phase_execution_claim:
   next_eligible_action: FOUNDER_DECIDE_P3_AFTER_TRIVS_F2_TERMINAL_NON_PASS
 phase_execution_claim:
   current_route_claim: P3_MINIMUM_TRUST_TRANSACTIONAL_OCI_FINAL_PRODUCT_ROUTE_V1
-  current_task_claim: NONE
-  selected_next_task: AIOS-P3-MTRO-P1_ACTUAL_AGENT_TRANSACTIONAL_OCI_READ_ONLY_INVOCATION
-  real_engineering_progress: P3_MTRO_STRATEGIC_ROUTE_INSTALLED_PRODUCT_NOT_YET_ACTIVATED_DELIVERY_25_STRICT_EXIT_ZERO
+  current_task_claim: AIOS-P3-MTRO-P1_ACTUAL_AGENT_TRANSACTIONAL_OCI_READ_ONLY_INVOCATION
+  selected_next_task: NONE
+  real_engineering_progress: P3_MTRO_FINAL_PRODUCT_TASK_ACTIVE_DELIVERY_25_STRICT_EXIT_ZERO
   product_capability_changed: false
   accepted_outcomes:
   - DURABLE_STATE_AND_CHECKPOINT_RESUME
@@ -34219,7 +34256,7 @@ phase_execution_claim:
   p3_exit_gate_progress_percent: 0
   p3_delivery_progress_percent: 25
   phase_local_allowed:
-  - MASTER_ACTIVATE_P3_MTRO_P1
+  - WORKER_RUN_P3_MTRO_PREWRITE_OCI_PROBE_THEN_IMPLEMENT
   phase_local_frozen_capabilities:
   - FOUNDATION_OR_PREFLIGHT_TASK
   - AUDIT_TASK
@@ -34230,7 +34267,7 @@ phase_execution_claim:
   historical_terminal_rules:
   - TRIVS_AND_F2_TERMINAL_IDENTITIES_ACCOUNTING_LIFECYCLE_VERDICT_PRESERVED
   - NO_REJECTED_ENGINEERING_LINEAGE_READ_COMPARE_COPY_EXECUTE_RESTORE_REPAIR_OR_REUSE
-  mandatory_priority_rule: ACTIVATE_AND_EXECUTE_EXACT_MTRO_P1_SECOND_AND_FINAL_PRODUCT_TASK
+  mandatory_priority_rule: COMPLETE_EXACT_MTRO_P1_WITHIN_FROZEN_TASK_GATE
   not_authorized_in_current_phase:
   - P4_ENTRY
   - P5_EARLY_ENTRY
@@ -34249,11 +34286,11 @@ phase_execution_claim:
   - NEW_PHASE_ROUTE_CHANGE
   - ENVELOPE_EXPANSION_OR_REFUND
   - UNDECLARED_EXTERNAL_EFFECT
-  task_creation_allowed: true
-  remaining_capacity_usable: true
+  task_creation_allowed: false
+  remaining_capacity_usable: false
   held_read_allowed: false
   candidate_integration_allowed: false
-  next_eligible_action: MASTER_ACTIVATE_P3_MTRO_P1
+  next_eligible_action: WORKER_RUN_P3_MTRO_PREWRITE_OCI_PROBE_THEN_IMPLEMENT
 p2_recovery_control:
   schema_version: p2-recovery-control/v2
   status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
@@ -34305,30 +34342,30 @@ p2_recovery_control:
 
 claim_boundary:
   current_phase_route: P3_MINIMUM_TRUST_TRANSACTIONAL_OCI_FINAL_PRODUCT_ROUTE_V1
-  current_task: NONE
+  current_task: AIOS-P3-MTRO-P1_ACTUAL_AGENT_TRANSACTIONAL_OCI_READ_ONLY_INVOCATION
   selected_task: AIOS-P3-MTRO-P1_ACTUAL_AGENT_TRANSACTIONAL_OCI_READ_ONLY_INVOCATION
-  current_task_status: ELIGIBLE_NOT_ACTIVATED
-  next_eligible_action: MASTER_ACTIVATE_P3_MTRO_P1
-  real_engineering_progress: P3_MTRO_STRATEGIC_ROUTE_INSTALLED_PRODUCT_NOT_YET_ACTIVATED_DELIVERY_25_STRICT_EXIT_ZERO
+  current_task_status: ACTIVE
+  next_eligible_action: WORKER_RUN_P3_MTRO_PREWRITE_OCI_PROBE_THEN_IMPLEMENT
+  real_engineering_progress: P3_MTRO_FINAL_PRODUCT_TASK_ACTIVE_DELIVERY_25_STRICT_EXIT_ZERO
   p2_research_exit_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
   p2_research_exit_percent: 100
   p2_original_capability_gate_status: MISSING_NOT_ACCEPTED
   p2_original_capability_progress_percent: 0
   p2_candidate_integrated: false
   p2_held_source_reads: 0
-  p3_status: ACTIVE_INCOMPLETE_P3_MTRO_PRODUCT_ELIGIBLE_NOT_ACTIVATED
+  p3_status: ACTIVE_INCOMPLETE_P3_MTRO_PRODUCT_TASK_ACTIVE
   p3_entry_authorized: true
-  p3_phase_envelope_status: ACTIVE_P3_MTRO_PRODUCT_ELIGIBLE_NOT_ACTIVATED
+  p3_phase_envelope_status: ACTIVE_P3_MTRO_PRODUCT_TASK_ACTIVE
   p3_exit_gate_progress_percent: 0
   p3_delivery_progress_percent: 25
   p3_accepted_milestones:
   - DURABLE_STATE_AND_CHECKPOINT_RESUME
   - DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION
-  p3_capability_milestone_status: MTRO_SECOND_AND_FINAL_PRODUCT_ELIGIBLE_NOT_ACCEPTED
+  p3_capability_milestone_status: MTRO_SECOND_AND_FINAL_PRODUCT_ACTIVE_NOT_ACCEPTED
   p3_mtro_route_decision_sha256: e1ce4b6080c4ad193fd81511e44f72a7f1bceb4edfae4d1e5425ca8b42a6b217
   p3_mtro_route_source_body_sha256: cfca3b136f89ba2673203d594135404620c65a94dcfbadc771540f8b266025c2
-  p3_mtro_route_stage: PRODUCT_ELIGIBLE_NOT_ACTIVATED
-  p3_mtro_task_status: ELIGIBLE_NOT_ACTIVATED
+  p3_mtro_route_stage: PRODUCT_TASK_ACTIVE
+  p3_mtro_task_status: ACTIVE
   p3_mtro_implementation_attempt: 2_OF_2_FINAL
   p3_mtro_candidate_integrated: false
   p3_mtro_delivery_credit: 0
@@ -35867,7 +35904,7 @@ claim_boundary:
   p1_056_formal_run_b: NOT_STARTED
   p1_056_candidate_integrated: false
   p1_056_accepted_capability: false
-  current_route_executable_task_slots: 1_OF_1_ELIGIBLE_NOT_ACTIVATED
+  current_route_executable_task_slots: 1_OF_1_ACTIVE
   prior_experiment_pack_route_executable_task_slots_used: 3_OF_3
   p1_050_claim_boundary: LOCAL_SYNTHETIC_PROVIDER_NEUTRAL_B0_B1_B2_COMPATIBILITY_ADAPTER_EXECUTION_CONFORMANCE_ONLY_NO_EMPIRICAL_BASELINE_PERFORMANCE_VTSR_MODEL_AGENT_INHERITED_SOURCELENS_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
   repository_intelligence_quality: UNKNOWN_NOT_YET_BENCHMARKED

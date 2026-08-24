@@ -1,0 +1,318 @@
+---
+schema_version: p3-mtro-phase-delegated-task-contract/v1
+record_type: P3_MTRO_P1_PHASE_DELEGATED_TASK_CONTRACT
+task_id: AIOS-P3-MTRO-P1_ACTUAL_AGENT_TRANSACTIONAL_OCI_READ_ONLY_INVOCATION
+status: ACTIVE
+phase: P3
+route_id: P3_MINIMUM_TRUST_TRANSACTIONAL_OCI_FINAL_PRODUCT_ROUTE_V1
+stage_id: ACTUAL_AGENT_TRANSACTIONAL_OCI_READ_ONLY_INVOCATION_PRODUCT
+kind: PRODUCT_IMPLEMENTATION_SECOND_AND_FINAL
+objective_id: ACTUAL_AGENT_HOST_AUTHORIZED_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE
+strict_exit_gate_id: ACTUAL_AGENT_HOST_AUTHORIZED_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE_ACCEPTED
+implementation_attempt_for_milestone: 2_OF_2_FINAL
+decision:
+  path: docs/aios/decisions/P3_MINIMUM_TRUST_TRANSACTIONAL_OCI_FINAL_PRODUCT_ROUTE_AFTER_F2_TERMINAL_V2.json
+  byte_length: 23363
+  sha256: e1ce4b6080c4ad193fd81511e44f72a7f1bceb4edfae4d1e5425ca8b42a6b217
+  decision_id: AUTHORIZE_P3_MINIMUM_TRUST_TRANSACTIONAL_OCI_FINAL_PRODUCT_ROUTE_AFTER_F2_TERMINAL_V2
+why_now: This is the only authorized second-and-final Product implementation for the
+  unaccepted P3 minimum-trust read-only invocation milestone; strategic validation
+  passed and no Founder-reserved trigger remains open.
+branch: codex/p3-mtro-p1-actual-agent-transactional-oci-read-only
+worktree: "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-mtro-p1-actual-agent-transactional-oci-read-only"
+evidence_root: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-minimum-trust-transactional-oci-20260824/task-product"
+activation_parent:
+  commit: 427d343f6242579c9e04681deda4dfa92b7aa8f3
+  tree: b3161eb18bbb2c71c7e5b2656f02f9c5d15f3427
+execution_nonce: 759fcce1-b6a7-4196-8f5c-597c96704b5d
+authorization_id: 8a54d4e2-b806-486d-8ba8-52c82ad3450f
+roles:
+  owner: MASTER_CEO_AGENT
+  worker: BACKEND_JAVA_WORKER_AGENT
+  independent_reviewers:
+  - CTO_AGENT
+  - SECURITY_AGENT
+  - QUALITY_EVALUATION_AGENT
+  task_gate_owner: MASTER_CEO_AGENT
+risk_level: critical
+write_allowlist:
+- backend-spring/src/main/java/com/sourcelens/module/agent/service/AgentRuntime.java
+- backend-spring/src/main/java/com/sourcelens/module/agent/service/PromptBuilder.java
+- backend-spring/src/main/java/com/sourcelens/module/agent/service/ToolExecutionService.java
+- backend-spring/src/main/java/com/sourcelens/module/agent/service/LlmClient.java
+- backend-spring/src/main/java/com/sourcelens/module/agent/service/AgentTaskService.java
+- backend-spring/src/main/java/com/sourcelens/module/agent/tool/ToolContext.java
+- backend-spring/src/main/java/com/sourcelens/module/agent/tool/ToolRegistry.java
+- backend-spring/src/main/java/com/sourcelens/module/agent/trustedread
+- backend-spring/src/main/java/com/sourcelens/module/artifact/service/ArtifactStorageService.java
+- backend-spring/src/main/java/com/sourcelens/module/execution/trustedread
+- backend-spring/src/main/java/com/sourcelens/module/sandbox/oci/trustedread
+- backend-spring/src/main/resources/db/migration/V034__add_trusted_read_only_invocation.sql
+- backend-spring/src/main/resources/application.yml
+- backend-spring/src/test/java/com/sourcelens/module/agent/trustedread
+- backend-spring/src/test/java/com/sourcelens/module/execution/trustedread
+- backend-spring/src/test/java/com/sourcelens/module/sandbox/oci/trustedread
+- backend-spring/src/test/java/com/sourcelens/AgentRuntimeFixedReadOnlyInvocationTest.java
+- backend-spring/src/test/java/com/sourcelens/ToolExecutionServiceTest.java
+- backend-spring/src/test/java/com/sourcelens/ArtifactStorageServiceTest.java
+- backend-spring/src/test/java/com/sourcelens/LlmClientToolCallIngressTest.java
+- backend-spring/src/test/resources/p3-minimum-trust-transactional-oci
+- docs/aios/tasks/P3-MTRO-P1_ACTUAL_AGENT_TRANSACTIONAL_OCI_READ_ONLY_INVOCATION.yaml
+- docs/PROJECT_CODE_MAP.md
+conditional_adjacent_allowlist_expansion:
+  timing: BEFORE_FIRST_PRODUCT_SOURCE_WRITE
+  required_record:
+  - EXACT_PATH
+  - MECHANICAL_COMPILATION_REASON
+  - ZERO_SCOPE_EXPANSION_PROOF
+  allowed_kinds:
+  - ADJACENT_DTO
+  - ADJACENT_MAPPER
+  - ADJACENT_CONFIGURATION_CLASS
+  - DIRECT_CORRESPONDING_TEST
+fixed_action:
+  action_id: READ_BOUND_ARCHITECTURE_OVERVIEW_SHA256_V1
+  agent_task_type: TRUSTED_READ_ONLY_ARCHITECTURE_OVERVIEW_SHA256_V1
+  reserved_tool_name: trusted_read_bound_architecture_overview_sha256_v1
+  agent_arguments: {}
+  custody_owner_type: SCAN_TASK
+  custody_artifact_type: ARCHITECTURE_OVERVIEW
+budget:
+  engineering_tasks: 1
+  engineering_hours: 48
+  calendar_days: 10
+  candidate_generations: 2
+  same_task_repairs: 1
+  review_cycles: 2
+authority_model:
+  agent_is_non_authoritative_proposal_source: true
+  host_derives_all_authority_bearing_fields: true
+  fixed_mode_exposed_tool_count: 1
+  fixed_mode_skips_clone_sync_and_generic_repository_context: true
+  reserved_action_registered_as_generic_agent_tool: false
+  reserved_action_uses_generic_tool_registry: false
+  reserved_action_uses_generic_tool_execution_service: false
+  reserved_action_uses_generic_docker_sandbox_executor: false
+  generic_registry_and_execution_reject_reserved_name: true
+  malformed_nonempty_second_or_repeated_request_effect_count: 0
+  agent_terminal_projection: COMMITTED_TERMINAL_MINIMUM_ONLY
+transaction_model:
+  migration: backend-spring/src/main/resources/db/migration/V034__add_trusted_read_only_invocation.sql
+  new_table_count: 1
+  table_id: trusted_read_only_invocations
+  second_event_table_allowed: false
+  allowed_statuses:
+  - INTENT
+  - DISPATCHING
+  - EFFECT_RECORDED
+  - CLEANING
+  - SUCCEEDED
+  - FAILED
+  immutable_identity_and_request_fields: true
+  production_spring_transaction_proxy_service_store_required: true
+  real_mysql_required: true
+  operations:
+  - prepareIntent
+  - claimDispatch
+  - recordEffect
+  - beginCleanup
+  - completeTerminal
+  parent_row_lock_required: true
+  conditional_update_and_version_cas_required: true
+  effect_outside_database_transaction: true
+  terminal_monotonic: true
+  identical_terminal_replay: IDEMPOTENT
+  different_late_terminal: LATE_TERMINAL_LOSER_REJECTED_WINNER_UNCHANGED
+  ordinary_execution_task_select_then_update_terminal_reuse_allowed: false
+recovery_and_checkpoint:
+  startup_global_unfinished_invocation_enumeration_required: true
+  caller_task_id_required_for_recovery: false
+  machine_wide_jvm_discovery_allowed: false
+  representative_fresh_process_windows:
+  - INTENT_COMMITTED_EFFECT_NOT_BEGUN
+  - EFFECT_MAY_HAVE_OCCURRED_TERMINAL_NOT_COMMITTED
+  - CLEANUP_BEGUN_OR_COMPLETED_TERMINAL_NOT_COMMITTED
+  window_count: 3
+  fixed_read_only_effect_safe_recomputation_allowed: true
+  missing_or_drifted_custody_terminal: HASH_BOUND_FAILED
+  checkpoint_before_committed_terminal: REJECTED
+  checkpoint_after_committed_terminal: ACCEPTED_P3_001_SEMANTICS_EXACTLY_ONCE
+  task_owned_child_jvm_identity_binding_required:
+  - pid
+  - start_time
+  - argv
+  - candidate_commit
+  - candidate_tree
+local_external_effect_authority:
+  effective_only_after_task_active: true
+  docker_cli:
+    path: "/Applications/Docker.app/Contents/Resources/bin/docker"
+    sha256: a6822407e207ff0b687419ccbe55700ffbf389d77de58ef625b3b1790d88747c
+  docker_endpoint: unix:///Users/lijunpeng/.docker/run/docker.sock
+  image_content_id: sha256:d36d39a64cd12a5c1cc9e6aa2bfb5f8d4c81a2f6586e0a04a9ae13939db02209
+  allowed_docker_verbs:
+  - version
+  - info
+  - image inspect exact content ID
+  - network create --internal
+  - network inspect
+  - network rm
+  - create
+  - start
+  - wait
+  - inspect
+  - logs
+  - port
+  - rm --force
+  allowed_objects: TASK_CREATED_EXACT_TASK_AND_FULL_INVOCATION_SHA256_LABELED_INTERNAL_NETWORK_MYSQL_AND_FIXED_ACTION_CONTAINERS_ONLY
+  action_container:
+    entrypoint: "/usr/bin/sha256sum"
+    arguments:
+    - "/input/custody.bin"
+    user: 65534:65534
+    network: none
+    read_only_rootfs: true
+    cap_drop: ALL
+    no_new_privileges: true
+    bounded_cpu_memory_pids: true
+    mount: ONE_HOST_DERIVED_ACTUAL_LENGTH_SHA256_VERIFIED_MODE_0444_NON_SYMLINK_CONTENT_ADDRESSED_READ_ONLY_CUSTODY_FILE_TO_/input/custody.bin
+  pre_first_product_write_probe:
+    lifecycle:
+    - create
+    - start
+    - wait
+    - inspect
+    - logs
+    - rm
+    - absence
+    must_prove:
+    - EXACT_IMAGE_ALREADY_LOCAL
+    - EXACT_ENTRYPOINT_EXISTS_AND_EXECUTES
+    - OUTPUT_FORMAT_AND_SHA256_CORRECT
+    - EXACT_USER_AND_HARDENED_PROFILE_ACCEPTED
+    - CLEANUP_COMPLETE
+    - PINNED_IMAGE_RETAINED
+    failure_lifecycle: TERMINAL_BEFORE_PRODUCT_SOURCE_WRITE_NO_IMAGE_OR_EXECUTABLE_SUBSTITUTION
+  mysql:
+    same_exact_local_image_required: true
+    task_owned_internal_network_required: true
+    host_publish: 127.0.0.1:RUNTIME_ASSIGNED_PORT_ONLY
+    configuration: MYSQL_ALLOW_EMPTY_PASSWORD=yes
+    external_secret: false
+    real_v034_spring_aop_transaction_rollback_concurrent_terminal_and_restart_recovery_required: true
+  task_owned_processes:
+    maven_jdk17_spring_children_allowed: true
+    signal_scope: ONLY_RECORDED_ACTIVE_TASK_CHILD_JVMS
+  local_connectivity: EXACT_TASK_MYSQL_127.0.0.1_RUNTIME_PORT_ONLY
+  sandbox_exec:
+    path: "/usr/bin/sandbox-exec"
+    sha256: 7fc7dcd7782e1abd52b11f6c512bdfb0c09d2502b619c483fdfce554c472352e
+    default_profile: "(version 1) (allow default) (deny network*)"
+    mysql_test_exception: HASH_BOUND_127.0.0.1_EXACT_RUNTIME_PORT_ONLY_ALL_OTHER_NETWORK_DENIED
+  runtime_identity_binding:
+    bind_after_fact_creation: true
+    activation_record_fields:
+    - daemon_id
+    - network_id
+    - mysql_container_id
+    - loopback_port
+    candidate_record_fields:
+    - candidate_commit
+    - candidate_tree
+    review_record_fields:
+    - detached_reviewer_worktree_identity
+    prefill_future_dynamic_identity_allowed: false
+forbidden_external_effects:
+  internet: false
+  dns: false
+  http_https: false
+  provider: false
+  external_secret: false
+  external_credential: false
+  remote_write: false
+  production: false
+  public_release: false
+  p4_entry: false
+  remote_branch_or_tag_mutation: false
+  git_history_rewrite: false
+  irreversible_asset_removal: false
+  codex_private_control_plane_mutation: false
+  docker_pull_push_login_build_import_tag_exec_cp_socket_mount_or_privileged: false
+  existing_or_foreign_docker_or_database_mutation: false
+  unrelated_process_signal: false
+clean_room:
+  rejected_trivs_candidate_1_or_old_dtk_etsk_twrf_engineering_lineage_read_compare_copy_execute_decompile_restore_repair_or_reuse: false
+  old_helper_rootfs_historical_rejected_test_source_or_engineering_evidence_read: false
+  permitted_inputs:
+  - CANONICAL_MAIN
+  - ACCEPTED_P3_001_PUBLIC_BEHAVIOR
+  - ACCEPTED_DECLARATIVE_SEMANTICS_FOUNDATION
+  - TRIVS_TERMINAL_RECEIPT_IDENTITY_ACCOUNTING_LIFECYCLE_VERDICT
+  - F2_TERMINAL_RECEIPT_IDENTITY_ACCOUNTING_LIFECYCLE_VERDICT
+  - F2_DIAGNOSTIC_FOUR_BLOCKERS
+  - CURRENT_DIRECT_FOUNDER_AUTHORIZATION
+  - INSTALLED_HASH_BOUND_LOCAL_TOOLCHAIN
+acceptance:
+  same_frozen_candidate_required: true
+  deterministic_offline_llm_through_production_decode_and_actual_agent_runtime_required: true
+  live_provider_proof_claimed: false
+  negative_ingress_zero_intent_zero_dispatch_zero_docker_required: true
+  custody_ownership_and_drift_matrix_required: true
+  prepare_intent_rollback_idempotency_and_anchor_drift_required: true
+  terminal_cas_winner_identical_replay_and_late_loser_required: true
+  fixed_oci_profile_and_host_independent_sha_match_required: true
+  three_fresh_process_recovery_windows_required: true
+  checkpoint_before_terminal_rejected_after_terminal_exactly_once_required: true
+  identical_custody_distinct_invocations_required: true
+  real_mysql_v034_and_production_spring_transaction_proxy_service_store_required: true
+  focused_and_full_maven_tests_required: true
+  source_to_class_candidate_git_docker_mysql_process_cleanup_and_replay_evidence_required: true
+  zero_forbidden_external_effects_required: true
+  fresh_reviewers:
+  - CTO_AGENT
+  - SECURITY_AGENT
+  - QUALITY_EVALUATION_AGENT
+  cycle_1_freezes_complete_p0_p1_finding_set: true
+  cycle_2_only_closes_frozen_findings_or_rejects_regressions: true
+  zero_open_p0_p1_required: true
+  one_post_integration_canonical_replay_required: true
+anti_cycle:
+  foundation_task_allowed: false
+  preflight_task_allowed: false
+  audit_task_allowed: false
+  f3_allowed: false
+  third_product_task_allowed: false
+  candidate_3_allowed: false
+  second_same_task_repair_allowed: false
+  third_review_cycle_allowed: false
+  successor_replacement_normalization_closure_feasibility_remediation_allowed: false
+  v3_or_later_route_under_same_objective_allowed: false
+  retuning_or_rerun_to_pass_allowed: false
+required_evidence:
+- PRE_FIRST_PRODUCT_WRITE_OCI_PROBE
+- SOURCE_TO_CLASS_AND_TOOLCHAIN_CUSTODY
+- REAL_MYSQL_SPRING_TRANSACTION_AND_RECOVERY
+- OCI_OBJECT_PROCESS_STDOUT_STDERR_EXIT_AND_CLEANUP
+- FOCUSED_AND_FULL_MAVEN_TESTS
+- FROZEN_CANDIDATE_MANIFEST
+- CYCLE_1_FROZEN_FINDING_SET_AND_THREE_REVIEWS
+- INTEGRATION_AND_CANONICAL_REPLAY_RECEIPTS
+stop_conditions:
+- OCI_PROBE_NON_PASS_BEFORE_PRODUCT_SOURCE_WRITE
+- REJECTED_LINEAGE_ACCESS
+- WRITE_OUTSIDE_EXACT_ALLOWLIST_OR_AUTHORIZED_ROOTS
+- FORBIDDEN_EXTERNAL_EFFECT
+- CANDIDATE_REPAIR_OR_REVIEW_BUDGET_EXHAUSTED
+- FUTURE_RUNTIME_IDENTITY_PREFILL
+- SCOPE_OR_PERMISSION_EXPANSION_REQUIRED
+lifecycle:
+  installation_state: PRODUCT_ELIGIBLE_NOT_ACTIVATED
+  installation_progress:
+    delivery_percent: 25
+    strict_exit_percent: 0
+  product_pass: THREE_REVIEWS_PASS_INTEGRATION_AND_ONE_CANONICAL_REPLAY_ACCEPT_ALL_FOUR_ITEMS_P3_100_100_AWAITING_FOUNDER_PHASE_GATE
+  product_non_pass: FINAL_PRODUCT_AND_ROUTE_TERMINAL_NON_PASS_P3_HOLD_INCOMPLETE_25_0_NO_FURTHER_IMPLEMENTATION
+  p4_auto_entry: false
+  project_actually_completed: false
+  long_term_goal_status: ACTIVE
+  codex_goal_action: NONE_KEEP_ACTIVE

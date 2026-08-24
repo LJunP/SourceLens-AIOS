@@ -7,6 +7,7 @@ require "rubygems/package"
 require "json"
 require "open3"
 require "pathname"
+require "rexml/document"
 require "stringio"
 require "time"
 require "tmpdir"
@@ -6875,12 +6876,4076 @@ module P3TrustedReadOnlyInvocationEvidenceFirstFinalRouteValidation
   end
 end
 
+class P3MinimumTrustTransactionalOciFinalProductRouteValidationError < StandardError; end
+
+module P3MinimumTrustTransactionalOciFinalProductRouteValidation
+  module_function
+
+  class DuplicateJsonKeyError < StandardError; end
+  class ClosedJsonHash < Hash
+    def []=(key, value)
+      raise DuplicateJsonKeyError, key if key?(key)
+      super
+    end
+  end
+
+  ROUTE_SCHEMA = "p3-minimum-trust-transactional-oci-final-product-route/v1"
+  ROUTE_ID = "P3_MINIMUM_TRUST_TRANSACTIONAL_OCI_FINAL_PRODUCT_ROUTE_V1"
+  DECISION_ID =
+    "AUTHORIZE_P3_MINIMUM_TRUST_TRANSACTIONAL_OCI_FINAL_PRODUCT_ROUTE_AFTER_F2_TERMINAL_V2"
+  OPERATION_TYPE =
+    "P3_MINIMUM_TRUST_TRANSACTIONAL_OCI_FINAL_PRODUCT_ROUTE_AFTER_F2_TERMINAL"
+  DECISION = {
+    "path" =>
+      "docs/aios/decisions/P3_MINIMUM_TRUST_TRANSACTIONAL_OCI_FINAL_PRODUCT_ROUTE_AFTER_F2_TERMINAL_V2.json",
+    "byte_length" => 23_363,
+    "sha256" => "e1ce4b6080c4ad193fd81511e44f72a7f1bceb4edfae4d1e5425ca8b42a6b217"
+  }.freeze
+  CONSTITUTION = {
+    "path" => "docs/aios/STRATEGIC_CONSTITUTION.md",
+    "version" => "3.6",
+    "byte_length" => 48_904,
+    "sha256" => "aeacef88eae184f9fe03e74df4311d62bb8b6710299b9e4bd6cc5a566c9f9bbf"
+  }.freeze
+  DELEGATION_POLICY = {
+    "path" => "docs/aios/FOUNDER_DELEGATION_POLICY.md",
+    "version" => "1.8",
+    "sha256" => "12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29"
+  }.freeze
+  DIRECT_AUTHORIZATION = {
+    "path" =>
+      "/Users/lijunpeng/.codex/attachments/2c6e6959-80d5-4458-9d4a-0672c534b74f/pasted-text.txt",
+    "byte_length" => 29_571,
+    "sha256" => "cfca3b136f89ba2673203d594135404620c65a94dcfbadc771540f8b266025c2"
+  }.freeze
+  SUPERSEDED_V1 = {
+    "path" =>
+      "/Users/lijunpeng/.codex/attachments/47ac67fd-4e42-4feb-b929-496c10bc4113/pasted-text.txt",
+    "byte_length" => 12_599,
+    "sha256" => "bb8ebc0dfdeee22e760846185400740ede5de305c294d69024223f854607c939"
+  }.freeze
+  CANONICAL_START = {
+    "commit" => "24a8cae969c36aafb01933466a5742b052a7e2e5",
+    "tree" => "b95115968e5ca5ed2381bfa74168429319308a01",
+    "truth" => {
+      "path" => "docs/aios/truth/project_state.yaml",
+      "byte_length" => 2_017_292,
+      "sha256" => "85b16bd32ad2841e5453676e56b8e98bd7a221ab0d5fe98b0c337caaea10dc6a"
+    },
+    "constitution" => {
+      "path" => "docs/aios/STRATEGIC_CONSTITUTION.md",
+      "version" => "3.5",
+      "byte_length" => 38_846,
+      "sha256" => "1faee62ecdc49d273042048f52c429b36f87c48b512b3161fd2e297263d70408"
+    }
+  }.freeze
+  TRIVS_TERMINAL_RECEIPT = {
+    "path" =>
+      "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-read-only-invocation-vertical-slice-20260823/task-product/terminal/P3_TRIVS_P1_PRODUCT_TASK_ROUTE_TERMINAL_NON_PASS_RECEIPT_V1.json",
+    "byte_length" => 7_469,
+    "sha256" => "da4ec96ee559fcce19b826985627edfceaea2a8d646ca7574b46a08d6e8f8ebe"
+  }.freeze
+  F2_TERMINAL_RECEIPT = {
+    "path" =>
+      "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trivs-evidence-first-final-route-20260823/task-foundation/terminal/P3_TRIVS_F2_TASK_ROUTE_TERMINAL_NON_PASS_RECEIPT_V1.json",
+    "byte_length" => 1_365,
+    "sha256" => "1246e6065d73d87bd01a5dc059ab1377145904ab3fc55f4d25d2ed8a07b7ae9c"
+  }.freeze
+  F2_DIAGNOSTIC = {
+    "path" =>
+      "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trivs-evidence-first-final-route-20260823/task-foundation/preflight/P3_TRIVS_F2_PREWORKER_PROTOCOL_UNREACHABILITY_FINDING_V1.json",
+    "byte_length" => 4_566,
+    "sha256" => "943d47729d001f0d2afb829a1177c3914b20fe95db9aaf11ecd4a105791368ae"
+  }.freeze
+  TASK_ID = "AIOS-P3-MTRO-P1_ACTUAL_AGENT_TRANSACTIONAL_OCI_READ_ONLY_INVOCATION"
+  TASK_CONTRACT_PATH =
+    "docs/aios/tasks/P3-MTRO-P1_ACTUAL_AGENT_TRANSACTIONAL_OCI_READ_ONLY_INVOCATION.yaml"
+  TASK_BRANCH = "codex/p3-mtro-p1-actual-agent-transactional-oci-read-only"
+  TASK_WORKTREE =
+    "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-mtro-p1-actual-agent-transactional-oci-read-only"
+  TASK_EVIDENCE_ROOT =
+    "/Users/lijunpeng/Developer/.sourcelens-audit/p3-minimum-trust-transactional-oci-20260824/task-product"
+  OBJECTIVE_ID = "ACTUAL_AGENT_HOST_AUTHORIZED_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE"
+  STRICT_GATE_ID =
+    "ACTUAL_AGENT_HOST_AUTHORIZED_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE_ACCEPTED"
+  STRICT_ITEMS = %w[
+    ACTUAL_AGENT_NON_AUTHORITATIVE_PROPOSAL_AND_EXCLUSIVE_RESERVED_INGRESS
+    HOST_DERIVED_CUSTODY_DURABLE_INTENT_REAL_MYSQL_AND_EXACTLY_ONE_TERMINAL
+    REPRESENTATIVE_FRESH_PROCESS_RECOVERY_AND_CHECKPOINT_GATE
+    PINNED_LOCAL_OCI_READ_ONLY_ISOLATION_COMPLETE_TRACE_AND_REPLAY
+  ].freeze
+  GATE_REQUIRED_FACTS = {
+    "ACTUAL_AGENT_NON_AUTHORITATIVE_PROPOSAL_AND_EXCLUSIVE_RESERVED_INGRESS" => %w[
+      ACTUAL_AGENT_PRODUCTION_DECODE_RUNTIME_POSITIVE
+      MALFORMED_INGRESS_ZERO_EFFECT
+      EXCLUSIVE_RESERVED_INGRESS_REJECTION
+      HOST_DERIVED_AUTHORITY_BINDING
+      SOURCE_TO_CLASS_CUSTODY
+    ],
+    "HOST_DERIVED_CUSTODY_DURABLE_INTENT_REAL_MYSQL_AND_EXACTLY_ONE_TERMINAL" => %w[
+      CUSTODY_OWNERSHIP_DRIFT_MATRIX
+      REAL_MYSQL_V034_APPLIED
+      SPRING_AOP_TRANSACTION_ROLLBACK
+      DURABLE_INTENT_CAS_TERMINAL
+      IDENTICAL_TERMINAL_REPLAY_LATE_LOSER
+    ],
+    "REPRESENTATIVE_FRESH_PROCESS_RECOVERY_AND_CHECKPOINT_GATE" => %w[
+      FRESH_PROCESS_WINDOW_INTENT
+      FRESH_PROCESS_WINDOW_EFFECT
+      FRESH_PROCESS_WINDOW_CLEANUP
+      CHECKPOINT_BEFORE_TERMINAL_REJECTED
+      CHECKPOINT_AFTER_TERMINAL_EXACTLY_ONCE
+    ],
+    "PINNED_LOCAL_OCI_READ_ONLY_ISOLATION_COMPLETE_TRACE_AND_REPLAY" => %w[
+      PINNED_OCI_PROFILE
+      OCI_RAW_STDOUT_STDERR_EXIT
+      OCI_CLEANUP_ABSENCE
+      HOST_INDEPENDENT_SHA_MATCH
+      FOCUSED_MAVEN_TESTS
+      FULL_MAVEN_TESTS
+      ZERO_FORBIDDEN_EXTERNAL_EFFECTS
+      CANONICAL_REPLAY
+    ]
+  }.transform_values(&:freeze).freeze
+  RECEIPT_DERIVED_EXECUTION_FACTS = (
+    GATE_REQUIRED_FACTS.values.flatten - %w[
+      SOURCE_TO_CLASS_CUSTODY FOCUSED_MAVEN_TESTS FULL_MAVEN_TESTS
+      ZERO_FORBIDDEN_EXTERNAL_EFFECTS CANONICAL_REPLAY
+    ]
+  ).freeze
+  OBSERVATION_RECORD_SPECS = {
+    "agent_ingress" => {
+      "schema_version" => "p3-mtro-agent-ingress-observation/v1",
+      "record_type" => "P3_MTRO_AGENT_INGRESS_OBSERVATION",
+      "facts" => %w[
+        ACTUAL_AGENT_PRODUCTION_DECODE_RUNTIME_POSITIVE MALFORMED_INGRESS_ZERO_EFFECT
+        EXCLUSIVE_RESERVED_INGRESS_REJECTION HOST_DERIVED_AUTHORITY_BINDING
+      ]
+    },
+    "source_custody" => {
+      "schema_version" => "p3-mtro-source-custody-observation/v1",
+      "record_type" => "P3_MTRO_SOURCE_CUSTODY_OBSERVATION",
+      "facts" => %w[SOURCE_TO_CLASS_CUSTODY CUSTODY_OWNERSHIP_DRIFT_MATRIX]
+    },
+    "transaction_recovery" => {
+      "schema_version" => "p3-mtro-transaction-recovery-observation/v1",
+      "record_type" => "P3_MTRO_TRANSACTION_RECOVERY_OBSERVATION",
+      "facts" => %w[
+        REAL_MYSQL_V034_APPLIED SPRING_AOP_TRANSACTION_ROLLBACK
+        DURABLE_INTENT_CAS_TERMINAL IDENTICAL_TERMINAL_REPLAY_LATE_LOSER
+        FRESH_PROCESS_WINDOW_INTENT FRESH_PROCESS_WINDOW_EFFECT
+        FRESH_PROCESS_WINDOW_CLEANUP CHECKPOINT_BEFORE_TERMINAL_REJECTED
+        CHECKPOINT_AFTER_TERMINAL_EXACTLY_ONCE
+      ]
+    },
+    "oci_lifecycle" => {
+      "schema_version" => "p3-mtro-oci-lifecycle-observation/v1",
+      "record_type" => "P3_MTRO_OCI_LIFECYCLE_OBSERVATION",
+      "facts" => %w[
+        PINNED_OCI_PROFILE OCI_RAW_STDOUT_STDERR_EXIT OCI_CLEANUP_ABSENCE
+        HOST_INDEPENDENT_SHA_MATCH
+      ]
+    }
+  }.transform_values { |value| value.merge("facts" => value.fetch("facts").freeze).freeze }.freeze
+  FACT_TEST_CASES = {
+    "ACTUAL_AGENT_PRODUCTION_DECODE_RUNTIME_POSITIVE" =>
+      "com.sourcelens.module.agent.trustedread.TrustedReadAgentIngressIT#actualAgentProductionDecodeRuntimePositive",
+    "MALFORMED_INGRESS_ZERO_EFFECT" =>
+      "com.sourcelens.module.agent.trustedread.TrustedReadAgentIngressIT#malformedIngressHasZeroEffect",
+    "EXCLUSIVE_RESERVED_INGRESS_REJECTION" =>
+      "com.sourcelens.module.agent.trustedread.TrustedReadAgentIngressIT#reservedIngressIsExclusive",
+    "HOST_DERIVED_AUTHORITY_BINDING" =>
+      "com.sourcelens.module.agent.trustedread.TrustedReadAuthorityIT#hostDerivesCompleteAuthority",
+    "SOURCE_TO_CLASS_CUSTODY" =>
+      "com.sourcelens.module.agent.trustedread.TrustedReadSourceCustodyIT#sourceMapsToExecutedClasses",
+    "CUSTODY_OWNERSHIP_DRIFT_MATRIX" =>
+      "com.sourcelens.module.agent.trustedread.TrustedReadSourceCustodyIT#custodyDriftMatrixFailsClosed",
+    "REAL_MYSQL_V034_APPLIED" =>
+      "com.sourcelens.module.execution.trustedread.TrustedReadTransactionIT#realMysqlV034IsApplied",
+    "SPRING_AOP_TRANSACTION_ROLLBACK" =>
+      "com.sourcelens.module.execution.trustedread.TrustedReadTransactionIT#springAopRollbackLeavesNoIntent",
+    "DURABLE_INTENT_CAS_TERMINAL" =>
+      "com.sourcelens.module.execution.trustedread.TrustedReadTransactionIT#durableIntentCasHasOneTerminal",
+    "IDENTICAL_TERMINAL_REPLAY_LATE_LOSER" =>
+      "com.sourcelens.module.execution.trustedread.TrustedReadTransactionIT#replayIsIdempotentAndLateLoserRejected",
+    "FRESH_PROCESS_WINDOW_INTENT" =>
+      "com.sourcelens.module.execution.trustedread.TrustedReadRecoveryIT#recoversCommittedIntentInFreshProcess",
+    "FRESH_PROCESS_WINDOW_EFFECT" =>
+      "com.sourcelens.module.execution.trustedread.TrustedReadRecoveryIT#recoversPossibleEffectInFreshProcess",
+    "FRESH_PROCESS_WINDOW_CLEANUP" =>
+      "com.sourcelens.module.execution.trustedread.TrustedReadRecoveryIT#recoversCleanupInFreshProcess",
+    "CHECKPOINT_BEFORE_TERMINAL_REJECTED" =>
+      "com.sourcelens.module.execution.trustedread.TrustedReadCheckpointIT#checkpointBeforeTerminalIsRejected",
+    "CHECKPOINT_AFTER_TERMINAL_EXACTLY_ONCE" =>
+      "com.sourcelens.module.execution.trustedread.TrustedReadCheckpointIT#checkpointAfterTerminalIsExactlyOnce",
+    "PINNED_OCI_PROFILE" =>
+      "com.sourcelens.module.sandbox.oci.trustedread.TrustedReadOciIT#usesExactPinnedProfile",
+    "OCI_RAW_STDOUT_STDERR_EXIT" =>
+      "com.sourcelens.module.sandbox.oci.trustedread.TrustedReadOciIT#capturesRawProcessResult",
+    "OCI_CLEANUP_ABSENCE" =>
+      "com.sourcelens.module.sandbox.oci.trustedread.TrustedReadOciIT#cleansOnlyOwnedObjects",
+    "HOST_INDEPENDENT_SHA_MATCH" =>
+      "com.sourcelens.module.sandbox.oci.trustedread.TrustedReadOciIT#hostAndOciShaMatch",
+    "ZERO_FORBIDDEN_EXTERNAL_EFFECTS" =>
+      "com.sourcelens.module.sandbox.oci.trustedread.TrustedReadExternalEffectsIT#observesZeroForbiddenEffects"
+  }.freeze
+  COMPATIBILITY_ITEM = "RESUME_ISOLATION_PERMISSION_AND_TRACE_TESTS"
+  FIXED_ACTION = {
+    "action_id" => "READ_BOUND_ARCHITECTURE_OVERVIEW_SHA256_V1",
+    "agent_task_type" => "TRUSTED_READ_ONLY_ARCHITECTURE_OVERVIEW_SHA256_V1",
+    "reserved_tool_name" => "trusted_read_bound_architecture_overview_sha256_v1",
+    "agent_arguments" => {},
+    "custody_owner_type" => "SCAN_TASK",
+    "custody_artifact_type" => "ARCHITECTURE_OVERVIEW"
+  }.freeze
+  LIMITS = {
+    "engineering_tasks" => 19,
+    "engineering_hours" => 568,
+    "calendar_days" => 132,
+    "active_tasks" => 1,
+    "task_branches" => 1,
+    "task_worktrees" => 1,
+    "active_candidates" => 1
+  }.freeze
+  CONSUMED = {
+    "engineering_tasks" => 18,
+    "engineering_hours" => 520,
+    "calendar_days" => 122
+  }.freeze
+  TASK_BUDGET = {
+    "engineering_tasks" => 1,
+    "engineering_hours" => 48,
+    "calendar_days" => 10,
+    "candidate_generations" => 2,
+    "same_task_repairs" => 1,
+    "review_cycles" => 2
+  }.freeze
+  REMAINING = TASK_BUDGET.slice(
+    "engineering_tasks", "engineering_hours", "calendar_days"
+  ).freeze
+  DOCKER_CLI = {
+    "path" => "/Applications/Docker.app/Contents/Resources/bin/docker",
+    "sha256" => "a6822407e207ff0b687419ccbe55700ffbf389d77de58ef625b3b1790d88747c"
+  }.freeze
+  DOCKER_ENDPOINT = "unix:///Users/lijunpeng/.docker/run/docker.sock"
+  IMAGE_ID = "sha256:d36d39a64cd12a5c1cc9e6aa2bfb5f8d4c81a2f6586e0a04a9ae13939db02209"
+  DOCKER_VERBS = [
+    "version", "info", "image inspect exact content ID", "network create --internal",
+    "network inspect", "network rm", "create", "start", "wait", "inspect", "logs",
+    "port", "rm --force"
+  ].freeze
+  AUTHORITY_PATH = File.join(
+    TASK_EVIDENCE_ROOT,
+    "authority/P3_MTRO_P1_PHASE_DELEGATED_TASK_AUTHORITY_V1.json"
+  ).freeze
+  FINAL_CONSUMED = {
+    "engineering_tasks" => 19,
+    "engineering_hours" => 568,
+    "calendar_days" => 132
+  }.freeze
+  ZERO_CAPACITY = {
+    "engineering_tasks" => 0,
+    "engineering_hours" => 0,
+    "calendar_days" => 0
+  }.freeze
+  PRODUCT_ARCHITECTURE = {
+    "actual_agent_runtime_required" => true,
+    "agent_non_authoritative" => true,
+    "host_derives_all_authority_bearing_fields" => true,
+    "generic_tool_registry_bypassed" => true,
+    "generic_tool_execution_service_bypassed" => true,
+    "generic_docker_sandbox_executor_bypassed" => true,
+    "production_spring_transaction_service_store_required" => true,
+    "real_mysql_required" => true,
+    "migration" =>
+      "backend-spring/src/main/resources/db/migration/V034__add_trusted_read_only_invocation.sql",
+    "current_state_table_count" => 1,
+    "allowed_statuses" => %w[INTENT DISPATCHING EFFECT_RECORDED CLEANING SUCCEEDED FAILED],
+    "representative_fresh_process_windows" => [
+      "INTENT_COMMITTED_EFFECT_NOT_BEGUN",
+      "EFFECT_MAY_HAVE_OCCURRED_TERMINAL_NOT_COMMITTED",
+      "CLEANUP_BEGUN_OR_COMPLETED_TERMINAL_NOT_COMMITTED"
+    ]
+  }.freeze
+  DISABLED_ROUTE_EXTERNAL_EFFECTS = {
+    "docker" => false,
+    "task_created_disposable_mysql" => false,
+    "task_local_mysql_loopback_only" => false,
+    "network" => false,
+    "dns" => false,
+    "http_https" => false,
+    "provider" => false,
+    "secret" => false,
+    "credential" => false,
+    "remote" => false,
+    "production" => false,
+    "public" => false,
+    "p4_entry" => false
+  }.freeze
+  ENABLED_TASK_LOCAL_ROUTE_EXTERNAL_EFFECTS = DISABLED_ROUTE_EXTERNAL_EFFECTS.merge(
+    "docker" => true,
+    "task_created_disposable_mysql" => true,
+    "task_local_mysql_loopback_only" => true
+  ).freeze
+  DEFERRED_CAPABILITIES = %w[
+    P4_ENTRY
+    P5_EXHAUSTIVE_TRUSTWORTHY_EXECUTION_HARDENING
+    INTERNET
+    DNS
+    HTTP_HTTPS
+    PROVIDER
+    EXTERNAL_SECRET
+    EXTERNAL_CREDENTIAL
+    REMOTE
+    PRODUCTION
+    PUBLIC
+  ].freeze
+  ROLE_WRITE_ROOTS = {
+    "worker" => [TASK_WORKTREE],
+    "quality" => [TASK_EVIDENCE_ROOT],
+    "integration" => ["/Users/lijunpeng/Developer/SourceLens-AIOS"]
+  }.freeze
+  IMMUTABLE_AUTHORITY_PATHS = %w[
+    AGENTS.md
+    docs/aios/STRATEGIC_CONSTITUTION.md
+    docs/aios/MASTER_EXECUTION_PROTOCOL.md
+    docs/aios/FOUNDER_DELEGATION_POLICY.md
+    docs/aios/EVALUATION_PROTOCOL.md
+  ].freeze
+  REVIEWER_ROLES = ["CTO Agent", "Security Agent", "Quality and Evaluation Agent"].freeze
+  DELEGATION_ANTI_LOOP = {
+    "route_or_task_may_downgrade_phase_delegation" => false,
+    "ordinary_task_failure_requests_founder" => false,
+    "foundation_or_preflight_task_allowed" => false,
+    "audit_task_allowed" => false,
+    "third_product_task_allowed" => false,
+    "successor_or_replacement_allowed" => false,
+    "candidate_3_allowed" => false,
+    "second_same_task_repair_allowed" => false,
+    "third_review_cycle_allowed" => false,
+    "rerun_to_pass_allowed" => false
+  }.freeze
+  FOUNDER_RESERVED_DECISIONS = %w[
+    PHASE_ENTRY_OR_EXIT
+    MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
+    MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+    NETWORK_PROVIDER_SECRET_REMOTE_PRODUCTION_OR_PUBLIC_EFFECT
+    IRREVERSIBLE_ASSET_REMOVAL
+    MATERIAL_LEGAL_PRIVACY_OR_COMMERCIAL_COMMITMENT
+    CRITICAL_RESIDUAL_RISK_ACCEPTANCE
+  ].freeze
+  AGENT_DELEGATED_DECISIONS = %w[
+    EXACT_MTRO_P1_PRODUCT_TASK_ACTIVATION
+    TASK_CONTRACT_AND_AUTHORITY
+    IMPLEMENTATION_AND_ONE_ALLOWED_SAME_TASK_REPAIR
+    TEST_EVIDENCE_TWO_REVIEW_CYCLES_AND_TASK_GATE
+    LOCAL_CANONICAL_INTEGRATION
+    EXACTLY_ONE_POST_INTEGRATION_CANONICAL_REPLAY
+  ].freeze
+  ENVELOPE_EXTERNAL_EFFECTS_LOCKED = {
+    "docker_task_operations" => "LOCKED_UNTIL_TASK_ACTIVE",
+    "task_created_disposable_mysql" => false,
+    "task_local_mysql_loopback_only" => false,
+    "network" => false,
+    "dns" => false,
+    "http_https" => false,
+    "provider" => false,
+    "secret" => false,
+    "credential" => false,
+    "remote" => false,
+    "production" => false,
+    "public" => false,
+    "p4_entry" => false
+  }.freeze
+  ENVELOPE_EXTERNAL_EFFECTS_ACTIVE = ENVELOPE_EXTERNAL_EFFECTS_LOCKED.merge(
+    "docker_task_operations" => "TASK_ACTIVE_EXACT_LOCAL_AUTHORITY_ONLY",
+    "task_created_disposable_mysql" => true,
+    "task_local_mysql_loopback_only" => true
+  ).freeze
+  ENVELOPE_EXTERNAL_EFFECTS_FINAL = ENVELOPE_EXTERNAL_EFFECTS_LOCKED.merge(
+    "docker_task_operations" => "FINAL_TASK_CLOSED_NO_AUTHORITY"
+  ).freeze
+  DISABLED_ACTIVE_EXTERNAL_EFFECTS = {
+    "docker" => false,
+    "docker_scope" => "LOCKED_UNTIL_TASK_ACTIVE",
+    "docker_endpoint" => DOCKER_ENDPOINT,
+    "docker_registry_pull_push_login_build_import_or_tag" => false,
+    "task_created_disposable_mysql" => false,
+    "task_local_mysql_loopback_only" => false,
+    "network" => false,
+    "dns" => false,
+    "http_https" => false,
+    "provider" => false,
+    "secret" => false,
+    "credential" => false,
+    "remote" => false,
+    "production" => false,
+    "public" => false,
+    "existing_database_mutation" => false,
+    "write_outside_exact_authorized_roots" => false,
+    "irreversible_asset_deletion" => false
+  }.freeze
+  ENABLED_TASK_LOCAL_ACTIVE_EXTERNAL_EFFECTS = DISABLED_ACTIVE_EXTERNAL_EFFECTS.merge(
+    "docker" => true,
+    "docker_scope" => "EXACT_TASK_CREATED_OBJECTS_ONLY",
+    "task_created_disposable_mysql" => true,
+    "task_local_mysql_loopback_only" => true
+  ).freeze
+  RUNTIME_STATES = %w[
+    PENDING_TASK_OWNED_DISCOVERY ACTIVATION_BOUND CANDIDATE_FROZEN
+    REVIEW_BOUND INTEGRATED_REPLAY_BOUND
+  ].freeze
+  LIFECYCLE_PROFILES = {
+    "PRODUCT_ELIGIBLE_NOT_ACTIVATED" => {
+      "state" => "P3_MTRO_PRODUCT_ELIGIBLE_NOT_ACTIVATED",
+      "phase_status" => "ACTIVE_P3_MTRO_PRODUCT_ELIGIBLE_NOT_ACTIVATED",
+      "p3_status" => "ACTIVE_INCOMPLETE_P3_MTRO_PRODUCT_ELIGIBLE_NOT_ACTIVATED",
+      "route_status" => "ACTIVE",
+      "scheduling_status" => "ONE_FINAL_PRODUCT_TASK_ELIGIBLE",
+      "stage_status" => "ELIGIBLE_NOT_ACTIVATED",
+      "action" => "MASTER_ACTIVATE_P3_MTRO_P1",
+      "task_creation" => true,
+      "active" => false,
+      "founder_required" => false,
+      "disposition" => "NO_RESERVED_TRIGGER_CONTINUE_PHASE",
+      "next_owner" => "MASTER_CEO_AGENT",
+      "reserved_trigger" => "NONE",
+      "resolved_result" => "P3_MTRO_FINAL_PRODUCT_ROUTE_INSTALLED_PRODUCT_ELIGIBLE",
+      "phase_gate_status" => "INCOMPLETE",
+      "boundary_scope" => "ONE_EXACT_MTRO_P1_PRODUCT_IMPLEMENTATION_SECOND_AND_FINAL_ONLY",
+      "task_status" => "ELIGIBLE_NOT_ACTIVATED",
+      "task_resource_state" => "NOT_CREATED_PRODUCT_ELIGIBLE",
+      "executable_slots" => "1_OF_1_ELIGIBLE_NOT_ACTIVATED",
+      "capability_status" => "MTRO_SECOND_AND_FINAL_PRODUCT_ELIGIBLE_NOT_ACCEPTED",
+      "engineering_progress" =>
+        "P3_MTRO_STRATEGIC_ROUTE_INSTALLED_PRODUCT_NOT_YET_ACTIVATED_DELIVERY_25_STRICT_EXIT_ZERO",
+      "goal_state_note" =>
+        "P3 MTRO final Product route is installed but not activated. P3 is 25% delivery and 0% strict Exit; P4 is HOLD; the project is incomplete; the Long-term Goal remains ACTIVE.",
+      "effects_enabled" => false,
+      "final_accounting" => false,
+      "accepted" => false,
+      "terminal" => false,
+      "delivery" => 25,
+      "strict" => 0
+    },
+    "PRODUCT_TASK_ACTIVE" => {
+      "state" => "P3_MTRO_PRODUCT_TASK_ACTIVE",
+      "phase_status" => "ACTIVE_P3_MTRO_PRODUCT_TASK_ACTIVE",
+      "p3_status" => "ACTIVE_INCOMPLETE_P3_MTRO_PRODUCT_TASK_ACTIVE",
+      "route_status" => "ACTIVE",
+      "scheduling_status" => "ONE_FINAL_PRODUCT_TASK_ACTIVE",
+      "stage_status" => "ACTIVE",
+      "action" => "WORKER_RUN_P3_MTRO_PREWRITE_OCI_PROBE_THEN_IMPLEMENT",
+      "task_creation" => false,
+      "active" => true,
+      "founder_required" => false,
+      "disposition" => "NO_RESERVED_TRIGGER_CONTINUE_PHASE",
+      "next_owner" => "MASTER_CEO_AGENT",
+      "reserved_trigger" => "NONE",
+      "resolved_result" => "P3_MTRO_FINAL_PRODUCT_TASK_ACTIVE",
+      "phase_gate_status" => "INCOMPLETE",
+      "boundary_scope" => "NO_ADDITIONAL_TASK_CURRENT_FINAL_PRODUCT_ACTIVE",
+      "task_status" => "ACTIVE",
+      "task_resource_state" => "ACTIVE_PRODUCT_TASK_RESOURCES_CREATED",
+      "executable_slots" => "1_OF_1_ACTIVE",
+      "capability_status" => "MTRO_SECOND_AND_FINAL_PRODUCT_ACTIVE_NOT_ACCEPTED",
+      "engineering_progress" =>
+        "P3_MTRO_FINAL_PRODUCT_TASK_ACTIVE_DELIVERY_25_STRICT_EXIT_ZERO",
+      "goal_state_note" =>
+        "P3 MTRO final Product Task is ACTIVE under its exact Contract and authority. P3 remains 25% delivery and 0% strict Exit; P4 is HOLD; the project is incomplete; the Long-term Goal remains ACTIVE.",
+      "effects_enabled" => true,
+      "final_accounting" => false,
+      "accepted" => false,
+      "terminal" => false,
+      "delivery" => 25,
+      "strict" => 0
+    },
+    "PRODUCT_ROUTE_TERMINAL_NON_PASS" => {
+      "state" => "P3_MTRO_PRODUCT_ROUTE_TERMINAL_NON_PASS",
+      "phase_status" => "HOLD_INCOMPLETE_P3_MTRO_PRODUCT_ROUTE_TERMINAL_NON_PASS",
+      "p3_status" => "HOLD_INCOMPLETE_P3_MTRO_PRODUCT_ROUTE_TERMINAL_NON_PASS",
+      "route_status" => "TERMINAL_FINAL_PRODUCT_NON_PASS",
+      "scheduling_status" => "NO_FURTHER_P3_IMPLEMENTATION_ALLOWED",
+      "stage_status" => "TERMINAL_TASK_GATE_NON_PASS",
+      "action" => "NO_ENGINEERING_ACTION_P3_HOLD_INCOMPLETE_FINAL_PRODUCT_FROZEN",
+      "task_creation" => false,
+      "active" => false,
+      "founder_required" => false,
+      "disposition" => "NO_RESERVED_TRIGGER_ROUTE_TERMINAL",
+      "next_owner" => "NONE",
+      "reserved_trigger" => "NONE",
+      "resolved_result" => "P3_MTRO_FINAL_PRODUCT_ROUTE_TERMINAL_NON_PASS",
+      "phase_gate_status" => "INCOMPLETE",
+      "boundary_scope" => "NO_FURTHER_P3_IMPLEMENTATION_ALLOWED",
+      "task_status" => "TERMINAL_TASK_GATE_NON_PASS",
+      "task_resource_state" => "TERMINAL_EVIDENCE_PRESERVED_BRANCH_AND_WORKTREE_REMOVED",
+      "executable_slots" => "1_OF_1_CONSUMED_TERMINAL_NO_FURTHER_IMPLEMENTATION",
+      "capability_status" => "MTRO_SECOND_AND_FINAL_PRODUCT_TERMINAL_NOT_ACCEPTED",
+      "engineering_progress" =>
+        "P3_MTRO_FINAL_PRODUCT_ROUTE_TERMINAL_DELIVERY_25_STRICT_EXIT_ZERO",
+      "goal_state_note" =>
+        "P3 MTRO final Product route is terminal NON_PASS with no further P3 implementation authority. P3 remains incomplete at 25% delivery and 0% strict Exit; P4 is HOLD; the project is incomplete; the Long-term Goal remains ACTIVE.",
+      "effects_enabled" => false,
+      "final_accounting" => true,
+      "accepted" => false,
+      "terminal" => true,
+      "delivery" => 25,
+      "strict" => 0
+    },
+    "PRODUCT_ACCEPTED_PHASE_GATE_ELIGIBLE" => {
+      "state" => "P3_MTRO_PRODUCT_ACCEPTED_PHASE_GATE_ELIGIBLE",
+      "phase_status" => "ELIGIBLE_AWAITING_FOUNDER_P3_PHASE_GATE_DECISION",
+      "p3_status" => "ELIGIBLE_AWAITING_FOUNDER_P3_PHASE_GATE_DECISION",
+      "route_status" => "ACCEPTED_AWAITING_FOUNDER_PHASE_GATE",
+      "scheduling_status" => "NO_TASK_FOUNDER_PHASE_GATE",
+      "stage_status" => "ACCEPTED_INTEGRATED_CANONICAL_REPLAY_PASS",
+      "action" => "FOUNDER_DECIDE_P3_PHASE_GATE",
+      "task_creation" => false,
+      "active" => false,
+      "founder_required" => true,
+      "disposition" => "FOUNDER_RESERVED_DECISION_REQUIRED",
+      "next_owner" => "HUMAN_FOUNDER",
+      "reserved_trigger" => "PHASE_ENTRY_OR_EXIT",
+      "resolved_result" => "P3_MTRO_PRODUCT_ACCEPTED_PHASE_GATE_ELIGIBLE",
+      "phase_gate_status" => "ELIGIBLE_AWAITING_FOUNDER_DECISION",
+      "boundary_scope" => "NO_TASK_FOUNDER_PHASE_GATE",
+      "task_status" => "ACCEPTED_INTEGRATED_CANONICAL_REPLAY_PASS",
+      "task_resource_state" => "ACCEPTED_EVIDENCE_PRESERVED_BRANCH_AND_WORKTREE_REMOVED",
+      "executable_slots" => "1_OF_1_CONSUMED_ACCEPTED_NO_TASK_FOUNDER_PHASE_GATE",
+      "capability_status" => "ACCEPTED_NARROW_MTRO_SLICE",
+      "engineering_progress" =>
+        "P3_MTRO_NARROW_SLICE_ACCEPTED_DELIVERY_100_STRICT_EXIT_100_AWAITING_FOUNDER_PHASE_GATE",
+      "goal_state_note" =>
+        "P3 MTRO narrow slice is accepted after three independent PASS reviews, canonical integration and one replay. P3 is 100% delivery and 100% strict Exit awaiting the Founder Phase Gate; P4 remains HOLD; the project is incomplete; the Long-term Goal remains ACTIVE.",
+      "effects_enabled" => false,
+      "final_accounting" => true,
+      "accepted" => true,
+      "terminal" => false,
+      "delivery" => 100,
+      "strict" => 100
+    }
+  }.transform_values(&:freeze).freeze
+
+  def assert(condition, message)
+    raise P3MinimumTrustTransactionalOciFinalProductRouteValidationError, message unless condition
+  end
+
+  def mapping(value, label)
+    assert(value.is_a?(Hash), "#{label} must be a mapping")
+    value
+  end
+
+  def array(value, label)
+    assert(value.is_a?(Array), "#{label} must be a sequence")
+    value
+  end
+
+  def exact_keys(value, keys, label)
+    record = mapping(value, label)
+    assert(record.keys.sort == keys.sort, "#{label} keys are not closed")
+    record
+  end
+
+  def parse_closed_json(bytes, label)
+    JSON.parse(bytes, object_class: ClosedJsonHash)
+  rescue JSON::ParserError, DuplicateJsonKeyError => e
+    raise P3MinimumTrustTransactionalOciFinalProductRouteValidationError,
+          "#{label} JSON invalid: #{e.message}"
+  end
+
+  def reject_duplicate_yaml_keys!(bytes, label)
+    tree = Psych.parse_stream(bytes)
+    walk = nil
+    walk = lambda do |node, location|
+      case node
+      when Psych::Nodes::Mapping
+        seen = {}
+        node.children.each_slice(2) do |key_node, value_node|
+          assert(key_node.is_a?(Psych::Nodes::Scalar),
+                 "#{label} contains a non-scalar YAML key at #{location}")
+          key = key_node.value
+          assert(!seen.key?(key), "#{label} contains duplicate YAML key #{location}.#{key}")
+          seen[key] = true
+          walk.call(value_node, "#{location}.#{key}")
+        end
+      when Psych::Nodes::Sequence
+        node.children.each_with_index { |child, index| walk.call(child, "#{location}[#{index}]") }
+      end
+    end
+    walk.call(tree, label)
+  rescue Psych::SyntaxError => e
+    raise P3MinimumTrustTransactionalOciFinalProductRouteValidationError,
+          "#{label} YAML invalid: #{e.message}"
+  end
+
+  def artifact_identity!(root, value, label, exact_path: nil, under: nil)
+    identity = exact_keys(value, %w[path byte_length sha256], label)
+    path = identity.fetch("path")
+    assert(path.is_a?(String) && !path.empty?, "#{label} path is invalid")
+    assert(path == exact_path, "#{label} path drift") if exact_path
+    pathname = Pathname.new(path)
+    pathname = root.join(pathname) unless pathname.absolute?
+    literal = literal_path!(pathname, label, directory: false)
+    if under
+      under_literal = literal_path!(Pathname.new(under), "#{label} authorized root", directory: true)
+      prefix = under_literal.to_s + File::SEPARATOR
+      assert(literal.to_s.start_with?(prefix), "#{label} escapes its authorized root")
+    end
+    file_identity!(literal.to_s, identity, label)
+  rescue Errno::ENOENT, Errno::ELOOP => e
+    raise P3MinimumTrustTransactionalOciFinalProductRouteValidationError,
+          "#{label} unavailable: #{e.message}"
+  end
+
+  def literal_path!(path, label, directory:)
+    pathname = Pathname.new(path.to_s)
+    assert(pathname.absolute?, "#{label} path must be absolute")
+    clean = pathname.cleanpath
+    assert(clean.to_s == pathname.to_s, "#{label} path is not lexical-canonical")
+    current = Pathname.new(File::SEPARATOR)
+    clean.each_filename do |component|
+      current = current.join(component)
+      stat = File.lstat(current)
+      assert(!stat.symlink?, "#{label} contains symlink component #{current}")
+    end
+    final_stat = File.lstat(clean)
+    assert(directory ? final_stat.directory? : final_stat.file?,
+           "#{label} has the wrong filesystem type")
+    clean
+  end
+
+  def git_identity!(root, commit, tree, label)
+    assert(commit.is_a?(String) && commit.match?(/\A[0-9a-f]{40}\z/) &&
+           tree.is_a?(String) && tree.match?(/\A[0-9a-f]{40}\z/),
+           "#{label} Git identity is invalid")
+    actual_tree = git!(root, "rev-parse", "#{commit}^{tree}").strip
+    assert(actual_tree == tree, "#{label} commit/tree mismatch")
+  end
+
+  def path_covered_by_allowlist?(path, allowlist)
+    allowlist.any? do |allowed|
+      directory_root = allowed.end_with?("/") || File.extname(allowed).empty?
+      path == allowed || (directory_root && path.start_with?("#{allowed.delete_suffix("/")}/"))
+    end
+  end
+
+  def git_changed_paths!(root, from_commit, to_commit, label)
+    raw = git!(root, "diff", "--name-status", "-z", "--no-renames", from_commit, to_commit)
+    tokens = raw.split("\0", -1)
+    assert(tokens.pop == "" && tokens.length.even?, "#{label} diff encoding drift")
+    entries = tokens.each_slice(2).map do |status, path|
+      assert(%w[A M D].include?(status) && path.is_a?(String) && !path.empty?,
+             "#{label} contains unsupported change status")
+      pathname = Pathname.new(path)
+      assert(!pathname.absolute? && pathname.cleanpath.to_s == path && path != ".." &&
+             !path.start_with?("../"), "#{label} contains a non-canonical path")
+      path
+    end
+    assert(entries.uniq.length == entries.length, "#{label} repeats a changed path")
+    entries.sort
+  end
+
+  def validate_finding_record!(root, finding, label)
+    finding = exact_keys(
+      finding, %w[id severity gate_relevance category description evidence], label
+    )
+    assert(%w[P0 P1].include?(finding["severity"]) &&
+           %w[
+             EXIT_GATE_VALIDITY AUTHORITY_OR_EXTERNAL_EFFECT_SAFETY RESULT_INTEGRITY
+             PRODUCT_CORRECTNESS
+           ].include?(finding["category"]) &&
+           finding["gate_relevance"] == "BLOCKING" &&
+           finding["id"].is_a?(String) && !finding["id"].empty? &&
+           finding["description"].is_a?(String) && !finding["description"].empty?,
+           "#{label} semantic drift")
+    artifact_identity!(root, finding["evidence"], "#{label} Evidence",
+                       under: TASK_EVIDENCE_ROOT)
+    finding
+  end
+
+  def validate_frozen_finding_set!(root, identity)
+    bytes = artifact_identity!(root, identity, "P3 MTRO frozen finding set",
+                               under: TASK_EVIDENCE_ROOT)
+    finding_set = exact_keys(
+      parse_closed_json(bytes, "P3 MTRO frozen finding set"),
+      %w[
+        schema_version record_type status task_id route_id candidate_commit candidate_tree
+        candidate_freeze_record cycle_1_review_dispatch cycle_1_reviews
+        complete_p0_p1_set findings created_at_utc
+      ],
+      "P3 MTRO frozen finding set"
+    )
+    reviews = exact_keys(finding_set["cycle_1_reviews"], %w[cto security quality_evaluation],
+                         "P3 MTRO Cycle 1 review identities")
+    dispatch_bytes = artifact_identity!(
+      root, finding_set["cycle_1_review_dispatch"], "P3 MTRO Cycle 1 review dispatch",
+      under: TASK_EVIDENCE_ROOT
+    )
+    dispatch = exact_keys(
+      parse_closed_json(dispatch_bytes, "P3 MTRO Cycle 1 review dispatch"),
+      %w[
+        schema_version record_type status task_id route_id execution_nonce authorization_id
+        candidate_commit candidate_tree review_cycle candidate_freeze_record
+        frozen_finding_set repair_record reviewer_worktrees dispatched_at_utc
+      ],
+      "P3 MTRO Cycle 1 review dispatch"
+    )
+    assert(dispatch["schema_version"] == "p3-mtro-review-dispatch-record/v1" &&
+           dispatch["record_type"] == "P3_MTRO_REVIEW_DISPATCH_RECORD" &&
+           dispatch["status"] == "DISPATCHED" && dispatch["task_id"] == TASK_ID &&
+           dispatch["route_id"] == ROUTE_ID && dispatch["review_cycle"] == 1 &&
+           dispatch["candidate_commit"] == finding_set["candidate_commit"] &&
+           dispatch["candidate_tree"] == finding_set["candidate_tree"] &&
+           dispatch["candidate_freeze_record"] == finding_set["candidate_freeze_record"] &&
+           dispatch["frozen_finding_set"].nil? && dispatch["repair_record"].nil?,
+           "P3 MTRO Cycle 1 review dispatch semantic drift")
+    Time.iso8601(dispatch.fetch("dispatched_at_utc"))
+    freeze_bytes = artifact_identity!(
+      root, finding_set["candidate_freeze_record"], "P3 MTRO Cycle 1 candidate freeze",
+      under: TASK_EVIDENCE_ROOT
+    )
+    freeze = exact_keys(
+      parse_closed_json(freeze_bytes, "P3 MTRO Cycle 1 candidate freeze"),
+      %w[
+        schema_version record_type status task_id route_id execution_nonce authorization_id
+        candidate_commit candidate_tree candidate_generation manifest task_activation_record
+        frozen_at_utc
+      ],
+      "P3 MTRO Cycle 1 candidate freeze"
+    )
+    assert(freeze["schema_version"] == "p3-mtro-candidate-freeze-record/v1" &&
+           freeze["record_type"] == "P3_MTRO_CANDIDATE_FREEZE_RECORD" &&
+           freeze["status"] == "FROZEN" && freeze["task_id"] == TASK_ID &&
+           freeze["route_id"] == ROUTE_ID && freeze["candidate_generation"] == 1 &&
+           freeze["candidate_commit"] == finding_set["candidate_commit"] &&
+           freeze["candidate_tree"] == finding_set["candidate_tree"],
+           "P3 MTRO Cycle 1 candidate freeze semantic drift")
+    Time.iso8601(freeze.fetch("frozen_at_utc"))
+    expected_roles = {
+      "cto" => "CTO_AGENT", "security" => "SECURITY_AGENT",
+      "quality_evaluation" => "QUALITY_EVALUATION_AGENT"
+    }
+    cycle_1_finding_ids = []
+    reviews.each do |role, review_identity|
+      review_bytes = artifact_identity!(root, review_identity,
+                                        "P3 MTRO Cycle 1 #{role} review",
+                                        under: TASK_EVIDENCE_ROOT)
+      review = exact_keys(
+        parse_closed_json(review_bytes, "P3 MTRO Cycle 1 #{role} review"),
+        %w[
+          schema_version record_type role verdict task_id route_id candidate_commit
+          candidate_tree review_cycle review_dispatch frozen_finding_set reviewer_worktree
+          repair_record findings open_p0_p1_findings gate_relevance reviewed_at_utc
+        ],
+        "P3 MTRO Cycle 1 #{role} review"
+      )
+      review_findings = array(review["findings"], "P3 MTRO Cycle 1 #{role} findings")
+      review_findings.each do |finding|
+        cycle_1_finding_ids << validate_finding_record!(
+          root, finding, "P3 MTRO Cycle 1 #{role} finding"
+        ).fetch("id")
+      end
+      assert(review["schema_version"] == "p3-mtro-independent-review/v1" &&
+             review["record_type"] == "P3_MTRO_INDEPENDENT_REVIEW" &&
+             review["role"] == expected_roles.fetch(role) &&
+             %w[PASS NON_PASS].include?(review["verdict"]) &&
+             review["task_id"] == TASK_ID && review["route_id"] == ROUTE_ID &&
+             review["candidate_commit"] == finding_set["candidate_commit"] &&
+             review["candidate_tree"] == finding_set["candidate_tree"] &&
+             review["review_cycle"] == 1 &&
+             review["review_dispatch"] == finding_set["cycle_1_review_dispatch"] &&
+             review["frozen_finding_set"].nil? && review["repair_record"].nil? &&
+             review["open_p0_p1_findings"].sort ==
+               review_findings.map { |finding| finding.fetch("id") }.sort &&
+             review["gate_relevance"] == (review_findings.empty? ? "PASS" : "NON_PASS"),
+             "P3 MTRO Cycle 1 #{role} review semantic drift")
+      Time.iso8601(review.fetch("reviewed_at_utc"))
+    end
+    findings = array(finding_set["findings"], "P3 MTRO frozen findings")
+    frozen_ids = findings.map do |finding|
+      validate_finding_record!(root, finding, "P3 MTRO frozen finding").fetch("id")
+    end
+    assert(finding_set["schema_version"] == "p3-mtro-frozen-finding-set/v1" &&
+           finding_set["record_type"] == "P3_MTRO_FROZEN_FINDING_SET" &&
+           finding_set["status"] == "FROZEN" && finding_set["task_id"] == TASK_ID &&
+           finding_set["route_id"] == ROUTE_ID &&
+           finding_set["complete_p0_p1_set"] == true &&
+           frozen_ids.uniq.length == frozen_ids.length &&
+           frozen_ids.sort == cycle_1_finding_ids.uniq.sort,
+           "P3 MTRO frozen finding set is not the complete Cycle 1 aggregate")
+    git_identity!(root, finding_set["candidate_commit"], finding_set["candidate_tree"],
+                  "P3 MTRO Cycle 1 reviewed candidate")
+    Time.iso8601(finding_set.fetch("created_at_utc"))
+    [finding_set, frozen_ids]
+  end
+
+  def validate_task_base!(root, activation_parent_commit, descendant_commit, contract_identity)
+    commits = git!(
+      root, "rev-list", "--reverse", "--ancestry-path",
+      "#{activation_parent_commit}..#{descendant_commit}"
+    ).lines.map(&:strip).reject(&:empty?)
+    assert(!commits.empty?, "P3 MTRO Task lineage has no activation commit")
+    task_base_commit = commits.first
+    parent_line = git!(root, "rev-list", "--parents", "-n", "1", task_base_commit).split
+    assert(parent_line == [task_base_commit, activation_parent_commit],
+           "P3 MTRO activation commit is not the sole direct child of strategic installation")
+    activation_paths = git_changed_paths!(
+      root, activation_parent_commit, task_base_commit, "P3 MTRO activation"
+    )
+    allowed_activation_paths = %w[
+      docs/aios/tasks/P3-MTRO-P1_ACTUAL_AGENT_TRANSACTIONAL_OCI_READ_ONLY_INVOCATION.yaml
+      docs/aios/truth/project_state.yaml
+      docs/PROJECT_CODE_MAP.md
+    ]
+    assert(activation_paths.include?(TASK_CONTRACT_PATH) &&
+           activation_paths.include?("docs/aios/truth/project_state.yaml") &&
+           (activation_paths - allowed_activation_paths).empty?,
+           "P3 MTRO activation commit contains non-activation changes")
+    contract_bytes = git!(root, "show", "#{task_base_commit}:#{TASK_CONTRACT_PATH}")
+    assert(contract_bytes.bytesize == contract_identity.fetch("byte_length") &&
+           Digest::SHA256.hexdigest(contract_bytes) == contract_identity.fetch("sha256"),
+           "P3 MTRO activation commit does not contain the exact Task Contract")
+    task_base_tree = git!(root, "rev-parse", "#{task_base_commit}^{tree}").strip
+    {"commit" => task_base_commit, "tree" => task_base_tree}
+  end
+
+  def nested_artifact_identities(value)
+    case value
+    when Hash
+      if value.keys.sort == %w[byte_length path sha256]
+        [value]
+      else
+        value.values.flat_map { |nested| nested_artifact_identities(nested) }
+      end
+    when Array
+      value.flat_map { |nested| nested_artifact_identities(nested) }
+    else
+      []
+    end
+  end
+
+  def derive_fact_projection!(root:, fact_id:, events:, candidate:, activation_identity:)
+    payloads = lambda do |type|
+      events.select { |event| event["event_type"] == type }.map { |event| event["payload"] }
+    end
+    assert(events.none? { |event| %w[RUN_BEGIN FACT_OBSERVATION].include?(event["event_type"]) },
+           "P3 MTRO #{fact_id} raw measurement event type is reserved")
+    case fact_id
+    when "ACTUAL_AGENT_PRODUCTION_DECODE_RUNTIME_POSITIVE"
+      assert(events.map { |event| event["event_type"] } == %w[
+               AGENT_DECODED TOOL_CALL_OBSERVED INTENT_COMMITTED DISPATCH_CLAIMED
+               DOCKER_EFFECT_OBSERVED TERMINAL_PROJECTED
+             ], "P3 MTRO actual-Agent raw event sequence drift")
+      decoded = exact_keys(payloads.call("AGENT_DECODED").first,
+                           %w[agent_task_type runtime_entrypoint production_decode_path], fact_id)
+      tool = exact_keys(payloads.call("TOOL_CALL_OBSERVED").first,
+                        %w[tool_name arguments authority_bearing_fields], fact_id)
+      terminal = exact_keys(payloads.call("TERMINAL_PROJECTED").first, %w[projection], fact_id)
+      assert(decoded == {
+               "agent_task_type" => FIXED_ACTION.fetch("agent_task_type"),
+               "runtime_entrypoint" => "AgentRuntime", "production_decode_path" => "LlmClient"
+             } && tool == {
+               "tool_name" => FIXED_ACTION.fetch("reserved_tool_name"), "arguments" => {},
+               "authority_bearing_fields" => []
+             } && terminal["projection"] == "COMMITTED_TERMINAL_MINIMUM_ONLY",
+             "P3 MTRO actual-Agent raw values drift")
+      {
+        "agent_task_type" => decoded["agent_task_type"],
+        "runtime_entrypoint" => decoded["runtime_entrypoint"],
+        "production_decode_path" => decoded["production_decode_path"],
+        "tool_call_count" => payloads.call("TOOL_CALL_OBSERVED").length,
+        "agent_authority_bearing_fields" => tool["authority_bearing_fields"],
+        "terminal_projection" => terminal["projection"],
+        "intent_count" => payloads.call("INTENT_COMMITTED").length,
+        "dispatch_count" => payloads.call("DISPATCH_CLAIMED").length,
+        "docker_effect_count" => payloads.call("DOCKER_EFFECT_OBSERVED").length
+      }
+    when "MALFORMED_INGRESS_ZERO_EFFECT"
+      cases = payloads.call("MALFORMED_CASE_RESULT").map do |payload|
+        exact_keys(payload, %w[case accepted intent_count dispatch_count docker_effect_count], fact_id)
+      end
+      expected_cases = %w[
+        NONEMPTY_ARGUMENTS MALFORMED_ARGUMENTS NULL_ARGUMENTS ARRAY_ARGUMENTS
+        MULTIPLE_TOOL_CALLS REPEATED_ROUND WRONG_TOOL_NAME
+      ]
+      assert(events.length == cases.length && cases.map { |item| item["case"] } == expected_cases &&
+             cases.all? { |item| item["accepted"] == false },
+             "P3 MTRO malformed-ingress raw case matrix drift")
+      {
+        "cases" => expected_cases,
+        "accepted_case_count" => cases.count { |item| item["accepted"] },
+        "intent_count" => cases.sum { |item| item["intent_count"] },
+        "dispatch_count" => cases.sum { |item| item["dispatch_count"] },
+        "docker_effect_count" => cases.sum { |item| item["docker_effect_count"] }
+      }
+    when "EXCLUSIVE_RESERVED_INGRESS_REJECTION"
+      rejections = payloads.call("GENERIC_SURFACE_REJECTION").map do |payload|
+        exact_keys(payload, %w[surface result], fact_id)
+      end
+      counts = exact_keys(payloads.call("TOOL_LOOP_COUNTS").fetch(0),
+                          %w[other_tool_call_count second_tool_call_count repeated_round_count], fact_id)
+      assert(events.length == 4 && rejections == [
+               {"surface" => "generic_registry", "result" => "REJECTED"},
+               {"surface" => "generic_execution", "result" => "REJECTED"},
+               {"surface" => "generic_docker", "result" => "REJECTED"}
+             ], "P3 MTRO reserved-ingress raw rejection drift")
+      {
+        "reserved_tool_name" => FIXED_ACTION.fetch("reserved_tool_name"),
+        "generic_registry" => rejections[0]["result"],
+        "generic_execution" => rejections[1]["result"],
+        "generic_docker" => rejections[2]["result"]
+      }.merge(counts)
+    when "HOST_DERIVED_AUTHORITY_BINDING"
+      assert(events.map { |event| event["event_type"] } == ["HOST_AUTHORITY_DERIVATION"],
+             "P3 MTRO Host-authority raw event sequence drift")
+      derivation = exact_keys(
+        events.first["payload"],
+        %w[
+          fixed_action agent_arguments host_derived_fields authorization_anchor invocation
+          truncated_identity_authoritative
+        ], fact_id
+      )
+      anchor_bytes = artifact_identity!(root, derivation["authorization_anchor"],
+                                        "P3 MTRO authorization anchor raw bytes",
+                                        under: TASK_EVIDENCE_ROOT)
+      invocation_bytes = artifact_identity!(root, derivation["invocation"],
+                                            "P3 MTRO invocation raw bytes",
+                                            under: TASK_EVIDENCE_ROOT)
+      {
+        "fixed_action" => derivation["fixed_action"],
+        "agent_arguments" => derivation["agent_arguments"],
+        "host_derived_fields" => derivation["host_derived_fields"],
+        "authorization_anchor_sha256" => Digest::SHA256.hexdigest(anchor_bytes),
+        "invocation_sha256" => Digest::SHA256.hexdigest(invocation_bytes),
+        "truncated_identity_authoritative" => derivation["truncated_identity_authoritative"]
+      }
+    when "SOURCE_TO_CLASS_CUSTODY"
+      bindings = payloads.call("CANDIDATE_MANIFEST_BINDING")
+      mappings = payloads.call("SOURCE_CLASS_MAPPING")
+      assert(bindings.length == 1 && !mappings.empty? && events.length == mappings.length + 1,
+             "P3 MTRO source-to-class raw event cardinality drift")
+      binding = exact_keys(bindings.first, %w[candidate_manifest changed_paths], fact_id)
+      mappings.each do |mapping|
+        mapping = exact_keys(mapping, %w[source_path class_artifact], fact_id)
+        assert(binding["changed_paths"].include?(mapping["source_path"]) &&
+               mapping["source_path"].end_with?(".java"),
+               "P3 MTRO source-to-class raw source path drift")
+        class_bytes = artifact_identity!(root, mapping["class_artifact"],
+                                         "P3 MTRO compiled class bytes",
+                                         under: TASK_EVIDENCE_ROOT)
+        assert(class_bytes.start_with?("\xCA\xFE\xBA\xBE".b),
+               "P3 MTRO source-to-class artifact is not a JVM class")
+      end
+      {
+        "candidate_manifest" => binding["candidate_manifest"],
+        "candidate_commit" => candidate["candidate_commit"],
+        "candidate_tree" => candidate["candidate_tree"],
+        "changed_paths" => binding["changed_paths"]
+      }
+    when "CUSTODY_OWNERSHIP_DRIFT_MATRIX"
+      cases = payloads.call("CUSTODY_DRIFT_CASE_RESULT").map do |payload|
+        exact_keys(payload, %w[case accepted], fact_id)
+      end
+      file_observations = payloads.call("CUSTODY_FILE_OBSERVATION")
+      expected_cases = %w[
+        MISSING DUPLICATE CROSS_PROJECT CROSS_OWNER TYPE_DRIFT LEGACY_FALLBACK
+        SYMLINK PATH_ESCAPE SIZE_DRIFT SHA256_DRIFT
+      ]
+      assert(events.length == 11 && cases.map { |item| item["case"] } == expected_cases &&
+             cases.all? { |item| item["accepted"] == false } && file_observations.length == 1,
+             "P3 MTRO custody raw drift matrix drift")
+      observed = exact_keys(
+        file_observations.first,
+        %w[artifact owner_type custody_mode non_symlink content_addressed], fact_id
+      )
+      custody_bytes = artifact_identity!(root, observed["artifact"],
+                                         "P3 MTRO custody file observation",
+                                         under: TASK_EVIDENCE_ROOT)
+      custody_path = Pathname.new(observed.dig("artifact", "path"))
+      custody_stat = File.lstat(custody_path)
+      {
+        "rejected_cases" => expected_cases, "false_accepts" => cases.count { |item| item["accepted"] },
+        "exact_owner_type" => observed["owner_type"],
+        "actual_length_reverified" => custody_bytes.bytesize == observed.dig("artifact", "byte_length"),
+        "actual_sha256_reverified" => Digest::SHA256.hexdigest(custody_bytes) ==
+          observed.dig("artifact", "sha256"),
+        "custody_mode" => format("%04o", custody_stat.mode & 0o7777),
+        "non_symlink" => !custody_stat.symlink? && observed["non_symlink"],
+        "content_addressed" => observed["content_addressed"] &&
+          custody_path.to_s.include?(observed.dig("artifact", "sha256"))
+      }
+    when "REAL_MYSQL_V034_APPLIED"
+      assert(events.map { |event| event["event_type"] } == ["MYSQL_SCHEMA_QUERY"],
+             "P3 MTRO MySQL raw event sequence drift")
+      query = exact_keys(events.first["payload"],
+                         %w[query_output mysql_container_id loopback_port spring_transaction_proxy], fact_id)
+      query_bytes = artifact_identity!(root, query["query_output"], "P3 MTRO MySQL schema query",
+                                       under: TASK_EVIDENCE_ROOT)
+      query_result = exact_keys(
+        parse_closed_json(query_bytes, "P3 MTRO MySQL schema query"),
+        %w[engine migration tables flyway_status], "P3 MTRO MySQL schema query"
+      )
+      {
+        "migration" => query_result["migration"], "table_count" => query_result["tables"].length,
+        "real_mysql" => query_result["engine"] == "MYSQL",
+        "spring_transaction_proxy" => query["spring_transaction_proxy"],
+        "flyway_status" => query_result["flyway_status"],
+        "mysql_container_id" => query["mysql_container_id"],
+        "loopback_port" => query["loopback_port"]
+      }
+    when "SPRING_AOP_TRANSACTION_ROLLBACK"
+      operations = payloads.call("TRANSACTION_OPERATION").map do |payload|
+        exact_keys(payload, %w[operation requires_new jdbc_store parent_row_lock], fact_id)
+      end
+      snapshots = payloads.call("ROLLBACK_SNAPSHOT")
+      assert(events.length == 6 && operations.map { |item| item["operation"] } == %w[
+               prepareIntent claimDispatch recordEffect beginCleanup completeTerminal
+             ] && snapshots.length == 1, "P3 MTRO Spring transaction raw sequence drift")
+      snapshot = exact_keys(snapshots.first, %w[before_intent_count after_intent_count], fact_id)
+      {
+        "operations" => operations.map { |item| item["operation"] },
+        "requires_new" => operations.all? { |item| item["requires_new"] },
+        "jdbc_store" => operations.all? { |item| item["jdbc_store"] },
+        "parent_row_lock" => operations.all? { |item| item["parent_row_lock"] },
+        "prepare_rollback" => snapshot["before_intent_count"] == 0 &&
+          snapshot["after_intent_count"] == 0 ?
+          "PASS_ZERO_DURABLE_INTENT" : "NON_PASS",
+        "result" => operations.all? { |item| item.values_at("requires_new", "jdbc_store", "parent_row_lock").all? } ?
+          "PASS" : "NON_PASS"
+      }
+    when "DURABLE_INTENT_CAS_TERMINAL"
+      transitions = payloads.call("STATE_TRANSITION").map do |payload|
+        exact_keys(payload, %w[from to cas_applied], fact_id)
+      end
+      properties = exact_keys(payloads.call("CAS_PROPERTIES").fetch(0), %w[
+                                immutable_identity_fields conditional_updates version_cas
+                                effect_outside_transaction
+                              ], fact_id)
+      terminal = exact_keys(payloads.call("TERMINAL_ROW_COUNT").fetch(0), %w[count], fact_id)
+      statuses = transitions.flat_map { |transition| [transition["from"], transition["to"]] }.compact.uniq
+      assert(events.length == transitions.length + 2 && transitions.all? { |item| item["cas_applied"] },
+             "P3 MTRO durable CAS raw transition drift")
+      properties.merge(
+        "statuses" => statuses, "terminal_count" => terminal["count"],
+        "result" => statuses == PRODUCT_ARCHITECTURE.fetch("allowed_statuses") &&
+          terminal["count"] == 1 ? "PASS" : "NON_PASS"
+      )
+    when "IDENTICAL_TERMINAL_REPLAY_LATE_LOSER"
+      attempts = payloads.call("TERMINAL_ATTEMPT").map do |payload|
+        exact_keys(payload, %w[kind result winner_sha256], fact_id)
+      end
+      assert(events.length == 3 && attempts.map { |item| item["kind"] } ==
+             %w[WINNER IDENTICAL_REPLAY CONFLICTING_LATE_LOSER],
+             "P3 MTRO terminal replay raw attempt order drift")
+      assert(attempts.all? { |item| item["winner_sha256"].is_a?(String) &&
+             item["winner_sha256"].match?(/\A[0-9a-f]{64}\z/) },
+             "P3 MTRO terminal replay winner SHA-256 drift")
+      {
+        "identical_replay" => attempts[1]["result"],
+        "conflicting_late_loser" => attempts[2]["result"],
+        "winner_unchanged" => attempts.map { |item| item["winner_sha256"] }.uniq.length == 1,
+        "result" => attempts[0]["result"] == "ACCEPTED" &&
+          attempts[1]["result"] == "IDEMPOTENT" && attempts[2]["result"] == "REJECTED" ?
+          "PASS" : "NON_PASS"
+      }
+    when "FRESH_PROCESS_WINDOW_INTENT", "FRESH_PROCESS_WINDOW_EFFECT",
+         "FRESH_PROCESS_WINDOW_CLEANUP"
+      assert(events.map { |event| event["event_type"] } == %w[
+               PROCESS_START RECOVERY_ENUMERATION RECOVERY_RESULT
+             ], "P3 MTRO fresh-process raw event sequence drift")
+      process = exact_keys(payloads.call("PROCESS_START").first,
+                           %w[pid start_time argv window fresh_process], fact_id)
+      enumeration = exact_keys(
+        payloads.call("RECOVERY_ENUMERATION").first,
+        %w[startup_global_enumeration caller_task_id_required machine_wide_jvm_discovery], fact_id
+      )
+      result = exact_keys(payloads.call("RECOVERY_RESULT").first, %w[exit_code], fact_id)
+      expected_window = {
+        "FRESH_PROCESS_WINDOW_INTENT" => "INTENT_COMMITTED_EFFECT_NOT_BEGUN",
+        "FRESH_PROCESS_WINDOW_EFFECT" => "EFFECT_MAY_HAVE_OCCURRED_TERMINAL_NOT_COMMITTED",
+        "FRESH_PROCESS_WINDOW_CLEANUP" => "CLEANUP_BEGUN_OR_COMPLETED_TERMINAL_NOT_COMMITTED"
+      }.fetch(fact_id)
+      assert(process["pid"].is_a?(Integer) && process["pid"] > 0 &&
+             process["start_time"].is_a?(Integer) && process["start_time"] > 0 &&
+             process["argv"].is_a?(Array) && !process["argv"].empty? &&
+             process["window"] == expected_window,
+             "P3 MTRO fresh-process raw process identity drift")
+      {
+        "window" => process["window"], "fresh_process" => process["fresh_process"],
+        "startup_global_enumeration" => enumeration["startup_global_enumeration"],
+        "caller_task_id_required" => enumeration["caller_task_id_required"],
+        "machine_wide_jvm_discovery" => enumeration["machine_wide_jvm_discovery"],
+        "result" => result["exit_code"] == 0 && process["fresh_process"] &&
+          enumeration["startup_global_enumeration"] &&
+          enumeration["caller_task_id_required"] == false &&
+          enumeration["machine_wide_jvm_discovery"] == false ? "PASS" : "NON_PASS"
+      }
+    when "CHECKPOINT_BEFORE_TERMINAL_REJECTED"
+      assert(events.map { |event| event["event_type"] } == %w[
+               TERMINAL_STATE CHECKPOINT_ATTEMPT CHECKPOINT_ROW_COUNT
+             ], "P3 MTRO pre-terminal checkpoint raw sequence drift")
+      terminal = exact_keys(payloads.call("TERMINAL_STATE").first, %w[committed], fact_id)
+      attempt = exact_keys(payloads.call("CHECKPOINT_ATTEMPT").first, %w[result], fact_id)
+      rows = exact_keys(payloads.call("CHECKPOINT_ROW_COUNT").first, %w[count], fact_id)
+      {
+        "terminal_committed" => terminal["committed"],
+        "checkpoint_attempt" => attempt["result"], "checkpoint_count" => rows["count"],
+        "result" => terminal["committed"] == false && attempt["result"] == "REJECTED" &&
+          rows["count"] == 0 ? "PASS" : "NON_PASS"
+      }
+    when "CHECKPOINT_AFTER_TERMINAL_EXACTLY_ONCE"
+      assert(events.map { |event| event["event_type"] } == %w[
+               TERMINAL_STATE CHECKPOINT_ATTEMPT REPEATED_RECOVERY CHECKPOINT_ROW_COUNT
+             ], "P3 MTRO post-terminal checkpoint raw sequence drift")
+      terminal = exact_keys(payloads.call("TERMINAL_STATE").first, %w[committed], fact_id)
+      attempt = exact_keys(payloads.call("CHECKPOINT_ATTEMPT").first, %w[result], fact_id)
+      repeated = exact_keys(payloads.call("REPEATED_RECOVERY").first, %w[result], fact_id)
+      rows = exact_keys(payloads.call("CHECKPOINT_ROW_COUNT").first, %w[count], fact_id)
+      {
+        "terminal_committed" => terminal["committed"], "first_checkpoint" => attempt["result"],
+        "repeated_recovery" => repeated["result"], "checkpoint_count" => rows["count"],
+        "p3_001_semantics" => rows["count"] == 1 ? "EXACTLY_ONCE" : "VIOLATED",
+        "result" => terminal["committed"] && attempt["result"] == "ACCEPTED" &&
+          repeated["result"] == "IDEMPOTENT" && rows["count"] == 1 ? "PASS" : "NON_PASS"
+      }
+    when "PINNED_OCI_PROFILE"
+      assert(events.map { |event| event["event_type"] } == ["DOCKER_CREATE_COMMAND"],
+             "P3 MTRO pinned OCI raw event sequence drift")
+      command = exact_keys(events.first["payload"],
+                           %w[argv task_activation_record prewrite_oci_probe], fact_id)
+      argv = array(command["argv"], "P3 MTRO pinned OCI argv")
+      assert(argv.length == 31 && argv.values_at(0, 1, 2, 3) == [
+               DOCKER_CLI.fetch("path"), "--host", DOCKER_ENDPOINT, "create"
+             ] && argv.values_at(4, 6, 8, 10, 12, 14, 15, 17, 19, 21, 23, 25, 27) == [
+               "--name", "--label", "--label", "--user", "--network", "--read-only",
+               "--cap-drop", "--security-opt", "--cpus", "--memory", "--pids-limit",
+               "--mount", "--entrypoint"
+             ] && argv.values_at(11, 13, 16, 18, 20, 22, 24, 28, 29, 30) == [
+               "65534:65534", "none", "ALL", "no-new-privileges", "1", "256m", "64",
+               "/usr/bin/sha256sum", IMAGE_ID, "/input/custody.bin"
+             ], "P3 MTRO pinned OCI create argv shape drift")
+      invocation_match = argv[5].match(/\Asourcelens-mtro-([0-9a-f]{64})\z/)
+      assert(invocation_match && argv[7] == "com.sourcelens.task_id=#{TASK_ID}" &&
+             argv[9] == "com.sourcelens.invocation_sha256=#{invocation_match[1]}",
+             "P3 MTRO pinned OCI name or labels drift")
+      mount_match = argv[26].match(
+        /\Atype=bind,source=(\/[^,]+),target=\/input\/custody\.bin,readonly\z/
+      )
+      assert(mount_match, "P3 MTRO pinned OCI mount syntax drift")
+      custody_path = literal_path!(Pathname.new(mount_match[1]),
+                                   "P3 MTRO pinned OCI custody mount", directory: false)
+      custody_bytes = File.binread(custody_path)
+      custody_sha256 = Digest::SHA256.hexdigest(custody_bytes)
+      assert(custody_path.to_s.start_with?("#{TASK_EVIDENCE_ROOT}/") &&
+             format("%04o", File.lstat(custody_path).mode & 0o7777) == "0444" &&
+             custody_path.to_s.include?(custody_sha256),
+             "P3 MTRO pinned OCI custody mount is not read-only content-addressed Evidence")
+      {
+        "docker_cli" => DOCKER_CLI, "docker_endpoint" => DOCKER_ENDPOINT,
+        "image_content_id" => IMAGE_ID, "entrypoint" => "/usr/bin/sha256sum",
+        "arguments" => ["/input/custody.bin"], "user" => "65534:65534", "network" => "none",
+        "read_only_rootfs" => argv.include?("--read-only"), "cap_drop" => "ALL",
+        "no_new_privileges" => argv.include?("no-new-privileges"),
+        "bounded_resources" => %w[--cpus --memory --pids-limit].all? { |token| argv.include?(token) },
+        "mount" => validate_decision!(root).dig(
+          "local_external_effect_authority", "action_container", "mount"
+        ), "task_activation_record" => command["task_activation_record"],
+        "prewrite_oci_probe" => command["prewrite_oci_probe"]
+      }
+    when "OCI_RAW_STDOUT_STDERR_EXIT"
+      assert(events.map { |event| event["event_type"] } == ["OCI_PROCESS_CAPTURE"],
+             "P3 MTRO OCI process raw event sequence drift")
+      capture = exact_keys(events.first["payload"],
+                           %w[stdout stderr inspect logs exit_code expected_sha256], fact_id)
+      stdout_bytes = artifact_identity!(root, capture["stdout"], "P3 MTRO OCI stdout raw",
+                                        under: TASK_EVIDENCE_ROOT)
+      output = stdout_bytes.match(/\A([0-9a-f]{64})  \/input\/custody\.bin\n\z/)
+      capture.merge("output_sha256" => output && output[1])
+    when "OCI_CLEANUP_ABSENCE"
+      steps = payloads.call("OCI_LIFECYCLE_STEP").map do |payload|
+        exact_keys(payload, %w[step], fact_id).fetch("step")
+      end
+      inventory_events = payloads.call("OCI_INVENTORY")
+      assert(steps == %w[create start wait inspect logs rm absence] && inventory_events.length == 1 &&
+             events.length == 8, "P3 MTRO OCI cleanup raw lifecycle drift")
+      inventory = exact_keys(inventory_events.first, %w[before after], fact_id)
+      before_bytes = artifact_identity!(root, inventory["before"], "P3 MTRO OCI inventory before",
+                                        under: TASK_EVIDENCE_ROOT)
+      after_bytes = artifact_identity!(root, inventory["after"], "P3 MTRO OCI inventory after",
+                                       under: TASK_EVIDENCE_ROOT)
+      before = exact_keys(parse_closed_json(before_bytes, "P3 MTRO OCI inventory before"),
+                          %w[task_object_ids foreign_object_ids pinned_image_present], fact_id)
+      after = exact_keys(parse_closed_json(after_bytes, "P3 MTRO OCI inventory after"),
+                         %w[task_object_ids foreign_object_ids pinned_image_present], fact_id)
+      {
+        "lifecycle" => steps, "exact_task_objects_absent" => after["task_object_ids"] == [],
+        "foreign_objects_unchanged" => before["foreign_object_ids"] == after["foreign_object_ids"],
+        "pinned_image_retained" => before["pinned_image_present"] && after["pinned_image_present"]
+      }
+    when "HOST_INDEPENDENT_SHA_MATCH"
+      assert(events.map { |event| event["event_type"] } == ["HOST_SHA_CAPTURE"],
+             "P3 MTRO Host SHA raw event sequence drift")
+      capture = exact_keys(events.first["payload"], %w[artifact host_stdout oci_stdout], fact_id)
+      artifact_bytes = artifact_identity!(root, capture["artifact"], "P3 MTRO actual artifact bytes",
+                                          under: TASK_EVIDENCE_ROOT)
+      host_bytes = artifact_identity!(root, capture["host_stdout"], "P3 MTRO Host SHA stdout",
+                                      under: TASK_EVIDENCE_ROOT)
+      oci_bytes = artifact_identity!(root, capture["oci_stdout"], "P3 MTRO OCI SHA stdout",
+                                     under: TASK_EVIDENCE_ROOT)
+      host = host_bytes.match(/\A([0-9a-f]{64})\n\z/)
+      oci = oci_bytes.match(/\A([0-9a-f]{64})  \/input\/custody\.bin\n\z/)
+      actual = Digest::SHA256.hexdigest(artifact_bytes)
+      {
+        "actual_artifact_sha256" => actual, "host_sha256" => host && host[1],
+        "oci_sha256" => oci && oci[1],
+        "exact_match" => host && oci && actual == host[1] && actual == oci[1]
+      }
+    else
+      assert(false, "P3 MTRO has no raw-event derivation for #{fact_id}")
+    end
+  end
+
+  def validate_fact_event_trace!(
+    root:, identity:, fact_id:, candidate:, activation_identity:, run_id:
+  )
+    label = "P3 MTRO #{fact_id} raw event trace"
+    bytes = artifact_identity!(root, identity, label, under: TASK_EVIDENCE_ROOT)
+    trace = exact_keys(
+      parse_closed_json(bytes, label),
+      %w[
+        schema_version record_type status task_id route_id execution_nonce authorization_id
+        candidate_commit candidate_tree task_activation_record run_id fact_id events attachments
+        created_at_utc
+      ],
+      label
+    )
+    events = array(trace["events"], "#{label} events")
+    assert(events.length >= 2, "#{label} lacks a begin and fact observation")
+    previous_hash = "0" * 64
+    events.each_with_index do |event, index|
+      event = exact_keys(
+        event, %w[sequence event_type payload previous_event_sha256 event_sha256],
+        "#{label} event #{index + 1}"
+      )
+      assert(event["sequence"] == index + 1 && event["event_type"].is_a?(String) &&
+             !event["event_type"].empty? && event["payload"].is_a?(Hash) &&
+             event["previous_event_sha256"] == previous_hash,
+             "#{label} event order or chain input drift")
+      material = {
+        "sequence" => event["sequence"], "event_type" => event["event_type"],
+        "payload" => event["payload"],
+        "previous_event_sha256" => event["previous_event_sha256"]
+      }
+      expected_hash = Digest::SHA256.hexdigest(JSON.generate(material))
+      assert(event["event_sha256"] == expected_hash, "#{label} event hash drift")
+      previous_hash = expected_hash
+    end
+    assert(events.first["event_type"] == "RUN_BEGIN" &&
+           events.first["payload"] == {"fact_id" => fact_id} &&
+           events.last["event_type"] == "FACT_OBSERVATION" &&
+           events.last["payload"].is_a?(Hash) && !events.last["payload"].empty?,
+           "#{label} begin or terminal observation event drift")
+    projection = derive_fact_projection!(
+      root: root, fact_id: fact_id, events: events[1...-1], candidate: candidate,
+      activation_identity: activation_identity
+    )
+    assert(events.last.fetch("payload") == projection,
+           "#{label} terminal claim differs from raw-event derivation")
+    attachments = array(trace["attachments"], "#{label} attachments")
+    expected_attachments = nested_artifact_identities(
+      events[1...-1].map { |event| event.fetch("payload") }
+    ).uniq
+    assert(attachments == expected_attachments,
+           "#{label} attachment inventory is not derived from its observation payload")
+    attachments.each do |attachment|
+      artifact_identity!(root, attachment, "#{label} attachment", under: TASK_EVIDENCE_ROOT)
+    end
+    assert(trace["schema_version"] == "p3-mtro-fact-event-trace/v1" &&
+           trace["record_type"] == "P3_MTRO_FACT_EVENT_TRACE" &&
+           trace["status"] == "CAPTURED" && trace["task_id"] == TASK_ID &&
+           trace["route_id"] == ROUTE_ID &&
+           trace["execution_nonce"] == candidate["execution_nonce"] &&
+           trace["authorization_id"] == candidate["authorization_id"] &&
+           trace["candidate_commit"] == candidate["candidate_commit"] &&
+           trace["candidate_tree"] == candidate["candidate_tree"] &&
+           trace["task_activation_record"] == activation_identity &&
+           trace["run_id"] == run_id && trace["fact_id"] == fact_id,
+           "#{label} authority drift")
+    Time.iso8601(trace.fetch("created_at_utc"))
+    {
+      "projection" => projection, "trace_identity" => identity, "attachments" => attachments,
+      "events" => events
+    }
+  end
+
+  def validate_mtro_oci_inspect!(inspect_bytes:, argv:, exit_code:)
+    inspect = parse_closed_json(inspect_bytes, "P3 MTRO OCI captured inspect")
+    assert(inspect.is_a?(Array) && inspect.length == 1 && inspect.first.is_a?(Hash),
+           "P3 MTRO OCI inspect is not a single container object")
+    assert(argv.is_a?(Array) && argv.length == 31,
+           "P3 MTRO OCI inspect cannot bind an invalid create argv")
+    object = inspect.first
+    container_name = argv.fetch(5)
+    invocation_sha256 = container_name.delete_prefix("sourcelens-mtro-")
+    mount_source = argv.fetch(26).match(
+      /\Atype=bind,source=(\/[^,]+),target=\/input\/custody\.bin,readonly\z/
+    )&.[](1)
+    labels = object.dig("Config", "Labels")
+    host = object["HostConfig"]
+    mounts = object["Mounts"]
+    assert(object["Id"].is_a?(String) && object["Id"].match?(/\A[0-9a-f]{64}\z/) &&
+           object["Name"] == "/#{container_name}" && object["Image"] == IMAGE_ID &&
+           object.dig("Config", "Image") == IMAGE_ID &&
+           labels.is_a?(Hash) && labels["com.sourcelens.task_id"] == TASK_ID &&
+           labels["com.sourcelens.invocation_sha256"] == invocation_sha256 &&
+           object.dig("Config", "User") == "65534:65534" &&
+           object.dig("Config", "Entrypoint") == ["/usr/bin/sha256sum"] &&
+           object.dig("Config", "Cmd") == ["/input/custody.bin"],
+           "P3 MTRO OCI inspect identity, image, labels or command drift")
+    assert(host.is_a?(Hash) && host["Privileged"] == false &&
+           [nil, []].include?(host["Binds"]) && [nil, []].include?(host["CapAdd"]) &&
+           host["NetworkMode"] == "none" && host["ReadonlyRootfs"] == true &&
+           host["Memory"] == 268_435_456 && host["NanoCpus"] == 1_000_000_000 &&
+           host["PidsLimit"] == 64 && host["CapDrop"] == ["ALL"] &&
+           [["no-new-privileges"], ["no-new-privileges:true"]].include?(host["SecurityOpt"]),
+           "P3 MTRO OCI inspect isolation or resource profile drift")
+    assert(mount_source && mounts.is_a?(Array) && mounts.length == 1 &&
+           mounts.first.is_a?(Hash) && mounts.first["Type"] == "bind" &&
+           mounts.first["Source"] == mount_source &&
+           mounts.first["Destination"] == "/input/custody.bin" &&
+           mounts.first["RW"] == false && object.dig("State", "ExitCode") == exit_code,
+           "P3 MTRO OCI inspect mount or process state drift")
+    object
+  end
+
+  def validate_observation_record!(root:, identity:, group:, candidate:, activation_identity:)
+    spec = OBSERVATION_RECORD_SPECS.fetch(group)
+    bytes = artifact_identity!(
+      root, identity, "P3 MTRO #{group} observation", under: TASK_EVIDENCE_ROOT
+    )
+    record = exact_keys(
+      parse_closed_json(bytes, "P3 MTRO #{group} observation"),
+      %w[
+        schema_version record_type status task_id route_id execution_nonce authorization_id
+        candidate_commit candidate_tree task_activation_record run_id covered_fact_ids
+        observations raw_artifacts created_at_utc
+      ],
+      "P3 MTRO #{group} observation"
+    )
+    observations = exact_keys(record["observations"], spec.fetch("facts"),
+                              "P3 MTRO #{group} observations")
+    raw_artifacts = exact_keys(record["raw_artifacts"], spec.fetch("facts"),
+                               "P3 MTRO #{group} raw artifacts")
+    assert(record["schema_version"] == spec.fetch("schema_version") &&
+           record["record_type"] == spec.fetch("record_type") && record["status"] == "PASS" &&
+           record["task_id"] == TASK_ID && record["route_id"] == ROUTE_ID &&
+           record["execution_nonce"] == candidate["execution_nonce"] &&
+           record["authorization_id"] == candidate["authorization_id"] &&
+           record["candidate_commit"] == candidate["candidate_commit"] &&
+           record["candidate_tree"] == candidate["candidate_tree"] &&
+           record["task_activation_record"] == activation_identity &&
+           record["run_id"].is_a?(String) &&
+           record["run_id"].match?(/\A[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}\z/) &&
+           record["covered_fact_ids"] == spec.fetch("facts"),
+           "P3 MTRO #{group} observation authority or coverage drift")
+    Time.iso8601(record.fetch("created_at_utc"))
+    derived = {}
+    derivation_artifacts = []
+    trace_events = {}
+    spec.fetch("facts").each do |fact_id|
+      trace_result = validate_fact_event_trace!(
+        root: root, identity: raw_artifacts.fetch(fact_id), fact_id: fact_id,
+        candidate: candidate, activation_identity: activation_identity, run_id: record["run_id"]
+      )
+      derived[fact_id] = trace_result.fetch("projection")
+      trace_events[fact_id] = trace_result.fetch("events")
+      derivation_artifacts << trace_result.fetch("trace_identity")
+      derivation_artifacts.concat(trace_result.fetch("attachments"))
+    end
+    assert(observations == derived,
+           "P3 MTRO #{group} observation is not mechanically projected from raw event traces")
+    if group == "oci_lifecycle"
+      raw = derived.fetch("OCI_RAW_STDOUT_STDERR_EXIT")
+      stdout_bytes = artifact_identity!(root, raw.fetch("stdout"),
+                                        "P3 MTRO OCI captured stdout", under: TASK_EVIDENCE_ROOT)
+      stderr_bytes = artifact_identity!(root, raw.fetch("stderr"),
+                                        "P3 MTRO OCI captured stderr", under: TASK_EVIDENCE_ROOT)
+      inspect_bytes = artifact_identity!(root, raw.fetch("inspect"),
+                                         "P3 MTRO OCI captured inspect", under: TASK_EVIDENCE_ROOT)
+      logs_bytes = artifact_identity!(root, raw.fetch("logs"),
+                                      "P3 MTRO OCI captured logs", under: TASK_EVIDENCE_ROOT)
+      stdout_match = stdout_bytes.match(/\A([0-9a-f]{64})  \/input\/custody\.bin\n\z/)
+      pinned_command = trace_events.fetch("PINNED_OCI_PROFILE").first.fetch("payload")
+      validate_mtro_oci_inspect!(
+        inspect_bytes: inspect_bytes, argv: pinned_command.fetch("argv"),
+        exit_code: raw.fetch("exit_code")
+      )
+      assert(stdout_match && raw["output_sha256"] == stdout_match[1] &&
+             raw["expected_sha256"] == stdout_match[1] && raw["exit_code"] == 0 &&
+             stderr_bytes.empty? && logs_bytes == stdout_bytes,
+             "P3 MTRO OCI fact is not derived from stdout, stderr, inspect and logs")
+      host_match = derived.fetch("HOST_INDEPENDENT_SHA_MATCH")
+      assert(%w[actual_artifact_sha256 host_sha256 oci_sha256].all? { |key|
+               host_match[key] == stdout_match[1]
+             } && host_match["exact_match"] == true,
+             "P3 MTRO Host/OCI SHA fact is not derived from captured OCI stdout")
+    end
+    {"record" => record, "derivation_artifacts" => derivation_artifacts.uniq}
+  end
+
+  def validate_maven_run_receipt!(root:, identity:, kind:, candidate:, activation_identity:)
+    label = "P3 MTRO #{kind} Maven receipt"
+    bytes = artifact_identity!(root, identity, label, under: TASK_EVIDENCE_ROOT)
+    receipt = exact_keys(
+      parse_closed_json(bytes, label),
+      %w[
+        schema_version record_type status receipt_kind task_id route_id execution_nonce
+        authorization_id candidate_commit candidate_tree task_activation_record run_id cwd argv
+        jdk_major sandbox selector observation_records junit_reports passed_test_cases
+        tests failures errors skipped
+        stdout stderr exit_code started_at_utc finished_at_utc
+      ],
+      label
+    )
+    expected_observation_keys = kind == "FOCUSED_MAVEN" ? OBSERVATION_RECORD_SPECS.keys : []
+    observation_records = exact_keys(
+      receipt["observation_records"], expected_observation_keys, "#{label} observation records"
+    )
+    observation_records.each do |group, observation_identity|
+      exact_keys(observation_identity, %w[path byte_length sha256], "#{label} #{group} identity")
+    end
+    reports = array(receipt["junit_reports"], "#{label} JUnit reports")
+    assert(!reports.empty? && reports.uniq.length == reports.length,
+           "#{label} JUnit report inventory is empty or duplicated")
+    totals = {"tests" => 0, "failures" => 0, "errors" => 0, "skipped" => 0}
+    passed_test_cases = []
+    reports.each do |report_identity|
+      report_bytes = artifact_identity!(root, report_identity, "#{label} JUnit XML",
+                                        under: TASK_EVIDENCE_ROOT)
+      document = REXML::Document.new(report_bytes)
+      suite = document.root
+      assert(suite && suite.name == "testsuite", "#{label} JUnit XML root drift")
+      totals.each_key do |key|
+        value = suite.attributes[key]
+        assert(value.is_a?(String) && value.match?(/\A\d+\z/),
+               "#{label} JUnit #{key} is invalid")
+        totals[key] += Integer(value, 10)
+      end
+      suite.elements.each("testcase") do |testcase|
+        classname = testcase.attributes["classname"]
+        name = testcase.attributes["name"]
+        assert(classname.is_a?(String) && !classname.empty? &&
+               name.is_a?(String) && !name.empty?, "#{label} JUnit testcase identity drift")
+        failed = testcase.elements["failure"] || testcase.elements["error"] ||
+          testcase.elements["skipped"]
+        passed_test_cases << "#{classname}##{name}" unless failed
+      end
+    rescue REXML::ParseException => e
+      raise P3MinimumTrustTransactionalOciFinalProductRouteValidationError,
+            "#{label} JUnit XML invalid: #{e.message}"
+    end
+    stdout_bytes = artifact_identity!(root, receipt["stdout"], "#{label} stdout",
+                                      under: TASK_EVIDENCE_ROOT)
+    artifact_identity!(root, receipt["stderr"], "#{label} stderr", under: TASK_EVIDENCE_ROOT)
+    started = Time.iso8601(receipt.fetch("started_at_utc"))
+    finished = Time.iso8601(receipt.fetch("finished_at_utc"))
+    sandbox = exact_keys(
+      receipt["sandbox"], %w[path sha256 network_policy], "#{label} sandbox"
+    )
+    argv = array(receipt["argv"], "#{label} argv")
+    selector = kind == "FOCUSED_MAVEN" ? FACT_TEST_CASES.values : ["ALL_BACKEND_SPRING_TESTS"]
+    selector_sha256 = Digest::SHA256.hexdigest(JSON.generate(selector))
+    assert(receipt["schema_version"] == "p3-mtro-run-receipt/v1" &&
+           receipt["record_type"] == "P3_MTRO_RUN_RECEIPT" && receipt["status"] == "PASS" &&
+           receipt["receipt_kind"] == kind && receipt["task_id"] == TASK_ID &&
+           receipt["route_id"] == ROUTE_ID &&
+           receipt["execution_nonce"] == candidate["execution_nonce"] &&
+           receipt["authorization_id"] == candidate["authorization_id"] &&
+           receipt["candidate_commit"] == candidate["candidate_commit"] &&
+           receipt["candidate_tree"] == candidate["candidate_tree"] &&
+           receipt["task_activation_record"] == activation_identity &&
+           receipt["run_id"].is_a?(String) &&
+           receipt["run_id"].match?(/\A[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}\z/) &&
+           receipt["cwd"] == TASK_WORKTREE && argv.all? { |arg| arg.is_a?(String) && !arg.empty? } &&
+           !argv.empty? && (argv.include?("--offline") || argv.include?("-o")) &&
+           argv.include?("-Dsourcelens.mtro.selector.sha256=#{selector_sha256}") &&
+           receipt["jdk_major"] == 17 && sandbox == {
+             "path" => "/usr/bin/sandbox-exec",
+             "sha256" => "7fc7dcd7782e1abd52b11f6c512bdfb0c09d2502b619c483fdfce554c472352e",
+             "network_policy" => "DENY_ALL_EXCEPT_EXACT_TASK_MYSQL_LOOPBACK"
+           } && receipt["selector"] == selector &&
+           receipt["passed_test_cases"] == passed_test_cases.sort &&
+           FACT_TEST_CASES.values.all? { |test_case| passed_test_cases.include?(test_case) } &&
+           receipt.slice("tests", "failures", "errors", "skipped") == totals &&
+           totals["tests"] > 0 && totals["failures"] == 0 && totals["errors"] == 0 &&
+           receipt["exit_code"] == 0 && !stdout_bytes.empty? && started <= finished,
+           "#{label} execution or derived JUnit result drift")
+    receipt
+  end
+
+  def validate_forbidden_effects_receipt!(root:, identity:, candidate:, activation_identity:)
+    label = "P3 MTRO forbidden external effects receipt"
+    bytes = artifact_identity!(root, identity, label, under: TASK_EVIDENCE_ROOT)
+    receipt = exact_keys(
+      parse_closed_json(bytes, label),
+      %w[
+        schema_version record_type status task_id route_id execution_nonce authorization_id
+        candidate_commit candidate_tree task_activation_record observation_started_at_utc
+        observation_finished_at_utc effects violations observer_artifacts created_at_utc
+      ],
+      label
+    )
+    observer_artifacts = array(receipt["observer_artifacts"], "#{label} observer artifacts")
+    assert(observer_artifacts.length == 1, "#{label} requires one closed observer trace")
+    observer_identity = observer_artifacts.first
+    observer_bytes = artifact_identity!(root, observer_identity, "#{label} observer trace",
+                                        under: TASK_EVIDENCE_ROOT)
+    observer = exact_keys(
+      parse_closed_json(observer_bytes, "#{label} observer trace"),
+      %w[
+        schema_version record_type status task_id route_id candidate_commit candidate_tree
+        task_activation_record events observation_started_at_utc observation_finished_at_utc
+        created_at_utc
+      ],
+      "#{label} observer trace"
+    )
+    decision_effects = validate_decision!(root).fetch("forbidden_external_effects")
+    events = array(observer["events"], "#{label} observer events")
+    assert(events.length == decision_effects.length, "#{label} observer event cardinality drift")
+    derived_effects = {}
+    events.each_with_index do |event, index|
+      event = exact_keys(event, %w[sequence effect observed raw_artifact],
+                         "#{label} observer event #{index + 1}")
+      assert(event["sequence"] == index + 1 &&
+             event["effect"] == decision_effects.keys[index] &&
+             [true, false].include?(event["observed"]),
+             "#{label} observer event order or type drift")
+      raw_bytes = artifact_identity!(root, event["raw_artifact"],
+                                     "#{label} #{event['effect']} raw trace",
+                                     under: TASK_EVIDENCE_ROOT)
+      raw_result = derive_external_effect_observation!(
+        raw_bytes, event["effect"], "#{label} #{event['effect']} raw trace"
+      )
+      derived_observed = raw_result.fetch("observed")
+      assert(event["observed"] == derived_observed,
+             "#{label} #{event['effect']} boolean differs from raw observer output")
+      derived_effects[event["effect"]] = derived_observed
+    end
+    observer_started = Time.iso8601(observer.fetch("observation_started_at_utc"))
+    observer_finished = Time.iso8601(observer.fetch("observation_finished_at_utc"))
+    Time.iso8601(observer.fetch("created_at_utc"))
+    assert(observer["schema_version"] == "p3-mtro-external-effect-observer-trace/v1" &&
+           observer["record_type"] == "P3_MTRO_EXTERNAL_EFFECT_OBSERVER_TRACE" &&
+           observer["status"] == "CAPTURED" && observer["task_id"] == TASK_ID &&
+           observer["route_id"] == ROUTE_ID &&
+           observer["candidate_commit"] == candidate["candidate_commit"] &&
+           observer["candidate_tree"] == candidate["candidate_tree"] &&
+           observer["task_activation_record"] == activation_identity &&
+           observer_started <= observer_finished,
+           "#{label} observer trace authority or interval drift")
+    started = Time.iso8601(receipt.fetch("observation_started_at_utc"))
+    finished = Time.iso8601(receipt.fetch("observation_finished_at_utc"))
+    Time.iso8601(receipt.fetch("created_at_utc"))
+    assert(receipt["schema_version"] == "p3-mtro-forbidden-effects-receipt/v1" &&
+           receipt["record_type"] == "P3_MTRO_FORBIDDEN_EFFECTS_RECEIPT" &&
+           receipt["status"] == "PASS" && receipt["task_id"] == TASK_ID &&
+           receipt["route_id"] == ROUTE_ID &&
+           receipt["execution_nonce"] == candidate["execution_nonce"] &&
+           receipt["authorization_id"] == candidate["authorization_id"] &&
+           receipt["candidate_commit"] == candidate["candidate_commit"] &&
+           receipt["candidate_tree"] == candidate["candidate_tree"] &&
+           receipt["task_activation_record"] == activation_identity &&
+           receipt["effects"] == derived_effects &&
+           receipt["violations"] == derived_effects.select { |_effect, observed| observed }.keys &&
+           receipt["effects"] == decision_effects && receipt["violations"] == [] &&
+           started == observer_started && finished == observer_finished && started <= finished,
+           "#{label} authority or observed-effect drift")
+    receipt
+  end
+
+  def derive_external_effect_observation!(bytes, effect, label)
+    raw = exact_keys(
+        parse_closed_json(bytes, label),
+        %w[
+          schema_version record_type effect observer argv observed_events
+          observation_started_at_utc observation_finished_at_utc
+        ],
+        label
+      )
+      raw_events = array(raw["observed_events"], "#{label} observed events")
+      raw_started = Time.iso8601(raw.fetch("observation_started_at_utc"))
+      raw_finished = Time.iso8601(raw.fetch("observation_finished_at_utc"))
+      assert(raw["schema_version"] == "p3-mtro-external-effect-raw-observation/v1" &&
+             raw["record_type"] == "P3_MTRO_EXTERNAL_EFFECT_RAW_OBSERVATION" &&
+             raw["effect"] == effect &&
+             raw["observer"] == "TASK_SCOPED_OS_AND_PROCESS_OBSERVER" &&
+             raw["argv"].is_a?(Array) && !raw["argv"].empty? &&
+             raw["argv"].all? { |arg| arg.is_a?(String) && !arg.empty? } &&
+             raw_events.all? { |observed_event| observed_event.is_a?(String) && !observed_event.empty? } &&
+             raw_started <= raw_finished,
+             "#{label} raw observer semantics drift")
+    {"observed" => !raw_events.empty?, "started_at" => raw_started, "finished_at" => raw_finished}
+  end
+
+  def validate_canonical_replay_raw_bundle!(
+    root:, identity:, candidate:, activation_identity:, integration_identity:,
+    canonical_commit:, canonical_tree:
+  )
+    label = "P3 MTRO canonical replay raw bundle"
+    bytes = artifact_identity!(root, identity, label, under: TASK_EVIDENCE_ROOT)
+    bundle = exact_keys(
+      parse_closed_json(bytes, label),
+      %w[
+        schema_version record_type status task_id route_id candidate_commit candidate_tree
+        canonical_commit canonical_tree integration_record task_activation_record
+        focused_test_receipt full_test_receipt forbidden_external_effects_receipt
+        replay_run_id created_at_utc
+      ],
+      label
+    )
+    candidate_manifest_bytes = artifact_identity!(
+      root, candidate.fetch("manifest"), "P3 MTRO replay candidate manifest",
+      under: TASK_EVIDENCE_ROOT
+    )
+    candidate_manifest = parse_closed_json(candidate_manifest_bytes,
+                                           "P3 MTRO replay candidate manifest")
+    assert(%w[focused_test_receipt full_test_receipt forbidden_external_effects_receipt].all? { |key|
+             bundle[key] != candidate_manifest[key]
+           }, "P3 MTRO canonical replay reused pre-integration candidate receipts")
+    focused = validate_maven_run_receipt!(
+      root: root, identity: bundle["focused_test_receipt"], kind: "FOCUSED_MAVEN",
+      candidate: candidate, activation_identity: activation_identity
+    )
+    OBSERVATION_RECORD_SPECS.each_key do |group|
+      observation = validate_observation_record!(
+        root: root, identity: focused.fetch("observation_records").fetch(group), group: group,
+        candidate: candidate, activation_identity: activation_identity
+      )
+      assert(observation.fetch("record")["run_id"] == focused["run_id"],
+             "P3 MTRO canonical replay observation run drift")
+    end
+    full = validate_maven_run_receipt!(
+      root: root, identity: bundle["full_test_receipt"], kind: "FULL_MAVEN",
+      candidate: candidate, activation_identity: activation_identity
+    )
+    forbidden = validate_forbidden_effects_receipt!(
+      root: root, identity: bundle["forbidden_external_effects_receipt"],
+      candidate: candidate, activation_identity: activation_identity
+    )
+    integration_bytes = artifact_identity!(root, integration_identity,
+                                           "P3 MTRO replay integration record",
+                                           under: TASK_EVIDENCE_ROOT)
+    integration = parse_closed_json(integration_bytes, "P3 MTRO replay integration record")
+    integrated_at = Time.iso8601(integration.fetch("integrated_at_utc"))
+    bundle_created = Time.iso8601(bundle.fetch("created_at_utc"))
+    replay_starts = [focused, full].map { |receipt| Time.iso8601(receipt.fetch("started_at_utc")) }
+    replay_finishes = [focused, full].map { |receipt| Time.iso8601(receipt.fetch("finished_at_utc")) }
+    forbidden_started = Time.iso8601(forbidden.fetch("observation_started_at_utc"))
+    forbidden_finished = Time.iso8601(forbidden.fetch("observation_finished_at_utc"))
+    assert(bundle["schema_version"] == "p3-mtro-canonical-replay-raw-bundle/v1" &&
+           bundle["record_type"] == "P3_MTRO_CANONICAL_REPLAY_RAW_BUNDLE" &&
+           bundle["status"] == "PASS" && bundle["task_id"] == TASK_ID &&
+           bundle["route_id"] == ROUTE_ID &&
+           bundle["candidate_commit"] == candidate["candidate_commit"] &&
+           bundle["candidate_tree"] == candidate["candidate_tree"] &&
+           bundle["canonical_commit"] == canonical_commit &&
+           bundle["canonical_tree"] == canonical_tree &&
+           bundle["integration_record"] == integration_identity &&
+           bundle["task_activation_record"] == activation_identity &&
+           bundle["replay_run_id"] == focused["run_id"] &&
+           (replay_starts + [forbidden_started]).all? { |time| time > integrated_at } &&
+           (replay_finishes + [forbidden_finished]).all? { |time| time <= bundle_created },
+           "P3 MTRO canonical replay raw bundle authority drift")
+    bundle
+  end
+
+  def validate_acceptance_fact_observations!(
+    root:, fact_id:, observations:, raw_evidence:, runtime_records:, runtime_channel:, bundle:
+  )
+    decision = validate_decision!(root)
+    candidate = runtime_records.fetch("candidate_freeze_record")
+    activation = runtime_records.fetch("task_activation_record")
+    manifest_identity = candidate.fetch("manifest")
+    manifest_bytes = artifact_identity!(root, manifest_identity,
+                                        "P3 MTRO fact candidate manifest",
+                                        under: TASK_EVIDENCE_ROOT)
+    manifest = parse_closed_json(manifest_bytes, "P3 MTRO fact candidate manifest")
+    focused_identity = manifest.fetch("focused_test_receipt")
+    expected_raw_evidence = nil
+    available_raw_evidence = []
+    observation_group = OBSERVATION_RECORD_SPECS.find do |_group, spec|
+      spec.fetch("facts").include?(fact_id)
+    end
+    if observation_group
+      group, = observation_group
+      focused = validate_maven_run_receipt!(
+        root: root, identity: focused_identity, kind: "FOCUSED_MAVEN",
+        candidate: candidate, activation_identity: runtime_channel.fetch("task_activation_record")
+      )
+      observation_identity = focused.fetch("observation_records").fetch(group)
+      record_result = validate_observation_record!(
+        root: root, identity: observation_identity, group: group, candidate: candidate,
+        activation_identity: runtime_channel.fetch("task_activation_record")
+      )
+      record = record_result.fetch("record")
+      derived_observation = record.fetch("observations").fetch(fact_id).merge(
+        "evidence" => record.fetch("raw_artifacts").fetch(fact_id)
+      )
+      derived_observation["source_to_class_evidence"] = observation_identity if
+        fact_id == "SOURCE_TO_CLASS_CUSTODY"
+      assert(record["run_id"] == focused["run_id"] && derived_observation == observations,
+             "P3 MTRO #{fact_id} is not derived from its typed observation record")
+      if group == "source_custody"
+        assert(observation_identity == manifest["source_to_class_evidence"],
+               "P3 MTRO source-custody observation differs from candidate custody Evidence")
+        expected_raw_evidence = [manifest_identity, observation_identity, focused_identity]
+      else
+        expected_raw_evidence = [observation_identity, focused_identity]
+      end
+      available_raw_evidence = expected_raw_evidence +
+        record_result.fetch("derivation_artifacts") +
+        [focused.fetch("stdout"), focused.fetch("stderr")] + focused.fetch("junit_reports")
+    elsif %w[FOCUSED_MAVEN_TESTS FULL_MAVEN_TESTS].include?(fact_id)
+      kind = fact_id == "FOCUSED_MAVEN_TESTS" ? "FOCUSED_MAVEN" : "FULL_MAVEN"
+      receipt_identity = kind == "FOCUSED_MAVEN" ? focused_identity : manifest.fetch("full_test_receipt")
+      receipt = validate_maven_run_receipt!(
+        root: root, identity: receipt_identity, kind: kind, candidate: candidate,
+        activation_identity: runtime_channel.fetch("task_activation_record")
+      )
+      expected_raw_evidence = [receipt_identity]
+      available_raw_evidence = expected_raw_evidence + [receipt.fetch("stdout"), receipt.fetch("stderr")] +
+        receipt.fetch("junit_reports")
+    elsif fact_id == "ZERO_FORBIDDEN_EXTERNAL_EFFECTS"
+      receipt_identity = manifest.fetch("forbidden_external_effects_receipt")
+      receipt = validate_forbidden_effects_receipt!(
+        root: root, identity: receipt_identity, candidate: candidate,
+        activation_identity: runtime_channel.fetch("task_activation_record")
+      )
+      expected_raw_evidence = [receipt_identity]
+      available_raw_evidence = expected_raw_evidence + receipt.fetch("observer_artifacts")
+    elsif fact_id == "CANONICAL_REPLAY"
+      expected_raw_evidence = [
+        bundle.fetch("integration"), bundle.fetch("canonical_replay"),
+        runtime_records.fetch("canonical_replay_record").fetch("raw_replay_bundle")
+      ]
+      available_raw_evidence = expected_raw_evidence
+    else
+      assert(false, "P3 MTRO unknown acceptance fact #{fact_id.inspect}")
+    end
+    assert(raw_evidence == expected_raw_evidence,
+           "P3 MTRO #{fact_id} raw Evidence set is not the exact typed derivation plan")
+    raw_includes = lambda do |identity, label|
+      assert(identity.is_a?(Hash) && available_raw_evidence.include?(identity),
+             "P3 MTRO #{fact_id} does not derive #{label} from typed raw Evidence")
+    end
+
+    case fact_id
+    when "ACTUAL_AGENT_PRODUCTION_DECODE_RUNTIME_POSITIVE"
+      observations = exact_keys(
+        observations,
+        %w[
+          agent_task_type runtime_entrypoint production_decode_path tool_call_count
+          agent_authority_bearing_fields terminal_projection intent_count dispatch_count
+          docker_effect_count evidence
+        ], fact_id
+      )
+      assert(observations == {
+               "agent_task_type" => FIXED_ACTION.fetch("agent_task_type"),
+               "runtime_entrypoint" => "AgentRuntime",
+               "production_decode_path" => "LlmClient",
+               "tool_call_count" => 1,
+               "agent_authority_bearing_fields" => [],
+               "terminal_projection" => "COMMITTED_TERMINAL_MINIMUM_ONLY",
+               "intent_count" => 1,
+               "dispatch_count" => 1,
+               "docker_effect_count" => 1,
+               "evidence" => observations["evidence"]
+             }, "P3 MTRO actual-Agent positive-path fact drift")
+      raw_includes.call(observations["evidence"], "actual-Agent positive-path Evidence")
+    when "MALFORMED_INGRESS_ZERO_EFFECT"
+      observations = exact_keys(
+        observations,
+        %w[cases accepted_case_count intent_count dispatch_count docker_effect_count evidence],
+        fact_id
+      )
+      assert(observations["cases"] == %w[
+               NONEMPTY_ARGUMENTS MALFORMED_ARGUMENTS NULL_ARGUMENTS ARRAY_ARGUMENTS
+               MULTIPLE_TOOL_CALLS REPEATED_ROUND WRONG_TOOL_NAME
+             ] && observations["accepted_case_count"] == 0 &&
+             observations["intent_count"] == 0 && observations["dispatch_count"] == 0 &&
+             observations["docker_effect_count"] == 0,
+             "P3 MTRO malformed-ingress zero-effect fact drift")
+      raw_includes.call(observations["evidence"], "malformed-ingress matrix")
+    when "EXCLUSIVE_RESERVED_INGRESS_REJECTION"
+      observations = exact_keys(
+        observations,
+        %w[
+          reserved_tool_name generic_registry generic_execution generic_docker
+          other_tool_call_count second_tool_call_count repeated_round_count evidence
+        ], fact_id
+      )
+      assert(observations["reserved_tool_name"] == FIXED_ACTION.fetch("reserved_tool_name") &&
+             observations["generic_registry"] == "REJECTED" &&
+             observations["generic_execution"] == "REJECTED" &&
+             observations["generic_docker"] == "REJECTED" &&
+             observations["other_tool_call_count"] == 0 &&
+             observations["second_tool_call_count"] == 0 &&
+             observations["repeated_round_count"] == 0,
+             "P3 MTRO exclusive reserved-ingress fact drift")
+      raw_includes.call(observations["evidence"], "reserved-ingress rejection matrix")
+    when "HOST_DERIVED_AUTHORITY_BINDING"
+      observations = exact_keys(
+        observations,
+        %w[
+          fixed_action agent_arguments host_derived_fields authorization_anchor_sha256
+          invocation_sha256 truncated_identity_authoritative evidence
+        ], fact_id
+      )
+      assert(observations["fixed_action"] == FIXED_ACTION && observations["agent_arguments"] == {} &&
+             observations["host_derived_fields"] == %w[
+               project_id user_id conversation_id agent_task_id scan_task_id execution_task_id
+               artifact_id action_id authorization_anchor custody_identity image executable argv
+             ] && observations["authorization_anchor_sha256"].match?(/\A[0-9a-f]{64}\z/) &&
+             observations["invocation_sha256"].match?(/\A[0-9a-f]{64}\z/) &&
+             observations["truncated_identity_authoritative"] == false,
+             "P3 MTRO Host-derived authority fact drift")
+      raw_includes.call(observations["evidence"], "Host-derived authority Evidence")
+    when "SOURCE_TO_CLASS_CUSTODY"
+      observations = exact_keys(
+        observations,
+        %w[
+          candidate_manifest source_to_class_evidence candidate_commit candidate_tree
+          changed_paths evidence
+        ], fact_id
+      )
+      assert(observations["candidate_manifest"] == manifest_identity &&
+             observations["source_to_class_evidence"] == manifest["source_to_class_evidence"] &&
+             observations["candidate_commit"] == candidate["candidate_commit"] &&
+             observations["candidate_tree"] == candidate["candidate_tree"] &&
+             observations["changed_paths"] == manifest["changed_paths"],
+             "P3 MTRO source-to-class custody fact drift")
+      raw_includes.call(manifest_identity, "candidate manifest")
+      raw_includes.call(manifest["source_to_class_evidence"], "source-to-class Evidence")
+      raw_includes.call(observations["evidence"], "source-to-class verifier output")
+    when "CUSTODY_OWNERSHIP_DRIFT_MATRIX"
+      observations = exact_keys(
+        observations,
+        %w[
+          rejected_cases false_accepts exact_owner_type actual_length_reverified
+          actual_sha256_reverified custody_mode non_symlink content_addressed evidence
+        ], fact_id
+      )
+      assert(observations["rejected_cases"] == %w[
+               MISSING DUPLICATE CROSS_PROJECT CROSS_OWNER TYPE_DRIFT LEGACY_FALLBACK
+               SYMLINK PATH_ESCAPE SIZE_DRIFT SHA256_DRIFT
+             ] && observations["false_accepts"] == 0 &&
+             observations["exact_owner_type"] == "SCAN_TASK_ARCHITECTURE_OVERVIEW" &&
+             observations["actual_length_reverified"] == true &&
+             observations["actual_sha256_reverified"] == true &&
+             observations["custody_mode"] == "0444" && observations["non_symlink"] == true &&
+             observations["content_addressed"] == true,
+             "P3 MTRO custody ownership/drift fact drift")
+      raw_includes.call(observations["evidence"], "custody ownership/drift matrix")
+    when "REAL_MYSQL_V034_APPLIED"
+      observations = exact_keys(
+        observations,
+        %w[
+          migration table_count real_mysql spring_transaction_proxy flyway_status
+          mysql_container_id loopback_port evidence
+        ], fact_id
+      )
+      assert(observations["migration"] == PRODUCT_ARCHITECTURE.fetch("migration") &&
+             observations["table_count"] == 1 && observations["real_mysql"] == true &&
+             observations["spring_transaction_proxy"] == true &&
+             observations["flyway_status"] == "PASS" &&
+             observations["mysql_container_id"] == activation["mysql_container_id"] &&
+             observations["loopback_port"] == activation["loopback_port"],
+             "P3 MTRO real MySQL V034 fact drift")
+      raw_includes.call(observations["evidence"], "real MySQL V034 Evidence")
+    when "SPRING_AOP_TRANSACTION_ROLLBACK"
+      observations = exact_keys(
+        observations,
+        %w[operations requires_new jdbc_store parent_row_lock prepare_rollback result evidence],
+        fact_id
+      )
+      assert(observations["operations"] == %w[
+               prepareIntent claimDispatch recordEffect beginCleanup completeTerminal
+             ] && observations["requires_new"] == true && observations["jdbc_store"] == true &&
+             observations["parent_row_lock"] == true &&
+             observations["prepare_rollback"] == "PASS_ZERO_DURABLE_INTENT" &&
+             observations["result"] == "PASS",
+             "P3 MTRO Spring AOP transaction fact drift")
+      raw_includes.call(observations["evidence"], "Spring AOP rollback Evidence")
+    when "DURABLE_INTENT_CAS_TERMINAL"
+      observations = exact_keys(
+        observations,
+        %w[
+          statuses immutable_identity_fields conditional_updates version_cas
+          effect_outside_transaction terminal_count result evidence
+        ], fact_id
+      )
+      assert(observations["statuses"] == PRODUCT_ARCHITECTURE.fetch("allowed_statuses") &&
+             observations["immutable_identity_fields"] == true &&
+             observations["conditional_updates"] == true && observations["version_cas"] == true &&
+             observations["effect_outside_transaction"] == true &&
+             observations["terminal_count"] == 1 && observations["result"] == "PASS",
+             "P3 MTRO durable intent/CAS terminal fact drift")
+      raw_includes.call(observations["evidence"], "durable intent/CAS terminal Evidence")
+    when "IDENTICAL_TERMINAL_REPLAY_LATE_LOSER"
+      observations = exact_keys(
+        observations,
+        %w[identical_replay conflicting_late_loser winner_unchanged result evidence], fact_id
+      )
+      assert(observations["identical_replay"] == "IDEMPOTENT" &&
+             observations["conflicting_late_loser"] == "REJECTED" &&
+             observations["winner_unchanged"] == true && observations["result"] == "PASS",
+             "P3 MTRO terminal winner/replay fact drift")
+      raw_includes.call(observations["evidence"], "terminal replay/loser Evidence")
+    when "FRESH_PROCESS_WINDOW_INTENT", "FRESH_PROCESS_WINDOW_EFFECT",
+         "FRESH_PROCESS_WINDOW_CLEANUP"
+      observations = exact_keys(
+        observations,
+        %w[
+          window fresh_process startup_global_enumeration caller_task_id_required
+          machine_wide_jvm_discovery result evidence
+        ], fact_id
+      )
+      expected_window = {
+        "FRESH_PROCESS_WINDOW_INTENT" => "INTENT_COMMITTED_EFFECT_NOT_BEGUN",
+        "FRESH_PROCESS_WINDOW_EFFECT" => "EFFECT_MAY_HAVE_OCCURRED_TERMINAL_NOT_COMMITTED",
+        "FRESH_PROCESS_WINDOW_CLEANUP" => "CLEANUP_BEGUN_OR_COMPLETED_TERMINAL_NOT_COMMITTED"
+      }.fetch(fact_id)
+      assert(observations["window"] == expected_window && observations["fresh_process"] == true &&
+             observations["startup_global_enumeration"] == true &&
+             observations["caller_task_id_required"] == false &&
+             observations["machine_wide_jvm_discovery"] == false &&
+             observations["result"] == "PASS",
+             "P3 MTRO #{fact_id} recovery fact drift")
+      raw_includes.call(observations["evidence"], "#{expected_window} raw Evidence")
+    when "CHECKPOINT_BEFORE_TERMINAL_REJECTED"
+      observations = exact_keys(
+        observations,
+        %w[terminal_committed checkpoint_attempt checkpoint_count result evidence], fact_id
+      )
+      assert(observations["terminal_committed"] == false &&
+             observations["checkpoint_attempt"] == "REJECTED" &&
+             observations["checkpoint_count"] == 0 && observations["result"] == "PASS",
+             "P3 MTRO pre-terminal checkpoint fact drift")
+      raw_includes.call(observations["evidence"], "pre-terminal checkpoint Evidence")
+    when "CHECKPOINT_AFTER_TERMINAL_EXACTLY_ONCE"
+      observations = exact_keys(
+        observations,
+        %w[
+          terminal_committed first_checkpoint repeated_recovery checkpoint_count
+          p3_001_semantics result evidence
+        ], fact_id
+      )
+      assert(observations["terminal_committed"] == true &&
+             observations["first_checkpoint"] == "ACCEPTED" &&
+             observations["repeated_recovery"] == "IDEMPOTENT" &&
+             observations["checkpoint_count"] == 1 &&
+             observations["p3_001_semantics"] == "EXACTLY_ONCE" &&
+             observations["result"] == "PASS",
+             "P3 MTRO post-terminal checkpoint fact drift")
+      raw_includes.call(observations["evidence"], "post-terminal checkpoint Evidence")
+    when "PINNED_OCI_PROFILE"
+      observations = exact_keys(
+        observations,
+        %w[
+          docker_cli docker_endpoint image_content_id entrypoint arguments user network
+          read_only_rootfs cap_drop no_new_privileges bounded_resources mount
+          task_activation_record prewrite_oci_probe evidence
+        ], fact_id
+      )
+      assert(observations["docker_cli"] == DOCKER_CLI &&
+             observations["docker_endpoint"] == DOCKER_ENDPOINT &&
+             observations["image_content_id"] == IMAGE_ID &&
+             observations["entrypoint"] == "/usr/bin/sha256sum" &&
+             observations["arguments"] == ["/input/custody.bin"] &&
+             observations["user"] == "65534:65534" && observations["network"] == "none" &&
+             observations["read_only_rootfs"] == true && observations["cap_drop"] == "ALL" &&
+             observations["no_new_privileges"] == true &&
+             observations["bounded_resources"] == true &&
+             observations["mount"] == decision.dig(
+               "local_external_effect_authority", "action_container", "mount"
+             ) && observations["task_activation_record"] == runtime_channel["task_activation_record"] &&
+             observations["prewrite_oci_probe"] == activation["prewrite_oci_probe"],
+             "P3 MTRO pinned OCI profile fact drift")
+      raw_includes.call(activation["prewrite_oci_probe"], "pre-write OCI probe")
+      raw_includes.call(observations["evidence"], "Product OCI profile Evidence")
+    when "OCI_RAW_STDOUT_STDERR_EXIT"
+      observations = exact_keys(
+        observations,
+        %w[stdout stderr inspect logs exit_code output_sha256 expected_sha256 evidence], fact_id
+      )
+      %w[stdout stderr inspect logs evidence].each do |key|
+        raw_includes.call(observations[key], "OCI #{key}")
+      end
+      assert(observations["exit_code"] == 0 &&
+             observations["output_sha256"] == observations["expected_sha256"] &&
+             observations["output_sha256"].match?(/\A[0-9a-f]{64}\z/),
+             "P3 MTRO OCI stdout/stderr/exit fact drift")
+    when "OCI_CLEANUP_ABSENCE"
+      observations = exact_keys(
+        observations,
+        %w[lifecycle exact_task_objects_absent foreign_objects_unchanged pinned_image_retained evidence],
+        fact_id
+      )
+      assert(observations["lifecycle"] == %w[create start wait inspect logs rm absence] &&
+             observations["exact_task_objects_absent"] == true &&
+             observations["foreign_objects_unchanged"] == true &&
+             observations["pinned_image_retained"] == true,
+             "P3 MTRO OCI cleanup/absence fact drift")
+      raw_includes.call(observations["evidence"], "OCI cleanup/absence Evidence")
+    when "HOST_INDEPENDENT_SHA_MATCH"
+      observations = exact_keys(
+        observations,
+        %w[actual_artifact_sha256 host_sha256 oci_sha256 exact_match evidence], fact_id
+      )
+      assert(observations["actual_artifact_sha256"].match?(/\A[0-9a-f]{64}\z/) &&
+             observations["host_sha256"] == observations["actual_artifact_sha256"] &&
+             observations["oci_sha256"] == observations["actual_artifact_sha256"] &&
+             observations["exact_match"] == true,
+             "P3 MTRO Host/OCI SHA match fact drift")
+      raw_includes.call(observations["evidence"], "Host/OCI SHA Evidence")
+    when "FOCUSED_MAVEN_TESTS", "FULL_MAVEN_TESTS"
+      observations = exact_keys(
+        observations,
+        %w[receipt candidate_commit candidate_tree status tests failures errors skipped evidence],
+        fact_id
+      )
+      expected_receipt = fact_id == "FOCUSED_MAVEN_TESTS" ?
+        manifest["focused_test_receipt"] : manifest["full_test_receipt"]
+      assert(observations["receipt"] == expected_receipt &&
+             observations["candidate_commit"] == candidate["candidate_commit"] &&
+             observations["candidate_tree"] == candidate["candidate_tree"] &&
+             observations["status"] == "PASS" &&
+             observations.slice("tests", "failures", "errors", "skipped") ==
+               receipt.slice("tests", "failures", "errors", "skipped") &&
+             observations["evidence"] == receipt["stdout"],
+             "P3 MTRO #{fact_id} fact drift")
+      raw_includes.call(expected_receipt, "#{fact_id} receipt")
+      raw_includes.call(observations["evidence"], "#{fact_id} raw output")
+    when "ZERO_FORBIDDEN_EXTERNAL_EFFECTS"
+      observations = exact_keys(
+        observations, %w[receipt effects status evidence], fact_id
+      )
+      assert(observations["receipt"] == manifest["forbidden_external_effects_receipt"] &&
+             observations["effects"] == decision.fetch("forbidden_external_effects") &&
+             observations["status"] == "PASS" &&
+             observations["evidence"] == receipt.fetch("observer_artifacts").first,
+             "P3 MTRO zero-forbidden-effect fact drift")
+      raw_includes.call(manifest["forbidden_external_effects_receipt"],
+                        "forbidden-effect receipt")
+      raw_includes.call(observations["evidence"], "forbidden-effect observer Evidence")
+    when "CANONICAL_REPLAY"
+      observations = exact_keys(
+        observations,
+        %w[
+          receipt candidate_commit candidate_tree canonical_commit canonical_tree
+          replay_count status forbidden_external_effects_observed
+        ], fact_id
+      )
+      replay = runtime_records.fetch("canonical_replay_record")
+      assert(observations["receipt"] == bundle["canonical_replay"] &&
+             observations["candidate_commit"] == candidate["candidate_commit"] &&
+             observations["candidate_tree"] == candidate["candidate_tree"] &&
+             observations["canonical_commit"] == replay["canonical_commit"] &&
+             observations["canonical_tree"] == replay["canonical_tree"] &&
+             observations["replay_count"] == 1 && observations["status"] == "PASS" &&
+             observations["forbidden_external_effects_observed"] == false,
+             "P3 MTRO canonical replay fact drift")
+      raw_includes.call(bundle["canonical_replay"], "canonical replay receipt")
+    else
+      assert(false, "P3 MTRO unknown acceptance fact #{fact_id.inspect}")
+    end
+  end
+
+  def file_identity!(path, expected, label)
+    literal_path!(Pathname.new(path), label, directory: false)
+    before = File.lstat(path)
+    bytes = nil
+    opened = nil
+    File.open(path, File::RDONLY | File::NOFOLLOW) do |io|
+      opened = io.stat
+      assert(opened.file? && opened.dev == before.dev && opened.ino == before.ino,
+             "#{label} changed before read")
+      bytes = io.read
+      after = io.stat
+      assert(after.dev == opened.dev && after.ino == opened.ino &&
+             after.size == opened.size && after.mtime == opened.mtime,
+             "#{label} changed during read")
+    end
+    final = File.lstat(path)
+    assert(final.file? && !final.symlink? && final.dev == opened.dev && final.ino == opened.ino,
+           "#{label} changed after read")
+    assert(bytes.bytesize == expected.fetch("byte_length") &&
+           Digest::SHA256.hexdigest(bytes) == expected.fetch("sha256"),
+           "#{label} identity drift")
+    bytes
+  rescue Errno::ENOENT, Errno::ELOOP => e
+    raise P3MinimumTrustTransactionalOciFinalProductRouteValidationError,
+          "#{label} unavailable: #{e.message}"
+  end
+
+  def repo_file_identity!(root, expected, label)
+    file_identity!(root.join(expected.fetch("path")), expected, label)
+  end
+
+  def git!(root, *args)
+    stdout, stderr, status = Open3.capture3("git", "-C", root.to_s, *args)
+    assert(status.success?, "git #{args.join(' ')} failed: #{stderr.strip}")
+    stdout
+  end
+
+  def validate_canonical_start!(root)
+    tree = git!(root, "rev-parse", "#{CANONICAL_START.fetch('commit')}^{tree}").strip
+    assert(tree == CANONICAL_START.fetch("tree"), "P3 MTRO canonical-start tree drift")
+    CANONICAL_START.values_at("truth", "constitution").each do |identity|
+      bytes = git!(
+        root, "show", "#{CANONICAL_START.fetch('commit')}:#{identity.fetch('path')}"
+      )
+      assert(bytes.bytesize == identity.fetch("byte_length") &&
+             Digest::SHA256.hexdigest(bytes) == identity.fetch("sha256"),
+             "P3 MTRO canonical-start #{identity.fetch('path')} drift")
+    end
+  end
+
+  def validate_decision!(root)
+    bytes = repo_file_identity!(root, DECISION, "P3 MTRO Founder decision")
+    decision = parse_closed_json(bytes, "P3 MTRO Founder decision")
+    assert(decision["schema_version"] ==
+             "p3-minimum-trust-transactional-oci-final-product-founder-decision/v2" &&
+           decision["record_type"] ==
+             "FOUNDER_P3_MINIMUM_TRUST_TRANSACTIONAL_OCI_FINAL_PRODUCT_ROUTE_DECISION" &&
+           decision["decision_id"] == DECISION_ID &&
+           decision["operation_type"] == OPERATION_TYPE &&
+           decision["status"] == "ACCEPTED_DIRECT_FOUNDER_STRATEGIC_ROUTE_DECISION" &&
+           decision["reserved_triggers"] == ["MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE"],
+           "P3 MTRO Founder decision header drift")
+    assert(decision.dig("canonical_start", "commit") == CANONICAL_START.fetch("commit") &&
+           decision.dig("canonical_start", "tree") == CANONICAL_START.fetch("tree") &&
+           decision.dig("canonical_start", "truth") == CANONICAL_START.fetch("truth") &&
+           decision.dig("canonical_start", "constitution") == CANONICAL_START.fetch("constitution"),
+           "P3 MTRO canonical-start decision binding drift")
+    assert(decision.dig("direct_founder_authorization", "path") ==
+             DIRECT_AUTHORIZATION.fetch("path") &&
+           decision.dig("direct_founder_authorization", "byte_length") ==
+             DIRECT_AUTHORIZATION.fetch("byte_length") &&
+           decision.dig("direct_founder_authorization", "sha256") ==
+             DIRECT_AUTHORIZATION.fetch("sha256") &&
+           decision.dig("direct_founder_authorization", "normalized_byte_length") ==
+             DIRECT_AUTHORIZATION.fetch("byte_length") &&
+           decision.dig("direct_founder_authorization", "normalized_sha256") ==
+             DIRECT_AUTHORIZATION.fetch("sha256") &&
+           decision.dig("direct_founder_authorization", "content_match") ==
+             "BYTE_EXACT_AUTHORIZATION_BODY",
+           "P3 MTRO direct Founder authorization binding drift")
+    assert(decision["installed_constitution"] == CONSTITUTION &&
+           decision.dig("strategic_change", "objective_id") == OBJECTIVE_ID &&
+           decision.dig("strategic_change", "strict_exit_gate", "gate_id") == STRICT_GATE_ID &&
+           decision.dig("strategic_change", "strict_exit_gate", "required_item_ids") == STRICT_ITEMS &&
+           mapping(decision.dig("strategic_change", "fixed_action"),
+                   "P3 MTRO decision fixed action").slice(*FIXED_ACTION.keys) == FIXED_ACTION,
+           "P3 MTRO strategic Objective, Gate or fixed-action drift")
+    assert(decision.dig("route", "route_id") == ROUTE_ID &&
+           decision.dig("route", "ordered_stages").length == 1 &&
+           decision.dig("route", "ordered_stages", 0, "task_id") == TASK_ID &&
+           decision.dig("route", "ordered_stages", 0, "budget") == TASK_BUDGET &&
+           decision.dig("route", "ordered_stages", 0, "implementation_attempt_for_milestone") ==
+             "2_OF_2_FINAL" &&
+           decision.dig("route", "separate_foundation_task") == false &&
+           decision.dig("route", "separate_preflight_task") == false &&
+           decision.dig("route", "separate_audit_task") == false,
+           "P3 MTRO one-Task final Route drift")
+    assert(decision.dig("cumulative_accounting", "consumed_before_route") == CONSUMED &&
+           decision.dig("cumulative_accounting", "limits") == LIMITS &&
+           decision.dig("cumulative_accounting", "route_release") == REMAINING &&
+           decision.dig("cumulative_accounting", "reset_refund_or_expansion_allowed") == false,
+           "P3 MTRO non-resettable accounting drift")
+    assert(decision.dig("local_external_effect_authority", "docker_cli") == DOCKER_CLI &&
+           decision.dig("local_external_effect_authority", "docker_endpoint") == DOCKER_ENDPOINT &&
+           decision.dig("local_external_effect_authority", "image_content_id") == IMAGE_ID &&
+           decision.dig("local_external_effect_authority", "allowed_docker_verbs") == DOCKER_VERBS &&
+           decision.dig("local_external_effect_authority", "action_container", "entrypoint") ==
+             "/usr/bin/sha256sum" &&
+           decision.dig("local_external_effect_authority", "action_container", "arguments") ==
+             ["/input/custody.bin"] &&
+           decision.dig("local_external_effect_authority", "action_container", "user") ==
+             "65534:65534",
+           "P3 MTRO local OCI authority drift")
+    assert(decision.dig("anti_cycle", "foundation_task_allowed") == false &&
+           decision.dig("anti_cycle", "preflight_task_allowed") == false &&
+           decision.dig("anti_cycle", "audit_task_allowed") == false &&
+           decision.dig("anti_cycle", "third_product_task_allowed") == false &&
+           decision.dig("anti_cycle", "candidate_3_allowed") == false &&
+           decision.dig("anti_cycle", "v3_or_later_route_under_same_objective_allowed") == false,
+           "P3 MTRO anti-cycle boundary drift")
+    superseded = decision.fetch("superseded_unexecuted_authorization")
+    assert(superseded.slice("path", "byte_length", "sha256") == SUPERSEDED_V1 &&
+           superseded["installed"] == false && superseded["executed"] == false &&
+           superseded["authority_status"] == "REVOKED_AND_SUPERSEDED_BY_THIS_V2",
+           "P3 MTRO superseded V1 authority drift")
+    file_identity!(DIRECT_AUTHORIZATION.fetch("path"), DIRECT_AUTHORIZATION,
+                   "P3 MTRO direct Founder attachment")
+    file_identity!(SUPERSEDED_V1.fetch("path"), SUPERSEDED_V1,
+                   "P3 MTRO superseded V1 attachment")
+    repo_file_identity!(root, CONSTITUTION, "P3 MTRO Strategic Constitution v3.6")
+    file_identity!(TRIVS_TERMINAL_RECEIPT.fetch("path"), TRIVS_TERMINAL_RECEIPT,
+                   "P3 TRIVS terminal receipt")
+    file_identity!(F2_TERMINAL_RECEIPT.fetch("path"), F2_TERMINAL_RECEIPT,
+                   "P3 F2 terminal receipt")
+    file_identity!(F2_DIAGNOSTIC.fetch("path"), F2_DIAGNOSTIC, "P3 F2 diagnostic")
+    validate_canonical_start!(root)
+    decision
+  rescue DuplicateJsonKeyError, JSON::ParserError => e
+    raise P3MinimumTrustTransactionalOciFinalProductRouteValidationError,
+          "P3 MTRO decision JSON invalid: #{e.message}"
+  end
+
+  def validate_runtime_identity_channel!(root, channel, lifecycle, active: nil)
+    channel = exact_keys(
+      channel,
+      %w[
+        status task_activation_record candidate_freeze_record review_dispatch_record
+        integration_record canonical_replay_record future_dynamic_identity_prefill_allowed
+      ],
+      "P3 MTRO runtime identity channel"
+    )
+    assert(RUNTIME_STATES.include?(channel["status"]) &&
+           channel["future_dynamic_identity_prefill_allowed"] == false,
+           "P3 MTRO runtime identity channel state drift")
+    allowed_states = {
+      "PRODUCT_ELIGIBLE_NOT_ACTIVATED" => %w[PENDING_TASK_OWNED_DISCOVERY],
+      "PRODUCT_TASK_ACTIVE" => %w[
+        PENDING_TASK_OWNED_DISCOVERY ACTIVATION_BOUND CANDIDATE_FROZEN REVIEW_BOUND
+      ],
+      "PRODUCT_ROUTE_TERMINAL_NON_PASS" => %w[
+        PENDING_TASK_OWNED_DISCOVERY ACTIVATION_BOUND CANDIDATE_FROZEN REVIEW_BOUND
+      ],
+      "PRODUCT_ACCEPTED_PHASE_GATE_ELIGIBLE" => %w[INTEGRATED_REPLAY_BOUND]
+    }.fetch(lifecycle)
+    assert(allowed_states.include?(channel["status"]),
+           "P3 MTRO runtime state is impossible for lifecycle #{lifecycle}")
+    records = %w[
+      task_activation_record candidate_freeze_record review_dispatch_record
+      integration_record canonical_replay_record
+    ]
+    if lifecycle == "PRODUCT_ELIGIBLE_NOT_ACTIVATED" ||
+       channel["status"] == "PENDING_TASK_OWNED_DISCOVERY"
+      assert(records.all? { |key| channel[key].nil? },
+             "P3 MTRO future runtime identity was prefilled")
+    end
+    if channel["status"] == "ACTIVATION_BOUND"
+      assert(!channel["task_activation_record"].nil? &&
+             records.drop(1).all? { |key| channel[key].nil? },
+             "P3 MTRO activation-bound runtime record order drift")
+    end
+    if channel["status"] == "CANDIDATE_FROZEN"
+      assert(!channel["task_activation_record"].nil? &&
+             !channel["candidate_freeze_record"].nil? &&
+             records.drop(2).all? { |key| channel[key].nil? },
+             "P3 MTRO candidate record order drift")
+    end
+    if channel["status"] == "REVIEW_BOUND"
+      assert(records.first(3).all? { |key| !channel[key].nil? } &&
+             records.drop(3).all? { |key| channel[key].nil? },
+             "P3 MTRO review record order drift")
+    end
+    if channel["status"] == "INTEGRATED_REPLAY_BOUND"
+      assert(records.all? { |key| !channel[key].nil? },
+             "P3 MTRO integrated replay record chain incomplete")
+    end
+    expected_schemas = {
+      "task_activation_record" => "p3-mtro-task-activation-record/v1",
+      "candidate_freeze_record" => "p3-mtro-candidate-freeze-record/v1",
+      "review_dispatch_record" => "p3-mtro-review-dispatch-record/v1",
+      "integration_record" => "p3-mtro-integration-record/v1",
+      "canonical_replay_record" => "p3-mtro-canonical-replay/v1"
+    }
+    observed = {}
+    records.each do |key|
+      next if channel[key].nil?
+      bytes = artifact_identity!(
+        root, channel[key], "P3 MTRO #{key}", under: TASK_EVIDENCE_ROOT
+      )
+      record = parse_closed_json(bytes, "P3 MTRO #{key}")
+      assert(record["schema_version"] == expected_schemas.fetch(key) &&
+             record["task_id"] == TASK_ID && record["route_id"] == ROUTE_ID,
+             "P3 MTRO #{key} semantic drift")
+      observed[key] = record
+    end
+    activation = observed["task_activation_record"]
+    if activation
+      activation = exact_keys(
+        activation,
+        %w[
+          schema_version record_type status task_id route_id execution_nonce authorization_id
+          contract authority activation_parent daemon_id network_id mysql_container_id
+          loopback_port prewrite_oci_probe created_at_utc
+        ],
+        "P3 MTRO task activation record"
+      )
+      assert(activation["record_type"] == "P3_MTRO_TASK_ACTIVATION_RECORD" &&
+             activation["status"] == "PASS" &&
+             activation["execution_nonce"].is_a?(String) &&
+             activation["authorization_id"].is_a?(String) &&
+             activation["daemon_id"].is_a?(String) && !activation["daemon_id"].empty? &&
+             activation["network_id"].is_a?(String) && !activation["network_id"].empty? &&
+             activation["mysql_container_id"].is_a?(String) &&
+             !activation["mysql_container_id"].empty? &&
+             activation["loopback_port"].is_a?(Integer) &&
+             activation["loopback_port"].between?(1, 65_535),
+             "P3 MTRO task activation record is not runtime-bound")
+      Time.iso8601(activation.fetch("created_at_utc"))
+      assert(exact_keys(activation["activation_parent"], %w[commit tree],
+                        "P3 MTRO activation record parent") == {
+               "commit" => active && active["activation_parent_commit"],
+               "tree" => active && active["activation_parent_tree"]
+             }, "P3 MTRO task activation parent drift") if active
+      assert(activation["contract"] == active["current_task_contract"] &&
+             activation["authority"] == active["authority_record"] &&
+             activation["execution_nonce"] == active["execution_nonce"] &&
+             activation["authorization_id"] == active["authorization_id"],
+             "P3 MTRO task activation authority drift") if active
+      probe_bytes = artifact_identity!(
+        root, activation["prewrite_oci_probe"], "P3 MTRO pre-write OCI probe",
+        under: TASK_EVIDENCE_ROOT
+      )
+      probe = exact_keys(
+        parse_closed_json(probe_bytes, "P3 MTRO pre-write OCI probe"),
+        %w[
+          schema_version record_type status task_id route_id docker_cli docker_endpoint
+          image_content_id container_id entrypoint arguments user network read_only_rootfs
+          cap_drop no_new_privileges bounded_resources stdout_sha256 expected_sha256 exit_code
+          cleanup_complete pinned_image_retained forbidden_external_effects_observed executed_at_utc
+        ],
+        "P3 MTRO pre-write OCI probe"
+      )
+      assert(probe["schema_version"] == "p3-mtro-pre-first-product-write-oci-probe/v1" &&
+             probe["record_type"] == "P3_MTRO_PRE_FIRST_PRODUCT_WRITE_OCI_PROBE" &&
+             probe["status"] == "PASS" && probe["task_id"] == TASK_ID &&
+             probe["route_id"] == ROUTE_ID && probe["docker_cli"] == DOCKER_CLI &&
+             probe["docker_endpoint"] == DOCKER_ENDPOINT &&
+             probe["image_content_id"] == IMAGE_ID &&
+             probe["container_id"].is_a?(String) && !probe["container_id"].empty? &&
+             probe["entrypoint"] == "/usr/bin/sha256sum" &&
+             probe["arguments"] == ["/input/custody.bin"] &&
+             probe["user"] == "65534:65534" && probe["network"] == "none" &&
+             probe["read_only_rootfs"] == true && probe["cap_drop"] == "ALL" &&
+             probe["no_new_privileges"] == true && probe["bounded_resources"] == true &&
+             probe["stdout_sha256"] == probe["expected_sha256"] &&
+             probe["stdout_sha256"].is_a?(String) &&
+             probe["stdout_sha256"].match?(/\A[0-9a-f]{64}\z/) &&
+             probe["exit_code"] == 0 && probe["cleanup_complete"] == true &&
+             probe["pinned_image_retained"] == true &&
+             probe["forbidden_external_effects_observed"] == false,
+             "P3 MTRO pre-write OCI probe semantic drift")
+      Time.iso8601(probe.fetch("executed_at_utc"))
+    end
+    candidate = observed["candidate_freeze_record"]
+    if candidate
+      candidate = exact_keys(
+        candidate,
+        %w[
+          schema_version record_type status task_id route_id execution_nonce authorization_id
+          candidate_commit candidate_tree candidate_generation manifest task_activation_record
+          frozen_at_utc
+        ],
+        "P3 MTRO candidate freeze record"
+      )
+      assert(candidate["record_type"] == "P3_MTRO_CANDIDATE_FREEZE_RECORD" &&
+             candidate["status"] == "FROZEN" &&
+             [1, 2].include?(candidate["candidate_generation"]) &&
+             activation && candidate["execution_nonce"] == activation["execution_nonce"] &&
+             candidate["authorization_id"] == activation["authorization_id"] &&
+             candidate["task_activation_record"] == channel["task_activation_record"],
+             "P3 MTRO frozen candidate authority drift")
+      Time.iso8601(candidate.fetch("frozen_at_utc"))
+      git_identity!(root, candidate["candidate_commit"], candidate["candidate_tree"],
+                    "P3 MTRO frozen candidate")
+      manifest_bytes = artifact_identity!(
+        root, candidate["manifest"], "P3 MTRO frozen candidate manifest",
+        under: TASK_EVIDENCE_ROOT
+      )
+      manifest = exact_keys(
+        parse_closed_json(manifest_bytes, "P3 MTRO frozen candidate manifest"),
+        %w[
+          schema_version record_type status task_id route_id execution_nonce authorization_id
+          branch worktree activation_parent task_base candidate_commit candidate_tree candidate_generation
+          changed_paths approved_adjacent_expansions product_write_allowlist fixed_action contract
+          authority task_activation_record source_to_class_evidence focused_test_receipt
+          full_test_receipt forbidden_external_effects_receipt created_at_utc
+        ],
+        "P3 MTRO frozen candidate manifest"
+      )
+      decision = validate_decision!(root)
+      activation_parent = exact_keys(
+        manifest["activation_parent"], %w[commit tree],
+        "P3 MTRO candidate manifest activation parent"
+      )
+      task_base = exact_keys(manifest["task_base"], %w[commit tree],
+                             "P3 MTRO candidate manifest Task base")
+      expansions = array(manifest["approved_adjacent_expansions"],
+                         "P3 MTRO approved adjacent expansions")
+      assert(expansions.empty?,
+             "P3 MTRO adjacent Product expansion is not enabled for this frozen route")
+      expanded_paths = expansions.map do |expansion|
+        expansion = exact_keys(
+          expansion,
+          %w[
+            path kind mechanical_compilation_reason zero_scope_expansion_proof
+            authorization_record authorized_at_utc prewrite_oci_probe
+          ],
+          "P3 MTRO adjacent allowlist expansion"
+        )
+        allowed_expansion_kinds = %w[
+          ADJACENT_DTO ADJACENT_MAPPER ADJACENT_CONFIGURATION_CLASS DIRECT_CORRESPONDING_TEST
+        ]
+        allowed_expansion_prefixes = %w[
+          backend-spring/src/main/java/com/sourcelens/
+          backend-spring/src/test/java/com/sourcelens/
+        ]
+        assert(expansion["path"].is_a?(String) && expansion["path"].end_with?(".java") &&
+               allowed_expansion_prefixes.any? { |prefix| expansion["path"].start_with?(prefix) } &&
+               allowed_expansion_kinds.include?(expansion["kind"]) &&
+               !path_covered_by_allowlist?(
+                 expansion["path"], decision.fetch("product_write_allowlist")
+               ) &&
+               IMMUTABLE_AUTHORITY_PATHS.none? { |path|
+                 expansion["path"] == path || expansion["path"].start_with?("#{path}/")
+               } &&
+               expansion["mechanical_compilation_reason"].is_a?(String) &&
+               !expansion["mechanical_compilation_reason"].empty? &&
+               expansion["zero_scope_expansion_proof"] == true &&
+               expansion["prewrite_oci_probe"] == activation["prewrite_oci_probe"],
+               "P3 MTRO adjacent allowlist expansion is not mechanically bounded")
+        Time.iso8601(expansion.fetch("authorized_at_utc"))
+        authorization_bytes = artifact_identity!(
+          root, expansion["authorization_record"], "P3 MTRO adjacent expansion authorization",
+          under: TASK_EVIDENCE_ROOT
+        )
+        expansion_authority = exact_keys(
+          parse_closed_json(authorization_bytes, "P3 MTRO adjacent expansion authorization"),
+          %w[
+            schema_version record_type status task_id route_id path kind
+            mechanical_compilation_reason zero_scope_expansion_proof prewrite_oci_probe
+            contract authority authorized_at_utc
+          ],
+          "P3 MTRO adjacent expansion authorization"
+        )
+        assert(expansion_authority["schema_version"] ==
+                 "p3-mtro-adjacent-allowlist-expansion-authorization/v1" &&
+               expansion_authority["record_type"] ==
+                 "P3_MTRO_ADJACENT_ALLOWLIST_EXPANSION_AUTHORIZATION" &&
+               expansion_authority["status"] == "APPROVED_BEFORE_FIRST_PRODUCT_SOURCE_WRITE" &&
+               expansion_authority["task_id"] == TASK_ID &&
+               expansion_authority["route_id"] == ROUTE_ID &&
+               expansion_authority.slice(
+                 "path", "kind", "mechanical_compilation_reason", "zero_scope_expansion_proof",
+                 "prewrite_oci_probe", "authorized_at_utc"
+               ) == expansion.slice(
+                 "path", "kind", "mechanical_compilation_reason", "zero_scope_expansion_proof",
+                 "prewrite_oci_probe", "authorized_at_utc"
+               ) && expansion_authority["contract"] == active["current_task_contract"] &&
+               expansion_authority["authority"] == active["authority_record"],
+               "P3 MTRO adjacent expansion authorization semantic drift")
+        expansion["path"]
+      end
+      changed_paths = array(manifest["changed_paths"], "P3 MTRO candidate changed paths")
+      actual_changed_paths = git_changed_paths!(
+        root, task_base.fetch("commit"), candidate.fetch("candidate_commit"),
+        "P3 MTRO candidate"
+      )
+      assert(manifest["schema_version"] == "p3-mtro-frozen-candidate-manifest/v1" &&
+             manifest["record_type"] == "P3_MTRO_FROZEN_CANDIDATE_MANIFEST" &&
+             manifest["status"] == "FROZEN" && manifest["task_id"] == TASK_ID &&
+             manifest["route_id"] == ROUTE_ID &&
+             manifest["execution_nonce"] == candidate["execution_nonce"] &&
+             manifest["authorization_id"] == candidate["authorization_id"] &&
+             manifest["branch"] == TASK_BRANCH && manifest["worktree"] == TASK_WORKTREE &&
+             active && activation_parent == {
+               "commit" => active["activation_parent_commit"],
+               "tree" => active["activation_parent_tree"]
+             } &&
+             task_base == validate_task_base!(
+               root, activation_parent.fetch("commit"), candidate.fetch("candidate_commit"),
+               active.fetch("current_task_contract")
+             ) &&
+             manifest["candidate_commit"] == candidate["candidate_commit"] &&
+             manifest["candidate_tree"] == candidate["candidate_tree"] &&
+             manifest["candidate_generation"] == candidate["candidate_generation"] &&
+             !changed_paths.empty? && changed_paths.sort == actual_changed_paths &&
+             changed_paths.uniq.length == changed_paths.length &&
+             changed_paths.all? { |path|
+               path_covered_by_allowlist?(
+                 path, decision.fetch("product_write_allowlist") + expanded_paths
+               )
+             } && changed_paths.any? { |path| path.start_with?("backend-spring/src/main/") } &&
+             expansions.length == expanded_paths.uniq.length &&
+             manifest["fixed_action"] == FIXED_ACTION &&
+             manifest["product_write_allowlist"] == decision.fetch("product_write_allowlist") &&
+             manifest["contract"] == active["current_task_contract"] &&
+             manifest["authority"] == active["authority_record"] &&
+             manifest["task_activation_record"] == channel["task_activation_record"],
+             "P3 MTRO frozen candidate manifest semantic drift")
+      manifest_time = Time.iso8601(manifest.fetch("created_at_utc"))
+      assert(expansions.all? { |expansion|
+               Time.iso8601(expansion.fetch("authorized_at_utc")) <= manifest_time
+             }, "P3 MTRO adjacent expansion was not authorized before candidate freeze")
+      git_identity!(root, activation_parent.fetch("commit"), activation_parent.fetch("tree"),
+                    "P3 MTRO candidate activation parent")
+      git_identity!(root, task_base.fetch("commit"), task_base.fetch("tree"),
+                    "P3 MTRO candidate Task base")
+      _stdout, _stderr, ancestor = Open3.capture3(
+        "git", "-C", root.to_s, "merge-base", "--is-ancestor",
+        task_base.fetch("commit"), candidate.fetch("candidate_commit")
+      )
+      assert(ancestor.success?, "P3 MTRO candidate is not descended from activation parent")
+      focused_receipt = validate_maven_run_receipt!(
+        root: root, identity: manifest["focused_test_receipt"], kind: "FOCUSED_MAVEN",
+        candidate: candidate, activation_identity: channel["task_activation_record"]
+      )
+      OBSERVATION_RECORD_SPECS.each_key do |group|
+        observation_identity = focused_receipt.fetch("observation_records").fetch(group)
+        assert(group != "source_custody" ||
+               observation_identity == manifest["source_to_class_evidence"],
+               "P3 MTRO candidate source-custody record identity drift")
+        observation_result = validate_observation_record!(
+          root: root, identity: observation_identity, group: group, candidate: candidate,
+          activation_identity: channel["task_activation_record"]
+        )
+        assert(observation_result.fetch("record")["run_id"] == focused_receipt["run_id"],
+               "P3 MTRO candidate observation run differs from focused Maven run")
+      end
+      validate_maven_run_receipt!(
+        root: root, identity: manifest["full_test_receipt"], kind: "FULL_MAVEN",
+        candidate: candidate, activation_identity: channel["task_activation_record"]
+      )
+      validate_forbidden_effects_receipt!(
+        root: root, identity: manifest["forbidden_external_effects_receipt"],
+        candidate: candidate, activation_identity: channel["task_activation_record"]
+      )
+      if active && active["current_task"] == TASK_ID && Pathname.new(TASK_WORKTREE).exist?
+        task_root = literal_path!(Pathname.new(TASK_WORKTREE),
+                                  "P3 MTRO live Task worktree", directory: true)
+        assert(git!(task_root, "branch", "--show-current").strip == TASK_BRANCH &&
+               git!(task_root, "rev-parse", "HEAD").strip == candidate["candidate_commit"] &&
+               git!(task_root, "status", "--porcelain").strip.empty?,
+               "P3 MTRO live candidate is not the clean exact Task branch HEAD")
+      end
+    end
+    review_dispatch = observed["review_dispatch_record"]
+    if review_dispatch
+      review_dispatch = exact_keys(
+        review_dispatch,
+        %w[
+          schema_version record_type status task_id route_id execution_nonce authorization_id
+          candidate_commit candidate_tree review_cycle candidate_freeze_record
+          frozen_finding_set repair_record reviewer_worktrees dispatched_at_utc
+        ],
+        "P3 MTRO review dispatch record"
+      )
+      reviewer_worktrees = exact_keys(
+        review_dispatch["reviewer_worktrees"],
+        %w[cto security quality_evaluation], "P3 MTRO reviewer worktrees"
+      )
+      assert(review_dispatch["record_type"] == "P3_MTRO_REVIEW_DISPATCH_RECORD" &&
+             review_dispatch["status"] == "DISPATCHED" &&
+             [1, 2].include?(review_dispatch["review_cycle"]) && candidate &&
+             review_dispatch["execution_nonce"] == candidate["execution_nonce"] &&
+             review_dispatch["authorization_id"] == candidate["authorization_id"] &&
+             review_dispatch["candidate_freeze_record"] == channel["candidate_freeze_record"],
+             "P3 MTRO review dispatch authority drift")
+      Time.iso8601(review_dispatch.fetch("dispatched_at_utc"))
+      if review_dispatch["review_cycle"] == 1
+        assert(review_dispatch["frozen_finding_set"].nil? &&
+               review_dispatch["repair_record"].nil?,
+               "P3 MTRO Cycle 1 dispatch prefills future finding or repair identity")
+      else
+        finding_set, finding_ids = validate_frozen_finding_set!(
+          root, review_dispatch["frozen_finding_set"]
+        )
+        assert(!finding_ids.empty?,
+               "P3 MTRO Cycle 2 cannot exist without frozen Cycle 1 findings")
+        repair_bytes = artifact_identity!(
+          root, review_dispatch["repair_record"], "P3 MTRO same-Task repair record",
+          under: TASK_EVIDENCE_ROOT
+        )
+        repair = exact_keys(
+          parse_closed_json(repair_bytes, "P3 MTRO same-Task repair record"),
+          %w[
+            schema_version record_type status task_id route_id repair_index
+            candidate_before_commit candidate_before_tree candidate_after_commit
+            candidate_after_tree frozen_finding_set closed_finding_ids new_regressions
+            scope_expansion applied_at_utc
+          ],
+          "P3 MTRO same-Task repair record"
+        )
+        assert(repair["schema_version"] == "p3-mtro-same-task-repair-record/v1" &&
+               repair["record_type"] == "P3_MTRO_SAME_TASK_REPAIR_RECORD" &&
+               repair["status"] == "APPLIED" && repair["task_id"] == TASK_ID &&
+               repair["route_id"] == ROUTE_ID && repair["repair_index"] == 1 &&
+               candidate["candidate_generation"] == 2 &&
+               repair["candidate_before_commit"] == finding_set["candidate_commit"] &&
+               repair["candidate_before_tree"] == finding_set["candidate_tree"] &&
+               repair["candidate_after_commit"] == candidate["candidate_commit"] &&
+               repair["candidate_after_tree"] == candidate["candidate_tree"] &&
+               repair["candidate_before_commit"] != repair["candidate_after_commit"] &&
+               repair["frozen_finding_set"] == review_dispatch["frozen_finding_set"] &&
+               repair["closed_finding_ids"].sort == finding_ids.sort &&
+               repair["new_regressions"] == [] && repair["scope_expansion"] == false,
+               "P3 MTRO same-Task repair record semantic drift")
+        git_identity!(root, repair["candidate_before_commit"], repair["candidate_before_tree"],
+                      "P3 MTRO pre-repair candidate")
+        _stdout, _stderr, repaired_ancestor = Open3.capture3(
+          "git", "-C", root.to_s, "merge-base", "--is-ancestor",
+          repair["candidate_before_commit"], repair["candidate_after_commit"]
+        )
+        assert(repaired_ancestor.success?,
+               "P3 MTRO repaired candidate is not descended from Cycle 1 candidate")
+        repair_paths = git_changed_paths!(
+          root, repair["candidate_before_commit"], repair["candidate_after_commit"],
+          "P3 MTRO same-Task repair"
+        )
+        assert(!repair_paths.empty? && repair_paths.all? { |path|
+                 path_covered_by_allowlist?(
+                   path, validate_decision!(root).fetch("product_write_allowlist")
+                 )
+               }, "P3 MTRO same-Task repair diff escapes Product allowlist")
+        Time.iso8601(repair.fetch("applied_at_utc"))
+      end
+      reviewer_worktrees.each do |role, identity|
+        worktree_bytes = artifact_identity!(
+          root, identity, "P3 MTRO #{role} reviewer worktree identity",
+          under: TASK_EVIDENCE_ROOT
+        )
+        worktree = exact_keys(
+          parse_closed_json(worktree_bytes, "P3 MTRO #{role} reviewer worktree identity"),
+          %w[schema_version role path candidate_commit candidate_tree detached_head clean created_at_utc],
+          "P3 MTRO #{role} reviewer worktree identity"
+        )
+        expected_role = {
+          "cto" => "CTO_AGENT", "security" => "SECURITY_AGENT",
+          "quality_evaluation" => "QUALITY_EVALUATION_AGENT"
+        }.fetch(role)
+        assert(worktree["schema_version"] == "p3-mtro-reviewer-worktree-identity/v1" &&
+               worktree["role"] == expected_role &&
+               worktree["candidate_commit"] == candidate["candidate_commit"] &&
+               worktree["candidate_tree"] == candidate["candidate_tree"] &&
+               worktree["detached_head"] == true && worktree["clean"] == true &&
+               worktree["path"].is_a?(String) && !worktree["path"].empty?,
+               "P3 MTRO #{role} reviewer worktree identity drift")
+        Time.iso8601(worktree.fetch("created_at_utc"))
+      end
+    end
+    integration = observed["integration_record"]
+    if integration
+      integration = exact_keys(
+        integration,
+        %w[
+          schema_version record_type status task_id route_id candidate_commit candidate_tree
+          task_gate_receipt canonical_commit canonical_tree integrated_branch integrated_at_utc
+        ],
+        "P3 MTRO integration record"
+      )
+      assert(integration["record_type"] == "P3_MTRO_INTEGRATION_RECORD" &&
+             integration["status"] == "PASS" && candidate &&
+             integration["candidate_commit"] == candidate["candidate_commit"] &&
+             integration["candidate_tree"] == candidate["candidate_tree"] &&
+             integration["canonical_commit"] == candidate["candidate_commit"] &&
+             integration["canonical_tree"] == candidate["candidate_tree"] &&
+             integration["integrated_branch"] == "main",
+             "P3 MTRO integration record semantic drift")
+      task_gate_label = "P3 MTRO integration Task Gate receipt"
+      task_gate_bytes = artifact_identity!(
+        root, integration["task_gate_receipt"], task_gate_label, under: TASK_EVIDENCE_ROOT
+      )
+      task_gate = exact_keys(
+        parse_closed_json(task_gate_bytes, task_gate_label),
+        %w[
+          schema_version record_type verdict task_id route_id candidate_commit candidate_tree
+          frozen_finding_set independent_reviews required_item_evidence open_p0_p1_findings
+          forbidden_external_effects_observed decided_at_utc
+        ],
+        task_gate_label
+      )
+      assert(task_gate["schema_version"] == "p3-mtro-task-gate-pass-receipt/v1" &&
+             task_gate["record_type"] == "P3_MTRO_TASK_GATE_PASS_RECEIPT" &&
+             task_gate["verdict"] == "PASS" && task_gate["task_id"] == TASK_ID &&
+             task_gate["route_id"] == ROUTE_ID &&
+             task_gate["candidate_commit"] == candidate["candidate_commit"] &&
+             task_gate["candidate_tree"] == candidate["candidate_tree"] &&
+             task_gate["open_p0_p1_findings"] == [] &&
+             task_gate["forbidden_external_effects_observed"] == false,
+             "P3 MTRO integration Task Gate receipt semantic drift")
+      exact_keys(task_gate["frozen_finding_set"], %w[path byte_length sha256],
+                 "#{task_gate_label} frozen finding set")
+      exact_keys(
+        task_gate["independent_reviews"], %w[cto security quality_evaluation],
+        "#{task_gate_label} independent reviews"
+      ).each_value do |identity|
+        exact_keys(identity, %w[path byte_length sha256], "#{task_gate_label} review identity")
+      end
+      exact_keys(task_gate["required_item_evidence"], STRICT_ITEMS,
+                 "#{task_gate_label} required item Evidence").each_value do |identity|
+        exact_keys(identity, %w[path byte_length sha256], "#{task_gate_label} item identity")
+      end
+      Time.iso8601(task_gate.fetch("decided_at_utc"))
+      Time.iso8601(integration.fetch("integrated_at_utc"))
+    end
+    replay = observed["canonical_replay_record"]
+    if replay
+      replay = exact_keys(
+        replay,
+        %w[
+          schema_version record_type status task_id route_id candidate_commit candidate_tree
+          canonical_commit canonical_tree integration_record replay_count
+          raw_replay_bundle forbidden_external_effects_observed replayed_at_utc
+        ],
+        "P3 MTRO canonical replay record"
+      )
+      assert(replay["record_type"] == "P3_MTRO_CANONICAL_REPLAY_RECORD" &&
+             replay["status"] == "PASS" && replay["replay_count"] == 1 && integration &&
+             replay["candidate_commit"] == integration["candidate_commit"] &&
+             replay["candidate_tree"] == integration["candidate_tree"] &&
+             replay["canonical_commit"] == integration["canonical_commit"] &&
+             replay["canonical_tree"] == integration["canonical_tree"] &&
+             replay["integration_record"] == channel["integration_record"] &&
+             replay["forbidden_external_effects_observed"] == false,
+             "P3 MTRO canonical replay record semantic drift")
+      replay_bundle = validate_canonical_replay_raw_bundle!(
+        root: root, identity: replay["raw_replay_bundle"], candidate: candidate,
+        activation_identity: channel["task_activation_record"],
+        integration_identity: channel["integration_record"],
+        canonical_commit: replay["canonical_commit"], canonical_tree: replay["canonical_tree"]
+      )
+      assert(Time.iso8601(replay_bundle.fetch("created_at_utc")) <=
+             Time.iso8601(replay.fetch("replayed_at_utc")),
+             "P3 MTRO replay verdict predates its raw bundle")
+      Time.iso8601(replay.fetch("replayed_at_utc"))
+    end
+    %w[review_dispatch_record integration_record canonical_replay_record].each do |key|
+      next unless observed[key] && candidate
+      assert(observed[key]["candidate_commit"] == candidate["candidate_commit"] &&
+             observed[key]["candidate_tree"] == candidate["candidate_tree"],
+             "P3 MTRO #{key} candidate drift")
+    end
+    observed
+  rescue ArgumentError => e
+    raise P3MinimumTrustTransactionalOciFinalProductRouteValidationError,
+          "P3 MTRO runtime identity channel invalid: #{e.message}"
+  end
+
+  def validate_active_authority!(root, truth, decision, require_worktree: false)
+    active = mapping(truth["active_work"], "P3 MTRO active work")
+    contract_identity = exact_keys(
+      active["current_task_contract"], %w[path byte_length sha256],
+      "P3 MTRO Task Contract identity"
+    )
+    authority_identity = exact_keys(
+      active["authority_record"], %w[path byte_length sha256],
+      "P3 MTRO Task authority identity"
+    )
+    assert(contract_identity["path"] == TASK_CONTRACT_PATH &&
+           authority_identity["path"] == AUTHORITY_PATH,
+           "P3 MTRO Task Contract or authority path drift")
+    assert(active["execution_nonce"].is_a?(String) &&
+           active["execution_nonce"].match?(/\A[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}\z/) &&
+           active["authorization_id"].is_a?(String) &&
+           active["authorization_id"].match?(/\A[0-9a-f]{8}-(?:[0-9a-f]{4}-){3}[0-9a-f]{12}\z/) &&
+           active["execution_nonce"] != active["authorization_id"],
+           "P3 MTRO nonce or authorization identity is invalid")
+    contract_bytes = repo_file_identity!(root, contract_identity, "P3 MTRO Task Contract")
+    reject_duplicate_yaml_keys!(contract_bytes, "P3 MTRO Task Contract")
+    contract = YAML.safe_load(
+      contract_bytes, permitted_classes: [], permitted_symbols: [], aliases: false
+    )
+    contract = exact_keys(
+      contract,
+      %w[
+        schema_version record_type task_id status phase route_id stage_id kind objective_id
+        strict_exit_gate_id implementation_attempt_for_milestone decision why_now branch worktree
+        evidence_root activation_parent execution_nonce authorization_id roles risk_level
+        write_allowlist conditional_adjacent_allowlist_expansion fixed_action budget authority_model
+        transaction_model recovery_and_checkpoint local_external_effect_authority
+        forbidden_external_effects clean_room acceptance anti_cycle required_evidence
+        stop_conditions lifecycle
+      ],
+      "P3 MTRO Task Contract"
+    )
+    decision_identity = DECISION.merge("decision_id" => DECISION_ID)
+    activation_parent = exact_keys(contract["activation_parent"], %w[commit tree],
+                                   "P3 MTRO Contract activation parent")
+    roles = exact_keys(contract["roles"],
+                       %w[owner worker independent_reviewers task_gate_owner],
+                       "P3 MTRO Contract roles")
+    assert(contract["schema_version"] == "p3-mtro-phase-delegated-task-contract/v1" &&
+           contract["record_type"] == "P3_MTRO_P1_PHASE_DELEGATED_TASK_CONTRACT" &&
+           contract["task_id"] == TASK_ID && contract["status"] == "ACTIVE" &&
+           contract["phase"] == "P3" && contract["route_id"] == ROUTE_ID &&
+           contract["stage_id"] == "ACTUAL_AGENT_TRANSACTIONAL_OCI_READ_ONLY_INVOCATION_PRODUCT" &&
+           contract["kind"] == "PRODUCT_IMPLEMENTATION_SECOND_AND_FINAL" &&
+           contract["objective_id"] == OBJECTIVE_ID &&
+           contract["strict_exit_gate_id"] == STRICT_GATE_ID &&
+           contract["implementation_attempt_for_milestone"] == "2_OF_2_FINAL" &&
+           contract["decision"] == decision_identity &&
+           contract["why_now"].is_a?(String) && !contract["why_now"].empty? &&
+           contract["branch"] == TASK_BRANCH && contract["worktree"] == TASK_WORKTREE &&
+           contract["evidence_root"] == TASK_EVIDENCE_ROOT &&
+           contract["execution_nonce"] == active["execution_nonce"] &&
+           contract["authorization_id"] == active["authorization_id"] &&
+           roles == {
+             "owner" => "MASTER_CEO_AGENT",
+             "worker" => "BACKEND_JAVA_WORKER_AGENT",
+             "independent_reviewers" => %w[CTO_AGENT SECURITY_AGENT QUALITY_EVALUATION_AGENT],
+             "task_gate_owner" => "MASTER_CEO_AGENT"
+           } && contract["risk_level"] == "critical" &&
+           contract["write_allowlist"] == decision.fetch("product_write_allowlist") &&
+           contract["conditional_adjacent_allowlist_expansion"] ==
+             decision.fetch("conditional_adjacent_allowlist_expansion") &&
+           contract["fixed_action"] == FIXED_ACTION && contract["budget"] == TASK_BUDGET &&
+           contract["authority_model"] == decision.fetch("authority_model") &&
+           contract["transaction_model"] == decision.fetch("transaction_model") &&
+           contract["recovery_and_checkpoint"] == decision.fetch("recovery_and_checkpoint") &&
+           contract["local_external_effect_authority"] ==
+             decision.fetch("local_external_effect_authority") &&
+           contract["forbidden_external_effects"] ==
+             decision.fetch("forbidden_external_effects") &&
+           contract["clean_room"] == decision.fetch("clean_room") &&
+           contract["acceptance"] == decision.fetch("acceptance") &&
+           contract["anti_cycle"] == decision.fetch("anti_cycle") &&
+           contract["required_evidence"] == %w[
+             PRE_FIRST_PRODUCT_WRITE_OCI_PROBE
+             SOURCE_TO_CLASS_AND_TOOLCHAIN_CUSTODY
+             REAL_MYSQL_SPRING_TRANSACTION_AND_RECOVERY
+             OCI_OBJECT_PROCESS_STDOUT_STDERR_EXIT_AND_CLEANUP
+             FOCUSED_AND_FULL_MAVEN_TESTS
+             FROZEN_CANDIDATE_MANIFEST
+             CYCLE_1_FROZEN_FINDING_SET_AND_THREE_REVIEWS
+             INTEGRATION_AND_CANONICAL_REPLAY_RECEIPTS
+           ] && contract["stop_conditions"] == %w[
+             OCI_PROBE_NON_PASS_BEFORE_PRODUCT_SOURCE_WRITE
+             REJECTED_LINEAGE_ACCESS
+             WRITE_OUTSIDE_EXACT_ALLOWLIST_OR_AUTHORIZED_ROOTS
+             FORBIDDEN_EXTERNAL_EFFECT
+             CANDIDATE_REPAIR_OR_REVIEW_BUDGET_EXHAUSTED
+             FUTURE_RUNTIME_IDENTITY_PREFILL
+             SCOPE_OR_PERMISSION_EXPANSION_REQUIRED
+           ] && contract["lifecycle"] == decision.fetch("lifecycle"),
+           "P3 MTRO Task Contract semantic or scope drift")
+    assert(activation_parent["commit"] == active["activation_parent_commit"] &&
+           activation_parent["tree"] == active["activation_parent_tree"],
+           "P3 MTRO Contract activation parent drift")
+    git_identity!(root, activation_parent.fetch("commit"), activation_parent.fetch("tree"),
+                  "P3 MTRO activation parent")
+    if require_worktree
+      task_root = literal_path!(Pathname.new(TASK_WORKTREE),
+                                "P3 MTRO active Task worktree", directory: true)
+      branch = git!(task_root, "branch", "--show-current").strip
+      assert(branch == TASK_BRANCH, "P3 MTRO active worktree branch drift")
+      head = git!(task_root, "rev-parse", "HEAD").strip
+      _stdout, _stderr, ancestor = Open3.capture3(
+        "git", "-C", task_root.to_s, "merge-base", "--is-ancestor",
+        activation_parent.fetch("commit"), head
+      )
+      assert(ancestor.success?, "P3 MTRO active worktree is not based on its activation parent")
+      validate_task_base!(root, activation_parent.fetch("commit"), head, contract_identity)
+    end
+
+    authority_bytes = artifact_identity!(
+      root, authority_identity, "P3 MTRO Task authority",
+      exact_path: AUTHORITY_PATH, under: TASK_EVIDENCE_ROOT
+    )
+    authority_stat = File.lstat(AUTHORITY_PATH)
+    assert(authority_stat.file? && !authority_stat.symlink? && authority_stat.nlink == 1,
+           "P3 MTRO Task authority must be a single-link regular file")
+    authority = parse_closed_json(authority_bytes, "P3 MTRO Task authority")
+    authority = exact_keys(
+      authority,
+      %w[
+        schema_version record_type status authorization_id execution_nonce task_id phase route_id
+        stage_id kind objective_id decision activated_at_utc activation_parent branch worktree
+        evidence_root contract write_allowlist conditional_adjacent_allowlist_expansion fixed_action
+        budget implementation_attempt_for_milestone local_external_effect_authority
+        forbidden_external_effects clean_room acceptance anti_cycle runtime_identity_channel roles
+        founder_decision_required next_eligible_action long_term_goal_status
+      ],
+      "P3 MTRO Task authority"
+    )
+    initial_runtime = {
+      "status" => "PENDING_TASK_OWNED_DISCOVERY",
+      "task_activation_record" => nil,
+      "candidate_freeze_record" => nil,
+      "review_dispatch_record" => nil,
+      "integration_record" => nil,
+      "canonical_replay_record" => nil,
+      "future_dynamic_identity_prefill_allowed" => false
+    }
+    Time.iso8601(authority.fetch("activated_at_utc"))
+    assert(authority["schema_version"] == "p3-mtro-phase-delegated-task-authority/v1" &&
+           authority["record_type"] == "P3_MTRO_P1_PHASE_DELEGATED_TASK_AUTHORITY" &&
+           authority["status"] == "ACTIVE" && authority["task_id"] == TASK_ID &&
+           authority["phase"] == "P3" && authority["route_id"] == ROUTE_ID &&
+           authority["stage_id"] == contract["stage_id"] &&
+           authority["kind"] == contract["kind"] && authority["objective_id"] == OBJECTIVE_ID &&
+           authority["decision"] == decision_identity && authority["contract"] == contract_identity &&
+           authority["branch"] == TASK_BRANCH && authority["worktree"] == TASK_WORKTREE &&
+           authority["evidence_root"] == TASK_EVIDENCE_ROOT &&
+           authority["execution_nonce"] == active["execution_nonce"] &&
+           authority["authorization_id"] == active["authorization_id"] &&
+           authority["activation_parent"] == activation_parent &&
+           authority["write_allowlist"] == contract["write_allowlist"] &&
+           authority["conditional_adjacent_allowlist_expansion"] ==
+             contract["conditional_adjacent_allowlist_expansion"] &&
+           authority["fixed_action"] == FIXED_ACTION && authority["budget"] == TASK_BUDGET &&
+           authority["implementation_attempt_for_milestone"] == "2_OF_2_FINAL" &&
+           authority["local_external_effect_authority"] ==
+             decision.fetch("local_external_effect_authority") &&
+           authority["forbidden_external_effects"] ==
+             decision.fetch("forbidden_external_effects") &&
+           authority["clean_room"] == decision.fetch("clean_room") &&
+           authority["acceptance"] == decision.fetch("acceptance") &&
+           authority["anti_cycle"] == decision.fetch("anti_cycle") &&
+           authority["runtime_identity_channel"] == initial_runtime &&
+           authority["roles"] == roles && authority["founder_decision_required"] == false &&
+           authority["next_eligible_action"] ==
+             "WORKER_RUN_P3_MTRO_PREWRITE_OCI_PROBE_THEN_IMPLEMENT" &&
+           authority["long_term_goal_status"] == "ACTIVE",
+           "P3 MTRO Task authority semantic or scope drift")
+  rescue JSON::ParserError, DuplicateJsonKeyError, Psych::Exception, ArgumentError => e
+    raise P3MinimumTrustTransactionalOciFinalProductRouteValidationError,
+          "P3 MTRO active authority invalid: #{e.message}"
+  end
+
+  def validate_terminal_outcome!(root, route, active, runtime_records, runtime_channel)
+    bytes = artifact_identity!(
+      root, route["terminal_outcome"], "P3 MTRO terminal outcome",
+      under: TASK_EVIDENCE_ROOT
+    )
+    receipt = exact_keys(
+      parse_closed_json(bytes, "P3 MTRO terminal outcome"),
+      %w[
+        schema_version record_type status task_id route_id execution_nonce authorization_id
+        terminal_at_utc terminal_reason contract authority frozen_candidate task_gate_receipt
+        candidate_integrated final_accounting resource_cleanup forbidden_external_effects_observed
+        delivery_percent strict_exit_percent further_same_milestone_implementation_allowed
+        founder_reserved_trigger founder_decision_required next_action_owner next_eligible_action
+        project_actually_completed long_term_goal_status codex_goal_action
+      ],
+      "P3 MTRO terminal outcome"
+    )
+    assert(receipt["schema_version"] ==
+             "p3-mtro-product-route-terminal-non-pass-receipt/v1" &&
+           receipt["record_type"] == "P3_MTRO_PRODUCT_ROUTE_TERMINAL_NON_PASS_RECEIPT" &&
+           receipt["task_id"] == TASK_ID && receipt["route_id"] == ROUTE_ID &&
+           receipt["status"] == "TERMINAL_TASK_GATE_NON_PASS" &&
+           %w[
+             PREWRITE_OCI_PROBE_NON_PASS TASK_GATE_NON_PASS STOP_CONDITION BUDGET_EXHAUSTED
+           ].include?(receipt["terminal_reason"]) &&
+           receipt["execution_nonce"] == active["execution_nonce"] &&
+           receipt["authorization_id"] == active["authorization_id"] &&
+           receipt["contract"] == active["current_task_contract"] &&
+           receipt["authority"] == active["authority_record"] &&
+           receipt["candidate_integrated"] == false &&
+           receipt["final_accounting"] == {
+             "consumed" => FINAL_CONSUMED,
+             "reserved" => {},
+             "remaining" => ZERO_CAPACITY,
+             "remaining_capacity_usable" => false
+           } && receipt["resource_cleanup"] == {
+             "task_branch_removed" => true,
+             "task_worktree_removed" => true,
+             "task_owned_oci_objects_absent" => true,
+             "evidence_retained" => true
+           } && receipt["forbidden_external_effects_observed"] == false &&
+           receipt["delivery_percent"] == 25 && receipt["strict_exit_percent"] == 0 &&
+           receipt["further_same_milestone_implementation_allowed"] == false &&
+           receipt["founder_reserved_trigger"] == "NONE" &&
+           receipt["founder_decision_required"] == false &&
+           receipt["next_action_owner"] == "NONE" &&
+           receipt["next_eligible_action"] ==
+             "NO_ENGINEERING_ACTION_P3_HOLD_INCOMPLETE_FINAL_PRODUCT_FROZEN" &&
+           receipt["project_actually_completed"] == false &&
+           receipt["long_term_goal_status"] == "ACTIVE" &&
+           receipt["codex_goal_action"] == "NONE_KEEP_ACTIVE",
+           "P3 MTRO terminal outcome semantic drift")
+    Time.iso8601(receipt.fetch("terminal_at_utc"))
+    candidate = runtime_records["candidate_freeze_record"]
+    expected_frozen_candidate = candidate && {
+      "commit" => candidate["candidate_commit"], "tree" => candidate["candidate_tree"]
+    }
+    assert(receipt["frozen_candidate"] == expected_frozen_candidate,
+           "P3 MTRO terminal receipt and runtime frozen candidate diverge")
+    git_identity!(root, expected_frozen_candidate.fetch("commit"),
+                  expected_frozen_candidate.fetch("tree"),
+                  "P3 MTRO terminal frozen candidate") if expected_frozen_candidate
+    assert(receipt["task_gate_receipt"].nil? && runtime_records["integration_record"].nil? &&
+           runtime_channel["integration_record"].nil?,
+           "P3 MTRO terminal lifecycle carries an unbound Task Gate or integration identity")
+    route["terminal_outcome"]
+  end
+
+  def validate_acceptance_bundle!(root, current_gate, runtime_records, runtime_channel)
+    bundle = exact_keys(
+      current_gate["acceptance_bundle"],
+      %w[
+        candidate_commit candidate_tree frozen_finding_set task_gate_receipt independent_reviews
+        integration canonical_replay phase_exit_eligibility_receipt
+      ],
+      "P3 MTRO acceptance bundle"
+    )
+    candidate_commit = bundle["candidate_commit"]
+    candidate_tree = bundle["candidate_tree"]
+    git_identity!(root, candidate_commit, candidate_tree, "P3 MTRO accepted candidate")
+    frozen = runtime_records.fetch("candidate_freeze_record")
+    assert(frozen["candidate_commit"] == candidate_commit &&
+           frozen["candidate_tree"] == candidate_tree,
+           "P3 MTRO accepted bundle differs from frozen runtime candidate")
+
+    item_evidence_identities = {}
+    STRICT_ITEMS.each do |item|
+      record = exact_keys(
+        current_gate.dig("required_items", item),
+        %w[status candidate_commit candidate_tree evidence],
+        "P3 MTRO strict item #{item}"
+      )
+      assert(record["status"] == "ACCEPTED" &&
+             record["candidate_commit"] == candidate_commit &&
+             record["candidate_tree"] == candidate_tree,
+             "P3 MTRO strict item #{item} candidate or status drift")
+      bytes = artifact_identity!(
+        root, record["evidence"], "P3 MTRO strict item #{item} Evidence",
+        under: TASK_EVIDENCE_ROOT
+      )
+      item_evidence_identities[item] = record["evidence"]
+      evidence = exact_keys(
+        parse_closed_json(bytes, "P3 MTRO strict item #{item} Evidence"),
+        %w[
+          schema_version record_type item_id status task_id route_id candidate_commit
+          candidate_tree acceptance_basis evidence_manifest created_at_utc
+        ],
+        "P3 MTRO strict item #{item} Evidence"
+      )
+      assert(evidence["schema_version"] == "p3-mtro-exit-item-evidence/v1" &&
+             evidence["record_type"] == "P3_MTRO_EXIT_ITEM_EVIDENCE" &&
+             evidence["item_id"] == item && evidence["status"] == "ACCEPTED" &&
+             evidence["task_id"] == TASK_ID && evidence["route_id"] == ROUTE_ID &&
+             evidence["candidate_commit"] == candidate_commit &&
+             evidence["candidate_tree"] == candidate_tree &&
+             evidence["acceptance_basis"] == GATE_REQUIRED_FACTS.fetch(item),
+             "P3 MTRO strict item #{item} Evidence semantic drift")
+      manifest_bytes = artifact_identity!(
+        root, evidence["evidence_manifest"], "P3 MTRO strict item #{item} manifest",
+        under: TASK_EVIDENCE_ROOT
+      )
+      manifest = exact_keys(
+        parse_closed_json(manifest_bytes, "P3 MTRO strict item #{item} manifest"),
+        %w[
+          schema_version record_type status item_id task_id route_id candidate_commit
+          candidate_tree contract authority task_activation_record candidate_freeze_record
+          fixed_action required_fact_ids facts zero_forbidden_external_effects created_at_utc
+        ],
+        "P3 MTRO strict item #{item} manifest"
+      )
+      required_fact_ids = GATE_REQUIRED_FACTS.fetch(item)
+      facts = exact_keys(manifest["facts"], required_fact_ids,
+                         "P3 MTRO strict item #{item} facts")
+      facts.each do |fact_id, fact_identity|
+        fact_bytes = artifact_identity!(
+          root, fact_identity, "P3 MTRO acceptance fact #{fact_id}", under: TASK_EVIDENCE_ROOT
+        )
+        fact = exact_keys(
+          parse_closed_json(fact_bytes, "P3 MTRO acceptance fact #{fact_id}"),
+          %w[
+            schema_version record_type status fact_id task_id route_id candidate_commit
+            candidate_tree contract authority observations raw_evidence created_at_utc
+          ],
+          "P3 MTRO acceptance fact #{fact_id}"
+        )
+        raw_evidence = array(fact["raw_evidence"], "P3 MTRO fact #{fact_id} raw Evidence")
+        raw_hashes = raw_evidence.map do |raw_identity|
+          artifact_identity!(root, raw_identity, "P3 MTRO fact #{fact_id} raw Evidence leaf",
+                             under: TASK_EVIDENCE_ROOT)
+          raw_identity.fetch("sha256")
+        end
+        assert(fact["schema_version"] == "p3-mtro-acceptance-fact/v1" &&
+               fact["record_type"] == "P3_MTRO_ACCEPTANCE_FACT" &&
+               fact["status"] == "PASS" && fact["fact_id"] == fact_id &&
+               fact["task_id"] == TASK_ID && fact["route_id"] == ROUTE_ID &&
+               fact["candidate_commit"] == candidate_commit &&
+               fact["candidate_tree"] == candidate_tree &&
+               fact["contract"] == runtime_records.fetch("task_activation_record")["contract"] &&
+               fact["authority"] == runtime_records.fetch("task_activation_record")["authority"] &&
+               fact["observations"].is_a?(Hash) && !fact["observations"].empty? &&
+               !raw_evidence.empty? && raw_hashes.uniq.length == raw_hashes.length,
+               "P3 MTRO acceptance fact #{fact_id} semantic drift")
+        validate_acceptance_fact_observations!(
+          root: root,
+          fact_id: fact_id,
+          observations: fact["observations"],
+          raw_evidence: raw_evidence,
+          runtime_records: runtime_records,
+          runtime_channel: runtime_channel,
+          bundle: bundle
+        )
+        Time.iso8601(fact.fetch("created_at_utc"))
+      end
+      assert(manifest["schema_version"] == "p3-mtro-acceptance-evidence-manifest/v1" &&
+             manifest["record_type"] == "P3_MTRO_ACCEPTANCE_EVIDENCE_MANIFEST" &&
+             manifest["status"] == "PASS" && manifest["item_id"] == item &&
+             manifest["task_id"] == TASK_ID && manifest["route_id"] == ROUTE_ID &&
+             manifest["candidate_commit"] == candidate_commit &&
+             manifest["candidate_tree"] == candidate_tree &&
+             manifest["contract"] == runtime_records.fetch("task_activation_record")["contract"] &&
+             manifest["authority"] == runtime_records.fetch("task_activation_record")["authority"] &&
+             manifest["task_activation_record"] == runtime_channel["task_activation_record"] &&
+             manifest["candidate_freeze_record"] == runtime_channel["candidate_freeze_record"] &&
+             manifest["fixed_action"] == FIXED_ACTION &&
+             manifest["required_fact_ids"] == required_fact_ids &&
+             manifest["zero_forbidden_external_effects"] == true,
+             "P3 MTRO strict item #{item} manifest semantic drift")
+      Time.iso8601(manifest.fetch("created_at_utc"))
+      Time.iso8601(evidence.fetch("created_at_utc"))
+    end
+
+    reviews = exact_keys(
+      bundle["independent_reviews"], %w[cto security quality_evaluation],
+      "P3 MTRO independent reviews"
+    )
+    expected_roles = {
+      "cto" => "CTO_AGENT",
+      "security" => "SECURITY_AGENT",
+      "quality_evaluation" => "QUALITY_EVALUATION_AGENT"
+    }
+    review_identities = []
+    reviews.each do |key, identity|
+      review_identities << identity
+      bytes = artifact_identity!(
+        root, identity, "P3 MTRO #{key} review", under: TASK_EVIDENCE_ROOT
+      )
+      review = exact_keys(
+        parse_closed_json(bytes, "P3 MTRO #{key} review"),
+        %w[
+          schema_version record_type role verdict task_id route_id candidate_commit
+          candidate_tree review_cycle review_dispatch frozen_finding_set reviewer_worktree
+          repair_record findings open_p0_p1_findings gate_relevance reviewed_at_utc
+        ],
+        "P3 MTRO #{key} review"
+      )
+      assert(review["schema_version"] == "p3-mtro-independent-review/v1" &&
+             review["record_type"] == "P3_MTRO_INDEPENDENT_REVIEW" &&
+             review["role"] == expected_roles.fetch(key) && review["verdict"] == "PASS" &&
+             review["task_id"] == TASK_ID && review["route_id"] == ROUTE_ID &&
+             review["candidate_commit"] == candidate_commit &&
+             review["candidate_tree"] == candidate_tree &&
+             [1, 2].include?(review["review_cycle"]) &&
+             review["review_dispatch"] == runtime_channel["review_dispatch_record"] &&
+             review["frozen_finding_set"] ==
+               runtime_records.fetch("review_dispatch_record")["frozen_finding_set"] &&
+             review["repair_record"] ==
+               runtime_records.fetch("review_dispatch_record")["repair_record"] &&
+             review["reviewer_worktree"] ==
+               runtime_records.fetch("review_dispatch_record").dig("reviewer_worktrees", key) &&
+             review["findings"] == [] &&
+             review["open_p0_p1_findings"] == [] &&
+             review["gate_relevance"] == "PASS",
+             "P3 MTRO #{key} review semantic drift")
+      Time.iso8601(review.fetch("reviewed_at_utc"))
+    end
+    assert(review_identities.map { |identity| identity.fetch("sha256") }.uniq.length == 3,
+           "P3 MTRO independent reviews are not three distinct artifacts")
+    review_documents = reviews.map do |key, identity|
+      bytes = artifact_identity!(root, identity, "P3 MTRO #{key} review cycle check",
+                                 under: TASK_EVIDENCE_ROOT)
+      parse_closed_json(bytes, "P3 MTRO #{key} review cycle check")
+    end
+    review_cycles = review_documents.map { |review| review.fetch("review_cycle") }.uniq
+    assert(review_cycles.length == 1 &&
+           review_cycles.first == runtime_records.fetch("review_dispatch_record")["review_cycle"],
+           "P3 MTRO three independent reviews do not share one frozen review cycle")
+    finding_set, frozen_finding_ids = validate_frozen_finding_set!(
+      root, bundle["frozen_finding_set"]
+    )
+    if review_cycles.first == 1
+      assert(runtime_records.fetch("review_dispatch_record")["frozen_finding_set"].nil? &&
+             runtime_records.fetch("review_dispatch_record")["repair_record"].nil? &&
+             finding_set["candidate_commit"] == candidate_commit &&
+             finding_set["candidate_tree"] == candidate_tree &&
+             finding_set["cycle_1_reviews"] == reviews && frozen_finding_ids.empty?,
+             "P3 MTRO Cycle 1 PASS does not close the complete frozen finding set")
+    else
+      assert(bundle["frozen_finding_set"] ==
+               runtime_records.fetch("review_dispatch_record")["frozen_finding_set"] &&
+             !frozen_finding_ids.empty? &&
+             !runtime_records.fetch("review_dispatch_record")["repair_record"].nil?,
+             "P3 MTRO Cycle 2 PASS lacks the single frozen-finding repair record")
+    end
+
+    task_gate_bytes = artifact_identity!(
+      root, bundle["task_gate_receipt"], "P3 MTRO Task Gate receipt",
+      under: TASK_EVIDENCE_ROOT
+    )
+    task_gate = exact_keys(
+      parse_closed_json(task_gate_bytes, "P3 MTRO Task Gate receipt"),
+      %w[
+        schema_version record_type verdict task_id route_id candidate_commit candidate_tree
+        frozen_finding_set independent_reviews required_item_evidence open_p0_p1_findings
+        forbidden_external_effects_observed decided_at_utc
+      ],
+      "P3 MTRO Task Gate receipt"
+    )
+    assert(task_gate["schema_version"] == "p3-mtro-task-gate-pass-receipt/v1" &&
+           task_gate["record_type"] == "P3_MTRO_TASK_GATE_PASS_RECEIPT" &&
+           task_gate["verdict"] == "PASS" && task_gate["task_id"] == TASK_ID &&
+           task_gate["route_id"] == ROUTE_ID && task_gate["candidate_commit"] == candidate_commit &&
+           task_gate["candidate_tree"] == candidate_tree &&
+           task_gate["frozen_finding_set"] == bundle["frozen_finding_set"] &&
+           task_gate["independent_reviews"] == reviews &&
+           task_gate["required_item_evidence"] == item_evidence_identities &&
+           task_gate["open_p0_p1_findings"] == [] &&
+           task_gate["forbidden_external_effects_observed"] == false,
+           "P3 MTRO Task Gate receipt semantic drift")
+    Time.iso8601(task_gate.fetch("decided_at_utc"))
+
+    integration_bytes = artifact_identity!(
+      root, bundle["integration"], "P3 MTRO integration", under: TASK_EVIDENCE_ROOT
+    )
+    integration = exact_keys(
+      parse_closed_json(integration_bytes, "P3 MTRO integration"),
+      %w[
+        schema_version record_type status task_id route_id candidate_commit candidate_tree
+        task_gate_receipt canonical_commit canonical_tree integrated_branch integrated_at_utc
+      ],
+      "P3 MTRO integration"
+    )
+    assert(integration["schema_version"] == "p3-mtro-integration-record/v1" &&
+           integration["record_type"] == "P3_MTRO_INTEGRATION_RECORD" &&
+           integration["status"] == "PASS" && integration["task_id"] == TASK_ID &&
+           integration["route_id"] == ROUTE_ID &&
+           integration["candidate_commit"] == candidate_commit &&
+           integration["candidate_tree"] == candidate_tree &&
+           integration["task_gate_receipt"] == bundle["task_gate_receipt"] &&
+           integration["canonical_commit"] == candidate_commit &&
+           integration["canonical_tree"] == candidate_tree &&
+           integration["integrated_branch"] == "main",
+           "P3 MTRO accepted candidate was not the canonical integration identity")
+    Time.iso8601(integration.fetch("integrated_at_utc"))
+    assert(bundle["integration"] == runtime_channel["integration_record"],
+           "P3 MTRO acceptance and runtime integration identities differ")
+
+    replay_bytes = artifact_identity!(
+      root, bundle["canonical_replay"], "P3 MTRO canonical replay",
+      under: TASK_EVIDENCE_ROOT
+    )
+    replay = exact_keys(
+      parse_closed_json(replay_bytes, "P3 MTRO canonical replay"),
+      %w[
+        schema_version record_type status task_id route_id candidate_commit candidate_tree
+        canonical_commit canonical_tree integration_record replay_count
+        raw_replay_bundle forbidden_external_effects_observed replayed_at_utc
+      ],
+      "P3 MTRO canonical replay"
+    )
+    assert(replay["schema_version"] == "p3-mtro-canonical-replay/v1" &&
+           replay["record_type"] == "P3_MTRO_CANONICAL_REPLAY_RECORD" &&
+           replay["status"] == "PASS" && replay["replay_count"] == 1 &&
+           replay["task_id"] == TASK_ID && replay["route_id"] == ROUTE_ID &&
+           replay["candidate_commit"] == candidate_commit &&
+           replay["candidate_tree"] == candidate_tree &&
+           replay["canonical_commit"] == integration["canonical_commit"] &&
+           replay["canonical_tree"] == integration["canonical_tree"] &&
+           replay["integration_record"] == bundle["integration"] &&
+           replay["forbidden_external_effects_observed"] == false,
+           "P3 MTRO canonical replay semantic drift")
+    replay_bundle = validate_canonical_replay_raw_bundle!(
+      root: root, identity: replay["raw_replay_bundle"],
+      candidate: runtime_records.fetch("candidate_freeze_record"),
+      activation_identity: runtime_channel.fetch("task_activation_record"),
+      integration_identity: bundle["integration"],
+      canonical_commit: replay["canonical_commit"], canonical_tree: replay["canonical_tree"]
+    )
+    assert(Time.iso8601(replay_bundle.fetch("created_at_utc")) <=
+           Time.iso8601(replay.fetch("replayed_at_utc")),
+           "P3 MTRO accepted replay verdict predates its raw bundle")
+    Time.iso8601(replay.fetch("replayed_at_utc"))
+    assert(bundle["canonical_replay"] == runtime_channel["canonical_replay_record"],
+           "P3 MTRO acceptance and runtime replay identities differ")
+
+    phase_exit_bytes = artifact_identity!(
+      root, bundle["phase_exit_eligibility_receipt"],
+      "P3 MTRO Phase exit eligibility receipt", under: TASK_EVIDENCE_ROOT
+    )
+    phase_exit = exact_keys(
+      parse_closed_json(phase_exit_bytes, "P3 MTRO Phase exit eligibility receipt"),
+      %w[
+        schema_version record_type status task_id route_id candidate_commit candidate_tree
+        frozen_finding_set task_gate_receipt independent_reviews integration canonical_replay required_items
+        compatibility_projection issued_at_utc
+      ],
+      "P3 MTRO Phase exit eligibility receipt"
+    )
+    assert(phase_exit["schema_version"] == "p3-mtro-phase-exit-eligibility-receipt/v1" &&
+           phase_exit["record_type"] == "P3_MTRO_PHASE_EXIT_ELIGIBILITY_RECEIPT" &&
+           phase_exit["status"] == "ELIGIBLE_AWAITING_FOUNDER_DECISION" &&
+           phase_exit["task_id"] == TASK_ID && phase_exit["route_id"] == ROUTE_ID &&
+           phase_exit["candidate_commit"] == candidate_commit &&
+           phase_exit["candidate_tree"] == candidate_tree &&
+           phase_exit["frozen_finding_set"] == bundle["frozen_finding_set"] &&
+           phase_exit["task_gate_receipt"] == bundle["task_gate_receipt"] &&
+           phase_exit["independent_reviews"] == reviews &&
+           phase_exit["integration"] == bundle["integration"] &&
+           phase_exit["canonical_replay"] == bundle["canonical_replay"] &&
+           phase_exit["required_items"] == current_gate["required_items"] &&
+           phase_exit["compatibility_projection"] ==
+             current_gate["compatibility_projection"],
+           "P3 MTRO Phase exit eligibility receipt semantic drift")
+    Time.iso8601(phase_exit.fetch("issued_at_utc"))
+
+    branch = git!(root, "branch", "--show-current").strip
+    head = git!(root, "rev-parse", "HEAD").strip
+    assert(branch == "main", "P3 MTRO accepted state is not on canonical main")
+    _stdout, _stderr, ancestor = Open3.capture3(
+      "git", "-C", root.to_s, "merge-base", "--is-ancestor", candidate_commit, head
+    )
+    assert(ancestor.success?, "P3 MTRO accepted candidate is not canonical-main ancestry")
+    assert(head != candidate_commit,
+           "P3 MTRO accepted lifecycle was prefilled into the Product candidate")
+    changed = git_changed_paths!(
+      root, candidate_commit, head, "P3 MTRO post-integration canonical synchronization"
+    )
+    assert(!changed.empty? &&
+           (changed - %w[docs/aios/truth/project_state.yaml docs/PROJECT_CODE_MAP.md]).empty?,
+           "P3 MTRO post-integration canonical changes exceed final Truth synchronization")
+    assert(git!(root, "status", "--porcelain").strip.empty?,
+           "P3 MTRO accepted canonical main is dirty")
+    bundle["phase_exit_eligibility_receipt"]
+  end
+
+  def validate_truth!(root:, truth:)
+    root = Pathname.new(root).realpath
+    decision = validate_decision!(root)
+    route = exact_keys(
+      truth["current_phase_route"],
+      %w[
+        schema_version route_id phase policy status lifecycle_stage execution_status
+        scheduling_status phase_entry_status founder_phase_route_decision_required
+        founder_reserved_trigger_resolved next_eligible_action objective_id claim_boundary
+        strict_exit_gate fixed_action founder_route_decision installation_parent
+        governing_constitution terminal_basis accepted_dependencies ordered_stages
+        runtime_identity_channel terminal_outcome product_architecture
+        local_external_effect_authority p3_p5_boundary clean_room anti_cycle progress
+        external_effects lifecycle
+      ],
+      "P3 MTRO current Route"
+    )
+    lifecycle = route["lifecycle_stage"]
+    profile = LIFECYCLE_PROFILES[lifecycle]
+    assert(profile, "P3 MTRO lifecycle is not closed-schema: #{lifecycle.inspect}")
+    expected_route_decision = DECISION.merge(
+      "decision_id" => DECISION_ID,
+      "operation_type" => OPERATION_TYPE,
+      "reserved_trigger" => "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE"
+    )
+    assert(route["schema_version"] == ROUTE_SCHEMA && route["route_id"] == ROUTE_ID &&
+           route["phase"] == "P3" && route["status"] == profile.fetch("route_status") &&
+           route["policy"] == DELEGATION_POLICY && route["phase_entry_status"] == "AUTHORIZED" &&
+           route["founder_phase_route_decision_required"] == false &&
+           route["founder_reserved_trigger_resolved"] ==
+             "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE" &&
+           route["scheduling_status"] == profile.fetch("scheduling_status") &&
+           route["objective_id"] == OBJECTIVE_ID && route["fixed_action"] == FIXED_ACTION &&
+           route["claim_boundary"] ==
+             "ONE_ACTUAL_AGENT_HOST_AUTHORIZED_DURABLE_READ_ONLY_ARCHITECTURE_OVERVIEW_SHA256_INVOCATION_ON_TRUSTED_SINGLE_USER_LOCAL_HOST" &&
+           route.dig("strict_exit_gate", "gate_id") == STRICT_GATE_ID &&
+           route.dig("strict_exit_gate", "required_item_ids") == STRICT_ITEMS &&
+           route["strict_exit_gate"] == {
+             "gate_id" => STRICT_GATE_ID,
+             "required_item_ids" => STRICT_ITEMS,
+             "same_frozen_product_candidate_required" => true,
+             "three_independent_reviewers_pass_required" => true,
+             "canonical_replay_count" => 1
+           } && route["founder_route_decision"] == expected_route_decision &&
+           route["installation_parent"] == {
+             "branch" => "main",
+             "commit" => CANONICAL_START.fetch("commit"),
+             "tree" => CANONICAL_START.fetch("tree"),
+             "truth" => CANONICAL_START.fetch("truth"),
+             "constitution" => CANONICAL_START.fetch("constitution")
+           } && route["governing_constitution"] == CONSTITUTION &&
+           route["accepted_dependencies"] == [
+             "DURABLE_STATE_AND_CHECKPOINT_RESUME",
+             "DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION"
+           ] && route["product_architecture"] == PRODUCT_ARCHITECTURE &&
+           route["local_external_effect_authority"] ==
+             decision.fetch("local_external_effect_authority") &&
+           route["p3_p5_boundary"] == decision.fetch("p3_p5_boundary") &&
+           route["clean_room"] == decision.fetch("clean_room") &&
+           route["anti_cycle"] == decision.fetch("anti_cycle") &&
+           route["lifecycle"] == decision.fetch("lifecycle"),
+           "P3 MTRO current Route authority drift")
+    stage = exact_keys(
+      array(route["ordered_stages"], "P3 MTRO ordered stages").first,
+      %w[
+        ordinal stage_id task_id kind status budget resources
+        implementation_attempt_for_milestone contract_identity authority_identity
+      ],
+      "P3 MTRO sole Product stage"
+    )
+    assert(route["ordered_stages"].length == 1 && stage["ordinal"] == 19 &&
+           stage["stage_id"] == "ACTUAL_AGENT_TRANSACTIONAL_OCI_READ_ONLY_INVOCATION_PRODUCT" &&
+           stage["task_id"] == TASK_ID &&
+           stage["kind"] == "PRODUCT_IMPLEMENTATION_SECOND_AND_FINAL" &&
+           stage["status"] == profile.fetch("stage_status") &&
+           stage["budget"] == TASK_BUDGET &&
+           stage["implementation_attempt_for_milestone"] == "2_OF_2_FINAL" &&
+           stage.dig("resources", "branch") == TASK_BRANCH &&
+           stage.dig("resources", "worktree") == TASK_WORKTREE &&
+           stage.dig("resources", "evidence_root") == TASK_EVIDENCE_ROOT &&
+           stage["resources"] == {
+             "branch" => TASK_BRANCH,
+             "worktree" => TASK_WORKTREE,
+             "evidence_root" => TASK_EVIDENCE_ROOT,
+             "contract_path" => TASK_CONTRACT_PATH
+           },
+           "P3 MTRO sole Product stage drift")
+    progress = exact_keys(route["progress"],
+                          %w[delivery_percent strict_exit_percent governance_progress_credit],
+                          "P3 MTRO Route progress")
+    assert(route["execution_status"] == profile.fetch("state") &&
+           route["next_eligible_action"] == profile.fetch("action") &&
+           progress == {
+             "delivery_percent" => profile.fetch("delivery"),
+             "strict_exit_percent" => profile.fetch("strict"),
+             "governance_progress_credit" => 0
+           } &&
+           route["external_effects"] ==
+             (profile.fetch("effects_enabled") ?
+               ENABLED_TASK_LOCAL_ROUTE_EXTERNAL_EFFECTS : DISABLED_ROUTE_EXTERNAL_EFFECTS),
+           "P3 MTRO lifecycle, progress or external-effect drift")
+    terminal_basis = exact_keys(
+      route["terminal_basis"],
+      %w[
+        trivs_product_receipt f2_terminal_receipt f2_diagnostic f2_scheduling_authority
+        old_trivs_p2_scheduling_authority
+      ],
+      "P3 MTRO historical terminal basis"
+    )
+    assert(terminal_basis == {
+             "trivs_product_receipt" => TRIVS_TERMINAL_RECEIPT,
+             "f2_terminal_receipt" => F2_TERMINAL_RECEIPT,
+             "f2_diagnostic" => F2_DIAGNOSTIC,
+             "f2_scheduling_authority" => false,
+             "old_trivs_p2_scheduling_authority" => false
+           },
+           "P3 MTRO historical terminal basis drift")
+    old_route = mapping(
+      truth["historical_p3_trivs_evidence_first_terminal_phase_route"],
+      "historical P3 F2 terminal Route"
+    )
+    old_stages = array(old_route["ordered_stages"], "historical P3 F2 terminal stages")
+    old_f2 = old_stages.find { |item|
+      item["task_id"] == "AIOS-P3-TRIVS-F2_CANDIDATE_BOUND_ACCEPTANCE_HARNESS"
+    }
+    old_p2 = old_stages.find { |item|
+      item["task_id"] ==
+        "AIOS-P3-TRIVS-P2_ACTUAL_AGENT_TRUSTED_READ_ONLY_INVOCATION_FINAL_CLEAN_ROOM_PRODUCT"
+    }
+    assert(old_route["route_id"] ==
+             "P3_TRUSTED_READ_ONLY_INVOCATION_EVIDENCE_FIRST_FINAL_CLEAN_ROOM_ROUTE_V1" &&
+           old_route["lifecycle_stage"] == "FOUNDATION_ROUTE_TERMINAL_NON_PASS" &&
+           old_f2.is_a?(Hash) && old_f2["status"] == "TERMINAL_TASK_GATE_NON_PASS" &&
+           old_p2.is_a?(Hash) && old_p2["status"] == "LOCKED_NEVER_CREATED",
+           "P3 MTRO superseded F2 Route history or no-scheduling boundary drift")
+    envelope = exact_keys(
+      truth["phase_execution_envelope"],
+      %w[
+        schema_version phase status authority_basis accounting_basis consumed limits reserved
+        remaining remaining_capacity_usable milestone_order accepted_milestones ordered_stages
+        implementation_accounting delivery_progress governance_progress_credit external_effects
+      ],
+      "P3 MTRO Phase envelope"
+    )
+    authority_basis = exact_keys(
+      envelope["authority_basis"],
+      %w[phase_entry_status source_route_ref source_route_id founder_route_decision],
+      "P3 MTRO envelope authority basis"
+    )
+    envelope_stage = exact_keys(
+      array(envelope["ordered_stages"], "P3 MTRO envelope stages").first,
+      %w[ordinal stage_id task_id kind status implementation_attempt_for_milestone budget resources],
+      "P3 MTRO envelope Product stage"
+    )
+    expected_consumed = profile.fetch("final_accounting") ? FINAL_CONSUMED : CONSUMED
+    expected_reserved = profile.fetch("active") ? REMAINING : {}
+    expected_remaining = if profile.fetch("final_accounting") || profile.fetch("active")
+                           ZERO_CAPACITY
+                         else
+                           REMAINING
+                         end
+    expected_envelope_effects = if profile.fetch("active")
+                                  ENVELOPE_EXTERNAL_EFFECTS_ACTIVE
+                                elsif profile.fetch("final_accounting")
+                                  ENVELOPE_EXTERNAL_EFFECTS_FINAL
+                                else
+                                  ENVELOPE_EXTERNAL_EFFECTS_LOCKED
+                                end
+    expected_accepted_milestones = [
+      "DURABLE_STATE_AND_CHECKPOINT_RESUME",
+      "DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION"
+    ]
+    expected_accepted_milestones <<
+      "ACTUAL_AGENT_TRANSACTIONAL_OCI_READ_ONLY_INVOCATION_PRODUCT" if profile.fetch("accepted")
+    assert(envelope["schema_version"] == "phase-execution-envelope/v1" &&
+           envelope["phase"] == "P3" && envelope["status"] == profile.fetch("phase_status") &&
+           authority_basis == {
+             "phase_entry_status" => "AUTHORIZED",
+             "source_route_ref" => "current_phase_route",
+             "source_route_id" => ROUTE_ID,
+             "founder_route_decision" => DECISION.merge("decision_id" => DECISION_ID)
+           } && envelope["accounting_basis"] ==
+             "NON_RESETTABLE_CUMULATIVE_P3_FOUNDER_ENVELOPE" &&
+           envelope["consumed"] == expected_consumed && envelope["limits"] == LIMITS &&
+           envelope["reserved"] == expected_reserved &&
+           envelope["remaining"] == expected_remaining &&
+           envelope["remaining_capacity_usable"] == profile.fetch("task_creation") &&
+           envelope["milestone_order"] == [
+             "DURABLE_STATE_AND_CHECKPOINT_RESUME",
+             "DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION",
+             "ACTUAL_AGENT_TRANSACTIONAL_OCI_READ_ONLY_INVOCATION_PRODUCT"
+           ] && envelope["accepted_milestones"] == expected_accepted_milestones &&
+           envelope["ordered_stages"].length == 1 &&
+           envelope_stage == stage.reject { |key, _| %w[contract_identity authority_identity].include?(key) } &&
+           envelope["implementation_accounting"] == {
+             "prior_product_task_id" =>
+               "AIOS-P3-TRIVS-P1_ACTUAL_AGENT_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE",
+             "prior_implementation_attempt" => "1_OF_2",
+             "current_implementation_attempt" => "2_OF_2_FINAL",
+             "third_implementation_allowed" => false
+           } && envelope["delivery_progress"] == {
+             "accepted_dependencies" => 2,
+             "route_delivery_milestones_accepted" => profile.fetch("accepted") ? 1 : 0,
+             "route_delivery_milestones_total" => 1,
+             "percent" => profile.fetch("delivery"),
+             "strict_exit_gate_percent" => profile.fetch("strict")
+           } && envelope["governance_progress_credit"] == 0 &&
+           envelope["external_effects"] == expected_envelope_effects,
+           "P3 MTRO Phase envelope or non-resettable accounting drift")
+
+    control = exact_keys(
+      truth["founder_escalation_control"],
+      %w[
+        schema_version disposition source_event reserved_trigger resolved_strategy_decision
+        phase_gate_status founder_decision_required next_action_owner next_eligible_action
+      ],
+      "P3 MTRO Founder escalation"
+    )
+    source_event = exact_keys(control["source_event"], %w[kind decision_id status],
+                              "P3 MTRO Founder source event")
+    reserved_trigger = exact_keys(control["reserved_trigger"], %w[category evidence],
+                                  "P3 MTRO reserved trigger")
+    resolved = exact_keys(
+      control["resolved_strategy_decision"],
+      %w[category decision_id path byte_length sha256 result],
+      "P3 MTRO resolved strategy decision"
+    )
+    assert(control["schema_version"] == "founder-escalation-control/v2" &&
+           control["disposition"] == profile.fetch("disposition") &&
+           source_event == {
+             "kind" => "FOUNDER_P3_MTRO_FINAL_PRODUCT_ROUTE_AUTHORIZED",
+             "decision_id" => DECISION_ID,
+             "status" => profile.fetch("state")
+           } && reserved_trigger["category"] == profile.fetch("reserved_trigger") &&
+           resolved == DECISION.merge(
+             "category" => "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE",
+             "decision_id" => DECISION_ID,
+             "result" => profile.fetch("resolved_result")
+           ) && control["phase_gate_status"] == profile.fetch("phase_gate_status") &&
+           control["founder_decision_required"] == profile.fetch("founder_required") &&
+           control["next_action_owner"] == profile.fetch("next_owner") &&
+           control["next_eligible_action"] == profile.fetch("action"),
+           "P3 MTRO Founder escalation continuity drift")
+    assert(reserved_trigger["evidence"].nil?,
+           "P3 MTRO ordinary lifecycle falsely interrupts Founder") unless
+      profile.fetch("founder_required")
+
+    boundary = exact_keys(
+      truth["phase_boundary"],
+      %w[
+        phase phase_execution_status task_creation_allowed task_creation_scope
+        task_creation_lock_after_activation p3_entry_authorized allowed_task_kinds
+        allowed_capabilities role_write_roots immutable_authority_paths
+        allowed_independent_reviewers required_reviewers_by_risk founder_reserved_risk_levels
+        deferred_capabilities default_external_effects founder_decision_required
+        founder_decision_required_scope escalation_reason user_action_required
+        phase_route_decision_required phase_route_user_action_required next_eligible_action
+      ],
+      "P3 MTRO Phase boundary"
+    )
+    assert(boundary["phase"] == "P3" &&
+           boundary["phase_execution_status"] == profile.fetch("phase_status") &&
+           boundary["task_creation_allowed"] == profile.fetch("task_creation") &&
+           boundary["task_creation_scope"] == profile.fetch("boundary_scope") &&
+           boundary["task_creation_lock_after_activation"] == true &&
+           boundary["p3_entry_authorized"] == true &&
+           boundary["allowed_task_kinds"] ==
+             (profile.fetch("task_creation") ? ["PRODUCT_IMPLEMENTATION_SECOND_AND_FINAL"] : []) &&
+           boundary["allowed_capabilities"] == STRICT_ITEMS &&
+           boundary["role_write_roots"] == ROLE_WRITE_ROOTS &&
+           boundary["immutable_authority_paths"] == IMMUTABLE_AUTHORITY_PATHS &&
+           boundary["allowed_independent_reviewers"] == REVIEWER_ROLES &&
+           boundary["required_reviewers_by_risk"] == {"critical" => REVIEWER_ROLES} &&
+           boundary["founder_reserved_risk_levels"] == ["critical"] &&
+           boundary["deferred_capabilities"] == DEFERRED_CAPABILITIES &&
+           boundary["default_external_effects"] == DISABLED_ROUTE_EXTERNAL_EFFECTS &&
+           boundary["founder_decision_required"] == profile.fetch("founder_required") &&
+           boundary["founder_decision_required_scope"] ==
+             (profile.fetch("founder_required") ? "PHASE_ENTRY_OR_EXIT" : "NONE") &&
+           boundary["escalation_reason"] ==
+             (profile.fetch("founder_required") ? "P3_STRICT_EXIT_GATE_COMPLETE" : nil) &&
+           boundary["user_action_required"] == profile.fetch("founder_required") &&
+           boundary["phase_route_decision_required"] == false &&
+           boundary["phase_route_user_action_required"] == false &&
+           boundary["next_eligible_action"] == profile.fetch("action"),
+           "P3 MTRO Phase boundary or deferred-capability drift")
+
+    delegation = exact_keys(
+      truth["phase_delegation"],
+      %w[
+        status model decision_source phase_gate_owner task_selection_owner
+        task_authorization_owner task_gate_owner p3_entry_authorized founder_reserved_decisions
+        agent_delegated_decisions escalation_conditions anti_loop claim_boundary
+      ],
+      "P3 MTRO Phase delegation"
+    )
+    assert(delegation["status"] == profile.fetch("phase_status") &&
+           delegation["model"] == "PHASE_LEVEL_FOUNDER_DELEGATION" &&
+           delegation["decision_source"] == DECISION_ID &&
+           delegation["phase_gate_owner"] == "HUMAN_FOUNDER" &&
+           delegation["task_selection_owner"] == "MASTER_CEO_AGENT" &&
+           delegation["task_authorization_owner"] == "MASTER_CEO_AGENT" &&
+           delegation["task_gate_owner"] == "MASTER_CEO_AGENT" &&
+           delegation["p3_entry_authorized"] == true &&
+           delegation["founder_reserved_decisions"] == FOUNDER_RESERVED_DECISIONS &&
+           delegation["agent_delegated_decisions"] == AGENT_DELEGATED_DECISIONS &&
+           delegation["escalation_conditions"] == ["EXACT_FOUNDER_RESERVED_TRIGGER_ONLY"] &&
+           delegation["anti_loop"] == DELEGATION_ANTI_LOOP &&
+           delegation["claim_boundary"] ==
+             "P3_ONE_FINAL_MTRO_PRODUCT_TASK_ONLY_P4_HOLD_LONG_TERM_GOAL_ACTIVE",
+           "P3 MTRO delegation or anti-loop drift")
+
+    active = exact_keys(
+      truth["active_work"],
+      %w[
+        current_task selected_task current_task_status current_task_contract
+        current_task_contract_sha256 current_execution_authorization
+        current_execution_authorization_sha256 authority_record authority_scope_conformance
+        execution_nonce execution_nonce_status authorization_id activation_parent_commit
+        activation_parent_tree strategic_installation_parent task_resource_state
+        planned_task_branch planned_task_worktree planned_execution_evidence_root task_branch
+        task_worktree execution_evidence_root dependency_custody_root allowlisted_paths
+        current_task_budget next_stage_budget roles runtime_identity_channel external_effects
+        offsite_target founder_reserved_authorization founder_reserved_authorization_sha256
+        founder_decision_required founder_decision_required_scope escalation_reason
+        user_action_required phase_route_decision_required phase_route_user_action_required
+        historical_terminal_accounting next_eligible_action
+      ],
+      "P3 MTRO active work"
+    )
+    assert(active["selected_task"] == TASK_ID &&
+           active["current_task_status"] == profile.fetch("task_status") &&
+           active["strategic_installation_parent"] == {
+             "commit" => CANONICAL_START.fetch("commit"),
+             "tree" => CANONICAL_START.fetch("tree")
+           } && active["task_resource_state"] == profile.fetch("task_resource_state") &&
+           active["planned_task_branch"] == TASK_BRANCH &&
+           active["planned_task_worktree"] == TASK_WORKTREE &&
+           active["planned_execution_evidence_root"] == TASK_EVIDENCE_ROOT &&
+           active["offsite_target"].nil? &&
+           active["founder_reserved_authorization"] == DECISION.fetch("path") &&
+           active["founder_reserved_authorization_sha256"] == DECISION.fetch("sha256") &&
+           active["founder_decision_required"] == profile.fetch("founder_required") &&
+           active["founder_decision_required_scope"] ==
+             (profile.fetch("founder_required") ? "PHASE_ENTRY_OR_EXIT" : "NONE") &&
+           active["escalation_reason"] ==
+             (profile.fetch("founder_required") ? "P3_STRICT_EXIT_GATE_COMPLETE" : nil) &&
+           active["user_action_required"] == profile.fetch("founder_required") &&
+           active["phase_route_decision_required"] == false &&
+           active["phase_route_user_action_required"] == false &&
+           active["historical_terminal_accounting"] == {
+             "consumed_engineering_tasks" => 18,
+             "consumed_engineering_hours" => 520,
+             "consumed_calendar_days" => 122,
+             "latest_terminal_task_id" => "AIOS-P3-TRIVS-F2_CANDIDATE_BOUND_ACCEPTANCE_HARNESS",
+             "latest_terminal_receipt_sha256" => F2_TERMINAL_RECEIPT.fetch("sha256")
+           } && active["next_eligible_action"] == profile.fetch("action"),
+           "P3 MTRO active-work common projection drift")
+    if lifecycle == "PRODUCT_ELIGIBLE_NOT_ACTIVATED"
+      assert(active["current_task"] == "NONE" && active["current_task_contract"].nil? &&
+             active["current_task_contract_sha256"].nil? &&
+             active["current_execution_authorization"].nil? &&
+             active["current_execution_authorization_sha256"].nil? &&
+             active["authority_record"].nil? &&
+             active["authority_scope_conformance"] == "NOT_YET_ISSUED" &&
+             active["execution_nonce"].nil? &&
+             active["execution_nonce_status"] == "NOT_YET_ISSUED" &&
+             active["authorization_id"].nil? && active["activation_parent_commit"].nil? &&
+             active["activation_parent_tree"].nil? && active["task_branch"].nil? &&
+             active["task_worktree"].nil? && active["execution_evidence_root"].nil? &&
+             active["dependency_custody_root"].nil? && active["allowlisted_paths"] == [] &&
+             active["current_task_budget"] == {} && active["next_stage_budget"] == TASK_BUDGET &&
+             active["roles"] == {
+               "owner" => "MASTER_CEO_AGENT", "worker" => "NOT_YET_ASSIGNED",
+               "quality_owner" => "NOT_YET_ASSIGNED",
+               "independent_reviewers" => %w[CTO_AGENT SECURITY_AGENT QUALITY_EVALUATION_AGENT]
+             } && active["external_effects"] == DISABLED_ACTIVE_EXTERNAL_EFFECTS,
+             "P3 MTRO eligible active-work projection drift")
+      assert(stage["contract_identity"].nil? && stage["authority_identity"].nil? &&
+             !root.join(TASK_CONTRACT_PATH).exist? && !Pathname.new(AUTHORITY_PATH).exist? &&
+             !Pathname.new(TASK_WORKTREE).exist?,
+             "P3 MTRO Task resources exist before activation")
+    else
+      assert(active["current_task"] == (profile.fetch("active") ? TASK_ID : "NONE") &&
+             active["current_task_contract"].is_a?(Hash) &&
+             active["current_task_contract_sha256"] ==
+               active.dig("current_task_contract", "sha256") &&
+             active["current_execution_authorization"] == AUTHORITY_PATH &&
+             active["current_execution_authorization_sha256"] ==
+               active.dig("authority_record", "sha256") &&
+             active["authority_scope_conformance"] == "PASS_EXACT_TASK_SCOPE" &&
+             active["execution_nonce"].is_a?(String) &&
+             active["authorization_id"].is_a?(String) &&
+             active["activation_parent_commit"].is_a?(String) &&
+             active["activation_parent_tree"].is_a?(String) &&
+             active["dependency_custody_root"] ==
+               File.join(TASK_EVIDENCE_ROOT, "dependency-custody") &&
+             active["allowlisted_paths"] == decision.fetch("product_write_allowlist") &&
+             active["current_task_budget"] == TASK_BUDGET && active["next_stage_budget"] == {} &&
+             active["roles"] == {
+               "owner" => "MASTER_CEO_AGENT", "worker" => "BACKEND_JAVA_WORKER_AGENT",
+               "quality_owner" => "QUALITY_EVALUATION_AGENT",
+               "independent_reviewers" => %w[CTO_AGENT SECURITY_AGENT QUALITY_EVALUATION_AGENT]
+             } && stage["contract_identity"] == active["current_task_contract"] &&
+             stage["authority_identity"] == active["authority_record"],
+             "P3 MTRO activated or final Task authority projection drift")
+      if profile.fetch("active")
+        assert(active["execution_nonce_status"] == "ACTIVE" &&
+               active["task_branch"] == TASK_BRANCH && active["task_worktree"] == TASK_WORKTREE &&
+               active["execution_evidence_root"] == TASK_EVIDENCE_ROOT &&
+               active["external_effects"] == ENABLED_TASK_LOCAL_ACTIVE_EXTERNAL_EFFECTS,
+               "P3 MTRO active Task resource or external-effect drift")
+      else
+        expected_nonce_status = profile.fetch("accepted") ?
+          "CONSUMED_ACCEPTED" : "CONSUMED_TERMINAL_NON_PASS"
+        assert(active["execution_nonce_status"] == expected_nonce_status &&
+               active["task_branch"].nil? && active["task_worktree"].nil? &&
+               active["execution_evidence_root"] == TASK_EVIDENCE_ROOT &&
+               active["external_effects"] == DISABLED_ACTIVE_EXTERNAL_EFFECTS,
+               "P3 MTRO final Task resource closure drift")
+      end
+      validate_active_authority!(root, truth, decision, require_worktree: profile.fetch("active"))
+    end
+    assert(route["runtime_identity_channel"] == active["runtime_identity_channel"],
+           "P3 MTRO Route and active-work runtime channels diverge")
+    runtime_records = validate_runtime_identity_channel!(
+      root, active["runtime_identity_channel"], lifecycle, active: active
+    )
+
+    p3 = exact_keys(
+      truth.dig("strict_phase_gate_ledger", "phases", "P3"),
+      %w[
+        status entry_authorized execution_started phase_entry_decision exit_gate_authority
+        required_item_ids required_items current_exit_gate founder_phase_gate
+      ],
+      "P3 MTRO strict Gate"
+    )
+    phase_entry_decision = exact_keys(
+      p3["phase_entry_decision"], %w[decision_id path byte_length sha256],
+      "P3 MTRO Phase entry decision"
+    )
+    expected_phase_entry_decision = {
+      "decision_id" => "AUTHORIZE_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1",
+      "path" =>
+        "/Users/lijunpeng/Developer/.sourcelens-audit/p3-phase-entry-20260819/decision/FOUNDER_P3_SINGLE_AGENT_RUNTIME_AND_MINIMUM_TRUST_PHASE_ENTRY_V1.json",
+      "byte_length" => 4_105,
+      "sha256" => "23a50848a182fa7865f8e96c78bd9001ff2db6682d8d19dc49a0d4768994d6eb"
+    }
+    assert(phase_entry_decision == expected_phase_entry_decision,
+           "P3 MTRO Phase entry decision drift")
+    file_identity!(phase_entry_decision.fetch("path"), phase_entry_decision,
+                   "P3 MTRO Phase entry decision")
+    exit_gate_authority = exact_keys(
+      p3["exit_gate_authority"], %w[source required_exit_evidence],
+      "P3 MTRO inherited Exit Gate authority"
+    )
+    compatibility = exact_keys(
+      p3.dig("required_items", COMPATIBILITY_ITEM),
+      %w[status task_history_key task_id acceptance_commit acceptance_tree gate_evidence],
+      "P3 MTRO compatibility Gate item"
+    )
+    compatibility_evidence = exact_keys(
+      compatibility["gate_evidence"], %w[receipt_type path byte_length sha256],
+      "P3 MTRO compatibility Evidence"
+    )
+    current_gate = exact_keys(
+      p3["current_exit_gate"],
+      %w[
+        gate_id authority required_item_ids required_items same_frozen_candidate_required
+        three_independent_reviewers_pass_required canonical_replay_required acceptance_bundle
+        compatibility_projection
+      ],
+      "P3 MTRO current strict Gate"
+    )
+    required_items = exact_keys(current_gate["required_items"], STRICT_ITEMS,
+                                "P3 MTRO current required items")
+    required_items.each do |item, record|
+      exact_keys(record, %w[status candidate_commit candidate_tree evidence],
+                 "P3 MTRO strict item #{item}")
+    end
+    bundle = exact_keys(
+      current_gate["acceptance_bundle"],
+      %w[
+        candidate_commit candidate_tree frozen_finding_set task_gate_receipt independent_reviews
+        integration canonical_replay phase_exit_eligibility_receipt
+      ],
+      "P3 MTRO acceptance bundle"
+    )
+    reviews = exact_keys(bundle["independent_reviews"], %w[cto security quality_evaluation],
+                         "P3 MTRO acceptance reviews")
+    projection = exact_keys(
+      current_gate["compatibility_projection"],
+      %w[item_id status acceptance_requires_all_current_items],
+      "P3 MTRO compatibility projection"
+    )
+    founder_gate = exact_keys(
+      p3["founder_phase_gate"], %w[status decision_id path byte_length sha256],
+      "P3 MTRO Founder Phase Gate"
+    )
+    assert(p3["entry_authorized"] == true && p3["execution_started"] == true &&
+           exit_gate_authority == {
+             "source" => "STRICT_PHASE_ROUTE_AUTHORITY",
+             "required_exit_evidence" => "Resume, isolation, permission and trace tests"
+           } &&
+           p3["required_item_ids"] == [COMPATIBILITY_ITEM] &&
+           p3["required_items"].keys == [COMPATIBILITY_ITEM] &&
+           current_gate["gate_id"] == STRICT_GATE_ID &&
+           current_gate["authority"] == DECISION.merge("decision_id" => DECISION_ID) &&
+           current_gate["required_item_ids"] == STRICT_ITEMS &&
+           current_gate["same_frozen_candidate_required"] == true &&
+           current_gate["three_independent_reviewers_pass_required"] == true &&
+           current_gate["canonical_replay_required"] == true &&
+           projection["item_id"] == COMPATIBILITY_ITEM &&
+           projection["acceptance_requires_all_current_items"] == true,
+           "P3 MTRO strict Gate shape drift")
+    phase_exit_identity = nil
+    if profile.fetch("accepted")
+      phase_exit_identity = validate_acceptance_bundle!(
+        root, current_gate, runtime_records, active["runtime_identity_channel"]
+      )
+      candidate_commit = bundle["candidate_commit"]
+      candidate_tree = bundle["candidate_tree"]
+      assert(p3["status"] == "EXIT_GATE_READY" &&
+             compatibility["status"] == "ACCEPTED" &&
+             compatibility["task_history_key"] == "p3_mtro_task_status" &&
+             compatibility["task_id"] == TASK_ID &&
+             compatibility["acceptance_commit"] == candidate_commit &&
+             compatibility["acceptance_tree"] == candidate_tree &&
+             compatibility_evidence == phase_exit_identity.merge(
+               "receipt_type" => "P3_MTRO_PHASE_EXIT_ELIGIBILITY_RECEIPT_V1"
+             ) && projection["status"] == "ACCEPTED" &&
+             founder_gate == phase_exit_identity.merge(
+               "status" => "ELIGIBLE_AWAITING_FOUNDER_DECISION", "decision_id" => nil
+             ) && reserved_trigger["evidence"] == phase_exit_identity,
+             "P3 MTRO accepted Gate, compatibility or Founder evidence drift")
+    else
+      nil_bundle = {
+        "candidate_commit" => nil, "candidate_tree" => nil, "frozen_finding_set" => nil,
+        "task_gate_receipt" => nil,
+        "independent_reviews" => {
+          "cto" => nil, "security" => nil, "quality_evaluation" => nil
+        },
+        "integration" => nil, "canonical_replay" => nil,
+        "phase_exit_eligibility_receipt" => nil
+      }
+      assert(p3["status"] == "INCOMPLETE" &&
+             compatibility["status"] == "MISSING" && compatibility["task_history_key"].nil? &&
+             compatibility["task_id"].nil? && compatibility["acceptance_commit"].nil? &&
+             compatibility["acceptance_tree"].nil? && compatibility_evidence == {
+               "receipt_type" => nil, "path" => nil, "byte_length" => nil, "sha256" => nil
+             } && STRICT_ITEMS.all? { |item|
+               required_items[item] == {
+                 "status" => "MISSING", "candidate_commit" => nil,
+                 "candidate_tree" => nil, "evidence" => nil
+               }
+             } && bundle == nil_bundle && projection["status"] == "MISSING" &&
+             founder_gate == {
+               "status" => "NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS", "decision_id" => nil,
+               "path" => nil, "byte_length" => nil, "sha256" => nil
+             },
+             "P3 MTRO strict Gate false acceptance")
+    end
+
+    if profile.fetch("terminal")
+      validate_terminal_outcome!(
+        root, route, active, runtime_records, active["runtime_identity_channel"]
+      )
+    else
+      assert(route["terminal_outcome"].nil?,
+             "P3 MTRO non-terminal lifecycle contains terminal outcome")
+    end
+
+    goal = mapping(truth["goal"], "P3 MTRO Goal")
+    goal_decision = exact_keys(
+      goal["current_strategic_decision"],
+      %w[path byte_length sha256 decision_id source_body source_attachment],
+      "P3 MTRO Goal decision"
+    )
+    accepted_outcomes = [
+      "DURABLE_STATE_AND_CHECKPOINT_RESUME",
+      "DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION"
+    ]
+    accepted_outcomes <<
+      "ACTUAL_AGENT_TRANSACTIONAL_OCI_READ_ONLY_INVOCATION_PRODUCT" if profile.fetch("accepted")
+    phase_claim = exact_keys(
+      truth["phase_execution_claim"],
+      %w[
+        current_route_claim current_task_claim selected_next_task real_engineering_progress
+        product_capability_changed accepted_outcomes revised_research_exit_percent
+        original_capability_progress_percent p3_entry_authorized p3_exit_gate_progress_percent
+        p3_delivery_progress_percent phase_local_allowed phase_local_frozen_capabilities
+        historical_terminal_rules mandatory_priority_rule not_authorized_in_current_phase
+        deferred_to_p5_after_p4 forbidden_without_separate_founder_authority
+        task_creation_allowed remaining_capacity_usable held_read_allowed
+        candidate_integration_allowed next_eligible_action
+      ],
+      "P3 MTRO Phase execution claim"
+    )
+    expected_phase_local_action = profile.fetch("next_owner") == "NONE" ? [] : [profile.fetch("action")]
+    expected_priority = case lifecycle
+                        when "PRODUCT_ELIGIBLE_NOT_ACTIVATED"
+                          "ACTIVATE_AND_EXECUTE_EXACT_MTRO_P1_SECOND_AND_FINAL_PRODUCT_TASK"
+                        when "PRODUCT_TASK_ACTIVE"
+                          "COMPLETE_EXACT_MTRO_P1_WITHIN_FROZEN_TASK_GATE"
+                        when "PRODUCT_ROUTE_TERMINAL_NON_PASS"
+                          "NO_FURTHER_P3_IMPLEMENTATION_KEEP_PHASE_INCOMPLETE"
+                        else
+                          "FOUNDER_DECIDE_P3_PHASE_GATE_WITHOUT_P4_AUTO_ENTRY"
+                        end
+    assert(phase_claim["current_route_claim"] == ROUTE_ID &&
+           phase_claim["current_task_claim"] == (profile.fetch("active") ? TASK_ID : "NONE") &&
+           phase_claim["selected_next_task"] ==
+             (lifecycle == "PRODUCT_ELIGIBLE_NOT_ACTIVATED" ? TASK_ID : "NONE") &&
+           phase_claim["real_engineering_progress"] == profile.fetch("engineering_progress") &&
+           phase_claim["product_capability_changed"] == profile.fetch("accepted") &&
+           phase_claim["accepted_outcomes"] == accepted_outcomes &&
+           phase_claim["revised_research_exit_percent"] == 100 &&
+           phase_claim["original_capability_progress_percent"] == 0 &&
+           phase_claim["p3_entry_authorized"] == true &&
+           phase_claim["p3_exit_gate_progress_percent"] == profile.fetch("strict") &&
+           phase_claim["p3_delivery_progress_percent"] == profile.fetch("delivery") &&
+           phase_claim["phase_local_allowed"] == expected_phase_local_action &&
+           phase_claim["phase_local_frozen_capabilities"] == %w[
+             FOUNDATION_OR_PREFLIGHT_TASK AUDIT_TASK THIRD_PRODUCT_TASK CANDIDATE_3
+             SECOND_REPAIR THIRD_REVIEW
+           ] && phase_claim["historical_terminal_rules"] == [
+             "TRIVS_AND_F2_TERMINAL_IDENTITIES_ACCOUNTING_LIFECYCLE_VERDICT_PRESERVED",
+             "NO_REJECTED_ENGINEERING_LINEAGE_READ_COMPARE_COPY_EXECUTE_RESTORE_REPAIR_OR_REUSE"
+           ] && phase_claim["mandatory_priority_rule"] == expected_priority &&
+           phase_claim["not_authorized_in_current_phase"] == %w[
+             P4_ENTRY P5_EARLY_ENTRY INTERNET DNS HTTP_HTTPS PROVIDER EXTERNAL_SECRET
+             EXTERNAL_CREDENTIAL REMOTE PRODUCTION PUBLIC
+           ] && phase_claim["deferred_to_p5_after_p4"] == [
+             "EXHAUSTIVE_HOSTILE_DOCKER_MYSQL_AND_SEVEN_KILL_POINT_HARDENING"
+           ] && phase_claim["forbidden_without_separate_founder_authority"] == %w[
+             NEW_PHASE_ROUTE_CHANGE ENVELOPE_EXPANSION_OR_REFUND UNDECLARED_EXTERNAL_EFFECT
+           ] && phase_claim["task_creation_allowed"] == profile.fetch("task_creation") &&
+           phase_claim["remaining_capacity_usable"] == profile.fetch("task_creation") &&
+           phase_claim["held_read_allowed"] == false &&
+           phase_claim["candidate_integration_allowed"] == false &&
+           phase_claim["next_eligible_action"] == profile.fetch("action"),
+           "P3 MTRO Phase execution claim drift")
+    assert(truth.dig("project", "current_phase") == "P3" &&
+           truth.dig("project", "phase_name") == "Single-Agent Runtime + Minimum Trust" &&
+           truth.dig("project", "canonical_branch") == "main" &&
+           truth.dig("project", "phase_execution_status") == profile.fetch("phase_status") &&
+           truth.dig("project", "current_route_execution_status") == profile.fetch("state") &&
+           truth.dig("project", "p3_entry_status") == "AUTHORIZED" &&
+           truth.dig("project", "p3_execution_status") == profile.fetch("p3_status") &&
+           truth.dig("project", "p4_entry_status") ==
+             "HOLD_PENDING_STRICT_P3_EXIT_AND_SEPARATE_FOUNDER_PHASE_ENTRY" &&
+           goal["control_plane_status_observed"] == "ACTIVE" &&
+           goal["identity_status"] ==
+             "FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE" &&
+           goal["current_task_authority"] ==
+             (profile.fetch("active") ? active["authorization_id"] : "NONE") &&
+           goal["project_actually_completed"] == false &&
+           goal["long_term_goal_status"] == "ACTIVE" &&
+           goal["codex_goal_action"] == "NONE_KEEP_ACTIVE" &&
+           goal["current_state_note"] == profile.fetch("goal_state_note") &&
+           goal_decision["decision_id"] == DECISION_ID &&
+           goal_decision.slice("path", "byte_length", "sha256") == DECISION &&
+           goal_decision["source_body"] == {
+             "source_attachment_ref" => "source_attachment",
+             "byte_length" => DIRECT_AUTHORIZATION.fetch("byte_length"),
+             "sha256" => DIRECT_AUTHORIZATION.fetch("sha256"),
+             "canonicalization" => "UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF"
+           } && goal_decision["source_attachment"] == DIRECT_AUTHORIZATION &&
+           truth.dig("claim_boundary", "current_phase_route") == ROUTE_ID &&
+           truth.dig("claim_boundary", "current_task") ==
+             (profile.fetch("active") ? TASK_ID : "NONE") &&
+           truth.dig("claim_boundary", "selected_task") ==
+             (%w[PRODUCT_ELIGIBLE_NOT_ACTIVATED PRODUCT_TASK_ACTIVE].include?(lifecycle) ?
+               TASK_ID : "NONE") &&
+           truth.dig("claim_boundary", "current_task_status") == profile.fetch("task_status") &&
+           truth.dig("claim_boundary", "next_eligible_action") == profile.fetch("action") &&
+           truth.dig("claim_boundary", "real_engineering_progress") ==
+             profile.fetch("engineering_progress") &&
+           truth.dig("claim_boundary", "p3_status") == profile.fetch("p3_status") &&
+           truth.dig("claim_boundary", "p3_phase_envelope_status") == profile.fetch("phase_status") &&
+           truth.dig("claim_boundary", "p3_exit_gate_progress_percent") == profile.fetch("strict") &&
+           truth.dig("claim_boundary", "p3_delivery_progress_percent") == profile.fetch("delivery") &&
+           truth.dig("claim_boundary", "p3_accepted_milestones") == accepted_outcomes &&
+           truth.dig("claim_boundary", "p3_capability_milestone_status") ==
+             profile.fetch("capability_status") &&
+           truth.dig("claim_boundary", "p3_mtro_route_decision_sha256") == DECISION.fetch("sha256") &&
+           truth.dig("claim_boundary", "p3_mtro_route_source_body_sha256") ==
+             DIRECT_AUTHORIZATION.fetch("sha256") &&
+           truth.dig("claim_boundary", "p3_mtro_route_stage") == lifecycle &&
+           truth.dig("claim_boundary", "p3_mtro_task_status") == profile.fetch("task_status") &&
+           truth.dig("claim_boundary", "p3_mtro_implementation_attempt") == "2_OF_2_FINAL" &&
+           truth.dig("claim_boundary", "p3_mtro_candidate_integrated") == profile.fetch("accepted") &&
+           truth.dig("claim_boundary", "p3_mtro_delivery_credit") ==
+             (profile.fetch("accepted") ? 75 : 0) &&
+           truth.dig("claim_boundary", "p3_mtro_strict_exit_credit") == profile.fetch("strict") &&
+           truth.dig("claim_boundary", "p3_mtro_runtime_identity_channel_status") ==
+             active.dig("runtime_identity_channel", "status") &&
+           truth.dig("claim_boundary", "founder_reserved_trigger") ==
+             profile.fetch("reserved_trigger") &&
+           truth.dig("claim_boundary", "long_term_goal_status") == "ACTIVE" &&
+           truth.dig("claim_boundary", "current_route_executable_task_slots") ==
+             profile.fetch("executable_slots") &&
+           truth.dig("claim_boundary", "production_ready") == false &&
+           truth.dig("claim_boundary", "trustworthy_software_engineering_agent_proven") == false,
+           "P3 MTRO project, P4, Goal or claim boundary drift")
+    profile.fetch("state")
+  rescue ArgumentError, KeyError, TypeError, Psych::Exception => e
+    raise P3MinimumTrustTransactionalOciFinalProductRouteValidationError,
+          "P3 MTRO Route invalid: #{e.message}"
+  end
+end
+
 if $PROGRAM_NAME == __FILE__
   begin
     root = Pathname.new(__dir__).join("..").realpath
     truth = YAML.safe_load(root.join("docs/aios/truth/project_state.yaml").binread,
                            permitted_classes: [], permitted_symbols: [], aliases: false)
     if truth.dig("current_phase_route", "schema_version") ==
+       P3MinimumTrustTransactionalOciFinalProductRouteValidation::ROUTE_SCHEMA
+      state = P3MinimumTrustTransactionalOciFinalProductRouteValidation.validate_truth!(
+        root: root, truth: truth
+      )
+      puts "STRICT_PHASE_GATES: PASS state=#{state}"
+    elsif truth.dig("current_phase_route", "schema_version") ==
        P3TrustedReadOnlyInvocationEvidenceFirstFinalRouteValidation::ROUTE_SCHEMA
       state = P3TrustedReadOnlyInvocationEvidenceFirstFinalRouteValidation.validate_truth!(root: root, truth: truth)
       puts "STRICT_PHASE_GATES: PASS state=#{state}"
@@ -6901,7 +10966,8 @@ if $PROGRAM_NAME == __FILE__
       raise P3ExecutableTransitionSystemKernelRouteValidationError, "P3 strict Gate is missing" unless p3.is_a?(Hash)
       puts "STRICT_PHASE_GATES: PASS state=NON_ETSK_CURRENT_ROUTE"
     end
-  rescue P3TrustedReadOnlyInvocationEvidenceFirstFinalRouteValidationError,
+  rescue P3MinimumTrustTransactionalOciFinalProductRouteValidationError,
+         P3TrustedReadOnlyInvocationEvidenceFirstFinalRouteValidationError,
          P3TrustedReadOnlyInvocationVerticalSliceRouteValidationError,
          P3DeclarativeTransactionKernelRouteValidationError,
          P3ExecutableTransitionSystemKernelRouteValidationError, JSON::ParserError, Psych::SyntaxError => e

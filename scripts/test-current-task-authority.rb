@@ -4122,6 +4122,44 @@ current_truth = YAML.safe_load(
   aliases: false
 )
 if current_truth.dig("current_phase_route", "schema_version") ==
+   P3MinimumTrustTransactionalOciFinalProductRouteValidation::ROUTE_SCHEMA
+  begin
+    state = P3MinimumTrustTransactionalOciFinalProductRouteValidation.validate_truth!(
+      root: SOURCE_REPO,
+      truth: current_truth
+    )
+    expected_state =
+      P3MinimumTrustTransactionalOciFinalProductRouteValidation::LIFECYCLE_PROFILES.fetch(
+        current_truth.dig("current_phase_route", "lifecycle_stage")
+      ).fetch("state")
+    raise TestFailure, "MTRO current authority state drift" unless state == expected_state
+
+    mutated = JSON.parse(JSON.generate(current_truth))
+    mutated["current_phase_route"]["ordered_stages"] <<
+      JSON.parse(JSON.generate(mutated["current_phase_route"]["ordered_stages"].first))
+    begin
+      P3MinimumTrustTransactionalOciFinalProductRouteValidation.validate_truth!(
+        root: SOURCE_REPO,
+        truth: mutated
+      )
+      raise TestFailure, "MTRO second Product Task false-PASSed through current authority"
+    rescue P3MinimumTrustTransactionalOciFinalProductRouteValidationError
+      # Expected fail-closed result.
+    end
+
+    puts "CURRENT_TASK_AUTHORITY_TESTS: PASS assertions=2 mode=MTRO_CURRENT_ONLY_NO_REJECTED_LINEAGE_REPLAY"
+    exit 0
+  rescue TestFailure, AuthorityValidationError,
+         P3MinimumTrustTransactionalOciFinalProductRouteValidationError => e
+    warn "CURRENT_TASK_AUTHORITY_TESTS: NON_PASS #{e.message}"
+    exit 1
+  rescue StandardError => e
+    warn "CURRENT_TASK_AUTHORITY_TESTS: NON_PASS unexpected #{e.class}: #{e.message}"
+    exit 1
+  end
+end
+
+if current_truth.dig("current_phase_route", "schema_version") ==
    P3FinalTransactionalRouteValidation::HPE_ROUTE_SCHEMA
   begin
     state = CurrentTaskAuthority.validate!

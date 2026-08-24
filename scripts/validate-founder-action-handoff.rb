@@ -59,6 +59,7 @@ module FounderActionHandoff
     P3_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE_OBJECTIVE_EXIT_GATE_AND_FINAL_ROUTE_REBASELINE_AFTER_DTK_TERMINAL
     P3_TRUSTED_READ_ONLY_INVOCATION_EVIDENCE_FIRST_FINAL_CLEAN_ROOM_ROUTE_AFTER_TRIVS_TERMINAL
     P3_TRIVS_EVIDENCE_FIRST_TERMINAL_HOLD_DISPOSITION
+    P3_MINIMUM_TRUST_TRANSACTIONAL_OCI_FINAL_PRODUCT_ROUTE_AFTER_F2_TERMINAL
   ].freeze
   APP_OPERATION_TYPES = %w[APP_FILESYSTEM_BATCH_WRITE].freeze
   READ_ONLY_HTTPS_OPERATION = "一次全新、独立、clean-room V6 benchmark source acquisition"
@@ -943,6 +944,163 @@ module FounderActionHandoff
     "deny_or_defer_effect" =>
       "Any new Objective, Exit Gate, budget, permission or implementation requires a future direct Founder strategic decision"
   }.freeze
+  P3_MTRO_ROUTE_TOKEN =
+    "AUTHORIZE_P3_MINIMUM_TRUST_TRANSACTIONAL_OCI_FINAL_PRODUCT_ROUTE_AFTER_F2_TERMINAL_V2"
+  P3_MTRO_ROUTE_OPERATION_TYPE =
+    "P3_MINIMUM_TRUST_TRANSACTIONAL_OCI_FINAL_PRODUCT_ROUTE_AFTER_F2_TERMINAL"
+  P3_MTRO_ROUTE_PRIMARY_TRIGGER = "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE"
+  P3_MTRO_ROUTE_PREINSTALL_COMMIT = "24a8cae969c36aafb01933466a5742b052a7e2e5"
+  P3_MTRO_ROUTE_PREINSTALL_TREE = "b95115968e5ca5ed2381bfa74168429319308a01"
+  P3_MTRO_ROUTE_PREINSTALL_TRUTH_PATH = "docs/aios/truth/project_state.yaml"
+  P3_MTRO_ROUTE_PREINSTALL_TRUTH_BYTES = 2_017_292
+  P3_MTRO_ROUTE_PREINSTALL_TRUTH_SHA256 =
+    "85b16bd32ad2841e5453676e56b8e98bd7a221ab0d5fe98b0c337caaea10dc6a"
+  P3_MTRO_ROUTE_PREINSTALL_CONSTITUTION_PATH = "docs/aios/STRATEGIC_CONSTITUTION.md"
+  P3_MTRO_ROUTE_PREINSTALL_CONSTITUTION_VERSION = "3.5"
+  P3_MTRO_ROUTE_PREINSTALL_CONSTITUTION_BYTES = 38_846
+  P3_MTRO_ROUTE_PREINSTALL_CONSTITUTION_SHA256 =
+    "1faee62ecdc49d273042048f52c429b36f87c48b512b3161fd2e297263d70408"
+  P3_MTRO_ROUTE_DIRECT_ATTACHMENT_PATH =
+    "/Users/lijunpeng/.codex/attachments/2c6e6959-80d5-4458-9d4a-0672c534b74f/pasted-text.txt"
+  P3_MTRO_ROUTE_DIRECT_ATTACHMENT_BYTES = 29_571
+  P3_MTRO_ROUTE_DIRECT_ATTACHMENT_SHA256 =
+    "cfca3b136f89ba2673203d594135404620c65a94dcfbadc771540f8b266025c2"
+  P3_MTRO_ROUTE_CANONICAL_BODY_BYTES = 29_571
+  P3_MTRO_ROUTE_CANONICAL_BODY_SHA256 =
+    "cfca3b136f89ba2673203d594135404620c65a94dcfbadc771540f8b266025c2"
+  P3_MTRO_ROUTE_TRIVS_TERMINAL_RECEIPT_PATH =
+    "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trusted-read-only-invocation-vertical-slice-20260823/task-product/terminal/P3_TRIVS_P1_PRODUCT_TASK_ROUTE_TERMINAL_NON_PASS_RECEIPT_V1.json"
+  P3_MTRO_ROUTE_TRIVS_TERMINAL_RECEIPT_BYTES = 7_469
+  P3_MTRO_ROUTE_TRIVS_TERMINAL_RECEIPT_SHA256 =
+    "da4ec96ee559fcce19b826985627edfceaea2a8d646ca7574b46a08d6e8f8ebe"
+  P3_MTRO_ROUTE_F2_TERMINAL_RECEIPT_PATH =
+    "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trivs-evidence-first-final-route-20260823/task-foundation/terminal/P3_TRIVS_F2_TASK_ROUTE_TERMINAL_NON_PASS_RECEIPT_V1.json"
+  P3_MTRO_ROUTE_F2_TERMINAL_RECEIPT_BYTES = 1_365
+  P3_MTRO_ROUTE_F2_TERMINAL_RECEIPT_SHA256 =
+    "1246e6065d73d87bd01a5dc059ab1377145904ab3fc55f4d25d2ed8a07b7ae9c"
+  P3_MTRO_ROUTE_F2_DIAGNOSTIC_PATH =
+    "/Users/lijunpeng/Developer/.sourcelens-audit/p3-trivs-evidence-first-final-route-20260823/task-foundation/preflight/P3_TRIVS_F2_PREWORKER_PROTOCOL_UNREACHABILITY_FINDING_V1.json"
+  P3_MTRO_ROUTE_F2_DIAGNOSTIC_BYTES = 4_566
+  P3_MTRO_ROUTE_F2_DIAGNOSTIC_SHA256 =
+    "943d47729d001f0d2afb829a1177c3914b20fe95db9aaf11ecd4a105791368ae"
+  P3_MTRO_ROUTE_DECISION_PATH = File.join(
+    ROOT,
+    "docs/aios/decisions/P3_MINIMUM_TRUST_TRANSACTIONAL_OCI_FINAL_PRODUCT_ROUTE_AFTER_F2_TERMINAL_V2.json"
+  )
+  P3_MTRO_ROUTE_DECISION_DATA = begin
+    bytes = File.binread(P3_MTRO_ROUTE_DECISION_PATH)
+    raise "P3 MTRO decision byte identity drift" unless
+      bytes.bytesize == 23_363 &&
+      Digest::SHA256.hexdigest(bytes) ==
+        "e1ce4b6080c4ad193fd81511e44f72a7f1bceb4edfae4d1e5425ca8b42a6b217"
+    decision = JSON.parse(bytes)
+    route = decision.fetch("route")
+    accounting = decision.fetch("cumulative_accounting")
+    raise "P3 MTRO decision semantic identity drift" unless
+      decision.fetch("decision_id") == P3_MTRO_ROUTE_TOKEN &&
+      decision.fetch("operation_type") == P3_MTRO_ROUTE_OPERATION_TYPE &&
+      decision.fetch("reserved_triggers") == [P3_MTRO_ROUTE_PRIMARY_TRIGGER] &&
+      decision.dig("canonical_start", "commit") == P3_MTRO_ROUTE_PREINSTALL_COMMIT &&
+      decision.dig("canonical_start", "tree") == P3_MTRO_ROUTE_PREINSTALL_TREE &&
+      decision.dig("canonical_start", "truth") == {
+        "path" => P3_MTRO_ROUTE_PREINSTALL_TRUTH_PATH,
+        "byte_length" => P3_MTRO_ROUTE_PREINSTALL_TRUTH_BYTES,
+        "sha256" => P3_MTRO_ROUTE_PREINSTALL_TRUTH_SHA256
+      } &&
+      decision.dig("canonical_start", "constitution") == {
+        "path" => P3_MTRO_ROUTE_PREINSTALL_CONSTITUTION_PATH,
+        "version" => P3_MTRO_ROUTE_PREINSTALL_CONSTITUTION_VERSION,
+        "byte_length" => P3_MTRO_ROUTE_PREINSTALL_CONSTITUTION_BYTES,
+        "sha256" => P3_MTRO_ROUTE_PREINSTALL_CONSTITUTION_SHA256
+      } &&
+      decision.dig("direct_founder_authorization", "path") ==
+        P3_MTRO_ROUTE_DIRECT_ATTACHMENT_PATH &&
+      decision.dig("direct_founder_authorization", "byte_length") ==
+        P3_MTRO_ROUTE_DIRECT_ATTACHMENT_BYTES &&
+      decision.dig("direct_founder_authorization", "sha256") ==
+        P3_MTRO_ROUTE_DIRECT_ATTACHMENT_SHA256 &&
+      decision.dig("terminal_basis", "trivs_product", "receipt") == {
+        "path" => P3_MTRO_ROUTE_TRIVS_TERMINAL_RECEIPT_PATH,
+        "byte_length" => P3_MTRO_ROUTE_TRIVS_TERMINAL_RECEIPT_BYTES,
+        "sha256" => P3_MTRO_ROUTE_TRIVS_TERMINAL_RECEIPT_SHA256
+      } &&
+      decision.dig("terminal_basis", "f2", "receipt") == {
+        "path" => P3_MTRO_ROUTE_F2_TERMINAL_RECEIPT_PATH,
+        "byte_length" => P3_MTRO_ROUTE_F2_TERMINAL_RECEIPT_BYTES,
+        "sha256" => P3_MTRO_ROUTE_F2_TERMINAL_RECEIPT_SHA256
+      } &&
+      decision.dig("terminal_basis", "f2", "diagnostic") == {
+        "path" => P3_MTRO_ROUTE_F2_DIAGNOSTIC_PATH,
+        "byte_length" => P3_MTRO_ROUTE_F2_DIAGNOSTIC_BYTES,
+        "sha256" => P3_MTRO_ROUTE_F2_DIAGNOSTIC_SHA256
+      } &&
+      decision.dig("strategic_change", "objective_id") ==
+        "ACTUAL_AGENT_HOST_AUTHORIZED_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE" &&
+      decision.dig("strategic_change", "strict_exit_gate", "gate_id") ==
+        "ACTUAL_AGENT_HOST_AUTHORIZED_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE_ACCEPTED" &&
+      decision.dig("strategic_change", "strict_exit_gate", "required_item_ids") == %w[
+        ACTUAL_AGENT_NON_AUTHORITATIVE_PROPOSAL_AND_EXCLUSIVE_RESERVED_INGRESS
+        HOST_DERIVED_CUSTODY_DURABLE_INTENT_REAL_MYSQL_AND_EXACTLY_ONE_TERMINAL
+        REPRESENTATIVE_FRESH_PROCESS_RECOVERY_AND_CHECKPOINT_GATE
+        PINNED_LOCAL_OCI_READ_ONLY_ISOLATION_COMPLETE_TRACE_AND_REPLAY
+      ] &&
+      route.fetch("route_id") ==
+        "P3_MINIMUM_TRUST_TRANSACTIONAL_OCI_FINAL_PRODUCT_ROUTE_V1" &&
+      route.fetch("ordered_stages").length == 1 &&
+      route.dig("ordered_stages", 0, "task_id") ==
+        "AIOS-P3-MTRO-P1_ACTUAL_AGENT_TRANSACTIONAL_OCI_READ_ONLY_INVOCATION" &&
+      route.dig("ordered_stages", 0, "budget") == {
+        "engineering_tasks" => 1, "engineering_hours" => 48, "calendar_days" => 10,
+        "candidate_generations" => 2, "same_task_repairs" => 1, "review_cycles" => 2
+      } &&
+      route.dig("ordered_stages", 0, "implementation_attempt_for_milestone") ==
+        "2_OF_2_FINAL" &&
+      accounting.fetch("consumed_before_route") == {
+        "engineering_tasks" => 18, "engineering_hours" => 520, "calendar_days" => 122
+      } &&
+      accounting.fetch("limits").slice(
+        "engineering_tasks", "engineering_hours", "calendar_days"
+      ) == {
+        "engineering_tasks" => 19, "engineering_hours" => 568, "calendar_days" => 132
+      } &&
+      accounting.fetch("route_release") == {
+        "engineering_tasks" => 1, "engineering_hours" => 48, "calendar_days" => 10
+      } &&
+      accounting.fetch("reset_refund_or_expansion_allowed") == false &&
+      decision.dig("anti_cycle", "foundation_task_allowed") == false &&
+      decision.dig("anti_cycle", "audit_task_allowed") == false &&
+      decision.dig("anti_cycle", "third_product_task_allowed") == false &&
+      decision.dig("anti_cycle", "v3_or_later_route_under_same_objective_allowed") == false &&
+      decision.dig("lifecycle", "long_term_goal_status") == "ACTIVE"
+    decision
+  end.freeze
+  P3_MTRO_ROUTE_PROFILE = {
+    "operations" => [
+      P3_MTRO_ROUTE_PRIMARY_TRIGGER,
+      "P3_MINIMUM_TRUST_TRANSACTIONAL_OCI_FINAL_PRODUCT_ROUTE_V1",
+      "AIOS-P3-MTRO-P1_ACTUAL_AGENT_TRANSACTIONAL_OCI_READ_ONLY_INVOCATION",
+      "READ_BOUND_ARCHITECTURE_OVERVIEW_SHA256_V1"
+    ],
+    "targets" => [
+      "/Users/lijunpeng/Developer/SourceLens-AIOS",
+      "codex/p3-mtro-p1-actual-agent-transactional-oci-read-only",
+      "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-mtro-p1-actual-agent-transactional-oci-read-only",
+      "/Users/lijunpeng/Developer/.sourcelens-audit/p3-minimum-trust-transactional-oci-20260824/task-product"
+    ],
+    "budget_or_external_effects" =>
+      "1 Task、48 engineering hours、10 calendar days",
+    "token" => P3_MTRO_ROUTE_TOKEN,
+    "duration" => "当我直接回复本完整正文后",
+    "authorization_expiry_or_consumption_rule" =>
+      "不得创建 Foundation、preflight Task、Audit Task、F3、第三 Product Task、Candidate 3、第二 repair、第三 review、successor、replacement、normalization、closure、feasibility、remediation、V3 Route 或 rerun-to-pass。",
+    "pass_lifecycle" => "P3 delivery 100%；",
+    "non_pass_lifecycle" =>
+      "P3 保持 HOLD_INCOMPLETE，delivery 25%、strict Exit 0%；",
+    "risk_and_reversibility" =>
+      "F2 的失败是验收协议机械不可达，不是 Product 实现失败，也不是 Full access、Docker Desktop 或 Ask for approval 问题。",
+    "deny_or_defer_effect" =>
+      "本授权不授权互联网、DNS、HTTP(S)、Provider、外部 Secret、外部 credential、remote write、production、public release、P4 entry、remote branch/tag mutation、Git history rewrite、不可逆资产删除或修改 Codex 私有控制面。"
+  }.freeze
   FOUNDER_NETWORK_OPERATION_PROFILES = {
     "READ_ONLY_HTTPS_ACQUISITION" => {
       "operations" => [READ_ONLY_HTTPS_OPERATION, READ_ONLY_HTTPS_METHOD],
@@ -1264,7 +1422,8 @@ module FounderActionHandoff
     P3_TRIVS_ROUTE_OPERATION_TYPE => P3_TRIVS_ROUTE_PROFILE,
     P3_TRIVS_EVIDENCE_FIRST_ROUTE_OPERATION_TYPE => P3_TRIVS_EVIDENCE_FIRST_ROUTE_PROFILE,
     P3_TRIVS_EVIDENCE_FIRST_TERMINAL_HOLD_OPERATION_TYPE =>
-      P3_TRIVS_EVIDENCE_FIRST_TERMINAL_HOLD_PROFILE
+      P3_TRIVS_EVIDENCE_FIRST_TERMINAL_HOLD_PROFILE,
+    P3_MTRO_ROUTE_OPERATION_TYPE => P3_MTRO_ROUTE_PROFILE
   }.freeze
   PROSPECTIVE_PREFLIGHT = "PROSPECTIVE_RESERVED_EFFECT_REQUIRED_BY_EXACT_USER_REQUEST_AND_NOT_EXPRESSIBLE_BY_CURRENT_OFFLINE_ESCALATION_PROJECTION"
   NO_ACTION_SENTENCE = "你现在无需操作，我将在现有授权范围内继续执行。"
@@ -1407,10 +1566,18 @@ module FounderActionHandoff
       P3_HPE_ROUTE_OPERATION_TYPE,
       P3_TXC_ROUTE_OPERATION_TYPE,
       P3_TRIVS_ROUTE_OPERATION_TYPE,
-      P3_TRIVS_EVIDENCE_FIRST_ROUTE_OPERATION_TYPE
+      P3_TRIVS_EVIDENCE_FIRST_ROUTE_OPERATION_TYPE,
+      P3_MTRO_ROUTE_OPERATION_TYPE
     ].include?(frozen_p3_operation_type)
     if frozen_p3_fixture
       expected_fixture_identity = if frozen_p3_operation_type ==
+                                     P3_MTRO_ROUTE_OPERATION_TYPE
+        {
+          "commit" => P3_MTRO_ROUTE_PREINSTALL_COMMIT,
+          "tree" => P3_MTRO_ROUTE_PREINSTALL_TREE,
+          "branch" => "main"
+        }
+      elsif frozen_p3_operation_type ==
                                      P3_TRIVS_EVIDENCE_FIRST_ROUTE_OPERATION_TYPE
         {
           "commit" => P3_TRIVS_EVIDENCE_FIRST_ROUTE_PREINSTALL_COMMIT,
@@ -1454,6 +1621,13 @@ module FounderActionHandoff
     assert!(artifact["sha256"].is_a?(String) && artifact["sha256"].match?(SHA256), "governing artifact SHA-256 invalid")
     if frozen_p3_fixture
       expected_fixture_artifact = if frozen_p3_operation_type ==
+                                     P3_MTRO_ROUTE_OPERATION_TYPE
+        {
+          "path" => P3_MTRO_ROUTE_PREINSTALL_TRUTH_PATH,
+          "byte_length" => P3_MTRO_ROUTE_PREINSTALL_TRUTH_BYTES,
+          "sha256" => P3_MTRO_ROUTE_PREINSTALL_TRUTH_SHA256
+        }
+      elsif frozen_p3_operation_type ==
                                      P3_TRIVS_EVIDENCE_FIRST_ROUTE_OPERATION_TYPE
         {
           "path" => P3_TRIVS_EVIDENCE_FIRST_ROUTE_PREINSTALL_TRUTH_PATH,
@@ -1487,7 +1661,17 @@ module FounderActionHandoff
       end
       assert!(artifact == expected_fixture_artifact,
               "P3 rebaseline fixture governing artifact identity drift")
-      if frozen_p3_operation_type == P3_TRIVS_EVIDENCE_FIRST_ROUTE_OPERATION_TYPE
+      if frozen_p3_operation_type == P3_MTRO_ROUTE_OPERATION_TYPE
+        constitution_bytes, stderr, status = Open3.capture3(
+          "git", "-C", ROOT, "show",
+          "#{P3_MTRO_ROUTE_PREINSTALL_COMMIT}:#{P3_MTRO_ROUTE_PREINSTALL_CONSTITUTION_PATH}"
+        )
+        assert!(status.success?, "P3 MTRO preinstall Constitution unavailable: #{stderr.strip}")
+        assert!(constitution_bytes.bytesize == P3_MTRO_ROUTE_PREINSTALL_CONSTITUTION_BYTES &&
+                Digest::SHA256.hexdigest(constitution_bytes) ==
+                  P3_MTRO_ROUTE_PREINSTALL_CONSTITUTION_SHA256,
+                "P3 MTRO preinstall Constitution identity drift")
+      elsif frozen_p3_operation_type == P3_TRIVS_EVIDENCE_FIRST_ROUTE_OPERATION_TYPE
         constitution_bytes, stderr, status = Open3.capture3(
           "git", "-C", ROOT, "show",
           "#{P3_TRIVS_EVIDENCE_FIRST_ROUTE_PREINSTALL_COMMIT}:#{P3_TRIVS_EVIDENCE_FIRST_ROUTE_PREINSTALL_CONSTITUTION_PATH}"
@@ -1771,6 +1955,35 @@ module FounderActionHandoff
                   package["user_request_evidence"].nil? &&
                   authorization["reserved_trigger"] == P3_DTK_ROUTE_PRIMARY_TRIGGER,
                   "P3 declarative-transaction-kernel route does not match the exact current terminal trigger")
+        elsif authorization["operation_type"] == P3_MTRO_ROUTE_OPERATION_TYPE
+          terminal_handoff = package["terminal_next_step_handoff"]
+          request = package["user_request_evidence"]
+          assert!(control["disposition"] == "FOUNDER_RESERVED_DECISION_REQUIRED" &&
+                  control["founder_decision_required"] == true &&
+                  control.dig("reserved_trigger", "category") ==
+                    P3_MTRO_ROUTE_PRIMARY_TRIGGER &&
+                  control.dig("reserved_trigger", "evidence") == {
+                    "path" => P3_MTRO_ROUTE_F2_TERMINAL_RECEIPT_PATH,
+                    "byte_length" => P3_MTRO_ROUTE_F2_TERMINAL_RECEIPT_BYTES,
+                    "sha256" => P3_MTRO_ROUTE_F2_TERMINAL_RECEIPT_SHA256
+                  } &&
+                  control["next_action_owner"] == "HUMAN_FOUNDER" &&
+                  evidence["prospective_preflight"].nil? &&
+                  request.is_a?(Hash) &&
+                  current_user_request_token == P3_MTRO_ROUTE_TOKEN &&
+                  request["source"] == "CURRENT_DIRECT_USER_MESSAGE" &&
+                  request["exact_token"] == current_user_request_token &&
+                  request["requested_external_effect"] == "MATERIAL_SCOPE" &&
+                  authorization["reserved_trigger"] == P3_MTRO_ROUTE_PRIMARY_TRIGGER &&
+                  terminal_handoff.is_a?(Hash) &&
+                  terminal_handoff.values_at(
+                    "receipt_path", "receipt_byte_length", "receipt_sha256"
+                  ) == [
+                    P3_MTRO_ROUTE_F2_TERMINAL_RECEIPT_PATH,
+                    P3_MTRO_ROUTE_F2_TERMINAL_RECEIPT_BYTES,
+                    P3_MTRO_ROUTE_F2_TERMINAL_RECEIPT_SHA256
+                  ],
+                  "P3 MTRO final Product Route does not bind the exact F2 terminal trigger and direct Founder token")
         elsif authorization["operation_type"] ==
               P3_TRIVS_EVIDENCE_FIRST_ROUTE_OPERATION_TYPE
           terminal_handoff = package["terminal_next_step_handoff"]
@@ -1938,6 +2151,7 @@ module FounderActionHandoff
         P3_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE_OBJECTIVE_EXIT_GATE_AND_FINAL_ROUTE_REBASELINE_AFTER_DTK_TERMINAL
         P3_TRUSTED_READ_ONLY_INVOCATION_EVIDENCE_FIRST_FINAL_CLEAN_ROOM_ROUTE_AFTER_TRIVS_TERMINAL
         P3_TRIVS_EVIDENCE_FIRST_TERMINAL_HOLD_DISPOSITION
+        P3_MINIMUM_TRUST_TRANSACTIONAL_OCI_FINAL_PRODUCT_ROUTE_AFTER_F2_TERMINAL
       ].include?(operation_type)
         proposed_tokens = package["copy_ready_text_or_exact_steps"].scan(FOUNDER_AUTHORIZATION_TOKEN)
         assert!(proposed_tokens == [profile["token"]],
@@ -2013,6 +2227,16 @@ module FounderActionHandoff
                 canonical_body.lines.first.chomp == P3_TRIVS_EVIDENCE_FIRST_ROUTE_TOKEN,
                 "P3 evidence-first final rebaseline exact Founder body identity drift")
       end
+      if operation_type == P3_MTRO_ROUTE_OPERATION_TYPE
+        body = package["copy_ready_text_or_exact_steps"].dup.force_encoding("UTF-8")
+        assert!(body.valid_encoding?, "P3 MTRO final Product Route body encoding invalid")
+        canonical_body = body.gsub(/\r\n?/, "\n").sub(/\n*\z/, "") + "\n"
+        assert!(canonical_body.bytesize == P3_MTRO_ROUTE_CANONICAL_BODY_BYTES &&
+                Digest::SHA256.hexdigest(canonical_body) ==
+                  P3_MTRO_ROUTE_CANONICAL_BODY_SHA256 &&
+                canonical_body.lines.first.chomp == P3_MTRO_ROUTE_TOKEN,
+                "P3 MTRO final Product Route exact Founder body identity drift")
+      end
       if operation_type == P3_TRIVS_EVIDENCE_FIRST_TERMINAL_HOLD_OPERATION_TYPE
         body = package["copy_ready_text_or_exact_steps"].dup.force_encoding("UTF-8")
         assert!(body.valid_encoding?, "P3 evidence-first terminal HOLD body encoding invalid")
@@ -2054,7 +2278,8 @@ module FounderActionHandoff
       if [
            "P3_MINIMUM_TRUST_HOST_AUTHORIZED_TRANSACTIONAL_BOUNDARY_OBJECTIVE_AND_ROUTE_REBASELINE_AFTER_P3_007",
            P3_TRIVS_ROUTE_OPERATION_TYPE,
-           P3_TRIVS_EVIDENCE_FIRST_ROUTE_OPERATION_TYPE
+           P3_TRIVS_EVIDENCE_FIRST_ROUTE_OPERATION_TYPE,
+           P3_MTRO_ROUTE_OPERATION_TYPE
          ].include?(authorization["operation_type"]) &&
          fragment == artifact["byte_length"].to_s
         grouped_length = artifact["byte_length"].to_s.reverse.scan(/.{1,3}/).join(",").reverse

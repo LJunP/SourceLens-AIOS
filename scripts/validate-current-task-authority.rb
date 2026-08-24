@@ -23,6 +23,8 @@ module CurrentTaskAuthority
   TRIVS_ROUTE_SCHEMA = "p3-trusted-read-only-invocation-vertical-slice-route/v1"
   TRIVS_EVIDENCE_FIRST_ROUTE_SCHEMA =
     "p3-trusted-read-only-invocation-evidence-first-final-route/v1"
+  MTRO_ROUTE_SCHEMA =
+    "p3-minimum-trust-transactional-oci-final-product-route/v1"
   DTK_ROUTE_SCHEMA = "p3-declarative-transaction-kernel-clean-room-route/v1"
   ETSK_ROUTE_SCHEMA = "p3-executable-transition-system-kernel-reentry-route/v1"
   TIK_ROUTE_SCHEMA = "p3-trusted-invocation-kernel-process-real-clean-room-route/v1"
@@ -5727,6 +5729,13 @@ module CurrentTaskAuthority
       assert(disposition == FounderDelegationContinuity::RESEARCH_EXIT_DISPOSITION,
              "P2 research exit requires exact capability-not-accepted closure and a separate P3 entry decision")
       return "P2_RESEARCH_EXIT_COMPLETE_P3_ENTRY_DECISION_REQUIRED"
+    end
+    if route["schema_version"] == MTRO_ROUTE_SCHEMA
+      assert(defined?(P3MinimumTrustTransactionalOciFinalProductRouteValidation),
+             "P3 MTRO Route validator is unavailable")
+      return P3MinimumTrustTransactionalOciFinalProductRouteValidation.validate_truth!(
+        root: root, truth: truth
+      )
     end
     if route["schema_version"] == TRIVS_EVIDENCE_FIRST_ROUTE_SCHEMA
       assert(defined?(P3TrustedReadOnlyInvocationEvidenceFirstFinalRouteValidation),

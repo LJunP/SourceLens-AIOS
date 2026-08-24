@@ -20,29 +20,37 @@ def write_fixture(package_bytes, draft, truth_bytes)
   end
 end
 
-def assert_pass!(label, package, draft, truth_bytes, user_token: package.dig("user_request_evidence", "exact_token"))
+def assert_pass!(label, package, draft, truth_bytes,
+                 user_token: package.dig("user_request_evidence", "exact_token"),
+                 terminal_receipt_path: nil)
   ASSERTIONS[:count] += 1
   write_fixture(JSON.generate(package) + "\n", draft, truth_bytes) do |truth, package_path, draft_path|
     FounderActionHandoff.validate!(
       truth_path: truth, package_path: package_path, draft_path: draft_path, test_fixture: true,
-      current_user_request_token: user_token
+      current_user_request_token: user_token, terminal_receipt_path: terminal_receipt_path
     )
   end
 rescue StandardError => error
   abort "#{label}: expected PASS, got #{error.class}: #{error.message}"
 end
 
-def assert_reject!(label, package, draft, truth_bytes, user_token: package.dig("user_request_evidence", "exact_token"))
-  assert_raw_reject!(label, JSON.generate(package) + "\n", draft, truth_bytes, user_token: user_token)
+def assert_reject!(label, package, draft, truth_bytes,
+                   user_token: package.dig("user_request_evidence", "exact_token"),
+                   terminal_receipt_path: nil)
+  assert_raw_reject!(
+    label, JSON.generate(package) + "\n", draft, truth_bytes,
+    user_token: user_token, terminal_receipt_path: terminal_receipt_path
+  )
 end
 
-def assert_raw_reject!(label, package_bytes, draft, truth_bytes, user_token: nil)
+def assert_raw_reject!(label, package_bytes, draft, truth_bytes, user_token: nil,
+                       terminal_receipt_path: nil)
   ASSERTIONS[:count] += 1
   write_fixture(package_bytes, draft, truth_bytes) do |truth, package_path, draft_path|
     begin
       FounderActionHandoff.validate!(
         truth_path: truth, package_path: package_path, draft_path: draft_path, test_fixture: true,
-        current_user_request_token: user_token
+        current_user_request_token: user_token, terminal_receipt_path: terminal_receipt_path
       )
     rescue FounderActionHandoff::ValidationError, KeyError, TypeError
       next
@@ -1077,6 +1085,164 @@ assert_reject!(
   p3_hpe_draft.sub(p3_hpe_body, p3_hpe_lineage_drift),
   p3_hpe_truth
 )
+
+p3_mtro_truth = <<~YAML
+  project: SourceLens
+  current_phase: P3
+  founder_escalation_control:
+    schema_version: founder-escalation-control/v2
+    disposition: FOUNDER_RESERVED_DECISION_REQUIRED
+    source_event:
+      kind: P3_TRIVS_F2_ROUTE_TERMINAL_NON_PASS
+      status: P3_TRIVS_EVIDENCE_FIRST_FOUNDATION_ROUTE_TERMINAL_NON_PASS
+    reserved_trigger:
+      category: #{FounderActionHandoff::P3_MTRO_ROUTE_PRIMARY_TRIGGER}
+      evidence:
+        path: #{FounderActionHandoff::P3_MTRO_ROUTE_F2_TERMINAL_RECEIPT_PATH}
+        byte_length: #{FounderActionHandoff::P3_MTRO_ROUTE_F2_TERMINAL_RECEIPT_BYTES}
+        sha256: #{FounderActionHandoff::P3_MTRO_ROUTE_F2_TERMINAL_RECEIPT_SHA256}
+    phase_gate_status: INCOMPLETE
+    founder_decision_required: true
+    next_action_owner: HUMAN_FOUNDER
+    next_eligible_action: FOUNDER_DECIDE_P3_AFTER_TRIVS_F2_TERMINAL_NON_PASS
+YAML
+p3_mtro_body = File.binread(
+  FounderActionHandoff::P3_MTRO_ROUTE_DIRECT_ATTACHMENT_PATH
+).force_encoding("UTF-8")
+abort "P3 MTRO Founder body fixture encoding invalid" unless p3_mtro_body.valid_encoding?
+p3_mtro_body = p3_mtro_body.gsub(/\r\n?/, "\n").sub(/\n*\z/, "") + "\n"
+p3_mtro_profile = FounderActionHandoff::FOUNDER_NETWORK_OPERATION_PROFILES.fetch(
+  FounderActionHandoff::P3_MTRO_ROUTE_OPERATION_TYPE
+)
+p3_mtro_terminal_handoff = {
+  "terminal_level" => "ROUTE",
+  "terminal_status" => "TERMINAL_TASK_GATE_NON_PASS",
+  "receipt_path" => FounderActionHandoff::P3_MTRO_ROUTE_F2_TERMINAL_RECEIPT_PATH,
+  "receipt_byte_length" => FounderActionHandoff::P3_MTRO_ROUTE_F2_TERMINAL_RECEIPT_BYTES,
+  "receipt_sha256" => FounderActionHandoff::P3_MTRO_ROUTE_F2_TERMINAL_RECEIPT_SHA256,
+  "no_automatic_successor_clause_present" => true,
+  "no_automatic_successor_interpretation" =>
+    FounderActionHandoff::TERMINAL_HANDOFF_INTERPRETATION,
+  "next_step_user_action_required" => true,
+  "copy_ready_handoff_required" => true,
+  "copy_ready_handoff_suppressed" => false
+}
+p3_mtro = common.merge(
+  "canonical_identity" => {
+    "commit" => FounderActionHandoff::P3_MTRO_ROUTE_PREINSTALL_COMMIT,
+    "tree" => FounderActionHandoff::P3_MTRO_ROUTE_PREINSTALL_TREE,
+    "branch" => "main"
+  },
+  "truth_sha256" => Digest::SHA256.hexdigest(p3_mtro_truth),
+  "basis" => {
+    "facts" => [
+      "The exact F2 acceptance protocol is terminal and mechanically unreachable before Product write.",
+      "The direct Founder V2 body authorizes one final MTRO Product route without resetting capacity."
+    ],
+    "inferences" => [],
+    "unknowns" => []
+  },
+  "affected_scope" =>
+    "Only Strategic Constitution v3.6 and the exact one-Task P3 MTRO final Product Route.",
+  "project_authorized" => "NO",
+  "app_filesystem_approval_required" => "NO",
+  "write_not_executed" => "YES",
+  "agent_continuation_after_action" =>
+    "Install v3.6, run the registered validators, activate only MTRO-P1, then begin the exact pre-write OCI probe.",
+  "resume_condition" =>
+    "The exact V2 body, canonical start, F2 terminal identity and closed MTRO profile all pass.",
+  "safe_default" =>
+    "Preserve the F2 terminal state and create no Product Task if any frozen identity drifts.",
+  "state_preservation" =>
+    "P3 remains 25 percent and strict Exit zero until Product acceptance; P4 stays HOLD and the Long-term Goal stays ACTIVE.",
+  "governing_artifact" => {
+    "path" => FounderActionHandoff::P3_MTRO_ROUTE_PREINSTALL_TRUTH_PATH,
+    "byte_length" => FounderActionHandoff::P3_MTRO_ROUTE_PREINSTALL_TRUTH_BYTES,
+    "sha256" => FounderActionHandoff::P3_MTRO_ROUTE_PREINSTALL_TRUTH_SHA256
+  },
+  "validator_evidence" => evidence(
+    disposition: "FOUNDER_RESERVED_DECISION_REQUIRED", decision: true,
+    trigger: FounderActionHandoff::P3_MTRO_ROUTE_PRIMARY_TRIGGER, owner: "HUMAN_FOUNDER"
+  ),
+  "user_request_evidence" => {
+    "source" => "CURRENT_DIRECT_USER_MESSAGE",
+    "exact_token" => FounderActionHandoff::P3_MTRO_ROUTE_TOKEN,
+    "requested_external_effect" => "MATERIAL_SCOPE"
+  },
+  "terminal_next_step_handoff" => p3_mtro_terminal_handoff,
+  "action_class" => "AUTHORIZATION_REQUIRED",
+  "current_state" => "WAITING_USER",
+  "material" => nil,
+  "recommended_single_action" => "APPROVE_THE_EXACT_P3_MTRO_FINAL_PRODUCT_ROUTE_V2",
+  "copy_ready_text_or_exact_steps" => p3_mtro_body,
+  "authorization" => {
+    "authority_layer" => "FOUNDER_RESERVED",
+    "reserved_trigger" => FounderActionHandoff::P3_MTRO_ROUTE_PRIMARY_TRIGGER,
+    "proposal_mode" => "CURRENT_CANONICAL_TRIGGER",
+    "recommended_decision" => "APPROVE",
+    "grant_scope" => {
+      "operations" => p3_mtro_profile.fetch("operations"),
+      "targets" => p3_mtro_profile.fetch("targets"),
+      "duration" => p3_mtro_profile.fetch("duration"),
+      "budget_or_external_effects" => p3_mtro_profile.fetch("budget_or_external_effects")
+    },
+    "risk_and_reversibility" => p3_mtro_profile.fetch("risk_and_reversibility"),
+    "deny_or_defer_effect" => p3_mtro_profile.fetch("deny_or_defer_effect"),
+    "authorization_expiry_or_consumption_rule" =>
+      p3_mtro_profile.fetch("authorization_expiry_or_consumption_rule"),
+    "pass_lifecycle" => p3_mtro_profile.fetch("pass_lifecycle"),
+    "non_pass_lifecycle" => p3_mtro_profile.fetch("non_pass_lifecycle"),
+    "operation_type" => FounderActionHandoff::P3_MTRO_ROUTE_OPERATION_TYPE
+  }
+)
+p3_mtro_draft = <<~MARKDOWN
+  USER_ACTION_REQUIRED: true
+  RECOMMENDED_SINGLE_ACTION: #{p3_mtro["recommended_single_action"]}
+  COPY_READY_TEXT_OR_EXACT_STEPS: #{p3_mtro_body}
+  AGENT_CONTINUATION_AFTER_ACTION: #{p3_mtro["agent_continuation_after_action"]}
+MARKDOWN
+assert_pass!(
+  "P3 MTRO final Product Route exact V2 body",
+  p3_mtro, p3_mtro_draft, p3_mtro_truth,
+  terminal_receipt_path: FounderActionHandoff::P3_MTRO_ROUTE_F2_TERMINAL_RECEIPT_PATH
+)
+
+p3_mtro_body_drift = p3_mtro_body.sub(
+  "budget：1 Task、48 engineering hours、10 calendar days",
+  "budget：2 Tasks、96 engineering hours、20 calendar days"
+)
+assert_reject!(
+  "P3 MTRO final Product Route rejects body and budget drift",
+  p3_mtro.merge("copy_ready_text_or_exact_steps" => p3_mtro_body_drift),
+  p3_mtro_draft.sub(p3_mtro_body, p3_mtro_body_drift),
+  p3_mtro_truth,
+  terminal_receipt_path: FounderActionHandoff::P3_MTRO_ROUTE_F2_TERMINAL_RECEIPT_PATH
+)
+
+assert_reject!(
+  "P3 MTRO final Product Route rejects old V1 token",
+  p3_mtro.merge(
+    "copy_ready_text_or_exact_steps" => p3_mtro_body.sub(
+      FounderActionHandoff::P3_MTRO_ROUTE_TOKEN,
+      FounderActionHandoff::P3_TRIVS_EVIDENCE_FIRST_ROUTE_TOKEN
+    )
+  ),
+  p3_mtro_draft.sub(
+    p3_mtro_body,
+    p3_mtro_body.sub(
+      FounderActionHandoff::P3_MTRO_ROUTE_TOKEN,
+      FounderActionHandoff::P3_TRIVS_EVIDENCE_FIRST_ROUTE_TOKEN
+    )
+  ),
+  p3_mtro_truth,
+  terminal_receipt_path: FounderActionHandoff::P3_MTRO_ROUTE_F2_TERMINAL_RECEIPT_PATH
+)
+
+ASSERTIONS[:count] += 1
+abort "P3 MTRO operation type is not founder-authorized closed schema" unless
+  FounderActionHandoff::FOUNDER_OPERATION_TYPES.include?(
+    FounderActionHandoff::P3_MTRO_ROUTE_OPERATION_TYPE
+  )
 
 ASSERTIONS[:count] += 1
 abort "P3 DTK operation type is not founder-authorized closed schema" unless

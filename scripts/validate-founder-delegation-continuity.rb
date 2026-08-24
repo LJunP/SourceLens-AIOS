@@ -42,6 +42,8 @@ module FounderDelegationContinuity
   TRIVS_ROUTE_SCHEMA = "p3-trusted-read-only-invocation-vertical-slice-route/v1"
   TRIVS_EVIDENCE_FIRST_ROUTE_SCHEMA =
     "p3-trusted-read-only-invocation-evidence-first-final-route/v1"
+  MTRO_ROUTE_SCHEMA =
+    "p3-minimum-trust-transactional-oci-final-product-route/v1"
   DTK_ROUTE_SCHEMA = "p3-declarative-transaction-kernel-clean-room-route/v1"
   ETSK_ROUTE_SCHEMA = "p3-executable-transition-system-kernel-reentry-route/v1"
   TIK_ROUTE_SCHEMA = "p3-trusted-invocation-kernel-process-real-clean-room-route/v1"
@@ -5070,6 +5072,22 @@ module FounderDelegationContinuity
     route = mapping(truth["current_phase_route"], "current_phase_route")
     return validate_research_exit_state!(root, truth, policy, project, route) if
       route["schema_version"] == RESEARCH_EXIT_ROUTE_SCHEMA
+    if route["schema_version"] == MTRO_ROUTE_SCHEMA
+      assert(defined?(P3MinimumTrustTransactionalOciFinalProductRouteValidation),
+             "P3 MTRO Route validator is unavailable")
+      state = P3MinimumTrustTransactionalOciFinalProductRouteValidation.validate_truth!(
+        root: root, truth: truth
+      )
+      profile = P3MinimumTrustTransactionalOciFinalProductRouteValidation::LIFECYCLE_PROFILES[
+        route["lifecycle_stage"]
+      ]
+      assert(profile && state == profile.fetch("state"), "P3 MTRO Route state drift")
+      disposition = truth.dig("founder_escalation_control", "disposition")
+      expected_disposition = profile.fetch("disposition")
+      assert(disposition == expected_disposition,
+             "P3 MTRO Founder disposition drift for its exact lifecycle")
+      return disposition
+    end
     if route["schema_version"] == TRIVS_EVIDENCE_FIRST_ROUTE_SCHEMA
       assert(defined?(P3TrustedReadOnlyInvocationEvidenceFirstFinalRouteValidation),
              "P3 TRIVS evidence-first final Route validator is unavailable")

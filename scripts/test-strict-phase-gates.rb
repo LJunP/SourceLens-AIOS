@@ -42,7 +42,333 @@ def run_phase_fixture(path, phase, task, action)
   )
 end
 
-if ARGV == ["--etsk-current-only"]
+if ARGV == ["--mtro-current-only"]
+  truth = YAML.safe_load(
+    File.binread(TRUTH),
+    permitted_classes: [],
+    permitted_symbols: [],
+    aliases: false
+  )
+  raise "current Route is not P3 MTRO" unless
+    truth.dig("current_phase_route", "schema_version") ==
+      P3MinimumTrustTransactionalOciFinalProductRouteValidation::ROUTE_SCHEMA
+  state = P3MinimumTrustTransactionalOciFinalProductRouteValidation.validate_truth!(
+    root: ROOT, truth: truth
+  )
+  expected_state =
+    P3MinimumTrustTransactionalOciFinalProductRouteValidation::LIFECYCLE_PROFILES.fetch(
+      truth.dig("current_phase_route", "lifecycle_stage")
+    ).fetch("state")
+  raise "P3 MTRO current state drift" unless state == expected_state
+
+  mutations = {
+    "old F2 rescheduled" => lambda do |candidate|
+      candidate.dig("current_phase_route", "ordered_stages", 0)["task_id"] =
+        "AIOS-P3-TRIVS-F2_CANDIDATE_BOUND_ACCEPTANCE_HARNESS"
+    end,
+    "budget reset" => lambda do |candidate|
+      candidate.dig("phase_execution_envelope", "consumed")["engineering_tasks"] = 17
+    end,
+    "future daemon identity prefilled" => lambda do |candidate|
+      channel = candidate.dig("current_phase_route", "runtime_identity_channel")
+      channel["status"] = "PENDING_TASK_OWNED_DISCOVERY"
+      channel[
+        "task_activation_record"
+      ] = {"daemon_id" => "future-daemon"}
+    end,
+    "strict Gate false acceptance" => lambda do |candidate|
+      candidate.dig(
+        "strict_phase_gate_ledger", "phases", "P3", "current_exit_gate",
+        "required_items",
+        "ACTUAL_AGENT_NON_AUTHORITATIVE_PROPOSAL_AND_EXCLUSIVE_RESERVED_INGRESS"
+      )["status"] = "ACCEPTED"
+    end,
+    "second stage injected" => lambda do |candidate|
+      candidate.dig("current_phase_route", "ordered_stages") <<
+        Marshal.load(Marshal.dump(candidate.dig("current_phase_route", "ordered_stages", 0)))
+    end,
+    "P4 entered early" => lambda do |candidate|
+      candidate.dig("project")["current_phase"] = "P4"
+    end,
+    "clean-room rejected lineage reopened" => lambda do |candidate|
+      candidate.dig("current_phase_route", "clean_room")[
+        "rejected_trivs_candidate_1_or_old_dtk_etsk_twrf_engineering_lineage_read_compare_copy_execute_decompile_restore_repair_or_reuse"
+      ] = true
+    end,
+    "local OCI authority effective before Task" => lambda do |candidate|
+      candidate.dig("current_phase_route", "local_external_effect_authority")[
+        "effective_only_after_task_active"
+      ] = false
+    end,
+    "anti-cycle successor reopened" => lambda do |candidate|
+      candidate.dig("current_phase_route", "anti_cycle")[
+        "successor_replacement_normalization_closure_feasibility_remediation_allowed"
+      ] = true
+    end,
+    "boundary network capability exposed" => lambda do |candidate|
+      candidate.dig("phase_boundary", "default_external_effects")["network"] = true
+    end,
+    "boundary worker root made unrestricted" => lambda do |candidate|
+      candidate.dig("phase_boundary", "role_write_roots")["worker"] = ["/"]
+    end,
+    "active-work remote effect exposed" => lambda do |candidate|
+      candidate.dig("active_work", "external_effects")["remote"] = true
+    end,
+    "Goal Task authority fabricated" => lambda do |candidate|
+      candidate.dig("goal")["current_task_authority"] = "FABRICATED_AUTHORITY"
+    end,
+    "envelope authority source drift" => lambda do |candidate|
+      candidate.dig("phase_execution_envelope", "authority_basis")["source_route_id"] =
+        "UNDECLARED_ROUTE"
+    end,
+    "envelope accounting made resettable" => lambda do |candidate|
+      candidate.dig("phase_execution_envelope")["accounting_basis"] =
+        "RESETTABLE_PER_TASK"
+    end,
+    "envelope stage activated without Task" => lambda do |candidate|
+      candidate.dig("phase_execution_envelope", "ordered_stages", 0)["status"] = "ACTIVE"
+    end,
+    "envelope external network exposed" => lambda do |candidate|
+      candidate.dig("phase_execution_envelope", "external_effects")["network"] = true
+    end,
+    "compatibility accepted without current Gate" => lambda do |candidate|
+      candidate.dig(
+        "strict_phase_gate_ledger", "phases", "P3", "required_items",
+        "RESUME_ISOLATION_PERMISSION_AND_TRACE_TESTS"
+      )["status"] = "ACCEPTED"
+    end,
+    "product architecture generic registry reopened" => lambda do |candidate|
+      candidate.dig("current_phase_route", "product_architecture")[
+        "generic_tool_registry_bypassed"
+      ] = false
+    end,
+    "long-term Goal lifecycle falsely completed" => lambda do |candidate|
+      candidate.dig("current_phase_route", "lifecycle")["long_term_goal_status"] = "COMPLETE"
+    end,
+    "accepted lifecycle self-reported without Evidence" => lambda do |candidate|
+      profile =
+        P3MinimumTrustTransactionalOciFinalProductRouteValidation::LIFECYCLE_PROFILES.fetch(
+          "PRODUCT_ACCEPTED_PHASE_GATE_ELIGIBLE"
+        )
+      route = candidate["current_phase_route"]
+      route["lifecycle_stage"] = "PRODUCT_ACCEPTED_PHASE_GATE_ELIGIBLE"
+      route["status"] = profile.fetch("route_status")
+      route["execution_status"] = profile.fetch("state")
+      route["scheduling_status"] = profile.fetch("scheduling_status")
+      route["ordered_stages"][0]["status"] = profile.fetch("stage_status")
+      route["next_eligible_action"] = profile.fetch("action")
+      route["progress"] = {
+        "delivery_percent" => 100, "strict_exit_percent" => 100,
+        "governance_progress_credit" => 0
+      }
+    end,
+    "claim current Task drift" => lambda do |candidate|
+      candidate.dig("claim_boundary")["current_task"] = "FABRICATED_TASK"
+    end,
+    "claim selected Task drift" => lambda do |candidate|
+      candidate.dig("claim_boundary")["selected_task"] = "NONE"
+    end,
+    "claim next action drift" => lambda do |candidate|
+      candidate.dig("claim_boundary")["next_eligible_action"] = "FOUNDER_DECIDE_P3_PHASE_GATE"
+    end,
+    "claim Founder trigger drift" => lambda do |candidate|
+      candidate.dig("claim_boundary")["founder_reserved_trigger"] = "PHASE_ENTRY_OR_EXIT"
+    end,
+    "claim Long-term Goal closed" => lambda do |candidate|
+      candidate.dig("claim_boundary")["long_term_goal_status"] = "COMPLETE"
+    end,
+    "claim executable slots reset" => lambda do |candidate|
+      candidate.dig("claim_boundary")["current_route_executable_task_slots"] =
+        "2_OF_2_ELIGIBLE"
+    end,
+    "claim Product milestone accepted early" => lambda do |candidate|
+      candidate.dig("claim_boundary", "p3_accepted_milestones") <<
+        "ACTUAL_AGENT_TRANSACTIONAL_OCI_READ_ONLY_INVOCATION_PRODUCT"
+    end,
+    "claim capability accepted early" => lambda do |candidate|
+      candidate.dig("claim_boundary")["p3_capability_milestone_status"] =
+        "ACCEPTED_NARROW_MTRO_SLICE"
+    end,
+    "claim project complete engineering" => lambda do |candidate|
+      candidate.dig("claim_boundary")["real_engineering_progress"] = "PROJECT_COMPLETE"
+    end,
+    "project Phase name drift" => lambda do |candidate|
+      candidate.dig("project")["phase_name"] = "P4"
+    end,
+    "project canonical branch drift" => lambda do |candidate|
+      candidate.dig("project")["canonical_branch"] = "develop"
+    end,
+    "Goal identity drift" => lambda do |candidate|
+      candidate.dig("goal")["identity_status"] = "COMPLETE"
+    end,
+    "Goal state note drift" => lambda do |candidate|
+      candidate.dig("goal")["current_state_note"] = "project complete"
+    end,
+    "terminal basis future scheduling injection" => lambda do |candidate|
+      candidate.dig("current_phase_route", "terminal_basis")["future_scheduling_authority"] = true
+    end,
+    "Route engineering progress injected" => lambda do |candidate|
+      candidate.dig("current_phase_route", "progress")["engineering_progress_credit"] = 100
+    end,
+    "P3 Phase entry decision drift" => lambda do |candidate|
+      candidate.dig("strict_phase_gate_ledger", "phases", "P3", "phase_entry_decision")[
+        "decision_id"
+      ] = "FABRICATED_PHASE_ENTRY"
+    end,
+    "P3 Exit Gate authority drift" => lambda do |candidate|
+      candidate.dig("strict_phase_gate_ledger", "phases", "P3", "exit_gate_authority")[
+        "source"
+      ] = "SELF_REPORT"
+    end,
+    "Phase execution claim Task drift" => lambda do |candidate|
+      candidate.dig("phase_execution_claim")["current_task_claim"] = "FABRICATED_TASK"
+    end,
+    "Phase execution claim integration opened early" => lambda do |candidate|
+      candidate.dig("phase_execution_claim")["candidate_integration_allowed"] = true
+    end
+  }
+  mutations.each do |label, mutation|
+    candidate = Marshal.load(Marshal.dump(truth))
+    mutation.call(candidate)
+    begin
+      P3MinimumTrustTransactionalOciFinalProductRouteValidation.validate_truth!(
+        root: ROOT, truth: candidate
+      )
+    rescue P3MinimumTrustTransactionalOciFinalProductRouteValidationError
+      next
+    end
+    raise "P3 MTRO validator accepted mutation: #{label}"
+  end
+  lifecycle_channel = {
+    "status" => "INTEGRATED_REPLAY_BOUND",
+    "task_activation_record" => {"path" => "/not-read", "byte_length" => 0, "sha256" => "0" * 64},
+    "candidate_freeze_record" => {"path" => "/not-read", "byte_length" => 0, "sha256" => "0" * 64},
+    "review_dispatch_record" => {"path" => "/not-read", "byte_length" => 0, "sha256" => "0" * 64},
+    "integration_record" => {"path" => "/not-read", "byte_length" => 0, "sha256" => "0" * 64},
+    "canonical_replay_record" => {"path" => "/not-read", "byte_length" => 0, "sha256" => "0" * 64},
+    "future_dynamic_identity_prefill_allowed" => false
+  }
+  %w[PRODUCT_TASK_ACTIVE PRODUCT_ROUTE_TERMINAL_NON_PASS].each do |lifecycle|
+    begin
+      P3MinimumTrustTransactionalOciFinalProductRouteValidation.validate_runtime_identity_channel!(
+        ROOT, lifecycle_channel, lifecycle
+      )
+    rescue P3MinimumTrustTransactionalOciFinalProductRouteValidationError
+      next
+    end
+    raise "P3 MTRO #{lifecycle} accepted integrated runtime state"
+  end
+  begin
+    P3MinimumTrustTransactionalOciFinalProductRouteValidation.validate_runtime_identity_channel!(
+      ROOT, lifecycle_channel, "PRODUCT_ACCEPTED_PHASE_GATE_ELIGIBLE"
+    )
+  rescue P3MinimumTrustTransactionalOciFinalProductRouteValidationError
+    # Missing replay records/raw bundle must fail before accepted state can be trusted.
+  else
+    raise "P3 MTRO accepted lifecycle passed without a replay raw bundle"
+  end
+  raw_fail_projection =
+    P3MinimumTrustTransactionalOciFinalProductRouteValidation.derive_fact_projection!(
+      root: ROOT,
+      fact_id: "CHECKPOINT_BEFORE_TERMINAL_REJECTED",
+      events: [
+        {"event_type" => "TERMINAL_STATE", "payload" => {"committed" => true}},
+        {"event_type" => "CHECKPOINT_ATTEMPT", "payload" => {"result" => "ACCEPTED"}},
+        {"event_type" => "CHECKPOINT_ROW_COUNT", "payload" => {"count" => 1}}
+      ],
+      candidate: {},
+      activation_identity: nil
+    )
+  raise "P3 MTRO raw FAIL projected checkpoint PASS" unless
+    raw_fail_projection["result"] == "NON_PASS"
+  raw_observer = JSON.generate(
+    {
+      "schema_version" => "p3-mtro-external-effect-raw-observation/v1",
+      "record_type" => "P3_MTRO_EXTERNAL_EFFECT_RAW_OBSERVATION",
+      "effect" => "internet",
+      "observer" => "TASK_SCOPED_OS_AND_PROCESS_OBSERVER",
+      "argv" => ["observer", "internet"],
+      "observed_events" => ["connect 203.0.113.1:443"],
+      "observation_started_at_utc" => "2026-08-24T00:00:00Z",
+      "observation_finished_at_utc" => "2026-08-24T00:00:01Z"
+    }
+  )
+  observed =
+    P3MinimumTrustTransactionalOciFinalProductRouteValidation
+      .derive_external_effect_observation!(raw_observer, "internet", "observer mutant")
+  raise "P3 MTRO raw observed effect projected false" unless observed["observed"] == true
+  invocation_sha256 = "a" * 64
+  oci_argv = [
+    P3MinimumTrustTransactionalOciFinalProductRouteValidation::DOCKER_CLI.fetch("path"),
+    "--host", P3MinimumTrustTransactionalOciFinalProductRouteValidation::DOCKER_ENDPOINT,
+    "create", "--name", "sourcelens-mtro-#{invocation_sha256}",
+    "--label", "com.sourcelens.task_id=#{P3MinimumTrustTransactionalOciFinalProductRouteValidation::TASK_ID}",
+    "--label", "com.sourcelens.invocation_sha256=#{invocation_sha256}",
+    "--user", "65534:65534", "--network", "none", "--read-only", "--cap-drop", "ALL",
+    "--security-opt", "no-new-privileges", "--cpus", "1", "--memory", "256m",
+    "--pids-limit", "64", "--mount",
+    "type=bind,source=/private/tmp/#{invocation_sha256},target=/input/custody.bin,readonly",
+    "--entrypoint", "/usr/bin/sha256sum",
+    P3MinimumTrustTransactionalOciFinalProductRouteValidation::IMAGE_ID, "/input/custody.bin"
+  ]
+  malicious_inspect = JSON.generate(
+    [{
+      "Id" => "b" * 64, "Name" => "/sourcelens-mtro-#{invocation_sha256}",
+      "Image" => P3MinimumTrustTransactionalOciFinalProductRouteValidation::IMAGE_ID,
+      "Config" => {
+        "Image" => P3MinimumTrustTransactionalOciFinalProductRouteValidation::IMAGE_ID,
+        "Labels" => {
+          "com.sourcelens.task_id" => P3MinimumTrustTransactionalOciFinalProductRouteValidation::TASK_ID,
+          "com.sourcelens.invocation_sha256" => invocation_sha256
+        },
+        "User" => "65534:65534", "Entrypoint" => ["/usr/bin/sha256sum"],
+        "Cmd" => ["/input/custody.bin"]
+      },
+      "HostConfig" => {
+        "Privileged" => false, "Binds" => nil, "CapAdd" => nil, "NetworkMode" => "host",
+        "ReadonlyRootfs" => false, "Memory" => 0, "NanoCpus" => 0, "PidsLimit" => 0,
+        "CapDrop" => [], "SecurityOpt" => []
+      },
+      "Mounts" => [{
+        "Type" => "bind", "Source" => "/private/tmp/#{invocation_sha256}",
+        "Destination" => "/input/custody.bin", "RW" => false
+      }],
+      "State" => {"ExitCode" => 0}
+    }]
+  )
+  begin
+    P3MinimumTrustTransactionalOciFinalProductRouteValidation.validate_mtro_oci_inspect!(
+      inspect_bytes: malicious_inspect, argv: oci_argv, exit_code: 0
+    )
+  rescue P3MinimumTrustTransactionalOciFinalProductRouteValidationError
+    # A claimed PASS backed by a host-network, writable-root container must fail closed.
+  else
+    raise "P3 MTRO OCI inspect accepted a foreign isolation profile"
+  end
+  exact_file =
+    "backend-spring/src/main/java/com/sourcelens/module/agent/service/AgentRuntime.java"
+  if P3MinimumTrustTransactionalOciFinalProductRouteValidation.path_covered_by_allowlist?(
+       "#{exact_file}/Injected.java", [exact_file]
+     )
+    raise "P3 MTRO exact-file allowlist accepted a child path"
+  end
+  Dir.mktmpdir("p3-mtro-path-guard-") do |tmp|
+    real_root = File.join(tmp, "real")
+    symlink_root = File.join(tmp, "alias")
+    FileUtils.mkdir_p(real_root)
+    File.symlink(real_root, symlink_root)
+    begin
+      P3MinimumTrustTransactionalOciFinalProductRouteValidation.literal_path!(
+        Pathname.new(symlink_root), "P3 MTRO symlink-root mutant", directory: true
+      )
+    rescue P3MinimumTrustTransactionalOciFinalProductRouteValidationError
+      next
+    end
+    raise "P3 MTRO literal-root guard accepted a symlink"
+  end
+  puts "STRICT_PHASE_GATE_TESTS: PASS mtro_current=1 negatives=#{mutations.length + 8}"
+  exit 0
+elsif ARGV == ["--etsk-current-only"]
   truth = YAML.safe_load(
     File.binread(TRUTH),
     permitted_classes: [],

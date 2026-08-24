@@ -151,6 +151,43 @@ current_truth = YAML.safe_load(
 )
 
 if current_truth.dig("current_phase_route", "schema_version") ==
+   FounderDelegationContinuity::MTRO_ROUTE_SCHEMA
+  begin
+    disposition = FounderDelegationContinuity.validate_truth!(root: ROOT, truth: current_truth)
+    expected_disposition = current_truth.dig("founder_escalation_control", "disposition")
+    raise "MTRO Founder disposition drift" unless disposition == expected_disposition
+
+    lifecycle_drift = deep_copy(current_truth)
+    lifecycle_drift["current_phase_route"]["lifecycle_stage"] =
+      "UNDECLARED_MTRO_LIFECYCLE"
+    begin
+      FounderDelegationContinuity.validate_truth!(root: ROOT, truth: lifecycle_drift)
+      raise "MTRO unknown lifecycle false-PASSed through delegation continuity"
+    rescue FounderDelegationContinuityError,
+           P3MinimumTrustTransactionalOciFinalProductRouteValidationError
+      # Expected fail-closed result.
+    end
+
+    disposition_drift = deep_copy(current_truth)
+    disposition_drift["founder_escalation_control"]["disposition"] =
+      "FOUNDER_DECISION_REQUIRED"
+    begin
+      FounderDelegationContinuity.validate_truth!(root: ROOT, truth: disposition_drift)
+      raise "MTRO fabricated Founder interruption false-PASSed"
+    rescue FounderDelegationContinuityError,
+           P3MinimumTrustTransactionalOciFinalProductRouteValidationError
+      # Expected fail-closed result.
+    end
+
+    puts "FOUNDER_DELEGATION_CONTINUITY_TESTS: PASS assertions=3 mode=MTRO_CURRENT_ONLY_NO_REJECTED_LINEAGE_REPLAY"
+    exit 0
+  rescue StandardError => e
+    warn "FOUNDER_DELEGATION_CONTINUITY_TESTS: NON_PASS #{e.class}: #{e.message}"
+    exit 1
+  end
+end
+
+if current_truth.dig("current_phase_route", "schema_version") ==
    P3FinalTransactionalRouteValidation::HPE_ROUTE_SCHEMA
   begin
     disposition = FounderDelegationContinuity.validate_truth!(root: ROOT, truth: current_truth)

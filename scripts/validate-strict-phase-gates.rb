@@ -11065,6 +11065,12 @@ module P4ProposalFirstControlledRealTaskRouteValidation
     scripts/test-strict-phase-gates.rb
     scripts/validate-aios-governance.sh
   ].freeze
+  POST_INTEGRATION_CORRECTION_ALLOWLIST = %w[
+    scripts/test-strict-phase-gates.rb
+    scripts/validate-strict-phase-gates.rb
+  ].freeze
+  POST_INTEGRATION_CORRECTION_SUBJECT =
+    "fix(aios): preserve transition modes in P4 predecessor validation"
   PRODUCT_WRITE_ALLOWLIST = %w[
     backend-spring/src/main/java/com/sourcelens/module/autorepair/controller/AutoRepairController.java
     backend-spring/src/main/java/com/sourcelens/module/autorepair/dto/AutoRepairRequest.java
@@ -11476,6 +11482,60 @@ module P4ProposalFirstControlledRealTaskRouteValidation
     raise P4ProposalFirstControlledRealTaskRouteValidationError, "#{label} unavailable: #{e.message}"
   end
 
+  def validate_transition_changed_path_modes!(root, transition_commit, changed_records)
+    changed_records.each do |status, path|
+      entry = git!(root, "ls-tree", transition_commit, "--", path).split
+      assert(%w[100644 100755].include?(entry[0]) && entry[1] == "blob",
+             "P3 strategic transition introduced a non-regular path: #{path}")
+      if status == "A"
+        parent_entry = git!(root, "ls-tree", CANONICAL_START["commit"], "--", path).split
+        assert(entry[0] == "100644" && parent_entry.empty?,
+               "P3 strategic transition added a mode-drifted or pre-existing path: #{path}")
+        next
+      end
+
+      parent_entry = git!(root, "ls-tree", CANONICAL_START["commit"], "--", path).split
+      assert(parent_entry[0] == entry[0] && parent_entry[1] == entry[1],
+             "P3 strategic transition changed file mode/type: #{path}")
+    end
+  end
+
+  def validate_transition_source_identity!(root, transition_commit, source_identity, label)
+    source = exact_keys(source_identity, %w[path byte_length sha256], label)
+    bytes = git!(root, "show", "#{transition_commit}:#{source.fetch('path')}").b
+    assert(bytes.bytesize == source.fetch("byte_length") &&
+           Digest::SHA256.hexdigest(bytes) == source.fetch("sha256"),
+           "#{label} identity drift at the receipt-bound transition commit")
+    bytes
+  rescue KeyError => e
+    raise P4ProposalFirstControlledRealTaskRouteValidationError,
+          "#{label} unavailable: #{e.message}"
+  end
+
+  def validate_post_integration_correction_commit!(root, transition_commit, correction_commit)
+    parents = git!(root, "show", "-s", "--format=%P", correction_commit).split
+    assert(parents == [transition_commit],
+           "P3 limited correction is not the unique direct child of the strategic transition")
+    subject = git!(root, "show", "-s", "--format=%s", correction_commit).strip
+    assert(subject == POST_INTEGRATION_CORRECTION_SUBJECT,
+           "P3 limited correction commit subject drift")
+    records = git!(
+      root, "diff-tree", "--no-commit-id", "--name-status", "--no-renames", "-r",
+      correction_commit
+    ).lines.map { |line| line.chomp.split("\t", 2) }
+    assert(records.all? { |status, path| status == "M" && path } &&
+           records.map(&:last).sort == POST_INTEGRATION_CORRECTION_ALLOWLIST,
+           "P3 limited correction changed paths outside its exact allowlist")
+    records.each do |_status, path|
+      before = git!(root, "ls-tree", transition_commit, "--", path).split
+      after = git!(root, "ls-tree", correction_commit, "--", path).split
+      assert(%w[100644 100755].include?(after[0]) && after[1] == "blob" &&
+             before[0] == after[0] && before[1] == after[1],
+             "P3 limited correction changed file mode/type: #{path}")
+    end
+    correction_commit
+  end
+
   def validate_transition_receipt!(root, identity)
     bytes = validate_create_once_identity!(
       root, identity, "P3 Exit and P4 entry receipt", expected_path: PHASE_ENTRY_RECEIPT_PATH
@@ -11532,16 +11592,7 @@ module P4ProposalFirstControlledRealTaskRouteValidation
     assert(changed_records.all? { |status, path| %w[A M].include?(status) && path } &&
            changed_paths == TRANSITION_ALLOWLIST.sort,
            "P3 strategic transition changed-path/type allowlist drift")
-    changed_paths.each do |path|
-      entry = git!(root, "ls-tree", transition_commit, "--", path).split
-      assert(entry[0] == "100644" && entry[1] == "blob",
-             "P3 strategic transition introduced a non-regular or mode-drifted path: #{path}")
-      next if changed_records.any? { |status, changed_path| status == "A" && changed_path == path }
-
-      parent_entry = git!(root, "ls-tree", CANONICAL_START["commit"], "--", path).split
-      assert(parent_entry[0] == entry[0] && parent_entry[1] == entry[1],
-             "P3 strategic transition changed file mode/type: #{path}")
-    end
+    validate_transition_changed_path_modes!(root, transition_commit, changed_records)
 
     canonical_truth = exact_keys(
       receipt["canonical_truth"], %w[path byte_length sha256],
@@ -11600,7 +11651,14 @@ module P4ProposalFirstControlledRealTaskRouteValidation
         assert(source_identity["path"] == expected_sources.fetch(name),
                "P3 strategic validation #{name} source path drift")
       end
-      validate_identity!(root, source_identity, "P3 strategic validation #{name} source")
+      if expected_sources.fetch(name)
+        validate_transition_source_identity!(
+          root, transition_commit, source_identity,
+          "P3 strategic validation #{name} source"
+        )
+      else
+        validate_identity!(root, source_identity, "P3 strategic validation #{name} source")
+      end
       stdout = validate_create_once_identity!(
         root, result["stdout"], "P3 strategic validation #{name} stdout"
       )
@@ -11666,11 +11724,16 @@ module P4ProposalFirstControlledRealTaskRouteValidation
     commits = git!(
       root, "rev-list", "--ancestry-path", "#{transition.fetch('commit')}..main", "--reverse"
     ).lines.map(&:strip).reject(&:empty?)
-    assert(!commits.empty?, "P4 entry sync commit is missing after predecessor PASS")
-    entry_commit = commits.first
+    assert(commits.length >= 2,
+           "P4 entry sync is missing the one allowed correction or receipt-bound Truth commit")
+    correction_commit = commits.fetch(0)
+    validate_post_integration_correction_commit!(
+      root, transition.fetch("commit"), correction_commit
+    )
+    entry_commit = commits.fetch(1)
     parents = git!(root, "show", "-s", "--format=%P", entry_commit).split
-    assert(parents == [transition.fetch("commit")],
-           "P4 entry sync is not the unique direct child of the strategic transition")
+    assert(parents == [correction_commit],
+           "P4 entry sync is not the unique direct child of the one allowed correction")
     changed = git!(root, "diff-tree", "--no-commit-id", "--name-only", "-r", entry_commit)
       .lines.map(&:strip).reject(&:empty?)
     assert(changed == ["docs/aios/truth/project_state.yaml"],
@@ -14087,6 +14150,10 @@ module P4ProposalFirstControlledRealTaskRouteValidation
              "P4 lifecycle advanced without a PASS post-integration predecessor receipt")
       transition = validate_transition_receipt!(root, phase_entry_receipt)
       entry_sync = validate_p4_entry_sync!(root, transition, phase_entry_receipt)
+      if lifecycle == "FOUNDATION_ELIGIBLE_NOT_ACTIVATED"
+        assert(git!(root, "rev-parse", "main").strip == entry_sync.fetch("commit"),
+               "P4 F1 eligibility retained an extra commit after the receipt-bound entry sync")
+      end
       canonical_truth_bytes = git!(root, "show", "main:docs/aios/truth/project_state.yaml").b
       assert(root.join("docs/aios/truth/project_state.yaml").binread == canonical_truth_bytes,
              "working Truth is not the exact canonical-main Truth")
@@ -14100,6 +14167,8 @@ module P4ProposalFirstControlledRealTaskRouteValidation
     assert(decision["decision_id"] == DECISION_ID && decision["operation_type"] == OPERATION_TYPE &&
            decision["reserved_triggers"] ==
              %w[MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE PHASE_ENTRY_OR_EXIT] &&
+           decision.dig("strategic_installation", "validator_freezes") == 1 &&
+           decision.dig("strategic_installation", "same_operation_limited_corrections") == 1 &&
            decision["direct_founder_authorization"].slice("path", "byte_length", "sha256") ==
              DIRECT_AUTHORIZATION,
            "P4 Founder decision semantic drift")

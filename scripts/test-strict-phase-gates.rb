@@ -100,6 +100,123 @@ if ARGV == ["--p4-lifecycle-policy-only"]
   exit 0
 end
 
+if ARGV == ["--p4-transition-correction-only"]
+  receipt_path =
+    P4ProposalFirstControlledRealTaskRouteValidation::PHASE_ENTRY_RECEIPT_PATH
+  receipt_bytes = File.binread(receipt_path)
+  receipt_identity = {
+    "path" => receipt_path,
+    "byte_length" => receipt_bytes.bytesize,
+    "sha256" => Digest::SHA256.hexdigest(receipt_bytes)
+  }
+  transition =
+    P4ProposalFirstControlledRealTaskRouteValidation.validate_transition_receipt!(
+      ROOT, receipt_identity
+    )
+  raise "transition receipt did not bind the frozen strategic commit" unless
+    transition["commit"] == "890c8ed081df95194cd65ad033b4be316151493e"
+
+  strict_source = {
+    "path" => "scripts/validate-strict-phase-gates.rb",
+    "byte_length" => 825_299,
+    "sha256" => "b633cf17d7345f12964231409034461661abed1dcc86f1197803203a4ca9e7e9"
+  }
+  P4ProposalFirstControlledRealTaskRouteValidation.validate_transition_source_identity!(
+    ROOT, transition["commit"], strict_source, "transition strict-validator positive fixture"
+  )
+  source_drift = Marshal.load(Marshal.dump(strict_source))
+  source_drift["sha256"] = "0" * 64
+  source_negative_checks = 0
+  begin
+    P4ProposalFirstControlledRealTaskRouteValidation.validate_transition_source_identity!(
+      ROOT, transition["commit"], source_drift, "transition strict-validator drift fixture"
+    )
+  rescue P4ProposalFirstControlledRealTaskRouteValidationError
+    source_negative_checks += 1
+  else
+    raise "transition source binding accepted a false source hash"
+  end
+
+  correction_negative_checks = 0
+  Dir.mktmpdir("p4-transition-correction-") do |tmp|
+    fixture = File.join(tmp, "repo")
+    _stdout, stderr, status = Open3.capture3(
+      "git", "clone", "--shared", "--quiet", ROOT, fixture
+    )
+    raise "transition correction fixture clone failed: #{stderr}" unless status.success?
+    [["user.name", "P4 Correction Fixture"],
+     ["user.email", "p4-correction-fixture@example.invalid"]].each do |key, value|
+      _stdout, stderr, status = Open3.capture3("git", "-C", fixture, "config", key, value)
+      raise "transition correction fixture config failed: #{stderr}" unless status.success?
+    end
+
+    transition_commit = transition.fetch("commit")
+    correction_paths =
+      P4ProposalFirstControlledRealTaskRouteValidation::POST_INTEGRATION_CORRECTION_ALLOWLIST
+    make_correction = lambda do |subject:, extra_path: nil, mode_drift: false|
+      _stdout, stderr, status = Open3.capture3(
+        "git", "-C", fixture, "switch", "--detach", "--quiet", transition_commit
+      )
+      raise "transition correction fixture switch failed: #{stderr}" unless status.success?
+      correction_paths.each do |path|
+        File.open(File.join(fixture, path), "ab") { |file| file.write("\n") }
+      end
+      if extra_path
+        File.binwrite(File.join(fixture, extra_path), "unexpected\n")
+      end
+      Open3.capture3("git", "-C", fixture, "add", *correction_paths, *Array(extra_path))
+      if mode_drift
+        _stdout, stderr, status = Open3.capture3(
+          "git", "-C", fixture, "update-index", "--chmod=+x", correction_paths.first
+        )
+        raise "transition correction fixture mode drift failed: #{stderr}" unless status.success?
+      end
+      _stdout, stderr, status = Open3.capture3(
+        "git", "-C", fixture, "commit", "--quiet", "-m", subject
+      )
+      raise "transition correction fixture commit failed: #{stderr}" unless status.success?
+      Open3.capture3("git", "-C", fixture, "rev-parse", "HEAD").first.strip
+    end
+
+    valid_correction = make_correction.call(
+      subject:
+        P4ProposalFirstControlledRealTaskRouteValidation::POST_INTEGRATION_CORRECTION_SUBJECT
+    )
+    P4ProposalFirstControlledRealTaskRouteValidation.validate_post_integration_correction_commit!(
+      fixture, transition_commit, valid_correction
+    )
+
+    [
+      ["wrong subject", {subject: "fix(aios): unrelated correction"}],
+      ["extra path", {
+        subject:
+          P4ProposalFirstControlledRealTaskRouteValidation::POST_INTEGRATION_CORRECTION_SUBJECT,
+        extra_path: "UNEXPECTED_CORRECTION_PATH"
+      }],
+      ["mode drift", {
+        subject:
+          P4ProposalFirstControlledRealTaskRouteValidation::POST_INTEGRATION_CORRECTION_SUBJECT,
+        mode_drift: true
+      }]
+    ].each do |label, arguments|
+      candidate = make_correction.call(**arguments)
+      begin
+        P4ProposalFirstControlledRealTaskRouteValidation.validate_post_integration_correction_commit!(
+          fixture, transition_commit, candidate
+        )
+      rescue P4ProposalFirstControlledRealTaskRouteValidationError
+        correction_negative_checks += 1
+        next
+      end
+      raise "transition correction guard accepted #{label}"
+    end
+  end
+
+  puts "P4_TRANSITION_CORRECTION_TESTS: PASS positive=3 " \
+       "negatives=#{source_negative_checks + correction_negative_checks}"
+  exit 0
+end
+
 if ARGV == ["--p4-current-only"]
   truth = YAML.safe_load(
     File.binread(TRUTH),

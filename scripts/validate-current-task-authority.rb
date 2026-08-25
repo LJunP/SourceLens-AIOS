@@ -27,6 +27,8 @@ module CurrentTaskAuthority
     "p3-minimum-trust-transactional-oci-final-product-route/v1"
   EGT_ROUTE_SCHEMA =
     "p3-equivalent-mysql-transport-completion-route/v1"
+  IEL_ROUTE_SCHEMA =
+    "p3-host-owned-immutable-execution-lease-completion-route/v1"
   P4_PROPOSAL_FIRST_ROUTE_SCHEMA =
     "p4-proposal-first-controlled-real-task-route/v1"
   DTK_ROUTE_SCHEMA = "p3-declarative-transaction-kernel-clean-room-route/v1"
@@ -5392,6 +5394,56 @@ module CurrentTaskAuthority
     project = hash(truth["project"], "project")
     canonical = string(project["canonical_repository"], "project.canonical_repository")
     route = hash(truth["current_phase_route"], "current_phase_route")
+    if route["schema_version"] == IEL_ROUTE_SCHEMA &&
+       route["lifecycle_stage"] == "STRATEGIC_INSTALLATION_COMPLETE_F1_ELIGIBLE_NOT_ACTIVATED" &&
+       File.realpath(root) != File.realpath(canonical)
+      assert(defined?(P3HostOwnedImmutableExecutionLeaseRouteValidation),
+             "P3 IEL Route validator is unavailable")
+      expected_root = string(
+        route.dig("strategic_installation", "worktree"),
+        "P3 IEL strategic-installation worktree"
+      )
+      assert(File.realpath(root) == File.realpath(expected_root),
+             "P3 IEL strategic-installation validator root drift")
+      state = P3HostOwnedImmutableExecutionLeaseRouteValidation.validate_truth!(
+        root: root, truth: truth
+      )
+      assert(state == "P3_IEL_STRATEGIC_INSTALLATION_COMPLETE_F1_ELIGIBLE",
+             "P3 IEL strategic-installation Route state drift")
+      branch = git(root, "symbolic-ref", "--quiet", "--short", "HEAD").first.strip
+      assert(branch == "codex/p3-iel-strategic-installation",
+             "P3 IEL strategic-installation branch drift")
+      preinstall = P3HostOwnedImmutableExecutionLeaseRouteValidation::PREINSTALL
+      head, tree = git(root, "rev-parse", "HEAD", "HEAD^{tree}").first.lines.map(&:strip)
+      assert(head == preinstall.fetch("commit") && tree == preinstall.fetch("tree"),
+             "P3 IEL strategic-installation frozen parent drift")
+      tracked = git(root, "diff", "--name-only", "HEAD").first.lines.map(&:strip)
+      staged = git(root, "diff", "--cached", "--name-only", "HEAD").first.lines.map(&:strip)
+      untracked = git(root, "ls-files", "--others", "--exclude-standard").first.lines.map(&:strip)
+      changed = (tracked + staged + untracked).reject(&:empty?).uniq.sort
+      allowlist = P3HostOwnedImmutableExecutionLeaseRouteValidation::STRATEGIC_INSTALLATION_ALLOWLIST
+      assert(!changed.empty? && (changed - allowlist).empty?,
+             "P3 IEL strategic-installation changes exceed the exact write allowlist")
+      records = worktrees(root)
+      assert(records.length == 2,
+             "P3 IEL strategic installation requires canonical main plus its exact worktree only")
+      canonical_record = records.find do |record|
+        File.realpath(record.fetch("path")) == File.realpath(canonical)
+      end
+      staging_record = records.find do |record|
+        File.realpath(record.fetch("path")) == File.realpath(root)
+      end
+      assert(canonical_record && canonical_record["branch"] == project["canonical_branch"] &&
+             canonical_record["head"] == preinstall.fetch("commit") &&
+             staging_record && staging_record["branch"] == branch &&
+             staging_record["head"] == preinstall.fetch("commit"),
+             "P3 IEL strategic-installation worktree topology drift")
+      canonical_tree = git(canonical, "rev-parse", "HEAD^{tree}").first.strip
+      assert(canonical_tree == preinstall.fetch("tree") &&
+             git(canonical, "status", "--porcelain=v1", "--untracked-files=all").first.empty?,
+             "P3 IEL frozen canonical main identity or cleanliness drift")
+      return
+    end
     if route["schema_version"] == TRIVS_EVIDENCE_FIRST_ROUTE_SCHEMA &&
        ENV["SOURCELENS_TRIVS_EVIDENCE_FIRST_STRATEGIC_STAGING_ROOT"]
       assert(defined?(P3TrustedReadOnlyInvocationEvidenceFirstFinalRouteValidation),
@@ -5692,6 +5744,7 @@ module CurrentTaskAuthority
         FounderDelegationContinuity::RESEARCH_EXIT_ROUTE_SCHEMA,
         P4_PROPOSAL_FIRST_ROUTE_SCHEMA,
         EGT_ROUTE_SCHEMA,
+        IEL_ROUTE_SCHEMA,
         "p3-host-owned-fixed-state-workflow-route/v1",
         "p3-final-transactional-host-workflow-and-strict-exit-route/v1",
         "p3-phase-entry-active/v1",
@@ -5740,6 +5793,13 @@ module CurrentTaskAuthority
       assert(defined?(P4ProposalFirstControlledRealTaskRouteValidation),
              "P4 proposal-first Route validator is unavailable")
       return P4ProposalFirstControlledRealTaskRouteValidation.validate_truth!(
+        root: root, truth: truth
+      )
+    end
+    if route["schema_version"] == IEL_ROUTE_SCHEMA
+      assert(defined?(P3HostOwnedImmutableExecutionLeaseRouteValidation),
+             "P3 IEL Route validator is unavailable")
+      return P3HostOwnedImmutableExecutionLeaseRouteValidation.validate_truth!(
         root: root, truth: truth
       )
     end

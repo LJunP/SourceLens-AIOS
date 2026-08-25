@@ -47,6 +47,8 @@ module FounderDelegationContinuity
     "p3-minimum-trust-transactional-oci-final-product-route/v1"
   EGT_ROUTE_SCHEMA =
     "p3-equivalent-mysql-transport-completion-route/v1"
+  IEL_ROUTE_SCHEMA =
+    "p3-host-owned-immutable-execution-lease-completion-route/v1"
   P4_PROPOSAL_FIRST_ROUTE_SCHEMA =
     "p4-proposal-first-controlled-real-task-route/v1"
   DTK_ROUTE_SCHEMA = "p3-declarative-transaction-kernel-clean-room-route/v1"
@@ -5077,6 +5079,19 @@ module FounderDelegationContinuity
     route = mapping(truth["current_phase_route"], "current_phase_route")
     return validate_research_exit_state!(root, truth, policy, project, route) if
       route["schema_version"] == RESEARCH_EXIT_ROUTE_SCHEMA
+    if route["schema_version"] == IEL_ROUTE_SCHEMA
+      assert(defined?(P3HostOwnedImmutableExecutionLeaseRouteValidation),
+             "P3 IEL Route validator is unavailable")
+      state = P3HostOwnedImmutableExecutionLeaseRouteValidation.validate_truth!(
+        root: root, truth: truth
+      )
+      assert(state == "P3_IEL_STRATEGIC_INSTALLATION_COMPLETE_F1_ELIGIBLE",
+             "P3 IEL Route state drift")
+      disposition = truth.dig("founder_escalation_control", "disposition")
+      assert(disposition == CONTINUE_DISPOSITION,
+             "P3 IEL must continue autonomously after strategic installation")
+      return disposition
+    end
     if route["schema_version"] == P4_PROPOSAL_FIRST_ROUTE_SCHEMA
       assert(defined?(P4ProposalFirstControlledRealTaskRouteValidation),
              "P4 proposal-first Route validator is unavailable")

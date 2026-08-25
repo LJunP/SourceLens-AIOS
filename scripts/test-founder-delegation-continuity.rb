@@ -151,6 +151,54 @@ current_truth = YAML.safe_load(
 )
 
 if current_truth.dig("current_phase_route", "schema_version") ==
+   FounderDelegationContinuity::IEL_ROUTE_SCHEMA
+  begin
+    disposition = FounderDelegationContinuity.validate_truth!(root: ROOT, truth: current_truth)
+    raise "P3 IEL Founder disposition drift" unless
+      disposition == FounderDelegationContinuity::CONTINUE_DISPOSITION
+
+    lifecycle_drift = deep_copy(current_truth)
+    lifecycle_drift["current_phase_route"]["lifecycle_stage"] =
+      "UNDECLARED_P3_IEL_LIFECYCLE"
+    begin
+      FounderDelegationContinuity.validate_truth!(root: ROOT, truth: lifecycle_drift)
+      raise "P3 IEL unknown lifecycle false-PASSed through delegation continuity"
+    rescue FounderDelegationContinuityError,
+           P3HostOwnedImmutableExecutionLeaseRouteValidationError
+      # Expected fail-closed result.
+    end
+
+    disposition_drift = deep_copy(current_truth)
+    disposition_drift["founder_escalation_control"]["disposition"] =
+      "FOUNDER_DECISION_REQUIRED"
+    begin
+      FounderDelegationContinuity.validate_truth!(root: ROOT, truth: disposition_drift)
+      raise "P3 IEL fabricated Founder interruption false-PASSed"
+    rescue FounderDelegationContinuityError,
+           P3HostOwnedImmutableExecutionLeaseRouteValidationError
+      # Expected fail-closed result.
+    end
+
+    action_drift = deep_copy(current_truth)
+    action_drift["founder_escalation_control"]["next_eligible_action"] =
+      "ACTIVATE_STALE_EGT_PRODUCT_TASK"
+    begin
+      FounderDelegationContinuity.validate_truth!(root: ROOT, truth: action_drift)
+      raise "P3 IEL stale EGT action false-PASSed"
+    rescue FounderDelegationContinuityError,
+           P3HostOwnedImmutableExecutionLeaseRouteValidationError
+      # Expected fail-closed result.
+    end
+
+    puts "FOUNDER_DELEGATION_CONTINUITY_TESTS: PASS assertions=4 mode=P3_IEL_CURRENT_ONLY_NO_REJECTED_LINEAGE_REPLAY"
+    exit 0
+  rescue StandardError => e
+    warn "FOUNDER_DELEGATION_CONTINUITY_TESTS: NON_PASS #{e.class}: #{e.message}"
+    exit 1
+  end
+end
+
+if current_truth.dig("current_phase_route", "schema_version") ==
    FounderDelegationContinuity::MTRO_ROUTE_SCHEMA
   begin
     disposition = FounderDelegationContinuity.validate_truth!(root: ROOT, truth: current_truth)

@@ -1,6 +1,6 @@
 # SourceLens AIOS Strategic Constitution
 
-- Version: `3.9`
+- Version: `4.0`
 - Status: `FROZEN`
 - Effective date: 2026-08-25
 - Owner: Human Founder
@@ -422,6 +422,158 @@ Phase Gate. Any probe, Product, formal or replay `NON_PASS` leaves P3 incomplete
 `25%` and strict capability `0%`, preserves P4 HOLD and the active Long-term Goal, and creates no
 successor, replacement, normalization, closure, feasibility, remediation, Candidate 3, second
 repair, third review, second formal dispatch, V2/V3 route or rerun-to-pass.
+
+## 9J. P3 v4.0 host-owned immutable execution lease strict-capability authority
+
+This section supersedes only section 9I's current scheduling Objective, strict Exit Gate and
+exhausted implementation Route. It does not rewrite or accept the historical Gate
+`ACTUAL_AGENT_HOST_AUTHORIZED_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE_ACCEPTED`; that Gate remains
+`MISSING_NOT_ACCEPTED`. Every prior terminal outcome, non-integration fact and consumed P3 unit
+remains immutable accounting. The two accepted foundations `DURABLE_STATE_AND_CHECKPOINT_RESUME`
+and `DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION` remain usable only through the current bytes and
+public interfaces integrated on canonical `main`; no historical implementation lineage becomes an
+input.
+
+This section is installed by the indivisible create-once Founder decision
+`AUTHORIZE_P3_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_STRICT_CAPABILITY_OBJECTIVE_EXIT_GATE_REBASELINE_AND_ONE_SHOT_COMPLETION_ROUTE_V1`
+and ADR
+`docs/aios/decisions/P3_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_STRICT_CAPABILITY_REBASELINE_AND_COMPLETION_ROUTE_V1.json`
+from frozen canonical commit `3f98000bd60653de619da5bc1f59f38dcdfd22bb`, tree
+`80eda4d77d8363c882ca64ae7c3a8164c43bd3b5` and Truth SHA-256
+`9198ba9937210a7a82b70c6423beaf8c0efa6de3d5b879438e8df09f17871336`. The decision resolves the
+reserved triggers `MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE` and
+`MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE`. Strategic installation,
+validator compatibility, Truth synchronization, governance, review, receipts, cleanup, budget
+consumption and elapsed time create zero engineering, delivery or strict-capability credit.
+
+The P3 Objective is rebaselined to
+`ACTUAL_AGENT_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE`. The real
+production `AgentTaskService`, `AgentRuntime` and production strict decoder may accept model output
+only as schema-closed, non-authoritative proposal data. The Host exclusively derives and owns the
+Task, custody, action, transaction, image, Docker object, permission and terminal truth. Before any
+Docker effect, the Host must commit an immutable intent in real MySQL. Only one Host-frozen, fixed,
+local, offline, `network none`, read-only OCI action may execute. Across the predeclared fresh-process
+failure windows, execution must converge to exactly one durable terminal record and its accepted
+checkpoint, committed together in one real MySQL transaction.
+
+The strict P3 Exit Gate is rebaselined to
+`ACTUAL_AGENT_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE_ACCEPTED`.
+It is complete only when the same frozen Product candidate has current, hash-bound and independently
+`ACCEPTED` Evidence for all four required items:
+
+- `ACTUAL_AGENT_SCHEMA_CLOSED_PROPOSAL_AND_EXCLUSIVE_HOST_RESERVED_INGRESS`
+- `HOST_DERIVED_DURABLE_EXECUTION_LEASE_REAL_MYSQL_AND_SINGLE_TERMINAL_CHECKPOINT`
+- `ENGINE_ASSIGNED_IMMUTABLE_OBJECT_ID_AND_THREE_FRESH_PROCESS_RECOVERY`
+- `PINNED_LOCAL_OCI_ZERO_NETWORK_READ_ONLY_ACTION_COMPLETE_TRACE_AND_CANONICAL_REPLAY`
+
+Reserved proposals must pass through the real Agent ingress and production strict decoder to one
+Host coordinator; missing or duplicate identity, malformed or unknown input, aliases, path input and
+a second reserved proposal fail closed before durable intent. Generic tool execution must
+structurally reject the reserved action. `AgentTaskService` may create only the durable runtime run
+inside its start transaction, and no asynchronous Worker may start before commit. After-commit
+notification is only an accelerator; the durable row and startup recovery poller are the recovery
+authority. The Host must commit immutable intent before Docker mutation and must not claim distributed
+exactly-once across MySQL and Docker.
+
+The Host must call the local trusted Docker Engine Unix-domain socket and treat the 64-hex container
+ID in the Engine create response as the sole authoritative object identity. After that response,
+start, wait, logs, typed inspect, kill, delete and absence verification may use only that exact ID.
+A deterministic Host-derived name and exact labels are only a recovery index when create returned an
+ID that was not durably stored; adoption is permitted only after full revalidation of the intent,
+action and image digests, mounts, security and network profiles and labels. A mutation timeout or
+connection interruption is `INDETERMINATE_REQUIRES_RECOVERY`, never stable-absence or cleanup proof.
+Cleanup uses the exact Engine ID and must finally prove both ID and deterministic name absent.
+
+The pinned action must actually read the Host-frozen custody input and execute `sha256sum`; typed
+Engine facts must prove exact image content identity, `ReadonlyRootfs=true`, `NetworkMode=none`, a
+read-only bind, all capabilities dropped, no-new-privileges, non-root identity, no published port,
+no MySQL bridge membership and `AutoRemove=false`. Every fresh custody resolution must revalidate the
+configured root identity, relative path, byte length, SHA-256, realpath, regular-file status, mode and
+non-symlink status. The complete Engine create request and response, typed inspect, logs, wait,
+cleanup and absence evidence must retain raw byte identity, byte length, SHA-256 and typed semantic
+attestation. Accepted V033 checkpoint semantics remain unchanged; the Product adds only
+`backend-spring/src/main/resources/db/migration/V034__add_host_owned_immutable_execution_leases.sql`
+for durable runtime runs, immutable Host action intents, unique terminals, constraints and recovery
+indexes.
+
+The only executable sequence is
+`P3_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_STRICT_CAPABILITY_COMPLETION_ROUTE_V1`:
+
+1. `AIOS-P3-IEL-F1_IMMUTABLE_EXECUTION_LEASE_ACCEPTANCE_FOUNDATION` is one non-Product executable
+   Foundation with at most 16 engineering hours, 4 calendar days, one same-Task repair and two review
+   cycles. It must freeze and independently validate the Docker Engine Unix-socket/API version and
+   typed schema, create-response immutable-ID oracle, Host execution-lease state machine, real-MySQL
+   fixture and transaction oracle, three crash barriers, deterministic-name conflict/adoption oracle,
+   typed-inspect predicates, cleanup and stable-absence oracle, public acceptance harness,
+   independently held negative fixtures, schedule, metric, threshold and replay plan, and the exact
+   integration and rollback plan. It must freeze the action image by exact content ID from the
+   existing local inventory; pull or network acquisition is forbidden, and absence of a suitable
+   local image satisfying the security profile is F1 `NON_PASS`. CTO, Security and
+   Quality/Evaluation must independently pass it. Acceptance integrates only the public Foundation
+   and harness, records management delivery `40%`, keeps strict capability `0%` and unlocks P1. Held
+   bytes remain unavailable to the P1 Worker.
+2. `AIOS-P3-IEL-P1_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_PRODUCT` is one clean-room Product Task with
+   at most 56 engineering hours, 12 calendar days, two candidate generations, one same-Task repair
+   and two review cycles. Candidate 2 may contain only that repair. It must begin a non-empty,
+   testable Product implementation in its first engineering hour and may not modify the accepted F1
+   harness, held inputs, oracle, metric, threshold or schedule. Review cycle 1 must freeze the complete
+   P0/P1 finding set at once. Review cycle 2 may only close those frozen findings or reject a
+   repair-introduced regression; it may not add a new same-class design finding. Three independent
+   PASS verdicts may create only one `FORMAL_ELIGIBLE_FROZEN_CANDIDATE`, which must bind the exact
+   commit and tree, complete source and test inventories, accepted F1 identity, V034 identity, action
+   and MySQL image content IDs, public and held evaluator custody identities, and CTO, Security and
+   Quality/Evaluation review identities. It records management delivery `75%`, keeps strict capability
+   `0%` and unlocks E1; Product is not integrated at this point.
+3. `AIOS-P3-IEL-E1_ONE_SHOT_STRICT_CAPABILITY_ACCEPTANCE` is one evaluation-only Task with at most
+   24 engineering hours, 6 calendar days, exactly one formal dispatch, zero candidate mutation, zero
+   repair and zero rerun. It evaluates only the frozen P1 candidate and F1 package. Formal PASS only
+   permits a local fast-forward of that exact candidate and exactly one canonical-only replay. Only
+   formal acceptance, local integration and replay all passing with every mandatory skip count zero
+   may accept all four Gate items, set management delivery and strict capability to `100%`, and place
+   P3 at `ELIGIBLE_AWAITING_FOUNDER_P3_PHASE_GATE_DECISION`.
+
+This non-resetting Route appends exactly 3 engineering Tasks, 96 engineering hours and 22 calendar
+days to the already consumed 21 Tasks, 664 hours and 152 days, producing exact cumulative ceilings of
+24 Tasks, 760 hours and 174 days. It allows at most one active Task, Task branch, Task worktree and
+Product candidate. Locked capacity from an earlier Route is not refunded, borrowed or reinterpreted.
+An accepted or terminal stage must preserve its Evidence and close its branch/worktree before the
+next stage may activate.
+
+All Route Workers, Evaluators and Reviewers are clean-room bound. They may use only frozen canonical
+`main` bytes, current authority and Truth state/non-reuse facts, the two accepted foundations through
+their integrated public interfaces, an independently accepted F1 public package and material created
+by the current Task. Reading, showing, comparing, copying, checking out, cherry-picking, diffing,
+restoring, decompiling, executing or integrating any rejected P3 engineering lineage—including old
+bundles, commits, trees, branches, worktrees, patches, implementation reviews, terminal engineering
+receipts, repair artifacts, reflog, stash, object-database recovery and historical rejected-engineering
+attachments—immediately makes the Route `NON_PASS` and contaminates the candidate.
+
+The system-under-test Agent has proposal-data authority only and no shell, filesystem, Docker,
+network, Provider, Secret, credential, remote, production, public-release or canonical-write
+authority. The Host is limited to Task-local source, test and Evidence writes, the exact real-MySQL
+loopback endpoint, the local Docker Engine Unix socket, exact Task-owned Docker objects, frozen local
+action and MySQL images, Task-owned process signals, three fresh JVMs, post-formal local canonical
+fast-forward, exact rollback after replay `NON_PASS`, and terminal cleanup. External network, DNS,
+HTTP(S), Provider, Secret, credential, remote, production, public, push, pull request, remote merge,
+tag, release, publish and Docker pull/push/login remain forbidden.
+
+Any strategic-installation, F1, P1, E1, integration or canonical-replay `NON_PASS` terminates this
+Route, keeps strict capability at `0%`, retains only the last independently accepted management
+milestone, locks or leaves uncreated every downstream Task, rejects Product integration, leaves P3
+`HOLD_INCOMPLETE`, keeps P4
+`HOLD_PENDING_STRICT_P3_CAPABILITY_ACCEPTANCE_AND_FOUNDER_PHASE_GATE`, leaves the project incomplete
+and keeps the Long-term Goal `ACTIVE` with Codex Goal action `NONE_KEEP_ACTIVE`. A replay `NON_PASS`
+permits only the prebound, local, clean-worktree atomic rollback and no remote-history rewrite. A
+successful replay still does not execute P3 Phase Exit, P4 or P5 entry, or Long-term Goal closure.
+
+The entire Route forbids a second Foundation or Product Task, Candidate 3, a second same-Task repair,
+a third review cycle, a second formal dispatch, post-formal tuning or mutation, successor,
+replacement, normalization, closure, feasibility, remediation, correction V2, Route V2/V3 and
+rerun-to-pass. The one-time validator compatibility change may only register this exact Founder
+token, operation, both reserved triggers, frozen identities, P4 HOLD, active Long-term Goal,
+three-stage budgets and anti-cycle rules against the frozen pre-install Truth and exact Founder
+bytes. It may not weaken existing validation, pre-mutate Truth, or turn an ordinary `NON_PASS` into a
+strategy trigger.
 
 ## 10. Research artifacts
 

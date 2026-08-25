@@ -60,6 +60,7 @@ module FounderActionHandoff
     P3_TRUSTED_READ_ONLY_INVOCATION_EVIDENCE_FIRST_FINAL_CLEAN_ROOM_ROUTE_AFTER_TRIVS_TERMINAL
     P3_TRIVS_EVIDENCE_FIRST_TERMINAL_HOLD_DISPOSITION
     P3_MINIMUM_TRUST_TRANSACTIONAL_OCI_FINAL_PRODUCT_ROUTE_AFTER_F2_TERMINAL
+    P3_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_STRICT_CAPABILITY_OBJECTIVE_EXIT_GATE_REBASELINE_AND_ONE_SHOT_COMPLETION_ROUTE
     P3_RESEARCH_NON_PASS_OBJECTIVE_EXIT_GATE_REBASELINE_AND_CONDITIONAL_P4_ENTRY
     P3_STRATEGIC_TRANSITION_GLOBAL_GOVERNANCE_COMPATIBILITY_SCOPE_AMENDMENT
   ].freeze
@@ -1103,6 +1104,69 @@ module FounderActionHandoff
     "deny_or_defer_effect" =>
       "本授权不授权互联网、DNS、HTTP(S)、Provider、外部 Secret、外部 credential、remote write、production、public release、P4 entry、remote branch/tag mutation、Git history rewrite、不可逆资产删除或修改 Codex 私有控制面。"
   }.freeze
+  P3_IEL_ROUTE_TOKEN =
+    "AUTHORIZE_P3_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_STRICT_CAPABILITY_OBJECTIVE_EXIT_GATE_REBASELINE_AND_ONE_SHOT_COMPLETION_ROUTE_V1"
+  P3_IEL_ROUTE_OPERATION_TYPE =
+    "P3_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_STRICT_CAPABILITY_OBJECTIVE_EXIT_GATE_REBASELINE_AND_ONE_SHOT_COMPLETION_ROUTE"
+  P3_IEL_ROUTE_PRIMARY_TRIGGER = "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE"
+  P3_IEL_ROUTE_CAPACITY_TRIGGER =
+    "MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE"
+  P3_IEL_ROUTE_PREINSTALL_COMMIT = "3f98000bd60653de619da5bc1f59f38dcdfd22bb"
+  P3_IEL_ROUTE_PREINSTALL_TREE = "80eda4d77d8363c882ca64ae7c3a8164c43bd3b5"
+  P3_IEL_ROUTE_PREINSTALL_TRUTH_PATH = "docs/aios/truth/project_state.yaml"
+  P3_IEL_ROUTE_PREINSTALL_TRUTH_BYTES = 2_097_616
+  P3_IEL_ROUTE_PREINSTALL_TRUTH_SHA256 =
+    "9198ba9937210a7a82b70c6423beaf8c0efa6de3d5b879438e8df09f17871336"
+  P3_IEL_ROUTE_PREINSTALL_CONSTITUTION_PATH = "docs/aios/STRATEGIC_CONSTITUTION.md"
+  P3_IEL_ROUTE_PREINSTALL_CONSTITUTION_VERSION = "3.9"
+  P3_IEL_ROUTE_PREINSTALL_CONSTITUTION_BYTES = 66_223
+  P3_IEL_ROUTE_PREINSTALL_CONSTITUTION_SHA256 =
+    "93059bda247b906ebfd1beaef1d22dc86be27960416f99c674395f75aac6f3bb"
+  P3_IEL_ROUTE_POLICY_PATH = "docs/aios/FOUNDER_DELEGATION_POLICY.md"
+  P3_IEL_ROUTE_POLICY_VERSION = "1.8"
+  P3_IEL_ROUTE_POLICY_BYTES = 17_346
+  P3_IEL_ROUTE_POLICY_SHA256 =
+    "12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29"
+  P3_IEL_ROUTE_DIRECT_ATTACHMENT_PATH =
+    "/Users/lijunpeng/.codex/attachments/0a8d296d-05cd-4546-b434-b8bbf9de2f13/pasted-text.txt"
+  P3_IEL_ROUTE_DIRECT_ATTACHMENT_BYTES = 28_528
+  P3_IEL_ROUTE_DIRECT_ATTACHMENT_SHA256 =
+    "fc019d5e974588fa7581e347b6cc10025795430069a4b5a034fa057c4a8f7959"
+  P3_IEL_ROUTE_PROFILE = {
+    "operations" => [
+      P3_IEL_ROUTE_PRIMARY_TRIGGER,
+      P3_IEL_ROUTE_CAPACITY_TRIGGER,
+      "ACTUAL_AGENT_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE",
+      "ACTUAL_AGENT_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE_ACCEPTED",
+      "AIOS-P3-IEL-F1_IMMUTABLE_EXECUTION_LEASE_ACCEPTANCE_FOUNDATION",
+      "AIOS-P3-IEL-P1_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_PRODUCT",
+      "AIOS-P3-IEL-E1_ONE_SHOT_STRICT_CAPABILITY_ACCEPTANCE"
+    ],
+    "targets" => [
+      "/Users/lijunpeng/Developer/SourceLens-AIOS",
+      "codex/p3-iel-strategic-installation",
+      "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-iel-strategic-installation",
+      "/Users/lijunpeng/Developer/.sourcelens-audit/p3-immutable-execution-lease-completion-20260825/strategic-installation",
+      "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-iel-f1-foundation",
+      "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-iel-p1-product",
+      "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-iel-e1-formal"
+    ],
+    "budget_or_external_effects" =>
+      "3 engineering Tasks\n96 engineering hours\n22 calendar days\n1 formal dispatch",
+    "token" => P3_IEL_ROUTE_TOKEN,
+    "duration" =>
+      "授权在以下最早事件发生时终止：",
+    "authorization_expiry_or_consumption_rule" =>
+      "本授权只有在我于当前SourceLens AIOS Codex任务中完整、逐字直接回复本正文后才生效；仅回复token、简称、“同意”或改写版本均不生效。",
+    "pass_lifecycle" =>
+      "P3 strict capability才为100%，并仅进入ELIGIBLE_AWAITING_FOUNDER_P3_PHASE_GATE_DECISION；P4仍HOLD。",
+    "non_pass_lifecycle" =>
+      "战略安装、F1、P1、E1、integration或canonical replay任一NON_PASS：",
+    "risk_and_reversibility" =>
+      "本授权不保证P3必然达到100%；100%只能由上述四项Gate、同一frozen candidate、三方review、formal acceptance、local integration和canonical replay的真实PASS Evidence建立。",
+    "deny_or_defer_effect" =>
+      "canonical main、Truth和现有Evidence保持不变"
+  }.freeze
   P3_RESEARCH_NON_PASS_P4_ENTRY_TOKEN =
     "AUTHORIZE_P3_RESEARCH_NON_PASS_CLOSURE_AND_CONDITIONAL_P4_PROPOSAL_FIRST_PHASE_ENTRY_V1"
   P3_RESEARCH_NON_PASS_P4_ENTRY_OPERATION_TYPE =
@@ -1488,6 +1552,7 @@ module FounderActionHandoff
     P3_TRIVS_EVIDENCE_FIRST_TERMINAL_HOLD_OPERATION_TYPE =>
       P3_TRIVS_EVIDENCE_FIRST_TERMINAL_HOLD_PROFILE,
     P3_MTRO_ROUTE_OPERATION_TYPE => P3_MTRO_ROUTE_PROFILE,
+    P3_IEL_ROUTE_OPERATION_TYPE => P3_IEL_ROUTE_PROFILE,
     P3_RESEARCH_NON_PASS_P4_ENTRY_OPERATION_TYPE => P3_RESEARCH_NON_PASS_P4_ENTRY_PROFILE,
     P3_STRATEGIC_SCOPE_AMENDMENT_OPERATION_TYPE => P3_STRATEGIC_SCOPE_AMENDMENT_PROFILE
   }.freeze
@@ -1633,10 +1698,17 @@ module FounderActionHandoff
       P3_TXC_ROUTE_OPERATION_TYPE,
       P3_TRIVS_ROUTE_OPERATION_TYPE,
       P3_TRIVS_EVIDENCE_FIRST_ROUTE_OPERATION_TYPE,
-      P3_MTRO_ROUTE_OPERATION_TYPE
+      P3_MTRO_ROUTE_OPERATION_TYPE,
+      P3_IEL_ROUTE_OPERATION_TYPE
     ].include?(frozen_p3_operation_type)
     if frozen_p3_fixture
-      expected_fixture_identity = if frozen_p3_operation_type ==
+      expected_fixture_identity = if frozen_p3_operation_type == P3_IEL_ROUTE_OPERATION_TYPE
+        {
+          "commit" => P3_IEL_ROUTE_PREINSTALL_COMMIT,
+          "tree" => P3_IEL_ROUTE_PREINSTALL_TREE,
+          "branch" => "main"
+        }
+      elsif frozen_p3_operation_type ==
                                      P3_MTRO_ROUTE_OPERATION_TYPE
         {
           "commit" => P3_MTRO_ROUTE_PREINSTALL_COMMIT,
@@ -1686,7 +1758,13 @@ module FounderActionHandoff
     assert!(artifact["byte_length"].is_a?(Integer) && artifact["byte_length"].positive?, "governing artifact byte length invalid")
     assert!(artifact["sha256"].is_a?(String) && artifact["sha256"].match?(SHA256), "governing artifact SHA-256 invalid")
     if frozen_p3_fixture
-      expected_fixture_artifact = if frozen_p3_operation_type ==
+      expected_fixture_artifact = if frozen_p3_operation_type == P3_IEL_ROUTE_OPERATION_TYPE
+        {
+          "path" => P3_IEL_ROUTE_PREINSTALL_TRUTH_PATH,
+          "byte_length" => P3_IEL_ROUTE_PREINSTALL_TRUTH_BYTES,
+          "sha256" => P3_IEL_ROUTE_PREINSTALL_TRUTH_SHA256
+        }
+      elsif frozen_p3_operation_type ==
                                      P3_MTRO_ROUTE_OPERATION_TYPE
         {
           "path" => P3_MTRO_ROUTE_PREINSTALL_TRUTH_PATH,
@@ -1727,7 +1805,25 @@ module FounderActionHandoff
       end
       assert!(artifact == expected_fixture_artifact,
               "P3 rebaseline fixture governing artifact identity drift")
-      if frozen_p3_operation_type == P3_MTRO_ROUTE_OPERATION_TYPE
+      if frozen_p3_operation_type == P3_IEL_ROUTE_OPERATION_TYPE
+        constitution_bytes, stderr, status = Open3.capture3(
+          "git", "-C", ROOT, "show",
+          "#{P3_IEL_ROUTE_PREINSTALL_COMMIT}:#{P3_IEL_ROUTE_PREINSTALL_CONSTITUTION_PATH}"
+        )
+        assert!(status.success?, "P3 IEL preinstall Constitution unavailable: #{stderr.strip}")
+        assert!(constitution_bytes.bytesize == P3_IEL_ROUTE_PREINSTALL_CONSTITUTION_BYTES &&
+                Digest::SHA256.hexdigest(constitution_bytes) ==
+                  P3_IEL_ROUTE_PREINSTALL_CONSTITUTION_SHA256,
+                "P3 IEL preinstall Constitution identity drift")
+        policy_bytes, stderr, status = Open3.capture3(
+          "git", "-C", ROOT, "show",
+          "#{P3_IEL_ROUTE_PREINSTALL_COMMIT}:#{P3_IEL_ROUTE_POLICY_PATH}"
+        )
+        assert!(status.success?, "P3 IEL preinstall policy unavailable: #{stderr.strip}")
+        assert!(policy_bytes.bytesize == P3_IEL_ROUTE_POLICY_BYTES &&
+                Digest::SHA256.hexdigest(policy_bytes) == P3_IEL_ROUTE_POLICY_SHA256,
+                "P3 IEL preinstall Founder policy identity drift")
+      elsif frozen_p3_operation_type == P3_MTRO_ROUTE_OPERATION_TYPE
         constitution_bytes, stderr, status = Open3.capture3(
           "git", "-C", ROOT, "show",
           "#{P3_MTRO_ROUTE_PREINSTALL_COMMIT}:#{P3_MTRO_ROUTE_PREINSTALL_CONSTITUTION_PATH}"
@@ -1967,7 +2063,85 @@ module FounderActionHandoff
       assert!(package["project_authorized"] == "NO" && package["app_filesystem_approval_required"] == "NO",
               "Founder request mixed project and App approval layers")
       if authorization["proposal_mode"] == "CURRENT_CANONICAL_TRIGGER"
-        if [P3_HPE_ROUTE_OPERATION_TYPE, P3_TXC_ROUTE_OPERATION_TYPE].include?(
+        if authorization["operation_type"] == P3_IEL_ROUTE_OPERATION_TYPE
+          route = truth["current_phase_route"]
+          project = truth["project"]
+          goal = truth["goal"]
+          active = truth["active_work"]
+          p4 = truth.dig("strict_phase_gate_ledger", "phases", "P4")
+          request = package["user_request_evidence"]
+          assert!(route.is_a?(Hash) &&
+                  route.values_at(
+                    "schema_version", "route_id", "status", "lifecycle_stage",
+                    "execution_status", "scheduling_status", "next_eligible_action"
+                  ) == [
+                    "p3-equivalent-mysql-transport-completion-route/v1",
+                    "P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_FINAL_CLEAN_ROOM_COMPLETION_ROUTE_V1",
+                    "TERMINAL_FINAL_EXCEPTION_NON_PASS", "PRODUCT_ROUTE_TERMINAL_NON_PASS",
+                    "P3_HOLD_INCOMPLETE_FINAL_EQUIVALENT_TRANSPORT_EXCEPTION_EXHAUSTED",
+                    "NO_FURTHER_P3_IMPLEMENTATION_ALLOWED",
+                    "NO_ENGINEERING_ACTION_P3_HOLD_INCOMPLETE_FINAL_EQUIVALENT_TRANSPORT_EXCEPTION_EXHAUSTED"
+                  ] &&
+                  route["founder_reserved_triggers_resolved"] == [
+                    P3_IEL_ROUTE_CAPACITY_TRIGGER, P3_IEL_ROUTE_PRIMARY_TRIGGER
+                  ],
+                  "P3 IEL authorization requires the exact frozen EGT terminal Route")
+          assert!(control["schema_version"] == "founder-escalation-control/v2" &&
+                  control["disposition"] == "NO_RESERVED_TRIGGER_ROUTE_TERMINAL" &&
+                  control["founder_decision_required"] == false &&
+                  control.dig("reserved_trigger", "category") == "NONE" &&
+                  control.dig("reserved_trigger", "evidence").nil? &&
+                  control["next_action_owner"] == "NONE" &&
+                  control["phase_gate_status"] == "P3_INCOMPLETE" &&
+                  control["next_eligible_action"] ==
+                    "NO_ENGINEERING_ACTION_P3_HOLD_INCOMPLETE_FINAL_EQUIVALENT_TRANSPORT_EXCEPTION_EXHAUSTED" &&
+                  control["source_event"] == {
+                    "kind" => "P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_PRODUCT_ROUTE_TERMINAL_NON_PASS",
+                    "decision_id" =>
+                      "AUTHORIZE_P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_EXIT_GATE_CLARIFICATION_AND_FINAL_CLEAN_ROOM_COMPLETION_ROUTE_V1",
+                    "status" => "P3_HOLD_INCOMPLETE_FINAL_EQUIVALENT_TRANSPORT_EXCEPTION_EXHAUSTED"
+                  } && control["resolved_strategy_decision"] == {
+                    "categories" => [
+                      P3_IEL_ROUTE_CAPACITY_TRIGGER, P3_IEL_ROUTE_PRIMARY_TRIGGER
+                    ],
+                    "decision_id" =>
+                      "AUTHORIZE_P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_EXIT_GATE_CLARIFICATION_AND_FINAL_CLEAN_ROOM_COMPLETION_ROUTE_V1",
+                    "path" =>
+                      "docs/aios/decisions/P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_EXIT_GATE_CLARIFICATION_AND_FINAL_CLEAN_ROOM_COMPLETION_ROUTE_V1.json",
+                    "byte_length" => 18_154,
+                    "sha256" =>
+                      "9dfcac8a8683269cc5517c2e01afe4df666bfe0008d7735e27266d169721bf05",
+                    "result" => "P3_EGT_PRODUCT_ROUTE_TERMINAL_NON_PASS"
+                  } && evidence["prospective_preflight"].nil?,
+                  "P3 IEL authorization requires exact NO_RESERVED_TRIGGER_ROUTE_TERMINAL control")
+          assert!(project.is_a?(Hash) && project["current_phase"] == "P3" &&
+                  project["p3_execution_status"] ==
+                    "HOLD_INCOMPLETE_FINAL_EQUIVALENT_TRANSPORT_EXCEPTION_EXHAUSTED" &&
+                  project["p4_entry_status"] ==
+                    "HOLD_PENDING_STRICT_P3_CAPABILITY_ACCEPTANCE_AND_FOUNDER_PHASE_GATE" &&
+                  project["p4_execution_status"] ==
+                    "HOLD_PENDING_STRICT_P3_CAPABILITY_ACCEPTANCE_AND_FOUNDER_PHASE_GATE" &&
+                  goal.is_a?(Hash) && goal["current_task_authority"] == "NONE" &&
+                  goal["project_actually_completed"] == false &&
+                  goal["long_term_goal_status"] == "ACTIVE" &&
+                  goal["codex_goal_action"] == "NONE_KEEP_ACTIVE" &&
+                  active.is_a?(Hash) && active["current_task"] == "NONE" &&
+                  active["selected_task"] == "NONE" &&
+                  active["next_eligible_action"] ==
+                    "NO_ENGINEERING_ACTION_P3_HOLD_INCOMPLETE_FINAL_EQUIVALENT_TRANSPORT_EXCEPTION_EXHAUSTED" &&
+                  p4.is_a?(Hash) && p4["entry_authorized"] == false &&
+                  p4["execution_started"] == false &&
+                  p4["entry_status"] ==
+                    "HOLD_PENDING_STRICT_P3_CAPABILITY_ACCEPTANCE_AND_FOUNDER_PHASE_GATE",
+                  "P3 IEL authorization requires P4 HOLD, no stale EGT activation and Goal ACTIVE")
+          assert!(request.is_a?(Hash) &&
+                  current_user_request_token == P3_IEL_ROUTE_TOKEN &&
+                  request["source"] == "CURRENT_DIRECT_USER_MESSAGE" &&
+                  request["exact_token"] == current_user_request_token &&
+                  request["requested_external_effect"] == "MATERIAL_SCOPE" &&
+                  authorization["reserved_trigger"] == P3_IEL_ROUTE_PRIMARY_TRIGGER,
+                  "P3 IEL authorization lacks the exact direct Founder token and strategy trigger")
+        elsif [P3_HPE_ROUTE_OPERATION_TYPE, P3_TXC_ROUTE_OPERATION_TYPE].include?(
              authorization["operation_type"]
            )
           txc = authorization["operation_type"] == P3_TXC_ROUTE_OPERATION_TYPE
@@ -2218,6 +2392,7 @@ module FounderActionHandoff
         P3_TRUSTED_READ_ONLY_INVOCATION_EVIDENCE_FIRST_FINAL_CLEAN_ROOM_ROUTE_AFTER_TRIVS_TERMINAL
         P3_TRIVS_EVIDENCE_FIRST_TERMINAL_HOLD_DISPOSITION
         P3_MINIMUM_TRUST_TRANSACTIONAL_OCI_FINAL_PRODUCT_ROUTE_AFTER_F2_TERMINAL
+        P3_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_STRICT_CAPABILITY_OBJECTIVE_EXIT_GATE_REBASELINE_AND_ONE_SHOT_COMPLETION_ROUTE
         P3_RESEARCH_NON_PASS_OBJECTIVE_EXIT_GATE_REBASELINE_AND_CONDITIONAL_P4_ENTRY
         P3_STRATEGIC_TRANSITION_GLOBAL_GOVERNANCE_COMPATIBILITY_SCOPE_AMENDMENT
       ].include?(operation_type)
@@ -2305,6 +2480,15 @@ module FounderActionHandoff
                 canonical_body.lines.first.chomp == P3_MTRO_ROUTE_TOKEN,
                 "P3 MTRO final Product Route exact Founder body identity drift")
       end
+      if operation_type == P3_IEL_ROUTE_OPERATION_TYPE
+        body = package["copy_ready_text_or_exact_steps"].dup.force_encoding("UTF-8")
+        assert!(body.valid_encoding?, "P3 IEL completion Route body encoding invalid")
+        assert!(body.bytesize == P3_IEL_ROUTE_DIRECT_ATTACHMENT_BYTES &&
+                Digest::SHA256.hexdigest(body.b) ==
+                  P3_IEL_ROUTE_DIRECT_ATTACHMENT_SHA256 &&
+                body.lines.first&.chomp == P3_IEL_ROUTE_TOKEN,
+                "P3 IEL completion Route exact direct Founder body identity drift")
+      end
       if operation_type == P3_TRIVS_EVIDENCE_FIRST_TERMINAL_HOLD_OPERATION_TYPE
         body = package["copy_ready_text_or_exact_steps"].dup.force_encoding("UTF-8")
         assert!(body.valid_encoding?, "P3 evidence-first terminal HOLD body encoding invalid")
@@ -2347,7 +2531,8 @@ module FounderActionHandoff
            "P3_MINIMUM_TRUST_HOST_AUTHORIZED_TRANSACTIONAL_BOUNDARY_OBJECTIVE_AND_ROUTE_REBASELINE_AFTER_P3_007",
            P3_TRIVS_ROUTE_OPERATION_TYPE,
            P3_TRIVS_EVIDENCE_FIRST_ROUTE_OPERATION_TYPE,
-           P3_MTRO_ROUTE_OPERATION_TYPE
+           P3_MTRO_ROUTE_OPERATION_TYPE,
+           P3_IEL_ROUTE_OPERATION_TYPE
          ].include?(authorization["operation_type"]) &&
          fragment == artifact["byte_length"].to_s
         grouped_length = artifact["byte_length"].to_s.reverse.scan(/.{1,3}/).join(",").reverse

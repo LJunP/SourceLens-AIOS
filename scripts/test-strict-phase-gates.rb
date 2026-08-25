@@ -217,6 +217,106 @@ if ARGV == ["--p4-transition-correction-only"]
   exit 0
 end
 
+if ARGV == ["--p3-iel-current-only"]
+  truth = YAML.safe_load(
+    File.binread(TRUTH),
+    permitted_classes: [],
+    permitted_symbols: [],
+    aliases: false
+  )
+  iel = P3HostOwnedImmutableExecutionLeaseRouteValidation
+  raise "current Route is not P3 immutable execution lease completion" unless
+    truth.dig("current_phase_route", "schema_version") == iel::ROUTE_SCHEMA &&
+      truth.dig("current_phase_route", "route_id") == iel::ROUTE_ID
+  state = iel.validate_truth!(root: ROOT, truth: truth)
+  raise "P3 IEL strategic-installation state drift" unless
+    state == "P3_IEL_STRATEGIC_INSTALLATION_COMPLETE_F1_ELIGIBLE"
+
+  mutations = {
+    "stale preinstall commit identity" => lambda do |candidate|
+      candidate.dig("current_phase_route", "strategic_installation_parent")["commit"] = "0" * 40
+    end,
+    "stale decision identity" => lambda do |candidate|
+      candidate.dig("current_phase_route", "founder_strategy_decision")["sha256"] = "0" * 64
+    end,
+    "wrong operation type" => lambda do |candidate|
+      candidate.dig("current_phase_route", "founder_strategy_decision")["operation_type"] =
+        "ORDINARY_TASK_NON_PASS"
+    end,
+    "strategy trigger omitted" => lambda do |candidate|
+      candidate.dig("current_phase_route")["founder_reserved_triggers_resolved"] =
+        ["MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE"]
+    end,
+    "ordinary NON_PASS masquerades as strategy trigger" => lambda do |candidate|
+      candidate.dig("founder_escalation_control", "source_event")["kind"] =
+        "ORDINARY_IMPLEMENTATION_NON_PASS"
+    end,
+    "P4 entry restored early" => lambda do |candidate|
+      candidate.dig("strict_phase_gate_ledger", "phases", "P4")["entry_authorized"] = true
+    end,
+    "Long-term Goal closed" => lambda do |candidate|
+      candidate.dig("goal")["long_term_goal_status"] = "COMPLETE"
+    end,
+    "stale EGT activation projection retained" => lambda do |candidate|
+      candidate.dig("claim_boundary")["current_route_executable_task_slots"] =
+        "P3_EGT_PRODUCT_AND_FORMAL_ACTIVATABLE"
+    end,
+    "route over budget" => lambda do |candidate|
+      candidate.dig("phase_execution_envelope", "remaining")["engineering_hours"] = 97
+    end,
+    "F1 unauthorized candidate-generation budget injected" => lambda do |candidate|
+      candidate.dig("current_phase_route", "ordered_stages", 0, "budget")[
+        "candidate_generations"
+      ] = 2
+    end,
+    "P1 Candidate 3 budget enabled" => lambda do |candidate|
+      candidate.dig("current_phase_route", "ordered_stages", 1, "budget")[
+        "candidate_generations"
+      ] = 3
+    end,
+    "E1 second formal-dispatch budget enabled" => lambda do |candidate|
+      candidate.dig("current_phase_route", "ordered_stages", 2, "budget")[
+        "formal_dispatches"
+      ] = 2
+    end,
+    "rejected lineage read permission enabled" => lambda do |candidate|
+      candidate.dig("current_phase_route", "clean_room")[
+        "rejected_p3_engineering_lineage_read_compare_restore_copy_checkout_cherry_pick_diff_decompile_reference_or_integrate"
+      ] = true
+    end,
+    "Candidate 3 enabled" => lambda do |candidate|
+      candidate.dig("current_phase_route", "anti_cycle")["candidate_3_allowed"] = true
+    end,
+    "second repair enabled" => lambda do |candidate|
+      candidate.dig("current_phase_route", "anti_cycle")["second_repair_allowed"] = true
+    end,
+    "third review enabled" => lambda do |candidate|
+      candidate.dig("current_phase_route", "anti_cycle")["third_review_allowed"] = true
+    end,
+    "second formal dispatch enabled" => lambda do |candidate|
+      candidate.dig("current_phase_route", "anti_cycle")["second_formal_dispatch_allowed"] = true
+    end,
+    "rerun to pass enabled" => lambda do |candidate|
+      candidate.dig("current_phase_route", "anti_cycle")["rerun_to_pass_allowed"] = true
+    end
+  }
+  negative_count = 0
+  mutations.each do |label, mutation|
+    candidate = Marshal.load(Marshal.dump(truth))
+    mutation.call(candidate)
+    begin
+      iel.validate_truth!(root: ROOT, truth: candidate)
+    rescue P3HostOwnedImmutableExecutionLeaseRouteValidationError
+      negative_count += 1
+      next
+    end
+    raise "P3 IEL validator accepted mutation: #{label}"
+  end
+  raise "P3 IEL negative count drift" unless negative_count == mutations.length
+  puts "P3_IEL_STRICT_PHASE_GATE_TESTS: PASS current=1 negatives=#{negative_count}"
+  exit 0
+end
+
 if ARGV == ["--p3-egt-current-only"]
   truth = YAML.safe_load(
     File.binread(TRUTH),

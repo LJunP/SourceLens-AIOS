@@ -3,6 +3,7 @@
 
 require "digest"
 require "json"
+require "open3"
 require "tmpdir"
 require_relative "validate-founder-action-handoff"
 
@@ -1236,6 +1237,194 @@ assert_reject!(
   ),
   p3_mtro_truth,
   terminal_receipt_path: FounderActionHandoff::P3_MTRO_ROUTE_F2_TERMINAL_RECEIPT_PATH
+)
+
+p3_iel_truth, p3_iel_truth_stderr, p3_iel_truth_status = Open3.capture3(
+  "git", "-C", FounderActionHandoff::ROOT, "show",
+  "#{FounderActionHandoff::P3_IEL_ROUTE_PREINSTALL_COMMIT}:#{FounderActionHandoff::P3_IEL_ROUTE_PREINSTALL_TRUTH_PATH}"
+)
+abort "P3 IEL frozen preinstall Truth unavailable: #{p3_iel_truth_stderr.strip}" unless
+  p3_iel_truth_status.success?
+abort "P3 IEL frozen preinstall Truth exact identity drift" unless
+  p3_iel_truth.bytesize == FounderActionHandoff::P3_IEL_ROUTE_PREINSTALL_TRUTH_BYTES &&
+  Digest::SHA256.hexdigest(p3_iel_truth) ==
+    FounderActionHandoff::P3_IEL_ROUTE_PREINSTALL_TRUTH_SHA256
+p3_iel_truth_record = YAML.safe_load(
+  p3_iel_truth, permitted_classes: [], permitted_symbols: [], aliases: false
+)
+p3_iel_body = File.binread(
+  FounderActionHandoff::P3_IEL_ROUTE_DIRECT_ATTACHMENT_PATH
+).force_encoding("UTF-8")
+abort "P3 IEL direct Founder body fixture encoding invalid" unless p3_iel_body.valid_encoding?
+abort "P3 IEL direct Founder body fixture identity drift" unless
+  p3_iel_body.bytesize == FounderActionHandoff::P3_IEL_ROUTE_DIRECT_ATTACHMENT_BYTES &&
+  Digest::SHA256.hexdigest(p3_iel_body.b) ==
+    FounderActionHandoff::P3_IEL_ROUTE_DIRECT_ATTACHMENT_SHA256 &&
+  p3_iel_body.lines.first.chomp == FounderActionHandoff::P3_IEL_ROUTE_TOKEN
+p3_iel_profile = FounderActionHandoff::FOUNDER_NETWORK_OPERATION_PROFILES.fetch(
+  FounderActionHandoff::P3_IEL_ROUTE_OPERATION_TYPE
+)
+p3_iel = common.merge(
+  "canonical_identity" => {
+    "commit" => FounderActionHandoff::P3_IEL_ROUTE_PREINSTALL_COMMIT,
+    "tree" => FounderActionHandoff::P3_IEL_ROUTE_PREINSTALL_TREE,
+    "branch" => "main"
+  },
+  "truth_sha256" => Digest::SHA256.hexdigest(p3_iel_truth),
+  "basis" => {
+    "facts" => [
+      "The exact EGT Product Route is terminal with no current Founder trigger projection.",
+      "The direct Founder body authorizes one strategic IEL rebaseline under two reserved categories."
+    ],
+    "inferences" => [],
+    "unknowns" => []
+  },
+  "affected_scope" =>
+    "Only the exact P3 IEL Objective, strict Exit Gate, strategic installation and three-stage completion Route.",
+  "project_authorized" => "NO",
+  "app_filesystem_approval_required" => "NO",
+  "write_not_executed" => "YES",
+  "agent_continuation_after_action" =>
+    "Install the create-once IEL decision, typed validators, Constitution v4.0 and consistent Truth projections, then activate only F1.",
+  "resume_condition" =>
+    "The exact direct Founder body, frozen canonical identities, two triggers and closed IEL profile all pass.",
+  "safe_default" =>
+    "Preserve the frozen EGT terminal state and create no IEL Task if any identity, scope or lifecycle drifts.",
+  "state_preservation" =>
+    "P3 stays at management 25 percent and strict zero during installation; P4 stays HOLD and the Long-term Goal stays ACTIVE.",
+  "governing_artifact" => {
+    "path" => FounderActionHandoff::P3_IEL_ROUTE_PREINSTALL_TRUTH_PATH,
+    "byte_length" => FounderActionHandoff::P3_IEL_ROUTE_PREINSTALL_TRUTH_BYTES,
+    "sha256" => FounderActionHandoff::P3_IEL_ROUTE_PREINSTALL_TRUTH_SHA256
+  },
+  "validator_evidence" => evidence(
+    disposition: "NO_RESERVED_TRIGGER_ROUTE_TERMINAL", decision: false,
+    trigger: "NONE", owner: "NONE"
+  ),
+  "user_request_evidence" => {
+    "source" => "CURRENT_DIRECT_USER_MESSAGE",
+    "exact_token" => FounderActionHandoff::P3_IEL_ROUTE_TOKEN,
+    "requested_external_effect" => "MATERIAL_SCOPE"
+  },
+  "terminal_next_step_handoff" => nil,
+  "action_class" => "AUTHORIZATION_REQUIRED",
+  "current_state" => "WAITING_USER",
+  "material" => nil,
+  "recommended_single_action" => "APPROVE_THE_EXACT_P3_IEL_COMPLETION_ROUTE_V1",
+  "copy_ready_text_or_exact_steps" => p3_iel_body,
+  "authorization" => {
+    "authority_layer" => "FOUNDER_RESERVED",
+    "reserved_trigger" => FounderActionHandoff::P3_IEL_ROUTE_PRIMARY_TRIGGER,
+    "proposal_mode" => "CURRENT_CANONICAL_TRIGGER",
+    "recommended_decision" => "APPROVE",
+    "grant_scope" => {
+      "operations" => p3_iel_profile.fetch("operations"),
+      "targets" => p3_iel_profile.fetch("targets"),
+      "duration" => p3_iel_profile.fetch("duration"),
+      "budget_or_external_effects" => p3_iel_profile.fetch("budget_or_external_effects")
+    },
+    "risk_and_reversibility" => p3_iel_profile.fetch("risk_and_reversibility"),
+    "deny_or_defer_effect" => p3_iel_profile.fetch("deny_or_defer_effect"),
+    "authorization_expiry_or_consumption_rule" =>
+      p3_iel_profile.fetch("authorization_expiry_or_consumption_rule"),
+    "pass_lifecycle" => p3_iel_profile.fetch("pass_lifecycle"),
+    "non_pass_lifecycle" => p3_iel_profile.fetch("non_pass_lifecycle"),
+    "operation_type" => FounderActionHandoff::P3_IEL_ROUTE_OPERATION_TYPE
+  }
+)
+p3_iel_draft = <<~MARKDOWN
+  USER_ACTION_REQUIRED: true
+  RECOMMENDED_SINGLE_ACTION: #{p3_iel["recommended_single_action"]}
+  COPY_READY_TEXT_OR_EXACT_STEPS: #{p3_iel_body}
+  AGENT_CONTINUATION_AFTER_ACTION: #{p3_iel["agent_continuation_after_action"]}
+MARKDOWN
+deep_copy = ->(value) { Marshal.load(Marshal.dump(value)) }
+assert_pass!("P3 IEL exact frozen Truth and direct Founder body", p3_iel, p3_iel_draft,
+             p3_iel_truth)
+
+stale_iel_identity = deep_copy.call(p3_iel)
+stale_iel_identity["canonical_identity"]["commit"] = "0" * 40
+assert_reject!("P3 IEL rejects stale commit identity", stale_iel_identity, p3_iel_draft,
+               p3_iel_truth)
+
+stale_iel_truth_identity = deep_copy.call(p3_iel)
+stale_iel_truth_identity["governing_artifact"]["sha256"] = "0" * 64
+assert_reject!("P3 IEL rejects stale Truth identity", stale_iel_truth_identity, p3_iel_draft,
+               p3_iel_truth)
+
+wrong_iel_operation = deep_copy.call(p3_iel)
+wrong_iel_operation["authorization"]["operation_type"] =
+  FounderActionHandoff::P3_MTRO_ROUTE_OPERATION_TYPE
+assert_reject!("P3 IEL rejects wrong operation type", wrong_iel_operation, p3_iel_draft,
+               p3_iel_truth)
+
+missing_iel_strategy_trigger = deep_copy.call(p3_iel)
+missing_iel_strategy_trigger["authorization"]["reserved_trigger"] =
+  FounderActionHandoff::P3_IEL_ROUTE_CAPACITY_TRIGGER
+assert_reject!("P3 IEL rejects missing strategy trigger", missing_iel_strategy_trigger,
+               p3_iel_draft, p3_iel_truth)
+
+ordinary_non_pass = deep_copy.call(p3_iel_truth_record)
+ordinary_non_pass["founder_escalation_control"]["source_event"]["kind"] =
+  "ORDINARY_TASK_IMPLEMENTATION_NON_PASS"
+ordinary_non_pass_bytes = YAML.dump(ordinary_non_pass)
+ordinary_non_pass_package = deep_copy.call(p3_iel)
+ordinary_non_pass_package["truth_sha256"] = Digest::SHA256.hexdigest(ordinary_non_pass_bytes)
+assert_reject!("P3 IEL rejects ordinary NON_PASS masquerade", ordinary_non_pass_package,
+               p3_iel_draft, ordinary_non_pass_bytes)
+
+early_p4 = deep_copy.call(p3_iel_truth_record)
+early_p4["project"]["p4_entry_status"] = "ACTIVE"
+early_p4["strict_phase_gate_ledger"]["phases"]["P4"]["entry_authorized"] = true
+early_p4_bytes = YAML.dump(early_p4)
+early_p4_package = deep_copy.call(p3_iel)
+early_p4_package["truth_sha256"] = Digest::SHA256.hexdigest(early_p4_bytes)
+assert_reject!("P3 IEL rejects early P4 entry", early_p4_package, p3_iel_draft,
+               early_p4_bytes)
+
+closed_goal = deep_copy.call(p3_iel_truth_record)
+closed_goal["goal"]["long_term_goal_status"] = "COMPLETE"
+closed_goal["goal"]["codex_goal_action"] = "COMPLETE"
+closed_goal_bytes = YAML.dump(closed_goal)
+closed_goal_package = deep_copy.call(p3_iel)
+closed_goal_package["truth_sha256"] = Digest::SHA256.hexdigest(closed_goal_bytes)
+assert_reject!("P3 IEL rejects Long-term Goal closure", closed_goal_package, p3_iel_draft,
+               closed_goal_bytes)
+
+stale_egt_activation = deep_copy.call(p3_iel_truth_record)
+stale_egt_activation["active_work"]["selected_task"] = "AIOS-P3-EGT-P1_STRICT_CAPABILITY_CLEAN_ROOM_PRODUCT"
+stale_egt_activation["active_work"]["next_eligible_action"] = "MASTER_ACTIVATE_AIOS_P3_EGT_P1"
+stale_egt_bytes = YAML.dump(stale_egt_activation)
+stale_egt_package = deep_copy.call(p3_iel)
+stale_egt_package["truth_sha256"] = Digest::SHA256.hexdigest(stale_egt_bytes)
+assert_reject!("P3 IEL rejects stale EGT activation", stale_egt_package, p3_iel_draft,
+               stale_egt_bytes)
+
+{
+  "overbudget" => ["3 engineering Tasks", "4 engineering Tasks"],
+  "rejected lineage read permission" => [
+    "clean-room access audit发现任何rejected lineage read时，本路线立即NON_PASS；",
+    "clean-room access audit发现rejected lineage read时仍允许继续；"
+  ],
+  "Candidate 3" => ["Candidate 3", "Candidate 3 allowed"],
+  "second repair" => ["第二次same-Task repair", "第二次same-Task repair allowed"],
+  "third review" => ["第三次review cycle", "第三次review cycle allowed"],
+  "second formal" => ["第二次formal dispatch", "第二次formal dispatch allowed"],
+  "rerun-to-pass" => ["rerun-to-pass", "rerun-to-pass allowed"]
+}.each do |label, (from, to)|
+  mutated_body = p3_iel_body.sub(from, to)
+  abort "P3 IEL #{label} mutation fixture did not change the body" if mutated_body == p3_iel_body
+  mutated_package = deep_copy.call(p3_iel)
+  mutated_package["copy_ready_text_or_exact_steps"] = mutated_body
+  mutated_draft = p3_iel_draft.sub(p3_iel_body, mutated_body)
+  assert_reject!("P3 IEL rejects #{label}", mutated_package, mutated_draft, p3_iel_truth)
+end
+
+assert_reject!(
+  "P3 IEL rejects newline-normalized authority body",
+  p3_iel.merge("copy_ready_text_or_exact_steps" => p3_iel_body + "\n"),
+  p3_iel_draft.sub(p3_iel_body, p3_iel_body + "\n"),
+  p3_iel_truth
 )
 
 ASSERTIONS[:count] += 1

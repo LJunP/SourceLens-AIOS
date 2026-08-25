@@ -11755,6 +11755,764 @@ module P3EquivalentRealMysqlTransportRouteValidation
   end
 end
 
+class P3HostOwnedImmutableExecutionLeaseRouteValidationError < StandardError; end
+
+module P3HostOwnedImmutableExecutionLeaseRouteValidation
+  module_function
+
+  ROUTE_SCHEMA = "p3-host-owned-immutable-execution-lease-completion-route/v1"
+  ROUTE_ID =
+    "P3_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_STRICT_CAPABILITY_COMPLETION_ROUTE_V1"
+  DECISION_ID =
+    "AUTHORIZE_P3_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_STRICT_CAPABILITY_OBJECTIVE_EXIT_GATE_REBASELINE_AND_ONE_SHOT_COMPLETION_ROUTE_V1"
+  OPERATION_TYPE =
+    "P3_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_STRICT_CAPABILITY_OBJECTIVE_EXIT_GATE_REBASELINE_AND_ONE_SHOT_COMPLETION_ROUTE"
+  OBJECTIVE_ID =
+    "ACTUAL_AGENT_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE"
+  STRICT_GATE_ID =
+    "ACTUAL_AGENT_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE_ACCEPTED"
+  STRICT_ITEMS = %w[
+    ACTUAL_AGENT_SCHEMA_CLOSED_PROPOSAL_AND_EXCLUSIVE_HOST_RESERVED_INGRESS
+    HOST_DERIVED_DURABLE_EXECUTION_LEASE_REAL_MYSQL_AND_SINGLE_TERMINAL_CHECKPOINT
+    ENGINE_ASSIGNED_IMMUTABLE_OBJECT_ID_AND_THREE_FRESH_PROCESS_RECOVERY
+    PINNED_LOCAL_OCI_ZERO_NETWORK_READ_ONLY_ACTION_COMPLETE_TRACE_AND_CANONICAL_REPLAY
+  ].freeze
+  RESERVED_TRIGGERS = %w[
+    MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
+    MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+  ].freeze
+  AUTHORITY_TERMINATION_EVENTS = %w[
+    STRATEGIC_INSTALLATION_NON_PASS
+    F1_NON_PASS
+    P1_NON_PASS
+    E1_NON_PASS
+    INTEGRATION_NON_PASS
+    CANONICAL_REPLAY_NON_PASS_AFTER_EXACT_ROLLBACK
+    P3_STRICT_CAPABILITY_100_AND_AWAITING_FOUNDER_P3_PHASE_GATE
+    FOUNDER_EXPLICIT_REVOCATION
+    IDENTITY_SCOPE_BUDGET_PERMISSION_OR_CLEAN_ROOM_DRIFT
+    TERMINAL_SAFETY_CONDITION
+  ].freeze
+  NEXT_ACTION =
+    "MASTER_CREATE_AND_ACTIVATE_AIOS_P3_IEL_F1_IMMUTABLE_EXECUTION_LEASE_ACCEPTANCE_FOUNDATION"
+  P4_HOLD = "HOLD_PENDING_STRICT_P3_CAPABILITY_ACCEPTANCE_AND_FOUNDER_PHASE_GATE"
+  STRATEGIC_INSTALLATION_ALLOWLIST = %w[
+    docs/aios/STRATEGIC_CONSTITUTION.md
+    docs/aios/decisions/P3_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_STRICT_CAPABILITY_REBASELINE_AND_COMPLETION_ROUTE_V1.json
+    docs/aios/truth/project_state.yaml
+    scripts/validate-founder-action-handoff.rb
+    scripts/test-founder-action-handoff.rb
+    scripts/validate-founder-delegation-continuity.rb
+    scripts/test-founder-delegation-continuity.rb
+    scripts/validate-strict-phase-gates.rb
+    scripts/test-strict-phase-gates.rb
+    scripts/validate-aios-governance.sh
+    scripts/validate-current-task-authority.rb
+  ].freeze
+  DECISION = {
+    "path" =>
+      "docs/aios/decisions/P3_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_STRICT_CAPABILITY_REBASELINE_AND_COMPLETION_ROUTE_V1.json",
+    "byte_length" => 32_904,
+    "sha256" => "1ff5bad3f8129eaf14cb08909677ead897e706842dae769341452b408981411a"
+  }.freeze
+  SOURCE_ATTACHMENT = {
+    "path" =>
+      "/Users/lijunpeng/.codex/attachments/0a8d296d-05cd-4546-b434-b8bbf9de2f13/pasted-text.txt",
+    "byte_length" => 28_528,
+    "sha256" => "fc019d5e974588fa7581e347b6cc10025795430069a4b5a034fa057c4a8f7959"
+  }.freeze
+  CONSTITUTION = {
+    "path" => "docs/aios/STRATEGIC_CONSTITUTION.md",
+    "version" => "4.0",
+    "byte_length" => 78_458,
+    "sha256" => "68aac36a6e8bd127513a80b8cc6922b922bb62780b37e2b068c71169853cffe2"
+  }.freeze
+  POLICY = {
+    "path" => "docs/aios/FOUNDER_DELEGATION_POLICY.md",
+    "version" => "1.8",
+    "byte_length" => 17_346,
+    "sha256" => "12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29"
+  }.freeze
+  PREINSTALL = {
+    "commit" => "3f98000bd60653de619da5bc1f59f38dcdfd22bb",
+    "tree" => "80eda4d77d8363c882ca64ae7c3a8164c43bd3b5",
+    "truth" => {
+      "path" => "docs/aios/truth/project_state.yaml",
+      "byte_length" => 2_097_616,
+      "sha256" => "9198ba9937210a7a82b70c6423beaf8c0efa6de3d5b879438e8df09f17871336"
+    }
+  }.freeze
+  ROUTE_KEYS = %w[
+    schema_version semantic_schema_version route_id phase target_phase policy status
+    lifecycle_stage execution_status scheduling_status phase_entry_status
+    founder_phase_route_decision_required founder_reserved_triggers_resolved
+    next_eligible_action objective_id objective_changed objective_claim strict_exit_gate
+    historical_predecessor founder_strategy_decision governing_constitution
+    strategic_installation_parent strategic_installation authorization_lifecycle
+    cumulative_accounting accepted_dependencies
+    immutable_execution_lease_architecture ordered_stages progression
+    system_under_test_permissions host_permissions clean_room formal_integration_and_rollback
+    anti_cycle progress p4_hold lifecycle
+  ].freeze
+  TASKS = [
+    {
+      "ordinal" => 1,
+      "stage_id" => "IMMUTABLE_EXECUTION_LEASE_ACCEPTANCE_FOUNDATION",
+      "task_id" => "AIOS-P3-IEL-F1_IMMUTABLE_EXECUTION_LEASE_ACCEPTANCE_FOUNDATION",
+      "nonce" => "p3-iel-f1-immutable-execution-lease-foundation-20260825-v1",
+      "kind" => "EXECUTABLE_NON_PRODUCT_FOUNDATION",
+      "status" => "ELIGIBLE_NOT_ACTIVATED",
+      "branch" => "codex/p3-iel-f1-foundation",
+      "worktree" => "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-iel-f1-foundation",
+      "evidence_root" =>
+        "/Users/lijunpeng/Developer/.sourcelens-audit/p3-immutable-execution-lease-completion-20260825/foundation",
+      "contract_path" =>
+        "docs/aios/tasks/P3-IEL-F1_IMMUTABLE_EXECUTION_LEASE_ACCEPTANCE_FOUNDATION.yaml",
+      "budget" => {
+        "engineering_tasks" => 1, "engineering_hours" => 16, "calendar_days" => 4,
+        "same_task_repairs" => 1, "review_cycles" => 2
+      }
+    },
+    {
+      "ordinal" => 2,
+      "stage_id" => "HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_PRODUCT",
+      "task_id" => "AIOS-P3-IEL-P1_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_PRODUCT",
+      "nonce" => "p3-iel-p1-host-owned-immutable-execution-lease-product-20260825-v1",
+      "kind" => "CLEAN_ROOM_PRODUCT_IMPLEMENTATION",
+      "status" => "LOCKED_PENDING_F1_ACCEPTANCE",
+      "branch" => "codex/p3-iel-p1-product",
+      "worktree" => "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-iel-p1-product",
+      "evidence_root" =>
+        "/Users/lijunpeng/Developer/.sourcelens-audit/p3-immutable-execution-lease-completion-20260825/product",
+      "contract_path" =>
+        "docs/aios/tasks/P3-IEL-P1_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_PRODUCT.yaml",
+      "budget" => {
+        "engineering_tasks" => 1, "engineering_hours" => 56, "calendar_days" => 12,
+        "candidate_generations" => 2, "same_task_repairs" => 1, "review_cycles" => 2
+      }
+    },
+    {
+      "ordinal" => 3,
+      "stage_id" => "ONE_SHOT_STRICT_CAPABILITY_ACCEPTANCE",
+      "task_id" => "AIOS-P3-IEL-E1_ONE_SHOT_STRICT_CAPABILITY_ACCEPTANCE",
+      "nonce" => "p3-iel-e1-one-shot-strict-capability-acceptance-20260825-v1",
+      "kind" => "EVALUATION_ONLY_ONE_SHOT",
+      "status" => "LOCKED_PENDING_P1_ACCEPTANCE",
+      "branch" => "codex/p3-iel-e1-formal",
+      "worktree" => "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-iel-e1-formal",
+      "evidence_root" =>
+        "/Users/lijunpeng/Developer/.sourcelens-audit/p3-immutable-execution-lease-completion-20260825/formal",
+      "contract_path" => "docs/aios/tasks/P3-IEL-E1_ONE_SHOT_STRICT_CAPABILITY_ACCEPTANCE.yaml",
+      "budget" => {
+        "engineering_tasks" => 1, "engineering_hours" => 24, "calendar_days" => 6,
+        "formal_dispatches" => 1, "candidate_mutations" => 0,
+        "repairs" => 0, "reruns" => 0
+      }
+    }
+  ].map(&:freeze).freeze
+
+  def assert(condition, message)
+    raise P3HostOwnedImmutableExecutionLeaseRouteValidationError, message unless condition
+  end
+
+  def mapping(value, label)
+    assert(value.is_a?(Hash), "#{label} must be a mapping")
+    value
+  end
+
+  def array(value, label)
+    assert(value.is_a?(Array), "#{label} must be a sequence")
+    value
+  end
+
+  def exact_keys(value, keys, label)
+    record = mapping(value, label)
+    assert(record.keys.sort == keys.sort, "#{label} keys are not closed")
+    record
+  end
+
+  def root_path(root)
+    candidate = Pathname.new(root.to_s)
+    assert(candidate.absolute?, "repository root must be absolute")
+    candidate.realpath
+  rescue ArgumentError, Errno::ENOENT, Errno::ELOOP => e
+    raise P3HostOwnedImmutableExecutionLeaseRouteValidationError,
+          "repository root invalid: #{e.message}"
+  end
+
+  def verify_file!(root, identity, expected, label)
+    record = exact_keys(identity, %w[path byte_length sha256], label)
+    assert(record == expected, "#{label} identity drift") if expected
+    path = Pathname.new(record.fetch("path"))
+    path = root.join(path) unless path.absolute?
+    clean = path.cleanpath
+    assert(clean.to_s == path.to_s, "#{label} path is not lexical-canonical")
+    stat = File.lstat(clean)
+    assert(stat.file? && !stat.symlink? && clean.realpath == clean,
+           "#{label} must be a real regular non-symlink file")
+    bytes = clean.binread
+    assert(bytes.bytesize == record.fetch("byte_length") &&
+           Digest::SHA256.hexdigest(bytes) == record.fetch("sha256"),
+           "#{label} bytes drift")
+    bytes
+  rescue Errno::ENOENT, Errno::ELOOP => e
+    raise P3HostOwnedImmutableExecutionLeaseRouteValidationError,
+          "#{label} unavailable: #{e.message}"
+  end
+
+  def validate_decision!(root)
+    bytes = verify_file!(root, DECISION, DECISION, "P3 IEL Founder decision")
+    decision = JSON.parse(bytes)
+    expected_top_keys = %w[
+      schema_version record_type decision_id operation_type status reserved_triggers source_body
+      founder_authorization authorization_lifecycle canonical_start prior_state accepted_foundations
+      accepted_foundation_usage strategic_rebaseline p3_objective strict_exit_gate architecture
+      route cumulative_accounting product_write_allowlist clean_room permissions
+      formal_acceptance integration_and_replay anti_cycle post_install_state lifecycle
+      validator_compatibility strategic_installation
+    ]
+    exact_keys(decision, expected_top_keys, "P3 IEL Founder decision")
+    assert(decision["schema_version"] ==
+             "p3-host-owned-immutable-execution-lease-strict-capability-founder-decision/v1" &&
+           decision["record_type"] ==
+             "sourcelens_aios_founder_reserved_strategy_phase_and_envelope_decision" &&
+           decision["decision_id"] == DECISION_ID &&
+           decision["operation_type"] == OPERATION_TYPE &&
+           decision["status"] == "AUTHORIZED_ACTIVE_UNTIL_ROUTE_LIFECYCLE_TERMINATION" &&
+           decision["reserved_triggers"] == RESERVED_TRIGGERS,
+           "P3 IEL Founder decision identity or lifecycle drift")
+    source = SOURCE_ATTACHMENT.merge("canonicalization" => "EXACT_ATTACHMENT_BYTES")
+    founder_authorization = mapping(
+      decision["founder_authorization"], "P3 IEL direct Founder authorization record"
+    )
+    assert(decision["source_body"] == {
+             "source_attachment_ref" => "founder_authorization.source_attachment",
+             "byte_length" => SOURCE_ATTACHMENT.fetch("byte_length"),
+             "sha256" => SOURCE_ATTACHMENT.fetch("sha256"),
+             "canonicalization" => "EXACT_ATTACHMENT_BYTES"
+           } && founder_authorization["source_attachment"] == source &&
+           founder_authorization["first_line_token"] == DECISION_ID &&
+           founder_authorization["full_verbatim_direct_founder_reply_required"] == true &&
+           founder_authorization["indivisible"] == true &&
+           founder_authorization["strategic_installation_permission_consumption_event"] == {
+             "kind" => "SUCCESSFUL_STRATEGIC_BRANCH_CREATION",
+             "branch" => "codex/p3-iel-strategic-installation",
+             "worktree" =>
+               "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-iel-strategic-installation",
+             "consumes_only" => "STRATEGIC_INSTALLATION_BRANCH_CREATION_PERMISSION",
+             "reusable" => false
+           } && founder_authorization[
+             "route_execution_authority_after_strategic_branch_creation"
+           ] == "ACTIVE_UNTIL_ROUTE_LIFECYCLE_TERMINATION" &&
+           decision["authorization_lifecycle"] == {
+             "strategic_installation_permission_status" =>
+               "CONSUMED_AT_SUCCESSFUL_STRATEGIC_BRANCH_CREATION",
+             "route_execution_authority_status" => "ACTIVE",
+             "strategic_installation_consumption_does_not_consume_route_execution_authority" => true,
+             "route_execution_authority_terminates_at_earliest" => AUTHORITY_TERMINATION_EVENTS
+           },
+           "P3 IEL exact direct Founder authorization drift")
+    attachment_bytes = verify_file!(root, SOURCE_ATTACHMENT, SOURCE_ATTACHMENT,
+                                    "P3 IEL direct Founder authorization")
+    assert(attachment_bytes.lines.first&.chomp == DECISION_ID,
+           "P3 IEL direct Founder token drift")
+    start = mapping(decision["canonical_start"], "P3 IEL canonical start")
+    assert(start.values_at("repository", "branch", "commit", "tree", "clean") == [
+             "/Users/lijunpeng/Developer/SourceLens-AIOS", "main",
+             PREINSTALL.fetch("commit"), PREINSTALL.fetch("tree"), true
+           ] && start["truth"] == PREINSTALL.fetch("truth") &&
+           start["constitution"] == {
+             "path" => CONSTITUTION.fetch("path"), "version" => "3.9",
+             "byte_length" => 66_223,
+             "sha256" => "93059bda247b906ebfd1beaef1d22dc86be27960416f99c674395f75aac6f3bb"
+           } && start["founder_delegation_policy"] == POLICY,
+           "P3 IEL frozen preinstall identities drift")
+    strategic = mapping(decision["strategic_rebaseline"], "P3 IEL strategic rebaseline")
+    assert(strategic.values_at(
+             "p3_objective_changed", "p3_strict_exit_gate_changed", "p3_phase_route_changed",
+             "p3_non_resetting_phase_envelope_expanded", "ordinary_task_non_pass_successor_or_repair"
+           ) == [true, true, true, true, false] &&
+           strategic["current_phase_remains"] == "P3" &&
+           strategic["p3_phase_exit_executed"] == false &&
+           strategic["p4_phase_entry_executed"] == false &&
+           strategic["installation_engineering_delivery_and_strict_progress_credit"] == 0,
+           "P3 IEL strategy/Phase rebaseline boundary drift")
+    assert(decision.dig("p3_objective", "objective_id") == OBJECTIVE_ID &&
+           decision.dig("strict_exit_gate", "gate_id") == STRICT_GATE_ID &&
+           decision.dig("strict_exit_gate", "required_items").map { |item| item["item_id"] } ==
+             STRICT_ITEMS &&
+           decision.dig("strict_exit_gate", "same_frozen_product_candidate_required") == true &&
+           decision.dig("strict_exit_gate", "current_status") == "MISSING_NOT_ACCEPTED" &&
+           decision.dig("strict_exit_gate", "current_strict_progress_percent") == 0,
+           "P3 IEL Objective or strict Exit Gate drift")
+    route = mapping(decision["route"], "P3 IEL decision Route")
+    assert(route["schema_version"] == ROUTE_SCHEMA && route["route_id"] == ROUTE_ID &&
+           route["installation_state"] == "FOUNDATION_ELIGIBLE_NOT_ACTIVATED",
+           "P3 IEL decision Route identity drift")
+    decision_stages = array(route["ordered_stages"], "P3 IEL decision stages")
+    assert(decision_stages.length == 3, "P3 IEL decision must contain exactly three stages")
+    decision_stages.each_with_index do |stage, index|
+      task = TASKS.fetch(index)
+      assert(stage.values_at("ordinal", "stage_id", "task_id", "nonce") ==
+               task.values_at("ordinal", "stage_id", "task_id", "nonce") &&
+             stage.values_at("branch", "worktree", "contract_path", "evidence_root") ==
+               task.values_at("branch", "worktree", "contract_path", "evidence_root"),
+             "P3 IEL decision stage #{index + 1} identity drift")
+      budget = stage.fetch("budget")
+      expected_budget = task.fetch("budget")
+      expected_budget = expected_budget.reject { |key, _| key == "candidate_generations" } if index.zero?
+      expected_budget = expected_budget.transform_keys { |key| key == "same_task_repairs" ? "repairs" : key } if index == 2
+      assert(budget == expected_budget, "P3 IEL decision stage #{index + 1} budget drift")
+    end
+    accounting = mapping(decision["cumulative_accounting"], "P3 IEL accounting")
+    assert(accounting["historical_consumed"] == {
+             "engineering_tasks" => 21, "engineering_hours" => 664, "calendar_days" => 152
+           } && accounting["route_limits"].slice(
+             "engineering_tasks", "engineering_hours", "calendar_days", "formal_dispatches"
+           ) == {
+             "engineering_tasks" => 3, "engineering_hours" => 96,
+             "calendar_days" => 22, "formal_dispatches" => 1
+           } && accounting["maximum_cumulative"] == {
+             "engineering_tasks" => 24, "engineering_hours" => 760, "calendar_days" => 174
+           } &&
+           accounting["locked_old_capacity_refund_offset_borrow_or_reinterpretation_allowed"] == false,
+           "P3 IEL non-resettable cumulative accounting drift")
+    clean = mapping(decision["clean_room"], "P3 IEL decision clean room")
+    assert(clean["prohibited_rejected_lineage_sources"].length == 9 &&
+           clean["prohibited_operations"].include?("READ") &&
+           clean["contamination_effect"] == "ROUTE_IMMEDIATE_NON_PASS_CANDIDATE_UNUSABLE",
+           "P3 IEL decision rejected-lineage boundary drift")
+    permissions = mapping(decision["permissions"], "P3 IEL decision permissions")
+    assert(permissions.dig("system_under_test_agent", "proposal_data_only") == true &&
+           permissions.fetch("system_under_test_agent").reject { |key, _| key == "proposal_data_only" }.
+             values.all? { |value| value == false } &&
+           permissions["docker_engine_api_transport"] == "LOCAL_UNIX_DOMAIN_SOCKET_ONLY" &&
+           permissions["af_inet_or_af_inet6_external_egress"] == false &&
+           permissions["network_dns_internet_http_https_provider_secret_credential_remote_production_public_push_pull_request_remote_merge_tag_release_publish"] == false &&
+           permissions["docker_pull_push_login_auto_update_or_foreign_object_deletion"] == false,
+           "P3 IEL decision permission boundary drift")
+    anti = mapping(decision["anti_cycle"], "P3 IEL decision anti-cycle")
+    assert(anti.slice(
+             "foundation_tasks", "product_tasks", "product_candidate_generations",
+             "same_task_repairs", "review_cycles", "formal_dispatches"
+           ) == {
+             "foundation_tasks" => 1, "product_tasks" => 1,
+             "product_candidate_generations" => 2, "same_task_repairs" => 1,
+             "review_cycles" => 2, "formal_dispatches" => 1
+           } && anti.reject { |key, _| %w[
+             foundation_tasks product_tasks product_candidate_generations same_task_repairs
+             review_cycles formal_dispatches
+           ].include?(key) }.values.all? { |value| value == false },
+           "P3 IEL decision anti-cycle boundary drift")
+    post = mapping(decision["post_install_state"], "P3 IEL post-install state")
+    assert(post.values_at(
+             "p3_status", "p3_management_delivery_progress_percent",
+             "p3_strict_capability_progress_percent", "current_task", "only_eligible_action",
+             "p1_status", "e1_status", "p4_status", "project_actually_completed",
+             "long_term_goal_status", "codex_goal_action", "founder_decision_required",
+             "user_action_required", "next_action_owner"
+           ) == [
+             "ACTIVE_STRICT_CAPABILITY_REBASELINED", 25, 0, "NONE", NEXT_ACTION,
+             "LOCKED_PENDING_F1_ACCEPTANCE", "LOCKED_PENDING_P1_ACCEPTANCE", P4_HOLD,
+             false, "ACTIVE", "NONE_KEEP_ACTIVE", false, "NONE", "MASTER_CEO_AGENT"
+           ], "P3 IEL decision post-install projection drift")
+    compatibility = mapping(
+      decision["validator_compatibility"], "P3 IEL validator compatibility"
+    )
+    assert(compatibility.dig("pre_send_capability_gap", "current_state") ==
+             "NO_RESERVED_TRIGGER_ROUTE_TERMINAL" &&
+           compatibility.dig("pre_send_capability_gap", "current_owner") == "NONE" &&
+           compatibility.dig(
+             "pre_send_capability_gap", "missing_strategy_trigger_support"
+           ) == "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE" &&
+           compatibility.dig("pre_send_capability_gap", "canonical_truth_pre_mutation_allowed") == false &&
+           compatibility["validator_strength_reduction_allowed"] == false &&
+           compatibility["truth_falsely_changed_to_founder_decision_required_allowed"] == false,
+           "P3 IEL frozen preinstall terminal control or validator-strength boundary drift")
+    installation = mapping(decision["strategic_installation"], "P3 IEL strategic installation")
+    assert(installation["write_allowlist"] == STRATEGIC_INSTALLATION_ALLOWLIST &&
+           installation["maximum_governance_labor_hours"] == 6 &&
+           installation["maximum_calendar_days"] == 1 &&
+           installation["engineering_delivery_and_strict_progress_credit"] == 0 &&
+           installation["product_source_write_allowed"] == false &&
+           installation[
+             "master_execution_protocol_founder_delegation_policy_evaluation_protocol_or_agents_md_write_allowed"
+           ] == false,
+           "P3 IEL strategic-installation allowlist or governance budget drift")
+    decision
+  rescue JSON::ParserError, KeyError, TypeError => e
+    raise P3HostOwnedImmutableExecutionLeaseRouteValidationError,
+          "P3 IEL Founder decision invalid: #{e.message}"
+  end
+
+  def validate_stage!(stage, task, index)
+    record = mapping(stage, "P3 IEL stage #{index + 1}")
+    assert(record.values_at("ordinal", "stage_id", "task_id", "nonce", "kind", "status") ==
+             task.values_at("ordinal", "stage_id", "task_id", "nonce", "kind", "status"),
+           "P3 IEL stage #{index + 1} identity or status drift")
+    assert(record["budget"] == task.fetch("budget"),
+           "P3 IEL stage #{index + 1} budget drift")
+    assert(record["independent_reviewers"] ==
+             %w[CTO_AGENT SECURITY_AGENT QUALITY_EVALUATION_AGENT],
+           "P3 IEL stage #{index + 1} independent Reviewer set drift")
+    resources = mapping(record["resources"], "P3 IEL stage #{index + 1} resources")
+    assert(resources.values_at("branch", "worktree", "evidence_root", "contract_path") ==
+             task.values_at("branch", "worktree", "evidence_root", "contract_path"),
+           "P3 IEL stage #{index + 1} resource identity drift")
+    if index.zero?
+      assert(record["product_source_mutation_allowed"] == false &&
+             record["held_bytes_available_to_product_worker"] == false,
+             "P3 IEL F1 Product/HELD boundary drift")
+    elsif index == 1
+      assert(record["pom_mutation_allowed"] == false &&
+             record["external_dependency_addition_allowed"] == false &&
+             record["candidate_2_is_only_same_task_repair"] == true,
+             "P3 IEL P1 Product candidate/dependency boundary drift")
+    else
+      assert(record["formal_dispatches"] == 1 &&
+             record["product_or_candidate_mutation_allowed"] == false,
+             "P3 IEL E1 one-shot boundary drift")
+    end
+  end
+
+  def validate_truth!(root:, truth:)
+    root = root_path(root)
+    validate_decision!(root)
+    verify_file!(root, CONSTITUTION.reject { |key, _| key == "version" },
+                 CONSTITUTION.reject { |key, _| key == "version" }, "Strategic Constitution v4.0")
+    route = exact_keys(truth["current_phase_route"], ROUTE_KEYS, "current_phase_route")
+    assert(route["schema_version"] == ROUTE_SCHEMA &&
+           route["semantic_schema_version"] == ROUTE_SCHEMA && route["route_id"] == ROUTE_ID &&
+           route["phase"] == "P3" && route["target_phase"] == "P3" &&
+           route["policy"] == POLICY.slice("path", "version", "sha256") &&
+           route["status"] == "ACTIVE_STRICT_CAPABILITY_REBASELINED" &&
+           route["lifecycle_stage"] ==
+             "STRATEGIC_INSTALLATION_COMPLETE_F1_ELIGIBLE_NOT_ACTIVATED" &&
+           route["execution_status"] == "P3_ACTIVE_STRICT_CAPABILITY_REBASELINED" &&
+           route["scheduling_status"] == "F1_ELIGIBLE_NOT_ACTIVATED" &&
+           route["phase_entry_status"] == "AUTHORIZED" &&
+           route["founder_phase_route_decision_required"] == false &&
+           route["founder_reserved_triggers_resolved"] == RESERVED_TRIGGERS &&
+           route["next_eligible_action"] == NEXT_ACTION &&
+           route["objective_id"] == OBJECTIVE_ID && route["objective_changed"] == true,
+           "P3 IEL installed Route identity or lifecycle drift")
+    gate = mapping(route["strict_exit_gate"], "P3 IEL strict Exit Gate")
+    assert(gate["gate_id"] == STRICT_GATE_ID && gate["changed"] == true &&
+           gate["current_status"] == "MISSING_NOT_ACCEPTED" &&
+           gate["strict_progress_percent"] == 0 &&
+           gate["required_item_ids"] == STRICT_ITEMS &&
+           gate["same_frozen_candidate_required"] == true &&
+           gate["three_independent_reviewers_pass_required"] == true &&
+           gate["formal_acceptance_required"] == true &&
+           gate["local_canonical_integration_required"] == true &&
+           gate["canonical_replay_required"] == true && gate["mandatory_test_skips_allowed"] == 0,
+           "P3 IEL installed strict Exit Gate drift")
+    expected_decision = DECISION.merge(
+      "decision_id" => DECISION_ID, "operation_type" => OPERATION_TYPE,
+      "status" => "AUTHORIZED_ACTIVE_UNTIL_ROUTE_LIFECYCLE_TERMINATION",
+      "strategic_installation_branch_creation_permission" => "CONSUMED",
+      "route_execution_authority" => "ACTIVE",
+      "reserved_trigger_categories" => RESERVED_TRIGGERS,
+      "source_body" => {
+        "source_attachment_ref" => "source_attachment",
+        "byte_length" => SOURCE_ATTACHMENT.fetch("byte_length"),
+        "sha256" => SOURCE_ATTACHMENT.fetch("sha256"),
+        "canonicalization" => "EXACT_ATTACHMENT_BYTES"
+      },
+      "source_attachment" => SOURCE_ATTACHMENT
+    )
+    assert(route["founder_strategy_decision"] == expected_decision &&
+           route["governing_constitution"] == CONSTITUTION &&
+           route["strategic_installation_parent"] == PREINSTALL,
+           "P3 IEL decision, Constitution or preinstall identity drift")
+    assert(route["historical_predecessor"] == {
+             "route_ref" => "historical_p3_egt_terminal_current_phase_route",
+             "route_id" =>
+               "P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_FINAL_CLEAN_ROOM_COMPLETION_ROUTE_V1",
+             "status" => "TERMINAL_FINAL_EXCEPTION_NON_PASS",
+             "candidate_integrated" => false,
+             "scheduling_authority" => "HISTORICAL_NONE",
+             "rejected_lineage_available_as_input" => false,
+             "old_gate" => {
+               "gate_id" =>
+                 "ACTUAL_AGENT_HOST_AUTHORIZED_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE_ACCEPTED",
+               "status" => "MISSING_NOT_ACCEPTED",
+               "strict_progress_percent" => 0,
+               "capability_accepted" => false
+             }
+           }, "P3 IEL historical EGT terminal predecessor drift")
+    assert(route["strategic_installation"] == {
+             "branch" => "codex/p3-iel-strategic-installation",
+             "worktree" =>
+               "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-iel-strategic-installation",
+             "evidence_root" =>
+               "/Users/lijunpeng/Developer/.sourcelens-audit/p3-immutable-execution-lease-completion-20260825/strategic-installation",
+             "governance_labor_hours" => 6, "calendar_days" => 1,
+             "engineering_task_credit" => 0, "engineering_progress_credit" => 0,
+             "management_delivery_credit" => 0, "strict_capability_credit" => 0
+           } && route["authorization_lifecycle"] == {
+             "strategic_installation_permission_status" =>
+               "CONSUMED_AT_SUCCESSFUL_STRATEGIC_BRANCH_CREATION",
+             "route_execution_authority_status" => "ACTIVE",
+             "strategic_installation_consumption_does_not_consume_route_execution_authority" => true
+           }, "P3 IEL strategic-installation budget or authority lifecycle drift")
+    assert(route["cumulative_accounting"] == {
+             "basis" =>
+               "NON_RESETTABLE_HISTORICAL_P3_PLUS_EXPLICIT_IEL_STRATEGIC_REBASELINE",
+             "historical_consumed" => {
+               "engineering_tasks" => 21, "engineering_hours" => 664, "calendar_days" => 152
+             },
+             "route_limits" => {
+               "engineering_tasks" => 3, "engineering_hours" => 96, "calendar_days" => 22,
+               "formal_dispatches" => 1, "active_tasks" => 1, "task_branches" => 1,
+               "task_worktrees" => 1, "active_product_candidates" => 1
+             },
+             "maximum_cumulative" => {
+               "engineering_tasks" => 24, "engineering_hours" => 760, "calendar_days" => 174
+             },
+             "route_consumed" => {
+               "engineering_tasks" => 0, "engineering_hours" => 0,
+               "calendar_days" => 0, "formal_dispatches" => 0
+             },
+             "remaining" => {
+               "engineering_tasks" => 3, "engineering_hours" => 96,
+               "calendar_days" => 22, "formal_dispatches" => 1
+             },
+             "locked_old_capacity_refund_offset_borrow_or_reinterpretation_allowed" => false
+           }, "P3 IEL Route cumulative accounting drift")
+    stages = array(route["ordered_stages"], "P3 IEL ordered stages")
+    assert(stages.length == 3, "P3 IEL installed Route must have exactly three stages")
+    stages.each_with_index { |stage, index| validate_stage!(stage, TASKS.fetch(index), index) }
+    assert(route["accepted_dependencies"] == [
+      {"milestone_id" => "DURABLE_STATE_AND_CHECKPOINT_RESUME",
+       "integration_commit" => "f841ff822610264ad1b88c93b1f6248d42eb134a",
+       "integration_tree" => "6a3e67b4680464e54d72936dc24a205079614431",
+       "use_boundary" => "CURRENT_CANONICAL_MAIN_INTEGRATED_BYTES_AND_PUBLIC_INTERFACES_ONLY"},
+      {"milestone_id" => "DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION",
+       "integration_commit" => "2f52d0912ba5621bd2258fc21f5b74dd2019efd5",
+       "integration_tree" => "e9490d8f786f913b2e60a7e690a71911e015c87a",
+       "use_boundary" => "CURRENT_CANONICAL_MAIN_INTEGRATED_BYTES_AND_PUBLIC_INTERFACES_ONLY"}
+    ], "P3 IEL accepted foundation identities drift")
+    sut = mapping(route["system_under_test_permissions"], "P3 IEL system permissions")
+    assert(sut["proposal_data_only"] == true &&
+           sut.reject { |key, _| key == "proposal_data_only" }.values.all? { |value| value == false },
+           "P3 IEL system-under-test gained authority")
+    assert(route.dig("host_permissions", "docker_engine_af_inet_or_af_inet6_egress") == false &&
+           route.dig("host_permissions", "network_dns_internet_http_https_provider_secret_credential_remote_production_public_push_pr_merge_tag_release_publish") == false,
+           "P3 IEL Host external-effect boundary drift")
+    clean = mapping(route["clean_room"], "P3 IEL clean room")
+    assert(clean["rejected_p3_engineering_lineage_read_compare_restore_copy_checkout_cherry_pick_diff_decompile_reference_or_integrate"] == false &&
+           clean["old_candidate_bundle_commit_tree_branch_worktree_product_patch_review_receipt_repair_or_attachment_body_available_as_input"] == false &&
+           clean["git_reflog_stash_or_object_database_recovery_of_rejected_implementation_allowed"] == false &&
+           clean["contamination_lifecycle"] == "ROUTE_TERMINAL_NON_PASS",
+           "P3 IEL rejected-lineage clean-room boundary drift")
+    anti = mapping(route["anti_cycle"], "P3 IEL anti-cycle")
+    assert(anti.slice(
+             "foundation_tasks", "product_tasks", "product_candidate_generations",
+             "same_task_repairs", "review_cycles", "formal_dispatches"
+           ) == {
+             "foundation_tasks" => 1, "product_tasks" => 1,
+             "product_candidate_generations" => 2, "same_task_repairs" => 1,
+             "review_cycles" => 2, "formal_dispatches" => 1
+           } && anti.reject { |key, _| %w[
+             foundation_tasks product_tasks product_candidate_generations same_task_repairs
+             review_cycles formal_dispatches
+           ].include?(key) }.values.all? { |value| value == false },
+           "P3 IEL installed anti-cycle boundary drift")
+    assert(route["progress"] == {
+      "p3_research_exit_percent" => 100, "p3_management_delivery_percent" => 25,
+      "p3_strict_capability_percent" => 0, "engineering_progress_credit" => 0,
+      "governance_progress_credit" => 0
+    } && route["p4_hold"] == {
+      "status" => P4_HOLD, "entry_authorized" => false, "execution_started" => false,
+      "task_activation_allowed" => false, "predecessor_requires_p3_strict_percent" => 100,
+      "predecessor_requires_founder_p3_phase_gate" => true
+    }, "P3 IEL progress or P4 HOLD drift")
+
+    project = mapping(truth["project"], "project")
+    assert(project["current_phase"] == "P3" &&
+           project["phase_execution_status"] == "P3_ACTIVE_STRICT_CAPABILITY_REBASELINED" &&
+           project["current_route_execution_status"] ==
+             "P3_ACTIVE_STRICT_CAPABILITY_REBASELINED_F1_ELIGIBLE_NOT_ACTIVATED" &&
+           project["p3_execution_status"] == "ACTIVE_STRICT_CAPABILITY_REBASELINED" &&
+           project["p4_entry_status"] == P4_HOLD && project["p4_execution_status"] == P4_HOLD,
+           "P3 IEL project P3/P4 projection drift")
+    envelope = mapping(truth["phase_execution_envelope"], "P3 IEL phase envelope")
+    assert(envelope["schema_version"] == "phase-execution-envelope/v1" &&
+           envelope["phase"] == "P3" &&
+           envelope["status"] == "ACTIVE_STRICT_CAPABILITY_REBASELINED" &&
+           envelope["historical_consumed"] == {
+             "engineering_tasks" => 21, "engineering_hours" => 664, "calendar_days" => 152
+           } && envelope["authorized_addition"] == {
+             "engineering_tasks" => 3, "engineering_hours" => 96,
+             "calendar_days" => 22, "formal_dispatches" => 1
+           } && envelope["cumulative_ceiling"] == {
+             "engineering_tasks" => 24, "engineering_hours" => 760, "calendar_days" => 174
+           } && envelope["route_consumed"] == {
+             "engineering_tasks" => 0, "engineering_hours" => 0,
+             "calendar_days" => 0, "formal_dispatches" => 0
+           } && envelope["remaining"] == {
+             "engineering_tasks" => 3, "engineering_hours" => 96,
+             "calendar_days" => 22, "formal_dispatches" => 1
+           } && envelope["remaining_capacity_usable"] == true &&
+           envelope.dig("old_route_unused_capacity", "usable_by_current_route") == false &&
+           envelope.dig("strategic_installation", "engineering_task_credit") == 0 &&
+           envelope.dig("strategic_installation", "strict_capability_credit") == 0 &&
+           envelope.dig("implementation_accounting", "foundation_tasks_allowed") == 1 &&
+           envelope.dig("implementation_accounting", "product_implementation_tasks_allowed") == 1 &&
+           envelope.dig("implementation_accounting", "product_candidate_generations") == 2 &&
+           envelope.dig("implementation_accounting", "same_task_repairs") == 1 &&
+           envelope.dig("implementation_accounting", "review_cycles") == 2 &&
+           envelope.dig("implementation_accounting", "formal_evaluation_dispatches") == 1 &&
+           envelope.dig("implementation_accounting", "reset_refund_offset_or_cross_route_borrowing_allowed") == false,
+           "P3 IEL phase envelope or non-resettable accounting drift")
+    assert(envelope["ordered_stages"] == stages.map { |stage|
+      stage.slice("ordinal", "stage_id", "task_id", "nonce", "kind", "status", "budget", "resources").tap do |copy|
+        copy["budget"] = copy["budget"].reject { |key, _| key == "candidate_generations" } if copy["ordinal"] == 1
+        if copy["ordinal"] == 3
+          copy["budget"] = copy["budget"].transform_keys do |key|
+            key == "repairs" ? "same_task_repairs" : key
+          end
+        end
+      end
+    }, "P3 IEL phase envelope stage projection drift")
+
+    control = mapping(truth["founder_escalation_control"], "P3 IEL Founder escalation")
+    assert(control["disposition"] == "NO_RESERVED_TRIGGER_CONTINUE_PHASE" &&
+           control["source_event"] == {
+             "kind" => "P3_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_STRATEGIC_REBASELINE_INSTALLED",
+             "decision_id" => DECISION_ID,
+             "status" => "P3_ACTIVE_STRICT_CAPABILITY_REBASELINED"
+           } && control.dig("reserved_trigger", "category") == "NONE" &&
+           control.dig("reserved_trigger", "evidence").nil? &&
+           control.dig("resolved_strategy_decision", "categories") == RESERVED_TRIGGERS &&
+           control.dig("resolved_strategy_decision", "decision_id") == DECISION_ID &&
+           control.dig("resolved_strategy_decision", "path") == DECISION.fetch("path") &&
+           control.dig("resolved_strategy_decision", "byte_length") == DECISION.fetch("byte_length") &&
+           control.dig("resolved_strategy_decision", "sha256") == DECISION.fetch("sha256") &&
+           control["phase_gate_status"] == "P3_INCOMPLETE" &&
+           control["founder_decision_required"] == false &&
+           control["user_action_required"] == false &&
+           control["next_action_owner"] == "MASTER_CEO_AGENT" &&
+           control["next_eligible_action"] == NEXT_ACTION,
+           "P3 IEL Founder escalation projection drift")
+    delegation = mapping(truth["phase_delegation"], "P3 IEL phase delegation")
+    assert(delegation["status"] == "ACTIVE_P3_PHASE_DELEGATION" &&
+           delegation["model"] == "PHASE_LEVEL_FOUNDER_DELEGATION" &&
+           delegation["decision_source"] == DECISION_ID &&
+           delegation["phase_gate_owner"] == "HUMAN_FOUNDER" &&
+           delegation["task_selection_owner"] == "MASTER_CEO_AGENT" &&
+           delegation.dig("anti_loop", "routine_founder_task_approval_required") == false &&
+           delegation.dig("anti_loop", "historical_execution_lineage_reuse_allowed") == false &&
+           delegation.dig("anti_loop", "old_route_unused_capacity_refund_allowed") == false &&
+           delegation.dig("anti_loop", "candidate_3_allowed") == false &&
+           delegation.dig("anti_loop", "second_same_task_repair_allowed") == false &&
+           delegation.dig("anti_loop", "third_review_cycle_allowed") == false &&
+           delegation.dig("anti_loop", "second_formal_dispatch_allowed") == false,
+           "P3 IEL phase delegation or anti-loop drift")
+    boundary = mapping(truth["phase_boundary"], "P3 IEL phase boundary")
+    assert(boundary["phase"] == "P3" && boundary["target_phase"] == "P3" &&
+           boundary["phase_execution_status"] == "P3_IEL_F1_ELIGIBLE_NOT_ACTIVATED" &&
+           boundary["task_creation_allowed"] == true &&
+           boundary["task_creation_scope"] == "ONE_EXACT_AIOS_P3_IEL_F1_ACCEPTANCE_FOUNDATION_ELIGIBLE" &&
+           boundary["p3_exit_authorized"] == false && boundary["p4_entry_authorized"] == false &&
+           boundary["founder_decision_required"] == false &&
+           boundary["user_action_required"] == false && boundary["next_eligible_action"] == NEXT_ACTION,
+           "P3 IEL phase boundary drift")
+    active = mapping(truth["active_work"], "P3 IEL active work")
+    assert(active["current_task"] == "NONE" &&
+           active["selected_task"] == TASKS.first.fetch("task_id") &&
+           active["current_task_status"] == "NONE" &&
+           active["authority_scope_conformance"] == "NO_ACTIVE_TASK_F1_ELIGIBLE_NOT_ACTIVATED" &&
+           active["task_resource_state"] == "F1_ELIGIBLE_RESOURCES_NOT_CREATED" &&
+           active["planned_task_branch"] == TASKS.first.fetch("branch") &&
+           active["planned_task_worktree"] == TASKS.first.fetch("worktree") &&
+           active["planned_execution_evidence_root"] == TASKS.first.fetch("evidence_root") &&
+           active["next_stage_budget"] == TASKS.first.fetch("budget").reject { |key, _| key == "candidate_generations" } &&
+           active.values_at(
+             "current_task_contract", "current_task_contract_sha256",
+             "current_execution_authorization", "current_execution_authorization_sha256",
+             "authority_record", "execution_nonce", "authorization_id", "activation_parent_commit",
+             "activation_parent_tree", "task_branch", "task_worktree", "execution_evidence_root"
+           ).all?(&:nil?) && active["allowlisted_paths"] == [] && active["current_task_budget"] == {} &&
+           active["founder_reserved_authorization"] == DECISION.fetch("path") &&
+           active["founder_reserved_authorization_sha256"] == DECISION.fetch("sha256") &&
+           active["founder_decision_required"] == false &&
+           active["user_action_required"] == false && active["next_eligible_action"] == NEXT_ACTION,
+           "P3 IEL no-active-Task or F1 selection projection drift")
+    claim = mapping(truth["phase_execution_claim"], "P3 IEL phase execution claim")
+    assert(claim["current_route_claim"] == ROUTE_ID && claim["current_task_claim"] == "NONE" &&
+           claim["selected_next_task"] == TASKS.first.fetch("task_id") &&
+           claim["p3_management_delivery_percent"] == 25 &&
+           claim["p3_current_gate_id"] == STRICT_GATE_ID &&
+           claim["p3_current_gate_progress_percent"] == 0 &&
+           claim["p4_entry_authorized"] == false && claim["p4_entry_status"] == P4_HOLD &&
+           claim["task_creation_allowed"] == true && claim["next_eligible_action"] == NEXT_ACTION,
+           "P3 IEL execution claim drift")
+    claims = mapping(truth["claim_boundary"], "P3 IEL claim boundary")
+    assert(claims["current_phase_route"] == ROUTE_ID && claims["current_task"] == "NONE" &&
+           claims["selected_task"] == TASKS.first.fetch("task_id") &&
+           claims["next_eligible_action"] == NEXT_ACTION &&
+           claims["p3_status"] == "ACTIVE_STRICT_CAPABILITY_REBASELINED" &&
+           claims["p3_phase_envelope_status"] == "ACTIVE_STRICT_CAPABILITY_REBASELINED" &&
+           claims["p3_exit_gate_progress_percent"] == 0 &&
+           claims["p3_delivery_progress_percent"] == 25 &&
+           claims["p3_current_objective_id"] == OBJECTIVE_ID &&
+           claims["p3_current_gate_id"] == STRICT_GATE_ID &&
+           claims["p3_reentry_route_decision_sha256"] == DECISION.fetch("sha256") &&
+           claims["p3_reentry_route_source_body_sha256"] == SOURCE_ATTACHMENT.fetch("sha256") &&
+           claims["p3_reentry_route_stage"] ==
+             "STRATEGIC_INSTALLATION_COMPLETE_F1_ELIGIBLE_NOT_ACTIVATED" &&
+           claims["p3_reentry_foundation_task_status"] == "ELIGIBLE_NOT_ACTIVATED" &&
+           claims["p3_reentry_product_task_status"] == "LOCKED_PENDING_F1_ACCEPTANCE" &&
+           claims["p3_reentry_formal_task_status"] == "LOCKED_PENDING_P1_ACCEPTANCE" &&
+           claims["p3_reentry_candidate_integrated"] == false &&
+           claims["p3_reentry_delivery_credit"] == 0 &&
+           claims["p3_reentry_strict_exit_credit"] == 0 &&
+           claims["current_route_executable_task_slots"] ==
+             "P3_IEL_F1_ELIGIBLE_P1_LOCKED_PENDING_F1_E1_LOCKED_PENDING_P1" &&
+           claims["p4_entry_authorized"] == false && claims["p4_entry_status"] == P4_HOLD,
+           "P3 IEL live claim boundary or stale EGT activation projection drift")
+
+    p3 = mapping(truth.dig("strict_phase_gate_ledger", "phases", "P3"), "strict P3 Gate")
+    p4 = mapping(truth.dig("strict_phase_gate_ledger", "phases", "P4"), "strict P4 Gate")
+    current_gate = mapping(p3["current_exit_gate"], "strict P3 current Exit Gate")
+    assert(p3["status"] == "INCOMPLETE" && current_gate["gate_id"] == STRICT_GATE_ID &&
+           current_gate["objective_id"] == OBJECTIVE_ID &&
+           current_gate["authority"] == DECISION.merge(
+             "decision_id" => DECISION_ID, "operation_type" => OPERATION_TYPE,
+             "status" => "AUTHORIZED_ACTIVE_UNTIL_ROUTE_LIFECYCLE_TERMINATION",
+             "strategic_installation_branch_creation_permission" => "CONSUMED",
+             "route_execution_authority" => "ACTIVE",
+             "source_attachment" => SOURCE_ATTACHMENT
+           ) && current_gate["required_item_ids"] == STRICT_ITEMS &&
+           STRICT_ITEMS.all? { |item|
+             current_gate.dig("required_items", item) == {
+               "status" => "MISSING", "candidate_commit" => nil,
+               "candidate_tree" => nil, "evidence" => nil
+             }
+           } && current_gate.dig("compatibility_projection", "status") == "MISSING" &&
+           p3.dig("original_capability_gate", "status") == "MISSING_NOT_ACCEPTED" &&
+           p3.dig("original_capability_gate", "candidate_integrated") == false &&
+           p4["status"] == "INCOMPLETE" && p4["entry_authorized"] == false &&
+           p4["execution_started"] == false && p4["entry_status"] == P4_HOLD,
+           "P3 IEL strict Gate/P4 predecessor ledger drift")
+    goal = mapping(truth["goal"], "Goal")
+    assert(goal["control_plane_status_observed"] == "ACTIVE" &&
+           goal["current_task_authority"] == "NONE" &&
+           goal["project_actually_completed"] == false &&
+           goal["long_term_goal_status"] == "ACTIVE" &&
+           goal["codex_goal_action"] == "NONE_KEEP_ACTIVE" &&
+           goal["current_strategic_decision"] == expected_decision,
+           "P3 IEL Goal or current strategic decision drift")
+    "P3_IEL_STRATEGIC_INSTALLATION_COMPLETE_F1_ELIGIBLE"
+  rescue JSON::ParserError, KeyError, TypeError, ArgumentError, Errno::ENOENT,
+         Errno::ELOOP, Psych::Exception => e
+    raise P3HostOwnedImmutableExecutionLeaseRouteValidationError,
+          "P3 IEL installed Route invalid: #{e.message}"
+  end
+end
+
 class P4ProposalFirstControlledRealTaskRouteValidationError < StandardError; end
 
 module P4ProposalFirstControlledRealTaskRouteValidation
@@ -15401,6 +16159,12 @@ if $PROGRAM_NAME == __FILE__
       P3EquivalentRealMysqlTransportRouteValidation.validate_truth!(root: root, truth: truth)
       puts "STRICT_PHASE_GATES: PASS state=#{truth.dig('current_phase_route', 'execution_status')}"
     elsif truth.dig("current_phase_route", "schema_version") ==
+       P3HostOwnedImmutableExecutionLeaseRouteValidation::ROUTE_SCHEMA
+      state = P3HostOwnedImmutableExecutionLeaseRouteValidation.validate_truth!(
+        root: root, truth: truth
+      )
+      puts "STRICT_PHASE_GATES: PASS state=#{state}"
+    elsif truth.dig("current_phase_route", "schema_version") ==
        P4ProposalFirstControlledRealTaskRouteValidation::ROUTE_SCHEMA
       state = P4ProposalFirstControlledRealTaskRouteValidation.validate_truth!(root: root, truth: truth)
       puts "STRICT_PHASE_GATES: PASS state=#{state}"
@@ -15432,6 +16196,7 @@ if $PROGRAM_NAME == __FILE__
       puts "STRICT_PHASE_GATES: PASS state=NON_ETSK_CURRENT_ROUTE"
     end
   rescue P4ProposalFirstControlledRealTaskRouteValidationError,
+         P3HostOwnedImmutableExecutionLeaseRouteValidationError,
          P3EquivalentRealMysqlTransportRouteValidationError,
          P3MinimumTrustTransactionalOciFinalProductRouteValidationError,
          P3TrustedReadOnlyInvocationEvidenceFirstFinalRouteValidationError,

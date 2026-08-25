@@ -1,0 +1,693 @@
+{
+  "schema_version": "p3-host-owned-immutable-execution-lease-strict-capability-founder-decision/v1",
+  "record_type": "sourcelens_aios_founder_reserved_strategy_phase_and_envelope_decision",
+  "decision_id": "AUTHORIZE_P3_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_STRICT_CAPABILITY_OBJECTIVE_EXIT_GATE_REBASELINE_AND_ONE_SHOT_COMPLETION_ROUTE_V1",
+  "operation_type": "P3_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_STRICT_CAPABILITY_OBJECTIVE_EXIT_GATE_REBASELINE_AND_ONE_SHOT_COMPLETION_ROUTE",
+  "status": "AUTHORIZED_ACTIVE_UNTIL_ROUTE_LIFECYCLE_TERMINATION",
+  "reserved_triggers": [
+    "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE",
+    "MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE"
+  ],
+  "source_body": {
+    "source_attachment_ref": "founder_authorization.source_attachment",
+    "byte_length": 28528,
+    "sha256": "fc019d5e974588fa7581e347b6cc10025795430069a4b5a034fa057c4a8f7959",
+    "canonicalization": "EXACT_ATTACHMENT_BYTES"
+  },
+  "founder_authorization": {
+    "source_attachment": {
+      "path": "/Users/lijunpeng/.codex/attachments/0a8d296d-05cd-4546-b434-b8bbf9de2f13/pasted-text.txt",
+      "byte_length": 28528,
+      "sha256": "fc019d5e974588fa7581e347b6cc10025795430069a4b5a034fa057c4a8f7959",
+      "canonicalization": "EXACT_ATTACHMENT_BYTES"
+    },
+    "first_line_token": "AUTHORIZE_P3_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_STRICT_CAPABILITY_OBJECTIVE_EXIT_GATE_REBASELINE_AND_ONE_SHOT_COMPLETION_ROUTE_V1",
+    "full_verbatim_direct_founder_reply_required": true,
+    "indivisible": true,
+    "strategic_installation_permission_consumption_event": {
+      "kind": "SUCCESSFUL_STRATEGIC_BRANCH_CREATION",
+      "branch": "codex/p3-iel-strategic-installation",
+      "worktree": "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-iel-strategic-installation",
+      "consumes_only": "STRATEGIC_INSTALLATION_BRANCH_CREATION_PERMISSION",
+      "reusable": false
+    },
+    "route_execution_authority_after_strategic_branch_creation": "ACTIVE_UNTIL_ROUTE_LIFECYCLE_TERMINATION"
+  },
+  "authorization_lifecycle": {
+    "strategic_installation_permission_status": "CONSUMED_AT_SUCCESSFUL_STRATEGIC_BRANCH_CREATION",
+    "route_execution_authority_status": "ACTIVE",
+    "strategic_installation_consumption_does_not_consume_route_execution_authority": true,
+    "route_execution_authority_terminates_at_earliest": [
+      "STRATEGIC_INSTALLATION_NON_PASS",
+      "F1_NON_PASS",
+      "P1_NON_PASS",
+      "E1_NON_PASS",
+      "INTEGRATION_NON_PASS",
+      "CANONICAL_REPLAY_NON_PASS_AFTER_EXACT_ROLLBACK",
+      "P3_STRICT_CAPABILITY_100_AND_AWAITING_FOUNDER_P3_PHASE_GATE",
+      "FOUNDER_EXPLICIT_REVOCATION",
+      "IDENTITY_SCOPE_BUDGET_PERMISSION_OR_CLEAN_ROOM_DRIFT",
+      "TERMINAL_SAFETY_CONDITION"
+    ]
+  },
+  "canonical_start": {
+    "repository": "/Users/lijunpeng/Developer/SourceLens-AIOS",
+    "branch": "main",
+    "commit": "3f98000bd60653de619da5bc1f59f38dcdfd22bb",
+    "tree": "80eda4d77d8363c882ca64ae7c3a8164c43bd3b5",
+    "clean": true,
+    "truth": {
+      "path": "docs/aios/truth/project_state.yaml",
+      "byte_length": 2097616,
+      "sha256": "9198ba9937210a7a82b70c6423beaf8c0efa6de3d5b879438e8df09f17871336"
+    },
+    "constitution": {
+      "path": "docs/aios/STRATEGIC_CONSTITUTION.md",
+      "version": "3.9",
+      "byte_length": 66223,
+      "sha256": "93059bda247b906ebfd1beaef1d22dc86be27960416f99c674395f75aac6f3bb"
+    },
+    "founder_delegation_policy": {
+      "path": "docs/aios/FOUNDER_DELEGATION_POLICY.md",
+      "version": "1.8",
+      "byte_length": 17346,
+      "sha256": "12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29"
+    },
+    "governing_decision": {
+      "path": "docs/aios/decisions/P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_EXIT_GATE_CLARIFICATION_AND_FINAL_CLEAN_ROOM_COMPLETION_ROUTE_V1.json",
+      "decision_id": "AUTHORIZE_P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_EXIT_GATE_CLARIFICATION_AND_FINAL_CLEAN_ROOM_COMPLETION_ROUTE_V1",
+      "byte_length": 18154,
+      "sha256": "9dfcac8a8683269cc5517c2e01afe4df666bfe0008d7735e27266d169721bf05"
+    }
+  },
+  "prior_state": {
+    "p3_phase_status": "HOLD_INCOMPLETE_FINAL_EQUIVALENT_TRANSPORT_EXCEPTION_EXHAUSTED",
+    "p3_management_delivery_progress_percent": 25,
+    "p3_strict_capability_progress_percent": 0,
+    "current_task": "NONE",
+    "p4_status": "HOLD_PENDING_STRICT_P3_CAPABILITY_ACCEPTANCE_AND_FOUNDER_PHASE_GATE",
+    "project_actually_completed": false,
+    "long_term_goal_status": "ACTIVE",
+    "codex_goal_action": "NONE_KEEP_ACTIVE",
+    "historical_terminal_non_pass_candidate_not_integrated_and_gate_missing_facts_preserved": true,
+    "old_gate": {
+      "gate_id": "ACTUAL_AGENT_HOST_AUTHORIZED_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE_ACCEPTED",
+      "status": "MISSING_NOT_ACCEPTED",
+      "may_be_retroactively_accepted": false
+    }
+  },
+  "accepted_foundations": [
+    {
+      "milestone_id": "DURABLE_STATE_AND_CHECKPOINT_RESUME",
+      "integration_commit": "f841ff822610264ad1b88c93b1f6248d42eb134a",
+      "integration_tree": "6a3e67b4680464e54d72936dc24a205079614431"
+    },
+    {
+      "milestone_id": "DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION",
+      "integration_commit": "2f52d0912ba5621bd2258fc21f5b74dd2019efd5",
+      "integration_tree": "e9490d8f786f913b2e60a7e690a71911e015c87a"
+    }
+  ],
+  "accepted_foundation_usage": {
+    "allowed_only_through_current_canonical_main_bytes_and_public_interfaces": true,
+    "historical_commit_worktree_evidence_or_rejected_candidate_read_as_implementation_input": false
+  },
+  "strategic_rebaseline": {
+    "p3_objective_changed": true,
+    "p3_strict_exit_gate_changed": true,
+    "p3_phase_route_changed": true,
+    "p3_non_resetting_phase_envelope_expanded": true,
+    "current_phase_remains": "P3",
+    "p3_phase_exit_executed": false,
+    "p4_phase_entry_executed": false,
+    "ordinary_task_non_pass_successor_or_repair": false,
+    "installation_engineering_delivery_and_strict_progress_credit": 0
+  },
+  "p3_objective": {
+    "objective_id": "ACTUAL_AGENT_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE",
+    "actual_production_path": [
+      "AgentTaskService",
+      "AgentRuntime",
+      "production strict decoder"
+    ],
+    "agent_output_authority": "SCHEMA_CLOSED_NON_AUTHORITATIVE_PROPOSAL_DATA_ONLY",
+    "host_exclusive_authority": [
+      "TASK",
+      "CUSTODY",
+      "ACTION",
+      "TRANSACTION",
+      "IMAGE",
+      "DOCKER_OBJECT",
+      "PERMISSION",
+      "TERMINAL_TRUTH"
+    ],
+    "pre_effect_requirement": "REAL_MYSQL_COMMITTED_IMMUTABLE_INTENT_BEFORE_ANY_DOCKER_EFFECT",
+    "fixed_action": "ONE_HOST_FROZEN_FIXED_LOCAL_OFFLINE_NETWORK_NONE_READ_ONLY_OCI_SHA256SUM_ACTION",
+    "recovery_requirement": "THREE_PREDECLARED_FRESH_PROCESS_FAILURE_WINDOWS",
+    "terminal_requirement": "EXACTLY_ONE_DURABLE_TERMINAL_AND_CORRESPONDING_ACCEPTED_CHECKPOINT_IN_ONE_REAL_MYSQL_TRANSACTION",
+    "claim_boundary": "ACTUAL_AGENT_TO_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE_ON_ONE_LOCAL_HOST"
+  },
+  "strict_exit_gate": {
+    "gate_id": "ACTUAL_AGENT_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE_ACCEPTED",
+    "required_items": [
+      {
+        "item_id": "ACTUAL_AGENT_SCHEMA_CLOSED_PROPOSAL_AND_EXCLUSIVE_HOST_RESERVED_INGRESS",
+        "requirements": [
+          "REAL_AGENT_TASK_SERVICE_AGENT_RUNTIME_AND_PRODUCTION_STRICT_DECODER",
+          "MISSING_CALL_ID_MALFORMED_JSON_DUPLICATE_UNKNOWN_OVERSIZE_DEFAULT_EMPTY_SECOND_RESERVED_PATH_INJECTION_AND_ALIAS_FAIL_CLOSED",
+          "RESERVED_ACTION_REACHES_ONLY_HOST_COORDINATOR",
+          "TOOL_EXECUTION_SERVICE_REGISTRY_ALIAS_AND_OTHER_CHANNELS_MECHANICALLY_REJECT_RESERVED_ACTION"
+        ]
+      },
+      {
+        "item_id": "HOST_DERIVED_DURABLE_EXECUTION_LEASE_REAL_MYSQL_AND_SINGLE_TERMINAL_CHECKPOINT",
+        "requirements": [
+          "PATH_CUSTODY_ACTION_COMMAND_IMAGE_CONTAINER_OBJECT_INVOCATION_PERMISSION_AND_TERMINAL_HOST_DERIVED",
+          "REAL_MYSQL_IMMUTABLE_INTENT_COMMITTED_BEFORE_DOCKER_MUTATION",
+          "TERMINAL_UNIQUE_BY_INTENT_IDENTITY",
+          "TERMINAL_INSERT_AND_ACCEPTED_CHECKPOINT_APPEND_IN_ONE_SPRING_REAL_MYSQL_TRANSACTION",
+          "PARTIAL_FAILURE_ROLLS_BACK_BOTH"
+        ]
+      },
+      {
+        "item_id": "ENGINE_ASSIGNED_IMMUTABLE_OBJECT_ID_AND_THREE_FRESH_PROCESS_RECOVERY",
+        "requirements": [
+          "LOCAL_TRUSTED_DOCKER_ENGINE_UNIX_DOMAIN_SOCKET_API",
+          "CREATE_RESPONSE_64_HEX_ENGINE_ID_IS_SOLE_OBJECT_AUTHORITY",
+          "ALL_POST_CREATE_OPERATIONS_USE_EXACT_ENGINE_ID",
+          "NAME_AND_LABELS_ONLY_PRE_PERSISTENCE_RECOVERY_INDEX",
+          "FULL_ATTESTATION_REQUIRED_BEFORE_ADOPTION",
+          "THREE_DISTINCT_PID_AND_START_TIME_FRESH_JVMS"
+        ],
+        "fresh_process_windows": [
+          "START_TRANSACTION_COMMITTED_BEFORE_DISPATCH",
+          "IMMUTABLE_INTENT_COMMITTED_BEFORE_DOCKER_CREATE",
+          "ENGINE_CREATE_ID_RETURNED_BEFORE_ID_OR_TERMINAL_FULLY_COMMITTED"
+        ]
+      },
+      {
+        "item_id": "PINNED_LOCAL_OCI_ZERO_NETWORK_READ_ONLY_ACTION_COMPLETE_TRACE_AND_CANONICAL_REPLAY",
+        "requirements": [
+          "F1_FROZEN_LOCAL_IMAGE_EXACT_CONTENT_ID_NO_TAG_IDENTITY_NO_PULL",
+          "READONLY_ROOTFS_NETWORK_NONE_READ_ONLY_BIND_ALL_CAPABILITIES_DROPPED_NO_NEW_PRIVILEGES_NON_ROOT_NO_PORT_NO_MYSQL_NETWORK_AUTOREMOVE_FALSE",
+          "ACTUAL_SHA256SUM_EQUALS_HOST_PRESTORED_CUSTODY_SHA256",
+          "RAW_ENGINE_CREATE_REQUEST_RESPONSE_TYPED_INSPECT_LOGS_WAIT_CLEANUP_AND_ABSENCE_IDENTITY_LENGTH_SHA256_AND_TYPED_ATTESTATION",
+          "CTO_SECURITY_AND_QUALITY_EVALUATION_INDEPENDENT_PASS",
+          "FORMAL_ACCEPTANCE_LOCAL_CANONICAL_INTEGRATION_AND_EXACTLY_ONE_CANONICAL_ONLY_REPLAY_WITH_ZERO_MANDATORY_SKIPS"
+        ]
+      }
+    ],
+    "same_frozen_product_candidate_required": true,
+    "all_four_items_must_be_accepted_together": true,
+    "current_status": "MISSING_NOT_ACCEPTED",
+    "current_strict_progress_percent": 0
+  },
+  "architecture": {
+    "schema_version": "p3-host-owned-immutable-execution-lease/v1",
+    "constraints": [
+      "AGENT_PROPOSAL_NEVER_AUTHORIZATION",
+      "AGENT_CANNOT_CHOOSE_PATH_COMMAND_IMAGE_CONTAINER_NETWORK_DOCKER_ID_PERMISSION_OR_TERMINAL",
+      "START_TRANSACTION_ONLY_CAS_AND_DURABLE_RUNTIME_RUN",
+      "NO_ASYNC_WORKER_BEFORE_START_TRANSACTION_COMMIT",
+      "AFTER_COMMIT_NOTIFICATION_ACCELERATOR_ONLY_DURABLE_ROW_AND_STARTUP_POLLER_ARE_RECOVERY_AUTHORITY",
+      "RESERVED_PROPOSAL_TO_SINGLE_HOST_COORDINATOR",
+      "GENERIC_TOOL_EXECUTION_HARD_REJECTS_RESERVED_ACTION_AND_ALIASES",
+      "REAL_MYSQL_IMMUTABLE_INTENT_BEFORE_DOCKER_MUTATION",
+      "NO_DISTRIBUTED_EXACTLY_ONCE_CLAIM_ACROSS_MYSQL_AND_DOCKER",
+      "TYPED_ENGINE_SEMANTIC_PREDICATES_ARE_ACCEPTANCE_TRUTH",
+      "DOCKER_MUTATION_AMBIGUITY_IS_INDETERMINATE_REQUIRES_RECOVERY",
+      "CLEANUP_BY_EXACT_ENGINE_ID_AND_FINAL_ID_PLUS_NAME_ABSENCE",
+      "CUSTODY_REVALIDATED_ON_EVERY_FRESH_RESOLVE",
+      "V033_ACCEPTED_CHECKPOINT_SEMANTICS_UNCHANGED",
+      "TERMINAL_COORDINATOR_CALLS_EXISTING_CHECKPOINT_SERVICE_INSIDE_OUTER_TRANSACTION"
+    ],
+    "additive_migration": {
+      "path": "backend-spring/src/main/resources/db/migration/V034__add_host_owned_immutable_execution_leases.sql",
+      "minimum_contents": [
+        "DURABLE_RUNTIME_RUNS",
+        "IMMUTABLE_HOST_ACTION_INTENTS",
+        "UNIQUE_HOST_ACTION_TERMINALS",
+        "UNIQUENESS_AND_STATE_CONSTRAINTS",
+        "RECOVERY_INDEXES"
+      ]
+    }
+  },
+  "route": {
+    "schema_version": "p3-host-owned-immutable-execution-lease-completion-route/v1",
+    "route_id": "P3_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_STRICT_CAPABILITY_COMPLETION_ROUTE_V1",
+    "installation_state": "FOUNDATION_ELIGIBLE_NOT_ACTIVATED",
+    "ordered_stages": [
+      {
+        "ordinal": 1,
+        "stage_id": "IMMUTABLE_EXECUTION_LEASE_ACCEPTANCE_FOUNDATION",
+        "task_id": "AIOS-P3-IEL-F1_IMMUTABLE_EXECUTION_LEASE_ACCEPTANCE_FOUNDATION",
+        "nonce": "p3-iel-f1-immutable-execution-lease-foundation-20260825-v1",
+        "kind": "EXECUTABLE_NON_PRODUCT_FOUNDATION",
+        "branch": "codex/p3-iel-f1-foundation",
+        "worktree": "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-iel-f1-foundation",
+        "contract_path": "docs/aios/tasks/P3-IEL-F1_IMMUTABLE_EXECUTION_LEASE_ACCEPTANCE_FOUNDATION.yaml",
+        "evidence_root": "/Users/lijunpeng/Developer/.sourcelens-audit/p3-immutable-execution-lease-completion-20260825/foundation",
+        "budget": {
+          "engineering_tasks": 1,
+          "engineering_hours": 16,
+          "calendar_days": 4,
+          "same_task_repairs": 1,
+          "review_cycles": 2
+        },
+        "write_allowlist": [
+          "evaluation-harness/harness/p3-immutable-execution-lease-v1",
+          "docs/aios/tasks/P3-IEL-F1_IMMUTABLE_EXECUTION_LEASE_ACCEPTANCE_FOUNDATION.yaml",
+          "/Users/lijunpeng/Developer/.sourcelens-audit/p3-immutable-execution-lease-completion-20260825/foundation"
+        ],
+        "product_source_write": false,
+        "first_engineering_hour_requires_executable_foundation_work": true,
+        "must_freeze_and_independently_validate": [
+          "DOCKER_ENGINE_UNIX_SOCKET_API_VERSION_AND_TYPED_SCHEMA",
+          "ENGINE_CREATE_RESPONSE_IMMUTABLE_ID_ORACLE",
+          "HOST_EXECUTION_LEASE_STATE_MACHINE",
+          "REAL_MYSQL_FIXTURE_AND_TRANSACTION_ORACLE",
+          "THREE_PREDECLARED_CRASH_BARRIERS",
+          "DETERMINISTIC_NAME_CONFLICT_AND_ADOPTION_ORACLE",
+          "TYPED_INSPECT_PREDICATES",
+          "CLEANUP_AND_STABLE_ABSENCE_ORACLE",
+          "PUBLIC_ACCEPTANCE_HARNESS",
+          "INDEPENDENT_EVALUATOR_HELD_NEGATIVE_FIXTURES",
+          "INDEPENDENT_EVALUATOR_HELD_SCHEDULE",
+          "INDEPENDENT_EVALUATOR_HELD_METRIC",
+          "INDEPENDENT_EVALUATOR_HELD_THRESHOLD",
+          "INDEPENDENT_EVALUATOR_HELD_REPLAY_PLAN",
+          "EXACT_INTEGRATION_PLAN",
+          "EXACT_ROLLBACK_PLAN"
+        ],
+        "local_action_image_gate": {
+          "identity": "EXACT_CONTENT_ID_FROM_EXISTING_LOCAL_IMAGE_INVENTORY",
+          "required_security_profile_match": true,
+          "pull_or_network_acquisition_allowed": false,
+          "no_suitable_local_exact_content_id_image_effect": "F1_NON_PASS"
+        },
+        "acceptance_requires_independent_pass": [
+          "CTO_AGENT",
+          "SECURITY_AGENT",
+          "QUALITY_EVALUATION_AGENT"
+        ],
+        "pass_effect": "INTEGRATE_ACCEPTED_PUBLIC_FOUNDATION_MANAGEMENT_DELIVERY_40_STRICT_0_UNLOCK_P1",
+        "held_bytes_available_to_product_worker": false
+      },
+      {
+        "ordinal": 2,
+        "stage_id": "HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_PRODUCT",
+        "task_id": "AIOS-P3-IEL-P1_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_PRODUCT",
+        "nonce": "p3-iel-p1-host-owned-immutable-execution-lease-product-20260825-v1",
+        "kind": "CLEAN_ROOM_PRODUCT_IMPLEMENTATION",
+        "branch": "codex/p3-iel-p1-product",
+        "worktree": "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-iel-p1-product",
+        "contract_path": "docs/aios/tasks/P3-IEL-P1_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_PRODUCT.yaml",
+        "evidence_root": "/Users/lijunpeng/Developer/.sourcelens-audit/p3-immutable-execution-lease-completion-20260825/product",
+        "budget": {
+          "engineering_tasks": 1,
+          "engineering_hours": 56,
+          "calendar_days": 12,
+          "candidate_generations": 2,
+          "same_task_repairs": 1,
+          "review_cycles": 2
+        },
+        "candidate_2_role": "SOLE_SAME_TASK_REPAIR_ONLY",
+        "review_cycle_contract": {
+          "cycle_1": "FREEZE_COMPLETE_P0_P1_FINDING_SET_AT_ONCE",
+          "cycle_2": "ONLY_CLOSE_FROZEN_FINDINGS_OR_REJECT_REPAIR_INTRODUCED_REGRESSION",
+          "cycle_2_new_same_class_design_findings_allowed": false
+        },
+        "first_engineering_hour_requires_non_empty_testable_product_implementation": true,
+        "pom_modification_allowed": false,
+        "external_dependency_addition_allowed": false,
+        "f1_public_harness_or_held_oracle_metric_threshold_schedule_modification_allowed": false,
+        "acceptance_requires_independent_pass": [
+          "CTO_AGENT",
+          "SECURITY_AGENT",
+          "QUALITY_EVALUATION_AGENT"
+        ],
+        "formal_eligible_frozen_candidate_must_bind": [
+          "EXACT_CANDIDATE_COMMIT",
+          "EXACT_CANDIDATE_TREE",
+          "COMPLETE_SOURCE_INVENTORY",
+          "COMPLETE_TEST_INVENTORY",
+          "ACCEPTED_F1_IDENTITY",
+          "V034_IDENTITY",
+          "ACTION_IMAGE_CONTENT_ID",
+          "MYSQL_IMAGE_CONTENT_ID",
+          "PUBLIC_EVALUATOR_CUSTODY_IDENTITY",
+          "HELD_EVALUATOR_CUSTODY_IDENTITY",
+          "CTO_REVIEW_IDENTITY",
+          "SECURITY_REVIEW_IDENTITY",
+          "QUALITY_EVALUATION_REVIEW_IDENTITY"
+        ],
+        "pass_effect": "FORMAL_ELIGIBLE_FROZEN_CANDIDATE_MANAGEMENT_DELIVERY_75_STRICT_0_UNLOCK_E1_NO_PRODUCT_INTEGRATION"
+      },
+      {
+        "ordinal": 3,
+        "stage_id": "ONE_SHOT_STRICT_CAPABILITY_ACCEPTANCE",
+        "task_id": "AIOS-P3-IEL-E1_ONE_SHOT_STRICT_CAPABILITY_ACCEPTANCE",
+        "nonce": "p3-iel-e1-one-shot-strict-capability-acceptance-20260825-v1",
+        "kind": "EVALUATION_ONLY_ONE_SHOT",
+        "branch": "codex/p3-iel-e1-formal",
+        "worktree": "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-iel-e1-formal",
+        "contract_path": "docs/aios/tasks/P3-IEL-E1_ONE_SHOT_STRICT_CAPABILITY_ACCEPTANCE.yaml",
+        "evidence_root": "/Users/lijunpeng/Developer/.sourcelens-audit/p3-immutable-execution-lease-completion-20260825/formal",
+        "budget": {
+          "engineering_tasks": 1,
+          "engineering_hours": 24,
+          "calendar_days": 6,
+          "formal_dispatches": 1,
+          "candidate_mutations": 0,
+          "repairs": 0,
+          "reruns": 0
+        },
+        "evaluates_only": [
+          "P1_FROZEN_EXACT_CANDIDATE",
+          "F1_FROZEN_EXACT_ACCEPTANCE_PACKAGE"
+        ],
+        "pass_effect": "LOCAL_INTEGRATION_OF_EXACT_CANDIDATE_THEN_EXACTLY_ONE_CANONICAL_ONLY_REPLAY"
+      }
+    ]
+  },
+  "cumulative_accounting": {
+    "basis": "NON_RESETTABLE_HISTORICAL_P3_PLUS_EXPLICIT_IEL_STRATEGIC_REBASELINE",
+    "historical_consumed": {
+      "engineering_tasks": 21,
+      "engineering_hours": 664,
+      "calendar_days": 152
+    },
+    "route_limits": {
+      "engineering_tasks": 3,
+      "engineering_hours": 96,
+      "calendar_days": 22,
+      "formal_dispatches": 1,
+      "active_tasks": 1,
+      "task_branches": 1,
+      "task_worktrees": 1,
+      "active_product_candidates": 1
+    },
+    "maximum_cumulative": {
+      "engineering_tasks": 24,
+      "engineering_hours": 760,
+      "calendar_days": 174
+    },
+    "locked_old_capacity_refund_offset_borrow_or_reinterpretation_allowed": false,
+    "strategic_installation": {
+      "governance_labor_hours": 6,
+      "calendar_days": 1,
+      "engineering_task": false,
+      "engineering_delivery_and_strict_progress_credit": 0
+    }
+  },
+  "product_write_allowlist": [
+    "backend-spring/src/main/java/com/sourcelens/module/agent/service/AgentTaskService.java",
+    "backend-spring/src/main/java/com/sourcelens/module/agent/service/AgentRuntime.java",
+    "backend-spring/src/main/java/com/sourcelens/module/agent/service/LlmClient.java",
+    "backend-spring/src/main/java/com/sourcelens/module/agent/service/ToolExecutionService.java",
+    "backend-spring/src/main/java/com/sourcelens/module/minimumtrust",
+    "backend-spring/src/main/resources/db/migration/V034__add_host_owned_immutable_execution_leases.sql",
+    "backend-spring/src/main/resources/p3/minimum-trust-read-only-action-v1",
+    "backend-spring/src/test/java/com/sourcelens/module/agent",
+    "backend-spring/src/test/java/com/sourcelens/module/minimumtrust",
+    "backend-spring/src/test/resources/p3/minimum-trust",
+    "docs/aios/tasks/P3-IEL-P1_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_PRODUCT.yaml",
+    "/Users/lijunpeng/Developer/.sourcelens-audit/p3-immutable-execution-lease-completion-20260825/product"
+  ],
+  "clean_room": {
+    "permitted_inputs": [
+      "FROZEN_CANONICAL_MAIN_CURRENT_BYTES",
+      "CURRENT_AUTHORITY_FILES_LISTED_BY_FOUNDER",
+      "CURRENT_CANONICAL_TRUTH_STATE_AND_NON_REUSE_FACTS",
+      "CURRENT_CANONICAL_BYTES_AND_PUBLIC_INTERFACES_OF_TWO_ACCEPTED_FOUNDATIONS",
+      "CURRENT_ROUTE_INDEPENDENTLY_ACCEPTED_F1_PUBLIC_FOUNDATION",
+      "CURRENT_TASK_SELF_CREATED_SOURCE_TEST_AND_EVIDENCE"
+    ],
+    "prohibited_rejected_lineage_sources": [
+      "OLD_P3_REJECTED_CANDIDATE_BUNDLE",
+      "OLD_P3_REJECTED_COMMIT_OR_TREE",
+      "OLD_P3_REJECTED_BRANCH_OR_WORKTREE",
+      "OLD_P3_PRODUCT_PATCH",
+      "OLD_P3_IMPLEMENTATION_REVIEW_BODY",
+      "OLD_P3_TERMINAL_ENGINEERING_RECEIPT_BODY",
+      "OLD_P3_REPAIR_OR_CORRECTION_ARTIFACT",
+      "GIT_REFLOG_STASH_OR_OBJECT_DATABASE_RECOVERY_OF_REJECTED_IMPLEMENTATION",
+      "HISTORICAL_CODEX_ATTACHMENT_REJECTED_ENGINEERING_BODY"
+    ],
+    "prohibited_operations": [
+      "READ",
+      "SHOW",
+      "COMPARE",
+      "RESTORE",
+      "COPY",
+      "CHECKOUT",
+      "CHERRY_PICK",
+      "DIFF",
+      "DECOMPILE",
+      "REFERENCE_AS_IMPLEMENTATION_INPUT",
+      "EXECUTE",
+      "INTEGRATE"
+    ],
+    "contamination_effect": "ROUTE_IMMEDIATE_NON_PASS_CANDIDATE_UNUSABLE"
+  },
+  "permissions": {
+    "system_under_test_agent": {
+      "proposal_data_only": true,
+      "shell": false,
+      "filesystem": false,
+      "docker": false,
+      "network": false,
+      "provider": false,
+      "secret": false,
+      "credential": false,
+      "remote": false,
+      "production": false,
+      "public_release": false,
+      "canonical_source_write": false
+    },
+    "host_allowed": [
+      "TASK_BRANCH_WORKTREE_LOCAL_SOURCE_TEST_AND_EVIDENCE_WRITE",
+      "REAL_MYSQL_127_0_0_1_RUNTIME_ASSIGNED_SINGLE_PORT",
+      "LOCAL_DOCKER_ENGINE_UNIX_DOMAIN_SOCKET",
+      "EXACT_TASK_OWNED_DOCKER_CONTAINER_AND_NETWORK",
+      "F1_FROZEN_LOCAL_ACTION_IMAGE",
+      "EXACT_PINNED_MYSQL_IMAGE",
+      "TASK_OWNED_PROCESS_SIGNAL",
+      "THREE_FRESH_JVMS",
+      "FORMAL_PASS_LOCAL_CANONICAL_FAST_FORWARD",
+      "CANONICAL_REPLAY_NON_PASS_EXACT_LOCAL_ROLLBACK",
+      "NEW_ROUTE_TERMINAL_TASK_OWNED_BRANCH_WORKTREE_AND_DOCKER_OBJECT_CLEANUP"
+    ],
+    "docker_engine_api_transport": "LOCAL_UNIX_DOMAIN_SOCKET_ONLY",
+    "af_inet_or_af_inet6_external_egress": false,
+    "network_dns_internet_http_https_provider_secret_credential_remote_production_public_push_pull_request_remote_merge_tag_release_publish": false,
+    "docker_pull_push_login_auto_update_or_foreign_object_deletion": false,
+    "full_access_unchanged": true,
+    "ask_for_approval_required": false
+  },
+  "formal_acceptance": {
+    "frozen_candidate_and_f1_package_only": true,
+    "immutable_after_dispatch": [
+      "PRODUCT",
+      "V034",
+      "F1_FOUNDATION",
+      "PUBLIC_HARNESS",
+      "HELD_FIXTURES",
+      "DATASET",
+      "SPLIT",
+      "ORACLE",
+      "METRIC",
+      "THRESHOLD",
+      "SCHEDULE",
+      "ACTION_IMAGE",
+      "MYSQL_IMAGE",
+      "SECURITY_PROFILE",
+      "RECOVERY_WINDOWS",
+      "CANDIDATE_COMMIT_AND_TREE"
+    ],
+    "mysql_image_content_id": "sha256:d36d39a64cd12a5c1cc9e6aa2bfb5f8d4c81a2f6586e0a04a9ae13939db02209",
+    "mysql_image_pull_allowed": false,
+    "mandatory_acceptance": [
+      "FROZEN_PROVIDER_RESPONSE_BYTES_THROUGH_REAL_AGENT_TASK_SERVICE_AGENT_RUNTIME_AND_PRODUCTION_STRICT_DECODER_WITH_ONLY_EXTERNAL_PROVIDER_TRANSPORT_MOCKED",
+      "START_TRANSACTION_COMMIT_BARRIER_ZERO_WORKER_AND_DOCKER_EFFECT_BEFORE_COMMIT_AND_FRESH_PROCESS_RECOVERY_AFTER_COMMIT",
+      "THIRTY_TWO_CONCURRENT_CLAIMERS_ONE_LEASE_OBJECT_TERMINAL_AND_CHECKPOINT",
+      "THREE_DISTINCT_PID_AND_START_TIME_FRESH_JVMS_FOR_THREE_PREDECLARED_CRASH_WINDOWS",
+      "CREATE_ID_RETURNED_BEFORE_PERSISTENCE_FRESH_JVM_DISCOVERY_FULL_ATTESTATION_ADOPTION_AND_NO_SECOND_OBJECT",
+      "REAL_MYSQL_V033_V034_AND_PRODUCTION_SPRING_TRANSACTION_NO_H2_MOCK_REPOSITORY_OR_SAME_JVM_RESTART",
+      "MYSQL_SINGLE_RUNTIME_ASSIGNED_127_0_0_1_PORT_AND_EXACT_LOOPBACK_ONLY_HOST_TEST_JVM",
+      "ACTION_CONTAINER_ACTUAL_SHA256SUM_EQUALS_HOST_CUSTODY_HASH",
+      "TYPED_INSPECT_EXACT_IMAGE_NETWORK_NONE_READ_ONLY_ROOTFS_AND_MOUNT_CAPABILITIES_DROPPED_NO_NEW_PRIVILEGES_NO_PORT_NO_MYSQL_MEMBERSHIP",
+      "CUSTODY_ROOT_RELATIVE_PATH_SYMLINK_CONTENT_OR_MODE_DRIFT_FAILS_BEFORE_OCI_START",
+      "MALFORMED_DUPLICATE_MISSING_UNKNOWN_PATH_INJECTION_AND_SECOND_RESERVED_PROPOSAL_WRITE_NO_INTENT",
+      "TERMINAL_CHECKPOINT_MIDPOINT_FAILURE_ROLLS_BACK_BOTH_AND_FRESH_RECOVERY_CREATES_EXACTLY_ONE_EACH",
+      "MUTATION_TIMEOUT_ABSENCE_GATE_REMAINS_UNKNOWN_OR_NON_PASS_UNTIL_RECONCILIATION_AND_EXACT_CLEANUP",
+      "EXACT_ENGINE_ID_AND_DETERMINISTIC_NAME_FINAL_ABSENCE",
+      "ALL_MANDATORY_REAL_MYSQL_FRESH_PROCESS_OCI_NEGATIVE_AND_CANONICAL_TESTS_ZERO_SKIPPED",
+      "CTO_SECURITY_AND_QUALITY_EVALUATION_SAME_FROZEN_CANDIDATE_INDEPENDENT_PASS"
+    ]
+  },
+  "integration_and_replay": {
+    "recovery_ref": "refs/sourcelens-recovery/p3-iel-pre-product-integration-20260825",
+    "recovery_ref_binds_clean_pre_formal_canonical_main_commit_and_tree": true,
+    "integration": "LOCAL_FAST_FORWARD_EXACT_FORMAL_PASS_P1_CANDIDATE_ONLY",
+    "canonical_only_replay_dispatches": 1,
+    "replay_pass_effect": {
+      "exact_integration_retained": true,
+      "all_four_new_gate_items": "ACCEPTED",
+      "management_delivery_progress_percent": 100,
+      "p3_strict_capability_progress_percent": 100,
+      "p3_status": "ELIGIBLE_AWAITING_FOUNDER_P3_PHASE_GATE_DECISION",
+      "p4_status": "HOLD_PENDING_STRICT_P3_CAPABILITY_ACCEPTANCE_AND_FOUNDER_PHASE_GATE",
+      "project_actually_completed": false,
+      "long_term_goal_status": "ACTIVE",
+      "codex_goal_action": "NONE_KEEP_ACTIVE",
+      "p3_phase_exit_executed": false,
+      "p4_phase_entry_executed": false
+    },
+    "replay_non_pass_effect": {
+      "repair_or_rerun": false,
+      "rollback_preconditions": [
+        "WORKTREE_CLEAN",
+        "RECOVERY_REF_IDENTITY_MATCHES",
+        "MAIN_IS_EXACT_INTEGRATION_HEAD"
+      ],
+      "rollback": "ATOMIC_LOCAL_MAIN_REF_RESTORE_TO_PREBOUND_PREINTEGRATION_COMMIT_AND_TREE",
+      "remote_history_rewrite": false,
+      "formal_and_replay_evidence_preserved": true,
+      "candidate_status": "NOT_ACCEPTED_NOT_INTEGRATED",
+      "p3_status": "HOLD_INCOMPLETE",
+      "p4_status": "HOLD_PENDING_STRICT_P3_CAPABILITY_ACCEPTANCE_AND_FOUNDER_PHASE_GATE",
+      "long_term_goal_status": "ACTIVE",
+      "route_terminal": true
+    }
+  },
+  "anti_cycle": {
+    "foundation_tasks": 1,
+    "product_tasks": 1,
+    "product_candidate_generations": 2,
+    "same_task_repairs": 1,
+    "review_cycles": 2,
+    "formal_dispatches": 1,
+    "second_foundation_task_allowed": false,
+    "second_product_task_allowed": false,
+    "candidate_3_allowed": false,
+    "second_repair_allowed": false,
+    "third_review_allowed": false,
+    "second_formal_dispatch_allowed": false,
+    "post_formal_tuning_or_product_oracle_metric_threshold_schedule_candidate_mutation_allowed": false,
+    "successor_replacement_normalization_closure_feasibility_remediation_allowed": false,
+    "correction_v2_allowed": false,
+    "route_v2_or_v3_allowed": false,
+    "rerun_to_pass_allowed": false,
+    "governance_validator_receipt_hash_manifest_review_budget_or_time_as_strict_progress_allowed": false
+  },
+  "post_install_state": {
+    "p3_status": "ACTIVE_STRICT_CAPABILITY_REBASELINED",
+    "p3_management_delivery_progress_percent": 25,
+    "p3_strict_capability_progress_percent": 0,
+    "current_task": "NONE",
+    "only_eligible_action": "MASTER_CREATE_AND_ACTIVATE_AIOS_P3_IEL_F1_IMMUTABLE_EXECUTION_LEASE_ACCEPTANCE_FOUNDATION",
+    "p1_status": "LOCKED_PENDING_F1_ACCEPTANCE",
+    "e1_status": "LOCKED_PENDING_P1_ACCEPTANCE",
+    "p4_status": "HOLD_PENDING_STRICT_P3_CAPABILITY_ACCEPTANCE_AND_FOUNDER_PHASE_GATE",
+    "project_actually_completed": false,
+    "long_term_goal_status": "ACTIVE",
+    "codex_goal_action": "NONE_KEEP_ACTIVE",
+    "founder_decision_required": false,
+    "user_action_required": "NONE",
+    "next_action_owner": "MASTER_CEO_AGENT"
+  },
+  "lifecycle": {
+    "strategic_installation_pass": "INSTALL_OBJECTIVE_GATE_ROUTE_ENVELOPE_VALIDATOR_SUPPORT_AND_CONSISTENT_TRUTH_STRICT_0_MASTER_ACTIVATES_ONLY_F1",
+    "f1_pass": "FOUNDATION_ACCEPTED_MANAGEMENT_DELIVERY_40_STRICT_0_UNLOCK_P1",
+    "p1_pass": "FORMAL_ELIGIBLE_FROZEN_CANDIDATE_MANAGEMENT_DELIVERY_75_STRICT_0_UNLOCK_E1_NO_PRODUCT_INTEGRATION",
+    "e1_formal_pass": "ONLY_LOCAL_INTEGRATION_AND_EXACTLY_ONE_CANONICAL_REPLAY_AUTHORIZED",
+    "e1_integration_and_replay_all_pass": "P3_STRICT_100_ELIGIBLE_AWAITING_FOUNDER_P3_PHASE_GATE_P4_HOLD",
+    "any_installation_f1_p1_e1_integration_or_replay_non_pass": "ROUTE_TERMINAL_STRICT_0_LAST_ACCEPTED_MANAGEMENT_MILESTONE_ONLY_DOWNSTREAM_LOCKED_PRODUCT_NOT_INTEGRATED_P3_HOLD_INCOMPLETE_P4_HOLD_PROJECT_INCOMPLETE_GOAL_ACTIVE",
+    "p4_entry": "NOT_AUTHORIZED",
+    "p5_entry": "NOT_AUTHORIZED",
+    "project_actually_completed": false,
+    "long_term_goal_status": "ACTIVE",
+    "codex_goal_action": "NONE_KEEP_ACTIVE"
+  },
+  "validator_compatibility": {
+    "scope": "TYPED_FAIL_CLOSED_OPERATION_PROFILE_REGISTRATION_ONLY",
+    "pre_send_capability_gap": {
+      "current_state": "NO_RESERVED_TRIGGER_ROUTE_TERMINAL",
+      "current_owner": "NONE",
+      "missing_strategy_trigger_support": "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE",
+      "founder_body_delivery_only_bypass": true,
+      "canonical_truth_pre_mutation_allowed": false
+    },
+    "must_register": [
+      "EXACT_FIRST_LINE_TOKEN",
+      "EXACT_OPERATION_TYPE",
+      "BOTH_RESERVED_TRIGGER_CATEGORIES",
+      "FROZEN_COMMIT_TREE_TRUTH_CONSTITUTION_AND_POLICY_IDENTITIES",
+      "P4_HOLD",
+      "LONG_TERM_GOAL_ACTIVE",
+      "THREE_STAGE_TASK_HOUR_DAY_AND_FORMAL_BUDGETS",
+      "CLEAN_ROOM_AND_ANTI_CYCLE_CONSTRAINTS"
+    ],
+    "allowed_validator_files": [
+      "scripts/validate-founder-action-handoff.rb",
+      "scripts/test-founder-action-handoff.rb",
+      "scripts/validate-founder-delegation-continuity.rb",
+      "scripts/test-founder-delegation-continuity.rb",
+      "scripts/validate-strict-phase-gates.rb",
+      "scripts/test-strict-phase-gates.rb",
+      "scripts/validate-aios-governance.sh",
+      "scripts/validate-current-task-authority.rb"
+    ],
+    "must_pass_against_frozen_preinstall_truth_and_exact_founder_body": true,
+    "required_negative_cases": [
+      "STALE_COMMIT_TREE_OR_TRUTH",
+      "WRONG_OPERATION_TYPE",
+      "OMITTED_STRATEGY_TRIGGER",
+      "ORDINARY_NON_PASS_MASQUERADING_AS_STRATEGY_TRIGGER",
+      "EARLY_P4_ENTRY",
+      "LONG_TERM_GOAL_CLOSURE",
+      "OLD_EGT_ACTIVATABLE_PROJECTION_RETAINED",
+      "OVER_BUDGET",
+      "REJECTED_LINEAGE_READ",
+      "CANDIDATE_3",
+      "SECOND_REPAIR",
+      "THIRD_REVIEW",
+      "SECOND_FORMAL",
+      "RERUN_TO_PASS"
+    ],
+    "validator_strength_reduction_allowed": false,
+    "truth_falsely_changed_to_founder_decision_required_allowed": false,
+    "old_operation_profile_reuse_allowed": false,
+    "all_patched_handoff_strict_phase_and_global_governance_validators_must_pass_same_staged_tree": true
+  },
+  "strategic_installation": {
+    "branch": "codex/p3-iel-strategic-installation",
+    "worktree": "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-iel-strategic-installation",
+    "evidence_root": "/Users/lijunpeng/Developer/.sourcelens-audit/p3-immutable-execution-lease-completion-20260825/strategic-installation",
+    "maximum_governance_labor_hours": 6,
+    "maximum_calendar_days": 1,
+    "engineering_delivery_and_strict_progress_credit": 0,
+    "write_allowlist": [
+      "docs/aios/STRATEGIC_CONSTITUTION.md",
+      "docs/aios/decisions/P3_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_STRICT_CAPABILITY_REBASELINE_AND_COMPLETION_ROUTE_V1.json",
+      "docs/aios/truth/project_state.yaml",
+      "scripts/validate-founder-action-handoff.rb",
+      "scripts/test-founder-action-handoff.rb",
+      "scripts/validate-founder-delegation-continuity.rb",
+      "scripts/test-founder-delegation-continuity.rb",
+      "scripts/validate-strict-phase-gates.rb",
+      "scripts/test-strict-phase-gates.rb",
+      "scripts/validate-aios-governance.sh",
+      "scripts/validate-current-task-authority.rb"
+    ],
+    "product_source_write_allowed": false,
+    "master_execution_protocol_founder_delegation_policy_evaluation_protocol_or_agents_md_write_allowed": false,
+    "constitution_change": "APPEND_P3_V4_0_AND_LIFT_VERSION_WITHOUT_REWRITING_HISTORY",
+    "decision_artifact": "CREATE_ONCE",
+    "old_egt_activatable_and_selected_next_task_projections_must_be_cleared": true,
+    "historical_terminal_non_pass_not_integrated_and_old_gate_missing_facts_must_be_preserved": true,
+    "same_staged_tree_validation_required_before_commit_and_local_fast_forward": true,
+    "non_pass_effect": "NO_COMMIT_NO_F1_RESTORE_FROZEN_CANONICAL_BASELINE_ROUTE_TERMINAL_NO_CORRECTION_V2"
+  }
+}

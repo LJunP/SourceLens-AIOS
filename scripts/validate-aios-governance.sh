@@ -788,16 +788,45 @@ check_phase_predecessor_activation() {
     hpe_process_p3_route =
       truth.dig("current_phase_route", "schema_version") ==
         "p3-host-process-enforced-minimal-slice-route/v1"
+    immutable_execution_lease_p3_route =
+      truth.dig("current_phase_route", "schema_version") ==
+        "p3-host-owned-immutable-execution-lease-completion-route/v1"
     current_v26_authority = phase_route_authority["version"] == "2.6"
     current_v27_authority = phase_route_authority["version"] == "2.7"
     current_v28_authority = phase_route_authority["version"] == "2.8"
+    current_v40_authority = phase_route_authority["version"] == "4.0"
     abort "host-owned P3 Route requires Constitution v2.6 authority" if
       host_owned_p3_route && !current_v26_authority
     abort "host-authorized P3 Route requires Constitution v2.7 authority" if
       host_authorized_p3_route && !current_v27_authority
     abort "TIK/HPE process-real P3 Route requires Constitution v2.8 authority" if
       (tik_process_real_p3_route || hpe_process_p3_route) && !current_v28_authority
-    expected_phase_route_authority = if current_v28_authority
+    abort "P3 IEL Route requires Constitution v4.0 authority" if
+      immutable_execution_lease_p3_route && !current_v40_authority
+    expected_phase_route_authority = if current_v40_authority
+      {
+        "path" => "docs/aios/STRATEGIC_CONSTITUTION.md",
+        "version" => "4.0",
+        "byte_length" => 78458,
+        "sha256" => "68aac36a6e8bd127513a80b8cc6922b922bb62780b37e2b068c71169853cffe2",
+        "section" =>
+          "## 9J. P3 v4.0 host-owned immutable execution lease strict-capability authority",
+        "section_byte_length" => 12235,
+        "section_sha256" =>
+          "afa08c7166b846dd7f15c0f862b0bfb9bd81e7e1c0e708ba65df3c3f56c9ca7c",
+        "current_p3_decision" => {
+          "path" =>
+            "docs/aios/decisions/P3_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_STRICT_CAPABILITY_REBASELINE_AND_COMPLETION_ROUTE_V1.json",
+          "byte_length" => 32904,
+          "sha256" =>
+            "1ff5bad3f8129eaf14cb08909677ead897e706842dae769341452b408981411a",
+          "decision_id" =>
+            "AUTHORIZE_P3_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_STRICT_CAPABILITY_OBJECTIVE_EXIT_GATE_REBASELINE_AND_ONE_SHOT_COMPLETION_ROUTE_V1",
+          "operation_type" =>
+            "P3_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_STRICT_CAPABILITY_OBJECTIVE_EXIT_GATE_REBASELINE_AND_ONE_SHOT_COMPLETION_ROUTE"
+        }
+      }
+    elsif current_v28_authority
       {
         "path" => "docs/aios/STRATEGIC_CONSTITUTION.md",
         "version" => "2.8",
@@ -841,14 +870,34 @@ check_phase_predecessor_activation() {
     abort "strict Phase route authority identity drift" unless
       phase_route_authority == expected_phase_route_authority
     constitution_bytes = verify_repository_file.call({"path" => phase_route_authority["path"]})
+    if current_v40_authority
+      abort "P3 IEL Constitution whole-file identity drift" unless
+        constitution_bytes.bytesize == phase_route_authority["byte_length"] &&
+        Digest::SHA256.hexdigest(constitution_bytes) == phase_route_authority["sha256"]
+      decision_identity = phase_route_authority.fetch("current_p3_decision")
+      decision_bytes = verify_repository_file.call(
+        decision_identity.slice("path", "byte_length", "sha256")
+      )
+      decision = JSON.parse(decision_bytes)
+      abort "P3 IEL current decision semantic identity drift" unless
+        decision["decision_id"] == decision_identity["decision_id"] &&
+        decision["operation_type"] == decision_identity["operation_type"] &&
+        decision["reserved_triggers"] == %w[
+          MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
+          MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+        ]
+    end
     constitution_text = constitution_bytes.dup.force_encoding("UTF-8")
     abort "Strategic Constitution encoding invalid" unless constitution_text.valid_encoding?
     phase_route_header = "#{phase_route_authority.fetch("section")}\n"
     phase_route_start = constitution_text.index(phase_route_header)
     abort "strict Phase route authority section missing" unless phase_route_start
     phase_route_end = constitution_text.index(/^## /, phase_route_start + phase_route_header.bytesize)
-    phase_route_section = constitution_text[phase_route_start...(phase_route_end || constitution_text.length)]
-      .gsub(/\r\n?/, "\n").sub(/\n*\z/, "") + "\n"
+    phase_route_section = constitution_text[
+      phase_route_start...(phase_route_end || constitution_text.length)
+    ].gsub(/\r\n?/, "\n")
+    phase_route_section = phase_route_section.sub(/\n*\z/, "") + "\n" unless
+      current_v40_authority
     abort "strict Phase route authority byte length mismatch" unless
       phase_route_section.bytesize == phase_route_authority["section_byte_length"]
     abort "strict Phase route authority SHA-256 mismatch" unless
@@ -877,6 +926,70 @@ check_phase_predecessor_activation() {
                  "Context benchmark beats simple retrieval baselines"]
       }.merge(future_phase_specs)
     end
+    if current_v40_authority
+      future_phase_specs.delete("P3")
+      p3_record = phases.fetch("P3")
+      p3_item_ids = %w[
+        ACTUAL_AGENT_SCHEMA_CLOSED_PROPOSAL_AND_EXCLUSIVE_HOST_RESERVED_INGRESS
+        HOST_DERIVED_DURABLE_EXECUTION_LEASE_REAL_MYSQL_AND_SINGLE_TERMINAL_CHECKPOINT
+        ENGINE_ASSIGNED_IMMUTABLE_OBJECT_ID_AND_THREE_FRESH_PROCESS_RECOVERY
+        PINNED_LOCAL_OCI_ZERO_NETWORK_READ_ONLY_ACTION_COMPLETE_TRACE_AND_CANONICAL_REPLAY
+      ]
+      p3_exit_authority = p3_record.fetch("exit_gate_authority")
+      constitution_identity = phase_route_authority.slice(
+        "path", "version", "byte_length", "sha256", "section",
+        "section_byte_length", "section_sha256"
+      )
+      founder_decision_identity = phase_route_authority.fetch("current_p3_decision")
+      abort "P3 IEL Exit Gate authority drift" unless
+        p3_exit_authority == {
+          "source" =>
+            "STRATEGIC_CONSTITUTION_V4_0_SECTION_9J_AND_EXACT_FOUNDER_DECISION",
+          "objective_id" =>
+            "ACTUAL_AGENT_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE",
+          "gate_id" =>
+            "ACTUAL_AGENT_HOST_OWNED_IMMUTABLE_EXECUTION_LEASE_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE_ACCEPTED",
+          "required_exit_evidence" =>
+            "SAME_FROZEN_PRODUCT_CANDIDATE_ALL_FOUR_REQUIRED_ITEMS_ACCEPTED_FORMAL_PASS_LOCAL_INTEGRATION_EXACTLY_ONE_CANONICAL_REPLAY_ZERO_MANDATORY_SKIPS",
+          "authority" => {
+            "constitution" => constitution_identity,
+            "founder_decision" => founder_decision_identity.reject do |key, _value|
+              key == "operation_type"
+            end
+          }
+        }
+      abort "P3 IEL required-item list or set drift" unless
+        p3_record["required_item_ids"] == p3_item_ids &&
+        p3_record.fetch("required_items").keys == p3_item_ids
+      abort "P3 IEL required item was pre-accepted" unless
+        p3_record.fetch("required_items").values.all? do |item|
+          item == {
+            "status" => "MISSING", "candidate_commit" => nil, "candidate_tree" => nil,
+            "gate_evidence" => {
+              "receipt_type" => nil, "path" => nil, "byte_length" => nil, "sha256" => nil
+            }
+          }
+        end
+      current_p3_gate = p3_record.fetch("current_exit_gate")
+      abort "P3 IEL current Gate projection drift" unless
+        current_p3_gate["gate_id"] == p3_exit_authority["gate_id"] &&
+        current_p3_gate["objective_id"] == p3_exit_authority["objective_id"] &&
+        current_p3_gate["required_item_ids"] == p3_item_ids
+    end
+    future_phase_route_section = phase_route_section
+    if current_v40_authority
+      base_header = "## 9. Phase route\n"
+      base_start = constitution_text.index(base_header)
+      abort "P3 IEL Constitution base Phase route section missing" unless base_start
+      base_end = constitution_text.index(/^## /, base_start + base_header.bytesize)
+      future_phase_route_section = constitution_text[
+        base_start...(base_end || constitution_text.length)
+      ].gsub(/\r\n?/, "\n").sub(/\n*\z/, "") + "\n"
+      abort "P3 IEL Constitution base Phase route identity drift" unless
+        future_phase_route_section.bytesize == 4047 &&
+        Digest::SHA256.hexdigest(future_phase_route_section) ==
+          "c5bb58c7d745031f8e3f223dd0a84449e6039f575ad8fa67ade7ec922db8444a"
+    end
     future_phase_specs.each do |phase_id, (item_id, exit_text)|
       phase_record = phases.fetch(phase_id)
       abort "#{phase_id} Exit Gate authority drift" unless phase_record["exit_gate_authority"] == {
@@ -886,7 +999,7 @@ check_phase_predecessor_activation() {
       abort "#{phase_id} required-item list drift" unless phase_record["required_item_ids"] == [item_id]
       abort "#{phase_id} required-item set drift" unless phase_record.fetch("required_items").keys == [item_id]
       row_marker = "| #{phase_id} "
-      matching_rows = phase_route_section.lines.select do |line|
+      matching_rows = future_phase_route_section.lines.select do |line|
         line.start_with?(row_marker) && line.include?("| #{exit_text} |")
       end
       abort "#{phase_id} Exit Gate is not bound to exact Phase route row" unless matching_rows.length == 1
@@ -903,7 +1016,7 @@ check_phase_predecessor_activation() {
         p2_research["required_item_ids"] == [p2_research_item_id] &&
         p2_research.fetch("required_items").keys == [p2_research_item_id]
       row_marker = "| P2 Repository Intelligence Research |"
-      matching_rows = phase_route_section.lines.select do |line|
+      matching_rows = future_phase_route_section.lines.select do |line|
         line.start_with?(row_marker) && line.include?("| #{p2_research_exit} |")
       end
       abort "P2 revised research Exit is not bound to exact Constitution row" unless matching_rows.length == 1
@@ -2658,11 +2771,15 @@ check_founder_action_handoff_section "$RULES_PATH"
 check_founder_knowledge_section "$RULES_PATH"
 check_authority_bindings
 check_phase_predecessor_activation
-if ruby -ryaml -e 'route = YAML.safe_load(File.binread(ARGV[0]), permitted_classes: [], permitted_symbols: [], aliases: false).fetch("current_phase_route"); exit(route["schema_version"] == "p4-proposal-first-controlled-real-task-route/v1" || route["route_id"] == "P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_FINAL_CLEAN_ROOM_COMPLETION_ROUTE_V1" ? 0 : 1)' "$TRUTH_PATH"; then
+if ruby -ryaml -e 'route = YAML.safe_load(File.binread(ARGV[0]), permitted_classes: [], permitted_symbols: [], aliases: false).fetch("current_phase_route"); exit(route["schema_version"] == "p4-proposal-first-controlled-real-task-route/v1" || route["schema_version"] == "p3-host-owned-immutable-execution-lease-completion-route/v1" || route["route_id"] == "P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_FINAL_CLEAN_ROOM_COMPLETION_ROUTE_V1" ? 0 : 1)' "$TRUTH_PATH"; then
   ruby "${ROOT_DIR}/scripts/validate-strict-phase-gates.rb"
 fi
 if ruby -ryaml -e 'route = YAML.safe_load(File.binread(ARGV[0]), permitted_classes: [], permitted_symbols: [], aliases: false).fetch("current_phase_route"); exit(route["route_id"] == "P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_FINAL_CLEAN_ROOM_COMPLETION_ROUTE_V1" ? 0 : 1)' "$TRUTH_PATH"; then
   ruby "${ROOT_DIR}/scripts/test-strict-phase-gates.rb" --p3-egt-current-only
+fi
+if ruby -ryaml -e 'route = YAML.safe_load(File.binread(ARGV[0]), permitted_classes: [], permitted_symbols: [], aliases: false).fetch("current_phase_route"); exit(route["schema_version"] == "p3-host-owned-immutable-execution-lease-completion-route/v1" ? 0 : 1)' "$TRUTH_PATH"; then
+  ruby "${ROOT_DIR}/scripts/test-strict-phase-gates.rb" --p3-iel-current-only
+  ruby "${ROOT_DIR}/scripts/test-founder-delegation-continuity.rb"
 fi
 check_founder_knowledge_sync_state STRUCTURAL_ONLY "$TRUTH_PATH" CANONICAL_ONLY
 if ruby -ryaml -e 'exit(YAML.load_file(ARGV[0]).dig("current_phase_route", "schema_version") == "p3-phase-entry-active/v1" ? 0 : 1)' "$TRUTH_PATH"; then

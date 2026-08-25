@@ -1,0 +1,288 @@
+---
+schema_version: p3-strict-capability-task-contract/v1
+record_type: P3_STRICT_CAPABILITY_TASK_CONTRACT
+task_id: AIOS-P3-EGT-P1_STRICT_CAPABILITY_CLEAN_ROOM_PRODUCT
+nonce: p3-egt-p1-strict-capability-clean-room-product-20260825-v1
+phase: P3
+route_id: P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_FINAL_CLEAN_ROOM_COMPLETION_ROUTE_V1
+stage_id: STRICT_CAPABILITY_CLEAN_ROOM_PRODUCT
+kind: PRODUCT_IMPLEMENTATION
+status: ACTIVE
+activation_parent:
+  commit: 6fbb383a4076211db4a559b91422975591012b88
+  tree: dfe90aa1e66dab2abee57f1a95b97d863dc7825c
+objective:
+  objective_id: ACTUAL_AGENT_HOST_AUTHORIZED_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE
+  changed: false
+  statement: >-
+    Implement one clean-room, actual-Agent, Host-authorized, durable read-only minimum-trust
+    slice on real MySQL and pinned local OCI, closing the six frozen blockers without changing
+    the P3 Objective, four required items, test oracle, transport profile, image or permission boundary.
+strict_exit_gate:
+  gate_id: ACTUAL_AGENT_HOST_AUTHORIZED_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE_ACCEPTED
+  current_status: MISSING_NOT_ACCEPTED
+  required_item_ids:
+  - ACTUAL_AGENT_NON_AUTHORITATIVE_PROPOSAL_AND_EXCLUSIVE_RESERVED_INGRESS
+  - HOST_DERIVED_CUSTODY_DURABLE_INTENT_REAL_MYSQL_AND_EXACTLY_ONE_TERMINAL
+  - REPRESENTATIVE_FRESH_PROCESS_RECOVERY_AND_CHECKPOINT_GATE
+  - PINNED_LOCAL_OCI_READ_ONLY_ISOLATION_COMPLETE_TRACE_AND_REPLAY
+  same_frozen_candidate_required: true
+  product_freeze_grants_strict_capability_credit: false
+resources:
+  branch: codex/p3-egt-p1-strict-capability-product
+  worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p3-egt-p1-strict-capability-product
+  evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p3-equivalent-mysql-transport-completion-20260825/task-product
+  contract_path: docs/aios/tasks/P3-EGT-P1_STRICT_CAPABILITY_CLEAN_ROOM_PRODUCT.yaml
+  authority_path: /Users/lijunpeng/Developer/.sourcelens-audit/p3-equivalent-mysql-transport-completion-20260825/task-product/authority/P3_EGT_P1_PHASE_DELEGATED_TASK_AUTHORITY_V1.json
+budget:
+  engineering_tasks: 1
+  engineering_hours: 48
+  calendar_days: 10
+  candidate_generations: 2
+  same_task_repairs: 1
+  review_cycles: 2
+roles:
+  owner: MASTER_CEO_AGENT
+  worker: P3_EGT_CLEAN_ROOM_PRODUCT_WORKER
+  independent_reviewers:
+  - CTO_AGENT
+  - SECURITY_AGENT
+  - QUALITY_EVALUATION_AGENT
+clean_room:
+  permitted_inputs:
+  - CANONICAL_MAIN_AT_ACTIVATION
+  - ACCEPTED_P3_DURABLE_STATE_AND_CHECKPOINT_RESUME
+  - ACCEPTED_DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION
+  - CURRENT_P3_OBJECTIVE_AND_FOUR_REQUIRED_ITEMS
+  - CURRENT_COMPOSITE_FOUNDER_AUTHORIZATION
+  - SIX_FROZEN_BLOCKER_IDS
+  historical_terminal_metadata_use: IDENTITY_ACCOUNTING_BLOCKER_IDS_AND_NON_REUSE_PROOF_ONLY
+  rejected_lineage_operations_forbidden:
+  - READ
+  - SHOW
+  - DIFF
+  - CAT_FILE
+  - BUNDLE_VERIFY
+  - CHECKOUT
+  - DISASSEMBLE
+  - COMPARE
+  - COPY
+  - RESTORE
+  - CHERRY_PICK
+  - REFLOG_LOOKUP
+  - EXECUTE
+  - INTEGRATE
+  rejected_candidate_commits_forbidden_as_inputs:
+  - 7cbeea6e5496c2409d82382464dcffe7035aeb36
+  - 381c4074a0061ff66b3712330e95797a7cd2fa1e
+write_allowlist:
+  - backend-spring/src/main/java/com/sourcelens/module/agent/service/AgentRuntime.java
+  - backend-spring/src/main/java/com/sourcelens/module/agent/service/PromptBuilder.java
+  - backend-spring/src/main/java/com/sourcelens/module/agent/service/ToolExecutionService.java
+  - backend-spring/src/main/java/com/sourcelens/module/agent/service/LlmClient.java
+  - backend-spring/src/main/java/com/sourcelens/module/agent/service/AgentTaskService.java
+  - backend-spring/src/main/java/com/sourcelens/module/agent/tool/ToolContext.java
+  - backend-spring/src/main/java/com/sourcelens/module/agent/tool/ToolRegistry.java
+  - backend-spring/src/main/java/com/sourcelens/module/agent/trustedread
+  - backend-spring/src/main/java/com/sourcelens/module/artifact/service/ArtifactStorageService.java
+  - backend-spring/src/main/java/com/sourcelens/module/execution/trustedread
+  - backend-spring/src/main/java/com/sourcelens/module/sandbox/oci/trustedread
+  - backend-spring/src/main/resources/db/migration/V034__add_trusted_read_only_invocation.sql
+  - backend-spring/src/main/resources/application.yml
+  - backend-spring/src/test/java/com/sourcelens/AgentTaskServiceTest.java
+  - backend-spring/src/test/java/com/sourcelens/AgentRuntimeFixedReadOnlyInvocationTest.java
+  - backend-spring/src/test/java/com/sourcelens/ToolExecutionServiceTest.java
+  - backend-spring/src/test/java/com/sourcelens/ArtifactStorageServiceTest.java
+  - backend-spring/src/test/java/com/sourcelens/LlmClientToolCallIngressTest.java
+  - backend-spring/src/test/java/com/sourcelens/module/agent/trustedread
+  - backend-spring/src/test/java/com/sourcelens/module/execution/trustedread
+  - backend-spring/src/test/java/com/sourcelens/module/sandbox/oci/trustedread
+  - backend-spring/src/test/resources/p3-equivalent-mysql-transport-completion
+  - docs/PROJECT_CODE_MAP.md
+worker_forbidden_writes:
+  task_contract: true
+  truth: true
+  constitution: true
+  validators: true
+  non_v034_migrations: true
+  non_allowlisted_product_paths: true
+prewrite_mysql_transport_probe:
+  maximum_dispatches: 1
+  maximum_minutes: 30
+  must_pass_before_first_product_source_write: true
+  current_dispatches: 0
+  current_status: NOT_DISPATCHED
+  progress_credit: 0
+  non_pass_lifecycle: ROUTE_TERMINAL_BEFORE_PRODUCT_SOURCE_WRITE_NO_RERUN
+equivalent_mysql_transport:
+  schema_version: p3-equivalent-real-mysql-loopback-transport/v1
+  network:
+    created_by_task: true
+    exact_name_and_labels_required: true
+    internal: false
+    options:
+      com.docker.network.bridge.enable_ip_masquerade: 'false'
+      com.docker.network.bridge.enable_icc: 'false'
+      com.docker.network.bridge.host_binding_ipv4: 127.0.0.1
+    no_extra_endpoints_required: true
+  mysql:
+    container_created_by_task: true
+    image_content_id: sha256:d36d39a64cd12a5c1cc9e6aa2bfb5f8d4c81a2f6586e0a04a9ae13939db02209
+    container_port: 3306/tcp
+    host_ip: 127.0.0.1
+    host_port: RUNTIME_ASSIGNED_SINGLE_BINDING
+    skip_name_resolve: true
+  host_test_jvm:
+    exact_runtime_loopback_port_only: true
+    hash_bound_sandbox_exec_profile_required: true
+    all_other_network_denied: true
+  fixed_read_only_action:
+    network_mode: none
+    mysql_bridge_membership: false
+  forbidden_requests:
+  - DNS
+  - INTERNET
+  - HTTP
+  - HTTPS
+  terminal_cleanup_and_inspect_evidence_required: true
+docker_authority:
+  effective_after_task_activation: true
+  cli_path: /Applications/Docker.app/Contents/Resources/bin/docker
+  cli_sha256: a6822407e207ff0b687419ccbe55700ffbf389d77de58ef625b3b1790d88747c
+  endpoint: unix:///Users/lijunpeng/.docker/run/docker.sock
+  image_content_id: sha256:d36d39a64cd12a5c1cc9e6aa2bfb5f8d4c81a2f6586e0a04a9ae13939db02209
+  allowed_verbs:
+  - version
+  - info
+  - image_inspect_exact_content_id
+  - network_create
+  - network_inspect
+  - network_rm
+  - create
+  - start
+  - wait
+  - inspect
+  - logs
+  - port
+  - rm_force
+  forbidden:
+  - GLOBAL_INVENTORY
+  - PULL
+  - PUSH
+  - LOGIN
+  - BUILD
+  - IMPORT
+  - TAG
+  - EXEC
+  - CP
+  - SOCKET_MOUNT
+  - PRIVILEGED
+  - FOREIGN_OBJECT_MUTATION
+system_under_test_permissions:
+  proposal_data_only: true
+  shell: false
+  docker: false
+  filesystem: false
+  network: false
+  provider: false
+  secret: false
+  remote: false
+  production: false
+  public_release: false
+host_external_effects:
+  exact_task_owned_docker_objects: true
+  exact_mysql_loopback_runtime_port: true
+  task_owned_child_jvm_signal: true
+  internet: false
+  dns: false
+  http_https: false
+  provider: false
+  secret: false
+  credential: false
+  remote: false
+  production: false
+  public_release: false
+frozen_blockers:
+  - blocker_id: PRIVATE_CUSTODY_ROOT_NOT_REVALIDATED_ON_RESTART_RESOLVE
+    closure: >-
+      Revalidate root, every component, owner, 0700, non-symlink leaf 0444, nlink 1,
+      byte length and SHA-256 on each resolve, startup recovery and custody-byte read;
+      root, owner or intermediate-component drift after materialize fails closed.
+  - blocker_id: DOCKER_MUTATION_TIMEOUT_CAN_OUTLIVE_STABLE_ABSENCE_ATTESTATION
+    closure: >-
+      A timed-out or ambiguous mutation may not attest absence or commit terminal until an
+      immutable object ID or positive daemon-termination proof exists; durable nonterminal
+      ambiguity is startup-reconciled and a late object beyond the old absence window is tested.
+  - blocker_id: ACTUAL_AGENT_TASK_SERVICE_TEST_DOES_NOT_COMBINE_PRODUCTION_AGENT_RUNTIME_AND_DECODER
+    closure: >-
+      The positive AgentTaskService path uses production AgentRuntime and the production
+      deterministic offline decoder; it may not mock both AgentRuntime and the coordinator.
+  - blocker_id: FRESH_CHILD_JVM_TEST_DOES_NOT_PROVE_REAL_OCI_EFFECT_AND_CLEANUP_ACROSS_PROCESS_FAILURE
+    closure: >-
+      Three independent JDK 17 child JVM windows use real Spring startup/ApplicationReadyEvent,
+      real durable rows, the pinned OCI effect, exact-ID cleanup and process failure/restart.
+  - blocker_id: ASYNC_WORKER_CAN_RUN_BEFORE_START_TRANSACTION_COMMIT
+    closure: >-
+      Async dispatch occurs only after the start transaction commits; the real Spring proxy,
+      transaction and latch prove the Worker cannot reach the Host authority Gate before RUNNING.
+  - blocker_id: REAL_MYSQL_V034_PRODUCTION_TRANSACTION_TEST_NOT_EXECUTED_BECAUSE_DOCKER_INTERNAL_NETWORK_SUPPRESSES_HOST_PORT_PUBLICATION
+    closure: >-
+      A zero-skipped real-MySQL test runs V034 and the production transaction proxy/store through
+      rollback, idempotent intent, concurrent CAS, effect, cleanup, replay, late loser and checkpoint exactly once.
+acceptance:
+  production_contract_preserved:
+  - FIXED_TASK_TYPE
+  - RESERVED_TOOL
+  - EMPTY_ARGUMENTS
+  - HOST_DERIVED_AUTHORITY
+  - REAL_MYSQL_V034_SINGLE_TABLE_MIGRATION
+  - SIX_STATE_DURABLE_MODEL
+  - TERMINAL_MONOTONIC_CAS
+  - THREE_FRESH_PROCESS_RECOVERY_WINDOWS
+  - P3_001_CHECKPOINT
+  - FIXED_OCI_SHA256_ACTION
+  - COMPLETE_TRACE
+  - AGENT_NON_AUTHORITATIVE_PROPOSAL
+  required_validation:
+  - DETERMINISTIC_OFFLINE_LLM_PRODUCTION_DECODE
+  - ACTUAL_AGENT_TASK_SERVICE_AGENT_RUNTIME_DECODER
+  - NEGATIVE_INGRESS_ZERO_INTENT_ZERO_DOCKER
+  - CUSTODY_REVALIDATION_MATRIX
+  - REAL_MYSQL_V034_PRODUCTION_TRANSACTION_ZERO_SKIPPED
+  - TERMINAL_CAS_AND_LATE_DOCKER_MUTATION
+  - THREE_ACTUAL_FRESH_PROCESS_REAL_OCI_WINDOWS
+  - CHECKPOINT_BEFORE_AND_AFTER_TERMINAL
+  - FIXED_OCI_CLOSED_PROFILE
+  - SOURCE_TO_CLASS_IDENTITY
+  - FOCUSED_MAVEN_TESTS
+  - MVN_OFFLINE_CLEAN_TEST_FULL_SUITE
+  - DOCKER_MYSQL_PROCESS_CLEANUP
+  - INDEPENDENT_CYCLE_2_REVIEW
+  reviewer_gate:
+    same_candidate: true
+    required_verdicts:
+      CTO_AGENT: PASS
+      SECURITY_AGENT: PASS
+      QUALITY_EVALUATION_AGENT: PASS
+    open_p0: 0
+    open_p1: 0
+anti_cycle:
+  candidate_generations: 2
+  same_task_repairs: 1
+  review_cycles: 2
+  cycle_1_freezes_complete_p0_p1_set: true
+  cycle_2_only_closes_frozen_findings_or_rejects_regression: true
+  candidate_3_allowed: false
+  second_repair_allowed: false
+  third_review_allowed: false
+  successor_replacement_normalization_closure_feasibility_remediation_allowed: false
+  rerun_to_pass_allowed: false
+lifecycle:
+  probe_non_pass: ROUTE_TERMINAL_BEFORE_PRODUCT_SOURCE_WRITE_P3_HOLD_P4_HOLD_NO_RERUN
+  product_pass: FREEZE_ONE_CANDIDATE_UNLOCK_ONLY_ONE_SHOT_FORMAL_ZERO_STRICT_CREDIT
+  product_non_pass: P3_HOLD_INCOMPLETE_FINAL_EXCEPTION_EXHAUSTED_P4_HOLD_NO_SUCCESSOR
+  p4_entry: NOT_AUTHORIZED
+  p5_entry: NOT_AUTHORIZED
+  project_actually_completed: false
+  long_term_goal_status: ACTIVE
+  codex_goal_action: NONE_KEEP_ACTIVE

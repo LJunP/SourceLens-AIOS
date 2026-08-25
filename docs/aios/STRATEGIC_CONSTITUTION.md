@@ -1,6 +1,6 @@
 # SourceLens AIOS Strategic Constitution
 
-- Version: `3.7`
+- Version: `3.8`
 - Status: `FROZEN`
 - Effective date: 2026-08-24
 - Owner: Human Founder
@@ -287,6 +287,67 @@ The strict P4 Exit Gate is `VERIFIED_PATCHES_ON_CONTROLLED_REAL_TASKS`. F1 and P
 
 F1 NON_PASS makes P1 and E1 ineligible; P1 NON_PASS makes E1 ineligible; E1 NON_PASS ends the one-shot evaluation. No Task may be replaced, repeated or renamed into a successor, normalization, closure, feasibility, remediation, V2 or V3 chain. Product Tasks allow at most two candidate generations, one same-Task repair and two review cycles; the first review freezes all P0/P1 findings and the second only closes them or rejects repair regressions. Rejected P3 or P4 lineage may not be read, compared, copied, restored or integrated. Offline Fake or deterministic proposal production proves only control flow, Evidence and verification boundaries, not live Provider capability or coding intelligence. Trusted autonomous execution and adversarial hardening remain P5 concerns, without authorizing P5 early entry. The SourceLens project and Long-term Goal remain active and incomplete throughout P3 exit and all P4 Task outcomes.
 
+## 9H. P3 v3.8 strict-capability reentry and P4 HOLD authority
+
+This section supersedes only section 9G's projection that the bounded P3 research-NON_PASS
+conclusion is P3 Phase completion or a sufficient P4 predecessor. It preserves the immutable
+closure audit, every terminal outcome and non-integration fact, the two accepted P3 foundations,
+the section 9F Objective and strict Exit Gate, P4-P12 order, project-incomplete status and the
+same active Long-term Goal. It is installed by the create-once Founder decision
+`AUTHORIZE_P3_STRICT_CAPABILITY_REENTRY_P4_HOLD_AND_ONE_SHOT_COMPLETION_ROUTE_V1` and ADR
+`docs/aios/decisions/P3_STRICT_CAPABILITY_REENTRY_P4_HOLD_AND_ONE_SHOT_COMPLETION_ROUTE_V1.json`
+from canonical commit `d639f4b0d92e68bcfe35b0c8da525a47a8aa4405`, tree
+`fb2edbf35a0b505e85cd65318f409ffc3c1ab091`. Strategic installation, validator compatibility,
+Truth synchronization, review, receipt and cleanup have zero engineering, delivery and strict
+capability credit.
+
+P3 is `ACTIVE_INCOMPLETE_STRICT_CAPABILITY_REENTRY`. The historical
+`COMPLETE_RESEARCH_NON_PASS_EXECUTION_CAPABILITY_NOT_ACCEPTED` record remains true only as a
+bounded research conclusion; it is not P3 Phase completion. P4 is
+`HOLD_PENDING_STRICT_P3_CAPABILITY_ACCEPTANCE_AND_FOUNDER_PHASE_GATE`, and every unconsumed P4
+Task or compatibility authority is inactive. P4 may not re-enter until the unchanged P3 Gate
+`ACTUAL_AGENT_HOST_AUTHORIZED_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE_ACCEPTED` is 100% accepted
+from one frozen candidate, canonical integration and replay pass, and a separate Founder P3 Phase
+Gate is issued.
+
+The only executable route is `P3_STRICT_CAPABILITY_REENTRY_ONE_SHOT_COMPLETION_ROUTE_V1`:
+`AIOS-P3-R1_STRICT_CAPABILITY_PRODUCT` followed by
+`AIOS-P3-R2_ONE_SHOT_STRICT_CAPABILITY_ACCEPTANCE`. There is no new Foundation Task. The first
+Task has 48 engineering hours and 10 calendar days; the second has 24 hours and 6 days with one
+formal dispatch. This is an explicit non-resetting Founder exception appended to the historical
+19 Tasks, 568 hours and 132 days. It does not refund or erase that accounting. At most two Product
+candidate generations, one same-Task repair and two review cycles are allowed; Candidate 3,
+second repair, third review, second formal dispatch, rerun-to-pass, successor, replacement,
+normalization, closure, feasibility, remediation and V2/V3 route are forbidden.
+
+The Product must implement exactly the section 9F fixed actual-Agent trusted-read workflow. It
+must use actual `AgentTaskService` and `AgentRuntime`, exclusive Host-derived authority and
+custody, real Spring transactions and MySQL migration
+`V034__add_trusted_read_only_invocation.sql`, terminal-monotonic CAS, three representative
+fresh-process recovery windows, accepted P3-001 checkpoint semantics and the pinned local OCI
+read-only `sha256sum` action. Agent output remains non-authoritative proposal data and cannot
+choose an executable, path, Artifact, argv, environment, image, permission, budget, cleanup or
+terminal truth. Generic tool execution must structurally reject the reserved action.
+
+Only the exact task-created Docker objects, pinned local image, internal network and one
+`127.0.0.1` runtime MySQL port declared by the Founder decision are permitted after Product Task
+activation. Internet, DNS, HTTP(S), Provider, external Secret or credential, remote, production,
+public release, push, PR and remote merge remain forbidden. The system-under-test Agent has no
+shell, Docker, filesystem or other side-effect authority. Rejected P3/P4 implementation content
+may not be read, compared, copied, restored or integrated; terminal metadata is accounting and
+non-reuse proof only.
+
+One frozen Product candidate must pass deterministic offline production decode through actual
+Agent ingress, the complete negative-ingress and custody matrix, real MySQL transaction and CAS
+tests, fixed OCI isolation, all three recovery windows, terminal-gated checkpoint behavior,
+focused and full Maven suites, three independent CTO/Security/Quality verdicts with zero open
+P0/P1, local integration and one canonical replay. Only then may all four section 9F required
+items, delivery and strict capability become `100%`, yielding
+`ELIGIBLE_AWAITING_FOUNDER_P3_PHASE_GATE_DECISION`. That result does not itself execute P3 Phase
+Exit, P4 entry, P5 entry or Long-term Goal closure. Any Product, formal or canonical replay
+NON_PASS leaves P3 `HOLD_INCOMPLETE_FINAL_EXCEPTION_EXHAUSTED`, keeps P4 HOLD and preserves the
+active Long-term Goal without another automatic implementation route.
+
 ## 10. Research artifacts
 
 Every major phase must leave a reproducible artifact containing hypothesis, dataset version, environment snapshot, baseline, configuration, run IDs, raw metrics, failure taxonomy, effect size, cost, conclusion and reproduction command.
@@ -314,6 +375,6 @@ Stopping is a valid research result. It must not be hidden by adding features.
 
 ## 12. Change control
 
-Constitution v3.7 is bound to the create-once Founder decision `AUTHORIZE_P3_RESEARCH_NON_PASS_CLOSURE_AND_CONDITIONAL_P4_PROPOSAL_FIRST_PHASE_ENTRY_V1` and canonical ADR `docs/aios/decisions/P3_RESEARCH_NON_PASS_CLOSURE_AND_P4_PROPOSAL_FIRST_PHASE_ENTRY_DECISION_V1.json`; it closes P3 only as a bounded research NON_PASS with its original execution capability Gate still missing, preserves exactly two accepted foundations, conditionally enters the controlled proposal-first P4 three-Task route, and keeps P4 Phase Exit, P5 entry and Long-term Goal closure outside this authority.
+Constitution v3.8 is bound to the create-once Founder decision `AUTHORIZE_P3_STRICT_CAPABILITY_REENTRY_P4_HOLD_AND_ONE_SHOT_COMPLETION_ROUTE_V1` and canonical ADR `docs/aios/decisions/P3_STRICT_CAPABILITY_REENTRY_P4_HOLD_AND_ONE_SHOT_COMPLETION_ROUTE_V1.json`; it preserves v3.7 as immutable historical chronology but supersedes its P3 Phase-completion and P4-entry projection, restores the unchanged P3 strict capability Gate, installs one Product plus one one-shot formal Task, and keeps P4 HOLD until P3 reaches 100% and a separate Founder P3 Phase Gate is issued. Constitution v3.7 remains bound historically to `AUTHORIZE_P3_RESEARCH_NON_PASS_CLOSURE_AND_CONDITIONAL_P4_PROPOSAL_FIRST_PHASE_ENTRY_V1` and `docs/aios/decisions/P3_RESEARCH_NON_PASS_CLOSURE_AND_P4_PROPOSAL_FIRST_PHASE_ENTRY_DECISION_V1.json`; its research-NON_PASS facts remain true, while its scheduling authority is superseded by v3.8.
 
 Only the Human Founder may change mission, primary ICP, year-one outcome or long-term direction. Any change requires a new constitution version and an append-only ADR. Constitution v2.4 is bound to the create-once Founder decision `AUTHORIZE_P2_RESEARCH_NON_PASS_COMPLETION_AND_PHASE_EXIT_REBASELINE_V1`; that decision is the append-only ADR for this P2 Phase-route change. Constitution v2.6 is bound to the create-once Founder decision `AUTHORIZE_P3_HOST_OWNED_FIXED_STATE_WORKFLOW_MINIMAL_ATOMIC_STRATEGY_INSTALLATION_AFTER_EVIDENCE_ONLY_NON_PASS_V1`; that decision formally amended only the P3 Objective and installed the now-exhausted host-owned fixed-state workflow route while preserving the strict P3 Exit Gate, P4 HOLD and Long-term Goal ACTIVE boundaries. Constitution v2.7 is bound to the create-once Founder decision `AUTHORIZE_P3_MINIMUM_TRUST_HOST_AUTHORIZED_TRANSACTIONAL_BOUNDARY_OBJECTIVE_AND_ROUTE_REBASELINE_AFTER_P3_007_V1`; that decision is the append-only ADR for replacing only the exhausted P3 implementation assumption with the host-authorized transactional trust-boundary Objective and three-stage route, while keeping mission, ICP, year-one outcome, strict P3 Exit Gate, P4 HOLD and Long-term Goal ACTIVE unchanged. Constitution v2.8 is bound to the create-once Founder decision `AUTHORIZE_P3_TRUSTED_INVOCATION_KERNEL_PROCESS_REAL_CLEAN_ROOM_ROUTE_REBASELINE_V1`; that decision preserves the v2.7 mission, ICP, year-one outcome, P3 Objective and strict Exit Gate while authorizing one architecturally distinct process-real clean-room Foundation, Product and one-shot Audit route with non-resettable capacity and no rejected-lineage reuse. Constitution v3.0 preserves the P0-P2 accepted facts, P3-001 semantics, P4-P12 order and active Long-term Goal while installing the transactional coordinator plus external OCI attestation objective and strict Gate. Its original append-only ADR is `AUTHORIZE_P3_TRANSACTIONAL_COORDINATOR_EXTERNAL_OCI_ATTESTATION_OBJECTIVE_EXIT_GATE_AND_ATOMIC_STAGED_ROUTE_REBASELINE_V1`; after the exact post-install protocol defect and required revert, the create-once decision `AUTHORIZE_P3_TXC_CONTROL_PLANE_RECOVERY_AND_DIRECT_PRODUCT_ROUTE_REENTRY_AFTER_POSTINSTALL_PROTOCOL_ERROR_V1` re-installs the same v3.0 strategic semantics from the new exact baseline and authorizes only the closed recovery plus direct two-stage reentry. Constitution v3.1 is bound to the create-once Founder decision `AUTHORIZE_P3_TRUSTED_HOST_TCB_TRANSACTIONAL_EXECUTION_OBJECTIVE_EXIT_GATE_AND_CLEAN_ROOM_FINAL_ROUTE_V1`; it formally narrows the P3 trust claim to an explicit single-host TCB, retains strict Agent/workload/crash/trace guarantees, changes the final containment item to process-real attestation inside that TCB, accepts the disclosed same-host-authority residual risk, and authorizes one clean-room Product followed by one one-shot Audit without a Foundation Task. Constitution v3.2 is bound to the create-once Founder decision `AUTHORIZE_P3_TASK_WIDE_RESERVATION_FRONTIER_TRANSACTIONAL_EXECUTION_FOUNDATION_PRODUCT_AND_ONE_SHOT_AUDIT_ROUTE_V1`; it preserves the v3.1 Objective and TCB while strengthening the strict Gate with a task-wide pre-effect reservation frontier, retaining P3-001 workflow-binding semantics and authorizing only the Foundation, Product and one-shot Audit sequence with non-resettable capacity. Constitution v3.3 is bound to the create-once Founder decision `AUTHORIZE_P3_DECLARATIVE_TRANSACTION_KERNEL_OBJECTIVE_EXIT_GATE_AND_FINDING_SCOPED_CLEAN_ROOM_ROUTE_V1` and canonical ADR `docs/aios/decisions/P3_DECLARATIVE_TRANSACTION_KERNEL_CLEAN_ROOM_ROUTE_DECISION_V1.json`; it strengthens the P3 Objective and strict Gate around one host-selected declarative semantic source, freezes the historical Product milestone and rejected lineages, and authorizes only the finding-scoped Foundation, Product and one-shot Audit Route with non-resettable accounting. Constitution v3.4 is bound to the create-once Founder decision `AUTHORIZE_P3_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE_OBJECTIVE_EXIT_GATE_AND_FINAL_ROUTE_REBASELINE_AFTER_DTK_TERMINAL_V1` and canonical ADR `docs/aios/decisions/P3_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE_ROUTE_DECISION_V1.json`; it replaces the terminal generic DTK route with one actual Agent-to-trusted-host fixed read-only invocation slice, four same-candidate Exit items, one final Product Task and no separate Audit or further P3 retry. Constitution v3.5 is bound to the create-once Founder decision `AUTHORIZE_P3_TRUSTED_READ_ONLY_INVOCATION_EVIDENCE_FIRST_FINAL_CLEAN_ROOM_ROUTE_AFTER_TRIVS_TERMINAL_V1` and canonical ADR `docs/aios/decisions/P3_TRUSTED_READ_ONLY_INVOCATION_EVIDENCE_FIRST_FINAL_CLEAN_ROOM_ROUTE_DECISION_V1.json`; it preserves the v3.4 Objective and four-item Gate while installing one executable acceptance Foundation followed by the second and permanently final Product implementation with non-resettable accounting and no rejected-lineage reuse. Constitution v3.6 is bound to the create-once Founder decision `AUTHORIZE_P3_MINIMUM_TRUST_TRANSACTIONAL_OCI_FINAL_PRODUCT_ROUTE_AFTER_F2_TERMINAL_V2` and canonical ADR `docs/aios/decisions/P3_MINIMUM_TRUST_TRANSACTIONAL_OCI_FINAL_PRODUCT_ROUTE_AFTER_F2_TERMINAL_V2.json`; it replaces the unreachable F2-first route with one final actual-Agent, Host-authorized, real-MySQL and pinned-OCI Product slice, narrows P3 recovery to three representative windows, transfers exhaustive adversarial and operations hardening to future P5 without skipping P4, consumes only the existing final Product slot and creates no additional implementation capacity. Constitution v2.5 was never installed and has no authority. Routine implementation choices do not modify this document.

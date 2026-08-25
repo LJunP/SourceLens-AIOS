@@ -217,6 +217,101 @@ if ARGV == ["--p4-transition-correction-only"]
   exit 0
 end
 
+if ARGV == ["--p3-strict-reentry-current-only"]
+  truth = YAML.safe_load(
+    File.binread(TRUTH),
+    permitted_classes: [],
+    permitted_symbols: [],
+    aliases: false
+  )
+  reentry = P3StrictCapabilityReentryRouteValidation
+  raise "current Route is not P3 strict capability reentry" unless
+    truth.dig("current_phase_route", "route_id") == reentry::ROUTE_ID &&
+      truth.dig("current_phase_route", "semantic_schema_version") == reentry::SEMANTIC_SCHEMA
+  state = reentry.validate_truth!(root: ROOT, truth: truth)
+  raise "P3 strict reentry compatibility state drift" unless
+    state == "P3_MTRO_PRODUCT_ELIGIBLE_NOT_ACTIVATED"
+
+  string_root = P4ProposalFirstControlledRealTaskRouteValidation.normalize_repository_root!(ROOT)
+  pathname_root = P4ProposalFirstControlledRealTaskRouteValidation.normalize_repository_root!(
+    Pathname.new(ROOT)
+  )
+  raise "P4 shared root normalization diverges by input type" unless
+    string_root == pathname_root && string_root == Pathname.new(ROOT).realpath
+  root_negative = 0
+  ["relative/root", Object.new].each do |invalid_root|
+    begin
+      P4ProposalFirstControlledRealTaskRouteValidation.normalize_repository_root!(invalid_root)
+    rescue P4ProposalFirstControlledRealTaskRouteValidationError
+      root_negative += 1
+      next
+    end
+    raise "P4 shared root normalization accepted #{invalid_root.inspect}"
+  end
+
+  mutations = {
+    "semantic schema alias removed" => lambda do |candidate|
+      candidate.dig("current_phase_route")["semantic_schema_version"] = "p3-false-route/v1"
+    end,
+    "P4 entry restored early" => lambda do |candidate|
+      candidate.dig("strict_phase_gate_ledger", "phases", "P4")["entry_authorized"] = true
+    end,
+    "P4 execution started early" => lambda do |candidate|
+      candidate.dig("strict_phase_gate_ledger", "phases", "P4")["execution_started"] = true
+    end,
+    "strict item self-accepted" => lambda do |candidate|
+      item = reentry::STRICT_ITEMS.first
+      candidate.dig(
+        "strict_phase_gate_ledger", "phases", "P3", "current_exit_gate",
+        "required_items", item
+      )["status"] = "ACCEPTED"
+    end,
+    "historical accounting refunded" => lambda do |candidate|
+      candidate.dig("phase_execution_envelope", "historical_consumed")["engineering_tasks"] = 0
+    end,
+    "reentry envelope expanded" => lambda do |candidate|
+      candidate.dig("phase_execution_envelope", "limits")["engineering_tasks"] = 3
+    end,
+    "successor chain enabled" => lambda do |candidate|
+      candidate.dig("current_phase_route", "anti_cycle")[
+        "successor_replacement_normalization_closure_feasibility_remediation_allowed"
+      ] = true
+    end,
+    "rejected lineage read enabled" => lambda do |candidate|
+      candidate.dig("current_phase_route", "clean_room")[
+        "rejected_p3_or_p4_lineage_read_compare_copy_restore_or_integrate"
+      ] = true
+    end,
+    "decision identity drift" => lambda do |candidate|
+      candidate.dig("current_phase_route", "founder_strategy_decision")["sha256"] = "0" * 64
+    end,
+    "false capability progress" => lambda do |candidate|
+      candidate.dig("current_phase_route", "progress")["p3_strict_capability_percent"] = 100
+    end,
+    "third stage injected" => lambda do |candidate|
+      candidate.dig("current_phase_route", "ordered_stages") <<
+        Marshal.load(Marshal.dump(candidate.dig("current_phase_route", "ordered_stages").last))
+    end
+  }
+  negative_count = 0
+  mutations.each do |label, mutation|
+    candidate = Marshal.load(Marshal.dump(truth))
+    mutation.call(candidate)
+    begin
+      reentry.validate_truth!(root: ROOT, truth: candidate)
+    rescue P3StrictCapabilityReentryRouteValidationError
+      negative_count += 1
+      next
+    end
+    raise "P3 strict reentry validator accepted mutation: #{label}"
+  end
+  raise "P3 strict reentry negative count drift" unless negative_count == mutations.length
+  raise "P4 root-normalization negative count drift" unless root_negative == 2
+  puts "P3_STRICT_REENTRY_TESTS: PASS current=1 negatives=#{negative_count} " \
+       "p4_root_inputs=2 p4_root_negatives=#{root_negative}"
+  exit 0
+end
+
 if ARGV == ["--p4-current-only"]
   truth = YAML.safe_load(
     File.binread(TRUTH),

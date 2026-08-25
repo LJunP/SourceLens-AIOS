@@ -1,15 +1,15 @@
 ---
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: '2026-08-24T12:11:51Z'
-verification_scope: P3_RESEARCH_NON_PASS_CLOSURE_ACCEPTED_P4_ENTRY_PREDECESSOR_PASS_F1_ELIGIBLE_NOT_ACTIVATED_PROJECT_INCOMPLETE_LONG_TERM_GOAL_ACTIVE
+last_verified_at: '2026-08-25T01:57:14Z'
+verification_scope: P3_STRICT_CAPABILITY_REENTRY_INSTALLED_PRODUCT_ELIGIBLE_P4_HOLD_PROJECT_INCOMPLETE_LONG_TERM_GOAL_ACTIVE
 authority:
   founder: Human Founder
   strategy:
     path: docs/aios/STRATEGIC_CONSTITUTION.md
-    version: '3.7'
-    byte_length: 55295
-    sha256: a6c6047ff8ebc66e79c4868ecdcefaa2921b25ca3cb4724f235419bed8bcbf05
+    version: '3.8'
+    byte_length: 60203
+    sha256: 50a0a68d57d3eb958f6eab7546f17da69e7501589edc0e49542c7067be6cadbe
     status: FROZEN
   execution_protocol:
     path: docs/aios/MASTER_EXECUTION_PROTOCOL.md
@@ -42,27 +42,28 @@ goal:
   project_actually_completed: false
   long_term_goal_status: ACTIVE
   codex_goal_action: NONE_KEEP_ACTIVE
-  current_state_note: 'P3 is closed only as COMPLETE_RESEARCH_NON_PASS_EXECUTION_CAPABILITY_NOT_ACCEPTED:
-    two foundations remain accepted, the original execution capability Gate remains
-    MISSING_NOT_ACCEPTED, delivery remains 25%, and strict capability progress remains
-    0%. The post-integration predecessor receipt passed, P4 proposal-first Phase entry
-    is authorized, and only F1 is eligible but not activated; no P4 Task is active.
-    The project is incomplete and the Long-term Goal remains ACTIVE.'
+  current_state_note: 'P3 is ACTIVE_INCOMPLETE_STRICT_CAPABILITY_REENTRY: the historical
+    research closure remains accepted, the two foundations remain accepted, and the
+    original execution capability Gate remains MISSING_NOT_ACCEPTED at delivery 25%
+    and strict capability 0%. P4 is HOLD pending strict P3 capability acceptance and
+    a separate Founder P3 Phase Gate. No engineering Task is active; only the single
+    P3 Product Task is eligible for Master activation. The project is incomplete and
+    the Long-term Goal remains ACTIVE.'
   current_strategic_decision:
-    path: docs/aios/decisions/P3_RESEARCH_NON_PASS_CLOSURE_AND_P4_PROPOSAL_FIRST_PHASE_ENTRY_DECISION_V1.json
-    byte_length: 10592
-    sha256: e52a969b1f128cb86c361bfe9c77ff49996be0ec2fa3e452c6afa249146e6fe0
-    decision_id: AUTHORIZE_P3_RESEARCH_NON_PASS_CLOSURE_AND_CONDITIONAL_P4_PROPOSAL_FIRST_PHASE_ENTRY_V1
-    operation_type: P3_RESEARCH_NON_PASS_OBJECTIVE_EXIT_GATE_REBASELINE_AND_CONDITIONAL_P4_ENTRY
+    path: docs/aios/decisions/P3_STRICT_CAPABILITY_REENTRY_P4_HOLD_AND_ONE_SHOT_COMPLETION_ROUTE_V1.json
+    byte_length: 16136
+    sha256: b7588a075e5fd3917760c9a225fba4af69458a83c39d47b5340ce73eedeb141d
+    decision_id: AUTHORIZE_P3_STRICT_CAPABILITY_REENTRY_P4_HOLD_AND_ONE_SHOT_COMPLETION_ROUTE_V1
+    operation_type: P3_STRICT_CAPABILITY_REENTRY_P4_HOLD_AND_ONE_SHOT_COMPLETION_ROUTE
     source_body:
       source_attachment_ref: source_attachment
-      byte_length: 26909
-      sha256: 02c41cd578455a986d6b2a7d125a2892145b3a1da35d3b3225ff321029cdfbd6
+      byte_length: 22282
+      sha256: b268d4059cf950770a81c9401db9a6b26ea99f4ad585929bb182f165cc2fea19
       canonicalization: EXACT_ATTACHMENT_BYTES
     source_attachment:
-      path: "/Users/lijunpeng/.codex/attachments/76197035-97fe-4890-9157-08ae3ee9a98a/pasted-text.txt"
-      byte_length: 26909
-      sha256: 02c41cd578455a986d6b2a7d125a2892145b3a1da35d3b3225ff321029cdfbd6
+      path: "/Users/lijunpeng/.codex/attachments/d279e97b-31d3-42c4-a419-68507be39c97/pasted-text.txt"
+      byte_length: 22282
+      sha256: b268d4059cf950770a81c9401db9a6b26ea99f4ad585929bb182f165cc2fea19
   note: 'Founder decision AUTHORIZE_P3_HOST_PROCESS_ENFORCED_MINIMAL_SLICE_ROUTE_REBASELINE_AFTER_TIK_F1_TERMINAL_V1
     is installed create-once as 25969 bytes with SHA-256 ce9ee638c3112d098f0e1ebf55f862a30a053e479eeaf780980c9cde8425019d.
     It preserves the P3 Objective, strict Exit Gate, accepted P3-001 credit, P4 HOLD,
@@ -1808,19 +1809,19 @@ project:
     software engineering as the first validation environment.
   year_one_outcome: Build and scientifically evaluate one trustworthy software-engineering
     Agent.
-  current_phase: P4
-  phase_name: Software Engineer Agent Alpha
+  current_phase: P3
+  phase_name: Single-Agent Runtime + Minimum Trust
   p0_status: COMPLETE
   p1_entry_status: AUTHORIZED
   p1_execution_status: COMPLETE_STRICT_8_OF_8_100_PERCENT
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
   p2_execution_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
-  phase_execution_status: P4_F1_ELIGIBLE_NOT_ACTIVATED
-  current_route_execution_status: P4_F1_ELIGIBLE_NOT_ACTIVATED
+  phase_execution_status: P3_PRODUCT_ELIGIBLE_NOT_ACTIVATED
+  current_route_execution_status: P3_PRODUCT_ELIGIBLE_NOT_ACTIVATED
   p3_entry_status: AUTHORIZED
-  p3_execution_status: COMPLETE_RESEARCH_NON_PASS_EXECUTION_CAPABILITY_NOT_ACCEPTED
-  p4_entry_status: AUTHORIZED
+  p3_execution_status: ACTIVE_INCOMPLETE_STRICT_CAPABILITY_REENTRY
+  p4_entry_status: HOLD_PENDING_STRICT_P3_CAPABILITY_ACCEPTANCE_AND_FOUNDER_PHASE_GATE
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
   task_worktree_root: "/Users/lijunpeng/Developer/.sourcelens-worktrees"
@@ -1831,7 +1832,7 @@ project:
   accepted_harness_candidate_tree: 1a31751dc1b4d5bc2c9b2c4aaf0aa640528edecc
   realignment_parent_commit: f3fa42221de95381d98fb3c5a966bf33e99e4d21
   realignment_parent_tree: 97972952872b0a1e340b6a88cbd7491b7f7df953
-  p4_execution_status: P4_F1_ELIGIBLE_NOT_ACTIVATED
+  p4_execution_status: HOLD_PENDING_STRICT_P3_CAPABILITY_ACCEPTANCE_AND_FOUNDER_PHASE_GATE
   p5_entry_status: HOLD_PENDING_STRICT_P4_EXIT_AND_FOUNDER_PHASE_GATE
 historical_previous_phase_route:
   route_id: P1_LOCAL_GATEWAY_EMPIRICAL_BASELINE_VERTICAL_SLICE_ROUTE_V1
@@ -11472,6 +11473,187 @@ historical_p3_trivs_evidence_first_terminal_phase_route:
     rerun_to_pass_allowed: false
     governance_progress_credit: 0
 current_phase_route:
+  schema_version: p3-minimum-trust-transactional-oci-final-product-route/v1
+  semantic_schema_version: p3-strict-capability-reentry-route/v1
+  route_id: P3_STRICT_CAPABILITY_REENTRY_ONE_SHOT_COMPLETION_ROUTE_V1
+  phase: P3
+  target_phase: P3
+  policy:
+    path: docs/aios/FOUNDER_DELEGATION_POLICY.md
+    version: '1.8'
+    sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
+  status: AUTHORIZED_READY
+  lifecycle_stage: PRODUCT_ELIGIBLE_NOT_ACTIVATED
+  execution_status: P3_PRODUCT_ELIGIBLE_NOT_ACTIVATED
+  scheduling_status: READY_FOR_PRODUCT_ACTIVATION
+  phase_entry_status: AUTHORIZED
+  founder_phase_route_decision_required: false
+  founder_reserved_triggers_resolved:
+  - MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+  - MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
+  - PHASE_ENTRY_OR_EXIT
+  next_eligible_action: MASTER_ACTIVATE_AIOS_P3_R1
+  objective_id: ACTUAL_AGENT_HOST_AUTHORIZED_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE
+  objective_changed: false
+  strict_exit_gate:
+    gate_id: ACTUAL_AGENT_HOST_AUTHORIZED_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE_ACCEPTED
+    changed: false
+    current_status: MISSING_NOT_ACCEPTED
+    strict_progress_percent: 0
+    required_item_ids:
+    - ACTUAL_AGENT_NON_AUTHORITATIVE_PROPOSAL_AND_EXCLUSIVE_RESERVED_INGRESS
+    - HOST_DERIVED_CUSTODY_DURABLE_INTENT_REAL_MYSQL_AND_EXACTLY_ONE_TERMINAL
+    - REPRESENTATIVE_FRESH_PROCESS_RECOVERY_AND_CHECKPOINT_GATE
+    - PINNED_LOCAL_OCI_READ_ONLY_ISOLATION_COMPLETE_TRACE_AND_REPLAY
+    same_frozen_candidate_required: true
+    three_independent_reviewers_pass_required: true
+    canonical_replay_required: true
+  founder_strategy_decision:
+    path: docs/aios/decisions/P3_STRICT_CAPABILITY_REENTRY_P4_HOLD_AND_ONE_SHOT_COMPLETION_ROUTE_V1.json
+    byte_length: 16136
+    sha256: b7588a075e5fd3917760c9a225fba4af69458a83c39d47b5340ce73eedeb141d
+    decision_id: AUTHORIZE_P3_STRICT_CAPABILITY_REENTRY_P4_HOLD_AND_ONE_SHOT_COMPLETION_ROUTE_V1
+    operation_type: P3_STRICT_CAPABILITY_REENTRY_P4_HOLD_AND_ONE_SHOT_COMPLETION_ROUTE
+  governing_constitution:
+    path: docs/aios/STRATEGIC_CONSTITUTION.md
+    version: '3.8'
+    byte_length: 60203
+    sha256: 50a0a68d57d3eb958f6eab7546f17da69e7501589edc0e49542c7067be6cadbe
+  strategic_installation_parent:
+    commit: d639f4b0d92e68bcfe35b0c8da525a47a8aa4405
+    tree: fb2edbf35a0b505e85cd65318f409ffc3c1ab091
+  historical_research_closure:
+    status: COMPLETE_RESEARCH_NON_PASS_EXECUTION_CAPABILITY_NOT_ACCEPTED
+    research_exit_percent: 100
+    management_delivery_percent: 25
+    strict_execution_capability_percent: 0
+    execution_capability_accepted: false
+    candidate_integrated: false
+    scheduling_authority: SUPERSEDED_FOR_P3_PHASE_COMPLETION_AND_P4_ENTRY_ONLY
+    immutable_phase_receipt:
+      path: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-research-non-pass-closure-20260824/phase-exit/P3_RESEARCH_NON_PASS_PHASE_EXIT_AND_P4_ENTRY_RECEIPT_V1.json"
+      byte_length: 11076
+      sha256: bae38128eba0cfb2e75a18c80ae257b01c52912e10279d693368afc15e77d0fa
+      mode: '0444'
+      nlink: 1
+      symlink: false
+  accepted_dependencies:
+  - milestone_id: DURABLE_STATE_AND_CHECKPOINT_RESUME
+    integration_commit: f841ff822610264ad1b88c93b1f6248d42eb134a
+    integration_tree: 6a3e67b4680464e54d72936dc24a205079614431
+  - milestone_id: DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION
+    integration_commit: 2f52d0912ba5621bd2258fc21f5b74dd2019efd5
+    integration_tree: e9490d8f786f913b2e60a7e690a71911e015c87a
+  ordered_stages:
+  - ordinal: 1
+    stage_id: STRICT_CAPABILITY_PRODUCT
+    task_id: AIOS-P3-R1_STRICT_CAPABILITY_PRODUCT
+    nonce: p3-r1-strict-capability-product-20260825-v1
+    kind: PRODUCT_IMPLEMENTATION
+    status: ELIGIBLE_NOT_ACTIVATED
+    budget:
+      engineering_tasks: 1
+      engineering_hours: 48
+      calendar_days: 10
+      candidate_generations: 2
+      same_task_repairs: 1
+      review_cycles: 2
+    resources:
+      branch: codex/p3-r1-strict-capability-product
+      worktree: "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-r1-strict-capability-product"
+      evidence_root: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-strict-capability-reentry-20260825/task-product"
+      contract_path: docs/aios/tasks/P3-R1_STRICT_CAPABILITY_PRODUCT.yaml
+      authority_path: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-strict-capability-reentry-20260825/task-product/authority/P3_R1_PHASE_DELEGATED_TASK_AUTHORITY_V1.json"
+    contract:
+    authority:
+    candidate:
+    acceptance:
+    terminal:
+  - ordinal: 2
+    stage_id: ONE_SHOT_STRICT_CAPABILITY_ACCEPTANCE
+    task_id: AIOS-P3-R2_ONE_SHOT_STRICT_CAPABILITY_ACCEPTANCE
+    nonce: p3-r2-one-shot-strict-capability-acceptance-20260825-v1
+    kind: EVALUATION_ONLY_ONE_SHOT
+    status: LOCKED_PENDING_PRODUCT_CANDIDATE_FROZEN
+    budget:
+      engineering_tasks: 1
+      engineering_hours: 24
+      calendar_days: 6
+      formal_dispatches: 1
+    resources:
+      branch: codex/p3-r2-one-shot-strict-capability-acceptance
+      worktree: "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-r2-one-shot-strict-capability-acceptance"
+      evidence_root: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-strict-capability-reentry-20260825/task-formal-evaluation"
+      contract_path: docs/aios/tasks/P3-R2_ONE_SHOT_STRICT_CAPABILITY_ACCEPTANCE.yaml
+      authority_path: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-strict-capability-reentry-20260825/task-formal-evaluation/authority/P3_R2_PHASE_DELEGATED_TASK_AUTHORITY_V1.json"
+    contract:
+    authority:
+    formal_dispatch:
+    acceptance:
+    terminal:
+  system_under_test_permissions:
+    proposal_data_only: true
+    shell: false
+    docker: false
+    filesystem: false
+    network: false
+    provider: false
+    secret: false
+    remote: false
+    production: false
+    public_release: false
+  host_permissions:
+    product_task_activation_required: true
+    local_task_source_test_evidence: true
+    task_owned_process_signal: true
+    exact_local_docker_objects_only: true
+    mysql_127_0_0_1_runtime_port_only: true
+    canonical_integration_after_formal_pass: true
+    network_dns_http_https_provider_secret_remote_production_public: false
+  p4_hold:
+    status: HOLD_PENDING_STRICT_P3_CAPABILITY_ACCEPTANCE_AND_FOUNDER_PHASE_GATE
+    entry_authorized: false
+    execution_started: false
+    task_activation_allowed: false
+    predecessor_requires_p3_strict_percent: 100
+    predecessor_requires_founder_p3_phase_gate: true
+  clean_room:
+    rejected_p3_or_p4_lineage_read_compare_copy_restore_or_integrate: false
+    historical_terminal_metadata_use: ACCOUNTING_AND_NON_REUSE_PROOF_ONLY
+    permitted_inputs:
+    - CANONICAL_MAIN
+    - ACCEPTED_P3_DURABLE_STATE_AND_CHECKPOINT_RESUME
+    - ACCEPTED_DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION
+    - CURRENT_STRICT_CAPABILITY_DECISION
+    - CURRENT_DIRECT_FOUNDER_AUTHORIZATION
+  anti_cycle:
+    product_candidate_generations: 2
+    same_task_repairs: 1
+    review_cycles: 2
+    formal_dispatches: 1
+    candidate_3_allowed: false
+    second_repair_allowed: false
+    third_review_allowed: false
+    successor_replacement_normalization_closure_feasibility_remediation_allowed: false
+    v2_or_v3_route_allowed: false
+    rerun_to_pass_allowed: false
+  progress:
+    p3_research_exit_percent: 100
+    p3_management_delivery_percent: 25
+    p3_strict_capability_percent: 0
+    engineering_progress_credit: 0
+    governance_progress_credit: 0
+  lifecycle:
+    product_non_pass: P3_HOLD_INCOMPLETE_FINAL_EXCEPTION_EXHAUSTED_P4_HOLD_NO_SUCCESSOR
+    product_pass: ONE_FROZEN_PRODUCT_CANDIDATE_UNLOCKS_ONLY_ONE_SHOT_FORMAL_ACCEPTANCE
+    formal_non_pass: P3_HOLD_INCOMPLETE_FINAL_EXCEPTION_EXHAUSTED_P4_HOLD_NO_RERUN
+    formal_pass: INTEGRATE_CANONICAL_REPLAY_THEN_P3_100_ELIGIBLE_AWAITING_FOUNDER_P3_PHASE_GATE
+    p4_entry: NOT_AUTHORIZED
+    p5_entry: NOT_AUTHORIZED
+    project_actually_completed: false
+    long_term_goal_status: ACTIVE
+    codex_goal_action: NONE_KEEP_ACTIVE
+historical_p4_proposal_first_phase_route:
   schema_version: p4-proposal-first-controlled-real-task-route/v1
   route_id: P4_PROPOSAL_FIRST_CONTROLLED_REAL_TASK_ROUTE_V1
   phase: P4
@@ -15778,6 +15960,125 @@ historical_p3_trivs_evidence_first_terminal_phase_execution_envelope:
       sha256: da4ec96ee559fcce19b826985627edfceaea2a8d646ca7574b46a08d6e8f8ebe
 phase_execution_envelope:
   schema_version: phase-execution-envelope/v1
+  phase: P3
+  status: AUTHORIZED_PRODUCT_ELIGIBLE
+  authority_basis:
+    phase_entry_status: AUTHORIZED
+    source_route_ref: current_phase_route
+    source_route_id: P3_STRICT_CAPABILITY_REENTRY_ONE_SHOT_COMPLETION_ROUTE_V1
+    founder_strategy_decision:
+      path: docs/aios/decisions/P3_STRICT_CAPABILITY_REENTRY_P4_HOLD_AND_ONE_SHOT_COMPLETION_ROUTE_V1.json
+      byte_length: 16136
+      sha256: b7588a075e5fd3917760c9a225fba4af69458a83c39d47b5340ce73eedeb141d
+      decision_id: AUTHORIZE_P3_STRICT_CAPABILITY_REENTRY_P4_HOLD_AND_ONE_SHOT_COMPLETION_ROUTE_V1
+      operation_type: P3_STRICT_CAPABILITY_REENTRY_P4_HOLD_AND_ONE_SHOT_COMPLETION_ROUTE
+  accounting_basis: NON_RESETTABLE_HISTORICAL_P3_PLUS_EXPLICIT_FINAL_EXCEPTION
+  historical_consumed:
+    engineering_tasks: 19
+    engineering_hours: 568
+    calendar_days: 132
+  reentry_consumed:
+    engineering_tasks: 0
+    engineering_hours: 0
+    calendar_days: 0
+    formal_dispatches: 0
+  limits:
+    engineering_tasks: 2
+    engineering_hours: 72
+    calendar_days: 16
+    strategic_installation_labor_hours: 8
+    strategic_installation_calendar_days: 2
+    total_labor_hours: 80
+    total_calendar_days: 18
+    active_tasks: 1
+    task_branches: 1
+    task_worktrees: 1
+    active_candidates: 1
+  reserved:
+    task_id: AIOS-P3-R1_STRICT_CAPABILITY_PRODUCT
+    status: ELIGIBLE_NOT_ACTIVATED
+    engineering_tasks: 1
+    engineering_hours: 48
+    calendar_days: 10
+  remaining:
+    engineering_tasks: 2
+    engineering_hours: 72
+    calendar_days: 16
+    formal_dispatches: 1
+  remaining_capacity_usable: true
+  milestone_order:
+  - STRICT_CAPABILITY_PRODUCT
+  - ONE_SHOT_STRICT_CAPABILITY_ACCEPTANCE
+  accepted_milestones:
+  - DURABLE_STATE_AND_CHECKPOINT_RESUME
+  - DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION
+  ordered_stages:
+  - ordinal: 1
+    stage_id: STRICT_CAPABILITY_PRODUCT
+    task_id: AIOS-P3-R1_STRICT_CAPABILITY_PRODUCT
+    nonce: p3-r1-strict-capability-product-20260825-v1
+    kind: PRODUCT_IMPLEMENTATION
+    status: ELIGIBLE_NOT_ACTIVATED
+    budget:
+      engineering_tasks: 1
+      engineering_hours: 48
+      calendar_days: 10
+      candidate_generations: 2
+      same_task_repairs: 1
+      review_cycles: 2
+    resources:
+      branch: codex/p3-r1-strict-capability-product
+      worktree: "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-r1-strict-capability-product"
+      evidence_root: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-strict-capability-reentry-20260825/task-product"
+      contract_path: docs/aios/tasks/P3-R1_STRICT_CAPABILITY_PRODUCT.yaml
+      authority_path: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-strict-capability-reentry-20260825/task-product/authority/P3_R1_PHASE_DELEGATED_TASK_AUTHORITY_V1.json"
+  - ordinal: 2
+    stage_id: ONE_SHOT_STRICT_CAPABILITY_ACCEPTANCE
+    task_id: AIOS-P3-R2_ONE_SHOT_STRICT_CAPABILITY_ACCEPTANCE
+    nonce: p3-r2-one-shot-strict-capability-acceptance-20260825-v1
+    kind: EVALUATION_ONLY_ONE_SHOT
+    status: LOCKED_PENDING_PRODUCT_CANDIDATE_FROZEN
+    budget:
+      engineering_tasks: 1
+      engineering_hours: 24
+      calendar_days: 6
+      formal_dispatches: 1
+    resources:
+      branch: codex/p3-r2-one-shot-strict-capability-acceptance
+      worktree: "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-r2-one-shot-strict-capability-acceptance"
+      evidence_root: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-strict-capability-reentry-20260825/task-formal-evaluation"
+      contract_path: docs/aios/tasks/P3-R2_ONE_SHOT_STRICT_CAPABILITY_ACCEPTANCE.yaml
+      authority_path: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-strict-capability-reentry-20260825/task-formal-evaluation/authority/P3_R2_PHASE_DELEGATED_TASK_AUTHORITY_V1.json"
+  implementation_accounting:
+    product_implementation_tasks_allowed: 1
+    product_candidate_generations: 2
+    same_task_repairs: 1
+    review_cycles: 2
+    formal_evaluation_dispatches: 1
+    reset_refund_or_cross_task_borrowing_allowed: false
+  delivery_progress:
+    p3_research_exit_percent: 100
+    p3_management_percent: 25
+    p3_strict_capability_percent: 0
+    engineering_progress_credit: 0
+    governance_progress_credit: 0
+  external_effects_before_product_activation:
+    docker: false
+    network: false
+    dns: false
+    http_https: false
+    provider: false
+    secret: false
+    credential: false
+    remote: false
+    production: false
+    public: false
+    push: false
+    pull_request: false
+    merge: false
+    release: false
+historical_p4_phase_execution_envelope:
+  schema_version: phase-execution-envelope/v1
   phase: P4
   status: AUTHORIZED_F1_ELIGIBLE
   authority_basis:
@@ -16533,25 +16834,26 @@ founder_escalation_control:
   schema_version: founder-escalation-control/v2
   disposition: NO_RESERVED_TRIGGER_CONTINUE_PHASE
   source_event:
-    kind: FOUNDER_P3_RESEARCH_NON_PASS_CLOSURE_AND_P4_ENTRY_AUTHORIZED
-    decision_id: AUTHORIZE_P3_RESEARCH_NON_PASS_CLOSURE_AND_CONDITIONAL_P4_PROPOSAL_FIRST_PHASE_ENTRY_V1
-    status: P4_F1_ELIGIBLE_NOT_ACTIVATED
+    kind: FOUNDER_P3_STRICT_CAPABILITY_REENTRY_P4_HOLD_AUTHORIZED
+    decision_id: AUTHORIZE_P3_STRICT_CAPABILITY_REENTRY_P4_HOLD_AND_ONE_SHOT_COMPLETION_ROUTE_V1
+    status: P3_PRODUCT_ELIGIBLE_NOT_ACTIVATED
   reserved_trigger:
     category: NONE
     evidence:
   resolved_strategy_decision:
     categories:
+    - MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
     - MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
     - PHASE_ENTRY_OR_EXIT
-    decision_id: AUTHORIZE_P3_RESEARCH_NON_PASS_CLOSURE_AND_CONDITIONAL_P4_PROPOSAL_FIRST_PHASE_ENTRY_V1
-    path: docs/aios/decisions/P3_RESEARCH_NON_PASS_CLOSURE_AND_P4_PROPOSAL_FIRST_PHASE_ENTRY_DECISION_V1.json
-    byte_length: 10592
-    sha256: e52a969b1f128cb86c361bfe9c77ff49996be0ec2fa3e452c6afa249146e6fe0
-    result: P3_RESEARCH_NON_PASS_EXIT_AND_CONDITIONAL_P4_ENTRY
-  phase_gate_status: P4_INCOMPLETE
+    decision_id: AUTHORIZE_P3_STRICT_CAPABILITY_REENTRY_P4_HOLD_AND_ONE_SHOT_COMPLETION_ROUTE_V1
+    path: docs/aios/decisions/P3_STRICT_CAPABILITY_REENTRY_P4_HOLD_AND_ONE_SHOT_COMPLETION_ROUTE_V1.json
+    byte_length: 16136
+    sha256: b7588a075e5fd3917760c9a225fba4af69458a83c39d47b5340ce73eedeb141d
+    result: P3_STRICT_CAPABILITY_REENTRY_ACTIVE_P4_HOLD
+  phase_gate_status: P3_INCOMPLETE
   founder_decision_required: false
   next_action_owner: MASTER_CEO_AGENT
-  next_eligible_action: MASTER_ACTIVATE_AIOS_P4_F1
+  next_eligible_action: MASTER_ACTIVATE_AIOS_P3_R1
 historical_p2_053_phase_route:
   schema_version: '1.1'
   route_id: P2_COMPILER_ATTRIBUTED_JAVA_EDGE_TRUTH_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
@@ -20851,38 +21153,51 @@ historical_p3_trivs_f2_terminal_phase_delegation:
     rerun_to_pass_allowed: false
   claim_boundary: P3_EVIDENCE_FIRST_F2_THEN_SECOND_AND_FINAL_CLEAN_ROOM_PRODUCT_ONLY_P4_HOLD_LONG_TERM_GOAL_ACTIVE
 phase_delegation:
-  status: ACTIVE_P4_PROPOSAL_FIRST
+  status: ACTIVE_P3_PHASE_DELEGATION
   model: PHASE_LEVEL_FOUNDER_DELEGATION
-  decision_source: AUTHORIZE_P3_RESEARCH_NON_PASS_CLOSURE_AND_CONDITIONAL_P4_PROPOSAL_FIRST_PHASE_ENTRY_V1
+  decision_source: AUTHORIZE_P3_STRICT_CAPABILITY_REENTRY_P4_HOLD_AND_ONE_SHOT_COMPLETION_ROUTE_V1
   phase_gate_owner: HUMAN_FOUNDER
   task_selection_owner: MASTER_CEO_AGENT
-  task_authorization_owner: MASTER_CEO_AGENT
-  task_gate_owner: MASTER_CEO_AGENT
-  p3_exit_authorized: true
-  p4_entry_authorized: true
+  task_authorization_owner: MASTER_CEO_AGENT_WITHIN_CURRENT_PHASE_ENVELOPE
+  task_gate_owner: MASTER_CEO_AGENT_AFTER_REQUIRED_INDEPENDENT_REVIEW
   founder_reserved_decisions:
-  - PHASE_ENTRY_OR_EXIT
-  - MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
-  - MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
-  - NETWORK_PROVIDER_SECRET_REMOTE_PRODUCTION_OR_PUBLIC_EFFECT
-  - IRREVERSIBLE_ASSET_REMOVAL
-  - MATERIAL_LEGAL_PRIVACY_OR_COMMERCIAL_COMMITMENT
-  - CRITICAL_RESIDUAL_RISK_ACCEPTANCE
+  - mission_icp_year_one_or_phase_route_change
+  - phase_entry_or_exit
+  - material_scope_budget_or_permission_expansion_beyond_phase_envelope
+  - network_provider_secret_remote_production_or_public_effect
+  - irreversible_asset_removal
+  - material_legal_privacy_commercial_commitment
+  - critical_residual_risk_acceptance
   agent_delegated_decisions:
-  - EXACT_F1_P1_E1_TASK_ACTIVATION_IN_ORDER
-  - TASK_CONTRACT_AND_AUTHORITY
-  - IN_SCOPE_IMPLEMENTATION_TEST_EVIDENCE_REPAIR_AND_REVIEW
-  - LOCAL_CANONICAL_INTEGRATION_AFTER_TASK_GATE
-  - TASK_TERMINAL_LIFECYCLE_WITHOUT_FOUNDER_DAILY_APPROVAL
+  - select_reject_sequence_and_freeze_phase_local_tasks
+  - assign_roles_workers_reviewers_and_disjoint_write_ownership
+  - authorize_and_execute_local_task_branch_worktree_and_commands
+  - perform_in_scope_implementation_tests_repairs_evidence_replay_and_rollback
+  - accept_return_or_terminally_stop_tasks_after_independent_review
+  - integrate_task_to_local_canonical_main_after_task_gate
+  - choose_the_next_independent_phase_local_task_after_task_completion_or_stop
+  - continue_phase_without_founder_reapproval_after_ordinary_task_terminal
   escalation_conditions:
-  - EXACT_FOUNDER_RESERVED_TRIGGER_ONLY
+  - founder_reserved_decision_required
+  - phase_boundary_or_strategy_conflict
+  - high_risk_external_effect_required
+  - irreversible_action_required
+  - critical_risk_requires_acceptance
   anti_loop:
-    ordinary_task_failure_requests_founder: false
-    successor_or_replacement_allowed: false
-    cross_task_budget_borrowing_allowed: false
-    formal_rerun_to_pass_allowed: false
-    p5_early_entry_allowed: false
-  claim_boundary: P4_PROPOSAL_FIRST_THREE_TASK_ROUTE_ONLY_SYSTEM_UNDER_TEST_PROPOSAL_DATA_ONLY_P5_HOLD_LONG_TERM_GOAL_ACTIVE
+    routine_founder_task_approval_required: false
+    per_file_or_command_approval_required: false
+    route_or_task_may_downgrade_phase_delegation: false
+    reviewer_non_pass_may_trigger_founder_gate: false
+    phase_gate_requires_exit_gate_eligibility: true
+    phase_execution_envelope_survives_route_terminal: true
+    ordinary_repairs_stay_in_same_task: true
+    successor_replacement_correction_chain_allowed: false
+    task_id_hardcoding_in_current_authority_validator_allowed: false
+    historical_execution_lineage_reuse_allowed: false
+    mandatory_exit_capability_permanent_ban_from_historical_stop: false
+    peripheral_work_before_exit_capabilities_allowed: false
+    maximum_same_task_bounded_contract_repairs: 1
+  claim_boundary: P3_ONE_PRODUCT_ONE_SHOT_FORMAL_ROUTE_ONLY_P4_HOLD_LONG_TERM_GOAL_ACTIVE
 mandatory_exit_capability_recovery:
   status: HISTORICAL_POLICY_CONTEXT_SUPERSEDED_BY_LATER_FOUNDER_ROUTES
   founder_decision_source: FOUNDER_P1_DELIVERY_ARCHITECTURE_SIMPLIFICATION_2026_07_17
@@ -22252,21 +22567,23 @@ historical_p3_trivs_f2_terminal_phase_boundary:
   phase_route_user_action_required: true
   next_eligible_action: FOUNDER_DECIDE_P3_AFTER_TRIVS_F2_TERMINAL_NON_PASS
 phase_boundary:
-  phase: P4
-  target_phase: P4
-  phase_execution_status: P4_F1_ELIGIBLE_NOT_ACTIVATED
+  phase: P3
+  target_phase: P3
+  phase_execution_status: P3_PRODUCT_ELIGIBLE_NOT_ACTIVATED
   task_creation_allowed: true
-  task_creation_scope: AIOS_P4_F1_ONLY
+  task_creation_scope: AIOS_P3_R1_ONLY
   task_creation_lock_after_activation: true
-  p4_entry_authorized: true
+  p3_exit_authorized: false
+  p4_entry_authorized: false
   allowed_task_kinds:
-  - NON_PRODUCT_EXECUTABLE_FOUNDATION
   - PRODUCT_IMPLEMENTATION
   - EVALUATION_ONLY_ONE_SHOT
   allowed_capabilities:
-  - CONTROLLED_REAL_LOCAL_GIT_TASK_FOUNDATION
-  - NON_AUTHORITATIVE_PATCH_PROPOSAL_EVIDENCE
-  - HOST_TRIGGERED_ONE_SHOT_DISPOSABLE_COPY_VERIFICATION
+  - ACTUAL_AGENT_NON_AUTHORITATIVE_RESERVED_TOOL_PROPOSAL
+  - HOST_DERIVED_CUSTODY_TRANSACTIONAL_MYSQL_AND_TERMINAL_CAS
+  - THREE_REPRESENTATIVE_FRESH_PROCESS_RECOVERY_WINDOWS
+  - TASK_OWNED_PINNED_LOCAL_OCI_READ_ONLY_SHA256_ACTION
+  - HOST_TRIGGERED_ONE_SHOT_STRICT_CAPABILITY_ACCEPTANCE
   role_write_roots:
     worker: []
     quality: []
@@ -22297,6 +22614,8 @@ phase_boundary:
   founder_reserved_risk_levels:
   - critical
   deferred_capabilities:
+  - P3_PHASE_EXIT
+  - P4_ENTRY_AND_EXECUTION
   - P4_PHASE_EXIT
   - P5_ENTRY
   - TRUSTED_AUTONOMOUS_EXECUTION
@@ -22304,7 +22623,6 @@ phase_boundary:
   - INTERNET
   - PROVIDER
   - SECRET
-  - DOCKER
   - REMOTE
   - PRODUCTION
   - PUBLIC
@@ -22330,7 +22648,7 @@ phase_boundary:
   user_action_required: false
   phase_route_decision_required: false
   phase_route_user_action_required: false
-  next_eligible_action: MASTER_ACTIVATE_AIOS_P4_F1
+  next_eligible_action: MASTER_ACTIVATE_AIOS_P3_R1
 p0_baseline:
   checkpoint_commit: ad6450e418d8f1b4fd5a789f913525a8dd8bdc10
   checkpoint_tree: 2c0956ae8598547466f691ead21532a026006bf9
@@ -22550,7 +22868,7 @@ strict_phase_gate_ledger:
         byte_length: 4574
         sha256: 8f5ab941e79af9006ce1f2c563dbb1932f51008ad2dbd3ec27afd445bf69f4de
     P3:
-      status: COMPLETE_RESEARCH_NON_PASS_EXECUTION_CAPABILITY_NOT_ACCEPTED
+      status: INCOMPLETE
       entry_authorized: true
       execution_started: true
       phase_entry_decision:
@@ -22628,11 +22946,18 @@ strict_phase_gate_ledger:
           status: MISSING
           acceptance_requires_all_current_items: true
       founder_phase_gate:
+        decision_id:
+        path:
+        byte_length:
+        sha256:
+        status: NOT_ELIGIBLE_MISSING_REQUIRED_ITEMS
+      historical_research_non_pass_founder_decision:
         decision_id: AUTHORIZE_P3_RESEARCH_NON_PASS_CLOSURE_AND_CONDITIONAL_P4_PROPOSAL_FIRST_PHASE_ENTRY_V1
         path: docs/aios/decisions/P3_RESEARCH_NON_PASS_CLOSURE_AND_P4_PROPOSAL_FIRST_PHASE_ENTRY_DECISION_V1.json
         byte_length: 10592
         sha256: e52a969b1f128cb86c361bfe9c77ff49996be0ec2fa3e452c6afa249146e6fe0
-        status: PASS_RESEARCH_NON_PASS_EXECUTION_CAPABILITY_NOT_ACCEPTED
+        historical_status: PASS_RESEARCH_NON_PASS_EXECUTION_CAPABILITY_NOT_ACCEPTED
+        scheduling_authority: SUPERSEDED_FOR_P3_PHASE_COMPLETION_AND_P4_ENTRY_ONLY
         closure_audit:
           path: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-research-non-pass-closure-20260824/phase-exit/P3_RESEARCH_NON_PASS_CLOSURE_AUDIT_RECEIPT_V1.json"
           byte_length: 11641
@@ -22681,13 +23006,15 @@ strict_phase_gate_ledger:
         path:
         byte_length:
         sha256:
-      entry_authorized: true
+      entry_authorized: false
       execution_started: false
-      phase_entry_decision:
+      entry_status: HOLD_PENDING_STRICT_P3_CAPABILITY_ACCEPTANCE_AND_FOUNDER_PHASE_GATE
+      historical_superseded_phase_entry_projection:
         decision_id: AUTHORIZE_P3_RESEARCH_NON_PASS_CLOSURE_AND_CONDITIONAL_P4_PROPOSAL_FIRST_PHASE_ENTRY_V1
         path: docs/aios/decisions/P3_RESEARCH_NON_PASS_CLOSURE_AND_P4_PROPOSAL_FIRST_PHASE_ENTRY_DECISION_V1.json
         byte_length: 10592
         sha256: e52a969b1f128cb86c361bfe9c77ff49996be0ec2fa3e452c6afa249146e6fe0
+        scheduling_authority: SUPERSEDED
     P5:
       status: INCOMPLETE
       exit_gate_authority:
@@ -29320,7 +29647,7 @@ historical_p3_trivs_f2_terminal_active_work:
   next_eligible_action: FOUNDER_DECIDE_P3_AFTER_TRIVS_F2_TERMINAL_NON_PASS
 active_work:
   current_task: NONE
-  selected_task: AIOS-P4-F1_CONTROLLED_REAL_TASK_AND_PATCH_EVIDENCE_ACCEPTANCE_FOUNDATION
+  selected_task: AIOS-P3-R1_STRICT_CAPABILITY_PRODUCT
   current_task_status: ELIGIBLE_NOT_ACTIVATED
   current_task_contract:
   current_task_contract_sha256:
@@ -29334,12 +29661,12 @@ active_work:
   activation_parent_commit:
   activation_parent_tree:
   strategic_installation_parent:
-    commit: ca4f80905271c5e5afd8d0dde9bd1972f110bfe7
-    tree: 9bc7dbad643e5062064aee7a05236e79d8989f3f
-  task_resource_state: NO_ACTIVE_TASK_F1_ELIGIBLE
-  planned_task_branch: codex/p4-f1-controlled-real-task-evidence-foundation
-  planned_task_worktree: "/Users/lijunpeng/Developer/.sourcelens-worktrees/p4-f1-controlled-real-task-evidence-foundation"
-  planned_execution_evidence_root: "/Users/lijunpeng/Developer/.sourcelens-audit/p4-proposal-first-controlled-real-task-20260824/task-f1"
+    commit: d639f4b0d92e68bcfe35b0c8da525a47a8aa4405
+    tree: fb2edbf35a0b505e85cd65318f409ffc3c1ab091
+  task_resource_state: NO_ACTIVE_TASK_P3_PRODUCT_ELIGIBLE
+  planned_task_branch: codex/p3-r1-strict-capability-product
+  planned_task_worktree: "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-r1-strict-capability-product"
+  planned_execution_evidence_root: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-strict-capability-reentry-20260825/task-product"
   task_branch:
   task_worktree:
   execution_evidence_root:
@@ -29348,8 +29675,11 @@ active_work:
   current_task_budget: {}
   next_stage_budget:
     engineering_tasks: 1
-    engineering_hours: 24
-    calendar_days: 6
+    engineering_hours: 48
+    calendar_days: 10
+    candidate_generations: 2
+    same_task_repairs: 1
+    review_cycles: 2
   roles:
     owner: MASTER_CEO_AGENT
     worker: NOT_YET_ASSIGNED
@@ -29383,8 +29713,8 @@ active_work:
     release: false
     canonical_source_write_by_system_under_test: false
   offsite_target:
-  founder_reserved_authorization: docs/aios/decisions/P3_RESEARCH_NON_PASS_CLOSURE_AND_P4_PROPOSAL_FIRST_PHASE_ENTRY_DECISION_V1.json
-  founder_reserved_authorization_sha256: e52a969b1f128cb86c361bfe9c77ff49996be0ec2fa3e452c6afa249146e6fe0
+  founder_reserved_authorization: docs/aios/decisions/P3_STRICT_CAPABILITY_REENTRY_P4_HOLD_AND_ONE_SHOT_COMPLETION_ROUTE_V1.json
+  founder_reserved_authorization_sha256: b7588a075e5fd3917760c9a225fba4af69458a83c39d47b5340ce73eedeb141d
   founder_decision_required: false
   founder_decision_required_scope: NONE
   escalation_reason:
@@ -29397,7 +29727,7 @@ active_work:
     consumed_calendar_days: 132
     latest_terminal_task_id: AIOS-P3-MTRO-P1_ACTUAL_AGENT_TRANSACTIONAL_OCI_READ_ONLY_INVOCATION
     latest_terminal_receipt_sha256: a5866faa737513b7ca9515fd451ecbf2360d949bb24995f8ce88df1df15043e0
-  next_eligible_action: MASTER_ACTIVATE_AIOS_P4_F1
+  next_eligible_action: MASTER_ACTIVATE_AIOS_P3_R1
 historical_p2_080_terminal_active_work:
   current_task: AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER
   current_task_status: TERMINAL_EVALUATION_EVIDENCE_ADAPTER_DEV_COMPATIBILITY_NON_PASS
@@ -36153,22 +36483,24 @@ historical_p3_trivs_f2_terminal_phase_execution_claim:
   candidate_integration_allowed: false
   next_eligible_action: FOUNDER_DECIDE_P3_AFTER_TRIVS_F2_TERMINAL_NON_PASS
 phase_execution_claim:
-  current_route_claim: P4_PROPOSAL_FIRST_CONTROLLED_REAL_TASK_ROUTE_V1
+  current_route_claim: P3_STRICT_CAPABILITY_REENTRY_ONE_SHOT_COMPLETION_ROUTE_V1
   current_task_claim: NONE
-  selected_next_task: AIOS-P4-F1_CONTROLLED_REAL_TASK_AND_PATCH_EVIDENCE_ACCEPTANCE_FOUNDATION
-  real_engineering_progress: P4_NOT_STARTED_F1_ELIGIBLE
+  selected_next_task: AIOS-P3-R1_STRICT_CAPABILITY_PRODUCT
+  real_engineering_progress: P3_STRICT_CAPABILITY_0_PERCENT_PRODUCT_ELIGIBLE_NOT_ACTIVATED
   product_capability_changed: false
   accepted_outcomes:
   - DURABLE_STATE_AND_CHECKPOINT_RESUME
   - DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION
-  - P3_RESEARCH_NON_PASS_EXECUTION_CAPABILITY_NOT_ACCEPTED
   p3_research_exit_percent: 100
   p3_original_capability_progress_percent: 0
-  p4_entry_authorized: true
+  p3_management_delivery_percent: 25
+  p3_strict_capability_reentry_active: true
+  p4_entry_authorized: false
+  p4_entry_status: HOLD_PENDING_STRICT_P3_CAPABILITY_ACCEPTANCE_AND_FOUNDER_PHASE_GATE
   p4_exit_gate_progress_percent: 0
   p4_management_delivery_percent: 0
   phase_local_allowed:
-  - MASTER_ACTIVATE_AIOS_P4_F1
+  - MASTER_ACTIVATE_AIOS_P3_R1
   phase_local_frozen_capabilities:
   - SYSTEM_UNDER_TEST_SHELL_OR_SIDE_EFFECT_TOOL
   - NETWORK_PROVIDER_SECRET_DOCKER_REMOTE_PRODUCTION_PUBLIC
@@ -36177,11 +36509,11 @@ phase_execution_claim:
   historical_terminal_rules:
   - P3_TERMINAL_IDENTITIES_AND_NON_INTEGRATION_PRESERVED
   - NO_REJECTED_P3_ENGINEERING_LINEAGE_READ_COMPARE_COPY_RESTORE_OR_REUSE
-  mandatory_priority_rule: COMPLETE_F1_THEN_P1_THEN_ONE_SHOT_E1
+  mandatory_priority_rule: COMPLETE_P3_R1_PRODUCT_THEN_ONE_SHOT_P3_R2_FORMAL_P4_HOLD
   task_creation_allowed: true
   remaining_capacity_usable: true
   candidate_integration_allowed: false
-  next_eligible_action: MASTER_ACTIVATE_AIOS_P4_F1
+  next_eligible_action: MASTER_ACTIVATE_AIOS_P3_R1
 p2_recovery_control:
   schema_version: p2-recovery-control/v2
   status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
@@ -36231,27 +36563,37 @@ p2_recovery_control:
   p3_entry_authorized: true
   next_eligible_action: P3_PHASE_EXECUTION
 claim_boundary:
-  current_phase_route: P4_PROPOSAL_FIRST_CONTROLLED_REAL_TASK_ROUTE_V1
+  current_phase_route: P3_STRICT_CAPABILITY_REENTRY_ONE_SHOT_COMPLETION_ROUTE_V1
   current_task: NONE
-  selected_task: AIOS-P4-F1_CONTROLLED_REAL_TASK_AND_PATCH_EVIDENCE_ACCEPTANCE_FOUNDATION
+  selected_task: AIOS-P3-R1_STRICT_CAPABILITY_PRODUCT
   current_task_status: ELIGIBLE_NOT_ACTIVATED
-  next_eligible_action: MASTER_ACTIVATE_AIOS_P4_F1
-  real_engineering_progress: P4_NOT_STARTED_F1_ELIGIBLE
+  next_eligible_action: MASTER_ACTIVATE_AIOS_P3_R1
+  real_engineering_progress: P3_STRICT_CAPABILITY_0_PERCENT_PRODUCT_ELIGIBLE_NOT_ACTIVATED
   p2_research_exit_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
   p2_research_exit_percent: 100
   p2_original_capability_gate_status: MISSING_NOT_ACCEPTED
   p2_original_capability_progress_percent: 0
   p2_candidate_integrated: false
   p2_held_source_reads: 0
-  p3_status: COMPLETE_RESEARCH_NON_PASS_EXECUTION_CAPABILITY_NOT_ACCEPTED
+  p3_status: ACTIVE_INCOMPLETE_STRICT_CAPABILITY_REENTRY
   p3_entry_authorized: true
-  p3_phase_envelope_status: CLOSED_EXHAUSTED
+  p3_phase_envelope_status: AUTHORIZED_PRODUCT_ELIGIBLE
   p3_exit_gate_progress_percent: 0
   p3_delivery_progress_percent: 25
   p3_accepted_milestones:
   - DURABLE_STATE_AND_CHECKPOINT_RESUME
   - DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION
   p3_capability_milestone_status: MISSING_NOT_ACCEPTED
+  p3_reentry_route_decision_sha256: b7588a075e5fd3917760c9a225fba4af69458a83c39d47b5340ce73eedeb141d
+  p3_reentry_route_source_body_sha256: b268d4059cf950770a81c9401db9a6b26ea99f4ad585929bb182f165cc2fea19
+  p3_reentry_route_stage: PRODUCT_ELIGIBLE_NOT_ACTIVATED
+  p3_reentry_product_task_status: ELIGIBLE_NOT_ACTIVATED
+  p3_reentry_formal_task_status: LOCKED_PENDING_PRODUCT_CANDIDATE_FROZEN
+  p3_reentry_candidate_integrated: false
+  p3_reentry_delivery_credit: 0
+  p3_reentry_strict_exit_credit: 0
+  p4_entry_authorized: false
+  p4_entry_status: HOLD_PENDING_STRICT_P3_CAPABILITY_ACCEPTANCE_AND_FOUNDER_PHASE_GATE
   p3_mtro_route_decision_sha256: e1ce4b6080c4ad193fd81511e44f72a7f1bceb4edfae4d1e5425ca8b42a6b217
   p3_mtro_route_source_body_sha256: cfca3b136f89ba2673203d594135404620c65a94dcfbadc771540f8b266025c2
   p3_mtro_route_stage: PRODUCT_ROUTE_TERMINAL_NON_PASS
@@ -37983,8 +38325,8 @@ claim_boundary:
   p3_research_exit_status: COMPLETE
   p3_research_exit_percent: 100
   p3_research_closure_audit_sha256: ff42e8ab71c4c14ef12c29edec95a59528dbf34f61213556c065ac6c9b5d46a9
-  p4_status: P4_F1_ELIGIBLE_NOT_ACTIVATED
-  p4_entry_authorized: true
+  historical_superseded_p4_status: P4_F1_ELIGIBLE_NOT_ACTIVATED
+  historical_superseded_p4_entry_authorized: true
   p4_strict_exit_progress_percent: 0
   p4_management_delivery_percent: 0
   p4_system_under_test_authority: PROPOSAL_DATA_ONLY
@@ -38671,6 +39013,7 @@ historical_p3_mtro_terminal_phase_execution_claim:
 p3_research_non_pass_closure:
   schema_version: p3-research-non-pass-closure/v1
   status: COMPLETE_RESEARCH_NON_PASS_EXECUTION_CAPABILITY_NOT_ACCEPTED
+  scheduling_authority: HISTORICAL_SUPERSEDED_FOR_P3_PHASE_COMPLETION_AND_P4_ENTRY_ONLY
   research_exit_percent: 100
   management_delivery_percent: 25
   strict_execution_capability_percent: 0

@@ -7423,6 +7423,24 @@ module P3MinimumTrustTransactionalOciFinalProductRouteValidation
       "terminal" => false,
       "delivery" => 100,
       "strict" => 100
+    },
+    "PRODUCT_CANDIDATE_FROZEN_FORMAL_ELIGIBLE" => {
+      "state" => "P3_STRICT_REENTRY_PRODUCT_CANDIDATE_FROZEN_FORMAL_ELIGIBLE",
+      "route_status" => "ACTIVE",
+      "founder_required" => false,
+      "disposition" => "NO_RESERVED_TRIGGER_CONTINUE_PHASE"
+    },
+    "FORMAL_TASK_ACTIVE" => {
+      "state" => "P3_STRICT_REENTRY_FORMAL_TASK_ACTIVE",
+      "route_status" => "ACTIVE",
+      "founder_required" => false,
+      "disposition" => "NO_RESERVED_TRIGGER_CONTINUE_PHASE"
+    },
+    "FORMAL_ROUTE_TERMINAL_NON_PASS" => {
+      "state" => "P3_STRICT_REENTRY_FORMAL_ROUTE_TERMINAL_NON_PASS",
+      "route_status" => "TERMINAL_FINAL_EXCEPTION_NON_PASS",
+      "founder_required" => false,
+      "disposition" => "NO_RESERVED_TRIGGER_ROUTE_TERMINAL"
     }
   }.transform_values(&:freeze).freeze
 
@@ -10223,6 +10241,11 @@ module P3MinimumTrustTransactionalOciFinalProductRouteValidation
   end
 
   def validate_truth!(root:, truth:)
+    if truth.dig("current_phase_route", "route_id") ==
+       "P3_STRICT_CAPABILITY_REENTRY_ONE_SHOT_COMPLETION_ROUTE_V1"
+      return P3StrictCapabilityReentryRouteValidation.validate_truth!(root: root, truth: truth)
+    end
+
     root = Pathname.new(root).realpath
     decision = validate_decision!(root)
     route = exact_keys(
@@ -10934,6 +10957,630 @@ module P3MinimumTrustTransactionalOciFinalProductRouteValidation
   end
 end
 
+class P3StrictCapabilityReentryRouteValidationError < StandardError; end
+
+module P3StrictCapabilityReentryRouteValidation
+  module_function
+
+  # The legacy dispatch schema is retained solely because the frozen current-task and
+  # Founder-continuity validators already route this capability family through the MTRO
+  # validator. The semantic schema is mandatory and prevents the compatibility dispatch
+  # from being mistaken for the exhausted historical MTRO Route.
+  DISPATCH_SCHEMA = "p3-minimum-trust-transactional-oci-final-product-route/v1"
+  SEMANTIC_SCHEMA = "p3-strict-capability-reentry-route/v1"
+  ROUTE_ID = "P3_STRICT_CAPABILITY_REENTRY_ONE_SHOT_COMPLETION_ROUTE_V1"
+  DECISION_ID = "AUTHORIZE_P3_STRICT_CAPABILITY_REENTRY_P4_HOLD_AND_ONE_SHOT_COMPLETION_ROUTE_V1"
+  OPERATION_TYPE = "P3_STRICT_CAPABILITY_REENTRY_P4_HOLD_AND_ONE_SHOT_COMPLETION_ROUTE"
+  OBJECTIVE_ID = "ACTUAL_AGENT_HOST_AUTHORIZED_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE"
+  STRICT_GATE_ID = "ACTUAL_AGENT_HOST_AUTHORIZED_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE_ACCEPTED"
+  STRICT_ITEMS = %w[
+    ACTUAL_AGENT_NON_AUTHORITATIVE_PROPOSAL_AND_EXCLUSIVE_RESERVED_INGRESS
+    HOST_DERIVED_CUSTODY_DURABLE_INTENT_REAL_MYSQL_AND_EXACTLY_ONE_TERMINAL
+    REPRESENTATIVE_FRESH_PROCESS_RECOVERY_AND_CHECKPOINT_GATE
+    PINNED_LOCAL_OCI_READ_ONLY_ISOLATION_COMPLETE_TRACE_AND_REPLAY
+  ].freeze
+  DECISION = {
+    "path" =>
+      "docs/aios/decisions/P3_STRICT_CAPABILITY_REENTRY_P4_HOLD_AND_ONE_SHOT_COMPLETION_ROUTE_V1.json",
+    "byte_length" => 16_136,
+    "sha256" => "b7588a075e5fd3917760c9a225fba4af69458a83c39d47b5340ce73eedeb141d"
+  }.freeze
+  DIRECT_AUTHORIZATION = {
+    "path" =>
+      "/Users/lijunpeng/.codex/attachments/d279e97b-31d3-42c4-a419-68507be39c97/pasted-text.txt",
+    "byte_length" => 22_282,
+    "sha256" => "b268d4059cf950770a81c9401db9a6b26ea99f4ad585929bb182f165cc2fea19"
+  }.freeze
+  CONSTITUTION = {
+    "path" => "docs/aios/STRATEGIC_CONSTITUTION.md",
+    "version" => "3.8",
+    "byte_length" => 60_203,
+    "sha256" => "50a0a68d57d3eb958f6eab7546f17da69e7501589edc0e49542c7067be6cadbe"
+  }.freeze
+  STRICT_CAPABILITY_DECISION = {
+    "path" =>
+      "docs/aios/decisions/P3_MINIMUM_TRUST_TRANSACTIONAL_OCI_FINAL_PRODUCT_ROUTE_AFTER_F2_TERMINAL_V2.json",
+    "byte_length" => 23_363,
+    "sha256" => "e1ce4b6080c4ad193fd81511e44f72a7f1bceb4edfae4d1e5425ca8b42a6b217"
+  }.freeze
+  IMMUTABLE_PHASE_RECEIPT = {
+    "path" =>
+      "/Users/lijunpeng/Developer/.sourcelens-audit/p3-research-non-pass-closure-20260824/phase-exit/P3_RESEARCH_NON_PASS_PHASE_EXIT_AND_P4_ENTRY_RECEIPT_V1.json",
+    "byte_length" => 11_076,
+    "sha256" => "bae38128eba0cfb2e75a18c80ae257b01c52912e10279d693368afc15e77d0fa"
+  }.freeze
+  CANONICAL_START = {
+    "commit" => "d639f4b0d92e68bcfe35b0c8da525a47a8aa4405",
+    "tree" => "fb2edbf35a0b505e85cd65318f409ffc3c1ab091"
+  }.freeze
+  HISTORICAL_CONSUMED = {
+    "engineering_tasks" => 19,
+    "engineering_hours" => 568,
+    "calendar_days" => 132
+  }.freeze
+  REENTRY_LIMITS = {
+    "engineering_tasks" => 2,
+    "engineering_hours" => 72,
+    "calendar_days" => 16,
+    "strategic_installation_labor_hours" => 8,
+    "strategic_installation_calendar_days" => 2,
+    "total_labor_hours" => 80,
+    "total_calendar_days" => 18,
+    "active_tasks" => 1,
+    "task_branches" => 1,
+    "task_worktrees" => 1,
+    "active_candidates" => 1
+  }.freeze
+  TASKS = [
+    {
+      "ordinal" => 1,
+      "stage_id" => "STRICT_CAPABILITY_PRODUCT",
+      "task_id" => "AIOS-P3-R1_STRICT_CAPABILITY_PRODUCT",
+      "nonce" => "p3-r1-strict-capability-product-20260825-v1",
+      "kind" => "PRODUCT_IMPLEMENTATION",
+      "branch" => "codex/p3-r1-strict-capability-product",
+      "worktree" =>
+        "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-r1-strict-capability-product",
+      "evidence_root" =>
+        "/Users/lijunpeng/Developer/.sourcelens-audit/p3-strict-capability-reentry-20260825/task-product",
+      "contract_path" => "docs/aios/tasks/P3-R1_STRICT_CAPABILITY_PRODUCT.yaml",
+      "authority_path" =>
+        "/Users/lijunpeng/Developer/.sourcelens-audit/p3-strict-capability-reentry-20260825/task-product/authority/P3_R1_PHASE_DELEGATED_TASK_AUTHORITY_V1.json",
+      "budget" => {
+        "engineering_tasks" => 1, "engineering_hours" => 48, "calendar_days" => 10,
+        "candidate_generations" => 2, "same_task_repairs" => 1, "review_cycles" => 2
+      }
+    },
+    {
+      "ordinal" => 2,
+      "stage_id" => "ONE_SHOT_STRICT_CAPABILITY_ACCEPTANCE",
+      "task_id" => "AIOS-P3-R2_ONE_SHOT_STRICT_CAPABILITY_ACCEPTANCE",
+      "nonce" => "p3-r2-one-shot-strict-capability-acceptance-20260825-v1",
+      "kind" => "EVALUATION_ONLY_ONE_SHOT",
+      "branch" => "codex/p3-r2-one-shot-strict-capability-acceptance",
+      "worktree" =>
+        "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-r2-one-shot-strict-capability-acceptance",
+      "evidence_root" =>
+        "/Users/lijunpeng/Developer/.sourcelens-audit/p3-strict-capability-reentry-20260825/task-formal-evaluation",
+      "contract_path" => "docs/aios/tasks/P3-R2_ONE_SHOT_STRICT_CAPABILITY_ACCEPTANCE.yaml",
+      "authority_path" =>
+        "/Users/lijunpeng/Developer/.sourcelens-audit/p3-strict-capability-reentry-20260825/task-formal-evaluation/authority/P3_R2_PHASE_DELEGATED_TASK_AUTHORITY_V1.json",
+      "budget" => {
+        "engineering_tasks" => 1, "engineering_hours" => 24, "calendar_days" => 6,
+        "formal_dispatches" => 1
+      }
+    }
+  ].map(&:freeze).freeze
+  P4_HOLD = "HOLD_PENDING_STRICT_P3_CAPABILITY_ACCEPTANCE_AND_FOUNDER_PHASE_GATE"
+  ROUTE_KEYS = %w[
+    schema_version semantic_schema_version route_id phase target_phase policy status lifecycle_stage
+    execution_status scheduling_status phase_entry_status founder_phase_route_decision_required
+    founder_reserved_triggers_resolved next_eligible_action objective_id objective_changed
+    strict_exit_gate founder_strategy_decision governing_constitution strategic_installation_parent
+    historical_research_closure accepted_dependencies ordered_stages system_under_test_permissions
+    host_permissions p4_hold clean_room anti_cycle progress lifecycle
+  ].freeze
+  PROFILES = {
+    "PRODUCT_ELIGIBLE_NOT_ACTIVATED" => {
+      "route_status" => "AUTHORIZED_READY",
+      "execution" => "P3_PRODUCT_ELIGIBLE_NOT_ACTIVATED",
+      "scheduling" => "READY_FOR_PRODUCT_ACTIVATION",
+      "action" => "MASTER_ACTIVATE_AIOS_P3_R1",
+      "stage_statuses" => %w[ELIGIBLE_NOT_ACTIVATED LOCKED_PENDING_PRODUCT_CANDIDATE_FROZEN],
+      "active" => nil, "selected" => 0, "envelope" => "AUTHORIZED_PRODUCT_ELIGIBLE",
+      "p3" => "ACTIVE_INCOMPLETE_STRICT_CAPABILITY_REENTRY",
+      "delivery" => 25, "strict" => 0, "founder" => false,
+      "disposition" => "NO_RESERVED_TRIGGER_CONTINUE_PHASE",
+      "owner" => "MASTER_CEO_AGENT", "trigger" => "NONE",
+      "compat_state" => "P3_MTRO_PRODUCT_ELIGIBLE_NOT_ACTIVATED"
+    },
+    "PRODUCT_TASK_ACTIVE" => {
+      "route_status" => "ACTIVE",
+      "execution" => "P3_PRODUCT_TASK_ACTIVE",
+      "scheduling" => "PRODUCT_TASK_ACTIVE",
+      "action" => "WORKER_EXECUTE_AIOS_P3_R1",
+      "stage_statuses" => %w[ACTIVE LOCKED_PENDING_PRODUCT_CANDIDATE_FROZEN],
+      "active" => 0, "selected" => 0, "envelope" => "ACTIVE_PRODUCT_TASK",
+      "p3" => "ACTIVE_INCOMPLETE_STRICT_CAPABILITY_REENTRY",
+      "delivery" => 25, "strict" => 0, "founder" => false,
+      "disposition" => "NO_RESERVED_TRIGGER_CONTINUE_PHASE",
+      "owner" => "MASTER_CEO_AGENT", "trigger" => "NONE",
+      "compat_state" => "P3_MTRO_PRODUCT_TASK_ACTIVE"
+    },
+    "PRODUCT_CANDIDATE_FROZEN_FORMAL_ELIGIBLE" => {
+      "route_status" => "ACTIVE",
+      "execution" => "P3_PRODUCT_CANDIDATE_FROZEN_FORMAL_ELIGIBLE",
+      "scheduling" => "READY_FOR_FORMAL_ACTIVATION",
+      "action" => "MASTER_ACTIVATE_AIOS_P3_R2",
+      "stage_statuses" => %w[CANDIDATE_FROZEN ELIGIBLE_NOT_ACTIVATED],
+      "active" => nil, "selected" => 1, "envelope" => "AUTHORIZED_FORMAL_ELIGIBLE",
+      "p3" => "ACTIVE_INCOMPLETE_STRICT_CAPABILITY_REENTRY",
+      "delivery" => 25, "strict" => 0, "founder" => false,
+      "disposition" => "NO_RESERVED_TRIGGER_CONTINUE_PHASE",
+      "owner" => "MASTER_CEO_AGENT", "trigger" => "NONE",
+      "compat_state" => "P3_STRICT_REENTRY_PRODUCT_CANDIDATE_FROZEN_FORMAL_ELIGIBLE"
+    },
+    "FORMAL_TASK_ACTIVE" => {
+      "route_status" => "ACTIVE",
+      "execution" => "P3_FORMAL_TASK_ACTIVE",
+      "scheduling" => "FORMAL_TASK_ACTIVE_ONE_SHOT",
+      "action" => "EVALUATE_AIOS_P3_R2_ONE_SHOT",
+      "stage_statuses" => %w[CANDIDATE_FROZEN ACTIVE],
+      "active" => 1, "selected" => 1, "envelope" => "ACTIVE_FORMAL_ONE_SHOT",
+      "p3" => "ACTIVE_INCOMPLETE_STRICT_CAPABILITY_REENTRY",
+      "delivery" => 25, "strict" => 0, "founder" => false,
+      "disposition" => "NO_RESERVED_TRIGGER_CONTINUE_PHASE",
+      "owner" => "MASTER_CEO_AGENT", "trigger" => "NONE",
+      "compat_state" => "P3_STRICT_REENTRY_FORMAL_TASK_ACTIVE"
+    },
+    "PRODUCT_ROUTE_TERMINAL_NON_PASS" => {
+      "route_status" => "TERMINAL_FINAL_EXCEPTION_NON_PASS",
+      "execution" => "P3_HOLD_INCOMPLETE_FINAL_EXCEPTION_EXHAUSTED",
+      "scheduling" => "NO_FURTHER_P3_IMPLEMENTATION_ALLOWED",
+      "action" => "NO_ENGINEERING_ACTION_P3_HOLD_INCOMPLETE_FINAL_EXCEPTION_EXHAUSTED",
+      "stage_statuses" => %w[TERMINAL_TASK_GATE_NON_PASS LOCKED_ROUTE_TERMINAL],
+      "active" => nil, "selected" => nil, "envelope" => "HOLD_INCOMPLETE_FINAL_EXCEPTION_EXHAUSTED",
+      "p3" => "HOLD_INCOMPLETE_FINAL_EXCEPTION_EXHAUSTED",
+      "delivery" => 25, "strict" => 0, "founder" => false,
+      "disposition" => "NO_RESERVED_TRIGGER_ROUTE_TERMINAL",
+      "owner" => "NONE", "trigger" => "NONE",
+      "compat_state" => "P3_MTRO_PRODUCT_ROUTE_TERMINAL_NON_PASS"
+    },
+    "FORMAL_ROUTE_TERMINAL_NON_PASS" => {
+      "route_status" => "TERMINAL_FINAL_EXCEPTION_NON_PASS",
+      "execution" => "P3_HOLD_INCOMPLETE_FINAL_EXCEPTION_EXHAUSTED",
+      "scheduling" => "NO_FURTHER_P3_IMPLEMENTATION_ALLOWED",
+      "action" => "NO_ENGINEERING_ACTION_P3_HOLD_INCOMPLETE_FINAL_EXCEPTION_EXHAUSTED",
+      "stage_statuses" => %w[CANDIDATE_FROZEN TERMINAL_FORMAL_NON_PASS],
+      "active" => nil, "selected" => nil, "envelope" => "HOLD_INCOMPLETE_FINAL_EXCEPTION_EXHAUSTED",
+      "p3" => "HOLD_INCOMPLETE_FINAL_EXCEPTION_EXHAUSTED",
+      "delivery" => 25, "strict" => 0, "founder" => false,
+      "disposition" => "NO_RESERVED_TRIGGER_ROUTE_TERMINAL",
+      "owner" => "NONE", "trigger" => "NONE",
+      "compat_state" => "P3_STRICT_REENTRY_FORMAL_ROUTE_TERMINAL_NON_PASS"
+    },
+    "PRODUCT_ACCEPTED_PHASE_GATE_ELIGIBLE" => {
+      "route_status" => "ACCEPTED_AWAITING_FOUNDER_PHASE_GATE",
+      "execution" => "ELIGIBLE_AWAITING_FOUNDER_P3_PHASE_GATE_DECISION",
+      "scheduling" => "NO_TASK_FOUNDER_P3_PHASE_GATE",
+      "action" => "FOUNDER_DECIDE_P3_PHASE_GATE",
+      "stage_statuses" => %w[ACCEPTED_INTEGRATED_CANONICAL_REPLAY_PASS ACCEPTED],
+      "active" => nil, "selected" => nil, "envelope" => "P3_EXIT_GATE_READY",
+      "p3" => "ELIGIBLE_AWAITING_FOUNDER_P3_PHASE_GATE_DECISION",
+      "delivery" => 100, "strict" => 100, "founder" => true,
+      "disposition" => "FOUNDER_RESERVED_DECISION_REQUIRED",
+      "owner" => "HUMAN_FOUNDER", "trigger" => "PHASE_ENTRY_OR_EXIT",
+      "compat_state" => "P3_MTRO_PRODUCT_ACCEPTED_PHASE_GATE_ELIGIBLE"
+    }
+  }.transform_values(&:freeze).freeze
+
+  def assert(condition, message)
+    raise P3StrictCapabilityReentryRouteValidationError, message unless condition
+  end
+
+  def mapping(value, label)
+    assert(value.is_a?(Hash), "#{label} must be a mapping")
+    value
+  end
+
+  def array(value, label)
+    assert(value.is_a?(Array), "#{label} must be a sequence")
+    value
+  end
+
+  def exact_keys(value, keys, label)
+    record = mapping(value, label)
+    assert(record.keys.sort == keys.sort, "#{label} keys are not closed")
+    record
+  end
+
+  def normalize_root!(root)
+    assert(root.is_a?(String) || root.is_a?(Pathname),
+           "repository root must be a String or Pathname")
+    candidate = Pathname.new(root.to_s)
+    assert(candidate.absolute?, "repository root must be absolute")
+    resolved = candidate.realpath
+    assert(resolved.directory?, "repository root must be a directory")
+    resolved
+  rescue ArgumentError, Errno::ENOENT, Errno::ELOOP => e
+    raise P3StrictCapabilityReentryRouteValidationError,
+          "repository root invalid: #{e.message}"
+  end
+
+  def resolve_path(root, path, label)
+    assert(path.is_a?(String) && !path.empty?, "#{label} path is invalid")
+    candidate = Pathname.new(path)
+    candidate = root.join(candidate) unless candidate.absolute?
+    clean = candidate.cleanpath
+    assert(clean.to_s == candidate.to_s, "#{label} path is not lexical-canonical")
+    current = Pathname.new(File::SEPARATOR)
+    clean.each_filename do |component|
+      current = current.join(component)
+      assert(!File.lstat(current).symlink?, "#{label} contains a symlink component")
+    end
+    clean
+  rescue Errno::ENOENT, Errno::ELOOP => e
+    raise P3StrictCapabilityReentryRouteValidationError,
+          "#{label} unavailable: #{e.message}"
+  end
+
+  def verify_identity!(root, identity, expected, label, require_mode: nil, require_nlink: nil)
+    record = exact_keys(identity, %w[path byte_length sha256], label)
+    assert(record == expected, "#{label} identity drift") if expected
+    path = resolve_path(root, record.fetch("path"), label)
+    stat = File.lstat(path)
+    assert(stat.file? && !stat.symlink?, "#{label} must be a regular non-symlink file")
+    bytes = path.binread
+    assert(bytes.bytesize == record.fetch("byte_length") &&
+           Digest::SHA256.hexdigest(bytes) == record.fetch("sha256"),
+           "#{label} bytes drift")
+    assert((stat.mode & 0o777) == require_mode, "#{label} mode drift") if require_mode
+    assert(stat.nlink == require_nlink, "#{label} hard-link count drift") if require_nlink
+    bytes
+  end
+
+  def verify_optional_identity!(root, value, label)
+    return nil if value.nil?
+
+    verify_identity!(root, value, nil, label)
+  end
+
+  def git!(root, *args)
+    output, error, status = Open3.capture3("git", "-C", root.to_s, *args)
+    assert(status.success?, "git #{args.join(' ')} failed: #{error.strip}")
+    output
+  end
+
+  def parse_json!(bytes, label)
+    JSON.parse(bytes)
+  rescue JSON::ParserError => e
+    raise P3StrictCapabilityReentryRouteValidationError, "#{label} JSON invalid: #{e.message}"
+  end
+
+  def validate_decision!(root)
+    decision = parse_json!(verify_identity!(root, DECISION, DECISION, "P3 reentry decision"),
+                           "P3 reentry decision")
+    assert(decision["schema_version"] ==
+             "p3-strict-capability-reentry-p4-hold-one-shot-completion-founder-decision/v1" &&
+           decision["decision_id"] == DECISION_ID &&
+           decision["operation_type"] == OPERATION_TYPE &&
+           decision["reserved_triggers"] == %w[
+             MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+             MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
+             PHASE_ENTRY_OR_EXIT
+           ] && decision["direct_founder_authorization"] ==
+             DIRECT_AUTHORIZATION.merge("canonicalization" => "EXACT_ATTACHMENT_BYTES_NO_TRAILING_LF") &&
+           decision.dig("route", "schema_version") == SEMANTIC_SCHEMA &&
+           decision.dig("route", "route_id") == ROUTE_ID &&
+           decision.dig("strict_exit_gate", "gate_id") == STRICT_GATE_ID &&
+           decision.dig("strict_exit_gate", "required_item_ids") == STRICT_ITEMS &&
+           decision.dig("cumulative_accounting", "historical_consumed") == HISTORICAL_CONSUMED &&
+           decision.dig("cumulative_accounting", "reentry_limits") == REENTRY_LIMITS,
+           "P3 reentry decision semantics drift")
+    verify_identity!(root, DIRECT_AUTHORIZATION, DIRECT_AUTHORIZATION,
+                     "direct Founder authorization")
+    verify_identity!(root, CONSTITUTION.slice("path", "byte_length", "sha256"),
+                     CONSTITUTION.slice("path", "byte_length", "sha256"), "Constitution v3.8")
+    verify_identity!(root, STRICT_CAPABILITY_DECISION, STRICT_CAPABILITY_DECISION,
+                     "strict capability decision")
+    verify_identity!(root, IMMUTABLE_PHASE_RECEIPT, IMMUTABLE_PHASE_RECEIPT,
+                     "immutable historical Phase receipt", require_mode: 0o444, require_nlink: 1)
+    decision
+  end
+
+  def validate_stage!(root, stage, task, expected_status, index, lifecycle)
+    stage_specific_key = index.zero? ? "candidate" : "formal_dispatch"
+    exact_keys(stage, %w[
+      ordinal stage_id task_id nonce kind status budget resources contract authority
+      acceptance terminal
+    ] + [stage_specific_key], "P3 reentry stage #{index + 1}")
+    expected_resources = {
+      "branch" => task.fetch("branch"), "worktree" => task.fetch("worktree"),
+      "evidence_root" => task.fetch("evidence_root"),
+      "contract_path" => task.fetch("contract_path"),
+      "authority_path" => task.fetch("authority_path")
+    }
+    assert(stage.values_at("ordinal", "stage_id", "task_id", "nonce", "kind", "status") ==
+             [task.fetch("ordinal"), task.fetch("stage_id"), task.fetch("task_id"),
+              task.fetch("nonce"), task.fetch("kind"), expected_status] &&
+           stage["budget"] == task.fetch("budget") && stage["resources"] == expected_resources,
+           "P3 reentry stage #{index + 1} identity, status, budget or resources drift")
+
+    contract_bytes = verify_optional_identity!(root, stage["contract"],
+                                               "P3 reentry stage #{index + 1} Contract")
+    authority_bytes = verify_optional_identity!(root, stage["authority"],
+                                                "P3 reentry stage #{index + 1} authority")
+    if contract_bytes
+      contract = YAML.safe_load(contract_bytes, permitted_classes: [], permitted_symbols: [], aliases: false)
+      assert(contract.is_a?(Hash) &&
+             contract.values_at("schema_version", "record_type", "task_id", "nonce", "route_id") ==
+               ["p3-strict-capability-task-contract/v1", "P3_STRICT_CAPABILITY_TASK_CONTRACT",
+                task.fetch("task_id"), task.fetch("nonce"), ROUTE_ID] &&
+             contract["budget"] == task.fetch("budget") &&
+             contract.dig("resources", "branch") == task.fetch("branch") &&
+             contract.dig("resources", "worktree") == task.fetch("worktree") &&
+             contract.dig("resources", "evidence_root") == task.fetch("evidence_root"),
+             "P3 reentry stage #{index + 1} Contract semantics drift")
+    end
+    if authority_bytes
+      authority = parse_json!(authority_bytes, "P3 reentry stage #{index + 1} authority")
+      assert(authority.values_at("schema_version", "record_type", "task_id", "nonce", "route_id") ==
+               ["p3-strict-capability-task-authority/v1", "P3_STRICT_CAPABILITY_TASK_AUTHORITY",
+                task.fetch("task_id"), task.fetch("nonce"), ROUTE_ID] &&
+             authority["contract"] == stage["contract"] &&
+             authority["budget"] == task.fetch("budget"),
+             "P3 reentry stage #{index + 1} authority semantics drift")
+    end
+    active_index = PROFILES.fetch(lifecycle).fetch("active")
+    if active_index == index
+      assert(contract_bytes && authority_bytes, "active P3 reentry Task lacks Contract or authority")
+      worktree = Pathname.new(task.fetch("worktree"))
+      assert(worktree.directory? && !worktree.symlink? &&
+             git!(worktree, "symbolic-ref", "--quiet", "--short", "HEAD").strip == task.fetch("branch"),
+             "active P3 reentry Task worktree or branch drift")
+    end
+    verify_optional_identity!(root, stage[stage_specific_key],
+                              "P3 reentry stage #{index + 1} #{stage_specific_key} record")
+    verify_optional_identity!(root, stage["acceptance"],
+                              "P3 reentry stage #{index + 1} acceptance record")
+    verify_optional_identity!(root, stage["terminal"],
+                              "P3 reentry stage #{index + 1} terminal record")
+    stage
+  rescue Psych::Exception => e
+    raise P3StrictCapabilityReentryRouteValidationError,
+          "P3 reentry stage #{index + 1} YAML invalid: #{e.message}"
+  end
+
+  def validate_truth!(root:, truth:)
+    root = normalize_root!(root)
+    validate_decision!(root)
+    route = exact_keys(truth["current_phase_route"], ROUTE_KEYS, "current_phase_route")
+    lifecycle = route["lifecycle_stage"]
+    profile = PROFILES[lifecycle]
+    assert(profile, "P3 strict reentry lifecycle is not closed")
+    assert(route["schema_version"] == DISPATCH_SCHEMA &&
+           route["semantic_schema_version"] == SEMANTIC_SCHEMA &&
+           route["route_id"] == ROUTE_ID && route["phase"] == "P3" &&
+           route["target_phase"] == "P3" && route["status"] == profile.fetch("route_status") &&
+           route["policy"] == {
+             "path" => "docs/aios/FOUNDER_DELEGATION_POLICY.md", "version" => "1.8",
+             "sha256" => "12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29"
+           } &&
+           route["execution_status"] == profile.fetch("execution") &&
+           route["scheduling_status"] == profile.fetch("scheduling") &&
+           route["phase_entry_status"] == "AUTHORIZED" &&
+           route["founder_phase_route_decision_required"] == profile.fetch("founder") &&
+           route["next_eligible_action"] == profile.fetch("action") &&
+           route["objective_id"] == OBJECTIVE_ID && route["objective_changed"] == false &&
+           route["founder_reserved_triggers_resolved"] == %w[
+             MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
+             MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
+             PHASE_ENTRY_OR_EXIT
+           ], "P3 strict reentry Route identity or lifecycle drift")
+    expected_gate_status = profile.fetch("strict") == 100 ? "ACCEPTED" : "MISSING_NOT_ACCEPTED"
+    assert(route["strict_exit_gate"] == {
+      "gate_id" => STRICT_GATE_ID, "changed" => false,
+      "current_status" => expected_gate_status,
+      "strict_progress_percent" => profile.fetch("strict"),
+      "required_item_ids" => STRICT_ITEMS,
+      "same_frozen_candidate_required" => true,
+      "three_independent_reviewers_pass_required" => true,
+      "canonical_replay_required" => true
+    } && route["founder_strategy_decision"] == DECISION.merge(
+      "decision_id" => DECISION_ID, "operation_type" => OPERATION_TYPE
+    ) && route["governing_constitution"] == CONSTITUTION &&
+      route["strategic_installation_parent"] == CANONICAL_START,
+      "P3 strict Gate, decision, Constitution or installation parent drift")
+
+    historical = route["historical_research_closure"]
+    assert(historical.values_at(
+      "status", "research_exit_percent", "management_delivery_percent",
+      "strict_execution_capability_percent", "execution_capability_accepted",
+      "candidate_integrated", "scheduling_authority"
+    ) == [
+      "COMPLETE_RESEARCH_NON_PASS_EXECUTION_CAPABILITY_NOT_ACCEPTED", 100, 25, 0,
+      false, false, "SUPERSEDED_FOR_P3_PHASE_COMPLETION_AND_P4_ENTRY_ONLY"
+    ] && historical["immutable_phase_receipt"].slice("path", "byte_length", "sha256") ==
+      IMMUTABLE_PHASE_RECEIPT && historical["immutable_phase_receipt"].values_at(
+        "mode", "nlink", "symlink"
+      ) == ["0444", 1, false], "historical P3 research closure drift")
+    assert(route["accepted_dependencies"] == [
+      {"milestone_id" => "DURABLE_STATE_AND_CHECKPOINT_RESUME",
+       "integration_commit" => "f841ff822610264ad1b88c93b1f6248d42eb134a",
+       "integration_tree" => "6a3e67b4680464e54d72936dc24a205079614431"},
+      {"milestone_id" => "DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION",
+       "integration_commit" => "2f52d0912ba5621bd2258fc21f5b74dd2019efd5",
+       "integration_tree" => "e9490d8f786f913b2e60a7e690a71911e015c87a"}
+    ], "accepted P3 foundation identities drift")
+    stages = array(route["ordered_stages"], "P3 reentry ordered stages")
+    assert(stages.length == 2, "P3 reentry must have exactly two stages")
+    stages.each_with_index do |stage, index|
+      validate_stage!(root, stage, TASKS.fetch(index), profile.fetch("stage_statuses").fetch(index),
+                      index, lifecycle)
+    end
+    assert(route["system_under_test_permissions"] == {
+      "proposal_data_only" => true, "shell" => false, "docker" => false,
+      "filesystem" => false, "network" => false, "provider" => false,
+      "secret" => false, "remote" => false, "production" => false,
+      "public_release" => false
+    } && route.dig("host_permissions", "product_task_activation_required") == true &&
+      route.dig("host_permissions", "network_dns_http_https_provider_secret_remote_production_public") == false &&
+      route["p4_hold"] == {
+        "status" => P4_HOLD, "entry_authorized" => false, "execution_started" => false,
+        "task_activation_allowed" => false, "predecessor_requires_p3_strict_percent" => 100,
+        "predecessor_requires_founder_p3_phase_gate" => true
+      } && route.dig("clean_room", "rejected_p3_or_p4_lineage_read_compare_copy_restore_or_integrate") == false &&
+      route.dig("anti_cycle", "product_candidate_generations") == 2 &&
+      route.dig("anti_cycle", "same_task_repairs") == 1 &&
+      route.dig("anti_cycle", "review_cycles") == 2 &&
+      route.dig("anti_cycle", "formal_dispatches") == 1 &&
+      route.dig("anti_cycle", "successor_replacement_normalization_closure_feasibility_remediation_allowed") == false &&
+      route.dig("anti_cycle", "rerun_to_pass_allowed") == false,
+      "P3 reentry permission, P4 HOLD, clean-room or anti-cycle drift")
+    assert(route["progress"] == {
+      "p3_research_exit_percent" => 100,
+      "p3_management_delivery_percent" => profile.fetch("delivery"),
+      "p3_strict_capability_percent" => profile.fetch("strict"),
+      "engineering_progress_credit" => 0, "governance_progress_credit" => 0
+    }, "P3 reentry progress projection drift")
+
+    project = mapping(truth["project"], "project")
+    assert(project["current_phase"] == "P3" &&
+           project["phase_name"] == "Single-Agent Runtime + Minimum Trust" &&
+           project["phase_execution_status"] == profile.fetch("execution") &&
+           project["current_route_execution_status"] == profile.fetch("execution") &&
+           project["p3_execution_status"] == profile.fetch("p3") &&
+           project["p4_entry_status"] == P4_HOLD &&
+           project["p4_execution_status"] == P4_HOLD &&
+           project["p5_entry_status"] == "HOLD_PENDING_STRICT_P4_EXIT_AND_FOUNDER_PHASE_GATE",
+           "P3/P4/P5 project projection drift")
+    goal = mapping(truth["goal"], "goal")
+    expected_active_task = profile.fetch("active").nil? ? "NONE" :
+      TASKS.fetch(profile.fetch("active")).fetch("task_id")
+    assert(goal["current_task_authority"] == expected_active_task &&
+           goal["project_actually_completed"] == false && goal["long_term_goal_status"] == "ACTIVE" &&
+           goal["codex_goal_action"] == "NONE_KEEP_ACTIVE" &&
+           goal.dig("current_strategic_decision", "decision_id") == DECISION_ID &&
+           goal.dig("current_strategic_decision", "operation_type") == OPERATION_TYPE &&
+           goal.dig("current_strategic_decision", "path") == DECISION.fetch("path") &&
+           goal.dig("current_strategic_decision", "sha256") == DECISION.fetch("sha256"),
+           "Goal or current strategic decision drift")
+
+    envelope = mapping(truth["phase_execution_envelope"], "P3 reentry envelope")
+    consumed_count = case lifecycle
+                     when "PRODUCT_ELIGIBLE_NOT_ACTIVATED", "PRODUCT_TASK_ACTIVE" then 0
+                     else 1
+                     end
+    consumed_hours = consumed_count.zero? ? 0 : 48
+    consumed_days = consumed_count.zero? ? 0 : 10
+    assert(envelope["schema_version"] == "phase-execution-envelope/v1" &&
+           envelope["phase"] == "P3" && envelope["status"] == profile.fetch("envelope") &&
+           envelope["accounting_basis"] ==
+             "NON_RESETTABLE_HISTORICAL_P3_PLUS_EXPLICIT_FINAL_EXCEPTION" &&
+           envelope["historical_consumed"] == HISTORICAL_CONSUMED &&
+           envelope["limits"] == REENTRY_LIMITS &&
+           envelope["reentry_consumed"].values_at(
+             "engineering_tasks", "engineering_hours", "calendar_days"
+           ) == [consumed_count, consumed_hours, consumed_days] &&
+           envelope["remaining_capacity_usable"] ==
+             (!profile.fetch("founder") && !lifecycle.end_with?("TERMINAL_NON_PASS")),
+           "P3 reentry envelope or cumulative accounting drift")
+
+    active = mapping(truth["active_work"], "active_work")
+    selected = profile.fetch("selected")
+    expected_selected = selected.nil? ? "NONE" : TASKS.fetch(selected).fetch("task_id")
+    assert(active["current_task"] == expected_active_task &&
+           active["selected_task"] == expected_selected &&
+           active["next_eligible_action"] == profile.fetch("action") &&
+           active["founder_decision_required"] == profile.fetch("founder") &&
+           active["user_action_required"] == profile.fetch("founder") &&
+           active["historical_terminal_accounting"] == {
+             "consumed_engineering_tasks" => 19, "consumed_engineering_hours" => 568,
+             "consumed_calendar_days" => 132,
+             "latest_terminal_task_id" =>
+               "AIOS-P3-MTRO-P1_ACTUAL_AGENT_TRANSACTIONAL_OCI_READ_ONLY_INVOCATION",
+             "latest_terminal_receipt_sha256" =>
+               "a5866faa737513b7ca9515fd451ecbf2360d949bb24995f8ce88df1df15043e0"
+           }, "P3 reentry active-work projection drift")
+    if profile.fetch("active")
+      index = profile.fetch("active")
+      stage = stages.fetch(index)
+      task = TASKS.fetch(index)
+      assert(active["current_task_contract"] == stage.dig("contract", "path") &&
+             active["current_task_contract_sha256"] == stage.dig("contract", "sha256") &&
+             active["current_execution_authorization"] == stage.dig("authority", "path") &&
+             active["current_execution_authorization_sha256"] == stage.dig("authority", "sha256") &&
+             active["execution_nonce"] == task.fetch("nonce") &&
+             active["task_branch"] == task.fetch("branch") &&
+             active["task_worktree"] == task.fetch("worktree") &&
+             active["execution_evidence_root"] == task.fetch("evidence_root") &&
+             active["current_task_budget"] == task.fetch("budget"),
+             "active P3 reentry Contract, authority or resource projection drift")
+    else
+      assert(active.values_at(
+        "current_task_contract", "current_task_contract_sha256",
+        "current_execution_authorization", "current_execution_authorization_sha256",
+        "authority_record", "execution_nonce", "authorization_id", "activation_parent_commit",
+        "activation_parent_tree", "task_branch", "task_worktree", "execution_evidence_root"
+      ).all?(&:nil?) && active["allowlisted_paths"] == [] && active["current_task_budget"] == {},
+             "P3 reentry no-active-Task state retains Task authority or resources")
+    end
+
+    p3 = truth.dig("strict_phase_gate_ledger", "phases", "P3")
+    p4 = truth.dig("strict_phase_gate_ledger", "phases", "P4")
+    assert(p3.is_a?(Hash) && p4.is_a?(Hash), "strict P3/P4 Gate ledger missing")
+    current_gate = p3["current_exit_gate"]
+    accepted_count = STRICT_ITEMS.count do |item|
+      current_gate.dig("required_items", item, "status") == "ACCEPTED"
+    end
+    assert(current_gate["gate_id"] == STRICT_GATE_ID &&
+           current_gate["required_item_ids"] == STRICT_ITEMS &&
+           accepted_count == (profile.fetch("strict") == 100 ? 4 : 0) &&
+           p3["status"] == (profile.fetch("strict") == 100 ? "EXIT_GATE_READY" : "INCOMPLETE") &&
+           p4["entry_authorized"] == false && p4["execution_started"] == false &&
+           p4["entry_status"] == P4_HOLD,
+           "strict P3 Gate or P4 predecessor ledger drift")
+
+    escalation = mapping(truth["founder_escalation_control"], "Founder escalation control")
+    assert(escalation["disposition"] == profile.fetch("disposition") &&
+           escalation["founder_decision_required"] == profile.fetch("founder") &&
+           escalation["next_action_owner"] == profile.fetch("owner") &&
+           escalation.dig("reserved_trigger", "category") == profile.fetch("trigger") &&
+           escalation["next_eligible_action"] == profile.fetch("action"),
+           "P3 reentry Founder escalation projection drift")
+    delegation = mapping(truth["phase_delegation"], "P3 reentry phase delegation")
+    assert(delegation["status"] == "ACTIVE_P3_PHASE_DELEGATION" &&
+           delegation["model"] == "PHASE_LEVEL_FOUNDER_DELEGATION" &&
+           delegation["decision_source"] == DECISION_ID &&
+           delegation["phase_gate_owner"] == "HUMAN_FOUNDER" &&
+           delegation["task_selection_owner"] == "MASTER_CEO_AGENT" &&
+           delegation["task_authorization_owner"] ==
+             "MASTER_CEO_AGENT_WITHIN_CURRENT_PHASE_ENVELOPE" &&
+           delegation["task_gate_owner"] ==
+             "MASTER_CEO_AGENT_AFTER_REQUIRED_INDEPENDENT_REVIEW" &&
+           delegation.dig("anti_loop", "routine_founder_task_approval_required") == false &&
+           delegation.dig("anti_loop", "per_file_or_command_approval_required") == false &&
+           delegation.dig("anti_loop", "successor_replacement_correction_chain_allowed") == false &&
+           delegation.dig("anti_loop", "historical_execution_lineage_reuse_allowed") == false &&
+           delegation.dig("anti_loop", "maximum_same_task_bounded_contract_repairs") == 1,
+           "P3 reentry Phase delegation or anti-loop projection drift")
+    assert(truth.dig("claim_boundary", "current_phase_route") == ROUTE_ID &&
+           truth.dig("claim_boundary", "current_task") == expected_active_task &&
+           truth.dig("claim_boundary", "selected_task") == expected_selected &&
+           truth.dig("claim_boundary", "p3_status") == profile.fetch("p3") &&
+           truth.dig("claim_boundary", "p3_exit_gate_progress_percent") == profile.fetch("strict") &&
+           truth.dig("claim_boundary", "p3_delivery_progress_percent") == profile.fetch("delivery") &&
+           truth.dig("claim_boundary", "p4_entry_authorized") == false &&
+           truth.dig("claim_boundary", "p4_entry_status") == P4_HOLD,
+           "P3 reentry claim boundary drift")
+    profile.fetch("compat_state")
+  rescue JSON::ParserError, KeyError, TypeError, ArgumentError, Errno::ENOENT,
+         Errno::ELOOP, Psych::Exception => e
+    raise P3StrictCapabilityReentryRouteValidationError,
+          "P3 strict capability reentry Route invalid: #{e.message}"
+  end
+end
+
 class P4ProposalFirstControlledRealTaskRouteValidationError < StandardError; end
 
 module P4ProposalFirstControlledRealTaskRouteValidation
@@ -11363,6 +12010,19 @@ module P4ProposalFirstControlledRealTaskRouteValidation
   def mapping(value, label)
     assert(value.is_a?(Hash), "#{label} must be a mapping")
     value
+  end
+
+  def normalize_repository_root!(root)
+    assert(root.is_a?(String) || root.is_a?(Pathname),
+           "P4 repository root must be a String or Pathname")
+    candidate = Pathname.new(root.to_s)
+    assert(candidate.absolute?, "P4 repository root must be absolute")
+    resolved = candidate.realpath
+    assert(resolved.directory?, "P4 repository root must be a directory")
+    resolved
+  rescue ArgumentError, Errno::ENOENT, Errno::ELOOP => e
+    raise P4ProposalFirstControlledRealTaskRouteValidationError,
+          "P4 repository root invalid: #{e.message}"
   end
 
   def validate_lifecycle_policy!(profiles = LIFECYCLE,
@@ -14063,6 +14723,7 @@ module P4ProposalFirstControlledRealTaskRouteValidation
   end
 
   def validate_truth!(root:, truth:)
+    root = normalize_repository_root!(root)
     validate_lifecycle_policy!
     route = exact_keys(
       truth["current_phase_route"],
@@ -14561,7 +15222,11 @@ if $PROGRAM_NAME == __FILE__
     root = Pathname.new(__dir__).join("..").realpath
     truth = YAML.safe_load(root.join("docs/aios/truth/project_state.yaml").binread,
                            permitted_classes: [], permitted_symbols: [], aliases: false)
-    if truth.dig("current_phase_route", "schema_version") ==
+    if truth.dig("current_phase_route", "route_id") ==
+       P3StrictCapabilityReentryRouteValidation::ROUTE_ID
+      P3StrictCapabilityReentryRouteValidation.validate_truth!(root: root, truth: truth)
+      puts "STRICT_PHASE_GATES: PASS state=#{truth.dig('current_phase_route', 'execution_status')}"
+    elsif truth.dig("current_phase_route", "schema_version") ==
        P4ProposalFirstControlledRealTaskRouteValidation::ROUTE_SCHEMA
       state = P4ProposalFirstControlledRealTaskRouteValidation.validate_truth!(root: root, truth: truth)
       puts "STRICT_PHASE_GATES: PASS state=#{state}"
@@ -14593,6 +15258,7 @@ if $PROGRAM_NAME == __FILE__
       puts "STRICT_PHASE_GATES: PASS state=NON_ETSK_CURRENT_ROUTE"
     end
   rescue P4ProposalFirstControlledRealTaskRouteValidationError,
+         P3StrictCapabilityReentryRouteValidationError,
          P3MinimumTrustTransactionalOciFinalProductRouteValidationError,
          P3TrustedReadOnlyInvocationEvidenceFirstFinalRouteValidationError,
          P3TrustedReadOnlyInvocationVerticalSliceRouteValidationError,

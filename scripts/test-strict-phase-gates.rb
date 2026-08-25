@@ -229,8 +229,11 @@ if ARGV == ["--p3-strict-reentry-current-only"]
     truth.dig("current_phase_route", "route_id") == reentry::ROUTE_ID &&
       truth.dig("current_phase_route", "semantic_schema_version") == reentry::SEMANTIC_SCHEMA
   state = reentry.validate_truth!(root: ROOT, truth: truth)
+  expected_state = reentry::PROFILES.fetch(
+    truth.dig("current_phase_route", "lifecycle_stage")
+  ).fetch("compat_state")
   raise "P3 strict reentry compatibility state drift" unless
-    state == "P3_MTRO_PRODUCT_ELIGIBLE_NOT_ACTIVATED"
+    state == expected_state
 
   string_root = P4ProposalFirstControlledRealTaskRouteValidation.normalize_repository_root!(ROOT)
   pathname_root = P4ProposalFirstControlledRealTaskRouteValidation.normalize_repository_root!(

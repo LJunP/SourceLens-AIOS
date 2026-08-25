@@ -412,9 +412,8 @@ if ARGV == ["--p3-egt-current-only"]
         "F1_ELIGIBLE_P1_AND_E1_LOCKED"
     end,
     "prewrite probe pre-consumed" => lambda do |candidate|
-      candidate.dig("current_phase_route", "prewrite_mysql_transport_probe")[
-        "current_dispatches"
-      ] = 1
+      probe = candidate.dig("current_phase_route", "prewrite_mysql_transport_probe")
+      probe["current_dispatches"] = probe["current_dispatches"] == 0 ? 1 : 2
     end
   }
   negative_count = 0

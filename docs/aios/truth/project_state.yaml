@@ -1,8 +1,8 @@
 ---
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: '2026-08-25T07:28:17Z'
-verification_scope: P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_PRODUCT_TASK_ACTIVE_PREWRITE_PROBE_PASS_SOURCE_WRITE_ELIGIBLE_P4_HOLD_PROJECT_INCOMPLETE_LONG_TERM_GOAL_ACTIVE
+last_verified_at: '2026-08-25T09:56:25Z'
+verification_scope: P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_PRODUCT_TASK_TERMINAL_NON_PASS_REJECTED_CANDIDATE_PRESERVED_NOT_INTEGRATED_P4_HOLD_PROJECT_INCOMPLETE_LONG_TERM_GOAL_ACTIVE
 authority:
   founder: Human Founder
   strategy:
@@ -38,18 +38,20 @@ goal:
   observed_raw_body_byte_length: 19433
   body_canonicalization: UTF8_LF_WITH_EXACTLY_ONE_TRAILING_LF
   identity_status: FOUNDER_MANUALLY_INSTALLED_OPTIMIZED_LONG_TERM_GOAL_IDENTITY_ACTIVE
-  current_task_authority: AIOS-P3-EGT-P1_STRICT_CAPABILITY_CLEAN_ROOM_PRODUCT
+  current_task_authority: NONE
   project_actually_completed: false
   long_term_goal_status: ACTIVE
   codex_goal_action: NONE_KEEP_ACTIVE
-  current_state_note: 'P3 v3.9 equivalent real-MySQL transport Product Task is active under its
-    create-once Contract and phase-delegated authority. The one allowed prewrite feasibility
-    probe passed on the pinned image: exact Internal=false bridge options, one 127.0.0.1 runtime
-    port, numeric-loopback TCP success, one expected endpoint and exact-ID cleanup. No Product
-    source has yet been written. The unchanged Objective, four required items, six frozen blockers,
-    real MySQL, real OCI, fresh-process recovery and canonical replay remain mandatory. P3 remains
-    delivery 25% and strict capability 0%; P4 remains HOLD, the project is incomplete and the
-    Long-term Goal remains ACTIVE.'
+  current_state_note: 'P3 v3.9 equivalent real-MySQL transport Product Task is TERMINAL_TASK_GATE_NON_PASS.
+    Its rejected Candidate 1 is preserved as a content-addressed bundle and manifest but is not
+    integrated. Focused after-commit, real-MySQL V034 and OCI tests passed, while the decisive real
+    three-fresh-JVM actual-OCI Gate failed closed before the exact fixed-action container started;
+    the exact inspect-field mismatch is UNKNOWN because the pre-cleanup inspect snapshot was not
+    persisted. The Task branch and worktree are removed, all task-created action/MySQL/network/custody
+    objects are absent, Formal was never created or dispatched, and the final exception route permits
+    no successor, replacement, additional Product Task or rerun-to-pass. P3 remains delivery 25%
+    and strict capability 0%; P4 remains HOLD, the project is incomplete and the Long-term Goal
+    remains ACTIVE.'
   current_strategic_decision:
     path: docs/aios/decisions/P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_EXIT_GATE_CLARIFICATION_AND_FINAL_CLEAN_ROOM_COMPLETION_ROUTE_V1.json
     byte_length: 18154
@@ -1818,10 +1820,10 @@ project:
   p1_engineering_status: COMPLETE_STRICT_8_OF_8_100_PERCENT_FOUNDER_GATE_PASS
   p2_entry_status: AUTHORIZED
   p2_execution_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
-  phase_execution_status: P3_EQUIVALENT_TRANSPORT_PRODUCT_TASK_ACTIVE
-  current_route_execution_status: P3_EQUIVALENT_TRANSPORT_PRODUCT_TASK_ACTIVE
+  phase_execution_status: P3_HOLD_INCOMPLETE_FINAL_EQUIVALENT_TRANSPORT_EXCEPTION_EXHAUSTED
+  current_route_execution_status: P3_HOLD_INCOMPLETE_FINAL_EQUIVALENT_TRANSPORT_EXCEPTION_EXHAUSTED
   p3_entry_status: AUTHORIZED
-  p3_execution_status: ACTIVE_INCOMPLETE_EQUIVALENT_MYSQL_TRANSPORT_FINAL_ROUTE
+  p3_execution_status: HOLD_INCOMPLETE_FINAL_EQUIVALENT_TRANSPORT_EXCEPTION_EXHAUSTED
   p4_entry_status: HOLD_PENDING_STRICT_P3_CAPABILITY_ACCEPTANCE_AND_FOUNDER_PHASE_GATE
   canonical_branch: main
   canonical_repository: "/Users/lijunpeng/Developer/SourceLens-AIOS"
@@ -11483,16 +11485,16 @@ current_phase_route:
     path: docs/aios/FOUNDER_DELEGATION_POLICY.md
     version: '1.8'
     sha256: 12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29
-  status: ACTIVE
-  lifecycle_stage: PRODUCT_TASK_ACTIVE
-  execution_status: P3_EQUIVALENT_TRANSPORT_PRODUCT_TASK_ACTIVE
-  scheduling_status: PRODUCT_TASK_ACTIVE
+  status: TERMINAL_FINAL_EXCEPTION_NON_PASS
+  lifecycle_stage: PRODUCT_ROUTE_TERMINAL_NON_PASS
+  execution_status: P3_HOLD_INCOMPLETE_FINAL_EQUIVALENT_TRANSPORT_EXCEPTION_EXHAUSTED
+  scheduling_status: NO_FURTHER_P3_IMPLEMENTATION_ALLOWED
   phase_entry_status: AUTHORIZED
   founder_phase_route_decision_required: false
   founder_reserved_triggers_resolved:
   - MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE
   - MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE
-  next_eligible_action: WORKER_RUN_P3_EGT_PREWRITE_MYSQL_TRANSPORT_PROBE_THEN_IMPLEMENT
+  next_eligible_action: NO_ENGINEERING_ACTION_P3_HOLD_INCOMPLETE_FINAL_EQUIVALENT_TRANSPORT_EXCEPTION_EXHAUSTED
   objective_id: ACTUAL_AGENT_HOST_AUTHORIZED_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE
   objective_changed: false
   strict_exit_gate:
@@ -11622,7 +11624,7 @@ current_phase_route:
     task_id: AIOS-P3-EGT-P1_STRICT_CAPABILITY_CLEAN_ROOM_PRODUCT
     nonce: p3-egt-p1-strict-capability-clean-room-product-20260825-v1
     kind: PRODUCT_IMPLEMENTATION
-    status: ACTIVE
+    status: TERMINAL_TASK_GATE_NON_PASS
     budget:
       engineering_tasks: 1
       engineering_hours: 48
@@ -11645,14 +11647,20 @@ current_phase_route:
       byte_length: 9152
       sha256: 6a4d2dfbd77aebdffea5cf1929dc05e371db6bdb432451ee4d7586b5b879f7da
     candidate:
+      path: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-equivalent-mysql-transport-completion-20260825/task-product/validation/candidate-1/P3_EGT_P1_REJECTED_PRODUCT_CANDIDATE_MANIFEST_V1.json"
+      byte_length: 4499
+      sha256: 1d2680f4d09852de8d172225aa34df5944fe37451270252566ec06c833877201
     acceptance:
     terminal:
+      path: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-equivalent-mysql-transport-completion-20260825/task-product/terminal/P3_EGT_P1_PRODUCT_TASK_TERMINAL_NON_PASS_RECEIPT_V1.json"
+      byte_length: 6344
+      sha256: c09dc857733981b62f40c9034521768db3f50bb503c3c0110c2d836163a67bd8
   - ordinal: 2
     stage_id: ONE_SHOT_STRICT_CAPABILITY_ACCEPTANCE
     task_id: AIOS-P3-EGT-E1_ONE_SHOT_STRICT_CAPABILITY_ACCEPTANCE
     nonce: p3-egt-e1-one-shot-strict-capability-acceptance-20260825-v1
     kind: EVALUATION_ONLY_ONE_SHOT
-    status: LOCKED_PENDING_PRODUCT_CANDIDATE_FROZEN
+    status: LOCKED_ROUTE_TERMINAL
     budget:
       engineering_tasks: 1
       engineering_hours: 24
@@ -16042,7 +16050,7 @@ historical_p3_trivs_evidence_first_terminal_phase_execution_envelope:
 phase_execution_envelope:
   schema_version: phase-execution-envelope/v1
   phase: P3
-  status: ACTIVE_PRODUCT_TASK
+  status: HOLD_INCOMPLETE_FINAL_EQUIVALENT_TRANSPORT_EXCEPTION_EXHAUSTED
   authority_basis:
     phase_entry_status: AUTHORIZED
     source_route_ref: current_phase_route
@@ -16059,9 +16067,9 @@ phase_execution_envelope:
     engineering_hours: 616
     calendar_days: 142
   reentry_consumed:
-    engineering_tasks: 0
-    engineering_hours: 0
-    calendar_days: 0
+    engineering_tasks: 1
+    engineering_hours: 48
+    calendar_days: 10
     formal_dispatches: 0
   limits:
     engineering_tasks: 2
@@ -16073,18 +16081,13 @@ phase_execution_envelope:
     task_branches: 1
     task_worktrees: 1
     active_candidates: 1
-  reserved:
-    task_id: AIOS-P3-EGT-P1_STRICT_CAPABILITY_CLEAN_ROOM_PRODUCT
-    status: ACTIVE
-    engineering_tasks: 1
-    engineering_hours: 48
-    calendar_days: 10
+  reserved: {}
   remaining:
     engineering_tasks: 2
     engineering_hours: 72
     calendar_days: 16
     formal_dispatches: 1
-  remaining_capacity_usable: true
+  remaining_capacity_usable: false
   milestone_order:
   - STRICT_CAPABILITY_CLEAN_ROOM_PRODUCT
   - ONE_SHOT_STRICT_CAPABILITY_ACCEPTANCE
@@ -16097,7 +16100,7 @@ phase_execution_envelope:
     task_id: AIOS-P3-EGT-P1_STRICT_CAPABILITY_CLEAN_ROOM_PRODUCT
     nonce: p3-egt-p1-strict-capability-clean-room-product-20260825-v1
     kind: PRODUCT_IMPLEMENTATION
-    status: ACTIVE
+    status: TERMINAL_TASK_GATE_NON_PASS
     budget:
       engineering_tasks: 1
       engineering_hours: 48
@@ -16116,7 +16119,7 @@ phase_execution_envelope:
     task_id: AIOS-P3-EGT-E1_ONE_SHOT_STRICT_CAPABILITY_ACCEPTANCE
     nonce: p3-egt-e1-one-shot-strict-capability-acceptance-20260825-v1
     kind: EVALUATION_ONLY_ONE_SHOT
-    status: LOCKED_PENDING_PRODUCT_CANDIDATE_FROZEN
+    status: LOCKED_ROUTE_TERMINAL
     budget:
       engineering_tasks: 1
       engineering_hours: 24
@@ -16911,11 +16914,11 @@ historical_p3_trivs_f2_terminal_founder_escalation_control:
   next_eligible_action: FOUNDER_DECIDE_P3_AFTER_TRIVS_F2_TERMINAL_NON_PASS
 founder_escalation_control:
   schema_version: founder-escalation-control/v2
-  disposition: NO_RESERVED_TRIGGER_CONTINUE_PHASE
+  disposition: NO_RESERVED_TRIGGER_ROUTE_TERMINAL
   source_event:
-    kind: P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_PRODUCT_TASK_ACTIVATED
+    kind: P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_PRODUCT_ROUTE_TERMINAL_NON_PASS
     decision_id: AUTHORIZE_P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_EXIT_GATE_CLARIFICATION_AND_FINAL_CLEAN_ROOM_COMPLETION_ROUTE_V1
-    status: P3_EQUIVALENT_TRANSPORT_PRODUCT_TASK_ACTIVE
+    status: P3_HOLD_INCOMPLETE_FINAL_EQUIVALENT_TRANSPORT_EXCEPTION_EXHAUSTED
   reserved_trigger:
     category: NONE
     evidence:
@@ -16927,11 +16930,11 @@ founder_escalation_control:
     path: docs/aios/decisions/P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_EXIT_GATE_CLARIFICATION_AND_FINAL_CLEAN_ROOM_COMPLETION_ROUTE_V1.json
     byte_length: 18154
     sha256: 9dfcac8a8683269cc5517c2e01afe4df666bfe0008d7735e27266d169721bf05
-    result: P3_EQUIVALENT_TRANSPORT_PRODUCT_TASK_ACTIVE_PREWRITE_PROBE_NOT_DISPATCHED_P4_HOLD
+    result: P3_EGT_PRODUCT_ROUTE_TERMINAL_NON_PASS
   phase_gate_status: P3_INCOMPLETE
   founder_decision_required: false
-  next_action_owner: MASTER_CEO_AGENT
-  next_eligible_action: WORKER_RUN_P3_EGT_PREWRITE_MYSQL_TRANSPORT_PROBE_THEN_IMPLEMENT
+  next_action_owner: NONE
+  next_eligible_action: NO_ENGINEERING_ACTION_P3_HOLD_INCOMPLETE_FINAL_EQUIVALENT_TRANSPORT_EXCEPTION_EXHAUSTED
 historical_p2_053_phase_route:
   schema_version: '1.1'
   route_id: P2_COMPILER_ATTRIBUTED_JAVA_EDGE_TRUTH_GRAPH_AND_CONTEXT_BENCHMARK_ROUTE_V1
@@ -29729,70 +29732,34 @@ historical_p3_trivs_f2_terminal_active_work:
       sha256: 1246e6065d73d87bd01a5dc059ab1377145904ab3fc55f4d25d2ed8a07b7ae9c
   next_eligible_action: FOUNDER_DECIDE_P3_AFTER_TRIVS_F2_TERMINAL_NON_PASS
 active_work:
-  current_task: AIOS-P3-EGT-P1_STRICT_CAPABILITY_CLEAN_ROOM_PRODUCT
-  selected_task: AIOS-P3-EGT-P1_STRICT_CAPABILITY_CLEAN_ROOM_PRODUCT
-  current_task_status: ACTIVE
-  current_task_contract: docs/aios/tasks/P3-EGT-P1_STRICT_CAPABILITY_CLEAN_ROOM_PRODUCT.yaml
-  current_task_contract_sha256: b6aa2d72d9d1f6911e46d00dec3397878e257ba47d2a38c8a002090360788829
-  current_execution_authorization: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-equivalent-mysql-transport-completion-20260825/task-product/authority/P3_EGT_P1_PHASE_DELEGATED_TASK_AUTHORITY_V1.json"
-  current_execution_authorization_sha256: 6a4d2dfbd77aebdffea5cf1929dc05e371db6bdb432451ee4d7586b5b879f7da
+  current_task: NONE
+  selected_task: NONE
+  current_task_status: NONE
+  current_task_contract:
+  current_task_contract_sha256:
+  current_execution_authorization:
+  current_execution_authorization_sha256:
   authority_record:
-    path: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-equivalent-mysql-transport-completion-20260825/task-product/authority/P3_EGT_P1_PHASE_DELEGATED_TASK_AUTHORITY_V1.json"
-    byte_length: 9152
-    sha256: 6a4d2dfbd77aebdffea5cf1929dc05e371db6bdb432451ee4d7586b5b879f7da
-  authority_scope_conformance: ACTIVE_EXACT_PRODUCT_ALLOWLIST_AND_EQUIVALENT_MYSQL_TRANSPORT
-  execution_nonce: p3-egt-p1-strict-capability-clean-room-product-20260825-v1
-  execution_nonce_status: ACTIVE
-  authorization_id: P3_EGT_P1_PHASE_DELEGATED_TASK_AUTHORITY_V1
-  activation_parent_commit: 6fbb383a4076211db4a559b91422975591012b88
-  activation_parent_tree: dfe90aa1e66dab2abee57f1a95b97d863dc7825c
+  authority_scope_conformance: TERMINAL_TASK_GATE_NON_PASS_NO_ACTIVE_AUTHORITY
+  execution_nonce:
+  execution_nonce_status: CONSUMED_TERMINAL
+  authorization_id:
+  activation_parent_commit:
+  activation_parent_tree:
   strategic_installation_parent:
     commit: 6134357e9bb2dd99acb853fea76a0917fe4d3d45
     tree: 55bc324e4eedd6036cdced33bcc270e579a4f439
-  task_resource_state: ACTIVE_CREATED
-  planned_task_branch: codex/p3-egt-p1-strict-capability-product
-  planned_task_worktree: "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-egt-p1-strict-capability-product"
-  planned_execution_evidence_root: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-equivalent-mysql-transport-completion-20260825/task-product"
-  task_branch: codex/p3-egt-p1-strict-capability-product
-  task_worktree: "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-egt-p1-strict-capability-product"
-  execution_evidence_root: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-equivalent-mysql-transport-completion-20260825/task-product"
+  task_resource_state: TERMINAL_EVIDENCE_PRESERVED_BRANCH_AND_WORKTREE_REMOVED
+  planned_task_branch:
+  planned_task_worktree:
+  planned_execution_evidence_root:
+  task_branch:
+  task_worktree:
+  execution_evidence_root:
   dependency_custody_root:
-  allowlisted_paths:
-  - backend-spring/src/main/java/com/sourcelens/module/agent/service/AgentRuntime.java
-  - backend-spring/src/main/java/com/sourcelens/module/agent/service/PromptBuilder.java
-  - backend-spring/src/main/java/com/sourcelens/module/agent/service/ToolExecutionService.java
-  - backend-spring/src/main/java/com/sourcelens/module/agent/service/LlmClient.java
-  - backend-spring/src/main/java/com/sourcelens/module/agent/service/AgentTaskService.java
-  - backend-spring/src/main/java/com/sourcelens/module/agent/tool/ToolContext.java
-  - backend-spring/src/main/java/com/sourcelens/module/agent/tool/ToolRegistry.java
-  - backend-spring/src/main/java/com/sourcelens/module/agent/trustedread
-  - backend-spring/src/main/java/com/sourcelens/module/artifact/service/ArtifactStorageService.java
-  - backend-spring/src/main/java/com/sourcelens/module/execution/trustedread
-  - backend-spring/src/main/java/com/sourcelens/module/sandbox/oci/trustedread
-  - backend-spring/src/main/resources/db/migration/V034__add_trusted_read_only_invocation.sql
-  - backend-spring/src/main/resources/application.yml
-  - backend-spring/src/test/java/com/sourcelens/AgentTaskServiceTest.java
-  - backend-spring/src/test/java/com/sourcelens/AgentRuntimeFixedReadOnlyInvocationTest.java
-  - backend-spring/src/test/java/com/sourcelens/ToolExecutionServiceTest.java
-  - backend-spring/src/test/java/com/sourcelens/ArtifactStorageServiceTest.java
-  - backend-spring/src/test/java/com/sourcelens/LlmClientToolCallIngressTest.java
-  - backend-spring/src/test/java/com/sourcelens/module/agent/trustedread
-  - backend-spring/src/test/java/com/sourcelens/module/execution/trustedread
-  - backend-spring/src/test/java/com/sourcelens/module/sandbox/oci/trustedread
-  - backend-spring/src/test/resources/p3-equivalent-mysql-transport-completion
-  - docs/PROJECT_CODE_MAP.md
-  current_task_budget:
-    engineering_tasks: 1
-    engineering_hours: 48
-    calendar_days: 10
-    candidate_generations: 2
-    same_task_repairs: 1
-    review_cycles: 2
-  next_stage_budget:
-    engineering_tasks: 1
-    engineering_hours: 24
-    calendar_days: 6
-    formal_dispatches: 1
+  allowlisted_paths: []
+  current_task_budget: {}
+  next_stage_budget: {}
   roles:
     owner: MASTER_CEO_AGENT
     worker: P3_EGT_CLEAN_ROOM_PRODUCT_WORKER
@@ -29802,7 +29769,7 @@ active_work:
     - SECURITY_AGENT
     - QUALITY_EVALUATION_AGENT
   runtime_identity_channel:
-    status: ACTIVE_PREWRITE_PROBE_PASS_SOURCE_WRITE_ELIGIBLE
+    status: TERMINAL_PRODUCT_NON_PASS_EVIDENCE_PRESERVED
     task_activation_record:
       path: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-equivalent-mysql-transport-completion-20260825/task-product/authority/P3_EGT_P1_PHASE_DELEGATED_TASK_AUTHORITY_V1.json"
       byte_length: 9152
@@ -29812,6 +29779,9 @@ active_work:
       byte_length: 5883
       sha256: 26215a9e70561312a9cca69c27033a13005d3475216d9a6c345fd2aeeb55de5b
     candidate_freeze_record:
+      path: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-equivalent-mysql-transport-completion-20260825/task-product/validation/candidate-1/P3_EGT_P1_REJECTED_PRODUCT_CANDIDATE_MANIFEST_V1.json"
+      byte_length: 4499
+      sha256: 1d2680f4d09852de8d172225aa34df5944fe37451270252566ec06c833877201
     review_dispatch_record:
     integration_record:
     canonical_replay_record:
@@ -29847,7 +29817,7 @@ active_work:
     consumed_calendar_days: 142
     latest_terminal_task_id: AIOS-P3-R1_STRICT_CAPABILITY_PRODUCT
     latest_terminal_receipt_sha256: cc08ed5bf878bdb43d52d7dfb5dc11b65ab6d3d085ea4a62e1de7f4dce1dd2b1
-  next_eligible_action: WORKER_RUN_P3_EGT_PREWRITE_MYSQL_TRANSPORT_PROBE_THEN_IMPLEMENT
+  next_eligible_action: NO_ENGINEERING_ACTION_P3_HOLD_INCOMPLETE_FINAL_EQUIVALENT_TRANSPORT_EXCEPTION_EXHAUSTED
 historical_p2_080_terminal_active_work:
   current_task: AIOS-P2-080_EXACT_FROZEN_P2_078_EVALUATION_AND_EVIDENCE_ADAPTER
   current_task_status: TERMINAL_EVALUATION_EVIDENCE_ADAPTER_DEV_COMPATIBILITY_NON_PASS
@@ -36684,20 +36654,20 @@ p2_recovery_control:
   next_eligible_action: P3_PHASE_EXECUTION
 claim_boundary:
   current_phase_route: P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_FINAL_CLEAN_ROOM_COMPLETION_ROUTE_V1
-  current_task: AIOS-P3-EGT-P1_STRICT_CAPABILITY_CLEAN_ROOM_PRODUCT
-  selected_task: AIOS-P3-EGT-P1_STRICT_CAPABILITY_CLEAN_ROOM_PRODUCT
-  current_task_status: ACTIVE
-  next_eligible_action: WORKER_RUN_P3_EGT_PREWRITE_MYSQL_TRANSPORT_PROBE_THEN_IMPLEMENT
-  real_engineering_progress: P3_EQUIVALENT_TRANSPORT_PRODUCT_TASK_ACTIVE_PREWRITE_PROBE_PASS_SOURCE_WRITE_ELIGIBLE_DELIVERY_25_STRICT_CAPABILITY_0
+  current_task: NONE
+  selected_task: NONE
+  current_task_status: TERMINAL_TASK_GATE_NON_PASS
+  next_eligible_action: NO_ENGINEERING_ACTION_P3_HOLD_INCOMPLETE_FINAL_EQUIVALENT_TRANSPORT_EXCEPTION_EXHAUSTED
+  real_engineering_progress: P3_EQUIVALENT_TRANSPORT_PRODUCT_ROUTE_TERMINAL_NON_PASS_REJECTED_CANDIDATE_NOT_INTEGRATED_DELIVERY_25_STRICT_CAPABILITY_0
   p2_research_exit_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
   p2_research_exit_percent: 100
   p2_original_capability_gate_status: MISSING_NOT_ACCEPTED
   p2_original_capability_progress_percent: 0
   p2_candidate_integrated: false
   p2_held_source_reads: 0
-  p3_status: ACTIVE_INCOMPLETE_EQUIVALENT_MYSQL_TRANSPORT_FINAL_ROUTE
+  p3_status: HOLD_INCOMPLETE_FINAL_EQUIVALENT_TRANSPORT_EXCEPTION_EXHAUSTED
   p3_entry_authorized: true
-  p3_phase_envelope_status: ACTIVE_PRODUCT_TASK
+  p3_phase_envelope_status: HOLD_INCOMPLETE_FINAL_EQUIVALENT_TRANSPORT_EXCEPTION_EXHAUSTED
   p3_exit_gate_progress_percent: 0
   p3_delivery_progress_percent: 25
   p3_accepted_milestones:
@@ -36706,9 +36676,9 @@ claim_boundary:
   p3_capability_milestone_status: MISSING_NOT_ACCEPTED
   p3_reentry_route_decision_sha256: 9dfcac8a8683269cc5517c2e01afe4df666bfe0008d7735e27266d169721bf05
   p3_reentry_route_source_body_sha256: 6ad16764a7e8f51ff30301560b270586cdf6961adebf468f2e51e4f2bb7be316
-  p3_reentry_route_stage: PRODUCT_TASK_ACTIVE
-  p3_reentry_product_task_status: ACTIVE
-  p3_reentry_formal_task_status: LOCKED_PENDING_PRODUCT_CANDIDATE_FROZEN
+  p3_reentry_route_stage: PRODUCT_ROUTE_TERMINAL_NON_PASS
+  p3_reentry_product_task_status: TERMINAL_TASK_GATE_NON_PASS
+  p3_reentry_formal_task_status: LOCKED_ROUTE_TERMINAL
   p3_reentry_candidate_integrated: false
   p3_reentry_delivery_credit: 0
   p3_reentry_strict_exit_credit: 0
@@ -38256,7 +38226,7 @@ claim_boundary:
   p1_056_formal_run_b: NOT_STARTED
   p1_056_candidate_integrated: false
   p1_056_accepted_capability: false
-  current_route_executable_task_slots: P3_EGT_P1_ACTIVE_EGT_E1_LOCKED
+  current_route_executable_task_slots: P3_EGT_ROUTE_TERMINAL_NO_EXECUTABLE_SLOT
   prior_experiment_pack_route_executable_task_slots_used: 3_OF_3
   p1_050_claim_boundary: LOCAL_SYNTHETIC_PROVIDER_NEUTRAL_B0_B1_B2_COMPATIBILITY_ADAPTER_EXECUTION_CONFORMANCE_ONLY_NO_EMPIRICAL_BASELINE_PERFORMANCE_VTSR_MODEL_AGENT_INHERITED_SOURCELENS_P1_EXIT_P2_P3_PRODUCTION_OR_HOSTILE_PRINCIPAL_CLAIM
   repository_intelligence_quality: UNKNOWN_NOT_YET_BENCHMARKED

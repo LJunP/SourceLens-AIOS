@@ -1,0 +1,191 @@
+schema_version: p3-strict-capability-task-contract/v1
+record_type: P3_STRICT_CAPABILITY_TASK_CONTRACT
+status: FROZEN_ACTIVE
+phase: P3
+route_id: P3_STRICT_CAPABILITY_REENTRY_ONE_SHOT_COMPLETION_ROUTE_V1
+stage_id: STRICT_CAPABILITY_PRODUCT
+task_id: AIOS-P3-R1_STRICT_CAPABILITY_PRODUCT
+nonce: p3-r1-strict-capability-product-20260825-v1
+task_kind: PRODUCT_IMPLEMENTATION
+objective_id: ACTUAL_AGENT_HOST_AUTHORIZED_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE
+strict_exit_gate:
+  gate_id: ACTUAL_AGENT_HOST_AUTHORIZED_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE_ACCEPTED
+  required_item_ids:
+  - ACTUAL_AGENT_NON_AUTHORITATIVE_PROPOSAL_AND_EXCLUSIVE_RESERVED_INGRESS
+  - HOST_DERIVED_CUSTODY_DURABLE_INTENT_REAL_MYSQL_AND_EXACTLY_ONE_TERMINAL
+  - REPRESENTATIVE_FRESH_PROCESS_RECOVERY_AND_CHECKPOINT_GATE
+  - PINNED_LOCAL_OCI_READ_ONLY_ISOLATION_COMPLETE_TRACE_AND_REPLAY
+  same_frozen_candidate_required: true
+  acceptance_during_product_task: false
+activation_parent:
+  commit: 8c0e8514602f919733202e57ad1cab67f11904ba
+  tree: 0c20cff01ae726c97e403313a2361667b6596c05
+resources:
+  branch: codex/p3-r1-strict-capability-product
+  worktree: /Users/lijunpeng/Developer/.sourcelens-worktrees/p3-r1-strict-capability-product
+  evidence_root: /Users/lijunpeng/Developer/.sourcelens-audit/p3-strict-capability-reentry-20260825/task-product
+  dependency_custody_root: /Users/lijunpeng/Developer/.sourcelens-audit/p3-strict-capability-reentry-20260825/task-product/dependency-custody
+budget:
+  engineering_tasks: 1
+  engineering_hours: 48
+  calendar_days: 10
+  candidate_generations: 2
+  same_task_repairs: 1
+  review_cycles: 2
+accepted_inputs:
+  canonical_main:
+    commit: 8c0e8514602f919733202e57ad1cab67f11904ba
+    tree: 0c20cff01ae726c97e403313a2361667b6596c05
+  foundations:
+  - milestone_id: DURABLE_STATE_AND_CHECKPOINT_RESUME
+    integration_commit: f841ff822610264ad1b88c93b1f6248d42eb134a
+    integration_tree: 6a3e67b4680464e54d72936dc24a205079614431
+  - milestone_id: DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION
+    integration_commit: 2f52d0912ba5621bd2258fc21f5b74dd2019efd5
+    integration_tree: e9490d8f786f913b2e60a7e690a71911e015c87a
+  strict_capability_decision:
+    path: docs/aios/decisions/P3_MINIMUM_TRUST_TRANSACTIONAL_OCI_FINAL_PRODUCT_ROUTE_AFTER_F2_TERMINAL_V2.json
+    byte_length: 23363
+    sha256: e1ce4b6080c4ad193fd81511e44f72a7f1bceb4edfae4d1e5425ca8b42a6b217
+  founder_route_decision:
+    path: docs/aios/decisions/P3_STRICT_CAPABILITY_REENTRY_P4_HOLD_AND_ONE_SHOT_COMPLETION_ROUTE_V1.json
+    byte_length: 16136
+    sha256: b7588a075e5fd3917760c9a225fba4af69458a83c39d47b5340ce73eedeb141d
+clean_room:
+  rejected_p3_or_p4_engineering_lineage_read_compare_copy_restore_or_integrate: false
+  historical_terminal_metadata_use: ACCOUNTING_AND_NON_REUSE_PROOF_ONLY
+product_contract:
+  task_type: TRUSTED_READ_ONLY_ARCHITECTURE_OVERVIEW_SHA256_V1
+  reserved_tool_name: trusted_read_bound_architecture_overview_sha256_v1
+  agent_arguments: {}
+  fixed_action: READ_BOUND_ARCHITECTURE_OVERVIEW_SHA256_V1
+  actual_agent_task_service_required: true
+  actual_agent_runtime_required: true
+  agent_is_non_authoritative_proposal_source: true
+  host_derives_all_authority_bearing_fields: true
+  artifact_owner_type: SCAN_TASK
+  artifact_type: ARCHITECTURE_OVERVIEW
+  migration: backend-spring/src/main/resources/db/migration/V034__add_trusted_read_only_invocation.sql
+  table: trusted_read_only_invocations
+  transaction_operations:
+  - prepareIntent
+  - claimDispatch
+  - recordEffect
+  - beginCleanup
+  - completeTerminal
+  recovery_windows:
+  - INTENT_COMMITTED_EFFECT_NOT_BEGUN
+  - EFFECT_MAY_HAVE_OCCURRED_TERMINAL_NOT_COMMITTED
+  - CLEANUP_BEGUN_OR_COMPLETED_TERMINAL_NOT_COMMITTED
+  checkpoint_before_committed_terminal: REJECTED
+  checkpoint_after_committed_terminal: ACCEPTED_P3_001_SEMANTICS_EXACTLY_ONCE
+docker_authority:
+  effective_only_after_task_activation: true
+  cli_path: /Applications/Docker.app/Contents/Resources/bin/docker
+  cli_sha256: a6822407e207ff0b687419ccbe55700ffbf389d77de58ef625b3b1790d88747c
+  endpoint: unix:///Users/lijunpeng/.docker/run/docker.sock
+  image_content_id: sha256:d36d39a64cd12a5c1cc9e6aa2bfb5f8d4c81a2f6586e0a04a9ae13939db02209
+  allowed_verbs:
+  - version
+  - info
+  - image_inspect_exact_content_id
+  - network_create_internal
+  - network_inspect
+  - network_rm
+  - create
+  - start
+  - wait
+  - inspect
+  - logs
+  - port
+  - rm_force
+  existing_or_foreign_object_mutation: false
+  pull_push_login_build_import_tag_exec_cp_socket_mount_or_privileged: false
+external_effects:
+  docker_task_owned_exact_objects: true
+  mysql_127_0_0_1_runtime_port: true
+  task_owned_process_signal: true
+  internet: false
+  dns: false
+  http_https: false
+  provider: false
+  secret: false
+  credential: false
+  remote: false
+  production: false
+  public: false
+  push: false
+  pull_request: false
+  remote_merge: false
+  public_release: false
+system_under_test_permissions:
+  shell: false
+  docker: false
+  filesystem: false
+  network: false
+  provider: false
+  secret: false
+  side_effect_tool: false
+write_allowlist:
+- backend-spring/src/main/java/com/sourcelens/module/agent/service/AgentRuntime.java
+- backend-spring/src/main/java/com/sourcelens/module/agent/service/PromptBuilder.java
+- backend-spring/src/main/java/com/sourcelens/module/agent/service/ToolExecutionService.java
+- backend-spring/src/main/java/com/sourcelens/module/agent/service/LlmClient.java
+- backend-spring/src/main/java/com/sourcelens/module/agent/service/AgentTaskService.java
+- backend-spring/src/main/java/com/sourcelens/module/agent/tool/ToolContext.java
+- backend-spring/src/main/java/com/sourcelens/module/agent/tool/ToolRegistry.java
+- backend-spring/src/main/java/com/sourcelens/module/agent/trustedread
+- backend-spring/src/main/java/com/sourcelens/module/artifact/service/ArtifactStorageService.java
+- backend-spring/src/main/java/com/sourcelens/module/execution/trustedread
+- backend-spring/src/main/java/com/sourcelens/module/sandbox/oci/trustedread
+- backend-spring/src/main/resources/db/migration/V034__add_trusted_read_only_invocation.sql
+- backend-spring/src/main/resources/application.yml
+- backend-spring/src/test/java/com/sourcelens/module/agent/trustedread
+- backend-spring/src/test/java/com/sourcelens/module/execution/trustedread
+- backend-spring/src/test/java/com/sourcelens/module/sandbox/oci/trustedread
+- backend-spring/src/test/java/com/sourcelens/AgentRuntimeFixedReadOnlyInvocationTest.java
+- backend-spring/src/test/java/com/sourcelens/ToolExecutionServiceTest.java
+- backend-spring/src/test/java/com/sourcelens/ArtifactStorageServiceTest.java
+- backend-spring/src/test/java/com/sourcelens/LlmClientToolCallIngressTest.java
+- backend-spring/src/test/resources/p3-strict-capability-product
+- docs/PROJECT_CODE_MAP.md
+direct_adjacent_registration:
+  maximum_regular_files: 6
+  registered: []
+  frozen_before_first_product_write: true
+  zero_scope_expansion_proof: No direct-adjacent file is mechanically required after read-only source mapping.
+acceptance_tests:
+- DETERMINISTIC_OFFLINE_LLM_PRODUCTION_DECODE_THROUGH_ACTUAL_AGENT_RUNTIME
+- NEGATIVE_INGRESS_ZERO_INTENT_ZERO_DISPATCH_ZERO_DOCKER
+- CUSTODY_OWNERSHIP_PATH_MODE_LENGTH_AND_SHA_DRIFT_MATRIX
+- PREPARE_INTENT_ROLLBACK_IDEMPOTENCY_AND_ANCHOR_DRIFT
+- TERMINAL_CAS_WINNER_IDENTICAL_REPLAY_AND_LATE_LOSER
+- FIXED_OCI_PROFILE_AND_HOST_INDEPENDENT_SHA_MATCH
+- THREE_FRESH_PROCESS_RECOVERY_WINDOWS
+- CHECKPOINT_BEFORE_TERMINAL_REJECTED_AFTER_TERMINAL_EXACTLY_ONCE
+- REAL_MYSQL_V034_AND_PRODUCTION_SPRING_TRANSACTION_PROXY
+- FOCUSED_MAVEN_TESTS
+- FULL_MAVEN_SUITE
+- SOURCE_TO_CLASS_IDENTITY_AND_RESOURCE_CLEANUP
+anti_cycle:
+  candidate_generations: 2
+  same_task_repairs: 1
+  review_cycles: 2
+  candidate_3_allowed: false
+  second_repair_allowed: false
+  third_review_allowed: false
+  successor_replacement_normalization_closure_feasibility_remediation_allowed: false
+  test_or_gate_redefinition_after_first_product_write: false
+roles:
+  owner: MASTER_CEO_AGENT
+  implementation: MASTER_CEO_AGENT_PRODUCT_WORKER
+  independent_review_required:
+  - CTO_AGENT
+  - SECURITY_AGENT
+  - QUALITY_EVALUATION_AGENT
+lifecycle:
+  pass: FREEZE_ONE_PRODUCT_CANDIDATE_UNLOCK_ONLY_ONE_SHOT_FORMAL_ACCEPTANCE
+  non_pass: P3_HOLD_INCOMPLETE_FINAL_EXCEPTION_EXHAUSTED_P4_HOLD_NO_SUCCESSOR
+  project_actually_completed: false
+  long_term_goal_status: ACTIVE
+  codex_goal_action: NONE_KEEP_ACTIVE

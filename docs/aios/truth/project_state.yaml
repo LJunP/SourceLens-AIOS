@@ -1,8 +1,8 @@
 ---
 schema_version: 3
 record_type: sourcelens_aios_current_truth
-last_verified_at: '2026-08-25T07:17:24Z'
-verification_scope: P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_PRODUCT_TASK_ACTIVE_PREWRITE_PROBE_NOT_DISPATCHED_P4_HOLD_PROJECT_INCOMPLETE_LONG_TERM_GOAL_ACTIVE
+last_verified_at: '2026-08-25T07:28:17Z'
+verification_scope: P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_PRODUCT_TASK_ACTIVE_PREWRITE_PROBE_PASS_SOURCE_WRITE_ELIGIBLE_P4_HOLD_PROJECT_INCOMPLETE_LONG_TERM_GOAL_ACTIVE
 authority:
   founder: Human Founder
   strategy:
@@ -43,12 +43,13 @@ goal:
   long_term_goal_status: ACTIVE
   codex_goal_action: NONE_KEEP_ACTIVE
   current_state_note: 'P3 v3.9 equivalent real-MySQL transport Product Task is active under its
-    create-once Contract and phase-delegated authority. No Product source has been written and
-    the one-shot bounded feasibility probe has not yet been dispatched. The exact loopback
-    bridge profile, unchanged Objective, four required items, six frozen blockers, real MySQL,
-    real OCI, fresh-process recovery and canonical replay remain mandatory. P3 remains delivery
-    25% and strict capability 0%; P4 remains HOLD, the project is incomplete and the Long-term
-    Goal remains ACTIVE.'
+    create-once Contract and phase-delegated authority. The one allowed prewrite feasibility
+    probe passed on the pinned image: exact Internal=false bridge options, one 127.0.0.1 runtime
+    port, numeric-loopback TCP success, one expected endpoint and exact-ID cleanup. No Product
+    source has yet been written. The unchanged Objective, four required items, six frozen blockers,
+    real MySQL, real OCI, fresh-process recovery and canonical replay remain mandatory. P3 remains
+    delivery 25% and strict capability 0%; P4 remains HOLD, the project is incomplete and the
+    Long-term Goal remains ACTIVE.'
   current_strategic_decision:
     path: docs/aios/decisions/P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_EXIT_GATE_CLARIFICATION_AND_FINAL_CLEAN_ROOM_COMPLETION_ROUTE_V1.json
     byte_length: 18154
@@ -11612,8 +11613,8 @@ current_phase_route:
     maximum_minutes: 30
     must_precede_product_source_write: true
     progress_credit: 0
-    current_dispatches: 0
-    current_status: NOT_DISPATCHED
+    current_dispatches: 1
+    current_status: PASS
     non_pass_lifecycle: ROUTE_TERMINAL_BEFORE_PRODUCT_SOURCE_WRITE_NO_RERUN
   ordered_stages:
   - ordinal: 1
@@ -29801,11 +29802,15 @@ active_work:
     - SECURITY_AGENT
     - QUALITY_EVALUATION_AGENT
   runtime_identity_channel:
-    status: ACTIVE_PREWRITE_PROBE_NOT_DISPATCHED
+    status: ACTIVE_PREWRITE_PROBE_PASS_SOURCE_WRITE_ELIGIBLE
     task_activation_record:
       path: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-equivalent-mysql-transport-completion-20260825/task-product/authority/P3_EGT_P1_PHASE_DELEGATED_TASK_AUTHORITY_V1.json"
       byte_length: 9152
       sha256: 6a4d2dfbd77aebdffea5cf1929dc05e371db6bdb432451ee4d7586b5b879f7da
+    prewrite_probe_record:
+      path: "/Users/lijunpeng/Developer/.sourcelens-audit/p3-equivalent-mysql-transport-completion-20260825/task-product/probe/P3_EGT_P1_PREWRITE_MYSQL_TRANSPORT_PROBE_PASS_RECEIPT_V1.json"
+      byte_length: 5883
+      sha256: 26215a9e70561312a9cca69c27033a13005d3475216d9a6c345fd2aeeb55de5b
     candidate_freeze_record:
     review_dispatch_record:
     integration_record:
@@ -36683,7 +36688,7 @@ claim_boundary:
   selected_task: AIOS-P3-EGT-P1_STRICT_CAPABILITY_CLEAN_ROOM_PRODUCT
   current_task_status: ACTIVE
   next_eligible_action: WORKER_RUN_P3_EGT_PREWRITE_MYSQL_TRANSPORT_PROBE_THEN_IMPLEMENT
-  real_engineering_progress: P3_EQUIVALENT_TRANSPORT_PRODUCT_TASK_ACTIVE_PREWRITE_PROBE_NOT_DISPATCHED_DELIVERY_25_STRICT_CAPABILITY_0
+  real_engineering_progress: P3_EQUIVALENT_TRANSPORT_PRODUCT_TASK_ACTIVE_PREWRITE_PROBE_PASS_SOURCE_WRITE_ELIGIBLE_DELIVERY_25_STRICT_CAPABILITY_0
   p2_research_exit_status: COMPLETE_RESEARCH_NON_PASS_CAPABILITY_NOT_ACCEPTED
   p2_research_exit_percent: 100
   p2_original_capability_gate_status: MISSING_NOT_ACCEPTED

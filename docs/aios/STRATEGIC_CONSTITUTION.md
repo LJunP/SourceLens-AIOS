@@ -1,8 +1,8 @@
 # SourceLens AIOS Strategic Constitution
 
-- Version: `3.8`
+- Version: `3.9`
 - Status: `FROZEN`
-- Effective date: 2026-08-24
+- Effective date: 2026-08-25
 - Owner: Human Founder
 
 ## 1. Positioning
@@ -348,6 +348,81 @@ Exit, P4 entry, P5 entry or Long-term Goal closure. Any Product, formal or canon
 NON_PASS leaves P3 `HOLD_INCOMPLETE_FINAL_EXCEPTION_EXHAUSTED`, keeps P4 HOLD and preserves the
 active Long-term Goal without another automatic implementation route.
 
+## 9I. P3 v3.9 equivalent real-MySQL transport and final clean-room completion authority
+
+This section supersedes only section 9H's impossible test-infrastructure requirement that the
+same Docker network be both `Internal=true` and capable of publishing a MySQL port to the Host.
+It does not change or lower the P3 Objective
+`ACTUAL_AGENT_HOST_AUTHORIZED_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE`, the strict Exit Gate
+`ACTUAL_AGENT_HOST_AUTHORIZED_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE_ACCEPTED`, any of its four
+required items, the same-frozen-candidate rule, real MySQL, production Spring transactions,
+actual Agent ingress, real pinned OCI execution, three fresh-process recovery windows, P3-001
+checkpoint semantics, three independent reviews or canonical replay. It is installed by the
+create-once composite Founder authorization
+`AUTHORIZE_P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_EXIT_GATE_CLARIFICATION_AND_FINAL_CLEAN_ROOM_COMPLETION_ROUTE_V1`
+plus
+`CORRECT_P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_AUTHORIZATION_POLICY_SHA256_SINGLE_FIELD_V1`, and by
+the ADR
+`docs/aios/decisions/P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_EXIT_GATE_CLARIFICATION_AND_FINAL_CLEAN_ROOM_COMPLETION_ROUTE_V1.json`
+from canonical commit `6134357e9bb2dd99acb853fea76a0917fe4d3d45`, tree
+`55bc324e4eedd6036cdced33bcc270e579a4f439`. Strategic installation, validation, review and Truth
+synchronization contribute zero engineering, delivery and strict-capability progress.
+
+The equivalent real-MySQL transport is one Task-created, exact-name, exact-label local Docker
+bridge with `Internal=false` and exactly these options:
+
+- `com.docker.network.bridge.enable_ip_masquerade=false`
+- `com.docker.network.bridge.enable_icc=false`
+- `com.docker.network.bridge.host_binding_ipv4=127.0.0.1`
+
+The Task-created MySQL container must use `--skip-name-resolve` and publish exactly one
+runtime-assigned `3306/tcp` binding on `127.0.0.1`. Only the exact Host test JVM may reach that
+exact loopback port, under a hash-bound `sandbox-exec` profile that denies every other network
+destination. DNS, Internet and HTTP(S) requests remain forbidden. The pinned read-only
+`sha256sum` action container remains on `network none` and may never join the MySQL bridge.
+Inspect Evidence must prove the non-internal network, all three options, the unique loopback
+binding, full Task/invocation labels and no extra endpoint; exact-ID cleanup is required in every
+terminal path. These transport semantics are test infrastructure only and grant no general
+network capability.
+
+The only executable route is
+`P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_FINAL_CLEAN_ROOM_COMPLETION_ROUTE_V1`: one Product Task
+`AIOS-P3-EGT-P1_STRICT_CAPABILITY_CLEAN_ROOM_PRODUCT` followed, only after Product acceptance,
+by one one-shot formal Task `AIOS-P3-EGT-E1_ONE_SHOT_STRICT_CAPABILITY_ACCEPTANCE`. Before any
+Product source write, the Product Task must run exactly one bounded 30-minute feasibility probe
+of the frozen transport and exact pinned image. Probe `NON_PASS` terminates the route before
+source write with no option change, image change, permission expansion or rerun-to-pass.
+
+The Product is a clean-room implementation from canonical main, the two accepted P3 foundations,
+the unchanged Objective/Gate, this composite authorization and only these six frozen blocker IDs:
+
+- `PRIVATE_CUSTODY_ROOT_NOT_REVALIDATED_ON_RESTART_RESOLVE`
+- `DOCKER_MUTATION_TIMEOUT_CAN_OUTLIVE_STABLE_ABSENCE_ATTESTATION`
+- `ACTUAL_AGENT_TASK_SERVICE_TEST_DOES_NOT_COMBINE_PRODUCTION_AGENT_RUNTIME_AND_DECODER`
+- `FRESH_CHILD_JVM_TEST_DOES_NOT_PROVE_REAL_OCI_EFFECT_AND_CLEANUP_ACROSS_PROCESS_FAILURE`
+- `ASYNC_WORKER_CAN_RUN_BEFORE_START_TRANSACTION_COMMIT`
+- `REAL_MYSQL_V034_PRODUCTION_TRANSACTION_TEST_NOT_EXECUTED_BECAUSE_DOCKER_INTERNAL_NETWORK_SUPPRESSES_HOST_PORT_PUBLICATION`
+
+Rejected Candidate 1, Candidate 2, their bundle, commits, trees, source, tests, classes, patches,
+reviews and every other rejected P3/P4 engineering lineage remain immutable terminal Evidence and
+may not be read, shown, diffed, verified, checked out, compared, copied, restored, executed,
+reflog-searched or integrated. This final exception appends to, and does not reset or refund, the
+20 Tasks, 616 engineering hours and 142 calendar days already consumed. It permits at most two
+additional Tasks, 72 engineering hours and 16 calendar days, for cumulative ceilings of 22 Tasks,
+688 hours and 158 days. Product permits at most two candidate generations, one same-Task repair
+and two review cycles; formal evaluation permits exactly one dispatch and no Product change,
+repair or rerun.
+
+Only formal acceptance by CTO, Security and Quality/Evaluation on the same frozen candidate,
+followed by local integration and one canonical-only replay with the required real-MySQL test
+zero-skipped, real fresh-process OCI recovery and full offline Maven suite, may change all four
+items, management delivery and strict capability to `100%`. The resulting state is only
+`ELIGIBLE_AWAITING_FOUNDER_P3_PHASE_GATE_DECISION`: P4 remains HOLD until a later Founder P3
+Phase Gate. Any probe, Product, formal or replay `NON_PASS` leaves P3 incomplete at delivery
+`25%` and strict capability `0%`, preserves P4 HOLD and the active Long-term Goal, and creates no
+successor, replacement, normalization, closure, feasibility, remediation, Candidate 3, second
+repair, third review, second formal dispatch, V2/V3 route or rerun-to-pass.
+
 ## 10. Research artifacts
 
 Every major phase must leave a reproducible artifact containing hypothesis, dataset version, environment snapshot, baseline, configuration, run IDs, raw metrics, failure taxonomy, effect size, cost, conclusion and reproduction command.
@@ -375,6 +450,6 @@ Stopping is a valid research result. It must not be hidden by adding features.
 
 ## 12. Change control
 
-Constitution v3.8 is bound to the create-once Founder decision `AUTHORIZE_P3_STRICT_CAPABILITY_REENTRY_P4_HOLD_AND_ONE_SHOT_COMPLETION_ROUTE_V1` and canonical ADR `docs/aios/decisions/P3_STRICT_CAPABILITY_REENTRY_P4_HOLD_AND_ONE_SHOT_COMPLETION_ROUTE_V1.json`; it preserves v3.7 as immutable historical chronology but supersedes its P3 Phase-completion and P4-entry projection, restores the unchanged P3 strict capability Gate, installs one Product plus one one-shot formal Task, and keeps P4 HOLD until P3 reaches 100% and a separate Founder P3 Phase Gate is issued. Constitution v3.7 remains bound historically to `AUTHORIZE_P3_RESEARCH_NON_PASS_CLOSURE_AND_CONDITIONAL_P4_PROPOSAL_FIRST_PHASE_ENTRY_V1` and `docs/aios/decisions/P3_RESEARCH_NON_PASS_CLOSURE_AND_P4_PROPOSAL_FIRST_PHASE_ENTRY_DECISION_V1.json`; its research-NON_PASS facts remain true, while its scheduling authority is superseded by v3.8.
+Constitution v3.9 is bound to the composite Founder authorization `AUTHORIZE_P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_EXIT_GATE_CLARIFICATION_AND_FINAL_CLEAN_ROOM_COMPLETION_ROUTE_V1` plus `CORRECT_P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_AUTHORIZATION_POLICY_SHA256_SINGLE_FIELD_V1` and canonical ADR `docs/aios/decisions/P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_EXIT_GATE_CLARIFICATION_AND_FINAL_CLEAN_ROOM_COMPLETION_ROUTE_V1.json`; it supersedes only v3.8's impossible internal-network plus Host-port transport constraint, installs the exact equivalent loopback transport and one final bounded clean-room Product plus conditional one-shot formal route, and preserves the unchanged Objective, four-item strict Gate, real-MySQL/OCI strength, P4 HOLD and active Long-term Goal. Constitution v3.8 remains bound historically to the create-once Founder decision `AUTHORIZE_P3_STRICT_CAPABILITY_REENTRY_P4_HOLD_AND_ONE_SHOT_COMPLETION_ROUTE_V1` and canonical ADR `docs/aios/decisions/P3_STRICT_CAPABILITY_REENTRY_P4_HOLD_AND_ONE_SHOT_COMPLETION_ROUTE_V1.json`; it preserves v3.7 as immutable historical chronology but its exhausted route and impossible transport projection are superseded by v3.9. Constitution v3.7 remains bound historically to `AUTHORIZE_P3_RESEARCH_NON_PASS_CLOSURE_AND_CONDITIONAL_P4_PROPOSAL_FIRST_PHASE_ENTRY_V1` and `docs/aios/decisions/P3_RESEARCH_NON_PASS_CLOSURE_AND_P4_PROPOSAL_FIRST_PHASE_ENTRY_DECISION_V1.json`; its research-NON_PASS facts remain true, while its scheduling authority is superseded by v3.8 and v3.9.
 
 Only the Human Founder may change mission, primary ICP, year-one outcome or long-term direction. Any change requires a new constitution version and an append-only ADR. Constitution v2.4 is bound to the create-once Founder decision `AUTHORIZE_P2_RESEARCH_NON_PASS_COMPLETION_AND_PHASE_EXIT_REBASELINE_V1`; that decision is the append-only ADR for this P2 Phase-route change. Constitution v2.6 is bound to the create-once Founder decision `AUTHORIZE_P3_HOST_OWNED_FIXED_STATE_WORKFLOW_MINIMAL_ATOMIC_STRATEGY_INSTALLATION_AFTER_EVIDENCE_ONLY_NON_PASS_V1`; that decision formally amended only the P3 Objective and installed the now-exhausted host-owned fixed-state workflow route while preserving the strict P3 Exit Gate, P4 HOLD and Long-term Goal ACTIVE boundaries. Constitution v2.7 is bound to the create-once Founder decision `AUTHORIZE_P3_MINIMUM_TRUST_HOST_AUTHORIZED_TRANSACTIONAL_BOUNDARY_OBJECTIVE_AND_ROUTE_REBASELINE_AFTER_P3_007_V1`; that decision is the append-only ADR for replacing only the exhausted P3 implementation assumption with the host-authorized transactional trust-boundary Objective and three-stage route, while keeping mission, ICP, year-one outcome, strict P3 Exit Gate, P4 HOLD and Long-term Goal ACTIVE unchanged. Constitution v2.8 is bound to the create-once Founder decision `AUTHORIZE_P3_TRUSTED_INVOCATION_KERNEL_PROCESS_REAL_CLEAN_ROOM_ROUTE_REBASELINE_V1`; that decision preserves the v2.7 mission, ICP, year-one outcome, P3 Objective and strict Exit Gate while authorizing one architecturally distinct process-real clean-room Foundation, Product and one-shot Audit route with non-resettable capacity and no rejected-lineage reuse. Constitution v3.0 preserves the P0-P2 accepted facts, P3-001 semantics, P4-P12 order and active Long-term Goal while installing the transactional coordinator plus external OCI attestation objective and strict Gate. Its original append-only ADR is `AUTHORIZE_P3_TRANSACTIONAL_COORDINATOR_EXTERNAL_OCI_ATTESTATION_OBJECTIVE_EXIT_GATE_AND_ATOMIC_STAGED_ROUTE_REBASELINE_V1`; after the exact post-install protocol defect and required revert, the create-once decision `AUTHORIZE_P3_TXC_CONTROL_PLANE_RECOVERY_AND_DIRECT_PRODUCT_ROUTE_REENTRY_AFTER_POSTINSTALL_PROTOCOL_ERROR_V1` re-installs the same v3.0 strategic semantics from the new exact baseline and authorizes only the closed recovery plus direct two-stage reentry. Constitution v3.1 is bound to the create-once Founder decision `AUTHORIZE_P3_TRUSTED_HOST_TCB_TRANSACTIONAL_EXECUTION_OBJECTIVE_EXIT_GATE_AND_CLEAN_ROOM_FINAL_ROUTE_V1`; it formally narrows the P3 trust claim to an explicit single-host TCB, retains strict Agent/workload/crash/trace guarantees, changes the final containment item to process-real attestation inside that TCB, accepts the disclosed same-host-authority residual risk, and authorizes one clean-room Product followed by one one-shot Audit without a Foundation Task. Constitution v3.2 is bound to the create-once Founder decision `AUTHORIZE_P3_TASK_WIDE_RESERVATION_FRONTIER_TRANSACTIONAL_EXECUTION_FOUNDATION_PRODUCT_AND_ONE_SHOT_AUDIT_ROUTE_V1`; it preserves the v3.1 Objective and TCB while strengthening the strict Gate with a task-wide pre-effect reservation frontier, retaining P3-001 workflow-binding semantics and authorizing only the Foundation, Product and one-shot Audit sequence with non-resettable capacity. Constitution v3.3 is bound to the create-once Founder decision `AUTHORIZE_P3_DECLARATIVE_TRANSACTION_KERNEL_OBJECTIVE_EXIT_GATE_AND_FINDING_SCOPED_CLEAN_ROOM_ROUTE_V1` and canonical ADR `docs/aios/decisions/P3_DECLARATIVE_TRANSACTION_KERNEL_CLEAN_ROOM_ROUTE_DECISION_V1.json`; it strengthens the P3 Objective and strict Gate around one host-selected declarative semantic source, freezes the historical Product milestone and rejected lineages, and authorizes only the finding-scoped Foundation, Product and one-shot Audit Route with non-resettable accounting. Constitution v3.4 is bound to the create-once Founder decision `AUTHORIZE_P3_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE_OBJECTIVE_EXIT_GATE_AND_FINAL_ROUTE_REBASELINE_AFTER_DTK_TERMINAL_V1` and canonical ADR `docs/aios/decisions/P3_TRUSTED_READ_ONLY_INVOCATION_VERTICAL_SLICE_ROUTE_DECISION_V1.json`; it replaces the terminal generic DTK route with one actual Agent-to-trusted-host fixed read-only invocation slice, four same-candidate Exit items, one final Product Task and no separate Audit or further P3 retry. Constitution v3.5 is bound to the create-once Founder decision `AUTHORIZE_P3_TRUSTED_READ_ONLY_INVOCATION_EVIDENCE_FIRST_FINAL_CLEAN_ROOM_ROUTE_AFTER_TRIVS_TERMINAL_V1` and canonical ADR `docs/aios/decisions/P3_TRUSTED_READ_ONLY_INVOCATION_EVIDENCE_FIRST_FINAL_CLEAN_ROOM_ROUTE_DECISION_V1.json`; it preserves the v3.4 Objective and four-item Gate while installing one executable acceptance Foundation followed by the second and permanently final Product implementation with non-resettable accounting and no rejected-lineage reuse. Constitution v3.6 is bound to the create-once Founder decision `AUTHORIZE_P3_MINIMUM_TRUST_TRANSACTIONAL_OCI_FINAL_PRODUCT_ROUTE_AFTER_F2_TERMINAL_V2` and canonical ADR `docs/aios/decisions/P3_MINIMUM_TRUST_TRANSACTIONAL_OCI_FINAL_PRODUCT_ROUTE_AFTER_F2_TERMINAL_V2.json`; it replaces the unreachable F2-first route with one final actual-Agent, Host-authorized, real-MySQL and pinned-OCI Product slice, narrows P3 recovery to three representative windows, transfers exhaustive adversarial and operations hardening to future P5 without skipping P4, consumes only the existing final Product slot and creates no additional implementation capacity. Constitution v2.5 was never installed and has no authority. Routine implementation choices do not modify this document.

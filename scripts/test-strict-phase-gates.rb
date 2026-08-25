@@ -217,15 +217,15 @@ if ARGV == ["--p4-transition-correction-only"]
   exit 0
 end
 
-if ARGV == ["--p3-strict-reentry-current-only"]
+if ARGV == ["--p3-egt-current-only"]
   truth = YAML.safe_load(
     File.binread(TRUTH),
     permitted_classes: [],
     permitted_symbols: [],
     aliases: false
   )
-  reentry = P3StrictCapabilityReentryRouteValidation
-  raise "current Route is not P3 strict capability reentry" unless
+  reentry = P3EquivalentRealMysqlTransportRouteValidation
+  raise "current Route is not P3 equivalent real-MySQL transport completion" unless
     truth.dig("current_phase_route", "route_id") == reentry::ROUTE_ID &&
       truth.dig("current_phase_route", "semantic_schema_version") == reentry::SEMANTIC_SCHEMA
   state = reentry.validate_truth!(root: ROOT, truth: truth)
@@ -294,6 +294,127 @@ if ARGV == ["--p3-strict-reentry-current-only"]
     "third stage injected" => lambda do |candidate|
       candidate.dig("current_phase_route", "ordered_stages") <<
         Marshal.load(Marshal.dump(candidate.dig("current_phase_route", "ordered_stages").last))
+    end,
+    "equivalent network made internal" => lambda do |candidate|
+      candidate.dig("current_phase_route", "equivalent_mysql_transport", "network")[
+        "internal"
+      ] = true
+    end,
+    "IP masquerade enabled" => lambda do |candidate|
+      candidate.dig(
+        "current_phase_route", "equivalent_mysql_transport", "network", "options"
+      )["com.docker.network.bridge.enable_ip_masquerade"] = "true"
+    end,
+    "inter-container communication enabled" => lambda do |candidate|
+      candidate.dig(
+        "current_phase_route", "equivalent_mysql_transport", "network", "options"
+      )["com.docker.network.bridge.enable_icc"] = "true"
+    end,
+    "host binding widened" => lambda do |candidate|
+      candidate.dig(
+        "current_phase_route", "equivalent_mysql_transport", "network", "options"
+      )["com.docker.network.bridge.host_binding_ipv4"] = "0.0.0.0"
+    end,
+    "exact Task network identity disabled" => lambda do |candidate|
+      candidate.dig("current_phase_route", "equivalent_mysql_transport", "network")[
+        "exact_name_and_labels_required"
+      ] = false
+    end,
+    "Task-created network requirement disabled" => lambda do |candidate|
+      candidate.dig("current_phase_route", "equivalent_mysql_transport", "network")[
+        "created_by_task"
+      ] = false
+    end,
+    "extra endpoint allowance enabled" => lambda do |candidate|
+      candidate.dig("current_phase_route", "equivalent_mysql_transport", "network")[
+        "no_extra_endpoints_required"
+      ] = false
+    end,
+    "MySQL HostIp widened" => lambda do |candidate|
+      candidate.dig("current_phase_route", "equivalent_mysql_transport", "mysql")[
+        "host_ip"
+      ] = "0.0.0.0"
+    end,
+    "Task-created MySQL requirement disabled" => lambda do |candidate|
+      candidate.dig("current_phase_route", "equivalent_mysql_transport", "mysql")[
+        "container_created_by_task"
+      ] = false
+    end,
+    "pinned MySQL image identity drifted" => lambda do |candidate|
+      candidate.dig("current_phase_route", "equivalent_mysql_transport", "mysql")[
+        "image_content_id"
+      ] = "sha256:" + ("0" * 64)
+    end,
+    "MySQL container port drifted" => lambda do |candidate|
+      candidate.dig("current_phase_route", "equivalent_mysql_transport", "mysql")[
+        "container_port"
+      ] = "3307/tcp"
+    end,
+    "MySQL Host port fixed instead of runtime assigned" => lambda do |candidate|
+      candidate.dig("current_phase_route", "equivalent_mysql_transport", "mysql")[
+        "host_port"
+      ] = "3306"
+    end,
+    "MySQL name resolution enabled" => lambda do |candidate|
+      candidate.dig("current_phase_route", "equivalent_mysql_transport", "mysql")[
+        "skip_name_resolve"
+      ] = false
+    end,
+    "Host JVM exact loopback-port restriction disabled" => lambda do |candidate|
+      candidate.dig(
+        "current_phase_route", "equivalent_mysql_transport", "host_test_jvm"
+      )["exact_runtime_loopback_port_only"] = false
+    end,
+    "Host JVM sandbox profile unbound" => lambda do |candidate|
+      candidate.dig(
+        "current_phase_route", "equivalent_mysql_transport", "host_test_jvm"
+      )["hash_bound_sandbox_exec_profile_required"] = false
+    end,
+    "Host JVM other-network deny disabled" => lambda do |candidate|
+      candidate.dig(
+        "current_phase_route", "equivalent_mysql_transport", "host_test_jvm"
+      )["all_other_network_denied"] = false
+    end,
+    "fixed read-only action network mode widened" => lambda do |candidate|
+      candidate.dig(
+        "current_phase_route", "equivalent_mysql_transport", "fixed_read_only_action"
+      )["network_mode"] = "bridge"
+    end,
+    "fixed read-only action joined MySQL bridge" => lambda do |candidate|
+      candidate.dig(
+        "current_phase_route", "equivalent_mysql_transport", "fixed_read_only_action"
+      )["mysql_bridge_membership"] = true
+    end,
+    "terminal cleanup and inspect evidence disabled" => lambda do |candidate|
+      candidate.dig("current_phase_route", "equivalent_mysql_transport")[
+        "terminal_cleanup_and_inspect_evidence_required"
+      ] = false
+    end,
+    "DNS prohibition removed" => lambda do |candidate|
+      candidate.dig("current_phase_route", "equivalent_mysql_transport")[
+        "forbidden_requests"
+      ].delete("DNS")
+    end,
+    "current route stage reverted to old terminal state" => lambda do |candidate|
+      candidate.dig("claim_boundary")["p3_reentry_route_stage"] =
+        "PRODUCT_ROUTE_TERMINAL_NON_PASS"
+    end,
+    "current Product status reverted to old terminal state" => lambda do |candidate|
+      candidate.dig("claim_boundary")["p3_reentry_product_task_status"] =
+        "TERMINAL_TASK_GATE_NON_PASS"
+    end,
+    "current formal status reverted to old terminal lock" => lambda do |candidate|
+      candidate.dig("claim_boundary")["p3_reentry_formal_task_status"] =
+        "LOCKED_ROUTE_TERMINAL"
+    end,
+    "current executable slots reverted to old F1 projection" => lambda do |candidate|
+      candidate.dig("claim_boundary")["current_route_executable_task_slots"] =
+        "F1_ELIGIBLE_P1_AND_E1_LOCKED"
+    end,
+    "prewrite probe pre-consumed" => lambda do |candidate|
+      candidate.dig("current_phase_route", "prewrite_mysql_transport_probe")[
+        "current_dispatches"
+      ] = 1
     end
   }
   negative_count = 0
@@ -302,15 +423,15 @@ if ARGV == ["--p3-strict-reentry-current-only"]
     mutation.call(candidate)
     begin
       reentry.validate_truth!(root: ROOT, truth: candidate)
-    rescue P3StrictCapabilityReentryRouteValidationError
+    rescue P3EquivalentRealMysqlTransportRouteValidationError
       negative_count += 1
       next
     end
-    raise "P3 strict reentry validator accepted mutation: #{label}"
+    raise "P3 equivalent-transport validator accepted mutation: #{label}"
   end
-  raise "P3 strict reentry negative count drift" unless negative_count == mutations.length
+  raise "P3 equivalent-transport negative count drift" unless negative_count == mutations.length
   raise "P4 root-normalization negative count drift" unless root_negative == 2
-  puts "P3_STRICT_REENTRY_TESTS: PASS current=1 negatives=#{negative_count} " \
+  puts "P3_EQUIVALENT_MYSQL_TRANSPORT_TESTS: PASS current=1 negatives=#{negative_count} " \
        "p4_root_inputs=2 p4_root_negatives=#{root_negative}"
   exit 0
 end

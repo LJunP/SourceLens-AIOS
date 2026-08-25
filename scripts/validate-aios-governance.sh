@@ -2658,11 +2658,11 @@ check_founder_action_handoff_section "$RULES_PATH"
 check_founder_knowledge_section "$RULES_PATH"
 check_authority_bindings
 check_phase_predecessor_activation
-if ruby -ryaml -e 'route = YAML.safe_load(File.binread(ARGV[0]), permitted_classes: [], permitted_symbols: [], aliases: false).fetch("current_phase_route"); exit(route["schema_version"] == "p4-proposal-first-controlled-real-task-route/v1" || route["route_id"] == "P3_STRICT_CAPABILITY_REENTRY_ONE_SHOT_COMPLETION_ROUTE_V1" ? 0 : 1)' "$TRUTH_PATH"; then
+if ruby -ryaml -e 'route = YAML.safe_load(File.binread(ARGV[0]), permitted_classes: [], permitted_symbols: [], aliases: false).fetch("current_phase_route"); exit(route["schema_version"] == "p4-proposal-first-controlled-real-task-route/v1" || route["route_id"] == "P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_FINAL_CLEAN_ROOM_COMPLETION_ROUTE_V1" ? 0 : 1)' "$TRUTH_PATH"; then
   ruby "${ROOT_DIR}/scripts/validate-strict-phase-gates.rb"
 fi
-if ruby -ryaml -e 'route = YAML.safe_load(File.binread(ARGV[0]), permitted_classes: [], permitted_symbols: [], aliases: false).fetch("current_phase_route"); exit(route["route_id"] == "P3_STRICT_CAPABILITY_REENTRY_ONE_SHOT_COMPLETION_ROUTE_V1" ? 0 : 1)' "$TRUTH_PATH"; then
-  ruby "${ROOT_DIR}/scripts/test-strict-phase-gates.rb" --p3-strict-reentry-current-only
+if ruby -ryaml -e 'route = YAML.safe_load(File.binread(ARGV[0]), permitted_classes: [], permitted_symbols: [], aliases: false).fetch("current_phase_route"); exit(route["route_id"] == "P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_FINAL_CLEAN_ROOM_COMPLETION_ROUTE_V1" ? 0 : 1)' "$TRUTH_PATH"; then
+  ruby "${ROOT_DIR}/scripts/test-strict-phase-gates.rb" --p3-egt-current-only
 fi
 check_founder_knowledge_sync_state STRUCTURAL_ONLY "$TRUTH_PATH" CANONICAL_ONLY
 if ruby -ryaml -e 'exit(YAML.load_file(ARGV[0]).dig("current_phase_route", "schema_version") == "p3-phase-entry-active/v1" ? 0 : 1)' "$TRUTH_PATH"; then
@@ -2690,20 +2690,20 @@ if ruby -ryaml -rpathname -e '
   truth = YAML.safe_load(File.binread(ARGV.fetch(1)), permitted_classes: [], permitted_symbols: [], aliases: false)
   canonical = Pathname.new(truth.dig("project", "canonical_repository")).realpath
   route = truth.fetch("current_phase_route")
-  staging = route["route_id"] == "P3_STRICT_CAPABILITY_REENTRY_ONE_SHOT_COMPLETION_ROUTE_V1" &&
+  staging = route["route_id"] == "P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_FINAL_CLEAN_ROOM_COMPLETION_ROUTE_V1" &&
     route["lifecycle_stage"] == "PRODUCT_ELIGIBLE_NOT_ACTIVATED" && root != canonical
   exit(staging ? 0 : 1)
 ' "$ROOT_DIR" "$TRUTH_PATH"; then
-  [[ "$ROOT_DIR" == "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-strict-capability-reentry" ]] \
-    || fail "P3 strict reentry staging root drift"
-  [[ "$(git -C "$ROOT_DIR" symbolic-ref --quiet --short HEAD)" == "codex/p3-strict-capability-reentry" ]] \
-    || fail "P3 strict reentry staging branch drift"
-  [[ "$(git -C /Users/lijunpeng/Developer/SourceLens-AIOS rev-parse HEAD)" == "d639f4b0d92e68bcfe35b0c8da525a47a8aa4405" ]] \
-    || fail "P3 strict reentry canonical preinstall commit drift"
-  [[ "$(git -C /Users/lijunpeng/Developer/SourceLens-AIOS rev-parse HEAD^{tree})" == "fb2edbf35a0b505e85cd65318f409ffc3c1ab091" ]] \
-    || fail "P3 strict reentry canonical preinstall tree drift"
+  [[ "$ROOT_DIR" == "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-equivalent-mysql-transport-route" ]] \
+    || fail "P3 equivalent-transport staging root drift"
+  [[ "$(git -C "$ROOT_DIR" symbolic-ref --quiet --short HEAD)" == "codex/p3-equivalent-mysql-transport-route" ]] \
+    || fail "P3 equivalent-transport staging branch drift"
+  [[ "$(git -C /Users/lijunpeng/Developer/SourceLens-AIOS rev-parse HEAD)" == "6134357e9bb2dd99acb853fea76a0917fe4d3d45" ]] \
+    || fail "P3 equivalent-transport canonical preinstall commit drift"
+  [[ "$(git -C /Users/lijunpeng/Developer/SourceLens-AIOS rev-parse HEAD^{tree})" == "55bc324e4eedd6036cdced33bcc270e579a4f439" ]] \
+    || fail "P3 equivalent-transport canonical preinstall tree drift"
   [[ -z "$(git -C /Users/lijunpeng/Developer/SourceLens-AIOS status --porcelain=v1 --untracked-files=all)" ]] \
-    || fail "P3 strict reentry canonical preinstall worktree is dirty"
+    || fail "P3 equivalent-transport canonical preinstall worktree is dirty"
   echo "CURRENT_TASK_AUTHORITY: DEFERRED_CANONICAL_LOCATION_REQUIRED recovery-bound provisional fast-forward only"
 else
   ruby "${ROOT_DIR}/scripts/validate-current-task-authority.rb"

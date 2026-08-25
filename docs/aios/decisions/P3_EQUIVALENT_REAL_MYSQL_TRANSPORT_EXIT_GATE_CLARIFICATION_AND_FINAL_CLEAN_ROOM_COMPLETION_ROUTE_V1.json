@@ -1,0 +1,394 @@
+{
+  "schema_version": "p3-equivalent-real-mysql-transport-exit-gate-clarification-founder-decision/v1",
+  "record_type": "sourcelens_aios_founder_reserved_strategy_phase_and_envelope_decision",
+  "decision_id": "AUTHORIZE_P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_EXIT_GATE_CLARIFICATION_AND_FINAL_CLEAN_ROOM_COMPLETION_ROUTE_V1",
+  "operation_type": "P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_EXIT_GATE_CLARIFICATION_AND_FINAL_CLEAN_ROOM_COMPLETION_ROUTE",
+  "status": "AUTHORIZED_CONSUMED_AT_STRATEGIC_BRANCH_CREATION",
+  "reserved_triggers": [
+    "MATERIAL_SCOPE_BUDGET_OR_PERMISSION_EXPANSION_BEYOND_PHASE_ENVELOPE",
+    "MISSION_ICP_YEAR_ONE_OR_PHASE_ROUTE_CHANGE"
+  ],
+  "composite_founder_authorization": {
+    "original_authorization": {
+      "path": "/Users/lijunpeng/.codex/attachments/a1d53c97-73a4-449a-ac16-39eeefac19fc/pasted-text.txt",
+      "byte_length": 21217,
+      "sha256": "6ad16764a7e8f51ff30301560b270586cdf6961adebf468f2e51e4f2bb7be316",
+      "canonicalization": "EXACT_ATTACHMENT_BYTES"
+    },
+    "single_field_correction": {
+      "token": "CORRECT_P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_AUTHORIZATION_POLICY_SHA256_SINGLE_FIELD_V1",
+      "field": "canonical_start.founder_delegation_policy.sha256",
+      "incorrect_value": "12126e9617011b7515dfb2fbee0c8c81cc72b32c42eba549d080eeb0c1bcedf",
+      "correct_value": "12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29",
+      "semantic_override_count": 1,
+      "all_other_original_authorization_fields_unchanged": true
+    },
+    "indivisible": true,
+    "consumption_event": {
+      "kind": "SUCCESSFUL_STRATEGIC_BRANCH_CREATION",
+      "branch": "codex/p3-equivalent-mysql-transport-route",
+      "reusable": false
+    }
+  },
+  "canonical_start": {
+    "repository": "/Users/lijunpeng/Developer/SourceLens-AIOS",
+    "branch": "main",
+    "commit": "6134357e9bb2dd99acb853fea76a0917fe4d3d45",
+    "tree": "55bc324e4eedd6036cdced33bcc270e579a4f439",
+    "clean": true,
+    "truth": {
+      "path": "docs/aios/truth/project_state.yaml",
+      "byte_length": 2092233,
+      "sha256": "d6e2f12f506fd83a04952f1ca9dae1c81896d8bdc2c53ebae81ba88a36acde99"
+    },
+    "constitution": {
+      "path": "docs/aios/STRATEGIC_CONSTITUTION.md",
+      "version": "3.8",
+      "byte_length": 60203,
+      "sha256": "50a0a68d57d3eb958f6eab7546f17da69e7501589edc0e49542c7067be6cadbe"
+    },
+    "founder_delegation_policy": {
+      "path": "docs/aios/FOUNDER_DELEGATION_POLICY.md",
+      "version": "1.8",
+      "byte_length": 17346,
+      "sha256": "12126e9617011b6395f187939c9a1d7860d84bd3832c1b1b67357fb017e1ee29"
+    },
+    "governing_decision": {
+      "path": "docs/aios/decisions/P3_STRICT_CAPABILITY_REENTRY_P4_HOLD_AND_ONE_SHOT_COMPLETION_ROUTE_V1.json",
+      "byte_length": 16136,
+      "sha256": "b7588a075e5fd3917760c9a225fba4af69458a83c39d47b5340ce73eedeb141d"
+    }
+  },
+  "terminal_basis": {
+    "receipt": {
+      "path": "/Users/lijunpeng/Developer/.sourcelens-audit/p3-strict-capability-reentry-20260825/task-product/terminal/P3_R1_STRICT_CAPABILITY_PRODUCT_TERMINAL_NON_PASS_RECEIPT_V1.json",
+      "byte_length": 7583,
+      "sha256": "cc08ed5bf878bdb43d52d7dfb5dc11b65ab6d3d085ea4a62e1de7f4dce1dd2b1",
+      "mode": "0444",
+      "nlink": 1,
+      "symlink": false
+    },
+    "rejected_lineage_custody": {
+      "path": "/Users/lijunpeng/Developer/.sourcelens-audit/p3-strict-capability-reentry-20260825/task-product/validation/candidate-2/P3_R1_CANDIDATE1_AND_CANDIDATE2_REJECTED_LINEAGE_V1.bundle",
+      "byte_length": 75362,
+      "sha256": "7f592a3bd3a75c17b9831e8f65c065a96baed1a4740b1dc55cc99844c206d1b4",
+      "mode": "0444",
+      "nlink": 1,
+      "symlink": false,
+      "content_available_as_future_input": false
+    },
+    "rejected_candidates": [
+      {
+        "candidate": 1,
+        "commit": "7cbeea6e5496c2409d82382464dcffe7035aeb36",
+        "tree": "2663fb7b4d84a9b8cafe0d10a7cb3af408a16939"
+      },
+      {
+        "candidate": 2,
+        "commit": "381c4074a0061ff66b3712330e95797a7cd2fa1e",
+        "tree": "93cd0181f9dee41723797804c9a5cf747e596de5"
+      }
+    ],
+    "frozen_blocker_ids": [
+      "PRIVATE_CUSTODY_ROOT_NOT_REVALIDATED_ON_RESTART_RESOLVE",
+      "DOCKER_MUTATION_TIMEOUT_CAN_OUTLIVE_STABLE_ABSENCE_ATTESTATION",
+      "ACTUAL_AGENT_TASK_SERVICE_TEST_DOES_NOT_COMBINE_PRODUCTION_AGENT_RUNTIME_AND_DECODER",
+      "FRESH_CHILD_JVM_TEST_DOES_NOT_PROVE_REAL_OCI_EFFECT_AND_CLEANUP_ACROSS_PROCESS_FAILURE",
+      "ASYNC_WORKER_CAN_RUN_BEFORE_START_TRANSACTION_COMMIT",
+      "REAL_MYSQL_V034_PRODUCTION_TRANSACTION_TEST_NOT_EXECUTED_BECAUSE_DOCKER_INTERNAL_NETWORK_SUPPRESSES_HOST_PORT_PUBLICATION"
+    ],
+    "product_task_status": "TERMINAL_TASK_GATE_NON_PASS",
+    "formal_task_created_or_dispatched": false,
+    "candidate_integrated": false
+  },
+  "strategic_clarification": {
+    "objective_changed": false,
+    "required_items_changed": false,
+    "same_frozen_candidate_requirement_changed": false,
+    "real_mysql_requirement_changed": false,
+    "actual_agent_ingress_requirement_changed": false,
+    "real_oci_requirement_changed": false,
+    "fresh_process_recovery_requirement_changed": false,
+    "canonical_replay_requirement_changed": false,
+    "replaced_impossible_constraint": "SAME_DOCKER_NETWORK_INTERNAL_TRUE_AND_HOST_PUBLISHED_127_0_0_1_PORT",
+    "replacement_semantics": "EQUIVALENT_REAL_MYSQL_LOOPBACK_TRANSPORT_V1"
+  },
+  "p3_objective": {
+    "objective_id": "ACTUAL_AGENT_HOST_AUTHORIZED_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE",
+    "fixed_action": "READ_BOUND_ARCHITECTURE_OVERVIEW_SHA256_V1",
+    "agent_task_type": "TRUSTED_READ_ONLY_ARCHITECTURE_OVERVIEW_SHA256_V1",
+    "reserved_tool_name": "trusted_read_bound_architecture_overview_sha256_v1",
+    "agent_arguments": {},
+    "claim_boundary": "ONE_ACTUAL_AGENT_HOST_AUTHORIZED_DURABLE_READ_ONLY_ARCHITECTURE_OVERVIEW_SHA256_INVOCATION_ON_TRUSTED_SINGLE_USER_LOCAL_HOST"
+  },
+  "strict_exit_gate": {
+    "gate_id": "ACTUAL_AGENT_HOST_AUTHORIZED_DURABLE_READ_ONLY_MINIMUM_TRUST_SLICE_ACCEPTED",
+    "required_item_ids": [
+      "ACTUAL_AGENT_NON_AUTHORITATIVE_PROPOSAL_AND_EXCLUSIVE_RESERVED_INGRESS",
+      "HOST_DERIVED_CUSTODY_DURABLE_INTENT_REAL_MYSQL_AND_EXACTLY_ONE_TERMINAL",
+      "REPRESENTATIVE_FRESH_PROCESS_RECOVERY_AND_CHECKPOINT_GATE",
+      "PINNED_LOCAL_OCI_READ_ONLY_ISOLATION_COMPLETE_TRACE_AND_REPLAY"
+    ],
+    "same_frozen_candidate_required": true,
+    "three_independent_reviewers_pass_required": true,
+    "canonical_replay_required": true,
+    "current_status": "MISSING_NOT_ACCEPTED",
+    "current_strict_progress_percent": 0
+  },
+  "accepted_foundations": [
+    {
+      "milestone_id": "DURABLE_STATE_AND_CHECKPOINT_RESUME",
+      "integration_commit": "f841ff822610264ad1b88c93b1f6248d42eb134a",
+      "integration_tree": "6a3e67b4680464e54d72936dc24a205079614431"
+    },
+    {
+      "milestone_id": "DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION",
+      "integration_commit": "2f52d0912ba5621bd2258fc21f5b74dd2019efd5",
+      "integration_tree": "e9490d8f786f913b2e60a7e690a71911e015c87a"
+    }
+  ],
+  "equivalent_mysql_transport": {
+    "schema_version": "p3-equivalent-real-mysql-loopback-transport/v1",
+    "network": {
+      "created_by_task": true,
+      "exact_name_and_labels_required": true,
+      "internal": false,
+      "options": {
+        "com.docker.network.bridge.enable_ip_masquerade": "false",
+        "com.docker.network.bridge.enable_icc": "false",
+        "com.docker.network.bridge.host_binding_ipv4": "127.0.0.1"
+      },
+      "no_extra_endpoints_required": true
+    },
+    "mysql": {
+      "container_created_by_task": true,
+      "image_content_id": "sha256:d36d39a64cd12a5c1cc9e6aa2bfb5f8d4c81a2f6586e0a04a9ae13939db02209",
+      "container_port": "3306/tcp",
+      "host_ip": "127.0.0.1",
+      "host_port": "RUNTIME_ASSIGNED_SINGLE_BINDING",
+      "skip_name_resolve": true
+    },
+    "host_test_jvm": {
+      "exact_runtime_loopback_port_only": true,
+      "hash_bound_sandbox_exec_profile_required": true,
+      "all_other_network_denied": true
+    },
+    "fixed_read_only_action": {
+      "network_mode": "none",
+      "mysql_bridge_membership": false
+    },
+    "forbidden_requests": [
+      "DNS",
+      "INTERNET",
+      "HTTP",
+      "HTTPS"
+    ],
+    "terminal_cleanup_and_inspect_evidence_required": true
+  },
+  "route": {
+    "schema_version": "p3-equivalent-mysql-transport-completion-route/v1",
+    "route_id": "P3_EQUIVALENT_REAL_MYSQL_TRANSPORT_FINAL_CLEAN_ROOM_COMPLETION_ROUTE_V1",
+    "installation_state": "PRODUCT_ELIGIBLE_NOT_ACTIVATED",
+    "separate_foundation_task": false,
+    "prewrite_mysql_transport_probe": {
+      "maximum_dispatches": 1,
+      "maximum_minutes": 30,
+      "must_precede_product_source_write": true,
+      "progress_credit": 0,
+      "non_pass_lifecycle": "ROUTE_TERMINAL_BEFORE_PRODUCT_SOURCE_WRITE_NO_RERUN"
+    },
+    "ordered_stages": [
+      {
+        "ordinal": 1,
+        "stage_id": "STRICT_CAPABILITY_CLEAN_ROOM_PRODUCT",
+        "task_id": "AIOS-P3-EGT-P1_STRICT_CAPABILITY_CLEAN_ROOM_PRODUCT",
+        "nonce": "p3-egt-p1-strict-capability-clean-room-product-20260825-v1",
+        "kind": "PRODUCT_IMPLEMENTATION",
+        "branch": "codex/p3-egt-p1-strict-capability-product",
+        "worktree": "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-egt-p1-strict-capability-product",
+        "evidence_root": "/Users/lijunpeng/Developer/.sourcelens-audit/p3-equivalent-mysql-transport-completion-20260825/task-product",
+        "contract_path": "docs/aios/tasks/P3-EGT-P1_STRICT_CAPABILITY_CLEAN_ROOM_PRODUCT.yaml",
+        "budget": {
+          "engineering_tasks": 1,
+          "engineering_hours": 48,
+          "calendar_days": 10,
+          "candidate_generations": 2,
+          "same_task_repairs": 1,
+          "review_cycles": 2
+        }
+      },
+      {
+        "ordinal": 2,
+        "stage_id": "ONE_SHOT_STRICT_CAPABILITY_ACCEPTANCE",
+        "task_id": "AIOS-P3-EGT-E1_ONE_SHOT_STRICT_CAPABILITY_ACCEPTANCE",
+        "nonce": "p3-egt-e1-one-shot-strict-capability-acceptance-20260825-v1",
+        "kind": "EVALUATION_ONLY_ONE_SHOT",
+        "branch": "codex/p3-egt-e1-one-shot-acceptance",
+        "worktree": "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-egt-e1-one-shot-acceptance",
+        "evidence_root": "/Users/lijunpeng/Developer/.sourcelens-audit/p3-equivalent-mysql-transport-completion-20260825/task-formal-evaluation",
+        "contract_path": "docs/aios/tasks/P3-EGT-E1_ONE_SHOT_STRICT_CAPABILITY_ACCEPTANCE.yaml",
+        "budget": {
+          "engineering_tasks": 1,
+          "engineering_hours": 24,
+          "calendar_days": 6,
+          "formal_dispatches": 1
+        }
+      }
+    ]
+  },
+  "cumulative_accounting": {
+    "basis": "NON_RESETTABLE_HISTORICAL_P3_PLUS_EXPLICIT_EQUIVALENT_TRANSPORT_FINAL_EXCEPTION",
+    "historical_consumed": {
+      "engineering_tasks": 20,
+      "engineering_hours": 616,
+      "calendar_days": 142
+    },
+    "route_limits": {
+      "engineering_tasks": 2,
+      "engineering_hours": 72,
+      "calendar_days": 16,
+      "strategic_installation_labor_hours": 4,
+      "strategic_installation_calendar_days": 1,
+      "active_tasks": 1,
+      "task_branches": 1,
+      "task_worktrees": 1,
+      "active_candidates": 1
+    },
+    "maximum_cumulative": {
+      "engineering_tasks": 22,
+      "engineering_hours": 688,
+      "calendar_days": 158
+    },
+    "reset_refund_or_cross_task_borrowing_allowed": false,
+    "governance_progress_credit": 0
+  },
+  "docker_authority": {
+    "effective_only_after_product_task_active": true,
+    "cli": {
+      "path": "/Applications/Docker.app/Contents/Resources/bin/docker",
+      "sha256": "a6822407e207ff0b687419ccbe55700ffbf389d77de58ef625b3b1790d88747c"
+    },
+    "endpoint": "unix:///Users/lijunpeng/.docker/run/docker.sock",
+    "image_content_id": "sha256:d36d39a64cd12a5c1cc9e6aa2bfb5f8d4c81a2f6586e0a04a9ae13939db02209",
+    "allowed_verbs": [
+      "version",
+      "info",
+      "image inspect exact content ID",
+      "network create",
+      "network inspect",
+      "network rm",
+      "create",
+      "start",
+      "wait",
+      "inspect",
+      "logs",
+      "port",
+      "rm --force"
+    ],
+    "global_inventory_pull_push_login_build_import_tag_exec_cp_socket_mount_privileged": false,
+    "foreign_object_mutation": false
+  },
+  "product_write_allowlist": [
+    "backend-spring/src/main/java/com/sourcelens/module/agent/service/AgentRuntime.java",
+    "backend-spring/src/main/java/com/sourcelens/module/agent/service/PromptBuilder.java",
+    "backend-spring/src/main/java/com/sourcelens/module/agent/service/ToolExecutionService.java",
+    "backend-spring/src/main/java/com/sourcelens/module/agent/service/LlmClient.java",
+    "backend-spring/src/main/java/com/sourcelens/module/agent/service/AgentTaskService.java",
+    "backend-spring/src/main/java/com/sourcelens/module/agent/tool/ToolContext.java",
+    "backend-spring/src/main/java/com/sourcelens/module/agent/tool/ToolRegistry.java",
+    "backend-spring/src/main/java/com/sourcelens/module/agent/trustedread",
+    "backend-spring/src/main/java/com/sourcelens/module/artifact/service/ArtifactStorageService.java",
+    "backend-spring/src/main/java/com/sourcelens/module/execution/trustedread",
+    "backend-spring/src/main/java/com/sourcelens/module/sandbox/oci/trustedread",
+    "backend-spring/src/main/resources/db/migration/V034__add_trusted_read_only_invocation.sql",
+    "backend-spring/src/main/resources/application.yml",
+    "backend-spring/src/test/java/com/sourcelens/AgentTaskServiceTest.java",
+    "backend-spring/src/test/java/com/sourcelens/AgentRuntimeFixedReadOnlyInvocationTest.java",
+    "backend-spring/src/test/java/com/sourcelens/ToolExecutionServiceTest.java",
+    "backend-spring/src/test/java/com/sourcelens/ArtifactStorageServiceTest.java",
+    "backend-spring/src/test/java/com/sourcelens/LlmClientToolCallIngressTest.java",
+    "backend-spring/src/test/java/com/sourcelens/module/agent/trustedread",
+    "backend-spring/src/test/java/com/sourcelens/module/execution/trustedread",
+    "backend-spring/src/test/java/com/sourcelens/module/sandbox/oci/trustedread",
+    "backend-spring/src/test/resources/p3-equivalent-mysql-transport-completion",
+    "docs/PROJECT_CODE_MAP.md"
+  ],
+  "clean_room": {
+    "permitted_inputs": [
+      "CANONICAL_MAIN",
+      "ACCEPTED_P3_DURABLE_STATE_AND_CHECKPOINT_RESUME",
+      "ACCEPTED_DECLARATIVE_TRANSACTION_SEMANTICS_FOUNDATION",
+      "CURRENT_P3_OBJECTIVE_AND_REQUIRED_ITEMS",
+      "CURRENT_COMPOSITE_FOUNDER_AUTHORIZATION",
+      "SIX_FROZEN_BLOCKER_IDS"
+    ],
+    "rejected_lineage_read_show_diff_cat_file_verify_checkout_disassemble_compare_copy_restore_cherry_pick_reflog_execute_or_integrate": false,
+    "historical_terminal_metadata_use": "IDENTITY_ACCOUNTING_BLOCKER_IDS_AND_NON_REUSE_PROOF_ONLY"
+  },
+  "acceptance": {
+    "same_frozen_candidate_required": true,
+    "deterministic_offline_production_decoder_actual_agent_runtime_required": true,
+    "actual_agent_task_service_after_commit_dispatch_required": true,
+    "custody_revalidation_on_every_resolve_recovery_and_read_required": true,
+    "late_docker_mutation_ambiguity_reconciliation_required": true,
+    "three_independent_jdk17_spring_startup_real_oci_recovery_windows_required": true,
+    "real_mysql_v034_production_transaction_proxy_full_lifecycle_zero_skipped_required": true,
+    "checkpoint_before_terminal_rejected_after_terminal_exactly_once_required": true,
+    "focused_and_full_offline_maven_tests_required": true,
+    "fresh_reviewers": [
+      "CTO_AGENT",
+      "SECURITY_AGENT",
+      "QUALITY_EVALUATION_AGENT"
+    ],
+    "zero_open_p0_p1_required": true,
+    "post_integration_canonical_replay_required": true
+  },
+  "anti_cycle": {
+    "product_candidate_generations": 2,
+    "same_task_repairs": 1,
+    "review_cycles": 2,
+    "formal_dispatches": 1,
+    "candidate_3_allowed": false,
+    "second_repair_allowed": false,
+    "third_review_allowed": false,
+    "second_formal_dispatch_allowed": false,
+    "successor_replacement_normalization_closure_feasibility_remediation_allowed": false,
+    "v2_or_v3_route_allowed": false,
+    "rerun_to_pass_allowed": false
+  },
+  "lifecycle": {
+    "strategic_installation_pass": "P4_HOLD_P3_EQUIVALENT_TRANSPORT_PRODUCT_ELIGIBLE_ZERO_CAPABILITY_CREDIT",
+    "strategic_installation_non_pass": "CANONICAL_BASELINE_PRESERVED_OR_EXACTLY_ROLLED_BACK_ROUTE_TERMINAL",
+    "probe_non_pass": "P3_HOLD_INCOMPLETE_BEFORE_PRODUCT_SOURCE_WRITE_P4_HOLD_NO_RERUN",
+    "product_pass": "ONE_FROZEN_PRODUCT_CANDIDATE_UNLOCKS_ONLY_ONE_SHOT_FORMAL_ACCEPTANCE",
+    "product_non_pass": "P3_HOLD_INCOMPLETE_FINAL_EQUIVALENT_TRANSPORT_EXCEPTION_EXHAUSTED_P4_HOLD_NO_SUCCESSOR",
+    "formal_pass": "INTEGRATE_AND_CANONICAL_REPLAY_THEN_P3_100_ELIGIBLE_AWAITING_FOUNDER_P3_PHASE_GATE",
+    "formal_non_pass": "P3_HOLD_INCOMPLETE_FINAL_EQUIVALENT_TRANSPORT_EXCEPTION_EXHAUSTED_P4_HOLD_NO_RERUN",
+    "p4_entry": "NOT_AUTHORIZED",
+    "p5_entry": "NOT_AUTHORIZED",
+    "project_actually_completed": false,
+    "long_term_goal_status": "ACTIVE",
+    "codex_goal_action": "NONE_KEEP_ACTIVE"
+  },
+  "strategic_installation": {
+    "branch": "codex/p3-equivalent-mysql-transport-route",
+    "worktree": "/Users/lijunpeng/Developer/.sourcelens-worktrees/p3-equivalent-mysql-transport-route",
+    "commit_subject": "fix(aios): clarify P3 MySQL transport and resume strict completion",
+    "recovery_ref": "refs/sourcelens/recovery/p3-equivalent-mysql-transport-route-v1",
+    "maximum_labor_hours": 4,
+    "maximum_calendar_days": 1,
+    "engineering_progress_credit": 0,
+    "governance_progress_credit": 0
+  },
+  "permissions": {
+    "full_access_unchanged": true,
+    "ask_for_approval_required": false,
+    "local_source_test_evidence_task_branch_worktree_recovery_ref": true,
+    "exact_task_owned_docker_objects_and_mysql_loopback_port_after_product_activation": true,
+    "network_dns_http_https_provider_secret_credential_remote_production_public_push_pr_merge_release": false,
+    "system_under_test_shell_docker_filesystem_network_or_side_effect_authority": false,
+    "p4_engineering": false,
+    "p5_entry": false,
+    "long_term_goal_closure": false
+  }
+}

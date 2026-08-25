@@ -25,6 +25,8 @@ module CurrentTaskAuthority
     "p3-trusted-read-only-invocation-evidence-first-final-route/v1"
   MTRO_ROUTE_SCHEMA =
     "p3-minimum-trust-transactional-oci-final-product-route/v1"
+  EGT_ROUTE_SCHEMA =
+    "p3-equivalent-mysql-transport-completion-route/v1"
   P4_PROPOSAL_FIRST_ROUTE_SCHEMA =
     "p4-proposal-first-controlled-real-task-route/v1"
   DTK_ROUTE_SCHEMA = "p3-declarative-transaction-kernel-clean-room-route/v1"
@@ -5689,6 +5691,7 @@ module CurrentTaskAuthority
         FounderDelegationContinuity::STRATEGIC_HOLD_ROUTE_SCHEMA,
         FounderDelegationContinuity::RESEARCH_EXIT_ROUTE_SCHEMA,
         P4_PROPOSAL_FIRST_ROUTE_SCHEMA,
+        EGT_ROUTE_SCHEMA,
         "p3-host-owned-fixed-state-workflow-route/v1",
         "p3-final-transactional-host-workflow-and-strict-exit-route/v1",
         "p3-phase-entry-active/v1",
@@ -5737,6 +5740,13 @@ module CurrentTaskAuthority
       assert(defined?(P4ProposalFirstControlledRealTaskRouteValidation),
              "P4 proposal-first Route validator is unavailable")
       return P4ProposalFirstControlledRealTaskRouteValidation.validate_truth!(
+        root: root, truth: truth
+      )
+    end
+    if route["schema_version"] == EGT_ROUTE_SCHEMA
+      assert(defined?(P3EquivalentRealMysqlTransportRouteValidation),
+             "P3 equivalent-transport Route validator is unavailable")
+      return P3EquivalentRealMysqlTransportRouteValidation.validate_truth!(
         root: root, truth: truth
       )
     end

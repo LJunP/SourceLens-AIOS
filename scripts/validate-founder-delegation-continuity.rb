@@ -45,6 +45,8 @@ module FounderDelegationContinuity
     "p3-trusted-read-only-invocation-evidence-first-final-route/v1"
   MTRO_ROUTE_SCHEMA =
     "p3-minimum-trust-transactional-oci-final-product-route/v1"
+  EGT_ROUTE_SCHEMA =
+    "p3-equivalent-mysql-transport-completion-route/v1"
   P4_PROPOSAL_FIRST_ROUTE_SCHEMA =
     "p4-proposal-first-controlled-real-task-route/v1"
   DTK_ROUTE_SCHEMA = "p3-declarative-transaction-kernel-clean-room-route/v1"
@@ -5095,6 +5097,22 @@ module FounderDelegationContinuity
                              end
       assert(disposition == expected_disposition,
              "P4 proposal-first Founder disposition drift for its exact lifecycle")
+      return disposition
+    end
+    if route["schema_version"] == EGT_ROUTE_SCHEMA
+      assert(defined?(P3EquivalentRealMysqlTransportRouteValidation),
+             "P3 equivalent-transport Route validator is unavailable")
+      state = P3EquivalentRealMysqlTransportRouteValidation.validate_truth!(
+        root: root, truth: truth
+      )
+      profile = P3EquivalentRealMysqlTransportRouteValidation::PROFILES[
+        route["lifecycle_stage"]
+      ]
+      assert(profile && state == profile.fetch("compat_state"),
+             "P3 equivalent-transport Route state drift")
+      disposition = truth.dig("founder_escalation_control", "disposition")
+      assert(disposition == profile.fetch("disposition"),
+             "P3 equivalent-transport Founder disposition drift")
       return disposition
     end
     if route["schema_version"] == MTRO_ROUTE_SCHEMA

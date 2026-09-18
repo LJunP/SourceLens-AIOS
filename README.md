@@ -1,5 +1,16 @@
 # SourceLens AIOS
 
+> ## ⛔ 本项目已停止开发
+>
+> 不再接受新的 Phase / Route / Task，`docs/aios/` 下的治理产物按原样封存，仅作历史记录。
+>
+> **方法论沉淀已提取为独立仓库 → [repro-eval](https://github.com/LJunP/repro-eval)**
+>
+> 那里是这个项目留下的唯一可独立使用的东西：确定性重放、环境快照、
+> 证据清单哈希绑定、负控制与隐藏集隔离。它不依赖本仓库，也不服务于本仓库的领域。
+>
+> 本仓库其余内容不再维护。停止日期：2026-09-18。
+
 SourceLens AIOS 是一个以软件工程为首个验证环境的可信自主智能体基础设施研究平台。
 
 第一年度唯一目标：构建并科学评估一个可信软件工程 Agent。项目先建立可复现的 Evaluation Harness，再测量 Repository Intelligence，之后才建设单 Agent Runtime、可信执行、软件工程 Agent 和条件式的多 Agent/Organization Runtime。
